@@ -1,0 +1,171 @@
+jx_browser_data 82
+# project tree
+0 "root"
+T
+1 "main"
+T
+2 "leibnitz.cpp"
+F
+"./code/leibnitz.cpp"
+T
+2 "thxGlobals.cpp"
+F
+"./code/thxGlobals.cpp"
+T
+2 "THXApp.cpp"
+F
+"./code/THXApp.cpp"
+T
+2 "THXMDIServer.cpp"
+F
+"./code/THXMDIServer.cpp"
+T
+2 "THXAboutDialog.cpp"
+F
+"./code/THXAboutDialog.cpp"
+F
+T
+1 "expr"
+T
+2 "THXExprDirector.cpp"
+F
+"./code/THXExprDirector.cpp"
+T
+2 "THXExprEditor.cpp"
+F
+"./code/THXExprEditor.cpp"
+T
+2 "THXTapeText.cpp"
+F
+"./code/THXTapeText.cpp"
+T
+2 "THXKeyPad.cpp"
+F
+"./code/THXKeyPad.cpp"
+F
+T
+1 "2D plot"
+T
+2 "THX2DPlotDirector.cpp"
+F
+"./code/THX2DPlotDirector.cpp"
+T
+2 "THX2DPlotFunctionDialog.cpp"
+F
+"./code/THX2DPlotFunctionDialog.cpp"
+F
+T
+1 "3D plot"
+T
+2 "THX3DPlotDirector.cpp"
+F
+"./code/THX3DPlotDirector.cpp"
+T
+2 "THX3DPlotWidget.cpp"
+F
+"./code/THX3DPlotWidget.cpp"
+T
+2 "THX3DPlotFunctionDialog.cpp"
+F
+"./code/THX3DPlotFunctionDialog.cpp"
+F
+T
+1 "var"
+T
+2 "THXVarDirector.cpp"
+F
+"./code/THXVarDirector.cpp"
+T
+2 "THXVarTable.cpp"
+F
+"./code/THXVarTable.cpp"
+T
+2 "THXVarList.cpp"
+F
+"./code/THXVarList.cpp"
+F
+T
+1 "base"
+T
+2 "THXBaseConvDirector.cpp"
+F
+"./code/THXBaseConvDirector.cpp"
+F
+T
+1 "layouts"
+T
+2 "leibnitz.fd"
+F
+"./leibnitz.fd"
+F
+T
+1 "help"
+T
+2 "thx_strings"
+F
+"./strings/thx_strings"
+T
+2 "thxHelpText.h"
+F
+"./code/thxHelpText.h"
+T
+2 "thxChangeLogText"
+F
+"./strings/thxChangeLogText"
+T
+2 "thxTOCHelpText"
+F
+"./strings/thxTOCHelpText"
+T
+2 "thxOverviewHelpText"
+F
+"./strings/thxOverviewHelpText"
+T
+2 "thxExprHelpText"
+F
+"./strings/thxExprHelpText"
+T
+2 "thxConstantsHelpText"
+F
+"./strings/thxConstantsHelpText"
+T
+2 "thx2DPlotHelpText"
+F
+"./strings/thx2DPlotHelpText"
+T
+2 "thx3DPlotHelpText"
+F
+"./strings/thx3DPlotHelpText"
+T
+2 "thxBaseConvHelpText"
+F
+"./strings/thxBaseConvHelpText"
+T
+2 "thxCreditsText"
+F
+"./strings/thxCreditsText"
+F
+F
+# tasks
+4
+"makemake"
+T "./" "make -k personal" "" T F T F T F T "" "" "z]fn,L26[8h5jxL~BR1m::CBCommandManager" F
+F
+# build settings
+1
+F
+"leibnitz"
+""
+"make -k all"
+# search paths
+T "../../include/make" T
+T "../../libj2dplot/code/" T
+T "../../libj3d/code/" T
+T "../../libjcore/code/" T
+T "../../libjexpr/code/" T
+T "../../libjx/code/" T
+T "./" F
+T "./code/" T
+F
+# C preprocessor
+F

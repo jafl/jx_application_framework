@@ -1,0 +1,5 @@
+client and server demonstrate how to use ACE without an event loop.
+
+evt_client and evt_server demonstrate how to use ACE with an event loop.
+
+The server must be run first to create the connection point.

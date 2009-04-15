@@ -1,0 +1,17 @@
+# JMemoryManager variables
+
+# Unsets them all at once.  Type 'source unsetallenv' rather than executing
+# so it unsets them in your shell, not a subshell.
+
+unsetenv JMM_TABLE_TYPE
+unsetenv JMM_INITIALIZE
+unsetenv JMM_SHRED
+unsetenv JMM_RECORD_ALLOCATED
+unsetenv JMM_RECORD_DEALLOCATED
+unsetenv JMM_CHECK_DOUBLE_ALLOCATION
+unsetenv JMM_BROADCAST_ERRORS
+unsetenv JMM_PRINT_EXIT_STATS
+unsetenv JMM_PRINT_INTERNAL_STATS
+unsetenv JMM_DISALLOW_DELETE_NULL
+unsetenv JMM_ABORT_UNKNOWN_ALLOC
+unsetenv JMM_NO_PRINT_ERRORS

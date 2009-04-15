@@ -1,0 +1,108 @@
+# Configuration used on all platforms
+
+#
+# Configure ACE, if necessary
+#
+
+ifndef ACE_ROOT
+  export ACE_ROOT = ${shell cd ${JX_ROOT}/ACE/ACE_wrappers; pwd}
+endif
+
+#
+# Check version of g++
+# (shamelessly stolen from ACE_wrappers/include/makeinclude/wrapper_macros.GNU)
+#
+
+JX_HAS_GNUG := 0
+
+ifeq ($(findstring g++,${CXX}),g++)
+  JX_HAS_GNUG := 1
+  ifeq (${CXX},g++)
+    JX_HAS_GNUG_PRE_2_8 := ${shell \
+        if { ${CXX} --version | egrep '^(cygnus-)?2\.[0-7]' > /dev/null; } \
+        then { echo 1; } \
+        else { echo 0; } fi}
+    JX_HAS_GNUG_2_95 := ${shell \
+        if { ${CXX} --version | egrep '^(cygnus-)?2\.95' > /dev/null; } \
+        then { echo 1; } \
+        else { echo 0; } fi}
+  else  # ! g++
+  ifeq (eg++,$(findstring eg++,${CXX}))
+    # Assume that eg++ is egcs.
+    JX_HAS_GNUG_PRE_2_8 := 0
+    JX_HAS_GNUG_2_95    := 0
+  else  # ! plain g++ or eg++
+    # CXX is something like g++386.  Assume, for now, that it's an old g++.
+    JX_HAS_GNUG_PRE_2_8 := 1
+    JX_HAS_GNUG_2_95    := 0
+  endif # ! plain g++ or eg++
+  endif # ! g++
+endif # g++
+
+#
+# modify configuration based on OS, compiler, etc.
+#
+
+J_RAW_SYSTEM_STUFF += \
+  -D_J_UNIX ${J_ISTRSTREAM_BROKEN} \
+  ${J_ARRAY_NEW_OVERRIDABLE} ${J_USE_READDIR_R} \
+  ${J_HAS_GD} -D_J_HAS_XPM ${J_HAS_XINERAMA}
+
+ifneq (${J_USE_THREADS},yes)
+  J_RAW_SYSTEM_STUFF += -DACE_MT_SAFE=0
+endif
+
+ifeq (${JX_HAS_GNUG},1)
+  J_RAW_SYSTEM_STUFF += \
+    -Wall -Wno-unused \
+    -fno-implicit-templates -DJ_EXPLICIT_TEMPLATES
+
+  ifeq (${J_COMPILE_DEBUG},-g)
+    J_RAW_SYSTEM_STUFF += -O${J_OPTIMIZE_LEVEL}
+  else
+    J_RAW_SYSTEM_STUFF += -O2
+  endif
+
+  ifeq (${JX_HAS_GNUG_PRE_2_8},1)
+    J_RAW_SYSTEM_STUFF += -DJ_NO_HAS_STATIC_TEMPLATE_DATA
+  else
+    J_RAW_SYSTEM_STUFF += -fno-exceptions
+  endif
+
+  ifeq (${JX_HAS_GNUG_2_95},1)
+    J_RAW_SYSTEM_STUFF += -fpermissive
+  endif
+endif
+
+J_COMPILER_DEPEND_FLAGS_FOR_BISON := ${J_RAW_SYSTEM_STUFF}
+
+J_COMPILER_DEPEND_FLAGS := \
+  ${J_COMPILER_DEPEND_FLAGS_FOR_BISON} ${J_DIE_ON_WARNING}
+
+SEARCHDIRS += -I${JX_ROOT}/include/jximage \
+              ${J_X11_INCLUDE_DIR}
+
+ifdef ACE_ROOT
+  SEARCHDIRS += -I${ACE_ROOT}
+endif
+
+ifdef J_HAS_GD
+  J_GCC_LIBS := -lpng -ljpeg ${J_GCC_LIBS}
+endif
+
+ifdef J_BUILD_SHARED_LIB
+  J_GCC_LIBS += -Xlinker -R${shell cd ${JX_ROOT}/lib; pwd}
+endif
+
+J_SYS_LIBS := ${J_ACE_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
+J_STD_LIBS := -L${JX_ROOT}/lib ${ljtoolbar} ${ljtree} ${ljx} ${ljcore} ${J_SYS_LIBS}
+
+#
+# strip commands -- no spaces allowed!
+#
+
+ifdef J_CYGWIN
+  EXE=${1}.exe
+else
+  EXE=${1}
+endif

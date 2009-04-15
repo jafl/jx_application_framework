@@ -1,0 +1,102 @@
+0
+
+SCExprHelp
+
+"<html>
+<head>
+<title> Entering Expressions </title>
+</head>
+
+The simplest way to explain the interface is that you just type as if you
+were entering a text expression.  The expression will be built graphically as
+you type.  The details are explained below.
+<p>
+Variable names can contain Greek characters and subscripts.  To type a Greek
+character, either use the Font menu or type a back quote ( ` ).  The back quote
+toggles between Normal and Greek fonts.
+<p>
+New expressions are initally empty.  This is drawn as a single question mark (?),
+which represents an empty input field.  When you click on the input field, it becomes
+active, and you are ready to start typing.
+<p>
+Input fields accept numbers and variable names.  When you enter an operator, the
+input field is parsed and becomes part of the expression, and a new input field is
+created based on which operator you typed.  The operators are as follows:
+<pre>
+   +  addition
+   -  subtraction
+   *  multiplication
+   /  division
+   ^  exponentiation
+   |  parallel combination:  x||y = x*y/(x+y)
+</pre>
+You actually only need to type a unique prefix of the variable name that you want to
+enter because the editor will complete it for you automatically when parsing it.
+<p>
+While entering a number, typing \"e\" lets you enter the exponent.
+<p>
+Input fields also accept certain pre-defined constants:
+<pre>
+   pi = 3.141592654...
+   e  = 2.718281828...
+   i  = sqrt(-1)
+   j  = sqrt(-1) (for Electrical Engineers)
+</pre>
+You can also enter the names of pre-defined functions.  The function name is parsed
+when you type a left parenthesis \"(\".
+<pre>
+   sqrt       square root
+   abs        absolute value
+   sign       algebraic sign (+1, -1)
+   round      nearest integer
+   truncate   toss fractional part
+
+   log        logarithm to an arbitrary base
+   log10      logarithm base 10
+   ln         natural logarithm
+   log2       logarithm base 2
+
+   sin        sine
+   cos        cosine
+   tan        tangent
+   arcsin     inverse sine (in degrees)
+   arccos     inverse cosine (in degrees)
+   arctan     inverse tangent(x) (in degrees, -90 to +90)
+   arctan2    inverse tangent(x,y) (in degrees, -180 to +180)
+
+   sinh       hyperbolic sine
+   cosh       hyperbolic cosine
+   tanh       hyperbolic tangent
+
+   re         real part
+   im         imaginary part
+   arg        phase angle (in degrees)
+   conjugate  complex conjugate
+   rotate     rotate(complex number, angle to rotate in degrees)
+
+   max        maximum of its arguments
+   min        minimum of its arguments
+   parallel   parallel combination: x||y = x*y/(x+y)
+</pre>
+The last three functions can take an arbitrary number of arguments.
+Typing a comma ( , ) adds another argument.
+<p>
+While entering an expression, the return key, the space bar, and the right
+parenthesis \")\" all parse the current input field and then select it.
+The spacebar and the right parenthesis will extend the
+selection \"upwards\" when pressed again.  This allows you to enter an
+expression like <tt>x^2+1</tt> without using the mouse by typing <tt>x ^ 2 space
+space + 1</tt>
+<p>
+Selecting a piece of the expression lets you manipulate it using the Math menu.
+The Function submenu transfers the selection to the first argument of the function
+that you select from the menu.  Typing an operator works just like when entering
+the expression.  The Delete key replaces the selection with an input field.  Typing
+Delete again deletes the input field.  Typing other text replaces the selection with
+an input field.
+<p>
+Double clicking on a number or a variable name lets you edit it.
+<p>
+There can be more than one empty input field in an expression.  A question mark
+is used to represent each one.  The Tab key moves you from one input field to another.
+</html>"

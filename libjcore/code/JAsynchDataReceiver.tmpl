@@ -1,0 +1,152 @@
+#ifndef _T_JAsynchDataReceiver
+#define _T_JAsynchDataReceiver
+
+/******************************************************************************
+ JAsynchDataReceiver.cc
+
+	Receives data asynchronously and broadcasts.
+
+	BASE CLASS = ACE_Svc_Handler, virtual JBroadcaster
+
+	Copyright © 1999 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JAsynchDataReceiver.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JAsynchDataReceiver<ACE_PEER_STREAM_2>::JAsynchDataReceiver()
+	:
+	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>()
+{
+	JAsynchDataReceiverX();
+}
+
+template <ACE_PEER_STREAM_1>
+JAsynchDataReceiver<ACE_PEER_STREAM_2>::JAsynchDataReceiver
+	(
+	const ACE_HANDLE fd
+	)
+	:
+	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>()
+{
+	JAsynchDataReceiverX();
+
+	ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::set_handle(fd);
+	ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::open(NULL);
+}
+
+// private
+
+template <ACE_PEER_STREAM_1>
+void
+JAsynchDataReceiver<ACE_PEER_STREAM_2>::JAsynchDataReceiverX()
+{
+	itsBufferSize = JAsynchDataReceiverT::kDefaultBufferSize;
+
+	itsBuffer = new JCharacter [ itsBufferSize ];
+	assert( itsBuffer != NULL );
+
+	itsInHandleInputFlag = kJFalse;
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JAsynchDataReceiver<ACE_PEER_STREAM_2>::~JAsynchDataReceiver()
+{
+	delete [] itsBuffer;
+}
+
+/******************************************************************************
+ Buffer size
+
+	This controls how much is read from the connection at one time.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JSize
+JAsynchDataReceiver<ACE_PEER_STREAM_2>::GetBufferSize()
+	const
+{
+	return itsBufferSize;
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JAsynchDataReceiver<ACE_PEER_STREAM_2>::SetBufferSize
+	(
+	const JSize bufferSize
+	)
+{
+	assert( bufferSize > 0 );
+
+	itsBufferSize = bufferSize;
+
+	delete [] itsBuffer;
+	itsBuffer = new JCharacter [ itsBufferSize ];
+	assert( itsBuffer != NULL );
+}
+
+/******************************************************************************
+ handle_input (virtual)
+
+	This is called when we receive data.  It is also safe for anybody else
+	to call it.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+int
+JAsynchDataReceiver<ACE_PEER_STREAM_2>::handle_input
+	(
+	ACE_HANDLE
+	)
+{
+	// protect against recursive calls
+
+	if (itsInHandleInputFlag)
+		{
+		return 0;
+		}
+	itsInHandleInputFlag = kJTrue;
+
+	// Read the available data.
+
+	const ssize_t count = (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).recv(itsBuffer, itsBufferSize);
+	if (count > 0)
+		{
+		const JString data(itsBuffer, count);
+		Broadcast(JAsynchDataReceiverT::DataReady(data));
+
+//		cerr << "read:\n---\n" << data << "\n---" << endl;
+		}
+	else
+		{
+//		cerr << "read: " << count << endl;
+//		cerr << "err:  " << jerrno() << endl;
+		}
+
+	itsInHandleInputFlag = kJFalse;
+	return 0;
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JAsynchDataReceiver
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

@@ -1,0 +1,206 @@
+#ifndef _T_JPtrQueue
+#define _T_JPtrQueue
+
+/******************************************************************************
+ JPtrQueue.tmpl
+
+	This class provides extra functions that are useful when storing
+	a queue of pointers.
+
+	BASE CLASS = public JQueue<T*,S>
+
+	Copyright © 1996-97 John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JPtrQueue.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T, class S>
+JPtrQueue<T,S>::JPtrQueue
+	(
+	const JPtrArrayT::CleanUpAction action
+	)
+	:
+	JQueue<T*,S>(),
+	itsCleanUpAction(action)
+{
+}
+
+/******************************************************************************
+ Destructor
+
+ *****************************************************************************/
+
+template <class T, class S>
+JPtrQueue<T,S>::~JPtrQueue()
+{
+	if (itsCleanUpAction == JPtrArrayT::kDeleteAll)
+		{
+		FlushDelete();
+		}
+	else if (itsCleanUpAction == JPtrArrayT::kDeleteAllAsArrays)
+		{
+		FlushDeleteAsArrays();
+		}
+}
+
+/******************************************************************************
+ FlushDelete
+
+	Delete all the elements and remove them from the queue.
+
+ ******************************************************************************/
+
+template <class T, class S>
+void
+JPtrQueue<T,S>::FlushDelete()
+{
+	S* list           = JQueue<T*,S>::GetElements();
+	const JSize count = list->GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		T* elementPtr = list->GetElement(i);
+		delete elementPtr;
+		}
+
+	JQueue<T*,S>::Flush();
+}
+
+/******************************************************************************
+ FlushDeleteAsArrays
+
+	Delete all the elements and remove them from the queue.
+
+ ******************************************************************************/
+
+template <class T, class S>
+void
+JPtrQueue<T,S>::FlushDeleteAsArrays()
+{
+	S* list           = JQueue<T*,S>::GetElements();
+	const JSize count = list->GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		T* elementPtr = list->GetElement(i);
+		delete [] elementPtr;
+		}
+
+	JQueue<T*,S>::Flush();
+}
+
+/******************************************************************************
+ DiscardDelete
+
+	Delete the first few elements and remove them from the queue.
+
+ ******************************************************************************/
+
+template <class T, class S>
+void
+JPtrQueue<T,S>::DiscardDelete
+	(
+	const JSize numToDiscard
+	)
+{
+	S* list           = JQueue<T*,S>::GetElements();
+	const JSize count = list->GetElementCount();
+	for (JIndex i=1; i<=numToDiscard && i<=count; i++)
+		{
+		T* elementPtr = list->GetElement(i);
+		delete elementPtr;
+		}
+
+	JQueue<T*,S>::Discard(numToDiscard);
+}
+
+/******************************************************************************
+ DiscardDeleteAsArrays
+
+	Delete the first few elements and remove them from the queue.
+
+ ******************************************************************************/
+
+template <class T, class S>
+void
+JPtrQueue<T,S>::DiscardDeleteAsArrays
+	(
+	const JSize numToDiscard
+	)
+{
+	S* list           = JQueue<T*,S>::GetElements();
+	const JSize count = list->GetElementCount();
+	for (JIndex i=1; i<=numToDiscard && i<=count; i++)
+		{
+		T* elementPtr = list->GetElement(i);
+		delete [] elementPtr;
+		}
+
+	JQueue<T*,S>::Discard(numToDiscard);
+}
+
+/******************************************************************************
+ AppendCopy
+
+	Not called Append() to avoid shadowing function in base class.
+
+ ******************************************************************************/
+
+#ifdef JPtrQueueCopy
+
+template <class T, class S>
+void
+JPtrQueue<T,S>::AppendCopy
+	(
+	const T& data
+	)
+{
+	T* ptr = new T(data);
+	assert( ptr != NULL );
+	Append(ptr);
+}
+
+#endif
+
+/******************************************************************************
+ Clean up action
+
+	What to do when the destructor is called.  This is especially useful
+	for objects allocated on the stack, because one can set the appropriate
+	action and then never have to worry about short-circuit returns.
+
+ ******************************************************************************/
+
+template <class T, class S>
+inline JPtrArrayT::CleanUpAction
+JPtrQueue<T,S>::GetCleanUpAction()
+	const
+{
+	return itsCleanUpAction;
+}
+
+template <class T, class S>
+inline void
+JPtrQueue<T,S>::SetCleanUpAction
+	(
+	const JPtrArrayT::CleanUpAction action
+	)
+{
+	itsCleanUpAction = action;
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateDataType && defined JTemplateStorageType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateType JTemplateDataType,JTemplateStorageType
+	#define JTemplateName JPtrQueue
+	#include <instantiate_template.h>
+	#undef JTemplateName
+	#undef JTemplateType
+#endif

@@ -1,0 +1,32 @@
+// Use this file to define templates
+//
+// To use this file, let S be the type you want to use:
+//
+//   #define JTemplateType S
+//   #include <JStringPtrMap.tmpls>
+//
+//   #undef JTemplateType
+//   #define JTemplateType JStrValue<S*>
+//   #include <JHashTable.tmpls>
+
+// instantiate JStringPtrMap with JTemplateType
+
+#include <JStringPtrMap.tmpl>
+#include <JStringPtrMapCursor.tmpl>
+
+// instantiate JStringMap with JTemplateType*
+
+#define JOnlyWantTemplateDefinition
+#define JStringMapDelete
+#include <JStringMap.tmpls>
+#undef JStringMapDelete
+#undef JOnlyWantTemplateDefinition
+
+#if defined JTemplateType
+
+	// Instantiate base classes with pointer type
+	template class JStringMap< JTemplateType* >;
+	template class JStringMapCursor< JTemplateType* >;
+	template class JStrValue< JTemplateType* >;
+
+#endif

@@ -1,0 +1,1015 @@
+#ifndef _T_JPackedTableData
+#define _T_JPackedTableData
+
+/******************************************************************************
+ JPackedTableData.tmpl
+
+	Template for storing values and structs in a table.
+	The data is grouped by column into a single JRunArray.
+
+	*** Since we use a JRunArray, this class cannot be use to store objects.
+		Use JObjTableData instead.
+
+	BASE CLASS = JTableData
+
+	Copyright © 1997 by John Lindal & Glenn Bach. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JPackedTableData.h>
+#include <JTable.h>
+#include <JMinMax.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T>
+JPackedTableData<T>::JPackedTableData
+	(
+	const T& defValue
+	)
+	:
+	JTableData(),
+	itsDefValue(defValue)
+{
+	itsData = new JRunArray< T >;
+	assert( itsData != NULL );
+}
+
+/******************************************************************************
+ Copy constructor
+
+ ******************************************************************************/
+
+template <class T>
+JPackedTableData<T>::JPackedTableData
+	(
+	const JPackedTableData<T>& source
+	)
+	:
+	JTableData(source),
+	itsDefValue(source.itsDefValue)
+{
+	itsData = new JRunArray< T >(*(source.itsData));
+	assert( itsData != NULL );
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <class T>
+JPackedTableData<T>::~JPackedTableData()
+{
+	delete itsData;
+}
+
+/******************************************************************************
+ GetDefaultValue
+
+ ******************************************************************************/
+
+template <class T>
+const T
+JPackedTableData<T>::GetDefaultValue()
+	const
+{
+	return itsDefValue;
+}
+
+/******************************************************************************
+ SetDefaultValue
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::SetDefaultValue
+	(
+	const T& data
+	)
+{
+	itsDefValue = data;
+}
+
+/******************************************************************************
+ GetData
+
+ ******************************************************************************/
+
+template <class T>
+const JRunArray< T >&
+JPackedTableData<T>::GetData()
+	const
+{
+	return *itsData;
+}
+
+/******************************************************************************
+ GetElement
+
+ ******************************************************************************/
+
+template <class T>
+const T
+JPackedTableData<T>::GetElement
+	(
+	const JIndex row,
+	const JIndex col
+	)
+	const
+{
+	assert( RowIndexValid(row) && ColIndexValid(col) );
+	return itsData->GetElement(RCToI(row,col));
+}
+
+template <class T>
+const T
+JPackedTableData<T>::GetElement
+	(
+	const JPoint& cell
+	)
+	const
+{
+	assert( RowIndexValid(cell.y) && ColIndexValid(cell.x) );
+	return itsData->GetElement(RCToI(cell));
+}
+
+/******************************************************************************
+ SetElement
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::SetElement
+	(
+	const JIndex	row,
+	const JIndex	col,
+	const T&		data
+	)
+{
+	assert( RowIndexValid(row) && ColIndexValid(col) );
+	const JIndex index = RCToI(row,col);
+	if (data != itsData->GetElement(index))
+		{
+		itsData->SetElement(index, data);
+		Broadcast(JTableData::RectChanged(row,col));
+		}
+}
+
+template <class T>
+void
+JPackedTableData<T>::SetElement
+	(
+	const JPoint&	cell,
+	const T&		data
+	)
+{
+	assert( RowIndexValid(cell.y) && ColIndexValid(cell.x) );
+	const JIndex index = RCToI(cell);
+	if (data != itsData->GetElement(index))
+		{
+		itsData->SetElement(index, data);
+		Broadcast(JTableData::RectChanged(cell));
+		}
+}
+
+/******************************************************************************
+ GetRow
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::GetRow
+	(
+	const JIndex	index,
+	JOrderedSet<T>*	rowData
+	)
+	const
+{
+	assert( RowIndexValid(index) );
+
+	rowData->RemoveAll();
+
+	const JSize colCount = GetColCount();
+	for (JIndex i=1; i<=colCount; i++)
+		{
+		rowData->InsertElementAtIndex(i, GetElement(index,i));
+		}
+}
+
+/******************************************************************************
+ SetRow
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::SetRow
+	(
+	const JIndex			index,
+	const JOrderedSet<T>&	rowData
+	)
+{
+	const JSize colCount = GetColCount();
+	assert( RowIndexValid(index) );
+	assert( rowData.GetElementCount() == colCount );
+
+	for (JIndex i=1; i<=colCount; i++)
+		{
+		itsData->SetElement(RCToI(index,i), rowData.GetElement(i));
+		}
+
+	Broadcast(JTableData::RectChanged(JRect(index, 1, index+1, colCount+1)));
+}
+
+template <class T>
+void
+JPackedTableData<T>::SetRow
+	(
+	const JIndex	index,
+	const T&		data
+	)
+{
+	SetPartialRow(index, 1, GetColCount(), data);
+}
+
+/******************************************************************************
+ SetPartialRow
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::SetPartialRow
+	(
+	const JIndex	rowIndex,
+	const JIndex	firstColIndex,
+	const JIndex	lastColIndex,
+	const T&		data
+	)
+{
+	assert( RowIndexValid(rowIndex) &&
+			ColIndexValid(firstColIndex) && ColIndexValid(lastColIndex) &&
+			firstColIndex <= lastColIndex );
+
+	for (JIndex i=firstColIndex; i<=lastColIndex; i++)
+		{
+		itsData->SetElement(RCToI(rowIndex,i), data);
+		}
+
+	Broadcast(JTableData::RectChanged(
+		JRect(rowIndex, firstColIndex, rowIndex+1, lastColIndex+1)));
+}
+
+/******************************************************************************
+ GetCol
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::GetCol
+	(
+	const JIndex	index,
+	JOrderedSet<T>*	colData
+	)
+	const
+{
+	assert( ColIndexValid(index) );
+
+	colData->RemoveAll();
+
+	const JSize rowCount = GetRowCount();
+	for (JIndex i=1; i<=rowCount; i++)
+		{
+		colData->InsertElementAtIndex(i, GetElement(i,index));
+		}
+}
+
+/******************************************************************************
+ SetCol
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::SetCol
+	(
+	const JIndex			index,
+	const JOrderedSet<T>&	colData
+	)
+{
+	const JSize rowCount = GetRowCount();
+	assert( ColIndexValid(index) );
+	assert( colData.GetElementCount() == rowCount );
+
+	for (JIndex i=1; i<=rowCount; i++)
+		{
+		itsData->SetElement(RCToI(i,index), colData.GetElement(i));
+		}
+
+	Broadcast(JTableData::RectChanged(JRect(1, index, rowCount+1, index+1)));
+}
+
+template <class T>
+void
+JPackedTableData<T>::SetCol
+	(
+	const JIndex	index,
+	const T&		data
+	)
+{
+	SetPartialCol(index, 1, GetRowCount(), data);
+}
+
+/******************************************************************************
+ SetPartialCol
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::SetPartialCol
+	(
+	const JIndex	colIndex,
+	const JIndex	firstRowIndex,
+	const JIndex	lastRowIndex,
+	const T&		data
+	)
+{
+	SetRect(JRect(firstRowIndex, colIndex, lastRowIndex+1, colIndex+1), data);
+}
+
+/******************************************************************************
+ SetRect
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::SetRect
+	(
+	const JRect&	rect,
+	const T&		data
+	)
+{
+	SetRect(rect.left, rect.top, rect.width(), rect.height(), data);
+}
+
+template <class T>
+void
+JPackedTableData<T>::SetRect
+	(
+	const JCoordinate	x,
+	const JCoordinate	y,
+	const JCoordinate	w,
+	const JCoordinate	h,
+	const T&			data
+	)
+{
+	assert( w > 0 && h > 0 );
+
+	const JIndex x2 = x + w - 1;
+	const JIndex y2 = y + h - 1;
+
+	assert( RowIndexValid(y)  && ColIndexValid(x) &&
+			RowIndexValid(y2) && ColIndexValid(x2) );
+
+	for (JIndex j=x; j<=x2; j++)
+		{
+		itsData->SetNextElements(RCToI(y,j), h, data);
+		}
+
+	Broadcast(JTableData::RectChanged(JRect(y,x,y2+1,x2+1)));
+}
+
+/******************************************************************************
+ ApplyToRect
+
+	This ought to be done one -run- at a time, and should be implemented
+	in JRunArray.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::ApplyToRect
+	(
+	const JRect& rect,
+	T (*f)(const T&)
+	)
+{
+	ApplyToRect(rect.left, rect.top, rect.width(), rect.height(), f);
+}
+
+template <class T>
+void
+JPackedTableData<T>::ApplyToRect
+	(
+	const JCoordinate x,
+	const JCoordinate y,
+	const JCoordinate w,
+	const JCoordinate h,
+	T (*f)(const T&)
+	)
+{
+	assert( w > 0 && h > 0 );
+
+	const JIndex x2 = x + w - 1;
+	const JIndex y2 = y + h - 1;
+
+	assert( RowIndexValid(y)  && ColIndexValid(x) &&
+			RowIndexValid(y2) && ColIndexValid(x2) );
+
+	JIndex prevDataIndex = RCToI(y,x);
+	JIndex runIndex, firstInRun;
+	JBoolean ok = itsData->FindRun(prevDataIndex, &runIndex, &firstInRun);
+	assert( ok );
+
+	for (JIndex j=x; j<=x2; j++)
+		{
+		for (JIndex i=y; i<=y2; i++)
+			{
+			const JIndex currDataIndex = RCToI(i,j);
+			ok = itsData->FindRun(prevDataIndex, currDataIndex, &runIndex, &firstInRun);
+			assert( ok );
+			itsData->SetNextElements(currDataIndex, 1,
+									 f(itsData->GetRunDataRef(runIndex)),
+									 &runIndex, &firstInRun);
+			prevDataIndex = currDataIndex;
+			}
+		}
+
+	Broadcast(JTableData::RectChanged(JRect(y,x,y2+1,x2+1)));
+}
+
+/******************************************************************************
+ InsertRows
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::InsertRows
+	(
+	const JIndex			index,
+	const JSize				count,
+	const JOrderedSet<T>*	initData
+	)
+{
+	assert( initData == NULL || initData->GetElementCount() == GetColCount() );
+
+	if (count > 0)
+		{
+		const JIndex trueIndex = JMin(index, GetRowCount()+1);
+
+		const JSize colCount = GetColCount();
+		if (initData != NULL)
+			{
+			for (JIndex i=colCount; i>=1; i--)
+				{
+				itsData->InsertElementsAtIndex(RCToI(trueIndex, i) , initData->GetElement(i), count);
+				}
+			}
+		else
+			{
+			for (JIndex i=colCount; i>=1; i--)
+				{
+				itsData->InsertElementsAtIndex(RCToI(trueIndex, i), itsDefValue, count);
+				}
+			}
+
+		RowsAdded(count);
+		Broadcast(JTableData::RowsInserted(trueIndex, count));
+		}
+}
+
+/******************************************************************************
+ Row manipulations
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::PrependRows
+	(
+	const JSize				count,
+	const JOrderedSet<T>*	initData
+	)
+{
+	InsertRows(1, count, initData);
+}
+
+template <class T>
+void
+JPackedTableData<T>::AppendRows
+	(
+	const JSize				count,
+	const JOrderedSet<T>*	initData
+	)
+{
+	InsertRows(GetRowCount()+1, count, initData);
+}
+
+/******************************************************************************
+ DuplicateRow
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::DuplicateRow
+	(
+	const JIndex origIndex,
+	const JIndex newIndex
+	)
+{
+	assert( RowIndexValid(origIndex) );
+
+	const JIndex trueIndex = JMin(newIndex, GetRowCount()+1);
+
+	const JSize colCount = GetColCount();
+	for (JIndex i=colCount; i>=1; i--)
+		{
+		const T element = GetElement(origIndex, i);
+		itsData->InsertElementAtIndex(RCToI(trueIndex,i), element);
+		}
+
+	RowsAdded(1);
+	Broadcast(JTableData::RowDuplicated(origIndex, trueIndex));
+}
+
+/******************************************************************************
+ RemoveRow
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::RemoveRow
+	(
+	const JIndex index
+	)
+{
+	RemoveNextRows(index, 1);
+}
+
+/******************************************************************************
+ RemoveNextRows
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::RemoveNextRows
+	(
+	const JIndex	firstIndex,
+	const JSize		count
+	)
+{
+	if (firstIndex == 1 && count == GetRowCount())
+		{
+		RemoveAllRows();
+		}
+	else
+		{
+		const JSize colCount = GetColCount();
+		for (JIndex i=colCount; i>=1; i--)
+			{
+			itsData->RemoveNextElements(RCToI(firstIndex,i), count);
+			}
+
+		RowsDeleted(count);
+		Broadcast(JTableData::RowsRemoved(firstIndex, count));
+		}
+}
+
+/******************************************************************************
+ RemovePrevRows
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::RemovePrevRows
+	(
+	const JIndex	lastIndex,
+	const JSize		count
+	)
+{
+	RemoveNextRows(lastIndex-count+1, count);
+}
+
+/******************************************************************************
+ RemoveAllRows
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::RemoveAllRows()
+{
+	itsData->RemoveAll();
+	const JSize rowCount = GetRowCount();
+	SetRowCount(0);
+	Broadcast(JTableData::RowsRemoved(1, rowCount));
+}
+
+/******************************************************************************
+ MoveRow
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::MoveRow
+	(
+	const JIndex origIndex,
+	const JIndex newIndex
+	)
+{
+	assert( RowIndexValid(origIndex) && RowIndexValid(newIndex) );
+
+	if (origIndex != newIndex)
+		{
+		const JSize colCount = GetColCount();
+		for (JIndex i=1; i<=colCount; i++)
+			{
+			itsData->MoveElementToIndex(RCToI(origIndex, i), RCToI(newIndex, i));
+			}
+
+		Broadcast(JTableData::RowMoved(origIndex, newIndex));
+		}
+}
+
+/******************************************************************************
+ InsertCols
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::InsertCols
+	(
+	const JIndex			index,
+	const JSize				count,
+	const JOrderedSet<T>*	initData
+	)
+{
+	assert( initData == NULL || initData->GetElementCount() == GetRowCount() );
+
+	if (count > 0)
+		{
+		const JIndex trueIndex = JMin(index, GetColCount()+1);
+
+		const JSize rowCount = GetRowCount();
+		if (initData != NULL)
+			{
+			const JIndex startIndex = RCToI(1,trueIndex);
+			for (JIndex j=1; j<=count; j++)
+				{
+				for (JIndex i=1; i<=rowCount; i++)
+					{
+					itsData->InsertElementAtIndex(startIndex + i-1, initData->GetElement(i));
+					}
+				}
+			}
+		else if (rowCount > 0)
+			{
+			itsData->InsertElementsAtIndex(RCToI(1,trueIndex), itsDefValue, rowCount * count);
+			}
+
+		ColsAdded(count);
+		Broadcast(JTableData::ColsInserted(trueIndex, count));
+		}
+}
+
+/******************************************************************************
+ Column manipulations
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::PrependCols
+	(
+	const JSize				count,
+	const JOrderedSet<T>*	initData
+	)
+{
+	InsertCols(1, count, initData);
+}
+
+template <class T>
+void
+JPackedTableData<T>::AppendCols
+	(
+	const JSize				count,
+	const JOrderedSet<T>*	initData
+	)
+{
+	InsertCols(GetColCount()+1, count, initData);
+}
+
+/******************************************************************************
+ DuplicateCol
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::DuplicateCol
+	(
+	const JIndex origIndex,
+	const JIndex newIndex
+	)
+{
+	assert( ColIndexValid(origIndex) );
+
+	const JIndex trueIndex = JMin(newIndex, GetColCount()+1);
+
+	const JIndex rowCount = GetRowCount();
+	if (rowCount > 0)
+		{
+		const JIndex toIndex = RCToI(1,trueIndex);
+		itsData->InsertElementsAtIndex(toIndex, itsDefValue, rowCount);
+		ColsAdded(1);
+
+		JIndex fromIndex = origIndex;
+		if (fromIndex >= trueIndex)
+			{
+			fromIndex++;
+			}
+		fromIndex = RCToI(1,fromIndex);
+
+		for (JIndex i=1; i<=rowCount; i++)
+			{
+			itsData->SetElement(toIndex + i-1, itsData->GetElement(fromIndex + i-1));
+			}
+		}
+	else
+		{
+		ColsAdded(1);
+		}
+
+	Broadcast(JTableData::ColDuplicated(origIndex, trueIndex));
+}
+
+/******************************************************************************
+ RemoveCol
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::RemoveCol
+	(
+	const JIndex index
+	)
+{
+	RemoveNextCols(index, 1);
+}
+
+/******************************************************************************
+ RemoveNextCols
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::RemoveNextCols
+	(
+	const JIndex	firstIndex,
+	const JSize		count
+	)
+{
+	itsData->RemoveNextElements(RCToI(1, firstIndex), GetRowCount() * count);
+
+	ColsDeleted(count);
+	Broadcast(JTableData::ColsRemoved(firstIndex, count));
+}
+
+/******************************************************************************
+ RemovePrevCols
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::RemovePrevCols
+	(
+	const JIndex	lastIndex,
+	const JSize		count
+	)
+{
+	RemoveNextCols(lastIndex-count+1, count);
+}
+
+/******************************************************************************
+ RemoveAllCols
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::RemoveAllCols()
+{
+	itsData->RemoveAll();
+	const JSize colCount = GetColCount();
+	SetColCount(0);
+	Broadcast(JTableData::ColsRemoved(1, colCount));
+}
+
+/******************************************************************************
+ MoveCol
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPackedTableData<T>::MoveCol
+	(
+	const JIndex origIndex,
+	const JIndex newIndex
+	)
+{
+	assert( ColIndexValid(origIndex) && ColIndexValid(newIndex) );
+
+	if (origIndex == newIndex)
+		{
+		return;
+		}
+
+	const JIndex rowCount = GetRowCount();
+	if (rowCount > 0)
+		{
+		const JIndex fromIndex = RCToI(1,origIndex);
+		const JIndex toIndex   = RCToI(1,newIndex);
+
+		if (origIndex < newIndex)
+			{
+			for (JIndex i=rowCount; i>=1; i--)
+				{
+				itsData->MoveElementToIndex(fromIndex + i-1, toIndex + i-1);
+				}
+			}
+		else	// origIndex > newIndex
+			{
+			for (JIndex i=1; i<=rowCount; i++)
+				{
+				itsData->MoveElementToIndex(fromIndex + i-1, toIndex + i-1);
+				}
+			}
+		}
+
+	Broadcast(JTableData::ColMoved(origIndex, newIndex));
+}
+
+/******************************************************************************
+ SetAllElements
+
+ ******************************************************************************/
+
+template <class T>
+void	
+JPackedTableData<T>::SetAllElements
+	(
+	const T& data
+	)
+{
+	const JIndex count = itsData->GetElementCount();
+	T value;
+	if (count > 0 &&
+		(!AllElementsEqual(&value) || value != data))
+		{
+		itsData->RemoveAll();
+		itsData->AppendElements(data, count);
+		Broadcast(JTableData::RectChanged(JRect(1, 1, GetRowCount()+1, GetColCount()+1)));
+		}
+}
+
+/******************************************************************************
+ ClearAllElements
+
+	Sets all elements to the default value.
+
+ ******************************************************************************/
+
+template <class T>
+void	
+JPackedTableData<T>::ClearAllElements()
+{
+	SetAllElements(itsDefValue);
+}
+
+/******************************************************************************
+ AllElementsEqual
+
+	If all the elements are equal, this function returns kJTrue and sets
+	data to the single value.
+
+	If there are no elements, it returns kJFalse, mainly because the
+	second version of the function doesn't have any data to return.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean	
+JPackedTableData<T>::AllElementsEqual()
+	const
+{
+	return JConvertToBoolean( itsData->GetRunCount() == 1 );
+}
+
+template <class T>
+JBoolean	
+JPackedTableData<T>::AllElementsEqual
+	(
+	T* data
+	)
+	const
+{
+	if (itsData->GetRunCount() == 1)
+		{
+		*data = itsData->GetRunDataRef(1);
+		return kJTrue;
+		}
+	else
+		{
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ CountElementsWithValue
+
+ ******************************************************************************/
+
+template <class T>
+JSize	
+JPackedTableData<T>::CountElementsWithValue
+	(
+	const T& data
+	)
+	const
+{
+	const JSize runCount = itsData->GetRunCount();
+	JSize valueCount     = 0;
+
+	for (JIndex i=1; i<=runCount; i++)
+		{
+		if (itsData->GetRunDataRef(i) == data)
+			{
+			valueCount += itsData->GetRunLength(i);
+			}
+		}
+
+	return valueCount;
+}
+
+/******************************************************************************
+ RCToI
+
+	Convert row and column values to an index into itsData.
+
+ ******************************************************************************/
+
+template <class T>
+JIndex 
+JPackedTableData<T>::RCToI
+	(
+	const JIndex row, 
+	const JIndex col
+	) 
+	const
+{
+	return GetRowCount() * (col - 1) + row;
+}
+
+template <class T>
+JIndex 
+JPackedTableData<T>::RCToI
+	(
+	const JPoint& cell
+	) 
+	const
+{
+	return GetRowCount() * (cell.x - 1) + cell.y;
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JPackedTableData
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

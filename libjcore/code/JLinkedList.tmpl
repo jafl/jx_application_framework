@@ -1,0 +1,740 @@
+#ifndef _T_JLinkedList
+#define _T_JLinkedList
+
+/******************************************************************************
+ JLinkedList.tmpl
+
+							The JLinkedList Template Class
+
+	Template for a dynamically sized linked list.
+
+	Since the actual data is stored, this is only good for structs.
+	To store objects, use the JPtrArray template class.
+
+	BASE CLASS = JOrderedSet
+
+	Copyright © 1994 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JLinkedList.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T>
+JLinkedList<T>::JLinkedList()
+	:
+	JOrderedSet<T>()
+{
+	itsFirstElement = NULL;
+	itsLastElement  = NULL;
+}
+
+/******************************************************************************
+ Copy constructor
+
+ ******************************************************************************/
+
+template <class T>
+JLinkedList<T>::JLinkedList
+	(
+	const JLinkedList<T>& source
+	)
+	:
+	JOrderedSet<T>(source)
+{
+	itsFirstElement = NULL;
+	itsLastElement  = NULL;
+	CopyList(source);
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <class T>
+JLinkedList<T>::~JLinkedList()
+{
+	DeleteAll();
+}
+
+/******************************************************************************
+ Assignment operator
+
+ ******************************************************************************/
+
+template <class T>
+const JLinkedList<T>&
+JLinkedList<T>::operator=
+	(
+	const JLinkedList<T>& source
+	)
+{
+	if (this == &source)
+		{
+		return *this;
+		}
+
+	DeleteAll();
+
+	JCollection::operator=(source);		// JOrderedSet::operator= is private
+
+	CopyList(source);
+	OrderedSetAssigned(source);
+
+	return *this;
+}
+
+/******************************************************************************
+ CopyList (private)
+
+	Copies the list data from source.
+
+	*** Caller must make sure list is empty.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JLinkedList<T>::CopyList
+	(
+	const JLinkedList<T>& source
+	)
+{
+	assert( itsFirstElement == NULL );
+	assert( itsLastElement  == NULL );
+
+	JLinkedListElement<T>* sourceElement = source.itsFirstElement;
+	JLinkedListElement<T>* prevElement = NULL;
+	JLinkedListElement<T>* newElement;
+
+	while (sourceElement != NULL)
+		{
+		newElement = new JLinkedListElement<T>;		// create new element
+		assert( newElement != NULL );
+
+		newElement->prevElement = prevElement;		// link to previous element
+		newElement->data = sourceElement->data;		// copy data
+		newElement->nextElement = NULL;				// no initial link
+
+		if (prevElement != NULL)
+			{
+			prevElement->nextElement = newElement;	// set up link from previous element
+			}
+		else
+			{
+			itsFirstElement = newElement;			// save link to first element
+			}
+
+		sourceElement = sourceElement->nextElement;
+		prevElement   = newElement;
+		}
+
+	itsLastElement = prevElement;					// save link to last element
+}
+
+/******************************************************************************
+ InsertElementAtIndex
+
+	Insert an element into the array at the specified index. Any elements
+	at or below index are moved down. If index is any value greater
+	than the current size, then the element is appended to the end
+	of the array.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JLinkedList<T>::InsertElementAtIndex
+	(
+	const JIndex	index,
+	const T&		data
+	)
+{
+	JIndex trueIndex;
+	JLinkedListElement<T>* listElement = CreateElement(index, &trueIndex);
+
+	StoreData(listElement, data);
+
+	JOrderedSetT::ElementsInserted message(trueIndex, 1);
+	JBroadcaster::Broadcast(message);
+	JOrderedSet<T>::NotifyIterators(message);
+}
+
+/******************************************************************************
+ CreateElement (private)
+
+	Insert space for an element into the list at the specified index.
+	If index is any value greater than the current size, then the
+	element is appended to the end of the array.
+
+	The correct index of the new element and a pointer to the new element are returned.
+
+ ******************************************************************************/
+
+template <class T>
+JLinkedListElement<T>*
+JLinkedList<T>::CreateElement
+	(
+	const JIndex	index,
+	JIndex*			trueIndex
+	)
+{
+	assert(index > 0);
+
+	const JSize elementCount = JCollection::GetElementCount();
+
+	*trueIndex = index;
+	if (*trueIndex > elementCount)
+		{
+		*trueIndex = elementCount + 1;
+		}
+
+	JLinkedListElement<T>* newElement = new JLinkedListElement<T>;
+	assert( newElement != NULL );
+
+	LinkInElement(*trueIndex, newElement);
+
+	return newElement;
+}
+
+/******************************************************************************
+ RemoveNextElements
+
+ ******************************************************************************/
+
+template <class T>
+void
+JLinkedList<T>::RemoveNextElements
+	(
+	const JIndex	firstIndex,
+	const JSize		count
+	)
+{
+	if (firstIndex == 1 && count == JCollection::GetElementCount())
+		{
+		RemoveAll();
+		}
+	else
+		{
+		DeleteNextElements(firstIndex, count);
+
+		JOrderedSetT::ElementsRemoved message(firstIndex, count);
+		JBroadcaster::Broadcast(message);
+		JOrderedSet<T>::NotifyIterators(message);
+		}
+}
+
+// private
+
+template <class T>
+void
+JLinkedList<T>::IteratorRemoveNextElements
+	(
+	const JIndex			firstIndex,
+	const JSize				count,
+	JLinkedListElement<T>*	origElement
+	)
+{
+	if (firstIndex == 1 && count == JCollection::GetElementCount())
+		{
+		RemoveAll();
+		}
+	else
+		{
+		DeleteNextElements(firstIndex, count, origElement);
+
+		JOrderedSetT::ElementsRemoved message(firstIndex, count);
+		JBroadcaster::Broadcast(message);
+		JOrderedSet<T>::NotifyIterators(message);
+		}
+}
+
+/******************************************************************************
+ RemoveAll
+
+ ******************************************************************************/
+
+template <class T>
+void
+JLinkedList<T>::RemoveAll()
+{
+	if (!JCollection::IsEmpty())
+		{
+		JOrderedSetT::ElementsRemoved message(1, JCollection::GetElementCount());
+
+		DeleteAll();
+
+		JBroadcaster::Broadcast(message);
+		JOrderedSet<T>::NotifyIterators(message);
+		}
+}
+
+/******************************************************************************
+ DeleteNextElements (private)
+
+	Delete the specified elements from the list.
+
+	The public member RemoveElement handles broadcasting the change.
+
+	If origElement != NULL, it is assumed to be the first element to delete.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JLinkedList<T>::DeleteNextElements
+	(
+	const JIndex			firstIndex,
+	const JSize				count,
+	JLinkedListElement<T>*	origElement
+	)
+{
+	JLinkedListElement<T>* firstElement =
+		UnlinkNextElements(firstIndex, count, origElement);
+	DeleteChain(firstElement);
+}
+
+/******************************************************************************
+ DeleteAll (private)
+
+	Delete all the elements in the list.
+
+	This is only provided as an optimized version of multiple DeleteElement's
+	so that the destructor and CopyList run faster.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JLinkedList<T>::DeleteAll()
+{
+	DeleteChain(itsFirstElement);
+
+	itsFirstElement = NULL;
+	itsLastElement  = NULL;
+	JCollection::SetElementCount(0);
+}
+
+/******************************************************************************
+ DeleteChain (private)
+
+	Delete the chain of elements that starts with the given element.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JLinkedList<T>::DeleteChain
+	(
+	JLinkedListElement<T>* firstElement
+	)
+{
+	while (firstElement != NULL)
+		{
+		JLinkedListElement<T>* nextElement = firstElement->nextElement;
+		delete firstElement;
+		firstElement = nextElement;
+		}
+}
+
+/******************************************************************************
+ GetElement
+
+ ******************************************************************************/
+
+template <class T>
+T
+JLinkedList<T>::GetElement
+	(
+	const JIndex index
+	)
+	const
+{
+	JLinkedListElement<T>* listElement = FindElement(index);
+
+	return listElement->data;
+}
+
+/******************************************************************************
+ SetElement
+
+ ******************************************************************************/
+
+template <class T>
+void
+JLinkedList<T>::SetElement
+	(
+	const JIndex	index,
+	const T&		data
+	)
+{
+	JLinkedListElement<T>* listElement = FindElement(index);
+	IteratorSetElement(index, data, listElement);
+}
+
+// private
+
+template <class T>
+void
+JLinkedList<T>::IteratorSetElement
+	(
+	const JIndex			index,
+	const T&				data,
+	JLinkedListElement<T>*	listElement
+	)
+{
+	StoreData(listElement, data);
+	JBroadcaster::Broadcast(JOrderedSetT::ElementChanged(index));
+}
+
+/******************************************************************************
+ MoveElementToIndex
+
+ ******************************************************************************/
+
+template <class T>
+void
+JLinkedList<T>::MoveElementToIndex
+	(
+	const JIndex currentIndex,
+	const JIndex newIndex
+	)
+{
+	assert( JCollection::IndexValid(currentIndex) );
+	assert( JCollection::IndexValid(newIndex) );
+
+	if (currentIndex == newIndex)
+		{
+		return;
+		}
+
+	PrivateMoveElementToIndex(currentIndex, newIndex);
+	JBroadcaster::Broadcast(JOrderedSetT::ElementMoved(currentIndex, newIndex));
+}
+
+/******************************************************************************
+ SwapElements
+
+	Sends dependents an arrayElementChanged message for both elements.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JLinkedList<T>::SwapElements
+	(
+	const JIndex index1,
+	const JIndex index2
+	)
+{
+	assert( JCollection::IndexValid(index1) );
+	assert( JCollection::IndexValid(index2) );
+
+	if (index1 == index2)
+		{
+		return;
+		}
+	else if (index1 < index2)
+		{
+		PrivateMoveElementToIndex(index1, index2);
+		PrivateMoveElementToIndex(index2 - 1, index1);
+		}
+	else if (index1 > index2)
+		{
+		PrivateMoveElementToIndex(index2, index1);
+		PrivateMoveElementToIndex(index1 - 1, index2);
+		}
+
+	JBroadcaster::Broadcast(JOrderedSetT::ElementsSwapped(index1, index2));
+}
+
+/******************************************************************************
+ NewIterator
+
+ ******************************************************************************/
+
+template <class T>
+JOrderedSetIterator<T>*
+JLinkedList<T>::NewIterator
+	(
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+{
+	JLinkedListIterator<T>* iter = new JLinkedListIterator<T>(this, start, index);
+	assert( iter != NULL );
+	return iter;
+}
+
+template <class T>
+JOrderedSetIterator<T>*
+JLinkedList<T>::NewIterator
+	(
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+	const
+{
+	JLinkedListIterator<T>* iter = new JLinkedListIterator<T>(*this, start, index);
+	assert( iter != NULL );
+	return iter;
+}
+
+/******************************************************************************
+ PrivateMoveElementToIndex (private)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JLinkedList<T>::PrivateMoveElementToIndex
+	(
+	const JIndex currentIndex,
+	const JIndex newIndex
+	)
+{
+	if (currentIndex == newIndex)
+		{
+		return;
+		}
+
+	JLinkedListElement<T>* elementToMove = UnlinkNextElements(currentIndex, 1);
+	LinkInElement(newIndex, elementToMove);
+}
+
+/******************************************************************************
+ LinkInElement (private)
+
+	Link the specified element into the list at the specified index.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JLinkedList<T>::LinkInElement
+	(
+	const JIndex			index,
+	JLinkedListElement<T>*	theElement
+	)
+{
+	assert( 0 < index && index <= JCollection::GetElementCount()+1 );
+
+	if (JCollection::IsEmpty())
+		{
+		theElement->prevElement = NULL;
+		theElement->nextElement = NULL;
+		itsFirstElement = theElement;
+		itsLastElement  = theElement;
+		}
+	else if (index == 1)
+		{
+		theElement->prevElement = NULL;
+		theElement->nextElement = itsFirstElement;
+		itsFirstElement->prevElement = theElement;
+		itsFirstElement = theElement;
+		}
+	else if (index == JCollection::GetElementCount()+1)
+		{
+		theElement->prevElement = itsLastElement;
+		theElement->nextElement = NULL;
+		itsLastElement->nextElement = theElement;
+		itsLastElement = theElement;
+		}
+	else
+		{
+		JLinkedListElement<T>* prevElement = FindElement(index - 1);
+		JLinkedListElement<T>* nextElement = prevElement->nextElement;
+
+		theElement->prevElement = prevElement;
+		theElement->nextElement = nextElement;
+
+		prevElement->nextElement = theElement;
+		nextElement->prevElement = theElement;
+		}
+
+	JCollection::ElementAdded();
+}
+
+/******************************************************************************
+ UnlinkNextElements (private)
+
+	Unlink the specified elements from the list and return the first one.
+
+	If origElement != NULL, it is assumed to be the first element to remove.
+
+ ******************************************************************************/
+
+template <class T>
+JLinkedListElement<T>*
+JLinkedList<T>::UnlinkNextElements
+	(
+	const JIndex			firstIndex,
+	const JSize				count,
+	JLinkedListElement<T>*	origElement
+	)
+{
+	const JSize lastIndex = firstIndex + count-1;
+	assert( JCollection::IndexValid(firstIndex) && JCollection::IndexValid(lastIndex) );
+
+	JLinkedListElement<T>* result = NULL;
+
+	const JSize elementCount = JCollection::GetElementCount();
+
+	if (elementCount == count)
+		{
+		result          = itsFirstElement;
+		itsFirstElement = NULL;
+		itsLastElement  = NULL;
+		}
+	else if (firstIndex == 1)
+		{
+		result = itsFirstElement;
+		for (JIndex i=1; i<=count; i++)
+			{
+			itsFirstElement = itsFirstElement->nextElement;
+			}
+		(itsFirstElement->prevElement)->nextElement = NULL;
+		itsFirstElement->prevElement                = NULL;
+		}
+	else if (lastIndex == elementCount)
+		{
+		for (JIndex i=1; i<=count; i++)
+			{
+			itsLastElement = itsLastElement->prevElement;
+			}
+		result                      = itsLastElement->nextElement;
+		result->prevElement         = NULL;
+		itsLastElement->nextElement = NULL;
+		}
+	else
+		{
+		JLinkedListElement<T>* prevElement;
+		if (origElement != NULL)
+			{
+			prevElement = origElement->prevElement;
+			}
+		else
+			{
+			prevElement = FindElement(firstIndex - 1);
+			}
+
+		JLinkedListElement<T>* theElement = prevElement->nextElement;
+
+		result              = theElement;
+		result->prevElement = NULL;
+
+		for (JIndex i=1; i<=count; i++)
+			{
+			theElement = theElement->nextElement;
+			}
+		(theElement->prevElement)->nextElement = NULL;
+
+		prevElement->nextElement = theElement;
+		theElement->prevElement  = prevElement;
+		}
+
+	JCollection::SetElementCount(elementCount - count);
+
+	return result;
+}
+
+/******************************************************************************
+ ProtectedGetElement (protected)
+
+ ******************************************************************************/
+
+template <class T>
+const T&
+JLinkedList<T>::ProtectedGetElement
+	(
+	const JIndex index
+	)
+	const
+{
+	JLinkedListElement<T>* listElement = FindElement(index);
+
+	return listElement->data;
+}
+
+/******************************************************************************
+ FindElement (private)
+
+ ******************************************************************************/
+
+template <class T>
+JLinkedListElement<T>*
+JLinkedList<T>::FindElement
+	(
+	const JIndex index
+	)
+	const
+{
+	assert( JCollection::IndexValid(index) );
+
+	const JSize elementCount = JCollection::GetElementCount();
+	if (index < elementCount/2)
+		{
+		JLinkedListElement<T>* listElement = itsFirstElement;
+
+		// traverse the list forward
+		// when i == index, we have found the element
+
+		for (JIndex i=1; i<index; i++)
+			{
+			listElement = listElement->nextElement;
+			}
+
+		return listElement;
+		}
+	else
+		{
+		JLinkedListElement<T>* listElement = itsLastElement;
+
+		// traverse the list backward
+		// when i == index, we have found the element
+
+		for (JIndex i=elementCount; i>index; i--)
+			{
+			listElement = listElement->prevElement;
+			}
+
+		return listElement;
+		}
+}
+
+/******************************************************************************
+ StoreData (private)
+
+	This is used by InsertElementAtIndex and SetElement.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JLinkedList<T>::StoreData
+	(
+	JLinkedListElement<T>*	listElement,
+	const T&				data
+	)
+{
+	listElement->data = data;
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JLinkedList
+	#include <instantiate_template.h>
+	#undef JTemplateName
+	#define JTemplateName JLinkedListElement
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

@@ -1,0 +1,46 @@
+#ifndef _T_JStrValue
+#define _T_JStrValue
+
+/******************************************************************************
+ JStrValue.tmpl
+
+	BASE CLASS = none
+
+	Copyright © 1998 by John Lindal.  All rights reserved.
+
+ *****************************************************************************/
+
+#include <JStrValue.h>
+
+/******************************************************************************
+ Constructor
+
+ *****************************************************************************/
+
+template <class V>
+JStrValue<V>::JStrValue()
+	:
+	key(NULL)
+{
+}
+
+template <class V>
+JStrValue<V>::JStrValue
+	(
+	const JCharacter*	k,
+	const V&			v
+	)
+	:
+	key(k), value(v)
+{
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && !defined JOnlyWantTemplateDefinition
+	#define JTemplateName JStrValue
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

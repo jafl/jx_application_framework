@@ -1,0 +1,9 @@
+[Desktop Entry]
+Categories=Application;Utility;X-Red-Hat-Base;
+Name=<Program>
+Comment=<Program>
+Icon=<Binary>.xpm
+Exec=<Binary>
+Type=Application
+Terminal=0
+MapNotify=true

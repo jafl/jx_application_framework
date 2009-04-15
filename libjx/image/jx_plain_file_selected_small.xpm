@@ -1,0 +1,22 @@
+/* XPM */
+static char * jx_plain_file_selected_small[] = {
+"15 15 4 1",
+" 	c None",
+".	c gray40",
+"X	c gray60",
+"o	c gray50",
+"               ",
+"  ........     ",
+"  .XXXXXX..    ",
+"  .XXXXXX.X.   ",
+"  .XXXXXX...o  ",
+"  .XXXXXXXX.o  ",
+"  .XXXXXXXX.o  ",
+"  .XXXXXXXX.o  ",
+"  .XXXXXXXX.o  ",
+"  .XXXXXXXX.o  ",
+"  .XXXXXXXX.o  ",
+"  .XXXXXXXX.o  ",
+"  ..........o  ",
+"   oooooooooo  ",
+"               "};

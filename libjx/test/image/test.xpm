@@ -1,0 +1,22 @@
+/* XPM */
+static char * test_xpm[] = {
+"32 16 3 1",
+" 	c None",
+".	c #000000000000",
+"X	c #FFFFFFFF0000",
+"          .          .          ",
+"   ...   .X.  ..    .X.    ..   ",
+"   .XX. .XX. .XX.  .XXX.  .X.   ",
+"    .XX.XXXX.XXXX..XXXXX..XX.   ",
+"    .XXXXXXXXXXXXXXXXXXXXXX.    ",
+"     .XX.XXX.X....X.XXXX.XX.    ",
+"   ..XXX..XX.X.XXXX.XXXX.XXX.   ",
+"  .XXXXX.X.X.X...XX.X..X.XXXX.  ",
+"   ..XXX.XX..X.XXXX......XX..   ",
+"     .XX.XXX.X.XXXXX.XX.XX.     ",
+"    .XXX.XXX.X....XX.XX.XXX.    ",
+"   .XXXXXXXXXXXXXXXXXXXXXXXX.   ",
+"   .XX..XXXXX..XXXX..XXXX.XX.   ",
+"  .X..  .XXX.  .XX.  .XX. .XX.  ",
+"  ..     .X.    ..    .X.  ...  ",
+"          .            .        "};

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Categories=Application;Utility;X-Red-Hat-Base;
+Name=Mondrian
+Comment=Mondrian
+Icon=mondrian.xpm
+Exec=mondrian
+Type=Application
+Terminal=0
+MapNotify=true

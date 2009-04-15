@@ -1,0 +1,5 @@
+0
+cancelButton::GPMPrefsDialog::shortcuts::JXLayout "^["
+cancelButton::GPMPrefsDialog::JXLayout "Cancel"
+okButton::GPMPrefsDialog::JXLayout "OK"
+okButton::GPMPrefsDialog::shortcuts::JXLayout "^M"

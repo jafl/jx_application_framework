@@ -1,0 +1,17 @@
+/* XPM */
+static char *jx_hard_disk_small[] = {
+/* width height num_colors chars_per_pixel */
+"    16     6        4            1",
+/* colors */
+"  c None",
+"# c #000000",
+". c #cccccc",
+"X c red",
+/* pixels */
+" ############## ",
+"#..............#",
+"#..............#",
+"#..X...........#",
+"#..............#",
+" ############## "
+};

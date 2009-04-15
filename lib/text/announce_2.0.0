@@ -1,0 +1,85 @@
+Newsgroups: comp.windows.x.announce
+Subject: JX 2.0.0 - C++ application framework competitive with Galaxy
+Keywords: C++, GUI, X, application framework
+Summary: JX is a C++ application framework and GUI class library for X.
+
+Newsgroups: comp.os.linux.announce
+Subject: JX 2.0.0 - C++ application framework competitive with Galaxy
+Keywords: C++, GUI, X, application framework
+Summary: JX is a C++ application framework and GUI class library for X.
+Followup-To: comp.os.linux.misc
+
+JX 2.0.0 is now available.  It features support for European languages, a
+string database manager to support translation without recompiling, support
+for the new XSearch protocol (http://www.newplanetsoftware.com/xsearch/), a
+fully redesigned interface to the X Selection mechanism, and significant
+optimizations to JTable.  In addition, JXHelpManager allows the user to
+search all the on-line help sections, thereby alleviating the need to
+provide an index.
+
+A new add-on library, libjfs, is also available.  The provides a "binding
+manager" so the user can decide which program to use for each type of file.
+By using libjfs, all JX programs can share the same bindings.
+
+Thanks to:
+
+  * David Sauer and Tor Sigurdsson for helping me implement full support
+    for European languages.
+  * Mike Lockwood for the OpenBSD port.
+  * Patrick D. Berge and John F. Bleichert for patches to the AIX port.
+  * Joan Bertran for helping eliminate unnecessary network traffic caused
+    by Xlib.
+  * Igor Khristophorov for discovering the reason why makemake hangs in
+    certain situation.  Check the FAQ for details.
+  * Oleg Sinitsin for pushing forward the work on compiling with CC.
+
+The JX Development Suite is available from:
+
+  http://www.newplanetsoftware.com/
+
+----------
+
+Description:
+
+JX is a full-featured C++ application framework and GUI class library for
+X.  The power of JX stems from its rich feature set and extensibility which
+support all aspects of professional quality application development.
+
+The features built into JX include a generic messaging system to support
+the Model-View-Controller paradigm, document management and interaction,
+Drag-And-Drop, 3D graphics, networking (e.g. INET and UNIX sockets), the
+ability to connect to multiple X displays, configurable button toolbars, a
+powerful word processor class, very extensive table support, a 2D plotting
+package, hypertext help, seamlessly integrated postscript printing, and a
+memory manager to help track down memory leaks.
+
+This rich feature set does not impede the extensibility of the system,
+however.  The base class for all GUI objects, the Widget, provides
+mechanisms for supporting all of the actions and interactions that are
+expected in today's commercial applications.  In addition, it is easy to
+derive customized classes from almost any class in the library, from the
+base Widget class to specialized classes such as Tables and Menus.
+
+JX is designed to make it easy to construct commercial quality
+applications.  All the common, required functionality is built in, so
+developers need only connect the standard components together and then
+develop custom Widgets that are unique to their particular applications.
+
+More information about JX is available at:
+
+  http://www.newplanetsoftware.com/jx/
+
+To subscribe to the mailing list, send email to:
+
+  majordomo@its.caltech.edu
+
+and include "subscribe jx" in the body of the message.
+
+----------
+
+JX is very close to providing the same feature set as the awe-inspiring
+Galaxy application framework, our source is available, and we're free for
+non-commercial use and a lot cheaper than Galaxy for commercial
+development!  We're not yet cross-platform, but we have begun work on the
+Windows 95/98/NT port.  If you are interested in how a particular feature
+of Galaxy is provided by JX, please contact us.

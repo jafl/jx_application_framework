@@ -1,0 +1,7 @@
+0
+saveButton::JXOKToCloseDialog::shortcuts::JXLayout "#S^M"
+itsDiscardButton::JXOKToCloseDialog::shortcuts::JXLayout "#N"
+text::JXOKToCloseDialog::JXLayout ""
+itsDiscardButton::JXOKToCloseDialog::JXLayout "Don't save"
+saveButton::JXOKToCloseDialog::JXLayout "Save"
+cancelButton::JXOKToCloseDialog::JXLayout "Cancel"

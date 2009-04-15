@@ -1,0 +1,28 @@
+0
+
+THXOverviewHelp
+
+"<html>
+<head>
+<title> Overview of Leibnitz </title>
+</head>
+
+Leibnitz provides the calculator you've always wanted, short of handwriting
+recognition.  The major features that it provides are:
+
+<ul>
+<li> <a href=jxhelp:THXExprHelp>evaluate expressions</a>
+<p>
+<li> <a href=jxhelp:THX2DPlotHelp>plot 2D functions</a>
+<p>
+<li> <a href=jxhelp:THX3DPlotHelp>plot 3D functions</a>
+<p>
+<li> <a href=jxhelp:THXBaseConvHelp>convert between different bases</a>
+     (e.g. hex <-> decimal)
+</ul>
+
+For more information about a particular feature, simply click on the underlined text.
+To search for a word or phrase, select \"Find...\" from the Search menu, enter the
+text, and then select \"Search all sections\" from the Search menu.
+
+</html>"

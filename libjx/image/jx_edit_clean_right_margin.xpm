@@ -1,0 +1,17 @@
+/* XPM */
+static char * jx_edit_clean_right_margin[] = {
+"20 11 3 1",
+" 	c None",
+"X	c #808080",
+"*	c black",
+"                    ",
+" XX XXXX XX     *   ",
+"                *   ",
+" XXXX XXX XXX   *   ",
+"                *   ",
+" XXX XXXX XX    *   ",
+"                *   ",
+" XXXX XX XXX XX *   ",
+"                *   ",
+" XX XXX XX XXX  *   ",
+"                    "};

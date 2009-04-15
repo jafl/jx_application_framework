@@ -1,0 +1,5 @@
+Move mylib_constants to include/make/
+
+Create a symbolic link "mylib" in include/ that points to "../libmylib/code"
+
+Create symbolic links in lib/ to point to the libraries in libmylib/

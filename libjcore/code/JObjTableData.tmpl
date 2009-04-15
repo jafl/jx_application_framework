@@ -1,0 +1,642 @@
+#ifndef _T_JObjTableData
+#define _T_JObjTableData
+
+/******************************************************************************
+ JObjTableData.tmpl
+
+	Template for storing objects in a table.
+
+	*** Since PtrArray is used to store the data, this is best for objects.
+		To store structs, use JValueTableData or JPackedTableData instead.
+
+	BASE CLASS = JTableData
+
+	Copyright © 1996 John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JObjTableData.h>
+#include <JMinMax.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T>
+JObjTableData<T>::JObjTableData()
+	:
+	JTableData()
+{
+	itsCols = new JPtrArray< JPtrArray<T> >(JPtrArrayT::kDeleteAll);
+	assert( itsCols != NULL );
+}
+
+/******************************************************************************
+ Copy constructor
+
+ ******************************************************************************/
+
+template <class T>
+JObjTableData<T>::JObjTableData
+	(
+	const JObjTableData<T>& source
+	)
+	:
+	JTableData(source)
+{
+	itsCols = new JPtrArray< JPtrArray<T> >(JPtrArrayT::kDeleteAll);
+	assert( itsCols != NULL );
+
+	const JSize colCount = (source.itsCols)->GetElementCount();
+	for (JIndex j=1; j<=colCount; j++)
+		{
+		const JPtrArray<T>* origColData = (source.itsCols)->NthElement(j);
+
+		JPtrArray<T>* newColData =
+			new JPtrArray<T>(*origColData, JPtrArrayT::kDeleteAll, kJTrue);
+		assert( newColData != NULL );
+		itsCols->InsertAtIndex(j, newColData);
+		}
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <class T>
+JObjTableData<T>::~JObjTableData()
+{
+	delete itsCols;
+}
+
+/******************************************************************************
+ GetElement
+
+ ******************************************************************************/
+
+template <class T>
+const T&
+JObjTableData<T>::GetElement
+	(
+	const JIndex row,
+	const JIndex col
+	)
+	const
+{
+	JPtrArray<T>* colData = itsCols->NthElement(col);
+	return *(colData->NthElement(row));
+}
+
+template <class T>
+const T&
+JObjTableData<T>::GetElement
+	(
+	const JPoint& cell
+	)
+	const
+{
+	JPtrArray<T>* colData = itsCols->NthElement(cell.x);
+	return *(colData->NthElement(cell.y));
+}
+
+/******************************************************************************
+ SetElement
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::SetElement
+	(
+	const JIndex	row,
+	const JIndex	col,
+	const T&		data
+	)
+{
+	JPtrArray<T>* colData = itsCols->NthElement(col);
+	T* element = colData->NthElement(row);
+	*element = data;
+	Broadcast(JTableData::RectChanged(row,col));
+}
+
+template <class T>
+void
+JObjTableData<T>::SetElement
+	(
+	const JPoint&	cell,
+	const T&		data
+	)
+{
+	JPtrArray<T>* colData = itsCols->NthElement(cell.x);
+	T* element = colData->NthElement(cell.y);
+	*element = data;
+	Broadcast(JTableData::RectChanged(cell));
+}
+
+/******************************************************************************
+ GetRow
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::GetRow
+	(
+	const JIndex	index,
+	JPtrArray<T>*	rowData
+	)
+	const
+{
+	rowData->CleanOut();
+
+	const JSize colCount = GetColCount();
+	for (JIndex i=1; i<=colCount; i++)
+		{
+		const JPtrArray<T>* dataCol = itsCols->NthElement(i);
+		rowData->InsertAtIndex(i, *(dataCol->NthElement(index)));
+		}
+}
+
+/******************************************************************************
+ SetRow
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::SetRow
+	(
+	const JIndex		index,
+	const JPtrArray<T>&	rowData
+	)
+{
+	const JSize colCount = GetColCount();
+	assert( rowData.GetElementCount() == colCount );
+
+	for (JIndex i=1; i<=colCount; i++)
+		{
+		JPtrArray<T>* dataCol = itsCols->NthElement(i);
+		T* element = dataCol->NthElement(index);
+		*element   = *(rowData.NthElement(i));
+		}
+
+	Broadcast(JTableData::RectChanged(JRect(index, 1, index+1, colCount+1)));
+}
+
+/******************************************************************************
+ GetCol
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::GetCol
+	(
+	const JIndex	index,
+	JPtrArray<T>*	colData
+	)
+	const
+{
+	const JPtrArray<T>* dataCol = itsCols->NthElement(index);
+	colData->CopyObjects(*dataCol, colData->GetCleanUpAction(), kJFalse);
+}
+
+/******************************************************************************
+ SetCol
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::SetCol
+	(
+	const JIndex		index,
+	const JPtrArray<T>&	colData
+	)
+{
+	const JSize rowCount = GetRowCount();
+	assert( colData.GetElementCount() == rowCount );
+
+	JPtrArray<T>* dataCol = itsCols->NthElement(index);
+	for (JIndex i=1; i<=rowCount; i++)
+		{
+		T* element = dataCol->NthElement(i);
+		*element   = *(colData.NthElement(i));
+		}
+
+	Broadcast(JTableData::RectChanged(JRect(1, index, rowCount+1, index+1)));
+}
+
+/******************************************************************************
+ InsertRows
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::InsertRows
+	(
+	const JIndex		index,
+	const JSize			count,
+	const JPtrArray<T>*	initData
+	)
+{
+	assert( initData == NULL || initData->GetElementCount() == GetColCount() );
+
+	if (count > 0)
+		{
+		const JIndex trueIndex = JMin(index, GetRowCount()+1);
+
+		const JSize colCount = GetColCount();
+		for (JIndex j=1; j<=count; j++)
+			{
+			for (JIndex i=1; i<=colCount; i++)
+				{
+				T* element = NULL;
+				if (initData != NULL)
+					{
+					element = new T(*(initData->NthElement(i)));
+					}
+				else
+					{
+					element = new T;
+					}
+				assert( element != NULL );
+
+				JPtrArray<T>* colData = itsCols->NthElement(i);
+				colData->InsertAtIndex(trueIndex, element);
+				}
+			}
+
+		RowsAdded(count);
+		Broadcast(JTableData::RowsInserted(trueIndex, count));
+		}
+}
+
+/******************************************************************************
+ Row manipulations
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::PrependRows
+	(
+	const JSize			count,
+	const JPtrArray<T>*	initData
+	)
+{
+	InsertRows(1, count, initData);
+}
+
+template <class T>
+void
+JObjTableData<T>::AppendRows
+	(
+	const JSize			count,
+	const JPtrArray<T>*	initData
+	)
+{
+	InsertRows(GetRowCount()+1, count, initData);
+}
+
+/******************************************************************************
+ DuplicateRow
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::DuplicateRow
+	(
+	const JIndex origIndex,
+	const JIndex newIndex
+	)
+{
+	const JIndex trueIndex = JMin(newIndex, GetRowCount()+1);
+
+	const JSize colCount = GetColCount();
+	for (JIndex i=1; i<=colCount; i++)
+		{
+		JPtrArray<T>* colData = itsCols->NthElement(i);
+		colData->InsertAtIndex(trueIndex, *(colData->NthElement(origIndex)));
+		}
+
+	RowsAdded(1);
+	Broadcast(JTableData::RowDuplicated(origIndex, trueIndex));
+}
+
+/******************************************************************************
+ RemoveRow
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::RemoveRow
+	(
+	const JIndex index
+	)
+{
+	RemoveNextRows(index, 1);
+}
+
+/******************************************************************************
+ RemoveNextRows
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::RemoveNextRows
+	(
+	const JIndex	firstIndex,
+	const JSize		count
+	)
+{
+	if (firstIndex == 1 && count == GetRowCount())
+		{
+		RemoveAllRows();
+		}
+	else
+		{
+		const JSize colCount = GetColCount();
+		for (JIndex i=1; i<=colCount; i++)
+			{
+			JPtrArray<T>* colData = itsCols->NthElement(i);
+			for (JIndex j=1; j<=count; j++)
+				{
+				colData->DeleteElement(firstIndex);
+				}
+			}
+
+		RowsDeleted(count);
+		Broadcast(JTableData::RowsRemoved(firstIndex, count));
+		}
+}
+
+/******************************************************************************
+ RemovePrevRows
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::RemovePrevRows
+	(
+	const JIndex	lastIndex,
+	const JSize		count
+	)
+{
+	RemoveNextRows(lastIndex-count+1, count);
+}
+
+/******************************************************************************
+ RemoveAllRows
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::RemoveAllRows()
+{
+	const JSize colCount = GetColCount();
+	for (JIndex i=1; i<=colCount; i++)
+		{
+		JPtrArray<T>* colData = itsCols->NthElement(i);
+		colData->CleanOut();
+		}
+
+	const JSize rowCount = GetRowCount();
+	SetRowCount(0);
+	Broadcast(JTableData::RowsRemoved(1, rowCount));
+}
+
+/******************************************************************************
+ MoveRow
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::MoveRow
+	(
+	const JIndex origIndex,
+	const JIndex newIndex
+	)
+{
+	if (origIndex != newIndex)
+		{
+		const JSize colCount = GetColCount();
+		for (JIndex i=1; i<=colCount; i++)
+			{
+			JPtrArray<T>* colData = itsCols->NthElement(i);
+			colData->MoveElementToIndex(origIndex, newIndex);
+			}
+
+		Broadcast(JTableData::RowMoved(origIndex, newIndex));
+		}
+}
+
+/******************************************************************************
+ InsertCols
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::InsertCols
+	(
+	const JIndex		index,
+	const JSize			count,
+	const JPtrArray<T>*	initData
+	)
+{
+	assert( initData == NULL || initData->GetElementCount() == GetRowCount() );
+
+	if (count > 0)
+		{
+		const JIndex trueIndex = JMin(index, GetColCount()+1);
+
+		for (JIndex j=1; j<=count; j++)
+			{
+			JPtrArray<T>* colData = new JPtrArray<T>(JPtrArrayT::kDeleteAll);
+			assert( colData != NULL );
+			itsCols->InsertAtIndex(trueIndex, colData);
+
+			const JSize rowCount = GetRowCount();
+			for (JIndex i=1; i<=rowCount; i++)
+				{
+				T* element = NULL;
+				if (initData != NULL)
+					{
+					element = new T(*(initData->NthElement(i)));
+					}
+				else
+					{
+					element = new T;
+					}
+				assert( element != NULL );
+
+				colData->InsertAtIndex(i, element);
+				}
+			}
+
+		ColsAdded(count);
+		Broadcast(JTableData::ColsInserted(trueIndex, count));
+		}
+}
+
+/******************************************************************************
+ Column manipulations
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::PrependCols
+	(
+	const JSize			count,
+	const JPtrArray<T>*	initData
+	)
+{
+	InsertCols(1, count, initData);
+}
+
+template <class T>
+void
+JObjTableData<T>::AppendCols
+	(
+	const JSize			count,
+	const JPtrArray<T>*	initData
+	)
+{
+	InsertCols(GetColCount()+1, count, initData);
+}
+
+/******************************************************************************
+ DuplicateCol
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::DuplicateCol
+	(
+	const JIndex origIndex,
+	const JIndex newIndex
+	)
+{
+	const JIndex trueIndex = JMin(newIndex, GetColCount()+1);
+
+	JPtrArray<T>* origColData = itsCols->NthElement(origIndex);
+
+	JPtrArray<T>* newColData =
+		new JPtrArray<T>(*origColData, JPtrArrayT::kDeleteAll, kJTrue);
+	assert( newColData != NULL );
+	itsCols->InsertAtIndex(trueIndex, newColData);
+
+	ColsAdded(1);
+	Broadcast(JTableData::ColDuplicated(origIndex, trueIndex));
+}
+
+/******************************************************************************
+ RemoveCol
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::RemoveCol
+	(
+	const JIndex index
+	)
+{
+	RemoveNextCols(index, 1);
+}
+
+/******************************************************************************
+ RemoveNextCols
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::RemoveNextCols
+	(
+	const JIndex	firstIndex,
+	const JSize		count
+	)
+{
+	for (JIndex i=1; i<=count; i++)
+		{
+		itsCols->DeleteElement(firstIndex);
+		}
+
+	ColsDeleted(count);
+	Broadcast(JTableData::ColsRemoved(firstIndex, count));
+}
+
+/******************************************************************************
+ RemovePrevCols
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::RemovePrevCols
+	(
+	const JIndex	lastIndex,
+	const JSize		count
+	)
+{
+	RemoveNextCols(lastIndex-count+1, count);
+}
+
+/******************************************************************************
+ RemoveAllCols
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::RemoveAllCols()
+{
+	const JSize colCount = GetColCount();	// before removing them!
+	itsCols->CleanOut();
+	SetColCount(0);
+	Broadcast(JTableData::ColsRemoved(1, colCount));
+}
+
+/******************************************************************************
+ MoveCol
+
+ ******************************************************************************/
+
+template <class T>
+void
+JObjTableData<T>::MoveCol
+	(
+	const JIndex origIndex,
+	const JIndex newIndex
+	)
+{
+	if (origIndex != newIndex)
+		{
+		itsCols->MoveElementToIndex(origIndex, newIndex);
+		Broadcast(JTableData::ColMoved(origIndex, newIndex));
+		}
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JObjTableData
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

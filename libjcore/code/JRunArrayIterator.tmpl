@@ -1,0 +1,519 @@
+#ifndef _T_JRunArrayIterator
+#define _T_JRunArrayIterator
+
+/******************************************************************************
+ JRunArrayIterator.tmpl
+
+	Efficient interation for JRunArray objects.
+
+				+-----+-----+-----+*****+*****+-----+-----+
+		index	|  1  |  2  |  3  |  4  |  5  |  6  |  7  |
+				+-----+-----+-----+*****+*****+-----+-----+
+		run	    1     1     1     2     2     3     3     4
+		inRun	0     1     2     0     1     0     1     0
+
+	Copyright © 1996 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JRunArrayIterator.h>
+#include <JRunArray.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T>
+JRunArrayIterator<T>::JRunArrayIterator
+	(
+	const JRunArray<T>&		theRunArray,
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+	:
+	JOrderedSetIterator<T>(theRunArray, start, index)
+{
+	itsRunArray = const_cast<JRunArray<T>*>(&theRunArray);
+
+	// initialize instance variables -- our override not called by base class
+
+	MoveTo(start, index);
+}
+
+template <class T>
+JRunArrayIterator<T>::JRunArrayIterator
+	(
+	JRunArray<T>*			theRunArray,
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+	:
+	JOrderedSetIterator<T>(theRunArray, start, index)
+{
+	itsRunArray = const_cast<JRunArray<T>*>(theRunArray);
+
+	// initialize instance variables -- our override not called by base class
+
+	MoveTo(start, index);
+}
+
+/******************************************************************************
+ Copy constructor
+
+ ******************************************************************************/
+
+template <class T>
+JRunArrayIterator<T>::JRunArrayIterator
+	(
+	const JRunArrayIterator<T>& source
+	)
+	:
+	JOrderedSetIterator<T>(source)
+{
+	itsRunArray    = source.itsRunArray;
+	itsRunIndex    = source.itsRunIndex;
+	itsOffsetInRun = source.itsOffsetInRun;
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <class T>
+JRunArrayIterator<T>::~JRunArrayIterator()
+{
+}
+
+/******************************************************************************
+ Assignment operator (private)
+
+	operator= is private because it is not allowed
+
+ ******************************************************************************/
+
+template <class T>
+const JRunArrayIterator<T>&
+JRunArrayIterator<T>::operator=
+	(
+	const JRunArrayIterator<T>& source
+	)
+{
+	assert( 0 );
+	return *this;
+}
+
+/******************************************************************************
+ Prev (virtual)
+
+	Return TRUE if there is a previous item, fetching the previous
+	item in the list and decrementing the iterator position.
+	Otherwise return FALSE without fetching or decrementing.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JRunArrayIterator<T>::Prev
+	(
+	T* item
+	)
+{
+	if (itsRunArray == NULL || (itsRunIndex == 1 && itsOffsetInRun == 0))
+		{
+		return kJFalse;
+		}
+
+	if (itsOffsetInRun == 0)
+		{
+		itsRunIndex--;
+		itsOffsetInRun = itsRunArray->GetRunLength(itsRunIndex) - 1;
+		}
+	else
+		{
+		itsOffsetInRun--;
+		}
+
+	*item = itsRunArray->GetRunData(itsRunIndex);
+	JOrderedSetIterator<T>::SetCursor(JOrderedSetIterator<T>::GetCursor()-1);
+	return kJTrue;
+}
+
+/******************************************************************************
+ Next (virtual)
+
+	Return TRUE if there is a next item, fetching the next
+	item in the list and decrementing the iterator position.
+	Otherwise return FALSE without fetching or decrementing.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JRunArrayIterator<T>::Next
+	(
+	T* item
+	)
+{
+	if (itsRunArray == NULL || itsRunIndex > itsRunArray->GetRunCount())
+		{
+		return kJFalse;
+		}
+
+	*item = itsRunArray->GetRunData(itsRunIndex);
+
+	if (itsOffsetInRun >= itsRunArray->GetRunLength(itsRunIndex)-1)
+		{
+		itsRunIndex++;
+		itsOffsetInRun = 0;
+		}
+	else
+		{
+		itsOffsetInRun++;
+		}
+
+	JOrderedSetIterator<T>::SetCursor(JOrderedSetIterator<T>::GetCursor()+1);
+	return kJTrue;
+}
+
+/******************************************************************************
+ SkipPrev (virtual)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JRunArrayIterator<T>::SkipPrev
+	(
+	const JSize count
+	)
+{
+	JCursorPosition cursorPos = JOrderedSetIterator<T>::GetCursor();
+	if (itsRunArray != NULL)
+		{
+		JSize remaining = count;
+		while (remaining > 0 && cursorPos > 0)
+			{
+			if (itsOffsetInRun == 0)
+				{
+				itsRunIndex--;
+				itsOffsetInRun = itsRunArray->GetRunLength(itsRunIndex);
+				}
+
+			if (itsOffsetInRun >= remaining)
+				{
+				itsOffsetInRun -= remaining;
+				cursorPos      -= remaining;
+				break;
+				}
+			else
+				{
+				remaining -= itsOffsetInRun;
+				cursorPos -= itsOffsetInRun;
+				itsOffsetInRun = 0;
+				}
+			}
+
+		JOrderedSetIterator<T>::SetCursor(cursorPos);
+		}
+}
+
+/******************************************************************************
+ SkipNext (virtual)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JRunArrayIterator<T>::SkipNext
+	(
+	const JSize count
+	)
+{
+	JCursorPosition cursorPos = JOrderedSetIterator<T>::GetCursor();
+	if (itsRunArray != NULL)
+		{
+		const JSize maxPos = itsRunArray->GetElementCount();
+
+		JSize remaining = count;
+		while (remaining > 0 && cursorPos < maxPos)
+			{
+			const JSize rightCount =
+				itsRunArray->GetRunLength(itsRunIndex) - itsOffsetInRun;
+
+			if (remaining < rightCount)
+				{
+				itsOffsetInRun += remaining;
+				cursorPos      += remaining;
+				break;
+				}
+			else
+				{
+				remaining -= rightCount;
+				cursorPos += rightCount;
+				itsRunIndex++;
+				itsOffsetInRun = 0;
+				}
+			}
+
+		JOrderedSetIterator<T>::SetCursor(cursorPos);
+		}
+}
+
+/******************************************************************************
+ SetPrev (virtual)
+
+	Returns kJTrue if we have a non-const JRunArray<T>* and
+	there is a previous item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JRunArrayIterator<T>::SetPrev
+	(
+	const T& data
+	)
+{
+	JOrderedSet<T>* obj;
+	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
+		{
+		return kJFalse;
+		}
+
+	JIndex runIndex, firstInRun;
+	CalcPrevRunInfo(&runIndex, &firstInRun);
+
+	itsRunArray->IteratorSetElement(JOrderedSetIterator<T>::GetCursor(), data, runIndex, firstInRun);
+	return kJTrue;
+}
+
+/******************************************************************************
+ SetNext (virtual)
+
+	Returns kJTrue if we have a non-const JRunArray<T>* and
+	there is a next item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JRunArrayIterator<T>::SetNext
+	(
+	const T& data
+	)
+{
+	JOrderedSet<T>* obj;
+	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtEnd())
+		{
+		return kJFalse;
+		}
+
+	JIndex runIndex, firstInRun;
+	CalcNextRunInfo(&runIndex, &firstInRun);
+
+	itsRunArray->IteratorSetElement(JOrderedSetIterator<T>::GetCursor()+1, data, runIndex, firstInRun);
+	return kJTrue;
+}
+
+/******************************************************************************
+ RemovePrev (virtual)
+
+	Returns kJTrue if we have a non-const JRunArray<T>* and
+	there is a previous item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JRunArrayIterator<T>::RemovePrev()
+{
+	JOrderedSet<T>* obj;
+	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
+		{
+		return kJFalse;
+		}
+
+	JIndex runIndex, firstInRun;
+	CalcPrevRunInfo(&runIndex, &firstInRun);
+
+	itsRunArray->IteratorRemoveNextElements(JOrderedSetIterator<T>::GetCursor(), 1, runIndex, firstInRun);
+	return kJTrue;
+}
+
+/******************************************************************************
+ RemoveNext (virtual)
+
+	Returns kJTrue if we have a non-const JRunArray<T>* and
+	there is a next item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JRunArrayIterator<T>::RemoveNext()
+{
+	JOrderedSet<T>* obj;
+	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
+		{
+		return kJFalse;
+		}
+
+	JIndex runIndex, firstInRun;
+	CalcNextRunInfo(&runIndex, &firstInRun);
+
+	itsRunArray->IteratorRemoveNextElements(JOrderedSetIterator<T>::GetCursor()+1, 1, runIndex, firstInRun);
+	return kJTrue;
+}
+
+/******************************************************************************
+ CalcPrevRunInfo (private)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JRunArrayIterator<T>::CalcPrevRunInfo
+	(
+	JIndex* runIndex,
+	JIndex* firstInRun
+	)
+	const
+{
+	*runIndex          = itsRunIndex;
+	JIndex offsetInRun = itsOffsetInRun;
+	if (offsetInRun == 0)
+		{
+		(*runIndex)--;
+		offsetInRun = itsRunArray->GetRunLength(*runIndex);
+		}
+
+	*firstInRun = JOrderedSetIterator<T>::GetCursor() - offsetInRun + 1;
+}
+
+/******************************************************************************
+ CalcNextRunInfo (private)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JRunArrayIterator<T>::CalcNextRunInfo
+	(
+	JIndex* runIndex,
+	JIndex* firstInRun
+	)
+	const
+{
+	*runIndex   = itsRunIndex;
+	*firstInRun = JOrderedSetIterator<T>::GetCursor() - itsOffsetInRun + 1;
+}
+
+/******************************************************************************
+ MoveTo (virtual)
+
+	Reset the iterator position to one of:
+		kJIteratorStartAtBeginning, kJIteratorStartAtEnd,
+		IteratorStartBefore(index), or IteratorStartAfter(index)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JRunArrayIterator<T>::MoveTo
+	(
+	const JIteratorPosition	newPosition,
+	const JIndex			index
+	)
+{
+	JOrderedSetIterator<T>::MoveTo(newPosition, index);
+
+	if (itsRunArray == NULL)
+		{
+		return;
+		}
+
+	if (newPosition == kJIteratorStartAtBeginning ||
+		(newPosition == kJIteratorStartBefore && index == 1))
+		{
+		itsRunIndex    = 1;
+		itsOffsetInRun = 0;
+		}
+	else if (newPosition == kJIteratorStartAtEnd ||
+			 (newPosition == kJIteratorStartAfter &&
+			  index == itsRunArray->GetElementCount()))
+		{
+		itsRunIndex    = itsRunArray->GetRunCount()+1;
+		itsOffsetInRun = 0;
+		}
+	else
+		{
+		const JCursorPosition cursorPosition = JOrderedSetIterator<T>::GetCursor();
+
+		JIndex firstIndexInRun;
+		const JBoolean found =
+			itsRunArray->FindRun(cursorPosition, &itsRunIndex, &firstIndexInRun);
+		assert( found );
+		itsOffsetInRun = cursorPosition - firstIndexInRun + 1;
+
+		if (itsOffsetInRun >= itsRunArray->GetRunLength(itsRunIndex))
+			{
+			itsRunIndex++;
+			itsOffsetInRun = 0;
+			}
+		}
+}
+
+/******************************************************************************
+ OrderedSetChanged (virtual protected)
+
+	Respond to changes in itsRunArray.  We can't optimize anything because
+	inserting and removing elements can merge runs or split a run.  We have
+	to ask our JRunArray what happened.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JRunArrayIterator<T>::OrderedSetChanged
+	(
+	const JBroadcaster::Message& message
+	)
+{
+	JOrderedSetIterator<T>::OrderedSetChanged(message);
+
+	if (message.Is(JOrderedSetT::kGoingAway))
+		{
+		itsRunArray    = NULL;
+		itsRunIndex    = 0;
+		itsOffsetInRun = 0;
+		}
+	else
+		{
+		const JCursorPosition p = JOrderedSetIterator<T>::GetCursor();
+		if (p == 0)
+			{
+			MoveTo(kJIteratorStartAtBeginning, 0);
+			}
+		else if (p >= itsRunArray->GetElementCount())
+			{
+			MoveTo(kJIteratorStartAtEnd, 0);
+			}
+		else
+			{
+			MoveTo(kJIteratorStartAfter, p);
+			}
+		}
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JRunArrayIterator
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

@@ -1,0 +1,140 @@
+# To use this file, first run "makemake" and then run "make".
+# (makemake is part of the JX distribution)
+
+# Useful directories
+
+JX_ROOT := ../..
+
+CODEDIR  := .
+JCOREDIR := ${JX_ROOT}/include/jcore
+JXDIR    := ${JX_ROOT}/include/jx
+
+JLIBDIR     := ${JX_ROOT}/lib
+JCORELIBDIR := ${JX_ROOT}/libjcore
+JXLIBDIR    := ${JX_ROOT}/libjx
+ACELIBDIR   := ${JX_ROOT}/ACE
+
+# Directories to search for header files
+
+SEARCHDIRS := -I${CODEDIR} \
+              -I${JCOREDIR} \
+              -I${JXDIR}
+
+# other constants
+
+SCRIPTS    := jfdesign convert_gravity
+DATA_FILES := class_map option_map need_font_list need_create_list
+
+ROOT_DATA_FILE_DIR := /usr/lib/jx/jxlayout
+
+# makemake variables
+
+include ${JX_ROOT}/include/make/jx_constants
+include ${JX_ROOT}/include/make/jx_config
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
+               -DCONFIG_FILE_DIR=\"${ROOT_DATA_FILE_DIR}/\" \
+               ${J_COMPILE_DEBUG} ${SEARCHDIRS}
+
+TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR}
+
+# library dependencies
+
+ifdef J_BUILD_SHARED_LIB
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.so \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.so
+else
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a
+endif
+
+# make variables
+
+LOADLIBES := ${J_STD_LIBS}
+LDFLAGS   := 
+
+#####
+
+.PHONY : default
+default: libs jxlayout
+
+.PHONY : Makefiles
+Makefiles:
+
+#
+# required libraries
+#
+
+.PHONY : libs
+libs:
+	@for path in ${TOUCHPATHS}; do ( if cd $$path; then ${MAKE}; fi ) done
+
+#
+# JX source distribution (DISTR_TAR_FILE)
+#
+
+SRC_FILE_DIR := ${JX}/programs/jxlayout
+
+.PHONY : jxsource
+jxsource:
+	@cd ${J_DISTR_TAR_DIR}; \
+     tar -rf ${DISTR_TAR_FILE} ${addprefix ${SRC_FILE_DIR}/, \
+             README Make.header Make.files \
+             ${SCRIPTS} jxlayout.cpp ${DATA_FILES}}
+
+#
+# install binaries
+#
+
+.PHONY : jxinstall
+jxinstall: jxlayout
+	@strip ${call EXE, jxlayout}
+	@chmod a+x ${SCRIPTS}
+  ifneq (${J_WANT_INSTALL},0)
+	@cp jxlayout ${JX_INSTALL_ROOT}/
+	@cp jfdesign ${JX_INSTALL_ROOT}/
+   ifeq (${shell whoami},root)
+	@mkdir -p ${ROOT_DATA_FILE_DIR}/
+	@cp ${DATA_FILES} ${ROOT_DATA_FILE_DIR}/
+   endif
+  endif
+
+.PHONY : jxuninstall
+jxuninstall:
+	@${RM} ${addprefix ${JX_INSTALL_ROOT}/, jxlayout jfdesign}
+  ifeq (${shell whoami},root)
+	@${RM} -r ${ROOT_DATA_FILE_DIR}/
+  endif
+
+#
+# debugging version
+#
+
+DEBUG_LOADLIBES := -L${JLIBDIR} \
+                   ${J_BEGIN_LINK_STATIC} \
+                   ${ljx} ${ljcore} ${J_ACE_LIBS} \
+                   ${J_END_LINK_STATIC} \
+                   ${J_GCC_LIBS}
+
+.PHONY : debug
+debug: staticACE libs
+	@${RM} jxlayout
+	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" jxlayout
+
+.PHONY : staticACE
+staticACE:
+  ifdef J_BUILD_SHARED_LIB
+	@cd ${ACELIBDIR}; ${MAKE} static
+  endif
+
+#
+# personal install
+#
+
+.PHONY : personal
+personal: debug
+	@strip ${call EXE, jxlayout}
+	@mv jxlayout ${JX_INSTALL_ROOT}/
+	@cp ${DATA_FILES} ${JXLAYOUTDIR}/
+	@chmod a+x ${SCRIPTS}
+	@cp jfdesign ${JX_INSTALL_ROOT}/

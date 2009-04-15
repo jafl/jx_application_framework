@@ -1,0 +1,92 @@
+
+This is version 2.5.0 of the JX source distribution.  To build it, simply
+run gnu make ("make" or "gmake" on most systems) in a command line window
+in the JX-2.5.0 directory and follow the instructions that are printed.
+
+If you are new to the JX Application Framework, then it is important to
+understand that it is not a program that you can run.  Rather, it is a set
+of classes that provide a foundation on which you can build a program with
+a graphical interface.  If you are familiar with either MicroSoft Visual
+Studio or MetroWerks CodeWarrior, then the equivalent components are as
+follows:
+
+New Planet Software         MicroSoft          MetroWerks
+-------------------         ---------          ----------
+Code Crusader/Code Medic    Visual Studio      CodeWarrior
+jx_project_wizard           Project Wizards    Project Wizards
+JX Application Framework    MFC                PowerPlant
+JX-2.5.0/tutorials/         MSDN               Sample code
+JX-2.5.0/libjx/test/        MSDN               Sample code
+
+In this directory, you will find:
+
+README               This file
+INSTALL              Instructions for compiling and installing this package
+FAQ                  List of Frequently Asked Questions
+LICENSE              License information for JCore, JX, and the libs they use
+CHANGES              Describes changes from previous versions
+
+tutorial             Tutorial source code demonstrating JX library
+doc                  Documentation for JX library
+lib                  Links to static and shared libraries
+
+include
+  make               Include files for Makefiles
+  jcore              Link to header files for JCore
+  jx                 Link to header files for JX
+
+libjcore
+  code               JCore source
+  test               Sample source for using JCore classes
+
+libjx
+  code               JX source
+  test               Sample application demonstrating JX library
+
+programs
+  makemake           Builds Makefile from Make.files and Make.header
+  jxlayout           Graphical window layout editor
+  jx_project_wizard  Wizard to create skeleton JX application
+                     and project file for use in Code Crusader 
+  compile_jstrings   Compiles string database files for use with JX
+
+ACE
+  ACE_wrappers       Header files for the ACE library
+  test               Sample source for using ACE library
+
+misc
+  regex              Henry Spencer's regex package
+  png                PNG library (new libgd)
+  xpm                XPM library (libXpm)
+
+
+Please read the LICENSE file for the conditions under which the source is
+provided.
+
+The code has been thoroughly tested on Linux and Solaris.  Bizzare behavior
+and crashes may be the result of broken system libraries.  We am willing to
+work with you to solve such problems, so please don't hesitate to contact
+us, but since we don't have access to your system, the burden of proof must
+rest on you if a system call that works fine on all other systems doesn't
+work for you.
+
+To help reduce our email load, please always check the JX web site before
+sending us a bug report because we might already know about it and have
+posted a fix.  Suggestions are always welcome because they help us decide
+what is most important, so we know what to implement next, but please check
+the Bazaar Projects page first to check if somebody else is already working
+on it.
+
+The main web page for JX is:
+
+    http://www.newplanetsoftware.com/jx/
+
+It is also important to realize that we do not maintain ACE.  You are
+welcome to contact us if you have problems compiling it, but the ACE
+developers are more likely to be able to help, and patches should be sent
+to them, not to us.  JX uses ACE because networking is horribly
+UNIX-variant-dependent, and the ACE developers are much better at dealing
+with this than we are.  The ACE web page is:
+
+    http://www.cs.wustl.edu/~schmidt/ACE.html
+

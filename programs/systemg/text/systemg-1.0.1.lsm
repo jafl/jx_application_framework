@@ -1,0 +1,13 @@
+Begin3
+Title:          SystemG
+Version:        1.0.2
+Entered-date:   06OCT99
+Description:    SytemgG is a UNIX file manager for X.
+Keywords:       file-manager, desktop, GUI, X
+Author:         glenn@its.caltech.edu (Glenn Bach)
+Maintained-by:  glenn@its.caltech.edu (Glenn Bach)
+Primary-site:   ftp://ftp.its.caltech.edu/pub/glenn/SystemG
+Alternate-site: ftp://metalab.unc.edu/pub/Linux/X11/desktop/
+Platforms:      X
+Copying-policy: FRS
+End

@@ -1,0 +1,210 @@
+# To use this file, first run "makemake" and then run "make".
+# (makemake is part of the JX distribution)
+
+# Useful directories
+
+JX_ROOT := ../..
+
+CODEDIR  := ./code
+JCOREDIR := ${JX_ROOT}/include/jcore
+JXDIR    := ${JX_ROOT}/include/jx
+
+JLIBDIR     := ${JX_ROOT}/lib
+JCORELIBDIR := ${JX_ROOT}/libjcore
+JXLIBDIR    := ${JX_ROOT}/libjx
+ACELIBDIR   := ${JX_ROOT}/ACE
+
+# Directories to search for header files
+
+SEARCHDIRS := -I${CODEDIR} \
+              -I${JCOREDIR} \
+              -I${JXDIR}
+
+# other constants
+
+MY_STRING_FILES := strings/*
+
+XDND_VERSION := v4
+XDND_DIR     := xdnd-${XDND_VERSION}
+
+XSEARCH_VERSION := v1
+XSEARCH_DIR     := xsearch-${XSEARCH_VERSION}
+
+# makemake variables
+
+J_STRING_FILES := ${MY_STRING_FILES}
+
+include ${JX_ROOT}/include/make/jx_constants
+include ${JX_ROOT}/include/make/jx_config
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
+               -g ${SEARCHDIRS}
+
+TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR}
+
+# library dependencies
+
+ifdef J_BUILD_SHARED_LIB
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.so \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.so
+else
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a
+endif
+
+# make variables
+
+LOADLIBES := ${J_STD_LIBS}
+LDFLAGS   := 
+
+#####
+
+.PHONY : default
+default: libs all
+
+.PHONY : Makefiles
+Makefiles:
+
+#
+# string data
+#
+
+.PHONY : strings
+strings:
+	compile_jstrings ${J_STRING_FILES} \
+      --code kDefaultStringData ${CODEDIR}/testjxStringData.h
+
+.PHONY : stringdb
+stringdb:
+	compile_jstrings ${J_STRING_FILES} --db testjx_us
+
+testjx:: strings
+
+#
+# required libraries
+#
+
+.PHONY : libs
+libs:
+	@for path in ${TOUCHPATHS}; do ( if cd $$path; then ${MAKE}; fi ) done
+
+#
+# JX source distribution (DISTR_TAR_FILE)
+#
+
+SRC_FILE_DIR := ${JX}/libjx/test
+
+.PHONY : jxsource
+jxsource:
+	@cd ${J_DISTR_TAR_DIR}; \
+     tar -rf ${DISTR_TAR_FILE} ${filter-out %.o %~, \
+                                 ${shell cd ${J_DISTR_TAR_DIR}; echo \
+             ${addprefix ${SRC_FILE_DIR}/, \
+               Make.* *.jcc *.fd about_* test.html image/* \
+               code/* ${MY_STRING_FILES} \
+               README_xdnd_* README_xsearch_* } }}
+
+#
+# debugging version
+#
+
+DEBUG_LOADLIBES := -L${JLIBDIR} \
+                   ${J_BEGIN_LINK_STATIC} \
+                   ${ljx} ${ljcore} ${J_ACE_LIBS} \
+                   ${J_END_LINK_STATIC} \
+                   ${J_X11_LIBS} ${J_GCC_LIBS}
+
+.PHONY : debug
+debug: staticACE libs
+	@${RM} testjx
+	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" testjx
+
+.PHONY : staticACE
+staticACE:
+  ifdef J_BUILD_SHARED_LIB
+	@cd ${ACELIBDIR}; ${MAKE} static
+  endif
+
+#
+# static binary
+#
+
+.PHONY : static
+static: debug
+	@${J_STRIP_DEBUG} ${call EXE, testjx}
+
+#
+# XDND sample distribution
+#
+
+XDND_BIN := xdnd-${XDND_VERSION}-binary-Linux-Intel.tgz
+XDND_SRC := xdnd-${XDND_VERSION}-source.tgz
+
+.PHONY : xdnd
+xdnd: debug
+	@strip ${call EXE, testjx}
+	@${RM} -r ${XDND_DIR}
+
+	@mkdir ${XDND_DIR}
+	@cp testjx ${XDND_DIR}/test_xdnd
+	@cp README_xdnd_binary ${XDND_DIR}/README_binary
+	@tar -czf ${XDND_BIN} ${XDND_DIR}/
+	@${RM} -r ${XDND_DIR}
+
+	@mkdir ${XDND_DIR}
+	@cp README_xdnd_source ${XDND_DIR}/README_source
+	@cp ${JX_ROOT}/libjx/code/JXDNDManager.cc \
+        ${JX_ROOT}/libjx/code/JXDNDManager.h \
+        ${JX_ROOT}/libjx/code/JXDNDChooseDropActionDialog.cc \
+        ${JX_ROOT}/libjx/code/JXDNDChooseDropActionDialog.h \
+        ${JX_ROOT}/libjx/code/JXSelectionManager.cc \
+        ${JX_ROOT}/libjx/code/JXSelectionManager.h \
+        ${JX_ROOT}/libjx/code/JXTextSelection.cc \
+        ${JX_ROOT}/libjx/code/JXTextSelection.h \
+        ${JX_ROOT}/libjx/code/jXUtil.cc \
+        ${JX_ROOT}/libjx/code/jXUtil.h \
+        ${XDND_DIR}/
+	@tar -czf ${XDND_SRC} ${XDND_DIR}/
+	@${RM} -r ${XDND_DIR}
+
+	@scpnps . ${XDND_BIN} ${XDND_SRC}
+	@${RM} ${XDND_BIN} ${XDND_SRC}
+
+#
+# XSearch sample distribution
+#
+
+XSEARCH_BIN := xsearch-${XSEARCH_VERSION}-binary-Linux-Intel.tgz
+XSEARCH_SRC := xsearch-${XSEARCH_VERSION}-source.tgz
+
+.PHONY : xsearch
+xsearch: debug
+	@strip ${call EXE, testjx}
+	@${RM} -r ${XSEARCH_DIR}
+
+	@mkdir ${XSEARCH_DIR}
+	@cp testjx ${XSEARCH_DIR}/test_xsearch
+	@cp README_xsearch_binary ${XSEARCH_DIR}/README_binary
+	@tar -czf ${XSEARCH_BIN} ${XSEARCH_DIR}/
+	@${RM} -r ${XSEARCH_DIR}
+
+	@mkdir ${XSEARCH_DIR}
+	@cp README_xsearch_source ${XSEARCH_DIR}/README_source
+	@cp ${JX_ROOT}/libjx/code/JXSearchTextDialog.cc \
+        ${JX_ROOT}/libjx/code/JXSearchTextDialog.h \
+        ${XSEARCH_DIR}/
+	@tar -czf ${XSEARCH_SRC} ${XSEARCH_DIR}/
+	@${RM} -r ${XSEARCH_DIR}
+
+	@until scp ${XSEARCH_BIN} ${XSEARCH_SRC} newplanetsoftware@newplanetsoftware.com:ftp/pub/xsearch/; do echo try again; done
+	@${RM} ${XSEARCH_BIN} ${XSEARCH_SRC}
+
+# DO NOT DELETE THIS LINE -- Code Crusader depends on it.
+
+# This portion of the file was automatically generated by Code Crusader.
+# Do not edit it directly!
+# Any changes you make will be silently overwritten.
+
+# build libraries before main result
+
+# DO NOT DELETE THIS LINE -- Code Crusader depends on it.

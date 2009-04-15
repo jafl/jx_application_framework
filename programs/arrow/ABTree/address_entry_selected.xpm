@@ -1,0 +1,20 @@
+/* XPM */
+static char * address_entry_selected[] = {
+"16 12 5 1",
+" 	c None",
+".	c #66666666CCCC",
+"X	c #B5B5B2B2B5B5",
+"o	c #333333336666",
+"+	c #808080808080",
+" .............. ",
+".XXXXXXXXXXXXXXo",
+".XXX.o.XXXXXXXXo",
+".XXXoooXXXXXXXXo",
+".XXX.o.XXX....Xo",
+".XXoXXXoXXXXXXXo",
+".XoooXoooXXXXXXo",
+".XoooooooX....Xo",
+".XoooooooXXXXXXo",
+".XXXXXXXXXXXXXXo",
+".XXXX+XXXXX+XXXo",
+".oooo ooooo oooo"};

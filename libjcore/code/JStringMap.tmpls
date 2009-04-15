@@ -1,0 +1,14 @@
+// Use this file to define templates
+//
+// To use this file, let S be the type you want to use:
+//
+//   #define JTemplateType S
+//   #include <JStringMap.tmpls>
+//
+//   #undef JTemplateType
+//   #define JTemplateType JStrValue<S>
+//   #include <JHashTable.tmpls>
+
+#include <JStringMap.tmpl>
+#include <JStringMapCursor.tmpl>
+#include <JStrValue.tmpl>

@@ -1,0 +1,23 @@
+/* XPM */
+static char * jx_source_file_selected_small[] = {
+"15 15 5 1",
+" 	c None",
+".	c gray40",
+"X	c gray60",
+"O	c gray50",
+"+	c blue",
+"               ",
+"  ........     ",
+"  .XXXXXX..    ",
+"  .XX+XXX.X.   ",
+"  .X+XXXX...O  ",
+"  .X+XXXXXX.O  ",
+"  .X+XXXXXX.O  ",
+"  .X+XXXXXX.O  ",
+"  .X+XXXXXX.O  ",
+"  .XX+XXXXX.O  ",
+"  .XXXXXXXX.O  ",
+"  .XXXXXXXX.O  ",
+"  ..........O  ",
+"   OOOOOOOOOO  ",
+"               "};

@@ -1,0 +1,8 @@
+0
+okButton::JXEditHelpPrefsDialog::shortcuts::JXLayout "^M"
+obj2::JXEditHelpPrefsDialog::JXLayout "Shell cmd to view URL:"
+cancelButton::JXEditHelpPrefsDialog::JXLayout "Cancel"
+obj4::JXEditHelpPrefsDialog::JXLayout "(use $a in place of address)"
+okButton::JXEditHelpPrefsDialog::JXLayout "OK"
+obj1::JXEditHelpPrefsDialog::JXLayout "(use $u in place of URL)"
+obj3::JXEditHelpPrefsDialog::JXLayout "Shell cmd to send mail:"

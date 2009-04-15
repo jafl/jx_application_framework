@@ -1,0 +1,7 @@
+?package(<Binary>):\
+	needs="X11"\
+	section="Applications"\
+	title="<Program>"\
+	longtitle="<Program>"\
+	command="/usr/X11R6/bin/<Binary>"\
+	icon="/usr/share/icons/mini/<Binary>.xpm"

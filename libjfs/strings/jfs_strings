@@ -1,0 +1,130 @@
+0
+
+# JFSBindingList
+
+UpgradeFromVersion1::JFSBindingList
+"Please check that the bindings have been upgraded correctly.
+
+$f has been replaced by $u and $q, as explained in the on-line help.  Several other options have also been added."
+
+# JXFSEditBindingsDialog
+
+WarnOverwrite::JXFSEditBindingsDialog	"The bindings stored on disk have been modified by another program.  Are you sure that you want to replace them with the contents of this editor window?"
+
+# JXFSBindingTable
+
+CantRemoveSystemBinding::JXFSBindingTable
+"This is a system entry and cannot be removed."
+
+ReplacedBySystem::JXFSBindingTable
+"Your binding has been replaced by the system binding."
+
+PatternUsed::JXFSBindingTable
+"Pattern \"$pattern\" is already in the list."
+
+# JXFSRunFileDialog
+
+RunWithFile::JXFSRunFileDialog	"Command to run for $name:"
+RunWithFiles::JXFSRunFileDialog	"Command to run on the selected file(s):"
+
+# default binding list
+
+DefaultBindingList::JFSBindingList
+
+"2 F F \"/bin/sh -c $q\" \"xterm -title $q -n $q -e $u\"
+\".gif\"  \"eog\" p F
+\".png\"  \"eog\" p F
+\".jpg\"  \"eog\" p F
+\".jpeg\" \"eog\" p F
+\".tif\"  \"eog\" p F
+\".xpm\"  \"eog\" p F
+\".xbm\"  \"eog\" p F
+\".bmp\"  \"eog\" p F
+
+\".mpg\"  \"xmovie\" p T
+\".mpeg\" \"xmovie\" p T
+
+\".doc\" \"abiword\" p F
+\".pdf\" \"xpdf\"    p F
+\".ps\"  \"gv\"      p T
+\".eps\" \"gv\"      p T
+\".txt\" \"jcc\"     p F
+
+\".jcc\"  \"jcc\" p F
+\".jst\"  \"jcc\" p F
+\".c\"    \"jcc\" p F
+\".cc\"   \"jcc\" p F
+\".cpp\"  \"jcc\" p F
+\".h\"    \"jcc\" p F
+\".pl\"   \"jcc\" p F
+\".php3\" \"jcc\" p F
+\".php\"  \"jcc\" p F
+
+\".html\" \"firefox $q\" p T
+
+\".mws\" \"xmaple\" p F
+\".glv\" \"glove\" p F
+
+\".gz\"  \"gunzip\"            p F
+\".Z\"   \"uncompress\"        p F
+\".tar\" \"tar -tf $q | less\" w T
+
+\".fd\" \"jfdesign\" p T
+
+\"^From[[:space:]]+.*.{3}[[:space:]]+.{3}[[:space:]]+[[:digit:]]+[[:space:]]+([[:digit:]]+:)+[[:digit:]]+[[:space:]]+(...[[:space:]])?[[:digit:]]{4}\" \"arrow\" p F
+\"^GDBNotebook database file\" \"buzzer\" p F
+\"^\\\\*\\\\*\\\\* Glove File Format \\\\*\\\\*\\\\*\" \"glove\" p F
+\"^jx_browser_data\"           \"jcc\" p F
+\"^jx_browser_symbol_table\"   \"jcc\" p F
+"
+
+# OS X does a lot for us
+
+DefaultBindingList-OSX::JFSBindingList
+
+"2 F F \"/bin/sh -c $q\" \"xterm -title $q -n $q -e $u\"
+\".gif\"  \"open\" p F
+\".png\"  \"open\" p F
+\".jpg\"  \"open\" p F
+\".jpeg\" \"open\" p F
+\".tif\"  \"open\" p F
+\".xpm\"  \"open\" p F
+\".xbm\"  \"open\" p F
+\".bmp\"  \"open\" p F
+
+\".mpg\"  \"open\" p T
+\".mpeg\" \"open\" p T
+
+\".doc\" \"open\" p F
+\".pdf\" \"open\" p F
+\".ps\"  \"open\" p T
+\".eps\" \"open\" p T
+\".txt\" \"jcc\"  p F
+
+\".jcc\"  \"jcc\" p F
+\".jst\"  \"jcc\" p F
+\".c\"    \"jcc\" p F
+\".cc\"   \"jcc\" p F
+\".cpp\"  \"jcc\" p F
+\".h\"    \"jcc\" p F
+\".pl\"   \"jcc\" p F
+\".php3\" \"jcc\" p F
+\".php\"  \"jcc\" p F
+
+\".html\" \"firefox $q\" p T
+
+\".mws\" \"open\"  p F
+\".glv\" \"glove\" p F
+
+\".gz\"  \"gunzip\"            p F
+\".Z\"   \"uncompress\"        p F
+\".tar\" \"tar -tf $q | less\" w T
+
+\".fd\" \"jfdesign\" p T
+
+\"^From[[:space:]]+.*.{3}[[:space:]]+.{3}[[:space:]]+[[:digit:]]+[[:space:]]+([[:digit:]]+:)+[[:digit:]]+[[:space:]]+(...[[:space:]])?[[:digit:]]{4}\" \"arrow\" p F
+\"^GDBNotebook database file\" \"buzzer\" p F
+\"^\\\\*\\\\*\\\\* Glove File Format \\\\*\\\\*\\\\*\" \"glove\" p F
+\"^jx_browser_data\"           \"jcc\" p F
+\"^jx_browser_symbol_table\"   \"jcc\" p F
+"

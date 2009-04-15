@@ -1,0 +1,6 @@
+0
+itsCloseButton::JXTipOfTheDayDialog::JXLayout "Close"
+title::JXTipOfTheDayDialog::JXLayout "Did you know..."
+itsShowAtStartupCB::JXTipOfTheDayDialog::JXLayout "Show tips at startup"
+itsNextTipButton::JXTipOfTheDayDialog::JXLayout "Next tip"
+itsNextTipButton::JXTipOfTheDayDialog::shortcuts::JXLayout "#N"

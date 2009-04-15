@@ -1,0 +1,22 @@
+/* XPM */
+static char * jx_binary_file_small[] = {
+"15 15 4 1",
+" 	c None",
+".	c gray40",
+"X	c white",
+"o	c gray50",
+"               ",
+"  ........     ",
+"  .XXXXXX..    ",
+"  .XooXoX.X.   ",
+"  .XooXoX...o  ",
+"  .XXXXXXXX.o  ",
+"  .XooXooXX.o  ",
+"  .XooXooXX.o  ",
+"  .XXXXXXXX.o  ",
+"  .XooXooXX.o  ",
+"  .XooXooXX.o  ",
+"  .XXXXXXXX.o  ",
+"  ..........o  ",
+"   oooooooooo  ",
+"               "};

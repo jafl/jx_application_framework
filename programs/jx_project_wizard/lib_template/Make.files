@@ -1,0 +1,7 @@
+-suffix .cc
+
+@lib<Binary>-${<Binary>_LIB_VERSION}.a
+@lib<Binary>-${<Binary>_LIB_VERSION}.so
+
+-prefix ${<Binary>DIR}/
+

@@ -1,0 +1,17 @@
+# This is a comment.
+
+-suffix .cc
+
+@myprog
+
+-prefix ${CODEDIR}/
+
+myprog
+
+#
+# Insert your source files here.
+#
+
+# This insures that your program depends on
+# the correct set of libraries.
+literal: ${LIB_DEPS}

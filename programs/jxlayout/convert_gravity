@@ -1,0 +1,21 @@
+#!/bin/sh
+
+if { test $# -lt 1; } then
+	echo "usage: $0 fdesign_file fdesign_file ...";
+	exit 1;
+fi;
+
+for f in $*; do
+	name=${f%.fd}.fd;
+	cp $name $name~;
+
+#	perl -pi -e 's/gravity: FL_NoGravity FL_NoGravity/gravity: FL_NoGravity FL_NoGravity/g' $name;
+#	perl -pi -e 's/gravity: FL_North FL_NoGravity/gravity: FL_North FL_NoGravity/g' $name;
+	perl -pi -e 's/gravity: FL_North FL_East/gravity: FL_NorthEast FL_NoGravity/g' $name;
+	perl -pi -e 's/gravity: FL_NoGravity FL_East/gravity: FL_East FL_NoGravity/g' $name;
+	perl -pi -e 's/gravity: FL_NoGravity FL_SouthEast/gravity: FL_SouthEast FL_NoGravity/g' $name;
+	perl -pi -e 's/gravity: FL_NoGravity FL_South/gravity: FL_South FL_NoGravity/g' $name;
+	perl -pi -e 's/gravity: FL_West FL_South/gravity: FL_SouthWest FL_NoGravity/g' $name;
+#	perl -pi -e 's/gravity: FL_West FL_NoGravity/gravity: FL_West FL_NoGravity/g' $name;
+#	perl -pi -e 's/gravity: FL_NorthWest FL_NoGravity/gravity: FL_NorthWest FL_NoGravity/g' $name;
+done;

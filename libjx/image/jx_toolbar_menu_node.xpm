@@ -1,0 +1,20 @@
+/* XPM */
+static char * jx_toolbar_menu_node[] = {
+"15 13 4 1",
+" 	c None",
+".	c #E6E6E6E6E6E6",
+"X	c #CCCCCCCCCCCC",
+"o	c #808080808080",
+" ............. ",
+".XXXX....oXXXXo",
+".XooX.XXXoXXXXo",
+".XXXX.ooooXXXXo",
+".XXXX.......oXo",
+" oooo.XXXXXXoo ",
+"     .XoooXXo  ",
+"     .XXXXXXo  ",
+"     .XooooXo  ",
+"     .XXXXXXo  ",
+"     .XoooXXo  ",
+"     .XXXXXXo  ",
+"     .ooooooo  "};

@@ -1,0 +1,155 @@
+# To use this file, first run "makemake" and then run "make".
+# (makemake is part of the JX distribution)
+
+# Useful directories
+
+JX_ROOT := ../..
+
+CODEDIR     := ./code
+JCOREDIR    := ${JX_ROOT}/include/jcore
+JXDIR       := ${JX_ROOT}/include/jx
+JTREEDIR    := ${JX_ROOT}/include/jtree
+JTOOLBARDIR := ${JX_ROOT}/include/jtoolbar
+
+JLIBDIR        := ${JX_ROOT}/lib
+JCORELIBDIR    := ${JX_ROOT}/libjcore
+JXLIBDIR       := ${JX_ROOT}/libjx
+JTREELIBDIR    := ${JX_ROOT}/libjtree
+JTOOLBARLIBDIR := ${JX_ROOT}/libjtoolbar
+ACELIBDIR      := ${JX_ROOT}/ACE
+
+# Directories to search for header files
+
+SEARCHDIRS := -I- \
+              -I${CODEDIR} \
+              -I${JCOREDIR} \
+              -I${JXDIR} \
+              -I${JTREEDIR} \
+              -I${JTOOLBARDIR}
+
+# other constants
+
+PROG_NAME         := myprog
+PROG_SIGNATURE    := myprog
+PROG_VERSION      := 1.0.0
+PROG_STRING_FILES := strings/*
+
+# makemake variables
+
+# This is augmented by each *_constants file
+J_STRING_FILES := ${PROG_STRING_FILES}
+
+include ${JX_ROOT}/include/make/jx_constants
+include ${JX_ROOT}/include/make/jtree_constants
+include ${JX_ROOT}/include/make/jtoolbar_constants
+include ${JX_ROOT}/include/make/jx_config
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
+               ${J_COMPILE_DEBUG} ${SEARCHDIRS}
+
+# library dependencies
+
+ifdef J_BUILD_SHARED_LIB
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.so \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.so \
+              ${JLIBDIR}/libjtree-${JTREE_LIB_VERSION}.so \
+              ${JLIBDIR}/libjtoolbar-${JTOOLBAR_LIB_VERSION}.so
+else
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a \
+              ${JLIBDIR}/libjtree-${JTREE_LIB_VERSION}.a \
+              ${JLIBDIR}/libjtoolbar-${JTOOLBAR_LIB_VERSION}.a
+endif
+
+# make variables
+
+LOADLIBES := ${J_STD_LIBS}
+LDFLAGS   := 
+
+#####
+
+.PHONY : default
+default: libs ${PROG_NAME}
+
+.PHONY : Makefiles
+Makefiles:
+
+#
+# string data
+#
+
+.PHONY : strings
+strings:
+	compile_jstrings ${J_STRING_FILES} \
+      --code kMyDefaultStringData ${CODEDIR}/myStringData.h
+
+.PHONY : stringdb
+stringdb:
+	compile_jstrings ${J_STRING_FILES} --db ${PROG_SIGNATURE}_us
+
+${PROG_NAME}:: strings
+
+#
+# required libraries
+#
+
+.PHONY : libs
+libs:
+	@cd ${JCORELIBDIR};    ${MAKE}
+	@cd ${JXLIBDIR};       ${MAKE}
+	@cd ${JTREELIBDIR};    ${MAKE}
+	@cd ${JTOOLBARLIBDIR}; ${MAKE}
+
+.PHONY : touch
+touch::
+	@cd ${JCORELIBDIR};    ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch
+	@cd ${JXLIBDIR};       ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch
+	@cd ${JTREELIBDIR};    ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch
+	@cd ${JTOOLBARLIBDIR}; ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch
+
+#
+# install binaries
+#
+
+.PHONY : jxinstall
+jxinstall: ${PROG_NAME}
+	@strip ${call EXE, ${PROG_NAME}}
+  ifneq (${J_WANT_INSTALL},0)
+	@mv ${PROG_NAME} ${JX_INSTALL_ROOT}/
+  endif
+
+.PHONY : jxuninstall
+jxuninstall:
+	@${RM} ${JX_INSTALL_ROOT}/${PROG_NAME}
+
+#
+# source distribution
+#
+
+SRC_TAR_FILE := ${PROG_NAME}_source-${PROG_VERSION}.tar.gz
+SRC_FILE_DIR := ${JX}/programs/${PROG_NAME}
+
+.PHONY : source
+source:
+	@cd ${J_DISTR_TAR_DIR}; \
+     tar -czf ${SRC_TAR_FILE} ${filter-out %.o %~, \
+                                ${shell cd ${J_DISTR_TAR_DIR}; echo \
+              ${addprefix ${SRC_FILE_DIR}/, \
+                README LICENSE FAQ Make.* *.fd \
+                code/* ${PROG_STRING_FILES} rpm/* } }}
+
+#
+# debugging version
+#
+
+DEBUG_LOADLIBES := -L${JLIBDIR} \
+                   -Xlinker -Bstatic \
+                   ${ljtoolbar} ${ljtree} ${ljx} ${ljcore} ${J_ACE_LIBS} \
+                   -Xlinker -Bdynamic \
+                   ${J_X11_LIBS} ${J_GCC_LIBS}
+
+.PHONY : debug
+debug: libs
+	@cd ${ACELIBDIR}; ${MAKE} static
+	@${RM} ${PROG_NAME}
+	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" ${PROG_NAME}

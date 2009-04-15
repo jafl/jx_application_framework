@@ -1,0 +1,17 @@
+# JMemoryManager variables
+
+# Sets them all at once--well, allmost all.  Type 'source setallenv' rather than
+# executing so it unsets them in your shell, not a subshell.
+
+setenv JMM_TABLE_TYPE              default
+setenv JMM_INITIALIZE              default
+setenv JMM_SHRED                   default
+setenv JMM_RECORD_ALLOCATED        yes
+setenv JMM_RECORD_DEALLOCATED      yes
+setenv JMM_CHECK_DOUBLE_ALLOCATION yes
+setenv JMM_BROADCAST_ERRORS        yes
+setenv JMM_PRINT_EXIT_STATS        yes
+setenv JMM_PRINT_INTERNAL_STATS    no
+setenv JMM_DISALLOW_DELETE_NULL    no
+setenv JMM_ABORT_UNKNOWN_ALLOC     no
+setenv JMM_NO_PRINT_ERRORS         no

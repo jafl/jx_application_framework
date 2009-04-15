@@ -1,0 +1,12 @@
+0
+itsCloseButton::SyGViewManPageDialog::JXLayout "Close"
+itsHelpButton::SyGViewManPageDialog::JXLayout "Help"
+itsStayOpenCB::SyGViewManPageDialog::JXLayout "Stay open"
+itsAproposCheckbox::SyGViewManPageDialog::shortcuts::JXLayout "#p"
+itsHelpButton::SyGViewManPageDialog::shortcuts::JXLayout "F1"
+itsAproposCheckbox::SyGViewManPageDialog::JXLayout "Apropos"
+obj2_JXLayout::SyGViewManPageDialog::JXLayout "Section index:"
+itsCloseButton::SyGViewManPageDialog::shortcuts::JXLayout "#W^["
+itsViewButton::SyGViewManPageDialog::JXLayout "View"
+itsViewButton::SyGViewManPageDialog::shortcuts::JXLayout "^M"
+obj1_JXLayout::SyGViewManPageDialog::JXLayout "Function name:"

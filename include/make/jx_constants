@@ -1,0 +1,141 @@
+# Constants used in all Makefiles
+
+#
+# version numbers
+#
+
+JX_VERSION  := 2.5.0
+ACE_VERSION := 5.4.7
+
+JX_LIB_VERSION  := 2_5_0
+ACE_LIB_VERSION := 5_4_7
+
+JX := JX-${JX_VERSION}
+
+#
+# useful directories
+#
+
+J_DISTR_TAR_DIR := ${JX_ROOT}/..
+
+# This can't be in jx_config_common because the top-level Makefile can only
+# include jx_constants.
+
+JX_ROOT_BIN_DIRECTORY := /usr/bin
+JX_ROOT_LIB_DIRECTORY := /usr/lib
+
+# Complain if JX_INSTALL_ROOT is set but not usable
+#ifdef JX_INSTALL_ROOT
+#  override JX_INSTALL_ROOT := \
+#    ${shell if { test -d ${JX_INSTALL_ROOT} -a -w ${JX_INSTALL_ROOT}; } \
+#            then { echo ${JX_INSTALL_ROOT}; } \
+#            else { echo; } fi }
+#endif
+
+ifndef JX_INSTALL_ROOT
+  ifeq ($(shell whoami),root)
+    override JX_INSTALL_ROOT := ${JX_ROOT_BIN_DIRECTORY}
+  else
+    override JX_INSTALL_ROOT := \
+      ${shell if { test -d ${HOME}/bin -a -w ${HOME}/bin; } \
+              then { echo ${HOME}/bin; } \
+              else { test -d ${JX_ROOT}/bin || mkdir ${JX_ROOT}/bin; \
+                     cd ${JX_ROOT}/bin; pwd; } fi }
+  endif
+endif
+
+# Don't install libraries because they will overwrite JX.rpm
+#ifndef JX_LIB_ROOT
+#  JX_LIB_ROOT := ${JX_ROOT_LIB_DIRECTORY}
+#endif
+
+#
+# library names
+#
+
+ljcore := -ljcore-${JX_LIB_VERSION}
+ljx    := -ljx-${JX_LIB_VERSION}
+
+#
+# flex
+#
+
+LEX    := flex
+LFLAGS := 
+
+# Change rule from .c to .cpp
+
+%.c : %.l
+
+%.cpp : %.l
+	${LEX} ${LFLAGS} -o$@ $<
+	@perl -n -e 's/^class istream;$$/#include <iostream.h>/; print;' < $@ > $@.new
+	@mv $@.new $@
+
+#
+# bison
+#
+
+YACC   := bison
+YFLAGS := -d
+
+# Change rule from .c to .cpp
+
+%.c : %.y
+
+%.cpp %.hpp : %.y
+	@if test -e $*.hpp; then mv $*.hpp $*.hpp_old; fi
+	@if ! ${YACC} ${YFLAGS} -o $*.cpp $<; then \
+       if test -e $*.hpp_old; then mv $*.hpp_old $*.hpp; fi; \
+       false; fi
+	@if test -e $*.tab.h; then mv $*.tab.h $*.hpp; \
+     elif test -e $*.cpp.h; then mv $*.cpp.h $*.hpp; fi
+	@if test -e $*.hpp_old -a -z "`diff $*.hpp $*.hpp_old 2> /dev/null`"; \
+     then mv $*.hpp_old $*.hpp; fi
+	@${JX_ROOT}/lib/util/fix_bison.pl $*.cpp
+
+#
+# tar
+#
+
+TAR := tar --exclude '*/CVS*' --exclude '*/.svn*' --exclude '*/.xvpics*'
+
+#
+# RPM
+#
+
+RPM_SRC_DIR  := /usr/src/redhat/SOURCES
+RPM_SPEC_DIR := /usr/src/redhat/SPECS
+RPM_BIN_DIR  := /usr/src/redhat/RPMS/i386
+RPM_SRPM_DIR := /usr/src/redhat/SRPMS
+
+RPM := rpmbuild -bb --quiet --clean --rmsource
+
+#
+# JXImage formats
+#
+
+#J_HAS_GD := -D_J_HAS_GD		# adds -lpng -ljpeg at front of J_GCC_LIBS
+
+#
+# string data files
+#
+
+J_STRING_FILES += ${JX_ROOT}/libjcore/strings/* \
+                  ${JX_ROOT}/libjx/strings/*
+
+#
+# for use by Dustin Laurence
+#
+
+DJ_REGEX_DIR := ${JX_ROOT}/include/jcore
+#SEARCHDIRS   := -I- -I${DJ_REGEX_DIR} ${filter-out -I-, ${SEARCHDIRS}}
+
+DJ_HASH_DIR := ${JX_ROOT}/include/jcore
+#SEARCHDIRS  := -I- -I${DJ_HASH_DIR} ${filter-out -I-, ${SEARCHDIRS}}
+
+DJ_RAND_DIR := ${JX_ROOT}/include/jcore
+#SEARCHDIRS  := -I- -I${DJ_RAND_DIR} ${filter-out -I-, ${SEARCHDIRS}}
+
+DJ_MM_DIR  := ${JX_ROOT}/include/jcore
+#SEARCHDIRS := -I- -I${DJ_MM_DIR} ${filter-out -I-, ${SEARCHDIRS}}

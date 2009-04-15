@@ -1,0 +1,7 @@
+#!/bin/csh
+set pfile = JArray-$1.cc
+touch $pfile
+echo "#include <$1.h>" > $pfile
+echo "#define JTemplateType $1" >> $pfile
+echo "#include <JArray.tmpls>" >> $pfile
+

@@ -1,0 +1,26 @@
+/******************************************************************************
+ JXGetPreallocColor.th
+
+	Used by JXColormap
+
+	To use this file:
+
+		#define ColorIndex ____
+		#include <JXGetPreallocColor.th>
+		#undef ColorIndex
+
+	Copyright © 1997 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+unsigned long xPixel;
+if (CalcPreallocatedXPixel(kDefColor[ ColorIndex-1 ].red,
+						   kDefColor[ ColorIndex-1 ].green,
+						   kDefColor[ ColorIndex-1 ].blue, &xPixel))
+	{
+	return xPixel;
+	}
+else
+	{
+	return ColorIndex;
+	}

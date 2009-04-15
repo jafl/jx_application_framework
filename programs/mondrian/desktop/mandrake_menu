@@ -1,0 +1,7 @@
+?package(mondrian):\
+	needs="X11"\
+	section="Applications"\
+	title="Mondrian"\
+	longtitle="Mondrian"\
+	command="/usr/X11R6/bin/mondrian"\
+	icon="/usr/share/icons/mini/mondrian.xpm"

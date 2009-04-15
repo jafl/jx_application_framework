@@ -1,0 +1,76 @@
+#!/usr/bin/perl
+
+use strict;
+
+my $stdinc;
+if (!($stdinc = $ARGV[0]))
+	{
+	print "usage: $0 stdinc\n";
+	exit;
+	}
+
+my $header =
+	'#include <'.$stdinc.'.h>';
+
+foreach my $in_file (<*.cc>)
+	{
+	(my $out_file = $in_file) =~ s/cc$/cpp/;
+
+#	next if substr($in_file, 1, 1) eq 'X';
+
+	open(F, '< '.$in_file);
+
+	my $text;
+	{
+	local $/;
+	$text = <F>;
+	}
+	close(F);
+
+	if ($text !~ /^$header/mo)
+		{
+		print $in_file,' -> ',$out_file,"\n";
+		$text =~ /^#include (.+)/mo;
+		print '    ',$1,"\n";
+
+		$text =~ s/^#include/$header\n#include/mo;
+		}
+
+	$text =~ s/^ $in_file/ $out_file/im;
+
+	open(F, '> '.$out_file);
+	print F $text;
+	close(F);
+	}
+
+$header =
+	"#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE\n".
+	"#pragma once\n".
+	"#endif\n";
+
+foreach my $in_file (<*.h>)
+	{
+	my $out_file = $in_file;
+
+	open(F, '< '.$in_file);
+
+	my $text;
+	{
+	local $/;
+	$text = <F>;
+	}
+	close(F);
+
+	next if $text =~ /^#pragma once/mo;
+
+	print $in_file,"\n";
+	$text =~ /^#include (.+)/mo;
+	print '    ',$1,"\n";
+
+	$text =~ s/^ $in_file/ $out_file/im;
+	$text =~ s/^#include/$header\n#include/mo;
+
+	open(F, '> '.$out_file);
+	print F $text;
+	close(F);
+	}

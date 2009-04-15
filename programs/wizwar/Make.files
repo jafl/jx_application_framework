@@ -1,0 +1,40 @@
+-suffix .cpp
+
+@wiz
+
+-prefix ${CODEDIR}/
+
+wiz
+wizGlobals
+WizApp
+Wiz2War
+WizPlayer
+
+WizConnectDialog
+
+WizChatDirector
+WizChatInput
+WizChatShortcutMenu
+WizChatTargetMenu
+
+WWPlayer
+wwMessages
+wwUtil
+literal: ${LIB_DEPS}
+
+@war
+
+-prefix ${CODEDIR}/
+
+war
+warGlobals
+WarSetup
+
+War2Wiz
+WarPlayer
+WarSocket
+
+WWPlayer
+wwMessages
+wwUtil
+literal: ${LIB_DEPS}

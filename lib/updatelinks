@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# usage:  updatelinks lib_name vers
+
+if { test $# -ne 2; } then
+	echo "usage: updatelinks lib_name vers";
+	exit 1;
+fi;
+
+rm -f lib$1*
+ln -s ../lib$1/lib$1-$2.a  lib$1-$2.a
+ln -s ../lib$1/lib$1-$2.so lib$1-$2.so
+
+rm -f ../lib$1/lib$1-*.a
+rm -f ../lib$1/lib$1-*.so

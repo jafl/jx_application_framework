@@ -1,0 +1,23 @@
+/* XPM */
+static char * jx_file_print[] = {
+"16 14 6 1",
+"  c None",
+"# c #000000",
+"a c #ffffff",
+"b c #808080",
+"c c #ff0000",
+"d c #c0c0c0",
+"   ##########   ",
+"   #aaaaaaaa#   ",
+"   #a#b#aaaa#   ",
+"   #aaaaaaaa#   ",
+"   #a#b#b#ba#   ",
+"   #aaaaaaaa#   ",
+"################",
+"#aaaaaaaaaaaaaa#",
+"#accddddddddddd#",
+"#addddddddddddd#",
+"#addddddddddddd#",
+"################",
+" #bbbbbbbbbbbb# ",
+" ############## "};

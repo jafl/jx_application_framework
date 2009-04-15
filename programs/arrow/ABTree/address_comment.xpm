@@ -1,0 +1,19 @@
+/* XPM */
+static char * address_comment[] = {
+"17 12 4 1",
+" 	c None",
+"x	c #66666666CCCC",
+"X	c #FFFFFFFFFFFF",
+"o	c #333333336666",
+"   xxxxxxxx      ",
+"   xXXXXXXxo     ",
+"   xXXXXXXxXo    ",
+"   xXXXXXXxooo   ",
+"   xXXXXXXXXXo   ",
+"   xXxxxxxxXXo   ",
+"   xXXXXXXXXXo   ",
+"   xXxxxxXXXXo   ",
+"   xXXXXXXXXXo   ",
+"   xXxxxxxXXXo   ",
+"   xXXXXXXXXXo   ",
+"   xoooooooooo   "};

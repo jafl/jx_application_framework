@@ -1,0 +1,7 @@
+?package(arrow):\
+	needs="X11"\
+	section="Applications/Communications"\
+	title="Arrow Email Client"\
+	longtitle="Arrow Email Client"\
+	command="/usr/X11R6/bin/arrow"\
+	icon="/usr/share/icons/mini/arrow.xpm"

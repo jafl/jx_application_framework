@@ -1,0 +1,56 @@
+# ordering: shortcuts col1 col2
+
+JXFlatRect
+	F
+	T	FL_COL1				SetColor
+	F
+
+JXUpRect
+	F
+	T	FL_COL1				SetColor
+	F
+
+JXDownRect
+	F
+	T	FL_COL1				SetColor
+	F
+
+JXEngravedRect
+	F
+	T	FL_COL1				SetColor
+	F
+
+JXStaticText
+	F
+	T	FL_COL1				SetBackgroundColor
+	F
+
+JXTextButton
+	T						SetShortcuts
+	T	FL_COL1				SetNormalColor
+	T	FL_COL1				SetPushedColor
+
+JXImageButton
+	T						SetShortcuts
+	F
+	F
+
+JXTextCheckbox
+	T						SetShortcuts
+	T	FL_COL1				SetNormalColor
+	T	FL_YELLOW			SetPushedColor
+
+JXImageCheckbox
+	T						SetShortcuts
+	F
+	F
+
+JXTextRadioButton
+	T						SetShortcuts
+	T	FL_COL1				SetNormalColor
+	T	FL_YELLOW			SetPushedColor
+
+JXImageRadioButton
+	T						SetShortcuts
+	F
+	F

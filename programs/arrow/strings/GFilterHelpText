@@ -1,0 +1,91 @@
+0
+
+#const JCharacter* kFilterPurposeHelpName	= GFilterHelp#Purpose;
+#const JCharacter* kFilterConditionsHelpName	= GFilterHelp#Conditions;
+#const JCharacter* kFilterActionsHelpName	= GFilterHelp#Actions;
+
+GFilterHelp
+
+"<html>
+<head>
+<title>Setting up filters</title>
+</head>
+<a name=Purpose>
+<b>What is the point of filters?</b>
+<p>
+
+Mail filters are an important way to maintain order in your mailboxes. 
+As the volume of incoming mail goes up, the ability to sift through it and to 
+distinguish the junk mail from the important mail becomes harder and 
+harder. Filters sift the mail for you, before you read it, separating 
+out messages that are important to you. 
+<p>
+
+Filters separate out messages that match various conditions that you 
+specify, and perform an action upon those messages, typically either 
+saving them in a specified mailbox, or forwarded them to another e-mail 
+address. Filters always have to have an action associated with them, 
+but it is possible to have no conditions. If there are no conditions, 
+then any mail not filtered to that point will be acted upon by the actions 
+you specify.
+<p>
+
+<b>Filter dialog</b>
+<p>
+
+The filter dialog contains three tables. The top table is a list of 
+filters, the middle table is a list of the current filter's 
+<a href=jxhelp:GFilterHelp#Conditions>conditions</a>, 
+and the bottom table is a list of the current filter's 
+<a href=jxhelp:GFilterHelp#Actions>actions</a>. 
+<p>
+
+<a name=Conditions>
+<b>Conditions</b>
+<p>
+
+Conditions tell the filter what to look for in a message. For example, 
+you might want all mail from bob@hostname.com to be saved in its own 
+mailbox. When you create a new condition (by clicking on the <i>New</i> 
+button to the right of the condition list), a new line is added to the 
+condition list. Each 
+condition has three columns. The first column specifies where to look. 
+The choices include, the <i>From</i>, <i>To</i>, <i>Cc</i>, <i>Subject</i>, 
+<i>ReplyTo</i>, and <i>AnyTo</i> headers, in addition to <i>Any header</i>, 
+where, <i>AnyTo</i> refers to any header specifying the sender, like 
+<i>To</i>, <i>Cc</i>, <i>Bcc</i>, etc. Finally, the first column can 
+specify to look in the body. 
+
+The second column specifies how the first column relates to the condition. 
+The available relationships specify that the appropriate section of the 
+message <i>Contains</i>, 
+<i>Is</i>, <i>Begins with</i>, or <i>Ends with</i> the pattern in the 
+third column. The pattern in the third column is compared to the section of 
+the message that is refered to in the first column. 
+Patterns can be a single word, or a complex regular expression. 
+ If all conditions 
+are met, the actions in the action list for that filter are performed. 
+<p>
+
+<a name=Actions>
+<b>Actions</b>
+<p>
+
+The actions in a filter's action list are performed whenever all of the 
+filter's conditions are met. There are two possible actions. Either the 
+message that meets the conditions can be saved to a specified mailbox, 
+or the message can be forwarded to another e-mail address. Whenver you 
+specify an action, you must also specify whether the action should be performed 
+on the message itself, or on a copy of the message. If the action is 
+performed on the message itself, all filtering stops. If, on the other 
+hand, the action is performed on a copy of the message, then 
+the filtering process continues on the original message, with the filters 
+listed after the initial matching filter. If you specify multiple actions 
+for one filter, all but the last action <i>must</i> act upon a copy of 
+the message, otherwise there wouldn't be a message left to act upon for the 
+subsequent actions. For this reason, you are only able to set the last 
+action to use the original and not a copy. 
+<p>
+</html>"
+
+;

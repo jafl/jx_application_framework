@@ -1,0 +1,9 @@
+// Use this file to define templates
+//
+// To use this file:
+//
+//   #define JTemplateType ____
+//   #include <JHistogram.tmpls>
+
+#include <JArray.tmpls>
+#include <JHistogram.tmpl>

@@ -1,0 +1,4 @@
+0
+chooseActionButton::GMFilterDialog::actionLayout "Choose"
+removeActionButton::GMFilterDialog::actionLayout "Remove"
+newActionButton::GMFilterDialog::actionLayout "New"

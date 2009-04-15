@@ -1,0 +1,42 @@
+Changes from previous versions
+
+1.1.0
+	Adds output file to .cvsignore.
+
+	To keep Visual C++ happy, output file contains array of strings, each no
+	longer than 2040 characters.
+
+1.0.3
+	Fixed bug so safety save files are ignored.
+
+1.0.2
+	Added --debug option.  This prints all string ID's, making it easy to
+	discover where in a file a problem is occurring.
+
+1.0.1
+	Ignores directories in the argument list.
+
+1.0.0
+    Initial release.
+
+compile_jstrings
+
+    Translating a program into a different language is a nightmare unless all
+the strings are stored separately from the source code.  In order to emulate the
+Macintosh method of storing strings in a separate resource file, JX provides
+JStringManager which loads a string database file during program initialization
+to override the default strings compiled into the binary.  With this system, a
+user only has to place the appropriate database file in either
+~/.jx/string_data/ or /usr/lib/jx/string_data/.
+
+    compile_jstrings was written to allow merging multiple database files (e.g.
+one for the application and one for each library) into a single file that a
+translator can work on and also to generate a source file defining a char* that
+the program can pass to JStringManager (usually via the JXApplication
+constructor) to define the default strings.
+
+    For information on the exact arguments for running compile_jstrings, please
+run "compile_jstrings --help"
+
+    The format of the string database files is explained in
+libjcore/code/JStringManager.cc.

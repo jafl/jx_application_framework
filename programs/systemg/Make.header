@@ -1,0 +1,298 @@
+# To use this file, first run "makemake" and then run "make".
+# (makemake is part of the JX distribution)
+
+# Useful directories
+
+JX_ROOT := ../..
+
+CODEDIR  := ./code
+JCOREDIR := ${JX_ROOT}/include/jcore
+JXDIR    := ${JX_ROOT}/include/jx
+JFSDIR   := ${JX_ROOT}/include/jfs
+
+JLIBDIR     := ${JX_ROOT}/lib
+JCORELIBDIR := ${JX_ROOT}/libjcore
+JXLIBDIR    := ${JX_ROOT}/libjx
+JFSLIBDIR   := ${JX_ROOT}/libjfs
+ACELIBDIR   := ${JX_ROOT}/ACE
+
+# Directories to search for header files
+
+SEARCHDIRS := -I${CODEDIR} \
+              -I${JFSDIR} \
+              -I${JCOREDIR} \
+              -I${JXDIR}
+
+# other constants
+
+SYSTEMG_VERSION  := 2.2.1
+SIGNATURE        := systemg
+SYG_STRING_FILES := ${filter-out %/systemg_menu_strings, \
+                      ${shell echo strings/*}}
+MENU_STRINGS_FILE := strings/systemg_menu_strings
+
+# also defined in .spec
+
+RPM_LIB_PATH := /usr/lib/${SIGNATURE}
+
+# makemake variables
+
+J_STRING_FILES := ${SYG_STRING_FILES}
+
+include ${JX_ROOT}/include/make/jx_constants
+include ${JX_ROOT}/include/make/jfs_constants
+include ${JX_ROOT}/include/make/jx_config
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
+               ${J_MAN_SECTION_VIA_DASH_S} \
+               -DSYSTEM_G \
+               ${J_COMPILE_DEBUG} ${SEARCHDIRS}
+
+TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR} ${JFSLIBDIR}
+
+# library dependencies
+
+ifdef J_BUILD_SHARED_LIB
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.so \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.so \
+              ${JLIBDIR}/libjfs-${JFS_LIB_VERSION}.so 
+else
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a \
+              ${JLIBDIR}/libjfs-${JFS_LIB_VERSION}.a 
+endif
+
+# make variables
+
+LOADLIBES := -L${JLIBDIR} ${ljfs} ${J_STD_LIBS}
+ifdef J_BUILD_SHARED_LIB
+  LDFLAGS   := -Xlinker -R${RPM_LIB_PATH}
+endif
+
+DEBUG_LOADLIBES := -L${JLIBDIR} \
+                   ${J_BEGIN_LINK_STATIC} \
+                   ${ljfs} ${ljx} ${ljcore} ${J_ACE_LIBS} \
+                   ${J_END_LINK_STATIC} \
+                   ${J_X11_LIBS} ${J_GCC_LIBS}
+
+#####
+
+.PHONY : default
+default: libs systemg
+
+.PHONY : Makefiles
+Makefiles:
+
+#
+# string data
+#
+
+.PHONY : strings
+strings:
+	@${RM} ${MENU_STRINGS_FILE}
+	compile_jstrings ${J_STRING_FILES} \
+      --code kSyGDefaultStringData ${CODEDIR}/SyGStringData.h
+
+.PHONY : stringdb
+stringdb:
+	compile_jstrings ${J_STRING_FILES} --db systemg_us
+
+systemg:: strings
+
+.PHONY : menu_strings
+menu_strings:
+	@${JX_ROOT}/lib/util/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
+     -a ${CODEDIR}/SyGActionDefs.h ${JXDIR}/jXActionDefs.h ${JXDIR}/JXTEBase.cpp \
+     -m ${CODEDIR}/*.cpp ${JXDIR}/*.cpp ${JFSDIR}/*.cpp
+
+#
+# required libraries
+#
+
+.PHONY : libs
+libs:
+	@for path in ${TOUCHPATHS}; do ( if cd $$path; then ${MAKE}; fi ) done
+
+#
+# install binaries
+#
+
+.PHONY : jxinstall
+jxinstall: systemg
+	@strip ${call EXE, systemg}
+  ifneq (${J_WANT_INSTALL},0)
+	@cp systemg ${JX_INSTALL_ROOT}/
+  endif
+
+.PHONY : jxuninstall
+jxuninstall:
+	@${RM} ${JX_INSTALL_ROOT}/systemg
+
+#
+# source distribution
+#
+
+SRC_TAR_FILE := System_G_source-${SYSTEMG_VERSION}.tgz
+SRC_FILE_DIR := ${JX}/programs/systemg
+
+.PHONY : source
+source:
+	@cd ${J_DISTR_TAR_DIR}; \
+     ${TAR} -czf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cpp %Y.cpp, \
+                                   ${shell cd ${J_DISTR_TAR_DIR}; echo \
+              ${addprefix ${SRC_FILE_DIR}/, \
+                README* COPYING FAQ Make.* *.jcc *.fd \
+                text/* desktop/* test \
+                code/* strings/* }}}
+
+#
+# binary distributions
+#
+
+SYG := System_G-${SYSTEMG_VERSION}
+
+SYG_SHARED_TAR_NAME := System_G_${SYSTEMG_VERSION}.tar
+
+.PHONY : release_shared
+release_shared: libs
+	@${RM} systemg; ${MAKE} systemg; strip ${call EXE, systemg}
+	@${MAKE} SYG_DISTR_TAR_FILE=${SYG_SHARED_TAR_NAME} distr_sub
+
+.PHONY : release_static
+release_static: static
+	@${MAKE} SYG_DISTR_TAR_FILE=${SYG_SHARED_TAR_NAME} distr_sub
+
+# distr_sub (SYG_DISTR_TAR_FILE)
+
+.PHONY : distr_sub
+distr_sub: menu_strings
+	@${RM} -r ${SYG}
+	@mkdir ${SYG} ${SYG}/lib ${SYG}/docs_HTML
+	@ln -s ../README.binary        ${SYG}/README
+	@ln -s ../COPYING              ${SYG}/COPYING
+	@ln -s ../FAQ                  ${SYG}/FAQ
+	@ln -s ../${call EXE,systemg}  ${SYG}/${call EXE,systemg}
+	@ln -s ../${MENU_STRINGS_FILE} ${SYG}/menu_strings
+	@ln -s ../desktop              ${SYG}/desktop
+ifdef J_RPM_GZ_LIBS
+	@${foreach LIB, ${J_RPM_GZ_LIBS}, \
+         cp ${LIB} ${SYG}/lib/; gzip ${SYG}/lib/${notdir ${LIB}} }
+endif
+	@${JX_ROOT}/lib/util/jxhelp2html \
+         "System G" strings code/SyGHelpText.h ${SYG}/docs_HTML; \
+     cp ${SYG}/docs_HTML/ChangeLog.html ./; \
+     ${JX_ROOT}/lib/util/fix_change_log ChangeLog.html
+	@${TAR} -chf ${SYG_DISTR_TAR_FILE} ${SYG}
+	@${RM} -r ${SYG}
+	@mv ${SYG_DISTR_TAR_FILE} ${J_DISTR_TAR_DIR}/
+
+#
+# RPM
+#
+
+RPM_TAR_FILE  := ${RPM_SRC_DIR}/System_G_${SYSTEMG_VERSION}.tar
+RPM_SPEC_FILE := ${shell pwd}/systemg.spec
+
+.PHONY : release_rpm
+release_rpm: clean_rpm
+	@${MAKE} RPM_SOURCE_TAR_NAME=${SYG_SHARED_TAR_NAME} build_rpm
+	@${MAKE} clean_rpm
+
+# build_rpm (RPM_SOURCE_TAR_NAME)
+
+.PHONY : build_rpm
+build_rpm:
+	@cp ${J_DISTR_TAR_DIR}/${RPM_SOURCE_TAR_NAME} ${RPM_TAR_FILE}
+	@${RPM} ${RPM_SPEC_FILE}
+	@mv ${RPM_BIN_DIR}/*.rpm ${J_DISTR_TAR_DIR}/
+	@chown ${USER}. ${J_DISTR_TAR_DIR}/*.rpm
+	@gzip ${J_DISTR_TAR_DIR}/${RPM_SOURCE_TAR_NAME}
+
+.PHONY : clean_rpm
+clean_rpm:
+	@${RM}    /usr/X11R6/bin/systemg
+	@${RM} -r ${RPM_LIB_PATH}
+	@${RM} -r /usr/share/doc/System_G-*
+	@${RM} -r /usr/share/applnk/NPS_Utilities
+	@${RM} -r /usr/share/gnome/apps/NPS_Utilities
+	@${RM}    `find /usr/share/icons -name systemg.xpm`
+	@${RM}    `find /usr/share/icons -name new_planet_software.xpm`
+	@${RM}    `find /usr/share/pixmaps -name systemg.xpm`
+	@${RM}    `find /usr/share/pixmaps -name new_planet_software.xpm`
+
+#
+# debugging version
+#
+
+.PHONY : debug
+debug: staticACE libs
+	@${RM} systemg
+	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" systemg
+
+.PHONY : staticACE
+staticACE:
+  ifdef J_BUILD_SHARED_LIB
+	@cd ${ACELIBDIR}; ${MAKE} static
+  endif
+
+#
+# static binary
+#
+
+.PHONY : static
+static: debug
+	@${J_STRIP_DEBUG} ${call EXE, systemg}
+
+#
+# internal beta version
+#
+
+.PHONY : ibeta
+ibeta: static
+	@tar -czf ${HOME}/systemg.tgz systemg
+	@mv systemg ${HOME}/bin/systemg_stable
+
+#
+# personal install
+#
+
+.PHONY : personal
+personal: static
+	@mv systemg ${HOME}/bin/
+
+#
+# development backups
+#
+
+.PHONY : zip
+zip: source
+	@cd ${J_DISTR_TAR_DIR}; \
+	 cp ${SRC_TAR_FILE} /mnt/zip
+
+.PHONY : upgrade
+upgrade:
+	@${MAKE} "SRC_TAR_FILE=SystemG_source_upgrade-${SYSTEMG_VERSION}.tar.gz" "J_DISTR_TAR_DIR=${J_DISTR_TAR_DIR}/${JX}" "SRC_FILE_DIR=programs/systemg" source
+
+DATE := ${shell date '+%-m%d'}
+		
+.PHONY : backup
+backup:
+	@${MAKE} "SRC_TAR_FILE=systemg.${DATE}.tgz" source
+
+.PHONY : changes
+changes:
+	@tar -czf systemg.changes.${DATE}.tgz ${shell savechanges}
+
+.PHONY : rmchanges
+rmchanges:
+	@rm ${shell findchanges}
+
+# DO NOT DELETE THIS LINE -- Code Crusader depends on it.
+
+# This portion of the file was automatically generated by Code Crusader.
+# Do not edit it directly!
+# Any changes you make will be silently overwritten.
+
+# build libraries before main result
+
+# DO NOT DELETE THIS LINE -- Code Crusader depends on it.

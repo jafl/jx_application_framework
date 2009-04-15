@@ -1,0 +1,78 @@
+0
+
+# kAccountPOPHelpName	= "GAccountHelp#POP"
+
+GAccountHelp
+
+"<html>
+<head>
+<title>Setting up accounts</title>
+</head>
+If you have multiple accounts, you can set up Arrow to deal with 
+each of those accounts separately. Whenever you send mail, you are 
+presented with a pop-up menu that lets you specify the account 
+from which you want that message to be sent. If you are using POP servers 
+to access your mail, Arrow will automatically select the appropriate 
+account to use when responding to a message. 
+<p>
+
+You create a new account by clicking on the <i>New</i> button on the  
+lower left of the account list. You must then specify the <i>Full Name</i>, 
+<i>E-mail</i> address, the <i>Default inbox</i>, and the <i>SMTP server</i>, 
+which is the outgoing mail server. If you want to, you may also specify a 
+<i>Reply to</i> and a <i>Cc</i> for each account. 
+<p>
+
+<a name=POP>
+<b>Getting your mail from a POP server</b>
+<p>
+
+When your system is not a mail server, you'll need to have 
+some way of downloading mail from one. The most common way of doing 
+this is through a POP server. For each account in the Accounts dialog 
+you can set up Arrow to access you mail from a POP server. 
+<p>
+The first step in configuring POP is to select the check box <i>Use POP 
+server</i> in the. This will enable all of 
+the other POP related settings. 
+<p>
+
+If you want Arrow to leave your mail on the server and only download new 
+messages, select <i>Leave mail on server</i>. If you want Arrow to save 
+your password between sessions, select <i>Save password</i> (though be 
+aware that if you do this, your password is saved as plain text in your 
+preferences file). If the server is set up to use Authenticated POP (APOP) 
+and you have an APOP password, select <i>Use APOP</i>. If you want 
+Arrow to automatically check your mail, select <i>Automatically check 
+mail</i> along with the time delay between checks. Finally, input your 
+POP server into the <i>POP server</i> input field, and your POP account 
+or user name into the <i>POP account</i> input field. 
+
+<p>
+<b>Receiving mail with POP</b>
+<p>
+
+If you have selected <i>Automatically check mail</i>, 
+then Arrow will automatically check your mail with the rate that 
+you specify. Otherwise, you can check your mail at any time by selecting 
+<i>Check mail</i> in the <i>File</i> menu of the message list window. 
+You can also check the mail from a specific account by selecting 
+that account from the <i>Check account</i> item in the <i>File</i> menu. 
+If you have received new 
+mail, each message will be delivered 
+according to the <a href=jxhelp:GFilterHelp>filters</a> that you've 
+specified. If no filters match the messages
+they will be delivered to the default inbox specified in 
+for that account. 
+<p>
+
+<b>Sending mail with POP</b>
+<p>
+
+For the most part, sending mail when using POP is the same as if you 
+were not using POP at all. The one exception is the <i>SMTP user</i> 
+input field. This is the user 
+that sendmail will claim sent the message. If this is not set properly 
+sendmail may not allow you to send any messages. Typically, this should 
+be set to your user name on the POP server.
+</html>"

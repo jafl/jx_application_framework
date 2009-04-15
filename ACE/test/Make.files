@@ -1,0 +1,40 @@
+-suffix .cpp
+
+@client
+${CODEDIR}/client
+${CODEDIR}/util
+literal: ${LIB_DEPS}
+
+@server
+${CODEDIR}/server
+${CODEDIR}/util
+literal: ${LIB_DEPS}
+
+
+@evt_client
+
+-prefix ${CODEDIR}/
+
+evt_client
+unix_handlers
+inet_handlers
+util
+literal: ${LIB_DEPS}
+
+@evt_server
+
+-prefix ${CODEDIR}/
+
+evt_server
+unix_handlers
+inet_handlers
+util
+literal: ${LIB_DEPS}
+
+
+@dynamic_loader
+${CODEDIR}/dynamic_loader
+literal: ${LIB_DEPS}
+
+@dynamic_loaded.so
+${CODEDIR}/dynamic_loaded

@@ -1,0 +1,113 @@
+#!/usr/bin/perl
+
+use strict;
+
+#
+# Subroutines
+#
+
+sub ParseActionDef($$)
+{
+	my ($file, $action_ref) = @_;
+
+	open(F, "< $file");
+	while (<F>)
+		{
+		if (/^\s*#define\s+([A-Za-z0-9_]+)\s+"([^"]+)"\s*$/)
+			{
+			$$action_ref{$1} = $2;
+			}
+		}
+	close(F);
+}
+
+# "%l| Quit %k Meta-Q %i" kJXQuitAction;
+
+sub ParseMenuDef($$$$)
+{
+	my ($input_file_name, $action_ref, $output_file, $id_list_ref) = @_;
+
+	my $class_name =  $input_file_name;
+	$class_name    =~ s|.*/||;			# remove path
+	$class_name    =~ s|\.[^.]+$||;		# remove suffix
+
+	open(F, "< $input_file_name");
+	while (<F>)
+		{
+		if (/^\s*"(%l\||\s*\|)?\s*(.+)\s+%i"\s+([A-Za-z0-9_]+);?\s*$/)
+			{
+			my $id = $$action_ref{$3}."::".$class_name;
+			my $s  = $2;
+			if (!exists $$id_list_ref{$id})
+				{
+				$$id_list_ref{$id} = 1;
+
+				$s =~ s/%[dlbBrR]//g;		# remove unprocessed options (d,l,b,r)
+				$s =~ s/\s+$//;				# trim trailing whitespace
+				$s =~ s/\s{2,}/ /g;			# compress whitespace
+
+				print $output_file "\n".
+								   $id."\n".
+								   "\"$s\"\n";
+
+				if ($s =~ /%i|\|/)
+					{
+					print STDERR $input_file_name.":$.\n$_\n\n";
+					}
+				}
+			}
+		elsif (/%i/ &&
+			   !($input_file_name =~ m|/JXTextMenuData\.cc$| &&
+				 ($. == 328 || $. == 414)))
+			{
+			print STDERR $input_file_name.":$.\n$_\n\n";
+			}
+		}
+	close(F);
+}
+
+#
+# main code starts here
+#
+
+my $output_name       = shift(@ARGV);
+my $program_signature = shift(@ARGV);
+if (@ARGV < 4 || shift(@ARGV) ne "-a")
+	{
+	print STDERR "usage:  $0 output_name -a action_def_header_file ... -m menu_def_source_file ...\n";
+	exit(1);
+	}
+
+my %action;
+while (@ARGV > 0 && (my $file = shift(@ARGV)) ne "-m")
+	{
+	ParseActionDef($file, \%action);
+	}
+
+if (@ARGV == 0)
+	{
+	print STDERR "$0:  forgot to include menu_def_source_file\n";
+	exit(1);
+	}
+
+open(OUTPUT, "> $output_name");
+print OUTPUT <<EOH;
+0
+
+# This file contains the text of the menu items used by the program.  If
+# you wish to change the menu shortcuts, edit the strings in quotes, copy
+# this file to ~/.jx/string_data/, name it ${program_signature}, and
+# restart the program.
+#
+# Shortcuts can use the modifier keys Ctrl, Shift, Meta, Alt, Super, Hyper,
+# and Mod1 through Mod5.  Function keys are refered to as F1 through F35.
+
+EOH
+
+my %id_list;
+while (@ARGV > 0)
+	{
+	my $file = shift(@ARGV);
+	ParseMenuDef($file, \%action, *OUTPUT{IO}, \%id_list);
+	}
+close(OUTPUT);

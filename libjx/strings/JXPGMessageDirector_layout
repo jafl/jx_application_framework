@@ -1,0 +1,5 @@
+0
+itsSaveButton::JXPGMessageDirector::JXLayout "Save"
+itsCloseButton::JXPGMessageDirector::shortcuts::JXLayout "^["
+itsCloseButton::JXPGMessageDirector::JXLayout "Close"
+itsPrintButton::JXPGMessageDirector::JXLayout "Print"

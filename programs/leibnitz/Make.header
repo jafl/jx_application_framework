@@ -1,0 +1,295 @@
+# To use this file, first run "makemake" and then run "make".
+# (makemake is part of the JX distribution)
+
+# Useful directories
+
+JX_ROOT := ../..
+
+CODEDIR    := ./code
+JCOREDIR   := ${JX_ROOT}/include/jcore
+JXDIR      := ${JX_ROOT}/include/jx
+JEXPRDIR   := ${JX_ROOT}/include/jexpr
+J2DPLOTDIR := ${JX_ROOT}/include/j2dplot
+J3DDIR     := ${JX_ROOT}/include/j3d
+MESADIR    := ${JX_ROOT}/include/Mesa
+MESA1DIR   := ${JX_ROOT}/include/Mesa/GL
+
+JLIBDIR       := ${JX_ROOT}/lib
+JCORELIBDIR   := ${JX_ROOT}/libjcore
+JXLIBDIR      := ${JX_ROOT}/libjx
+JEXPRLIBDIR   := ${JX_ROOT}/libjexpr
+J2DPLOTLIBDIR := ${JX_ROOT}/libj2dplot
+J3DLIBDIR     := ${JX_ROOT}/libj3d
+ACELIBDIR     := ${JX_ROOT}/ACE
+
+# Directories to search for header files
+
+SEARCHDIRS := -I${CODEDIR} \
+              -I${JCOREDIR} \
+              -I${JXDIR} \
+              -I${JEXPRDIR} \
+              -I${J2DPLOTDIR} \
+              -I${J3DDIR} \
+              -I${MESADIR} \
+              -I${MESA1DIR}
+
+# other constants
+
+LEIBNITZ_VERSION  := 2.0.0
+SIGNATURE         := leibnitz
+LN_STRING_FILES   := ${filter-out %/leibnitz_menu_strings, \
+                       ${shell echo strings/*}}
+MENU_STRINGS_FILE := strings/leibnitz_menu_strings
+
+# also defined in .spec
+
+RPM_LIB_PATH := /usr/lib/${SIGNATURE}
+
+# makemake variables
+
+J_STRING_FILES := ${LN_STRING_FILES}
+
+include ${JX_ROOT}/include/make/jx_constants
+include ${JX_ROOT}/include/make/j2dplot_constants
+include ${JX_ROOT}/include/make/j3d_constants
+include ${JX_ROOT}/include/make/jexpr_constants
+include ${JX_ROOT}/include/make/jx_config
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
+               ${J_COMPILE_DEBUG} ${SEARCHDIRS}
+
+TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR} ${JEXPRLIBDIR} \
+              ${J2DPLOTLIBDIR} ${J3DLIBDIR}
+
+# library dependencies
+
+ifdef J_BUILD_SHARED_LIB
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.so \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.so \
+              ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.so \
+              ${JLIBDIR}/libj2dplot-${J2DPLOT_LIB_VERSION}.so \
+              ${JLIBDIR}/libj3d-${J3D_LIB_VERSION}.so
+else
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a \
+              ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.a \
+              ${JLIBDIR}/libj2dplot-${J2DPLOT_LIB_VERSION}.a \
+              ${JLIBDIR}/libj3d-${J3D_LIB_VERSION}.a
+endif
+
+# make variables
+
+LOADLIBES := -L${JLIBDIR} ${lj3d} ${lj2dplot} ${ljexpr} ${J_MESA_LIBS} ${J_STD_LIBS}
+ifdef J_BUILD_SHARED_LIB
+  LDFLAGS := -Xlinker -R${RPM_LIB_PATH}
+endif
+
+#####
+
+.PHONY : default
+default: libs leibnitz
+
+.PHONY : Makefiles
+Makefiles:
+
+#
+# string data
+#
+
+.PHONY : strings
+strings:
+	@${RM} ${MENU_STRINGS_FILE}
+	compile_jstrings ${J_STRING_FILES} \
+      --code kTHXDefaultStringData ${CODEDIR}/thxStringData.h
+
+.PHONY : stringdb
+stringdb:
+	compile_jstrings ${J_STRING_FILES} --db leibnitz_us
+
+leibnitz:: strings
+
+.PHONY : menu_strings
+menu_strings:
+	@${JX_ROOT}/lib/util/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
+     -a ${JXDIR}/jXActionDefs.h ${JXDIR}/JXTEBase.cpp \
+     -m ${CODEDIR}/*.cpp ${JXDIR}/*.cpp ${JEXPRDIR}/*.cpp \
+        ${J2DPLOTDIR}/*.cpp ${J3DDIR}/*.cpp
+
+#
+# required libraries
+#
+
+.PHONY : libs
+libs:
+	@for path in ${TOUCHPATHS}; do ( if cd $$path; then ${MAKE}; fi ) done
+
+#
+# install binaries
+#
+
+.PHONY : jxinstall
+jxinstall: leibnitz
+	@strip ${call EXE, leibnitz}
+  ifneq (${J_WANT_INSTALL},0)
+	@cp leibnitz ${JX_INSTALL_ROOT}/
+  endif
+
+.PHONY : jxuninstall
+jxuninstall:
+	@${RM} ${JX_INSTALL_ROOT}/leibnitz
+
+#
+# source distribution
+#
+
+SRC_TAR_FILE := Leibnitz_source-${LEIBNITZ_VERSION}.tar.gz
+SRC_FILE_DIR := ${JX}/programs/leibnitz
+
+.PHONY : source
+source:
+	@cd ${J_DISTR_TAR_DIR}; \
+     ${TAR} -czf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cpp %Y.cpp, \
+                                   ${shell cd ${J_DISTR_TAR_DIR}; echo \
+              ${addprefix ${SRC_FILE_DIR}/, \
+                README.* COPYING FAQ Make.* *.jcc *.fd \
+                code/* ${LN_STRING_FILES} rpm/* desktop/* } }}
+
+#
+# binary distributions
+#
+
+LN := Leibnitz-${LEIBNITZ_VERSION}
+
+LN_TAR_DIR := ${shell pwd}
+
+LN_SHARED_TAR_NAME := Leibnitz_${LEIBNITZ_VERSION}.tar
+
+.PHONY : release_shared
+release_shared: libs
+	@${RM} leibnitz; ${MAKE} leibnitz; strip ${call EXE, leibnitz}
+	@${MAKE} LN_DISTR_TAR_FILE=${LN_SHARED_TAR_NAME} distr_sub
+
+.PHONY : release_static
+release_static: debug
+	@strip ${call EXE, leibnitz}
+	@${MAKE} LN_DISTR_TAR_FILE=${LN_SHARED_TAR_NAME} distr_sub
+
+# distr_sub (LN_DISTR_TAR_FILE)
+
+.PHONY : distr_sub
+distr_sub: menu_strings
+	@${RM} -r ${LN}
+	@mkdir ${LN} ${LN}/lib ${LN}/docs_HTML
+	@ln -s ../README.binary                  ${LN}/README
+	@ln -s ../COPYING                        ${LN}/COPYING
+	@ln -s ../FAQ                            ${LN}/FAQ
+	@ln -s ../${call EXE,leibnitz}           ${LN}/${call EXE,leibnitz}
+ifdef J_BUILD_SHARED_LIB
+	@ln -s ../../${JX_ROOT}/lib/libGL.so.1   ${LN}/lib/libGL.so.1
+	@ln -s ../../${JX_ROOT}/lib/libGLU.so.1  ${LN}/lib/libGLU.so.1
+	@ln -s ../../${JX_ROOT}/lib/libglut.so.3 ${LN}/lib/libglut.so.3
+endif
+	@ln -s ../${MENU_STRINGS_FILE}           ${LN}/menu_strings
+	@ln -s ../desktop                        ${LN}/desktop
+ifdef J_RPM_GZ_LIBS
+	@${foreach LIB, ${J_RPM_GZ_LIBS}, \
+         cp ${LIB} ${LN}/lib/; gzip ${LN}/lib/${notdir ${LIB}} }
+endif
+	@${JX_ROOT}/lib/util/jxhelp2html \
+         "Leibnitz" strings code/thxHelpText.h ${LN}/docs_HTML; \
+     cp ${LN}/docs_HTML/ChangeLog.html ./; \
+     ${JX_ROOT}/lib/util/fix_change_log ChangeLog.html
+	@${TAR} -chf ${LN_DISTR_TAR_FILE} ${LN}
+	@${RM} -r ${LN}
+	@mv ${LN_DISTR_TAR_FILE} ${J_DISTR_TAR_DIR}/
+
+#
+# RPM
+#
+
+RPM_TAR_FILE  := ${RPM_SRC_DIR}/Leibnitz_${LEIBNITZ_VERSION}.tar
+RPM_SPEC_FILE := ${shell pwd}/leibnitz.spec
+
+.PHONY : release_rpm
+release_rpm: clean_rpm
+	@${MAKE} RPM_SOURCE_TAR_NAME=${LN_SHARED_TAR_NAME} build_rpm
+	@${MAKE} clean_rpm
+
+# build_rpm (RPM_SOURCE_TAR_NAME)
+
+.PHONY : build_rpm
+build_rpm:
+	@cp ${J_DISTR_TAR_DIR}/${RPM_SOURCE_TAR_NAME} ${RPM_TAR_FILE}
+	@${RPM} ${RPM_SPEC_FILE}
+	@mv ${RPM_BIN_DIR}/*.rpm ${J_DISTR_TAR_DIR}/
+	@chown ${USER}. ${J_DISTR_TAR_DIR}/*.rpm
+	@gzip ${J_DISTR_TAR_DIR}/${RPM_SOURCE_TAR_NAME}
+
+.PHONY : clean_rpm
+clean_rpm:
+	@${RM}    /usr/X11R6/bin/leibnitz
+	@${RM} -r ${RPM_LIB_PATH}
+	@${RM} -r /usr/share/doc/Leibnitz-*
+	@${RM} -r /usr/share/applnk/NPS_Utilities
+	@${RM} -r /usr/share/gnome/apps/NPS_Utilities
+	@${RM}    `find /usr/share/icons -name leibnitz.xpm`
+	@${RM}    `find /usr/share/icons -name new_planet_software.xpm`
+	@${RM}    `find /usr/share/pixmaps -name leibnitz.xpm`
+	@${RM}    `find /usr/share/pixmaps -name new_planet_software.xpm`
+
+#
+# debugging version
+#
+
+DEBUG_LOADLIBES := -L${JLIBDIR} \
+                   ${J_BEGIN_LINK_STATIC} \
+                   ${lj3d} ${lj2dplot} ${ljexpr} \
+                   ${ljx} ${ljcore} ${J_ACE_LIBS} \
+                   ${J_END_LINK_STATIC} \
+                   ${J_MESA_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
+
+.PHONY : debug
+debug: staticACE libs
+	@${RM} leibnitz
+	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" leibnitz
+
+.PHONY : staticACE
+staticACE:
+  ifdef J_BUILD_SHARED_LIB
+	@cd ${ACELIBDIR}; ${MAKE} static
+  endif
+
+#
+# static binary
+#
+
+.PHONY : static
+static: debug
+	@${J_STRIP_DEBUG} ${call EXE, leibnitz}
+
+#
+# internal beta version
+#
+
+.PHONY : ibeta
+ibeta: static
+	@tar -czf ${HOME}/leibnitz.tgz leibnitz
+	@mv leibnitz ${HOME}/bin/leibnitz_stable
+
+#
+# personal install
+#
+
+.PHONY : personal
+personal: static
+	@cp leibnitz ${HOME}/bin/
+
+# DO NOT DELETE THIS LINE -- Code Crusader depends on it.
+
+# This portion of the file was automatically generated by Code Crusader.
+# Do not edit it directly!
+# Any changes you make will be silently overwritten.
+
+# build libraries before main result
+
+# DO NOT DELETE THIS LINE -- Code Crusader depends on it.

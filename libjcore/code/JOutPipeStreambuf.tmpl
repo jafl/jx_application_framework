@@ -1,0 +1,165 @@
+/******************************************************************************
+ JOutPipeStreambuf.cpp
+
+	This class implements an unbuffered streambuf for the write end of a pipe.
+
+	http://www.horstmann.com/cpp/iostreams.html
+	http://www.codeproject.com/vcpp/stl/custom_iostream_streams.asp
+
+	BASE CLASS = std::basic_streambuf
+
+	Copyright © 2006 by John Lindal. All rights reserved.
+
+ *****************************************************************************/
+
+#include <JCoreStdInc.h>
+#include <JOutPipeStreambuf.h>
+#include <unistd.h>
+#include <jErrno.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ *****************************************************************************/
+
+template<typename _CharT, typename _Traits>
+JOutPipeStreambuf<_CharT, _Traits>::JOutPipeStreambuf
+	(
+	const int		fd,
+	const JBoolean	close
+	)
+	:
+	itsDescriptor(fd),
+	itsCloseFlag(close)
+{
+}
+
+/******************************************************************************
+ Destructor
+
+ *****************************************************************************/
+
+template<typename _CharT, typename _Traits>
+JOutPipeStreambuf<_CharT, _Traits>::~JOutPipeStreambuf()
+{
+	close();
+}
+
+/******************************************************************************
+ GetDescriptor
+
+ *****************************************************************************/
+
+template<typename _CharT, typename _Traits>
+int
+JOutPipeStreambuf<_CharT, _Traits>::GetDescriptor()
+{
+	return itsDescriptor;
+}
+
+/******************************************************************************
+ Closing the underlying pipe
+
+ *****************************************************************************/
+
+template<typename _CharT, typename _Traits>
+JBoolean
+JOutPipeStreambuf<_CharT, _Traits>::WillClosePipe()
+	const
+{
+	return itsCloseFlag;
+}
+
+template<typename _CharT, typename _Traits>
+void
+JOutPipeStreambuf<_CharT, _Traits>::ShouldClosePipe
+	(
+	const JBoolean close
+	)
+{
+	itsCloseFlag = close;
+}
+
+/******************************************************************************
+ close
+
+	This only closes the underlying file descriptor if itsCloseFlag is set.
+
+ *****************************************************************************/
+
+template<typename _CharT, typename _Traits>
+void
+JOutPipeStreambuf<_CharT, _Traits>::close()
+{
+	if (itsCloseFlag)
+		{
+		if (::close(itsDescriptor) != 0)
+			{
+			cerr << "JOutPipeStreambuf failed to close pipe: " << jerrno() << endl;
+			}
+		itsCloseFlag = kJFalse;
+		}
+}
+
+/******************************************************************************
+ xsputn (virtual protected)
+
+ *****************************************************************************/
+
+template<typename _CharT, typename _Traits>
+std::streamsize
+JOutPipeStreambuf<_CharT, _Traits>::xsputn
+	(
+	const _CharT*	s,
+	std::streamsize	n
+	)
+{
+	while (1)
+		{
+		ssize_t result = ::write(itsDescriptor, s, n);
+		if (result == n)
+			{
+//			cerr << "xsputn: ";
+//			cerr.write(s, n);
+//			cerr << endl;
+			return n;
+			}
+
+		int err = jerrno();
+		if (err != EINTR)
+			{
+			return _Traits::eof();
+			}
+		}
+}
+
+/******************************************************************************
+ overflow (virtual protected)
+
+ *****************************************************************************/
+
+template<typename _CharT, typename _Traits>
+typename JOutPipeStreambuf<_CharT, _Traits>::int_type
+JOutPipeStreambuf<_CharT, _Traits>::overflow
+	(
+	int_type c
+	)
+{
+	while (1)
+		{
+		_CharT ch = (_CharT) c;
+		ssize_t result = ::write(itsDescriptor, (void*) &ch, sizeof(ch));
+		if (result == sizeof(ch))
+			{
+//			cerr << "overflow: " << ch << endl;
+			return 1;
+			}
+
+		int err = jerrno();
+		if (err != EINTR)
+			{
+			return 0;
+			}
+		}
+}

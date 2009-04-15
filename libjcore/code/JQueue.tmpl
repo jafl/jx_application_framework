@@ -1,0 +1,292 @@
+#ifndef _T_JQueue
+#define _T_JQueue
+
+/******************************************************************************
+ JQueue.cc
+
+								The Queue Class
+
+	This class manages a queue.  The first template argument must be
+	a derived class of JOrderedSet.  The second template argument is the
+	data type of the stack.
+
+	Refer to JArray.tmpl for warning associated with using JArray's.
+
+	BASE CLASS = public JContainer
+
+	Copyright © 1993-97 John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JQueue.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T, class S>
+JQueue<T,S>::JQueue()
+	:
+	JContainer()
+{
+	itsElements = new S;
+	assert( itsElements != NULL );
+
+	InstallOrderedSet(itsElements);
+}
+
+/******************************************************************************
+ Copy constructor
+
+ ******************************************************************************/
+
+template <class T, class S>
+JQueue<T,S>::JQueue
+	(
+	const JQueue<T,S>& source
+	)
+	:
+	JContainer(source)
+{
+	itsElements = new S(*(source.itsElements));
+	assert( itsElements != NULL );
+
+	InstallOrderedSet(itsElements);
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <class T, class S>
+JQueue<T,S>::~JQueue()
+{
+	delete itsElements;
+}
+
+/******************************************************************************
+ Assignment operator
+
+ ******************************************************************************/
+
+template <class T, class S>
+const JQueue<T,S>&
+JQueue<T,S>::operator=
+	(
+	const JQueue<T,S>& source
+	)
+{
+	if (this == &source)
+		{
+		return *this;
+		}
+
+	JContainer::operator=(source);
+
+	*itsElements = *(source.itsElements);
+	return *this;
+}
+
+/******************************************************************************
+ Append
+
+	Add a new element to the end of the queue.
+
+ ******************************************************************************/
+
+template <class T, class S>
+void
+JQueue<T,S>::Append
+	(
+	const T& newElement
+	)
+{
+	itsElements->AppendElement(newElement);
+}
+
+/******************************************************************************
+ GetNext
+
+	Remove the first element from the queue and return it.
+
+ ******************************************************************************/
+
+template <class T, class S>
+T
+JQueue<T,S>::GetNext()
+{
+	const T data = itsElements->GetElement(1);
+	itsElements->RemoveElement(1);
+	return data;
+}
+
+template <class T, class S>
+JBoolean
+JQueue<T,S>::GetNext
+	(
+	T* element
+	)
+{
+	if (!IsEmpty())
+		{
+		*element = itsElements->GetElement(1);
+		itsElements->RemoveElement(1);
+		return kJTrue;
+		}
+	else
+		{
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ PeekNext
+
+	Return the first element in the queue without removing it.
+
+ ******************************************************************************/
+
+template <class T, class S>
+const T
+JQueue<T,S>::PeekNext()
+{
+	return itsElements->GetElement(1);
+}
+
+template <class T, class S>
+JBoolean
+JQueue<T,S>::PeekNext
+	(
+	T* element
+	)
+{
+	if (!IsEmpty())
+		{
+		*element = itsElements->GetElement(1);
+		return kJTrue;
+		}
+	else
+		{
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ PeekNext
+
+	Return the specified element in the queue without removing it.
+
+ ******************************************************************************/
+
+template <class T, class S>
+const T
+JQueue<T,S>::PeekNext
+	(
+	const JIndex index
+	)
+{
+	return itsElements->GetElement(index);
+}
+
+template <class T, class S>
+JBoolean
+JQueue<T,S>::PeekNext
+	(
+	const JIndex	index,
+	T*				element
+	)
+{
+	if (IndexValid(index))
+		{
+		*element = itsElements->GetElement(index);
+		return kJTrue;
+		}
+	else
+		{
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ Flush
+
+	Remove all the elements from the queue.
+
+ ******************************************************************************/
+
+template <class T, class S>
+void
+JQueue<T,S>::Flush()
+{
+	itsElements->RemoveAll();
+}
+
+/******************************************************************************
+ Discard
+
+	Remove the first few elements from the queue.
+
+ ******************************************************************************/
+
+template <class T, class S>
+void
+JQueue<T,S>::Discard
+	(
+	const JSize numToDiscard
+	)
+{
+	JSize numDiscarded = 0;
+	while (numDiscarded < numToDiscard && !itsElements->IsEmpty())
+		{
+		itsElements->RemoveElement(1);
+		numDiscarded++;
+		}
+}
+
+/******************************************************************************
+ GetElements (protected)
+
+ ******************************************************************************/
+
+template <class T, class S>
+S*
+JQueue<T,S>::GetElements()
+{
+	return itsElements;
+}
+
+/******************************************************************************
+ NewIterator
+
+	This provides an iterator for looking at all the elements in the Queue.
+	The caller must delete the iterator.
+
+ ******************************************************************************/
+
+template <class T, class S>
+JOrderedSetIterator<T>*
+JQueue<T,S>::NewIterator()
+{
+	return itsElements->NewIterator();
+}
+
+template <class T, class S>
+JOrderedSetIterator<T>*
+JQueue<T,S>::NewIterator()
+	const
+{
+	return itsElements->NewIterator();
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JQueue
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

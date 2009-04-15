@@ -1,0 +1,7 @@
+?package(glove):\
+	needs="X11"\
+	section="Applications/Scientific"\
+	title="Glove"\
+	longtitle="Glove Data Analysis Tool"\
+	command="/usr/X11R6/bin/glove"\
+	icon="/usr/share/icons/mini/glove.xpm"

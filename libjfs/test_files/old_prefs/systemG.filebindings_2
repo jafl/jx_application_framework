@@ -1,0 +1,24 @@
+2 T T "/bin/sh -c $q" "xterm -title $q -n $q -e $u"
+"" "jcc" p F
+".c" "jcc" p F
+".cc" "jcc" p F
+".fd" "jfdesign" p T
+".gif" "xv" p F
+".h" "jcc" p F
+".html" "jcc" p F
+".jcc" "jcc" p F
+".jpg" "xv" p F
+".jst" "jcc" p F
+".mpeg" "xmovie" p T
+".mpg" "xmovie" p T
+".ph" "jcc" p F
+".php3" "jcc" p F
+".pl" "jcc" p F
+".spec" "jcc" p F
+".th" "jcc" p F
+".tmpl" "jcc" p F
+".txt" "jcc" p F
+".xbm" "xv" p F
+".xpm" "xv" p F
+".Z" "gunzip" p F
+"^GDBNotebook database file" "buzzer" p F

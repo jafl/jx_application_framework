@@ -1,0 +1,11 @@
+BASIC RC LOW-PASS FILTER
+*
+R	1	2	1K
+C	2	0	1U
+*
+VS	1	0	AC	1	0
+*
+.AC
+.PROBE
+*
+.END

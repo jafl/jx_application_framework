@@ -1,0 +1,3 @@
+0
+newFilterButton::GMFilterDialog::filterLayout "New"
+removeFilterButton::GMFilterDialog::filterLayout "Remove"

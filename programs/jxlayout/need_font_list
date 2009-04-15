@@ -1,0 +1,11 @@
+# This file tells which objects accept the XForms label info
+
+JXStaticText
+
+JXTextButton
+JXTextCheckbox
+JXTextRadioButton
+
+JXStringInput
+JXFloatInput
+JXIntegerInput

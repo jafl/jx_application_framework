@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# usage:  updateacelinks vers
+
+if { test $# -ne 2; } then
+	echo "usage: updateacelinks vers_ vers.";
+	exit 1;
+fi;
+
+rm -f libACE*
+ln -s ../ACE/ACE_wrappers/ace/libACE.a  libACE-$1.a
+ln -s ../ACE/ACE_wrappers/ace/libACE.so libACE-$1.so
+ln -s ../ACE/ACE_wrappers/ace/libACE.so.$2

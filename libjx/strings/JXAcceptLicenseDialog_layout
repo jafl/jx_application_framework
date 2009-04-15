@@ -1,0 +1,3 @@
+0
+yesButton::JXAcceptLicenseDialog::JXLayout "I accept"
+noButton::JXAcceptLicenseDialog::JXLayout "I do not accept"

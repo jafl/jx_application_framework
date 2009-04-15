@@ -1,0 +1,101 @@
+-suffix .cpp
+
+@makemake
+
+-prefix ${CODEDIR}/
+
+makemake
+
+-prefix ${JCOREDIR}/
+
+JBroadcaster
+JCollection
+JContainer
+JProbDistr
+JOrderedSetT
+JOrderedSetUtil
+JString
+JIndexRange
+JSubstitute
+jCommandLine
+jStreamUtil
+jStreamUtil_UNIX
+jFStreamUtil
+jFStreamUtil_UNIX
+jFileUtil
+jFileUtil_UNIX
+jDirUtil
+jDirUtil_UNIX
+jMountUtil_UNIX
+jSysUtil_UNIX
+jVCSUtil
+JKLRand
+JError
+JStdError
+JRTTIBase
+JProgressDisplay
+jMemory
+jMath
+jAssert
+JAssertBase
+
+jGlobals
+jGlobals_UNIX
+JUserNotification
+JTextUserNotification
+JChooseSaveFile
+JTextChooseSaveFile
+JCreateProgressDisplay
+JCreateTextPG
+JProgressDisplay
+JTextProgressDisplay
+JLatentPG
+
+JProcess
+JProcessError
+JThisProcess
+jProcessUtil
+jProcessUtil_UNIX
+jSignal
+
+JDirInfo
+JDirInfo_UNIX
+JDirEntry
+
+JStringManager
+
+Templates-int
+Templates-long
+Templates-ulong
+Templates-longlong
+Templates-double
+JPtrArray-JString
+Templates-JString
+
+-prefix ${DJ_REGEX_DIR}/
+
+JRegex
+JInterpolate
+
+-prefix ${DJ_HASH_DIR}/
+
+jHashFunctions
+
+-prefix ${DJ_MM_DIR}/
+
+literal: ${JMM_FILES}
+
+-prefix ${PCREDIR}/.libs/
+
+.o maketables
+.o get
+.o study
+.o pcre
+#.o pcreposix
+
+-prefix ${REGEXDIR}/
+
+#.o regcomp
+#.o regexec
+#.o regerror
+#.o regfree

@@ -1,0 +1,6 @@
+0
+cancelButton::JXGetStringDialog::JXLayout "Cancel"
+okButton::JXGetStringDialog::shortcuts::JXLayout "^M"
+okButton::JXGetStringDialog::JXLayout "OK"
+cancelButton::JXGetStringDialog::shortcuts::JXLayout "^["
+promptDisplay::JXGetStringDialog::JXLayout ""

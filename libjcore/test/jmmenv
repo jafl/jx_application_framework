@@ -1,0 +1,103 @@
+# JMemoryManager variables
+
+# Can be used as a script to set variables as well as a reminder if you use
+# 'source' (at least in tcsh) so that the interactive shell's environment is
+# modified rather than that of a subshell.
+
+#		JMM_INITIALIZE        If this environment variable is set but given no
+#		                       value the manager will initialize new memory blocks
+#		                       to the default AllocateGarbage value.  If it is
+#		                       given a numerical value, that will be the value
+#		                       used for initialization.  If the manager cannot
+#		                       understand the value given the default is used.
+setenv JMM_INITIALIZE
+#unsetenv JMM_INITIALIZE
+
+#		JMM_SHRED              If this environment variable is set but given no
+#		                       value the manager will set deleted blocks to the
+#		                       default DeallocateGarbage value.  If it is given
+#		                       a numerical value, that will be the value the
+#		                       blocks are set to.  If the manager cannot
+#		                       understand the value given the default is used.
+#		                       This is meaningless if allocation records are not
+#		                       being kept.
+setenv JMM_SHRED
+#unsetenv JMM_SHRED
+
+#		JMM_RECORD_ALLOCATED   If this environment variable is set (to any value)
+#		                       the manager will keep a record of all currently
+#		                       allocated memory.
+setenv JMM_RECORD_ALLOCATED
+#unsetenv JMM_RECORD_ALLOCATED
+
+#		JMM_RECORD_DEALLOCATED If this environment variable is set (to any value)
+#		                       the manager will keep a record of all memory which
+#		                       has been deallocated.  It is useless unless
+#		                       JMM_RECORD_ALLOCATED is also set.  Can be canceled
+#		                       by CancelRecordDeallocated.
+setenv JMM_RECORD_DEALLOCATED
+#unsetenv JMM_RECORD_DEALLOCATED
+
+#		JMM_CHECK_DOUBLE_ALLOCATION  If this environment variable is set (to any
+#		                       value) the manager will complain if memory is
+#		                       allocated at a location previously allocated (this
+#		                       indicates an error in the system malloc() and so
+#		                       is only useful for debugging the C memory manager
+#		                       itself, or more likely for detecting a logic error
+#		                       in JMM).  It is useless unless JMM_RECORD_ALLOCATED
+#		                       is also set.  The SetCheckDoubleAllocation method
+#		                       overrides this variable.
+setenv JMM_CHECK_DOUBLE_ALLOCATION
+#unsetenv JMM_CHECK_DOUBLE_ALLOCATION
+
+#		JMM_BROADCAST_ERRORS   If this environment variable is set (to any value)
+#		                       the manager will broadcast when errors occur.  It
+#		                       is overridden by the SetBroadcastErrors method.
+setenv JMM_BROADCAST_ERRORS
+#unsetenv JMM_BROADCAST_ERRORS
+
+#		JMM_PRINT_EXIT_STATS   If this environment variable is set (to any value)
+#		                       the manager will print dynamic memory usage stats
+#		                       when the program finishes.  The SetPrintExitStats
+#		                       method overrides the environment variable setting.
+setenv JMM_PRINT_EXIT_STATS
+#unsetenv JMM_PRINT_EXIT_STATS
+
+#		JMM_PRINT_INTERNAL_STATS  If this environment variable is set (to any value)
+#		                       then whenever allocation stats are printed (such as
+#		                       at program exit) the manager will also print stats
+#		                       on its internal state, such as the memory it has
+#		                       allocated for its own use.  The SetInternalExitStats
+#		                       method overrides the environment variable setting.
+#setenv JMM_PRINT_INTERNAL_STATS
+unsetenv JMM_PRINT_INTERNAL_STATS
+
+#		JMM_DISALLOW_DELETE_NULL If this environment variable is set (to any value)
+#		                       the manager will consider deletion of a null
+#		                       pointer to be an error, in spite of ANSI.  Many
+#		                       people delete NULL frequently, so the default is
+#		                       to allow it, but those with a particularly clean
+#		                       (not to say obsessive) style may find this useful.
+#		                       Overridden by the SetDisllowDeleteNULL method.
+#setenv JMM_DISALLOW_DELETE_NULL
+unsetenv JMM_DISALLOW_DELETE_NULL
+
+#		JMM_ABORT_UNKNOWN_ALLOC If set to any value, the process with abort if memory
+#		                       is allocated by code that the memory manager cannot
+#		                       locate.  One reason to do this is to examine the
+#		                       resulting core dump for the location of the offending
+#		                       code.  Overridden by SetAbortUnknownAlloc().
+#setenv JMM_ABORT_UNKNOWN_ALLOC
+unsetenv JMM_ABORT_UNKNOWN_ALLOC
+
+
+
+# JMMErrorPrinter variables
+
+#	JMM_NO_PRINT_ERRORS  This environment variable suppresses all printing (the
+#	                     default is to print because JMemoryManager's messages
+#	                     are already off by default and if you turn them on you
+#	                     likely want to print the errors).
+
+#setenv JMM_NO_PRINT_ERRORS
+unsetenv JMM_NO_PRINT_ERRORS

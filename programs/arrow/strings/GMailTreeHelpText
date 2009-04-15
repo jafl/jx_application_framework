@@ -1,0 +1,77 @@
+0
+
+GMailTreeHelp
+
+"<html>
+<head>
+<title>Mailbox window</title>
+</head>
+<b>Mailbox list overview</b>
+
+<p>
+
+The mailbox window gives you access to any number of mailboxes located 
+in any readable directory that you specify. The directories are viewed 
+as an openable list. You can open mailboxes in the list and drop messages 
+on to mailboxes in the list.
+
+<p>
+
+<b>Adding mailboxes</b> 
+
+<p>
+
+To add a single mailbox, select the <i>Add mailbox</i> menu item from the 
+<i>Mailboxes</i> menu. You can create a new mailbox by selecting the 
+<i>New mailbox</i> menu item from the <i>Mailboxes</i> menu. 
+You can also create a new mailbox by dropping 
+a message on a directory. The new mailbox will be created in that 
+directory, and you will be asked to provide a name for this new mailbox. 
+
+<p>
+
+<b>Adding mailbox directories</b>
+
+<p>
+
+A directory of mailboxes can be added by selecting <i>Add directory</i> 
+from the <i>Mailboxes</i> menu. You can also create a new directory 
+by selecting <i>New directory</i> from the <i>Mailboxes</i> menu. 
+
+<p>
+
+<b>Deleting mailboxes</b> 
+
+<p>
+
+If you wish to delete a mailbox, click on it with the mouse and 
+select <i>Delete from file system</i> from the <i>Mailboxes</i> menu. 
+
+<p>
+
+<b>Removing and deleting mailbox directories</b>
+
+<p>
+
+If you wish to remove a directory, click on it with the mouse and 
+select <i>Remove from list</i> from the <i>Mailboxes</i> menu. 
+If you wish to delete a directory, click on it with the mouse and 
+select <i>Delete from file system</i> from the <i>Mailboxes</i> menu. 
+
+<p>
+
+<b>Unlocking mailboxes</b> 
+
+<p>
+
+Whenever a mailbox is being accessed, it is locked to prevent other 
+programs from changing it while it is being accessed. The mailbox window 
+indicates that a mailbox is locked by drawing a locked strap around the 
+mailbox icon. Sometimes, one of the many programs that access a mailbox 
+crashes, leaving a mailbox locked. This will prevent this mailbox from 
+being accessed by any other program. If this happens, you can unlock the 
+mailbox by clicking on it with the mouse and 
+selecting <i>Unlock</i> from the <i>Mailboxes</i> menu. 
+</html>"
+
+;

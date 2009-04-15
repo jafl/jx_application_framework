@@ -1,0 +1,26 @@
+0
+
+THX3DPlotHelp
+
+"<html>
+<head>
+<title> Plotting 3D Functions </title>
+</head>
+
+<h3> Plotting 3D Functions </h3>
+
+When you select \"Plot 3D function...\" from a menu, you will first get a dialog
+asking you to enter the function to plot.  The independent variables are called
+x and y, so for example, to plot a sine function, you would enter sin(x*y).
+<p>
+The surface name becomes the title of the window.  If you leave this empty, it will be set to the function itself.
+<p>
+The initial range is the range to use when first displaying the surface.
+Once the graph is created, you can zoom in or out.
+
+<h3> Miscellaneous </h3>
+
+Plot windows have their WM_CLASS set to Leibnitz_Plot.  This can be used
+to filter these windows out of a window manager's taskbar.
+
+</html>"

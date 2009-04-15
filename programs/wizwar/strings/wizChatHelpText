@@ -1,0 +1,44 @@
+0
+
+WizChatHelp
+
+"<html>
+<head>
+<title> The Chat Window </title>
+</head>
+
+<h3> The Chat Window </h3>
+
+The Chat window displays messages from the WizWar server about the game's progress and
+messages from the other players.  The latter are preceded by the player's color for easy
+identification.  You cannot type in the display area of the window.
+<p>
+The message input at the bottom of the window lets you enter messages to be sent to the
+other players.  The upper menu at the left (which displays your name) provides access to
+the messages specified in <tt>~/.jx_wizwar/chat_messages</tt>.  The format of this file
+is described below.  The lower menu at the left (\"Send to\") lets you choose which player(s)
+should receive the message.
+<p>
+When a message is sent, it is interpreted as a statement if it starts with a double quote
+mark (\") and preceded by \"<i>player</i> says, \".  Otherwise, it is assumed to begin with
+a verb conjugated in the third person, so it is only preceded by your name.
+<p>
+Each message that you send is echoed in your Chat window and enclosed in parentheses.
+This way, you have a record of the complete conversation, and you can easily tell which
+messages where yours without even having to check the color.
+
+<h3> Specifying commonly used messages </h3>
+
+You can specify commonly used messages in the file <tt>~/.jx_wizwar/chat_messages</tt>.
+The format includes the option of a shortcut which can be typed in the message input so
+that you do not have to use the mouse to select from the menu.  After typing the shortcut,
+you can either send the message, at which point it will be automatically replaced by the full
+text of the message from the menu, or you can press Tab to expand the shortcut and then keep
+typing.  Because of the former behavior, the shortcut will only work if there is no other text
+in the message input.
+<p>
+The file format is line based.  A blank line is converted to a separator between menu items.
+Non-empty lines have the format:  \"<i>shortcut</i> whitespace <i>text</i>\".  <i>shortcut</i> is
+optional, but the whitespace (at least one space or tab) is required.
+
+</html>"

@@ -1,0 +1,8 @@
+0
+obj2_JXLayout::WizConnectDialog::JXLayout "Your name:"
+quitButton::WizConnectDialog::JXLayout "Quit"
+okButton::WizConnectDialog::shortcuts::JXLayout "^M"
+okButton::WizConnectDialog::JXLayout "OK"
+obj1_JXLayout::WizConnectDialog::JXLayout "Server address:"
+itsHelpButton::WizConnectDialog::JXLayout "Help"
+itsHelpButton::WizConnectDialog::shortcuts::JXLayout "F1"

@@ -1,0 +1,97 @@
+# To use this file, first run "makemake" and then run "make".
+# (makemake is part of the JX distribution)
+
+# Useful directories
+
+JX_ROOT := ..
+
+DIR01 := ./01-HelloWorld
+DIR02 := ./02-MenuHello
+DIR03 := ./03-DialogHello
+DIR04 := ./04-Widget
+DIR05 := ./05-Scrolling
+DIR06 := ./06-DragPainter
+DIR07 := ./07-Printing
+DIR08 := ./08-SimpleTable
+DIR09 := ./09-DataTable
+DIR10 := ./10-SelectionTable
+DIR11 := ./11-EditTable
+DIR12 := ./12-Clipboard
+DIR13 := ./13-Undo
+DIR14 := ./14-DragAndDrop
+
+JCOREDIR := ${JX_ROOT}/include/jcore
+JXDIR    := ${JX_ROOT}/include/jx
+
+JLIBDIR     := ${JX_ROOT}/lib
+JCORELIBDIR := ${JX_ROOT}/libjcore
+JXLIBDIR    := ${JX_ROOT}/libjx
+
+# Directories to search for header files
+
+SEARCHDIRS := -I${DIR01} -I${DIR02} -I${DIR03} -I${DIR04} \
+              -I${DIR05} -I${DIR06} -I${DIR07} -I${DIR08} \
+              -I${DIR09} -I${DIR10} -I${DIR11} -I${DIR12} \
+              -I${DIR13} -I${DIR14} \
+              -I${JCOREDIR} \
+              -I${JXDIR}
+
+# other constants
+
+TUTORIAL_STRING_FILES := */strings
+
+# makemake variables
+
+J_STRING_FILES := ${TUTORIAL_STRING_FILES}
+
+include ${JX_ROOT}/include/make/jx_constants
+include ${JX_ROOT}/include/make/jx_config
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
+               -g ${SEARCHDIRS}
+
+TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR}
+
+# make variables
+
+LOADLIBES := ${J_STD_LIBS}
+LDFLAGS   := 
+
+#####
+
+.PHONY : default
+default: libs strings all
+
+.PHONY : Makefiles
+Makefiles:
+
+#
+# string data
+#
+
+.PHONY : strings
+strings:
+	compile_jstrings ${J_STRING_FILES} \
+      --code kTutorialStringData TutorialStringData.h
+
+#
+# required libraries
+#
+
+.PHONY : libs
+libs:
+	@for path in ${TOUCHPATHS}; do ( if cd $$path; then ${MAKE}; fi ) done
+
+#
+# JX source distribution (DISTR_TAR_FILE)
+#
+
+SRC_FILE_DIR := ${JX}/tutorial
+
+.PHONY : jxsource
+jxsource:
+	@cd ${J_DISTR_TAR_DIR}; \
+     tar -rf ${DISTR_TAR_FILE} ${filter-out %.o %~ Makefile, \
+                                 ${shell cd ${J_DISTR_TAR_DIR}; echo \
+             ${addprefix ${SRC_FILE_DIR}/, README Make.*} \
+             ${SRC_FILE_DIR}/*/* }}

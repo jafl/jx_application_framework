@@ -1,0 +1,17 @@
+0
+
+# Copyright © 2001 by John Lindal. All rights reserved.
+
+JFSRunFileHelp
+
+"<html>
+
+<head>
+<title> Opening a file with an arbitrary command </title>
+</head>
+
+If a file to be opened does not have an associated command, the \"Run command with file\" dialog will be opened to allow you to specify the command to use.  The options are the same as in the <a href=jxhelp:JFSBindingEditorHelp>File Binding Editor</a> dialog.  The \"Browse\" button lets you search for the program that you want to run.
+<p>
+If the file name has a suffix, e.g., <tt>.gif</tt>, then the \"Always use this program for files of this type\" checkbox will be visible.  If you turn this on, the command that you specify will be saved in the <a href=jxhelp:JFSBindingEditorHelp>File Binding Editor</a> dialog and will be used from then on, so you will never be asked about files of this type again.
+
+</html>"

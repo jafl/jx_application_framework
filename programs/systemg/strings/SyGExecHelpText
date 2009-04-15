@@ -1,0 +1,50 @@
+0
+
+SyGExecHelp
+
+"<html>
+
+<head>
+<title> Programs (executables) </title>
+</head>
+
+On UNIX, the only difference between a program and a regular file is that the program has the \"executable\" flag set (see <a href=jxhelp:SyGFileHelp#Permissions>File Permissions</a>), i.e., they can be run to perform a task.
+
+<h3> Running a program </h3>
+
+To run a program without arguments, simply double click on its icon or its name with the left mouse button.
+<p>
+To run a program with arguments, hold down the Meta key while double clicking on it with the left mouse button.  This opens a simple dialog that allows you to type in the arguments.
+<p>
+The complete list of all the ways to run a program is as follows:
+
+<blockquote>
+<dl>
+<dt> Double-click on program
+<dt> Meta-O (\"Open\" on File menu)
+<dt> Meta-Down-arrow
+<dd> Run the program without arguments.
+<p>
+<dt> Meta-double-click on program
+<dt> Meta-Shift-O (\"Alternate open\" on File menu)
+<dt> Meta-Shift-Down-arrow
+<dd> Run the program with arguments.
+<p>
+<dt> Ctrl-double-click on folder
+<dt> Ctrl-O (\"Open ... and close this\" on File menu)
+<dd> Run the program in the same way as double-click, and then close the current window.  (You can hold down the Meta key to get the alternate behavior.)
+<p>
+<dt> Ctrl-Shift-double-click on folder
+<dt> Ctrl-Shift-O (\"Open ... and iconify this\" on File menu)
+<dd> Run the program in the same way as double-click, and then iconify the current window.  (You can hold down the Meta key to get the alternate behavior.)
+</dl>
+</blockquote>
+
+The keyboard shortcuts obviously only work when a program is selected.
+<p>
+Notice the similarities between these shortcuts and those for opening files and folders.
+
+<p>
+All the above methods run the program in the directory in which it resides.  To run a program in an arbitrary directory, place the program in a folder that is on your execution path (e.g. <tt>~/bin</tt>) and then invoke the <a href=jxhelp:JFSRunCommandHelp>Run Command</a> dialog by using the \"Run command...\" item on the File menu.
+
+</html>"

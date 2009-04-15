@@ -1,0 +1,4 @@
+0
+itsDoneButton::TestFEditDirector::JXLayout "Done"
+itsNextButton::TestFEditDirector::JXLayout "Next"
+itsEvalButton::TestFEditDirector::JXLayout "Evaluate"

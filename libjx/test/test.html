@@ -1,0 +1,692 @@
+<html>
+
+<head>
+<title> JHTMLScanner Test Suite </title>
+</head>
+
+<body>
+
+<h1> Attribute values </h1>
+
+<a href=junk.html>link</a>
+<p>
+<img src = junk.gif >
+<p>
+<img alt = "Jay said, &quot;Like, wow dude!&quot &lt;grin&gt" >
+<p>
+<img alt=&frac34>
+<p>
+<img alt=2&frac34>
+<p>
+<img alt= src=junk.gif>
+<p>
+<a name="anchor_1">
+<p>
+<!-- this is actually flagged by the Netscape source window -->
+<img src="junk.gif" alt=">">
+<p>
+<!-- this is hopelessly illegal -->
+<>
+
+<!-- -->
+
+<h1> Fonts &amp Styles </h1>
+
+<p> <b> bold <b> bold </b> bold </b> plain
+<br> <i> italic <i> italic </i> italic </i> plain
+<br> <u> underline <u> underline </u> underline </u> plain
+<br> <strike> strike <strike> strike </strike> strike </strike> plain
+<br> <tt> monospace <tt> monospace </tt> monospace </tt> plain
+
+<p> <big> big </big>
+<br> <s> strike </s>
+<br> <small> small </small>
+<br> A <sub> subscript </sub>
+<br> A <sup> superscript </sup>
+<br> <abbrev> abbrev </abbrev>
+<br> <acronym> acronym </acronym>
+<br> <au> au </au>
+<br> <cite> cite </cite>
+<br> <del> del </del>
+<br> <dfn> dfn </dfn>
+<br> <em> em </em>
+<br> <ins> ins </ins>
+<br> <kbd> keyboard </kbd>
+<br> <lang> lang </lang>
+<br> <person> person </person>
+<br> <q> quotation </q>
+<br> <samp> samp </samp>
+<br> <strong> strong </strong>
+<br> <var> var </var>
+
+<p>
+It's all Greek to me: <font face=Symbol>gdbg</font>
+<p>
+<font size=+1 color=red>
+large plain
+<b>
+large bold
+</b></font>
+<p>
+colors:
+<font size=7><b>
+<font color=#FFFF00000000>R</font><font color=#0000FFFF0000>G</font><font color=#00000000FFFF>B</font>
+<font color=gray25>Gray25</font>
+<font color=gray50>Gray50</font>
+<font color=gray75>Gray75</font>
+</b></font>
+
+<p><font size=8> Size 8 </font>
+<p><font size=7> Size 7 </font>
+<p><font size=6> Size 6 </font>
+<p><font size=5> Size 5 </font>
+<p><font size=4> Size 4 </font>
+<p><font size=3> Size 3 </font>
+<p><font size=2> Size 2 </font>
+<p><font size=1> Size 1 </font>
+<p><font size=0> Size 0 </font>
+
+<p>
+Interleaving is not allowed: <i> italic <b> bold-italic </i> italic </b>
+
+<p>
+Test of whitespace between styles:
+<p>
+<b>plain</b> <strike> strike </strike> <b>plain</b> <u> underline </u> <b>plain</b>
+<p>
+<u> underline </u> <strike> strike </strike> <u> <b>underline</b> </u>
+<p>
+<strike> strike <u> underline </u> <b>strike</b> </strike>
+<p>
+<u> underline <strike> strike </strike> <b>underline</b> </u>
+
+<!-- -->
+
+<h1> Headings </h1>
+
+<h1> Size 1 </h1>
+<h2> Size 2 </h2>
+<h3> Size 3 </h3>
+<h4> Size 4 </h4>
+<h5> Size 5 </h5>
+<h6> Size 6 </h6>
+
+<h4> <u> underlined header </u> </h4>
+
+<h4> Intentional heading error: </h2>
+
+<!-- -->
+
+<h1> Lists </h1>
+
+Directory:
+<dir>
+<li> first
+<li> second
+<li> third <br> <small> test of indenting </small>
+<li> fourth <hr> <small> test of horizontal rule </small>
+<li> fifth
+<li> Nested directory:
+	<dir>
+	<li> first
+	<li> second
+	<li> third
+	</dir>
+</dir>
+
+Menu:
+<menu>
+<li> first
+<li> second
+<li> third <br> <small> test of indenting </small>
+<li> fourth <hr> <small> test of horizontal rule </small>
+<li> fifth
+<li> Nested menu:
+	<menu>
+	<li> first
+	<li> second
+	<li> third
+	</menu>
+</menu>
+
+Ordered list:
+<ol>
+<li> first
+<li> second
+<li> third <br> <small> test of indenting </small>
+<li> fourth <hr> <small> test of horizontal rule </small>
+<li> fifth
+<li> Nested ordered list:
+	<ol>
+	<li> first
+	<li> second
+	<li> third
+	</ol>
+<li> Nested unordered list:
+	<ul>
+	<li> first
+	<li> second
+	<li> third
+	</ul>
+<li> Nested descriptive list:
+	<dl>
+	<dt> term 1
+	<dd> definition 1
+	<dt> term 2
+	<dd> definition 2
+	</dl>
+</ol>
+
+Ordered list (3,4,6,7):
+<ol start=3>
+<li> first
+<li> second
+<li value=6> third
+<li> fourth
+</ol>
+
+Unordered list:
+<ul>
+<li> first
+<li> second
+<li> third <br> <small> test of indenting </small>
+<li> fourth <hr> <small> test of horizontal rule </small>
+<li> fifth
+<li> Nested unordered list:
+	<ul>
+	What happens to junk before the first list item?
+	<li> first
+	<li> second
+	<li> third
+	</ul>
+<li> Nested ordered list:
+	<ol>
+	What happens to junk before the first list item?
+	<li> first
+	<li> second
+	<li> third
+	</ol>
+<li> Nested descriptive list:
+	<dl>
+	What happens to junk before the first list item?
+	<dt> term 1
+	<dd> definition 1
+	<dt> term 2
+	<dd> definition 2
+	</dl>
+</ul>
+
+Descriptive list:
+<dl>
+<dt> term 1
+<dd> definition 1
+<dt> term 2
+<dd> definition 2
+<dt> term 3 <br> <small> test of indenting </small>
+<dd> definition 3 <br> <small> test of indenting </small>
+<dt> term 4 <hr> <small> test of horizontal rule </small>
+<dd> definition 4 <hr> <small> test of horizontal rule </small>
+<dt> term 5
+<dd> definition 5
+<dt> Nested descriptive list:
+	<dl>
+	<dt> term 1
+	<dd> definition 1
+	<dt> term 2
+	<dd> definition 2
+	</dl>
+<dd> Nested descriptive list:
+	<dl>
+	<dt> term 1
+	<dd> definition 1
+	<dt> term 2
+	<dd> definition 2
+	</dl>
+<dt> Nested ordered list (term):
+	<ol>
+	<li> first
+	<li> second
+	<li> third
+	</ol>
+<dd> Nested unordered list (definition):
+	<ul>
+	<li> first
+	<li> second
+	<li> third
+	</ul>
+</dl>
+
+Styled list:
+<ol>
+<font color=blue>
+<li> first
+<strike>
+<li> second
+</strike>
+<u>
+<li> th</u>ird
+</font>
+</ol>
+
+<!-- -->
+
+<h1> Separators </h1>
+
+paragraph 1
+<p><p><p>
+paragraph 2
+
+<p>
+line 1
+<br>
+line 2
+<br><br>
+line 3
+
+<div>text within div tag</div>text outside div tag
+
+<p>
+<hr>
+text between horizontal rules
+<hr>
+
+<!-- -->
+
+<h1> Preformatted text </h1>
+
+This is normal text.
+<pre>
+
+
+	preformatted text
+	has
+	a specific        format
+	as far as spacing goes
+
+
+</pre>
+This is normal text.
+
+<!-- -->
+
+<h1> Miscellaneous formatting </h1>
+
+Address:
+<address>
+P.O. Box 4092
+<br>
+Point Dume, CA  90264
+</address>
+
+Blockquote:
+<blockquote>
+	Genius is mysterious!
+	<blockquote>
+		-- Dr. Sing
+	</blockquote>
+	<pre>
+	This text is formatted
+	 by &lt;pre&gt
+	</pre>
+</blockquote>
+This text is not indented.
+
+<p>
+Code:
+<code>
+int foo(int x)
+{
+	return x+1;
+}
+</code>
+
+<!-- -->
+
+<h1> Images </h1>
+
+<font size=+1><b>
+this is text
+<img alt="followed by an image">
+followed by more text
+</b></font>
+
+<!-- -->
+
+<h1> Escaped characters </h1>
+
+<table>
+<tr><td> F </td><td>  </td><td> &#70 </td></tr>
+<tr><td> t </td><td>  </td><td> &#116 </td></tr>
+
+<tr><td> less than    </td><td> &lt </td><td> &#60 </td></tr>
+<tr><td> greater than </td><td> &gt </td><td> &#62 </td></tr>
+
+<tr><td> ampersand </td><td> &amp </td><td> &#38 </td></tr>
+<tr><td> A5 </td><td> &yen </td><td> &#165 </td></tr>
+<tr><td> A8 </td><td> &uml </td><td> &#168 </td></tr>
+<tr><td> AC </td><td> &not </td><td> &#172 </td></tr>
+<tr><td> AD </td><td> &shy </td><td> &#173 </td></tr>
+<tr><td> AE </td><td> &reg </td><td> &#174 </td></tr>
+<tr><td> B0 </td><td> &deg </td><td> &#176 </td></tr>
+<tr><td> D0 </td><td> &ETH </td><td> &#208 </td></tr>
+<tr><td> F0 </td><td> &eth </td><td> &#240 </td></tr>
+
+<tr><td> double quote </td><td> &quot </td><td> &#34 </td></tr>
+<tr><td> A0 </td><td> &nbsp </td><td> &#160 </td></tr>
+<tr><td> A2 </td><td> &cent </td><td> &#162 </td></tr>
+<tr><td> A7 </td><td> &sect </td><td> &#167 </td></tr>
+<tr><td> A9 </td><td> &copy </td><td> &#169 </td></tr>
+<tr><td> AA </td><td> &ordf </td><td> &#170 </td></tr>
+<tr><td> AF </td><td> &macr </td><td> &#175 </td></tr>
+<tr><td> B9 </td><td> &sup1 </td><td> &#185 </td></tr>
+<tr><td> B2 </td><td> &sup2 </td><td> &#178 </td></tr>
+<tr><td> B3 </td><td> &sup3 </td><td> &#179 </td></tr>
+<tr><td> B6 </td><td> &para </td><td> &#182 </td></tr>
+<tr><td> BA </td><td> &ordm </td><td> &#186 </td></tr>
+<tr><td> C4 </td><td> &Auml </td><td> &#196 </td></tr>
+<tr><td> CB </td><td> &Euml </td><td> &#203 </td></tr>
+<tr><td> CF </td><td> &Iuml </td><td> &#207 </td></tr>
+<tr><td> D6 </td><td> &Ouml </td><td> &#214 </td></tr>
+<tr><td> DC </td><td> &Uuml </td><td> &#220 </td></tr>
+<tr><td> E4 </td><td> &auml </td><td> &#228 </td></tr>
+<tr><td> EB </td><td> &euml </td><td> &#235 </td></tr>
+<tr><td> EF </td><td> &iuml </td><td> &#239 </td></tr>
+<tr><td> F6 </td><td> &ouml </td><td> &#246 </td></tr>
+<tr><td> FC </td><td> &uuml </td><td> &#252 </td></tr>
+<tr><td> FF </td><td> &yuml </td><td> &#255 </td></tr>
+
+<tr><td> A1 </td><td> &iexcl </td><td> &#161 </td></tr>
+<tr><td> A3 </td><td> &pound </td><td> &#163 </td></tr>
+<tr><td> AB </td><td> &laquo </td><td> &#171 </td></tr>
+<tr><td> B4 </td><td> &acute </td><td> &#180 </td></tr>
+<tr><td> B5 </td><td> &micro </td><td> &#181 </td></tr>
+<tr><td> B8 </td><td> &cedil </td><td> &#184 </td></tr>
+<tr><td> BB </td><td> &raquo </td><td> &#187 </td></tr>
+<tr><td> D7 </td><td> &times </td><td> &#215 </td></tr>
+<tr><td> C2 </td><td> &Acirc </td><td> &#194 </td></tr>
+<tr><td> C5 </td><td> &Aring </td><td> &#197 </td></tr>
+<tr><td> C6 </td><td> &AElig </td><td> &#198 </td></tr>
+<tr><td> CA </td><td> &Ecirc </td><td> &#202 </td></tr>
+<tr><td> CE </td><td> &Icirc </td><td> &#206 </td></tr>
+<tr><td> D4 </td><td> &Ocirc </td><td> &#212 </td></tr>
+<tr><td> DB </td><td> &Ucirc </td><td> &#219 </td></tr>
+<tr><td> DE </td><td> &THORN </td><td> &#222 </td></tr>
+<tr><td> DF </td><td> &szlig </td><td> &#223 </td></tr>
+<tr><td> E2 </td><td> &acirc </td><td> &#226 </td></tr>
+<tr><td> E5 </td><td> &aring </td><td> &#229 </td></tr>
+<tr><td> E6 </td><td> &aelig </td><td> &#230 </td></tr>
+<tr><td> EA </td><td> &ecirc </td><td> &#234 </td></tr>
+<tr><td> EE </td><td> &icirc </td><td> &#238 </td></tr>
+<tr><td> F4 </td><td> &ocirc </td><td> &#244 </td></tr>
+<tr><td> FB </td><td> &ucirc </td><td> &#251 </td></tr>
+<tr><td> FE </td><td> &thorn </td><td> &#254 </td></tr>
+
+<tr><td> A4 </td><td> &curren </td><td> &#164 </td></tr>
+<tr><td> A6 </td><td> &brvbar </td><td> &#166 </td></tr>
+<tr><td> B1 </td><td> &plusmn </td><td> &#177 </td></tr>
+<tr><td> B7 </td><td> &middot </td><td> &#183 </td></tr>
+<tr><td> BC </td><td> &frac14 </td><td> &#188 </td></tr>
+<tr><td> BD </td><td> &frac12 </td><td> &#189 </td></tr>
+<tr><td> BE </td><td> &frac34 </td><td> &#190 </td></tr>
+<tr><td> BF </td><td> &iquest </td><td> &#191 </td></tr>
+<tr><td> C0 </td><td> &Agrave </td><td> &#192 </td></tr>
+<tr><td> C1 </td><td> &Aacute </td><td> &#193 </td></tr>
+<tr><td> C3 </td><td> &Atilde </td><td> &#195 </td></tr>
+<tr><td> C7 </td><td> &Ccedil </td><td> &#199 </td></tr>
+<tr><td> C8 </td><td> &Egrave </td><td> &#200 </td></tr>
+<tr><td> C9 </td><td> &Eacute </td><td> &#201 </td></tr>
+<tr><td> CC </td><td> &Igrave </td><td> &#204 </td></tr>
+<tr><td> CD </td><td> &Iacute </td><td> &#205 </td></tr>
+<tr><td> D1 </td><td> &Ntilde </td><td> &#209 </td></tr>
+<tr><td> D2 </td><td> &Ograve </td><td> &#210 </td></tr>
+<tr><td> D3 </td><td> &Oacute </td><td> &#211 </td></tr>
+<tr><td> D5 </td><td> &Otilde </td><td> &#213 </td></tr>
+<tr><td> D8 </td><td> &Oslash </td><td> &#216 </td></tr>
+<tr><td> D9 </td><td> &Ugrave </td><td> &#217 </td></tr>
+<tr><td> DA </td><td> &Uacute </td><td> &#218 </td></tr>
+<tr><td> DD </td><td> &Yacute </td><td> &#221 </td></tr>
+<tr><td> E0 </td><td> &agrave </td><td> &#224 </td></tr>
+<tr><td> E1 </td><td> &aacute </td><td> &#225 </td></tr>
+<tr><td> E3 </td><td> &atilde </td><td> &#227 </td></tr>
+<tr><td> E7 </td><td> &ccedil </td><td> &#231 </td></tr>
+<tr><td> E8 </td><td> &egrave </td><td> &#232 </td></tr>
+<tr><td> E9 </td><td> &eacute </td><td> &#233 </td></tr>
+<tr><td> EC </td><td> &igrave </td><td> &#236 </td></tr>
+<tr><td> ED </td><td> &iacute </td><td> &#237 </td></tr>
+<tr><td> F1 </td><td> &ntilde </td><td> &#241 </td></tr>
+<tr><td> F2 </td><td> &ograve </td><td> &#242 </td></tr>
+<tr><td> F3 </td><td> &oacute </td><td> &#243 </td></tr>
+<tr><td> F5 </td><td> &otilde </td><td> &#245 </td></tr>
+<tr><td> F7 </td><td> &divide </td><td> &#247 </td></tr>
+<tr><td> F8 </td><td> &oslash </td><td> &#248 </td></tr>
+<tr><td> F9 </td><td> &ugrave </td><td> &#249 </td></tr>
+<tr><td> FA </td><td> &uacute </td><td> &#250 </td></tr>
+<tr><td> FD </td><td> &yacute </td><td> &#253 </td></tr>
+</table>
+
+<table>
+<tr><td> 22 </td><td> &forall </td></tr>
+<tr><td> 24 </td><td> &exist </td></tr>
+<tr><td> 27 </td><td> &ni </td></tr>
+<tr><td> 2A </td><td> &lowast </td></tr>
+<tr><td> 2D </td><td> &minus </td></tr>
+<tr><td> 40 </td><td> &asymp </td></tr>
+<tr><td> 41 </td><td> &Alpha </td></tr>
+<tr><td> 42 </td><td> &Beta </td></tr>
+<tr><td> 43 </td><td> &Chi </td></tr>
+<tr><td> 44 </td><td> &Delta </td></tr>
+<tr><td> 45 </td><td> &Epsilon </td></tr>
+<tr><td> 46 </td><td> &Phi </td></tr>
+<tr><td> 47 </td><td> &Gamma </td></tr>
+<tr><td> 48 </td><td> &Eta </td></tr>
+<tr><td> 49 </td><td> &Iota </td></tr>
+<tr><td> 4B </td><td> &Kappa </td></tr>
+<tr><td> 4C </td><td> &Lambda </td></tr>
+<tr><td> 4D </td><td> &Mu </td></tr>
+<tr><td> 4E </td><td> &Nu </td></tr>
+<tr><td> 4F </td><td> &Omicron </td></tr>
+<tr><td> 50 </td><td> &Pi </td></tr>
+<tr><td> 51 </td><td> &Theta </td></tr>
+<tr><td> 52 </td><td> &Rho </td></tr>
+<tr><td> 53 </td><td> &Sigma </td></tr>
+<tr><td> 54 </td><td> &Tau </td></tr>
+<tr><td> 55 </td><td> &Upsilon </td></tr>
+<tr><td> 56 </td><td> &sigmaf </td></tr>
+<tr><td> 57 </td><td> &Omega </td></tr>
+<tr><td> 58 </td><td> &Xi </td></tr>
+<tr><td> 59 </td><td> &Psi </td></tr>
+<tr><td> 5A </td><td> &Zeta </td></tr>
+<tr><td> 5C </td><td> &there4 </td></tr>
+<tr><td> 5E </td><td> &perp </td></tr>
+<tr><td> 60 </td><td> &oline </td></tr>
+<tr><td> 61 </td><td> &alpha </td></tr>
+<tr><td> 62 </td><td> &beta </td></tr>
+<tr><td> 63 </td><td> &chi </td></tr>
+<tr><td> 64 </td><td> &delta </td></tr>
+<tr><td> 65 </td><td> &epsilon </td></tr>
+<tr><td> 66 </td><td> &phi </td></tr>
+<tr><td> 67 </td><td> &gamma </td></tr>
+<tr><td> 68 </td><td> &eta </td></tr>
+<tr><td> 69 </td><td> &iota </td></tr>
+<tr><td> 6B </td><td> &kappa </td></tr>
+<tr><td> 6C </td><td> &lambda </td></tr>
+<tr><td> 6D </td><td> &mu </td></tr>
+<tr><td> 6E </td><td> &nu </td></tr>
+<tr><td> 6F </td><td> &omicron </td></tr>
+<tr><td> 70 </td><td> &pi </td></tr>
+<tr><td> 70 </td><td> &piv </td></tr>
+<tr><td> 71 </td><td> &theta </td></tr>
+<tr><td> 71 </td><td> &thetasym </td></tr>
+<tr><td> 72 </td><td> &rho </td></tr>
+<tr><td> 73 </td><td> &sigma </td></tr>
+<tr><td> 74 </td><td> &tau </td></tr>
+<tr><td> 75 </td><td> &upsilon </td></tr>
+<tr><td> 75 </td><td> &upsih </td></tr>
+<tr><td> 77 </td><td> &omega </td></tr>
+<tr><td> 78 </td><td> &xi </td></tr>
+<tr><td> 79 </td><td> &psi </td></tr>
+<tr><td> 7A </td><td> &zeta </td></tr>
+<tr><td> 7E </td><td> &sim </td></tr>
+<tr><td> A2 </td><td> &prime </td></tr>
+<tr><td> A3 </td><td> &le </td></tr>
+<tr><td> A4 </td><td> &frasl </td></tr>
+<tr><td> A5 </td><td> &infin </td></tr>
+<tr><td> A6 </td><td> &fnof </td></tr>
+<tr><td> A7 </td><td> &clubs </td></tr>
+<tr><td> A8 </td><td> &diams </td></tr>
+<tr><td> A9 </td><td> &hearts </td></tr>
+<tr><td> AA </td><td> &spades </td></tr>
+<tr><td> AB </td><td> &harr </td></tr>
+<tr><td> AC </td><td> &larr </td></tr>
+<tr><td> AD </td><td> &uarr </td></tr>
+<tr><td> AE </td><td> &rarr </td></tr>
+<tr><td> AF </td><td> &darr </td></tr>
+<tr><td> B2 </td><td> &Prime </td></tr>
+<tr><td> B3 </td><td> &ge </td></tr>
+<tr><td> B5 </td><td> &prop </td></tr>
+<tr><td> B6 </td><td> &part </td></tr>
+<tr><td> B7 </td><td> &bull </td></tr>
+<tr><td> B9 </td><td> &ne </td></tr>
+<tr><td> BA </td><td> &equiv </td></tr>
+<tr><td> BB </td><td> &cong </td></tr>
+<tr><td> BC </td><td> &hellip </td></tr>
+<tr><td> BF </td><td> &crarr </td></tr>
+<tr><td> C0 </td><td> &alefsym </td></tr>
+<tr><td> C1 </td><td> &image </td></tr>
+<tr><td> C2 </td><td> &real </td></tr>
+<tr><td> C3 </td><td> &weierp </td></tr>
+<tr><td> C4 </td><td> &otimes </td></tr>
+<tr><td> C5 </td><td> &oplus </td></tr>
+<tr><td> C6 </td><td> &empty </td></tr>
+<tr><td> C7 </td><td> &cap </td></tr>
+<tr><td> C8 </td><td> &cup </td></tr>
+<tr><td> C9 </td><td> &sup </td></tr>
+<tr><td> CA </td><td> &supe </td></tr>
+<tr><td> CB </td><td> &nsub </td></tr>
+<tr><td> CC </td><td> &sub </td></tr>
+<tr><td> CD </td><td> &sube </td></tr>
+<tr><td> CE </td><td> &isin </td></tr>
+<tr><td> CF </td><td> &notin </td></tr>
+<tr><td> D0 </td><td> &ang </td></tr>
+<tr><td> D1 </td><td> &nabla </td></tr>
+<tr><td> D4 </td><td> &trade </td></tr>
+<tr><td> D5 </td><td> &prod </td></tr>
+<tr><td> D6 </td><td> &radic </td></tr>
+<tr><td> D7 </td><td> &sdot </td></tr>
+<tr><td> D9 </td><td> &and </td></tr>
+<tr><td> DA </td><td> &or </td></tr>
+<tr><td> DB </td><td> &hArr </td></tr>
+<tr><td> DC </td><td> &lArr </td></tr>
+<tr><td> DD </td><td> &uArr </td></tr>
+<tr><td> DE </td><td> &rArr </td></tr>
+<tr><td> DF </td><td> &dArr </td></tr>
+<tr><td> E0 </td><td> &loz </td></tr>
+<tr><td> E1 </td><td> &lang </td></tr>
+<tr><td> E5 </td><td> &sum </td></tr>
+<tr><td> E9 </td><td> &lceil </td></tr>
+<tr><td> EB </td><td> &lfloor </td></tr>
+<tr><td> F1 </td><td> &rang </td></tr>
+<tr><td> F2 </td><td> &int </td></tr>
+<tr><td> F9 </td><td> &rceil </td></tr>
+<tr><td> FB </td><td> &rfloor </td></tr>
+
+<tr><td> A9 </td><td> &Scaron </td></tr>
+<tr><td> B9 </td><td> &scaron </td></tr>
+
+<tr><td> BC </td><td> &OElig </td></tr>
+<tr><td> BD </td><td> &oelig </td></tr>
+<tr><td> BE </td><td> &Yuml </td></tr>
+
+<tr><td> 5E </td><td> &circ </td></tr>
+<tr><td> 7E </td><td> &tilde </td></tr>
+
+<tr><td>  </td><td> &ensp </td></tr>
+<tr><td>  </td><td> &emsp </td></tr>
+<tr><td>  </td><td> &thinsp </td></tr>
+<tr><td>  </td><td> &zwnj </td></tr>
+<tr><td>  </td><td> &zwj </td></tr>
+<tr><td>  </td><td> &lrm </td></tr>
+<tr><td>  </td><td> &rlm </td></tr>
+<tr><td>  </td><td> &ndash </td></tr>
+<tr><td>  </td><td> &mdash </td></tr>
+<tr><td>  </td><td> &lsquo </td></tr>
+<tr><td>  </td><td> &rsquo </td></tr>
+<tr><td>  </td><td> &sbquo </td></tr>
+<tr><td>  </td><td> &ldquo </td></tr>
+<tr><td>  </td><td> &rdquo </td></tr>
+<tr><td>  </td><td> &bdquo </td></tr>
+<tr><td>  </td><td> &dagger </td></tr>
+<tr><td>  </td><td> &Dagger </td></tr>
+<tr><td>  </td><td> &permil </td></tr>
+<tr><td>  </td><td> &lsaquo </td></tr>
+<tr><td>  </td><td> &rsaquo </td></tr>
+<tr><td>  </td><td> &euro </td></tr>
+</table>
+
+<table>
+<tr><td> single ampersand       </td><td> &            </td></tr>
+<tr><td> single ampersand, semi </td><td> &;           </td></tr>
+<tr><td> double ampersand       </td><td> &&           </td></tr>
+<tr><td> ampersand a            </td><td> &a;          </td></tr>
+<tr><td> ampersand # z          </td><td> &#z          </td></tr>
+<tr><td> ampersand abc          </td><td> &abc         </td></tr>
+<tr><td> ampersand abc (double) </td><td> &abc&abc;    </td></tr>
+<tr><td> random                 </td><td> &abc&lt&gt&abcdefghijklmnoprstuvwxyz </td></tr>
+<tr><td> less than test         </td><td> &lttest      </td></tr>
+<tr><td> case sensitivity       </td><td> &lt&Lt&lT&LT </td></tr>
+<tr><td> g;                     </td><td> &#103;;      </td></tr>
+</table>
+
+<table>
+<tr><td> out of range </td><td> &256;  </td></tr>
+<tr><td> out of range </td><td> &-1;   </td></tr>
+<tr><td> out of range </td><td> &-128; </td></tr>
+<tr><td> out of range </td><td> &500;  </td></tr>
+<tr><td> out of range </td><td> &X100; </td></tr>
+<tr><td> out of range </td><td> &x200; </td></tr>
+</table>
+
+<!-- -->
+
+<h1> Comments </h1>
+
+<tt> (no ouput is good output :) </tt>
+
+<p>
+<!-- plain vanilla comment -->
+
+<p>
+<!--
+	depth 1
+<!--
+	depth 2
+-->
+	depth 1
+-->
+
+<p>
+<!--<!--<em>nested</em> comment <b>wow!</b>-->-->
+
+<p>
+<!-- <a href="--&gt"> -->
+
+<p>
+Intentional comment error: -->
+
+<h1> Scripts </h1>
+
+<?php echo "hello!"; ?>
+
+<script language=php>
+	echo "PHP Script";
+</script>
+
+<script language="JavaScript">
+	print "JavaScript";
+</script>
+
+End of scripts.
+
+</body>
+
+</html>

@@ -1,0 +1,9 @@
+0
+cancelButton::GMMessageFindDialog::shortcuts::JXLayout "^["
+itsMessageBodyCB::GMMessageFindDialog::shortcuts::JXLayout "#l"
+itsMessageBodyCB::GMMessageFindDialog::JXLayout "Look in message body."
+itsHelpButton::GMMessageFindDialog::JXLayout "Help"
+cancelButton::GMMessageFindDialog::JXLayout "Cancel"
+obj1_JXLayout::GMMessageFindDialog::JXLayout "Look for:"
+searchButton::GMMessageFindDialog::shortcuts::JXLayout "^M"
+searchButton::GMMessageFindDialog::JXLayout "Find"

@@ -1,0 +1,962 @@
+#ifndef _T_JHashTable
+#define _T_JHashTable
+
+/******************************************************************************
+ JHashTable.tmpl
+
+	JHashTable works together with with JHashCursor and JConstHashCursor to
+	provide the basic JCore hash table facilities.  It sacrifices a great deal
+	of safety and generality in favor of performance.  Because of this it only
+	partly shields the client from the implementation details and desperately
+	needs another object to encapsulate and protect it and the the outside world
+	from each other.  It should only be used as a low-level building block for
+	other objects assembled with either ownership or inheritance; if you're using
+	it as a storage object by itself you're misusing it (maybe you want something
+	like JStringMap instead).
+
+	On the other hand, if you are building an object that does a lot of in-memory
+	storage and retrieval on large numbers of individual records you're probably
+	looking in the right place.  You need to understand something about hash
+	tables to use it directly, so if you know enough to use it safely you probably
+	know whether a hash table is an appropriate data structure for your
+	application.
+
+	Usage
+
+	Like any hash table, JHashTable stores its values in an internal array.  This
+	means, obviously, that its data items must be scalars (objects with a copy
+	constructor and an assignment operator).  If this is not true, you will have
+	to store pointers to the actual objects.  Perhaps less obviously, it also means
+	that JHashTable must never be used to store a subclass of the template class
+	which has its own data in addition to the base class data--C++ will most
+	certainly slice it off.  You must instantiate the template with the type you
+	actually wish to store, or store pointers to the data instead.
+
+	The client needs to provide hash and comparison functions appropriate for the
+	data being stored or always handle those services.  The hash function must
+	return values with all 32 bits significant, and failure to provide a good 32
+	bit hash function can entail a substantial degradation of performance.
+
+	Requiring that the hash value always be calculated internally would have been
+	safer but slower, and in particular client code can often can avoid unnecessary
+	and expensive calls to the hash function by repeatedly passing in a cached hash
+	value.  It is up to the client to ensure that the same hash function is always
+	used, and failure to do so will destroy the table.  This can happen in slightly
+	inobvious ways, such as removing an item from a table which uses one hash
+	function and moving it to a table which uses another, inserting it in a way that
+	does not tell the second table to re-calculate the hash value.
+
+	JHashTable's public interface is very sparse, mainly providing access to the
+	operating statistics and the parameters which control the resizing behavior
+	It allows the client to adjust the time-space tradeoff involved in the resizing
+	process.
+
+	To store and retrieve items the client will need to go through a cursor and
+	perhaps directly through the protected interface.  (The cursor interface is
+	described more fully in the appropriate cursor *.tmpl files.)  It is very easy
+	to rip the table apart with either interface, so be careful.
+
+	The cursor interface is the primary interface and encapsulates the logic and
+	temporary data necessary to traverse and modify the hash table.  The protected
+	interface is mainly of use for setting appropriate parameters in the
+	constructors of derived classes; most of the code will still use the cursor
+	interface.  Not only is it more convenient, it is a good deal safer, and
+	JHashTable even uses cursors internally to manipulate itself during resizing.
+
+	Design and Implementation
+
+	The entire design of JHashTable is driven by the primary goal of a fully
+	dynamic table which transparently and efficiently resizes its internal table
+	as necessary to maintain good performance.  This has many consequences. First,
+	hash values are not direct indexes into the internal table (which is unlikely
+	to have 2^32 entries!) but rather full 32-bit values.  Two benefits of this
+	scheme is that the most common architectures tend to manipulate 32 bit
+	quantities efficiently and that 32 bit values allow tables as large as can
+	reasonably be expected to fit into memory (at least in the late 1990's!)
+	without wasting too much space.  In addition, I happen to have constants for
+	a very fast 32-bit random number generator for dual-hashing.
+
+	Full word hash values have the inconvenient effect that they must be taken
+	modulo the table size to obtain an index, but the very desirable property that
+	if hash values are cached with the item it is very easy to re-hash the item in
+	another table of a different size without reevaluating the hash function.  This
+	is vital for building dynamic tables efficiently, since the hash function is
+	often quite expensive.  The hash value occupies and extra four bytes of data per
+	record, so caching trades space for time.  However, this is probably justified.
+	Consider the most common case where the keys are strings.  Any reasonable
+	general-purpose hash function (one which does not make use of special knowledge
+	of the particular keys to be stored) will take time proportional to the length
+	of the string, which can quickly become very expensive.
+
+	JHashTable limits table sizes to an even power of two.  This allows an
+	efficient bit-wise wrap for pointers rather than the slower modulus function
+	(the HashToIndex function) and makes it easy to support dynamic resizing by
+	doubling and halving the table as necessary.  Powers of two also tend to
+	interact well with memory managers.  Malloc, operator new, and their kin often
+	allocate a block of memory of the next even power-of-two larger than the size
+	requested, so asking for power-of-two sizes allows efficient use of memory.
+	(Of course it doesn't guarantee it, since the size of the data stored may not
+	be an even power of two.  If you really care, since the hash values are four
+	bytes just make sure that sizeof(V) == 2^N-4 for some integral N.)
+
+	Finally, JHashTable uses double-hashing for space efficiency.  Power-of-two
+	tablesizes make it simple to ensure that a stepping interval obtained from a
+	dual hashing function is relatively prime with the table size--just make sure
+	it is odd!  This can be done very efficiently by bit-wise anding the value
+	with 1.  (I've seen good textbooks go haywire and suggest that the table size
+	be prime number!  I believe the rationale for this trick is suspect even for
+	fixed tablesize student code.  It is not much easier to calculate, makes it
+	much harder to find arbitrary new table sizes when dynamically resizing, and
+	comes with none of the other advantages.)
+
+	Finally, for clarity and maintainability the algorithms for traversing the
+	table are entirely external.  The basic operations are in JConstHashCursor
+	and JHashCursor, and they may be used to implement more user-friendly ones in
+	external client code.
+
+	Future Development
+
+	While JHashTable is still under development, the ultimate goal is extremely
+	high performance when manipulating highly dynamic tables of tens of thousands
+	of entries or more.  The basic code is now complete, so the main development
+	goals are finalizing the interface, testing for performance and robustness,
+	and addressing the several pages of optimization notes.
+
+	BASE CLASS = <NONE>
+
+	Copyright © 1997 by Dustin Laurence.  All rights reserved.
+	
+	Base code generated by Codemill v0.1.0
+
+ *****************************************************************************/
+
+//Class Header
+#include <JHashTable.h>
+
+#include <stdlib.h>
+
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+	lgSize is the base two log of the minimum *and* initial size of the hash
+	table, not the table size itself.  This will help you avoid the temptation
+	to make tables whose sizes are not powers of two.
+
+ *****************************************************************************/
+
+template <class V>
+JHashTable<V>::JHashTable
+	(
+	const JSize lgSize // = kJDefaultLgMinTableSize
+	)
+	:
+	itsLgSize(lgSize),
+	itsMaxIndex( (1UL << itsLgSize) - 1),
+	itsArray(NULL),
+	itsElementCount(0),
+	itsLoadCount(0),
+	itsResizeFlag(kJTrue),
+	itsMaxLoadFactor(kJDefaultMaxLoadFactor),
+	itsMinFillFactor(kJDefaultMinFillFactor),
+	itsLgMinTableSize(itsLgSize),
+	itsEqual(AssertReturnTrue),
+	itsHashFunction(Abort),
+	itsAllowCursorFlag(kJTrue)
+{
+	assert(CHAR_BIT == 8);
+
+	itsArray = new JHashRecord<V>[itsMaxIndex+1];
+	assert(itsArray != NULL);
+
+	itsCursor = new JHashCursor<V>(this);
+	assert(itsCursor != NULL);
+}
+
+/******************************************************************************
+ Destructor
+
+ *****************************************************************************/
+
+template <class V>
+JHashTable<V>::~JHashTable()
+{
+	delete[] itsArray;
+	itsArray = NULL;
+	itsMaxIndex = 0;
+
+	delete itsCursor;
+	itsCursor = NULL;
+}
+
+/******************************************************************************
+ SetResizeEnabled
+
+ *****************************************************************************/
+
+template <class V>
+void
+JHashTable<V>::SetResizeEnabled
+	(
+	const JBoolean enabled
+	)
+{
+	itsResizeFlag = enabled;
+	FitToLimits();
+}
+
+/******************************************************************************
+ SetMaxLoadFactor
+
+	Will be silently coerced into the range  [0.1, 1.0].
+
+ *****************************************************************************/
+
+template <class V>
+void
+JHashTable<V>::SetMaxLoadFactor
+	(
+	const JFloat newMax
+	)
+{
+	itsMaxLoadFactor = newMax;
+	if (itsMaxLoadFactor > 1.0)
+		{
+		itsMaxLoadFactor = 1.0;
+		}
+	else if (itsMaxLoadFactor < 0.1) // These numbers can be parameterized, I guess
+		{
+		itsMaxLoadFactor = 0.1;
+		}
+	FitToLimits();
+}
+
+/******************************************************************************
+ SetMinFillFactor
+
+	Will be silently coerced into the range  [0.0, 1.0].  Note that all other
+	limits take precedence over this one.
+
+ *****************************************************************************/
+
+template <class V>
+void
+JHashTable<V>::SetMinFillFactor
+	(
+	const JFloat newMin
+	)
+{
+	itsMinFillFactor = newMin;
+	if (itsMinFillFactor > 1.0)
+		{
+		itsMinFillFactor = 1.0;
+		}
+	else if (itsMinFillFactor < 0.0)
+		{
+		itsMinFillFactor = 0.0;
+		}
+	FitToLimits();
+}
+
+/******************************************************************************
+ SetMinTableSize
+
+	Rounds to the next larger power of two, but never smaller than one.
+
+ *****************************************************************************/
+
+template <class V>
+void
+JHashTable<V>::SetMinTableSize
+	(
+	const JSize newMin
+	)
+{
+	itsLgMinTableSize = 0;
+
+
+	// Find new min size
+	// Cast to ul instead of JSize so it works even if JSize is not a long
+	while ( static_cast<unsigned long>(1L << itsLgMinTableSize) < newMin)
+		{
+		itsLgMinTableSize++;
+		}
+	FitToLimits();
+}
+
+/******************************************************************************
+ IsOK
+
+	Does a complete consistency check on the hash table.  It is mainly for
+	testing, but feel free to call it if you suspect bugs in the hash table
+	code.
+
+ *****************************************************************************/
+
+template <class V>
+JBoolean
+JHashTable<V>::IsOK() const
+{
+	JBoolean ok = kJTrue;
+
+	JSize elementCount=0;
+	JSize loadCount=0;
+
+	// Someday could use JMemoryManager services to test that itsMaxIndex is correct.
+
+	for (JIndex i=0;i<=itsMaxIndex;i++)
+		{
+		const JHashRecord<V>& thisRecord = itsArray[i];
+		if ( !thisRecord.IsEmpty() )
+			{
+			++loadCount;
+			if ( thisRecord.IsFull() )
+				{
+				++elementCount;
+
+				// Test to see that all full elements can be reached.
+				}
+			}
+		}
+
+	if (elementCount != itsElementCount || loadCount != itsLoadCount
+		|| itsElementCount > itsLoadCount)
+		{
+		ok = kJFalse;
+		}
+
+	return ok;
+}
+
+/******************************************************************************
+ Key manipulation functions
+
+	These functions are the only place where JHashTable does not treat keys as
+	opaque types.  They are provided as a convenient alternative to doing the
+	same work by hand in the client code, but if desired that can be done by
+	avoiding using the cursor functions which would call one of them (generally
+	easy to tell from the name).  As a further convenience predefined defaults
+	and alternatives are supplied.  They are static member functions only
+	because they need to be templates in order to work for any instantiation;
+	user-defined alternatives may be ordinary functions, template functions,
+	or static members of some other template class (unlike ordinary members,
+	static members have ordinary addresses and can be treated like ordinary
+	functions).
+
+ *****************************************************************************/
+
+/******************************************************************************
+ SetKeyComparison (protected)
+
+	The default asserts and then returns zero; this is useful to ensure that the
+	comparison function is not being called in debug code but having it do nothing
+	in ship code, just in case.
+
+	An alternative is supplied which always returns kJTrue, which implies that the
+	hash function is perfect (or that the client doesn't care about JHashTable's
+	key comparisons).  In this case NextKey behaves identically to NextHash, and
+	so on, though it is slower by an indirection and a function call.
+
+ *****************************************************************************/
+
+template <class V>
+void
+JHashTable<V>::SetKeyComparison
+	(
+	JBoolean (* const keysEqual)(const V&, const V&)
+	)
+{
+	assert(keysEqual != NULL);
+	itsEqual = keysEqual;
+}
+
+/******************************************************************************
+ AssertReturnTrue (static protected)
+
+ *****************************************************************************/
+
+template <class V>
+JBoolean
+JHashTable<V>::AssertReturnTrue
+	(
+	const V& value1,
+	const V& value2
+	)
+{
+	assert(0);
+	return kJTrue;
+}
+
+/******************************************************************************
+ ReturnTrue (static protected)
+
+ *****************************************************************************/
+
+template <class V>
+JBoolean
+JHashTable<V>::ReturnTrue
+	(
+	const V& value1,
+	const V& value2
+	)
+{
+	return kJTrue;
+}
+
+/******************************************************************************
+ SetHashFunction (protected)
+
+	The default is a function which merely aborts, indicating that the client
+	is calculating hash values by hand (perhaps because they are being cached
+	for efficiency) and wants a way to test whether it is actually being called.
+	Those who want a safer alternative for ship code will have to pass in the
+	hash function they are using, because nothing is more dangerous than the
+	possibility that more than one hash function could be invoked on one table.
+
+	NULL is not a valid parameter, naturally enough.
+
+ *****************************************************************************/
+
+template <class V>
+void
+JHashTable<V>::SetHashFunction
+	(
+	JHashValue (* const hashFunction)(const V&)
+	)
+{
+	assert(hashFunction != NULL);
+
+	itsHashFunction = hashFunction;
+}
+
+/******************************************************************************
+ Abort (static protected)
+
+ *****************************************************************************/
+
+template <class V>
+JHashValue
+JHashTable<V>::Abort
+	(
+	const V& key
+	)
+{
+	abort();
+	return 0;
+}
+
+/******************************************************************************
+ Set (protected)
+
+	Warning: no bounds checking, and the argument must be an index because it
+	is not wrapped to the tablesize!  However, the Set...functions do invoke
+	FitToLimits() as needed.
+
+	How a record may be set is restricted just as for individual records to
+	make it harder to make errors.
+
+	The record being set must always be in a kFull state after the set.  For
+	this reason, Set() automatically sets the state to kFull.  To help you keep
+	this straight, the version which takes a record asserts that the record is
+	full.
+
+ *****************************************************************************/
+
+template <class V>
+void
+JHashTable<V>::Set
+	(
+	const JSize           index,
+	const JHashRecord<V>& record
+	)
+{
+	assert( record.IsFull() );
+
+	JHashRecord<V>& thisRecord = itsArray[index];
+
+	if ( thisRecord.IsDeleted() )
+		{
+		++itsElementCount;
+		}
+	else if ( thisRecord.IsEmpty() )
+		{
+		++itsElementCount;
+		++itsLoadCount;
+		}
+
+	thisRecord = record;
+
+	FitToLimits();
+}
+
+
+template <class V>
+void
+JHashTable<V>::Set
+	(
+	const JSize      index,
+	const JHashValue hash,
+	const V&         value
+	)
+{
+	JHashRecord<V>& thisRecord = itsArray[index];
+
+	if ( thisRecord.IsDeleted() )
+		{
+		++itsElementCount;
+		}
+	else if ( thisRecord.IsEmpty() )
+		{
+		++itsElementCount;
+		++itsLoadCount;
+		}
+
+	thisRecord.Set(hash, value);
+
+	FitToLimits();
+}
+
+
+template <class V>
+void
+JHashTable<V>::Set
+	(
+	const JSize index,
+	const V&    value
+	)
+{
+	JHashRecord<V>& thisRecord = itsArray[index];
+
+	// HashRecord asserts its state is full, so don't need to check
+
+	thisRecord.Set(value);
+
+	FitToLimits();
+}
+
+
+template <class V>
+void
+JHashTable<V>::SetHash
+	(
+	const JSize index,
+	const V&    value
+	)
+{
+	JHashRecord<V>& thisRecord = itsArray[index];
+
+	if ( thisRecord.IsDeleted() )
+		{
+		++itsElementCount;
+		}
+	else if ( thisRecord.IsEmpty() )
+		{
+		++itsElementCount;
+		++itsLoadCount;
+		}
+
+	thisRecord.Set(itsHashFunction(value), value);
+
+	FitToLimits();
+}
+
+/******************************************************************************
+ Remove (protected)
+
+ *****************************************************************************/
+
+template <class V>
+void
+JHashTable<V>::Remove
+	(
+	const JSize index
+	)
+{
+	JHashRecord<V>& thisRecord = itsArray[index];
+
+	if ( thisRecord.IsFull() )
+		{
+		itsArray[index].Remove();
+		--itsElementCount;
+		if (itsElementCount == 0)
+			{
+			FitToLimits(0, kJTrue); // Force a resize to clear deleted records
+			}
+		else
+			{
+			FitToLimits();
+			}
+		}
+}
+
+/******************************************************************************
+ MarkEmpty (protected)
+
+	DANGER!  Extreme memory leak hazard!  No dynamic memory will be freed, so
+	make sure you know what you're doing.
+
+ *****************************************************************************/
+
+template <class V>
+void
+JHashTable<V>::MarkEmpty
+	(
+	const JSize index
+	)
+{
+	JHashRecord<V>& thisRecord = itsArray[index];
+
+	JHashRecordT::State oldState = thisRecord.GetState();
+	if (oldState != JHashRecordT::kEmpty)
+		{
+		itsArray[index].MarkEmpty();
+
+		--itsLoadCount;
+		if (oldState == JHashRecordT::kFull)
+			{
+			--itsElementCount;
+			}
+		FitToLimits();
+		}
+}
+
+/******************************************************************************
+ MarkAllEmpty (protected)
+
+	DANGER!  Extreme memory leak hazard!
+
+	Since this unconditionally marks all records as empty, using this with any
+	instantiation which stores references to dynamic memory in the records will
+	leak unless you have the references somewhere else.  This is very easy to
+	misuse....
+
+ *****************************************************************************/
+
+template <class V>
+void
+JHashTable<V>::MarkAllEmpty()
+{
+	_MarkAllEmpty();
+	FitToLimits();
+}
+
+/******************************************************************************
+ TryResizeTable (protected)
+
+	Does not respect limits--use FitToLimits for that.
+
+ *****************************************************************************/
+
+template <class V>
+JBoolean
+JHashTable<V>::TryResizeTable
+	(
+	const JSize lgSize
+	)
+{
+	// Can we do it the easy way?
+	if (itsElementCount == 0) // Can simply mark all empty
+		{
+		if (itsLgSize == lgSize)
+			{
+//cout << "Shortcut: marking all empty" << endl;
+			MarkAllEmpty();
+			}
+		else
+			{
+//cout << "Shortcut: just realloc'ing list" << endl;
+			// This must be replaced with a true realloc as soon as JMM can do it
+			delete[] itsArray;
+			itsArray = NULL;
+
+			itsLgSize = lgSize;
+			itsMaxIndex = (1UL << itsLgSize) - 1;
+
+			itsArray = new JHashRecord<V>[itsMaxIndex+1];
+			assert(itsArray != NULL);
+
+			itsLoadCount = 0;
+			}
+		return kJTrue;
+		}
+
+	// Guess not, do it the hard way.
+
+	// The 'Frankenstein' resize algorithm: create a temporary object which is like
+	// we wish we were, then swap guts and let the temporary delete our old table.
+	// Or is that the 'Dracula' resize algorithm?
+
+	JHashTable<V> newTable(lgSize);
+	newTable.SetResizeEnabled(kJFalse);
+
+	// Make the temporary table behave identically to the old
+
+	newTable.itsMaxLoadFactor = itsMaxLoadFactor;
+	newTable.itsMinFillFactor = itsMinFillFactor;
+	newTable.itsLgMinTableSize = itsLgMinTableSize;
+
+	//	newTable.itsEqual = itsEqual; // Not needed to rebuild the table
+	newTable.itsHashFunction = itsHashFunction;
+
+	// Try to resize
+	// Unt now ve exchange der subject's brains, Igor!
+	if ( !newTable.TryInsertAll(this) )
+		{
+		return kJFalse;
+		}
+
+	// Steal the temporary table's data and give it our old
+
+	// We have to swap the tables so newTable.~JHashTable will delete the old one
+	// Heere is the braain, masster!
+	JHashRecord<V>* swapArray = itsArray;
+	itsArray = newTable.itsArray;
+	newTable.itsArray = swapArray;
+
+	// We don't have to swap the rest of the data because the temporary's
+	// destructor won't reference them.
+
+	itsLgSize = newTable.itsLgSize;
+	itsMaxIndex = newTable.itsMaxIndex;
+
+	itsElementCount = newTable.itsElementCount;
+	itsLoadCount = newTable.itsLoadCount;
+
+	// itsResizeFlag must not be copied, obviously!
+	itsMaxLoadFactor = newTable.itsMaxLoadFactor;
+	itsMinFillFactor = newTable.itsMinFillFactor;
+	itsLgMinTableSize = newTable.itsLgMinTableSize;
+
+	// Already have the equality and hash functions
+
+	assert(GetTableSize() == (1UL << itsLgSize));
+
+	// You insignificant ones go away!  I, Count Dracula, have drained the life
+	// from this worthless one.  Bleah, bleah!
+	return kJTrue;
+}
+
+/******************************************************************************
+ ResizeTable (protected)
+
+	Does not respect limits--use FitToLimits for that.
+
+ *****************************************************************************/
+
+template <class V>
+void
+JHashTable<V>::ResizeTable
+	(
+	const JSize lgTrialSize
+	)
+{
+	JSize lgSize = lgTrialSize;
+
+	while ( !TryResizeTable(lgSize) )
+		{
+		// FitToLimits should really ensure that this never happens!
+//cout << "*** Resize failed, retrying" << endl;
+		++lgSize;
+		}
+}
+
+/******************************************************************************
+ FitToLimits (virtual protected)
+
+	FitToLimits encapsulates as much as possible of the resizing behavior of
+	JHashTable in one place.  It attempts to be as efficient as possible (that
+	is, perform as few resizes as possible) for a wide range of insert, search,
+	and delete behaviors.
+
+	If 'force' is kJTrue, a resize is always done (and thus the load factor is
+	reduced to the fill factor), unless resizing is disabled.  If 'force is
+	kJFalse (the default) a resize is only done if there are fewer slots
+	available than that specified by 'required' argument, or if the current
+	limits are being violated.  After a resize, there will be enough space for
+	at least 'required' more items before the limits will be violated.
+
+	Note that the 'required' argument let's you make a single call to guarantee
+	that an insert will succeed before you do it.  If you're going to insert
+	multiple items, you can avoid avoid any intermediate resizes by disabling
+	resizing while you insert.
+
+	The return value is kJTrue if a resize was actually done.
+
+	This default implementation should need customization seldom or never, but
+	this function is virtual so the ability is there.  If you write your own
+	version please contact the author so that improvements to the algorithm
+	can benefit everyone in future releases.  Note that the hash table depends
+	internally on the behaviors specified above, so client-specified versions
+	should obey them carefully.
+
+ *****************************************************************************/
+
+template <class V>
+JBoolean
+JHashTable<V>::FitToLimits
+	(
+	const JSize required, // = 0
+	const JBoolean force  // = kJFalse
+	)
+{
+	JBoolean resized = kJFalse;
+
+	// Only resize if we must, to avoid unnecessary shuffling
+	if	(
+			// We're allowed to
+			itsResizeFlag
+			&&
+			(
+				// We're being forced to
+				force
+				||
+				// We need to
+				(
+					// We don't have room for 'required' objects
+					( GetTableSize() - GetElementCount() ) < required
+					||
+					// We're violating the current limits
+					(
+						GetLoadFactor() > itsMaxLoadFactor
+						||
+						(
+							GetFillFactor() < itsMinFillFactor
+							&&
+							itsLgSize > itsLgMinTableSize
+						)
+						||
+						itsLgSize < itsLgMinTableSize
+					)
+				)
+			)
+		)
+		{
+//cout << "      Resizing from lg(size) = " << itsLgSize << " (load " << GetLoadFactor()
+//     << "%, " << GetLoadCount()-GetElementCount() << " deleted)\n";
+		JSize newLgSize = itsLgSize;
+
+		// Attempt to shrink if lots of stuff was deleted
+		while	(
+				newLgSize > itsLgMinTableSize
+				&&
+				(1.0*GetElementCount()+required)/(1L << newLgSize) 
+					< itsMinFillFactor
+//					< (itsMaxLoadFactor+itsMinFillFactor)/2
+				)
+			{
+			--newLgSize;
+			}
+
+		// Grow if the load is too high
+		// The average of maxload and minfill avoids many useless resizes
+		while ((1.0*GetElementCount()+required)/(1L << newLgSize)
+			> (itsMaxLoadFactor+itsMinFillFactor)/2 )
+			{
+			++newLgSize;
+			}
+
+		ResizeTable(newLgSize);
+		resized = kJTrue;
+
+//cout << "                            to " << itsLgSize << " (load " << GetLoadFactor()
+//     << "%, " << GetLoadCount()-GetElementCount() << " deleted)" << endl;
+		}
+
+#if 0
+	if (itsResizeFlag)
+		{
+		assert(GetLoadFactor() <= itsMaxLoadFactor);
+		assert(itsLgSize >= itsLgMinTableSize);
+		assert(GetFillFactor() >= itsMinFillFactor || itsLgSize == itsLgMinTableSize);
+		}
+#endif
+
+	return resized;
+}
+
+/******************************************************************************
+ _MarkAllEmpty (private)
+
+ *****************************************************************************/
+
+template <class V>
+void
+JHashTable<V>::_MarkAllEmpty()
+{
+	for (JIndex i=0;i<=itsMaxIndex;i++)
+		{
+		itsArray[i].MarkEmpty();
+		}
+
+	itsElementCount = itsLoadCount = 0;
+}
+
+/******************************************************************************
+ TryInsert (private)
+
+	Inserts the data (key and value) of the given record at the appropriate
+	location (based on the record's hash value) and returns kJTrue, if possible.
+	Otherwise, does nothing and returns kJFalse.
+
+ *****************************************************************************/
+
+template <class V>
+JBoolean
+JHashTable<V>::TryInsert
+	(
+	const JHashRecord<V>& record
+	)
+{
+	itsCursor->ResetHash( record.GetHashValue() );
+
+	if ( itsCursor->NextOpen() )
+		{
+		itsCursor->Set(record);
+		return kJTrue;
+		}
+	else
+		{
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ TryInsertAll (private)
+
+	Attempts to insert all records in the source table.  Returns kJTrue if all
+	records were successfully inserted, kJFalse if at least one was not able to
+	be inserted.
+
+ *****************************************************************************/
+
+template <class V>
+JBoolean
+JHashTable<V>::TryInsertAll
+	(
+	const JHashTable<V>* source
+	)
+{
+	JConstHashCursor<V>* sourceCursor = source->itsCursor;
+	sourceCursor->Reset(kJTrue);
+
+	while ( sourceCursor->NextFull() )
+		{
+		if ( !TryInsert( sourceCursor->GetRecord() ) )
+			{
+			return kJFalse;
+			}
+		}
+
+	return kJTrue;
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JHashTable
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

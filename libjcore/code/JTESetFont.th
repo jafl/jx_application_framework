@@ -1,0 +1,46 @@
+/******************************************************************************
+ JTESetFont.th
+
+	Use this file to instantiate code for JTextEditor::SetFont*()
+
+	To use this file:
+
+		#define LocalVarName      ____
+		#define StructElementName ____
+		#include <JTESetFont.th>
+		#undef LocalVarName
+		#undef StructElementName
+
+	Copyright © 2000 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+	if (clearUndo)
+		{
+		ClearUndo();
+		}
+
+	Font f;
+	JBoolean changed = kJFalse;
+	JRunArrayIterator<Font> iter(itsStyles, kJIteratorStartBefore, startIndex);
+	for (JIndex i=startIndex; i<=endIndex; i++)
+		{
+		const JBoolean ok = iter.Next(&f);
+		assert( ok );
+
+		if (LocalVarName != f.StructElementName)
+			{
+			f.StructElementName = LocalVarName;
+
+			f.id = itsFontMgr->UpdateFontID(f.id, f.size, f.style);
+			iter.SetPrev(f);
+			changed = kJTrue;
+			}
+		}
+
+	if (changed)
+		{
+		Recalc(startIndex, endIndex - startIndex + 1, kJFalse);
+		}
+
+	return changed;

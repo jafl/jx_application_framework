@@ -1,0 +1,8 @@
+-suffix .cpp
+
+@compile_jstrings
+
+-prefix ${CODEDIR}/
+
+compile_jstrings
+literal: ${LIB_DEPS}

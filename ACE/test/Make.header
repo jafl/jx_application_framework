@@ -1,0 +1,98 @@
+# To use this file, first run "makemake" and then run "make".
+# (makemake is part of the JX distribution)
+
+# Useful directories
+
+JX_ROOT := ../..
+
+CODEDIR  := ./code
+JCOREDIR := ${JX_ROOT}/include/jcore
+
+JLIBDIR     := ${JX_ROOT}/lib
+JCORELIBDIR := ${JX_ROOT}/libjcore
+ACELIBDIR   := ${JX_ROOT}/ACE
+
+# Directories to search for header files
+
+SEARCHDIRS := -I${CODEDIR} \
+              -I${JCOREDIR}
+
+# other constants
+
+PROG_LIST := client server evt_client evt_server
+
+# makemake variables
+
+include ${JX_ROOT}/include/make/jx_constants
+include ${JX_ROOT}/include/make/jx_config
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
+               -g ${SEARCHDIRS}
+
+# library dependencies
+
+ifdef J_BUILD_SHARED_LIB
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.so \
+              ${JLIBDIR}/libACE-${ACE_LIB_VERSION}.so
+else
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
+              ${JLIBDIR}/libACE-${ACE_LIB_VERSION}.a
+endif
+
+# make variables
+
+LOADLIBES := -L${JLIBDIR} ${ljcore} ${J_ACE_LIBS} ${J_GCC_LIBS}
+LDFLAGS   := 
+
+#####
+
+.PHONY : default
+default: libs all
+
+.PHONY : Makefiles
+Makefiles:
+
+#
+# required libraries
+#
+
+.PHONY : libs
+libs:
+	@cd ${JCORELIBDIR}; ${MAKE}
+
+.PHONY : touch
+touch::
+	@cd ${JCORELIBDIR}; ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch
+
+#
+# JX source distribution (DISTR_TAR_FILE)
+#
+
+SRC_FILE_DIR := ${JX}/ACE/test
+
+.PHONY : jxsource
+jxsource:
+	@cd ${J_DISTR_TAR_DIR}; \
+     tar -rf ${DISTR_TAR_FILE} ${filter-out %.o %~, \
+                                 ${shell cd ${J_DISTR_TAR_DIR}; echo \
+             ${addprefix ${SRC_FILE_DIR}/, Make.* *.jcc README} \
+             ${SRC_FILE_DIR}/code/* }}
+
+#
+# debugging version
+#
+
+DEBUG_LOADLIBES := -L${JLIBDIR} \
+                   ${J_BEGIN_LINK_STATIC} \
+                   ${ljcore} ${J_ACE_LIBS} \
+                   ${J_END_LINK_STATIC} \
+                   ${J_GCC_LIBS}
+
+.PHONY : debug
+debug: staticACE
+	@${RM} ${PROG_LIST}
+	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}"
+
+.PHONY : staticACE
+staticACE:
+	@cd ${ACELIBDIR}; ${MAKE} static

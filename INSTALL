@@ -1,0 +1,96 @@
+
+*** Step 1:  Preparation
+
+You need gcc 2.96 (or later) and GNU's version of make.
+
+You should find a computer where you can compile to the local disk.
+Compiling to a remote disk over NFS is usually very slow.
+
+Decide where you want the JX-2.5.0 directory to reside.  Absolute paths are
+compiled into some of the utility programs, so you will have to rebuild
+everything if you move JX-2.5.0 to a different location after building it.
+
+
+*** Step 2:  Compiling
+
+If you want the binaries installed somewhere other than ~/bin (or
+JX-2.5.0/bin, if ~/bin doesn't exist), set the environment variable
+JX_INSTALL_ROOT to the desired directory.
+
+  Use "setenv JX_INSTALL_ROOT value" at the top of ~/.cshrc if you use csh
+  or "export JX_INSTALL_ROOT=value" at the top of ~/.bashrc if you use
+  bash.
+
+This directory (JX-2.5.0/bin, ~/bin, or $JX_INSTALL_ROOT), must be on your
+execution path.
+
+  Use "set path = ( new_path $path )" at the top of ~/.cshrc if you use csh
+  or "export PATH=new_path:$PATH" at the top of ~/.bashrc if you use bash.
+
+Do not add JX-2.5.0/lib to your LD_LIBRARY_PATH.  This will cause conflicts
+with the shared libraries used by Code Crusader, Code Medic, etc.
+
+Run "make" and following the instructions for setting ACE_ROOT and
+compiling the libraries and utility programs.  This will compile everything
+and install the programs.  You can ignore any errors that make ignores.
+
+  You can avoid installing the binaries by setting the environment variable
+  J_WANT_INSTALL equal to 0.
+
+  Everything in JX-2.5.0 will be built, including any 3rd party libraries
+  and programs that you unpack after the main distribution.
+
+If you cannot use the version of libXpm already installed on your system
+(e.g. because it is too old) or if you do not have libXpm at all, then
+uncomment the definition of JX_INCLUDE_LIBXPM near the top of the
+appropriate file in include/make/sys/
+
+Since ACE is huge, only one version of the library is built.  If you want
+the other version as well, go to the ACE directory and type "make shared"
+or "make static" after you have built everything else.
+
+If your system is not already supported, create another entry in the
+Makefile by copying one of the existing ones and modifying it as follows:
+
+  Start by assuming that jMissingProto_empty.h is appropriate. If you get
+  compile errors, create a new one and fill it with whatever is necessary.
+
+  Create a new file in include/make/sys/ by copying template_g++ and
+  editing the "Adjustable Parameters" section.
+
+  If you cannot find a suitable pair of ACE configuration files, contact
+  the developers.  (http://www.cs.wustl.edu/~schmidt/ACE.html)
+
+  Once you get the entire distribution to compile, contact me so I can add
+  your patches to the distribution so you won't have to do it again.
+
+
+*** Step 3:  Additional configuration
+
+Get the xforms distribution from
+
+	http://world.std.com/~xforms/
+
+and extract the fdesign binary.  This should be placed in ~/bin. (or
+$JX_INSTALL_ROOT, if you set it)  fdesign is the graphical layout tool.
+
+It is also a good idea to set the following environment variables:
+
+    setenv JMM_INITIALIZE   "default"
+    setenv JMM_SHRED        "default"
+
+Check libjcore/code/JMemoryManager.cc for more information.
+
+
+*** Step 4:  Compiling the other sample programs
+
+To compile the tutorials or test suites, go to the directory and run first
+makemake and then make.
+
+
+*** Step 5:  Creating your own programs
+
+If you are using Code Crusader, create a new project using the
+JX_application project template.  Otherwise run jx_project_wizard directly.
+This will give you a skeleton program to get you started.
+

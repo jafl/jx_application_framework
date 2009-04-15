@@ -1,0 +1,147 @@
+0
+
+# Copyright © 2000-08 by John Lindal. All rights reserved.
+
+# main
+
+VERSION		"2.2.1"
+COPYRIGHT
+"Copyright © 1997-2008 John Lindal.  All rights reserved.
+
+This software is subject to the license agreement set forth in the license (refer to the on-line help).
+
+System G and New Planet Software are trademarks of John Lindal.
+
+http://www.newplanetsoftware.com/"
+
+SyGName		"System G"
+
+# SyGGlobals
+
+Description::SyGGlobals
+"System G $version
+
+Graphical interface to the file system.
+
+$copyright"
+
+EmptyTrashError::SyGGlobals
+"Unable to empty the trash can.
+
+Please check the ownership and write permissions of the remaining files."
+
+CreateTrashError::SyGGlobals
+"Unable to create a directory ~/.trashcan because:
+
+$err"
+
+CreateRecentFileDirError::SyGGlobals
+"Unable to create a directory ~/.jxfvwm2taskbar/recent_files because:
+
+$err"
+
+NoPrefsDir::SyGGlobals
+"Unable to create a directory for the trash because you do not have a home directory."
+
+DNDCopyDescription::SyGGlobals	"copy the items"
+DNDMoveDescription::SyGGlobals	"move the items"
+DNDLinkDescription::SyGGlobals	"create aliases for the items"
+
+# SyGTreeDir
+
+TrashName::SyGTreeDir	"Trash"
+
+TrashButtonHint::SyGTreeDir
+"Click here to open the trash or drag here to drop in the trash."
+
+# SyGTreeSet
+
+TrashName::SyGTreeSet	"Trash"
+
+# SyGFileTreeTable
+
+WarnDeleteSingleFile::SyGFileTreeTable
+"Are you sure you want to permanently delete \"$name\"?"
+
+WarnDeleteSingleDir::SyGFileTreeTable
+"Are you sure you want to permanently delete \"$name\" and its contents?"
+
+WarnDeleteMultipleFile::SyGFileTreeTable
+"Are you sure you want to permanently delete these $count selected items?"
+
+WarnDeleteMultipleDir::SyGFileTreeTable
+"Are you sure you want to permanently delete these $count selected items and their contents?"
+
+CreateFolderError::SyGFileTreeTable
+"A new folder could not created because:
+
+$err"
+
+CreateTextFileError::SyGFileTreeTable
+"A new text file could not be created.  Please check that you have write access to the folder and that the disk is not full."
+
+CreateAliasError::SyGFileTreeTable
+"An alias could not created because:
+
+$err"
+
+WarnEraseDisk::SyGFileTreeTable
+"This will erase all information on this disk!
+
+Are you sure want to do this?"
+
+RenameError::SyGFileTreeTable
+"The name of this item could not be changed because:
+
+$err"
+
+# SyGCopyProcess
+
+AskAutoReplace::SyGCopyProcess
+"Do you wish to replace the existing items automatically?"
+
+AskReplace::SyGCopyProcess
+"Do you wish to replace the existing item \"$name\"?"
+
+OnlyReplaceSameType::SyGCopyProcess
+"You cannot replace the $dest_type \"$dest\" with a $src_type."
+
+NoMoveIntoSelf::SyGCopyProcess
+"You cannot move the directory \"$src\" into itself."
+
+NoReplaceWithContents::SyGCopyProcess
+"You cannot replace the directory \"$dest\" with something that it contains."
+
+# SyGMDIServer
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+CommandLineHelp::SyGMDIServer
+
+"System G $version
+
+$copyright
+
+This X application provides a graphical interface to the file system.
+It can be safely invoked from the command line as often as you like.
+
+Usage:  systemg [--choose | --open | --run | (path|file) [...]]
+
+--help          prints this help
+--version       prints version information
+--choose        opens Choose Directory dialog
+--open          opens Choose Files dialog
+--run           opens Run Command dialog
+--force-new     all following paths will open in new windows
+--no-force-new  all following paths will open in existing windows, if possible"
+
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+# SyGAboutDialog
+
+ChangeButtonLabel::SyGAboutDialog	"Changes"
+
+UpgradeNotice::SyGAboutDialog
+"
+
+
+You have just upgraded from version $vers"

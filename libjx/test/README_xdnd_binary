@@ -1,0 +1,52 @@
+
+This binary implements Version 4 of the XDND protocol.  You can drop
+anything on the main window that appears when the application starts up,
+and you can drag text from and drop text into the text editor windows that
+you get by selecting "Text editor" from the Test menu.
+
+The main window will only accept drops with action copy.  This demonstrates
+that the user can safely change action while dragging.
+
+When dragging from a text editor, Meta toggles between move and copy, while
+holding down the Control key sets the action to ask.
+
+The Xpm and ACE libraries have been statically linked.
+
+John Lindal
+xdnd@newplanetsoftware.com
+
+-----
+
+libXpm
+
+    Copyright (C) 1989-95 GROUPE BULL
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to
+    deal in the Software without restriction, including without limitation the
+    rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+    sell copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+    GROUPE BULL BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+    AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+    CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+    Except as contained in this notice, the name of GROUPE BULL shall not be
+    used in advertising or otherwise to promote the sale, use or other dealings
+    in this Software without prior written authorization from GROUPE BULL.
+
+-----
+
+    ACE is copyrighted by Douglas C. Schmidt and his research group at
+    Washington University, Copyright (c) 1993-1997, all rights reserved.
+
+    ACE is available from:
+
+        http://siesta.cs.wustl.edu/~schmidt/ACE.html

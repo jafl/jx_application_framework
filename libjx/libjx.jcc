@@ -1,0 +1,1090 @@
+jx_browser_data 82
+# project tree
+0 "root"
+T
+1 "Application"
+T
+2 "JXApplication.cpp"
+F
+"./code/JXApplication.cpp"
+T
+2 "jXGlobals.cpp"
+F
+"./code/jXGlobals.cpp"
+T
+2 "JXMDIServer.cpp"
+F
+"./code/JXMDIServer.cpp"
+T
+2 "JXIdleTask.cpp"
+F
+"./code/JXIdleTask.cpp"
+T
+2 "JXTimerTask.cpp"
+F
+"./code/JXTimerTask.cpp"
+T
+2 "JXQuitIfAllDeactTask.cpp"
+F
+"./code/JXQuitIfAllDeactTask.cpp"
+T
+2 "JXCheckModTimeTask.cpp"
+F
+"./code/JXCheckModTimeTask.cpp"
+T
+2 "JXUrgentTask.cpp"
+F
+"./code/JXUrgentTask.cpp"
+F
+T
+1 "Display"
+T
+2 "JXDisplay.cpp"
+F
+"./code/JXDisplay.cpp"
+T
+2 "JXDisplayMenu.cpp"
+F
+"./code/JXDisplayMenu.cpp"
+T
+2 "JXWindow.cpp"
+F
+"./code/JXWindow.cpp"
+T
+2 "JXIconDirector.cpp"
+F
+"./code/JXIconDirector.cpp"
+T
+2 "JXWindowIcon.cpp"
+F
+"./code/JXWindowIcon.cpp"
+T
+2 "JXButtonStates.cpp"
+F
+"./code/JXButtonStates.cpp"
+T
+2 "JXKeyModifiers.cpp"
+F
+"./code/JXKeyModifiers.cpp"
+T
+2 "jXEventUtil.cpp"
+F
+"./code/jXEventUtil.cpp"
+T
+2 "JXOpenDisplayDialog.cpp"
+F
+"./code/JXOpenDisplayDialog.cpp"
+F
+T
+1 "Selection"
+T
+2 "JXSelectionManager.cpp"
+F
+"./code/JXSelectionManager.cpp"
+T
+2 "JXSelectionData.cpp"
+F
+"./code/JXSelectionData.cpp"
+T
+2 "JXTextSelection.cpp"
+F
+"./code/JXTextSelection.cpp"
+T
+2 "JXImageSelection.cpp"
+F
+"./code/JXImageSelection.cpp"
+T
+2 "JXFileSelection.cpp"
+F
+"./code/JXFileSelection.cpp"
+F
+T
+1 "DND"
+T
+2 "JXDNDManager.cpp"
+F
+"./code/JXDNDManager.cpp"
+T
+2 "JXDNDChooseDropActionDialog.cpp"
+F
+"./code/JXDNDChooseDropActionDialog.cpp"
+F
+T
+1 "Director"
+T
+2 "JXDirector.cpp"
+F
+"./code/JXDirector.cpp"
+T
+2 "JXCloseDirectorTask.cpp"
+F
+"./code/JXCloseDirectorTask.cpp"
+T
+2 "JXWindowDirector.cpp"
+F
+"./code/JXWindowDirector.cpp"
+T
+2 "JXDialogDirector.cpp"
+F
+"./code/JXDialogDirector.cpp"
+T
+2 "JXWDManager.cpp"
+F
+"./code/JXWDManager.cpp"
+T
+2 "JXWDMenu.cpp"
+F
+"./code/JXWDMenu.cpp"
+T
+2 "JXUpdateWDMenuTask.cpp"
+F
+"./code/JXUpdateWDMenuTask.cpp"
+F
+T
+1 "Document"
+T
+2 "JXDocument.cpp"
+F
+"./code/JXDocument.cpp"
+T
+2 "JXFileDocument.cpp"
+F
+"./code/JXFileDocument.cpp"
+T
+2 "JXDocumentManager.cpp"
+F
+"./code/JXDocumentManager.cpp"
+T
+2 "JXDocumentMenu.cpp"
+F
+"./code/JXDocumentMenu.cpp"
+T
+2 "JXUpdateDocMenuTask.cpp"
+F
+"./code/JXUpdateDocMenuTask.cpp"
+F
+T
+1 "Widget"
+T
+2 "JXContainer.cpp"
+F
+"./code/JXContainer.cpp"
+T
+2 "JXWidget.cpp"
+F
+"./code/JXWidget.cpp"
+T
+2 "JXWidgetSet.cpp"
+F
+"./code/JXWidgetSet.cpp"
+T
+2 "JXScrollableWidget.cpp"
+F
+"./code/JXScrollableWidget.cpp"
+T
+2 "JXAdjustScrollbarTask.cpp"
+F
+"./code/JXAdjustScrollbarTask.cpp"
+T
+2 "JXScrollbar.cpp"
+F
+"./code/JXScrollbar.cpp"
+T
+2 "JXScrollbarSet.cpp"
+F
+"./code/JXScrollbarSet.cpp"
+T
+2 "JXScrolltab.cpp"
+F
+"./code/JXScrolltab.cpp"
+T
+2 "JXHintManager.cpp"
+F
+"./code/JXHintManager.cpp"
+T
+2 "JXHintDirector.cpp"
+F
+"./code/JXHintDirector.cpp"
+T
+2 "JXCursor.cpp"
+F
+"./code/JXCursor.cpp"
+T
+2 "JXCursorAnimationTask.cpp"
+F
+"./code/JXCursorAnimationTask.cpp"
+T
+2 "JXCursorAnimator.cpp"
+F
+"./code/JXCursorAnimator.cpp"
+F
+T
+1 "Button"
+T
+2 "JXButton.cpp"
+F
+"./code/JXButton.cpp"
+T
+2 "JXTextButton.cpp"
+F
+"./code/JXTextButton.cpp"
+T
+2 "JXImageButton.cpp"
+F
+"./code/JXImageButton.cpp"
+T
+2 "JXCheckbox.cpp"
+F
+"./code/JXCheckbox.cpp"
+T
+2 "JXTextCheckbox.cpp"
+F
+"./code/JXTextCheckbox.cpp"
+T
+2 "JXImageCheckbox.cpp"
+F
+"./code/JXImageCheckbox.cpp"
+T
+2 "JXCheckboxGroup.cpp"
+F
+"./code/JXCheckboxGroup.cpp"
+T
+2 "JXAtLeastOneCBGroup.cpp"
+F
+"./code/JXAtLeastOneCBGroup.cpp"
+T
+2 "JXAtMostOneCBGroup.cpp"
+F
+"./code/JXAtMostOneCBGroup.cpp"
+T
+2 "JXRadioGroup.cpp"
+F
+"./code/JXRadioGroup.cpp"
+T
+2 "JXRadioButton.cpp"
+F
+"./code/JXRadioButton.cpp"
+T
+2 "JXTextRadioButton.cpp"
+F
+"./code/JXTextRadioButton.cpp"
+T
+2 "JXImageRadioButton.cpp"
+F
+"./code/JXImageRadioButton.cpp"
+T
+2 "JXRadioGroupDialog.cpp"
+F
+"./code/JXRadioGroupDialog.cpp"
+F
+T
+1 "Menu"
+T
+2 "JXMenuManager.cpp"
+F
+"./code/JXMenuManager.cpp"
+T
+2 "JXMenuBar.cpp"
+F
+"./code/JXMenuBar.cpp"
+T
+2 "JXMenu.cpp"
+F
+"./code/JXMenu.cpp"
+T
+2 "JXMenuData.cpp"
+F
+"./code/JXMenuData.cpp"
+T
+2 "JXMenuDirector.cpp"
+F
+"./code/JXMenuDirector.cpp"
+T
+2 "JXMenuTable.cpp"
+F
+"./code/JXMenuTable.cpp"
+T
+2 "JXTextMenu.cpp"
+F
+"./code/JXTextMenu.cpp"
+T
+2 "JXTextMenuData.cpp"
+F
+"./code/JXTextMenuData.cpp"
+T
+2 "JXTextMenuDirector.cpp"
+F
+"./code/JXTextMenuDirector.cpp"
+T
+2 "JXTextMenuTable.cpp"
+F
+"./code/JXTextMenuTable.cpp"
+T
+2 "JXImageMenu.cpp"
+F
+"./code/JXImageMenu.cpp"
+T
+2 "JXImageMenuData.cpp"
+F
+"./code/JXImageMenuData.cpp"
+T
+2 "JXImageMenuDirector.cpp"
+F
+"./code/JXImageMenuDirector.cpp"
+T
+2 "JXImageMenuTable.cpp"
+F
+"./code/JXImageMenuTable.cpp"
+T
+2 "JXStyleMenu.cpp"
+F
+"./code/JXStyleMenu.cpp"
+T
+2 "JXStyleMenuDirector.cpp"
+F
+"./code/JXStyleMenuDirector.cpp"
+T
+2 "JXStyleMenuTable.cpp"
+F
+"./code/JXStyleMenuTable.cpp"
+F
+T
+1 "Menus"
+T
+2 "JXHistoryMenuBase.cpp"
+F
+"./code/JXHistoryMenuBase.cpp"
+T
+2 "JXStringHistoryMenu.cpp"
+F
+"./code/JXStringHistoryMenu.cpp"
+T
+2 "JXPathHistoryMenu.cpp"
+F
+"./code/JXPathHistoryMenu.cpp"
+T
+2 "JXFileHistoryMenu.cpp"
+F
+"./code/JXFileHistoryMenu.cpp"
+T
+2 "JXXFontMenu.cpp"
+F
+"./code/JXXFontMenu.cpp"
+F
+T
+1 "Text"
+T
+2 "JXTEBase.cpp"
+F
+"./code/JXTEBase.cpp"
+T
+2 "JXTEBlinkCaretTask.cpp"
+F
+"./code/JXTEBlinkCaretTask.cpp"
+T
+2 "JXSearchTextDialog.cpp"
+F
+"./code/JXSearchTextDialog.cpp"
+T
+2 "JXSearchTextButton.cpp"
+F
+"./code/JXSearchTextButton.cpp"
+T
+2 "JXRegexInput.cpp"
+F
+"./code/JXRegexInput.cpp"
+T
+2 "JXRegexReplaceInput.cpp"
+F
+"./code/JXRegexReplaceInput.cpp"
+T
+2 "JXTextEditorSet.cpp"
+F
+"./code/JXTextEditorSet.cpp"
+T
+2 "JXTextEditor.cpp"
+F
+"./code/JXTextEditor.cpp"
+T
+2 "JXFontNameMenu.cpp"
+F
+"./code/JXFontNameMenu.cpp"
+T
+2 "JXFontSizeMenu.cpp"
+F
+"./code/JXFontSizeMenu.cpp"
+T
+2 "JXFontCharSetMenu.cpp"
+F
+"./code/JXFontCharSetMenu.cpp"
+T
+2 "JXTEStyleMenu.cpp"
+F
+"./code/JXTEStyleMenu.cpp"
+T
+2 "JXChooseMonoFont.cpp"
+F
+"./code/JXChooseMonoFont.cpp"
+T
+2 "JXChooseFontSizeDialog.cpp"
+F
+"./code/JXChooseFontSizeDialog.cpp"
+T
+2 "JXGoToLineDialog.cpp"
+F
+"./code/JXGoToLineDialog.cpp"
+T
+2 "JXLinkText.cpp"
+F
+"./code/JXLinkText.cpp"
+F
+T
+1 "SpellCheck"
+T
+2 "JXSpellChecker.cpp"
+F
+"./code/JXSpellChecker.cpp"
+T
+2 "JXSpellCheckerDialog.cpp"
+F
+"./code/JXSpellCheckerDialog.cpp"
+T
+2 "JXSpellList.cpp"
+F
+"./code/JXSpellList.cpp"
+F
+T
+1 "InputField"
+T
+2 "JXInputField.cpp"
+F
+"./code/JXInputField.cpp"
+T
+2 "JXIntegerInput.cpp"
+F
+"./code/JXIntegerInput.cpp"
+T
+2 "JXFloatInput.cpp"
+F
+"./code/JXFloatInput.cpp"
+T
+2 "JXPasswordInput.cpp"
+F
+"./code/JXPasswordInput.cpp"
+T
+2 "JXCharInput.cpp"
+F
+"./code/JXCharInput.cpp"
+T
+2 "JXPathInput.cpp"
+F
+"./code/JXPathInput.cpp"
+T
+2 "JXFileInput.cpp"
+F
+"./code/JXFileInput.cpp"
+F
+T
+1 "Table"
+T
+2 "JXTable.cpp"
+F
+"./code/JXTable.cpp"
+T
+2 "JXStyleTable.cpp"
+F
+"./code/JXStyleTable.cpp"
+T
+2 "JXStyleTableMenu.cpp"
+F
+"./code/JXStyleTableMenu.cpp"
+T
+2 "JXEditTable.cpp"
+F
+"./code/JXEditTable.cpp"
+T
+2 "JXStringTable.cpp"
+F
+"./code/JXStringTable.cpp"
+T
+2 "JXFloatTable.cpp"
+F
+"./code/JXFloatTable.cpp"
+T
+2 "JXStringList.cpp"
+F
+"./code/JXStringList.cpp"
+T
+2 "JXRowHeaderWidget.cpp"
+F
+"./code/JXRowHeaderWidget.cpp"
+T
+2 "JXColHeaderWidget.cpp"
+F
+"./code/JXColHeaderWidget.cpp"
+F
+T
+1 "Partition"
+T
+2 "JXPartition.cpp"
+F
+"./code/JXPartition.cpp"
+T
+2 "JXHorizPartition.cpp"
+F
+"./code/JXHorizPartition.cpp"
+T
+2 "JXVertPartition.cpp"
+F
+"./code/JXVertPartition.cpp"
+F
+T
+1 "CardFile"
+T
+2 "JXTabGroup.cpp"
+F
+"./code/JXTabGroup.cpp"
+T
+2 "JXSelectTabTask.cpp"
+F
+"./code/JXSelectTabTask.cpp"
+T
+2 "JXScrollTabsTask.cpp"
+F
+"./code/JXScrollTabsTask.cpp"
+T
+2 "JXCardFile.cpp"
+F
+"./code/JXCardFile.cpp"
+F
+T
+1 "Dock"
+T
+2 "JXDockManager.cpp"
+F
+"./code/JXDockManager.cpp"
+T
+2 "JXDockDirector.cpp"
+F
+"./code/JXDockDirector.cpp"
+T
+2 "JXHorizDockPartition.cpp"
+F
+"./code/JXHorizDockPartition.cpp"
+T
+2 "JXVertDockPartition.cpp"
+F
+"./code/JXVertDockPartition.cpp"
+T
+2 "JXDockTabGroup.cpp"
+F
+"./code/JXDockTabGroup.cpp"
+T
+2 "JXDockWidget.cpp"
+F
+"./code/JXDockWidget.cpp"
+T
+2 "JXDocktab.cpp"
+F
+"./code/JXDocktab.cpp"
+T
+2 "JXDockDragData.cpp"
+F
+"./code/JXDockDragData.cpp"
+T
+2 "JXDockWindowTask.cpp"
+F
+"./code/JXDockWindowTask.cpp"
+T
+2 "JXUpdateMinSizeTask.cpp"
+F
+"./code/JXUpdateMinSizeTask.cpp"
+F
+T
+1 "Tree"
+T
+2 "JXTreeListWidget.cpp"
+F
+"./code/JXTreeListWidget.cpp"
+T
+2 "JXNamedTreeListWidget.cpp"
+F
+"./code/JXNamedTreeListWidget.cpp"
+T
+2 "JXTLWAdjustToTreeTask.cpp"
+F
+"./code/JXTLWAdjustToTreeTask.cpp"
+F
+T
+1 "ToolBar"
+T
+2 "JXToolBar.cpp"
+F
+"./code/JXToolBar.cpp"
+T
+2 "JXToolBarButton.cpp"
+F
+"./code/JXToolBarButton.cpp"
+T
+2 "JXToolBarEditDir.cpp"
+F
+"./code/JXToolBarEditDir.cpp"
+T
+2 "JXToolBarEditWidget.cpp"
+F
+"./code/JXToolBarEditWidget.cpp"
+T
+2 "JXToolBarNode.cpp"
+F
+"./code/JXToolBarNode.cpp"
+T
+2 "JXAdjustToolBarGeometryTask.cpp"
+F
+"./code/JXAdjustToolBarGeometryTask.cpp"
+F
+T
+1 "FileList"
+T
+2 "JXFileListSet.cpp"
+F
+"./code/JXFileListSet.cpp"
+T
+2 "JXFileListTable.cpp"
+F
+"./code/JXFileListTable.cpp"
+T
+2 "JXFLInputBase.cpp"
+F
+"./code/JXFLInputBase.cpp"
+T
+2 "JXFLRegexInput.cpp"
+F
+"./code/JXFLRegexInput.cpp"
+T
+2 "JXFLWildcardInput.cpp"
+F
+"./code/JXFLWildcardInput.cpp"
+F
+T
+1 "Slider"
+T
+2 "JXSliderBase.cpp"
+F
+"./code/JXSliderBase.cpp"
+T
+2 "JXSlider.cpp"
+F
+"./code/JXSlider.cpp"
+T
+2 "JXLevelControl.cpp"
+F
+"./code/JXLevelControl.cpp"
+F
+T
+1 "Help"
+T
+2 "JXHelpManager.cpp"
+F
+"./code/JXHelpManager.cpp"
+T
+2 "JXHelpDirector.cpp"
+F
+"./code/JXHelpDirector.cpp"
+T
+2 "JXHelpText.cpp"
+F
+"./code/JXHelpText.cpp"
+T
+2 "JXTipOfTheDayDialog.cpp"
+F
+"./code/JXTipOfTheDayDialog.cpp"
+F
+T
+1 "Prefs"
+T
+2 "JXPrefsManager.cpp"
+F
+"./code/JXPrefsManager.cpp"
+T
+2 "JXSharedPrefsManager.cpp"
+F
+"./code/JXSharedPrefsManager.cpp"
+T
+2 "JXSharedPrefObject.cpp"
+F
+"./code/JXSharedPrefObject.cpp"
+T
+2 "JXEditWWWPrefsDialog.cpp"
+F
+"./code/JXEditWWWPrefsDialog.cpp"
+T
+2 "JXMacWinPrefsDialog.cpp"
+F
+"./code/JXMacWinPrefsDialog.cpp"
+F
+T
+1 "CSF"
+T
+2 "JXChooseSaveFile.cpp"
+F
+"./code/JXChooseSaveFile.cpp"
+T
+2 "JXCSFDialogBase.cpp"
+F
+"./code/JXCSFDialogBase.cpp"
+T
+2 "JXChooseFileDialog.cpp"
+F
+"./code/JXChooseFileDialog.cpp"
+T
+2 "JXChoosePathDialog.cpp"
+F
+"./code/JXChoosePathDialog.cpp"
+T
+2 "JXSaveFileDialog.cpp"
+F
+"./code/JXSaveFileDialog.cpp"
+T
+2 "JXSaveFileInput.cpp"
+F
+"./code/JXSaveFileInput.cpp"
+T
+2 "JXDirTable.cpp"
+F
+"./code/JXDirTable.cpp"
+T
+2 "JXCSFSelectPrevDirTask.cpp"
+F
+"./code/JXCSFSelectPrevDirTask.cpp"
+T
+2 "JXCurrentPathMenu.cpp"
+F
+"./code/JXCurrentPathMenu.cpp"
+T
+2 "JXNewDirButton.cpp"
+F
+"./code/JXNewDirButton.cpp"
+T
+2 "JXGetNewDirDialog.cpp"
+F
+"./code/JXGetNewDirDialog.cpp"
+T
+2 "JXDirectSaveSource.cpp"
+F
+"./code/JXDirectSaveSource.cpp"
+T
+2 "JXDSSSelection.cpp"
+F
+"./code/JXDSSSelection.cpp"
+T
+2 "JXDirectSaveAction.cpp"
+F
+"./code/JXDirectSaveAction.cpp"
+T
+2 "JXDSSFinishSaveTask.cpp"
+F
+"./code/JXDSSFinishSaveTask.cpp"
+F
+T
+1 "UserNotification"
+T
+2 "JXUserNotification.cpp"
+F
+"./code/JXUserNotification.cpp"
+T
+2 "JXUNDialogBase.cpp"
+F
+"./code/JXUNDialogBase.cpp"
+T
+2 "JXMessageDialog.cpp"
+F
+"./code/JXMessageDialog.cpp"
+T
+2 "JXWarningDialog.cpp"
+F
+"./code/JXWarningDialog.cpp"
+T
+2 "JXErrorDialog.cpp"
+F
+"./code/JXErrorDialog.cpp"
+T
+2 "JXOKToCloseDialog.cpp"
+F
+"./code/JXOKToCloseDialog.cpp"
+T
+2 "JXAcceptLicenseDialog.cpp"
+F
+"./code/JXAcceptLicenseDialog.cpp"
+F
+T
+1 "ProgressDisplay"
+T
+2 "JXProgressDisplay.cpp"
+F
+"./code/JXProgressDisplay.cpp"
+T
+2 "JXStandAlonePG.cpp"
+F
+"./code/JXStandAlonePG.cpp"
+T
+2 "JXCreatePG.cpp"
+F
+"./code/JXCreatePG.cpp"
+T
+2 "JXPGDirectorBase.cpp"
+F
+"./code/JXPGDirectorBase.cpp"
+T
+2 "JXFixLenPGDirector.cpp"
+F
+"./code/JXFixLenPGDirector.cpp"
+T
+2 "JXVarLenPGDirector.cpp"
+F
+"./code/JXVarLenPGDirector.cpp"
+T
+2 "JXProgressIndicator.cpp"
+F
+"./code/JXProgressIndicator.cpp"
+T
+2 "JXPGMessageDirector.cpp"
+F
+"./code/JXPGMessageDirector.cpp"
+T
+2 "JXProgressTask.cpp"
+F
+"./code/JXProgressTask.cpp"
+T
+2 "JXBusyIconTask.cpp"
+F
+"./code/JXBusyIconTask.cpp"
+F
+T
+1 "Decor"
+T
+2 "JXSplashWindow.cpp"
+F
+"./code/JXSplashWindow.cpp"
+T
+2 "JXStaticText.cpp"
+F
+"./code/JXStaticText.cpp"
+T
+2 "JXImageWidget.cpp"
+F
+"./code/JXImageWidget.cpp"
+T
+2 "JXAdjustIWBoundsTask.cpp"
+F
+"./code/JXAdjustIWBoundsTask.cpp"
+T
+2 "JXAnimationTask.cpp"
+F
+"./code/JXAnimationTask.cpp"
+T
+2 "JXFileNameDisplay.cpp"
+F
+"./code/JXFileNameDisplay.cpp"
+T
+2 "JXDecorRect.cpp"
+F
+"./code/JXDecorRect.cpp"
+T
+2 "JXFlatRect.cpp"
+F
+"./code/JXFlatRect.cpp"
+T
+2 "JXBorderRect.cpp"
+F
+"./code/JXBorderRect.cpp"
+T
+2 "JXUpRect.cpp"
+F
+"./code/JXUpRect.cpp"
+T
+2 "JXDownRect.cpp"
+F
+"./code/JXDownRect.cpp"
+T
+2 "JXEmbossedRect.cpp"
+F
+"./code/JXEmbossedRect.cpp"
+T
+2 "JXEngravedRect.cpp"
+F
+"./code/JXEngravedRect.cpp"
+F
+T
+1 "Painter"
+T
+2 "JXWindowPainter.cpp"
+F
+"./code/JXWindowPainter.cpp"
+T
+2 "JXDragPainter.cpp"
+F
+"./code/JXDragPainter.cpp"
+T
+2 "JXFontManager.cpp"
+F
+"./code/JXFontManager.cpp"
+T
+2 "JXGetCurrFontMgr.cpp"
+F
+"./code/JXGetCurrFontMgr.cpp"
+T
+2 "JXColormap.cpp"
+F
+"./code/JXColormap.cpp"
+T
+2 "JXGetCurrColormap.cpp"
+F
+"./code/JXGetCurrColormap.cpp"
+T
+2 "JXGC.cpp"
+F
+"./code/JXGC.cpp"
+T
+2 "jXPainterUtil.cpp"
+F
+"./code/jXPainterUtil.cpp"
+F
+T
+1 "Image"
+T
+2 "JXImage.cpp"
+F
+"./code/JXImage.cpp"
+T
+2 "JXImageMask.cpp"
+F
+"./code/JXImageMask.cpp"
+T
+2 "JXImagePainter.cpp"
+F
+"./code/JXImagePainter.cpp"
+T
+2 "JXImageCache.cpp"
+F
+"./code/JXImageCache.cpp"
+F
+T
+1 "Printing"
+T
+2 "JXPTPrinter.cpp"
+F
+"./code/JXPTPrinter.cpp"
+T
+2 "JXPTPageSetupDialog.cpp"
+F
+"./code/JXPTPageSetupDialog.cpp"
+T
+2 "JXPTPrintSetupDialog.cpp"
+F
+"./code/JXPTPrintSetupDialog.cpp"
+T
+2 "JXPSPrinter.cpp"
+F
+"./code/JXPSPrinter.cpp"
+T
+2 "JXPSPrintSetupDialog.cpp"
+F
+"./code/JXPSPrintSetupDialog.cpp"
+T
+2 "JXPSPageSetupDialog.cpp"
+F
+"./code/JXPSPageSetupDialog.cpp"
+T
+2 "JXEPSPrinter.cpp"
+F
+"./code/JXEPSPrinter.cpp"
+T
+2 "JXEPSPrintSetupDialog.cpp"
+F
+"./code/JXEPSPrintSetupDialog.cpp"
+F
+T
+1 "i18n"
+T
+2 "JXComposeRuleList.cpp"
+F
+"./code/JXComposeRuleList.cpp"
+T
+2 "JXComposeScanner.cpp"
+F
+"./code/JXComposeScanner.cpp"
+T
+2 "JXComposeScannerL.l"
+F
+"./code/JXComposeScannerL.l"
+F
+T
+1 "misc"
+T
+2 "JXWebBrowser.cpp"
+F
+"./code/JXWebBrowser.cpp"
+T
+2 "JXStringCompletionMenu.cpp"
+F
+"./code/JXStringCompletionMenu.cpp"
+T
+2 "JXChooseColorDialog.cpp"
+F
+"./code/JXChooseColorDialog.cpp"
+T
+2 "JXGetStringDialog.cpp"
+F
+"./code/JXGetStringDialog.cpp"
+T
+2 "jXUtil.cpp"
+F
+"./code/jXUtil.cpp"
+T
+2 "JXAssert.cpp"
+F
+"./code/JXAssert.cpp"
+F
+T
+1 "strings"
+T
+2 "jx_strings"
+F
+"./strings/jx_strings"
+T
+2 "jxSearchTextHelpText"
+F
+"./strings/jxSearchTextHelpText"
+T
+2 "jxRegexHelpText"
+F
+"./strings/jxRegexHelpText"
+T
+2 "jxRegexQRefText"
+F
+"./strings/jxRegexQRefText"
+F
+T
+1 "layout"
+T
+2 "libjx.fd"
+F
+"./libjx.fd"
+F
+F
+# tasks
+4
+"makemake"
+F
+# build settings
+1
+F
+"libjx-${JX_LIB_VERSION}.a,libjx-${JX_LIB_VERSION}.so"
+""
+"make -k all"
+# search paths
+T "../include/jcore/" T
+T "./code/" T
+F
+# C preprocessor
+F

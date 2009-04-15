@@ -1,0 +1,7 @@
+?package(leibnitz):\
+	needs="X11"\
+	section="Applications/Sciences/Mathematics"\
+	title="Calculator"\
+	longtitle="Interactive calculator and function plotter"\
+	command="/usr/X11R6/bin/leibnitz"\
+	icon="/usr/share/icons/mini/leibnitz.xpm"

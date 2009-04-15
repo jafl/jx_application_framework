@@ -1,0 +1,23 @@
+/* XPM */
+static char * address_book[] = {
+"15 14 6 1",
+" 	c None",
+".	c #000000000000",
+"X	c #61856595CF3C",
+"o	c #9E799A69FFFF",
+"O	c #FFFFFFFFFFFF",
+"+	c #79E77DF779E7",
+"       ..      ",
+"     ..XX.     ",
+"   ..XXXXX.    ",
+" ..XXXXXXXX.   ",
+".ooXXXXXXXXX.  ",
+"..ooXXXXXXXXX. ",
+".X.ooXXXXXXXXX.",
+".XX.ooXXXXXX.. ",
+" .XX.ooXXX..O+ ",
+"  .XX.oo..OO++.",
+"   .XX..OO++.. ",
+"    .X.O++..   ",
+"     ..+..     ",
+"      ..       "};

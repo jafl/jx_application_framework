@@ -1,0 +1,331 @@
+From psheer@obsidian.co.za  Mon Sep  7 00:32:37 1998
+Return-Path: <psheer@obsidian.co.za>
+Received: from lava.obsidian.co.za (root@lava.obsidian.co.za [196.28.133.1])
+	by alice.caltech.edu (8.8.8/8.8.8) with ESMTP id AAA09209
+	for <jafl@alice.wonderland.caltech.edu>; Mon, 7 Sep 1998 00:32:32 -0700
+Received: from ra.obsidian.co.za ([192.168.2.1])
+	by lava.obsidian.co.za (8.8.5/8.8.5) with ESMTP id JAA08578
+	for <jafl@alice.wonderland.caltech.edu>; Mon, 7 Sep 1998 09:41:50 +0200
+Received: from localhost (psheer@localhost)
+	by ra.obsidian.co.za (8.8.7/8.8.7) with SMTP id JAA00095
+	for <jafl@alice.wonderland.caltech.edu>; Mon, 7 Sep 1998 09:41:24 +0200
+Date: Mon, 7 Sep 1998 09:41:24 +0200 (SAST)
+From: Paul Sheer <psheer@obsidian.co.za>
+Reply-To: Paul Sheer <psheer@obsidian.co.za>
+To: John Lindal <jafl@alice.wonderland.caltech.edu>
+Subject: Re: C support for XDND version 2
+In-Reply-To: <199809070020.RAA09375@white-knight.caltech.edu>
+Message-ID: <Pine.LNX.3.96.980907093634.27119G-100000@ra.obsidian.co.za>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-SpamBouncer: 1.00h (8/22/98)
+X-SBClass: OK
+X-Sorted: Default
+Status: RO
+
+
+[root@cericon xdnd-v2]# gzip -d testjx.gz 
+
+[root@cericon xdnd-v2]# gdb ./testjx 
+GNU gdb 4.17
+Copyright 1998 Free Software Foundation, Inc.
+GDB is free software, covered by the GNU General Public License, and you
+are
+welcome to change it and/or distribute copies of it under certain
+conditions.
+Type "show copying" to see the conditions.
+There is absolutely no warranty for GDB.  Type "show warranty" for
+details.
+This GDB was configured as "i386-redhat-linux"...
+(gdb) r
+Starting program:
+/home/current/cooledit-src/widget/xdnd-v2/xdnd-v2/./testjx 
+
+Assertion failed: IndexValid(index)
+    ../jcore/JArray.tmpl:308
+
+Program received signal SIGABRT, Aborted.
+0x400fb6a1 in __kill ()
+Current language:  auto; currently c
+(gdb) bt
+#0  0x400fb6a1 in __kill ()
+#1  0x400fb4cf in raise (sig=6) at ../sysdeps/posix/raise.c:27
+#2  0x400fc6df in abort () at ../sysdeps/generic/abort.c:83
+#3  0x820ad8e in JThisProcess::Abort () at ../jcore/JThisProcess.cc:559
+#4  0x807d7b9 in JXApplication::Abort (reason=kAssertFired,
+dumpCore=kTrue)
+    at ../jx/JXApplication.cc:1081
+#5  0x8083f39 in JXAssert::Abort (this=0x833c6e0) at ../jx/JXAssert.cc:93
+#6  0x81a9e1a in JAssertBase::DefaultAssert (expr=0x82d5dcf
+"IndexValid(index)", 
+    file=0x82d5d50 "../jcore/JArray.tmpl", line=308) at
+../jcore/JAssertBase.cc:118
+#7  0x8083efa in JXAssert::Assert (this=0x833c6e0, expr=0x82d5dcf
+"IndexValid(index)", 
+    file=0x82d5d50 "../jcore/JArray.tmpl", line=308) at
+../jx/JXAssert.cc:77
+#8  0x81a9a4e in __JAssert () at ../jcore/jAssert.cc:22
+#9  0x813b4e6 in JArray<JXColormap::ColorInfo>::GetElement
+(this=0x83408b8, index=0)
+    at ../jcore/JArray.tmpl:308
+#10 0x808a77d in JXColormap::GetXPixel (this=0x8340818, colorIndex=0) at
+../jx/JXColormap.cc:1648
+#11 0x80a85ad in JXGC::SetDrawingColor (this=0x8340f90, color=0) at
+../jx/JXGC.cc:274
+#12 0x8182912 in JXWindowPainter::String (this=0xbffff9b4, left=0, top=0,
+str=0x8351e08 "Start", 
+    uIndex=3, width=46, hAlign=kHAlignCenter, height=26,
+vAlign=kVAlignCenter)
+    at ../jx/JXWindowPainter.cc:322
+#13 0x80dd691 in JXTextButton::Draw (this=0x8351d08, p=@0xbffff9b4,
+rect=@0xbffff46c)
+    at ../jx/JXTextButton.cc:222
+#14 0x80a9bff in JXContainer::DrawAll (this=0x8351d08, p=@0xbffff9b4,
+origFrameG=@0xbffff61c)
+    at ../jx/JXContainer.cc:293
+#15 0x80a9920 in JXContainer::DrawAll (this=0x83473c8, p=@0xbffff9b4,
+origFrameG=@0xbffff738)
+    at ../jx/JXContainer.cc:235
+#16 0x80a9920 in JXContainer::DrawAll (this=0x8341600, p=@0xbffff9b4,
+origFrameG=@0xbffff854)
+    at ../jx/JXContainer.cc:235
+#17 0x80a9920 in JXContainer::DrawAll (this=0x8341548, p=@0xbffff9b4,
+origFrameG=@0xbffff970)
+    at ../jx/JXContainer.cc:235
+---Type <return> to continue, or q <return> to quit---
+#18 0x80a9920 in JXContainer::DrawAll (this=0x8340cb8, p=@0xbffff9b4,
+origFrameG=@0xbffffa48)
+    at ../jx/JXContainer.cc:235
+#19 0x80ada8b in JXWindow::Update (this=0x8340cb8) at
+../jx/JXWindow.cc:806
+#20 0x809e510 in JXDisplay::Update (this=0x833f5b8) at
+../jx/JXDisplay.cc:836
+#21 0x809e462 in JXDisplay::Idle (this=0x833f5b8, currentTime=4230) at
+../jx/JXDisplay.cc:805
+#22 0x807cb6d in JXApplication::HandleOneEvent (this=0x833ca48) at
+../jx/JXApplication.cc:457
+#23 0x807c8be in JXApplication::Run (this=0x833ca48) at
+../jx/JXApplication.cc:353
+#24 0x805ca90 in main (argc=1, argv=0xbffffbe4) at code/testjx.cc:77
+(gdb) 
+
+
+
+xdpyinfo:
+
+name of display:    192.168.2.13:0.0
+version number:    11.0
+vendor string:    Xi Graphics, Inc.
+vendor release number:    4100
+maximum request size:  4194300 bytes
+motion buffer size:  256
+bitmap unit, bit order, padding:    32, LSBFirst, 32
+image byte order:    LSBFirst
+number of supported pixmap formats:    8
+supported pixmap formats:
+    depth 1, bits_per_pixel 1, scanline_pad 32
+    depth 4, bits_per_pixel 8, scanline_pad 32
+    depth 8, bits_per_pixel 8, scanline_pad 32
+    depth 12, bits_per_pixel 16, scanline_pad 32
+    depth 15, bits_per_pixel 16, scanline_pad 32
+    depth 16, bits_per_pixel 16, scanline_pad 32
+    depth 24, bits_per_pixel 32, scanline_pad 32
+    depth 32, bits_per_pixel 32, scanline_pad 32
+keycode range:    minimum 8, maximum 167
+focus:  window 0x1c00002, revert to Parent
+number of extensions:    16
+    BIG-REQUESTS
+    DOUBLE-BUFFER
+    MIT-SCREEN-SAVER
+    MIT-SHM
+    MIT-SUNDRY-NONSTANDARD
+    RECORD
+    SECURITY
+    SHAPE
+    SYNC
+    X3D-PEX
+    XC-MISC
+    XIE
+    XInputExtension
+    XTEST
+    XiG-SMT
+    XiG-SUNDRY-NONSTANDARD
+default screen number:    0
+number of screens:    1
+
+screen #0:
+  dimensions:    800x600 pixels (271x203 millimeters)
+  resolution:    75x75 dots per inch
+  depths (2):    1, 16
+  root window id:    0x54
+  depth of root window:    16 planes
+  number of colormaps:    minimum 1, maximum 1
+  default colormap:    0x20
+  default number of colormap cells:    64
+  preallocated pixels:    black 0, white 65535
+  options:    backing-store NO, save-unders NO
+  largest cursor:    64x64
+  current input event mask:    0x58003f
+    KeyPressMask             KeyReleaseMask           ButtonPressMask          
+    ButtonReleaseMask        EnterWindowMask          LeaveWindowMask          
+    SubstructureNotifyMask   SubstructureRedirectMask PropertyChangeMask       
+  number of visuals:    3
+  default visual id:  0x21
+  visual:
+    visual id:    0x21
+    class:    TrueColor
+    depth:    16 planes
+    available colormap entries:    64 per subfield
+    red, green, blue masks:    0xf800, 0x7e0, 0x1f
+    significant bits in color specification:    6 bits
+  visual:
+    visual id:    0x22
+    class:    DirectColor
+    depth:    16 planes
+    available colormap entries:    64 per subfield
+    red, green, blue masks:    0xf800, 0x7e0, 0x1f
+    significant bits in color specification:    6 bits
+  visual:
+    visual id:    0x23
+    class:    TrueColor
+    depth:    16 planes
+    available colormap entries:    64 per subfield
+    red, green, blue masks:    0xf800, 0x7e0, 0x1f
+    significant bits in color specification:    6 bits
+
+
+
+
+
+Obsidian Systems . . . .  Linux installations, support, networking
+info@obsidian.co.za . . . . . . . . . . . . Tel  (+27 11) 792 6500
+http://www.obsidian.co.za  . . . . . . . .  Fax  (+27 11) 792 6522
+    __   __ __  __ __  __ __  __
+   / /  / //  |/ // / / / \ \/ /
+  / /_ / // /|  // /_/ /   \  /
+ /___//_//_/ |_/ \____/    /  \
+                          /_/\_\
+
+
+
+From philip@ra.tepapa.govt.nz  Tue Oct 20 18:57:39 1998
+Return-Path: <philip@ra.tepapa.govt.nz>
+Received: from ra.tepapa.govt.nz (kautu.tepapa.govt.nz [203.98.12.49])
+	by alice.caltech.edu (8.8.8/8.8.8) with ESMTP id SAA02318
+	for <jafl@alice.wonderland.caltech.edu>; Tue, 20 Oct 1998 18:57:36 -0700
+Received: from ra.tepapa.govt.nz (ra.tepapa.govt.nz [202.14.71.161])
+	by ra.tepapa.govt.nz (8.9.0/8.9.0) with SMTP id PAA03138
+	for <jafl@alice.wonderland.caltech.edu>; Wed, 21 Oct 1998 15:09:48 +1300 (NZDT)
+Message-Id: <199810210209.PAA03138@ra.tepapa.govt.nz>
+Date: Wed, 21 Oct 1998 15:09:48 +1300 (NZDT)
+From: Philip Plane <philip@ra.tepapa.govt.nz>
+Reply-To: Philip Plane <philip@ra.tepapa.govt.nz>
+Subject: JX on OpenBSD
+To: jafl@alice.wonderland.caltech.edu
+X-Mailer: dtmail 1.2.1 CDE Version 1.2.1 SunOS 5.6 sun4m sparc 
+Content-Type: text
+X-Sun-Text-Type: ascii
+X-SpamBouncer: 1.00h (10/18/98)
+X-SBClass: OK
+X-Sorted: Default
+Status: RO
+
+Hi,
+
+I have built JX-1.0.8 on a OpenBSD system. The only change required to the 
+Makefile was:
+
+*** Makefile    Tue Jul 28 06:12:00 1998
+--- ../jMakefile        Wed Oct 21 12:23:35 1998
+***************
+*** 35,40 ****
+--- 35,53 ----
+  
+  INSTALL_CMD := cd jlib/lib; ${MAKE} -f Makefile.distr install
+  
++ 
++ .PHONY : OpenBSD-g++
++ OpenBSD-g++: prep
++       @ln -s Make.config_NetBSD_g++ jlib/lib/Make.config
++       @ln -s ../missing_proto/jMissingProto_empty.h jlib/jcore/jMissingProto.h
++         
++       @-rm -r jlib/syslib
++       @mkdir jlib/syslib
++       @-rm jlib/X11
++       @ln -s /usr/X11R6/include jlib/X11
++   
++       @${INSTALL_CMD}
++ 
+  #
+  # RedHat 4.2 and earlier
+  #
+  
+  
+This compiles without errors, static only. Unfortunately the testjx program 
+spits the dummy:
+
+
+Assertion failed: ok && color == i, file 
+/home/philip/JX-1.0.8/jlib/jx/JXColormap.cc, line 270
+
+The testJBoolean program runs, but if you give it anything other than T or F it 
+also chokes:
+
+Assertion failed: 0, file /home/philip/JX-1.0.8/jlib/jcore/JBooleanIO.cc, line 
+46
+
+I'm not much of a programmer, and not anything of a C++ programmer, so I'm 
+stumped.
+
+--
+Philip Plane
+Unix Systems Administrator
+Te Papa Tongarewa
+The Museum of New Zealand
+
+From philip@ra.tepapa.govt.nz  Wed Oct 21 22:21:48 1998
+Return-Path: <philip@ra.tepapa.govt.nz>
+Received: from ra.tepapa.govt.nz (kautu.tepapa.govt.nz [203.98.12.49])
+	by alice.caltech.edu (8.8.8/8.8.8) with ESMTP id WAA05334
+	for <jafl@alice.wonderland.caltech.edu>; Wed, 21 Oct 1998 22:21:46 -0700
+Received: from ra.tepapa.govt.nz (ra.tepapa.govt.nz [202.14.71.161])
+	by ra.tepapa.govt.nz (8.9.0/8.9.0) with SMTP id SAA05884
+	for <jafl@alice.wonderland.caltech.edu>; Thu, 22 Oct 1998 18:34:06 +1300 (NZDT)
+Message-Id: <199810220534.SAA05884@ra.tepapa.govt.nz>
+Date: Thu, 22 Oct 1998 18:34:06 +1300 (NZDT)
+From: Philip Plane <philip@ra.tepapa.govt.nz>
+Reply-To: Philip Plane <philip@ra.tepapa.govt.nz>
+Subject: Re: JX on OpenBSD
+To: jafl@alice.wonderland.caltech.edu
+X-Mailer: dtmail 1.2.1 CDE Version 1.2.1 SunOS 5.6 sun4m sparc 
+Content-Type: text
+X-Sun-Text-Type: ascii
+X-SpamBouncer: 1.00h (10/18/98)
+X-SBClass: OK
+X-Sorted: Default
+Status: RO
+
+Hi,
+
+> Thanks for the patch.  I've merged it into my source.
+
+You're welcome. Glad to be able to contribute something.
+
+> > This compiles without errors, static only. Unfortunately the testjx program 
+> > spits the dummy:
+> >
+> > Assertion failed: ok && color == i, file 
+> > /home/philip/JX-1.0.8/jlib/jx/JXColormap.cc, line 270
+> 
+> What is the depth of your screen?  16 bit?  24 bit?
+
+
+24 bit.
+
+
+--
+Philip Plane
+Unix Systems Administrator
+Te Papa Tongarewa
+The Museum of New Zealand
+

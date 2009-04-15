@@ -1,0 +1,63 @@
+# To use this file, first run "makemake" and then run "make".
+# (makemake is part of the JX distribution)
+
+# Useful directories
+
+JX_ROOT := ..
+
+<Binary>DIR := ./code
+
+JCOREDIR   := ${JX_ROOT}/include/jcore
+JXDIR      := ${JX_ROOT}/include/jx
+JXIMAGEDIR := ${JX_ROOT}/include/menu_image
+
+# Directories to search for header files
+
+SEARCHDIRS = -I${<Binary>DIR} \
+             -I${JCOREDIR} \
+             -I${JXDIR}
+
+# makemake variables
+
+include ${JX_ROOT}/include/make/jx_constants
+include ${JX_ROOT}/include/make/<Binary>_constants
+include ${JX_ROOT}/include/make/jx_config
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
+               ${J_COMPILE_DEBUG} ${J_BUILD_SHARED_LIB} \
+               ${SEARCHDIRS}
+
+# make variables
+
+LOADLIBES := 
+LDFLAGS   := 
+
+#####
+
+LIB_NAME_ROOT := lib<Binary>-${<Binary>_LIB_VERSION}
+OTHER_DEPS    := 
+include ${JX_ROOT}/include/make/default_lib_target
+
+.PHONY : Makefiles
+Makefiles:
+
+#
+# source distribution
+#
+
+SRC_TAR_FILE := <Binary>_source-${<Binary>_VERSION}.tar
+SRC_FILE_DIR := ${JX}/lib<Binary>
+
+.PHONY : source
+source: Makefiles
+	@cd ${J_DISTR_TAR_DIR}; \
+     tar -cf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cc %Y.cc, \
+                               ${shell cd ${J_DISTR_TAR_DIR}; echo \
+             ${SRC_FILE_DIR}/README \
+             ${SRC_FILE_DIR}/Make.* \
+             ${SRC_FILE_DIR}/*.jcc \
+             ${SRC_FILE_DIR}/code/* \
+             ${JX}/lib/lib<Binary>* \
+             ${JX}/include/<Binary> \
+             ${JX}/include/make/<Binary>_constants }}
+	@cd ${J_DISTR_TAR_DIR}; gzip ${SRC_TAR_FILE}

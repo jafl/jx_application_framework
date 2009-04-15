@@ -1,0 +1,7 @@
+0
+itsHelpButton::THXAboutDialog::shortcuts::JXLayout "F1"
+itsCreditsButton::THXAboutDialog::JXLayout "Credits"
+okButton::THXAboutDialog::JXLayout "OK"
+okButton::THXAboutDialog::shortcuts::JXLayout "^M"
+textWidget::THXAboutDialog::JXLayout ""
+itsHelpButton::THXAboutDialog::JXLayout "Help"

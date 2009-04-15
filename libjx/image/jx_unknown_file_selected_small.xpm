@@ -1,0 +1,21 @@
+/* XPM */
+static char * jx_unknown_file_selected_small[] = {
+"15 15 3 1",
+" 	c None",
+".	c black",
+"X	c gray60",
+"               ",
+"  ...........  ",
+"  .XXXXXXXXX.  ",
+"  .XXXXXXXXX.  ",
+"   .XXXXXXX.   ",
+"   .XXXXXXX.   ",
+"    .XXXXX.    ",
+"    .XXXXX.    ",
+"     .XXX.     ",
+"     .XXX.     ",
+"      .X.      ",
+"      .X.      ",
+"       .       ",
+"               ",
+"               "};

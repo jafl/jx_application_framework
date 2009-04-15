@@ -1,0 +1,678 @@
+#ifndef _T_JValueTableData
+#define _T_JValueTableData
+
+/******************************************************************************
+ JValueTableData.tmpl
+
+	Template for storing values and structs in a table.
+
+	***	It is assumed that the class used to store each column of data
+		is a direct descendant of JOrderedSet, so JPtrArray can't be used.
+		In this case, use JObjTableData instead.
+
+	BASE CLASS = JTableData
+
+	Copyright © 1996 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JValueTableData.h>
+#include <JMinMax.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class S, class T>
+JValueTableData<S,T>::JValueTableData
+	(
+	const T& defValue
+	)
+	:
+	JTableData(),
+	itsDefValue(defValue)
+{
+	itsCols = new JPtrArray< S >(JPtrArrayT::kDeleteAll);
+	assert( itsCols != NULL );
+}
+
+/******************************************************************************
+ Copy constructor
+
+ ******************************************************************************/
+
+template <class S, class T>
+JValueTableData<S,T>::JValueTableData
+	(
+	const JValueTableData<S,T>& source
+	)
+	:
+	JTableData(source),
+	itsDefValue(source.itsDefValue)
+{
+	itsCols = new JPtrArray< S >(JPtrArrayT::kDeleteAll);
+	assert( itsCols != NULL );
+
+	const JSize count = (source.itsCols)->GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		itsCols->Append(*((source.itsCols)->NthElement(i)));
+		}
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <class S, class T>
+JValueTableData<S,T>::~JValueTableData()
+{
+	delete itsCols;
+}
+
+/******************************************************************************
+ GetDefaultValue
+
+ ******************************************************************************/
+
+template <class S, class T>
+const T
+JValueTableData<S,T>::GetDefaultValue()
+	const
+{
+	return itsDefValue;
+}
+
+/******************************************************************************
+ SetDefaultValue
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::SetDefaultValue
+	(
+	const T& data
+	)
+{
+	itsDefValue = data;
+}
+
+/******************************************************************************
+ GetElement
+
+ ******************************************************************************/
+
+template <class S, class T>
+const T
+JValueTableData<S,T>::GetElement
+	(
+	const JIndex row,
+	const JIndex col
+	)
+	const
+{
+	const S* dataCol = itsCols->NthElement(col);
+	return dataCol->GetElement(row);
+}
+
+template <class S, class T>
+const T
+JValueTableData<S,T>::GetElement
+	(
+	const JPoint& cell
+	)
+	const
+{
+	const S* dataCol = itsCols->NthElement(cell.x);
+	return dataCol->GetElement(cell.y);
+}
+
+/******************************************************************************
+ SetElement
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::SetElement
+	(
+	const JIndex	row,
+	const JIndex	col,
+	const T&		data
+	)
+{
+	S* dataCol = itsCols->NthElement(col);
+	if (data != dataCol->GetElement(row))
+		{
+		dataCol->SetElement(row, data);
+		Broadcast(JTableData::RectChanged(row,col));
+		}
+}
+
+template <class S, class T>
+void
+JValueTableData<S,T>::SetElement
+	(
+	const JPoint&	cell,
+	const T&		data
+	)
+{
+	S* dataCol = itsCols->NthElement(cell.x);
+	if (data != dataCol->GetElement(cell.y))
+		{
+		dataCol->SetElement(cell.y, data);
+		Broadcast(JTableData::RectChanged(cell));
+		}
+}
+
+/******************************************************************************
+ GetRow
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::GetRow
+	(
+	const JIndex	index,
+	JOrderedSet<T>*	rowData
+	)
+	const
+{
+	rowData->RemoveAll();
+
+	const JSize colCount = GetColCount();
+	for (JIndex i=1; i<=colCount; i++)
+		{
+		const S* dataCol = itsCols->NthElement(i);
+		rowData->InsertElementAtIndex(i, dataCol->GetElement(index));
+		}
+}
+
+/******************************************************************************
+ SetRow
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::SetRow
+	(
+	const JIndex			index,
+	const JOrderedSet<T>&	rowData
+	)
+{
+	const JSize colCount = GetColCount();
+	assert( rowData.GetElementCount() == colCount );
+
+	for (JIndex i=1; i<=colCount; i++)
+		{
+		S* dataCol = itsCols->NthElement(i);
+		dataCol->SetElement(index, rowData.GetElement(i));
+		}
+
+	Broadcast(JTableData::RectChanged(JRect(index, 1, index+1, colCount+1)));
+}
+
+/******************************************************************************
+ GetCol
+
+	operator= doesn't work because it could be -any- class derived from JOrderedSet.
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::GetCol
+	(
+	const JIndex	index,
+	JOrderedSet<T>*	colData
+	)
+	const
+{
+	colData->RemoveAll();
+
+	const JSize rowCount = GetRowCount();
+	const S* dataCol = itsCols->NthElement(index);
+	for (JIndex i=1; i<=rowCount; i++)
+		{
+		colData->InsertElementAtIndex(i, dataCol->GetElement(i));
+		}
+}
+
+/******************************************************************************
+ SetCol
+
+	operator= doesn't work because it could be -any- class derived from JOrderedSet.
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::SetCol
+	(
+	const JIndex			index,
+	const JOrderedSet<T>&	colData
+	)
+{
+	const JSize rowCount = GetRowCount();
+	assert( colData.GetElementCount() == rowCount );
+
+	S* dataCol = itsCols->NthElement(index);
+	for (JIndex i=1; i<=rowCount; i++)
+		{
+		dataCol->SetElement(i, colData.GetElement(i));
+		}
+
+	Broadcast(JTableData::RectChanged(JRect(1, index, rowCount+1, index+1)));
+}
+
+/******************************************************************************
+ InsertRows
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::InsertRows
+	(
+	const JIndex			index,
+	const JSize				count,
+	const JOrderedSet<T>*	initData
+	)
+{
+	assert( initData == NULL || initData->GetElementCount() == GetColCount() );
+
+	if (count > 0)
+		{
+		const JIndex trueIndex = JMin(index, GetRowCount()+1);
+
+		const JSize colCount = GetColCount();
+		for (JIndex j=1; j<=count; j++)
+			{
+			for (JIndex i=1; i<=colCount; i++)
+				{
+				S* colData = itsCols->NthElement(i);
+				if (initData != NULL)
+					{
+					colData->InsertElementAtIndex(trueIndex, initData->GetElement(i));
+					}
+				else
+					{
+					colData->InsertElementAtIndex(trueIndex, itsDefValue);
+					}
+				}
+			}
+
+		RowsAdded(count);
+		Broadcast(JTableData::RowsInserted(trueIndex, count));
+		}
+}
+
+/******************************************************************************
+ Row manipulations
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::PrependRows
+	(
+	const JSize				count,
+	const JOrderedSet<T>*	initData
+	)
+{
+	InsertRows(1, count, initData);
+}
+
+template <class S, class T>
+void
+JValueTableData<S,T>::AppendRows
+	(
+	const JSize				count,
+	const JOrderedSet<T>*	initData
+	)
+{
+	InsertRows(GetRowCount()+1, count, initData);
+}
+
+/******************************************************************************
+ DuplicateRow
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::DuplicateRow
+	(
+	const JIndex origIndex,
+	const JIndex newIndex
+	)
+{
+	const JIndex trueIndex = JMin(newIndex, GetRowCount()+1);
+
+	const JSize colCount = GetColCount();
+	for (JIndex i=1; i<=colCount; i++)
+		{
+		S* colData = itsCols->NthElement(i);
+		const T element = colData->GetElement(origIndex);
+		colData->InsertElementAtIndex(trueIndex, element);
+		}
+
+	RowsAdded(1);
+	Broadcast(JTableData::RowDuplicated(origIndex, trueIndex));
+}
+
+/******************************************************************************
+ RemoveRow
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::RemoveRow
+	(
+	const JIndex index
+	)
+{
+	RemoveNextRows(index, 1);
+}
+
+/******************************************************************************
+ RemoveNextRows
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::RemoveNextRows
+	(
+	const JIndex	firstIndex,
+	const JSize		count
+	)
+{
+	if (firstIndex == 1 && count == GetRowCount())
+		{
+		RemoveAllRows();
+		}
+	else
+		{
+		const JSize colCount = GetColCount();
+		for (JIndex i=1; i<=colCount; i++)
+			{
+			S* colData = itsCols->NthElement(i);
+			colData->RemoveNextElements(firstIndex, count);
+			}
+
+		RowsDeleted(count);
+		Broadcast(JTableData::RowsRemoved(firstIndex, count));
+		}
+}
+
+/******************************************************************************
+ RemovePrevRows
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::RemovePrevRows
+	(
+	const JIndex	lastIndex,
+	const JSize		count
+	)
+{
+	RemoveNextRows(lastIndex-count+1, count);
+}
+
+/******************************************************************************
+ RemoveAllRows
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::RemoveAllRows()
+{
+	const JSize colCount = GetColCount();
+	for (JIndex i=1; i<=colCount; i++)
+		{
+		S* colData = itsCols->NthElement(i);
+		colData->RemoveAll();
+		}
+
+	const JSize rowCount = GetRowCount();
+	SetRowCount(0);
+	Broadcast(JTableData::RowsRemoved(1, rowCount));
+}
+
+/******************************************************************************
+ MoveRow
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::MoveRow
+	(
+	const JIndex origIndex,
+	const JIndex newIndex
+	)
+{
+	if (origIndex != newIndex)
+		{
+		const JSize colCount = GetColCount();
+		for (JIndex i=1; i<=colCount; i++)
+			{
+			S* colData = itsCols->NthElement(i);
+			colData->MoveElementToIndex(origIndex, newIndex);
+			}
+
+		Broadcast(JTableData::RowMoved(origIndex, newIndex));
+		}
+}
+
+/******************************************************************************
+ InsertCols
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::InsertCols
+	(
+	const JIndex			index,
+	const JSize				count,
+	const JOrderedSet<T>*	initData
+	)
+{
+	assert( initData == NULL || initData->GetElementCount() == GetRowCount() );
+
+	if (count > 0)
+		{
+		const JIndex trueIndex = JMin(index, GetColCount()+1);
+
+		for (JIndex j=1; j<=count; j++)
+			{
+			S* colData = new S;
+			assert( colData != NULL );
+			itsCols->InsertAtIndex(trueIndex, colData);
+
+			const JSize rowCount = GetRowCount();
+			if (initData != NULL)
+				{
+				for (JIndex i=1; i<=rowCount; i++)
+					{
+					colData->InsertElementAtIndex(i, initData->GetElement(i));
+					}
+				}
+			else
+				{
+				for (JIndex i=1; i<=rowCount; i++)
+					{
+					colData->AppendElement(itsDefValue);
+					}
+				}
+			}
+
+		ColsAdded(count);
+		Broadcast(JTableData::ColsInserted(trueIndex, count));
+		}
+}
+
+/******************************************************************************
+ Column manipulations
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::PrependCols
+	(
+	const JSize				count,
+	const JOrderedSet<T>*	initData
+	)
+{
+	InsertCols(1, count, initData);
+}
+
+template <class S, class T>
+void
+JValueTableData<S,T>::AppendCols
+	(
+	const JSize				count,
+	const JOrderedSet<T>*	initData
+	)
+{
+	InsertCols(GetColCount()+1, count, initData);
+}
+
+/******************************************************************************
+ DuplicateCol
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::DuplicateCol
+	(
+	const JIndex origIndex,
+	const JIndex newIndex
+	)
+{
+	const JIndex trueIndex = JMin(newIndex, GetColCount()+1);
+	itsCols->InsertAtIndex(trueIndex, *(itsCols->NthElement(origIndex)));
+
+	ColsAdded(1);
+	Broadcast(JTableData::ColDuplicated(origIndex, trueIndex));
+}
+
+/******************************************************************************
+ RemoveCol
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::RemoveCol
+	(
+	const JIndex index
+	)
+{
+	RemoveNextCols(index, 1);
+}
+
+/******************************************************************************
+ RemoveNextCols
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::RemoveNextCols
+	(
+	const JIndex	firstIndex,
+	const JSize		count
+	)
+{
+	if (firstIndex == 1 && count == GetColCount())
+		{
+		RemoveAllCols();
+		}
+	else
+		{
+		for (JIndex i=1; i<=count; i++)
+			{
+			itsCols->DeleteElement(firstIndex);
+			}
+
+		ColsDeleted(count);
+		Broadcast(JTableData::ColsRemoved(firstIndex, count));
+		}
+}
+
+/******************************************************************************
+ RemovePrevCols
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::RemovePrevCols
+	(
+	const JIndex	lastIndex,
+	const JSize		count
+	)
+{
+	RemoveNextCols(lastIndex-count+1, count);
+}
+
+/******************************************************************************
+ RemoveAllCols
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::RemoveAllCols()
+{
+	itsCols->CleanOut();
+
+	const JSize colCount = GetColCount();
+	SetColCount(0);
+	Broadcast(JTableData::ColsRemoved(1, colCount));
+}
+
+/******************************************************************************
+ MoveCol
+
+ ******************************************************************************/
+
+template <class S, class T>
+void
+JValueTableData<S,T>::MoveCol
+	(
+	const JIndex origIndex,
+	const JIndex newIndex
+	)
+{
+	if (origIndex != newIndex)
+		{
+		itsCols->MoveElementToIndex(origIndex, newIndex);
+		Broadcast(JTableData::ColMoved(origIndex, newIndex));
+		}
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JValueTableData
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

@@ -1,0 +1,5 @@
+0
+itsChooseLocalInboxButton::GMAccountDialog::localLayout "Choose"
+obj2_localLayout::GMAccountDialog::localLayout "Account folder:"
+itsChooseLocalPathButton::GMAccountDialog::localLayout "Choose"
+obj1_localLayout::GMAccountDialog::localLayout "Default inbox:"

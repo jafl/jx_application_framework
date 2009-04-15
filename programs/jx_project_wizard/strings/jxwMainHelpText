@@ -1,0 +1,64 @@
+0
+
+JXWMainHelp
+
+"<html>
+
+<head>
+<title> Main Window </title>
+</head>
+
+JX Wizard creates a skeletal program for JX 2.0.0 that you can fill in to create a useful program.  Simply enter the requested information and click the Create button.  All the required files will be placed in the project directory that you specify.  If the \"Open command\" is not empty, this will be run to open the project file.  (<tt>$f</tt> is replaced by the name of the Code Crusader project file.)
+<p>
+Most of the information should be self-explanatory.  The program name and binary name are not the same because the program name may be several words, while the binary name should be easy to type on the command line.
+<p>
+The source prefix will be the prefix of all source files, classes, and functions.  This helps avoid namespace conflicts with classes and functions defined in libraries.
+<p>
+Please refer to the JX documentation for an explanation of MDI.  (It does <em>not</em> mean the same as with Microsoft programs.)
+<p>
+The template directory specifies the location of the files that are used to create the new project.  This is initially set to the directory in which JX Wizard was built.  If you wish to share a single template among several users, the best place to put it is in <tt>/usr/lib/jx/jx_project_wizard/</tt>.
+<p>
+For your convenience, the program version, author name, email address, company name, web site host name, use of MDI, project directory root, template directory, open command, and window position and size are all saved from one invocation to the next.
+<p>
+<b> Customizing a template </b>
+<p>
+Since you can specify the directory containing the template, you can make copies of the default template and modify them or even create your own templates from scratch.  The only requirement is that every template must contain &lt;Binary&gt;.fd in the top level directory because this is used as a sanity check to insure that the directory does in fact contain a template.
+<p>
+The following strings are replaced when they are encountered in a template file:
+
+<dl>
+<dt> &lt;Program&gt;
+<dd> Program name
+<p>
+<dt> &lt;Version&gt;
+<dd> Program version
+<p>
+<dt> &lt;Author&gt;
+<dd> Author name
+<p>
+<dt> &lt;EMail&gt;
+<dd> Email address
+<p>
+<dt> &lt;Company&gt;
+<dd> Company name
+<p>
+<dt> &lt;URL&gt;
+<dd> Web site URL
+<p>
+<dt> &lt;Binary&gt;
+<dd> Binary name
+<p>
+<dt> &lt;pre&gt;
+<dd> Source prefix -- the case is matched, so &lt;PRE&gt; produces upper case letters while &lt;pre&gt; produces lower case letters.
+<p>
+<dt> &lt;MDI_DEF&gt;
+<dd> -DUSE_MDI if the checkbox is on.  Otherwise, blank.
+<p>
+<dt> &lt;DIR&gt;
+<dd> Directory (not full path) in which the project is created.
+<p>
+<dt> &lt;Year&gt;
+<dd> The current year
+</dl>
+
+In addition, _pre_ and _Binary_ are replaced if they occur at the start of a file name."

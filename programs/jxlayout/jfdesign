@@ -1,0 +1,5 @@
+#!/bin/sh
+
+name=${1%.fd};
+
+fdesign -border -lax -nocode $name.fd &

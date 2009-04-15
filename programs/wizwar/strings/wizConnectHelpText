@@ -1,0 +1,19 @@
+0
+
+WizConnectHelp
+
+"<html>
+<head>
+<title> Connecting to the WizWar server </title>
+</head>
+
+<h3> Connecting to the WizWar server </h3>
+
+In order to play WizWar, you must first connect to a running WizWar server.
+This requires that you know the Internet address of the server.  The format of
+the address is <u>hostname</u>:<u>port</u>.  The default port is 2000.
+<p>
+In addition, you must also specify a nickname.  This nickname is especially
+important if the game is anonymous.
+
+</html>"

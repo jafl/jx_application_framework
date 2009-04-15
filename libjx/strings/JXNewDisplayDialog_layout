@@ -1,0 +1,5 @@
+0
+okButton::JXNewDisplayDialog::JXLayout "OK"
+obj1_JXLayout::JXNewDisplayDialog::JXLayout "Name of display:"
+cancelButton::JXNewDisplayDialog::JXLayout "Cancel"
+okButton::JXNewDisplayDialog::shortcuts::JXLayout "^M"

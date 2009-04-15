@@ -1,0 +1,88 @@
+0
+
+#const JCharacter* kNavHelpName  			= GViewHelp#Navigate;
+#const JCharacter* kSavePrintHelpName		= GViewHelp#SavePrint;
+#const JCharacter* kRespondHelpName			= GViewHelp#Respond;
+#onst JCharacter* kDecryptHelpName			= GViewHelp#Decrypt;
+#onst JCharacter* kViewAttachmentsHelpName	= GViewHelp#Attachments;
+
+GViewHelp
+
+"<html>
+<head>
+<title>Viewing mail</title>
+</head>
+<a name=Navigate>
+<b>Navigating within the view window</b>
+<p>
+
+To move to a different message from within a view window, hit the meta and 
+plus/minus. This will move you to the next/previous message that has not 
+been marked deleted. If you wish to move to the next message and also wish 
+to delete the current message, hit Control-Shift-D. To delete and close a 
+message, hit Control-D. These function can also be access via the <i>Show 
+next</i>, <i>Show previous</i>, <i>Delete and show next</i>, and <i>Delete 
+and close</i> menu items in the <i>File</i> menu.
+
+<p>
+
+Within a message, you can view the entire message header by selecting 
+<i>Show full headers</i> from the <i>Message</i> menu.
+
+<p>
+<a name=SavePrint>
+<b>Saving and printing</b>
+<p>
+
+To save a message, select <i>Save...</i> or <i>Save with headers...</i> 
+from the <i>File</i> menu. You will then be asked to name the saved 
+message. To print the message, select <i>Print...</i> or <i>Print with 
+headers...</i> from the <i>File</i> menu.
+<p>
+You can also save a message by dragging the message button in the upper 
+right corner to the <a href=jxhelp:GMailTreeHelp>Mailbox window</a>
+<p>
+<a name=Respond>
+<b>Responding</b>
+<p>
+
+When responding to a message, you have the choice of <i>Reply</i>, <i>Reply 
+to sender</i>, <i>Reply to all</i>, <i>Forward</i>, and <i>Redirect</i> 
+from the <i>Message</i> menu or from the appropriate buttons in the view 
+window.  Choosing <i>Reply</i> will start a new message with the sender 
+specified in the <i>To:</i> field, or, if a <i>Reply-To:</i> field was 
+listed in the original message, that address will be used for the 
+<i>To:</i> field instead. <i>Reply to sender</i> will respond to the 
+actually sender regardless of the presence of a <i>Reply-To:</i> field. 
+<i>Reply to all</i> will start a new message including every address in the 
+<i>To:</i>, <i>From:</i>, and <i>Cc:</i> fields in the message header. 
+<i>Forward</i> will start a new message with no default recipient, and the 
+message text will automatically be filled in and quoted (ie. each line will 
+have a '>' prepended to it). <i>Redirect</i> is the same as <i>Forward</i> 
+except that the message text is not quoted.
+
+<p>
+<a name=Decrypt>
+<b>Decrypting</b>
+<p>
+
+If you receive a file that has been encrypted with PGP or GnuPG, you can 
+decrypt it by using <i>Decrypt</i> from the <i>Message</i> menu. You can 
+specify which decryption program to use in the 
+<a href=jxhelp:GPrefsHelp>Preferences</a> dialog box.
+<p>
+<a name=Attachments>
+<b>Attachments</b>
+<p>
+
+If you receive a message containing attachments, those attachments will 
+be displayed in a table to the right of the message. You can view an 
+attachment by clicking on it. To save one or more attachments, either 
+drag-and-drop them to any 
+<a href=http://www.newplanetsoftware.com/jx/dnd.html>XDND</a> 
+compliant file manager (like 
+<a href=http://www.newplanetsoftware.com/systemg/>SystemG</a>), 
+or select the attachments that you want to save, and select 
+<i>Save selected attachments</i> from the <i>Message</i> menu.
+<p>
+</html>"

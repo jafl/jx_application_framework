@@ -1,0 +1,5 @@
+0
+cancelButton::<PRE>PrefsDialog::shortcuts::JXLayout "^["
+cancelButton::<PRE>PrefsDialog::JXLayout "Cancel"
+okButton::<PRE>PrefsDialog::JXLayout "OK"
+okButton::<PRE>PrefsDialog::shortcuts::JXLayout "^M"

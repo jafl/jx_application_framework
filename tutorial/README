@@ -1,0 +1,20 @@
+
+To build these examples, run makemake and then run make.  makemake can be
+found in the programs/makemake directory of the JX distribution.
+
+To run the programs, make sure that the jx and jcore libraries are on your
+LD_LIBRARY_PATH.  These libraries will either be installed in standard
+system directories or will be found in the "jlib/lib" directory of the JX
+distribution.  For instructions on setting environment variables (i.e.
+LD_LIBRARY_PATH), please refer to the JX FAQ on the web.
+(http://www.newplanetsoftware.com/jx/faq.html)
+
+When studying the source code, you will probably find it useful to refer to
+the documentation provided with the JX distribution for further information
+about the theory of operation.  The details of particular functions are
+documented in the JX source code itself.
+
+Once you understand all these tutorials, you are ready to dive into
+libjx/test, which contains more complex examples of all the features
+provided by JX.
+

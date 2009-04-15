@@ -1,0 +1,13 @@
+The FAQ is on the web:
+
+  http://www.newplanetsoftware.com/jx/faq.html
+
+Important notes:
+
+  There is a separate FAQ for each program.  Look in the appropriate
+  subdirectory of the programs directory.
+
+  Source distributions that unpack into different directories (e.g.
+  JX-2.1.0 and JX-2.0.0) are guaranteed to be incompatible.  Contact the
+  developer if the program that you want to build does not unpack into the
+  latest version of the JX distribution.

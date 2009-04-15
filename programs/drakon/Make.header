@@ -1,0 +1,253 @@
+# To use this file, first run "makemake" and then run "make".
+# (makemake is part of the JX distribution)
+
+# Useful directories
+
+JX_ROOT := ../..
+
+CODEDIR  := ./code
+JCOREDIR := ${JX_ROOT}/include/jcore
+JXDIR    := ${JX_ROOT}/include/jx
+
+JLIBDIR        := ${JX_ROOT}/lib
+JCORELIBDIR    := ${JX_ROOT}/libjcore
+JXLIBDIR       := ${JX_ROOT}/libjx
+ACELIBDIR      := ${JX_ROOT}/ACE
+
+# Directories to search for header files
+
+SEARCHDIRS := -I${CODEDIR} \
+              -I${JCOREDIR} \
+              -I${JXDIR}
+
+# other constants
+
+PROG_VERSION      := 1.1.0
+SIGNATURE         := npsprocessmgr
+PROG_STRING_FILES := ${filter-out %/drakon_menu_strings, \
+                      ${shell echo strings/*}}
+MENU_STRINGS_FILE := strings/drakon_menu_strings
+
+# also defined in .spec
+
+RPM_LIB_PATH := /usr/lib/${SIGNATURE}
+
+# makemake variables
+
+J_STRING_FILES := ${PROG_STRING_FILES}
+
+include ${JX_ROOT}/include/make/jx_constants
+include ${JX_ROOT}/include/make/jx_config
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
+               ${J_COMPILE_DEBUG} ${SEARCHDIRS}
+
+TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR}
+
+# library dependencies
+
+ifdef J_BUILD_SHARED_LIB
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.so \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.so
+else
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a
+endif
+
+# make variables
+
+LOADLIBES := ${J_STD_LIBS}
+ifdef J_BUILD_SHARED_LIB
+  LDFLAGS   := -Xlinker -R${RPM_LIB_PATH}
+endif
+
+DEBUG_LOADLIBES := -L${JLIBDIR} \
+                   ${J_BEGIN_LINK_STATIC} \
+                   ${ljx} ${ljcore} ${J_ACE_LIBS} \
+                   ${J_END_LINK_STATIC} \
+                   ${J_X11_LIBS} ${J_GCC_LIBS}
+
+#####
+
+.PHONY : default
+default: libs drakon
+
+.PHONY : Makefiles
+Makefiles:
+
+#
+# string data
+#
+
+.PHONY : strings
+strings:
+	@${RM} ${MENU_STRINGS_FILE}
+	compile_jstrings ${J_STRING_FILES} \
+      --code kGPMDefaultStringData ${CODEDIR}/gpmStringData.h
+
+.PHONY : stringdb
+stringdb:
+	compile_jstrings ${J_STRING_FILES} --db drakon_us
+
+drakon:: strings
+
+.PHONY : menu_strings
+menu_strings:
+	@${JX_ROOT}/lib/util/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
+     -a ${CODEDIR}/gpmActionDefs.h ${JXDIR}/jXActionDefs.h ${JXDIR}/JXTEBase.cpp \
+     -m ${CODEDIR}/*.cpp ${JXDIR}/*.cpp
+
+#
+# required libraries
+#
+
+.PHONY : libs
+libs:
+	@for path in ${TOUCHPATHS}; do ( if cd $$path; then ${MAKE}; fi ) done
+
+#
+# install binaries
+#
+
+.PHONY : jxinstall
+jxinstall: drakon
+	@strip drakon
+  ifneq (${J_WANT_INSTALL},0)
+	@mv drakon ${JX_INSTALL_ROOT}/
+  endif
+
+.PHONY : jxuninstall
+jxuninstall:
+	@${RM} ${JX_INSTALL_ROOT}/drakon
+
+#
+# source distribution
+#
+
+SRC_TAR_FILE := Drakon_source-${PROG_VERSION}.tar.gz
+SRC_FILE_DIR := ${JX}/programs/drakon
+
+.PHONY : source
+source:
+	@cd ${J_DISTR_TAR_DIR}; \
+     tar -czf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cc %Y.cc, \
+                                ${shell cd ${J_DISTR_TAR_DIR}; echo \
+              ${addprefix ${SRC_FILE_DIR}/, \
+                README* COPYING FAQ Make.* *.jcc *.fd *.spec \
+                code/* strings/* desktop/* } }}
+
+#
+# binary distributions
+#
+
+PROG := Drakon-${PROG_VERSION}
+
+PROG_SHARED_TAR_NAME := Drakon_${PROG_VERSION}.tar
+
+.PHONY : release_shared
+release_shared: libs
+	@${RM} drakon; ${MAKE} drakon; strip ${call EXE, drakon}
+	@${MAKE} PROG_DISTR_TAR_FILE=${PROG_SHARED_TAR_NAME} distr_sub
+
+.PHONY : release_static
+release_static: static
+	@${MAKE} PROG_DISTR_TAR_FILE=${PROG_SHARED_TAR_NAME} distr_sub
+
+# distr_sub (PROG_DISTR_TAR_FILE)
+
+.PHONY : distr_sub
+distr_sub: menu_strings
+	@${RM} -r ${PROG}
+	@mkdir ${PROG} ${PROG}/lib ${PROG}/docs_HTML
+	@ln -s ../README.binary        ${PROG}/README
+	@ln -s ../COPYING              ${PROG}/COPYING
+	@ln -s ../FAQ                  ${PROG}/FAQ
+	@ln -s ../${call EXE,drakon}   ${PROG}/${call EXE,drakon}
+	@ln -s ../${MENU_STRINGS_FILE} ${PROG}/menu_strings
+	@ln -s ../desktop              ${PROG}/desktop
+ifdef J_RPM_GZ_LIBS
+	@${foreach LIB, ${J_RPM_GZ_LIBS}, \
+         cp ${LIB} ${PROG}/lib/; gzip ${PROG}/lib/${notdir ${LIB}} }
+endif
+	@${JX_ROOT}/lib/util/jxhelp2html \
+         "Drakon" strings code/gpmHelpText.h ${PROG}/docs_HTML; \
+     cp ${PROG}/docs_HTML/ChangeLog.html ./; \
+     ${JX_ROOT}/lib/util/fix_change_log ChangeLog.html
+	@${TAR} -chf ${PROG_DISTR_TAR_FILE} ${PROG}
+	@${RM} -r ${PROG}
+	@mv ${PROG_DISTR_TAR_FILE} ${J_DISTR_TAR_DIR}/
+
+#
+# RPM
+#
+
+RPM_TAR_FILE  := ${RPM_SRC_DIR}/Drakon_${PROG_VERSION}.tar
+RPM_SPEC_FILE := ${shell pwd}/drakon.spec
+
+.PHONY : release_rpm
+release_rpm: clean_rpm
+	@${MAKE} RPM_SOURCE_TAR_NAME=${PROG_SHARED_TAR_NAME} build_rpm
+	@${MAKE} clean_rpm
+
+# build_rpm (RPM_SOURCE_TAR_NAME)
+
+.PHONY : build_rpm
+build_rpm:
+	@cp ${J_DISTR_TAR_DIR}/${RPM_SOURCE_TAR_NAME} ${RPM_TAR_FILE}
+	@${RPM} ${RPM_SPEC_FILE}
+	@mv ${RPM_BIN_DIR}/*.rpm ${J_DISTR_TAR_DIR}/
+	@chown ${USER}. ${J_DISTR_TAR_DIR}/*.rpm
+	@gzip ${J_DISTR_TAR_DIR}/${RPM_SOURCE_TAR_NAME}
+
+.PHONY : clean_rpm
+clean_rpm:
+	@${RM}    /usr/X11R6/bin/drakon
+	@${RM} -r ${RPM_LIB_PATH}
+	@${RM} -r /usr/share/doc/Drakon-*
+	@${RM} -r /usr/share/applnk/NPS_Utilities
+	@${RM} -r /usr/share/gnome/apps/NPS_Utilities
+	@${RM}    `find /usr/share/icons -name drakon.xpm`
+	@${RM}    `find /usr/share/icons -name new_planet_software.xpm`
+	@${RM}    `find /usr/share/pixmaps -name drakon.xpm`
+	@${RM}    `find /usr/share/pixmaps -name new_planet_software.xpm`
+
+#
+# debugging version
+#
+
+.PHONY : debug
+debug: staticACE libs
+	@${RM} drakon
+	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" drakon
+
+.PHONY : staticACE
+staticACE:
+  ifdef J_BUILD_SHARED_LIB
+	@cd ${ACELIBDIR}; ${MAKE} static
+  endif
+
+#
+# static binary
+#
+
+.PHONY : static
+static: debug
+	@${J_STRIP_DEBUG} ${call EXE, drakon}
+
+#
+# personal install
+#
+
+.PHONY : personal
+personal: static
+	@mv drakon ${HOME}/bin/
+
+# DO NOT DELETE THIS LINE -- Code Crusader depends on it.
+
+# This portion of the file was automatically generated by Code Crusader.
+# Do not edit it directly!
+# Any changes you make will be silently overwritten.
+
+# build libraries before main result
+
+# DO NOT DELETE THIS LINE -- Code Crusader depends on it.

@@ -1,0 +1,113 @@
+#ifndef _T_evt_handlers
+#define _T_evt_handlers
+
+/******************************************************************************
+ evt_handlers.tmpl
+
+	Classes to handle asynchronous connections.
+
+	BASE CLASS = ACE_Svc_Handler
+
+	Written by John Lindal.
+
+ ******************************************************************************/
+
+#include "evt_handlers.h"
+#include "util.h"
+#include <jAssert.h>
+
+/******************************************************************************
+ ClientHandler::open
+
+	This is called when a connection to the server succeeds.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+int
+ClientHandler<ACE_PEER_STREAM_2>::open
+	(
+	void* data
+	)
+{
+	cout << "Connection established" << endl;
+	TalkToServer(peer());
+	ACE_Reactor::end_event_loop();
+	destroy();
+	return 0;
+}
+
+/******************************************************************************
+ ServerHandler::open
+
+	This is called when a client connects.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+int
+ServerHandler<ACE_PEER_STREAM_2>::open
+	(
+	void* data
+	)
+{
+	cout << "Connection established, fd=" << (peer()).get_handle() << endl;
+
+	(reactor())->register_handler(this, WRITE_MASK);
+
+	return ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>::open(data);
+}
+
+/******************************************************************************
+ ServerHandler::handle_input
+
+	This is called when we receive data from the client.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+int
+ServerHandler<ACE_PEER_STREAM_2>::handle_input
+	(
+	ACE_HANDLE
+	)
+{
+	TalkToClient(peer());
+	destroy();
+	return 0;
+}
+
+/******************************************************************************
+ ServerHandler::handle_output
+
+	This is called when we can send more data to the client.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+int
+ServerHandler<ACE_PEER_STREAM_2>::handle_output
+	(
+	ACE_HANDLE
+	)
+{
+	cout << "Data can now be written" << endl;
+	(reactor())->remove_handler(this, WRITE_MASK | DONT_CALL);
+	return 0;
+}
+
+#endif
+
+// Instantiate the templates for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName ClientHandler
+	#include <instantiate_template.h>
+	#undef JTemplateName
+
+	#define JTemplateName ServerHandler
+	#include <instantiate_template.h>
+	#undef JTemplateName
+
+	template class ACE_Svc_Handler<JTemplateType, ACE_SYNCH>;
+#endif

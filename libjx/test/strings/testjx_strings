@@ -1,0 +1,117 @@
+0
+
+# TestDirector
+
+HelpSpecific::JX::TestDirector	"Help %h h %k Ctrl-H %b %d"
+
+# Help text
+
+testjxMainHelp
+
+"<html>
+
+<head>
+<title> Help </title>
+</head>
+
+Hey, look!  We finally provide <a href=jxhelp:testjxHyperHelp>
+<b>hypertext</b> help</a>!
+<p>
+And we support <a href=jxhelp:JXComposeHelp>European languages</a>.
+<p>
+Examples of HTML formatting:
+<p>
+<b>bold</b> <i>italic</i> <tt>fixed width</tt> <font color=red>red</font>
+<ul>
+<li> unordered list item
+<li> another item
+</ul>
+<ol>
+<li> ordered list item
+<li> another item
+</ol>
+
+</html>"
+
+testjxHyperHelp
+
+"<html>
+
+<head>
+<title> Hypertext </title>
+</head>
+
+Yes, hypertext help is finally here.  Several types of links are supported:
+
+<ul>
+<li> links: <a href=jxhelp:testjxMainHelp>main help page</a>
+<li> subsections: <a href=jxhelp:#subsection>the bottom of this text</a>
+
+<p>
+<li> URLs: <a href=http://www.newplanetsoftware.com/jx/>JX</a>
+<li> email: <a href=mailto:jafl@newplanetsoftware.com>John Lindal</a>
+
+<p>
+<li> pointless reference to self: <a href=jxhelp:#>you are here</a>
+
+<p>
+<li> link that isn't registered with <tt>JXHelpManager</tt>:
+     <a href=jxhelp:unregistered>unregistered</a>
+
+<p>
+<li> link that is registered but doesn't have any text:
+     <a href=jxhelp:testjxNoTextHelp>no text</a>
+</ul>
+
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+<a name=subsection>
+
+<b> This is the bottom of this text. </b>
+
+</html>"
+
+# CBMDIServer
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+CommandLineHelp::TestMDIServer
+
+"This X application demonstrates the capabilities of the JX C++ application
+framework and GUI class library.
+
+Usage:  <options>
+
+-h            prints help
+-v            prints version information
+-iconic       start with the main window iconified
+-nobuffer     turn off buffered drawing in main window
+              (for bragging about optimized redrawing code)
+-imagebuffer  buffer drawing in main window by using JXImage
+              (bad idea in general because it hogs memory)
+-staticcolor  don't switch colormaps if default is TrueColor
+-nodyncolor   don't allocate any dynamic colors
+-preappcolor  use preemptive color approximation
+-snoopwindow  print message whenever main window is (de)iconified
+
+-MDI          activate Multiple Document Interface
+              When an MDI testjx process is already running and you use this
+              option, none of the other options are valid, but you can specify
+              an arbitrary number of files to open."
+
+TIP_OF_THE_DAY
+
+"
+<div>
+This is tip #1
+<div>
+This <em>is</em> tip #2
+<div>
+<div>
+This is tip #3
+<p>
+It is somewhat more complicated than the previous two (2) tips because...<u>just because</u>!
+<div>
+
+This is <b>tip</b> #4
+"

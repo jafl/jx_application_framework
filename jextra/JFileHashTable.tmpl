@@ -1,0 +1,712 @@
+#ifndef _T_JFileHashTable
+#define _T_JFileHashTable
+
+/******************************************************************************
+ JFileHashTable.tmpl
+
+							The Hash-Table-in-a-File Class
+
+	An arbitrarily sized hash table implemented as a file.  To use it, you
+	must create a derived class, because the mess associated with the
+	hash table concept is best kept well hidden.  The class is a template
+	because the Identifier data must be passed through our methods.
+
+	Since derived classes may have to peform calculations before they
+	can provide all the information that we need, the constructor takes
+	no arguments.  Before the object can be used, the derived class must
+	call OpenFile.
+
+	Each element in the hash table contains:
+		1)  Status -- tells whether or not the slot is in use
+		2)	Identifier -- used to make sure we found the correct element
+			when searching (this must be encased as one object)
+		3)	Data -- the real information that is being stored
+			(this must have non-zero length)
+
+	Each element must have the same size so offsets into the file can be
+	calculated quickly.
+
+	Derived classes can reserve an arbitrary amount of space at the front of
+	the file for storing their special data.
+
+	Storage details:
+
+	To allow for storage of an arbitrary number of elements, the file actually
+	contains as many hash tables as necessary.  Each hash table is the same size.
+
+	We allow an arbitrary amount of reserved space at the front of the file
+	because some derived classes will use us for permanent storage, in which
+	case they will also probably have extra data that needs to be saved.
+
+	We store the size of each hash table and the number of hash tables at the
+	front of the file between the reserved space and the first hash table.
+
+	Every time we need another hash table, we append it to the file.
+	We need another hash table when there is an unresolvable collision of
+	hash indices.
+
+	reserved   data     hash table 1        hash table 2        hash table 3
+	+-------+-------+-------------------+-------------------+-------------------+ - - -
+	|		|		|					|					|					|
+	+-------+-------+-------------------+-------------------+-------------------+ - - -
+
+	Unfortunately, we can't use strstreams to move the data into memory and
+	speed things up.  With Symantec C++, data is written at wrong positions.
+	With gcc, appending to a strstream doesn't update the end-of-read-buffer
+	pointer so one can't read back what one writes out.
+
+	BASE CLASS = none
+
+	Copyright © 1994 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JFileHashTable.h>
+#include <jFStreamUtil.h>
+#include <jFileUtil.h>
+#include <jMath.h>
+#include <jAssert.h>
+
+// Constants indicating the status of a slot in the hash table
+
+typedef JCharacter SlotStatus;
+const SlotStatus kInUse  = 'T';
+const SlotStatus kEmpty  = 'F';
+const SlotStatus kIgnore = 'I';
+
+// information about data stored in file header
+// between reserved space and hash tables
+
+enum
+	{
+	kHashTableSizeLength  = sizeof(JSize),
+	kHashTableCountLength = sizeof(JSize),
+	kSearchDistanceLength = sizeof(JSize),
+
+	kHashTableSizeOffset  = 0,
+	kHashTableCountOffset = kHashTableSizeOffset + kHashTableSizeLength,
+	kSearchDistanceOffset = kHashTableCountOffset + kHashTableCountLength,
+
+	kFileHeaderLength     = kSearchDistanceOffset + kSearchDistanceLength,
+
+	kSlotStatusLength     = sizeof(SlotStatus)
+	};
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T>
+JFileHashTable<T>::JFileHashTable()
+{
+	itsStream = NULL;
+
+	itsHashTableCount      = 0;
+	itsHashTableSize       = 0;
+	itsIdentifierLength    = 0;
+	itsDataLength          = 0;
+	itsMaxSearchDistance   = 0;
+	itsReservedSpaceLength = 0;
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <class T>
+JFileHashTable<T>::~JFileHashTable()
+{
+	CloseFile();
+}
+
+/******************************************************************************
+ OpenFile
+
+	Returns kJTrue if the file had to be created.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JFileHashTable<T>::OpenFile
+	(
+	const JCharacter*	fileName,
+	const JSize			fileHeaderLength,
+	const JSize			hashTableSize,
+	const JSize			identifierLength,
+	const JSize			dataLength
+	)
+{
+	assert( dataLength > 0 );	// avoids strstream complaint about seek(endOfFile)
+
+	CloseFile();
+
+	itsReservedSpaceLength = fileHeaderLength;
+	itsIdentifierLength    = identifierLength;
+	itsDataLength          = dataLength;
+
+	// open the data file
+
+	const JBoolean isNew = JNegate( JFileExists(fileName) );
+
+	itsStream = new fstream(fileName, kJBinaryFile);
+	assert( itsStream != NULL );
+	assert( itsStream->good() );
+
+	if (isNew)
+		{
+		// create blank space at front of file
+
+		for (JSize i=1; i<=itsReservedSpaceLength; i++)
+			{
+			*itsStream << ' ';
+			}
+
+		// write header data and append one hash table
+
+		itsHashTableSize  = hashTableSize;
+		itsHashTableCount = 0;
+		itsMaxSearchDistance = JRound(0.05 * itsHashTableSize);
+		if (itsMaxSearchDistance < 2)
+			{
+			itsMaxSearchDistance = 2;
+			}
+		if (itsMaxSearchDistance > 100)
+			{
+			itsMaxSearchDistance = 100;
+			}
+
+		WriteHashTableSize();
+		WriteHashTableCount();
+		WriteSearchDistance();
+		AllocateOneHashTable();
+		}
+	else
+		{
+		ReadHashTableSize();
+		ReadHashTableCount();
+		ReadSearchDistance();
+		}
+
+	return isNew;
+}
+
+/******************************************************************************
+ UpdateFile
+
+ ******************************************************************************/
+
+template <class T>
+void
+JFileHashTable<T>::UpdateFile()
+{
+	WriteHashTableSize();
+	WriteHashTableCount();
+	WriteSearchDistance();
+}
+
+/******************************************************************************
+ CloseFile
+
+ ******************************************************************************/
+
+template <class T>
+void
+JFileHashTable<T>::CloseFile()
+{
+	if (itsStream != NULL)
+		{
+		UpdateFile();
+		delete itsStream;
+		itsStream = NULL;
+		}
+}
+
+/******************************************************************************
+ FindElement (protected)
+
+	Search for the given Identifier and set the read/write mark at the start
+	of the data section.
+
+	If canAdd is kJTrue, we add the element to the hash table if we can't find it.
+	If there aren't any empty slots within the search range, we allocate
+	another hash table at the end of the file and add the element there.
+	Thus, in this case, we will always return kJTrue.
+
+	If canAdd is kJFalse, we return kJFalse if we can't find the given element.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JFileHashTable<T>::FindElement
+	(
+	const T&		theIdentifier,
+	const JBoolean	canAdd
+	)
+{
+	assert( itsStream != NULL );
+
+	// the hash index tells us where to start searching in each hash table
+
+	const JIndex hashIndex = Hash(theIdentifier);
+
+	// search for the Identifier in each hash table
+
+	for (JIndex tableIndex=1; tableIndex<=itsHashTableCount; tableIndex++)
+		{
+		const JIndex indexOffset = (tableIndex-1) * itsHashTableSize;
+		JIndex slotIndex = hashIndex;
+
+		// we perform a linear search
+
+		for (JSize searchDistance = 0; searchDistance <= itsMaxSearchDistance;
+			 searchDistance++)
+			{
+			// move to the next slot in the hash table
+
+			const JIndex fileIndex = indexOffset + slotIndex-1;
+			const streampos statusPosition = GetFileHeaderLength() + fileIndex * GetElementLength();
+			itsStream->seekg(statusPosition);
+
+			// check if this slot is used
+
+			SlotStatus status;
+			*itsStream >> status;
+
+			// calculate the position of the data
+
+			const streampos dataPosition = itsStream->tellg() + itsIdentifierLength;
+
+			// compare the Identifier in the file with the given Identifier
+
+			JBoolean identifierFound = kJFalse;
+			if (status == kInUse || status == kIgnore)
+				{
+				identifierFound = CompareFromFile(theIdentifier);
+				}
+
+			if (status == kInUse && identifierFound)
+				{
+				// We found it.  Make sure write and read are both at correct place.
+
+				itsStream->seekg(dataPosition);
+				itsStream->seekp(dataPosition);
+				return kJTrue;
+				}
+			else if (status == kIgnore && canAdd && identifierFound)
+				{
+				// This slot was originally used for this Identifier.
+				// Since we are allowed to add the given identifier,
+				// we simply reset the status.
+
+				itsStream->seekp(statusPosition);
+				*itsStream << kInUse;
+
+				// Now make sure write and read are both at correct place.
+
+				itsStream->seekg(dataPosition);
+				itsStream->seekp(dataPosition);
+				return kJTrue;
+				}
+			else if (status == kIgnore && !canAdd && identifierFound)
+				{
+				// The Identifier is here, so it can't be anywhere else.
+				// Since we can't add it, we can give up now.
+
+				return kJFalse;
+				}
+			else if (status == kEmpty && canAdd)
+				{
+				// Since we hit an empty slot, we haven't seen this Identifier before.
+				// So we add it to the hash table.
+
+				AddElement(tableIndex, slotIndex, theIdentifier);
+				return kJTrue;
+				}
+			else if (status == kEmpty)
+				{
+				// If we hit an empty slot, we haven't seen this Identifier
+				// before.  Since we can't add it, we have to give up.
+
+				return kJFalse;
+				}
+
+			slotIndex++;
+			if (slotIndex > itsHashTableSize)
+				{
+				slotIndex = 1;
+				}
+			}			// end linear search in table
+		}				// end search of all tables
+
+	// falling through means that it wasn't found
+
+	if (canAdd)
+		{
+		AllocateOneHashTable();
+		AddElement(itsHashTableCount, hashIndex, theIdentifier);
+		return kJTrue;
+		}
+	else
+		{
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ AddElement (private)
+
+	Adds the given element to the specified hash table at the specified index.
+	Sets the read and write marks to the beginning of the Data for this new element.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JFileHashTable<T>::AddElement
+	(
+	const JIndex	tableIndex,
+	const JIndex	slotIndex,
+	const T&		theIdentifier
+	)
+{
+	// move to the location of the new element
+
+	const JIndex fileIndex = (tableIndex-1) * itsHashTableSize + slotIndex-1;
+	const streampos offset = GetFileHeaderLength() + fileIndex * GetElementLength();
+	itsStream->seekg(offset);
+
+	// check that the slot is empty
+
+	SlotStatus status;
+	*itsStream >> status;
+	assert( status == kEmpty );
+
+	// mark the slot as in use
+
+	itsStream->seekp(offset);
+	*itsStream << kInUse;
+
+	// save the location of the data
+
+	const streampos dataPosition = itsStream->tellp() + itsIdentifierLength;
+
+	// initialize Identifier + Data
+
+	InitializeElement(theIdentifier);
+
+	// set the read and write marks to the beginning of the Data
+
+	itsStream->seekg(dataPosition);
+	itsStream->seekp(dataPosition);
+}
+
+/******************************************************************************
+ RemoveElement (protected)
+
+	Remove the specified element from the hash table.  Since marking the
+	slot as empty will affect the search for elements added after the element
+	being removed was added, we simply mark the slot as ignored.  It can be revived
+	later by FindElement(canAdd = kJTrue) but it can never be used for any
+	other Identifier.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JFileHashTable<T>::RemoveElement
+	(
+	const T& theIdentifier
+	)
+{
+	assert( itsStream != NULL );
+
+	if (FindElement(theIdentifier))
+		{
+		// We found the element.  First, move to the in-use flag
+
+		const streampos elementStart =
+			itsStream->tellg() - itsIdentifierLength - kSlotStatusLength;
+		itsStream->seekp(elementStart);
+
+		// mark the element as ignored
+
+		*itsStream << kIgnore;
+		}
+}
+
+/******************************************************************************
+ MoveToNextElement (protected)
+
+	Given that one uses a hash table for speed, it is reasonable to assume
+	that speed in iterating over the elements in the hash table is also
+	desired.  This method lets derived classes iterate over all the non-empty
+	slots in the hash table by merely keeping track of which slot they
+	last looked at.
+
+	Returns kJTrue if there is another used slot to look at.  It also sets
+	the file read and write marks to the start of the Identifier.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JFileHashTable<T>::MoveToNextElement
+	(
+	JIndex* slotIndex
+	)
+	const
+{
+	assert( itsStream != NULL );
+
+	const JSize slotCount = itsHashTableCount * itsHashTableSize;
+	assert( *slotIndex <= slotCount );
+
+	// search for the next non-empty slot
+
+	while (*slotIndex < slotCount)
+		{
+		(*slotIndex)++;
+		const streampos slotOffset =
+			GetFileHeaderLength() + (*slotIndex-1) * GetElementLength();
+		itsStream->seekg(slotOffset);
+
+		SlotStatus status;
+		*itsStream >> status;
+		if (status == kInUse)
+			{
+			itsStream->seekp( itsStream->tellg() );
+			return kJTrue;
+			}
+		}
+
+	return kJFalse;
+}
+
+/******************************************************************************
+ AllocateOneHashTable (private)
+
+	Appends space for another hash table to the end of the file.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JFileHashTable<T>::AllocateOneHashTable()
+{
+	// move to the end of the file
+
+	itsStream->seekp(GetFileLength());
+	itsStream->clear();				// strstream complains about end-of-file
+
+	// write blank slots
+
+	const JSize blankSize = GetElementLength() - kSlotStatusLength;
+	for (JSize i=1; i<=itsHashTableSize; i++)
+		{
+		// mark the slot as not in use
+
+		*itsStream << kEmpty;
+
+		// write blank space
+
+		for (JSize j=1; j<=blankSize; j++)
+			{
+			*itsStream << ' ';
+			}
+		}
+
+	// another hash table has been added
+
+	itsHashTableCount++;
+}
+
+/******************************************************************************
+ GetFile
+
+	Return a pointer to our stream so derived classes can read and write data.
+
+ ******************************************************************************/
+
+template <class T>
+iostream*
+JFileHashTable<T>::GetFile()
+	const
+{
+	return itsStream;
+}
+
+/******************************************************************************
+ GetHashTableSize
+
+ ******************************************************************************/
+
+template <class T>
+JSize
+JFileHashTable<T>::GetHashTableSize()
+	const
+{
+	return itsHashTableSize;
+}
+
+/******************************************************************************
+ GetIndentifierLength
+
+ ******************************************************************************/
+
+template <class T>
+JSize
+JFileHashTable<T>::GetIndentifierLength()
+	const
+{
+	return itsIdentifierLength;
+}
+
+/******************************************************************************
+ GetDataLength
+
+ ******************************************************************************/
+
+template <class T>
+JSize
+JFileHashTable<T>::GetDataLength()
+	const
+{
+	return itsDataLength;
+}
+
+/******************************************************************************
+ GetFileHeaderLength (private)
+
+	Return the total length of the file header (reserved space + our data).
+
+ ******************************************************************************/
+
+template <class T>
+JSize
+JFileHashTable<T>::GetFileHeaderLength()
+	const
+{
+	return itsReservedSpaceLength + kFileHeaderLength;
+}
+
+/******************************************************************************
+ GetElementLength (private)
+
+	Return the length of an entire element (our stuff + Identifier + Data).
+
+ ******************************************************************************/
+
+template <class T>
+JSize
+JFileHashTable<T>::GetElementLength()
+	const
+{
+	return kSlotStatusLength + itsIdentifierLength + itsDataLength;
+}
+
+/******************************************************************************
+ GetFileLength (private)
+
+	Return the length of an entire element (our stuff + Identifier + Data).
+
+ ******************************************************************************/
+
+template <class T>
+JSize
+JFileHashTable<T>::GetFileLength()
+	const
+{
+	return GetFileHeaderLength() + itsHashTableCount * itsHashTableSize * GetElementLength();
+}
+
+/******************************************************************************
+ ReadHashTableSize (private)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JFileHashTable<T>::ReadHashTableSize()
+{
+	itsStream->seekg(itsReservedSpaceLength + kHashTableSizeOffset);
+	itsStream->read(reinterpret_cast<char*>(&itsHashTableSize), kHashTableSizeLength);
+}
+
+/******************************************************************************
+ WriteHashTableSize (private)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JFileHashTable<T>::WriteHashTableSize()
+{
+	itsStream->seekp(itsReservedSpaceLength + kHashTableSizeOffset);
+	itsStream->write(reinterpret_cast<char*>(&itsHashTableSize), kHashTableSizeLength);
+}
+
+/******************************************************************************
+ ReadHashTableCount (private)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JFileHashTable<T>::ReadHashTableCount()
+{
+	itsStream->seekg(itsReservedSpaceLength + kHashTableCountOffset);
+	itsStream->read(reinterpret_cast<char*>(&itsHashTableCount), kHashTableCountLength);
+}
+
+/******************************************************************************
+ WriteHashTableCount (private)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JFileHashTable<T>::WriteHashTableCount()
+{
+	itsStream->seekp(itsReservedSpaceLength + kHashTableCountOffset);
+	itsStream->write(reinterpret_cast<char*>(&itsHashTableCount), kHashTableCountLength);
+}
+
+/******************************************************************************
+ ReadSearchDistance (private)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JFileHashTable<T>::ReadSearchDistance()
+{
+	itsStream->seekg(itsReservedSpaceLength + kSearchDistanceOffset);
+	itsStream->read(reinterpret_cast<char*>(&itsMaxSearchDistance), kSearchDistanceLength);
+}
+
+/******************************************************************************
+ WriteSearchDistance (private)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JFileHashTable<T>::WriteSearchDistance()
+{
+	itsStream->seekp(itsReservedSpaceLength + kSearchDistanceOffset);
+	itsStream->write(reinterpret_cast<char*>(&itsMaxSearchDistance), kSearchDistanceLength);
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JFileHashTable
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

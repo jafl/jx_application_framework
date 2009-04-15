@@ -1,0 +1,206 @@
+#ifndef _T_JPtrStack
+#define _T_JPtrStack
+
+/******************************************************************************
+ JPtrStack.tmpl
+
+	This class provides extra functions that are useful when storing
+	a stack of pointers.
+
+	BASE CLASS = public JStack<T*,S>
+
+	Copyright © 1996-97 John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JPtrStack.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T, class S>
+JPtrStack<T,S>::JPtrStack
+	(
+	const JPtrArrayT::CleanUpAction action
+	)
+	:
+	JStack<T*,S>(),
+	itsCleanUpAction(action)
+{
+}
+
+/******************************************************************************
+ Destructor
+
+ *****************************************************************************/
+
+template <class T, class S>
+JPtrStack<T,S>::~JPtrStack()
+{
+	if (itsCleanUpAction == JPtrArrayT::kDeleteAll)
+		{
+		ClearDelete();
+		}
+	else if (itsCleanUpAction == JPtrArrayT::kDeleteAllAsArrays)
+		{
+		ClearDeleteAsArrays();
+		}
+}
+
+/******************************************************************************
+ ClearDelete
+
+	Delete all the elements and remove them from the stack.
+
+ ******************************************************************************/
+
+template <class T, class S>
+void
+JPtrStack<T,S>::ClearDelete()
+{
+	S* list           = JStack<T*,S>::GetElements();
+	const JSize count = list->GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		T* elementPtr = list->GetElement(i);
+		delete elementPtr;
+		}
+
+	JStack<T*,S>::Clear();
+}
+
+/******************************************************************************
+ ClearDeleteAsArrays
+
+	Delete all the elements and remove them from the stack.
+
+ ******************************************************************************/
+
+template <class T, class S>
+void
+JPtrStack<T,S>::ClearDeleteAsArrays()
+{
+	S* list           = JStack<T*,S>::GetElements();
+	const JSize count = list->GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		T* elementPtr = list->GetElement(i);
+		delete [] elementPtr;
+		}
+
+	JStack<T*,S>::Clear();
+}
+
+/******************************************************************************
+ UnwindDelete
+
+	Delete the top few elements and remove them from the stack.
+
+ ******************************************************************************/
+
+template <class T, class S>
+void
+JPtrStack<T,S>::UnwindDelete
+	(
+	const JSize numToUnwind
+	)
+{
+	S* list           = JStack<T*,S>::GetElements();
+	const JSize count = list->GetElementCount();
+	for (JIndex i=1; i<=numToUnwind && i<=count; i++)
+		{
+		T* elementPtr = list->GetElement(count -i+1);
+		delete elementPtr;
+		}
+
+	JStack<T*,S>::Unwind(numToUnwind);
+}
+
+/******************************************************************************
+ UnwindDeleteAsArrays
+
+	Delete the top few elements and remove them from the stack.
+
+ ******************************************************************************/
+
+template <class T, class S>
+void
+JPtrStack<T,S>::UnwindDeleteAsArrays
+	(
+	const JSize numToUnwind
+	)
+{
+	S* list           = JStack<T*,S>::GetElements();
+	const JSize count = list->GetElementCount();
+	for (JIndex i=1; i<=numToUnwind && i<=count; i++)
+		{
+		T* elementPtr = list->GetElement(count -i+1);
+		delete [] elementPtr;
+		}
+
+	JStack<T*,S>::Unwind(numToUnwind);
+}
+
+/******************************************************************************
+ PushCopy
+
+	Not called Push() to avoid shadowing function in base class.
+
+ ******************************************************************************/
+
+#ifdef JPtrStackCopy
+
+template <class T, class S>
+void
+JPtrStack<T,S>::PushCopy
+	(
+	const T& data
+	)
+{
+	T* ptr = new T(data);
+	assert( ptr != NULL );
+	Push(ptr);
+}
+
+#endif
+
+/******************************************************************************
+ Clean up action
+
+	What to do when the destructor is called.  This is especially useful
+	for objects allocated on the stack, because one can set the appropriate
+	action and then never have to worry about short-circuit returns.
+
+ ******************************************************************************/
+
+template <class T, class S>
+inline JPtrArrayT::CleanUpAction
+JPtrStack<T,S>::GetCleanUpAction()
+	const
+{
+	return itsCleanUpAction;
+}
+
+template <class T, class S>
+inline void
+JPtrStack<T,S>::SetCleanUpAction
+	(
+	const JPtrArrayT::CleanUpAction action
+	)
+{
+	itsCleanUpAction = action;
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateDataType && defined JTemplateStorageType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateType JTemplateDataType,JTemplateStorageType
+	#define JTemplateName JPtrStack
+	#include <instantiate_template.h>
+	#undef JTemplateName
+	#undef JTemplateType
+#endif

@@ -1,0 +1,41 @@
+0
+
+JXWChanges
+
+"<html>
+
+<head>
+<title> Changes from previous versions </title>
+</head>
+
+Please send all bug reports and suggestions for features to 
+<a href=http://www.newplanetsoftware.com/nps/contact.php>New Planet Software</a>.
+
+<p>
+<hr>
+<p>
+
+<b>2.5.0</b>
+
+<p>
+No longer copies version control directories when building a project from a template.
+<p>
+
+<b>2.1.0</b>
+
+<p>
+Projects can be placed anywhere, not merely in <tt>JX-2.1.0/programs/</tt>.
+<p>
+Changed file name convention to use _pre_ and _Binary_ instead of &lt;pre&gt; and &lt;Binary&gt;.
+<p>
+Automatically creates the project directory if it doesn't exist.
+<p>
+Added library template in <tt>lib_template</tt>.
+<p>
+Project path and name can now contain spaces.
+<p>
+
+<b>2.0.0</b>
+
+<p>
+Initial release."

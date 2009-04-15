@@ -1,0 +1,10 @@
+
+To compile Leibnitz, run "make" in the top level JX directory.
+
+If there is no Makefile there, you need to go to the web page
+
+    http://www.newplanetsoftware.com/leibnitz/
+
+and download the rest of the required source .tar files from the New Planet
+Software ftp site.
+

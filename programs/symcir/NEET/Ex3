@@ -1,0 +1,15 @@
+ORIGINAL EXAMPLE 3
+*
+R1		3	4	1K
+R2		1	2	1K
+*
+C1		4	0	1U
+L2		2	3	1M
+C3		1	3	1U
+*
+VS		1	0	AC	1	0
+*
+.AC
+.PROBE
+*
+.END

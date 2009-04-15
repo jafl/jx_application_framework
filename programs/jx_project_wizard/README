@@ -1,0 +1,24 @@
+
+Installing jx_project_wizard:
+
+The program (jx_project_wizard) should be placed in a directory that is on
+your execution path.  /usr/bin or ~/bin are usually good choices.
+
+
+Running jx_project_wizard:
+
+If you find bugs, please check the web page to see if they have already
+been reported.
+
+
+Notes on jx_project_wizard:
+
+jx_project_wizard creates a skeletal program for use with JX 2.0.0.  The
+on-line help explains all the features of the program.
+
+The main web page for JX is
+
+    http://www.newplanetsoftware.com/jx/
+
+John Lindal
+

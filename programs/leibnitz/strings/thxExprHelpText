@@ -1,0 +1,143 @@
+0
+
+THXExprHelp
+
+"<html>
+<head>
+<title> Entering Expressions </title>
+</head>
+
+<h3> The Expression Window </h3>
+
+The Expression window provides a simple, yet powerful interface for entering
+and evaluating algebraic expressions.  The top half of the window displays
+the expression, while the bottom half displays a history of the expressions
+that have been evaluated, called the tape.
+<p>
+At the right is the keypad that you can use to enter simple expressions.
+This works just like a hand held calculator.  \"Clear\" clears the value
+that you are entering, while \"Clear all\" clears the entire expression.
+Once you have mastered the keyboard interface described below, you will
+probably want to hide the keypad by turning off the \"Show keypad\" option
+on the Preferences menu.
+<p>
+The Close button in the upper right corner closes the window and discards
+the expression and the contents of the tape.  When you quit, all the existing
+windows are saved, so you can start right where you left off when you run
+the program again later.
+<p>
+Expression windows have their WM_CLASS set to Leibnitz_Expression.  This can be used
+to filter these windows out of a window manager's taskbar.
+
+<h3> Entering Expressions </h3>
+
+The simplest way to explain the interface is that you just type as if you
+were entering a text expression.  The expression will be built graphically as
+you type.
+<p>
+New expressions are initally empty.  This is drawn as a single question mark (?),
+which represents an empty input field.  When you click on the input field, it becomes
+active, and you are ready to start typing.
+<p>
+Input fields accept numbers and the named constants defined in the
+<a href=jxhelp:THXConstantsHelp>Constants</a> window.  When you type an operator,
+the input field is parsed and becomes part of the expression, and a new input
+field is created based on which operator you typed.  The operators are as follows:
+
+<pre>
+   +  addition
+   -  subtraction
+   *  multiplication
+   /  division
+   ^  exponentiation
+   |  parallel combination:  x||y = x*y/(x+y)
+</pre>
+
+You actually only need to type a unique prefix of a named constant because the
+editor will complete it for you automatically when parsing it.
+<p>
+While entering a number, typing \"e\" lets you enter the exponent.
+<p>
+Input fields also accept certain pre-defined constants:
+
+<pre>
+   pi = 3.141592654...
+   e  = 2.718281828...
+   i  = sqrt(-1)
+   j  = sqrt(-1) (for Electrical Engineers)
+</pre>
+
+You can also enter the names of pre-defined functions.  The function name is parsed
+when you type a left parenthesis \"(\".  You can also use the \"Apply function\"
+submenu on the Math menu if you don't remember the name of the function that you
+need.
+
+<pre>
+   sqrt       square root
+   abs        absolute value
+   sign       algebraic sign (+1, -1)
+   round      nearest integer
+   truncate   toss fractional part
+
+   log        logarithm to an arbitrary base
+   log10      logarithm base 10
+   ln         natural logarithm
+   log2       logarithm base 2
+
+   sin        sine
+   cos        cosine
+   tan        tangent
+   arcsin     inverse sine
+   arccos     inverse cosine
+   arctan     inverse tangent(x) (-<font face=Symbol>p</font>/2 to +<font face=Symbol>p</font>/2)
+   arctan2    inverse tangent(y,x) (-<font face=Symbol>p</font> to +<font face=Symbol>p</font>)
+
+   sinh       hyperbolic sine
+   cosh       hyperbolic cosine
+   tanh       hyperbolic tangent
+   arcsinh    inverse hyperbolic sine
+   arccosh    inverse hyperbolic cosine
+   arctanh    inverse hyperbolic tangent
+
+   re         real part
+   im         imaginary part
+   arg        phase angle
+   conjugate  complex conjugate
+   rotate     rotate(complex number, angle to rotate in degrees)
+
+   max        maximum of its arguments
+   min        minimum of its arguments
+   parallel   parallel combination: x||y = x*y/(x+y)
+</pre>
+
+The last three functions can take an arbitrary number of arguments.
+Typing a comma ( , ) adds another argument.
+<p>
+While entering an expression, the return key, the space bar, and the right
+parenthesis \")\" all parse the current input field and then select it.
+The spacebar and the right parenthesis will extend the
+selection \"upwards\" when pressed again.  This allows you to enter an
+expression like <tt>x^2+1</tt> without using the mouse by typing <tt>x ^ 2 space
+space + 1</tt>
+<p>
+Selecting a piece of the expression lets you manipulate it using the Math menu.
+The \"Apply function\" submenu transfers the selection to the first argument of the function
+that you select from the menu.
+<p>
+The Backspace key replaces the selection with an input field.  Typing Backspace again
+deletes the input field.  Typing an operator applies it to the selection.  Typing
+other text replaces the selection with an input field.
+<p>
+Double clicking on a number or a named constant lets you edit it.
+<p>
+There can be more than one empty input field in an expression.  A question mark
+is used to represent each one.  The Tab key moves you from one input field to another.
+
+<h3> Using the clipboard </h3>
+
+When you copy an expression to the clipboard, you can paste it into any other
+program to obtain a textual version of the expression.  You can also copy
+an expression in this form from another program and paste it into any Expression
+window.
+
+</html>"

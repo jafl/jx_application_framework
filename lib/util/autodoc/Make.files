@@ -1,0 +1,4 @@
+@autodoc
+
+.cpp ${CODEDIR}/autodoc
+literal: ${LIB_DEPS}

@@ -1,0 +1,31 @@
+/* XPM */
+static char *jx_trash_can_full_selected_small[] = {
+/* width height num_colors chars_per_pixel */
+"    16    16        8            1",
+/* colors */
+"  c None",
+". c #cccccc",
+"# c black",
+"a c #aaaaaa",
+"b c #444444",
+"c c #777777",
+"d c #222222",
+"e c black",
+/* pixels */
+"      eee       ",
+"     eacbe      ",
+"   eeeeeeeee    ",
+"  ebc..cbbd#e   ",
+"  eeeeeeeeeee   ",
+"   ec.ccbbde    ",
+"  ec.b.ac#bde   ",
+"  e.b..dcc#be   ",
+" ec.b..dcc#bde  ",
+" ec.b.adcc#bde  ",
+" ec.b.adcc#bde  ",
+" ec.b.adcc#bde  ",
+"  eabaadcc#be   ",
+"  ecabccc#bde   ",
+"   ecaccbbde    ",
+"    eeeeeee     "
+};

@@ -1,0 +1,93 @@
+jx_browser_data 82
+# project tree
+0 "root"
+T
+1 "main"
+T
+2 "jxwizard.cpp"
+F
+"./code/jxwizard.cpp"
+T
+2 "JXWApp.cpp"
+F
+"./code/JXWApp.cpp"
+T
+2 "jxwGlobals.cpp"
+F
+"./code/jxwGlobals.cpp"
+T
+2 "JXWPrefsManager.cpp"
+F
+"./code/JXWPrefsManager.cpp"
+F
+T
+1 "directors"
+T
+2 "JXWMainDialog.cpp"
+F
+"./code/JXWMainDialog.cpp"
+F
+T
+1 "help"
+T
+2 "jxwHelpText.h"
+F
+"./code/jxwHelpText.h"
+T
+2 "jxwTOCHelpText"
+F
+"./strings/jxwTOCHelpText"
+T
+2 "jxwMainHelpText"
+F
+"./strings/jxwMainHelpText"
+T
+2 "jxwChangeLogText"
+F
+"./strings/jxwChangeLogText"
+T
+2 "jxwCreditsText"
+F
+"./strings/jxwCreditsText"
+F
+T
+1 "misc"
+T
+2 "jxwizard_strings"
+F
+"./strings/jxwizard_strings"
+T
+2 "jxwizard.fd"
+F
+"./jxwizard.fd"
+F
+F
+# tasks
+4
+"makemake"
+T "./" "make -k personal" "" T F T F T F T "" "" "" F
+T "./" "make -k" "" T F T F T F T "" "" "" F
+T "./" "make -k jafl" "" T F T F T F T "" "" "" T
+T "./" "make CHECKSTRING=$file_name checksyntax" "" T F T T T T F "" "" "" F
+T "./" "make $file_name_root" "" T F T T T T F "" "" "" T
+T "./" "jx_project_wizard" "" F F F F T T F "" "" "" F
+T "./" "jxwizard" "" F F F F T T F "" "" "" F
+T "./" "a.out" "" F F F F T T F "" "" "" T
+T "./" "medic jxwizard -f +$line $full_name" "" F F F T F F F "" "" "" F
+T "./" "medic -f +$line $full_name" "" F F F T F F F "" "" "" T
+F
+# build settings
+1
+F
+"jx_project_wizard"
+"${LIB_DEPS}"
+"make -k all"
+# search paths
+T "../../libjcore/code" T
+T "../../libjtoolbar/code" T
+T "../../libjtree/code" T
+T "../../libjx/code" T
+T "./code" T
+F
+# C preprocessor
+F

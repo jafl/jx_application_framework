@@ -1,0 +1,85 @@
+0
+
+JXSearchTextHelp
+
+"<html>
+<head>
+<title> Search & Replace </title>
+</head>
+
+<h4> Experts will more likely be interested in
+<a href=jxhelp:JXRegexHelp>Regular Expressions</a> </h4>
+
+The text that will be affected is the text input area that was clicked or typed in last.  The dialog is resizable, and the position and size are remembered.
+
+<h3> Searching for text </h3>
+
+Enter the text for which to search in the \"Search for\" input area.  The right \"Find\"
+button searches for the next match and selects it, while the left \"Find\" button
+searches for the previous match.
+<p>
+If \"Ignore case\" is checked, the search will not be case-sensitive.
+If \"Wrap search\" is checked, the search will wrap around if it hits the
+beginning or end of the text and will continue from the end or the beginning,
+respectively.  If \"Entire words only\" is checked and the search text is also
+entire words (e.g. \"hello\" or \"hi there\", but not \"this?\"), the search
+will ignore matches that are part of other words.  As an example, \"and\" will
+not match \"sand\".
+<p>
+If \"Regex search (egrep)\" is checked, the search text will be interpreted as a
+<a href=jxhelp:JXRegexHelp>regular expression</a>.  The \"Ref\" button displays a
+short reference summary of regular expression syntax.  If \"Treat as single line\"
+is checked, the regex will be allowed to match across multiple lines.  Otherwise,
+each match will only be allowed to extend until it reaches a newline character.
+<p>
+Clicking on the down arrow next to the \"Search for\" input area displays a menu
+of the last 20 search patterns.  Selecting one copies it to the input area.
+<p>
+The right \"Find\" button has the shortcuts Return and Meta-G.  The left \"Find\"
+button has the shortcuts Shift-Return and Meta-Shift-G.  The latter shortcuts are
+the same as in the Text Editor window.
+
+<h3> Replacing text </h3>
+
+Enter the text with which to replace the currently selected match in the
+\"Replace with\" input area.  The \"Replace\" button replaces the selected text if it
+matches the current search text.  The \"Replace & Find\" buttons do the same and
+then search for and select the next or previous match.  If \"Wrap search\" is
+checked, the \"Replace all\" buttons search for all matches in the specified direction
+starting from the beginning or end of the text and replace each one.  Otherwise, they
+search for all matches starting from the current caret position or selection and
+replace each one, stopping at the beginning or end of the text.
+<p>
+If \"Regex replace\" is checked, the replace pattern will be interpreted as a
+<a href=jxhelp:JXRegexHelp#Replace>regular expression</a>.  Note that the shortcut
+for toggling this checkbox is Meta-Shift-X, because Meta-X is the shortcut for
+\"Regex search.\"
+<p>
+If \"Preserve case\" is checked, the case of the replace text will be adjusted to
+match that of the matched search text, when possible.  This is primarily useful
+when performing a case-insensitive search.  The rules for when the case is adjusted
+are as follows:
+
+<ol>
+<li> If the texts have the same length, the case of each character is adjusted
+     separately.  For example, matching \"aBc\" and replacing with \"xyz\" produces
+     \"xYz\".
+<p>
+<li> Otherwise, the first letter's case is adjusted, and then the rest of
+     the letters' cases are adjusted if all but the first letter in the matched
+     text have the same case.  For example, matching \"aBC\" and replacing with
+     \"wxyz\" produces \"wXYZ\", while matching \"AbC\" produces \"Wxyz\".
+</ol>
+
+Clicking on the down arrow next to the \"Replace with\" input area displays a menu
+of the last 20 replace patterns.  Selecting one copies it to the input area.
+<p>
+The \"Replace\" button has the shortcut Meta-=.  The right \"Replace & Find\"
+button has the shortcut Meta-L.  The left \"Replace & Find\" button has the
+shortcut Meta-Shift-L.  These are the same shortcuts as in the Text Editor window.
+
+<h3> Sharing search parameters between programs </h3>
+
+Since many programs allow you to search through text, this program has been designed to allow the search parameters to be automatically shared with other programs via the <a href=http://www.newplanetsoftware.com/xsearch/>XSearch protocol</a>.  The advantage of this is that you can use the \"Enter search string\" menu item in one program, the \"Enter replace string\" menu item in a second program, and then search and replace in a third program without ever having to use the clipboard to transfer any of the text.  All the other options in the Search Text dialog are also shared, so you can configure a search in one program and then use it in any other program that supports the protocol.
+
+</html>"

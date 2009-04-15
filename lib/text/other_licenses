@@ -1,0 +1,359 @@
+From schmidt@tango.cs.wustl.edu  Thu Jan 22 14:02:42 1998
+Return-Path: <schmidt@tango.cs.wustl.edu>
+Received: from rainier.cs.wustl.edu (cs.wustl.edu [128.252.165.10])
+	by alice.caltech.edu (8.8.5/8.8.5) with ESMTP id OAA09535
+	for <jafl@alice.wonderland.caltech.edu>; Thu, 22 Jan 1998 14:02:41 -0800
+Received: from tango.cs.wustl.edu (schmidt@tango.cs.wustl.edu [128.252.165.140])
+	by rainier.cs.wustl.edu (8.8.5/CTS-JEK1.2) with ESMTP id QAA15334
+	for <jafl@alice.wonderland.caltech.edu>; Thu, 22 Jan 1998 16:01:17 -0600 (CST)
+Received: from localhost (schmidt@localhost)
+	by tango.cs.wustl.edu (8.8.5/CTS-JEK1.2) with ESMTP id QAA25876
+	for <jafl@alice.wonderland.caltech.edu>; Thu, 22 Jan 1998 16:01:14 -0600 (CST)
+Message-Id: <199801222201.QAA25876@tango.cs.wustl.edu>
+To: John Lindal <jafl@alice.wonderland.caltech.edu>
+Subject: Re: Distributing ACE 
+In-reply-to: Your message of "Wed, 21 Jan 1998 10:40:41 PST."
+             <34C64129.6C1A7098@alice.wonderland.caltech.edu> 
+Date: Thu, 22 Jan 1998 16:01:14 -0600
+From: "Douglas C. Schmidt" <schmidt@cs.wustl.edu>
+Status: RO
+
+
+Hi John,
+
+> First, you now have the following advertisment on the JX
+> "coming attractions" list:
+> 
+> "Support for <em>all</em> aspects of networking via the
+> awe-inspiring ACE library."
+
+Yay!
+
+> Second, is it enough to include the following in the credits
+> of programs linked with ACE?
+> 
+> "ACE is copyrighted by Douglas C. Schmidt and his research
+> group at Washington University, Copyright (c) 1993-1997,
+> all rights reserved."
+
+Sure, that's fine.
+
+> Third, can I include a subset of the full ACE distribution
+> as part of the JX distribution, if I also include a pointer
+> to the ACE web page and the full distribution?
+
+Yes, no problemo.
+
+Take care,
+
+        Doug
+
+From laurence@cheshire-cat.wonderland.caltech.edu  Thu Jan 22 15:40:06 1998
+Return-Path: <laurence@cheshire-cat.wonderland.caltech.edu>
+Received: from cheshire-cat.caltech.edu (cheshire-cat.caltech.edu [131.215.18.10])
+	by alice.caltech.edu (8.8.5/8.8.5) with ESMTP id PAA10008
+	for <jafl@Alice.Wonderland.Caltech.EDU>; Thu, 22 Jan 1998 15:40:05 -0800
+Received: from localhost (laurence@localhost)
+	by cheshire-cat.caltech.edu (8.8.5/8.8.5) with SMTP id QAA08416
+	for <jafl@Alice.Wonderland.Caltech.EDU>; Thu, 22 Jan 1998 16:38:36 -0800
+Date: Thu, 22 Jan 1998 16:38:36 -0800 (PST)
+From: Dustin <laurence@alice.wonderland.caltech.edu>
+To: John Lindal <jafl@Alice.Wonderland.Caltech.EDU>
+Subject: Re: Licencing (fwd)
+Message-ID: <Pine.LNX.3.95.980122163815.7902A-100000@cheshire-cat.caltech.edu>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+Status: RO
+
+>From Spencer:
+
+Dustin
+
+---------- Forwarded message ----------
+Date: Thu, 22 Jan 1998 15:33:09 -0500 (EST)
+From: Henry Spencer <henry@zoo.utoronto.ca>
+To: Dustin <laurence@alice.wonderland.caltech.edu>
+Subject: Re: Licencing
+
+> ...comply with your licence.  I think it's pretty clear except in the case
+> where they use regex only through JCore/JX and not directly (we're
+> depending on it more heavily so this will start happening whether people
+> know it or not).  In that case, are we the only ones who need to include
+> your notice in the documentation, or does every author still need to do so
+> as well? ...
+
+Hmm, an interesting point, and one that I had not considered.
+
+It may be relevant here that the tentative copyright notice for my new
+package softens this requirement, asking that credit be given where
+possible, but not requiring it.  (I had originally intended to keep the
+terms unchanged, but some folks were willing to supply money on condition
+that it be loosened...)
+
+> Does it matter for this purpose if the indirect use is through
+> JRegex (which is explicitly a wrapper class around your engine and thus
+> feels like fairly direct use to me), or through something JXFontManager
+> where the usage is limited to being able to pass in a regex to find a
+> family of fonts, or through JTextEditor which invisibly uses JRegex
+> internally to remove illegal pasted characters?
+
+Hmmmmmm.  I think my preferred rule of thumb would be that credit should
+be in proportion to visibility.  If you spend a page or two of docs
+explaining what REs are and how to use them, credit should appear.  If REs
+get a one-line mention, credit is optional, perhaps via a cross-reference
+to something else.  If they are strictly an internal tool and are not
+visible to the customer, internals documentation (if any) should mention
+them, but credit need not appear in customer documentation.
+
+That's my first reaction.  It's an area I hadn't thought about before;
+I'm open to discussion if there are difficulties..
+
+                                                           Henry Spencer
+                                                       henry@zoo.toronto.edu
+
+From laurence@mad-hatter.wonderland.caltech.edu  Sat Jan 24 17:44:18 1998
+Return-Path: <laurence@mad-hatter.wonderland.caltech.edu>
+Received: from mad-hatter.caltech.edu (mad-hatter.caltech.edu [131.215.18.7])
+	by alice.caltech.edu (8.8.5/8.8.5) with ESMTP id RAA20263
+	for <jafl@Alice.Wonderland.Caltech.EDU>; Sat, 24 Jan 1998 17:44:17 -0800
+Received: from localhost (laurence@localhost)
+	by mad-hatter.caltech.edu (8.8.5/8.8.5) with SMTP id SAA30566;
+	Sat, 24 Jan 1998 18:53:44 -0800
+Date: Sat, 24 Jan 1998 18:53:44 -0800 (PST)
+From: Dustin <laurence@alice.wonderland.caltech.edu>
+To: Henry Spencer <henry@zoo.utoronto.ca>
+cc: John Lindal <jafl@Alice.Wonderland.Caltech.EDU>
+Subject: Re: Licencing
+In-Reply-To: <Pine.BSI.3.91.980122151909.15912A-100000@zoo.utoronto.ca>
+Message-ID: <Pine.LNX.3.95.980124184741.30440E-100000@mad-hatter.caltech.edu>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+Status: RO
+
+On Thu, 22 Jan 1998, Henry Spencer wrote:
+
+> It may be relevant here that the tentative copyright notice for my new
+> package softens this requirement, asking that credit be given where
+> possible, but not requiring it.  (I had originally intended to keep the
+> terms unchanged, but some folks were willing to supply money on condition
+> that it be loosened...)
+
+It would be relevant to users of the code, of course, but we'd still honor
+the request as well as provide all the info to the library users so it
+doesn't matter to us directly.
+
+Why would someone care particularly about giving attribution?
+
+> Hmmmmmm.  I think my preferred rule of thumb would be that credit should
+> be in proportion to visibility.
+
+That seems reasonable.  We'll give credit ourselves for the library and
+ask that client applications give credit where the regexes are visible.
+For example (as I would interpret it) if the regexes are strictly internal
+to JX and the programmer isn't manipulating them directly, the credits for
+the JX library are sufficient.  If the programmer is manipulating regexes
+directly but it is invisible to users, the source should include the
+credits.  If they are visible to users, then the documentation itself
+should provide credits.  Is that a fair paraphrase of what you had in
+mind?
+
+I don't see any problem with that--and if someone objects to having to
+give credit for some unfathomable reason I guess someone already paid cash
+so that everyone can do this.
+
+Dustin
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: 2.6.2
+
+mQCNAzRZLxsAAAEEAMyHNJteKYKOpQYZj6h7HiLWQ9MHSmzsokdTNCLSnbI+dfjG
+JttSaieNB5CWJh7nd23Okkwz2q6y1j4ovcSUU83dvoB+cyZaVH4T70M6mnj7heji
+Af7tyDH2ZS3PT+Z+uS+uK40WhUrjs1fRhABnYta1TU1U1Ubq5f8KQJenCdhhAAUR
+tCxEdXN0aW4gTGF1cmVuY2UgPGxhdXJlbmNlQGFsaWNlLmNhbHRlY2guZWR1PokA
+lQMFEDRZL1j/CkCXpwnYYQEBfOID/0fUG0KNY3chIjnAOeELtjC3yb4sEbo51oRf
+IgCZ0dFxmfzmoiv1nes148E8hERWee3TLX5Oh/otiCOh++FlJktALLF7JuRSHWgf
+TOeE8nlbLtxT8QaNjK51B5F89ZwIKh+YDDhkjdqLcNzwi6WNX9CVsgSJ2AFaC8FT
+8BUVhgRV
+=frMm
+-----END PGP PUBLIC KEY BLOCK-----
+
+From henry@zoo.utoronto.ca  Thu Jan 29 18:10:48 1998
+Return-Path: <henry@zoo.utoronto.ca>
+Received: from zoo.utoronto.ca (zoo.utoronto.ca [128.100.72.1])
+	by alice.caltech.edu (8.8.5/8.8.5) with ESMTP id SAA15224;
+	Thu, 29 Jan 1998 18:10:47 -0800
+Received: (from henry@localhost) by zoo.utoronto.ca (8.8.5/8.7.3) id VAA16789; Thu, 29 Jan 1998 21:08:50 -0500 (EST)
+Date: Thu, 29 Jan 1998 21:08:49 -0500 (EST)
+From: Henry Spencer <henry@zoo.utoronto.ca>
+To: Dustin <laurence@alice.wonderland.caltech.edu>
+cc: John Lindal <jafl@alice.wonderland.caltech.edu>
+Subject: Re: Attribution
+In-Reply-To: <Pine.LNX.3.95.980125204611.1512F-100000@mad-hatter.caltech.edu>
+Message-ID: <Pine.BSI.3.91.980129210757.14956E-100000@zoo.utoronto.ca>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+Status: RO
+
+> > P.S.  I worded this for your new package even though we are actually 
+> >       distributing the old one until you let us switch over.
+> 
+> Just a nitpick--I'm not sure anymore of the ramifications of switching
+> over, so I'm not committing to do so ASAP.  If Henry is uncomfortable
+> about this in any way let's meet the old guidelines just in case JRegex
+> doesn't switch immediately.
+
+I am quite comfortable with the idea of retroactively applying the new
+rules to the old package, if that makes life easier for you folks.
+
+                                                           Henry Spencer
+                                                       henry@zoo.toronto.edu
+
+From henry@zoo.utoronto.ca  Thu Jan 29 18:12:23 1998
+Return-Path: <henry@zoo.utoronto.ca>
+Received: from zoo.utoronto.ca (zoo.utoronto.ca [128.100.72.1])
+	by alice.caltech.edu (8.8.5/8.8.5) with ESMTP id SAA15246
+	for <jafl@alice.wonderland.caltech.edu>; Thu, 29 Jan 1998 18:12:22 -0800
+Received: (from henry@localhost) by zoo.utoronto.ca (8.8.5/8.7.3) id VAA16893; Thu, 29 Jan 1998 21:10:25 -0500 (EST)
+Date: Thu, 29 Jan 1998 21:10:24 -0500 (EST)
+From: Henry Spencer <henry@zoo.utoronto.ca>
+To: John Lindal <jafl@alice.wonderland.caltech.edu>
+cc: laurence@cheshire-cat.wonderland.caltech.edu
+Subject: Re: Attribution
+In-Reply-To: <199801260255.SAA19146@cheshire-cat.caltech.edu>
+Message-ID: <Pine.BSI.3.91.980129210913.14956G-100000@zoo.utoronto.ca>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+Status: RO
+
+> Attached is my attempt to summarize the requirements when people use
+> your regex package via JCore and JX.  Do you have a preferred sentence
+> or text that I can include?
+
+No, nothing specific...  Your wording sounds fine to me.
+
+(The reason the replies to this and related messages were delayed was
+not discomfort with the issue, but a series of crises, culminating in the 
+abrupt death of my system disk...  I'm catching up on mail while waiting
+for repair work to finish.)
+
+                                                           Henry Spencer
+                                                       henry@zoo.toronto.edu
+
+From brianp@ra.avid.com  Sun Feb 22 08:19:40 1998
+Return-Path: <brianp@ra.avid.com>
+Received: from avid.avid.com (avid.avid.com [152.165.6.40])
+	by alice.caltech.edu (8.8.5/8.8.5) with ESMTP id IAA17634
+	for <jafl@alice.wonderland.caltech.edu>; Sun, 22 Feb 1998 08:19:39 -0800
+From: brianp@ra.avid.com
+Received: from ra.avid.com by avid.avid.com with ESMTP
+	(1.37.109.20/16.2) id AA129864241; Sun, 22 Feb 1998 11:17:21 -0500
+Received: from avid.avid.com by ra.avid.com (SMI-8.6/SMI-SVR4)
+	id KAA27620; Sun, 22 Feb 1998 10:17:19 -0600
+Received: from shannara.madison.avid.com (shannara.avid.com) by avid.avid.com with ESMTP
+	(1.37.109.20/16.2) id AA129834237; Sun, 22 Feb 1998 11:17:17 -0500
+Received: (from brianp@localhost) by shannara.madison.avid.com (950413.SGI.8.6.12/950213.SGI.AUTOCF) id KAA03212 for jafl@alice.wonderland.caltech.edu; Sun, 22 Feb 1998 10:15:35 -0600
+Message-Id: <9802221015.ZM3210@elastic.avid.com>
+Date: Sun, 22 Feb 1998 10:15:35 -0600
+In-Reply-To: John Lindal <jafl@alice.wonderland.caltech.edu>
+        "Distributing Mesa" (Feb 21,  1:24pm)
+References: <199802212124.NAA09655@cheshire-cat.caltech.edu>
+Reply-To: brianp@ra.avid.com
+Sender: brianp@ra.avid.com
+X-Mailer: Z-Mail (3.2.3 08feb96 MediaMail)
+To: John Lindal <jafl@alice.wonderland.caltech.edu>
+Subject: Re: Distributing Mesa
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Status: RO
+
+Sure, you can include Mesa with your software.
+
+-Brian
+
+-- 
+--------------------------------------------------------------------
+Brian Paul   Avid Technology   Madison, WI   brianp@elastic.avid.com
+
+From lehors@w3.org  Sun Jun 21 23:39:24 1998
+Return-Path: <lehors@w3.org>
+Received: from lanalana.inria.fr (root@lanalana.inria.fr [138.96.10.13])
+	by alice.caltech.edu (8.8.8/8.8.8) with ESMTP id XAA04667;
+	Sun, 21 Jun 1998 23:39:22 -0700
+Received: from w3.org by lanalana.inria.fr (8.8.8/8.8.5) with ESMTP id IAA27258; Mon, 22 Jun 1998 08:47:27 +0200
+X-Authentication-Warning: lanalana.inria.fr: Host alh-pm.inria.fr [138.96.224.131] claimed to be w3.org
+Sender: Arnaud.Le_Hors@sophia.inria.fr
+Message-ID: <358DFD7F.99B44908@w3.org>
+Date: Mon, 22 Jun 1998 08:45:19 +0200
+From: Arnaud Le Hors <lehors@w3.org>
+Organization: World Wide Web Consortium
+X-Mailer: Mozilla 4.04 [en] (X11; I; Linux 2.0.29 i586)
+MIME-Version: 1.0
+To: John Lindal <jafl@alice.wonderland.caltech.edu>
+CC: glenn@alice.wonderland.caltech.edu
+Subject: Re: XPM library
+References: <199806200243.TAA02251@alice.caltech.edu>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-SpamBouncer: 1.00h (6/08/98)
+X-SBClass: OK
+X-Sorted: Default
+Status: RO
+
+John Lindal wrote:
+> 
+> I would like to be able to distribute libXPM as part of my JX library
+> (http://www.cco.caltech.edu/~jafl/jx/).  As far as I can tell from the
+> copyright statement, I can compile it in as part of my library as long as I
+> include the copyright and disclaimer statements in my packages.  Is this
+> correct?
+
+Yes, this is correct.
+-- 
+Arnaud Le Hors - W3C, User Interface Domain - www.w3.org/People/Arnaud
+
+From darren@hiebert.com  Mon Mar  8 21:06:57 1999
+Return-Path: <darren@hiebert.com>
+Received: from mail.HiWAAY.net (root@fly.HiWAAY.net [208.147.154.56])
+	by cheshire-cat.wonderland.caltech.edu (8.8.7/8.8.7) with ESMTP id VAA12378;
+	Mon, 8 Mar 1999 21:06:56 -0800
+Received: from tnt8-216-180-14-234.hiwaay.net (IDENT:root@tnt8-216-180-14-234.dialup.HiWAAY.net [216.180.14.234])
+	by mail.HiWAAY.net (8.9.1a/8.9.0) with ESMTP id VAA14720;
+	Mon, 8 Mar 1999 21:58:34 -0600 (CST)
+Received: from localhost (darren@localhost [127.0.0.1])
+	by tnt8-216-180-14-234.hiwaay.net (8.8.7/8.8.7) with ESMTP id VAA26623;
+	Mon, 8 Mar 1999 21:58:26 -0600
+Date: Mon, 8 Mar 1999 21:58:26 -0600 (CST)
+From: Darren Hiebert <darren@hiebert.com>
+Sender: darren@hiwaay.net
+To: John Lindal <jafl@alice.wonderland.caltech.edu>
+cc: glenn@cheshire-cat.wonderland.caltech.edu,
+        jafl@cheshire-cat.wonderland.caltech.edu
+Subject: Re: Distributing ctags
+In-Reply-To: <199903090458.UAA12326@cheshire-cat.wonderland.caltech.edu>
+Message-ID: <Pine.LNX.4.04.9903082152350.26619-100000@tnt8-216-180-14-234.hiwaay.net>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-SpamBouncer: 1.00h (3/06/99)
+X-SBClass: OK
+X-Sorted: Default
+Status: RO
+
+John,
+
+> I'm writing to ask if it is ok to include the source for ctags as part of
+> the distribution for my program that uses it.  I would like to
+> automatically build ctags as part of the installation process for my
+> program to insure that the correct version is available.  (I know you're
+> distributing it under the GPL, but I still figure it's polite to ask :)
+
+Certainly. If you distribute it from a web page, please include a
+link to the ctags site (http://darren.hiebert.com/ctags) so it is
+clear where to go in case someone wants to obtain the "official"
+distribution (or an update). Also, please give me the URL from where
+you distribute it and I will include a link to your site on the
+ctags site.
+
+-- 
+Darren Hiebert <darren@hiebert.com>
+http://darren.hiebert.com
+

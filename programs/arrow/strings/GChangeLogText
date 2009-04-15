@@ -1,0 +1,115 @@
+0
+
+GChangeLog
+
+"<html>
+
+<head>
+<title>Changes from previous versions</title>
+</head>
+
+Please send all bug reports and suggestions for features to 
+<a href=http://www.newplanetsoftware.com/nps/contact.php>New Planet Software</a>.
+<p>
+<hr>
+
+<h3> 2.0.2 </h3>
+
+<b> Miscellaneous </b>
+
+<p>
+Finally enabled menu item to check spelling in selection.
+<p>
+Double clicking in spell checker suggestion list performs replace.  Holding down the Meta key while double clicking performs \"replace all.\"
+<p>
+When you choose to ignore a word, this is remembered as long as the application is running.
+<p>
+Scroll wheel now works in spell checker suggestion list.
+<p>
+Smarter placement of spell checker window.
+<p>
+
+<h3> 2.0.1 </h3>
+
+<b> Miscellaneous </b>
+
+<p>
+Fixed crash when opening Windows menu.
+<p>
+
+<h3> 2.0.0 </h3>
+
+<p>
+<b>Major changes</b>
+<p>
+
+Attachments are now supported. They can be 
+<a href=jxhelp:GSendHelp#Attachments>sent</a> 
+and <a href=jxhelp:GViewHelp#Attachments>received</a>. Attachments 
+can be viewed by double-clicking on them, and they can be saved by 
+simply drag-and-dropping them onto any 
+<a href=http://www.newplanetsoftware.com/jx/dnd.html>XDND</a> 
+compliant file manager (like 
+<a href=http://www.newplanetsoftware.com/systemg/>SystemG</a>).
+<p>
+
+<a href=jxhelp:GAccountHelp>Multiple accounts</a> are now supported. 
+This allows you to maintain several accounts. When a message is received 
+from a particular account (via POP) Arrow will remember from which account 
+it was received, so the proper settings will be retained when resonding 
+to it. The specific preferences available to each account have been somewhat 
+modified from the previous version's single account.
+<p>
+
+<a href=jxhelp:GFilterHelp>Mail filtering</a> is now supported. 
+Mail filters sort your mail as it comes in according to conditions 
+that you provide. This feature is extremely useful in managing large 
+volumes of e-mail.
+<p>
+
+<b>Minor changes</b>
+<p>
+
+Added a drag button in the <a href=jxhelp:GViewHelp>message view window</a> 
+that lets you drag the current message to the 
+<a href=jxhelp:GMailTreeHelp>Mailbox window</a>.
+<p>
+
+The reply status of a message is now indicated in the main message window. 
+For example, if you reply to a message, the icon corresponding to reply 
+will be displayed to the left of the message.
+<p>
+
+Creating a new mailbox or directory in the Mailbox window is now more 
+straight forward. If you first select a directory, then selecting 
+<i>New mailbox</i> or <i>New directory</i> will create the appropriate 
+item in that directory and allow you to edit the name. If you first 
+select a mailbox, the new mailbox or directory will be created in 
+that mailbox's directory.
+<p>
+
+Some SMTP bugs were fixed that prevented mail from being sent to some 
+servers (namely <a href=www.yahoo.com>Yahoo</a>).
+<p>
+
+Fixed an outbox error that wrote partial outbox messages if there was 
+an SMTP error.
+<p>
+
+Added <a href=jxhelp:GPrefHelp>editor options</a> regarding whether 
+or not to copy text when selected, and whether or not the home/end keys 
+should move the cursor to the beginning/end of the line.
+<p>
+
+Fixed a bug that didn't save all of the window prefs.
+<p>
+
+All file locking is now done with <i>lockfile</i>, because of 
+NFS and other network issues.
+<p>
+
+Fixed a few address book bugs, and changed the shortcut for removing 
+items in the addressbook from <i>Meta-R</i> to <i>Backspace</i>.
+<p>
+
+</html>"

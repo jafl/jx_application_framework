@@ -1,0 +1,8 @@
+0
+obj3_JXLayout::THX2DPlotFunctionDialog::JXLayout "Initial range:"
+cancelButton::THX2DPlotFunctionDialog::JXLayout "Cancel"
+okButton::THX2DPlotFunctionDialog::shortcuts::JXLayout "^M"
+okButton::THX2DPlotFunctionDialog::JXLayout "OK"
+obj4_JXLayout::THX2DPlotFunctionDialog::JXLayout "to"
+obj2_JXLayout::THX2DPlotFunctionDialog::JXLayout "Curve name:"
+itsPlotMenu::THX2DPlotFunctionDialog::JXLayout "Window to use:"

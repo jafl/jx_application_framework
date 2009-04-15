@@ -1,0 +1,35 @@
+/******************************************************************************
+ JXUpdateShortcutIndex.th
+
+	Used by JXTextCheckbox, JXTextRadioButton, JXMenu
+
+	To use this file:
+
+		#define LabelVarName ____
+		#include <JXUpdateShortcutIndex.th>
+		#undef LabelVarName
+
+	Copyright © 1996 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+if (JStringEmpty(list))
+	{
+	delete itsShortcuts;
+	itsShortcuts = NULL;
+	itsULIndex   = 0;
+	}
+else
+	{
+	if (itsShortcuts == NULL)
+		{
+		itsShortcuts = new JString(list);
+		assert( itsShortcuts != NULL );
+		}
+	else
+		{
+		*itsShortcuts = list;
+		}
+
+	itsULIndex = JXWindow::GetULShortcutIndex(LabelVarName, itsShortcuts);
+	}

@@ -1,0 +1,529 @@
+jx_browser_data 82
+# project tree
+0 "root"
+T
+1 "main"
+T
+2 "plotter.cpp"
+F
+"./code/plotter.cpp"
+T
+2 "GLPlotApp.cpp"
+F
+"./code/GLPlotApp.cpp"
+T
+2 "GLGlobals.cpp"
+F
+"./code/GLGlobals.cpp"
+T
+2 "GLPrefsMgr.cpp"
+F
+"./code/GLPrefsMgr.cpp"
+T
+2 "GLMDIServer.cpp"
+F
+"./code/GLMDIServer.cpp"
+T
+2 "GLHelpText.h"
+F
+"./code/GLHelpText.h"
+F
+T
+1 "widgets"
+T
+2 "FitParmsTable.cpp"
+F
+"./code/FitParmsTable.cpp"
+T
+2 "GloveCursorTable.cpp"
+F
+"./code/GloveCursorTable.cpp"
+T
+2 "GloveHistory.cpp"
+F
+"./code/GloveHistory.cpp"
+T
+2 "GlovePlotter.cpp"
+F
+"./code/GlovePlotter.cpp"
+T
+2 "GXColHeaderWidget.cpp"
+F
+"./code/GXColHeaderWidget.cpp"
+T
+2 "GXRaggedFloatTable.cpp"
+F
+"./code/GXRaggedFloatTable.cpp"
+T
+2 "GXRowHeaderWidget.cpp"
+F
+"./code/GXRowHeaderWidget.cpp"
+T
+2 "GloveCursorMonitor.cpp"
+F
+"./code/GloveCursorMonitor.cpp"
+F
+T
+1 "directors"
+T
+2 "GXDataDocument.cpp"
+F
+"./code/GXDataDocument.cpp"
+T
+2 "ExprDirector.cpp"
+F
+"./code/ExprDirector.cpp"
+T
+2 "FitModuleDialog.cpp"
+F
+"./code/FitModuleDialog.cpp"
+T
+2 "FitParmsDir.cpp"
+F
+"./code/FitParmsDir.cpp"
+T
+2 "GLAboutDialog.cpp"
+F
+"./code/GLAboutDialog.cpp"
+T
+2 "GloveCursorTableDir.cpp"
+F
+"./code/GloveCursorTableDir.cpp"
+T
+2 "GloveHistoryDir.cpp"
+F
+"./code/GloveHistoryDir.cpp"
+T
+2 "GXChooseFileImportDialog.cpp"
+F
+"./code/GXChooseFileImportDialog.cpp"
+T
+2 "GXColByIncDialog.cpp"
+F
+"./code/GXColByIncDialog.cpp"
+T
+2 "GXColByRangeDialog.cpp"
+F
+"./code/GXColByRangeDialog.cpp"
+T
+2 "GXCreatePlotDialog.cpp"
+F
+"./code/GXCreatePlotDialog.cpp"
+T
+2 "GXCreateVectorPlotDialog.cpp"
+F
+"./code/GXCreateVectorPlotDialog.cpp"
+T
+2 "GXGetDelimiterDialog.cpp"
+F
+"./code/GXGetDelimiterDialog.cpp"
+T
+2 "GXPlotFunctionDialog.cpp"
+F
+"./code/GXPlotFunctionDialog.cpp"
+T
+2 "GXTransformFunctionDialog.cpp"
+F
+"./code/GXTransformFunctionDialog.cpp"
+T
+2 "PlotDir.cpp"
+F
+"./code/PlotDir.cpp"
+F
+T
+1 "misc"
+T
+2 "DataModule.cpp"
+F
+"./code/DataModule.cpp"
+T
+2 "FitModule.cpp"
+F
+"./code/FitModule.cpp"
+T
+2 "GRaggedFloatTableData.cpp"
+F
+"./code/GRaggedFloatTableData.cpp"
+T
+2 "GVarList.cpp"
+F
+"./code/GVarList.cpp"
+T
+2 "GXTextSelection.cpp"
+F
+"./code/GXTextSelection.cpp"
+F
+T
+1 "fits"
+T
+2 "JPlotExpFit.cpp"
+F
+"./code/JPlotExpFit.cpp"
+T
+2 "JPlotFitFunction.cpp"
+F
+"./code/JPlotFitFunction.cpp"
+T
+2 "JPlotLinearFit.cpp"
+F
+"./code/JPlotLinearFit.cpp"
+T
+2 "JPlotModuleFit.cpp"
+F
+"./code/JPlotModuleFit.cpp"
+T
+2 "JPlotQuadFit.cpp"
+F
+"./code/JPlotQuadFit.cpp"
+T
+2 "JFitBase.cpp"
+F
+"./code/JFitBase.cpp"
+T
+2 "JPlotFitBase.cpp"
+F
+"./code/JPlotFitBase.cpp"
+T
+2 "JPlotFitQuad.cpp"
+F
+"./code/JPlotFitQuad.cpp"
+T
+2 "JPlotFitLinear.cpp"
+F
+"./code/JPlotFitLinear.cpp"
+T
+2 "JPlotFitExp.cpp"
+F
+"./code/JPlotFitExp.cpp"
+T
+2 "JPlotFitPowerLaw.cpp"
+F
+"./code/JPlotFitPowerLaw.cpp"
+T
+2 "JPlotFitQuad2.cpp"
+F
+"./code/JPlotFitQuad2.cpp"
+T
+2 "JPlotFitLinearEq.cpp"
+F
+"./code/JPlotFitLinearEq.cpp"
+T
+2 "JPlotFitNonLinear.cpp"
+F
+"./code/JPlotFitNonLinear.cpp"
+T
+2 "GLDLFitModule.cpp"
+F
+"./code/GLDLFitModule.cpp"
+T
+2 "JPlotFitProxy.cpp"
+F
+"./code/JPlotFitProxy.cpp"
+F
+T
+1 "fit manager"
+T
+2 "GLFitDirector.cpp"
+F
+"./code/GLFitDirector.cpp"
+T
+2 "GLFitManager.cpp"
+F
+"./code/GLFitManager.cpp"
+T
+2 "GLCurveNameList.cpp"
+F
+"./code/GLCurveNameList.cpp"
+T
+2 "GLFitDescriptionList.cpp"
+F
+"./code/GLFitDescriptionList.cpp"
+T
+2 "GLFitParameterTable.cpp"
+F
+"./code/GLFitParameterTable.cpp"
+T
+2 "GLParmColHeaderWidget.cpp"
+F
+"./code/GLParmColHeaderWidget.cpp"
+T
+2 "GLChiSqLabel.cpp"
+F
+"./code/GLChiSqLabel.cpp"
+T
+2 "GLFitDescription.cpp"
+F
+"./code/GLFitDescription.cpp"
+T
+2 "GLPolyFitDescription.cpp"
+F
+"./code/GLPolyFitDescription.cpp"
+T
+2 "GLBuiltinFitDescription.cpp"
+F
+"./code/GLBuiltinFitDescription.cpp"
+T
+2 "GLNonLinearFitDescription.cpp"
+F
+"./code/GLNonLinearFitDescription.cpp"
+T
+2 "GLModuleFitDescription.cpp"
+F
+"./code/GLModuleFitDescription.cpp"
+T
+2 "JPlotFitModule.cpp"
+F
+"./code/JPlotFitModule.cpp"
+T
+2 "JXExprWidget.cpp"
+F
+"./code/JXExprWidget.cpp"
+T
+2 "GLNonLinearFitDialog.cpp"
+F
+"./code/GLNonLinearFitDialog.cpp"
+T
+2 "GLVarTable.cpp"
+F
+"./code/GLVarTable.cpp"
+T
+2 "GLPolyFitDialog.cpp"
+F
+"./code/GLPolyFitDialog.cpp"
+F
+T
+1 "tasks"
+T
+2 "DeleteBroadcasterTask.cpp"
+F
+"./code/DeleteBroadcasterTask.cpp"
+T
+2 "DeleteFitModTask.cpp"
+F
+"./code/DeleteFitModTask.cpp"
+T
+2 "GLClosePlotDirTask.cpp"
+F
+"./code/GLClosePlotDirTask.cpp"
+F
+T
+1 "arrays"
+T
+2 "JArray-CurveStats.cpp"
+F
+"./code/JArray-CurveStats.cpp"
+T
+2 "JPtrArray-GLFitDescription.cpp"
+F
+"./code/JPtrArray-GLFitDescription.cpp"
+F
+T
+1 "strings"
+T
+2 "GLChangeLogText"
+F
+"./strings/GLChangeLogText"
+T
+2 "GLCreditsText"
+F
+"./strings/GLCreditsText"
+T
+2 "GLModuleHelpText"
+F
+"./strings/GLModuleHelpText"
+T
+2 "GLPlotHelpText"
+F
+"./strings/GLPlotHelpText"
+T
+2 "GLFitHelpText"
+F
+"./strings/GLFitHelpText"
+T
+2 "GLTableHelpText"
+F
+"./strings/GLTableHelpText"
+T
+2 "GLTOCHelpText"
+F
+"./strings/GLTOCHelpText"
+T
+2 "glove_strings"
+F
+"./strings/glove_strings"
+T
+2 "glove_beta_strings"
+F
+"./strings/glove_beta_strings"
+F
+T
+1 "undo classes"
+T
+2 "GLUndoBase.cpp"
+F
+"./code/GLUndoBase.cpp"
+T
+2 "GLUndoElementAppend.cpp"
+F
+"./code/GLUndoElementAppend.cpp"
+T
+2 "GLUndoElementBase.cpp"
+F
+"./code/GLUndoElementBase.cpp"
+T
+2 "GLUndoElementChange.cpp"
+F
+"./code/GLUndoElementChange.cpp"
+T
+2 "GLUndoElementCut.cpp"
+F
+"./code/GLUndoElementCut.cpp"
+T
+2 "GLUndoElementsBase.cpp"
+F
+"./code/GLUndoElementsBase.cpp"
+T
+2 "GLUndoElementsChange.cpp"
+F
+"./code/GLUndoElementsChange.cpp"
+T
+2 "GLUndoElementsCut.cpp"
+F
+"./code/GLUndoElementsCut.cpp"
+T
+2 "GLUndoElementsInsert.cpp"
+F
+"./code/GLUndoElementsInsert.cpp"
+F
+T
+1 "other"
+T
+2 "ToDo"
+F
+"../cupstest/ToDo"
+T
+2 "nps_constants"
+F
+"../../include/make/nps_constants"
+T
+2 "glove-1.0.1.announce"
+F
+"./glove-1.0.1.announce"
+T
+2 "glove-1.0.1.spec"
+F
+"./glove-1.0.1.spec"
+T
+2 "LICENSE"
+F
+"./LICENSE"
+T
+2 "Make.files"
+F
+"./Make.files"
+T
+2 "Make.header"
+F
+"./Make.header"
+T
+2 "README.binary"
+F
+"./README.binary"
+T
+2 "README.source"
+F
+"./README.source"
+T
+2 "glove.fd"
+F
+"./glove.fd"
+F
+T
+1 "html"
+T
+2 "changes.html"
+F
+"../../../../../../t2/glenn/public_html/glove/changes.html"
+T
+2 "compare.html"
+F
+"../../../../../../t2/glenn/public_html/glove/compare.html"
+T
+2 "faq.html"
+F
+"../../../../../../t2/glenn/public_html/glove/faq.html"
+T
+2 "glove.html"
+F
+"../../../../../../t2/glenn/public_html/glove/glove.html"
+T
+2 "modules.html"
+F
+"../../../../../../t2/glenn/public_html/glove/modules.html"
+F
+T
+1 "updates"
+T
+2 "JXLibVersion.h"
+F
+"../../libjx/code/JXLibVersion.h"
+T
+2 "JCoreLibVersion.h"
+F
+"../../libjcore/code/JCoreLibVersion.h"
+T
+2 "J2DPlotLibVersion.h"
+F
+"../../libj2dplot/code/J2DPlotLibVersion.h"
+F
+F
+# tasks
+4
+"makemake"
+T "./" "make -k " "" T F T F T F T "" "" "+.'<^Y,K7s?#{89D[Rs\\::CBCommandManager" F
+T "./" "make beta_nolimit" "" T F T F T F T "" "" "tP2{fu]*tW$L9`%Dy(M*::CBCommandManager" F
+T "./" "make -k" "" T F T F T F T "" "" "4BH{DqTV;Ocb)?/I)`3D::CBCommandManager" F
+T "./" "make beta_limit" "" T F T F T F T "" "" " (6s_Vf+6NFLm[b[v@e\\::CBCommandManager" F
+T "./" "make zip" "" T F T F T F T "" "" "g%H'bkQmUDZ5-^H>4jO]::CBCommandManager" F
+T "./" "make source" "" T F T F T F T "" "" "Br|G\\zA%L<n5br!?0=-=::CBCommandManager" T
+T "./" "make CHECKSTRING=$file_name checksyntax" "" T F T T T T F "" "" "X+,29'CdW5evTolA*yLR::CBCommandManager" F
+T "./" "make $file_name_root" "" T F T T T T F "" "" "]o2v>Fq@TllgF^aHLq_4::CBCommandManager" T
+T "./" "./glove test1.glv" "" F F F F T T F "" "" "R8Jou)kyC$5xOnrhPu%0::CBCommandManager" F
+T "./" "./glove test.glv" "" F F F F T T F "" "" "5T.?oQ?M%ZXO<C]1[c>&::CBCommandManager" F
+T "./" "./glove" "" F F F F T T F "" "" "k]e`un_w.j&xPnMlcYFs::CBCommandManager" F
+T "./" "./glove ../../../data/balmer.glv" "" F F F F T T F "" "" "{:8TwxpI02Q.$7!\"gI/H::CBCommandManager" F
+T "./" "./glove ../../../data/ag983.txt" "" F F F F T T F "" "" "ex)VV$>A13\"P$>j`T Sz::CBCommandManager" F
+T "./" "./glove ../../../data/lorentz1.glv" "" F F F F T T F "" "" ".>?V0E>cl/y8zCb'P_!h::CBCommandManager" F
+T "./" "./glove ../../../data/thermist.glv" "" F F F F T T F "" "" "FM.CflKR[-%M9Xi9M8KJ::CBCommandManager" F
+T "./" "./glove ../../../data/Res0Q100.glv" "" F F F F T T F "" "" "LdKLA3z@cuj[T)HXM[Y<::CBCommandManager" F
+T "./" "./glove ../../../data/Res0Q100.dat" "" F F F F T T F "" "" "H}BV=;WFO EykHJ`].u`::CBCommandManager" F
+T "./" "./glove ../../../data/thermist.dat" "" F F F F T T F "" "" "|;>5kv._cQYX*]L+T)Bc::CBCommandManager" F
+T "./" "./glove ../../../data/photop.glv" "" F F F F T T F "" "" "aE~i{u#RZ\\/1Q3O\\+v^P::CBCommandManager" F
+T "./" "./glove ../../../data/photop.dat" "" F F F F T T F "" "" "5s3BiA.r}*3#7*pREQcY::CBCommandManager" F
+T "./" "./glove ../../../data/piersons.glv" "" F F F F T T F "" "" "<*SyncQm`LNDV6UY+>BU::CBCommandManager" F
+T "./" "./glove ../../../data/piersons2.glv" "" F F F F T T F "" "" "H!K:& #FG:o;[b,swS|l::CBCommandManager" F
+T "./" "./glove ../../../data/expsigxy.glv" "" F F F F T T F "" "" "LOpN94:#H~=,4R%n=&|+::CBCommandManager" F
+T "./" "./glove ../../../data/expsigxy" "" F F F F T T F "" "" "\\sYXIZL4y& fdCg~}omL::CBCommandManager" F
+T "./" "./glove ../../../data/lorentz1.dat" "" F F F F T T F "" "" "OmY0dGk7eTWesbS'2Sdw::CBCommandManager" F
+T "./" "./glove ../../../data/balmer" "" F F F F T T F "" "" "#Qy*?6sb&*cEWf~}y37 ::CBCommandManager" F
+T "./" "./glove ../../../data/piersons.dat" "" F F F F T T F "" "" "s8Yl\\0 uyF2F<Ac>Ok[c::CBCommandManager" F
+T "./" "./glove ../../../data/maxwell1.glv" "" F F F F T T F "" "" ":FhcOH;YD-G+d9FLE\"3p::CBCommandManager" T
+T "./" "medic glove -f +$line $full_name" "" F F F T F F F "" "" "CRHgAs.r+2B0Z_o'gy^`::CBCommandManager" F
+T "./" "medic -f +$line $full_name" "" F F F T F F F "" "" "sA*%gwZY)nGi&ns`{!`y::CBCommandManager" T
+F
+# build settings
+1
+F
+"glove"
+"${LIB_DEPS}"
+"make -k all"
+# search paths
+T "../..//libj2dplot/code" T
+T "../..//libjcore/code" T
+T "../..//libjexpr/code" T
+T "../..//libjtoolbar/code" T
+T "../..//libjx/code" T
+T "./code" T
+F
+# C preprocessor
+F

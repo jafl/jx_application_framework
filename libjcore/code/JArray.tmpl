@@ -1,0 +1,787 @@
+#ifndef _T_JArray
+#define _T_JArray
+
+/******************************************************************************
+ JArray.tmpl
+
+							The JArray Template Class
+
+	Template for a dynamically sized array.  The data is stored contiguously.
+
+	*** Since memcpy and memmove are used for large scale rearrangement of
+		the array elements, this can -only- be used for structs.
+		To store objects, use the JPtrArray template class.
+
+	BASE CLASS = JOrderedSet
+
+	Copyright © 1994-97 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JArray.h>
+#include <string.h>		// for memcpy,memmove
+#include <stdlib.h>		// for qsort
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T>
+JArray<T>::JArray
+	(
+	const JSize aBlockSize
+	)
+	:
+	JOrderedSet<T>()
+{
+	assert( aBlockSize > 0 );
+
+	itsElements = new T [ aBlockSize ];
+	assert( itsElements != NULL );
+
+	itsSlotCount = aBlockSize;
+	itsBlockSize = aBlockSize;
+}
+
+/******************************************************************************
+ Copy constructor
+
+ ******************************************************************************/
+
+template <class T>
+JArray<T>::JArray
+	(
+	const JArray<T>& source
+	)
+	:
+	JOrderedSet<T>(source)
+{
+	itsElements = NULL;		// makes delete [] safe inside CopyArray
+
+	CopyArray(source);
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <class T>
+JArray<T>::~JArray()
+{
+	delete [] itsElements;
+}
+
+/******************************************************************************
+ Assignment operator
+
+ ******************************************************************************/
+
+template <class T>
+const JArray<T>&
+JArray<T>::operator=
+	(
+	const JArray<T>& source
+	)
+{
+	if (this == &source)
+		{
+		return *this;
+		}
+
+	JCollection::operator=(source);		// JOrderedSet::operator= is private
+
+	CopyArray(source);
+	OrderedSetAssigned(source);
+
+	return *this;
+}
+
+/******************************************************************************
+ CopyArray (private)
+
+	Copies everything from source.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::CopyArray
+	(
+	const JArray<T>& source
+	)
+{
+	itsSlotCount = source.itsSlotCount;
+	itsBlockSize = source.itsBlockSize;
+
+	delete [] itsElements;
+	itsElements = new T [ itsSlotCount ];
+	assert( itsElements != NULL );
+
+	memcpy(itsElements, source.itsElements, itsSlotCount * sizeof(T));
+}
+
+/******************************************************************************
+ Cast to T*
+
+ ******************************************************************************/
+
+template <class T>
+JArray<T>::operator const T*()
+	const
+{
+	return itsElements;
+}
+
+/******************************************************************************
+ GetCArray
+
+ ******************************************************************************/
+
+template <class T>
+const T*
+JArray<T>::GetCArray()
+	const
+{
+	return itsElements;
+}
+
+/******************************************************************************
+ AllocateCArray
+
+ ******************************************************************************/
+
+template <class T>
+T*
+JArray<T>::AllocateCArray()
+	const
+{
+	const JSize count = JCollection::GetElementCount();
+
+	T* data = new T [ count ];
+	assert( data != NULL );
+
+	memcpy(data, itsElements, count * sizeof(T));
+
+	return data;
+}
+
+/******************************************************************************
+ InsertElementAtIndex
+
+	Insert an element into the array at the specified index. Any elements
+	at or below index are moved down. If index is any value greater
+	than the current size, then the element is appended to the end
+	of the array.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::InsertElementAtIndex
+	(
+	const JIndex	index,
+	const T&		data
+	)
+{
+	const JIndex trueIndex = CreateElement(index);
+	StoreElement(trueIndex, data);
+
+	JOrderedSetT::ElementsInserted message(trueIndex, 1);
+	JBroadcaster::Broadcast(message);
+	JOrderedSet<T>::NotifyIterators(message);
+}
+
+/******************************************************************************
+ CreateElement (private)
+
+	Insert space for an element into the array at the specified index.
+	Any elements at or above index are moved down. If index is any value greater
+	than the current size, then the element is appended to the end
+	of the array.
+
+	The correct index of the new element is returned.
+
+ ******************************************************************************/
+
+template <class T>
+JIndex
+JArray<T>::CreateElement
+	(
+	const JIndex index
+	)
+{
+	assert( index > 0 );
+
+	const JSize elementCount = JCollection::GetElementCount();
+	if (elementCount >= itsSlotCount)
+		{
+		AddSlots();
+		}
+
+	JIndex trueIndex = index;
+	if (trueIndex <= elementCount)
+		{
+		memmove(GetElementPtr(trueIndex + 1), GetElementPtr(trueIndex),
+				(elementCount - trueIndex + 1) * sizeof(T));
+		}
+	else
+		{
+		trueIndex = elementCount + 1;
+		}
+
+	JCollection::ElementAdded();
+
+	return trueIndex;
+}
+
+/******************************************************************************
+ RemoveNextElements
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::RemoveNextElements
+	(
+	const JIndex	firstIndex,
+	const JSize		count
+	)
+{
+	if (firstIndex == 1 && count == JCollection::GetElementCount())
+		{
+		RemoveAll();
+		return;
+		}
+
+	const JSize lastIndex = firstIndex + count-1;
+	assert( JCollection::IndexValid(firstIndex) && JCollection::IndexValid(lastIndex) );
+
+	const JSize elementCount = JCollection::GetElementCount();
+	JCollection::SetElementCount(elementCount - count);
+
+	if (lastIndex < elementCount)
+		{
+		memmove(GetElementPtr(firstIndex), GetElementPtr(lastIndex + 1),
+				(elementCount - lastIndex) * sizeof(T));
+		}
+
+	while (itsSlotCount > JCollection::GetElementCount() + itsBlockSize)
+		{
+		RemoveSlots();
+		}
+
+	JOrderedSetT::ElementsRemoved message(firstIndex, count);
+	JBroadcaster::Broadcast(message);
+	JOrderedSet<T>::NotifyIterators(message);
+}
+
+/******************************************************************************
+ RemoveAll
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::RemoveAll()
+{
+	if (!JCollection::IsEmpty())
+		{
+		JOrderedSetT::ElementsRemoved message(1, JCollection::GetElementCount());
+
+		JCollection::SetElementCount(0);
+		ResizeMemoryAllocation(itsBlockSize);
+
+		JBroadcaster::Broadcast(message);
+		JOrderedSet<T>::NotifyIterators(message);
+		}
+}
+
+/******************************************************************************
+ GetElement
+
+ ******************************************************************************/
+
+template <class T>
+T
+JArray<T>::GetElement
+	(
+	const JIndex index
+	)
+	const
+{
+	assert( JCollection::IndexValid(index) );
+
+	return ProtectedGetElement(index);
+}
+
+/******************************************************************************
+ ProtectedGetElement (protected)
+
+ ******************************************************************************/
+
+template <class T>
+const T&
+JArray<T>::ProtectedGetElement
+	(
+	const JIndex index
+	)
+	const
+{
+	return itsElements[index - 1];
+}
+
+/******************************************************************************
+ SetElement
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::SetElement
+	(
+	const JIndex	index,
+	const T&		data
+	)
+{
+	assert( JCollection::IndexValid(index) );
+
+	StoreElement(index, data);
+
+	JBroadcaster::Broadcast(JOrderedSetT::ElementChanged(index));
+}
+
+/******************************************************************************
+ MoveElementToIndex
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::MoveElementToIndex
+	(
+	const JIndex currentIndex,
+	const JIndex newIndex
+	)
+{
+	assert( JCollection::IndexValid(currentIndex) );
+	assert( JCollection::IndexValid(newIndex) );
+
+	if (currentIndex == newIndex)
+		{
+		return;
+		}
+
+	const T savedElement = ProtectedGetElement(currentIndex);
+
+	if (currentIndex < newIndex)
+		{
+		memmove(GetElementPtr(currentIndex), GetElementPtr(currentIndex + 1),
+				(newIndex - currentIndex) * sizeof(T));
+		}
+	else if (currentIndex > newIndex)
+		{
+		memmove(GetElementPtr(newIndex + 1), GetElementPtr(newIndex),
+				(currentIndex - newIndex) * sizeof(T));
+		}
+
+	StoreElement(newIndex, savedElement);
+	JBroadcaster::Broadcast(JOrderedSetT::ElementMoved(currentIndex, newIndex));
+}
+
+/******************************************************************************
+ SwapElements
+
+	Sends an ElementChanged message for each element.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::SwapElements
+	(
+	const JIndex index1,
+	const JIndex index2
+	)
+{
+	assert( JCollection::IndexValid(index1) );
+	assert( JCollection::IndexValid(index2) );
+
+	if (index1 == index2)
+		{
+		return;
+		}
+
+	const T savedElement = ProtectedGetElement(index1);
+	StoreElement(index1, ProtectedGetElement(index2));
+	StoreElement(index2, savedElement);
+
+	JBroadcaster::Broadcast(JOrderedSetT::ElementsSwapped(index1, index2));
+}
+
+/******************************************************************************
+ Sort (virtual)
+
+	We minimize the number of moves (O(N)) because MoveElementToIndex()
+	invokes JBroadcaster::Broadcast(), which can take arbitrary amounts of time.
+
+	By using insertion sort to sort element k+1 into the already sorted
+	list of k elements, we obtain O(N log N) comparisons.
+
+	The number of moves is always O(N^2).
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::Sort()
+{
+	const JSize count = JCollection::GetElementCount();
+	if (count < 2)
+		{
+		return;
+		}
+
+	JBoolean isDuplicate;
+	for (JIndex i=2; i<=count; i++)
+		{
+		const T& data = ProtectedGetElement(i);
+
+		JCollection::SetElementCount(i-1);		// safe because search doesn't modify data
+		const JIndex j = GetInsertionSortIndex(data, &isDuplicate);
+		JCollection::SetElementCount(count);
+
+		if (j != i)
+			{
+			MoveElementToIndex(i, j);
+			}
+		}
+}
+
+/******************************************************************************
+ SearchSorted1 (virtual)
+
+	Returns index where the element is or where it should be inserted in
+	order to keep the list sorted.  If there is an element that matches the
+	given one, *found is set to kJTrue.
+
+	Since lookup's in Arrays are O(1), we override this function to use a
+	binary search, yielding O(log N) instead of the default O(N).
+
+ ******************************************************************************/
+
+template <class T>
+JIndex
+JArray<T>::SearchSorted1
+	(
+	const T&							target,
+	const JOrderedSetT::SearchReturn	which,
+	JBoolean*							found
+	)
+	const
+{
+	const JElementComparison<T>* compareObj = NULL;
+	const JBoolean hasCompare = GetCompareObject(&compareObj);
+	assert( hasCompare );
+
+	const JOrderedSetT::SortOrder sortOrder = JOrderedSet<T>::GetSortOrder();
+	*found = kJFalse;
+
+	const JSize count = JCollection::GetElementCount();
+	if (count == 0)
+		{
+		return 1;
+		}
+
+	// check first element
+
+	JOrderedSetT::CompareResult r1;
+
+	JIndex firstIndex = 1;
+	{
+	const T& element = ProtectedGetElement(firstIndex);
+	r1 = compareObj->Compare(target, element);
+	if (r1 == JOrderedSetT::kFirstEqualSecond &&
+		(count == 1 || which != JOrderedSetT::kLastMatch))
+		{
+		*found = kJTrue;
+		return 1;
+		}
+	else if ((sortOrder == JOrderedSetT::kSortAscending &&
+			  r1 == JOrderedSetT::kFirstLessSecond) ||
+			 (sortOrder == JOrderedSetT::kSortDescending &&
+			  r1 == JOrderedSetT::kFirstGreaterSecond))
+		{
+		return 1;
+		}
+	else if (count == 1)
+		{
+		return 2;
+		}
+	}
+
+	// check last element
+
+	JOrderedSetT::CompareResult r2;
+
+	JIndex lastIndex = count;
+	{
+	const T& element = ProtectedGetElement(lastIndex);
+	r2 = compareObj->Compare(target, element);
+	if (r2 == JOrderedSetT::kFirstEqualSecond &&
+		(count == 2 || which != JOrderedSetT::kFirstMatch))
+		{
+		*found = kJTrue;
+		return count;
+		}
+	else if ((sortOrder == JOrderedSetT::kSortAscending &&
+			  r2 == JOrderedSetT::kFirstGreaterSecond) ||
+			 (sortOrder == JOrderedSetT::kSortDescending &&
+			  r2 == JOrderedSetT::kFirstLessSecond))
+		{
+		return count+1;
+		}
+	}
+
+	// assert for ascending:  first element <= data <= last element
+	// assert for descending: first element >= data >= last element
+
+	// squeeze out the appropriate position for data via binary search
+
+	while (1)
+		{
+		// Thanks to Joshua Bloch at Google for pointing out that
+		// (x+y)/2 doesn't work if x and y are larger than ULONG_MAX/2
+
+		JIndex i         = (firstIndex >> 1) + (lastIndex >> 1) +
+						   ((firstIndex & (JIndex) 1) + (lastIndex & (JIndex) 1))/2;
+		const T& element = ProtectedGetElement(i);
+
+		const JOrderedSetT::CompareResult r = compareObj->Compare(target, element);
+		if (r == JOrderedSetT::kFirstEqualSecond)
+			{
+			if (which == JOrderedSetT::kAnyMatch)
+				{
+				*found = kJTrue;
+				return i;
+				}
+			else if (which == JOrderedSetT::kFirstMatch)
+				{
+				lastIndex = i;
+				r2        = r;
+				}
+			else	// which == JOrderedSetT::kLastMatch
+				{
+				firstIndex = i;
+				r1         = r;
+				}
+			}
+		else if ((sortOrder == JOrderedSetT::kSortAscending &&
+				  r == JOrderedSetT::kFirstLessSecond) ||
+				 (sortOrder == JOrderedSetT::kSortDescending &&
+				  r == JOrderedSetT::kFirstGreaterSecond))
+			{
+			lastIndex = i;
+			r2        = r;
+			}
+		else	// the only other case
+			{
+			firstIndex = i;
+			r1         = r;
+			}
+
+		assert( lastIndex >= firstIndex+1 );
+		if (lastIndex == firstIndex+1)
+			{
+			if (which == JOrderedSetT::kAnyMatch ||
+				(r1 != JOrderedSetT::kFirstEqualSecond &&
+				 r2 != JOrderedSetT::kFirstEqualSecond))
+				{
+				// Since we know that target is not equal to either of the
+				// bounding elements, we can give up when there are no elements
+				// between the bounds.
+
+				return lastIndex;
+				}
+
+			// At this point, we know that we found a match.
+
+			*found = kJTrue;
+			if (which == JOrderedSetT::kFirstMatch)
+				{
+				assert( r2 == JOrderedSetT::kFirstEqualSecond );
+				return lastIndex;
+				}
+			else	// which == JOrderedSetT::kLastMatch
+				{
+				assert( which == JOrderedSetT::kLastMatch &&
+						r1 == JOrderedSetT::kFirstEqualSecond );
+				return firstIndex;
+				}
+			}
+		}
+}
+
+/******************************************************************************
+ QuickSort
+
+	Calls qsort() and broadcasts JOrderedSetT::Sorted afterwards.
+
+	Since qsort() wants the sort order to be encoded in the comparison
+	function, and since the comparison function prototype is different,
+	we do -not- use the sorting information from JOrderedSet.
+
+	Do NOT use this for JPtrArrays:
+
+	Downcasting or upcasting a pointer in C++ usually requires changing its
+	value to include or exclude parts of the object data.  Casting from
+	void* to a base class is therefore fatal because the compiler can't
+	perform the adjustment.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::QuickSort
+	(
+	int (*compare)(const void*, const void*)
+	)
+{
+	::qsort(itsElements, JCollection::GetElementCount(), sizeof(T), compare);
+	JBroadcaster::Broadcast(JOrderedSetT::Sorted());
+}
+
+/******************************************************************************
+ GetElementPtr (private)
+
+ ******************************************************************************/
+
+template <class T>
+T*
+JArray<T>::GetElementPtr
+	(
+	const JIndex index
+	)
+{
+	return &(itsElements[ index - 1 ]);
+}
+
+/******************************************************************************
+ StoreElement (private)
+
+	This is used by InsertElementAtIndex and SetElement.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::StoreElement
+	(
+	const JIndex	index,
+	const T&		data
+	)
+{
+	itsElements[ index - 1 ] = data;
+}
+
+/******************************************************************************
+ Block size
+
+	itsBlockSize helps prevent constant reallocation of memory in a "noisy"
+	environment.  Increase it if you need to add and remove a lot of elements
+	without reallocating memory.  The larger it is, the more memory can
+	potentially be wasted (allocated but not used).
+
+ ******************************************************************************/
+
+template <class T>
+JSize
+JArray<T>::GetBlockSize()
+	const
+{
+	return itsBlockSize;
+}
+
+template <class T>
+void
+JArray<T>::SetBlockSize
+	(
+	const JSize newBlockSize
+	)
+{
+	assert( newBlockSize > 0 );
+
+	itsBlockSize = newBlockSize;
+}
+
+/******************************************************************************
+ AddSlots (private)
+
+	Grows the array by blockSize slots.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::AddSlots()
+{
+	ResizeMemoryAllocation(itsSlotCount + itsBlockSize);
+}
+
+/******************************************************************************
+ RemoveSlots (private)
+
+	Shrinks the array by blockSize slots.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JArray<T>::RemoveSlots()
+{
+	if (itsSlotCount > itsBlockSize)
+		{
+		ResizeMemoryAllocation(itsSlotCount - itsBlockSize);
+		}
+}
+
+/******************************************************************************
+ ResizeMemoryAllocation (private)
+
+	Allocate the specified number of slots for itsElements.
+
+******************************************************************************/
+
+template <class T>
+void
+JArray<T>::ResizeMemoryAllocation
+	(
+	const JSize newSlotCount
+	)
+{
+	assert( newSlotCount >= JCollection::GetElementCount() );
+
+	if (newSlotCount != itsSlotCount)
+		{
+		T* newElements = new T [newSlotCount];
+		assert( newElements != NULL );
+
+		memcpy(newElements, itsElements, JCollection::GetElementCount() * sizeof(T));
+
+		delete [] itsElements;
+		itsElements = newElements;
+		itsSlotCount = newSlotCount;
+		}
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JArray
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

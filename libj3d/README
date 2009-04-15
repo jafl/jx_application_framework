@@ -1,0 +1,27 @@
+
+Changes from previous versions are described in J3DLibVersion.h
+
+J3D uses Mesa, which implements the OpenGL 1.1 API and is released under
+the GNU Library General Public Licence (LGPL).  You can get more
+information from the Web page:
+
+    http://www.ssec.wisc.edu/~brianp/Mesa.html
+
+Mesa can be downloaded from:
+
+    http://www.ssec.wisc.edu/~brianp/Mesa.html
+    ftp://ftp.newplanetsoftware.com/pub/jx/
+
+If you already have it installed, you don't need to do anything extra.  If
+it is not installed, download it, build it, and create a link called "Mesa"
+in the main JX directory that points to the main Mesa directory.
+
+J3D is still embryonic.  The design is described at:
+
+	http://www.newplanetsoftware.com/jx/j3d.html
+
+Please contact me if you have comments or suggestions.
+
+John Lindal
+jx@newplanetsoftware.com
+

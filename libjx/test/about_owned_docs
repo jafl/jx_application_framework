@@ -1,0 +1,7 @@
+This document was opened by a TestLinkedDocument.
+
+Notice that it is only opened once and can be shared by an arbitrary number of such documents.
+
+Notice also that this document will stay open (though it may be hidden) as long as any TestLinkedDocument is open.
+
+Another nice feature is that, if this file is moved so that TestLinkedDocument cannot find it, it will only have to ask you once.  After that, JXApplication will remember where you put it.

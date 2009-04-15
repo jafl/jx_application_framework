@@ -1,0 +1,12 @@
+update versions in
+	include/make/*_constants
+	libj*/code/*LibVersion.h
+
+updatelinks for lib/libj*
+
+update
+	CHANGES
+	programs/code_crusader: code/browser.cc, Make.header, rpm/*, text/*
+	programs/leibnitz: code/leibnitz.cc, Make.header, rpm/*, text/*
+
+grep through files in JX/lib

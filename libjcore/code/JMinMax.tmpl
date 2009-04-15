@@ -1,0 +1,97 @@
+#ifndef _T_JMinMax
+#define _T_JMinMax
+
+/******************************************************************************
+ JMinMax.tmpl
+
+	Templates for JMin and JMax
+
+	Copyright © 1994-99 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+template <class T>
+T
+JMin
+	(
+	const T x1,
+	const T x2
+	)
+{
+	if (x1 <= x2)
+		{
+		return x1;
+		}
+	else
+		{
+		return x2;
+		}
+}
+
+template <class T>
+T
+JMax
+	(
+	const T x1,
+	const T x2
+	)
+{
+	if (x1 >= x2)
+		{
+		return x1;
+		}
+	else
+		{
+		return x2;
+		}
+}
+
+template <class T>
+T
+JLimit
+	(
+	const T min,
+	const T x,
+	const T max
+	)
+{
+	if (x <= min)
+		{
+		return min;
+		}
+	else if (x >= max)
+		{
+		return max;
+		}
+	else
+		{
+		return x;
+		}
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateReturnType JTemplateType
+	#define JTemplateArgList    const JTemplateType,const JTemplateType
+
+	#define JTemplateName JMin
+	#include <instantiate_template.h>
+	#undef JTemplateName
+
+	#define JTemplateName JMax
+	#include <instantiate_template.h>
+	#undef JTemplateName
+
+	#undef JTemplateArgList
+	#define JTemplateArgList const JTemplateType,const JTemplateType,const JTemplateType
+
+	#define JTemplateName JLimit
+	#include <instantiate_template.h>
+	#undef JTemplateName
+
+	#undef JTemplateReturnType
+	#undef JTemplateArgList
+#endif

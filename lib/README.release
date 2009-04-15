@@ -1,0 +1,14 @@
+Releasing JX
+
+*** 3.0.0:  Create template directories on ftp site
+            Add links to this from jcc help section
+
+Increment library and program version numbers
+Update jcc projects for all programs and libraries
+Update web pages
+
+Build and test on g++ 2.7.x (glibc 2.0) and latest egcs (RedHat)
+Build all test suites and tutorials
+Generate JX patch file
+
+Announce on jx-announce, usenet, web site, mail/mail/jx/sites

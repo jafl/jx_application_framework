@@ -1,0 +1,35 @@
+0
+
+# main
+
+VERSION		"0.0.1"
+COPYRIGHT
+"Copyright © 1999-2000 by John Lindal
+
+DO NOT DISTRIBUTE!"
+
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+CommandLineHelp::wizMain
+
+"WizWar Client $vers
+
+Protocol version:  $protocol_vers
+
+This X application lets you play WizWar.
+
+Usage:  wiz [ [host:]port [nickname] ]
+
+--help     prints help
+--version  prints version information"
+
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+# wizGlobals
+
+Description::wizGlobals
+"WizWar Client $version
+
+Protocol version:  $protocol_version
+
+$copyright"

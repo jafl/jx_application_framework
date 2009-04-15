@@ -1,0 +1,11 @@
+BASIC CURRENT DIVIDER
+*
+R1	1	0	1K
+R2	1	0	1K
+*
+VS	1	0	AC	1	0
+*
+.AC
+.PROBE
+*
+.END

@@ -1,0 +1,48 @@
+Newsgroups: comp.windows.x.announce
+Newsgroups: comp.os.linux.announce
+Subject: Code Medic 0.7.0 - UNIX debugging environment
+Summary: 
+Followup-To: comp.os.linux.misc
+
+Code Medic 0.7.0 is now available. It now has an array window that lists an
+arbitrary number of elements from an array. The command input field now
+supports completion. The variable tree now displays invalid values in gray,
+and changed values in blue. You can now attach a running process to debug.
+The variable parser has been rewritten to improve reliability.
+
+Overview:
+
+The standard UNIX debugger, gdb, is extremely powerful, but its command
+line interface can be quite intimidating and painful to use. Code Medic
+provides an elegant graphical interface to gdb's most important features.
+
+The binary and source distributions can be downloaded from:
+
+  http://www.cco.caltech.edu/~glenn/medic/
+
+----------
+
+Description:
+
+Code Medic is a free graphical debugger that provides access to the power
+of gdb with an intuitive front end. It currently supports opening multiple
+source windows at once, setting/clearing breakpoints while the program is
+running, watching variables change in the variable tree as you step through
+code (even with nested structs), text searching through source, and
+integration with Code Crusader to provide a rapid, efficient develop-debug
+cycle.
+
+More information about Code Medic is available at:
+
+  http://www.cco.caltech.edu/~glenn/medic/
+
+To subscribe to the mailing list, send email to:
+
+  majordomo@cco.caltech.edu
+
+and include "subscribe medic" in the body of the message.
+
+License:
+
+Code Medic is free.
+

@@ -1,0 +1,20 @@
+/* XPM */
+static char * home[] = {
+"11 13 4 1",
+" 	c None",
+".	c black",
+"X	c wheat",
+"+	c gray60",
+"  .....+   ",
+" .XXXXXX.  ",
+".XXXXX.X.  ",
+".XXXXX.XX. ",
+".XXXXXXXX. ",
+".XXXXXXXXX.",
+".XXXXXXXXX.",
+".XXXXXXX.. ",
+".XXXXXXXX. ",
+".XXXXX.XX. ",
+".XXXXXX... ",
+" .XXXXXXX. ",
+"  .......  "};

@@ -1,0 +1,25 @@
+0
+
+SCMiscHelp
+
+"<html>
+<head>
+<title> Notes on using Symcir </title>
+</head>
+
+The names of node voltages are \"NV&lt;node number&gt;\".  The names of branch currents
+are \"B&lt;component name&gt;\".
+<p>
+When using the NDI window, you may get back exactly what you asked it to evaluate.
+When this happens, reverse the order of the two sources and try again.  (This
+often happens if one source is forced to be zero and the other isn't.)
+<p>
+Occaisionally, Mathematica will wander off into the blue and forget to reply
+to your request.  If this happens, simply click on the Cancel button and try again.
+(Since Mathematica can be quite slow on large problems, you must be the judge of
+how long is too long.)
+<p>
+If a result is indeterminate (e.g. 0/0), then it will be left empty so that it
+displays a question mark.
+
+</html>"

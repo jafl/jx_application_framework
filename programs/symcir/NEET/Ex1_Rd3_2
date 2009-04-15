@@ -1,0 +1,20 @@
+EXAMPLE 1: Rd3_2
+*
+R1a		1	2	1K
+R2a		2	3	1K
+R3a		3	4	1K
+*
+R1b		2	0	1K
+R2b		3	0	1K
+R3b		4	0	1K
+*
+VL1		1	2	AC	0	0
+*VL2	2	3	AC	0	0
+VL3		3	4	AC	1	0
+*
+VS		1	0	AC	0	0
+*
+.AC
+.PROBE
+*
+.END

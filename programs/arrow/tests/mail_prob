@@ -1,0 +1,1039 @@
+From mailman-users-admin@python.org  Fri Aug 25 00:27:53 2000
+Return-Path: <mailman-users-admin@python.org>
+Delivered-To: brian@nix.cs.cowan.edu.au
+Received: from dns.cowan.edu.au (dns.cowan.edu.au [139.230.128.5])
+	by nix.cs.cowan.edu.au (Postfix) with ESMTP id 8D9A546612
+	for <brian@nix.cs.cowan.edu.au>; Fri, 25 Aug 2000 00:27:53 +0800 (WST)
+Received: from dinsdale.python.org (dinsdale.cnri.reston.va.us [132.151.1.21])
+	by dns.cowan.edu.au (8.8.8/8.8.8) with ESMTP id AAA27561
+	for <b.anderson@cowan.edu.au>; Fri, 25 Aug 2000 00:27:27 +0800 (WST)
+Received: from dinsdale.python.org (localhost [127.0.0.1])
+	by dinsdale.python.org (Postfix) with ESMTP
+	id 3EA5D1D2FC; Thu, 24 Aug 2000 12:22:53 -0400 (EDT)
+From: mailman-users-request@python.org
+Subject: Mailman-Users digest, Vol 1 #718 - 6 msgs
+Reply-To: mailman-users@python.org
+X-Mailer: Mailman v2.0beta5
+MIME-version: 1.0
+Content-type: multipart/mixed; boundary=132.151.1.21.9001.19327.967133000.248.15804
+To: mailman-users@python.org
+Sender: mailman-users-admin@python.org
+Errors-To: mailman-users-admin@python.org
+X-BeenThere: mailman-users@python.org
+X-Mailman-Version: 2.0beta5
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+Message-Id: <20000824162253.3EA5D1D2FC@dinsdale.python.org>
+Date: Thu, 24 Aug 2000 12:22:53 -0400 (EDT)
+Status: RO
+X-Keywords:                 
+X-UID: 486
+
+--132.151.1.21.9001.19327.967133000.248.15804
+Content-type: text/plain; charset=us-ascii
+Content-description: Masthead (Mailman-Users digest, Vol 1 #718)
+
+Send Mailman-Users mailing list submissions to
+	mailman-users@python.org
+
+To subscribe or unsubscribe via the World Wide Web, visit
+	http://www.python.org/mailman/listinfo/mailman-users
+or, via email, send a message with subject or body 'help' to
+	mailman-users-request@python.org
+
+You can reach the person managing the list at
+	mailman-users-admin@python.org
+
+When replying, please edit your Subject line so it is more specific
+than "Re: Contents of Mailman-Users digest..."
+
+
+--132.151.1.21.9001.19327.967133000.248.15804
+Content-type: text/plain; charset=us-ascii
+Content-description: Today's Topics (6 msgs)
+
+Today's Topics:
+
+  1. Re: Mailman as spam generator (Chuq Von Rospach)
+  2. migrating to a new host (Brett Dikeman)
+  3. Re: migrating to a new host (Dan Mick)
+  4. Upgrade strategy? (David Champion)
+  5. Problem with Japanese fonts (Joe Marchak)
+  6. at/@ on the Subscribers site (Elwin Ehlers)
+
+--132.151.1.21.9001.19327.967133000.248.15804
+Content-type: multipart/digest; boundary="__--__--"
+
+--__--__--
+
+Message: 1
+Return-Path: <chuqui@plaidworks.com>
+Delivered-To: mailman-users@python.org
+Mime-Version: 1.0
+Message-Id: <p04320409b5c9b8c6e56f@[209.239.169.197]>
+In-Reply-To: <MM.967044450.29388.solva@ifi.uio.no>
+References: <MM.967044450.29388.solva@ifi.uio.no>
+Date: Wed, 23 Aug 2000 10:25:25 -0700
+To: thomas@ifi.uio.no, mailman-users@python.org
+From: Chuq Von Rospach <chuqui@plaidworks.com>
+Subject: Re: [Mailman-Users] Mailman as spam generator
+Content-Type: text/plain; charset="us-ascii" ; format="flowed"
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+At 5:27 PM +0200 8/23/00, Thomas Gramstad wrote:
+
+>How can I make Mailman do that?  Is it really impossible in
+>current versions of Mailman?  If so, this is a HUGE, GIANT
+>FLAW in Mailman.
+
+If the feature is that important to you, grab a book on python and 
+start coding.
+
+I'd like what you want, too. But there are higher priorities on my 
+list. It'll get done eventually, I guess. But the joy of open source 
+is that you not only can use it, you can improve it.
+
+Oh, and you have a funky definition of spam, IMHO. Mailman isn't 
+generating spam. it's doing what it's supposed to do -- tell the 
+admin something is there for evaluation. That ain't spam.
+
+Now, what you want mailman to do, which is be smart enough to 
+recognize and throw out spam, is a great idea. But it's easier said 
+than done. Just ask the guys writing anti-spam code for sendmail and 
+the other MTA's (which is, IMHO, where anti-spam stuff ought to be 
+anyway. Keep it off the site in the first place)
+
+-- 
+Chuq Von Rospach - Plaidworks Consulting (mailto:chuqui@plaidworks.com)
+Apple Mail List Gnome (mailto:chuq@apple.com)
+
+And they sit at the bar and put bread in my jar
+and say 'Man, what are you doing here?'"
+
+
+--__--__--
+
+Message: 2
+Return-Path: <brett@iclick.com>
+Delivered-To: mailman-users@python.org
+Mime-Version: 1.0
+Message-Id: <p04320401b5ca09dc1a35@[10.1.1.70]>
+Date: Wed, 23 Aug 2000 19:15:49 -0400
+To: mailman-users@python.org
+From: Brett Dikeman <brett@iclick.com>
+Content-Type: text/plain; charset="us-ascii" ; format="flowed"
+Subject: [Mailman-Users] migrating to a new host
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+One of the most difficult things I've done is try to move mailman.
+
+I have several lists which are used internally and need to move to a 
+new host.  The question is...what's the best way or tried+true way to 
+move mailman around?
+
+
+Much appreciated,
+Brett
+-- 
+----
+Brett Dikeman				Systems Engineer
+CFN(formerly iClick, Inc)			914-872-8043
+120 Bloomingdale Rd.			914-872-8100(fax)
+White Plains, NY 10605			http://www.iclick.com
+PGP Fingerprint: 06C2 5D5B D2B4 7626  BB24 2BBC 9E4A C8B3
+PGP Key location: http://pdikeman.ne.mediaone.net/pgp/brett.pgp
+
+
+--__--__--
+
+Message: 3
+Return-Path: <Dan.Mick@West.Sun.COM>
+Delivered-To: mailman-users@python.org
+Message-Id: <200008232321.QAA18087@utopia.west.sun.com>
+Date: Wed, 23 Aug 2000 16:22:27 -0700 (PDT)
+From: Dan Mick <Dan.Mick@West.Sun.COM>
+Reply-To: Dan Mick <Dan.Mick@West.Sun.COM>
+Subject: Re: [Mailman-Users] migrating to a new host
+To: mailman-users@python.org, brett@iclick.com
+MIME-Version: 1.0
+Content-Type: TEXT/plain; charset=us-ascii
+Content-MD5: FpYMjudtEbXTuA+r+A4M9A==
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+I've had success with installing mailman on the new machine, moving
+"lists/" and "archives/" wholesale, and using bin/move_list if the
+home dir has changed (say, from /export/home/mailman to /home/mailman
+or some such)
+
+> One of the most difficult things I've done is try to move mailman.
+> 
+> I have several lists which are used internally and need to move to a 
+> new host.  The question is...what's the best way or tried+true way to 
+> move mailman around?
+
+
+
+--__--__--
+
+Message: 4
+Return-Path: <dgc@uchicago.edu>
+Delivered-To: mailman-users@python.org
+Date: Wed, 23 Aug 2000 18:53:56 -0500
+From: David Champion <dgc@uchicago.edu>
+To: mailman-users@python.org
+Message-ID: <20000823185356.Q24855@smack.uchicago.edu>
+Mail-Followup-To: David Champion <dgc@uchicago.edu>,
+	mailman-users@python.org
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.3.7i
+Subject: [Mailman-Users] Upgrade strategy?
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+I haven't been following the 2.0 beta bug list lately, and I need some
+upgrade advice.
+
+We want to upgrade our Mailman installation to 2.0 for the coming
+year.  It's not plain to me that a 2.0 release will be available before
+classes resume in mid-September, though, so I'm considering an interim
+upgrade to a 2.0 beta now, while our active user count is low, and a
+final upgrade to 2.0 later on.
+
+We're running 1.0rc2 now, and don't really want to run another academic
+year on pre-release code -- especially not this one -- so an upgrade
+seems essential.
+
+Does this seem reasonable to people who've used the 2.0 series so far?
+Are there any major problems to watch out for in the current beta
+version, such that it would make more sense to wait and do the whole
+thing at once -- even if that's *after* school starts and all our users
+are back in full swing?  We might settle for 1.1 that's the
+overwhelmingly preferred answer, but since 2.0 contains fixes we're
+kind of counting on, we'd rather not.
+
+Thanks.
+
+-- 
+ -D.	dgc@uchicago.edu	NSIT	University of Chicago
+
+
+--__--__--
+
+Message: 5
+Return-Path: <geordon.marchak@nssmb.com>
+Delivered-To: mailman-users@python.org
+Date: Thu, 24 Aug 2000 10:23:47 +0900 (JST)
+From: Joe Marchak <geordon.marchak@nssmb.com>
+To: mailman-users@python.org
+Message-ID: <Pine.GSO.4.20.0008241020160.17704-100000@ws22a914.nssmb.com>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+Subject: [Mailman-Users] Problem with Japanese fonts
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+
+Hi,
+
+I'm new to this list, so I'm not sure if this has already been covered,b
+but we have found a problem with mailman in translating Japanese to HTML.
+
+The character string  "!<" gets translated to "!&lt;", which breaks the
+Japanese font.
+
+Is there a fix for this?
+
+Thanks,
+-Joe Marchak.
+
+  
+
+
+
+--__--__--
+
+Message: 6
+Return-Path: <e.ehlers@nikocity.de>
+Delivered-To: mailman-users@python.org
+Message-ID: <39A50DAF.57F2E7AB@nikocity.de>
+Date: Thu, 24 Aug 2000 11:57:35 +0000
+From: Elwin Ehlers <e.ehlers@nikocity.de>
+MIME-Version: 1.0
+To: mailman-users@python.org
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Subject: [Mailman-Users] at/@ on the Subscribers site
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+Hey,
+
+when i open the Subscribers site on /cgi-bin/mailman/roster/thelist
+i see in the mailaddress from the users a at and not a @.
+What is the way to change this.
+
+bye
+
+Elwin
+
+
+
+
+--__--__----
+--132.151.1.21.9001.19327.967133000.248.15804
+Content-type: text/plain; charset=us-ascii
+Content-description: Digest Footer
+
+------------------------------------------------------
+Mailman-Users maillist  -  Mailman-Users@python.org
+http://www.python.org/mailman/listinfo/mailman-users
+
+
+--132.151.1.21.9001.19327.967133000.248.15804--
+
+End of Mailman-Users Digest------------------------------------------------------
+Mailman-Users maillist  -  Mailman-Users@python.org
+http://www.python.org/mailman/listinfo/mailman-users
+
+From mailman-users-admin@python.org  Sat Aug 26 00:06:09 2000
+Return-Path: <mailman-users-admin@python.org>
+Delivered-To: brian@nix.cs.cowan.edu.au
+Received: from dns.cowan.edu.au (dns.cowan.edu.au [139.230.128.5])
+	by nix.cs.cowan.edu.au (Postfix) with ESMTP id BAFF04643E
+	for <brian@nix.cs.cowan.edu.au>; Sat, 26 Aug 2000 00:06:08 +0800 (WST)
+Received: from dinsdale.python.org (dinsdale.cnri.reston.va.us [132.151.1.21])
+	by dns.cowan.edu.au (8.8.8/8.8.8) with ESMTP id AAA18881
+	for <b.anderson@cowan.edu.au>; Sat, 26 Aug 2000 00:05:41 +0800 (WST)
+Received: from dinsdale.python.org (localhost [127.0.0.1])
+	by dinsdale.python.org (Postfix) with ESMTP
+	id C4D171CD1C; Fri, 25 Aug 2000 12:05:07 -0400 (EDT)
+From: mailman-users-request@python.org
+Subject: Mailman-Users digest, Vol 1 #719 - 14 msgs
+Reply-To: mailman-users@python.org
+X-Mailer: Mailman v2.0beta5
+MIME-version: 1.0
+Content-type: multipart/mixed; boundary=132.151.1.21.9001.16168.967219269.284.23701
+To: mailman-users@python.org
+Sender: mailman-users-admin@python.org
+Errors-To: mailman-users-admin@python.org
+X-BeenThere: mailman-users@python.org
+X-Mailman-Version: 2.0beta5
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+Message-Id: <20000825160507.C4D171CD1C@dinsdale.python.org>
+Date: Fri, 25 Aug 2000 12:05:07 -0400 (EDT)
+Status: RO
+X-Keywords:                 
+X-UID: 541
+
+--132.151.1.21.9001.16168.967219269.284.23701
+Content-type: text/plain; charset=us-ascii
+Content-description: Masthead (Mailman-Users digest, Vol 1 #719)
+
+Send Mailman-Users mailing list submissions to
+	mailman-users@python.org
+
+To subscribe or unsubscribe via the World Wide Web, visit
+	http://www.python.org/mailman/listinfo/mailman-users
+or, via email, send a message with subject or body 'help' to
+	mailman-users-request@python.org
+
+You can reach the person managing the list at
+	mailman-users-admin@python.org
+
+When replying, please edit your Subject line so it is more specific
+than "Re: Contents of Mailman-Users digest..."
+
+
+--132.151.1.21.9001.16168.967219269.284.23701
+Content-type: text/plain; charset=us-ascii
+Content-description: Today's Topics (14 msgs)
+
+Today's Topics:
+
+  1. problem with new install (Noah Lee)
+  2. Re: at/@ on the Subscribers site (Virginia Beauregard)
+  3. Problems with OpenBSD (Seer Snively)
+  4. Re: Problems with OpenBSD (Dan Mick)
+  5. Re: Problems with OpenBSD (petro)
+  6. Re: problem with new install (Jim Tittsler)
+  7. News - Mailing List.. (Tio Syamsudin Gunawan)
+  8. Help, please. (Phil Barnett)
+  9. upgraded from 1.1 to 2.0b4, mail disappears (Brett Dikeman)
+  10. Re: upgraded from 1.1 to 2.0b4, mail disappears (Brett Dikeman)
+  11. Installed 2.0B5 - lists appear all private (John Wingenbach)
+  12. Changing the name of the server but not really. (Luis F. Lacayo)
+  13. Installation (Kasopa Wilbroad Chisanga)
+  14. Re: Installation (Leonardo Rochael Almeida)
+
+--132.151.1.21.9001.16168.967219269.284.23701
+Content-type: multipart/digest; boundary="__--__--"
+
+--__--__--
+
+Message: 1
+Return-Path: <nlee@eti.com>
+Delivered-To: mailman-users@python.org
+Message-Id: <4.3.2.7.2.20000824092023.01feccb8@mail.eti.com>
+Date: Thu, 24 Aug 2000 09:30:30 -0500
+To: mailman-users@python.org
+From: Noah Lee <nlee@eti.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Subject: [Mailman-Users] problem with new install
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+I just installed Mailman onto a new Redhat 6.2 system with Python 1.5.2-13 
+and Apache 1.3.12. It looks like the mailman install went okay and I setup 
+a list. However, when I try to make any changes to the list it will go 
+immediately back to the Password screen without making any changes. The 
+permissions on my mailman directory are a+rx,g+ws as per the documentation.
+
+Any ideas?
+--------
+Noah Lee					512-383-3097
+Network/Telecom Administrator		nlee@eti.com
+Evolutionary Technologies International, Inc	http://www.eti.com
+
+
+
+--__--__--
+
+Message: 2
+Return-Path: <virginia@texterity.com>
+Delivered-To: mailman-users@python.org
+Date: Thu, 24 Aug 2000 14:59:55 -0400 (EDT)
+From: Virginia Beauregard <virginia@texterity.com>
+To: Elwin Ehlers <e.ehlers@nikocity.de>
+Cc: mailman-users@python.org
+Subject: Re: [Mailman-Users] at/@ on the Subscribers site
+In-Reply-To: <39A50DAF.57F2E7AB@nikocity.de>
+Message-ID: <Pine.LNX.4.21.0008241456550.19833-100000@idefix.texterity.com>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+On Thu, 24 Aug 2000, Elwin Ehlers wrote:
+
+> when i open the Subscribers site on /cgi-bin/mailman/roster/thelist
+> i see in the mailaddress from the users a at and not a @.
+> What is the way to change this.
+
+In the "Privacy Options" admin page
+(/cgi-bin/mailman/admin/thelist/privacy), change the value of the
+following question to "NO":
+ . Show member addrs so they're not directly recognizable as email addrs?
+
+This corresponds to "obscure_addresses = 0" from a dump of the config
+database.
+
+--
+Virginia J. Beauregard                            virginia@texterity.com
+UNIX Systems and Network Administrator                   Texterity, Inc.
+
+
+
+
+--__--__--
+
+Message: 3
+Return-Path: <seer@nethelpnow.com>
+Delivered-To: mailman-users@python.org
+Date: Thu, 24 Aug 2000 15:28:40 -0700 (PDT)
+From: Seer Snively <seer@nethelpnow.com>
+To: mailman-users@python.org
+Cc: Seer Snively <seer@nethelpnow.com>
+Message-ID: <Pine.LNX.4.21.0008241519290.852-100000@tela.nethelpnow.com>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+Subject: [Mailman-Users] Problems with OpenBSD
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+Okay, well, the fun has begun! 
+
+I'm taking over system admin and I'd like to dump the lame alias file
+includes and move to mailman, but I'm having a few small problems.
+
+First of all, I can't seem to figure out how to install the wrapper.  Most
+of the docs don't mention OpenBSD (the system that I'm afraid I'm stuck
+with) and lots of things are in non-standard places.  For example:
+
+- We run sendmail, but smrsh just a file in /etc/sbin, there is no
+directory
+
+- Aliases are in dir /etc/mail, not just /etc/aliases
+
+So the major problem is that sendmail doesn't understand the
+"test" mailing list I've set up.  Or at least doesn't know that test and
+test-requests are now valid email addys.  The mailman logs seem to be
+happy and I only get "unknown user" errors in sendmail logs.
+
+// Other than that, I've always liked being _on_ mailman mailing
+// lists.  :-)   Evolution (and all of helixcode's lists) are much
+// fun! :-)
+
+Oh, and one other feature/wishlist item:  I am going to have two lists
+total, but I'd like to have this sort of setup:  List A can only mail list
+A.  List B is only sub'ed to B, but can send mail to both A and
+B.  Because "B" is going to be somewhat small and un-changing, I was going
+to enter those email exceptions by hand, but it would be nice if this was
+some how allowed.
+  
+Share the day,
+Seer
+
+p.s. OpenBSD 2.6, Python 1.5.2, sendmail 8.9.3, most current mailman
+(beta)
+-- 
+Seer Snively						seer@nethelpnow.com
+Network Administrator					NetHelp International
+
+
+
+--__--__--
+
+Message: 4
+Return-Path: <Dan.Mick@West.Sun.COM>
+Delivered-To: mailman-users@python.org
+Message-Id: <200008242247.PAA19204@utopia.west.sun.com>
+Date: Thu, 24 Aug 2000 15:48:25 -0700 (PDT)
+From: Dan Mick <Dan.Mick@West.Sun.COM>
+Reply-To: Dan Mick <Dan.Mick@West.Sun.COM>
+Subject: Re: [Mailman-Users] Problems with OpenBSD
+To: mailman-users@python.org, seer@nethelpnow.com
+Cc: seer@nethelpnow.com
+MIME-Version: 1.0
+Content-Type: TEXT/plain; charset=us-ascii
+Content-MD5: wYAuLox7gigtEVhrjGddYQ==
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+
+> So the major problem is that sendmail doesn't understand the
+> "test" mailing list I've set up.  Or at least doesn't know that test and
+> test-requests are now valid email addys. 
+
+Aliases are not added to the MTA automatically; you have to add
+them by hand (as the "newlist" mail message and output say).
+
+
+
+--__--__--
+
+Message: 5
+Return-Path: <petro@bounty.org>
+Delivered-To: mailman-users@python.org
+Date: Thu, 24 Aug 2000 15:46:47 -0700
+From: petro <petro@lists.bounty.org>
+To: mailman-users@python.org
+Subject: Re: [Mailman-Users] Problems with OpenBSD
+Message-ID: <20000824154647.D17162@lists.bounty.org>
+References: <Pine.LNX.4.21.0008241519290.852-100000@tela.nethelpnow.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <Pine.LNX.4.21.0008241519290.852-100000@tela.nethelpnow.com>; from seer@nethelpnow.com on Thu, Aug 24, 2000 at 03:28:40PM -0700
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+On Thu, Aug 24, 2000 at 03:28:40PM -0700, Seer Snively wrote:
+> Okay, well, the fun has begun! 
+> I'm taking over system admin and I'd like to dump the lame alias file
+> includes and move to mailman, but I'm having a few small problems.
+> First of all, I can't seem to figure out how to install the wrapper.  Most
+> of the docs don't mention OpenBSD (the system that I'm afraid I'm stuck
+> with) and lots of things are in non-standard places.  For example:
+
+	I'm running mailmain on OpenBSD, and I'm having no problems, but 
+I'm not using Sendmail (might I suggest that that is another thing to 
+eliminate (not to start any MTA  wars, but Sendmail is overly complex, and
+a possible security hole in and of itself)). I'm using exim, which works
+*REALLY* well, since it reaches into Mailman's config.db file for aliases.
+ 
+> - We run sendmail, but smrsh just a file in /etc/sbin, there is no
+> directory
+> 
+> - Aliases are in dir /etc/mail, not just /etc/aliases
+> 
+> So the major problem is that sendmail doesn't understand the
+> "test" mailing list I've set up.  Or at least doesn't know that test and
+> test-requests are now valid email addys.  The mailman logs seem to be
+> happy and I only get "unknown user" errors in sendmail logs.
+
+	You did (I only ask out of completeness) add the appropriate aliases
+*and* run newaliases right? 
+
+> p.s. OpenBSD 2.6, Python 1.5.2, sendmail 8.9.3, most current mailman
+> (beta)
+
+	Caviet--I had problems with the beta 2s, so I am running the latest
+1.x vesion. 
+
+
+--__--__--
+
+Message: 6
+Return-Path: <jwt@dskk.co.jp>
+Delivered-To: mailman-users@python.org
+Date: Fri, 25 Aug 2000 10:00:37 +0900
+From: Jim Tittsler <jwt@OnJapan.net>
+To: Noah Lee <nlee@eti.com>
+Cc: mailman-users@python.org
+Subject: Re: [Mailman-Users] problem with new install
+Message-ID: <20000825100037.A17433@mail.dskk.co.jp>
+References: <4.3.2.7.2.20000824092023.01feccb8@mail.eti.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.2.5i
+In-Reply-To: <4.3.2.7.2.20000824092023.01feccb8@mail.eti.com>; from nlee@eti.com on Thu, Aug 24, 2000 at 09:30:30AM -0500
+Organization: 7J1AJH/AI8A Tokyo
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+On Thu, Aug 24, 2000 at 09:30:30AM -0500, Noah Lee wrote:
+> I just installed Mailman onto a new Redhat 6.2 system with Python 1.5.2-13 
+> and Apache 1.3.12. It looks like the mailman install went okay and I setup 
+> a list. However, when I try to make any changes to the list it will go 
+> immediately back to the Password screen without making any changes. The 
+
+If you are using a version of Mailman older than 2.0b5, you
+might try updating.  The cookie handling code used for
+maintaining the authentication information has been improved.
+(Alternatively, you might try using a different web browser,
+as at least some of the earlier problems seemed related to
+one browser family.)
+
+
+-- 
+Jim Tittsler, Tokyo
+Python Starship     http://starship.python.net/crew/jwt/
+
+
+
+--__--__--
+
+Message: 7
+Return-Path: <semprul@eudoramail.com>
+Delivered-To: mailman-users@python.org
+To: mailman-users@python.org
+Date: Fri, 25 Aug 2000 10:48:58 +0700
+From: "Tio Syamsudin Gunawan" <semprul@eudoramail.com>
+Message-ID: <KHBEGOHKPDFBCAAA@shared1-mail.whowhere.com>
+Mime-Version: 1.0
+Reply-To: semprul@eudoramail.com
+Organization: QUALCOMM Eudora Web-Mail  (http://www.eudoramail.com:80) 
+Content-Type: text/plain; charset=us-ascii
+Content-Language: en
+Content-Length: 307
+Content-Transfer-Encoding: 7bit
+Subject: [Mailman-Users] News - Mailing List..
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+Hi, I'm having trouble about connecting mailman with an NNTP server. I try to read the manual but i still don't understand. Could anyone help me with the steps to install it?
+
+thank you
+
+~ganang
+
+
+Join 18 million Eudora users by signing up for a free Eudora Web-Mail account at http://www.eudoramail.com
+
+
+--__--__--
+
+Message: 8
+Return-Path: <midnight@the-oasis.net>
+Delivered-To: mailman-users@python.org
+From: "Phil Barnett" <midnight@the-oasis.net>
+To: mailman-users@python.org
+Date: Fri, 25 Aug 2000 00:33:22 -0400
+MIME-Version: 1.0
+Content-type: text/plain; charset=US-ASCII
+Content-transfer-encoding: 7BIT
+Reply-To: midnight@the-oasis.net
+Message-ID: <39A5BED2.16651.1B3CFFCC@localhost>
+Priority: normal
+Subject: [Mailman-Users] Help, please.
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+
+I've spent about 15 hours in the last two days trying to wind my 
+way through the maze I'm dealing with.
+
+First, I have a Redhat 6.2 server running Plesk Server 
+Administrator. Plesk creates a fairly secure environment, including 
+using suexec for cgi-bin security.
+
+This is giving me fits, since it means I have to give special 
+ownership and specific rights to the /home/mailman/cgi-bin 
+directory. This means that once I get this directory set so that the 
+cgi-bin files will execute that bin/check_perms returns a bunch of 
+errors, ie: it thinks that most of it should be owned by mailman 
+instead of the suexec group id.
+
+Also, bin/check_perms suggests that the cgi-bin directory should 
+be chmod 02775, but suexec insists on 02755. Also, I had to 
+chown a lot of files in the /home/mailman directory to the suexec 
+id, ie: chown -R fiberhos.pleskcli instead of mailman.mailman.
+
+I'm wondering at this point if I can even get it to work at all...
+
+Am I beating a dead horse?
+
+What do I have so far? If I log into the server at: 
+https://www.fiberhosting.com/mailman/admin, I get the admin 
+page, but if I try to open 
+https://www.fiberhosting.com/mailman/admin/test, it just locks up 
+and waits several minutes until it times out. There is nothing written 
+to the logs/error file or any other file in the logs directory. the 
+suexec log shows that a cgi script ran without problems. There is 
+nothing in the apache logs. After it timed out, the python process 
+stopped. (ps aux)
+
+I'd really appreciate any help I can get from any of you. Thanks...
+
+Here is some information on the server (from an error I corrected 
+during my getting permissions set)
+
+Redhat 6.2
+
+Mailman version 2.0beta5
+
+Python information:
+
+sys.version 1.5.2 (#1, Feb 1 2000, 16:32:16) [GCC egcs-2.91.66 
+19990314/Linux (egcs-  
+sys.executable /usr/bin/python  
+sys.prefix /usr  
+sys.exec_prefix /usr  
+sys.path /usr  
+sys.platform linux-i386  
+
+Environment variables:
+
+SSL_SERVER_I_DN  
+/C=RU/O=BSG/CN=als.nsk.bsgdesign.com/CN=localhost  
+HTTP_ACCEPT_ENCODING  gzip, deflate  
+SSL_SERVER_CN  localhost  
+HTTP_ACCEPT_LANGUAGE  en-us  
+SSL_SERVER_C  RU  
+GATEWAY_INTERFACE  CGI/1.1  
+SSL_SERVER_O  BSG  
+HTTP_ACCEPT  */*  
+REQUEST_URI  /mailman/admin/test  
+SSL_SERVER_I_C  RU  
+SSL_SSLEAY_VERSION  OpenSSL 0.9.4 09 Aug 1999  
+HTTPS  on  
+HTTP_HOST  www.fiberhosting.com  
+SSL_SERVER_I_O  BSG  
+SERVER_ADMIN  admin@fiberhosting.com  
+SCRIPT_FILENAME  /home/mailman/cgi-bin/admin  
+HTTPS_SECRETKEYSIZE  128  
+PYTHONPATH  /home/mailman  
+SSL_PROTOCOL_VERSION  SSLv3  
+HTTP_USER_AGENT  Mozilla/4.0 (compatible; MSIE 5.01; 
+Windows NT)  
+DOCUMENT_ROOT  
+/usr/local/plesk/apache/vhosts/fiberhosting.com/httpsdocs  
+SERVER_ADDR  206.132.232.94  
+SSL_SERVER_I_CN  localhost  
+SERVER_PORT  443  
+HTTPS_KEYSIZE  128  
+CHARSET_HTTP_METHOD  https://  
+UNIQUE_ID  OaXq286E6F4AAFS-DgE  
+REMOTE_ADDR  207.30.74.40  
+SERVER_NAME  www.fiberhosting.com  
+HTTP_CONNECTION  Keep-Alive  
+CHARSET_SERVER_NAME  www.fiberhosting.com:443  
+SSL_SERVER_DN  
+/C=RU/O=BSG/CN=als.nsk.bsgdesign.com/CN=localhost  
+CHARSET_SERVER_PORT  443  
+SSL_CIPHER  RC4-MD5  
+PATH  /bin:/usr/bin:/usr/local/bin  
+QUERY_STRING   
+SERVER_PROTOCOL  HTTP/1.1  
+PATH_INFO  /test  
+REMOTE_PORT  2754  
+REQUEST_METHOD  GET  
+PATH_TRANSLATED  
+/usr/local/plesk/apache/vhosts/fiberhosting.com/httpsdocs/test  
+SCRIPT_NAME  /mailman/admin  
+SERVER_SOFTWARE  Apache/1.3.12 Ben-SSL/1.38 (Unix) 
+PHP/3.0.15 FrontPage/4.0.4.3 rus/PL29.4  
+HTTPS_CIPHER  RC4-MD5  
+
+
+
+-- 
+              Phil Barnett  mailto:midnight@the-oasis.net
+                       WWW  http://www.the-oasis.net/
+                  FTP Site  ftp://ftp.the-oasis.net
+
+
+--__--__--
+
+Message: 9
+Return-Path: <brett@iclick.com>
+Delivered-To: mailman-users@python.org
+Mime-Version: 1.0
+Message-Id: <p04320406b5cbe0d926dd@[192.168.111.3]>
+Date: Fri, 25 Aug 2000 04:37:47 -0400
+To: mailman-users@python.org
+From: Brett Dikeman <brett@iclick.com>
+Content-Type: text/plain; charset="us-ascii" ; format="flowed"
+Subject: [Mailman-Users] upgraded from 1.1 to 2.0b4, mail disappears
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+I upgraded a Solaris mailserver to python 1.5.3, which worked fine, 
+and then upgraded to mailman 2.0b5.
+
+   I did so by doing a ./configure and then a make install, as per the 
+docs, which said to just overwrite the existing directory if going 
+from 1.1. to the current version.
+
+Only problem is, mail sent to the list goes -nowhere-.  I know it's 
+being accepted by the list server's sendmail process, but what 
+happens after that...i have no idea.  It isn't showing up in the 
+archives, and it isn't being delivered. Watching the system with top, 
+I see nothing that indicates any delivery is going on.
+
+What do I need to check?  This is for a mailing list with 1,500 
+people who get really grumpy when they don't get their mail...
+
+Brett
+
+
+--__--__--
+
+Message: 10
+Return-Path: <brett@iclick.com>
+Delivered-To: mailman-users@python.org
+Mime-Version: 1.0
+Message-Id: <p04320407b5cbe56237d7@[192.168.111.3]>
+In-Reply-To: <p04320406b5cbe0d926dd@[192.168.111.3]>
+References: <p04320406b5cbe0d926dd@[192.168.111.3]>
+Date: Fri, 25 Aug 2000 05:02:37 -0400
+To: mailman-users@python.org
+From: Brett Dikeman <brett@iclick.com>
+Subject: Re: [Mailman-Users] upgraded from 1.1 to 2.0b4, mail disappears
+Content-Type: text/plain; charset="us-ascii" ; format="flowed"
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+>What do I need to check?  This is for a mailing list with 1,500 
+>people who get really grumpy when they don't get their mail...
+
+duh.  I searched my mailbox of messages, found a note about needing 
+to install a crontab, that mailman handles delivery that way now. 
+Duh.
+
+
+Nevermind :-)
+
+(but beware, I have some questions regarding gaining back the 
+performance improvement I saw with the split delivery[ie, dist list 
+split into 5 chunks, stuff like that] that 1.1. used to do.)  We have 
+a LOT of list members with crappy mail servers, name servers, 
+etc...and I can't afford the huge penalty of 1,400 people being hung 
+up because some clown at #99 in the list's mail server is down.
+
+Brett
+-- 
+----
+Brett Dikeman				Systems Engineer
+CFN(formerly iClick, Inc)			914-872-8043
+120 Bloomingdale Rd.			914-872-8100(fax)
+White Plains, NY 10605			http://www.iclick.com
+PGP Fingerprint: 06C2 5D5B D2B4 7626  BB24 2BBC 9E4A C8B3
+PGP Key location: http://pdikeman.ne.mediaone.net/pgp/brett.pgp
+
+
+--__--__--
+
+Message: 11
+Return-Path: <jwing@pliantsystems.com>
+Delivered-To: mailman-users@python.org
+Message-ID: <39A6824D.18A74A2B@pliantsystems.com>
+Date: Fri, 25 Aug 2000 10:27:25 -0400
+From: John Wingenbach <jwing@pliantsystems.com>
+Organization: Pliant Systems, Inc.
+MIME-Version: 1.0
+To: Mailman users <mailman-users@python.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Subject: [Mailman-Users] Installed 2.0B5 - lists appear all private
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+I installed 2.0b5 on a new server as I was moving the list management.  I then
+proceded to create newlists for each of the old ones.  I followed that up with a
+config_list from the old server and used it to modify the new lists.  Lastly, I
+pulled all the members from the old lists and added them into the new server's
+lists.
+
+However, now when I look at the new server, it shows all the lists as not being
+public.  However, if I look individually at them, they are marked as being
+public.  They just aren't showing up as a result of the listinfo.cgi run.
+HELP???
+
+--
+John C. Wingenbach
+Pliant Systems, Inc.
+Sr. Systems Administrator
+Work: (919) 405-4627
+Fax:  (919) 405-4544
+
+
+
+
+
+--__--__--
+
+Message: 12
+Return-Path: <lacayo@exlibris-usa.com>
+Delivered-To: mailman-users@python.org
+From: "Luis F. Lacayo" <lacayo@exlibris-usa.com>
+To: <mailman-users@python.org>
+Date: Fri, 25 Aug 2000 09:45:08 -0500
+Message-ID: <EMEBLMAFMOLPEIMGPGEBIELCCBAA.lacayo@exlibris-usa.com>
+MIME-Version: 1.0
+Content-Type: text/plain;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
+Importance: Normal
+In-Reply-To: <Pine.LNX.4.21.0008241456550.19833-100000@idefix.texterity.com>
+Subject: [Mailman-Users] Changing the name of the server but not really.
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+Hello everyone.
+
+I have a slight problem.  When I create a new list, everything works fine
+and the list is created and I can add users and everything.  My problem is
+that the name of the machine is not the name that I want the users to use.
+For example, right now I get
+http://aleph03.mydomain.com/mailman/listinfo/listname I would like that to
+read http://listserv.mydomain.com/mailman/listinfo/listname.  Is there an
+easy way of doing this or do I have to re install mailman?
+
+Thanks in advance.
+
+Luis Lacayo
+
+
+
+
+
+--__--__--
+
+Message: 13
+Return-Path: <kasopa.w.chisanga@coppernet.zm>
+Delivered-To: mailman-users@python.org
+Message-ID: <003c01c00ea4$55a165c0$5f9f82c2@pc125>
+From: "Kasopa Wilbroad Chisanga" <kasopa.w.chisanga@coppernet.zm>
+To: <mailman-users@python.org>
+Date: Fri, 25 Aug 2000 16:54:12 +0200
+MIME-Version: 1.0
+Content-Type: text/plain;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
+Subject: [Mailman-Users] Installation
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+I am trying to install mailman and despite python being on the system
+(/usr/local/bin/python) it still fails with "No such file or directory:
+python". This is happening when I enter "make install". Any idea?
+
+Wilbroad.
+
+
+
+--__--__--
+
+Message: 14
+Return-Path: <lra@insite.com.br>
+Delivered-To: mailman-users@python.org
+Date: Fri, 25 Aug 2000 12:46:28 -0300 (EST)
+From: Leonardo Rochael Almeida <lra@insite.com.br>
+To: Kasopa Wilbroad Chisanga <kasopa.w.chisanga@coppernet.zm>
+Cc: mailman-users@python.org
+Subject: Re: [Mailman-Users] Installation
+In-Reply-To: <003c01c00ea4$55a165c0$5f9f82c2@pc125>
+Message-ID: <Pine.LNX.4.21.0008251235250.14371-100000@fantomas.insite.com.br>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+Sender: mailman-users-admin@python.org
+Precedence: bulk
+List-Id: Mailman mailing list management users <mailman-users.python.org>
+
+On Fri, 25 Aug 2000, Kasopa Wilbroad Chisanga wrote:
+
+> I am trying to install mailman and despite python being on the system
+> (/usr/local/bin/python) it still fails with "No such file or directory:
+> python". This is happening when I enter "make install". Any idea?
+> 
+
+check that you have /usr/local/bin in your $PATH:
+$ echo $PATH
+
+if it isn't, try
+$ PATH=/usr/local/bin:$PATH
+$ export PATH
+or:
+$ setenf PATH=/usr/local/bin:$PATH
+depending on your shell.
+
+Regards, Leo
+
+
+
+
+
+
+--__--__----
+--132.151.1.21.9001.16168.967219269.284.23701
+Content-type: text/plain; charset=us-ascii
+Content-description: Digest Footer
+
+------------------------------------------------------
+Mailman-Users maillist  -  Mailman-Users@python.org
+http://www.python.org/mailman/listinfo/mailman-users
+
+
+--132.151.1.21.9001.16168.967219269.284.23701--
+
+End of Mailman-Users Digest------------------------------------------------------
+Mailman-Users maillist  -  Mailman-Users@python.org
+http://www.python.org/mailman/listinfo/mailman-users
+

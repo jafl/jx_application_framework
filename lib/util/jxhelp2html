@@ -1,0 +1,125 @@
+#!/usr/bin/perl
+
+# ==================================================================================
+# Originally written by Luca Fossato <Luca.Fossato@hit.com>
+# Generalized and maintained by John Lindal <jafl@newplanetsoftware.com>
+# ==================================================================================
+
+# ==================================================================================
+# Main
+
+&getARGV;													# get the command-line args
+
+$prefix =  $helpFile;										# extract file name prefix
+$prefix =~ s|^.+/||;
+$prefix =~ s/HelpText\.h//;
+
+@docFiles = getHelpFiles($helpFile, $prefix);				# get the list of file names
+
+foreach $file (@docFiles) 
+{
+	$fileIn  = $helpDir.'/'.$prefix.$file;					# input file
+
+	$file    =~ s/Text$//;									# remove 'Text' suffix
+	$fileOut = $htmlDir.'/'.$file.'.html';					# output file (HTML)
+
+	if (-e $fileIn)
+		{
+		convert2HTML($progName, $prefix, $fileIn, $fileOut);
+		}
+	elsif ($file ne "\"LICENSE\"")
+		{
+		print("$fileIn doesn't exist...skipped\n");
+		}
+}
+
+exit(0);
+
+# ==================================================================================
+# get command line args
+
+sub getARGV
+{
+	if (!(($progName = $ARGV[0]) &&
+		  ($helpDir  = $ARGV[1]) &&
+		  ($helpFile = $ARGV[2]) &&
+		  ($htmlDir  = $ARGV[3])))
+		{
+		print("\narguments error\n\n".
+			  "usage: jxhelp2html <progName> <helpFilesDir> <helpFilesIndex> <htmlFilesDir>\n".
+			  "\n".
+			  "<progName>       is the name of the program\n".
+			  "<helpFilesDir>   is the input help files directory\n".
+			  "<helpFilesIndex> is the input help index file\n".
+			  "<htmlFilesDir>   is the output html files directory\n\n");
+		exit(1);
+		}
+
+	(-e $helpDir)  or die "error: $helpDir doesn't exists";
+	(-e $helpFile) or die "error: $helpFile doesn't exists";
+	(-e $htmlDir)  or die "error: $htmlDir doesn't exists";
+}
+
+# ==================================================================================
+# get the list of file names from the main HelpText.h file
+
+sub getHelpFiles
+{
+	my $fileIn = $_[0];								# input file name
+	my $prefix = 'k'.$_[1];							# variable name prefix
+	my @files;
+	my $str = `cat $fileIn`;
+
+	$str =~ s/\n//g;
+	$str =~ s/.*HelpSectionName\[\]\s*=\s*\{([^}]+)\}.*/$1/;
+
+	$str =~ s/$prefix|\s+//gi;						# remove prefix and whitespace
+	$str =~ s/Name\b/Text/g;						# ...Name -> ...Text
+	@files = split /,/, $str;						# split into a list
+
+	return @files;
+}
+
+# ==================================================================================
+# convert the text to html
+
+$lib_prefix = "";
+
+sub convert2HTML
+{
+	my $progName = $_[0];
+	my $prefix   = $_[1];
+	my $fileIn   = $_[2];
+	my $fileOut  = $_[3];
+	my $str      = `cat $fileIn`;
+
+	$str =~ s/^[^"]*"//;	# strip leading quote and stuff before it
+	$str =~ s/"\s*$/\n/;	# strip trailing quote
+	$str =~ s/\\(.)/$1/g;	# toss excess backslashes
+
+	# link with internal anchor
+	$str =~ s/<a[^>]+jxhelp:#([^>]*)>/<a href=#$1>/gi;
+
+	# link with anchor
+	$str =~ s/<a[^>]+jxhelp:($prefix|JX|JFS)([^>#]*)#([^>]*)>/<a href=$2.html#$3>/gi;
+
+	# link without anchor
+	$str =~ s/<a[^>]+jxhelp:($prefix|JX|JFS)([^>]*)>/<a href=$2.html>/gi;
+
+	# insert a body marker
+	my $body = "<body bgcolor=#F8F8F8 text=#000000 link=#0000E9 vlink=#000090 alink=#FF0000>\n";
+	$body   .= "<font face=verdana,arial,helvetica>\n";
+	$str     =~ s|</head>\n|</head>\n$body|;
+
+	# prepend program name to title
+	$str =~ s|(<title>\s*)([^<]*)(\s*</title>)|$1$progName:  $2$3|;
+
+	# close the body section
+	$str =~ s|</html>|</font>\n</body>\n</html>|;
+
+	open(FOUT,'>'.$fileOut);
+	print FOUT $str;
+	close(FOUT);
+}
+
+# ==================================================================================

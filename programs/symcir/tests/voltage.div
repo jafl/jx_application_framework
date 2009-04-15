@@ -1,0 +1,11 @@
+BASIC VOLTAGE DIVIDER
+*
+R1	1	2	1K
+R2	2	0	1K
+*
+VS	1	0	AC	1	0
+*
+.AC
+.PROBE
+*
+.END

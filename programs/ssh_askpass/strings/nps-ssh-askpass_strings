@@ -1,0 +1,33 @@
+0
+
+VERSION		"1.0.0"
+COPYRIGHT
+"Copyright © 2006 by New Planet Software, Inc.
+
+http://www.newplanetsoftware.com/"
+
+# askGlobals
+
+Description::askGlobals
+"nps-ssh-askpass $version
+
+Program description
+
+$copyright"
+
+# ASKMDIServer
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+CommandLineHelp::main
+"nps-ssh-askpass $vers
+
+http://www.newplanetsoftware.com/
+
+This program requires the X Window System.
+
+Usage:  nps-ssh-askpass prompt
+
+--help     prints this help
+--version  prints version information"
+
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890

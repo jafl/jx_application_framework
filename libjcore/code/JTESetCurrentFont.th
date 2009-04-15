@@ -1,0 +1,62 @@
+/******************************************************************************
+ JTESetCurrentFont.th
+
+	Use this file to instantiate code for JTextEditor::SetCurrent*()
+
+	To use this file:
+
+		#define LocalVarName      ____
+		#define StructElementName ____
+		#include <JTESetFont.th>
+		#undef LocalVarName
+		#undef StructElementName
+
+	Copyright © 1996 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+if (!itsSelection.IsEmpty())
+	{
+	JBoolean isNew;
+	JTEUndoStyle* undo = GetStyleUndo(&isNew);
+
+	Font f;
+	JBoolean changed = kJFalse;
+	JRunArrayIterator<Font> iter(itsStyles, kJIteratorStartBefore, itsSelection.first);
+	for (JIndex i=itsSelection.first; i<=itsSelection.last; i++)
+		{
+		const JBoolean ok = iter.Next(&f);
+		assert( ok );
+
+		if (LocalVarName != f.StructElementName)
+			{
+			f.StructElementName = LocalVarName;
+
+			f.id = itsFontMgr->UpdateFontID(f.id, f.size, f.style);
+			iter.SetPrev(f);
+			changed = kJTrue;
+			}
+		}
+
+	if (changed)
+		{
+		Recalc(itsSelection.first, itsSelection.GetLength(), kJFalse);
+		}
+
+	if (changed)
+		{
+		NewUndo(undo, isNew);
+		}
+	else if (isNew)
+		{
+		delete undo;
+		}
+	}
+else if (LocalVarName != itsInsertionFont.StructElementName)
+	{
+	itsInsertionFont.StructElementName = LocalVarName;
+
+	itsInsertionFont.id =
+		itsFontMgr->UpdateFontID(itsInsertionFont.id, itsInsertionFont.size,
+								 itsInsertionFont.style);
+	}

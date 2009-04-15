@@ -1,0 +1,15 @@
+N x		1
+N y		2
+N z		3
+N w		4
+N dx	-0.5
+N dy	-1.5
+N dz	-2.5
+N dw	-3.5
+*
+
+T 3>2
+T x<1.5 and y>1.5
+T True or False
+F True and False
+T True xor False

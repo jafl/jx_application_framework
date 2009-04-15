@@ -1,0 +1,823 @@
+#ifndef _T_JOrderedSet
+#define _T_JOrderedSet
+
+/******************************************************************************
+ JOrderedSet.tmpl
+
+							The JOrderedSet Template Class
+
+	Abstract template for a dynamically sized ordered set.
+
+	This class provides the structure for the public interface of all objects
+	that act like ordered sets.  It also allows one iterator object to work
+	on all such objects.
+
+	BASE CLASS = JCollection
+
+	Copyright © 1994-97 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JOrderedSet.h>
+#include <JOrderedSetIterator.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T>
+JOrderedSet<T>::JOrderedSet()
+	:
+	JCollection()
+{
+	itsCompareFn     = NULL;
+	itsCompareObj    = NULL;
+	itsSortOrder     = JOrderedSetT::kSortAscending;
+	itsFirstIterator = NULL;
+}
+
+/******************************************************************************
+ Copy constructor
+
+ ******************************************************************************/
+
+template <class T>
+JOrderedSet<T>::JOrderedSet
+	(
+	const JOrderedSet<T>& source
+	)
+	:
+	JCollection(source)
+{
+	itsCompareFn     = source.itsCompareFn;
+	itsCompareObj    = (source.itsCompareObj == NULL ? (JElementComparison<T>*) NULL :
+													   (source.itsCompareObj)->Copy());
+	itsSortOrder     = source.itsSortOrder;
+	itsFirstIterator = NULL;	// we don't copy the iterators
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <class T>
+JOrderedSet<T>::~JOrderedSet()
+{
+	NotifyIterators(JOrderedSetT::GoingAway());
+	delete itsCompareObj;
+}
+
+/******************************************************************************
+ Assignment operator (private)
+
+	*** Derived classes must call OrderedSetAssigned() -after- copying data
+
+	operator= is private to force derived classes to override it
+
+ ******************************************************************************/
+
+template <class T>
+const JOrderedSet<T>&
+JOrderedSet<T>::operator=
+	(
+	const JOrderedSet<T>& source
+	)
+{
+	assert( 0 );
+	return *this;
+}
+
+/******************************************************************************
+ OrderedSetAssigned (protected)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JOrderedSet<T>::OrderedSetAssigned
+	(
+	const JOrderedSet<T>& source
+	)
+{
+	itsCompareFn  = source.itsCompareFn;
+	itsCompareObj = (source.itsCompareObj == NULL ? (JElementComparison<T>*) NULL :
+													(source.itsCompareObj)->Copy());
+	itsSortOrder  = source.itsSortOrder;
+
+	NotifyIterators(JOrderedSetT::Copied());
+}
+
+/******************************************************************************
+ PrependElement
+
+ ******************************************************************************/
+
+template <class T>
+void
+JOrderedSet<T>::PrependElement
+	(
+	const T& data
+	)
+{
+	InsertElementAtIndex(1, data);
+}
+
+/******************************************************************************
+ AppendElement
+
+ ******************************************************************************/
+
+template <class T>
+void
+JOrderedSet<T>::AppendElement
+	(
+	const T& data
+	)
+{
+	InsertElementAtIndex(GetElementCount() + 1, data);
+}
+
+/******************************************************************************
+ RemoveElement
+
+ ******************************************************************************/
+
+template <class T>
+void
+JOrderedSet<T>::RemoveElement
+	(
+	const JIndex index
+	)
+{
+	RemoveNextElements(index, 1);
+}
+
+/******************************************************************************
+ RemovePrevElements
+
+ ******************************************************************************/
+
+template <class T>
+void
+JOrderedSet<T>::RemovePrevElements
+	(
+	const JIndex	lastIndex,
+	const JSize		count
+	)
+{
+	RemoveNextElements(lastIndex-count+1, count);
+}
+
+/******************************************************************************
+ RemoveElements
+
+ ******************************************************************************/
+
+template <class T>
+void
+JOrderedSet<T>::RemoveElements
+	(
+	const JOrderedSetT::ElementsRemoved& info
+	)
+{
+	RemoveNextElements(info.GetFirstIndex(), info.GetCount());
+}
+
+/******************************************************************************
+ MoveElementToIndexWithMsg
+
+ ******************************************************************************/
+
+template <class T>
+void
+JOrderedSet<T>::MoveElementToIndexWithMsg
+	(
+	const JOrderedSetT::ElementMoved& info
+	)
+{
+	MoveElementToIndex(info.GetOrigIndex(), info.GetNewIndex());
+}
+
+/******************************************************************************
+ SwapElementsWithMsg
+
+ ******************************************************************************/
+
+template <class T>
+void
+JOrderedSet<T>::SwapElementsWithMsg
+	(
+	const JOrderedSetT::ElementsSwapped& info
+	)
+{
+	SwapElements(info.GetIndex1(), info.GetIndex2());
+}
+
+/******************************************************************************
+ GetFirstElement
+
+ ******************************************************************************/
+
+template <class T>
+T
+JOrderedSet<T>::GetFirstElement()
+	const
+{
+	return GetElement(1);
+}
+
+/******************************************************************************
+ GetLastElement
+
+ ******************************************************************************/
+
+template <class T>
+T
+JOrderedSet<T>::GetLastElement()
+	const
+{
+	return GetElement(GetElementCount());
+}
+
+/******************************************************************************
+ GetElementFromEnd
+
+ ******************************************************************************/
+
+template <class T>
+T
+JOrderedSet<T>::GetElementFromEnd
+	(
+	const JIndex index
+	)
+	const
+{
+	return GetElement(GetIndexFromEnd(index));
+}
+
+/******************************************************************************
+ SetElementFromEnd
+
+ ******************************************************************************/
+
+template <class T>
+void
+JOrderedSet<T>::SetElementFromEnd
+	(
+	const JIndex	index,
+	const T&		data
+	)
+{
+	SetElement(GetIndexFromEnd(index), data);
+}
+
+/******************************************************************************
+ NotifyIterators (protected)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JOrderedSet<T>::NotifyIterators
+	(
+	const JBroadcaster::Message& message
+	)
+{
+	if (itsFirstIterator != NULL)
+		{
+		itsFirstIterator->OrderedSetChanged(message);
+		}
+}
+
+/******************************************************************************
+ Compare function
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JOrderedSet<T>::GetCompareFunction
+	(
+	JOrderedSetT::CompareResult (**compareFn)(const T&, const T&)
+	)
+	const
+{
+	*compareFn = itsCompareFn;
+	return JI2B( itsCompareFn != NULL );
+}
+
+template <class T>
+void
+JOrderedSet<T>::SetCompareFunction
+	(
+	JOrderedSetT::CompareResult (*compareFn)(const T&, const T&)
+	)
+{
+	itsCompareFn = compareFn;
+
+	delete itsCompareObj;
+	itsCompareObj = NULL;
+
+	if (itsCompareFn != NULL)
+		{
+		itsCompareObj = new JCompareFnWrapper<T>(itsCompareFn);
+		assert( itsCompareObj != NULL );
+		}
+}
+
+/******************************************************************************
+ Compare object
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JOrderedSet<T>::GetCompareObject
+	(
+	const JElementComparison<T>** compareObj
+	)
+	const
+{
+	*compareObj = itsCompareObj;
+	return JI2B( itsCompareObj != NULL );
+}
+
+template <class T>
+void
+JOrderedSet<T>::SetCompareObject
+	(
+	const JElementComparison<T>& compareObj
+	)
+{
+	itsCompareFn = NULL;
+
+	delete itsCompareObj;
+	itsCompareObj = compareObj.Copy();
+}
+
+template <class T>
+void
+JOrderedSet<T>::ClearCompareObject()
+{
+	itsCompareFn = NULL;
+
+	delete itsCompareObj;
+	itsCompareObj = NULL;
+}
+
+/******************************************************************************
+ Sort order
+
+ ******************************************************************************/
+
+template <class T>
+JOrderedSetT::SortOrder
+JOrderedSet<T>::GetSortOrder()
+	const
+{
+	return itsSortOrder;
+}
+
+template <class T>
+void
+JOrderedSet<T>::SetSortOrder
+	(
+	const JOrderedSetT::SortOrder order
+	)
+{
+	itsSortOrder = order;
+}
+
+/******************************************************************************
+ IsSorted
+
+	Lookup's in LinkedLists and RunArrays are O(N).  We eliminate this
+	by using an iterator.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JOrderedSet<T>::IsSorted()
+	const
+{
+	assert( itsCompareObj != NULL );
+
+	const JSize count = GetElementCount();
+	if (count < 2)
+		{
+		return kJTrue;		// avoid constructing iterator
+		}
+
+	// check if the elements are sorted
+
+	JBoolean sorted = kJTrue;
+
+	JOrderedSetIterator<T>* iter = NewIterator();	// allows optimized iterator
+	T obj1, obj2;
+
+	JBoolean ok = iter->Next(&obj1);
+	assert( ok );
+
+	while (iter->Next(&obj2))
+		{
+		const JOrderedSetT::CompareResult r = itsCompareObj->Compare(obj1, obj2);
+		if ((itsSortOrder == JOrderedSetT::kSortAscending &&
+			 r != JOrderedSetT::kFirstLessSecond) ||
+			(itsSortOrder == JOrderedSetT::kSortDescending &&
+			 r != JOrderedSetT::kFirstGreaterSecond))
+			{
+			sorted = kJFalse;
+			break;
+			}
+		obj1 = obj2;
+		}
+
+	delete iter;
+	return sorted;
+}
+
+/******************************************************************************
+ Sort (virtual)
+
+	We minimize the number of moves (O(N)) because MoveElementToIndex()
+	invokes Broadcast(), which can take arbitrary amounts of time.
+
+	Lookup's in LinkedLists and RunArrays are O(N).  We eliminate this
+	by using an iterator.  This yields O(N^2) comparisons.
+
+	JArray overrides this to get O(N log N) comparisons.
+
+	The number of moves is always O(N^2).
+
+ ******************************************************************************/
+
+template <class T>
+void
+JOrderedSet<T>::Sort()
+{
+	assert( itsCompareObj != NULL );
+
+	const JSize count = GetElementCount();
+	if (count < 2)
+		{
+		return;		// avoid constructing iterator
+		}
+
+	JOrderedSetIterator<T>* iter = NewIterator();	// allows optimized iterator
+
+	// sort the elements
+
+	T obj1, obj2;
+
+	JIndex start = 1;
+	while (start < count)
+		{
+		JIndex i = start, j = start;
+		iter->MoveTo(kJIteratorStartBefore, i);
+
+		const JBoolean ok = iter->Next(&obj1);
+		assert( ok );
+
+		while (iter->Next(&obj2))
+			{
+			j++;
+			const JOrderedSetT::CompareResult r = itsCompareObj->Compare(obj2, obj1);
+			if ((itsSortOrder == JOrderedSetT::kSortAscending &&
+				 r == JOrderedSetT::kFirstLessSecond) ||
+				(itsSortOrder == JOrderedSetT::kSortDescending &&
+				 r == JOrderedSetT::kFirstGreaterSecond))
+				{
+				i    = j;
+				obj1 = obj2;
+				}
+			}
+
+		if (i > start)
+			{
+			MoveElementToIndex(i, start);	// expensive if we have recipients
+			}
+
+		start++;
+		}
+
+	delete iter;
+}
+
+/******************************************************************************
+ InsertSorted
+
+	Returns kJTrue if the element was inserted.  Obviously, this is only
+	useful if insertIfDuplicate==kJFalse.
+
+	If index!=NULL, it contains the index where the element was inserted.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JOrderedSet<T>::InsertSorted
+	(
+	const T&		data,
+	const JBoolean	insertIfDuplicate,
+	JIndex*			index
+	)
+{
+	JBoolean isDuplicate;
+	const JIndex i = GetInsertionSortIndex(data, &isDuplicate);
+	if (!isDuplicate || insertIfDuplicate)
+		{
+		InsertElementAtIndex(i, data);
+		if (index != NULL)
+			{
+			*index = i;
+			}
+		return kJTrue;
+		}
+	else
+		{
+		if (index != NULL)
+			{
+			*index = 0;
+			}
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ GetInsertionSortIndex
+
+	Returns index where new element should be inserted in order to keep
+	the list sorted.  If there is an element that matches the given one,
+	*isDuplicate is set to kJTrue.
+
+ ******************************************************************************/
+
+template <class T>
+JIndex
+JOrderedSet<T>::GetInsertionSortIndex
+	(
+	const T&	data,
+	JBoolean*	isDuplicate
+	)
+	const
+{
+	JBoolean found;
+	JIndex index = SearchSorted1(data, JOrderedSetT::kLastMatch, &found);
+	if (found)
+		{
+		index++;
+		}
+
+	if (isDuplicate != NULL)
+		{
+		*isDuplicate = found;
+		}
+	return index;
+}
+
+/******************************************************************************
+ SearchSorted
+
+	Returns kJTrue if the specified target is found.
+
+	"which" specifies what to return if more than one element matches
+	the given target.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JOrderedSet<T>::SearchSorted
+	(
+	const T&							target,
+	const JOrderedSetT::SearchReturn	which,
+	JIndex*								index
+	)
+	const
+{
+	JBoolean found;
+	*index = SearchSorted1(target, which, &found);
+	if (!found)
+		{
+		*index = 0;
+		}
+	return found;
+}
+
+/******************************************************************************
+ SearchSorted1 (virtual)
+
+	Returns index where the element is or where it should be inserted in
+	order to keep the list sorted.  If there is an element that matches the
+	given one, *found is set to kJTrue.
+
+	"which" specifies what to return if more than one element matches
+	the given target.
+
+	Lookup's in LinkedLists and RunArrays are O(N), which means a binary
+	search would be O(N log N).  A linear search using an optimized iterator
+	yields O(N).
+
+	Since lookup's in Arrays are O(1), JArray overrides this function
+	to use a binary search, yielding O(log N).
+
+ ******************************************************************************/
+
+template <class T>
+JIndex
+JOrderedSet<T>::SearchSorted1
+	(
+	const T&							target,
+	const JOrderedSetT::SearchReturn	which,
+	JBoolean*							found
+	)
+	const
+{
+	assert( itsCompareObj != NULL );
+
+	*found = kJFalse;
+
+	if (IsEmpty())
+		{
+		return 1;
+		}
+	else if (which == JOrderedSetT::kLastMatch)
+		{
+		// allows optimized iterator
+		JOrderedSetIterator<T>* iter = NewIterator(kJIteratorStartAtEnd, 0);
+
+		JIndex i=GetElementCount()+1, index=0;
+		T element;
+		while (iter->Prev(&element))
+			{
+			i--;
+			const JOrderedSetT::CompareResult r = itsCompareObj->Compare(target, element);
+			if (r == JOrderedSetT::kFirstEqualSecond)
+				{
+				*found = kJTrue;
+				index = i;
+				break;
+				}
+			else if ((itsSortOrder == JOrderedSetT::kSortAscending &&
+					  r == JOrderedSetT::kFirstGreaterSecond) ||
+					 (itsSortOrder == JOrderedSetT::kSortDescending &&
+					  r == JOrderedSetT::kFirstLessSecond))
+				{
+				index = i+1;
+				break;
+				}
+			}
+
+		delete iter;
+
+		if (index == 0)
+			{
+			index = 1;
+			}
+		return index;
+		}
+	else
+		{
+		// allows optimized iterator
+		JOrderedSetIterator<T>* iter = NewIterator();
+
+		JIndex i=0, index=0;
+		T element;
+		while (iter->Next(&element))
+			{
+			i++;
+			const JOrderedSetT::CompareResult r = itsCompareObj->Compare(target, element);
+			if (r == JOrderedSetT::kFirstEqualSecond)
+				{
+				*found = kJTrue;
+				index = i;
+				break;
+				}
+			else if ((itsSortOrder == JOrderedSetT::kSortAscending &&
+					  r == JOrderedSetT::kFirstLessSecond) ||
+					 (itsSortOrder == JOrderedSetT::kSortDescending &&
+					  r == JOrderedSetT::kFirstGreaterSecond))
+				{
+				index = i;
+				break;
+				}
+			}
+
+		delete iter;
+
+		if (index == 0)
+			{
+			index = GetElementCount()+1;
+			}
+		return index;
+		}
+}
+
+/******************************************************************************
+ NewIterator (virtual)
+
+	Derived classes can override this function to create a derived class
+	of JOrderedSetIterator that is optimized to their data structure.
+
+ ******************************************************************************/
+
+template <class T>
+JOrderedSetIterator<T>*
+JOrderedSet<T>::NewIterator
+	(
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+{
+	JOrderedSetIterator<T>* iter = new JOrderedSetIterator<T>(this, start, index);
+	assert( iter != NULL );
+	return iter;
+}
+
+template <class T>
+JOrderedSetIterator<T>*
+JOrderedSet<T>::NewIterator
+	(
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+	const
+{
+	JOrderedSetIterator<T>* iter = new JOrderedSetIterator<T>(*this, start, index);
+	assert( iter != NULL );
+	return iter;
+}
+
+/******************************************************************************
+ JElementComparison class
+
+ ******************************************************************************/
+
+template <class T>
+JElementComparison<T>::~JElementComparison()
+{
+}
+
+/******************************************************************************
+ JCompareFnWrapper class
+
+ ******************************************************************************/
+
+template <class T>
+JCompareFnWrapper<T>::JCompareFnWrapper
+	(
+	JOrderedSetT::CompareResult (*compareFn)(const T&, const T&)
+	)
+	:
+	itsCompareFn(compareFn)
+{
+}
+
+template <class T>
+JCompareFnWrapper<T>::~JCompareFnWrapper()
+{
+}
+
+template <class T>
+JOrderedSetT::CompareResult
+JCompareFnWrapper<T>::Compare
+	(
+	const T& t1,
+	const T& t2
+	)
+	const
+{
+	return itsCompareFn(t1, t2);
+}
+
+template <class T>
+JElementComparison<T>*
+JCompareFnWrapper<T>::Copy()
+	const
+{
+	JCompareFnWrapper<T>* copy = new JCompareFnWrapper<T>(itsCompareFn);
+	assert( copy != NULL );
+	return copy;
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JOrderedSet
+	#include <instantiate_template.h>
+	#undef JTemplateName
+
+	#define JTemplateName JElementComparison
+	#include <instantiate_template.h>
+	#undef JTemplateName
+
+	#define JTemplateName JCompareFnWrapper
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

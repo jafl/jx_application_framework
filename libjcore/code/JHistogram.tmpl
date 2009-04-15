@@ -1,0 +1,306 @@
+#ifndef _T_JHistogram
+#define _T_JHistogram
+
+/******************************************************************************
+ JHistogram.tmpl
+
+							The JHistogram Template Class
+
+	Template class to store a 1-D histogram of numeric values.
+
+	BASE CLASS = none
+
+	Copyright © 1994 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JHistogram.h>
+#include <JProbDistr.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T>
+JHistogram<T>::JHistogram
+	(
+	const JSize binCount
+	)
+{
+	// Create an JArray to contain the counts.  We don't use binCount
+	// because JDynamicHistogram may change the number of bins.
+
+	itsBins = new JArray<T>(10);
+	assert( itsBins != NULL );
+
+	// initialize all counts to zero
+
+	for (JBinIndex i=1; i<=binCount; i++)
+		{
+		itsBins->AppendElement(0);
+		}
+}
+
+/******************************************************************************
+ Copy constructor
+
+ ******************************************************************************/
+
+template <class T>
+JHistogram<T>::JHistogram
+	(
+	const JHistogram<T>& source
+	)
+{
+	itsBins = new JArray<T>(*(source.itsBins));
+	assert( itsBins != NULL );
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <class T>
+JHistogram<T>::~JHistogram()
+{
+	delete itsBins;
+}
+
+/******************************************************************************
+ Assignment operator
+
+ ******************************************************************************/
+
+template <class T>
+const JHistogram<T>&
+JHistogram<T>::operator=
+	(
+	const JHistogram<T>& source
+	)
+{
+	if (this == &source)
+		{
+		return *this;
+		}
+
+	*itsBins = *(source.itsBins);
+
+	return *this;
+}
+
+/******************************************************************************
+ GetBinCount
+
+ ******************************************************************************/
+
+template <class T>
+JSize
+JHistogram<T>::GetBinCount()
+	const
+{
+	return itsBins->GetElementCount();
+}
+
+/******************************************************************************
+ GetCount
+
+ ******************************************************************************/
+
+template <class T>
+T
+JHistogram<T>::GetCount
+	(
+	const JBinIndex index
+	)
+	const
+{
+	return itsBins->GetElement(index);
+}
+
+/******************************************************************************
+ SetCount
+
+ ******************************************************************************/
+
+template <class T>
+void
+JHistogram<T>::SetCount
+	(
+	const JBinIndex	index,
+	const T			count
+	)
+{
+	itsBins->SetElement(index, count);
+}
+
+/******************************************************************************
+ IncrementCount
+
+ ******************************************************************************/
+
+template <class T>
+void
+JHistogram<T>::IncrementCount
+	(
+	const JBinIndex	index,
+	const T			delta
+	)
+{
+	const T oldCount = itsBins->GetElement(index);
+	T count          = oldCount + delta;
+
+	itsBins->SetElement(index, count);
+}
+
+/******************************************************************************
+ GetTotalCount
+
+	Return the sum of the counts in the bins.
+
+ ******************************************************************************/
+
+template <class T>
+T
+JHistogram<T>::GetTotalCount()
+	const
+{
+	T totalCount = (T) 0;
+
+	const T* countArray = itsBins->GetCArray();
+
+	const JSize binCount = itsBins->GetElementCount();
+	for (JBinIndex i=0; i<binCount; i++)
+		{
+		totalCount += countArray[i];
+		}
+
+	return totalCount;
+}
+
+/******************************************************************************
+ ConvertToProbabilities
+
+	Convert the counts to probabilities and return a JProbDistr object.
+	This can't be done in a constructor for JProbDistr, because it has to
+	work for every type of JHistogram.
+
+ ******************************************************************************/
+
+template <class T>
+JProbDistr
+JHistogram<T>::ConvertToProbabilities()
+	const
+{
+	const JSize binCount = itsBins->GetElementCount();
+	JProbDistr p(binCount);
+
+	const T* countArray = itsBins->GetCArray();
+
+	for (JBinIndex i=1; i<=binCount; i++)
+		{
+		p.SetProbability(i, countArray[i-1]);
+		}
+	p.Normalize();
+
+	return p;
+}
+
+/******************************************************************************
+ Clear
+
+	Set all counts to zero.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JHistogram<T>::Clear()
+{
+	const JSize binCount = itsBins->GetElementCount();
+	for (JBinIndex i=1; i<=binCount; i++)
+		{
+		SetCount(i, (T) 0);
+		}
+}
+
+/******************************************************************************
+ Stream operators
+
+ ******************************************************************************/
+
+template <class T>
+void
+JHistogram<T>::StreamIn
+	(
+	istream& input
+	)
+{
+	// check that we have the correct number of bins
+
+	JSize binCount;
+	input >> binCount;
+	assert( binCount == GetBinCount() );
+
+	// get value for each bin
+
+	for (JBinIndex bin=1; bin<=binCount; bin++)
+		{
+		T count;
+		input >> count;
+		SetCount(bin, count);
+		}
+}
+
+template <class T>
+void
+JHistogram<T>::StreamOut
+	(
+	ostream& output
+	)
+	const
+{
+	// write the number of value bins (for validation during input)
+
+	const JSize binCount = GetBinCount();
+	output << binCount;
+
+	// write value in each bin
+
+	for (JBinIndex bin=1; bin<=binCount; bin++)
+		{
+		output << ' ' << GetCount(bin);
+		}
+}
+
+/******************************************************************************
+ GetBins (protected)
+
+ ******************************************************************************/
+
+template <class T>
+JArray<T>*
+JHistogram<T>::GetBins()
+{
+	return itsBins;
+}
+
+template <class T>
+const JArray<T>*
+JHistogram<T>::GetBins()
+	const
+{
+	return itsBins;
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JHistogram
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

@@ -1,0 +1,5 @@
+0
+okButton::JXChooseFontSizeDialog::JXLayout "OK"
+obj1_JXLayout::JXChooseFontSizeDialog::JXLayout "Font size (points):"
+cancelButton::JXChooseFontSizeDialog::JXLayout "Cancel"
+okButton::JXChooseFontSizeDialog::shortcuts::JXLayout "^M"

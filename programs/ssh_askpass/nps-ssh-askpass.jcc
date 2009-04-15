@@ -1,0 +1,58 @@
+jx_browser_data 75
+# project tree
+0 "root"
+T
+1 "main"
+T
+2 "nps-ssh-askpass.cpp"
+F
+"./code/nps-ssh-askpass.cpp"
+T
+2 "ASKApp.cpp"
+F
+"./code/ASKApp.cpp"
+T
+2 "askGlobals.cpp"
+F
+"./code/askGlobals.cpp"
+T
+2 "ASKDialog.cpp"
+F
+"./code/ASKDialog.cpp"
+F
+T
+1 "misc"
+T
+2 "README"
+F
+"./README"
+T
+2 "nps-ssh-askpass_strings"
+F
+"./strings/nps-ssh-askpass_strings"
+T
+2 "nps-ssh-askpass.fd"
+F
+"./nps-ssh-askpass.fd"
+F
+F
+# tasks
+4
+"makemake"
+T "./" "jxlayout --choose --post-cmd \"jcc --force-reload-open\" -cp code $project_name.fd" "" F F T T T T F "Compile layouts" "Meta-'" "&|3Ss+=IL_ywwy[Pm}cG::CBCommandManager" F
+F
+# build settings
+1
+F
+"nps-ssh-askpass"
+"${LIB_DEPS}"
+"make -k all"
+# search paths
+T "../../libjcore/code" T
+T "../../libjtoolbar/code" T
+T "../../libjtree/code" T
+T "../../libjx/code" T
+T "./code" T
+F
+# C preprocessor
+F

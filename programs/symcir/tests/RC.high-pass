@@ -1,0 +1,11 @@
+BASIC RC HIGH-PASS FILTER
+*
+R	2	0	1K
+C	1	2	1U
+*
+VS	1	0	AC	1	0
+*
+.AC
+.PROBE
+*
+.END

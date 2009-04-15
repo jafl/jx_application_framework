@@ -1,0 +1,126 @@
+#ifndef _T_JXDeleteObjectTask
+#define _T_JXDeleteObjectTask
+
+/******************************************************************************
+ JXDeleteObjectTask.tmpl
+
+	This provides a very simple garbage collection system.  It tosses the
+	object after everything has settled down, i.e., once the event loop is
+	allowed to continue.
+
+	For derived classes of JXDirector, use JXCloseDirectorTask instead.
+
+	This is an idle task rather than an urgent task because it might be
+	unsafe to perform until after the idle task stack has returned to the
+	same level, e.g., after blocking dialogs have finished.
+
+	BASE CLASS = JXIdleTask, virtual JBroadcaster
+
+	Copyright © 2000 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JXDeleteObjectTask.h>
+#include <jXGlobals.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Delete (static)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JXDeleteObjectTask<T>::Delete
+	(
+	T* obj
+	)
+{
+	JXDeleteObjectTask<T>* task = new JXDeleteObjectTask<T>(obj);
+	assert( task != NULL );
+	(JXGetApplication())->InstallIdleTask(task);
+}
+
+/******************************************************************************
+ Constructor (protected)
+
+ ******************************************************************************/
+
+template <class T>
+JXDeleteObjectTask<T>::JXDeleteObjectTask
+	(
+	T* obj
+	)
+	:
+	JXIdleTask(0)
+{
+	itsObject = obj;
+
+	JBroadcaster* b = dynamic_cast(JBroadcaster*, obj);
+	if (b != NULL)
+		{
+		ListenTo(b);
+		}
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <class T>
+JXDeleteObjectTask<T>::~JXDeleteObjectTask()
+{
+	delete itsObject;
+}
+
+/******************************************************************************
+ Perform
+
+ ******************************************************************************/
+
+template <class T>
+void
+JXDeleteObjectTask<T>::Perform
+	(
+	const Time	delta,
+	Time*		maxSleepTime
+	)
+{
+	delete itsObject;
+	itsObject = NULL;
+	delete this;
+}
+
+/******************************************************************************
+ ReceiveGoingAway (virtual protected)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JXDeleteObjectTask<T>::ReceiveGoingAway
+	(
+	JBroadcaster* sender
+	)
+{
+	JBroadcaster* b = dynamic_cast(JBroadcaster*, itsObject);
+	if (sender == b)
+		{
+		itsObject = NULL;
+		}
+	else
+		{
+		JBroadcaster::ReceiveGoingAway(sender);
+		}
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JXDeleteObjectTask
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

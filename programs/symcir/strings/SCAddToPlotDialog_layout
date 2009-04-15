@@ -1,0 +1,8 @@
+0
+itsPlotMenu::SCAddToPlotDialog::JXLayout "Plot to use:"
+okButton::SCAddToPlotDialog::shortcuts::JXLayout "^M"
+obj3_JXLayout::SCAddToPlotDialog::JXLayout "to"
+cancelButton::SCAddToPlotDialog::JXLayout "Cancel"
+obj1_JXLayout::SCAddToPlotDialog::JXLayout "Curve name:"
+okButton::SCAddToPlotDialog::JXLayout "OK"
+obj2_JXLayout::SCAddToPlotDialog::JXLayout "Frequency range (Hz):"

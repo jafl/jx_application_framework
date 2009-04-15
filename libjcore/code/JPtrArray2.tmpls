@@ -1,0 +1,9 @@
+// Use this file to define templates
+//
+// To use this file:
+//
+//   #define JTemplateType ____
+//   #include <JPtrArray2.tmpls>
+
+#include <JPtrArray.tmpls>
+#include <JPtrArray2a.tmpls>

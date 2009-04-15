@@ -1,0 +1,5 @@
+TestLinkedDocument requires that a TestTextEditDocument displaying the file "about_owned_docs" be opened when it is opened.  This is a simple example to demonstrate the document interaction services provided by JXApplication.
+
+A more realistic use for these services would be a relational database program where opening one file caused all other related files to be opened as well.
+
+Another example is that of an interpreter for a graphical programming language.  When the user opens one subroutine, all the subroutines that it calls are also opened.

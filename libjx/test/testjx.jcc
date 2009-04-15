@@ -1,0 +1,209 @@
+jx_browser_data 82
+# project tree
+0 "root"
+T
+1 "main"
+T
+2 "testjx.cpp"
+F
+"./code/testjx.cpp"
+T
+2 "testjxGlobals.cpp"
+F
+"./code/testjxGlobals.cpp"
+T
+2 "TestApp.cpp"
+F
+"./code/TestApp.cpp"
+T
+2 "TestMDIServer.cpp"
+F
+"./code/TestMDIServer.cpp"
+T
+2 "TestDockManager.cpp"
+F
+"./code/TestDockManager.cpp"
+T
+2 "AboutDialog.cpp"
+F
+"./code/AboutDialog.cpp"
+T
+2 "TestPGTask.cpp"
+F
+"./code/TestPGTask.cpp"
+F
+T
+1 "Director+Widget"
+T
+2 "TestDirector.cpp"
+F
+"./code/TestDirector.cpp"
+T
+2 "TestWidget.cpp"
+F
+"./code/TestWidget.cpp"
+T
+2 "ResizeWidgetDialog.cpp"
+F
+"./code/ResizeWidgetDialog.cpp"
+T
+2 "AnimateColorTask.cpp"
+F
+"./code/AnimateColorTask.cpp"
+T
+2 "AnimateWindowIconTask.cpp"
+F
+"./code/AnimateWindowIconTask.cpp"
+T
+2 "AnimateHelpMenuTask.cpp"
+F
+"./code/AnimateHelpMenuTask.cpp"
+F
+T
+1 "Directors"
+T
+2 "TestImageDirector.cpp"
+F
+"./code/TestImageDirector.cpp"
+T
+2 "TestSliderDirector.cpp"
+F
+"./code/TestSliderDirector.cpp"
+T
+2 "TestTabDirector.cpp"
+F
+"./code/TestTabDirector.cpp"
+T
+2 "TestPartitionDirector.cpp"
+F
+"./code/TestPartitionDirector.cpp"
+T
+2 "TestCompartment.cpp"
+F
+"./code/TestCompartment.cpp"
+T
+2 "SetElasticDialog.cpp"
+F
+"./code/SetElasticDialog.cpp"
+F
+T
+1 "Dialogs"
+T
+2 "TestButtonsDialog.cpp"
+F
+"./code/TestButtonsDialog.cpp"
+T
+2 "TestInputFieldsDialog.cpp"
+F
+"./code/TestInputFieldsDialog.cpp"
+T
+2 "TestPopupChoiceDialog.cpp"
+F
+"./code/TestPopupChoiceDialog.cpp"
+F
+T
+1 "Tables"
+T
+2 "TestStrTableDirector.cpp"
+F
+"./code/TestStrTableDirector.cpp"
+T
+2 "TestStringTable.cpp"
+F
+"./code/TestStringTable.cpp"
+T
+2 "TestFloatTableDirector.cpp"
+F
+"./code/TestFloatTableDirector.cpp"
+T
+2 "TestFloatTable.cpp"
+F
+"./code/TestFloatTable.cpp"
+F
+T
+1 "TextEdit"
+T
+2 "TestTextEditDocument.cpp"
+F
+"./code/TestTextEditDocument.cpp"
+T
+2 "TestTextEditor.cpp"
+F
+"./code/TestTextEditor.cpp"
+T
+2 "TestDNDTextDirector.cpp"
+F
+"./code/TestDNDTextDirector.cpp"
+T
+2 "TestLinkedDocument.cpp"
+F
+"./code/TestLinkedDocument.cpp"
+F
+T
+1 "ChooseSaveFile"
+T
+2 "TestChooseSaveFile.cpp"
+F
+"./code/TestChooseSaveFile.cpp"
+T
+2 "TestSaveFileDialog.cpp"
+F
+"./code/TestSaveFileDialog.cpp"
+F
+T
+1 "Images"
+T
+2 "SmileyBitmaps.cpp"
+F
+"./code/SmileyBitmaps.cpp"
+T
+2 "HelpMenuBitmaps.cpp"
+F
+"./code/HelpMenuBitmaps.cpp"
+T
+2 "WindowIconBitmaps.cpp"
+F
+"./code/WindowIconBitmaps.cpp"
+F
+T
+1 "Strings"
+T
+2 "testjx_strings"
+F
+"./strings/testjx_strings"
+F
+T
+1 "Window layouts"
+T
+2 "testjx.fd"
+F
+"./testjx.fd"
+T
+2 "libjx.fd"
+F
+"../libjx.fd"
+F
+F
+# tasks
+4
+"makemake"
+T "./" "make -k static" "" T F T F T F T "" "" "#T.ngk|tIkt+JqQ$lEuc::CBCommandManager" F
+T "./" "make -k debug" "" T F T F T F T "" "" "eP+)*%.Pk:|-8H8gMBra::CBCommandManager" T
+T "./" "testjx -MDI" "" F F F F T T F "" "" "$svHlVFP`<D)#Cpy3gRi::CBCommandManager" F
+F
+# build settings
+1
+F
+"testjx"
+"${LIB_DEPS}"
+"make -k all"
+# search paths
+T "../../include/make/" T
+T "../../libjcore/code/" T
+T "../../libjx/code/" T
+T "./" T
+F
+# C preprocessor
+T "JHTMLFlexLexer" "yyFlexLexer"
+T "JXComposeFlexLexer" "yyFlexLexer"
+F

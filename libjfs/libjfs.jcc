@@ -1,0 +1,112 @@
+jx_browser_data 82
+# project tree
+0 "root"
+T
+1 "binding"
+T
+2 "JXFSBindingManager.cpp"
+F
+"./code/JXFSBindingManager.cpp"
+T
+2 "JXFSEditBindingsDialog.cpp"
+F
+"./code/JXFSEditBindingsDialog.cpp"
+T
+2 "JXFSBindingTable.cpp"
+F
+"./code/JXFSBindingTable.cpp"
+T
+2 "JFSBindingList.cpp"
+F
+"./code/JFSBindingList.cpp"
+T
+2 "JFSBinding.cpp"
+F
+"./code/JFSBinding.cpp"
+F
+T
+1 "run"
+T
+2 "JXFSRunFileDialog.cpp"
+F
+"./code/JXFSRunFileDialog.cpp"
+T
+2 "JXFSRunCommandDialog.cpp"
+F
+"./code/JXFSRunCommandDialog.cpp"
+T
+2 "JXFSCommandHistoryMenu.cpp"
+F
+"./code/JXFSCommandHistoryMenu.cpp"
+T
+2 "JXFSRunScriptDialog.cpp"
+F
+"./code/JXFSRunScriptDialog.cpp"
+F
+T
+1 "file tree"
+T
+2 "JFSFileTree.cpp"
+F
+"./code/JFSFileTree.cpp"
+T
+2 "JFSFileTreeNodeBase.cpp"
+F
+"./code/JFSFileTreeNodeBase.cpp"
+T
+2 "JFSFileTreeNode.cpp"
+F
+"./code/JFSFileTreeNode.cpp"
+F
+T
+1 "util"
+T
+2 "JXFSDirMenu.cpp"
+F
+"./code/JXFSDirMenu.cpp"
+F
+T
+1 "strings"
+T
+2 "jfs_strings"
+F
+"./strings/jfs_strings"
+T
+2 "JFSBindingEditorHelpText"
+F
+"./strings/JFSBindingEditorHelpText"
+T
+2 "JFSRunCommandHelpText"
+F
+"./strings/JFSRunCommandHelpText"
+T
+2 "JFSRunFileHelpText"
+F
+"./strings/JFSRunFileHelpText"
+F
+F
+# tasks
+4
+"makemake"
+T "./" "make -k" "" T F T F T F T "" "" "" T
+T "./" "make CHECKSTRING=$file_name checksyntax" "" T F T T T T F "" "" "" F
+T "./" "make $file_name_root" "" T F T T T T F "" "" "" T
+T "./" "libjfs" "" F F F F T T F "" "" "" T
+T "./" "medic -f +$line $full_name" "" F F F T F F F "" "" "" T
+F
+# build settings
+1
+F
+"libjfs-${JFS_LIB_VERSION}.a,libjfs-${JFS_LIB_VERSION}.so"
+""
+"make -k all"
+# search paths
+T "../include/make/" T
+T "../libjcore/code/" T
+T "../libjtoolbar/code/" T
+T "../libjtree/code/" T
+T "../libjx/code/" T
+T "./code/" T
+F
+# C preprocessor
+F

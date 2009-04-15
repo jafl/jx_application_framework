@@ -1,0 +1,26 @@
+
+This source code demonstrates how to implement version 4 of the XDND
+protocol for both inter- and intra-application transfers.
+
+It is not stand-alone code since it depends heavily on services provided by
+the JX Application Framework.  These services are encapsulated in clearly
+named functions, however, so it should be clear what most of them do.
+
+Also, please note that this code may be slightly more complex than what you
+need to implement.  JX creates a single X window to contain an arbitrary
+number of widgets, while most libraries create a separate X window for each
+widget.
+
+JXSelectionManager is included because it contains as an example of how to
+implement the INCR selection transfer protocol.
+
+jXUtil is included to show how to convert file names to and from text/uri-list.
+
+This implementation uses C++.  If you use a different language (especially
+C), please consider donating your code for others to look at.
+
+If you have any questions about the code, please feel free to ask me.
+
+John Lindal
+xdnd@newplanetsoftware.com
+

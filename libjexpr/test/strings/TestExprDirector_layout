@@ -1,0 +1,6 @@
+0
+itsTestDParseButton::TestExprDirector::JXLayout "Test Decision Parser"
+itsTestFEqButton::TestExprDirector::JXLayout "Test Function Equality"
+itsTestCFEditButton::TestExprDirector::JXLayout "Test Complex Function"
+itsTestFEditButton::TestExprDirector::JXLayout "Test Function Editor"
+itsTestDEqButton::TestExprDirector::JXLayout "Test Decision Equality"

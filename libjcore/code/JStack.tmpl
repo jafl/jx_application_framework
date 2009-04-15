@@ -1,0 +1,301 @@
+#ifndef _T_JStack
+#define _T_JStack
+
+/******************************************************************************
+ JStack.tmpl
+
+								The Stack Class
+
+	This class manages a stack.  The first template argument must be
+	a derived class of JOrderedSet.  The second template argument is the
+	data type of the stack.
+
+	Refer to JArray.tmpl for warning associated with using JArray's.
+
+	BASE CLASS = public JContainer
+
+	Copyright © 1993-97 John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JStack.h>
+#include <JOrderedSetIterator.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T, class S>
+JStack<T,S>::JStack()
+	:
+	JContainer()
+{
+	itsElements = new S;
+	assert( itsElements != NULL );
+
+	InstallOrderedSet(itsElements);
+}
+
+/******************************************************************************
+ Copy constructor
+
+ ******************************************************************************/
+
+template <class T, class S>
+JStack<T,S>::JStack
+	(
+	const JStack<T,S>& source
+	)
+	:
+	JContainer(source)
+{
+	itsElements = new S(*(source.itsElements));
+	assert( itsElements != NULL );
+
+	InstallOrderedSet(itsElements);
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <class T, class S>
+JStack<T,S>::~JStack()
+{
+	delete itsElements;
+}
+
+/******************************************************************************
+ Assignment operator
+
+ ******************************************************************************/
+
+template <class T, class S>
+const JStack<T,S>&
+JStack<T,S>::operator=
+	(
+	const JStack<T,S>& source
+	)
+{
+	if (this == &source)
+		{
+		return *this;
+		}
+
+	JContainer::operator=(source);
+
+	*itsElements = *(source.itsElements);
+	return *this;
+}
+
+/******************************************************************************
+ Push
+
+	Add a new element on top of the stack.
+
+ ******************************************************************************/
+
+template <class T, class S>
+void
+JStack<T,S>::Push
+	(
+	const T& newElement
+	)
+{
+	itsElements->AppendElement(newElement);
+}
+
+/******************************************************************************
+ Pop
+
+	Remove the top element from the stack and return it.
+
+ ******************************************************************************/
+
+template <class T, class S>
+T
+JStack<T,S>::Pop()
+{
+	const JSize count = GetElementCount();
+	const T data      = itsElements->GetElement(count);
+	itsElements->RemoveElement(count);
+	return data;
+}
+
+template <class T, class S>
+JBoolean
+JStack<T,S>::Pop
+	(
+	T* element
+	)
+{
+	const JSize count = GetElementCount();
+	if (count > 0)
+		{
+		*element = itsElements->GetElement(count);
+		itsElements->RemoveElement(count);
+		return kJTrue;
+		}
+	else
+		{
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ Peek
+
+	Return the top element from the stack without removing it.
+
+ ******************************************************************************/
+
+template <class T, class S>
+const T
+JStack<T,S>::Peek()
+{
+	return itsElements->GetElement(GetElementCount());
+}
+
+template <class T, class S>
+JBoolean
+JStack<T,S>::Peek
+	(
+	T* element
+	)
+{
+	const JSize count = GetElementCount();
+	if (count > 0)
+		{
+		*element = itsElements->GetElement(count);
+		return kJTrue;
+		}
+	else
+		{
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ Peek
+
+	Return the specified element from the stack without removing it.
+	The top element is indexed 1.
+
+ ******************************************************************************/
+
+template <class T, class S>
+const T
+JStack<T,S>::Peek
+	(
+	const JIndex index
+	)
+{
+	return itsElements->GetElement(GetElementCount() - index + 1);
+}
+
+template <class T, class S>
+JBoolean
+JStack<T,S>::Peek
+	(
+	const JIndex	index,
+	T*				element
+	)
+{
+	const JSize count = GetElementCount();
+	if (IndexValid(index))
+		{
+		*element = itsElements->GetElement(count - index + 1);
+		return kJTrue;
+		}
+	else
+		{
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ Clear
+
+	Remove all the elements from the stack.
+
+ ******************************************************************************/
+
+template <class T, class S>
+void
+JStack<T,S>::Clear()
+{
+	itsElements->RemoveAll();
+}
+
+/******************************************************************************
+ Unwind
+
+	Remove the first few elements from the top of the stack.
+
+ ******************************************************************************/
+
+template <class T, class S>
+void
+JStack<T,S>::Unwind
+	(
+	const JSize numToUnwind
+	)
+{
+	JSize numUnwound = 0;
+	while (numUnwound < numToUnwind && !itsElements->IsEmpty())
+		{
+		itsElements->RemoveElement(itsElements->GetElementCount());
+		numUnwound++;
+		}
+}
+
+/******************************************************************************
+ GetElements (protected)
+
+ ******************************************************************************/
+
+template <class T, class S>
+S*
+JStack<T,S>::GetElements()
+{
+	return itsElements;
+}
+
+/******************************************************************************
+ NewIterator
+
+	This provides an iterator for looking at all the elements in the Stack.
+	The caller must delete the iterator.
+
+	Because of the order in which the elements are stored,
+	use Prev() instead of Next().
+
+ ******************************************************************************/
+
+template <class T, class S>
+JOrderedSetIterator<T>*
+JStack<T,S>::NewIterator()
+{
+	return itsElements->NewIterator(kJIteratorStartAtEnd);
+}
+
+template <class T, class S>
+JOrderedSetIterator<T>*
+JStack<T,S>::NewIterator()
+	const
+{
+	return itsElements->NewIterator(kJIteratorStartAtEnd);
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JStack
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

@@ -1,0 +1,13 @@
+0
+obj4_JXLayout::THX3DPlotFunctionDialog::JXLayout "to"
+obj9_JXLayout::THX3DPlotFunctionDialog::JXLayout "with"
+obj10_JXLayout::THX3DPlotFunctionDialog::JXLayout "points"
+obj2_JXLayout::THX3DPlotFunctionDialog::JXLayout "Surface name:"
+obj7_JXLayout::THX3DPlotFunctionDialog::JXLayout "with"
+obj5_JXLayout::THX3DPlotFunctionDialog::JXLayout "Initial Y range:"
+obj3_JXLayout::THX3DPlotFunctionDialog::JXLayout "Initial X range:"
+obj8_JXLayout::THX3DPlotFunctionDialog::JXLayout "points"
+okButton::THX3DPlotFunctionDialog::shortcuts::JXLayout "^M"
+cancelButton::THX3DPlotFunctionDialog::JXLayout "Cancel"
+obj6_JXLayout::THX3DPlotFunctionDialog::JXLayout "to"
+okButton::THX3DPlotFunctionDialog::JXLayout "OK"

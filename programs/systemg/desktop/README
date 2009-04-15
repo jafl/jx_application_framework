@@ -1,0 +1,20 @@
+
+For Gnome 2:
+  Put the .desktop file in /usr/share/applications/
+  Put the .xpm files in /usr/share/pixmaps/
+
+For Gnome:
+  Copy directory file to /usr/share/gnome/apps/NPS_Utilities/.directory
+  Put the .desktop file in /usr/share/gnome/apps/NPS_Utilities/
+  Put the .xpm files in /usr/share/pixmaps/
+
+For KDE 1.x:
+  Copy directory file to /usr/share/applnk/NPS_Utilities/.directory
+  Put the .desktop file in /usr/share/applnk/NPS_Utilities/
+  Put the .xpm files in /usr/share/icons/ and /usr/share/icons/mini/
+
+For KDE 2.x:
+  Copy directory file to /usr/share/applnk/NPS_Utilities/.directory
+  Put the .desktop file in /usr/share/applnk/NPS_Utilities/
+  Put the .xpm files in /usr/share/icons/locolor,hicolor/16x16/apps/
+

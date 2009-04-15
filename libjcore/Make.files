@@ -1,0 +1,214 @@
+-suffix .cpp
+
+@libjcore-${JX_LIB_VERSION}.a
+@libjcore-${JX_LIB_VERSION}.so
+
+-prefix ${JCOREDIR}/
+
+JBooleanIO
+JOrderedSetT
+JOrderedSetUtil
+JBroadcaster
+JBroadcastSnooper
+JCollection
+JContainer
+JString
+JPtrArray-JString
+JStringManager
+JSubstitute
+JSubset
+JIntRange
+JIndexRange
+JUndo
+JPoint
+JRect
+JComplex
+jStreamUtil
+jStreamUtil_UNIX
+jFStreamUtil
+jFStreamUtil_UNIX
+jFileUtil
+jFileUtil_UNIX
+jDirUtil
+jDirUtil_UNIX
+jSysUtil_UNIX
+jMountUtil_UNIX
+jWebUtil
+JProbDistr
+JStopWatch
+jCommandLine
+jMath
+jMemory
+jSignal
+jTime
+jTime_UNIX
+jGlobals
+jGlobals_UNIX
+jMouseUtil
+jVCSUtil
+
+jAssert
+JAssertBase
+
+JRTTIBase
+JError
+JStdError
+JErrorState
+
+JDirInfo
+JDirInfo_UNIX
+JDirEntry
+JFileID
+
+JTable
+JTableData
+JStringTableData
+JFloatTableData
+JFloatBufferTableData
+JStyleTableData
+JTableSelection
+JTableSelectionIterator
+
+JSliderBase
+JPartition
+
+JTextEditor
+JTEUndoBase
+JTEUndoTextBase
+JTEUndoTyping
+JTEUndoPaste
+JTEUndoDrop
+JTEUndoStyle
+JTEUndoTabShift
+JTEStyler
+JTEHTMLScanner
+
+JExtractHTMLTitle
+JHTMLScanner
+.l JHTMLScannerL
+
+JVector
+JMatrix
+
+JFileArray
+JFileArrayIndex
+
+JPrefsManager
+JPrefObject
+JPrefsFile
+
+JFontStyle
+JFontManager
+JPainter
+JPrinter
+JPTPrinter
+JPagePrinter
+JPSPrinterBase
+JPSPrinter
+JEPSPrinter
+JImage
+JImageMask
+JColormap
+jColor
+JColorList
+
+JGetCurrentFontManager
+JGetCurrentColormap
+
+JUserNotification
+JTextUserNotification
+
+JChooseSaveFile
+JTextChooseSaveFile
+
+JLatentPG
+JProgressDisplay
+JTextProgressDisplay
+JCreateProgressDisplay
+JCreateTextPG
+
+JProcess
+JSimpleProcess
+JThisProcess
+JProcessError
+jProcessUtil
+jProcessUtil_UNIX
+
+JACETemplates
+JOutPipeStream
+
+JMDIServer
+
+JTree
+JTreeNode
+JTreeList
+JNamedTreeNode
+JNamedTreeList
+
+Templates-short
+Templates-int
+Templates-uint
+Templates-long
+Templates-longlong
+Templates-ulong
+Templates-float
+Templates-double
+Templates-JCharacter
+Templates-JBoolean
+Templates-JTextEditor
+Templates-JString
+Templates-JString2
+
+# JMemoryManager (Dustin Laurence)
+literal: ${JMM_FILES}
+
+# JRegex (Dustin Laurence)
+-prefix ${DJ_REGEX_DIR}/
+JRegex
+JInterpolate
+
+# JHash (Dustin Laurence)
+-prefix ${DJ_HASH_DIR}/
+jHashFunctions
+
+# JRand (Dustin Laurence)
+-prefix ${DJ_RAND_DIR}/
+JKLRand
+jRand
+
+# PCRE (Philip Hazel)
+
+-prefix ${PCREDIR}/.libs/
+
+.o maketables
+.o get
+.o study
+.o pcre
+#.o pcreposix
+
+# regex (Henry Spencer)
+
+-prefix ${REGEXDIR}/
+
+.o regcomp
+.o regexec
+.o regerror
+.o regfree
+
+literal: ${GD_FILES}
+
+# force calculation of JMM dependencies
+# (remember to update JMM_FILES in Make.header)
+
+@fake_JMM_target.a
+
+-prefix ${DJ_MM_DIR}/
+
+jNew
+JMemoryManager
+JMMTable
+JMMArrayTable
+JMMHashTable
+JMMMonitor
+JMMErrorPrinter
+JMMRecord

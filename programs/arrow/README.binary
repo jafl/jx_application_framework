@@ -1,0 +1,27 @@
+
+Installing Arrow:
+
+The program (arrow) needs to be placed in a directory that is on your
+execution path.  /usr/bin or ~/bin are usually good choices.
+
+
+Running Arrow:
+
+If Arrow crashes or if you find other bugs, please check the web
+page first to see if they have already been reported.
+
+
+Notes on Arrow:
+
+Arrow is a free e-mail program that was written to address the e-mail needs
+of users migrating from Windows and the Macintosh to Linux. It currently
+supports viewing, composing, and organizing of e-mail, including secure
+e-mail via PGP, POP access,  and a spell checker.
+
+
+The main web page for Arrow is
+
+    http://www.newplanetsoftware.com/arrow/
+
+New Planet Software, Inc.
+

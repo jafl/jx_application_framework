@@ -1,0 +1,8 @@
+-suffix .cpp
+
+@jxlayout
+
+-prefix ${CODEDIR}/
+
+jxlayout
+literal: ${LIB_DEPS}

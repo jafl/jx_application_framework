@@ -1,0 +1,6 @@
+0
+itsCreditsButton::GPMAboutDialog::JXLayout "Credits"
+okButton::GPMAboutDialog::JXLayout "OK"
+okButton::GPMAboutDialog::shortcuts::JXLayout "^M"
+textWidget::GPMAboutDialog::JXLayout ""
+itsHelpButton::GPMAboutDialog::JXLayout "Help"

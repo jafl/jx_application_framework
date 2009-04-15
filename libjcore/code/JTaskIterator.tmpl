@@ -1,0 +1,93 @@
+#ifndef _T_JTaskIterator
+#define _T_JTaskIterator
+
+/******************************************************************************
+ JTaskIterator.tmpl
+
+						The Task Iterator Class
+
+	When iterating over a list of tasks, new ones should be added to the
+	front of the list so the current pass will be guaranteed to finish.
+	This class ensures that newly prepended tasks will not be executed
+	during the current pass.
+
+	Refer to JOrderedSetIterator.tmpl for information about interators in
+	general.
+
+	Copyright © 1994-97 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JTaskIterator.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T>
+JTaskIterator<T>::JTaskIterator
+	(
+	const JPtrArray<T>&		theArray,
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+	:
+	JPtrArrayIterator<T>(theArray, start, index)
+{
+}
+
+template <class T>
+JTaskIterator<T>::JTaskIterator
+	(
+	JPtrArray<T>*			theArray,
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+	:
+	JPtrArrayIterator<T>(theArray, start, index)
+{
+}
+
+/******************************************************************************
+ OrderedSetChanged (virtual protected)
+
+	When the cursor is at the very front of the list, it must move when
+	items are inserted at the front of the list.  This ensures that the
+	object only receives the next message, not the current one.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JTaskIterator<T>::OrderedSetChanged
+	(
+	const JBroadcaster::Message& message
+	)
+{
+	JPtrArrayIterator<T>::OrderedSetChanged(message);
+
+	// adjust cursor after base class is finished
+
+	if (message.Is(JOrderedSetT::kElementsInserted))
+		{
+		const JOrderedSetT::ElementsInserted* info =
+			dynamic_cast(const JOrderedSetT::ElementsInserted*, &message);
+		assert( info != NULL );
+		if (JOrderedSetIterator<T*>::GetCursor() == 0 && info->GetFirstIndex() == 1)
+			{
+			JOrderedSetIterator<T*>::MoveTo(kJIteratorStartAfter, info->GetCount());
+			}
+		}
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JTaskIterator
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

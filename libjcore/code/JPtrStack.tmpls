@@ -1,0 +1,21 @@
+// Use this file to define templates
+//
+// To use this file:
+//
+//   #define JTemplateDataType    ____
+//   #define JTemplateStorageType ____
+//   #include <JPtrStack.tmpls>
+
+#include <JPtrStack.tmpl>
+
+// instantiate JStack with JTemplateDataType*
+
+#define JOnlyWantTemplateDefinition
+#include <JStack.tmpls>
+#undef JOnlyWantTemplateDefinition
+
+#if defined JTemplateDataType && defined JTemplateStorageType
+
+	template class JStack< JTemplateDataType*, JTemplateStorageType >;
+
+#endif

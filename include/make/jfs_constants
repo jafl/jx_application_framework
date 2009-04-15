@@ -1,0 +1,20 @@
+# Constants used in all Makefiles
+
+#
+# version numbers
+#
+
+JFS_VERSION     := 1.1.2
+JFS_LIB_VERSION := 1_1_2
+
+#
+# library names
+#
+
+ljfs := -ljfs-${JFS_LIB_VERSION}
+
+#
+# String data files
+#
+
+J_STRING_FILES += ${JX_ROOT}/libjfs/strings/*

@@ -1,0 +1,216 @@
+jx_browser_data 82
+# project tree
+0 "root"
+T
+1 "top level"
+T
+2 "systemg.cpp"
+F
+"./code/systemg.cpp"
+T
+2 "SyGApplication.cpp"
+F
+"./code/SyGApplication.cpp"
+T
+2 "SyGGlobals.cpp"
+F
+"./code/SyGGlobals.cpp"
+T
+2 "SyGPrefsMgr.cpp"
+F
+"./code/SyGPrefsMgr.cpp"
+T
+2 "SyGEditPrefsDialog.cpp"
+F
+"./code/SyGEditPrefsDialog.cpp"
+T
+2 "SyGMDIServer.cpp"
+F
+"./code/SyGMDIServer.cpp"
+T
+2 "SyGAboutDialog.cpp"
+F
+"./code/SyGAboutDialog.cpp"
+F
+T
+1 "tree"
+T
+2 "SyGTreeDir.cpp"
+F
+"./code/SyGTreeDir.cpp"
+T
+2 "SyGTreeSet.cpp"
+F
+"./code/SyGTreeSet.cpp"
+T
+2 "SyGFileTreeTable.cpp"
+F
+"./code/SyGFileTreeTable.cpp"
+T
+2 "SyGFileTreeList.cpp"
+F
+"./code/SyGFileTreeList.cpp"
+T
+2 "SyGFileTree.cpp"
+F
+"./code/SyGFileTree.cpp"
+T
+2 "SyGFileTreeNode.cpp"
+F
+"./code/SyGFileTreeNode.cpp"
+T
+2 "SyGColUtils.cpp"
+F
+"./code/SyGColUtils.cpp"
+T
+2 "SyGHeaderWidget.cpp"
+F
+"./code/SyGHeaderWidget.cpp"
+T
+2 "SyGFilterInput.cpp"
+F
+"./code/SyGFilterInput.cpp"
+T
+2 "SyGPathInput.cpp"
+F
+"./code/SyGPathInput.cpp"
+T
+2 "SyGFolderDragSource.cpp"
+F
+"./code/SyGFolderDragSource.cpp"
+T
+2 "SyGTrashButton.cpp"
+F
+"./code/SyGTrashButton.cpp"
+F
+T
+1 "tasks"
+T
+2 "SyGCopyProcess.cpp"
+F
+"./code/SyGCopyProcess.cpp"
+T
+2 "SyGMoveToTrashProcess.cpp"
+F
+"./code/SyGMoveToTrashProcess.cpp"
+T
+2 "SyGDuplicateProcess.cpp"
+F
+"./code/SyGDuplicateProcess.cpp"
+T
+2 "SyGBeginEditingTask.cpp"
+F
+"./code/SyGBeginEditingTask.cpp"
+F
+T
+1 "misc"
+T
+2 "SyGViewManPageDialog.cpp"
+F
+"./code/SyGViewManPageDialog.cpp"
+T
+2 "SyGChooseSaveFile.cpp"
+F
+"./code/SyGChooseSaveFile.cpp"
+T
+2 "SyGChoosePathDialog.cpp"
+F
+"./code/SyGChoosePathDialog.cpp"
+T
+2 "SyGTaskBarUtil.cpp"
+F
+"./code/SyGTaskBarUtil.cpp"
+F
+T
+1 "layouts"
+T
+2 "systemg.fd"
+F
+"./systemg.fd"
+F
+T
+1 "strings"
+T
+2 "systemg_strings"
+F
+"./strings/systemg_strings"
+T
+2 "systemg_beta_strings"
+F
+"./strings/systemg_beta_strings"
+T
+2 "SyGChangeLogText"
+F
+"./strings/SyGChangeLogText"
+T
+2 "SyGTOCHelpText"
+F
+"./strings/SyGTOCHelpText"
+T
+2 "SyGGettingStartedHelpText"
+F
+"./strings/SyGGettingStartedHelpText"
+T
+2 "SyGFileHelpText"
+F
+"./strings/SyGFileHelpText"
+T
+2 "SyGFolderHelpText"
+F
+"./strings/SyGFolderHelpText"
+T
+2 "SyGExecHelpText"
+F
+"./strings/SyGExecHelpText"
+T
+2 "jfsBindingEditorHelpText"
+F
+"../../libjfs/strings/jfsBindingEditorHelpText"
+T
+2 "jfsRunCommandHelpText"
+F
+"../../libjfs/strings/jfsRunCommandHelpText"
+T
+2 "jfsRunFileHelpText"
+F
+"../../libjfs/strings/jfsRunFileHelpText"
+T
+2 "SyGMiscHelpText"
+F
+"./strings/SyGMiscHelpText"
+T
+2 "SyGCreditsText"
+F
+"./strings/SyGCreditsText"
+T
+2 "SyGHelpText.h"
+F
+"./code/SyGHelpText.h"
+F
+F
+# tasks
+4
+"makemake"
+T "./" "make -k personal" "" T F T F T F T "" "" "',zr*.RST,~UET!;/(p]::CBCommandManager" F
+T "./" "make -k ibeta" "" T F T F T F T "" "" "$zw]i2?219CnU`N-,x4%::CBCommandManager" F
+F
+# build settings
+1
+F
+"systemg"
+"${LIB_DEPS}"
+"make -k all"
+# search paths
+T "../../include/make/" T
+T "../../libjcore/code/" T
+T "../../libjfs/code/" T
+T "../../libjtoolbar/code/" T
+T "../../libjtree/code/" T
+T "../../libjx/code/" T
+T "../../libjx/image/" T
+T "./" F
+T "./code/" T
+T "./strings/" T
+F
+# C preprocessor
+F

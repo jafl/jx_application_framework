@@ -1,0 +1,40 @@
+#!/usr/bin/perl
+
+# Trims whitespace off the ends of all lines.
+# Deletes spaces preceding a tab.
+# Ensures single blank line at end of file.
+
+sub ReadFile($)
+{
+	local $/ = undef;
+	open(F, "< $_[0]");
+	return <F>;
+}
+
+open(L, "find . -regex '.+\\.\\(cc\\|cpp\\|[tp]?h\\|tmpl\\|xpm\\|[ly]\\)' |");
+
+while ($file = <L>)
+	{
+	chomp($file);
+	$orig_data = $data = ReadFile($file);
+
+	$data =~ s/[ \t]+$//gmo;
+	$data =~ s/ +\t/\t/go;
+	$data =~ s/\n{2,}$/\n/o;
+
+	if ($data !~ /\n$/)
+		{
+		$data .= "\n";
+		}
+
+	if ($data ne $orig_data)
+		{
+		print $file,"\n";
+
+		$bak = $file."~";
+		rename($file, $bak) unless -f $bak;
+
+		open(F, "> $file");
+		print F $data;
+		}
+	}

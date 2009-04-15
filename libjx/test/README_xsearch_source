@@ -1,0 +1,16 @@
+
+This source code demonstrates how to implement version 1 of the XSearch
+protocol.
+
+It is not stand-alone code since it depends heavily on services provided by
+the JX Application Framework.  These services are encapsulated in clearly
+named functions, however, so it should be clear what most of them do.
+
+This implementation uses C++.  If you use a different language (especially
+C), please consider donating your code for others to look at.
+
+If you have any questions about the code, please feel free to ask me.
+
+John Lindal
+xsearch@newplanetsoftware.com
+

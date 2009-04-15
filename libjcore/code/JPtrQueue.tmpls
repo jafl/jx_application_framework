@@ -1,0 +1,21 @@
+// Use this file to define templates
+//
+// To use this file:
+//
+//   #define JTemplateDataType    ____
+//   #define JTemplateStorageType ____
+//   #include <JPtrQueue.tmpls>
+
+#include <JPtrQueue.tmpl>
+
+// instantiate JQueue with JTemplateDataType*
+
+#define JOnlyWantTemplateDefinition
+#include <JQueue.tmpls>
+#undef JOnlyWantTemplateDefinition
+
+#if defined JTemplateDataType && defined JTemplateStorageType
+
+	template class JQueue< JTemplateDataType*, JTemplateStorageType >;
+
+#endif

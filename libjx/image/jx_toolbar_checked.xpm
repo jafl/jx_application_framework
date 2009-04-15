@@ -1,0 +1,21 @@
+/* XPM */
+static char * jx_toolbar_checked[] = {
+"14 14 4 1",
+" 	c None",
+".	c #000000000000",
+"X	c #808080808080",
+"o	c #FFFFFFFFFFFF",
+"              ",
+"            ..",
+"  XXXXXXXX ...",
+"  XXXXXXX ... ",
+"  XXooooo...  ",
+"  XXo..o...   ",
+"  XXo..... X  ",
+"  XXoo...oXX  ",
+"  XXooo.ooXX  ",
+"  XXooooooXX  ",
+"  XXXXXXXXXX  ",
+"  XXXXXXXXXX  ",
+"              ",
+"              "};

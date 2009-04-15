@@ -1,0 +1,27 @@
+/* XPM */
+static char *tall_address_entry[] = {
+/* width height num_colors chars_per_pixel */
+"    17    17        4            1",
+/* colors */
+"  c None"
+". c white",
+"e c #333366",
+"f c #6666cc",
+/* pixels */
+"                 "
+"                 "
+"                 "
+"  ffffffffffffff ",
+" f..............e",
+" f...fef........e",
+" f...eee........e",
+" f...fef...ffff.e",
+" f..e...e.......e",
+" f.eee.eee......e",
+" f.eeeeeee.ffff.e",
+" f.eeeeeee......e",
+" f..............e",
+" f....e.....e...e",
+" feeee eeeee eeee",
+"                 ",
+"                 "};

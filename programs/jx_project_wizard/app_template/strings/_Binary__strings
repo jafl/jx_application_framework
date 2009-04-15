@@ -1,0 +1,55 @@
+0
+
+VERSION		"<Version>"
+COPYRIGHT
+"Copyright © <Year> by <Company>.  All rights reserved.
+
+This software is subject to the license agreement set forth in the license (refer to the on-line help).
+
+<URL>
+<EMail>"
+
+# <pre>Globals
+
+Description::<pre>Globals
+"<Program> $version
+
+Program description
+
+$copyright"
+
+# <PRE>MDIServer
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+CommandLineHelp::<PRE>MDIServer
+"<Program> $vers
+
+$copyright
+
+This program requires the X Window System.
+
+Because <Program> fully supports the Multiple Document concept,
+it can be safely invoked from the command line or via a file manager
+as often as you like.
+
+Usage:
+
+--help     prints this help
+--version  prints version information"
+
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+# <PRE>PrefsDialog
+
+WindowTitle::<PRE>PrefsDialog "Preferences"
+
+# <PRE>AboutDialog
+
+WindowTitle::<PRE>AboutDialog		"About"
+ChangeButtonLabel::<PRE>AboutDialog	"Changes"
+
+UpgradeNotice::<PRE>AboutDialog
+"
+
+
+You have just upgraded from version $vers"

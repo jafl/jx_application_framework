@@ -1,0 +1,11 @@
+// Use this file to define templates
+//
+// To use this file:
+//
+//   #define JTemplateType ____
+//   #include <JLinkedList.tmpls>
+
+#include <JOrderedSet.tmpl>
+#include <JOrderedSetIterator.tmpl>
+#include <JLinkedList.tmpl>
+#include <JLinkedListIterator.tmpl>

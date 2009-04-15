@@ -1,0 +1,17 @@
+Begin3
+Title:          JX
+Version:        1.5.3
+Entered-date:   22SEP99
+Description:    JX is a full-featured C++ application framework
+                and GUI class library for the X Window System.
+                (http://www.newplanetsoftware.com/jx/)
+                The actual copying policy is an Open Source license.
+                (http://www.newplanetsoftware.com/nps/license.html)
+Keywords:       GUI, C++, X, application framework
+Author:         jx@newplanetsoftware.com (John Lindal)
+Maintained-by:  jx@newplanetsoftware.com (John Lindal)
+Primary-site:   ftp://ftp.newplanetsoftware.com/pub/jx/
+Alternate-site: ftp://metalab.unc.edu/pub/Linux/libs/X/c++libs/
+Platforms:      X
+Copying-policy: FRS
+End

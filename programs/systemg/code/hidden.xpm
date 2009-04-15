@@ -1,0 +1,22 @@
+/* XPM */
+static char * hidden[] = {
+"10 13 6 1",
+".	c None",
+" 	c #000000000000",
+"X	c #FFFFFFFFFFFF",
+"o	c #DF7DDF7DDF7D",
+"O	c #C71BC30BC71B",
+"+	c #861782078617",
+"       ...",
+" XXXXoo ..",
+" XXXXOXo .",
+" XXXXOXXo ",
+" XXXXO    ",
+" XXXXXOOO ",
+" XXXXXX+++",
+" XX++++..+",
+"+++.......",
+"+........+",
+"..........",
+"+........+",
+"++.+..+X++"};

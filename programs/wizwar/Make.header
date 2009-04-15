@@ -1,0 +1,152 @@
+# To use this file, first run "makemake" and then run "make".
+# (makemake is part of the JX distribution)
+
+# Useful directories
+
+JX_ROOT := ../..
+
+CODEDIR  := ./code
+JCOREDIR := ${JX_ROOT}/include/jcore
+JXDIR    := ${JX_ROOT}/include/jx
+
+JLIBDIR       := ${JX_ROOT}/lib
+JCORELIBDIR   := ${JX_ROOT}/libjcore
+JXLIBDIR      := ${JX_ROOT}/libjx
+ACELIBDIR     := ${JX_ROOT}/ACE
+
+# Directories to search for header files
+
+SEARCHDIRS := -I${CODEDIR} \
+              -I${JCOREDIR} \
+              -I${JXDIR}
+
+# other constants
+
+WIZWAR_VERSION   := 0.0.1
+WIZ_STRING_FILES := strings/*
+
+# makemake variables
+
+J_STRING_FILES := ${WIZ_STRING_FILES}
+
+include ${JX_ROOT}/include/make/jx_constants
+include ${JX_ROOT}/include/make/jx_config
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
+               ${J_COMPILE_DEBUG} ${SEARCHDIRS}
+
+TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR}
+
+# library dependencies
+
+ifdef J_BUILD_SHARED_LIB
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.so \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.so
+else
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a
+endif
+
+# make variables
+
+LOADLIBES := ${J_STD_LIBS}
+LDFLAGS   := 
+
+#####
+
+WIZ_LIBS := -L${JLIBDIR} ${ljx} ${ljcore} ${J_SYS_LIBS}
+WAR_LIBS := -L${JLIBDIR} ${ljcore} ${J_ACE_LIBS} ${J_GCC_LIBS}
+
+.PHONY : default
+default: libs
+	@${MAKE} "LOADLIBES=${WIZ_LIBS}" wiz
+	@${MAKE} "LOADLIBES=${WAR_LIBS}" war
+
+.PHONY : Makefiles
+Makefiles:
+
+#
+# string data
+#
+
+.PHONY : strings
+strings:
+	compile_jstrings ${J_STRING_FILES} \
+      --code kWWDefaultStringData ${CODEDIR}/wwStringData.h
+
+.PHONY : stringdb
+stringdb:
+	compile_jstrings ${J_STRING_FILES} --db jx_wizwar_us
+
+wiz war:: strings
+
+#
+# required libraries
+#
+
+.PHONY : libs
+libs:
+	@for path in ${TOUCHPATHS}; do ( if cd $$path; then ${MAKE}; fi ) done
+
+#
+# install binaries
+#
+
+.PHONY : jxinstall
+jxinstall: wiz war
+	@strip ${call EXE, wiz} ${call EXE, war}
+  ifneq (${J_WANT_INSTALL},0)
+	@mv wiz war ${JX_INSTALL_ROOT}/
+  endif
+
+.PHONY : jxuninstall
+jxuninstall:
+	@${RM} ${JX_INSTALL_ROOT}/wiz ${JX_INSTALL_ROOT}/war
+
+#
+# source distribution
+#
+
+SRC_TAR_FILE := wizwar_source-${WIZWAR_VERSION}.tar.gz
+SRC_FILE_DIR := ${JX}/programs/wizwar
+
+.PHONY : source
+source:
+
+#
+# debugging version
+#
+
+WIZ_DEBUG_LIBS := -L${JLIBDIR} \
+                  ${J_BEGIN_LINK_STATIC} \
+                  ${ljx} ${ljcore} ${J_ACE_LIBS} \
+                  ${J_END_LINK_STATIC} \
+                  ${J_X11_LIBS} ${J_GCC_LIBS}
+
+WAR_DEBUG_LIBS := -L${JLIBDIR} \
+                  ${J_BEGIN_LINK_STATIC} \
+                  ${ljcore} ${J_ACE_LIBS} \
+                  ${J_END_LINK_STATIC} \
+                  ${J_GCC_LIBS}
+
+.PHONY : debug
+debug: staticACE libs
+	@${RM} wiz war
+	@${MAKE} "LOADLIBES=${WIZ_DEBUG_LIBS}" wiz
+	@${MAKE} "LOADLIBES=${WAR_DEBUG_LIBS}" war
+
+.PHONY : staticACE
+staticACE:
+  ifdef J_BUILD_SHARED_LIB
+	@cd ${ACELIBDIR}; ${MAKE} static
+  endif
+
+#
+# publish beta version
+#
+
+.PHONY : beta
+beta: debug
+	@${J_STRIP_DEBUG} ${call EXE, wiz} ${call EXE, war}
+	@cp wiz ${HOME}/local/stable/wiz_latest
+	@cp war ${HOME}/local/stable/war_latest

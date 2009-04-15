@@ -1,0 +1,21 @@
+/* XPM */
+static char * jx_edit_clear[] = {
+"18 15 3 1",
+" 	c None",
+"+	c white",
+"X	c #999900000000",
+"                  ",
+"  XX+        XX+  ",
+"  XXXX+     XX+   ",
+"   XXXX+   XX+    ",
+"     XXX+ X+      ",
+"      XXXXX+      ",
+"       XXX+       ",
+"      XXXXX+      ",
+"     XXX+ XX+     ",
+"    XXX+   XX+    ",
+"   XXX+     X+    ",
+"   XXX+      X+   ",
+"    X+            ",
+"              X+  ",
+"                  "};

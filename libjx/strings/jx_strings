@@ -1,0 +1,235 @@
+0
+
+# Copyright © 2000 by John Lindal. All rights reserved.
+
+# JXTEBase
+
+NoData::JXTEBase					"The X Clipboard is empty."
+DataNotCompatible::JXTEBase			"Unable to paste the current contents of the X Clipboard."
+DataNotCompatibleExtra::JXTEBase	"  (Unknown type:  $atom)"
+
+# JXInputField
+
+EmptyError::JXInputField	"This is a required field and cannot be left empty."
+Require1Char::JXInputField	"You must enter exactly 1 character in this field."
+RequireNChar::JXInputField	"You must enter exactly $count characters in this field."
+RangeNMChar::JXInputField	"You must enter between $min and $max characters in this field."
+MinNChar::JXInputField		"You must enter at least $min characters in this field."
+Max1Char::JXInputField		"You cannot enter more than 1 character in this field."
+MaxNChar::JXInputField		"You cannot enter more than $max characters in this field."
+
+# JXIntegerInput
+
+NotANumber::JXIntegerInput		"This field only accepts integers."
+OutsideRange::JXIntegerInput	"This field only accepts integers between $min and $max inclusive."
+BelowMin::JXIntegerInput		"This field only accepts integers greater than or equal to $min"
+AboveMax::JXIntegerInput		"This field only accepts integers less than or equal to $max"
+
+# JXFloatInput
+
+NotANumber::JXFloatInput	"This field only accepts numbers."
+OutsideRange::JXFloatInput	"This field only accepts numbers between $min and $max inclusive."
+BelowMin::JXFloatInput		"This field only accepts numbers greater than or equal to $min"
+AboveMax::JXFloatInput		"This field only accepts numbers less than or equal to $max"
+
+# JXPathInput
+
+Hint::JXPathInput			"Either type in a path (tab completion is supported) or Drag-and-Drop a directory."
+NoRelPath::JXPathInput		"You cannot enter a relative path because there is no base path."
+InvalidPath::JXPathInput	"This is not a valid directory."
+Unreadable::JXPathInput		"This directory is unreadable."
+Unwritable::JXPathInput		"You don't have permission to write to this directory."
+AccessDenied::JXPathInput	"You don't have access to this directory."
+BadPath::JXPathInput		"This directory does not exist."
+CompNotDir::JXPathInput		"Some part of this is not a directory."
+InvalidDir::JXPathInput		"This is not a valid directory."
+
+# JXFileInput
+
+Hint::JXFileInput			"Either type in a path and file name (tab completion is supported) or Drag-and-Drop a file."
+NoRelPath::JXFileInput		"You cannot enter a relative path because there is no base path."
+DoesNotExist::JXFileInput	"This file does not exist."
+Unreadable::JXFileInput		"This file is unreadable."
+Unwritable::JXFileInput		"You don't have permission to write to this file."
+CannotExec::JXFileInput		"This file is not executable."
+
+# JXDocumentManager
+
+NewDocName::JXDocumentManager	"Untitled $i"
+
+# JXFileDocument
+
+WriteFailed::JXFileDocument	"An error occurred while trying to save the data.  Please check that there is enough space available on the disk."
+
+SaveBeforeClosePrompt::JXFileDocument	"Save \"$name\" before closing?"
+SaveNewFilePrompt::JXFileDocument		"Save file as:"
+OKToRevertPrompt::JXFileDocument		"Discard all changes to \"$name\"?"
+
+UnsavedFilePrefix::JXFileDocument		"#untitled#_"
+AssertUnsavedFilePrefix::JXFileDocument	"##untitled##_"
+
+OKToRevertSavedPrompt::JXFileDocument	"The copy of \"$name\" on disk has been modified by another program.  Do you want to display the new contents?"
+
+OKToRevertUnsavedPrompt::JXFileDocument	"The copy of \"$name\" on disk has been modified by another program.  Are you sure that you want to discard your changes?"
+
+TryChangeWriteProtect::JXFileDocument	"The file is write protected.  Would you like to try to save the data anyway?"
+
+NoRestoreWriteProtectError::JXFileDocument
+"Write protection could not be restored because:
+
+$err"
+
+TriedWriteSaveNewFile::JXFileDocument	"Unable to obtain permission to write to the file.  Would you like to save the data in a different file?"
+
+NoTryWriteSaveNewFile::JXFileDocument	"Would you like to save the data in a different file?"
+
+DirNonexistentNoSaveError::JXFileDocument	"The data cannot be saved because the directory does not exist."
+
+DirWriteProtectNoSaveError::JXFileDocument	"The data cannot be saved because the directory is write protected."
+
+OverwriteChangedFilePrompt::JXFileDocument	"The copy of \"$name\" on disk has been modified by another program.  Do you want to overwrite the changes?"
+
+NoBackupError::JXFileDocument
+"A backup file could not be created because:
+
+$err
+
+Do you still want to save the file?"
+
+NoBackupDirWriteProtectError::JXFileDocument
+"A backup file could not be created because the directory is not writable.
+
+Do you still want to save the file?"
+
+NoRestoreFilePermsError::JXFileDocument
+"The file permissons could not be preserved because:
+
+$err"
+
+OpenSafetyAssertFilePrompt::JXFileDocument
+"There are newer versions of \"$name\" that were safety saved when the X server and this program crashed.
+
+Do you want to open these newer versions?"
+
+OpenSafetyFilePrompt::JXFileDocument
+"There is a newer version of \"$name\" that was safety saved when either the X server crashed or you quit emacs without saving.
+
+Do you want to open this newer version?"
+
+OpenAssertFilePrompt::JXFileDocument
+"There is a newer version of \"$name\" that was safety saved when this program crashed.
+
+Do you want to open this newer version?"
+
+# JXDirectSaveSource
+
+Hint::JXDirectSaveSource	"Drag this to an XDS compliant file manager to save the file."
+
+# jXUtil
+
+UnreachableHosts::jXUtil
+"Unable to access files on:
+
+$err"
+
+# JXHelpManager
+
+MissingTOC::JXHelpManager		"There is no Table of Contents.  Please notify the programmer."
+MissingSection::JXHelpManager	"Unknown help section \"$name\".  Please notify the programmer."
+
+EmptyComposeRuleList::JXHelpManager
+"<html>
+<head><title> Special key sequences </title></head>
+<body> No special key sequences have been defined. </body>
+</html>"
+
+# JXComposeRuleList
+
+ComposeHelpPrefix::JXComposeRuleList
+
+"<html>
+<head>
+<title> Special key sequences </title>
+</head>
+<body>
+
+<h3> Special key sequences </h3>
+
+You can choose which keys on your keyboard should map to the Multi_key and
+the character modifier keys by using <tt>xmodmap</tt> in your <tt>~/.xinitrc</tt>
+file.  As an example, if you have a PC keyboard with the new Windows Menu key
+near the lower right corner, you can make it the Multi_key:
+
+<blockquote><tt>
+xmodmap -e \"keycode 117 = Multi_key\" <br>
+</tt></blockquote>
+
+To check what each key does, use \"<tt>xmodmap -pke</tt>\".
+<p>
+You can use <tt>xev</tt> to get the keycode for a particular key on your
+keyboard.  Run it from an <tt>xterm</tt>, move the cursor into the resulting
+window, press the key, and check the keycode value that is printed.
+<p>
+The following characters can be entered by typing the corresponding
+sequence of keys on the keyboard.  These sequences are defined in a
+Compose file in /usr/X11R6/lib/X11/locale/.
+<p>
+<table>"
+
+# JXDockManager
+
+WindowTitleSuffix::JXDockManager	" Dock #"
+
+# JXHorizDockPartition
+
+NoSpaceHoriz::JXHorizDockPartition
+"There is insufficient space to create another compartment.  Please make the dock wider and try again."
+
+NoSpaceVert::JXHorizDockPartition
+"There is insufficient space to split this compartment.  Please make the dock taller and wider and try again."
+
+# JXVertDockPartition
+
+NoSpaceVert::JXVertDockPartition
+"There is insufficient space to create another compartment.  Please make the dock taller and try again."
+
+NoSpaceHoriz::JXVertDockPartition
+"There is insufficient space to split this compartment.  Please make the dock taller and wider and try again."
+
+# JXDockWidget
+
+WindowWillNotFit::JXDockWidget
+"The docking area is too small for this window.
+Please expand the docking area and try again."
+
+# JXDocktab
+
+ShowDockPrefix::JXDocktab	"Show "
+
+Hint::JXDocktab
+"Left-click and drag to a docking area.  Right-click for a menu of other options.  Click the X to close the window."
+
+AutoDockNewWindows::JXDocktab
+"Automatically dock new windows of this type in this pane"
+
+NoAutoDockNewWindows::JXDocktab
+"Do not automatically dock new windows of this type"
+
+# JXSpellCheckerDialog
+
+NoErrors::JXSpellCheckerDialog	"No errors were found."
+
+# JXOpenDisplayDialog
+
+WindowTitle::JXOpenDisplayDialog	"Open new display"
+Prompt::JXOpenDisplayDialog			"Name of display:"
+
+# JXGetNewDirDialog
+
+DirectoryExists::JXGetNewDirDialog	"This directory already exists."
+NameUsed::JXGetNewDirDialog			"This name is in use."
+
+# JXCSFDialogBase
+
+NewDirWindowTitle::JXCSFDialogBase	"Create Directory"
+NewDirPrompt::JXCSFDialogBase		"Name of new directory:"

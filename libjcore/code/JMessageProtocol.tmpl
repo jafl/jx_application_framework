@@ -1,0 +1,825 @@
+#ifndef _T_JMessageProtocol
+#define _T_JMessageProtocol
+
+/******************************************************************************
+ JMessageProtocol.tmpl
+
+	Parses incoming bytes into messages separated by itsSeparatorStr.
+
+	The data that you send can contain any byte sequence other than
+	itsDisconnectStr.  This sequence is reserved for terminating the
+	connection.  (You can set itsDisconnectStr to be empty.)
+
+	The default is the UNIX protocol which uses "\n" as separator and "\0" as
+	terminator.  Macintosh sets the separator to "\r", and DOS sets the
+	separator to "\r\n".  In general, the separator must not contain the
+	terminator, and visa versa.
+
+	BASE CLASS = JNetworkProtocolBase, virtual JBroadcaster
+
+	Copyright © 1998-2000 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JMessageProtocol.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocol
+	(
+	const JBoolean synchSend
+	)
+	:
+	JNetworkProtocolBase<ACE_PEER_STREAM_2>(synchSend)
+{
+	JMessageProtocolX();
+}
+
+template <ACE_PEER_STREAM_1>
+JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocol
+	(
+	const ACE_HANDLE	fd,
+	const JBoolean		synchSend
+	)
+	:
+	JNetworkProtocolBase<ACE_PEER_STREAM_2>(synchSend)
+{
+	JMessageProtocolX();
+
+	ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::set_handle(fd);
+	ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::open(NULL);
+}
+
+// private
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocolX()
+{
+	itsMessageList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	assert( itsMessageList != NULL );
+
+	NewMessage();
+
+	itsBufferSize = JMessageProtocolT::kDefaultBufferSize;
+
+	itsBuffer = new JCharacter [ itsBufferSize ];
+	assert( itsBuffer != NULL );
+
+	itsSeparatorStr.Set(JMessageProtocolT::kUNIXSeparatorStr,
+						JMessageProtocolT::kUNIXSeparatorLength);
+	itsDisconnectStr.Set(JMessageProtocolT::kStdDisconnectStr,
+						 JMessageProtocolT::kStdDisconnectLength);
+
+	itsSentDisconnectFlag     = kJFalse;
+	itsReceivedDisconnectFlag = kJFalse;
+	itsInHandleInputFlag      = kJFalse;
+}
+
+/******************************************************************************
+ Destructor
+
+	Client must call SendDisconnect() explicitly.  This makes their code
+	clearer.  It also allows using this class on read-only connections
+	because the client can ensure that nothing will ever be written.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JMessageProtocol<ACE_PEER_STREAM_2>::~JMessageProtocol()
+{
+	delete [] itsBuffer;
+	delete itsMessageList;
+}
+
+/******************************************************************************
+ Protocol
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::GetProtocol
+	(
+	JString* separator,
+	JString* disconnect
+	)
+	const
+{
+	*separator  = itsSeparatorStr;
+	*disconnect = itsDisconnectStr;
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::SetProtocol
+	(
+	const JCharacter*	separatorStr,
+	const JSize			separatorLength,
+	const JCharacter*	disconnectStr,
+	const JSize			disconnectLength
+	)
+{
+	assert( separatorLength > 0 );
+
+	itsSeparatorStr.Set(separatorStr, separatorLength);
+	itsDisconnectStr.Set(disconnectStr, disconnectLength);
+
+	assert( disconnectLength == 0 ||
+			(separatorLength == disconnectLength &&
+			 itsSeparatorStr != itsDisconnectStr) ||
+			(separatorLength > disconnectLength &&
+			 !itsSeparatorStr.Contains(itsDisconnectStr)) ||
+			(disconnectLength > separatorLength &&
+			 !itsDisconnectStr.Contains(itsSeparatorStr)) );
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::UseUNIXProtocol()
+{
+	itsSeparatorStr.Set(JMessageProtocolT::kUNIXSeparatorStr,
+						JMessageProtocolT::kUNIXSeparatorLength);
+	itsDisconnectStr.Set(JMessageProtocolT::kStdDisconnectStr,
+						 JMessageProtocolT::kStdDisconnectLength);
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::UseMacintoshProtocol()
+{
+	itsSeparatorStr.Set(JMessageProtocolT::kMacintoshSeparatorStr,
+						JMessageProtocolT::kMacintoshSeparatorLength);
+	itsDisconnectStr.Set(JMessageProtocolT::kStdDisconnectStr,
+						 JMessageProtocolT::kStdDisconnectLength);
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::UseDOSProtocol()
+{
+	itsSeparatorStr.Set(JMessageProtocolT::kDOSSeparatorStr,
+						JMessageProtocolT::kDOSSeparatorLength);
+	itsDisconnectStr.Set(JMessageProtocolT::kStdDisconnectStr,
+						 JMessageProtocolT::kStdDisconnectLength);
+}
+
+/******************************************************************************
+ Buffer size
+
+	This controls how much is read from the connection at one time.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JSize
+JMessageProtocol<ACE_PEER_STREAM_2>::GetBufferSize()
+	const
+{
+	return itsBufferSize;
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::SetBufferSize
+	(
+	const JSize bufferSize
+	)
+{
+	assert( bufferSize > 0 );
+
+	itsBufferSize = bufferSize;
+
+	delete [] itsBuffer;
+	itsBuffer = new JCharacter [ itsBufferSize ];
+	assert( itsBuffer != NULL );
+}
+
+/******************************************************************************
+ ReceivedDisconnect
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JBoolean
+JMessageProtocol<ACE_PEER_STREAM_2>::ReceivedDisconnect()
+	const
+{
+	return itsReceivedDisconnectFlag;
+}
+
+/******************************************************************************
+ SendDisconnect
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::SendDisconnect()
+{
+	assert( !itsDisconnectStr.IsEmpty() );
+
+	if (!itsSentDisconnectFlag)
+		{
+		JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send(itsDisconnectStr);
+		itsSentDisconnectFlag = kJTrue;
+		}
+}
+
+/******************************************************************************
+ HasMessages
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JBoolean
+JMessageProtocol<ACE_PEER_STREAM_2>::HasMessages()
+	const
+{
+	return JConvertToBoolean( itsMessageList->GetElementCount() > 1 );
+}
+
+/******************************************************************************
+ GetMessageCount
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JSize
+JMessageProtocol<ACE_PEER_STREAM_2>::GetMessageCount()
+	const
+{
+	return itsMessageList->GetElementCount() - 1;
+}
+
+/******************************************************************************
+ GetNextMessage
+
+	Stores the next complete message in *message and removes it from the queue.
+	Returns kJFalse if no complete messages are available.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JBoolean
+JMessageProtocol<ACE_PEER_STREAM_2>::GetNextMessage
+	(
+	JString* message
+	)
+{
+	if (itsMessageList->GetElementCount() > 1)
+		{
+		*message = *(itsMessageList->FirstElement());
+		itsMessageList->DeleteElement(1);
+		return kJTrue;
+		}
+	else
+		{
+		message->Clear();
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ PeekNextMessage
+
+	Stores the next complete message in *message.
+	Returns kJFalse if no complete messages are available.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JBoolean
+JMessageProtocol<ACE_PEER_STREAM_2>::PeekNextMessage
+	(
+	JString* message
+	)
+{
+	if (itsMessageList->GetElementCount() > 1)
+		{
+		*message = *(itsMessageList->FirstElement());
+		return kJTrue;
+		}
+	else
+		{
+		message->Clear();
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ PeekPartialMessage
+
+	Stores the message that is being received in *message.
+	Returns kJFalse if the message is empty.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JBoolean
+JMessageProtocol<ACE_PEER_STREAM_2>::PeekPartialMessage
+	(
+	JString* message
+	)
+{
+	*message = *(itsMessageList->LastElement());
+	return JNegate( message->IsEmpty() );
+}
+
+/******************************************************************************
+ SendMessage
+
+	Sends the given data and then a separator.  The data can contain separators.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::SendMessage
+	(
+	const JString& message
+	)
+{
+	SendMessage(message.GetCString(), message.GetLength());
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::SendMessage
+	(
+	const JCharacter* message
+	)
+{
+	SendMessage(message, strlen(message));
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::SendMessage
+	(
+	const JCharacter*	message,
+	const JSize			length
+	)
+{
+	if (!itsSentDisconnectFlag)
+		{
+		iovec buffer[2];
+		buffer[0].iov_base = const_cast<char*>(message);
+		buffer[0].iov_len  = length;
+		buffer[1].iov_base = const_cast<char*>(itsSeparatorStr.GetCString());
+		buffer[1].iov_len  = itsSeparatorStr.GetLength();
+
+		JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send(buffer, 2);
+		}
+}
+
+/******************************************************************************
+ SendData
+
+	Sends the given data without a separator.  The data can contain separators.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::SendData
+	(
+	const JString& data
+	)
+{
+	SendData(data.GetCString(), data.GetLength());
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::SendData
+	(
+	const JCharacter* data
+	)
+{
+	SendData(data, strlen(data));
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::SendData
+	(
+	const JCharacter*	data,
+	const JSize			length
+	)
+{
+	if (!itsSentDisconnectFlag)
+		{
+		JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send(data, length);
+		}
+}
+
+/******************************************************************************
+ TranslateFromUNIXAndSend
+
+	Translates the data from UNIX protocol ("\n") and sends it.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromUNIXAndSend
+	(
+	const JString& data
+	)
+{
+	TranslateAndSend(data.GetCString(), data.GetLength(),
+					 JMessageProtocolT::kUNIXSeparatorStr,
+					 JMessageProtocolT::kUNIXSeparatorLength);
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromUNIXAndSend
+	(
+	const JCharacter* data
+	)
+{
+	TranslateAndSend(data, strlen(data),
+					 JMessageProtocolT::kUNIXSeparatorStr,
+					 JMessageProtocolT::kUNIXSeparatorLength);
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromUNIXAndSend
+	(
+	const JCharacter*	data,
+	const JSize			length
+	)
+{
+	TranslateAndSend(data, length,
+					 JMessageProtocolT::kUNIXSeparatorStr,
+					 JMessageProtocolT::kUNIXSeparatorLength);
+}
+
+/******************************************************************************
+ TranslateFromMacintoshAndSend
+
+	Translates the data from Macintosh protocol ("\r") and sends it.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromMacintoshAndSend
+	(
+	const JString& data
+	)
+{
+	TranslateAndSend(data.GetCString(), data.GetLength(),
+					 JMessageProtocolT::kMacintoshSeparatorStr,
+					 JMessageProtocolT::kMacintoshSeparatorLength);
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromMacintoshAndSend
+	(
+	const JCharacter* data
+	)
+{
+	TranslateAndSend(data, strlen(data),
+					 JMessageProtocolT::kMacintoshSeparatorStr,
+					 JMessageProtocolT::kMacintoshSeparatorLength);
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromMacintoshAndSend
+	(
+	const JCharacter*	data,
+	const JSize			length
+	)
+{
+	TranslateAndSend(data, length,
+					 JMessageProtocolT::kMacintoshSeparatorStr,
+					 JMessageProtocolT::kMacintoshSeparatorLength);
+}
+
+/******************************************************************************
+ TranslateFromDOSAndSend
+
+	Translates the data from DOS protocol ("\r\n") and sends it.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromDOSAndSend
+	(
+	const JString& data
+	)
+{
+	TranslateAndSend(data.GetCString(), data.GetLength(),
+					 JMessageProtocolT::kDOSSeparatorStr,
+					 JMessageProtocolT::kDOSSeparatorLength);
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromDOSAndSend
+	(
+	const JCharacter* data
+	)
+{
+	TranslateAndSend(data, strlen(data),
+					 JMessageProtocolT::kDOSSeparatorStr,
+					 JMessageProtocolT::kDOSSeparatorLength);
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromDOSAndSend
+	(
+	const JCharacter*	data,
+	const JSize			length
+	)
+{
+	TranslateAndSend(data, length,
+					 JMessageProtocolT::kDOSSeparatorStr,
+					 JMessageProtocolT::kDOSSeparatorLength);
+}
+
+/******************************************************************************
+ TranslateAndSend
+
+	Translates the data from the given protocol and sends it.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::TranslateAndSend
+	(
+	const JString&		data,
+	const JCharacter*	separatorStr,
+	const JSize			separatorLength
+	)
+{
+	TranslateAndSend(data.GetCString(), data.GetLength(),
+					 separatorStr, separatorLength);
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::TranslateAndSend
+	(
+	const JCharacter*	data,
+	const JCharacter*	separatorStr,
+	const JSize			separatorLength
+	)
+{
+	TranslateAndSend(data, strlen(data),
+					 separatorStr, separatorLength);
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::TranslateAndSend
+	(
+	const JCharacter*	data,
+	const JSize			dataLength,
+	const JCharacter*	separatorStr,
+	const JSize			separatorLength
+	)
+{
+	if (dataLength == 0)
+		{
+		return;
+		}
+
+	// build list of data blocks to send
+
+	JArray<iovec> bufferList(100);
+
+	iovec sepBuffer;
+	sepBuffer.iov_base = const_cast<char*>(itsSeparatorStr.GetCString());
+	sepBuffer.iov_len  = itsSeparatorStr.GetLength();
+
+	const JString sepStr(separatorStr, separatorLength);
+	JIndex start = 1;
+	while (start <= dataLength)
+		{
+		JIndex sepIndex = start;
+		JBoolean partial;
+		LocateNextSequence(data, dataLength, sepStr, &sepIndex, &partial);
+		if (partial)
+			{
+			sepIndex = dataLength+1;
+			}
+
+		iovec buffer;
+		buffer.iov_base = const_cast<char*>(data + start-1);
+		buffer.iov_len  = sepIndex - start;
+		bufferList.AppendElement(buffer);		// send data
+		bufferList.AppendElement(sepBuffer);	// send separator
+
+		start = sepIndex + sepBuffer.iov_len;	// move past separator sequence
+		}
+
+	// send all data blocks in one shot
+
+	JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send(bufferList.GetCArray(), bufferList.GetElementCount());
+}
+
+/******************************************************************************
+ handle_input (virtual)
+
+	This is called when we receive data.  It is also safe for anybody else
+	to call it.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+int
+JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
+	(
+	ACE_HANDLE
+	)
+{
+	// protect against recursive calls
+
+	if (itsInHandleInputFlag)
+		{
+		return 0;
+		}
+	itsInHandleInputFlag = kJTrue;
+
+	// We flush the system buffer even if we have received a disconnect.
+
+	const ssize_t count = (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).recv(itsBuffer, itsBufferSize);
+	if (!itsReceivedDisconnectFlag && count > 0)
+		{
+		itsRecvData.Append(itsBuffer, count);
+
+		JIndex disIndex          = 0;
+		JBoolean foundPartialDis = kJFalse;
+		JBoolean foundDis        = kJFalse;
+
+		while (!itsRecvData.IsEmpty())
+			{
+			JString* msg = itsMessageList->LastElement();
+
+			JIndex sepIndex;
+			JBoolean foundPartialSep;
+			JBoolean foundSep =
+				LocateSequence(itsRecvData, itsSeparatorStr, &sepIndex, &foundPartialSep);
+
+			if (!itsDisconnectStr.IsEmpty() && disIndex < sepIndex)
+				{
+				foundDis =
+					LocateSequence(itsRecvData, itsDisconnectStr, &disIndex, &foundPartialDis);
+				}
+
+			if ((foundPartialSep && sepIndex < disIndex) ||
+				(foundPartialDis && disIndex < sepIndex) ||
+				(foundPartialSep && foundPartialDis))
+				{
+				const JIndex i = JMin(sepIndex, disIndex);
+				if (i > 1)
+					{
+					*msg += itsRecvData.GetSubstring(1, i-1);
+					itsRecvData.RemoveSubstring(1, i-1);
+					}
+				break;
+				}
+			else if (foundSep && sepIndex < disIndex)
+				{
+				if (sepIndex > 1)
+					{
+					*msg += itsRecvData.GetSubstring(1, sepIndex-1);
+					}
+				const JSize charCount = sepIndex + itsSeparatorStr.GetLength()-1;
+				itsRecvData.RemoveSubstring(1, charCount);
+				disIndex -= charCount;
+				NewMessage();
+
+				const JString msgCopy = *msg;
+				Broadcast(JMessageProtocolT::MessageReady(msgCopy));
+				}
+			else if (foundDis && disIndex < sepIndex)
+				{
+				itsReceivedDisconnectFlag = kJTrue;
+
+				if (disIndex > 1)
+					{
+					*msg += itsRecvData.GetSubstring(1, disIndex-1);
+					}
+				if (!msg->IsEmpty())
+					{
+					NewMessage();
+					const JString msgCopy = *msg;
+					Broadcast(JMessageProtocolT::MessageReady(msgCopy));
+					}
+
+				itsRecvData.Clear();
+				Broadcast(JMessageProtocolT::ReceivedDisconnect());
+				// we might be deleted and itsInHandleInputFlag is now irrelevant
+				return 0;
+				}
+			else
+				{
+				*msg += itsRecvData;
+				itsRecvData.Clear();
+				}
+			}
+		}
+
+	itsInHandleInputFlag = kJFalse;
+	return 0;
+}
+
+/******************************************************************************
+ LocateSequence (private)
+
+	Returns kJTrue if it finds sequence inside data.  *index is then the
+	start of the sequence.
+
+	If data ends with part of sequence, it sets *endsWithPartial=kJTrue,
+	*index to the start of the partial sequence, and returns kJFalse.
+
+	If nothing matches, returns kJFalse and *index is beyond the end of data.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JBoolean
+JMessageProtocol<ACE_PEER_STREAM_2>::LocateSequence
+	(
+	const JString&	data,
+	const JString&	sequence,
+	JIndex*			index,
+	JBoolean*		endsWithPartial
+	)
+{
+	*index = 1;
+	return LocateNextSequence(data.GetCString(), data.GetLength(),
+							  sequence, index, endsWithPartial);
+}
+
+template <ACE_PEER_STREAM_1>
+JBoolean
+JMessageProtocol<ACE_PEER_STREAM_2>::LocateNextSequence
+	(
+	const JCharacter*	d,
+	const JSize			dLength,
+	const JString&		sequence,
+	JIndex*				index,
+	JBoolean*			endsWithPartial
+	)
+{
+	const JCharacter* s = sequence.GetCString();
+	const JSize sLength = sequence.GetLength();
+
+	for (JIndex i = *index-1; i<dLength; i++)
+		{
+		const JSize remLength = dLength-i;
+		if (JCompareMaxN(d+i, remLength, s, sLength,
+						 JMin(remLength, sLength)))
+			{
+			*index = i+1;
+			*endsWithPartial = JI2B(remLength < sLength);
+			return JNegate(*endsWithPartial);
+			}
+		}
+
+	*index           = dLength+1;
+	*endsWithPartial = kJFalse;
+	return kJFalse;
+}
+
+/******************************************************************************
+ NewMessage (private)
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JString*
+JMessageProtocol<ACE_PEER_STREAM_2>::NewMessage()
+{
+	JString* msg = new JString;
+	assert( msg != NULL );
+	itsMessageList->Append(msg);
+	return msg;
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JMessageProtocol
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

@@ -1,0 +1,60 @@
+0
+
+GLChangeLog
+
+"<html>
+<head>
+<title>
+Changes from previous versions
+</title>
+</head>
+
+Please send all bug reports and suggestions for features to 
+<a href=http://www.newplanetsoftware.com/nps/contact.php>New Planet Software</a>.
+<p>
+<hr>
+<p>
+
+<b>2.0.0</b>
+<p>
+
+The fitting code has been completely rewritten from the ground up. It is
+much more robust and much quicker. It has also been expanded with the use
+of dynamically loadable fitting modules that implement only the fit
+function (an example module is included in the fitmodule directory). In
+addition, a new graphical fit window has been added to simplify the fit
+process.
+
+<p>
+
+Plots can now be printed to EPS files for easier inclusion in documents.
+
+<p>
+
+The online help is now searchable.
+
+<p>
+
+<b>1.0.2</b>
+
+<p>
+Optimized importing of data files.
+<p>
+Fixed bug so it no longer crashes when one selects item 6 or below on the 
+Remove Curve menu.
+<p>
+
+<b>1.0.1</b>
+
+<p>
+Fixed a bug that caused occasional crashes when using plots.
+<p>
+Upgraded to the latest JX libararies.
+<p>
+
+<b>1.0</b>
+
+<p>
+Initial public release
+
+</html>"

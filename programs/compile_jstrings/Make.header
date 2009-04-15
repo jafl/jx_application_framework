@@ -1,0 +1,115 @@
+# To use this file, first run "makemake" and then run "make".
+# (makemake is part of the JX distribution)
+
+# Useful directories
+
+JX_ROOT := ../..
+
+CODEDIR  := .
+JCOREDIR := ${JX_ROOT}/include/jcore
+
+JLIBDIR     := ${JX_ROOT}/lib
+JCORELIBDIR := ${JX_ROOT}/libjcore
+ACELIBDIR   := ${JX_ROOT}/ACE
+
+# Directories to search for header files
+
+SEARCHDIRS := -I${CODEDIR} \
+              -I${JCOREDIR}
+
+# makemake variables
+
+include ${JX_ROOT}/include/make/jx_constants
+include ${JX_ROOT}/include/make/jx_config
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
+               ${SEARCHDIRS}
+
+# library dependencies
+
+ifdef J_BUILD_SHARED_LIB
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.so
+else
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+endif
+
+# make variables
+
+LOADLIBES := ${ljcore} ${J_ACE_LIBS} ${J_GCC_LIBS}
+LDFLAGS   := 
+
+#####
+
+.PHONY : default
+default: libs compile_jstrings
+
+.PHONY : Makefiles
+Makefiles:
+
+#
+# required libraries
+#
+
+.PHONY : libs
+libs:
+	@cd ${JCORELIBDIR}; ${MAKE} COMPILE_STRINGS=0
+
+.PHONY : touch
+touch::
+	@cd ${JCORELIBDIR}; ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch
+
+#
+# JX source distribution (DISTR_TAR_FILE)
+#
+
+SRC_FILE_DIR := ${JX}/programs/compile_jstrings
+
+.PHONY : jxsource
+jxsource:
+	@cd ${J_DISTR_TAR_DIR}; \
+     tar -rf ${DISTR_TAR_FILE} ${addprefix ${SRC_FILE_DIR}/, \
+             README Make.header Make.files \
+             compile_jstrings.cpp }
+
+#
+# install binaries
+#
+
+.PHONY : jxinstall
+jxinstall: compile_jstrings
+	@strip ${call EXE, compile_jstrings}
+	@cp compile_jstrings ${JX_INSTALL_ROOT}/
+
+.PHONY : jxuninstall
+jxuninstall:
+	@${RM} ${JX_INSTALL_ROOT}/compile_jstrings
+
+#
+# debugging version
+#
+
+DEBUG_LOADLIBES := -L${JLIBDIR} \
+                   ${J_BEGIN_LINK_STATIC} \
+                   ${ljcore} ${J_ACE_LIBS} \
+                   ${J_END_LINK_STATIC} \
+                   ${J_GCC_LIBS}
+
+.PHONY : debug
+debug: staticACE libs
+	@${RM} compile_jstrings
+	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" compile_jstrings
+
+.PHONY : staticACE
+staticACE:
+  ifdef J_BUILD_SHARED_LIB
+	@cd ${ACELIBDIR}; ${MAKE} static
+  endif
+
+#
+# personal install
+#
+
+.PHONY : personal
+personal: debug
+	@strip ${call EXE, compile_jstrings}
+	@mv compile_jstrings ${JX_INSTALL_ROOT}/

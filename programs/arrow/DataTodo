@@ -1,0 +1,55 @@
+On account creation:
+
+* check for existence of inbox
+* if !exists, try to send a message via
+
+  procmail -f - DEFAULT=<inbox> rcfile
+
+  where rcfile overwrites any procmailrc file that they might have.
+  Perhaps don't need DEFAULT=<inbox>, rcfile could contain it. Or, rcfile could
+  be empty (via a simple touch on a tempfile).
+
+* This inbox would then be opened*
+* this inbox would be added to mailtree
+* If no windows opened, open mailbox window
+
+#######################
+Things left to do with new account system:
+
+GMAccountDialog:
+
+ * OKToDeactivate needs to make sure that the account folders for *all*
+   accounts exist. If !, switch to that account.
+
+
+
+Done:
+
+GMAccount: 
+
+ * save/load new info
+
+GMAccountDialog:
+
+ * OKToDeactivate needs to make sure *all* accounts have all the info they need.
+
+  just check for GetMailDir().IsEmpty(), if IsEmpty(), switch to that
+  account and report that they need a mail directory. 
+
+ * need to make sure on OKToSwitchAccounts/OKToDeactivate that
+   Drafts/Sent/Outbox... exist
+
+General:
+
+ * use new outbox/sent system
+  * smtp mgr uses the appropriate outbox/sent mboxes
+  * pop uses new pop inbox
+ * add account inboxes to Inbox mgr
+ * new prefs version kCurrentPrefsFileVersion = 9
+ * new arrow version 2.0pre1
+
+GMApp:
+
+ * open account dialog for old users
+   itsOpenPrefsAfterAbout	= kJTrue;
+   prevVersStr->BeginsWith("2.0b") && last char/number < 5

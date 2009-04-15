@@ -1,0 +1,135 @@
+0
+
+# Copyright © 2000 by John Lindal. All rights reserved.
+
+# JError
+
+JNoError				"No errors occurred."
+JUnknownError			"An unknown error ($err) occurred."
+JUnexpectedError		"An unexpected error ($err) occured -- please contact the developer so the situation can be accommodated in the future."
+
+JGeneralIO				"A general I/O error (errno=EIO) occured."
+
+JSegFault				"Recoverable segmentation fault: the programmer screwed up!"
+JNoProcessMemory		"There is not enough free memory to complete the operation."
+JNoKernelMemory			"There is not enough free memory for the kernel to complete the operation.  (Your computer is in big trouble!)"
+JMemoryNotReadable		"An attempt was made to read from memory without read permission."
+JMemoryNotWriteable		"An attempt was made to write to memory without write permission."
+
+JProgramNotAvailable	"The program \"$name\" either does not exist or is not in any of the directories on the current execution path."
+JDirEntryAlreadyExists	"\"$name\" already exists."
+JDirEntryDoesNotExist	"\"$name\" does not exist."
+JNameTooLong			"The specified pathname is too long."
+JFileBusy				"\"$name\" cannot be replaced because it is being used by another program."
+JInvalidOpenMode		"The requested method of opening \"$name\" is invalid."
+
+JAccessDenied			"You are not allowed to create or access \"$name\"."
+JAccessDenied2			"You are not allowed to create or access at least one of \"$name1\" or \"$name2\"."
+JFileSystemReadOnly		"You cannot write to a read-only file system."
+JFileSystemFull			"The file system does not have enough free space left."
+JDeviceFull				"A write was attempted to a device with insufficient room to accept the data."
+
+JComponentNotDirectory	"Some part of \"$name\" is not a directory."
+JComponentNotDirectory2	"Some part of \"$name1\" or \"$name2\" is not a directory."
+JNotSymbolicLink		"\"$name\" is not a symbolic link."
+JPathContainsLoop		"\"$name\" contains a loop caused by symbolic links."
+JPathContainsLoop2		"At least one of \"$name1\" or \"$name2\" contains a loop caused by symbolic links."
+JNoHomeDirectory		"You do not have a home directory."
+JBadPath				"\"$name\" is invalid."
+JBadPath2				"At least of one \"$name1\" or \"$name2\" is invalid."
+JDirectoryNotEmpty		"\"$name\" cannot be removed because it is not empty."
+JDirectoryBusy			"\"$name\" cannot be removed because it is being used by another program."
+
+JCantRenameFileToDirectory		"You cannot rename \"$old_name\" to \"$new_name\" because the former is a file while the latter is a directory"
+JCantRenameAcrossFilesystems	"You cannot rename a file so that it moves to a different file system."
+JCantRenameToNonemptyDirectory	"You cannot rename a directory to an existing, non-empty directory."
+JDirectoryCantBeOwnChild		"A directory cannot be renamed so that it becomes a sub-directory of itself."
+JTooManyLinks					"Renaming \"$name\" would exceed the maximum allowed number of file system links."
+
+JTriedToRemoveDirectory	"remove() can only remove files, not directories."
+JIsADirectory			"An operation which is only legal on a file was attempted on a directory."
+
+JDescriptorNotOpen		"At least one of the file descriptors does not refer to an open file."
+JTooManyDescriptorsOpen	"The program is not allowed to open any more files."
+JNegativeDescriptor		"At least one of the file descriptors is negative."
+JInvalidDescriptor		"At least one of the file descriptors was invalid."
+
+JWouldHaveBlocked		"The requested operation would have blocked and the stream is set to non-blocking."
+JNonBlockedSignal		"A non-blocked signal was received which interrupted the operation."
+
+JNotCompressed			"\"$name\" is not compressed."
+
+# JImage
+
+UnknownFileType::JImage		"\"$name\" either does not contain an image or uses an supported format."
+FileIsNotGIF::JImage		"\"$name\" does not contain a GIF."
+GIFNotAvailable::JImage		"The GIF format is not supported."
+FileIsNotPNG::JImage		"\"$name\" does not contain a PNG."
+PNGNotAvailable::JImage		"The PNG format is not supported."
+FileIsNotJPEG::JImage		"\"$name\" does not contain a JPEG."
+JPEGNotAvailable::JImage	"The JPEG format is not supported."
+FileIsNotXPM::JImage		"\"$name\" does not contain an XPM."
+FileIsNotXBM::JImage		"\"$name\" does not contain an XBM."
+TooManyColors::JImage		"The image contains too many colors."
+
+# JFileArray
+
+FileNotWritable::JFileArray	"\"$name\" cannot be opened because you do not have permission to write to it."
+FileAlreadyOpen::JFileArray	"\"$name\" is already open."
+WrongSignature::JFileArray	"\"$name\" has the wrong signature."
+NotEmbeddedFile::JFileArray	"The specified element ($index) is not an embedded JFileArray."
+
+# JPrefsManager
+
+WrongVersion::JPrefsManager	"The preferences file has the wrong version."
+
+# JPrefsFile
+
+NoHomeDirectory::JPrefsFile
+"Unable to create a preferences file because you don't have a home directory."
+
+# JSubstitute
+
+LoneDollar::JSubstitute			"The dollar symbol ($) must be followed by a variable name."
+TrailingBackslash::JSubstitute	"The backslash symbol (\\) must be followed by a character."
+IllegalControlChar::JSubstitute	"The control character sequence (\\c) must be followed by a character in the ASCII table between A and underscore (_) inclusive."
+
+# jTime
+
+WarnExpire::jTime
+"This copy of $name $version will expire on $date.
+
+If you have found $name to be useful, please consider purchasing one or more licenses from New Planet Software before the expiration date so you can continue to use this software without interruption.
+
+$url
+$email"
+
+Expired::jTime
+"This copy of $name $version has expired.
+
+If you have found $name to be useful, please consider purchasing one or more licenses from New Planet Software so you can continue to use it.
+
+$url
+$email"
+
+# jSysUtil
+
+WrongSite::jSysUtil
+"This copy of $name is only for use on computers that are part of $site.
+
+You can obtain a usable copy of this program from:
+
+$url"
+
+# jVCSUtil
+
+JUnsupportedVCS				"$file is either not managed by a version control system or is managed by an unsupported system."
+AskForceSVNMove::VCSUtil	"Do you want to rename with the --force option?"
+AskPlainSVNMove::VCSUtil	"Do you want to rename without using Subversion?"
+AskForceGitMove::VCSUtil	"Do you want to rename with the -f option?"
+AskPlainGitMove::VCSUtil	"Do you want to rename without using Git?"
+AskForceSVNRemove::VCSUtil	"Do you want to remove with the --force option?"
+AskPlainSVNRemove::VCSUtil	"Do you want to remove without using Subversion?"
+AskForceGitRemove::VCSUtil	"Do you want to remove with the -f option?"
+AskPlainGitRemove::VCSUtil	"Do you want to remove without using Git?"
+AskPlainCVSRemove::VCSUtil	"Do you want to remove without using CVS?"

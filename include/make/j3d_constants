@@ -1,0 +1,20 @@
+# Constants used in all Makefiles
+
+#
+# version numbers
+#
+
+J3D_VERSION     := 0.2.0
+J3D_LIB_VERSION := 0_2_0
+
+#
+# library names
+#
+
+lj3d := -lj3d-${J3D_LIB_VERSION}
+
+#
+# String data files
+#
+
+# J_STRING_FILES += ${JX_ROOT}/libj3d/j3d_strings

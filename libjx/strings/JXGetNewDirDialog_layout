@@ -1,0 +1,6 @@
+0
+messageObj::JXGetNewDirDialog::JXLayout ""
+cancelButton::JXGetNewDirDialog::shortcuts::JXLayout "^["
+cancelButton::JXGetNewDirDialog::JXLayout "Cancel"
+okButton::JXGetNewDirDialog::JXLayout "OK"
+okButton::JXGetNewDirDialog::shortcuts::JXLayout "^M"

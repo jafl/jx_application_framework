@@ -1,0 +1,21 @@
+/* XPM */
+static char * jx_edit_read_only[] = {
+"14 14 4 1",
+" 	c None",
+"X	c black",
+".	c wheat",
+"-	c orange",
+"        XXX   ",
+"XX     X---X  ",
+" XX    XX--X  ",
+"  XX  X..XX   ",
+"   XX X...X   ",
+"    XXX...X   ",
+"     XXX.X    ",
+"     XXX.X    ",
+"    X..XX     ",
+"    X...XX    ",
+"    X...XXX   ",
+"    XXXX  XX  ",
+"    XXX    XX ",
+" X XXX      XX"};

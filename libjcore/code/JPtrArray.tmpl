@@ -1,0 +1,708 @@
+#ifndef _T_JPtrArray
+#define _T_JPtrArray
+
+/******************************************************************************
+ JPtrArray.c
+
+						The Pointer Array Template Class
+
+	Template for a dynamically sized array of pointers.
+	The pointers are stored contiguously.
+
+	Since only the pointers are stored, this is good for objects.
+
+	Implementation notes:
+
+	Retrieving an element from the actual array gives a *pointer*.
+
+	BASE CLASS = JArray
+
+	Copyright © 1994 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JPtrArray.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T>
+JPtrArray<T>::JPtrArray
+	(
+	const JPtrArrayT::CleanUpAction	action,
+	const JSize						blockSize
+	)
+	:
+	JArray<T*>(blockSize),
+	itsCleanUpAction(action)
+{
+}
+
+/******************************************************************************
+ Copy constructor
+
+	CleanUpAction should not be kDeleteAllAs* for both original and copy.
+
+ ******************************************************************************/
+
+template <class T>
+JPtrArray<T>::JPtrArray
+	(
+	const JPtrArray<T>&				source,
+	const JPtrArrayT::CleanUpAction	action,
+	const JBoolean					copyObjects
+	)
+	:
+	JArray<T*>(source),
+	itsCleanUpAction(action)
+{
+#ifdef JPtrArrayCopy
+
+	if (copyObjects)
+		{
+		JArray<T*>::RemoveAll();
+		CopyObjects(source, action, kJTrue);
+		}
+
+#else
+
+	assert( !copyObjects );
+
+#endif
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <class T>
+JPtrArray<T>::~JPtrArray()
+{
+	if (itsCleanUpAction == JPtrArrayT::kDeleteAll)
+		{
+		DeleteAll();
+		}
+	else if (itsCleanUpAction == JPtrArrayT::kDeleteAllAsArrays)
+		{
+		DeleteAllAsArrays();
+		}
+}
+
+/******************************************************************************
+ CleanOut
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPtrArray<T>::CleanOut()
+{
+	if (itsCleanUpAction == JPtrArrayT::kDeleteAll)
+		{
+		DeleteAll();
+		}
+	else if (itsCleanUpAction == JPtrArrayT::kDeleteAllAsArrays)
+		{
+		DeleteAllAsArrays();
+		}
+	else
+		{
+		assert( itsCleanUpAction == JPtrArrayT::kForgetAll );
+		JArray<T*>::RemoveAll();
+		}
+}
+
+/******************************************************************************
+ CopyPointers (Shallow assignment operator)
+
+	CleanUpAction should not be kDeleteAllAs* for both original and copy.
+
+	If !append, CleanOut() is called first.
+
+ ******************************************************************************/
+
+template <class T>
+const JPtrArray<T>&
+JPtrArray<T>::CopyPointers
+	(
+	const JPtrArray<T>&				source,
+	const JPtrArrayT::CleanUpAction	action,
+	const JBoolean					append
+	)
+{
+	if (this == &source)
+		{
+		return *this;
+		}
+
+	if (!append)
+		{
+		CleanOut();
+		}
+	itsCleanUpAction = action;
+
+	const JSize count = source.GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		Append(const_cast<T*>(source.NthElement(i)));
+		}
+
+	return *this;
+}
+
+#ifdef JPtrArrayCopy
+
+/******************************************************************************
+ CopyObjects (Deep assignment operator)
+
+	CleanUpAction can be kDeleteAllAs* for both original and copy.
+
+	If !append, CleanOut() is called first.
+
+ ******************************************************************************/
+
+template <class T>
+const JPtrArray<T>&
+JPtrArray<T>::CopyObjects
+	(
+	const JPtrArray<T>&				source,
+	const JPtrArrayT::CleanUpAction	action,
+	const JBoolean					append
+	)
+{
+	if (this == &source)
+		{
+		return *this;
+		}
+
+	if (!append)
+		{
+		CleanOut();
+		}
+	itsCleanUpAction = action;
+
+	const JSize count = source.GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		const T* ptr = source.NthElement(i);
+		if (ptr == NULL)
+			{
+			Append(NULL);
+			}
+		else
+			{
+			Append(*ptr);
+			}
+		}
+
+	return *this;
+}
+
+#endif
+
+/******************************************************************************
+ NthElement
+
+ ******************************************************************************/
+
+template <class T>
+T*
+JPtrArray<T>::NthElement
+	(
+	const JIndex index
+	)
+{
+	assert( JCollection::IndexValid(index) );
+
+	return JArray<T*>::ProtectedGetElement(index);
+}
+
+template <class T>
+const T*
+JPtrArray<T>::NthElement
+	(
+	const JIndex index
+	)
+	const
+{
+	assert( JCollection::IndexValid(index) );
+
+	return JArray<T*>::ProtectedGetElement(index);
+}
+
+/******************************************************************************
+ FirstElement
+
+ ******************************************************************************/
+
+template <class T>
+T*
+JPtrArray<T>::FirstElement()
+{
+	return NthElement(1);
+}
+
+template <class T>
+const T*
+JPtrArray<T>::FirstElement()
+	const
+{
+	return NthElement(1);
+}
+
+/******************************************************************************
+ LastElement
+
+ ******************************************************************************/
+
+template <class T>
+T*
+JPtrArray<T>::LastElement()
+{
+	return NthElement(JCollection::GetElementCount());
+}
+
+template <class T>
+const T*
+JPtrArray<T>::LastElement()
+	const
+{
+	return NthElement(JCollection::GetElementCount());
+}
+
+/******************************************************************************
+ InsertAtIndex
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPtrArray<T>::InsertAtIndex
+	(
+	const JIndex	index,
+	T*				dataPtr
+	)
+{
+	InsertElementAtIndex(index, dataPtr);
+}
+
+#ifdef JPtrArrayCopy
+
+template <class T>
+void
+JPtrArray<T>::InsertAtIndex
+	(
+	const JIndex	index,
+	const T&		data
+	)
+{
+	T* ptr = new T(data);
+	assert( ptr != NULL );
+	InsertAtIndex(index, ptr);
+}
+
+#endif
+
+/******************************************************************************
+ Prepend
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPtrArray<T>::Prepend
+	(
+	T* dataPtr
+	)
+{
+	InsertAtIndex(1, dataPtr);
+}
+
+#ifdef JPtrArrayCopy
+
+template <class T>
+void
+JPtrArray<T>::Prepend
+	(
+	const T& data
+	)
+{
+	T* ptr = new T(data);
+	assert( ptr != NULL );
+	Prepend(ptr);
+}
+
+#endif
+
+/******************************************************************************
+ Append
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPtrArray<T>::Append
+	(
+	T* dataPtr
+	)
+{
+	InsertAtIndex(JCollection::GetElementCount() + 1, dataPtr);
+}
+
+#ifdef JPtrArrayCopy
+
+template <class T>
+void
+JPtrArray<T>::Append
+	(
+	const T& data
+	)
+{
+	T* ptr = new T(data);
+	assert( ptr != NULL );
+	Append(ptr);
+}
+
+#endif
+
+/******************************************************************************
+ InsertBefore
+
+	If beforePtr isn't in the array, dataPtr is prepended.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPtrArray<T>::InsertBefore
+	(
+	const T*	beforePtr,
+	T*			dataPtr
+	)
+{
+	JIndex index;
+	const JBoolean found = Find(beforePtr, &index);
+
+	if (found)
+		{
+		InsertAtIndex(index, dataPtr);
+		}
+	else
+		{
+		Prepend(dataPtr);
+		}
+}
+
+#ifdef JPtrArrayCopy
+
+template <class T>
+void
+JPtrArray<T>::InsertBefore
+	(
+	const T*	beforePtr,
+	const T&	data
+	)
+{
+	T* ptr = new T(data);
+	assert( ptr != NULL );
+	InsertBefore(beforePtr, ptr);
+}
+
+#endif
+
+/******************************************************************************
+ InsertAfter
+
+	If afterPtr isn't in the array, dataPtr is appended.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPtrArray<T>::InsertAfter
+	(
+	const T*	afterPtr,
+	T*			dataPtr
+	)
+{
+	JIndex index;
+	const JBoolean found = Find(afterPtr, &index);
+
+	if (found)
+		{
+		InsertAtIndex(index + 1, dataPtr);
+		}
+	else
+		{
+		Append(dataPtr);
+		}
+}
+
+#ifdef JPtrArrayCopy
+
+template <class T>
+void
+JPtrArray<T>::InsertAfter
+	(
+	const T*	afterPtr,
+	const T&	data
+	)
+{
+	T* ptr = new T(data);
+	assert( ptr != NULL );
+	InsertAfter(afterPtr, ptr);
+}
+
+#endif
+
+/******************************************************************************
+ SetElement
+
+	This function avoids the static_cast required for SetElement().
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPtrArray<T>::SetElement
+	(
+	const JIndex						index,
+	T*									dataPtr,
+	const JPtrArrayT::SetElementAction	action
+	)
+{
+	if (action == JPtrArrayT::kDelete)
+		{
+		delete NthElement(index);
+		}
+	else if (action == JPtrArrayT::kDeleteAsArray)
+		{
+		delete [] NthElement(index);
+		}
+	else
+		{
+		assert( action == JPtrArrayT::kForget );
+		}
+
+	JArray<T*>::SetElement(index, dataPtr);
+}
+
+#ifdef JPtrArrayCopy
+
+template <class T>
+void
+JPtrArray<T>::SetElement
+	(
+	const JIndex						index,
+	const T&							data,
+	const JPtrArrayT::SetElementAction	action
+	)
+{
+	T* ptr = new T(data);
+	assert( ptr != NULL );
+	SetElement(index, ptr, action);
+}
+
+#endif
+
+/******************************************************************************
+ SetToNull
+
+	This function avoids the static_cast required for SetElement().
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPtrArray<T>::SetToNull
+	(
+	const JIndex						index,
+	const JPtrArrayT::SetElementAction	action
+	)
+{
+	SetElement(index, static_cast<T*>(NULL), action);
+}
+
+/******************************************************************************
+ Remove
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPtrArray<T>::Remove
+	(
+	const T* dataPtr
+	)
+{
+	JIndex index;
+	const JBoolean found = Find(dataPtr, &index);
+
+	if (found)
+		{
+		JOrderedSet<T*>::RemoveElement(index);
+		}
+}
+
+/******************************************************************************
+ DeleteElement
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPtrArray<T>::DeleteElement
+	(
+	const JIndex index
+	)
+{
+	delete (NthElement(index));
+	JOrderedSet<T*>::RemoveElement(index);
+}
+
+/******************************************************************************
+ DeleteAll
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPtrArray<T>::DeleteAll()
+{
+	const JSize elementCount = JCollection::GetElementCount();
+	for (JIndex i=1; i<=elementCount; i++)
+		{
+		delete (NthElement(i));
+		}
+	JArray<T*>::RemoveAll();
+}
+
+/******************************************************************************
+ DeleteElementAsArray
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPtrArray<T>::DeleteElementAsArray
+	(
+	const JIndex index
+	)
+{
+	delete [] (NthElement(index));
+	JOrderedSet<T*>::RemoveElement(index);
+}
+
+/******************************************************************************
+ DeleteAllAsArrays
+
+ ******************************************************************************/
+
+template <class T>
+void
+JPtrArray<T>::DeleteAllAsArrays()
+{
+	const JSize elementCount = JCollection::GetElementCount();
+	for (JIndex i=1; i<=elementCount; i++)
+		{
+		delete [] (NthElement(i));
+		}
+	JArray<T*>::RemoveAll();
+}
+
+/******************************************************************************
+ Includes
+
+	Returns TRUE if the JPtrArray contains the specified element.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JPtrArray<T>::Includes
+	(
+	const T* dataPtr
+	)
+	const
+{
+	JIndex index;
+	return Find(dataPtr, &index);
+}
+
+/******************************************************************************
+ Find
+
+	JIndex is 1 based.  Returns FALSE if element is not in array.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JPtrArray<T>::Find
+	(
+	const T*	dataPtr,
+	JIndex*		elementIndex
+	)
+	const
+{
+	// set to invalid index so they won't be able to ignore the error for long
+
+	*elementIndex = 0;
+
+	// search for the first match
+
+	const JSize elementCount = JCollection::GetElementCount();
+	for (JIndex i=1; i<=elementCount; i++)
+		{
+		if (dataPtr == JArray<T*>::ProtectedGetElement(i))
+			{
+			*elementIndex = i;
+			return kJTrue;
+			}
+		}
+
+	// if we fall through, there was no match
+
+	return kJFalse;
+}
+
+/******************************************************************************
+ Clean up action
+
+	What to do when the destructor is called.  This is especially useful
+	for objects allocated on the stack, because one can set the appropriate
+	action and then never have to worry about short-circuit returns.
+
+ ******************************************************************************/
+
+template <class T>
+JPtrArrayT::CleanUpAction
+JPtrArray<T>::GetCleanUpAction()
+	const
+{
+	return itsCleanUpAction;
+}
+
+template <class T>
+void
+JPtrArray<T>::SetCleanUpAction
+	(
+	const JPtrArrayT::CleanUpAction action
+	)
+{
+	itsCleanUpAction = action;
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JPtrArray
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

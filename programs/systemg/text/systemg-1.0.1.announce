@@ -1,0 +1,40 @@
+Newsgroups: comp.windows.x.announce
+Newsgroups: comp.os.linux.announce
+Subject: SystemG - UNIX file manager
+Summary: 
+Followup-To: comp.os.linux.misc
+
+SystemG 1.0.1 is now available. Fixed a bug that caused a crash in certain
+circumstances when double-clicking. Fixed an updating problem. Fixed an
+updating problem relating to directories that no longer exist.
+
+Overview:
+
+Dealing with the UNIX command line , especially the filesystem, is one of
+the biggest hurdles to widespread use of UNIX and LINUX.  SystemG was
+written to provide intuitive, easy to use access to the filesystem in the
+form of a graphical hierarchy of files and folders.
+
+The binary and source distributions can be downloaded from:
+
+  http://www.its.caltech.edu/~glenn/systemg/
+
+----------
+
+Description:
+
+SystemG is a free file manager that provides access to the UNIX filesystem
+with an intuitive front end. It currently allows in place name editing, in
+place editing of file permissions, and sorting by name, user, group, size
+and data. Files are moved and copied by dragging the files. The
+drag-and-drop functionality in SystemG is fully X Drag-and-Drop (XDND) and
+X Direct Save (XDS) compliant.
+
+More information about SystemG is available at:
+
+  http://www.its.caltech.edu/~glenn/systemg/
+
+License:
+
+SystemG is free.
+

@@ -1,0 +1,41 @@
+#!/usr/bin/perl
+
+# Changes prefix of symbol name in all source files (.cc, .h, .tmpl, .l,
+# .y, .fd) in and below directory in which the script is run.
+
+sub ReadFile($)
+{
+	local $/ = undef;
+	open(F, "< $_[0]");
+	return <F>;
+}
+
+if (!($orig_prefix = $ARGV[0]) ||
+	!($new_prefix  = $ARGV[1]))
+	{
+	print "usage:  $0 orig_prefix new_prefix\n";
+	exit;
+	}
+
+open(L, "find . -regex '.+\\.\\(cc\\|cpp\\|fd\\|[tp]?h\\|tmpl\\|[ly]\\)' |");
+
+while ($file = <L>)
+	{
+	chomp($file);
+	$orig_data = $data = ReadFile($file);
+
+	$data =~ s/\b$orig_prefix(\w+)/$new_prefix$1/go;
+	$data =~ s/\b_H_$orig_prefix(\w+)/_H_$new_prefix$1/go;
+
+	if ($data ne $orig_data)
+		{
+		print $file,"\n";
+
+		$bak = $file."~";
+		rename($file, $bak) unless -f $bak;
+
+		$file =~ s|/$orig_prefix(\w+\.\w+)$|/$new_prefix$1|o;
+		open(F, "> $file");
+		print F $data;
+		}
+	}

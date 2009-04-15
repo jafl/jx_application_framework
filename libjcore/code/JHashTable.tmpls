@@ -1,0 +1,11 @@
+// Use this file to define templates
+//
+// To use this file:
+//
+//   #define JTemplateType ____
+//   #include <JHashTable.tmpls>
+
+#include <JHashTable.tmpl>
+#include <JHashRecord.tmpl>
+#include <JConstHashCursor.tmpl>
+#include <JHashCursor.tmpl>

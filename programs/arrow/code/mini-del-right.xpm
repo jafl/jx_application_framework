@@ -1,0 +1,23 @@
+/* XPM */
+static char * mini_del_right[] = {
+"17 14 6 1",
+" 	c None",
+".	c #000000000000",
+"X	c #FFFF10104242",
+"o	c #FFFFA8A8A8A8",
+"O	c #FFFFFFFFFFFF",
+"+	c #868682828686",
+"                 ",
+"           .     ",
+" X     XX  ..    ",
+"  Xo  XX   .O.   ",
+"   XXX...... O.  ",
+"   oXX       OO. ",
+"   XXX        OO.",
+"   X.oX       O. ",
+"  XX..XX.... O.  ",
+" oX++++X+++.O.+  ",
+" X     XX +..+   ",
+" X        +.+    ",
+"          ++     ",
+"                 "};

@@ -1,0 +1,413 @@
+#ifndef _T_JLinkedListIterator
+#define _T_JLinkedListIterator
+
+/******************************************************************************
+ JLinkedListIterator.tmpl
+
+	Efficient interation for JLinkedList objects.
+
+	To do:
+		Optimize OrderedSetChanged() so it doesn't always call FindElement().
+
+	Copyright © 1996-97 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JLinkedListIterator.h>
+#include <JLinkedList.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T>
+JLinkedListIterator<T>::JLinkedListIterator
+	(
+	const JLinkedList<T>&	theLinkedList,
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+	:
+	JOrderedSetIterator<T>(theLinkedList, start, index)
+{
+	itsLinkedList = const_cast<JLinkedList<T>*>(&theLinkedList);
+
+	// initialize instance variables -- our override not called by base class
+
+	MoveTo(start, index);
+}
+
+template <class T>
+JLinkedListIterator<T>::JLinkedListIterator
+	(
+	JLinkedList<T>*			theLinkedList,
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+	:
+	JOrderedSetIterator<T>(theLinkedList, start, index)
+{
+	itsLinkedList = theLinkedList;
+
+	// initialize instance variables -- our override not called by base class
+
+	MoveTo(start, index);
+}
+
+/******************************************************************************
+ Copy constructor
+
+ ******************************************************************************/
+
+template <class T>
+JLinkedListIterator<T>::JLinkedListIterator
+	(
+	const JLinkedListIterator<T>& source
+	)
+	:
+	JOrderedSetIterator<T>(source)
+{
+	itsLinkedList  = source.itsLinkedList;
+	itsCurrElement = source.itsCurrElement;
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <class T>
+JLinkedListIterator<T>::~JLinkedListIterator()
+{
+}
+
+/******************************************************************************
+ Assignment operator (private)
+
+	operator= is private because it is not allowed
+
+ ******************************************************************************/
+
+template <class T>
+const JLinkedListIterator<T>&
+JLinkedListIterator<T>::operator=
+	(
+	const JLinkedListIterator<T>& source
+	)
+{
+	assert( 0 );
+	return *this;
+}
+
+/******************************************************************************
+ Prev (virtual)
+
+	Return kJTrue if there is a previous item, fetching the previous
+	item in the list and decrementing the iterator position.
+	Otherwise return kJFalse without fetching or decrementing.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JLinkedListIterator<T>::Prev
+	(
+	T* item
+	)
+{
+	const JCursorPosition cursorPos = JOrderedSetIterator<T>::GetCursor();
+	if (itsLinkedList == NULL || cursorPos == 0)
+		{
+		return kJFalse;
+		}
+
+	*item = itsCurrElement->data;
+
+	if (cursorPos > 1)
+		{
+		itsCurrElement = itsCurrElement->prevElement;
+		}
+
+	JOrderedSetIterator<T>::SetCursor(cursorPos-1);
+	return kJTrue;
+}
+
+/******************************************************************************
+ Next (virtual)
+
+	Return kJTrue if there is a next item, fetching the next
+	item in the list and decrementing the iterator position.
+	Otherwise return kJFalse without fetching or decrementing.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JLinkedListIterator<T>::Next
+	(
+	T* item
+	)
+{
+	const JCursorPosition cursorPos = JOrderedSetIterator<T>::GetCursor();
+	if (itsLinkedList == NULL || cursorPos >= itsLinkedList->GetElementCount())
+		{
+		return kJFalse;
+		}
+
+	if (cursorPos > 0)
+		{
+		itsCurrElement = itsCurrElement->nextElement;
+		}
+
+	*item = itsCurrElement->data;
+	JOrderedSetIterator<T>::SetCursor(cursorPos+1);
+	return kJTrue;
+}
+
+/******************************************************************************
+ SkipPrev (virtual)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JLinkedListIterator<T>::SkipPrev
+	(
+	const JSize count
+	)
+{
+	JCursorPosition cursorPos = JOrderedSetIterator<T>::GetCursor();
+	if (itsLinkedList != NULL)
+		{
+		JSize remaining = count;
+		while (remaining > 0 && cursorPos > 0)
+			{
+			if (cursorPos > 1)
+				{
+				itsCurrElement = itsCurrElement->prevElement;
+				}
+			cursorPos--;
+			remaining--;
+			}
+
+		JOrderedSetIterator<T>::SetCursor(cursorPos);
+		}
+}
+
+/******************************************************************************
+ SkipNext (virtual)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JLinkedListIterator<T>::SkipNext
+	(
+	const JSize count
+	)
+{
+	JCursorPosition cursorPos = JOrderedSetIterator<T>::GetCursor();
+	if (itsLinkedList != NULL)
+		{
+		const JSize maxPos = itsLinkedList->GetElementCount();
+
+		JSize remaining = count;
+		while (remaining > 0 && cursorPos < maxPos)
+			{
+			if (cursorPos > 0)
+				{
+				itsCurrElement = itsCurrElement->nextElement;
+				}
+			cursorPos++;
+			remaining--;
+			}
+
+		JOrderedSetIterator<T>::SetCursor(cursorPos);
+		}
+}
+
+/******************************************************************************
+ SetPrev (virtual)
+
+	Returns kJTrue if we have a non-const JLinkedList<T>* and
+	there is a previous item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JLinkedListIterator<T>::SetPrev
+	(
+	const T& data
+	)
+{
+	JOrderedSet<T>* obj;
+	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
+		{
+		return kJFalse;
+		}
+
+	itsLinkedList->IteratorSetElement(JOrderedSetIterator<T>::GetCursor(), data, itsCurrElement);
+	return kJTrue;
+}
+
+/******************************************************************************
+ SetNext (virtual)
+
+	Returns kJTrue if we have a non-const JLinkedList<T>* and
+	there is a next item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JLinkedListIterator<T>::SetNext
+	(
+	const T& data
+	)
+{
+	JOrderedSet<T>* obj;
+	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtEnd())
+		{
+		return kJFalse;
+		}
+
+	assert( itsCurrElement->nextElement != NULL );
+
+	itsLinkedList->IteratorSetElement(JOrderedSetIterator<T>::GetCursor()+1, data, itsCurrElement->nextElement);
+	return kJTrue;
+}
+
+/******************************************************************************
+ RemovePrev (virtual)
+
+	Returns kJTrue if we have a non-const JLinkedList<T>* and
+	there is a previous item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JLinkedListIterator<T>::RemovePrev()
+{
+	JOrderedSet<T>* obj;
+	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
+		{
+		return kJFalse;
+		}
+
+	itsLinkedList->IteratorRemoveNextElements(JOrderedSetIterator<T>::GetCursor(), 1, itsCurrElement);
+	return kJTrue;
+}
+
+/******************************************************************************
+ RemoveNext (virtual)
+
+	Returns kJTrue if we have a non-const JLinkedList<T>* and
+	there is a next item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JLinkedListIterator<T>::RemoveNext()
+{
+	JOrderedSet<T>* obj;
+	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtEnd())
+		{
+		return kJFalse;
+		}
+
+	itsLinkedList->IteratorRemoveNextElements(JOrderedSetIterator<T>::GetCursor()+1, 1,
+											  itsCurrElement->nextElement);
+	return kJTrue;
+}
+
+/******************************************************************************
+ MoveTo (virtual)
+
+	Reset the iterator position to one of:
+		kJIteratorStartAtBeginning, kJIteratorStartAtEnd,
+		kJIteratorStartBefore(index), or kJIteratorStartAfter(index)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JLinkedListIterator<T>::MoveTo
+	(
+	const JIteratorPosition	newPosition,
+	const JIndex			index
+	)
+{
+	JOrderedSetIterator<T>::MoveTo(newPosition, index);
+
+	if (itsLinkedList == NULL)
+		{
+		return;
+		}
+
+	if (newPosition == kJIteratorStartAtBeginning ||
+		(newPosition == kJIteratorStartBefore && index == 1))
+		{
+		itsCurrElement = itsLinkedList->itsFirstElement;
+		}
+	else if (newPosition == kJIteratorStartAtEnd)
+		{
+		itsCurrElement = itsLinkedList->itsLastElement;
+		}
+	else
+		{
+		itsCurrElement = itsLinkedList->FindElement(JOrderedSetIterator<T>::GetCursor());
+		}
+}
+
+/******************************************************************************
+ OrderedSetChanged (virtual protected)
+
+	Respond to changes in itsLinkedList.  In order to optimize, we would have
+	to check if prevElement or nextElement was invalid.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JLinkedListIterator<T>::OrderedSetChanged
+	(
+	const JBroadcaster::Message& message
+	)
+{
+	JOrderedSetIterator<T>::OrderedSetChanged(message);
+
+	if (message.Is(JOrderedSetT::kElementsInserted) ||
+		message.Is(JOrderedSetT::kElementsRemoved) ||
+		message.Is(JOrderedSetT::kCopied))
+		{
+		const JCursorPosition cursorPos = JOrderedSetIterator<T>::GetCursor();
+		if (cursorPos == 0)
+			{
+			itsCurrElement = itsLinkedList->itsFirstElement;
+			}
+		else
+			{
+			itsCurrElement = itsLinkedList->FindElement(cursorPos);
+			}
+		}
+	else if (message.Is(JOrderedSetT::kGoingAway))
+		{
+		itsLinkedList  = NULL;
+		itsCurrElement = NULL;
+		}
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JLinkedListIterator
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

@@ -1,0 +1,145 @@
+# To use this file, first run "makemake" and then run "make".
+# (makemake is part of the JX distribution)
+
+# Useful directories
+
+JX_ROOT := ../..
+
+CODEDIR  := .
+JCOREDIR := ${JX_ROOT}/include/jcore
+PCREDIR  := ${JX_ROOT}/misc/pcre
+REGEXDIR := ${JX_ROOT}/misc/regex
+
+JLIBDIR   := ${JX_ROOT}/lib
+ACELIBDIR := ${JX_ROOT}/ACE
+
+# Directories to search for header files
+
+SEARCHDIRS := -I${CODEDIR} \
+              -I${JCOREDIR}
+
+# other constants
+
+SCRIPT_FILES := maketouch makecheck
+DISTR_FILES  := README makemake ${SCRIPT_FILES}
+
+# makemake variables
+
+include ${JX_ROOT}/include/make/jx_constants
+include ${JX_ROOT}/include/make/jx_config
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
+               ${J_COMPILE_DEBUG} ${J_BUILD_SHARED_LIB} \
+               -DJ_MAKE_BINARY_NAME=\"${firstword ${MAKE}}\" \
+               -DJ_SHARED_LIB_LINK_OPTION=\"${J_SHARED_LIB_LINK_OPTION}\" \
+               ${J_RANLIB_VIA_AR_S} \
+               ${SEARCHDIRS}
+
+# make variables
+
+LOADLIBES := ${J_ACE_LIBS} ${J_GCC_LIBS}
+ifdef J_BUILD_SHARED_LIB
+  LDFLAGS := -Xlinker -R/usr/lib/jxcb
+endif
+
+# JMemoryManager files
+
+ifdef J_ARRAY_NEW_OVERRIDABLE
+  JMM_FILES := ${addprefix ${DJ_MM_DIR}/, \
+                 jNew.o JMemoryManager.o JMMTable.o JMMArrayTable.o \
+                 JMMHashTable.o JMMMonitor.o JMMErrorPrinter.o JMMRecord.o}
+else
+  JMM_FILES :=
+endif
+
+#####
+
+.PHONY : default
+default: regex makemake
+
+.PHONY : Makefiles
+Makefiles:
+
+#
+# libraries we have eaten
+#
+
+.PHONY : regex
+regex:
+	@cd ${REGEXDIR}; ${MAKE} for_jcore
+
+#
+# JX source distribution (DISTR_TAR_FILE)
+#
+
+SRC_FILE_DIR := ${JX}/programs/makemake
+
+.PHONY : jxsource
+jxsource:
+	@cd ${J_DISTR_TAR_DIR}; \
+     tar -rf ${DISTR_TAR_FILE} ${addprefix ${SRC_FILE_DIR}/, \
+             README Make.header Make.files Makefile.port \
+             ${wildcard *.cpp *.h} ${SCRIPT_FILES} }
+
+#
+# install binaries
+#
+
+.PHONY : jxinstall
+jxinstall: makemake
+	@strip ${call EXE, makemake}
+	@cp makemake ${JX_INSTALL_ROOT}/
+	@chmod a+x ${SCRIPT_FILES}
+	@cp ${SCRIPT_FILES} ${JX_INSTALL_ROOT}/
+
+.PHONY : jxuninstall
+jxuninstall:
+	@${RM} ${addprefix ${JX_INSTALL_ROOT}/, makemake ${SCRIPT_FILES}}
+
+#
+# jcc binary distribution (JCC_TAR_DIR)
+#
+
+JCC_FILE_DIR := ${JCC_TAR_DIR}/makemake
+
+.PHONY : jcc
+jcc: debug
+	@strip ${call EXE, makemake}
+	@mkdir ${JCC_FILE_DIR}
+	@cp ${DISTR_FILES} ${JCC_FILE_DIR}/
+	@cp Make.header ${JCC_FILE_DIR}/Make.header_sample
+	@cp Make.files  ${JCC_FILE_DIR}/Make.files_sample
+
+#
+# debugging version
+#
+
+DEBUG_LOADLIBES := -L${JLIBDIR} \
+                   ${J_BEGIN_LINK_STATIC} \
+                   ${J_ACE_LIBS} \
+                   ${J_END_LINK_STATIC} \
+                   ${J_GCC_LIBS}
+
+.PHONY : debug
+debug: regex staticACE
+	@${RM} makemake
+	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" makemake
+
+.PHONY : staticACE
+staticACE:
+  ifdef J_BUILD_SHARED_LIB
+	@cd ${ACELIBDIR}; ${MAKE} static
+  endif
+
+#
+# personal install
+#
+
+.PHONY : personal
+personal: debug
+	@strip ${call EXE, makemake}
+	@mv makemake ${JX_INSTALL_ROOT}/
+
+### makemake inserts here ###
+
+# Hi, mom!

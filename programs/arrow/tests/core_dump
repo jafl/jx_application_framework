@@ -1,0 +1,5016 @@
+From ken@tiamet.vaxxine.com  Tue Dec 21 11:12:10 1999
+Return-Path: <ken@tiamet.vaxxine.com>
+Received: from alpha.vaxxine.com (alpha.vaxxine.com [209.5.212.5])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id LAA24493
+	for <jafl@alice.wonderland.caltech.edu>; Tue, 21 Dec 1999 11:12:09 -0800
+Received: (from uucp@localhost)
+	by alpha.vaxxine.com (8.9.2/8.8.5) id NAA31244
+	for jafl@alice.wonderland.caltech.edu; Tue, 21 Dec 1999 13:01:51 -0500 (EST)
+Received: from localhost (ken@localhost) by tiamet.vaxxine.com (8.8.5/8.8.3) with ESMTP id MAA21886 for <jafl@alice.wonderland.caltech.edu>; Tue, 21 Dec 1999 12:28:04 -0500
+Date: Tue, 21 Dec 1999 12:28:04 -0500 (EST)
+From: "Ken O. Burtch" <ken@tiamet.vaxxine.com>
+To: John Lindal <jafl@alice.wonderland.caltech.edu>
+Subject: Re: Looking for SMiaB Plugins
+In-Reply-To: <199912202250.OAA21067@alice.caltech.edu>
+Message-ID: <Pine.LNX.4.05.9912201732360.16087-100000@tiamet.vaxxine.com>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-SpamBouncer: 1.01 (11/27/99)
+X-SBClass: OK
+X-Sorted: Default
+Status: RO
+
+On Mon, 20 Dec 1999, John Lindal wrote:
+
+> > SMiaB doesn't have support for Code Crusader, but we would like to see it
+> > added via a plug-in written by the experts in the software.
+> 
+> We distribute RPM's for RedHat Linux, which already provide all the
+> necessary checks for installing the software successfully, since all we
+> need are a few system libraries like glibc.
+> 
+> Thus, I don't see that any of our programs need a plug-in because there is
+> nothing for which to check.
+
+Thank you for your comments.
+
+First, please remember that SMiaB is not an installation tool. Red Hat
+RPMs cover the conditions you listed in your reply.  I understand what you
+mean when you say you have limited setup requirements.  If someone
+accidentally alters their file permissions or changes the file ownership,
+for example, they can always reinstall Code Crusader from scratch, right?
+
+However, your software doesn't exist in a vaccuum.  Linux, like all
+UNIX's, are subject to many hard-to-trace admin blunders that have
+nothing at all to do with your software.  Typically, they result from
+human error. Reinstalling your software from scratch:
+
+  1) doesn't tell the user why the application failed to run.  For all
+     he knows, it was a Code Crusader bug and he will blame your software,
+     not his admin mistakes,
+
+  2) doesn't indicate possible problems with other packages that
+     may be affected by his administration blunders.  If his chmod
+     command affected a dozen programs, he'll have to do a complete
+     reinstall of his distribution--whereas SMiaB identifies exactly which
+     programs are affected and why, making him able to correct the
+     problem in a few minutes.
+
+And there are the invisible consequences:
+
+  1) a plug-in will give people greater confidence in your product,
+     especially with the dozens of development tools announced for
+     next year.  This is a significant marketing factor.
+
+  2) a plug-in increases your software's appeal to hardware vendors
+     who want to bundle your software with their SMiaB-compliant machines.
+     It will also increase it's appeal to consultants who troubleshoot
+     Linux systems.
+
+There is no doubt that SMiaB has more appeal to applications with
+complex setup needs.  However, in your case, a limited amount of checks,
+this means a plug-in could be written without a lot of effort or cost
+(maybe 4-6 hours of development time).  Building a SMiaB plug-in will
+certainly pay for itself.
+
+If in the future your software has more elaborate setup needs, we hope you
+consider writing a plug-in for SMiaB.
+
+Thanks for taking the time to reply and have a nice Christmas.
+
+Ken O. Burtch: System Manager in a Box / Lintel       : Pegasoft
+http://www.vaxxine.com/pegasoft                       : R.R.#1
+Bio: 33;Bsc,UI,Lang,Games;Toons,Elves,SF,Pizza;Xian   : Jordan Station, ON
+``````````````````````````````````````````````````````` Canada L0R 1S0
+
+
+
+
+From owner-jcc@chamber.cco.caltech.edu  Sun Jul 25 20:08:07 1999
+Return-Path: <owner-jcc@chamber.cco.caltech.edu>
+Received: from chamber.cco.caltech.edu (chamber.cco.caltech.edu [131.215.48.55])
+	by alice.caltech.edu (8.8.8/8.8.8) with ESMTP id UAA26765;
+	Sun, 25 Jul 1999 20:08:03 -0700
+Received: by chamber.cco.caltech.edu (8.9.3/8.9.3) id TAA11435
+	for jcc-outgoing; Sun, 25 Jul 1999 19:12:19 -0700 (PDT)
+Received: from cheshire-cat.wonderland.caltech.edu (IDENT:root@cheshire-cat.wonderland.caltech.edu [131.215.18.10])
+	by chamber.cco.caltech.edu (8.9.3/8.9.3) with ESMTP id TAA11425
+	for <jcc@its.caltech.edu>; Sun, 25 Jul 1999 19:12:17 -0700 (PDT)
+Received: from cheshire-cat.wonderland.caltech.edu (jafl@localhost [127.0.0.1])
+	by cheshire-cat.wonderland.caltech.edu (8.8.7/8.8.7) with SMTP id TAA04455
+	for jcc@its.caltech.edu; Sun, 25 Jul 1999 19:25:36 -0700
+Date: Sun, 25 Jul 1999 19:25:36 -0700
+From: John Lindal <jafl@alice.wonderland.caltech.edu>
+Message-Id: <199907260225.TAA04455@cheshire-cat.wonderland.caltech.edu>
+X-Mailer: Arrow 1.0.4 (X11; Linux 2.0.34; i586)
+To: jcc@its.caltech.edu
+Subject: Re: Perl Scanning/Highlighting
+Sender: owner-jcc@its.caltech.edu
+Precedence: bulk
+Reply-To: jcc@its.caltech.edu
+Status: RO
+
+> I've looked through the code further and I don't know how entertaining it
+> will be to make his code fit the form of the yyFlexLexer interface.   Is
+> there any reason to try and make it fit that?
+
+None whatsoever.  In CBCStyler::Scan(), the only thing that is really
+happening is that SetFont() is being called until the base class decides
+that the process can stop.  The lexer is supplying the tokens, which then
+get translated into styles via GetStyle() and GetTypeStyle().  The tokens
+can be generated any way you want.  The only restriction is that you have
+to be able to convince the Perl code to start somewhere other than at the
+beginning of the file.  This is crucial for speed.  Currently, the starting
+position is set in the istream that is passed to CBCStyler::Scan(), but I
+should add an argument since it's a bit cruddy to have to call JTellg() on
+the stream.  (I'm fairly certain that the Perl code won't accept an istream :)
+
+The only other note is on SaveTokenStart().  This should be called every
+time a token is found and it would be safe to start the scanner at that
+token.  In C, these are identifiers and keywords.  I assume that it would
+be something similar in Perl, as long as his lexer doesn't have any state.
+It shouldn't because that should all be in the parser, but I don't know how
+messy his language gets.  Since it can't be done in flex, the lack of state
+has to be verified.
+
+I'm going to start saving these messages.  I should munge them into some
+real API documentation :)
+
+John
+
+From markw@mohawksoft.com  Tue Feb 15 21:16:14 2000
+Return-Path: <markw@mohawksoft.com>
+Received: from snoopy.mohawksoft.com (IDENT:root@[216.41.12.227])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id VAA08268
+	for <jafl@alice.wonderland.caltech.edu>; Tue, 15 Feb 2000 21:15:44 -0800
+Received: from mohawksoft.com (IDENT:markw@hostip [216.41.12.227])
+	by snoopy.mohawksoft.com (8.9.3/8.9.3) with ESMTP id XAA28147
+	for <jafl@alice.wonderland.caltech.edu>; Tue, 15 Feb 2000 23:04:53 -0500
+Sender: markw@snoopy.mohawksoft.com
+Message-ID: <38AA21E4.21329791@mohawksoft.com>
+Date: Tue, 15 Feb 2000 23:04:52 -0500
+From: mlw <markw@mohawksoft.com>
+X-Mailer: Mozilla 4.7 [en] (X11; U; Linux 2.2.14 i686)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: John Lindal <jafl@alice.wonderland.caltech.edu>
+Subject: Re: CodeCrusader/makemake
+References: <200002160443.UAA08090@alice.caltech.edu>
+Content-Type: multipart/mixed;
+ boundary="------------2061BA99B97F29DCF27F8AAF"
+X-SpamBouncer: 1.01 (1/25/00)
+X-SBPass: Oversize-Leantagged
+X-SBClass: OK
+X-Sorted: Default
+Status: RO
+X-Arrow-Reply-Status: R
+X-Status: A
+
+This is a multi-part message in MIME format.
+--------------2061BA99B97F29DCF27F8AAF
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+
+John Lindal wrote:
+> 
+> > makemake:
+> > added "--appname nnnn" option. This inserts a "APPNAME=nnnn" line just
+> > before Make.header. This allows one to use a more generic Make.header
+> > file. i.e. $(BINDIR)/$(OS)/$(APPNAME) as a target.
+> 
+> You could just change the build command in the Make Settings dialog to
+> include "APPNAME=nnnn".
+
+Yes, but I develop on multiple platforms. One of which is Freebsd in a
+server farm at a remote data center. I use my changes to create a
+Makefile which I use, plus I am not the only person building the code.
+Forcing this info to be in the Makefile allows me to cvs the Makefile,
+and still not have to write it. ;-)
+
+> 
+> > added "--force nn" option. This forces makemake to use 'nn' as the
+> > extension if the main target does not end with one when deciding on
+> > using LINKER, AR, or java.
+> 
+> Good point.  I provide -prefix inside Make.files, but you can't use this
+> from Code Crusader, so it needs a command line option, too.
+> 
+> > added "MAIN_TARGET_OBJS=" which contains all the main target depended
+> > objects. This was so that clean actually did clean the objects when
+> > --bin_dir was specified.
+> 
+> Oops.  Thanks for noticing that.
+> 
+> > Modified "clean" so that it used MAIN_TARGET_OBJS instead of enumerating
+> > the objects. (This was broken with --bin_dir)
+> 
+> Actually, it should fixed in tidy, but I'll deal with that.
+> 
+> > Added concept of Make.footer which is read into the created Makefile
+> > after makemake processes information, but before it does dependency.
+> 
+> Why is this necessary?  Could you send me an example showing me a case
+> where something can't be done in Make.header?
+
+I have attached a header and a footer of a current project. Please don't
+distribute this code, but you are free to examine it and use the
+concepts represented.
+
+> 
+> > Suggestions:
+> >
+> > --bin_dir is misleading, it should really be "--obj_dir," and a real
+> > --bin_dir could be added.
+> 
+> Yes, --obj_dir is the correct name.  Thanks.
+> 
+> > CodeCrusader:
+> > Made changes that disabled the automatic creation of Make.header.
+> 
+> This is on my list.  I'll add a checkbox in the Create Project dialog.
+> 
+> > Suggestions:
+> > a global parameter should be available in the "Make Settings" dialog box
+> > which is the root name of the project. Like fubar.jcc a "%p" token would
+> > be the name of the project. This would be useful to have on symlinked
+> > version of project.jcc that fills in "%p" with the name it was opened
+> > under. This way, with the --appname option in makemake, one can specify
+> > "makemake --appname %p --obj_dir OBJDIR" and distribute a project
+> > unchanged.
+> 
+> Good idea.  This will clean up all my cruddy hacks that currently adjust
+> the Make and Run settings when the build target is changed.
+> 
+> But I think it should actually be $t and refer to the name of the build
+> target in the Project Configuration dialog.  What do you think?
+
+I Like to have the "target" conceptually different from "project"
+although 99.9% of the time they are the same thing.
+
+> 
+> (I used $, not %, for variables, didn't I?)
+Maybe, I'm not sure.
+
+> 
+> John
+
+I have included a couple project files you can look at as well.
+common.jcc is a project for a main library.
+fdparse.jcc is a project for an application which used the common
+library.
+
+
+One of the things that CodeCrusader needs is to be able to build, within
+a single nfs shared directory, multiple OS types. Header and footer do
+this.
+
+If you look at my Make.header and Make.footer files you will see how I
+do this. I may nit be "right" bit it works.
+
+
+I have also included makemake.cc which is merged with the stable release
+I downloaded, plus I was forced to add even more features."--makedir    
+<directory> specifies alternate location for Make.Header"
+
+-- 
+Mohawk Software
+Windows 95, Windows NT, UNIX, Linux. Applications, drivers, support. 
+Visit http://www.mohawksoft.com
+--------------2061BA99B97F29DCF27F8AAF
+Content-Type: text/plain; charset=us-ascii;
+ name="Make.footer"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+ filename="Make.footer"
+
+# Make.footer
+# This file is included by 'makemake' as Make.footer for
+# the central definitions for the cdev project directory.
+# by Mark L. Woodward
+# Fast Search and Transfer, Copyright (c) 2000
+# makemake is part of the "CodeCrusader' IDE.
+
+# No OS was defined in Make.header, bail quickly
+ifeq ("$(OBJDIR)","") 
+Error OBJDIR NULL@!
+endif
+ifndef OBJDIR
+Error OBJDIR Note defined!!
+endif
+
+# Clean up all generated files
+clobber:	
+	rm -rf $(OBJDIR) 
+	rm -f *core
+	rm -f *~
+ifdef TARGET
+	rm -f $(TARGET)
+endif
+ifndef PRESERVE_MAKEFILE
+	rm -f Makefile
+endif
+
+# Make output directories
+dir:	$(OBJDIR) $(BINDIR)
+
+# Make the object dir for this OS
+$(OBJDIR):
+	mkdir $(OBJDIR)
+
+# Make binary dir for this OS
+$(BINDIR):
+	mkdir $(BINDIR)
+
+# Make dependencies (null, use CodeCrusader/makemake)
+dep:
+	#do nothing
+
+# No debugger? Use gdb
+ifndef DEBUGGER
+DEBUGGER=xterm -e gdb
+endif
+
+# Run application in debugger
+debug:
+ifeq ("$(DEBUGGER)","medic")
+	medic $(TARGET)
+else
+	echo "set args $(ARGS)" > dbg.cmds
+	echo "break main" 	  >> dbg.cmds
+	$(DEBUGGER) $(TARGET) -x dbg.cmds
+endif
+
+run:
+	$(TARGET) $(ARGS)
+
+--------------2061BA99B97F29DCF27F8AAF
+Content-Type: text/plain; charset=us-ascii;
+ name="Make.header"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+ filename="Make.header"
+
+# Make.header
+# This file is included by 'makemake' as Make.header for
+# the central definitions for the cdev project directory.
+# by Mark L. Woodward
+# Fast Search and Transfer, Copyright (c) 2000
+# makemake is part of the "CodeCrusader' IDE.
+
+# Generic gcc flags 
+GCC_FLAGS=-Wall -Winline -Wno-unused
+
+# Include project and local directory
+GCC_INCS=-I../inc -I.
+
+#if tracing is on, define it
+ifdef TRACE
+DO_TRACE=-DDO_TRACE
+endif
+
+# if debug tracing, define it (very verbose!)
+ifdef DTRACE
+DO_TRACE_DEBUG=-DDO_TRACE_DEBUG
+endif
+
+# Parameters that vary with debug/non-debug
+ifndef NDEBUG
+#if debugging on (default)
+DEBUG=true
+GCC_OPT=-O0
+GCC_DBG=-g -DDEBUG
+else
+# if debugging off (NDEBUG defined)
+GCC_OPT=-O1 -fomit-frame-pointer
+endif
+
+# Find operating system from environment variables
+# add your favorite OS here.
+ifeq ("$(OSTYPE)","Linux")
+OPSYS=Linux
+endif
+ifeq ("$(OSTYPE)","freebsd3.1")
+OPSYS=Freebsd
+endif
+ifeq ("$(OSTYPE)","freebsd3.2")
+OPSYS=Freebsd
+endif
+ifeq ("$(OSTYPE)","freebsd3.3")
+OPSYS=Freebsd
+endif
+ifeq ("$(OSTYPE)","freebsd3.4")
+OPSYS=Freebsd
+endif
+ifeq ("$(OSTYPE)","FreeBSD")
+OPSYS=Freebsd
+endif
+
+#Choose compiler settings based on OS found
+# Add info for your favorite OS here
+# Linux:
+ifeq ("$(OPSYS)","Linux")
+GCC_EXCEPTIONS=-DHAS_EXCEPTIONS
+OBJDIR=Linux
+CCMD=egcs -DLinux -DUNIX
+LIBS=-lpthread -lm
+MAKE=make
+LINKER=egcs
+endif
+
+#Freebsd:
+ifeq ("$(OPSYS)","Freebsd")
+OBJDIR=Freebsd
+CCMD=gcc -DFreebsd -DUNIX -pthread -D_THREAD_SAFE
+LIBS=-lm
+MAKE=gmake
+LINKER=gcc
+endif
+ifndef OBJDIR
+error!
+endif
+
+
+# Compiler defines
+CPPFLAGS= $(GCC_OPT) $(GCC_INCS) $(GCC_DBG) $(GCC_FLAGS) $(GCC_EXCEPTIONS) $(DO_TRACE) $(DO_TRACE_DEBUG)
+CXXFLAGS= $(CPPFLAGS)
+# Compiler command
+GCC=$(CCMD) $(GCC_OPT) $(GCC_INCS) $(GCC_DBG) $(GCC_FLAGS) $(GCC_EXCEPTIONS) $(DO_TRACE) $(DO_TRACE_DEBUG)
+
+# Choose project library
+# Change this!
+ifdef DEBUG
+FASTCPPLIB=../lib/$(OBJDIR)/libfastc++db.a
+else
+FASTCPPLIB=../lib/$(OBJDIR)/libfastc++.a
+endif
+
+# Where the binary goes
+BINDIR=../bin/$(OBJDIR)
+
+# Inference rules for C++
+$(OBJDIR)/%.o : %.cpp
+	$(GCC) -c -o $@ $<
+
+$(OBJDIR)/%.o : %.cc
+	$(GCC) -c -o $@ $<
+
+$(OBJDIR)/%.o : %.cxx
+	$(GCC) -c -o $@ $<
+
+# Inference rules for standard C
+$(OBJDIR)/%.o : %.c
+	$(GCC) -c -o $@ $<
+
+# Misc. gcc (egcs) flags for creating dependencies
+DEPENDFLAGS := -g -Wall -I../inc -I. -I- -nostdinc 
+
+# Dependency for object directory
+TEMP := ${shell test -d ${OBJDIR} || mkdir ${OBJDIR}}
+
+# Libraries for the project
+LOADLIBES := $(FASTCPPLIB) $(LIBS)
+
+# If APPNAME defined, we define a target.
+ifdef APPNAME
+TARGET=$(BINDIR)/$(APPNAME)
+endif
+
+--------------2061BA99B97F29DCF27F8AAF
+Content-Type: text/plain; charset=us-ascii;
+ name="common.jcc"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+ filename="common.jcc"
+
+jx_browser_data 49  0 "root" 2  1 "source" 23  2 "atwreader.cpp" 0  "./atwreader.cpp"   2 "catree.cpp" 0  "./catree.cpp"   2 "cavlnode.cpp" 0  "./cavlnode.cpp"   2 "cavltree.cpp" 0  "./cavltree.cpp"   2 "cdict.cpp" 0  "./cdict.cpp"   2 "chostobj.cpp" 0  "./chostobj.cpp"   2 "clist.cpp" 0  "./clist.cpp"   2 "cnode.cpp" 0  "./cnode.cpp"   2 "cproxy.cpp" 0  "./cproxy.cpp"   2 "csem.cpp" 0  "./csem.cpp"   2 "cserv.cpp" 0  "./cserv.cpp"   2 "cshmem.cpp" 0  "./cshmem.cpp"   2 "csignal.cpp" 0  "./csignal.cpp"   2 "csocket.cpp" 0  "./csocket.cpp"   2 "cthread.cpp" 0  "./cthread.cpp"   2 "cwebclass.cpp" 0  "./cwebclass.cpp"   2 "hashlist.cpp" 0  "./hashlist.cpp"   2 "rpn.cpp" 0  "./rpn.cpp"   2 "url.cpp" 0  "./url.cpp"   2 "urlreader.cpp" 0  "./urlreader.cpp"   2 "utils.cpp" 0  "./utils.cpp"   2 "parsetime.cpp" 0  "./parsetime.cpp"   2 "histogram.cpp" 0  "./histogram.cpp"    1 "includes" 26  2 "atwreader.h" 0  "../inc/atwreader.h"   2 "catree.h" 0  "../inc/catree.h"   2 "cavltree.h" 0 !
+ "../inc/cavltree.h"   2 "cdev.h" 0  "../inc/cdev.h"   2 "cdict.h" 0  "../inc/cdict.h"   2 "chostobj.h" 0  "../inc/chostobj.h"   2 "clist.h" 0  "../inc/clist.h"   2 "cnode.h" 0  "../inc/cnode.h"   2 "cproxy.h" 0  "../inc/cproxy.h"   2 "csem.h" 0  "../inc/csem.h"   2 "cserv.h" 0  "../inc/cserv.h"   2 "cshmem.h" 0  "../inc/cshmem.h"   2 "csignal.h" 0  "../inc/csignal.h"   2 "csocket.cpp" 0  "../inc/csocket.cpp"   2 "csocket.h" 0  "../inc/csocket.h"   2 "cthread.h" 0  "../inc/cthread.h"   2 "hashlist.h" 0  "../inc/hashlist.h"   2 "Makefile.bottom" 0  "../inc/Makefile.bottom"   2 "Makefile.top" 0  "../inc/Makefile.top"   2 "rpn.h" 0  "../inc/rpn.h"   2 "stdhdr.h" 0  "../inc/stdhdr.h"   2 "url.h" 0  "../inc/url.h"   2 "urlreader.h" 0  "../inc/urlreader.h"   2 "utils.h" 0  "../inc/utils.h"   2 "histogram.h" 0  "../inc/histogram.h"   2 "catreendx.h" 0  "./catreendx.h"    0 263 38 656 861 F  2 F F  0 T  1 0 0  1 0 0  T F "$(FASTCPPLIB)" "/local/cdev/common/" "" ""  0 1101 4 170 45!
+0 F  0 F 0 ""  10000 0  ""  10000 0     0 0 0 400 430 F  30 0 T F F 0 F 33825 33288 33825 100 T T F 0 F 0 0 0 101 T F F 0 F 0 0 65535 102 T F F 0 F 0 0 0 103 T F F 0 F 0 0 0 104 T F F 0 F 0 0 0 105 T F F 0 F 0 0 0 106 T T F 0 F 33825 33288 33825 107 T F T 0 F 0 0 0 108 T F F 0 F 0 0 0 109 T F F 0 F 0 0 0 110 T F T 0 F 0 0 0 111 T F F 0 F 0 0 0 200 T T F 0 F 0 0 0 201 T F F 0 F 0 0 0 300 T F F 0 F 0 0 0 301 T F F 0 F 0 0 0 302 T F F 0 F 0 0 0 303 T F F 0 F 0 0 0 304 T F F 0 F 0 0 0 305 T F F 0 F 0 0 0 306 T F F 0 F 0 0 0 307 T F F 0 F 0 0 0 308 T F F 0 F 0 0 0 309 T F F 0 F 0 0 0 400 T T F 0 F 0 0 0 401 T F F 0 F 0 0 0 402 T T F 0 F 33825 33288 33825 403 T F F 0 F 0 0 0 404 T F F 0 F 0 0 0   F   298 470 T T T T 2 "/local/cdev/common" F "/local/cdev/inc" F 1 ".h"   0   0 55 73 500 592 F   0 T  1 0 0  1 0 0   0 505 365 350 350 F "./"  10000 1 "./" ""  "makemake --force .a --bin_dir OBJDIR"  10000 7 "makemake --force .a --bin_dir OBJDIR" "" "makemake --suffix .a --bin_dir O!
+BJDIR" "" "makemake --tsuffix .a --bin_dir OBJDIR" "" "makemake --tsuffix .a --bin_dir OBJDIR -of Make.jcc" "" "makemake --bin_dir OBJDIR -of Make.jcc" "" "makemake --bin_dir OBJDIR" "" "makemake" ""  T "make"  10000 6 "make" "" "make -k " "" "make -k NDEBUG=1" "" "make -k" "" "make -k -f Make.make" "" "make -k -f Make.jcc" ""  "make $r"  10000 2 "make $r" "" "make CHECKSTRING=$n checksyntax" ""  T F "/local/cdev/common/" 0 950571935   0 465 251 350 270 F "./"  10000 0  "$(FASTCPPLIB)"  10000 1 "a.out" ""  "medic -f +$l $f"  10000 1 "medic -f +$l $f" ""  T T   3 0 "" "lpr" F 4 "" 0 0 F  0 0 "" F F   3 0 "" "lpr" F 4 "" 0 0 F F 0   5 10 T T T F 1 ".java"  0 0 0 400 430 F   0 T  1 0 0  1 0 0   3 0 "" "lpr" F 4 "" 0 0 F  0 0 "" F F   3 0 "" "lpr" F 4 "" 0 0 F F 0  2 T "/local/cdev/fdparse/qrystack.cpp" "" "" 0 329 184 775 721 F 1885  0 T  1 0 0  1 990 0 T "/local/cdev/classify/classify.cpp" "" "" 0 266 178 924 803 F 548  0 T  1 0 0  1 340 0
+--------------2061BA99B97F29DCF27F8AAF
+Content-Type: text/plain; charset=us-ascii;
+ name="fdparse.jcc"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+ filename="fdparse.jcc"
+
+jx_browser_data 49  0 "root" 2  1 "source" 2  2 "fdparse.cpp" 0  "./fdparse.cpp"   2 "qrystack.cpp" 0  "./qrystack.cpp"    1 "includes" 2  2 "fdparse.h" 0  "./fdparse.h"   2 "qrystack.h" 0  "./qrystack.h"    0 523 144 653 714 F  2 T T  0 T  1 0 0  1 0 0  F T "fdparse" "/local/cdev/fdparse/" "" ""  0 0 0 170 450 F  0 F 0 ""  10000 0  ""  10000 0     0 0 0 400 430 F  30 0 T F F 0 F 33825 33288 33825 100 T T F 0 F 0 0 0 101 T F F 0 F 0 0 65535 102 T F F 0 F 0 0 0 103 T F F 0 F 0 0 0 104 T F F 0 F 0 0 0 105 T F F 0 F 0 0 0 106 T T F 0 F 33825 33288 33825 107 T F T 0 F 0 0 0 108 T F F 0 F 0 0 0 109 T F F 0 F 0 0 0 110 T F T 0 F 0 0 0 111 T F F 0 F 0 0 0 200 T T F 0 F 0 0 0 201 T F F 0 F 0 0 0 300 T F F 0 F 0 0 0 301 T F F 0 F 0 0 0 302 T F F 0 F 0 0 0 303 T F F 0 F 0 0 0 304 T F F 0 F 0 0 0 305 T F F 0 F 0 0 0 306 T F F 0 F 0 0 0 307 T F F 0 F 0 0 0 308 T F F 0 F 0 0 0 309 T F F 0 F 0 0 0 400 T T F 0 F 0 0 0 401 T F F 0 F 0 0 0 402 T T F 0 F 33825 33288 33825 403 T F F 0 F 0 !
+0 0 404 T F F 0 F 0 0 0   F   298 490 T T T T 3 "../common" T "../inc" T "./" T 1 ".h"   0   0 542 281 555 562 F   0 T  1 0 0  1 0 0   0 465 224 576 350 F "./"  10000 1 "./" ""  "makemake --bin_dir OBJDIR --appname fdparse"  10000 2 "makemake --bin_dir OBJDIR --appname fdparse" "" "makemake" ""  F "make  "  10000 3 "make  " "" "make  TRACE=1" "" "make -k" ""  "make $r"  10000 2 "make $r" "" "make CHECKSTRING=$n checksyntax" ""  T T "/local/cdev/fdparse/" 0 950571936   0 465 251 536 270 F "./"  10000 1 "./" ""  "make run ARGS=fdispatch.log"  10000 3 "make run ARGS=fdispatch.log" "" "make run" "" "fdparse" ""  "make debug ARGS=fdispatch.log DEBUGGER=medic"  10000 7 "make debug ARGS=fdispatch.log DEBUGGER=medic" "" "make debug ARGS=fdispatch.log" "" "xterm -e make debug ARGS=fdispatch.log" "" "make debug" "" "make debug DEBUGGER=medic" "" "medic ../bin/Linux/fdparse" "" "medic -f +$l $f" ""  T T   3 0 "" "lpr" F 4 "" 0 0 F  0 0 "" F F   3 0 "" "lpr" F 4 "" 0 0 F F 0  !
+ 5 10 T T T F 1 ".java"  0 0 0 400 430 F   0 T  1 0 0  1 0 0   3 0 "" "lpr" F 4 "" 0 0 F  0 0 "" F F   3 0 "" "lpr" F 4 "" 0 0 F F 0  0
+--------------2061BA99B97F29DCF27F8AAF
+Content-Type: text/plain; charset=iso-8859-1;
+ name="makemake.cc"
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline;
+ filename="makemake.cc"
+
+/******************************************************************************
+ makemake.cc
+
+	Program to create a Makefile given the source file names and a
+	Makefile header.
+
+	Copyright © 1994-99 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JRegex.h>
+#include <JPtrArray-JString.h>
+#include <jFStreamUtil.h>
+#include <jStreamUtil.h>
+#include <jFileUtil.h>
+#include <jDirUtil.h>
+#include <JProcess.h>
+#include <jCommandLine.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+#ifdef _J_ARRAY_NEW_OVERRIDABLE
+#include <JMemoryManager.h>
+#endif
+
+#include <jAssert.h>
+
+// Turn this on to generate a Makefile that allows #include loops.
+// Unfortunately, GNU Make doesn't understand the dependencies generated
+// when this is turned off.
+#define ALLOW_INCLUDE_LOOPS			1	// boolean
+
+// On some systems, one cannot pass an arbitrarily long list of arguments
+// to a process, so we store the information in a temp file instead.
+#define USE_TEMP_FILE_FOR_DEPEND	0	// boolean
+
+// Constants
+
+static const JCharacter* kVersionStr =
+	"makemake 2.9.0\n"
+	"\n"
+	"Copyright 1994-2000 by John Lindal\n"
+	"This program may be freely distributed at no charge.";
+
+static const JCharacter* kDependTargetName   = "jdepend";
+static const JCharacter* kMakemakeBinaryVar  = "MAKEMAKE";
+static const JCharacter* kMakemakeBinary     = "${MAKEMAKE}";
+static const JCharacter* kDependInputFileVar = "JDEPEND_INPUT_FILE";
+static const JCharacter* kDependInputFile    = "${JDEPEND_INPUT_FILE}";
+
+static const JCharacter* kMakedependMarkerStr =
+	"# DO NOT DELETE THIS LINE -- makemake depends on it.";
+
+static const JCharacter* kCurrentDir    = "./";
+static const JCharacter* kSysIncludeDir = "/usr/include/";
+
+static const JCharacter* kDontInterpretFlag = "literal: ";
+const JSize kDontInterpretFlagLen           = strlen(kDontInterpretFlag);
+
+static const JCharacter* kDefOutputSuffix  = ".o";
+static const JCharacter* kJavaOutputSuffix = ".class";
+
+static const JRegex objFileSuffix = "^\\.(o|a|so|class) ";
+
+static const JCharacter* kJavaSuffix   = ".java";
+static const JCharacter* kEiffelSuffix = ".e";
+
+// Prototypes
+
+JBoolean ShouldMakeTarget(const JString& target, const JPtrArray<JString>& list);
+JBoolean AddSubTarget(JPtrArray<JString>& targetList, JPtrArray<JString>& prefixList,
+					  JPtrArray<JString>& suffixList, JString* targetName,
+					  JString* prefixName, JString* suffixName);
+void PrintForMake(ostream& output, const JString& str);
+const JCharacter* GetOutputSuffix(const JString& inputSuffix, JBoolean* usesJava = NULL);
+
+void GetOptions(const JSize argc, char* argv[], JString* defSuffix, JString* headerName,
+				JString* inputName, JString* outputName, JString* outputDirName,
+				JPtrArray<JString>* userTargetList, JBoolean* searchSysDir,
+				JString *footerName, JString* force, JString* appname);
+void PickTargets(const JString& fileName, JPtrArray<JString>* list);
+
+void PrintHelp(const JString& headerName, const JString& footerName, const JString& inputName,
+			   const JString& outputName);
+void PrintVersion();
+
+void CalcDepend(const JSize startArg, const JSize argc, char* argv[]);
+
+/******************************************************************************
+ main
+
+ ******************************************************************************/
+
+int
+main
+	(
+	int		argc,
+	char*	argv[]
+	)
+{
+	// check if we are being invoked to build the dependency graph
+
+	if (argc > 2 && strcmp(argv[1], "--depend") == 0)
+		{
+		CalcDepend(2, argc, argv);
+		return 0;
+		}
+
+	// parse the command line options
+
+	JString defSuffix, headerName, inputName, outputName, outputDirName;
+	JString force,appname,footerName;
+	JPtrArray<JString> userTargetList;		// empty => include all targets
+	JBoolean searchSysDir;
+
+	GetOptions(argc, argv, &defSuffix, &headerName, &inputName,
+			&outputName, &outputDirName, &userTargetList, &searchSysDir,
+			&footerName, &force, &appname);
+
+	// process the input file
+
+	JPtrArray<JString> mainTargetList;
+	JPtrArray<JString> mainTargetObjsList;
+	JArray<JBoolean>   javaTargetList;
+	JPtrArray<JString> targetList;
+	JPtrArray<JString> prefixList;
+	JPtrArray<JString> suffixList;
+
+	targetList.SetCompareFunction(JCompareStringsCaseSensitive);
+
+	// skip comments and check for possible first suffix instruction
+
+	ifstream input(inputName);
+	input >> ws;
+	while (!input.eof() && !input.fail())
+		{
+		if (input.peek() == '-')
+			{
+			input.ignore(1);
+			JString cmd   = JReadUntil(input, ' ');
+			JString value = JReadUntil(input, '\n');
+			input >> ws;
+			value.TrimWhitespace();
+			if (cmd == "suffix")
+				{
+				defSuffix = value;
+				}
+			else
+				{
+				cerr << argv[0] << ": unknown parameter: " << cmd << '\n';
+				}
+			}
+		else if (input.peek() == '#')
+			{
+			JIgnoreUntil(input, '\n');
+			input >> ws;
+			}
+		else
+			{
+			break;
+			}
+		}
+
+	// If a target has no dependencies, we assume that they are the
+	// same as the following target.  This counter keeps track of
+	// how many previous targets need to be updated once a set of
+	// dependencies is found. 
+
+	JSize prevEmptyTargets = 0;
+
+	// process each target
+
+	while (input.get() == '@' && !input.eof() && !input.fail())
+		{
+		JString prefix;
+		JBoolean usesJava = kFalse;
+
+		// get the name of the target for make
+
+		JString* mainTargetName = new JString(JReadUntil(input,'\n'));
+		assert( mainTargetName != NULL );
+
+		// If we aren't supposed to include this target, and
+		// there aren't any other targets that need our dependency
+		// list, we can take a quick exit.
+
+		input >> ws;
+		const JBoolean shouldMakeTarget =
+			ShouldMakeTarget(*mainTargetName, userTargetList);
+		if (!shouldMakeTarget && prevEmptyTargets == 0)
+			{
+			delete mainTargetName;
+			JIgnoreUntil(input, '@');
+			input.putback('@');
+			continue;
+			}
+
+		JString* mainTargetObjs = new JString;
+		assert( mainTargetObjs != NULL );
+
+		// get the names of the files that the main target depends on
+
+		while (input.peek() != '@' && !input.eof() && !input.fail())
+			{
+			if (input.peek() == '-')
+				{
+				input.ignore(1);
+				JString cmd   = JReadUntil(input, ' ');
+				JString value = JReadUntil(input, '\n');
+				input >> ws;
+				value.TrimWhitespace();
+				if (cmd == "prefix")
+					{
+					prefix = value;
+					}
+				else if (cmd == "suffix")
+					{
+					defSuffix = value;
+					}
+				else
+					{
+					cerr << argv[0] << ": unknown parameter: " << cmd << '\n';
+					}
+				}
+			else if (input.peek() == '#')
+				{
+				JIgnoreUntil(input, '\n');
+				input >> ws;
+				}
+			else
+				{
+				JString fullName = JReadUntil(input, '\n');
+				input >> ws;
+
+				JIndexRange suffixRange;
+				if (objFileSuffix.Match(fullName, &suffixRange))
+					{
+					JString suffix = fullName.GetSubstring(suffixRange);
+					suffix.TrimWhitespace();
+					fullName.RemoveSubstring(suffixRange);
+					fullName.TrimWhitespace();
+
+					*mainTargetObjs += " ";
+					*mainTargetObjs += prefix;
+					*mainTargetObjs += fullName;
+					*mainTargetObjs += suffix;
+					}
+				else if (fullName.BeginsWith(kDontInterpretFlag))
+					{
+					fullName.RemoveSubstring(1, kDontInterpretFlagLen);
+					fullName.TrimWhitespace();
+
+					*mainTargetObjs += " ";
+					*mainTargetObjs += fullName;
+					}
+				else if (fullName.GetLength() > 0)
+					{
+					JString* targetName = NULL;
+					JString* suffixName = NULL;
+					if (fullName.GetCharacter(1) == '.')
+						{
+						JIndex firstSpace;
+						if (fullName.LocateSubstring(" ", &firstSpace))
+							{
+							suffixName = new JString(fullName.GetSubstring(1, firstSpace-1));
+							assert( suffixName != NULL );
+							targetName = new JString(fullName.GetSubstring(firstSpace+1, fullName.GetLength()));
+							assert( targetName != NULL );
+							targetName->TrimWhitespace();
+							}
+						else
+							{
+							cerr << argv[0] << ": invalid dependency \"";
+							cerr << fullName << "\"\n";
+							continue;
+							}
+						}
+					else
+						{
+						targetName = new JString(fullName);
+						assert( targetName != NULL );
+						suffixName = new JString(defSuffix);
+						assert( suffixName != NULL );
+						}
+
+					JString* prefixName = new JString(prefix);
+					assert( prefixName != NULL );
+
+					// We want all the path information to be
+					// in the prefix.
+
+					JString targetPrefix, targetSuffix;
+					JSplitPathAndName(*targetName, &targetPrefix, &targetSuffix);
+					if (targetSuffix.GetLength() < targetName->GetLength())
+						{
+						*prefixName += targetPrefix;
+						*targetName  = targetSuffix;
+						}
+
+					JBoolean usesJava1;
+
+					*mainTargetObjs += " ";
+					if (!outputDirName.IsEmpty())
+						{
+						*mainTargetObjs += "${";
+						*mainTargetObjs += outputDirName;
+						*mainTargetObjs += "}/";
+						}
+					else
+						{
+						*mainTargetObjs += *prefixName;
+						}
+					*mainTargetObjs += *targetName;
+					*mainTargetObjs += GetOutputSuffix(*suffixName, &usesJava1);
+
+					usesJava = JI2B(usesJava || usesJava1);
+
+					// may delete *Name objects
+
+					AddSubTarget(targetList, prefixList, suffixList,
+								 targetName, prefixName, suffixName);
+					}
+				}
+			}
+
+		// If the dependency list is empty, remember it for later.
+
+		if (mainTargetObjs->IsEmpty() && shouldMakeTarget)
+			{
+			prevEmptyTargets++;
+			}
+
+		// If the dependency list is not empty, fill in the previous
+		// empty ones.
+
+		else if (prevEmptyTargets > 0)
+			{
+			const JSize mainTargetCount = mainTargetObjsList.GetElementCount();
+			for (JIndex i=1; i<=prevEmptyTargets; i++)
+				{
+				const JIndex j = mainTargetCount-i+1;
+				*(mainTargetObjsList.NthElement(j)) = *mainTargetObjs;
+				javaTargetList.SetElement(j, usesJava);
+				}
+			prevEmptyTargets = 0;
+			}
+
+		// Now that we have filled in any previous targets that
+		// needed our dependencies, we can finish this target.
+
+		if (shouldMakeTarget)
+			{
+			mainTargetList.Append(mainTargetName);
+			mainTargetObjsList.Append(mainTargetObjs);
+			javaTargetList.AppendElement(usesJava);
+			}
+		else
+			{
+			delete mainTargetName;
+			delete mainTargetObjs;
+			}
+		}
+
+	// check that no trailing targets were empty
+
+	if (prevEmptyTargets != 0)
+		{
+		cerr << argv[0] << ": empty target found at end of " << inputName << '\n';
+		return 1;
+		}
+
+	// build the output file: we start with a copy of the header file
+	// and then append the make rules to the output file
+
+	ofstream output(outputName);
+	if (output.fail())
+		{
+		cerr << argv[0] << ": unable to write to " << outputName << endl;
+		return 1;
+		}
+
+	output << "# This file was automatically generated by makemake.\n";
+	output << "# Do not edit it directly!\n";
+	output << "# Any changes you make will be silently overwritten.\n\n";
+
+	{
+	output << "#################### Header start ###################\n";
+	JString headerText;
+	JReadFile(headerName, &headerText);
+	if(appname != "")
+		{
+		output << "APPNAME=";
+		appname.Print(output);
+		output << "\n";
+		}
+	headerText.Print(output);
+	output << "\n";
+	output << "#################### Header end #####################\n";
+	}
+
+	output << "\n\n# This is what makemake added\n\n";
+
+	// write the dependencies and link command for each main target
+
+	const JSize mainTargetCount = mainTargetList.GetElementCount();
+	const JSize targetCount     = targetList.GetElementCount();
+	{
+	for (JIndex i=1; i<=mainTargetCount; i++)
+		{
+		JString* mainTargetName = mainTargetList.NthElement(i);
+		JString* mainTargetObjs = mainTargetObjsList.NthElement(i);
+
+		// mark it with a comment
+
+		output << "\n# ";
+		mainTargetName->Print(output);
+		output << "\n\n";
+
+		// append the updating rule (linker) for the main target
+		// MLW changed to put objects in a list.
+		output << "MAIN_TARGET_OBJS=";
+		mainTargetObjs->Print(output);
+		output << "\n\n";
+
+		mainTargetName->Print(output);
+		output << " : $(MAIN_TARGET_OBJS) \n";
+
+		// append the actual link command
+
+		JIndex suffixStart;
+		if (mainTargetName->EndsWith(".a") || force.EndsWith("a"))
+			{
+			output << "\t@${RM} $@\n";
+
+			#ifdef _J_RANLIB_VIA_AR_S
+				output << "\t${AR} crs $@ ${filter-out %.a %.so, $^}\n";
+			#else
+				output << "\t${AR} cr $@ ${filter-out %.a %.so, $^}\n";
+				output << "\tranlib $@\n";
+			#endif
+			}
+		else if (mainTargetName->EndsWith(".jar") || force.EndsWith(".jar"))
+			{
+			output << "\t${JAR} -cf $@ $^\n";
+			}
+		else if (!javaTargetList.GetElement(i))
+			{
+			output << "\t${LINKER} ${LDFLAGS} -o $@ ${filter-out %.a %.so, $^} ${LOADLIBES}\n";
+			}
+		}
+	}
+	output << '\n';
+
+	// append a target so user can easily make all files
+
+	output << "# target for making everything\n\n";
+	output << ".PHONY : all\n";
+	output << "all:";
+	{
+	for (JIndex i=1; i<=mainTargetCount; i++)
+		{
+		JString* mainTargetName = mainTargetList.NthElement(i);
+		output << ' ';
+		mainTargetName->Print(output);
+		}
+	}
+	output << "\n\n\n";
+
+	// append a target so user can easily remove the object files
+
+	output << "# target for removing all object files\n\n";
+	output << ".PHONY : tidy\n";
+	output << "tidy::\n";
+	output << "\t@${RM} core";
+#if 1 // MLW	
+	output << " $(MAIN_TARGET_OBJS) ";
+#else
+	{
+	for (JIndex i=1; i<=targetCount; i++)
+		{
+		JString* prefixName = prefixList.NthElement(i);
+		JString* targetName = targetList.NthElement(i);
+		output << ' ';
+		prefixName->Print(output);
+		targetName->Print(output);
+		output << GetOutputSuffix(*(suffixList.NthElement(i)));
+		}
+	}
+#endif
+	output << "\n\n";
+
+	// append a target so user can easily remove everything
+
+	output << "# target for removing all object files\n\n";
+	output << ".PHONY : clean\n";
+	output << "clean:: tidy\n";
+	output << "\t@${RM}";
+	{
+	for (JIndex i=1; i<=mainTargetCount; i++)
+		{
+		JString* mainTargetName = mainTargetList.NthElement(i);
+		output << ' ';
+		mainTargetName->Print(output);
+		}
+	}
+	output << "\n\n";
+
+	// define a variable to contain all sources
+
+	output << "# list of all source files\n\n";
+	output << "MM_ALL_SOURCES :=";
+	{
+	for (JIndex i=1; i<=targetCount; i++)
+		{
+		JString* prefixName = prefixList.NthElement(i);
+		JString* targetName = targetList.NthElement(i);
+		JString* suffixName = suffixList.NthElement(i);
+		output << ' ';
+		prefixName->Print(output);
+		targetName->Print(output);
+		suffixName->Print(output);
+		}
+	}
+	output << "\n\n\n";
+
+	// append a target to allow checking of syntax of a particular file
+
+	output << "# target for checking a source file\n\n";
+	output << "CHECKSYNTAXFILE := ${basename ${filter %${CHECKSTRING}, ${MM_ALL_SOURCES}}}\n\n";
+	output << ".PHONY : checksyntax\n";
+	output << "checksyntax:\n";
+	output << "  ifneq (${CHECKSYNTAXFILE},)\n";
+	output << "\t@${MAKE} ${addsuffix " << kDefOutputSuffix <<", ${CHECKSYNTAXFILE}}\n";
+	output << "  else\n";
+	output << "\t@echo No target to make ${CHECKSTRING}\n";
+	output << "  endif\n\n\n";
+
+	// append a target to allow touching all sources that contain a given string
+
+	output << "# target for touching appropriate source files\n\n";
+	output << ".PHONY : touch\n";
+	output << "touch::\n";
+	output << "\t@list=$$(grep -l ${TOUCHSTRING} ${MM_ALL_SOURCES}); \\\n";
+	output << "     for file in $$list; do { echo $$file; touch $$file; } done\n\n\n";
+
+	// append a target to build the initial dependencies via makedepend
+
+	output << "# target for calculating dependencies (";
+	output << kMakemakeBinaryVar;
+#if USE_TEMP_FILE_FOR_DEPEND
+	output << ", " << kDependInputFileVar;
+#endif
+	output << ")\n\n";
+	output << ".PHONY : " << kDependTargetName << '\n';
+	output << kDependTargetName << ":\n";
+
+#if USE_TEMP_FILE_FOR_DEPEND
+	const JString tempFileName = JGetTempFileName();
+	{
+	ofstream tempFile(tempFileName);	// reserve it
+	tempFile.close();
+
+	for (JIndex i=1; i<=targetCount; i++)
+		{
+		JString* prefixName = prefixList.NthElement(i);
+		JString* targetName = targetList.NthElement(i);
+		JString* suffixName = suffixList.NthElement(i);
+
+		// write the file to parse
+
+		output << "\t@echo ";
+		prefixName->Print(output);
+		targetName->Print(output);
+		suffixName->Print(output);
+		output << " >> " << kDependInputFile << '\n';
+
+		// write the string that should be used in the Makefile
+
+		output << "\t@echo ";
+		PrintForMake(output, *prefixName);
+		PrintForMake(output, *targetName);
+		output << GetOutputSuffix(*suffixName);
+		output << " >> " << kDependInputFile << '\n';
+		}
+	}
+#endif
+
+	output << "\t@" << kMakemakeBinary << " --depend ";
+	outputName.Print(output);
+	if (!outputDirName.IsEmpty())
+		{
+		output << " --bin_dir ";
+		outputDirName.Print(output);
+		}
+	if (!searchSysDir)
+		{
+		output << " --no_std_inc";
+		}
+	output << " -- ${DEPENDFLAGS} -- ";
+
+#if USE_TEMP_FILE_FOR_DEPEND
+
+	output << kDependInputFile;
+
+#else
+	{
+	for (JIndex i=1; i<=targetCount; i++)
+		{
+		JString* prefixName = prefixList.NthElement(i);
+		JString* targetName = targetList.NthElement(i);
+		JString* suffixName = suffixList.NthElement(i);
+
+		// write the file to parse
+
+		output << ' ';
+		prefixName->Print(output);
+		targetName->Print(output);
+		suffixName->Print(output);
+
+		// write the string that should be used in the Makefile
+
+		output << ' ';
+		PrintForMake(output, *prefixName);
+		PrintForMake(output, *targetName);
+		output << GetOutputSuffix(*suffixName);
+		}
+	}
+#endif
+
+	output << "\n\n\n";
+
+	{
+	output << "#################### Footer start ############################\n";
+	JString footerText;
+	JReadFile(footerName, &footerText);
+	footerText.Print(output);
+	output << "#################### Footer End ##############################\n";
+	}
+	// place the marker for makedepend
+
+	output << kMakedependMarkerStr << '\n';
+	if (output.fail())
+		{
+		cerr << argv[0] << ": error while writing to " << outputName << endl;
+		return 1;
+		}
+	output.close();
+
+	// clean up
+
+	userTargetList.DeleteAll();
+	mainTargetList.DeleteAll();
+	mainTargetObjsList.DeleteAll();
+	targetList.DeleteAll();
+	prefixList.DeleteAll();
+	suffixList.DeleteAll();
+
+	// build the dependency graph
+
+	JString makemakeBinaryDef = kMakemakeBinaryVar;
+	makemakeBinaryDef += "=";
+	makemakeBinaryDef += argv[0];
+
+#if USE_TEMP_FILE_FOR_DEPEND
+
+	JString tempFileDef = kDependInputFileVar;
+	tempFileDef += "=";
+	tempFileDef += tempFileName;
+
+	const JCharacter* depArgv[] =
+		{ J_MAKE_BINARY_NAME, makemakeBinaryDef, tempFileDef,
+		  "-f", outputName, kDependTargetName, NULL };
+
+#else
+
+	const JCharacter* depArgv[] =
+		{ J_MAKE_BINARY_NAME, makemakeBinaryDef,
+		  "-f", outputName, kDependTargetName, NULL };
+
+#endif
+
+	JProcess* p;
+	const JError depErr = JProcess::Create(&p, depArgv, sizeof(depArgv));
+	if (!depErr.OK())
+		{
+		cerr << argv[0] << ": " << depErr.GetMessage() << endl;
+		return 1;
+		}
+	p->WaitUntilFinished();
+
+#if USE_TEMP_FILE_FOR_DEPEND
+	JRemoveFile(tempFileName);
+#endif
+
+	if (p->SuccessfulFinish())
+		{
+		delete p;
+		return 0;
+		}
+	else
+		{
+		cerr << argv[0] << ": error while calculating dependencies" << endl;
+		delete p;
+		return 1;
+		}
+}
+
+/******************************************************************************
+ ShouldMakeTarget
+
+	Returns kTrue if target is in the list.  If the list is empty, it means
+	"make all targets" so we just return kTrue.
+
+ ******************************************************************************/
+
+JBoolean
+ShouldMakeTarget
+	(
+	const JString&				target,
+	const JPtrArray<JString>&	list
+	)
+{
+	if (list.IsEmpty())
+		{
+		return kTrue;
+		}
+
+	const JSize count = list.GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		if (target == *(list.NthElement(i)))
+			{
+			return kTrue;
+			}
+		}
+	return kFalse;
+}
+
+/******************************************************************************
+ AddSubTarget
+
+	Add the given target name to the targetList if it is new.
+	Returns kTrue if the target was added.
+
+	*** If it returns kFalse, the JStrings were deleted.
+
+ ******************************************************************************/
+
+JBoolean
+AddSubTarget
+	(
+	JPtrArray<JString>&	targetList,
+	JPtrArray<JString>&	prefixList,
+	JPtrArray<JString>&	suffixList,
+	JString*			targetName,
+	JString*			prefixName,
+	JString*			suffixName
+	)
+{
+	JBoolean found;
+	const JIndex index =
+		targetList.SearchSorted1(targetName, JOrderedSetT::kAnyMatch, &found);
+
+	if (found)
+		{
+		delete targetName;
+		delete prefixName;
+		delete suffixName;
+		return kFalse;
+		}
+	else
+		{
+		targetList.InsertAtIndex(index, targetName);
+		prefixList.InsertAtIndex(index, prefixName);
+		suffixList.InsertAtIndex(index, suffixName);
+		return kTrue;
+		}
+}
+
+/******************************************************************************
+ PrintForMake
+
+	Replace $ with \$$ so neither make nor the shell will evaluate the variables.
+
+ ******************************************************************************/
+
+void
+PrintForMake
+	(
+	ostream&		output,
+	const JString&	str
+	)
+{
+	const JSize length = str.GetLength();
+	for (JIndex i=1; i<=length; i++)
+		{
+		const JCharacter c = str.GetCharacter(i);
+		if (c == '$')
+			{
+			output << "\\$$";
+			}
+		else
+			{
+			output << c;
+			}
+		}
+}
+
+/******************************************************************************
+ GetOutputSuffix
+
+	Returns the appropriate output suffix that results from compiling
+	the given suffix.
+
+	usesJava can be NULL.
+
+ ******************************************************************************/
+
+const JCharacter*
+GetOutputSuffix
+	(
+	const JString&	inputSuffix,
+	JBoolean*		usesJava
+	)
+{
+	if (inputSuffix == kJavaSuffix)
+		{
+		if (usesJava != NULL)
+			{
+			*usesJava = kTrue;
+			}
+		return kJavaOutputSuffix;
+		}
+	else
+		{
+		if (usesJava != NULL)
+			{
+			*usesJava = kFalse;
+			}
+		return kDefOutputSuffix;
+		}
+}
+
+/******************************************************************************
+ GetOptions
+
+	Modify the defaults based on the command line options.
+
+ ******************************************************************************/
+
+void
+GetOptions
+	(
+	const JSize			argc,
+	char*				argv[],
+	JString*			defSuffix,
+	JString*			headerName,
+	JString*			inputName,
+	JString*			outputName,
+	JString*			outputDirName,
+	JPtrArray<JString>*		userTargetList,
+	JBoolean*			searchSysDir,
+	JString*			footerName,
+	JString*			force,
+	JString*			appname
+	)
+{
+	assert( userTargetList->IsEmpty() );
+
+	*defSuffix    = ".c";
+	*headerName   = "Make.header";
+	*inputName    = "Make.files";
+	*outputName   = "Makefile";
+	*searchSysDir = kTrue;
+	*footerName = "Make.footer";
+
+	JString makedir = "../inc";
+
+	outputDirName->Clear();
+
+	JBoolean pickTargets   = kFalse;
+	JBoolean checkModTimes = kFalse;
+
+	JIndex index = 1;
+	while (index < argc)
+		{
+		if (strcmp(argv[index], "-h") == 0 ||
+			strcmp(argv[index], "--help") == 0)
+			{
+			PrintHelp(*headerName, *footerName, *inputName, *outputName);
+			exit(0);
+			}
+		else if (strcmp(argv[index], "-v") == 0 ||
+				 strcmp(argv[index], "--version") == 0)
+			{
+			PrintVersion();
+			exit(0);
+			}
+
+		else if (strcmp(argv[index], "-hf") == 0)
+			{
+			index++;
+			JCheckForValues(1, index, argc, argv, "invalid header file");
+			*headerName = argv[index];
+			}
+		else if (strcmp(argv[index], "-ff") == 0)
+			{
+			index++;
+			*footerName = argv[index];
+			}
+		else if (strcmp(argv[index], "-if") == 0)
+			{
+			index++;
+			JCheckForValues(1, index, argc, argv, "invalid input file");
+			*inputName = argv[index];
+			}
+		else if (strcmp(argv[index], "-of") == 0)
+			{
+			index++;
+			JCheckForValues(1, index, argc, argv, "invalid output file");
+			*outputName = argv[index];
+			}
+		else if (strcmp(argv[index], "--appname") == 0)
+			{
+			index++;
+			*appname = argv[index];
+			}
+		else if (strcmp(argv[index], "--bin_dir") == 0)
+			{
+			index++;
+			JCheckForValues(1, index, argc, argv, "invalid output directory");
+			*outputDirName = argv[index];
+			}
+		else if (strcmp(argv[index], "--no_std_inc") == 0)
+			{
+			*searchSysDir = kFalse;
+			}
+		else if (strcmp(argv[index], "--force")==0)
+			{
+			index++;
+			*force = argv[index];
+			}
+		else if (strcmp(argv[index], "--makedir")==0)
+			{
+			index++;
+			makedir=argv[index];
+			}
+		else if (strcmp(argv[index], "--check") == 0)
+			{
+			checkModTimes = kTrue;
+			}
+
+		else if (strcmp(argv[index], "--choose") == 0)
+			{
+			pickTargets = kTrue;
+			}
+
+		else if (argv[index][0] == '-')
+			{
+			cerr << argv[0] << ": unknown command line option: " << argv[index] << endl;
+			}
+
+		else
+			{
+			JString* userTarget = new JString(argv[index]);
+			assert( userTarget != NULL );
+			userTargetList->Append(userTarget);
+			}
+
+		index++;
+		}
+
+	JString s = *headerName;
+	if (!JGetTrueName(s, headerName))
+		{
+			JString jstmp;
+			jstmp = makedir + "/" + *headerName;
+			if(!JGetTrueName(jstmp, headerName))
+				{
+				cerr << argv[0] << ": header file not found" << endl;
+				exit(1);
+				}
+		}
+
+	s = *footerName;
+	if(!JGetTrueName(s, footerName))
+		{
+			JString jstmp;
+			jstmp = makedir + "/" + *footerName;
+			JGetTrueName(jstmp, footerName);
+		}
+
+	s = *inputName;
+	if (!JGetTrueName(s, inputName))
+		{
+		cerr << argv[0] << ": project file not found" << endl;
+		exit(1);
+		}
+
+	if (outputName->Contains("/"))
+		{
+		JString path, name;
+		JSplitPathAndName(*outputName, &path, &name);
+		JString fullPath;
+		if (!JGetTrueName(path, &fullPath))
+			{
+			cerr << argv[0] << ": invalid path for output file" << endl;
+			exit(1);
+			}
+		const JError err = JChangeDirectory(fullPath);
+		if (!err.OK())
+			{
+			cerr << argv[0] << ": " << err.GetMessage() << endl;
+			exit(1);
+			}
+		*outputName = name;
+		}
+
+	// check mod times
+
+	if (checkModTimes)
+		{
+		time_t headerTime, inputTime, outputTime;
+		if (JGetModificationTime(*headerName, &headerTime) != kJNoError)
+			{
+			cerr << argv[0] << ": unable to get modification time for " << *headerName << endl;
+			exit(1);
+			}
+		if (JGetModificationTime(*inputName, &inputTime) != kJNoError)
+			{
+			cerr << argv[0] << ": unable to get modification time for " << *inputName << endl;
+			exit(1);
+			}
+
+		// don't build it if it exists and is newer
+
+		if (JGetModificationTime(*outputName, &outputTime) == kJNoError &&
+			outputTime > headerTime && outputTime > inputTime)
+			{
+			exit(0);
+			}
+		}
+
+	// let the user pick targets to include
+
+	if (pickTargets)
+		{
+		PickTargets(*inputName, userTargetList);
+		}
+}
+
+/******************************************************************************
+ PickTargets
+
+	Show the user a list of the targets in the input file and let them
+	choose which ones to include.  "All" is not an option because that
+	is the default from the command line.
+
+ ******************************************************************************/
+
+void
+PickTargets
+	(
+	const JString&		fileName,
+	JPtrArray<JString>*	list
+	)
+{
+	JPtrArray<JString> all;
+	JSize count = 0;
+	cout << endl;
+
+	ifstream input(fileName);
+	JIgnoreUntil(input, '@');
+	while (!input.eof() && !input.fail())
+		{
+		JString* targetName = new JString(JReadUntil(input, '\n'));
+		assert( targetName != NULL );
+
+		all.Append(targetName);
+		count++;
+		cout << count << ") " << *targetName << endl;
+
+		JIgnoreUntil(input, '@');
+		}
+	input.close();
+
+	cout << endl;
+
+	while (1)
+		{
+		JIndex choice;
+		cout << "Target to include (0 to end): ";
+		cin >> choice;
+		JInputFinished();
+
+		if (choice == 0 && list->IsEmpty())
+			{
+			exit(0);
+			}
+		else if (choice == 0)
+			{
+			break;
+			}
+		else if (choice > count)
+			{
+			cerr << "That is not a valid choice" << endl;
+			}
+		else
+			{
+			JString* targetName = new JString(*(all.NthElement(choice)));
+			assert( targetName != NULL );
+
+			list->Append(targetName);
+			}
+		}
+
+	all.DeleteAll();
+}
+
+/******************************************************************************
+ PrintHelp
+
+ ******************************************************************************/
+
+void
+PrintHelp
+	(
+	const JString& headerName,
+	const JString& footerName,
+	const JString& inputName,
+	const JString& outputName
+	)
+{
+	cout << endl;
+	cout << "This program builds a Makefile from:" << endl;
+	cout << endl;
+	cout << "    1) Header file:  defines make variables" << endl;
+	cout << "    2) Project file: contains a list of required code files" << endl;
+	cout << endl;
+	cout << "The format of the project file is:" << endl;
+	cout << endl;
+	cout << "    @<name of first target>" << endl;
+	cout << "    <first object file>" << endl;
+	cout << "    <second object file>" << endl;
+	cout << "    ..." << endl;
+	cout << "    @<name of second target>" << endl;
+	cout << "    ..." << endl;
+	cout << endl;
+	cout << "If no objects files are listed for a target, it is assumed that" << endl;
+	cout << "they are the same as those for the next target in the file." << endl;
+	cout << endl;
+	cout << "Embedded options:" << endl;
+	cout << endl;
+	cout << "    -prefix <prefix for following files>" << endl;
+	cout << "            (reset to blank at start of each main target)" << endl;
+	cout << "    -suffix <suffix for following files>" << endl;
+	cout << "            (override for specific file by placing suffix in front of name)" << endl;
+	cout << "    (you can redefine these as often as you want)" << endl;
+	cout << endl;
+	cout << "Comments can be included by beginning the line with #" << endl;
+	cout << endl;
+	cout << "Usage:  <options> <targets to generate>" << endl;
+	cout << endl;
+	cout << "-h            prints help" << endl;
+	cout << "-v            prints version information" << endl;
+	cout << "-hf           <header file name>  - default " << headerName << endl;
+	cout << "-ff           <footer file name>  - default " << footerName << endl;
+	cout << "-if           <project file name> - default " << inputName << endl;
+	cout << "-of           <output file name>  - default " << outputName << endl;
+	cout << "--bin_dir     <variable name> - specifies directory for all .o files" << endl;
+	cout << "--no_std_inc  exclude dependencies on files in /usr/include" << endl;
+	cout << "--check       only rebuild output file if input files are newer" << endl;
+	cout << "--choose      interactively choose the targets" << endl;
+	cout << "--force       <suffix> forces target suffix (.a, .jar) when target has none" << endl;
+	cout << "--appname     <application name> specifes target application" << endl;
+	cout << "--makedir     <directory> specifies altenate location for Make.Header" << endl;
+	cout << endl;
+}
+
+/******************************************************************************
+ PrintVersion
+
+ ******************************************************************************/
+
+void
+PrintVersion()
+{
+	cout << endl;
+	cout << kVersionStr << endl;
+	cout << endl;
+}
+
+/******************************************************************************
+ Dependency graph
+
+ ******************************************************************************/
+
+struct HeaderDep
+{
+	JString*			fileName;
+	JPtrArray<JString>*	depList;	// list of files that fileName -explicitly- #includes
+
+	HeaderDep()
+		:
+		fileName(NULL), depList(NULL)
+	{ };
+
+	HeaderDep(JString* name, JPtrArray<JString>* list)
+		:
+		fileName(name), depList(list)
+	{ };
+};
+
+void		WriteDependencies(ostream& output, const JCharacter* fileName,
+							  const JCharacter* makeName,
+							  const JPtrArray<JString>& pathList1,
+							  const JPtrArray<JString>& pathList2,
+							  const JCharacter* outputDirName,
+							  JArray<HeaderDep>* headerList);
+void		PrintDependencies(ostream& output, const JCharacter* outputDirName,
+							  const JCharacter* makeName,
+							  const JPtrArray<JString>& depList);
+void		AddDependency(JPtrArray<JString>* depList, const JString& headerName,
+						  const JPtrArray<JString>& pathList1,
+						  const JPtrArray<JString>& pathList2,
+						  JArray<HeaderDep>* headerList,
+						  const JBoolean addToDepList = kTrue);
+HeaderDep	ParseHeaderFile(const JString& fileName,
+							const JPtrArray<JString>& pathList1,
+							const JPtrArray<JString>& pathList2,
+							JArray<HeaderDep>* headerList);
+JBoolean	GetNextIncludedFile(istream& input,
+								const JPtrArray<JString>& pathList1,
+								const JPtrArray<JString>& pathList2,
+								JString* fileName);
+JBoolean	FindFile(const JCharacter* fileName, const JPtrArray<JString>& pathList,
+					 JString* fullName);
+void		TruncateMakefile(const JCharacter* fileName);
+
+JOrderedSetT::CompareResult CompareHeaderFiles(const HeaderDep& h1, const HeaderDep& h2);
+
+/******************************************************************************
+ CalcDepend
+
+	Append the dependency graph to the specified file.
+
+	*** This function does not return.
+
+ ******************************************************************************/
+
+void
+CalcDepend
+	(
+	const JSize	startArg,
+	const JSize	argc,
+	char*		argv[]
+	)
+{
+#ifdef _J_ARRAY_NEW_OVERRIDABLE
+
+	// we don't bother to clean up at the end
+
+	(JMemoryManager::Instance())->CancelRecordAllocated();
+	(JMemoryManager::Instance())->CancelRecordDeallocated();
+	(JMemoryManager::Instance())->SetPrintExitStats(kFalse);
+
+#endif
+
+	// parse command line arguments
+
+	JString outputDirName;
+	JBoolean searchSysDir = kTrue;
+
+	JIndex i = startArg;
+
+	const JCharacter* makefileName = argv[i];
+	i++;
+
+	while (i < argc-1 && strcmp(argv[i], "--") != 0)
+		{
+		if (strcmp(argv[i], "--bin_dir") == 0)
+			{
+			i++;
+			JCheckForValues(1, i, argc, argv, "invalid output directory in \"makemake --depend\"");
+			outputDirName = argv[i];
+			}
+		else if (strcmp(argv[i], "--no_std_inc") == 0)
+			{
+			searchSysDir = kFalse;
+			}
+		else
+			{
+			cerr << "Unknown argument " << argv[i] << " in \"makemake --depend\"" << endl;
+			}
+		i++;
+		}
+
+	if (i >= argc || strcmp(argv[i], "--") != 0)
+		{
+		cerr << "Missing first \"--\" in \"makemake --depend\"" << endl;
+		exit(1);
+		}
+	i++;	// move past "--"
+
+	// find directories to search
+
+	JPtrArray<JString> pathList1, pathList2;
+	JString* path;
+
+	JBoolean searchCurrDir = kTrue;
+
+	while (i < argc && strcmp(argv[i], "--") != 0)
+		{
+		if (strcmp(argv[i], "-nostdinc") == 0)
+			{
+			searchSysDir = kFalse;
+			}
+		else if (strcmp(argv[i], "-I-") == 0)
+			{
+			searchCurrDir = kFalse;
+			}
+		else if (argv[i][0] == '-' && argv[i][1] == 'I' &&
+				 argv[i][2] != '\0' && argv[i][2] != '-')
+			{
+			if (JDirectoryReadable(argv[i]+2))
+				{
+				path = new JString(argv[i]+2);		// strip off "-I"
+				assert( path != NULL );
+				if (searchCurrDir)
+					{
+					pathList1.Append(path);
+					}
+				else
+					{
+					pathList2.Append(path);
+					}
+				}
+			else
+				{
+				cerr << argv[0] << ": invalid path " << argv[i] << endl;
+				}
+			}
+		i++;
+		}
+	i++;	// skip second "--"
+
+	if (i >= argc)
+		{
+#if USE_TEMP_FILE_FOR_DEPEND
+		cerr << "Missing transfer file name in \"makemake --depend\"" << endl;
+#else
+		cerr << "Missing file list in \"makemake --depend\"" << endl;
+#endif
+		exit(1);
+		}
+
+	if (searchCurrDir)
+		{
+		pathList2 = pathList1;		// don't include ./ for <...>
+
+		path = new JString(kCurrentDir);
+		assert( path != NULL );
+		pathList1.Prepend(path);
+		}
+
+	if (searchSysDir)
+		{
+		path = new JString(kSysIncludeDir);
+		assert( path != NULL );
+		pathList2.Append(path);
+		}
+
+	// append dependencies to input file
+
+	TruncateMakefile(makefileName);
+
+	ofstream output(makefileName, ios::app);
+	output << '\n';
+
+	JArray<HeaderDep> headerList;		// header files that have been processed
+	headerList.SetCompareFunction(CompareHeaderFiles);
+
+#if USE_TEMP_FILE_FOR_DEPEND
+
+	ifstream input(argv[i]);
+
+	JString fileName, makeName;
+	while (1)
+		{
+		fileName = JReadLine(input);
+		if (input.eof() || input.fail())
+			{
+			break;
+			}
+		makeName = JReadLine(input);
+		WriteDependencies(output, fileName, makeName, pathList1, pathList2,
+						  outputDirName, &headerList);
+		}
+
+#else
+
+	for ( ; i<argc; i+=2)
+		{
+		WriteDependencies(output, argv[i], argv[i+1], pathList1, pathList2,
+						  outputDirName, &headerList);
+		}
+
+#endif
+
+#if ! ALLOW_INCLUDE_LOOPS
+
+	const JSize headerCount = headerList.GetElementCount();
+	for (i=1; i<=headerCount; i++)
+		{
+		const HeaderDep info = headerList.GetElement(i);
+		PrintDependencies(output, outputDirName, *(info.fileName), *(info.depList));
+		}
+
+#endif
+
+	// We should clean up, but it's not worth the trouble.
+	// (and pathList1 and pathList2 share objects)
+
+	exit(0);
+}
+
+/******************************************************************************
+ WriteDependencies
+
+	Write a line to the Makefile describing -all- the files that the given
+	file depends on.
+
+	Since Make uses string comparisons to find the source files among the
+	rules, the string in front of the colon has to be -exactly- the same
+	as in the source file list.  This is what makeName is.
+
+ ******************************************************************************/
+
+void
+WriteDependencies
+	(
+	ostream&					output,
+	const JCharacter*			fileName,
+	const JCharacter*			makeName,
+	const JPtrArray<JString>&	pathList1,
+	const JPtrArray<JString>&	pathList2,
+	const JCharacter*			outputDirName,
+	JArray<HeaderDep>*			headerList
+	)
+{
+	if (!JFileExists(fileName))
+		{
+		cerr << "Source file \"" << fileName << "\" not found" << endl;
+		return;
+		}
+
+	const JString s = fileName;
+	if (s.EndsWith(kJavaSuffix) || s.EndsWith(kEiffelSuffix))
+		{
+		return;
+		}
+
+	// build dependency list
+
+	JPtrArray<JString> depList;
+	depList.SetCompareFunction(JCompareStringsCaseSensitive);
+
+	ifstream input(fileName);
+	JString headerName;
+	while (GetNextIncludedFile(input, pathList1, pathList2, &headerName))
+		{
+		AddDependency(&depList, headerName, pathList1, pathList2, headerList);
+		}
+	input.close();
+
+	// write dependencies
+
+	PrintDependencies(output, outputDirName, makeName, depList);
+
+	// depList doesn't own the strings
+}
+
+/******************************************************************************
+ PrintDependencies
+
+ ******************************************************************************/
+
+void
+PrintDependencies
+	(
+	ostream&					output,
+	const JCharacter*			outputDirName,
+	const JCharacter*			makeName,
+	const JPtrArray<JString>&	depList
+	)
+{
+	if (!depList.IsEmpty())
+		{
+		if (!JStringEmpty(outputDirName))
+			{
+			JString s = makeName, p,f;
+			JSplitPathAndName(s, &p, &f);
+			output << "${" << outputDirName << "}/";
+			f.Print(output);
+			}
+		else
+			{
+			output << makeName;
+			}
+
+		output << ':';
+
+		const JSize depCount = depList.GetElementCount();
+		for (JIndex i=1; i<=depCount; i++)
+			{
+			output << ' ';
+			(depList.NthElement(i))->Print(output);
+			}
+
+		output << "\n\n";
+		}
+}
+
+/******************************************************************************
+ AddDependency
+
+	Add the given file and all files that it depends on to depList.
+
+ ******************************************************************************/
+
+void
+AddDependency
+	(
+	JPtrArray<JString>*			depList,
+	const JString&				headerName,
+	const JPtrArray<JString>&	pathList1,
+	const JPtrArray<JString>&	pathList2,
+	JArray<HeaderDep>*			headerList,
+	const JBoolean				addToDepList
+	)
+{
+	const HeaderDep info = ParseHeaderFile(headerName, pathList1, pathList2, headerList);
+
+	JBoolean isDuplicate;
+	const JIndex index =
+		depList->GetInsertionSortIndex(const_cast<JString*>(&headerName), &isDuplicate);
+	if (!isDuplicate)
+		{
+		if (addToDepList)
+			{
+			// must use info.fileName so we have a valid JString*
+			depList->InsertAtIndex(index, info.fileName);
+			}
+
+		#if ALLOW_INCLUDE_LOOPS
+		const JBoolean addSubToDepList = kTrue;
+		#else
+		const JBoolean addSubToDepList = kFalse;
+		#endif
+
+		const JSize count = (info.depList)->GetElementCount();
+		for (JIndex i=1; i<=count; i++)
+			{
+			const JString* includedFileName = (info.depList)->NthElement(i);
+
+			#if ! ALLOW_INCLUDE_LOOPS
+
+			// check if it already exists
+
+			HeaderDep info(const_cast<JString*>(includedFileName), NULL);
+			JIndex j;
+			if (headerList->SearchSorted(info, JOrderedSetT::kAnyMatch, &j))
+				{
+				continue;
+				}
+
+			#endif
+
+			AddDependency(depList, *includedFileName,
+						  pathList1, pathList2, headerList, addSubToDepList);
+			}
+		}
+}
+
+/******************************************************************************
+ ParseHeaderFile
+
+	Add a record to headerList describing the depencies of the given file.
+
+ ******************************************************************************/
+
+HeaderDep
+ParseHeaderFile
+	(
+	const JString&				fileName,
+	const JPtrArray<JString>&	pathList1,
+	const JPtrArray<JString>&	pathList2,
+	JArray<HeaderDep>*			headerList
+	)
+{
+	// check if it already exists
+
+	HeaderDep info(const_cast<JString*>(&fileName), (JPtrArray<JString>*) NULL);
+	JBoolean found;
+	const JIndex index =
+		headerList->SearchSorted1(info, JOrderedSetT::kAnyMatch, &found);
+	if (found)
+		{
+		return headerList->GetElement(index);
+		}
+
+	// add it to headerList
+
+	info.fileName = new JString(fileName);
+	assert( info.fileName != NULL );
+
+	info.depList = new JPtrArray<JString>;
+	assert( info.depList != NULL );
+	(info.depList)->SetCompareFunction(JCompareStringsCaseSensitive);
+
+	headerList->InsertElementAtIndex(index, info);
+
+	// extract dependencies only from non-system header files
+
+	if (fileName.BeginsWith(kSysIncludeDir))
+		{
+		return info;
+		}
+
+	// find the files that fileName depends on and add them to depList
+
+	ifstream input(fileName);
+	JString headerName;
+	while (GetNextIncludedFile(input, pathList1, pathList2, &headerName))
+		{
+		JBoolean isDuplicate;
+		const JIndex i = (info.depList)->GetInsertionSortIndex(&headerName, &isDuplicate);
+		if (!isDuplicate)
+			{
+			JString* depName = new JString(headerName);
+			assert( depName != NULL );
+			(info.depList)->InsertAtIndex(i, depName);
+			}
+		}
+
+	return info;
+}
+
+/******************************************************************************
+ GetNextIncludedFile
+
+	Get the next #include from the given input stream.
+	Returns kFalse if there are no more.
+
+ ******************************************************************************/
+
+static const JCharacter* kIncludeMarker = "include";
+const JSize kIncludeMarkerLength        = strlen(kIncludeMarker);
+
+JBoolean
+GetNextIncludedFile
+	(
+	istream&					input,
+	const JPtrArray<JString>&	pathList1,
+	const JPtrArray<JString>&	pathList2,
+	JString*					fileName
+	)
+{
+	while (!input.eof() && !input.fail())
+		{
+		input >> ws;
+		if (input.peek() != '#')
+			{
+			JIgnoreUntil(input, '\n');
+			}
+		else
+			{
+			input.ignore();
+			input >> ws;
+			JString line = JReadLine(input);
+			if (line.BeginsWith(kIncludeMarker))
+				{
+				line.RemoveSubstring(1, kIncludeMarkerLength);
+				line.TrimWhitespace();
+
+				JCharacter c = line.GetFirstCharacter();
+				if (c == '"' || c == '<')
+					{
+					if (c == '<')
+						{
+						c = '>';
+						}
+
+					const JSize length = line.GetLength();
+					JIndex i = 2;
+					while (i <= length && line.GetCharacter(i) != c)
+						{
+						i++;
+						}
+
+					if (i <= length)
+						{
+						const JString name = line.GetSubstring(2, i-1);
+						if ((c == '"' && FindFile(name, pathList1, fileName)) ||
+							FindFile(name, pathList2, fileName))
+							{
+							return kTrue;
+							}
+						}
+					}
+				}
+			}
+		}
+
+	fileName->Clear();
+	return kFalse;
+}
+
+/******************************************************************************
+ FindFile
+
+	Search for the file in the given list of directories.
+
+ ******************************************************************************/
+
+JBoolean
+FindFile
+	(
+	const JCharacter*			fileName,
+	const JPtrArray<JString>&	pathList,
+	JString*					fullName
+	)
+{
+	// if full path is specified, use it
+
+	if (fileName[0] == '/' ||
+		JCompareMaxN(fileName, "./", 2, kTrue) ||
+		JCompareMaxN(fileName, "../", 3, kTrue))
+		{
+		if (JFileExists(fileName))
+			{
+			*fullName = fileName;
+			return kTrue;
+			}
+		else
+			{
+			fullName->Clear();
+			return kFalse;
+			}
+		}
+
+	// otherwise, check search paths
+
+	const JSize count = pathList.GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		const JString* path = pathList.NthElement(i);
+		*fullName           = JCombinePathAndName(*path, fileName);
+		if (JFileExists(*fullName))
+			{
+			return kTrue;
+			}
+		}
+
+	fullName->Clear();
+	return kFalse;
+}
+
+/******************************************************************************
+ TruncateMakefile
+
+	Chop off old dependency list.
+
+ ******************************************************************************/
+
+void
+TruncateMakefile
+	(
+	const JCharacter* fileName
+	)
+{
+	fstream f(fileName, kJTextFile);
+
+	JString line;
+	do
+		{
+		line = JReadLine(f);
+		}
+		while (!f.eof() && !f.fail() && line != kMakedependMarkerStr);
+
+	if (!f.eof() && !f.fail())
+		{
+		fstream* newF = JSetFStreamLength(fileName, f, JTellg(f), kJTextFile);
+		delete newF;
+		}
+}
+
+/******************************************************************************
+ CompareHeaderFiles
+
+	UNIX file names are case sensitive.
+
+ ******************************************************************************/
+
+JOrderedSetT::CompareResult
+CompareHeaderFiles
+	(
+	const HeaderDep& h1,
+	const HeaderDep& h2
+	)
+{
+	const int r = JStringCompare(*(h1.fileName), *(h2.fileName), kTrue);
+
+	if (r > 0)
+		{
+		return JOrderedSetT::kFirstGreaterSecond;
+		}
+	else if (r < 0)
+		{
+		return JOrderedSetT::kFirstLessSecond;
+		}
+	else
+		{
+		return JOrderedSetT::kFirstEqualSecond;
+		}
+}
+
+#define JTemplateType HeaderDep
+#include <JArray.tmpls>
+#undef JTemplateType
+
+#define JTemplateType JBoolean
+#include <JArray.tmpls>
+#undef JTemplateType
+
+--------------2061BA99B97F29DCF27F8AAF--
+
+From markw@mohawksoft.com  Wed Feb 16 14:53:07 2000
+Return-Path: <markw@mohawksoft.com>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id OAA14081
+	for <jcc@alice.wonderland.caltech.edu>; Wed, 16 Feb 2000 14:51:20 -0800
+Received: from snoopy.mohawksoft.com (root@[216.41.12.227])
+	by web21.topchoice.com (8.8.7/8.8.5) with ESMTP id NAA24295
+	for <jcc@newplanetsoftware.com>; Wed, 16 Feb 2000 13:42:05 -0800
+Received: from mohawksoft.com (IDENT:markw@hostip [216.41.12.227])
+	by snoopy.mohawksoft.com (8.9.3/8.9.3) with ESMTP id QAA01064
+	for <jcc@newplanetsoftware.com>; Wed, 16 Feb 2000 16:40:25 -0500
+Sender: markw@snoopy.mohawksoft.com
+Message-ID: <38AB1949.1E049095@mohawksoft.com>
+Date: Wed, 16 Feb 2000 16:40:25 -0500
+From: mlw <markw@mohawksoft.com>
+X-Mailer: Mozilla 4.7 [en] (X11; U; Linux 2.2.14 i686)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: jcc@newplanetsoftware.com
+Subject: Re: CodeCrusader/makemake
+References: <200002162148.NAA13448@alice.caltech.edu>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Status: RO
+X-Arrow-Reply-Status: R
+X-Status: A
+
+John Lindal wrote:
+> 
+> >> You could just change the build command in the Make Settings dialog to
+> >> include "APPNAME=nnnn".
+> >
+> > Yes, but I develop on multiple platforms. One of which is Freebsd in a
+> > server farm at a remote data center. I use my changes to create a
+> > Makefile which I use, plus I am not the only person building the code.
+> > Forcing this info to be in the Makefile allows me to cvs the Makefile,
+> > and still not have to write it. ;-)
+> 
+> Good point.
+> 
+> >> Why is this necessary?  Could you send me an example showing me a case
+> >> where something can't be done in Make.header?
+> >
+> > I have attached a header and a footer of a current project. Please don't
+> > distribute this code, but you are free to examine it and use the concepts
+> > represented.
+> 
+> I still don't see why this has to be after the generated code.  make
+> doesn't care in what order you arrange the targets, so you should be able
+> to put everything in Make.header and it should still work.
+
+Perhaps it doesn't, but in the footer I can put targets like run, debug,
+etc which won't ever be confused as the main target. Just a habit I got
+into.
+
+> 
+> >> But I think it should actually be $t and refer to the name of the build
+> >> target in the Project Configuration dialog.  What do you think?
+> >
+> > I Like to have the "target" conceptually different from "project"
+> > although 99.9% of the time they are the same thing.
+> 
+> But since you wanted to pass it to makemake, shouldn't it be the name of
+> the target?  The target is what you want to actually build, right?
+
+What about when you build a library? In one of my projects, I create a
+library that is libfastc++.a, but the project name is common. Do you
+want a project named libxxx++.jcc? I don't like that too much.
+
+> 
+> > One of the things that CodeCrusader needs is to be able to build, within
+> > a single nfs shared directory, multiple OS types. Header and footer do
+> > this.
+> 
+> This is why I haven't put an interface on top of Make.header.  It's too
+> messy for Code Crusader to be able to handle, as far as I can tell.
+
+The Make.header and Make.footer, I sent you, do this.
+
+> 
+> Have you seen the web page
+> 
+>   file:/mnt/t2/user1/jafl/web/nps/jcc/multi_version.html
+> 
+> It's linked from the FAQ.  This pretty much does what you are doing.
+> 
+> > I have also included makemake.cc which is merged with the stable release
+> > I downloaded, plus I was forced to add even more features."--makedir
+> > <directory> specifies alternate location for Make.Header"
+> 
+> Why can't you use the existing option -hf?  This can include a path.
+
+But that specifies a file, not an optional path. The makemake I hacked,
+looks for "Make.header (and footer) in the current directory, and if it
+is not found, looks in the path specified. 
+
+
+-- 
+Mohawk Software
+Windows 95, Windows NT, UNIX, Linux. Applications, drivers, support. 
+Visit http://www.mohawksoft.com
+
+From jcc@newplanetsoftware.com  Wed Feb 16 16:49:13 2000
+Return-Path: <jcc@newplanetsoftware.com>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id QAA14625
+	for <jcc@alice.wonderland.caltech.edu>; Wed, 16 Feb 2000 16:49:12 -0800
+Received: from alice.caltech.edu (root@alice.wonderland.caltech.edu [131.215.104.2])
+	by web21.topchoice.com (8.8.7/8.8.5) with ESMTP id PAA01963
+	for <jcc@newplanetsoftware.com>; Wed, 16 Feb 2000 15:39:57 -0800
+Received: from cheshire-cat.caltech.edu (IDENT:jafl@cheshire-cat.caltech.edu [131.215.104.10])
+	by alice.caltech.edu (8.9.3/8.9.3) with SMTP id QAA14618;
+	Wed, 16 Feb 2000 16:49:08 -0800
+Date: Wed, 16 Feb 2000 16:49:08 -0800
+Message-Id: <200002170049.QAA14618@alice.caltech.edu>
+From: John Lindal <jcc@newplanetsoftware.com>
+X-Mailer: Arrow 2.0b1 (X11; Linux 2.2.5-15; i686)
+To: <markw@mohawksoft.com>
+Reply-To: jcc@newplanetsoftware.com
+Cc: <jcc@newplanetsoftware.com>
+Subject: Re: CodeCrusader/makemake
+Status: RO
+
+>> I still don't see why this has to be after the generated code.  make
+>> doesn't care in what order you arrange the targets, so you should be
+>> able to put everything in Make.header and it should still work.
+>
+> Perhaps it doesn't, but in the footer I can put targets like run, debug,
+> etc which won't ever be confused as the main target. Just a habit I got
+> into.
+
+Unless I absolutely have to, I prefer to avoid introducing even more files.
+As far as I can tell, it isn't necessary.
+
+> What about when you build a library? In one of my projects, I create a
+> library that is libfastc++.a, but the project name is common. Do you want
+> a project named libxxx++.jcc? I don't like that too much.
+
+Simple solution:  I give you both $p and $t
+
+>>> One of the things that CodeCrusader needs is to be able to build,
+>>> within a single nfs shared directory, multiple OS types. Header and
+>>> footer do this.
+>> 
+>> This is why I haven't put an interface on top of Make.header.  It's too
+>> messy for Code Crusader to be able to handle, as far as I can tell.
+>
+> The Make.header and Make.footer, I sent you, do this.
+
+Yes, but all I can do is post it as an example.  If somebody wants even a
+slightly different organization, they have to modify it.  The example that
+is already on the web explains the hard part already.
+
+>> Why can't you use the existing option -hf?  This can include a path.
+>
+> But that specifies a file, not an optional path. The makemake I hacked,
+> looks for "Make.header (and footer) in the current directory, and if it
+> is not found, looks in the path specified. 
+
+Why does it need to be optional?  Surely one knows where Make.header is?
+
+John
+
+From markw@mohawksoft.com  Wed Feb 16 17:17:26 2000
+Return-Path: <markw@mohawksoft.com>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id RAA14821
+	for <jcc@alice.wonderland.caltech.edu>; Wed, 16 Feb 2000 17:15:32 -0800
+Received: from snoopy.mohawksoft.com (root@[216.41.12.227])
+	by web21.topchoice.com (8.8.7/8.8.5) with ESMTP id QAA04375
+	for <jcc@newplanetsoftware.com>; Wed, 16 Feb 2000 16:06:13 -0800
+Received: from mohawksoft.com (IDENT:markw@hostip [216.41.12.227])
+	by snoopy.mohawksoft.com (8.9.3/8.9.3) with ESMTP id TAA01717
+	for <jcc@newplanetsoftware.com>; Wed, 16 Feb 2000 19:04:33 -0500
+Sender: markw@snoopy.mohawksoft.com
+Message-ID: <38AB3B11.C2CDC609@mohawksoft.com>
+Date: Wed, 16 Feb 2000 19:04:33 -0500
+From: mlw <markw@mohawksoft.com>
+X-Mailer: Mozilla 4.7 [en] (X11; U; Linux 2.2.14 i686)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: jcc@newplanetsoftware.com
+Subject: Re: CodeCrusader/makemake
+References: <200002170049.QAA14618@alice.caltech.edu>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Status: RO
+X-Arrow-Reply-Status: R
+X-Status: A
+
+John Lindal wrote:
+> 
+> >> I still don't see why this has to be after the generated code.  make
+> >> doesn't care in what order you arrange the targets, so you should be
+> >> able to put everything in Make.header and it should still work.
+> >
+> > Perhaps it doesn't, but in the footer I can put targets like run, debug,
+> > etc which won't ever be confused as the main target. Just a habit I got
+> > into.
+> 
+> Unless I absolutely have to, I prefer to avoid introducing even more files.
+> As far as I can tell, it isn't necessary.
+
+Make.footer is optional.
+
+> 
+> > What about when you build a library? In one of my projects, I create a
+> > library that is libfastc++.a, but the project name is common. Do you want
+> > a project named libxxx++.jcc? I don't like that too much.
+> 
+> Simple solution:  I give you both $p and $t
+
+cool.
+
+> 
+> >>> One of the things that CodeCrusader needs is to be able to build,
+> >>> within a single nfs shared directory, multiple OS types. Header and
+> >>> footer do this.
+> >>
+> >> This is why I haven't put an interface on top of Make.header.  It's too
+> >> messy for Code Crusader to be able to handle, as far as I can tell.
+> >
+> > The Make.header and Make.footer, I sent you, do this.
+> 
+> Yes, but all I can do is post it as an example.  If somebody wants even a
+> slightly different organization, they have to modify it.  The example that
+> is already on the web explains the hard part already.
+
+I would be happy to create an example which you can include in
+CodeCrusader.
+
+> 
+> >> Why can't you use the existing option -hf?  This can include a path.
+> >
+> > But that specifies a file, not an optional path. The makemake I hacked,
+> > looks for "Make.header (and footer) in the current directory, and if it
+> > is not found, looks in the path specified.
+> 
+> Why does it need to be optional?  Surely one knows where Make.header is?
+
+Yes, but having the ability to override the greater project defaults is
+important for sub-projects. 
+> 
+> John
+
+-- 
+Mohawk Software
+Windows 95, Windows NT, UNIX, Linux. Applications, drivers, support. 
+Visit http://www.mohawksoft.com
+
+From owner-jcc@anteroom.its.caltech.edu  Thu Mar  2 06:28:19 2000
+Return-Path: <owner-jcc@anteroom.its.caltech.edu>
+Received: from anteroom.its.caltech.edu (anteroom.its.caltech.edu [131.215.48.155])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id GAA31254;
+	Thu, 2 Mar 2000 06:28:13 -0800
+Received: (from daemon@localhost)
+	by anteroom.its.caltech.edu (8.9.1/8.9.3) id FAA28476
+	for jcc-outgoing; Thu, 2 Mar 2000 05:15:55 -0800 (PST)
+Received: from spike.voodoomonkey.com (IDENT:root@lockwood.shore.net [207.244.75.162])
+	by anteroom.its.caltech.edu (8.9.1/8.9.3) with ESMTP id FAA28464
+	for <jcc@its.caltech.edu>; Thu, 2 Mar 2000 05:15:46 -0800 (PST)
+Received: from voodoomonkey.com (spongeworthy [207.244.75.163])
+	by spike.voodoomonkey.com (8.9.3/8.9.3) with ESMTP id IAA06222
+	for <jcc@its.caltech.edu>; Thu, 2 Mar 2000 08:17:28 -0500 (EST)
+Message-ID: <38BE6978.2A049F51@voodoomonkey.com>
+Date: Thu, 02 Mar 2000 08:15:37 -0500
+From: Mike Lockwood <mike@voodoomonkey.com>
+X-Mailer: Mozilla 4.61 [en] (X11; U; OpenBSD 2.6 i386)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: jcc@its.caltech.edu
+Subject: Building jcc with gcc 2.95?
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Sender: owner-jcc@its.caltech.edu
+Precedence: bulk
+Reply-To: jcc@its.caltech.edu
+Status: RO
+X-Arrow-Reply-Status: R
+X-Status: A
+
+Hi all,
+
+I am trying to build jcc 2.1.4/JX 1.5.3 on OpenBSD.  I modified the
+Makefile and added OpenBSD build files, and I managed to get jcc to
+build with no warnings or errors.  But I am having trouble getting it to
+run properly.
+
+When I try to run jcc, I get:
+
+Assertion failed: action == CBProjectTable::kAskPathType || action ==
+CBProjectTable::kAbsolutePath || action ==
+CBProjectTable::kProjectRelative || action ==
+CBProjectTable::kHomeRelative
+    code/CBProjectTable.cc:1960
+
+It appears that jcc is writing out a corrupt .jxcb.pref file and choking
+when it tries to read it back in.  Since there are a lot of C++ stream
+operations in this part of the code, I'm thinking that the problem might
+be compiler related.  Or could it be that one of the OpenBSD libraries
+is broken?
+
+Has anyone successfully built JX/jcc with gcc 2.95.X?  My problem occurs
+on OpenBSD 2.6, which uses gcc 2.95.1, and OpenBSD current, which uses
+gcc 2.95.2.
+
+Any insights would be greatly appreciatedl
+
+thanks,
+Mike
+
+From owner-jcc@anteroom.its.caltech.edu  Thu Mar  2 14:36:16 2000
+Return-Path: <owner-jcc@anteroom.its.caltech.edu>
+Received: from anteroom.its.caltech.edu (anteroom.its.caltech.edu [131.215.48.155])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id OAA01501;
+	Thu, 2 Mar 2000 14:36:14 -0800
+Received: (from daemon@localhost)
+	by anteroom.its.caltech.edu (8.9.1/8.9.3) id NAA17187
+	for jcc-outgoing; Thu, 2 Mar 2000 13:24:25 -0800 (PST)
+Received: from alice.caltech.edu (IDENT:root@alice.wonderland.caltech.edu [131.215.104.2])
+	by anteroom.its.caltech.edu (8.9.1/8.9.3) with ESMTP id NAA17165
+	for <jcc@its.caltech.edu>; Thu, 2 Mar 2000 13:24:22 -0800 (PST)
+Received: from cheshire-cat.caltech.edu (IDENT:jafl@cheshire-cat.caltech.edu [131.215.104.10])
+	by alice.caltech.edu (8.9.3/8.9.3) with SMTP id OAA01494;
+	Thu, 2 Mar 2000 14:35:11 -0800
+Date: Thu, 2 Mar 2000 14:35:11 -0800
+Message-Id: <200003022235.OAA01494@alice.caltech.edu>
+From: John Lindal <jafl@alice.wonderland.caltech.edu>
+X-Mailer: Arrow 2.0b1 (X11; Linux 2.2.5-15; i686)
+To: <jcc@its.caltech.edu>
+Cc: <mike@voodoomonkey.com>
+Subject: Re: Building jcc with gcc 2.95?
+Sender: owner-jcc@its.caltech.edu
+Precedence: bulk
+Reply-To: jcc@its.caltech.edu
+Status: RO
+
+> I am trying to build jcc 2.1.4/JX 1.5.3 on OpenBSD.  I modified the
+> Makefile and added OpenBSD build files, and I managed to get jcc to build
+> with no warnings or errors.
+
+Great!  If you send me the changes, I'll make sure they are in the next
+release.
+
+> But I am having trouble getting it to run properly.
+>
+> When I try to run jcc, I get:
+>
+> Assertion failed: action == CBProjectTable::kAskPathType || action ==
+> CBProjectTable::kAbsolutePath || action ==
+> CBProjectTable::kProjectRelative || action ==
+> CBProjectTable::kHomeRelative
+>     code/CBProjectTable.cc:1960
+>
+> It appears that jcc is writing out a corrupt .jxcb.pref file and choking
+> when it tries to read it back in.  Since there are a lot of C++ stream
+> operations in this part of the code, I'm thinking that the problem might
+> be compiler related.  Or could it be that one of the OpenBSD libraries
+> is broken?
+
+I assume it runs the first time, but it crashes the second time?  Could you
+send me (not to the list) the .jxcb.pref file you get after running it only
+once?  I could try loading it on my machine.  If the file works on my
+machine, it's something weird with your system.  Otherwise, I have a bug to
+fix :)
+
+> Has anyone successfully built JX/jcc with gcc 2.95.X?  My problem occurs
+> on OpenBSD 2.6, which uses gcc 2.95.1, and OpenBSD current, which uses
+> gcc 2.95.2.
+
+gcc 2.95 doesn't cause problems, as far as I know, because others have not
+had any problems.  But since there is no OpenBSD target in the
+distribution, I don't know of anybody who has tried it on OpenBSD.  Not
+that I would have expected any problems.
+
+John
+
+From mike@voodoomonkey.com  Thu Mar  2 20:28:04 2000
+Return-Path: <mike@voodoomonkey.com>
+Received: from spike.voodoomonkey.com (IDENT:root@lockwood.shore.net [207.244.75.162])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id UAA03615
+	for <jafl@alice.wonderland.caltech.edu>; Thu, 2 Mar 2000 20:28:02 -0800
+Received: from voodoomonkey.com (snaze [207.244.75.165])
+	by spike.voodoomonkey.com (8.9.3/8.9.3) with ESMTP id WAA08675
+	for <jafl@alice.wonderland.caltech.edu>; Thu, 2 Mar 2000 22:18:57 -0500 (EST)
+Sender: mike@spike.voodoomonkey.com
+Message-ID: <38BF2EB2.1CDD4DC8@voodoomonkey.com>
+Date: Thu, 02 Mar 2000 22:17:06 -0500
+From: Mike Lockwood <mike@voodoomonkey.com>
+X-Mailer: Mozilla 4.61 [en] (X11; U; OpenBSD 2.6 i386)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: John Lindal <jafl@alice.wonderland.caltech.edu>
+Subject: Re: Building jcc with gcc 2.95?
+References: <200003022235.OAA01494@alice.caltech.edu>
+Content-Type: multipart/mixed;
+ boundary="------------F4D2EF668E694B635AABCDAE"
+X-SpamBouncer: 1.01 (2/22/00)
+X-SBClass: OK
+X-Sorted: Default
+Status: RO
+
+This is a multi-part message in MIME format.
+--------------F4D2EF668E694B635AABCDAE
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Transfer-Encoding: 7bit
+
+Hi John,
+
+John Lindal wrote:
+> 
+> > I am trying to build jcc 2.1.4/JX 1.5.3 on OpenBSD.  I modified the
+> > Makefile and added OpenBSD build files, and I managed to get jcc to build
+> > with no warnings or errors.
+> 
+> Great!  If you send me the changes, I'll make sure they are in the next
+> release.
+
+Enclosed is a patch file against JX-1.5.3/jcc-2.1.4 with my changes.  I
+started with the netbsd port and only had to make a few changes to get
+it to build.  You may notice a few changes in my patch to enable
+debugging (adding -g, and getting rid of strip).  You can ignore that.
+
+> I assume it runs the first time, but it crashes the second time?  Could you
+> send me (not to the list) the .jxcb.pref file you get after running it only
+> once?  I could try loading it on my machine.  If the file works on my
+> machine, it's something weird with your system.  Otherwise, I have a bug to
+> fix :)
+
+No, it doesn't run the first time.  I only have to run jcc once to get
+the error.  Here is what I did:
+
+1) I removed my old .jxcb.pref file,
+
+2) Ran the jcc I built.  The results were:  
+
+Assertion failed: action == CBProjectTable::kAskPathType || action ==
+CBProjectTable::kAbsolutePath || action ==
+CBProjectTable::kProjectRelative || action ==
+CBProjectTable::kHomeRelative
+    code/CBProjectTable.cc:1960
+Abort trap (core dumped)
+
+3) Now I have a bogus .jxcb.pref file in my home directory that is only
+12 bytes long.  My guess is that jcc creates a new .jxcb.pref file if it
+does not exist.  Then it reads in the .jxcb.pref file it just created. 
+Something is wrong in how it creates the file, and then it chokes when
+it reads it in.
+
+I have been running a linux binary of jcc 2.1.4 on OpenBSD via Linux API
+emulation.  It mostly works, but there are a few problems (I can't get
+the ctags menu to work, and sometimes directories don't show up in the
+open file dialog.  I assume these are bugs in the OpenBSD Linux
+compatibility layer rather than bugs in jcc.  I'd like to get a native
+version of jcc running on OpenBSD to fix these problems, and so I can
+hack a bit with the code if I can find the time.
+
+I was wondering what was up with jx/jcc.  I hadn't heard anything in a
+long time and was wondering if you were still working on it.  Then today
+after I sent my first message I realized I had somehow been removed from
+the jcc mailing list!  Perhaps you removed me one day because my server
+was bouncing?  Now I'm back on the list.
+
+Anyway, I'm anxious to try to get jcc running native on OpenBSD.  I was
+able to build it with symbols so I can debug it with gdb.  But I haven't
+had time to get into the code deep enough to figure out what is going
+on.  Maybe you could look at the .jxcb.pref file and give me some clues.
+
+thanks,
+Mike
+--------------F4D2EF668E694B635AABCDAE
+Content-Type: text/plain; charset=iso-2022-jp;
+ name="jxcb.pref_from_openbsd"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline;
+ filename="jxcb.pref_from_openbsd"
+
+=00=00=00=00=00=00=00=00=0C=00=00=00
+--------------F4D2EF668E694B635AABCDAE
+Content-Type: text/plain; charset=iso-2022-jp;
+ name="jx-openbsd.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+ filename="jx-openbsd.patch"
+
+diff -Nrc JX-1.5.3-orig/ACE/ACE_wrappers/ace/OS.i JX-1.5.3/ACE/ACE_wrappers/ace/OS.i
+*** JX-1.5.3-orig/ACE/ACE_wrappers/ace/OS.i	Wed Aug 25 20:55:47 1999
+--- JX-1.5.3/ACE/ACE_wrappers/ace/OS.i	Wed Mar  1 21:40:25 2000
+***************
+*** 8923,8929 ****
+  && !defined (CHORUS)
+  #   if defined (ACE_WIN32)
+    return _timezone;  // For Win32.
+! #   elif defined(__Lynx__) || defined (__FreeBSD__)
+    long result = 0;
+    struct timeval time;
+    struct timezone zone;
+--- 8923,8929 ----
+  && !defined (CHORUS)
+  #   if defined (ACE_WIN32)
+    return _timezone;  // For Win32.
+! #   elif defined(__Lynx__) || defined (__FreeBSD__) || defined (__OpenBSD__)
+    long result = 0;
+    struct timeval time;
+    struct timezone zone;
+diff -Nrc JX-1.5.3-orig/ACE/ACE_wrappers/ace/config-openbsd.h JX-1.5.3/ACE/ACE_wrappers/ace/config-openbsd.h
+*** JX-1.5.3-orig/ACE/ACE_wrappers/ace/config-openbsd.h	Wed Dec 31 19:00:00 1969
+--- JX-1.5.3/ACE/ACE_wrappers/ace/config-openbsd.h	Thu Mar  2 05:11:10 2000
+***************
+*** 0 ****
+--- 1,177 ----
++ /* -*- C++ -*- */
++ // config-netbsd.h,v 4.9 1998/10/17 01:55:51 schmidt Exp
++ 
++ // ***** This configuration file is still under testing. *****
++ 
++ // The following configuration file is designed to work for NetBSD
++ // platforms using GNU g++.
++ 
++ #ifndef ACE_CONFIG_H
++ #define ACE_CONFIG_H
++ 
++ #if ! defined (__ACE_INLINE__)
++ #define __ACE_INLINE__
++ #endif /* ! __ACE_INLINE__ */
++ 
++ // ********************************************************
++ // uncomment next line if you are using FreeBSD 2.1.x[R]
++ // #define FreeBSD_2_1
++ // ********************************************************
++ #define ACE_NETBSD
++ 
++ #define ACE_SIZEOF_LONG_DOUBLE 12
++ 
++ #if defined (__GNUG__)
++ # include "ace/config-g++-common.h"
++ #endif /* __GNUG__ */
++ 
++ // #define ACE_HAS_BROKEN_NETBSD_MSYNC
++ 
++ // Platform specific directives
++ #define ACE_LACKS_GETPGID
++ #define ACE_LACKS_RWLOCK_T
++ #define ACE_HAS_SIG_MACROS
++ #define ACE_HAS_CHARPTR_DL
++ #define ACE_USES_ASM_SYMBOL_IN_DLSYM
++ #define ACE_LACKS_SIGSET
++ #define ACE_HAS_DIRENT
++ #define ACE_HAS_SOCKLEN_T
++ #define ACE_HAS_NONCONST_SELECT_TIMEVAL
++ #define ACE_HAS_SIGWAIT
++ #define ACE_HAS_SIGINFO_T
++ #define ACE_LACKS_SIGINFO_H
++ #define ACE_LACKS_UCONTEXT_H
++ #define ACE_LACKS_MALLOC_H
++ 
++ // This is for 2.1.x only.  By default, gcc defines __FreeBSD__ automatically
++ #if defined(FreeBSD_2_1)
++ 
++ #define ACE_HAS_CPLUSPLUS_HEADERS
++ 
++ // This is to fix the nested struct if_data definition on FreeBSD 2.1.x
++ #include <sys/types.h>
++ #include <sys/time.h>
++ struct  if_data {
++ /* generic interface information */
++   u_char  ifi_type;       /* ethernet, tokenring, etc */
++   u_char  ifi_physical;   /* e.g., AUI, Thinnet, 10base-T, etc */
++   u_char  ifi_addrlen;    /* media address length */
++   u_char  ifi_hdrlen;     /* media header length */
++   u_long  ifi_mtu;        /* maximum transmission unit */
++   u_long  ifi_metric;     /* routing metric (external only) */
++   u_long  ifi_baudrate;   /* linespeed */
++ /* volatile statistics */
++   u_long  ifi_ipackets;   /* packets received on interface */
++   u_long  ifi_ierrors;    /* input errors on interface */
++   u_long  ifi_opackets;   /* packets sent on interface */
++   u_long  ifi_oerrors;    /* output errors on interface */
++   u_long  ifi_collisions; /* collisions on csma interfaces */
++   u_long  ifi_ibytes;     /* total number of octets received */
++   u_long  ifi_obytes;     /* total number of octets sent */
++   u_long  ifi_imcasts;    /* packets received via multicast */
++   u_long  ifi_omcasts;    /* packets sent via multicast */
++   u_long  ifi_iqdrops;    /* dropped on input, this interface */
++   u_long  ifi_noproto;    /* destined for unsupported protocol */
++   struct  timeval ifi_lastchange;/* time of last administrative ch
++ ange */
++ } ;
++ 
++ // this is a hack, but since this only occured in FreeBSD 2.1.x,
++ // I guess it is ok.
++ #define ACE_HAS_BROKEN_TIMESPEC_MEMBERS
++ 
++ #endif /* defined FreeBSD_2_1 */
++ 
++ // Platform supports POSIX timers via struct timespec.
++ #define ACE_HAS_POSIX_TIME
++ #define ACE_HAS_UALARM
++ 
++ // Platform defines struct timespec but not timespec_t
++ #define ACE_LACKS_TIMESPEC_T
++ 
++ #define ACE_LACKS_SYSTIME_H
++ 
++ #define ACE_LACKS_STRRECVFD
++ 
++ #define ACE_HAS_SIN_LEN
++ 
++ // Platform supports System V IPC (most versions of UNIX, but not Win32)
++ #define ACE_HAS_SYSV_IPC
++ 
++ // Compiler/platform contains the <sys/syscall.h> file.
++ #define ACE_HAS_SYSCALL_H
++ 
++ #if !defined(FreeBSD_2_1)
++ #define ACE_HAS_CONSISTENT_SIGNAL_PROTOTYPES
++ #endif /* defined FreeBSD_2_1 */
++ 
++ // Compiler/platform supports SVR4 signal typedef
++ #define ACE_HAS_SVR4_SIGNAL_T
++ 
++ // Compiler/platform supports alloca().
++ #define ACE_HAS_ALLOCA
++ 
++ // Compiler/platform supports SVR4 dynamic linking semantics..
++ #define ACE_HAS_SVR4_DYNAMIC_LINKING
++ 
++ // Compiler/platform correctly calls init()/fini() for shared libraries.
++ #define ACE_HAS_AUTOMATIC_INIT_FINI
++ 
++ // Explicit dynamic linking permits "lazy" symbol resolution
++ #define ACE_HAS_RTLD_LAZY_V
++ 
++ // platform supports POSIX O_NONBLOCK semantics
++ #define ACE_HAS_POSIX_NONBLOCK
++ 
++ // platform supports IP multicast
++ #define ACE_HAS_IP_MULTICAST
++ 
++ // Compiler/platform has <alloca.h>
++ //#define ACE_HAS_ALLOCA_H
++ 
++ // Compiler/platform has the getrusage() system call.
++ #define ACE_HAS_GETRUSAGE
++ 
++ // Compiler/platform defines the sig_atomic_t typedef.
++ #define ACE_HAS_SIG_ATOMIC_T
++ 
++ // Compiler/platform supports sys_siglist array.
++ // *** This refers to (_sys_siglist) instead of (sys_siglist)
++ // #define ACE_HAS_SYS_SIGLIST
++ 
++ // Compiler/platform defines a union semun for SysV shared memory.
++ #define ACE_HAS_SEMUN
++ 
++ // Compiler supports the ssize_t typedef.
++ #define ACE_HAS_SSIZE_T
++ 
++ // Compiler/platform supports strerror ().
++ #define ACE_HAS_STRERROR
++ 
++ // Compiler/platform provides the sockio.h file.
++ #define ACE_HAS_SOCKIO_H
++ 
++ // Defines the page size of the system.
++ #define ACE_PAGE_SIZE 4096
++ 
++ // Platform provides <sys/filio.h> header.
++ #define ACE_HAS_SYS_FILIO_H
++ 
++ // Compiler/platform supports SVR4 gettimeofday() prototype
++ #define ACE_HAS_SUNOS4_GETTIMEOFDAY
++ // #define ACE_HAS_TIMEZONE_GETTIMEOFDAY
++ 
++ // Turns off the tracing feature.
++ #if !defined (ACE_NTRACE)
++ #define ACE_NTRACE 1
++ #endif /* ACE_NTRACE */
++ 
++ #define ACE_HAS_MSG
++ #define ACE_HAS_4_4BSD_SENDMSG_RECVMSG
++ 
++ // Optimize ACE_Handle_Set for select().
++ #define ACE_HAS_HANDLE_SET_OPTIMIZED_FOR_SELECT
++ 
++ #define ACE_LACKS_GETHOSTENT
++ 
++ #endif /* ACE_CONFIG_H */
+diff -Nrc JX-1.5.3-orig/ACE/ACE_wrappers/include/makeinclude/platform_openbsd.GNU JX-1.5.3/ACE/ACE_wrappers/include/makeinclude/platform_openbsd.GNU
+*** JX-1.5.3-orig/ACE/ACE_wrappers/include/makeinclude/platform_openbsd.GNU	Wed Dec 31 19:00:00 1969
+--- JX-1.5.3/ACE/ACE_wrappers/include/makeinclude/platform_openbsd.GNU	Thu Mar  2 07:23:11 2000
+***************
+*** 0 ****
+--- 1,28 ----
++ # platform_netbsd.GNU,v 4.6 1998/02/08 08:07:07 nanbor Exp
++ 
++ # platform_openbsd.GNU
++ 
++ # ***** Notice: This file is still under testing. *****
++ # To be used on openbsd platform without pthread support.
++ 
++ debug = 1
++ optimize = 1
++ versioned_so = 1
++ 
++ CC              = gcc
++ CXX		= g++
++ CFLAGS          += -w -fno-strict-prototypes
++ CCFLAGS         += $(CFLAGS) -fno-implicit-templates
++ DCFLAGS         += -g
++ DLD             = ld
++ LD		= $(CXX)
++ LIBS            += -lstdc++  #-lcompat -lresolv
++ ##OCFLAGS         += -O2
++ PIC             = -fpic -DPIC
++ AR              = ar
++ ARFLAGS         = ruv
++ RANLIB          = ranlib
++ 
++ SOFLAGS = -Bshareable -x /usr/lib/c++rt0.o
++ SOBUILD = $(COMPILE.cc) $(PIC) -o $(VSHDIR)$*.so  $<
++ PRELIB = @echo
+diff -Nrc JX-1.5.3-orig/Makefile JX-1.5.3/Makefile
+*** JX-1.5.3-orig/Makefile	Sat Sep 11 15:44:38 1999
+--- JX-1.5.3/Makefile	Wed Mar  1 21:25:28 2000
+***************
+*** 282,287 ****
+--- 282,305 ----
+             ACE/ACE_wrappers/include/makeinclude/platform_macros.GNU
+  	@${INSTALL_CMD}
+  
++ 
++ 
++ #
++ # OpenBSD
++ #
++ 
++ .PHONY : openbsd2.x
++ openbsd2.x: prep
++ 	@ln -s sys/OpenBSD_g++ \
++            include/make/jx_config
++ 	@ln -s ../../include/missing_proto/jMissingProto_empty.h \
++            include/jcore/jMissingProto.h
++ 	@ln -s config-openbsd.h \
++            ACE/ACE_wrappers/ace/config.h
++ 	@ln -s platform_openbsd.GNU \
++            ACE/ACE_wrappers/include/makeinclude/platform_macros.GNU
++ 	@${INSTALL_CMD}
++ 
+  #
+  # SunOS 4.x
+  #
+diff -Nrc JX-1.5.3-orig/include/make/sys/OpenBSD_g++ JX-1.5.3/include/make/sys/OpenBSD_g++
+*** JX-1.5.3-orig/include/make/sys/OpenBSD_g++	Wed Dec 31 19:00:00 1969
+--- JX-1.5.3/include/make/sys/OpenBSD_g++	Thu Mar  2 07:24:01 2000
+***************
+*** 0 ****
+--- 1,107 ----
++ # configuration for compiling with g++
++ 
++ #
++ # Adjustable parameters
++ #
++ 
++ # This tells us where to find the X libraries.
++ 
++ J_X11_LIB_DIR := -L/usr/X11R6/lib
++ 
++ # Uncomment this and change it if your X11 headers are not in /usr/include/X11.
++ 
++ J_X11_INCLUDE_DIR := -I/usr/X11R6/include
++ 
++ # Uncomment this if you want to compile libXpm into libjx
++ 
++ # JX_INCLUDE_LIBXPM := yes
++ 
++ # This sets the optimization level
++ 
++ J_OPTIMIZE_LEVEL := 0
++ 
++ # Comment this out if your system is not ELF.
++ 
++ # J_BUILD_SHARED_LIB := -fPIC
++ 
++ # This flag tells the linker to build a shared library.
++ 
++ J_SHARED_LIB_LINK_OPTION := -shared
++ 
++ # Uncomment this if you want debugging versions of the libraries.
++ 
++ J_COMPILE_DEBUG := -g
++ 
++ # Comment this out if ACE or other code gives you warnings that
++ # you can't avoid.
++ 
++ J_DIE_ON_WARNING := -Werror
++ 
++ # Uncomment this if istrstream is broken.  One way to check is to run
++ # testjcore/testJFileArray.
++ 
++ J_ISTRSTREAM_BROKEN := -D_J_ISTRSTREAM_BROKEN
++ 
++ # Comment this out if new[] and delete[] are not overridable.
++ 
++ J_ARRAY_NEW_OVERRIDABLE := -D_J_ARRAY_NEW_OVERRIDABLE
++ 
++ # Uncomment this if your version of GNU make does not automatically
++ # generate the -o parameter.
++ 
++ # J_MAKE_NEEDS_OUTPUT_ARG = -o $@
++ 
++ # This command is used to strip debugging info but not the symbol table.
++ 
++ # J_STRIP_DEBUG := strip -g
++ 
++ # Comment this out if your version of "ar" does not accept the -s option.
++ 
++ # J_RANLIB_VIA_AR_S := -D_J_RANLIB_VIA_AR_S
++ 
++ # Uncomment this if your system doesn't have memmove() (used by jlib/regex)
++ 
++ # J_REGEX_USE_BCOPY := -DUSEBCOPY
++ 
++ # Adjust these until everything compiles
++ 
++ J_RAW_SYSTEM_STUFF := \
++   -DSIZEOF_LONG=4 -DSIZEOF_INT=4
++ 
++ #
++ # Nothing below this line should ever need to be changed.
++ #
++ 
++ include ${JX_ROOT}/include/make/jx_config_common
++ 
++ # for use in DEPENDFLAGS
++ 
++ J_COMPILER_DEPEND_FLAGS_FOR_BISON := \
++   -Wall -Wno-unused \
++   -fno-implicit-templates -fno-rtti \
++   -O${J_OPTIMIZE_LEVEL} \
++   -D_J_UNIX ${J_ISTRSTREAM_BROKEN} ${J_ARRAY_NEW_OVERRIDABLE} \
++   ${J_RAW_SYSTEM_STUFF}
++ 
++ J_COMPILER_DEPEND_FLAGS := \
++   ${J_COMPILER_DEPEND_FLAGS_FOR_BISON} ${J_DIE_ON_WARNING}
++ 
++ # makemake variables
++ 
++ LINKER := g++ -g
++ 
++ # make variables
++ 
++ CC       := gcc
++ CXX      := g++
++ CPPFLAGS  = ${DEPENDFLAGS}
++ CFLAGS    = ${J_MAKE_NEEDS_OUTPUT_ARG}
++ CXXFLAGS  = ${J_MAKE_NEEDS_OUTPUT_ARG}
++ 
++ # libraries to link
++ 
++ J_GCC_LIBS  := -lstdc++ -lm -lc
++ J_ACE_LIBS  := -L${JX_ROOT}/lib -lACE-${ACE_LIB_VERSION}
++ J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} -lXext -lXpm -lX11
++ J_MESA_LIBS := -L${JX_ROOT}/lib -lMesaGLU -lMesaGL
++ J_SYS_LIBS  := ${J_ACE_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
+diff -Nrc JX-1.5.3-orig/programs/code_crusader/Make.header JX-1.5.3/programs/code_crusader/Make.header
+*** JX-1.5.3-orig/programs/code_crusader/Make.header	Tue Sep 21 15:23:17 1999
+--- JX-1.5.3/programs/code_crusader/Make.header	Thu Mar  2 07:16:44 2000
+***************
+*** 111,117 ****
+  
+  .PHONY : jxinstall
+  jxinstall: jcc ctags
+- 	@strip jcc
+    ifneq (${J_WANT_INSTALL},0)
+  	@mv jcc ctags/ctags ${JX_INSTALL_ROOT}/
+     ifeq (${shell whoami},root)
+--- 111,116 ----
+***************
+*** 180,186 ****
+  
+  .PHONY : distr_sub
+  distr_sub: ctags
+- 	@strip jcc
+  	@${RM} -r ${JCC}
+  	@mkdir ${JCC} ${JCC}/ctags
+  	@ln -s ../README.binary     ${JCC}/README
+--- 179,184 ----
+***************
+*** 244,248 ****
+  
+  .PHONY : beta
+  beta: debug
+- 	@strip -g jcc
+  	@cp jcc ${HOME}/local/stable/jcc_latest
+--- 242,245 ----
+
+--------------F4D2EF668E694B635AABCDAE--
+
+From mike@voodoomonkey.com  Mon Mar  6 09:33:50 2000
+Return-Path: <mike@voodoomonkey.com>
+Received: from spike.voodoomonkey.com (IDENT:root@lockwood.shore.net [207.244.75.162])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id JAA01944
+	for <jafl@alice.wonderland.caltech.edu>; Mon, 6 Mar 2000 09:33:38 -0800
+Received: from voodoomonkey.com (IDENT:mike@splat [207.244.75.166])
+	by spike.voodoomonkey.com (8.9.3/8.9.3) with ESMTP id GAA15928
+	for <jafl@alice.wonderland.caltech.edu>; Mon, 6 Mar 2000 06:48:13 -0500 (EST)
+Sender: mike@spike.voodoomonkey.com
+Message-ID: <38C39A79.C0AF7F27@voodoomonkey.com>
+Date: Mon, 06 Mar 2000 06:46:01 -0500
+From: Mike Lockwood <mike@voodoomonkey.com>
+X-Mailer: Mozilla 4.61 [en] (X11; U; OpenBSD 2.6 i386)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: John Lindal <jafl@alice.wonderland.caltech.edu>
+Subject: jcc on OpenBSD - problem solved
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-SpamBouncer: 1.01 (2/22/00)
+X-SBClass: OK
+X-Sorted: Default
+Status: RO
+
+Hi John,
+
+FYI - I finally got jcc running on OpenBSD.  It turned out that the
+problem with the prefs was related to strstream.  Commenting out the
+line:
+
+J_ISTRSTREAM_BROKEN := -D_J_ISTRSTREAM_BROKEN
+
+solved my problem with the .jxcp.pref file.  Apparently, using
+istrstream on OpenBSD does work, while using strstream does not!
+
+After I do some more testing, I'll send you an updated copy of my
+patches.  I'll also try to figure out how to make OpenBSD packages/ports
+(I only recently switched from Linux to BSD) so it will be easier to
+make jcc available to the OpenBSD community.
+
+One more question:  On OpenBSD, the Functions menu is displayed, but if
+I click on it jcc hangs.  I think I remember hearing that this was a
+problem on FreeBSD too.  Did anyone ever figure out a fix for this?
+
+Mike
+
+From jcc@newplanetsoftware.com  Tue Mar  7 20:29:37 2000
+Return-Path: <jcc@newplanetsoftware.com>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id UAA03528
+	for <jcc@alice.wonderland.caltech.edu>; Tue, 7 Mar 2000 20:29:28 -0800
+Received: from alice.caltech.edu (root@alice.wonderland.caltech.edu [131.215.104.2])
+	by web21.topchoice.com (8.8.7/8.8.5) with ESMTP id TAA25606
+	for <jcc@newplanetsoftware.com>; Tue, 7 Mar 2000 19:11:26 -0800
+Received: from cheshire-cat.caltech.edu (IDENT:jafl@cheshire-cat.caltech.edu [131.215.104.10])
+	by alice.caltech.edu (8.9.3/8.9.3) with SMTP id UAA03522;
+	Tue, 7 Mar 2000 20:29:02 -0800
+Date: Tue, 7 Mar 2000 20:29:02 -0800
+Message-Id: <200003080429.UAA03522@alice.caltech.edu>
+From: John Lindal <jcc@newplanetsoftware.com>
+X-Mailer: Arrow 2.0b1 (X11; Linux 2.2.5-15; i686)
+To: <mike@voodoomonkey.com>
+Reply-To: jcc@newplanetsoftware.com
+Cc: <jcc@newplanetsoftware.com>
+Subject: Re: jcc on OpenBSD - problem solved
+Status: RO
+
+> FYI - I finally got jcc running on OpenBSD.  It turned out that the
+> problem with the prefs was related to strstream.  Commenting out the
+> line:
+>
+> J_ISTRSTREAM_BROKEN := -D_J_ISTRSTREAM_BROKEN
+>
+> solved my problem with the .jxcp.pref file.  Apparently, using
+> istrstream on OpenBSD does work, while using strstream does not!
+
+Good.  This means that you have a "working" libstdc++ with only the
+strstream bug, not the istrstream problems.
+
+> After I do some more testing, I'll send you an updated copy of my
+> patches.
+
+OK, I'll ignore the patches you already sent.  BTW, the patches to the ACE
+files should be sent to the ACE maintainers so they put it in their next
+release.
+
+  http://siesta.cs.wustl.edu/~schmidt/ACE.html
+
+No harm in sending them to me, too, so I update my copy, but I regularly
+replace my copy with their latest version.
+
+> I'll also try to figure out how to make OpenBSD packages/ports (I only
+> recently switched from Linux to BSD) so it will be easier to make jcc
+> available to the OpenBSD community.
+
+That would be great!  Presumably it is fairly similar to what has already
+been done for FreeBSD?
+
+> One more question:  On OpenBSD, the Functions menu is displayed, but if
+> I click on it jcc hangs.  I think I remember hearing that this was a
+> problem on FreeBSD too.  Did anyone ever figure out a fix for this?
+
+No, nobody has figured it out yet.  One person got as far as noticing that
+jcc somehow didn't receive the terminator character from ctags.  If you
+look at CBFnMenuUpdater, you will see that this character is \f.  If you
+debug into the code that talks to ctags, you could check how much it has
+actually received before it hangs -- i.e. is it the terminator character or
+something else?  You should also test ctags on the command line with
+exactly the same arguments.
+
+> I was wondering what was up with jx/jcc.  I hadn't heard anything in a
+> long time and was wondering if you were still working on it.  Then today
+> after I sent my first message I realized I had somehow been removed from
+> the jcc mailing list!  Perhaps you removed me one day because my server
+> was bouncing?
+
+Probably.  I"m pretty aggressive about unsubscribing when mail bounces.
+The alternative is to let my "junk" mailbox fill up with hundreds of
+bounced messages :)
+
+John
+
+From Syntax@Ostermiller.com  Sat May  6 15:09:34 2000
+Return-Path: <Syntax@Ostermiller.com>
+Received: from merope.micro.caltech.edu (merope.micro.caltech.edu [131.215.141.3])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id PAA20203
+	for <jafl@alice.wonderland.caltech.edu>; Sat, 6 May 2000 15:09:33 -0700
+Received: from chmls05.mediaone.net (ne.mediaone.net [24.128.1.70])
+	by merope.micro.caltech.edu (8.9.1a/8.9.1) with ESMTP id NAA21600
+	for <jafl@micro.caltech.edu>; Sat, 6 May 2000 13:49:58 -0700 (PDT)
+Received: from deadsea.Ostermiller.com (hocy.ne.mediaone.net [24.218.58.32])
+	by chmls05.mediaone.net (8.8.7/8.8.7) with ESMTP id QAA24921
+	for <jafl@micro.caltech.edu>; Sat, 6 May 2000 16:52:25 -0400 (EDT)
+Message-Id: <4.3.1.0.20000504195312.00b58e50@pop.crosswinds.net>
+X-Sender:  (Unverified)
+X-Mailer: QUALCOMM Windows Eudora Version 4.3.1
+Date: Sat, 06 May 2000 16:54:35 -0400
+To: jafl@micro.caltech.edu
+From: Stephen Ostermiller <Syntax@Ostermiller.com>
+Subject: jcc and syntax highlighting
+Mime-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+X-SpamBouncer: 1.1 (4/17/00)
+X-SBClass: OK
+X-Sorted: Default
+Status: RO
+X-Arrow-Reply-Status: R
+X-Status: A
+
+I recently wrote a series of lexers and I was hoping you might be interested in incorperating them into jcc.
+
+The lexers that are used with jcc right now work pretty well most of the time, but lack a handful of features that I was able to include with the lexers I wrote.
+
+I currently have lexers for c, java, and html.  I know jcc already has these, but I'm hoping to add more soon.  I also suggest copying my test cases into jcc and see what happens, I think my lexers do a better job.
+
+You can get my test cases (syntax highlighted in html) at:
+http://www.smo.f2s.com/syntax
+
+I did write the lexers using jflex for java and it may take a little work to convert them to flex, but I think it should be fairly easy to do.  If you are interested, I would be happy to work on this with you.
+
+Let me know what you think,
+Stephen
+
+From jcc@newplanetsoftware.com  Mon May  8 19:06:28 2000
+Return-Path: <jcc@newplanetsoftware.com>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id TAA29900
+	for <jcc@alice.wonderland.caltech.edu>; Mon, 8 May 2000 19:06:26 -0700
+Received: from alice.caltech.edu (root@alice.wonderland.caltech.edu [131.215.104.2])
+	by web21.topchoice.com (8.8.7/8.8.5) with ESMTP id RAA21089
+	for <jcc@newplanetsoftware.com>; Mon, 8 May 2000 17:49:24 -0700
+Received: from cheshire-cat.caltech.edu (IDENT:jafl@cheshire-cat.caltech.edu [131.215.104.10])
+	by alice.caltech.edu (8.9.3/8.9.3) with SMTP id TAA29895;
+	Mon, 8 May 2000 19:06:24 -0700
+Date: Mon, 8 May 2000 19:06:24 -0700
+Message-Id: <200005090206.TAA29895@alice.caltech.edu>
+From: John Lindal <jcc@newplanetsoftware.com>
+X-Mailer: Arrow 2.0b1 (X11; Linux 2.2.5-15; i686)
+To: <Syntax@Ostermiller.com>
+Reply-To: jcc@newplanetsoftware.com
+Cc: <jcc@newplanetsoftware.com>
+Subject: Re: jcc and syntax highlighting
+Status: RO
+
+> The lexers that are used with jcc right now work pretty well most of the
+> time, but lack a handful of features that I was able to include with the
+> lexers I wrote.
+
+The only things I notice in C are:
+
+1)  Comments inside preprocessor directives -- I never cared to fix this
+because they are passed to the preprocessor.
+
+2)  Obscure trigraph preprocessing like ??/ to continue a line -- I figure
+anybody still using trigraphs is a lost cause :)
+
+3)  Catching errors -- I don't highlight the same range of characters, but
+as long as something is red, it ought to be good enough.  When I highlight
+something as red, it's what the compiler's parser will get confused about.
+Your lexer apparently tries to understand what the error is.  I never
+bothered because there will always be so many errors that can't be caught
+by the lexer anyway.  (I also don't highlight as many errors, for the same
+reason.)
+
+I have fixed quite a few bugs since the last release, so you probably see
+more problems in the binary that you have.  I am curious, however, why
+'\uFFFF', '\u1234', and '\u0000' are illegal.  I thought 4 byte hex values
+were translated?
+
+For HTML, I don't catch tag name errors because I never knew what was
+legal, so I just assumed everything was.  Also, I notice that you highlight
+&#23345; as a valid escape sequence.  When did they define this to be
+valid?  I thought only 3 digit hex values were valid?  Also, I thought that
+there was no space allowed in <!-- ?
+
+> I currently have lexers for c, java, and html.  I know jcc already has
+> these, but I'm hoping to add more soon.  I also suggest copying my test
+> cases into jcc and see what happens, I think my lexers do a better job.
+
+Code Crusader doesn't have a Java lexer.  I haven't heard from Jenkins in
+months.  I would be very happy to get a Java lexer.  For the others, it is
+much easier if I simply fix bugs in my own code.
+
+> I did write the lexers using jflex for java and it may take a little work
+> to convert them to flex, but I think it should be fairly easy to do.  If
+> you are interested, I would be happy to work on this with you.
+
+Yes, I am definitely interested in a Java lexer.  The only issue is the
+license.  Code Crusader isn't GPL.  However, I'm sure we can work something
+out.
+
+Since you have a .com site, do you run a consulting company?
+
+John
+
+From Syntax@Ostermiller.com  Mon May  8 21:45:35 2000
+Return-Path: <Syntax@Ostermiller.com>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id VAA30978
+	for <jcc@alice.wonderland.caltech.edu>; Mon, 8 May 2000 21:45:31 -0700
+Received: from chmls05.mediaone.net (ne.mediaone.net [24.128.1.70])
+	by web21.topchoice.com (8.8.7/8.8.5) with ESMTP id UAA01756
+	for <jcc@newplanetsoftware.com>; Mon, 8 May 2000 20:28:17 -0700
+Received: from deadsea.Ostermiller.com (hocy.ne.mediaone.net [24.218.58.32])
+	by chmls05.mediaone.net (8.8.7/8.8.7) with ESMTP id XAA11166
+	for <jcc@newplanetsoftware.com>; Mon, 8 May 2000 23:28:03 -0400 (EDT)
+Message-Id: <4.3.1.0.20000508231110.00b43140@pop.crosswinds.net>
+X-Sender:  (Unverified)
+X-Mailer: QUALCOMM Windows Eudora Version 4.3.1
+Date: Mon, 08 May 2000 23:30:15 -0400
+To: jcc@newplanetsoftware.com
+From: Stephen Ostermiller <Syntax@Ostermiller.com>
+Subject: Re: jcc and syntax highlighting
+In-Reply-To: <200005090206.TAA29895@alice.caltech.edu>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Status: RO
+X-Arrow-Reply-Status: R
+X-Status: A
+
+
+>1)  Comments inside preprocessor directives -- I never cared to fix this
+>because they are passed to the preprocessor.
+
+I like to do a bit of preprocessor lexing as well. :-)
+
+>I have fixed quite a few bugs since the last release, so you probably see
+>more problems in the binary that you have.  I am curious, however, why
+>'\uFFFF', '\u1234', and '\u0000' are illegal.  I thought 4 byte hex values
+>were translated?
+
+The \u is a unicode escape character (legal in java but not in c).  As for four byte hex values, 
+I believe they are translated as two characters and therefore valid in strings but not character literals.  (I could be wrong though, I'm not a very strong c programmer)
+
+For HTML, I don't catch tag name errors because I never knew what was
+>legal, so I just assumed everything was.  Also, I notice that you highlight
+>&#23345; as a valid escape sequence.  When did they define this to be
+>valid?  I thought only 3 digit hex values were valid?  Also, I thought that
+>there was no space allowed in <!-- ?
+
+I based the html lexer on the html 4.0 spec from w3c.org.  They don't have proper lexical rules
+spelled out so some stuff is a bit ambiguous.  As far as I could tell, any hex number (no matter 
+what length) is a valid escape sequence.  If you know otherwise, its an easy enough fix.  
+
+Comments are rather interesting.  There is a <! > which is the comment definition and can contain multple comments, each of which is in -- comment -- form.  That threw me too, but it was in the spec,
+so hey?
+
+I was thinking about parsing stuff in script tags specially.  This would be particularly useful if I actually added lexers for javascript, active x, and vbscript.  Right now, most people put scripts inside a comment tag, so that older browsers don't see it either.  So I didn't worry too much about it.  But if people are asking for it, that is definitly something to consider.
+
+>Code Crusader doesn't have a Java lexer.  I haven't heard from Jenkins in
+>months.  I would be very happy to get a Java lexer.  For the others, it is
+>much easier if I simply fix bugs in my own code.
+
+Feel free to take the java lexer if you would like it.  It has a few things written in java that will need to be taken out to work in c.  Java has specific bounds on the size of literals it allows, and I check them using java code after I parse them.  However, its not really a big deal if you allow numbers that are too big and the checking code could just be removed.  Just let me know if there is anything that you need help with or would like me to do.  
+
+Yes, I am definitely interested in a Java lexer.  The only issue is the
+>license.  Code Crusader isn't GPL.  However, I'm sure we can work something
+>out.
+
+I release my stuff under the GPL, but owning the copyright, I can release it under any other license I choose as well.  I can give it to you under whatever terms you might want.  (I use code crusader quite a bit and it would be nice to see more improvements.)
+
+As for adding php, I would like to, along with perl.  My housemate Hocy, (he serves jcc's sun binary) said he'd help me with the perl lexer)  :-)
+While I'm at it, I'll probably end up learning php and perl. 
+
+>Since you have a .com site, do you run a consulting company?
+
+I just bought my last name as a domain.  Its really a nice thing to have.  I also own debttriangle.com which is another project I'm working on.  I currently work for a small laser printer company (gcctech.com) and code for fun in my spare time.  
+
+Stephen
+
+From jcc@newplanetsoftware.com  Wed May 10 20:09:14 2000
+Return-Path: <jcc@newplanetsoftware.com>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id UAA09533
+	for <jcc@alice.wonderland.caltech.edu>; Wed, 10 May 2000 20:09:09 -0700
+Received: from alice.caltech.edu (root@alice.wonderland.caltech.edu [131.215.104.2])
+	by web21.topchoice.com (8.8.7/8.8.5) with ESMTP id SAA13743
+	for <jcc@newplanetsoftware.com>; Wed, 10 May 2000 18:52:02 -0700
+Received: from cheshire-cat.caltech.edu (IDENT:jafl@cheshire-cat.caltech.edu [131.215.104.10])
+	by alice.caltech.edu (8.9.3/8.9.3) with SMTP id UAA09527;
+	Wed, 10 May 2000 20:08:55 -0700
+Date: Wed, 10 May 2000 20:08:55 -0700
+Message-Id: <200005110308.UAA09527@alice.caltech.edu>
+From: John Lindal <jcc@newplanetsoftware.com>
+X-Mailer: Arrow 2.0b1 (X11; Linux 2.2.5-15; i686)
+To: <Syntax@Ostermiller.com>
+Reply-To: jcc@newplanetsoftware.com
+Cc: <jcc@newplanetsoftware.com>
+Subject: Re: jcc and syntax highlighting
+Status: RO
+
+>> I have fixed quite a few bugs since the last release, so you probably
+>> see more problems in the binary that you have.  I am curious, however,
+>> why '\uFFFF', '\u1234', and '\u0000' are illegal.  I thought 4 byte hex
+>> values were translated?
+>
+> The \u is a unicode escape character (legal in java but not in c).  As
+> for four byte hex values, I believe they are translated as two characters
+> and therefore valid in strings but not character literals.  (I could be
+> wrong though, I'm not a very strong c programmer)
+
+The last I heard, C compilers also accept \u.  They are valid if you are
+using wchar_t instead of char.
+
+>> For HTML, I don't catch tag name errors because I never knew what was
+>> legal, so I just assumed everything was.  Also, I notice that you
+>> highlight &#23345; as a valid escape sequence.  When did they define
+>> this to be valid?  I thought only 3 digit hex values were valid?  Also,
+>> I thought that there was no space allowed in <!-- ?
+>
+> I based the html lexer on the html 4.0 spec from w3c.org.  They don't
+> have proper lexical rules spelled out so some stuff is a bit ambiguous.
+> As far as I could tell, any hex number (no matter what length) is a valid
+> escape sequence.  If you know otherwise, its an easy enough fix.
+
+Thanks.  I found it, and will update my code.
+
+> Comments are rather interesting.  There is a <! > which is the comment
+> definition and can contain multple comments, each of which is in --
+> comment -- form.  That threw me too, but it was in the spec, so hey?
+
+Netscape 4.51 highlights things differently:
+
+<html>
+arf
+<! -- comment -- comment -- >
+<!-- comment -->
+arf
+</html>
+
+The first one is treated as an unrecognized tag and therefore ignored,
+while the second is treated as a comment.  So yes, it won't show up, but
+for the wrong reason :)  (unless 4.51 is too old)
+
+> I was thinking about parsing stuff in script tags specially.  This would
+> be particularly useful if I actually added lexers for javascript, active
+> x, and vbscript.  Right now, most people put scripts inside a comment
+> tag, so that older browsers don't see it either.  So I didn't worry too
+> much about it.  But if people are asking for it, that is definitly
+> something to consider.
+
+Since you have a Java lexer, doesn't that make it very easy to create a
+Javascript lexer?  Some people don't bother to use the comment strategy any
+longer.
+
+> I release my stuff under the GPL, but owning the copyright, I can release
+> it under any other license I choose as well.  I can give it to you under
+> whatever terms you might want.  (I use code crusader quite a bit and it
+> would be nice to see more improvements.)
+
+That's what I was hoping you would say :)
+
+> As for adding php, I would like to, along with perl.  My housemate Hocy,
+> (he serves jcc's sun binary) said he'd help me with the perl lexer)  :-)
+> While I'm at it, I'll probably end up learning php and perl.
+
+This was discussed on the list a while back.  The only sane solution
+appears to be to put a wrapper around Perl's own lexer, because flex can't
+handle it.
+
+John
+
+From Syntax@Ostermiller.com  Thu May 11 05:25:53 2000
+Return-Path: <Syntax@Ostermiller.com>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id FAA11285
+	for <jcc@alice.wonderland.caltech.edu>; Thu, 11 May 2000 05:25:48 -0700
+Received: from chmls05.mediaone.net (ne.mediaone.net [24.128.1.70])
+	by web21.topchoice.com (8.8.7/8.8.5) with ESMTP id EAA25748
+	for <jcc@newplanetsoftware.com>; Thu, 11 May 2000 04:08:48 -0700
+Received: from deadsea.Ostermiller.com (hocy.ne.mediaone.net [24.218.58.32])
+	by chmls05.mediaone.net (8.8.7/8.8.7) with ESMTP id HAA12269
+	for <jcc@newplanetsoftware.com>; Thu, 11 May 2000 07:08:45 -0400 (EDT)
+Message-Id: <4.3.1.0.20000511064348.00b05068@pop.crosswinds.net>
+X-Sender:  (Unverified)
+X-Mailer: QUALCOMM Windows Eudora Version 4.3.1
+Date: Thu, 11 May 2000 07:11:19 -0400
+To: jcc@newplanetsoftware.com
+From: Stephen Ostermiller <Syntax@Ostermiller.com>
+Subject: Re: jcc and syntax highlighting
+In-Reply-To: <200005110308.UAA09527@alice.caltech.edu>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Status: RO
+
+
+>The last I heard, C compilers also accept \u.  They are valid if you are
+>using wchar_t instead of char.
+
+I'll have to add that.  Shouldn't be too hard since I do it for java already.
+
+> > I was thinking about parsing stuff in script tags specially.  This would
+> > be particularly useful if I actually added lexers for javascript, active
+> > x, and vbscript.  Right now, most people put scripts inside a comment
+> > tag, so that older browsers don't see it either.  So I didn't worry too
+> > much about it.  But if people are asking for it, that is definitly
+> > something to consider.
+>
+>Since you have a Java lexer, doesn't that make it very easy to create a
+>Javascript lexer?  Some people don't bother to use the comment strategy any
+>longer.
+
+Last night I added the stuff to lex scripts in html.  It now does stuff between <script>
+tags as a script as well as stuff between <? ?> and <% %>. 
+I'd like to be able to actually highlight the stuff properly for each scripting language
+as well.  So I'm working on that now.  (I haven't updated the web site yet though.)
+
+Unfortunately javascript is similar in concept but not syntax.  It uses a bastardized
+version of java and html syntax.  For example, strings can be 'string' or "string".  I'm
+not sure of the escape sequences allowed.  I know unicode is, but I've been having 
+trouble finding out about \" etc.  I'll probably just end up trying some stuff in nescape.
+
+Then there is always the business of finding </script> tags at the end of everything. 
+Any langage that can be put in html will have this nastiness.   Its really unclear to me
+what 
+<script language=javascript> 
+         x="</script>";
+</script>
+would do.  I'm sure that any lexer that doesn't know specifically about javascript should croak on it. Older browser that know nothing about scripts at all should definitly croak on that.  There doesn't seem to be any rule about what a string looks like in a script.  So for some scripting languages that might be legal and in others probably not.  Which means that this should probably be reported as an error inside javascript, or end the script section right after the x=".  Which means checking to make sure each token can't contain </script>.  Which means comments, strings, and errors will need lots of nasty rules that look like:
+ScriptText=(([^\<]|[\<][^\/]|[\<][\/]{WhiteSpace}*[^Ss]|[\<][\/]{WhiteSpace}*[Ss][^Cc]|[\<][\/]{WhiteSpace}*[Ss][Cc][^Rr]|[\<][\/]{WhiteSpace}*[Ss][Cc][Rr][^Ii]|[\<][\/]{WhiteSpace}*[Ss][Cc][Rr][Ii][^Pp]|[\<][\/]{WhiteSpace}*[Ss][Cc][Rr][Ii][Pp][^Tt]|[\<][\/]{WhiteSpace}*[Ss][Cc][Rr][Ii][Pp][Tt]{WhiteSpace}*[^\>])*)
+
+vbscript has its own set of nastiness, since it is not case sensitive.  (I'm not looking forward to picking out the keywords in that one: ([Ff][Oo][Rr]|[Ii][Ff]...)
+
+I haven't even taken a look at active-x yet.
+
+> > As for adding php, I would like to, along with perl.  My housemate Hocy,
+> > (he serves jcc's sun binary) said he'd help me with the perl lexer)  :-)
+> > While I'm at it, I'll probably end up learning php and perl.
+>
+>This was discussed on the list a while back.  The only sane solution
+>appears to be to put a wrapper around Perl's own lexer, because flex can't
+>handle it.
+
+Or to use a proper parser.  I'm not as good at writing parsers though. The last time I tried to use CUP I abandoned the project.
+
+
+From Syntax@Ostermiller.com  Sat May 13 05:39:08 2000
+Return-Path: <Syntax@Ostermiller.com>
+Received: from web21.topchoice.com (IDENT:root@[209.52.182.133])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id FAA21174
+	for <jcc@alice.wonderland.caltech.edu>; Sat, 13 May 2000 05:39:08 -0700
+Received: from chmls05.mediaone.net (ne.mediaone.net [24.128.1.70])
+	by web21.topchoice.com (8.8.7/8.8.5) with ESMTP id EAA25373
+	for <jcc@newplanetsoftware.com>; Sat, 13 May 2000 04:22:09 -0700
+Received: from deadsea.Ostermiller.com (hocy.ne.mediaone.net [24.218.58.32])
+	by chmls05.mediaone.net (8.8.7/8.8.7) with ESMTP id HAA27626
+	for <jcc@newplanetsoftware.com>; Sat, 13 May 2000 07:22:06 -0400 (EDT)
+Message-Id: <4.3.1.0.20000513071345.00b5fdd8@pop.crosswinds.net>
+X-Sender:  (Unverified)
+X-Mailer: QUALCOMM Windows Eudora Version 4.3.1
+Date: Sat, 13 May 2000 07:25:00 -0400
+To: jcc@newplanetsoftware.com
+From: Stephen Ostermiller <Syntax@Ostermiller.com>
+Subject: Re: jcc and syntax highlighting
+In-Reply-To: <200005130244.TAA19333@alice.caltech.edu>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Status: RO
+X-Arrow-Reply-Status: R
+X-Status: A
+
+I added some stuff to the html lexer.  It now handles <script></script>
+and some other php/asp type preprocessor stuff.  I firmly believe that
+ending a token right before the </script> and then returning the </ as 
+the next token is impossible.  Especially if you want to include </scriptstuff>
+as a valid part of the script text.  Lexers just don't look far enough ahead to 
+handle it properly.  So I had to fudge the </script> tags in one of the lexers
+a little bit.  What do you do about <pre></pre> and <code></code> tags?
+I think that stuff in between them should not be parsed as html as well.
+I haven't been able to find a definitive answer in the specs though.  It may
+be browser specific. (http://www.smo.f2s.com/syntax)
+
+> > vbscript has its own set of nastiness, since it is not case sensitive.
+> > (I'm not looking forward to picking out the keywords in that one:
+> > ([Ff][Oo][Rr]|[Ii][Ff]...)
+>
+>Ugly, yes.  flex provides a "case insensitive" flag, however.  Would this
+>help, since everything is case insensitive?  I would guess that jflex would
+>provide the same options as flex.
+
+If I'm going parse VBScript that is inside <script></script> tags, then I would 
+rather not use the flex option because html is not completely case insensitive.
+
+I also talked to some folks from Mathworks the other night.  I think that I may
+be able to give me a lexer for Matlab under an open source licence.  We'll see
+what comes of that.  There are quite a few proprietary languages that I think
+I'll try to leverage like that before writing my own.  Install Shield is another.
+VBScript would be too, but I doubt microsoft would even look at me.....
+
+From jcc@newplanetsoftware.com  Wed May 17 20:02:13 2000
+Return-Path: <jcc@newplanetsoftware.com>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id UAA09971
+	for <jcc@alice.wonderland.caltech.edu>; Wed, 17 May 2000 20:02:12 -0700
+Received: from alice.caltech.edu (root@alice.wonderland.caltech.edu [131.215.104.2])
+	by web21.topchoice.com (8.8.7/8.8.5) with ESMTP id SAA10846
+	for <jcc@newplanetsoftware.com>; Wed, 17 May 2000 18:45:18 -0700
+Received: from cheshire-cat.caltech.edu (IDENT:jafl@cheshire-cat.caltech.edu [131.215.104.10])
+	by alice.caltech.edu (8.9.3/8.9.3) with SMTP id UAA09966;
+	Wed, 17 May 2000 20:02:10 -0700
+Date: Wed, 17 May 2000 20:02:10 -0700
+Message-Id: <200005180302.UAA09966@alice.caltech.edu>
+From: John Lindal <jcc@newplanetsoftware.com>
+X-Mailer: Arrow 2.0b1 (X11; Linux 2.2.5-15; i686)
+To: <Syntax@Ostermiller.com>
+Reply-To: jcc@newplanetsoftware.com
+Cc: <jcc@newplanetsoftware.com>
+Subject: Re: jcc and syntax highlighting
+Status: RO
+
+> What do you do about <pre></pre> and <code></code> tags?  I think that
+> stuff in between them should not be parsed as html as well.  I haven't
+> been able to find a definitive answer in the specs though.  It may be
+> browser specific. (http://www.smo.f2s.com/syntax)
+
+I parse it.  Netscape always has, to allow boldface, underline, etc.
+
+>> Ugly, yes.  flex provides a "case insensitive" flag, however.  Would
+>> this help, since everything is case insensitive?  I would guess that
+>> jflex would provide the same options as flex.
+>
+> If I'm going parse VBScript that is inside <script></script> tags, then I
+> would rather not use the flex option because html is not completely case
+> insensitive.
+
+I plan to have a separate lexer for each sub-language.  The main lexer will
+switch to the appropriate sub-lexer based on the language.  Much cleaner
+that way.  Either the sub-lexer or the main lexer will determine the end of
+the block that the sub-lexer should consider, as appropriate to the
+language.  This way, sub-lexers can be case-insensitive while the main
+lexer is case sensitive, or visa versa.
+
+> I also talked to some folks from Mathworks the other night.  I think that
+> I may be able to give me a lexer for Matlab under an open source licence.
+> We'll see what comes of that.  There are quite a few proprietary
+> languages that I think I'll try to leverage like that before writing my
+> own.  Install Shield is another.  VBScript would be too, but I doubt
+> microsoft would even look at me.....
+
+That would definitely be cool.  You might also consider looking at what
+emacs and XEmacs do, since they seem to have support for lots of languages.
+Or don't they use lexers?
+
+John
+
+From Syntax@Ostermiller.com  Wed May 31 04:03:41 2000
+Return-Path: <Syntax@Ostermiller.com>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id EAA08483
+	for <jcc@alice.wonderland.caltech.edu>; Wed, 31 May 2000 04:03:40 -0700
+Received: from chmls05.mediaone.net (ne.mediaone.net [24.128.1.70])
+	by web21.topchoice.com (8.8.7/8.8.5) with ESMTP id CAA27476
+	for <jcc@newplanetsoftware.com>; Wed, 31 May 2000 02:46:59 -0700
+Received: from deadsea.Ostermiller.com (hocy.ne.mediaone.net [24.218.58.32])
+	by chmls05.mediaone.net (8.8.7/8.8.7) with ESMTP id FAA19479
+	for <jcc@newplanetsoftware.com>; Wed, 31 May 2000 05:46:56 -0400 (EDT)
+Message-Id: <4.3.1.0.20000530205137.00b85428@pop.crosswinds.net>
+X-Sender:  (Unverified)
+X-Mailer: QUALCOMM Windows Eudora Version 4.3.1
+Date: Wed, 31 May 2000 05:51:41 -0400
+To: jcc@newplanetsoftware.com
+From: Stephen Ostermiller <Syntax@Ostermiller.com>
+Subject: Re: jcc and syntax highlighting
+In-Reply-To: <200005270416.VAA21711@alice.caltech.edu>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Status: RO
+
+Sorry not to get back sooner.  Life is hectic for me, I took some time visit family and now I'm  in the middle of moving, so I haven't had much time the last couple weeks.
+
+As for selling out, that isn't too much of a problem, you are still welcome to use my lexers.  I'd have to say, it makes it a bit less exciting for me to work on, but thats alright.
+
+My life should settle down by next week and I'll write more then.
+
+Stephen
+
+From jcc@newplanetsoftware.com  Wed May 31 20:55:57 2000
+Return-Path: <jcc@newplanetsoftware.com>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id UAA12981
+	for <jcc@alice.wonderland.caltech.edu>; Wed, 31 May 2000 20:55:57 -0700
+Received: from alice.caltech.edu (root@alice.wonderland.caltech.edu [131.215.104.2])
+	by web21.topchoice.com (8.8.7/8.8.5) with ESMTP id TAA03539
+	for <jcc@newplanetsoftware.com>; Wed, 31 May 2000 19:39:17 -0700
+Received: from cheshire-cat.caltech.edu (IDENT:jafl@cheshire-cat.caltech.edu [131.215.104.10])
+	by alice.caltech.edu (8.9.3/8.9.3) with SMTP id UAA12975;
+	Wed, 31 May 2000 20:55:54 -0700
+Date: Wed, 31 May 2000 20:55:54 -0700
+Message-Id: <200006010355.UAA12975@alice.caltech.edu>
+From: John Lindal <jcc@newplanetsoftware.com>
+X-Mailer: Arrow 2.0b1 (X11; Linux 2.2.5-15; i686)
+To: <Syntax@Ostermiller.com>
+Reply-To: jcc@newplanetsoftware.com
+Cc: <jcc@newplanetsoftware.com>
+Subject: Re: jcc and syntax highlighting
+Status: RO
+
+> As for selling out, that isn't too much of a problem, you are still
+> welcome to use my lexers.
+>
+> My life should settle down by next week and I'll write more then.
+
+Thanks for the reply!
+
+> I'd have to say, it makes it a bit less exciting for me to work on, but
+> thats alright.
+
+I can understand that.  It's always more fun working on something that will
+benefit everybody.  But others are also interested in using your lexers I
+hope?
+
+John
+
+From pavel@eazel.com  Thu Jun  8 00:31:47 2000
+Return-Path: <pavel@eazel.com>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id AAA19669
+	for <jcc@alice.wonderland.caltech.edu>; Thu, 8 Jun 2000 00:31:47 -0700
+Received: from el34.com (adsl-216-102-88-41.dsl.snfc21.pacbell.net [216.102.88.41])
+	by web21.topchoice.com (8.8.7/8.8.5) with SMTP id XAA29248
+	for <jcc@newplanetsoftware.com>; Wed, 7 Jun 2000 23:15:13 -0700
+Received: (qmail 8027 invoked from network); 8 Jun 2000 05:33:30 -0000
+Received: from unknown (HELO eazel.com) (pavel@10.0.0.2)
+  by adsl-216-102-88-41.dsl.snfc21.pacbell.net with SMTP; 8 Jun 2000 05:33:30 -0000
+Sender: pavel@web21.topchoice.com
+Message-ID: <393F3A7A.B511AFD3@eazel.com>
+Date: Wed, 07 Jun 2000 23:17:30 -0700
+From: Pavel <pavel@eazel.com>
+X-Mailer: Mozilla 4.61 [en] (X11; U; Linux 2.2.12-20smp i686)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: jcc@newplanetsoftware.com
+Subject: Re: jcc feature request
+References: <200006080319.UAA18872@alice.caltech.edu>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Status: RO
+
+John Lindal wrote:
+
+> > I have jcc defined as my editor for CVS and Peforce commits (defined by
+> > $CVSEDITOR and $P4EDITOR respectively). When checking in I currently
+> > have to make sure to quit jcc to not have any instances open otherwise
+> > the invocation of jcc will not block the command line as it needs to.
+>
+> I've been wondering how to add support for version control.  Could you
+> describe how this system works in more detail?
+>
+
+Don't know how familiar you are with CVS but it is a pretty spartan source
+control system. Compared to Peforce and the MPW Projector, you don't for
+instance "check out" files, you just go ahead and modify any file you want.
+During cvs commit, cvs compares all the files in a given directory and present
+the modified ones for you to check in. That's where the feature I described
+comes in. When you run cvs commit, you are presented with a checkin log
+template in the editor of choice, defined in the env variable as I described.
+You edit the log, adding comments about the checkin. As soon as you quit the
+editor, cvs commit (which was waiting for the editor process to quit and
+unblock) takes the edited log file and checks it in allong with the modified
+files.As I explained before, if the editor you set up does not block (as in
+the case of jcc that was already running for a different document), cvs commit
+assumes you just quit the editor without doing any changes to the checkin log
+and complains, giving you a chance to retry with a new copy of a checkin log.
+
+Besides this feature, other ways of supporting CVS nicely would probably
+include a nice way to diff.
+
+You could always start cvs commit from within jcc and coach the whole process
+from inside the app. It would probably be a lot more work to do than
+supporting the terminal checkin nicely and wouldn't be that much more
+convenient.
+
+Pavel
+
+From jcc@newplanetsoftware.com  Sat Jun 10 19:12:04 2000
+Return-Path: <jcc@newplanetsoftware.com>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id TAA02038
+	for <jcc@alice.wonderland.caltech.edu>; Sat, 10 Jun 2000 19:12:03 -0700
+Received: from alice.caltech.edu (root@alice.wonderland.caltech.edu [131.215.104.2])
+	by web21.topchoice.com (8.8.7/8.8.5) with ESMTP id RAA11278
+	for <jcc@newplanetsoftware.com>; Sat, 10 Jun 2000 17:55:32 -0700
+Received: from cheshire-cat.caltech.edu (IDENT:jafl@cheshire-cat.caltech.edu [131.215.104.10])
+	by alice.caltech.edu (8.9.3/8.9.3) with SMTP id TAA02029;
+	Sat, 10 Jun 2000 19:11:59 -0700
+Date: Sat, 10 Jun 2000 19:11:59 -0700
+Message-Id: <200006110211.TAA02029@alice.caltech.edu>
+From: John Lindal <jcc@newplanetsoftware.com>
+X-Mailer: Arrow 2.0b1 (X11; Linux 2.2.5-15; i686)
+To: <pavel@eazel.com>
+Reply-To: jcc@newplanetsoftware.com
+Cc: <jcc@newplanetsoftware.com>
+Subject: Re: jcc and CVS
+Status: RO
+
+> Don't know how familiar you are with CVS but it is a pretty spartan
+> source control system. Compared to Peforce and the MPW Projector, you
+> don't for instance "check out" files, you just go ahead and modify any
+> file you want.  During cvs commit, cvs compares all the files in a given
+> directory and present the modified ones for you to check in.
+
+How does this prevent multiple people from working on the same file at the
+same time?  Isn't that the whole point of version control?
+
+> When you run cvs commit, you are presented with a checkin log template in
+> the editor of choice, defined in the env variable as I described.  You
+> edit the log, adding comments about the checkin. As soon as you quit the
+> editor, cvs commit (which was waiting for the editor process to quit and
+> unblock) takes the edited log file and checks it in allong with the
+> modified files.
+
+How about this script:
+
+  #!/bin/sh
+
+  file=$1;
+  rm -f $file~;
+  jcc $file;
+  until test -e $file~ -a $file -nt $file~; do ; done;
+  rm -f $file~;
+
+This will block until jcc writes the new version of the file.
+
+If this works, please let me know so I can post it in the FAQ.
+
+> Besides this feature, other ways of supporting CVS nicely would probably
+> include a nice way to diff.
+
+The next version includes graphical diff, but it will probably require some
+extra work to get it to understand the output from CVS.
+
+John
+
+From owner-jcc@anteroom.its.caltech.edu  Sun Jun 18 15:41:58 2000
+Return-Path: <owner-jcc@anteroom.its.caltech.edu>
+Received: from anteroom.its.caltech.edu (anteroom.its.caltech.edu [131.215.48.155])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id PAA14256;
+	Sun, 18 Jun 2000 15:41:56 -0700
+Received: (from daemon@localhost)
+	by anteroom.its.caltech.edu (8.9.3/8.9.3) id OAA12847
+	for jcc-outgoing; Sun, 18 Jun 2000 14:19:18 -0700 (PDT)
+Received: from mailout05.sul.t-online.com (mailout05.sul.t-online.com [194.25.134.82])
+	by anteroom.its.caltech.edu (8.9.3/8.9.3) with ESMTP id OAA12841
+	for <jcc@its.caltech.edu>; Sun, 18 Jun 2000 14:19:15 -0700 (PDT)
+Received: from fmrl02.sul.t-online.de 
+	by mailout05.sul.t-online.com with smtp 
+	id 133mW7-00076J-00; Sun, 18 Jun 2000 23:22:07 +0200
+Received: from UnseenUniversity.Scheibenwelt (320043275880-0001@[62.158.196.157]) by fmrl02.sul.t-online.de
+	with esmtp id 133mW3-2IgjRoC; Sun, 18 Jun 2000 23:22:03 +0200
+Received: from post.rwth-aachen.de (gunter@localhost [127.0.0.1])
+	by UnseenUniversity.Scheibenwelt (8.9.3/8.9.3/SuSE Linux 8.9.3-0.1) with ESMTP id PAA02898
+	for <jcc@its.caltech.edu>; Sun, 18 Jun 2000 15:19:17 +0200
+Message-ID: <394CCC55.393FF08F@post.rwth-aachen.de>
+Date: Sun, 18 Jun 2000 15:19:17 +0200
+From: Gunter Ohrner <G.Ohrner@post.rwth-aachen.de>
+Organization: RWTH Aachen (=?iso-8859-1?Q?Rheinisch=2DWestf=E4lische?= Technische 
+	Hochschule Aachen / Aachen University of Technology)
+X-Mailer: Mozilla 4.73 [en] (X11; I; Linux 2.2.16 i686)
+X-Accept-Language: de-DE, de, de-AT, de-CH, en
+MIME-Version: 1.0
+To: "jcc@its.caltech.edu" <jcc@its.caltech.edu>
+Subject: Pairs of files
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Sender: 320043275880-0001@t-dialin.net
+Sender: owner-jcc@its.caltech.edu
+Precedence: bulk
+Reply-To: jcc@its.caltech.edu
+Status: RO
+X-Arrow-Reply-Status: R
+X-Status: A
+
+Hi!
+
+jcc supports "pairs" of files fpr C/C++ (.cc and .h-files)
+
+It would be nice if that could be expanded to .m3 .i3 files, working
+with Modula-3 would be a lot easier then.
+
+Greetinx,
+
+  Gunter Ohrner
+
+-- 
++-+-+-+-+-+-+-+-+-+- http://www.scheibenwelt.de/ -+-+-+-+-+-+-+-+-+-+
+The only way housework could be done in this place was with a shovel or,
+for preference, a match.        -- (Terry Pratchett, Witches Abroad)
++-+-+-+-+-+-+-+-+-+-+-  http://www.lspace.org/ -+-+-+-+-+-+-+-+-+-+-+
+
+From G.Ohrner@post.rwth-aachen.de  Mon Jun 19 13:21:15 2000
+Return-Path: <G.Ohrner@post.rwth-aachen.de>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id NAA19079
+	for <jcc@alice.wonderland.caltech.edu>; Mon, 19 Jun 2000 13:21:14 -0700
+Received: from mailout05.sul.t-online.com (mailout05.sul.t-online.com [194.25.134.82])
+	by web21.topchoice.com (8.8.7/8.8.5) with ESMTP id MAA27946
+	for <jcc@newplanetsoftware.com>; Mon, 19 Jun 2000 12:04:39 -0700
+Received: from fmrl03.sul.t-online.de 
+	by mailout05.sul.t-online.com with smtp 
+	id 1346qc-0001gV-01; Mon, 19 Jun 2000 21:04:38 +0200
+Received: from UnseenUniversity.Scheibenwelt (320043275880-0001@[62.158.195.23]) by fmrl03.sul.t-online.de
+	with esmtp id 1346qb-1W3pEEC; Mon, 19 Jun 2000 21:04:37 +0200
+Received: from post.rwth-aachen.de (gunter@localhost [127.0.0.1])
+	by UnseenUniversity.Scheibenwelt (8.9.3/8.9.3/SuSE Linux 8.9.3-0.1) with ESMTP id LAA01005
+	for <jcc@newplanetsoftware.com>; Mon, 19 Jun 2000 11:41:37 +0200
+Sender: gunter@YAST_ASK
+Message-ID: <394DEAD1.C83AFEA@post.rwth-aachen.de>
+Date: Mon, 19 Jun 2000 11:41:37 +0200
+From: Gunter Ohrner <G.Ohrner@post.rwth-aachen.de>
+Reply-To: G.Ohrner@post.rwth-aachen.de
+Organization: RWTH Aachen (=?iso-8859-1?Q?Rheinisch=2DWestf=E4lische?= Technische 
+	Hochschule Aachen / Aachen University of Technology)
+X-Mailer: Mozilla 4.73 [en] (X11; I; Linux 2.2.16 i686)
+X-Accept-Language: de-DE, de, de-AT, de-CH, en
+MIME-Version: 1.0
+To: jcc@newplanetsoftware.com
+Subject: Re: Pairs of files
+References: <200006190138.SAA14856@alice.caltech.edu>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Sender: 320043275880-0001@t-dialin.net
+Status: RO
+X-Arrow-Reply-Status: R
+X-Status: A
+
+John Lindal wrote:
+> > It would be nice if that could be expanded to .m3 .i3 files, working
+> > with Modula-3 would be a lot easier then.
+> You're the first person to mention the issue.  This should be easy to add,
+> so I'll try to get it into this next release.
+That'd be cool! :-)
+Well, I'm not surprised that I'm the first to mention it. I don't think
+MODULA is that common. I wouldn't use it if I would't have to, too. ;-)
+
+> How are .m3 and .i3 files referred to?  As "source" and "include" files?
+> Or "source" and "header" files, as in C?
+It's like in C. The i3-files contain the interface of a module, the
+m3-files contain the implementation. For each i3-file there is an
+m3-file with the same basename but there does not need to be a
+corresponding i3-file for each m3-file. (Particularly the "Main"-module
+has no interface definition.)
+
+I think MODULA-2 has these files, too, there they are called .i2 and
+.m2.
+
+Greetinx,
+
+  Gunter Ohrner
+
+-- 
++-+-+-+-+-+-+-+-+-+- http://www.scheibenwelt.de/ -+-+-+-+-+-+-+-+-+-+
+Natural selection saw to it that professional heroes who at a crucial
+moment tended to ask themselves questions like "What is my purpose in
+life?" very quickly lacked both.        -- (Terry Pratchett, Interesting
+Times)
++-+-+-+-+-+-+-+-+-+-+-  http://www.lspace.org/ -+-+-+-+-+-+-+-+-+-+-+
+
+From jcc@newplanetsoftware.com  Mon Jun 19 14:03:18 2000
+Return-Path: <jcc@newplanetsoftware.com>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id OAA19297
+	for <jcc@alice.wonderland.caltech.edu>; Mon, 19 Jun 2000 14:03:17 -0700
+Received: from alice.caltech.edu (root@alice.wonderland.caltech.edu [131.215.104.2])
+	by web21.topchoice.com (8.8.7/8.8.5) with ESMTP id MAA31178
+	for <jcc@newplanetsoftware.com>; Mon, 19 Jun 2000 12:46:56 -0700
+Received: from cheshire-cat.caltech.edu (IDENT:jafl@cheshire-cat.caltech.edu [131.215.104.10])
+	by alice.caltech.edu (8.9.3/8.9.3) with SMTP id OAA19288;
+	Mon, 19 Jun 2000 14:03:03 -0700
+Date: Mon, 19 Jun 2000 14:03:03 -0700
+Message-Id: <200006192103.OAA19288@alice.caltech.edu>
+From: John Lindal <jcc@newplanetsoftware.com>
+X-Mailer: Arrow 2.0b1 (X11; Linux 2.2.5-15; i686)
+To: <G.Ohrner@post.rwth-aachen.de>
+Reply-To: jcc@newplanetsoftware.com
+Cc: <jcc@newplanetsoftware.com>
+Subject: Re: Pairs of files
+Status: RO
+
+>> How are .m3 and .i3 files referred to?  As "source" and "include" files?
+>> Or "source" and "header" files, as in C?
+>
+> It's like in C. The i3-files contain the interface of a module, the
+> m3-files contain the implementation.
+
+I was mainly wondering what I should display as the button titles.
+"Source" and "Header"?  Or "Implementation" and "Interface"?
+
+> I think MODULA-2 has these files, too, there they are called .i2 and .m2.
+
+I might as well add that, too.  I assume I should make a distinction
+between the types?
+
+John
+
+From owner-jcc@anteroom.its.caltech.edu  Mon Jun 19 15:35:45 2000
+Return-Path: <owner-jcc@anteroom.its.caltech.edu>
+Received: from anteroom.its.caltech.edu (anteroom.its.caltech.edu [131.215.48.155])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id PAA20185;
+	Mon, 19 Jun 2000 15:35:40 -0700
+Received: (from daemon@localhost)
+	by anteroom.its.caltech.edu (8.9.3/8.9.3) id OAA13113
+	for jcc-outgoing; Mon, 19 Jun 2000 14:11:19 -0700 (PDT)
+Received: from mailout05.sul.t-online.com (mailout05.sul.t-online.com [194.25.134.82])
+	by anteroom.its.caltech.edu (8.9.3/8.9.3) with ESMTP id OAA13097
+	for <jcc@its.caltech.edu>; Mon, 19 Jun 2000 14:11:14 -0700 (PDT)
+Received: from fmrl03.sul.t-online.de 
+	by mailout05.sul.t-online.com with smtp 
+	id 1348rg-0006Cf-01; Mon, 19 Jun 2000 23:13:52 +0200
+Received: from UnseenUniversity.Scheibenwelt (320043275880-0001@[62.158.195.54]) by fmrl03.sul.t-online.de
+	with esmtp id 1348rf-1c1x3ZC; Mon, 19 Jun 2000 23:13:51 +0200
+Received: from post.rwth-aachen.de (gunter@localhost [127.0.0.1])
+	by UnseenUniversity.Scheibenwelt (8.9.3/8.9.3/SuSE Linux 8.9.3-0.1) with ESMTP id XAA23495
+	for <jcc@its.caltech.edu>; Mon, 19 Jun 2000 23:21:41 +0200
+Message-ID: <394E8EE5.565A2759@post.rwth-aachen.de>
+Date: Mon, 19 Jun 2000 23:21:41 +0200
+From: Gunter Ohrner <G.Ohrner@post.rwth-aachen.de>
+Organization: RWTH Aachen (=?iso-8859-1?Q?Rheinisch=2DWestf=E4lische?= Technische 
+	Hochschule Aachen / Aachen University of Technology)
+X-Mailer: Mozilla 4.73 [en] (X11; I; Linux 2.2.16 i686)
+X-Accept-Language: de-DE, de, de-AT, de-CH, en
+MIME-Version: 1.0
+To: "jcc@its.caltech.edu" <jcc@its.caltech.edu>
+Subject: Re: Pairs of files
+References: <200006192103.OAA19288@alice.caltech.edu>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Sender: 320043275880-0001@t-dialin.net
+Sender: owner-jcc@its.caltech.edu
+Precedence: bulk
+Reply-To: jcc@its.caltech.edu
+Status: RO
+X-Arrow-Reply-Status: R
+X-Status: A
+
+John Lindal wrote:
+> >> How are .m3 and .i3 files referred to?  As "source" and "include" files?
+> >> Or "source" and "header" files, as in C?
+> > It's like in C. The i3-files contain the interface of a module, the
+> > m3-files contain the implementation.
+> I was mainly wondering what I should display as the button titles.
+> "Source" and "Header"?  Or "Implementation" and "Interface"?
+The i3-file is always referred to as "interface" so I think the button
+should get this label. I don't know excactly if the m3-file is generally
+called "implementation" as I'm not an experienced MODULE-3 programmer
+(It's the language we use at University.) and no native English speaker.
+Maybe that button could just be labeled "module"...
+
+BTW: MODULA-3 uses something called "m3makefile" for building the
+project. It's function is quite similar to C's "Makefile"s. I don't know
+if that could be used for the "Config" -button in the project window.
+The m3makefile must be located in a subdirectory named "src" of the
+project directory, there are the interface- and module-files, too.
+A standard m3makefile might look something like that:
+-- snip --
+import ("libm3")
+module ("additional_module")
+
+implementation ("foo")
+program ("foo.bin")
+-- snap --
+
+> > I think MODULA-2 has these files, too, there they are called .i2 and .m2.
+> I might as well add that, too.  I assume I should make a distinction
+> between the types?
+Distinction in which way? To handle m3 und m2-files differently for
+syntax highlighting, if someone provides a lexer, and similar? MODULA-2
+and MODULA-3 are quite similar in syntax, I think a MODULA-3 compiler
+could possibly compile renamed MODULA-2 source files although I never
+tried this. Maybe the more flexible way is to make a distinction.
+
+Greetinx,
+
+  Gunter
+
+-- 
++-+-+-+-+-+-+-+-+-+- http://www.scheibenwelt.de/ -+-+-+-+-+-+-+-+-+-+
+"'Tis not right, a woman going into such places by herself."
+Granny nodded. She thoroughly approved of such sentiments so long as
+there was, of course, no suggestion that they applied to her.        --
+(Terry Pratchett, Wyrd Sisters)
++-+-+-+-+-+-+-+-+-+-+-  http://www.lspace.org/ -+-+-+-+-+-+-+-+-+-+-+
+
+From owner-jcc@chamber.cco.caltech.edu  Mon Jun 19 15:45:34 2000
+Return-Path: <owner-jcc@chamber.cco.caltech.edu>
+Received: from chamber.cco.caltech.edu (chamber.cco.caltech.edu [131.215.48.55])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id PAA20370;
+	Mon, 19 Jun 2000 15:45:32 -0700
+Received: (from daemon@localhost)
+	by chamber.cco.caltech.edu (8.9.3/8.9.3) id OAA11464
+	for jcc-outgoing; Mon, 19 Jun 2000 14:25:23 -0700 (PDT)
+Received: from alice.caltech.edu (IDENT:root@alice.wonderland.caltech.edu [131.215.104.2])
+	by chamber.cco.caltech.edu (8.9.3/8.9.3) with ESMTP id OAA11457
+	for <jcc@its.caltech.edu>; Mon, 19 Jun 2000 14:25:21 -0700 (PDT)
+Received: from cheshire-cat.caltech.edu (IDENT:jafl@cheshire-cat.caltech.edu [131.215.104.10])
+	by alice.caltech.edu (8.9.3/8.9.3) with SMTP id PAA20353
+	for <jcc@its.caltech.edu>; Mon, 19 Jun 2000 15:44:37 -0700
+Date: Mon, 19 Jun 2000 15:44:37 -0700
+Message-Id: <200006192244.PAA20353@alice.caltech.edu>
+From: John Lindal <jafl@alice.wonderland.caltech.edu>
+X-Mailer: Arrow 2.0b1 (X11; Linux 2.2.5-15; i686)
+To: <jcc@its.caltech.edu>
+Subject: Re: Pairs of files
+Sender: owner-jcc@its.caltech.edu
+Precedence: bulk
+Reply-To: jcc@its.caltech.edu
+Status: RO
+
+> BTW: MODULA-3 uses something called "m3makefile" for building the
+> project. It's function is quite similar to C's "Makefile"s. I don't know
+> if that could be used for the "Config" -button in the project window.
+
+It would be easier if you simply added m3makefile to your Project window.
+Then you could get at it easily.  (Even if you were using makemake, it
+wouldn't matter what you added to the Project window since Code Crusader
+knows what is compilable.)
+
+>> > I think MODULA-2 has these files, too, there they are called .i2 and .m2.
+>>
+>> I might as well add that, too.  I assume I should make a distinction
+>> between the types?
+>
+> Distinction in which way? To handle m3 und m2-files differently for
+> syntax highlighting, if someone provides a lexer, and similar?
+
+Right.  There are probably at least a few differences, since they changed
+the file suffixes.
+
+John
+
+From owner-jcc@chamber.cco.caltech.edu  Tue Jun 20 16:20:17 2000
+Return-Path: <owner-jcc@chamber.cco.caltech.edu>
+Received: from chamber.cco.caltech.edu (chamber.cco.caltech.edu [131.215.48.55])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id QAA26283;
+	Tue, 20 Jun 2000 16:20:14 -0700
+Received: (from daemon@localhost)
+	by chamber.cco.caltech.edu (8.9.3/8.9.3) id OAA26777
+	for jcc-outgoing; Tue, 20 Jun 2000 14:59:58 -0700 (PDT)
+Received: from mailout03.sul.t-online.com (mailout03.sul.t-online.com [194.25.134.81])
+	by chamber.cco.caltech.edu (8.9.3/8.9.3) with ESMTP id OAA26769
+	for <jcc@its.caltech.edu>; Tue, 20 Jun 2000 14:59:55 -0700 (PDT)
+Received: from fmrl03.sul.t-online.de 
+	by mailout03.sul.t-online.com with smtp 
+	id 134UBv-00021D-02; Tue, 20 Jun 2000 22:00:11 +0200
+Received: from UnseenUniversity.Scheibenwelt (320043275880-0001@[62.158.195.119]) by fmrl03.sul.t-online.de
+	with esmtp id 134UBj-0a33WDC; Tue, 20 Jun 2000 21:59:59 +0200
+Received: from post.rwth-aachen.de (gunter@localhost [127.0.0.1])
+	by UnseenUniversity.Scheibenwelt (8.9.3/8.9.3/SuSE Linux 8.9.3-0.1) with ESMTP id UAA00674
+	for <jcc@its.caltech.edu>; Tue, 20 Jun 2000 20:00:46 +0200
+Message-ID: <394FB14E.2B5FE903@post.rwth-aachen.de>
+Date: Tue, 20 Jun 2000 20:00:46 +0200
+From: Gunter Ohrner <G.Ohrner@post.rwth-aachen.de>
+Organization: RWTH Aachen (=?iso-8859-1?Q?Rheinisch=2DWestf=E4lische?= Technische 
+	Hochschule Aachen / Aachen University of Technology)
+X-Mailer: Mozilla 4.73 [en] (X11; I; Linux 2.2.16 i686)
+X-Accept-Language: de-DE, de, de-AT, de-CH, en
+MIME-Version: 1.0
+To: jcc@its.caltech.edu
+Subject: Re: Pairs of files
+References: <200006192244.PAA20353@alice.caltech.edu>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Sender: 320043275880-0001@t-dialin.net
+Sender: owner-jcc@its.caltech.edu
+Precedence: bulk
+Reply-To: jcc@its.caltech.edu
+Status: RO
+
+John Lindal wrote:
+> > BTW: MODULA-3 uses something called "m3makefile" for building the
+> It would be easier if you simply added m3makefile to your Project window.
+That's the way I do it now and it works fine. It was just an idea and
+probably not a good one... :-)
+
+> >> > I think MODULA-2 has these files, too, there they are called .i2 and .m2.
+> >> I might as well add that, too.  I assume I should make a distinction
+> >> between the types?
+> > Distinction in which way? To handle m3 und m2-files differently for
+> > syntax highlighting, if someone provides a lexer, and similar?
+> Right.  There are probably at least a few differences, since they changed
+> the file suffixes.
+Yes. Make it two different file types.
+
+Greetinx,
+
+  Gunter Ohrner
+
+-- 
++-+-+-+-+-+-+-+-+-+- http://www.scheibenwelt.de/ -+-+-+-+-+-+-+-+-+-+
+- "Sodomy non sapiens," said Albert under his breath.
+- "What does that mean?"
+- "Means I'm buggered if I know."
+        -- Mort and Albert are facing a problem           (Terry
+Pratchett, Mort)
++-+-+-+-+-+-+-+-+-+-+-  http://www.lspace.org/ -+-+-+-+-+-+-+-+-+-+-+
+
+From owner-jcc@anteroom.its.caltech.edu  Tue Jun 20 08:41:04 2000
+Return-Path: <owner-jcc@anteroom.its.caltech.edu>
+Received: from anteroom.its.caltech.edu (anteroom.its.caltech.edu [131.215.48.155])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id IAA23890;
+	Tue, 20 Jun 2000 08:41:03 -0700
+Received: (from daemon@localhost)
+	by anteroom.its.caltech.edu (8.9.3/8.9.3) id HAA28649
+	for jcc-outgoing; Tue, 20 Jun 2000 07:17:44 -0700 (PDT)
+Received: from tritech.se ([212.75.88.125])
+	by anteroom.its.caltech.edu (8.9.3/8.9.3) with ESMTP id HAA28643
+	for <jcc@cco.caltech.edu>; Tue, 20 Jun 2000 07:17:40 -0700 (PDT)
+From: johann.gerell@tritech.se
+Received: from mail.tritech.se (mail.tritech.se [192.168.138.21])
+	by tritech.se (8.9.3/8.9.3) with ESMTP id QAA19050
+	for <jcc@cco.caltech.edu>; Tue, 20 Jun 2000 16:20:02 +0200
+Received: from system.tritech.se (IDENT:root@system.tritech.se [192.168.138.22])
+	by mail.tritech.se (8.9.3/8.9.3) with ESMTP id QAA05000
+	for <jcc@cco.caltech.edu>; Tue, 20 Jun 2000 16:20:01 +0200
+Received: from localhost (root@localhost)
+	by system.tritech.se (8.9.3/8.9.3) with ESMTP id QAA13444
+	for <jcc@cco.caltech.edu>; Tue, 20 Jun 2000 16:20:01 +0200
+X-OpenMail-Hops: 1
+Date: Tue, 20 Jun 2000 16:20:00 +0200
+Message-Id: <H00000b80000ba33.0961510577.system.tritech.se@MHS>
+Subject: How to set bg color?
+MIME-Version: 1.0
+TO: jcc@cco.caltech.edu
+Content-Type: text/plain; charset=US-ASCII
+Content-Disposition: inline
+	;Creation-Date="Tue, 20 Jun 2000 16:16:17 +0200"
+	;Modification-Date="Tue, 20 Jun 2000 16:20:00 +0200"
+Content-Transfer-Encoding: 7bit
+Sender: owner-jcc@its.caltech.edu
+Precedence: bulk
+Reply-To: jcc@its.caltech.edu
+Status: RO
+
+Hi!
+
+Is there a way to change the default window color from greyish to whatever
+color I might want? I tried "jcc*background: somecolor" in .Xdefaults, but that
+didn't help. I'm running KDE and RH 6.1.
+
+Thanks for any pointers!
+
+/Johann Gerell
+
+From owner-jcc@chamber.cco.caltech.edu  Tue Jun 20 11:34:41 2000
+Return-Path: <owner-jcc@chamber.cco.caltech.edu>
+Received: from chamber.cco.caltech.edu (chamber.cco.caltech.edu [131.215.48.55])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id LAA24859;
+	Tue, 20 Jun 2000 11:34:39 -0700
+Received: (from daemon@localhost)
+	by chamber.cco.caltech.edu (8.9.3/8.9.3) id KAA19731
+	for jcc-outgoing; Tue, 20 Jun 2000 10:12:51 -0700 (PDT)
+Received: from 216-101-238-112.velocityhsi.com (IDENT:postfix@216-101-238-112.velocityhsi.com [216.101.238.112])
+	by chamber.cco.caltech.edu (8.9.3/8.9.3) with ESMTP id KAA19691
+	for <jcc@its.caltech.edu>; Tue, 20 Jun 2000 10:12:44 -0700 (PDT)
+Received: from users.sourceforge.net (warfare.blackspring.com [10.0.0.1])
+	by 216-101-238-112.velocityhsi.com (Postfix) with ESMTP id EA90EE002
+	for <jcc@its.caltech.edu>; Tue, 20 Jun 2000 10:23:25 -0700 (PDT)
+Message-ID: <394FA6C1.5406CC15@users.sourceforge.net>
+Date: Tue, 20 Jun 2000 10:15:45 -0700
+From: Bill Kocik <bkocik@users.sourceforge.net>
+X-Mailer: Mozilla 4.72 [en] (X11; U; Linux 2.2.15 i686)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: jcc@its.caltech.edu
+Subject: Re: How to set bg color?
+References: <H00000b80000ba33.0961510577.system.tritech.se@MHS>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Sender: owner-jcc@its.caltech.edu
+Precedence: bulk
+Reply-To: jcc@its.caltech.edu
+Status: RO
+
+> Is there a way to change the default window color from greyish to whatever
+> color I might want? I tried "jcc*background: somecolor" in .Xdefaults, but that
+> didn't help. I'm running KDE and RH 6.1.
+
+Launch JCC, click on "Preferences -> Editor Preferences". In the
+upper-right area of the dialog box is a "Change color:" section
+with buttons for text, background, and more. 
+
+-- 
+Bill Kocik
+Taos - Santa Clara, CA
+http://www.taos.com
+bkocik@users.sourceforge.net
+
+"Research is what I'm doing when I don't know what I'm doing"
+-Wernher Von Braun
+
+From owner-jcc@anteroom.its.caltech.edu  Wed Jun 21 07:30:43 2000
+Return-Path: <owner-jcc@anteroom.its.caltech.edu>
+Received: from anteroom.its.caltech.edu (anteroom.its.caltech.edu [131.215.48.155])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id HAA29757;
+	Wed, 21 Jun 2000 07:30:41 -0700
+Received: (from daemon@localhost)
+	by anteroom.its.caltech.edu (8.9.3/8.9.3) id GAA14776
+	for jcc-outgoing; Wed, 21 Jun 2000 06:09:58 -0700 (PDT)
+Received: from tritech.se ([212.75.88.125])
+	by anteroom.its.caltech.edu (8.9.3/8.9.3) with ESMTP id GAA14769
+	for <jcc@its.caltech.edu>; Wed, 21 Jun 2000 06:09:55 -0700 (PDT)
+From: johann.gerell@tritech.se
+Received: from mail.tritech.se (mail.tritech.se [192.168.138.21])
+	by tritech.se (8.9.3/8.9.3) with ESMTP id PAA23218
+	for <jcc@its.caltech.edu>; Wed, 21 Jun 2000 15:12:20 +0200
+Received: from system.tritech.se (IDENT:root@system.tritech.se [192.168.138.22])
+	by mail.tritech.se (8.9.3/8.9.3) with ESMTP id PAA09419
+	for <jcc@its.caltech.edu>; Wed, 21 Jun 2000 15:12:20 +0200
+Received: from localhost (root@localhost)
+	by system.tritech.se (8.9.3/8.9.3) with ESMTP id PAA00513
+	for <jcc@its.caltech.edu>; Wed, 21 Jun 2000 15:12:20 +0200
+X-OpenMail-Hops: 1
+Date: Wed, 21 Jun 2000 15:12:19 +0200
+Message-Id: <H00000b80000d7f5.0961593012.system.tritech.se@MHS>
+In-Reply-To: <394FA6C1.5406CC15@users.sourceforge.net>
+Subject: Re: How to set bg color?
+MIME-Version: 1.0
+TO: jcc@its.caltech.edu
+Content-Type: text/plain; charset=US-ASCII
+Content-Disposition: inline
+	;Creation-Date="Wed, 21 Jun 2000 15:10:12 +0200"
+	;Modification-Date="Wed, 21 Jun 2000 15:12:19 +0200"
+Content-Transfer-Encoding: 7bit
+Sender: owner-jcc@its.caltech.edu
+Precedence: bulk
+Reply-To: jcc@its.caltech.edu
+Status: RO
+
+> > Is there a way to change the default window color
+
+> Launch JCC, click on "Preferences -> Editor Preferences". In the
+> upper-right area of the dialog box is a "Change color:" section
+> with buttons for text, background, and more. 
+
+Nope. I don't want to change the bgcolor of the edit areas, but of the program 
+frames and other stuff like menus, which all defaults to greyish.
+
+/Johann Gerell
+
+From owner-jcc@anteroom.its.caltech.edu  Wed Jun 21 11:33:35 2000
+Return-Path: <owner-jcc@anteroom.its.caltech.edu>
+Received: from anteroom.its.caltech.edu (anteroom.its.caltech.edu [131.215.48.155])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id LAA30893;
+	Wed, 21 Jun 2000 11:33:32 -0700
+Received: (from daemon@localhost)
+	by anteroom.its.caltech.edu (8.9.3/8.9.3) id KAA05090
+	for jcc-outgoing; Wed, 21 Jun 2000 10:10:59 -0700 (PDT)
+Received: from 216-101-238-112.velocityhsi.com (IDENT:postfix@216-101-238-112.velocityhsi.com [216.101.238.112])
+	by anteroom.its.caltech.edu (8.9.3/8.9.3) with ESMTP id KAA05075
+	for <jcc@its.caltech.edu>; Wed, 21 Jun 2000 10:10:55 -0700 (PDT)
+Received: from users.sourceforge.net (warfare.blackspring.com [10.0.0.1])
+	by 216-101-238-112.velocityhsi.com (Postfix) with ESMTP id 808BEE002
+	for <jcc@its.caltech.edu>; Wed, 21 Jun 2000 10:22:24 -0700 (PDT)
+Message-ID: <3950F7F7.150749C8@users.sourceforge.net>
+Date: Wed, 21 Jun 2000 10:14:31 -0700
+From: Bill Kocik <bkocik@users.sourceforge.net>
+X-Mailer: Mozilla 4.72 [en] (X11; U; Linux 2.2.15 i686)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: jcc@its.caltech.edu
+Subject: Re: How to set bg color?
+References: <H00000b80000d7f5.0961593012.system.tritech.se@MHS>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Sender: owner-jcc@its.caltech.edu
+Precedence: bulk
+Reply-To: jcc@its.caltech.edu
+Status: RO
+
+> Nope. I don't want to change the bgcolor of the edit areas, but of the program
+> frames and other stuff like menus, which all defaults to greyish.
+
+My bad. Your question made it sound like you were trying to
+change the default background color (especially when you look at
+the subject line, "How to set bg color?").
+
+Interesting. I don't have a single application whose buttons and
+menu's aren't grey. I've no idea how one would go about changing
+this. 
+
+Good luck. Sorry I can't be more help. :-)
+
+-- 
+Bill Kocik
+Taos - Santa Clara, CA
+http://www.taos.com
+bkocik@users.sourceforge.net
+
+"Research is what I'm doing when I don't know what I'm doing"
+-Wernher Von Braun
+
+From Jonathan.George@trcinc.com  Wed Jun 21 13:16:47 2000
+Return-Path: <Jonathan.George@trcinc.com>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id NAA31480
+	for <jcc@alice.wonderland.caltech.edu>; Wed, 21 Jun 2000 13:16:46 -0700
+Received: from gatekeeper (firewall-user@gatekeeper.trcinc.com [208.224.120.226])
+	by web21.topchoice.com (8.8.7/8.8.5) with SMTP id MAA07722
+	for <jcc@newplanetsoftware.com>; Wed, 21 Jun 2000 12:00:25 -0700
+Received: by gatekeeper; id PAA10736; Wed, 21 Jun 2000 15:00:21 -0400
+Received: from trc_postal(155.16.26.24) by gatekeeper.trcinc.com via smap (V4.2)
+	id xmaa10600; Wed, 21 Jun 00 14:59:24 -0400
+Received: From TRC-TPAEXC01.TRCINC.COM (155.16.26.24[155.16.26.24 port:1509]) by trc-tpaexc01.trcinc.com
+	Mail essentials (server 2.422) with SMTP id: <13197@trc-tpaexc01.trcinc.com>
+	 for <jcc@newplanetsoftware.com>; Wed, 21 Jun 2000 2:58:51 PM -0400
+	smtpmailfrom <Jonathan.George@trcinc.com> 
+Received: by trc-tpaexc01.trcinc.com with Internet Mail Service (5.5.2650.21)
+	id <NJB833PZ>; Wed, 21 Jun 2000 14:58:51 -0400
+Message-ID: <790BC7A85246D41195770000D11C56F21C8380@trc-tpaexc01.trcinc.com>
+From: Jonathan George <Jonathan.George@trcinc.com>
+To: "'jcc@newplanetsoftware.com'" <jcc@newplanetsoftware.com>
+Subject: Code Crusader ... is it dead?
+Date: Wed, 21 Jun 2000 14:58:50 -0400
+MIME-Version: 1.0
+X-Mailer: Internet Mail Service (5.5.2650.21)
+Content-Type: text/plain;
+	charset="iso-8859-1"
+Status: RO
+
+John,
+
+I was considering Code Crusader as a Linux IDE, but it appears to be dead.
+Does it have a future or have you deferred to another product?
+
+Sincerely,
+Jonathan
+
+http://home.tampabay.rr.com/linux
+
+From glenn@newplanetsoftware.com  Thu Jun 22 11:41:35 2000
+Return-Path: <glenn@newplanetsoftware.com>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id LAA04147
+	for <jcc@alice.wonderland.caltech.edu>; Thu, 22 Jun 2000 11:41:34 -0700
+Received: from dodgson.caltech.edu (root@dodgson.wonderland.caltech.edu [131.215.104.35])
+	by web21.topchoice.com (8.8.7/8.8.5) with ESMTP id KAA09794
+	for <jcc@newplanetsoftware.com>; Thu, 22 Jun 2000 10:25:15 -0700
+Received: from dodgson.caltech.edu (IDENT:glenn@dodgson.caltech.edu [131.215.104.35])
+	by dodgson.caltech.edu (8.9.3/8.9.3) with SMTP id LAA32394;
+	Thu, 22 Jun 2000 11:10:01 -0700
+Date: Thu, 22 Jun 2000 11:10:01 -0700
+Message-Id: <200006221810.LAA32394@dodgson.caltech.edu>
+From: "Glenn W. Bach" <glenn@newplanetsoftware.com>
+X-Mailer: Arrow 2.0b1 (X11; Linux 2.2.5-15; i686)
+To: <Jonathan.George@trcinc.com>
+Reply-To: jcc@newplanetsoftware.com
+Cc: <jcc@newplanetsoftware.com>
+Subject: Re: Code Crusader ... is it dead?
+Status: RO
+
+It is by no means dead. A new version will be released within a few weeks.
+On the web page there is a list of features in the new release.
+
+Glenn
+--
+Glenn W. Bach
+New Planet Software
+
+> I was considering Code Crusader as a Linux IDE, but it appears to be dead.
+> Does it have a future or have you deferred to another product?
+>
+> Sincerely,
+> Jonathan
+>
+> http://home.tampabay.rr.com/linux
+>
+>
+
+From allen.turner@ihs.com  Thu Jun 22 14:21:11 2000
+Return-Path: <allen.turner@ihs.com>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id OAA04968
+	for <jcc@alice.wonderland.caltech.edu>; Thu, 22 Jun 2000 14:21:11 -0700
+From: allen.turner@ihs.com
+Received: from xchange1.ihs.com ([192.77.15.49])
+	by web21.topchoice.com (8.8.7/8.8.5) with ESMTP id NAA22856
+	for <jcc@newplanetsoftware.com>; Thu, 22 Jun 2000 13:04:52 -0700
+Received: by xchange1.ihs.com with Internet Mail Service (5.5.2650.21)
+	id <LYNFJ9MY>; Thu, 22 Jun 2000 14:05:31 -0600
+Message-ID: <80BC79745884D311AD9C00A0C9ECFC78442EFB@xchange1.ihs.com>
+To: jcc@newplanetsoftware.com
+Subject: makemake gives me an error
+Date: Thu, 22 Jun 2000 14:05:25 -0600
+MIME-Version: 1.0
+X-Mailer: Internet Mail Service (5.5.2650.21)
+Content-Type: text/plain
+Status: RO
+
+Sorry to annoy you with this question, but I haven't found any answers in
+the FAQ pages,
+Here is my problem when I run makemake either from the project ide or from
+the command
+Line I get the following error:
+
+exlibris.test> makemake
+makemake: The specified program either does not exist or is not in any of
+the directories on the current execution path.
+
+What specified program is it referring about? I am running Code Crusader
+2.1.3 in a Sun Solaris box.
+
+Here is a copy of my Make.header file, thanks in advance for any help.
+
+Allen Turner
+
+--------------------------
+# Edit this file to define constants and custom build targets.
+# Please refer to the makemake documentation for more information.
+#
+# To compile multiple versions of a program or library, please study
+#     http://www.its.caltech.edu/~jafl/jcc/multi_version.html
+
+# Useful directories
+
+MYCODEDIR := .
+
+# Directories to search for header files
+
+SEARCHDIRS := -I- -I${MYCODEDIR}
+
+# makemake variables
+
+DEPENDFLAGS  := -g -Wall -Werror ${SEARCHDIRS}
+TOUCHHEADERS := ${MYCODEDIR}/*.h
+
+# C preprocessor (C, C++, FORTRAN)
+
+CPPFLAGS = 
+
+# C
+
+CC     := gcc
+CFLAGS  = ${DEPENDFLAGS}
+
+%.o : %.c
+	${CC} ${CPPFLAGS} ${CFLAGS} -c $< -o $@
+
+# C++
+
+CXX      := g++
+CXXFLAGS  = ${DEPENDFLAGS}
+
+%.o : %.cc
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -c $< -o $@
+
+%.o : %.C
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -c $< -o $@
+
+%.o : %.cpp
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -c $< -o $@
+
+%.o : %.cxx
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -c $< -o $@
+
+# FORTRAN
+
+FC     := f77
+FFLAGS  = 
+
+# linker
+
+LINKER    := gcc
+LDFLAGS    = 
+LOADLIBES := -lm -lstdc++
+
+# Java
+
+JAVAC  := javac
+JFLAGS  = 
+JAR    := jar
+
+%.class : %.java
+	${JAVAC} ${JFLAGS} $<
+--------------------------------------------
+
+From owner-jcc@chamber.cco.caltech.edu  Fri Jun 23 07:14:48 2000
+Return-Path: <owner-jcc@chamber.cco.caltech.edu>
+Received: from chamber.cco.caltech.edu (chamber.cco.caltech.edu [131.215.48.55])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id HAA09095;
+	Fri, 23 Jun 2000 07:14:48 -0700
+Received: (from daemon@localhost)
+	by chamber.cco.caltech.edu (8.9.3/8.9.3) id FAA04992
+	for jcc-outgoing; Fri, 23 Jun 2000 05:50:15 -0700 (PDT)
+Received: from CAPTAINKIRK.engenia.com (IDENT:root@pc240.engenia.com [216.88.42.240] (may be forged))
+	by chamber.cco.caltech.edu (8.9.3/8.9.3) with ESMTP id FAA04982
+	for <jcc@cco.caltech.edu>; Fri, 23 Jun 2000 05:50:12 -0700 (PDT)
+Received: from CAPTAINKIRK (IDENT:scornwell@localhost.localdomain [127.0.0.1])
+	by CAPTAINKIRK.engenia.com (8.9.3/8.9.3) with SMTP id IAA00971
+	for <jcc@cco.caltech.edu>; Fri, 23 Jun 2000 08:56:49 -0400
+From: Scott Cornwell <scornwell@engenia.com>
+To: jcc@cco.caltech.edu
+Subject: Code Crusader
+Date: Fri, 23 Jun 2000 08:55:08 -0400
+X-Mailer: KMail [version 1.0.29]
+Content-Type: text/plain
+MIME-Version: 1.0
+Message-Id: <00062308564902.00788@CAPTAINKIRK>
+Content-Transfer-Encoding: 8bit
+Sender: owner-jcc@its.caltech.edu
+Precedence: bulk
+Reply-To: jcc@its.caltech.edu
+Status: RO
+
+I am trying to use your Code Crusader 2.1.4 on a Redhat Linux 6.2 Intel box but
+unfortunately I cannot read a lot of the menu drop down buttons. I was wonder if
+there is a way to change to color of these menu items.  It only happens under
+the File, Edit and Search menu items. I can read the Preferences and Help
+menus fine. Thanks for your time.
+
+Scott
+
+
+From owner-jcc@anteroom.its.caltech.edu  Fri Jun 23 10:07:01 2000
+Return-Path: <owner-jcc@anteroom.its.caltech.edu>
+Received: from anteroom.its.caltech.edu (anteroom.its.caltech.edu [131.215.48.155])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id KAA09729;
+	Fri, 23 Jun 2000 10:07:01 -0700
+Received: (from daemon@localhost)
+	by anteroom.its.caltech.edu (8.9.3/8.9.3) id IAA12202
+	for jcc-outgoing; Fri, 23 Jun 2000 08:44:53 -0700 (PDT)
+Received: from hotmail.com (f124.law3.hotmail.com [209.185.241.124])
+	by anteroom.its.caltech.edu (8.9.3/8.9.3) with SMTP id IAA12193
+	for <jcc@cco.caltech.edu>; Fri, 23 Jun 2000 08:44:50 -0700 (PDT)
+Received: (qmail 99119 invoked by uid 0); 23 Jun 2000 15:47:16 -0000
+Message-ID: <20000623154716.99117.qmail@hotmail.com>
+Received: from 209.50.91.70 by www.hotmail.com with HTTP;
+	Fri, 23 Jun 2000 08:47:16 PDT
+X-Originating-IP: [209.50.91.70]
+From: "TK Kim" <ntkkim@hotmail.com>
+To: jcc@cco.caltech.edu
+Subject: User's Guide
+Date: Fri, 23 Jun 2000 11:47:16 EDT
+Mime-Version: 1.0
+Content-Type: text/plain; format=flowed
+Sender: owner-jcc@its.caltech.edu
+Precedence: bulk
+Reply-To: jcc@its.caltech.edu
+Status: RO
+
+Hi,
+I am new here and my first question is where can I find the user's guide for 
+Code Crusader?
+
+Thanks alog
+________________________________________________________________________
+Get Your Private, Free E-mail from MSN Hotmail at http://www.hotmail.com
+
+From owner-jcc@chamber.cco.caltech.edu  Fri Jun 23 13:15:46 2000
+Return-Path: <owner-jcc@chamber.cco.caltech.edu>
+Received: from chamber.cco.caltech.edu (chamber.cco.caltech.edu [131.215.48.55])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id NAA10794;
+	Fri, 23 Jun 2000 13:15:46 -0700
+Received: (from daemon@localhost)
+	by chamber.cco.caltech.edu (8.9.3/8.9.3) id LAA09253
+	for jcc-outgoing; Fri, 23 Jun 2000 11:54:47 -0700 (PDT)
+Received: from hotmail.com (f219.law3.hotmail.com [209.185.241.219])
+	by chamber.cco.caltech.edu (8.9.3/8.9.3) with SMTP id LAA09244
+	for <jcc@cco.caltech.edu>; Fri, 23 Jun 2000 11:54:44 -0700 (PDT)
+Received: (qmail 77869 invoked by uid 0); 23 Jun 2000 18:57:11 -0000
+Message-ID: <20000623185711.77868.qmail@hotmail.com>
+Received: from 209.50.91.70 by www.hotmail.com with HTTP;
+	Fri, 23 Jun 2000 11:57:11 PDT
+X-Originating-IP: [209.50.91.70]
+From: "TK Kim" <ntkkim@hotmail.com>
+To: jcc@cco.caltech.edu
+Subject: Where is the mail list?
+Date: Fri, 23 Jun 2000 14:57:11 EDT
+Mime-Version: 1.0
+Content-Type: text/plain; format=flowed
+Sender: owner-jcc@its.caltech.edu
+Precedence: bulk
+Reply-To: jcc@its.caltech.edu
+Status: RO
+
+Is there actual 'mail list' board somewhere on web?
+What is the address please?
+
+Thanks you.
+________________________________________________________________________
+Get Your Private, Free E-mail from MSN Hotmail at http://www.hotmail.com
+
+From owner-jcc@chamber.cco.caltech.edu  Fri Jun 23 14:42:44 2000
+Return-Path: <owner-jcc@chamber.cco.caltech.edu>
+Received: from chamber.cco.caltech.edu (chamber.cco.caltech.edu [131.215.48.55])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id OAA11155;
+	Fri, 23 Jun 2000 14:42:42 -0700
+Received: (from daemon@localhost)
+	by chamber.cco.caltech.edu (8.9.3/8.9.3) id NAA19067
+	for jcc-outgoing; Fri, 23 Jun 2000 13:22:20 -0700 (PDT)
+Received: from freesurfmail.sunrise.ch (freesurfmta02.sunrise.ch [194.230.0.17])
+	by chamber.cco.caltech.edu (8.9.3/8.9.3) with ESMTP id NAA19061
+	for <jcc@its.caltech.edu>; Fri, 23 Jun 2000 13:22:18 -0700 (PDT)
+Received: from [194.230.138.60] (194.230.139.16) by freesurfmail.sunrise.ch (5.1.034)
+        id 3940E05F0003A0C2 for jcc@its.caltech.edu; Fri, 23 Jun 2000 22:25:09 +0200
+Mime-Version: 1.0
+X-Sender: favre@sunny.unige.ch
+Message-Id: <p04320405b5797743a329@[194.230.138.60]>
+In-Reply-To: <20000623185711.77868.qmail@hotmail.com>
+References: <20000623185711.77868.qmail@hotmail.com>
+Date: Fri, 23 Jun 2000 22:24:31 +0200
+To: jcc@its.caltech.edu
+From: Vincent Favre-Nicolin <Vincent.Favre-Nicolin@cryst.unige.ch>
+Subject: Re: Where is the mail list?
+Content-Type: text/plain; charset="us-ascii"
+Sender: owner-jcc@its.caltech.edu
+Precedence: bulk
+Reply-To: jcc@its.caltech.edu
+Status: RO
+
+>Is there actual 'mail list' board somewhere on web?
+>What is the address please?
+
+	I do not know what you mean by 'board', but as for your previous question, you have an integrated help in Code Crusader, to see it just click on the right of the menu bar. I can't remember if it's called 'info' or 'help', but there is the help you may be looking for.
+
+	VFN
+
+From owner-jcc@anteroom.its.caltech.edu  Fri Jun 23 14:57:31 2000
+Return-Path: <owner-jcc@anteroom.its.caltech.edu>
+Received: from anteroom.its.caltech.edu (anteroom.its.caltech.edu [131.215.48.155])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id OAA11271;
+	Fri, 23 Jun 2000 14:57:29 -0700
+Received: (from daemon@localhost)
+	by anteroom.its.caltech.edu (8.9.3/8.9.3) id NAA13448
+	for jcc-outgoing; Fri, 23 Jun 2000 13:37:28 -0700 (PDT)
+Received: from hotmail.com (f208.law3.hotmail.com [209.185.241.208])
+	by anteroom.its.caltech.edu (8.9.3/8.9.3) with SMTP id NAA13434
+	for <jcc@its.caltech.edu>; Fri, 23 Jun 2000 13:37:25 -0700 (PDT)
+Received: (qmail 84681 invoked by uid 0); 23 Jun 2000 20:39:51 -0000
+Message-ID: <20000623203951.84680.qmail@hotmail.com>
+Received: from 209.50.91.70 by www.hotmail.com with HTTP;
+	Fri, 23 Jun 2000 13:39:51 PDT
+X-Originating-IP: [209.50.91.70]
+From: "TK Kim" <ntkkim@hotmail.com>
+To: jcc@its.caltech.edu
+Subject: Re: Where is the mail list?
+Date: Fri, 23 Jun 2000 16:39:51 EDT
+Mime-Version: 1.0
+Content-Type: text/plain; format=flowed
+Sender: owner-jcc@its.caltech.edu
+Precedence: bulk
+Reply-To: jcc@its.caltech.edu
+Status: RO
+
+First,thanks for the info.
+Secondly, what I mean by 'board' was a web board where all the questions and 
+response are posted to browse.
+
+Thanks again.
+
+
+>From: Vincent Favre-Nicolin <Vincent.Favre-Nicolin@cryst.unige.ch>
+>Reply-To: jcc@its.caltech.edu
+>To: jcc@its.caltech.edu
+>Subject: Re: Where is the mail list?
+>Date: Fri, 23 Jun 2000 22:24:31 +0200
+>
+> >Is there actual 'mail list' board somewhere on web?
+> >What is the address please?
+>
+>	I do not know what you mean by 'board', but as for your previous question, 
+>you have an integrated help in Code Crusader, to see it just click on the 
+>right of the menu bar. I can't remember if it's called 'info' or 'help', 
+>but there is the help you may be looking for.
+>
+>	VFN
+
+________________________________________________________________________
+Get Your Private, Free E-mail from MSN Hotmail at http://www.hotmail.com
+
+From ntkkim@home.com  Fri Jun 23 17:12:22 2000
+Return-Path: <ntkkim@home.com>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id RAA11886
+	for <jcc@alice.wonderland.caltech.edu>; Fri, 23 Jun 2000 17:12:18 -0700
+Received: from mail1.rdc3.on.home.com (mail1.rdc3.on.home.com [24.2.9.40])
+	by web21.topchoice.com (8.8.7/8.8.5) with ESMTP id PAA07432
+	for <jcc@newplanetsoftware.com>; Fri, 23 Jun 2000 15:56:00 -0700
+Received: from home.com ([24.112.0.196]) by mail1.rdc3.on.home.com
+          (InterMail vM.4.01.02.00 201-229-116) with ESMTP
+          id <20000623225554.TGXU416.mail1.rdc3.on.home.com@home.com>
+          for <jcc@newplanetsoftware.com>; Fri, 23 Jun 2000 15:55:54 -0700
+Sender: ntk@web21.topchoice.com
+Message-ID: <3953EAB2.73084DB1@home.com>
+Date: Fri, 23 Jun 2000 18:54:42 -0400
+From: "T.K. Kim" <ntkkim@home.com>
+X-Mailer: Mozilla 4.73 [en] (X11; U; Linux 2.2.15-4mdk i686)
+X-Accept-Language: ko, en
+MIME-Version: 1.0
+To: jcc@newplanetsoftware.com
+Subject: Menu display bugs?
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Status: RO
+
+Hi,
+I just got Code Crusader 2.1.4 and would like to report some problems
+that I encountered with menu.
+When I click on 'file', 'edit', or 'search' on the menu, each submenu
+appears.  In each submenu, some items do not appear at all or
+corrupted.   Some of them are not legible or partially displayed.
+
+BTW, I am using it under Gnome-Sawfish environment on Mandrake 7.1.
+
+Thanks.
+
+
+From jcc@newplanetsoftware.com  Fri Jun 23 17:27:07 2000
+Return-Path: <jcc@newplanetsoftware.com>
+Received: from web21.topchoice.com (IDENT:root@[209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id RAA12028
+	for <jcc@alice.wonderland.caltech.edu>; Fri, 23 Jun 2000 17:27:06 -0700
+Received: from alice.caltech.edu (root@alice.wonderland.caltech.edu [131.215.104.2])
+	by web21.topchoice.com (8.8.7/8.8.5) with ESMTP id QAA08280
+	for <jcc@newplanetsoftware.com>; Fri, 23 Jun 2000 16:10:49 -0700
+Received: from cheshire-cat.caltech.edu (IDENT:jafl@cheshire-cat.caltech.edu [131.215.104.10])
+	by alice.caltech.edu (8.9.3/8.9.3) with SMTP id RAA12022;
+	Fri, 23 Jun 2000 17:27:03 -0700
+Date: Fri, 23 Jun 2000 17:27:03 -0700
+Message-Id: <200006240027.RAA12022@alice.caltech.edu>
+From: John Lindal <jcc@newplanetsoftware.com>
+X-Mailer: Arrow 2.0b1 (X11; Linux 2.2.5-15; i686)
+To: <scornwell@engenia.com>
+Reply-To: jcc@newplanetsoftware.com
+Cc: <jcc@newplanetsoftware.com>
+Subject: Re: Code Crusader
+Status: RO
+
+> I was trying to use your Code Crusader on a Redhat Linux 6.2 Intel box
+> but unfortunately I cannot read a lot of the menu drop down buttons.
+
+Everything should be black on light gray.  If not, then there is something
+strange going on with your computer.  All of the menus use the same colors.
+
+John
+

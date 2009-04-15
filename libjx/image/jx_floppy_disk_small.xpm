@@ -1,0 +1,30 @@
+/* XPM */
+static char *jx_floppy_disk_small[] = {
+/* width height num_colors chars_per_pixel */
+"    16    16        7            1",
+/* colors */
+"  c None",
+"# c #cccccc",
+"a c #eeeeee",
+"b c #888888",
+"c c #aaaaaa",
+"d c #555555",
+"e c #000000",
+/* pixels */
+" eeeeeeeeeeeee  ",
+"e##dbbbbbbbba#e ",
+"e##dbbbbbeeba##e",
+"e##dbbbbbbbba##e",
+"e###aaaaaaaa###e",
+"e##############e",
+"e##cccccccccc##e",
+"e#c##########a#e",
+"e#c##########a#e",
+"e#c##########a#e",
+"e#c##########a#e",
+"e#c##########a#e",
+"e#c##########a#e",
+"e#c##########a#e",
+"e#c##########a#e",
+"eeeeeeeeeeeeeeee"
+};

@@ -1,0 +1,23 @@
+/* XPM */
+static char *address_name[] = {
+/* width height num_colors chars_per_pixel */
+"    11    12        4            1",
+/* colors */
+". c #6666cc",
+"# c #ffffff",
+"a c #333366",
+"b c #9999ff",
+/* pixels */
+"...........",
+".#########a",
+".###bab###a",
+".###aaa###a",
+".###bab###a",
+".##a###a##a",
+".#aaa#aaa#a",
+".#aaaaaaa#a",
+".#aaaaaaa#a",
+".#########a",
+".#########a",
+".aaaaaaaaaa"
+};

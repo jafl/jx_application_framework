@@ -1,0 +1,10 @@
+// Use this file to define templates
+//
+// To use this file:
+//
+//   #define JTemplateType ____
+//   #include <JArray.tmpls>
+
+#include <JOrderedSetIterator.tmpl>
+#include <JOrderedSet.tmpl>
+#include <JArray.tmpl>

@@ -1,0 +1,12 @@
+RLC TANK
+*
+R	1	2	1K
+L	2	0	1M
+C	1	0	1U
+*
+VS	1	0	AC	1	0
+*
+.AC
+.PROBE
+*
+.END

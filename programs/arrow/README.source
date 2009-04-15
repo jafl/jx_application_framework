@@ -1,0 +1,6 @@
+
+To compile Arrow, run "make" in the top level JX directory.
+
+If there is no Makefile there, you need to download the main JX source
+distribution.
+

@@ -1,0 +1,250 @@
+#ifndef _T_JDynamicHistogram
+#define _T_JDynamicHistogram
+
+/******************************************************************************
+ JDynamicHistogram.tmpl
+
+						The Dynamic Histogram Template Class
+
+	Template class to store a variable size 1-D histogram of numeric values.
+
+	BASE CLASS = JHistogram
+
+	Copyright © 1995 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JDynamicHistogram.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T>
+JDynamicHistogram<T>::JDynamicHistogram
+	(
+	const JSize binCount
+	)
+	:
+	JHistogram<T>(binCount)
+{
+}
+
+/******************************************************************************
+ Copy constructor
+
+ ******************************************************************************/
+
+template <class T>
+JDynamicHistogram<T>::JDynamicHistogram
+	(
+	const JDynamicHistogram<T>& source
+	)
+	:
+	JHistogram<T>(source)
+{
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <class T>
+JDynamicHistogram<T>::~JDynamicHistogram()
+{
+}
+
+/******************************************************************************
+ Assignment operator
+
+ ******************************************************************************/
+
+template <class T>
+const JDynamicHistogram<T>&
+JDynamicHistogram<T>::operator=
+	(
+	const JDynamicHistogram<T>& source
+	)
+{
+	if (this == &source)
+		{
+		return *this;
+		}
+
+	JHistogram<T>::operator=(source);
+
+	return *this;
+}
+
+/******************************************************************************
+ InsertBin
+
+ ******************************************************************************/
+
+template <class T>
+void
+JDynamicHistogram<T>::InsertBin
+	(
+	const JBinIndex	index,
+	const T			count
+	)
+{
+	JArray<T>* theBins = JHistogram<T>::GetBins();
+	theBins->InsertElementAtIndex(index, count);
+}
+
+/******************************************************************************
+ PrependBin
+
+ ******************************************************************************/
+
+template <class T>
+void
+JDynamicHistogram<T>::PrependBin
+	(
+	const T count
+	)
+{
+	InsertBin(1, count);
+}
+
+/******************************************************************************
+ AppendBin
+
+ ******************************************************************************/
+
+template <class T>
+void
+JDynamicHistogram<T>::AppendBin
+	(
+	const T count
+	)
+{
+	InsertBin(JHistogram<T>::GetBinCount()+1, count);
+}
+
+/******************************************************************************
+ RemoveBin
+
+ ******************************************************************************/
+
+template <class T>
+void
+JDynamicHistogram<T>::RemoveBin
+	(
+	const JBinIndex index
+	)
+{
+	JArray<T>* theBins = JHistogram<T>::GetBins();
+	theBins->RemoveElement(index);
+}
+
+/******************************************************************************
+ RemoveAllBins
+
+ ******************************************************************************/
+
+template <class T>
+void
+JDynamicHistogram<T>::RemoveAllBins()
+{
+	JArray<T>* theBins = JHistogram<T>::GetBins();
+	theBins->RemoveAll();
+}
+
+/******************************************************************************
+ MoveBinToIndex
+
+ ******************************************************************************/
+
+template <class T>
+void
+JDynamicHistogram<T>::MoveBinToIndex
+	(
+	const JBinIndex currentIndex,
+	const JBinIndex newIndex
+	)
+{
+	JArray<T>* theBins = JHistogram<T>::GetBins();
+	theBins->MoveElementToIndex(currentIndex, newIndex);
+}
+
+/******************************************************************************
+ CreateSetCount
+
+	Creates the bin if it doesn't already exist.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JDynamicHistogram<T>::CreateSetCount
+	(
+	const JBinIndex	index,
+	const T			count
+	)
+{
+	while (JHistogram<T>::GetBinCount() < index)
+		{
+		AppendBin();
+		}
+	SetCount(index, count);
+}
+
+/******************************************************************************
+ CreateIncrementCount
+
+	Creates the bin if it doesn't already exist.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JDynamicHistogram<T>::CreateIncrementCount
+	(
+	const JBinIndex	index,
+	const T			delta
+	)
+{
+	while (JHistogram<T>::GetBinCount() < index)
+		{
+		AppendBin();
+		}
+	IncrementCount(index, delta);
+}
+
+/******************************************************************************
+ Bin block size
+
+ ******************************************************************************/
+
+template <class T>
+JSize
+JDynamicHistogram<T>::GetBinBlockSize()
+	const
+{
+	return (JHistogram<T>::GetBins())->GetBlockSize();
+}
+
+template <class T>
+void
+JDynamicHistogram<T>::SetBinBlockSize
+	(
+	const JSize newBlockSize
+	)
+{
+	(JHistogram<T>::GetBins())->SetBlockSize(newBlockSize);
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JDynamicHistogram
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

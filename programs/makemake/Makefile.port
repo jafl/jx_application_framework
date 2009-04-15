@@ -1,0 +1,90 @@
+# Useful directories
+
+JX_ROOT := ../..
+
+CODEDIR  := .
+JCOREDIR := ${JX_ROOT}/include/jcore
+PCREDIR  := ${JX_ROOT}/misc/pcre
+REGEXDIR := ${JX_ROOT}/misc/regex
+
+JLIBDIR := ${JX_ROOT}/lib
+
+# Directories to search for header files
+
+SEARCHDIRS := -I${CODEDIR} \
+              -I${JCOREDIR}
+
+# makemake variables
+
+include ${JX_ROOT}/include/make/jx_constants
+include ${JX_ROOT}/include/make/jx_config
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
+               ${J_COMPILE_DEBUG} ${J_BUILD_SHARED_LIB} \
+               -DJ_MAKE_BINARY_NAME=\"${firstword ${MAKE}}\" \
+               -DJ_SHARED_LIB_LINK_OPTION=\"${J_SHARED_LIB_LINK_OPTION}\" \
+               ${J_RANLIB_VIA_AR_S} \
+               ${SEARCHDIRS}
+
+# make variables
+
+LOADLIBES := ${J_ACE_LIBS} ${J_GCC_LIBS}
+LDFLAGS   := 
+
+# JMemoryManager files
+
+ifdef J_ARRAY_NEW_OVERRIDABLE
+  JMM_FILES := ${addprefix ${DJ_MM_DIR}/, \
+                 jNew.o JMemoryManager.o JMMTable.o JMMArrayTable.o \
+                 JMMHashTable.o JMMMonitor.o JMMErrorPrinter.o JMMRecord.o}
+else
+  JMM_FILES :=
+endif
+
+#
+# install binaries
+#
+
+.PHONY : jxinstall
+jxinstall: regex makemake
+	@strip ${call EXE, makemake}
+	@cp makemake ${JX_INSTALL_ROOT}/
+
+	@if { which makemake > /dev/null; } then \
+         { \
+         echo "makemake successfully installed"; \
+         } \
+     else \
+         { \
+         echo; \
+         echo "makemake is not on your execution path.  It was placed in"; \
+         echo; \
+         echo "    ${JX_INSTALL_ROOT}"; \
+         echo; \
+         echo "Please add this to your execution path and restart start the build."; \
+         echo; \
+         false; \
+         } \
+     fi
+
+#
+# libraries we have eaten
+#
+
+.PHONY : regex
+regex:
+	@cd ${REGEXDIR}; ${MAKE} for_jcore
+	@cd ${PCREDIR}; \
+     if ! test -e Makefile; then ./configure; fi; \
+     ${MAKE} libpcre.la
+
+
+# This is what makemake added
+
+
+# makemake
+
+makemake : ${CODEDIR}/makemake.o ${JCOREDIR}/JBroadcaster.o ${JCOREDIR}/JCollection.o ${JCOREDIR}/JContainer.o ${JCOREDIR}/JProbDistr.o ${JCOREDIR}/JOrderedSetT.o ${JCOREDIR}/JOrderedSetUtil.o ${JCOREDIR}/JString.o ${JCOREDIR}/JIndexRange.o ${JCOREDIR}/JSubstitute.o ${JCOREDIR}/jCommandLine.o ${JCOREDIR}/jStreamUtil.o ${JCOREDIR}/jStreamUtil_UNIX.o ${JCOREDIR}/jFStreamUtil.o ${JCOREDIR}/jFStreamUtil_UNIX.o ${JCOREDIR}/jFileUtil.o ${JCOREDIR}/jFileUtil_UNIX.o ${JCOREDIR}/jDirUtil.o ${JCOREDIR}/jDirUtil_UNIX.o ${JCOREDIR}/jMountUtil_UNIX.o ${JCOREDIR}/jSysUtil_UNIX.o ${JCOREDIR}/jVCSUtil.o ${JCOREDIR}/JKLRand.o ${JCOREDIR}/JError.o ${JCOREDIR}/JStdError.o ${JCOREDIR}/JRTTIBase.o ${JCOREDIR}/JProgressDisplay.o ${JCOREDIR}/jMemory.o ${JCOREDIR}/jMath.o ${JCOREDIR}/jAssert.o ${JCOREDIR}/JAssertBase.o ${JCOREDIR}/jGlobals.o ${JCOREDIR}/jGlobals_UNIX.o ${JCOREDIR}/JUserNotification.o ${JCOREDIR}/JTextUserNotification.o ${JCOREDIR}/JChooseSaveFile.o ${JCOREDIR}/JTextChooseSaveFile.o ${JCOREDIR}/JCreateProgressDisplay.o ${JCOREDIR}/JCreateTextPG.o ${JCOREDIR}/JProgressDisplay.o ${JCOREDIR}/JTextProgressDisplay.o ${JCOREDIR}/JLatentPG.o ${JCOREDIR}/JProcess.o ${JCOREDIR}/JProcessError.o ${JCOREDIR}/JThisProcess.o ${JCOREDIR}/jProcessUtil.o ${JCOREDIR}/jProcessUtil_UNIX.o ${JCOREDIR}/jSignal.o ${JCOREDIR}/JDirInfo.o ${JCOREDIR}/JDirInfo_UNIX.o ${JCOREDIR}/JDirEntry.o ${JCOREDIR}/JStringManager.o ${JCOREDIR}/Templates-int.o ${JCOREDIR}/Templates-long.o ${JCOREDIR}/Templates-longlong.o ${JCOREDIR}/Templates-double.o ${JCOREDIR}/JPtrArray-JString.o ${JCOREDIR}/Templates-JString.o ${JCOREDIR}/Templates-ulong.o ${DJ_REGEX_DIR}/JRegex.o ${DJ_REGEX_DIR}/JInterpolate.o ${DJ_HASH_DIR}/jHashFunctions.o ${JMM_FILES} ${PCREDIR}/.libs/maketables.o ${PCREDIR}/.libs/get.o ${PCREDIR}/.libs/study.o ${PCREDIR}/.libs/pcre.o
+	${LINKER} ${LDFLAGS} -o $@ ${filter-out %.a %.so, $^} ${LOADLIBES}
+
+# ${REGEXDIR}/regcomp.o ${REGEXDIR}/regexec.o ${REGEXDIR}/regerror.o ${REGEXDIR}/regfree.o 

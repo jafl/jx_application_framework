@@ -1,0 +1,593 @@
+jx_browser_data 82
+# project tree
+0 "root"
+T
+1 "top level"
+T
+2 "gmail.cpp"
+F
+"./code/gmail.cpp"
+T
+2 "GMApp.cpp"
+F
+"./code/GMApp.cpp"
+T
+2 "GMMDIServer.cpp"
+F
+"./code/GMMDIServer.cpp"
+T
+2 "GPrefsMgr.cpp"
+F
+"./code/GPrefsMgr.cpp"
+T
+2 "GInboxMgr.cpp"
+F
+"./code/GInboxMgr.cpp"
+F
+T
+1 "utilites and globals"
+T
+2 "gMailUtils.cpp"
+F
+"./code/gMailUtils.cpp"
+T
+2 "GMGlobals.cpp"
+F
+"./code/GMGlobals.cpp"
+T
+2 "md5.cpp"
+F
+"./code/md5.cpp"
+F
+T
+1 "main widgets and classes"
+T
+2 "GMessageColHeader.cpp"
+F
+"./code/GMessageColHeader.cpp"
+T
+2 "GMessageEditor.cpp"
+F
+"./code/GMessageEditor.cpp"
+T
+2 "GMessageView.cpp"
+F
+"./code/GMessageView.cpp"
+T
+2 "GMessageTable.cpp"
+F
+"./code/GMessageTable.cpp"
+T
+2 "GMMIMEParser.cpp"
+F
+"./code/GMMIMEParser.cpp"
+T
+2 "GMAttachmentTable.cpp"
+F
+"./code/GMAttachmentTable.cpp"
+T
+2 "GMPOPRetrieverMenu.cpp"
+F
+"./code/GMPOPRetrieverMenu.cpp"
+T
+2 "GMMessageDragSource.cpp"
+F
+"./code/GMMessageDragSource.cpp"
+T
+2 "GMessageDragData.cpp"
+F
+"./code/GMessageDragData.cpp"
+T
+2 "GMCopyProcess.cpp"
+F
+"./code/GMCopyProcess.cpp"
+F
+T
+1 "data classes"
+T
+2 "GMessageFrom.cpp"
+F
+"./code/GMessageFrom.cpp"
+T
+2 "GMessageHeader.cpp"
+F
+"./code/GMessageHeader.cpp"
+T
+2 "GMessageHeaderList.cpp"
+F
+"./code/GMessageHeaderList.cpp"
+T
+2 "GMIMEHeader.cpp"
+F
+"./code/GMIMEHeader.cpp"
+T
+2 "GMMailboxData.cpp"
+F
+"./code/GMMailboxData.cpp"
+F
+T
+1 "new design"
+T
+2 "GARMessageHeaderList.cpp"
+F
+"./code/GARMessageHeaderList.cpp"
+T
+2 "GARMessageHeader.cpp"
+F
+"./code/GARMessageHeader.cpp"
+T
+2 "GARMBoxHeaderList.cpp"
+F
+"./code/GARMBoxHeaderList.cpp"
+T
+2 "GARMBoxHeader.cpp"
+F
+"./code/GARMBoxHeader.cpp"
+F
+T
+1 "directors"
+T
+2 "GMAboutDialog.cpp"
+F
+"./code/GMAboutDialog.cpp"
+T
+2 "GMailPrefsDialog.cpp"
+F
+"./code/GMailPrefsDialog.cpp"
+T
+2 "GMessageEditDir.cpp"
+F
+"./code/GMessageEditDir.cpp"
+T
+2 "GMessageTableDir.cpp"
+F
+"./code/GMessageTableDir.cpp"
+T
+2 "GMessageViewDir.cpp"
+F
+"./code/GMessageViewDir.cpp"
+T
+2 "JXGetPasswordDialog.cpp"
+F
+"./code/JXGetPasswordDialog.cpp"
+T
+2 "GMMessageFindDialog.cpp"
+F
+"./code/GMMessageFindDialog.cpp"
+T
+2 "GMFindTableDir.cpp"
+F
+"./code/GMFindTableDir.cpp"
+T
+2 "GNetDebugDir.cpp"
+F
+"./code/GNetDebugDir.cpp"
+T
+2 "ClipDir.cpp"
+F
+"./code/ClipDir.cpp"
+T
+2 "GMDirectorMenu.cpp"
+F
+"./code/GMDirectorMenu.cpp"
+T
+2 "GMDirectorManager.cpp"
+F
+"./code/GMDirectorManager.cpp"
+T
+2 "GMManagedDirector.cpp"
+F
+"./code/GMManagedDirector.cpp"
+F
+T
+1 "addressbook"
+T
+2 "GAddressBaseTreeNode.cpp"
+F
+"./ABTree/GAddressBaseTreeNode.cpp"
+T
+2 "GAddressBookTreeDir.cpp"
+F
+"./ABTree/GAddressBookTreeDir.cpp"
+T
+2 "GAddressBookTreeNode.cpp"
+F
+"./ABTree/GAddressBookTreeNode.cpp"
+T
+2 "GAddressBookTreeWidget.cpp"
+F
+"./ABTree/GAddressBookTreeWidget.cpp"
+T
+2 "GAddressEntryTreeNode.cpp"
+F
+"./ABTree/GAddressEntryTreeNode.cpp"
+T
+2 "GAddressItemTreeNode.cpp"
+F
+"./ABTree/GAddressItemTreeNode.cpp"
+T
+2 "GAddressBookMgr.cpp"
+F
+"./code/GAddressBookMgr.cpp"
+T
+2 "GAddressScanner.cpp"
+F
+"./code/GAddressScanner.cpp"
+T
+2 "GAddressScannerL.l"
+F
+"./code/GAddressScannerL.l"
+T
+2 "GAddressDragData.cpp"
+F
+"./ABTree/GAddressDragData.cpp"
+F
+T
+1 "mail tree"
+T
+2 "GMailboxChooseSaveFile.cpp"
+F
+"./MailTree/GMailboxChooseSaveFile.cpp"
+T
+2 "GMailboxTreeDir.cpp"
+F
+"./MailTree/GMailboxTreeDir.cpp"
+T
+2 "GMailboxTreeWidget.cpp"
+F
+"./MailTree/GMailboxTreeWidget.cpp"
+T
+2 "GMailboxUtils.cpp"
+F
+"./MailTree/GMailboxUtils.cpp"
+T
+2 "GMFileTree.cpp"
+F
+"./MailTree/GMFileTree.cpp"
+T
+2 "GMTreeRootNode.cpp"
+F
+"./MailTree/GMTreeRootNode.cpp"
+T
+2 "GMailFileTreeNode.cpp"
+F
+"./MailTree/GMailFileTreeNode.cpp"
+T
+2 "GMailboxDragData.cpp"
+F
+"./MailTree/GMailboxDragData.cpp"
+T
+2 "JPtrArray-JNamedTreeNode.cpp"
+F
+"./MailTree/JPtrArray-JNamedTreeNode.cpp"
+F
+T
+1 "accounts"
+T
+2 "GMAccountManager.cpp"
+F
+"./code/GMAccountManager.cpp"
+T
+2 "GMAccountMenu.cpp"
+F
+"./code/GMAccountMenu.cpp"
+T
+2 "GMAccountDialog.cpp"
+F
+"./code/GMAccountDialog.cpp"
+T
+2 "GMAccountList.cpp"
+F
+"./code/GMAccountList.cpp"
+T
+2 "GMAccount.cpp"
+F
+"./code/GMAccount.cpp"
+F
+T
+1 "filter"
+T
+2 "GMFilterManager.cpp"
+F
+"./code/GMFilterManager.cpp"
+T
+2 "GMFilterDialog.cpp"
+F
+"./code/GMFilterDialog.cpp"
+T
+2 "GMFilterNameTable.cpp"
+F
+"./code/GMFilterNameTable.cpp"
+T
+2 "GMFilterConditionTable.cpp"
+F
+"./code/GMFilterConditionTable.cpp"
+T
+2 "GMFilterActionTable.cpp"
+F
+"./code/GMFilterActionTable.cpp"
+T
+2 "GMFilter.cpp"
+F
+"./code/GMFilter.cpp"
+T
+2 "GMFilterCondition.cpp"
+F
+"./code/GMFilterCondition.cpp"
+T
+2 "GMFilterAction.cpp"
+F
+"./code/GMFilterAction.cpp"
+T
+2 "GFilterDragData.cpp"
+F
+"./code/GFilterDragData.cpp"
+F
+T
+1 "network"
+T
+2 "GPOPRetriever.cpp"
+F
+"./code/GPOPRetriever.cpp"
+T
+2 "SMTPMessage.cpp"
+F
+"./code/SMTPMessage.cpp"
+F
+T
+1 "mail scanners"
+T
+2 "GMScanner.cpp"
+F
+"./code/GMScanner.cpp"
+T
+2 "GMScannerL.l"
+F
+"./code/GMScannerL.l"
+F
+T
+1 "special derived classes"
+T
+2 "GMChooseSaveFile.cpp"
+F
+"./code/GMChooseSaveFile.cpp"
+T
+2 "GMSaveFileDialog.cpp"
+F
+"./code/GMSaveFileDialog.cpp"
+T
+2 "GMChooseFileDialog.cpp"
+F
+"./code/GMChooseFileDialog.cpp"
+T
+2 "GMPTPrinter.cpp"
+F
+"./code/GMPTPrinter.cpp"
+T
+2 "GMPTPrintSetupDialog.cpp"
+F
+"./code/GMPTPrintSetupDialog.cpp"
+T
+2 "GXBlockingPG.cpp"
+F
+"./code/GXBlockingPG.cpp"
+T
+2 "GMChooseSavePrefObject.cpp"
+F
+"./code/GMChooseSavePrefObject.cpp"
+F
+T
+1 "tasks"
+T
+2 "GMMarkHeaderDeletedTask.cpp"
+F
+"./code/GMMarkHeaderDeletedTask.cpp"
+T
+2 "GMessageDataUpdateTask.cpp"
+F
+"./code/GMessageDataUpdateTask.cpp"
+T
+2 "GCheckPGPTask.cpp"
+F
+"./code/GCheckPGPTask.cpp"
+T
+2 "GDeleteMessageTask.cpp"
+F
+"./code/GDeleteMessageTask.cpp"
+T
+2 "GLockFileTask.cpp"
+F
+"./code/GLockFileTask.cpp"
+T
+2 "GMAboutDialogIconTask.cpp"
+F
+"./code/GMAboutDialogIconTask.cpp"
+T
+2 "GMDirectorTimerTask.cpp"
+F
+"./code/GMDirectorTimerTask.cpp"
+T
+2 "GMUpdateAttachTableWidth.cpp"
+F
+"./code/GMUpdateAttachTableWidth.cpp"
+F
+T
+1 "arrays"
+T
+2 "JPtrArray-GLockFileTask.cpp"
+F
+"./code/JPtrArray-GLockFileTask.cpp"
+T
+2 "JPtrArray-GMAccount.cpp"
+F
+"./code/JPtrArray-GMAccount.cpp"
+T
+2 "JPtrArray-GMessageEditDir.cpp"
+F
+"./code/JPtrArray-GMessageEditDir.cpp"
+T
+2 "JPtrArray-GMessageFrom.cpp"
+F
+"./code/JPtrArray-GMessageFrom.cpp"
+T
+2 "JPtrArray-GMessageHeader.cpp"
+F
+"./code/JPtrArray-GMessageHeader.cpp"
+T
+2 "JPtrArray-GMessageTableDir.cpp"
+F
+"./code/JPtrArray-GMessageTableDir.cpp"
+T
+2 "JPtrArray-GMessageViewDir.cpp"
+F
+"./code/JPtrArray-GMessageViewDir.cpp"
+T
+2 "JStringMap-GAddressBookEntry.cpp"
+F
+"./code/JStringMap-GAddressBookEntry.cpp"
+T
+2 "JPtrArray-GMManagedDirector.cpp"
+F
+"./code/JPtrArray-GMManagedDirector.cpp"
+T
+2 "JPtrArray-GPOPRetriever.cpp"
+F
+"./code/JPtrArray-GPOPRetriever.cpp"
+T
+2 "JPtrArray-GMFilter.cpp"
+F
+"./code/JPtrArray-GMFilter.cpp"
+T
+2 "JPtrArray-GMFilterCondition.cpp"
+F
+"./code/JPtrArray-GMFilterCondition.cpp"
+T
+2 "JPtrArray-GMFilterAction.cpp"
+F
+"./code/JPtrArray-GMFilterAction.cpp"
+T
+2 "JArray-AttachmentType.cpp"
+F
+"./code/JArray-AttachmentType.cpp"
+F
+T
+1 "misc"
+T
+2 "GMPixmaps.cpp"
+F
+"./code/GMPixmaps.cpp"
+T
+2 "GMDummyText.cpp"
+F
+"./code/GMDummyText.cpp"
+T
+2 "GMCustomFromInput.cpp"
+F
+"./code/GMCustomFromInput.cpp"
+F
+T
+1 "layout"
+T
+2 "arrow.fd"
+F
+"./arrow.fd"
+F
+T
+1 "string"
+T
+2 "arrow_strings"
+F
+"./strings/arrow_strings"
+T
+2 "GHelpText.h"
+F
+"./code/GHelpText.h"
+T
+2 "GChangeLogText"
+F
+"./strings/GChangeLogText"
+T
+2 "GTOCHelpText"
+F
+"./strings/GTOCHelpText"
+T
+2 "GOverviewHelpText"
+F
+"./strings/GOverviewHelpText"
+T
+2 "GAccountHelpText"
+F
+"./strings/GAccountHelpText"
+T
+2 "GFilterHelpText"
+F
+"./strings/GFilterHelpText"
+T
+2 "GMailboxHelpText"
+F
+"./strings/GMailboxHelpText"
+T
+2 "GPOPHelpText"
+F
+"./strings/GPOPHelpText"
+T
+2 "GPrefsHelpText"
+F
+"./strings/GPrefsHelpText"
+T
+2 "GSendHelpText"
+F
+"./strings/GSendHelpText"
+T
+2 "GViewHelpText"
+F
+"./strings/GViewHelpText"
+T
+2 "GABHelpText"
+F
+"./strings/GABHelpText"
+T
+2 "GMailTreeHelpText"
+F
+"./strings/GMailTreeHelpText"
+T
+2 "GCreditsText"
+F
+"./strings/GCreditsText"
+T
+2 "GBBindingEditorHelpText"
+F
+"./strings/GBBindingEditorHelpText"
+F
+T
+1 "updates"
+T
+2 "JXLibVersion.h"
+F
+"../../libjx/code/JXLibVersion.h"
+T
+2 "JCoreLibVersion.h"
+F
+"../../libjcore/code/JCoreLibVersion.h"
+F
+F
+# tasks
+4
+"makemake"
+T "./" "make -k personal" "" T F T T T F F "" "" "" F
+T "./" "make -k debug" "" T F T T T F F "" "" "" F
+F
+# build settings
+1
+F
+"arrow"
+"${LIB_DEPS}"
+"make -k all"
+# search paths
+T "../../libjcore/code/" T
+T "../../libjfs/code/" T
+T "../../libjx/code/" T
+T "./" T
+F
+# C preprocessor
+F

@@ -1,0 +1,134 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "ACE"="..\..\..\..\jafl\ACE_wrappers\ace\ACE.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "ACE_Static"="..\..\..\..\jafl\ACE_wrappers\ace\ACE_Static.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "T01helloworld"=".\TUTORIAL\01-HELLOWORLD\T01helloworld.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libjcore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libjx
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ACE_Static
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "X"=".\misc\win32\X\X.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libjcore"=".\libjcore\libjcore.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name pcre
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "libjx"=".\libjx\libjx.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name X
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "pcre"=".\misc\pcre\pcre.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "test_jcore"=".\libjcore\test\test_jcore.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libjcore
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ACE_Static
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

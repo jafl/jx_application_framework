@@ -1,0 +1,621 @@
+#ifndef _T_JOrderedSetIterator
+#define _T_JOrderedSetIterator
+
+/******************************************************************************
+ JOrderedSetIterator.tmpl
+
+						The Ordered Set Iterator Class
+
+	An iterator provides an efficient, error-resistant way to loop through
+	the elements of an JOrderedSet:
+
+		JOrderedSet<MyData>* myOrderedSet = new JOrderedSet<MyData>;
+		...
+		JOrderedSetIterator<MyData> iterator(myOrderedSet, kJIteratorStartAtBeginning);
+		MyData                      item;
+
+		while(iterator.Next(&item))
+			{
+			<do something with the item>
+			}
+
+	An iterator is robust in the face of insertions and deletions to
+	the JOrderedSet it is working on:
+
+	Each iterator has a current position called a "cursor". The cursor
+	is always positioned at the start of the JOrderedSet, at the end of the
+	JOrderedSet, or *between* two JOrderedSet items. The cursor position is an
+	ordinal from 0 to n, where n is the number of elements in the JOrderedSet.
+	The relationship of the cursor position to the JOrderedSet index is
+	illustrated below:
+
+				+-----+-----+-----+-----+-----+-----+
+		index	|  1  |  2  |  3  |  4  |  5  |  6  |
+				+-----+-----+-----+-----+-----+-----+
+		cursor	0     1     2     3     4     5     6
+
+	JIteratorPosition lets you specify an initial (or changed) cursor position.
+	kJIteratorStartBefore puts the cursor just before the specified item
+	(so Next() will fetch the item) while kJIteratorStartAfter puts it just after
+	(so Prev() will fetch the item).
+
+	The operations Next() and Prev() fetch the item just after or the
+	item just before the cursor, respectively, then increment or
+	decrement the cursor. So a sequence of Next() calls will advance
+	forward through an JOrderedSet, while a sequence of Prev() calls will go
+	backwards through the JOrderedSet. You can change direction at any time.
+
+	If the cursor is positioned at the number of items in the JOrderedSet and
+	you call Next(), it will return FALSE. Likewise if the cursor is zero
+	and you call Prev().
+
+	If the JOrderedSet is deleted while the cursor is active, all further
+	calls to Next() or Prev() will return FALSE and the cursor position
+	will be fixed at 0.
+
+	Implementation notes:
+
+	An iterator is easily written as a JBroadcaster so the JOrderedSet
+	can notify the iterator when changes occur or when it is deleted.
+	Unfortunately, this has the major drawback of creating two
+	JBroadcasterLists each time an iterator is constructed.
+	This is especially painful when iterators are used within
+	~JBroadcaster, because deleting memory should *never* allocate memory.
+
+	Alternatively, since each iterator is used by exactly one
+	JOrderedSet, we can construct a linked list of iterators headed
+	in the JOrderedSet. In order not to transfer the overhead of managing
+	this list into JOrderedSet, the iterators manage the list.
+	Thus the iterator must be a friend of the JOrderedSet.  This is
+	acceptable because the iterator can't exist without the JOrderedSet.
+
+	Copyright © 1994-97 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JOrderedSetIterator.h>
+#include <JOrderedSet.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T>
+JOrderedSetIterator<T>::JOrderedSetIterator
+	(
+	const JOrderedSet<T>&	theOrderedSet,
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+{
+	itsConstOrderedSet = &theOrderedSet;
+	itsOrderedSet      = NULL;
+
+	JOrderedSetIteratorX(start, index);
+}
+
+template <class T>
+JOrderedSetIterator<T>::JOrderedSetIterator
+	(
+	JOrderedSet<T>*			theOrderedSet,
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+{
+	itsConstOrderedSet = theOrderedSet;
+	itsOrderedSet      = theOrderedSet;
+
+	JOrderedSetIteratorX(start, index);
+}
+
+// private
+
+template <class T>
+void
+JOrderedSetIterator<T>::JOrderedSetIteratorX
+	(
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+{
+	itsNextIterator = NULL;
+	AddToIteratorList();
+
+	MoveTo(start, index);
+}
+
+/******************************************************************************
+ Copy constructor
+
+ ******************************************************************************/
+
+template <class T>
+JOrderedSetIterator<T>::JOrderedSetIterator
+	(
+	const JOrderedSetIterator<T>& source
+	)
+{
+	itsConstOrderedSet = source.itsConstOrderedSet;
+	itsOrderedSet      = source.itsOrderedSet;
+	itsCursorPosition  = source.itsCursorPosition;
+	itsNextIterator    = NULL;
+
+	AddToIteratorList();
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <class T>
+JOrderedSetIterator<T>::~JOrderedSetIterator()
+{
+	RemoveFromIteratorList();
+}
+
+/******************************************************************************
+ Assignment operator (private)
+
+	operator= is private because it is not allowed
+
+ ******************************************************************************/
+
+template <class T>
+const JOrderedSetIterator<T>&
+JOrderedSetIterator<T>::operator=
+	(
+	const JOrderedSetIterator<T>& source
+	)
+{
+	assert( 0 );
+	return *this;
+}
+
+/******************************************************************************
+ Prev (virtual)
+
+	Returns kJTrue if there is a previous item, fetching the previous
+	item in the list and decrementing the iterator position.
+	Otherwise returns kJFalse without fetching or decrementing.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JOrderedSetIterator<T>::Prev
+	(
+	T* data
+	)
+{
+	if (AtBeginning())
+		{
+		return kJFalse;
+		}
+
+	*data = itsConstOrderedSet->GetElement(itsCursorPosition);
+	itsCursorPosition--;
+
+	return kJTrue;
+}
+
+/******************************************************************************
+ Next (virtual)
+
+	Returns kJTrue if there is a next item, fetching the next
+	item in the list and incrementing the iterator position.
+	Otherwise returns kJFalse without fetching or incrementing.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JOrderedSetIterator<T>::Next
+	(
+	T* data
+	)
+{
+	if (AtEnd())
+		{
+		return kJFalse;
+		}
+
+	itsCursorPosition++;
+	*data = itsConstOrderedSet->GetElement(itsCursorPosition);
+
+	return kJTrue;
+}
+
+/******************************************************************************
+ SkipPrev (virtual)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JOrderedSetIterator<T>::SkipPrev
+	(
+	const JSize count
+	)
+{
+	if (count <= itsCursorPosition)
+		{
+		itsCursorPosition -= count;
+		}
+	else
+		{
+		itsCursorPosition = 0;
+		}
+}
+
+/******************************************************************************
+ SkipNext (virtual)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JOrderedSetIterator<T>::SkipNext
+	(
+	const JSize count
+	)
+{
+	if (!AtEnd())
+		{
+		itsCursorPosition += count;
+
+		const JSize maxCount = itsConstOrderedSet->GetElementCount();
+		if (itsCursorPosition > maxCount)
+			{
+			itsCursorPosition = maxCount;
+			}
+		}
+}
+
+/******************************************************************************
+ SetPrev (virtual)
+
+	Returns kJTrue if we have a non-const JOrderedSet<T>* and
+	there is a previous item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JOrderedSetIterator<T>::SetPrev
+	(
+	const T& data
+	)
+{
+	if (itsOrderedSet == NULL || AtBeginning())
+		{
+		return kJFalse;
+		}
+
+	itsOrderedSet->SetElement(itsCursorPosition, data);
+	return kJTrue;
+}
+
+/******************************************************************************
+ SetNext (virtual)
+
+	Returns kJTrue if we have a non-const JOrderedSet<T>* and
+	there is a next item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JOrderedSetIterator<T>::SetNext
+	(
+	const T& data
+	)
+{
+	if (itsOrderedSet == NULL || AtEnd())
+		{
+		return kJFalse;
+		}
+
+	itsOrderedSet->SetElement(itsCursorPosition+1, data);
+	return kJTrue;
+}
+
+/******************************************************************************
+ RemovePrev (virtual)
+
+	Returns kJTrue if we have a non-const JOrderedSet<T>* and
+	there is a previous item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JOrderedSetIterator<T>::RemovePrev()
+{
+	if (itsOrderedSet == NULL || AtBeginning())
+		{
+		return kJFalse;
+		}
+
+	itsOrderedSet->RemoveElement(itsCursorPosition);
+	return kJTrue;
+}
+
+/******************************************************************************
+ RemoveNext (virtual)
+
+	Returns kJTrue if we have a non-const JOrderedSet<T>* and
+	there is a next item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JOrderedSetIterator<T>::RemoveNext()
+{
+	if (itsOrderedSet == NULL || AtEnd())
+		{
+		return kJFalse;
+		}
+
+	itsOrderedSet->RemoveElement(itsCursorPosition+1);
+	return kJTrue;
+}
+
+/******************************************************************************
+ MoveTo (virtual)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JOrderedSetIterator<T>::MoveTo
+	(
+	const JIteratorPosition	newPosition,
+	const JIndex			index
+	)
+{
+	if (itsConstOrderedSet == NULL)
+		{
+		return;
+		}
+
+	if (newPosition == kJIteratorStartAtBeginning)
+		{
+		itsCursorPosition = 0;
+		}
+	else if (newPosition == kJIteratorStartAtEnd)
+		{
+		itsCursorPosition = itsConstOrderedSet->GetElementCount();
+		}
+	else if (newPosition == kJIteratorStartBefore)
+		{
+		assert( itsConstOrderedSet->IndexValid(index) );
+		itsCursorPosition = index-1;
+		}
+	else
+		{
+		assert( newPosition == kJIteratorStartAfter );
+		assert( itsConstOrderedSet->IndexValid(index) );
+		itsCursorPosition = index;
+		}
+}
+
+/******************************************************************************
+ AtBeginning
+
+	Return kJTrue if iterator is positioned at the beginning of the ordered set
+	or if the ordered set has been deleted.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JOrderedSetIterator<T>::AtBeginning()
+{
+	return JConvertToBoolean( itsConstOrderedSet == NULL || itsCursorPosition == 0 );
+}
+
+/******************************************************************************
+ AtEnd
+
+	Return kJTrue if iterator is positioned at the end of the ordered set
+	or if the ordered set has been deleted.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JOrderedSetIterator<T>::AtEnd()
+{
+	return JConvertToBoolean( itsConstOrderedSet == NULL ||
+							  itsCursorPosition >= itsConstOrderedSet->GetElementCount() );
+}
+
+/******************************************************************************
+ GetOrderedSet (protected)
+
+	Return the current ordered set for this iterator.
+
+ ******************************************************************************/
+
+template <class T>
+const JOrderedSet<T>*
+JOrderedSetIterator<T>::GetConstOrderedSet()
+	const
+{
+	return itsConstOrderedSet;
+}
+
+template <class T>
+JBoolean
+JOrderedSetIterator<T>::GetOrderedSet
+	(
+	JOrderedSet<T>** obj
+	)
+	const
+{
+	*obj = itsOrderedSet;
+	return JConvertToBoolean( itsOrderedSet != NULL );
+}
+
+/******************************************************************************
+ GetCursor (protected)
+
+	Return the current cursor position.
+
+ ******************************************************************************/
+
+template <class T>
+JCursorPosition
+JOrderedSetIterator<T>::GetCursor()
+	const
+{
+	return itsCursorPosition;
+}
+
+/******************************************************************************
+ SetCursor (protected)
+
+	Set the current cursor position.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JOrderedSetIterator<T>::SetCursor
+	(
+	const JCursorPosition pos
+	)
+{
+	itsCursorPosition = pos;
+}
+
+/******************************************************************************
+ AddToIteratorList (private)
+
+	Add this iterator at the front of the active iterator list.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JOrderedSetIterator<T>::AddToIteratorList()
+{
+	if (itsConstOrderedSet != NULL)
+		{
+		JOrderedSet<T>* set   = const_cast<JOrderedSet<T>*>(itsConstOrderedSet);
+		itsNextIterator       = set->itsFirstIterator;
+		set->itsFirstIterator = this;
+		}
+}
+
+/******************************************************************************
+ RemoveFromIteratorList (private)
+
+	Remove this iterator from the active iterator list.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JOrderedSetIterator<T>::RemoveFromIteratorList()
+{
+	if (itsConstOrderedSet == NULL)
+		{
+		return;
+		}
+
+	JOrderedSetIterator<T>* firstIterator = itsConstOrderedSet->itsFirstIterator;
+
+	if (firstIterator == this)
+		{
+		const_cast<JOrderedSet<T>*>(itsConstOrderedSet)->itsFirstIterator = itsNextIterator;
+		}
+	else
+		{
+		JOrderedSetIterator<T>* prevIterator = firstIterator;
+		JOrderedSetIterator<T>* currIterator = firstIterator->itsNextIterator;
+
+		while (currIterator != NULL)
+			{
+			if (currIterator == this)
+				{
+				prevIterator->itsNextIterator = itsNextIterator;
+				break;
+				}
+
+			prevIterator = currIterator;
+			currIterator = currIterator->itsNextIterator;
+			}
+		}
+}
+
+/******************************************************************************
+ OrderedSetChanged (virtual protected)
+
+	Respond to changes in itsConstOrderedSet and recursively tell the next
+	iterator in the list to do the same. Assuming that only a handful of
+	iterators are ever in a list, recursion should be safe.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JOrderedSetIterator<T>::OrderedSetChanged
+	(
+	const JBroadcaster::Message& message
+	)
+{
+	if (message.Is(JOrderedSetT::kElementsInserted))
+		{
+		const JOrderedSetT::ElementsInserted* info =
+			dynamic_cast(const JOrderedSetT::ElementsInserted*, &message);
+		assert( info != NULL );
+		if (itsCursorPosition >= info->GetFirstIndex())
+			{
+			itsCursorPosition += info->GetCount();
+			}
+		}
+	else if (message.Is(JOrderedSetT::kElementsRemoved))
+		{
+		const JOrderedSetT::ElementsRemoved* info =
+			dynamic_cast(const JOrderedSetT::ElementsRemoved*, &message);
+		assert( info != NULL );
+		if (itsCursorPosition > info->GetLastIndex())
+			{
+			itsCursorPosition -= info->GetCount();
+			}
+		else if (itsCursorPosition >= info->GetFirstIndex())
+			{
+			itsCursorPosition = info->GetFirstIndex()-1;
+			}
+		}
+	else if (message.Is(JOrderedSetT::kCopied))
+		{
+		itsCursorPosition = 0;
+		}
+	else if (message.Is(JOrderedSetT::kGoingAway))
+		{
+		itsConstOrderedSet = NULL;
+		itsOrderedSet      = NULL;
+		itsCursorPosition  = 0;
+		}
+
+	if (itsNextIterator != NULL)
+		{
+		itsNextIterator->OrderedSetChanged(message);
+		}
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JOrderedSetIterator
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

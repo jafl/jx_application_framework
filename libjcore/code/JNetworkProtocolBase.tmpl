@@ -1,0 +1,239 @@
+#ifndef _T_JNetworkProtocolBase
+#define _T_JNetworkProtocolBase
+
+/******************************************************************************
+ JNetworkProtocolBase.tmpl
+
+	Provides two options for sending data:
+
+		Synch:  Blocks until the data has been sent.
+		Asynch: Buffers data and sends it when it gets a chance.
+
+	This must be the base class rather than a helper class because ACE
+	only supports one ACE_Svc_Handler per handle.
+
+	BASE CLASS = JDataSenderBase
+
+	Copyright © 2000 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JNetworkProtocolBase.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <jErrno.h>
+#include <jAssert.h>
+
+// not in any accessible RedHat 6.0 header files!
+#ifndef MSG_DONTWAIT
+#define MSG_DONTWAIT	0x40	/* Nonblocking io */
+#endif
+
+#ifdef IP_MAXPACKET
+const JSize kDefaultBlockSize = IP_MAXPACKET;	// bytes
+#else
+const JSize kDefaultBlockSize = 1023;			// bytes
+#endif
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JNetworkProtocolBase<ACE_PEER_STREAM_2>::JNetworkProtocolBase
+	(
+	const JBoolean synch
+	)
+	:
+	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>(),
+	itsSynchFlag(synch)
+{
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JNetworkProtocolBase<ACE_PEER_STREAM_2>::~JNetworkProtocolBase()
+{
+	Flush();
+}
+
+/******************************************************************************
+ Sending method (protected)
+
+	This controls how much is written to the connection at one time.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JBoolean
+JNetworkProtocolBase<ACE_PEER_STREAM_2>::WillSendSynch()
+	const
+{
+	return itsSynchFlag;
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JNetworkProtocolBase<ACE_PEER_STREAM_2>::ShouldSendSynch
+	(
+	const JBoolean synch
+	)
+{
+	Flush();	// first because does nothing if synch
+	itsSynchFlag = synch;
+}
+
+/******************************************************************************
+ Send (protected)
+
+	These are protected because they can't enforce the protocol.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+void
+JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send
+	(
+	const JString& data
+	)
+{
+	Send(data.GetCString(), data.GetLength());
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send
+	(
+	const JCharacter* data
+	)
+{
+	Send(data, strlen(data));
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send
+	(
+	const JCharacter*	data,
+	const JSize			length
+	)
+{
+	if (itsSynchFlag)
+		{
+		(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send_n(data, length);
+		}
+	else if (length > 0)
+		{
+		if (itsSendData.IsEmpty())
+			{
+			(ACE_Event_Handler::reactor())->register_handler(this, ACE_Event_Handler::WRITE_MASK);
+			}
+
+		itsSendData.Append(data, length);
+		}
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send
+	(
+	const iovec	data[],
+	const JSize	count
+	)
+{
+	if (itsSynchFlag)
+		{
+		ACE::writev_n(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::get_handle(), data, count);
+		}
+	else
+		{
+		for (JIndex i=0; i<count; i++)
+			{
+			Send((char*) data[i].iov_base, data[i].iov_len);
+			}
+		}
+}
+
+/******************************************************************************
+ DataPending
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JBoolean
+JNetworkProtocolBase<ACE_PEER_STREAM_2>::DataPending()
+	const
+{
+	return JNegate(itsSendData.IsEmpty());
+}
+
+/******************************************************************************
+ Flush
+
+	Blocks until all pending data has been sent.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+void
+JNetworkProtocolBase<ACE_PEER_STREAM_2>::Flush()
+{
+	if (!itsSynchFlag && !itsSendData.IsEmpty())
+		{
+		(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send_n(itsSendData, itsSendData.GetLength());
+		}
+}
+
+/******************************************************************************
+ handle_output (virtual)
+
+	This is called when we can send more data to the client.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+int
+JNetworkProtocolBase<ACE_PEER_STREAM_2>::handle_output
+	(
+	ACE_HANDLE
+	)
+{
+	if (!itsSendData.IsEmpty())
+		{
+//		const JSize count = JMin(itsSendData.GetLength(), kDefaultBlockSize);
+//		(peer()).send_n(itsSendData, count);
+//		itsSendData.RemoveSubstring(1, count);
+
+		const int count = (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send(itsSendData, itsSendData.GetLength(), MSG_DONTWAIT);
+		if (count > 0)
+			{
+			itsSendData.RemoveSubstring(1, count);
+			}
+		else
+			{
+			assert( jerrno() != EMSGSIZE );
+			}
+
+		if (itsSendData.IsEmpty())
+			{
+			(ACE_Event_Handler::reactor())->remove_handler(this, ACE_Event_Handler::WRITE_MASK | ACE_Event_Handler::DONT_CALL);
+			}
+		}
+
+	return 0;
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JNetworkProtocolBase
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

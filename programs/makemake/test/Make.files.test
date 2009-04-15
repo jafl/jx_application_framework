@@ -1,0 +1,34 @@
+-suffix .cc
+
+@test_target_1
+
+-prefix ${JCOREDIR}/
+
+# JBoolean.h JCharacter.h JSize.h jAssert.h jNULL.h jNew.h
+# iostream.h limits.h stdlib.h
+
+JBooleanIO
+
+# JArray.h JBoolean.h JBroadcaster.h JCharacter.h JCollection.h JIndex.h
+# JMMRecord.h JMMTable.h JMemoryManager.h JOrderedSet.h JOrderedSetIterator.h
+# JRTTIBase.h JSize.h jNew.h iostream.h limits.h stdlib.h
+
+jNew
+
+@test_target_2
+
+# iostream.h limits.h
+
+.h .z ${JCOREDIR}/jTypes
+
+@test_target_3
+
+.x non_existent
+
+@test_target_4
+
+~/local/stable/latest-JX/include/jcore/JString
+
+@test_target_5
+
+.java HelloWorld

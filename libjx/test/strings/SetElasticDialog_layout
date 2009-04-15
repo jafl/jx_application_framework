@@ -1,0 +1,5 @@
+0
+obj1::SetElasticDialog::JXLayout "Elastic compartment:"
+okButton::SetElasticDialog::shortcuts::JXLayout "^M"
+okButton::SetElasticDialog::JXLayout "OK"
+cancelButton::SetElasticDialog::JXLayout "Cancel"

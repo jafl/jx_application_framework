@@ -1,0 +1,9 @@
+0
+obj2_JXLayout::THXBaseConvDirector::JXLayout "Base 2:"
+obj3_JXLayout::THXBaseConvDirector::JXLayout "Base 8:"
+itsCloseButton::THXBaseConvDirector::shortcuts::JXLayout "#W^["
+itsCloseButton::THXBaseConvDirector::JXLayout "Close"
+obj1_JXLayout::THXBaseConvDirector::JXLayout "Base 10:"
+itsHelpButton::THXBaseConvDirector::shortcuts::JXLayout "F1"
+obj4_JXLayout::THXBaseConvDirector::JXLayout "Base 16:"
+itsHelpButton::THXBaseConvDirector::JXLayout "Help"

@@ -1,0 +1,40 @@
+0
+
+GBBindingEditorHelp
+
+"<html>
+<head>
+<title>Binding Editor</title>
+</head>
+<h3>Binding Editor</h3>
+ 
+The bindings editor window lets you specify how files and programs work 
+together. For example, you might specify that any file ending in 
+<i>.ps</i>, which is normally a postcript file, should be opened by the gv 
+program.
+ 
+<p>
+ 
+The bindings editor contains three columns. The first column contains 
+either a file ending (ie. <i>.ps</i>), or <i><default></i>. The second and 
+third columns contain programs to run when the specified files are opened. 
+The program listed in the second column is the default program, while the 
+program listed in the third column is the alternate program, which is 
+invoked if the user holds the <i>Meta</i> key down while double-clicking on 
+the file. In the two action columns, <i>%f</i> refers to the file that was 
+opened. So for the above postscript example, the file ending would be 
+listed as <i>.ps</i> and the <i>Action</i> would be listed as <i>gv %f</i>.
+ 
+<p>
+ 
+When you want to add another file type, click on the <i>New</i> button. 
+This will create a new column which you can fill in. You then click in the 
+action columns to edit their values.
+ 
+<p>
+ 
+When you have finished editing the file bindings, you can either click the 
+<i>Revert</i> button, which will return the bindings to what they were when 
+you started, or press the <i>Save</i> button, which will save your changes.
+</html>"
+

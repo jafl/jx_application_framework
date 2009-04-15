@@ -1,0 +1,265 @@
+# To use this file, first run "makemake" and then run "make".
+# (makemake is part of the JX distribution)
+
+# Useful directories
+
+JX_ROOT  := ../..
+
+CODEDIR    := ./code
+JCOREDIR   := ${JX_ROOT}/include/jcore
+JXDIR      := ${JX_ROOT}/include/jx
+J2DPLOTDIR := ${JX_ROOT}/include/j2dplot
+JEXPRDIR   := ${JX_ROOT}/include/jexpr
+
+JLIBDIR       := ${JX_ROOT}/lib
+JCORELIBDIR   := ${JX_ROOT}/libjcore
+JXLIBDIR      := ${JX_ROOT}/libjx
+J2DPLOTLIBDIR := ${JX_ROOT}/libj2dplot
+JEXPRLIBDIR   := ${JX_ROOT}/libjexpr
+ACELIBDIR   := ${JX_ROOT}/ACE
+
+# Directories to search for header files
+
+SEARCHDIRS := -I${CODEDIR} \
+              -I${JCOREDIR} \
+              -I${JXDIR} \
+              -I${JEXPRDIR} \
+              -I${J2DPLOTDIR}
+
+# other constants
+
+GLOVE_VERSION     := 2.0.0
+SIGNATURE         := glove
+PROG_STRING_FILES := ${filter-out %/glove_menu_strings, \
+                       ${shell echo strings/*}}
+MENU_STRINGS_FILE := strings/glove_menu_strings
+
+# also defined in .spec
+
+RPM_LIB_PATH := /usr/lib/${SIGNATURE}
+
+# makemake variables
+
+J_STRING_FILES := ${PROG_STRING_FILES}
+
+include ${JX_ROOT}/include/make/jx_constants
+include ${JX_ROOT}/include/make/jexpr_constants
+include ${JX_ROOT}/include/make/j2dplot_constants
+include ${JX_ROOT}/include/make/jx_config
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
+               ${J_COMPILE_DEBUG} ${SEARCHDIRS}
+
+TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR} ${J2DPLOTLIBDIR} ${JEXPRLIBDIR}
+
+# library dependencies
+
+ifdef J_BUILD_SHARED_LIB
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.so \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.so \
+              ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.so \
+              ${JLIBDIR}/libj2dplot-${J2DPLOT_LIB_VERSION}.so
+else
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a \
+              ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.a \
+              ${JLIBDIR}/libj2dplot-${J2DPLOT_LIB_VERSION}.a
+endif
+
+# make variables
+
+LOADLIBES := -L${JLIBDIR} ${ljexpr} ${lj2dplot} ${J_STD_LIBS}
+ifdef J_BUILD_SHARED_LIB
+  LDFLAGS := -Xlinker -R${RPM_LIB_PATH}
+endif
+
+DEBUG_LOADLIBES := -L${JLIBDIR} \
+                   ${J_BEGIN_LINK_STATIC} \
+                   ${ljexpr} ${lj2dplot} \
+                   ${ljx} ${ljcore} ${J_ACE_LIBS} \
+                   ${J_END_LINK_STATIC} \
+                   ${J_X11_LIBS} ${J_GCC_LIBS}
+
+#####
+
+.PHONY : default
+default: libs glove
+
+.PHONY : Makefiles
+Makefiles:
+
+#
+# string data
+#
+
+.PHONY : strings
+strings:
+	@${RM} ${MENU_STRINGS_FILE}
+	compile_jstrings ${J_STRING_FILES} \
+      --code kGLDefaultStringData ${CODEDIR}/GLStringData.h
+
+.PHONY : stringdb
+stringdb:
+	compile_jstrings ${J_STRING_FILES} --db glove_us
+
+glove:: strings
+
+.PHONY : menu_strings
+menu_strings:
+	@${JX_ROOT}/lib/util/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
+     -a ${JXDIR}/jXActionDefs.h ${JXDIR}/JXTEBase.cpp \
+     -m ${CODEDIR}/*.cpp ${JXDIR}/*.cpp ${JFSDIR}/*.cpp
+
+#
+# required libraries
+#
+
+.PHONY : libs
+libs:
+	@for path in ${TOUCHPATHS}; do ( if cd $$path; then ${MAKE}; fi ) done
+
+#
+# install
+#
+
+.PHONY : jxinstall
+jxinstall: glove
+	@strip ${call EXE, glove}
+	@cp glove ${JX_INSTALL_ROOT}/
+
+.PHONY : jxuninstall
+jxuninstall:
+	@${RM} ${JX_INSTALL_ROOT}/glove
+
+#
+# source distribution
+#
+
+SRC_TAR_FILE := Glove_source-${GLOVE_VERSION}.tgz
+SRC_FILE_DIR := ${JX}/programs/glove
+
+.PHONY : source
+source:
+	@cd ${J_DISTR_TAR_DIR}; \
+     tar -czf ${SRC_TAR_FILE} ${filter-out %.o %~, \
+                                 ${shell cd ${J_DISTR_TAR_DIR}; echo \
+             ${addprefix ${SRC_FILE_DIR}/, \
+               COPYING README Make.* *.jcc *.fd \
+               code/* rpm/* strings/* fitmodule/*}}}
+
+#
+# binary distributions
+#
+
+GLOVE := Glove-${GLOVE_VERSION}
+
+GLOVE_SHARED_TAR_NAME := Glove_${GLOVE_VERSION}.tar
+
+.PHONY : release_shared
+release: libs
+	@${RM} glove; ${MAKE} glove; strip ${call EXE, glove}
+	@${MAKE} GLOVE_DISTR_TAR_FILE=${GLOVE_SHARED_TAR_NAME} distr_sub
+
+.PHONY : release_static
+release_static: static
+	@${MAKE} GLOVE_DISTR_TAR_FILE=${GLOVE_SHARED_TAR_NAME} distr_sub
+
+# distr_sub (GLOVE_DISTR_TAR_FILE)
+
+.PHONY : distr_sub
+distr_sub: menu_strings
+	@${RM} -r ${GLOVE}
+	@mkdir ${GLOVE} ${GLOVE}/lib ${GLOVE}/docs_HTML
+	@ln -s ../README               ${GLOVE}/README
+	@ln -s ../COPYING              ${GLOVE}/COPYING
+	@ln -s ../FAQ                  ${GLOVE}/FAQ
+	@ln -s ../${call EXE,glove}    ${GLOVE}/${call EXE,glove}
+	@ln -s ../fitmodule            ${GLOVE}/fitmodule
+	@ln -s ../${MENU_STRINGS_FILE} ${GLOVE}/menu_strings
+	@ln -s ../desktop              ${GLOVE}/desktop
+ifdef J_RPM_GZ_LIBS
+	@${foreach LIB, ${J_RPM_GZ_LIBS}, \
+         cp ${LIB} ${GLOVE}/lib/; gzip ${GLOVE}/lib/${notdir ${LIB}} }
+endif
+	@${JX_ROOT}/lib/util/jxhelp2html \
+         "Glove" strings code/GLHelpText.h ${GLOVE}/docs_HTML; \
+     cp ${GLOVE}/docs_HTML/ChangeLog.html ./; \
+     ${JX_ROOT}/lib/util/fix_change_log ChangeLog.html
+	@tar -chf ${GLOVE_DISTR_TAR_FILE} ${GLOVE}
+	@${RM} -r ${GLOVE}
+	@mv ${GLOVE_DISTR_TAR_FILE} ${J_DISTR_TAR_DIR}/
+
+#
+# RPM
+#
+
+RPM_TAR_FILE  := ${RPM_SRC_DIR}/Glove_${GLOVE_VERSION}.tar
+RPM_SPEC_FILE := ${shell pwd}/glove.spec
+
+.PHONY : release_rpm
+release_rpm: clean_rpm
+	@${MAKE} RPM_SOURCE_TAR_NAME=${GLOVE_SHARED_TAR_NAME} build_rpm
+	@${MAKE} clean_rpm
+
+# build_rpm (RPM_SOURCE_TAR_NAME)
+
+.PHONY : build_rpm
+build_rpm:
+	@cp ${J_DISTR_TAR_DIR}/${RPM_SOURCE_TAR_NAME} ${RPM_TAR_FILE}
+	@${RPM} ${RPM_SPEC_FILE}
+	@mv ${RPM_BIN_DIR}/*.rpm ${J_DISTR_TAR_DIR}/
+	@chown ${USER}. ${J_DISTR_TAR_DIR}/*.rpm
+	@gzip ${J_DISTR_TAR_DIR}/${RPM_SOURCE_TAR_NAME}
+
+.PHONY : clean_rpm
+clean_rpm:
+	@${RM}    /usr/X11R6/bin/glove
+	@${RM} -r ${RPM_LIB_PATH}
+	@${RM} -r /usr/share/doc/Glove-*
+	@${RM} -r /usr/share/applnk/NPS_Utilities
+	@${RM} -r /usr/share/gnome/apps/NPS_Utilities
+	@${RM}    `find /usr/share/icons -name glove.xpm`
+	@${RM}    `find /usr/share/icons -name new_planet_software.xpm`
+	@${RM}    `find /usr/share/pixmaps -name glove.xpm`
+	@${RM}    `find /usr/share/pixmaps -name new_planet_software.xpm`
+
+#
+# debugging version
+#
+
+.PHONY : debug
+debug: staticACE libs
+	@${RM} glove
+	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" glove
+
+.PHONY : staticACE
+staticACE:
+  ifdef J_BUILD_SHARED_LIB
+	@cd ${ACELIBDIR}; ${MAKE} static
+  endif
+
+#
+# static binary
+#
+
+.PHONY : static
+static: debug
+	@${J_STRIP_DEBUG} ${call EXE, glove}
+
+#
+# personal install
+#
+
+.PHONY : personal
+personal: static
+	@mv glove ${HOME}/bin/
+
+# DO NOT DELETE THIS LINE -- Code Crusader depends on it.
+
+# This portion of the file was automatically generated by Code Crusader.
+# Do not edit it directly!
+# Any changes you make will be silently overwritten.
+
+# build libraries before main result
+
+# DO NOT DELETE THIS LINE -- Code Crusader depends on it.

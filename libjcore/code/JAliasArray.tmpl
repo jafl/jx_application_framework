@@ -1,0 +1,623 @@
+#ifndef _T_JAliasArray
+#define _T_JAliasArray
+
+/******************************************************************************
+ JAliasArray.tmpl
+
+	Template for an array of indices into a JOrderedSet.  The indices are
+	sorted by applying a comparison function to the data in the JOrderedSet.
+	This allows you to sort a list in more than one way without having to
+	duplicate the data itself.
+
+	We are obviously dead in the water if itsData is deleted.  Rather than
+	making a mess of the interface and returning JBoolean everywhere, we
+	instead require that the JAliasArray be tossed when the data goes away.
+	By blowing up in any member function instead of blowing up in
+	ReceiveGoingAway(), we allow the data to be deleted before the
+	JAliasArray.
+
+	BASE CLASS = JCollection
+
+	Copyright © 2001 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JAliasArray.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T>
+JAliasArray<T>::JAliasArray
+	(
+	JOrderedSet<T>*					data,
+	JOrderedSetT::CompareResult		(*compareFn)(const T&, const T&),
+	const JOrderedSetT::SortOrder	order
+	)
+	:
+	JCollection(),
+	itsData(data),
+	itsCompareFn(NULL),
+	itsCompareObj(NULL)
+{
+	JAliasArrayX1(order);
+	SetCompareFunction(compareFn);
+	JAliasArrayX2();
+}
+
+template <class T>
+JAliasArray<T>::JAliasArray
+	(
+	JOrderedSet<T>*					data,
+	const JElementComparison<T>&	compareObj,
+	const JOrderedSetT::SortOrder	order
+	)
+	:
+	JCollection(),
+	itsData(data),
+	itsCompareFn(NULL),
+	itsCompareObj(NULL)
+{
+	JAliasArrayX1(order);
+	SetCompareObject(compareObj);
+	JAliasArrayX2();
+}
+
+// private
+
+template <class T>
+void
+JAliasArray<T>::JAliasArrayX1
+	(
+	const JOrderedSetT::SortOrder order
+	)
+{
+	assert( itsData != NULL );
+
+	itsIndexArray = new JArray<JIndex>(100);
+	assert( itsIndexArray != NULL );
+	itsIndexArray->SetSortOrder(order);
+}
+
+template <class T>
+void
+JAliasArray<T>::JAliasArrayX2()
+{
+	const JSize count = itsData->GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		itsIndexArray->InsertSorted(i);		// faster than calling Sort() afterwards
+		}
+
+	SetElementCount(count);
+	ListenTo(itsData);
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <class T>
+JAliasArray<T>::~JAliasArray()
+{
+	delete itsIndexArray;
+	delete itsCompareObj;
+}
+
+/******************************************************************************
+ GetData
+
+ ******************************************************************************/
+
+template <class T>
+JOrderedSet<T>*
+JAliasArray<T>::GetData()
+{
+	assert( itsData != NULL );
+
+	return itsData;
+}
+
+template <class T>
+const JOrderedSet<T>&
+JAliasArray<T>::GetData()
+	const
+{
+	assert( itsData != NULL );
+
+	return *itsData;
+}
+
+/******************************************************************************
+ GetElementIndex
+
+	Returns the index into the data.
+
+ ******************************************************************************/
+
+template <class T>
+JIndex
+JAliasArray<T>::GetElementIndex
+	(
+	const JIndex index
+	)
+	const
+{
+	return itsIndexArray->GetElement(index);
+}
+
+/******************************************************************************
+ GetElementIndexFromEnd
+
+ ******************************************************************************/
+
+template <class T>
+JIndex
+JAliasArray<T>::GetElementIndexFromEnd
+	(
+	const JIndex index
+	)
+	const
+{
+	return itsIndexArray->GetElement(GetIndexFromEnd(index));
+}
+
+/******************************************************************************
+ GetElement
+
+	Returns the actual data.
+
+ ******************************************************************************/
+
+template <class T>
+const T
+JAliasArray<T>::GetElement
+	(
+	const JIndex index
+	)
+	const
+{
+	assert( itsData != NULL );
+
+	return itsData->GetElement(GetElementIndex(index));
+}
+
+/******************************************************************************
+ SetElement
+
+ ******************************************************************************/
+
+template <class T>
+void
+JAliasArray<T>::SetElement
+	(
+	const JIndex	index,
+	const T&		data
+	)
+{
+	assert( itsData != NULL );
+
+	itsData->SetElement(GetElementIndex(index), data);
+}
+
+/******************************************************************************
+ GetFirstElement
+
+ ******************************************************************************/
+
+template <class T>
+const T
+JAliasArray<T>::GetFirstElement()
+	const
+{
+	assert( itsData != NULL );
+
+	return itsData->GetElement(GetElementIndex(1));
+}
+
+/******************************************************************************
+ GetLastElement
+
+ ******************************************************************************/
+
+template <class T>
+const T
+JAliasArray<T>::GetLastElement()
+	const
+{
+	assert( itsData != NULL );
+
+	return itsData->GetElement(GetElementIndex(GetElementCount()));
+}
+
+/******************************************************************************
+ GetElementFromEnd
+
+ ******************************************************************************/
+
+template <class T>
+const T
+JAliasArray<T>::GetElementFromEnd
+	(
+	const JIndex index
+	)
+	const
+{
+	assert( itsData != NULL );
+
+	return itsData->GetElement(GetElementIndex(GetIndexFromEnd(index)));
+}
+
+/******************************************************************************
+ SetElementFromEnd
+
+ ******************************************************************************/
+
+template <class T>
+void
+JAliasArray<T>::SetElementFromEnd
+	(
+	const JIndex	index,
+	const T&		data
+	)
+{
+	assert( itsData != NULL );
+	assert( IndexValid(index) );	// avoid wrap of unsigned value
+
+	itsData->SetElement(GetElementIndex(GetIndexFromEnd(index)), data);
+}
+
+/******************************************************************************
+ Compare object wrapper
+
+	Converts indices in itsIndexArray to elements from itsData.
+
+ ******************************************************************************/
+
+template <class T>
+class JCompareAliasWrapper : public JElementComparison<JIndex>
+{
+public:
+
+	JCompareAliasWrapper
+		(
+		const JOrderedSet<T>&			data,
+		const JElementComparison<T>&	compareObj,
+		const T*						searchData = NULL
+		)
+		:
+		itsData(data),
+		itsCompareObj(compareObj),
+		itsSearchData(searchData)
+	{ };
+
+	virtual ~JCompareAliasWrapper() { };
+
+	virtual JOrderedSetT::CompareResult
+	Compare(const JIndex& i1, const JIndex& i2) const
+	{
+		if (itsSearchData == NULL || (i1 > 0 && i2 > 0))
+			{
+			return itsCompareObj.Compare(itsData.GetElement(i1), itsData.GetElement(i2));
+			}
+		else if (i1 == 0)
+			{
+			return itsCompareObj.Compare(*itsSearchData, itsData.GetElement(i2));
+			}
+		else	// i2 == 0
+			{
+			return itsCompareObj.Compare(itsData.GetElement(i1), *itsSearchData);
+			}
+	}
+
+	virtual JElementComparison<JIndex>*
+	Copy() const
+	{
+		JCompareAliasWrapper<T>* copy = new JCompareAliasWrapper<T>(itsData, itsCompareObj, itsSearchData);
+		assert( copy != NULL );
+		return copy;
+	}
+
+private:
+
+	const JOrderedSet<T>&			itsData;
+	const JElementComparison<T>&	itsCompareObj;
+	const T*						itsSearchData;
+};
+
+/******************************************************************************
+ Compare function
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JAliasArray<T>::GetCompareFunction
+	(
+	JOrderedSetT::CompareResult (**compareFn)(const T&, const T&)
+	)
+	const
+{
+	*compareFn = itsCompareFn;
+	return JI2B( itsCompareFn != NULL );
+}
+
+template <class T>
+void
+JAliasArray<T>::SetCompareFunction
+	(
+	JOrderedSetT::CompareResult (*compareFn)(const T&, const T&)
+	)
+{
+	assert( itsData != NULL );
+	assert( compareFn != NULL );
+
+	itsCompareFn = compareFn;
+
+	delete itsCompareObj;
+	itsCompareObj = new JCompareFnWrapper<T>(itsCompareFn);
+	assert( itsCompareObj != NULL );
+
+	itsIndexArray->SetCompareObject(JCompareAliasWrapper<T>(*itsData, *itsCompareObj));
+	itsIndexArray->Sort();
+}
+
+/******************************************************************************
+ Compare object
+
+ ******************************************************************************/
+
+template <class T>
+const JElementComparison<T>&
+JAliasArray<T>::GetCompareObject()
+	const
+{
+	return *itsCompareObj;
+}
+
+template <class T>
+void
+JAliasArray<T>::SetCompareObject
+	(
+	const JElementComparison<T>& compareObj
+	)
+{
+	assert( itsData != NULL );
+
+	itsCompareFn = NULL;
+
+	delete itsCompareObj;
+	itsCompareObj = compareObj.Copy();
+
+	itsIndexArray->SetCompareObject(JCompareAliasWrapper<T>(*itsData, *itsCompareObj));
+	itsIndexArray->Sort();
+}
+
+/******************************************************************************
+ Sort order
+
+ ******************************************************************************/
+
+template <class T>
+JOrderedSetT::SortOrder
+JAliasArray<T>::GetSortOrder()
+	const
+{
+	return itsIndexArray->GetSortOrder();
+}
+
+template <class T>
+void
+JAliasArray<T>::SetSortOrder
+	(
+	const JOrderedSetT::SortOrder order
+	)
+{
+	itsIndexArray->SetSortOrder(order);
+	itsIndexArray->Sort();
+}
+
+/******************************************************************************
+ SearchSorted
+
+	Returns kJTrue if the specified target is found.
+
+	"which" specifies what to return if more than one element matches
+	the given target.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JAliasArray<T>::SearchSorted
+	(
+	const T&							target,
+	const JOrderedSetT::SearchReturn	which,
+	JIndex*								index
+	)
+	const
+{
+	JBoolean found;
+	*index = SearchSorted1(target, which, &found);
+	if (!found)
+		{
+		*index = 0;
+		}
+	return found;
+}
+
+/******************************************************************************
+ SearchSorted1 (virtual)
+
+	Returns index where the element is or where it should be inserted in
+	order to keep the list sorted.  If there is an element that matches the
+	given one, *found is set to kJTrue.
+
+	"which" specifies what to return if more than one element matches
+	the given target.
+
+ ******************************************************************************/
+
+template <class T>
+JIndex
+JAliasArray<T>::SearchSorted1
+	(
+	const T&							target,
+	const JOrderedSetT::SearchReturn	which,
+	JBoolean*							found
+	)
+	const
+{
+	assert( itsData != NULL );
+
+	itsIndexArray->SetCompareObject(JCompareAliasWrapper<T>(*itsData, *itsCompareObj, &target));
+	const JIndex i = itsIndexArray->SearchSorted1(0, which, found);
+	itsIndexArray->SetCompareObject(JCompareAliasWrapper<T>(*itsData, *itsCompareObj));
+	return i;
+}
+
+/******************************************************************************
+ Receive (virtual protected)
+
+	Stay synched with itsData.
+
+ ******************************************************************************/
+
+#define ADJUST_INDEX(m) \
+	const JSize count = itsIndexArray->GetElementCount(); \
+	JIndex* data      = const_cast<JIndex*>(itsIndexArray->GetCArray()); \
+	for (JIndex _i=0; _i<count; _i++) \
+		{ \
+		m->AdjustIndex(data + _i); \
+		}
+
+template <class T>
+void
+JAliasArray<T>::Receive
+	(
+	JBroadcaster*	sender,
+	const Message&	message
+	)
+{
+	if (sender == itsData && message.Is(JOrderedSetT::kElementsInserted))
+		{
+		const JOrderedSetT::ElementsInserted* m =
+			dynamic_cast(const JOrderedSetT::ElementsInserted*, &message);
+		assert( m != NULL );
+		ADJUST_INDEX(m);
+
+		for (JIndex i = m->GetFirstIndex(); i <= m->GetLastIndex(); i++)
+			{
+			itsIndexArray->InsertSorted(i);
+			}
+
+		SetElementCount(GetElementCount() + m->GetCount());
+		}
+	else if (sender == itsData && message.Is(JOrderedSetT::kElementsRemoved))
+		{
+		const JOrderedSetT::ElementsRemoved* m =
+			dynamic_cast(const JOrderedSetT::ElementsRemoved*, &message);
+		assert( m != NULL );
+
+		const JSize count = itsIndexArray->GetElementCount();
+		for (JIndex i=count; i>=1; i--)
+			{
+			JIndex index = itsIndexArray->GetElement(i);
+			if (m->AdjustIndex(&index))
+				{
+				itsIndexArray->SetElement(i, index);
+				}
+			else
+				{
+				itsIndexArray->RemoveElement(i);
+				}
+			}
+
+		SetElementCount(GetElementCount() - m->GetCount());
+		}
+	else if (sender == itsData && message.Is(JOrderedSetT::kElementMoved))
+		{
+		const JOrderedSetT::ElementMoved* m =
+			dynamic_cast(const JOrderedSetT::ElementMoved*, &message);
+		assert( m != NULL );
+		ADJUST_INDEX(m);
+		}
+	else if (sender == itsData && message.Is(JOrderedSetT::kElementsSwapped))
+		{
+		const JOrderedSetT::ElementsSwapped* m =
+			dynamic_cast(const JOrderedSetT::ElementsSwapped*, &message);
+		assert( m != NULL );
+		ADJUST_INDEX(m);
+		}
+	else if (sender == itsData && message.Is(JOrderedSetT::kElementChanged))
+		{
+		// Sort() would be O(N log N).  This method is O(N) + O(log N) = O(N).
+
+		const JOrderedSetT::ElementChanged* m =
+			dynamic_cast(const JOrderedSetT::ElementChanged*, &message);
+		assert( m != NULL );
+
+		const JSize count = itsIndexArray->GetElementCount();
+		for (JIndex i=1; i<=count; i++)
+			{
+			if (itsIndexArray->GetElement(i) == m->GetFirstIndex())
+				{
+				itsIndexArray->RemoveElement(i);
+				break;
+				}
+			}
+
+		itsIndexArray->InsertSorted(m->GetFirstIndex());
+		}
+	else if (sender == itsData && message.Is(JOrderedSetT::kSorted))
+		{
+		itsIndexArray->Sort();
+		}
+
+	else
+		{
+		JCollection::Receive(sender, message);
+		}
+}
+
+#undef ADJUST_INDEX
+
+/******************************************************************************
+ ReceiveGoingAway (virtual protected)
+
+ ******************************************************************************/
+
+template <class T>
+void
+JAliasArray<T>::ReceiveGoingAway
+	(
+	JBroadcaster* sender
+	)
+{
+	if (sender == itsData)
+		{
+		itsData = NULL;
+		}
+	else
+		{
+		JCollection::ReceiveGoingAway(sender);
+		}
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JAliasArray
+	#include <instantiate_template.h>
+	#undef JTemplateName
+
+	#define JTemplateName JCompareAliasWrapper
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

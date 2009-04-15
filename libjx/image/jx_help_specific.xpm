@@ -1,0 +1,20 @@
+/* XPM */
+static char * jx_help_specific[] = {
+"16 14 3 1",
+" 	c None",
+"X	c black",
+"+	c #800080008000",
+"                ",
+"      +XX+      ",
+"     +X  XX     ",
+"    +X    X     ",
+"     X    X     ",
+"         XX     ",
+"        XX      ",
+"       +X       ",
+"       XX       ",
+"       ++       ",
+"                ",
+"       XX       ",
+"       XX       ",
+"       XX       "};

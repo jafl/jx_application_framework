@@ -1,0 +1,4 @@
+#!/bin/sh
+
+makemake --check
+make -k all

@@ -1,0 +1,92 @@
+/******************************************************************************
+ JXMenuItemIDUtil.th
+
+	Use this file to instantiate code for conversion between menu items
+	and class specific CmdIndexes.
+
+	To use this file:
+
+		#define ClassName    ____
+		#define IndexToCmdFn ____
+		#define CmdToIndexFn ____
+		#define MenuVar      ____
+		#define CmdCount     ____
+		#define CmdIDList    ____
+		#include <JXMenuItemIDUtil.th>
+		#undef ClassName
+		#undef IndexToCmdFn
+		#undef CmdToIndexFn
+		#undef MenuVar
+		#undef CmdCount
+		#undef CmdIDList
+
+	Copyright © 1999 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+/******************************************************************************
+ IndexToCmdFn
+
+ ******************************************************************************/
+
+JBoolean
+ClassName::IndexToCmdFn
+	(
+	const JIndex	index,
+	CmdIndex*		cmd
+	)
+	const
+{
+	const JString* id;
+	if (MenuVar->GetItemID(index, &id))
+		{
+		for (JIndex i=0; i<CmdCount; i++)
+			{
+			if (CmdIDList[i].id == *id)
+				{
+				*cmd = CmdIDList[i].cmd;
+				return kJTrue;
+				}
+			}
+		}
+
+	*cmd = kSeparatorCmd;
+	return kJFalse;
+}
+
+/******************************************************************************
+ CmdToIndexFn
+
+ ******************************************************************************/
+
+JBoolean
+ClassName::CmdToIndexFn
+	(
+	const CmdIndex	cmd,
+	JIndex*			index
+	)
+	const
+{
+JIndex i;
+
+	*index = 0;
+
+	const JCharacter* cmdID = NULL;
+	for (i=0; i<CmdCount; i++)
+		{
+		if (CmdIDList[i].cmd == cmd)
+			{
+			cmdID = CmdIDList[i].id;
+			break;
+			}
+		}
+
+	if (cmdID == NULL)
+		{
+		return kJFalse;
+		}
+	else
+		{
+		return MenuVar->ItemIDToIndex(cmdID, index);
+		}
+}

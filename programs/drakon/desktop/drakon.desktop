@@ -1,0 +1,9 @@
+[Desktop Entry]
+Categories=Application;Utility;X-Red-Hat-Base;
+Name=Drakon Process Manager
+Comment=Drakon Process Manager
+Icon=drakon.xpm
+Exec=drakon
+Type=Application
+Terminal=0
+MapNotify=true

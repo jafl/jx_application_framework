@@ -1,0 +1,7 @@
+0
+itsBWCheckbox::JXEPSPrintSetupDialog::JXLayout "Black & White output"
+cancelButton::JXEPSPrintSetupDialog::JXLayout "Cancel"
+okButton::JXEPSPrintSetupDialog::JXLayout "Print"
+okButton::JXEPSPrintSetupDialog::shortcuts::JXLayout "^M"
+itsChooseFileButton::JXEPSPrintSetupDialog::JXLayout "Choose file"
+itsPreviewCheckbox::JXEPSPrintSetupDialog::JXLayout "Include preview"

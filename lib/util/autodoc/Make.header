@@ -1,0 +1,83 @@
+# To use this file, first run "makemake" and then run "make".
+# (makemake is part of the JX distribution)
+
+# Useful directories
+
+JX_ROOT := ../../..
+
+CODEDIR  := .
+JCOREDIR := ${JX_ROOT}/include/jcore
+
+JLIBDIR     := ${JX_ROOT}/lib
+JCORELIBDIR := ${JX_ROOT}/libjcore
+
+# Directories to search for header files
+
+SEARCHDIRS := -I${CODEDIR} \
+              -I${JCOREDIR}
+
+# makemake variables
+
+include ${JX_ROOT}/include/make/jx_constants
+include ${JX_ROOT}/include/make/jx_config
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
+               ${SEARCHDIRS}
+
+# library dependencies
+
+ifdef J_BUILD_SHARED_LIB
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.so
+else
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+endif
+
+# make variables
+
+LOADLIBES := -L${JLIBDIR} ${ljcore} ${J_ACE_LIBS} ${J_GCC_LIBS}
+LDFLAGS   := 
+
+#####
+
+.PHONY : default
+default: libs autodoc
+
+.PHONY : Makefiles
+Makefiles:
+
+#
+# required libraries
+#
+
+.PHONY : libs
+libs:
+	@cd ${JCORELIBDIR}; ${MAKE}
+
+.PHONY : touch
+touch::
+	@cd ${JCORELIBDIR}; ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch
+
+#
+# JX source distribution (DISTR_TAR_FILE)
+#
+
+SRC_FILE_DIR := ${JX}/lib/util/autodoc
+
+.PHONY : jxsource
+jxsource:
+	@cd ${J_DISTR_TAR_DIR}; \
+     tar -rf ${DISTR_TAR_FILE} \
+             ${SRC_FILE_DIR}/Make.header \
+             ${SRC_FILE_DIR}/Make.files \
+             ${SRC_FILE_DIR}/autodoc.cpp
+
+#
+# install binaries
+#
+
+.PHONY : jxinstall
+jxinstall: autodoc
+	@strip ${call EXE, autodoc}
+
+.PHONY : jxuninstall
+jxuninstall:

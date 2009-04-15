@@ -1,0 +1,82 @@
+0
+
+GABHelp
+
+"<html>
+<head>
+<title>Address book window</title>
+</head>
+<b>Address book overview</b>
+
+<p>
+
+The address book window allows you to keep a record of e-mail addresses, 
+and is presented as a list of openable address books containing 
+openable entries. These entries are sorted by the actual name, 
+organization, or list that owns the addresses, and contain a nickname 
+that can be used as a shortcut, an arbitrary number of addresses, 
+an optional comment, and an fcc.
+All of the values in the list can be edited by clicking on the 
+area that you want to edit.
+
+<p>
+
+<b>Adding entries to an address book</b> 
+
+<p>
+
+You can add a new entry to an address book by clicking on an address book 
+and selecting <i>New name</i> from the <i>Addresses</i> menu. 
+If no address book is selected, an entry will be added to the first 
+writable address book. 
+
+<p>
+
+New entries can also be added to an address book by dropping an e-mail 
+address on top of an address book.
+
+<p>
+
+<b>Adding addresses to an existing entry</b>
+
+<p>
+
+If you want to add an additional address to an existing entry, click on 
+the entry and select <i>New address</i> from the <i>Addresses</i> menu. 
+You can also drop and e-mail address on to the entry.
+
+<p>
+
+<b>Adding or creating an address book</b>
+
+<p>
+
+If you want to create a new address book, select <i>New address book</i> 
+from the <i>Addresses</i> menu. To add an existing address book to the 
+list, select <i>Add address book</i> from the <i>Addresses</i> menu. 
+
+<p>
+
+<b>Deleting or removing an item</b>
+
+<p>
+
+To delete an entry from an address book, or an extra address from an entry, 
+or the fcc or comment lines from an entry, select <i>Remove from list</i> 
+from the <i>Addresses</i> menu after clicking on the item. 
+If an address book is selected, then <i>Remove from list</i> will simply 
+remove that address book from the list without deleting it from the 
+file system. To actually delete an address book, select 
+<i>Delete from file system</i> from the <i>Addresses</i> menu.
+
+<p>
+
+<b>Showing fcc and comment</b>
+
+<p>
+
+Since the fcc and comment lines are optional, they are not added by default. 
+To add them to an entry, click on the appropriate entry and select 
+<i>Show fcc</i>, or <i>Show comment</i> from the <i>Addresses</i> menu. 
+</html>"
+;

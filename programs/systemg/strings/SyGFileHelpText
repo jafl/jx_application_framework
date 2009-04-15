@@ -1,0 +1,113 @@
+0
+
+SyGFileHelp
+
+"<html>
+
+<head>
+<title> Files </title>
+</head>
+
+<a name=Selecting>
+
+<h3> Selecting files </h3>
+
+To select a single file, simply click on its icon or its name with the left mouse button.  To select multiple files, you can either hold down the Shift key and click on each one, or you can click in a blank area and drag a rectangle to select a range of files.
+<p>
+To deselect all files, click in a blank area.  Clicking and releasing on a selected file will deselect all other files.  Holding down Shift while clicking on a selected file will deselect it.
+<p>
+By holding down Shift when you begin dragging a rectangle, you will toggle the selection of each of the enclosed files.
+
+<a name=Opening>
+
+<h3> Opening a file </h3>
+
+The most basic way to open a file is either to double click on it or to select it and then choose \"Open\" from the File menu.  This invokes the default program for the file's type as specified in the <a href=jxhelp:JFSBindingEditorHelp>File Binding Editor</a> or, if there is no default program, the <a href=jxhelp:JFSRunFileHelp>Run Command with File</a> dialog.  This is not your only option, however.  The complete list of all the ways to open a file is as follows:
+
+<blockquote>
+<dl>
+<dt> Double-click on file
+<dt> Meta-O (\"Open\" on File menu)
+<dt> Meta-Down-arrow
+<dd> Open the file using the command from the <a href=jxhelp:JFSBindingEditorHelp>File Binding Editor</a>, or use the <a href=jxhelp:JFSRunFileHelp>Run Command with File</a> dialog if there is no binding.
+<p>
+<dt> Meta-double-click on folder
+<dt> Meta-Shift-O (\"Alternate open\" on File menu)
+<dt> Meta-Shift-Down-arrow
+<dd> Open the file using the <a href=jxhelp:JFSRunFileHelp>Run Command with File</a> dialog.
+<p>
+<dt> Ctrl-double-click on folder
+<dt> Ctrl-O (\"Open ... and close this\" on File menu)
+<dd> Open the file in the same way as double-click, and then close the current window.  (You can hold down the Meta key to get the alternate behavior.)
+<p>
+<dt> Ctrl-Shift-double-click on folder
+<dt> Ctrl-Shift-O (\"Open ... and iconify this\" on File menu)
+<dd> Open the file in the same way as double-click, and then iconify the current window.  (You can hold down the Meta key to get the alternate behavior.)
+<p>
+<br>
+<dt> Middle-double-click on file
+<dd> Run an arbitrary command with the file name as an argument.  (This works even if the file is actually a program, i.e., it has the \"executable\" flag set.)
+</dl>
+</blockquote>
+
+The keyboard shortcuts obviously only work when one or more files are selected.
+<p>
+Notice the similarities between these shortcuts and those for opening folders and running programs.
+
+<a name=Renaming>
+
+<h3> Renaming names </h3>
+
+To change the name of a file, either left click on the file name, or select the file and then press the Return key.  When you are done typing, simply press Return again and the file's name will be changed.  (If you want to open the file or perform some other action after typing in the new name, you do not need to press Return first.)  To cancel the process, press the Escape key.
+
+<a name=MoveCopy>
+
+<h3> Moving and copying files </h3>
+
+Files are moved or copied by dragging the file from one location to another.  If the file is placed over a folder, the arrow to the left of the folder will darken to indicate that it is the target.  By default, files will be moved when they are dragged, unless you are dragging between disks, in which case they will be copied.  To invoke the other action, hold down the Meta key while dragging.  If the Control key is held down while dragging, you will be asked which action to perform on the files.
+
+<a name=Duplicating>
+
+<h3> Duplicating files </h3>
+
+To duplicate a file or group of files, select them and choose \"Duplicate\" from the File menu.
+
+<a name=Deleting>
+
+<h3> Deleting files </h3>
+
+Since deleting a file cannot be undone, it must not be possible to perform the required actions unconsciously out of habit.  You must therefore drag the file to the trash can window or the trash can icon in the lower right of any window, open the trash can, and empty it.  Anything easier is too likely to become a habit.  This includes the use of warning dialogs.  Once a warning dialog becomes a habit, you are likely to do it unconsciously, and that defeats the purpose.  Providing a menu item is also too dangerous because it is possible to accidentally select it instead of the adjacent item.  (Warnings are more likely to be effective in this case since they will interrupt one's flow of thought, but programs should always be designed to minimize the possibility of such interruptions.)  Allowing the use of the Backspace and Delete keys is even more dangerous because it is possible to press these keys unconsciously when anticipating the creation of an input field for editing a file name.
+<p>
+Since some people will still want to be able to shoot themselves in the foot, a preference option is provided to allow the Delete key (not the Backspace key) to delete the selected files.  This always warns you, so if you get in the habit of reading the warning carefully, it might be safe to use it.
+
+<a name=Symbolic>
+
+<h3> Aliases (symbolic links) </h3>
+
+An alias acts like a file, but is actully just a pointer to a file in another location.  The name of the alias can be anything you like.  The advantage of using aliases is that you can have access to a file or folder from many locations without actually duplicating it several times.  This not only minimizes the amount of disk space used, it also insures that there is only one copy of the data, so there will never be any chance of one version not agreeing with another.
+<p>
+To create an alias, either select the item and choose \"Make alias\" from the File menu, or drag the item and hold down the Shift key when you drop it.  The alias can be moved to any folder, and its name can be changed.  If you have an alias, you can determine what it points to be seleting \"Find original\" from the File menu.
+
+<a name=Locating>
+
+<h3> Locating files in a folder </h3>
+
+To locate a file within a window, simply start typing its name. As the
+letters you type start matching a word, that word will be selected.
+To clear the selection, or to search for a new word, hit the space key.
+
+<a name=Permissions>
+
+<h3> File permissions </h3>
+
+The permissions on a file or folder determine who can read, write, or
+execute a file. The permissions are listed from left to right for the owner
+of the file, the owner's group, and for everyone else. To change the
+permissions of a file or folder, toggle the permission you want to change.
+For example, If a file is not currently writable by anyone, and you want to
+be able to write to it, click the write flag which will be the second digit
+from the left. Clicking it again will change it back. To change the
+permissions on every file in a directory, Meta click the appropriate
+permission on the folder.
+
+</html>"

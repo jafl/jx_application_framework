@@ -1,0 +1,194 @@
+
+JX Application Framework
+Copyright (C) 1994-2006 John Lindal
+
+This library is free software; you can redistribute it and/or modify it
+under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation; either version 2.1 of the License, or (at
+your option) any later version.
+
+This library is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with this library; if not, write to the Free Software Foundation,
+Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
+---------------
+
+Please note that libraries and programs built on top of the JX Application
+Framework may unpack inside the JX source directory, but they may still be
+subject to a different license.
+
+If you need to modify the JX Application Framework source, either to get it
+to compile on your system or to enhance it, you will save yourself a lot of
+trouble by first discussing it with us because (1) it might already have
+been done in preparation for the next release, (2) we can check that it
+won't disrupt any of the myriad subtle interactions between library
+components, and (3) we might think of an easier way to do it.
+
+The LGPL requires that you release all successful changes to the JX
+Application Framework under the same license.  We ask that you submit them
+to New Planet Software so we can merge them into the master source to make
+them easily accessible.  Custom widgets built on top of JX are your own and
+are not subject to the LGPL, so you can do as you wish with them, but we
+encourage you to make them available, too, so others can use them.
+
+---------------
+
+Both JCore and JX use the The ADAPTIVE Communication Environment (ACE)
+library for all their networking needs.  According to the author of ACE,
+Doug Schmidt, you are only required to mention ACE in your documentation if
+you use it directly.  Indirect use via JCore or JX functionality does not
+require you to mention it.  (But it wouldn't hurt if you mentioned it
+anyway :)  The minimal text is:
+
+"ACE is copyrighted by Douglas C. Schmidt and his research group at
+Washington University, Copyright (c) 1993-1997, all rights reserved."
+
+The ACE Copyright Web page has all the details:
+
+    http://www.cs.wustl.edu/~schmidt/ACE-copying.html
+
+---------------
+
+If you compile JCore and JX to use Henry Spencer's Regular Expression
+package as encapsulated by the JRegex class:
+
+	If you do not use regexes in your code, you do not need to mention it.
+
+	If your code uses regexes, but they are not visible to the user, then
+	you only need to give Henry credit in the documentation for your code.
+
+	If your application lets the user use regexes, then your program's
+	documentation should mention it.
+
+---------------
+
+If you compile JCore and JX to use Philip Hazel's PCRE package as
+encapsulated by the JRegex class, you must adhere to the following license:
+
+	University of Cambridge Computing Service,
+	Cambridge, England. Phone: +44 1223 334714.
+
+	Copyright (c) 1997-2004 University of Cambridge
+	All rights reserved.
+
+	Redistribution and use in source and binary forms, with or without
+	modification, are permitted provided that the following conditions are met:
+
+	    * Redistributions of source code must retain the above copyright notice,
+	      this list of conditions and the following disclaimer.
+
+	    * Redistributions in binary form must reproduce the above copyright
+	      notice, this list of conditions and the following disclaimer in the
+	      documentation and/or other materials provided with the distribution.
+
+	    * Neither the name of the University of Cambridge nor the names of its
+	      contributors may be used to endorse or promote products derived from
+	      this software without specific prior written permission.
+
+	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+	AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+	IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+	ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+	LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+	CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+	SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+	INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+	CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+	ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+	POSSIBILITY OF SUCH DAMAGE.
+
+---------------
+
+JX uses the GD library to provide the PNG and JPEG related functions in
+JImage.  If your program displays any PNGs or JPEGs at all, you must
+include the following text in your program's documentation in a place where
+the user can find it:
+
+     Portions copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
+     by Cold Spring Harbor Laboratory. Funded under Grant P41-RR02188 by
+     the National Institutes of Health.
+
+     Portions copyright 1996, 1997, 1998, 1999, 2000, 2001 by
+     Boutell.Com, Inc.
+
+     Portions relating to GD2 format copyright 1999, 2000 Philip Warner.
+
+     Portions relating to PNG copyright 1999, 2000 Greg Roelofs.
+
+     Portions relating to libttf copyright 1999, 2000 John Ellson
+     (ellson@lucent.com).
+
+     Portions relating to JPEG and to color quantization copyright 2000,
+     Doug Becker and copyright (C) 1994-1998, Thomas G. Lane. This
+     software is based in part on the work of the Independent JPEG
+     Group. See the file README-JPEG.TXT for more information.
+
+     Portions relating to WBMP copyright 2000 Maurice Szmurlo and Johan
+     Van den Brande.
+
+     _Permission has been granted to copy, distribute and modify gd in
+     any context without fee, including a commercial application,
+     provided that this notice is present in user-accessible supporting
+     documentation._
+
+     This does not affect your ownership of the derived work itself, and
+     the intent is to assure proper credit for the authors of gd, not to
+     interfere with your productive use of gd. If you have questions,
+     ask. "Derived works" includes all programs that utilize the
+     library. Credit must be given in user-accessible documentation.
+
+     _This software is provided "AS IS."_ The copyright holders disclaim
+     all warranties, either express or implied, including but not
+     limited to implied warranties of merchantability and fitness for a
+     particular purpose, with respect to this code and accompanying
+     documentation.
+
+     Although their code does not appear in gd 2.0.1, the authors wish
+     to thank David Koblas, David Rowley, and Hutchison Avenue Software
+     Corporation for their prior contributions.
+
+The main GD page has all the details:
+
+    http://www.boutell.com/gd/
+
+---------------
+
+JX uses the XPM library to provide the XPM related functions in JXImage.
+If your program displays any XPMs at all, you must include the following
+text in your program's documentation in a place where the user can find it:
+
+    Copyright (C) 1989-95 GROUPE BULL
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL GROUPE BULL BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+
+    Except as contained in this notice, the name of GROUPE BULL shall not
+    be used in advertising or otherwise to promote the sale, use or other
+    dealings in this Software without prior written authorization from
+    GROUPE BULL.
+
+The main libXPM page has all the details:
+
+    http://www.inria.fr/koala/lehors/xpm.html
+

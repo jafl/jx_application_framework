@@ -1,0 +1,27 @@
+/* XPM */
+static char *jx_spell_check[] = {
+/* width height num_colors chars_per_pixel */
+"    17    16        4            1",
+/* colors */
+"  c None",
+". c black",
+"# c #000080",
+"b c white",
+/* pixels */
+"                 ",
+"   .  ..   ..    ",
+"  . . . . .      ",
+"  ... ..  .    # ",
+"  . . . . .   #b ",
+"  . . ..   ..#b  ",
+"            #b   ",
+"           #b    ",
+"          #b     ",
+"   #b    #b      ",
+"  ###b  ##b      ",
+"   ###b##b       ",
+"    ####b        ",
+"     ###b        ",
+"      #b         ",
+"                 "
+};

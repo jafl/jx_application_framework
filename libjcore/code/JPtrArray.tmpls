@@ -1,0 +1,28 @@
+// Use this file to define templates
+//
+// To use this file:
+//
+//   #define JTemplateType ____
+//   #include <JPtrArray.tmpls>
+
+// instantiate JPtrArray with JTemplateType
+
+#include <JPtrArray.tmpl>
+#include <JPtrArrayIterator.tmpl>
+#include <JTaskIterator.tmpl>
+
+// instantiate JArray with JTemplateType*
+
+#define JOnlyWantTemplateDefinition
+#include <JArray.tmpls>
+#undef JOnlyWantTemplateDefinition
+
+#if defined JTemplateType
+
+	template class JOrderedSet< JTemplateType* >;
+	template class JOrderedSetIterator< JTemplateType* >;
+	template class JArray< JTemplateType* >;
+	template class JElementComparison< JTemplateType* >;
+	template class JCompareFnWrapper< JTemplateType* >;
+
+#endif

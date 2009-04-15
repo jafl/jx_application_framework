@@ -1,0 +1,6 @@
+0
+cancelButton::GMFilterDialog::JXLayout "Cancel"
+itsHelpButton::GMFilterDialog::JXLayout "Help"
+cancelButton::GMFilterDialog::shortcuts::JXLayout "^["
+okButton::GMFilterDialog::JXLayout "OK"
+okButton::GMFilterDialog::shortcuts::JXLayout "^M"

@@ -1,0 +1,20 @@
+/* XPM */
+static char * address_email[] = {
+"17 13 4 1",
+" 	c None",
+"x  c #66666666CCCC",
+".	c white",
+"X	c #333333336666",
+"  xxxxxxxxxxxx   ",
+"  x..........X   ",
+"  x...XXXX...X   ",
+"  x..X....X..X   ",
+"  x.X..XXX.X.X   ",
+"  x.X.X..X.X.X   ",
+"  x.X.X..X.X.X   ",
+"  x.X.X.XX.X.X   ",
+"  x.X..X..X..X   ",
+"  x..X.......X   ",
+"  x...XXXXX..X   ",
+"  x..........X   ",
+"  xXXXXXXXXXXX   "};

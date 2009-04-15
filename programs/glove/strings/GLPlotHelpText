@@ -1,0 +1,100 @@
+0
+
+GLPlotHelp
+
+"<html>
+<head>
+<title>
+Plot Window
+</title>
+</head>
+
+<h3>Plot window</h3>
+
+<a name=Settings>
+
+<p>
+<b>Curve settings</b> 
+<p>
+
+To change the settings of a curve, either select <i>Change curve
+options...</i> from the Options menu, double-click on the appropriate curve
+label in the legend, or right-click on the curve name in the legend.
+
+<p>
+<b>Scale</b>
+<p>
+
+You can change the scale of the plot in several ways. To view the scale
+dialog box, which allows you to change the scale in both axes, you can
+select <i>Change scale...</i> from the <i>Options</i> menu, or double-click
+on the appropriate axis. To scale without the dialog, click and drag the
+mouse, which will create a zoom rectangle. If the Meta key is pressed, the
+scale will be changed to show exactly the region contained by the zoom
+rectangle. If the Meta key is not pressed, a reasonable scale will be
+chosen around the area of interest. To return the scale to the default,
+select <i>Reset scale...</i> from the <i>Options</i> menu.
+
+<p>
+<b>Range</b>  
+<p>
+
+The range specifies what portion of the curves will be drawn, and what
+portion of the curves will by used in the analysis. To set the range, zoom
+in to the desired range and select <i>Copy scale to range</i> from the
+<i>Options</i> menu. Alternately, you can specify a range in the <i>Edit
+Plot Range</i> dialog by selecting <i>Change range...</i> from the
+<i>Options</i> menu. You can then reset the range by selecting Clear range
+from the <i>Options</i> menu.
+
+<p>
+<b>Labels</b> 
+<p>
+
+You can edit the plot labels either by selecting Labels from the
+<i>Options</i> menu, or double-clicking on the appropriate label.
+
+<a name=Cursors>
+
+<p>
+<b>Cursors</b>
+<p>
+
+Cursors are a useful way of determining the position of various features 
+on a curve. If you view Dual cursors, the values of both cursors will be 
+displayed along with the distance between them.
+
+<p>
+
+The values of the cursors can be used by an external module, for example to
+look up a value in an external table, by selected the appropriate module in
+the <i>Cursor module</i> sub-menu of the <i>Cursor</i> menu.
+
+<p>
+
+<a name=Marks>
+
+<p>
+<b>Marks</b>
+<p>
+
+You can mark a particular value with a line, either vertical or horizontal,
+by selecting <i>Mark cursor</i> from the <i>Cursor</i> menu. If you select
+<i>Show mark window</i>, a table of the current marks will be displayed at
+the bottom of the plot. This table can be printed to an encapsulated
+postscript (EPS) file by selecting <i>Print marks as EPS...</i> from the
+<i>Plot</i> menu.
+
+<a name=Analysis>
+
+<p>
+<b>Curve fitting</b> 
+<p>
+
+To open the <a href=jxhelp:GLFitHelp>Fit window</a>, in order to fit a
+curve, select <i>Open fit window</i> from the Analysis menu. Once fits have
+been calculated from the fit window, the fit parameters and residual plots
+can be viewed by selecting the appropriate entry in the <i>Fit
+parameters</i> and <i>Residual plots</i> sub-menus.
+
+</html>"

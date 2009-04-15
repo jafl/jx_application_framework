@@ -1,0 +1,244 @@
+jx_browser_data 72
+# project tree
+0 "root"
+T
+1 "widget"
+T
+2 "JX3DWidget.cpp"
+F
+"./code/JX3DWidget.cpp"
+F
+T
+1 "rendering"
+T
+2 "J3DPainter.cpp"
+F
+"./code/J3DPainter.cpp"
+T
+2 "J3DCamera.cpp"
+F
+"./code/J3DCamera.cpp"
+T
+2 "JXMesaCamera.cpp"
+F
+"./code/JXMesaCamera.cpp"
+F
+T
+1 "objects"
+T
+2 "J3DUniverse.cpp"
+F
+"./code/J3DUniverse.cpp"
+T
+2 "J3DObject.cpp"
+F
+"./code/J3DObject.cpp"
+T
+2 "J3DLine.cpp"
+F
+"./code/J3DLine.cpp"
+T
+2 "J3DTriangle.cpp"
+F
+"./code/J3DTriangle.cpp"
+T
+2 "J3DTetrahedron.cpp"
+F
+"./code/J3DTetrahedron.cpp"
+T
+2 "J3DCylinder.cpp"
+F
+"./code/J3DCylinder.cpp"
+T
+2 "J3DCone.cpp"
+F
+"./code/J3DCone.cpp"
+T
+2 "J3DComposite.cpp"
+F
+"./code/J3DComposite.cpp"
+T
+2 "J3DAxes.cpp"
+F
+"./code/J3DAxes.cpp"
+T
+2 "J3DSurface.cpp"
+F
+"./code/J3DSurface.cpp"
+F
+T
+1 "misc"
+T
+2 "j3DConstants.cpp"
+F
+"./code/j3DConstants.cpp"
+F
+T
+1 "strings"
+F
+F
+# tasks
+4
+"makemake"
+F
+# build settings
+1
+F
+"libj3d-${J3D_LIB_VERSION}.a,libj3d-${J3D_LIB_VERSION}.so"
+""
+"make -k all"
+# symbol type list
+T 0 T F F 0 F 33825 33288 33825
+T 500 T F F 0 F 0 0 0
+T 501 T F F 0 F 0 0 0
+T 502 T F F 0 F 0 0 0
+T 503 T F F 0 F 0 0 0
+T 1600 T F F 0 F 0 0 0
+T 1601 T F F 0 F 0 0 0
+T 1602 T F F 0 F 0 0 0
+T 600 T F F 0 F 0 0 0
+T 2300 T F F 0 F 0 0 0
+T 2301 T F F 0 F 0 0 0
+T 2302 T F F 0 F 0 0 0
+T 2200 T F F 0 F 0 0 0
+T 2201 T F F 0 F 0 0 0
+T 2202 T F F 0 F 0 0 0
+T 100 T T F 0 F 0 0 0
+T 101 T F F 0 F 0 0 65535
+T 102 T F F 0 F 0 0 0
+T 103 T F F 0 F 0 0 0
+T 104 T F F 0 F 0 0 0
+T 105 T F F 0 F 0 0 0
+T 106 T T F 0 F 33825 33288 33825
+T 107 T F T 0 F 0 0 0
+T 108 T F F 0 F 0 0 0
+T 109 T F F 0 F 0 0 0
+T 110 T F T 0 F 0 0 0
+T 111 T F F 0 F 0 0 0
+T 112 T F F 0 F 0 0 0
+T 2900 T T F 0 F 0 0 0
+T 2901 T F F 0 F 0 0 65535
+T 2902 T F F 0 F 0 0 0
+T 2903 T F F 0 F 0 0 0
+T 2904 T F F 0 F 0 0 0
+T 2905 T F F 0 F 0 0 0
+T 2906 T T F 0 F 33825 33288 33825
+T 2907 T F F 0 F 0 0 0
+T 2908 T F F 0 F 0 0 0
+T 2909 T F F 0 F 0 0 0
+T 2910 T F F 0 F 0 0 0
+T 2911 T F T 0 F 0 0 0
+T 700 T F F 0 F 0 0 0
+T 701 T F F 0 F 0 0 0
+T 702 T F F 0 F 0 0 0
+T 703 T F F 0 F 0 0 0
+T 704 T F F 0 F 0 0 0
+T 705 T F F 0 F 0 0 0
+T 200 T T F 0 F 0 0 0
+T 201 T F F 0 F 0 0 0
+T 3000 T F F 0 F 0 0 65535
+T 3001 T F F 0 F 0 0 0
+T 3002 T F F 0 F 0 0 0
+T 3003 T F F 0 F 0 0 0
+T 300 T F F 0 F 0 0 0
+T 301 T F F 0 F 0 0 0
+T 302 T F F 0 F 0 0 0
+T 303 T F F 0 F 0 0 0
+T 304 T F F 0 F 0 0 0
+T 305 T F F 0 F 0 0 0
+T 306 T F F 0 F 0 0 0
+T 307 T F F 0 F 0 0 0
+T 308 T F F 0 F 0 0 0
+T 309 T F F 0 F 0 0 0
+T 310 T F F 0 F 0 0 0
+T 311 T F F 0 F 0 0 0
+T 312 T F F 0 F 0 0 0
+T 313 T F F 0 F 0 0 0
+T 400 T T F 0 F 0 0 0
+T 401 T F F 0 F 0 0 0
+T 402 T T F 0 F 33825 33288 33825
+T 403 T F F 0 F 0 0 0
+T 404 T F F 0 F 0 0 0
+T 2100 T F F 0 F 0 0 0
+T 800 T F F 0 F 0 0 0
+T 2400 T F F 0 F 0 0 0
+T 1700 T F F 0 F 0 0 0
+T 1701 T F F 0 F 0 0 0
+T 2000 T F F 0 F 0 0 0
+T 2001 T F F 0 F 0 0 0
+T 900 T F F 0 F 0 0 0
+T 901 T F F 0 F 0 0 0
+T 902 T F F 0 F 0 0 0
+T 903 T F F 0 F 0 0 0
+T 1500 T T F 0 F 0 0 0
+T 1501 T F F 0 F 0 0 0
+T 1502 T F F 0 F 0 0 65535
+T 1000 T T F 0 F 0 0 0
+T 1001 T F F 0 F 0 0 0
+T 1002 T F F 0 F 0 0 0
+T 1800 T F F 0 F 0 0 0
+T 1900 T T F 0 F 0 0 0
+T 1901 T F F 0 F 0 0 0
+T 1903 T F F 0 F 0 0 0
+T 1902 T T F 0 F 0 0 0
+T 1100 T F F 0 F 0 0 0
+T 1101 T F F 0 F 0 0 0
+T 1200 T F F 0 F 0 0 0
+T 2500 T F F 0 F 0 0 0
+T 2501 T F F 0 F 0 0 0
+T 3100 T F F 0 F 0 0 0
+T 3101 T F F 0 F 0 0 0
+T 3102 T F F 0 F 33825 33288 33825
+T 3103 T F F 0 F 0 0 0
+T 3104 T F F 0 F 0 0 0
+T 3105 T F F 0 F 0 0 0
+T 3106 T F F 0 F 0 0 0
+T 2600 T F F 0 F 0 0 0
+T 2601 T F F 0 F 0 0 0
+T 2602 T F F 0 F 0 0 0
+T 2603 T F F 0 F 0 0 0
+T 2604 T F F 0 F 0 0 0
+T 2605 T F F 0 F 0 0 0
+T 2606 T F F 0 F 0 0 0
+T 2607 T F F 0 F 0 0 0
+T 2608 T F F 0 F 0 0 0
+T 2609 T F F 0 F 0 0 0
+T 2610 T F F 0 F 0 0 0
+T 2611 T F F 0 F 0 0 0
+T 2612 T F F 0 F 0 0 0
+T 2700 T F F 0 F 0 0 0
+T 2701 T F F 0 F 0 0 0
+T 2702 T F F 0 F 0 0 0
+T 2703 T F F 0 F 0 0 0
+T 2704 T F F 0 F 0 0 0
+T 2705 T F F 0 F 0 0 0
+T 2706 T F F 0 F 0 0 0
+T 2707 T F F 0 F 0 0 0
+T 2708 T F F 0 F 0 0 0
+T 2709 T F F 0 F 0 0 0
+T 2710 T F F 0 F 0 0 0
+T 2711 T F F 0 F 0 0 0
+T 2800 T F F 0 F 0 0 0
+T 2801 T F F 0 F 0 0 0
+T 2802 T F F 0 F 0 0 0
+T 2803 T F F 0 F 0 0 0
+T 2804 T F F 0 F 0 0 0
+T 2805 T F F 0 F 0 0 0
+T 2806 T F F 0 F 0 0 0
+T 2807 T F F 0 F 0 0 0
+T 2808 T F F 0 F 0 0 0
+T 2809 T F F 0 F 0 0 0
+T 1300 T F F 0 F 0 0 0
+T 1301 T F F 0 F 0 0 0
+T 1302 T F F 0 F 0 0 0
+T 1400 T F F 0 F 0 0 0
+T 1401 T F F 0 F 0 0 0
+T 1402 T F F 0 F 0 0 0
+F
+# search paths
+T "../include/make/" T
+T "../libjcore/code/" T
+T "./code/" T
+F
+# C preprocessor
+F

@@ -1,0 +1,5 @@
+0
+okButton::JXGoToLineDialog::shortcuts::JXLayout "^M"
+okButton::JXGoToLineDialog::JXLayout "OK"
+obj1_JXLayout::JXGoToLineDialog::JXLayout "Goto line:"
+cancelButton::JXGoToLineDialog::JXLayout "Cancel"

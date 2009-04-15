@@ -1,0 +1,63 @@
+    The top level Makefile will automatically build all libraries placed in
+directories of the form lib.+ and then all programs in subdirectories of the
+programs directory.  In order for this to work correctly, certain files and make
+targets are required.
+
+    Each library must provide Make.header and Make.files in its top level
+directory.  The first target in Make.header must be "default," and must build
+the static and/or shared versions of the library.  If J_BUILD_SHARED_LIB is not
+defined, only the static version is built. If J_NEED_SEPARATE_O_FILES is
+defined, only the shared version is built.  Otherwise, both versions are built.
+If the install is done as root, "default" should copy the resulting libraries to
+the ${JX_LIB_ROOT}/ directory, and the "jxuninstall" target should remove the
+libraries from this directory.  Because "default" is so complicated, it is
+implemented for you in the file include/make/default_lib_target.  Refer to
+libjcore/Make.header and libjx/Make.header for examples of how to use this file.
+
+    Make.header must also provide the target "Makefiles" to build the Makefiles
+in any subdirectories.  (e.g. the Makefile for the test suite)  Make.header
+should also define "tidy" and "clean" as double colon targets to clean up any
+subdirectories.  (e.g. the test suite)  The source distribution should also
+include a symbolic link placed in the include directory that points to the
+library's header files and symbolic links placed in the lib directory that point
+to the static and shared versions of the library in the library's top level
+directory.  The JTree library provides an example of how to do all this.
+
+    Each library must also provide a *_constants file in include/make/.  This
+defines version numbers, shortcuts, and augments J_STRING_FILES to include all
+string database files that are required by the library.  All program Make.header
+files include these *_constants files.  jtree_constants provides an example of
+how to do this.
+
+    Each program must provide Make.header and Make.files in its top level
+directory.  In this case, Make.header must provide the target "Makefiles" to
+build the Makefiles in any subdirectories, the target "jxinstall" to build the
+program, strip it, and place it in ${JX_INSTALL_ROOT}/, and the target
+"jxuninstall" to remove the program from this directory.  For the user's
+convenience, the first target in Make.header should be "default," and should
+build first the required libraries and then the program.  It is also helpful to
+provide a target "static" to build a statically linked version of the binary.
+In order to make it easy for others to build binary distributions for other
+platforms, Make.header should also define the targets "shared" and "link" to
+build the tar files containing the dynamically linked executable and link-kit,
+respectively.  If there are any subdirectories with their own Makefiles,
+Make.header should define "tidy" and "clean" as double colon targets to clean up
+these subdirectories.  Code Crusader provides an example of how to do all this.
+
+    While studying the example Make.header files, you will notice that they
+include the files include/make/jx_constants and include/make/jx_config.
+jx_constants defines system independent constants needed for the various
+required targets, such as J_DISTR_TAR_DIR which is discussed below.  It also
+defines the variables ljcore and ljx which expand to the appropriate -l
+arguments for use in the make variable LOADLIBES.  jx_constants requires that
+JX_ROOT be defined before it is included.  jx_config defines system dependent
+constants.  Of particular interest are J_BUILD_SHARED_LIB and
+J_NEED_SEPARATE_O_FILES which should be used in the Make.header for every
+library, as discussed above.
+
+    For the user's convenience and to insure that incompatible versions never
+get linked together, all libraries and programs should be packaged from above
+the main JX directory, defined in the variable J_DISTR_TAR_DIR.  This way, the
+user can download the source to all the libraries and programs, unpack all the
+tar files in the same directory, and then build them all with a single make
+command.

@@ -1,0 +1,265 @@
+#ifndef _T_JAuxTableData
+#define _T_JAuxTableData
+
+/******************************************************************************
+ JAuxTableData.tmpl
+
+	Template for storing auxilliary data for a table.
+
+	*** We depend on a JTable object rather than a JTableData object
+		because JTable can guarantee that we get to update ourselves
+		before any redraws.
+
+	*** Since JRunArray is used to store the data, only intrinsic types
+		can be stored, not objects.
+
+	BASE CLASS = JPackedTableData<T>
+
+	Copyright © 1996 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JAuxTableData.h>
+#include <JTable.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T>
+JAuxTableData<T>::JAuxTableData
+	(
+	JTable*		table,
+	const T&	defValue
+	)
+	:
+	JPackedTableData<T>(defValue)
+{
+	JAuxTableDataX(table);
+}
+
+// private
+
+template <class T>
+void
+JAuxTableData<T>::JAuxTableDataX
+	(
+	JTable* table
+	)
+{
+	itsTable = table;
+	AdjustToTable();
+	itsTable->RegisterAuxData(this);
+	JBroadcaster::ListenTo(itsTable);
+}
+
+/******************************************************************************
+ Copy constructor
+
+ ******************************************************************************/
+
+template <class T>
+JAuxTableData<T>::JAuxTableData
+	(
+	JTable*					table,
+	const JAuxTableData<T>&	source
+	)
+	:
+	JPackedTableData<T>(source)
+{
+	JAuxTableDataX(table);
+}
+
+#ifdef _MSC_VER
+
+template <class T>
+JAuxTableData<T>::JAuxTableData
+	(
+	const JAuxTableData<T>& source
+	)
+	:
+	JPackedTableData<T>(source)
+{
+	assert( 0 /* only exists to keep Visual C++ happy */ );
+}
+
+#endif
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <class T>
+JAuxTableData<T>::~JAuxTableData()
+{
+	itsTable->RemoveAuxData(this);
+}
+
+/******************************************************************************
+ GetTable
+
+ ******************************************************************************/
+
+template <class T>
+JTable*
+JAuxTableData<T>::GetTable()
+	const
+{
+	return itsTable;
+}
+
+/******************************************************************************
+ Receive (virtual protected)
+
+	Update our data to match the JTable that we belong to.
+	RectChanged, RowChanged, ColChanged do not matter to us.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JAuxTableData<T>::Receive
+	(
+	JBroadcaster*					sender,
+	const JBroadcaster::Message&	message
+	)
+{
+	// rows changed
+
+	if (sender == itsTable && message.Is(JTableData::kRowsInserted))
+		{
+		const JTableData::RowsInserted* info =
+			dynamic_cast(const JTableData::RowsInserted*, &message);
+		assert( info != NULL );
+		JPackedTableData<T>::InsertRows(info->GetFirstIndex(), info->GetCount());
+		}
+
+	else if (sender == itsTable && message.Is(JTableData::kRowDuplicated))
+		{
+		const JTableData::RowDuplicated* info =
+			dynamic_cast(const JTableData::RowDuplicated*, &message);
+		assert( info != NULL );
+		JPackedTableData<T>::DuplicateRow(info->GetOrigIndex(), info->GetNewIndex());
+		}
+
+	else if (sender == itsTable && message.Is(JTableData::kRowsRemoved))
+		{
+		const JTableData::RowsRemoved* info =
+			dynamic_cast(const JTableData::RowsRemoved*, &message);
+		assert( info != NULL );
+		JPackedTableData<T>::RemoveNextRows(info->GetFirstIndex(), info->GetCount());
+		}
+
+	else if (sender == itsTable && message.Is(JTableData::kRowMoved))
+		{
+		const JTableData::RowMoved* info =
+			dynamic_cast(const JTableData::RowMoved*, &message);
+		assert( info != NULL );
+		JPackedTableData<T>::MoveRow(info->GetOrigIndex(), info->GetNewIndex());
+		}
+
+	// columns changed
+
+	else if (sender == itsTable && message.Is(JTableData::kColsInserted))
+		{
+		const JTableData::ColsInserted* info =
+			dynamic_cast(const JTableData::ColsInserted*, &message);
+		assert( info != NULL );
+		JPackedTableData<T>::InsertCols(info->GetFirstIndex(), info->GetCount());
+		}
+
+	else if (sender == itsTable && message.Is(JTableData::kColDuplicated))
+		{
+		const JTableData::ColDuplicated* info =
+			dynamic_cast(const JTableData::ColDuplicated*, &message);
+		assert( info != NULL );
+		JPackedTableData<T>::DuplicateCol(info->GetOrigIndex(), info->GetNewIndex());
+		}
+
+	else if (sender == itsTable && message.Is(JTableData::kColsRemoved))
+		{
+		const JTableData::ColsRemoved* info =
+			dynamic_cast(const JTableData::ColsRemoved*, &message);
+		assert( info != NULL );
+		JPackedTableData<T>::RemoveNextCols(info->GetFirstIndex(), info->GetCount());
+		}
+
+	else if (sender == itsTable && message.Is(JTableData::kColMoved))
+		{
+		const JTableData::ColMoved* info =
+			dynamic_cast(const JTableData::ColMoved*, &message);
+		assert( info != NULL );
+		JPackedTableData<T>::MoveCol(info->GetOrigIndex(), info->GetNewIndex());
+		}
+
+	// everything changed
+
+	else if (sender == itsTable && message.Is(JTable::kTableDataChanged))
+		{
+		AdjustToTable();
+		}
+
+	// something else
+
+	else
+		{
+		JPackedTableData<T>::Receive(sender, message);
+		}
+}
+
+/******************************************************************************
+ AdjustToTable (private)
+
+	This resets every cell to its default value.
+
+ ******************************************************************************/
+
+template <class T>
+void
+JAuxTableData<T>::AdjustToTable()
+{
+	if (itsTable != NULL)
+		{
+		const JSize tableRowCount = itsTable->GetRowCount();
+		const JSize rowCount      = JPackedTableData<T>::GetRowCount();
+		if (rowCount < tableRowCount)
+			{
+			JPackedTableData<T>::AppendRows(tableRowCount - rowCount);
+			}
+		else if (rowCount > tableRowCount)
+			{
+			JPackedTableData<T>::RemoveNextRows(tableRowCount+1, rowCount - tableRowCount);
+			}
+
+		const JSize tableColCount = itsTable->GetColCount();
+		const JSize colCount      = JPackedTableData<T>::GetColCount();
+		if (colCount < tableColCount)
+			{
+			JPackedTableData<T>::AppendCols(tableColCount - colCount);
+			}
+		else if (colCount > tableColCount)
+			{
+			JPackedTableData<T>::RemoveNextCols(tableColCount+1, colCount - tableColCount);
+			}
+
+		JPackedTableData<T>::ClearAllElements();
+		}
+	else
+		{
+		JPackedTableData<T>::RemoveAllRows();
+		JPackedTableData<T>::RemoveAllCols();
+		}
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JAuxTableData
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

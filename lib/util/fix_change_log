@@ -1,0 +1,50 @@
+#!/usr/bin/perl
+
+# Removes all links except "mailto:".
+# Replaces header and footer with NPS boilerplate.
+
+sub ReadFile($)
+{
+	local $/ = undef;
+	open(F, "< $_[0]");
+	return <F>;
+}
+
+foreach $file (@ARGV)
+	{
+	# read file
+
+	$data = ReadFile($file);
+
+	# can't remove </a>, because of remaining mailto links
+
+	$data =~ s/<a href=[^m][^>]*>//g;
+
+	# replace <head></head> with NPS header
+
+	$data      =~ m|<title>\s*([^:]+):\s*([^<]*)</title>|;
+	$prog_name = $1;
+	$title     = $2;
+
+	$head = <<EOF;
+<?php
+\$title    = "$prog_name:  $title";
+\$headline = "$title";
+
+include("header.php");
+?>
+EOF
+
+	$data =~ s/^.+<body[^>]*>/$head/s;
+
+	# replace </body></html> with NPS footer
+
+	$data =~ s|</body>.*$|<\?php PrintFooter\(\); \?>\n|s;
+
+	# save result
+
+	unlink($file);
+	$file =~ s/html$/php/;
+	open(F, "> $file");
+	print F $data;
+	}

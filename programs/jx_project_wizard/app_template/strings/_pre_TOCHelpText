@@ -1,0 +1,28 @@
+0
+
+<PRE>TOCHelp
+
+"<html>
+
+<head>
+<title> Table of Contents </title>
+</head>
+
+<h3>Table of Contents</h3>
+
+<ul>
+<li> <a href=jxhelp:<PRE>OverviewHelp>Overview</a>
+<p>
+<li> <a href=jxhelp:<PRE>MainHelp>Main window</a>
+<p>
+<li> <a href=jxhelp:<PRE>Changes>Changes</a>
+<p>
+<li> <a href=jxhelp:<PRE>Credits>Credits</a>
+<p>
+</ul>
+
+To go to a particular section, simply click on the underlined text.  To search for a
+word or phrase, select \"Find...\" from the Search menu, enter the text, and then
+select \"Search all sections\" from the Search menu.
+
+</html>"

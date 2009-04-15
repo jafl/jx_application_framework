@@ -1,0 +1,6 @@
+0
+cancelButton::ASKDialog::JXLayout "Cancel"
+okButton::ASKDialog::shortcuts::JXLayout "^M"
+obj1_JXLayout::ASKDialog::JXLayout "Please enter your authentication passphrase:"
+okButton::ASKDialog::JXLayout "OK"
+cancelButton::ASKDialog::shortcuts::JXLayout "^["

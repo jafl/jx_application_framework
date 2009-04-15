@@ -1,0 +1,215 @@
+#ifndef _T_JPtrArrayIterator
+#define _T_JPtrArrayIterator
+
+/******************************************************************************
+ JPtrArrayIterator.tmpl
+
+						The Pointer Array Iterator Class
+
+	Provides a consistent interface for iterating over a JPtrArray.
+
+	Refer to JOrderedSetIterator.tmpl for information about interators in general.
+
+	Copyright © 1994-97 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JPtrArray.h>
+#include <jAssert.h>
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <class T>
+JPtrArrayIterator<T>::JPtrArrayIterator
+	(
+	const JPtrArray<T>&		theArray,
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+	:
+	JOrderedSetIterator<T*>(theArray, start, index)
+{
+}
+
+template <class T>
+JPtrArrayIterator<T>::JPtrArrayIterator
+	(
+	JPtrArray<T>*			theArray,
+	const JIteratorPosition	start,
+	const JIndex			index
+	)
+	:
+	JOrderedSetIterator<T*>(theArray, start, index)
+{
+}
+
+/******************************************************************************
+ SetPrev
+
+	Returns kJTrue if we have a non-const JPtrArray<T>* and
+	there is a previous item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JPtrArrayIterator<T>::SetPrev
+	(
+	T*									dataPtr,
+	const JPtrArrayT::SetElementAction	action
+	)
+{
+	JOrderedSet<T*>* obj;
+	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtBeginning())
+		{
+		return kJFalse;
+		}
+
+	JPtrArray<T>* ptr = dynamic_cast(JPtrArray<T>*, obj);
+	assert( ptr != NULL );
+
+	ptr->SetElement(JOrderedSetIterator<T*>::GetCursor(), dataPtr, action);
+	return kJTrue;
+}
+
+/******************************************************************************
+ SetNext
+
+	Returns kJTrue if we have a non-const JPtrArray<T>* and
+	there is a next item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JPtrArrayIterator<T>::SetNext
+	(
+	T*									dataPtr,
+	const JPtrArrayT::SetElementAction	action
+	)
+{
+	JOrderedSet<T*>* obj;
+	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtEnd())
+		{
+		return kJFalse;
+		}
+
+	JPtrArray<T>* ptr = dynamic_cast(JPtrArray<T>*, obj);
+	assert( ptr != NULL );
+
+	ptr->SetElement(JOrderedSetIterator<T*>::GetCursor()+1, dataPtr, action);
+	return kJTrue;
+}
+
+/******************************************************************************
+ DeletePrev
+
+	Returns kJTrue if we have a non-const JPtrArray<T>* and
+	there is a previous item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JPtrArrayIterator<T>::DeletePrev()
+{
+	JOrderedSet<T*>* obj;
+	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtBeginning())
+		{
+		return kJFalse;
+		}
+
+	JPtrArray<T>* ptr = dynamic_cast(JPtrArray<T>*, obj);
+	assert( ptr != NULL );
+
+	ptr->DeleteElement(JOrderedSetIterator<T*>::GetCursor());
+	return kJTrue;
+}
+
+/******************************************************************************
+ DeleteNext
+
+	Returns kJTrue if we have a non-const JPtrArray<T>* and
+	there is a next item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JPtrArrayIterator<T>::DeleteNext()
+{
+	JOrderedSet<T*>* obj;
+	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtEnd())
+		{
+		return kJFalse;
+		}
+
+	JPtrArray<T>* ptr = dynamic_cast(JPtrArray<T>*, obj);
+	assert( ptr != NULL );
+
+	ptr->DeleteElement(JOrderedSetIterator<T*>::GetCursor()+1);
+	return kJTrue;
+}
+
+/******************************************************************************
+ DeletePrevAsArray
+
+	Returns kJTrue if we have a non-const JPtrArray<T>* and
+	there is a previous item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JPtrArrayIterator<T>::DeletePrevAsArray()
+{
+	JOrderedSet<T*>* obj;
+	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtBeginning())
+		{
+		return kJFalse;
+		}
+
+	JPtrArray<T>* ptr = dynamic_cast(JPtrArray<T>*, obj);
+	assert( ptr != NULL );
+
+	ptr->DeleteElementAsArray(JOrderedSetIterator<T*>::GetCursor());
+	return kJTrue;
+}
+
+/******************************************************************************
+ DeleteNextAsArray
+
+	Returns kJTrue if we have a non-const JPtrArray<T>* and
+	there is a next item.
+
+ ******************************************************************************/
+
+template <class T>
+JBoolean
+JPtrArrayIterator<T>::DeleteNextAsArray()
+{
+	JOrderedSet<T*>* obj;
+	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtEnd())
+		{
+		return kJFalse;
+		}
+
+	JPtrArray<T>* ptr = dynamic_cast(JPtrArray<T>*, obj);
+	assert( ptr != NULL );
+
+	ptr->DeleteElementAsArray(JOrderedSetIterator<T*>::GetCursor()+1);
+	return kJTrue;
+}
+
+#endif
+
+// Instantiate the template for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JPtrArrayIterator
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif

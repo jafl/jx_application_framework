@@ -1,0 +1,20 @@
+# Constants used in all Makefiles
+
+#
+# version numbers
+#
+
+JEXPR_VERSION     := 1.1.10
+JEXPR_LIB_VERSION := 1_1_10
+
+#
+# library names
+#
+
+ljexpr := -ljexpr-${JEXPR_LIB_VERSION}
+
+#
+# String data files
+#
+
+# J_STRING_FILES += ${JX_ROOT}/libjexpr/jexpr_strings

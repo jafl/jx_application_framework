@@ -1,0 +1,115 @@
+jx_browser_data 82
+# project tree
+0 "root"
+T
+1 "main"
+T
+2 "<Binary>.cpp"
+F
+"./code/<Binary>.cpp"
+T
+2 "<PRE>App.cpp"
+F
+"./code/<PRE>App.cpp"
+T
+2 "<pre>Globals.cpp"
+F
+"./code/<pre>Globals.cpp"
+T
+2 "<PRE>PrefsManager.cpp"
+F
+"./code/<PRE>PrefsManager.cpp"
+T
+2 "<PRE>PrefsDialog.cpp"
+F
+"./code/<PRE>PrefsDialog.cpp"
+T
+2 "<PRE>MDIServer.cpp"
+F
+"./code/<PRE>MDIServer.cpp"
+T
+2 "<PRE>AboutDialog.cpp"
+F
+"./code/<PRE>AboutDialog.cpp"
+F
+T
+1 "directors"
+T
+2 "<PRE>MainDirector.cpp"
+F
+"./code/<PRE>MainDirector.cpp"
+F
+T
+1 "misc"
+T
+2 "<Binary>_strings"
+F
+"./strings/<Binary>_strings"
+T
+2 "license"
+F
+"./strings/license"
+T
+2 "<Binary>.fd"
+F
+"./<Binary>.fd"
+F
+T
+1 "help"
+T
+2 "<pre>HelpText.h"
+F
+"./code/<pre>HelpText.h"
+T
+2 "<pre>TOCHelpText"
+F
+"./strings/<pre>TOCHelpText"
+T
+2 "<pre>OverviewHelpText"
+F
+"./strings/<pre>OverviewHelpText"
+T
+2 "<pre>MainHelpText"
+F
+"./strings/<pre>MainHelpText"
+T
+2 "<pre>ChangeLogText"
+F
+"./strings/<pre>ChangeLogText"
+T
+2 "<pre>CreditsText"
+F
+"./strings/<pre>CreditsText"
+F
+T
+1 "images"
+T
+2 "<pre>_about_icon.xpm"
+F
+"./code/<pre>_about_icon.xpm"
+T
+2 "<pre>_main_window_icon.xpm"
+F
+"./code/<pre>_main_window_icon.xpm"
+F
+F
+# tasks
+4
+"makemake"
+T "./" "jxlayout --choose --post-cmd \"jcc --force-reload-open\" -cp code $project_name.fd" "" F F T T T T F "Compile layouts" "Meta-'" "&|3Ss+=IL_ywwy[Pm}cG::CBCommandManager" F
+F
+# build settings
+1
+T
+"<Binary>"
+"${LIB_DEPS}"
+"make -k all"
+# search paths
+T "./code" T
+T "<JX_PATH>/libjcore/code" T
+T "<JX_PATH>/libjtoolbar/code" T
+T "<JX_PATH>/libjtree/code" T
+T "<JX_PATH>/libjx/code" T
+F
+# C preprocessor
+F

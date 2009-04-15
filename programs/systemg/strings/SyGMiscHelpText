@@ -1,0 +1,236 @@
+0
+
+SyGMiscHelp
+
+"<html>
+<head>
+<title>Miscellaneous help</title>
+</head>
+
+<a name=ViewMan>
+
+<h3> Viewing UNIX Man Pages </h3>
+
+The Man Pages window lets you specify what function to look up and which section to look in.  If you leave the section blank, the system will search all sections.
+<p>
+To search the man pages for all occurrences of the function, check the Apropos checkbox.
+<p>
+You can get the Man Pages window via the \"View man page\" menu item on the File menu.
+<p>
+The default action is to display the man page using <a href=http://www.newplanetsoftware.com/jcc/>Code Crusader</a>.  If you wish to display it in a terminal instead, you can change the action to \"<tt>xterm -e man</tt>\" in the Preferences dialog.
+
+<a name=Term>
+
+<h3> Opening a terminal </h3>
+
+There are times when the easiest way to do something is with a command line terminal. To open a terminal, select the \"Open terminal\" item from the File menu.  If a file is selected, this will open a terminal in that file's directory.  If a folder is selected, the terminal will start inside that folder.  If nothing is selected or the window is iconified, this will open a terminal in the current window's directory.  By default, the terminal command uses \"<tt>xterm</tt>\", but you can change this in the Preferences dialog.
+
+<a name=Shortcuts>
+
+<h3> Useful Shortcuts </h3>
+
+On PC's, Meta is normally bound to the Alt key on the keyboard.  Your system's configuration may be different, however.  You can use \"<a href=jxhelp:#ModifierKeys><tt>xmodmap</tt></a>\" to examine and change this configuration.
+<p>
+Drag-And-Drop can be cancelled by pressing the Escape key before releasing the mouse button.
+<p>
+Tab shifts focus to the next input area.  Shift-Tab shifts focus to the previous input area.
+<p>
+To use a shortcut for a button or checkbox, hold down the Meta key and press the underlined character.
+
+<a name=Scrolling>
+
+<h3> Scrolling </h3>
+
+All scrollbars display increment/decrement arrow pairs if there is space.  Coupled with the Shift key which makes the arrows scroll a half page at a time, this conveniently packages all the scrolling functions in one place.
+<p>
+Clicking the middle button in a scrollbar forces the thumb to jump to the place where you clicked.
+<p>
+The arrow keys scroll the tree, read-only text, and help by small steps the way the scrollbar arrows do.  Meta-End and Meta-Page Up/Down scroll horizontally, just like
+End and Page Up/Down scroll vertically.
+<p>
+To save your current position so you can easily jump back to it later, hold down the Meta key and click the left mouse button on the scrollbar thumb.  This creates a scrolltab.  Clicking on this scrolltab scrolls to the saved location.  You can place as many scrolltabs on each scrollbar as you wish.
+
+<blockquote>
+<dl>
+<dt> Meta-left-click on scrollbar thumb
+<dd> Place a scrolltab
+<p>
+<dt> Left-click on scrolltab
+<dd> Jump to the saved position
+<p>
+<dt> Meta-left-click on scrolltab
+<dd> Remove it
+<p>
+<dt> Meta-Shift-left-click on scrolltab
+<dd> Remove all scrolltabs
+</dl>
+</blockquote>
+
+These functions are also accessible via the menu that pops up when you right-click on the thumb or any scrolltab.
+<p>
+In the Project, Tree, and Text Editor windows, Control-1 through Control-9 scroll to the first through ninth vertical scrolltab, respectively.
+<p>
+If you have a <a href=http://www.inria.fr/koala/colas/mouse-wheel-scroll/>wheel mouse</a>, the wheel will scroll the widget that you point to:
+
+<blockquote>
+<dl>
+<dt> No modifiers
+<dd> Scroll five steps
+<p>
+<dt> Shift
+<dd> Scroll one step
+<p>
+<dt> Control
+<dd> Scroll one page
+<p>
+<dt> Meta
+<dd> Scroll horizontally instead of vertically
+</dl>
+</blockquote>
+
+<a name=FileChooser>
+
+<h3> The File Chooser </h3>
+
+Tab completion in the Path input field is supported, but only when the caret is at the far right of the text.  (This allows Tab to be used to switch to the next input area in all other situations.)  You don't actually need tab completion, however, because typing in the file list table performs an incremental search, after which you can use the following keys:
+
+<blockquote>
+<dl>
+<dt> Up-arrow
+<dd> Moves up one item
+<p>
+<dt> Down-arrow
+<dd> Moves down one item
+<p>
+<dt> Left-arrow
+<dt> Meta-up-arrow
+<dd> Goes up one directory (just like clicking on the Up button)
+<p>
+<dt> Right-arrow
+<dt> Meta-down-arrow
+<dd> Enters the selected directory
+<p>
+<dt> Return
+<dd> Enters the selected directory or chooses the selected file
+</dl>
+</blockquote>
+
+Note that Meta-up-arrow and Meta-down-arrow work even if the file list table does not have focus.
+<p>
+The next sub-section describes how to select multiple files in the Choose Files dialog.
+<p>
+Double clicking a file in the Save File dialog copies the name to the input field.  This is useful if you want to replace a file or create a new file with a similar name.
+<p>
+The window is resizable, and always remembers its size and position.
+
+<a name=MultiSelect>
+
+<h3> Selecting more than one item in a list </h3>
+
+If selecting more than one item at a time is possible in a particular list, you can do so with the following actions:
+
+<blockquote>
+<dl>
+<dt> Left-click and drag
+<dd> Selects files between where you click and where you release the button
+<p>
+<dt> Shift-left-click and drag
+<dt> Right-click and drag
+<dd> Selects files between where you last clicked and where you release the button
+<p>
+<dt> Shift-up/down-arrow
+<dd> Selects files just like Shift-left-click
+<p>
+<dt> Control-left-click and drag
+<dd> Selects/Deselects each file that you drag over
+</dl>
+</blockquote>
+
+<h3> Editing items in a list or table </h3>
+
+If you are editing an item in a list or a table, you can switch to a different item by using the following shortcuts:
+
+<blockquote>
+<dl>
+<dt> Meta-up-arrow
+<dt> Meta-8
+<dt> Shift-Return
+<dd> Moves up one row
+<p>
+<dt> Meta-down-arrow
+<dt> Meta-2
+<dt> Return
+<dd> Moves down one row
+<p>
+<dt> Meta-left-arrow
+<dt> Meta-4
+<dt> Shift-Tab
+<dd> Moves left one column
+<p>
+<dt> Meta-right-arrow
+<dt> Meta-6
+<dt> Tab
+<dd> Moves right one column
+</dl>
+</blockquote>
+
+The digits correspond to the appropriate positions on a numeric keypad.
+
+<a name=WindowManagement>
+
+<h3> How to avoid fiddling with windows </h3>
+
+System G has several features that minimize the amount of effort required to deal with window placement and focus:
+
+<ul>
+<li> Dialogs and messages are centered on the screen and automatically grab
+     keyboard focus so you don't have to move the mouse.
+<p>
+<li> Each window remember its position and size.
+<p>
+<li> \"Save preferences as default\" item on Preferences menu lets you save the
+     default size for new windows.
+<p>
+<li> Any dialog that can be resized will remember its position and size.
+<p>
+<li> Meta-W will close any non-modal window.
+<li> Escape cancels and closes any dialog.
+</ul>
+
+Some window managers have an option that defeats System G's automatic window placement.  To avoid this, you can do the following:
+
+<blockquote>
+<dl>
+<dt> fvwm
+<dd> Comment out \"NoPPosition\" from <tt>~/.fvwmrc</tt>
+<p>
+<dt> fvwm2
+<dd> Use \"UsePPosition\" instead of \"NoPPosition\" in <tt>~/.fvwm2rc</tt>
+<p>
+<dt> sawfish
+<dd> Select the Placement item for Sawfish in the Gnome control panel and change the Method to \"None\".
+<p>
+<dt> twm
+<dd> Set \"UsePPosition on\" in <tt>~/.twmrc</tt>
+</dl>
+</blockquote>
+
+Window managers like KDE and Gnome that provide a taskbar listing all the currently open windows allow you to filter this list based on the window's title or WM_CLASS attribute.  System G sets WM_CLASS to SystemG_Folder.  Help windows set WM_CLASS to JX_Help_Browser.
+
+<a name=ModifierKeys>
+
+<h3> Remapping modifier keys </h3>
+
+You can choose which keys on your keyboard should map to each modifier by using <tt>xmodmap</tt> in your <tt>~/.xinitrc</tt> file.  As an example, if you have a PC keyboard with the new Windows key between Ctrl and Alt, you can change the left Windows key to produce the Mod4 modifier as follows:
+
+<blockquote><tt>
+xmodmap -e \"clear mod4\" <br>
+xmodmap -e \"keycode 115 = Super_L\" <br>
+xmodmap -e \"add mod4    = Super_L\" <br>
+</tt></blockquote>
+
+To check which keys produce each modifier, use <tt>xmodmap -pm</tt>.
+<p>
+You can use <tt>xev</tt> to get the keycode for a particular key on your keyboard.  Run it from an <tt>xterm</tt>, move the cursor into the resulting window, press the key, and check the keycode value that is printed.
+
+</html>"
