@@ -11,10 +11,6 @@ jcc:
 	CBFileNameDisplay: use JRenameVCS
 
 systemg:
-	find dialog
-		search for name (with wildcards)
-		search for find command line expression
-
 	if drag from svn directory to svn directory, try "svn move" or "svn copy" first
 		if fails, show error and ask user if want to use --force or plain mv/cp or cancel
 	symlink drag:  option for relative symlink
@@ -25,8 +21,6 @@ systemg:
 	store alternate-open prefs for every executable in the directory
 		use these prefs when plain-open is invoked
 		when open prefs file for directory, flush non-existent executables
-
-	if contains .git, menu to switch branches (and run jcc --reload-open)
 
 -----
 

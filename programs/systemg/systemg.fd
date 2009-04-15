@@ -9,13 +9,13 @@ Unit of measure: FL_COORD_PIXEL
 =============== FORM ===============
 Name: SyGEditPrefsDialog
 Width: 450
-Height: 220
-Number of Objects: 11
+Height: 270
+Number of Objects: 14
 
 --------------------
 class: FL_BOX
 type: FLAT_BOX
-box: 0 0 450 220
+box: 0 0 450 270
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -33,7 +33,7 @@ argument:
 --------------------
 class: FL_INPUT
 type: NORMAL_INPUT
-box: 190 110 245 20
+box: 150 110 285 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
@@ -51,7 +51,7 @@ argument:
 --------------------
 class: FL_INPUT
 type: NORMAL_INPUT
-box: 190 130 245 20
+box: 150 130 285 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
@@ -69,14 +69,14 @@ argument:
 --------------------
 class: FL_TEXT
 type: NORMAL_TEXT
-box: 10 130 180 20
+box: 10 130 140 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: Shell cmd to open terminal:
+label: Cmd to open terminal:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
@@ -87,14 +87,14 @@ argument:
 --------------------
 class: FL_TEXT
 type: NORMAL_TEXT
-box: 10 110 180 20
+box: 10 110 140 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: Shell cmd to view man page:
+label: Cmd to view man page:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
@@ -105,7 +105,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: NORMAL_BUTTON
-box: 105 190 60 20
+box: 105 240 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -123,7 +123,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: RETURN_BUTTON
-box: 284 189 62 22
+box: 284 239 62 22
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -203,6 +203,60 @@ style: FL_NORMAL_STYLE
 size: FL_DEFAULT_SIZE
 lcol: FL_BLACK
 label: (Read the on-line help to understand why this is dangerous!)
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: 
+callback: 
+argument: 
+
+--------------------
+class: FL_INPUT
+type: NORMAL_INPUT
+box: 210 180 225 20
+boxtype: FL_DOWN_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_LEFT
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_North FL_NoGravity
+name: itsPostCheckoutInput
+callback: 
+argument: 
+
+--------------------
+class: FL_TEXT
+type: NORMAL_TEXT
+box: 10 180 200 20
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Cmd to run after changing branch:
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: 
+callback: 
+argument: 
+
+--------------------
+class: FL_TEXT
+type: NORMAL_TEXT
+box: 210 200 200 20
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+style: FL_NORMAL_STYLE
+size: FL_DEFAULT_SIZE
+lcol: FL_BLACK
+label: (automatically run in checkout directory)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
@@ -1115,7 +1169,7 @@ style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: Search for file name (wildcards allowed):
-shortcut: 
+shortcut: #N
 resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
 name: 
@@ -1187,7 +1241,7 @@ style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: Search expression (find syntax):
-shortcut: 
+shortcut: #E
 resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
 name: 

@@ -26,13 +26,15 @@
 #include <jDirUtil.h>
 #include <jAssert.h>
 
-static const JCharacter* kAppSignature   = "systemg";
-static const JCharacter* kDefaultTermCmd = "gnome-terminal --working-directory=$p"; // "xterm -title $n -n $n";
+static const JCharacter* kAppSignature           = "systemg";
+static const JCharacter* kDefaultTermCmd         = "gnome-terminal --working-directory=$p"; // "xterm -title $n -n $n";
+static const JCharacter* kDefaultPostCheckoutCmd = "jcc --reload-open";
 
-const JFileVersion kCurrentPrefsVersion = 2;
+const JFileVersion kCurrentPrefsVersion = 3;
 
-	// version 1 adds itsMountPointPrefs
-	// version 2 adds itsTermCmd
+	// version  3 adds itsPostCheckoutCmd
+	// version  2 adds itsTermCmd
+	// version  1 adds itsMountPointPrefs
 
 // JBroadcaster messages
 
@@ -54,7 +56,8 @@ SyGApplication::SyGApplication
 	:
 	JXApplication(argc, argv, kAppSignature, kSyGDefaultStringData),
 	JPrefObject(NULL, kSAppID),
-	itsTermCmd(kDefaultTermCmd)
+	itsTermCmd(kDefaultTermCmd),
+	itsPostCheckoutCmd(kDefaultPostCheckoutCmd)
 {
 	// Create itsWindowList first so DirectorClosed() won't crash when
 	// warn that prefs are unreadable.
@@ -702,6 +705,11 @@ SyGApplication::ReadPrefs
 		input >> itsTermCmd;
 		}
 
+	if (vers >= 3)
+		{
+		input >> itsPostCheckoutCmd;
+		}
+
 	SyGWriteTaskBarSetup(*itsShortcutList, kJFalse);
 }
 
@@ -759,6 +767,7 @@ SyGApplication::WritePrefs
 	output << ' ' << *itsShortcutList;
 	output << ' ' << *itsMountPointPrefs;
 	output << ' ' << itsTermCmd;
+	output << ' ' << itsPostCheckoutCmd;
 }
 
 /******************************************************************************

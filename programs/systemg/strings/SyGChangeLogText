@@ -16,7 +16,9 @@ Please send all bug reports and suggestions for features to
 
 Added \"Find...\" option on File menu.
 <p>
-If directory is managed by Subversion, attempts to use that when renaming and deleting files.
+If directory is managed by Subversion or Git, attempts to use that when renaming and deleting files.
+<p>
+If the directory is managed by Git, the Branch menu displays the list of available branches and lets you switch between then.
 <p>
 Added <code>--force-new</code> and <code>--no-force-new</code> command line options.  The latter asks System G to display the file in an existing window, if possible.
 <p>

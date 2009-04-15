@@ -120,6 +120,8 @@ static const char* kCurrentJXLibVersionStr = "2.5.0";
 //	Renamed JXNewDisplayDialog to JXOpenDisplayDialog.
 //	JXCSFDialogBase:
 //		*** Added desktopButton argument to SetObjects().
+//	JXMenuBar:
+//		Added FindMenu().
 
 // version 2.5.0:
 //	*** All egcs thunks hacks have been removed.

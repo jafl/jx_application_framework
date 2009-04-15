@@ -1,9 +1,11 @@
 0
 itsCloseButton::SyGFindFileDialog::JXLayout "Close"
 obj1_JXLayout::SyGFindFileDialog::JXLayout "Search for file name (wildcards allowed):"
+obj2_JXLayout::SyGFindFileDialog::shortcuts::JXLayout "#E"
 obj3_JXLayout::SyGFindFileDialog::JXLayout "Start in:"
 itsSearchButton::SyGFindFileDialog::shortcuts::JXLayout "^M"
 obj2_JXLayout::SyGFindFileDialog::JXLayout "Search expression (find syntax):"
+obj1_JXLayout::SyGFindFileDialog::shortcuts::JXLayout "#N"
 itsCloseButton::SyGFindFileDialog::shortcuts::JXLayout "#W^["
 itsSearchButton::SyGFindFileDialog::JXLayout "Search"
 itsHelpButton::SyGFindFileDialog::shortcuts::JXLayout "F1"

@@ -39,6 +39,7 @@ public:
 	JSize			GetMenuCount() const;
 	JXMenu*			GetMenu(const JIndex index);
 	const JXMenu*	GetMenu(const JIndex index) const;
+	JBoolean		FindMenu(const JXMenu* menu, JIndex* index) const;
 
 	JXTextMenu*	InsertTextMenu(const JIndex index, const JCharacter* title);
 	JXTextMenu*	PrependTextMenu(const JCharacter* title);
@@ -154,6 +155,22 @@ JXMenuBar::AppendMenu
 	)
 {
 	InsertMenu(GetMenuCount()+1, menu);
+}
+
+/******************************************************************************
+ FindMenu
+
+ ******************************************************************************/
+
+inline JBoolean
+JXMenuBar::FindMenu
+	(
+	const JXMenu*	menu,
+	JIndex*			index
+	)
+	const
+{
+	return itsMenus->Find(menu, index);
 }
 
 #endif

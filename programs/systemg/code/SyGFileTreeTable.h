@@ -23,6 +23,7 @@ class JXTextMenu;
 class JXFSDirMenu;
 class JXToolBar;
 class JXRadioGroupDialog;
+class JXGetStringDialog;
 class JXTimerTask;
 class JXWindowIcon;
 class SyGTreeSet;
@@ -163,15 +164,20 @@ private:
 	JCoordinate			itsPermCharWidth;
 	JBoolean			itsIgnoreExecPermFlag;
 
+	JXMenuBar*			itsMenuBar;
 	JXTextMenu*			itsFileMenu;
 	JXFSDirMenu*		itsRecentFilesMenu;
 	JXTextMenu*			itsEditMenu;				// not owned
 	JIndex				itsCopyPathCmdIndex;
+	JXTextMenu*			itsGitBranchMenu;
+	JSize				itsGitBranchCount;
 	JXTextMenu* 		itsViewMenu;
 	JXTextMenu*			itsShortcutMenu;
 
 	JXRadioGroupDialog*	itsChooseDiskFormatDialog;	// NULL unless asking user
 	JProcess*			itsFormatProcess;			// NULL unless formatting
+
+	JXGetStringDialog*	itsCreateBranchDialog;		// NULL unless creating branch
 
 	// Drag-and-Drop
 
@@ -205,6 +211,7 @@ private:
 private:
 
 	void	UpdateInfo();
+	void	UpdateMenus();
 
 	JString	GetCellString(const JPoint& cell) const;
 	void	StartDragRect(const JPoint& pt, const JXMouseButton button,
@@ -225,6 +232,9 @@ private:
 	void	HandleEditMenu(const JIndex item);
 
 	void	CopySelectedFileNames(const JBoolean useFullPath) const;
+
+	void	UpdateGitBranchMenu();
+	void	HandleGitBranchMenu(const JIndex index);
 
 	void	UpdateViewMenu();
 	void	HandleViewMenu(const JIndex index);

@@ -47,6 +47,7 @@
 #include <JXTextMenu.h>
 #include <JXFSDirMenu.h>
 #include <JXRadioGroupDialog.h>
+#include <JXGetStringDialog.h>
 #include <JXTimerTask.h>
 #include <JXToolBar.h>
 #include <JXImage.h>
@@ -55,7 +56,7 @@
 
 #include <JFontManager.h>
 #include <JTableSelection.h>
-#include <JProcess.h>
+#include <JSimpleProcess.h>
 #include <JDirInfo.h>
 #include <jMountUtil.h>
 #include <jStreamUtil.h>
@@ -179,6 +180,10 @@ enum
 static const JCharacter* kMountStr   = "Mount";
 static const JCharacter* kUnmountStr = "Unmount";
 
+// Git Branch menu
+
+static const JCharacter* kGitBranchMenuTitleStr = "Branch";
+
 // Shortcuts menu
 
 static const JCharacter* kShortcutMenuTitleStr = "Shortcuts";
@@ -225,6 +230,10 @@ static const JCharacter* kCreateTextFileErrorID    = "CreateTextFileError::SyGFi
 static const JCharacter* kCreateAliasErrorID       = "CreateAliasError::SyGFileTreeTable";
 static const JCharacter* kWarnEraseDiskID          = "WarnEraseDisk::SyGFileTreeTable";
 static const JCharacter* kRenameErrorID            = "RenameError::SyGFileTreeTable";
+static const JCharacter* kNoBranchInfoID           = "NoBranchInfo::SyGFileTreeTable";
+static const JCharacter* kCreateBranchID           = "CreateBranch::SyGFileTreeTable";
+static const JCharacter* kCreateBranchTitleID      = "CreateBranchTitle::SyGFileTreeTable";
+static const JCharacter* kCreateBranchPromptID     = "CreateBranchPrompt::SyGFileTreeTable";
 
 /******************************************************************************
  Constructor
@@ -254,13 +263,16 @@ SyGFileTreeTable::SyGFileTreeTable
 	itsFileTree					= fileTree;
 	itsFileTreeList				= treeList;
 	itsTreeSet					= treeSet;
-	itsTrashButton              = trashButton;
-	itsUpdateTask               = NULL;
+	itsTrashButton				= trashButton;
+	itsMenuBar					= menuBar;
+	itsGitBranchMenu            = NULL;
+	itsUpdateTask				= NULL;
 	itsEditTask					= NULL;
-	itsUpdateNode               = NULL;
+	itsUpdateNode				= NULL;
 	itsSortNode					= NULL;
 	itsChooseDiskFormatDialog	= NULL;
-	itsFormatProcess            = NULL;
+	itsFormatProcess			= NULL;
+	itsCreateBranchDialog       = NULL;
 	itsIconWidget				= NULL;
 	itsWindowIconType			= 0;
 
@@ -1880,6 +1892,18 @@ SyGFileTreeTable::Receive
 			}
 		}
 
+	else if (sender == itsGitBranchMenu && message.Is(JXMenu::kNeedsUpdate))
+		{
+		UpdateGitBranchMenu();
+		}
+	else if (sender == itsGitBranchMenu && message.Is(JXMenu::kItemSelected))
+		{
+		 const JXMenu::ItemSelected* selection =
+			dynamic_cast(const JXMenu::ItemSelected*, &message);
+		assert( selection != NULL );
+		HandleGitBranchMenu(selection->GetIndex());
+		}
+
 	else if (sender == itsViewMenu && message.Is(JXMenu::kNeedsUpdate))
 		{
 		UpdateViewMenu();
@@ -1936,6 +1960,22 @@ SyGFileTreeTable::Receive
 		JMount(itsFileTree->GetDirectory());
 		delete itsFormatProcess;
 		itsFormatProcess = NULL;
+		}
+
+	else if (sender == itsCreateBranchDialog &&
+			 message.Is(JXDialogDirector::kDeactivated))
+		{
+		const JXDialogDirector::Deactivated* info =
+			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+		assert(info != NULL);
+		if (info->Successful())
+			{
+			JString cmd      = "git checkout -b ";
+			cmd             += itsCreateBranchDialog->GetString();
+			const JError err = JSimpleProcess::Create(itsFileTree->GetDirectory(), cmd, kJFalse);
+			err.ReportIfError();
+			}
+		itsCreateBranchDialog = NULL;
 		}
 
 	else if (sender == itsIconWidget && message.Is(JXWindowIcon::kHandleEnter))
@@ -2110,14 +2150,50 @@ SyGFileTreeTable::UpdateDisplay
 			itsUpdateNode = itsFileTree->GetSyGRoot();
 			}
 
+		const JBoolean updateMenus = JI2B(itsUpdateNode == itsFileTree->GetSyGRoot());
+
 		StopListening(itsUpdateNode);
 		itsFileTree->Update(force, &itsUpdateNode);
 		ListenTo(itsUpdateNode);
+
+		if (updateMenus)
+			{
+			UpdateMenus();
+			}
 		}
 
 	// trash button
 
 	itsTrashButton->UpdateDisplay();
+}
+
+/******************************************************************************
+ UpdateMenus (private)
+
+ ******************************************************************************/
+
+void
+SyGFileTreeTable::UpdateMenus()
+{
+	if (JGetVCSType(itsFileTree->GetDirectory()) == kJGitType)
+		{
+		if (itsGitBranchMenu == NULL)
+			{
+			itsGitBranchMenu = itsMenuBar->AppendTextMenu(kGitBranchMenuTitleStr);
+			ListenTo(itsGitBranchMenu);
+			}
+
+		JIndex index;
+		if (!itsMenuBar->FindMenu(itsGitBranchMenu, &index))
+			{
+			itsMenuBar->InsertMenuBefore(itsShortcutMenu, itsGitBranchMenu);
+			UpdateGitBranchMenu();
+			}
+		}
+	else if (itsGitBranchMenu != NULL)
+		{
+		itsMenuBar->RemoveMenu(itsGitBranchMenu);
+		}
 }
 
 /******************************************************************************
@@ -3425,6 +3501,106 @@ SyGFileTreeTable::SetCurrentColType
 		{
 		itsCurrentColType = type;
 		itsFileTree->SetNodeCompareFunction(type);
+		}
+}
+
+/******************************************************************************
+ UpdateGitBranchMenu
+
+ ******************************************************************************/
+
+void
+SyGFileTreeTable::UpdateGitBranchMenu()
+{
+	itsGitBranchMenu->RemoveAllItems();
+
+	pid_t pid;
+	int fromFD;
+	const JError err = JExecute(itsFileTree->GetDirectory(), "git branch", &pid,
+								kJIgnoreConnection, NULL,
+								kJCreatePipe, &fromFD);
+	if (!err.OK())
+		{
+		itsGitBranchMenu->AppendItem(JGetString(kNoBranchInfoID));
+		itsGitBranchMenu->DisableItem(1);
+		return;
+		}
+
+	JString line;
+	while (1)
+		{
+		line = JReadUntil(fromFD, '\n');
+		if (line.IsEmpty())
+			{
+			break;
+			}
+
+		const JBoolean current = JI2B(line.GetFirstCharacter() == '*');
+		line.RemoveSubstring(1,2);
+
+		itsGitBranchMenu->AppendItem(line, kJFalse, kJTrue);
+		if (current)
+			{
+			itsGitBranchMenu->CheckItem(itsGitBranchMenu->GetItemCount());
+			}
+		}
+
+	if (itsGitBranchMenu->IsEmpty())
+		{
+		itsGitBranchMenu->AppendItem(JGetString(kNoBranchInfoID));
+		itsGitBranchMenu->DisableItem(1);
+		}
+	else
+		{
+		itsGitBranchCount = itsGitBranchMenu->GetItemCount();
+		itsGitBranchMenu->ShowSeparatorAfter(itsGitBranchCount);
+
+		itsGitBranchMenu->AppendItem(JGetString(kCreateBranchID));
+		}
+}
+
+/******************************************************************************
+ HandleGitBranchMenu
+
+ ******************************************************************************/
+
+void
+SyGFileTreeTable::HandleGitBranchMenu
+	(
+	const JIndex index
+	)
+{
+	if (index <= itsGitBranchCount && !itsGitBranchMenu->IsChecked(index))
+		{
+		JString cmd = "git checkout ";
+		cmd        += JPrepArgForExec(itsGitBranchMenu->GetItemText(index));
+
+		int fromFD;
+		const JError err = JExecute(itsFileTree->GetDirectory(), cmd, NULL,
+									kJIgnoreConnection, NULL,
+									kJCreatePipe, &fromFD,
+									kJAttachToFromFD);
+		if (err.OK())
+			{
+			JString msg;
+			JReadAll(fromFD, &msg);
+			(JGetUserNotification())->DisplayMessage(msg);
+
+			JExecute(itsFileTree->GetDirectory(), (SyGGetApplication())->GetPostCheckoutCommand(), NULL);
+			}
+		else
+			{
+			err.ReportIfError();
+			}
+		}
+	else if (index == itsGitBranchCount+1)
+		{
+		itsCreateBranchDialog =
+			new JXGetStringDialog((GetWindow())->GetDirector(), JGetString(kCreateBranchTitleID),
+								  JGetString(kCreateBranchPromptID), "");
+		assert( itsCreateBranchDialog != NULL );
+		itsCreateBranchDialog->Activate();
+		ListenTo(itsCreateBranchDialog);
 		}
 }
 

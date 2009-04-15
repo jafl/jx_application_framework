@@ -125,6 +125,7 @@ SyGFindFileDialog::BuildWindow()
         new JXTextRadioButton(kFindFileAction, JGetString("obj1_JXLayout::SyGFindFileDialog::JXLayout"), itsActionRG,
                     JXWidget::kHElastic, JXWidget::kFixedTop, 10,10, 320,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetShortcuts(JGetString("obj1_JXLayout::SyGFindFileDialog::shortcuts::JXLayout"));
 
     itsHelpButton =
         new JXTextButton(JGetString("itsHelpButton::SyGFindFileDialog::JXLayout"), window,
@@ -146,6 +147,7 @@ SyGFindFileDialog::BuildWindow()
         new JXTextRadioButton(kFindExprAction, JGetString("obj2_JXLayout::SyGFindFileDialog::JXLayout"), itsActionRG,
                     JXWidget::kHElastic, JXWidget::kFixedTop, 10,70, 320,20);
     assert( obj2_JXLayout != NULL );
+    obj2_JXLayout->SetShortcuts(JGetString("obj2_JXLayout::SyGFindFileDialog::shortcuts::JXLayout"));
 
     JXStaticText* obj3_JXLayout =
         new JXStaticText(JGetString("obj3_JXLayout::SyGFindFileDialog::JXLayout"), window,

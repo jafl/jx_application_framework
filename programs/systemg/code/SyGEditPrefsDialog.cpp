@@ -29,12 +29,13 @@ SyGEditPrefsDialog::SyGEditPrefsDialog
 	(
 	const JCharacter*	terminalCmd,
 	const JCharacter*	manViewCmd,
+	const JCharacter*	postCheckoutCmd,
 	const JBoolean		del
 	)
 	:
 	JXDialogDirector(JXGetApplication(), kJTrue)
 {
-	BuildWindow(terminalCmd, manViewCmd, del);
+	BuildWindow(terminalCmd, manViewCmd, postCheckoutCmd, del);
 }
 
 /******************************************************************************
@@ -56,44 +57,45 @@ SyGEditPrefsDialog::BuildWindow
 	(
 	const JCharacter*	terminalCmd,
 	const JCharacter*	manViewCmd,
+	const JCharacter*	postCheckoutCmd,
 	const JBoolean		del
 	)
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 450,220, "");
+    JXWindow* window = new JXWindow(this, 450,270, "");
     assert( window != NULL );
     SetWindow(window);
 
     itsManInput =
         new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 190,110, 245,20);
+                    JXWidget::kHElastic, JXWidget::kFixedTop, 150,110, 285,20);
     assert( itsManInput != NULL );
 
     itsTerminalInput =
         new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 190,130, 245,20);
+                    JXWidget::kHElastic, JXWidget::kFixedTop, 150,130, 285,20);
     assert( itsTerminalInput != NULL );
 
     JXStaticText* obj1_JXLayout =
         new JXStaticText(JGetString("obj1_JXLayout::SyGEditPrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,130, 180,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,130, 140,20);
     assert( obj1_JXLayout != NULL );
 
     JXStaticText* obj2_JXLayout =
         new JXStaticText(JGetString("obj2_JXLayout::SyGEditPrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,110, 180,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,110, 140,20);
     assert( obj2_JXLayout != NULL );
 
     JXTextButton* cancelButton =
         new JXTextButton(JGetString("cancelButton::SyGEditPrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 105,190, 60,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 105,240, 60,20);
     assert( cancelButton != NULL );
     cancelButton->SetShortcuts(JGetString("cancelButton::SyGEditPrefsDialog::shortcuts::JXLayout"));
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::SyGEditPrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 284,189, 62,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 284,239, 62,22);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::SyGEditPrefsDialog::shortcuts::JXLayout"));
 
@@ -119,6 +121,22 @@ SyGEditPrefsDialog::BuildWindow
     assert( obj4_JXLayout != NULL );
     obj4_JXLayout->SetFontSize(10);
 
+    itsPostCheckoutInput =
+        new JXInputField(window,
+                    JXWidget::kHElastic, JXWidget::kFixedTop, 210,180, 225,20);
+    assert( itsPostCheckoutInput != NULL );
+
+    JXStaticText* obj5_JXLayout =
+        new JXStaticText(JGetString("obj5_JXLayout::SyGEditPrefsDialog::JXLayout"), window,
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,180, 200,20);
+    assert( obj5_JXLayout != NULL );
+
+    JXStaticText* obj6_JXLayout =
+        new JXStaticText(JGetString("obj6_JXLayout::SyGEditPrefsDialog::JXLayout"), window,
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,200, 200,20);
+    assert( obj6_JXLayout != NULL );
+    obj6_JXLayout->SetFontSize(10);
+
 // end JXLayout
 
 	window->SetTitle("Edit preferences");
@@ -129,6 +147,9 @@ SyGEditPrefsDialog::BuildWindow
 
 	itsTerminalInput->SetText(terminalCmd);
 	itsTerminalInput->SetIsRequired();
+
+	itsPostCheckoutInput->SetText(postCheckoutCmd);
+	itsPostCheckoutInput->SetIsRequired();
 
 	itsDelCB->SetState(del);
 
@@ -145,12 +166,14 @@ SyGEditPrefsDialog::GetPrefs
 	(
 	JString*	terminalCmd,
 	JString*	manViewCmd,
+	JString*	postCheckoutCmd,
 	JBoolean*	del
 	)
 	const
 {
-	*terminalCmd = itsTerminalInput->GetText();
-	*manViewCmd  = itsManInput->GetText();
+	*terminalCmd     = itsTerminalInput->GetText();
+	*manViewCmd      = itsManInput->GetText();
+	*postCheckoutCmd = itsPostCheckoutInput->GetText();
 
 	*del = itsDelCB->IsChecked();
 

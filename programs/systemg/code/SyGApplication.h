@@ -64,6 +64,9 @@ public:
 	const JString&	GetTerminalCommand() const;
 	void			SetTerminalCommand(const JCharacter* cmd);
 
+	const JString&	GetPostCheckoutCommand() const;
+	void			SetPostCheckoutCommand(const JCharacter* cmd);
+
 	void	DisplayAbout(const JCharacter* prevVersStr = NULL);
 
 	JBoolean	RestoreProgramState();
@@ -90,6 +93,7 @@ private:
 	JStringPtrMap<JString>*	itsMountPointPrefs;
 
 	JString	itsTermCmd;
+	JString	itsPostCheckoutCmd;
 
 private:
 
@@ -176,6 +180,28 @@ SyGApplication::SetTerminalCommand
 {
 	itsTermCmd = cmd;
 	itsTermCmd.TrimWhitespace();
+}
+
+/******************************************************************************
+ Post-checkout command
+
+ ******************************************************************************/
+
+inline const JString&
+SyGApplication::GetPostCheckoutCommand()
+	const
+{
+	return itsPostCheckoutCmd;
+}
+
+inline void
+SyGApplication::SetPostCheckoutCommand
+	(
+	const JCharacter* cmd
+	)
+{
+	itsPostCheckoutCmd = cmd;
+	itsPostCheckoutCmd.TrimWhitespace();
 }
 
 #endif

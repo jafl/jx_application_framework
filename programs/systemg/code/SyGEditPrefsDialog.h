@@ -25,12 +25,13 @@ public:
 
 	SyGEditPrefsDialog(const JCharacter* terminalCmd,
 					   const JCharacter* manViewCmd,
+					   const JCharacter* postCheckoutCmd,
 					   const JBoolean del);
 
 	virtual ~SyGEditPrefsDialog();
 
 	void	GetPrefs(JString* terminalCmd, JString* manViewCmd,
-					 JBoolean* del) const;
+					 JString* postCheckoutCmd, JBoolean* del) const;
 
 private:
 
@@ -40,6 +41,7 @@ private:
     JXInputField*   itsTerminalInput;
     JXTextCheckbox* itsDelCB;
     JXTextCheckbox* itsAllowSpaceCB;
+    JXInputField*   itsPostCheckoutInput;
 
 // end JXLayout
 
@@ -47,6 +49,7 @@ private:
 
 	void	BuildWindow(const JCharacter* terminalCmd,
 						const JCharacter* manViewCmd,
+						const JCharacter* postCheckoutCmd,
 						const JBoolean del);
 
 	// not allowed

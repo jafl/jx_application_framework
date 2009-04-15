@@ -95,6 +95,11 @@ RenameError::SyGFileTreeTable
 
 $err"
 
+NoBranchInfo::SyGFileTreeTable			"No branch information"
+CreateBranch::SyGFileTreeTable			"Create branch..."
+CreateBranchTitle::SyGFileTreeTable		"Create Branch"
+CreateBranchPrompt::SyGFileTreeTable	"Name of new branch:"
+
 # SyGCopyProcess
 
 AskAutoReplace::SyGCopyProcess

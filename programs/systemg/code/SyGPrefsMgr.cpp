@@ -221,8 +221,9 @@ SyGPrefsMgr::EditPrefs()
 
 	const JString manCmd  = (SyGGetManPageDialog())->GetViewManPageCommand();
 	const JString termCmd = (SyGGetApplication())->GetTerminalCommand();
+	const JString coCmd   = (SyGGetApplication())->GetPostCheckoutCommand();
 
-	itsDialog = new SyGEditPrefsDialog(termCmd, manCmd, DelWillDelete());
+	itsDialog = new SyGEditPrefsDialog(termCmd, manCmd, coCmd, DelWillDelete());
 	assert(itsDialog != NULL);
 
 	itsDialog->BeginDialog();
@@ -239,11 +240,12 @@ SyGPrefsMgr::UpdatePrefs()
 {
 	assert( itsDialog != NULL );
 
-	JString manCmd, termCmd;
+	JString manCmd, termCmd, postCheckoutCmd;
 	JBoolean del;
-	itsDialog->GetPrefs(&termCmd, &manCmd, &del);
+	itsDialog->GetPrefs(&termCmd, &manCmd, &postCheckoutCmd, &del);
 
 	(SyGGetApplication())->SetTerminalCommand(termCmd);
+	(SyGGetApplication())->SetPostCheckoutCommand(postCheckoutCmd);
 	(SyGGetManPageDialog())->SetViewManPageCommand(manCmd);
 	DelShouldDelete(del);
 
