@@ -13,6 +13,7 @@
 #include "SyGMDIServer.h"
 #include "SyGHelpText.h"
 #include "SyGViewManPageDialog.h"
+#include "SyGFindFileDialog.h"
 #include "SyGChooseSaveFile.h"
 #include "SyGFileTreeTable.h"
 #include "SyGFileTreeList.h"
@@ -33,6 +34,7 @@ static SyGPrefsMgr*				thePrefsMgr          = NULL;
 static SyGMDIServer*			theMDIServer         = NULL;	// owned by JX
 
 static SyGViewManPageDialog*	theManPageDialog     = NULL;	// not owned
+static SyGFindFileDialog*		theFindFileDialog    = NULL;	// not owned
 static SyGChooseSaveFile*		theAltChooseSaveFile = NULL;
 
 static SyGFileTreeTable*		theDNDSource         = NULL;	// not owned
@@ -123,6 +125,9 @@ SyGCreateGlobals
 	theManPageDialog = new SyGViewManPageDialog(JXGetPersistentWindowOwner());
 	assert( theManPageDialog != NULL );
 
+	theFindFileDialog = new SyGFindFileDialog(JXGetPersistentWindowOwner());
+	assert( theFindFileDialog != NULL );
+
 	theAltChooseSaveFile = new SyGChooseSaveFile(thePrefsMgr, kSAltCSSetupID);
 	assert( theAltChooseSaveFile != NULL );
 
@@ -146,6 +151,9 @@ SyGDeleteGlobals()
 
 	theManPageDialog->JPrefObject::WritePrefs();
 	theManPageDialog = NULL;
+
+	theFindFileDialog->JPrefObject::WritePrefs();
+	theFindFileDialog = NULL;
 
 	delete theAltChooseSaveFile;
 	theAltChooseSaveFile = NULL;
@@ -185,6 +193,7 @@ SyGCleanUpBeforeSuddenDeath
 		{
 		theAltChooseSaveFile->JPrefObject::WritePrefs();
 		theManPageDialog->JPrefObject::WritePrefs();
+		theFindFileDialog->JPrefObject::WritePrefs();
 		}
 
 	// must be last to save everything
@@ -412,6 +421,18 @@ SyGGetManPageDialog()
 {
 	assert( theManPageDialog != NULL );
 	return theManPageDialog;
+}
+
+/******************************************************************************
+ SyGGetFindFileDialog
+
+ ******************************************************************************/
+
+SyGFindFileDialog*
+SyGGetFindFileDialog()
+{
+	assert( theFindFileDialog != NULL );
+	return theFindFileDialog;
 }
 
 /******************************************************************************

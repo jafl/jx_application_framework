@@ -26,6 +26,8 @@ systemg:
 		use these prefs when plain-open is invoked
 		when open prefs file for directory, flush non-existent executables
 
+	if contains .git, menu to switch branches (and run jcc --reload-open)
+
 -----
 
 Mondrian:
@@ -121,9 +123,6 @@ svn_client:
 
 git:
 	http://yuilibrary.com/gitfaq/
-
-	after enable git detection in JGetVCSType
-		test JRenameVCS/JRemoveVCS via SystemG
 
 Dock
 	When compartment minimized and move tab position, should readjust pane sizes

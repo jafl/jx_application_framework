@@ -9,10 +9,9 @@
 
 #include <SyGStdInc.h>
 #include "SyGViewManPageDialog.h"
+#include "SyGPrefsMgr.h"
 #include "SyGGlobals.h"
 #include "SyGHelpText.h"
-#include "SyGPrefsMgr.h"
-#include "SyGApplication.h"
 
 #include <JXWindow.h>
 #include <JXHelpManager.h>

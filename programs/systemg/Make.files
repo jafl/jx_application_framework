@@ -27,7 +27,9 @@
 .cpp ./code/SyGMoveToTrashProcess
 .cpp ./code/SyGDuplicateProcess
 .cpp ./code/SyGBeginEditingTask
+.cpp ./code/SyGFindFileTask
 .cpp ./code/SyGViewManPageDialog
+.cpp ./code/SyGFindFileDialog
 .cpp ./code/SyGChooseSaveFile
 .cpp ./code/SyGChoosePathDialog
 .cpp ./code/SyGTaskBarUtil

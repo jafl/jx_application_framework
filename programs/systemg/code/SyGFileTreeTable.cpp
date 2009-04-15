@@ -17,6 +17,7 @@
 #include "SyGTrashButton.h"
 #include "SyGPrefsMgr.h"
 #include "SyGViewManPageDialog.h"
+#include "SyGFindFileDialog.h"
 #include "SyGChooseSaveFile.h"
 #include "SyGBeginEditingTask.h"
 #include "SyGCopyProcess.h"
@@ -66,6 +67,21 @@
 #include <jASCIIConstants.h>
 #include <jAssert.h>
 
+#include <jx_file_new.xpm>
+#include <jx_file_open.xpm>
+#include <jx_folder_small.xpm>
+#include <jx_find.xpm>
+#include "mini_term.xpm"
+#include "man.xpm"
+#include "home.xpm"
+#include "filter.xpm"
+#include "hidden.xpm"
+#include "user.xpm"
+#include "group.xpm"
+#include "size.xpm"
+#include "mode.xpm"
+#include "month.xpm"
+
 const Time kDirUpdateInterval  = 10;	// milliseconds
 const JCharacter kPermTestChar = 'w';
 
@@ -82,7 +98,8 @@ static const JCharacter* kFileMenuStr =
 	"  | Open ... and iconify this   %k Ctrl-Shift-O     %i" kSGOpenAndIconifyAction
 	"  | Alternate open              %k Meta-Shift-O     %i" kSGAlternateOpenAction
 	"  | Run command on selection... %k Middle-dbl-click %i" kSGRunOnFileAction
-	"%l| Open recent"
+	"%l| Find...                     %k Meta-F           %i" kSGFindAction
+	"  | Open recent"
 	"%l| Rename                      %k Return / F2      %i" kSGRenameAction
 	"  | Convert to file             %k Meta-Shift-F     %i" kSGConvertToFile
 	"  | Convert to program          %k Meta-Shift-P     %i" kSGConvertToProgram
@@ -107,6 +124,7 @@ enum
 	kOpenIconifyCmd,
 	kAltOpenCmd,
 	kRunOnSelCmd,
+	kFindCmd,
 	kOpenRecentItemIndex,
 	kRenameCmd,
 	kConvertToFileCmd,
@@ -160,20 +178,6 @@ enum
 
 static const JCharacter* kMountStr   = "Mount";
 static const JCharacter* kUnmountStr = "Unmount";
-
-#include <jx_file_new.xpm>
-#include <jx_file_open.xpm>
-#include <jx_folder_small.xpm>
-#include "mini_term.xpm"
-#include "man.xpm"
-#include "home.xpm"
-#include "filter.xpm"
-#include "hidden.xpm"
-#include "user.xpm"
-#include "group.xpm"
-#include "size.xpm"
-#include "mode.xpm"
-#include "month.xpm"
 
 // Shortcuts menu
 
@@ -289,6 +293,7 @@ SyGFileTreeTable::SyGFileTreeTable
 	itsFileMenu->SetItemImage(kNewDirCmd,      jx_folder_small);
 	itsFileMenu->SetItemImage(kNewTextFileCmd, jx_file_new);
 	itsFileMenu->SetItemImage(kOpenCmd,        jx_file_open);
+	itsFileMenu->SetItemImage(kFindCmd,        jx_find);
 	itsFileMenu->SetItemImage(kHomeWindowCmd,  home);
 	itsFileMenu->SetItemImage(kViewManCmd,     man);
 	itsFileMenu->SetItemImage(kOpenTermCmd,    mini_term);
@@ -407,6 +412,8 @@ SyGFileTreeTable::LoadToolBarDefaults
 {
 	toolBar->AppendButton(itsFileMenu, kNewDirCmd);
 	toolBar->AppendButton(itsFileMenu, kOpenCmd);
+	toolBar->NewGroup();
+	toolBar->AppendButton(itsFileMenu, kFindCmd);
 	toolBar->NewGroup();
 	toolBar->AppendButton(itsFileMenu, kHomeWindowCmd);
 	toolBar->NewGroup();
@@ -2242,6 +2249,13 @@ SyGFileTreeTable::HandleFileMenu
 	else if (index == kRunOnSelCmd)
 		{
 		OpenSelection(kJFalse, kJTrue, kJFalse, kJFalse);
+		}
+
+	else if (index == kFindCmd)
+		{
+		const JString path = GetCommandPath();
+		(GetWindow())->Deiconify();
+		(SyGGetFindFileDialog())->Search(path);
 		}
 
 	else if (index == kRenameCmd)

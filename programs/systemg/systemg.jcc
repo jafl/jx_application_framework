@@ -101,6 +101,10 @@ T
 2 "SyGBeginEditingTask.cpp"
 F
 "./code/SyGBeginEditingTask.cpp"
+T
+2 "SyGFindFileTask.cpp"
+F
+"./code/SyGFindFileTask.cpp"
 F
 T
 1 "misc"
@@ -108,6 +112,10 @@ T
 2 "SyGViewManPageDialog.cpp"
 F
 "./code/SyGViewManPageDialog.cpp"
+T
+2 "SyGFindFileDialog.cpp"
+F
+"./code/SyGFindFileDialog.cpp"
 T
 2 "SyGChooseSaveFile.cpp"
 F

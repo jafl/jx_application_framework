@@ -27,6 +27,7 @@
 #define kSGOpenAndIconifyAction "SGOpenAndIconify"
 #define kSGAlternateOpenAction  "SGAlternateOpen"
 #define kSGRunOnFileAction      "SGRunOnFile"
+#define kSGFindAction           "SGFind"
 #define kSGRenameAction			"SGRename"
 #define kSGDuplicateAction      "SGDuplicate"
 #define kSGMakeAliasAction      "SGMakeAlias"

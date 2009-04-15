@@ -25,6 +25,7 @@ class JXWidget;
 class SyGPrefsMgr;
 class SyGMDIServer;
 class SyGViewManPageDialog;
+class SyGFindFileDialog;
 class SyGChooseSaveFile;
 class SyGFileTreeTable;
 class SyGFileTreeList;
@@ -33,6 +34,7 @@ SyGApplication*			SyGGetApplication();
 SyGPrefsMgr*			SyGGetPrefsMgr();
 SyGMDIServer*			SyGGetMDIServer();
 SyGViewManPageDialog*	SyGGetManPageDialog();
+SyGFindFileDialog*		SyGGetFindFileDialog();
 SyGChooseSaveFile*		SyGGetChooseSaveFile();
 
 JBoolean	SyGIsTrashDirectory(const JCharacter* path);
