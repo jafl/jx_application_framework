@@ -1403,6 +1403,46 @@ JXMenu::Deactivate()
 }
 
 /******************************************************************************
+ Suspend (virtual)
+
+ ******************************************************************************/
+
+void
+JXMenu::Suspend()
+{
+	const JBoolean wasActive = IsActive();
+	JXWidget::Suspend();
+	if (wasActive && !IsActive())
+		{
+		itsTitleStyle.color = (GetColormap())->GetInactiveLabelColor();
+		if (!itsTitle.IsEmpty())
+			{
+			Refresh();
+			}
+		}
+}
+
+/******************************************************************************
+ Resume (virtual)
+
+ ******************************************************************************/
+
+void
+JXMenu::Resume()
+{
+	const JBoolean wasActive = IsActive();
+	JXWidget::Resume();
+	if (!wasActive && IsActive())
+		{
+		itsTitleStyle.color = itsTrueTitleColor;
+		if (!itsTitle.IsEmpty())
+			{
+			Refresh();
+			}
+		}
+}
+
+/******************************************************************************
  Receive (virtual protected)
 
  ******************************************************************************/

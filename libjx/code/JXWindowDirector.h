@@ -62,8 +62,6 @@ private:
 
 private:
 
-	void	PrivateSuspend();
-
 	// not allowed
 
 	JXWindowDirector(const JXWindowDirector& source);

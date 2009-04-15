@@ -211,6 +211,40 @@ JXTextButton::Deactivate()
 }
 
 /******************************************************************************
+ Suspend (virtual)
+
+ ******************************************************************************/
+
+void
+JXTextButton::Suspend()
+{
+	const JBoolean wasActive = IsActive();
+	JXButton::Suspend();
+	if (wasActive && !IsActive())
+		{
+		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
+		Refresh();
+		}
+}
+
+/******************************************************************************
+ Resume (virtual)
+
+ ******************************************************************************/
+
+void
+JXTextButton::Resume()
+{
+	const JBoolean wasActive = IsActive();
+	JXButton::Resume();
+	if (!wasActive && IsActive())
+		{
+		itsFontStyle.color = itsTrueLabelColor;
+		Refresh();
+		}
+}
+
+/******************************************************************************
  Draw (virtual protected)
 
  ******************************************************************************/

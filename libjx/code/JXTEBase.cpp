@@ -962,6 +962,53 @@ void
 JXTEBase::Activate()
 {
 	JXScrollableWidget::Activate();
+	PrivateActivate();
+}
+
+/******************************************************************************
+ Deactivate (virtual)
+
+ ******************************************************************************/
+
+void
+JXTEBase::Deactivate()
+{
+	JXScrollableWidget::Deactivate();
+	PrivateDeactivate();
+}
+
+/******************************************************************************
+ Suspend (virtual)
+
+ ******************************************************************************/
+
+void
+JXTEBase::Suspend()
+{
+	JXScrollableWidget::Suspend();
+	PrivateDeactivate();
+}
+
+/******************************************************************************
+ Resume (virtual)
+
+ ******************************************************************************/
+
+void
+JXTEBase::Resume()
+{
+	JXScrollableWidget::Resume();
+	PrivateActivate();
+}
+
+/******************************************************************************
+ PrivateActivate (private)
+
+ ******************************************************************************/
+
+void
+JXTEBase::PrivateActivate()
+{
 	if (IsActive() && HasFocus())
 		{
 		TEActivate();
@@ -975,14 +1022,13 @@ JXTEBase::Activate()
 }
 
 /******************************************************************************
- Deactivate (virtual)
+ PrivateDeactivate (private)
 
  ******************************************************************************/
 
 void
-JXTEBase::Deactivate()
+JXTEBase::PrivateDeactivate()
 {
-	JXScrollableWidget::Deactivate();
 	if (!IsActive())
 		{
 		TEDeactivate();

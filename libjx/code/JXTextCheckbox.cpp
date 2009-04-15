@@ -176,6 +176,40 @@ JXTextCheckbox::Deactivate()
 }
 
 /******************************************************************************
+ Suspend (virtual)
+
+ ******************************************************************************/
+
+void
+JXTextCheckbox::Suspend()
+{
+	const JBoolean wasActive = IsActive();
+	JXCheckbox::Suspend();
+	if (wasActive && !IsActive())
+		{
+		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
+		Refresh();
+		}
+}
+
+/******************************************************************************
+ Resume (virtual)
+
+ ******************************************************************************/
+
+void
+JXTextCheckbox::Resume()
+{
+	const JBoolean wasActive = IsActive();
+	JXCheckbox::Resume();
+	if (!wasActive && IsActive())
+		{
+		itsFontStyle.color = itsTrueLabelColor;
+		Refresh();
+		}
+}
+
+/******************************************************************************
  Draw (virtual protected)
 
  ******************************************************************************/

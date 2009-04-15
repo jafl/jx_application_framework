@@ -70,10 +70,8 @@ JCombinePathAndName
 
 	Splits fullName into a path and name.
 
-	This function is only designed to split a path and file name.
-	It asserts if the string that you pass in ends with the directory
-	separator.  If fullName doesn't contain a directory separator, it
-	returns kJFalse and *path is the result of JGetCurrentDirectory().
+	If fullName doesn't contain a directory separator, it returns kJFalse
+	and *path is the result of JGetCurrentDirectory().
 
  ******************************************************************************/
 
@@ -88,7 +86,10 @@ JSplitPathAndName
 	assert( !JStringEmpty(fullName) );
 
 	JString pathAndName = fullName;
-	assert( pathAndName.GetLastCharacter() != ACE_DIRECTORY_SEPARATOR_CHAR );
+	if (pathAndName.GetLastCharacter() == ACE_DIRECTORY_SEPARATOR_CHAR)
+		{
+		JStripTrailingDirSeparator(&pathAndName);
+		}
 
 	JIndex i;
 	if (pathAndName.LocateLastSubstring(ACE_DIRECTORY_SEPARATOR_STR, &i) &&

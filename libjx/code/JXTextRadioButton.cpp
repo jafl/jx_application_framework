@@ -178,6 +178,40 @@ JXTextRadioButton::Deactivate()
 }
 
 /******************************************************************************
+ Suspend (virtual)
+
+ ******************************************************************************/
+
+void
+JXTextRadioButton::Suspend()
+{
+	const JBoolean wasActive = IsActive();
+	JXRadioButton::Suspend();
+	if (wasActive && !IsActive())
+		{
+		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
+		Refresh();
+		}
+}
+
+/******************************************************************************
+ Resume (virtual)
+
+ ******************************************************************************/
+
+void
+JXTextRadioButton::Resume()
+{
+	const JBoolean wasActive = IsActive();
+	JXRadioButton::Resume();
+	if (!wasActive && IsActive())
+		{
+		itsFontStyle.color = itsTrueLabelColor;
+		Refresh();
+		}
+}
+
+/******************************************************************************
  GetPreferredWidth
 
 	Returns the minimum width required to show all the text.

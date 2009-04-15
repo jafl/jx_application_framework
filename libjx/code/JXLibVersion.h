@@ -98,6 +98,9 @@ static const char* kCurrentJXLibVersionStr = "2.5.0";
 //		Fixed subtle bug in Show()/Hide() and Activate()/Deactivate() which
 //			caused crashes if Show()/Activate() was invoked by derived class
 //			Hide()/Deactivate().
+//		Added Suspend()/Resume().  This is subtly different from Activate()/
+//			Deactivate():  It doesn't unfocus the widget, but it still looks
+//			inactive.  IsActive() returns kJFalse when suspended.
 //	JXUNDialogBase:
 //		Updated to respect JUserNotification::BreakMessageCROnly.
 //	JXWDManager:

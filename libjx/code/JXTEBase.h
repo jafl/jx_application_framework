@@ -59,6 +59,9 @@ public:
 	virtual void	Activate();
 	virtual void	Deactivate();
 
+	virtual void	Suspend();
+	virtual void	Resume();
+
 	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
 	virtual void	HandleShortcut(const int key, const JXKeyModifiers& modifiers);
 
@@ -344,6 +347,9 @@ private:
 
 	JBoolean	OKToPassToJTE(const int key, char* c) const;
 	void		RemapWindowsHomeEnd(int* key, JXKeyModifiers* modifiers) const;
+
+	void	PrivateActivate();
+	void	PrivateDeactivate();
 
 	// not allowed
 

@@ -117,6 +117,40 @@ JXToolBarButton::Deactivate()
 }
 
 /******************************************************************************
+ Suspend (virtual)
+
+ ******************************************************************************/
+
+void
+JXToolBarButton::Suspend()
+{
+	const JBoolean wasActive = IsActive();
+	JXButton::Suspend();
+	if (wasActive && !IsActive())
+		{
+		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
+		Refresh();
+		}
+}
+
+/******************************************************************************
+ Resume (virtual)
+
+ ******************************************************************************/
+
+void
+JXToolBarButton::Resume()
+{
+	const JBoolean wasActive = IsActive();
+	JXButton::Resume();
+	if (!wasActive && IsActive())
+		{
+		itsFontStyle.color = itsTrueLabelColor;
+		Refresh();
+		}
+}
+
+/******************************************************************************
  Draw (virtual protected)
 
  ******************************************************************************/

@@ -142,6 +142,9 @@ public:
 	virtual void	Activate();
 	virtual void	Deactivate();
 
+	virtual void	Suspend();
+	virtual void	Resume();
+
 	JBoolean	IsHiddenPopupMenu() const;
 	void		SetToHiddenPopupMenu(const JBoolean isHiddenPopup = kJTrue);
 	JBoolean	PopUp(JXContainer* mouseOwner, const JPoint& pt,

@@ -100,6 +100,7 @@ JXContainer::JXContainerX
 	itsWasActiveFlag   = kJTrue;
 	itsVisibleFlag     = kJFalse;
 	itsWasVisibleFlag  = kJTrue;
+	itsSuspendCount    = 0;
 	itsIsDNDSourceFlag = kJFalse;
 	itsIsDNDTargetFlag = kJFalse;
 	itsGoingAwayFlag   = kJFalse;
@@ -108,8 +109,9 @@ JXContainer::JXContainerX
 		{
 		// inherit settings from enclosure
 
-		itsActiveFlag  = enclosure->IsActive();
-		itsVisibleFlag = enclosure->IsVisible();
+		itsActiveFlag   = enclosure->itsActiveFlag;
+		itsVisibleFlag  = enclosure->itsVisibleFlag;
+		itsSuspendCount = enclosure->itsSuspendCount;
 		}
 
 	itsIsShowingFlag      = kJFalse;
@@ -1179,7 +1181,7 @@ JXContainer::Activate()
 	itsIsActivatingFlag = kJTrue;
 
 	if (itsEnclosure != NULL &&
-		(!itsEnclosure->IsActive() || itsEnclosure->itsIsDeactivatingFlag))
+		(!itsEnclosure->itsActiveFlag || itsEnclosure->itsIsDeactivatingFlag))
 		{
 //		assert( !itsActiveFlag );
 		itsWasActiveFlag = kJTrue;
@@ -1222,7 +1224,7 @@ JXContainer::Deactivate()
 {
 	itsIsDeactivatingFlag = kJTrue;
 
-	if (itsEnclosure != NULL && !itsEnclosure->IsActive())
+	if (itsEnclosure != NULL && !itsEnclosure->itsActiveFlag)
 		{
 //		assert( !itsActiveFlag );
 		itsWasActiveFlag = kJFalse;
@@ -1235,7 +1237,7 @@ JXContainer::Deactivate()
 			for (JIndex i=1; i<=objCount; i++)
 				{
 				JXContainer* widget      = itsEnclosedObjs->NthElement(i);
-				const JBoolean wasActive = widget->IsActive();
+				const JBoolean wasActive = widget->itsActiveFlag;
 				if (wasActive)
 					{
 					widget->Deactivate();
@@ -1271,13 +1273,55 @@ JBoolean
 JXContainer::WouldBeActive()
 	const
 {
-	if (itsEnclosure == NULL || itsEnclosure->IsActive())
+	if (itsEnclosure == NULL || itsEnclosure->itsActiveFlag)
 		{
 		return itsActiveFlag;
 		}
 	else
 		{
 		return itsWasActiveFlag;
+		}
+}
+
+/******************************************************************************
+ Suspend (virtual)
+
+ ******************************************************************************/
+
+void
+JXContainer::Suspend()
+{
+	if (itsEnclosedObjs != NULL)
+		{
+		const JSize objCount = itsEnclosedObjs->GetElementCount();
+		for (JIndex i=1; i<=objCount; i++)
+			{
+			(itsEnclosedObjs->NthElement(i))->Suspend();
+			}
+		}
+	itsSuspendCount++;
+}
+
+/******************************************************************************
+ Resume (virtual)
+
+ ******************************************************************************/
+
+void
+JXContainer::Resume()
+{
+	if (itsSuspendCount > 0)
+		{
+		itsSuspendCount--;
+		}
+
+	if (itsEnclosedObjs != NULL)
+		{
+		const JSize objCount = itsEnclosedObjs->GetElementCount();
+		for (JIndex i=1; i<=objCount; i++)
+			{
+			(itsEnclosedObjs->NthElement(i))->Resume();
+			}
 		}
 }
 

@@ -42,8 +42,6 @@ static const JCharacter* kAskPlainCVSRemoveID = "AskPlainCVSRemove::VCSUtil";
 /******************************************************************************
  JIsVCSDirectory
 
-	This actually checks for all known version control directories.
-
  ******************************************************************************/
 
 JBoolean
@@ -60,8 +58,6 @@ JIsVCSDirectory
 
 /******************************************************************************
  JGetVCSType
-
-	This actually checks for all known version control directories.
 
  ******************************************************************************/
 
@@ -94,15 +90,21 @@ JGetVCSType
 		{
 		return kJSCCSType;
 		}
-/*
- * Must walk the directory structure up to / and check each location.
- *
-	vcsDir = JCombinePathAndName(p, kGitDirName);
-	if (JDirectoryExists(vcsDir))
+
+	// check git last, since it needs to search directory tree up to root
+
+	do
 		{
-		return kJGitType;
+		vcsDir = JCombinePathAndName(p, kGitDirName);
+		if (JDirectoryExists(vcsDir))
+			{
+			return kJGitType;
+			}
+
+		JSplitPathAndName(p, &p, &n);
 		}
-*/
+		while (!JIsRootDirectory(p));
+
 	return kJUnknownVCSType;
 }
 
@@ -143,10 +145,22 @@ JRenameVCS
 	const JCharacter* newFullName
 	)
 {
-	JString newPath, name;
-	JSplitPathAndName(newFullName, &newPath, &name);
+	if (!JNameUsed(oldFullName))
+		{
+		return JDirEntryDoesNotExist(oldFullName);
+		}
 
-	JVCSType type1    = JGetVCSType(oldFullName);
+	JString oldPath, newPath, name;
+	JSplitPathAndName(newFullName, &newPath, &name);
+	JSplitPathAndName(oldFullName, &oldPath, &name);	// must be second
+
+	const JString origPath = JGetCurrentDirectory();
+	if (JChangeDirectory(oldPath) != kJNoError)
+		{
+		return JAccessDenied(oldPath);
+		}
+
+	JVCSType type1    = JGetVCSType(oldPath);
 	JVCSType type2    = JGetVCSType(newPath);
 	JError err        = JNoError();
 	JBoolean tryPlain = kJFalse;
@@ -175,7 +189,7 @@ JRenameVCS
 			}
 
 		cmd  = binary;
-		cmd += JPrepArgForExec(oldFullName);
+		cmd += JPrepArgForExec(name);
 		cmd += " ";
 		cmd += JPrepArgForExec(newFullName);
 
@@ -242,6 +256,7 @@ JRenameVCS
 		}
 
 	delete p;
+	JChangeDirectory(origPath);
 	return err;
 }
 

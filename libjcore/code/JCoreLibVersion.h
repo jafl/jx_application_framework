@@ -96,6 +96,8 @@ static const char* kCurrentJCoreLibVersionStr = "2.5.0";
 //		Added FindNamedChild(), GetNamedChild(), GetNamedParent().
 //	JFSFileTreeNode:
 //		FindChild() moved to base class.
+//	jFileUtil:
+//		JSplitPathAndName() automatically trims trailing separators.
 
 // version 2.5.0:
 //	*** All egcs thunks hacks have been removed.

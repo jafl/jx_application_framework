@@ -120,7 +120,7 @@ JXWindowDirector::SetWindow
 
 	if (IsSuspended())
 		{
-		PrivateSuspend();
+		itsWindow->Suspend();
 		}
 }
 
@@ -198,19 +198,8 @@ JXWindowDirector::Suspend()
 	JXDirector::Suspend();
 	if (itsWindow != NULL && IsSuspended())
 		{
-		PrivateSuspend();
+		itsWindow->Suspend();
 		}
-}
-
-/******************************************************************************
- PrivateSuspend (private)
-
- ******************************************************************************/
-
-void
-JXWindowDirector::PrivateSuspend()
-{
-	itsWindow->Deactivate();
 }
 
 /******************************************************************************
@@ -224,7 +213,7 @@ JXWindowDirector::Resume()
 	JXDirector::Resume();
 	if (itsWindow != NULL && !IsSuspended())
 		{
-		itsWindow->Activate();
+		itsWindow->Resume();
 		}
 }
 

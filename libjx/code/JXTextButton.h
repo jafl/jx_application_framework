@@ -48,6 +48,9 @@ public:
 	virtual void	Activate();
 	virtual void	Deactivate();
 
+	virtual void	Suspend();
+	virtual void	Resume();
+
 protected:
 
 	virtual void	Draw(JXWindowPainter& p, const JRect& rect);

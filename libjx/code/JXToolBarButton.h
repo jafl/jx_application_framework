@@ -50,6 +50,9 @@ public:
 	virtual void	Activate();
 	virtual void	Deactivate();
 
+	virtual void	Suspend();
+	virtual void	Resume();
+
 	JBoolean		NeedsGeometryAdjustment(JBoolean* invalid);
 
 protected:

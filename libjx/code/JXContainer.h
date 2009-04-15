@@ -62,6 +62,10 @@ public:
 	void			SetActive(const JBoolean active);
 	JBoolean		WouldBeActive() const;
 
+	virtual void	Suspend();
+	virtual void	Resume();
+	JBoolean		IsSuspended() const;
+
 	JBoolean		IsDNDSource() const;
 	JBoolean		IsDNDTarget() const;
 
@@ -210,6 +214,7 @@ private:
 	JBoolean	itsWasActiveFlag;	// kJTrue => activate when enclosure is activated
 	JBoolean	itsVisibleFlag;
 	JBoolean	itsWasVisibleFlag;	// kJTrue => show when enclosure is made visible
+	JSize		itsSuspendCount;
 
 	JBoolean	itsIsDNDSourceFlag;
 	JBoolean	itsIsDNDTargetFlag;
@@ -321,7 +326,7 @@ inline JBoolean
 JXContainer::IsActive()
 	const
 {
-	return itsActiveFlag;
+	return JI2B(itsActiveFlag && itsSuspendCount == 0);
 }
 
 /******************************************************************************
@@ -343,6 +348,18 @@ JXContainer::SetActive
 		{
 		Deactivate();
 		}
+}
+
+/******************************************************************************
+ IsSuspended
+
+ ******************************************************************************/
+
+inline JBoolean
+JXContainer::IsSuspended()
+	const
+{
+	return JI2B(itsSuspendCount > 0);
 }
 
 /******************************************************************************
