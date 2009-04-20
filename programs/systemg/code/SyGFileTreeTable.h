@@ -178,6 +178,7 @@ private:
 	JProcess*			itsFormatProcess;			// NULL unless formatting
 
 	JXGetStringDialog*	itsCreateBranchDialog;		// NULL unless creating branch
+	JXGetStringDialog*	itsCommitBranchDialog;		// NULL unless committing branch
 
 	// Drag-and-Drop
 
@@ -235,6 +236,10 @@ private:
 
 	void	UpdateGitBranchMenu();
 	void	HandleGitBranchMenu(const JIndex index);
+
+	void	CreateBranch(const JCharacter* branchName);
+	void	CommitBranch(const JCharacter* msg);
+	void	RevertBranch();
 
 	void	UpdateViewMenu();
 	void	HandleViewMenu(const JIndex index);

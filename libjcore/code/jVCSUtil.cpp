@@ -160,7 +160,13 @@ JRenameVCS
 		return JAccessDenied(oldPath);
 		}
 
-	JVCSType type1    = JGetVCSType(oldPath);
+	JVCSType type1 = JGetVCSType(oldPath);
+	JString rev;
+	if (type1 == kJSVNType && !JGetCurrentSVNRevision(oldFullName, &rev))
+		{
+		type1 = kJUnknownVCSType;
+		}
+
 	JVCSType type2    = JGetVCSType(newPath);
 	JError err        = JNoError();
 	JBoolean tryPlain = kJFalse;
@@ -172,26 +178,29 @@ JRenameVCS
 		}
 	else if (type1 == kJSVNType || type1 == kJGitType)
 		{
-		const JCharacter *binary, *forceArg, *forceMsg, *plainMsg;
+		const JCharacter *forceArg, *forceMsg, *plainMsg;
 		if (type1 == kJSVNType)
 			{
-			binary   = "svn mv ";
+			cmd  = "svn mv ";
+			cmd += JPrepArgForExec(oldFullName);
+			cmd += " ";
+			cmd += JPrepArgForExec(newFullName);
+
 			forceArg = " --force";
 			forceMsg = kAskForceSVNMoveID;
 			plainMsg = kAskPlainSVNMoveID;
 			}
 		else if (type1 == kJGitType)
 			{
-			binary   = "git mv ";
+			cmd  = "git mv ";
+			cmd += JPrepArgForExec(name);
+			cmd += " ";
+			cmd += JPrepArgForExec(newFullName);
+
 			forceArg = " -f";
 			forceMsg = kAskForceGitMoveID;
 			plainMsg = kAskPlainGitMoveID;
 			}
-
-		cmd  = binary;
-		cmd += JPrepArgForExec(name);
-		cmd += " ";
-		cmd += JPrepArgForExec(newFullName);
 
 		err = JSimpleProcess::Create(&p, cmd);
 		if (err.OK())
@@ -285,7 +294,13 @@ JRemoveVCS
 		return JAccessDenied(path);
 		}
 
-	JVCSType type     = JGetVCSType(path);
+	JVCSType type = JGetVCSType(path);
+	JString rev;
+	if (type == kJSVNType && !JGetCurrentSVNRevision(fullName, &rev))
+		{
+		type = kJUnknownVCSType;
+		}
+
 	JError err        = JNoError();
 	JBoolean tryPlain = kJFalse;
 	JString cmd;
@@ -396,11 +411,18 @@ static const JRegex svn4RepositoryPattern2 = "<entry[^>]+url=\"([^\"]+)\"";
 JBoolean
 JGetVCSRepositoryPath
 	(
-	const JCharacter*	path,
+	const JCharacter*	origPath,
 	JString*			repoPath
 	)
 {
+	JString path = origPath, name;
+	if (JFileExists(origPath))
+		{
+		JSplitPathAndName(origPath, &path, &name);
+		}
+
 	const JVCSType type = JGetVCSType(path);
+	JBoolean found      = kJFalse;
 	if (type == kJCVSType)
 		{
 		const JString cvsPath = JCombinePathAndName(path, kCVSDirName);
@@ -415,7 +437,7 @@ JGetVCSRepositoryPath
 		if (!repoPath->IsEmpty() && !repo.IsEmpty())
 			{
 			*repoPath = JCombinePathAndName(*repoPath, repo);
-			return kJTrue;
+			found = kJTrue;
 			}
 		}
 	else if (type == kJSVNType)
@@ -433,7 +455,7 @@ JGetVCSRepositoryPath
 				svn4RepositoryPattern2.MatchWithin(data, range, &matchList))
 				{
 				*repoPath = data.GetSubstring(matchList.GetElement(2));
-				return kJTrue;
+				found = kJTrue;
 				}
 			}
 		else
@@ -448,13 +470,24 @@ JGetVCSRepositoryPath
 				JIgnoreLine(input);		// latest update version
 
 				*repoPath = JReadLine(input);
-				return JI2B(input.good());
+				found     = JI2B(input.good());
 				}
 			}
 		}
 
-	repoPath->Clear();
-	return kJFalse;
+	if (found)
+		{
+		if (!name.IsEmpty())
+			{
+			*repoPath = JCombinePathAndName(*repoPath, name);
+			}
+		return kJTrue;
+		}
+	else
+		{
+		repoPath->Clear();
+		return kJFalse;
+		}
 }
 
 /******************************************************************************
@@ -510,7 +543,10 @@ JGetCurrentSVNRevision
 			JIgnoreLine(input);		// timestamp
 
 			*rev = JReadLine(input);
-			return JI2B(input.good());
+			if (input.good())
+				{
+				return kJTrue;
+				}
 			}
 		}
 

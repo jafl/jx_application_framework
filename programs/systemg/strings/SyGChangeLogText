@@ -20,6 +20,8 @@ If directory is managed by Subversion or Git, attempts to use that when renaming
 <p>
 If the directory is managed by Git, the Branch menu displays the list of available branches and lets you switch between then.
 <p>
+If you hold down the Meta key while selecting an item from the \"Open recent\" menu, it will treat it like \"Alternate open\".
+<p>
 Added <code>--force-new</code> and <code>--no-force-new</code> command line options.  The latter asks System G to display the file in an existing window, if possible.
 <p>
 Fixed crash on OSX 10.4 due to missing <code>/etc/fstab</code>.

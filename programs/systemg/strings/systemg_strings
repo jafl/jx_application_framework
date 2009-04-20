@@ -96,9 +96,15 @@ RenameError::SyGFileTreeTable
 $err"
 
 NoBranchInfo::SyGFileTreeTable			"No branch information"
-CreateBranch::SyGFileTreeTable			"Create branch..."
 CreateBranchTitle::SyGFileTreeTable		"Create Branch"
 CreateBranchPrompt::SyGFileTreeTable	"Name of new branch:"
+CommitBranchTitle::SyGFileTreeTable		"Commit Branch"
+CommitBranchPrompt::SyGFileTreeTable	"Commit log message:"
+WarnRevertBranch::SyGFileTreeTable		"Are you sure you want to discard all changes?"
+
+# SyGFindFileTask
+
+NoMatch::SyGFindFileTask	"No matching files or directories were found."
 
 # SyGCopyProcess
 

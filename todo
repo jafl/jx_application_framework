@@ -1,26 +1,47 @@
-docked medic on Gnome
-	window jitters
-
 nps_svn_client:
 	online help
 	Option to browse specific revision of repo
 		from SVNMainDirector
 			dialog asks for rev/date and value, then open new tab
 
+medic:
+	switch debugger:
+		clear current source window
+		clear names in windows and program button in cmd line window
+	xdebug
+		second connection from xdebug fails to show source/stack/etc
+			restore breakpoints when get new connection
+		temp breakpoint doesn't disappear
+	gdb
+		broken on OSX
+
 jcc:
+	svn diff: compare with tip of trunk, branches/*, tags/*
+		need cmd line support
+		report errors in BuildSVNRepositoryPath
 	CBFileNameDisplay: use JRenameVCS
 
 systemg:
 	if drag from svn directory to svn directory, try "svn move" or "svn copy" first
 		if fails, show error and ask user if want to use --force or plain mv/cp or cancel
+
+		run asynch
+		only if *all* src & dst are same vcs type
+		same flow as JRenameVCS
+
 	symlink drag:  option for relative symlink
 		after drop, ask for relative vs absolute via context menu
 		Convert DND-ask dialog to context menu
 
-	Recent files menu:  Meta key down => alternate open
-	store alternate-open prefs for every executable in the directory
-		use these prefs when plain-open is invoked
-		when open prefs file for directory, flush non-existent executables
+Docking
+	medic dock all windows:  resize causes crash because compartments do not conform to min sizes
+	Gnome/fvwm2 sometimes require dock/undock/dock to get it positioned correctly
+		is this because JX doesn't give WM time to make adjustments?
+	Gnome docking:
+		window sometimes remains on desktop without border
+		dock window moves when drag window from docking compartment with
+			other windows to empty docking compartment
+			Appears to be because Raise() is called twice in a row on the JXDockDirector
 
 -----
 
@@ -117,6 +138,7 @@ svn_client:
 
 git:
 	http://yuilibrary.com/gitfaq/
+	http://www.eecs.harvard.edu/~cduan/technical/git/
 
 Dock
 	When compartment minimized and move tab position, should readjust pane sizes
@@ -129,27 +151,43 @@ Dock
 	doesn't work correctly when "all docked" and show iconified window
 		(e.g., file list)
 
-	Gnome docking:
-		window sometimes remains on desktop without border
-		dock window moves when drag window from docking compartment with
-			other windows to empty docking compartment
-			Appears to be because Raise() is called twice in a row on the JXDockDirector
-
 	When drag in testjx Dock #3, ghost drawing from something
 
 medic:
-	xdebug
-		second connection from xdebug fails to show source/stack/etc
-			restore breakpoints when get new connection
-		temp breakpoint doesn't disappear
-	gdb
-		broken on OSX
-	Quit when last window is closed
 	CMLineNumberTable
 		need helper to set bp condition -- different for each debugger
 	gdb
 		crash when open examine memory window -- disabled temporarily
 	DND for breakpoints -- moves associated commands, conditions, etc.
+
+	Xdebug support:
+		https://becomecloth.burbank.corp.yahoo.com/temp/admin.php?XDEBUG_SESSION_START=abc
+
+		Enable XDSocket::StartTimer() when not debugging
+
+		Always update stack when using xdebug,
+			even if Stack Trace window is hidden
+
+		Eliminate double call to get local vars
+			Preserve existing items; don't just delete all before update
+		Need to request source from debugger instead of assuming that file:// exists
+		Figure out how to *set* values
+		Figure out how to set and display breakpoints
+			Figure out how to support conditional breakpoints, etc.
+
+	Write MI output data parser in CMCommand
+		-file-list-exec-source-files instead of "info sources"
+		-var-create instead of "print ..."
+		-break-list instead of "info breakpoints"
+		-stack-info-frame instead of "info frame"
+		-stack-list-frames instead of "info stack"
+		-file-list-exec-source-file instead of "info source"
+		-stack-list-locals instead of "info locals"
+
+systemg
+	store alternate-open prefs for every executable in the directory
+		use these prefs when plain-open is invoked
+		when open prefs file for directory, flush non-existent executables
 
 arrow
 	fix SaveState() so it doesn't need JFileArray

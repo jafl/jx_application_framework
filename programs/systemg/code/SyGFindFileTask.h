@@ -46,6 +46,7 @@ private:
 	RecordLink*			itsMessageLink;		// can be NULL
 	RecordLink*			itsErrorLink;		// can be NULL
 	JString				itsErrors;			// cache while process is running
+	JBoolean			itsFoundFilesFlag;
 
 private:
 

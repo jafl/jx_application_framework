@@ -14,6 +14,10 @@
 #include <JProcess.h>
 #include <jAssert.h>
 
+// string ID's
+
+static const JCharacter* kNoMatchID = "NoMatch::SyGFindFileTask";
+
 /******************************************************************************
  Create (static)
 
@@ -67,7 +71,8 @@ SyGFindFileTask::SyGFindFileTask
 	)
 	:
 	itsDirector(dir),
-	itsProcess(p)
+	itsProcess(p),
+	itsFoundFilesFlag(kJFalse)
 {
 	SetConnection(outFD, errFD);
 
@@ -161,6 +166,7 @@ SyGFindFileTask::ReceiveMessageLine()
 	assert( ok );
 
 	(SyGGetApplication())->OpenDirectory(path, NULL, kJFalse, kJFalse, kJFalse, kJFalse);
+	itsFoundFilesFlag = kJTrue;
 }
 
 /******************************************************************************
@@ -195,6 +201,10 @@ SyGFindFileTask::DisplayErrors()
 	if (!itsErrors.IsEmpty())
 		{
 		(JGetUserNotification())->ReportError(itsErrors);
+		}
+	else if (!itsFoundFilesFlag)
+		{
+		(JGetUserNotification())->DisplayMessage(JGetString(kNoMatchID));
 		}
 }
 

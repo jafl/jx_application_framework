@@ -183,6 +183,17 @@ static const JCharacter* kUnmountStr = "Unmount";
 // Git Branch menu
 
 static const JCharacter* kGitBranchMenuTitleStr = "Branch";
+static const JCharacter* kGitBranchMenuAddStr =
+	"    Create branch..."
+	"%l| Commit all changes..."
+	"  | Revert all changes";
+
+enum
+{
+	kGitCreateBranchOffset = 1,
+	kGitCommitAllOffset,
+	kGitRevertAllOffset
+};
 
 // Shortcuts menu
 
@@ -231,9 +242,11 @@ static const JCharacter* kCreateAliasErrorID       = "CreateAliasError::SyGFileT
 static const JCharacter* kWarnEraseDiskID          = "WarnEraseDisk::SyGFileTreeTable";
 static const JCharacter* kRenameErrorID            = "RenameError::SyGFileTreeTable";
 static const JCharacter* kNoBranchInfoID           = "NoBranchInfo::SyGFileTreeTable";
-static const JCharacter* kCreateBranchID           = "CreateBranch::SyGFileTreeTable";
 static const JCharacter* kCreateBranchTitleID      = "CreateBranchTitle::SyGFileTreeTable";
 static const JCharacter* kCreateBranchPromptID     = "CreateBranchPrompt::SyGFileTreeTable";
+static const JCharacter* kCommitBranchTitleID      = "CommitBranchTitle::SyGFileTreeTable";
+static const JCharacter* kCommitBranchPromptID     = "CommitBranchPrompt::SyGFileTreeTable";
+static const JCharacter* kWarnRevertBranchID       = "WarnRevertBranch::SyGFileTreeTable";
 
 /******************************************************************************
  Constructor
@@ -273,6 +286,7 @@ SyGFileTreeTable::SyGFileTreeTable
 	itsChooseDiskFormatDialog	= NULL;
 	itsFormatProcess			= NULL;
 	itsCreateBranchDialog       = NULL;
+	itsCommitBranchDialog       = NULL;
 	itsIconWidget				= NULL;
 	itsWindowIconType			= 0;
 
@@ -1869,9 +1883,11 @@ SyGFileTreeTable::Receive
 			SyGAddRecentFile(*link);
 			}
 
+		const JBoolean alternateOpen = ((GetDisplay())->GetLatestKeyModifiers()).meta();
+
 		JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
 		fileList.Append(info->GetFileName());
-		JXFSBindingManager::Exec(fileList);
+		JXFSBindingManager::Exec(fileList, alternateOpen);
 		}
 
 	else if (sender == itsEditMenu && message.Is(JXMenu::kNeedsUpdate))
@@ -1970,12 +1986,21 @@ SyGFileTreeTable::Receive
 		assert(info != NULL);
 		if (info->Successful())
 			{
-			JString cmd      = "git checkout -b ";
-			cmd             += itsCreateBranchDialog->GetString();
-			const JError err = JSimpleProcess::Create(itsFileTree->GetDirectory(), cmd, kJFalse);
-			err.ReportIfError();
+			CreateBranch(itsCreateBranchDialog->GetString());
 			}
 		itsCreateBranchDialog = NULL;
+		}
+	else if (sender == itsCommitBranchDialog &&
+			 message.Is(JXDialogDirector::kDeactivated))
+		{
+		const JXDialogDirector::Deactivated* info =
+			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+		assert(info != NULL);
+		if (info->Successful())
+			{
+			CommitBranch(itsCommitBranchDialog->GetString());
+			}
+		itsCommitBranchDialog = NULL;
 		}
 
 	else if (sender == itsIconWidget && message.Is(JXWindowIcon::kHandleEnter))
@@ -2181,6 +2206,7 @@ SyGFileTreeTable::UpdateMenus()
 			{
 			itsGitBranchMenu = itsMenuBar->AppendTextMenu(kGitBranchMenuTitleStr);
 			ListenTo(itsGitBranchMenu);
+			itsMenuBar->RemoveMenu(itsGitBranchMenu);	// so FindMenu() will fail
 			}
 
 		JIndex index;
@@ -2792,14 +2818,14 @@ SyGFileTreeTable::FindOriginals()
 				JSplitPathAndName(fullName, &path, &name);
 
 				SyGTreeDir* dir;
-				if ((SyGGetApplication())->OpenDirectory(path, &dir))
+				if ((SyGGetApplication())->OpenDirectory(path, &dir, kJTrue, kJTrue, kJFalse))
 					{
 					dir->SelectName(name);
 					}
 				}
 			else
 				{
-				(SyGGetApplication())->OpenDirectory(fullName);
+				(SyGGetApplication())->OpenDirectory(fullName, NULL, kJTrue, kJTrue, kJFalse);
 				}
 			}
 		}
@@ -3555,7 +3581,7 @@ SyGFileTreeTable::UpdateGitBranchMenu()
 		itsGitBranchCount = itsGitBranchMenu->GetItemCount();
 		itsGitBranchMenu->ShowSeparatorAfter(itsGitBranchCount);
 
-		itsGitBranchMenu->AppendItem(JGetString(kCreateBranchID));
+		itsGitBranchMenu->AppendMenuItems(kGitBranchMenuAddStr);
 		}
 }
 
@@ -3593,7 +3619,8 @@ SyGFileTreeTable::HandleGitBranchMenu
 			err.ReportIfError();
 			}
 		}
-	else if (index == itsGitBranchCount+1)
+
+	else if (index == itsGitBranchCount + kGitCreateBranchOffset)
 		{
 		itsCreateBranchDialog =
 			new JXGetStringDialog((GetWindow())->GetDirector(), JGetString(kCreateBranchTitleID),
@@ -3601,6 +3628,111 @@ SyGFileTreeTable::HandleGitBranchMenu
 		assert( itsCreateBranchDialog != NULL );
 		itsCreateBranchDialog->Activate();
 		ListenTo(itsCreateBranchDialog);
+		}
+
+	else if (index == itsGitBranchCount + kGitCommitAllOffset)
+		{
+		itsCommitBranchDialog =
+			new JXGetStringDialog((GetWindow())->GetDirector(), JGetString(kCommitBranchTitleID),
+								  JGetString(kCommitBranchPromptID), "");
+		assert( itsCommitBranchDialog != NULL );
+		itsCommitBranchDialog->Activate();
+		ListenTo(itsCommitBranchDialog);
+		}
+	else if (index == itsGitBranchCount + kGitRevertAllOffset)
+		{
+		RevertBranch();
+		}
+}
+
+/******************************************************************************
+ CreateBranch (private)
+
+ ******************************************************************************/
+
+void
+SyGFileTreeTable::CreateBranch
+	(
+	const JCharacter* branchName
+	)
+{
+	JSimpleProcess* p;
+	JString cmd      = "git checkout -b ";
+	cmd             += JPrepArgForExec(branchName);
+	const JError err = JSimpleProcess::Create(&p, itsFileTree->GetDirectory(), cmd, kJFalse);
+	if (err.OK())
+		{
+		p->WaitUntilFinished();
+		if (p->SuccessfulFinish())
+			{
+			JExecute(itsFileTree->GetDirectory(), (SyGGetApplication())->GetPostCheckoutCommand(), NULL);
+			}
+		delete p;
+		}
+	else
+		{
+		err.ReportIfError();
+		}
+}
+
+/******************************************************************************
+ CommitBranch (private)
+
+ ******************************************************************************/
+
+void
+SyGFileTreeTable::CommitBranch
+	(
+	const JCharacter* msg
+	)
+{
+	JSimpleProcess* p;
+	JString cmd      = "git commit -a -m ";
+	cmd             += JPrepArgForExec(msg);
+	const JError err = JSimpleProcess::Create(&p, itsFileTree->GetDirectory(), cmd, kJFalse);
+	if (err.OK())
+		{
+		p->WaitUntilFinished();
+		if (p->SuccessfulFinish())
+			{
+			JExecute(itsFileTree->GetDirectory(), (SyGGetApplication())->GetPostCheckoutCommand(), NULL);
+			}
+		delete p;
+		}
+	else
+		{
+		err.ReportIfError();
+		}
+}
+
+/******************************************************************************
+ RevertBranch (private)
+
+ ******************************************************************************/
+
+void
+SyGFileTreeTable::RevertBranch()
+{
+	if (!(JGetUserNotification())->AskUserNo(JGetString(kWarnRevertBranchID)))
+		{
+		return;
+		}
+
+	JSimpleProcess* p;
+	const JError err = JSimpleProcess::Create(&p, itsFileTree->GetDirectory(),
+											  "git reset --hard", kJFalse);
+	if (err.OK())
+		{
+		p->WaitUntilFinished();
+		if (p->SuccessfulFinish())
+			{
+			JExecute(itsFileTree->GetDirectory(), (SyGGetApplication())->GetPostCheckoutCommand(), NULL);
+			}
+		delete p;
+		}
+	else
+		{
+		err.ReportIfError();
 		}
 }
 
