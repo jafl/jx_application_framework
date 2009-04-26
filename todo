@@ -1,10 +1,13 @@
 nps_svn_client:
-	online help
+	merge Remove selected files & Remove selected properties into Remove selected items
+	Copy needs to work on Properties tab  (Copy full path should be disabled)
 	Option to browse specific revision of repo
 		from SVNMainDirector
 			dialog asks for rev/date and value, then open new tab
 
 medic:
+	gdb
+		broken on OSX
 	switch debugger:
 		clear current source window
 		clear names in windows and program button in cmd line window
@@ -12,13 +15,9 @@ medic:
 		second connection from xdebug fails to show source/stack/etc
 			restore breakpoints when get new connection
 		temp breakpoint doesn't disappear
-	gdb
-		broken on OSX
 
 jcc:
-	svn diff: compare with tip of trunk, branches/*, tags/*
-		need cmd line support
-		report errors in BuildSVNRepositoryPath
+	Meta-Return in line number: CRLineIndexToVisualLineIndex
 	CBFileNameDisplay: use JRenameVCS
 
 systemg:
@@ -102,7 +101,7 @@ jcc:
 		when invoke one-at-a-time from not-one-at-a-time, invoke separate loop
 		when invoke @ commands, must treat as one-at-a-time
 	After rename file, check open projects and update
-	import/export cmd menu contents from editor window
+	import/export Task menu contents
 	search results:  option to show n lines above and below matching line
 
 svn_client:

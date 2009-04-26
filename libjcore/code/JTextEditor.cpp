@@ -2854,9 +2854,21 @@ JTextEditor::SelectionMatches
 	// We cannot match only the selected text, because that will fail if
 	// there are look-behind or look-ahead assertions.
 
-	JIndexRange matchRange;
-	return JI2B(regex.MatchFrom(*itsBuffer, itsSelection.first, &matchRange) &&
-				matchRange == itsSelection);
+	const JBoolean matches = regex.MatchFrom(*itsBuffer, itsSelection.first, submatchList);
+	if (matches && submatchList->GetFirstElement() == itsSelection)
+		{
+		const JSize count = submatchList->GetElementCount();
+		for (JIndex i=1; i<=count; i++)
+			{
+			submatchList->SetElement(i, submatchList->GetElement(i) - itsSelection.first + 1);
+			}
+
+		return kJTrue;
+		}
+	else
+		{
+		return kJFalse;
+		}
 }
 
 /******************************************************************************

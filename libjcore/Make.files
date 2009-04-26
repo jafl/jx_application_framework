@@ -46,6 +46,7 @@ jGlobals
 jGlobals_UNIX
 jMouseUtil
 jVCSUtil
+jXMLUtil
 
 jAssert
 JAssertBase

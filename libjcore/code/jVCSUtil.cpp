@@ -109,6 +109,51 @@ JGetVCSType
 }
 
 /******************************************************************************
+ JIsManagedByVCS
+
+ ******************************************************************************/
+
+JBoolean
+JIsManagedByVCS
+	(
+	const JCharacter* fullName
+	)
+{
+	JVCSType type = JGetVCSType(fullName);
+	if (type == kJSVNType)
+		{
+		JString path, name, entriesFileName, data, pattern;
+		JSplitPathAndName(fullName, &path, &name);
+		entriesFileName = JCombinePathAndName(path, ".svn");
+		entriesFileName = JCombinePathAndName(entriesFileName, "entries");
+		JReadFile(entriesFileName, &data);
+
+		if (data.BeginsWith("<?xml"))
+			{
+			pattern = "<entry[^>]+name=\"" + JRegex::BackslashForLiteral(name) + "\"(.|\n)*?>";
+			JRegex r(pattern);
+			return r.Match(data);
+			}
+		else
+			{
+			std::istrstream input(data, data.GetLength());
+
+			const JString version = JReadLine(input);
+			if (version == "8" || version == "9")
+				{
+				pattern = "\n\f\n" + name + "\n";
+
+				JBoolean found;
+				JIgnoreUntil(input, pattern, &found);
+				return found;
+				}
+			}
+		}
+
+	return kJFalse;
+}
+
+/******************************************************************************
  JEditVCS
 
  ******************************************************************************/
@@ -161,8 +206,7 @@ JRenameVCS
 		}
 
 	JVCSType type1 = JGetVCSType(oldPath);
-	JString rev;
-	if (type1 == kJSVNType && !JGetCurrentSVNRevision(oldFullName, &rev))
+	if (type1 == kJSVNType && !JIsManagedByVCS(oldFullName))
 		{
 		type1 = kJUnknownVCSType;
 		}
@@ -531,21 +575,28 @@ JGetCurrentSVNRevision
 		if (version == "8" || version == "9")
 			{
 			pattern = "\n\f\n" + name + "\n";
-			JIgnoreUntil(input, pattern);
 
-			JIgnoreLine(input);		// file
-			JIgnoreLine(input);		// ???
-			JIgnoreLine(input);		// ???
-			JIgnoreLine(input);		// ???
-			JIgnoreLine(input);		// ???
-			JIgnoreLine(input);		// timestamp
-			JIgnoreLine(input);		// hash
-			JIgnoreLine(input);		// timestamp
-
-			*rev = JReadLine(input);
-			if (input.good())
+			JBoolean found;
+			JIgnoreUntil(input, pattern, &found);
+			if (found)
 				{
-				return kJTrue;
+				const JString data2 = JReadUntil(input, '\f');
+				std::istrstream input2(data2, data2.GetLength());
+
+				JIgnoreLine(input2);		// file
+				JIgnoreLine(input2);		// ???
+				JIgnoreLine(input2);		// ???
+				JIgnoreLine(input2);		// ???
+				JIgnoreLine(input2);		// ???
+				JIgnoreLine(input2);		// timestamp
+				JIgnoreLine(input2);		// hash
+				JIgnoreLine(input2);		// timestamp
+
+				*rev = JReadLine(input2);
+				if (input2.good())
+					{
+					return kJTrue;
+					}
 				}
 			}
 		}

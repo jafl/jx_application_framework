@@ -12,7 +12,8 @@ GDDIR    := ${JX_ROOT}/misc/gd
 
 # Directories to search for header files
 
-SEARCHDIRS := -I${JCOREDIR}
+SEARCHDIRS := -I${JCOREDIR} \
+              `xml2-config --cflags`
 
 # makemake variables
 

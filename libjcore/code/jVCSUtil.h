@@ -34,6 +34,7 @@ public:
 
 JBoolean	JIsVCSDirectory(const JCharacter* name);
 JVCSType	JGetVCSType(const JCharacter* path);
+JBoolean	JIsManagedByVCS(const JCharacter* fullName);
 
 void		JEditVCS(const JCharacter* fullName);
 JError		JRenameVCS(const JCharacter* oldFullName, const JCharacter* newFullName);

@@ -86,6 +86,8 @@ ifdef ACE_ROOT
   SEARCHDIRS += -I${ACE_ROOT}
 endif
 
+J_GCC_LIBS := -lxml2 ${J_GCC_LIBS}
+
 ifdef J_HAS_GD
   J_GCC_LIBS := -lpng -ljpeg ${J_GCC_LIBS}
 endif
@@ -94,8 +96,8 @@ ifdef J_BUILD_SHARED_LIB
   J_GCC_LIBS += -Xlinker -R${shell cd ${JX_ROOT}/lib; pwd}
 endif
 
-J_SYS_LIBS := ${J_ACE_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
-J_STD_LIBS := -L${JX_ROOT}/lib ${ljtoolbar} ${ljtree} ${ljx} ${ljcore} ${J_SYS_LIBS}
+J_SYS_LIBS :=  ${J_ACE_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
+J_STD_LIBS := -L${JX_ROOT}/lib ${ljx} ${ljcore} ${J_SYS_LIBS}
 
 #
 # strip commands -- no spaces allowed!

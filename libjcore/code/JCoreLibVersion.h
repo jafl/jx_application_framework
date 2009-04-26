@@ -69,6 +69,7 @@ static const char* kCurrentJCoreLibVersionStr = "2.5.0";
 //		Fixed JUpdateCVSIgnore() to not create file if using SVN or SCCS.
 //		Added JGetVCSRepositoryPath().
 //		Added kJGitType.
+//		Added JIsManagedByVCS().
 //	JTextEditor:
 //		Added boolean deleteToTabStop argument to TEHandleKeyPress().
 //		Added CleanAllWhitespace(), CleanSelectedWhitespace(), CleanWhitespace().
