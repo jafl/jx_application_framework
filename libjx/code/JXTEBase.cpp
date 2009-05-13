@@ -63,9 +63,6 @@ JXTEBase::PartialWordModifier JXTEBase::itsPWMod = JXTEBase::kCtrlMetaPWMod;
 JBoolean JXTEBase::itsWindowsHomeEndFlag         = kJTrue;
 JBoolean JXTEBase::itsScrollCaretFlag            = kJFalse;
 
-static const JCharacter* kDNDActionCopyDescrip = "copy the text";
-static const JCharacter* kDNDActionMoveDescrip = "move the text";
-
 static const JCharacter* kSelectionDataID = "JXTEBase";
 
 struct MenuItemInfo
@@ -80,6 +77,11 @@ const JCharacter* JXTEBase::kNoData            = "NoData::JXTEBase";
 const JCharacter* JXTEBase::kDataNotCompatible = "DataNotCompatible::JXTEBase";
 
 static const JCharacter* kDataNotCompatibleExtra = "DataNotCompatibleExtra::JXTEBase";
+
+// string ID's
+
+static const JCharacter* kDNDActionCopyDescriptionID = "CopyDescription::JXTEBase";
+static const JCharacter* kDNDActionMoveDescriptionID = "MoveDescription::JXTEBase";
 
 // Edit menu
 
@@ -670,11 +672,11 @@ JXTEBase::GetDNDAskActions
 	askActionList->AppendElement(dndMgr->GetDNDActionCopyXAtom());
 	askActionList->AppendElement(dndMgr->GetDNDActionMoveXAtom());
 
-	JString* s = new JString(kDNDActionCopyDescrip);
+	JString* s = new JString(kDNDActionCopyDescriptionID);
 	assert( s != NULL );
 	askDescriptionList->Append(s);
 
-	s = new JString(kDNDActionMoveDescrip);
+	s = new JString(kDNDActionMoveDescriptionID);
 	assert( s != NULL );
 	askDescriptionList->Append(s);
 }

@@ -99,6 +99,7 @@ static const char* kCurrentJCoreLibVersionStr = "2.5.0";
 //		FindChild() moved to base class.
 //	jFileUtil:
 //		JSplitPathAndName() automatically trims trailing separators.
+//	Created jXMLUtil.
 
 // version 2.5.0:
 //	*** All egcs thunks hacks have been removed.

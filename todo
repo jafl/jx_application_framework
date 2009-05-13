@@ -1,10 +1,3 @@
-nps_svn_client:
-	merge Remove selected files & Remove selected properties into Remove selected items
-	Copy needs to work on Properties tab  (Copy full path should be disabled)
-	Option to browse specific revision of repo
-		from SVNMainDirector
-			dialog asks for rev/date and value, then open new tab
-
 medic:
 	gdb
 		broken on OSX
@@ -17,20 +10,19 @@ medic:
 		temp breakpoint doesn't disappear
 
 jcc:
-	Meta-Return in line number: CRLineIndexToVisualLineIndex
-	CBFileNameDisplay: use JRenameVCS
+	rock-stupid cmd line window:  Meta-Return executes (blocking window)
 
 systemg:
 	if drag from svn directory to svn directory, try "svn move" or "svn copy" first
 		if fails, show error and ask user if want to use --force or plain mv/cp or cancel
 
-		run asynch
+		run async
 		only if *all* src & dst are same vcs type
 		same flow as JRenameVCS
 
-	symlink drag:  option for relative symlink
-		after drop, ask for relative vs absolute via context menu
-		Convert DND-ask dialog to context menu
+	store alternate-open prefs for every executable in the directory
+		use these prefs when plain-open is invoked
+		when open prefs file for directory, flush non-existent executables
 
 Docking
 	medic dock all windows:  resize causes crash because compartments do not conform to min sizes
@@ -182,11 +174,6 @@ medic:
 		-stack-list-frames instead of "info stack"
 		-file-list-exec-source-file instead of "info source"
 		-stack-list-locals instead of "info locals"
-
-systemg
-	store alternate-open prefs for every executable in the directory
-		use these prefs when plain-open is invoked
-		when open prefs file for directory, flush non-existent executables
 
 arrow
 	fix SaveState() so it doesn't need JFileArray

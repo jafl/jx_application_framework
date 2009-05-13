@@ -14,6 +14,8 @@
 #include <jFileUtil.h>
 #include <jStreamUtil.h>
 #include <jFStreamUtil.h>
+#include <jXMLUtil.h>
+#include <libxml/parser.h>
 #include <strstream>
 #include <jGlobals.h>
 #include <jAssert.h>
@@ -339,8 +341,7 @@ JRemoveVCS
 		}
 
 	JVCSType type = JGetVCSType(path);
-	JString rev;
-	if (type == kJSVNType && !JGetCurrentSVNRevision(fullName, &rev))
+	if (type == kJSVNType && !JIsManagedByVCS(fullName))
 		{
 		type = kJUnknownVCSType;
 		}
@@ -602,6 +603,63 @@ JGetCurrentSVNRevision
 		}
 
 	rev->Clear();
+	return kJFalse;
+}
+
+/******************************************************************************
+ JGetSVNEntryType
+
+	*** This function makes a synchronous call to the central repository!
+	*** It is only useful for command line interaction.
+
+	If the process succeeds, *type is the entry's "kind":  file or dir
+
+	If the process fails, the error output is returned in *error.
+
+ ******************************************************************************/
+
+JBoolean
+JGetSVNEntryType
+	(
+	const JCharacter*	url,
+	JString*			type,
+	JString*			error
+	)
+{
+	type->Clear();
+	error->Clear();
+
+	JString cmd = "svn info --xml " + JPrepArgForExec(url);
+	JProcess* p;
+	int fromFD, errFD;
+	JError err = JProcess::Create(&p, cmd, kJIgnoreConnection, NULL,
+								  kJCreatePipe, &fromFD, kJCreatePipe, &errFD);
+	if (!err.OK())
+		{
+		err.ReportIfError();
+		return kJFalse;
+		}
+
+	p->WaitUntilFinished();
+	if (p->SuccessfulFinish())
+		{
+		xmlDoc* doc = xmlReadFd(fromFD, NULL, NULL, XML_PARSE_NOBLANKS | XML_PARSE_NOCDATA);
+		close(fromFD);
+		if (doc != NULL)
+			{
+			xmlNode* root = xmlDocGetRootElement(doc);
+
+			if (root != NULL &&
+				strcmp((char*) root->name, "info") == 0 &&
+				strcmp((char*) root->children->name, "entry") == 0)
+				{
+				*type = JGetXMLNodeAttr(root->children, "kind");
+				return kJTrue;
+				}
+			}
+		}
+
+	JReadAll(errFD, error, kJTrue);
 	return kJFalse;
 }
 

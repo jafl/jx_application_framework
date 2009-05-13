@@ -216,7 +216,7 @@ JFileArray::OKToCreateBase
 		{
 		if (!JFileWritable(fileName))
 			{
-			return FileNotWritable();
+			return FileNotWritable(fileName);
 			}
 
 		ifstream input(fileName);
@@ -227,7 +227,7 @@ JFileArray::OKToCreateBase
 		const JString signature = JRead(input, sigLength);
 		if (signature != fileSignature)
 			{
-			return WrongSignature();
+			return WrongSignature(fileName);
 			}
 
 		// check open flag
@@ -238,7 +238,7 @@ JFileArray::OKToCreateBase
 			}
 		else if (action == kFailIfOpen)
 			{
-			return FileAlreadyOpen();
+			return FileAlreadyOpen(fileName);
 			}
 		else if (action == kDeleteIfOpen)
 			{
@@ -263,7 +263,7 @@ JFileArray::OKToCreateBase
 				}
 			else
 				{
-				return FileAlreadyOpen();
+				return FileAlreadyOpen(fileName);
 				}
 			}
 		}
@@ -378,11 +378,11 @@ JFileArray::OKToCreateEmbedded
 		JFileArrayIndex* fileIndex = theEnclosingFile->GetFileArrayIndex();
 		if (!fileIndex->IsEmbeddedFile(index))
 			{
-			return NotEmbeddedFile();
+			return NotEmbeddedFile(index.GetIndex());
 			}
 		else if (!fileIndex->EmbeddedFileIsClosed(index))
 			{
-			return FileAlreadyOpen();
+			return FileAlreadyOpen("embedded file");
 			}
 		}
 
@@ -1732,4 +1732,63 @@ JFileArray::ElementsSwapped::AdjustIndex
 	JIndex i = index->GetIndex();
 	JAdjustIndexAfterSwap(itsIndex1.GetIndex(), itsIndex2.GetIndex(), &i);
 	index->SetIndex(i);
+}
+
+/******************************************************************************
+ JError constructors
+
+ ******************************************************************************/
+
+static const JCharacter* kJFileArrayMsgMap[] =
+	{
+	"name", NULL
+	};
+
+
+JFileArray::FileNotWritable::FileNotWritable
+	(
+	const JCharacter* fileName
+	)
+	:
+	JError(JFileArray::kFileNotWritable, "")
+{
+	kJFileArrayMsgMap[1] = fileName;
+	SetMessage(kJFileArrayMsgMap, sizeof(kJFileArrayMsgMap));
+}
+
+JFileArray::FileAlreadyOpen::FileAlreadyOpen
+	(
+	const JCharacter* fileName
+	)
+	:
+	JError(JFileArray::kFileAlreadyOpen, "")
+{
+	kJFileArrayMsgMap[1] = fileName;
+	SetMessage(kJFileArrayMsgMap, sizeof(kJFileArrayMsgMap));
+}
+
+JFileArray::WrongSignature::WrongSignature
+	(
+	const JCharacter* fileName
+	)
+	:
+	JError(JFileArray::kWrongSignature, "")
+{
+	kJFileArrayMsgMap[1] = fileName;
+	SetMessage(kJFileArrayMsgMap, sizeof(kJFileArrayMsgMap));
+}
+
+JFileArray::NotEmbeddedFile::NotEmbeddedFile
+	(
+	const JIndex index
+	)
+	:
+	JError(JFileArray::kNotEmbeddedFile, "")
+{
+	const JString s(index, JString::kBase10);
+	static const JCharacter* map[] =
+	{
+		"index", s
+	};
+	SetMessage(map, sizeof(map));
 }

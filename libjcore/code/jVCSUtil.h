@@ -45,6 +45,7 @@ JBoolean	JGetVCSRepositoryPath(const JCharacter* path, JString* repoPath);
 // SVN specific
 
 JBoolean	JGetCurrentSVNRevision(const JCharacter* fullName, JString* rev);
+JBoolean	JGetSVNEntryType(const JCharacter* url, JString* type, JString* error);
 
 // CVS specific
 

@@ -224,7 +224,8 @@ private:
 	void	OpenSelection(const JBoolean alternate, const JBoolean alwaysRunCmd,
 						  const JBoolean iconifyAfter, const JBoolean closeAfter);
 
-	void	MakeLinkToFile(const JString& src, const SyGFileTreeNode* parentNode);
+	void	MakeLinkToFile(const JString& src, const SyGFileTreeNode* parentNode,
+						   const JBoolean allowRelative);
 	JString	GetCommandPath() const;
 
 	void	ChangeExecPermission(const JBoolean canExec);

@@ -332,40 +332,28 @@ public:
 		{
 		public:
 
-			FileNotWritable()
-				:
-				JError(kFileNotWritable)
-			{ };
+			FileNotWritable(const JCharacter* fileName);
 		};
 
 	class FileAlreadyOpen : public JError
 		{
 		public:
 
-			FileAlreadyOpen()
-				:
-				JError(kFileAlreadyOpen)
-			{ };
+			FileAlreadyOpen(const JCharacter* fileName);
 		};
 
 	class WrongSignature : public JError
 		{
 		public:
 
-			WrongSignature()
-				:
-				JError(kWrongSignature)
-			{ };
+			WrongSignature(const JCharacter* fileName);
 		};
 
 	class NotEmbeddedFile : public JError
 		{
 		public:
 
-			NotEmbeddedFile()
-				:
-				JError(kNotEmbeddedFile)
-			{ };
+			NotEmbeddedFile(const JIndex index);
 		};
 };
 

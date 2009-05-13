@@ -247,6 +247,7 @@ static const JCharacter* kCreateBranchPromptID     = "CreateBranchPrompt::SyGFil
 static const JCharacter* kCommitBranchTitleID      = "CommitBranchTitle::SyGFileTreeTable";
 static const JCharacter* kCommitBranchPromptID     = "CommitBranchPrompt::SyGFileTreeTable";
 static const JCharacter* kWarnRevertBranchID       = "WarnRevertBranch::SyGFileTreeTable";
+static const JCharacter* kAskRelativeAliasID       = "AskRelativeAlias::SyGFileTreeTable";
 
 /******************************************************************************
  Constructor
@@ -1543,7 +1544,7 @@ SyGFileTreeTable::HandleDNDDrop
 					const JSize count = fileNameList->GetElementCount();
 					for (JIndex i=1; i<=count; i++)
 						{
-						MakeLinkToFile(*(fileNameList->NthElement(i)), destNode);
+						MakeLinkToFile(*(fileNameList->NthElement(i)), destNode, kJTrue);
 						}
 
 					delete fileNameList;
@@ -2739,7 +2740,7 @@ SyGFileTreeTable::MakeLinks()
 	for (JIndex i=1; i<=count; i++)
 		{
 		const SyGFileTreeNode* node = nodeList.NthElement(i);
-		MakeLinkToFile((node->GetDirEntry())->GetFullName(), node->GetSyGParent());
+		MakeLinkToFile((node->GetDirEntry())->GetFullName(), node->GetSyGParent(), kJFalse);
 		}
 
 	if (s.GetSingleSelectedCell(&cell))
@@ -2756,10 +2757,12 @@ SyGFileTreeTable::MakeLinks()
 void
 SyGFileTreeTable::MakeLinkToFile
 	(
-	const JString&			src,
-	const SyGFileTreeNode*	parentNode
+	const JString&			origSrc,
+	const SyGFileTreeNode*	parentNode,
+	const JBoolean			allowRelative
 	)
 {
+	JString src = origSrc;
 	JString srcPath, srcName;
 	JSplitPathAndName(src, &srcPath, &srcName);
 
@@ -2772,8 +2775,15 @@ SyGFileTreeTable::MakeLinkToFile
 		}
 	root += "_alias";
 
-	const JString dest = JGetUniqueDirEntryName(destPath, root, suffix);
-	const JError err   = JCreateSymbolicLink(src, dest);
+	JString dest = JGetUniqueDirEntryName(destPath, root, suffix);
+
+	if (allowRelative &&
+		(JGetUserNotification())->AskUserYes(JGetString(kAskRelativeAliasID)))
+		{
+		src = JConvertToRelativePath(src, destPath);
+		}
+
+	const JError err = JCreateSymbolicLink(src, dest);
 	if (err.OK())
 		{
 		JString p, n;

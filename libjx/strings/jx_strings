@@ -7,6 +7,8 @@
 NoData::JXTEBase					"The X Clipboard is empty."
 DataNotCompatible::JXTEBase			"Unable to paste the current contents of the X Clipboard."
 DataNotCompatibleExtra::JXTEBase	"  (Unknown type:  $atom)"
+CopyDescription::JXTEBase			"copy the text"
+MoveDescription::JXTEBase			"move the text"
 
 # JXInputField
 
