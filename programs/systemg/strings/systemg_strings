@@ -110,6 +110,27 @@ NoMatch::SyGFindFileTask	"No matching files or directories were found."
 
 # SyGCopyProcess
 
+MixedVCSMove::SyGCopyProcess
+"The items you are moving and/or the destination are managed by different version control systems.
+
+If you move all the items at the same time, you may corrupt your working copies.
+
+Do you want to continue?"
+
+SomeVCSMove::SyGCopyProcess
+"Some of the items you are moving and/or the destination are managed by a version control system.  Other items are not managed.
+
+If you move all the items at the same time, you may corrupt your working copy.
+
+Do you want to continue?"
+
+NoTargetVCSMove::SyGCopyProcess
+"The items you are moving are managed by a version control system.  The destination is not managed.
+
+If you move the items, you may corrupt your working copy.
+
+Do you want to continue?"
+
 AskAutoReplace::SyGCopyProcess
 "Do you wish to replace the existing items automatically?"
 

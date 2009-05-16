@@ -18,7 +18,7 @@
 #include <JFSFileTree.h>
 #include <JDirInfo.h>
 #include <jFileUtil.h>
-#include <jDirUtil.h>
+#include <jVCSUtil.h>
 #include <jMountUtil.h>
 #include <jAssert.h>
 
@@ -29,6 +29,9 @@ static const JCharacter* kAskReplaceID            = "AskReplace::SyGCopyProcess"
 static const JCharacter* kOnlyReplaceSameTypeID   = "OnlyReplaceSameType::SyGCopyProcess";
 static const JCharacter* kNoMoveIntoSelfID        = "NoMoveIntoSelf::SyGCopyProcess";
 static const JCharacter* kNoReplaceWithContentsID = "NoReplaceWithContents::SyGCopyProcess";
+static const JCharacter* kMixedVCSMoveID          = "MixedVCSMove::SyGCopyProcess";
+static const JCharacter* kSomeVCSMoveID           = "SomeVCSMove::SyGCopyProcess";
+static const JCharacter* kNoTargetVCSMoveID       = "NoTargetVCSMove::SyGCopyProcess";
 
 /******************************************************************************
  Constructor function (static)
@@ -278,9 +281,61 @@ SyGCopyProcess::SyGCopyProcess
 	itsSrcNameList(srcNameList),
 	itsDestTable(destTable),
 	itsDestNode(destNode),
-	itsIsMoveFlag(!isCopy)
+	itsIsMoveFlag(!isCopy),
+	itsProcess(NULL)
 {
 	assert( !itsSrcNameList->IsEmpty() );
+	itsSrcNameList->SetCleanUpAction(JPtrArrayT::kDeleteAll);
+
+	JString destPath = (itsDestNode->GetDirEntry())->GetFullName();
+	JAppendDirSeparator(&destPath);
+
+	JVCSType vcsType = kJUnknownVCSType;
+	if (!isCopy)
+		{
+		JVCSType type1, type2;
+		JBoolean anyVCS  = JIsManagedByVCS(*(srcNameList->FirstElement()), &type1);
+		JBoolean allVCS  = anyVCS;
+		JBoolean sameVCS = anyVCS;
+
+		const JSize srcCount = srcNameList->GetElementCount();
+		for (JIndex i=2; i<=srcCount; i++)
+			{
+			if (JIsManagedByVCS(*(srcNameList->NthElement(i)), &type2))
+				{
+				if (type2 != type1)
+					{
+					sameVCS = kJFalse;
+					}
+				anyVCS = kJTrue;
+				}
+			else
+				{
+				sameVCS = allVCS = kJFalse;
+				}
+			}
+
+		if (allVCS && sameVCS)
+			{
+			type2 = JGetVCSType(destPath);
+			if (type1 == type2)
+				{
+				vcsType = type1;
+				}
+			else if ((type2 == kJUnknownVCSType && !(JGetUserNotification())->AskUserNo(JGetString(kNoTargetVCSMoveID))) ||
+					 (type2 != kJUnknownVCSType && !(JGetUserNotification())->AskUserNo(JGetString(kMixedVCSMoveID))))
+				{
+				JXDeleteObjectTask<JBroadcaster>::Delete(this);
+				return;
+				}
+			}
+		else if ((allVCS && !(JGetUserNotification())->AskUserNo(JGetString(kMixedVCSMoveID))) ||
+				 (anyVCS && !(JGetUserNotification())->AskUserNo(JGetString(kSomeVCSMoveID))))
+			{
+			JXDeleteObjectTask<JBroadcaster>::Delete(this);
+			return;
+			}
+		}
 
 	if (itsSrcTable != NULL)
 		{
@@ -292,27 +347,44 @@ SyGCopyProcess::SyGCopyProcess
 	ListenTo(itsDestTable);
 	ListenTo(itsDestNode);
 
-	itsSrcNameList->SetCleanUpAction(JPtrArrayT::kDeleteAll);
-
+	JSize prefixCount = 0;
 	if (isCopy)
 		{
+		prefixCount = 2;
 		itsSrcNameList->InsertAtIndex(1, "cp");
 		itsSrcNameList->InsertAtIndex(2, "-Rdf");
 		}
+	else if (vcsType == kJSVNType)
+		{
+		prefixCount = 3;
+		itsSrcNameList->InsertAtIndex(1, "svn");
+		itsSrcNameList->InsertAtIndex(2, "mv");
+		itsSrcNameList->InsertAtIndex(3, "--force");
+		}
+	else if (vcsType == kJGitType)
+		{
+		prefixCount = 3;
+		itsSrcNameList->InsertAtIndex(1, "git");
+		itsSrcNameList->InsertAtIndex(2, "mv");
+		itsSrcNameList->InsertAtIndex(3, "-f");
+		}
 	else
 		{
+		prefixCount = 2;
 		itsSrcNameList->InsertAtIndex(1, "mv");
 		itsSrcNameList->InsertAtIndex(2, "-f");
 		}
 
-	JString destPath = (itsDestNode->GetDirEntry())->GetFullName();
-	JAppendDirSeparator(&destPath);
 	itsSrcNameList->Append(destPath);
 
 	const JError err = JSimpleProcess::Create(&itsProcess, *itsSrcNameList);
 
-	itsSrcNameList->DeleteElement(1);		// clean up to make Receive simpler
-	itsSrcNameList->DeleteElement(1);
+	// clean up to make Receive simpler
+
+	for (JIndex i=1; i<=prefixCount; i++)
+		{
+		itsSrcNameList->DeleteElement(1);
+		}
 
 	err.ReportIfError();
 	if (err.OK())

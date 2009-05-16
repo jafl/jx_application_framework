@@ -1,3 +1,12 @@
+systemg:
+	work (1.5):  test move multiple files under svn
+
+jcc:
+	rock-stupid cmd line window:  Meta-Return executes (blocking window)
+
+xdnd:
+	XdndScroll message for mousewheel scroll of target
+
 medic:
 	gdb
 		broken on OSX
@@ -8,21 +17,6 @@ medic:
 		second connection from xdebug fails to show source/stack/etc
 			restore breakpoints when get new connection
 		temp breakpoint doesn't disappear
-
-jcc:
-	rock-stupid cmd line window:  Meta-Return executes (blocking window)
-
-systemg:
-	if drag from svn directory to svn directory, try "svn move" or "svn copy" first
-		if fails, show error and ask user if want to use --force or plain mv/cp or cancel
-
-		run async
-		only if *all* src & dst are same vcs type
-		same flow as JRenameVCS
-
-	store alternate-open prefs for every executable in the directory
-		use these prefs when plain-open is invoked
-		when open prefs file for directory, flush non-existent executables
 
 Docking
 	medic dock all windows:  resize causes crash because compartments do not conform to min sizes
@@ -35,6 +29,14 @@ Docking
 			Appears to be because Raise() is called twice in a row on the JXDockDirector
 
 -----
+
+Daily Comics:
+	if skip before loaded, saves prev in that slot
+
+systemg:
+	store alternate-open prefs for every executable in the directory
+		use these prefs when plain-open is invoked
+		when open prefs file for directory, flush non-existent executables
 
 Mondrian:
 	build
@@ -122,11 +124,6 @@ svn_client:
 			display output in SVNCommandLog
 		when finished, create/refresh Status tab
 
-	Input field on every action tab
-		wrapper widget creates JXScrollbarSet and input field
-		when set process + fd, show input
-		when process finished, hide input
-
 git:
 	http://yuilibrary.com/gitfaq/
 	http://www.eecs.harvard.edu/~cduan/technical/git/
@@ -180,10 +177,13 @@ arrow
 	specify timeout for lockfile and handle it as lock failure
 	doesn't save drafts if no inbox open
 
-Daily Comics:
-	if skip before loaded, saves prev in that slot
-
 -----
+
+svn_client:
+	Input field on every action tab
+		wrapper widget creates JXScrollbarSet and input field
+		when set process + fd, show input
+		when process finished, hide input
 
 jcc:
 	multi-project

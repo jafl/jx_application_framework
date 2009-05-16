@@ -118,10 +118,16 @@ JGetVCSType
 JBoolean
 JIsManagedByVCS
 	(
-	const JCharacter* fullName
+	const JCharacter*	fullName,
+	JVCSType*			returnType
 	)
 {
 	JVCSType type = JGetVCSType(fullName);
+	if (returnType != NULL)
+		{
+		*returnType = type;
+		}
+
 	if (type == kJSVNType)
 		{
 		JString path, name, entriesFileName, data, pattern;
@@ -150,6 +156,10 @@ JIsManagedByVCS
 				return found;
 				}
 			}
+		}
+	else if (type == kJGitType)
+		{
+		return kJTrue;	// TODO: ask git (until then, better safe than sorry)
 		}
 
 	return kJFalse;
@@ -248,18 +258,18 @@ JRenameVCS
 			plainMsg = kAskPlainGitMoveID;
 			}
 
-		err = JSimpleProcess::Create(&p, cmd);
-		if (err.OK())
-			{
-			p->WaitUntilFinished();
-			}
+//		err = JSimpleProcess::Create(&p, cmd);
+//		if (err.OK())
+//			{
+//			p->WaitUntilFinished();
+//			}
 
-		if (p != NULL && !p->SuccessfulFinish())
-			{
-			err = JAccessDenied(oldFullName, newFullName);
-			if ((JGetUserNotification())->AskUserYes(JGetString(forceMsg)))
-				{
-				delete p;
+//		if (p != NULL && !p->SuccessfulFinish())
+//			{
+//			err = JAccessDenied(oldFullName, newFullName);
+//			if ((JGetUserNotification())->AskUserYes(JGetString(forceMsg)))
+//				{
+//				delete p;
 
 				cmd += forceArg;
 				err = JSimpleProcess::Create(&p, cmd);
@@ -267,8 +277,8 @@ JRenameVCS
 					{
 					p->WaitUntilFinished();
 					}
-				}
-			}
+//				}
+//			}
 
 		if (p != NULL && !p->SuccessfulFinish())
 			{
@@ -371,18 +381,18 @@ JRemoveVCS
 		cmd  = binary;
 		cmd += JPrepArgForExec(name);
 
-		err = JSimpleProcess::Create(&p, cmd);
-		if (err.OK())
-			{
-			p->WaitUntilFinished();
-			}
+//		err = JSimpleProcess::Create(&p, cmd);
+//		if (err.OK())
+//			{
+//			p->WaitUntilFinished();
+//			}
 
-		if (p != NULL && !p->SuccessfulFinish())
-			{
-			err = JAccessDenied(fullName);
-			if ((JGetUserNotification())->AskUserYes(JGetString(forceMsg)))
-				{
-				delete p;
+//		if (p != NULL && !p->SuccessfulFinish())
+//			{
+//			err = JAccessDenied(fullName);
+//			if ((JGetUserNotification())->AskUserYes(JGetString(forceMsg)))
+//				{
+//				delete p;
 
 				cmd += forceArg;
 				err = JSimpleProcess::Create(&p, cmd);
@@ -390,8 +400,8 @@ JRemoveVCS
 					{
 					p->WaitUntilFinished();
 					}
-				}
-			}
+//				}
+//			}
 
 		if (p != NULL && !p->SuccessfulFinish())
 			{
