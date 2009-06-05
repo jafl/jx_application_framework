@@ -82,9 +82,9 @@ protected:
 										Atom* returnType, unsigned char** data,
 										JSize* dataLength, JSize* bitsPerBlock);
 	virtual JBoolean GetImage(const JIndex index, const JXImage** image) const;
-	virtual JBoolean WillAcceptDrop(const JArray<Atom>& typeList,
-									Atom* action,const Time time,
-									const JXWidget*		source);
+	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+									   const JPoint& pt, const Time time,
+									   const JXWidget* source);
 	virtual JSize	GetMinCellWidth(const JPoint& cell) const;
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,

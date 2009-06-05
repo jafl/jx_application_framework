@@ -158,13 +158,18 @@ protected:
 	virtual JBoolean	HitSamePart(const JPoint& pt1, const JPoint& pt2) const;
 
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
-									   const Time time, const JXWidget* source);
+									   const JPoint& pt, const Time time,
+									   const JXWidget* source);
 	virtual void		HandleDNDEnter();
 	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source);
 	virtual void		HandleDNDLeave();
 	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 									  const Atom action, const Time time,
 									  const JXWidget* source);
+
+	// mostly for use by JXScrollableWidget
+	virtual void	HandleDNDScroll(const JPoint& pt, const JInteger direction,
+									const JXKeyModifiers& modifiers);
 
 	JBoolean			DispatchClientMessage(const XClientMessageEvent& clientMessage);
 	virtual JBoolean	HandleClientMessage(const XClientMessageEvent& clientMessage);
@@ -273,6 +278,8 @@ private:
 	void	FinishDNDSource();
 	void	DNDEnter();
 	void	DNDHere(const JPoint& pt, const JXWidget* source);
+	void	DNDScroll(const JPoint& pt, const JInteger direction,
+					  const JXKeyModifiers& modifiers);
 	void	DNDLeave();
 	void	DNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 					const Atom action, const Time time, const JXWidget* source);

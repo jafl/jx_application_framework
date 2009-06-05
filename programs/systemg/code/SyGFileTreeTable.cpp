@@ -1338,12 +1338,12 @@ SyGFileTreeTable::WillAcceptDrop
 	(
 	const JArray<Atom>& typeList,
 	Atom*				action,
+	const JPoint&		pt,
 	const Time			time,
 	const JXWidget*		source
 	)
 {
-	const JString dest = ((itsFileTree->GetSyGRoot())->GetDirEntry())->GetFullName();
-	if (!EndEditing() || !JDirectoryWritable(dest))
+	if (!EndEditing())
 		{
 		return kJFalse;
 		}
@@ -1361,7 +1361,13 @@ SyGFileTreeTable::WillAcceptDrop
 				{
 				*action = (GetDNDManager())->GetDNDActionPrivateXAtom();
 				}
-			return kJTrue;
+
+			HandleDNDHere(pt, source);
+
+			JIndex dndIndex;
+			const JBoolean accept = GetDNDTargetIndex(&dndIndex);
+			const JString dest    = ((itsFileTree->GetSyGRoot())->GetDirEntry())->GetFullName();
+			return JI2B(accept || JDirectoryWritable(dest));
 			}
 		}
 
@@ -1392,8 +1398,6 @@ SyGFileTreeTable::HandleDNDHere
 	const JXWidget* source
 	)
 {
-	ScrollForDrag(pt);
-
 	JPoint cell;
 	NodePart part;
 	if (!GetNode(pt, &cell, &part) ||
@@ -2085,7 +2089,7 @@ SyGFileTreeTable::ReceiveWithFeedback
 		assert( info != NULL );
 		info->ShouldAcceptDrop(WillAcceptDrop(
 									info->GetTypeList(), info->GetActionPtr(),
-									info->GetTime(), info->GetSource()));
+									info->GetPoint(), info->GetTime(), info->GetSource()));
 		}
 	else
 		{

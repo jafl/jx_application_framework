@@ -1409,7 +1409,6 @@ GAddressBookTreeWidget::HandleDNDHere
 	const JXWidget* source
 	)
 {
-	ScrollForDrag(pt);
 	JIndex oldIndex = itsCurrentDndHereIndex;
 	if (oldIndex != 0)
 		{
@@ -1791,6 +1790,7 @@ GAddressBookTreeWidget::WillAcceptDrop
 	(
 	const JArray<Atom>& typeList,
 	Atom*				action,
+	const JPoint&		pt,
 	const Time			time,
 	const JXWidget*		source
 	)

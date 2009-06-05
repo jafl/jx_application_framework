@@ -136,6 +136,7 @@ SyGTrashButton::WillAcceptDrop
 	(
 	const JArray<Atom>& typeList,
 	Atom*				action,
+	const JPoint&		pt,
 	const Time			time,
 	const JXWidget*		source
 	)

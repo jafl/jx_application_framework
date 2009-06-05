@@ -70,11 +70,9 @@ protected:
 	virtual void		HandleDNDResponse(const JXContainer* target,
 										  const JBoolean dropAccepted, const Atom action);
 
-	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList,
-									   Atom* action,const Time time,
+	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+									   const JPoint& pt, const Time time,
 									   const JXWidget* source);
-	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source);
-	virtual void		HandleDNDLeave();
 	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 									  const Atom action, const Time time,
 									  const JXWidget* source);

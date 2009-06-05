@@ -154,11 +154,12 @@ JXWindowIcon::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
 	Atom*				action,
+	const JPoint&		pt,
 	const Time			time,
 	const JXWidget*		source
 	)
 {
-	AcceptDrop msg(typeList, action, time, source);
+	AcceptDrop msg(typeList, action, pt, time, source);
 	BroadcastWithFeedback(&msg);
 	return msg.WillAcceptDrop();
 }
@@ -201,5 +202,5 @@ JXWindowIcon::HandleDNDDrop
 	)
 {
 	Atom a = action;
-	Broadcast(HandleDrop(typeList, &a, time, source));
+	Broadcast(HandleDrop(typeList, &a, pt, time, source));
 }

@@ -204,9 +204,14 @@ TestSaveFileDialog::BuildWindow
                     JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,140, 30,20);
     assert( upButton != NULL );
 
+    JXTextButton* desktopButton =
+        new JXTextButton(JGetString("desktopButton::TestSaveFileDialog::JXLayout"), window,
+                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,170, 70,20);
+    assert( desktopButton != NULL );
+
     JXNewDirButton* newDirButton =
         new JXNewDirButton(window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,170, 70,20);
+                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,190, 70,20);
     assert( newDirButton != NULL );
 
     JXCurrentPathMenu* currPathMenu =
@@ -219,7 +224,8 @@ TestSaveFileDialog::BuildWindow
 	SetObjects(scrollbarSet, promptLabel, prompt, fileNameInput, origName,
 			   pathLabel, pathInput, pathHistory,
 			   filterLabel, filterInput, filterHistory,
-			   saveButton, cancelButton, upButton, homeButton, newDirButton,
+			   saveButton, cancelButton, upButton,
+			   homeButton, desktopButton, newDirButton,
 			   showHiddenCB, currPathMenu, message);
 
 	itsFormatRG->SelectItem(itsSaveFormat);

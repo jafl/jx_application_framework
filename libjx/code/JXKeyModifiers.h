@@ -169,4 +169,25 @@ private:
 	};
 };
 
+
+inline int
+operator==
+	(
+	const JXKeyModifiers& m1,
+	const JXKeyModifiers& m2
+	)
+{
+	return (m1.GetState() == m2.GetState());
+}
+
+inline int
+operator!=
+	(
+	const JXKeyModifiers& m1,
+	const JXKeyModifiers& m2
+	)
+{
+	return (m1.GetState() != m2.GetState());
+}
+
 #endif

@@ -523,6 +523,7 @@ GMAttachmentTable::WillAcceptDrop
 	(
 	const JArray<Atom>& typeList,
 	Atom*				action,
+	const JPoint&		pt,
 	const Time			time,
 	const JXWidget*		source
 	)
@@ -544,30 +545,6 @@ GMAttachmentTable::WillAcceptDrop
 			}
 		}
 	return kJFalse;
-}
-
-/******************************************************************************
- HandleDNDHere
-
- ******************************************************************************/
-
-void
-GMAttachmentTable::HandleDNDHere
-	(
-	const JPoint& pt,
-	const JXWidget* source
-	)
-{
-}
-
-/******************************************************************************
- HandleDNDLeave
-
- ******************************************************************************/
-
-void
-GMAttachmentTable::HandleDNDLeave()
-{
 }
 
 /******************************************************************************

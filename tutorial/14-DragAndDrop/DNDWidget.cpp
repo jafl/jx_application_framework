@@ -375,9 +375,11 @@ DNDWidget::GetSelectionData
 JBoolean
 DNDWidget::WillAcceptDrop
 	(
-	const JArray<Atom>&		typeList, 
-	Atom* action,const Time time, 
-	const JXWidget*			source
+	const JArray<Atom>&	typeList,
+	Atom*				action,
+	const JPoint&		pt,
+	const Time			time,
+	const JXWidget*		source
 	)
 {
 	// There's no point dropping on ourselves in this case.
@@ -396,6 +398,7 @@ DNDWidget::WillAcceptDrop
 			return kJTrue;
 			}
 		}
+
 	return kJFalse;
 }
 

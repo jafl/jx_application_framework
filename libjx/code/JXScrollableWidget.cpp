@@ -15,7 +15,7 @@
 
 	BASE CLASS = JXWidget
 
-	Copyright © 1996 by John Lindal. All rights reserved.
+	Copyright © 1996-2009 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -37,9 +37,10 @@
 #include <jStreamUtil.h>
 #include <jAssert.h>
 
-const JFloat kSingleStepFraction = 0.1;
-const JFloat kPageStepFraction   = 0.9;
-const JInteger kWheelLineCount   = 5;		// * kSingleStepFraction = 1/2 page
+const JFloat kSingleStepFraction   = 0.1;
+const JFloat kPageStepFraction     = 0.9;
+const JInteger kWheelLineCount     = 5;		// * kSingleStepFraction = 1/2 page
+const JCoordinate kScrollZoneWidth = 20;
 
 // setup information
 
@@ -188,6 +189,64 @@ JXScrollableWidget::ScrollForDrag
 	else
 		{
 		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ HandleDNDScroll (virtual protected)
+
+	This is called while the mouse is inside the widget, even if the widget
+	does not currently accept the drop, because it might accept it after it
+	is scrolled.
+
+ ******************************************************************************/
+
+void
+JXScrollableWidget::HandleDNDScroll
+	(
+	const JPoint&			pt,
+	const JInteger			direction,
+	const JXKeyModifiers&	modifiers
+	)
+{
+	if (direction != 0)
+		{
+		ScrollForWheel(direction > 0 ? kJXButton5 : kJXButton4, modifiers);
+		return;
+		}
+
+	const JRect bounds = GetBounds();
+	const JRect frame  = GetFrameLocal();
+	JRect rect;
+	if (bounds.left < frame.left && pt.x < frame.left + kScrollZoneWidth)
+		{
+		const JCoordinate x = JMax(pt.x - kScrollZoneWidth, bounds.left);
+		rect.Set(pt.y-1, x-1, pt.y+1, x+1);
+		ScrollToRect(rect);
+		}
+	else if (frame.right < bounds.right && frame.right - kScrollZoneWidth < pt.x)
+		{
+		const JCoordinate x = JMin(pt.x + kScrollZoneWidth, bounds.right);
+		rect.Set(pt.y-1, x-1, pt.y+1, x+1);
+		ScrollToRect(rect);
+		}
+
+	if (bounds.top < frame.top && pt.y < frame.top + kScrollZoneWidth)
+		{
+		const JCoordinate y = JMax(pt.y - kScrollZoneWidth, bounds.top);
+		rect.Set(y-1, pt.x-1, y+1, pt.x+1);
+		ScrollToRect(rect);
+		}
+	else if (frame.bottom < bounds.bottom && frame.bottom - kScrollZoneWidth < pt.y)
+		{
+		const JCoordinate y = JMin(pt.y + kScrollZoneWidth, bounds.bottom);
+		rect.Set(y-1, pt.x-1, y+1, pt.x+1);
+		ScrollToRect(rect);
+		}
+
+	if (!rect.IsEmpty())
+		{
+		Redraw();
 		}
 }
 

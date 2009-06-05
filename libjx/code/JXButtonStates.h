@@ -105,4 +105,25 @@ private:
 	JBoolean itsState[ kXButtonCount ];
 };
 
+
+inline int
+operator==
+	(
+	const JXButtonStates& b1,
+	const JXButtonStates& b2
+	)
+{
+	return (b1.GetState() == b2.GetState());
+}
+
+inline int
+operator!=
+	(
+	const JXButtonStates& b1,
+	const JXButtonStates& b2
+	)
+{
+	return (b1.GetState() != b2.GetState());
+}
+
 #endif

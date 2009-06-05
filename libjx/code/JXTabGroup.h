@@ -104,6 +104,8 @@ protected:
 	JBoolean			FindTab(const JPoint& pt, JIndex* index, JRect* rect) const;
 	JBoolean			GetMouseTabIndex(JIndex* index) const;
 	virtual JBoolean	OKToDeleteTab(const JIndex index);
+	JBoolean			ScrollForWheel(const JXMouseButton button,
+									   const JXKeyModifiers& modifiers);
 
 	virtual void	Draw(JXWindowPainter& p, const JRect& rect);
 	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame);
@@ -126,8 +128,11 @@ protected:
 								  const JXKeyModifiers& modifiers);
 
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
-									   const Time time, const JXWidget* source);
+									   const JPoint& pt, const Time time,
+									   const JXWidget* source);
 	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source);
+	virtual void		HandleDNDScroll(const JPoint& pt, const JInteger direction,
+										const JXKeyModifiers& modifiers);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 

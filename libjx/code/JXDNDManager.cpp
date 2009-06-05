@@ -22,7 +22,7 @@
 
 	BASE CLASS = virtual JBroadcaster
 
-	Copyright © 1997-99 by John Lindal. All rights reserved.
+	Copyright © 1997-2009 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -133,6 +133,9 @@ enum
 	kDNDFinishedFlags		// reserved
 };
 
+const JUInt32 kDNDScrollTargetMask     = 0x00000200;
+const JUInt32 kDNDScrollTargetDownMask = 0x00000100;
+
 /******************************************************************************
  Constructor
 
@@ -142,6 +145,8 @@ JXDNDManager::JXDNDManager
 	(	
 	JXDisplay* display
 	)
+	:
+	itsPrevHandleDNDModifiers(0)
 {
 	itsDisplay            = display;
 	itsIsDraggingFlag     = kJFalse;
@@ -253,11 +258,13 @@ JXDNDManager::BeginDND
 		StopListening(itsMouseContainer);
 		}
 
-	itsMouseWindow           = None;
-	itsMouseWindowIsAware    = kJFalse;
-	itsMouseContainer        = NULL;
-	itsMsgWindow             = None;
-	itsPrevHandleDNDAction   = None;
+	itsMouseWindow                  = None;
+	itsMouseWindowIsAware           = kJFalse;
+	itsMouseContainer               = NULL;
+	itsMsgWindow                    = None;
+	itsPrevHandleDNDAction          = None;
+	itsPrevHandleDNDScrollDirection = 0;
+	itsPrevHandleDNDModifiers.Clear();
 
 	if ((itsDisplay->GetSelectionManager())->SetData(itsDNDSelectionName, data))
 		{
@@ -274,7 +281,7 @@ JXDNDManager::BeginDND
 
 		AnnounceTypeList(itsDraggerWindow, *itsDraggerTypeList);
 
-		HandleDND(pt, buttonStates, modifiers);
+		HandleDND(pt, buttonStates, modifiers, 0);
 		return kJTrue;
 		}
 	else
@@ -286,6 +293,8 @@ JXDNDManager::BeginDND
 /******************************************************************************
  HandleDND
 
+	scrollDirection can be -1, 0, +1
+
  ******************************************************************************/
 
 void
@@ -293,7 +302,8 @@ JXDNDManager::HandleDND
 	(
 	const JPoint&			pt,
 	const JXButtonStates&	buttonStates,
-	const JXKeyModifiers&	modifiers
+	const JXKeyModifiers&	modifiers,
+	const JInteger			scrollDirection
 	)
 {
 	assert( itsDragger != NULL );
@@ -306,13 +316,10 @@ JXDNDManager::HandleDND
 
 	// check if we have entered a different drop target
 
-	JBoolean forceSendDNDHere = kJFalse;
-	if (!StayWithCurrentTarget(isDNDAware, xWindow, dropWidget,
-							   pt, buttonStates, modifiers))
+	if (xWindow != itsMouseWindow || dropWidget != itsMouseContainer)
 		{
 		SendDNDLeave();
 		SendDNDEnter(xWindow, msgWindow, dropWidget, isDNDAware, dndVers);
-		forceSendDNDHere = kJTrue;
 		}
 
 	// get the user's preferred action
@@ -327,13 +334,11 @@ JXDNDManager::HandleDND
 
 	// contact the target
 
-	if (forceSendDNDHere || pt != itsPrevHandleDNDPt ||
-		itsPrevHandleDNDAction != dropAction)
-		{
-		itsPrevHandleDNDPt     = pt;
-		itsPrevHandleDNDAction = dropAction;
-		SendDNDHere(pt, dropAction);
-		}
+	itsPrevHandleDNDPt              = pt;
+	itsPrevHandleDNDAction          = dropAction;
+	itsPrevHandleDNDScrollDirection = scrollDirection;
+	itsPrevHandleDNDModifiers       = modifiers;
+	SendDNDHere(pt, dropAction, scrollDirection, modifiers);
 
 	// slow to receive next mouse event
 
@@ -445,72 +450,6 @@ JXDNDManager::FindTarget
 		}
 
 	return isAware;
-}
-
-/******************************************************************************
- StayWithCurrentTarget (private)
-
-	Returns kJTrue if the target hasn't changed or the target is the source
-	and should remain that way.
-
- ******************************************************************************/
-
-JBoolean
-JXDNDManager::StayWithCurrentTarget
-	(
-	const JBoolean			isDNDAware,
-	const Window			xWindow,
-	JXContainer*			dropWidget,
-	const JPoint&			pt,
-	const JXButtonStates&	buttonStates,
-	const JXKeyModifiers&	modifiers
-	)
-	const
-{
-	if (xWindow == itsMouseWindow && dropWidget == itsMouseContainer)
-		{
-		return kJTrue;
-		}
-	else if (itsMouseContainer != itsDragger || !itsWillAcceptDropFlag)
-		{
-		return kJFalse;
-		}
-	else if (xWindow == itsMouseWindow &&	// => dropWidget != itsMouseContainer
-			 dropWidget != NULL &&			// (know that itsMouseContainer == itsDragger)
-			 itsDragger->IsAncestor(dropWidget))
-		{
-		return kJFalse;
-		}
-
-	const JPoint ptG        = itsDragger->JXContainer::LocalToGlobal(pt);
-	const JRect windowFrame = (itsDragger->GetWindow())->GetFrameGlobal();
-	JRect dragFrame         = windowFrame;
-	dragFrame.Expand(kHysteresisBorderWidth, kHysteresisBorderWidth);
-	if (!dragFrame.Contains(ptG))
-		{
-		// outside hysteresis region
-		return kJFalse;
-		}
-	else if (!isDNDAware && windowFrame.Contains(ptG))
-		{
-		// in overlapping window
-		return kJFalse;
-		}
-	else if (!isDNDAware)
-		{
-		return kJTrue;
-		}
-	else if (xWindow != itsDraggerWindow)
-		{
-		return kJFalse;
-		}
-	else if (dropWidget == NULL)	// protect call to WillAcceptDrop()
-		{
-		return kJTrue;
-		}
-
-	Atom action = itsDragger->GetDNDAction(dropWidget, buttonStates, modifiers);
-	return !dropWidget->WillAcceptDrop(*itsDraggerTypeList, &action, CurrentTime, itsDragger);
 }
 
 /******************************************************************************
@@ -1062,8 +1001,10 @@ JXDNDManager::SendDNDEnter
 void
 JXDNDManager::SendDNDHere
 	(
-	const JPoint&	pt1,
-	const Atom		action
+	const JPoint&			pt1,
+	const Atom				action,
+	const JInteger			scrollDirection,
+	const JXKeyModifiers&	modifiers
 	)
 {
 	const JPoint ptG1 = itsDragger->JXContainer::LocalToGlobal(pt1);
@@ -1071,44 +1012,47 @@ JXDNDManager::SendDNDHere
 
 	const JBoolean shouldSendMessage = JI2B(
 						itsMouseWindowIsAware &&
-						(!itsUseMouseRectFlag || !itsMouseRectR.Contains(ptR)) );
+						(!itsUseMouseRectFlag || !itsMouseRectR.Contains(ptR) ||
+						 scrollDirection != 0) );
 
 	if (itsMouseContainer != NULL)
 		{
-		if (action != itsPrevHereAction)
+		// Scroll first, because it affects drop location.
+		// Always call it, in case mouse is inside a scroll zone.
+
+		const JPoint ptG2 = (itsMouseContainer->GetWindow())->RootToGlobal(ptR);
+		const JPoint pt2  = itsMouseContainer->GlobalToLocal(ptG2);
+		itsMouseContainer->DNDScroll(pt2, scrollDirection, modifiers);
+
+		const JBoolean savedAccept = itsWillAcceptDropFlag;
+		Atom acceptedAction        = action;
+		itsWillAcceptDropFlag =
+			itsMouseContainer->WillAcceptDrop(*itsDraggerTypeList, &acceptedAction,
+											  pt2, CurrentTime, itsDragger);
+		if (itsWillAcceptDropFlag)
 			{
-			const JBoolean prevWillAcceptDropFlag = itsWillAcceptDropFlag;
-
-			Atom acceptedAction = action;
-			itsWillAcceptDropFlag =
-				itsMouseContainer->WillAcceptDrop(*itsDraggerTypeList, &acceptedAction,
-												  CurrentTime, itsDragger);
-			if (itsWillAcceptDropFlag)
-				{
-				itsMouseContainer->DNDEnter();
-				}
-			else
-				{
-				itsMouseContainer->DNDLeave();
-				acceptedAction = None;
-				}
-
-			if (itsWillAcceptDropFlag != prevWillAcceptDropFlag ||
-				itsPrevStatusAction != acceptedAction)
-				{
-				itsDragger->HandleDNDResponse(itsMouseContainer, itsWillAcceptDropFlag,
-											  acceptedAction);
-				}
-
-			itsReceivedStatusFlag = kJTrue;
-			itsPrevHereAction     = action;
-			itsPrevStatusAction   = acceptedAction;
+			itsMouseContainer->DNDEnter();
 			}
+		else
+			{
+			itsMouseContainer->DNDLeave();
+			acceptedAction = None;
+			}
+
+		if (itsWillAcceptDropFlag != savedAccept ||
+			itsPrevStatusAction != acceptedAction)
+			{
+			itsDragger->HandleDNDResponse(itsMouseContainer, itsWillAcceptDropFlag,
+										  acceptedAction);
+			}
+
+		itsReceivedStatusFlag = kJTrue;
+		itsPrevHereAction     = action;
+		itsPrevStatusAction   = acceptedAction;
 
 		if (itsWillAcceptDropFlag)
 			{
-			const JPoint ptG2 = (itsMouseContainer->GetWindow())->RootToGlobal(ptR);
-			itsPrevMousePt    = itsMouseContainer->GlobalToLocal(ptG2);
+			itsPrevMousePt = pt2;
 			itsMouseContainer->DNDHere(itsPrevMousePt, itsDragger);
 			}
 		}
@@ -1137,6 +1081,17 @@ JXDNDManager::SendDNDHere
 		message.data.l[ kDNDHerePt        ] = PackPoint(ptR);
 		message.data.l[ kDNDHereTimeStamp ] = itsDisplay->GetLastEventTime();
 		message.data.l[ kDNDHereAction    ] = action;
+
+		if (scrollDirection != 0)
+			{
+			message.data.l[ kDNDHereFlags ] |= kDNDScrollTargetMask;
+			if (scrollDirection > 0)
+				{
+				message.data.l[ kDNDHereFlags ] |= kDNDScrollTargetDownMask;
+				}
+
+			message.data.l[ kDNDHereFlags ] |= (modifiers.GetState() & 0x00FF);
+			}
 
 		itsDisplay->SendXEvent(itsMsgWindow, &xEvent);
 
@@ -1584,7 +1539,7 @@ JXDNDManager::HandleDNDHere
 	#endif
 
 	const JPoint ptR = UnpackPoint(clientMessage.data.l[ kDNDHerePt ]);
-	JPoint ptG;
+	JPoint ptG, pt;
 
 	const Time time       = clientMessage.data.l[ kDNDHereTimeStamp ];
 	Atom action           = clientMessage.data.l[ kDNDHereAction ];
@@ -1606,22 +1561,27 @@ JXDNDManager::HandleDNDHere
 			StopListening(itsMouseContainer);
 			itsMouseContainer = newMouseContainer;
 			ListenTo(itsMouseContainer);
+			pt = itsMouseContainer->GlobalToLocal(ptG);
+			InvokeDNDScroll(clientMessage, pt);
 			itsWillAcceptDropFlag =
-				itsMouseContainer->WillAcceptDrop(*itsDraggerTypeList, &action, time, NULL);
+				itsMouseContainer->WillAcceptDrop(*itsDraggerTypeList, &action, pt, time, NULL);
 			if (itsWillAcceptDropFlag)
 				{
 				itsMouseContainer->DNDEnter();
 				}
 			}
-		else if (found && action != itsPrevHereAction)
+		else if (found)
 			{
+			const JBoolean savedAccept = itsWillAcceptDropFlag;
+			pt = itsMouseContainer->GlobalToLocal(ptG);
+			InvokeDNDScroll(clientMessage, pt);
 			itsWillAcceptDropFlag =
-				itsMouseContainer->WillAcceptDrop(*itsDraggerTypeList, &action, time, NULL);
-			if (itsWillAcceptDropFlag)
+				itsMouseContainer->WillAcceptDrop(*itsDraggerTypeList, &action, pt, time, NULL);
+			if ((action != itsPrevHereAction || !savedAccept) && itsWillAcceptDropFlag)
 				{
 				itsMouseContainer->DNDEnter();
 				}
-			else
+			else if ((action != itsPrevHereAction || savedAccept) && !itsWillAcceptDropFlag)
 				{
 				itsMouseContainer->DNDLeave();
 				}
@@ -1633,8 +1593,9 @@ JXDNDManager::HandleDNDHere
 		if (itsDisplay->FindMouseContainer(window, ptG, &itsMouseContainer))
 			{
 			ListenTo(itsMouseContainer);
+			pt = itsMouseContainer->GlobalToLocal(ptG);
 			itsWillAcceptDropFlag =
-				itsMouseContainer->WillAcceptDrop(*itsDraggerTypeList, &action, time, NULL);
+				itsMouseContainer->WillAcceptDrop(*itsDraggerTypeList, &action, pt, time, NULL);
 			if (itsWillAcceptDropFlag)
 				{
 				itsMouseContainer->DNDEnter();
@@ -1646,7 +1607,7 @@ JXDNDManager::HandleDNDHere
 
 	if (itsMouseContainer != NULL && itsWillAcceptDropFlag)
 		{
-		itsPrevMousePt      = itsMouseContainer->GlobalToLocal(ptG);
+		itsPrevMousePt      = pt;
 		itsPrevStatusAction = action;
 		itsMouseContainer->DNDHere(itsPrevMousePt, NULL);
 		SendDNDStatus(kJTrue, action);
@@ -1655,6 +1616,23 @@ JXDNDManager::HandleDNDHere
 		{
 		SendDNDStatus(kJFalse, None);
 		}
+}
+
+void
+JXDNDManager::InvokeDNDScroll
+	(
+	const XClientMessageEvent&	clientMessage,
+	const JPoint&				pt
+	)
+{
+	const JInteger direction =
+		clientMessage.data.l[ kDNDHereFlags ] & kDNDScrollTargetDownMask ? +1 : -1;
+	const JXKeyModifiers modifiers(itsDisplay, clientMessage.data.l[ kDNDHereFlags ] & 0x000000FF);
+
+	itsMouseContainer->DNDScroll(
+		pt,
+		(clientMessage.data.l[ kDNDHereFlags ] & kDNDScrollTargetMask) ? direction : 0,
+		modifiers);
 }
 
 /******************************************************************************
@@ -1795,7 +1773,7 @@ JXDNDManager::HandleDNDStatus
 		JWait(JXDND_SOURCE_DELAY);
 		#endif
 
-		const JBoolean prevWillAcceptDropFlag = itsWillAcceptDropFlag;
+		const JBoolean savedAccept = itsWillAcceptDropFlag;
 
 		itsWaitForStatusFlag  = kJFalse;
 		itsReceivedStatusFlag = kJTrue;
@@ -1822,7 +1800,7 @@ JXDNDManager::HandleDNDStatus
 			action = None;
 			}
 
-		if (itsWillAcceptDropFlag != prevWillAcceptDropFlag ||
+		if (itsWillAcceptDropFlag != savedAccept ||
 			itsPrevStatusAction != action)
 			{
 			itsDragger->HandleDNDResponse(NULL, itsWillAcceptDropFlag, action);
@@ -1831,7 +1809,8 @@ JXDNDManager::HandleDNDStatus
 
 		if (itsSendHereMsgFlag)
 			{
-			SendDNDHere(itsPrevHandleDNDPt, itsPrevHandleDNDAction);
+			SendDNDHere(itsPrevHandleDNDPt, itsPrevHandleDNDAction,
+						itsPrevHandleDNDScrollDirection, itsPrevHandleDNDModifiers);
 			}
 		}
 }

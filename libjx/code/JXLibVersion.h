@@ -101,6 +101,8 @@ static const char* kCurrentJXLibVersionStr = "2.5.0";
 //		Added Suspend()/Resume().  This is subtly different from Activate()/
 //			Deactivate():  It doesn't unfocus the widget, but it still looks
 //			inactive.  IsActive() returns kJFalse when suspended.
+//		*** Added pt argument to WillAcceptDrop(), to allow drop targets to
+//			sub-divide their contents.
 //	JXUNDialogBase:
 //		Updated to respect JUserNotification::BreakMessageCROnly.
 //	JXWDManager:
@@ -114,14 +116,21 @@ static const char* kCurrentJXLibVersionStr = "2.5.0";
 //		Shows hint if window is too small to fit when trying to drop it.
 //	JXDNDManager:
 //		Fixed bug so DND between docked windows in same application works.
+//		Updated to latest XDND spec.
 //	JXScrollableWidget:
 //		Added Save/RestoreDisplayState().
+//		*** Remove all calls to ScrollForDrag() from implementations of HandleDNDHere().
+//			Scrolling during DND is now done automatically.
 //	Created JXGetStringDialog.
 //	Renamed JXNewDisplayDialog to JXOpenDisplayDialog.
 //	JXCSFDialogBase:
 //		*** Added desktopButton argument to SetObjects().
 //	JXMenuBar:
 //		Added FindMenu().
+//	JXKeyModifiers:
+//		Added operator== and operator!=
+//	JXButtonStates:
+//		Added operator== and operator!=
 
 // version 2.5.0:
 //	*** All egcs thunks hacks have been removed.

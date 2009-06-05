@@ -39,8 +39,8 @@ protected:
 	virtual JBoolean	IsCharacterInWord(const JString& text,
 										  const JIndex charIndex) const;
 
-	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList,
-									   Atom* action,const Time time,
+	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+									   const JPoint& pt, const Time time,
 									   const JXWidget* source);
 	virtual void		HandleDNDEnter();
 	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source);

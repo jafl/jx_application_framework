@@ -72,7 +72,8 @@ public:
 protected:
 
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
-									   const Time time, const JXWidget* source);
+									   const JPoint& pt, const Time time,
+									   const JXWidget* source);
 	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
 									  const Atom action, const Time time,
 									  const JXWidget* source);

@@ -49,9 +49,9 @@ protected:
 	virtual void	GetSelectionData(JXSelectionData* data,
 									 const JCharacter* id);
 
-	virtual JBoolean WillAcceptDrop(const JArray<Atom>& typeList, 
-									Atom* action,const Time time, 
-									const JXWidget*		source);
+	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
+									   const JPoint& pt, const Time time,
+									   const JXWidget* source);
 
 	virtual void 	HandleDNDHere(const JPoint& pt, const JXWidget* source);
 	virtual void 	HandleDNDLeave();

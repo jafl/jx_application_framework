@@ -72,6 +72,10 @@
 			Scroll the text to make the given point visible.  Return kJTrue
 			if scrolling was necessary.
 
+		TEScrollForDND
+			Same as TEScrollForDrag(), but separate, since some frameworks
+			do the scrolling automatically.
+
 		TESetVertScrollStep
 			Set the vertical step size and page context used when scrolling
 			the text.
@@ -8237,7 +8241,7 @@ JTextEditor::TEHandleDNDHere
 		return;
 		}
 
-	TEScrollForDrag(origPt);
+	TEScrollForDND(origPt);
 	TERefreshCaret(itsDropLoc);
 
 	const CaretLocation caretLoc = CalcCaretLocation(pt);

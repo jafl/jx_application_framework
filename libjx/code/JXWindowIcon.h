@@ -39,7 +39,8 @@ protected:
 	virtual void	HandleMouseEnter();
 
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
-									   const Time time, const JXWidget* source);
+									   const JPoint& pt, const Time time,
+									   const JXWidget* source);
 	virtual void		HandleDNDEnter();
 	virtual void		HandleDNDLeave();
 	virtual void		HandleDNDDrop(const JPoint& pt, const JArray<Atom>& typeList,
@@ -67,11 +68,11 @@ protected:
 
 			DropBase(const JCharacter* type,
 					 const JArray<Atom>& typeList, Atom* action,
-					 const Time time, const JXWidget* source)
+					 const JPoint& pt, const Time time, const JXWidget* source)
 				:
 				JBroadcaster::Message(type),
 				itsTypeList(typeList), itsAction(action),
-				itsTime(time), itsSource(source)
+				itsPt(pt), itsTime(time), itsSource(source)
 				{ };
 
 			const JArray<Atom>&
@@ -98,6 +99,12 @@ protected:
 				*itsAction = action;
 			};
 
+			const JPoint&
+			GetPoint() const
+			{
+				return itsPt;
+			};
+
 			Time
 			GetTime() const
 			{
@@ -121,6 +128,7 @@ protected:
 
 			const JArray<Atom>&	itsTypeList;
 			Atom*				itsAction;
+			const JPoint&		itsPt;
 			const Time			itsTime;
 			const JXWidget*		itsSource;
 		};
@@ -139,9 +147,9 @@ public:
 		public:
 
 			AcceptDrop(const JArray<Atom>& typeList, Atom* action,
-					   const Time time, const JXWidget* source)
+					   const JPoint& pt, const Time time, const JXWidget* source)
 				:
-				DropBase(kAcceptDrop, typeList, action, time, source),
+				DropBase(kAcceptDrop, typeList, action, pt, time, source),
 				itsAcceptFlag(kJFalse)
 				{ };
 
@@ -187,9 +195,9 @@ public:
 		public:
 
 			HandleDrop(const JArray<Atom>& typeList, Atom* action,
-					   const Time time, const JXWidget* source)
+					   const JPoint& pt, const Time time, const JXWidget* source)
 				:
-				DropBase(kHandleDrop, typeList, action, time, source)
+				DropBase(kHandleDrop, typeList, action, pt, time, source)
 				{ };
 		};
 };

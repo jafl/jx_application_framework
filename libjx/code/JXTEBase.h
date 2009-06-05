@@ -205,7 +205,8 @@ protected:
 										 const JCharacter* id);
 
 	virtual JBoolean	WillAcceptDrop(const JArray<Atom>& typeList, Atom* action,
-									   const Time time, const JXWidget* source);
+									   const JPoint& pt, const Time time,
+									   const JXWidget* source);
 	virtual void		HandleDNDEnter();
 	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source);
 	virtual void		HandleDNDLeave();
@@ -240,6 +241,7 @@ protected:
 	virtual JBoolean	TEScrollToRect(const JRect& rect,
 									   const JBoolean centerInDisplay);
 	virtual JBoolean	TEScrollForDrag(const JPoint& pt);
+	virtual JBoolean	TEScrollForDND(const JPoint& pt);
 	virtual void		TESetVertScrollStep(const JCoordinate vStep);
 
 	virtual void		TECaretShouldBlink(const JBoolean blink);

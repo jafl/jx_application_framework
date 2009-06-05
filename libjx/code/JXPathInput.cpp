@@ -462,6 +462,7 @@ JXPathInput::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
 	Atom*				action,
+	const JPoint&		pt,
 	const Time			time,
 	const JXWidget*		source
 	)
@@ -483,7 +484,7 @@ JXPathInput::WillAcceptDrop
 			}
 		}
 
-	return JXInputField::WillAcceptDrop(typeList, action, time, source);
+	return JXInputField::WillAcceptDrop(typeList, action, pt, time, source);
 }
 
 /******************************************************************************

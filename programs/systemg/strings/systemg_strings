@@ -146,6 +146,9 @@ NoMoveIntoSelf::SyGCopyProcess
 NoReplaceWithContents::SyGCopyProcess
 "You cannot replace the directory \"$dest\" with something that it contains."
 
+UseVCSCopy::SyGCopyProcess
+"Do you want to place the copy under version control?"
+
 # SyGMDIServer
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890
 

@@ -1732,7 +1732,7 @@ argument:
 Name: TestSaveFileDialog
 Width: 310
 Height: 390
-Number of Objects: 22
+Number of Objects: 23
 
 --------------------
 class: FL_BOX
@@ -2095,9 +2095,27 @@ callback:
 argument: 
 
 --------------------
+class: FL_BUTTON
+type: NORMAL_BUTTON
+box: 220 170 70 20
+boxtype: FL_UP_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Desktop
+shortcut: 
+resize: FL_RESIZE_NONE
+gravity: FL_SouthEast FL_NoGravity
+name: (desktopButton)
+callback: 
+argument: 
+
+--------------------
 class: FL_BOX
 type: NO_BOX
-box: 220 170 70 20
+box: 220 190 70 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER

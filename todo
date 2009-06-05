@@ -1,18 +1,15 @@
-systemg:
-	work (1.5):  test move multiple files under svn
+OSX:
+	when show hidden window, moves down
 
 jcc:
-	rock-stupid cmd line window:  Meta-Return executes (blocking window)
-
-xdnd:
-	XdndScroll message for mousewheel scroll of target
+	rock-stupid cmd line window:  Meta-Return executes (blocking window) (dahvid.minor@gmail.com)
 
 medic:
-	gdb
-		broken on OSX
 	switch debugger:
 		clear current source window
 		clear names in windows and program button in cmd line window
+	gdb
+		broken on OSX
 	xdebug
 		second connection from xdebug fails to show source/stack/etc
 			restore breakpoints when get new connection
@@ -32,6 +29,7 @@ Docking
 
 Daily Comics:
 	if skip before loaded, saves prev in that slot
+	when first open dashboard after reboot, sizes window to back, even when front visible
 
 systemg:
 	store alternate-open prefs for every executable in the directory

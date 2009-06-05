@@ -32,6 +32,7 @@ static const JCharacter* kNoReplaceWithContentsID = "NoReplaceWithContents::SyGC
 static const JCharacter* kMixedVCSMoveID          = "MixedVCSMove::SyGCopyProcess";
 static const JCharacter* kSomeVCSMoveID           = "SomeVCSMove::SyGCopyProcess";
 static const JCharacter* kNoTargetVCSMoveID       = "NoTargetVCSMove::SyGCopyProcess";
+static const JCharacter* kUseVCSCopyID            = "UseVCSCopy::SyGCopyProcess";
 
 /******************************************************************************
  Constructor function (static)
@@ -291,51 +292,59 @@ SyGCopyProcess::SyGCopyProcess
 	JAppendDirSeparator(&destPath);
 
 	JVCSType vcsType = kJUnknownVCSType;
-	if (!isCopy)
+	{
+	JVCSType type1, type2;
+	JBoolean anyVCS  = JIsManagedByVCS(*(srcNameList->FirstElement()), &type1);
+	JBoolean allVCS  = anyVCS;
+	JBoolean sameVCS = anyVCS;
+
+	const JSize srcCount = srcNameList->GetElementCount();
+	for (JIndex i=2; i<=srcCount; i++)
 		{
-		JVCSType type1, type2;
-		JBoolean anyVCS  = JIsManagedByVCS(*(srcNameList->FirstElement()), &type1);
-		JBoolean allVCS  = anyVCS;
-		JBoolean sameVCS = anyVCS;
-
-		const JSize srcCount = srcNameList->GetElementCount();
-		for (JIndex i=2; i<=srcCount; i++)
+		if (JIsManagedByVCS(*(srcNameList->NthElement(i)), &type2))
 			{
-			if (JIsManagedByVCS(*(srcNameList->NthElement(i)), &type2))
+			if (type2 != type1)
 				{
-				if (type2 != type1)
-					{
-					sameVCS = kJFalse;
-					}
-				anyVCS = kJTrue;
+				sameVCS = kJFalse;
 				}
-			else
-				{
-				sameVCS = allVCS = kJFalse;
-				}
+			anyVCS = kJTrue;
 			}
-
-		if (allVCS && sameVCS)
+		else
 			{
-			type2 = JGetVCSType(destPath);
-			if (type1 == type2)
+			sameVCS = allVCS = kJFalse;
+			}
+		}
+
+	if (allVCS && sameVCS)
+		{
+		type2 = JGetVCSType(destPath);
+		if (isCopy && type1 == type2 && type1 != kJGitType)
+			{
+			if ((JGetUserNotification())->AskUserYes(JGetString(kUseVCSCopyID)))
 				{
 				vcsType = type1;
 				}
-			else if ((type2 == kJUnknownVCSType && !(JGetUserNotification())->AskUserNo(JGetString(kNoTargetVCSMoveID))) ||
-					 (type2 != kJUnknownVCSType && !(JGetUserNotification())->AskUserNo(JGetString(kMixedVCSMoveID))))
-				{
-				JXDeleteObjectTask<JBroadcaster>::Delete(this);
-				return;
-				}
 			}
-		else if ((allVCS && !(JGetUserNotification())->AskUserNo(JGetString(kMixedVCSMoveID))) ||
-				 (anyVCS && !(JGetUserNotification())->AskUserNo(JGetString(kSomeVCSMoveID))))
+		else if (!isCopy && type1 == type2)
+			{
+			vcsType = type1;
+			}
+		else if (!isCopy &&
+				 ((type2 == kJUnknownVCSType && !(JGetUserNotification())->AskUserNo(JGetString(kNoTargetVCSMoveID))) ||
+				  (type2 != kJUnknownVCSType && !(JGetUserNotification())->AskUserNo(JGetString(kMixedVCSMoveID)))))
 			{
 			JXDeleteObjectTask<JBroadcaster>::Delete(this);
 			return;
 			}
 		}
+	else if (!isCopy &&
+			 ((allVCS && !(JGetUserNotification())->AskUserNo(JGetString(kMixedVCSMoveID))) ||
+			  (anyVCS && !(JGetUserNotification())->AskUserNo(JGetString(kSomeVCSMoveID)))))
+		{
+		JXDeleteObjectTask<JBroadcaster>::Delete(this);
+		return;
+		}
+	}
 
 	if (itsSrcTable != NULL)
 		{
@@ -348,7 +357,13 @@ SyGCopyProcess::SyGCopyProcess
 	ListenTo(itsDestNode);
 
 	JSize prefixCount = 0;
-	if (isCopy)
+	if (isCopy && vcsType == kJSVNType)
+		{
+		prefixCount = 2;
+		itsSrcNameList->InsertAtIndex(1, "svn");
+		itsSrcNameList->InsertAtIndex(2, "cp");
+		}
+	else if (isCopy)
 		{
 		prefixCount = 2;
 		itsSrcNameList->InsertAtIndex(1, "cp");

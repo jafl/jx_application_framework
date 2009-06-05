@@ -738,6 +738,7 @@ JXTEBase::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
 	Atom*				action,
+	const JPoint&		pt,
 	const Time			time,
 	const JXWidget*		source
 	)
@@ -1621,6 +1622,22 @@ JXTEBase::TEScrollForDrag
 	)
 {
 	return ScrollForDrag(pt);
+}
+
+/******************************************************************************
+ TEScrollForDND (virtual protected)
+
+	Not inline because it is virtual.
+
+ ******************************************************************************/
+
+JBoolean
+JXTEBase::TEScrollForDND
+	(
+	const JPoint& pt
+	)
+{
+	return kJFalse;		// JXContainer does it for us
 }
 
 /******************************************************************************

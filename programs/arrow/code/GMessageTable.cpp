@@ -1024,8 +1024,6 @@ GMessageTable::HandleDNDHere
 		return;
 		}
 
-	ScrollForDrag(pt);
-
 	JPoint cell;
 	const JBoolean ok = GetCell(JPinInRect(pt, GetBounds()), &cell);
 	assert( ok );
@@ -1262,6 +1260,7 @@ GMessageTable::WillAcceptDrop
 	(
 	const JArray<Atom>& typeList,
 	Atom*				action,
+	const JPoint&		pt,
 	const Time			time,
 	const JXWidget*		source
 	)

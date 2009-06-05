@@ -24,6 +24,8 @@ If you hold down the Meta key while selecting an item from the \"Open recent\" m
 <p>
 Added <code>--force-new</code> and <code>--no-force-new</code> command line options.  The latter asks System G to display the file in an existing window, if possible.
 <p>
+Enhanced drag-and-drop to allow dropping on writable folder inside non-writable window.
+<p>
 Fixed crash on OSX 10.4 due to missing <code>/etc/fstab</code>.
 
 <h3> 2.2.0 </h3>

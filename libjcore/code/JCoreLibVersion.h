@@ -76,6 +76,7 @@ static const char* kCurrentJCoreLibVersionStr = "2.5.0";
 //		Optimized string version of SelectionMatches().
 //		Fixed bug in regex version of SelectionMatches() so it returns kJTrue
 //			if the pattern has look-behind or look-ahead assertions.
+//		*** Added new pure virtual function TEScrollForDND().
 //	JTEUndoTyping:
 //		Added firstChar,lastChar arguments to HandleDelete() and HandleFwdDelete().
 //	Defined JBoolean operator!(JBoolean) so you only need JNegate for the

@@ -995,6 +995,7 @@ TestWidget::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
 	Atom*				action,
+	const JPoint&		pt,
 	const Time			time,
 	const JXWidget*		source
 	)
@@ -1003,12 +1004,19 @@ TestWidget::WillAcceptDrop
 
 	if (typeList.GetFirstElement() == (GetSelectionManager())->GetURLXAtom())
 		{
-		cout << endl;
-		cout << "Accepting the drop of type text/uri-list" << endl;
-		cout << endl;
+		if (its2Rect.Contains(pt) || its3Rect.Contains(pt))
+			{
+			cout << endl;
+			cout << "Accepting the drop of type text/uri-list" << endl;
+			cout << endl;
 
-		*action = dndMgr->GetDNDActionPrivateXAtom();
-		return kJTrue;
+			*action = dndMgr->GetDNDActionPrivateXAtom();
+			return kJTrue;
+			}
+		else
+			{
+			return kJFalse;
+			}
 		}
 	else if (*action == dndMgr->GetDNDActionCopyXAtom())
 		{
@@ -1630,7 +1638,7 @@ TestWidget::ReceiveWithFeedback
 			{
 			data->ShouldAcceptDrop(
 				WillAcceptDrop(data->GetTypeList(), data->GetActionPtr(),
-							   data->GetTime(), data->GetSource()));
+							   data->GetPoint(), data->GetTime(), data->GetSource()));
 			}
 		}
 

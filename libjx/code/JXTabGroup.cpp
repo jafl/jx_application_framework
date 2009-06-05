@@ -1383,15 +1383,9 @@ JXTabGroup::HandleMouseDown
 		CreateContextMenu();
 		itsContextMenu->PopUp(this, pt, buttonStates, modifiers);
 		}
-	else if (button == kJXButton4 && itsCanScrollUpFlag && itsFirstDrawIndex > 1)
+	else
 		{
-		itsFirstDrawIndex--;
-		Refresh();
-		}
-	else if (button == kJXButton5 && itsCanScrollDownFlag && itsFirstDrawIndex < GetTabCount())
-		{
-		itsFirstDrawIndex++;
-		Refresh();
+		ScrollForWheel(button, modifiers);
 		}
 }
 
@@ -1553,6 +1547,7 @@ JXTabGroup::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
 	Atom*				action,
+	const JPoint&		pt,
 	const Time			time,
 	const JXWidget*		source
 	)
@@ -1580,6 +1575,59 @@ JXTabGroup::HandleDNDHere
 	if (FindTab(pt, &i, &r))
 		{
 		ShowTab(i);
+		}
+}
+
+/******************************************************************************
+ HandleDNDScroll (virtual protected)
+
+	This is called while the mouse is inside the widget, even if the widget
+	does not currently accept the drop, because it might accept it after it
+	is scrolled.
+
+ ******************************************************************************/
+
+void
+JXTabGroup::HandleDNDScroll
+	(
+	const JPoint&			pt,
+	const JInteger			direction,
+	const JXKeyModifiers&	modifiers
+	)
+{
+	if (direction != 0)
+		{
+		ScrollForWheel(direction > 0 ? kJXButton5 : kJXButton4, modifiers);
+		}
+}
+
+/******************************************************************************
+ ScrollForWheel (protected)
+
+ ******************************************************************************/
+
+JBoolean
+JXTabGroup::ScrollForWheel
+	(
+	const JXMouseButton		button,
+	const JXKeyModifiers&	modifiers
+	)
+{
+	if (button == kJXButton4 && itsCanScrollUpFlag && itsFirstDrawIndex > 1)
+		{
+		itsFirstDrawIndex--;
+		Refresh();
+		return kJTrue;
+		}
+	else if (button == kJXButton5 && itsCanScrollDownFlag && itsFirstDrawIndex < GetTabCount())
+		{
+		itsFirstDrawIndex++;
+		Refresh();
+		return kJTrue;
+		}
+	else
+		{
+		return kJFalse;
 		}
 }
 

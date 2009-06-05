@@ -35,7 +35,7 @@
 
 	BASE CLASS = virtual JBroadcaster
 
-	Copyright © 1996 by John Lindal. All rights reserved.
+	Copyright © 1996-2009 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -524,7 +524,7 @@ JXContainer::DispatchMouseDrag
 {
 	if (itsIsDNDSourceFlag)
 		{
-		(GetDNDManager())->HandleDND(pt, buttonStates, modifiers);
+		(GetDNDManager())->HandleDND(pt, buttonStates, modifiers, 0);
 		}
 	else
 		{
@@ -748,9 +748,17 @@ JXContainer::MouseDown
 		itsHintMgr->Deactivate();
 		}
 
-	// can delete us
+	if (itsIsDNDSourceFlag && (button == kJXButton4 || button == kJXButton5))
+		{
+		(GetDNDManager())->HandleDND(pt, buttonStates, modifiers,
+									 button == kJXButton4 ? -1 : +1);
+		}
+	else if (!itsIsDNDSourceFlag)
+		{
+		// can delete us
 
-	HandleMouseDown(pt, button, clickCount, buttonStates, modifiers);
+		HandleMouseDown(pt, button, clickCount, buttonStates, modifiers);
+		}
 }
 
 /******************************************************************************
@@ -859,6 +867,7 @@ JXContainer::WillAcceptDrop
 	(
 	const JArray<Atom>&	typeList,
 	Atom*				action,
+	const JPoint&		pt,
 	const Time			time,
 	const JXWidget*		source
 	)
@@ -922,6 +931,44 @@ JXContainer::HandleDNDHere
 	(
 	const JPoint&	pt,
 	const JXWidget*	source
+	)
+{
+}
+
+/******************************************************************************
+ DNDScroll (private)
+
+ ******************************************************************************/
+
+void
+JXContainer::DNDScroll
+	(
+	const JPoint&			pt,
+	const JInteger			direction,
+	const JXKeyModifiers&	modifiers
+	)
+{
+	HandleDNDScroll(pt, direction, modifiers);
+	itsWindow->Update();
+}
+
+/******************************************************************************
+ HandleDNDScroll (virtual protected)
+
+	This is called while the mouse is inside the widget, even if the widget
+	does not currently accept the drop, because it might accept it after it
+	is scrolled.
+
+	Normally, this should only be implemented by JXScrollableWidget.
+
+ ******************************************************************************/
+
+void
+JXContainer::HandleDNDScroll
+	(
+	const JPoint&			pt,
+	const JInteger			direction,
+	const JXKeyModifiers&	modifiers
 	)
 {
 }

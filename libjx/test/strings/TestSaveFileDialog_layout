@@ -1,5 +1,6 @@
 0
 obj4_JXLayout::TestSaveFileDialog::JXLayout "PNG"
+desktopButton::TestSaveFileDialog::JXLayout "Desktop"
 saveButton::TestSaveFileDialog::shortcuts::JXLayout "^M"
 obj1_JXLayout::TestSaveFileDialog::JXLayout "Save as:"
 cancelButton::TestSaveFileDialog::JXLayout "Cancel"

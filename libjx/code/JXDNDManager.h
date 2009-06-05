@@ -13,6 +13,7 @@
 #endif
 
 #include <JXSelectionManager.h>
+#include <JXKeyModifiers.h>
 #include <JXCursor.h>
 #include <JRect.h>
 
@@ -101,7 +102,8 @@ public:
 						 TargetFinder* targetFinder);
 	void		HandleDND(const JPoint& pt,
 						  const JXButtonStates& buttonStates,
-						  const JXKeyModifiers& modifiers);
+						  const JXKeyModifiers& modifiers,
+						  const JInteger scrollDirection);
 	void		FinishDND();
 
 	// called by JXWindow
@@ -178,8 +180,11 @@ private:
 	JPoint			itsPrevMousePt;			// last XdndPosition coordinates (local coords of target)
 	Atom			itsPrevHereAction;		// last XdndPosition action
 	Atom			itsPrevStatusAction;	// last XdndStatus action
-	JPoint			itsPrevHandleDNDPt;		// last JPoint sent to HandleDND()
-	Atom			itsPrevHandleDNDAction;	// last action computed inside HandleDND()
+
+	JPoint			itsPrevHandleDNDPt;		// last values sent to HandleDND()
+	Atom			itsPrevHandleDNDAction;
+	JInteger		itsPrevHandleDNDScrollDirection;
+	JXKeyModifiers	itsPrevHandleDNDModifiers;
 
 	JXDNDChooseDropActionDialog*	itsChooseDropActionDialog;
 	Atom*							itsUserDropAction;		// NULL unless waiting for GetDropActionDialog
@@ -221,7 +226,8 @@ private:
 
 	void	SendDNDEnter(const Window xWindow, const Window msgWindow, JXContainer* widget,
 						 const JBoolean isAware, const Atom vers);
-	void	SendDNDHere(const JPoint& pt, const Atom action);
+	void	SendDNDHere(const JPoint& pt, const Atom action,
+						const JInteger scrollDirection, const JXKeyModifiers& modifiers);
 	void	SendDNDLeave(const JBoolean sendPasteClick = kJFalse);
 	void	SendDNDDrop();
 	void	PrepareForDrop(const JXContainer* target);
@@ -244,10 +250,8 @@ private:
 	JBoolean	FindTarget(const JXContainer* coordOwner, const JPoint& pt,
 						   Window* xWindow, Window* msgWindow,
 						   JXContainer** target, Atom* vers) const;
-	JBoolean	StayWithCurrentTarget(const JBoolean isDNDAware, const Window xWindow,
-									  JXContainer* dropWidget, const JPoint& pt,
-									  const JXButtonStates& buttonStates,
-									  const JXKeyModifiers& modifiers) const;
+
+	void	InvokeDNDScroll(const XClientMessageEvent& clientMessage, const JPoint& pt);
 
 	void		FinishDND1();
 	JBoolean	WaitForLastStatusMsg();
