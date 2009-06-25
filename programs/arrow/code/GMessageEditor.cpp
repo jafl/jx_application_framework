@@ -381,7 +381,7 @@ GMessageEditor::WillAcceptDrop
 			}
 		}
 	itsUsingBaseClassDND	= kJTrue;
-	return JXTEBase::WillAcceptDrop(typeList, action, time, source);
+	return JXTEBase::WillAcceptDrop(typeList, action, pt, time, source);
 }
 
 /******************************************************************************

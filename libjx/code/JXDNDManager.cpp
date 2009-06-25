@@ -133,8 +133,10 @@ enum
 	kDNDFinishedFlags		// reserved
 };
 
-const JUInt32 kDNDScrollTargetMask     = 0x00000200;
-const JUInt32 kDNDScrollTargetDownMask = 0x00000100;
+const JUInt32 kDNDScrollTargetMask = 0x00000400;
+const JUInt32 kDNDScrollButtonMask = 0x00000300;
+const JSize kDNDScrollButtonShift  = 8;
+const JUInt32 kDNDScrollModsMask   = 0x000000FF;
 
 /******************************************************************************
  Constructor
@@ -258,12 +260,12 @@ JXDNDManager::BeginDND
 		StopListening(itsMouseContainer);
 		}
 
-	itsMouseWindow                  = None;
-	itsMouseWindowIsAware           = kJFalse;
-	itsMouseContainer               = NULL;
-	itsMsgWindow                    = None;
-	itsPrevHandleDNDAction          = None;
-	itsPrevHandleDNDScrollDirection = 0;
+	itsMouseWindow               = None;
+	itsMouseWindowIsAware        = kJFalse;
+	itsMouseContainer            = NULL;
+	itsMsgWindow                 = None;
+	itsPrevHandleDNDAction       = None;
+	itsPrevHandleDNDScrollButton = (JXMouseButton) 0;
 	itsPrevHandleDNDModifiers.Clear();
 
 	if ((itsDisplay->GetSelectionManager())->SetData(itsDNDSelectionName, data))
@@ -281,7 +283,7 @@ JXDNDManager::BeginDND
 
 		AnnounceTypeList(itsDraggerWindow, *itsDraggerTypeList);
 
-		HandleDND(pt, buttonStates, modifiers, 0);
+		HandleDND(pt, buttonStates, modifiers, (JXMouseButton) 0);
 		return kJTrue;
 		}
 	else
@@ -293,7 +295,7 @@ JXDNDManager::BeginDND
 /******************************************************************************
  HandleDND
 
-	scrollDirection can be -1, 0, +1
+	scrollButton can be 4,5,6,7
 
  ******************************************************************************/
 
@@ -303,7 +305,7 @@ JXDNDManager::HandleDND
 	const JPoint&			pt,
 	const JXButtonStates&	buttonStates,
 	const JXKeyModifiers&	modifiers,
-	const JInteger			scrollDirection
+	const JXMouseButton		scrollButton
 	)
 {
 	assert( itsDragger != NULL );
@@ -334,11 +336,11 @@ JXDNDManager::HandleDND
 
 	// contact the target
 
-	itsPrevHandleDNDPt              = pt;
-	itsPrevHandleDNDAction          = dropAction;
-	itsPrevHandleDNDScrollDirection = scrollDirection;
-	itsPrevHandleDNDModifiers       = modifiers;
-	SendDNDHere(pt, dropAction, scrollDirection, modifiers);
+	itsPrevHandleDNDPt           = pt;
+	itsPrevHandleDNDAction       = dropAction;
+	itsPrevHandleDNDScrollButton = scrollButton;
+	itsPrevHandleDNDModifiers    = modifiers;
+	SendDNDHere(pt, dropAction, scrollButton, modifiers);
 
 	// slow to receive next mouse event
 
@@ -1003,7 +1005,7 @@ JXDNDManager::SendDNDHere
 	(
 	const JPoint&			pt1,
 	const Atom				action,
-	const JInteger			scrollDirection,
+	const JXMouseButton		scrollButton,
 	const JXKeyModifiers&	modifiers
 	)
 {
@@ -1013,7 +1015,7 @@ JXDNDManager::SendDNDHere
 	const JBoolean shouldSendMessage = JI2B(
 						itsMouseWindowIsAware &&
 						(!itsUseMouseRectFlag || !itsMouseRectR.Contains(ptR) ||
-						 scrollDirection != 0) );
+						 scrollButton != 0) );
 
 	if (itsMouseContainer != NULL)
 		{
@@ -1022,7 +1024,7 @@ JXDNDManager::SendDNDHere
 
 		const JPoint ptG2 = (itsMouseContainer->GetWindow())->RootToGlobal(ptR);
 		const JPoint pt2  = itsMouseContainer->GlobalToLocal(ptG2);
-		itsMouseContainer->DNDScroll(pt2, scrollDirection, modifiers);
+		itsMouseContainer->DNDScroll(pt2, scrollButton, modifiers);
 
 		const JBoolean savedAccept = itsWillAcceptDropFlag;
 		Atom acceptedAction        = action;
@@ -1082,15 +1084,11 @@ JXDNDManager::SendDNDHere
 		message.data.l[ kDNDHereTimeStamp ] = itsDisplay->GetLastEventTime();
 		message.data.l[ kDNDHereAction    ] = action;
 
-		if (scrollDirection != 0)
+		if (scrollButton != 0)
 			{
 			message.data.l[ kDNDHereFlags ] |= kDNDScrollTargetMask;
-			if (scrollDirection > 0)
-				{
-				message.data.l[ kDNDHereFlags ] |= kDNDScrollTargetDownMask;
-				}
-
-			message.data.l[ kDNDHereFlags ] |= (modifiers.GetState() & 0x00FF);
+			message.data.l[ kDNDHereFlags ] |= ((scrollButton - 4) << kDNDScrollButtonShift) & kDNDScrollButtonMask;
+			message.data.l[ kDNDHereFlags ] |= (modifiers.GetState() & kDNDScrollModsMask);
 			}
 
 		itsDisplay->SendXEvent(itsMsgWindow, &xEvent);
@@ -1625,13 +1623,13 @@ JXDNDManager::InvokeDNDScroll
 	const JPoint&				pt
 	)
 {
-	const JInteger direction =
-		clientMessage.data.l[ kDNDHereFlags ] & kDNDScrollTargetDownMask ? +1 : -1;
-	const JXKeyModifiers modifiers(itsDisplay, clientMessage.data.l[ kDNDHereFlags ] & 0x000000FF);
+	const JXMouseButton scrollButton = (JXMouseButton)
+		(((clientMessage.data.l[ kDNDHereFlags ] & kDNDScrollButtonMask) >> kDNDScrollButtonShift) + 4);
+	const JXKeyModifiers modifiers(itsDisplay, clientMessage.data.l[ kDNDHereFlags ] & kDNDScrollModsMask);
 
 	itsMouseContainer->DNDScroll(
 		pt,
-		(clientMessage.data.l[ kDNDHereFlags ] & kDNDScrollTargetMask) ? direction : 0,
+		(clientMessage.data.l[ kDNDHereFlags ] & kDNDScrollTargetMask) ? scrollButton : (JXMouseButton) 0,
 		modifiers);
 }
 
@@ -1810,7 +1808,7 @@ JXDNDManager::HandleDNDStatus
 		if (itsSendHereMsgFlag)
 			{
 			SendDNDHere(itsPrevHandleDNDPt, itsPrevHandleDNDAction,
-						itsPrevHandleDNDScrollDirection, itsPrevHandleDNDModifiers);
+						itsPrevHandleDNDScrollButton, itsPrevHandleDNDModifiers);
 			}
 		}
 }

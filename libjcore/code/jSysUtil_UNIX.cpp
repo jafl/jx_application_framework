@@ -62,6 +62,8 @@ struct jUIDInfo
 	uid_t		id;
 	JString*	userName;
 	JString*	realName;
+	JString*	homeDirectory;
+	JString*	shell;
 };
 
 static JArray<jUIDInfo> userInfoMap;
@@ -110,13 +112,19 @@ jGetUserInfo
 			info->realName = new JString(pwbuf->pw_gecos);
 			assert( info->realName != NULL );
 
+			info->homeDirectory = new JString(pwbuf->pw_dir);
+			assert( info->homeDirectory != NULL );
+
+			info->shell = new JString(pwbuf->pw_shell);
+			assert( info->shell != NULL );
+
 			info->id = uid;
 			const JBoolean inserted = userInfoMap.InsertSorted(*info, kJFalse);
 			assert( inserted );
 			}
 		else
 			{
-			info->userName = info->realName = NULL;
+			info->userName = info->realName = info->homeDirectory = info->shell = NULL;
 			}
 		}
 
@@ -181,6 +189,66 @@ JGetUserRealWorldName
 	else
 		{
 		return JString(uid, 0, JString::kForceNoExponent);
+		}
+}
+
+/******************************************************************************
+ JGetUserHomeDirectory
+
+	Returns the home directory of the specified user.
+
+ ******************************************************************************/
+
+JString
+JGetUserHomeDirectory()
+{
+	return JGetUserHomeDirectory(getuid());
+}
+
+JString
+JGetUserHomeDirectory
+	(
+	const uid_t uid
+	)
+{
+	jUIDInfo info;
+	if (jGetUserInfo(uid, &info))
+		{
+		return *(info.homeDirectory);
+		}
+	else
+		{
+		return "/";
+		}
+}
+
+/******************************************************************************
+ JGetUserShell
+
+	Returns the shell of the specified user.
+
+ ******************************************************************************/
+
+JString
+JGetUserShell()
+{
+	return JGetUserShell(getuid());
+}
+
+JString
+JGetUserShell
+	(
+	const uid_t uid
+	)
+{
+	jUIDInfo info;
+	if (jGetUserInfo(uid, &info))
+		{
+		return *(info.shell);
+		}
+	else
+		{
+		return "/bin/sh";
 		}
 }
 

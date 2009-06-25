@@ -2996,7 +2996,7 @@ JTextEditor::ReplaceRange
 	buffer->RemoveSubstring(range);
 	styles->RemoveNextElements(range.first, range.GetLength());
 
-	return InsertText(buffer, styles, range.first, replaceText);
+	return InsertText(buffer, styles, range.first, replaceText, NULL, NULL);
 }
 
 /******************************************************************************
@@ -6789,7 +6789,7 @@ JTextEditor::InsertText
 {
 	assert( itsSelection.IsEmpty() );
 
-	return InsertText(itsBuffer, itsStyles, charIndex, text, style);
+	return InsertText(itsBuffer, itsStyles, charIndex, text, style, &itsInsertionFont);
 }
 
 JSize
@@ -6799,7 +6799,8 @@ JTextEditor::InsertText
 	JRunArray<Font>*		targetStyle,
 	const JIndex			charIndex,
 	const JCharacter*		text,
-	const JRunArray<Font>*	style	// can be NULL
+	const JRunArray<Font>*	style,			// can be NULL
+	const Font*				defaultFont		// can be NULL
 	)
 {
 	const JSize textLen =
@@ -6903,7 +6904,8 @@ JTextEditor::InsertText
 			else
 				{
 				targetStyle->InsertElementsAtIndex(
-					charIndex, CalcInsertionFont(*targetText, *targetStyle, charIndex),
+					charIndex,
+					defaultFont != NULL ? *defaultFont : CalcInsertionFont(*targetText, *targetStyle, charIndex),
 					newText != NULL ? newText->GetLength() : textLen);
 				}
 

@@ -26,6 +26,8 @@ Added <code>--force-new</code> and <code>--no-force-new</code> command line opti
 <p>
 Enhanced drag-and-drop to allow dropping on writable folder inside non-writable window.
 <p>
+Supports the latest updates to the <a href=http://newplanetsoftware.com/xdnd/>XDND protocol</a>.
+<p>
 Fixed crash on OSX 10.4 due to missing <code>/etc/fstab</code>.
 
 <h3> 2.2.0 </h3>

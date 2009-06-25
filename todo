@@ -1,8 +1,15 @@
-OSX:
-	when show hidden window, moves down
-
 jcc:
-	rock-stupid cmd line window:  Meta-Return executes (blocking window) (dahvid.minor@gmail.com)
+	rock-stupid cmd line window: (dahvid.minor@gmail.com)
+		typing in bold
+		Returns inserts and sends bold text to shell
+			maintain insert location for text from shell until next user return
++		Ctrl-Return inserts plain return
+
+		man -> "jcc --man"
+		apropos -> jcc --apropos
+		vi -> jcc
+		less -> jcc
+		more -> jcc
 
 medic:
 	switch debugger:
@@ -27,7 +34,15 @@ Docking
 
 -----
 
+remove dependency on ACE
+
 Daily Comics:
+	iphone:
+		scrape each site once per hour (comics.com and other big sites once per day)
+			for each domain, 1 request per minute
+		scp results to sourceforge.net
+		app pulls from sourceforge
+
 	if skip before loaded, saves prev in that slot
 	when first open dashboard after reboot, sizes window to back, even when front visible
 

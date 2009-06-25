@@ -13,6 +13,7 @@
 #endif
 
 #include <JXSelectionManager.h>
+#include <JXButtonStates.h>
 #include <JXKeyModifiers.h>
 #include <JXCursor.h>
 #include <JRect.h>
@@ -103,7 +104,7 @@ public:
 	void		HandleDND(const JPoint& pt,
 						  const JXButtonStates& buttonStates,
 						  const JXKeyModifiers& modifiers,
-						  const JInteger scrollDirection);
+						  const JXMouseButton scrollButton);
 	void		FinishDND();
 
 	// called by JXWindow
@@ -183,7 +184,7 @@ private:
 
 	JPoint			itsPrevHandleDNDPt;		// last values sent to HandleDND()
 	Atom			itsPrevHandleDNDAction;
-	JInteger		itsPrevHandleDNDScrollDirection;
+	JXMouseButton	itsPrevHandleDNDScrollButton;
 	JXKeyModifiers	itsPrevHandleDNDModifiers;
 
 	JXDNDChooseDropActionDialog*	itsChooseDropActionDialog;
@@ -227,7 +228,7 @@ private:
 	void	SendDNDEnter(const Window xWindow, const Window msgWindow, JXContainer* widget,
 						 const JBoolean isAware, const Atom vers);
 	void	SendDNDHere(const JPoint& pt, const Atom action,
-						const JInteger scrollDirection, const JXKeyModifiers& modifiers);
+						const JXMouseButton scrollButton, const JXKeyModifiers& modifiers);
 	void	SendDNDLeave(const JBoolean sendPasteClick = kJFalse);
 	void	SendDNDDrop();
 	void	PrepareForDrop(const JXContainer* target);

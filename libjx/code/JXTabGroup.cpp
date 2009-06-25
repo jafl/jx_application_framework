@@ -1591,13 +1591,13 @@ void
 JXTabGroup::HandleDNDScroll
 	(
 	const JPoint&			pt,
-	const JInteger			direction,
+	const JXMouseButton		scrollButton,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (direction != 0)
+	if (scrollButton != 0)
 		{
-		ScrollForWheel(direction > 0 ? kJXButton5 : kJXButton4, modifiers);
+		ScrollForWheel(scrollButton, modifiers);
 		}
 }
 

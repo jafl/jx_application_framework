@@ -900,7 +900,7 @@ private:
 					   const JRunArray<Font>* style = NULL);
 	JSize	InsertText(JString* targetText, JRunArray<Font>* targetStyle,
 					   const JIndex charIndex, const JCharacter* text,
-					   const JRunArray<Font>* style = NULL);
+					   const JRunArray<Font>* style, const Font* defaultStyle);
 	void	DeleteText(const JIndex startIndex, const JIndex endIndex);
 	void	DeleteText(const JIndexRange& range);
 

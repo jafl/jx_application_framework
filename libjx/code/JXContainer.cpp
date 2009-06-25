@@ -524,7 +524,7 @@ JXContainer::DispatchMouseDrag
 {
 	if (itsIsDNDSourceFlag)
 		{
-		(GetDNDManager())->HandleDND(pt, buttonStates, modifiers, 0);
+		(GetDNDManager())->HandleDND(pt, buttonStates, modifiers, (JXMouseButton) 0);
 		}
 	else
 		{
@@ -748,10 +748,10 @@ JXContainer::MouseDown
 		itsHintMgr->Deactivate();
 		}
 
-	if (itsIsDNDSourceFlag && (button == kJXButton4 || button == kJXButton5))
+	if (itsIsDNDSourceFlag &&
+		(button == kJXButton4 || button == kJXButton5 || button == 6 || button == 7))
 		{
-		(GetDNDManager())->HandleDND(pt, buttonStates, modifiers,
-									 button == kJXButton4 ? -1 : +1);
+		(GetDNDManager())->HandleDND(pt, buttonStates, modifiers, button);
 		}
 	else if (!itsIsDNDSourceFlag)
 		{
@@ -944,11 +944,11 @@ void
 JXContainer::DNDScroll
 	(
 	const JPoint&			pt,
-	const JInteger			direction,
+	const JXMouseButton		scrollButton,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	HandleDNDScroll(pt, direction, modifiers);
+	HandleDNDScroll(pt, scrollButton, modifiers);
 	itsWindow->Update();
 }
 
@@ -967,7 +967,7 @@ void
 JXContainer::HandleDNDScroll
 	(
 	const JPoint&			pt,
-	const JInteger			direction,
+	const JXMouseButton		scrollButton,
 	const JXKeyModifiers&	modifiers
 	)
 {

@@ -168,7 +168,7 @@ protected:
 									  const JXWidget* source);
 
 	// mostly for use by JXScrollableWidget
-	virtual void	HandleDNDScroll(const JPoint& pt, const JInteger direction,
+	virtual void	HandleDNDScroll(const JPoint& pt, const JXMouseButton scrollButton,
 									const JXKeyModifiers& modifiers);
 
 	JBoolean			DispatchClientMessage(const XClientMessageEvent& clientMessage);
@@ -278,7 +278,7 @@ private:
 	void	FinishDNDSource();
 	void	DNDEnter();
 	void	DNDHere(const JPoint& pt, const JXWidget* source);
-	void	DNDScroll(const JPoint& pt, const JInteger direction,
+	void	DNDScroll(const JPoint& pt, const JXMouseButton scrollButton,
 					  const JXKeyModifiers& modifiers);
 	void	DNDLeave();
 	void	DNDDrop(const JPoint& pt, const JArray<Atom>& typeList,

@@ -131,7 +131,7 @@ protected:
 									   const JPoint& pt, const Time time,
 									   const JXWidget* source);
 	virtual void		HandleDNDHere(const JPoint& pt, const JXWidget* source);
-	virtual void		HandleDNDScroll(const JPoint& pt, const JInteger direction,
+	virtual void		HandleDNDScroll(const JPoint& pt, const JXMouseButton scrollButton,
 										const JXKeyModifiers& modifiers);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);

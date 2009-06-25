@@ -205,13 +205,13 @@ void
 JXScrollableWidget::HandleDNDScroll
 	(
 	const JPoint&			pt,
-	const JInteger			direction,
+	const JXMouseButton		scrollButton,
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (direction != 0)
+	if (scrollButton != 0)
 		{
-		ScrollForWheel(direction > 0 ? kJXButton5 : kJXButton4, modifiers);
+		ScrollForWheel(scrollButton, modifiers);
 		return;
 		}
 
@@ -572,6 +572,16 @@ JXScrollableWidget::ScrollForWheel
 	else if (button == kJXButton5)
 		{
 		delta = +1;
+		}
+	else if (button == 6)
+		{
+		delta     = -1;
+		scrollbar = hScrollbar;
+		}
+	else if (button == 7)
+		{
+		delta     = -1;
+		scrollbar = hScrollbar;
 		}
 	else
 		{

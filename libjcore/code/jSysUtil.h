@@ -27,6 +27,12 @@ JString	JGetUserName(const uid_t uid);
 JString	JGetUserRealWorldName();
 JString	JGetUserRealWorldName(const uid_t uid);
 
+JString	JGetUserHomeDirectory();
+JString	JGetUserHomeDirectory(const uid_t uid);
+
+JString	JGetUserShell();
+JString	JGetUserShell(const uid_t uid);
+
 JString	JGetGroupName();
 JString	JGetGroupName(const gid_t gid);
 

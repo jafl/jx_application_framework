@@ -121,6 +121,7 @@ static const char* kCurrentJXLibVersionStr = "2.5.0";
 //		Added Save/RestoreDisplayState().
 //		*** Remove all calls to ScrollForDrag() from implementations of HandleDNDHere().
 //			Scrolling during DND is now done automatically.
+//		ScrollForWheel() supports horizontal scrolling via mouse buttons 6 & 7.
 //	Created JXGetStringDialog.
 //	Renamed JXNewDisplayDialog to JXOpenDisplayDialog.
 //	JXCSFDialogBase:
