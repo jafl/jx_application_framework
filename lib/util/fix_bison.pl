@@ -25,6 +25,8 @@ my $new_text =  $1;
 $old_text  =~ m|/\* ! YYPARSE_PARAM \*/([^*])+/\* ! YYPARSE_PARAM \*/(.+)$|s;
 $new_text .=  $2;
 
+$new_text =~ s/\nint yydebug;\n/\nstatic int yydebug;\n/;
+
 open(F, '> '.$file);
 print F $new_text;
 close(F);

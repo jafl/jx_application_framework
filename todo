@@ -1,17 +1,19 @@
 jcc:
-	rock-stupid cmd line window: (dahvid.minor@gmail.com)
-		typing in bold
-		Returns inserts and sends bold text to shell
-			maintain insert location for text from shell until next user return
-+		Ctrl-Return inserts plain return
+	crash because unable to convert file id to file name (click in Symbol Browser)
+		doesn't everything get updated when file is removed from File List?
 
-		man -> "jcc --man"
-		apropos -> jcc --apropos
-		vi -> jcc
-		less -> jcc
-		more -> jcc
+	Ctrl-A & Meta-left: jump to start of bold text, if preceding char is bold
+
+	rock-stupid cmd line window: (dahvid.minor@gmail.com)
 
 medic:
+	java debug
+		http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html
+		http://java.sun.com/javase/6/docs/technotes/guides/jpda/jdwp-spec.html
+		http://java.sun.com/javase/6/docs/platform/jpda/jdwp/jdwp-protocol.html
+
+		http://java.sun.com/j2se/1.5.0/docs/tooldocs/solaris/jdb.html
+		http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html
 	switch debugger:
 		clear current source window
 		clear names in windows and program button in cmd line window

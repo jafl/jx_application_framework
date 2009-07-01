@@ -2099,15 +2099,8 @@ JXTEBase::ShareEditMenu
 	const JBoolean	allowToggleReadOnly
 	)
 {
-	assert( itsEditMenu == NULL && te->itsEditMenu != NULL );
-
-	itsEditMenu               = te->itsEditMenu;
-	itsCanCheckSpellingFlag   = allowCheckSpelling;
-	itsCanAdjustMarginsFlag   = allowAdjustMargins;
-	itsCanCleanWhitespaceFlag = allowCleanWhitespace;
-	itsCanToggleReadOnlyFlag  = allowToggleReadOnly;
-
-	ListenTo(itsEditMenu);
+	ShareEditMenu(te->itsEditMenu, allowCheckSpelling, allowAdjustMargins,
+				  allowCleanWhitespace, allowToggleReadOnly);
 	return itsEditMenu;
 }
 

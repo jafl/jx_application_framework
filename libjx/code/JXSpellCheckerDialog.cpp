@@ -68,13 +68,8 @@ JXSpellCheckerDialog::~JXSpellCheckerDialog()
 void
 JXSpellCheckerDialog::Activate()
 {
-	if (!IsActive())
-		{
-		(GetSupervisor())->Suspend();
-		itsEditor->TEActivate();
-		}
-
 	JXDialogDirector::Activate();
+	itsEditor->TEActivate();
 }
 
 /******************************************************************************
@@ -89,11 +84,9 @@ JXSpellCheckerDialog::Deactivate()
 		{
 		JXWindow* w = GetWindow();
 		itsChecker->SaveWindowSize(w->GetFrameGlobal());
-
-		itsEditor->TEDeactivate();
-		(GetSupervisor())->Resume();
 		}
 
+	itsEditor->TEDeactivate();
 	return JXDialogDirector::Deactivate();
 }
 
