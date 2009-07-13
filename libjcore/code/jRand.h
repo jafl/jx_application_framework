@@ -44,7 +44,11 @@ JKHRandInt64
 	const JInt64 seed
 	)
 {
+	#if defined SIZEOF_LONGLONG
+	return 6364136223846793005LL*seed + 1LL;
+	#else
 	return 6364136223846793005L*seed + 1L;
+	#endif
 }
 #endif
 

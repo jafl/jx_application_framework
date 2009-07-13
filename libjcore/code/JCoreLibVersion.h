@@ -40,6 +40,7 @@ static const char* kCurrentJCoreLibVersionStr = "2.5.0";
 //	jProcessUtil:
 //		Added JSetProcessPriority().
 //		Added versions of JExecute() which specify workingDirectory.
+//		Added JPrintChildExitReason().
 //	JProcess:
 //		Added SetPriority().
 //		Added constructors which specify workingDirectory.

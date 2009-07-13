@@ -257,7 +257,22 @@ JF2B
 	*** next version does it correctly!
 #endif
 
-#if SIZEOF_LONG == 8
+#if defined SIZEOF_LONGLONG && SIZEOF_LONGLONG == 8
+
+	// Need a way to detect that the type exists
+	#define JUInt64_EXISTS
+	#define  JInt64_EXISTS
+
+	typedef unsigned long long JUInt64;
+	typedef   signed long long JInt64;
+
+	const JUInt64 kJUInt64Min = 0;
+	const JUInt64 kJUInt64Max = ULLONG_MAX;
+
+	const JInt64 kJInt64Min = LLONG_MIN;
+	const JInt64 kJInt64Max = LLONG_MAX;
+
+#elif SIZEOF_LONG == 8
 
 	// Need a way to detect that the type exists
 	#define JUInt64_EXISTS

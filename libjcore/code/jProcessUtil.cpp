@@ -14,6 +14,7 @@
 #include <JProcessError.h>
 #include <JStdError.h>
 #include <jStreamUtil.h>
+#include <jGlobals.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -31,6 +32,15 @@ static JBoolean theIncludeCWDOnPathFlag = kJFalse;
 
 void		JCleanArg(JString* arg);
 JBoolean	JProgramAvailable(const JCharacter* programName, JString* fixedName);
+
+// string ID's
+
+static const JCharacter* kStatusSuccessID    = "StatusSuccess::jProcessUtil";
+static const JCharacter* kStatusKillID       = "StatusKill::jProcessUtil";
+static const JCharacter* kStatusErrorCodeID  = "StatusErrorCode::jProcessUtil";
+static const JCharacter* kStatusTerminatedID = "StatusTerminated::jProcessUtil";
+static const JCharacter* kStatusStoppedID    = "StatusStopped::jProcessUtil";
+static const JCharacter* kStatusUnknownID    = "StatusUnknown::jProcessUtil";
 
 /******************************************************************************
  JPrepArgForExec
@@ -757,6 +767,59 @@ JDecodeChildExitReason
 
 	*result = 0;
 	return kJChildFinished;
+}
+
+/******************************************************************************
+ JPrintChildExitReason
+
+ ******************************************************************************/
+
+JString
+JPrintChildExitReason
+	(
+	const JChildExitReason	reason,
+	const int				result
+	)
+{
+	if (reason == kJChildFinished && result == 0)
+		{
+		return JGetString(kStatusSuccessID);
+		}
+	else if (reason == kJChildSignalled && result == SIGKILL)
+		{
+		return JGetString(kStatusKillID);
+		}
+	else if (reason == kJChildFinished)
+		{
+		const JString errValue(result, JString::kBase10);
+		const JCharacter* map[] =
+			{
+			"code", errValue
+			};
+		return JGetString(kStatusErrorCodeID, map, sizeof(map));
+		}
+	else if (reason == kJChildSignalled)
+		{
+		const JString sigName = JGetSignalName(result);
+		const JCharacter* map[] =
+			{
+			"signal", sigName
+			};
+		return JGetString(kStatusTerminatedID, map, sizeof(map));
+		}
+	else if (reason == kJChildStopped)
+		{
+		const JString sigName = JGetSignalName(result);
+		const JCharacter* map[] =
+			{
+			"signal", sigName
+			};
+		return JGetString(kStatusStoppedID, map, sizeof(map));
+		}
+	else
+		{
+		return JGetString(kStatusUnknownID);
+		}
 }
 
 /******************************************************************************

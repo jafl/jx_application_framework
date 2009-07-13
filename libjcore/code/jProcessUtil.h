@@ -115,7 +115,8 @@ JError JWaitForChild(const pid_t pid, ACE_exitcode* status = NULL);
 
 	// evaluate "status" from JWaitForChild()
 
-JChildExitReason JDecodeChildExitReason(const ACE_exitcode status, int* result);
+JChildExitReason	JDecodeChildExitReason(const ACE_exitcode status, int* result);
+JString				JPrintChildExitReason(const JChildExitReason reason, const int result);
 
 	// send signal
 

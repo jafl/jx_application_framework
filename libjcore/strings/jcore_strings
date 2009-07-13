@@ -59,6 +59,15 @@ JNonBlockedSignal		"A non-blocked signal was received which interrupted the oper
 
 JNotCompressed			"\"$name\" is not compressed."
 
+# jProcessUtil
+
+StatusSuccess::jProcessUtil		"Program finished successfully"
+StatusKill::jProcessUtil		"Program terminated by SIGKILL"
+StatusErrorCode::jProcessUtil	"Program returned error code $code"
+StatusTerminated::jProcessUtil	"Program terminated by $signal"
+StatusStopped::jProcessUtil		"Program stopped by $signal"
+StatusUnknown::jProcessUtil		"Program terminated for unknown reason"
+
 # JImage
 
 UnknownFileType::JImage		"\"$name\" either does not contain an image or uses an supported format."
