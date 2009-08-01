@@ -2012,10 +2012,10 @@ operator<<
 static void  Round(int start, int B, int D[], int *exp, const int sigDigitCount);
 static void  Shift(int* start, int D[], int* exp, const int sigDigitCount);
 
-static void  JAssignString(char s1[], char *s2);
-static void  JInsertSubstring(char s1[], short pos1, char *s2, short pos2, short pos3);
+static void  JAssignString(char s1[], const char *s2);
+static void  JInsertSubstring(char s1[], short pos1, const char *s2, short pos2, short pos3);
 static void  JShiftSubstring(char s[], short pos1, short pos2, short shift);
-static short JLocateSubstring(char *s1, char *s2);
+static short JLocateSubstring(const char *s1, const char *s2);
 //static void  JTrimSpaces(char* s);
 
 inline void
@@ -2530,7 +2530,7 @@ JBoolean	neg,valid;
 
  -----------------------------------------------------------------------------*/
 
-void JAssignString(char s1[],char *s2)
+void JAssignString(char s1[],const char *s2)
 {
 short i,len2;
 
@@ -2547,7 +2547,7 @@ short i,len2;
 
  -----------------------------------------------------------------------------*/
 
-void JInsertSubstring(char s1[],short pos1,char *s2,short pos2,short pos3)
+void JInsertSubstring(char s1[],short pos1,const char *s2,short pos2,short pos3)
 {
 short i,len1,len2;
 
@@ -2599,7 +2599,7 @@ short i,len;
 
  -----------------------------------------------------------------------------*/
 
-short JLocateSubstring(char *s1,char *s2)
+short JLocateSubstring(const char *s1,const char *s2)
 {
 short i,len1,len2;
 

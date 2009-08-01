@@ -102,7 +102,7 @@ CommitBranchTitle::SyGFileTreeTable		"Commit Branch"
 CommitBranchPrompt::SyGFileTreeTable	"Commit log message:"
 WarnRevertBranch::SyGFileTreeTable		"Are you sure you want to discard all changes?"
 
-AskRelativeAlias::SyGFileTreeTable	"Do you want the alias to be a relative symlink?"
+AskRelativeAlias::SyGFileTreeTable	"Do you want the alias for $name to be a relative symlink?"
 
 # SyGFindFileTask
 

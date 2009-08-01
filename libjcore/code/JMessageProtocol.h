@@ -37,7 +37,7 @@ public:
 
 	enum
 		{
-		kDefaultBufferSize = 1024
+		kDefaultBufferSize = 65536
 		};
 
 public:

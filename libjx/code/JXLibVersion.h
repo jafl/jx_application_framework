@@ -68,6 +68,7 @@ static const char* kCurrentJXLibVersionStr = "2.5.0";
 //		Removed CastToJXFileDocument() since dynamic_cast<> now does the job.
 //	JXMenu:
 //		Removed CastTo*() since dynamic_cast<> now does the job.
+//		Optimized PrepareToOpenMenu() to only call parent if not already open.
 //	Added awareness of Xinerama.  Dialogs are now centered on the "active" screen.
 //	Created JXSharedPrefObject to allow JXSharedPrefsManager to be more general.
 //		Now, JXSharedPrefsManager only needs reserved ID's.  It does not need
@@ -132,6 +133,12 @@ static const char* kCurrentJXLibVersionStr = "2.5.0";
 //		Added operator== and operator!=
 //	JXButtonStates:
 //		Added operator== and operator!=
+//	JXFileListTable:
+//		Modified AddFile() to always insert the file, even if it does not
+//			exist.  This aligns better with reality, since existence at the
+//			time of insertion is no guarantee of existence later on.  This
+//			also simplifies the usage, because fullNameIndex will always be
+//			valid.
 
 // version 2.5.0:
 //	*** All egcs thunks hacks have been removed.

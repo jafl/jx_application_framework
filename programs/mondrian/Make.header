@@ -12,7 +12,6 @@ JXDIR    := ${JX_ROOT}/include/jx
 JLIBDIR     := ${JX_ROOT}/lib
 JCORELIBDIR := ${JX_ROOT}/libjcore
 JXLIBDIR    := ${JX_ROOT}/libjx
-ACELIBDIR   := ${JX_ROOT}/ACE
 
 # Directories to search for header files
 
@@ -77,6 +76,8 @@ default: libs ${PROG_NAME}
 .PHONY : Makefiles
 Makefiles:
 
+include ${JX_ROOT}/include/make/jx_targets
+
 #
 # string data
 #
@@ -115,7 +116,7 @@ libs:
 jxinstall: ${PROG_NAME}
 	@strip ${call EXE, ${PROG_NAME}}
   ifneq (${J_WANT_INSTALL},0)
-	@mv ${PROG_NAME} ${JX_INSTALL_ROOT}/
+	@cp ${PROG_NAME} ${JX_INSTALL_ROOT}/
   endif
 
 .PHONY : jxuninstall
@@ -221,12 +222,6 @@ clean_rpm:
 debug: staticACE libs
 	@${RM} ${PROG_NAME}
 	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" ${PROG_NAME}
-
-.PHONY : staticACE
-staticACE:
-  ifdef J_BUILD_SHARED_LIB
-	@cd ${ACELIBDIR}; ${MAKE} static
-  endif
 
 #
 # static binary

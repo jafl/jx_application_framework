@@ -165,7 +165,7 @@ SyGFindFileTask::ReceiveMessageLine()
 	const JBoolean ok = itsMessageLink->GetNextMessage(&path);
 	assert( ok );
 
-	(SyGGetApplication())->OpenDirectory(path, NULL, kJFalse, kJFalse, kJFalse, kJFalse);
+	(SyGGetApplication())->OpenDirectory(path, NULL, NULL, kJFalse, kJFalse, kJFalse, kJFalse);
 	itsFoundFilesFlag = kJTrue;
 }
 

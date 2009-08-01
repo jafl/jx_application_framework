@@ -9,10 +9,9 @@ CODEDIR  := ./code
 JCOREDIR := ${JX_ROOT}/include/jcore
 JXDIR    := ${JX_ROOT}/include/jx
 
-JLIBDIR       := ${JX_ROOT}/lib
-JCORELIBDIR   := ${JX_ROOT}/libjcore
-JXLIBDIR      := ${JX_ROOT}/libjx
-ACELIBDIR     := ${JX_ROOT}/ACE
+JLIBDIR     := ${JX_ROOT}/lib
+JCORELIBDIR := ${JX_ROOT}/libjcore
+JXLIBDIR    := ${JX_ROOT}/libjx
 
 # Directories to search for header files
 
@@ -65,6 +64,8 @@ default: libs
 .PHONY : Makefiles
 Makefiles:
 
+include ${JX_ROOT}/include/make/jx_targets
+
 #
 # string data
 #
@@ -96,7 +97,7 @@ libs:
 jxinstall: wiz war
 	@strip ${call EXE, wiz} ${call EXE, war}
   ifneq (${J_WANT_INSTALL},0)
-	@mv wiz war ${JX_INSTALL_ROOT}/
+	@cp wiz war ${JX_INSTALL_ROOT}/
   endif
 
 .PHONY : jxuninstall
@@ -134,12 +135,6 @@ debug: staticACE libs
 	@${RM} wiz war
 	@${MAKE} "LOADLIBES=${WIZ_DEBUG_LIBS}" wiz
 	@${MAKE} "LOADLIBES=${WAR_DEBUG_LIBS}" war
-
-.PHONY : staticACE
-staticACE:
-  ifdef J_BUILD_SHARED_LIB
-	@cd ${ACELIBDIR}; ${MAKE} static
-  endif
 
 #
 # publish beta version

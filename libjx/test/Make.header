@@ -12,7 +12,6 @@ JXDIR    := ${JX_ROOT}/include/jx
 JLIBDIR     := ${JX_ROOT}/lib
 JCORELIBDIR := ${JX_ROOT}/libjcore
 JXLIBDIR    := ${JX_ROOT}/libjx
-ACELIBDIR   := ${JX_ROOT}/ACE
 
 # Directories to search for header files
 
@@ -64,6 +63,8 @@ default: libs all
 
 .PHONY : Makefiles
 Makefiles:
+
+include ${JX_ROOT}/include/make/jx_targets
 
 #
 # string data
@@ -118,12 +119,6 @@ DEBUG_LOADLIBES := -L${JLIBDIR} \
 debug: staticACE libs
 	@${RM} testjx
 	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" testjx
-
-.PHONY : staticACE
-staticACE:
-  ifdef J_BUILD_SHARED_LIB
-	@cd ${ACELIBDIR}; ${MAKE} static
-  endif
 
 #
 # static binary

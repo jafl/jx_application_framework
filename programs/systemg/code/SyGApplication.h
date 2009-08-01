@@ -36,7 +36,7 @@ public:
 
 	JBoolean	OpenDirectory();
 	JBoolean	OpenDirectory(const JString& pathName,
-							  SyGTreeDir** dir = NULL,
+							  SyGTreeDir** dir = NULL, JIndex* row = NULL,
 							  const JBoolean deiconify = kJTrue,
 							  const JBoolean reportError = kJTrue,
 							  const JBoolean forceNew = kJTrue,

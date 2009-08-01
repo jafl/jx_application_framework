@@ -12,7 +12,6 @@ JXDIR    := ${JX_ROOT}/include/jx
 JLIBDIR     := ${JX_ROOT}/lib
 JCORELIBDIR := ${JX_ROOT}/libjcore
 JXLIBDIR    := ${JX_ROOT}/libjx
-ACELIBDIR   := ${JX_ROOT}/ACE
 
 # Directories to search for header files
 
@@ -25,7 +24,11 @@ SEARCHDIRS := -I${CODEDIR} \
 SCRIPTS    := jfdesign convert_gravity
 DATA_FILES := class_map option_map need_font_list need_create_list
 
-ROOT_DATA_FILE_DIR := /usr/lib/jx/jxlayout
+ifndef JXLAYOUTDIR
+  ROOT_DATA_FILE_DIR := /usr/lib/jx/jxlayout
+else
+  ROOT_DATA_FILE_DIR := ${JXLAYOUTDIR}
+endif
 
 # makemake variables
 
@@ -61,6 +64,8 @@ default: libs jxlayout
 .PHONY : Makefiles
 Makefiles:
 
+include ${JX_ROOT}/include/make/jx_targets
+
 #
 # required libraries
 #
@@ -95,8 +100,10 @@ jxinstall: jxlayout
 	@cp jfdesign ${JX_INSTALL_ROOT}/
    ifeq (${shell whoami},root)
 	@mkdir -p ${ROOT_DATA_FILE_DIR}/
-	@cp ${DATA_FILES} ${ROOT_DATA_FILE_DIR}/
    endif
+	@if [[ -d ${ROOT_DATA_FILE_DIR}/ ]]; then \
+       cp ${DATA_FILES} ${ROOT_DATA_FILE_DIR}/; \
+     fi
   endif
 
 .PHONY : jxuninstall
@@ -120,12 +127,6 @@ DEBUG_LOADLIBES := -L${JLIBDIR} \
 debug: staticACE libs
 	@${RM} jxlayout
 	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" jxlayout
-
-.PHONY : staticACE
-staticACE:
-  ifdef J_BUILD_SHARED_LIB
-	@cd ${ACELIBDIR}; ${MAKE} static
-  endif
 
 #
 # personal install

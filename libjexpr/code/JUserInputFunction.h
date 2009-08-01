@@ -83,6 +83,7 @@ protected:
 	virtual JBoolean	TEScrollToRect(const JRect& rect,
 									   const JBoolean centerInDisplay);
 	virtual JBoolean	TEScrollForDrag(const JPoint& pt);
+	virtual JBoolean	TEScrollForDND(const JPoint& pt);
 	virtual void		TESetVertScrollStep(const JCoordinate vStep);
 	virtual void		TEClipboardChanged();
 	virtual JBoolean	TEOwnsClipboard() const;

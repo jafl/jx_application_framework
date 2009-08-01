@@ -9,6 +9,7 @@
 
 #include <JCoreStdInc.h>
 #include <jWebUtil.h>
+#include <string.h>
 #include <jAssert.h>
 
 /******************************************************************************

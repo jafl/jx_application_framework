@@ -308,7 +308,7 @@ JTextEditor::JTextEditor
 
 	if (type == kFullEditor)
 		{
-		itsBuffer->SetBlockSize(1024);
+		itsBuffer->SetBlockSize(4096);
 		itsStyles->SetBlockSize(128);
 		itsLineStarts->SetBlockSize(128);
 		itsLineGeom->SetBlockSize(128);
@@ -1540,6 +1540,14 @@ JTextEditor::HandleHTMLOnCmd
 		itsHTMLLexerState->UpdateFontID();
 		}
 
+	// quote
+
+	else if (cmd == "q")
+		{
+		AppendCharsForHTML("\"", itsHTMLLexerState->font);
+		(itsHTMLLexerState->newlineCount)++;
+		}
+
 	// bold
 
 	else if (cmd == "b" || cmd == "strong")
@@ -1926,6 +1934,14 @@ JTextEditor::HandleHTMLOffCmd
 		{
 		AppendNewlinesForHTML(2);
 		itsHTMLLexerState->PopFont();
+		}
+
+	// quote
+
+	else if (cmd == "q")
+		{
+		AppendCharsForHTML("\"", itsHTMLLexerState->font);
+		(itsHTMLLexerState->newlineCount)++;
 		}
 
 	// close style

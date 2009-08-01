@@ -9,15 +9,14 @@ CODEDIR     := ./code
 MAILTREE    := ./MailTree
 ADDBOOKTREE := ./ABTree
 
-JCOREDIR  := ${JX_ROOT}/include/jcore
-JXDIR     := ${JX_ROOT}/include/jx
-JFSDIR    := ${JX_ROOT}/include/jfs
+JCOREDIR := ${JX_ROOT}/include/jcore
+JXDIR    := ${JX_ROOT}/include/jx
+JFSDIR   := ${JX_ROOT}/include/jfs
 
-JLIBDIR      := ${JX_ROOT}/lib
-JCORELIBDIR  := ${JX_ROOT}/libjcore
-JXLIBDIR     := ${JX_ROOT}/libjx
-JFSLIBDIR    := ${JX_ROOT}/libjfs
-ACELIBDIR    := ${JX_ROOT}/ACE
+JLIBDIR     := ${JX_ROOT}/lib
+JCORELIBDIR := ${JX_ROOT}/libjcore
+JXLIBDIR    := ${JX_ROOT}/libjx
+JFSLIBDIR   := ${JX_ROOT}/libjfs
 
 # Directories to search for header files
 
@@ -86,6 +85,8 @@ default: libs arrow
 .PHONY : Makefiles
 Makefiles:
 
+include ${JX_ROOT}/include/make/jx_targets
+
 #
 # string data
 #
@@ -124,7 +125,7 @@ libs:
 jxinstall: arrow
 	@strip ${call EXE, arrow}
   ifneq (${J_WANT_INSTALL},0)
-	@mv arrow ${JX_INSTALL_ROOT}/
+	@cp arrow ${JX_INSTALL_ROOT}/
   endif
 
 .PHONY : jxuninstall
@@ -231,12 +232,6 @@ clean_rpm:
 debug: staticACE libs
 	@${RM} arrow
 	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" arrow
-
-.PHONY : staticACE
-staticACE:
-  ifdef J_BUILD_SHARED_LIB
-	@cd ${ACELIBDIR}; ${MAKE} static
-  endif
 
 #
 # static binary

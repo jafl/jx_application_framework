@@ -10,7 +10,6 @@ JCOREDIR := ${JX_ROOT}/include/jcore
 
 JLIBDIR     := ${JX_ROOT}/lib
 JCORELIBDIR := ${JX_ROOT}/libjcore
-ACELIBDIR   := ${JX_ROOT}/ACE
 
 # Directories to search for header files
 
@@ -52,6 +51,8 @@ default: libs all
 .PHONY : Makefiles
 Makefiles:
 
+include ${JX_ROOT}/include/make/jx_targets
+
 #
 # required libraries
 #
@@ -92,7 +93,3 @@ DEBUG_LOADLIBES := -L${JLIBDIR} \
 debug: staticACE
 	@${RM} ${PROG_LIST}
 	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}"
-
-.PHONY : staticACE
-staticACE:
-	@cd ${ACELIBDIR}; ${MAKE} static

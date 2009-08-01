@@ -41,7 +41,6 @@ public:
 	SyGTreeSet*			GetTreeSet() const;
 	SyGFileTreeTable*	GetTable() const;
 
-	void	SelectName(const JCharacter* selectName);
 	void	SaveState();
 
 protected:

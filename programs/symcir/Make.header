@@ -117,7 +117,7 @@ libs:
 jxinstall: symcir
 	@strip ${call EXE, symcir}
   ifneq (${J_WANT_INSTALL},0)
-	@mv symcir ${JX_INSTALL_ROOT}/
+	@cp symcir ${JX_INSTALL_ROOT}/
   endif
 
 .PHONY : jxuninstall

@@ -71,7 +71,7 @@ xpm:
 #
 
 JLIB := jx
-include ${JX_ROOT}/include/make/jx_targets
+include ${JX_ROOT}/include/make/jx_lib_targets
 
 .PHONY : jxsource
 jxsource::

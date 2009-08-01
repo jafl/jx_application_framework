@@ -29,6 +29,7 @@ jDirUtil_UNIX
 jMountUtil_UNIX
 jSysUtil_UNIX
 jVCSUtil
+jXMLUtil
 JKLRand
 JError
 JStdError
@@ -52,6 +53,7 @@ JTextProgressDisplay
 JLatentPG
 
 JProcess
+JSimpleProcess
 JProcessError
 JThisProcess
 jProcessUtil
@@ -71,6 +73,7 @@ Templates-longlong
 Templates-double
 JPtrArray-JString
 Templates-JString
+JACETemplates
 
 -prefix ${DJ_REGEX_DIR}/
 

@@ -140,14 +140,13 @@ JXFileListTable::IsInactive
  AddFile
 
 	Returns kJTrue if the file was inserted.  Returns kJFalse if the file
-	didn't exist, isn't a file, or was already in the list.
+	was already in the list.
 
-	If the file is a relative path, it is inserted.  When GetFullName() is
-	called, it will call the virtual function ResolveFullName().
+	If a relative path is added, then GetFullName() will call the virtual
+	function ResolveFullName().
 
 	If fullNameIndex is not NULL, it is set to the index into GetFullNameList(),
 	both when the file is inserted and when the file is already there.
-	Otherwise, it is set to zero.
 
  ******************************************************************************/
 
@@ -158,15 +157,11 @@ JXFileListTable::AddFile
 	JIndex*				fullNameIndex	// can be NULL
 	)
 {
+	assert( !JStringEmpty(fullName) );
+
 	if (fullNameIndex != NULL)
 		{
 		*fullNameIndex = 0;
-		}
-
-	if (JStringEmpty(fullName) ||
-		(!JIsRelativePath(fullName) && !JFileExists(fullName)))
-		{
-		return kJFalse;
 		}
 
 	ClearSelection();
@@ -447,7 +442,7 @@ JXFileListTable::FilterFile
 		JIndex endRowIndex = rowIndex;
 		if (found)
 			{
-			endRowIndex = UpdateDrawIndex(rowIndex, *fileName);
+			endRowIndex = UpdateDrawIndex(rowIndex, fileName);
 			}
 
 		// check width of all rows that were affected

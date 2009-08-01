@@ -385,7 +385,7 @@ SyGFindFileDialog::SearchExpr
 	)
 {
 	SyGTreeDir* dir;
-	if ((SyGGetApplication())->OpenDirectory(path, &dir, kJTrue, kJTrue, kJFalse, kJTrue))
+	if ((SyGGetApplication())->OpenDirectory(path, &dir, NULL, kJTrue, kJTrue, kJFalse, kJTrue))
 		{
 		SyGFindFileTask* task;
 		SyGFindFileTask::Create(dir, path, expr, &task);

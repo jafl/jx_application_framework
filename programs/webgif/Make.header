@@ -67,7 +67,7 @@ touch::
 .PHONY : jxinstall
 jxinstall: webgif
 	@strip ${call EXE, webgif}
-	@mv webgif ${JX_INSTALL_ROOT}/
+	@cp webgif ${JX_INSTALL_ROOT}/
 
 .PHONY : jxuninstall
 jxuninstall:

@@ -233,7 +233,7 @@ ascii_day
 	)
 {
 	int display, val;
-	static char *aday[] = {
+	static const char *aday[] = {
 		"",
 		" 1", " 2", " 3", " 4", " 5", " 6", " 7",
 		" 8", " 9", "10", "11", "12", "13", "14",

@@ -131,7 +131,7 @@ enum
 	kConvertToFileCmd,
 	kConvertToProgramCmd,
 	kDuplicateCmd,
-	kMakeAlias,
+	kMakeAliasCmd,
 	kFindOriginalCmd,
 	kToggleMountCmd,
 	kEraseDiskCmd,
@@ -230,24 +230,25 @@ static const JCharacter* kFormatType[] =
 
 const JSize kFormatCount = sizeof(kFormatName) / sizeof(JCharacter*);
 
-// string ID's
+// Context menu
 
-static const JCharacter* kWarnDeleteSingleFileID   = "WarnDeleteSingleFile::SyGFileTreeTable";
-static const JCharacter* kWarnDeleteSingleDirID    = "WarnDeleteSingleDir::SyGFileTreeTable";
-static const JCharacter* kWarnDeleteMultipleFileID = "WarnDeleteMultipleFile::SyGFileTreeTable";
-static const JCharacter* kWarnDeleteMultipleDirID  = "WarnDeleteMultipleDir::SyGFileTreeTable";
-static const JCharacter* kCreateFolderErrorID      = "CreateFolderError::SyGFileTreeTable";
-static const JCharacter* kCreateTextFileErrorID    = "CreateTextFileError::SyGFileTreeTable";
-static const JCharacter* kCreateAliasErrorID       = "CreateAliasError::SyGFileTreeTable";
-static const JCharacter* kWarnEraseDiskID          = "WarnEraseDisk::SyGFileTreeTable";
-static const JCharacter* kRenameErrorID            = "RenameError::SyGFileTreeTable";
-static const JCharacter* kNoBranchInfoID           = "NoBranchInfo::SyGFileTreeTable";
-static const JCharacter* kCreateBranchTitleID      = "CreateBranchTitle::SyGFileTreeTable";
-static const JCharacter* kCreateBranchPromptID     = "CreateBranchPrompt::SyGFileTreeTable";
-static const JCharacter* kCommitBranchTitleID      = "CommitBranchTitle::SyGFileTreeTable";
-static const JCharacter* kCommitBranchPromptID     = "CommitBranchPrompt::SyGFileTreeTable";
-static const JCharacter* kWarnRevertBranchID       = "WarnRevertBranch::SyGFileTreeTable";
-static const JCharacter* kAskRelativeAliasID       = "AskRelativeAlias::SyGFileTreeTable";
+static const JCharacter* kContextMenuStr =
+	"    Duplicate"
+	"  | Make alias"
+	"  | Find original"
+	"%l| Run command on selection..."
+	"%l| Convert to file"
+	"  | Convert to program";
+
+enum
+{
+	kDuplicateCtxCmd = 1,
+	kMakeAliasCtxCmd,
+	kFindOriginalCtxCmd,
+	kRunOnSelCtxCmd,
+	kConvertToFileCtxCmd,
+	kConvertToProgramCtxCmd
+};
 
 /******************************************************************************
  Constructor
@@ -279,6 +280,7 @@ SyGFileTreeTable::SyGFileTreeTable
 	itsTreeSet					= treeSet;
 	itsTrashButton				= trashButton;
 	itsMenuBar					= menuBar;
+	itsContextMenu              = NULL;
 	itsGitBranchMenu            = NULL;
 	itsUpdateTask				= NULL;
 	itsEditTask					= NULL;
@@ -880,7 +882,23 @@ SyGFileTreeTable::HandleMouseDown
 		}
 	else if (button == kJXRightButton)
 		{
-		// open context menu
+		if (itsContextMenu == NULL)
+			{
+			itsContextMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+			assert( itsContextMenu != NULL );
+			itsContextMenu->SetToHiddenPopupMenu(kJTrue);
+			itsContextMenu->SetMenuItems(kContextMenuStr);
+			itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
+			ListenTo(itsContextMenu);
+			}
+
+		const JPoint cell1(GetNodeColIndex(), cell.y);
+		if (!s.IsSelected(cell1))
+			{
+			SelectSingleCell(cell1, kJFalse);
+			}
+
+		itsContextMenu->PopUp(this, pt, buttonStates, modifiers);
 		}
 	else if (modifiers.shift() && !modifiers.control() && !modifiers.meta())
 		{
@@ -1212,8 +1230,8 @@ SyGFileTreeTable::WarnForDelete()
 			"name", node->GetName()
 			};
 		msg = JGetString((node->GetDirEntry())->GetType() == JDirEntry::kDir ?
-							kWarnDeleteSingleDirID :
-							kWarnDeleteSingleFileID,
+							"WarnDeleteSingleDir::SyGFileTreeTable" :
+							"WarnDeleteSingleFile::SyGFileTreeTable",
 						 map, sizeof(map));
 		}
 	else
@@ -1234,8 +1252,8 @@ SyGFileTreeTable::WarnForDelete()
 			{
 			"count", countStr
 			};
-		msg = JGetString(hasDirs ? kWarnDeleteMultipleDirID :
-								   kWarnDeleteMultipleFileID,
+		msg = JGetString(hasDirs ? "WarnDeleteMultipleDir::SyGFileTreeTable" :
+								   "WarnDeleteMultipleFile::SyGFileTreeTable",
 						 map, sizeof(map));
 		}
 
@@ -1954,6 +1972,18 @@ SyGFileTreeTable::Receive
 		UpdateDisplay();
 		}
 
+	else if (sender == itsContextMenu && message.Is(JXMenu::kNeedsUpdate))
+		{
+		UpdateContextMenu();
+		}
+	else if (sender == itsContextMenu && message.Is(JXMenu::kItemSelected))
+		{
+		 const JXMenu::ItemSelected* selection =
+			dynamic_cast(const JXMenu::ItemSelected*, &message);
+		assert( selection != NULL );
+		HandleContextMenu(selection->GetIndex());
+		}
+
 	else if (sender == itsChooseDiskFormatDialog &&
 			 message.Is(JXDialogDirector::kDeactivated))
 		{
@@ -2293,7 +2323,7 @@ SyGFileTreeTable::UpdateFileMenu()
 			}
 		}
 
-	itsFileMenu->SetItemEnable(kMakeAlias,           hasSelection);
+	itsFileMenu->SetItemEnable(kMakeAliasCmd,        hasSelection);
 	itsFileMenu->SetItemEnable(kFindOriginalCmd,     findOriginal);
 	itsFileMenu->SetItemEnable(kConvertToFileCmd,    hasSelection);
 	itsFileMenu->SetItemEnable(kConvertToProgramCmd, hasSelection);
@@ -2378,7 +2408,7 @@ SyGFileTreeTable::HandleFileMenu
 		{
 		DuplicateSelected();
 		}
-	else if (index == kMakeAlias)
+	else if (index == kMakeAliasCmd)
 		{
 		MakeLinks();
 		}
@@ -2490,7 +2520,7 @@ SyGFileTreeTable::CreateNewDirectory()
 		}
 	else
 		{
-		(JGetStringManager())->ReportError(kCreateFolderErrorID, err);
+		(JGetStringManager())->ReportError("CreateFolderError::SyGFileTreeTable", err);
 		}
 }
 
@@ -2548,7 +2578,7 @@ SyGFileTreeTable::CreateNewTextFile()
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError(kCreateTextFileErrorID);
+		(JGetUserNotification())->ReportError("CreateTextFileError::SyGFileTreeTable");
 		}
 }
 
@@ -2781,10 +2811,17 @@ SyGFileTreeTable::MakeLinkToFile
 
 	JString dest = JGetUniqueDirEntryName(destPath, root, suffix);
 
-	if (allowRelative &&
-		(JGetUserNotification())->AskUserYes(JGetString(kAskRelativeAliasID)))
+	if (allowRelative)
 		{
-		src = JConvertToRelativePath(src, destPath);
+		const JCharacter* map[] =
+			{
+			"name", srcName
+			};
+		const JString msg = JGetString("AskRelativeAlias::SyGFileTreeTable", map, sizeof(map));
+		if ((JGetUserNotification())->AskUserYes(msg))
+			{
+			src = JConvertToRelativePath(src, destPath);
+			}
 		}
 
 	const JError err = JCreateSymbolicLink(src, dest);
@@ -2797,7 +2834,7 @@ SyGFileTreeTable::MakeLinkToFile
 		}
 	else
 		{
-		(JGetStringManager())->ReportError(kCreateAliasErrorID, err);
+		(JGetStringManager())->ReportError("CreateAliasError::SyGFileTreeTable", err);
 		}
 }
 
@@ -2832,14 +2869,23 @@ SyGFileTreeTable::FindOriginals()
 				JSplitPathAndName(fullName, &path, &name);
 
 				SyGTreeDir* dir;
-				if ((SyGGetApplication())->OpenDirectory(path, &dir, kJTrue, kJTrue, kJFalse))
+				JIndex row;
+				JPoint cell;
+				if ((SyGGetApplication())->OpenDirectory(path, &dir, &row, kJTrue, kJTrue, kJFalse))
 					{
-					dir->SelectName(name);
+					SyGFileTreeNode* parent = NULL;
+					if (row > 0)
+						{
+						(dir->GetTable()->GetTableSelection()).SelectCell(JPoint(GetNodeColIndex(), row), kJFalse);
+						parent = (dir->GetTable()->GetFileTreeList())->GetSyGNode(row);
+						}
+
+					(dir->GetTable())->SelectName(name, parent, &cell);
 					}
 				}
 			else
 				{
-				(SyGGetApplication())->OpenDirectory(fullName, NULL, kJTrue, kJTrue, kJFalse);
+				(SyGGetApplication())->OpenDirectory(fullName, NULL, NULL, kJTrue, kJTrue, kJFalse);
 				}
 			}
 		}
@@ -2854,7 +2900,7 @@ void
 SyGFileTreeTable::FormatDisk()
 {
 	if (itsFormatProcess == NULL &&
-		(JGetUserNotification())->AskUserNo(JGetString(kWarnEraseDiskID)))
+		(JGetUserNotification())->AskUserNo(JGetString("WarnEraseDisk::SyGFileTreeTable")))
 		{
 		assert( itsChooseDiskFormatDialog == NULL );
 
@@ -3561,7 +3607,7 @@ SyGFileTreeTable::UpdateGitBranchMenu()
 								kJCreatePipe, &fromFD);
 	if (!err.OK())
 		{
-		itsGitBranchMenu->AppendItem(JGetString(kNoBranchInfoID));
+		itsGitBranchMenu->AppendItem(JGetString("NoBranchInfo::SyGFileTreeTable"));
 		itsGitBranchMenu->DisableItem(1);
 		return;
 		}
@@ -3587,7 +3633,7 @@ SyGFileTreeTable::UpdateGitBranchMenu()
 
 	if (itsGitBranchMenu->IsEmpty())
 		{
-		itsGitBranchMenu->AppendItem(JGetString(kNoBranchInfoID));
+		itsGitBranchMenu->AppendItem(JGetString("NoBranchInfo::SyGFileTreeTable"));
 		itsGitBranchMenu->DisableItem(1);
 		}
 	else
@@ -3637,8 +3683,8 @@ SyGFileTreeTable::HandleGitBranchMenu
 	else if (index == itsGitBranchCount + kGitCreateBranchOffset)
 		{
 		itsCreateBranchDialog =
-			new JXGetStringDialog((GetWindow())->GetDirector(), JGetString(kCreateBranchTitleID),
-								  JGetString(kCreateBranchPromptID), "");
+			new JXGetStringDialog((GetWindow())->GetDirector(), JGetString("CreateBranchTitle::SyGFileTreeTable"),
+								  JGetString("CreateBranchPrompt::SyGFileTreeTable"), "");
 		assert( itsCreateBranchDialog != NULL );
 		itsCreateBranchDialog->Activate();
 		ListenTo(itsCreateBranchDialog);
@@ -3647,8 +3693,8 @@ SyGFileTreeTable::HandleGitBranchMenu
 	else if (index == itsGitBranchCount + kGitCommitAllOffset)
 		{
 		itsCommitBranchDialog =
-			new JXGetStringDialog((GetWindow())->GetDirector(), JGetString(kCommitBranchTitleID),
-								  JGetString(kCommitBranchPromptID), "");
+			new JXGetStringDialog((GetWindow())->GetDirector(), JGetString("CreateBranchPrompt::SyGFileTreeTable"),
+								  JGetString("CommitBranchPrompt::SyGFileTreeTable"), "");
 		assert( itsCommitBranchDialog != NULL );
 		itsCommitBranchDialog->Activate();
 		ListenTo(itsCommitBranchDialog);
@@ -3727,7 +3773,7 @@ SyGFileTreeTable::CommitBranch
 void
 SyGFileTreeTable::RevertBranch()
 {
-	if (!(JGetUserNotification())->AskUserNo(JGetString(kWarnRevertBranchID)))
+	if (!(JGetUserNotification())->AskUserNo(JGetString("WarnRevertBranch::SyGFileTreeTable")))
 		{
 		return;
 		}
@@ -3800,6 +3846,83 @@ SyGFileTreeTable::HandleShortcutMenu
 }
 
 /******************************************************************************
+ UpdateContextMenu (private)
+
+ ******************************************************************************/
+
+void
+SyGFileTreeTable::UpdateContextMenu()
+{
+	JTableSelection& s          = GetTableSelection();
+	const JBoolean hasSelection = s.HasSelection();
+
+	itsContextMenu->SetItemEnable(kRunOnSelCtxCmd,  hasSelection);
+	itsContextMenu->SetItemEnable(kDuplicateCtxCmd, hasSelection);
+
+	// symbolic links
+
+	JBoolean findOriginal = kJFalse;
+	if (hasSelection)
+		{
+		JTableSelectionIterator iter(&s);
+		JPoint cell;
+		while (iter.Next(&cell))
+			{
+			if ((itsFileTreeList->GetDirEntry(cell.y))->IsWorkingLink())
+				{
+				findOriginal = kJTrue;
+				}
+			}
+		}
+
+	itsContextMenu->SetItemEnable(kMakeAliasCtxCmd,        hasSelection);
+	itsContextMenu->SetItemEnable(kFindOriginalCtxCmd,     findOriginal);
+	itsContextMenu->SetItemEnable(kConvertToFileCtxCmd,    hasSelection);
+	itsContextMenu->SetItemEnable(kConvertToProgramCtxCmd, hasSelection);
+}
+
+/******************************************************************************
+ HandleContextMenu
+
+ ******************************************************************************/
+
+void
+SyGFileTreeTable::HandleContextMenu
+	(
+	const JIndex index
+	)
+{
+	ClearIncrementalSearchBuffer();
+
+	if (index == kDuplicateCtxCmd)
+		{
+		DuplicateSelected();
+		}
+	else if (index == kMakeAliasCtxCmd)
+		{
+		MakeLinks();
+		}
+	else if (index == kFindOriginalCtxCmd)
+		{
+		FindOriginals();
+		}
+
+	else if (index == kRunOnSelCtxCmd)
+		{
+		OpenSelection(kJFalse, kJTrue, kJFalse, kJFalse);
+		}
+
+	else if (index == kConvertToFileCtxCmd)
+		{
+		ChangeExecPermission(kJFalse);
+		}
+	else if (index == kConvertToProgramCtxCmd)
+		{
+		ChangeExecPermission(kJTrue);
+		}
+}
+
+/******************************************************************************
  CreateTreeListInput (virtual protected)
 
 	Derived class can override this to instantiate a derived class of
@@ -3856,7 +3979,7 @@ SyGFileTreeTable::ExtractInputData
 	input                 = NULL;				// nodes sorted => CancelEditing()
 	if (!err.OK())
 		{
-		(JGetStringManager())->ReportError(kRenameErrorID, err);
+		(JGetStringManager())->ReportError("RenameError::SyGFileTreeTable", err);
 		}
 	else if (sort)
 		{

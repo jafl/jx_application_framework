@@ -396,7 +396,18 @@ JTreeList::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsTree && message.Is(JTree::kNodeInserted))
+	if (sender == itsTree && message.Is(JTree::kNewRoot))
+		{
+		while (!itsVisibleNodeList->IsEmpty())
+			{
+			RemoveElement(1);
+			}
+
+		const JTreeNode* root = itsTree->GetRoot();
+		assert( root->IsOpenable() );
+		ShowChildren(0, root);
+		}
+	else if (sender == itsTree && message.Is(JTree::kNodeInserted))
 		{
 		const JTree::NodeInserted* info =
 			dynamic_cast(const JTree::NodeInserted*, &message);

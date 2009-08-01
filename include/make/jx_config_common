@@ -8,6 +8,8 @@ ifndef ACE_ROOT
   export ACE_ROOT = ${shell cd ${JX_ROOT}/ACE/ACE_wrappers; pwd}
 endif
 
+ACELIBDIR = ${JX_ROOT}/ACE
+
 #
 # Check version of g++
 # (shamelessly stolen from ACE_wrappers/include/makeinclude/wrapper_macros.GNU)

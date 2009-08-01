@@ -997,7 +997,7 @@ JXMenu::AdjustAppearance
 JBoolean
 JXMenu::PrepareToOpenMenu()
 {
-	if (itsOwner != NULL)	// parent may have effect on child
+	if (itsOwner != NULL && !itsOwner->IsOpen())	// parent may have effect on child
 		{
 		itsOwner->PrepareToOpenMenu();
 		}

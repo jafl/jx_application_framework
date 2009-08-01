@@ -12,6 +12,7 @@
 #include <JTreeNode.h>
 #include <jAssert.h>
 
+const JCharacter* JTree::kNewRoot            = "NewRoot::JTree";
 const JCharacter* JTree::kNodeInserted       = "NodeInserted::JTree";
 const JCharacter* JTree::kNodeRemoved        = "NodeRemoved::JTree";
 const JCharacter* JTree::kNodeDeleted        = "NodeDeleted::JTree";
@@ -31,11 +32,7 @@ JTree::JTree
 	:
 	itsIsDestructingFlag(kJFalse)
 {
-	assert( root != NULL );
-
-	itsRoot = root;
-	itsRoot->ShouldBeOpenable(kJTrue);
-	itsRoot->SetTree(this);
+	SetRoot(root);
 }
 
 /******************************************************************************
@@ -49,6 +46,26 @@ JTree::~JTree()
 
 	itsIsDestructingFlag = kJTrue;
 	delete itsRoot;
+}
+
+/******************************************************************************
+ SetRoot
+
+ ******************************************************************************/
+
+void
+JTree::SetRoot
+	(
+	JTreeNode* root
+	)
+{
+	assert( root != NULL );
+
+	itsRoot = root;
+	itsRoot->ShouldBeOpenable(kJTrue);
+	itsRoot->SetTree(this);
+
+	Broadcast(NewRoot());
 }
 
 /******************************************************************************

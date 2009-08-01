@@ -49,17 +49,19 @@ install: install1 install2
 
 .PHONY: install1
 install1:
+ifeq ($(shell which makemake),)
 	@cd ../ACE; ${MAKE} jxinstall
 	@cd ../programs/makemake; ${MAKE} -f Makefile.port jxinstall
 	@${MAKE} Makefiles
+endif
 
 .PHONY: install2
 install2:
-	@cd ../libjcore; ${MAKE} COMPILE_STRINGS=0
+	@cd ../libjcore; ${MAKE} COMPILE_STRINGS=0 default
 	@cd ../programs/compile_jstrings; ${MAKE} jxinstall
 	@${foreach dir, \
           ${wildcard ../lib?*/.}, \
-       ${BEGIN_DIR}; ${MAKE}; ${END_DIR};}
+       ${BEGIN_DIR}; ${MAKE} default; ${END_DIR};}
 	@${foreach dir, \
           ${filter-out %/CVS/., ${wildcard ./util/*/. ../programs/*/.}}, \
        ${BEGIN_DIR}; ${MAKE} jxinstall; ${END_DIR};}
@@ -71,7 +73,7 @@ install2:
 .PHONY : alllib
 alllib:
 	@${foreach dir, ${wildcard ../lib?*/.}, \
-       ${BEGIN_DIR}; makemake; ${MAKE}; ${END_DIR};}
+       ${BEGIN_DIR}; makemake; ${MAKE} default; ${END_DIR};}
 
 #
 # build all test suites

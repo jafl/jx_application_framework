@@ -1,25 +1,52 @@
+mesa 7.5
+	cd include/GL
+	ln -s ../../src/mesa/drivers/x11/xmesa.h
+	ln -s ../../src/mesa/drivers/x11/xmesa_x.h
+
+JXMenu::PrepareToOpenMenu()
+	itsOwner may delete us!
+
 jcc:
-	crash because unable to convert file id to file name (click in Symbol Browser)
-		doesn't everything get updated when file is removed from File List?
-
-	rock-stupid cmd line window: (dahvid.minor@gmail.com)
-
 	upgrade to ctags 5.8
 
++	rock-stupid cmd line window: (dahvid.minor@gmail.com)
+
 medic:
-	switch to gdb:  should stop listening on port
+	accept connection or switch to gdb:  should stop listening on port
+		compile with static ACE to debug
+	restart either xdebug or java:  unable to listen on port & crashes on exit
+		also need to fix SetProgram()
+
+	goto line should accept physical line number
+	adjust to text when window is resized, in case text wrapping is on
+
 	gdb
 		broken on OSX
+			http://ftp.gnu.org/pub/old-gnu/Manuals/gdb-5.1.1/html_node/gdb_211.html
+			http://www.devworld.apple.com/documentation/DeveloperTools/gdb/gdb/gdb_25.html
+
+		CMGetFullPath should stop process and then resume
+			currently uses SendMedicCommand() -> SendRaw()
+			Send() pauses the program
 	xdebug
-		second connection from xdebug fails to show source/stack/etc
-			restore breakpoints when get new connection
+		click stack trace: selection jumps back to last frame
 		temp breakpoint doesn't disappear
-	java debug
-		choose program:  select source paths config file
-			working directory
-			class containing main
-			list of source root directories or source jars
-			document this file format
+	java
+		after kill jvm, fails to run again
+		source-jar unzips to /tmp
+			display stderr from zip in cmd line window
+			delete /tmp directories when delete link or open different program
+		thread list
+			convert to tree
+			listen for thread start/death to update tree
+		start JVM
+			JVMDisplaySourceForMain
+				get Methods for main-class, find "main", get LineTable, get first line number, scroll to that
+		set breakpoint
+			request id for class (cache it)
+				listen for class unload events to clean up cache
+			request all methods for class (cache it)
+			search code index <-> line index for location
 
 		http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html
 		http://java.sun.com/javase/6/docs/technotes/guides/jpda/jdwp-spec.html
@@ -210,9 +237,6 @@ jcc:
 			.jmp file stores list of .jcc files (relative or home or absolute paths)
 		merge search paths and build separate .jst file
 		separate .jup file
-	project:  Need single level undo, in case press delete key
-		deep-copy entire tree before change
-		undo swaps the two trees
 	Tooltip-like window when open function arg list
 		bold current argument, based on number of commas after opening paren
 	Tooltip for scrolltabs: which function it is in

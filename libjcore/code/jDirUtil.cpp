@@ -288,7 +288,7 @@ JSearchSubdirs
 	)
 {
 	assert( !JStringEmpty(startPath) );
-	assert( !JStringEmpty(name) && name[0] != '/' );
+	assert( !JStringEmpty(name) && name[0] != ACE_DIRECTORY_SEPARATOR_CHAR );
 
 	JLatentPG pg(100);
 	if (userPG != NULL)

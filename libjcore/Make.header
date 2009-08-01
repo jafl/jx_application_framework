@@ -13,7 +13,7 @@ GDDIR    := ${JX_ROOT}/misc/gd
 # Directories to search for header files
 
 SEARCHDIRS := -I${JCOREDIR} \
-              `xml2-config --cflags`
+              ${shell xml2-config --cflags}
 
 # makemake variables
 
@@ -119,7 +119,7 @@ gd:
 #
 
 JLIB := jcore
-include ${JX_ROOT}/include/make/jx_targets
+include ${JX_ROOT}/include/make/jx_lib_targets
 
 .PHONY : jxsource
 jxsource::

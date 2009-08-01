@@ -16,6 +16,8 @@ Please send all bug reports and suggestions for features to
 
 Added \"Find...\" option on File menu.
 <p>
+Finally added context menu.
+<p>
 If directory is managed by Subversion or Git, attempts to use that when moving, renaming, and deleting files.
 <p>
 If the directory is managed by Git, the Branch menu displays the list of available branches and lets you switch between then.

@@ -28,6 +28,7 @@ public:
 
 	JTreeNode*			GetRoot();
 	const JTreeNode*	GetRoot() const;
+	void				SetRoot(JTreeNode* root);
 
 	void	BroadcastChange(JTreeNode* node);
 
@@ -82,6 +83,7 @@ public:
 
 	// JBroadcaster messages
 
+	static const JCharacter* kNewRoot;
 	static const JCharacter* kNodeInserted;
 	static const JCharacter* kNodeRemoved;
 	static const JCharacter* kNodeDeleted;
@@ -89,6 +91,16 @@ public:
 
 	static const JCharacter* kPrepareForNodeMove;
 	static const JCharacter* kNodeMoveFinished;
+
+	class NewRoot : public JBroadcaster::Message
+		{
+		public:
+
+			NewRoot()
+				:
+				JBroadcaster::Message(kNewRoot)
+			{ };
+		};
 
 	class NodeInserted : public NodeMessage
 		{

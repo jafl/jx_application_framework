@@ -145,6 +145,7 @@ SyGApplication::OpenDirectory
 	(
 	const JString&	pathName,
 	SyGTreeDir**	dir,
+	JIndex*			row,
 	const JBoolean	deiconify,
 	const JBoolean	reportError,
 	const JBoolean	forceNew,
@@ -154,6 +155,11 @@ SyGApplication::OpenDirectory
 	if (dir != NULL)
 		{
 		*dir = NULL;
+		}
+
+	if (row != NULL)
+		{
+		*row = 0;
 		}
 
 	JString fixedName, trueName;
@@ -209,14 +215,18 @@ SyGApplication::OpenDirectory
 				{
 				SyGTreeDir* childDir = itsWindowList->NthElement(i);
 				childDir->Activate();
-
-				JPoint cell;
-				(childDir->GetTable())->SelectName(pathList, selectName, &cell, clearSelection);
-
 				if (dir != NULL)
 					{
 					*dir = childDir;
 					}
+
+				JPoint cell;
+				(childDir->GetTable())->SelectName(pathList, selectName, &cell, clearSelection);
+				if (row != NULL)
+					{
+					*row = cell.y;
+					}
+
 				return kJTrue;
 				}
 			}
@@ -238,7 +248,14 @@ SyGApplication::OpenDirectory
 	assert( childDir != NULL );
 
 	childDir->Activate();
-	childDir->SelectName(selectName);
+
+	JPoint cell;
+	(childDir->GetTable())->SelectName(selectName, NULL, &cell);
+	if (row != NULL)
+		{
+		*row = cell.y;
+		}
+
 	if (deiconify)
 		{
 		childDir->GetWindow()->Deiconify();
@@ -465,7 +482,7 @@ SyGApplication::OpenShortcut
 		path = itsShortcutList->NthElement(index - shortcutOffset);
 		}
 
-	if (!OpenDirectory(*path, NULL, kJTrue, kJFalse) && index > shortcutOffset)
+	if (!OpenDirectory(*path, NULL, NULL, kJTrue, kJFalse) && index > shortcutOffset)
 		{
 		JString msg = "\"";
 		msg += *path;
@@ -635,7 +652,7 @@ SyGApplication::RestoreProgramState()
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JString* str = children.NthElement(i);
-		OpenDirectory(*str, NULL, kJFalse, kJFalse);
+		OpenDirectory(*str, NULL, NULL, kJFalse, kJFalse);
 		}
 
 	if (itsWindowList->IsEmpty())

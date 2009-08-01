@@ -169,10 +169,12 @@ private:
 	JXFSDirMenu*		itsRecentFilesMenu;
 	JXTextMenu*			itsEditMenu;				// not owned
 	JIndex				itsCopyPathCmdIndex;
-	JXTextMenu*			itsGitBranchMenu;
+	JXTextMenu*			itsGitBranchMenu;			// can be NULL
 	JSize				itsGitBranchCount;
 	JXTextMenu* 		itsViewMenu;
 	JXTextMenu*			itsShortcutMenu;
+
+	JXTextMenu*			itsContextMenu;
 
 	JXRadioGroupDialog*	itsChooseDiskFormatDialog;	// NULL unless asking user
 	JProcess*			itsFormatProcess;			// NULL unless formatting
@@ -254,6 +256,9 @@ private:
 
 	void	UpdateShortcutMenu();
 	void	HandleShortcutMenu(const JIndex index);
+
+	void	UpdateContextMenu();
+	void	HandleContextMenu(const JIndex index);
 
 	void		ChooseDNDCursors();
 	JBoolean	GetTrueDropAction(Atom* action);

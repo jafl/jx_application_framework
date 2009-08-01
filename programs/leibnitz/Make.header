@@ -20,7 +20,6 @@ JXLIBDIR      := ${JX_ROOT}/libjx
 JEXPRLIBDIR   := ${JX_ROOT}/libjexpr
 J2DPLOTLIBDIR := ${JX_ROOT}/libj2dplot
 J3DLIBDIR     := ${JX_ROOT}/libj3d
-ACELIBDIR     := ${JX_ROOT}/ACE
 
 # Directories to search for header files
 
@@ -91,6 +90,8 @@ default: libs leibnitz
 
 .PHONY : Makefiles
 Makefiles:
+
+include ${JX_ROOT}/include/make/jx_targets
 
 #
 # string data
@@ -252,12 +253,6 @@ DEBUG_LOADLIBES := -L${JLIBDIR} \
 debug: staticACE libs
 	@${RM} leibnitz
 	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" leibnitz
-
-.PHONY : staticACE
-staticACE:
-  ifdef J_BUILD_SHARED_LIB
-	@cd ${ACELIBDIR}; ${MAKE} static
-  endif
 
 #
 # static binary

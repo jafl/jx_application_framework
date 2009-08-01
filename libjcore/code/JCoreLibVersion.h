@@ -31,6 +31,9 @@ static const char* kCurrentJCoreLibVersionStr = "2.5.0";
 //		Removed const from GetElement() return value.
 //	JOutPipeStream:
 //		Fixed bug so close() closes the file descriptor, when appropriate.
+//	JTree:
+//		*** Added SetRoot() and corresponding message NewRoot().
+//			Library components built on top of JTree must support this new message.
 //	JTreeList:
 //		Added MakeVisible().
 //	JTreeNode:
@@ -78,6 +81,7 @@ static const char* kCurrentJCoreLibVersionStr = "2.5.0";
 //		Fixed bug in regex version of SelectionMatches() so it returns kJTrue
 //			if the pattern has look-behind or look-ahead assertions.
 //		*** Added new pure virtual function TEScrollForDND().
+//		Updated HandleHTMLOn/OffCmd() to understand <q>...</q>.
 //	JTEUndoTyping:
 //		Added firstChar,lastChar arguments to HandleDelete() and HandleFwdDelete().
 //	Defined JBoolean operator!(JBoolean) so you only need JNegate for the

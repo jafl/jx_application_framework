@@ -824,6 +824,22 @@ JUserInputFunction::TEScrollForDrag
 }
 
 /******************************************************************************
+ TEScrollForDND (virtual protected)
+
+	We don't scroll.
+
+ ******************************************************************************/
+
+JBoolean
+JUserInputFunction::TEScrollForDND
+	(
+	const JPoint& pt
+	)
+{
+	return kJFalse;
+}
+
+/******************************************************************************
  TESetVertScrollStep (virtual protected)
 
 	We don't scroll.

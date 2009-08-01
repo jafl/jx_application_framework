@@ -10,13 +10,13 @@ JCOREDIR := ${JX_ROOT}/include/jcore
 PCREDIR  := ${JX_ROOT}/misc/pcre
 REGEXDIR := ${JX_ROOT}/misc/regex
 
-JLIBDIR   := ${JX_ROOT}/lib
-ACELIBDIR := ${JX_ROOT}/ACE
+JLIBDIR := ${JX_ROOT}/lib
 
 # Directories to search for header files
 
 SEARCHDIRS := -I${CODEDIR} \
-              -I${JCOREDIR}
+              -I${JCOREDIR} \
+              ${shell xml2-config --cflags}
 
 # other constants
 
@@ -59,6 +59,8 @@ default: regex makemake
 
 .PHONY : Makefiles
 Makefiles:
+
+include ${JX_ROOT}/include/make/jx_targets
 
 #
 # libraries we have eaten
@@ -124,12 +126,6 @@ DEBUG_LOADLIBES := -L${JLIBDIR} \
 debug: regex staticACE
 	@${RM} makemake
 	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" makemake
-
-.PHONY : staticACE
-staticACE:
-  ifdef J_BUILD_SHARED_LIB
-	@cd ${ACELIBDIR}; ${MAKE} static
-  endif
 
 #
 # personal install

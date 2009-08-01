@@ -60,6 +60,8 @@ DefaultBindingList::JFSBindingList
 \".php3\" \"jcc\" p F
 \".php\"  \"jcc\" p F
 
+\".medic\" \"medic\" p T
+
 \".html\" \"firefox $q\" p T
 
 \".mws\" \"xmaple\" p F

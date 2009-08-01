@@ -94,7 +94,7 @@ libs:
 jxinstall: ${PROG_NAME}
 	@strip ${call EXE, ${PROG_NAME}}
   ifneq (${J_WANT_INSTALL},0)
-	@mv ${PROG_NAME} ${JX_INSTALL_ROOT}/
+	@cp ${PROG_NAME} ${JX_INSTALL_ROOT}/
   endif
 
 .PHONY : jxuninstall

@@ -14,7 +14,6 @@ JLIBDIR     := ${JX_ROOT}/lib
 JCORELIBDIR := ${JX_ROOT}/libjcore
 JXLIBDIR    := ${JX_ROOT}/libjx
 JFSLIBDIR   := ${JX_ROOT}/libjfs
-ACELIBDIR   := ${JX_ROOT}/ACE
 
 # Directories to search for header files
 
@@ -82,6 +81,8 @@ default: libs systemg
 
 .PHONY : Makefiles
 Makefiles:
+
+include ${JX_ROOT}/include/make/jx_targets
 
 #
 # string data
@@ -228,12 +229,6 @@ clean_rpm:
 debug: staticACE libs
 	@${RM} systemg
 	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" systemg
-
-.PHONY : staticACE
-staticACE:
-  ifdef J_BUILD_SHARED_LIB
-	@cd ${ACELIBDIR}; ${MAKE} static
-  endif
 
 #
 # static binary
