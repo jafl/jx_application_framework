@@ -50,6 +50,7 @@ static const char* kCurrentJXLibVersionStr = "2.5.0";
 //		Optimized handling of expose events.
 //		Ctrl-Page-Up/Down cycles through docked windows in a pane.
 //		Global JX preference to have focus follow the mouse between docked windows.
+//		Updated placement code to handle latest curveball from OS X.
 //	JXProgressDisplay:
 //		Updated ProcessBeginning() so it hides the unused widgets and
 //			initializes the visible ones.  (What took me so long?)

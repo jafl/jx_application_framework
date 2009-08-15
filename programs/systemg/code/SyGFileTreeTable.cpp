@@ -2801,15 +2801,18 @@ SyGFileTreeTable::MakeLinkToFile
 	JSplitPathAndName(src, &srcPath, &srcName);
 
 	const JString destPath = (parentNode->GetDirEntry())->GetFullName();
-
-	JString root, suffix;
-	if (JSplitRootAndSuffix(srcName, &root, &suffix))
+	JString dest           = JCombinePathAndName(destPath, srcName);
+	if (JNameUsed(dest))
 		{
-		suffix.PrependCharacter('.');
-		}
-	root += "_alias";
+		JString root, suffix;
+		if (JSplitRootAndSuffix(srcName, &root, &suffix))
+			{
+			suffix.PrependCharacter('.');
+			}
+		root += "_alias";
 
-	JString dest = JGetUniqueDirEntryName(destPath, root, suffix);
+		dest = JGetUniqueDirEntryName(destPath, root, suffix);
+		}
 
 	if (allowRelative)
 		{

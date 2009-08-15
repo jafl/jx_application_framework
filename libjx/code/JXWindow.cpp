@@ -116,9 +116,8 @@ JXWindow::JXWindow
 	JXContainer((JXGetApplication())->GetCurrentDisplay(), this, NULL),
 	itsMainWindow(NULL),
 	itsTitle(title),
-	itsDesktopLoc(0,0),
 	itsBounds(0, 0, h, w),
-	itsWMFrameLoc(0,0),
+	itsAdjustPlacementAfterMapMode(0),
 	itsIsDestructingFlag(kJFalse),
 	itsHasMinSizeFlag(kJFalse),
 	itsHasMaxSizeFlag(kJFalse),
@@ -612,6 +611,9 @@ JXWindow::Show()
 			}
 		XMapWindow(*itsDisplay, itsXWindow);
 		// input focus set by HandleMapNotify()
+		#ifdef _J_OSX
+		itsAdjustPlacementAfterMapMode++;
+		#endif
 
 		JXWindow* parent;
 		if (itsIsDockedFlag && GetDockWindow(&parent))
@@ -1520,8 +1522,9 @@ JXWindow::UndockedPlace
 		{
 		// same as UpdateFrame()
 
-		itsDesktopLoc = pt;
-		itsWMFrameLoc = CalcDesktopLocation(pt.x, pt.y, -1);
+		const JPoint pt1 = pt + itsTopLeftOffset;
+		itsDesktopLoc    = pt1;
+		itsWMFrameLoc    = CalcDesktopLocation(pt1.x, pt1.y, -1);
 		}
 
 	// adjust window to fit on screen, since resize will otherwise be unavailable on OS X
@@ -1689,7 +1692,8 @@ JXWindow::UpdateFrame()
 
 	const int origX = x, origY = y;
 
-	// After XGetGeometry(), x=0 and y=0 (at least for fvwm)
+	// After XGetGeometry(), x=0 and y=0 for fvwm, but y>0 for OS X
+	itsTopLeftOffset.Set(x,y);
 
 	Window childWindow;
 	const Bool ok2 = XTranslateCoordinates(*itsDisplay, itsXWindow, rootWindow,
@@ -4249,6 +4253,7 @@ JXWindow::HandleMapNotify
 	if (itsIsMenuFlag)
 		{
 		// Menu windows are not touched by the window manager.
+		itsAdjustPlacementAfterMapMode = 1;
 		return;
 		}
 
@@ -4262,9 +4267,17 @@ JXWindow::HandleMapNotify
 
 	if (itsIsDockedFlag)
 		{
-		itsIsIconifiedFlag = kJFalse;
+		itsIsIconifiedFlag             = kJFalse;
+		itsAdjustPlacementAfterMapMode = 1;
 		return;
 		}
+
+	if (itsAdjustPlacementAfterMapMode >= 2 &&
+		(itsTopLeftOffset.x != 0 || itsTopLeftOffset.y != 0))
+		{
+		Move(-itsTopLeftOffset.x, -itsTopLeftOffset.y);
+		}
+	itsAdjustPlacementAfterMapMode = 1;
 
 	// broadcast whether window is iconified or deiconified
 

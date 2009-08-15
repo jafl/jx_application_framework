@@ -1,14 +1,15 @@
+upgrade to ctags 5.8 -- just patch JS/PHP, forget new languages
+build initial deb pkg def files (for testing at home)
+fix window placement to work on OSX (and then test at home)
+
+http://standards.freedesktop.org/wm-spec/1.4/ar01s06.html
+
 mesa 7.5
 	cd include/GL
 	ln -s ../../src/mesa/drivers/x11/xmesa.h
 	ln -s ../../src/mesa/drivers/x11/xmesa_x.h
 
-JXMenu::PrepareToOpenMenu()
-	itsOwner may delete us!
-
 jcc:
-	upgrade to ctags 5.8
-
 +	rock-stupid cmd line window: (dahvid.minor@gmail.com)
 
 medic:
@@ -55,6 +56,9 @@ medic:
 		http://java.sun.com/j2se/1.5.0/docs/tooldocs/solaris/jdb.html
 		http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html
 
+JXMenu::PrepareToOpenMenu()
+	itsOwner may delete us!
+
 Docking
 	medic dock all windows:  resize causes crash because compartments do not conform to min sizes
 	Gnome/fvwm2 sometimes require dock/undock/dock to get it positioned correctly
@@ -66,8 +70,6 @@ Docking
 			Appears to be because Raise() is called twice in a row on the JXDockDirector
 
 -----
-
-remove dependency on ACE
 
 Daily Comics:
 	iphone:

@@ -1,0 +1,21 @@
+# included by libjcore/Makefile and libjx/Makefile
+#
+# requires that ${JLIB} be defined
+
+#
+# JX source distribution (DISTR_TAR_FILE)
+#
+
+SRC_FILE_DIR := ${JX}/lib${JLIB}
+
+.PHONY : jxsource
+jxsource::
+	@cd ${J_DISTR_TAR_DIR}; \
+     tar -rf ${DISTR_TAR_FILE} ${filter-out %.o %~ %L.cpp %Y.cpp, \
+                                 ${shell cd ${J_DISTR_TAR_DIR}; echo \
+             ${SRC_FILE_DIR}/Make.* \
+             ${SRC_FILE_DIR}/*.dsp \
+             ${SRC_FILE_DIR}/code/* \
+             ${SRC_FILE_DIR}/strings/* \
+             ${JX}/lib/lib${JLIB}-* \
+             ${JX}/include/${JLIB} }}

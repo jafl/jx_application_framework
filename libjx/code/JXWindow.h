@@ -352,6 +352,8 @@ private:
 	JPoint		itsDesktopLoc;				// stored separately, since bounds = (0,0,h,w)
 	JRect		itsBounds;
 	JPoint		itsWMFrameLoc;				// upper left of Window Manager border
+	JPoint		itsTopLeftOffset;			// non-zero on OS X
+	JIndex		itsAdjustPlacementAfterMapMode;	// 0=init, 1=no, 2=yes
 	Region		itsUpdateRegion;
 	JBoolean	itsIsMappedFlag;
 	JBoolean	itsIsIconifiedFlag;
