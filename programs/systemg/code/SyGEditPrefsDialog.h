@@ -26,12 +26,14 @@ public:
 	SyGEditPrefsDialog(const JCharacter* terminalCmd,
 					   const JCharacter* manViewCmd,
 					   const JCharacter* postCheckoutCmd,
+					   const JCharacter* gitStatusCmd,
 					   const JBoolean del);
 
 	virtual ~SyGEditPrefsDialog();
 
 	void	GetPrefs(JString* terminalCmd, JString* manViewCmd,
-					 JString* postCheckoutCmd, JBoolean* del) const;
+					 JString* postCheckoutCmd, JString* gitStatusCmd,
+					 JBoolean* del) const;
 
 private:
 
@@ -42,6 +44,7 @@ private:
     JXTextCheckbox* itsDelCB;
     JXTextCheckbox* itsAllowSpaceCB;
     JXInputField*   itsPostCheckoutInput;
+    JXInputField*   itsGitStatusInput;
 
 // end JXLayout
 
@@ -50,6 +53,7 @@ private:
 	void	BuildWindow(const JCharacter* terminalCmd,
 						const JCharacter* manViewCmd,
 						const JCharacter* postCheckoutCmd,
+						const JCharacter* gitStatusCmd,
 						const JBoolean del);
 
 	// not allowed

@@ -219,11 +219,12 @@ SyGPrefsMgr::EditPrefs()
 {
 	assert( itsDialog == NULL );
 
-	const JString manCmd  = (SyGGetManPageDialog())->GetViewManPageCommand();
-	const JString termCmd = (SyGGetApplication())->GetTerminalCommand();
-	const JString coCmd   = (SyGGetApplication())->GetPostCheckoutCommand();
+	const JString manCmd       = (SyGGetManPageDialog())->GetViewManPageCommand();
+	const JString termCmd      = (SyGGetApplication())->GetTerminalCommand();
+	const JString coCmd        = (SyGGetApplication())->GetPostCheckoutCommand();
+	const JString gitStatusCmd = (SyGGetApplication())->GetGitStatusCommand();
 
-	itsDialog = new SyGEditPrefsDialog(termCmd, manCmd, coCmd, DelWillDelete());
+	itsDialog = new SyGEditPrefsDialog(termCmd, manCmd, coCmd, gitStatusCmd, DelWillDelete());
 	assert(itsDialog != NULL);
 
 	itsDialog->BeginDialog();
@@ -240,12 +241,13 @@ SyGPrefsMgr::UpdatePrefs()
 {
 	assert( itsDialog != NULL );
 
-	JString manCmd, termCmd, postCheckoutCmd;
+	JString manCmd, termCmd, postCheckoutCmd, gitStatusCmd;
 	JBoolean del;
-	itsDialog->GetPrefs(&termCmd, &manCmd, &postCheckoutCmd, &del);
+	itsDialog->GetPrefs(&termCmd, &manCmd, &postCheckoutCmd, &gitStatusCmd, &del);
 
 	(SyGGetApplication())->SetTerminalCommand(termCmd);
 	(SyGGetApplication())->SetPostCheckoutCommand(postCheckoutCmd);
+	(SyGGetApplication())->SetGitStatusCommand(gitStatusCmd);
 	(SyGGetManPageDialog())->SetViewManPageCommand(manCmd);
 	DelShouldDelete(del);
 

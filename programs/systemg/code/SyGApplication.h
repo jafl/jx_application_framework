@@ -67,6 +67,9 @@ public:
 	const JString&	GetPostCheckoutCommand() const;
 	void			SetPostCheckoutCommand(const JCharacter* cmd);
 
+	const JString&	GetGitStatusCommand() const;
+	void			SetGitStatusCommand(const JCharacter* cmd);
+
 	void	DisplayAbout(const JCharacter* prevVersStr = NULL);
 
 	JBoolean	RestoreProgramState();
@@ -94,6 +97,7 @@ private:
 
 	JString	itsTermCmd;
 	JString	itsPostCheckoutCmd;
+	JString	itsGitStatusCmd;
 
 private:
 
@@ -202,6 +206,28 @@ SyGApplication::SetPostCheckoutCommand
 {
 	itsPostCheckoutCmd = cmd;
 	itsPostCheckoutCmd.TrimWhitespace();
+}
+
+/******************************************************************************
+ Git status
+
+ ******************************************************************************/
+
+inline const JString&
+SyGApplication::GetGitStatusCommand()
+	const
+{
+	return itsGitStatusCmd;
+}
+
+inline void
+SyGApplication::SetGitStatusCommand
+	(
+	const JCharacter* cmd
+	)
+{
+	itsGitStatusCmd = cmd;
+	itsGitStatusCmd.TrimWhitespace();
 }
 
 #endif

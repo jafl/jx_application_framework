@@ -185,14 +185,16 @@ static const JCharacter* kUnmountStr = "Unmount";
 static const JCharacter* kGitBranchMenuTitleStr = "Branch";
 static const JCharacter* kGitBranchMenuAddStr =
 	"    Create branch..."
+	"%l| Status..."
 	"%l| Commit all changes..."
 	"  | Revert all changes";
 
 enum
 {
-	kGitCreateBranchOffset = 1,
-	kGitCommitAllOffset,
-	kGitRevertAllOffset
+	kGitCreateBranchCmdOffset = 1,
+	kGitStatusCmdOffset,
+	kGitCommitAllCmdOffset,
+	kGitRevertAllCmdOffset
 };
 
 // Shortcuts menu
@@ -3683,7 +3685,7 @@ SyGFileTreeTable::HandleGitBranchMenu
 			}
 		}
 
-	else if (index == itsGitBranchCount + kGitCreateBranchOffset)
+	else if (index == itsGitBranchCount + kGitCreateBranchCmdOffset)
 		{
 		itsCreateBranchDialog =
 			new JXGetStringDialog((GetWindow())->GetDirector(), JGetString("CreateBranchTitle::SyGFileTreeTable"),
@@ -3693,7 +3695,13 @@ SyGFileTreeTable::HandleGitBranchMenu
 		ListenTo(itsCreateBranchDialog);
 		}
 
-	else if (index == itsGitBranchCount + kGitCommitAllOffset)
+	else if (index == itsGitBranchCount + kGitStatusCmdOffset)
+		{
+		JSimpleProcess::Create(itsFileTree->GetDirectory(),
+							   (SyGGetApplication())->GetGitStatusCommand(), kJTrue);
+		}
+
+	else if (index == itsGitBranchCount + kGitCommitAllCmdOffset)
 		{
 		itsCommitBranchDialog =
 			new JXGetStringDialog((GetWindow())->GetDirector(), JGetString("CreateBranchPrompt::SyGFileTreeTable"),
@@ -3702,7 +3710,7 @@ SyGFileTreeTable::HandleGitBranchMenu
 		itsCommitBranchDialog->Activate();
 		ListenTo(itsCommitBranchDialog);
 		}
-	else if (index == itsGitBranchCount + kGitRevertAllOffset)
+	else if (index == itsGitBranchCount + kGitRevertAllCmdOffset)
 		{
 		RevertBranch();
 		}

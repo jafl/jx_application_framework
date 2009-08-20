@@ -157,10 +157,11 @@ JXDialogDirector::Activate()
 			if (itsModalFlag)
 				{
 				supervisor->Suspend();
-				while (IsSuspended())
-					{
-					Resume();			// we need to be active
-					}
+				}
+
+			while (IsSuspended())
+				{
+				Resume();			// we need to be active
 				}
 			}
 		}

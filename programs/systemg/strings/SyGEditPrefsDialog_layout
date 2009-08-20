@@ -1,6 +1,7 @@
 0
 okButton::SyGEditPrefsDialog::shortcuts::JXLayout "^M"
 obj5_JXLayout::SyGEditPrefsDialog::JXLayout "Cmd to run after changing branch:"
+obj7_JXLayout::SyGEditPrefsDialog::JXLayout "Cmd to display git status:"
 obj2_JXLayout::SyGEditPrefsDialog::JXLayout "Cmd to view man page:"
 obj4_JXLayout::SyGEditPrefsDialog::JXLayout "(Read the on-line help to understand why this is dangerous!)"
 itsAllowSpaceCB::SyGEditPrefsDialog::JXLayout "Allow spaces in file names"

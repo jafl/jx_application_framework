@@ -26,8 +26,10 @@ const JFileVersion kSyGCurrentDirSetupVersion = 3;
 //	Removed HiddenEntriesVisible() from SyGTreeSet.
 //	SyGFileTreeTable saves pref[0].
 
-const JFileVersion kCurrentPrefsFileVersion = 8;
+const JFileVersion kCurrentPrefsFileVersion = 9;
 
+// version 9:
+//	Added git status cmd to SyGApplication.
 // version 8:
 //	ID = 11 (terminal cmd) merged with SyGApp prefs.
 //	ID = 12 (man page cmd) merged with SyGViewManPageDialog prefs.

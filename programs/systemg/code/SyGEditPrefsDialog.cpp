@@ -30,12 +30,13 @@ SyGEditPrefsDialog::SyGEditPrefsDialog
 	const JCharacter*	terminalCmd,
 	const JCharacter*	manViewCmd,
 	const JCharacter*	postCheckoutCmd,
+	const JCharacter*	gitStatusCmd,
 	const JBoolean		del
 	)
 	:
 	JXDialogDirector(JXGetApplication(), kJTrue)
 {
-	BuildWindow(terminalCmd, manViewCmd, postCheckoutCmd, del);
+	BuildWindow(terminalCmd, manViewCmd, postCheckoutCmd, gitStatusCmd, del);
 }
 
 /******************************************************************************
@@ -58,12 +59,13 @@ SyGEditPrefsDialog::BuildWindow
 	const JCharacter*	terminalCmd,
 	const JCharacter*	manViewCmd,
 	const JCharacter*	postCheckoutCmd,
+	const JCharacter*	gitStatusCmd,
 	const JBoolean		del
 	)
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 450,270, "");
+    JXWindow* window = new JXWindow(this, 450,300, "");
     assert( window != NULL );
     SetWindow(window);
 
@@ -89,13 +91,13 @@ SyGEditPrefsDialog::BuildWindow
 
     JXTextButton* cancelButton =
         new JXTextButton(JGetString("cancelButton::SyGEditPrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 105,240, 60,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 105,270, 60,20);
     assert( cancelButton != NULL );
     cancelButton->SetShortcuts(JGetString("cancelButton::SyGEditPrefsDialog::shortcuts::JXLayout"));
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::SyGEditPrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 284,239, 62,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 284,269, 62,22);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::SyGEditPrefsDialog::shortcuts::JXLayout"));
 
@@ -133,9 +135,19 @@ SyGEditPrefsDialog::BuildWindow
 
     JXStaticText* obj6_JXLayout =
         new JXStaticText(JGetString("obj6_JXLayout::SyGEditPrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,200, 200,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,200, 225,20);
     assert( obj6_JXLayout != NULL );
     obj6_JXLayout->SetFontSize(10);
+
+    itsGitStatusInput =
+        new JXInputField(window,
+                    JXWidget::kHElastic, JXWidget::kFixedTop, 210,220, 225,20);
+    assert( itsGitStatusInput != NULL );
+
+    JXStaticText* obj7_JXLayout =
+        new JXStaticText(JGetString("obj7_JXLayout::SyGEditPrefsDialog::JXLayout"), window,
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,220, 200,20);
+    assert( obj7_JXLayout != NULL );
 
 // end JXLayout
 
@@ -150,6 +162,9 @@ SyGEditPrefsDialog::BuildWindow
 
 	itsPostCheckoutInput->SetText(postCheckoutCmd);
 	itsPostCheckoutInput->SetIsRequired();
+
+	itsGitStatusInput->SetText(gitStatusCmd);
+	itsGitStatusInput->SetIsRequired();
 
 	itsDelCB->SetState(del);
 
@@ -167,6 +182,7 @@ SyGEditPrefsDialog::GetPrefs
 	JString*	terminalCmd,
 	JString*	manViewCmd,
 	JString*	postCheckoutCmd,
+	JString*	gitStatusCmd,
 	JBoolean*	del
 	)
 	const
@@ -174,6 +190,7 @@ SyGEditPrefsDialog::GetPrefs
 	*terminalCmd     = itsTerminalInput->GetText();
 	*manViewCmd      = itsManInput->GetText();
 	*postCheckoutCmd = itsPostCheckoutInput->GetText();
+	*gitStatusCmd    = itsGitStatusInput->GetText();
 
 	*del = itsDelCB->IsChecked();
 

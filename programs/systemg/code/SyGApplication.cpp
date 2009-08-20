@@ -29,9 +29,11 @@
 static const JCharacter* kAppSignature           = "systemg";
 static const JCharacter* kDefaultTermCmd         = "gnome-terminal --working-directory=$p"; // "xterm -title $n -n $n";
 static const JCharacter* kDefaultPostCheckoutCmd = "jcc --reload-open";
+static const JCharacter* kDefaultGitStatusCmd    = "xterm -e 'git status | less'";
 
-const JFileVersion kCurrentPrefsVersion = 3;
+const JFileVersion kCurrentPrefsVersion = 4;
 
+	// version  4 adds itsGitStatusCmd
 	// version  3 adds itsPostCheckoutCmd
 	// version  2 adds itsTermCmd
 	// version  1 adds itsMountPointPrefs
@@ -57,7 +59,8 @@ SyGApplication::SyGApplication
 	JXApplication(argc, argv, kAppSignature, kSyGDefaultStringData),
 	JPrefObject(NULL, kSAppID),
 	itsTermCmd(kDefaultTermCmd),
-	itsPostCheckoutCmd(kDefaultPostCheckoutCmd)
+	itsPostCheckoutCmd(kDefaultPostCheckoutCmd),
+	itsGitStatusCmd(kDefaultGitStatusCmd)
 {
 	// Create itsWindowList first so DirectorClosed() won't crash when
 	// warn that prefs are unreadable.
@@ -727,6 +730,11 @@ SyGApplication::ReadPrefs
 		input >> itsPostCheckoutCmd;
 		}
 
+	if (vers >= 4)
+		{
+		input >> itsGitStatusCmd;
+		}
+
 	SyGWriteTaskBarSetup(*itsShortcutList, kJFalse);
 }
 
@@ -785,6 +793,7 @@ SyGApplication::WritePrefs
 	output << ' ' << *itsMountPointPrefs;
 	output << ' ' << itsTermCmd;
 	output << ' ' << itsPostCheckoutCmd;
+	output << ' ' << itsGitStatusCmd;
 }
 
 /******************************************************************************
