@@ -238,6 +238,8 @@ static const JCharacter* kContextMenuStr =
 	"    Duplicate"
 	"  | Make alias"
 	"  | Find original"
+	"%l| Open this and close window"
+	"  | Open this and iconify window"
 	"%l| Run command on selection..."
 	"%l| Convert to file"
 	"  | Convert to program";
@@ -247,6 +249,8 @@ enum
 	kDuplicateCtxCmd = 1,
 	kMakeAliasCtxCmd,
 	kFindOriginalCtxCmd,
+	kOpenCloseCtxCmd,
+	OpenIconifyCtxCmd,
 	kRunOnSelCtxCmd,
 	kConvertToFileCtxCmd,
 	kConvertToProgramCtxCmd
@@ -3493,19 +3497,25 @@ SyGFileTreeTable::RestoreDirState
 		is >> v;
 		}
 
+	const JString& basePath = itsFileTree->GetDirectory();
+
 	JSize nameCount;
 	is >> nameCount;
 
-	JString file, n;
+	JString file, full;
 	for (JIndex i=1; i<=nameCount; i++)
 		{
 		is >> file;
+		if (!JConvertToAbsolutePath(file, basePath, &full))
+			{
+			continue;
+			}
 
 		const JSize count = itsFileTreeList->GetElementCount();	// changes after Open()
 		for (JIndex j=1; j<=count; j++)
 			{
-			n = (itsFileTreeList->GetDirEntry(j))->GetFullName();
-			if (JSameDirEntry(n, file))
+			const JString& n = (itsFileTreeList->GetDirEntry(j))->GetFullName();
+			if (JSameDirEntry(n, full))
 				{
 				itsFileTreeList->Open(j);
 				break;
@@ -3526,12 +3536,15 @@ SyGFileTreeTable::SaveDirState
 	)
 {
 	JPtrArray<JString> names(JPtrArrayT::kDeleteAll);
+	const JString& basePath = itsFileTree->GetDirectory();
+
 	JSize count = itsFileTreeList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
 		if (itsFileTreeList->IsOpen(i))
 			{
-			names.Append((itsFileTreeList->GetDirEntry(i))->GetFullName());
+			names.Append(JConvertToRelativePath(
+				(itsFileTreeList->GetDirEntry(i))->GetFullName(), basePath));
 			}
 		}
 
@@ -3636,18 +3649,13 @@ SyGFileTreeTable::UpdateGitBranchMenu()
 			}
 		}
 
-	if (itsGitBranchMenu->IsEmpty())
+	itsGitBranchCount = itsGitBranchMenu->GetItemCount();
+	if (itsGitBranchCount > 0)
 		{
-		itsGitBranchMenu->AppendItem(JGetString("NoBranchInfo::SyGFileTreeTable"));
-		itsGitBranchMenu->DisableItem(1);
-		}
-	else
-		{
-		itsGitBranchCount = itsGitBranchMenu->GetItemCount();
 		itsGitBranchMenu->ShowSeparatorAfter(itsGitBranchCount);
-
-		itsGitBranchMenu->AppendMenuItems(kGitBranchMenuAddStr);
 		}
+
+	itsGitBranchMenu->AppendMenuItems(kGitBranchMenuAddStr);
 }
 
 /******************************************************************************
@@ -3888,6 +3896,8 @@ SyGFileTreeTable::UpdateContextMenu()
 
 	itsContextMenu->SetItemEnable(kMakeAliasCtxCmd,        hasSelection);
 	itsContextMenu->SetItemEnable(kFindOriginalCtxCmd,     findOriginal);
+	itsContextMenu->SetItemEnable(kOpenCloseCtxCmd,        hasSelection);
+	itsContextMenu->SetItemEnable(OpenIconifyCtxCmd,       hasSelection);
 	itsContextMenu->SetItemEnable(kConvertToFileCtxCmd,    hasSelection);
 	itsContextMenu->SetItemEnable(kConvertToProgramCtxCmd, hasSelection);
 }
@@ -3916,6 +3926,15 @@ SyGFileTreeTable::HandleContextMenu
 	else if (index == kFindOriginalCtxCmd)
 		{
 		FindOriginals();
+		}
+
+	else if (index == kOpenCloseCtxCmd)
+		{
+		OpenSelection(kJFalse, kJFalse, kJFalse, kJTrue);
+		}
+	else if (index == OpenIconifyCtxCmd)
+		{
+		OpenSelection(kJFalse, kJFalse, kJTrue, kJFalse);
 		}
 
 	else if (index == kRunOnSelCtxCmd)

@@ -25,6 +25,16 @@ static const JCharacter* kSubversionDirName  = ".svn";
 static const JCharacter* kCVSDirName         = "CVS";
 static const JCharacter* kSCCSDirName        = "SCCS";
 
+static const JCharacter* kDirName[] =
+{
+	kGitDirName,
+	kSubversionDirName,
+	kCVSDirName,
+	kSCCSDirName
+};
+
+const JSize kDirCount = sizeof(kDirName) / sizeof(const JCharacter*);
+
 // error types
 
 const JCharacter* kJUnsupportedVCS = "JUnsupportedVCS";
@@ -56,6 +66,21 @@ JIsVCSDirectory
 				strcmp(name, kSubversionDirName) == 0 ||
 				strcmp(name, kCVSDirName)        == 0 ||
 				strcmp(name, kSCCSDirName)       == 0);
+}
+
+/******************************************************************************
+ JGetVCSDirectoryNames
+
+ ******************************************************************************/
+
+JSize
+JGetVCSDirectoryNames
+	(
+	const JCharacter*** dirNames
+	)
+{
+	*dirNames = kDirName;
+	return kDirCount;
 }
 
 /******************************************************************************

@@ -24,6 +24,7 @@
 #include <JXChooseSaveFile.h>
 
 #include <jProcessUtil.h>
+#include <jVCSUtil.h>
 #include <jAssert.h>
 
 enum
@@ -384,11 +385,24 @@ SyGFindFileDialog::SearchExpr
 	const JCharacter* expr
 	)
 {
+	JString e = "( ";
+	e        += expr;
+	e        += " )";
+
+	const JCharacter** vcsDirName;
+	const JSize vcsDirNameCount = JGetVCSDirectoryNames(&vcsDirName);
+	for (JIndex i=0; i<vcsDirNameCount; i++)
+		{
+		e += " -a ! -path */";
+		e += vcsDirName[i];
+		e += "/*";
+		}
+
 	SyGTreeDir* dir;
 	if ((SyGGetApplication())->OpenDirectory(path, &dir, NULL, kJTrue, kJTrue, kJFalse, kJTrue))
 		{
 		SyGFindFileTask* task;
-		SyGFindFileTask::Create(dir, path, expr, &task);
+		SyGFindFileTask::Create(dir, path, e, &task);
 		}
 }
 

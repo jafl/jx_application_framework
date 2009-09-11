@@ -107,6 +107,18 @@ protected:
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message);
 
+public:		// kAtomCount required at global scope
+
+	enum
+	{
+		kXSearchSelectionAtomIndex,
+		kXSearchWindowsAtomIndex,
+		kXSearchVersionAtomIndex,
+		kXSearchDataV1AtomIndex,
+
+		kAtomCount
+	};
+
 private:
 
 	JXTEBase*			itsTE;					// can be NULL; not owned
@@ -114,13 +126,7 @@ private:
 	JXTimerTask*		itsUpdateTask;
 
 	const JCharacter*	itsSearchTextHelpName;
-
-	// Xsearch protocol
-
-	Atom	itsXSearchSelectionName;
-	Atom	itsXSearchWindowsXAtom;
-	Atom	itsXSearchVersionXAtom;
-	Atom	itsXSearchDataXAtom [ kCurrentXSearchVersion ];
+	Atom				itsAtoms[ kAtomCount ];
 
 	Window	itsVersionWindow;		// None if init failed
 	Window	itsDataWindow;			// None if init failed

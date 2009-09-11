@@ -111,9 +111,12 @@ static const JCharacter* kTestMenuStr =
 	"  | Image viewer                      %k Ctrl-I"
 	"%l| Enable Smileys menu %b"
 	"%l| Zombie process"
-	"%l| Place window at (0,0)"
-	"  | Move window by (+10,+10)"
+	"%l| Place window at (0,0)             %k Ctrl-1"
+	"  | Place window at (30,30)           %k Ctrl-2"
+	"  | Place window at (100,100)         %k Ctrl-3"
+	"  | Move window by (+10,+10)          %k Ctrl-4"
 	"  | Raise all windows"
+	"  | Window config                     %k Ctrl-0"
 	"%l| Force broken pipe (does not dump core)"
 	"  | Generate X error (dumps core)"
 	"  | Lock up for 10 seconds (test MDI)";
@@ -129,7 +132,8 @@ enum
 	kTestImageViewCmd,
 	kTestDisabledMenuCmd,
 	kTestZombieProcessCmd,
-	kTestPlaceWindowCmd, kTestMoveWindowCmd, kRaiseAllWindowsCmd,
+	kTestPlaceWindow0Cmd, kTestPlaceWindow30Cmd, kTestPlaceWindow100Cmd,
+	kTestMoveWindowCmd, kRaiseAllWindowsCmd, kPrintWMConfigCmd,
 	kTestBrokenPipe, kTestUncaughtXError, kLockUpToTestMDICmd
 };
 
@@ -926,17 +930,26 @@ TestDirector::HandleTestMenu
 			}
 		}
 
-	else if (index == kTestPlaceWindowCmd)
+	else if (index == kTestPlaceWindow0Cmd)
 		{
 		JXWindow* window = GetWindow();
-
-//		window->Hide();
-//		(GetDisplay())->Synchronize();
-
 		window->Place(0,0);
 
-//		window->Show();
-//		(GetDisplay())->Synchronize();
+		cout << endl;
+		cout << "Window is now at " << window->GetDesktopLocation() << endl;
+		}
+	else if (index == kTestPlaceWindow30Cmd)
+		{
+		JXWindow* window = GetWindow();
+		window->Place(30,30);
+
+		cout << endl;
+		cout << "Window is now at " << window->GetDesktopLocation() << endl;
+		}
+	else if (index == kTestPlaceWindow100Cmd)
+		{
+		JXWindow* window = GetWindow();
+		window->Place(100,100);
 
 		cout << endl;
 		cout << "Window is now at " << window->GetDesktopLocation() << endl;
@@ -944,14 +957,7 @@ TestDirector::HandleTestMenu
 	else if (index == kTestMoveWindowCmd)
 		{
 		JXWindow* window = GetWindow();
-
-//		window->Hide();
-//		(GetDisplay())->Synchronize();
-
 		window->Move(10,10);
-
-//		window->Show();
-//		(GetDisplay())->Synchronize();
 
 		cout << endl;
 		cout << "Window is now at " << window->GetDesktopLocation() << endl;
@@ -959,6 +965,10 @@ TestDirector::HandleTestMenu
 	else if (index == kRaiseAllWindowsCmd)
 		{
 		(GetDisplay())->RaiseAllWindows();
+		}
+	else if (index == kPrintWMConfigCmd)
+		{
+		(GetWindow())->PrintWindowConfig();
 		}
 
 	else if (index == kTestBrokenPipe)

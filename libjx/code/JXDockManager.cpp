@@ -28,8 +28,11 @@ const JFileVersion kCurrentSetupVersion = 3;
 	// version  2 saves JXTabGroup data
 	// version  1 saves itsWindowTypeMap
 
-static const JCharacter* kDNDMinSizeAtomName = "MinSize::JXDockDragData";
-static const JCharacter* kDNDWindowAtomName  = "Window::JXDockDragData";
+static const JCharacter* kAtomNames[ JXDockManager::kAtomCount ] =
+{
+	"MinSize::JXDockDragData",
+	"Window::JXDockDragData"
+};
 
 // string ID's
 
@@ -63,8 +66,7 @@ JXDockManager::JXDockManager
 	itsWindowTypeMap = new JStringMap<JIndex>;
 	assert( itsWindowTypeMap != NULL );
 
-	itsDNDMinSizeAtom = display->RegisterXAtom(kDNDMinSizeAtomName);
-	itsDNDWindowAtom  = display->RegisterXAtom(kDNDWindowAtomName);
+	display->RegisterXAtoms(kAtomCount, kAtomNames, itsAtoms);
 
 	JXSetDockManager(this);
 }

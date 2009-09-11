@@ -154,6 +154,38 @@ private:
 		kDefDNDCursorCount
 	};
 
+public:		// kAtomCount required at global scope
+
+	enum
+	{
+		kDNDSelectionAtomIndex,
+
+		kDNDProxyAtomIndex,
+		kDNDAwareAtomIndex,
+		kDNDTypeListAtomIndex,
+
+		kDNDEnterAtomIndex,
+		kDNDHereAtomIndex,
+		kDNDStatusAtomIndex,
+		kDNDLeaveAtomIndex,
+		kDNDDropAtomIndex,
+		kDNDFinishedAtomIndex,
+
+		kDNDActionCopyAtomIndex,
+		kDNDActionMoveAtomIndex,
+		kDNDActionLinkAtomIndex,
+		kDNDActionAskAtomIndex,
+		kDNDActionPrivateAtomIndex,
+		kDNDActionDirectSaveAtomIndex,
+
+		kDNDActionListAtomIndex,
+		kDNDActionDescriptionAtomIndex,
+
+		kDNDDirectSave0AtomIndex,
+
+		kAtomCount
+	};
+
 private:
 
 	JXDisplay*			itsDisplay;					// not owned
@@ -196,30 +228,7 @@ private:
 
 	JCursorIndex	itsDefDNDCursor [ kDefDNDCursorCount ];
 
-	Atom itsDNDSelectionName;
-
-	Atom itsDNDProxyXAtom;
-	Atom itsDNDAwareXAtom;
-	Atom itsDNDTypeListXAtom;
-
-	Atom itsDNDEnterXAtom;
-	Atom itsDNDHereXAtom;
-	Atom itsDNDStatusXAtom;
-	Atom itsDNDLeaveXAtom;
-	Atom itsDNDDropXAtom;
-	Atom itsDNDFinishedXAtom;
-
-	Atom itsDNDActionCopyXAtom;
-	Atom itsDNDActionMoveXAtom;
-	Atom itsDNDActionLinkXAtom;
-	Atom itsDNDActionAskXAtom;
-	Atom itsDNDActionPrivateXAtom;
-	Atom itsDNDActionDirectSaveXAtom;
-
-	Atom itsDNDActionListXAtom;
-	Atom itsDNDActionDescriptionXAtom;
-
-	Atom itsDNDDirectSave0XAtom;
+	Atom	itsAtoms[ kAtomCount ];
 
 private:
 
@@ -302,7 +311,7 @@ inline Atom
 JXDNDManager::GetDNDSelectionName()
 	const
 {
-	return itsDNDSelectionName;
+	return itsAtoms[ kDNDSelectionAtomIndex ];
 }
 
 /******************************************************************************
@@ -314,7 +323,7 @@ inline Atom
 JXDNDManager::GetDNDDirectSave0XAtom()
 	const
 {
-	return itsDNDDirectSave0XAtom;
+	return itsAtoms[ kDNDDirectSave0AtomIndex ];
 }
 
 /******************************************************************************
@@ -326,42 +335,42 @@ inline Atom
 JXDNDManager::GetDNDActionCopyXAtom()
 	const
 {
-	return itsDNDActionCopyXAtom;
+	return itsAtoms[ kDNDActionCopyAtomIndex ];
 }
 
 inline Atom
 JXDNDManager::GetDNDActionMoveXAtom()
 	const
 {
-	return itsDNDActionMoveXAtom;
+	return itsAtoms[ kDNDActionMoveAtomIndex ];
 }
 
 inline Atom
 JXDNDManager::GetDNDActionLinkXAtom()
 	const
 {
-	return itsDNDActionLinkXAtom;
+	return itsAtoms[ kDNDActionLinkAtomIndex ];
 }
 
 inline Atom
 JXDNDManager::GetDNDActionAskXAtom()
 	const
 {
-	return itsDNDActionAskXAtom;
+	return itsAtoms[ kDNDActionAskAtomIndex ];
 }
 
 inline Atom
 JXDNDManager::GetDNDActionPrivateXAtom()
 	const
 {
-	return itsDNDActionPrivateXAtom;
+	return itsAtoms[ kDNDActionPrivateAtomIndex ];
 }
 
 inline Atom
 JXDNDManager::GetDNDActionDirectSaveXAtom()
 	const
 {
-	return itsDNDActionDirectSaveXAtom;
+	return itsAtoms[ kDNDActionDirectSaveAtomIndex ];
 }
 
 /******************************************************************************

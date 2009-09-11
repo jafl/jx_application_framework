@@ -1001,8 +1001,27 @@ TestWidget::WillAcceptDrop
 	)
 {
 	JXDNDManager* dndMgr = GetDNDManager();
+	JXDisplay* display   = GetDisplay();
 
-	if (typeList.GetFirstElement() == (GetSelectionManager())->GetURLXAtom())
+	JBoolean hasURIList = kJFalse;
+
+	cout << endl;
+	cout << "Data types available from DND source:" << endl;
+	cout << endl;
+
+	const JSize typeCount = typeList.GetElementCount();
+	for (JIndex i=1; i<=typeCount; i++)
+		{
+		const Atom type = typeList.GetElement(i);
+		cout << XGetAtomName(*display, type) << endl;
+
+		if (type == (GetSelectionManager())->GetURLXAtom())
+			{
+			hasURIList = kJTrue;
+			}
+		}
+
+	if (hasURIList)
 		{
 		if (its2Rect.Contains(pt) || its3Rect.Contains(pt))
 			{
@@ -1030,21 +1049,9 @@ TestWidget::WillAcceptDrop
 		}
 	else
 		{
-		JXDisplay* display = GetDisplay();
-
 		cout << endl;
 		cout << "Not accepting the drop because the action isn't copy" << endl;
 		cout << "Action: " << XGetAtomName(*display, *action) << endl;
-		cout << endl;
-		cout << "Data types available from DND source:" << endl;
-		cout << endl;
-
-		const JSize typeCount = typeList.GetElementCount();
-		for (JIndex i=1; i<=typeCount; i++)
-			{
-			const Atom type = typeList.GetElement(i);
-			cout << XGetAtomName(*display, type) << endl;
-			}
 		cout << endl;
 
 		PrintSelectionText(dndMgr->GetDNDSelectionName(), time,
@@ -1103,6 +1110,7 @@ TestWidget::HandleDNDDrop
 		{
 		PrintSelectionText((GetDNDManager())->GetDNDSelectionName(), time, textType);
 		}
+
 	if (url)
 		{
 		PrintFileNames((GetDNDManager())->GetDNDSelectionName(), time);
@@ -1191,7 +1199,11 @@ TestWidget::PrintSelectionText
 		else
 			{
 			cout << "Data has unrecognized return type:  ";
-			cout << XGetAtomName(*(GetDisplay()), returnType) << endl << endl;
+			cout << XGetAtomName(*(GetDisplay()), returnType) << endl;
+			cout << "Trying to print it anyway:" << endl << endl;
+
+			cout.write((char*) data, dataLength);
+			cout << endl << endl;
 			}
 
 		selMgr->DeleteData(&data, delMethod);

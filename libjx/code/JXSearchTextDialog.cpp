@@ -1100,11 +1100,15 @@ JXSearchTextDialog::WriteSetup
 
  ******************************************************************************/
 
-static const JCharacter* kXSearchSelectionXAtomName = "XsearchSelection";
-static const JCharacter* kXSearchWindowsXAtomName   = "XsearchWindows";
-static const JCharacter* kXSearchVersionXAtomName   = "XsearchVersion";
-static const JCharacter* kXSearchDataV1XAtomName    = "XsearchDataV1";
-static const JCharacter* kXSearchExtraTag           = "JX_Application_Framework";
+static const JCharacter* kAtomNames[ JXSearchTextDialog::kAtomCount ] =
+{
+	"XsearchSelection",
+	"XsearchWindows",
+	"XsearchVersion",
+	"XsearchDataV1"
+};
+
+static const JCharacter* kXSearchExtraTag = "JX_Application_Framework";
 
 class JXSearchSelection : public JXSelectionData
 {
@@ -1132,10 +1136,7 @@ JXSearchTextDialog::InitXSearch()
 	JXDisplay* display      = GetDisplay();
 	const Window rootWindow = display->GetRootWindow();
 
-	itsXSearchSelectionName = display->RegisterXAtom(kXSearchSelectionXAtomName);
-	itsXSearchWindowsXAtom  = display->RegisterXAtom(kXSearchWindowsXAtomName);
-	itsXSearchVersionXAtom  = display->RegisterXAtom(kXSearchVersionXAtomName);
-	itsXSearchDataXAtom[0]  = display->RegisterXAtom(kXSearchDataV1XAtomName);
+	display->RegisterXAtoms(kAtomCount, kAtomNames, itsAtoms);
 
 	itsVersionWindow = None;
 	itsDataWindow    = None;
@@ -1166,7 +1167,7 @@ JXSearchTextDialog::InitXSearch()
 	int actualFormat;
 	unsigned long itemCount, remainingBytes;
 	unsigned char* data = NULL;
-	XGetWindowProperty(*display, rootWindow, itsXSearchWindowsXAtom,
+	XGetWindowProperty(*display, rootWindow, itsAtoms[ kXSearchWindowsAtomIndex ],
 					   0, 2, False, XA_WINDOW,
 					   &actualType, &actualFormat,
 					   &itemCount, &remainingBytes, &data);
@@ -1184,7 +1185,7 @@ JXSearchTextDialog::InitXSearch()
 		{
 		const Window newData[2] = { itsVersionWindow, itsDataWindow };
 		XChangeProperty(*display, rootWindow,
-						itsXSearchWindowsXAtom, XA_WINDOW, 32,
+						itsAtoms[ kXSearchWindowsAtomIndex ], XA_WINDOW, 32,
 						PropModeReplace,
 						(unsigned char*) newData, 2);
 
@@ -1221,7 +1222,7 @@ JXSearchTextDialog::GetXSearch()
 	int actualFormat;
 	unsigned long itemCount, remainingBytes;
 	unsigned char* data = NULL;
-	XGetWindowProperty(*display, itsVersionWindow, itsXSearchVersionXAtom,
+	XGetWindowProperty(*display, itsVersionWindow, itsAtoms[ kXSearchVersionAtomIndex ],
 					   0, 1, False, XA_ATOM,
 					   &actualType, &actualFormat,
 					   &itemCount, &remainingBytes, &data);
@@ -1232,7 +1233,7 @@ JXSearchTextDialog::GetXSearch()
 		const Atom vers          = JMin(maxSourceVers, (Atom) kCurrentXSearchVersion);
 		XFree(data);
 
-		const Atom requestType = itsXSearchDataXAtom [ vers-1 ];
+		const Atom requestType = itsAtoms[ kXSearchDataV1AtomIndex + (vers-1) ];
 		XGetWindowProperty(*display, itsDataWindow, requestType,
 						   0, LONG_MAX, False, plainTextAtom,
 						   &actualType, &actualFormat,
@@ -1282,7 +1283,7 @@ JXSearchTextDialog::SetXSearch
 
 	JXSearchSelection* selData = new JXSearchSelection(GetDisplay());
 	assert( selData != NULL );
-	if (!selMgr->SetData(itsXSearchSelectionName, selData))
+	if (!selMgr->SetData(itsAtoms[ kXSearchSelectionAtomIndex ], selData))
 		{
 		if (grabServer)
 			{
@@ -1298,7 +1299,7 @@ JXSearchTextDialog::SetXSearch
 	const std::string s = dataV1.str();
 
 	XChangeProperty(*display, itsDataWindow,
-					itsXSearchDataXAtom[0], plainTextAtom, 8,
+					itsAtoms[ kXSearchDataV1AtomIndex ], plainTextAtom, 8,
 					PropModeReplace,
 					(unsigned char*) s.c_str(), s.length());
 
@@ -1306,7 +1307,7 @@ JXSearchTextDialog::SetXSearch
 
 	const Atom vers = kCurrentXSearchVersion;
 	XChangeProperty(*display, itsVersionWindow,
-					itsXSearchVersionXAtom, XA_ATOM, 32,
+					itsAtoms[ kXSearchVersionAtomIndex ], XA_ATOM, 32,
 					PropModeReplace,
 					(unsigned char*) &vers, 1);
 
@@ -1463,11 +1464,11 @@ JXSearchTextDialog::ReceiveWithFeedback
 		const XEvent& event = info->GetXEvent();
 		if (event.type             == PropertyNotify &&
 			event.xproperty.window == itsVersionWindow &&
-			event.xproperty.atom   == itsXSearchVersionXAtom &&
+			event.xproperty.atom   == itsAtoms[ kXSearchVersionAtomIndex ] &&
 			event.xproperty.state  == PropertyNewValue)
 			{
 			if (!((GetDisplay())->GetSelectionManager())->
-					OwnsSelection(itsXSearchSelectionName))
+					OwnsSelection(itsAtoms[ kXSearchSelectionAtomIndex ]))
 				{
 				GetXSearch();
 				}

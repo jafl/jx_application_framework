@@ -50,30 +50,33 @@ const clock_t kWaitForLastStatusTime     = 10 * CLOCKS_PER_SEC;
 
 // atom names
 
-static const JCharacter* kDNDSelectionXAtomName = "XdndSelection";
+static const JCharacter* kAtomNames[ JXDNDManager::kAtomCount ] =
+{
+	"XdndSelection",
 
-static const JCharacter* kDNDProxyXAtomName    = "XdndProxy";
-static const JCharacter* kDNDAwareXAtomName    = "XdndAware";
-static const JCharacter* kDNDTypeListXAtomName = "XdndTypeList";
+	"XdndProxy",
+	"XdndAware",
+	"XdndTypeList",
 
-static const JCharacter* kDNDEnterXAtomName    = "XdndEnter";
-static const JCharacter* kDNDHereXAtomName     = "XdndPosition";
-static const JCharacter* kDNDStatusXAtomName   = "XdndStatus";
-static const JCharacter* kDNDLeaveXAtomName    = "XdndLeave";
-static const JCharacter* kDNDDropXAtomName     = "XdndDrop";
-static const JCharacter* kDNDFinishedXAtomName = "XdndFinished";
+	"XdndEnter",
+	"XdndPosition",
+	"XdndStatus",
+	"XdndLeave",
+	"XdndDrop",
+	"XdndFinished",
 
-static const JCharacter* kDNDActionCopyXAtomName       = "XdndActionCopy";
-static const JCharacter* kDNDActionMoveXAtomName       = "XdndActionMove";
-static const JCharacter* kDNDActionLinkXAtomName       = "XdndActionLink";
-static const JCharacter* kDNDActionAskXAtomName        = "XdndActionAsk";
-static const JCharacter* kDNDActionPrivateXAtomName    = "XdndActionPrivate";
-static const JCharacter* kDNDActionDirectSaveXAtomName = "XdndActionDirectSave";
+	"XdndActionCopy",
+	"XdndActionMove",
+	"XdndActionLink",
+	"XdndActionAsk",
+	"XdndActionPrivate",
+	"XdndActionDirectSave",
 
-static const JCharacter* kDNDActionListXAtomName        = "XdndActionList";
-static const JCharacter* kDNDActionDescriptionXAtomName = "XdndActionDescription";
+	"XdndActionList",
+	"XdndActionDescription",
 
-static const JCharacter* kDNDDirectSave0XAtomName = "XdndDirectSave0";
+	"XdndDirectSave0"
+};
 
 // message data
 
@@ -176,32 +179,7 @@ JXDNDManager::JXDNDManager
 
 	InitCursors();
 
-	// create required X atoms
-
-	itsDNDSelectionName = itsDisplay->RegisterXAtom(kDNDSelectionXAtomName);
-
-	itsDNDProxyXAtom    = itsDisplay->RegisterXAtom(kDNDProxyXAtomName);
-	itsDNDAwareXAtom    = itsDisplay->RegisterXAtom(kDNDAwareXAtomName);
-	itsDNDTypeListXAtom = itsDisplay->RegisterXAtom(kDNDTypeListXAtomName);
-
-	itsDNDEnterXAtom    = itsDisplay->RegisterXAtom(kDNDEnterXAtomName);
-	itsDNDHereXAtom     = itsDisplay->RegisterXAtom(kDNDHereXAtomName);
-	itsDNDStatusXAtom   = itsDisplay->RegisterXAtom(kDNDStatusXAtomName);
-	itsDNDLeaveXAtom    = itsDisplay->RegisterXAtom(kDNDLeaveXAtomName);
-	itsDNDDropXAtom     = itsDisplay->RegisterXAtom(kDNDDropXAtomName);
-	itsDNDFinishedXAtom = itsDisplay->RegisterXAtom(kDNDFinishedXAtomName);
-
-	itsDNDActionCopyXAtom       = itsDisplay->RegisterXAtom(kDNDActionCopyXAtomName);
-	itsDNDActionMoveXAtom       = itsDisplay->RegisterXAtom(kDNDActionMoveXAtomName);
-	itsDNDActionLinkXAtom       = itsDisplay->RegisterXAtom(kDNDActionLinkXAtomName);
-	itsDNDActionAskXAtom        = itsDisplay->RegisterXAtom(kDNDActionAskXAtomName);
-	itsDNDActionPrivateXAtom    = itsDisplay->RegisterXAtom(kDNDActionPrivateXAtomName);
-	itsDNDActionDirectSaveXAtom = itsDisplay->RegisterXAtom(kDNDActionDirectSaveXAtomName);
-
-	itsDNDActionListXAtom        = itsDisplay->RegisterXAtom(kDNDActionListXAtomName);
-	itsDNDActionDescriptionXAtom = itsDisplay->RegisterXAtom(kDNDActionDescriptionXAtomName);
-
-	itsDNDDirectSave0XAtom = itsDisplay->RegisterXAtom(kDNDDirectSave0XAtomName);
+	itsDisplay->RegisterXAtoms(kAtomCount, kAtomNames, itsAtoms);
 }
 
 /******************************************************************************
@@ -268,7 +246,7 @@ JXDNDManager::BeginDND
 	itsPrevHandleDNDScrollButton = (JXMouseButton) 0;
 	itsPrevHandleDNDModifiers.Clear();
 
-	if ((itsDisplay->GetSelectionManager())->SetData(itsDNDSelectionName, data))
+	if ((itsDisplay->GetSelectionManager())->SetData(itsAtoms[ kDNDSelectionAtomIndex ], data))
 		{
 		itsIsDraggingFlag   = kJTrue;
 		itsDragger          = widget;
@@ -328,8 +306,8 @@ JXDNDManager::HandleDND
 
 	const Atom dropAction =
 		itsDragger->GetDNDAction(itsMouseContainer, buttonStates, modifiers);
-	if (dropAction == itsDNDActionAskXAtom &&
-		itsPrevHandleDNDAction != itsDNDActionAskXAtom)
+	if (dropAction == itsAtoms[ kDNDActionAskAtomIndex ] &&
+		itsPrevHandleDNDAction != itsAtoms[ kDNDActionAskAtomIndex ])
 		{
 		AnnounceAskActions(buttonStates, modifiers);
 		}
@@ -556,7 +534,7 @@ JXDNDManager::EnableDND
 	const
 {
 	XChangeProperty(*itsDisplay, xWindow,
-					itsDNDAwareXAtom, XA_ATOM, 32,
+					itsAtoms[ kDNDAwareAtomIndex ], XA_ATOM, 32,
 					PropModeReplace,
 					(unsigned char*) &kCurrentDNDVersion, 1);
 }
@@ -590,7 +568,7 @@ JXDNDManager::IsDNDAware
 	int actualFormat;
 	unsigned long itemCount, remainingBytes;
 	unsigned char* rawData = NULL;
-	XGetWindowProperty(*itsDisplay, xWindow, itsDNDProxyXAtom,
+	XGetWindowProperty(*itsDisplay, xWindow, itsAtoms[ kDNDProxyAtomIndex ],
 					   0, LONG_MAX, False, XA_WINDOW,
 					   &actualType, &actualFormat,
 					   &itemCount, &remainingBytes, &rawData);
@@ -604,7 +582,7 @@ JXDNDManager::IsDNDAware
 
 		// check XdndProxy on proxy window -- must point to itself
 
-		XGetWindowProperty(*itsDisplay, *proxy, itsDNDProxyXAtom,
+		XGetWindowProperty(*itsDisplay, *proxy, itsAtoms[ kDNDProxyAtomIndex ],
 						   0, LONG_MAX, False, XA_WINDOW,
 						   &actualType, &actualFormat,
 						   &itemCount, &remainingBytes, &rawData);
@@ -621,7 +599,7 @@ JXDNDManager::IsDNDAware
 
 	// check XdndAware
 
-	XGetWindowProperty(*itsDisplay, *proxy, itsDNDAwareXAtom,
+	XGetWindowProperty(*itsDisplay, *proxy, itsAtoms[ kDNDAwareAtomIndex ],
 					   0, LONG_MAX, False, XA_ATOM,
 					   &actualType, &actualFormat,
 					   &itemCount, &remainingBytes, &rawData);
@@ -664,7 +642,7 @@ JXDNDManager::AnnounceTypeList
 	if (typeCount > kDNDEnterTypeCount)
 		{
 		XChangeProperty(*itsDisplay, xWindow,
-						itsDNDTypeListXAtom, XA_ATOM, 32,
+						itsAtoms[ kDNDTypeListAtomIndex ], XA_ATOM, 32,
 						PropModeReplace,
 						(unsigned char*) list.GetCArray(), typeCount);
 		}
@@ -728,13 +706,13 @@ JXDNDManager::AnnounceAskActions
 	assert( count >= 2 && count == itsDraggerAskDescripList->GetElementCount() );
 
 	XChangeProperty(*itsDisplay, itsDraggerWindow,
-					itsDNDActionListXAtom, XA_ATOM, 32,
+					itsAtoms[ kDNDActionListAtomIndex ], XA_ATOM, 32,
 					PropModeReplace,
 					(unsigned char*) itsDraggerAskActionList->GetCArray(), count);
 
 	const JString descripData = JXPackStrings(*itsDraggerAskDescripList);
 	XChangeProperty(*itsDisplay, itsDraggerWindow,
-					itsDNDActionDescriptionXAtom, XA_STRING, 8,
+					itsAtoms[ kDNDActionDescriptionAtomIndex ], XA_STRING, 8,
 					PropModeReplace,
 					(unsigned char*) descripData.GetCString(),
 					descripData.GetLength());
@@ -778,7 +756,7 @@ JXDNDManager::GetAskActions
 
 		// get action atoms
 
-		XGetWindowProperty(*itsDisplay, itsDraggerWindow, itsDNDActionListXAtom,
+		XGetWindowProperty(*itsDisplay, itsDraggerWindow, itsAtoms[ kDNDActionListAtomIndex ],
 						   0, LONG_MAX, False, XA_ATOM,
 						   &actualType, &actualFormat,
 						   &itemCount, &remainingBytes, &rawData);
@@ -796,7 +774,7 @@ JXDNDManager::GetAskActions
 
 		// get action descriptions
 
-		XGetWindowProperty(*itsDisplay, itsDraggerWindow, itsDNDActionDescriptionXAtom,
+		XGetWindowProperty(*itsDisplay, itsDraggerWindow, itsAtoms[ kDNDActionDescriptionAtomIndex ],
 						   0, LONG_MAX, False, XA_STRING,
 						   &actualType, &actualFormat,
 						   &itemCount, &remainingBytes, &rawData);
@@ -969,7 +947,7 @@ JXDNDManager::SendDNDEnter
 		message.type         = ClientMessage;
 		message.display      = *itsDisplay;
 		message.window       = itsMouseWindow;
-		message.message_type = itsDNDEnterXAtom;
+		message.message_type = itsAtoms[ kDNDEnterAtomIndex ];
 		message.format       = 32;
 
 		message.data.l[ kDNDEnterWindow ] = itsDraggerWindow;
@@ -1075,7 +1053,7 @@ JXDNDManager::SendDNDHere
 		message.type         = ClientMessage;
 		message.display      = *itsDisplay;
 		message.window       = itsMouseWindow;
-		message.message_type = itsDNDHereXAtom;
+		message.message_type = itsAtoms[ kDNDHereAtomIndex ];
 		message.format       = 32;
 
 		message.data.l[ kDNDHereWindow    ] = itsDraggerWindow;
@@ -1137,7 +1115,7 @@ JXDNDManager::SendDNDLeave
 		message.type         = ClientMessage;
 		message.display      = *itsDisplay;
 		message.window       = itsMouseWindow;
-		message.message_type = itsDNDLeaveXAtom;
+		message.message_type = itsAtoms[ kDNDLeaveAtomIndex ];
 		message.format       = 32;
 
 		message.data.l[ kDNDLeaveWindow ] = itsDraggerWindow;
@@ -1234,7 +1212,7 @@ JXDNDManager::SendDNDDrop()
 		message.type         = ClientMessage;
 		message.display      = *itsDisplay;
 		message.window       = itsMouseWindow;
-		message.message_type = itsDNDDropXAtom;
+		message.message_type = itsAtoms[ kDNDDropAtomIndex ];
 		message.format       = 32;
 
 		message.data.l[ kDNDDropWindow    ] = itsDraggerWindow;
@@ -1258,7 +1236,7 @@ JXDNDManager::PrepareForDrop
 {
 	const JXSelectionData* data = NULL;
 	if ((itsDisplay->GetSelectionManager())->
-			GetData(itsDNDSelectionName, CurrentTime, &data))
+			GetData(itsAtoms[ kDNDSelectionAtomIndex ], CurrentTime, &data))
 		{
 		data->Resolve();
 		}
@@ -1297,7 +1275,7 @@ JXDNDManager::SendDNDStatus
 		message.type         = ClientMessage;
 		message.display      = *itsDisplay;
 		message.window       = itsDraggerWindow;
-		message.message_type = itsDNDStatusXAtom;
+		message.message_type = itsAtoms[ kDNDStatusAtomIndex ];
 		message.format       = 32;
 
 		message.data.l[ kDNDStatusWindow ] = itsMouseWindow;
@@ -1341,7 +1319,7 @@ JXDNDManager::SendDNDFinished()
 		message.type         = ClientMessage;
 		message.display      = *itsDisplay;
 		message.window       = itsDraggerWindow;
-		message.message_type = itsDNDFinishedXAtom;
+		message.message_type = itsAtoms[ kDNDFinishedAtomIndex ];
 		message.format       = 32;
 
 		message.data.l[ kDNDFinishedWindow ] = itsMouseWindow;
@@ -1364,25 +1342,25 @@ JXDNDManager::HandleClientMessage
 {
 	// target:  receive and process window-level enter and leave
 
-	if (clientMessage.message_type == itsDNDEnterXAtom)
+	if (clientMessage.message_type == itsAtoms[ kDNDEnterAtomIndex ])
 		{
 		HandleDNDEnter(clientMessage);
 		return kJTrue;
 		}
 
-	else if (clientMessage.message_type == itsDNDHereXAtom)
+	else if (clientMessage.message_type == itsAtoms[ kDNDHereAtomIndex ])
 		{
 		HandleDNDHere(clientMessage);
 		return kJTrue;
 		}
 
-	else if (clientMessage.message_type == itsDNDLeaveXAtom)
+	else if (clientMessage.message_type == itsAtoms[ kDNDLeaveAtomIndex ])
 		{
 		HandleDNDLeave(clientMessage);
 		return kJTrue;
 		}
 
-	else if (clientMessage.message_type == itsDNDDropXAtom)
+	else if (clientMessage.message_type == itsAtoms[ kDNDDropAtomIndex ])
 		{
 		HandleDNDDrop(clientMessage);
 		return kJTrue;
@@ -1390,7 +1368,7 @@ JXDNDManager::HandleClientMessage
 
 	// source:  clear our flag when we receive status message
 
-	else if (clientMessage.message_type == itsDNDStatusXAtom)
+	else if (clientMessage.message_type == itsAtoms[ kDNDStatusAtomIndex ])
 		{
 		HandleDNDStatus(clientMessage);
 		return kJTrue;
@@ -1399,7 +1377,7 @@ JXDNDManager::HandleClientMessage
 	// source:  ignore finished message
 	//			because JXSelectionManager rejects outdated requests
 
-	else if (clientMessage.message_type == itsDNDFinishedXAtom)
+	else if (clientMessage.message_type == itsAtoms[ kDNDFinishedAtomIndex ])
 		{
 		#if JXDND_DEBUG_MSGS
 		cout << "Received XdndFinished" << endl;
@@ -1427,7 +1405,7 @@ JXDNDManager::HandleDNDEnter
 	const XClientMessageEvent& clientMessage
 	)
 {
-	assert( clientMessage.message_type == itsDNDEnterXAtom );
+	assert( clientMessage.message_type == itsAtoms[ kDNDEnterAtomIndex ] );
 
 	itsDNDVersion =
 		(clientMessage.data.l[ kDNDEnterFlags ] >> kDNDEnterVersionRShift) &
@@ -1468,13 +1446,13 @@ JXDNDManager::HandleDNDEnter
 		ListenTo(itsDisplay);
 
 		itsDraggerTypeList->RemoveAll();
-		if (clientMessage.data.l[ kDNDEnterFlags ] & kDNDEnterMoreTypesFlag != 0)
+		if ((clientMessage.data.l[ kDNDEnterFlags ] & kDNDEnterMoreTypesFlag) != 0)
 			{
 			Atom actualType;
 			int actualFormat;
 			unsigned long itemCount, remainingBytes;
 			unsigned char* rawData = NULL;
-			XGetWindowProperty(*itsDisplay, itsDraggerWindow, itsDNDTypeListXAtom,
+			XGetWindowProperty(*itsDisplay, itsDraggerWindow, itsAtoms[ kDNDTypeListAtomIndex ],
 							   0, LONG_MAX, False, XA_ATOM,
 							   &actualType, &actualFormat,
 							   &itemCount, &remainingBytes, &rawData);
@@ -1518,7 +1496,7 @@ JXDNDManager::HandleDNDHere
 	const XClientMessageEvent& clientMessage
 	)
 {
-	assert( clientMessage.message_type == itsDNDHereXAtom );
+	assert( clientMessage.message_type == itsAtoms[ kDNDHereAtomIndex ] );
 
 	if (itsDraggerWindow != (Window) clientMessage.data.l[ kDNDHereWindow ])
 		{
@@ -1644,7 +1622,7 @@ JXDNDManager::HandleDNDLeave
 	const XClientMessageEvent& clientMessage
 	)
 {
-	assert( clientMessage.message_type == itsDNDLeaveXAtom );
+	assert( clientMessage.message_type == itsAtoms[ kDNDLeaveAtomIndex ] );
 
 	if (itsDraggerWindow == (Window) clientMessage.data.l[ kDNDLeaveWindow ])
 		{
@@ -1690,7 +1668,7 @@ JXDNDManager::HandleDNDDrop
 	const XClientMessageEvent& clientMessage
 	)
 {
-	assert( clientMessage.message_type == itsDNDDropXAtom );
+	assert( clientMessage.message_type == itsAtoms[ kDNDDropAtomIndex ] );
 
 	if (itsDraggerWindow == (Window) clientMessage.data.l[ kDNDDropWindow ])
 		{
@@ -1759,7 +1737,7 @@ JXDNDManager::HandleDNDStatus
 	const XClientMessageEvent& clientMessage
 	)
 {
-	assert( clientMessage.message_type == itsDNDStatusXAtom );
+	assert( clientMessage.message_type == itsAtoms[ kDNDStatusAtomIndex ] );
 
 	if (itsDragger != NULL &&
 		itsMouseWindow == (Window) clientMessage.data.l[ kDNDStatusWindow ])
@@ -1836,7 +1814,7 @@ JXDNDManager::WaitForLastStatusMsg()
 
 	JXSelectionManager* selMgr = itsDisplay->GetSelectionManager();
 
-	Atom messageList[] = { 1, itsDNDStatusXAtom };
+	Atom messageList[] = { 1, itsAtoms[ kDNDStatusAtomIndex ] };
 
 	XEvent xEvent;
 	clock_t endTime = clock() + kWaitForLastStatusTime;
@@ -1849,7 +1827,7 @@ JXDNDManager::WaitForLastStatusMsg()
 				{
 				const JBoolean ok = HandleClientMessage(xEvent.xclient);
 				assert( ok );
-				if (xEvent.xclient.message_type == itsDNDStatusXAtom)
+				if (xEvent.xclient.message_type == itsAtoms[ kDNDStatusAtomIndex ])
 					{
 					return itsWillAcceptDropFlag;
 					}

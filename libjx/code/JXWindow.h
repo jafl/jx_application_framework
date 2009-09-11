@@ -31,9 +31,12 @@ class JXIconDirector;
 class JXWindowIcon;
 class JXHintManager;
 class JXDockWidget;
+class JXIncrementWindowAPAMMTask;
 
 class JXWindow : public JXContainer
 {
+	friend class JXIncrementWindowAPAMMTask;
+
 public:
 
 	enum CloseAction
@@ -42,6 +45,15 @@ public:
 		kCloseDirector,
 		kCloseDisplay,
 		kQuitApp
+	};
+
+	enum WMType
+	{
+		kWMNormalType = 1,
+		kWMDialogType,
+		kWMPulldownMenuType,
+		kWMPopupMenuType,
+		kWMTooltipType
 	};
 
 public:
@@ -145,12 +157,15 @@ public:
 	JBoolean		GetIconWidget(JXWindowIcon** widget) const;
 
 	JBoolean	IsDragging() const;
+	void		PrintWindowConfig();
 
 	static JBoolean	WillAutoDockNewWindows();
 	static void		ShouldAutoDockNewWindows(const JBoolean autoDock);
 
 	static JBoolean	WillFocusFollowCursorInDock();
 	static void		ShouldFocusFollowCursorInDock(const JBoolean focusFollowsCursor);
+
+	void	SetWMWindowType(const WMType type);
 
 	// redrawing options
 
@@ -176,6 +191,7 @@ public:
 	void	HandleEvent(const XEvent& xEvent);
 
 	static JBoolean	IsDeleteWindowMessage(const JXDisplay* display, const XEvent& xEvent);
+	static JBoolean	IsWMPingMessage(const JXDisplay* display, const XEvent& xEvent);
 	static JBoolean	IsSaveYourselfMessage(const JXDisplay* display, const XEvent& xEvent);
 
 	static void	SetDesktopHMargin(const JCoordinate dw);
@@ -352,7 +368,7 @@ private:
 	JPoint		itsDesktopLoc;				// stored separately, since bounds = (0,0,h,w)
 	JRect		itsBounds;
 	JPoint		itsWMFrameLoc;				// upper left of Window Manager border
-	JPoint		itsTopLeftOffset;			// non-zero on OS X
+	JPoint		itsTopLeftOffset;			// non-zero on OS X or if !theWindowFrameIsParentFlag
 	JIndex		itsAdjustPlacementAfterMapMode;	// 0=init, 1=no, 2=yes
 	Region		itsUpdateRegion;
 	JBoolean	itsIsMappedFlag;
@@ -363,6 +379,8 @@ private:
 	JBoolean	itsKeepBufferPixmapFlag;	// kJTrue => don't toss itsBufferPixmap
 	JBoolean	itsUseBkgdPixmapFlag;		// kJTrue => use XSetWindowBackgroundPixmap()
 	JBoolean	itsIsDestructingFlag;		// kJTrue => in destructor
+
+	JXIncrementWindowAPAMMTask*	itsIncrAPAMMTask;	// NULL unless waiting to see if window will initially be visible
 
 	JBoolean	itsHasMinSizeFlag;
 	JPoint		itsMinSize;
@@ -414,6 +432,7 @@ private:
 
 	static JBoolean theFoundWMFrameMethodFlag;
 	static JBoolean theWMFrameCompensateFlag;
+	static JBoolean	theWindowFrameIsParentFlag;
 
 	static JBoolean	theWMOffsetInitFlag;
 	static JPoint	theWMOffset;

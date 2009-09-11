@@ -2380,7 +2380,13 @@ JXTEBase::Receive
 		assert( info != NULL );
 		if (info->Successful())
 			{
-			GoToLine(itsGoToLineDialog->GetLineIndex());
+			JBoolean physicalLineIndexFlag;
+			JIndex lineIndex = itsGoToLineDialog->GetLineIndex(&physicalLineIndexFlag);
+			if (physicalLineIndexFlag)
+				{
+				lineIndex = CRLineIndexToVisualLineIndex(lineIndex);
+				}
+			GoToLine(lineIndex);
 			}
 		itsGoToLineDialog = NULL;
 		}

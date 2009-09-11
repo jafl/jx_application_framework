@@ -70,10 +70,27 @@
 
 const JSize kMaxSleepTime = 50;		// 0.05 seconds (in milliseconds)
 
-static const JCharacter* kWMStateXAtomName      = "WM_STATE";
-static const JCharacter* kWMProtocolsXAtomName  = "WM_PROTOCOLS";
-static const JCharacter* kDeleteWindowXAtomName = "WM_DELETE_WINDOW";
-static const JCharacter* kSaveYourselfXAtomName = "WM_SAVE_YOURSELF";
+static const JCharacter* kStandardXAtomNames[ JXDisplay::kStandardXAtomCount ] =
+{
+	"WM_STATE",
+	"WM_CLIENT_MACHINE",
+	"WM_PROTOCOLS",
+	"WM_DELETE_WINDOW",
+	"WM_SAVE_YOURSELF",
+	"_NET_WM_PING",
+	"_NET_WM_PID",
+	"_NET_WM_DESKTOP",
+	"_NET_CURRENT_DESKTOP",
+
+	// http://standards.freedesktop.org/wm-spec/latest/ar01s05.html
+
+	"_NET_WM_WINDOW_TYPE",
+	"_NET_WM_WINDOW_TYPE_NORMAL",
+	"_NET_WM_WINDOW_TYPE_DIALOG",
+	"_NET_WM_WINDOW_TYPE_DROPDOWN_MENU",
+	"_NET_WM_WINDOW_TYPE_POPUP_MENU",
+	"_NET_WM_WINDOW_TYPE_TOOLTIP"
+};
 
 // prototypes
 
@@ -166,10 +183,7 @@ JXDisplay::JXDisplay
 	itsMouseGrabber    = NULL;
 	itsKeyboardGrabber = NULL;
 
-	itsWMStateXAtom      = RegisterXAtom(kWMStateXAtomName);
-	itsWMProtocolsXAtom  = RegisterXAtom(kWMProtocolsXAtomName);
-	itsDeleteWindowXAtom = RegisterXAtom(kDeleteWindowXAtomName);
-	itsSaveYourselfXAtom = RegisterXAtom(kSaveYourselfXAtomName);
+	RegisterXAtoms(kStandardXAtomCount, kStandardXAtomNames, itsStandardXAtoms);
 
 	CreateBuiltInCursor("XC_left_ptr", XC_left_ptr);
 	CreateBuiltInCursor("XC_xterm",    XC_xterm);

@@ -1,33 +1,33 @@
 
 *** Step 1:  Preparation
 
-You need gcc 2.96 (or later) and GNU's version of make.
+You need gcc 4 (or later) and GNU's version of make.
 
 You should find a computer where you can compile to the local disk.
 Compiling to a remote disk over NFS is usually very slow.
 
-Decide where you want the JX-2.5.0 directory to reside.  Absolute paths are
+Decide where you want the JX directory to reside.  Absolute paths are
 compiled into some of the utility programs, so you will have to rebuild
-everything if you move JX-2.5.0 to a different location after building it.
+everything if you move JX to a different location after building it.
 
 
 *** Step 2:  Compiling
 
-If you want the binaries installed somewhere other than ~/bin (or
-JX-2.5.0/bin, if ~/bin doesn't exist), set the environment variable
-JX_INSTALL_ROOT to the desired directory.
+If you want the binaries installed somewhere other than ~/bin (or JX/bin,
+if ~/bin doesn't exist), set the environment variable JX_INSTALL_ROOT to
+the desired directory.
 
   Use "setenv JX_INSTALL_ROOT value" at the top of ~/.cshrc if you use csh
   or "export JX_INSTALL_ROOT=value" at the top of ~/.bashrc if you use
   bash.
 
-This directory (JX-2.5.0/bin, ~/bin, or $JX_INSTALL_ROOT), must be on your
+This directory (JX/bin, ~/bin, or $JX_INSTALL_ROOT), must be on your
 execution path.
 
   Use "set path = ( new_path $path )" at the top of ~/.cshrc if you use csh
   or "export PATH=new_path:$PATH" at the top of ~/.bashrc if you use bash.
 
-Do not add JX-2.5.0/lib to your LD_LIBRARY_PATH.  This will cause conflicts
+Do not add JX/lib to your LD_LIBRARY_PATH.  This will cause conflicts
 with the shared libraries used by Code Crusader, Code Medic, etc.
 
 Run "make" and following the instructions for setting ACE_ROOT and
@@ -37,8 +37,8 @@ and install the programs.  You can ignore any errors that make ignores.
   You can avoid installing the binaries by setting the environment variable
   J_WANT_INSTALL equal to 0.
 
-  Everything in JX-2.5.0 will be built, including any 3rd party libraries
-  and programs that you unpack after the main distribution.
+  Everything in JX will be built, including any 3rd party libraries and
+  programs that you unpack after the main distribution.
 
 If you cannot use the version of libXpm already installed on your system
 (e.g. because it is too old) or if you do not have libXpm at all, then

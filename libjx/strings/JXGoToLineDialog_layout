@@ -1,5 +1,7 @@
 0
 okButton::JXGoToLineDialog::shortcuts::JXLayout "^M"
+itsPhysicalLineIndexCB::JXGoToLineDialog::JXLayout "Physical line number"
+itsPhysicalLineIndexCB::JXGoToLineDialog::shortcuts::JXLayout "#N"
 okButton::JXGoToLineDialog::JXLayout "OK"
 obj1_JXLayout::JXGoToLineDialog::JXLayout "Goto line:"
 cancelButton::JXGoToLineDialog::JXLayout "Cancel"

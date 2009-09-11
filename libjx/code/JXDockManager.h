@@ -80,6 +80,16 @@ protected:
 	virtual void	ReadPrefs(istream& input);
 	virtual void	WritePrefs(ostream& output) const;
 
+public:		// kAtomCount required at global scope
+
+	enum
+	{
+		kDNDMinSizeAtomIndex,
+		kDNDWindowAtomIndex,
+
+		kAtomCount
+	};
+
 private:
 
 	JXDisplay*					itsDisplay;
@@ -90,8 +100,7 @@ private:
 	JIndex						itsNextDockID;
 	JBoolean					itsIsReadingSetupFlag;
 	CloseDockMode				itsCloseDockMode;
-	Atom						itsDNDMinSizeAtom;
-	Atom						itsDNDWindowAtom;
+	Atom						itsAtoms[ kAtomCount ];
 
 private:
 
@@ -141,14 +150,14 @@ inline Atom
 JXDockManager::GetDNDMinSizeAtom()
 	const
 {
-	return itsDNDMinSizeAtom;
+	return itsAtoms[ kDNDMinSizeAtomIndex ];
 }
 
 inline Atom
 JXDockManager::GetDNDWindowAtom()
 	const
 {
-	return itsDNDWindowAtom;
+	return itsAtoms[ kDNDWindowAtomIndex ];
 }
 
 /******************************************************************************

@@ -288,6 +288,12 @@ prep: check_install_dir fix_ace clean_links
          chmod u+w libjcore/code/jStringData.h; \
          } \
      fi
+	@if { test -d Mesa/. ; } then \
+         { \
+         ln -sf ../../src/mesa/drivers/x11/xmesa.h   Mesa/include/GL/xmesa.h; \
+         ln -sf ../../src/mesa/drivers/x11/xmesa_x.h Mesa/include/GL/xmesa_x.h; \
+         } \
+     fi
 
 # Solaris test doesn't support ! operator
 

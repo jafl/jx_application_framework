@@ -392,7 +392,7 @@ SyGCopyProcess::SyGCopyProcess
 
 	itsSrcNameList->Append(destPath);
 
-	const JError err = JSimpleProcess::Create(&itsProcess, *itsSrcNameList);
+	const JError err = JSimpleProcess::Create(&itsProcess, destPath, *itsSrcNameList);
 
 	// clean up to make Receive simpler
 

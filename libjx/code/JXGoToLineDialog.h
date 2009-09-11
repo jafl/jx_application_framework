@@ -17,17 +17,19 @@
 #include <JXDialogDirector.h>
 
 class JXIntegerInput;
+class JXTextCheckbox;
 
 class JXGoToLineDialog : public JXDialogDirector
 {
 public:
 
 	JXGoToLineDialog(JXDirector* supervisor,
-					 const JIndex lineIndex, const JIndex maxLine);
+					 const JIndex lineIndex, const JIndex maxLine,
+					 const JBoolean physicalLineIndexFlag = kJFalse);
 
 	virtual ~JXGoToLineDialog();
 
-	JIndex	GetLineIndex() const;
+	JIndex	GetLineIndex(JBoolean* physicalLineIndexFlag) const;
 
 private:
 
@@ -36,12 +38,13 @@ private:
 // begin JXLayout
 
     JXIntegerInput* itsLineNumber;
+    JXTextCheckbox* itsPhysicalLineIndexCB;
 
 // end JXLayout
 
 private:
 
-	void	BuildWindow(const JIndex lineIndex);
+	void	BuildWindow(const JIndex lineIndex, const JBoolean physicalLineIndexFlag);
 
 	// not allowed
 

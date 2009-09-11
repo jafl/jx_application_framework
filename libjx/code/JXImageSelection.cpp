@@ -21,10 +21,13 @@
 #include <stdio.h>
 #include <jAssert.h>
 
-static const JCharacter* kXPMXAtomName  = "image/xpm";
-static const JCharacter* kGIFXAtomName  = "image/gif";
-static const JCharacter* kPNGXAtomName  = "image/png";
-static const JCharacter* kJPEGXAtomName = "image/jpeg";
+static const JCharacter* kAtomNames[ JXImageSelection::kAtomCount ] =
+{
+	"image/xpm",
+	"image/gif",
+	"image/png",
+	"image/jpeg"
+};
 
 /******************************************************************************
  Constructor
@@ -85,12 +88,19 @@ JXImageSelection::AddTypes
 	const Atom selectionName
 	)
 {
-	itsXPMXAtom = AddType(kXPMXAtomName);
+	(GetDisplay())->RegisterXAtoms(kAtomCount, kAtomNames, itsAtoms);
+
+	itsXPMAtom = itsAtoms[ kXPMAtomIndex ];
+	AddType(itsXPMAtom);
 
 	#ifdef _J_HAS_GD
-	itsGIFXAtom = AddType(kGIFXAtomName);
-	itsPNGXAtom = AddType(kPNGXAtomName);
-	itsJPEGXAtom = AddType(kJPEGXAtomName);
+	itsGIFAtom = itsAtoms[ kGIFAtomIndex ];
+	AddType(itsXPMAtom);
+
+	itsPNGAtom = itsAtoms[ kPNGAtomIndex ];
+	AddType(itsXPMAtom);
+
+	itsJPEGAtom = itsAtoms[ kJPEGAtomIndex ];
 	#endif
 }
 
@@ -168,19 +178,19 @@ JXImageSelection::ConvertData
 		}
 
 	JError err = JUnknownError(1);
-	if (requestType == itsXPMXAtom)
+	if (requestType == itsXPMAtom)
 		{
 		err = itsImage->WriteXPM(fileName);
 		}
-	else if (requestType == itsGIFXAtom)
+	else if (requestType == itsGIFAtom)
 		{
 		err = itsImage->WriteGIF(fileName, kJFalse);	// if too many colors, use PNG
 		}
-	else if (requestType == itsPNGXAtom)
+	else if (requestType == itsPNGAtom)
 		{
 		err = itsImage->WritePNG(fileName);
 		}
-	else if (requestType == itsJPEGXAtom)
+	else if (requestType == itsJPEGAtom)
 		{
 		err = itsImage->WriteJPEG(fileName);
 		}
@@ -237,25 +247,25 @@ JXImageSelection::ReceiveGoingAway
 const JCharacter*
 JXImageSelection::GetXPMXAtomName()
 {
-	return kXPMXAtomName;
+	return kAtomNames[ kXPMAtomIndex ];
 }
 
 const JCharacter*
 JXImageSelection::GetGIFXAtomName()
 {
-	return kGIFXAtomName;
+	return kAtomNames[ kGIFAtomIndex ];
 }
 
 const JCharacter*
 JXImageSelection::GetPNGXAtomName()
 {
-	return kPNGXAtomName;
+	return kAtomNames[ kPNGAtomIndex ];
 }
 
 const JCharacter*
 JXImageSelection::GetJPEGXAtomName()
 {
-	return kJPEGXAtomName;
+	return kAtomNames[ kJPEGAtomIndex ];
 }
 
 /******************************************************************************
@@ -288,11 +298,9 @@ JXImageSelection::GetImage
 	const JBoolean		allowApproxColors
 	)
 {
-	JXDisplay* display   = colormap->GetDisplay();
-	const Atom xpmXAtom  = display->RegisterXAtom(kXPMXAtomName);
-	const Atom gifXAtom  = display->RegisterXAtom(kGIFXAtomName);
-	const Atom pngXAtom  = display->RegisterXAtom(kPNGXAtomName);
-	const Atom jpegXAtom = display->RegisterXAtom(kJPEGXAtomName);
+	JXDisplay* display = colormap->GetDisplay();
+	Atom atoms[ kAtomCount ];
+	display->RegisterXAtoms(kAtomCount, kAtomNames, atoms);
 
 	JArray<Atom> typeList;
 	if (selMgr->GetAvailableTypes(selectionName, time, &typeList))
@@ -303,10 +311,10 @@ JXImageSelection::GetImage
 		for (JIndex i=1; i<=count; i++)
 			{
 			const Atom type = typeList.GetElement(i);
-			xpm  = JI2B( xpm  || type == xpmXAtom  );
-			gif  = JI2B( gif  || type == gifXAtom  );
-			png  = JI2B( png  || type == pngXAtom  );
-			jpeg = JI2B( jpeg || type == jpegXAtom );
+			xpm  = JI2B( xpm  || type == atoms[ kXPMAtomIndex ]  );
+			gif  = JI2B( gif  || type == atoms[ kGIFAtomIndex ]  );
+			png  = JI2B( png  || type == atoms[ kPNGAtomIndex ]  );
+			jpeg = JI2B( jpeg || type == atoms[ kJPEGAtomIndex ] );
 			}
 
 		while (xpm || gif || png || jpeg)
@@ -315,22 +323,22 @@ JXImageSelection::GetImage
 			if (png)
 				{
 				png  = kJFalse;
-				type = pngXAtom;
+				type = atoms[ kPNGAtomIndex ];
 				}
 			else if (gif)
 				{
 				gif  = kJFalse;
-				type = gifXAtom;
+				type = atoms[ kGIFAtomIndex ];
 				}
 			else if (xpm)
 				{
 				xpm  = kJFalse;
-				type = xpmXAtom;
+				type = atoms[ kXPMAtomIndex ];
 				}
 			else if (jpeg)		// JPEG is lossy
 				{
 				jpeg = kJFalse;
-				type = jpegXAtom;
+				type = atoms[ kJPEGAtomIndex ];
 				}
 
 			Atom returnType;

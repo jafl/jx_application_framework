@@ -167,7 +167,7 @@ SyGApplication::OpenDirectory
 
 	JString fixedName, trueName;
 	if (!JExpandHomeDirShortcut(pathName, &fixedName) ||
-		!JGetTrueName(fixedName, &trueName))
+		!JConvertToAbsolutePath(fixedName, NULL, &trueName))
 		{
 		if (reportError)
 			{

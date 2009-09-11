@@ -54,13 +54,26 @@ protected:
 
 	virtual void	ReceiveGoingAway(JBroadcaster* sender);
 
+public:		// kAtomCount required at global scope
+
+	enum
+	{
+		kXPMAtomIndex,
+		kGIFAtomIndex,
+		kPNGAtomIndex,
+		kJPEGAtomIndex,
+
+		kAtomCount
+	};
+
 private:
 
 	JXImage*	itsImage;		// NULL until Resolve()
-	Atom		itsXPMXAtom;
-	Atom		itsGIFXAtom;
-	Atom		itsPNGXAtom;
-	Atom		itsJPEGXAtom;
+	Atom		itsAtoms[ kAtomCount ];
+	Atom		itsXPMAtom;
+	Atom		itsGIFAtom;
+	Atom		itsPNGAtom;
+	Atom		itsJPEGAtom;
 
 private:
 

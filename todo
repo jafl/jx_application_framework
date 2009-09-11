@@ -1,38 +1,63 @@
-do *not* need wm_offset for latest fvwm2
+OSX
+	visible/visible			+
+	visible/hidden/show		+
+	hidden/visible			moves down
+	hidden/hidden/show		moves down
 
-upgrade to ctags 5.8 -- just patch JS/PHP, forget new languages
+Ubuntu
+	test _NET_WM_DESKTOP
+	window is not child of WM frame
+
 build initial deb pkg def files (for testing at home)
 
-http://standards.freedesktop.org/wm-spec/1.4/ar01s06.html
-
-mesa 7.5
-	cd include/GL
-	ln -s ../../src/mesa/drivers/x11/xmesa.h
-	ln -s ../../src/mesa/drivers/x11/xmesa_x.h
+systemg:
+	optimize selection of multiple items
+		systemg *.cpp in large directory
+	locks up when find returns many files
+		-name *.cpp -o -name *.h -o -name *.xpm
 
 jcc:
 +	rock-stupid cmd line window: (dahvid.minor@gmail.com)
 
 medic:
+	breakpoint/watchpoint window (create/edit/delete)
+
 	accept connection or switch to gdb:  should stop listening on port
 		compile with static ACE to debug
 	restart either xdebug or java:  unable to listen on port & crashes on exit
 		also need to fix SetProgram()
 
-	goto line should accept physical line number
-	adjust to text when window is resized, in case text wrapping is on
-
 	gdb
-		broken on OSX
+**		broken on OSX
 			http://ftp.gnu.org/pub/old-gnu/Manuals/gdb-5.1.1/html_node/gdb_211.html
 			http://www.devworld.apple.com/documentation/DeveloperTools/gdb/gdb/gdb_25.html
+
+			prints (gdb) even after program running because allows "help", etc.
+			so...if get this back, then re-queue command for later
+				^error,msg="Cannot execute this command while the target is running."
 
 **		CMGetFullPath should stop process and then resume
 			currently uses SendMedicCommand() -> SendRaw()
 			Send() pauses the program
+
+		*** if gdb on Linux supports them ***
+		Write MI output data parser in CMCommand
+			-stack-info-frame instead of "info frame"
+			-file-list-exec-source-files instead of "info sources"
+			-file-list-exec-source-file instead of "info source"
+
 	xdebug
 		click stack trace: selection jumps back to last frame
 		temp breakpoint doesn't disappear
+
+		Enable XDSocket::StartTimer() when not debugging
+		Always update stack, even if Stack Trace window is hidden
+		Eliminate double call to get local vars
+			Preserve existing items; don't just delete all before update
+		request source from debugger instead of assuming that file:// exists
+		*set* values
+		support conditional breakpoints, etc.
+
 	java
 		after kill jvm, fails to run again
 		source-jar unzips to /tmp
@@ -197,34 +222,16 @@ medic:
 		crash when open examine memory window -- disabled temporarily
 	DND for breakpoints -- moves associated commands, conditions, etc.
 
-	Xdebug support:
-		https://becomecloth.burbank.corp.yahoo.com/temp/admin.php?XDEBUG_SESSION_START=abc
-
-		Enable XDSocket::StartTimer() when not debugging
-
-		Always update stack when using xdebug,
-			even if Stack Trace window is hidden
-
-		Eliminate double call to get local vars
-			Preserve existing items; don't just delete all before update
-		Need to request source from debugger instead of assuming that file:// exists
-		Figure out how to *set* values
-		Figure out how to set and display breakpoints
-			Figure out how to support conditional breakpoints, etc.
-
 	Write MI output data parser in CMCommand
-		-file-list-exec-source-files instead of "info sources"
-		-var-create instead of "print ..."
-		-break-list instead of "info breakpoints"
-		-stack-info-frame instead of "info frame"
-		-stack-list-frames instead of "info stack"
-		-file-list-exec-source-file instead of "info source"
 		-stack-list-locals instead of "info locals"
+		-var-create instead of "print ..."
 
 arrow
 	fix SaveState() so it doesn't need JFileArray
 	specify timeout for lockfile and handle it as lock failure
-	doesn't save drafts if no inbox open
+*	doesn't save drafts if no inbox open
+*	doesn't recv mail if flush inbox during download (locking problem?)
+*	doesn't display anything when receive payment notification from PayPal
 
 -----
 

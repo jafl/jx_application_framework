@@ -38,6 +38,30 @@ class JXDisplay : virtual public JBroadcaster
 {
 public:
 
+	enum
+	{
+		kWMStateXAtomIndex,
+		kWMClientMachineXAtomIndex,
+		kWMProtocolsXAtomIndex,
+		kDeleteWindowXAtomIndex,
+		kSaveYourselfXAtomIndex,
+		kWMPingXAtomIndex,
+		kWMPidXAtomIndex,
+		kWMDesktopXAtomIndex,
+		kWMCurrentDesktopXAtomIndex,
+
+		kWMWindowTypeXAtomIndex,
+		kWMNormalTypeXAtomIndex,
+		kWMDialogTypeXAtomIndex,
+		kWMPulldownMenuTypeXAtomIndex,
+		kWMPopupMenuTypeXAtomIndex,
+		kWMTooltipTypeXAtomIndex,
+
+		kStandardXAtomCount
+	};
+
+public:
+
 	static JBoolean	Create(const JCharacter* displayName, JXDisplay** display);
 
 	virtual ~JXDisplay();
@@ -134,9 +158,16 @@ public:
 								 const Window xWindow);
 
 	Atom	GetWMProtocolsXAtom() const;
+	Atom	GetWMClientMachineXAtom() const;
 	Atom	GetDeleteWindowXAtom() const;
+	Atom	GetWMPingXAtom() const;
+	Atom	GetWMPidXAtom() const;
 	Atom	GetSaveYourselfXAtom() const;
 	Atom	GetWMStateXAtom() const;
+	Atom	GetWMDesktopXAtom() const;
+	Atom	GetWMCurrentDesktopXAtom() const;
+	Atom	GetWMWindowTypeXAtom() const;
+	Atom	GetWMWindowTypeXAtom(const JIndex type) const;
 
 	// called by Menu objects
 
@@ -172,6 +203,7 @@ public:
 	Time	GetLastEventTime() const;
 
 	Atom	RegisterXAtom(const JCharacter* name);
+	void	RegisterXAtoms(const JSize count, const JCharacter** name, Atom* atom);
 
 	JBoolean	FindXWindow(const Window xWindow, JXWindow** window) const;
 
@@ -258,12 +290,7 @@ private:
 	JXWDManager*		itsWDManager;			// can be NULL
 	JXImageCache*		itsImageCache;
 
-	// atoms used by all JXWindows
-
-	Atom	itsWMProtocolsXAtom;
-	Atom	itsDeleteWindowXAtom;
-	Atom	itsSaveYourselfXAtom;
-	Atom	itsWMStateXAtom;
+	Atom	itsStandardXAtoms[ kStandardXAtomCount ];
 
 private:
 
@@ -616,6 +643,22 @@ JXDisplay::RegisterXAtom
 }
 
 /******************************************************************************
+ RegisterXAtoms
+
+ ******************************************************************************/
+
+inline void
+JXDisplay::RegisterXAtoms
+	(
+	const JSize			count,
+	const JCharacter**	name,
+	Atom*				atom
+	)
+{
+	XInternAtoms(itsXDisplay, (char**) name, count, False, atom);
+}
+
+/******************************************************************************
  Atoms for JXWindow
 
  ******************************************************************************/
@@ -624,28 +667,80 @@ inline Atom
 JXDisplay::GetWMProtocolsXAtom()
 	const
 {
-	return itsWMProtocolsXAtom;
+	return itsStandardXAtoms[ kWMProtocolsXAtomIndex ];
+}
+
+inline Atom
+JXDisplay::GetWMClientMachineXAtom()
+	const
+{
+	return itsStandardXAtoms[ kWMClientMachineXAtomIndex ];
 }
 
 inline Atom
 JXDisplay::GetDeleteWindowXAtom()
 	const
 {
-	return itsDeleteWindowXAtom;
+	return itsStandardXAtoms[ kDeleteWindowXAtomIndex ];
+}
+
+inline Atom
+JXDisplay::GetWMPingXAtom()
+	const
+{
+	return itsStandardXAtoms[ kWMPingXAtomIndex ];
+}
+
+inline Atom
+JXDisplay::GetWMPidXAtom()
+	const
+{
+	return itsStandardXAtoms[ kWMPidXAtomIndex ];
 }
 
 inline Atom
 JXDisplay::GetSaveYourselfXAtom()
 	const
 {
-	return itsSaveYourselfXAtom;
+	return itsStandardXAtoms[ kSaveYourselfXAtomIndex ];
 }
 
 inline Atom
 JXDisplay::GetWMStateXAtom()
 	const
 {
-	return itsWMStateXAtom;
+	return itsStandardXAtoms[ kWMStateXAtomIndex ];
+}
+
+inline Atom
+JXDisplay::GetWMDesktopXAtom()
+	const
+{
+	return itsStandardXAtoms[ kWMDesktopXAtomIndex ];
+}
+
+inline Atom
+JXDisplay::GetWMCurrentDesktopXAtom()
+	const
+{
+	return itsStandardXAtoms[ kWMCurrentDesktopXAtomIndex ];
+}
+
+inline Atom
+JXDisplay::GetWMWindowTypeXAtom()
+	const
+{
+	return itsStandardXAtoms[ kWMWindowTypeXAtomIndex ];
+}
+
+inline Atom
+JXDisplay::GetWMWindowTypeXAtom
+	(
+	const JIndex type
+	)
+	const
+{
+	return itsStandardXAtoms[ kWMWindowTypeXAtomIndex + type ];
 }
 
 /******************************************************************************

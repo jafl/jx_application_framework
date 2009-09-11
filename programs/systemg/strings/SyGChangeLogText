@@ -30,6 +30,10 @@ Enhanced drag-and-drop to allow dropping on writable folder inside non-writable 
 <p>
 Fixed creation of symbolic links to only append \"_alias\" if the original name is already used in the destination directory.
 <p>
+Fixed displaying of files so it does <em>not</em> dereference symlinks before it decides what to select.
+<p>
+Fixed bug so state of opened subdirectories is restored correctly even after the directory is renamed.
+<p>
 Supports the latest updates to the <a href=http://newplanetsoftware.com/xdnd/>XDND protocol</a>.
 <p>
 Fixed crash on OSX 10.4 due to missing <code>/etc/fstab</code>.

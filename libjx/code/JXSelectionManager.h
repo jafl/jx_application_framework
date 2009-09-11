@@ -71,6 +71,26 @@ protected:
 
 	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message);
 
+public:		// kAtomCount required at global scope
+
+	enum
+	{
+		kSelectionWindPropAtomIndex,
+		kIncrementalSendAtomIndex,
+		kTargetsAtomIndex,
+		kTimeStampAtomIndex,
+		kTextAtomIndex,
+		kCompoundTextAtomIndex,
+		kMultipleAtomIndex,
+		kMimePlainTextAtomIndex,
+		kURLAtomIndex,
+		kDeleteSelectionAtomIndex,
+		kNULLAtomIndex,
+		kGnomeClipboardAtomIndex,
+
+		kAtomCount
+	};
+
 private:
 
 	JXDisplay*					itsDisplay;		// owns us
@@ -81,20 +101,7 @@ private:
 	JBoolean	itsReceivedAllocErrorFlag;
 	Window		itsTargetWindow;
 	JBoolean	itsTargetWindowDeletedFlag;
-
-	Atom itsSelectionWindPropXAtom;		// for receiving selection data
-	Atom itsIncrementalSendXAtom;		// for sending data incrementally
-
-	Atom itsTargetsXAtom;				// returns type XA_ATOM
-	Atom itsTimeStampXAtom;				// returns type XA_INTEGER
-	Atom itsTextXAtom;					//  8-bit characters
-	Atom itsCompoundTextXAtom;			// 16-bit characters
-	Atom itsMultipleXAtom;				// several formats at once
-	Atom itsMimePlainTextXAtom;			// "text/plain"
-	Atom itsURLXAtom;					// "text/uri-list"
-	Atom itsDeleteSelectionXAtom;		// returns type "NULL"
-	Atom itsNULLXAtom;					// "NULL"
-	Atom itsGnomeClipboardName;			// "CLIPBOARD"
+	Atom		itsAtoms[ kAtomCount ];
 
 private:
 
@@ -142,63 +149,63 @@ inline Atom
 JXSelectionManager::GetTargetsXAtom()
 	const
 {
-	return itsTargetsXAtom;
+	return itsAtoms[ kTargetsAtomIndex ];
 }
 
 inline Atom
 JXSelectionManager::GetTimeStampXAtom()
 	const
 {
-	return itsTimeStampXAtom;
+	return itsAtoms[ kTimeStampAtomIndex ];
 }
 
 inline Atom
 JXSelectionManager::GetTextXAtom()
 	const
 {
-	return itsTextXAtom;
+	return itsAtoms [kTextAtomIndex ];
 }
 
 inline Atom
 JXSelectionManager::GetCompoundTextXAtom()
 	const
 {
-	return itsCompoundTextXAtom;
+	return itsAtoms[ kCompoundTextAtomIndex ];
 }
 
 inline Atom
 JXSelectionManager::GetMultipleXAtom()
 	const
 {
-	return itsMultipleXAtom;
+	return itsAtoms[ kMultipleAtomIndex ];
 }
 
 inline Atom
 JXSelectionManager::GetMimePlainTextXAtom()
 	const
 {
-	return itsMimePlainTextXAtom;
+	return itsAtoms[ kMimePlainTextAtomIndex ];
 }
 
 inline Atom
 JXSelectionManager::GetURLXAtom()
 	const
 {
-	return itsURLXAtom;
+	return itsAtoms[ kURLAtomIndex ];
 }
 
 inline Atom
 JXSelectionManager::GetDeleteSelectionXAtom()
 	const
 {
-	return itsDeleteSelectionXAtom;
+	return itsAtoms[ kDeleteSelectionAtomIndex ];
 }
 
 inline Atom
 JXSelectionManager::GetNULLXAtom()
 	const
 {
-	return itsNULLXAtom;
+	return itsAtoms[ kNULLAtomIndex ];
 }
 
 /******************************************************************************

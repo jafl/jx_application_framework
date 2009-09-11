@@ -77,4 +77,10 @@ void	JXUnpackFileNames(const JCharacter* data, const JSize length,
 						  JPtrArray<JString>* urlList);
 void	JXReportUnreachableHosts(const JPtrArray<JString>& urlList);
 
+// only for use by JXSelectionManager
+
+JBoolean	JXFixBrokenURLs(const JCharacter* data, const JSize length,
+							JXDisplay* display, const Window srcWindow,
+							JString* newData);
+
 #endif

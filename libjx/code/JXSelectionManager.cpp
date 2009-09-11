@@ -23,6 +23,7 @@
 #include <JXWindow.h>
 #include <JXWidget.h>
 #include <jXGlobals.h>
+#include <jXUtil.h>
 #include <jTime.h>
 #include <string.h>
 #include <stdlib.h>
@@ -39,18 +40,21 @@ const Time kHistoryInterval = 60000;	// 1 minute (milliseconds)
 const clock_t kWaitForSelectionTime = 5 * CLOCKS_PER_SEC;
 const clock_t kUserBoredWaitingTime = 1 * CLOCKS_PER_SEC;
 
-static const JCharacter* kSWPXAtomName             = "JXSelectionWindowProperty";
-static const JCharacter* kIncrementalXAtomName     = "INCR";
-static const JCharacter* kTargetsXAtomName         = "TARGETS";
-static const JCharacter* kTimeStampXAtomName       = "TIMESTAMP";
-static const JCharacter* kTextXAtomName            = "TEXT";
-static const JCharacter* kCompoundTextXAtomName    = "COMPOUND_TEXT";
-static const JCharacter* kMultipleXAtomName        = "MULTIPLE";
-static const JCharacter* kMimePlainTextXAtomName   = "text/plain";
-static const JCharacter* kURLXAtomName             = "text/uri-list";
-static const JCharacter* kDeleteSelectionXAtomName = "DELETE";
-static const JCharacter* kNULLXAtomName            = "NULL";
-static const JCharacter* kGnomeClipboardXAtomName  = "CLIPBOARD";
+static const JCharacter* kAtomNames[ JXSelectionManager::kAtomCount ] =
+{
+	"JXSelectionWindowProperty",	// for receiving selection data
+	"INCR",							// for sending data incrementally
+	"TARGETS",						// returns type XA_ATOM
+	"TIMESTAMP",					// returns type XA_INTEGER
+	"TEXT",							//  8-bit characters
+	"COMPOUND_TEXT",				// 16-bit characters
+	"MULTIPLE",						// several formats at once
+	"text/plain",
+	"text/uri-list",
+	"DELETE",						// returns type "NULL"
+	"NULL",
+	"CLIPBOARD"
+};
 
 /******************************************************************************
  Constructor
@@ -87,7 +91,7 @@ JXSelectionManager::JXSelectionManager
 
 	// create required X atoms
 
-	JString mimePlainTextXAtomName = kMimePlainTextXAtomName;
+	JString mimePlainTextXAtomName = kAtomNames[ kMimePlainTextAtomIndex ];
 	JIndex charSetIndex;
 	if (JXGetLatinCharacterSetIndex(&charSetIndex) && charSetIndex != 1)
 		{
@@ -95,21 +99,11 @@ JXSelectionManager::JXSelectionManager
 		mimePlainTextXAtomName += JString(charSetIndex, 0);
 		}
 
-	itsSelectionWindPropXAtom = itsDisplay->RegisterXAtom(kSWPXAtomName);
-	itsIncrementalSendXAtom   = itsDisplay->RegisterXAtom(kIncrementalXAtomName);
+	const JCharacter* atomNames[ JXSelectionManager::kAtomCount ];
+	memcpy(atomNames, kAtomNames, sizeof(kAtomNames));
+	atomNames[ kMimePlainTextAtomIndex ] = mimePlainTextXAtomName;
 
-	itsTargetsXAtom           = itsDisplay->RegisterXAtom(kTargetsXAtomName);
-	itsTimeStampXAtom         = itsDisplay->RegisterXAtom(kTimeStampXAtomName);
-	itsTextXAtom              = itsDisplay->RegisterXAtom(kTextXAtomName);
-	itsCompoundTextXAtom      = itsDisplay->RegisterXAtom(kCompoundTextXAtomName);
-	itsMultipleXAtom          = itsDisplay->RegisterXAtom(kMultipleXAtomName);
-	itsMimePlainTextXAtom     = itsDisplay->RegisterXAtom(mimePlainTextXAtomName);
-	itsURLXAtom               = itsDisplay->RegisterXAtom(kURLXAtomName);
-
-	itsDeleteSelectionXAtom   = itsDisplay->RegisterXAtom(kDeleteSelectionXAtomName);
-	itsNULLXAtom              = itsDisplay->RegisterXAtom(kNULLXAtomName);
-
-	itsGnomeClipboardName     = itsDisplay->RegisterXAtom(kGnomeClipboardXAtomName);
+	itsDisplay->RegisterXAtoms(kAtomCount, atomNames, itsAtoms);
 }
 
 /******************************************************************************
@@ -153,13 +147,13 @@ JXSelectionManager::GetAvailableTypes
 	typeList->RemoveAll();
 
 	XSelectionEvent selEvent;
-	if (RequestData(selectionName, time, itsTargetsXAtom, &selEvent))
+	if (RequestData(selectionName, time, itsAtoms[ kTargetsAtomIndex ], &selEvent))
 		{
 		Atom actualType;
 		int actualFormat;
 		unsigned long itemCount, remainingBytes;
 		unsigned char* data = NULL;
-		XGetWindowProperty(*itsDisplay, itsDataWindow, itsSelectionWindPropXAtom,
+		XGetWindowProperty(*itsDisplay, itsDataWindow, itsAtoms[ kSelectionWindPropAtomIndex ],
 						   0, LONG_MAX, True, XA_ATOM,
 						   &actualType, &actualFormat,
 						   &itemCount, &remainingBytes, &data);
@@ -256,6 +250,8 @@ JXSelectionManager::GetData
 	*dataLength = 0;
 	*delMethod  = kXFree;
 
+	JBoolean success = kJFalse;
+
 	XSelectionEvent selEvent;
 	if (RequestData(selectionName, time, requestType, &selEvent))
 		{
@@ -267,7 +263,7 @@ JXSelectionManager::GetData
 		// before initiating the incremental transfer.
 		{
 		XEvent xEvent;
-		XID checkIfEventData[] = { itsDataWindow, itsSelectionWindPropXAtom };
+		XID checkIfEventData[] = { itsDataWindow, itsAtoms[ kSelectionWindPropAtomIndex ] };
 		while (XCheckIfEvent(*itsDisplay, &xEvent, GetNextNewPropertyEvent,
 							 reinterpret_cast<char*>(checkIfEventData)))
 			{
@@ -279,33 +275,43 @@ JXSelectionManager::GetData
 
 		int actualFormat;
 		unsigned long itemCount, remainingBytes;
-		XGetWindowProperty(*itsDisplay, itsDataWindow, itsSelectionWindPropXAtom,
+		XGetWindowProperty(*itsDisplay, itsDataWindow, itsAtoms[ kSelectionWindPropAtomIndex ],
 						   0, LONG_MAX, True, AnyPropertyType,
 						   returnType, &actualFormat,
 						   &itemCount, &remainingBytes, data);
 
-		if (*returnType == itsIncrementalSendXAtom)
+		if (*returnType == itsAtoms[ kIncrementalSendAtomIndex ])
 			{
 			XFree(*data);
-			return ReceiveDataIncr(selectionName, returnType,
-								   data, dataLength, delMethod);
+			success = ReceiveDataIncr(selectionName, returnType,
+									  data, dataLength, delMethod);
 			}
 		else if (*returnType != None && remainingBytes == 0)
 			{
 			*dataLength = itemCount * actualFormat/8;
-			return kJTrue;
+			success = kJTrue;
 			}
 		else
 			{
 			XFree(*data);
 			*data = NULL;
-			return kJFalse;
 			}
 		}
-	else
+
+	if (success && *returnType == itsAtoms[ kURLAtomIndex ])
 		{
-		return kJFalse;
+		const Window srcWindow = XGetSelectionOwner(*itsDisplay, selectionName);
+		JString newData;
+		if (JXFixBrokenURLs((char*) *data, *dataLength, itsDisplay, srcWindow, &newData))
+			{
+			XFree(*data);
+			*data = (unsigned char*) malloc(newData.GetLength()+1);
+			memcpy(*data, newData.GetCString(), newData.GetLength()+1);
+			*dataLength = newData.GetLength();
+			}
 		}
+
+	return success;
 }
 
 /******************************************************************************
@@ -364,7 +370,7 @@ JXSelectionManager::SendDeleteRequest
 	JSize dataLength;
 	JXSelectionManager::DeleteMethod delMethod;
 
-	GetData(selectionName, time, itsDeleteSelectionXAtom,
+	GetData(selectionName, time, itsAtoms[ kDeleteSelectionAtomIndex ],
 			&returnType, &data, &dataLength, &delMethod);
 	DeleteData(&data, delMethod);
 }
@@ -394,7 +400,7 @@ JXSelectionManager::RequestData
 		}
 
 	XConvertSelection(*itsDisplay, selectionName, type,
-					  itsSelectionWindPropXAtom, itsDataWindow, time);
+					  itsAtoms[ kSelectionWindPropAtomIndex ], itsDataWindow, time);
 
 	Bool receivedEvent = False;
 	XEvent xEvent;
@@ -421,7 +427,7 @@ JXSelectionManager::RequestData
 		return JI2B(selEvent->requestor == itsDataWindow &&
 					selEvent->selection == selectionName &&
 					selEvent->target    == type &&
-					selEvent->property  == itsSelectionWindPropXAtom );
+					selEvent->property  == itsAtoms[ kSelectionWindPropAtomIndex ] );
 		}
 	else
 		{
@@ -466,7 +472,7 @@ JXSelectionManager::HandleSelectionRequest
 
 	// allow Gnome apps to paste via menu item
 
-	if (selectionName == itsGnomeClipboardName)
+	if (selectionName == itsAtoms[ kGnomeClipboardAtomIndex ])
 		{
 		selectionName = kJXClipboardName;
 		}
@@ -583,7 +589,7 @@ JXSelectionManager::SendData
 	(JXGetApplication())->DisplayBusyCursor();
 
 	XID remainingLength = dataLength;		// must be 32 bits
-	XChangeProperty(*itsDisplay, requestor, property, itsIncrementalSendXAtom,
+	XChangeProperty(*itsDisplay, requestor, property, itsAtoms[ kIncrementalSendAtomIndex ],
 					32, PropModeReplace,
 					reinterpret_cast<unsigned char*>(&remainingLength), 1);
 	itsDisplay->SendXEvent(requestor, returnEvent);
@@ -863,7 +869,7 @@ JXSelectionManager::ReceiveDataIncr
 		chunkIndex++;
 		#endif
 
-		if (!WaitForPropertyCreated(itsDataWindow, itsSelectionWindPropXAtom, sender))
+		if (!WaitForPropertyCreated(itsDataWindow, itsAtoms[ kSelectionWindPropAtomIndex ], sender))
 			{
 			#if JXSEL_DEBUG_MSGS
 			cout << "No response from selection owner on iteration ";
@@ -878,7 +884,7 @@ JXSelectionManager::ReceiveDataIncr
 		int actualFormat;
 		unsigned long itemCount, remainingBytes;
 		unsigned char* chunk;
-		XGetWindowProperty(*itsDisplay, itsDataWindow, itsSelectionWindPropXAtom,
+		XGetWindowProperty(*itsDisplay, itsDataWindow, itsAtoms[ kSelectionWindPropAtomIndex ],
 						   0, LONG_MAX, True, AnyPropertyType,
 						   &actualType, &actualFormat,
 						   &itemCount, &remainingBytes, &chunk);
@@ -1125,7 +1131,7 @@ JXSelectionManager::SetData
 
 		if (selectionName == kJXClipboardName)
 			{
-			XSetSelectionOwner(*itsDisplay, itsGnomeClipboardName, itsDataWindow, lastEventTime);
+			XSetSelectionOwner(*itsDisplay, itsAtoms[ kGnomeClipboardAtomIndex ], itsDataWindow, lastEventTime);
 			}
 
 		data->SetSelectionInfo(selectionName, lastEventTime);

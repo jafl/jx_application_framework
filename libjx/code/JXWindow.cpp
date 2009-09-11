@@ -12,6 +12,7 @@
 
 #include <JXStdInc.h>
 #include <JXWindow.h>
+#include <JXIncrementWindowAPAMMTask.h>
 #include <JXWindowDirector.h>
 #include <JXMenuManager.h>
 #include <JXDNDManager.h>
@@ -36,7 +37,7 @@
 #include <X11/Xatom.h>
 #include <jXKeysym.h>
 
-#include <JString.h>
+#include <JThisProcess.h>
 #include <jASCIIConstants.h>
 #include <JMinMax.h>
 #include <jStreamUtil.h>
@@ -49,10 +50,12 @@
 #include <limits.h>
 #include <jAssert.h>
 
-JBoolean JXWindow::theFoundWMFrameMethodFlag = kJFalse;
-JBoolean JXWindow::theWMFrameCompensateFlag  = kJFalse;
-const JCoordinate kWMFrameSlop               = 2;	// pixels
+JBoolean JXWindow::theFoundWMFrameMethodFlag  = kJFalse;
+JBoolean JXWindow::theWMFrameCompensateFlag   = kJFalse;
+JBoolean JXWindow::theWindowFrameIsParentFlag = kJTrue;
+const JCoordinate kWMFrameSlop                = 2;	// pixels
 
+// useful for research
 static const JCharacter* kWMOffsetFileName = "~/.jx/wm_offset";
 JBoolean JXWindow::theWMOffsetInitFlag     = kJFalse;
 JPoint JXWindow::theWMOffset;
@@ -119,6 +122,7 @@ JXWindow::JXWindow
 	itsBounds(0, 0, h, w),
 	itsAdjustPlacementAfterMapMode(0),
 	itsIsDestructingFlag(kJFalse),
+	itsIncrAPAMMTask(NULL),
 	itsHasMinSizeFlag(kJFalse),
 	itsHasMaxSizeFlag(kJFalse),
 	itsIsMenuFlag(isMenu),
@@ -231,6 +235,12 @@ JXWindow::JXWindow
 
 	XFree(windowName.value);
 
+	// tell window manager about our process
+
+	const JUInt32 pid = (JThisProcess::Instance())->GetPID();
+	XChangeProperty(*itsDisplay, itsXWindow, itsDisplay->GetWMPidXAtom(),
+					XA_CARDINAL, 32, PropModeReplace, (unsigned char*) &pid, 1);
+
 	// create JXDNDAware property for Drag-And-Drop
 
 	(GetDNDManager())->EnableDND(itsXWindow);
@@ -245,6 +255,13 @@ JXWindow::JXWindow
 
 	itsCloseAction = kCloseDirector;
 	AcceptSaveYourself(kJFalse);
+
+	// tell window manager what kind of window we are
+
+	if (isMenu)
+		{
+		SetWMWindowType(kWMPulldownMenuType);
+		}
 
 	// create GC to use when drawing
 
@@ -296,6 +313,15 @@ JXWindow::JXWindow
 	// notify the display that we exist
 
 	itsDisplay->WindowCreated(this, itsXWindow);
+
+	// If we are not shown initially, then we will need to adjust placement
+	// when Show() is eventually called.
+
+	#ifdef _J_OSX
+	itsIncrAPAMMTask = new JXIncrementWindowAPAMMTask(this);
+	assert( itsIncrAPAMMTask != NULL );
+	(JXGetApplication())->InstallUrgentTask(itsIncrAPAMMTask);
+	#endif
 }
 
 /******************************************************************************
@@ -321,6 +347,7 @@ JXWindow::~JXWindow()
 	delete itsShortcuts;
 	delete itsFocusList;
 	delete itsChildWindowList;
+	delete itsIncrAPAMMTask;
 
 	if (itsBufferPixmap != None)
 		{
@@ -612,7 +639,15 @@ JXWindow::Show()
 		XMapWindow(*itsDisplay, itsXWindow);
 		// input focus set by HandleMapNotify()
 		#ifdef _J_OSX
+		delete itsIncrAPAMMTask;
+		itsIncrAPAMMTask = NULL;
+
 		itsAdjustPlacementAfterMapMode++;
+		#else
+		if (!theWindowFrameIsParentFlag)
+			{
+			itsAdjustPlacementAfterMapMode++;
+			}
 		#endif
 
 		JXWindow* parent;
@@ -724,6 +759,40 @@ JXWindow::Raise
 		// the current virtual desktop.
 
 		Place(itsWMFrameLoc.x, itsWMFrameLoc.y);
+		}
+
+	// move window to current desktop
+	// http://standards.freedesktop.org/wm-spec/latest/ar01s05.html
+
+	if (itsIsMappedFlag)
+		{
+		Window root = itsDisplay->GetRootWindow();
+
+		Atom actualType;
+		int actualFormat;
+		unsigned long itemCount, remainingBytes;
+		unsigned char* xdata;
+		XGetWindowProperty(*itsDisplay, root, itsDisplay->GetWMCurrentDesktopXAtom(),
+						   0, LONG_MAX, False, XA_CARDINAL,
+						   &actualType, &actualFormat,
+						   &itemCount, &remainingBytes, &xdata);
+		if (actualType == XA_CARDINAL && actualFormat == 32 && itemCount > 0)
+			{
+			const JUInt32 desktop = *reinterpret_cast<JUInt32*>(xdata);
+
+			XEvent e;
+			memset(&e, 0, sizeof(e));
+			e.type                 = ClientMessage;
+			e.xclient.display      = *itsDisplay;
+			e.xclient.window       = itsXWindow;
+			e.xclient.message_type = itsDisplay->GetWMDesktopXAtom();
+			e.xclient.format       = 32;
+			e.xclient.data.l[0]    = desktop;
+			e.xclient.data.l[1]    = 1;	// normal app
+			itsDisplay->SendXEvent(root, &e);
+			}
+
+		XFree(xdata);
 		}
 
 	XRaiseWindow(*itsDisplay, itsXWindow);
@@ -1311,7 +1380,18 @@ JXWindow::CalcDesktopLocation
 	Window rootChild;
 	if (!GetRootChild(&rootChild) || rootChild == itsXWindow)
 		{
-		return JPoint(origX, origY);
+		if (!itsIsMenuFlag && itsIsMappedFlag)
+			{
+			theWindowFrameIsParentFlag = kJFalse;
+			}
+
+		JPoint desktopPt(origX, origY);
+		if (!itsIsMenuFlag)
+			{
+			desktopPt += theWMOffset * origDirection;
+			}
+
+		return desktopPt;
 		}
 
 	JCoordinate desktopX = origX;
@@ -1327,7 +1407,7 @@ JXWindow::CalcDesktopLocation
 		desktopY += y * direction;
 		}
 
-	// adjust position to offset fvwm2 bug
+	// useful for research (originally for fixing fvwm2 bug)
 
 	JPoint desktopPt(desktopX, desktopY);
 	if (!itsIsMenuFlag)
@@ -1495,11 +1575,12 @@ JXWindow::UndockedPlace
 		UpdateFrame();
 /*
 		cout << endl;
+		cout << JPoint(enclX, enclY) << endl;
+		cout << pt << endl;
 		cout << thePlacementAttempt;
 		cout << theFoundWMFrameMethodFlag;
 		cout << theWMFrameCompensateFlag << endl;
 		cout << GetDesktopLocation() << endl;
-		cout << JPoint(enclX, enclY) << endl;
 */
 		thePlacementAttempt++;
 
@@ -1525,6 +1606,15 @@ JXWindow::UndockedPlace
 		const JPoint pt1 = pt + itsTopLeftOffset;
 		itsDesktopLoc    = pt1;
 		itsWMFrameLoc    = CalcDesktopLocation(pt1.x, pt1.y, -1);
+/*
+		cout << endl;
+		cout << JPoint(enclX, enclY) << endl;
+		cout << pt << endl;
+		cout << thePlacementAttempt;
+		cout << theFoundWMFrameMethodFlag;
+		cout << theWMFrameCompensateFlag << endl;
+		cout << GetDesktopLocation() << endl;
+*/
 		}
 
 	// adjust window to fit on screen, since resize will otherwise be unavailable on OS X
@@ -1693,17 +1783,25 @@ JXWindow::UpdateFrame()
 	const int origX = x, origY = y;
 
 	// After XGetGeometry(), x=0 and y=0 for fvwm, but y>0 for OS X
-	itsTopLeftOffset.Set(x,y);
-
+	if (theWindowFrameIsParentFlag && itsIsMappedFlag)
+		{
+		itsTopLeftOffset.Set(x,y);
+		}
+	else
+		{
+		itsTopLeftOffset.Set(0,0);
+		}
+//if (!itsIsMenuFlag) cout << "itsTopLeftOffset: " << itsTopLeftOffset << endl;
 	Window childWindow;
 	const Bool ok2 = XTranslateCoordinates(*itsDisplay, itsXWindow, rootWindow,
 										   0,0, &x, &y, &childWindow);
 	assert( ok2 );
 
 	itsDesktopLoc.Set(x,y);		// also at end of Place()
+//if (!itsIsMenuFlag) cout << "itsDesktopLoc: " << itsDesktopLoc << endl;
 	itsWMFrameLoc =
 		itsIsDockedFlag ? JPoint(origX, origY) : CalcDesktopLocation(x,y, -1);
-
+//if (!itsIsMenuFlag) cout << "itsWMFrameLoc: " << itsWMFrameLoc << endl;
 	if (itsIsMappedFlag)
 		{
 		UpdateBounds(w, h);
@@ -2508,6 +2606,14 @@ JXWindow::HandleEvent
 		{
 		Close();											// can delete us
 		}
+	else if (IsWMPingMessage(itsDisplay, xEvent))
+		{
+		XEvent e;
+		memcpy(&e, &xEvent, sizeof(e));
+		e.xclient.window = itsDisplay->GetRootWindow();
+		XSendEvent(*itsDisplay, e.xclient.window, False,
+				   (SubstructureNotifyMask|SubstructureRedirectMask), &e);
+		}
 	else if (IsSaveYourselfMessage(itsDisplay, xEvent))
 		{
 		const JString& cmd = (JXGetApplication())->GetRestartCommand();
@@ -2540,6 +2646,25 @@ JXWindow::IsDeleteWindowMessage
 }
 
 /******************************************************************************
+ IsWMPingMessage (static)
+
+ ******************************************************************************/
+
+JBoolean
+JXWindow::IsWMPingMessage
+	(
+	const JXDisplay*	display,
+	const XEvent&		xEvent
+	)
+{
+	return JI2B(
+		xEvent.type                       == ClientMessage &&
+		xEvent.xclient.message_type       == display->GetWMProtocolsXAtom() &&
+		xEvent.xclient.format             == 32 &&
+		((Atom) xEvent.xclient.data.l[0]) == display->GetWMPingXAtom());
+}
+
+/******************************************************************************
  IsSaveYourselfMessage (static)
 
  ******************************************************************************/
@@ -2569,12 +2694,29 @@ JXWindow::AcceptSaveYourself
 	const JBoolean accept
 	)
 {
-	Atom protocolList[2] =
+	Atom protocolList[3] =
 		{
 		itsDisplay->GetDeleteWindowXAtom(),		// always accept this one
+		itsDisplay->GetWMPingXAtom(),			// always accept this one
 		itsDisplay->GetSaveYourselfXAtom()
 		};
-	XSetWMProtocols(*itsDisplay, itsXWindow, protocolList, (accept ? 2 : 1));
+	XSetWMProtocols(*itsDisplay, itsXWindow, protocolList, (accept ? 3 : 2));
+}
+
+/******************************************************************************
+ SetWMWindowType
+
+ ******************************************************************************/
+
+void
+JXWindow::SetWMWindowType
+	(
+	const WMType type
+	)
+{
+	Atom atom = itsDisplay->GetWMWindowTypeXAtom(type);
+	XChangeProperty(*itsDisplay, itsXWindow, itsDisplay->GetWMWindowTypeXAtom(),
+					XA_ATOM, 32, PropModeReplace, (unsigned char*) &atom, 1);
 }
 
 /******************************************************************************
@@ -4330,12 +4472,10 @@ JXWindow::HandleWMStateChange()
 	int actualFormat;
 	unsigned long itemCount, remainingBytes;
 	unsigned char* xdata;
-
-	const int result =
-		XGetWindowProperty(*itsDisplay, itsXWindow, itsDisplay->GetWMStateXAtom(),
-						   0, LONG_MAX, False, AnyPropertyType,
-						   &actualType, &actualFormat,
-						   &itemCount, &remainingBytes, &xdata);
+	XGetWindowProperty(*itsDisplay, itsXWindow, itsDisplay->GetWMStateXAtom(),
+					   0, LONG_MAX, False, AnyPropertyType,
+					   &actualType, &actualFormat,
+					   &itemCount, &remainingBytes, &xdata);
 	if (actualType != itsDisplay->GetWMStateXAtom() || actualFormat != 32)
 		{
 #ifndef _J_CYGWIN
@@ -4357,13 +4497,13 @@ JXWindow::HandleWMStateChange()
 		{
 		assert( remainingBytes == 0 );
 
-		if (*reinterpret_cast<long*>(xdata) == NormalState && itsIsIconifiedFlag)
+		if (*reinterpret_cast<JUInt32*>(xdata) == NormalState && itsIsIconifiedFlag)
 			{
 			itsIsIconifiedFlag = kJFalse;
 			Broadcast(Deiconified());
 			Refresh();
 			}
-		else if (*reinterpret_cast<long*>(xdata) == IconicState && !itsIsIconifiedFlag)
+		else if (*reinterpret_cast<JUInt32*>(xdata) == IconicState && !itsIsIconifiedFlag)
 			{
 			itsIsIconifiedFlag = kJTrue;
 			Broadcast(Iconified());
@@ -4768,6 +4908,30 @@ JXWindow::SetChildWindowVisible
 				}
 			}
 		}
+}
+
+/******************************************************************************
+ PrintWindowConfig
+
+ ******************************************************************************/
+
+void
+JXWindow::PrintWindowConfig()
+{
+	cout << endl;
+	cout << "theFoundWMFrameMethodFlag:      " << theFoundWMFrameMethodFlag << endl;
+	cout << "theWMFrameCompensateFlag:       " << theWMFrameCompensateFlag << endl;
+	cout << "theWindowFrameIsParentFlag:     " << theWindowFrameIsParentFlag << endl;
+	cout << "theWMOffsetInitFlag:            " << theWMOffsetInitFlag << endl;
+	cout << "theWMOffset:                    " << theWMOffset << endl;
+	cout << "theWMDesktopStyleInitFlag:      " << theWMDesktopStyleInitFlag << endl;
+	cout << "theWMDesktopMapsWindowsFlag:    " << theWMDesktopMapsWindowsFlag << endl;
+	cout << "theDesktopMargin:               " << theDesktopMargin << endl;
+	cout << "itsDesktopLoc:                  " << itsDesktopLoc << endl;
+	cout << "itsWMFrameLoc:                  " << itsWMFrameLoc << endl;
+	cout << "itsTopLeftOffset:               " << itsTopLeftOffset << endl;
+	cout << "itsAdjustPlacementAfterMapMode: " << itsAdjustPlacementAfterMapMode << endl;
+	cout << endl;
 }
 
 #define JTemplateType JXWindow::Shortcut

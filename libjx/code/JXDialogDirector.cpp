@@ -144,6 +144,11 @@ JXDialogDirector::Activate()
 			window->SetTransientFor(windowDir);
 			}
 
+		if (itsModalFlag)
+			{
+			window->SetWMWindowType(JXWindow::kWMDialogType);
+			}
+
 		if (itsAutoGeomFlag)
 			{
 			window->PlaceAsDialogWindow();

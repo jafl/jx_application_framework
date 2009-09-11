@@ -31,7 +31,7 @@ RunWithFiles::JXFSRunFileDialog	"Command to run on the selected file(s):"
 
 DefaultBindingList::JFSBindingList
 
-"2 F F \"/bin/sh -c $q\" \"xterm -title $q -n $q -e $u\"
+"2 F F \"/bin/sh -c $q\" \"gnome-terminal --title $q -x $u\"
 \".gif\"  \"eog\" p F
 \".png\"  \"eog\" p F
 \".jpg\"  \"eog\" p F
@@ -84,7 +84,7 @@ DefaultBindingList::JFSBindingList
 
 DefaultBindingList-OSX::JFSBindingList
 
-"2 F F \"/bin/sh -c $q\" \"xterm -title $q -n $q -e $u\"
+"2 F F \"/bin/sh -c $q\" \"gnome-terminal --title $q -x $u\"
 \".gif\"  \"open\" p F
 \".png\"  \"open\" p F
 \".jpg\"  \"open\" p F

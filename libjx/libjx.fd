@@ -2253,13 +2253,13 @@ argument:
 =============== FORM ===============
 Name: JXGoToLineDialog
 Width: 190
-Height: 90
-Number of Objects: 5
+Height: 120
+Number of Objects: 6
 
 --------------------
 class: FL_BOX
 type: FLAT_BOX
-box: 0 0 190 90
+box: 0 0 190 120
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -2277,7 +2277,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: RETURN_BUTTON
-box: 109 59 62 22
+box: 109 89 62 22
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -2295,7 +2295,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: NORMAL_BUTTON
-box: 20 60 60 20
+box: 20 90 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -2343,6 +2343,24 @@ shortcut:
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
 name: 
+callback: 
+argument: 
+
+--------------------
+class: FL_CHECKBUTTON
+type: PUSH_BUTTON
+box: 20 50 150 20
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_YELLOW
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Physical line number
+shortcut: #N
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: itsPhysicalLineIndexCB
 callback: 
 argument: 
 

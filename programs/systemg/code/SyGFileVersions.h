@@ -16,8 +16,10 @@
 
 #include <jTypes.h>
 
-const JFileVersion kSyGCurrentDirSetupVersion = 3;
+const JFileVersion kSyGCurrentDirSetupVersion = 4;
 
+// version 4:
+//	Saves relative paths of open directories.
 // version 3:
 //	Saves scrollbar setup.
 // version 2:

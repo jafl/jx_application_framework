@@ -1084,6 +1084,12 @@ JXMenu::Open
 
 	itsMenuDirector = CreateMenuWindow((GetWindow())->GetDirector());
 	itsMenuDirector->BuildWindow(leftPtR, rightPtR, frameHeight);
+
+	if (itsIsHiddenPopupMenuFlag)
+		{
+		(itsMenuDirector->GetWindow())->SetWMWindowType(JXWindow::kWMPopupMenuType);
+		}
+
 	itsMenuDirector->Activate();
 	itsMenuDirector->GrabKeyboard();
 	menuManager->MenuOpened(this, itsMenuDirector->GetWindow());

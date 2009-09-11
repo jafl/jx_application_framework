@@ -54,9 +54,11 @@ ifneq (${J_USE_THREADS},yes)
   J_RAW_SYSTEM_STUFF += -DACE_MT_SAFE=0
 endif
 
+# -Wno-write-strings to avoid warnings from auto-generated XPM files
+
 ifeq (${JX_HAS_GNUG},1)
   J_RAW_SYSTEM_STUFF += \
-    -Wall -Wno-unused \
+    -Wall -Wno-unused -Wno-write-strings \
     -fno-implicit-templates -DJ_EXPLICIT_TEMPLATES
 
   ifeq (${J_COMPILE_DEBUG},-g)

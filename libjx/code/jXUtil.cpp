@@ -9,6 +9,7 @@
 #include <jXUtil.h>
 #include <JXDisplay.h>
 #include <JXImageMask.h>
+#include <X11/Xatom.h>
 #include <JRegex.h>
 #include <jFileUtil.h>
 #include <jGlobals.h>
@@ -344,9 +345,12 @@ JXUnpackStrings
 		{
 		const JBoolean found = data.LocateNextSubstring(separator, sepLength, &i);
 
-		JString* str = new JString(origData + prevIndex-1, i - prevIndex);
-		assert( str != NULL );
-		strList->Append(str);
+		if (origData[ prevIndex-1 ] != '\0')
+			{
+			JString* str = new JString(origData + prevIndex-1, i - prevIndex);
+			assert( str != NULL );
+			strList->Append(str);
+			}
 
 		if (found)
 			{
@@ -484,4 +488,87 @@ JXReportUnreachableHosts
 
 		(JGetStringManager())->ReportError(kUnreachableHostsID, hosts);
 		}
+}
+
+/******************************************************************************
+ JXFixBrokenURLs
+
+ ******************************************************************************/
+
+static const JCharacter* kInvalidURLHostMarker = ":///";
+
+static JString
+jXGetClientMachineName
+	(
+	JXDisplay*		display,
+	const Window	xWindow
+	)
+{
+	JString machineName;
+
+	Atom actualType;
+	int actualFormat;
+	unsigned long itemCount, remainingBytes;
+	unsigned char* xdata;
+	XGetWindowProperty(*display, xWindow, display->GetWMClientMachineXAtom(),
+					   0, LONG_MAX, False, XA_STRING,
+					   &actualType, &actualFormat,
+					   &itemCount, &remainingBytes, &xdata);
+	if (actualType == XA_STRING && actualFormat == 8 && itemCount > 0)
+		{
+		machineName.Set((JCharacter*) xdata, itemCount);
+		}
+
+	XFree(xdata);
+	return machineName;
+}
+
+JBoolean
+JXFixBrokenURLs
+	(
+	const JCharacter*	data,
+	const JSize			length,
+	JXDisplay*			display,
+	const Window		srcWindow,
+	JString*			newData
+	)
+{
+	JPtrArray<JString> urlList(JPtrArrayT::kDeleteAll);
+	JXUnpackStrings(data, length, &urlList, kURISeparator, kURISeparatorLength);
+
+	JBoolean changed = kJFalse;
+
+	const JSize count = urlList.GetElementCount();
+	JIndex j;
+	JString srcHost, destHost;
+	for (JIndex i=1; i<=count; i++)
+		{
+		JString* url = urlList.NthElement(i);
+		if (!url->IsEmpty() && url->GetFirstCharacter() != kURICommentMarker &&
+			url->LocateSubstring(kInvalidURLHostMarker, &j))
+			{
+			if (srcHost.IsEmpty())
+				{
+				srcHost = jXGetClientMachineName(display, srcWindow);
+				if (srcHost.IsEmpty())
+					{
+					return kJFalse;
+					}
+				}
+
+			url->InsertSubstring(srcHost, j+3);
+			changed = kJTrue;
+			}
+		}
+
+	if (changed)
+		{
+		*newData = JXPackStrings(urlList, kURISeparator, kURISeparatorLength);
+		}
+	else
+		{
+		newData->Clear();
+		}
+
+	return changed;
 }

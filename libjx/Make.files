@@ -16,6 +16,7 @@
 .cpp ./code/JXDisplay
 .cpp ./code/JXDisplayMenu
 .cpp ./code/JXWindow
+.cpp ./code/JXIncrementWindowAPAMMTask
 .cpp ./code/JXIconDirector
 .cpp ./code/JXWindowIcon
 .cpp ./code/JXButtonStates

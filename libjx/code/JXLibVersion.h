@@ -51,6 +51,7 @@ static const char* kCurrentJXLibVersionStr = "2.5.0";
 //		Ctrl-Page-Up/Down cycles through docked windows in a pane.
 //		Global JX preference to have focus follow the mouse between docked windows.
 //		Updated placement code to handle latest curveball from OS X.
+//		Supports _NET_WM_PING and _NET_WM_WINDOW_TYPE protocols.
 //	JXProgressDisplay:
 //		Updated ProcessBeginning() so it hides the unused widgets and
 //			initializes the visible ones.  (What took me so long?)
@@ -94,6 +95,8 @@ static const char* kCurrentJXLibVersionStr = "2.5.0";
 //	Created JXImageCache to store mapping between JXPM and JXImage*.
 //	JXDisplay:
 //		Added GetImageCache().
+//		Added RegisterXAtoms().  Application startup over a network is now
+//			faster because individual RegisterXAtom() calls have been combined.
 //	JXTextMenu:
 //		Uses JXImageCache to minimize creation of JXImages.
 //	JXContainer:
@@ -140,6 +143,13 @@ static const char* kCurrentJXLibVersionStr = "2.5.0";
 //			time of insertion is no guarantee of existence later on.  This
 //			also simplifies the usage, because fullNameIndex will always be
 //			valid.
+//	JXGoToLineDialog:
+//		Added option to enter physical line number.
+//	jXUtil:
+//		Fixed JXUnpackStrings to ignore trailing separator.
+//	JXSelectionManager:
+//		Work-around for broken XDND file implementations that do not include
+//			the host name in the URL's.
 
 // version 2.5.0:
 //	*** All egcs thunks hacks have been removed.
