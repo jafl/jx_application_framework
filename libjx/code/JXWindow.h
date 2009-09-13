@@ -60,7 +60,7 @@ public:
 
 	JXWindow(JXWindowDirector* director, const JCoordinate w, const JCoordinate h,
 			 const JCharacter* title, const JBoolean ownsColormap = kJFalse,
-			 JXColormap* colormap = NULL, const JBoolean isMenu = kJFalse);
+			 JXColormap* colormap = NULL, const JBoolean isOverlay = kJFalse);
 
 	virtual ~JXWindow();
 
@@ -406,7 +406,7 @@ private:
 	JXWidget*				itsFocusWidget;		// receives key events directly; not owned; can be NULL
 	JXHintManager*			itsCurrHintMgr;		// not owned; can be NULL; deactivate when key press
 
-	const JBoolean	itsIsMenuFlag;
+	const JBoolean	itsIsOverlayFlag;
 
 	// multiple click detection
 

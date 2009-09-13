@@ -113,7 +113,7 @@ JXWindow::JXWindow
 	const JCharacter*	title,
 	const JBoolean		ownsColormap,
 	JXColormap*			colormap,
-	const JBoolean		isMenu
+	const JBoolean		isOverlay
 	)
 	:
 	JXContainer((JXGetApplication())->GetCurrentDisplay(), this, NULL),
@@ -125,7 +125,7 @@ JXWindow::JXWindow
 	itsIncrAPAMMTask(NULL),
 	itsHasMinSizeFlag(kJFalse),
 	itsHasMaxSizeFlag(kJFalse),
-	itsIsMenuFlag(isMenu),
+	itsIsOverlayFlag(isOverlay),
 	itsFirstClick(kJXNoButton, 0, JPoint(-1,-1)),
 	itsSecondClick(kJXNoButton, 0, JPoint(-1,-1)),
 	itsIsDockedFlag(kJFalse),
@@ -140,9 +140,9 @@ JXWindow::JXWindow
 
 	itsFocusWhenShowFlag    = kJFalse;
 	itsBufferPixmap         = None;
-	itsBufferDrawingFlag    = isMenu;
-	itsKeepBufferPixmapFlag = isMenu;
-	itsUseBkgdPixmapFlag    = isMenu;
+	itsBufferDrawingFlag    = isOverlay;
+	itsKeepBufferPixmapFlag = isOverlay;
+	itsUseBkgdPixmapFlag    = isOverlay;
 	itsCursorIndex          = kJXDefaultCursor;
 	itsUpdateRegion         = XCreateRegion();
 	itsIcon                 = NULL;
@@ -203,8 +203,8 @@ JXWindow::JXWindow
 	attr.border_pixel      = itsColormap->GetXPixel(itsColormap->GetBlackColor());
 	attr.colormap          = *itsColormap;
 	attr.cursor            = itsDisplay->GetXCursorID(itsCursorIndex);
-	attr.save_under        = itsIsMenuFlag;
-	attr.override_redirect = itsIsMenuFlag;
+	attr.save_under        = itsIsOverlayFlag;
+	attr.override_redirect = itsIsOverlayFlag;
 	attr.event_mask        = kEventMask;
 
 	itsXWindow =
@@ -258,7 +258,7 @@ JXWindow::JXWindow
 
 	// tell window manager what kind of window we are
 
-	if (isMenu)
+	if (isOverlay)
 		{
 		SetWMWindowType(kWMPulldownMenuType);
 		}
@@ -764,7 +764,7 @@ JXWindow::Raise
 	// move window to current desktop
 	// http://standards.freedesktop.org/wm-spec/latest/ar01s05.html
 
-	if (itsIsMappedFlag)
+	if (theWMDesktopMapsWindowsFlag || itsIsMappedFlag)
 		{
 		Window root = itsDisplay->GetRootWindow();
 
@@ -789,7 +789,7 @@ JXWindow::Raise
 			e.xclient.format       = 32;
 			e.xclient.data.l[0]    = desktop;
 			e.xclient.data.l[1]    = 1;	// normal app
-			itsDisplay->SendXEvent(root, &e);
+			itsDisplay->SendXEvent(root, &e, SubstructureNotifyMask|SubstructureRedirectMask);
 			}
 
 		XFree(xdata);
@@ -1361,7 +1361,7 @@ JXWindow::CalcDesktopLocation
 	theWMFrameCompensateFlag  = kJTrue;
 
 	JPoint desktopPt(origX, origY);
-	if (itsIsMenuFlag || !itsIsMappedFlag)
+	if (itsIsOverlayFlag || !itsIsMappedFlag)
 		{
 		return desktopPt;
 		}
@@ -1380,13 +1380,13 @@ JXWindow::CalcDesktopLocation
 	Window rootChild;
 	if (!GetRootChild(&rootChild) || rootChild == itsXWindow)
 		{
-		if (!itsIsMenuFlag && itsIsMappedFlag)
+		if (!itsIsOverlayFlag && itsIsMappedFlag)
 			{
 			theWindowFrameIsParentFlag = kJFalse;
 			}
 
 		JPoint desktopPt(origX, origY);
-		if (!itsIsMenuFlag)
+		if (!itsIsOverlayFlag)
 			{
 			desktopPt += theWMOffset * origDirection;
 			}
@@ -1410,7 +1410,7 @@ JXWindow::CalcDesktopLocation
 	// useful for research (originally for fixing fvwm2 bug)
 
 	JPoint desktopPt(desktopX, desktopY);
-	if (!itsIsMenuFlag)
+	if (!itsIsOverlayFlag)
 		{
 		desktopPt += theWMOffset * origDirection;
 		}
@@ -1554,7 +1554,7 @@ JXWindow::UndockedPlace
 	// menu needs to know its location immediately
 	// (This works because menus have OverrideRedirect.)
 
-	if (itsIsMenuFlag || itsIsDockedFlag)
+	if (itsIsOverlayFlag || itsIsDockedFlag)
 		{
 		itsDisplay->Synchronize();
 		UpdateFrame();
@@ -1791,17 +1791,17 @@ JXWindow::UpdateFrame()
 		{
 		itsTopLeftOffset.Set(0,0);
 		}
-//if (!itsIsMenuFlag) cout << "itsTopLeftOffset: " << itsTopLeftOffset << endl;
+//if (!itsIsOverlayFlag) cout << "itsTopLeftOffset: " << itsTopLeftOffset << endl;
 	Window childWindow;
 	const Bool ok2 = XTranslateCoordinates(*itsDisplay, itsXWindow, rootWindow,
 										   0,0, &x, &y, &childWindow);
 	assert( ok2 );
 
 	itsDesktopLoc.Set(x,y);		// also at end of Place()
-//if (!itsIsMenuFlag) cout << "itsDesktopLoc: " << itsDesktopLoc << endl;
+//if (!itsIsOverlayFlag) cout << "itsDesktopLoc: " << itsDesktopLoc << endl;
 	itsWMFrameLoc =
 		itsIsDockedFlag ? JPoint(origX, origY) : CalcDesktopLocation(x,y, -1);
-//if (!itsIsMenuFlag) cout << "itsWMFrameLoc: " << itsWMFrameLoc << endl;
+//if (!itsIsOverlayFlag) cout << "itsWMFrameLoc: " << itsWMFrameLoc << endl;
 	if (itsIsMappedFlag)
 		{
 		UpdateBounds(w, h);
@@ -4392,7 +4392,7 @@ JXWindow::HandleMapNotify
 {
 	itsIsMappedFlag = kJTrue;
 
-	if (itsIsMenuFlag)
+	if (itsIsOverlayFlag)
 		{
 		// Menu windows are not touched by the window manager.
 		itsAdjustPlacementAfterMapMode = 1;
@@ -4460,7 +4460,7 @@ JXWindow::HandleUnmapNotify
 void
 JXWindow::HandleWMStateChange()
 {
-	if (itsIsMenuFlag || itsIsDockedFlag || !itsIsMappedFlag)
+	if (itsIsOverlayFlag || itsIsDockedFlag || !itsIsMappedFlag)
 		{
 		// Menu windows are not touched by the window manager.
 		return;
@@ -4670,7 +4670,7 @@ JXWindow::Dock
 	JPoint*			minSize
 	)
 {
-	if (itsIsMenuFlag || itsMainWindow != NULL ||
+	if (itsIsOverlayFlag || itsMainWindow != NULL ||
 		geom.width() < itsMinSize.x || geom.height() < itsMinSize.y)
 		{
 		return kJFalse;

@@ -119,7 +119,7 @@ public:
 	void	Flush() const;
 	void	Synchronize() const;
 
-	void	SendXEvent(const Window xWindow, XEvent* xEvent) const;
+	void	SendXEvent(const Window xWindow, XEvent* xEvent, const long mask = 0) const;
 
 	// useful for Drag-And-Drop, and for Menu objects
 
@@ -444,11 +444,12 @@ inline void
 JXDisplay::SendXEvent
 	(
 	const Window	xWindow,
-	XEvent*			xEvent
+	XEvent*			xEvent,
+	long			mask
 	)
 	const
 {
-	XSendEvent(itsXDisplay, xWindow, False, 0, xEvent);
+	XSendEvent(itsXDisplay, xWindow, False, mask, xEvent);
 }
 
 /******************************************************************************

@@ -11,6 +11,8 @@ Ubuntu
 build initial deb pkg def files (for testing at home)
 
 systemg:
+	find original only operates on first selected item
+
 	optimize selection of multiple items
 		systemg *.cpp in large directory
 	locks up when find returns many files
@@ -81,6 +83,13 @@ medic:
 
 		http://java.sun.com/j2se/1.5.0/docs/tooldocs/solaris/jdb.html
 		http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html
+
+arrow
+	fix SaveState() so it doesn't need JFileArray
+	specify timeout for lockfile and handle it as lock failure
+*	doesn't save drafts if no inbox open
+*	doesn't recv mail if flush inbox during download (locking problem?)
+*	doesn't display anything when receive payment notification from PayPal
 
 JXMenu::PrepareToOpenMenu()
 	itsOwner may delete us!
@@ -225,13 +234,6 @@ medic:
 	Write MI output data parser in CMCommand
 		-stack-list-locals instead of "info locals"
 		-var-create instead of "print ..."
-
-arrow
-	fix SaveState() so it doesn't need JFileArray
-	specify timeout for lockfile and handle it as lock failure
-*	doesn't save drafts if no inbox open
-*	doesn't recv mail if flush inbox during download (locking problem?)
-*	doesn't display anything when receive payment notification from PayPal
 
 -----
 
