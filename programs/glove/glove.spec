@@ -7,7 +7,7 @@ Release: 1
 ExclusiveArch: i386
 ExclusiveOS: Linux
 License: GPL
-Group: Scientific
+Group: Applications/Scientific
 Source: Glove_%glove_version.tar
 
 %description 

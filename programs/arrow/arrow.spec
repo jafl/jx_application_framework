@@ -7,7 +7,7 @@ Release: 1
 ExclusiveArch: i386
 ExclusiveOS: Linux
 License: GPL
-Group: Applications/Communications
+Group: Productivity/Networking/Email/Clients
 Source: Arrow_%arrow_version.tar
 
 %description

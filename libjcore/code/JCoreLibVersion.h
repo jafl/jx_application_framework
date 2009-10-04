@@ -75,6 +75,7 @@ static const char* kCurrentJCoreLibVersionStr = "2.5.0";
 //		Added kJGitType.
 //		Added JIsManagedByVCS().
 //		Added JGetVCSDirectoryNames().
+//		Fixed JUpdateCVSIgnore() to ignore directories managed by git.
 //	JTextEditor:
 //		Added boolean deleteToTabStop argument to TEHandleKeyPress().
 //		Added CleanAllWhitespace(), CleanSelectedWhitespace(), CleanWhitespace().

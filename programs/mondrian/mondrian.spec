@@ -6,8 +6,8 @@ Version: %mondrian_version
 Release: 1
 ExclusiveArch: i386
 ExclusiveOS: Linux
-License: ...
-Group: ...
+License: GPL
+Group: Development/Tools/GUI Builders
 Source: mondrian_%mondrian_version.tar
 
 %description

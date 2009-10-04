@@ -28,6 +28,12 @@ int main
 
 JString s1, s2 = "Hello World", s3 = s2;						// constructors
 
+	const std::type_info& clazz1 = typeid(s1);
+	cout << "type of JString instance: " << clazz1.name() << endl;
+
+	const std::type_info& clazz2 = typeid(JString);
+	cout << "type of JString class: " << clazz2.name() << endl;
+
 	cout << "s3 should equal s2" << endl;
 	if (s3 == s2) cout << "s3 equals s2" << endl;				// comparison
 

@@ -15,15 +15,12 @@ Please send all bug reports and suggestions for features to
 
 <h3>1.1.0</h3>
 
-<p>
 Added incremental search to List view.
 <p>
 Full command line display field at the bottom of the window no longer has focus when Drakon starts.
 <p>
 Works better with virtual desktops.  When invoked a second time, it jumps to the active desktop.
-<p>
 
 <h3>1.0.0</h3>
 
-<p>
 Initial release."

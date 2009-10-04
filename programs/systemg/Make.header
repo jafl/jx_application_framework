@@ -24,7 +24,7 @@ SEARCHDIRS := -I${CODEDIR} \
 
 # other constants
 
-SYSTEMG_VERSION  := 2.2.1
+SYSTEMG_VERSION  := 2.3.0
 SIGNATURE        := systemg
 SYG_STRING_FILES := ${filter-out %/systemg_menu_strings, \
                       ${shell echo strings/*}}
@@ -142,8 +142,8 @@ source:
      ${TAR} -czf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cpp %Y.cpp, \
                                    ${shell cd ${J_DISTR_TAR_DIR}; echo \
               ${addprefix ${SRC_FILE_DIR}/, \
-                README* COPYING FAQ Make.* *.jcc *.fd \
-                text/* desktop/* test \
+                README COPYING FAQ Make.* *.jcc *.fd \
+                text/* pkg test \
                 code/* strings/* }}}
 
 #
@@ -152,74 +152,30 @@ source:
 
 SYG := System_G-${SYSTEMG_VERSION}
 
-SYG_SHARED_TAR_NAME := System_G_${SYSTEMG_VERSION}.tar
+SYG_RELEASE_TAR_NAME := System_G_${SYSTEMG_VERSION}.tar
+
+RPM_TAR_FILE  := ${RPM_SRC_DIR}/System_G_${SYSTEMG_VERSION}.tar
+RPM_SPEC_FILE := ./pkg/systemg.spec
+
+DEB_CTRL_FILE := ./pkg/systemg.debctrl
+DEB_PKG_FILE  := systemg_${SYSTEMG_VERSION}_i386.deb
 
 .PHONY : release_shared
-release_shared: libs
+release_shared: pre_build_pkgs libs
 	@${RM} systemg; ${MAKE} systemg; strip ${call EXE, systemg}
-	@${MAKE} SYG_DISTR_TAR_FILE=${SYG_SHARED_TAR_NAME} distr_sub
+	@${MAKE} SYG_DISTR_TAR_FILE=${SYG_RELEASE_TAR_NAME} distr_sub
 
 .PHONY : release_static
-release_static: static
-	@${MAKE} SYG_DISTR_TAR_FILE=${SYG_SHARED_TAR_NAME} distr_sub
+release_static: pre_build_pkgs static
+	@${MAKE} SYG_DISTR_TAR_FILE=${SYG_RELEASE_TAR_NAME} distr_sub
 
 # distr_sub (SYG_DISTR_TAR_FILE)
 
 .PHONY : distr_sub
 distr_sub: menu_strings
-	@${RM} -r ${SYG}
-	@mkdir ${SYG} ${SYG}/lib ${SYG}/docs_HTML
-	@ln -s ../README.binary        ${SYG}/README
-	@ln -s ../COPYING              ${SYG}/COPYING
-	@ln -s ../FAQ                  ${SYG}/FAQ
-	@ln -s ../${call EXE,systemg}  ${SYG}/${call EXE,systemg}
-	@ln -s ../${MENU_STRINGS_FILE} ${SYG}/menu_strings
-	@ln -s ../desktop              ${SYG}/desktop
-ifdef J_RPM_GZ_LIBS
-	@${foreach LIB, ${J_RPM_GZ_LIBS}, \
-         cp ${LIB} ${SYG}/lib/; gzip ${SYG}/lib/${notdir ${LIB}} }
-endif
-	@${JX_ROOT}/lib/util/jxhelp2html \
-         "System G" strings code/SyGHelpText.h ${SYG}/docs_HTML; \
-     cp ${SYG}/docs_HTML/ChangeLog.html ./; \
-     ${JX_ROOT}/lib/util/fix_change_log ChangeLog.html
-	@${TAR} -chf ${SYG_DISTR_TAR_FILE} ${SYG}
-	@${RM} -r ${SYG}
-	@mv ${SYG_DISTR_TAR_FILE} ${J_DISTR_TAR_DIR}/
-
-#
-# RPM
-#
-
-RPM_TAR_FILE  := ${RPM_SRC_DIR}/System_G_${SYSTEMG_VERSION}.tar
-RPM_SPEC_FILE := ${shell pwd}/systemg.spec
-
-.PHONY : release_rpm
-release_rpm: clean_rpm
-	@${MAKE} RPM_SOURCE_TAR_NAME=${SYG_SHARED_TAR_NAME} build_rpm
-	@${MAKE} clean_rpm
-
-# build_rpm (RPM_SOURCE_TAR_NAME)
-
-.PHONY : build_rpm
-build_rpm:
-	@cp ${J_DISTR_TAR_DIR}/${RPM_SOURCE_TAR_NAME} ${RPM_TAR_FILE}
-	@${RPM} ${RPM_SPEC_FILE}
-	@mv ${RPM_BIN_DIR}/*.rpm ${J_DISTR_TAR_DIR}/
-	@chown ${USER}. ${J_DISTR_TAR_DIR}/*.rpm
-	@gzip ${J_DISTR_TAR_DIR}/${RPM_SOURCE_TAR_NAME}
-
-.PHONY : clean_rpm
-clean_rpm:
-	@${RM}    /usr/X11R6/bin/systemg
-	@${RM} -r ${RPM_LIB_PATH}
-	@${RM} -r /usr/share/doc/System_G-*
-	@${RM} -r /usr/share/applnk/NPS_Utilities
-	@${RM} -r /usr/share/gnome/apps/NPS_Utilities
-	@${RM}    `find /usr/share/icons -name systemg.xpm`
-	@${RM}    `find /usr/share/icons -name new_planet_software.xpm`
-	@${RM}    `find /usr/share/pixmaps -name systemg.xpm`
-	@${RM}    `find /usr/share/pixmaps -name new_planet_software.xpm`
+	@${MAKE} PKG_PATH=${SYG} DOC_NAME="System G" DOC_HEADER=code/SyGHelpText.h init_tarball
+	@ln -s ../${call EXE,systemg} ${SYG}/${call EXE,systemg}
+	@${MAKE} PKG_PATH=${SYG} SOURCE_TAR_NAME=${SYG_DISTR_TAR_FILE} build_pkgs
 
 #
 # debugging version

@@ -281,17 +281,11 @@ sunos5_9-g++: prep
 #
 
 .PHONY : prep
-prep: check_install_dir fix_ace clean_links
+prep: check_install_dir fix_ace fix_mesa clean_links
 	@if { test ! -e libjcore/code/jStringData.h; } then \
          { \
          cp -f libjcore/jStringData_init.h libjcore/code/jStringData.h; \
          chmod u+w libjcore/code/jStringData.h; \
-         } \
-     fi
-	@if { test -d Mesa/. ; } then \
-         { \
-         ln -sf ../../src/mesa/drivers/x11/xmesa.h   Mesa/include/GL/xmesa.h; \
-         ln -sf ../../src/mesa/drivers/x11/xmesa_x.h Mesa/include/GL/xmesa_x.h; \
          } \
      fi
 
@@ -344,6 +338,15 @@ fix_ace:
          } \
      fi
   endif
+
+.PHONY : fix_mesa
+fix_mesa:
+	@if { test -d Mesa/. ; } then \
+         { \
+         ln -sf ../../src/mesa/drivers/x11/xmesa.h   Mesa/include/GL/xmesa.h; \
+         ln -sf ../../src/mesa/drivers/x11/xmesa_x.h Mesa/include/GL/xmesa_x.h; \
+         } \
+     fi
 
 .PHONY : clean_links
 clean_links:

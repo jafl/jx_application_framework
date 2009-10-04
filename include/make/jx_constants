@@ -104,10 +104,10 @@ TAR := tar --exclude '*/CVS*' --exclude '*/.svn*' --exclude '*/.xvpics*'
 # RPM
 #
 
-RPM_SRC_DIR  := /usr/src/redhat/SOURCES
-RPM_SPEC_DIR := /usr/src/redhat/SPECS
-RPM_BIN_DIR  := /usr/src/redhat/RPMS/i386
-RPM_SRPM_DIR := /usr/src/redhat/SRPMS
+RPM_SRC_DIR  := /usr/src/rpm/SOURCES
+RPM_SPEC_DIR := /usr/src/rpm/SPECS
+RPM_BIN_DIR  := /usr/src/rpm/RPMS/i386
+RPM_SRPM_DIR := /usr/src/rpm/SRPMS
 
 RPM := rpmbuild -bb --quiet --clean --rmsource
 

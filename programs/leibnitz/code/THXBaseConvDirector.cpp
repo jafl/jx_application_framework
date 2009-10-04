@@ -23,7 +23,6 @@
 #include <JXImage.h>
 #include <JRegex.h>
 #include <JString.h>
-#include <iomanip.h>
 #include <jAssert.h>
 
 static const JString::Base kBase[] =

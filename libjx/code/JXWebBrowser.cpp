@@ -150,6 +150,11 @@ JXWebBrowser::ShowFileLocations
 	const JPtrArray<JString>& fileList
 	)
 {
+	if (fileList.IsEmpty())
+		{
+		return;
+		}
+
 	const JSize count = fileList.GetElementCount();
 	if (itsShowFileLocationCmd.Contains("$"))
 		{

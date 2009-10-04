@@ -2880,7 +2880,7 @@ SyGFileTreeTable::FindOriginals()
 				SyGTreeDir* dir;
 				JIndex row;
 				JPoint cell;
-				if ((SyGGetApplication())->OpenDirectory(path, &dir, &row, kJTrue, kJTrue, kJFalse))
+				if ((SyGGetApplication())->OpenDirectory(path, &dir, &row, kJTrue, kJTrue, kJFalse, kJFalse))
 					{
 					SyGFileTreeNode* parent = NULL;
 					if (row > 0)
@@ -2894,7 +2894,7 @@ SyGFileTreeTable::FindOriginals()
 				}
 			else
 				{
-				(SyGGetApplication())->OpenDirectory(fullName, NULL, NULL, kJTrue, kJTrue, kJFalse);
+				(SyGGetApplication())->OpenDirectory(fullName, NULL, NULL, kJTrue, kJTrue, kJFalse, kJFalse);
 				}
 			}
 		}

@@ -1,7 +1,0 @@
-?package(systemg):\
-	needs="X11"\
-	section="Applications/File tools"\
-	title="File manager"\
-	longtitle="File manager"\
-	command="/usr/X11R6/bin/systemg"\
-	icon="/usr/share/icons/mini/systemg.xpm"

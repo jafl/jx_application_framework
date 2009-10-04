@@ -1,7 +1,0 @@
-?package(drakon):\
-	needs="X11"\
-	section="Applications/File tools"\
-	title="Drakon Process Manager"\
-	longtitle="Drakon Process Manager"\
-	command="/usr/X11R6/bin/drakon"\
-	icon="/usr/share/icons/mini/drakon.xpm"

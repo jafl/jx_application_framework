@@ -7,7 +7,7 @@ Release: 1
 ExclusiveArch: i386
 ExclusiveOS: Linux
 License: GPL
-Group: Sciences/Mathematics
+Group: Applications/Scientific
 Source: Leibnitz_%leibnitz_version.tar
 
 %description

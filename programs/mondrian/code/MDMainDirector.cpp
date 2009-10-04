@@ -14,6 +14,8 @@
 #include "mdHelpText.h"
 #include "mdGlobals.h"
 #include "mdActionDefs.h"
+#include <JXWebBrowser.h>
+#include <JXMacWinPrefsDialog.h>
 #include <JXHelpManager.h>
 #include <JXWindow.h>
 #include <JXMenuBar.h>
@@ -40,12 +42,16 @@ static const JCharacter* kPrefsMenuTitleStr = "Preferences";
 static const JCharacter* kPrefsMenuStr =
 	"    Edit preferences..."
 	"  | Edit tool bar..."
+	"  | File manager & web browser..."
+	"  | Mac/Win/X emulation..."
 	"%l| Save window setup as default";
 
 enum
 {
 	kPrefsCmd = 1,
 	kEditToolBarCmd,
+	kWebBrowserCmd,
+	kEditMacWinPrefsCmd,
 	kSaveWindSizeCmd
 };
 
@@ -309,6 +315,14 @@ MDMainDirector::HandlePrefsMenu
 	else if (index == kEditToolBarCmd)
 		{
 		itsToolBar->Edit();
+		}
+	else if (index == kWebBrowserCmd)
+		{
+		(JXGetWebBrowser())->EditPrefs();
+		}
+	else if (index == kEditMacWinPrefsCmd)
+		{
+		JXMacWinPrefsDialog::EditPrefs();
 		}
 
 	else if (index == kSaveWindSizeCmd)

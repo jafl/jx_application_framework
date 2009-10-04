@@ -10,6 +10,7 @@
 #include <SyGStdInc.h>
 #include "SyGFindFileTask.h"
 #include "SyGTreeDir.h"
+#include "SyGFileTreeTable.h"
 #include "SyGGlobals.h"
 #include <JProcess.h>
 #include <jAssert.h>
@@ -35,11 +36,12 @@ SyGFindFileTask::Create
 	JString cmd = "find ";
 	cmd        += JPrepArgForExec(path);
 	cmd        += " ";
+//	JString cmd = "find . ";
 	cmd        += expr;
 
 	JProcess* p;
 	int outFD, errFD;
-	const JError err = JProcess::Create(&p, cmd,
+	const JError err = JProcess::Create(&p, /*path,*/ cmd,
 										kJIgnoreConnection, NULL,
 										kJCreatePipe, &outFD,
 										kJCreatePipe, &errFD);
@@ -166,6 +168,19 @@ SyGFindFileTask::ReceiveMessageLine()
 	assert( ok );
 
 	(SyGGetApplication())->OpenDirectory(path, NULL, NULL, kJFalse, kJFalse, kJFalse, kJFalse);
+/*
+	if (!path.BeginsWith("." ACE_DIRECTORY_SEPARATOR_STR))
+		{
+		return;
+		}
+	path.RemoveSubstring(1, 2);
+
+	JPtrArray<JString> pathList(JPtrArrayT::kDeleteAll);
+	JString name = path;
+
+	JPoint cell;
+	(itsDirector->GetTable())->SelectName(pathList, name, &cell, kJFalse);
+*/
 	itsFoundFilesFlag = kJTrue;
 }
 

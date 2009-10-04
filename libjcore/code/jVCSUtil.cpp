@@ -718,10 +718,8 @@ JUpdateCVSIgnore
 		// We cannot just check for CVS, because they might be planning to
 		// add it to CVS later.
 
-		JString svnDir  = JCombinePathAndName(path, kSubversionDirName);
-		JString sccsDir = JCombinePathAndName(path, kSCCSDirName);
-		if (JDirectoryExists(svnDir) ||
-			JDirectoryExists(sccsDir))
+		const JVCSType type = JGetVCSType(path);
+		if (type != kJUnknownVCSType && type != kJCVSType)
 			{
 			return;
 			}

@@ -7,3 +7,95 @@ staticACE:
   ifdef J_BUILD_SHARED_LIB
 	@cd ${ACELIBDIR}; ${MAKE} static
   endif
+
+# Building packages
+
+ifneq (${shell which rpm 2> /dev/null},)
+  HAS_RPM := 1
+endif
+
+ifneq (${shell which dpkg-deb 2> /dev/null},)
+  HAS_DEB := 1
+endif
+
+.PHONY : pre_build_pkgs
+pre_build_pkgs:
+  ifeq (${HAS_RPM},1)
+	@sudo echo sudo access authorized...
+  endif
+
+# init_tarball (PKG_PATH, DOC_NAME, DOC_HEADER, const MENU_STRINGS_FILE)
+
+.PHONY : init_tarball
+init_tarball:
+	@${RM} -r ${PKG_PATH}
+	@mkdir -p ${PKG_PATH}/lib ${PKG_PATH}/docs_HTML
+	@ln -s ../README               ${PKG_PATH}/README
+	@ln -s ../COPYING              ${PKG_PATH}/COPYING
+	@ln -s ../FAQ                  ${PKG_PATH}/FAQ
+	@ln -s ../pkg/install          ${PKG_PATH}/install
+	@ln -s ../pkg/uninstall        ${PKG_PATH}/uninstall
+	@ln -s ../pkg/desktop          ${PKG_PATH}/desktop
+	@ln -s ../${MENU_STRINGS_FILE} ${PKG_PATH}/menu_strings
+
+	@${JX_ROOT}/lib/util/jxhelp2html \
+         "${DOC_NAME}" strings ${DOC_HEADER} ${PKG_PATH}/docs_HTML; \
+     cp ${PKG_PATH}/docs_HTML/ChangeLog.html ./; \
+     ${JX_ROOT}/lib/util/fix_change_log ChangeLog.html
+
+ifdef J_RPM_GZ_LIBS
+	@${foreach LIB, ${J_RPM_GZ_LIBS}, \
+         cp ${LIB} ${PKG_PATH}/lib/; gzip ${PKG_PATH}/lib/${notdir ${LIB}} }
+endif
+
+# build_pkgs (PKG_PATH, SOURCE_TAR_NAME)
+
+.PHONY : build_pkgs
+build_pkgs: _pre_build_pkgs build_rpm build_deb _post_build_pkgs
+
+.PHONY : _pre_build_pkgs
+_pre_build_pkgs:
+	@${TAR} -chf ${SOURCE_TAR_NAME} ${PKG_PATH}
+	@${RM} -r ${PKG_PATH}
+	@mv ${SOURCE_TAR_NAME} ${J_DISTR_TAR_DIR}/
+
+.PHONY : _post_build_pkgs
+_post_build_pkgs:
+	@gzip ${J_DISTR_TAR_DIR}/${SOURCE_TAR_NAME}
+
+# build_rpm (SOURCE_TAR_NAME, const RPM_TAR_FILE, const RPM_SPEC_FILE)
+
+.PHONY : build_rpm
+build_rpm:
+  ifeq (${HAS_RPM},1)
+	@sudo ./pkg/uninstall
+	@sudo cp ${J_DISTR_TAR_DIR}/${SOURCE_TAR_NAME} ${RPM_TAR_FILE}
+	@sudo ${RPM} ${RPM_SPEC_FILE}
+	@sudo mv ${RPM_BIN_DIR}/*.rpm ${J_DISTR_TAR_DIR}/
+	@sudo chown ${USER}. ${J_DISTR_TAR_DIR}/*.rpm
+	@sudo ./pkg/uninstall
+  endif
+
+# build_deb (SOURCE_TAR_NAME, const DEB_CTRL_FILE, const DEB_PKG_FILE)
+
+DEB_INSTALL_SCRIPT_PATH = ${dir ${shell find debian -name install}}
+
+.PHONY : build_deb
+build_deb:
+  ifeq (${HAS_DEB},1)
+	@${RM} -r debian; mkdir -p debian/DEBIAN
+	@cp ${J_DISTR_TAR_DIR}/${SOURCE_TAR_NAME} debian/
+	@cd debian; tar -xf ${SOURCE_TAR_NAME}
+	@${MAKE} SOURCE_TAR_NAME=${SOURCE_TAR_NAME} _build_deb_sub
+	@cp ${DEB_CTRL_FILE} debian/DEBIAN/control
+	@dpkg-deb --build debian
+	@mv debian.deb ${J_DISTR_TAR_DIR}/${DEB_PKG_FILE}
+	@${RM} -r debian
+  endif
+
+# this has to be a sub-make to evaluate DEB_INSTALL_SCRIPT_PATH correctly
+
+.PHONY : _build_deb_sub
+_build_deb_sub:
+	@cd ${DEB_INSTALL_SCRIPT_PATH}; ./install ..
+	@${RM} -r debian/${SOURCE_TAR_NAME} ${DEB_INSTALL_SCRIPT_PATH}

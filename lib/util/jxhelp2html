@@ -2,7 +2,7 @@
 
 # ==================================================================================
 # Originally written by Luca Fossato <Luca.Fossato@hit.com>
-# Generalized and maintained by John Lindal <jafl@newplanetsoftware.com>
+# Generalized and maintained by John Lindal <http://www.newplanetsoftware.com/nps/contact.php>
 # ==================================================================================
 
 # ==================================================================================
@@ -55,9 +55,9 @@ sub getARGV
 		exit(1);
 		}
 
-	(-e $helpDir)  or die "error: $helpDir doesn't exists";
-	(-e $helpFile) or die "error: $helpFile doesn't exists";
-	(-e $htmlDir)  or die "error: $htmlDir doesn't exists";
+	(-e $helpDir)  or die "error: $helpDir doesn't exist";
+	(-e $helpFile) or die "error: $helpFile doesn't exist";
+	(-e $htmlDir)  or die "error: $htmlDir doesn't exist";
 }
 
 # ==================================================================================

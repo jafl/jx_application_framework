@@ -1,52 +1,63 @@
+wiki
+	history of Code Medic -- Glenn
+		Transmeta funded initial *research*
+
+debian packaging
+	code_crusader
+	code_medic
+	code_mill
+	drakon
+	svn_client
+	systemg
+
+	leibnitz
+	arrow
+	glove
+	ssh_askpass
+	mondrian
+
+	contrib, non-free
+
+	admin, cli-mono, comm, database, devel, debug, doc, editors, electronics,
+	embedded, fonts, games, gnome, graphics, gnu-r, gnustep, hamradio, haskell,
+	httpd, interpreters, java, kde, kernel, libs, libdevel, lisp, localization,
+	mail, math, misc, net, news, ocaml, oldlibs, otherosfs, perl, php, python,
+	ruby, science, shells, sound, tex, text, utils, vcs, video, web, x11, xfce, zope
+
 OSX
 	visible/visible			+
 	visible/hidden/show		+
 	hidden/visible			moves down
 	hidden/hidden/show		moves down
 
-Ubuntu
-	test _NET_WM_DESKTOP
+Metacity
 	window is not child of WM frame
 
-build initial deb pkg def files (for testing at home)
-
-systemg:
-	find original only operates on first selected item
-
-	optimize selection of multiple items
-		systemg *.cpp in large directory
-	locks up when find returns many files
-		-name *.cpp -o -name *.h -o -name *.xpm
-
 jcc:
+*	git diff
+
 +	rock-stupid cmd line window: (dahvid.minor@gmail.com)
 
 medic:
 	breakpoint/watchpoint window (create/edit/delete)
 
 	accept connection or switch to gdb:  should stop listening on port
-		compile with static ACE to debug
+		need simple example to submit to ACE list
 	restart either xdebug or java:  unable to listen on port & crashes on exit
 		also need to fix SetProgram()
 
 	gdb
-**		broken on OSX
-			http://ftp.gnu.org/pub/old-gnu/Manuals/gdb-5.1.1/html_node/gdb_211.html
-			http://www.devworld.apple.com/documentation/DeveloperTools/gdb/gdb/gdb_25.html
+		Linux
+			run program 2nd time:  doesn't know when breakpoint has been hit
 
-			prints (gdb) even after program running because allows "help", etc.
-			so...if get this back, then re-queue command for later
-				^error,msg="Cannot execute this command while the target is running."
-
-**		CMGetFullPath should stop process and then resume
-			currently uses SendMedicCommand() -> SendRaw()
-			Send() pauses the program
-
-		*** if gdb on Linux supports them ***
-		Write MI output data parser in CMCommand
-			-stack-info-frame instead of "info frame"
-			-file-list-exec-source-files instead of "info sources"
-			-file-list-exec-source-file instead of "info source"
+		Test suite
+			start, choose program, set bkpt, run
+			start, run, open file, stop, set bkpt, continue
+			start with program name, set bkpt, run
+			start with core name
+			switch from core dump to running binary
+			switch from running binary to core dump
+			switch from one program to another
 
 	xdebug
 		click stack trace: selection jumps back to last frame
@@ -107,6 +118,8 @@ Docking
 -----
 
 Daily Comics:
+	xkcd:
+		include title attribute from image
 	iphone:
 		scrape each site once per hour (comics.com and other big sites once per day)
 			for each domain, 1 request per minute
@@ -117,6 +130,11 @@ Daily Comics:
 	when first open dashboard after reboot, sizes window to back, even when front visible
 
 systemg:
+	optimize selection of multiple items
+		systemg *.cpp in large directory
+	locks up when find returns many files
+		-name *.cpp -o -name *.h -o -name *.xpm
+
 	store alternate-open prefs for every executable in the directory
 		use these prefs when plain-open is invoked
 		when open prefs file for directory, flush non-existent executables
@@ -210,6 +228,19 @@ svn_client:
 git:
 	http://yuilibrary.com/gitfaq/
 	http://www.eecs.harvard.edu/~cduan/technical/git/
+
+drakon:
+	FreeBSD missing
+		size, resident, share
+		utime, stime always zero
+
+	filter input, like jcc file list
+
+	re-nice dialog: slider
+		if 0, default 19
+		else, default 0
+
+	SendSignal dialog
 
 Dock
 	When compartment minimized and move tab position, should readjust pane sizes

@@ -247,6 +247,9 @@ SyGApplication::OpenDirectory
 
 	// create new window
 
+	fixedName = trueName;
+	JGetTrueName(fixedName, &trueName);
+
 	SyGTreeDir* childDir = new SyGTreeDir(trueName);
 	assert( childDir != NULL );
 

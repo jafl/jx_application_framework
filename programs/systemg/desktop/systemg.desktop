@@ -1,9 +1,0 @@
-[Desktop Entry]
-Categories=Application;Core;X-Red-Hat-Base;
-Name=System G file manager
-Comment=File manager (similar to Mac OS 7)
-Icon=systemg.xpm
-Exec=systemg
-Type=Application
-Terminal=0
-MapNotify=true

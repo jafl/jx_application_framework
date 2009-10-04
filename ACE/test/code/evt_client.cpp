@@ -129,7 +129,7 @@ INETConnect
 
 	// Begin waiting for a connection.
 
-	ACE_Synch_Options options(ACE_Synch_Options::USE_REACTOR, kMaxWaitSeconds);
+	ACE_Synch_Options options(ACE_Synch_Options::USE_REACTOR, ACE_Time_Value(kMaxWaitSeconds));
 
 	if (connector->connect(handler, addr, options) == -1 &&
 		jerrno() != EAGAIN)
@@ -171,7 +171,7 @@ UNIXConnect
 
 	// Begin waiting for a connection.
 
-	ACE_Synch_Options options(ACE_Synch_Options::USE_REACTOR, kMaxWaitSeconds);
+	ACE_Synch_Options options(ACE_Synch_Options::USE_REACTOR, ACE_Time_Value(kMaxWaitSeconds));
 
 	if (connector->connect(handler, addr, options) == -1 &&
 		jerrno() != EAGAIN)

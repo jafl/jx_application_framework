@@ -417,7 +417,7 @@ JGetUserMountPointType
 		{
 		return kJCDROM;
 		}
-	else if (JCompareMaxN("/mnt/floppy", path, 11, kJFalse))
+	else if (strstr(path, "floppy") != NULL)
 		{
 		return kJFloppyDisk;	// hot-swappable drives are often /dev/sd*
 		}
