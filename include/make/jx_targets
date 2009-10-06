@@ -36,12 +36,16 @@ init_tarball:
 	@ln -s ../pkg/install          ${PKG_PATH}/install
 	@ln -s ../pkg/uninstall        ${PKG_PATH}/uninstall
 	@ln -s ../pkg/desktop          ${PKG_PATH}/desktop
+ifdef MENU_STRINGS_FILE
 	@ln -s ../${MENU_STRINGS_FILE} ${PKG_PATH}/menu_strings
+endif
 
+ifdef DOC_NAME
 	@${JX_ROOT}/lib/util/jxhelp2html \
          "${DOC_NAME}" strings ${DOC_HEADER} ${PKG_PATH}/docs_HTML; \
      cp ${PKG_PATH}/docs_HTML/ChangeLog.html ./; \
      ${JX_ROOT}/lib/util/fix_change_log ChangeLog.html
+endif
 
 ifdef J_RPM_GZ_LIBS
 	@${foreach LIB, ${J_RPM_GZ_LIBS}, \

@@ -35,16 +35,8 @@ static const JCharacter* kHelpSectionName[] =
 	{
 	kGLTOCHelpName, 
 	kGLTableHelpName,
-	kGLTableDataHelpName, 
-	kGLTableFilesHelpName,
-	kGLTablePrintHelpName,	
 	kGLPlotHelpName,
-	kGLPlotSettingsHelpName,
-	kGLPlotCursorsHelpName,
-	kGLPlotMarksHelpName,
-	kGLPlotAnalysisHelpName,
 	kGLFitHelpName,
-	kGLFitAddingHelpName,
 	kGLModuleHelpName, 
 	kGLChangeLogName, 
 	kGLCreditsName 

@@ -12,7 +12,7 @@ JEXPRDIR   := ${JX_ROOT}/include/jexpr
 J2DPLOTDIR := ${JX_ROOT}/include/j2dplot
 J3DDIR     := ${JX_ROOT}/include/j3d
 MESADIR    := ${JX_ROOT}/include/Mesa
-MESA1DIR   := ${JX_ROOT}/include/Mesa/GL
+MESAGLDIR  := ${JX_ROOT}/include/Mesa/GL
 
 JLIBDIR       := ${JX_ROOT}/lib
 JCORELIBDIR   := ${JX_ROOT}/libjcore
@@ -30,7 +30,7 @@ SEARCHDIRS := -I${CODEDIR} \
               -I${J2DPLOTDIR} \
               -I${J3DDIR} \
               -I${MESADIR} \
-              -I${MESA1DIR}
+              -I${MESAGLDIR}
 
 # other constants
 
@@ -82,6 +82,13 @@ LOADLIBES := -L${JLIBDIR} ${lj3d} ${lj2dplot} ${ljexpr} ${J_MESA_LIBS} ${J_STD_L
 ifdef J_BUILD_SHARED_LIB
   LDFLAGS := -Xlinker -R${RPM_LIB_PATH}
 endif
+
+DEBUG_LOADLIBES := -L${JLIBDIR} \
+                   ${J_BEGIN_LINK_STATIC} \
+                   ${lj3d} ${lj2dplot} ${ljexpr} \
+                   ${ljx} ${ljcore} ${J_ACE_LIBS} \
+                   ${J_END_LINK_STATIC} \
+                   ${J_MESA_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
 
 #####
 
@@ -152,8 +159,8 @@ source:
      ${TAR} -czf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cpp %Y.cpp, \
                                    ${shell cd ${J_DISTR_TAR_DIR}; echo \
               ${addprefix ${SRC_FILE_DIR}/, \
-                README.* COPYING FAQ Make.* *.jcc *.fd \
-                code/* ${LN_STRING_FILES} rpm/* desktop/* } }}
+                README COPYING FAQ Make.* *.jcc *.fd \
+                code/* strings/* pkg } }}
 
 #
 # binary distributions
@@ -161,93 +168,29 @@ source:
 
 LN := Leibnitz-${LEIBNITZ_VERSION}
 
-LN_TAR_DIR := ${shell pwd}
+LN_RELEASE_TAR_NAME := Leibnitz_${LEIBNITZ_VERSION}.tar
 
-LN_SHARED_TAR_NAME := Leibnitz_${LEIBNITZ_VERSION}.tar
+RPM_TAR_FILE  := ${RPM_SRC_DIR}/Leibnitz_${LEIBNITZ_VERSION}.tar
+RPM_SPEC_FILE := ./pkg/leibnitz.spec
 
-.PHONY : release_shared
-release_shared: libs
-	@${RM} leibnitz; ${MAKE} leibnitz; strip ${call EXE, leibnitz}
-	@${MAKE} LN_DISTR_TAR_FILE=${LN_SHARED_TAR_NAME} distr_sub
+DEB_CTRL_FILE := ./pkg/leibnitz.debctrl
+DEB_PKG_FILE  := leibnitz_${LEIBNITZ_VERSION}_i386.deb
 
 .PHONY : release_static
-release_static: debug
-	@strip ${call EXE, leibnitz}
-	@${MAKE} LN_DISTR_TAR_FILE=${LN_SHARED_TAR_NAME} distr_sub
+release_static: pre_build_pkgs static
+	@${MAKE} LN_DISTR_TAR_FILE=${LN_RELEASE_TAR_NAME} distr_sub
 
 # distr_sub (LN_DISTR_TAR_FILE)
 
 .PHONY : distr_sub
 distr_sub: menu_strings
-	@${RM} -r ${LN}
-	@mkdir ${LN} ${LN}/lib ${LN}/docs_HTML
-	@ln -s ../README.binary                  ${LN}/README
-	@ln -s ../COPYING                        ${LN}/COPYING
-	@ln -s ../FAQ                            ${LN}/FAQ
-	@ln -s ../${call EXE,leibnitz}           ${LN}/${call EXE,leibnitz}
-ifdef J_BUILD_SHARED_LIB
-	@ln -s ../../${JX_ROOT}/lib/libGL.so.1   ${LN}/lib/libGL.so.1
-	@ln -s ../../${JX_ROOT}/lib/libGLU.so.1  ${LN}/lib/libGLU.so.1
-	@ln -s ../../${JX_ROOT}/lib/libglut.so.3 ${LN}/lib/libglut.so.3
-endif
-	@ln -s ../${MENU_STRINGS_FILE}           ${LN}/menu_strings
-	@ln -s ../desktop                        ${LN}/desktop
-ifdef J_RPM_GZ_LIBS
-	@${foreach LIB, ${J_RPM_GZ_LIBS}, \
-         cp ${LIB} ${LN}/lib/; gzip ${LN}/lib/${notdir ${LIB}} }
-endif
-	@${JX_ROOT}/lib/util/jxhelp2html \
-         "Leibnitz" strings code/thxHelpText.h ${LN}/docs_HTML; \
-     cp ${LN}/docs_HTML/ChangeLog.html ./; \
-     ${JX_ROOT}/lib/util/fix_change_log ChangeLog.html
-	@${TAR} -chf ${LN_DISTR_TAR_FILE} ${LN}
-	@${RM} -r ${LN}
-	@mv ${LN_DISTR_TAR_FILE} ${J_DISTR_TAR_DIR}/
-
-#
-# RPM
-#
-
-RPM_TAR_FILE  := ${RPM_SRC_DIR}/Leibnitz_${LEIBNITZ_VERSION}.tar
-RPM_SPEC_FILE := ${shell pwd}/leibnitz.spec
-
-.PHONY : release_rpm
-release_rpm: clean_rpm
-	@${MAKE} RPM_SOURCE_TAR_NAME=${LN_SHARED_TAR_NAME} build_rpm
-	@${MAKE} clean_rpm
-
-# build_rpm (RPM_SOURCE_TAR_NAME)
-
-.PHONY : build_rpm
-build_rpm:
-	@cp ${J_DISTR_TAR_DIR}/${RPM_SOURCE_TAR_NAME} ${RPM_TAR_FILE}
-	@${RPM} ${RPM_SPEC_FILE}
-	@mv ${RPM_BIN_DIR}/*.rpm ${J_DISTR_TAR_DIR}/
-	@chown ${USER}. ${J_DISTR_TAR_DIR}/*.rpm
-	@gzip ${J_DISTR_TAR_DIR}/${RPM_SOURCE_TAR_NAME}
-
-.PHONY : clean_rpm
-clean_rpm:
-	@${RM}    /usr/X11R6/bin/leibnitz
-	@${RM} -r ${RPM_LIB_PATH}
-	@${RM} -r /usr/share/doc/Leibnitz-*
-	@${RM} -r /usr/share/applnk/NPS_Utilities
-	@${RM} -r /usr/share/gnome/apps/NPS_Utilities
-	@${RM}    `find /usr/share/icons -name leibnitz.xpm`
-	@${RM}    `find /usr/share/icons -name new_planet_software.xpm`
-	@${RM}    `find /usr/share/pixmaps -name leibnitz.xpm`
-	@${RM}    `find /usr/share/pixmaps -name new_planet_software.xpm`
+	@${MAKE} PKG_PATH=${LN} DOC_NAME="Leibnitz" DOC_HEADER=code/thxHelpText.h init_tarball
+	@ln -s ../${call EXE,leibnitz} ${LN}/${call EXE,leibnitz}
+	@${MAKE} PKG_PATH=${LN} SOURCE_TAR_NAME=${LN_DISTR_TAR_FILE} build_pkgs
 
 #
 # debugging version
 #
-
-DEBUG_LOADLIBES := -L${JLIBDIR} \
-                   ${J_BEGIN_LINK_STATIC} \
-                   ${lj3d} ${lj2dplot} ${ljexpr} \
-                   ${ljx} ${ljcore} ${J_ACE_LIBS} \
-                   ${J_END_LINK_STATIC} \
-                   ${J_MESA_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
 
 .PHONY : debug
 debug: staticACE libs

@@ -1,12 +1,25 @@
+
+Installing Glove:
+
+The program (glove) needs to be placed in a directory that is on your
+execution path.  /usr/bin or ~/bin are usually good choices.
+
+
+Running Glove:
+
+If Glove crashes or if you find other bugs, please check the web
+page first to see if they have already been reported.
+
+
+Notes on Glove:
+
 Glove was designed as a flexible tool to address a number of issues. We
 needed a generic plotting tool, an interface to data acquisition systems,
 sophisticated (and correct) statistical analysis, and the ability to easily
 and intuitively manipulate the data we had.
 
-The on-line help explains all the features of the program.
 
-More information about Glove is available at:
+The main web page for Glove is
 
   http://www.newplanetsoftware.com/glove/
-
 

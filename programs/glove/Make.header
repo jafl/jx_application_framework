@@ -145,8 +145,8 @@ source:
      tar -czf ${SRC_TAR_FILE} ${filter-out %.o %~, \
                                  ${shell cd ${J_DISTR_TAR_DIR}; echo \
              ${addprefix ${SRC_FILE_DIR}/, \
-               COPYING README Make.* *.jcc *.fd \
-               code/* rpm/* strings/* fitmodule/*}}}
+               README COPYING FAQ Make.* *.jcc *.fd \
+               code/* strings/* fitmodule/* test pkg }}}
 
 #
 # binary distributions
@@ -154,75 +154,31 @@ source:
 
 GLOVE := Glove-${GLOVE_VERSION}
 
-GLOVE_SHARED_TAR_NAME := Glove_${GLOVE_VERSION}.tar
+GLOVE_RELEASE_TAR_NAME := Glove_${GLOVE_VERSION}.tar
+
+RPM_TAR_FILE  := ${RPM_SRC_DIR}/Glove_${GLOVE_VERSION}.tar
+RPM_SPEC_FILE := ./pkg/glove.spec
+
+DEB_CTRL_FILE := ./pkg/glove.debctrl
+DEB_PKG_FILE  := glove_${GLOVE_VERSION}_i386.deb
 
 .PHONY : release_shared
-release: libs
+release: pre_build_pkgs libs
 	@${RM} glove; ${MAKE} glove; strip ${call EXE, glove}
-	@${MAKE} GLOVE_DISTR_TAR_FILE=${GLOVE_SHARED_TAR_NAME} distr_sub
+	@${MAKE} GLOVE_DISTR_TAR_FILE=${GLOVE_RELEASE_TAR_NAME} distr_sub
 
 .PHONY : release_static
-release_static: static
-	@${MAKE} GLOVE_DISTR_TAR_FILE=${GLOVE_SHARED_TAR_NAME} distr_sub
+release_static: pre_build_pkgs static
+	@${MAKE} GLOVE_DISTR_TAR_FILE=${GLOVE_RELEASE_TAR_NAME} distr_sub
 
 # distr_sub (GLOVE_DISTR_TAR_FILE)
 
 .PHONY : distr_sub
 distr_sub: menu_strings
-	@${RM} -r ${GLOVE}
-	@mkdir ${GLOVE} ${GLOVE}/lib ${GLOVE}/docs_HTML
-	@ln -s ../README               ${GLOVE}/README
-	@ln -s ../COPYING              ${GLOVE}/COPYING
-	@ln -s ../FAQ                  ${GLOVE}/FAQ
-	@ln -s ../${call EXE,glove}    ${GLOVE}/${call EXE,glove}
-	@ln -s ../fitmodule            ${GLOVE}/fitmodule
-	@ln -s ../${MENU_STRINGS_FILE} ${GLOVE}/menu_strings
-	@ln -s ../desktop              ${GLOVE}/desktop
-ifdef J_RPM_GZ_LIBS
-	@${foreach LIB, ${J_RPM_GZ_LIBS}, \
-         cp ${LIB} ${GLOVE}/lib/; gzip ${GLOVE}/lib/${notdir ${LIB}} }
-endif
-	@${JX_ROOT}/lib/util/jxhelp2html \
-         "Glove" strings code/GLHelpText.h ${GLOVE}/docs_HTML; \
-     cp ${GLOVE}/docs_HTML/ChangeLog.html ./; \
-     ${JX_ROOT}/lib/util/fix_change_log ChangeLog.html
-	@tar -chf ${GLOVE_DISTR_TAR_FILE} ${GLOVE}
-	@${RM} -r ${GLOVE}
-	@mv ${GLOVE_DISTR_TAR_FILE} ${J_DISTR_TAR_DIR}/
-
-#
-# RPM
-#
-
-RPM_TAR_FILE  := ${RPM_SRC_DIR}/Glove_${GLOVE_VERSION}.tar
-RPM_SPEC_FILE := ${shell pwd}/glove.spec
-
-.PHONY : release_rpm
-release_rpm: clean_rpm
-	@${MAKE} RPM_SOURCE_TAR_NAME=${GLOVE_SHARED_TAR_NAME} build_rpm
-	@${MAKE} clean_rpm
-
-# build_rpm (RPM_SOURCE_TAR_NAME)
-
-.PHONY : build_rpm
-build_rpm:
-	@cp ${J_DISTR_TAR_DIR}/${RPM_SOURCE_TAR_NAME} ${RPM_TAR_FILE}
-	@${RPM} ${RPM_SPEC_FILE}
-	@mv ${RPM_BIN_DIR}/*.rpm ${J_DISTR_TAR_DIR}/
-	@chown ${USER}. ${J_DISTR_TAR_DIR}/*.rpm
-	@gzip ${J_DISTR_TAR_DIR}/${RPM_SOURCE_TAR_NAME}
-
-.PHONY : clean_rpm
-clean_rpm:
-	@${RM}    /usr/X11R6/bin/glove
-	@${RM} -r ${RPM_LIB_PATH}
-	@${RM} -r /usr/share/doc/Glove-*
-	@${RM} -r /usr/share/applnk/NPS_Utilities
-	@${RM} -r /usr/share/gnome/apps/NPS_Utilities
-	@${RM}    `find /usr/share/icons -name glove.xpm`
-	@${RM}    `find /usr/share/icons -name new_planet_software.xpm`
-	@${RM}    `find /usr/share/pixmaps -name glove.xpm`
-	@${RM}    `find /usr/share/pixmaps -name new_planet_software.xpm`
+	@${MAKE} PKG_PATH=${GLOVE} DOC_NAME="Glove" DOC_HEADER=code/GLHelpText.h init_tarball
+	@ln -s ../${call EXE,glove} ${GLOVE}/${call EXE,glove}
+	@ln -s ../fitmodule         ${GLOVE}/fitmodule
+	@${MAKE} PKG_PATH=${GLOVE} SOURCE_TAR_NAME=${GLOVE_DISTR_TAR_FILE} build_pkgs
 
 #
 # debugging version

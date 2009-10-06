@@ -100,6 +100,7 @@ public:
 	void		KillFocus();
 
 	virtual void	Activate();
+	virtual void	Resume();
 	JBoolean		WillFocusWhenShown() const;
 	void			ShouldFocusWhenShow(const JBoolean focusWhenShow);
 	void			RequestFocus();

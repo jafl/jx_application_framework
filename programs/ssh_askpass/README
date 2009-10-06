@@ -1,7 +1,7 @@
 
 Installing nps-ssh-askpass:
 
-The program (jx_project_wizard) should be placed in a directory that is on
+The program (nps-ssh-askpass) should be placed in a directory that is on
 your execution path.  /usr/bin or ~/bin are usually good choices.
 
 
@@ -20,6 +20,4 @@ as hard to compile on Mac OS X, because it doesn't require xmkmf.
 The main Web page for nps-ssh-askpass is
 
     http://www.newplanetsoftware.com/ssh_askpass/
-
-John Lindal
 

@@ -55,6 +55,12 @@ endif
 LOADLIBES := ${J_STD_LIBS}
 LDFLAGS   := 
 
+DEBUG_LOADLIBES := -L${JLIBDIR} \
+                   ${J_BEGIN_LINK_STATIC} \
+                   ${ljx} ${ljcore} ${J_ACE_LIBS} \
+                   ${J_END_LINK_STATIC} \
+                   ${J_X11_LIBS} ${J_GCC_LIBS}
+
 #####
 
 .PHONY : default
@@ -62,6 +68,8 @@ default: libs ${PROG_NAME}
 
 .PHONY : Makefiles
 Makefiles:
+
+include ${JX_ROOT}/include/make/jx_targets
 
 #
 # string data
@@ -114,7 +122,7 @@ jxsource:
                                ${shell cd ${J_DISTR_TAR_DIR}; echo \
               ${addprefix ${SRC_FILE_DIR}/, \
                 README Make.* *.jcc *.fd \
-                code/* strings/* } }}
+                code/* strings/* pkg } }}
 
 #
 # binary distributions
@@ -124,77 +132,38 @@ ASKPASS := ${PROG_NAME}-${PROG_VERSION}
 
 ASKPASS_TAR_DIR := ${shell pwd}
 
-ASKPASS_SHARED_TAR_NAME := nps_ssh_askpass_${PROG_VERSION}.tar
+ASKPASS_RELEASE_TAR_NAME := nps_ssh_askpass_${PROG_VERSION}.tar
+
+RPM_TAR_FILE  := ${RPM_SRC_DIR}/nps_ssh_askpass_${PROG_VERSION}.tar
+RPM_SPEC_FILE := ./pkg/${PROG_NAME}.spec
+
+DEB_CTRL_FILE := ./pkg/${PROG_NAME}.debctrl
+DEB_PKG_FILE  := ${PROG_NAME}_${PROG_VERSION}_i386.deb
 
 .PHONY : release_shared
-release_shared: libs
+release_shared: pre_build_pkgs libs
 	@${RM} ${PROG_NAME}; ${MAKE} ${PROG_NAME}; strip ${call EXE, ${PROG_NAME}}
-	@${MAKE} ASKPASS_DISTR_TAR_FILE=${ASKPASS_SHARED_TAR_NAME} distr_sub
+	@${MAKE} ASKPASS_DISTR_TAR_FILE=${ASKPASS_RELEASE_TAR_NAME} distr_sub
 
 .PHONY : release_static
-release_static: debug
+release_static: pre_build_pkgs debug
 	@strip ${call EXE, ${PROG_NAME}}
-	@${MAKE} ASKPASS_DISTR_TAR_FILE=${ASKPASS_SHARED_TAR_NAME} distr_sub
+	@${MAKE} ASKPASS_DISTR_TAR_FILE=${ASKPASS_RELEASE_TAR_NAME} distr_sub
 
 # distr_sub (ASKPASS_DISTR_TAR_FILE)
 
 .PHONY : distr_sub
 distr_sub:
-	@${RM} -r ${ASKPASS}
-	@mkdir ${ASKPASS} ${ASKPASS}/lib
-	@ln -s ../README                   ${ASKPASS}/README
+	@${MAKE} PKG_PATH=${ASKPASS} init_tarball
 	@ln -s ../${call EXE,${PROG_NAME}} ${ASKPASS}/${call EXE,${PROG_NAME}}
-ifdef J_RPM_GZ_LIBS
-	@${foreach LIB, ${J_RPM_GZ_LIBS}, \
-         cp ${LIB} ${ASKPASS}/lib/; gzip ${ASKPASS}/lib/${notdir ${LIB}} }
-endif
-	@${TAR} -chf ${ASKPASS_DISTR_TAR_FILE} ${ASKPASS}
-	@${RM} -r ${ASKPASS}
-	@mv ${ASKPASS_DISTR_TAR_FILE} ${J_DISTR_TAR_DIR}/
-
-#
-# RPM
-#
-
-RPM_TAR_FILE  := ${RPM_SRC_DIR}/nps_ssh_askpass_${PROG_VERSION}.tar
-RPM_SPEC_FILE := ${shell pwd}/${PROG_NAME}.spec
-
-.PHONY : release_rpm
-release_rpm: clean_rpm
-	@${MAKE} RPM_SOURCE_TAR_NAME=${ASKPASS_SHARED_TAR_NAME} build_rpm
-	@${MAKE} clean_rpm
-
-# build_rpm (RPM_SOURCE_TAR_NAME)
-
-.PHONY : build_rpm
-build_rpm:
-	@cp ${J_DISTR_TAR_DIR}/${RPM_SOURCE_TAR_NAME} ${RPM_TAR_FILE}
-	@${RPM} ${RPM_SPEC_FILE}
-	@mv ${RPM_BIN_DIR}/*.rpm ${J_DISTR_TAR_DIR}/
-	@chown ${USER}. ${J_DISTR_TAR_DIR}/*.rpm
-	@gzip ${J_DISTR_TAR_DIR}/${RPM_SOURCE_TAR_NAME}
-
-.PHONY : clean_rpm
-clean_rpm:
-	@${RM}    /usr/X11R6/bin/${PROG_NAME}
-	@${RM} -r ${RPM_LIB_PATH}
-	@${RM} -r /usr/share/doc/${PROG_NAME}-*
+	@${MAKE} PKG_PATH=${ASKPASS} SOURCE_TAR_NAME=${ASKPASS_DISTR_TAR_FILE} build_pkgs
 
 #
 # debugging version
 #
 
-DEBUG_LOADLIBES := -L${JLIBDIR} \
-                   ${J_BEGIN_LINK_STATIC} \
-                   ${ljx} ${ljcore} ${J_ACE_LIBS} \
-                   ${J_END_LINK_STATIC} \
-                   ${J_X11_LIBS} ${J_GCC_LIBS}
-
 .PHONY : debug
-debug: libs
-  ifdef J_BUILD_SHARED_LIB
-	@cd ${ACELIBDIR}; ${MAKE} static
-  endif
+debug: staticACE libs
 	@${RM} ${PROG_NAME}
 	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" ${PROG_NAME}
 

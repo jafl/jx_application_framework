@@ -145,7 +145,7 @@ source:
      tar -czf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cc %Y.cc, \
                                  ${shell cd ${J_DISTR_TAR_DIR}; echo \
              ${addprefix ${SRC_FILE_DIR}/, \
-               README.* COPYING FAQ *Todo Make.* *.jcc *.fd pkg \
+               README COPYING FAQ *Todo Make.* *.jcc *.fd pkg \
                code/* MailTree/* ABTree/* strings/* tests/* "Arrow*Notes" \
                rfc*.txt }}}
 
@@ -155,74 +155,30 @@ source:
 
 PROG := Arrow-${ARROW_VERSION}
 
-PROG_SHARED_TAR_NAME := Arrow_${ARROW_VERSION}.tar
+PROG_RELEASE_TAR_NAME := Arrow_${ARROW_VERSION}.tar
+
+RPM_TAR_FILE  := ${RPM_SRC_DIR}/Arrow_${ARROW_VERSION}.tar
+RPM_SPEC_FILE := ./pkg/arrow.spec
+
+DEB_CTRL_FILE := ./pkg/arrow.debctrl
+DEB_PKG_FILE  := arrow_${ARROW_VERSION}_i386.deb
 
 .PHONY : release_shared
-release_shared: libs
+release_shared: pre_build_pkgs libs
 	@${RM} arrow; ${MAKE} arrow; strip ${call EXE, arrow}
-	@${MAKE} PROG_DISTR_TAR_FILE=${PROG_SHARED_TAR_NAME} distr_sub
+	@${MAKE} PROG_DISTR_TAR_FILE=${PROG_RELEASE_TAR_NAME} distr_sub
 
 .PHONY : release_static
-release_static: static
-	@${MAKE} PROG_DISTR_TAR_FILE=${PROG_SHARED_TAR_NAME} distr_sub
+release_static: pre_build_pkgs static
+	@${MAKE} PROG_DISTR_TAR_FILE=${PROG_RELEASE_TAR_NAME} distr_sub
 
 # distr_sub (PROG_DISTR_TAR_FILE)
 
 .PHONY : distr_sub
 distr_sub: menu_strings
-	@${RM} -r ${PROG}
-	@mkdir ${PROG} ${PROG}/lib ${PROG}/docs_HTML
-	@ln -s ../README.binary        ${PROG}/README
-	@ln -s ../COPYING              ${PROG}/COPYING
-	@ln -s ../FAQ                  ${PROG}/FAQ
-	@ln -s ../${call EXE,arrow}    ${PROG}/${call EXE,arrow}
-	@ln -s ../${MENU_STRINGS_FILE} ${PROG}/menu_strings
-	@ln -s ../desktop              ${PROG}/desktop
-ifdef J_RPM_GZ_LIBS
-	@${foreach LIB, ${J_RPM_GZ_LIBS}, \
-         cp ${LIB} ${PROG}/lib/; gzip ${PROG}/lib/${notdir ${LIB}} }
-endif
-	@${JX_ROOT}/lib/util/jxhelp2html \
-         "Arrow" strings code/GHelpText.h ${PROG}/docs_HTML; \
-     cp ${PROG}/docs_HTML/ChangeLog.html ./; \
-     ${JX_ROOT}/lib/util/fix_change_log ChangeLog.html
-	@tar -chf ${PROG_DISTR_TAR_FILE} ${PROG}/
-	@${RM} -r ${PROG}
-	@mv ${PROG_DISTR_TAR_FILE} ${J_DISTR_TAR_DIR}/
-
-#
-# RPM
-#
-
-RPM_TAR_FILE  := ${RPM_SRC_DIR}/Arrow_${ARROW_VERSION}.tar
-RPM_SPEC_FILE := ${shell pwd}/arrow.spec
-
-.PHONY : release_rpm
-release_rpm: clean_rpm
-	@${MAKE} RPM_SOURCE_TAR_NAME=${PROG_SHARED_TAR_NAME} build_rpm
-	@${MAKE} clean_rpm
-
-# build_rpm (RPM_SOURCE_TAR_NAME)
-
-.PHONY : build_rpm
-build_rpm:
-	@cp ${J_DISTR_TAR_DIR}/${RPM_SOURCE_TAR_NAME} ${RPM_TAR_FILE}
-	@${RPM} ${RPM_SPEC_FILE}
-	@mv ${RPM_BIN_DIR}/*.rpm ${J_DISTR_TAR_DIR}/
-	@chown ${USER}. ${J_DISTR_TAR_DIR}/*.rpm
-	@gzip ${J_DISTR_TAR_DIR}/${RPM_SOURCE_TAR_NAME}
-
-.PHONY : clean_rpm
-clean_rpm:
-	@${RM}    /usr/X11R6/bin/arrow
-	@${RM} -r ${RPM_LIB_PATH}
-	@${RM} -r /usr/share/doc/Arrow-*
-	@${RM} -r /usr/share/applnk/NPS_Utilities
-	@${RM} -r /usr/share/gnome/apps/NPS_Utilities
-	@${RM}    `find /usr/share/icons -name arrow.xpm`
-	@${RM}    `find /usr/share/icons -name new_planet_software.xpm`
-	@${RM}    `find /usr/share/pixmaps -name arrow.xpm`
-	@${RM}    `find /usr/share/pixmaps -name new_planet_software.xpm`
+	@${MAKE} PKG_PATH=${PROG} DOC_NAME="Arrow" DOC_HEADER=code/GHelpText.h init_tarball
+	@ln -s ../${call EXE,arrow} ${PROG}/${call EXE,arrow}
+	@${MAKE} PKG_PATH=${PROG} SOURCE_TAR_NAME=${PROG_DISTR_TAR_FILE} build_pkgs
 
 #
 # debugging version

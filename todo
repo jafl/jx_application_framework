@@ -2,41 +2,23 @@ wiki
 	history of Code Medic -- Glenn
 		Transmeta funded initial *research*
 
-debian packaging
-	code_crusader
-	code_medic
-	code_mill
-	drakon
-	svn_client
-	systemg
+free upgrade
+	dahvid.minor@gmail.com
 
-	leibnitz
-	arrow
-	glove
-	ssh_askpass
-	mondrian
+WindowManager
+	OSX
+		visible/visible			+
+		visible/hidden/show		+
+		hidden/visible			moves down
+		hidden/hidden/show		moves down
 
-	contrib, non-free
-
-	admin, cli-mono, comm, database, devel, debug, doc, editors, electronics,
-	embedded, fonts, games, gnome, graphics, gnu-r, gnustep, hamradio, haskell,
-	httpd, interpreters, java, kde, kernel, libs, libdevel, lisp, localization,
-	mail, math, misc, net, news, ocaml, oldlibs, otherosfs, perl, php, python,
-	ruby, science, shells, sound, tex, text, utils, vcs, video, web, x11, xfce, zope
-
-OSX
-	visible/visible			+
-	visible/hidden/show		+
-	hidden/visible			moves down
-	hidden/hidden/show		moves down
-
-Metacity
-	window is not child of WM frame
+	Metacity
+		window is not child of WM frame
 
 jcc:
 *	git diff
-
-+	rock-stupid cmd line window: (dahvid.minor@gmail.com)
+		http://yuilibrary.com/gitfaq/
+		http://www.eecs.harvard.edu/~cduan/technical/git/
 
 medic:
 	breakpoint/watchpoint window (create/edit/delete)
@@ -58,6 +40,9 @@ medic:
 			switch from core dump to running binary
 			switch from running binary to core dump
 			switch from one program to another
+
+		enable call to UnlockDisplays(), when JXGetAssertHandler is defined
+			check every time symbols are loaded
 
 	xdebug
 		click stack trace: selection jumps back to last frame
@@ -102,6 +87,37 @@ arrow
 *	doesn't recv mail if flush inbox during download (locking problem?)
 *	doesn't display anything when receive payment notification from PayPal
 
+svn_client:
+	svn update doesn't always restore to correct scroll location (if lots of files)
+	incremental search in SVNListBase:  only search file name
+
+	Repo tab for "svn list"
+		drag => svn copy/move (for branching/tagging)
+			ask for destination name before performing action
+
+		checkout single selected item
+			only directories
+			ask for dest, warn if same name already exists
+			create new window (see --checkout)
+
+		refresh selected nodes
+			find closest directory parent for each selected item
+			add open subitems to tree's open list and then call Update on each one
+
+	--checkout [-r rev] url [path]
+		error if URL is not type dir
+		warn if same name already exists in dest location
+		open window for dest dir
+			only show Repo tab initially
+		exec in target dir: svn checkout [-r rev] url
+			display output in SVNCommandLog
+		when finished, create/refresh Status tab
+
+	Input field on every action tab
+		wrapper widget creates JXScrollbarSet and input field
+		when set process + fd, show input
+		when process finished, hide input
+
 JXMenu::PrepareToOpenMenu()
 	itsOwner may delete us!
 
@@ -114,6 +130,18 @@ Docking
 		dock window moves when drag window from docking compartment with
 			other windows to empty docking compartment
 			Appears to be because Raise() is called twice in a row on the JXDockDirector
+
+	When compartment minimized and move tab position, should readjust pane sizes
+	When min page size increases in dock, adjust panes so divider visible
+		(test:  move tab group tabs from side to top)
+
+	JXWindow:
+		ignore hide and iconify for docked windows
+		Before docking, show and deiconify
+	doesn't work correctly when "all docked" and show iconified window
+		(e.g., file list)
+
+	When drag in testjx Dock #3, ghost drawing from something
 
 -----
 
@@ -138,6 +166,40 @@ systemg:
 	store alternate-open prefs for every executable in the directory
 		use these prefs when plain-open is invoked
 		when open prefs file for directory, flush non-existent executables
+
+	trash must remember where each file came from
+		~/.trash/.source stores list of original locations
+		cull non-existent when re-write the file
+		delete when empty trash
+
+medic:
+	CMLineNumberTable
+		need helper to set bp condition -- different for each debugger
+	gdb
+		crash when open examine memory window -- disabled temporarily
+	DND for breakpoints -- moves associated commands, conditions, etc.
+
+	Same prefs menu in all windows
+	set commands when restore breakpoints
+		need to store commands
+
+leibnitz
+	finish 3D plotting
+		latent pg for eval?
+	Add tip-of-the-day with editing shortcuts like space, fn names, etc.
+	scale axes to fit range
+	allow range to be away from origin
+	edit axis scale:  min, max, delta
+
+multi-pane editing:
+	split off itsBuffer,itsStyles,itsUndo/RedoList into JTextBuffer
+	leave recalc engine, cursor location, and other display stuff in JTextEditor
+	JTextEditor can be constructed from string or JTextBuffer
+	CBTextEditor has handle to {JTextBuffer, refCount}
+	Edit menu has "New view..." which opens another CBTextEditor and incr refCount
+	When close, only require save if refCount == 1
+	Active undo needs to know which view it is for
+		since event from another view needs to deactivate it and create new one
 
 Mondrian:
 	build
@@ -199,82 +261,10 @@ jcc:
 	import/export Task menu contents
 	search results:  option to show n lines above and below matching line
 
-svn_client:
-	svn update doesn't always restore to correct scroll location (if lots of files)
-	incremental search in SVNListBase:  only search file name
+	Pick a default size and location for text windows when first run
+		based on desktop size (if not auto-dock all)
+	Same prefs menu in all windows
 
-	Repo tab for "svn list"
-		drag => svn copy/move (for branching/tagging)
-			ask for destination name before performing action
-
-		checkout single selected item
-			only directories
-			ask for dest, warn if same name already exists
-			create new window (see --checkout)
-
-		refresh selected nodes
-			find closest directory parent for each selected item
-			add open subitems to tree's open list and then call Update on each one
-
-	--checkout [-r rev] url [path]
-		error if URL is not type dir
-		warn if same name already exists in dest location
-		open window for dest dir
-			only show Repo tab initially
-		exec in target dir: svn checkout [-r rev] url
-			display output in SVNCommandLog
-		when finished, create/refresh Status tab
-
-git:
-	http://yuilibrary.com/gitfaq/
-	http://www.eecs.harvard.edu/~cduan/technical/git/
-
-drakon:
-	FreeBSD missing
-		size, resident, share
-		utime, stime always zero
-
-	filter input, like jcc file list
-
-	re-nice dialog: slider
-		if 0, default 19
-		else, default 0
-
-	SendSignal dialog
-
-Dock
-	When compartment minimized and move tab position, should readjust pane sizes
-	When min page size increases in dock, adjust panes so divider visible
-		(test:  move tab group tabs from side to top)
-
-	JXWindow:
-		ignore hide and iconify for docked windows
-		Before docking, show and deiconify
-	doesn't work correctly when "all docked" and show iconified window
-		(e.g., file list)
-
-	When drag in testjx Dock #3, ghost drawing from something
-
-medic:
-	CMLineNumberTable
-		need helper to set bp condition -- different for each debugger
-	gdb
-		crash when open examine memory window -- disabled temporarily
-	DND for breakpoints -- moves associated commands, conditions, etc.
-
-	Write MI output data parser in CMCommand
-		-stack-list-locals instead of "info locals"
-		-var-create instead of "print ..."
-
------
-
-svn_client:
-	Input field on every action tab
-		wrapper widget creates JXScrollbarSet and input field
-		when set process + fd, show input
-		when process finished, hide input
-
-jcc:
 	multi-project
 		open all .jcc files and display in one tree
 			.jmp file stores list of .jcc files (relative or home or absolute paths)
@@ -293,21 +283,48 @@ jcc:
 		parse some standard format to get tabs/spaces settings
 		publish as open protocol on newplanetsoftware.com
 
+	perl:  = 2 ?
+		Delete 2, type 2 => styles are wrong to next ?
+		Same with /, because both are regex constructs
+		Need to restyle further?
+
+	When search for something in CVS output window, doesn't hilight selection
+	until wheel-mouse scroll.
+
+	When cvs diff is run in directory with .jcc file, loses data from middle of
+	.jcc contents to some later point -- only seen on work machine, and only
+	with old single, line format
+
+	CBTreeDirector:
+		ReceiveWithFeedback:  include src file for C++
+	Editor for regex's so compiler support is not hard-coded
+	Cascade option for undocked windows
+	Option to search all files in current project
+	Symbol list: print unique prefix for file names (like in Files window)
+	PHP: balance <? ?>
+	JXChooseMonoFont: allow "Other..."
+
+	Class trees need to search symbol database for function location.
+
+	takes a long time to figure out that a 251MB file is large enough to
+	warn about -- is the underlying code somehow reading the file to figure out
+	how big it is?
+
+drakon:
+	FreeBSD missing
+		size, resident, share
+		utime, stime always zero
+
+	filter input, like jcc file list
+
+	re-nice dialog: slider
+		if 0, default 19
+		else, default 0
+
+	SendSignal dialog
+
 buzzer:
 	merge code from Glenn and get it to build
-
-leibnitz
-	finish 3D plotting
-
-multi-pane editing:
-	split off itsBuffer,itsStyles,itsUndo/RedoList into JTextBuffer
-	leave recalc engine, cursor location, and other display stuff in JTextEditor
-	JTextEditor can be constructed from string or JTextBuffer
-	CBTextEditor has handle to {JTextBuffer, refCount}
-	Edit menu has "New view..." which opens another CBTextEditor and incr refCount
-	When close, only require save if refCount == 1
-	Active undo needs to know which view it is for
-		since event from another view needs to deactivate it and create new one
 
 Clean up prefs
 	JXPrefsDialog has tree list and card file
@@ -322,25 +339,6 @@ Dock
 		cycle through leaf nodes of tree from left to right
 		(first, build array of leaf nodes, then find current pane and switch to next)
 
------
-
-jcc:
-	Pick a default size and location for text windows when first run
-		based on desktop size (if not auto-dock all)
-	Same prefs menu in all windows
-
-Leibnitz:
-	Add tip-of-the-day with editing shortcuts like space, fn names, etc.
-	scale axes to fit range
-	allow range to be away from origin
-	edit axis scale:  min, max, delta
-	THX3DPlotWidget:  latent pg for eval?
-
-medic:
-	Same prefs menu in all windows
-	set commands when restore breakpoints
-		need to store commands
-
 JXHelpDirector:
 	Add forward and backward buttons/menus
 	Middle-click on link => new window
@@ -350,33 +348,14 @@ JXHelpDirector:
 JPrefsManager:
 	Atomic lock around SaveToDisk(), etc. in case multiple instances try writing
 
------
+JTextEditor::DrawInMargin
+	line #'s
+	bookmarks -- easier to see which line was marked
 
-When search for something in CVS output window, doesn't hilight selection
-until wheel-mouse scroll.
-
-When cvs diff is run in directory with .jcc file, loses data from middle of
-.jcc contents to some later point -- only seen on work machine, and only
-with old single, line format
+Char set:
+	preserve modified char set when font changes
 
 -----
-
-Class trees need to search symbol database for function location.
-
-jcc project: mark as needs save
-	CBProjectTree:  all changes
-	CBCommandManager:  all changes to MakeDependCmd or cmd list
-	CBBuildManager:  makefile method, etc.
-	CTree:  changes to C preprocessor
-	Tree:  changes to search dirs
-
-jcc takes a long time to figure out that a 251MB file is large enough to
-warn about -- is the underlying code somehow reading the file to figure out
-how big it is?
-
-JMDIServer:
-	use TCP socket instead of UNIX socket
-	write file in /tmp with pid and local port
 
 Windows:
 	Replace S_ISLNK with check for .lnk
@@ -386,36 +365,25 @@ Windows:
 		generate *L.cpp & *Y.cpp before taring source
 		update misc/win32/regex.h
 	Test JStringMapDelete & JPtrArrayCopy
+	JMDIServer:
+		use TCP socket instead of UNIX socket
+		write file in /tmp with pid and local port
 
-jcc
-	perl:  = 2 ?
-		Delete 2, type 2 => styles are wrong to next ?
-		Same with /, because both are regex constructs
-		Need to restyle further?
+theme:
+	each widget looks for its function in all loaded theme dlls
+		start with JXButton
+	jXGlobals loads all ddls in theme directory that start with theme ID
+	http://www.newplanetsoftware/jx/theme.php
 
-SystemG:
-	trash must remember where each file came from
-		~/.trash/.source stores list of original locations
-		cull non-existent when re-write the file
-		delete when empty trash
-
-EditCommandsDialog:
-	$? - prompt user for value before running
-
-docking:
-	Move menu bars to top of dock
-		Director registers menubar with JXWindow
-		Reparent menubar widget
-		Shift all other widgets up and resize window without calling BoundsChanged()
-
-JTextEditor::DrawInMargin
-	line #'s
-	bookmarks
-
-Char set:
-	preserve modified char set when font changes
-
-Could use SIP to generate Python bindings?
+widget factory:
+	JX defines function pointer and sets it to JX widget factory
+	other library installs its function pointer and saves original => linked list
+object model:
+	query available values on any object
+	query value by name on any object
+	object constructor initializes hash table of get/set function pointers
+		in base class JXWidget
+	need generalized object to contain values for get/set
 
 -----
 
@@ -446,38 +414,3 @@ XML editor
 
 	Once integrated, the former method will rebuild the XML tree when the
 	text changes.  This is manual in the current version.
-
------
-
-theme:
-	each widget looks for its function in all loaded theme dlls
-		start with JXButton
-	jXGlobals loads all ddls in theme directory that start with theme ID
-	http://www.newplanetsoftware/jx/theme.php
-
-JStringManager must take JStringID = char*
-	convert all static strings to JStringManager
-	convert all string ID's to JStringID
-	convert all JBroadcaster message types to JMessageID
-	allows redefining JCharacter to wchar_t
-
-widget factory:
-	JX defines function pointer and sets it to JX widget factory
-	other library installs its function pointer and saves original => linked list
-object model:
-	query available values on any object
-	query value by name on any object
-	object constructor initializes hash table of get/set function pointers
-		in base class JXWidget
-	need generalized object to contain values for get/set
-
------
-
-CBTreeDirector:
-	ReceiveWithFeedback:  include src file for C++
-Editor for regex's so compiler support is not hard-coded
-Cascade option for undocked windows
-Option to search all files in current project
-Symbol list: print unique prefix for file names (like in Files window)
-PHP: balance <? ?>
-JXChooseMonoFont: allow "Other..."
