@@ -1,0 +1,9 @@
+[Desktop Entry]
+Categories=Utility;Calculator;X-Red-Hat-Base;
+Name=Leibnitz Graphing Calculator
+Comment=Electronic Paper (evaluate expressions and plot functions)
+Icon=leibnitz.xpm
+Exec=leibnitz
+Type=Application
+Terminal=0
+MapNotify=true

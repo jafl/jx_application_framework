@@ -1,0 +1,14 @@
+Package: arrow
+Version: 2.0.1
+Maintainer: New Planet Software <http://www.newplanetsoftware.com/nps/contact.php>
+Homepage: http://www.newplanetsoftware.com/arrow/
+Section: contrib/mail
+Priority: optional
+Architecture: i386
+Essential: no
+Depends: libx11-6, libxext6, libxpm4, libxau6, libxml2, libstdc++6
+Description: A mail reading program for the X Window System.
+ Arrow is am e-mail program that was written to address the e-mail needs
+ of users migrating from Windows and the Macintosh to Linux. It currently
+ supports viewing, composing, and organizing of e-mail, including secure
+ e-mail via PGP, POP access, and a spell checker.

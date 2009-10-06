@@ -1,0 +1,9 @@
+[Desktop Entry]
+Categories=Network;Email;X-Red-Hat-Base;
+Name=Arrow Email Client
+Comment=Arrow Email Client
+Icon=arrow.xpm
+Exec=arrow
+Type=Application
+Terminal=0
+MapNotify=true

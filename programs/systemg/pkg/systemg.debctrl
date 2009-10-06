@@ -1,0 +1,12 @@
+Package: systemg
+Version: 2.3.0
+Maintainer: New Planet Software <http://www.newplanetsoftware.com/nps/contact.php>
+Homepage: http://www.newplanetsoftware.com/systemg/
+Section: contrib/utils
+Priority: optional
+Architecture: i386
+Essential: no
+Depends: libx11-6, libxext6, libxpm4, libxau6, libxml2, libstdc++6
+Suggests: code-crusader
+Description: System G provides a graphical interface to UNIX file system.
+ System G provides a graphical interface to UNIX file system, similar to Mac OS 7.

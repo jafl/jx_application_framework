@@ -1,0 +1,12 @@
+Package: nps-ssh-askpass
+Version: 1.0.0
+Maintainer: New Planet Software <http://www.newplanetsoftware.com/nps/contact.php>
+Homepage: http://www.newplanetsoftware.com/ssh_askpass/
+Section: contrib/utils
+Priority: optional
+Architecture: i386
+Essential: no
+Depends: libx11-6, libxext6, libxpm4, libxau6, libxml2, libstdc++6
+Description: Cross-platform replacement for x11-ssh-askpass.
+ nps-ssh-askpass provides a cross-platform user interface for SSH
+ to ask for a password.

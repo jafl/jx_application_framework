@@ -1,0 +1,7 @@
+#!/bin/sh
+
+rm -f  /usr/X11R6/bin/arrow;
+rm -rf /usr/lib/arrow;
+rm -rf /usr/share/doc/arrow;
+rm -f  `find /usr/share/applications -name 'arrow*.desktop'`;
+rm -f  `find /usr/share/pixmaps -name 'arrow*.xpm'`;

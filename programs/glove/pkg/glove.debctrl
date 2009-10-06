@@ -1,0 +1,14 @@
+Package: glove
+Version: 2.0.0
+Maintainer: New Planet Software <http://www.newplanetsoftware.com/nps/contact.php>
+Homepage: http://www.newplanetsoftware.com/glove/
+Section: contrib/science
+Priority: optional
+Architecture: i386
+Essential: no
+Depends: libx11-6, libxext6, libxpm4, libxau6, libxml2, libstdc++6
+Description: Data acquisition, manipulation, and analysis program for X.
+ Glove was designed as a flexible tool to address a number of issues. We
+ needed a generic plotting tool, an interface to data acquisition systems,
+ sophisticated (and correct) statistical analysis, and the ability to easily
+ and intuitively manipulate the data we had.

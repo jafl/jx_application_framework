@@ -1,0 +1,11 @@
+Package: drakon
+Version: 1.1.0
+Maintainer: New Planet Software <http://www.newplanetsoftware.com/nps/contact.php>
+Homepage: http://www.newplanetsoftware.com/drakon/
+Section: contrib/admin
+Priority: optional
+Architecture: i386
+Essential: no
+Depends: libx11-6, libxext6, libxpm4, libxau6, libxml2, libstdc++6
+Description: Drakon provides a simple way to manage UNIX processes.
+ Drakon provides a simple way to manage UNIX processes.

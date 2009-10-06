@@ -1,0 +1,9 @@
+[Desktop Entry]
+Categories=Science;DataVisualization;NumericalAnalysis;X-Red-Hat-Base;
+Name=Glove
+Comment=Data Analysis Tool
+Icon=glove.xpm
+Exec=glove
+Type=Application
+Terminal=0
+MapNotify=true

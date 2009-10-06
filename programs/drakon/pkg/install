@@ -1,0 +1,42 @@
+#!/bin/sh
+
+# With no arguments, this script must install from an unpacked tgz.
+
+PRE=$1
+ZIP=$2
+
+XBIN=$PRE/usr/X11R6/bin
+DOC=$PRE/usr/share/doc/drakon
+LIB=$PRE/usr/lib/drakon
+APP=$PRE/usr/share/applications
+ICON=$PRE/usr/share/pixmaps
+
+if { test ! -z $PRE; } then
+	{
+	mkdir -p $XBIN;
+	mkdir -p $APP;
+	mkdir -p $ICON;
+	}
+fi
+
+# drakon
+
+install -m755 drakon $XBIN
+
+mkdir -p $LIB
+cp lib/* $LIB
+
+mkdir -p $DOC/HTML
+cp README FAQ COPYING menu_strings $DOC
+cp docs_HTML/*                     $DOC/HTML
+
+cp desktop/drakon.desktop $APP/
+cp desktop/drakon.xpm     $ICON/
+
+# post
+
+if { test -z "$ZIP"; } then
+	{
+	gunzip $LIB/*.gz;
+	}
+fi

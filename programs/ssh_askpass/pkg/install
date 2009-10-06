@@ -1,0 +1,34 @@
+#!/bin/sh
+
+# With no arguments, this script must install from an unpacked tgz.
+
+PRE=$1
+ZIP=$2
+
+XBIN=$PRE/usr/X11R6/bin
+DOC=$PRE/usr/share/doc/nps-ssh-askpass
+LIB=$PRE/usr/lib/nps-ssh-askpass
+
+if { test ! -z $PRE; } then
+	{
+	mkdir -p $XBIN;
+	}
+fi
+
+# nps-ssh-askpass
+
+install -m755 nps-ssh-askpass $XBIN
+
+mkdir -p $LIB
+cp lib/* $LIB
+
+mkdir -p $DOC
+cp README FAQ COPYING $DOC
+
+# post
+
+if { test -z "$ZIP"; } then
+	{
+	gunzip $LIB/*.gz;
+	}
+fi

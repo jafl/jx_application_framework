@@ -1,0 +1,11 @@
+Package: <Binary>
+Version: <Version>
+Maintainer: <Author> <<EMail>>
+Homepage: <URL>
+Section: ...
+Priority: optional
+Architecture: i386
+Essential: no
+Depends: libx11-6, libxext6, libxpm4, libxau6, libxml2, libstdc++6
+Description: <Program> provides ...
+ <Program> provides ...
