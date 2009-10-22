@@ -49,11 +49,9 @@ install: install1 install2
 
 .PHONY: install1
 install1:
-ifeq ($(shell which makemake),)
 	@cd ../ACE; ${MAKE} jxinstall
 	@cd ../programs/makemake; ${MAKE} -f Makefile.port jxinstall
-	@${MAKE} Makefiles
-endif
+	@if { test ! -f ../libjcore/Makefile; } then { ${MAKE} Makefiles; } fi
 
 .PHONY: install2
 install2:
@@ -107,9 +105,9 @@ SRC_TAR_FILE := JX_source-${JX_VERSION}.tar
 .PHONY : jxsource
 jxsource:
 	@cd ${J_DISTR_TAR_DIR}; \
-     tar -cf ${SRC_TAR_FILE} ${JX}/README ${JX}/FAQ ${JX}/CHANGES \
-                             ${JX}/LICENSE ${JX}/COPYING \
-                             ${JX}/INSTALL ${JX}/Makefile ${JX}/*.dsw ${JX}/*.bat
+     ${TAR} -cf ${SRC_TAR_FILE} ${JX}/README ${JX}/FAQ ${JX}/CHANGES \
+                                ${JX}/LICENSE ${JX}/COPYING \
+                                ${JX}/INSTALL ${JX}/Makefile ${JX}/*.dsw ${JX}/*.bat
 
 	@${foreach dir, \
           ${JX_CORE_LIBS} ../ACE/ ../tutorial/ ../misc/ ${DISTR_PROGS} \
@@ -119,8 +117,8 @@ jxsource:
        ${END_DIR}; }
 
 	@cd ${J_DISTR_TAR_DIR}; \
-     tar -rf ${SRC_TAR_FILE} ${filter-out %~, \
-                               ${shell cd ${J_DISTR_TAR_DIR}; echo \
+     ${TAR} -rf ${SRC_TAR_FILE} ${filter-out %~, \
+                                ${shell cd ${J_DISTR_TAR_DIR}; echo \
              ${JX}/doc/ \
              ${JX}/include/missing_proto/* \
              ${JX}/include/make/jx_constants \
@@ -157,9 +155,8 @@ allsource: Makefiles jxsource
 #
 
 RELEASE_PROGS := ${addprefix ../programs/, \
-                   code_crusader code_medic code_mill \
-                   systemg glove \
-                   ssh_askpass leibnitz}
+                   code_crusader code_medic code_mill svn_client \
+                   arrow drakon glove leibnitz ssh_askpass systemg }
 
 .PHONY : all_release
 all_release:

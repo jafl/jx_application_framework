@@ -112,14 +112,6 @@ menu_strings:
      -m ${CODEDIR}/*.cpp ${JXDIR}/*.cpp ${JFSDIR}/*.cpp
 
 #
-# required libraries
-#
-
-.PHONY : libs
-libs:
-	@for path in ${TOUCHPATHS}; do ( if cd $$path; then ${MAKE}; fi ) done
-
-#
 # install
 #
 

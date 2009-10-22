@@ -129,7 +129,6 @@ public:
 	JBoolean		GridIsVisible() const;
 	void			ShowGrid(const JBoolean show = kJTrue);
 
-
 	JBoolean		CurveIsVisible(const JIndex curveIndex) const;
 	void			ShowCurve(const JIndex curveIndex, const JBoolean show);
 	void			ShowAllCurves();
@@ -149,7 +148,7 @@ public:
 	void			SetCurveName(const JIndex index, const JCharacter* name);
 
 	void			AddColor(const JColorIndex color);
-	JColorIndex	GetCurveColor(const JIndex index) const;
+	JColorIndex		GetCurveColor(const JIndex index) const;
 	J2DSymbolType	GetSymbolType(const JIndex index) const;
 
 	JPlotDataBase&			GetCurve(const JIndex index);
@@ -310,13 +309,13 @@ private:
 	JString			itsXLabel;
 	JString			itsYLabel;
 
-	JBoolean		itsShowLegend;
-	JBoolean		itsShowGrid;
-	JBoolean		itsShowFrame;
+	JBoolean		itsShowLegendFlag;
+	JBoolean		itsShowGridFlag;
+	JBoolean		itsShowFrameFlag;
 
-	JBoolean		itsGeometryNeedsAdjustment;
-	JBoolean		itsAutomaticRefresh;
-	JBoolean		itsIgnoreCurveChanged;		// kJTrue => ignore CurveChanged messages
+	JBoolean		itsGeometryNeedsAdjustmentFlag;
+	JBoolean		itsAutomaticRefreshFlag;
+	JBoolean		itsIgnoreCurveChangedFlag;	// kJTrue => ignore CurveChanged messages
 
 	JPtrArray<JPlotDataBase>*	itsCurves;
 	JArray<J2DCurveInfo>*		itsCurveInfo;
@@ -348,7 +347,7 @@ private:
 
 	JBoolean		itsXAxisIsLinear;
 	JBoolean		itsYAxisIsLinear;
-	JBoolean		itsIsZoomed;
+	JBoolean		itsIsZoomedFlag;
 	JBoolean		itsUseRealXStart;
 	JBoolean		itsUseRealYStart;
 
@@ -370,7 +369,7 @@ private:
 	JSize			itsMaxCurveNameWidth;
 	JSize			itsMaxXLabelWidth;
 	JSize			itsLegendWidth;
-	JRect			itsLegendRect;		// undefined unless itsShowLegend
+	JRect			itsLegendRect;		// undefined unless itsShowLegendFlag
 	JRect			itsTitleRect;
 	JRect			itsXLabelRect;
 	JRect			itsYLabelRect;
@@ -405,7 +404,10 @@ private:
 	JFloat			itsYCursorVal1;
 	JFloat			itsYCursorVal2;
 	CursorIndex		itsSelectedCursor;
-	JBoolean		itsIsInited;
+	JBoolean		itsXCursor1InitFlag;
+	JBoolean		itsXCursor2InitFlag;
+	JBoolean		itsYCursor1InitFlag;
+	JBoolean		itsYCursor2InitFlag;
 
 private:
 
@@ -424,22 +426,22 @@ private:
 	void			DrawAxes(JPainter& p);
 
 	void			DrawTicks(JPainter& p);
-	void			DrawXLogMinorTicks(JPainter& p, JCoordinate yTick, JSize tickCount, JCoordinate yLabel);
-	void			DrawYLogMinorTicks(JPainter& p, JCoordinate xTick, JSize tickCount, JCoordinate xLabel, JBoolean xLabelEndKnown);
-	void			DrawXTicks(JPainter& p, JCoordinate yTick, JCoordinate yLabel, JSize tickCount);
-	void			DrawXTick(JPainter& p, JFloat value, JCoordinate yVal,
-							  JCoordinate tickLength,
-							  JCoordinate yLabel,
-							  JBoolean drawStr,
-							  JBoolean lightGrid);
-	void			DrawYTicks(JPainter& p, JCoordinate xTick, JCoordinate xLabel, JBoolean xLabelEndKnown, JSize tickCount);
-	void			DrawYTick(JPainter& p, JFloat value, JCoordinate xVal,
-							  JCoordinate tickLength,
-							  JCoordinate xLabel,
-							  JCoordinate xLabelEndKnown,
-							  JBoolean drawStr,
-							  JBoolean lightGrid);
-	void			GetLogTicks(JFloat min, JFloat max, JFloat inc,
+	void			DrawXLogMinorTicks(JPainter& p, const JCoordinate yTick, const JSize tickCount, const JCoordinate yLabel);
+	void			DrawYLogMinorTicks(JPainter& p, const JCoordinate xTick, const JSize tickCount, const JCoordinate xLabel, const JBoolean xLabelEndKnown);
+	void			DrawXTicks(JPainter& p, const JCoordinate yTick, const JCoordinate yLabel, const JSize tickCount);
+	void			DrawXTick(JPainter& p, const JFloat value, const JCoordinate yVal,
+							  const JCoordinate tickLength,
+							  const JCoordinate yLabel,
+							  const JBoolean drawStr,
+							  const JBoolean lightGrid);
+	void			DrawYTicks(JPainter& p, const JCoordinate xTick, const JCoordinate xLabel, const JBoolean xLabelEndKnown, const JSize tickCount);
+	void			DrawYTick(JPainter& p, const JFloat value, const JCoordinate xVal,
+							  const JCoordinate tickLength,
+							  const JCoordinate xLabel,
+							  const JCoordinate xLabelEndKnown,
+							  const JBoolean drawStr,
+							  const JBoolean lightGrid);
+	void			GetLogTicks(const JFloat min, const JFloat max, const JFloat inc,
 								JArray<JFloat>* major,
 								JArray<JFloat>* minor);
 
@@ -499,7 +501,6 @@ private:
 	static void		GetExp(const JFloat value, JInteger* exp);
 
 	void			TruncateCurveName(JPainter& p, const JIndex index);
-
 
 	// Cursors
 
@@ -809,7 +810,7 @@ J2DPlotWidget::PWGetHeight()
 inline void
 J2DPlotWidget::PWRefresh()
 {
-	if (itsAutomaticRefresh)
+	if (itsAutomaticRefreshFlag)
 		{
 		PWForceRefresh();
 		}
@@ -824,7 +825,7 @@ inline JBoolean
 J2DPlotWidget::WillAutoRefresh()
 	const
 {
-	return itsAutomaticRefresh;
+	return itsAutomaticRefreshFlag;
 }
 
 inline void
@@ -833,7 +834,7 @@ J2DPlotWidget::ShouldAutoRefresh
 	const JBoolean refresh
 	)
 {
-	itsAutomaticRefresh = refresh;
+	itsAutomaticRefreshFlag = refresh;
 	if (refresh)
 		{
 		PWRefresh();
@@ -994,7 +995,7 @@ inline JBoolean
 J2DPlotWidget::LegendIsVisible()
 	const
 {
-	return itsShowLegend;
+	return itsShowLegendFlag;
 }
 
 /*******************************************************************************
@@ -1006,7 +1007,7 @@ inline JBoolean
 J2DPlotWidget::FrameIsVisible()
 	const
 {
-	return itsShowFrame;
+	return itsShowFrameFlag;
 }
 
 /*******************************************************************************
@@ -1018,7 +1019,7 @@ inline JBoolean
 J2DPlotWidget::GridIsVisible()
 	const
 {
-	return itsShowGrid;
+	return itsShowGridFlag;
 }
 
 /*******************************************************************************
@@ -1240,7 +1241,7 @@ inline JBoolean
 J2DPlotWidget::IsZoomed()
 	const
 {
-	return itsIsZoomed;
+	return itsIsZoomedFlag;
 }
 
 /*******************************************************************************
@@ -1658,7 +1659,7 @@ inline JBoolean
 J2DPlotWidget::WillIgnoreCurveChanged()
 	const
 {
-	return itsIgnoreCurveChanged;
+	return itsIgnoreCurveChangedFlag;
 }
 
 inline void
@@ -1667,7 +1668,7 @@ J2DPlotWidget::ShouldIgnoreCurveChanged
 	const JBoolean ignore
 	)
 {
-	itsIgnoreCurveChanged = ignore;
+	itsIgnoreCurveChangedFlag = ignore;
 	HandleCurveChanged();			// something has probably changed
 }
 

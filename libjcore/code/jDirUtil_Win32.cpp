@@ -736,19 +736,19 @@ JCleanPath
 }
 
 /******************************************************************************
- JIsRelativePath
+ JIsAbsolutePath
 
  ******************************************************************************/
 
 JBoolean
-JIsRelativePath
+JIsAbsolutePath
 	(
 	const JCharacter* path
 	)
 {
 	assert( !JStringEmpty(path) );
-	return JI2B( path[1] != ':' && path[0] != '~' &&
-				 !(path[0] == '\\' && path[1] == '\\'));
+	return JI2B( path[1] == ':' || path[0] == '~' ||
+				 (path[0] == '\\' && path[1] == '\\'));
 }
 
 /******************************************************************************
@@ -814,7 +814,7 @@ JConvertToAbsolutePath
 	assert( !JStringEmpty(path) && result != NULL );
 
 	JBoolean ok = kJTrue;
-	if (!JIsRelativePath(path))
+	if (JIsAbsolutePath(path))
 		{
 		*result = path;
 		}
@@ -860,8 +860,8 @@ JConvertToRelativePath
 {
 	// Check that they are both absolute paths.
 
-	assert( origPath != NULL && !JIsRelativePath(origPath) &&
-			origBase != NULL && !JIsRelativePath(origBase) );
+	assert( origPath != NULL && JIsAbsolutePath(origPath) &&
+			origBase != NULL && JIsAbsolutePath(origBase) );
 
 	// Remove extra directory separators
 	// and make sure that base ends with one.

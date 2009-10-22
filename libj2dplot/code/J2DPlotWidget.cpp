@@ -73,9 +73,9 @@ J2DPlotWidget::J2DPlotWidget
 	itsGrayColor(gray),
 	itsSelectionColor(selection)
 {
-	itsShowLegend	= kJFalse;
-	itsShowGrid		= kJFalse;
-	itsShowFrame	= kJTrue;
+	itsShowLegendFlag	= kJFalse;
+	itsShowGridFlag		= kJFalse;
+	itsShowFrameFlag	= kJTrue;
 
 	itsCurveInfo = new JArray<J2DCurveInfo>;
 	assert(itsCurveInfo != NULL);
@@ -101,9 +101,9 @@ J2DPlotWidget::J2DPlotWidget
 
 	itsLegendWidth				= 0;
 
-	itsGeometryNeedsAdjustment	= kJTrue;
-	itsAutomaticRefresh			= kJTrue;
-	itsIgnoreCurveChanged       = kJFalse;
+	itsGeometryNeedsAdjustmentFlag	= kJTrue;
+	itsAutomaticRefreshFlag			= kJTrue;
+	itsIgnoreCurveChangedFlag		= kJFalse;
 
 	itsXDecimalPoints			= 0;
 	itsYDecimalPoints			= 0;
@@ -111,7 +111,7 @@ J2DPlotWidget::J2DPlotWidget
 	itsXAxisIsLinear			= kJTrue;
 	itsYAxisIsLinear			= kJTrue;
 
-	itsIsZoomed					= kJFalse;
+	itsIsZoomedFlag				= kJFalse;
 	itsShowXMinorTics			= kJTrue;
 	itsShowYMinorTics			= kJTrue;
 	itsUseRealXStart			= kJFalse;
@@ -139,7 +139,10 @@ J2DPlotWidget::J2DPlotWidget
 	itsYCursorPos1		= 0;
 	itsYCursorPos2		= 0;
 	itsSelectedCursor	= kNoCursor;
-	itsIsInited			= kJFalse;
+	itsXCursor1InitFlag	= kJFalse;
+	itsXCursor2InitFlag	= kJFalse;
+	itsYCursor1InitFlag	= kJFalse;
+	itsYCursor2InitFlag	= kJFalse;
 
 	ResetScale(kJTrue);
 }
@@ -185,9 +188,9 @@ J2DPlotWidget::ShowLegend
 	const JBoolean show
 	)
 {
-	if (itsShowLegend != show)
+	if (itsShowLegendFlag != show)
 		{
-		itsShowLegend = show;
+		itsShowLegendFlag = show;
 		UpdatePlot(kJTrue);
 		}
 }
@@ -203,12 +206,12 @@ J2DPlotWidget::ShowFrame
 	const JBoolean show
 	)
 {
-	if (itsShowFrame != show)
+	if (itsShowFrameFlag != show)
 		{
-		itsShowFrame = show;
+		itsShowFrameFlag = show;
 		if (show == kJFalse)
 			{
-			itsShowGrid = kJFalse;
+			itsShowGridFlag = kJFalse;
 			}
 		UpdatePlot(kJTrue);
 		}
@@ -225,12 +228,12 @@ J2DPlotWidget::ShowGrid
 	const JBoolean show
 	)
 {
-	if (itsShowGrid != show)
+	if (itsShowGridFlag != show)
 		{
-		itsShowGrid = show;
+		itsShowGridFlag = show;
 		if (show)
 			{
-			itsShowFrame = kJTrue;
+			itsShowFrameFlag = kJTrue;
 			}
 		UpdatePlot(kJTrue);
 		}
@@ -486,16 +489,16 @@ J2DPlotWidget::AddCurve
 	assert(str != NULL);
 
 	J2DCurveInfo info(kJTrue, line, symbol,
-					ownsData, kJTrue, kJTrue, kJFalse,
-					GetFirstAvailableColor(),
-					GetFirstAvailableSymbol(), str);
+						ownsData, kJTrue, kJTrue, kJFalse,
+						GetFirstAvailableColor(),
+						GetFirstAvailableSymbol(), str);
 
 	itsCurveInfo->AppendElement(info);
 
 	ListenTo(data);
 	Broadcast(CurveAdded(itsCurves->GetElementCount()));
 	Broadcast(ScaleChanged());	// Do I still need this?
-	UpdatePlot(kJTrue, !itsIsZoomed);
+	UpdatePlot(kJTrue, !itsIsZoomedFlag);
 	Broadcast(ScaleChanged());
 	return itsCurves->GetElementCount();
 }
@@ -508,8 +511,8 @@ J2DPlotWidget::AddCurve
 JBoolean
 J2DPlotWidget::AddCurve
 	(
-	JArray<JFloat>&	x,
-	JArray<JFloat>&	y,
+	JArray<JFloat>&		x,
+	JArray<JFloat>&		y,
 	const JBoolean		listen,
 	const JCharacter*	label,
 	JIndex*				index,
@@ -571,13 +574,14 @@ J2DPlotWidget::RemoveCurve
 	delete info.name;
 	itsCurveInfo->RemoveElement(index);
 
-	if (itsCurves->GetElementCount() != 0)
+	if (!itsCurves->IsEmpty())
 		{
-		UpdatePlot(kJTrue, kJTrue);
 		Broadcast(CurveRemoved(index));
+		UpdatePlot(kJTrue, !itsIsZoomedFlag);
 		}
 	else
 		{
+		PWRefresh();
 		Broadcast(CurveRemoved(index));
 		Broadcast(IsEmpty());		// might delete us
 		}
@@ -662,9 +666,9 @@ J2DPlotWidget::Receive
 void
 J2DPlotWidget::HandleCurveChanged()
 {
-	if (!itsIgnoreCurveChanged)
+	if (!itsIgnoreCurveChangedFlag)
 		{
-		if (!itsIsZoomed)
+		if (!itsIsZoomedFlag)
 			{
 			UpdateScale();
 			}
@@ -687,7 +691,7 @@ J2DPlotWidget::UpdatePlot
 {
 	if (geometry)
 		{
-		itsGeometryNeedsAdjustment = kJTrue;
+		itsGeometryNeedsAdjustmentFlag = kJTrue;
 		}
 
 	if (scale)
@@ -708,7 +712,7 @@ void
 J2DPlotWidget::UpdateScale()
 {
 	ResetScale(kJFalse);
-	itsGeometryNeedsAdjustment = kJTrue;
+	itsGeometryNeedsAdjustmentFlag = kJTrue;
 }
 
 /*******************************************************************************
@@ -731,7 +735,7 @@ J2DPlotWidget::Zoom
 		UpdateScale(kJFalse, &itsYAxisIsLinear,
 					GetRealY(rect.bottom), GetRealY(rect.top), clean, itsYScale);
 
-		itsIsZoomed = kJTrue;
+		itsIsZoomedFlag = kJTrue;
 		SetPlotDecPlaces();
 		Broadcast(ScaleChanged());
 		UpdatePlot(kJTrue);
@@ -815,9 +819,9 @@ J2DPlotWidget::SetScale
 		scale[kMax] = log10(max);
 
 		const JFloat loginc = (inc <= 0.0 ? 0.0 : log10(inc));
-		if (inc > scale[kMax] - scale[kMin] ||
-			inc < (scale[kMax]-scale[kMin])/100.0 ||
-			inc <= 0.0)
+		if (loginc > scale[kMax] - scale[kMin] ||
+			loginc < (scale[kMax]-scale[kMin])/100.0 ||
+			loginc <= 0.0)
 			{
 			JFloat start, end;
 			FindLogRange(min, max, &start, &end, &(scale[kInc]));
@@ -828,7 +832,7 @@ J2DPlotWidget::SetScale
 			}
 		}
 
-	itsIsZoomed = kJTrue;
+	itsIsZoomedFlag = kJTrue;
 	SetPlotDecPlaces();
 	Broadcast(ScaleChanged());
 	UpdatePlot(kJTrue);
@@ -864,7 +868,7 @@ J2DPlotWidget::ResetScale
 	GetYDataRange(&min, &max);
 	UpdateScale(allowResetToLinear, &itsYAxisIsLinear, min, max, kJTrue, itsYScale);
 
-	itsIsZoomed = kJFalse;
+	itsIsZoomedFlag = kJFalse;
 	SetPlotDecPlaces();
 	Broadcast(ScaleChanged());
 }
@@ -1691,14 +1695,14 @@ J2DPlotWidget::PWDraw
 	p.SetFontName(itsFontName);
 	p.SetFontSize(itsFontSize);
 
-	if (itsGeometryNeedsAdjustment)
+	if (itsGeometryNeedsAdjustmentFlag)
 		{
 		AdjustGeometry(p);
 		}
 
 	if (rect.top < (JCoordinate) (PWGetHeight() - GetCursorLabelHeight(p)))
 		{
-		if (itsShowLegend)
+		if (itsShowLegendFlag)
 			{
 			DrawLegend(p);
 			}
@@ -1871,7 +1875,7 @@ J2DPlotWidget::AdjustGeometry
 	const JSize strXWidthMax = p.GetStringWidth(strXMax);
 
 
-	if (itsShowFrame)
+	if (itsShowFrameFlag)
 		{
 		if (strWidth < strXWidthMin/2)
 			{
@@ -1880,7 +1884,7 @@ J2DPlotWidget::AdjustGeometry
 
 		itsXAxisStart = strWidth + kYLabelBuffer + kMajorTicLength; // tics inside
 
-		if (itsShowLegend)
+		if (itsShowLegendFlag)
 			{
 			itsXAxisEnd = PWGetWidth() - 2 * kLegendBuffer - itsLegendWidth - strXWidthMax/2;
 			}
@@ -1903,7 +1907,7 @@ J2DPlotWidget::AdjustGeometry
 
 			itsXAxisStart = strWidth + kYLabelBuffer + 2 * kMajorTicLength;
 
-			if (itsShowLegend)
+			if (itsShowLegendFlag)
 				{
 				itsXAxisEnd = PWGetWidth() - 2 * kLegendBuffer - itsLegendWidth - strXWidthMax/2;
 				}
@@ -1922,7 +1926,7 @@ J2DPlotWidget::AdjustGeometry
 
 			itsXAxisStart = kYLabelBuffer + strXWidthMin/2;
 
-			if (itsShowLegend)
+			if (itsShowLegendFlag)
 				{
 				itsXAxisEnd = PWGetWidth() - 2 * kLegendBuffer - itsLegendWidth
 							- strWidth -2 *  kMajorTicLength;
@@ -1939,7 +1943,7 @@ J2DPlotWidget::AdjustGeometry
 			{
 			itsXAxisStart = kYLabelBuffer + strXWidthMin/2;
 
-			if (itsShowLegend)
+			if (itsShowLegendFlag)
 				{
 				itsXAxisEnd = PWGetWidth() - 2 * kLegendBuffer - itsLegendWidth - strXWidthMax/2;
 				}
@@ -1954,7 +1958,7 @@ J2DPlotWidget::AdjustGeometry
 	itsMaxXLabelWidth = strWidth;
 	JSize cursorLabelHeight	= GetCursorLabelHeight(p);
 
-	if (itsShowFrame)
+	if (itsShowFrameFlag)
 		{
 		itsYAxisStart = PWGetHeight() -
 			(kXLabelBuffer +  kMajorTicLength + itsLineHeight + cursorLabelHeight) ;
@@ -1994,7 +1998,7 @@ J2DPlotWidget::AdjustGeometry
 	itsYTrans = (itsYAxisStart - itsYAxisEnd)/(itsYScale[kMax] - itsYScale[kMin]);
 	itsShowYMinorTics = JI2B(itsYTrans >= 35);
 
-	itsGeometryNeedsAdjustment = kJFalse;
+	itsGeometryNeedsAdjustmentFlag = kJFalse;
 	AdjustCursors();
 	Broadcast(GeometryChanged());
 }
@@ -2123,7 +2127,7 @@ J2DPlotWidget::DrawAxes
 		DrawTicks(p);
 		}
 
-	if (itsShowFrame || itsCurves->IsEmpty())
+	if (itsShowFrameFlag || itsCurves->IsEmpty())
 		{
 		p.Rect(itsXAxisStart, itsYAxisEnd,
 				itsXAxisEnd - itsXAxisStart + 1, itsYAxisStart - itsYAxisEnd + 1);
@@ -2222,7 +2226,7 @@ J2DPlotWidget::DrawTicks
 	// X ticks
 
 	JSize yTick = 0, yLabel;
-	if (itsShowFrame)
+	if (itsShowFrameFlag)
 		{
 		yLabel = itsYAxisStart + kMajorTicLength;
 		}
@@ -2265,7 +2269,7 @@ J2DPlotWidget::DrawTicks
 	JSize xTick = 0, xLabel;
 	JBoolean xLabelEndKnown = kJTrue;
 
-	if (itsShowFrame)
+	if (itsShowFrameFlag)
 		{
 		xLabel = itsXAxisStart - kMajorTicLength;
 		}
@@ -2331,13 +2335,15 @@ J2DPlotWidget::DrawXTicks
 
 	for (JIndex i = 1; i <= tickCount; i++)
 		{
-		DrawXTick(p, axisTemp, yTick, kMajorTicLength,
-				  yLabel, kJTrue, kJFalse);
-		axisTemp = axisMin + i * itsXScale[kInc];
+		JBoolean lightGrid = kJTrue;
 		if (fabs(axisTemp) < (itsXScale[kInc]/100000))
 			{
-			axisTemp = 0;
+			axisTemp  = 0;
+			lightGrid = kJFalse;
 			}
+		DrawXTick(p, axisTemp, yTick, kMajorTicLength,
+				  yLabel, kJTrue, lightGrid);
+		axisTemp = axisMin + i * itsXScale[kInc];
 		}
 }
 
@@ -2349,10 +2355,10 @@ J2DPlotWidget::DrawXTicks
 void
 J2DPlotWidget::DrawXLogMinorTicks
 	(
-	JPainter&	p,
-	JCoordinate yTick,
-	JSize		tickCount,
-	JCoordinate yLabel
+	JPainter&			p,
+	const JCoordinate	yTick,
+	const JSize			tickCount,
+	const JCoordinate	yLabel
 	)
 {
 	JIndex i;
@@ -2381,7 +2387,7 @@ J2DPlotWidget::DrawXLogMinorTicks
 				  drawStr, kJTrue);
 		}
 
-	if ((major.GetElementCount() == 0) && (minor.GetElementCount() == 0))
+	if (major.GetElementCount() == 0 && minor.GetElementCount() == 0)
 		{
 		DrawXTick(p, pow(10, itsXScale[kMin]), yTick,
 				  kMajorTicLength, yLabel,
@@ -2400,13 +2406,13 @@ J2DPlotWidget::DrawXLogMinorTicks
 void
 J2DPlotWidget::DrawXTick
 	(
-	JPainter&	p,
-	JFloat		value,
-	JCoordinate yVal,
-	JCoordinate tickLength,
-	JCoordinate yLabel,
-	JBoolean	drawStr,
-	JBoolean	lightGrid
+	JPainter&			p,
+	const JFloat		value,
+	const JCoordinate	yVal,
+	const JCoordinate	tickLength,
+	const JCoordinate	yLabel,
+	const JBoolean		drawStr,
+	const JBoolean		lightGrid
 	)
 {
 	const JSize labelHeight = p.GetLineHeight();
@@ -2423,9 +2429,9 @@ J2DPlotWidget::DrawXTick
 			JSize strStart = x - sWidth/2;
 			p.String(strStart, yLabel, str, sWidth, JPainter::kHAlignCenter, labelHeight);
 			}
-		if (itsShowFrame && (x > itsXAxisStart + 1) && (x < itsXAxisEnd - 1))
+		if (itsShowFrameFlag && (x > itsXAxisStart + 1) && (x < itsXAxisEnd - 1))
 			{
-			if (itsShowGrid)
+			if (itsShowGridFlag)
 				{
 				if (lightGrid)
 					{
@@ -2440,7 +2446,7 @@ J2DPlotWidget::DrawXTick
 				p.Line(x, itsYAxisEnd, x, itsYAxisEnd + tickLength);
 				}
 			}
-		else if (!itsShowFrame)
+		else if (!itsShowFrameFlag)
 			{
 			p.Line(x, yVal - tickLength, x, yVal + tickLength);
 			}
@@ -2455,35 +2461,36 @@ J2DPlotWidget::DrawXTick
 void
 J2DPlotWidget::DrawYTicks
 	(
-	JPainter&	p,
-	JCoordinate xTick,
-	JCoordinate xLabel,
-	JBoolean	xLabelEndKnown,
-	JSize		tickCount
+	JPainter&			p,
+	const JCoordinate	xTick,
+	const JCoordinate	xLabel,
+	const JBoolean		xLabelEndKnown,
+	const JSize			tickCount
 	)
 {
 	// y axis
-	JSize labelHeight	= p.GetLineHeight();
-	JFloat axisTemp	= itsYScale[kMin];
-	JFloat axisMin		= itsYScale[kMin];
+	JSize labelHeight = p.GetLineHeight();
+	JFloat axisTemp   = itsYScale[kMin];
+	JFloat axisMin    = itsYScale[kMin];
 	if (itsUseRealYStart)
 		{
 		axisTemp = itsYScale[kStart];
 		axisMin	 = axisTemp;
 		}
 
-	for (JSize i = 1; i <= tickCount; i++)
+	for (JIndex i = 1; i <= tickCount; i++)
 		{
-		DrawYTick(p, axisTemp, xTick, kMajorTicLength,
-				  xLabel, xLabelEndKnown,
-				  kJTrue, kJFalse);
-		axisTemp = axisMin + i * itsYScale[kInc];
+		JBoolean lightGrid = kJTrue;
 		if (fabs(axisTemp) < (itsYScale[kInc]/100000))
 			{
-			axisTemp = 0;
+			axisTemp  = 0;
+			lightGrid = kJFalse;
 			}
+		DrawYTick(p, axisTemp, xTick, kMajorTicLength,
+				  xLabel, xLabelEndKnown,
+				  kJTrue, lightGrid);
+		axisTemp = axisMin + i * itsYScale[kInc];
 		}
-
 }
 
 /*******************************************************************************
@@ -2494,11 +2501,11 @@ J2DPlotWidget::DrawYTicks
 void
 J2DPlotWidget::DrawYLogMinorTicks
 	(
-	JPainter&	p,
-	JCoordinate xTick,
-	JSize		tickCount,
-	JCoordinate xLabel,
-	JBoolean	xLabelEndKnown
+	JPainter&			p,
+	const JCoordinate	xTick,
+	const JSize			tickCount,
+	const JCoordinate	xLabel,
+	const JBoolean		xLabelEndKnown
 	)
 {
 	JSize i;
@@ -2547,14 +2554,14 @@ J2DPlotWidget::DrawYLogMinorTicks
 void
 J2DPlotWidget::DrawYTick
 	(
-	JPainter&	p,
-	JFloat		value,
-	JCoordinate xVal,
-	JCoordinate tickLength,
-	JCoordinate xLabel,
-	JCoordinate xLabelEndKnown,
-	JBoolean	drawStr,
-	JBoolean	lightGrid
+	JPainter&			p,
+	const JFloat		value,
+	const JCoordinate	xVal,
+	const JCoordinate	tickLength,
+	const JCoordinate	xLabel,
+	const JCoordinate	xLabelEndKnown,
+	const JBoolean		drawStr,
+	const JBoolean		lightGrid
 	)
 {
 	const JSize labelHeight = p.GetLineHeight();
@@ -2582,9 +2589,9 @@ J2DPlotWidget::DrawYTick
 					str, sWidth, JPainter::kHAlignLeft, labelHeight);
 				}
 			}
-		if (itsShowFrame && (y > itsYAxisEnd + 1) && (y < itsYAxisStart - 1))
+		if (itsShowFrameFlag && (y > itsYAxisEnd + 1) && (y < itsYAxisStart - 1))
 			{
-			if (itsShowGrid)
+			if (itsShowGridFlag)
 				{
 				if (lightGrid)
 					{
@@ -2599,7 +2606,7 @@ J2DPlotWidget::DrawYTick
 				p.Line(itsXAxisEnd, y, itsXAxisEnd - tickLength, y);
 				}
 			}
-		else if (!itsShowFrame)
+		else if (!itsShowFrameFlag)
 			{
 			JCoordinate tStart = xVal + 1;
 			if (!lightGrid)
@@ -3483,7 +3490,7 @@ J2DPlotWidget::PWWriteSetup
 	output << ' ' << LegendIsVisible();
 	output << ' ' << XAxisIsLinear();
 	output << ' ' << YAxisIsLinear();
-	output << ' ' << itsIsZoomed;
+	output << ' ' << itsIsZoomedFlag;
 	output << ' ' << itsXScale[kMin];
 	output << ' ' << itsXScale[kMax];
 	output << ' ' << itsXScale[kInc];
@@ -3574,7 +3581,7 @@ J2DPlotWidget::PWReadSetup
 	ShowLegend(bTest);
 	input >> itsXAxisIsLinear;
 	input >> itsYAxisIsLinear;
-	input >> itsIsZoomed;
+	input >> itsIsZoomedFlag;
 	input >> itsXScale[kMin];
 	input >> itsXScale[kMax];
 	input >> itsXScale[kInc];
@@ -3803,7 +3810,7 @@ J2DPlotWidget::GetMouseCursor
 	)
 	const
 {
-	if ((itsShowLegend && itsLegendRect.Contains(pt)) ||
+	if ((itsShowLegendFlag && itsLegendRect.Contains(pt)) ||
 		itsTitleRect.Contains(pt) ||
 		itsXLabelRect.Contains(pt) ||
 		itsYLabelRect.Contains(pt) ||
@@ -3964,7 +3971,7 @@ J2DPlotWidget::GetLegendIndex
 	)
 	const
 {
-	if (itsShowLegend && itsLegendRect.Contains(pt))
+	if (itsShowLegendFlag && itsLegendRect.Contains(pt))
 		{
 		*curveIndex = 1 +
 			(pt.y - (itsLegendRect.top + itsLineHeight)) / itsLineHeight;
@@ -4294,7 +4301,7 @@ J2DPlotWidget::DualCursorsVisible()
 void
 J2DPlotWidget::ToggleDualCursors()
 {
-	if ((itsSelectedCursor == kX2) || (itsSelectedCursor == kY2))
+	if (itsSelectedCursor == kX2 || itsSelectedCursor == kY2)
 		{
 		itsSelectedCursor = kNoCursor;
 		}
@@ -4743,48 +4750,56 @@ J2DPlotWidget::AdjustCursors()
 {
 	JCoordinate xmin, xmax, ymin, ymax;
 	GetFrameGeometry(&xmin, &xmax, &ymin, &ymax);
-	if ((xmin == xmax) || (ymin == ymax))
+	if (xmin == xmax || ymin == ymax)
 		{
 		return;
 		}
+
 	JCoordinate pos;
-	if (GetFrameX(itsXCursorVal1, &pos) && itsIsInited)
+	if (GetFrameX(itsXCursorVal1, &pos) && itsXCursor1InitFlag)
 		{
 		itsXCursorPos1 = pos;
 		}
-	else if ((itsXCursorPos1 < xmin) || (itsXCursorPos1 > xmax))
+	else if (itsXCursorPos1 < xmin || xmax < itsXCursorPos1)
 		{
 		itsXCursorPos1 = xmin + 20;
 		}
-	if (GetFrameX(itsXCursorVal2, &pos) && itsIsInited)
+	itsXCursor1InitFlag = JI2B(itsXCursor1InitFlag || itsXCursorVisible);
+
+	if (GetFrameX(itsXCursorVal2, &pos) && itsXCursor2InitFlag)
 		{
 		itsXCursorPos2 = pos;
 		}
-	else if ((itsXCursorPos2 < xmin) || (itsXCursorPos2 > xmax))
+	else if (itsXCursorPos2 < xmin || xmax < itsXCursorPos2)
 		{
 		itsXCursorPos2 = xmin + 40;
 		}
-	if (GetFrameY(itsYCursorVal1, &pos) && itsIsInited)
+	itsXCursor2InitFlag = JI2B(itsXCursor2InitFlag || (itsXCursorVisible && itsDualCursors));
+
+	if (GetFrameY(itsYCursorVal1, &pos) && itsYCursor1InitFlag)
 		{
 		itsYCursorPos1 = pos;
 		}
-	else if ((itsYCursorPos1 < ymax) || (itsYCursorPos1 > ymin))
+	else if (itsYCursorPos1 < ymax || ymin < itsYCursorPos1)
 		{
 		itsYCursorPos1 = ymin - 20;
 		}
-	if (GetFrameY(itsYCursorVal2, &pos) && itsIsInited)
+	itsYCursor1InitFlag = JI2B(itsYCursor1InitFlag || itsYCursorVisible);
+
+	if (GetFrameY(itsYCursorVal2, &pos) && itsYCursor2InitFlag)
 		{
 		itsYCursorPos2 = pos;
 		}
-	else if ((itsYCursorPos2 < ymax) || (itsYCursorPos2 > ymin))
+	else if (itsYCursorPos2 < ymax || ymin < itsYCursorPos2)
 		{
 		itsYCursorPos2 = ymin - 40;
 		}
+	itsYCursor2InitFlag = JI2B(itsYCursor2InitFlag || (itsYCursorVisible && itsDualCursors));
+
 	itsXCursorVal1 = GetRealX(itsXCursorPos1);
 	itsXCursorVal2 = GetRealX(itsXCursorPos2);
 	itsYCursorVal1 = GetRealY(itsYCursorPos1);
 	itsYCursorVal2 = GetRealY(itsYCursorPos2);
-	itsIsInited = kJTrue;
 }
 
 /*******************************************************************************

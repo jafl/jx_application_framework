@@ -17,6 +17,20 @@
 #include <jAssert.h>
 
 /******************************************************************************
+ JIsRelativePath
+
+ ******************************************************************************/
+
+JBoolean
+JIsRelativePath
+	(
+	const JCharacter* path
+	)
+{
+	return !JIsAbsolutePath(path);
+}
+
+/******************************************************************************
  JRenameDirectory
 
 	Renames the specified directory.
@@ -212,7 +226,7 @@ JGetClosestDirectory
 		dirName.Prepend(workingDir);
 		}
 
-	assert( !JIsRelativePath(dirName) );
+	assert( JIsAbsolutePath(dirName) );
 
 	JString newDir, junkName;
 	while (!JDirectoryExists(dirName)   ||

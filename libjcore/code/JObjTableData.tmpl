@@ -118,8 +118,11 @@ JObjTableData<T>::SetElement
 {
 	JPtrArray<T>* colData = itsCols->NthElement(col);
 	T* element = colData->NthElement(row);
-	*element = data;
-	Broadcast(JTableData::RectChanged(row,col));
+	if (*element != data)
+		{
+		*element = data;
+		Broadcast(JTableData::RectChanged(row,col));
+		}
 }
 
 template <class T>
@@ -132,8 +135,11 @@ JObjTableData<T>::SetElement
 {
 	JPtrArray<T>* colData = itsCols->NthElement(cell.x);
 	T* element = colData->NthElement(cell.y);
-	*element = data;
-	Broadcast(JTableData::RectChanged(cell));
+	if (*element != data)
+		{
+		*element = data;
+		Broadcast(JTableData::RectChanged(cell));
+		}
 }
 
 /******************************************************************************

@@ -88,6 +88,7 @@ jxsource:
 	@cd ${J_DISTR_TAR_DIR}; \
      tar -rf ${DISTR_TAR_FILE} ${filter-out %.a %.so %~ %/ace/config.h, \
                                  ${shell cd ${J_DISTR_TAR_DIR}; echo \
+             ${SRC_FILE_DIR}/ACE_wrappers/bin/* \
              ${SRC_FILE_DIR}/ACE_wrappers/ace/* \
              ${SRC_FILE_DIR}/ACE_wrappers/include/makeinclude/* }};
 	@cd test; ${MAKE} jxsource

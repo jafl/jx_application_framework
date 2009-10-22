@@ -20,6 +20,24 @@
 
 static const char* kCurrentJ2DPlotLibVersionStr = "1.0.0";
 
+// version 1.1.0:
+// J2DPlotWidget:
+//	Grid lines are gray, except for the axes.
+//	Cursor positions are set only after first being shown.  This ensures that
+//		they will be visible the first time.
+//	When a curve is removed, the scale is only reset if the plot is not zoomed.
+// JX2DPlotWidget:
+//	Menu handlers only check for widget focus if the menus are shared between
+//		multiple widgets.
+// JX2DCursorMarkTableDir:
+//	Removed Close button.
+// J2DPlotData:
+//	It is now safe to delete the data arrays, as long as you don't try to access
+//		the plot data afterwards.
+// J2DVectorData:
+//	It is now safe to delete the data arrays, as long as you don't try to access
+//		the plot data afterwards.
+
 // version 1.0.0:
 // J2DPlotWidget:
 //	Added virtual function BuildTickLabel() to allow derived classes to

@@ -65,6 +65,8 @@ default: libs strings all
 .PHONY : Makefiles
 Makefiles:
 
+include ${JX_ROOT}/include/make/jx_targets
+
 #
 # string data
 #
@@ -73,14 +75,6 @@ Makefiles:
 strings:
 	compile_jstrings ${J_STRING_FILES} \
       --code kTutorialStringData TutorialStringData.h
-
-#
-# required libraries
-#
-
-.PHONY : libs
-libs:
-	@for path in ${TOUCHPATHS}; do ( if cd $$path; then ${MAKE}; fi ) done
 
 #
 # JX source distribution (DISTR_TAR_FILE)

@@ -124,14 +124,6 @@ menu_strings:
         ${J2DPLOTDIR}/*.cpp ${J3DDIR}/*.cpp
 
 #
-# required libraries
-#
-
-.PHONY : libs
-libs:
-	@for path in ${TOUCHPATHS}; do ( if cd $$path; then ${MAKE}; fi ) done
-
-#
 # install binaries
 #
 

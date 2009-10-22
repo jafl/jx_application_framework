@@ -76,7 +76,7 @@ enum
 
 // Cursor menu
 
-static const JCharacter* kCursorMenuTitleStr = "Cursor";
+static const JCharacter* kCursorMenuTitleStr = "Cursors";
 static const JCharacter* kCursorMenuStr =
 	"    X cursor     %b"
 	"  | Y cursor     %b"
@@ -140,7 +140,7 @@ JX2DPlotWidget::JX2DPlotWidget
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	J2DPlotWidget(GetColormap()->GetBlackColor(),
 				  GetColormap()->GetWhiteColor(),
-				  GetColormap()->GetGray50Color(),
+				  GetColormap()->GetGray70Color(),
 				  GetColormap()->GetRedColor())
 {
 	JX2DPlotWidgetX();
@@ -172,11 +172,13 @@ JX2DPlotWidget::JX2DPlotWidget
 	itsCurveOptionsMenu->SetMenuItems(kCurveOptionsMenuStr);
 	itsCurveOptionsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsCurveOptionsMenu);
+
+	itsIsSharingMenusFlag = kJFalse;
 }
 
 JX2DPlotWidget::JX2DPlotWidget
 	(
-	JX2DPlotWidget*	plot,
+	JX2DPlotWidget*		plot,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -208,6 +210,9 @@ JX2DPlotWidget::JX2DPlotWidget
 
 	itsCurveOptionsMenu	= plot->itsCurveOptionsMenu;
 	ListenTo(itsCurveOptionsMenu);
+
+	itsIsSharingMenusFlag       = kJTrue;
+	plot->itsIsSharingMenusFlag = kJTrue;
 }
 
 // private
@@ -221,7 +226,8 @@ JX2DPlotWidget::JX2DPlotWidgetX()
 	AddColor(colormap->GetRedColor());
 	AddColor(colormap->GetBlueColor());
 	AddColor(colormap->GetMagentaColor());
-	AddColor(colormap->GetDarkGreenColor());
+	AddColor(colormap->GetBrownColor());
+	AddColor(colormap->GetLightBlueColor());
 
 	itsPlotLabelDialog		= NULL;
 	itsPlotScaleDialog		= NULL;
@@ -412,11 +418,11 @@ JX2DPlotWidget::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsOptionsMenu && message.Is(JXMenu::kNeedsUpdate) && HasFocus())
+	if (sender == itsOptionsMenu && message.Is(JXMenu::kNeedsUpdate))
 		{
 		UpdateOptionsMenu();
 		}
-	else if (sender == itsOptionsMenu && message.Is(JXMenu::kItemSelected) && HasFocus())
+	else if (sender == itsOptionsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast(const JXMenu::ItemSelected*, &message);
@@ -424,11 +430,11 @@ JX2DPlotWidget::Receive
 		HandleOptionsMenu(selection->GetIndex());
 		}
 
-	else if (sender == itsRemoveCurveMenu && message.Is(JXMenu::kNeedsUpdate) && HasFocus())
+	else if (sender == itsRemoveCurveMenu && message.Is(JXMenu::kNeedsUpdate))
 		{
 		UpdateRemoveCurveMenu();
 		}
-	else if (sender == itsRemoveCurveMenu && message.Is(JXMenu::kItemSelected) && HasFocus())
+	else if (sender == itsRemoveCurveMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast(const JXMenu::ItemSelected*, &message);
@@ -436,11 +442,11 @@ JX2DPlotWidget::Receive
 		HandleRemoveCurveMenu(selection->GetIndex());
 		}
 
-	else if (sender == itsCursorMenu && message.Is(JXMenu::kNeedsUpdate) && HasFocus())
+	else if (sender == itsCursorMenu && message.Is(JXMenu::kNeedsUpdate))
 		{
 		UpdateCursorMenu();
 		}
-	else if (sender == itsCursorMenu && message.Is(JXMenu::kItemSelected) && HasFocus())
+	else if (sender == itsCursorMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast(const JXMenu::ItemSelected*, &message);
@@ -448,11 +454,11 @@ JX2DPlotWidget::Receive
 		HandleCursorMenu(selection->GetIndex());
 		}
 
-	else if (sender == itsMarkMenu && message.Is(JXMenu::kNeedsUpdate) && HasFocus())
+	else if (sender == itsMarkMenu && message.Is(JXMenu::kNeedsUpdate))
 		{
 		UpdateMarkMenu();
 		}
-	else if (sender == itsMarkMenu && message.Is(JXMenu::kItemSelected) && HasFocus())
+	else if (sender == itsMarkMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast(const JXMenu::ItemSelected*, &message);
@@ -460,11 +466,11 @@ JX2DPlotWidget::Receive
 		HandleMarkMenu(selection->GetIndex());
 		}
 
-	else if (sender == itsCurveOptionsMenu && message.Is(JXMenu::kNeedsUpdate) && HasFocus())
+	else if (sender == itsCurveOptionsMenu && message.Is(JXMenu::kNeedsUpdate))
 		{
 		UpdateCurveOptionsMenu();
 		}
-	else if (sender == itsCurveOptionsMenu && message.Is(JXMenu::kItemSelected) && HasFocus())
+	else if (sender == itsCurveOptionsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast(const JXMenu::ItemSelected*, &message);
@@ -578,6 +584,11 @@ JX2DPlotWidget::Receive
 void
 JX2DPlotWidget::UpdateOptionsMenu()
 {
+	if (itsIsSharingMenusFlag && !HasFocus())
+		{
+		return;
+		}
+
 	if (FrameIsVisible())
 		{
 		itsOptionsMenu->CheckItem(kShowFrameCmd);
@@ -606,6 +617,11 @@ JX2DPlotWidget::HandleOptionsMenu
 	const JIndex index
 	)
 {
+	if (itsIsSharingMenusFlag && !HasFocus())
+		{
+		return;
+		}
+
 	if (index == kCurveOptionsCmd)
 		{
 		ChangeCurveOptions(1);
@@ -972,6 +988,11 @@ JX2DPlotWidget::GetNewCurveOptions()
 void
 JX2DPlotWidget::UpdateRemoveCurveMenu()
 {
+	if (itsIsSharingMenusFlag && !HasFocus())
+		{
+		return;
+		}
+
 	itsRemoveCurveMenu->RemoveAllItems();
 
 	const JSize count = GetCurveCount();
@@ -996,6 +1017,11 @@ JX2DPlotWidget::HandleRemoveCurveMenu
 	const JIndex index
 	)
 {
+	if (itsIsSharingMenusFlag && !HasFocus())
+		{
+		return;
+		}
+
 	RemoveCurve(index);
 }
 
@@ -1007,6 +1033,11 @@ JX2DPlotWidget::HandleRemoveCurveMenu
 void
 JX2DPlotWidget::UpdateCursorMenu()
 {
+	if (itsIsSharingMenusFlag && !HasFocus())
+		{
+		return;
+		}
+
 	if (XCursorVisible())
 		{
 		itsCursorMenu->CheckItem(kXCursorCmd);
@@ -1040,6 +1071,11 @@ JX2DPlotWidget::HandleCursorMenu
 	const JIndex index
 	)
 {
+	if (itsIsSharingMenusFlag && !HasFocus())
+		{
+		return;
+		}
+
 	if (index == kXCursorCmd)
 		{
 		ToggleXCursor();
@@ -1080,6 +1116,11 @@ JX2DPlotWidget::UpdateMarkMenu()
 {
 JIndex i;
 
+	if (itsIsSharingMenusFlag && !HasFocus())
+		{
+		return;
+		}
+
 	itsMarkMenu->RemoveAllItems();
 
 	const JSize xCount = GetXMarkCount();
@@ -1116,6 +1157,11 @@ JX2DPlotWidget::HandleMarkMenu
 	const JIndex index
 	)
 {
+	if (itsIsSharingMenusFlag && !HasFocus())
+		{
+		return;
+		}
+
 	const JSize xCount = GetXMarkCount();
 	if (index > xCount)
 		{
@@ -1135,6 +1181,11 @@ JX2DPlotWidget::HandleMarkMenu
 void
 JX2DPlotWidget::UpdateCurveOptionsMenu()
 {
+	if (itsIsSharingMenusFlag && !HasFocus())
+		{
+		return;
+		}
+
 	const JPlotDataBase& curve = GetCurve(itsCurveOptionsIndex);
 
 	// visibility
@@ -1217,6 +1268,11 @@ JX2DPlotWidget::HandleCurveOptionsMenu
 	const JIndex index
 	)
 {
+	if (itsIsSharingMenusFlag && !HasFocus())
+		{
+		return;
+		}
+
 	if (index == kToggleCurveVisibleCmd)
 		{
 		ShowCurve(itsCurveOptionsIndex, !CurveIsVisible(itsCurveOptionsIndex));

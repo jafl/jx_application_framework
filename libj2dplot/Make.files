@@ -16,10 +16,10 @@
 .cpp ./code/JX2DCursorMarkTable
 .cpp ./code/JX2DPlotEPSPrinter
 .cpp ./code/JX2DPlotPrintEPSDialog
-.cpp ./code/J2DPlotData
 .cpp ./code/JPlotDataBase
-.cpp ./code/J2DPlotJFunction
+.cpp ./code/J2DPlotData
 .cpp ./code/JPlotFunctionBase
+.cpp ./code/J2DPlotJFunction
 .cpp ./code/J2DDataPoint
 .cpp ./code/J2DCurveInfo
 .cpp ./code/J2DVectorData

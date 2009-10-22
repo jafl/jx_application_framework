@@ -45,8 +45,6 @@ default: libs compile_jstrings
 .PHONY : Makefiles
 Makefiles:
 
-include ${JX_ROOT}/include/make/jx_targets
-
 #
 # required libraries
 #

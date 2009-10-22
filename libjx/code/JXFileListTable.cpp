@@ -571,7 +571,7 @@ JXFileListTable::GetFullName
 		fullName->Clear();
 		return kJFalse;
 		}
-	else if (!JIsRelativePath(*n) ||
+	else if (JIsAbsolutePath(*n) ||
 			 const_cast<JXFileListTable*>(this)->
 				MainResolveFullName(rowIndex, fileIndex, n))
 		{
@@ -608,7 +608,7 @@ JXFileListTable::MainResolveFullName
 	)
 {
 	JString n = *name;
-	if (ResolveFullName(&n) && !JIsRelativePath(n) && JFileExists(n))
+	if (ResolveFullName(&n) && JIsAbsolutePath(n) && JFileExists(n))
 		{
 		*name = n;
 		itsFileList->Sort();

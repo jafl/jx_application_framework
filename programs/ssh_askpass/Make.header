@@ -87,14 +87,6 @@ stringdb:
 ${PROG_NAME}:: strings
 
 #
-# required libraries
-#
-
-.PHONY : libs
-libs:
-	@for path in ${TOUCHPATHS}; do ( if cd $$path; then ${MAKE}; fi ) done
-
-#
 # install binaries
 #
 
@@ -118,8 +110,8 @@ SRC_FILE_DIR := ${JX}/programs/ssh_askpass
 .PHONY : jxsource
 jxsource:
 	@cd ${J_DISTR_TAR_DIR}; \
-     tar -rf ${DISTR_TAR_FILE} ${filter-out %.o %~, \
-                               ${shell cd ${J_DISTR_TAR_DIR}; echo \
+     ${TAR} -rf ${DISTR_TAR_FILE} ${filter-out %.o %~, \
+                                  ${shell cd ${J_DISTR_TAR_DIR}; echo \
               ${addprefix ${SRC_FILE_DIR}/, \
                 README Make.* *.jcc *.fd \
                 code/* strings/* pkg } }}

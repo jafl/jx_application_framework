@@ -1282,7 +1282,7 @@ argument:
 Name: JX2DCursorMarkTableDir
 Width: 250
 Height: 200
-Number of Objects: 3
+Number of Objects: 2
 
 --------------------
 class: FL_BOX
@@ -1305,7 +1305,7 @@ argument:
 --------------------
 class: FL_BOX
 type: NO_BOX
-box: 0 0 250 160
+box: 0 0 250 200
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1317,24 +1317,6 @@ shortcut:
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: (scrollbarSet)
-callback: 
-argument: 
-
---------------------
-class: FL_BUTTON
-type: NORMAL_BUTTON
-box: 10 170 70 20
-boxtype: FL_UP_BOX
-colors: FL_COL1 FL_COL1
-alignment: FL_ALIGN_CENTER
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: Close
-shortcut: #W^[
-resize: FL_RESIZE_ALL
-gravity: FL_SouthEast FL_NoGravity
-name: itsCloseButton
 callback: 
 argument: 
 

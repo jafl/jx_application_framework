@@ -2,6 +2,10 @@
 #
 # requires that jx_config_common has already been included
 
+.PHONY : libs
+libs::
+	@for path in ${TOUCHPATHS}; do ( if cd $$path; then ${MAKE}; fi ) done
+
 .PHONY : staticACE
 staticACE:
   ifdef J_BUILD_SHARED_LIB

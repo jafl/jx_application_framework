@@ -67,13 +67,14 @@ protected:
 				const JBoolean listen = kJFalse);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	ReceiveGoingAway(JBroadcaster* sender);
 
 private:
 
-	JArray<JFloat>* itsXData;
+	JArray<JFloat>* itsXData;			// NULL if deleted by owner
 	JArray<JFloat>* itsXPErrorData;		// NULL if no error bars
 	JArray<JFloat>* itsXMErrorData;		// NULL if not symmetric errors
-	JArray<JFloat>* itsYData;
+	JArray<JFloat>* itsYData;			// NULL if deleted by owner
 	JArray<JFloat>* itsYPErrorData;		// NULL if no error bars
 	JArray<JFloat>* itsYMErrorData;		// NULL if not symmetric errors
 

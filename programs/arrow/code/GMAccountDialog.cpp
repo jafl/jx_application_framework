@@ -591,7 +591,7 @@ GMAccountDialog::AdjustWidgets()
 	JString home;
 	if (JGetHomeDirectory(&home))
 		{
-		if (!JIsRelativePath(account->GetDefaultInbox()))
+		if (JIsAbsolutePath(account->GetDefaultInbox()))
 			{
 			itsLocalDefaultInboxInput->SetText(JConvertToRelativePath(account->GetDefaultInbox(), home));
 			}
@@ -606,7 +606,7 @@ GMAccountDialog::AdjustWidgets()
 			popInbox		= account->GetDefaultInbox();
 			}
 
-		if (!JIsRelativePath(popInbox))
+		if (JIsAbsolutePath(popInbox))
 			{
 			itsDefaultInboxInput->SetText(JConvertToRelativePath(popInbox, home));
 			}
@@ -620,7 +620,7 @@ GMAccountDialog::AdjustWidgets()
 			{
 			dir	= "mail";
 			}
-		else if (!JIsRelativePath(dir))
+		else if (JIsAbsolutePath(dir))
 			{
 			dir	= JConvertToRelativePath(dir, home);
 			}

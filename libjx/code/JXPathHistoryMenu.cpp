@@ -97,7 +97,7 @@ JXPathHistoryMenu::SetBasePath
 		}
 	else
 		{
-		assert( !JIsRelativePath(path) );
+		assert( JIsAbsolutePath(path) );
 		itsBasePath = path;
 		}
 }

@@ -198,7 +198,7 @@ JXPathInput::SetBasePath
 		}
 	else
 		{
-		assert( !JIsRelativePath(path) );
+		assert( JIsAbsolutePath(path) );
 		itsBasePath = path;
 		RecalcAll(kJTrue);
 		}
@@ -223,7 +223,7 @@ JXPathInput::GetPath
 {
 	const JString& text = GetText();
 	return JI2B(!text.IsEmpty() &&
-				(!JIsRelativePath(text) || HasBasePath()) &&
+				(JIsAbsolutePath(text) || HasBasePath()) &&
 				JConvertToAbsolutePath(text, itsBasePath, path) &&
 				JDirectoryExists(*path) &&
 				JDirectoryReadable(*path) &&
@@ -436,7 +436,7 @@ JXPathInput::GetTextColor
 		}
 
 	JString fullPath;
-	if ((!JIsRelativePath(path) || !JStringEmpty(base)) &&
+	if ((JIsAbsolutePath(path) || !JStringEmpty(base)) &&
 		JConvertToAbsolutePath(path, base, &fullPath) &&
 		JDirectoryReadable(fullPath) &&
 		JCanEnterDirectory(fullPath) &&

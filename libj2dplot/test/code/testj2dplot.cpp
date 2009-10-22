@@ -25,6 +25,7 @@
 // Prototypes
 
 void TestData(Test2DPlotDirector* dir);
+void TestLogData(Test2DPlotDirector* dir);
 void TestVector(Test2DPlotDirector* dir);
 
 void ParseTextOptions(int* argc, char* argv[]);
@@ -52,10 +53,15 @@ main
 	assert( dataDir != NULL );
 	TestData(dataDir);
 
+	Test2DPlotDirector* logDataDir = new Test2DPlotDirector(app);
+	assert( logDataDir != NULL );
+	TestLogData(logDataDir);
+
 	Test2DPlotDirector* vectorDir = new Test2DPlotDirector(app);
 	assert( vectorDir != NULL );
 	TestVector(vectorDir);
 
+	logDataDir->Activate();
 	dataDir->Activate();
 	vectorDir->Activate();
 	app->Run();
@@ -115,10 +121,53 @@ JIndex i;
 		y.AppendElement(cos(i*delta));
 		}
 
-	ok = J2DPlotData::Create(&data, x, y, kJFalse);
-	assert( ok );
+	plot->AddCurve(x, y, kJFalse, "cos(x)", &i, kJTrue, kJFalse);
 
-	plot->AddCurve(data, kJTrue, "cos(x)", kJTrue, kJFalse);
+	plot->SetTitle("Error bars");
+}
+
+/******************************************************************************
+ TestLogData
+
+	Tests logarithmic data plotting in J2DPlotWidget.
+
+ ******************************************************************************/
+
+void
+TestLogData
+	(
+	Test2DPlotDirector* dir
+	)
+{
+JIndex i;
+
+	JX2DPlotWidget* plot = dir->GetPlotWidget();
+	plot->ShowLegend();
+
+	JArray<JFloat> x(1000),y(1000);
+
+	const JFloat delta = 0.1;
+	for (i=1; i<=100; i++)
+		{
+		x.AppendElement(i*delta);
+		y.AppendElement(pow(2, i*delta));
+		}
+
+	plot->AddCurve(x, y, kJFalse, "log2(x)", &i, kJTrue, kJFalse);
+
+	x.RemoveAll();
+	y.RemoveAll();
+
+	for (i=0; i<=100; i++)
+		{
+		x.AppendElement(i*delta);
+		y.AppendElement((i*delta)*(i*delta));
+		}
+
+	plot->AddCurve(x, y, kJFalse, "x^2", &i, kJTrue, kJFalse);
+
+	plot->SetYScale(0.1, 1000, 0, kJFalse);
+	plot->SetTitle("Logarithmic scale");
 }
 
 /******************************************************************************
@@ -149,6 +198,8 @@ TestVector
 		}
 
 	plot->AddCurve(data, kJTrue, "vector");
+
+	plot->SetTitle("Vectors");
 }
 
 /******************************************************************************

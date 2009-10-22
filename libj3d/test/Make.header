@@ -69,6 +69,8 @@ default: libs all
 .PHONY : Makefiles
 Makefiles:
 
+include ${JX_ROOT}/include/make/jx_targets
+
 #
 # string data
 #
@@ -83,14 +85,6 @@ stringdb:
 	compile_jstrings ${J_STRING_FILES} --db testj3d_us
 
 testj3d:: strings
-
-#
-# required libraries
-#
-
-.PHONY : libs
-libs:
-	@for path in ${TOUCHPATHS}; do ( if cd $$path; then ${MAKE}; fi ) done
 
 #
 # source distribution (SRC_TAR_FILE)

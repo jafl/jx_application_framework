@@ -2,3 +2,4 @@
 #include <JCoreStdInc.h>
 #include <JDynamicHistogram.tmpls>
 #include <JMinMax.tmpls>
+#undef JTemplateType

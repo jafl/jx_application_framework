@@ -14,7 +14,7 @@ SRC_DIRS := ${addprefix ${JX}/misc/, \
 .PHONY : jxsource
 jxsource: clean
 	@cd ${J_DISTR_TAR_DIR}; \
-     tar -rf ${DISTR_TAR_FILE} ${SRC_DIRS} ${JX}/lib/libXpm.*
+     ${TAR} -rf ${DISTR_TAR_FILE} ${SRC_DIRS} ${JX}/lib/libXpm.*
 
 #
 # remove object files

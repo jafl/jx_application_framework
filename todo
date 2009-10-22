@@ -1,9 +1,40 @@
-wiki
-	history of Code Medic -- Glenn
-		Transmeta funded initial *research*
+create new NPS email addresses to avoid spam
 
 free upgrade
-	dahvid.minor@gmail.com
+	david-m@orbotech.com
+
+jcc
+*	all windows disabled after click "Load" in Edit Macros dialog
+
+medic:
+	accept connection or switch to gdb:  should stop listening on port
+		need simple example to submit to ACE list
+	restart either xdebug or java:  unable to listen on port & crashes on exit
+		also need to fix SetProgram()
+
+	2D plots
+*		printing to EPS -- unable to set file
+
+		option for polar grid:  draw partial circles (only if both axes linear)
+
+		write CMVarTreeHelp#Plot2D
+			extract help from glove into generic section in libj2dplot
+
+	gdb
+*		don't allow run program until GDBDisplaySourceForMain has finished
+
+		Test suite
+			start, choose program, set bkpt, run
+			start, run, open file, stop, set bkpt, continue
+			start with program name, set bkpt, run
+			start with core name
+			switch from core dump to running binary
+			switch from running binary to core dump
+			switch from one program to another
+
+upgrade dashboard widgets to YUI 3
+
+-----
 
 WindowManager
 	OSX
@@ -23,24 +54,7 @@ jcc:
 medic:
 	breakpoint/watchpoint window (create/edit/delete)
 
-	accept connection or switch to gdb:  should stop listening on port
-		need simple example to submit to ACE list
-	restart either xdebug or java:  unable to listen on port & crashes on exit
-		also need to fix SetProgram()
-
 	gdb
-		Linux
-			run program 2nd time:  doesn't know when breakpoint has been hit
-
-		Test suite
-			start, choose program, set bkpt, run
-			start, run, open file, stop, set bkpt, continue
-			start with program name, set bkpt, run
-			start with core name
-			switch from core dump to running binary
-			switch from running binary to core dump
-			switch from one program to another
-
 		enable call to UnlockDisplays(), when JXGetAssertHandler is defined
 			check every time symbols are loaded
 
@@ -81,6 +95,7 @@ medic:
 		http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html
 
 arrow
+	.sig input field in Accounts should be monospace
 	fix SaveState() so it doesn't need JFileArray
 	specify timeout for lockfile and handle it as lock failure
 *	doesn't save drafts if no inbox open

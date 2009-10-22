@@ -58,7 +58,7 @@ include ${JX_ROOT}/include/make/jx_targets
 #
 
 .PHONY : libs
-libs:
+libs::
 	@cd ${JCORELIBDIR}; ${MAKE}
 
 .PHONY : touch

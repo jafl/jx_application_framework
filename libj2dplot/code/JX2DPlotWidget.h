@@ -116,6 +116,7 @@ private:
 	JXTextMenu*				itsRemoveCurveMenu;
 	JXTextMenu*				itsCursorMenu;
 	JXTextMenu*				itsMarkMenu;
+	JBoolean				itsIsSharingMenusFlag;
 	JX2DPlotLabelDialog*	itsPlotLabelDialog;
 	JX2DPlotScaleDialog*	itsPlotScaleDialog;
 	JX2DPlotRangeDialog*	itsPlotRangeDialog;

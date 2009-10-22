@@ -430,6 +430,32 @@ J2DVectorData::Receive
 		}
 }
 
+/******************************************************************************
+ ReceiveGoingAway (virtual protected)
+
+ ******************************************************************************/
+
+void
+J2DVectorData::ReceiveGoingAway
+	(
+	JBroadcaster* sender
+	)
+{
+	if (sender == itsXData  || sender == itsYData ||
+		sender == itsVXData || sender == itsVYData)
+		{
+		itsXData  = NULL;
+		itsYData  = NULL;
+		itsVXData = NULL;
+		itsVYData = NULL;
+		ValidateData();
+		}
+	else
+		{
+		JPlotDataBase::ReceiveGoingAway(sender);
+		}
+}
+
 /*********************************************************************************
  ValidateData (private)
 
@@ -438,6 +464,9 @@ J2DVectorData::Receive
 void
 J2DVectorData::ValidateData()
 {
-	itsIsValidFlag = OKToCreate(*itsXData, *itsYData, *itsVXData, *itsVYData);
+	itsIsValidFlag = JI2B(
+		itsXData != NULL &&
+		OKToCreate(*itsXData, *itsYData, *itsVXData, *itsVYData));
+
 	SetElementCount(itsIsValidFlag ? itsXData->GetElementCount() : 0);
 }

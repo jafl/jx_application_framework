@@ -513,10 +513,10 @@ J2DPlotData::Receive
 {
 	if (sender == itsXData ||
 		sender == itsYData ||
-		(itsXPErrorData != NULL && sender == itsXPErrorData) ||
-		(itsXMErrorData != NULL && sender == itsXMErrorData) ||
-		(itsYPErrorData != NULL && sender == itsYPErrorData) ||
-		(itsYMErrorData != NULL && sender == itsYMErrorData))
+		sender == itsXPErrorData ||
+		sender == itsXMErrorData ||
+		sender == itsYPErrorData ||
+		sender == itsYMErrorData)
 		{
 		if (message.Is(JOrderedSetT::kElementChanged) ||
 			message.Is(JOrderedSetT::kElementMoved) )
@@ -536,6 +536,45 @@ J2DPlotData::Receive
 		}
 }
 
+/******************************************************************************
+ ReceiveGoingAway (virtual protected)
+
+ ******************************************************************************/
+
+void
+J2DPlotData::ReceiveGoingAway
+	(
+	JBroadcaster* sender
+	)
+{
+	if (sender == itsXData || sender == itsYData)
+		{
+		itsXData = NULL;
+		itsYData = NULL;
+		ValidateCurve();
+		}
+	else if (sender == itsXPErrorData)
+		{
+		itsXPErrorData = NULL;
+		}
+	else if (sender == itsXMErrorData)
+		{
+		itsXMErrorData = NULL;
+		}
+	else if (sender == itsYPErrorData)
+		{
+		itsYPErrorData= NULL;
+		}
+	else if (sender == itsYMErrorData)
+		{
+		itsYMErrorData = NULL;
+		}
+	else
+		{
+		JPlotDataBase::ReceiveGoingAway(sender);
+		}
+}
+
 /*********************************************************************************
  ValidateCurve
 
@@ -544,6 +583,13 @@ J2DPlotData::Receive
 void
 J2DPlotData::ValidateCurve()
 {
+	if (itsXData == NULL || itsYData == NULL)
+		{
+		itsIsValidFlag = kJFalse;
+		SetElementCount(0);
+		return;
+		}
+
 	const JSize xCount = itsXData->GetElementCount();
 	const JSize yCount = itsYData->GetElementCount();
 	itsIsValidFlag = JI2B(xCount == yCount);

@@ -67,14 +67,6 @@ Makefiles:
 include ${JX_ROOT}/include/make/jx_targets
 
 #
-# required libraries
-#
-
-.PHONY : libs
-libs:
-	@for path in ${TOUCHPATHS}; do ( if cd $$path; then ${MAKE}; fi ) done
-
-#
 # JX source distribution (DISTR_TAR_FILE)
 #
 

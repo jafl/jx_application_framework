@@ -86,6 +86,8 @@ default: libs symcir
 .PHONY : Makefiles
 Makefiles:
 
+include ${JX_ROOT}/include/make/jx_targets
+
 #
 # string data
 #
@@ -100,14 +102,6 @@ stringdb:
 	compile_jstrings ${J_STRING_FILES} --db symcir_us
 
 symcir:: strings
-
-#
-# required libraries
-#
-
-.PHONY : libs
-libs:
-	@for path in ${TOUCHPATHS}; do ( if cd $$path; then ${MAKE}; fi ) done
 
 #
 # install binaries

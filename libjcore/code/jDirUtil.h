@@ -81,6 +81,7 @@ void		JStripTrailingDirSeparator(JString* dirName);
 void		JCleanPath(JString* path);
 JString		JGetRootDirectory();
 JBoolean	JIsRootDirectory(const JCharacter* dirName);
+JBoolean	JIsAbsolutePath(const JCharacter* path);
 JBoolean	JIsRelativePath(const JCharacter* path);
 
 JBoolean	JConvertToAbsolutePath(const JCharacter* path, const JCharacter* base,

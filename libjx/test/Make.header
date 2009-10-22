@@ -82,14 +82,6 @@ stringdb:
 testjx:: strings
 
 #
-# required libraries
-#
-
-.PHONY : libs
-libs:
-	@for path in ${TOUCHPATHS}; do ( if cd $$path; then ${MAKE}; fi ) done
-
-#
 # JX source distribution (DISTR_TAR_FILE)
 #
 

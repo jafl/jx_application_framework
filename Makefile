@@ -66,7 +66,6 @@ default:
 	@echo "  ${MAKE} cygwin32       for Cygwin on Windows"
 	@echo "  ${MAKE} darwin_tiger   for Macintosh OS X 10.4"
 	@echo "  ${MAKE} darwin_leopard for Macintosh OS X 10.5"
-#	@echo "  ${MAKE} debian3_1      for Debian 3.1 GNU/Linux (Sarge)"
 #	@echo "  ${MAKE} freebsd3_x     for FreeBSD 3.x"
 	@echo "  ${MAKE} linux_intel    for Linux with g++ 3.x or above"
 	@echo "  ${MAKE} linux_intel-64 for Linux with g++ 3.x or above on 64-bit systems"
@@ -150,7 +149,7 @@ CREATE_ACE_MACROS = \
 
 .PHONY : linux_intel
 linux_intel: linux_common
-	@ln -sf sys/Linux-Intel-gcc3  include/make/jx_config
+	@ln -sf sys/Linux-Intel-32  include/make/jx_config
 	@${INSTALL_CMD}
 
 #
@@ -159,16 +158,7 @@ linux_intel: linux_common
 
 .PHONY : linux_intel-64
 linux_intel-64: linux_common
-	@ln -sf sys/Linux-Alpha-gcc3  include/make/jx_config
-	@${INSTALL_CMD}
-
-#
-# Debian
-#
-
-.PHONY : debian3_1
-debian3_1: linux_common
-	@ln -sf sys/Linux-Intel-Debian3.1  include/make/jx_config
+	@ln -sf sys/Linux-Intel-64  include/make/jx_config
 	@${INSTALL_CMD}
 
 #

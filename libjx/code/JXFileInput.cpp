@@ -197,7 +197,7 @@ JXFileInput::SetBasePath
 		}
 	else
 		{
-		assert( !JIsRelativePath(path) );
+		assert( JIsAbsolutePath(path) );
 		itsBasePath = path;
 		RecalcAll(kJTrue);
 		}
@@ -222,7 +222,7 @@ JXFileInput::GetFile
 {
 	const JString& text = GetText();
 	return JI2B(!text.IsEmpty() &&
-				(!JIsRelativePath(text) || HasBasePath()) &&
+				(JIsAbsolutePath(text) || HasBasePath()) &&
 				JConvertToAbsolutePath(text, itsBasePath, fullName) &&
 				JFileExists(*fullName) &&
 				(!itsRequireReadFlag  || JFileReadable(*fullName)) &&
@@ -419,7 +419,7 @@ JXFileInput::GetTextColor
 		}
 
 	JString fullName;
-	if ((!JIsRelativePath(fileName) || !JStringEmpty(basePath)) &&
+	if ((JIsAbsolutePath(fileName) || !JStringEmpty(basePath)) &&
 		JConvertToAbsolutePath(fileName, basePath, &fullName) &&
 		(!requireRead  || JFileReadable(fullName)) &&
 		(!requireWrite || JFileWritable(fullName)) &&

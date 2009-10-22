@@ -70,14 +70,8 @@ JX2DCursorMarkTableDir::BuildWindow
 
     JXScrollbarSet* scrollbarSet =
         new JXScrollbarSet(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 250,160);
+                    JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 250,200);
     assert( scrollbarSet != NULL );
-
-    itsCloseButton =
-        new JXTextButton(JGetString("itsCloseButton::JX2DCursorMarkTableDir::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 10,170, 70,20);
-    assert( itsCloseButton != NULL );
-    itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JX2DCursorMarkTableDir::shortcuts::JXLayout"));
 
 // end JXLayout
 
@@ -91,30 +85,6 @@ JX2DCursorMarkTableDir::BuildWindow
 			JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert (itsTable != NULL);
 	itsTable->FitToEnclosure();
-
-	ListenTo(itsCloseButton);
-}
-
-/******************************************************************************
- Receive
-
- ******************************************************************************/
-
-void
-JX2DCursorMarkTableDir::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsCloseButton && message.Is(JXButton::kPushed))
-		{
-		Deactivate();
-		}
-	else
-		{
-		JXWindowDirector::Receive(sender, message);
-		}
 }
 
 /******************************************************************************

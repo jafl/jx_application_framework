@@ -31,17 +31,12 @@ public:
 	void	ReadSetup(istream& input);
 	void	WriteSetup(ostream& output) const;
 
-protected:
-
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
-
 private:
 
 	JX2DCursorMarkTable*	itsTable;
 
 // begin JXLayout
 
-    JXTextButton* itsCloseButton;
 
 // end JXLayout
 

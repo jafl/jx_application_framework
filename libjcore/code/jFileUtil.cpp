@@ -342,7 +342,7 @@ JFileNameToURL
 	const JCharacter* fileName
 	)
 {
-	assert( !JIsRelativePath(fileName) );
+	assert( JIsAbsolutePath(fileName) );
 
 	JString host, file;
 	if (!JTranslateLocalToRemote(fileName, &host, &file))

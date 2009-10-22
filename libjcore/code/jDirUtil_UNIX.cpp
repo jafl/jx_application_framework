@@ -1185,18 +1185,18 @@ JCleanPath
 }
 
 /******************************************************************************
- JIsRelativePath
+ JIsAbsolutePath
 
  ******************************************************************************/
 
 JBoolean
-JIsRelativePath
+JIsAbsolutePath
 	(
 	const JCharacter* path
 	)
 {
 	assert( !JStringEmpty(path) );
-	return JI2B( path[0] != '/' && path[0] != '~' );
+	return JI2B( path[0] == '/' || path[0] == '~' );
 }
 
 /******************************************************************************

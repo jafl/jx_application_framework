@@ -96,6 +96,7 @@ static const char* kCurrentJCoreLibVersionStr = "2.5.0";
 //	jDirUtil:
 //		Added JConvertToHomeDirShortcut().
 //		Fixed JCleanPath() to leave :// alone, so URL's are not destroyed.
+//		Added JIsAbsolutePath() to allow code to be easier to read.
 //	JUserNotification:
 //		Added Get/SetBreakMessageCROnly() to force line breaks to be respected.
 //	jTime:

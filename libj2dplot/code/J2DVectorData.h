@@ -65,6 +65,7 @@ protected:
 				  const JBoolean listen);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
+	virtual void	ReceiveGoingAway(JBroadcaster* sender);
 
 private:
 
