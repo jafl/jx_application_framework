@@ -1346,6 +1346,11 @@ JXContainer::Suspend()
 			(itsEnclosedObjs->NthElement(i))->Suspend();
 			}
 		}
+
+	if (itsSuspendCount == 0)
+		{
+		Refresh();
+		}
 	itsSuspendCount++;
 }
 
@@ -1368,6 +1373,15 @@ JXContainer::Resume()
 		for (JIndex i=1; i<=objCount; i++)
 			{
 			(itsEnclosedObjs->NthElement(i))->Resume();
+			}
+		}
+
+	if (itsSuspendCount == 0)
+		{
+		Refresh();
+		if (itsEnclosure == NULL)
+			{
+			itsWindow->RecalcMouseContainer();
 			}
 		}
 }

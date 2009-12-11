@@ -170,7 +170,10 @@ private:
 	JXTextMenu*			itsEditMenu;				// not owned
 	JIndex				itsCopyPathCmdIndex;
 	JXTextMenu*			itsGitBranchMenu;			// can be NULL
-	JSize				itsGitBranchCount;
+	JSize				itsGitLocalBranchCount;
+	JSize				itsGitRemoteBranchCount;
+	JXTextMenu*			itsGitPullSourceMenu;		// can be NULL
+	JXTextMenu*			itsGitPushDestMenu;			// can be NULL
 	JXTextMenu* 		itsViewMenu;
 	JXTextMenu*			itsShortcutMenu;
 
@@ -211,6 +214,10 @@ private:
 	JPoint					itsEditCell;
 	SyGFileTreeNode*		itsSortNode;	// sort when mouse released
 
+	// set by AppendGitBranches()
+
+	JString	itsCurrentGitBranch;
+
 private:
 
 	void	UpdateInfo();
@@ -240,9 +247,15 @@ private:
 	void	UpdateGitBranchMenu();
 	void	HandleGitBranchMenu(const JIndex index);
 
+	JSize	AppendGitBranches(const JCharacter* cmd, const JBoolean italic,
+							  JPtrArray<JString>* repoList);
 	void	CreateBranch(const JCharacter* branchName);
 	void	CommitBranch(const JCharacter* msg);
 	void	RevertBranch();
+
+	void	UpdateRemoteRepoMenu(JXTextMenu* menu, const JPtrArray<JString>& repoList);
+	void	PullBranch(const JCharacter* repo);
+	void	PushBranch(const JCharacter* repo);
 
 	void	UpdateViewMenu();
 	void	HandleViewMenu(const JIndex index);

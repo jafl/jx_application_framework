@@ -33,7 +33,7 @@
 #include <JOrderedSetUtil.h>
 
 #ifdef _J_HAS_XPM
-#include <xpm.h>
+#include <X11/xpm.h>
 #endif
 
 #include <jAssert.h>
@@ -556,47 +556,6 @@ JXImage::~JXImage()
 }
 
 /******************************************************************************
- Constructor function (any file) (static)
-
-	Returns an error if the file does not contain a recognizable image format.
-
- ******************************************************************************/
-
-JError
-JXImage::CreateFromFile
-	(
-	JXDisplay*			display,
-	JXColormap*			colormap,
-	const JCharacter*	fileName,
-	JXImage**			image,
-	const JBoolean		allowApproxColors
-	)
-{
-	const FileType type = GetFileType(fileName);
-	if (type == kGIFType)
-		{
-		return CreateFromGIF(display, colormap, fileName, image, allowApproxColors);
-		}
-	else if (type == kPNGType)
-		{
-		return CreateFromPNG(display, colormap, fileName, image, allowApproxColors);
-		}
-	else if (type == kJPEGType)
-		{
-		return CreateFromJPEG(display, colormap, fileName, image, allowApproxColors);
-		}
-	else if (type == kXPMType)
-		{
-		return CreateFromXPM(display, colormap, fileName, image, allowApproxColors);
-		}
-	else
-		{
-		*image = NULL;
-		return UnknownFileType(fileName);
-		}
-}
-
-/******************************************************************************
  Constructor function (GIF file) (static)
 
 	Returns an error if the file does not contain a GIF.
@@ -622,82 +581,6 @@ JXImage::CreateFromGIF
 	colormap->ShouldPreemptivelyApproximateColors(kJTrue);
 
 	const JError err = (**image).ReadGIF(fileName);
-
-	colormap->ShouldApproximateColors(saveApprox);
-	colormap->ShouldPreemptivelyApproximateColors(savePre);
-
-	if (!err.OK())
-		{
-		delete *image;
-		*image = NULL;
-		}
-	return err;
-}
-
-/******************************************************************************
- Constructor function (PNG file) (static)
-
-	Returns an error if the file does not contain a PNG.
-
- ******************************************************************************/
-
-JError
-JXImage::CreateFromPNG
-	(
-	JXDisplay*			display,
-	JXColormap*			colormap,
-	const JCharacter*	fileName,
-	JXImage**			image,
-	const JBoolean		allowApproxColors
-	)
-{
-	*image = new JXImage(display, colormap);
-	assert( *image != NULL );
-
-	const JBoolean saveApprox = colormap->WillApproximateColors();
-	const JBoolean savePre    = colormap->WillPreemptivelyApproximateColors();
-	colormap->ShouldApproximateColors(allowApproxColors);
-	colormap->ShouldPreemptivelyApproximateColors(kJTrue);
-
-	const JError err = (**image).ReadPNG(fileName);
-
-	colormap->ShouldApproximateColors(saveApprox);
-	colormap->ShouldPreemptivelyApproximateColors(savePre);
-
-	if (!err.OK())
-		{
-		delete *image;
-		*image = NULL;
-		}
-	return err;
-}
-
-/******************************************************************************
- Constructor function (JPEG file) (static)
-
-	Returns an error if the file does not contain a JPEG.
-
- ******************************************************************************/
-
-JError
-JXImage::CreateFromJPEG
-	(
-	JXDisplay*			display,
-	JXColormap*			colormap,
-	const JCharacter*	fileName,
-	JXImage**			image,
-	const JBoolean		allowApproxColors
-	)
-{
-	*image = new JXImage(display, colormap);
-	assert( *image != NULL );
-
-	const JBoolean saveApprox = colormap->WillApproximateColors();
-	const JBoolean savePre    = colormap->WillPreemptivelyApproximateColors();
-	colormap->ShouldApproximateColors(allowApproxColors);
-	colormap->ShouldPreemptivelyApproximateColors(kJTrue);
-
-	const JError err = (**image).ReadJPEG(fileName);
 
 	colormap->ShouldApproximateColors(saveApprox);
 	colormap->ShouldPreemptivelyApproximateColors(savePre);

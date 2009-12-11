@@ -64,6 +64,7 @@ private:
 
 	void	BuildWindow(const JCharacter* fileName,
 						const JBoolean printPreview, const JBoolean bw);
+	void	UpdateDisplay();
 
 	void	ChooseDestinationFile();
 

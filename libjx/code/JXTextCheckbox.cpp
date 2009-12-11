@@ -154,7 +154,6 @@ JXTextCheckbox::Activate()
 	if (!wasActive && IsActive())
 		{
 		itsFontStyle.color = itsTrueLabelColor;
-		Refresh();
 		}
 }
 
@@ -171,7 +170,6 @@ JXTextCheckbox::Deactivate()
 	if (wasActive && !IsActive())
 		{
 		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
-		Refresh();
 		}
 }
 
@@ -188,7 +186,6 @@ JXTextCheckbox::Suspend()
 	if (wasActive && !IsActive())
 		{
 		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
-		Refresh();
 		}
 }
 
@@ -205,7 +202,6 @@ JXTextCheckbox::Resume()
 	if (!wasActive && IsActive())
 		{
 		itsFontStyle.color = itsTrueLabelColor;
-		Refresh();
 		}
 }
 

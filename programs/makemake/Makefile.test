@@ -47,17 +47,6 @@ DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
 LOADLIBES := ${J_ACE_LIBS} ${J_GCC_LIBS}
 LDFLAGS   := 
 
-# JMemoryManager files
-
-ifdef J_ARRAY_NEW_OVERRIDABLE
-  JMM_FILES := ${addprefix ${DJ_MM_DIR}/, \
-                 jNew.o JMemoryManager.o JMMTable.o JMMArrayTable.o \
-                 JMMHashTable.o JMMMonitor.o JMMErrorPrinter.o \
-                 JMMRecord.o JArray-JMMRecord.o JHashTable-JMMRecord.o}
-else
-  JMM_FILES :=
-endif
-
 #####
 
 .PHONY : default

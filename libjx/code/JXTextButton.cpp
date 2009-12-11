@@ -189,7 +189,6 @@ JXTextButton::Activate()
 	if (!wasActive && IsActive())
 		{
 		itsFontStyle.color = itsTrueLabelColor;
-		Refresh();
 		}
 }
 
@@ -206,7 +205,6 @@ JXTextButton::Deactivate()
 	if (wasActive && !IsActive())
 		{
 		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
-		Refresh();
 		}
 }
 
@@ -223,7 +221,6 @@ JXTextButton::Suspend()
 	if (wasActive && !IsActive())
 		{
 		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
-		Refresh();
 		}
 }
 
@@ -240,7 +237,6 @@ JXTextButton::Resume()
 	if (!wasActive && IsActive())
 		{
 		itsFontStyle.color = itsTrueLabelColor;
-		Refresh();
 		}
 }
 

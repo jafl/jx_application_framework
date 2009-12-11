@@ -19,11 +19,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
-#ifdef _J_ARRAY_NEW_OVERRIDABLE
 #include <JMemoryManager.h>
-#endif
-
 #include <jAssert.h>
 
 // Turn this on to generate a Makefile that allows #include loops.
@@ -1450,15 +1446,11 @@ CalcDepend
 	char*		argv[]
 	)
 {
-#ifdef _J_ARRAY_NEW_OVERRIDABLE
-
 	// we don't bother to clean up at the end
 
 	(JMemoryManager::Instance())->CancelRecordAllocated();
 	(JMemoryManager::Instance())->CancelRecordDeallocated();
 	(JMemoryManager::Instance())->SetPrintExitStats(kJFalse);
-
-#endif
 
 	// parse command line arguments
 

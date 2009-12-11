@@ -145,7 +145,7 @@ JImage::ReadGIF
 	const JCharacter* fileName
 	)
 {
-#ifdef _J_HAS_GD
+#ifdef _J_HAS_GIF
 
 	const JError err = ReadGD(fileName, gdImageCreateFromGif);
 	if (err.Is(kUnknownFileType))
@@ -178,7 +178,7 @@ JImage::WriteGIF
 	)
 	const
 {
-#ifdef _J_HAS_GD
+#ifdef _J_HAS_GIF
 
 	return WriteGD(fileName, kJFalse, compressColorsToFit, interlace, gdImageGif);
 
@@ -188,140 +188,6 @@ JImage::WriteGIF
 
 #endif
 }
-
-/******************************************************************************
- ReadPNG (protected)
-
- ******************************************************************************/
-
-JError
-JImage::ReadPNG
-	(
-	const JCharacter* fileName
-	)
-{
-#ifdef _J_HAS_GD
-
-	const JError err = ReadGD(fileName, gdImageCreateFromPng);
-	if (err.Is(kUnknownFileType))
-		{
-		return FileIsNotPNG(fileName);
-		}
-	else
-		{
-		return err;
-		}
-
-#else
-
-	return PNGNotAvailable();
-
-#endif
-}
-
-/******************************************************************************
- WritePNG
-
- ******************************************************************************/
-
-JError
-JImage::WritePNG
-	(
-	const JCharacter*	fileName,
-	const JBoolean		useTrueColor,
-	const JBoolean		compressColorsToFit,
-	const JBoolean		interlace
-	)
-	const
-{
-#ifdef _J_HAS_GD
-
-	return WriteGD(fileName, useTrueColor, compressColorsToFit, interlace, gdImagePng);
-
-#else
-
-	return PNGNotAvailable();
-
-#endif
-}
-
-/******************************************************************************
- ReadJPEG (protected)
-
- ******************************************************************************/
-
-JError
-JImage::ReadJPEG
-	(
-	const JCharacter* fileName
-	)
-{
-#ifdef _J_HAS_GD
-
-	const JError err = ReadGD(fileName, gdImageCreateFromJpeg);
-	if (err.Is(kUnknownFileType))
-		{
-		return FileIsNotJPEG(fileName);
-		}
-	else
-		{
-		return err;
-		}
-
-#else
-
-	return JPEGNotAvailable();
-
-#endif
-}
-
-/******************************************************************************
- WriteJPEG
-
-	If quality is negative, you get the default tradeoff.  Otherwise,
-	quality must lie in the range [0,95].
-
- ******************************************************************************/
-
-#ifdef _J_HAS_GD
-
-static int jQuality = -1;
-static void imageJpeg(gdImagePtr im, FILE *out);
-
-void
-imageJpeg
-	(
-	gdImagePtr	im,
-	FILE*		out
-	)
-{
-	gdImageJpeg(im, out, jQuality);
-}
-
-#endif
-
-JError
-JImage::WriteJPEG
-	(
-	const JCharacter*	fileName,
-	const JBoolean		interlace,
-	const int			quality
-	)
-	const
-{
-#ifdef _J_HAS_GD
-
-	jQuality = quality;
-	return WriteGD(fileName, kJTrue, kJTrue, interlace, imageJpeg);
-
-#else
-
-	return JPEGNotAvailable();
-
-#endif
-}
-
-#if defined _J_HAS_GD
 
 /******************************************************************************
  ReadGD (private)
@@ -624,8 +490,6 @@ JImage::WriteGD
 		return JUnknownError(fileErr);
 		}
 }
-
-#endif
 
 /******************************************************************************
  ReadFromJXPM (protected)

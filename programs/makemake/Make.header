@@ -8,7 +8,6 @@ JX_ROOT := ../..
 CODEDIR  := .
 JCOREDIR := ${JX_ROOT}/include/jcore
 PCREDIR  := ${JX_ROOT}/misc/pcre
-REGEXDIR := ${JX_ROOT}/misc/regex
 
 JLIBDIR := ${JX_ROOT}/lib
 
@@ -42,33 +41,15 @@ ifdef J_BUILD_SHARED_LIB
   LDFLAGS := -Xlinker -R/usr/lib/jxcb
 endif
 
-# JMemoryManager files
-
-ifdef J_ARRAY_NEW_OVERRIDABLE
-  JMM_FILES := ${addprefix ${DJ_MM_DIR}/, \
-                 jNew.o JMemoryManager.o JMMTable.o JMMArrayTable.o \
-                 JMMHashTable.o JMMMonitor.o JMMErrorPrinter.o JMMRecord.o}
-else
-  JMM_FILES :=
-endif
-
 #####
 
 .PHONY : default
-default: regex makemake
+default: makemake
 
 .PHONY : Makefiles
 Makefiles:
 
 include ${JX_ROOT}/include/make/jx_targets
-
-#
-# libraries we have eaten
-#
-
-.PHONY : regex
-regex:
-	@cd ${REGEXDIR}; ${MAKE} for_jcore
 
 #
 # JX source distribution (DISTR_TAR_FILE)
@@ -123,7 +104,7 @@ DEBUG_LOADLIBES := -L${JLIBDIR} \
                    ${J_GCC_LIBS}
 
 .PHONY : debug
-debug: regex staticACE
+debug: staticACE
 	@${RM} makemake
 	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" makemake
 

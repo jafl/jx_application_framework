@@ -55,6 +55,7 @@ static const char* kCurrentJCoreLibVersionStr = "2.5.0";
 //		Added constructors which specify workingDirectory.
 //		Fixed ReportError() so it flushes the input buffer before
 //			displaying the message.  Line breaks are now respected.
+//		If you call ReportError(), then it will not execute a second time.
 //	JThisProcess:
 //		Fixed Fork() so it re-initializes JThisProcess in child with correct pid.
 //		Fixed Quit/KillAtExit() to remove the process from the Kill/Quit list.
@@ -109,6 +110,8 @@ static const char* kCurrentJCoreLibVersionStr = "2.5.0";
 //	jFileUtil:
 //		JSplitPathAndName() automatically trims trailing separators.
 //	Created jXMLUtil.
+//	JRegex:
+//		Removed unused ctor argument useJExtended.
 
 // version 2.5.0:
 //	*** All egcs thunks hacks have been removed.

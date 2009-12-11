@@ -75,18 +75,19 @@ JPtrArray-JString
 Templates-JString
 JACETemplates
 
--prefix ${DJ_REGEX_DIR}/
-
 JRegex
 JInterpolate
 
--prefix ${DJ_HASH_DIR}/
-
 jHashFunctions
 
--prefix ${DJ_MM_DIR}/
-
-literal: ${JMM_FILES}
+jNew
+JMemoryManager
+JMMTable
+JMMArrayTable
+JMMHashTable
+JMMMonitor
+JMMErrorPrinter
+JMMRecord
 
 -prefix ${PCREDIR}/.libs/
 
@@ -95,10 +96,3 @@ literal: ${JMM_FILES}
 .o study
 .o pcre
 #.o pcreposix
-
--prefix ${REGEXDIR}/
-
-#.o regcomp
-#.o regexec
-#.o regerror
-#.o regfree

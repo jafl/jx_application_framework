@@ -960,6 +960,18 @@ T
 F
 "./code/JXImage.cpp"
 T
+2 "JXImage_CreateFromFile.cpp"
+F
+"./code/JXImage_CreateFromFile.cpp"
+T
+2 "JXImage_PNG.cpp"
+F
+"./code/JXImage_PNG.cpp"
+T
+2 "JXImage_JPEG.cpp"
+F
+"./code/JXImage_JPEG.cpp"
+T
 2 "JXImageMask.cpp"
 F
 "./code/JXImageMask.cpp"

@@ -12,10 +12,6 @@ J_X11_LIB_DIR := -L/usr/X11R6/lib
 
 J_X11_INCLUDE_DIR := -I/usr/X11R6/include
 
-# Uncomment this if you want to compile libXpm into libjx
-
-# JX_INCLUDE_LIBXPM := yes
-
 # This sets the optimization level
 
 J_OPTIMIZE_LEVEL := 0
@@ -36,10 +32,6 @@ J_COMPILE_DEBUG := -g
 # you can't avoid.
 
 #J_DIE_ON_WARNING := -Werror
-
-# Comment this out if new[] and delete[] are not overridable.
-
-J_ARRAY_NEW_OVERRIDABLE := -D_J_ARRAY_NEW_OVERRIDABLE
 
 # Uncomment this if your version of GNU make does not automatically
 # generate the -o parameter.
@@ -95,3 +87,7 @@ J_MESA_LIBS := ${JX_ROOT}/lib/libGLU.a ${JX_ROOT}/lib/libGL.a
 # modify settings based on OS, compiler, etc.
 
 include ${JX_ROOT}/include/make/jx_config_common
+
+# libpng is part of X11
+
+J_STD_LIBS := ${J_X11_LIB_DIR} ${J_STD_LIBS}

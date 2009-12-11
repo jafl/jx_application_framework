@@ -95,7 +95,6 @@ JXToolBarButton::Activate()
 	if (!wasActive && IsActive())
 		{
 		itsFontStyle.color = itsTrueLabelColor;
-		Refresh();
 		}
 }
 
@@ -112,7 +111,6 @@ JXToolBarButton::Deactivate()
 	if (wasActive && !IsActive())
 		{
 		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
-		Refresh();
 		}
 }
 
@@ -129,7 +127,6 @@ JXToolBarButton::Suspend()
 	if (wasActive && !IsActive())
 		{
 		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
-		Refresh();
 		}
 }
 
@@ -146,7 +143,6 @@ JXToolBarButton::Resume()
 	if (!wasActive && IsActive())
 		{
 		itsFontStyle.color = itsTrueLabelColor;
-		Refresh();
 		}
 }
 

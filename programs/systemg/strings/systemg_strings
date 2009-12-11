@@ -149,6 +149,8 @@ NoReplaceWithContents::SyGCopyProcess
 UseVCSCopy::SyGCopyProcess
 "Do you want to place the copy under version control?"
 
+AskPlainGitMove::SyGCopyProcess	"Do you want to move without using Git?"
+
 # SyGMDIServer
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890
 

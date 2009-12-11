@@ -13,12 +13,12 @@ LINK_SHARED_TAIL=
 #for your system. 
 AR=ar
 
-CFLAGS=-g -DHAVE_LIBPNG -DHAVE_LIBZ -DHAVE_LIBJPEG -DHAVE_MALLOC_H
+CFLAGS=-g -DHAVE_LIBPNG -DHAVE_LIBZ ${HAVE_LIBJPEG} -DHAVE_MALLOC_H
 # -DHAVE_LIBFREETYPE -DHAVE_LIBXPM
 
 LIBS=-lgd  -lpng -lz -ljpeg -lfreetype -lm
 
-INCLUDEDIRS=-I. -I/usr/include/freetype2 -I/usr/include/X11 -I/usr/X11R6/include/X11 -I/usr/local/include
+INCLUDEDIRS=-I. -I/usr/include/freetype2 -I/usr/include/X11 -I/usr/X11R6/include/X11  -I/usr/X11/include -I/usr/local/include
 
 LIBDIRS=-L/usr/local/lib -L/usr/lib/X11 -L/usr/X11R6/lib
 

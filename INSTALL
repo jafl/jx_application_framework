@@ -40,11 +40,6 @@ and install the programs.  You can ignore any errors that make ignores.
   Everything in JX will be built, including any 3rd party libraries and
   programs that you unpack after the main distribution.
 
-If you cannot use the version of libXpm already installed on your system
-(e.g. because it is too old) or if you do not have libXpm at all, then
-uncomment the definition of JX_INCLUDE_LIBXPM near the top of the
-appropriate file in include/make/sys/
-
 Since ACE is huge, only one version of the library is built.  If you want
 the other version as well, go to the ACE directory and type "make shared"
 or "make static" after you have built everything else.

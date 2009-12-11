@@ -18,8 +18,6 @@
 /******************************************************************************
  Constructor
 
-	This is protected because JExtractHTMLTitle() is our only use.
-
  ******************************************************************************/
 
 JExtractHTMLTitle::JExtractHTMLTitle()

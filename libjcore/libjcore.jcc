@@ -1,10 +1,1059 @@
 jx_browser_data 83
 # project tree
 0 "root"
+T
+1 "core"
+T
+2 "JCoreStdInc.h"
+F
+"./code/JCoreStdInc.h"
+T
+2 "jTypes.h"
+F
+"./code/jTypes.h"
+T
+2 "JBooleanIO.cpp"
+F
+"./code/JBooleanIO.cpp"
+T
+2 "JRTTIBase.cpp"
+F
+"./code/JRTTIBase.cpp"
+T
+2 "JBroadcaster.cpp"
+F
+"./code/JBroadcaster.cpp"
+T
+2 "JBroadcastSnooper.cpp"
+F
+"./code/JBroadcastSnooper.cpp"
+T
+2 "JError.cpp"
+F
+"./code/JError.cpp"
+T
+2 "JStdError.cpp"
+F
+"./code/JStdError.cpp"
+T
+2 "JErrorState.cpp"
+F
+"./code/JErrorState.cpp"
+T
+2 "jGlobals.cpp"
+F
+"./code/jGlobals.cpp"
+T
+2 "jGlobals_UNIX.cpp"
+F
+"./code/jGlobals_UNIX.cpp"
+T
+2 "jAssert.cpp"
+F
+"./code/jAssert.cpp"
+T
+2 "JAssertBase.cpp"
+F
+"./code/JAssertBase.cpp"
+F
+T
+1 "text"
+T
+2 "JString.cpp"
+F
+"./code/JString.cpp"
+T
+2 "JIndexRange.cpp"
+F
+"./code/JIndexRange.cpp"
+T
+2 "JRegex.cpp"
+F
+"./code/JRegex.cpp"
+T
+2 "JSubstitute.cpp"
+F
+"./code/JSubstitute.cpp"
+T
+2 "JInterpolate.cpp"
+F
+"./code/JInterpolate.cpp"
+T
+2 "JStringManager.cpp"
+F
+"./code/JStringManager.cpp"
+F
+T
+1 "math"
+T
+2 "jMath.cpp"
+F
+"./code/jMath.cpp"
+T
+2 "JMinMax.h"
+F
+"./code/JMinMax.h"
+T
+2 "JMinMax.tmpls"
+F
+"./code/JMinMax.tmpls"
+T
+2 "JComplex.cpp"
+F
+"./code/JComplex.cpp"
+T
+2 "JVector.cpp"
+F
+"./code/JVector.cpp"
+T
+2 "JMatrix.cpp"
+F
+"./code/JMatrix.cpp"
+T
+2 "JIntRange.cpp"
+F
+"./code/JIntRange.cpp"
+T
+2 "jRand.cpp"
+F
+"./code/jRand.cpp"
+T
+2 "JKLRand.cpp"
+F
+"./code/JKLRand.cpp"
+T
+2 "JProbDistr.cpp"
+F
+"./code/JProbDistr.cpp"
+T
+2 "JHistogram.h"
+F
+"./code/JHistogram.h"
+T
+2 "JHistogram.tmpls"
+F
+"./code/JHistogram.tmpls"
+T
+2 "JDynamicHistogram.h"
+F
+"./code/JDynamicHistogram.h"
+T
+2 "JDynamicHistogram.tmpls"
+F
+"./code/JDynamicHistogram.tmpls"
+F
+T
+1 "container"
+T
+2 "JCollection.cpp"
+F
+"./code/JCollection.cpp"
+T
+2 "JContainer.cpp"
+F
+"./code/JContainer.cpp"
+T
+2 "JOrderedSet.h"
+F
+"./code/JOrderedSet.h"
+T
+2 "JOrderedSetIterator.h"
+F
+"./code/JOrderedSetIterator.h"
+T
+2 "JOrderedSetT.cpp"
+F
+"./code/JOrderedSetT.cpp"
+T
+2 "JOrderedSetUtil.cpp"
+F
+"./code/JOrderedSetUtil.cpp"
+T
+2 "JPtrArray-JString.cpp"
+F
+"./code/JPtrArray-JString.cpp"
+T
+2 "JArray.h"
+F
+"./code/JArray.h"
+T
+2 "JArray.tmpls"
+F
+"./code/JArray.tmpls"
+T
+2 "JAliasArray.h"
+F
+"./code/JAliasArray.h"
+T
+2 "JAliasArray.tmpls"
+F
+"./code/JAliasArray.tmpls"
+T
+2 "JLinkedList.h"
+F
+"./code/JLinkedList.h"
+T
+2 "JLinkedList.tmpls"
+F
+"./code/JLinkedList.tmpls"
+T
+2 "JLinkedListIterator.h"
+F
+"./code/JLinkedListIterator.h"
+T
+2 "JPtrArray.h"
+F
+"./code/JPtrArray.h"
+T
+2 "JPtrArray.tmpls"
+F
+"./code/JPtrArray.tmpls"
+T
+2 "JPtrArray2.tmpls"
+F
+"./code/JPtrArray2.tmpls"
+T
+2 "JPtrArray2a.tmpls"
+F
+"./code/JPtrArray2a.tmpls"
+T
+2 "JPtrArrayIterator.h"
+F
+"./code/JPtrArrayIterator.h"
+T
+2 "JPtrQueue.h"
+F
+"./code/JPtrQueue.h"
+T
+2 "JPtrQueue.tmpls"
+F
+"./code/JPtrQueue.tmpls"
+T
+2 "JPtrStack.h"
+F
+"./code/JPtrStack.h"
+T
+2 "JPtrStack.tmpls"
+F
+"./code/JPtrStack.tmpls"
+T
+2 "JQueue.h"
+F
+"./code/JQueue.h"
+T
+2 "JQueue.tmpls"
+F
+"./code/JQueue.tmpls"
+T
+2 "JRunArray.h"
+F
+"./code/JRunArray.h"
+T
+2 "JRunArray.tmpls"
+F
+"./code/JRunArray.tmpls"
+T
+2 "JRunArrayIterator.h"
+F
+"./code/JRunArrayIterator.h"
+T
+2 "JSortablePtrArray.tmpls"
+F
+"./code/JSortablePtrArray.tmpls"
+T
+2 "JStack.h"
+F
+"./code/JStack.h"
+T
+2 "JStack.tmpls"
+F
+"./code/JStack.tmpls"
+T
+2 "JSubset.cpp"
+F
+"./code/JSubset.cpp"
+T
+2 "JFileArray.cpp"
+F
+"./code/JFileArray.cpp"
+T
+2 "JFileArrayIndex.cpp"
+F
+"./code/JFileArrayIndex.cpp"
+F
+T
+1 "hash"
+T
+2 "JHashTable.h"
+F
+"./code/JHashTable.h"
+T
+2 "JHashRecord.h"
+F
+"./code/JHashRecord.h"
+T
+2 "JConstHashCursor.h"
+F
+"./code/JConstHashCursor.h"
+T
+2 "JHashCursor.h"
+F
+"./code/JHashCursor.h"
+T
+2 "JHashTable.tmpls"
+F
+"./code/JHashTable.tmpls"
+T
+2 "jHashFunctions.cpp"
+F
+"./code/jHashFunctions.cpp"
+F
+T
+1 "map"
+T
+2 "JStringMap.h"
+F
+"./code/JStringMap.h"
+T
+2 "JStringMap.tmpls"
+F
+"./code/JStringMap.tmpls"
+T
+2 "JStringMapCursor.h"
+F
+"./code/JStringMapCursor.h"
+T
+2 "JStringPtrMap.h"
+F
+"./code/JStringPtrMap.h"
+T
+2 "JStringPtrMap.tmpls"
+F
+"./code/JStringPtrMap.tmpls"
+T
+2 "JStringPtrMapCursor.h"
+F
+"./code/JStringPtrMapCursor.h"
+T
+2 "JStrValue.h"
+F
+"./code/JStrValue.h"
+T
+2 "JStrValue.tmpls"
+F
+"./code/JStrValue.tmpls"
+F
+T
+1 "file"
+T
+2 "JDirInfo.cpp"
+F
+"./code/JDirInfo.cpp"
+T
+2 "JDirInfo_UNIX.cpp"
+F
+"./code/JDirInfo_UNIX.cpp"
+T
+2 "JDirEntry.cpp"
+F
+"./code/JDirEntry.cpp"
+T
+2 "JFileID.cpp"
+F
+"./code/JFileID.cpp"
+T
+2 "jDirUtil.cpp"
+F
+"./code/jDirUtil.cpp"
+T
+2 "jDirUtil_UNIX.cpp"
+F
+"./code/jDirUtil_UNIX.cpp"
+T
+2 "jFileUtil.cpp"
+F
+"./code/jFileUtil.cpp"
+T
+2 "jFileUtil_UNIX.cpp"
+F
+"./code/jFileUtil_UNIX.cpp"
+T
+2 "jMountUtil_UNIX.cpp"
+F
+"./code/jMountUtil_UNIX.cpp"
+F
+T
+1 "io"
+T
+2 "jStreamUtil.cpp"
+F
+"./code/jStreamUtil.cpp"
+T
+2 "jStreamUtil_UNIX.cpp"
+F
+"./code/jStreamUtil_UNIX.cpp"
+T
+2 "jFStreamUtil.cpp"
+F
+"./code/jFStreamUtil.cpp"
+T
+2 "jFStreamUtil_UNIX.cpp"
+F
+"./code/jFStreamUtil_UNIX.cpp"
+F
+T
+1 "process"
+T
+2 "JProcess.cpp"
+F
+"./code/JProcess.cpp"
+T
+2 "JSimpleProcess.cpp"
+F
+"./code/JSimpleProcess.cpp"
+T
+2 "JThisProcess.cpp"
+F
+"./code/JThisProcess.cpp"
+T
+2 "JProcessError.cpp"
+F
+"./code/JProcessError.cpp"
+T
+2 "jProcessUtil.cpp"
+F
+"./code/jProcessUtil.cpp"
+T
+2 "jProcessUtil_UNIX.cpp"
+F
+"./code/jProcessUtil_UNIX.cpp"
+T
+2 "jSignal.cpp"
+F
+"./code/jSignal.cpp"
+T
+2 "jCommandLine.cpp"
+F
+"./code/jCommandLine.cpp"
+F
+T
+1 "ipc"
+T
+2 "JAsynchDataReceiver.h"
+F
+"./code/JAsynchDataReceiver.h"
+T
+2 "JNetworkProtocolBase.h"
+F
+"./code/JNetworkProtocolBase.h"
+T
+2 "JMessageProtocol.h"
+F
+"./code/JMessageProtocol.h"
+T
+2 "JACETemplates.cpp"
+F
+"./code/JACETemplates.cpp"
+T
+2 "JOutPipeStream.cpp"
+F
+"./code/JOutPipeStream.cpp"
+T
+2 "JOutPipeStreambuf.h"
+F
+"./code/JOutPipeStreambuf.h"
+F
+T
+1 "prefs"
+T
+2 "JPrefsManager.cpp"
+F
+"./code/JPrefsManager.cpp"
+T
+2 "JPrefObject.cpp"
+F
+"./code/JPrefObject.cpp"
+T
+2 "JPrefsFile.cpp"
+F
+"./code/JPrefsFile.cpp"
+F
+T
+1 "font"
+T
+2 "JFontStyle.cpp"
+F
+"./code/JFontStyle.cpp"
+T
+2 "JFontManager.cpp"
+F
+"./code/JFontManager.cpp"
+T
+2 "JGetCurrentFontManager.cpp"
+F
+"./code/JGetCurrentFontManager.cpp"
+F
+T
+1 "drawing"
+T
+2 "JPainter.cpp"
+F
+"./code/JPainter.cpp"
+T
+2 "JPoint.cpp"
+F
+"./code/JPoint.cpp"
+T
+2 "JRect.cpp"
+F
+"./code/JRect.cpp"
+T
+2 "jColor.cpp"
+F
+"./code/jColor.cpp"
+T
+2 "JColormap.cpp"
+F
+"./code/JColormap.cpp"
+T
+2 "JGetCurrentColormap.cpp"
+F
+"./code/JGetCurrentColormap.cpp"
+T
+2 "JColorList.cpp"
+F
+"./code/JColorList.cpp"
+T
+2 "JImage.cpp"
+F
+"./code/JImage.cpp"
+T
+2 "JImage_PNG.cpp"
+F
+"./code/JImage_PNG.cpp"
+T
+2 "JImage_JPEG.cpp"
+F
+"./code/JImage_JPEG.cpp"
+T
+2 "JImageMask.cpp"
+F
+"./code/JImageMask.cpp"
+F
+T
+1 "printing"
+T
+2 "JPrinter.cpp"
+F
+"./code/JPrinter.cpp"
+T
+2 "JPTPrinter.cpp"
+F
+"./code/JPTPrinter.cpp"
+T
+2 "JPagePrinter.cpp"
+F
+"./code/JPagePrinter.cpp"
+T
+2 "JPSPrinter.cpp"
+F
+"./code/JPSPrinter.cpp"
+T
+2 "JPSPrinterBase.cpp"
+F
+"./code/JPSPrinterBase.cpp"
+T
+2 "JEPSPrinter.cpp"
+F
+"./code/JEPSPrinter.cpp"
+F
+T
+1 "table"
+T
+2 "JTable.cpp"
+F
+"./code/JTable.cpp"
+T
+2 "JTableData.cpp"
+F
+"./code/JTableData.cpp"
+T
+2 "JTableSelection.cpp"
+F
+"./code/JTableSelection.cpp"
+T
+2 "JTableSelectionIterator.cpp"
+F
+"./code/JTableSelectionIterator.cpp"
+T
+2 "JStringTableData.cpp"
+F
+"./code/JStringTableData.cpp"
+T
+2 "JFloatTableData.cpp"
+F
+"./code/JFloatTableData.cpp"
+T
+2 "JFloatBufferTableData.cpp"
+F
+"./code/JFloatBufferTableData.cpp"
+T
+2 "JStyleTableData.cpp"
+F
+"./code/JStyleTableData.cpp"
+T
+2 "JAuxTableData.h"
+F
+"./code/JAuxTableData.h"
+T
+2 "JAuxTableData.tmpls"
+F
+"./code/JAuxTableData.tmpls"
+T
+2 "JObjTableData.h"
+F
+"./code/JObjTableData.h"
+T
+2 "JObjTableData.tmpls"
+F
+"./code/JObjTableData.tmpls"
+T
+2 "JPackedTableData.h"
+F
+"./code/JPackedTableData.h"
+T
+2 "JPackedTableData.tmpls"
+F
+"./code/JPackedTableData.tmpls"
+T
+2 "JValueTableData.h"
+F
+"./code/JValueTableData.h"
+T
+2 "JValueTableData.tmpls"
+F
+"./code/JValueTableData.tmpls"
+F
+T
+1 "tree"
+T
+2 "JTree.cpp"
+F
+"./code/JTree.cpp"
+T
+2 "JTreeNode.cpp"
+F
+"./code/JTreeNode.cpp"
+T
+2 "JTreeList.cpp"
+F
+"./code/JTreeList.cpp"
+T
+2 "JNamedTreeList.cpp"
+F
+"./code/JNamedTreeList.cpp"
+T
+2 "JNamedTreeNode.cpp"
+F
+"./code/JNamedTreeNode.cpp"
+F
+T
+1 "text editor"
+T
+2 "JTextEditor.cpp"
+F
+"./code/JTextEditor.cpp"
+T
+2 "JTEUndoBase.cpp"
+F
+"./code/JTEUndoBase.cpp"
+T
+2 "JTEUndoTextBase.cpp"
+F
+"./code/JTEUndoTextBase.cpp"
+T
+2 "JTEUndoDrop.cpp"
+F
+"./code/JTEUndoDrop.cpp"
+T
+2 "JTEUndoPaste.cpp"
+F
+"./code/JTEUndoPaste.cpp"
+T
+2 "JTEUndoStyle.cpp"
+F
+"./code/JTEUndoStyle.cpp"
+T
+2 "JTEUndoTabShift.cpp"
+F
+"./code/JTEUndoTabShift.cpp"
+T
+2 "JTEUndoTyping.cpp"
+F
+"./code/JTEUndoTyping.cpp"
+T
+2 "JTEStyler.cpp"
+F
+"./code/JTEStyler.cpp"
+T
+2 "JTEHTMLScanner.cpp"
+F
+"./code/JTEHTMLScanner.cpp"
+T
+2 "Templates-JTextEditor.cpp"
+F
+"./code/Templates-JTextEditor.cpp"
+F
+T
+1 "widgets"
+T
+2 "JPartition.cpp"
+F
+"./code/JPartition.cpp"
+T
+2 "JSliderBase.cpp"
+F
+"./code/JSliderBase.cpp"
+F
+T
+1 "user notification"
+T
+2 "JUserNotification.cpp"
+F
+"./code/JUserNotification.cpp"
+T
+2 "JTextUserNotification.cpp"
+F
+"./code/JTextUserNotification.cpp"
+F
+T
+1 "progress display"
+T
+2 "JProgressDisplay.cpp"
+F
+"./code/JProgressDisplay.cpp"
+T
+2 "JLatentPG.cpp"
+F
+"./code/JLatentPG.cpp"
+T
+2 "JTextProgressDisplay.cpp"
+F
+"./code/JTextProgressDisplay.cpp"
+T
+2 "JCreateProgressDisplay.cpp"
+F
+"./code/JCreateProgressDisplay.cpp"
+T
+2 "JCreateTextPG.cpp"
+F
+"./code/JCreateTextPG.cpp"
+F
+T
+1 "csf"
+T
+2 "JChooseSaveFile.cpp"
+F
+"./code/JChooseSaveFile.cpp"
+T
+2 "JTextChooseSaveFile.cpp"
+F
+"./code/JTextChooseSaveFile.cpp"
+F
+T
+1 "HTML"
+T
+2 "JHTMLScanner.cpp"
+F
+"./code/JHTMLScanner.cpp"
+T
+2 "JHTMLScannerL.l"
+F
+"./code/JHTMLScannerL.l"
+T
+2 "JExtractHTMLTitle.cpp"
+F
+"./code/JExtractHTMLTitle.cpp"
+F
+T
+1 "memory manager"
+T
+2 "jNew.cpp"
+F
+"./code/jNew.cpp"
+T
+2 "jMemory.cpp"
+F
+"./code/jMemory.cpp"
+T
+2 "JMemoryManager.cpp"
+F
+"./code/JMemoryManager.cpp"
+T
+2 "JMMArrayTable.cpp"
+F
+"./code/JMMArrayTable.cpp"
+T
+2 "JMMErrorPrinter.cpp"
+F
+"./code/JMMErrorPrinter.cpp"
+T
+2 "JMMHashTable.cpp"
+F
+"./code/JMMHashTable.cpp"
+T
+2 "JMMMonitor.cpp"
+F
+"./code/JMMMonitor.cpp"
+T
+2 "JMMRecord.cpp"
+F
+"./code/JMMRecord.cpp"
+T
+2 "JMMTable.cpp"
+F
+"./code/JMMTable.cpp"
+F
+T
+1 "misc"
+T
+2 "JMDIServer.cpp"
+F
+"./code/JMDIServer.cpp"
+T
+2 "jMouseUtil.cpp"
+F
+"./code/jMouseUtil.cpp"
+T
+2 "JStopWatch.cpp"
+F
+"./code/JStopWatch.cpp"
+T
+2 "jSysUtil_UNIX.cpp"
+F
+"./code/jSysUtil_UNIX.cpp"
+T
+2 "JTaskIterator.h"
+F
+"./code/JTaskIterator.h"
+T
+2 "jTime.cpp"
+F
+"./code/jTime.cpp"
+T
+2 "jTime_UNIX.cpp"
+F
+"./code/jTime_UNIX.cpp"
+T
+2 "JUndo.cpp"
+F
+"./code/JUndo.cpp"
+T
+2 "jVCSUtil.cpp"
+F
+"./code/jVCSUtil.cpp"
+T
+2 "jWebUtil.cpp"
+F
+"./code/jWebUtil.cpp"
+T
+2 "jXMLUtil.cpp"
+F
+"./code/jXMLUtil.cpp"
+F
+T
+1 "templates"
+T
+2 "Templates-short.cpp"
+F
+"./code/Templates-short.cpp"
+T
+2 "Templates-int.cpp"
+F
+"./code/Templates-int.cpp"
+T
+2 "Templates-uint.cpp"
+F
+"./code/Templates-uint.cpp"
+T
+2 "Templates-long.cpp"
+F
+"./code/Templates-long.cpp"
+T
+2 "Templates-longlong.cpp"
+F
+"./code/Templates-longlong.cpp"
+T
+2 "Templates-ulong.cpp"
+F
+"./code/Templates-ulong.cpp"
+T
+2 "Templates-float.cpp"
+F
+"./code/Templates-float.cpp"
+T
+2 "Templates-double.cpp"
+F
+"./code/Templates-double.cpp"
+T
+2 "Templates-JCharacter.cpp"
+F
+"./code/Templates-JCharacter.cpp"
+T
+2 "Templates-JBoolean.cpp"
+F
+"./code/Templates-JBoolean.cpp"
+T
+2 "Templates-JString.cpp"
+F
+"./code/Templates-JString.cpp"
+T
+2 "Templates-JString2.cpp"
+F
+"./code/Templates-JString2.cpp"
+F
+T
+1 "pcre"
+T
+2 "Makefile.in"
+F
+"../misc/pcre/Makefile.in"
+T
+2 "get.o"
+F
+"../misc/pcre/.libs/get.o"
+T
+2 "maketables.o"
+F
+"../misc/pcre/.libs/maketables.o"
+T
+2 "pcre.o"
+F
+"../misc/pcre/.libs/pcre.o"
+T
+2 "study.o"
+F
+"../misc/pcre/.libs/study.o"
+F
+T
+1 "gd"
+T
+2 "makefile.sample"
+F
+"../misc/gd/makefile.sample"
+T
+2 "gd.o"
+F
+"../misc/gd/gd.o"
+T
+2 "gd_gd.o"
+F
+"../misc/gd/gd_gd.o"
+T
+2 "gd_gd2.o"
+F
+"../misc/gd/gd_gd2.o"
+T
+2 "gd_gif_in.o"
+F
+"../misc/gd/gd_gif_in.o"
+T
+2 "gd_gif_out.o"
+F
+"../misc/gd/gd_gif_out.o"
+T
+2 "gd_io.o"
+F
+"../misc/gd/gd_io.o"
+T
+2 "gd_io_dp.o"
+F
+"../misc/gd/gd_io_dp.o"
+T
+2 "gd_io_file.o"
+F
+"../misc/gd/gd_io_file.o"
+T
+2 "gd_io_ss.o"
+F
+"../misc/gd/gd_io_ss.o"
+T
+2 "gd_png.o"
+F
+"../misc/gd/gd_png.o"
+T
+2 "gd_security.o"
+F
+"../misc/gd/gd_security.o"
+T
+2 "gd_ss.o"
+F
+"../misc/gd/gd_ss.o"
+T
+2 "gd_topal.o"
+F
+"../misc/gd/gd_topal.o"
+T
+2 "gd_wbmp.o"
+F
+"../misc/gd/gd_wbmp.o"
+T
+2 "gdcache.o"
+F
+"../misc/gd/gdcache.o"
+T
+2 "gdfontg.o"
+F
+"../misc/gd/gdfontg.o"
+T
+2 "gdfontl.o"
+F
+"../misc/gd/gdfontl.o"
+T
+2 "gdfontmb.o"
+F
+"../misc/gd/gdfontmb.o"
+T
+2 "gdfonts.o"
+F
+"../misc/gd/gdfonts.o"
+T
+2 "gdfontt.o"
+F
+"../misc/gd/gdfontt.o"
+T
+2 "gdft.o"
+F
+"../misc/gd/gdft.o"
+T
+2 "gdfx.o"
+F
+"../misc/gd/gdfx.o"
+T
+2 "gdhelpers.o"
+F
+"../misc/gd/gdhelpers.o"
+T
+2 "gdkanji.o"
+F
+"../misc/gd/gdkanji.o"
+T
+2 "gdtables.o"
+F
+"../misc/gd/gdtables.o"
+T
+2 "gdxpm.o"
+F
+"../misc/gd/gdxpm.o"
+T
+2 "wbmp.o"
+F
+"../misc/gd/wbmp.o"
+F
 F
 # tasks
 4
-"make depend"
+"makemake"
 T "./" "make -k" "" T F T F T F T "" "" "" T
 T "./" "make $file_name_root" "" T F T T T T F "" "" "" F
 T "./" "make CHECKSTRING=$file_name checksyntax" "" T F T T T T F "" "" "" T
@@ -12,10 +1061,10 @@ T "./" "libjcore" "" F F F F T T F "" "" "" T
 T "./" "medic -f +$line $full_name" "" F F F T F F F "" "" "" T
 F
 # build settings
-0
-T
-"libjcore"
-""
+1
+F
+"libjcore-${JX_LIB_VERSION}.a,libjcore-${JX_LIB_VERSION}.so"
+"${GD_JPEG_FILES}"
 "make -k all"
 # search paths
 T "./code" T

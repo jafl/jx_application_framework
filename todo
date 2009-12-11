@@ -1,42 +1,24 @@
 create new NPS email addresses to avoid spam
 
-free upgrade
-	david-m@orbotech.com
+nps_svn_client -> nps_vcs_client
+	separate window type for git
+	unsorted string list to display output of git status
+	text area to display output of push/pull
 
 jcc
-*	all windows disabled after click "Load" in Edit Macros dialog
+	send symbol updates via pipe instead of blocking read afterwards
+		if update takes less time than last full read, tell main process to update directly
 
 medic:
-	accept connection or switch to gdb:  should stop listening on port
-		need simple example to submit to ACE list
-	restart either xdebug or java:  unable to listen on port & crashes on exit
-		also need to fix SetProgram()
-
 	2D plots
-*		printing to EPS -- unable to set file
-
-		option for polar grid:  draw partial circles (only if both axes linear)
-
 		write CMVarTreeHelp#Plot2D
 			extract help from glove into generic section in libj2dplot
 
-	gdb
-*		don't allow run program until GDBDisplaySourceForMain has finished
-
-		Test suite
-			start, choose program, set bkpt, run
-			start, run, open file, stop, set bkpt, continue
-			start with program name, set bkpt, run
-			start with core name
-			switch from core dump to running binary
-			switch from running binary to core dump
-			switch from one program to another
-
-upgrade dashboard widgets to YUI 3
-
------
-
 WindowManager
+	throw out current detection code and write clean suite in JXDisplay
+		create window, place, move, hide, show to get offsets
+		save data on root window (JXWindowManagerBehavior) for next time
+
 	OSX
 		visible/visible			+
 		visible/hidden/show		+
@@ -46,17 +28,40 @@ WindowManager
 	Metacity
 		window is not child of WM frame
 
+-----
+
+upgrade dashboard widgets to YUI 3
+
+J2DPlotWidget:
+	option for polar grid:  draw partial circles (only if both axes linear)
+
 jcc:
-*	git diff
+	git diff
 		http://yuilibrary.com/gitfaq/
 		http://www.eecs.harvard.edu/~cduan/technical/git/
 
 medic:
-	breakpoint/watchpoint window (create/edit/delete)
+	breakpoint window
+		modeless: update on ":Medic breakpoints changed:"
+		create/edit/delete
+		shows bkpt, watch, catch: need to update GDBGetBreakpoints
+
+	accept connection or switch to gdb:  should stop listening on port
+		need simple example to submit to ACE list
+	restart either xdebug or java:  unable to listen on port & crashes on exit
+		also need to fix SetProgram()
 
 	gdb
 		enable call to UnlockDisplays(), when JXGetAssertHandler is defined
 			check every time symbols are loaded
+	gdb test suite
+		start, choose program, set bkpt, run
+		start, run, open file, stop, set bkpt, continue
+		start with program name, set bkpt, run
+		start with core name
+		switch from core dump to running binary
+		switch from running binary to core dump
+		switch from one program to another
 
 	xdebug
 		click stack trace: selection jumps back to last frame
@@ -168,6 +173,10 @@ Daily Comics:
 			for each domain, 1 request per minute
 		scp results to sourceforge.net
 		app pulls from sourceforge
+
+		kathleen_minor@yahoo.com
+			download and cache all comics, so can read them even without connection
+		ebaysj@yahoo.com
 
 	if skip before loaded, saves prev in that slot
 	when first open dashboard after reboot, sizes window to back, even when front visible

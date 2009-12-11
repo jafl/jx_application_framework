@@ -1,5 +1,3 @@
-#ifdef _J_ARRAY_NEW_OVERRIDABLE
-
 #ifndef _H_jNew
 #define _H_jNew
 
@@ -67,5 +65,3 @@
 #undef delete
 #endif
 #define delete JLocateDelete(__FILE__, __LINE__), delete
-
-#endif	/* _J_ARRAY_NEW_OVERRIDABLE */

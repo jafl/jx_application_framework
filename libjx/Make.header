@@ -7,13 +7,11 @@ JX_ROOT := ..
 
 JXDIR    := ./code
 JCOREDIR := ${JX_ROOT}/include/jcore
-XPMDIR   := ${JX_ROOT}/misc/xpm
 
 # Directories to search for header files
 
 SEARCHDIRS := -I${JXDIR} \
-              -I${JCOREDIR} \
-              -I${XPMDIR}/lib
+              -I${JCOREDIR}
 
 # makemake variables
 
@@ -32,7 +30,7 @@ LDFLAGS   :=
 #####
 
 LIB_NAME_ROOT := libjx-${JX_LIB_VERSION}
-OTHER_DEPS    := xpm
+OTHER_DEPS    := 
 include ${JX_ROOT}/include/make/default_lib_target
 
 .PHONY : Makefiles
@@ -50,20 +48,6 @@ tidy::
 .PHONY : clean
 clean::
 	@cd test; ${MAKE} clean
-
-#
-# libraries we require
-#
-
-.PHONY : xpm
-xpm:
-  ifdef JX_INCLUDE_LIBXPM
-	@-cd ${XPMDIR}; \
-      xmkmf -a > /dev/null; \
-      sed -e '/^[ ][ ]*MAKE =/d' < Makefile > Makefile.fixed; \
-      mv Makefile.fixed Makefile; \
-      ${MAKE} > /dev/null
-  endif
 
 #
 # JX source distribution  (DISTR_TAR_FILE)

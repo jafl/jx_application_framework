@@ -196,7 +196,7 @@ void
 JXWindowDirector::Suspend()
 {
 	JXDirector::Suspend();
-	if (itsWindow != NULL && IsSuspended())
+	if (itsWindow != NULL)
 		{
 		itsWindow->Suspend();
 		}
@@ -211,7 +211,7 @@ void
 JXWindowDirector::Resume()
 {
 	JXDirector::Resume();
-	if (itsWindow != NULL && !IsSuspended())
+	if (itsWindow != NULL)
 		{
 		itsWindow->Resume();
 		}

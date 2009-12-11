@@ -21,17 +21,7 @@
 #include "JError.h"
 #include "regex.h"
 
-class JSubstitute;
 class JInterpolate;
-
-#ifdef PCRE_MAJOR
-#define REG_ICASE	PCRE_CASELESS
-#define REG_NEWLINE	PCRE_MULTILINE
-#define REG_NOTBOL	PCRE_NOTBOL
-#define	REG_NOTEOL	PCRE_NOTEOL
-#define REG_NOSUB	0
-#define REG_NOMATCH	PCRE_ERROR_NOMATCH
-#endif
 
 //#define JRE_ALLOC_CHECK
 //#define JRE_PRINT_COMPILE_ERRORS
@@ -41,8 +31,8 @@ class JRegex
 public:
 
 	JRegex();
-	JRegex(const JCharacter* pattern, const JBoolean useJExtended = kJFalse);
-	JRegex(const JCharacter* pattern, const JSize length, const JBoolean useJExtended = kJFalse);
+	JRegex(const JCharacter* pattern);
+	JRegex(const JCharacter* pattern, const JSize length);
 
 	virtual ~JRegex();
 
@@ -69,20 +59,13 @@ public:
 
 // Pattern-related settings and statistics
 
-#ifndef PCRE_MAJOR
-	void     SetNoJExtended(const JBoolean yesNo = kJTrue);
-	JBoolean IsNoJExtended() const;
-#endif
-
 	JBoolean ContainsNULL() const;
 	JSize    NULLCount() const;
 
 	JSize    	GetSubCount() const;
-#ifdef PCRE_MAJOR
 	JBoolean	GetSubexpressionIndex(const JCharacter* name, JIndex* index) const;
 	JBoolean	GetSubexpression(const JCharacter* str, const JCharacter* name,
 								 const JArray<JIndexRange>& matchList, JString* s) const;
-#endif
 
 /******************************************************************************
  Match and friends
@@ -187,9 +170,6 @@ public:
 	// Direct access to the internal escape and match substitution engines,
 	// in case you wish to customize them.
 
-#ifndef PCRE_MAJOR
-	JSubstitute*  GetPatternEscapeEngine() const;
-#endif
 	JInterpolate* GetMatchInterpolator()   const;
 
 private:
@@ -205,11 +185,7 @@ private:
 	JString itsPattern;
 	JSize   itsNULLCount;
 
-#ifdef PCRE_MAJOR
 	pcre*	itsRegex;
-#else
-	regex_t	itsRegex;
-#endif
 
 	int itsCFlags;
 	int itsEFlags;
@@ -217,7 +193,6 @@ private:
 	JString*      itsReplacePattern;
 
 	JInterpolate* itsInterpolator;
-	JSubstitute*  itsEscapeEngine;
 
 	#ifdef JRE_ALLOC_CHECK
 	int numRegexAlloc;
@@ -228,7 +203,6 @@ private:
 
 	PatternState itsState; // 2 bits
 
-	JBoolean itsNoJExtendedFlag;       // 1 bit each
 	JBoolean itsLiteralReplaceFlag;
 	JBoolean itsMatchCaseFlag;
 
@@ -297,21 +271,6 @@ public:
 	};
 };
 
-
-/******************************************************************************
- IsNoJExtended
-
- *****************************************************************************/
-
-#ifndef PCRE_MAJOR
-
-inline JBoolean
-JRegex::IsNoJExtended() const
-{
-	return itsNoJExtendedFlag;
-}
-
-#endif
 
 /******************************************************************************
  RawGetOption (private)
@@ -418,13 +377,13 @@ JRegex::SetCaseSensitive
 	const JBoolean yesNo // = kJTrue
 	)
 {
-	SetCompileOption(REG_ICASE, !yesNo);
+	SetCompileOption(PCRE_CASELESS, !yesNo);
 }
 
 inline JBoolean
 JRegex::IsCaseSensitive() const
 {
-	return !RawGetOption(itsCFlags, REG_ICASE);
+	return !RawGetOption(itsCFlags, PCRE_CASELESS);
 }
 
 /******************************************************************************
@@ -445,13 +404,13 @@ JRegex::SetSingleLine
 	const JBoolean yesNo // = kJTrue
 	)
 {
-	SetCompileOption(REG_NEWLINE, !yesNo);
+	SetCompileOption(PCRE_MULTILINE, !yesNo);
 }
 
 inline JBoolean
 JRegex::IsSingleLine() const
 {
-	return !RawGetOption(itsCFlags, REG_NEWLINE);
+	return !RawGetOption(itsCFlags, PCRE_MULTILINE);
 }
 
 /******************************************************************************
@@ -476,13 +435,13 @@ JRegex::SetMatchOnly
 	const JBoolean yesNo // = kJTrue
 	)
 {
-	SetCompileOption(REG_NOSUB, yesNo);
+	SetCompileOption(0, yesNo);
 }
 
 inline JBoolean
 JRegex::IsMatchOnly() const
 {
-	return RawGetOption(itsCFlags, REG_NOSUB);
+	return RawGetOption(itsCFlags, 0);
 }
 
 /******************************************************************************
@@ -501,13 +460,13 @@ JRegex::SetLineBegin
 	const JBoolean yesNo // = kJTrue
 	)
 {
-	SetExecuteOption(REG_NOTBOL, !yesNo);
+	SetExecuteOption(PCRE_NOTBOL, !yesNo);
 }
 
 inline JBoolean
 JRegex::IsLineBegin() const
 {
-	return !RawGetOption(itsEFlags, REG_NOTBOL);
+	return !RawGetOption(itsEFlags, PCRE_NOTBOL);
 }
 
 /******************************************************************************
@@ -525,13 +484,13 @@ JRegex::SetLineEnd
 	const JBoolean yesNo // = kJTrue
 	)
 {
-	SetExecuteOption(REG_NOTEOL, !yesNo);
+	SetExecuteOption(PCRE_NOTEOL, !yesNo);
 }
 
 inline JBoolean
 JRegex::IsLineEnd() const
 {
-	return !RawGetOption(itsEFlags, REG_NOTEOL);
+	return !RawGetOption(itsEFlags, PCRE_NOTEOL);
 }
 
 /******************************************************************************
@@ -632,20 +591,5 @@ JRegex::GetReplacePattern() const
 {
 	return *itsReplacePattern;
 }
-
-/******************************************************************************
- GetPatternEscapeEngine
-
- *****************************************************************************/
-
-#ifndef PCRE_MAJOR
-
-inline JSubstitute*
-JRegex::GetPatternEscapeEngine() const
-{
-	return itsEscapeEngine;
-}
-
-#endif
 
 #endif

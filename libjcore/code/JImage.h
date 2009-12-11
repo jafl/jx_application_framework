@@ -18,10 +18,7 @@
 #include <jColor.h>
 #include <JError.h>
 #include <JXPM.h>
-
-#if defined _J_HAS_GD
 #include <gd.h>
-#endif
 
 class JImageMask;
 class JColormap;
@@ -102,15 +99,11 @@ private:
 
 private:
 
-	#if defined _J_HAS_GD
-
 	JError	ReadGD(const JCharacter* fileName,
 				   gdImagePtr (*imageCreateFromFile)(FILE *fd));
 	JError	WriteGD(const JCharacter* fileName, const JBoolean useTrueColor,
 					const JBoolean compressColorsToFit, const JBoolean interlace,
 					void (*imageWriteToFile)(gdImagePtr im, FILE *out)) const;
-
-	#endif
 
 	// not allowed
 

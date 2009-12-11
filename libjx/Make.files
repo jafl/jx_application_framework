@@ -223,6 +223,9 @@
 .cpp ./code/JXGC
 .cpp ./code/jXPainterUtil
 .cpp ./code/JXImage
+.cpp ./code/JXImage_CreateFromFile
+.cpp ./code/JXImage_PNG
+.cpp ./code/JXImage_JPEG
 .cpp ./code/JXImageMask
 .cpp ./code/JXImagePainter
 .cpp ./code/JXImageCache

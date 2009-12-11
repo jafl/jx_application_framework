@@ -118,21 +118,23 @@ public:
 	void		SetItemID(const JIndex index, const JCharacter* id);
 	JBoolean	ItemIDToIndex(const JCharacter* targetID, JIndex* index) const;
 
-	void	EnableItem(const JIndex index);
-	void	EnableAll();
-	void	DisableItem(const JIndex index);
-	void	DisableAll();
-	void	SetItemEnable(const JIndex index, const JBoolean enabled);
+	JBoolean	IsEnabled(const JIndex index) const;
+	void		EnableItem(const JIndex index);
+	void		EnableAll();
+	void		DisableItem(const JIndex index);
+	void		DisableAll();
+	void		SetItemEnable(const JIndex index, const JBoolean enabled);
 
-	void		CheckItem(const JIndex index);
 	JBoolean	IsChecked(const JIndex index) const;
+	void		CheckItem(const JIndex index);
 
+	JBoolean	GetSubmenu(const JIndex index, const JXMenu** menu) const;
 	void		AttachSubmenu(const JIndex index, JXMenu* submenu);
 	JBoolean	RemoveSubmenu(const JIndex index, JXMenu** theMenu);
 	void		DeleteSubmenu(const JIndex index);
-	JBoolean	GetSubmenu(const JIndex index, const JXMenu** menu) const;
 
-	void		SetUpdateAction(const UpdateAction action);
+	UpdateAction	GetUpdateAction() const;
+	void			SetUpdateAction(const UpdateAction action);
 
 	JBoolean		IsPopupChoice() const;
 	virtual void	SetToPopupChoice(const JBoolean isPopup,
@@ -298,8 +300,8 @@ public:
 
 		private:
 
-			JIndex		itsIndex;
-			JBoolean	itsFromShortcutFlag;
+			const JIndex	itsIndex;
+			const JBoolean	itsFromShortcutFlag;
 		};
 };
 
@@ -353,6 +355,18 @@ JXMenu::GetTitleImage
 {
 	*image = itsTitleImage;
 	return JI2B(itsTitleImage != NULL);
+}
+
+/******************************************************************************
+ GetUpdateAction
+
+ ******************************************************************************/
+
+inline JXMenu::UpdateAction
+JXMenu::GetUpdateAction()
+	const
+{
+	return itsUpdateAction;
 }
 
 /******************************************************************************

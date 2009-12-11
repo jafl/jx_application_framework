@@ -12,9 +12,9 @@ J_X11_LIB_DIR := -L/usr/X11R6/lib64
 
 # J_X11_INCLUDE_DIR := -I/usr/include
 
-# Uncomment this if you want to compile libXpm into libjx
+# Uncomment this if your system has libjpeg
 
-# JX_INCLUDE_LIBXPM := yes
+J_HAS_JPEG := -D_J_HAS_JPEG
 
 # This sets the optimization level
 
@@ -38,10 +38,6 @@ J_COMPILE_DEBUG := -g
 # you can't avoid.
 
 #J_DIE_ON_WARNING := -Werror
-
-# Comment this out if new[] and delete[] are not overridable.
-
-J_ARRAY_NEW_OVERRIDABLE := -D_J_ARRAY_NEW_OVERRIDABLE
 
 # Uncomment this if your version of GNU make does not automatically
 # generate the -o parameter.

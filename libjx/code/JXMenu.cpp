@@ -663,6 +663,21 @@ JXMenu::ItemIDToIndex
 }
 
 /******************************************************************************
+ IsEnabled
+
+ ******************************************************************************/
+
+JBoolean
+JXMenu::IsEnabled
+	(
+	const JIndex index
+	)
+	const
+{
+	return itsBaseItemData->IsEnabled(index);
+}
+
+/******************************************************************************
  EnableItem
 
  ******************************************************************************/
@@ -728,20 +743,6 @@ JXMenu::SetItemEnable
 }
 
 /******************************************************************************
- CheckItem
-
- ******************************************************************************/
-
-void
-JXMenu::CheckItem
-	(
-	const JIndex index
-	)
-{
-	itsBaseItemData->CheckItem(index);
-}
-
-/******************************************************************************
  IsChecked
 
  ******************************************************************************/
@@ -754,6 +755,20 @@ JXMenu::IsChecked
 	const
 {
 	return itsBaseItemData->IsChecked(index);
+}
+
+/******************************************************************************
+ CheckItem
+
+ ******************************************************************************/
+
+void
+JXMenu::CheckItem
+	(
+	const JIndex index
+	)
+{
+	itsBaseItemData->CheckItem(index);
 }
 
 /******************************************************************************
@@ -1362,10 +1377,6 @@ JXMenu::Activate()
 	if (!wasActive && IsActive())
 		{
 		itsTitleStyle.color = itsTrueTitleColor;
-		if (!itsTitle.IsEmpty())
-			{
-			Refresh();
-			}
 
 		JIndex ownerItemIndex;
 		if (itsOwner != NULL &&
@@ -1394,10 +1405,6 @@ JXMenu::Deactivate()
 	if (wasActive && !IsActive())
 		{
 		itsTitleStyle.color = (GetColormap())->GetInactiveLabelColor();
-		if (!itsTitle.IsEmpty())
-			{
-			Refresh();
-			}
 
 		JIndex ownerItemIndex;
 		if (itsOwner != NULL &&
@@ -1421,10 +1428,6 @@ JXMenu::Suspend()
 	if (wasActive && !IsActive())
 		{
 		itsTitleStyle.color = (GetColormap())->GetInactiveLabelColor();
-		if (!itsTitle.IsEmpty())
-			{
-			Refresh();
-			}
 		}
 }
 
@@ -1441,10 +1444,6 @@ JXMenu::Resume()
 	if (!wasActive && IsActive())
 		{
 		itsTitleStyle.color = itsTrueTitleColor;
-		if (!itsTitle.IsEmpty())
-			{
-			Refresh();
-			}
 		}
 }
 

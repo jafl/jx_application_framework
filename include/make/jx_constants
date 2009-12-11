@@ -112,30 +112,8 @@ RPM_SRPM_DIR := /usr/src/rpm/SRPMS
 RPM := rpmbuild -bb --quiet --clean --rmsource
 
 #
-# JXImage formats
-#
-
-#J_HAS_GD := -D_J_HAS_GD		# adds -lpng -ljpeg at front of J_GCC_LIBS
-
-#
 # string data files
 #
 
 J_STRING_FILES += ${JX_ROOT}/libjcore/strings/* \
                   ${JX_ROOT}/libjx/strings/*
-
-#
-# for use by Dustin Laurence
-#
-
-DJ_REGEX_DIR := ${JX_ROOT}/include/jcore
-#SEARCHDIRS   := -I- -I${DJ_REGEX_DIR} ${filter-out -I-, ${SEARCHDIRS}}
-
-DJ_HASH_DIR := ${JX_ROOT}/include/jcore
-#SEARCHDIRS  := -I- -I${DJ_HASH_DIR} ${filter-out -I-, ${SEARCHDIRS}}
-
-DJ_RAND_DIR := ${JX_ROOT}/include/jcore
-#SEARCHDIRS  := -I- -I${DJ_RAND_DIR} ${filter-out -I-, ${SEARCHDIRS}}
-
-DJ_MM_DIR  := ${JX_ROOT}/include/jcore
-#SEARCHDIRS := -I- -I${DJ_MM_DIR} ${filter-out -I-, ${SEARCHDIRS}}

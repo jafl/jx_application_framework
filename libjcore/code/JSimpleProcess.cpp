@@ -351,6 +351,8 @@ JSimpleProcess::ReportError
 	const JBoolean success
 	)
 {
+	StopListening(this);
+
 	JThisProcess::CheckACEReactor();
 
 	JString lastLine;

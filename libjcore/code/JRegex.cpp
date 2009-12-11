@@ -10,21 +10,6 @@
 	text than is necessary (and in fact was originally designed for use in a
 	text editor whose buffers are single strings and can contain megabytes).
 
-	JCore Regex Extensions
-
-	JRegex normally provides some simple extensions to the regular
-	expression language provided by regex; see SetNoJExtended and
-	JSubstitute for details.  However, normal C-style backslash escapes for
-	special characters like '\n' are still not expanded, because in many
-	context (notably C++ source) this is done by some other tool.  If you
-	need to do this yourself it is probably because you are allowing your
-	users to type in a regular expression string, in which case you
-	probably need fine control over which escapes can be used ('\0' or '\b'
-	are often inappropriate, for example), which would be clumsy to supply
-	in JRegex.  Instead JRegex can be queried for the objects it uses to
-	interpolate matches and to expand excapes so they can be customized as
-	necessary.
-
 	USAGE:
 
 	In spite of the number of methods defined, usage is straightforward.  A
@@ -84,9 +69,9 @@
 
 	IMPLEMENTATION:
 
-	JRegex is really a (somewhat complex) layer over Henry Spencer's (new
-	DFA, not old NFA) regex package.  It provides an improved, native C++
-	interface, but the real work is underneath, in regex.  Thanks, Henry.
+	JRegex is really a (somewhat complex) layer over the PCRE package.  It
+	provides an improved, native C++ interface, but the real work is
+	underneath, in pcre.
 
 	JRegex was written with the intention of making it fully NULL-safe
 	sometime in the future.  Some things are safe now, but the
@@ -127,29 +112,18 @@
 #include <JInterpolate.h>
 #include <jAssert.h>
 
-#ifdef PCRE_MAJOR
-
 struct regmatch_t
 {
 	int rm_so;	/* start of match */
 	int rm_eo;	/* end of match */
 };
 
-#endif
-
 	// Constants
 	const JCharacter* JRegex::kError = "Error::JRegex";
 
 	// Constant static data (i.e. ordinary file scope constants)
-#ifdef PCRE_MAJOR
 	static const int defaultCFlags = PCRE_MULTILINE;
 	static const int defaultEFlags = 0;
-#else
-	// WARNING: JRegex assumes that REG_PEND and REG_STARTEND are *always*
-	//          set, so they must always be in the defaults list!
-	static const int defaultCFlags = REG_NEWLINE | REG_PEND | REG_EXTENDED;
-	static const int defaultEFlags = REG_STARTEND;
-#endif
 
 	// JAFL 5/11/98
 	const JString JRegex::theSpecialCharList = ".[]\\?*+{}|()^$";
@@ -168,18 +142,12 @@ JRegex::JRegex()
 	:
 	itsPattern(),
 	itsNULLCount(0),
-#ifdef PCRE_MAJOR
 	itsRegex(NULL),
-#else
-//	itsRegex(), // It's Spencer's struct, we don't know the fields
-#endif
 	itsCFlags(defaultCFlags),
 	itsEFlags(defaultEFlags),
 	itsReplacePattern(NULL),
 	itsInterpolator(NULL),
-	itsEscapeEngine(NULL),
 	itsState(kEmpty),
-	itsNoJExtendedFlag(kJFalse),
 	itsLiteralReplaceFlag(kJFalse),
 	itsMatchCaseFlag(kJFalse)
 {
@@ -189,24 +157,17 @@ JRegex::JRegex()
 
 JRegex::JRegex
 	(
-	const JCharacter* pattern,
-	const JBoolean    useJExtended // = kJFalse
+	const JCharacter* pattern
 	)
 	:
 	itsPattern(),
 	itsNULLCount(0),
-#ifdef PCRE_MAJOR
 	itsRegex(NULL),
-#else
-//	itsRegex(), // It's Spencer's struct, we don't know the fields
-#endif
 	itsCFlags(defaultCFlags),
 	itsEFlags(defaultEFlags),
 	itsReplacePattern(NULL),
 	itsInterpolator(NULL),
-	itsEscapeEngine(NULL),
 	itsState(kEmpty),
-	itsNoJExtendedFlag(useJExtended),
 	itsLiteralReplaceFlag(kJFalse),
 	itsMatchCaseFlag(kJFalse)
 {
@@ -218,24 +179,17 @@ JRegex::JRegex
 JRegex::JRegex
 	(
 	const JCharacter* pattern,
-	const JSize       length,
-	const JBoolean    useJExtended // = kJFalse
+	const JSize       length
 	)
 	:
 	itsPattern(),
 	itsNULLCount(0),
-#ifdef PCRE_MAJOR
 	itsRegex(NULL),
-#else
-//	itsRegex(), // It's Spencer's struct, we don't know the fields
-#endif
 	itsCFlags(defaultCFlags),
 	itsEFlags(defaultEFlags),
 	itsReplacePattern(NULL),
 	itsInterpolator(NULL),
-	itsEscapeEngine(NULL),
 	itsState(kEmpty),
-	itsNoJExtendedFlag(useJExtended),
 	itsLiteralReplaceFlag(kJFalse),
 	itsMatchCaseFlag(kJFalse)
 {
@@ -252,18 +206,12 @@ JRegex::JRegex
 	:
 	itsPattern(),
 	itsNULLCount( static_cast<JSize>(-1) ), // Garbage, will be recalculated by SetPattern
-#ifdef PCRE_MAJOR
 	itsRegex(NULL),
-#else
-//	itsRegex(), // It's Spencer's struct, we don't know the fields
-#endif
 	itsCFlags(source.itsCFlags),
 	itsEFlags(source.itsEFlags),
 	itsReplacePattern(NULL),
 	itsInterpolator(NULL),
-	itsEscapeEngine(NULL),
 	itsState(kEmpty),
-	itsNoJExtendedFlag(source.itsNoJExtendedFlag),
 	itsLiteralReplaceFlag(source.itsLiteralReplaceFlag),
 	itsMatchCaseFlag(source.itsMatchCaseFlag)
 {
@@ -279,15 +227,6 @@ JRegex::Allocate()
 {
 	itsReplacePattern = new JString;
 	assert(itsReplacePattern != NULL);
-
-	// itsInterpolator is not created until needed
-#ifndef PCRE_MAJOR
-	itsEscapeEngine = new JSubstitute;
-	assert(itsEscapeEngine != NULL);
-	itsEscapeEngine->SetPureEscapeEngine();
-	itsEscapeEngine->IgnoreUnrecognized();
-	itsEscapeEngine->SetRegexExtensions();
-#endif
 
 	#ifdef	JRE_ALLOC_CHECK
 	numRegexAlloc = 0;
@@ -307,7 +246,6 @@ JRegex::~JRegex()
 	itsReplacePattern = NULL;
 
 	delete itsInterpolator;
-	delete itsEscapeEngine;
 }
 
 /******************************************************************************
@@ -458,55 +396,6 @@ JRegex::SetPatternOrDie
 }
 
 /******************************************************************************
- SetNoJExtended
-
-	The NoJExtended flag turns off the JCore extensions to the regular
-	expression language.  It defaults to false, so the JCore extensions
-	(actually they or variants are quite common in regular expression
-	tools) are active.  If set to true, the following constructs (actually
-	defined in JSubstitute.cc) will not work:
-
-		"\d"   a digit, [0-9]
-		"\D"   a non-digit
-		"\w"   a word character, [a-zA-Z0-9_]
-		"\W"   a non-word character
-		"\s"   a whitespace character, [ \f\n\r\t\v]
-		"\S"   a non-whitespace character
-		"\<"   an anchor just before a word (between \w and \W)
-		"\>"   an anchor just after a word (between \W and \w)
-
-	For more information, see the JSubstitute documentation (which is where
-	these shorthands are actually implemented).
-
-	Note that these are implemented by the escape engine and are set on
-	every compile, so that changing their values directly through the
-	engine rather than with this function has no effect.  At the moment,
-	they are all or nothing.
-
- *****************************************************************************/
-
-#ifndef PCRE_MAJOR
-
-void
-JRegex::SetNoJExtended
-	(
-	const JBoolean yesNo // = kJTrue
-	)
-{
-	if (itsNoJExtendedFlag != yesNo)
-		{
-		itsNoJExtendedFlag = yesNo;
-
-		if (itsState == kReady)
-			{
-			itsState = kRecompile;
-			}
-		}
-}
-
-#endif
-
-/******************************************************************************
  GetSubCount
 
 	Returns the number of parenthesized subexpressions in the compiled expression.
@@ -518,8 +407,6 @@ JRegex::SetNoJExtended
 JSize
 JRegex::GetSubCount() const
 {
-#ifdef PCRE_MAJOR
-
 	if (itsRegex == NULL)
 		{
 		return 0;
@@ -531,26 +418,6 @@ JRegex::GetSubCount() const
 		assert( result == 0 );
 		return count;
 		}
-
-#else
-
-	if (IsMatchOnly() || itsState == kEmpty || itsState == kCannotCompile)
-		{
-		return 0;
-		}
-	else
-		{
-		// Recompile if we see the impossible flag value set by SetCompileOption
-		if (itsRegex.re_nsub == static_cast<size_t>(-1) )
-			{
-			JRegex* mutate = const_cast<JRegex*>(this);
-			mutate->CompileOrDie();
-			}
-
-		return itsRegex.re_nsub;
-		}
-
-#endif
 }
 
 /******************************************************************************
@@ -1213,8 +1080,6 @@ JRegex::MatchBackward
 	return numFound; // We succeeded, and *matchList contains what we found
 }
 
-#ifdef PCRE_MAJOR
-
 /******************************************************************************
  GetSubexpressionIndex
 
@@ -1271,8 +1136,6 @@ JRegex::GetSubexpression
 	s->Clear();
 	return kJFalse;
 }
-
-#endif
 
 /******************************************************************************
  GetMatchInterpolator
@@ -1357,11 +1220,7 @@ JRegex::InterpolateMatches
 	JString replaceString = *itsReplacePattern;
 
 	JInterpolate* interpolator = GetMatchInterpolator();
-#ifdef PCRE_MAJOR
 	interpolator->SetMatchResults(sourceString, itsRegex, &matchList);
-#else
-	interpolator->SetMatchResults(sourceString, &matchList);
-#endif
 	interpolator->Substitute(&replaceString);
 	interpolator->SetMatchResults(NULL, NULL, NULL);
 
@@ -1617,16 +1476,6 @@ JRegex::SetCompileOption
 	if (itsState == kReady && oldCFlags != itsCFlags)
 		{
 		itsState = kRecompile;
-
-#ifndef PCRE_MAJOR
-		if ( (oldCFlags&REG_NOSUB) && !(itsCFlags&REG_NOSUB) )
-			{
-			// Set ridiculous value as flag for GetSubCount() to recompile;
-			// for compatibility with future regex versions we never trust
-			// an nsub calculated by compiling with REG_NOSUB
-			itsRegex.re_nsub = static_cast<size_t>(-1);
-			}
-#endif
 		}
 }
 
@@ -1696,7 +1545,6 @@ JRegex::RegComp()
 		return JRegexError(kError, "empty pattern", 0);
 		}
 
-#ifdef PCRE_MAJOR
 	assert( itsRegex == NULL );
 
 	const char* errorMessage;
@@ -1704,24 +1552,6 @@ JRegex::RegComp()
 	itsRegex = pcre_compile(itsPattern, itsCFlags,
 							&errorMessage, &errorOffset, NULL);
 	const int retVal = (itsRegex == NULL ? 1 : 0);
-#else
-	assert( RawGetOption(itsCFlags, REG_PEND) ); // Paranoia
-
-	if (itsNoJExtendedFlag)
-		{
-		itsEscapeEngine->ClearRegexExtensions();
-		}
-	else
-		{
-		itsEscapeEngine->SetRegexExtensions();
-		}
-
-	JString pattern = itsPattern;
-	itsEscapeEngine->Substitute(&pattern);
-
-	itsRegex.re_endp = pattern.GetCString() + pattern.GetLength();
-	const int retVal = regcomp(&itsRegex, pattern, itsCFlags);
-#endif
 
 	if (retVal == 0)
 		{
@@ -1737,19 +1567,7 @@ JRegex::RegComp()
 		}
 	else
 		{
-#ifdef PCRE_MAJOR
 		const JRegexError error(kError, errorMessage, errorOffset+1);
-#else
-		const JSize msgLength = regerror(retVal, &itsRegex, NULL, 0);
-		JCharacter* msg       = new JCharacter[ msgLength+1 ];
-		assert( msg != NULL );
-
-		regerror(retVal, &itsRegex, msg, msgLength);
-		msg[ msgLength ] = '\0';
-
-		const JRegexError error(kError, msg, 0);
-		delete[] msg;
-#endif
 
 		#ifdef JRE_PRINT_COMPILE_ERRORS
 		cout << "Compile error: " << error.GetMessage() << endl;
@@ -1805,19 +1623,11 @@ JRegex::RegExec
 	regmatch_t* pmatch   = NULL;
 	JSize nmatch         = 1;
 
-#ifdef PCRE_MAJOR
 	nmatch = (subCount+1)*3;
-#else
-	if (matchList != NULL)
-		{
-		nmatch = subCount+1;
-		}
-#endif
 
 	pmatch = new regmatch_t[ nmatch ];
 	assert( pmatch != NULL );
 
-#ifdef PCRE_MAJOR
 	int returnCode = pcre_exec(itsRegex, NULL, str, length, offset,
 							   itsEFlags, (int*) pmatch, nmatch);
 	if (returnCode > 0)
@@ -1825,26 +1635,6 @@ JRegex::RegExec
 		nmatch     = returnCode;
 		returnCode = 0;
 		}
-#else
-	assert( RawGetOption(itsEFlags, REG_STARTEND) ); // Paranoia
-
-	pmatch[0].rm_so = offset;
-	pmatch[0].rm_eo = length;
-
-	int eFlags = itsEFlags;
-	if (!IsSingleLine() && offset > 0 && str[offset-1] != '\n')
-		{
-		eFlags |= REG_NOTBOL;
-		}
-	if (!IsSingleLine() &&
-		str[ offset + length ] != '\n' &&
-		str[ offset + length ] != '\0')
-		{
-		eFlags |= REG_NOTEOL;
-		}
-
-	const int returnCode = regexec(&itsRegex, str, nmatch, pmatch, eFlags);
-#endif
 
 	if (returnCode == 0)
 		{
@@ -1867,17 +1657,8 @@ JRegex::RegExec
 
 		return kJTrue;
 		}
-	else if (returnCode == REG_NOMATCH)
+	else if (returnCode == PCRE_ERROR_NOMATCH)
 		{
-/*		MatchLastWithin() requires that values are not changed!
-
-		matchRange->SetToNothing();
-
-		if (matchList != NULL)
-			{
-			matchList->RemoveAll();
-			}
-*/
 		return kJFalse;
 		}
 	else
@@ -1895,7 +1676,6 @@ JRegex::RegExec
 void
 JRegex::RegFree()
 {
-#ifdef PCRE_MAJOR
 	if (itsRegex != NULL)
 		{
 		pcre_free(itsRegex);
@@ -1905,17 +1685,6 @@ JRegex::RegFree()
 		numRegexAlloc--;
 		#endif
 		}
-#else
-	if (itsState != kEmpty && itsState != kCannotCompile)
-		{
-		::regfree(&itsRegex);
-		itsState = kCannotCompile;
-
-		#ifdef JRE_ALLOC_CHECK
-		numRegexAlloc--;
-		#endif
-		}
-#endif
 
 	#ifdef JRE_ALLOC_CHECK
 	assert(numRegexAlloc == 0);

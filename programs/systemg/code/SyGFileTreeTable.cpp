@@ -57,6 +57,7 @@
 #include <JFontManager.h>
 #include <JTableSelection.h>
 #include <JSimpleProcess.h>
+#include <JSubstitute.h>
 #include <JDirInfo.h>
 #include <jMountUtil.h>
 #include <jStreamUtil.h>
@@ -187,14 +188,18 @@ static const JCharacter* kGitBranchMenuAddStr =
 	"    Create branch..."
 	"%l| Status..."
 	"%l| Commit all changes..."
-	"  | Revert all changes";
+	"  | Revert all changes"
+	"%l| Fetch & merge from"
+	"  | Push current branch to";
 
 enum
 {
 	kGitCreateBranchCmdOffset = 1,
 	kGitStatusCmdOffset,
 	kGitCommitAllCmdOffset,
-	kGitRevertAllCmdOffset
+	kGitRevertAllCmdOffset,
+	kGitPullMenuOffset,
+	kGitPushMenuOffset
 };
 
 // Shortcuts menu
@@ -286,16 +291,18 @@ SyGFileTreeTable::SyGFileTreeTable
 	itsTreeSet					= treeSet;
 	itsTrashButton				= trashButton;
 	itsMenuBar					= menuBar;
-	itsContextMenu              = NULL;
-	itsGitBranchMenu            = NULL;
+	itsContextMenu				= NULL;
+	itsGitBranchMenu			= NULL;
+	itsGitPullSourceMenu 		= NULL;
+	itsGitPushDestMenu	 		= NULL;
 	itsUpdateTask				= NULL;
 	itsEditTask					= NULL;
 	itsUpdateNode				= NULL;
 	itsSortNode					= NULL;
 	itsChooseDiskFormatDialog	= NULL;
 	itsFormatProcess			= NULL;
-	itsCreateBranchDialog       = NULL;
-	itsCommitBranchDialog       = NULL;
+	itsCreateBranchDialog		= NULL;
+	itsCommitBranchDialog		= NULL;
 	itsIconWidget				= NULL;
 	itsWindowIconType			= 0;
 
@@ -1893,7 +1900,7 @@ SyGFileTreeTable::Receive
 		}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
-		 const JXMenu::ItemSelected* selection =
+		const JXMenu::ItemSelected* selection =
 			dynamic_cast(const JXMenu::ItemSelected*, &message);
 		assert( selection != NULL );
 		HandleFileMenu(selection->GetIndex());
@@ -1943,10 +1950,26 @@ SyGFileTreeTable::Receive
 		}
 	else if (sender == itsGitBranchMenu && message.Is(JXMenu::kItemSelected))
 		{
-		 const JXMenu::ItemSelected* selection =
+		const JXMenu::ItemSelected* selection =
 			dynamic_cast(const JXMenu::ItemSelected*, &message);
 		assert( selection != NULL );
 		HandleGitBranchMenu(selection->GetIndex());
+		}
+
+	else if (sender == itsGitPullSourceMenu && message.Is(JXMenu::kItemSelected))
+		{
+		const JXMenu::ItemSelected* selection =
+			dynamic_cast(const JXMenu::ItemSelected*, &message);
+		assert( selection != NULL );
+		PullBranch(itsGitPullSourceMenu->GetItemText(selection->GetIndex()));
+		}
+
+	else if (sender == itsGitPushDestMenu && message.Is(JXMenu::kItemSelected))
+		{
+		const JXMenu::ItemSelected* selection =
+			dynamic_cast(const JXMenu::ItemSelected*, &message);
+		assert( selection != NULL );
+		PushBranch(itsGitPushDestMenu->GetItemText(selection->GetIndex()));
 		}
 
 	else if (sender == itsViewMenu && message.Is(JXMenu::kNeedsUpdate))
@@ -1955,7 +1978,7 @@ SyGFileTreeTable::Receive
 		}
 	else if (sender == itsViewMenu && message.Is(JXMenu::kItemSelected))
 		{
-		 const JXMenu::ItemSelected* selection =
+		const JXMenu::ItemSelected* selection =
 			dynamic_cast(const JXMenu::ItemSelected*, &message);
 		assert( selection != NULL );
 		HandleViewMenu(selection->GetIndex());
@@ -1967,7 +1990,7 @@ SyGFileTreeTable::Receive
 		}
 	else if (sender == itsShortcutMenu && message.Is(JXMenu::kItemSelected))
 		{
-		 const JXMenu::ItemSelected* selection =
+		const JXMenu::ItemSelected* selection =
 			dynamic_cast(const JXMenu::ItemSelected*, &message);
 		assert( selection != NULL );
 		HandleShortcutMenu(selection->GetIndex());
@@ -1984,7 +2007,7 @@ SyGFileTreeTable::Receive
 		}
 	else if (sender == itsContextMenu && message.Is(JXMenu::kItemSelected))
 		{
-		 const JXMenu::ItemSelected* selection =
+		const JXMenu::ItemSelected* selection =
 			dynamic_cast(const JXMenu::ItemSelected*, &message);
 		assert( selection != NULL );
 		HandleContextMenu(selection->GetIndex());
@@ -3609,57 +3632,49 @@ SyGFileTreeTable::SetCurrentColType
 }
 
 /******************************************************************************
- UpdateGitBranchMenu
+ UpdateGitBranchMenu (private)
 
  ******************************************************************************/
 
 void
 SyGFileTreeTable::UpdateGitBranchMenu()
 {
+	itsGitPullSourceMenu = NULL;
+	itsGitPushDestMenu   = NULL;
 	itsGitBranchMenu->RemoveAllItems();
 
-	pid_t pid;
-	int fromFD;
-	const JError err = JExecute(itsFileTree->GetDirectory(), "git branch", &pid,
-								kJIgnoreConnection, NULL,
-								kJCreatePipe, &fromFD);
-	if (!err.OK())
+	JPtrArray<JString> repoList(JPtrArrayT::kDeleteAll);
+	repoList.SetCompareFunction(JCompareStringsCaseInsensitive);
+
+	itsGitLocalBranchCount  = AppendGitBranches("git branch", kJFalse, NULL);
+	itsGitRemoteBranchCount = AppendGitBranches("git branch -r", kJTrue, &repoList);
+
+	if (!itsGitBranchMenu->IsEmpty())
 		{
-		itsGitBranchMenu->AppendItem(JGetString("NoBranchInfo::SyGFileTreeTable"));
-		itsGitBranchMenu->DisableItem(1);
-		return;
+		const JSize gitTotalBranchCount = itsGitBranchMenu->GetItemCount();
+
+		itsGitBranchMenu->AppendMenuItems(kGitBranchMenuAddStr);
+
+		itsGitPullSourceMenu =
+			new JXTextMenu(itsGitBranchMenu,
+						   gitTotalBranchCount + kGitPullMenuOffset,
+						   itsGitBranchMenu->GetEnclosure());
+		assert( itsGitPullSourceMenu != NULL );
+		UpdateRemoteRepoMenu(itsGitPullSourceMenu, repoList);
+		ListenTo(itsGitPullSourceMenu);
+
+		itsGitPushDestMenu =
+			new JXTextMenu(itsGitBranchMenu,
+						   gitTotalBranchCount + kGitPushMenuOffset,
+						   itsGitBranchMenu->GetEnclosure());
+		assert( itsGitPushDestMenu != NULL );
+		UpdateRemoteRepoMenu(itsGitPushDestMenu, repoList);
+		ListenTo(itsGitPushDestMenu);
 		}
-
-	JString line;
-	while (1)
-		{
-		line = JReadUntil(fromFD, '\n');
-		if (line.IsEmpty())
-			{
-			break;
-			}
-
-		const JBoolean current = JI2B(line.GetFirstCharacter() == '*');
-		line.RemoveSubstring(1,2);
-
-		itsGitBranchMenu->AppendItem(line, kJFalse, kJTrue);
-		if (current)
-			{
-			itsGitBranchMenu->CheckItem(itsGitBranchMenu->GetItemCount());
-			}
-		}
-
-	itsGitBranchCount = itsGitBranchMenu->GetItemCount();
-	if (itsGitBranchCount > 0)
-		{
-		itsGitBranchMenu->ShowSeparatorAfter(itsGitBranchCount);
-		}
-
-	itsGitBranchMenu->AppendMenuItems(kGitBranchMenuAddStr);
 }
 
 /******************************************************************************
- HandleGitBranchMenu
+ HandleGitBranchMenu (private)
 
  ******************************************************************************/
 
@@ -3669,7 +3684,9 @@ SyGFileTreeTable::HandleGitBranchMenu
 	const JIndex index
 	)
 {
-	if (index <= itsGitBranchCount && !itsGitBranchMenu->IsChecked(index))
+	const JSize gitTotalBranchCount = itsGitLocalBranchCount + itsGitRemoteBranchCount;
+
+	if (index <= itsGitLocalBranchCount && !itsGitBranchMenu->IsChecked(index))
 		{
 		JString cmd = "git checkout ";
 		cmd        += JPrepArgForExec(itsGitBranchMenu->GetItemText(index));
@@ -3693,7 +3710,46 @@ SyGFileTreeTable::HandleGitBranchMenu
 			}
 		}
 
-	else if (index == itsGitBranchCount + kGitCreateBranchCmdOffset)
+	else if (itsGitLocalBranchCount < index && index <= gitTotalBranchCount &&
+			 !itsGitBranchMenu->IsChecked(index))
+		{
+		const JString& branchName = itsGitBranchMenu->GetItemText(index);
+		JString name;
+		JIndex i;
+		if (branchName.LocateLastSubstring("/", &i))
+			{
+			name = branchName.GetSubstring(i+1, branchName.GetLength());
+			}
+		else
+			{
+			name = branchName;
+			}
+
+		JString cmd = "git checkout -b ";
+		cmd        += JPrepArgForExec(name);
+		cmd        += " ";
+		cmd        += JPrepArgForExec(branchName);
+
+		int fromFD;
+		const JError err = JExecute(itsFileTree->GetDirectory(), cmd, NULL,
+									kJIgnoreConnection, NULL,
+									kJCreatePipe, &fromFD,
+									kJAttachToFromFD);
+		if (err.OK())
+			{
+			JString msg;
+			JReadAll(fromFD, &msg);
+			(JGetUserNotification())->DisplayMessage(msg);
+
+			JExecute(itsFileTree->GetDirectory(), (SyGGetApplication())->GetPostCheckoutCommand(), NULL);
+			}
+		else
+			{
+			err.ReportIfError();
+			}
+		}
+
+	else if (index == gitTotalBranchCount + kGitCreateBranchCmdOffset)
 		{
 		itsCreateBranchDialog =
 			new JXGetStringDialog((GetWindow())->GetDirector(), JGetString("CreateBranchTitle::SyGFileTreeTable"),
@@ -3703,13 +3759,13 @@ SyGFileTreeTable::HandleGitBranchMenu
 		ListenTo(itsCreateBranchDialog);
 		}
 
-	else if (index == itsGitBranchCount + kGitStatusCmdOffset)
+	else if (index == gitTotalBranchCount + kGitStatusCmdOffset)
 		{
 		JSimpleProcess::Create(itsFileTree->GetDirectory(),
 							   (SyGGetApplication())->GetGitStatusCommand(), kJTrue);
 		}
 
-	else if (index == itsGitBranchCount + kGitCommitAllCmdOffset)
+	else if (index == gitTotalBranchCount + kGitCommitAllCmdOffset)
 		{
 		itsCommitBranchDialog =
 			new JXGetStringDialog((GetWindow())->GetDirector(), JGetString("CreateBranchPrompt::SyGFileTreeTable"),
@@ -3718,10 +3774,86 @@ SyGFileTreeTable::HandleGitBranchMenu
 		itsCommitBranchDialog->Activate();
 		ListenTo(itsCommitBranchDialog);
 		}
-	else if (index == itsGitBranchCount + kGitRevertAllCmdOffset)
+	else if (index == gitTotalBranchCount + kGitRevertAllCmdOffset)
 		{
 		RevertBranch();
 		}
+}
+
+/******************************************************************************
+ AppendGitBranches (private)
+
+ ******************************************************************************/
+
+JSize
+SyGFileTreeTable::AppendGitBranches
+	(
+	const JCharacter*	cmd,
+	const JBoolean		italic,
+	JPtrArray<JString>*	repoList
+	)
+{
+	const JSize origCount = itsGitBranchMenu->GetItemCount();
+
+	pid_t pid;
+	int fromFD;
+	const JError err = JExecute(itsFileTree->GetDirectory(), cmd, &pid,
+								kJIgnoreConnection, NULL,
+								kJCreatePipe, &fromFD);
+	if (!err.OK())
+		{
+		itsGitBranchMenu->AppendItem(JGetString("NoBranchInfo::SyGFileTreeTable"));
+		itsGitBranchMenu->DisableItem(1);
+		return 0;
+		}
+
+	JString line, *repo;
+	while (1)
+		{
+		line = JReadUntil(fromFD, '\n');
+		if (line.IsEmpty())
+			{
+			break;
+			}
+		else if (line.EndsWith("/HEAD"))
+			{
+			continue;
+			}
+
+		const JBoolean current = JI2B(line.GetFirstCharacter() == '*');
+		line.RemoveSubstring(1,2);
+
+		itsGitBranchMenu->AppendItem(line, kJFalse, kJTrue);
+		if (italic)
+			{
+			itsGitBranchMenu->SetItemFontStyle(itsGitBranchMenu->GetItemCount(),
+											   JFontStyle((GetColormap())->GetWhiteColor()));
+			}
+		if (current)
+			{
+			itsGitBranchMenu->CheckItem(itsGitBranchMenu->GetItemCount());
+			itsCurrentGitBranch = line;
+			}
+
+		JIndex i;
+		if (repoList != NULL && line.LocateSubstring("/", &i) && i > 1)
+			{
+			repo = new JString(line.GetSubstring(1, i-1));
+			assert( repo != NULL );
+			if (!repoList->InsertSorted(repo, kJFalse))
+				{
+				delete repo;
+				}
+			}
+		}
+
+	const JSize count = itsGitBranchMenu->GetItemCount();
+	if (count > origCount)
+		{
+		itsGitBranchMenu->ShowSeparatorAfter(count);
+		}
+
+	return (count - origCount);
 }
 
 /******************************************************************************
@@ -3816,7 +3948,78 @@ SyGFileTreeTable::RevertBranch()
 }
 
 /******************************************************************************
- UpdateShortcutMenu
+ UpdateRemoteRepoMenu (private)
+
+ ******************************************************************************/
+
+void
+SyGFileTreeTable::UpdateRemoteRepoMenu
+	(
+	JXTextMenu*					menu,
+	const JPtrArray<JString>&	repoList
+	)
+{
+	menu->SetUpdateAction(JXMenu::kDisableNone);
+
+	const JSize count = repoList.GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		menu->AppendItem(*(repoList.NthElement(i)));
+		}
+}
+
+/******************************************************************************
+ PullBranch (private)
+
+ ******************************************************************************/
+
+void
+SyGFileTreeTable::PullBranch
+	(
+	const JCharacter* repo
+	)
+{
+	JString cmd =
+		"xterm -T 'Pull from $repo' "
+			"-e '( git fetch $repo -v ; git merge $repo/$branch ) | less'";
+
+	const JString repoArg   = JPrepArgForExec(repo);
+	const JString branchArg = JPrepArgForExec(itsCurrentGitBranch);
+
+	JSubstitute subst;
+	subst.DefineVariable("repo", repoArg);
+	subst.DefineVariable("branch", branchArg);
+	subst.Substitute(&cmd);
+
+	JSimpleProcess::Create(itsFileTree->GetDirectory(), cmd, kJTrue);
+}
+
+/******************************************************************************
+ PushBranch (private)
+
+ ******************************************************************************/
+
+void
+SyGFileTreeTable::PushBranch
+	(
+	const JCharacter* repo
+	)
+{
+	JString cmd =
+		"xterm -T 'Push to $repo' "
+			"-e 'git push $repo HEAD | less'";
+
+	const JString repoArg = JPrepArgForExec(repo);
+
+	JSubstitute subst;
+	subst.DefineVariable("repo", repoArg);
+	subst.Substitute(&cmd);
+
+	JSimpleProcess::Create(itsFileTree->GetDirectory(), cmd, kJTrue);
+}
+
+/******************************************************************************
+ UpdateShortcutMenu (private)
 
  ******************************************************************************/
 
@@ -3833,7 +4036,7 @@ SyGFileTreeTable::UpdateShortcutMenu()
 }
 
 /******************************************************************************
- HandleShortcutMenu
+ HandleShortcutMenu (private)
 
  ******************************************************************************/
 
@@ -3903,7 +4106,7 @@ SyGFileTreeTable::UpdateContextMenu()
 }
 
 /******************************************************************************
- HandleContextMenu
+ HandleContextMenu (private)
 
  ******************************************************************************/
 

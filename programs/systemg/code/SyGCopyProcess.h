@@ -13,6 +13,7 @@
 #endif
 
 #include <JPtrArray-JString.h>
+#include <jVCSUtil.h>
 
 class JSimpleProcess;
 class SyGFileTreeTable;
@@ -44,11 +45,13 @@ private:
 	JPtrArray<JString>*			itsSrcNameList;		// usually from DND data
 	SyGFileTreeTable*			itsDestTable;		// not owned; can be NULL
 	SyGFileTreeNode*			itsDestNode;		// not owned; can be NULL
+	JVCSType					itsVCSType;
 	const JBoolean				itsIsMoveFlag;
 	JSimpleProcess*				itsProcess;
 
 private:
 
+	void	Start(const JSize prefixCount);
 	void	RemoveExecutePermissions(const JCharacter* srcPath,
 									 const JCharacter* destPath);
 

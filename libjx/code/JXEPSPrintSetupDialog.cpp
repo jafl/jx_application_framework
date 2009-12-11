@@ -20,7 +20,7 @@
 #include <JXTextCheckbox.h>
 #include <JXFileInput.h>
 #include <jXGlobals.h>
-#include <JString.h>
+#include <jFileUtil.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -157,10 +157,25 @@ JXEPSPrintSetupDialog::SetObjects
 
 	itsFileInput->ShouldAllowInvalidFile();
 	itsFileInput->SetText(fileName);
+	itsFileInput->ShouldBroadcastAllTextChanged(kJTrue);
 	if (itsFileInput->IsEmpty())
 		{
 		ChooseDestinationFile();
 		}
+
+	UpdateDisplay();
+	ListenTo(itsFileInput);
+}
+
+/******************************************************************************
+ UpdateDisplay (private)
+
+ ******************************************************************************/
+
+void
+JXEPSPrintSetupDialog::UpdateDisplay()
+{
+	itsPrintButton->SetActive(!itsFileInput->IsEmpty());
 }
 
 /******************************************************************************
@@ -199,6 +214,12 @@ JXEPSPrintSetupDialog::Receive
 		{
 		ChooseDestinationFile();
 		}
+	else if (sender == itsFileInput &&
+			 (message.Is(JTextEditor::kTextSet) ||
+			  message.Is(JTextEditor::kTextChanged)))
+		{
+		UpdateDisplay();
+		}
 	else
 		{
 		JXDialogDirector::Receive(sender, message);
@@ -213,14 +234,7 @@ JXEPSPrintSetupDialog::Receive
 void
 JXEPSPrintSetupDialog::ChooseDestinationFile()
 {
-	if (itsFileInput->SaveFile("Save EPS file as:"))
-		{
-		itsPrintButton->Activate();
-		}
-	else if (itsFileInput->IsEmpty())
-		{
-		itsPrintButton->Deactivate();
-		}
+	itsFileInput->SaveFile("Save EPS file as:");
 }
 
 /******************************************************************************
@@ -240,7 +254,10 @@ JXEPSPrintSetupDialog::SetParameters
 		itsPreviewCheckbox->IsChecked() != p->WantsPreview()      ||
 		itsBWCheckbox->IsChecked()      != p->PSWillPrintBlackWhite());
 
-	p->SetOutputFileName(itsFileInput->GetText());
+	JString fullName;
+	JConvertToAbsolutePath(itsFileInput->GetText(), NULL, &fullName);
+
+	p->SetOutputFileName(fullName);
 	p->ShouldPrintPreview(itsPreviewCheckbox->IsChecked());
 	p->PSPrintBlackWhite(itsBWCheckbox->IsChecked());
 

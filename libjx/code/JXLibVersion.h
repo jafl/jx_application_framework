@@ -71,6 +71,8 @@ static const char* kCurrentJXLibVersionStr = "2.5.0";
 //	JXMenu:
 //		Removed CastTo*() since dynamic_cast<> now does the job.
 //		Optimized PrepareToOpenMenu() to only call parent if not already open.
+//		Optimized PrepareToOpenMenu() to short-circuit if updating for JXToolbar
+//			and none of the items have an ID.
 //	Added awareness of Xinerama.  Dialogs are now centered on the "active" screen.
 //	Created JXSharedPrefObject to allow JXSharedPrefsManager to be more general.
 //		Now, JXSharedPrefsManager only needs reserved ID's.  It does not need
@@ -150,6 +152,12 @@ static const char* kCurrentJXLibVersionStr = "2.5.0";
 //	JXSelectionManager:
 //		Work-around for broken XDND file implementations that do not include
 //			the host name in the URL's.
+//	JXPSPrintSetupDialog:
+//		Fixed dialog to accept file name typed into file input field.
+//		Fixed file input field to accept ~.
+//	JXEPSPrintSetupDialog:
+//		Fixed dialog to accept file name typed into file input field.
+//		Fixed file input field to accept ~.
 
 // version 2.5.0:
 //	*** All egcs thunks hacks have been removed.

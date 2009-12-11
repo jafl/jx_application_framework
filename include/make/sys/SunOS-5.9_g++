@@ -16,10 +16,6 @@ J_X11_INCLUDE_DIR := ${shell if { test -d /usr/X11R6; } \
                              then { echo -I/usr/X11R6/include; } \
                              else { echo -I/usr/openwin/include; } fi }
 
-# Uncomment this if you want to compile libXpm into libjx
-
-# JX_INCLUDE_LIBXPM := yes
-
 # This sets the optimization level
 
 J_OPTIMIZE_LEVEL := 0
@@ -45,10 +41,6 @@ J_COMPILE_DEBUG := -g
 # you can't avoid.
 
 # J_DIE_ON_WARNING := -Werror
-
-# Comment this out if new[] and delete[] are not overridable.
-
-J_ARRAY_NEW_OVERRIDABLE := -D_J_ARRAY_NEW_OVERRIDABLE
 
 # Uncomment this if your version of GNU make does not automatically
 # generate the -o parameter.

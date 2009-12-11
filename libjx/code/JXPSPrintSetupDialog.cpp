@@ -23,9 +23,7 @@
 #include <JXFileNameDisplay.h>
 #include <JXChooseSaveFile.h>
 #include <jXGlobals.h>
-#include <JString.h>
 #include <jFileUtil.h>
-#include <jDirUtil.h>
 #include <jAssert.h>
 
 // mappings from dialog window to JPSPrinter options
@@ -266,6 +264,8 @@ JXPSPrintSetupDialog::SetObjects
 	assert( itsFileInput != NULL );
 	itsFileInput->ShouldAllowInvalidFile();
 	itsFileInput->SetText(fileName);
+	itsFileInput->ShouldBroadcastAllTextChanged(kJTrue);
+	ListenTo(itsFileInput);
 
 	itsPrintCmd->SetText(printCmd);
 	itsPrintCmd->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
@@ -304,6 +304,19 @@ JXPSPrintSetupDialog::SetObjects
     itsBWCheckbox->SetShortcuts("#B");
     itsPrintAllCB->SetShortcuts("#L");
     itsCollateCB->SetShortcuts("#E");
+
+	UpdateDisplay();
+}
+
+/******************************************************************************
+ UpdateDisplay (private)
+
+ ******************************************************************************/
+
+void
+JXPSPrintSetupDialog::UpdateDisplay()
+{
+	itsPrintButton->SetActive(!itsFileInput->IsEmpty());
 }
 
 /******************************************************************************
@@ -341,26 +354,28 @@ JXPSPrintSetupDialog::OKToDeactivate()
 JBoolean
 JXPSPrintSetupDialog::OKToDeactivate
 	(
-	const JString& fullName
+	const JString& origFullName
 	)
 {
-	if (fullName.IsEmpty())
+	if (origFullName.IsEmpty())
 		{
 		(JGetUserNotification())->ReportError(
 			"Please specify a destination file.");
 		return kJFalse;
 		}
 
-	JString path, fileName;
-	JSplitPathAndName(fullName, &path, &fileName);
-	const JBoolean fileExists = JFileExists(fullName);
-	if (!JDirectoryExists(path))
+	JString s, path, fileName;
+	JSplitPathAndName(origFullName, &s, &fileName);
+	if (!JConvertToAbsolutePath(s, NULL, &path) || !JDirectoryExists(path))
 		{
 		(JGetUserNotification())->ReportError(
 			"The specified directory does not exist.");
 		return kJFalse;
 		}
-	else if (!fileExists && !JDirectoryWritable(path))
+
+	const JString fullName    = JCombinePathAndName(path, fileName);
+	const JBoolean fileExists = JFileExists(fullName);
+	if (!fileExists && !JDirectoryWritable(path))
 		{
 		(JGetUserNotification())->ReportError(
 			"The file cannot be created because the you do not have write access "
@@ -400,6 +415,12 @@ JXPSPrintSetupDialog::Receive
 	else if (sender == itsChooseFileButton && message.Is(JXButton::kPushed))
 		{
 		ChooseDestinationFile();
+		}
+	else if (sender == itsFileInput &&
+			 (message.Is(JTextEditor::kTextSet) ||
+			  message.Is(JTextEditor::kTextChanged)))
+		{
+		UpdateDisplay();
 		}
 
 	else if (sender == itsPrintAllCB && message.Is(JXCheckbox::kPushed))
@@ -449,6 +470,7 @@ JXPSPrintSetupDialog::SetDestination
 		itsFileInput->Show();
 		itsFileInput->Focus();
 
+		UpdateDisplay();
 		if (itsFileInput->IsEmpty())
 			{
 			ChooseDestinationFile();
@@ -499,14 +521,7 @@ JXPSPrintSetupDialog::PrintAllPages
 void
 JXPSPrintSetupDialog::ChooseDestinationFile()
 {
-	if (itsFileInput->SaveFile("Save PostScript file as:"))
-		{
-		itsPrintButton->Activate();
-		}
-	else if (itsFileInput->IsEmpty())
-		{
-		itsPrintButton->Deactivate();
-		}
+	itsFileInput->SaveFile("Save PostScript file as:");
 }
 
 /******************************************************************************
@@ -529,7 +544,10 @@ JXPSPrintSetupDialog::SetParameters
 		itsPrintCmd->GetText()  != p->GetPrintCmd()    ||
 		itsFileInput->GetText() != p->GetFileName());
 
-	p->SetDestination(newDest, itsPrintCmd->GetText(), itsFileInput->GetText());
+	JString fullName;
+	JConvertToAbsolutePath(itsFileInput->GetText(), NULL, &fullName);
+
+	p->SetDestination(newDest, itsPrintCmd->GetText(), fullName);
 
 	JInteger copyCount;
 	const JBoolean ok = itsCopyCount->GetValue(&copyCount);

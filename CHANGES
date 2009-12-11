@@ -10,11 +10,21 @@ http://www.newplanetsoftware.com/
 
 Changes to the build system:
 
+2.6.0:
+
+	Removed obsolete build targets and build config.
+
+	Cleaned up application builds by adding targets in include/make/jx_targets.
+
+	Changed J_HAS_GD to J_HAS_JPEG.  xmp, gif, png are now widely available.
+
+	Removed crypto, regex, xpm from misc directory.
+
 2.5.0:
 
 	Added cygwin32 build target.
 
-	Added Visual C++ workspace and project files for libjcore
+	Added Visual C++ workspace and project files for libjcore.
 
 	Merged libjtree and libjtoolbar into libjcore and libjx.
 

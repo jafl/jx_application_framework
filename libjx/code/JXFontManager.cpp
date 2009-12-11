@@ -958,10 +958,10 @@ JXFontManager::GetLineHeight
 	*ascent  = xfont->ascent;
 	*descent = xfont->descent;
 
-	const JSize underlineThickness = GetUnderlineThickness(size);
-	if (((JSize) *descent) < 2 * underlineThickness * style.underlineCount)
+	const JCoordinate underlineHeight = 2 * GetUnderlineThickness(size) * style.underlineCount;
+	if (*descent < underlineHeight)
 		{
-		*descent = 2 * underlineThickness * style.underlineCount;
+		*descent = underlineHeight;
 		}
 
 	return (*ascent + *descent);

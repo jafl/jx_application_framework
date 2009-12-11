@@ -156,7 +156,6 @@ JXTextRadioButton::Activate()
 	if (!wasActive && IsActive())
 		{
 		itsFontStyle.color = itsTrueLabelColor;
-		Refresh();
 		}
 }
 
@@ -173,7 +172,6 @@ JXTextRadioButton::Deactivate()
 	if (wasActive && !IsActive())
 		{
 		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
-		Refresh();
 		}
 }
 
@@ -190,7 +188,6 @@ JXTextRadioButton::Suspend()
 	if (wasActive && !IsActive())
 		{
 		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
-		Refresh();
 		}
 }
 
@@ -207,7 +204,6 @@ JXTextRadioButton::Resume()
 	if (!wasActive && IsActive())
 		{
 		itsFontStyle.color = itsTrueLabelColor;
-		Refresh();
 		}
 }
 

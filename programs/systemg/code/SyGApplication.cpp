@@ -204,9 +204,31 @@ SyGApplication::OpenDirectory
 		return kJFalse;
 		}
 
+	// resolve all .. in path
+
+	JIndex i;
+	JString p, p1;
+	while (trueName.LocateSubstring("..", &i))
+		{
+		p = trueName.GetSubstring(1, i+1);
+		if (!JGetTrueName(p, &p1))
+			{
+			if (reportError)
+				{
+				JString msg = "\"";
+				msg += p;
+				msg += "\" does not exist.";
+				(JGetUserNotification())->ReportError(msg);
+				}
+			return kJFalse;
+			}
+
+		trueName.ReplaceSubstring(1, i+1, p1);
+		}
+
 	// check if window is already open
 
-	JString ancestor = trueName, p, n;
+	JString ancestor = trueName, n;
 	JPtrArray<JString> pathList(JPtrArrayT::kDeleteAll);
 	while (!JIsRootDirectory(ancestor))
 		{

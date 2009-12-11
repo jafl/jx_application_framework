@@ -46,9 +46,9 @@ endif # g++
 #
 
 J_RAW_SYSTEM_STUFF += \
-  -D_J_UNIX ${J_ISTRSTREAM_BROKEN} \
-  ${J_ARRAY_NEW_OVERRIDABLE} ${J_USE_READDIR_R} \
-  ${J_HAS_GD} -D_J_HAS_XPM ${J_HAS_XINERAMA}
+  -D_J_UNIX ${J_USE_READDIR_R} \
+  ${J_HAS_JPEG} -D_J_HAS_GIF -D_J_HAS_PNG -D_J_HAS_XPM \
+  ${J_HAS_XINERAMA}
 
 ifneq (${J_USE_THREADS},yes)
   J_RAW_SYSTEM_STUFF += -DACE_MT_SAFE=0
@@ -84,6 +84,7 @@ J_COMPILER_DEPEND_FLAGS := \
   ${J_COMPILER_DEPEND_FLAGS_FOR_BISON} ${J_DIE_ON_WARNING}
 
 SEARCHDIRS += -I${JX_ROOT}/include/jximage \
+              -I${JX_ROOT}/misc/gd \
               ${J_X11_INCLUDE_DIR}
 
 ifdef ACE_ROOT
@@ -92,16 +93,23 @@ endif
 
 J_GCC_LIBS := -lxml2 ${J_GCC_LIBS}
 
-ifdef J_HAS_GD
-  J_GCC_LIBS := -lpng -ljpeg ${J_GCC_LIBS}
-endif
-
 ifdef J_BUILD_SHARED_LIB
   J_GCC_LIBS += -Xlinker -R${shell cd ${JX_ROOT}/lib; pwd}
 endif
 
 J_SYS_LIBS :=  ${J_ACE_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
 J_STD_LIBS := -L${JX_ROOT}/lib ${ljx} ${ljcore} ${J_SYS_LIBS}
+
+# We add libpng and libjpeg to J_STD_LIBS to satisfy the shared library linker.
+# We don't include them in J_GCC_LIBS because the static linker will only include
+# them if the program calls them.
+
+ifdef J_BUILD_SHARED_LIB
+  J_STD_LIBS := -lpng ${J_STD_LIBS}
+  ifdef J_HAS_JPEG
+    J_STD_LIBS := -ljpeg ${J_STD_LIBS}
+  endif
+endif
 
 #
 # strip commands -- no spaces allowed!

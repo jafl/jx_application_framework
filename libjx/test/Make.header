@@ -53,8 +53,12 @@ endif
 
 # make variables
 
-LOADLIBES := ${J_STD_LIBS}
+LOADLIBES := -lpng ${J_STD_LIBS}
 LDFLAGS   := 
+
+ifdef J_HAS_JPEG
+  LOADLIBES := ${J_X11_LIB_DIR} -ljpeg ${LOADLIBES}
+endif
 
 #####
 

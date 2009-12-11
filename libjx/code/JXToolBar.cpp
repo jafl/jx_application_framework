@@ -265,7 +265,7 @@ JXToolBar::Receive
 				menu->PrepareToOpenMenu();
 				JIndex itemIndex;
 				if (button->GetMenuItemIndex(&itemIndex) &&
-					menu->itsBaseItemData->IsEnabled(itemIndex))
+					menu->IsEnabled(itemIndex))
 					{
 					JXDisplay* display = GetDisplay();	// need local copy, since we might be deleted
 					Display* xDisplay  = *display;
@@ -1030,7 +1030,7 @@ JXToolBar::UpdateButtons()
 		JXToolBarButton* button = itsButtons->NthElement(i);
 		JIndex itemIndex;
 		if (button->GetMenuItemIndex(&itemIndex) &&
-			button->GetMenu()->itsBaseItemData->IsEnabled(itemIndex))
+			button->GetMenu()->IsEnabled(itemIndex))
 			{
 			button->Activate();
 			}

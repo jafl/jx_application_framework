@@ -39,18 +39,6 @@ const JSize kDirCount = sizeof(kDirName) / sizeof(const JCharacter*);
 
 const JCharacter* kJUnsupportedVCS = "JUnsupportedVCS";
 
-// string ID's
-
-static const JCharacter* kAskForceSVNMoveID   = "AskForceSVNMove::VCSUtil";
-static const JCharacter* kAskPlainSVNMoveID   = "AskPlainSVNMove::VCSUtil";
-static const JCharacter* kAskForceGitMoveID   = "AskForceGitMove::VCSUtil";
-static const JCharacter* kAskPlainGitMoveID   = "AskPlainGitMove::VCSUtil";
-static const JCharacter* kAskForceSVNRemoveID = "AskForceSVNRemove::VCSUtil";
-static const JCharacter* kAskPlainSVNRemoveID = "AskPlainSVNRemove::VCSUtil";
-static const JCharacter* kAskForceGitRemoveID = "AskForceGitRemove::VCSUtil";
-static const JCharacter* kAskPlainGitRemoveID = "AskPlainGitRemove::VCSUtil";
-static const JCharacter* kAskPlainCVSRemoveID = "AskPlainCVSRemove::VCSUtil";
-
 /******************************************************************************
  JIsVCSDirectory
 
@@ -259,51 +247,31 @@ JRenameVCS
 		}
 	else if (type1 == kJSVNType || type1 == kJGitType)
 		{
-		const JCharacter *forceArg, *forceMsg, *plainMsg;
+		const JCharacter* plainMsg;
 		if (type1 == kJSVNType)
 			{
-			cmd  = "svn mv ";
+			cmd  = "svn mv --force ";
 			cmd += JPrepArgForExec(oldFullName);
 			cmd += " ";
 			cmd += JPrepArgForExec(newFullName);
 
-			forceArg = " --force";
-			forceMsg = kAskForceSVNMoveID;
-			plainMsg = kAskPlainSVNMoveID;
+			plainMsg = "AskPlainSVNMove::VCSUtil";
 			}
 		else if (type1 == kJGitType)
 			{
-			cmd  = "git mv ";
+			cmd  = "git mv -f ";
 			cmd += JPrepArgForExec(name);
 			cmd += " ";
 			cmd += JPrepArgForExec(newFullName);
 
-			forceArg = " -f";
-			forceMsg = kAskForceGitMoveID;
-			plainMsg = kAskPlainGitMoveID;
+			plainMsg = "AskPlainGitMove::VCSUtil";
 			}
 
-//		err = JSimpleProcess::Create(&p, cmd);
-//		if (err.OK())
-//			{
-//			p->WaitUntilFinished();
-//			}
-
-//		if (p != NULL && !p->SuccessfulFinish())
-//			{
-//			err = JAccessDenied(oldFullName, newFullName);
-//			if ((JGetUserNotification())->AskUserYes(JGetString(forceMsg)))
-//				{
-//				delete p;
-
-				cmd += forceArg;
-				err = JSimpleProcess::Create(&p, cmd);
-				if (err.OK())
-					{
-					p->WaitUntilFinished();
-					}
-//				}
-//			}
+		err = JSimpleProcess::Create(&p, cmd);
+		if (err.OK())
+			{
+			p->WaitUntilFinished();
+			}
 
 		if (p != NULL && !p->SuccessfulFinish())
 			{
@@ -387,46 +355,25 @@ JRemoveVCS
 	JSimpleProcess* p = NULL;
 	if (type == kJSVNType || type == kJGitType)
 		{
-		const JCharacter *binary, *forceArg, *forceMsg, *plainMsg;
+		const JCharacter *binary, *plainMsg;
 		if (type == kJSVNType)
 			{
-			binary   = "svn rm ";
-			forceArg = " --force";
-			forceMsg = kAskForceSVNRemoveID;
-			plainMsg = kAskPlainSVNRemoveID;
+			binary   = "svn rm --force ";
+			plainMsg = "AskPlainSVNRemove::VCSUtil";
 			}
 		else if (type == kJGitType)
 			{
-			binary   = "git rm -r ";
-			forceArg = " -f";
-			forceMsg = kAskForceGitRemoveID;
-			plainMsg = kAskPlainGitRemoveID;
+			binary   = "git rm -rf ";
+			plainMsg = "AskPlainGitRemove::VCSUtil";
 			}
 
 		cmd  = binary;
 		cmd += JPrepArgForExec(name);
-
-//		err = JSimpleProcess::Create(&p, cmd);
-//		if (err.OK())
-//			{
-//			p->WaitUntilFinished();
-//			}
-
-//		if (p != NULL && !p->SuccessfulFinish())
-//			{
-//			err = JAccessDenied(fullName);
-//			if ((JGetUserNotification())->AskUserYes(JGetString(forceMsg)))
-//				{
-//				delete p;
-
-				cmd += forceArg;
-				err = JSimpleProcess::Create(&p, cmd);
-				if (err.OK())
-					{
-					p->WaitUntilFinished();
-					}
-//				}
-//			}
+		err  = JSimpleProcess::Create(&p, cmd);
+		if (err.OK())
+			{
+			p->WaitUntilFinished();
+			}
 
 		if (p != NULL && !p->SuccessfulFinish())
 			{
@@ -451,7 +398,7 @@ JRemoveVCS
 		if (p != NULL && !p->SuccessfulFinish())
 			{
 			err = JAccessDenied(fullName);
-			if ((JGetUserNotification())->AskUserYes(JGetString(kAskPlainCVSRemoveID)))
+			if ((JGetUserNotification())->AskUserYes(JGetString("AskPlainCVSRemove::VCSUtil")))
 				{
 				tryPlain = kJTrue;
 				}
