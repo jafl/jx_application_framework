@@ -29,7 +29,7 @@
 static const JCharacter* kAppSignature           = "systemg";
 static const JCharacter* kDefaultTermCmd         = "gnome-terminal --working-directory=$p"; // "xterm -title $n -n $n";
 static const JCharacter* kDefaultPostCheckoutCmd = "jcc --reload-open";
-static const JCharacter* kDefaultGitStatusCmd    = "xterm -e 'git status | less'";
+static const JCharacter* kDefaultGitStatusCmd    = "git citool";
 
 const JFileVersion kCurrentPrefsVersion = 4;
 

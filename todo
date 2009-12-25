@@ -1,13 +1,10 @@
 create new NPS email addresses to avoid spam
 
-nps_svn_client -> nps_vcs_client
-	separate window type for git
-	unsorted string list to display output of git status
-	text area to display output of push/pull
+programs built on eeepc won't run on RHEL5
 
-jcc
-	send symbol updates via pipe instead of blocking read afterwards
-		if update takes less time than last full read, tell main process to update directly
+jcc:
+	test-app doesn't have correct location for displayMessage() in ace-common-cdn
+	test-app keeps reparsing files on every update
 
 medic:
 	2D plots

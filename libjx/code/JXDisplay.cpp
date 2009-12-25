@@ -79,6 +79,8 @@ static const JCharacter* kStandardXAtomNames[ JXDisplay::kStandardXAtomCount ] =
 	"WM_SAVE_YOURSELF",
 	"_NET_WM_PING",
 	"_NET_WM_PID",
+	"_NET_WM_USER_TIME",
+	"_NET_ACTIVE_WINDOW",
 	"_NET_WM_DESKTOP",
 	"_NET_CURRENT_DESKTOP",
 

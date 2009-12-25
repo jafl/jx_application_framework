@@ -58,7 +58,14 @@ LDFLAGS   :=
 
 ifdef J_HAS_JPEG
   LOADLIBES := ${J_X11_LIB_DIR} -ljpeg ${LOADLIBES}
+  JPEG_LIBS := -ljpeg
 endif
+
+DEBUG_LOADLIBES := -L${JLIBDIR} \
+                   ${J_BEGIN_LINK_STATIC} \
+                   ${ljx} ${ljcore} ${J_ACE_LIBS} -lpng ${JPEG_LIBS} \
+                   ${J_END_LINK_STATIC} \
+                   ${J_X11_LIBS} ${J_GCC_LIBS}
 
 #####
 
@@ -104,12 +111,6 @@ jxsource:
 #
 # debugging version
 #
-
-DEBUG_LOADLIBES := -L${JLIBDIR} \
-                   ${J_BEGIN_LINK_STATIC} \
-                   ${ljx} ${ljcore} ${J_ACE_LIBS} \
-                   ${J_END_LINK_STATIC} \
-                   ${J_X11_LIBS} ${J_GCC_LIBS}
 
 .PHONY : debug
 debug: staticACE libs

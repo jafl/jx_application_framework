@@ -810,6 +810,10 @@ JXWindow::Raise
 		XFree(xdata);
 		}
 
+	Time t = itsDisplay->GetLastEventTime();
+	XChangeProperty(*itsDisplay, itsXWindow, itsDisplay->GetWMUserTimeXAtom(),
+					XA_CARDINAL, 32, PropModeReplace, (unsigned char*) &t, 1);
+
 	XRaiseWindow(*itsDisplay, itsXWindow);
 
 	Broadcast(Raised());

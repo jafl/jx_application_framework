@@ -47,6 +47,8 @@ public:
 		kSaveYourselfXAtomIndex,
 		kWMPingXAtomIndex,
 		kWMPidXAtomIndex,
+		kWMUserTimeXAtomIndex,
+		kWMActiveWindowXAtomIndex,
 		kWMDesktopXAtomIndex,
 		kWMCurrentDesktopXAtomIndex,
 
@@ -162,6 +164,8 @@ public:
 	Atom	GetDeleteWindowXAtom() const;
 	Atom	GetWMPingXAtom() const;
 	Atom	GetWMPidXAtom() const;
+	Atom	GetWMUserTimeXAtom() const;
+	Atom	GetWMActiveWindowXAtom() const;
 	Atom	GetSaveYourselfXAtom() const;
 	Atom	GetWMStateXAtom() const;
 	Atom	GetWMDesktopXAtom() const;
@@ -697,6 +701,20 @@ JXDisplay::GetWMPidXAtom()
 	const
 {
 	return itsStandardXAtoms[ kWMPidXAtomIndex ];
+}
+
+inline Atom
+JXDisplay::GetWMUserTimeXAtom()
+	const
+{
+	return itsStandardXAtoms[ kWMUserTimeXAtomIndex ];
+}
+
+inline Atom
+JXDisplay::GetWMActiveWindowXAtom()
+	const
+{
+	return itsStandardXAtoms[ kWMActiveWindowXAtomIndex ];
 }
 
 inline Atom
