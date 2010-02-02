@@ -25,6 +25,7 @@ endif
 .PHONY : pre_build_pkgs
 pre_build_pkgs:
   ifeq (${HAS_RPM},1)
+	@Please authorize sudo access for building RPM...
 	@sudo echo sudo access authorized...
   endif
 

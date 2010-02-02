@@ -48,7 +48,7 @@ JXImagePainter::JXImagePainter
 #endif
 
 	itsImage = image;
-	ListenTo(itsImage);
+	ClearWhenGoingAway(itsImage, &itsImage);
 }
 
 /******************************************************************************
@@ -352,22 +352,5 @@ JXImagePainter::PrepareXDraw()
 	else
 		{
 		return kJFalse;
-		}
-}
-
-/******************************************************************************
- ReceiveGoingAway (virtual protected)
-
- ******************************************************************************/
-
-void
-JXImagePainter::ReceiveGoingAway
-	(
-	JBroadcaster* sender
-	)
-{
-	if (sender == itsImage)
-		{
-		itsImage = NULL;
 		}
 }

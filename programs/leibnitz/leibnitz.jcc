@@ -20,6 +20,10 @@ T
 F
 "./code/THXMDIServer.cpp"
 T
+2 "THXPrefsManager.cpp"
+F
+"./code/THXPrefsManager.cpp"
+T
 2 "THXAboutDialog.cpp"
 F
 "./code/THXAboutDialog.cpp"

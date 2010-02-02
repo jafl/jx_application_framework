@@ -11,14 +11,11 @@
 #include <glStdInc.h>
 #include <GLPlotApp.h>
 #include "GLMDIServer.h"
+#include "GLPrefsMgr.h"
 #include "GLGlobals.h"
-
-#include <JString.h>
-
 #include <jCommandLine.h>
 #include <jTime.h>
-
-#include <stdlib.h>
+#include <jWebUtil.h>
 #include <jAssert.h>
 
 extern JCharacter* kGLSig;
@@ -54,6 +51,8 @@ main
 	GLPlotApp* app =
 		new GLPlotApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != NULL );
+
+	JCheckForNewerVersion(GetPrefsMgr(), kVersionCheckID);
 
 	GLGetMDIServer()->HandleCmdLineOptions(argc, argv);
 

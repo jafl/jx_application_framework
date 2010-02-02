@@ -270,7 +270,7 @@ JXTextSelection::SetColormap
 	itsColormap = colormap;
 	if (itsColormap != NULL)
 		{
-		ListenTo(itsColormap);
+		ClearWhenGoingAway(itsColormap, &itsColormap);
 		}
 }
 
@@ -295,7 +295,7 @@ JXTextSelection::SetTextEditor
 	itsTE = te;
 	if (itsTE != NULL)
 		{
-		ListenTo(itsTE);
+		ClearWhenGoingAway(itsTE, &itsTE);
 		}
 
 	itsSelection = selection;
@@ -376,33 +376,6 @@ JXTextSelection::ConvertData
 	*dataLength = 0;
 	*returnType = None;
 	return kJFalse;
-}
-
-/******************************************************************************
- ReceiveGoingAway (virtual protected)
-
-	The given sender has been deleted.
-
- ******************************************************************************/
-
-void
-JXTextSelection::ReceiveGoingAway
-	(
-	JBroadcaster* sender
-	)
-{
-	if (sender == const_cast<JXColormap*>(itsColormap))
-		{
-		itsColormap = NULL;
-		}
-	else if (sender == itsTE)
-		{
-		itsTE = NULL;
-		}
-	else
-		{
-		JXSelectionData::ReceiveGoingAway(sender);
-		}
 }
 
 /******************************************************************************

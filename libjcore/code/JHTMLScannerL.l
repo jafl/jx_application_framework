@@ -137,7 +137,12 @@ PHP	"<"("?"([pP][hH][pP])?|"%"=?){WS}
 	TAG_FINISHED;
 	}
 
-[^>[:space:]]+ {
+"/" {
+	unput('/');
+	BEGIN(ATTR_NAME_STATE);
+}
+
+[^>[:space:]][^/>[:space:]]* {
 	(itsTagInfo->name).Set(yytext, yyleng);
 	(itsTagInfo->name).ToLower();
 	BEGIN(ATTR_NAME_STATE);

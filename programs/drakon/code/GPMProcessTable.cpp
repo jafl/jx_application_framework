@@ -171,7 +171,7 @@ GPMProcessTable::Receive
 
 		if (GetSelectedProcess(&itsSelectedEntry))
 			{
-			ListenTo(itsSelectedEntry);
+			ClearWhenGoingAway(itsSelectedEntry, &itsSelectedEntry);
 			}
 		}
 
@@ -231,27 +231,6 @@ GPMProcessTable::Receive
 
 		JXTable::Receive(sender, message);
 		}
-}
-
-/******************************************************************************
- ReceiveGoingAway (virtual protected)
-
-	The given sender has been deleted.
-
- ******************************************************************************/
-
-void
-GPMProcessTable::ReceiveGoingAway
-	(
-	JBroadcaster* sender
-	)
-{
-	if (sender == itsSelectedEntry)
-		{
-		itsSelectedEntry = NULL;
-		}
-
-	JXTable::ReceiveGoingAway(sender);
 }
 
 /******************************************************************************

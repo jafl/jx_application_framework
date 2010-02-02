@@ -4,10 +4,10 @@
 # version numbers
 #
 
-JX_VERSION  := 2.5.0
+JX_VERSION  := 2.6.0
 ACE_VERSION := 5.7.1
 
-JX_LIB_VERSION  := 2_5_0
+JX_LIB_VERSION  := 2_6_0
 ACE_LIB_VERSION := 5_7_1
 
 JX := JX-${JX_VERSION}
@@ -101,19 +101,21 @@ YFLAGS := -d
 TAR := tar --exclude '*/CVS*' --exclude '*/.svn*' --exclude '*/.xvpics*'
 
 #
-# RPM
+# RPM -- root is overridable
 #
 
-RPM_SRC_DIR  := /usr/src/rpm/SOURCES
-RPM_SPEC_DIR := /usr/src/rpm/SPECS
-RPM_BIN_DIR  := /usr/src/rpm/RPMS/i386
-RPM_SRPM_DIR := /usr/src/rpm/SRPMS
+RPM_SRC_ROOT := /usr/src/rpm
+RPM_SRC_DIR   = ${RPM_SRC_ROOT}/SOURCES
+RPM_SPEC_DIR  = ${RPM_SRC_ROOT}/SPECS
+RPM_BIN_DIR   = ${RPM_SRC_ROOT}/RPMS/i386
+RPM_SRPM_DIR  = ${RPM_SRC_ROOT}/SRPMS
 
 RPM := rpmbuild -bb --quiet --clean --rmsource
 
 #
-# string data files
+# string data files -- prepend to allow app to override
 #
 
-J_STRING_FILES += ${JX_ROOT}/libjcore/strings/* \
-                  ${JX_ROOT}/libjx/strings/*
+J_STRING_FILES := ${JX_ROOT}/libjcore/strings/* \
+                  ${JX_ROOT}/libjx/strings/* \
+                  ${J_STRING_FILES}

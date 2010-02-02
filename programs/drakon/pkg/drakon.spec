@@ -36,7 +36,7 @@ rm -rf %drakon_lib_dir
 
 %docdir %drakon_doc_dir
 
-/usr/X11R6/bin/drakon
+/usr/bin/drakon
 %drakon_lib_dir
 %drakon_doc_dir
 

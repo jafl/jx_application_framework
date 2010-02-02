@@ -16,13 +16,13 @@
 .cpp ./code/JXDisplay
 .cpp ./code/JXDisplayMenu
 .cpp ./code/JXWindow
-.cpp ./code/JXIncrementWindowAPAMMTask
 .cpp ./code/JXIconDirector
 .cpp ./code/JXWindowIcon
 .cpp ./code/JXButtonStates
 .cpp ./code/JXKeyModifiers
 .cpp ./code/jXEventUtil
 .cpp ./code/JXOpenDisplayDialog
+.cpp ./code/JXRaiseWindowTask
 .cpp ./code/JXSelectionManager
 .cpp ./code/JXSelectionData
 .cpp ./code/JXTextSelection
@@ -130,7 +130,6 @@
 .cpp ./code/JXHorizPartition
 .cpp ./code/JXVertPartition
 .cpp ./code/JXTabGroup
-.cpp ./code/JXSelectTabTask
 .cpp ./code/JXScrollTabsTask
 .cpp ./code/JXCardFile
 .cpp ./code/JXDockManager
@@ -143,6 +142,7 @@
 .cpp ./code/JXDockDragData
 .cpp ./code/JXDockWindowTask
 .cpp ./code/JXUpdateMinSizeTask
+.cpp ./code/JXAskInitDockAll
 .cpp ./code/JXTreeListWidget
 .cpp ./code/JXNamedTreeListWidget
 .cpp ./code/JXTLWAdjustToTreeTask

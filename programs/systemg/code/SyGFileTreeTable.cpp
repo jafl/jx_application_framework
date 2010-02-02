@@ -2157,29 +2157,6 @@ SyGFileTreeTable::ReceiveWithFeedback
 }
 
 /******************************************************************************
- ReceiveGoingAway (virtual protected)
-
- ******************************************************************************/
-
-void
-SyGFileTreeTable::ReceiveGoingAway
-	(
-	JBroadcaster* sender
-	)
-{
-	if (sender == itsSortNode)
-		{
-		itsSortNode = NULL;
-		}
-	if (sender == itsUpdateNode)
-		{
-		itsUpdateNode = NULL;
-		}
-
-	JBroadcaster::ReceiveGoingAway(sender);
-}
-
-/******************************************************************************
  UpdateInfo (private)
 
  ******************************************************************************/
@@ -2243,7 +2220,7 @@ SyGFileTreeTable::UpdateDisplay
 
 		StopListening(itsUpdateNode);
 		itsFileTree->Update(force, &itsUpdateNode);
-		ListenTo(itsUpdateNode);
+		ClearWhenGoingAway(itsUpdateNode, &itsUpdateNode);
 
 		if (updateMenus)
 			{
@@ -2884,15 +2861,10 @@ SyGFileTreeTable::FindOriginals()
 	while (iter.Next(&cell))
 		{
 		const JDirEntry* entry = itsFileTreeList->GetDirEntry(cell.y);
-		const JString* linkData;
-		if (entry->IsWorkingLink() && entry->GetLinkName(&linkData))
+		JString fullName;
+		if (entry->IsWorkingLink() &&
+			JGetTrueName(entry->GetFullName(), &fullName))
 			{
-			JString fullName = *linkData;
-			if (JIsRelativePath(fullName))
-				{
-				fullName = JCombinePathAndName(entry->GetPath(), fullName);
-				}
-
 			if (JDirectoryExists(fullName))
 				{
 				// open the containing directory, not the directory itself
@@ -4221,7 +4193,7 @@ SyGFileTreeTable::ExtractInputData
 	else
 		{
 		itsSortNode = node->GetSyGParent();
-		ListenTo(itsSortNode);	// in case it dies
+		ClearWhenGoingAway(itsSortNode, &itsSortNode);
 		}
 	return err.OK();
 }

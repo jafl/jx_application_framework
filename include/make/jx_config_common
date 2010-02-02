@@ -104,11 +104,15 @@ J_STD_LIBS := -L${JX_ROOT}/lib ${ljx} ${ljcore} ${J_SYS_LIBS}
 # We don't include them in J_GCC_LIBS because the static linker will only include
 # them if the program calls them.
 
+
+ifdef J_HAS_JPEG
+  J_IMG_LIBS := -lpng -ljpeg
+else
+  J_IMG_LIBS := -lpng
+endif
+
 ifdef J_BUILD_SHARED_LIB
-  J_STD_LIBS := -lpng ${J_STD_LIBS}
-  ifdef J_HAS_JPEG
-    J_STD_LIBS := -ljpeg ${J_STD_LIBS}
-  endif
+  J_STD_LIBS := ${J_IMG_LIBS} ${J_STD_LIBS}
 endif
 
 #

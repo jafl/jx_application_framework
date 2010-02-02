@@ -853,6 +853,10 @@ T
 F
 "./code/jVCSUtil.cpp"
 T
+2 "JWebBrowser.cpp"
+F
+"./code/JWebBrowser.cpp"
+T
 2 "jWebUtil.cpp"
 F
 "./code/jWebUtil.cpp"
@@ -1049,6 +1053,13 @@ T
 2 "wbmp.o"
 F
 "../misc/gd/wbmp.o"
+F
+T
+1 "strings"
+T
+2 "jcore_strings"
+F
+"./strings/jcore_strings"
 F
 F
 # tasks

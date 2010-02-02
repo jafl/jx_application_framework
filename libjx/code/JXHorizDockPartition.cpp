@@ -628,7 +628,7 @@ JXHorizDockPartition::UpdateMinSize()
 		minWidth            += minSize.x;
 		minHeight            = JMax(minSize.y, minHeight);
 
-		JPartition::SetMinCompartmentSize(i, minWidth);
+		JPartition::SetMinCompartmentSize(i, minSize.x);
 		}
 
 	return JPoint(minWidth, minHeight);

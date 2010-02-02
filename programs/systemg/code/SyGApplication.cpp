@@ -182,7 +182,8 @@ SyGApplication::OpenDirectory
 	// if file, select it after opening the window
 
 	JString selectName;
-	if (JFileExists(trueName))
+	if (JFileExists(trueName) ||
+		!JDirectoryExists(trueName))	// broken link
 		{
 		JStripTrailingDirSeparator(&trueName);
 		JString path;

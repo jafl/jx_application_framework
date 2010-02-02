@@ -10,6 +10,7 @@
 #include "GPMMainDirector.h"
 #include "gpmGlobals.h"
 #include <JThisProcess.h>
+#include <jWebUtil.h>
 #include <jAssert.h>
 
 // Prototypes
@@ -41,9 +42,9 @@ main
 	GPMApp* app = new GPMApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != NULL );
 
-	(GPMGetMDIServer())->HandleCmdLineOptions(argc, argv);
+	JCheckForNewerVersion(GPMGetPrefsManager(), kGPMVersionCheckID);
 
-	// You may want to create all directors inside HandleCmdLineOptions()
+	(GPMGetMDIServer())->HandleCmdLineOptions(argc, argv);
 
 	GPMMainDirector* dir = new GPMMainDirector(app);
 	assert( dir != NULL );

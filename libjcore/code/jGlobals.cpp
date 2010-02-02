@@ -16,6 +16,7 @@
 #include <JGetCurrentFontManager.h>
 #include <JGetCurrentColormap.h>
 #include <JThisProcess.h>
+#include <JWebBrowser.h>
 #include <jDirUtil.h>
 #include <jFileUtil.h>
 #include <stdlib.h>
@@ -31,6 +32,7 @@ static JGetCurrentFontManager*	theGetCurrFontMgr    = NULL;
 static JGetCurrentColormap*		theGetCurrColormap   = NULL;
 
 static JStringManager*			theStringManager     = NULL;
+static JWebBrowser*				theWebBrowser        = NULL;
 
 static JCharacter*				theDefaultFontName   = NULL;
 static JCharacter*				theGreekFontName     = NULL;
@@ -233,6 +235,9 @@ JDeleteGlobals()
 	delete theStringManager;
 	theStringManager = NULL;
 
+	delete theWebBrowser;
+	theWebBrowser = NULL;
+
 	delete theAssertHandler;
 	theAssertHandler = NULL;
 
@@ -276,6 +281,33 @@ JGetStringManager()
 		}
 
 	return theStringManager;
+}
+
+/******************************************************************************
+ JGetWebBrowser
+
+ ******************************************************************************/
+
+JWebBrowser*
+JGetWebBrowser()
+{
+	assert( theWebBrowser != NULL );
+	return theWebBrowser;
+}
+
+/******************************************************************************
+ JSetWebBrowser
+
+ ******************************************************************************/
+
+void
+JSetWebBrowser
+	(
+	JWebBrowser* webBrowser
+	)
+{
+	assert( theWebBrowser == NULL );
+	theWebBrowser = webBrowser;
 }
 
 /******************************************************************************

@@ -22,7 +22,6 @@
 #include <JXWindow.h>
 #include <JXPartition.h>
 #include <JXTabGroup.h>
-#include <JXSelectTabTask.h>
 #include <JXHintDirector.h>
 #include <JXTimerTask.h>
 #include <JXWindowPainter.h>
@@ -32,10 +31,6 @@
 #include <jAssert.h>
 
 const Time kDeleteHintDelay = 10000;	// 10 sec (ms)
-
-// string ID's
-
-static const JCharacter* kWindowWillNotFitID = "WindowWillNotFit::JXDockWidget";
 
 /******************************************************************************
  Constructor
@@ -143,6 +138,23 @@ JXDockWidget::SetID
 }
 
 /******************************************************************************
+ WindowWillFit
+
+ ******************************************************************************/
+
+JBoolean
+JXDockWidget::WindowWillFit
+	(
+	JXWindow* w
+	)
+	const
+{
+	const JPoint minSize = w->GetMinSize();
+	return JI2B(GetApertureWidth()  >= minSize.x &&
+				GetApertureHeight() >= minSize.y);
+}
+
+/******************************************************************************
  Dock
 
  ******************************************************************************/
@@ -170,8 +182,7 @@ JXDockWidget::Dock
 		}
 
 	const JRect geom = GetApertureGlobal();
-	JPoint minSize;
-	if (w->Dock(this, (JXWidgetSet::GetWindow())->GetXWindow(), geom, &minSize))
+	if (w->Dock(this, (JXWidgetSet::GetWindow())->GetXWindow(), geom))
 		{
 		if (itsWindowList == NULL)
 			{
@@ -179,36 +190,14 @@ JXDockWidget::Dock
 			assert( itsWindowList != NULL );
 			}
 
-		const JSize count = itsWindowList->GetElementCount();
-		assert( count == itsTabGroup->GetTabCount() );
-
-		const JCharacter* title =
-			JXFileDocument::SkipNeedsSavePrefix(w->GetTitle());
-
-		JIndex index = count+1;
-		for (JIndex i=1; i<=count; i++)
-			{
-			const JCharacter* t =
-				JXFileDocument::SkipNeedsSavePrefix((itsWindowList->NthElement(i))->GetTitle());
-			if (JStringCompare(title, t, kJFalse) < 0)
-				{
-				index = i;
-				break;
-				}
-			}
+		const JIndex index = GetTabInsertionIndex(w);
 
 		itsWindowList->InsertAtIndex(index, w);
 		ListenTo(w);
 		UpdateMinSize();
 
 		itsTabGroup->InsertTab(index, w->GetTitle());
-
-		// Can't call ShowTab() because window might be partially constructed,
-		// so Activate() could blow up.
-
-		JXSelectTabTask* task = new JXSelectTabTask(itsTabGroup, index);
-		assert( task != NULL );
-		(JXGetApplication())->InstallUrgentTask(task);
+		// tab will be selected when window shows itself
 
 		return kJTrue;
 		}
@@ -216,10 +205,52 @@ JXDockWidget::Dock
 		{
 		if (reportError)
 			{
-			(JGetUserNotification())->ReportError(JGetString(kWindowWillNotFitID));
+			(JGetUserNotification())->ReportError(JGetString("WindowWillNotFit::JXDockWidget"));
 			}
 		return kJFalse;
 		}
+}
+
+/******************************************************************************
+ GetTabInsertionIndex (private)
+
+	Linear search is sufficient.  If you have enough tabs that this would
+	be a performance problem, you already have much bigger problems.
+
+ ******************************************************************************/
+
+JIndex
+JXDockWidget::GetTabInsertionIndex
+	(
+	JXWindow*		w,
+	const JIndex	ignoreIndex
+	)
+	const
+{
+	const JSize count = itsWindowList->GetElementCount();
+	assert( count == itsTabGroup->GetTabCount() );
+
+	const JCharacter* title =
+		JXFileDocument::SkipNeedsSavePrefix(w->GetTitle());
+
+	JIndex index = count+1;
+	for (JIndex i=1; i<=count; i++)
+		{
+		if (i == ignoreIndex)
+			{
+			continue;
+			}
+
+		const JCharacter* t =
+			JXFileDocument::SkipNeedsSavePrefix((itsWindowList->NthElement(i))->GetTitle());
+		if (JStringCompare(title, t, kJFalse) < 0)
+			{
+			index = i;
+			break;
+			}
+		}
+
+	return index;
 }
 
 /******************************************************************************
@@ -428,7 +459,7 @@ JXDockWidget::SetChildPartition
 
 	if (itsChildPartition != NULL)
 		{
-		ListenTo(itsChildPartition);
+		ClearWhenGoingAway(itsChildPartition, &itsChildPartition);
 		}
 
 	UpdateMinSize();
@@ -506,7 +537,7 @@ JXDockWidget::WillAcceptDrop
 
 		itsHintDirector =
 			new JXHintDirector((JXContainer::GetWindow())->GetDirector(), this,
-							   r, JGetString(kWindowWillNotFitID));
+							   r, JGetString("WindowWillNotFit::JXDockWidget"));
 		assert( itsHintDirector != NULL );
 		itsHintDirector->Activate();
 
@@ -691,7 +722,31 @@ JXDockWidget::Receive
 			}
 		else if (message.Is(JXWindow::kTitleChanged))
 			{
-			itsTabGroup->SetTabTitle(i, w->GetTitle());
+			JIndex index = GetTabInsertionIndex(w, i);
+			if (index != i+1)
+				{
+				if (index > i)
+					{
+					index--;
+					}
+
+				JIndex currIndex;
+				const JBoolean hadSelection = itsTabGroup->GetCurrentTabIndex(&currIndex);
+
+				JXWidgetSet* card = itsTabGroup->RemoveTab(i);
+				itsTabGroup->InsertTab(index, w->GetTitle(), card);
+
+				itsWindowList->MoveElementToIndex(i, index);
+
+				if (hadSelection && i == currIndex)
+					{
+					itsTabGroup->ShowTab(index);
+					}
+				}
+			else
+				{
+				itsTabGroup->SetTabTitle(i, w->GetTitle());
+				}
 			}
 		else if (message.Is(JXWindow::kRaised))
 			{
@@ -715,7 +770,6 @@ JXDockWidget::Receive
 			{
 			JXWindow* w = itsWindowList->NthElement(index);
 			(w->GetDirector())->Activate();
-			w->RequestFocus();
 			}
 		}
 	else if (sender == itsDeleteHintTask && message.Is(JXTimerTask::kTimerWentOff))
@@ -743,15 +797,7 @@ JXDockWidget::ReceiveGoingAway
 	JBroadcaster* sender
 	)
 {
-	if (RemoveWindow(sender))
-		{
-		return;
-		}
-	else if (sender == itsChildPartition)
-		{
-		itsChildPartition = NULL;
-		}
-	else
+	if (!RemoveWindow(sender))
 		{
 		JXWidgetSet::ReceiveGoingAway(sender);
 		}

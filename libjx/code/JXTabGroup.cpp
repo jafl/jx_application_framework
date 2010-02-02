@@ -1642,7 +1642,7 @@ JXTabGroup::Activate()
 	JXWidget::Activate();
 
 	JIndex i;
-	if (IsActive() && GetTabCount() > 0 && !GetCurrentTabIndex(&i))
+	if (WouldBeActive() && GetTabCount() > 0 && !GetCurrentTabIndex(&i))
 		{
 		ShowTab(1);
 		}

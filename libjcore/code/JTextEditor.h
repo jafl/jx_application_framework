@@ -543,6 +543,7 @@ public:		// ought to be protected
 		JBoolean	appendWS;			// kJTrue if need whitespace in front of next word
 		JBoolean	inPreformatBlock;	// kJTrue if inside <pre>
 		JBoolean	inDocHeader;		// kJTrue if inside <head>
+		JBoolean	inStyleBlock;		// kJTrue if inside <style>
 
 		HTMLLexerState(JTextEditor* editor, JString* b, JRunArray<Font>* s);
 
@@ -768,7 +769,7 @@ private:
 	JBoolean			itsBcastAllTextChangedFlag;	// kJTrue => broadcast TextChanged every time
 	JBoolean			itsIsPrintingFlag;			// kJTrue => stack threads through Print()
 	JBoolean			itsDrawWhitespaceFlag;		// kJTrue => show tabs, spaces, newlines
-	static JBoolean		itsCopyWhenSelectFlag;		// kJTrue => SetSelection() calls Copy()
+	static JBoolean		theCopyWhenSelectFlag;		// kJTrue => SetSelection() calls Copy()
 
 	const JFontManager*	itsFontMgr;
 	Font				itsDefFont;
@@ -798,7 +799,7 @@ private:
 	JRunArray<LineGeometry>*	itsLineGeom;		// geometry of each line
 
 	JBoolean (*itsCharInWordFn)(const JString&, const JIndex);
-	static JBoolean (*itsI18NCharInWordFn)(const JCharacter);	// can be NULL
+	static JBoolean (*theI18NCharInWordFn)(const JCharacter);	// can be NULL
 
 	// information for Recalc
 
@@ -1710,7 +1711,7 @@ JTextEditor::ShouldMoveToFrontOfText
 inline JBoolean
 JTextEditor::WillCopyWhenSelect()
 {
-	return itsCopyWhenSelectFlag;
+	return theCopyWhenSelectFlag;
 }
 
 inline void
@@ -1719,7 +1720,7 @@ JTextEditor::ShouldCopyWhenSelect
 	const JBoolean copy
 	)
 {
-	itsCopyWhenSelectFlag = copy;
+	theCopyWhenSelectFlag = copy;
 }
 
 /******************************************************************************

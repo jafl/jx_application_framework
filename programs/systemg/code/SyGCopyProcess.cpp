@@ -351,12 +351,13 @@ SyGCopyProcess::SyGCopyProcess
 	if (itsSrcTable != NULL)
 		{
 		(itsSrcTable->GetTableSelection()).ClearSelection();
-		ListenTo(itsSrcTable);
+		ClearWhenGoingAway(itsSrcTable, &itsSrcTable);
 		}
 
 	(itsDestTable->GetTableSelection()).ClearSelection();
-	ListenTo(itsDestTable);
-	ListenTo(itsDestNode);
+	ClearWhenGoingAway(itsDestTable, &itsDestTable);
+	ClearWhenGoingAway(itsDestTable, &itsDestNode);
+	ClearWhenGoingAway(itsDestNode, &itsDestNode);
 
 	JSize prefixCount = 0;
 	if (isCopy && itsVCSType == kJSVNType)
@@ -579,35 +580,5 @@ SyGCopyProcess::RemoveExecutePermissions
 			RemoveExecutePermissions(entry.GetFullName(), path);
 			}
 		delete info;
-		}
-}
-
-/******************************************************************************
- ReceiveGoingAway (virtual protected)
-
- ******************************************************************************/
-
-void
-SyGCopyProcess::ReceiveGoingAway
-	(
-	JBroadcaster* sender
-	)
-{
-	if (sender == itsSrcTable)
-		{
-		itsSrcTable = NULL;
-		}
-	else if (sender == itsDestTable)
-		{
-		itsDestTable = NULL;
-		itsDestNode  = NULL;
-		}
-	else if (sender == itsDestNode)
-		{
-		itsDestNode = NULL;
-		}
-	else
-		{
-		JBroadcaster::ReceiveGoingAway(sender);
 		}
 }

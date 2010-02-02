@@ -426,11 +426,13 @@ GMAccountDialog::BuildWindow()
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
 
+	itsSigInput->SetDefaultFontName("6x13");
+
 	//itsDefaultInboxInput->SetBorderWidth(2);
 	itsSMTPServerInput->SetIsRequired();
 	itsSMTPUserName->SetIsRequired();
 	itsAutoCheckMinutesInput->SetLowerLimit(kCheckMailMinDelay);
-	
+
 	JString home;
 	if (JGetHomeDirectory(&home))
 		{

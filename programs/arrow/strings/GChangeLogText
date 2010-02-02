@@ -28,6 +28,8 @@ Scroll wheel now works in spell checker suggestion list.
 <p>
 Smarter placement of spell checker window.
 <p>
+Fixed bug which caused certain HTML messages to be displayed as blank.
+<p>
 
 <h3> 2.0.1 </h3>
 

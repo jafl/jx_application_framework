@@ -1,6 +1,6 @@
 #!/bin/sh
 
-rm -f  /usr/X11R6/bin/glove;
+rm -f  /usr/bin/glove;
 rm -rf /usr/lib/glove;
 rm -rf /usr/share/doc/glove;
 rm -f  `find /usr/share/applications -name 'glove*.desktop'`;

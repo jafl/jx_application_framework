@@ -27,7 +27,8 @@ enum
 	kMDgCSFSetupID,
 	kMDMainDirectorID,
 	kMDMainToolBarID,
-	kMDMainDirectorWindSizeID
+	kMDMainDirectorWindSizeID,
+	kMDVersionCheckID
 };
 
 class MDPrefsManager : public JXPrefsManager

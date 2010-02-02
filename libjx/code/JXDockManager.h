@@ -48,6 +48,7 @@ public:
 	JXDockDirector*	CreateDock(const JBoolean splitHoriz);
 	void			CloseAll();
 
+	JBoolean					HasDocks() const;
 	JPtrArray<JXDockDirector>*	GetDockList() const;
 	JBoolean					FindDock(const JIndex id, JXDockWidget** dock);
 	JBoolean					IsLastDock(JXDockDirector* dock) const;
@@ -112,6 +113,18 @@ private:
 	const JXDockManager& operator=(const JXDockManager& source);
 };
 
+
+/******************************************************************************
+ HasDocks
+
+ ******************************************************************************/
+
+inline JBoolean
+JXDockManager::HasDocks()
+	const
+{
+	return !itsDockList->IsEmpty();
+}
 
 /******************************************************************************
  GetDockList

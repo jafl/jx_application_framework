@@ -56,6 +56,7 @@ public:
 	void		ShowPreviousWindow();
 	void		ShowNextWindow();
 
+	JBoolean	WindowWillFit(JXWindow* w) const;
 	JBoolean	Dock(JXWindowDirector* d, const JBoolean reportError = kJFalse);
 	JBoolean	Dock(JXWindow* w, const JBoolean reportError = kJFalse);
 	JBoolean	TransferAll(JXDockWidget* target);
@@ -103,6 +104,7 @@ private:
 
 	JBoolean	FindWindow(JBroadcaster* sender, JXWindow** window, JIndex* index) const;
 	JBoolean	RemoveWindow(JBroadcaster* sender);
+	JIndex		GetTabInsertionIndex(JXWindow* w, const JIndex ignoreIndex = 0) const;
 
 	// not allowed
 

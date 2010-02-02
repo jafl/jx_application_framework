@@ -29,7 +29,7 @@ JXCSFSelectPrevDirTask::JXCSFSelectPrevDirTask
 {
 	itsDirInfo  = dirInfo;
 	itsDirTable = dirTable;
-	ListenTo(itsDirTable);
+	ClearWhenGoingAway(itsDirTable, &itsDirTable);
 
 	itsDirName = new JString(dirName);
 	assert( itsDirName != NULL );
@@ -58,28 +58,5 @@ JXCSFSelectPrevDirTask::Perform()
 		{
 		itsDirTable->UpdateScrollbars();
 		itsDirTable->SelectSingleEntry(index);
-		}
-}
-
-/******************************************************************************
- ReceiveGoingAway (virtual protected)
-
-	When JXDSSFinishSaveTask performs, we will be left hanging in the queue.
-
- ******************************************************************************/
-
-void
-JXCSFSelectPrevDirTask::ReceiveGoingAway
-	(
-	JBroadcaster* sender
-	)
-{
-	if (sender == itsDirTable)
-		{
-		itsDirTable = NULL;
-		}
-	else
-		{
-		JBroadcaster::ReceiveGoingAway(sender);
 		}
 }

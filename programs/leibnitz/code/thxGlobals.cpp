@@ -10,6 +10,7 @@
 #include <thxStdInc.h>
 #include "thxGlobals.h"
 #include "THXMDIServer.h"
+#include "THXPrefsManager.h"
 #include "thxHelpText.h"
 #include <JXDisplay.h>
 #include <JXWindow.h>
@@ -20,6 +21,7 @@
 
 static THXApp*				theApplication     = NULL;	// owns itself
 static THXMDIServer*		theMDIServer       = NULL;	// owned by JX
+static THXPrefsManager*		thePrefsManager    = NULL;
 static JXPTPrinter*			theTapePrinter     = NULL;
 static JXPSPrinter*			thePSGraphPrinter  = NULL;
 static JX2DPlotEPSPrinter*	theEPSGraphPrinter = NULL;
@@ -46,6 +48,10 @@ THXCreateGlobals
 	)
 {
 	theApplication = app;
+
+	JBoolean isNew;
+	thePrefsManager	= new THXPrefsManager(&isNew);
+	assert( thePrefsManager != NULL );
 
 	JXInitHelp(kTHXTOCHelpName, kTHXHelpSectionCount, kTHXHelpSectionName);
 
@@ -83,6 +89,11 @@ THXDeleteGlobals()
 
 	theApplication = NULL;
 	theMDIServer   = NULL;
+
+	// this must be last so everybody else can use it to save their setup
+
+	delete thePrefsManager;
+	thePrefsManager = NULL;
 }
 
 /******************************************************************************
@@ -95,6 +106,18 @@ THXGetApplication()
 {
 	assert( theApplication != NULL );
 	return theApplication;
+}
+
+/******************************************************************************
+ THXGetPrefsManager
+
+ ******************************************************************************/
+
+THXPrefsManager*
+THXGetPrefsManager()
+{
+	assert( thePrefsManager != NULL );
+	return thePrefsManager;
 }
 
 /******************************************************************************

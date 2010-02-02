@@ -197,20 +197,20 @@ THX3DPlotFunctionDialog::BuildWindow
 
 	itsSurfaceName->ShareEditMenu(itsExprWidget->GetEditMenu());
 
-	itsXMinInput->SetValue(0.0);
+	itsXMinInput->SetValue(-5.0);
 	itsXMinInput->ShareEditMenu(itsExprWidget->GetEditMenu());
 
-	itsXMaxInput->SetValue(1.0);
+	itsXMaxInput->SetValue(5.0);
 	itsXMaxInput->ShareEditMenu(itsExprWidget->GetEditMenu());
 
 	itsXCountInput->SetValue(20);
 	itsXCountInput->SetLimits(2, 100);
 	itsXCountInput->ShareEditMenu(itsExprWidget->GetEditMenu());
 
-	itsYMinInput->SetValue(0.0);
+	itsYMinInput->SetValue(-5.0);
 	itsYMinInput->ShareEditMenu(itsExprWidget->GetEditMenu());
 
-	itsYMaxInput->SetValue(1.0);
+	itsYMaxInput->SetValue(5.0);
 	itsYMaxInput->ShareEditMenu(itsExprWidget->GetEditMenu());
 
 	itsYCountInput->SetValue(20);

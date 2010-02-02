@@ -101,10 +101,10 @@ static const JCharacter* kMessageMenuStr =
 	"| Delete %k Meta-D %i Delete::Arrow"
 	"| Undelete %k Meta-U %i Undelete::Arrow"
 	"| Mark as new %i MarkNew::Arrow"
-	"| Mark as read %k Meta-Shift-R %i MarkRead::Arrow"
+	"| Mark as read %i MarkRead::Arrow"
 	"%l|Reply %k Meta-R %i Reply::Arrow"
 	"| Reply to sender %i ReplyToSender::Arrow"
-	"|Reply to all %i ReplyToAll::Arrow"
+	"|Reply to all %k Meta-Shift-R %i ReplyToAll::Arrow"
 	"| Forward %k Meta-F %i Forward::Arrow"
 	"| Redirect %i Redirect::Arrow";
 

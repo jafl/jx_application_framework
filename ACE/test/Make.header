@@ -43,6 +43,13 @@ endif
 LOADLIBES := -L${JLIBDIR} ${ljcore} ${J_ACE_LIBS} ${J_GCC_LIBS}
 LDFLAGS   := 
 
+ifdef J_BUILD_SHARED_LIB
+  LOADLIBES := -lpng ${LOADLIBES}
+  ifdef J_HAS_JPEG
+    LOADLIBES := -ljpeg ${LOADLIBES}
+  endif
+endif
+
 #####
 
 .PHONY : default

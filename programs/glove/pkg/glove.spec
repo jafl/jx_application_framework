@@ -39,7 +39,7 @@ rm -rf %glove_lib_dir
 
 %docdir %glove_doc_dir
 
-/usr/X11R6/bin/glove
+/usr/bin/glove
 %glove_lib_dir
 %glove_doc_dir
 

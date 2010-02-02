@@ -190,9 +190,9 @@ static const JCharacter* kCRMSelectionActionText = "Clean margins for selection"
 static const JCharacter* kCRM2CaretActionText     = "Coerce paragraph margins";
 static const JCharacter* kCRM2SelectionActionText = "Coerce margins for selection";
 
-JBoolean JTextEditor::itsCopyWhenSelectFlag = kJFalse;
+JBoolean JTextEditor::theCopyWhenSelectFlag = kJFalse;
 
-JBoolean (*JTextEditor::itsI18NCharInWordFn)(const JCharacter) = NULL;
+JBoolean (*JTextEditor::theI18NCharInWordFn)(const JCharacter) = NULL;
 
 // JBroadcaster message types
 
@@ -1450,7 +1450,8 @@ JTextEditor::HandleHTMLWord
 	const JCharacter* word
 	)
 {
-	if (!itsHTMLLexerState->inDocHeader)
+	if (!itsHTMLLexerState->inDocHeader &&
+		!itsHTMLLexerState->inStyleBlock)
 		{
 		AppendTextForHTML(word);
 		}
@@ -1466,7 +1467,8 @@ JTextEditor::HandleHTMLWhitespace
 		{
 		AppendTextForHTML(space);
 		}
-	else if (!itsHTMLLexerState->inDocHeader)
+	else if (!itsHTMLLexerState->inDocHeader &&
+			 !itsHTMLLexerState->inStyleBlock)
 		{
 		itsHTMLLexerState->appendWS = kJTrue;
 		}
@@ -1488,6 +1490,12 @@ JTextEditor::HandleHTMLTag
 	else
 		{
 		HandleHTMLOnCmd(name, attr);
+
+		const JString* s;
+		if (attr.GetElement("/", &s))
+			{
+			HandleHTMLOffCmd(name, attr);
+			}
 		}
 }
 
@@ -1773,7 +1781,7 @@ JTextEditor::HandleHTMLOnCmd
 		itsHTMLLexerState->UpdateFontID();
 		}
 
-	// big font size
+	// small font size
 
 	else if (cmd == "small")
 		{
@@ -1787,6 +1795,13 @@ JTextEditor::HandleHTMLOnCmd
 	else if (cmd == "head")
 		{
 		itsHTMLLexerState->inDocHeader = kJTrue;
+		}
+
+	// style block
+
+	else if (cmd == "style")
+		{
+		itsHTMLLexerState->inStyleBlock = kJTrue;
 		}
 
 	// division inside document
@@ -2026,6 +2041,13 @@ JTextEditor::HandleHTMLOffCmd
 		itsHTMLLexerState->inDocHeader = kJFalse;
 		}
 
+	// style block
+
+	else if (cmd == "style")
+		{
+		itsHTMLLexerState->inStyleBlock = kJFalse;
+		}
+
 	// division inside document
 
 	else if (cmd == "div")
@@ -2231,7 +2253,8 @@ JTextEditor::HTMLLexerState::HTMLLexerState
 	newlineCount(0),
 	appendWS(kJFalse),
 	inPreformatBlock(kJFalse),
-	inDocHeader(kJFalse)
+	inDocHeader(kJFalse),
+	inStyleBlock(kJFalse)
 {
 	buffer->Clear();
 	styles->RemoveAll();
@@ -4681,7 +4704,7 @@ JTextEditor::SetSelection
 
 	TECaretShouldBlink(kJFalse);
 
-	if (itsCopyWhenSelectFlag && itsType != kStaticText)
+	if (theCopyWhenSelectFlag && itsType != kStaticText)
 		{
 		Copy();
 		}
@@ -9309,7 +9332,7 @@ JBoolean (*
 JTextEditor::GetI18NCharacterInWordFunction()
 )(const JCharacter)
 {
-	return itsI18NCharInWordFn;
+	return theI18NCharInWordFn;
 }
 
 /******************************************************************************
@@ -9325,7 +9348,7 @@ JTextEditor::SetI18NCharacterInWordFunction
 	JBoolean (*f)(const JCharacter)
 	)
 {
-	itsI18NCharInWordFn = f;
+	theI18NCharInWordFn = f;
 }
 
 /******************************************************************************
@@ -9344,8 +9367,8 @@ JTextEditor::IsCharacterInWord
 	const
 {
 	return JI2B(VIsCharacterInWord(text, charIndex) ||
-				(itsI18NCharInWordFn != NULL &&
-				 itsI18NCharInWordFn(text.GetCharacter(charIndex))));
+				(theI18NCharInWordFn != NULL &&
+				 theI18NCharInWordFn(text.GetCharacter(charIndex))));
 }
 
 /******************************************************************************

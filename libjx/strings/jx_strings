@@ -182,6 +182,14 @@ Compose file in /usr/X11R6/lib/X11/locale/.
 
 WindowTitleSuffix::JXDockManager	" Dock #"
 
+# JXAskInitDockAll
+
+StartupTips::JXAskInitDockAll
+
+"Would you prefer to have all your windows arranged inside a single, top-level window on your desktop?
+
+(The Docking section of the on-line help explains how to change your mind later on.)"
+
 # JXHorizDockPartition
 
 NoSpaceHoriz::JXHorizDockPartition
@@ -201,8 +209,7 @@ NoSpaceHoriz::JXVertDockPartition
 # JXDockWidget
 
 WindowWillNotFit::JXDockWidget
-"The docking area is too small for this window.
-Please expand the docking area and try again."
+"This docking area is too small for the window.  Please expand the docking area and try again."
 
 # JXDocktab
 

@@ -109,13 +109,13 @@ F
 T
 1 "misc"
 T
-2 "SyGViewManPageDialog.cpp"
-F
-"./code/SyGViewManPageDialog.cpp"
-T
 2 "SyGFindFileDialog.cpp"
 F
 "./code/SyGFindFileDialog.cpp"
+T
+2 "SyGViewManPageDialog.cpp"
+F
+"./code/SyGViewManPageDialog.cpp"
 T
 2 "SyGChooseSaveFile.cpp"
 F
@@ -143,9 +143,9 @@ T
 F
 "./strings/systemg_strings"
 T
-2 "systemg_beta_strings"
+2 "SyGHelpText.h"
 F
-"./strings/systemg_beta_strings"
+"./code/SyGHelpText.h"
 T
 2 "SyGChangeLogText"
 F
@@ -171,17 +171,29 @@ T
 F
 "./strings/SyGExecHelpText"
 T
-2 "jfsBindingEditorHelpText"
+2 "SyGBindingEditorHelpText"
 F
-"../../libjfs/strings/jfsBindingEditorHelpText"
+"./strings/SyGBindingEditorHelpText"
 T
-2 "jfsRunCommandHelpText"
+2 "SyGRunCommandHelpText"
 F
-"../../libjfs/strings/jfsRunCommandHelpText"
+"./strings/SyGRunCommandHelpText"
 T
-2 "jfsRunFileHelpText"
+2 "SyGRunFileHelpText"
 F
-"../../libjfs/strings/jfsRunFileHelpText"
+"./strings/SyGRunFileHelpText"
+T
+2 "SyGSearchTextHelpText"
+F
+"./strings/SyGSearchTextHelpText"
+T
+2 "SyGRegexHelpText"
+F
+"./strings/SyGRegexHelpText"
+T
+2 "SyGRegexQRefText"
+F
+"./strings/SyGRegexQRefText"
 T
 2 "SyGMiscHelpText"
 F
@@ -190,10 +202,6 @@ T
 2 "SyGCreditsText"
 F
 "./strings/SyGCreditsText"
-T
-2 "SyGHelpText.h"
-F
-"./code/SyGHelpText.h"
 F
 F
 # tasks

@@ -37,7 +37,7 @@ rm -rf %systemg_lib_dir
 
 %docdir %systemg_doc_dir
 
-/usr/X11R6/bin/systemg
+/usr/bin/systemg
 %systemg_lib_dir
 %systemg_doc_dir
 

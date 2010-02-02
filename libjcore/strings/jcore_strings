@@ -138,3 +138,10 @@ AskPlainGitMove::VCSUtil	"Do you want to rename without using Git?"
 AskPlainSVNRemove::VCSUtil	"Do you want to remove without using Subversion?"
 AskPlainGitRemove::VCSUtil	"Do you want to remove without using Git?"
 AskPlainCVSRemove::VCSUtil	"Do you want to remove without using CVS?"
+
+# jWebUtil
+
+JRemindNewVersion
+"An improved version of this program ($vers) is available for download from $site.
+
+Would you like to go there now to download it?"

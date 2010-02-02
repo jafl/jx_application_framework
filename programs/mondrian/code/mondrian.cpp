@@ -11,6 +11,7 @@
 #include "MDMainDirector.h"
 #include "mdGlobals.h"
 #include <jCommandLine.h>
+#include <jWebUtil.h>
 #include <jAssert.h>
 
 // Prototypes
@@ -51,6 +52,8 @@ main
 		{
 		return 0;
 		}
+
+	JCheckForNewerVersion(MDGetPrefsManager(), kMDVersionCheckID);
 
 	(MDGetMDIServer())->HandleCmdLineOptions(argc, argv);
 

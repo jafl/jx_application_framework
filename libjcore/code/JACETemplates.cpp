@@ -37,7 +37,12 @@ const JCharacter* JAsynchDataReceiverT::kDataReady = "DataReady::JAsynchDataRece
 #include <JNetworkProtocolBase.tmpl>
 #include <JMessageProtocol.tmpl>
 #include <JAsynchDataReceiver.tmpl>
-template class ACE_Svc_Handler<JTemplateType, ACE_SYNCH>;
+#undef JTemplateType
+
+#define JTemplateName ACE_Svc_Handler
+#define JTemplateType ACE_SOCK_STREAM, ACE_SYNCH
+#include <instantiate_template.h>
+#undef JTemplateName
 #undef JTemplateType
 
 #include <ace/LSOCK_Stream.h>
@@ -46,13 +51,73 @@ template class ACE_Svc_Handler<JTemplateType, ACE_SYNCH>;
 #include <JNetworkProtocolBase.tmpl>
 #include <JMessageProtocol.tmpl>
 #include <JAsynchDataReceiver.tmpl>
-template class ACE_Svc_Handler<JTemplateType, ACE_SYNCH>;
 #undef JTemplateType
 
-template class ACE_Task<ACE_NULL_SYNCH>;
-template class ACE_Message_Queue<ACE_NULL_SYNCH>;
-template class ACE_Module<ACE_NULL_SYNCH>;
-template class ACE_Thru_Task<ACE_NULL_SYNCH>;
+#define JTemplateName ACE_Svc_Handler
+#define JTemplateType ACE_LSOCK_STREAM, ACE_SYNCH
+#include <instantiate_template.h>
+#undef JTemplateName
+#undef JTemplateType
+
+#define JTemplateName ACE_Task
+#define JTemplateType ACE_NULL_SYNCH
+#include <instantiate_template.h>
+#undef JTemplateName
+#undef JTemplateType
+
+#define JTemplateName ACE_Message_Queue
+#define JTemplateType ACE_NULL_SYNCH
+#include <instantiate_template.h>
+#undef JTemplateName
+#undef JTemplateType
+
+#define JTemplateName ACE_Module
+#define JTemplateType ACE_NULL_SYNCH
+#include <instantiate_template.h>
+#undef JTemplateName
+#undef JTemplateType
+
+#define JTemplateName ACE_Thru_Task
+#define JTemplateType ACE_NULL_SYNCH
+#include <instantiate_template.h>
+#undef JTemplateName
+#undef JTemplateType
+
+#define JTemplateName ACE_Node
+#define JTemplateType int, ACE_Unbounded_Set_Default_Comparator<int>
+#include <instantiate_template.h>
+#undef JTemplateName
+#undef JTemplateType
+
+#define JTemplateName ACE_Unbounded_Set
+#define JTemplateType int
+#include <instantiate_template.h>
+#undef JTemplateName
+#undef JTemplateType
+
+#define JTemplateName ACE_Unbounded_Set_Iterator
+#define JTemplateType int
+#include <instantiate_template.h>
+#undef JTemplateName
+#undef JTemplateType
+
+#define JTemplateName ACE_Unbounded_Set_Ex
+#define JTemplateType int, ACE_Unbounded_Set_Default_Comparator<int>
+#include <instantiate_template.h>
+#undef JTemplateName
+#undef JTemplateType
+
+#define JTemplateName ACE_Unbounded_Set_Ex_Iterator
+#define JTemplateType int, ACE_Unbounded_Set_Default_Comparator<int>
+#include <instantiate_template.h>
+#undef JTemplateName
+#undef JTemplateType
+
+#define JTemplateName ACE_Unbounded_Set_Ex_Const_Iterator
+#define JTemplateType int, ACE_Unbounded_Set_Default_Comparator<int>
+#include <instantiate_template.h>
+#undef JTemplateName
+#undef JTemplateType
 
 #define JTemplateType iovec
 #include <JArray.tmpls>

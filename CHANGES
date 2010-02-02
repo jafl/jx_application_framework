@@ -1,5 +1,5 @@
 
-This is version 2.5.0 of the JX distribution.
+This is version 2.6.0 of the JX distribution.
 
 Changes from previous versions are described in the *LibVersion.h files in
 the include file directories.
@@ -19,6 +19,9 @@ Changes to the build system:
 	Changed J_HAS_GD to J_HAS_JPEG.  xmp, gif, png are now widely available.
 
 	Removed crypto, regex, xpm from misc directory.
+
+	Modified definition of J_STRING_FILES to allow application to override
+	library strings.
 
 2.5.0:
 

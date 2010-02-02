@@ -27,7 +27,8 @@ enum
 	k<PRE>gCSFSetupID,
 	k<PRE>MainDirectorID,
 	k<PRE>MainToolBarID,
-	k<PRE>MainDirectorWindSizeID
+	k<PRE>MainDirectorWindSizeID,
+	k<PRE>VersionCheckID
 };
 
 class <PRE>PrefsManager : public JXPrefsManager

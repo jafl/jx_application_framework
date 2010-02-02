@@ -43,7 +43,8 @@ enum
 	kSEmpty7ID,
 	kSViewManPagePrefID,
 	kSAltCSSetupID,
-	kSFindFilePrefID
+	kSFindFilePrefID,
+	kSVersionCheckID
 };
 
 const JSize kSyGTreePrefCount = 7;

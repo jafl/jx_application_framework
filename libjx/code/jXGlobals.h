@@ -87,7 +87,6 @@ void JXResumePersistentWindows();
 JBoolean	JXGetApplication(JXApplication** app);
 JBoolean	JXGetDocumentManager(JXDocumentManager** docManager);
 JBoolean	JXGetHelpManager(JXHelpManager** helpMgr);
-JBoolean	JXGetWebBrowser(JXWebBrowser** webBrowser);
 JBoolean	JXGetSearchTextDialog(JXSearchTextDialog** dlog);
 void		JXSetDockManager(JXDockManager* dockMgr);
 

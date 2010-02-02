@@ -9,6 +9,9 @@ This software is subject to the license agreement set forth in the license (refe
 <URL>
 <EMail>"
 
+VERSION_URL		"http://.../VERSION"
+DOWNLOAD_URL	"http://..."
+
 # <pre>Globals
 
 Description::<pre>Globals

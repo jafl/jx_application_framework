@@ -32,10 +32,6 @@ public:
 
 	virtual void	Perform();
 
-protected:
-
-	virtual void	ReceiveGoingAway(JBroadcaster* sender);
-
 private:
 
 	JDirInfo*	itsDirInfo;		// not owned

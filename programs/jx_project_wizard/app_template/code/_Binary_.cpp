@@ -11,6 +11,7 @@
 #include "<PRE>MainDirector.h"
 #include "<pre>Globals.h"
 #include <jCommandLine.h>
+#include <jWebUtil.h>
 #include <jAssert.h>
 
 // Prototypes
@@ -51,6 +52,8 @@ main
 		{
 		return 0;
 		}
+
+	JCheckForNewerVersion(<PRE>GetPrefsManager(), k<PRE>VersionCheckID);
 
 	(<PRE>GetMDIServer())->HandleCmdLineOptions(argc, argv);
 

@@ -17,6 +17,7 @@
 #include <JRTTIBase.h>
 
 class JBroadcasterList;
+class JPointerClearList;
 
 class JBroadcaster
 {
@@ -54,6 +55,7 @@ protected:
 
 	void	ListenTo(const JBroadcaster* aSender);
 	void	StopListening(const JBroadcaster* aSender);
+	void	ClearWhenGoingAway(const JBroadcaster* sender, void* pointerToMember);
 
 	void			Send(JBroadcaster* recipient, const Message& message);
 	void			Broadcast(const Message& message);
@@ -65,10 +67,29 @@ protected:
 
 	virtual void	ReceiveGoingAway(JBroadcaster* sender);
 
+public:		// ought to be private
+
+	struct ClearPointer
+	{
+		JBroadcaster*	sender;
+		void*			pointer;
+
+		ClearPointer()
+			:
+			sender(NULL), pointer(NULL)
+		{ };
+
+		ClearPointer(JBroadcaster* s, void* p)
+			:
+			sender(s), pointer(p)
+		{ };
+	};
+
 private:
 
 	JBroadcasterList*	itsSenders;			// the objects to which we listen
 	JBroadcasterList*	itsRecipients;		// the objects that listen to us
+	JPointerClearList*	itsClearPointers;	// member pointers that need to be cleared
 
 private:
 
@@ -80,6 +101,8 @@ private:
 
 	void	BroadcastPrivate(const Message& message);
 	void	BroadcastWithFeedbackPrivate(Message* message);
+
+	void	ClearGone(JBroadcaster* sender);
 };
 
 

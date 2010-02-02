@@ -8,7 +8,9 @@
 #include "GMessageTableDir.h"
 #include "GMApp.h"
 #include "GMMDIServer.h"
+#include "GPrefsMgr.h"
 #include "GMGlobals.h"
+#include <jWebUtil.h>
 #include <jAssert.h>
 
 // Prototypes
@@ -39,6 +41,8 @@ main
 	JString prevVersStr;
 	GMApp* app = new GMApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != NULL );
+
+	JCheckForNewerVersion(GGetPrefsMgr(), kGVersionCheckID);
 
 	if (displayAbout)
 		{

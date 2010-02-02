@@ -25,6 +25,7 @@ class JGetCurrentFontManager;
 class JFontManager;
 class JGetCurrentColormap;
 class JColormap;
+class JWebBrowser;
 
 void JInitCore(JAssertBase* ah = NULL, const JCharacter* appSignature = NULL,
 			   const JCharacter** defaultStringData = NULL, JUserNotification* un = NULL,
@@ -34,11 +35,13 @@ void JInitCore(JAssertBase* ah = NULL, const JCharacter* appSignature = NULL,
 			   const JCharacter* defaultFontName = NULL,
 			   const JCharacter* greekFontName = NULL,
 			   const JCharacter* monospaceFontName = NULL);
+void JSetWebBrowser(JWebBrowser* webBrowser);
 
 void JDeleteGlobals();
 
 JBoolean				JGetAssertHandler(JAssertBase** ah);
 JStringManager*			JGetStringManager();
+JWebBrowser*			JGetWebBrowser();
 
 JUserNotification*		JGetUserNotification();
 JChooseSaveFile*		JGetChooseSaveFile();
@@ -55,7 +58,6 @@ JBoolean	JGetJDataDirectories(const JCharacter* dirName,
 								 JString* sysDir, JString* userDir);
 JBoolean	JGetDataDirectories(const JCharacter* signature, const JCharacter* dirName,
 								JString* sysDir, JString* userDir);
-
 
 /******************************************************************************
  Convenience functions

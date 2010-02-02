@@ -9,9 +9,10 @@
 
 #include <thxStdInc.h>
 #include "THXMDIServer.h"
+#include "THXPrefsManager.h"
 #include "thxGlobals.h"
 #include <jCommandLine.h>
-#include <stdlib.h>
+#include <jWebUtil.h>
 #include <jAssert.h>
 
 // Prototypes
@@ -40,6 +41,8 @@ main
 
 	THXApp* app = new THXApp(&argc, argv);
 	assert( app != NULL );
+
+	JCheckForNewerVersion(THXGetPrefsManager(), kTHXVersionCheckID);
 
 	app->Run();
 	return 0;

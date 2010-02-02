@@ -144,12 +144,21 @@ CREATE_ACE_MACROS = \
     fi
 
 #
-# RedHat 8.x, 9.x, Fedora (gcc 3.x)
+# glibc 2.8
 #
 
 .PHONY : linux_intel
 linux_intel: linux_common
 	@ln -sf sys/Linux-Intel-32  include/make/jx_config
+	@${INSTALL_CMD}
+
+#
+# Fedora 4 (glibc 2.6)
+#
+
+.PHONY : linux_fc4
+linux_fc4: linux_common
+	@ln -sf sys/Linux-Intel-FC4  include/make/jx_config
 	@${INSTALL_CMD}
 
 #

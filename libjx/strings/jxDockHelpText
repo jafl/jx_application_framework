@@ -19,7 +19,7 @@ Every docking pane displays a list of tabs corresponding to the windows that are
 <p>
 Within each dock, the window that has focus is indicated by dark blue at the left of the menu bar.  Clicking in a window switches focus to that window.
 <p>
-To close a docked window, click the &times; to the left of the menu bar.
+To close a docked window, move the mouse over the window's tab and click the red X.
 <p>
 To dock an un-docked window or move a docked window to another pane, click and drag the vertical bar at the left of the menu bar.  If the target pane does not accept the drop, then the pane is smaller than the window's minimum size.  Simply make the pane larger and try again.
 <p>
@@ -27,11 +27,11 @@ To undock a window, right-click the vertical bar at the left of the menu bar and
 
 <h3> Creating a customized dock </h3>
 
-If you prefer to create a custom dock layout, right-click on the vertical bar to the left of any menu bar and select one of the \"Create new dock\" options.  Once the dock is created, you can sub-divide it by right-clicking on the separator between the panes.
+If you prefer to create a custom dock layout, right-click on the vertical bar to the left of any menu bar and select one of the \"Create new dock...\" options.  Once the dock is created, you can sub-divide it by right-clicking on the separator between the panes.
 <p>
-By default, all panes expand and shrink equally when the window is resized.  By using the options for elasticity, you can specify that only one pane in a group should expand or shrink.  Typically, this is the pane that contains the windows that you work with the most.
+By default, all panes expand and shrink equally when the window is resized.  By using the options for elasticity on the right-click menu for any pane separator, you can specify that only one pane in a group should expand or shrink.  Typically, this is the pane that contains the windows that you work with the most.
 <p>
-To specify that a particular type of window should always be placed in a particular pane, first dock a window of the desired type and then right-click on the vertical bar to the left of the menu bar and select \"Automatically dock new windows of this type in this pane.\"
+To specify that a particular type of window should always be placed in a particular pane, dock a window of the desired type in that pane, right-click on the vertical bar to the left of the menu bar in the newly docked window, and select \"Automatically dock new windows of this type in this pane.\"
 <p>
 You can create more than one dock.  The program will remember the configuration of each one and restore all of them the next time the program is started.
 

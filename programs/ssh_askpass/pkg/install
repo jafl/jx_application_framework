@@ -5,19 +5,19 @@
 PRE=$1
 ZIP=$2
 
-XBIN=$PRE/usr/X11R6/bin
+BIN=$PRE/usr/bin
 DOC=$PRE/usr/share/doc/nps-ssh-askpass
 LIB=$PRE/usr/lib/nps-ssh-askpass
 
 if { test ! -z $PRE; } then
 	{
-	mkdir -p $XBIN;
+	mkdir -p $BIN;
 	}
 fi
 
 # nps-ssh-askpass
 
-install -m755 nps-ssh-askpass $XBIN
+install -m755 nps-ssh-askpass $BIN
 
 mkdir -p $LIB
 cp lib/* $LIB

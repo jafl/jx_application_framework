@@ -12,11 +12,11 @@
 
 #include <JXStdInc.h>
 #include <JXWindow.h>
-#include <JXIncrementWindowAPAMMTask.h>
 #include <JXWindowDirector.h>
 #include <JXMenuManager.h>
 #include <JXDNDManager.h>
 #include <JXHintManager.h>
+#include <JXRaiseWindowTask.h>
 #include <JXWidget.h>
 #include <JXTextMenu.h>
 #include <JXDisplay.h>
@@ -50,10 +50,9 @@
 #include <limits.h>
 #include <jAssert.h>
 
-JBoolean JXWindow::theFoundWMFrameMethodFlag  = kJFalse;
-JBoolean JXWindow::theWMFrameCompensateFlag   = kJFalse;
-JBoolean JXWindow::theWindowFrameIsParentFlag = kJTrue;
-const JCoordinate kWMFrameSlop                = 2;	// pixels
+JBoolean JXWindow::theFoundWMFrameMethodFlag = kJFalse;
+JBoolean JXWindow::theWMFrameCompensateFlag  = kJFalse;
+const JCoordinate kWMFrameSlop               = 2;	// pixels
 
 // useful for research
 static const JCharacter* kWMOffsetFileName = "~/.jx/wm_offset";
@@ -83,15 +82,18 @@ const unsigned int kPointerGrabMask =
 	PointerMotionMask | PointerMotionHintMask |
 	PropertyChangeMask;
 
-const JFileVersion kCurrentGeometryDataVersion = 1;
+const JFileVersion kCurrentGeometryDataVersion = 2;
 const JCharacter kGeometryDataEndDelimiter     = '\1';
 
+	// version  2 saves existence of docks
 	// version  1 saves dock ID
 
 // JBroadcaster message types
 
 const JCharacter* JXWindow::kIconified      = "Iconified::JXWindow";
 const JCharacter* JXWindow::kDeiconified    = "Deiconified::JXWindow";
+const JCharacter* JXWindow::kMapped         = "Mapped::JXWindow";
+const JCharacter* JXWindow::kUnmapped       = "Unmapped::JXWindow";
 const JCharacter* JXWindow::kRaised         = "Raised::JXWindow";
 const JCharacter* JXWindow::kDocked         = "Docked::JXWindow";
 const JCharacter* JXWindow::kUndocked       = "Undocked::JXWindow";
@@ -117,24 +119,23 @@ JXWindow::JXWindow
 	)
 	:
 	JXContainer((JXGetApplication())->GetCurrentDisplay(), this, NULL),
+	itsDirector(director),
 	itsMainWindow(NULL),
+	itsIsOverlayFlag(isOverlay),
 	itsTitle(title),
 	itsBounds(0, 0, h, w),
-	itsAdjustPlacementAfterMapMode(0),
 	itsIsDestructingFlag(kJFalse),
-	itsIncrAPAMMTask(NULL),
 	itsHasMinSizeFlag(kJFalse),
 	itsHasMaxSizeFlag(kJFalse),
-	itsIsOverlayFlag(isOverlay),
 	itsFirstClick(kJXNoButton, 0, JPoint(-1,-1)),
 	itsSecondClick(kJXNoButton, 0, JPoint(-1,-1)),
 	itsIsDockedFlag(kJFalse),
 	itsDockXWindow(None),
 	itsDockWidget(NULL),
+	itsDockingTask(NULL),
 	itsChildWindowList(NULL)
 {
 	assert( director != NULL );
-	itsDirector = director;
 
 	AdjustTitle();
 
@@ -313,15 +314,6 @@ JXWindow::JXWindow
 	// notify the display that we exist
 
 	itsDisplay->WindowCreated(this, itsXWindow);
-
-	// If we are not shown initially, then we will need to adjust placement
-	// when Show() is eventually called.
-
-	#ifdef _J_OSX
-	itsIncrAPAMMTask = new JXIncrementWindowAPAMMTask(this);
-	assert( itsIncrAPAMMTask != NULL );
-	(JXGetApplication())->InstallUrgentTask(itsIncrAPAMMTask);
-	#endif
 }
 
 /******************************************************************************
@@ -341,13 +333,13 @@ JXWindow::~JXWindow()
 		{
 		(itsDockWidget->GetDockDirector())->ClearFocusWindow(this);
 		}
+	delete itsDockingTask;
 
 	delete itsIcon;
 	// itsIconDir deleted by itsDirector
 	delete itsShortcuts;
 	delete itsFocusList;
 	delete itsChildWindowList;
-	delete itsIncrAPAMMTask;
 
 	if (itsBufferPixmap != None)
 		{
@@ -603,7 +595,7 @@ JXWindow::Close()
 void
 JXWindow::Activate()
 {
-	if (!IsActive())
+	if (!WouldBeActive())
 		{
 		JXContainer::Activate();
 		if (IsDocked())
@@ -640,7 +632,7 @@ JXWindow::Resume()
 void
 JXWindow::Show()
 {
-	if (!IsVisible())
+	if (!IsVisible() && (itsDockingTask == NULL || itsDockingTask->IsDone()))
 		{
 		JXContainer::Show();
 		if (itsFocusWidget == NULL)
@@ -653,17 +645,6 @@ JXWindow::Show()
 			}
 		XMapWindow(*itsDisplay, itsXWindow);
 		// input focus set by HandleMapNotify()
-		#ifdef _J_OSX
-		delete itsIncrAPAMMTask;
-		itsIncrAPAMMTask = NULL;
-
-		itsAdjustPlacementAfterMapMode++;
-		#else
-		if (!theWindowFrameIsParentFlag)
-			{
-			itsAdjustPlacementAfterMapMode++;
-			}
-		#endif
 
 		JXWindow* parent;
 		if (itsIsDockedFlag && GetDockWindow(&parent))
@@ -676,6 +657,8 @@ JXWindow::Show()
 /******************************************************************************
  Hide (virtual)
 
+	PrivateHide() is called during docking, after itsIsDockedFlag is set.
+
  ******************************************************************************/
 
 void
@@ -686,7 +669,6 @@ JXWindow::Hide()
 		// We have to deiconify the window first because otherwise,
 		// the icon won't disappear, at least under fvwm and fvwm2.
 
-		const JBoolean wasIconified = itsIsIconifiedFlag;
 		if (itsIsIconifiedFlag)
 			{
 			Deiconify();
@@ -698,17 +680,21 @@ JXWindow::Hide()
 			itsIsIconifiedFlag = kJFalse;
 			Broadcast(Deiconified());
 			}
+
+		PrivateHide();
+		}
+}
+
+// private
+
+void
+JXWindow::PrivateHide()
+{
+	if (IsVisible())
+		{
 		XUnmapWindow(*itsDisplay, itsXWindow);
 		itsIsMappedFlag = kJFalse;
 		JXContainer::Hide();
-
-// We don't do this because it ought to be deiconified when next shown,
-// but we don't want to do it in Show() because windows should stay
-// iconified during program startup.
-//		if (wasIconified)
-//			{
-//			Iconify();
-//			}
 		}
 }
 
@@ -779,10 +765,9 @@ JXWindow::Raise
 	// move window to current desktop
 	// http://standards.freedesktop.org/wm-spec/latest/ar01s05.html
 
+	Window root = itsDisplay->GetRootWindow();
 	if (theWMDesktopMapsWindowsFlag || itsIsMappedFlag)
 		{
-		Window root = itsDisplay->GetRootWindow();
-
 		Atom actualType;
 		int actualFormat;
 		unsigned long itemCount, remainingBytes;
@@ -810,9 +795,26 @@ JXWindow::Raise
 		XFree(xdata);
 		}
 
+	// force window to be raised
+	// http://standards.freedesktop.org/wm-spec/wm-spec-latest.html
+
 	Time t = itsDisplay->GetLastEventTime();
 	XChangeProperty(*itsDisplay, itsXWindow, itsDisplay->GetWMUserTimeXAtom(),
 					XA_CARDINAL, 32, PropModeReplace, (unsigned char*) &t, 1);
+
+	if (grabKeyboardFocus)
+		{
+		XEvent e;
+		memset(&e, 0, sizeof(e));
+		e.type                 = ClientMessage;
+		e.xclient.display      = *itsDisplay;
+		e.xclient.window       = itsXWindow;
+		e.xclient.message_type = itsDisplay->GetWMActiveWindowXAtom();
+		e.xclient.format       = 32;
+		e.xclient.data.l[0]    = 1;	// normal app
+		e.xclient.data.l[1]    = t;
+		itsDisplay->SendXEvent(root, &e, SubstructureNotifyMask|SubstructureRedirectMask);
+		}
 
 	XRaiseWindow(*itsDisplay, itsXWindow);
 
@@ -1399,11 +1401,6 @@ JXWindow::CalcDesktopLocation
 	Window rootChild;
 	if (!GetRootChild(&rootChild) || rootChild == itsXWindow)
 		{
-		if (!itsIsOverlayFlag && itsIsMappedFlag)
-			{
-			theWindowFrameIsParentFlag = kJFalse;
-			}
-
 		JPoint desktopPt(origX, origY);
 		if (!itsIsOverlayFlag)
 			{
@@ -1622,9 +1619,8 @@ JXWindow::UndockedPlace
 		{
 		// same as UpdateFrame()
 
-		const JPoint pt1 = pt + itsTopLeftOffset;
-		itsDesktopLoc    = pt1;
-		itsWMFrameLoc    = CalcDesktopLocation(pt1.x, pt1.y, -1);
+		itsDesktopLoc = pt;
+		itsWMFrameLoc = CalcDesktopLocation(pt.x, pt.y, -1);
 /*
 		cout << endl;
 		cout << JPoint(enclX, enclY) << endl;
@@ -1801,26 +1797,14 @@ JXWindow::UpdateFrame()
 
 	const int origX = x, origY = y;
 
-	// After XGetGeometry(), x=0 and y=0 for fvwm, but y>0 for OS X
-	if (theWindowFrameIsParentFlag && itsIsMappedFlag)
-		{
-		itsTopLeftOffset.Set(x,y);
-		}
-	else
-		{
-		itsTopLeftOffset.Set(0,0);
-		}
-//if (!itsIsOverlayFlag) cout << "itsTopLeftOffset: " << itsTopLeftOffset << endl;
 	Window childWindow;
 	const Bool ok2 = XTranslateCoordinates(*itsDisplay, itsXWindow, rootWindow,
 										   0,0, &x, &y, &childWindow);
 	assert( ok2 );
 
 	itsDesktopLoc.Set(x,y);		// also at end of Place()
-//if (!itsIsOverlayFlag) cout << "itsDesktopLoc: " << itsDesktopLoc << endl;
 	itsWMFrameLoc =
 		itsIsDockedFlag ? JPoint(origX, origY) : CalcDesktopLocation(x,y, -1);
-//if (!itsIsOverlayFlag) cout << "itsWMFrameLoc: " << itsWMFrameLoc << endl;
 	if (itsIsMappedFlag)
 		{
 		UpdateBounds(w, h);
@@ -2393,36 +2377,37 @@ JXWindow::ReadGeometry
 	JBoolean iconified;
 	input >> desktopLoc >> w >> h >> iconified;
 
-	JBoolean docked = kJFalse;
+	int dockIt         = -1;
+	JXDockWidget* dock = NULL;
 	if (vers >= 1)
 		{
 		JIndex id;
 		input >> id;
 
+		JBoolean hadDocks = kJTrue;
+		if (vers >= 2)
+			{
+			input >> hadDocks;
+			}
+
 		JXDockManager* mgr;
-		JXDockWidget* dock;
 		if (id != JXDockManager::kInvalidDockID &&
 			JXGetDockManager(&mgr) &&
 			mgr->FindDock(id, &dock))
 			{
-			docked = dock->Dock(this);
+			dockIt = (itsIsDockedFlag && dock == itsDockWidget ? -1 : +1);
+			}
+		else if (id == JXDockManager::kInvalidDockID && hadDocks)
+			{
+			dockIt = 0;
 			}
 		}
 
 	JIgnoreUntil(input, kGeometryDataEndDelimiter);
 
-	if (docked)
+	if (dockIt == 0 || (dockIt == -1 && !itsIsDockedFlag))
 		{
-		itsUndockedWMFrameLoc = desktopLoc;
-		itsUndockedGeom.Set(0, 0, h, w);
-		}
-	else
-		{
-		if (itsIsDockedFlag)
-			{
-			Undock();
-			}
-
+		Undock();
 		Place(desktopLoc.x, desktopLoc.y);
 		SetSize(w,h);
 
@@ -2434,6 +2419,20 @@ JXWindow::ReadGeometry
 			{
 			Deiconify();
 			}
+		}
+	else if (dockIt == 1 && dock != NULL && dock->WindowWillFit(this))
+		{
+		delete itsDockingTask;	// automatically cleared
+		if (dock->Dock(this))
+			{
+			itsUndockedWMFrameLoc = desktopLoc;
+			itsUndockedGeom.Set(0, 0, h, w);
+			}
+		}
+	else if (dockIt == -1 && itsIsDockedFlag)
+		{
+		itsUndockedWMFrameLoc = desktopLoc;
+		itsUndockedGeom.Set(0, 0, h, w);
 		}
 }
 
@@ -2500,6 +2499,9 @@ JXWindow::WriteGeometry
 
 	output << ' ' << (itsDockWidget != NULL ? itsDockWidget->GetID() :
 											  JXDockManager::kInvalidDockID);
+
+	JXDockManager* mgr;
+	output << ' ' << JI2B(JXGetDockManager(&mgr) && mgr->HasDocks());
 
 	output << kGeometryDataEndDelimiter;
 }
@@ -4414,9 +4416,10 @@ JXWindow::HandleMapNotify
 	if (itsIsOverlayFlag)
 		{
 		// Menu windows are not touched by the window manager.
-		itsAdjustPlacementAfterMapMode = 1;
 		return;
 		}
+
+	Broadcast(Mapped());
 
 	// focus to the window for convenience
 
@@ -4428,17 +4431,9 @@ JXWindow::HandleMapNotify
 
 	if (itsIsDockedFlag)
 		{
-		itsIsIconifiedFlag             = kJFalse;
-		itsAdjustPlacementAfterMapMode = 1;
+		itsIsIconifiedFlag = kJFalse;
 		return;
 		}
-
-	if (itsAdjustPlacementAfterMapMode >= 2 &&
-		(itsTopLeftOffset.x != 0 || itsTopLeftOffset.y != 0))
-		{
-		Move(-itsTopLeftOffset.x, -itsTopLeftOffset.y);
-		}
-	itsAdjustPlacementAfterMapMode = 1;
 
 	// broadcast whether window is iconified or deiconified
 
@@ -4466,6 +4461,10 @@ JXWindow::HandleUnmapNotify
 		{
 		itsIsIconifiedFlag = kJTrue;
 		Broadcast(Iconified());
+		}
+	else
+		{
+		Broadcast(Unmapped());
 		}
 
 //	cout << "JXWindow::HandleUnmapNotify: " << itsIsMappedFlag << ' ' << itsIsIconifiedFlag << endl;
@@ -4685,12 +4684,12 @@ JXWindow::Dock
 	(
 	JXDockWidget*	dock,
 	const Window	parent,
-	const JRect&	geom,
-	JPoint*			minSize
+	const JRect&	geom
 	)
 {
 	if (itsIsOverlayFlag || itsMainWindow != NULL ||
-		geom.width() < itsMinSize.x || geom.height() < itsMinSize.y)
+		geom.width() < itsMinSize.x || geom.height() < itsMinSize.y ||
+		itsDockingTask != NULL)
 		{
 		return kJFalse;
 		}
@@ -4704,21 +4703,20 @@ JXWindow::Dock
 		itsUndockedGeom = itsBounds;
 		itsUndockedGeom.Shift(itsDesktopLoc);
 		itsUndockedWMFrameLoc = itsWMFrameLoc;
-
-		Deiconify();
 		}
 
-	XReparentWindow(*itsDisplay, itsXWindow, parent, geom.left, geom.top);
-	JXDockWindowTask::Dock(this, parent, JPoint(geom.left, geom.top));
+	itsDockingTask = new JXDockWindowTask(this, parent, JPoint(geom.left, geom.top));
+	assert( itsDockingTask != NULL );
+	(JXGetApplication())->InstallIdleTask(itsDockingTask);
+	ClearWhenGoingAway(itsDockingTask, &itsDockingTask);
 
-	itsIsDockedFlag = kJTrue;
+	itsIsDockedFlag = kJTrue;						// after creating task
 	UndockedSetSize(geom.width(), geom.height());	// after setting itsIsDockedFlag
 
 	itsDockXWindow = parent;
 	itsDockWidget  = dock;
 	Broadcast(Docked());
 
-	*minSize = itsMinSize;
 	return kJTrue;
 }
 
@@ -4730,34 +4728,40 @@ JXWindow::Dock
 void
 JXWindow::Undock()
 {
-	if (itsIsDockedFlag)
+	if (!itsIsDockedFlag)
 		{
-		const JBoolean wasVisible = IsVisible();
-
-		if (itsDockWidget != NULL)
-			{
-			(itsDockWidget->GetDockDirector())->ClearFocusWindow(this);
-			}
-
-		Hide();
-		itsIsMappedFlag = kJFalse;
-
-		XReparentWindow(*itsDisplay, itsXWindow, itsDisplay->GetRootWindow(),
-						itsWMFrameLoc.x, itsWMFrameLoc.y);
-
-		itsIsDockedFlag = kJFalse;
-		itsDockXWindow  = None;
-		itsDockWidget   = NULL;
-		Place(itsUndockedWMFrameLoc.x, itsUndockedWMFrameLoc.y);
-		SetSize(itsUndockedGeom.width(), itsUndockedGeom.height());
-
-		if (wasVisible)
-			{
-			Show();
-			}
-
-		Broadcast(Undocked());
+		return;
 		}
+
+	const JBoolean wasVisible = IsVisible();
+
+	if (itsDockWidget != NULL)
+		{
+		(itsDockWidget->GetDockDirector())->ClearFocusWindow(this);
+		}
+
+	Hide();
+	itsIsMappedFlag = kJFalse;
+
+	XReparentWindow(*itsDisplay, itsXWindow, itsDisplay->GetRootWindow(),
+					itsWMFrameLoc.x, itsWMFrameLoc.y);
+
+	itsIsDockedFlag = kJFalse;
+	itsDockXWindow  = None;
+	itsDockWidget   = NULL;
+	delete itsDockingTask;	// automatically cleared
+
+	Place(itsUndockedWMFrameLoc.x, itsUndockedWMFrameLoc.y);
+	SetSize(itsUndockedGeom.width(), itsUndockedGeom.height());
+
+	if (wasVisible)
+		{
+		JXRaiseWindowTask* task = new JXRaiseWindowTask(this);
+		assert( task != NULL );
+		(JXGetApplication())->InstallUrgentTask(task);
+		}
+
+	Broadcast(Undocked());
 }
 
 /******************************************************************************
@@ -4940,7 +4944,6 @@ JXWindow::PrintWindowConfig()
 	cout << endl;
 	cout << "theFoundWMFrameMethodFlag:      " << theFoundWMFrameMethodFlag << endl;
 	cout << "theWMFrameCompensateFlag:       " << theWMFrameCompensateFlag << endl;
-	cout << "theWindowFrameIsParentFlag:     " << theWindowFrameIsParentFlag << endl;
 	cout << "theWMOffsetInitFlag:            " << theWMOffsetInitFlag << endl;
 	cout << "theWMOffset:                    " << theWMOffset << endl;
 	cout << "theWMDesktopStyleInitFlag:      " << theWMDesktopStyleInitFlag << endl;
@@ -4948,8 +4951,6 @@ JXWindow::PrintWindowConfig()
 	cout << "theDesktopMargin:               " << theDesktopMargin << endl;
 	cout << "itsDesktopLoc:                  " << itsDesktopLoc << endl;
 	cout << "itsWMFrameLoc:                  " << itsWMFrameLoc << endl;
-	cout << "itsTopLeftOffset:               " << itsTopLeftOffset << endl;
-	cout << "itsAdjustPlacementAfterMapMode: " << itsAdjustPlacementAfterMapMode << endl;
 	cout << endl;
 }
 

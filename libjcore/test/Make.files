@@ -97,7 +97,7 @@ ${CODEDIR}/testnew
 @testparseargs
 ${CODEDIR}/testparseargs
 
-@test_JBroadcaster
+@testJBroadcaster
 ${CODEDIR}/test_JBroadcaster
 
 @test_JDirInfo

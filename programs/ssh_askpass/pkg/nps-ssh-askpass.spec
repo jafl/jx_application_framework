@@ -35,6 +35,6 @@ rm -rf %askpass_lib_dir
 
 %docdir %askpass_doc_dir
 
-/usr/X11R6/bin/nps-ssh-askpass
+/usr/bin/nps-ssh-askpass
 %askpass_lib_dir
 %askpass_doc_dir

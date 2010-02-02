@@ -392,7 +392,11 @@ JXDNDManager::FindTarget
 				XFree(hint.res_class);
 				}
 
-			if (!isDock)
+			// We need to drill through the dock to look for child windows,
+			// but if there are none, then let the target be the dock, so
+			// we can switch tabs.
+
+			if (!isDock || childWindow == None)
 				{
 				*xWindow = xWindow2;
 				isAware  = kJTrue;

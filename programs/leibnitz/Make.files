@@ -8,6 +8,7 @@
 .cpp ./code/thxGlobals
 .cpp ./code/THXApp
 .cpp ./code/THXMDIServer
+.cpp ./code/THXPrefsManager
 .cpp ./code/THXAboutDialog
 .cpp ./code/THXExprDirector
 .cpp ./code/THXExprEditor

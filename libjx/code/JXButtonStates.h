@@ -17,7 +17,7 @@
 #include <X11/Xlib.h>
 #include <jTypes.h>
 
-const JSize kXButtonCount = 5;
+const JSize kXButtonCount = 7;
 
 enum JXMouseButton
 {
@@ -28,6 +28,8 @@ enum JXMouseButton
 	kJXButton3 = Button3,
 	kJXButton4 = Button4,
 	kJXButton5 = Button5,
+	kJXButton6 = 6,
+	kJXButton7 = 7,
 
 	kJXLeftButton   = kJXButton1,
 	kJXMiddleButton = kJXButton2,

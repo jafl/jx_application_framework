@@ -120,6 +120,7 @@ private:
 
 	void	NeedAdjustScrollbars();
 	void	AdjustScrollbars();
+	JFloat	GetSingleStepFraction() const;
 
 	// not allowed
 

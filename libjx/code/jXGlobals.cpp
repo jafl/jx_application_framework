@@ -42,7 +42,7 @@ static JXHelpManager*			theHelpManager    = NULL;	// can be NULL
 static JXDocumentManager*		theDocManager     = NULL;	// can be NULL
 static JXDockManager*			theDockManager    = NULL;
 static JXMDIServer*				theMDIServer      = NULL;	// can be NULL
-static JXWebBrowser*			theWebBrowser     = NULL;	// NULL until first needed
+static JXWebBrowser*			theWebBrowser     = NULL;	// owned by JCore
 
 static JXDirector*				thePersistentWindowOwner  = NULL;	// can be NULL
 static JXSearchTextDialog*		theSearchTextDialog       = NULL;	// can be NULL
@@ -100,6 +100,10 @@ JXCreateGlobals
 
 	theSharedPrefsMgr = new JXSharedPrefsManager();
 	assert( theSharedPrefsMgr != NULL );
+
+	theWebBrowser = new JXWebBrowser;
+	assert( theWebBrowser != NULL );
+	JSetWebBrowser(theWebBrowser);
 }
 
 /******************************************************************************
@@ -153,9 +157,6 @@ JXDeleteGlobals1()
 
 	delete theMDIServer;
 	theMDIServer = NULL;
-
-	delete theWebBrowser;
-	theWebBrowser = NULL;
 
 	delete theSpellChecker;
 	theSpellChecker = NULL;
@@ -462,30 +463,8 @@ JXSetMDIServer
 JXWebBrowser*
 JXGetWebBrowser()
 {
-	if (theWebBrowser == NULL)
-		{
-		theWebBrowser = new JXWebBrowser;
-		assert( theWebBrowser != NULL );
-		}
-
+	assert( theWebBrowser != NULL );
 	return theWebBrowser;
-}
-
-/******************************************************************************
- JXGetWebBrowser
-
-	This version returns kJFalse if the object has not been created.
-
- ******************************************************************************/
-
-JBoolean
-JXGetWebBrowser
-	(
-	JXWebBrowser** webBrowser
-	)
-{
-	*webBrowser = theWebBrowser;
-	return JI2B( theWebBrowser != NULL );
 }
 
 /******************************************************************************

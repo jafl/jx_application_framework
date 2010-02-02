@@ -59,9 +59,10 @@
 #include <ctype.h>
 #include <jAssert.h>
 
-JXTEBase::PartialWordModifier JXTEBase::itsPWMod = JXTEBase::kCtrlMetaPWMod;
-JBoolean JXTEBase::itsWindowsHomeEndFlag         = kJTrue;
-JBoolean JXTEBase::itsScrollCaretFlag            = kJFalse;
+JXTEBase::PartialWordModifier JXTEBase::thePWMod = JXTEBase::kCtrlMetaPWMod;
+JBoolean JXTEBase::theWindowsHomeEndFlag         = kJTrue;
+JBoolean JXTEBase::theScrollCaretFlag            = kJFalse;
+JBoolean JXTEBase::theMiddleButtonPasteFlag      = kJTrue;
 
 static const JCharacter* kSelectionDataID = "JXTEBase";
 
@@ -491,7 +492,7 @@ JXTEBase::HandleMouseDown
 		{
 		ShowCursor();
 
-		if (button == kJXMiddleButton && type == kFullEditor)
+		if (button == kJXMiddleButton && type == kFullEditor && theMiddleButtonPasteFlag)
 			{
 			TEHandleMouseDown(pt, 1, kJFalse, kJFalse);
 			TEHandleMouseUp(kJFalse);
@@ -502,10 +503,10 @@ JXTEBase::HandleMouseDown
 			const JBoolean extendSelection = JI2B(
 				button == kJXRightButton || modifiers.shift() );
 			const JBoolean partialWord = JI2B(
-				(itsPWMod == kCtrlMetaPWMod &&
+				(thePWMod == kCtrlMetaPWMod &&
 				 modifiers.control() && modifiers.meta()) ||
-				(itsPWMod != kCtrlMetaPWMod &&
-				 modifiers.GetState(kJXMod2KeyIndex + itsPWMod - kMod2PWMod)));
+				(thePWMod != kCtrlMetaPWMod &&
+				 modifiers.GetState(kJXMod2KeyIndex + thePWMod - kMod2PWMod)));
 			TEHandleMouseDown(pt, clickCount, extendSelection, partialWord);
 			}
 		}
@@ -1149,7 +1150,7 @@ JXTEBase::HandleKeyPress
 
 	int key                  = origKey;
 	JXKeyModifiers modifiers = origModifiers;
-	if (itsWindowsHomeEndFlag)
+	if (theWindowsHomeEndFlag)
 		{
 		RemapWindowsHomeEnd(&key, &modifiers);
 		}
@@ -1206,9 +1207,9 @@ JXTEBase::HandleKeyPress
 			 key == kJUpArrow   || key == kJDownArrow)
 		{
 		CaretMotion motion = kMoveByCharacter;
-		if ((itsPWMod == kCtrlMetaPWMod && controlOn && metaOn) ||
-			(itsPWMod != kCtrlMetaPWMod &&
-			 modifiers.GetState(kJXMod2KeyIndex + itsPWMod - kMod2PWMod)))
+		if ((thePWMod == kCtrlMetaPWMod && controlOn && metaOn) ||
+			(thePWMod != kCtrlMetaPWMod &&
+			 modifiers.GetState(kJXMod2KeyIndex + thePWMod - kMod2PWMod)))
 			{
 			motion = kMoveByPartialWord;
 			}
@@ -1246,7 +1247,7 @@ JXTEBase::HandleKeyPress
 
 	if (!processed)
 		{
-		if (itsScrollCaretFlag)
+		if (theScrollCaretFlag)
 			{
 			// move caret to top/bottom if already scrolled there
 
@@ -1277,7 +1278,7 @@ JXTEBase::HandleKeyPress
 
 		JXScrollableWidget::HandleKeyPress(k, modifiers);
 
-		if (itsScrollCaretFlag)
+		if (theScrollCaretFlag)
 			{
 			// move caret to top/bottom regardless of where it was
 
@@ -1445,12 +1446,12 @@ JXTEBase::BoundsMoved
 {
 	JXScrollableWidget::BoundsMoved(dx, dy);
 
-	if (itsScrollCaretFlag && dy > 0 &&
+	if (theScrollCaretFlag && dy > 0 &&
 		GetLineTop(GetLineForChar(GetInsertionIndex())) > (GetAperture()).bottom)
 		{
 		MoveCaretToEdge(kJDownArrow);
 		}
-	else if (itsScrollCaretFlag && dy < 0 &&
+	else if (theScrollCaretFlag && dy < 0 &&
 			 GetLineBottom(GetLineForChar(GetInsertionIndex())) < (GetAperture()).top)
 		{
 		MoveCaretToEdge(kJUpArrow);

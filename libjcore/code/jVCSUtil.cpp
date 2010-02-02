@@ -83,7 +83,8 @@ JGetVCSType
 	)
 {
 	JString p = path, n;
-	if (JFileExists(path))
+	if (JFileExists(path) ||
+		!JDirectoryExists(path))	// broken link
 		{
 		JSplitPathAndName(path, &p, &n);
 		}
@@ -443,7 +444,8 @@ JGetVCSRepositoryPath
 	)
 {
 	JString path = origPath, name;
-	if (JFileExists(origPath))
+	if (JFileExists(origPath) ||
+		!JDirectoryExists(origPath))	// broken link
 		{
 		JSplitPathAndName(origPath, &path, &name);
 		}

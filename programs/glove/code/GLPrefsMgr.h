@@ -36,7 +36,8 @@ enum
 	kFitToolBarID,
 	kFitManagerID,
 	kFitDirectorID,
-	kChooseSaveFilePrefsID
+	kChooseSaveFilePrefsID,
+	kVersionCheckID
 };
 
 class GLPrefsMgr : public JXPrefsManager

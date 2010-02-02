@@ -281,7 +281,7 @@ GetOptions
 			assert( inputFileName != NULL );
 
 			if (inputFileName->EndsWith("~") ||
-				inputFileName->EndsWith("#"))
+				inputFileName->BeginsWith("#"))
 				{
 				delete inputFileName;
 				}

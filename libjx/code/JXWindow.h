@@ -31,11 +31,11 @@ class JXIconDirector;
 class JXWindowIcon;
 class JXHintManager;
 class JXDockWidget;
-class JXIncrementWindowAPAMMTask;
+class JXDockWindowTask;
 
 class JXWindow : public JXContainer
 {
-	friend class JXIncrementWindowAPAMMTask;
+	friend class JXDockWindowTask;
 
 public:
 
@@ -268,8 +268,7 @@ public:
 	JBoolean	IsDocked() const;
 	JBoolean	GetDockWindow(JXWindow** window) const;
 	JBoolean	GetDockWidget(JXDockWidget** dock) const;
-	JBoolean	Dock(JXDockWidget* dock, const Window parent, const JRect& geom,
-					 JPoint* minSize);
+	JBoolean	Dock(JXDockWidget* dock, const Window parent, const JRect& geom);
 	void		Undock();
 	void		UndockAllChildWindows();
 
@@ -355,6 +354,7 @@ private:
 	JXWindowDirector*	itsDirector;		// it owns us, we don't own it
 	JXIconDirector*		itsIconDir;			// can be NULL; owned by itsDirector
 	JXWindow*			itsMainWindow;		// can be NULL; uses us for icon
+	const JBoolean		itsIsOverlayFlag;
 
 	JXDisplay*	itsDisplay;					// we don't own this
 	JXColormap*	itsColormap;
@@ -366,11 +366,11 @@ private:
 	JString		itsWindowType;
 	JColorIndex	itsBackColor;
 	JXImage*	itsIcon;					// can be NULL
-	JPoint		itsDesktopLoc;				// stored separately, since bounds = (0,0,h,w)
 	JRect		itsBounds;
+/**/
+	JPoint		itsDesktopLoc;				// stored separately, since bounds = (0,0,h,w)
 	JPoint		itsWMFrameLoc;				// upper left of Window Manager border
-	JPoint		itsTopLeftOffset;			// non-zero on OS X or if !theWindowFrameIsParentFlag
-	JIndex		itsAdjustPlacementAfterMapMode;	// 0=init, 1=no, 2=yes
+/**/
 	Region		itsUpdateRegion;
 	JBoolean	itsIsMappedFlag;
 	JBoolean	itsIsIconifiedFlag;
@@ -380,8 +380,6 @@ private:
 	JBoolean	itsKeepBufferPixmapFlag;	// kJTrue => don't toss itsBufferPixmap
 	JBoolean	itsUseBkgdPixmapFlag;		// kJTrue => use XSetWindowBackgroundPixmap()
 	JBoolean	itsIsDestructingFlag;		// kJTrue => in destructor
-
-	JXIncrementWindowAPAMMTask*	itsIncrAPAMMTask;	// NULL unless waiting to see if window will initially be visible
 
 	JBoolean	itsHasMinSizeFlag;
 	JPoint		itsMinSize;
@@ -407,8 +405,6 @@ private:
 	JXWidget*				itsFocusWidget;		// receives key events directly; not owned; can be NULL
 	JXHintManager*			itsCurrHintMgr;		// not owned; can be NULL; deactivate when key press
 
-	const JBoolean	itsIsOverlayFlag;
-
 	// multiple click detection
 
 	JXContainer*	itsPrevMouseContainer;
@@ -418,11 +414,12 @@ private:
 
 	// docking
 
-	JBoolean		itsIsDockedFlag;
-	Window			itsDockXWindow;						// None if not docked
-	JXDockWidget*	itsDockWidget;						// can be NULL, even if docked
-	JRect			itsUndockedGeom;
-	JPoint			itsUndockedWMFrameLoc;
+	JBoolean			itsIsDockedFlag;
+	Window				itsDockXWindow;			// None if not docked
+	JXDockWidget*		itsDockWidget;			// can be NULL, even if docked
+	JRect				itsUndockedGeom;
+	JPoint				itsUndockedWMFrameLoc;
+	JXDockWindowTask*	itsDockingTask;
 
 	JArray<ChildWindowInfo>*	itsChildWindowList;		// NULL unless has children
 
@@ -430,13 +427,13 @@ private:
 	static JBoolean	theFocusFollowsCursorInDockFlag;	// kJTrue => automatically set input focus to docked window containing cursor
 
 	// window placement method
-
+/**/
 	static JBoolean theFoundWMFrameMethodFlag;
 	static JBoolean theWMFrameCompensateFlag;
-	static JBoolean	theWindowFrameIsParentFlag;
 
 	static JBoolean	theWMOffsetInitFlag;
 	static JPoint	theWMOffset;
+/**/
 	static JPoint	theDesktopMargin;
 
 	static JBoolean	theWMDesktopStyleInitFlag;
@@ -491,6 +488,7 @@ private:
 
 	// used by Hide()
 
+	void		PrivateHide();
 	static Bool	GetNextMapNotifyEvent(Display* display, XEvent* event, char* arg);
 
 	// used by CheckForMapOrExpose()
@@ -512,6 +510,8 @@ public:
 
 	static const JCharacter* kIconified;
 	static const JCharacter* kDeiconified;
+	static const JCharacter* kMapped;
+	static const JCharacter* kUnmapped;
 	static const JCharacter* kRaised;
 	static const JCharacter* kDocked;
 	static const JCharacter* kUndocked;
@@ -535,6 +535,26 @@ public:
 			Deiconified()
 				:
 				JBroadcaster::Message(kDeiconified)
+				{ };
+		};
+
+	class Mapped : public JBroadcaster::Message
+		{
+		public:
+
+			Mapped()
+				:
+				JBroadcaster::Message(kMapped)
+				{ };
+		};
+
+	class Unmapped : public JBroadcaster::Message
+		{
+		public:
+
+			Unmapped()
+				:
+				JBroadcaster::Message(kUnmapped)
 				{ };
 		};
 

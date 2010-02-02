@@ -78,7 +78,8 @@ enum
 	kGEditorWindowPrefsID,
 	kGFindDirToolBarID,
 	kGFindDirWindowPrefsID,
-	kGOpenMailboxWindowPrefsID
+	kGOpenMailboxWindowPrefsID,
+	kGVersionCheckID
 };
 
 

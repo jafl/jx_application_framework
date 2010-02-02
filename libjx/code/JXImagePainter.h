@@ -67,10 +67,6 @@ public:
 						   const JCoordinate height = 0,
 						   const VAlignment vAlign = kVAlignTop);
 
-protected:
-
-	virtual void	ReceiveGoingAway(JBroadcaster* sender);
-
 private:
 
 	JXImage*	itsImage;	// we don't own this, can be NULL

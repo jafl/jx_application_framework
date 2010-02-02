@@ -212,7 +212,7 @@ ibeta: static
 
 .PHONY : personal
 personal: static
-	@cp leibnitz ${HOME}/bin/
+	@mv leibnitz ${HOME}/bin/
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

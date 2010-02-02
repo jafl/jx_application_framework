@@ -94,4 +94,5 @@ include ${JX_ROOT}/include/make/jx_config_common
 
 # libpng is part of X11
 
+J_IMG_LIBS := ${J_X11_LIB_DIR} ${J_IMG_LIBS}
 J_STD_LIBS := ${J_X11_LIB_DIR} ${J_STD_LIBS}

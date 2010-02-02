@@ -18,7 +18,8 @@ enum
 	kGPMProgramVersionID = 1,
 	kGPMgCSFSetupID,
 	kGPMMainDirectorID,
-	kGPMMainToolBarID
+	kGPMMainToolBarID,
+	kGPMVersionCheckID
 };
 
 class GPMPrefsManager : public JXPrefsManager

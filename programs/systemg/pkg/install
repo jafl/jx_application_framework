@@ -5,7 +5,7 @@
 PRE=$1
 ZIP=$2
 
-XBIN=$PRE/usr/X11R6/bin
+BIN=$PRE/usr/bin
 DOC=$PRE/usr/share/doc/systemg
 LIB=$PRE/usr/lib/systemg
 APP=$PRE/usr/share/applications
@@ -13,15 +13,13 @@ ICON=$PRE/usr/share/pixmaps
 
 if { test ! -z $PRE; } then
 	{
-	mkdir -p $XBIN;
-	mkdir -p $APP;
-	mkdir -p $ICON;
+	mkdir -p $BIN $APP $ICON;
 	}
 fi
 
 # systemg
 
-install -m755 systemg $XBIN
+install -m755 systemg $BIN
 
 mkdir -p $LIB
 cp lib/* $LIB

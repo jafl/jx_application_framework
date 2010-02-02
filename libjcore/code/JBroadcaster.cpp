@@ -48,15 +48,24 @@ public:
 
 typedef JTaskIterator<JBroadcaster>	JBroadcasterIterator;
 
+class JPointerClearList : public JArray<JBroadcaster::ClearPointer>
+{
+public:
+
+	JPointerClearList() { };
+};
+
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
 JBroadcaster::JBroadcaster()
+	:
+	itsSenders(NULL),
+	itsRecipients(NULL),
+	itsClearPointers(NULL)
 {
-	itsSenders    = NULL;
-	itsRecipients = NULL;
 }
 
 /******************************************************************************
@@ -73,8 +82,9 @@ JBroadcaster::JBroadcaster
 	const JBroadcaster& source
 	)
 {
-	itsSenders    = NULL;
-	itsRecipients = NULL;
+	itsSenders       = NULL;
+	itsRecipients    = NULL;
+	itsClearPointers = NULL;
 }
 
 /******************************************************************************
@@ -93,6 +103,7 @@ JBroadcaster::~JBroadcaster()
 			JBroadcaster* aRecipient = itsRecipients->LastElement();
 			itsRecipients->RemoveElement(itsRecipients->GetElementCount());
 			aRecipient->RemoveSender(this);
+			aRecipient->ClearGone(this);
 			aRecipient->ReceiveGoingAway(this);		// do this last in case they die
 			}
 
@@ -110,6 +121,8 @@ JBroadcaster::~JBroadcaster()
 
 		delete itsSenders;
 		}
+
+	delete itsClearPointers;
 }
 
 /******************************************************************************
@@ -182,6 +195,19 @@ JBroadcaster::StopListening
 		{
 		RemoveSender(sender);
 		sender->RemoveRecipient(this);
+
+		if (itsClearPointers != NULL)
+			{
+			const JSize count = itsClearPointers->GetElementCount();
+			for (JIndex i=count; i>=1; i--)
+				{
+				ClearPointer ptr = itsClearPointers->GetElement(i);
+				if (ptr.sender == sender)
+					{
+					itsClearPointers->RemoveElement(i);
+					}
+				}
+			}
 		}
 }
 
@@ -478,6 +504,68 @@ JBroadcaster::ReceiveGoingAway
 }
 
 /******************************************************************************
+ ClearWhenGoingAway (protected)
+
+	Register an object that needs to be forgotten when it is deleted.
+
+ ******************************************************************************/
+
+void
+JBroadcaster::ClearWhenGoingAway
+	(
+	const JBroadcaster*	csender,
+	void*				pointerToMember
+	)
+{
+	assert( csender != NULL );
+
+	if (itsClearPointers == NULL)
+		{
+		itsClearPointers = new JPointerClearList;
+		assert( itsClearPointers != NULL );
+		}
+
+	itsClearPointers->AppendElement(
+		ClearPointer(const_cast<JBroadcaster*>(csender), pointerToMember));
+	ListenTo(csender);
+}
+
+/******************************************************************************
+ ClearGone (private)
+
+	Register an object that needs to be forgotten when it is deleted.
+
+ ******************************************************************************/
+
+struct PointerSize
+{
+	int pointerData;
+};
+
+void
+JBroadcaster::ClearGone
+	(
+	JBroadcaster* sender
+	)
+{
+	if (itsClearPointers == NULL)
+		{
+		return;
+		}
+
+	const JSize count = itsClearPointers->GetElementCount();
+	for (JIndex i=count; i>=1; i--)
+		{
+		ClearPointer ptr = itsClearPointers->GetElement(i);
+		if (ptr.sender == sender)
+			{
+			*((PointerSize**) (ptr.pointer)) = NULL;
+			itsClearPointers->RemoveElement(i);
+			}
+		}
+}
+
+/******************************************************************************
  JBroadcaster::Message
 
 	Refer to the documentation for JRTTIBase for the recommended way to
@@ -499,4 +587,8 @@ JBroadcaster::Message::~Message()
 
 #define JTemplateType JBroadcaster
 #include <JPtrArray.tmpls>
+#undef JTemplateType
+
+#define JTemplateType JBroadcaster::ClearPointer
+#include <JArray.tmpls>
 #undef JTemplateType

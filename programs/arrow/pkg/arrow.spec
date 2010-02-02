@@ -39,7 +39,7 @@ rm -rf %arrow_lib_dir
 
 %docdir %arrow_doc_dir
 
-/usr/X11R6/bin/arrow
+/usr/bin/arrow
 %arrow_lib_dir
 %arrow_doc_dir
 

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-rm -f  /usr/X11R6/bin/leibnitz;
+rm -f  /usr/bin/leibnitz;
 rm -rf /usr/lib/leibnitz;
 rm -rf /usr/share/doc/leibnitz;
 rm -f  `find /usr/share/applications -name 'leibnitz*.desktop'`;

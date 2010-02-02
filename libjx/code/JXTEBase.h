@@ -154,6 +154,9 @@ public:
 	static JBoolean	WillUseWindowsHomeEnd();
 	static void		ShouldUseWindowsHomeEnd(const JBoolean use);
 
+	static JBoolean	MiddleButtonWillPaste();
+	static void		MiddleButtonShouldPaste(const JBoolean paste);
+
 	void	AskForLine();
 	void	MoveCaretToEdge(const int key);
 
@@ -296,13 +299,14 @@ private:
 	Atom			itsStyledText0XAtom;
 	JBoolean		itsWillPasteCustomFlag;		// kJTrue => call TEXConvertDropData() in TEPasteDropData()
 
-	static PartialWordModifier	itsPWMod;		// which modifier to use for partial word movement
+	static PartialWordModifier	thePWMod;		// which modifier to use for partial word movement
 
 	JXTEBlinkCaretTask*	itsBlinkTask;
 	JXGoToLineDialog*	itsGoToLineDialog;
 
-	static JBoolean		itsWindowsHomeEndFlag;	// kJTrue => use Windows/Motif Home/End action
-	static JBoolean		itsScrollCaretFlag;		// kJTrue => caret follows when text scrolls
+	static JBoolean		theWindowsHomeEndFlag;	// kJTrue => use Windows/Motif Home/End action
+	static JBoolean		theScrollCaretFlag;		// kJTrue => caret follows when text scrolls
+	static JBoolean		theMiddleButtonPasteFlag;
 
 	// edit menu
 
@@ -557,7 +561,7 @@ JXTEBase::GetMinBoundsHeight()
 inline JXTEBase::PartialWordModifier
 JXTEBase::GetPartialWordModifier()
 {
-	return itsPWMod;
+	return thePWMod;
 }
 
 inline void
@@ -566,7 +570,7 @@ JXTEBase::SetPartialWordModifier
 	const PartialWordModifier mod
 	)
 {
-	itsPWMod = mod;
+	thePWMod = mod;
 }
 
 /******************************************************************************
@@ -577,7 +581,7 @@ JXTEBase::SetPartialWordModifier
 inline JBoolean
 JXTEBase::CaretWillFollowScroll()
 {
-	return itsScrollCaretFlag;
+	return theScrollCaretFlag;
 }
 
 inline void
@@ -586,7 +590,7 @@ JXTEBase::CaretShouldFollowScroll
 	const JBoolean follow
 	)
 {
-	itsScrollCaretFlag = follow;
+	theScrollCaretFlag = follow;
 }
 
 /******************************************************************************
@@ -597,7 +601,7 @@ JXTEBase::CaretShouldFollowScroll
 inline JBoolean
 JXTEBase::WillUseWindowsHomeEnd()
 {
-	return itsWindowsHomeEndFlag;
+	return theWindowsHomeEndFlag;
 }
 
 inline void
@@ -606,7 +610,27 @@ JXTEBase::ShouldUseWindowsHomeEnd
 	const JBoolean use
 	)
 {
-	itsWindowsHomeEndFlag = use;
+	theWindowsHomeEndFlag = use;
+}
+
+/******************************************************************************
+ Middle button pastes clipboard (static)
+
+ ******************************************************************************/
+
+inline JBoolean
+JXTEBase::MiddleButtonWillPaste()
+{
+	return theMiddleButtonPasteFlag;
+}
+
+inline void
+JXTEBase::MiddleButtonShouldPaste
+	(
+	const JBoolean paste
+	)
+{
+	theMiddleButtonPasteFlag = paste;
 }
 
 #endif

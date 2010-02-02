@@ -34,7 +34,7 @@ endif
 
 # make variables
 
-LOADLIBES := ${ljcore} ${J_ACE_LIBS} ${J_GCC_LIBS}
+LOADLIBES := ${ljcore} ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
 LDFLAGS   := 
 
 #####
@@ -45,12 +45,14 @@ default: libs compile_jstrings
 .PHONY : Makefiles
 Makefiles:
 
+include ${JX_ROOT}/include/make/jx_targets
+
 #
 # required libraries
 #
 
 .PHONY : libs
-libs:
+libs::
 	@cd ${JCORELIBDIR}; ${MAKE} COMPILE_STRINGS=0
 
 .PHONY : touch

@@ -76,6 +76,7 @@ public:
 	Display*		GetXDisplay() const;
 	JXColormap*		GetColormap() const;
 	JSize			GetMaxStringLength() const;
+	JBoolean		IsOSX() const;
 
 	const JFontManager*		GetFontManager() const;
 	const JXFontManager*	GetXFontManager() const;
@@ -265,6 +266,7 @@ private:
 	Display*				itsXDisplay;
 	JXColormap*				itsColormap;
 	const JSize				itsMaxStringLength;
+	JBoolean				itsIsOSXFlag;	// scroll wheel is fine-grain on OS X
 	mutable JArray<JRect>*	itsBounds;
 	JSize					itsShrinkDisplayToScreenRefCount;
 
@@ -574,6 +576,18 @@ JXDisplay::GetMaxStringLength()
 	const
 {
 	return itsMaxStringLength;
+}
+
+/******************************************************************************
+ IsOSX
+
+ ******************************************************************************/
+
+inline JBoolean
+JXDisplay::IsOSX()
+	const
+{
+	return itsIsOSXFlag;
 }
 
 /******************************************************************************

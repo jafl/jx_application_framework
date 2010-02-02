@@ -23,7 +23,7 @@ JXScrollTabsTask::JXScrollTabsTask
 	:
 	itsTabGroup(tabGroup)
 {
-	ListenTo(itsTabGroup);
+	ClearWhenGoingAway(itsTabGroup, &itsTabGroup);
 }
 
 /******************************************************************************
@@ -46,26 +46,5 @@ JXScrollTabsTask::Perform()
 	if (itsTabGroup != NULL)
 		{
 		itsTabGroup->ScrollTabsIntoView();
-		}
-}
-
-/******************************************************************************
- ReceiveGoingAway (virtual protected)
-
- ******************************************************************************/
-
-void
-JXScrollTabsTask::ReceiveGoingAway
-	(
-	JBroadcaster* sender
-	)
-{
-	if (sender == itsTabGroup)
-		{
-		itsTabGroup = NULL;
-		}
-	else
-		{
-		JBroadcaster::ReceiveGoingAway(sender);
 		}
 }

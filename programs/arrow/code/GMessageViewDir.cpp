@@ -109,21 +109,21 @@
 
 static const JCharacter* kFileMenuTitleStr = "File";
 static const JCharacter* kFileMenuStr =
-	"   New message %k Meta-N %i \"NewMessage::Arrow\""
-	"  |New mailbox %k Meta-Shift-N %i \"NewMailbox::Arrow\""
-	"  |Open mailbox... %k Meta-O %i \"OpenMailbox::Arrow\""
-	"%l|Save... %k Meta-S %i \"Save::Arrow\" "
-	"  |Append... %i \"Append::Arrow\" "
-	"  |Transfer to"
-	"  |Copy to"
-	"%l|Page setup... %i \"PageSetup::Arrow\""
-	"  |Print... %k Meta-P  %i \"Print::Arrow\""
-	"%l|Show next %k Meta-plus %i \"ShowNect::Arrow\""
-	"  |Show previous %k Meta-minus %i \"ShowPrev::Arrow\""
-	"  |Delete and show next %k Meta-Shift-D %i \"DelShowNext::Arrow\""
-	"%l|Close %k Meta-W %i \"Close::Arrow\""
-	"  |Close and delete %k Meta-D %i \"CloseDelete::Arrow\""
-	"  |Quit %k Meta-Q %i \"Quit::Arrow\"";
+	"    New message          %k Meta-N       %i \"NewMessage::Arrow\""
+	"  | New mailbox          %k Meta-Shift-N %i \"NewMailbox::Arrow\""
+	"  | Open mailbox...      %k Meta-O       %i \"OpenMailbox::Arrow\""
+	"%l| Save...              %k Meta-S       %i \"Save::Arrow\" "
+	"  | Append...                            %i \"Append::Arrow\" "
+	"  | Transfer to"
+	"  | Copy to"
+	"%l| Page setup...                        %i \"PageSetup::Arrow\""
+	"  | Print...             %k Meta-P       %i \"Print::Arrow\""
+	"%l| Show next            %k Meta-plus    %i \"ShowNect::Arrow\""
+	"  | Show previous        %k Meta-minus   %i \"ShowPrev::Arrow\""
+	"  | Delete and show next %k Meta-Shift-D %i \"DelShowNext::Arrow\""
+	"%l| Close                %k Meta-W       %i \"Close::Arrow\""
+	"  | Close and delete     %k Meta-D       %i \"CloseDelete::Arrow\""
+	"  | Quit                 %k Meta-Q       %i \"Quit::Arrow\"";
 
 enum
 {
@@ -146,16 +146,16 @@ enum
 
 static const JCharacter* kMessageMenuTitleStr = "Message";
 static const JCharacter* kMessageMenuStr =
-	"Show full headers %b  %i \"ShowFullHead::Arrow\""
-	"| Decrypt %i \"Decrypt::Arrow\""
-	"| Open selected attachments... %k Meta-Shift-O %i \"OpenAttach::Arrow\""
-	"| Save selected attachments... %k Meta-Shift-S %i \"SaveAttach::Arrow\""
-	"| View MIME source %i \"ViewSource::Arrow\""
-	"%l|Reply %k Meta-R %i \"Reply::Arrow\""
-	"| Reply to sender %i \"ReplySender::Arrow\""
-	"|Reply to all %i \"ReplyAll::Arrow\""
-	"| Forward %i \"Forward::Arrow\""
-	"| Redirect %i \"Redirect::Arrow\"";
+	"    Show full headers %b                         %i \"ShowFullHead::Arrow\""
+	"  | Decrypt                                      %i \"Decrypt::Arrow\""
+	"  | Open selected attachments... %k Meta-Shift-O %i \"OpenAttach::Arrow\""
+	"  | Save selected attachments... %k Meta-Shift-S %i \"SaveAttach::Arrow\""
+	"  | View MIME source                             %i \"ViewSource::Arrow\""
+	"%l| Reply                        %k Meta-R       %i \"Reply::Arrow\""
+	"  | Reply to sender                              %i \"ReplySender::Arrow\""
+	"  | Reply to all                 %k Meta-Shift-R %i \"ReplyAll::Arrow\""
+	"  | Forward                                      %i \"Forward::Arrow\""
+	"  | Redirect                                     %i \"Redirect::Arrow\"";
 
 enum
 {
@@ -175,13 +175,13 @@ static const JCharacter* kWindowsMenuTitleStr = "Windows";
 
 static const JCharacter* kPrefsMenuTitleStr = "Preferences";
 static const JCharacter* kPrefsMenuStr =
-	"   Accounts... %i \"Accounts::Arrow\""
-	"  |Filters... %i \"Filters::Arrow\""
-	"  |URL preferences... %i \"URLPreferences::Arrow\""
-	"  |Toolbar buttons... %i \"EditToolBar::Arrow\""
-	"  |File bindings... %i \"EditFileBindings::Arrow\""
-	"  |Miscellaneous preferences... %i \"Preferences::Arrow\""
-	"%l|Save window size as default %i \"SaveWindowDefault::Arrow\"";
+	"    Accounts...                  %i \"Accounts::Arrow\""
+	"  | Filters...                   %i \"Filters::Arrow\""
+	"  | URL preferences...           %i \"URLPreferences::Arrow\""
+	"  | Toolbar buttons...           %i \"EditToolBar::Arrow\""
+	"  | File bindings...             %i \"EditFileBindings::Arrow\""
+	"  | Miscellaneous preferences... %i \"Preferences::Arrow\""
+	"%l| Save window size as default  %i \"SaveWindowDefault::Arrow\"";
 
 enum
 {
@@ -196,10 +196,10 @@ enum
 
 static const JCharacter* kHelpMenuTitleStr = "Help";
 static const JCharacter* kHelpMenuStr =
-	"About"
-	"%l|Table of Contents %i \"TOCHelp::Arrow\""
-	"|Overview|This window %i \"ThisWindowHelp::Arrow\""
-	"%l|Changes|Credits";
+	"    About"
+	"%l| Table of Contents    %i \"TOCHelp::Arrow\""
+	"  | Overview|This window %i \"ThisWindowHelp::Arrow\""
+	"%l| Changes|Credits";
 
 enum
 {
@@ -217,7 +217,7 @@ const JCoordinate kAttachTablePartIndex	= 2;
 
 const JFileVersion kCurrentPrefsVersion	= 3;
 
-static const JCharacter* kPasswordPrompt		= "Password:";
+static const JCharacter* kPasswordPrompt = "Password:";
 
 /******************************************************************************
  Constructor

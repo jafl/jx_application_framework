@@ -20,6 +20,10 @@ Added incremental search to List view.
 Full command line display field at the bottom of the window no longer has focus when Drakon starts.
 <p>
 Works better with virtual desktops.  When invoked a second time, it jumps to the active desktop.
+<p>
+Mouse wheel now scrolls smaller increments on OS X.
+<p>
+Added support for horizontal scrolling.  This is especially useful on Macintosh trackpads that support gestures.
 
 <h3>1.0.0</h3>
 

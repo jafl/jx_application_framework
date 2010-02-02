@@ -1,33 +1,47 @@
-create new NPS email addresses to avoid spam
-
-programs built on eeepc won't run on RHEL5
-
-jcc:
-	test-app doesn't have correct location for displayMessage() in ace-common-cdn
-	test-app keeps reparsing files on every update
+Michael:
++	12/30/09:  45 min phone conversation, 15 minutes think/email re scaling
++	1/2/10: 30 min reply to Zedd re scaling
++	1/5/10: 15 min email to Zedd re scaling/security
++	1/10/10: 30 min reply to Zedd email re scaling/security
+	-----
 
 medic:
-	2D plots
-		write CMVarTreeHelp#Plot2D
-			extract help from glove into generic section in libj2dplot
+	OSX: run without first choosing program
+		continued too soon after hitting "tbreak main"
+		had to stop manually to get it to open source file
 
-WindowManager
-	throw out current detection code and write clean suite in JXDisplay
-		create window, place, move, hide, show to get offsets
-		save data on root window (JXWindowManagerBehavior) for next time
+		click to set/clear breakpoint: must wait for program to receive break
+		set breakpoint from jcc: must manually stop program first
 
-	OSX
-		visible/visible			+
-		visible/hidden/show		+
-		hidden/visible			moves down
-		hidden/hidden/show		moves down
+Docking
+	OSX: window placement inside dock sometimes wrong (iconfied windows)
+	undock: window placement not restored
 
-	Metacity
-		window is not child of WM frame
+	When compartment minimized and move tab position, should readjust pane sizes
+	When min page size increases in dock, adjust panes so divider visible
+		(test:  move tab group tabs from side to top)
+
+JBroadcaster:
+	register handler for message:  function which takes obj, msg type, function pointer
+		pass in friend function that takes obj, sender, msg
+		dynamic_cast obj to correct type and do whatever
+		multiple inheritance Receive needs to turn off dispatching for all but the last path to JBroadcaster
 
 -----
 
 upgrade dashboard widgets to YUI 3
+
+store window placement info on root window, so only first app has to jiggle
+OSX: detect that hide/show shifts window down
+
+	throw out current detection code and write clean suite in JXDisplay to get offsets
+		create window & place
+		create window then wait then show
+		place while visible
+		hide then show
+		hide then place then show
+		save all data on root window (JXWindowManagerBehavior) for next time
+			if not there, ask user if ok to test (reply: yes, no, never)
 
 J2DPlotWidget:
 	option for polar grid:  draw partial circles (only if both axes linear)
@@ -36,6 +50,13 @@ jcc:
 	git diff
 		http://yuilibrary.com/gitfaq/
 		http://www.eecs.harvard.edu/~cduan/technical/git/
+
+	if modified separately in memory and on disk, offer to show diff
+		if window closed, deactivate "Redo diff" button
+
+	import/export Task menu contents
+
+	lua for embedding a language in jcc?
 
 medic:
 	breakpoint window
@@ -97,12 +118,10 @@ medic:
 		http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html
 
 arrow
-	.sig input field in Accounts should be monospace
 	fix SaveState() so it doesn't need JFileArray
 	specify timeout for lockfile and handle it as lock failure
 *	doesn't save drafts if no inbox open
 *	doesn't recv mail if flush inbox during download (locking problem?)
-*	doesn't display anything when receive payment notification from PayPal
 
 svn_client:
 	svn update doesn't always restore to correct scroll location (if lots of files)
@@ -138,28 +157,6 @@ svn_client:
 JXMenu::PrepareToOpenMenu()
 	itsOwner may delete us!
 
-Docking
-	medic dock all windows:  resize causes crash because compartments do not conform to min sizes
-	Gnome/fvwm2 sometimes require dock/undock/dock to get it positioned correctly
-		is this because JX doesn't give WM time to make adjustments?
-	Gnome docking:
-		window sometimes remains on desktop without border
-		dock window moves when drag window from docking compartment with
-			other windows to empty docking compartment
-			Appears to be because Raise() is called twice in a row on the JXDockDirector
-
-	When compartment minimized and move tab position, should readjust pane sizes
-	When min page size increases in dock, adjust panes so divider visible
-		(test:  move tab group tabs from side to top)
-
-	JXWindow:
-		ignore hide and iconify for docked windows
-		Before docking, show and deiconify
-	doesn't work correctly when "all docked" and show iconified window
-		(e.g., file list)
-
-	When drag in testjx Dock #3, ghost drawing from something
-
 -----
 
 Daily Comics:
@@ -171,12 +168,18 @@ Daily Comics:
 		scp results to sourceforge.net
 		app pulls from sourceforge
 
+		skin:
+			[>] title  [>]
+			[<] image  [>]
+			    config
+
 		kathleen_minor@yahoo.com
 			download and cache all comics, so can read them even without connection
 		ebaysj@yahoo.com
 
 	if skip before loaded, saves prev in that slot
 	when first open dashboard after reboot, sizes window to back, even when front visible
+	export favorites to HTML for sharing
 
 systemg:
 	optimize selection of multiple items
@@ -278,8 +281,6 @@ jcc:
 	implement *not* "one a a time" for commands
 		when invoke one-at-a-time from not-one-at-a-time, invoke separate loop
 		when invoke @ commands, must treat as one-at-a-time
-	After rename file, check open projects and update
-	import/export Task menu contents
 	search results:  option to show n lines above and below matching line
 
 	Pick a default size and location for text windows when first run

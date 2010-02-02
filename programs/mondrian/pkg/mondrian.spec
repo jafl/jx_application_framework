@@ -36,7 +36,7 @@ rm -rf %mondrian_lib_dir
 
 %docdir %mondrian_doc_dir
 
-/usr/X11R6/bin/mondrian
+/usr/bin/mondrian
 %mondrian_lib_dir
 %mondrian_doc_dir
 

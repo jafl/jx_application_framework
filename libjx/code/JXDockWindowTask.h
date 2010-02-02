@@ -22,23 +22,23 @@ class JXDockWindowTask : public JXIdleTask, virtual public JBroadcaster
 {
 public:
 
-	static void	Dock(JXWindow* window, const Window parent, const JPoint& topLeft);
+	JXDockWindowTask(JXWindow* window, const Window parent, const JPoint& topLeft);
 
 	virtual ~JXDockWindowTask();
 
 	virtual void	Perform(const Time delta, Time* maxSleepTime);
+	JBoolean		IsDone() const;
 
 protected:
 
-	JXDockWindowTask(JXWindow* window, const Window parent, const JPoint& topLeft);
-
-	virtual void	ReceiveGoingAway(JBroadcaster* sender);
+	virtual void	Receive(JBroadcaster* sender, const Message& message);
 
 private:
 
 	JXWindow*	itsWindow;
 	Window		itsParent;
 	JPoint		itsPoint;
+	JIndex		itsState;
 
 private:
 

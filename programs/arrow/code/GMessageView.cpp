@@ -73,7 +73,7 @@ GMessageView::GMessageView
 	const JCoordinate	h
 	)
 	:
-   JXLinkText(scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h)
+	JXLinkText(scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h)
 {
 	GMessageViewX(scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h);
 	AppendEditMenu(menuBar);
@@ -92,7 +92,7 @@ GMessageView::GMessageView
 	const JCoordinate	h
 	)
 	:
-   JXLinkText(scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h)
+	JXLinkText(scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h)
 {
 	GMessageViewX(scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h);
 }

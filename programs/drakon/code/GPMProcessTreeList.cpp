@@ -110,7 +110,7 @@ GPMProcessTreeList::Receive
 
 		if (GetSelectedProcess(&itsSelectedEntry))
 			{
-			ListenTo(itsSelectedEntry);
+			ClearWhenGoingAway(itsSelectedEntry, &itsSelectedEntry);
 			}
 		}
 
@@ -157,27 +157,6 @@ GPMProcessTreeList::Receive
 
 		JXNamedTreeListWidget::Receive(sender, message);
 		}
-}
-
-/******************************************************************************
- ReceiveGoingAway (virtual protected)
-
-	The given sender has been deleted.
-
- ******************************************************************************/
-
-void
-GPMProcessTreeList::ReceiveGoingAway
-	(
-	JBroadcaster* sender
-	)
-{
-	if (sender == itsSelectedEntry)
-		{
-		itsSelectedEntry = NULL;
-		}
-
-	JXNamedTreeListWidget::ReceiveGoingAway(sender);
 }
 
 /******************************************************************************

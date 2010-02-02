@@ -37,10 +37,11 @@
 #include <jStreamUtil.h>
 #include <jAssert.h>
 
-const JFloat kSingleStepFraction   = 0.1;
-const JFloat kPageStepFraction     = 0.9;
-const JInteger kWheelLineCount     = 5;		// * kSingleStepFraction = 1/2 page
-const JCoordinate kScrollZoneWidth = 20;
+const JFloat kSingleStepFraction    = 0.1;
+const JFloat kOSXSingleStepFraction = 0.02;
+const JFloat kPageStepFraction      = 0.9;
+const JInteger kWheelLineCount      = 5;		// * kSingleStepFraction = 1/2 page
+const JCoordinate kScrollZoneWidth  = 20;
 
 // setup information
 
@@ -461,7 +462,7 @@ JXScrollableWidget::AdjustScrollbars()
 	JCoordinate hStep = itsHStepSize;
 	if (hStep <= 0)
 		{
-		hStep = JRound(apW * kSingleStepFraction);
+		hStep = JRound(apW * GetSingleStepFraction());
 		}
 	hScrollbar->SetStepSize(hStep);
 	if (itsHPageStepContext >= 0 && apW - itsHPageStepContext >= hStep)
@@ -479,7 +480,7 @@ JXScrollableWidget::AdjustScrollbars()
 	JCoordinate vStep = itsVStepSize;
 	if (vStep <= 0)
 		{
-		vStep = JRound(apH * kSingleStepFraction);
+		vStep = JRound(apH * GetSingleStepFraction());
 		}
 	vScrollbar->SetStepSize(vStep);
 	if (itsVPageStepContext >= 0 && apH - itsVPageStepContext >= vStep)
@@ -496,6 +497,18 @@ JXScrollableWidget::AdjustScrollbars()
 	itsScrollbarSet->ShowScrollbars(
 						JConvertToBoolean(itsAlwaysShowScrollFlag || xmax > 0),
 						JConvertToBoolean(itsAlwaysShowScrollFlag || ymax > 0));
+}
+
+/******************************************************************************
+ GetSingleStepFraction (private)
+
+ ******************************************************************************/
+
+JFloat
+JXScrollableWidget::GetSingleStepFraction()
+	const
+{
+	return ((GetDisplay())->IsOSX() ? kOSXSingleStepFraction : kSingleStepFraction);
 }
 
 /******************************************************************************
@@ -573,14 +586,14 @@ JXScrollableWidget::ScrollForWheel
 		{
 		delta = +1;
 		}
-	else if (button == 6)
+	else if (button == kJXButton6)
 		{
 		delta     = -1;
 		scrollbar = hScrollbar;
 		}
-	else if (button == 7)
+	else if (button == kJXButton7)
 		{
-		delta     = -1;
+		delta     = +1;
 		scrollbar = hScrollbar;
 		}
 	else
@@ -588,20 +601,17 @@ JXScrollableWidget::ScrollForWheel
 		return kJFalse;
 		}
 
-#ifdef _J_OSX
+	const JBoolean osx = (GetDisplay())->IsOSX();
 
-	if (modifiers.control())
+	if (osx && modifiers.control())
 		{
 		scrollbar->StepLine(kWheelLineCount * delta);
 		}
-	else
+	else if (osx)
 		{
 		scrollbar->StepLine(delta);
 		}
-
-#else
-
-	if (modifiers.shift())
+	else if (modifiers.shift())
 		{
 		scrollbar->StepLine(delta);
 		}
@@ -613,8 +623,6 @@ JXScrollableWidget::ScrollForWheel
 		{
 		scrollbar->StepLine(kWheelLineCount * delta);
 		}
-
-#endif
 
 	return kJTrue;
 }

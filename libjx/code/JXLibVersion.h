@@ -13,12 +13,12 @@
 // This has to be a #define so it can be used for conditional compilation.
 
 #define CURRENT_JX_MAJOR_VERSION	2
-#define CURRENT_JX_MINOR_VERSION	5
+#define CURRENT_JX_MINOR_VERSION	6
 #define CURRENT_JX_PATCH_VERSION	0
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJXLibVersionStr = "2.5.0";
+static const char* kCurrentJXLibVersionStr = "2.6.0";
 
 // version 2.6.0:
 //	JXWebBrowser:
@@ -121,6 +121,7 @@ static const char* kCurrentJXLibVersionStr = "2.5.0";
 //		Re-broadcasts JOrdredSet messages to allow external data to be kept in sync.
 //	JXDockWidget:
 //		Shows hint if window is too small to fit when trying to drop it.
+//		When window title changes, rearranges tabs to keep them alphabetized.
 //	JXDNDManager:
 //		Fixed bug so DND between docked windows in same application works.
 //		Updated to latest XDND spec.
@@ -139,6 +140,7 @@ static const char* kCurrentJXLibVersionStr = "2.5.0";
 //		Added operator== and operator!=
 //	JXButtonStates:
 //		Added operator== and operator!=
+//		Added kJXButton6 & kJXButton7.
 //	JXFileListTable:
 //		Modified AddFile() to always insert the file, even if it does not
 //			exist.  This aligns better with reality, since existence at the
@@ -158,6 +160,7 @@ static const char* kCurrentJXLibVersionStr = "2.5.0";
 //	JXEPSPrintSetupDialog:
 //		Fixed dialog to accept file name typed into file input field.
 //		Fixed file input field to accept ~.
+//	Collapsed JXSelectTabTask into JXDockWindowTask.
 
 // version 2.5.0:
 //	*** All egcs thunks hacks have been removed.

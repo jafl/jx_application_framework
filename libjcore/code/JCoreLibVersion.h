@@ -13,12 +13,12 @@
 // These have to be #defined so they can be used for conditional compilation.
 
 #define CURRENT_JCORE_MAJOR_VERSION	2
-#define CURRENT_JCORE_MINOR_VERSION	5
+#define CURRENT_JCORE_MINOR_VERSION	6
 #define CURRENT_JCORE_PATCH_VERSION	0
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJCoreLibVersionStr = "2.5.0";
+static const char* kCurrentJCoreLibVersionStr = "2.6.0";
 
 // version 2.6.0:
 //	JOrderedSet:
@@ -77,6 +77,7 @@ static const char* kCurrentJCoreLibVersionStr = "2.5.0";
 //		Added JIsManagedByVCS().
 //		Added JGetVCSDirectoryNames().
 //		Fixed JUpdateCVSIgnore() to ignore directories managed by git.
+//		Fixed all functions to recognize broken symlinks.
 //	JTextEditor:
 //		Added boolean deleteToTabStop argument to TEHandleKeyPress().
 //		Added CleanAllWhitespace(), CleanSelectedWhitespace(), CleanWhitespace().
@@ -85,6 +86,7 @@ static const char* kCurrentJCoreLibVersionStr = "2.5.0";
 //			if the pattern has look-behind or look-ahead assertions.
 //		*** Added new pure virtual function TEScrollForDND().
 //		Updated HandleHTMLOn/OffCmd() to understand <q>...</q>.
+//		Fixed HandleHTMLTag() to understand self-closed tag, e.g., <head/>.
 //	JTEUndoTyping:
 //		Added firstChar,lastChar arguments to HandleDelete() and HandleFwdDelete().
 //	Defined JBoolean operator!(JBoolean) so you only need JNegate for the
@@ -112,6 +114,13 @@ static const char* kCurrentJCoreLibVersionStr = "2.5.0";
 //	Created jXMLUtil.
 //	JRegex:
 //		Removed unused ctor argument useJExtended.
+//	Created jWebUtil.
+//	Created JWebBrowser (extracted from JXWebBrowser).
+//	jGlobals:
+//		Added JGetWebBrowser().
+//	JBroadcaster:
+//		Added ClearWhenGoingAway() to simplify clearing a member pointer when
+//			an object is deleted.
 
 // version 2.5.0:
 //	*** All egcs thunks hacks have been removed.

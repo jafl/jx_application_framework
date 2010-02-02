@@ -18,6 +18,12 @@ The surface name becomes the title of the window.  If you leave this empty, it w
 The initial range is the range to use when first displaying the surface.
 Once the graph is created, you can zoom in or out.
 
+<h3> Changing the appearance of a graph </h3>
+
+To change the function, the range, or the sampling grid, select \"Edit function...\" from the Options menu.  Each of the axes is fixed to show [-5,+5].  You can specify any range you want and simply zoom out to see more.
+<p>
+Use the mouse wheel to zoom in or out.  Click and drag to rotate the plot around the origin.  Resizing the window will make the image larger.
+
 <h3> Miscellaneous </h3>
 
 Plot windows have their WM_CLASS set to Leibnitz_Plot.  This can be used

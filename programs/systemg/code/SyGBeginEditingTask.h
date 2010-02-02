@@ -30,10 +30,6 @@ public:
 	void			Perform();
 	virtual void	Perform(const Time delta, Time* maxSleepTime);
 
-protected:
-
-	virtual void	ReceiveGoingAway(JBroadcaster* sender);
-
 private:
 
 	SyGFileTreeTable*	itsTable;	// owns us

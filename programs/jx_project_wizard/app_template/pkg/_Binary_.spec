@@ -36,7 +36,7 @@ rm -rf %<Binary>_lib_dir
 
 %docdir %<Binary>_doc_dir
 
-/usr/X11R6/bin/<Binary>
+/usr/bin/<Binary>
 %<Binary>_lib_dir
 %<Binary>_doc_dir
 

@@ -140,6 +140,7 @@
 .cpp ./code/jTime_UNIX
 .cpp ./code/JUndo
 .cpp ./code/jVCSUtil
+.cpp ./code/JWebBrowser
 .cpp ./code/jWebUtil
 .cpp ./code/jXMLUtil
 .cpp ./code/Templates-short

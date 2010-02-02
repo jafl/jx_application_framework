@@ -2,13 +2,16 @@
 
 VERSION		"1.1.0"
 COPYRIGHT
-"Copyright © 2001-2006 Glenn Bach.  All rights reserved.
+"Copyright © 2001-2010 John Lindal.  All rights reserved.
 
 This software is subject to the license agreement set forth in the license (refer to the on-line help).
 
 New Planet Software is a trademark of John Lindal.
 
 http://www.newplanetsoftware.com/"
+
+VERSION_URL		"http://www.newplanetsoftware.com/drakon/VERSION"
+DOWNLOAD_URL	"http://newplanetsoftware.com/nps/downloads.php"
 
 # gpmGlobals
 

@@ -59,7 +59,7 @@ SyGMoveToTrashProcess::SyGMoveToTrashProcess
 {
 	if (itsTable != NULL)
 		{
-		ListenTo(itsTable);
+		ClearWhenGoingAway(itsTable, &itsTable);
 		}
 
 	itsFullNameList->SetCleanUpAction(JPtrArrayT::kDeleteAll);
@@ -105,27 +105,6 @@ SyGMoveToTrashProcess::Receive
 	else
 		{
 		JBroadcaster::Receive(sender, message);
-		}
-}
-
-/******************************************************************************
- ReceiveGoingAway (virtual protected)
-
- ******************************************************************************/
-
-void
-SyGMoveToTrashProcess::ReceiveGoingAway
-	(
-	JBroadcaster* sender
-	)
-{
-	if (sender == itsTable)
-		{
-		itsTable = NULL;
-		}
-	else
-		{
-		JBroadcaster::ReceiveGoingAway(sender);
 		}
 }
 

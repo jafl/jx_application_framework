@@ -53,7 +53,7 @@ SyGDuplicateProcess::SyGDuplicateProcess
 	itsShouldEditFlag(JI2B(nodeList.GetElementCount() == 1))
 {
 	(itsTable->GetTableSelection()).ClearSelection();
-	ListenTo(itsTable);
+	ClearWhenGoingAway(itsTable, &itsTable);
 
 	const JSize count = nodeList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
@@ -143,11 +143,7 @@ SyGDuplicateProcess::ReceiveGoingAway
 			}
 		}
 
-	if (sender == itsTable)
-		{
-		itsTable = NULL;
-		}
-	else if (nodeIndex > 0)
+	if (nodeIndex > 0)
 		{
 		itsNodeList.SetToNull(nodeIndex, JPtrArrayT::kForget);
 		}

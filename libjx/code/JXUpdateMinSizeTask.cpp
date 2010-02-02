@@ -23,7 +23,7 @@ JXUpdateMinSizeTask::JXUpdateMinSizeTask
 	:
 	itsDockWidget(dock)
 {
-	ListenTo(itsDockWidget);
+	ClearWhenGoingAway(itsDockWidget, &itsDockWidget);
 }
 
 /******************************************************************************
@@ -46,26 +46,5 @@ JXUpdateMinSizeTask::Perform()
 	if (itsDockWidget != NULL)
 		{
 		itsDockWidget->UpdateMinSize();
-		}
-}
-
-/******************************************************************************
- ReceiveGoingAway (virtual protected)
-
- ******************************************************************************/
-
-void
-JXUpdateMinSizeTask::ReceiveGoingAway
-	(
-	JBroadcaster* sender
-	)
-{
-	if (sender == itsDockWidget)
-		{
-		itsDockWidget = NULL;
-		}
-	else
-		{
-		JBroadcaster::ReceiveGoingAway(sender);
 		}
 }

@@ -320,6 +320,14 @@ F
 T
 1 "strings"
 T
+2 "glove_strings"
+F
+"./strings/glove_strings"
+T
+2 "glove_beta_strings"
+F
+"./strings/glove_beta_strings"
+T
 2 "GLChangeLogText"
 F
 "./strings/GLChangeLogText"
@@ -347,14 +355,6 @@ T
 2 "GLTOCHelpText"
 F
 "./strings/GLTOCHelpText"
-T
-2 "glove_strings"
-F
-"./strings/glove_strings"
-T
-2 "glove_beta_strings"
-F
-"./strings/glove_beta_strings"
 F
 T
 1 "undo classes"

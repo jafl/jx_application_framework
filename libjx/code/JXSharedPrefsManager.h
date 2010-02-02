@@ -44,7 +44,7 @@ public:
 	enum
 	{
 		kWriteLockID = 0,
-		kWMPlacementStrategyID,
+		kWMPlacementStrategyID,		// unused
 		kCopyWhenSelectID,
 		kPWModifierID,
 		kCaretFollowsScrollID,
@@ -59,7 +59,8 @@ public:
 		kMenuDisplayStyleID,
 		kLatestSpellCheckerVersionID,
 		kSpellCheckerV0,
-		kFocusFollowsCursorInDockID
+		kFocusFollowsCursorInDockID,
+		kMiddleClickWillPasteID
 	};
 
 private:
@@ -73,9 +74,9 @@ private:
 
 	// this section exists because JCore values cannot update themselves
 
-	JBoolean						itsOrigWMStrategy;
 	JBoolean						itsOrigFocusInDockFlag;
 	JBoolean						itsOrigCopyWhenSelectFlag;
+	JBoolean						itsOrigMiddleClickWillPasteFlag;
 	JXTEBase::PartialWordModifier	itsOrigPWMod;
 	JBoolean						itsOrigCaretScrollFlag;
 	JBoolean						itsOrigWindowsHomeEndFlag;
@@ -87,9 +88,9 @@ private:
 	JBoolean	Update();
 	JBoolean	GetAll(JBoolean* isNew);
 
-	void		PrivateSetWMPlacementStrategy();
 	void		PrivateSetFocusFollowsCursorInDock();
 	void		PrivateSetCopyWhenSelectFlag();
+	void		PrivateSetMiddleClickWillPasteFlag();
 	void		PrivateSetPartialWordModifier();
 	void		PrivateSetCaretFollowsScroll();
 	void		PrivateSetWindowsHomeEnd();

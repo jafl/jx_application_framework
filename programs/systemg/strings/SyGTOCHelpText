@@ -37,6 +37,13 @@ SyGTOCHelp
 	<li> <a href=jxhelp:SyGFolderHelp#Shortcuts>Shortcuts</a>
 	</ul>
 <p>
+<li> Version Control
+<p>
+	<ul>
+	<li> <a href=http://newplanetsoftware.com/svn_client/>Subversion</a>
+	<li> <a href=jxhelp:SyGFolderHelp#GitBranch>Git</a>
+	</ul>
+<p>
 <li> <a href=jxhelp:SyGExecHelp>Programs (executables)</a>
 <p>
 <li> <a href=jxhelp:SyGMiscHelp#Term>Opening a terminal (the command line)</a>

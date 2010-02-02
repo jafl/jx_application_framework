@@ -33,7 +33,7 @@ mouse, which will create a zoom rectangle. If the Meta key is pressed, the
 scale will be changed to show exactly the region contained by the zoom
 rectangle. If the Meta key is not pressed, a reasonable scale will be
 chosen around the area of interest. To return the scale to the default,
-select <i>Reset scale...</i> from the <i>Options</i> menu.
+select <i>Reset scale</i> from the <i>Options</i> menu.
 
 <p>
 <b>Range</b>  
@@ -44,15 +44,15 @@ portion of the curves will by used in the analysis. To set the range, zoom
 in to the desired range and select <i>Copy scale to range</i> from the
 <i>Options</i> menu. Alternately, you can specify a range in the <i>Edit
 Plot Range</i> dialog by selecting <i>Change range...</i> from the
-<i>Options</i> menu. You can then reset the range by selecting Clear range
+<i>Options</i> menu. You can then reset the scale by selecting <i>Reset scale</i>
 from the <i>Options</i> menu.
 
 <p>
 <b>Labels</b> 
 <p>
 
-You can edit the plot labels either by selecting Labels from the
-<i>Options</i> menu, or double-clicking on the appropriate label.
+You can edit the plot labels either by selecting <i>Change labels...</i> from the
+<i>Options</i> menu or by double-clicking on the appropriate label.
 
 <a name=Cursors>
 
@@ -62,7 +62,7 @@ You can edit the plot labels either by selecting Labels from the
 
 Cursors are a useful way of determining the position of various features 
 on a curve. If you view Dual cursors, the values of both cursors will be 
-displayed along with the distance between them.
+displayed along with the distance between them. To move a cursor, click and drag it.  For fine adjustments, click and then use appropriate the arrow keys.
 
 <p>
 

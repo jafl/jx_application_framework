@@ -53,14 +53,15 @@ enum
 
 static const JCharacter* kOptionsMenuTitleStr = "Options";
 static const JCharacter* kOptionsMenuStr =
-	"    Edit function..."
+	"    Edit function...";
+/*
 	"%l| Change scale..."
 	"  | Reset Z scale"
 	"%l| Show frame  %b"
 	"  | Show grid   %b"
 	"  | Show legend %b"
 	"%l| Change labels...";
-
+*/
 enum
 {
 	kEditFunctionCmd = 1,

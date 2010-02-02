@@ -133,9 +133,9 @@ JXSharedPrefsManager::Update()
 		// This exists because JCore values cannot update themsevles,
 		// and it seems easier to toss them all in here.
 
-		if ((itsOrigWMStrategy         != JXWindow::GetWMPlacementStrategy()      ||
-			 itsOrigFocusInDockFlag    != JXWindow::WillFocusFollowCursorInDock() ||
+		if ((itsOrigFocusInDockFlag    != JXWindow::WillFocusFollowCursorInDock() ||
 			 itsOrigCopyWhenSelectFlag != JTextEditor::WillCopyWhenSelect()       ||
+			 itsOrigMiddleClickWillPasteFlag != JXTEBase::MiddleButtonWillPaste() ||
 			 itsOrigPWMod              != JXTEBase::GetPartialWordModifier()      ||
 			 itsOrigCaretScrollFlag    != JXTEBase::CaretWillFollowScroll()       ||
 			 itsOrigWindowsHomeEndFlag != JXTEBase::WillUseWindowsHomeEnd()       ||
@@ -143,9 +143,9 @@ JXSharedPrefsManager::Update()
 			 itsOrigMenuDisplayStyle   != JXMenu::GetDisplayStyle()) &&
 			Open())
 			{
-			PrivateSetWMPlacementStrategy();
 			PrivateSetFocusFollowsCursorInDock();
 			PrivateSetCopyWhenSelectFlag();
+			PrivateSetMiddleClickWillPasteFlag();
 			PrivateSetPartialWordModifier();
 			PrivateSetCaretFollowsScroll();
 			PrivateSetWindowsHomeEnd();
@@ -178,19 +178,6 @@ JXSharedPrefsManager::GetAll
 		JBoolean changed = kJFalse;
 		std::string data;
 
-		if (itsFile->IDValid(kWMPlacementStrategyID))
-			{
-			itsFile->GetData(kWMPlacementStrategyID, &data);
-			std::istringstream input(data);
-			input >> itsOrigWMStrategy;
-			JXWindow::SetWMPlacementStrategy(itsOrigWMStrategy);
-			}
-		else
-			{
-			PrivateSetWMPlacementStrategy();
-			changed = kJTrue;
-			}
-
 		if (itsFile->IDValid(kFocusFollowsCursorInDockID))
 			{
 			itsFile->GetData(kFocusFollowsCursorInDockID, &data);
@@ -214,6 +201,19 @@ JXSharedPrefsManager::GetAll
 		else
 			{
 			PrivateSetCopyWhenSelectFlag();
+			changed = kJTrue;
+			}
+
+		if (itsFile->IDValid(kMiddleClickWillPasteID))
+			{
+			itsFile->GetData(kMiddleClickWillPasteID, &data);
+			std::istringstream input(data);
+			input >> itsOrigMiddleClickWillPasteFlag;
+			JXTEBase::MiddleButtonShouldPaste(itsOrigMiddleClickWillPasteFlag);
+			}
+		else
+			{
+			PrivateSetMiddleClickWillPasteFlag();
 			changed = kJTrue;
 			}
 
@@ -312,23 +312,6 @@ JXSharedPrefsManager::GetAll
 }
 
 /******************************************************************************
- PrivateSetWMPlacementStrategy (private)
-
- ******************************************************************************/
-
-void
-JXSharedPrefsManager::PrivateSetWMPlacementStrategy()
-{
-	assert( itsFile != NULL );
-
-	itsOrigWMStrategy = JXWindow::GetWMPlacementStrategy();
-
-	std::ostringstream data;
-	data << itsOrigWMStrategy;
-	itsFile->SetData(kWMPlacementStrategyID, data);
-}
-
-/******************************************************************************
  PrivateSetFocusFollowsCursorInDock (private)
 
  ******************************************************************************/
@@ -360,6 +343,23 @@ JXSharedPrefsManager::PrivateSetCopyWhenSelectFlag()
 	std::ostringstream data;
 	data << itsOrigCopyWhenSelectFlag;
 	itsFile->SetData(kCopyWhenSelectID, data);
+}
+
+/******************************************************************************
+ PrivateSetMiddleClickWillPasteFlag (private)
+
+ ******************************************************************************/
+
+void
+JXSharedPrefsManager::PrivateSetMiddleClickWillPasteFlag()
+{
+	assert( itsFile != NULL );
+
+	itsOrigMiddleClickWillPasteFlag = JXTEBase::MiddleButtonWillPaste();
+
+	std::ostringstream data;
+	data << itsOrigMiddleClickWillPasteFlag;
+	itsFile->SetData(kMiddleClickWillPasteID, data);
 }
 
 /******************************************************************************

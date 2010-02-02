@@ -147,7 +147,6 @@ protected:
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message);
-	virtual void	ReceiveGoingAway(JBroadcaster* sender);
 
 private:
 

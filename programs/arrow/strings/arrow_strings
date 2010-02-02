@@ -10,6 +10,9 @@ New Planet Software is a trademark of John Lindal.
 
 http://www.newplanetsoftware.com/"
 
+VERSION_URL		"http://www.newplanetsoftware.com/arrow/VERSION"
+DOWNLOAD_URL	"http://newplanetsoftware.com/nps/downloads.php"
+
 # gmGlobals
 
 Description::gmGlobals

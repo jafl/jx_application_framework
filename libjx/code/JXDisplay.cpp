@@ -210,6 +210,10 @@ JXDisplay::JXDisplay
 	itsImageCache = new JXImageCache(this);
 	assert( itsImageCache != NULL );
 
+	int major_opcode, first_event, first_error;
+	itsIsOSXFlag = JI2B(XQueryExtension(itsXDisplay, "Apple-WM",
+										&major_opcode, &first_event, &first_error));
+
 	(JXGetApplication())->DisplayOpened(this);
 
 	if (_Xdebug)

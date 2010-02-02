@@ -2,13 +2,16 @@
 
 VERSION		"1.0.0"
 COPYRIGHT
-"Copyright © 2008 by John Lindal.  All rights reserved.
+"Copyright © 2008-10 by John Lindal.  All rights reserved.
 
 This software is subject to the license agreement set forth in the license (refer to the on-line help).
 
 New Planet Software is a trademark of John Lindal.
 
 http://www.newplanetsoftware.com/"
+
+VERSION_URL		"http://www.newplanetsoftware.com/mondrian/VERSION"
+DOWNLOAD_URL	"http://newplanetsoftware.com/nps/downloads.php"
 
 # mdGlobals
 

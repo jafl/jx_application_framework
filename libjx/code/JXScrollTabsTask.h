@@ -27,10 +27,6 @@ public:
 
 	virtual void	Perform();
 
-protected:
-
-	virtual void	ReceiveGoingAway(JBroadcaster* sender);
-
 private:
 
 	JXTabGroup*	itsTabGroup;	// not owned

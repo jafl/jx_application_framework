@@ -343,7 +343,7 @@ J2DPlotData::SetXErrors
 			}
 		itsXPErrorData = const_cast< JArray<JFloat>* >(&xErr);
 		itsXMErrorData = NULL;
-		ListenTo(itsXPErrorData);
+		ClearWhenGoingAway(itsXPErrorData, &itsXPErrorData);
 		}
 	else
 		{
@@ -389,8 +389,8 @@ J2DPlotData::SetXErrors
 			}
 		itsXPErrorData = const_cast< JArray<JFloat>* >(&xPErr);
 		itsXMErrorData = const_cast< JArray<JFloat>* >(&xMErr);
-		ListenTo(itsXPErrorData);
-		ListenTo(itsXMErrorData);
+		ClearWhenGoingAway(itsXPErrorData, &itsXPErrorData);
+		ClearWhenGoingAway(itsXMErrorData, &itsXMErrorData);
 		}
 	else
 		{
@@ -435,7 +435,7 @@ J2DPlotData::SetYErrors
 			}
 		itsYPErrorData = const_cast< JArray<JFloat>* >(&yErr);
 		itsYMErrorData = NULL;
-		ListenTo(itsYPErrorData);
+		ClearWhenGoingAway(itsYPErrorData, &itsYPErrorData);
 		}
 	else
 		{
@@ -481,8 +481,8 @@ J2DPlotData::SetYErrors
 			}
 		itsYPErrorData = const_cast< JArray<JFloat>* >(&yPErr);
 		itsYMErrorData = const_cast< JArray<JFloat>* >(&yMErr);
-		ListenTo(itsYPErrorData);
-		ListenTo(itsYMErrorData);
+		ClearWhenGoingAway(itsYPErrorData, &itsYPErrorData);
+		ClearWhenGoingAway(itsYMErrorData, &itsYMErrorData);
 		}
 	else
 		{
@@ -552,22 +552,6 @@ J2DPlotData::ReceiveGoingAway
 		itsXData = NULL;
 		itsYData = NULL;
 		ValidateCurve();
-		}
-	else if (sender == itsXPErrorData)
-		{
-		itsXPErrorData = NULL;
-		}
-	else if (sender == itsXMErrorData)
-		{
-		itsXMErrorData = NULL;
-		}
-	else if (sender == itsYPErrorData)
-		{
-		itsYPErrorData= NULL;
-		}
-	else if (sender == itsYMErrorData)
-		{
-		itsYMErrorData = NULL;
 		}
 	else
 		{

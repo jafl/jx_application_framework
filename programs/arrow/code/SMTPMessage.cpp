@@ -1048,10 +1048,6 @@ SMTPMessage::BlockUntilOkOrFail()
 #undef JTemplateName
 #undef JTemplateType
 
-#if ACE_MAJOR_VERSION > 5 || \
-	(ACE_MAJOR_VERSION == 5 && ACE_MINOR_VERSION > 6) || \
-	(ACE_MAJOR_VERSION == 5 && ACE_MINOR_VERSION == 6 && ACE_BETA_VERSION >= 5)
-
 #define JTemplateName ACE_NonBlocking_Connect_Handler
 #define JTemplateType InetLink
 #include <instantiate_template.h>
@@ -1063,94 +1059,3 @@ SMTPMessage::BlockUntilOkOrFail()
 #include <instantiate_template.h>
 #undef JTemplateName
 #undef JTemplateType
-
-#define JTemplateName ACE_Node
-#define JTemplateType int, ACE_Unbounded_Set_Default_Comparator<int>
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Unbounded_Set
-#define JTemplateType int
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Unbounded_Set_Iterator
-#define JTemplateType int
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Unbounded_Set_Ex
-#define JTemplateType int, ACE_Unbounded_Set_Default_Comparator<int>
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Unbounded_Set_Ex_Iterator
-#define JTemplateType int, ACE_Unbounded_Set_Default_Comparator<int>
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Unbounded_Set_Ex_Const_Iterator
-#define JTemplateType int, ACE_Unbounded_Set_Default_Comparator<int>
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#elif (ACE_MAJOR_VERSION == 5 && ACE_MINOR_VERSION > 4) || \
-	  (ACE_MAJOR_VERSION == 5 && ACE_MINOR_VERSION == 4 && ACE_BETA_VERSION >= 4)
-
-#define JTemplateName ACE_NonBlocking_Connect_Handler
-#define JTemplateType InetLink
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Connector_Base
-#define JTemplateType InetLink
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#else
-
-#define JTemplateName ACE_Map_Manager
-#define JTemplateType ACE_HANDLE, ACE_Svc_Tuple<InetLink>*, ACE_SYNCH_RW_MUTEX
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Map_Iterator
-#define JTemplateType ACE_HANDLE, ACE_Svc_Tuple<InetLink>*, ACE_SYNCH_RW_MUTEX
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Map_Reverse_Iterator
-#define JTemplateType ACE_HANDLE, ACE_Svc_Tuple<InetLink>*, ACE_SYNCH_RW_MUTEX
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Map_Iterator_Base
-#define JTemplateType ACE_HANDLE, ACE_Svc_Tuple<InetLink>*, ACE_SYNCH_RW_MUTEX
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Map_Entry
-#define JTemplateType ACE_HANDLE, ACE_Svc_Tuple<InetLink>*
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Svc_Tuple
-#define JTemplateType InetLink
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#endif

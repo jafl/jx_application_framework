@@ -36,7 +36,7 @@ rm -rf %leibnitz_lib_dir
 
 %docdir %leibnitz_doc_dir
 
-/usr/X11R6/bin/leibnitz
+/usr/bin/leibnitz
 %leibnitz_lib_dir
 %leibnitz_doc_dir
 

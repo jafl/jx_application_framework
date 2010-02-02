@@ -31,7 +31,8 @@ SyGBeginEditingTask::SyGBeginEditingTask
 	itsTable(table),
 	itsNode((table->GetFileTreeList())->GetSyGNode(cell.y))
 {
-	ListenTo(itsNode);
+	ClearWhenGoingAway(itsNode, &itsNode);
+	ClearWhenGoingAway(itsNode, &(itsTable->itsEditTask));
 }
 
 /******************************************************************************
@@ -79,27 +80,5 @@ SyGBeginEditingTask::Perform
 	if (TimeToPerform(delta, maxSleepTime))
 		{
 		Perform();
-		}
-}
-
-/******************************************************************************
- ReceiveGoingAway (virtual protected)
-
- ******************************************************************************/
-
-void
-SyGBeginEditingTask::ReceiveGoingAway
-	(
-	JBroadcaster* sender
-	)
-{
-	if (sender == itsNode)
-		{
-		itsNode               = NULL;
-		itsTable->itsEditTask = NULL;
-		}
-	else
-		{
-		JBroadcaster::ReceiveGoingAway(sender);
 		}
 }

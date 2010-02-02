@@ -9,10 +9,12 @@
 #include "SyGApplication.h"
 #include "SyGMDIServer.h"
 #include "SyGGlobals.h"
+#include "SyGPrefsMgr.h"
 #include <JXFSBindingManager.h>
 #include <JXSplashWindow.h>
 #include <jCommandLine.h>
 #include <jTime.h>
+#include <jWebUtil.h>
 #include <jSysUtil.h>
 #include <jAssert.h>
 
@@ -44,6 +46,8 @@ main
 	JString prevVersStr;
 	SyGApplication* app = new SyGApplication(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != NULL );
+
+	JCheckForNewerVersion(SyGGetPrefsMgr(), kSVersionCheckID);
 
 	(SyGGetMDIServer())->HandleCmdLineOptions(argc, argv);
 

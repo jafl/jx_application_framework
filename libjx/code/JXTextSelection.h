@@ -55,8 +55,6 @@ protected:
 									unsigned char** data, JSize* dataLength,
 									JSize* bitsPerBlock) const;
 
-	virtual void	ReceiveGoingAway(JBroadcaster* sender);
-
 private:
 
 	JString*						itsText;		// NULL until Resolve()

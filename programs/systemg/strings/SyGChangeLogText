@@ -37,6 +37,10 @@ Fixed bug so state of opened subdirectories is restored correctly even after the
 Supports the latest updates to the <a href=http://newplanetsoftware.com/xdnd/>XDND protocol</a>.
 <p>
 Fixed crash on OSX 10.4 due to missing <code>/etc/fstab</code>.
+<p>
+Mouse wheel now scrolls smaller increments on OS X.
+<p>
+Added support for horizontal scrolling.  This is especially useful on Macintosh trackpads that support gestures.
 
 <h3> 2.2.0 </h3>
 
