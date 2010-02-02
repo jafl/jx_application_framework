@@ -1,0 +1,319 @@
+#ifndef _T_JVersionSocket
+#define _T_JVersionSocket
+
+/******************************************************************************
+ JVersionSocket.cpp
+
+	Retrieves the program's version number from the server.
+
+	BASE CLASS = ACE_Svc_Handler, JPrefObject
+
+	Copyright © 2010 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <JCoreStdInc.h>
+#include <JVersionSocket.h>
+#include <jGlobals.h>
+#include <jAssert.h>
+
+static const JCharacter* kLineTerminator   = "\r\n";
+static const JCharacter* kHeaderTerminator = "\r\n\r\n";
+
+const time_t kServerCheckInterval     = 7*24*3600;		// 1 week (seconds)
+const time_t kInitialReminderInterval = 30*24*3600;		// 1 month (seconds)
+const time_t kDefaultReminderInterval = 6*30*24*3600;	// 6 months (seconds)
+
+const JFileVersion kCurrentStateVersion = 1;
+
+	// version  1 stores the next time to contact the version server
+	// version  0 stores version from server + sorted list of reminder times
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JVersionSocket<ACE_PEER_STREAM_2>::JVersionSocket
+	(
+	const JCharacter*	host,
+	const JCharacter*	path,
+	JPrefsManager*		prefsMgr,
+	const JPrefID&		prefID
+	)
+	:
+	JPrefObject(prefsMgr, prefID),
+	itsHostName(host),
+	itsPath(path),
+	itsNextServerTime(0)
+{
+	itsVersion = JGetString("VERSION");
+
+	itsReminderList = new JArray<time_t>;
+	assert( itsReminderList != NULL );
+
+	JPrefObject::ReadPrefs();
+}
+
+// keep ACE_Connector happy
+
+template <ACE_PEER_STREAM_1>
+JVersionSocket<ACE_PEER_STREAM_2>::JVersionSocket()
+	:
+	JPrefObject(NULL, 0)
+{
+	assert( 0 );
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JVersionSocket<ACE_PEER_STREAM_2>::~JVersionSocket()
+{
+	delete itsReminderList;
+}
+
+/******************************************************************************
+ open
+
+	This is called when we get a connection to the server.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+int
+JVersionSocket<ACE_PEER_STREAM_2>::open
+	(
+	void* data
+	)
+{
+	(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::reactor())->register_handler(this, ACE_Event_Handler::READ_MASK);
+
+	JString msg = "GET ";
+	msg += itsPath;
+	msg += " HTTP/1.1";
+
+	msg += kLineTerminator;
+
+	msg += "Host: ";
+	msg += itsHostName;
+
+	msg += kHeaderTerminator;
+
+	if (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer().send_n(msg, msg.GetLength()) != (JInteger) msg.GetLength())
+		{
+		cerr << "error sending version request to server" << endl;
+		ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::close();
+		return -1;
+		}
+
+	return ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>::open(data);
+}
+
+/******************************************************************************
+ handle_input
+
+	This is called when we receive data from the server.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+int
+JVersionSocket<ACE_PEER_STREAM_2>::handle_input
+	(
+	ACE_HANDLE
+	)
+{
+	const JSize kBufferSize = 10000;
+	char buffer[ kBufferSize ];
+
+	const ssize_t count = ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer().recv(buffer, kBufferSize, &ACE_Time_Value::zero);
+	if (count == -1)
+		{
+		ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::destroy();
+		return -1;
+		}
+	else if (count == 0)
+		{
+		return 0;
+		}
+
+	itsRecvBuffer.Append(buffer, count);
+
+	JIndex i;
+	if (itsRecvBuffer.BeginsWith("HTTP/1.1 200") &&
+		itsRecvBuffer.LocateSubstring(kHeaderTerminator, &i))
+		{
+		JString vers(itsRecvBuffer, JIndexRange(i + strlen(kHeaderTerminator), itsRecvBuffer.GetLength()));
+		vers.TrimWhitespace();
+		CheckVersion(vers);
+		ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::destroy();
+		}
+
+	return 0;
+}
+
+/******************************************************************************
+ CheckVersion (private)
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+void
+JVersionSocket<ACE_PEER_STREAM_2>::CheckVersion
+	(
+	const JCharacter* vers
+	)
+{
+	const time_t now  = time(NULL);
+	itsNextServerTime = now + kServerCheckInterval;
+
+	if (vers == JGetString("VERSION"))
+		{
+		itsVersion = vers;
+		itsReminderList->RemoveAll();
+		}
+	else if (vers != itsVersion)
+		{
+		const time_t delta = kInitialReminderInterval;
+
+		itsVersion = vers;
+
+		itsReminderList->RemoveAll();
+		itsReminderList->AppendElement(now);		// remind next time we start
+		itsReminderList->AppendElement(now + delta);
+		itsReminderList->AppendElement(now + 2*delta);
+		itsReminderList->AppendElement(now + 3*delta);
+		}
+
+	JPrefObject::WritePrefs();
+}
+
+/******************************************************************************
+ TimeToCheck
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JBoolean
+JVersionSocket<ACE_PEER_STREAM_2>::TimeToCheck()
+	const
+{
+	return JI2B(time(NULL) > itsNextServerTime);
+}
+
+/******************************************************************************
+ TimeToRemind
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JBoolean
+JVersionSocket<ACE_PEER_STREAM_2>::TimeToRemind()
+{
+	JBoolean remind = kJFalse;
+
+	const time_t now = time(NULL);
+	while (!itsReminderList->IsEmpty())
+		{
+		const time_t t = itsReminderList->GetFirstElement();
+		if (now >= t)
+			{
+			itsReminderList->RemoveElement(1);
+			remind = kJTrue;
+			}
+		else
+			{
+			break;
+			}
+		}
+
+	if (remind)
+		{
+		if (itsReminderList->IsEmpty())
+			{
+			itsReminderList->AppendElement(now + kDefaultReminderInterval);
+			}
+
+		JPrefObject::WritePrefs();
+		}
+
+	return remind;
+}
+
+/******************************************************************************
+ ReadPrefs (virtual protected)
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+void
+JVersionSocket<ACE_PEER_STREAM_2>::ReadPrefs
+	(
+	istream& input
+	)
+{
+	JFileVersion vers;
+	input >> vers;
+	if (vers > kCurrentStateVersion)
+		{
+		return;
+		}
+
+	input >> itsVersion;
+
+	if (vers >= 1)
+		{
+		input >> itsNextServerTime;
+		}
+
+	JSize count;
+	input >> count;
+
+	for (JIndex i=1; i<=count; i++)
+		{
+		time_t t;
+		input >> t;
+		itsReminderList->AppendElement(t);
+		}
+}
+
+/******************************************************************************
+ WritePrefs (virtual protected)
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+void
+JVersionSocket<ACE_PEER_STREAM_2>::WritePrefs
+	(
+	ostream& output
+	)
+	const
+{
+	output << kCurrentStateVersion;
+	output << ' ' << itsVersion;
+	output << ' ' << itsNextServerTime;
+
+	const JSize count = itsReminderList->GetElementCount();
+	output << ' ' << count;
+
+	for (JIndex i=1; i<=count; i++)
+		{
+		output << ' ' << itsReminderList->GetElement(i);
+		}
+}
+
+#endif
+
+// Instantiate the templates for the specified type.
+
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+	#define JTemplateName JVersionSocket
+	#include <instantiate_template.h>
+	#undef JTemplateName
+#endif
