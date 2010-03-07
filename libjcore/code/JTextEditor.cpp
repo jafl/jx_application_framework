@@ -5182,7 +5182,7 @@ JTextEditor::CleanWhitespace
 			if (0 < n && n <= itsCRMTabCharCount/2)
 				{
 				text.RemoveSubstring(p, i);
-				style.RemoveNextElements(p, i-p);
+				style.RemoveNextElements(p, i-p+1);
 				}
 			else if (itsCRMTabCharCount/2 < n)
 				{
@@ -5235,7 +5235,7 @@ JTextEditor::CleanWhitespace
 			if (0 < n && n <= itsCRMTabCharCount/2)
 				{
 				text.RemoveSubstring(p, i);
-				style.RemoveNextElements(p, i-p);
+				style.RemoveNextElements(p, i-p+1);
 				}
 			else if (itsCRMTabCharCount/2 < n)
 				{

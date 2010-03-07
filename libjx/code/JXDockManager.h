@@ -63,6 +63,9 @@ public:
 	void		ReadSetup(istream& input);
 	void		WriteSetup(ostream& output) const;
 
+	void		SetIcon(JXImage* icon);
+	JBoolean	CreateIcon(JXImage** icon) const;
+
 	Atom	GetDNDMinSizeAtom() const;
 	Atom	GetDNDWindowAtom() const;
 
@@ -97,6 +100,7 @@ private:
 	JPtrArray<JXDockDirector>*	itsDockList;
 	JStringMap<JIndex>*			itsWindowTypeMap;
 	JString						itsTitle;
+	JXImage*					itsWindowIcon;
 	JIndex						itsNextDockIndex;
 	JIndex						itsNextDockID;
 	JBoolean					itsIsReadingSetupFlag;

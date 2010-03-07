@@ -52,6 +52,7 @@ static const char* kCurrentJXLibVersionStr = "2.6.0";
 //		Global JX preference to have focus follow the mouse between docked windows.
 //		Updated placement code to handle latest curveball from OS X.
 //		Supports _NET_WM_PING and _NET_WM_WINDOW_TYPE protocols.
+//		Added skipDocking argument to ReadGeometry().
 //	JXProgressDisplay:
 //		Updated ProcessBeginning() so it hides the unused widgets and
 //			initializes the visible ones.  (What took me so long?)
@@ -161,6 +162,8 @@ static const char* kCurrentJXLibVersionStr = "2.6.0";
 //		Fixed dialog to accept file name typed into file input field.
 //		Fixed file input field to accept ~.
 //	Collapsed JXSelectTabTask into JXDockWindowTask.
+//	JXDockManager:
+//		Added SetIcon() to allow setting an icon for all docks.
 
 // version 2.5.0:
 //	*** All egcs thunks hacks have been removed.

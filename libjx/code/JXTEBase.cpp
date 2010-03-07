@@ -1267,11 +1267,11 @@ JXTEBase::HandleKeyPress
 			}
 
 		int k = key;
-		if (k == ' ')
+		if (type != kFullEditor && k == ' ')
 			{
 			k = XK_Page_Down;
 			}
-		else if (k == kJDeleteKey)
+		else if (type != kFullEditor && k == kJDeleteKey)
 			{
 			k = XK_Page_Up;
 			}

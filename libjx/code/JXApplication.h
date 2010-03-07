@@ -147,6 +147,7 @@ private:
 private:
 
 	void	HandleOneEvent();
+	void	PerformTasks(const JBoolean hadEvents, const JBoolean allowSleep);
 	void	PerformIdleTasks();
 	void	PerformUrgentTasks();
 

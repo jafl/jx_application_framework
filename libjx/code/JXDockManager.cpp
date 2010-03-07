@@ -19,6 +19,7 @@
 #include <JXDockDirector.h>
 #include <JXDockWidget.h>
 #include <JXDisplay.h>
+#include <JXImage.h>
 #include <jXGlobals.h>
 #include <jAssert.h>
 
@@ -55,6 +56,7 @@ JXDockManager::JXDockManager
 	JPrefObject(prefsMgr, id),
 	itsDisplay(display),
 	itsTitle(title),
+	itsWindowIcon(NULL),
 	itsNextDockIndex(1),
 	itsNextDockID(1),
 	itsIsReadingSetupFlag(kJFalse),
@@ -78,6 +80,7 @@ JXDockManager::JXDockManager
 
 JXDockManager::~JXDockManager()
 {
+	delete itsWindowIcon;
 	delete itsDockList;		// JXDockDirectors deleted by JXDirector
 	delete itsWindowTypeMap;
 }
@@ -119,6 +122,48 @@ JXDockManager::GetNewDockTitle()
 	itsNextDockIndex++;
 
 	return title;
+}
+
+/******************************************************************************
+ SetIcon
+
+	We take ownership of the icon.
+
+ ******************************************************************************/
+
+void
+JXDockManager::SetIcon
+	(
+	JXImage* icon
+	)
+{
+	delete itsWindowIcon;
+	itsWindowIcon = icon;
+}
+
+/******************************************************************************
+ CreateIcon
+
+ ******************************************************************************/
+
+JBoolean
+JXDockManager::CreateIcon
+	(
+	JXImage** icon
+	)
+	const
+{
+	if (itsWindowIcon != NULL)
+		{
+		*icon = new JXImage(*itsWindowIcon);
+		assert( *icon != NULL );
+		return kJTrue;
+		}
+	else
+		{
+		*icon = NULL;
+		return kJFalse;
+		}
 }
 
 /******************************************************************************

@@ -96,6 +96,7 @@ static const char* kCurrentJCoreLibVersionStr = "2.6.0";
 //	JRunArray:
 //		Added Insert/Prepend/AppendSlice() as the fastest possible way to
 //			copy part of one JRunArray to another JRunArray.
+//		Fixed RemoveNextElements() to do nothing if count==0.
 //	jDirUtil:
 //		Added JConvertToHomeDirShortcut().
 //		Fixed JCleanPath() to leave :// alone, so URL's are not destroyed.

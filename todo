@@ -1,35 +1,55 @@
-Michael:
-+	12/30/09:  45 min phone conversation, 15 minutes think/email re scaling
-+	1/2/10: 30 min reply to Zedd re scaling
-+	1/5/10: 15 min email to Zedd re scaling/security
-+	1/10/10: 30 min reply to Zedd email re scaling/security
-	-----
+jcc:
+	occasional crash when tab to complete
+	replace all:  opened editors have all submenus of File menu disabled
+	shell window doesn't work on ubuntu
 
-medic:
-	OSX: run without first choosing program
-		continued too soon after hitting "tbreak main"
-		had to stop manually to get it to open source file
+network i/o:
+	is it like datagram, where I have to read it all?
+	test:  don't read, and see if it accumulates (use perl script with sleep)
 
-		click to set/clear breakpoint: must wait for program to receive break
-		set breakpoint from jcc: must manually stop program first
+check/increment all version numbers and copyright dates
+check for version check and correct VERSION url
+update change log and version number and VERSION on web site
+upload new builds (tgz,rpm,deb), update database with new file names & product id's
+update deb repo
+	arrow
+	drakon
+	glove
+	leibnitz
+	ssh_askpass
+	systemg
 
-Docking
-	OSX: window placement inside dock sometimes wrong (iconfied windows)
-	undock: window placement not restored
+	code_crusader
+	code_medic
+	code_mill
+	svn_client
 
-	When compartment minimized and move tab position, should readjust pane sizes
-	When min page size increases in dock, adjust panes so divider visible
-		(test:  move tab group tabs from side to top)
+	JX
 
-JBroadcaster:
-	register handler for message:  function which takes obj, msg type, function pointer
-		pass in friend function that takes obj, sender, msg
-		dynamic_cast obj to correct type and do whatever
-		multiple inheritance Receive needs to turn off dispatching for all but the last path to JBroadcaster
+set up debian server and test between ubuntu VM and EeePC
 
 -----
 
 upgrade dashboard widgets to YUI 3
+
+network i/o
+	run ACE Reactor in separate thread
+	fix jcore Svc_Handlers to span threads:
+		use ace threads?
+			If turn on, does ACE force many threads?
+			search for mutex:  short circuit inside class or around uses of it?
+		ace thread appends to queue and sets data-ready flag
+		ui thread checks data-ready flag and broadcasts data from queue
+		use write lock to push/pull queue and update flag
+
+	svn_client:
+	loses data while reading a large log response
+
+	medic:
+	cout, cerr output sometimes gets truncated in the console window.
+	Maybe 20 characters or so print (it seems to vary) and 'endl's are
+	dropped as well so lines run together.  It doesn't always happen, lines
+	less than 60 or so characters seem to print ok.
 
 store window placement info on root window, so only first app has to jiggle
 OSX: detect that hide/show shifts window down
@@ -43,8 +63,22 @@ OSX: detect that hide/show shifts window down
 		save all data on root window (JXWindowManagerBehavior) for next time
 			if not there, ask user if ok to test (reply: yes, no, never)
 
-J2DPlotWidget:
-	option for polar grid:  draw partial circles (only if both axes linear)
+Docking
+	possible to select first tab in each pane after program starts?
+
+	OSX: window placement inside dock sometimes wrong (iconfied windows)
+	undock: window placement not restored
+	raise window via menu shortcut:  dock moves on Ubuntu, and focus not set to the window
+
+	When compartment minimized and move tab position, should readjust pane sizes
+	When min page size increases in dock, adjust panes so divider visible
+		(test:  move tab group tabs from side to top)
+
+JBroadcaster:
+	register handler for message:  function which takes obj, msg type, function pointer
+		pass in friend function that takes obj, sender, msg
+		dynamic_cast obj to correct type and do whatever
+		multiple inheritance Receive needs to turn off dispatching for all but the last path to JBroadcaster
 
 jcc:
 	git diff
@@ -55,6 +89,9 @@ jcc:
 		if window closed, deactivate "Redo diff" button
 
 	import/export Task menu contents
+
+	CBProjectTable AddDirectoryTree & AddFiles:
+		treelist should stop listening to tree until done adding
 
 	lua for embedding a language in jcc?
 

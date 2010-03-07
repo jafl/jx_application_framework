@@ -385,7 +385,7 @@ JRunArray<T>::RemoveNextElements
 		{
 		RemoveAll();
 		}
-	else
+	else if (count > 0)
 		{
 		assert( JOrderedSet<T>::IndexValid(firstIndex) &&
 				JOrderedSet<T>::IndexValid(firstIndex+count-1) );
@@ -412,7 +412,7 @@ JRunArray<T>::RemoveNextElements
 		{
 		RemoveAll();
 		}
-	else
+	else if (count > 0)
 		{
 		assert( JOrderedSet<T>::IndexValid(firstIndex) &&
 				JOrderedSet<T>::IndexValid(firstIndex+count-1) );
@@ -442,7 +442,7 @@ JRunArray<T>::IteratorRemoveNextElements
 		{
 		RemoveAll();
 		}
-	else
+	else if (count > 0)
 		{
 		JIndex runIndex        = origRunIndex;
 		JIndex firstIndexInRun = origFirstIndexInRun;

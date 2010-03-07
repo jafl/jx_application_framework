@@ -2346,7 +2346,8 @@ JXWindow::GetApertureGlobal()
 void
 JXWindow::ReadGeometry
 	(
-	const JString& data
+	const JString&	data,
+	const JBoolean	skipDocking
 	)
 {
 	const JSize dataLength = data.GetLength();
@@ -2354,14 +2355,15 @@ JXWindow::ReadGeometry
 		{
 		const std::string s(data.GetCString(), dataLength);
 		std::istringstream input(s);
-		ReadGeometry(input);
+		ReadGeometry(input, skipDocking);
 		}
 }
 
 void
 JXWindow::ReadGeometry
 	(
-	istream& input
+	istream&		input,
+	const JBoolean	skipDocking
 	)
 {
 	JFileVersion vers;
@@ -2379,7 +2381,7 @@ JXWindow::ReadGeometry
 
 	int dockIt         = -1;
 	JXDockWidget* dock = NULL;
-	if (vers >= 1)
+	if (!skipDocking && vers >= 1)
 		{
 		JIndex id;
 		input >> id;

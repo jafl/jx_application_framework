@@ -30,6 +30,8 @@ Smarter placement of spell checker window.
 <p>
 Fixed bug which caused certain HTML messages to be displayed as blank.
 <p>
+Fixed bug which caused occasional crashes when connection to POP server timed out.
+<p>
 
 <h3> 2.0.1 </h3>
 

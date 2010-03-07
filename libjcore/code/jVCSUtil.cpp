@@ -161,7 +161,7 @@ JIsManagedByVCS
 			std::istrstream input(data, data.GetLength());
 
 			const JString version = JReadLine(input);
-			if (version == "8" || version == "9")
+			if (version == "8" || version == "9" || version == "10")
 				{
 				pattern = "\n\f\n" + name + "\n";
 
@@ -492,7 +492,7 @@ JGetVCSRepositoryPath
 			std::istrstream input(data, data.GetLength());
 
 			const JString version = JReadLine(input);
-			if (version == "8" || version == "9")
+			if (version == "8" || version == "9" || version == "10")
 				{
 				JIgnoreLine(input);		// ???
 				JIgnoreLine(input);		// dir
@@ -557,7 +557,7 @@ JGetCurrentSVNRevision
 		std::istrstream input(data, data.GetLength());
 
 		const JString version = JReadLine(input);
-		if (version == "8" || version == "9")
+		if (version == "8" || version == "9" || version == "10")
 			{
 			pattern = "\n\f\n" + name + "\n";
 
@@ -698,7 +698,7 @@ JUpdateCVSIgnore
 }
 
 /******************************************************************************
- JUpdateCVSIgnore
+ JUnsupportedVCS
 
  ******************************************************************************/
 

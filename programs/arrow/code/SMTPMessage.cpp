@@ -531,7 +531,7 @@ SMTPMessage::Send()
 	itsTimeoutTask = new JXTimerTask(kMaxWaitSeconds * 1000,kJTrue);
 	JXGetApplication()->InstallIdleTask(itsTimeoutTask);
 	ListenTo(itsTimeoutTask);
-	ListenTo(itsLink);
+	ClearWhenGoingAway(itsLink, &itsLink);
 }
 
 /******************************************************************************

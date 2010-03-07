@@ -156,6 +156,12 @@ JXDockDirector::BuildWindow
 	assert( window != NULL );
 	SetWindow(window);
 
+	JXImage* icon;
+	if ((JXGetDockManager())->CreateIcon(&icon))
+		{
+		window->SetIcon(icon);
+		}
+
 	if (splitHoriz)
 		{
 		itsHorizPartition =

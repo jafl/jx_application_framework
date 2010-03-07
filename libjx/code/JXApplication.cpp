@@ -522,31 +522,7 @@ JXApplication::HandleOneEvent()
 		}
 
 	PopAllIdleTaskStack();
-
-	// Perform idle tasks when we don't receive any events and
-	// during long intervals of "mouse moved".
-
-	if (!hasEvents)
-		{
-		PerformIdleTasks();
-		itsLastIdleTime = itsCurrentTime;
-		PerformUrgentTasks();
-		if (allowSleep)
-			{
-			JWait(itsMaxSleepTime / 1000.0);
-			}
-		}
-	else if (hasEvents &&
-			 itsCurrentTime - itsLastIdleTime > itsMaxSleepTime)
-		{
-		PerformIdleTasks();
-		itsLastIdleTime = itsCurrentTime;
-		PerformUrgentTasks();
-		}
-	else
-		{
-		PerformUrgentTasks();
-		}
+	PerformTasks(hasEvents, allowSleep);
 }
 
 /******************************************************************************
@@ -716,30 +692,7 @@ JXApplication::HandleOneEventForWindow
 			}
 		}
 
-	// Perform idle tasks when we don't receive any events and
-	// during long intervals of "mouse moved".
-
-	if (!windowHasEvents)
-		{
-		PerformIdleTasks();
-		itsLastIdleTime = itsCurrentTime;
-		PerformUrgentTasks();
-		if (allowSleep)
-			{
-			JWait(itsMaxSleepTime / 1000.0);
-			}
-		}
-	else if (windowHasEvents &&
-			 itsCurrentTime - itsLastIdleTime > itsMaxSleepTime)
-		{
-		PerformIdleTasks();
-		itsLastIdleTime = itsCurrentTime;
-		PerformUrgentTasks();
-		}
-	else
-		{
-		PerformUrgentTasks();
-		}
+	PerformTasks(windowHasEvents, allowSleep);
 
 	itsHasBlockingWindowFlag = kJFalse;
 	itsHadBlockingWindowFlag = kJTrue;
@@ -825,6 +778,44 @@ JXApplication::DiscardNextEvent
 	else
 		{
 		return False;
+		}
+}
+
+/******************************************************************************
+ PerformTasks (private)
+
+	Perform idle tasks when we don't receive any events and during long
+	intervals of "mouse moved".
+
+ ******************************************************************************/
+
+void
+JXApplication::PerformTasks
+	(
+	const JBoolean hadEvents,
+	const JBoolean allowSleep
+	)
+{
+	if (!hadEvents)
+		{
+		PerformIdleTasks();
+		itsLastIdleTime = itsCurrentTime;
+		PerformUrgentTasks();
+		if (allowSleep)
+			{
+			JWait(itsMaxSleepTime / 1000.0);
+			}
+		}
+	else if (hadEvents &&
+			 itsCurrentTime - itsLastIdleTime > itsMaxSleepTime)
+		{
+		PerformIdleTasks();
+		itsLastIdleTime = itsCurrentTime;
+		PerformUrgentTasks();
+		}
+	else
+		{
+		PerformUrgentTasks();
 		}
 }
 
