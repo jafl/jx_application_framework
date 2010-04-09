@@ -1,21 +1,7 @@
-check/increment all version numbers and copyright dates
-check for version check and correct VERSION url
-update change log and version number and VERSION on web site
-upload new builds (tgz,rpm,deb), update database with new file names & product id's
-update deb repo
-	arrow
-	drakon
-	glove
-	leibnitz
-	systemg
+arrow:
+	open Harry email and quit/restart: shows "Time to backup database"
 
-	code_crusader
-	code_medic
-	code_mill
-	svn_client
-
-	JX
-
+release
 set up debian server and test between ubuntu VM and EeePC
 
 -----

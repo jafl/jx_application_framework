@@ -35,6 +35,7 @@ SyGTOCHelp
 	<li> <a href=jxhelp:SyGFolderHelp#Views>View options</a>
 	<li> <a href=jxhelp:SyGFolderHelp#Filters>Filters</a>
 	<li> <a href=jxhelp:SyGFolderHelp#Shortcuts>Shortcuts</a>
+	<li> <a href=jxhelp:SyGFolderHelp#GitBranch>Working with git</a>
 	</ul>
 <p>
 <li> Version Control

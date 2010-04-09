@@ -123,7 +123,7 @@ The Shortcuts menu always includes the mount points corresponding to floppy disk
 
 <a name=GitBranch>
 
-<h3> Working with Git </h3>
+<h3> Working with git </h3>
 
 If the directory is managed by git, the Branch menu will be displayed.  The first group of items is the locally available branches.  Selecting one of these items will switch your directory contents to that branch.  The second group of items, displayed in white, are the remote branches.  Selecting one of these will download the branch so you can work with it.
 <p>
