@@ -14,7 +14,6 @@
 #include "GPrefsMgr.h"
 #include "GInboxMgr.h"
 #include "GHelpText.h"
-#include "ClipDir.h"
 #include "GMChooseSaveFile.h"
 #include "GMChooseSavePrefObject.h"
 #include "GMPTPrinter.h"
@@ -138,9 +137,6 @@ GMCreateGlobals
 	thePermWindowOwner = new JXDirector(NULL);
 	assert( thePermWindowOwner != NULL );
 
-	ClipDir* dir = new ClipDir(thePermWindowOwner);
-	assert(dir != NULL);
-
 	itsAccountMgr	= new GMAccountManager();
 	assert(itsAccountMgr != NULL);
 
@@ -154,10 +150,10 @@ GMCreateGlobals
 	assert(itsAddressBookTreeDir != NULL);
 
 	itsSMTPDebugDir = new GNetDebugDir(thePermWindowOwner, smtpDebugTitle);
-	assert(dir != NULL);
+	assert(itsSMTPDebugDir != NULL);
 
 	itsPOPDebugDir = new GNetDebugDir(thePermWindowOwner, popDebugTitle);
-	assert(dir != NULL);
+	assert(itsPOPDebugDir != NULL);
 
 	itsPrefsMgr->ReadChooseSaveDialogPrefs();
 

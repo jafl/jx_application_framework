@@ -1222,6 +1222,8 @@ GMessageViewDir::SaveState
 	)
 {
 	os << itsMessageHeader->GetHeader() << " ";
+	os << itsMessageHeader->GetFrom() << " ";
+	os << itsMessageHeader->GetSubject() << " ";
 	GetWindow()->WriteGeometry(os);
 
 	JXScrollbar* hsb = itsSBSet->GetHScrollbar();

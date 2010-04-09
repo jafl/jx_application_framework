@@ -40,7 +40,6 @@
 .cpp ./code/GMMessageFindDialog
 .cpp ./code/GMFindTableDir
 .cpp ./code/GNetDebugDir
-.cpp ./code/ClipDir
 .cpp ./code/GMDirectorMenu
 .cpp ./code/GMDirectorManager
 .cpp ./code/GMManagedDirector

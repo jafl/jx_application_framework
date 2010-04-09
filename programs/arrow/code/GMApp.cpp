@@ -44,7 +44,7 @@
 
 static const JCharacter* kStateFileName		= ".arrow.session";
 static const JCharacter* kStateFileSignature	= "arrow_sig";
-static const JFileVersion kCurrentSessionVersion = 4;
+static const JFileVersion kCurrentSessionVersion = 5;
 
 static const JCharacter* kArrowFilesDir			= ".arrow_files";
 
@@ -524,6 +524,8 @@ GMApp::AppendNewMessage
 JBoolean
 GMApp::OpenSession()
 {
+	JBoolean success = kJFalse;
+
 	JString homeDir;
 	if (JGetHomeDirectory(&homeDir))
 		{
@@ -536,7 +538,7 @@ GMApp::OpenSession()
 			if (err.OK())
 				{
 				JFileVersion version = fileArray->GetVersion();
-				if (version > 0)
+				if (0 < version && version <= kCurrentSessionVersion)
 					{
 					JFAID id = 1;
 					JSize count;
@@ -595,16 +597,14 @@ GMApp::OpenSession()
 					GGetInboxMgr()->ReadState(is);
 					}
 
+					success = kJTrue;
 					}
 				delete fileArray;
-				JRemoveFile(session);
-				return kJTrue;
 				}
-			delete fileArray;
 			JRemoveFile(session);
 			}
 		}
-	return kJFalse;
+	return success;
 }
 
 /******************************************************************************

@@ -1330,25 +1330,33 @@ GMessageTableDir::ReadState
 	}
 	id.SetID(id.GetID() + 1);
 
+	JString hdr, from, subject;
 	for (JSize i = 1; i <= count; i++)
 		{
 		std::string data;
 		fileArray.GetElement(id, &data);
 		std::istringstream is(data);
-		JString fromline;
-		is >> fromline;
+		is >> hdr;
+		if (version >= 5)
+		{
+			is >> from >> subject;
+		}
+
 		GMessageHeader* header;
-		JIndex index = 1;
 		JBoolean found = kJFalse;
-		while (index <= itsData->GetHeaderCount() && !found)
+		for (JIndex index = 1; index <= itsData->GetHeaderCount(); index++)
 			{
 			header = itsData->GetHeader(index);
-			if (header->GetHeader() == fromline)
+			if (header->GetHeader() == hdr &&
+				(version < 5 ||
+				 (header->GetFrom() == from &&
+				  header->GetSubject() == subject)))
 				{
 				found = kJTrue;
+				break;
 				}
-			index++;
 			}
+
 		if (found)
 			{
 			GMessageViewDir* dir =

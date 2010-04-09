@@ -163,10 +163,6 @@ T
 F
 "./code/GNetDebugDir.cpp"
 T
-2 "ClipDir.cpp"
-F
-"./code/ClipDir.cpp"
-T
 2 "GMDirectorMenu.cpp"
 F
 "./code/GMDirectorMenu.cpp"

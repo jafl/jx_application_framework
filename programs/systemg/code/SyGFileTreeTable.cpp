@@ -303,6 +303,7 @@ SyGFileTreeTable::SyGFileTreeTable
 	itsFormatProcess			= NULL;
 	itsCreateBranchDialog		= NULL;
 	itsCommitBranchDialog		= NULL;
+	itsCommitProcess			= NULL;
 	itsIconWidget				= NULL;
 	itsWindowIconType			= 0;
 
@@ -2026,6 +2027,7 @@ SyGFileTreeTable::Receive
 												kFormatType[i-1], &itsFormatProcess);
 			if (err.OK())
 				{
+				itsFormatProcess->ShouldDeleteWhenFinished();
 				ListenTo(itsFormatProcess);
 				}
 			else
@@ -2038,7 +2040,6 @@ SyGFileTreeTable::Receive
 	else if (sender == itsFormatProcess && message.Is(JProcess::kFinished))
 		{
 		JMount(itsFileTree->GetDirectory());
-		delete itsFormatProcess;
 		itsFormatProcess = NULL;
 		}
 
@@ -2054,6 +2055,7 @@ SyGFileTreeTable::Receive
 			}
 		itsCreateBranchDialog = NULL;
 		}
+
 	else if (sender == itsCommitBranchDialog &&
 			 message.Is(JXDialogDirector::kDeactivated))
 		{
@@ -2065,6 +2067,17 @@ SyGFileTreeTable::Receive
 			CommitBranch(itsCommitBranchDialog->GetString());
 			}
 		itsCommitBranchDialog = NULL;
+		}
+	else if (sender == itsCommitProcess && message.Is(JProcess::kFinished))
+		{
+		const JProcess::Finished* info =
+			dynamic_cast(const JProcess::Finished*, &message);
+		assert(info != NULL);
+		if (info->Successful())
+			{
+			JExecute(itsFileTree->GetDirectory(), (SyGGetApplication())->GetPostCheckoutCommand(), NULL);
+			}
+		itsCommitProcess = NULL;
 		}
 
 	else if (sender == itsIconWidget && message.Is(JXWindowIcon::kHandleEnter))
@@ -2174,6 +2187,12 @@ SyGFileTreeTable::UpdateInfo()
 	Refresh();
 
 	SetWindowIcon();
+
+	if (itsCommitProcess != NULL)
+		{
+		StopListening(itsCommitProcess);
+		itsCommitProcess = NULL;
+		}
 }
 
 /******************************************************************************
@@ -3627,6 +3646,11 @@ SyGFileTreeTable::UpdateGitBranchMenu()
 
 		itsGitBranchMenu->AppendMenuItems(kGitBranchMenuAddStr);
 
+		if (itsCommitProcess != NULL)
+			{
+			itsGitBranchMenu->DisableItem(gitTotalBranchCount + kGitCommitAllCmdOffset);
+			}
+
 		itsGitPullSourceMenu =
 			new JXTextMenu(itsGitBranchMenu,
 						   gitTotalBranchCount + kGitPullMenuOffset,
@@ -3876,6 +3900,11 @@ SyGFileTreeTable::CommitBranch
 	const JCharacter* msg
 	)
 {
+	if (itsCommitProcess != NULL)
+		{
+		return;
+		}
+
 	JSimpleProcess* p;
 	JString cmd = "git commit -a";
 
@@ -3888,12 +3917,9 @@ SyGFileTreeTable::CommitBranch
 	const JError err = JSimpleProcess::Create(&p, itsFileTree->GetDirectory(), cmd, kJFalse);
 	if (err.OK())
 		{
-		p->WaitUntilFinished();
-		if (p->SuccessfulFinish())
-			{
-			JExecute(itsFileTree->GetDirectory(), (SyGGetApplication())->GetPostCheckoutCommand(), NULL);
-			}
-		delete p;
+		itsCommitProcess = p;
+		itsCommitProcess->ShouldDeleteWhenFinished();
+		ListenTo(itsCommitProcess);
 		}
 	else
 		{

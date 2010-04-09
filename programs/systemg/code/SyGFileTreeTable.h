@@ -183,6 +183,7 @@ private:
 
 	JXGetStringDialog*	itsCreateBranchDialog;		// NULL unless creating branch
 	JXGetStringDialog*	itsCommitBranchDialog;		// NULL unless committing branch
+	JProcess*			itsCommitProcess;			// NULL unless committing branch
 
 	// Drag-and-Drop
 
