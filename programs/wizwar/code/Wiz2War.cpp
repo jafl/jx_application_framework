@@ -364,7 +364,7 @@ Wiz2War::Connect
 		else if (result == -1)
 			{
 			JString msg = "Unable to connect to the server.\n\nerror #";
-			msg += JString(jerrno(), 0);
+			msg += JString(jerrno(), JString::kBase10);
 			(JGetUserNotification())->ReportError(msg);
 			JThisProcess::Exit(1);
 			}

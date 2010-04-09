@@ -160,7 +160,7 @@ WizApp::NotifyConnectionRefused
 	else
 		{
 		msg  = "Unknown error #";
-		msg += JString(err, 0);
+		msg += JString(err, JString::kBase10);
 		msg += " received from server.";
 		}
 

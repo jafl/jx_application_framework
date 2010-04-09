@@ -48,7 +48,7 @@ GLPolyFitDialog::GLPolyFitDialog
 	const JSize count	= 10;
 	for (JIndex i = 1; i <= count; i++)
 		{
-		JString parm	= "a" + JString(i - 1, 0);
+		JString parm	= "a" + JString(i - 1, JString::kBase10);
 		itsVarList->AddVariable(parm, 0);
 		}
 
@@ -249,11 +249,11 @@ GLPolyFitDialog::Receive
 					{
 					started	= kJTrue;
 					}
-				JString parm	= "a" + JString(i - 1, 0);
+				JString parm	= "a" + JString(i - 1, JString::kBase10);
 				JString xTerm	= " * x";
 				if (i > 2)
 					{
-					xTerm += "^" + JString(i - 1, 0);
+					xTerm += "^" + JString(i - 1, JString::kBase10);
 					}
 				fStr += parm;
 				if (i > 1)

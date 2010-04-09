@@ -29,8 +29,9 @@ enum JExecuteAction
 	kJIgnoreConnection,
 	kJCreatePipe,
 	kJAttachToFD,
-	kJTossOutput,		// output to /dev/null, fromAction and errAction only
-	kJAttachToFromFD	// connect stderr to stdout, errAction only
+	kJTossOutput,			// fromAction/errAction: output to /dev/null
+	kJAttachToFromFD,		// errAction: connect stderr to stdout
+	kJForceNonblockingPipe	// fromAction: monitor and turn off non-blocking mode (hack for svn log)
 };
 
 // Constants for JWaitForChild()

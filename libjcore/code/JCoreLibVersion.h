@@ -87,6 +87,8 @@ static const char* kCurrentJCoreLibVersionStr = "2.6.0";
 //		*** Added new pure virtual function TEScrollForDND().
 //		Updated HandleHTMLOn/OffCmd() to understand <q>...</q>.
 //		Fixed HandleHTMLTag() to understand self-closed tag, e.g., <head/>.
+//		Optimized converting from DOS format.
+//		Optimized RemoveIllegalChars().
 //	JTEUndoTyping:
 //		Added firstChar,lastChar arguments to HandleDelete() and HandleFwdDelete().
 //	Defined JBoolean operator!(JBoolean) so you only need JNegate for the

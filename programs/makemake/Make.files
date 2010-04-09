@@ -37,6 +37,8 @@ JRTTIBase
 JProgressDisplay
 jMemory
 jMath
+jTime
+jTime_UNIX
 jAssert
 JAssertBase
 

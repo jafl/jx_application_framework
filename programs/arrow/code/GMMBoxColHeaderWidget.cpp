@@ -194,7 +194,7 @@ GMMBoxColHeaderWidget::TableDrawCell
 		}
 	if (!hasTitle)
 		{
-		str = JString(cell.x, 0);
+		str = JString(cell.x, JString::kBase10);
 		}
 
 	p.SetFont(JGetDefaultFontName(), kFontSize,

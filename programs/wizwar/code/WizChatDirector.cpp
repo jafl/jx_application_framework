@@ -354,7 +354,7 @@ WizChatDirector::NotifyPlayerJoined
 			msg += " is player #";
 			}
 		}
-	msg += JString(info.GetIndex(), 0);
+	msg += JString(info.GetIndex(), JString::kBase10);
 	msg += ".";
 
 	AppendMessage(kWWAllPlayersIndex, msg, player.GetColor());

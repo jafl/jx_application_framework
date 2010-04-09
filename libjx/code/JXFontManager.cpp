@@ -809,7 +809,7 @@ JXFontManager::BuildFontName
 	else if (iso && JXGetLatinCharacterSetIndex(&latinIndex))
 		{
 		JString s = "iso8859-";
-		s += JString(latinIndex, 0);
+		s += JString(latinIndex, JString::kBase10);
 		xFontName.Append(s);
 		}
 	else if (iso)

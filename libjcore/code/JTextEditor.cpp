@@ -6831,6 +6831,18 @@ JTextEditor::InsertText
 	return InsertText(itsBuffer, itsStyles, charIndex, text, style, &itsInsertionFont);
 }
 
+#define COPY_FOR_INSERT_TEXT \
+	if (newText == NULL) \
+		{ \
+		newText = new JString(text, textLen); \
+		assert( newText != NULL ); \
+		if (style != NULL) \
+			{ \
+			newStyle = new JRunArray<Font>(*style); \
+			assert( newStyle != NULL ); \
+			} \
+		}
+
 JSize
 JTextEditor::InsertText
 	(
@@ -6857,53 +6869,78 @@ JTextEditor::InsertText
 
 		if (ContainsIllegalChars(text, textLen))
 			{
-			if (newText == NULL)
-				{
-				newText = new JString(text, textLen);
-				assert( newText != NULL );
-
-				if (style != NULL)
-					{
-					newStyle = new JRunArray<Font>(*style);
-					assert( newStyle != NULL );
-					}
-				}
+			COPY_FOR_INSERT_TEXT
 
 			RemoveIllegalChars(newText, newStyle);
 			}
 
-		// convert from Macintosh or DOS format
+		// convert from DOS format -- deleting is n^2, so we copy instead
 
-		if (strchr(newText != NULL ? newText->GetCString() : text, '\r') != NULL)
+		if (strstr(newText != NULL ? newText->GetCString() : text, "\r\n") != NULL)
 			{
-			if (newText == NULL)
-				{
-				newText = new JString(text, textLen);
-				assert( newText != NULL );
+			COPY_FOR_INSERT_TEXT
 
-				if (style != NULL)
+			JString tmpText;
+			tmpText.SetBlockSize(newText->GetLength()+256);
+
+			JRunArray<Font> tmpStyle;
+			if (newStyle != NULL)
+				{
+				tmpStyle.SetBlockSize(newStyle->GetRunCount()+16);
+				}
+
+			JIndex i = 1, j = 1;
+			while (newText->LocateNextSubstring("\r", &i))
+				{
+				tmpText.Append(newText->GetCString() + (j-1), i - j);
+				if (newStyle != NULL && i > j)
 					{
-					newStyle = new JRunArray<Font>(*style);
-					assert( newStyle != NULL );
+					tmpStyle.AppendSlice(*newStyle, j, i-1);
+					}
+
+				assert( i <= newText->GetLength() );
+
+				if (i == newText->GetLength() ||
+					newText->GetCharacter(i+1) != '\n')
+					{
+					tmpText.AppendCharacter('\n');
+					if (newStyle != NULL)
+						{
+						tmpStyle.AppendElement(newStyle->GetElement(i));
+						}
+					}
+
+				j = i+1;
+				i++;
+				}
+
+			if (j <= newText->GetLength())
+				{
+				i = newText->GetLength();
+				tmpText.Append(newText->GetCString() + (j-1), i - j + 1);
+				if (newStyle != NULL)
+					{
+					tmpStyle.AppendSlice(*newStyle, j, i);
 					}
 				}
+
+			*newText = tmpText;
+			if (newStyle != NULL)
+				{
+				*newStyle = tmpStyle;
+				}
+			}
+
+		// convert from Macintosh format
+
+		else if (strchr(newText != NULL ? newText->GetCString() : text, '\r') != NULL)
+			{
+			COPY_FOR_INSERT_TEXT
 
 			JIndex i = 1;
 			while (newText->LocateNextSubstring("\r", &i))
 				{
-				if (i < newText->GetLength() &&
-					newText->GetCharacter(i+1) == '\n')
-					{
-					newText->RemoveSubstring(i,i);
-					if (newStyle != NULL)
-						{
-						newStyle->RemoveElement(i);
-						}
-					}
-				else
-					{
-					newText->SetCharacter(i, '\n');
-					}
+				newText->SetCharacter(i, '\n');
 				}
 			}
 
@@ -6913,17 +6950,7 @@ JTextEditor::InsertText
 		JBoolean okToInsert = kJTrue;
 		if (NeedsToFilterText(newText != NULL ? newText->GetCString() : text))
 			{
-			if (newText == NULL)
-				{
-				newText = new JString(text, textLen);
-				assert( newText != NULL );
-
-				if (style != NULL)
-					{
-					newStyle = new JRunArray<Font>(*style);
-					assert( newStyle != NULL );
-					}
-				}
+			COPY_FOR_INSERT_TEXT
 
 			okToInsert = FilterText(newText, newStyle);
 			}
@@ -9176,40 +9203,48 @@ JTextEditor::RemoveIllegalChars
 			style->GetElementCount() == text->GetLength() );
 
 	const JSize origTextLength = text->GetLength();
-	const JSize saveBlockSize  = text->GetBlockSize();
-	text->SetBlockSize(origTextLength);			// avoid realloc
 
-	JLatentPG pg(100);
-	pg.FixedLengthProcessBeginning(origTextLength,
-				"Removing illegal characters...", kJTrue, kJFalse);
+	JString tmpText;
+	tmpText.SetBlockSize(origTextLength+256);
 
-	JIndexRange remainder(1, text->GetLength());
+	JRunArray<Font> tmpStyle;
+	if (style != NULL && !style->IsEmpty())
+		{
+		tmpStyle.SetBlockSize(style->GetRunCount()+16);
+		}
+
+	JIndexRange remainder(1, origTextLength);
 	JIndexRange illegal;
+	JIndex i, j = 1;
 	while (illegalCharRegex.MatchWithin(*text, remainder, &illegal))
 		{
-		text->RemoveSubstring(illegal);
-		if (style != NULL && !style->IsEmpty())
+		i = illegal.first;
+
+		tmpText.Append(text->GetCString() + (j-1), i - j);
+		if (style != NULL && !style->IsEmpty() && i > j)
 			{
-			style->RemoveNextElements(illegal.first, illegal.GetLength());
+			tmpStyle.AppendSlice(*style, j, i-1);
 			}
 
-		const JSize pgDelta = (illegal.first - remainder.first) + illegal.GetLength();
-		remainder.Set(illegal.first, text->GetLength());
+		remainder.first = j = illegal.last + 1;
+		}
 
-		if (!pg.IncrementProgress(pgDelta))
+	if (j <= origTextLength)
+		{
+		i = origTextLength;
+		tmpText.Append(text->GetCString() + (j-1), i - j + 1);
+		if (style != NULL && !style->IsEmpty())
 			{
-			text->RemoveSubstring(remainder);
-			if (style != NULL)
-				{
-				style->RemoveNextElements(remainder.first, remainder.GetLength());
-				}
-			break;
+			tmpStyle.AppendSlice(*style, j, i);
 			}
 		}
 
-	pg.ProcessFinished();
+	*text = tmpText;
+	if (style != NULL && !style->IsEmpty())
+		{
+		*style = tmpStyle;
+		}
 
-	text->SetBlockSize(saveBlockSize);
 	return JConvertToBoolean( text->GetLength() < origTextLength );
 }
 

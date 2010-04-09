@@ -567,7 +567,7 @@ JXDocumentManager::GetNewFileName()
 		itsNewDocCount = 1;
 		}
 
-	itsLastNewFileName = kNewDocName + JString(itsNewDocCount, 0);
+	itsLastNewFileName = kNewDocName + JString(itsNewDocCount, JString::kBase10);
 	return itsLastNewFileName;
 }
 

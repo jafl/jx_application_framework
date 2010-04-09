@@ -250,6 +250,9 @@ private:
 					 const JPoint& rightPtR = JPoint());
 	void		Close();
 
+	void	PrivateActivate();
+	void	PrivateDeactivate();
+
 	// called by JXMenuBar
 
 	void	SetMenuBar(JXMenuBar* bar);

@@ -1376,14 +1376,7 @@ JXMenu::Activate()
 	JXWidget::Activate();
 	if (!wasActive && IsActive())
 		{
-		itsTitleStyle.color = itsTrueTitleColor;
-
-		JIndex ownerItemIndex;
-		if (itsOwner != NULL &&
-			itsOwner->itsBaseItemData->FindSubmenu(this, &ownerItemIndex))
-			{
-			itsOwner->EnableItem(ownerItemIndex);
-			}
+		PrivateActivate();
 		}
 }
 
@@ -1404,19 +1397,16 @@ JXMenu::Deactivate()
 	JXWidget::Deactivate();
 	if (wasActive && !IsActive())
 		{
-		itsTitleStyle.color = (GetColormap())->GetInactiveLabelColor();
-
-		JIndex ownerItemIndex;
-		if (itsOwner != NULL &&
-			itsOwner->itsBaseItemData->FindSubmenu(this, &ownerItemIndex))
-			{
-			itsOwner->DisableItem(ownerItemIndex);
-			}
+		PrivateDeactivate();
 		}
 }
 
 /******************************************************************************
  Suspend (virtual)
+
+	We do not support suspending submenus.  If we suspend a submenu, it
+	deactivates the menu, so Resume() will still think the menu is not
+	active.
 
  ******************************************************************************/
 
@@ -1425,14 +1415,18 @@ JXMenu::Suspend()
 {
 	const JBoolean wasActive = IsActive();
 	JXWidget::Suspend();
-	if (wasActive && !IsActive())
+	if (itsOwner == NULL && wasActive && !IsActive())
 		{
-		itsTitleStyle.color = (GetColormap())->GetInactiveLabelColor();
+		PrivateDeactivate();
 		}
 }
 
 /******************************************************************************
  Resume (virtual)
+
+	We do not support suspending submenus.  If we suspend a submenu, it
+	deactivates the menu, so Resume() will still think the menu is not
+	active.
 
  ******************************************************************************/
 
@@ -1441,9 +1435,46 @@ JXMenu::Resume()
 {
 	const JBoolean wasActive = IsActive();
 	JXWidget::Resume();
-	if (!wasActive && IsActive())
+	if (itsOwner == NULL && !wasActive && IsActive())
 		{
-		itsTitleStyle.color = itsTrueTitleColor;
+		PrivateActivate();
+		}
+}
+
+/******************************************************************************
+ PrivateActivate (private)
+
+ ******************************************************************************/
+
+void
+JXMenu::PrivateActivate()
+{
+	itsTitleStyle.color = itsTrueTitleColor;
+
+	JIndex ownerItemIndex;
+	if (itsOwner != NULL &&
+		!(itsBaseItemData->GetOrderedSet())->IsEmpty() &&
+		itsOwner->itsBaseItemData->FindSubmenu(this, &ownerItemIndex))
+		{
+		itsOwner->EnableItem(ownerItemIndex);
+		}
+}
+
+/******************************************************************************
+ PrivateDeactivate (private)
+
+ ******************************************************************************/
+
+void
+JXMenu::PrivateDeactivate()
+{
+	itsTitleStyle.color = (GetColormap())->GetInactiveLabelColor();
+
+	JIndex ownerItemIndex;
+	if (itsOwner != NULL &&
+		itsOwner->itsBaseItemData->FindSubmenu(this, &ownerItemIndex))
+		{
+		itsOwner->DisableItem(ownerItemIndex);
 		}
 }
 

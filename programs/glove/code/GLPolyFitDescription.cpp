@@ -73,7 +73,7 @@ GLPolyFitDescription::GLPolyFitDescriptionX()
 	JString form;
 	for (JIndex i = 1; i <= count; i++)
 		{
-		JString parm	= "a" + JString(i - 1, 0);
+		JString parm	= "a" + JString(i - 1, JString::kBase10);
 		GetVarList()->AddVariable(parm, 0);
 		JString xTerm;
 		JIndex power	= itsPowers->GetElement(i);

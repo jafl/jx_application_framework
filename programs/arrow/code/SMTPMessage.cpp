@@ -320,7 +320,7 @@ SMTPMessage::SetAccount
 
 	struct tm* local_time	= localtime(&now);
 	JString outbox			= gcl_months[local_time->tm_mon];
-	outbox					+= "_" + JString(local_time->tm_year + 1900, 0);
+	outbox					+= "_" + JString(local_time->tm_year + 1900, JString::kBase10);
 	itsOutbox				= JCombinePathAndName(dir, outbox);
 }
 

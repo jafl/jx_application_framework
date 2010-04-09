@@ -1,0 +1,127 @@
+#ifndef _T_Pipe
+#define _T_Pipe
+
+/******************************************************************************
+ Pipe.cc
+
+	Echoes whenever data arrives.
+
+	BASE CLASS = ACE_Svc_Handler
+
+	Written by John Lindal.
+
+ ******************************************************************************/
+
+#include <Pipe.h>
+#include <jTime.h>
+#include <jAssert.h>
+
+const JSize kDefaultBufferSize = 10000;
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+Pipe<ACE_PEER_STREAM_2>::Pipe()
+	:
+	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>()
+{
+	PipeX();
+}
+
+template <ACE_PEER_STREAM_1>
+Pipe<ACE_PEER_STREAM_2>::Pipe
+	(
+	const ACE_HANDLE fd
+	)
+	:
+	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>()
+{
+	PipeX();
+
+	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>::set_handle(fd);
+	ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>::open(NULL);
+}
+
+// private
+
+template <ACE_PEER_STREAM_1>
+void
+Pipe<ACE_PEER_STREAM_2>::PipeX()
+{
+	itsBufferSize = kDefaultBufferSize;
+
+	itsBuffer = new JCharacter [ itsBufferSize ];
+	assert( itsBuffer != NULL );
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+Pipe<ACE_PEER_STREAM_2>::~Pipe()
+{
+	delete [] itsBuffer;
+}
+
+/******************************************************************************
+ Dump
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+void
+Pipe<ACE_PEER_STREAM_2>::Dump()
+{
+	cout << itsData;
+}
+
+/******************************************************************************
+ handle_input
+
+	This is called when we receive data.  It is also safe for anybody else
+	to call it.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+int
+Pipe<ACE_PEER_STREAM_2>::handle_input
+	(
+	ACE_HANDLE
+	)
+{
+	// read newly received data
+
+	const ssize_t count =
+		(ACE_Svc_Handler<ACE_PEER_STREAM_2,ACE_SYNCH>::peer()).recv(itsBuffer, itsBufferSize);
+	if (count > 0)
+		{
+		itsData.Append(itsBuffer, count);
+		cout << itsData.GetLength() << endl;
+//		cout.write(itsBuffer, count);
+//		cerr << '.';
+//		JWait(0.01);
+		}
+
+	return 0;
+}
+
+// If JTemplateType is defined, then user wants to instantiate
+// a template immediately.  The user cannot instantiate more than one
+// template per file with this method.  This should not be a problem.
+
+#if defined JTemplateType
+	#define JTemplateName Pipe
+	#include <instantiate_template.h>
+	#undef JTemplateName
+
+//	instantiated by JCore
+//	template class ACE_Svc_Handler<JTemplateType, ACE_SYNCH>;
+#endif
+
+#endif

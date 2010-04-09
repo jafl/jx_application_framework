@@ -1,5 +1,10 @@
 -suffix .cpp
 
+@echo
+${CODEDIR}/echo
+${CODEDIR}/util
+literal: ${LIB_DEPS}
+
 @client
 ${CODEDIR}/client
 ${CODEDIR}/util

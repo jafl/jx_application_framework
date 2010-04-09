@@ -367,7 +367,7 @@ JHTMLScanner::HandleLatinChar
 	JBoolean result = kJTrue;
 	if (yy_top_state() == 0)
 		{
-		JString charSet = "iso8859-" + JString(latinIndex, 0);
+		JString charSet = "iso8859-" + JString(latinIndex, JString::kBase10);
 		if (SwitchCharSet(charSet))
 			{
 			const JCharacter str[] = { c, '\0' };

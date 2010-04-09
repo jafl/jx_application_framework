@@ -1,12 +1,3 @@
-jcc:
-	occasional crash when tab to complete
-	replace all:  opened editors have all submenus of File menu disabled
-	shell window doesn't work on ubuntu
-
-network i/o:
-	is it like datagram, where I have to read it all?
-	test:  don't read, and see if it accumulates (use perl script with sleep)
-
 check/increment all version numbers and copyright dates
 check for version check and correct VERSION url
 update change log and version number and VERSION on web site
@@ -16,7 +7,6 @@ update deb repo
 	drakon
 	glove
 	leibnitz
-	ssh_askpass
 	systemg
 
 	code_crusader
@@ -29,6 +19,11 @@ update deb repo
 set up debian server and test between ubuntu VM and EeePC
 
 -----
+
+nm
+objdump
+readelf
+dwarfdump
 
 upgrade dashboard widgets to YUI 3
 
@@ -81,6 +76,11 @@ JBroadcaster:
 		multiple inheritance Receive needs to turn off dispatching for all but the last path to JBroadcaster
 
 jcc:
+	not closing unused run windows
+	shell window doesn't work on ubuntu
+
+	rare crash when tab to complete (tuomas.tonteri@benebit-networks.com)
+
 	git diff
 		http://yuilibrary.com/gitfaq/
 		http://www.eecs.harvard.edu/~cduan/technical/git/
@@ -100,6 +100,8 @@ medic:
 		modeless: update on ":Medic breakpoints changed:"
 		create/edit/delete
 		shows bkpt, watch, catch: need to update GDBGetBreakpoints
+		set watchpoints on items in Variables and Local Variables window
+		need to trap auto-deletion of watchpoints (going out of scope)
 
 	accept connection or switch to gdb:  should stop listening on port
 		need simple example to submit to ACE list
@@ -185,6 +187,9 @@ svn_client:
 		exec in target dir: svn checkout [-r rev] url
 			display output in SVNCommandLog
 		when finished, create/refresh Status tab
+
+	svn log:
+		kJForceNonblockingPipe doesn't fully solve the problem
 
 	Input field on every action tab
 		wrapper widget creates JXScrollbarSet and input field

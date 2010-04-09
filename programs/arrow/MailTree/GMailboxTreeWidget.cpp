@@ -1123,7 +1123,7 @@ GMailboxTreeWidget::HandleDNDDrop
 				JIndex number = 1;
 				while (JNameUsed(tempName))
 					{
-					tempName = mailfile + "Untitled" + JString(number, 0);
+					tempName = mailfile + "Untitled" + JString(number, JString::kBase10);
 					number++;
 					}
 				mailfile	= tempName;
@@ -2119,7 +2119,7 @@ GMailboxTreeWidget::GetNewName
 
 		while (JNameUsed(tempName))
 			{
-			tempName = dirName + "Untitled" + JString(number, 0);
+			tempName = dirName + "Untitled" + JString(number, JString::kBase10);
 			number++;
 			}
 

@@ -463,6 +463,10 @@ JExecute
 		kJAttachToFromFD    connect stderr to stdout
 		                    (only works for errAction)
 
+		kJForceNonblockingPipe	same as kJCreatePipe, but monitors and turns
+								off non-blocking mode
+								(only works for fromAction)
+
 	For kJAttachToFD, toFD has to be something that can be read from, and
 	fromFD and errFD have to be something that can be written to.
 
@@ -486,7 +490,7 @@ JExecute
 	pid_t*					childPID,
 	const JExecuteAction	toAction,
 	int*					toFD,
-	const JExecuteAction	fromAction,
+	const JExecuteAction	origFromAction,
 	int*					fromFD,
 	const JExecuteAction	errAction,
 	int*					errFD
@@ -495,8 +499,13 @@ JExecute
 	assert( size > sizeof(JCharacter*) );
 	assert( argv[ (size/sizeof(JCharacter*)) - 1 ] == NULL );
 
-	assert( toAction != kJTossOutput && toAction != kJAttachToFromFD );
+	const JExecuteAction fromAction =
+		(origFromAction == kJForceNonblockingPipe ? kJCreatePipe : origFromAction);
+
+	assert( toAction != kJTossOutput && toAction != kJAttachToFromFD &&
+			toAction != kJForceNonblockingPipe );
 	assert( fromAction != kJAttachToFromFD );
+	assert( errAction != kJForceNonblockingPipe );
 
 	assert( (toAction != kJCreatePipe && toAction != kJAttachToFD) ||
 			toFD != NULL );
@@ -654,6 +663,32 @@ JExecute
 
 	else
 		{
+		if (origFromAction == kJForceNonblockingPipe)
+			{
+			pid_t pid2;
+			const JError err2 = JThisProcess::Fork(&pid2);
+			if (err2.OK() && pid2 == 0)
+				{
+				for (int i=0; i<150; i++)
+					{
+					JWait(0.1);
+
+					int value = fcntl(fd[1][1], F_GETFL, 0);
+					if (value & O_NONBLOCK)
+						{
+						cerr << "turning off nonblocking for cout: " << value << endl;
+						fcntl(fd[1][1], F_SETFL, value & (~ O_NONBLOCK));
+						}
+					}
+
+				JThisProcess::Exit(0);
+				return JNoError();
+				}
+
+			JProcess* p = new JProcess(pid2);
+			p->KillAtExit(kJTrue);
+			}
+
 		if (toAction == kJCreatePipe)
 			{
 			close(fd[0][0]);

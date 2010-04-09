@@ -1129,7 +1129,7 @@ JIndex i;
 	for (i=1; i<=xCount; i++)
 		{
 		JString str("x");
-		str += JString(i,0);
+		str += JString(i, JString::kBase10);
 		itsMarkMenu->AppendItem(str);
 		}
 
@@ -1141,7 +1141,7 @@ JIndex i;
 	for (i=1; i<=yCount; i++)
 		{
 		JString str("y");
-		str += JString(i,0);
+		str += JString(i, JString::kBase10);
 		itsMarkMenu->AppendItem(str);
 		}
 }

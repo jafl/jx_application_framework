@@ -90,7 +90,7 @@ JXStringCompletionMenu::AddString
 		JString shortcut;
 		if (i <= 10)
 			{
-			shortcut = JString(i%10, 0);
+			shortcut = JString(i%10, JString::kBase10);
 			}
 		else if (i <= 36)
 			{

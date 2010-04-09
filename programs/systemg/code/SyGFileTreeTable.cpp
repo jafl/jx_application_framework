@@ -3739,12 +3739,19 @@ SyGFileTreeTable::HandleGitBranchMenu
 
 	else if (index == gitTotalBranchCount + kGitCommitAllCmdOffset)
 		{
-		itsCommitBranchDialog =
-			new JXGetStringDialog((GetWindow())->GetDirector(), JGetString("CreateBranchPrompt::SyGFileTreeTable"),
-								  JGetString("CommitBranchPrompt::SyGFileTreeTable"), "");
-		assert( itsCommitBranchDialog != NULL );
-		itsCommitBranchDialog->Activate();
-		ListenTo(itsCommitBranchDialog);
+		if (getenv("GIT_EDITOR") == NULL)
+			{
+			itsCommitBranchDialog =
+				new JXGetStringDialog((GetWindow())->GetDirector(), JGetString("CreateBranchPrompt::SyGFileTreeTable"),
+									  JGetString("CommitBranchPrompt::SyGFileTreeTable"), "");
+			assert( itsCommitBranchDialog != NULL );
+			itsCommitBranchDialog->Activate();
+			ListenTo(itsCommitBranchDialog);
+			}
+		else
+			{
+			CommitBranch(NULL);
+			}
 		}
 	else if (index == gitTotalBranchCount + kGitRevertAllCmdOffset)
 		{
@@ -3870,8 +3877,14 @@ SyGFileTreeTable::CommitBranch
 	)
 {
 	JSimpleProcess* p;
-	JString cmd      = "git commit -a -m ";
-	cmd             += JPrepArgForExec(msg);
+	JString cmd = "git commit -a";
+
+	if (!JStringEmpty(msg))
+		{
+		cmd += " -m ";
+		cmd += JPrepArgForExec(msg);
+		}
+
 	const JError err = JSimpleProcess::Create(&p, itsFileTree->GetDirectory(), cmd, kJFalse);
 	if (err.OK())
 		{

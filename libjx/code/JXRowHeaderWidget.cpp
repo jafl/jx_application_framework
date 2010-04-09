@@ -216,7 +216,7 @@ JXRowHeaderWidget::TableDrawCell
 		}
 	if (!hasTitle)
 		{
-		str = JString(cell.y, 0);
+		str = JString(cell.y, JString::kBase10);
 		}
 
 	p.SetFont(JGetDefaultFontName(), kFontSize,

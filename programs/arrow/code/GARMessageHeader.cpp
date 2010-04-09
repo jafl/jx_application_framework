@@ -117,7 +117,7 @@ GARMessageHeader::SetHeader
 		local_time = localtime(&now);
 		if (itsYear != (JIndex)(local_time->tm_year + 1900))
 			{
-			JString year	= JString(itsYear, 0);
+			JString year	= JString(itsYear, JString::kBase10);
 			itsShortDate += " " + year;
 			}
 
@@ -200,7 +200,7 @@ GARMessageHeader::SetDate
 	itsDate = date;
 	itsDate.TrimWhitespace();
 	JArray<JIndexRange> subList;
-	JString year	= JString(itsYear, 0);
+	JString year	= JString(itsYear, JString::kBase10);
 	JBoolean matched = monthRegex1.Match(itsDate, &subList);
 	if (matched)
 		{
@@ -223,7 +223,7 @@ GARMessageHeader::SetDate
 		local_time = localtime(&now);
 		if (itsYear != (JIndex)(local_time->tm_year + 1900))
 			{
-			JString year	= JString(itsYear, 0);
+			JString year	= JString(itsYear, JString::kBase10);
 			itsShortDate += " " + year;
 			}
 
@@ -251,7 +251,7 @@ GARMessageHeader::SetDate
 		local_time = localtime(&now);
 		if (itsYear != (JIndex)(local_time->tm_year + 1900))
 			{
-			JString year	= JString(itsYear, 0);
+			JString year	= JString(itsYear, JString::kBase10);
 			itsShortDate += " " + year;
 			}
 		return;

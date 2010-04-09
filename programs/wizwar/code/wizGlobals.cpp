@@ -133,7 +133,7 @@ WizGetVersionNumberStr()
 JString
 WizGetVersionStr()
 {
-	const JString protVers = JString(kWWCurrentProtocolVersion, 0);
+	const JString protVers = JString(kWWCurrentProtocolVersion, JString::kBase10);
 	const JCharacter* map[] =
 		{
 		"version",          JGetString("VERSION"),

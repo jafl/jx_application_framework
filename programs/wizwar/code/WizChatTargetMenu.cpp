@@ -107,7 +107,7 @@ WizChatTargetMenu::Receive
 			dynamic_cast(const Wiz2War::PlayerLeft*, &message);
 		assert( info != NULL );
 		DisableItem(info->GetIndex()+1);
-		const JString text = kEmptySlotPrefix + JString(info->GetIndex(), 0);
+		const JString text = kEmptySlotPrefix + JString(info->GetIndex(), JString::kBase10);
 		SetItemText(info->GetIndex()+1, text);
 		}
 
@@ -146,7 +146,7 @@ WizChatTargetMenu::InitMenu
 	JString indexStr, text, nmShortcut;
 	for (JIndex i=1; i<=count; i++)
 		{
-		indexStr = JString(i, 0);
+		indexStr = JString(i, JString::kBase10);
 		text     = kEmptySlotPrefix + indexStr;
 		AppendItem(text);
 		if (i <= 9)

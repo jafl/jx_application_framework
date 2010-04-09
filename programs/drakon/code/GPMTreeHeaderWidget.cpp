@@ -85,7 +85,7 @@ GPMTreeHeaderWidget::TableDrawCell
 	JString str;
 	if (!GetColTitle(cell.x, &str))
 		{
-		str = JString(cell.x, 0);
+		str = JString(cell.x, JString::kBase10);
 		}
 
 	JSize underLines = 0;

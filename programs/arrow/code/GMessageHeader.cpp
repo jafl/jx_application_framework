@@ -132,7 +132,7 @@ GMessageHeader::SetHeader
 		local_time = localtime(&now);
 		if (itsYear != (JIndex)(local_time->tm_year + 1900))
 			{
-			JString year	= JString(itsYear, 0);
+			JString year	= JString(itsYear, JString::kBase10);
 			itsShortDate += " " + year;
 			}
 
@@ -306,14 +306,14 @@ GMessageHeader::SetDate
 	local_time = localtime(&now);
 	if (itsYear != (JIndex)(local_time->tm_year + 1900))
 		{
-		JString year	= JString(itsYear, 0);
+		JString year	= JString(itsYear, JString::kBase10);
 		itsShortDate += " " + year;
 		}
 
 	return;			
 	
 /*	JArray<JIndexRange> subList;
-	JString year	= JString(itsYear, 0);
+	JString year	= JString(itsYear, JString::kBase10);
 	JBoolean matched = monthRegex1.Match(itsDate, &subList);
 	if (matched)
 		{
@@ -336,7 +336,7 @@ GMessageHeader::SetDate
 		local_time = localtime(&now);
 		if (itsYear != (JIndex)(local_time->tm_year + 1900))
 			{
-			JString year	= JString(itsYear, 0);
+			JString year	= JString(itsYear, JString::kBase10);
 			itsShortDate += " " + year;
 			}
 
@@ -364,7 +364,7 @@ GMessageHeader::SetDate
 		local_time = localtime(&now);
 		if (itsYear != (JIndex)(local_time->tm_year + 1900))
 			{
-			JString year	= JString(itsYear, 0);
+			JString year	= JString(itsYear, JString::kBase10);
 			itsShortDate += " " + year;
 			}
 		return;

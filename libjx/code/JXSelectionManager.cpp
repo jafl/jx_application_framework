@@ -96,7 +96,7 @@ JXSelectionManager::JXSelectionManager
 	if (JXGetLatinCharacterSetIndex(&charSetIndex) && charSetIndex != 1)
 		{
 		mimePlainTextXAtomName += ";charset=iso8859-";
-		mimePlainTextXAtomName += JString(charSetIndex, 0);
+		mimePlainTextXAtomName += JString(charSetIndex, JString::kBase10);
 		}
 
 	const JCharacter* atomNames[ JXSelectionManager::kAtomCount ];

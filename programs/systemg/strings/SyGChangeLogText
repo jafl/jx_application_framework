@@ -20,7 +20,7 @@ Finally added context menu.
 <p>
 If directory is managed by Subversion or Git, attempts to use that when moving, renaming, and deleting files.
 <p>
-If the directory is managed by Git, the Branch menu displays the list of available branches and lets you switch between then.
+If the directory is managed by Git, the Branch menu displays the list of available branches, lets you switch between them, and provides other common functions.
 <p>
 If you hold down the Meta key while selecting an item from the \"Open recent\" menu, it will treat it like \"Alternate open\".
 <p>

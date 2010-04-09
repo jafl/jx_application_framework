@@ -86,7 +86,7 @@
 #		                       deallocated block.  This information will overwrite
 #		                       the JMM garbage values at those locations, so
 #		                       don't expect the first few bytes to have the
-#		                       JMM_Shred value.
+#		                       JMM_SHRED value.
 
 #		                       Generally, you'll want to use different initialize
 #		                       and shred values so you can look at a piece of
@@ -152,6 +152,9 @@
 #		                       JMemoryManager's messages are already off by default
 #		                       and if you turn them on you likely want to print error
 #		                       messages).
+
+#		MALLOC_CHECK_          Setting this environment variable turns on checking
+#		                       in libc.  1 => print error  2 => abort
 
 	(JMM_NO_PRINT_ERRORS is actually read in the JMMErrorPrinter proxy object.)
 
