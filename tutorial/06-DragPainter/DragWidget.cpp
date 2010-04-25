@@ -218,14 +218,11 @@ DragWidget::HandleMouseUp
 	const JXKeyModifiers&	modifiers
 	)
 {
-	// Get the drag painter that we created in mouse down
 	JPainter* p = NULL;
-	const JBoolean ok = GetDragPainter(&p);
-	assert( ok );
-	
+
 	// Make sure that the left button is pressed, 
 	// and that a drag painter exists
-	if (button == kJXLeftButton && p != NULL)	// p is NULL for multiple click
+	if (button == kJXLeftButton && GetDragPainter(&p))
 		{
 		// Erase the last line that was drawn
 		p->Line(itsStartPt, itsPrevPt);

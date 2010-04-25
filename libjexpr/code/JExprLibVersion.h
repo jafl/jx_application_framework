@@ -14,11 +14,11 @@
 
 #define CURRENT_JEXPR_MAJOR_VERSION	1
 #define CURRENT_JEXPR_MINOR_VERSION	1
-#define CURRENT_JEXPR_PATCH_VERSION	10
+#define CURRENT_JEXPR_PATCH_VERSION	11
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJExprLibVersionStr = "1.1.10";
+static const char* kCurrentJExprLibVersionStr = "1.1.11";
 
 // version 1.1.9:
 //	Renamed from JParser to JExpr.

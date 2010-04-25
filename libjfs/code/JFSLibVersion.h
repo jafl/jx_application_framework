@@ -14,11 +14,11 @@
 
 #define CURRENT_JFS_MAJOR_VERSION	1
 #define CURRENT_JFS_MINOR_VERSION	1
-#define CURRENT_JFS_PATCH_VERSION	2
+#define CURRENT_JFS_PATCH_VERSION	3
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJFSLibVersionStr = "1.1.2";
+static const char* kCurrentJFSLibVersionStr = "1.1.3";
 
 // version 1.1.2:
 //	*** All egcs thunks hacks have been removed.

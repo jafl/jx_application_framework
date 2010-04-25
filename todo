@@ -1,5 +1,5 @@
-release
-set up debian server and test between ubuntu VM and EeePC
+medic tarball must include ctags
+if add ctags to medic install, does medic deb conflict with jcc deb?
 
 -----
 
@@ -8,26 +8,8 @@ objdump
 readelf
 dwarfdump
 
-upgrade dashboard widgets to YUI 3
-
-network i/o
-	run ACE Reactor in separate thread
-	fix jcore Svc_Handlers to span threads:
-		use ace threads?
-			If turn on, does ACE force many threads?
-			search for mutex:  short circuit inside class or around uses of it?
-		ace thread appends to queue and sets data-ready flag
-		ui thread checks data-ready flag and broadcasts data from queue
-		use write lock to push/pull queue and update flag
-
-	svn_client:
-	loses data while reading a large log response
-
-	medic:
-	cout, cerr output sometimes gets truncated in the console window.
-	Maybe 20 characters or so print (it seems to vary) and 'endl's are
-	dropped as well so lines run together.  It doesn't always happen, lines
-	less than 60 or so characters seem to print ok.
+systemg:
+	don't block while deleting files
 
 store window placement info on root window, so only first app has to jiggle
 OSX: detect that hide/show shifts window down
@@ -64,6 +46,9 @@ jcc:
 
 	rare crash when tab to complete (tuomas.tonteri@benebit-networks.com)
 
+	clean whitespace should not change alignment
+	new "clean indentation" for forcing alignment
+
 	git diff
 		http://yuilibrary.com/gitfaq/
 		http://www.eecs.harvard.edu/~cduan/technical/git/
@@ -79,6 +64,8 @@ jcc:
 	lua for embedding a language in jcc?
 
 medic:
+	gdb mode refreshes stack trace twice for every step?
+
 	breakpoint window
 		modeless: update on ":Medic breakpoints changed:"
 		create/edit/delete

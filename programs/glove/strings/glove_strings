@@ -1,15 +1,15 @@
 0
 
-VERSION		"2.0"
+VERSION		"2.0.1"
 
 COPYRIGHT
-"Copyright © 1996-2006 Glenn Bach.  All rights reserved.
+"Copyright © 1996-2010 Glenn Bach.  All rights reserved.
 
 Glove is a trademark of Glenn Bach.  New Planet Software is a trademark of John Lindal.
 
 http://www.newplanetsoftware.com/glove/"
 
-VERSION_URL		"http://www.newplanetsoftware.com/glove/VERSION"
+VERSION_URL		"http://newplanetsoftware.com/glove/VERSION"
 DOWNLOAD_URL	"http://newplanetsoftware.com/nps/downloads.php"
 
 GLCommandLineHelp

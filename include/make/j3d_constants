@@ -4,8 +4,8 @@
 # version numbers
 #
 
-J3D_VERSION     := 0.2.0
-J3D_LIB_VERSION := 0_2_0
+J3D_VERSION     := 0.2.1
+J3D_LIB_VERSION := 0_2_1
 
 #
 # library names

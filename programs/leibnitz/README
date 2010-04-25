@@ -1,18 +1,20 @@
 
 Installing Leibnitz:
 
-The program (leibnitz) should be placed in a directory that is on your
-execution path.  /usr/bin or ~/bin are usually good choices.
+The easiest way to install is to run:  sudo ./install
 
-The libraries in lib/ should be placed in a directory on your
-LD_LIBRARY_PATH.  You should not place them in /lib or /usr/lib because
-they may overwrite your system libraries.
+Otherwise, the program (leibnitz) should be placed in a directory that is
+on your execution path.  /usr/bin or ~/bin are usually good choices.  Copy
+the libraries in lib/ to a directory on your LD_LIBRARY_PATH.
 
 
 Running Leibnitz:
 
 If Leibnitz crashes or if you find other bugs, please check the web page to
 see if they have already been reported.
+
+On OS X, this program requires XQuartz, the X11 server.  Before running
+this program, you must first start XQuartz.
 
 
 Notes on Leibnitz:

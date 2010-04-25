@@ -3,7 +3,7 @@
 
 	Defines current version of J3D library
 
-	Copyright © 1998 by John Lindal. All rights reserved.
+	Copyright © 1998-2010 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -14,11 +14,14 @@
 
 #define CURRENT_J3D_MAJOR_VERSION	0
 #define CURRENT_J3D_MINOR_VERSION	2
-#define CURRENT_J3D_PATCH_VERSION	0
+#define CURRENT_J3D_PATCH_VERSION	1
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJ3DLibVersionStr = "0.2.0";
+static const char* kCurrentJ3DLibVersionStr = "0.2.1";
+
+// 0.2.1
+//	Updated to work with Mesa 7.1
 
 // 0.2.0
 //	Updated to work with Mesa 6.2

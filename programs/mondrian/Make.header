@@ -145,13 +145,8 @@ RPM_SPEC_FILE := ./pkg/${PROG_NAME}.spec
 DEB_CTRL_FILE := ./pkg/mondrian.debctrl
 DEB_PKG_FILE  := mondrian_${PROG_VERSION}_i386.deb
 
-.PHONY : release_shared
-release_shared: pre_build_pkgs libs
-	@${RM} ${PROG_NAME}; ${MAKE} ${PROG_NAME}; strip ${call EXE, ${PROG_NAME}}
-	@${MAKE} PROG_DISTR_TAR_FILE=${PROG_SHARED_TAR_NAME} distr_sub
-
-.PHONY : release_static
-release_static: pre_build_pkgs static
+.PHONY : release
+release: pre_build_pkgs static
 	@${MAKE} PROG_DISTR_TAR_FILE=${PROG_SHARED_TAR_NAME} distr_sub
 
 # distr_sub (PROG_DISTR_TAR_FILE)

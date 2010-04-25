@@ -13,7 +13,7 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
-<h3>1.1.0</h3>
+<h3>1.1</h3>
 
 Added incremental search to List view.
 <p>
@@ -25,6 +25,6 @@ Mouse wheel now scrolls smaller increments on OS X.
 <p>
 Added support for horizontal scrolling.  This is especially useful on Macintosh trackpads that support gestures.
 
-<h3>1.0.0</h3>
+<h3>1.0</h3>
 
 Initial release."

@@ -1,14 +1,21 @@
 
 Installing nps-ssh-askpass:
 
-The program (nps-ssh-askpass) should be placed in a directory that is on
-your execution path.  /usr/bin or ~/bin are usually good choices.
+The easiest way to install is to run:  sudo ./install
+
+Otherwise, the program (nps-ssh-askpass) should be placed in a directory
+that is on your execution path.  /usr/bin or ~/bin are usually good
+choices.  Copy the libraries in lib/ to a directory on your
+LD_LIBRARY_PATH.
 
 
 Running nps-ssh-askpass:
 
 If you find bugs, please check the web page to see if they have already
 been reported.
+
+On OS X, this program requires XQuartz, the X11 server.  Before running
+this program, you must first start XQuartz.
 
 
 Notes on nps-ssh-askpass:

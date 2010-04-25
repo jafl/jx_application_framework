@@ -1,4 +1,4 @@
-%define arrow_version 2.0.1
+%define arrow_version 2.0.2
 
 Summary: A mail reading program for the X Window System.
 Name: Arrow

@@ -17,16 +17,14 @@
 #include <JXScrollableWidget.h>
 #include <JPtrArray.h>
 
-class UndoLine;
-class RedoLine;
 class JUndo;
 
 class UndoWidget : public JXScrollableWidget
 {
 public:
 
-	friend UndoLine;
-	friend RedoLine;
+	friend class UndoLine;
+	friend class RedoLine;
 
 public:
 

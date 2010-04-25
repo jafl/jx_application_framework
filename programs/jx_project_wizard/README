@@ -10,6 +10,9 @@ Running jx_project_wizard:
 If you find bugs, please check the web page to see if they have already
 been reported.
 
+On OS X, this program requires XQuartz, the X11 server.  Before running
+this program, you must first start XQuartz.
+
 
 Notes on jx_project_wizard:
 

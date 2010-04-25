@@ -152,13 +152,8 @@ RPM_SPEC_FILE := ./pkg/systemg.spec
 DEB_CTRL_FILE := ./pkg/systemg.debctrl
 DEB_PKG_FILE  := systemg_${SYSTEMG_VERSION}_i386.deb
 
-.PHONY : release_shared
-release_shared: pre_build_pkgs libs
-	@${RM} systemg; ${MAKE} systemg; strip ${call EXE, systemg}
-	@${MAKE} SYG_DISTR_TAR_FILE=${SYG_RELEASE_TAR_NAME} distr_sub
-
-.PHONY : release_static
-release_static: pre_build_pkgs static
+.PHONY : release
+release: pre_build_pkgs static
 	@${MAKE} SYG_DISTR_TAR_FILE=${SYG_RELEASE_TAR_NAME} distr_sub
 
 # distr_sub (SYG_DISTR_TAR_FILE)

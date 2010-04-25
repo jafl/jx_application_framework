@@ -68,8 +68,8 @@ install2:
 # build all libraries
 #
 
-.PHONY : alllib
-alllib:
+.PHONY : lib
+lib:
 	@${foreach dir, ${wildcard ../lib?*/.}, \
        ${BEGIN_DIR}; makemake; ${MAKE} default; ${END_DIR};}
 
@@ -77,8 +77,8 @@ alllib:
 # build all test suites
 #
 
-.PHONY : alltest
-alltest:
+.PHONY : test
+test:
 	@${foreach dir, \
           ${wildcard ../lib?*/test/.} \
           ../ACE/test/ ../tutorial/, \
@@ -90,8 +90,8 @@ alltest:
 
 PERSONAL_PROGS := code_crusader code_medic code_mill systemg leibnitz arrow
 
-.PHONY : allpersonal
-allpersonal: Makefiles
+.PHONY : personal
+personal:
 	@${foreach dir, \
           ${addprefix ../programs/, ${PERSONAL_PROGS}}, \
        ${BEGIN_DIR}; ${MAKE} personal; ${END_DIR};}
@@ -134,15 +134,15 @@ jxsource:
                             ${shell grep -l /usr/bin/perl util/*}} } }}; \
      gzip ${SRC_TAR_FILE}
 
-.PHONY : alllibsource
-alllibsource: Makefiles jxsource
+.PHONY : libsource
+libsource: jxsource
 	@${foreach dir, \
           ${filter-out ${JX_CORE_LIBS} ${DISTR_PROGS}, \
             ${wildcard ../lib?*/.}}, \
        ${BEGIN_DIR}; ${MAKE} source; ${END_DIR};}
 
-.PHONY : allsource
-allsource: Makefiles jxsource
+.PHONY : source
+source: jxsource
 	@${foreach dir, \
           ${filter-out ${JX_CORE_LIBS} ${DISTR_PROGS} %/CVS/., \
             ${wildcard ../lib?*/. ../programs/*/.}}, \
@@ -158,16 +158,11 @@ RELEASE_PROGS := ${addprefix ../programs/, \
                    code_crusader code_medic code_mill svn_client \
                    arrow drakon glove leibnitz ssh_askpass systemg }
 
-.PHONY : all_release
-all_release:
+.PHONY : release
+release:
 	@if ! test -e ../ACE/ACE_wrappers/${ACE_VERSION}; then echo 'Wrong ACE version!'; false; fi
 	@${foreach dir, ${RELEASE_PROGS}, \
-       ${BEGIN_DIR}; ${MAKE} release_static; ${END_DIR}; }
-
-.PHONY : all_rpm
-all_rpm:
-	@${foreach dir, ${RELEASE_PROGS}, \
-       ${BEGIN_DIR}; ${MAKE} release_rpm; ${END_DIR}; }
+       ${BEGIN_DIR}; ${MAKE} release; ${END_DIR}; }
 
 #
 # Demo
@@ -176,30 +171,18 @@ all_rpm:
 DEMO_PROGS := ${addprefix ../programs/, \
                 code_crusader}
 
-.PHONY : all_demo
-all_demo:
+.PHONY : demo
+demo:
 	@${foreach dir, ${DEMO_PROGS}, \
        ${BEGIN_DIR}; ${MAKE} demo; ${END_DIR}; }
 
-.PHONY : all_demo_rpm
-all_demo_rpm:
-	@${foreach dir, ${DEMO_PROGS}, \
-       ${BEGIN_DIR}; ${MAKE} demo_rpm; ${END_DIR}; }
-
 DEMO_LIMIT_PROGS := ${addprefix ../programs/, \
-                      code_crusader code_medic}
+                      code_crusader code_medic svn_client}
 
-.PHONY : all_demo_limit
-all_demo_limit:
+.PHONY : demo_limit
+demo_limit:
 	@${foreach dir, ${DEMO_LIMIT_PROGS}, \
        ${BEGIN_DIR}; ${MAKE} demo_limit; ${END_DIR}; }
-#	@${foreach dir, ../programs/glove, \
-#       ${BEGIN_DIR}; ${MAKE} beta_limit; ${END_DIR}; }
-
-.PHONY : all_demo_limit_rpm
-all_demo_limit_rpm:
-	@${foreach dir, ${DEMO_LIMIT_PROGS}, \
-       ${BEGIN_DIR}; ${MAKE} demo_limit_rpm; ${END_DIR}; }
 
 #
 # clean up

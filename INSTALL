@@ -14,7 +14,13 @@ On Ubuntu, you need to install development packages:
 
 	sudo apt-get install g++ flex bison \
 		libX11-dev libXinerama-dev libXpm-dev \
+		libxmu-dev libxi-dev \
 		libxml2-dev libjpeg-dev libpng-dev
+
+After unpacking Mesa-7.5.2:
+
+	ln -s ../../src/mesa/drivers/x11/xmesa.h include/GL
+	ln -s ../../src/mesa/drivers/x11/xmesa_x.h include/GL
 
 On OS X, it helps to install GNU coreutils.
 

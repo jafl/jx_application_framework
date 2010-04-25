@@ -2,7 +2,7 @@
 
 # main
 
-VERSION		"2.0 beta 1"
+VERSION		"2.0"
 COPYRIGHT
 "Copyright © 1998-2010 John Lindal.  All rights reserved.
 
@@ -10,7 +10,7 @@ Leibnitz and New Planet Software are trademarks of John Lindal.
 
 http://www.newplanetsoftware.com/leibnitz/"
 
-VERSION_URL		"http://www.newplanetsoftware.com/leibnitz/VERSION"
+VERSION_URL		"http://newplanetsoftware.com/leibnitz/VERSION"
 DOWNLOAD_URL	"http://newplanetsoftware.com/nps/downloads.php"
 
 # thxGlobals

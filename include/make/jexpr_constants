@@ -4,8 +4,8 @@
 # version numbers
 #
 
-JEXPR_VERSION     := 1.1.10
-JEXPR_LIB_VERSION := 1_1_10
+JEXPR_VERSION     := 1.1.11
+JEXPR_LIB_VERSION := 1_1_11
 
 #
 # library names

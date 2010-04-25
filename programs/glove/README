@@ -1,14 +1,20 @@
 
 Installing Glove:
 
-The program (glove) needs to be placed in a directory that is on your
-execution path.  /usr/bin or ~/bin are usually good choices.
+The easiest way to install is to run:  sudo ./install
+
+Otherwise, the program (glove) needs to be placed in a directory that is on
+your execution path.  /usr/bin or ~/bin are usually good choices.  Copy the
+libraries in lib/ to a directory on your LD_LIBRARY_PATH.
 
 
 Running Glove:
 
 If Glove crashes or if you find other bugs, please check the web
 page first to see if they have already been reported.
+
+On OS X, this program requires XQuartz, the X11 server.  Before running
+this program, you must first start XQuartz.
 
 
 Notes on Glove:

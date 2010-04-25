@@ -1,8 +1,8 @@
 0
 
-VERSION		"2.0.1"
+VERSION		"2.0.2"
 COPYRIGHT
-"Copyright © 2001-2006 Glenn Bach.  All rights reserved.
+"Copyright © 2001-2010 Glenn Bach.  All rights reserved.
 
 This software is subject to the license agreement set forth in the license (refer to the on-line help).
 
@@ -10,7 +10,7 @@ New Planet Software is a trademark of John Lindal.
 
 http://www.newplanetsoftware.com/"
 
-VERSION_URL		"http://www.newplanetsoftware.com/arrow/VERSION"
+VERSION_URL		"http://newplanetsoftware.com/arrow/VERSION"
 DOWNLOAD_URL	"http://newplanetsoftware.com/nps/downloads.php"
 
 # gmGlobals

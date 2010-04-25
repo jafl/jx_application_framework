@@ -97,13 +97,8 @@ ifdef J_BUILD_SHARED_LIB
   J_GCC_LIBS += -Xlinker -R${shell cd ${JX_ROOT}/lib; pwd}
 endif
 
-J_SYS_LIBS :=  ${J_ACE_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
-J_STD_LIBS := -L${JX_ROOT}/lib ${ljx} ${ljcore} ${J_SYS_LIBS}
-
 # We add libpng and libjpeg to J_STD_LIBS to satisfy the shared library linker.
-# We don't include them in J_GCC_LIBS because the static linker will only include
-# them if the program calls them.
-
+# We don't include them in J_GCC_LIBS because we don't want to bloat static binaries.
 
 ifdef J_HAS_JPEG
   J_IMG_LIBS := -lpng -ljpeg
@@ -111,12 +106,11 @@ else
   J_IMG_LIBS := -lpng
 endif
 
-ifdef J_BUILD_SHARED_LIB
-  J_STD_LIBS := ${J_IMG_LIBS} ${J_STD_LIBS}
-endif
+J_SYS_LIBS :=  ${J_ACE_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
+J_STD_LIBS := -L${JX_ROOT}/lib ${ljx} ${ljcore} ${J_IMG_LIBS} ${J_SYS_LIBS}
 
 #
-# strip commands -- no spaces allowed!
+# strip commands -- no spaces allowed
 #
 
 ifdef J_CYGWIN

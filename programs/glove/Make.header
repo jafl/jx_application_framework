@@ -27,7 +27,7 @@ SEARCHDIRS := -I${CODEDIR} \
 
 # other constants
 
-GLOVE_VERSION     := 2.0.0
+GLOVE_VERSION     := 2.0.1
 SIGNATURE         := glove
 PROG_STRING_FILES := ${filter-out %/glove_menu_strings, \
                        ${shell echo strings/*}}
@@ -154,13 +154,8 @@ RPM_SPEC_FILE := ./pkg/glove.spec
 DEB_CTRL_FILE := ./pkg/glove.debctrl
 DEB_PKG_FILE  := glove_${GLOVE_VERSION}_i386.deb
 
-.PHONY : release_shared
-release: pre_build_pkgs libs
-	@${RM} glove; ${MAKE} glove; strip ${call EXE, glove}
-	@${MAKE} GLOVE_DISTR_TAR_FILE=${GLOVE_RELEASE_TAR_NAME} distr_sub
-
-.PHONY : release_static
-release_static: pre_build_pkgs static
+.PHONY : release
+release: pre_build_pkgs static
 	@${MAKE} GLOVE_DISTR_TAR_FILE=${GLOVE_RELEASE_TAR_NAME} distr_sub
 
 # distr_sub (GLOVE_DISTR_TAR_FILE)

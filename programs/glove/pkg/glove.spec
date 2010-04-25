@@ -1,4 +1,4 @@
-%define glove_version 2.0.0
+%define glove_version 2.0.1
 
 Summary: Data acquisition, manipulation, and analysis program for X.
 Name: Glove

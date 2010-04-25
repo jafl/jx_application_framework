@@ -12,7 +12,7 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
-<h3> 2.3.0 </h3>
+<h3> 2.3 </h3>
 
 Added \"Find...\" option on File menu.
 <p>
@@ -42,7 +42,7 @@ Mouse wheel now scrolls smaller increments on OS X.
 <p>
 Added support for horizontal scrolling.  This is especially useful on Macintosh trackpads that support gestures.
 
-<h3> 2.2.0 </h3>
+<h3> 2.2 </h3>
 
 Added \"Open recent\" menu.
 <p>
