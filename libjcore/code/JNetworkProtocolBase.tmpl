@@ -24,11 +24,6 @@
 #include <jErrno.h>
 #include <jAssert.h>
 
-// not in any accessible RedHat 6.0 header files!
-#ifndef MSG_DONTWAIT
-#define MSG_DONTWAIT	0x40	/* Nonblocking io */
-#endif
-
 #ifdef IP_MAXPACKET
 const JSize kDefaultBlockSize = IP_MAXPACKET;	// bytes
 #else

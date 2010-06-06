@@ -42,7 +42,7 @@ endif
 #####
 
 LIB_NAME_ROOT := libjcore-${JX_LIB_VERSION}
-OTHER_DEPS    := gd
+OTHER_DEPS    := regex gd
 
 include ${JX_ROOT}/include/make/default_lib_target
 

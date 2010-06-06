@@ -1,16 +1,3 @@
-medic tarball must include ctags
-if add ctags to medic install, does medic deb conflict with jcc deb?
-
------
-
-nm
-objdump
-readelf
-dwarfdump
-
-systemg:
-	don't block while deleting files
-
 store window placement info on root window, so only first app has to jiggle
 OSX: detect that hide/show shifts window down
 
@@ -23,6 +10,37 @@ OSX: detect that hide/show shifts window down
 		save all data on root window (JXWindowManagerBehavior) for next time
 			if not there, ask user if ok to test (reply: yes, no, never)
 
+jcc:
+	git diff
+		http://yuilibrary.com/gitfaq/
+		http://www.eecs.harvard.edu/~cduan/technical/git/
+
+medic:
+	breakpoint window
+		modeless: update on ":Medic breakpoints changed:"
+		create/edit/delete
+		shows bkpt, watch, catch: need to update GDBGetBreakpoints
+		set watchpoints on items in Variables and Local Variables window
+		need to trap auto-deletion of watchpoints (going out of scope)
+		sort by any column
+
+	java
+		thread list
+			convert to tree
+			listen for thread start/death to update tree
+		display stack trace for selected thread
+
+systemg:
+	don't block while deleting files
+	test that U10 notices update to NPS deb repo
+
+-----
+
+nm
+objdump
+readelf
+dwarfdump
+
 Docking
 	possible to select first tab in each pane after program starts?
 
@@ -34,24 +52,11 @@ Docking
 	When min page size increases in dock, adjust panes so divider visible
 		(test:  move tab group tabs from side to top)
 
-JBroadcaster:
-	register handler for message:  function which takes obj, msg type, function pointer
-		pass in friend function that takes obj, sender, msg
-		dynamic_cast obj to correct type and do whatever
-		multiple inheritance Receive needs to turn off dispatching for all but the last path to JBroadcaster
-
 jcc:
-	not closing unused run windows
 	shell window doesn't work on ubuntu
-
-	rare crash when tab to complete (tuomas.tonteri@benebit-networks.com)
 
 	clean whitespace should not change alignment
 	new "clean indentation" for forcing alignment
-
-	git diff
-		http://yuilibrary.com/gitfaq/
-		http://www.eecs.harvard.edu/~cduan/technical/git/
 
 	if modified separately in memory and on disk, offer to show diff
 		if window closed, deactivate "Redo diff" button
@@ -61,18 +66,14 @@ jcc:
 	CBProjectTable AddDirectoryTree & AddFiles:
 		treelist should stop listening to tree until done adding
 
+	support D
+		http://en.wikipedia.org/wiki/D_(programming_language)
+		http://www.digitalmars.com/d/download.html
+		http://digitalmars.com/d/archives/digitalmars/D/Exuberant_Ctags_Support_for_D_51878.html
+
 	lua for embedding a language in jcc?
 
 medic:
-	gdb mode refreshes stack trace twice for every step?
-
-	breakpoint window
-		modeless: update on ":Medic breakpoints changed:"
-		create/edit/delete
-		shows bkpt, watch, catch: need to update GDBGetBreakpoints
-		set watchpoints on items in Variables and Local Variables window
-		need to trap auto-deletion of watchpoints (going out of scope)
-
 	accept connection or switch to gdb:  should stop listening on port
 		need simple example to submit to ACE list
 	restart either xdebug or java:  unable to listen on port & crashes on exit
@@ -107,9 +108,6 @@ medic:
 		source-jar unzips to /tmp
 			display stderr from zip in cmd line window
 			delete /tmp directories when delete link or open different program
-		thread list
-			convert to tree
-			listen for thread start/death to update tree
 		start JVM
 			JVMDisplaySourceForMain
 				get Methods for main-class, find "main", get LineTable, get first line number, scroll to that
@@ -166,8 +164,17 @@ svn_client:
 		when set process + fd, show input
 		when process finished, hide input
 
+JBroadcaster:
+	register handler for message:  function which takes obj, msg type, function pointer
+		pass in friend function that takes obj, sender, msg
+		dynamic_cast obj to correct type and do whatever
+		multiple inheritance Receive needs to turn off dispatching for all but the last path to JBroadcaster
+
 JXMenu::PrepareToOpenMenu()
 	itsOwner may delete us!
+
+Support D-Bus
+	http://www.freedesktop.org/wiki/Software/dbus
 
 -----
 

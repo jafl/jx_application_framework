@@ -128,7 +128,7 @@ JVersionSocket<ACE_PEER_STREAM_2>::handle_input
 	ACE_HANDLE
 	)
 {
-	const JSize kBufferSize = 10000;
+	const JSize kBufferSize = 65536;
 	char buffer[ kBufferSize ];
 
 	const ssize_t count = ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer().recv(buffer, kBufferSize, &ACE_Time_Value::zero);

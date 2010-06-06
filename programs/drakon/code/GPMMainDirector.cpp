@@ -202,6 +202,7 @@ GPMMainDirector::BuildWindow()
 
 	window->SetTitle("Drakon Process Manager");
 	window->SetCloseAction(JXWindow::kQuitApp);
+	window->SetWMClass(GPMGetWMClassInstance(), GPMGetMainWindowClass());
 
 	JXImage* image = new JXImage(GetDisplay(), GetColormap(), gpm_main_window_icon);
 	assert( image != NULL );

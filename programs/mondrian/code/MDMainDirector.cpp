@@ -149,7 +149,8 @@ MDMainDirector::BuildWindow()
 
 // end JXLayout
 
-	window->SetTitle("Program");
+	window->SetTitle("Mondrian");
+	window->SetWMClass(MDGetWMClassInstance(), MDGetMainWindowClass());
 
 	JXImage* image = new JXImage(GetDisplay(), GetColormap(), md_main_window_icon);
 	assert( image != NULL );

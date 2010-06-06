@@ -155,3 +155,20 @@ JString
 		};
 	return JGetString(kDescriptionID, map, sizeof(map));
 }
+
+/******************************************************************************
+ <PRE>GetWMClassInstance
+
+ ******************************************************************************/
+
+const JCharacter*
+<PRE>GetWMClassInstance()
+{
+	return "<Binary>";
+}
+
+const JCharacter*
+<PRE>GetMainWindowClass()
+{
+	return "<Binary>_Main_Window";
+}

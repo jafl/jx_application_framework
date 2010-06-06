@@ -35,4 +35,9 @@ JBoolean	<PRE>CreateGlobals(<PRE>App* app);
 void		<PRE>DeleteGlobals();
 void		<PRE>CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 
+	// called by Directors
+
+const JCharacter*	<PRE>GetWMClassInstance();
+const JCharacter*	<PRE>GetMainWindowClass();
+
 #endif

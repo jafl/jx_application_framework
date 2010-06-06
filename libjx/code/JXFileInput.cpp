@@ -26,15 +26,6 @@
 static const JCharacter* kFontName = "6x13";
 const JSize kFontSize              = 12;
 
-// string ID's
-
-static const JCharacter* kHintID         = "Hint::JXFileInput";
-static const JCharacter* kNoRelPathID    = "NoRelPath::JXFileInput";
-static const JCharacter* kDoesNotExistID = "DoesNotExist::JXFileInput";
-static const JCharacter* kUnreadableID   = "Unreadable::JXFileInput";
-static const JCharacter* kUnwritableID   = "Unwritable::JXFileInput";
-static const JCharacter* kCannotExecID   = "CannotExec::JXFileInput";
-
 /******************************************************************************
  Constructor
 
@@ -64,7 +55,7 @@ JXFileInput::JXFileInput
 	SetCharacterInWordFunction(IsCharacterInWord);
 	SetDefaultFontName(kFontName);
 	ShouldBroadcastCaretLocationChanged(kJTrue);
-	SetHint(JGetString(kHintID));
+	SetHint(JGetString("Hint::JXFileInput"));
 	ListenTo(this);
 }
 
@@ -257,25 +248,25 @@ JXFileInput::InputValid()
 	const JCharacter* errID = NULL;
 	if (JIsRelativePath(text) && !HasBasePath())
 		{
-		errID = kNoRelPathID;
+		errID = "NoRelPath::JXFileInput";
 		RecalcAll(kJTrue);
 		}
 	else if (!JConvertToAbsolutePath(text, itsBasePath, &fullName) ||
 			 !JFileExists(fullName))
 		{
-		errID = kDoesNotExistID;
+		errID = "DoesNotExist::JXFileInput";
 		}
 	else if (itsRequireReadFlag && !JFileReadable(fullName))
 		{
-		errID = kUnreadableID;
+		errID = "Unreadable::JXFileInput";
 		}
 	else if (itsRequireWriteFlag && !JFileWritable(fullName))
 		{
-		errID = kUnwritableID;
+		errID = "Unwritable::JXFileInput";
 		}
 	else if (itsRequireExecFlag && !JFileExecutable(fullName))
 		{
-		errID = kCannotExecID;
+		errID = "CannotExec::JXFileInput";
 		}
 
 	if (JStringEmpty(errID))

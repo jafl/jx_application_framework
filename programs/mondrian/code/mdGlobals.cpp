@@ -155,3 +155,20 @@ MDGetVersionStr()
 		};
 	return JGetString(kDescriptionID, map, sizeof(map));
 }
+
+/******************************************************************************
+ MDGetWMClassInstance
+
+ ******************************************************************************/
+
+const JCharacter*
+MDGetWMClassInstance()
+{
+	return "Mondrian";
+}
+
+const JCharacter*
+MDGetMainWindowClass()
+{
+	return "Mondrian_Main_Window";
+}

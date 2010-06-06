@@ -35,4 +35,9 @@ JBoolean	MDCreateGlobals(MDApp* app);
 void		MDDeleteGlobals();
 void		MDCleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 
+	// called by Directors
+
+const JCharacter*	MDGetWMClassInstance();
+const JCharacter*	MDGetMainWindowClass();
+
 #endif

@@ -32,4 +32,9 @@ JBoolean	GPMCreateGlobals(GPMApp* app);
 void		GPMDeleteGlobals();
 void		GPMCleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 
+	// called by Directors
+
+const JCharacter*	GPMGetWMClassInstance();
+const JCharacter*	GPMGetMainWindowClass();
+
 #endif
