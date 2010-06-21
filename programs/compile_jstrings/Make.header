@@ -68,9 +68,9 @@ SRC_FILE_DIR := ${JX}/programs/compile_jstrings
 .PHONY : jxsource
 jxsource:
 	@cd ${J_DISTR_TAR_DIR}; \
-     tar -rf ${DISTR_TAR_FILE} ${addprefix ${SRC_FILE_DIR}/, \
-             README Make.header Make.files \
-             compile_jstrings.cpp }
+     ${TAR} -rf ${DISTR_TAR_FILE} ${addprefix ${SRC_FILE_DIR}/, \
+                README Make.header Make.files \
+                compile_jstrings.cpp }
 
 #
 # install binaries

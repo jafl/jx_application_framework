@@ -102,6 +102,8 @@ include ${JX_ROOT}/include/make/jx_lib_targets
 
 .PHONY : jxsource
 jxsource::
+	@cd ${J_DISTR_TAR_DIR}; \
+     ${TAR} -rf ${DISTR_TAR_FILE} ${SRC_FILE_DIR}/jStringData_init.h
 	@cd test; ${MAKE} jxsource
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.

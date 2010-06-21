@@ -123,8 +123,8 @@ SRC_FILE_DIR := ${JX}/programs/drakon
 .PHONY : source
 source:
 	@cd ${J_DISTR_TAR_DIR}; \
-     tar -czf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cc %Y.cc, \
-                                ${shell cd ${J_DISTR_TAR_DIR}; echo \
+     ${TAR} -czf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cc %Y.cc, \
+                                   ${shell cd ${J_DISTR_TAR_DIR}; echo \
               ${addprefix ${SRC_FILE_DIR}/, \
                 README COPYING FAQ Make.* *.jcc *.fd \
                 code/* strings/* pkg } }}

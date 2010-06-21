@@ -128,7 +128,7 @@ jxsource:
              ${JX}/include/make/default_lib_target \
              ${JX}/include/make/sys/* \
              ${addprefix ${JX}/lib/, \
-               Makefile* README.* \
+               Makefile* \
                util/j_has_ace.c \
                ${filter-out util/encode_site_name, \
                             ${shell grep -l /usr/bin/perl util/*}} } }}; \
@@ -144,7 +144,7 @@ libsource: jxsource
 .PHONY : source
 source: jxsource
 	@${foreach dir, \
-          ${filter-out ${JX_CORE_LIBS} ${DISTR_PROGS} %/CVS/., \
+          ${filter-out ${JX_CORE_LIBS} ${DISTR_PROGS}, \
             ${wildcard ../lib?*/. ../programs/*/.}}, \
        ${BEGIN_DIR}; ${MAKE} source; ${END_DIR};}
 

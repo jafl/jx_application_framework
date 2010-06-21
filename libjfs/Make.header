@@ -50,8 +50,8 @@ SRC_FILE_DIR := ${JX}/libjfs
 .PHONY : source
 source: Makefiles
 	@cd ${J_DISTR_TAR_DIR}; \
-     tar -cf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cpp %Y.cpp, \
-                               ${shell cd ${J_DISTR_TAR_DIR}; echo \
+     ${TAR} -cf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cpp %Y.cpp, \
+                                  ${shell cd ${J_DISTR_TAR_DIR}; echo \
              ${SRC_FILE_DIR}/README \
              ${SRC_FILE_DIR}/COPYING \
              ${SRC_FILE_DIR}/Make.* \

@@ -96,8 +96,8 @@ SRC_FILE_DIR := ${JX}/libjx/test
 .PHONY : jxsource
 jxsource:
 	@cd ${J_DISTR_TAR_DIR}; \
-     tar -rf ${DISTR_TAR_FILE} ${filter-out %.o %~, \
-                                 ${shell cd ${J_DISTR_TAR_DIR}; echo \
+     ${TAR} -rf ${DISTR_TAR_FILE} ${filter-out %.o %~, \
+                                    ${shell cd ${J_DISTR_TAR_DIR}; echo \
              ${addprefix ${SRC_FILE_DIR}/, \
                Make.* *.jcc *.fd about_* test.html image/* \
                code/* ${MY_STRING_FILES} \

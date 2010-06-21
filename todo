@@ -1,9 +1,11 @@
+remove support for dynamic colors, etc
+
 store window placement info on root window, so only first app has to jiggle
 OSX: detect that hide/show shifts window down
 
 	throw out current detection code and write clean suite in JXDisplay to get offsets
 		create window & place
-		create window then wait then show
+		create window then wait then showg
 		place while visible
 		hide then show
 		hide then place then show
@@ -11,11 +13,16 @@ OSX: detect that hide/show shifts window down
 			if not there, ask user if ok to test (reply: yes, no, never)
 
 jcc:
+	JavaScript styler (and others?):  /**/ only opens a comment!
+	project Config button should look for pom.xml
+
 	git diff
 		http://yuilibrary.com/gitfaq/
 		http://www.eecs.harvard.edu/~cduan/technical/git/
 
 medic:
+	menu items and toolbar buttons for "step backward" in gdb 7
+
 	breakpoint window
 		modeless: update on ":Medic breakpoints changed:"
 		create/edit/delete
@@ -32,7 +39,16 @@ medic:
 
 systemg:
 	don't block while deleting files
+	don't ask "do you want to delete without git" -- just do it
 	test that U10 notices update to NPS deb repo
+
+	optimize selection of multiple items
+		systemg *.cpp in large directory
+		rewrite api to take list of items to select
+		fix cmd line to accept multiple items
+		fix jcc to send one request for multiple items
+	locks up when find returns many files
+		-name *.cpp -o -name *.h -o -name *.xpm
 
 -----
 
@@ -201,11 +217,6 @@ Daily Comics:
 	export favorites to HTML for sharing
 
 systemg:
-	optimize selection of multiple items
-		systemg *.cpp in large directory
-	locks up when find returns many files
-		-name *.cpp -o -name *.h -o -name *.xpm
-
 	store alternate-open prefs for every executable in the directory
 		use these prefs when plain-open is invoked
 		when open prefs file for directory, flush non-existent executables

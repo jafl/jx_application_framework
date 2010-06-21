@@ -134,8 +134,8 @@ SRC_FILE_DIR := ${JX}/programs/arrow
 .PHONY : source
 source:
 	@cd ${J_DISTR_TAR_DIR}; \
-     tar -czf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cc %Y.cc, \
-                                 ${shell cd ${J_DISTR_TAR_DIR}; echo \
+     ${TAR} -czf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cc %Y.cc, \
+                                   ${shell cd ${J_DISTR_TAR_DIR}; echo \
              ${addprefix ${SRC_FILE_DIR}/, \
                README COPYING FAQ *Todo Make.* *.jcc *.fd pkg \
                code/* MailTree/* ABTree/* strings/* tests/* "Arrow*Notes" \

@@ -60,9 +60,9 @@ SRC_FILE_DIR := ${JX}/programs/makemake
 .PHONY : jxsource
 jxsource:
 	@cd ${J_DISTR_TAR_DIR}; \
-     tar -rf ${DISTR_TAR_FILE} ${addprefix ${SRC_FILE_DIR}/, \
-             README Make.header Make.files Makefile.port \
-             ${wildcard *.cpp *.h} ${SCRIPT_FILES} }
+     ${TAR} -rf ${DISTR_TAR_FILE} ${addprefix ${SRC_FILE_DIR}/, \
+                README Make.header Make.files Makefile.port \
+                ${wildcard *.cpp *.h} ${SCRIPT_FILES} }
 
 #
 # install binaries

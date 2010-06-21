@@ -112,8 +112,8 @@ SRC_FILE_DIR := ${JX}/programs/jx_project_wizard
 jxsource:
 	@for d in *_template; do ( if cd $$d; then rmchanged; fi; ) done
 	@cd ${J_DISTR_TAR_DIR}; \
-     tar -rf ${DISTR_TAR_FILE} ${filter-out %.o %~, \
-                                 ${shell cd ${J_DISTR_TAR_DIR}; echo \
+     ${TAR} -rf ${DISTR_TAR_FILE} ${filter-out %.o %~ %/.svn/%, \
+                                    ${shell cd ${J_DISTR_TAR_DIR}; echo \
              ${addprefix ${SRC_FILE_DIR}/, \
                README Make.* *.jcc *.fd \
                code/* strings/* app_template/ } }}

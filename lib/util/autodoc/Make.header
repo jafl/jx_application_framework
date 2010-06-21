@@ -66,10 +66,10 @@ SRC_FILE_DIR := ${JX}/lib/util/autodoc
 .PHONY : jxsource
 jxsource:
 	@cd ${J_DISTR_TAR_DIR}; \
-     tar -rf ${DISTR_TAR_FILE} \
-             ${SRC_FILE_DIR}/Make.header \
-             ${SRC_FILE_DIR}/Make.files \
-             ${SRC_FILE_DIR}/autodoc.cpp
+     ${TAR} -rf ${DISTR_TAR_FILE} \
+                ${SRC_FILE_DIR}/Make.header \
+                ${SRC_FILE_DIR}/Make.files \
+                ${SRC_FILE_DIR}/autodoc.cpp
 
 #
 # install binaries

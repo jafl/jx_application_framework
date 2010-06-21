@@ -79,15 +79,15 @@ EXTRA_ACE_FILES := ${ACE_VERSION} VERSION ACE-INSTALL* docs/ \
 .PHONY : jxsource
 jxsource:
 	@cd ${J_DISTR_TAR_DIR}; \
-     tar -rf ${DISTR_TAR_FILE} \
-             ${SRC_FILE_DIR}/README \
-             ${SRC_FILE_DIR}/Makefile \
-             ${JX}/lib/libACE-${ACE_LIB_VERSION}.* \
-             ${JX}/lib/libACE.so.${ACE_VERSION} \
-             ${addprefix ${SRC_FILE_DIR}/ACE_wrappers/, ${EXTRA_ACE_FILES} }
+     ${TAR} -rf ${DISTR_TAR_FILE} \
+                ${SRC_FILE_DIR}/README \
+                ${SRC_FILE_DIR}/Makefile \
+                ${JX}/lib/libACE-${ACE_LIB_VERSION}.* \
+                ${JX}/lib/libACE.so.${ACE_VERSION} \
+                ${addprefix ${SRC_FILE_DIR}/ACE_wrappers/, ${EXTRA_ACE_FILES} }
 	@cd ${J_DISTR_TAR_DIR}; \
-     tar -rf ${DISTR_TAR_FILE} ${filter-out %.a %.so %~ %/ace/config.h, \
-                                 ${shell cd ${J_DISTR_TAR_DIR}; echo \
+     ${TAR} -rf ${DISTR_TAR_FILE} ${filter-out %.a %.so %~ %/ace/config.h, \
+                                    ${shell cd ${J_DISTR_TAR_DIR}; echo \
              ${SRC_FILE_DIR}/ACE_wrappers/bin/* \
              ${SRC_FILE_DIR}/ACE_wrappers/ace/* \
              ${SRC_FILE_DIR}/ACE_wrappers/include/makeinclude/* }};

@@ -81,8 +81,8 @@ SRC_FILE_DIR := ${JX}/ACE/test
 .PHONY : jxsource
 jxsource:
 	@cd ${J_DISTR_TAR_DIR}; \
-     tar -rf ${DISTR_TAR_FILE} ${filter-out %.o %~, \
-                                 ${shell cd ${J_DISTR_TAR_DIR}; echo \
+     ${TAR} -rf ${DISTR_TAR_FILE} ${filter-out %.o %~, \
+                                    ${shell cd ${J_DISTR_TAR_DIR}; echo \
              ${addprefix ${SRC_FILE_DIR}/, Make.* *.jcc README} \
              ${SRC_FILE_DIR}/code/* }}
 

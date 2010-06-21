@@ -60,8 +60,8 @@ include ${JX_ROOT}/include/make/jx_lib_targets
 .PHONY : jxsource
 jxsource::
 	@cd ${J_DISTR_TAR_DIR}; \
-     tar -rf ${DISTR_TAR_FILE} ${filter-out %~, \
-                                 ${shell cd ${J_DISTR_TAR_DIR}; echo \
+     ${TAR} -rf ${DISTR_TAR_FILE} ${filter-out %~, \
+                                    ${shell cd ${J_DISTR_TAR_DIR}; echo \
              ${JX}/libjx/*.fd \
              ${JX}/libjx/image/* \
              ${JX}/include/jximage \
