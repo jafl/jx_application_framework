@@ -22,10 +22,8 @@ class JXTextSelection : public JXSelectionData
 public:
 
 	JXTextSelection(JXDisplay* display, const JCharacter* text,
-					const JXColormap* colormap = NULL,
 					const JRunArray<JTextEditor::Font>* style = NULL);
 	JXTextSelection(JXDisplay* display, JString* text,
-					const JXColormap* colormap = NULL,
 					JRunArray<JTextEditor::Font>* style = NULL);
 	JXTextSelection(JXDisplay* display, const JPtrArray<JString>& list);
 	JXTextSelection(JXWidget* widget, const JCharacter* id);

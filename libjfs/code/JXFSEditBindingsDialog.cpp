@@ -24,7 +24,6 @@
 #include <sstream>
 #include <jAssert.h>
 
-static const JCharacter* kDefaultFontName = "6x13";
 static const JCharacter* kHelpSectionName = "JFSBindingEditorHelp";
 
 const JCoordinate kHeaderHeight = 20;
@@ -195,35 +194,39 @@ JXFSEditBindingsDialog::BuildWindow()
 
     JXStaticText* obj1_JXLayout =
         new JXStaticText(JGetString("obj1_JXLayout::JXFSEditBindingsDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 150,370, 340,20);
+                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 130,370, 360,20);
     assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetFontSize(10);
+    obj1_JXLayout->SetFontSize(8);
+    obj1_JXLayout->SetToLabel();
 
     itsDefCmd =
         new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kFixedBottom, 190,250, 300,20);
+                    JXWidget::kHElastic, JXWidget::kFixedBottom, 200,250, 290,20);
     assert( itsDefCmd != NULL );
 
     JXStaticText* obj2_JXLayout =
         new JXStaticText(JGetString("obj2_JXLayout::JXFSEditBindingsDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 70,330, 120,20);
     assert( obj2_JXLayout != NULL );
+    obj2_JXLayout->SetToLabel();
 
     itsUseDefaultCB =
         new JXTextCheckbox(JGetString("itsUseDefaultCB::JXFSEditBindingsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,250, 180,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,250, 190,20);
     assert( itsUseDefaultCB != NULL );
 
     JXStaticText* obj3_JXLayout =
         new JXStaticText(JGetString("obj3_JXLayout::JXFSEditBindingsDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 160,270, 330,20);
+                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 140,270, 350,20);
     assert( obj3_JXLayout != NULL );
-    obj3_JXLayout->SetFontSize(10);
+    obj3_JXLayout->SetFontSize(8);
+    obj3_JXLayout->SetToLabel();
 
     JXStaticText* obj4_JXLayout =
         new JXStaticText(JGetString("obj4_JXLayout::JXFSEditBindingsDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 70,350, 120,20);
     assert( obj4_JXLayout != NULL );
+    obj4_JXLayout->SetToLabel();
 
     itsShellCmd =
         new JXInputField(window,
@@ -258,7 +261,7 @@ JXFSEditBindingsDialog::BuildWindow()
 
     itsAutoShellCB =
         new JXTextCheckbox(JGetString("itsAutoShellCB::JXFSEditBindingsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 140,400, 310,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 140,400, 320,20);
     assert( itsAutoShellCB != NULL );
 
 // end JXLayout
@@ -291,15 +294,15 @@ JXFSEditBindingsDialog::BuildWindow()
 
 	// other information
 
-	itsDefCmd->SetFontName(kDefaultFontName);
+	itsDefCmd->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
 	itsDefCmd->SetIsRequired();
 	itsDefCmd->ShouldBroadcastAllTextChanged(kJTrue);
 
-	itsShellCmd->SetFontName(kDefaultFontName);
+	itsShellCmd->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
 	itsShellCmd->SetIsRequired();
 	itsShellCmd->ShouldBroadcastAllTextChanged(kJTrue);
 
-	itsWindowCmd->SetFontName(kDefaultFontName);
+	itsWindowCmd->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
 	itsWindowCmd->SetIsRequired();
 	itsWindowCmd->ShouldBroadcastAllTextChanged(kJTrue);
 

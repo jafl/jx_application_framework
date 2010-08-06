@@ -110,9 +110,9 @@ enum
 static const JCharacter* kHelpMenuTitleStr = "Help";
 static const JCharacter* kHelpMenuStr =
 	"    About"
-	"%l| Table of Contents          %i" kJXHelpTOCAction
+	"%l| Table of Contents       %i" kJXHelpTOCAction
 	"  | Overview"
-	"  | This window          %k F1 %i" kJXHelpSpecificAction
+	"  | This window       %k F1 %i" kJXHelpSpecificAction
 	"%l| Changes"
 	"  | Credits";
 
@@ -204,7 +204,7 @@ GPMMainDirector::BuildWindow()
 	window->SetCloseAction(JXWindow::kQuitApp);
 	window->SetWMClass(GPMGetWMClassInstance(), GPMGetMainWindowClass());
 
-	JXImage* image = new JXImage(GetDisplay(), GetColormap(), gpm_main_window_icon);
+	JXImage* image = new JXImage(GetDisplay(), gpm_main_window_icon);
 	assert( image != NULL );
 	window->SetIcon(image);
 

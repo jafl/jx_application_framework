@@ -112,7 +112,7 @@ JXStringCompletionMenu::AddString
 	else if (i == kMaxItemCount+1)
 		{
 		AppendItem(kTruncationStr);
-		SetItemFont(i, JGetDefaultFontName(), kJXDefaultFontSize,
+		SetItemFont(i, JGetDefaultFontName(), kJDefaultFontSize,
 					JFontStyle(kJFalse, kJTrue, 0, kJFalse));
 		return kJFalse;
 		}

@@ -155,7 +155,7 @@ JXChooseFileDialog::BuildWindow
 
     JXTextButton* openButton =
         new JXTextButton(JGetString("openButton::JXChooseFileDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 219,279, 72,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,280, 70,20);
     assert( openButton != NULL );
     openButton->SetShortcuts(JGetString("openButton::JXChooseFileDialog::shortcuts::JXLayout"));
 
@@ -173,6 +173,7 @@ JXChooseFileDialog::BuildWindow
         new JXStaticText(JGetString("pathLabel::JXChooseFileDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,20, 40,20);
     assert( pathLabel != NULL );
+    pathLabel->SetToLabel();
 
     JXScrollbarSet* scrollbarSet =
         new JXScrollbarSet(window,
@@ -183,6 +184,7 @@ JXChooseFileDialog::BuildWindow
         new JXStaticText(JGetString("filterLabel::JXChooseFileDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,50, 40,20);
     assert( filterLabel != NULL );
+    filterLabel->SetToLabel();
 
     JXTextCheckbox* showHiddenCB =
         new JXTextCheckbox(JGetString("showHiddenCB::JXChooseFileDialog::JXLayout"), window,

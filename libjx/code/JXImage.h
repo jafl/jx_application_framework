@@ -42,43 +42,36 @@ public:
 
 public:
 
-	JXImage(JXDisplay* display, JXColormap* colormap,
+	JXImage(JXDisplay* display,
 			const JCoordinate width, const JCoordinate height,
 			const JColorIndex initColor = kJXTransparentColor, // placeholder for GetDefaultBackColor()
 			const JSize depth = 0);
 
-	JXImage(JXDisplay* display, JXColormap* colormap, Drawable source);
-	JXImage(JXDisplay* display, JXColormap* colormap, Drawable source,
-			const JRect& rect);
+	JXImage(JXDisplay* display, Drawable source);
+	JXImage(JXDisplay* display, Drawable source, const JRect& rect);
 
-	JXImage(JXDisplay* display, JXColormap* colormap,
-			const JConstBitmap& bitmap,
+	JXImage(JXDisplay* display, const JConstBitmap& bitmap,
 			const JColorIndex foreColor = kJXTransparentColor, // placeholder for GetBlackColor()
 			const JColorIndex backColor = kJXTransparentColor, // placeholder for GetDefaultBackColor()
 			const JSize depth = 0);
 
-	JXImage(JXDisplay* display, JXColormap* colormap, const JXPM& data);
+	JXImage(JXDisplay* display, const JXPM& data);
 
 	JXImage(const JXImage& source);
 	JXImage(const JXImage& source, const JRect& rect);
 
 	virtual ~JXImage();
 
-	static JError	CreateFromFile(JXDisplay* display, JXColormap* colormap,
-								   const JCharacter* fileName, JXImage** image,
-								   const JBoolean allowApproxColors = kJTrue);
-	static JError	CreateFromGIF(JXDisplay* display, JXColormap* colormap,
-								  const JCharacter* fileName, JXImage** image,
-								  const JBoolean allowApproxColors = kJTrue);
-	static JError	CreateFromPNG(JXDisplay* display, JXColormap* colormap,
-								  const JCharacter* fileName, JXImage** image,
-								  const JBoolean allowApproxColors = kJTrue);
-	static JError	CreateFromJPEG(JXDisplay* display, JXColormap* colormap,
-								   const JCharacter* fileName, JXImage** image,
-								   const JBoolean allowApproxColors = kJTrue);
-	static JError	CreateFromXPM(JXDisplay* display, JXColormap* colormap,
-								  const JCharacter* fileName, JXImage** image,
-								  const JBoolean allowApproxColors = kJTrue);
+	static JError	CreateFromFile(JXDisplay* display,
+								   const JCharacter* fileName, JXImage** image);
+	static JError	CreateFromGIF(JXDisplay* display,
+								  const JCharacter* fileName, JXImage** image);
+	static JError	CreateFromPNG(JXDisplay* display,
+								  const JCharacter* fileName, JXImage** image);
+	static JError	CreateFromJPEG(JXDisplay* display,
+								   const JCharacter* fileName, JXImage** image);
+	static JError	CreateFromXPM(JXDisplay* display,
+								  const JCharacter* fileName, JXImage** image);
 
 	JError	WriteXPM(const JCharacter* fileName) const;
 
@@ -136,18 +129,16 @@ protected:
 	virtual void	PrepareForImageData();
 	virtual void	ImageDataFinished();
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
-
 	// used by JXImageMask
 
 	JXImage(const Pixmap bitmap,
 			const JCoordinate width, const JCoordinate height,
-			JXDisplay* display, JXColormap* colormap);
+			JXDisplay* display);
 
 private:
 
 	JXDisplay*	itsDisplay;		// we don't own this
-	JXColormap*	itsColormap;	// we don't own this
+	JXColormap*	itsXColormap;	// we don't own this
 	JXGC*		itsGC;			// NULL if using display's default GC
 	JSize		itsDepth;
 
@@ -160,17 +151,10 @@ private:
 
 private:
 
-	JXImage(JXDisplay* display, JXColormap* colormap);
+	JXImage(JXDisplay* display);
 
-	void	JXImageX(JXDisplay* display, JXColormap* colormap, const JSize depth = 0);
-	void	JXImageFromDrawable(JXDisplay* display, JXColormap* colormap,
-								Drawable source, const JRect& rect);
-	void	CopyColorList(const JXImage& source);
-
-	void	RegisterColor(const JColorIndex color,
-						  const JBoolean tellColormap = kJTrue);
-	void	RegisterColors(const JArray<JColorIndex>& colorList,
-						   const JBoolean tellColormap = kJTrue);
+	void	JXImageX(JXDisplay* display, const JSize depth = 0);
+	void	JXImageFromDrawable(JXDisplay* display, Drawable source, const JRect& rect);
 
 	// not allowed
 
@@ -199,7 +183,7 @@ inline JXColormap*
 JXImage::GetXColormap()
 	const
 {
-	return itsColormap;
+	return itsXColormap;
 }
 
 /******************************************************************************

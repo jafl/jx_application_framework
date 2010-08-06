@@ -28,8 +28,6 @@ public:
 
 protected:
 
-	virtual JBoolean	SwitchCharSet(const JCharacter* charSet);
-
 	virtual JBoolean	HandleHTMLWord(const JCharacter* word, const JIndexRange& range);
 	virtual JBoolean	HandleHTMLWhitespace(const JCharacter* space, const JIndexRange& range);
 	virtual JBoolean	HandleHTMLTag(const JString& name, const JStringPtrMap<JString>& attr,

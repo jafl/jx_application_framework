@@ -91,7 +91,7 @@ GPMProcessTable::GPMProcessTable
 	SetColWidth(GPMProcessList::kListNice,   40);
 	SetColWidth(GPMProcessList::kListSize,   60);
 	SetColWidth(GPMProcessList::kListCPU,    50);
-	SetColWidth(GPMProcessList::kListMemory, 60);
+	SetColWidth(GPMProcessList::kListMemory, 70);
 	SetColWidth(GPMProcessList::kListTime,   60);
 
 	SetRowBorderInfo(0, GetColormap()->GetBlackColor());
@@ -99,14 +99,8 @@ GPMProcessTable::GPMProcessTable
 
 	SetBackColor((GetColormap())->GetWhiteColor());
 
-	itsZombieImage = new JXImage(GetDisplay(), GetColormap(), JXPM(jx_edit_clear));
+	itsZombieImage = new JXImage(GetDisplay(), jx_edit_clear);
 	assert( itsZombieImage != NULL );
-
-	const JSize red = (JSize) (255 * 255 * .95);
-	if (!(GetColormap())->AllocateStaticColor(red, red, red, &itsRowBackColor))
-		{
-		itsRowBackColor = (GetColormap())->GetGray90Color();
-		}
 
 	itsContextMenu = CreateContextMenu(this);
 	ListenTo(itsContextMenu);
@@ -246,7 +240,7 @@ GPMProcessTable::TableDrawCell
 	const JRect&	rect
 	)
 {
-	DrawRowBackground(p, cell, rect, itsRowBackColor);
+	DrawRowBackground(p, cell, rect, (p.GetColormap())->GetGrayColor(95));
 
 	HilightIfSelected(p, cell, rect);
 

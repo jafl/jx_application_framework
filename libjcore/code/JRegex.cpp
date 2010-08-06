@@ -398,9 +398,9 @@ JRegex::SetPatternOrDie
 /******************************************************************************
  GetSubCount
 
-	Returns the number of parenthesized subexpressions in the compiled expression.
-	Returns zero if there is no compiled expression, if the expression has no
-	subexpressions, or if the expression was compiled with SetMatchOnly().
+	Returns the number of parenthesized subexpressions in the compiled
+	expression.  Returns zero if there is no compiled expression or if the
+	expression has no subexpressions.
 
  *****************************************************************************/
 
@@ -543,10 +543,6 @@ JRegex::MatchWithin
 /******************************************************************************
  MatchAll
 
-	Perhaps inobviously, may NOT be called if SetMatchOnly is true (because
-	internally it must obtain the region matched so it knows where to start
-	looking for the next).
-
  *****************************************************************************/
 
 JSize
@@ -599,7 +595,6 @@ JRegex::Match
 	const
 {
 	assert( match != NULL );
-	assert( !IsMatchOnly() );
 
 	return RegExec(str, 0, strlen(str), match, NULL);
 }
@@ -655,7 +650,6 @@ JRegex::MatchWithin
 	const
 {
 	assert( match != NULL );
-	assert( !IsMatchOnly() );
 
 	return RegExec(str, range.first-1, range.last, match, NULL);
 }
@@ -724,7 +718,6 @@ JRegex::MatchLastWithin
 	const
 {
 	assert(match != NULL);
-	assert( !IsMatchOnly() );
 
 	JIndexRange searchRegion = range;
 	JSize matchCount = 0;
@@ -811,7 +804,6 @@ JRegex::MatchAllWithin
 	const
 {
 	assert(matchList != NULL);
-	assert( !IsMatchOnly() );
 
 	JIndexRange match, searchRegion = range;
 	JSize matchCount = 0;
@@ -865,7 +857,6 @@ JRegex::Match
 	const
 {
 	assert( subMatchList != NULL );
-	assert( !IsMatchOnly() );
 
 	JIndexRange r;
 	return RegExec(str, 0, strlen(str), &r, subMatchList);
@@ -920,7 +911,6 @@ JRegex::MatchWithin
 	const
 {
 	assert( subMatchList != NULL );
-	assert( !IsMatchOnly() );
 
 	JIndexRange r;
 	return RegExec(str, range.first-1, range.last, &r, subMatchList);
@@ -941,7 +931,6 @@ JRegex::MatchLastWithin
 	const
 {
 	assert(subMatchList != NULL);
-	assert( !IsMatchOnly() );
 
 	JIndexRange searchRegion = range;
 	JSize matchCount = 0;
@@ -1011,7 +1000,6 @@ JRegex::MatchBackward
 	)
 	const
 {
-	assert( !IsMatchOnly() );
 	assert(match != NULL);
 	assert(index > 0);
 
@@ -1049,7 +1037,6 @@ JRegex::MatchBackward
 	)
 	const
 {
-	assert( !IsMatchOnly() );
 	assert(matchList != NULL);
 	assert(index > 0);
 

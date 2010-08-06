@@ -55,7 +55,7 @@ TestStrTableDirector::TestStrTableDirector
 
 	BuildWindow();
 
-	itsPrinter = new JXPSPrinter(GetDisplay(), (GetWindow())->GetColormap());
+	itsPrinter = new JXPSPrinter(GetDisplay());
 	assert( itsPrinter != NULL );
 	ListenTo(itsPrinter);
 }
@@ -112,6 +112,10 @@ TestStrTableDirector::BuildWindow()
 
 // begin tablelayout
 
+    const JRect tablelayout_Frame    = encl->GetFrame();
+    const JRect tablelayout_Aperture = encl->GetAperture();
+    encl->AdjustSize(400 - tablelayout_Aperture.width(), 300 - tablelayout_Aperture.height());
+
     itsTable =
         new TestStringTable(itsData, menuBar, scrollbarSet, encl,
                     JXWidget::kHElastic, JXWidget::kVElastic, 10,20, 390,280);
@@ -126,6 +130,8 @@ TestStrTableDirector::BuildWindow()
         new JXRowHeaderWidget(itsTable, scrollbarSet, encl,
                     JXWidget::kFixedLeft, JXWidget::kVElastic, 0,20, 10,280);
     assert( itsRowHeader != NULL );
+
+    encl->SetSize(tablelayout_Frame.width(), tablelayout_Frame.height());
 
 // end tablelayout
 

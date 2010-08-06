@@ -21,8 +21,10 @@ class JXGetStringDialog : public JXDialogDirector
 public:
 
 	JXGetStringDialog(JXDirector* supervisor, const JCharacter* windowTitle,
-					  const JCharacter* prompt, const JCharacter* initialValue,
-					  const JBoolean modal = kJTrue);
+					  const JCharacter* prompt,
+					  const JCharacter* initialValue = NULL,
+					  const JBoolean modal = kJTrue,
+					  const JBoolean password = kJFalse);
 
 	virtual ~JXGetStringDialog();
 
@@ -43,7 +45,8 @@ private:
 private:
 
 	void	BuildWindow(const JCharacter* windowTitle,
-						const JCharacter* prompt, const JCharacter* initialValue);
+						const JCharacter* prompt, const JCharacter* initialValue,
+						const JBoolean password);
 
 	// not allowed
 

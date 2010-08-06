@@ -92,7 +92,7 @@ JCompareRGBValues
 }
 
 /******************************************************************************
- Routines for JHSV
+ Routines for JHSB
 
  ******************************************************************************/
 
@@ -100,10 +100,10 @@ istream&
 operator>>
 	(
 	istream&	input,
-	JHSV&		color
+	JHSB&		color
 	)
 {
-	input >> color.hue >> color.saturation >> color.value;
+	input >> color.hue >> color.saturation >> color.brightness;
 	return input;
 }
 
@@ -111,23 +111,23 @@ ostream&
 operator<<
 	(
 	ostream&	output,
-	const JHSV&	color
+	const JHSB&	color
 	)
 {
-	output << color.hue << ' ' << color.saturation << ' ' << color.value;
+	output << color.hue << ' ' << color.saturation << ' ' << color.brightness;
 	return output;
 }
 
 /******************************************************************************
- JCompareHSVValues
+ JCompareHSBValues
 
  ******************************************************************************/
 
 JOrderedSetT::CompareResult
-JCompareHSVValues
+JCompareHSBValues
 	(
-	const JHSV& c1,
-	const JHSV& c2
+	const JHSB& c1,
+	const JHSB& c2
 	)
 {
 	if (c1.hue < c2.hue)
@@ -148,11 +148,11 @@ JCompareHSVValues
 		return JOrderedSetT::kFirstGreaterSecond;
 		}
 
-	else if (c1.value < c2.value)
+	else if (c1.brightness < c2.brightness)
 		{
 		return JOrderedSetT::kFirstLessSecond;
 		}
-	else if (c1.value > c2.value)
+	else if (c1.brightness > c2.brightness)
 		{
 		return JOrderedSetT::kFirstGreaterSecond;
 		}
@@ -173,19 +173,19 @@ JCompareHSVValues
 
 JRGB::JRGB
 	(
-	const JHSV& color
+	const JHSB& color
 	)
 {
 	if (color.saturation == 0)
 		{
 		red = green = blue =
-			JRound(kJMaxRGBValueF * color.value / kJMaxHSVValueF);
+			JRound(kJMaxRGBValueF * color.brightness / kJMaxHSBValueF);
 		}
 	else
 		{
-		const JFloat h = 6.0 * color.hue  / (kJMaxHSVValueF + 1.0);
-		const JFloat s = color.saturation / kJMaxHSVValueF;
-		const JFloat v = color.value      / kJMaxHSVValueF;
+		const JFloat h = 6.0 * color.hue  / (kJMaxHSBValueF + 1.0);
+		const JFloat s = color.saturation / kJMaxHSBValueF;
+		const JFloat v = color.brightness / kJMaxHSBValueF;
 
 		const JIndex i = JLFloor(h);
 		const JFloat f = h - i;
@@ -208,7 +208,7 @@ JRGB::JRGB
 		}
 }
 
-JHSV::JHSV
+JHSB::JHSB
 	(
 	const JRGB& color
 	)
@@ -216,7 +216,7 @@ JHSV::JHSV
 	const JSize max = JMax(color.red, JMax(color.green, color.blue));
 	const JSize min = JMin(color.red, JMin(color.green, color.blue));
 
-	value = JRound(kJMaxHSVValueF * max / kJMaxRGBValueF);
+	brightness = JRound(kJMaxHSBValueF * max / kJMaxRGBValueF);
 	if (max == 0 || max == min)
 		{
 		hue = saturation = 0;
@@ -224,7 +224,7 @@ JHSV::JHSV
 	else
 		{
 		const JFloat delta = max - min;
-		saturation         = JRound(kJMaxHSVValueF * delta / max);
+		saturation         = JRound(kJMaxHSBValueF * delta / max);
 
 		JFloat h;
 		const long r = color.red;
@@ -246,7 +246,7 @@ JHSV::JHSV
 			{
 			h += 6.0;
 			}
-		hue = JRound(kJMaxHSVValueF * h / 6.0);
+		hue = JRound(kJMaxHSBValueF * h / 6.0);
 		}
 }
 

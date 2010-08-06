@@ -74,7 +74,6 @@
 .cpp ./code/jColor
 .cpp ./code/JColormap
 .cpp ./code/JGetCurrentColormap
-.cpp ./code/JColorList
 .cpp ./code/JImage
 .cpp ./code/JImage_PNG
 .cpp ./code/JImage_JPEG

@@ -210,7 +210,7 @@ GAddressBookTreeDir::BuildWindow()
 		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
 		}
 
-	itsMenuIcon = new JXImage(window->GetDisplay(), window->GetColormap(), JXPM(address_entry));
+	itsMenuIcon = new JXImage(window->GetDisplay(), address_entry);
 	assert(itsMenuIcon != NULL);
 	itsMenuIcon->ConvertToRemoteStorage();
 }

@@ -55,30 +55,30 @@ ASKDialog::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 280,100, "");
+    JXWindow* window = new JXWindow(this, 300,90, "");
     assert( window != NULL );
     SetWindow(window);
 
     JXTextButton* cancelButton =
         new JXTextButton(JGetString("cancelButton::ASKDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kVElastic, 30,70, 70,20);
+                    JXWidget::kFixedLeft, JXWidget::kVElastic, 50,60, 70,20);
     assert( cancelButton != NULL );
     cancelButton->SetShortcuts(JGetString("cancelButton::ASKDialog::shortcuts::JXLayout"));
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::ASKDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kVElastic, 180,70, 70,20);
+                    JXWidget::kFixedLeft, JXWidget::kVElastic, 180,60, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::ASKDialog::shortcuts::JXLayout"));
 
     JXStaticText* obj1_JXLayout =
         new JXStaticText(JGetString("obj1_JXLayout::ASKDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 270,20);
+                    JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 280,20);
     assert( obj1_JXLayout != NULL );
 
     itsPassphraseInput =
         new JXPasswordInput(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 10,30, 260,20);
+                    JXWidget::kHElastic, JXWidget::kVElastic, 10,30, 280,20);
     assert( itsPassphraseInput != NULL );
 
 // end JXLayout

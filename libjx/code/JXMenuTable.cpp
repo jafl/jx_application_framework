@@ -221,7 +221,7 @@ JXMenuTable::DrawSubmenuIndicator
 
 		const JColorIndex colorIndex =
 			itsBaseMenuData->IsEnabled(itemIndex) ?
-				(p.GetColormap())->GetGray40Color() :
+				(p.GetColormap())->GetGrayColor(40) :
 				(p.GetColormap())->GetInactiveLabelColor();
 		JXFillArrowRight(p, r, colorIndex);
 

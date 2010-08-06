@@ -62,7 +62,6 @@ private:
 	XMesaContext	itsXMContext;
 	XMesaBuffer		itsXMBuffer;
 	XRectangle		itsGLViewport;
-	JBoolean		itsIsRGBAFlag;
 	JBoolean		itsDoubleBufferFlag;
 
 	JBoolean		itsPerspectiveFlag;

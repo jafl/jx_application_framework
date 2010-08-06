@@ -134,12 +134,12 @@ JXTipOfTheDayDialog::BuildWindow
 	window->PlaceAsDialogWindow();
 
 	JXDisplay* display = GetDisplay();
-	JXImage* wIcon     = new JXImage(display, display->GetColormap(), jx_tip_of_the_day);
+	JXImage* wIcon     = new JXImage(display, jx_tip_of_the_day);
 	assert( wIcon != NULL );
 	window->SetIcon(wIcon);
 
-	sideBar->SetColor((GetColormap())->GetGray50Color());
-	icon->SetXPM(jx_tip_of_the_day, (GetColormap())->GetGray50Color());
+	sideBar->SetColor((GetColormap())->GetGrayColor(50));
+	icon->SetXPM(jx_tip_of_the_day, (GetColormap())->GetGrayColor(50));
 
 	title->SetBorderWidth(kJXDefaultBorderWidth);
 	title->TESetLeftMarginWidth(5);

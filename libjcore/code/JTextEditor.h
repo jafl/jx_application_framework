@@ -14,7 +14,6 @@
 
 #include <JBroadcaster.h>
 #include <JFontStyle.h>
-#include <JColorList.h>
 #include <JRect.h>
 #include <JRunArray.h>
 #include <JPtrArray-JString.h>
@@ -725,7 +724,6 @@ protected:
 	virtual void	HandleHTMLWhitespace(const JCharacter* space);
 	virtual void	HandleHTMLTag(const JString& name, const JStringPtrMap<JString>& attr);
 	virtual void	HandleHTMLError(const JCharacter* errStr);
-	JBoolean		SwitchHTMLCharSet(const JCharacter* charSet);
 
 private:
 
@@ -775,7 +773,6 @@ private:
 	Font				itsDefFont;
 
 	JColormap*			itsColormap;			// not owned
-	JColorList			itsCustomColors;		// can be NULL
 	JColorIndex			itsCaretColor;
 	JColorIndex			itsSelectionColor;
 	JColorIndex			itsSelectionOutlineColor;

@@ -506,16 +506,16 @@ GMessageTableDir::BuildWindow
 	assert(itsMessageCount != NULL);
 	itsMessageCount->SetBorderWidth(1);
 
-	itsNoMailIcon = new JXImage(itsWindow->GetDisplay(), itsWindow->GetColormap(), JXPM(nomail_xpm));
+	itsNoMailIcon = new JXImage(itsWindow->GetDisplay(), nomail_xpm);
 	itsNoMailIcon->ConvertToRemoteStorage();
 
-	itsNewMailIcon = new JXImage(itsWindow->GetDisplay(), itsWindow->GetColormap(), JXPM(newmail_xpm));
+	itsNewMailIcon = new JXImage(itsWindow->GetDisplay(), newmail_xpm);
 	itsNewMailIcon->ConvertToRemoteStorage();
 
-	itsSmallNewMailIcon = new JXImage(itsWindow->GetDisplay(), itsWindow->GetColormap(), JXPM(newmail_small_xpm));
+	itsSmallNewMailIcon = new JXImage(itsWindow->GetDisplay(), newmail_small_xpm);
 	itsSmallNewMailIcon->ConvertToRemoteStorage();
 
-	itsHaveMailIcon = new JXImage(itsWindow->GetDisplay(), itsWindow->GetColormap(), JXPM(havemail_xpm));
+	itsHaveMailIcon = new JXImage(itsWindow->GetDisplay(), havemail_xpm);
 	itsHaveMailIcon->ConvertToRemoteStorage();
 
 	JXImage* icon	= new JXImage(*itsNoMailIcon);
@@ -603,7 +603,7 @@ GMessageTableDir::BuildWindow
 		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
 		}
 
-	itsMenuIcon = new JXImage(itsWindow->GetDisplay(), itsWindow->GetColormap(), JXPM(envelopes));
+	itsMenuIcon = new JXImage(itsWindow->GetDisplay(), envelopes);
 	assert(itsMenuIcon != NULL);
 	itsMenuIcon->ConvertToRemoteStorage();
 }

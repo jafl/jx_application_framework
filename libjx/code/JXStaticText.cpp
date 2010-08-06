@@ -76,7 +76,9 @@ JXStaticText::JXStaticTextX
 	const JCoordinate	origH
 	)
 {
-	SetDefaultFontSize(kJXDefaultFontSize);
+	itsIsLabelFlag = kJFalse;
+
+	SetDefaultFontSize(kJDefaultFontSize);
 	TESetLeftMarginWidth(kMinLeftMarginWidth);
 
 	if (JCompareMaxN(text, "<html>", 6, kJFalse))
@@ -110,4 +112,60 @@ JXStaticText::JXStaticTextX
 
 JXStaticText::~JXStaticText()
 {
+}
+
+/******************************************************************************
+ SetToLabel
+
+	Don't wrap text.  Center vertically in frame.  Useful for field labels
+	in dialogs.
+
+ ******************************************************************************/
+
+void
+JXStaticText::SetToLabel()
+{
+	if (!itsIsLabelFlag)
+		{
+		itsIsLabelFlag = kJTrue;
+		SetBreakCROnly(kJTrue);
+		ShouldAllowUnboundedScrolling(kJTrue);
+		CenterVertically();
+		}
+}
+
+/******************************************************************************
+ BoundsResized (virtual protected)
+
+ ******************************************************************************/
+
+void
+JXStaticText::BoundsResized
+	(
+	const JCoordinate dw,
+	const JCoordinate dh
+	)
+{
+	JXTEBase::BoundsResized(dw,dh);
+
+	if (itsIsLabelFlag)
+		{
+		CenterVertically();
+		}
+}
+
+/******************************************************************************
+ CenterVertically (private)
+
+ ******************************************************************************/
+
+void
+JXStaticText::CenterVertically()
+{
+	const JCoordinate f = GetFrameHeight();
+	const JCoordinate b = GetMinBoundsHeight();
+	if (f > b)
+		{
+		ScrollTo(0, - (f - b)/2);
+		}
 }

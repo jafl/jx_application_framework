@@ -63,10 +63,10 @@ THXCreateGlobals
 
 	JXDisplay* display = app->GetDisplay(1);
 
-	thePSGraphPrinter = new JXPSPrinter(display, display->GetColormap());
+	thePSGraphPrinter = new JXPSPrinter(display);
 	assert( thePSGraphPrinter != NULL );
 
-	theEPSGraphPrinter = new JX2DPlotEPSPrinter(display, display->GetColormap());
+	theEPSGraphPrinter = new JX2DPlotEPSPrinter(display);
 	assert( theEPSGraphPrinter != NULL );
 }
 

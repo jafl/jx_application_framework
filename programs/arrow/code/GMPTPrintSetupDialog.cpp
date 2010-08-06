@@ -84,10 +84,11 @@ GMPTPrintSetupDialog::BuildWindow
         new JXStaticText(JGetString("printCmdLabel::GMPTPrintSetupDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 10,70, 100,19);
     assert( printCmdLabel != NULL );
+    printCmdLabel->SetToLabel();
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::GMPTPrintSetupDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 219,209, 72,22);
+                    JXWidget::kHElastic, JXWidget::kVElastic, 220,210, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::GMPTPrintSetupDialog::shortcuts::JXLayout"));
 
@@ -100,6 +101,7 @@ GMPTPrintSetupDialog::BuildWindow
         new JXStaticText(JGetString("obj1_JXLayout::GMPTPrintSetupDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 50,30, 80,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     JXRadioGroup* destination =
         new JXRadioGroup(window,
@@ -152,18 +154,21 @@ GMPTPrintSetupDialog::BuildWindow
 
     JXStaticText* firstPageIndexLabel =
         new JXStaticText(JGetString("firstPageIndexLabel::GMPTPrintSetupDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 163,173, 66,20);
+                    JXWidget::kHElastic, JXWidget::kVElastic, 160,170, 70,20);
     assert( firstPageIndexLabel != NULL );
+    firstPageIndexLabel->SetToLabel();
 
     JXStaticText* lastPageIndexLabel =
         new JXStaticText(JGetString("lastPageIndexLabel::GMPTPrintSetupDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 273,173, 16,20);
+                    JXWidget::kHElastic, JXWidget::kVElastic, 270,170, 20,20);
     assert( lastPageIndexLabel != NULL );
+    lastPageIndexLabel->SetToLabel();
 
     JXStaticText* obj4_JXLayout =
         new JXStaticText(JGetString("obj4_JXLayout::GMPTPrintSetupDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 25,120, 115,20);
     assert( obj4_JXLayout != NULL );
+    obj4_JXLayout->SetToLabel();
 
     itsPrintHeadersCB =
         new JXTextCheckbox(JGetString("itsPrintHeadersCB::GMPTPrintSetupDialog::JXLayout"), window,

@@ -287,8 +287,7 @@ JIndex i,j;
 				const JString s = " (" + url + ")";
 				Paste(s);
 				JIndexRange r(pasteIndex, pasteIndex + s.GetLength()-1);
-				SetFontName(r.first, r.last, JGetMonospaceFontName(), kJFalse);
-				SetFontStyle(r.first, r.last, GetDefaultFontStyle(), kJFalse);
+				SetFont(r.first, r.last, JGetMonospaceFontName(), kJDefaultMonoFontSize, GetDefaultFontStyle(), kJFalse);
 
 				const JSize delta = s.GetLength();
 

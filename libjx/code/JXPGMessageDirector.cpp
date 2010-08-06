@@ -20,9 +20,6 @@
 #include <jFStreamUtil.h>
 #include <jAssert.h>
 
-static const JCharacter* kPreferredFontName = "6x13";
-const JSize kIrrelevantFontSize             = kJDefaultFontSize;
-
 /******************************************************************************
  Constructor
 
@@ -103,16 +100,7 @@ JXPGMessageDirector::BuildWindow()
 						 0,0, 10,10);
 	itsMessageText->FitToEnclosure();
 
-	const JXFontManager* fontMgr = (GetDisplay())->GetXFontManager();
-	JFontID fontID;
-	if (fontMgr->GetFontID(kPreferredFontName, &fontID))
-		{
-		itsMessageText->SetDefaultFont(fontID, kIrrelevantFontSize);
-		}
-	else
-		{
-		itsMessageText->SetDefaultFontName(JGetMonospaceFontName());
-		}
+	itsMessageText->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize);
 }
 
 /******************************************************************************

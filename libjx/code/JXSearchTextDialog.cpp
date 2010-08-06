@@ -44,7 +44,6 @@
 #include <sstream>
 #include <jAssert.h>
 
-static const JCharacter* kDefaultFontName      = "6x13";
 static const JCharacter* kJXSearchTextHelpName = "JXSearchTextHelp";
 static const JCharacter* kJXRegexHelpName      = "JXRegexHelp";
 static const JCharacter* kJXRegexQRefHelpName  = "JXRegexQRef";
@@ -98,13 +97,8 @@ JXSearchTextDialog::JXSearchTextDialog
 
 	itsRegex = new JRegex;
 	assert( itsRegex != NULL );
-	itsRegex->SetMatchOnly(kJFalse);			// we want substring matches
 	itsRegex->SetLineBegin(kJTrue);				// ^ matches beginning of line, not text
 	itsRegex->SetLineEnd(kJTrue);				// $ matches end of line, not text
-#ifndef PCRE_MAJOR
-	itsRegex->SetNoJExtended(kJFalse);			// with perl extensions
-	(itsRegex->GetPatternEscapeEngine())->SetWhitespaceEscapes();
-#endif
 	(itsRegex->GetMatchInterpolator())->SetWhitespaceEscapes();
 
 	itsUpdateTask = new JXTimerTask(kUpdatePeriod);
@@ -251,13 +245,15 @@ JXSearchTextDialog::BuildWindow()
 
     JXStaticText* obj1_JXLayout =
         new JXStaticText(JGetString("obj1_JXLayout::JXSearchTextDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,31, 80,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,30, 80,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     JXStaticText* obj2_JXLayout =
         new JXStaticText(JGetString("obj2_JXLayout::JXSearchTextDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,101, 90,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 90,20);
     assert( obj2_JXLayout != NULL );
+    obj2_JXLayout->SetToLabel();
 
     itsIgnoreCaseCB =
         new JXTextCheckbox(JGetString("itsIgnoreCaseCB::JXSearchTextDialog::JXLayout"), window,
@@ -330,8 +326,9 @@ JXSearchTextDialog::BuildWindow()
 
     JXStaticText* obj3_JXLayout =
         new JXStaticText(JGetString("obj3_JXLayout::JXSearchTextDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 353,23, 40,20);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 355,20, 40,20);
     assert( obj3_JXLayout != NULL );
+    obj3_JXLayout->SetToLabel();
 
     itsFindBackButton =
         new JXSearchTextButton(kJFalse, window,
@@ -345,8 +342,9 @@ JXSearchTextDialog::BuildWindow()
 
     JXStaticText* obj4_JXLayout =
         new JXStaticText(JGetString("obj4_JXLayout::JXSearchTextDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 323,83, 100,20);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 323,80, 100,20);
     assert( obj4_JXLayout != NULL );
+    obj4_JXLayout->SetToLabel();
 
     itsReplaceFindBackButton =
         new JXSearchTextButton(kJFalse, window,
@@ -360,8 +358,9 @@ JXSearchTextDialog::BuildWindow()
 
     JXStaticText* obj5_JXLayout =
         new JXStaticText(JGetString("obj5_JXLayout::JXSearchTextDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 333,113, 80,20);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 335,110, 80,20);
     assert( obj5_JXLayout != NULL );
+    obj5_JXLayout->SetToLabel();
 
     itsReplaceAllBackButton =
         new JXSearchTextButton(kJFalse, window,
@@ -489,7 +488,7 @@ JXSearchTextDialog::SetObjects
 	itsHelpButton  = helpButton;
 	itsQRefButton  = qRefButton;
 
-	SetFont(kDefaultFontName, kJXDefaultFontSize);
+	SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize);
 
 	// decor
 

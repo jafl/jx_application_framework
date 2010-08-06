@@ -772,6 +772,7 @@ LOCAL (void)
       nim->green[icolor] = 255;
       nim->blue[icolor] = 255;
     }
+		nim->open[icolor] = 0;
 #endif
 }
 
@@ -799,6 +800,9 @@ select_colors (gdImagePtr oim, gdImagePtr nim, my_cquantize_ptr cquantize, int d
     return;
    }
   boxlist = (boxptr) gdMalloc (desired_colors * sizeof (box));
+	if (!boxlist) {
+		return;
+	}
 #endif
   /* Initialize one box containing whole space */
   numboxes = 1;
@@ -1931,11 +1935,12 @@ static void gdImageTrueColorToPaletteBody (gdImagePtr oim, int dither, int color
   init_error_limit (oim, nim, cquantize);
   arraysize = (size_t) ((nim->sx + 2) * (3 * sizeof (FSERROR)));
   /* Allocate Floyd-Steinberg workspace. */
-  cquantize->fserrors = gdCalloc (arraysize, 1);
+	cquantize->fserrors = gdRealloc(cquantize->fserrors, arraysize);
   if (!cquantize->fserrors)
     {
       goto outOfMemory;
     }
+  memset(cquantize->fserrors, 0, arraysize);
   cquantize->on_odd_row = FALSE;
 
   /* Do the work! */

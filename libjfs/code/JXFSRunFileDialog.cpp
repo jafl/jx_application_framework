@@ -27,7 +27,6 @@
 
 const JSize kHistoryLength = 20;
 
-static const JCharacter* kDefaultFontName = "6x13";
 static const JCharacter* kHelpSectionName = "JFSRunFileHelp";
 
 // setup information
@@ -144,6 +143,7 @@ JXFSRunFileDialog::BuildWindow
         new JXStaticText(JGetString("prompt::JXFSRunFileDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 430,20);
     assert( prompt != NULL );
+    prompt->SetToLabel();
 
     JXTextButton* cancelButton =
         new JXTextButton(JGetString("cancelButton::JXFSRunFileDialog::JXLayout"), window,
@@ -159,7 +159,7 @@ JXFSRunFileDialog::BuildWindow
 
     itsOKButton =
         new JXTextButton(JGetString("itsOKButton::JXFSRunFileDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 369,99, 62,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 370,100, 60,20);
     assert( itsOKButton != NULL );
     itsOKButton->SetShortcuts(JGetString("itsOKButton::JXFSRunFileDialog::shortcuts::JXLayout"));
 
@@ -193,9 +193,10 @@ JXFSRunFileDialog::BuildWindow
 
     JXStaticText* obj1_JXLayout =
         new JXStaticText(JGetString("obj1_JXLayout::JXFSRunFileDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 20,60, 330,20);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 20,60, 350,20);
     assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetFontSize(10);
+    obj1_JXLayout->SetFontSize(8);
+    obj1_JXLayout->SetToLabel();
 
     itsSingleFileCB =
         new JXTextCheckbox(JGetString("itsSingleFileCB::JXFSRunFileDialog::JXLayout"), window,
@@ -219,8 +220,8 @@ JXFSRunFileDialog::BuildWindow
 	itsCmdInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	ListenTo(itsCmdInput);
 
-	itsCmdInput->SetFontName(kDefaultFontName);
-	itsCmdHistoryMenu->SetDefaultFontName(kDefaultFontName, kJTrue);
+	itsCmdInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsCmdHistoryMenu->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle(), kJTrue);
 
 	// check for suffix
 

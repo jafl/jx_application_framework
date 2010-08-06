@@ -414,7 +414,7 @@ JXTreeListWidget::TableDrawCell
 		else
 			{
 			p.SetFilling(kJTrue);
-			p.SetPenColor(colormap->GetGray90Color());
+			p.SetPenColor(colormap->GetGrayColor(90));
 			p.Polygon(*triangle);
 
 			p.SetFilling(kJFalse);

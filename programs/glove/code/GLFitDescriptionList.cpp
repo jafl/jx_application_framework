@@ -67,7 +67,7 @@ GLFitDescriptionList::GLFitDescriptionList
 
 	const JFontManager* fontMgr = GetFontManager();
 	const JSize rowHeight = 2*kVMarginWidth +
-		fontMgr->GetLineHeight(JGetDefaultFontName(), kJXDefaultFontSize, JFontStyle());
+		fontMgr->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle());
 	SetDefaultRowHeight(rowHeight);
 
 	const JSize count = GetFitManager()->GetFitCount();
@@ -82,19 +82,19 @@ GLFitDescriptionList::GLFitDescriptionList
 	SetRowBorderInfo(0, colormap->GetBlackColor());
 	SetColBorderInfo(0, colormap->GetBlackColor());
 
-	itsBuiltInIcon	= new JXImage(GetDisplay(), GetColormap(), JXPM(glBuiltInFit));
+	itsBuiltInIcon	= new JXImage(GetDisplay(), JXPM(glBuiltInFit));
 	assert(itsBuiltInIcon != NULL);
 	itsBuiltInIcon->ConvertToRemoteStorage();
 
-	itsNonLinearIcon	= new JXImage(GetDisplay(), GetColormap(), JXPM(glNonLinearFit));
+	itsNonLinearIcon	= new JXImage(GetDisplay(), JXPM(glNonLinearFit));
 	assert(itsNonLinearIcon != NULL);
 	itsNonLinearIcon->ConvertToRemoteStorage();
 
-	itsPolyIcon	= new JXImage(GetDisplay(), GetColormap(), JXPM(glPolyFit));
+	itsPolyIcon	= new JXImage(GetDisplay(), JXPM(glPolyFit));
 	assert(itsPolyIcon != NULL);
 	itsPolyIcon->ConvertToRemoteStorage();
 
-	itsExecutableIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(jx_executable_small));
+	itsExecutableIcon = new JXImage(GetDisplay(), JXPM(jx_executable_small));
 	assert( itsExecutableIcon != NULL );
 	itsExecutableIcon->ConvertToRemoteStorage();
 
@@ -386,7 +386,7 @@ GLFitDescriptionList::SyncWithManager()
 		itsNameList->Append(str);
 
 		const JCoordinate width = 2*kHMarginWidth + kIconWidth + 
-			GetFontManager()->GetStringWidth(JGetDefaultFontName(), kJXDefaultFontSize,
+			GetFontManager()->GetStringWidth(JGetDefaultFontName(), kJDefaultFontSize,
 									JFontStyle(), *str);
 		if (width > itsMinColWidth)
 			{

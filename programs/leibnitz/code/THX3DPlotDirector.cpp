@@ -205,7 +205,7 @@ THX3DPlotDirector::BuildWindow()
 	window->SetWMClass(THXGetWMClassInstance(), THXGetPlotWindowClass());
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = new JXImage(display, display->GetColormap(), thx_3D_plot_window);
+	JXImage* icon      = new JXImage(display, thx_3D_plot_window);
 	assert( icon != NULL );
 	window->SetIcon(icon);
 

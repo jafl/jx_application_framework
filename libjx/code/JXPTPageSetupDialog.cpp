@@ -94,10 +94,11 @@ JXPTPageSetupDialog::BuildWindow
         new JXStaticText(JGetString("obj1_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 100,19);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::JXPTPageSetupDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 219,159, 72,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 220,160, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::JXPTPageSetupDialog::shortcuts::JXLayout"));
 
@@ -120,11 +121,13 @@ JXPTPageSetupDialog::BuildWindow
         new JXStaticText(JGetString("obj2_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 80,20);
     assert( obj2_JXLayout != NULL );
+    obj2_JXLayout->SetToLabel();
 
     JXStaticText* obj3_JXLayout =
         new JXStaticText(JGetString("obj3_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 80,20);
     assert( obj3_JXLayout != NULL );
+    obj3_JXLayout->SetToLabel();
 
     itsHeight =
         new JXIntegerInput(window,
@@ -135,11 +138,13 @@ JXPTPageSetupDialog::BuildWindow
         new JXStaticText(JGetString("obj4_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 130,60, 70,20);
     assert( obj4_JXLayout != NULL );
+    obj4_JXLayout->SetToLabel();
 
     JXStaticText* obj5_JXLayout =
         new JXStaticText(JGetString("obj5_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 130,80, 70,20);
     assert( obj5_JXLayout != NULL );
+    obj5_JXLayout->SetToLabel();
 
     itsPrintTestButton =
         new JXTextButton(JGetString("itsPrintTestButton::JXPTPageSetupDialog::JXLayout"), window,

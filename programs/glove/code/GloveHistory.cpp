@@ -105,7 +105,7 @@ GloveHistory::GloveHistory
 	else
 		{
 		itsFontMenu = NULL;
-		SetDefaultFont(JGetMonospaceFontName(), kJDefaultFontSize);
+		SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize);
 
 		itsSizeMenu = new JXFontSizeMenu(JGetMonospaceFontName(), kSizeMenuTitleStr, menuBar,
 										 kFixedLeft, kFixedTop, 0,0, 10,10);
@@ -141,7 +141,7 @@ GloveHistory::Receive
 	const Message&	message
 	)
 {
-	if ((sender == itsFontMenu && message.Is(JXXFontMenu::kFontChanged)) ||
+	if ((sender == itsFontMenu && message.Is(JXXFontMenu::kNameChanged)) ||
 		(sender == itsSizeMenu && message.Is(JXFontSizeMenu::kSizeChanged)))
 		{
 		AdjustFont();

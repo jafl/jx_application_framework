@@ -25,14 +25,12 @@ class JXStyleMenu : public JXTextMenu
 
 public:
 
-	JXStyleMenu(const JBoolean allowChooseCustomColors,
-				JXContainer* enclosure,
+	JXStyleMenu(JXContainer* enclosure,
 				const HSizingOption hSizing, const VSizingOption vSizing,
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 
-	JXStyleMenu(const JBoolean allowChooseCustomColors,
-				JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
+	JXStyleMenu(JXMenu* owner, const JIndex itemIndex, JXContainer* enclosure);
 
 	virtual ~JXStyleMenu();
 
@@ -43,7 +41,6 @@ protected:
 	virtual void		UpdateMenu();		// must call inherited
 	virtual JFontStyle	GetFontStyleForMenuUpdate() const = 0;
 	virtual void		HandleMenuItem(const JIndex menuItem) = 0;
-	virtual void		HandleCustomColor(const JColorIndex color);
 	void				UpdateStyle(const JIndex menuItem, JFontStyle* style);
 	JColorIndex			GetSelectedColor() const;
 
@@ -69,8 +66,6 @@ protected:
 	};
 
 private:
-
-	const JBoolean	itsChooseCustomColorFlag;
 
 	JColorIndex	itsColorIndex;
 	JColorIndex	itsColorList[ kColorCount ];

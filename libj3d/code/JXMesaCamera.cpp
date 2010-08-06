@@ -201,7 +201,6 @@ JXMesaCamera::InitMesa
 	assert( widget->GetColormap() == &(universe->GetColormap()) );
 
 	itsWidget           = widget;
-	itsIsRGBAFlag       = kJTrue;		// colormap->AllColorsPreallocated();
 	itsDoubleBufferFlag = kJTrue;
 
 	itsPerspectiveFlag  = kJTrue;
@@ -213,7 +212,7 @@ JXMesaCamera::InitMesa
 	itsXMVisual =
 		XMesaCreateVisual(*(itsWidget->GetDisplay()),
 						  &xvi,
-						  itsIsRGBAFlag,		// RGB or color indices
+						  kJTrue,				// RGB
 						  GL_FALSE,				// alpha buffer
 						  itsDoubleBufferFlag,	// double buffering
 						  GL_FALSE,				// stereo visual
@@ -348,19 +347,12 @@ JXMesaCamera::SetBackColor
 		return;
 		}
 
-//	if (itsIsRGBAFlag)
-//		{
-		JSize r,g,b;
-		(GetColormap()).GetRGB(color, &r, &g, &b);
-		glClearColor(r/kJMaxRGBValueF,
-					 g/kJMaxRGBValueF,
-					 b/kJMaxRGBValueF,
-					 0.0);
-//		}
-//	else
-//		{
-//		glClearIndex((GetColormap()).GetSystemColorIndex(color));
-//		}
+	JSize r,g,b;
+	(GetColormap()).GetRGB(color, &r, &g, &b);
+	glClearColor(r/kJMaxRGBValueF,
+				 g/kJMaxRGBValueF,
+				 b/kJMaxRGBValueF,
+				 0.0);
 }
 
 /******************************************************************************
@@ -377,16 +369,9 @@ JXMesaCamera::HWSetVertexColor
 	const JColorIndex	color
 	)
 {
-//	if (itsIsRGBAFlag)
-//		{
-		JSize r,g,b;
-		colormap.GetRGB(color, &r, &g, &b);
-		glColor3f(r/kJMaxRGBValueF,
-				  g/kJMaxRGBValueF,
-				  b/kJMaxRGBValueF);
-//		}
-//	else
-//		{
-//		glIndexi(colormap.GetSystemColorIndex(color));
-//		}
+	JSize r,g,b;
+	colormap.GetRGB(color, &r, &g, &b);
+	glColor3f(r/kJMaxRGBValueF,
+			  g/kJMaxRGBValueF,
+			  b/kJMaxRGBValueF);
 }

@@ -13,6 +13,20 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 2.1 </h3>
+
+<b>Major changes</b>
+
+<p>
+Anti-aliased text.
+<p>
+
+<b> Miscellaneous </b>
+
+<p>
+Attachments without a file type suffix now receive a suffix based on the MIME type.
+<p>
+
 <h3> 2.0.2 </h3>
 
 <b> Miscellaneous </b>

@@ -93,7 +93,6 @@ enum
 static const JCharacter* kTestMenuTitleStr = "Test %h #t";
 static const JCharacter* kTestMenuStr =
 	"    New main window"
-	"  | Force private colormap"
 	"%l| User notification"
 	"  | File chooser"
 	"  | Progress display"
@@ -123,7 +122,7 @@ static const JCharacter* kTestMenuStr =
 
 enum
 {
-	kNewTestDirectorCmd = 1, kForcePrivCmapCmd,
+	kNewTestDirectorCmd = 1,
 	kTestUserNotifyMenuCmd, kTestChooseSaveFileMenuCmd, kTestPGMenuCmd,
 	kTestInputCmd, kTestButtonsCmd, kTestPopupChoiceCmd, kTestSliderCmd,
 	kTestPartitionsCmd, kTestTabGroupCmd,
@@ -197,8 +196,6 @@ TestDirector::TestDirector
 	const JBoolean	startIconic,
 	const JBoolean	bufferTestWidget,
 	const JBoolean	testWidgetIsImage,
-	const JBoolean	useStaticColors,
-	const JBoolean	allocDynamicColors,
 	const JBoolean	snoopWindow
 	)
 	:
@@ -211,8 +208,7 @@ TestDirector::TestDirector
 	itsCSF = new TestChooseSaveFile;
 	assert( itsCSF != NULL );
 
-	BuildWindow(isMaster, bufferTestWidget, testWidgetIsImage,
-				useStaticColors, allocDynamicColors);
+	BuildWindow(isMaster, bufferTestWidget, testWidgetIsImage);
 
 	JXWindow* window = GetWindow();
 	if (snoopWindow)
@@ -238,11 +234,11 @@ TestDirector::TestDirector
 
 	// GetDisplay() only works after SetWindow()
 
-	itsPSPrinter = new JXPSPrinter(GetDisplay(), window->GetColormap());
+	itsPSPrinter = new JXPSPrinter(GetDisplay());
 	assert( itsPSPrinter != NULL );
 	ListenTo(itsPSPrinter);
 
-	itsEPSPrinter = new JXEPSPrinter(GetDisplay(), window->GetColormap());
+	itsEPSPrinter = new JXEPSPrinter(GetDisplay());
 	assert( itsEPSPrinter != NULL );
 	ListenTo(itsEPSPrinter);
 }
@@ -301,29 +297,15 @@ TestDirector::BuildWindow
 	(
 	const JBoolean isMaster,
 	const JBoolean bufferTestWidget,
-	const JBoolean testWidgetIsImage,
-	const JBoolean useStaticColors,
-	const JBoolean allocDynamicColors
+	const JBoolean testWidgetIsImage
 	)
 {
-	JXDisplay* display    = (JXGetApplication())->GetCurrentDisplay();
-	JXColormap* colormap  = display->GetColormap();
-	JBoolean ownsColormap = kJFalse;
-
-	if (!colormap->CanAllocateDynamicColors() && !useStaticColors)
-		{
-		JXColormap* newColormap;
-		if (/*JXColormap::Create(display, DirectColor, &newColormap) ||*/
-			JXColormap::Create(display, PseudoColor, &newColormap))
-			{
-			colormap     = newColormap;
-			ownsColormap = kJTrue;
-			}
-		}
+	JXDisplay* display   = (JXGetApplication())->GetCurrentDisplay();
+	JXColormap* colormap = display->GetColormap();
 
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 400,330, "Test Director", ownsColormap, colormap);
+    JXWindow* window = new JXWindow(this, 400,330, "");
     assert( window != NULL );
     SetWindow(window);
 
@@ -339,6 +321,7 @@ TestDirector::BuildWindow
 
 // end JXLayout
 
+	window->SetTitle("Test Director");
 	window->SetWMClass("testjx", "TestDirector");
 
 	window->SetMinSize(150,150);
@@ -358,8 +341,7 @@ TestDirector::BuildWindow
 	// menus
 
 	JXImage* aboutTitleImage =
-		new JXImage(display, colormap,
-					kSmileyBitmap[ kHappySmileyIndex ], colormap->GetRedColor());
+		new JXImage(display, kSmileyBitmap[ kHappySmileyIndex ], colormap->GetRedColor());
 	assert( aboutTitleImage != NULL );
 	itsAboutMenu = menuBar->AppendTextMenu(aboutTitleImage, kJTrue);
 	itsAboutMenu->SetShortcuts(kAboutMenuShortcuts);
@@ -414,7 +396,7 @@ TestDirector::BuildWindow
 		}
 
 	itsWidget =
-		new TestWidget(isMaster, testWidgetIsImage, allocDynamicColors,
+		new TestWidget(isMaster, testWidgetIsImage,
 					   menuBar, scrollbarSet,
 					   scrollbarSet->GetScrollEnclosure(),
 					   JXWidget::kHElastic, JXWidget::kVElastic,
@@ -465,7 +447,7 @@ JIndex i;
 	JXImage* image[kSmileyBitmapCount];
 	for (i=0; i<kSmileyBitmapCount; i++)
 		{
-		image[i] = new JXImage(display, colormap, kSmileyBitmap[i], kSmileyColor[i]);
+		image[i] = new JXImage(display, kSmileyBitmap[i], kSmileyColor[i]);
 		assert( image[i] != NULL );
 		}
 
@@ -776,27 +758,6 @@ TestDirector::HandleTestMenu
 		TestDirector* dir = new TestDirector(TestjxGetApplication(), kJFalse);
 		assert( dir != NULL );
 		dir->Activate();
-		}
-
-	else if (index == kForcePrivCmapCmd)
-		{
-		JXDisplay* display;
-		if (itsDisplayMenu != NULL)
-			{
-			display = itsDisplayMenu->GetSelectedDisplay();
-			}
-		else
-			{
-			display = GetDisplay();
-			}
-
-		if (!display->ForcePrivateColormap())
-			{
-			(JGetUserNotification())->ReportError(
-				"Unable to create private colormap, probably because "
-				"you are already using one, or because you have "
-				"24-bit color (lucky you!).");
-			}
 		}
 
 	else if (index == kTestInputCmd)

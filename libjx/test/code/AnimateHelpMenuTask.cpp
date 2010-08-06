@@ -44,14 +44,14 @@ AnimateHelpMenuTask::AnimateHelpMenuTask
 		JColorIndex fgColor = colormap->GetBlackColor();
 		if (i == kGreyOutIcon1Index)
 			{
-			fgColor = colormap->GetGray50Color();
+			fgColor = colormap->GetGrayColor(50);
 			}
 		else if (i == kGreyOutIcon2Index)
 			{
-			fgColor = colormap->GetGray75Color();
+			fgColor = colormap->GetGrayColor(75);
 			}
 		JXImage* icon =
-			new JXImage(display, colormap, kHelpIcon[i-1], fgColor, colormap->GetWhiteColor());
+			new JXImage(display, kHelpIcon[i-1], fgColor, colormap->GetWhiteColor());
 		assert( icon != NULL );
 		icon->SetDefaultState(JXImage::kRemoteStorage);
 		icon->ConvertToDefaultState();

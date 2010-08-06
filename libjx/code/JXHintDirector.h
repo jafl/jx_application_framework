@@ -30,8 +30,7 @@ public:
 
 private:
 
-	void	BuildWindow(JXColormap* colormap, const JRect& frameR,
-						const JCharacter* text);
+	void	BuildWindow(const JRect& frameR, const JCharacter* text);
 
 	// not allowed
 

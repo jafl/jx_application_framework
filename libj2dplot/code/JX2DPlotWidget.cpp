@@ -140,7 +140,7 @@ JX2DPlotWidget::JX2DPlotWidget
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	J2DPlotWidget(GetColormap()->GetBlackColor(),
 				  GetColormap()->GetWhiteColor(),
-				  GetColormap()->GetGray70Color(),
+				  GetColormap()->GetGrayColor(70),
 				  GetColormap()->GetRedColor())
 {
 	JX2DPlotWidgetX();
@@ -191,7 +191,7 @@ JX2DPlotWidget::JX2DPlotWidget
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	J2DPlotWidget(GetColormap()->GetBlackColor(),
 				  GetColormap()->GetWhiteColor(),
-				  GetColormap()->GetGray50Color(),
+				  GetColormap()->GetGrayColor(50),
 				  GetColormap()->GetRedColor())
 {
 	JX2DPlotWidgetX();

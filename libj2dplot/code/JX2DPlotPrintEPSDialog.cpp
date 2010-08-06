@@ -202,7 +202,7 @@ JX2DPlotPrintEPSDialog::BuildWindow
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::JX2DPlotPrintEPSDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 229,159, 72,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 230,160, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
 
@@ -243,11 +243,13 @@ JX2DPlotPrintEPSDialog::BuildWindow
         new JXStaticText(JGetString("obj1_JXLayout::JX2DPlotPrintEPSDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 50,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     JXStaticText* obj2_JXLayout =
         new JXStaticText(JGetString("obj2_JXLayout::JX2DPlotPrintEPSDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 50,20);
     assert( obj2_JXLayout != NULL );
+    obj2_JXLayout->SetToLabel();
 
     itsUnitMenu =
         new JXTextMenu(JGetString("itsUnitMenu::JX2DPlotPrintEPSDialog::JXLayout"), window,

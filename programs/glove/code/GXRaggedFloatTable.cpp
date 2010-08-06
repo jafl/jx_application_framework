@@ -207,15 +207,15 @@ GXRaggedFloatTable::GXRaggedFloatTable
 	ListenTo(itsEditMenu);
 
 
-	JXImage* image = new JXImage(GetDisplay(), GetColormap(), JXPM(editcut));
+	JXImage* image = new JXImage(GetDisplay(), JXPM(editcut));
 	assert(image != NULL);
 	itsEditMenu->SetItemImage(kCutCmd, image, kJTrue);
 
-	image = new JXImage(GetDisplay(), GetColormap(), JXPM(editcopy));
+	image = new JXImage(GetDisplay(), JXPM(editcopy));
 	assert(image != NULL);
 	itsEditMenu->SetItemImage(kCopyCmd, image, kJTrue);
 
-	image = new JXImage(GetDisplay(), GetColormap(), JXPM(editpaste));
+	image = new JXImage(GetDisplay(), JXPM(editpaste));
 	assert(image != NULL);
 	itsEditMenu->SetItemImage(kPasteCmd, image, kJTrue);
 
@@ -225,16 +225,16 @@ GXRaggedFloatTable::GXRaggedFloatTable
 	ListenTo(itsDataMenu);
 
 
-	image = new JXImage(GetDisplay(), GetColormap(), JXPM(plotdata));
+	image = new JXImage(GetDisplay(), JXPM(plotdata));
 	assert(image != NULL);
 	itsDataMenu->SetItemImage(kPlotCmd, image, kJTrue);
 
-	image = new JXImage(GetDisplay(), GetColormap(), JXPM(plotvectordata));
+	image = new JXImage(GetDisplay(), JXPM(plotvectordata));
 	assert(image != NULL);
 	itsDataMenu->SetItemImage(kPlotVectorCmd, image, kJTrue);
 
 
-	image = new JXImage(GetDisplay(), GetColormap(), JXPM(glv_transform));
+	image = new JXImage(GetDisplay(), JXPM(glv_transform));
 	assert(image != NULL);
 	itsDataMenu->SetItemImage(kTransCmd, image, kJTrue);
 
@@ -2771,7 +2771,7 @@ GXRaggedFloatTable::PrintRealTable
 		RemoveRow(GetRowCount());
 		}
 
-	const JColorIndex gray50Color = (GetColormap())->GetGray50Color();
+	const JColorIndex gray50Color = (GetColormap())->GetGrayColor(50);
 	SetRowBorderInfo(0, gray50Color);
 	SetColBorderInfo(0, gray50Color);
 

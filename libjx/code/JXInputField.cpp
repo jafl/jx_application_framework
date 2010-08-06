@@ -85,7 +85,7 @@ JXInputField::JXInputFieldX
 
 	itsTable = NULL;
 
-	SetDefaultFontSize(kJXDefaultFontSize);
+	SetDefaultFontSize(kJDefaultFontSize);
 	TESetLeftMarginWidth(kMinLeftMarginWidth);
 }
 

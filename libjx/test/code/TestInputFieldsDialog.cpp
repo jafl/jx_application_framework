@@ -64,7 +64,7 @@ TestInputFieldsDialog::BuildWindow()
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::TestInputFieldsDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 389,149, 72,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 390,150, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::TestInputFieldsDialog::shortcuts::JXLayout"));
 
@@ -128,85 +128,98 @@ TestInputFieldsDialog::BuildWindow()
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 550,80, 50,20);
     assert( i4 != NULL );
 
-    JXStaticText* obj1 =
-        new JXStaticText(JGetString("obj1::TestInputFieldsDialog::JXLayout"), window,
+    JXStaticText* obj1_JXLayout =
+        new JXStaticText(JGetString("obj1_JXLayout::TestInputFieldsDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 100,20);
-    assert( obj1 != NULL );
+    assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
-    JXStaticText* obj2 =
-        new JXStaticText(JGetString("obj2::TestInputFieldsDialog::JXLayout"), window,
+    JXStaticText* obj2_JXLayout =
+        new JXStaticText(JGetString("obj2_JXLayout::TestInputFieldsDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 100,20);
-    assert( obj2 != NULL );
-    obj2->SetFontName(JXGetTimesFontName());
-    obj2->SetFontSize(10);
-    const JFontStyle obj2_style(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetGreenColor());
-    obj2->SetFontStyle(obj2_style);
+    assert( obj2_JXLayout != NULL );
+    obj2_JXLayout->SetFontName("Times");
+    obj2_JXLayout->SetFontSize(8);
+    const JFontStyle obj2_JXLayout_style(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetGreenColor());
+    obj2_JXLayout->SetFontStyle(obj2_JXLayout_style);
+    obj2_JXLayout->SetToLabel();
 
-    JXStaticText* obj3 =
-        new JXStaticText(JGetString("obj3::TestInputFieldsDialog::JXLayout"), window,
+    JXStaticText* obj3_JXLayout =
+        new JXStaticText(JGetString("obj3_JXLayout::TestInputFieldsDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 100,20);
-    assert( obj3 != NULL );
-    obj3->SetFontName(JXGetTimesFontName());
-    const JFontStyle obj3_style(kJTrue, kJTrue, 0, kJFalse, (GetColormap())->GetBlackColor());
-    obj3->SetFontStyle(obj3_style);
+    assert( obj3_JXLayout != NULL );
+    obj3_JXLayout->SetFontName("Times");
+    const JFontStyle obj3_JXLayout_style(kJTrue, kJTrue, 0, kJFalse, (GetColormap())->GetBlackColor());
+    obj3_JXLayout->SetFontStyle(obj3_JXLayout_style);
+    obj3_JXLayout->SetToLabel();
 
-    JXStaticText* obj4 =
-        new JXStaticText(JGetString("obj4::TestInputFieldsDialog::JXLayout"), window,
+    JXStaticText* obj4_JXLayout =
+        new JXStaticText(JGetString("obj4_JXLayout::TestInputFieldsDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 100,20);
-    assert( obj4 != NULL );
-    obj4->SetFontSize(10);
-    const JFontStyle obj4_style(kJFalse, kJTrue, 0, kJFalse, (GetColormap())->GetBlackColor());
-    obj4->SetFontStyle(obj4_style);
+    assert( obj4_JXLayout != NULL );
+    obj4_JXLayout->SetFontSize(8);
+    const JFontStyle obj4_JXLayout_style(kJFalse, kJTrue, 0, kJFalse, (GetColormap())->GetBlackColor());
+    obj4_JXLayout->SetFontStyle(obj4_JXLayout_style);
+    obj4_JXLayout->SetToLabel();
 
-    JXStaticText* obj5 =
-        new JXStaticText(JGetString("obj5::TestInputFieldsDialog::JXLayout"), window,
+    JXStaticText* obj5_JXLayout =
+        new JXStaticText(JGetString("obj5_JXLayout::TestInputFieldsDialog::JXLayout"), window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 300,20, 80,20);
-    assert( obj5 != NULL );
+    assert( obj5_JXLayout != NULL );
+    obj5_JXLayout->SetToLabel();
 
-    JXStaticText* obj6 =
-        new JXStaticText(JGetString("obj6::TestInputFieldsDialog::JXLayout"), window,
+    JXStaticText* obj6_JXLayout =
+        new JXStaticText(JGetString("obj6_JXLayout::TestInputFieldsDialog::JXLayout"), window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 300,40, 80,20);
-    assert( obj6 != NULL );
+    assert( obj6_JXLayout != NULL );
+    obj6_JXLayout->SetToLabel();
 
-    JXStaticText* obj7 =
-        new JXStaticText(JGetString("obj7::TestInputFieldsDialog::JXLayout"), window,
+    JXStaticText* obj7_JXLayout =
+        new JXStaticText(JGetString("obj7_JXLayout::TestInputFieldsDialog::JXLayout"), window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 300,60, 80,20);
-    assert( obj7 != NULL );
+    assert( obj7_JXLayout != NULL );
+    obj7_JXLayout->SetToLabel();
 
-    JXStaticText* obj8 =
-        new JXStaticText(JGetString("obj8::TestInputFieldsDialog::JXLayout"), window,
+    JXStaticText* obj8_JXLayout =
+        new JXStaticText(JGetString("obj8_JXLayout::TestInputFieldsDialog::JXLayout"), window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 300,80, 80,20);
-    assert( obj8 != NULL );
+    assert( obj8_JXLayout != NULL );
+    obj8_JXLayout->SetToLabel();
 
-    JXStaticText* obj9 =
-        new JXStaticText(JGetString("obj9::TestInputFieldsDialog::JXLayout"), window,
+    JXStaticText* obj9_JXLayout =
+        new JXStaticText(JGetString("obj9_JXLayout::TestInputFieldsDialog::JXLayout"), window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 480,40, 70,20);
-    assert( obj9 != NULL );
+    assert( obj9_JXLayout != NULL );
+    obj9_JXLayout->SetToLabel();
 
-    JXStaticText* obj10 =
-        new JXStaticText(JGetString("obj10::TestInputFieldsDialog::JXLayout"), window,
+    JXStaticText* obj10_JXLayout =
+        new JXStaticText(JGetString("obj10_JXLayout::TestInputFieldsDialog::JXLayout"), window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 480,60, 70,20);
-    assert( obj10 != NULL );
+    assert( obj10_JXLayout != NULL );
+    obj10_JXLayout->SetToLabel();
 
-    JXStaticText* obj11 =
-        new JXStaticText(JGetString("obj11::TestInputFieldsDialog::JXLayout"), window,
+    JXStaticText* obj11_JXLayout =
+        new JXStaticText(JGetString("obj11_JXLayout::TestInputFieldsDialog::JXLayout"), window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 480,80, 70,20);
-    assert( obj11 != NULL );
+    assert( obj11_JXLayout != NULL );
+    obj11_JXLayout->SetToLabel();
 
-    JXStaticText* obj12 =
-        new JXStaticText(JGetString("obj12::TestInputFieldsDialog::JXLayout"), window,
+    JXStaticText* obj12_JXLayout =
+        new JXStaticText(JGetString("obj12_JXLayout::TestInputFieldsDialog::JXLayout"), window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 480,20, 70,20);
-    assert( obj12 != NULL );
+    assert( obj12_JXLayout != NULL );
+    obj12_JXLayout->SetToLabel();
 
     JXPasswordInput* pwInput =
         new JXPasswordInput(window,
                     JXWidget::kHElastic, JXWidget::kFixedTop, 110,110, 180,20);
     assert( pwInput != NULL );
 
-    JXStaticText* obj13 =
-        new JXStaticText(JGetString("obj13::TestInputFieldsDialog::JXLayout"), window,
+    JXStaticText* obj13_JXLayout =
+        new JXStaticText(JGetString("obj13_JXLayout::TestInputFieldsDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,110, 100,20);
-    assert( obj13 != NULL );
+    assert( obj13_JXLayout != NULL );
+    obj13_JXLayout->SetToLabel();
 
 // end JXLayout
 

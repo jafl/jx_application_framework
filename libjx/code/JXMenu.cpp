@@ -234,7 +234,7 @@ JXMenu::GetDefaultFont
 		{
 		theDefaultMenuFontInitFlag = kJTrue;
 		theDefaultFontName         = JGetDefaultFontName();
-		theDefaultFontSize         = kJXDefaultFontSize;
+		theDefaultFontSize         = kJDefaultFontSize;
 
 		JString fileName;
 		if (JExpandHomeDirShortcut(kMenuFontFileName, &fileName))
@@ -1208,7 +1208,7 @@ JXMenu::Draw
 			}
 
 		const JColorIndex colorIndex =
-			IsActive() ? (p.GetColormap())->GetGray40Color() :
+			IsActive() ? (p.GetColormap())->GetGrayColor(40) :
 						 (p.GetColormap())->GetInactiveLabelColor();
 		if (itsArrowDirection == kArrowPointsDown)
 			{

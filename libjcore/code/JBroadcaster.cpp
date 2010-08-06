@@ -190,6 +190,11 @@ JBroadcaster::StopListening
 	const JBroadcaster* csender
 	)
 {
+	if (csender == NULL)
+		{
+		return;
+		}
+
 	JBroadcaster* sender = const_cast<JBroadcaster*>(csender);
 	if (itsSenders != NULL && itsSenders->Includes(sender))
 		{

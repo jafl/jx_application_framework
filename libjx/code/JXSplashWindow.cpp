@@ -36,7 +36,7 @@ JXSplashWindow::JXSplashWindow
 	JXWindowDirector(JXGetApplication())
 {
 	JXDisplay* d   = (JXGetApplication())->GetCurrentDisplay();
-	JXImage* image = new JXImage(d, d->GetColormap(), imageData);
+	JXImage* image = new JXImage(d, imageData);
 	assert( image != NULL );
 
 	BuildWindow(image, text, displayInterval);
@@ -86,7 +86,7 @@ JXSplashWindow::BuildWindow
 
 	JXWindow* window = new JXWindow(this, totalWidth + 3*borderWidth,
 									totalHeight + 3*borderWidth,
-									"Splash", kJFalse, NULL, kJTrue);
+									"Splash", kJTrue);
 	assert( window != NULL );
 	SetWindow(window);
 

@@ -25,9 +25,7 @@
 void ParseTextOptions(int* argc, char* argv[], JBoolean* wantMDI);
 void ParseXOptions(const int argc, char* argv[],
 				   JBoolean* startIconic, JBoolean* bufferTestWidget,
-				   JBoolean* testWidgetIsImage, JBoolean* useStaticColors,
-				   JBoolean* allocDynamicColors, JBoolean* preApproxColors,
-				   JBoolean* snoopWindow);
+				   JBoolean* testWidgetIsImage, JBoolean* snoopWindow);
 void PrintVersion();
 
 /******************************************************************************
@@ -55,22 +53,16 @@ main
 	assert( app != NULL );
 
 	JBoolean startIconic, bufferTestWidget, testWidgetIsImage;
-	JBoolean useStaticColors, allocDynamicColors, preApproxColors;
 	JBoolean snoopWindow;
 	ParseXOptions(argc, argv, &startIconic, &bufferTestWidget,
-				  &testWidgetIsImage, &useStaticColors, &allocDynamicColors,
-				  &preApproxColors, &snoopWindow);
+				  &testWidgetIsImage, &snoopWindow);
 
 	TestDirector* mainDir =
 		new TestDirector(app, kJTrue, startIconic, bufferTestWidget,
-						 testWidgetIsImage, useStaticColors, allocDynamicColors,
-						 snoopWindow);
+						 testWidgetIsImage, snoopWindow);
 	assert( mainDir != NULL );
 
 	app->SetMainDirector(mainDir);
-
-	((mainDir->GetDisplay())->GetColormap())->
-		ShouldPreemptivelyApproximateColors(preApproxColors);
 
 	mainDir->Activate();
 	app->Run();
@@ -142,18 +134,12 @@ ParseXOptions
 	JBoolean*	startIconic,
 	JBoolean*	bufferTestWidget,
 	JBoolean*	testWidgetIsImage,
-	JBoolean*	useStaticColors,
-	JBoolean*	allocDynamicColors,
-	JBoolean*	preApproxColors,
 	JBoolean*	snoopWindow
 	)
 {
 	*startIconic        = kJFalse;
 	*bufferTestWidget   = kJTrue;
 	*testWidgetIsImage  = kJFalse;
-	*useStaticColors    = kJFalse;
-	*allocDynamicColors = kJTrue;
-	*preApproxColors    = kJFalse;
 	*snoopWindow        = kJFalse;
 
 	long index = 1;
@@ -170,18 +156,6 @@ ParseXOptions
 		else if (strcmp(argv[index], "-imagebuffer") == 0)
 			{
 			*testWidgetIsImage = kJTrue;
-			}
-		else if (strcmp(argv[index], "-staticcolor") == 0)
-			{
-			*useStaticColors = kJTrue;
-			}
-		else if (strcmp(argv[index], "-nodyncolor") == 0)
-			{
-			*allocDynamicColors = kJFalse;
-			}
-		else if (strcmp(argv[index], "-preappcolor") == 0)
-			{
-			*preApproxColors = kJTrue;
 			}
 		else if (strcmp(argv[index], "-snoopwindow") == 0)
 			{

@@ -17,7 +17,6 @@
 #include <JEPSPrinter.h>
 
 class JXDisplay;
-class JXColormap;
 class JXImage;
 class JXImagePainter;
 class JXEPSPrintSetupDialog;
@@ -26,7 +25,7 @@ class JXEPSPrinter : public JEPSPrinter
 {
 public:
 
-	JXEPSPrinter(JXDisplay* display, JXColormap* colormap);
+	JXEPSPrinter(JXDisplay* display);
 
 	virtual ~JXEPSPrinter();
 
@@ -59,8 +58,7 @@ protected:
 
 private:
 
-	JXDisplay*	itsDisplay;		// not owned; used for font lookup
-	JXColormap*	itsColormap;	// not owned; used for color lookup
+	JXDisplay*	itsDisplay;		// not owned
 
 	JXImage*		itsPreviewImage;
 	JXImagePainter*	itsPreviewPainter;

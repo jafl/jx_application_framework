@@ -84,7 +84,7 @@ GNetDebugDir::GNetDebugDir
 			0,0,w,h - kJXDefaultMenuBarHeight);
 	assert (itsText != NULL);
 
-	itsMenuIcon = new JXImage(window->GetDisplay(), window->GetColormap(), JXPM(debug_xpm));
+	itsMenuIcon = new JXImage(window->GetDisplay(), debug_xpm);
 	assert(itsMenuIcon != NULL);
 	itsMenuIcon->ConvertToRemoteStorage();
 

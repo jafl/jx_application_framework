@@ -94,9 +94,6 @@ public:
 							  JCursorIndex* index) const;
 	void			DisplayCursorInAllWindows(const JCursorIndex index);
 
-	void		AllowPrivateColormap(const JBoolean allow);
-	JBoolean	ForcePrivateColormap();
-
 	void	Beep() const;
 
 	void	RaiseAllWindows();

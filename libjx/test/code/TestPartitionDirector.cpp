@@ -100,7 +100,7 @@ JIndex i;
 
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 315,345, "");
+    JXWindow* window = new JXWindow(this, 310,340, "");
     assert( window != NULL );
     SetWindow(window);
 

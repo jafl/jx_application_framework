@@ -177,12 +177,7 @@ JFSBinding::CreateContentRegex()
 {
 	JRegex* r = new JRegex;
 	assert( r != NULL );
-#ifndef PCRE_MAJOR
-	(r->GetPatternEscapeEngine())->SetWhitespaceEscapes();
-	r->SetNoJExtended(kJFalse);
-#endif
 	r->SetSingleLine(kJTrue);
-	r->SetMatchOnly(kJFalse);
 	return r;
 }
 

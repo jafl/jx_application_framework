@@ -217,6 +217,16 @@ static int comp_entities(const void *e1, const void *e2) {
   return strcmp(en1->name, en2->name);
 }
 
+extern int any2eucjp (char *, char *, unsigned int);
+
+/* Persistent font cache until explicitly cleared */
+/* Fonts can be used across multiple images */
+
+/* 2.0.16: thread safety (the font cache is shared) */
+gdMutexDeclare (gdFontCacheMutex);
+static gdCache_head_t *fontCache;
+static FT_Library library;
+
 #define Tcl_UniChar int
 #define TCL_UTF_MAX 3
 static int
@@ -439,6 +449,10 @@ fontFetch (char **error, void *key)
   *error = NULL;
 
   a = (font_t *) gdMalloc (sizeof (font_t));
+	if (!a) {
+		return NULL;
+	}
+
   a->fontlist = strdup (b->fontlist);
   a->flags = b->flags;
   a->library = b->library;
@@ -538,10 +552,14 @@ tweenColorFetch (char **error, void *key)
   gdImagePtr im;
 
   a = (tweencolor_t *) gdMalloc (sizeof (tweencolor_t));
+	if (!a) {
+		return NULL;
+	}
+
   pixel = a->pixel = b->pixel;
   bg = a->bgcolor = b->bgcolor;
   fg = a->fgcolor = b->fgcolor;
-  im = b->im;
+  im = a->im = b->im;
 
   /* if fg is specified by a negative color idx, then don't antialias */
   if (fg < 0)
@@ -767,16 +785,6 @@ gdft_draw_bitmap (gdCache_head_t * tc_cache, gdImage * im, int fg,
   return (char *) NULL;
 }
 
-extern int any2eucjp (char *, char *, unsigned int);
-
-/* Persistent font cache until explicitly cleared */
-/* Fonts can be used across multiple images */
-
-/* 2.0.16: thread safety (the font cache is shared) */
-gdMutexDeclare (gdFontCacheMutex);
-static gdCache_head_t *fontCache;
-static FT_Library library;
-
 BGD_DECLARE(void) gdFreeFontCache ()
 {
   gdFontCacheShutdown ();
@@ -786,11 +794,13 @@ BGD_DECLARE(void) gdFontCacheShutdown ()
 {
   if (fontCache)
     {
-      gdMutexShutdown (gdFontCacheMutex);
+			gdMutexLock(gdFontCacheMutex);
       gdCacheDelete (fontCache);
-      FT_Done_FreeType (library);
       /* 2.0.16: Gustavo Scotti: make sure we don't free this twice */
       fontCache = 0;
+			gdMutexUnlock(gdFontCacheMutex);
+      gdMutexShutdown (gdFontCacheMutex);
+      FT_Done_FreeType (library);
     }
 }
 
@@ -818,6 +828,9 @@ BGD_DECLARE(int) gdFontCacheSetup (void)
       return -1;
     }
   fontCache = gdCacheCreate (FONTCACHESIZE, fontTest, fontFetch, fontRelease);
+	if (!fontCache) {
+		return -2;
+	}
   return 0;
 }
 
@@ -832,7 +845,7 @@ BGD_DECLARE(char *) gdImageStringFTEx (gdImage * im, int *brect, int fg, char *f
   FT_Matrix matrix;
   FT_Vector penf, oldpenf, delta, total_min = {0,0}, total_max = {0,0}, glyph_min, glyph_max;
   FT_Face face;
-  FT_CharMap charmap;
+  FT_CharMap charmap = NULL;
   FT_Glyph image;
   FT_GlyphSlot slot;
   FT_Error err;
@@ -904,6 +917,12 @@ BGD_DECLARE(char *) gdImageStringFTEx (gdImage * im, int *brect, int fg, char *f
     }
   face = font->face;		/* shortcut */
   slot = face->glyph;		/* shortcut */
+
+   if (brect)
+     {
+       total_min.x = total_min.y = 0;
+       total_max.x = total_max.y = 0;
+     }
 
   /*
    * Added hdpi and vdpi to support images at non-screen resolutions, i.e. 300 dpi TIFF,
@@ -982,6 +1001,14 @@ BGD_DECLARE(char *) gdImageStringFTEx (gdImage * im, int *brect, int fg, char *f
 	      || charmap->encoding == FT_ENCODING_UNICODE
 	      || charmap->encoding == FT_ENCODING_ADOBE_CUSTOM
 	      || charmap->encoding == FT_ENCODING_ADOBE_STANDARD)
+	    {
+	      encodingfound++;
+	      break;
+	    }
+	}
+      else if (encoding == gdFTEX_Adobe_Custom)
+	{
+	  if (charmap->encoding == FT_ENCODING_ADOBE_CUSTOM)
 	    {
 	      encodingfound++;
 	      break;
@@ -1161,7 +1188,7 @@ fprintf(stderr,"dpi=%d,%d metric_res=%d ptsize=%g\n",hdpi,vdpi,METRIC_RES,ptsize
 		{
 		  ch = c & 0xFF;	/* don't extend sign */
 		}
-	      next++;
+				if (*next) next++;
 	    }
 	    break;
 	  case gdFTEX_Big5:
@@ -1181,6 +1208,12 @@ fprintf(stderr,"dpi=%d,%d metric_res=%d ptsize=%g\n",hdpi,vdpi,METRIC_RES,ptsize
 		  next++;
 		}
 	    }
+	    break;
+
+	  case gdFTEX_Adobe_Custom:
+	  default:
+			ch &= 0xFF;
+	    next++;
 	    break;
 	  }
 
@@ -1207,13 +1240,19 @@ fprintf(stderr,"dpi=%d,%d metric_res=%d ptsize=%g\n",hdpi,vdpi,METRIC_RES,ptsize
 	  /* make sure we have enough allocation for two numbers
 		so we don't have to recheck for the terminating number */
 	  if (! xshow_alloc) {
-		xshow_alloc = 100;
-		strex->xshow = malloc(xshow_alloc);
-		xshow_pos = 0;
+			xshow_alloc = 100;
+			strex->xshow = gdMalloc(xshow_alloc);
+			if (!strex->xshow) {
+				return 0;
+			}
+			xshow_pos = 0;
 	  } 
 	  else if (xshow_pos + 20 > xshow_alloc) {
 		xshow_alloc += 100;
-		strex->xshow = realloc(strex->xshow, xshow_alloc);
+		strex->xshow = gdRealloc(strex->xshow, xshow_alloc);
+		if (!strex->xshow) {
+			return 0;
+		}
 	}
 	  xshow_pos += sprintf(strex->xshow + xshow_pos, "%g ",
 		(double)(penf.x - oldpenf.x) * hdpi / (64 * METRIC_RES));
@@ -1322,10 +1361,8 @@ fprintf(stderr,"dpi=%d,%d metric_res=%d ptsize=%g\n",hdpi,vdpi,METRIC_RES,ptsize
 
   if (brect)
     {				/* only if need brect */
-      double dpix, dpiy;
-      
-      dpix = 64 * METRIC_RES / hdpi;
-      dpiy = 64 * METRIC_RES / vdpi;
+			double scalex = (double)hdpi / (64 * METRIC_RES);
+			double scaley = (double)vdpi / (64 * METRIC_RES);
 
       /* increase by 1 pixel to allow for rounding */
       total_min.x -= METRIC_RES;
@@ -1334,14 +1371,14 @@ fprintf(stderr,"dpi=%d,%d metric_res=%d ptsize=%g\n",hdpi,vdpi,METRIC_RES,ptsize
       total_max.y += METRIC_RES;
  
       /* rotate bounding rectangle, scale and round to int pixels, and translate */
-      brect[0] = x + (total_min.x * cos_a + total_max.y * sin_a)/dpix;
-      brect[1] = y - (total_min.x * sin_a - total_max.y * cos_a)/dpiy;
-      brect[2] = x + (total_max.x * cos_a + total_max.y * sin_a)/dpix;
-      brect[3] = y - (total_max.x * sin_a - total_max.y * cos_a)/dpiy;
-      brect[4] = x + (total_max.x * cos_a + total_min.y * sin_a)/dpix;
-      brect[5] = y - (total_max.x * sin_a - total_min.y * cos_a)/dpiy;
-      brect[6] = x + (total_min.x * cos_a + total_min.y * sin_a)/dpix;
-      brect[7] = y - (total_min.x * sin_a - total_min.y * cos_a)/dpiy;
+			brect[0] = x + (total_min.x * cos_a + total_max.y * sin_a)*scalex;
+			brect[1] = y - (total_min.x * sin_a - total_max.y * cos_a)*scaley;
+			brect[2] = x + (total_max.x * cos_a + total_max.y * sin_a)*scalex;
+      brect[3] = y - (total_max.x * sin_a - total_max.y * cos_a)*scaley;
+      brect[4] = x + (total_max.x * cos_a + total_min.y * sin_a)*scalex;
+      brect[5] = y - (total_max.x * sin_a - total_min.y * cos_a)*scaley;
+      brect[6] = x + (total_min.x * cos_a + total_min.y * sin_a)*scalex;
+      brect[7] = y - (total_min.x * sin_a - total_min.y * cos_a)*scaley;
     }
 
   FT_Done_Size (platform_independent);
@@ -1545,9 +1582,14 @@ static char * font_path(char **fontpath, char *name_list)
       fullname = gdRealloc (fullname,
                           strlen (fontsearchpath) + strlen (name) + 8);
       /* if name is an absolute or relative pathname then test directly */
+#ifdef NETWARE
+      /* netware uses the format "volume:/path" or the standard "/path" */
+      if (name[0] != 0 && (strstr(name, ":/") || name[0] == '/'))
+#else
       if (strchr (name, '/')
 	  || (name[0] != 0 && name[1] == ':'
 	      && (name[2] == '/' || name[2] == '\\')))
+#endif
 	{
 	  sprintf (fullname, "%s", name);
 	  if (access (fullname, R_OK) == 0)
@@ -1606,7 +1648,7 @@ static char * font_path(char **fontpath, char *name_list)
   gdFree (fontlist);
   if (!font_found)
     {
-      free (fullname);
+      gdFree (fullname);
       return "Could not find/open font";
     }
 

@@ -234,10 +234,14 @@ JXButton::SetShortcuts
 	if (!wasReturnButton && itsIsReturnButtonFlag)
 		{
 		SetBorderWidth(borderWidth+1);
+		Move(-1, -1);
+		AdjustSize(+2, +2);
 		}
 	else if (wasReturnButton && !itsIsReturnButtonFlag && borderWidth > 0)
 		{
 		SetBorderWidth(borderWidth-1);
+		Move(+1, +1);
+		AdjustSize(-2, -2);
 		}
 
 	Refresh();

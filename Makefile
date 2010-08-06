@@ -64,7 +64,6 @@ default:
 	@echo "Then run one of the following or check the README file:"
 	@echo
 	@echo "  ${MAKE} cygwin32       for Cygwin on Windows"
-	@echo "  ${MAKE} darwin_tiger   for Macintosh OS X 10.4"
 	@echo "  ${MAKE} darwin_leopard for Macintosh OS X 10.5"
 #	@echo "  ${MAKE} freebsd3_x     for FreeBSD 3.x"
 	@echo "  ${MAKE} linux_intel    for Linux with g++ 3.x or above"
@@ -212,16 +211,6 @@ freebsd3_x: prep
 #
 # OS X
 #
-
-.PHONY: darwin_tiger 
-darwin_tiger: prep
-	@ln -sf sys/OSX_4_g++ \
-            include/make/jx_config
-	@ln -sf ../../include/missing_proto/jMissingProto_empty.h \
-            include/jcore/jMissingProto.h
-	@${TEST_ACE_CONFIG} config-macosx-tiger.h ${CREATE_ACE_CONFIG}
-	@${TEST_ACE_MACROS} platform_macosx_tiger.GNU ${CREATE_ACE_MACROS}
-	@${INSTALL_CMD}
 
 .PHONY: darwin_leopard 
 darwin_leopard: prep

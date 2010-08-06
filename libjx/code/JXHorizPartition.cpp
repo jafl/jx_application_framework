@@ -162,7 +162,7 @@ JXHorizPartition::Draw
 	const JRect&		rect
 	)
 {
-	p.SetPenColor((p.GetColormap())->GetGray60Color());
+	p.SetPenColor((p.GetColormap())->GetGrayColor(60));
 
 	const JRect ap       = GetAperture();
 	const JCoordinate y1 = ap.top+1;

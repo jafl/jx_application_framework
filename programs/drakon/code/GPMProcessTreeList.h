@@ -52,7 +52,6 @@ private:
 	const GPMProcessEntry* 	itsSelectedEntry;
 	JXTEBase*				itsFullCmdDisplay;
 	JXImage*				itsZombieImage;
-	JColorIndex				itsRowBackColor;
 
 private:
 

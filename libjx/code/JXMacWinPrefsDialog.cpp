@@ -68,7 +68,7 @@ JXMacWinPrefsDialog::BuildWindow()
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::JXMacWinPrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 209,199, 62,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 210,200, 60,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::JXMacWinPrefsDialog::shortcuts::JXLayout"));
 
@@ -91,7 +91,8 @@ JXMacWinPrefsDialog::BuildWindow()
         new JXStaticText(JGetString("obj1_JXLayout::JXMacWinPrefsDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 40,40, 300,20);
     assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetFontSize(10);
+    obj1_JXLayout->SetFontSize(8);
+    obj1_JXLayout->SetToLabel();
 
     itsScrollCaretCB =
         new JXTextCheckbox(JGetString("itsScrollCaretCB::JXMacWinPrefsDialog::JXLayout"), window,

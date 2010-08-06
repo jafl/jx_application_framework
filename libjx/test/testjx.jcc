@@ -1,4 +1,4 @@
-jx_browser_data 83
+jx_browser_data 84
 # project tree
 0 "root"
 T
@@ -46,10 +46,6 @@ T
 2 "ResizeWidgetDialog.cpp"
 F
 "./code/ResizeWidgetDialog.cpp"
-T
-2 "AnimateColorTask.cpp"
-F
-"./code/AnimateColorTask.cpp"
 T
 2 "AnimateWindowIconTask.cpp"
 F

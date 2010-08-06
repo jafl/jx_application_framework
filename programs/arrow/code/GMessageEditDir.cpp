@@ -10,7 +10,6 @@
 #include "GMessageEditDir.h"
 #include <SMTPMessage.h>
 #include <GMessageEditor.h>
-#include "JXGetPasswordDialog.h"
 #include "gMailUtils.h"
 #include <GMApp.h>
 #include <GPrefsMgr.h>
@@ -24,7 +23,7 @@
 #include "GMApp.h"
 #include "GMAccountManager.h"
 #include "GMFilterManager.h"
-#include "JXFSBindingManager.h"
+#include <GMGlobals.h>
 
 #include "filenew.xpm"
 #include "filefloppy.xpm"
@@ -32,8 +31,9 @@
 #include "fileopen.xpm"
 #include "envelopes.xpm"
 
-#include "jx_help_specific.xpm"
-#include "jx_help_toc.xpm"
+#include <jx_help_specific.xpm>
+#include <jx_help_toc.xpm>
+#include <jx_plain_file_small.xpm>
 
 #include "lock.xpm"
 #include "send.xpm"
@@ -41,7 +41,6 @@
 #include "paperclip.xpm"
 
 #include <JXToolBar.h>
-
 #include <JXStaticText.h>
 #include <JXInputField.h>
 #include <JXScrollbarSet.h>
@@ -58,14 +57,11 @@
 #include <JXImage.h>
 #include <JXVertPartition.h>
 #include <JXWebBrowser.h>
+#include <JXGetStringDialog.h>
+#include <JXFSBindingManager.h>
 
 #include <JUserNotification.h>
 #include <JColormap.h>
-
-#include <GMGlobals.h>
-
-#include <jx_plain_file_small.xpm>
-
 #include <jProcessUtil.h>
 #include <jStreamUtil.h>
 #include <jFileUtil.h>
@@ -173,8 +169,6 @@ const JCoordinate kAttachPartMinHeight	= 30;
 const JCoordinate kAttachTablePartIndex	= 1;
 
 const JFileVersion kCurrentPrefsVersion	= 2;
-
-static const JCharacter* kPasswordPrompt		= "Password:";
 
 /******************************************************************************
  Constructor
@@ -482,7 +476,7 @@ GMessageEditDir::BuildWindow()
 		itsToolBar->AppendButton(itsFileMenu, kSaveCmd);
 		}
 
-	itsMenuIcon = new JXImage(window->GetDisplay(), window->GetColormap(), JXPM(filenew));
+	itsMenuIcon = new JXImage(window->GetDisplay(), filenew);
 	assert(itsMenuIcon != NULL);
 	itsMenuIcon->ConvertToRemoteStorage();
 }
@@ -569,7 +563,7 @@ GMessageEditDir::Receive
 		assert( info != NULL );
 		if (info->Successful())
 			{
-			JString passwd = itsPasswdDialog->GetPassword();
+			JString passwd = itsPasswdDialog->GetString();
 			JPtrArray<JString> names(JPtrArrayT::kForgetAll);
 			GParseNameLists(itsToInput->GetText(), itsCCInput->GetText(),
 							itsBCCInput->GetText(), names);
@@ -806,30 +800,30 @@ GMessageEditDir::HandleMessageMenu
 			{
 			JGetUserNotification()->ReportError("You must specify a recipient.");
 			}
+		else if (GGetPrefsMgr()->GetEncryptionType() == GPrefsMgr::kPGP2_6)
+			{
+			assert(itsPasswdDialog == NULL);
+			itsPasswdDialog =
+				new JXGetStringDialog(this, JGetString("GMGetPasswordTitle"),
+									  JGetString("GMGetPasswordPrompt"),
+									  NULL, kJTrue, kJTrue);
+			assert(itsPasswdDialog != NULL);
+			ListenTo(itsPasswdDialog);
+			itsPasswdDialog->BeginDialog();
+			}
 		else
 			{
-			if (GGetPrefsMgr()->GetEncryptionType() == GPrefsMgr::kPGP2_6)
-				{
-				assert(itsPasswdDialog == NULL);
-				itsPasswdDialog = new JXGetPasswordDialog(this, kPasswordPrompt);
-				assert(itsPasswdDialog != NULL);
-				ListenTo(itsPasswdDialog);
-				itsPasswdDialog->BeginDialog();
-				}
-			else
-				{
-				JPtrArray<JString> names(JPtrArrayT::kForgetAll);
-				GParseNameLists(itsToInput->GetText(), itsCCInput->GetText(),
-								itsBCCInput->GetText(), names);
+			JPtrArray<JString> names(JPtrArrayT::kForgetAll);
+			GParseNameLists(itsToInput->GetText(), itsCCInput->GetText(),
+							itsBCCInput->GetText(), names);
 
-				JString buffer;
-				JBoolean ok =
-					GEncryptGPG1_0(itsEditor->GetText(), &names, &buffer);
-				if (ok && !buffer.IsEmpty())
-					{
-					itsEditor->SelectAll();
-					itsEditor->Paste(buffer);
-					}
+			JString buffer;
+			JBoolean ok =
+				GEncryptGPG1_0(itsEditor->GetText(), &names, &buffer);
+			if (ok && !buffer.IsEmpty())
+				{
+				itsEditor->SelectAll();
+				itsEditor->Paste(buffer);
 				}
 			}
 		}

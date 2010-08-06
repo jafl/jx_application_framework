@@ -86,7 +86,7 @@ THXAboutDialog::BuildWindow
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::THXAboutDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 319,149, 62,22);
+                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,150, 60,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::THXAboutDialog::shortcuts::JXLayout"));
 
@@ -132,13 +132,13 @@ THXAboutDialog::BuildWindow
 
 	// Program icon
 
-	JXImage* image = new JXImage(GetDisplay(), window->GetColormap(), thx_about);
+	JXImage* image = new JXImage(GetDisplay(), thx_about);
 	assert( image != NULL );
 	thxIcon->SetImage(image, kJTrue);
 
 	// NPS icon
 
-	image = new JXImage(GetDisplay(), window->GetColormap(), new_planet_software);
+	image = new JXImage(GetDisplay(), new_planet_software);
 	assert( image != NULL );
 	npsIcon->SetImage(image, kJTrue);
 

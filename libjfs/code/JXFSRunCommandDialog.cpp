@@ -31,7 +31,6 @@
 
 const JSize kHistoryLength = 20;
 
-static const JCharacter* kDefaultFontName = "6x13";
 static const JCharacter* kHelpSectionName = "JFSRunCommandHelp";
 
 // setup information
@@ -131,6 +130,7 @@ JXFSRunCommandDialog::BuildWindow()
         new JXStaticText(JGetString("obj1_JXLayout::JXFSRunCommandDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 110,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     itsCloseButton =
         new JXTextButton(JGetString("itsCloseButton::JXFSRunCommandDialog::JXLayout"), window,
@@ -146,7 +146,7 @@ JXFSRunCommandDialog::BuildWindow()
 
     itsRunButton =
         new JXTextButton(JGetString("itsRunButton::JXFSRunCommandDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 359,149, 62,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 360,150, 60,20);
     assert( itsRunButton != NULL );
     itsRunButton->SetShortcuts(JGetString("itsRunButton::JXFSRunCommandDialog::shortcuts::JXLayout"));
 
@@ -162,25 +162,26 @@ JXFSRunCommandDialog::BuildWindow()
 
     itsUseShellCB =
         new JXTextCheckbox(JGetString("itsUseShellCB::JXFSRunCommandDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,130, 110,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,130, 120,20);
     assert( itsUseShellCB != NULL );
     itsUseShellCB->SetShortcuts(JGetString("itsUseShellCB::JXFSRunCommandDialog::shortcuts::JXLayout"));
 
     itsUseWindowCB =
         new JXTextCheckbox(JGetString("itsUseWindowCB::JXFSRunCommandDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,150, 110,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,150, 120,20);
     assert( itsUseWindowCB != NULL );
     itsUseWindowCB->SetShortcuts(JGetString("itsUseWindowCB::JXFSRunCommandDialog::shortcuts::JXLayout"));
 
     itsStayOpenCB =
         new JXTextCheckbox(JGetString("itsStayOpenCB::JXFSRunCommandDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 340,120, 80,20);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 340,120, 90,20);
     assert( itsStayOpenCB != NULL );
 
     JXStaticText* obj2_JXLayout =
         new JXStaticText(JGetString("obj2_JXLayout::JXFSRunCommandDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 210,20);
     assert( obj2_JXLayout != NULL );
+    obj2_JXLayout->SetToLabel();
 
     itsChoosePathButton =
         new JXTextButton(JGetString("itsChoosePathButton::JXFSRunCommandDialog::JXLayout"), window,
@@ -216,14 +217,14 @@ JXFSRunCommandDialog::BuildWindow()
 	itsPathInput->ShouldBroadcastAllTextChanged(kJTrue);
 	ListenTo(itsPathInput);
 
-	itsPathHistoryMenu->SetDefaultFontName(kDefaultFontName, kJTrue);
+	itsPathHistoryMenu->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle(), kJTrue);
 
 	itsCmdInput->ShouldBroadcastAllTextChanged(kJTrue);
 	itsCmdInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	ListenTo(itsCmdInput);
 
-	itsCmdInput->SetFontName(kDefaultFontName);
-	itsCmdHistoryMenu->SetDefaultFontName(kDefaultFontName, kJTrue);
+	itsCmdInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsCmdHistoryMenu->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle(), kJTrue);
 
 	itsStayOpenCB->SetState(kJTrue);
 

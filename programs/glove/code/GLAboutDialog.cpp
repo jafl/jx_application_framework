@@ -139,13 +139,13 @@ GLAboutDialog::BuildWindow
 		}
 	textWidget->SetText(text);
 
-	JXImage* image = new JXImage(GetDisplay(), GetColormap(), JXPM(glove_icon));
+	JXImage* image = new JXImage(GetDisplay(), JXPM(glove_icon));
 	assert(image != NULL);
 	gloveIcon->SetImage(image, kJTrue);
 
 	// NPS icon
 
-	image = new JXImage(GetDisplay(), window->GetColormap(), nps);
+	image = new JXImage(GetDisplay(), nps);
 	assert( image != NULL );
 	npsIcon->SetImage(image, kJTrue);
 

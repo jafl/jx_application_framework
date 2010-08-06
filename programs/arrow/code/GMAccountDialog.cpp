@@ -159,18 +159,21 @@ GMAccountDialog::BuildWindow()
 
     JXStaticText* obj1_JXLayout =
         new JXStaticText(JGetString("obj1_JXLayout::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,68, 90,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,65, 90,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     JXStaticText* obj2_JXLayout =
         new JXStaticText(JGetString("obj2_JXLayout::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,43, 90,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,40, 90,20);
     assert( obj2_JXLayout != NULL );
+    obj2_JXLayout->SetToLabel();
 
     JXStaticText* obj3_JXLayout =
         new JXStaticText(JGetString("obj3_JXLayout::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,93, 90,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,90, 90,20);
     assert( obj3_JXLayout != NULL );
+    obj3_JXLayout->SetToLabel();
 
     itsNewButton =
         new JXTextButton(JGetString("itsNewButton::GMAccountDialog::JXLayout"), window,
@@ -185,23 +188,27 @@ GMAccountDialog::BuildWindow()
 
     JXStaticText* obj4_JXLayout =
         new JXStaticText(JGetString("obj4_JXLayout::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,18, 90,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,15, 90,20);
     assert( obj4_JXLayout != NULL );
+    obj4_JXLayout->SetToLabel();
 
     JXStaticText* obj5_JXLayout =
         new JXStaticText(JGetString("obj5_JXLayout::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,118, 90,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,115, 90,20);
     assert( obj5_JXLayout != NULL );
+    obj5_JXLayout->SetToLabel();
 
     JXStaticText* obj6_JXLayout =
         new JXStaticText(JGetString("obj6_JXLayout::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,143, 90,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,140, 90,20);
     assert( obj6_JXLayout != NULL );
+    obj6_JXLayout->SetToLabel();
 
     JXStaticText* obj7_JXLayout =
         new JXStaticText(JGetString("obj7_JXLayout::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,168, 90,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,165, 90,20);
     assert( obj7_JXLayout != NULL );
+    obj7_JXLayout->SetToLabel();
 
     itsSigType =
         new JXRadioGroup(window,
@@ -273,8 +280,9 @@ GMAccountDialog::BuildWindow()
 
     JXStaticText* obj1_localLayout =
         new JXStaticText(JGetString("obj1_localLayout::GMAccountDialog::localLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,58, 90,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,55, 110,20);
     assert( obj1_localLayout != NULL );
+    obj1_localLayout->SetToLabel();
 
     itsLocalPathInput =
         new JXPathInput(widgetSet,
@@ -288,8 +296,9 @@ GMAccountDialog::BuildWindow()
 
     JXStaticText* obj2_localLayout =
         new JXStaticText(JGetString("obj2_localLayout::GMAccountDialog::localLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,33, 100,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,30, 110,20);
     assert( obj2_localLayout != NULL );
+    obj2_localLayout->SetToLabel();
 
     widgetSet->SetSize(localLayout_Frame.width(), localLayout_Frame.height());
 
@@ -340,13 +349,15 @@ GMAccountDialog::BuildWindow()
 
     JXStaticText* obj1_popLayout =
         new JXStaticText(JGetString("obj1_popLayout::GMAccountDialog::popLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,208, 90,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,205, 110,20);
     assert( obj1_popLayout != NULL );
+    obj1_popLayout->SetToLabel();
 
     JXStaticText* obj2_popLayout =
         new JXStaticText(JGetString("obj2_popLayout::GMAccountDialog::popLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,133, 85,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,130, 110,20);
     assert( obj2_popLayout != NULL );
+    obj2_popLayout->SetToLabel();
 
     itsLeaveMailCB =
         new JXTextCheckbox(JGetString("itsLeaveMailCB::GMAccountDialog::popLayout"), widgetSet,
@@ -360,8 +371,9 @@ GMAccountDialog::BuildWindow()
 
     JXStaticText* obj3_popLayout =
         new JXStaticText(JGetString("obj3_popLayout::GMAccountDialog::popLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,158, 85,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,155, 110,20);
     assert( obj3_popLayout != NULL );
+    obj3_popLayout->SetToLabel();
 
     itsUseAPOPCB =
         new JXTextCheckbox(JGetString("itsUseAPOPCB::GMAccountDialog::popLayout"), widgetSet,
@@ -377,6 +389,7 @@ GMAccountDialog::BuildWindow()
         new JXStaticText(JGetString("obj4_popLayout::GMAccountDialog::popLayout"), widgetSet,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 292,98, 55,19);
     assert( obj4_popLayout != NULL );
+    obj4_popLayout->SetToLabel();
 
     itsDeleteFromServerCB =
         new JXTextCheckbox(JGetString("itsDeleteFromServerCB::GMAccountDialog::popLayout"), widgetSet,
@@ -387,6 +400,7 @@ GMAccountDialog::BuildWindow()
         new JXStaticText(JGetString("obj5_popLayout::GMAccountDialog::popLayout"), widgetSet,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 265,38, 55,19);
     assert( obj5_popLayout != NULL );
+    obj5_popLayout->SetToLabel();
 
     itsAccountFolderInput =
         new JXPathInput(widgetSet,
@@ -400,8 +414,9 @@ GMAccountDialog::BuildWindow()
 
     JXStaticText* obj6_popLayout =
         new JXStaticText(JGetString("obj6_popLayout::GMAccountDialog::popLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,183, 100,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,180, 110,20);
     assert( obj6_popLayout != NULL );
+    obj6_popLayout->SetToLabel();
 
     widgetSet->SetSize(popLayout_Frame.width(), popLayout_Frame.height());
 
@@ -426,7 +441,7 @@ GMAccountDialog::BuildWindow()
 	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
 
-	itsSigInput->SetDefaultFontName("6x13");
+	itsSigInput->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
 
 	//itsDefaultInboxInput->SetBorderWidth(2);
 	itsSMTPServerInput->SetIsRequired();

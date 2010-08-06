@@ -28,14 +28,13 @@
 
 static const JCharacter* kVersionStr =
 
-	"jxlayout 2.1.1\n"
+	"jxlayout 2.2.0\n"
 	"\n"
-	"For use with JX 2.5.0\n"
+	"For use with JX 3.0.0 and up\n"
 	"\n"
-	"Copyright © 1996-2006 New Planet Software, Inc.  All rights reserved.\n"
+	"Copyright © 1996-2010 New Planet Software, Inc.  All rights reserved.\n"
 	"\n"
-	"http://www.newplanetsoftware.com/jx/\n"
-	"jx@newplanetsoftware.com";
+	"http://www.newplanetsoftware.com/jx/";
 
 static const JCharacter* kBackupSuffix = "~";
 
@@ -56,6 +55,7 @@ static const JCharacter* kEnvUserConfigFileDir = "JXLAYOUTDIR";
 static JString classMapFile       = "class_map";
 static JString optionMapFile      = "option_map";
 static JString needFontListFile   = "need_font_list";
+static JString needStringListFile = "need_string_list";
 static JString needCreateListFile = "need_create_list";
 
 // Form fields
@@ -107,13 +107,13 @@ struct FontSizeConversion
 
 static const FontSizeConversion kFontSizeTable[] =
 {
-	{"FL_DEFAULT_SIZE", "10"},
-	{"FL_TINY_SIZE",    "8"},
-	{"FL_SMALL_SIZE",   "10"},
+	{"FL_DEFAULT_SIZE", "8"},
+	{"FL_TINY_SIZE",    "6"},
+	{"FL_SMALL_SIZE",   "8"},
 	{"FL_NORMAL_SIZE",  "kJDefaultFontSize"},
-	{"FL_MEDIUM_SIZE",  "14"},
-	{"FL_LARGE_SIZE",   "18"},
-	{"FL_HUGE_SIZE",    "24"}
+	{"FL_MEDIUM_SIZE",  "12"},
+	{"FL_LARGE_SIZE",   "14"},
+	{"FL_HUGE_SIZE",    "18"}
 };
 
 const JSize kFontSizeTableSize = sizeof(kFontSizeTable)/sizeof(FontSizeConversion);
@@ -152,8 +152,7 @@ const JSize kColorTableSize = sizeof(kColorTable)/sizeof(ColorConversion);
 // Prototypes
 
 void GenerateForm(istream& input, const JString& formName,
-				  const JString& tagName, const JString& windArgs,
-				  const JString& enclName,
+				  const JString& tagName, const JString& enclName,
 				  const JString& codePath, const JString& stringPath,
 				  const JString& codeSuffix, const JString& headerSuffix,
 				  JPtrArray<JString>* backupList);
@@ -161,7 +160,7 @@ JBoolean ShouldGenerateForm(const JString& form, const JPtrArray<JString>& list)
 JBoolean ShouldBackupForm(const JString& form, JPtrArray<JString>* list);
 void GenerateCode(istream& input, ostream& output, const JString& stringPath,
 				  const JString& formName, const JString& tagName,
-				  const JString& windowConstrArgs, const JString& userTopEnclVarName,
+				  const JString& userTopEnclVarName,
 				  JPtrArray<JString>* objTypes, JPtrArray<JString>* objNames);
 void GenerateHeader(ostream& output, const JPtrArray<JString>& objTypes,
 					const JPtrArray<JString>& objNames);
@@ -179,6 +178,7 @@ void ApplyOptions(ostream& output, const JString& className,
 				  const JString& flStyle, const JString& flColor,
 				  JStringManager* stringMgr);
 JBoolean AcceptsFontSpec(const JString& className);
+JBoolean NeedsStringArg(const JString& className);
 JBoolean NeedsCreateFunction(const JString& className);
 JBoolean FindClassName(const JString& fileName, const JString& className);
 JBoolean ConvertXFormsFontSize(const JString& flSize, JString* jxSize);
@@ -217,6 +217,7 @@ main
 	if (!FindConfigFile(&classMapFile) ||
 		!FindConfigFile(&optionMapFile) ||
 		!FindConfigFile(&needFontListFile) ||
+		!FindConfigFile(&needStringListFile) ||
 		!FindConfigFile(&needCreateListFile))
 		{
 		return 1;
@@ -250,7 +251,7 @@ main
 
 			const JSize formNameLength = formName.GetLength();
 			JString tagName            = kDefaultDelimTag;
-			JString windArgs, enclName;
+			JString enclName;
 			JIndex tagMarkerIndex;
 			if (formName.LocateSubstring(kCustomTagMarker, &tagMarkerIndex) &&
 				tagMarkerIndex <= formNameLength - kCustomTagMarkerLength)
@@ -271,20 +272,6 @@ main
 					tagName.RemoveSubstring(enclMarkerIndex, tagNameLength);
 					}
 
-				// get window constructor arguments
-
-				JIndex windArgsIndex;
-				if (tagName.LocateSubstring("<", &windArgsIndex) &&
-					tagName.GetLastCharacter() == '>')
-					{
-					const JSize tagLength = tagName.GetLength();
-					if (windArgsIndex < tagLength-1)
-						{
-						windArgs = tagName.GetSubstring(windArgsIndex+1, tagLength-1);
-						}
-					tagName.RemoveSubstring(windArgsIndex, tagLength);
-					}
-
 				// report errors
 
 				if (tagName != kDefaultDelimTag)
@@ -293,11 +280,6 @@ main
 						{
 						cerr << formName << ", " << tagName;
 						cerr << ": no enclosure specified" << endl;
-						}
-					else if (!windArgs.IsEmpty())
-						{
-						cerr << formName << ", " << tagName;
-						cerr << ": no window to which to send \"" << windArgs << '"' << endl;
 						}
 					}
 				else if (!enclName.IsEmpty() && enclName != kDefTopEnclVarName)
@@ -310,7 +292,7 @@ main
 
 			if (ShouldGenerateForm(formName, userFormList))
 				{
-				GenerateForm(input, formName, tagName, windArgs, enclName,
+				GenerateForm(input, formName, tagName, enclName,
 							 codePath, stringPath, codeSuffix, headerSuffix, &backupList);
 				changed = kJTrue;
 				}
@@ -368,7 +350,6 @@ GenerateForm
 	istream&			input,
 	const JString&		formName,
 	const JString&		tagName,
-	const JString&		windArgs,
 	const JString&		enclName,
 	const JString&		codePath,
 	const JString&		stringPath,
@@ -429,7 +410,7 @@ GenerateForm
 
 	JPtrArray<JString> objTypes(JPtrArrayT::kDeleteAll),
 					   objNames(JPtrArrayT::kDeleteAll);
-	GenerateCode(input, outputCode, stringPath, formName, tagName, windArgs, enclName,
+	GenerateCode(input, outputCode, stringPath, formName, tagName, enclName,
 				 &objTypes, &objNames);
 
 	// copy code file contents after end delimiter
@@ -563,7 +544,6 @@ GenerateCode
 	const JString&		stringPath,
 	const JString&		formName,
 	const JString&		tagName,
-	const JString&		windowConstrArgs,
 	const JString&		userTopEnclVarName,
 	JPtrArray<JString>*	objTypes,
 	JPtrArray<JString>*	objNames
@@ -607,16 +587,7 @@ JIndex i;
 
 		output << "    JXWindow* window = new JXWindow(this, ";
 		output << formWidth << ',' << formHeight;
-		if (!windowConstrArgs.IsEmpty())
-			{
-			output << ", ";
-			windowConstrArgs.Print(output);
-			}
-		else
-			{
-			output << ", \"\"";
-			}
-		output << ");" << endl;
+		output << ", \"\");" << endl;
 		output << "    assert( window != NULL );" << endl;
 		output << "    SetWindow(window);" << endl;
 		output << endl;
@@ -895,10 +866,7 @@ JIndex i;
 			}
 
 		if ((*className == "JXStaticText" && cbArg.IsEmpty()) ||
-			*className == "JXTextButton"      ||
-			*className == "JXTextCheckbox"    ||
-			*className == "JXTextRadioButton" ||
-			*className == "JXTextMenu")
+			NeedsStringArg(*className))
 			{
 			JString id = *varName;
 			id += "::";
@@ -928,6 +896,15 @@ JIndex i;
 
 		ApplyOptions(output, *className, formName, tagName, *varName, optionValues,
 					 lSize, lStyle, lColor, &stringMgr);
+
+		if (*className == "JXStaticText" && cbArg.IsEmpty() &&
+			!lAlign.Contains("FL_ALIGN_TOP") && localFrame.height() <= 20)
+			{
+			output << "    ";
+			varName->Print(output);
+			output << "->SetToLabel();" << endl;
+			}
+
 		output << endl;
 
 		// now we know the object is valid
@@ -1418,13 +1395,13 @@ ApplyOptions
 			{
 			output << "    ";
 			varName.Print(output);
-			output << "->SetFontName(JXGetCourierFontName());" << endl;
+			output << "->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());" << endl;
 			}
 		else if (flStyle.Contains("TIMES"))
 			{
 			output << "    ";
 			varName.Print(output);
-			output << "->SetFontName(JXGetTimesFontName());" << endl;
+			output << "->SetFontName(\"Times\");" << endl;
 			}
 
 		if (flSize != "FL_NORMAL_SIZE")
@@ -1513,6 +1490,22 @@ AcceptsFontSpec
 	)
 {
 	return FindClassName(needFontListFile, className);
+}
+
+/******************************************************************************
+ NeedsStringArg
+
+	Returns kJTrue if the given class requires a text string as the first arg.
+
+ ******************************************************************************/
+
+JBoolean
+NeedsStringArg
+	(
+	const JString& className
+	)
+{
+	return FindClassName(needStringListFile, className);
 }
 
 /******************************************************************************

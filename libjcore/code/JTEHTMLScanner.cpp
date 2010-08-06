@@ -92,17 +92,3 @@ JTEHTMLScanner::HandleHTMLError
 	itsTE->HandleHTMLError(errStr);
 	return kJTrue;
 }
-
-/******************************************************************************
- SwitchCharSet (virtual protected)
-
- ******************************************************************************/
-
-JBoolean
-JTEHTMLScanner::SwitchCharSet
-	(
-	const JCharacter* charSet
-	)
-{
-	return itsTE->SwitchHTMLCharSet(charSet);
-}

@@ -15,11 +15,14 @@
 #include <JXPasswordInput.h>
 #include <JXWindowPainter.h>
 #include <JXDisplay.h>
+#include <JXImageCache.h>
+#include <JXImage.h>
 #include <JColormap.h>
 #include <jASCIIConstants.h>
 #include <jAssert.h>
 
-const JCharacter kPlaceholderChar = '#';
+const JCoordinate kDotDiameter = 8;
+const JCoordinate kDotMargin   = 2;
 
 /******************************************************************************
  Constructor
@@ -40,9 +43,6 @@ JXPasswordInput::JXPasswordInput
 	JXInputField(enclosure, hSizing, vSizing, x,y, w,h)
 {
 	SetIsRequired();
-
-	itsFakeString = new JString;
-	assert( itsFakeString != NULL );
 }
 
 /******************************************************************************
@@ -52,7 +52,6 @@ JXPasswordInput::JXPasswordInput
 
 JXPasswordInput::~JXPasswordInput()
 {
-	delete itsFakeString;
 }
 
 /******************************************************************************
@@ -91,6 +90,8 @@ JXPasswordInput::TERefreshRect
 
  ******************************************************************************/
 
+#include <jx_caps_lock_on.xpm>
+
 void
 JXPasswordInput::Draw
 	(
@@ -107,6 +108,7 @@ JXPasswordInput::Draw
 
 	JRect r = rect;
 	r.Shrink(1,1);
+	r.right -= kMinLeftMarginWidth;
 	if (active && hasSel && TESelectionIsActive())
 		{
 		p.SetPenColor(GetSelectionColor());
@@ -120,46 +122,46 @@ JXPasswordInput::Draw
 		p.JPainter::Rect(r);
 		}
 
-	// generate fake string to match text length
-
-	const JSize textLength = GetTextLength();
-	if (itsFakeString->GetLength() > textLength)
-		{
-		itsFakeString->RemoveSubstring(textLength+1, itsFakeString->GetLength());
-		}
-	else
-		{
-		while (itsFakeString->GetLength() < textLength)
-			{
-			itsFakeString->AppendCharacter(kPlaceholderChar);
-			}
-		}
-
-	// warn if Caps Lock is on
-
-	if (((GetDisplay())->GetLatestKeyModifiers()).shiftLock())
-		{
-		p.SetFontStyle(JFontStyle(kJFalse, kJFalse, 0, kJFalse,
-					   (p.GetColormap())->GetRedColor()));
-		}
-
 	// fake text
 
-	p.JPainter::String(GetBounds(), *itsFakeString);
+	p.SetPenColor((p.GetColormap())->GetBlackColor());
+	p.SetFilling(kJTrue);
+
+	const JRect b = GetBounds();
+
+	r.left  = kDotMargin;
+	r.right = r.left + kDotDiameter;
+	r.top = r.bottom = b.ycenter();
+	r.Expand(0, kDotDiameter / 2);
+
+	const JSize textLength = GetTextLength();
+	for (JIndex i=1; i<=textLength; i++)
+		{
+		p.JPainter::Ellipse(r);
+		r.Shift(kDotDiameter + kDotMargin, 0);
+		}
+
+	p.SetFilling(kJFalse);
 
 	// fake caret at end of text
 
 	if (active && !hasSel && TECaretIsVisible())
 		{
-		const JCoordinate x = p.GetStringWidth(*itsFakeString);
-
 		p.SetPenColor(GetCaretColor());
-		p.Line(x, 1, x, p.GetLineHeight());
+		p.Line(r.left, 1, r.left, p.GetLineHeight());
 		}
 
 	// clean up
 
 	p.ShiftOrigin(-kMinLeftMarginWidth, 0);
+
+	// warn if Caps Lock is on
+
+	if (((GetDisplay())->GetLatestKeyModifiers()).shiftLock())
+		{
+		JXImage* img = ((GetDisplay())->GetImageCache())->GetImage(jx_caps_lock_on);
+		p.JPainter::Image(*img, img->GetBounds(), b.right - img->GetWidth(), b.top);
+		}
 }
 
 /******************************************************************************

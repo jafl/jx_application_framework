@@ -162,8 +162,7 @@ J3DSurface::Render
 	J3DPainter& p
 	)
 {
-	if (itsXCount == 0 || itsYCount == 0 || itsVertexList == NULL ||
-		!(p.GetColormap()).AllColorsPreallocated())
+	if (itsXCount == 0 || itsYCount == 0 || itsVertexList == NULL)
 		{
 		return;
 		}
@@ -238,8 +237,7 @@ J3DSurface::PlaceVertex
 		{
 		color = JBlend(itsMidColor, itsMaxColor, 2.0*alpha - 1.0);
 		}
-	JColorIndex colorIndex;
-	(const_cast<JColormap&>(p.GetColormap())).AllocateStaticColor(color, &colorIndex);
+	const JColorIndex colorIndex = (p.GetColormap()).GetColor(color);
 	p.SetVertexColor(colorIndex);
 
 	glVertex3dv(vertex);

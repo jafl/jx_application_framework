@@ -59,8 +59,7 @@ public:
 public:
 
 	JXWindow(JXWindowDirector* director, const JCoordinate w, const JCoordinate h,
-			 const JCharacter* title, const JBoolean ownsColormap = kJFalse,
-			 JXColormap* colormap = NULL, const JBoolean isOverlay = kJFalse);
+			 const JCharacter* title, const JBoolean isOverlay = kJFalse);
 
 	virtual ~JXWindow();
 
@@ -358,7 +357,6 @@ private:
 
 	JXDisplay*	itsDisplay;					// we don't own this
 	JXColormap*	itsColormap;
-	JBoolean	itsOwnsColormapFlag;
 	JXGC*		itsGC;
 	Window		itsXWindow;
 	Pixmap		itsBufferPixmap;

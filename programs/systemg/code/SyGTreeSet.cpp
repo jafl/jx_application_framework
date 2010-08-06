@@ -195,12 +195,14 @@ void SyGTreeSet::SyGTreeSetX
 	assert( itsFilterHistory != NULL );
 	ListenTo(itsFilterHistory);
 	itsFilterHistory->Place(w - itsFilterHistory->GetFrameWidth(), 0);
+	itsFilterHistory->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle(), kJTrue);
 
 	itsFilterInput =
 		new SyGFilterInput(itsTable, this, kHElastic, kFixedTop,
 						   45,0, w - 45 - itsFilterHistory->GetFrameWidth(), kHeaderHeight);
 	assert( itsFilterInput != NULL );
 	ListenTo(itsFilterInput);
+	itsFilterInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
 
 	// footer:  path input, drag source
 

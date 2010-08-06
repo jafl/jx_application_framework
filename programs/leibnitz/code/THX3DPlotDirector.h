@@ -45,11 +45,10 @@ protected:
 
 private:
 
-	J3DUniverse*		itsUniverse;
-	THX3DPlotWidget*	its3DPlot;
-	JXTextMenu*			itsActionsMenu;
-	JXTextMenu*			itsOptionsMenu;
-	JXTextMenu*			itsHelpMenu;
+	J3DUniverse*	itsUniverse;
+	JXTextMenu*		itsActionsMenu;
+	JXTextMenu*		itsOptionsMenu;
+	JXTextMenu*		itsHelpMenu;
 
 	JFloat	itsXMin, itsXMax, itsYMin, itsYMax;
 	JSize	itsXCount, itsYCount;
@@ -58,6 +57,12 @@ private:
 	JFunction*	itsFunction;
 
 	THX3DPlotFunctionDialog*	itsEditFnDialog;	// NULL unless editing
+
+// begin JXLayout
+
+    THX3DPlotWidget* its3DPlot;
+
+// end JXLayout
 
 private:
 

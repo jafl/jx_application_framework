@@ -188,7 +188,7 @@ GLFitDirector::GLFitDirector
 	JString title	= "Fit: " + name;
 	GetWindow()->SetTitle(title);
 
-	itsPrinter = new JXPSPrinter(GetDisplay(), (GetWindow())->GetColormap());
+	itsPrinter = new JXPSPrinter(GetDisplay());
 	assert( itsPrinter != NULL );
 	itsPrinter->SetOrientation(JPSPrinter::kPortrait);
 
@@ -432,7 +432,7 @@ GLFitDirector::BuildWindow()
 	itsFitMenu->SetUpdateAction(JXMenu::kDisableAll);
 	ListenTo(itsFitMenu);
 
-	const JCoordinate kChiSqLabelWidth	= 150;
+	const JCoordinate kChiSqLabelWidth	= 170;
 
 	GLChiSqLabel* label = 
 		new GLChiSqLabel(container, 

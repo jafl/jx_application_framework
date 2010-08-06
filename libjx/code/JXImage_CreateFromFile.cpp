@@ -23,28 +23,26 @@ JError
 JXImage::CreateFromFile
 	(
 	JXDisplay*			display,
-	JXColormap*			colormap,
 	const JCharacter*	fileName,
-	JXImage**			image,
-	const JBoolean		allowApproxColors
+	JXImage**			image
 	)
 {
 	const FileType type = GetFileType(fileName);
 	if (type == kGIFType)
 		{
-		return CreateFromGIF(display, colormap, fileName, image, allowApproxColors);
+		return CreateFromGIF(display, fileName, image);
 		}
 	else if (type == kPNGType)
 		{
-		return CreateFromPNG(display, colormap, fileName, image, allowApproxColors);
+		return CreateFromPNG(display, fileName, image);
 		}
 	else if (type == kJPEGType)
 		{
-		return CreateFromJPEG(display, colormap, fileName, image, allowApproxColors);
+		return CreateFromJPEG(display, fileName, image);
 		}
 	else if (type == kXPMType)
 		{
-		return CreateFromXPM(display, colormap, fileName, image, allowApproxColors);
+		return CreateFromXPM(display, fileName, image);
 		}
 	else
 		{

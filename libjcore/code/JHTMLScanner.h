@@ -48,8 +48,6 @@ protected:
 	void	LexHTML(const JCharacter* text);
 	void	LexHTML(istream& input);
 
-	virtual JBoolean	SwitchCharSet(const JCharacter* charSet) = 0;
-
 	virtual JBoolean	HandleHTMLWord(const JCharacter* word, const JIndexRange& range);
 	virtual JBoolean	HandleHTMLWhitespace(const JCharacter* space, const JIndexRange& range);
 	virtual JBoolean	HandleHTMLTag(const JString& name, const JStringPtrMap<JString>& attr,
@@ -80,8 +78,6 @@ private:
 
 	JIndexRange	itsMatchRange;			// range of current token
 
-	JString*	itsDefaultCharSet;		// NULL when not lexing to save space
-
 	JBoolean	itsTagOpenFlag;			// kJTrue while accumulating tag
 	TagInfo*	itsTagInfo;				// NULL when not lexing to save space
 
@@ -104,8 +100,6 @@ private:
 
 	JBoolean	HandleChar(const JCharacter c);
 	JBoolean	HandleGreekChar(const JCharacter c);
-	JBoolean	HandleLatinChar(const JCharacter c, const JIndex latinIndex,
-								const JCharacter* latin1Str);
 	void		UpdatePosition();
 
 	// not allowed

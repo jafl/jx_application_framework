@@ -16,7 +16,6 @@
 #include <JXStdInc.h>
 #include <JXFontNameMenu.h>
 #include <jXGlobals.h>
-#include <JString.h>
 #include <JFontManager.h>
 #include <jAssert.h>
 
@@ -71,30 +70,6 @@ JXFontNameMenu::~JXFontNameMenu()
 }
 
 /******************************************************************************
- GetFontName (private)
-
- ******************************************************************************/
-
-JString
-JXFontNameMenu::GetFontName
-	(
-	const JIndex index
-	)
-	const
-{
-	JString name = GetItemText(index);
-
-	JString charSet;
-	if (GetItemNMShortcut(index, &charSet))
-		{
-		charSet.TrimWhitespace();
-		name = JFontManager::CombineNameAndCharacterSet(name, charSet);
-		}
-
-	return name;
-}
-
-/******************************************************************************
  SetFontName
 
  ******************************************************************************/
@@ -105,48 +80,25 @@ JXFontNameMenu::SetFontName
 	const JCharacter* name
 	)
 {
-JIndex i;
-
 	const JIndex count = GetItemCount();
-	for (i=1; i<=count; i++)
-		{
-		if (GetFontName(i) == name)
-			{
-			SetFontName1(i);
-			return kJTrue;
-			}
-		}
-
-	// catch the case where they don't specify the char set
-
-	for (i=1; i<=count; i++)
+	for (JIndex i=1; i<=count; i++)
 		{
 		if (GetItemText(i) == name)
 			{
-			SetFontName1(i);
+			const JIndex origFontIndex = itsFontIndex;
+
+			itsFontIndex = i;
+			SetPopupChoice(itsFontIndex);
+			if (itsBroadcastNameChangeFlag && itsFontIndex != origFontIndex)
+				{
+				Broadcast(NameChanged());
+				}
+
 			return kJTrue;
 			}
 		}
 
 	return kJFalse;
-}
-
-// private
-
-void
-JXFontNameMenu::SetFontName1
-	(
-	const JIndex index
-	)
-{
-	const JIndex origFontIndex = itsFontIndex;
-
-	itsFontIndex = index;
-	SetPopupChoice(itsFontIndex);
-	if (itsBroadcastNameChangeFlag && itsFontIndex != origFontIndex)
-		{
-		Broadcast(NameChanged());
-		}
 }
 
 /******************************************************************************
@@ -168,17 +120,7 @@ JXFontNameMenu::BuildMenu()
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JString* fontName = fontNames.NthElement(i);
-		const JBoolean hasCharSet =
-			JFontManager::ExtractCharacterSet(*fontName, &name, &charSet);
-
-		AppendItem(name, kJTrue, kJTrue);
-		if (hasCharSet)
-			{
-			charSet.PrependCharacter(' ');
-			charSet.AppendCharacter(' ');
-			SetItemNMShortcut(i, charSet);
-			}
-
+		AppendItem(*fontName, kJTrue, kJTrue);
 		SetItemFontName(i, *fontName);
 		}
 

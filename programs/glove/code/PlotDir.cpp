@@ -229,11 +229,11 @@ PlotDir::PlotDir
 	assert( itsDiffDirs != NULL );
 	ListenTo(itsDiffDirs);
 
-	itsPrinter = new JXPSPrinter(GetDisplay(), (GetWindow())->GetColormap());
+	itsPrinter = new JXPSPrinter(GetDisplay());
 	assert( itsPrinter != NULL );
 	itsPrinter->SetOrientation(JPSPrinter::kLandscape);
 
-	itsEPSPrinter	= new JX2DPlotEPSPrinter(GetDisplay(), (GetWindow())->GetColormap());
+	itsEPSPrinter	= new JX2DPlotEPSPrinter(GetDisplay());
 	assert(itsEPSPrinter != NULL);
 	itsPlot->SetEPSPrinter(itsEPSPrinter);
 

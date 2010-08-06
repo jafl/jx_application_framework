@@ -31,16 +31,14 @@ public:
 
 public:
 
-	JXImageMask(JXDisplay* display, JXColormap* colormap,
+	JXImageMask(JXDisplay* display,
 				const JCoordinate width, const JCoordinate height,
 				const JBoolean filled);
 
-	JXImageMask(JXDisplay* display, JXColormap* colormap,
-				const JConstBitmap& bitmap);
+	JXImageMask(JXDisplay* display, const JConstBitmap& bitmap);
 
-	JXImageMask(JXDisplay* display, JXColormap* colormap, Drawable source);
-	JXImageMask(JXDisplay* display, JXColormap* colormap, Drawable source,
-				const JRect& rect);
+	JXImageMask(JXDisplay* display, Drawable source);
+	JXImageMask(JXDisplay* display, Drawable source, const JRect& rect);
 
 	JXImageMask(const JXImage& image, const JColorIndex color);
 
@@ -49,7 +47,7 @@ public:
 
 	virtual ~JXImageMask();
 
-	static JError	CreateFromXBM(JXDisplay* display, JXColormap* colormap,
+	static JError	CreateFromXBM(JXDisplay* display,
 								  const JCharacter* fileName, JXImageMask** mask);
 
 	JError	WriteXBM(const JCharacter* fileName,
@@ -69,7 +67,7 @@ private:
 
 	JXImageMask(const Pixmap bitmap,
 				const JCoordinate width, const JCoordinate height,
-				JXDisplay* display, JXColormap* colormap);
+				JXDisplay* display);
 
 	// not allowed
 

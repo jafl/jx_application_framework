@@ -144,7 +144,7 @@ JX2DCurveOptionsDialog::BuildWindow()
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::JX2DCurveOptionsDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 279,229, 72,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 280,230, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::JX2DCurveOptionsDialog::shortcuts::JXLayout"));
 

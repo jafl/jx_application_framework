@@ -69,13 +69,13 @@ argument:
 =============== FORM ===============
 Name: SCXferFnDirector
 Width: 500
-Height: 235
+Height: 230
 Number of Objects: 4
 
 --------------------
 class: FL_BOX
 type: FLAT_BOX
-box: 0 0 500 235
+box: 0 0 500 230
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -242,14 +242,14 @@ argument:
 
 =============== FORM ===============
 Name: SCEETDirector
-Width: 365
-Height: 525
+Width: 360
+Height: 520
 Number of Objects: 6
 
 --------------------
 class: FL_BOX
 type: FLAT_BOX
-box: 0 0 365 525
+box: 0 0 360 520
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -495,7 +495,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: RETURN_BUTTON
-box: 199 199 72 22
+box: 200 200 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -609,7 +609,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: RETURN_BUTTON
-box: 199 199 72 22
+box: 200 200 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -705,7 +705,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: RETURN_BUTTON
-box: 159 79 62 22
+box: 160 80 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -722,14 +722,14 @@ argument:
 
 =============== FORM ===============
 Name: SCFeedbackDirector
-Width: 365
-Height: 525
+Width: 360
+Height: 520
 Number of Objects: 6
 
 --------------------
 class: FL_BOX
 type: FLAT_BOX
-box: 0 0 365 525
+box: 0 0 360 520
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -879,7 +879,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: RETURN_BUTTON
-box: 119 54 62 22
+box: 120 55 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -932,14 +932,14 @@ argument:
 
 =============== FORM ===============
 Name: SCNDIDirector
-Width: 365
-Height: 345
+Width: 360
+Height: 340
 Number of Objects: 7
 
 --------------------
 class: FL_BOX
 type: FLAT_BOX
-box: 0 0 365 345
+box: 0 0 360 340
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1149,7 +1149,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: RETURN_BUTTON
-box: 119 74 62 22
+box: 120 75 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1305,7 +1305,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: RETURN_BUTTON
-box: 179 89 62 22
+box: 180 90 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1473,7 +1473,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: RETURN_BUTTON
-box: 179 139 62 22
+box: 180 140 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER

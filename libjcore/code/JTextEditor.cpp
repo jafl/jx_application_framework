@@ -234,7 +234,6 @@ JTextEditor::JTextEditor
 	itsFontMgr(fontManager),
 	itsColormap(colormap),
 
-	itsCustomColors( itsColormap ),
 	itsCaretColor(caretColor),
 	itsSelectionColor(selectionColor),
 	itsSelectionOutlineColor(outlineColor),
@@ -333,7 +332,6 @@ JTextEditor::JTextEditor
 	itsFontMgr( source.itsFontMgr ),
 	itsColormap( source.itsColormap ),
 
-	itsCustomColors( source.itsCustomColors ),
 	itsCaretColor( source.itsCaretColor ),
 	itsSelectionColor( source.itsSelectionColor ),
 	itsSelectionOutlineColor( source.itsSelectionOutlineColor ),
@@ -1273,7 +1271,12 @@ JTextEditor::ColorNameToColorIndex
 	)
 	const
 {
-	return (const_cast<JTextEditor*>(this))->itsCustomColors.Add(name);
+	JColorIndex color;
+	if (!itsColormap->GetColor(name, &color))
+		{
+		color = itsColormap->GetBlackColor();
+		}
+	return color;
 }
 
 /******************************************************************************
@@ -1288,7 +1291,7 @@ JTextEditor::RGBToColorIndex
 	)
 	const
 {
-	return (const_cast<JTextEditor*>(this))->itsCustomColors.Add(color);
+	return itsColormap->GetColor(color);
 }
 
 /******************************************************************************
@@ -1296,12 +1299,12 @@ JTextEditor::RGBToColorIndex
 
  ******************************************************************************/
 
-static const JSize kHTMLPointSize[]      = { 8, 10, 12, 14, 18, 18, 24 };
+static const JSize kHTMLPointSize[]      = { 8, 8, 10, 12, 14, 18, 18 };
 static const JSize kHTMLHeaderFontSize[] = { 18, 18, 14, 12, 10, 8 };
 
-const JSize kBigHTMLPointSize     = 14;
-const JSize kDefaultHTMLPointSize = 12;
-const JSize kSmallHTMLPointSize   = 10;
+const JSize kBigHTMLPointSize     = 12;
+const JSize kDefaultHTMLPointSize = kJDefaultFontSize;
+const JSize kSmallHTMLPointSize   = 8;
 
 /******************************************************************************
  AppendCharsForHTML (private)
@@ -1614,7 +1617,7 @@ JTextEditor::HandleHTMLOnCmd
 
 		itsHTMLLexerState->PushCurrentFont();
 		itsHTMLLexerState->fontName         = JGetMonospaceFontName();
-		itsHTMLLexerState->font.size        = kDefaultHTMLPointSize;
+		itsHTMLLexerState->font.size        = kJDefaultMonoFontSize;
 		itsHTMLLexerState->font.style.color = itsColormap->GetBlackColor();
 		itsHTMLLexerState->UpdateFontID();
 		}
@@ -1905,27 +1908,6 @@ JTextEditor::SetFontForHTML
 	// update font id
 
 	itsHTMLLexerState->UpdateFontID();
-}
-
-/******************************************************************************
- SwitchHTMLCharSet (protected)
-
-	Returns kJTrue if the charSet is available.
-
- ******************************************************************************/
-
-JBoolean
-JTextEditor::SwitchHTMLCharSet
-	(
-	const JCharacter* charSet
-	)
-{
-	JString root, origCharSet;
-	itsFontMgr->ExtractCharacterSet(itsHTMLLexerState->fontName, &root, &origCharSet);
-	itsHTMLLexerState->fontName =
-		itsFontMgr->CombineNameAndCharacterSet(root, charSet);
-	itsHTMLLexerState->UpdateFontID();
-	return itsFontMgr->IsExact((itsHTMLLexerState->font).id);
 }
 
 /******************************************************************************
@@ -2242,8 +2224,9 @@ JTextEditor::HTMLLexerState::HTMLLexerState
 	buffer(b),
 	styles(s),
 	te(editor),
-	font(editor->itsFontMgr->GetFontID(JGetDefaultFontName(), 12, JFontStyle()),
-		 12, JFontStyle()),
+	font(editor->itsFontMgr->GetFontID(JGetDefaultFontName(),
+									   kDefaultHTMLPointSize, JFontStyle()),
+		 kDefaultHTMLPointSize, JFontStyle()),
 	fontName(JGetDefaultFontName()),
 	fontNameStack(JPtrArrayT::kDeleteAll),
 	blankLineFont(font),

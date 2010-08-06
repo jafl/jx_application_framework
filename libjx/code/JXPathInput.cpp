@@ -23,9 +23,6 @@
 #include <jFileUtil.h>
 #include <jAssert.h>
 
-static const JCharacter* kFontName = "6x13";
-const JSize kFontSize              = 12;
-
 // string ID's
 
 static const JCharacter* kHintID         = "Hint::JXPathInput";
@@ -63,7 +60,7 @@ JXPathInput::JXPathInput
 	itsExpectURLDropFlag    = kJFalse;
 	SetIsRequired();
 	SetCharacterInWordFunction(IsCharacterInWord);
-	SetDefaultFontName(kFontName);
+	SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
 	ShouldBroadcastCaretLocationChanged(kJTrue);
 	SetHint(JGetString(kHintID));
 	ListenTo(this);
@@ -90,8 +87,8 @@ JXPathInput::GetFont
 	JSize* size
 	)
 {
-	*size = kFontSize;
-	return kFontName;
+	*size = kJDefaultMonoFontSize;
+	return JGetMonospaceFontName();
 }
 
 /******************************************************************************

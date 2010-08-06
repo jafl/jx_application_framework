@@ -418,10 +418,6 @@ T
 F
 "./code/JXFontSizeMenu.cpp"
 T
-2 "JXFontCharSetMenu.cpp"
-F
-"./code/JXFontCharSetMenu.cpp"
-T
 2 "JXTEStyleMenu.cpp"
 F
 "./code/JXTEStyleMenu.cpp"
@@ -1048,6 +1044,10 @@ T
 2 "JXChooseColorDialog.cpp"
 F
 "./code/JXChooseColorDialog.cpp"
+T
+2 "JXColorWheel.cpp"
+F
+"./code/JXColorWheel.cpp"
 T
 2 "JXGetStringDialog.cpp"
 F

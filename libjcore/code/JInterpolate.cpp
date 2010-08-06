@@ -40,9 +40,7 @@ JInterpolate::JInterpolate()
 	:
 	JSubstitute(),
 	itsSource(NULL),
-#ifdef PCRE_MAJOR
 	itsRegex(NULL),
-#endif
 	itsMatchList(NULL)
 {
 	DefineVariables(theVariablePattern);
@@ -51,17 +49,13 @@ JInterpolate::JInterpolate()
 JInterpolate::JInterpolate
 	(
 	const JCharacter*			source,
-#ifdef PCRE_MAJOR
 	const pcre*					regex,
-#endif
 	const JArray<JIndexRange>*	matchList
 	)
 	:
 	JSubstitute(),
 	itsSource(source),
-#ifdef PCRE_MAJOR
 	itsRegex(regex),
-#endif
 	itsMatchList(matchList)
 {
 	DefineVariables(theVariablePattern);
@@ -90,9 +84,7 @@ JInterpolate::GetValue
 	const
 {
 	if (itsSource == NULL ||
-#ifdef PCRE_MAJOR
 		itsRegex == NULL  ||
-#endif
 		itsMatchList == NULL)
 		{
 		return kJTrue;	// assume ContainsError() was called
@@ -103,7 +95,6 @@ JInterpolate::GetValue
 	const JSize matchCount = itsMatchList->GetElementCount();
 
 	JInteger matchNumber;
-#ifdef PCRE_MAJOR
 	if (name.GetFirstCharacter() == '{')
 		{
 		assert( name.GetLastCharacter() == '}' );
@@ -116,7 +107,6 @@ JInterpolate::GetValue
 			}
 		}
 	else
-#endif
 		{
 		const JBoolean wasNumber = name.ConvertToInteger(&matchNumber);
 		assert( wasNumber );

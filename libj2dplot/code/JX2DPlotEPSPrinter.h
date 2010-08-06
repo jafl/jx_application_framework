@@ -21,7 +21,7 @@ class JX2DPlotEPSPrinter : public JXEPSPrinter
 {
 public:
 
-	JX2DPlotEPSPrinter(JXDisplay* display, JXColormap* colormap);
+	JX2DPlotEPSPrinter(JXDisplay* display);
 
 	virtual ~JX2DPlotEPSPrinter();
 

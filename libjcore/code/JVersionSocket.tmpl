@@ -48,12 +48,20 @@ JVersionSocket<ACE_PEER_STREAM_2>::JVersionSocket
 	itsPath(path),
 	itsNextServerTime(0)
 {
-	itsVersion = JGetString("VERSION");
-
 	itsReminderList = new JArray<time_t>;
 	assert( itsReminderList != NULL );
 
 	JPrefObject::ReadPrefs();
+
+	const JString vers = JGetString("VERSION");
+	if (itsVersion.IsEmpty())
+		{
+		itsVersion = vers;
+		}
+	else if (itsVersion == vers)
+		{
+		itsReminderList->RemoveAll();
+		}
 }
 
 // keep ACE_Connector happy
@@ -174,14 +182,11 @@ JVersionSocket<ACE_PEER_STREAM_2>::CheckVersion
 
 	if (vers == JGetString("VERSION"))
 		{
-		itsVersion = vers;
 		itsReminderList->RemoveAll();
 		}
 	else if (vers != itsVersion)
 		{
 		const time_t delta = kInitialReminderInterval;
-
-		itsVersion = vers;
 
 		itsReminderList->RemoveAll();
 		itsReminderList->AppendElement(now);		// remind next time we start
@@ -190,6 +195,7 @@ JVersionSocket<ACE_PEER_STREAM_2>::CheckVersion
 		itsReminderList->AppendElement(now + 3*delta);
 		}
 
+	itsVersion = vers;
 	JPrefObject::WritePrefs();
 }
 

@@ -17,11 +17,11 @@
 #include <JFontManager.h>
 #include <JArray.h>
 #include <X11/Xlib.h>
+#include <X11/Xft/Xft.h>
 
 class JString;
 class JRegex;
 class JXDisplay;
-class JXColormap;
 
 typedef JOrderedSetT::CompareResult
 	(*JSortXFontNamesFn)(JString * const &, JString * const &);
@@ -30,7 +30,29 @@ class JXFontManager : public JFontManager
 {
 public:
 
-	JXFontManager(JXDisplay* display, JXColormap* colormap);
+	enum FontType
+	{
+		kStdType,
+		kTrueType
+	};
+
+	struct XFont
+	{
+		FontType		type;
+		XFontStruct*	xfstd;
+		XftFont*		xftrue;
+
+		XFont()
+			:
+			type(kStdType), xfstd(NULL), xftrue(NULL)
+		{ };
+
+		void Free(JXDisplay* display);
+	};
+
+public:
+
+	JXFontManager(JXDisplay* display);
 
 	virtual ~JXFontManager();
 
@@ -38,9 +60,6 @@ public:
 	virtual void		GetMonospaceFontNames(JPtrArray<JString>* fontNames) const;
 	virtual JBoolean	GetFontSizes(const JCharacter* name, JSize* minSize,
 									 JSize* maxSize, JArray<JSize>* sizeList) const;
-	virtual JFontStyle	GetFontStyles(const JCharacter* name, const JSize size) const;
-	virtual JBoolean	GetFontCharSets(const JCharacter* name, const JSize size,
-										JPtrArray<JString>* charSetList) const;
 
 	virtual JFontID				GetFontID(const JCharacter* name, const JSize size,
 										  const JFontStyle& style) const;
@@ -60,21 +79,30 @@ public:
 
 	// for X Windows only
 
-	void			GetXFontNames(const JRegex& regex,
-								  JPtrArray<JString>* fontNames,
-								  JSortXFontNamesFn compare = NULL) const;
-	JBoolean		GetFontID(const JCharacter* xFontStr, JFontID* fontID) const;
-	XFontStruct*	GetXFontInfo(const JFontID id) const;
+	void		GetXFontNames(const JRegex& regex,
+							  JPtrArray<JString>* fontNames,
+							  JSortXFontNamesFn compare = NULL) const;
+	JBoolean	GetFontID(const JCharacter* xFontStr, JFontID* fontID) const;
+	XFont		GetXFontInfo(const JFontID id) const;
 
 private:
 
 	struct FontInfo
 	{
-		JString*		name;
-		JSize			size;
-		JFontStyle		style;
-		XFontStruct*	xfont;
-		JBoolean		exact;	// kJTrue => exact match to requested specs
+		JString*	name;
+		JSize		size;
+		JFontStyle	style;
+		XFont		xfont;
+		JBoolean	exact;		// kJTrue => exact match to requested specs
+		JCoordinate	ascent;		// cache for TrueType; 0 until first computed
+		JCoordinate	descent;	// cache for TrueType; 0 until first computed
+		JCoordinate	monoWidth;	// 0 if not monospace
+
+		FontInfo()
+			:
+			name(NULL), size(0), exact(kJFalse),
+			 ascent(0), descent(0), monoWidth(0)
+		{ };
 	};
 
 private:
@@ -87,20 +115,24 @@ private:
 
 private:
 
-	JString	BuildFontName(const JCharacter* xName, const JCharacter* charSet,
-						  const JSize size, const JFontStyle& style,
-						  const JCharacter* italicStr, const JBoolean iso) const;
+	JString		BuildStdFontName(const JCharacter* xName, const JSize size,
+								 const JFontStyle& style, const JCharacter* italicStr,
+								 const JCharacter* iso) const;
+	JBoolean	BuildTrueTypeFontName(const JCharacter* xName,
+									  const JSize size, const JFontStyle& style,
+									  JString* xFontStr) const;
 
-	XFontStruct*	GetNewFont(const JCharacter* name, const JCharacter* charSet,
-							   const JSize size, const JFontStyle& style) const;
-	XFontStruct*	ApproximateFont(const JCharacter* name, const JCharacter* charSet,
-									const JSize size, const JFontStyle& style) const;
+	JBoolean	GetNewFont(const JCharacter* name, const JSize size,
+						   const JFontStyle& style, XFont* xfont) const;
+	void		ApproximateFont(const JCharacter* name, const JSize size,
+								const JFontStyle& style, XFont* xfont) const;
 
-	JBoolean	ConvertToXFontName(const JCharacter* origName,
-								   JString* fontName, JString* charSet) const;
+	JString		ConvertToXFontName(const JCharacter* name) const;
 	void		ConvertToPSFontName(JString* name) const;
 
-	int	IsMonospace(const XFontStruct& xfont) const;
+	JCoordinate	IsMonospace(const XFont& xfont) const;
+	JBoolean	IsPostscript(const JString& name) const;
+	JBoolean	IsUseless(const JString& name) const;
 
 	// not allowed
 

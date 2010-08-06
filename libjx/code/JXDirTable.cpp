@@ -93,25 +93,24 @@ JXDirTable::JXDirTable
 	itsReselectNameList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsReselectNameList != NULL );
 
-	JXDisplay*  d = GetDisplay();
-	JXColormap* c = GetColormap();
+	JXDisplay* d = GetDisplay();
 
-	itsFileIcon = new JXImage(d, c, jx_plain_file_small);
+	itsFileIcon = new JXImage(d, jx_plain_file_small);
 	assert( itsFileIcon != NULL );
 
-	itsFolderIcon = new JXImage(d, c, jx_folder_small);
+	itsFolderIcon = new JXImage(d, jx_folder_small);
 	assert( itsFolderIcon != NULL );
 
-	itsReadOnlyFolderIcon = new JXImage(d, c, jx_folder_read_only_small);
+	itsReadOnlyFolderIcon = new JXImage(d, jx_folder_read_only_small);
 	assert( itsReadOnlyFolderIcon != NULL );
 
-	itsLockedFolderIcon = new JXImage(d, c, jx_folder_locked_small);
+	itsLockedFolderIcon = new JXImage(d, jx_folder_locked_small);
 	assert( itsLockedFolderIcon != NULL );
 
-	itsExecIcon = new JXImage(d, c, jx_executable_small);
+	itsExecIcon = new JXImage(d, jx_executable_small);
 	assert( itsExecIcon != NULL );
 
-	itsUnknownIcon = new JXImage(d, c, jx_unknown_file_small);
+	itsUnknownIcon = new JXImage(d, jx_unknown_file_small);
 	assert( itsUnknownIcon != NULL );
 
 	itsIgnoreSelChangesFlag = kJFalse;
@@ -122,7 +121,7 @@ JXDirTable::JXDirTable
 	SetColBorderInfo(0, blackColor);
 	AppendCols(1);
 	SetDefaultRowHeight((GetFontManager())->
-							GetLineHeight(JGetDefaultFontName(), kJXDefaultFontSize, JFontStyle()) +
+							GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle()) +
 						2*kVMarginWidth);
 	AdjustTableContents();
 	ListenTo(itsDirInfo);
@@ -507,10 +506,10 @@ JXDirTable::TableDrawCell
 	JColorIndex color = (GetColormap())->GetBlackColor();
 	if (!ItemIsActive(cell.y))
 		{
-		color = (GetColormap())->GetGray40Color();
+		color = (GetColormap())->GetGrayColor(40);
 		}
 
-	p.SetFont(JGetDefaultFontName(), kJXDefaultFontSize,
+	p.SetFont(JGetDefaultFontName(), kJDefaultFontSize,
 			  JFontStyle(kJFalse, italic, 0, kJFalse, color));
 
 	JRect r = rect;
@@ -941,7 +940,7 @@ JXDirTable::AdjustTableContents()
 		{
 		const JDirEntry& entry = itsDirInfo->GetEntry(i);
 		const JSize w = fontMgr->GetStringWidth(
-			JGetDefaultFontName(), kJXDefaultFontSize, style, entry.GetName());
+			JGetDefaultFontName(), kJDefaultFontSize, style, entry.GetName());
 		if (w > itsMaxStringWidth)
 			{
 			itsMaxStringWidth = w;

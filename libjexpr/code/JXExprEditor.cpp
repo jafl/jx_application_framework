@@ -318,7 +318,7 @@ JXExprEditor::JXExprEditorX()
 	// required by JXGetCurrColormap
 	assert( (GetWindow())->GetColormap() == (GetDisplay())->GetColormap() );
 
-	itsEPSPrinter = new JXEPSPrinter(GetDisplay(), GetColormap());
+	itsEPSPrinter = new JXEPSPrinter(GetDisplay());
 	assert( itsEPSPrinter != NULL );
 	ListenTo(itsEPSPrinter);
 

@@ -1,4 +1,4 @@
-jx_browser_data 83
+jx_browser_data 84
 # project tree
 0 "root"
 T
@@ -146,10 +146,6 @@ T
 2 "GMessageViewDir.cpp"
 F
 "./code/GMessageViewDir.cpp"
-T
-2 "JXGetPasswordDialog.cpp"
-F
-"./code/JXGetPasswordDialog.cpp"
 T
 2 "GMMessageFindDialog.cpp"
 F
@@ -550,21 +546,6 @@ T
 2 "GCreditsText"
 F
 "./strings/GCreditsText"
-T
-2 "GBBindingEditorHelpText"
-F
-"./strings/GBBindingEditorHelpText"
-F
-T
-1 "updates"
-T
-2 "JXLibVersion.h"
-F
-"../../libjx/code/JXLibVersion.h"
-T
-2 "JCoreLibVersion.h"
-F
-"../../libjcore/code/JCoreLibVersion.h"
 F
 F
 # tasks

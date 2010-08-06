@@ -63,7 +63,7 @@ JXMessageDialog::BuildWindow
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::JXMessageDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 139,79, 62,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 140,80, 60,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::JXMessageDialog::shortcuts::JXLayout"));
 

@@ -53,7 +53,7 @@ JError		JCreateDirectory(const JCharacter* dirName, const mode_t mode);
 JError		JRenameDirectory(const JCharacter* oldName, const JCharacter* newName);
 JError		JChangeDirectory(const JCharacter* dirName);
 JError		JRemoveDirectory(const JCharacter* dirName);
-JBoolean	JKillDirectory(const JCharacter* dirName);
+JBoolean	JKillDirectory(const JCharacter* dirName, const JBoolean sync = kJTrue);
 
 JString		JGetCurrentDirectory();
 JBoolean	JGetHomeDirectory(JString* homeDir);

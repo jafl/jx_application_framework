@@ -313,7 +313,7 @@ THXExprDirector::BuildWindow
 	window->SetWMClass(THXGetWMClassInstance(), THXGetExprWindowClass());
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = new JXImage(display, display->GetColormap(), thx_expr_window);
+	JXImage* icon      = new JXImage(display, thx_expr_window);
 	assert( icon != NULL );
 	window->SetIcon(icon);
 

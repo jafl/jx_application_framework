@@ -102,7 +102,7 @@ JIndex i;
 		te->SetFontStyle(46, 53, JFontStyle(kJFalse, kJFalse, 0, kJTrue), kJTrue);
 		te->SetFontStyle(54, 62, JFontStyle(kJTrue, kJFalse, 0, kJFalse,
 											(GetColormap())->GetRedColor()), kJTrue);
-		te->SetFont(63, 69, JXGetSymbolFontName(), 18,
+		te->SetFont(63, 69, JGetGreekFontName(), 18,
 					JFontStyle(kJFalse, kJTrue, 0, kJFalse), kJTrue);
 		}
 }

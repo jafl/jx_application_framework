@@ -25,7 +25,7 @@ GXTextSelection::GXTextSelection
 	const std::string&	text
 	)
 	:
-	JXTextSelection(display, text.c_str(), NULL, NULL)
+	JXTextSelection(display, text.c_str(), NULL)
 {
 }
 

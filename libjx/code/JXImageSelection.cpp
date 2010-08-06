@@ -284,12 +284,11 @@ JXImageSelection::GetImage
 	const Atom		selectionName,
 	const Time		time,
 	JXDisplay*		display,
-	JXImage**		image,
-	const JBoolean	allowApproxColors
+	JXImage**		image
 	)
 {
 	return GetImage(display->GetSelectionManager(), selectionName, time,
-					display->GetColormap(), image, allowApproxColors);
+					display->GetColormap(), image);
 }
 
 JBoolean
@@ -299,8 +298,7 @@ JXImageSelection::GetImage
 	const Atom			selectionName,
 	const Time			time,
 	JXColormap*			colormap,
-	JXImage**			image,
-	const JBoolean		allowApproxColors
+	JXImage**			image
 	)
 {
 	JXDisplay* display = colormap->GetDisplay();
@@ -362,8 +360,7 @@ JXImageSelection::GetImage
 				selMgr->DeleteData(&data, delMethod);
 
 				const JError err =
-					JXImage::CreateFromFile(display, colormap, fileName, image,
-											allowApproxColors);
+					JXImage::CreateFromFile(display, fileName, image);
 				JRemoveFile(fileName);
 
 				if (err.OK())

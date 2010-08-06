@@ -520,10 +520,6 @@ T
 F
 "./code/JGetCurrentColormap.cpp"
 T
-2 "JColorList.cpp"
-F
-"./code/JColorList.cpp"
-T
 2 "JImage.cpp"
 F
 "./code/JImage.cpp"

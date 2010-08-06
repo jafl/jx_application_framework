@@ -42,10 +42,22 @@ public:
 
 	void	SetBackgroundColor(const JColorIndex color);
 
+	void	SetToLabel();
+
+protected:
+
+	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh);
+
+private:
+
+	JBoolean	itsIsLabelFlag;
+
 private:
 
 	void	JXStaticTextX(const JCharacter* text,
 						  const JCoordinate w, const JCoordinate h);
+
+	void	CenterVertically();
 
 	// not allowed
 

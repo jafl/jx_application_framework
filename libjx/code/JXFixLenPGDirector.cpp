@@ -74,6 +74,7 @@ JXFixLenPGDirector::BuildWindow
         new JXStaticText(JGetString("text::JXFixLenPGDirector::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 20,10, 160,20);
     assert( text != NULL );
+    text->SetToLabel();
 
     JXProgressIndicator* indicator =
         new JXProgressIndicator(window,

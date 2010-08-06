@@ -16,7 +16,6 @@
 #include <JXDisplay.h>
 #include <JXColormap.h>
 #include <jXGlobals.h>
-#include <JString.h>
 #include <jFileUtil.h>
 #include <jProcessUtil.h>
 #include <jStreamUtil.h>
@@ -39,11 +38,10 @@ const JCharacter kSetupDataEndDelimiter = '\1';
 
 JXPSPrinter::JXPSPrinter
 	(
-	const JXDisplay*	display,
-	const JXColormap*	colormap
+	const JXDisplay* display
 	)
 	:
-	JPSPrinter(display->GetFontManager(), colormap)
+	JPSPrinter(display->GetFontManager(), display->GetColormap())
 {
 	itsDestination = kPrintToPrinter;
 	itsCollateFlag = kJFalse;

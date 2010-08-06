@@ -57,7 +57,7 @@ JXImageCache::GetImage
 	JXImage* image;
 	if (!itsMap->GetElement(s, &image))
 		{
-		image = new JXImage(itsDisplay, itsDisplay->GetColormap(), data);
+		image = new JXImage(itsDisplay, data);
 		assert( image != NULL );
 		const JBoolean ok = itsMap->SetNewElement(s, image);
 		assert( ok );

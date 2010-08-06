@@ -38,7 +38,7 @@ JXNewDirButton::JXNewDirButton
 	:
 	JXTextButton("", enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsFolderIcon = new JXImage(GetDisplay(), GetColormap(), jx_folder_small);
+	itsFolderIcon = new JXImage(GetDisplay(), jx_folder_small);
 	assert( itsFolderIcon != NULL );
 	itsFolderIcon->ConvertToRemoteStorage();
 

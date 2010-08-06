@@ -27,14 +27,13 @@ const JColorIndex JXImageMask::kPixelOff = kJXTransparentColor;
 JXImageMask::JXImageMask
 	(
 	JXDisplay*			display,
-	JXColormap*			colormap,
 	const JCoordinate	width,
 	const JCoordinate	height,
 	const JBoolean		filled
 	)
 	:
-	JXImage(display, colormap, width, height,
-			(filled ? colormap->GetBlackColor() : kPixelOff), 1),
+	JXImage(display, width, height,
+			(filled ? (display->GetColormap())->GetBlackColor() : kPixelOff), 1),
 	JImageMask()
 {
 	SetDefaultState(kRemoteStorage);
@@ -43,13 +42,12 @@ JXImageMask::JXImageMask
 JXImageMask::JXImageMask
 	(
 	JXDisplay*			display,
-	JXColormap*			colormap,
 	const JConstBitmap&	bitmap
 	)
 	:
 	JXImage(XCreateBitmapFromData(*display, display->GetRootWindow(),
 								  (char*) bitmap.data, bitmap.w, bitmap.h),
-			bitmap.w, bitmap.h, display, colormap),
+			bitmap.w, bitmap.h, display),
 	JImageMask()
 {
 	SetDefaultState(kRemoteStorage);
@@ -58,11 +56,10 @@ JXImageMask::JXImageMask
 JXImageMask::JXImageMask
 	(
 	JXDisplay*	display,
-	JXColormap*	colormap,
 	Drawable	source
 	)
 	:
-	JXImage(display, colormap, source),
+	JXImage(display, source),
 	JImageMask()
 {
 #ifndef NDEBUG
@@ -82,12 +79,11 @@ JXImageMask::JXImageMask
 JXImageMask::JXImageMask
 	(
 	JXDisplay*		display,
-	JXColormap*		colormap,
 	Drawable		source,
 	const JRect&	rect
 	)
 	:
-	JXImage(display, colormap, source, rect),
+	JXImage(display, source, rect),
 	JImageMask()
 {
 #ifndef NDEBUG
@@ -117,8 +113,7 @@ JXImageMask::JXImageMask
 	const JColorIndex	color
 	)
 	:
-	JXImage(image.GetDisplay(), image.GetXColormap(),
-			image.GetWidth(), image.GetHeight(),
+	JXImage(image.GetDisplay(), image.GetWidth(), image.GetHeight(),
 			(image.GetColormap())->GetBlackColor(), 1),
 	JImageMask()
 {
@@ -138,11 +133,10 @@ JXImageMask::JXImageMask
 	const Pixmap		bitmap,
 	const JCoordinate	width,
 	const JCoordinate	height,
-	JXDisplay*			display,
-	JXColormap*			colormap
+	JXDisplay*			display
 	)
 	:
-	JXImage(bitmap, width, height, display, colormap),
+	JXImage(bitmap, width, height, display),
 	JImageMask()
 {
 	SetDefaultState(kRemoteStorage);
@@ -196,7 +190,6 @@ JError
 JXImageMask::CreateFromXBM
 	(
 	JXDisplay*			display,
-	JXColormap*			colormap,
 	const JCharacter*	fileName,
 	JXImageMask**		mask
 	)
@@ -225,7 +218,7 @@ JXImageMask::CreateFromXBM
 		return JNoProcessMemory();
 		}
 
-	*mask = new JXImageMask(bitmap, w,h, display, colormap);
+	*mask = new JXImageMask(bitmap, w,h, display);
 	assert( *mask != NULL );
 
 	return JNoError();

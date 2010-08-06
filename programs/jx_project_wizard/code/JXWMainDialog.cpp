@@ -132,7 +132,7 @@ JXWMainDialog::BuildWindow
 
     itsCreateButton =
         new JXTextButton(JGetString("itsCreateButton::JXWMainDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 359,339, 62,22);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 360,340, 60,20);
     assert( itsCreateButton != NULL );
     itsCreateButton->SetShortcuts(JGetString("itsCreateButton::JXWMainDialog::shortcuts::JXLayout"));
 
@@ -149,13 +149,15 @@ JXWMainDialog::BuildWindow
 
     JXStaticText* obj1_JXLayout =
         new JXStaticText(JGetString("obj1_JXLayout::JXWMainDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 110,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 120,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     JXStaticText* obj2_JXLayout =
         new JXStaticText(JGetString("obj2_JXLayout::JXWMainDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 110,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 120,20);
     assert( obj2_JXLayout != NULL );
+    obj2_JXLayout->SetToLabel();
 
     itsProgramName =
         new JXInputField(window,
@@ -169,8 +171,9 @@ JXWMainDialog::BuildWindow
 
     JXStaticText* obj3_JXLayout =
         new JXStaticText(JGetString("obj3_JXLayout::JXWMainDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 110,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 120,20);
     assert( obj3_JXLayout != NULL );
+    obj3_JXLayout->SetToLabel();
 
     itsDevName =
         new JXInputField(window,
@@ -179,8 +182,9 @@ JXWMainDialog::BuildWindow
 
     JXStaticText* obj4_JXLayout =
         new JXStaticText(JGetString("obj4_JXLayout::JXWMainDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 110,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,90, 120,20);
     assert( obj4_JXLayout != NULL );
+    obj4_JXLayout->SetToLabel();
 
     itsDevEmail =
         new JXInputField(window,
@@ -189,24 +193,27 @@ JXWMainDialog::BuildWindow
 
     JXStaticText* obj5_JXLayout =
         new JXStaticText(JGetString("obj5_JXLayout::JXWMainDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,130, 110,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,130, 120,20);
     assert( obj5_JXLayout != NULL );
+    obj5_JXLayout->SetToLabel();
 
     JXStaticText* obj6_JXLayout =
         new JXStaticText(JGetString("obj6_JXLayout::JXWMainDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,180, 110,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,180, 120,20);
     assert( obj6_JXLayout != NULL );
+    obj6_JXLayout->SetToLabel();
 
     itsNeedsMDICB =
         new JXTextCheckbox(JGetString("itsNeedsMDICB::JXWMainDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,210, 130,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,210, 130,20);
     assert( itsNeedsMDICB != NULL );
     itsNeedsMDICB->SetShortcuts(JGetString("itsNeedsMDICB::JXWMainDialog::shortcuts::JXLayout"));
 
     JXStaticText* obj7_JXLayout =
         new JXStaticText(JGetString("obj7_JXLayout::JXWMainDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,240, 110,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,240, 120,20);
     assert( obj7_JXLayout != NULL );
+    obj7_JXLayout->SetToLabel();
 
     itsChooseProjDirButton =
         new JXTextButton(JGetString("itsChooseProjDirButton::JXWMainDialog::JXLayout"), window,
@@ -215,8 +222,9 @@ JXWMainDialog::BuildWindow
 
     JXStaticText* obj8_JXLayout =
         new JXStaticText(JGetString("obj8_JXLayout::JXWMainDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,270, 110,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,270, 120,20);
     assert( obj8_JXLayout != NULL );
+    obj8_JXLayout->SetToLabel();
 
     itsChooseTmplDirButton =
         new JXTextButton(JGetString("itsChooseTmplDirButton::JXWMainDialog::JXLayout"), window,
@@ -225,13 +233,15 @@ JXWMainDialog::BuildWindow
 
     JXStaticText* obj9_JXLayout =
         new JXStaticText(JGetString("obj9_JXLayout::JXWMainDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,160, 110,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,160, 120,20);
     assert( obj9_JXLayout != NULL );
+    obj9_JXLayout->SetToLabel();
 
     JXStaticText* obj10_JXLayout =
         new JXStaticText(JGetString("obj10_JXLayout::JXWMainDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,110, 110,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,110, 120,20);
     assert( obj10_JXLayout != NULL );
+    obj10_JXLayout->SetToLabel();
 
     itsCompanyName =
         new JXInputField(window,
@@ -270,8 +280,9 @@ JXWMainDialog::BuildWindow
 
     JXStaticText* obj11_JXLayout =
         new JXStaticText(JGetString("obj11_JXLayout::JXWMainDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,300, 110,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,300, 120,20);
     assert( obj11_JXLayout != NULL );
+    obj11_JXLayout->SetToLabel();
 
     itsOpenCmd =
         new JXInputField(window,

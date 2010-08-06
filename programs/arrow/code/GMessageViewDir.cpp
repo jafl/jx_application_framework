@@ -15,7 +15,6 @@
 #include "GMessageTable.h"
 #include "GMessageEditDir.h"
 #include "GMessageHeaderList.h"
-#include "JXGetPasswordDialog.h"
 #include "gMailUtils.h"
 #include <GMApp.h>
 #include <GHelpText.h>
@@ -33,6 +32,7 @@
 #include "GMailboxTreeDir.h"
 #include "GMMailboxData.h"
 #include "GMMarkHeaderDeletedTask.h"
+#include "GMGlobals.h"
 
 #include "filenew.xpm"
 #include "filefloppy.xpm"
@@ -55,11 +55,11 @@
 #include "address_entry.xpm"
 #include "mailbox.xpm"
 
-#include "jx_help_specific.xpm"
-#include "jx_help_toc.xpm"
+#include <jx_help_specific.xpm>
+#include <jx_help_toc.xpm>
+#include <jx_plain_file_small.xpm>
 
 #include <JXToolBar.h>
-
 #include <JXApplication.h>
 #include <JXColormap.h>
 #include <JXFSDirMenu.h>
@@ -78,28 +78,19 @@
 #include <JXVertPartition.h>
 #include <JXWindow.h>
 #include <JXWebBrowser.h>
+#include <JXGetStringDialog.h>
+#include <jXConstants.h>
 
 #include <JColormap.h>
-#include <JError.h>
 #include <JPtrArray-JString.h>
 #include <JRegex.h>
 #include <JRunArray.h>
 #include <JTableSelection.h>
 #include <JDirInfo.h>
 #include <JUserNotification.h>
-
-#include <GMGlobals.h>
-
-#include <jx_plain_file_small.xpm>
-
-#include <jXConstants.h>
-
 #include <jStreamUtil.h>
-#include <jFileUtil.h>
 #include <jProcessUtil.h>
 #include <jDirUtil.h>
-#include <jMissingProto.h>
-
 #include <jFStreamUtil.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -217,8 +208,6 @@ const JCoordinate kAttachTablePartIndex	= 2;
 
 const JFileVersion kCurrentPrefsVersion	= 3;
 
-static const JCharacter* kPasswordPrompt = "Password:";
-
 /******************************************************************************
  Constructor
 
@@ -235,7 +224,7 @@ GMessageViewDir::GMessageViewDir
 	GMManagedDirector(supervisor),
 	itsSourceOnly(source)
 {
-	itsPasswdDialog			= NULL;
+	itsPasswdDialog				= NULL;
 	itsAttachTable				= NULL;
 	itsPrefsIncludeAttachTable	= kJFalse;
 
@@ -473,7 +462,7 @@ GMessageViewDir::BuildWindow
 		itsToolBar->AppendButton(itsMessageMenu, kRedirectCmd);
 		}
 
-	itsMenuIcon = new JXImage(window->GetDisplay(), window->GetColormap(), JXPM(jx_plain_file_small));
+	itsMenuIcon = new JXImage(window->GetDisplay(), jx_plain_file_small);
 	assert(itsMenuIcon != NULL);
 	itsMenuIcon->ConvertToRemoteStorage();
 }
@@ -533,7 +522,7 @@ GMessageViewDir::Receive
 		assert( info != NULL );
 		if (info->Successful())
 			{
-			JString passwd = itsPasswdDialog->GetPassword();
+			JString passwd = itsPasswdDialog->GetString();
 			JString buffer;
 			JBoolean ok;
 			if (GGetPrefsMgr()->GetEncryptionType() == GPrefsMgr::kPGP2_6)
@@ -786,7 +775,10 @@ GMessageViewDir::HandleMessageMenu
 	else if (index == kDecryptCmd)
 		{
 		assert(itsPasswdDialog == NULL);
-		itsPasswdDialog = new JXGetPasswordDialog(this, kPasswordPrompt);
+		itsPasswdDialog = 
+			new JXGetStringDialog(this, JGetString("GMGetPasswordTitle"),
+								  JGetString("GMGetPasswordPrompt"),
+								  NULL, kJTrue, kJTrue);
 		assert(itsPasswdDialog != NULL);
 		ListenTo(itsPasswdDialog);
 		itsPasswdDialog->BeginDialog();
@@ -1140,7 +1132,6 @@ GMessageViewDir::ShowHeader
 				assert(itsAttachTable != NULL);
 				itsAttachTable->FitToEnclosure(kJTrue, kJTrue);
 				itsAttachTable->SetEditMenuHandler(itsView);
-
 				}
 			else
 				{

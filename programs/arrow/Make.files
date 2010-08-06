@@ -36,7 +36,6 @@
 .cpp ./code/GMessageEditDir
 .cpp ./code/GMessageTableDir
 .cpp ./code/GMessageViewDir
-.cpp ./code/JXGetPasswordDialog
 .cpp ./code/GMMessageFindDialog
 .cpp ./code/GMFindTableDir
 .cpp ./code/GNetDebugDir

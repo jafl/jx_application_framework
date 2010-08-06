@@ -60,7 +60,7 @@ JXChooseFontSizeDialog::BuildWindow
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::JXChooseFontSizeDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 109,59, 62,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 110,60, 60,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::JXChooseFontSizeDialog::shortcuts::JXLayout"));
 
@@ -78,6 +78,7 @@ JXChooseFontSizeDialog::BuildWindow
         new JXStaticText(JGetString("obj1_JXLayout::JXChooseFontSizeDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 110,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
 // end JXLayout
 

@@ -119,19 +119,3 @@ JExtractHTMLTitle::HandleHTMLWhitespace
 	itsNeedWSFlag = kJTrue;
 	return kJTrue;
 }
-
-/******************************************************************************
- SwitchCharSet (virtual protected)
-
-	We want the alternate version.
-
- ******************************************************************************/
-
-JBoolean
-JExtractHTMLTitle::SwitchCharSet
-	(
-	const JCharacter* charSet
-	)
-{
-	return kJFalse;
-}

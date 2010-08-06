@@ -12,6 +12,7 @@
 
 #include <JXStdInc.h>
 #include <JXFileNameDisplay.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -34,6 +35,7 @@ JXFileNameDisplay::JXFileNameDisplay
 	JXStaticText(text, kJFalse, kJFalse, NULL,
 				 enclosure, hSizing, vSizing, x,y, w,h)
 {
+	SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
 	SetBorderWidth(1);
 	SetCaretLocation(GetTextLength() + 1);
 	ListenTo(this);

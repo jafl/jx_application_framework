@@ -94,7 +94,7 @@ JXHelpManager::JXHelpManager()
 	assert( itsDefWindowGeom != NULL );
 
 	JXDisplay* display = (JXGetApplication())->GetCurrentDisplay();
-	itsPrinter = new JXPSPrinter(display, display->GetColormap());
+	itsPrinter = new JXPSPrinter(display);
 	assert( itsPrinter != NULL );
 
 	JXSharedPrefObject::ReadPrefs();

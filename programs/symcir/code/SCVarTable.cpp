@@ -61,7 +61,7 @@ SCVarTable::SCVarTable
 	assert( itsVisibleList != NULL );
 
 	const JSize fontHeight =
-		(GetFontManager())->GetLineHeight(JGetDefaultFontName(), kJXDefaultFontSize,
+		(GetFontManager())->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize,
 										  JFontStyle());
 	const JCoordinate rowHeight = fontHeight + 2*kVMarginWidth;
 	SetDefaultRowHeight(rowHeight);
@@ -150,7 +150,7 @@ SCVarTable::TableDrawCell
 
 	HilightIfSelected(p, cell, rect);
 
-	p.SetFont(JGetDefaultFontName(), kJXDefaultFontSize, JFontStyle());
+	p.SetFont(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle());
 
 	const JIndex varIndex = RowToVarIndex(cell.y);
 

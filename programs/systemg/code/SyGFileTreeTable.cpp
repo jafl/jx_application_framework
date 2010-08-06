@@ -181,7 +181,8 @@ enum
 static const JCharacter* kMountStr   = "Mount";
 static const JCharacter* kUnmountStr = "Unmount";
 
-// Git Branch menu
+// Git Branch menu -- NO KEYBOARD SHORTCUTS
+// (can take time to run "git branch", so only run it when user opens the menu)
 
 static const JCharacter* kGitBranchMenuTitleStr = "Branch";
 static const JCharacter* kGitBranchMenuAddStr =
@@ -316,11 +317,7 @@ SyGFileTreeTable::SyGFileTreeTable
 	ShouldHilightTextOnly(kJTrue);
 	WantInput(kJTrue);
 
-	const JSize rgb = JRound(kJMaxRGBValue * 0.95);
-	if (!GetColormap()->AllocateStaticColor(rgb, rgb, rgb, &itsAltRowColor))
-		{
-		itsAltRowColor = GetColormap()->GetGray90Color();
-		}
+	itsAltRowColor = (GetColormap())->GetGrayColor(95);
 
 	itsPermCharWidth =
 		GetFontManager()->GetCharWidth( JGetDefaultFontName(), kJDefaultFontSize,
@@ -438,8 +435,6 @@ SyGFileTreeTable::~SyGFileTreeTable()
 
 	delete itsEditTask;
 	delete itsUpdateTask;
-
-	(GetColormap())->DeallocateColor(itsAltRowColor);
 }
 
 /******************************************************************************
@@ -1204,15 +1199,7 @@ SyGFileTreeTable::DeleteSelected()
 		{
 		SyGFileTreeNode* node = itsFileTreeList->GetSyGNode(cell.y);
 		const JString file    = (node->GetDirEntry())->GetFullName();
-		const JError err      = JRemoveVCS(file);
-		if (err.OK())
-			{
-			delete node;
-			}
-		else
-			{
-			err.ReportIfError();
-			}
+		JRemoveVCS(file, kJFalse);
 		}
 }
 
@@ -2239,7 +2226,10 @@ SyGFileTreeTable::UpdateDisplay
 
 		StopListening(itsUpdateNode);
 		itsFileTree->Update(force, &itsUpdateNode);
-		ClearWhenGoingAway(itsUpdateNode, &itsUpdateNode);
+		if (itsUpdateNode != NULL)
+			{
+			ClearWhenGoingAway(itsUpdateNode, &itsUpdateNode);
+			}
 
 		if (updateMenus)
 			{
@@ -2260,7 +2250,8 @@ SyGFileTreeTable::UpdateDisplay
 void
 SyGFileTreeTable::UpdateMenus()
 {
-	if (JGetVCSType(itsFileTree->GetDirectory()) == kJGitType)
+	JString gitPath = JCombinePathAndName(itsFileTree->GetDirectory(), ".git");
+	if (JDirectoryExists(gitPath))
 		{
 		if (itsGitBranchMenu == NULL)
 			{
@@ -2273,7 +2264,7 @@ SyGFileTreeTable::UpdateMenus()
 		if (!itsMenuBar->FindMenu(itsGitBranchMenu, &index))
 			{
 			itsMenuBar->InsertMenuBefore(itsShortcutMenu, itsGitBranchMenu);
-			UpdateGitBranchMenu();
+			itsGitBranchMenu->SetMenuItems("Not empty");
 			}
 		}
 	else if (itsGitBranchMenu != NULL)
@@ -2298,16 +2289,15 @@ SyGFileTreeTable::SetWindowIcon()
 		itsWindowIconType = type;
 
 		JXDisplay* display = GetDisplay();
-		JXColormap* cmap   = GetColormap();
-/*		JXImage* icon1 = new JXImage(display, cmap, plain);
+/*		JXImage* icon1 = new JXImage(display, plain);
 		assert(icon1 != NULL);
-		JXImage* icon2 = new JXImage(display, cmap, selected);
+		JXImage* icon2 = new JXImage(display, selected);
 		assert(icon2 != NULL);
 
 		itsIconWidget = (GetWindow())->SetIcon(icon1, icon2);
 		ListenTo(itsIconWidget);
 */
-		JXImage* icon3 = new JXImage(display, cmap, plain);
+		JXImage* icon3 = new JXImage(display, plain);
 		assert(icon3 != NULL);
 
 		(GetWindow())->SetIcon(icon3);
@@ -3637,6 +3627,8 @@ SyGFileTreeTable::UpdateGitBranchMenu()
 	JPtrArray<JString> repoList(JPtrArrayT::kDeleteAll);
 	repoList.SetCompareFunction(JCompareStringsCaseInsensitive);
 
+	(JXGetApplication())->DisplayBusyCursor();
+
 	itsGitLocalBranchCount  = AppendGitBranches("git branch", kJFalse, NULL);
 	itsGitRemoteBranchCount = AppendGitBranches("git branch -r", kJTrue, &repoList);
 
@@ -4246,7 +4238,7 @@ void
 SyGFileTreeTable::AdjustToTree()
 {
 	const JFontStyle workingLink(kJFalse, kJTrue, 0, kJFalse);
-	const JFontStyle brokenLink(kJFalse, kJTrue, 0, kJFalse, (GetColormap())->GetGray60Color());
+	const JFontStyle brokenLink(kJFalse, kJTrue, 0, kJFalse, (GetColormap())->GetGrayColor(60));
 
 	const JSize count = GetRowCount();
 	for (JIndex i=1; i<=count; i++)

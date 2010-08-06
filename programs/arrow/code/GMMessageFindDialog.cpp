@@ -70,6 +70,7 @@ GMMessageFindDialog::BuildWindow()
         new JXStaticText(JGetString("obj1_JXLayout::GMMessageFindDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 25,20, 60,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     itsMessageBodyCB =
         new JXTextCheckbox(JGetString("itsMessageBodyCB::GMMessageFindDialog::JXLayout"), window,

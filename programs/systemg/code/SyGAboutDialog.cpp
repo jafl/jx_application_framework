@@ -85,7 +85,7 @@ SyGAboutDialog::BuildWindow
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::SyGAboutDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 319,149, 62,22);
+                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,150, 60,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::SyGAboutDialog::shortcuts::JXLayout"));
 
@@ -132,13 +132,13 @@ SyGAboutDialog::BuildWindow
 
 	// System G icon
 
-	JXImage* image = new JXImage(GetDisplay(), window->GetColormap(), SyGMainIcon);
+	JXImage* image = new JXImage(GetDisplay(), SyGMainIcon);
 	assert( image != NULL );
 	sygIcon->SetImage(image, kJTrue);
 
 	// NPS icon
 
-	image = new JXImage(GetDisplay(), window->GetColormap(), new_planet_software);
+	image = new JXImage(GetDisplay(), new_planet_software);
 	assert( image != NULL );
 	npsIcon->SetImage(image, kJTrue);
 

@@ -18,10 +18,9 @@
 #include <JXGC.h>
 #include <JXColormap.h>
 #include <JXImage.h>
+#include <JXImagePainter.h>
 #include <jXUtil.h>
 #include <JFontManager.h>
-#include <JString.h>
-#include <string.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -44,10 +43,11 @@ JXWindowPainter::JXWindowPainter
 {
 	assert( gc != NULL );
 
-	itsDisplay   = gc->GetDisplay();
-	itsDrawable  = drawable;
-	itsGC        = gc;
-	itsRotTextGC = NULL;
+	itsDisplay        = gc->GetDisplay();
+	itsDrawable       = drawable;
+	itsGC             = gc;
+	itsFontDrawable   = NULL;
+	itsFontClipRegion = NULL;
 
 	if (defaultClipRegion != NULL)
 		{
@@ -80,8 +80,14 @@ JXWindowPainter::~JXWindowPainter()
 		{
 		XDestroyRegion(itsDefClipRegion);
 		}
-
-	delete itsRotTextGC;
+	if (itsFontDrawable != NULL)
+		{
+		XftDrawDestroy(itsFontDrawable);
+		}
+	if (itsFontClipRegion != NULL)
+		{
+		XDestroyRegion(itsFontClipRegion);
+		}
 }
 
 /******************************************************************************
@@ -94,6 +100,27 @@ JXWindowPainter::GetXColormap()
 	const
 {
 	return itsGC->GetColormap();
+}
+
+/******************************************************************************
+ GetFontDrawable
+
+ ******************************************************************************/
+
+XftDraw*
+JXWindowPainter::GetFontDrawable()
+	const
+{
+	if (itsFontDrawable == NULL)
+		{
+		const_cast<JXWindowPainter*>(this)->itsFontDrawable =
+			XftDrawCreate(*itsDisplay, itsDrawable,
+						  itsDisplay->GetDefaultVisual(),
+						  (itsDisplay->GetColormap())->GetXColormap());
+		XftDrawSetClip(itsFontDrawable, itsFontClipRegion);
+		}
+
+	return itsFontDrawable;
 }
 
 /******************************************************************************
@@ -265,6 +292,12 @@ JXWindowPainter::SetClipRect
 	const JRect& userRect
 	)
 {
+	if (itsFontClipRegion != NULL)
+		{
+		XDestroyRegion(itsFontClipRegion);
+		itsFontClipRegion = NULL;
+		}
+
 	const JRect r        = JPainter::SetClipRect(userRect);
 	const JBoolean empty = r.IsEmpty();
 	if (!empty)
@@ -278,16 +311,24 @@ JXWindowPainter::SetClipRect
 			Region clipRegion = XCreateRegion();
 			JXIntersectRectWithRegion(&xrect, itsClipRegion, clipRegion);
 			itsGC->SetClipRegion(clipRegion);
+			itsFontClipRegion = JXCopyRegion(clipRegion);
 			XDestroyRegion(clipRegion);
 			}
 		else
 			{
 			itsGC->SetClipRect(rG);
+			itsFontClipRegion = JXRectangleRegion(rG);
 			}
 		}
 	else
 		{
 		itsGC->SetClipRect(r);
+		itsFontClipRegion = JXRectangleRegion(r);
+		}
+
+	if (itsFontDrawable != NULL)
+		{
+		XftDrawSetClip(itsFontDrawable, itsFontClipRegion);
 		}
 
 	return r;
@@ -362,7 +403,7 @@ JXWindowPainter::String
 	JCoordinate y   = o.y + top + ascent;
 	AlignString(&x,&y, str, width, hAlign, height, vAlign);
 
-	itsGC->DrawString(itsDrawable, x,y, str);
+	itsGC->DrawString(itsDrawable, GetFontDrawable(), x,y, str);
 	if (uIndex > 0)
 		{
 		const JFontManager* fontMgr = GetFontManager();
@@ -370,7 +411,7 @@ JXWindowPainter::String
 		JCoordinate xu = x;
 		if (uIndex > 1)
 			{
-			xu += fontMgr->GetStringWidth(GetFontID(), GetFontSize(), GetFontStyle(),
+			xu += fontMgr->GetStringWidth(fontID, fontSize, fontStyle,
 										  str, uIndex-1);
 			}
 
@@ -380,7 +421,6 @@ JXWindowPainter::String
 		const JCoordinate lineWidth = fontMgr->GetUnderlineThickness(fontSize);
 		const JCoordinate yu        = y + JLFloor(1.5 * lineWidth);
 
-		itsGC->SetDrawingColor(fontStyle.color);
 		itsGC->SetLineWidth(lineWidth);
 		itsGC->DrawDashedLines(kJFalse);
 		itsGC->DrawLine(itsDrawable, xu, yu, xu+w-1, yu);
@@ -421,6 +461,16 @@ JXWindowPainter::String
 
 	// If the angle is zero, we can do it easily.
 
+	JXImage* srcImage = NULL;
+	const JPoint& o   = GetOrigin();
+
+	JCoordinate ascent, descent;
+	const JSize lineHeight  = GetLineHeight(&ascent, &descent) + 1;
+	const JSize stringWidth = GetStringWidth(str);
+
+	const JCoordinate x0 = o.x + left;
+	const JCoordinate y0 = o.y + top;
+
 	JIndex quadrant;
 	if (-45.0 < angle && angle <= 45.0)
 		{
@@ -430,104 +480,85 @@ JXWindowPainter::String
 	else if (45.0 < angle && angle <= 135.0)
 		{
 		quadrant = 2;
+		srcImage = new JXImage(itsDisplay, itsDrawable,
+							   JRect(y0 - stringWidth, x0, y0+1, x0 + lineHeight + 1));
 		}
 	else if (135.0 < angle && angle <= 225.0)
 		{
 		quadrant = 3;
+		srcImage = new JXImage(itsDisplay, itsDrawable,
+							   JRect(y0 - lineHeight, x0 - stringWidth, y0+1, x0+1));
 		}
 	else	// 225.0 < angle && angle <= 315.0
 		{
 		quadrant = 4;
+		srcImage = new JXImage(itsDisplay, itsDrawable,
+							   JRect(y0, x0 - lineHeight, y0 + stringWidth + 1, x0+1));
 		}
+	assert( srcImage != NULL );
 
 	// We have to do it pixel by pixel.
 
 	JCoordinate dx=0, dy=0;
 	AlignString(&dx,&dy, str, width, hAlign, height, vAlign);
 
-	JCoordinate ascent, descent;
-	const JSize lineHeight  = GetLineHeight(&ascent, &descent) + 1;
-	const JSize stringWidth = GetStringWidth(str);
-
-	Pixmap tempPixmap =
-		XCreatePixmap(*itsDisplay, itsDrawable, stringWidth, lineHeight,
-					  DefaultDepth((Display*) *itsDisplay,
-					  DefaultScreen((Display*) *itsDisplay)));
-	assert( tempPixmap != 0 );
-
-	JXColormap* colormap = itsDisplay->GetColormap();
-	if (itsRotTextGC == NULL)
-		{
-		itsRotTextGC = new JXGC(itsDisplay, colormap, itsDrawable);
-		assert( itsRotTextGC != NULL );
-		}
-
-	itsRotTextGC->SetFont(GetFontID());
+	JXColormap* colormap        = itsDisplay->GetColormap();
+	const JColorIndex backColor = colormap->GetWhiteColor();
 	const JFontStyle& fontStyle = GetFontStyle();
 
-	JXColormap* rotCMap = itsRotTextGC->GetColormap();
-	itsRotTextGC->SetDrawingColor(rotCMap->GetWhiteColor());
-	itsRotTextGC->FillRect(tempPixmap, 0,0, stringWidth,lineHeight);
-	itsRotTextGC->SetDrawingColor(rotCMap->GetBlackColor());
-	itsRotTextGC->DrawString(tempPixmap, 0, ascent, str);
-
-	{
-	const JPoint origOrigin     = GetOrigin();
-	const Drawable origDrawable = itsDrawable;
-	JXGC* origGC                = itsGC;
-
-	SetOrigin(0,0);
-	itsDrawable = tempPixmap;
-	itsGC       = itsRotTextGC;
-
-	StyleString(str, 0,ascent, ascent, descent, rotCMap->GetBlackColor());
-
-	SetOrigin(origOrigin);
-	itsDrawable = origDrawable;
-	itsGC       = origGC;
-	}
-
-	XImage* tempImage =
-		XGetImage(*itsDisplay, tempPixmap, 0,0, stringWidth, lineHeight, 0x01, ZPixmap);
+	JXImage* tempImage = new JXImage(itsDisplay, stringWidth, lineHeight, backColor);
 	assert( tempImage != NULL );
 
-	const JColorIndex foreColor = colormap->GetXPixel(colormap->GetBlackColor());
-	const JColorIndex backColor = colormap->GetXPixel(colormap->GetWhiteColor());
+	JXImagePainter* p    = tempImage->CreatePainter();
+	JFontStyle tempStyle = fontStyle;
+	tempStyle.color      = colormap->GetBlackColor();
+	p->SetFont(GetFontID(), 0, tempStyle);
+	p->String(0,0, str);
 
-	const JPoint& o = GetOrigin();
-	itsGC->SetDrawingColor(fontStyle.color);
-	JCoordinate xp,yp;
+	const JRGB c1 = colormap->JColormap::GetRGB(fontStyle.color);
 	for (JCoordinate x=0; x < (JCoordinate) stringWidth; x++)
 		{
 		for (JCoordinate y=0; y < (JCoordinate) lineHeight; y++)
 			{
-			const unsigned long pixelValue = XGetPixel(tempImage, x,y);
-			if (pixelValue == foreColor)
+			const unsigned long pixelValue = tempImage->GetColor(x,y);
+			if (pixelValue != backColor)
 				{
+				unsigned long srcPixel;
+				JCoordinate xp,yp;
 				if (quadrant == 2)
 					{
-					xp = left+dy+y;
-					yp = top-dx-x;
+					xp       = +dy+y;
+					yp       = -dx-x;
+					srcPixel = srcImage->GetColor(y, stringWidth - x);
 					}
 				else if (quadrant == 3)
 					{
-					xp = left-dx-x;
-					yp = top-dy-y;
+					xp       = -dx-x;
+					yp       = -dy-y;
+					srcPixel = srcImage->GetColor(stringWidth - x, lineHeight - y);
 					}
 				else
 					{
 					assert( quadrant == 4 );
-					xp = left-dy-y;
-					yp = top+dx+x;
+
+					xp       = -dy-y;
+					yp       = +dx+x;
+					srcPixel = srcImage->GetColor(lineHeight - y, stringWidth - x);
 					}
 
-				itsGC->DrawPoint(itsDrawable, o.x+xp, o.y+yp);
+				const JRGB c2 = colormap->JColormap::GetRGB(srcPixel);
+				const JRGB c3 = colormap->JColormap::GetRGB(pixelValue);
+				itsGC->SetDrawingColor(
+					colormap->JColormap::GetColor(JBlend(c1, c2, c3.red/kJMaxRGBValueF)));
+				itsGC->DrawPoint(itsDrawable, x0+xp, y0+yp);
 				}
 			}
 		}
 
-	XDestroyImage(tempImage);
-	XFreePixmap(*itsDisplay, tempPixmap);
+	delete tempImage;
+	delete srcImage;
+
+	itsGC->SetDrawingColor(fontStyle.color);	// expected pen color
 }
 
 /******************************************************************************

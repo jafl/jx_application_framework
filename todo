@@ -1,4 +1,9 @@
-remove support for dynamic colors, etc
+release System G update
+	test that U10 notices update to NPS deb repo
+
+libXft:
+	test all window/dialog layouts on Linux and OSX
+	jxlayout -cp code -cs .cpp --post-cmd 'jcc --reload-open' --choose
 
 store window placement info on root window, so only first app has to jiggle
 OSX: detect that hide/show shifts window down
@@ -13,15 +18,14 @@ OSX: detect that hide/show shifts window down
 			if not there, ask user if ok to test (reply: yes, no, never)
 
 jcc:
-	JavaScript styler (and others?):  /**/ only opens a comment!
-	project Config button should look for pom.xml
+	clean whitespace should not change alignment
+	new "clean indentation" for forcing alignment
 
-	git diff
-		http://yuilibrary.com/gitfaq/
-		http://www.eecs.harvard.edu/~cduan/technical/git/
+	cvs,svn,git:  need to pass rev args to "summary" diff command
 
 medic:
-	menu items and toolbar buttons for "step backward" in gdb 7
+	set commands when restore breakpoints -- split on \1
+		test on leibnitz_debug_config
 
 	breakpoint window
 		modeless: update on ":Medic breakpoints changed:"
@@ -37,11 +41,10 @@ medic:
 			listen for thread start/death to update tree
 		display stack trace for selected thread
 
-systemg:
-	don't block while deleting files
-	don't ask "do you want to delete without git" -- just do it
-	test that U10 notices update to NPS deb repo
+buzzer:
+	merge code from Glenn and get it to build
 
+systemg:
 	optimize selection of multiple items
 		systemg *.cpp in large directory
 		rewrite api to take list of items to select
@@ -49,6 +52,9 @@ systemg:
 		fix jcc to send one request for multiple items
 	locks up when find returns many files
 		-name *.cpp -o -name *.h -o -name *.xpm
+
+rendering
+	http://cairographics.org/
 
 -----
 
@@ -70,9 +76,6 @@ Docking
 
 jcc:
 	shell window doesn't work on ubuntu
-
-	clean whitespace should not change alignment
-	new "clean indentation" for forcing alignment
 
 	if modified separately in memory and on disk, offer to show diff
 		if window closed, deactivate "Redo diff" button
@@ -141,6 +144,7 @@ medic:
 		http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html
 
 arrow
+	when show full headers in HTML mode, doesn't update link ranges
 	fix SaveState() so it doesn't need JFileArray
 	specify timeout for lockfile and handle it as lock failure
 *	doesn't save drafts if no inbox open
@@ -149,6 +153,7 @@ arrow
 svn_client:
 	svn update doesn't always restore to correct scroll location (if lots of files)
 	incremental search in SVNListBase:  only search file name
+	show multiple files in same folder in systemg:  only selects last one
 
 	Repo tab for "svn list"
 		drag => svn copy/move (for branching/tagging)
@@ -179,6 +184,10 @@ svn_client:
 		wrapper widget creates JXScrollbarSet and input field
 		when set process + fd, show input
 		when process finished, hide input
+
+glove:
+	switch to JXExprEditor
+	clean up .fd to match current layouts
 
 JBroadcaster:
 	register handler for message:  function which takes obj, msg type, function pointer
@@ -234,8 +243,6 @@ medic:
 	DND for breakpoints -- moves associated commands, conditions, etc.
 
 	Same prefs menu in all windows
-	set commands when restore breakpoints
-		need to store commands
 
 leibnitz
 	finish 3D plotting
@@ -375,9 +382,6 @@ drakon:
 
 	SendSignal dialog
 
-buzzer:
-	merge code from Glenn and get it to build
-
 Clean up prefs
 	JXPrefsDialog has tree list and card file
 		tree list pane adjusts width to bounds of tree list
@@ -404,8 +408,13 @@ JTextEditor::DrawInMargin
 	line #'s
 	bookmarks -- easier to see which line was marked
 
-Char set:
-	preserve modified char set when font changes
+libXft:
+	printing:
+		gs -dNOPAUSE -dBATCH -sDEVICE=pswrite -sOutputFile=junk2.ps junk.ps
+		http://www.stat.auckland.ac.nz/~paul/R/CM/CMR.html
+		http://pages.cs.wisc.edu/~ghost/doc/gnu/7.05/Fonts.htm
+	Symbol:
+		Figure out how to use tt version -- this will also fix printing
 
 -----
 

@@ -86,7 +86,8 @@ J_RANLIB_VIA_AR_S := -D_J_RANLIB_VIA_AR_S
 # On most systems, N and M are both 4.  Check /usr/include/limits.h
 
 J_RAW_SYSTEM_STUFF := \
-  -DSIZEOF_LONG=_ -DSIZEOF_INT=_
+  -DSIZEOF_INT=_ -DSIZEOF_LONG=_ -DSIZEOF_LONGLONG=_ \
+  -D_XFT_NO_COMPAT_ -I/usr/include/freetype2
 
 #
 # Nothing below this line should ever need to be changed.
@@ -108,7 +109,7 @@ CXXFLAGS  = ${J_MAKE_NEEDS_OUTPUT_ARG}
 
 J_GCC_LIBS  := -lstdc++ -lm -lc -ldl
 J_ACE_LIBS  := -L${JX_ROOT}/lib -lACE-${ACE_LIB_VERSION}
-J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} -lXext -lXpm -lX11
+J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} -lXext -lXft -lXpm -lX11
 J_MESA_LIBS := -L${JX_ROOT}/lib -lGLU -lGL
 
 # modify settings based on OS, compiler, etc.

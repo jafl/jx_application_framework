@@ -20,6 +20,7 @@
 class JXSlider;
 class JXIntegerInput;
 class JXFlatRect;
+class JXColorWheel;
 
 class JXChooseColorDialog : public JXDialogDirector
 {
@@ -47,13 +48,19 @@ private:
     JXIntegerInput* itsRInput;
     JXIntegerInput* itsGInput;
     JXIntegerInput* itsBInput;
+    JXColorWheel*   itsColorWheel;
 
 // end JXLayout
 
 private:
 
 	void	BuildWindow(const JColorIndex colorIndex);
-	void	UpdateColor(const JBoolean sliderChanged);
+	void	UpdateWheelColor();
+	void	UpdateHSBColor();
+	void	UpdateRGBColor();
+	void	UpdateColorWheel(const JRGB& color);
+	void	UpdateSliders(const JRGB& color);
+	void	UpdateInputFields(const JRGB& color);
 
 	// not allowed
 

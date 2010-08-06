@@ -338,7 +338,7 @@ JXTEBase::JXTEBase
 				(GetColormap())->GetDefaultSelectionColor(),	// selection filled
 				(GetColormap())->GetBlueColor(),				// selection outline
 				(GetColormap())->GetBlackColor(),				// drag
-				(GetColormap())->GetGray70Color(),				// whitespace
+				(GetColormap())->GetGrayColor(70),				// whitespace
 				GetApertureWidth()),
 
 	itsWillPasteCustomFlag( kJFalse )
@@ -1675,7 +1675,7 @@ JXTEBase::TEClipboardChanged()
 		const JBoolean ok = GetSelection(text, style);
 		assert( ok );
 
-		JXTextSelection* data = new JXTextSelection(GetDisplay(), text, GetColormap(), style);
+		JXTextSelection* data = new JXTextSelection(GetDisplay(), text, style);
 		assert( data != NULL );
 
 		if (!(GetSelectionManager())->SetData(kJXClipboardName, data))

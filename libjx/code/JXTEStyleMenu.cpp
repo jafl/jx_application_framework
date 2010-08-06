@@ -32,7 +32,7 @@ JXTEStyleMenu::JXTEStyleMenu
 	const JCoordinate	h
 	)
 	:
-	JXStyleMenu(kJFalse, enclosure, hSizing, vSizing, x,y, w,h)
+	JXStyleMenu(enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsTE = te;
 	SetUpdateAction(kDisableNone);
@@ -46,7 +46,7 @@ JXTEStyleMenu::JXTEStyleMenu
 	JXContainer*	enclosure
 	)
 	:
-	JXStyleMenu(kJFalse, owner, itemIndex, enclosure)
+	JXStyleMenu(owner, itemIndex, enclosure)
 {
 	itsTE = te;
 	SetUpdateAction(kDisableNone);

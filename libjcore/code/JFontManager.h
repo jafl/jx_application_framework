@@ -31,9 +31,6 @@ public:
 	virtual void		GetMonospaceFontNames(JPtrArray<JString>* fontNames) const = 0;
 	virtual JBoolean	GetFontSizes(const JCharacter* name, JSize* minSize,
 									 JSize* maxSize, JArray<JSize>* sizeList) const = 0;
-	virtual JFontStyle	GetFontStyles(const JCharacter* name, const JSize size) const = 0;
-	virtual JBoolean	GetFontCharSets(const JCharacter* name, const JSize size,
-										JPtrArray<JString>* charSetList) const = 0;
 
 	virtual JFontID				GetFontID(const JCharacter* name, const JSize size,
 										  const JFontStyle& style) const = 0;
@@ -79,11 +76,6 @@ public:
 	virtual JSize	GetStringWidth(const JFontID fontID, const JSize size,
 								   const JFontStyle& style, const JCharacter* str,
 								   const JSize charCount) const = 0;
-
-	static JString	CombineNameAndCharacterSet(const JCharacter* name,
-											   const JCharacter* charSet);
-	static JBoolean	ExtractCharacterSet(const JCharacter* origName,
-										JString* fontName, JString* charSet);
 
 private:
 

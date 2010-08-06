@@ -67,7 +67,7 @@ SetElasticDialog::BuildWindow
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::SetElasticDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 119,59, 52,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 120,60, 50,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::SetElasticDialog::shortcuts::JXLayout"));
 
@@ -76,10 +76,11 @@ SetElasticDialog::BuildWindow
                     JXWidget::kHElastic, JXWidget::kFixedTop, 140,20, 40,20);
     assert( itsElasticIndex != NULL );
 
-    JXStaticText* obj1 =
-        new JXStaticText(JGetString("obj1::SetElasticDialog::JXLayout"), window,
+    JXStaticText* obj1_JXLayout =
+        new JXStaticText(JGetString("obj1_JXLayout::SetElasticDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 130,20);
-    assert( obj1 != NULL );
+    assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
 // end JXLayout
 

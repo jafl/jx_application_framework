@@ -14,12 +14,6 @@
 			Respond to the selected menu item.  UpdateStyle() is provided
 			for convenience.
 
-	If a derived class turns on custom colors, it must override:
-
-		HandleCustomColor
-			At least call JColormap::UsingColor() so the color won't be
-			lost when the menu widget is deleted.
-
 	Derived classes can also override the following functions:
 
 		UpdateMenu
@@ -91,7 +85,6 @@ static const JCharacter* kWinMenuStr =
 
 JXStyleMenu::JXStyleMenu
 	(
-	const JBoolean		allowChooseCustomColors,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -101,22 +94,19 @@ JXStyleMenu::JXStyleMenu
 	const JCoordinate	h
 	)
 	:
-	JXTextMenu(kStyleMenuTitleStr, enclosure, hSizing, vSizing, x,y, w,h),
-	itsChooseCustomColorFlag(allowChooseCustomColors)
+	JXTextMenu(kStyleMenuTitleStr, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JXStyleMenuX();
 }
 
 JXStyleMenu::JXStyleMenu
 	(
-	const JBoolean		allowChooseCustomColors,
 	JXMenu*				owner,
 	const JIndex		itemIndex,
 	JXContainer*		enclosure
 	)
 	:
-	JXTextMenu(owner, itemIndex, enclosure),
-	itsChooseCustomColorFlag(allowChooseCustomColors)
+	JXTextMenu(owner, itemIndex, enclosure)
 {
 	JXStyleMenuX();
 }
@@ -154,7 +144,7 @@ JXStyleMenu::JXStyleMenuX()
 
 	assert( kColorCount == 11 );
 	itsColorList[ 0] = blackColor;
-	itsColorList[ 1] = colormap->GetGray60Color();
+	itsColorList[ 1] = colormap->GetGrayColor(60);
 	itsColorList[ 2] = colormap->GetBrownColor();
 	itsColorList[ 3] = colormap->GetOrangeColor();
 	itsColorList[ 4] = colormap->GetRedColor();
@@ -175,7 +165,22 @@ JXStyleMenu::JXStyleMenuX()
 
 JXStyleMenu::~JXStyleMenu()
 {
-	(GetColormap())->DeallocateColor(itsColorList[ kColorCount-1 ]);
+}
+
+/******************************************************************************
+ SetCustomColor (private)
+
+	Change the color associated with "other".
+
+ ******************************************************************************/
+
+inline void
+JXStyleMenu::SetCustomColor
+	(
+	const JColorIndex color
+	)
+{
+	itsColorList[ kColorCount-1 ] = color;
 }
 
 /******************************************************************************
@@ -220,7 +225,6 @@ JXStyleMenu::Receive
 		const JIndex i = selection->GetIndex();
 		if (i == kCustomColorCmd)
 			{
-			assert( itsChooseCustomColorFlag );
 			ChooseColor();
 			}
 		else
@@ -243,7 +247,7 @@ JXStyleMenu::Receive
 			{
 			itsColorIndex = itsChooseColorDialog->GetColor();
 			SetCustomColor(itsColorIndex);
-			HandleCustomColor(itsColorIndex);
+			HandleMenuItem(kCustomColorCmd);
 			}
 		itsChooseColorDialog = NULL;
 		}
@@ -314,11 +318,6 @@ JXStyleMenu::UpdateMenu()
 
 	itsColorIndex = style.color;
 	CheckItem(ColorToIndex(itsColorIndex));
-
-	if (!itsChooseCustomColorFlag)
-		{
-		DisableItem(kCustomColorCmd);
-		}
 }
 
 /******************************************************************************
@@ -399,22 +398,6 @@ JXStyleMenu::ChooseColor()
 }
 
 /******************************************************************************
- HandleCustomColor (virtual protected)
-
-	If a derived class turns on custom colors, it must override this function.
-
- ******************************************************************************/
-
-void
-JXStyleMenu::HandleCustomColor
-	(
-	const JColorIndex color
-	)
-{
-	assert( 0 /* The programmer forgot to override JXStyleMenu::HandleCustomColor() */ );
-}
-
-/******************************************************************************
  IndexToColor (protected)
 
  ******************************************************************************/
@@ -457,28 +440,4 @@ JXStyleMenu::ColorToIndex
 
 	const_cast<JXStyleMenu*>(this)->SetCustomColor(color);
 	return kCustomColorCmd;
-}
-
-/******************************************************************************
- SetCustomColor (private)
-
-	Change the color associated with "other".
-
- ******************************************************************************/
-
-void
-JXStyleMenu::SetCustomColor
-	(
-	const JColorIndex color
-	)
-{
-	const JColorIndex origColor = itsColorList[ kColorCount-1 ];
-	if (origColor != color)
-		{
-		itsColorList[ kColorCount-1 ] = color;
-
-		JXColormap* colormap = GetColormap();
-		colormap->DeallocateColor(origColor);
-		colormap->UsingColor(color);
-		}
 }

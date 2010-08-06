@@ -33,12 +33,10 @@ public:
 	void	SetData(JXImage* image);
 
 	static JBoolean	GetImage(const Atom selectionName, const Time time,
-							 JXDisplay* display,
-							 JXImage** image, const JBoolean allowApproxColors = kJTrue);
+							 JXDisplay* display, JXImage** image);
 	static JBoolean	GetImage(JXSelectionManager* selMgr,
 							 const Atom selectionName, const Time time,
-							 JXColormap* colormap, JXImage** image,
-							 const JBoolean allowApproxColors = kJTrue);
+							 JXColormap* colormap, JXImage** image);
 
 	static const JCharacter*	GetXPMXAtomName();
 	static const JCharacter*	GetGIFXAtomName();

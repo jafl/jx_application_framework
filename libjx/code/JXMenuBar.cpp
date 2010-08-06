@@ -531,7 +531,7 @@ JXMenuBar::WidthChanged()
 
 	// create menu to hold overflow
 
-	JXImage* image = new JXImage(GetDisplay(), GetColormap(), jx_down_chevron);
+	JXImage* image = new JXImage(GetDisplay(), jx_down_chevron);
 	assert( image != NULL );
 
 	JXTextMenu* overflowMenu =

@@ -26,13 +26,6 @@
 			supported (e.g. TrueType), return a reasonable min and max, and an
 			empty list of sizes.  Return kJFalse if there is no such font.
 
-		GetFontStyles
-			Return JFontStyle with available styles set to kJTrue.  Because
-			of JPainter, underline, strike, and colors are always available.
-
-		GetFontCharSets
-			Return character sets available for given font name and size.
-
 		GetFontID
 			Return a handle to the specified font.  This routine is responsible
 			for finding the best approximation if the specified font is not available.
@@ -151,59 +144,4 @@ JFontManager::GetStringWidth
 	const
 {
 	return GetStringWidth(GetFontID(name, size, style), size, style, str, charCount);
-}
-
-/******************************************************************************
- CombineNameAndCharacterSet (static)
-
- ******************************************************************************/
-
-JString
-JFontManager::CombineNameAndCharacterSet
-	(
-	const JCharacter* name,
-	const JCharacter* charSet
-	)
-{
-	JString s, s1;
-	ExtractCharacterSet(name, &s, &s1);		// toss previous char set
-	if (!JStringEmpty(charSet))
-		{
-		s += " (";
-		s += charSet;
-		s += ")";
-		}
-	return s;
-}
-
-/******************************************************************************
- ExtractCharacterSet (static)
-
-	Returns kJTrue if *charSet is not empty.
-
- ******************************************************************************/
-
-static const JRegex charSetRegex = "\\(.*\\)$";
-
-JBoolean
-JFontManager::ExtractCharacterSet
-	(
-	const JCharacter*	origName,
-	JString*			fontName,
-	JString*			charSet
-	)
-{
-	*fontName = origName;
-	charSet->Clear();
-
-	JIndexRange r;
-	if (charSetRegex.Match(*fontName, &r))
-		{
-		const JIndexRange r1(r.first+1, r.last-1);
-		*charSet = fontName->GetSubstring(r1);
-		fontName->RemoveSubstring(r);
-		fontName->TrimWhitespace();
-		}
-
-	return !charSet->IsEmpty();
 }

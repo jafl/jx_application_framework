@@ -9,7 +9,6 @@
 
 #include <JXStdInc.h>
 #include "TestWidget.h"
-#include "AnimateColorTask.h"
 #include "ResizeWidgetDialog.h"
 
 #include <JXDisplay.h>
@@ -41,8 +40,6 @@
 #include <jMath.h>
 #include <jAssert.h>
 
-const JSize kAnimColorCount = 10;
-
 // Actions menu
 
 static const JCharacter* kActionsMenuTitleStr    = "Weird things to do";
@@ -53,7 +50,6 @@ static const JCharacter* kActionsMenuStr =
 	"  | Points %h p"
 	"%l| Hide"
 	"  | Deactivate"
-	"  | Green"
 	"%l| Hide quit"
 	"  | Deactivate quit"
 	"%l| Print selection targets"
@@ -69,7 +65,6 @@ enum
 	kPointMenuCmd,
 	kShowHideCmd,
 	kActDeactCmd,
-	kRedGreenCmd,
 	kShowHideQuitCmd,
 	kActDeactQuitCmd,
 	kPrintSelectionTargetsCmd,
@@ -184,7 +179,6 @@ TestWidget::TestWidget
 	(
 	const JBoolean		isMaster,
 	const JBoolean		isImage,
-	const JBoolean		allocDynamicColors,
 	JXMenuBar*			menuBar,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
@@ -202,7 +196,6 @@ TestWidget::TestWidget
 JIndex i;
 
 	itsFillFlag       = kJFalse;
-	itsNextAnimColor  = (GetColormap())->GetGreenColor();
 	itsRandPointCount = 10;
 	itsResizeDialog   = NULL;
 
@@ -214,47 +207,6 @@ JIndex i;
 	itsBogosityCursor  = display->CreateBuiltInCursor("XC_bogosity", XC_bogosity);
 	itsFleurCursor     = display->CreateBuiltInCursor("XC_fleur",    XC_fleur);
 	SetDefaultCursor(itsTrekCursor);
-
-	// dynamic colors
-
-	itsAnimColorList = new JArray<JColorIndex>(kAnimColorCount);
-	assert( itsAnimColorList != NULL );
-
-	JArray<JDynamicColorInfo>* colorList =
-		new JArray<JDynamicColorInfo>(kAnimColorCount);
-	assert( colorList != NULL );
-
-	JXColormap* colormap = GetColormap();
-	if (allocDynamicColors)
-		{
-		for (i=1; i<=kAnimColorCount; i++)
-			{
-			JDynamicColorInfo info;
-			if (colormap->AllocateDynamicColor(0,0,0, &(info.index)))
-				{
-				colorList->AppendElement(info);
-				itsAnimColorList->AppendElement(info.index);
-				}
-			else
-				{
-				cerr << "Unable to allocate dynamic color " << i << endl;
-				break;
-				}
-			}
-		}
-
-	if (!colorList->IsEmpty())
-		{
-		itsAnimColorTask = new AnimateColorTask(colormap, colorList);
-		assert( itsAnimColorTask != NULL );
-		}
-	else
-		{
-		delete colorList;
-		itsAnimColorTask = NULL;
-		}
-
-	ListenTo(GetWindow());		// remove AnimateColorTask when iconified
 
 	// menus
 
@@ -314,7 +266,7 @@ JIndex i;
 
 	// image from xpm
 
-	itsXPMImage = new JXImage(GetDisplay(), GetColormap(), JXPM(macapp_xpm));
+	itsXPMImage = new JXImage(GetDisplay(), JXPM(macapp_xpm));
 	assert( itsXPMImage != NULL );
 
 	// partial image from image
@@ -324,7 +276,7 @@ JIndex i;
 
 	// home symbol
 
-	itsHomeImage = new JXImage(GetDisplay(), GetColormap(), JXPM(home_xpm));
+	itsHomeImage = new JXImage(GetDisplay(), JXPM(home_xpm));
 	assert( itsHomeImage != NULL );
 
 	itsHomeRect = itsHomeImage->GetBounds();
@@ -386,16 +338,6 @@ JIndex i;
 
 TestWidget::~TestWidget()
 {
-	JXColormap* colormap = GetColormap();
-	const JSize count = itsAnimColorList->GetElementCount();
-	for (JIndex i=1; i<=count; i++)
-		{
-		colormap->DeallocateColor( itsAnimColorList->GetElement(i) );
-		}
-
-	delete itsAnimColorList;
-	delete itsAnimColorTask;
-
 	delete itsXPMImage;
 	delete itsPartialXPMImage;
 	delete itsHomeImage;
@@ -534,7 +476,7 @@ JIndex i;
 	p.Line(ap.topRight(), ap.bottomLeft());
 
 	p.SetLineWidth(2);
-	p.SetFontName(JXGetTimesFontName());
+	p.SetFontName("Times");
 	p.SetFontSize(18);
 
 	p.Image(*itsHomeImage, itsHomeImage->GetBounds(), itsHomeRect);
@@ -556,7 +498,7 @@ JIndex i;
 			 its3Rect.height(), JPainter::kVAlignCenter);
 
 	p.SetLineWidth(1);
-	p.SetFont(JGetDefaultFontName(), kJXDefaultFontSize, colormap->GetBlackColor());
+	p.SetFont(JGetDefaultFontName(), kJDefaultFontSize, colormap->GetBlackColor());
 
 	p.ShiftOrigin(10,10);
 
@@ -595,6 +537,19 @@ JIndex i;
 	p.String(200, 10, "Hello", 100, JPainter::kHAlignLeft);
 	p.String(200, 10+p.GetLineHeight(), "Hello", 100, JPainter::kHAlignCenter);
 	p.String(200, 10+2*p.GetLineHeight(), "Hello", 100, JPainter::kHAlignRight);
+
+	p.SetPenColor(colormap->GetDarkGreenColor());
+	p.SetFilling(kJTrue);
+	p.Rect(310, 160, 80, 80);
+	textPt.Set(350, 200);
+	p.SetFontName("Times");
+	p.SetFontStyle(colormap->GetBlueColor());
+	p.String(  0.0, textPt, "Hello");
+	p.String( 90.0, textPt, "Hello");
+	p.SetFontStyle(colormap->GetYellowColor());
+	p.String(180.0, textPt, "Hello");
+	p.String(270.0, textPt, "Hello");
+	p.SetFilling(kJFalse);
 
 	p.SetPenColor(colormap->GetYellowColor());
 	JRect r(0,11,80,91);
@@ -683,36 +638,10 @@ JIndex i;
 	p.DrawDashedLines(kJTrue);
 	p.Ellipse(213,113, 14,14);
 
-	// animated colors
-
-	p.SetFilling(kJTrue);
-
-	JCoordinate x = 25;
-	const JSize animColorCount = itsAnimColorList->GetElementCount();
-	for (i=1; i<=animColorCount; i++)
-		{
-		p.SetPenColor(itsAnimColorList->GetElement(i));
-		p.Rect(x, 150, 10, 10);
-		x += 10;
-		}
-
 	// icons
 
 	p.Image(*itsXPMImage, itsXPMImage->GetBounds(), 33,110);
 	p.Image(*itsPartialXPMImage, itsXPMImage->GetBounds(), 50,121);
-
-	// *NEVER* do this in your code!  I do it here ONLY to test JXColormap.
-	// (Besides, look at how messy it is!)
-
-	unsigned long xPixel;
-	if (colormap->CalcPreallocatedXPixel(62720, 56832, 45824, &xPixel))
-		{
-		JXDisplay* display = GetDisplay();
-		Display* xdisplay  = display->GetXDisplay();
-		GC gc = DefaultGC(xdisplay, display->GetScreen());
-		XSetForeground(xdisplay, gc, xPixel);
-		XFillRectangle(xdisplay, (GetWindow())->GetXWindow(), gc, 110,40, 20,20);
-		}
 }
 
 /******************************************************************************
@@ -764,7 +693,7 @@ TestWidget::CreateImageBuffer()
 
 	const JRect bounds = GetBounds();
 	JXImage* imageBuffer =
-		new JXImage(GetDisplay(), GetColormap(), bounds.width(), bounds.height());
+		new JXImage(GetDisplay(), bounds.width(), bounds.height());
 	assert( imageBuffer != NULL );
 	imageBuffer->SetDefaultState(JXImage::kRemoteStorage);
 
@@ -1402,23 +1331,6 @@ TestWidget::HandleActionsMenu
 		itsActionsMenu->SetItemText(kActDeactCmd, kDeactivateStr);
 		}
 
-	else if (index == kRedGreenCmd)
-		{
-		JXColormap* colormap  = GetColormap();
-		const JIndex redColor = colormap->GetRedColor();
-		itsAnimButton->SetFontStyle(itsNextAnimColor);
-		if (itsNextAnimColor == redColor)
-			{
-			itsNextAnimColor = colormap->GetGreenColor();
-			itsActionsMenu->SetItemText(kRedGreenCmd, kGreenStr);
-			}
-		else
-			{
-			itsNextAnimColor = redColor;
-			itsActionsMenu->SetItemText(kRedGreenCmd, kRedStr);
-			}
-		}
-
 	else if (index == kShowHideQuitCmd && itsQuitButton != NULL &&
 			 itsQuitButton->WouldBeVisible())
 		{
@@ -1534,17 +1446,12 @@ TestWidget::Receive
 			CreateCursorAnimator();
 			itsAnimButton->SetShortcuts("^o^m");
 			itsAnimButton->SetLabel("Stop");
-			if (itsAnimColorTask != NULL)
-				{
-				(JXGetApplication())->InstallIdleTask(itsAnimColorTask);
-				}
 			}
 		else
 			{
 			RemoveCursorAnimator();
 			itsAnimButton->SetLabel("Start");
 			itsAnimButton->SetShortcuts("#a");
-			(JXGetApplication())->RemoveIdleTask(itsAnimColorTask);
 			}
 		}
 	else if (sender == itsQuitButton && message.Is(JXButton::kPushed))
@@ -1560,16 +1467,6 @@ TestWidget::Receive
 		assert( data != NULL );
 		HandleDNDDrop(JPoint(0,0), data->GetTypeList(), data->GetAction(),
 					  data->GetTime(), data->GetSource());
-		}
-
-	else if (sender == window && message.Is(JXWindow::kIconified))
-		{
-		(JXGetApplication())->RemoveIdleTask(itsAnimColorTask);
-		}
-	else if (sender == window && message.Is(JXWindow::kDeiconified) &&
-			 GetCursorAnimator() != NULL && itsAnimColorTask != NULL)
-		{
-		(JXGetApplication())->InstallIdleTask(itsAnimColorTask);
 		}
 
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kNeedsUpdate))

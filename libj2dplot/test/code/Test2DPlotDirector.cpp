@@ -89,11 +89,11 @@ Test2DPlotDirector::BuildWindow()
 
 	window->SetMinSize(300, 200);
 
-	itsPSPrinter = new JXPSPrinter(GetDisplay(), GetColormap());
+	itsPSPrinter = new JXPSPrinter(GetDisplay());
 	assert( itsPSPrinter != NULL );
 	itsPlotWidget->SetPSPrinter(itsPSPrinter);
 
-	itsEPSPrinter = new JX2DPlotEPSPrinter(GetDisplay(), GetColormap());
+	itsEPSPrinter = new JX2DPlotEPSPrinter(GetDisplay());
 	assert( itsEPSPrinter != NULL );
 	itsPlotWidget->SetEPSPrinter(itsEPSPrinter);
 

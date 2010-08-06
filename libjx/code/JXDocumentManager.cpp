@@ -112,7 +112,7 @@ JXDocumentManager::JXDocumentManager
 	itsUpdateDocMenuTask = NULL;
 
 	JXDisplay* d = (JXGetApplication())->GetCurrentDisplay();
-	itsDefaultMenuIcon = new JXImage(d, d->GetColormap(), jx_plain_file_small);
+	itsDefaultMenuIcon = new JXImage(d, jx_plain_file_small);
 	assert( itsDefaultMenuIcon != NULL );
 
 	JXSetDocumentManager(this);

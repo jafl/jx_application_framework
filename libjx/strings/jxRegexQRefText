@@ -11,7 +11,7 @@ JXRegexQRef
 
 <h3> Regex Quick Reference </h3>
 
-<pre><font face=6x13>
+<pre>
 <b>Matching</b>
 
 Characters and classes
@@ -69,22 +69,24 @@ Other
 
 Backreferences
 
-  A backslash followed by a number is a backreference if the number is 1 to
-  9 or is not explicitly octal, i.e., does not start with the digit zero,
-  and there have been at least that many capturing subpatterns.
+  A backslash followed by a number is a backreference if the number
+  is 1 to 9 or is not explicitly octal, i.e., does not start with
+  the digit zero, and there have been at least that many capturing
+  subpatterns.
 
   (?P=<i>name</i>) is a backreference to a named subexpression.
 
 Options
 
-  (?i)          Turn on case insensitive matching for the duration of the
-                subexpression.
-  (?-i)         Turn off case insensitive matching for the duration of the
-                subexpression.
+  (?i)          Turn on case insensitive matching for the
+                duration of the subexpression.
+  (?-i)         Turn off case insensitive matching for the
+                duration of the subexpression.
 
 Oddities
 
-  {             If not part of a valid quantifier expression, matches itself.
+  {             If not part of a valid quantifier expression,
+                matches itself.
 
 <b>Character Classes</b>
 
@@ -111,7 +113,8 @@ Oddities
   [:lower:]     [a-z]
   [:print:]     Any printable character including space
   [:punct:]     Any printable character except [^ A-Za-z0-9]
-  [:space:]     Space, tab, newline, carriage return, form feed, vertical tab
+  [:space:]     Space, tab, newline, carriage return, form feed,
+                vertical tab
   [:upper:]     [A-Z]
   [:word:]		Any word character, i.e., same as \w
   [:xdigit:]    Any hexadecimal digit: [0-9A-Fa-f]
@@ -119,10 +122,10 @@ Oddities
 <b>Replacement</b>
 
   $0            The overall match
-  $N            The Nth parenthesized subexpression, counting '('s from the left
+  $N            The Nth subexpression counting '('s from the left
   $-N           The Nth subexpression counting '('s from the right
   ${x}          The subexpression named \"x\"
   \\$            Literal dollar character
   \\\\            Literal backslash
-</font></pre>
+</pre>
 </html>"

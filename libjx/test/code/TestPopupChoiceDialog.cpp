@@ -65,7 +65,7 @@ TestPopupChoiceDialog::BuildWindow()
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::TestPopupChoiceDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 129,139, 72,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 130,140, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::TestPopupChoiceDialog::shortcuts::JXLayout"));
 
@@ -112,7 +112,7 @@ TestPopupChoiceDialog::BuildWindow()
 	JXImage* titleImage = NULL;
 	for (JIndex i=0; i<kSmileyBitmapCount; i++)
 		{
-		JXImage* image = new JXImage(display, colormap, kSmileyBitmap[i], kSmileyColor[i]);
+		JXImage* image = new JXImage(display, kSmileyBitmap[i], kSmileyColor[i]);
 		assert( image != NULL );
 		iconMenu->AppendItem(image, kJTrue);
 

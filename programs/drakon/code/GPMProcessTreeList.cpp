@@ -63,14 +63,8 @@ GPMProcessTreeList::GPMProcessTreeList
 	SetColWidth(GPMProcessList::kTreeMemory, 60);
 	SetColWidth(GPMProcessList::kTreeTime,   60);
 
-	itsZombieImage = new JXImage(GetDisplay(), GetColormap(), JXPM(jx_edit_clear));
+	itsZombieImage = new JXImage(GetDisplay(), jx_edit_clear);
 	assert( itsZombieImage != NULL );
-
-	const JSize red = (JSize) (255 * 255 * .95);
-	if (!(GetColormap())->AllocateStaticColor(red, red, red, &itsRowBackColor))
-		{
-		itsRowBackColor = (GetColormap())->GetGray90Color();
-		}
 
 	itsContextMenu = GPMProcessTable::CreateContextMenu(this);
 	ListenTo(itsContextMenu);
@@ -172,7 +166,7 @@ GPMProcessTreeList::TableDrawCell
 	const JRect&	rect
 	)
 {
-	GPMProcessTable::DrawRowBackground(p, cell, rect, itsRowBackColor);
+	GPMProcessTable::DrawRowBackground(p, cell, rect, (p.GetColormap())->GetGrayColor(95));
 
 	if (cell.x == GPMProcessList::kTreeOpenClose ||
 		cell.x == GPMProcessList::kTreeCommand)

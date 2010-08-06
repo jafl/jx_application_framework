@@ -38,7 +38,7 @@ GMAboutDialogIconTask::GMAboutDialogIconTask
 	JXColormap* colormap = widget->GetColormap();
 	for (JIndex i=1; i<=kAboutIconCount; i++)
 		{
-		JXImage* icon = new JXImage(display, colormap, kAboutIcon[i-1]);
+		JXImage* icon = new JXImage(display, kAboutIcon[i-1]);
 		assert( icon != NULL );
 		icon->ConvertToRemoteStorage();
 

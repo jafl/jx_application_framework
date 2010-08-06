@@ -58,7 +58,7 @@ TestFloatTableDirector::TestFloatTableDirector
 
 	BuildWindow();
 
-	itsPrinter = new JXPSPrinter(GetDisplay(), (GetWindow())->GetColormap());
+	itsPrinter = new JXPSPrinter(GetDisplay());
 	assert( itsPrinter != NULL );
 	ListenTo(itsPrinter);
 }
@@ -107,6 +107,7 @@ TestFloatTableDirector::BuildWindow()
         new JXStaticText(JGetString("obj1_JXLayout::TestFloatTableDirector::JXLayout"), window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 320,10, 50,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
 // end JXLayout
 

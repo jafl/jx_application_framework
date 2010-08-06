@@ -19,7 +19,7 @@ class JXTextButton;
 class JXTextMenu;
 class JXScrollbarSet;
 class GMessageTableDir;
-class JXGetPasswordDialog;
+class JXGetStringDialog;
 class JXVertPartition;
 class JXHorizPartition;
 class JXToolBar;
@@ -70,9 +70,9 @@ private:
 	JBoolean			itsShowFullHeaders;
 	GMessageHeader*		itsMessageHeader;
 
-	JXGetPasswordDialog*	itsPasswdDialog;
-	JXVertPartition*		itsPart;
-	GMAttachmentTable*		itsAttachTable;
+	JXGetStringDialog*	itsPasswdDialog;
+	JXVertPartition*	itsPart;
+	GMAttachmentTable*	itsAttachTable;
 
 	JXToolBar*			itsToolBar;
 	JXImage*			itsMenuIcon;

@@ -157,7 +157,7 @@ JXSaveFileDialog::BuildWindow
 
     JXTextButton* saveButton =
         new JXTextButton(JGetString("saveButton::JXSaveFileDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 219,279, 72,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,280, 70,20);
     assert( saveButton != NULL );
     saveButton->SetShortcuts(JGetString("saveButton::JXSaveFileDialog::shortcuts::JXLayout"));
 
@@ -175,6 +175,7 @@ JXSaveFileDialog::BuildWindow
         new JXStaticText(JGetString("pathLabel::JXSaveFileDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,20, 40,20);
     assert( pathLabel != NULL );
+    pathLabel->SetToLabel();
 
     JXSaveFileInput* fileNameInput =
         new JXSaveFileInput(window,
@@ -195,11 +196,13 @@ JXSaveFileDialog::BuildWindow
         new JXStaticText(JGetString("promptLabel::JXSaveFileDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kFixedBottom, 20,290, 180,20);
     assert( promptLabel != NULL );
+    promptLabel->SetToLabel();
 
     JXStaticText* filterLabel =
         new JXStaticText(JGetString("filterLabel::JXSaveFileDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,50, 40,20);
     assert( filterLabel != NULL );
+    filterLabel->SetToLabel();
 
     JXInputField* filterInput =
         new JXInputField(window,

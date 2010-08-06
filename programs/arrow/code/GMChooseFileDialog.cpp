@@ -93,7 +93,7 @@ GMChooseFileDialog::BuildWindow
 
     JXTextButton* openButton =
         new JXTextButton(JGetString("openButton::GMChooseFileDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 219,279, 72,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,280, 70,20);
     assert( openButton != NULL );
     openButton->SetShortcuts(JGetString("openButton::GMChooseFileDialog::shortcuts::JXLayout"));
 
@@ -113,6 +113,7 @@ GMChooseFileDialog::BuildWindow
         new JXStaticText(JGetString("pathLabel::GMChooseFileDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kVElastic, 20,20, 40,20);
     assert( pathLabel != NULL );
+    pathLabel->SetToLabel();
 
     JXScrollbarSet* scrollbarSet =
         new JXScrollbarSet(window,
@@ -123,6 +124,7 @@ GMChooseFileDialog::BuildWindow
         new JXStaticText(JGetString("filterLabel::GMChooseFileDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kVElastic, 20,50, 40,20);
     assert( filterLabel != NULL );
+    filterLabel->SetToLabel();
 
     JXTextCheckbox* showHiddenCB =
         new JXTextCheckbox(JGetString("showHiddenCB::GMChooseFileDialog::JXLayout"), window,

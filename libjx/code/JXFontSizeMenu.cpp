@@ -54,7 +54,7 @@ JXFontSizeMenu::JXFontSizeMenu
 {
 	JXFontSizeMenuX(NULL);
 	BuildMenu(fontName);
-	SetFontSize(kJXDefaultFontSize);
+	SetFontSize(kJDefaultFontSize);
 }
 
 JXFontSizeMenu::JXFontSizeMenu
@@ -69,7 +69,7 @@ JXFontSizeMenu::JXFontSizeMenu
 {
 	JXFontSizeMenuX(NULL);
 	BuildMenu(fontName);
-	SetFontSize(kJXDefaultFontSize);
+	SetFontSize(kJDefaultFontSize);
 }
 
 JXFontSizeMenu::JXFontSizeMenu
@@ -90,7 +90,7 @@ JXFontSizeMenu::JXFontSizeMenu
 	JXFontSizeMenuX(fontMenu);
 	const JString fontName = itsFontNameMenu->GetFontName();
 	BuildMenu(fontName);
-	SetFontSize(kJXDefaultFontSize);
+	SetFontSize(kJDefaultFontSize);
 }
 
 JXFontSizeMenu::JXFontSizeMenu
@@ -106,7 +106,7 @@ JXFontSizeMenu::JXFontSizeMenu
 	JXFontSizeMenuX(fontMenu);
 	const JString fontName = itsFontNameMenu->GetFontName();
 	BuildMenu(fontName);
-	SetFontSize(kJXDefaultFontSize);
+	SetFontSize(kJDefaultFontSize);
 }
 
 // private
@@ -215,7 +215,17 @@ JXFontSizeMenu::BuildMenu
 		}
 	else
 		{
-		for (JSize size=minSize; size<=maxSize; size+=2)
+		if (minSize < 10)
+			{
+			for (JSize size=minSize; size<10; size++)
+				{
+				const JString itemText(size, 0, JString::kForceNoExponent);
+				id = itemText + "::JX";
+				AppendItem(itemText, kJTrue, kJTrue, NULL, NULL, id);
+				}
+			}
+
+		for (JSize size=JMax((JSize) 10, minSize); size<=maxSize; size+=2)
 			{
 			const JString itemText(size, 0, JString::kForceNoExponent);
 			id = itemText + "::JX";

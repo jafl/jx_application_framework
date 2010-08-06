@@ -118,18 +118,16 @@ GMMIMEParser::~GMMIMEParser()
 		itsTextSegments->DeleteAll();
 		delete itsTextSegments;
 		}
+
 	if (itsTextInfo != NULL)
 		{
-		JString cmd = "rm -rf " + itsTextDir;
-		JString errors;
-		JRunProgram(cmd, &errors);
+		JKillDirectory(itsTextDir);
 		delete itsTextInfo;
 		}
+
 	if (itsAttachInfo != NULL)
 		{
-		JString cmd = "rm -rf " + itsAttachDir;
-		JString errors;
-		JRunProgram(cmd, &errors);
+		JKillDirectory(itsAttachDir);
 		delete itsAttachInfo;
 		}
 }
@@ -159,7 +157,7 @@ GMMIMEParser::Parse
 			JString filename = header->GetFileName();
 			if (filename.IsEmpty())
 				{
-				const JError err = JCreateTempDirectory(itsAttachDir, NULL, &filename);
+				const JError err = JCreateTempFile(itsAttachDir, NULL, &filename);
 				if (!err.OK())
 					{
 					itsIsSuccessful	= kJFalse;
@@ -171,6 +169,7 @@ GMMIMEParser::Parse
 				}
 			if (!filename.IsEmpty())
 				{
+				AdjustAttachmentName(*header, &filename);
 				ofstream os(filename);
 				JDecodeBase64(input, os);
 				}
@@ -183,7 +182,7 @@ GMMIMEParser::Parse
 			JString filename	= header->GetFileName();
 			if (filename.IsEmpty())
 				{
-				const JError err = JCreateTempDirectory(itsAttachDir, NULL, &filename);
+				const JError err = JCreateTempFile(itsAttachDir, NULL, &filename);
 				if (!err.OK())
 					{
 					itsIsSuccessful	= kJFalse;
@@ -195,6 +194,7 @@ GMMIMEParser::Parse
 				}
 			if (!filename.IsEmpty())
 				{
+				AdjustAttachmentName(*header, &filename);
 				ofstream os(filename);
 				os.write(c, isEnd - startI);
 				}
@@ -221,7 +221,6 @@ GMMIMEParser::Parse
 		
 	delete header;
 }
-
 
 /******************************************************************************
  GetTextSegmentCount (public)
@@ -295,11 +294,7 @@ JSize
 GMMIMEParser::GetAttachmentCount()
 	const
 {
-	if (itsAttachInfo == NULL)
-		{
-		return 0;
-		}
-	return itsAttachInfo->GetEntryCount();
+	return (itsAttachInfo == NULL ? 0 : itsAttachInfo->GetEntryCount());
 }
 
 /******************************************************************************
@@ -1016,6 +1011,8 @@ GMMIMEParser::WriteAttachment
 		{
 		filename = JCombinePathAndName(itsAttachDir, filename);
 		}
+
+	AdjustAttachmentName(header, &filename);
 	ofstream os(filename);
 	if (header.GetEncoding() == kBase64Encoding)
 		{
@@ -1025,6 +1022,26 @@ GMMIMEParser::WriteAttachment
 	else
 		{
 		data.Print(os);
+		}
+}
+
+/******************************************************************************
+ AdjustAttachmentName (private)
+
+ ******************************************************************************/
+
+void
+GMMIMEParser::AdjustAttachmentName
+	(
+	const GMIMEHeader&	header,
+	JString*			name
+	)
+{
+	JString root, suffix;
+	if (!JSplitRootAndSuffix(*name, &root, &suffix))
+		{
+		suffix = header.GetSubType();
+		*name = JCombineRootAndSuffix(root, suffix);
 		}
 }
 
@@ -1061,10 +1078,10 @@ GMMIMEParser::ParseMixed
 		JBoolean end;
 		if (child.GetEncoding() == kBase64Encoding)
 			{
-			JString filename	= child.GetFileName();
+			JString filename = child.GetFileName();
 			if (filename.IsEmpty())
 				{
-				JCreateTempDirectory(itsAttachDir, NULL, &filename);
+				JCreateTempFile(itsAttachDir, NULL, &filename);
 				}
 			else
 				{
@@ -1072,6 +1089,7 @@ GMMIMEParser::ParseMixed
 				}
 			if (!filename.IsEmpty())
 				{
+				AdjustAttachmentName(child, &filename);
 				ofstream os(filename);
 				JDecodeBase64(input, os);
 				end = ReadUntilBoundary(input, boundary, &bstart, &bend);
@@ -1099,7 +1117,7 @@ GMMIMEParser::ParseMixed
 				JString filename	= child.GetFileName();
 				if (filename.IsEmpty())
 					{
-					JCreateTempDirectory(itsAttachDir, NULL, &filename);
+					JCreateTempFile(itsAttachDir, NULL, &filename);
 					}
 				else
 					{
@@ -1107,6 +1125,7 @@ GMMIMEParser::ParseMixed
 					}
 				if (!filename.IsEmpty())
 					{
+					AdjustAttachmentName(child, &filename);
 					ofstream os(filename);
 					JSeekg(input, findex - 1);
 					if (child.GetEncoding() == kQPEncoding)

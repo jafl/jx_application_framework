@@ -103,7 +103,7 @@ JXImageWidget::SetBitmap
 		delete itsImage;
 		}
 
-	itsImage = new JXImage(GetDisplay(), GetColormap(), bitmap, foreColor, backColor);
+	itsImage = new JXImage(GetDisplay(), bitmap, foreColor, backColor);
 	assert( itsImage != NULL );
 
 	itsOwnsImageFlag = kJTrue;
@@ -135,7 +135,7 @@ JXImageWidget::SetXPM
 		delete itsImage;
 		}
 
-	itsImage = new JXImage(GetDisplay(), GetColormap(), data);
+	itsImage = new JXImage(GetDisplay(), data);
 	assert( itsImage != NULL );
 
 	itsOwnsImageFlag = kJTrue;

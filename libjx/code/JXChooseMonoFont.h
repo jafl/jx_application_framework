@@ -16,10 +16,8 @@
 
 #include <JXWidgetSet.h>
 
-class JString;
 class JXXFontMenu;
 class JXFontSizeMenu;
-class JXFontCharSetMenu;
 
 class JXChooseMonoFont : public JXWidgetSet
 {
@@ -43,11 +41,10 @@ private:
 
 	JXXFontMenu*		itsFontMenu;
 	JXFontSizeMenu*		itsSizeMenu;
-	JXFontCharSetMenu*	itsCharSetMenu;
 
 private:
 
-	void	AppendOtherMonospaceFonts(JXXFontMenu* menu);
+	void	PrependOtherMonospaceFonts(JXXFontMenu* menu);
 	void	UpdateMenus(const JBoolean updateSize);
 
 	static JOrderedSetT::CompareResult

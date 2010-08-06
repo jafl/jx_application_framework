@@ -20,8 +20,6 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
-static const JCharacter* kFontName = "6x13";
-
 /******************************************************************************
  Constructor
 
@@ -44,8 +42,8 @@ JXFLInputBase::JXFLInputBase
 	itsFLSet(flSet),
 	itsHistoryMenu(historyMenu)
 {
-	SetFontName(kFontName);
-	itsHistoryMenu->SetDefaultFontName(kFontName, kJTrue);
+	SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsHistoryMenu->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle(), kJTrue);
 	ListenTo(itsHistoryMenu);
 }
 

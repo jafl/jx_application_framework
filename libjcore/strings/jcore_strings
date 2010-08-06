@@ -132,12 +132,7 @@ $url"
 
 # jVCSUtil
 
-JUnsupportedVCS				"$file is either not managed by a version control system or is managed by an unsupported system."
-AskPlainSVNMove::VCSUtil	"Do you want to rename without using Subversion?"
-AskPlainGitMove::VCSUtil	"Do you want to rename without using Git?"
-AskPlainSVNRemove::VCSUtil	"Do you want to remove without using Subversion?"
-AskPlainGitRemove::VCSUtil	"Do you want to remove without using Git?"
-AskPlainCVSRemove::VCSUtil	"Do you want to remove without using CVS?"
+JUnsupportedVCS	"$file is either not managed by a version control system or is managed by an unsupported system."
 
 # jWebUtil
 

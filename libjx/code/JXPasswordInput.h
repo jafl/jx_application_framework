@@ -49,10 +49,6 @@ protected:
 
 private:
 
-	JString*	itsFakeString;
-
-private:
-
 	// not allowed
 
 	JXPasswordInput(const JXPasswordInput& source);

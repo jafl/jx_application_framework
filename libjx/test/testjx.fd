@@ -51,7 +51,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: RETURN_BUTTON
-box: 89 89 52 22
+box: 90 90 50 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -183,7 +183,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: RETURN_BUTTON
-box: 389 149 72 22
+box: 390 150 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -244,7 +244,7 @@ alignment: FL_ALIGN_LEFT
 style: FL_TIMESBOLDITALIC_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: \n
+label: 
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
@@ -667,7 +667,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: TestDirector--JXLayout<"Test Director", ownsColormap, colormap>
+Name: TestDirector
 Width: 400
 Height: 330
 Number of Objects: 3
@@ -807,7 +807,7 @@ argument:
 --------------------
 class: FL_BITMAPBUTTON
 type: RETURN_BUTTON
-box: 159 289 72 32
+box: 160 290 70 30
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_BOTTOM
@@ -1401,7 +1401,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: RETURN_BUTTON
-box: 129 139 72 22
+box: 130 140 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1532,14 +1532,14 @@ argument:
 
 =============== FORM ===============
 Name: TestPartitionDirector
-Width: 315
-Height: 345
+Width: 310
+Height: 340
 Number of Objects: 3
 
 --------------------
 class: FL_BOX
 type: FLAT_BOX
-box: 0 0 315 345
+box: 0 0 310 340
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1635,7 +1635,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: RETURN_BUTTON
-box: 119 59 52 22
+box: 120 60 50 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -1773,7 +1773,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: RETURN_BUTTON
-box: 219 279 72 22
+box: 220 280 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER

@@ -13,9 +13,9 @@
 		For image read from file: store raw rgb values separately and
 			then rewrite JPSPrinter to ask for rgb instead of JColorIndex.
 
-	BASE CLASS = JImage, virtual JBroadcaster
+	BASE CLASS = JImage, public JBroadcaster
 
-	Copyright © 1996-98 by John Lindal. All rights reserved.
+	Copyright © 1996-2010 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -46,20 +46,19 @@
 JXImage::JXImage
 	(
 	JXDisplay*			display,
-	JXColormap*			colormap,
 	const JCoordinate	width,
 	const JCoordinate	height,
 	const JColorIndex	origInitColor,
 	const JSize			depth
 	)
 	:
-	JImage(width, height, colormap)
+	JImage(width, height, display->GetColormap())
 {
-	JXImageX(display, colormap, depth);
+	JXImageX(display, depth);
 
 	const JColorIndex initColor =
 		(origInitColor == kJXTransparentColor && itsDepth > 1 ?
-		 colormap->GetDefaultBackColor() : origInitColor);
+		 itsXColormap->GetDefaultBackColor() : origInitColor);
 
 	itsPixmap =
 		XCreatePixmap(*itsDisplay, itsDisplay->GetRootWindow(),
@@ -68,13 +67,11 @@ JXImage::JXImage
 
 	// We need a private GC so we can draw.
 
-	itsGC = new JXGC(itsDisplay, itsColormap, itsPixmap);
+	itsGC = new JXGC(itsDisplay, itsPixmap);
 	assert( itsGC != NULL );
 
 	itsGC->SetDrawingColor(initColor);
 	itsGC->FillRect(itsPixmap, 0,0, width, height);
-
-	RegisterColor(initColor);
 
 	// We don't convert to an image because the user probably wants
 	// to draw to us.
@@ -99,26 +96,24 @@ JXImage::JXImage
 JXImage::JXImage
 	(
 	JXDisplay*	display,
-	JXColormap*	colormap,
 	Drawable	source
 	)
 	:
-	JImage(0,0, colormap)
+	JImage(0,0, display->GetColormap())
 {
-	JXImageFromDrawable(display, colormap, source, JRect());
+	JXImageFromDrawable(display, source, JRect());
 }
 
 JXImage::JXImage
 	(
 	JXDisplay*		display,
-	JXColormap*		colormap,
 	Drawable		source,
 	const JRect&	rect
 	)
 	:
-	JImage(rect.width(), rect.height(), colormap)
+	JImage(rect.width(), rect.height(), display->GetColormap())
 {
-	JXImageFromDrawable(display, colormap, source, rect);
+	JXImageFromDrawable(display, source, rect);
 }
 
 // private
@@ -127,12 +122,11 @@ void
 JXImage::JXImageFromDrawable
 	(
 	JXDisplay*		display,
-	JXColormap*		colormap,
 	Drawable		source,
 	const JRect&	origRect
 	)
 {
-	JXImageX(display, colormap);
+	JXImageX(display);
 
 	JRect rect = origRect;
 	{
@@ -155,87 +149,12 @@ JXImage::JXImageFromDrawable
 
 	if (itsDepth != itsDisplay->GetDepth())
 		{
-		itsGC = new JXGC(itsDisplay, itsColormap, itsPixmap);
+		itsGC = new JXGC(itsDisplay, itsPixmap);
 		assert( itsGC != NULL );
 		}
 
 	(GetGC())->CopyPixels(source, rect.left, rect.top,
 						  rect.width(), rect.height(), itsPixmap, 0,0);
-
-	// register the colors that are used in the drawable
-
-	const JBoolean needRegister =
-		JConvertToBoolean( itsDepth > 1 && !itsColormap->AllColorsPreallocated() );
-
-	if (needRegister && itsColormap->GetVisualClass() == DirectColor)
-		{
-		// With DirectColor, there could be just as many colors as pixels,
-		// so we actually waste time (and memory!) by building a list of
-		// X pixel values before converting them to JColorIndices.
-
-		ConvertToImage();
-
-		const JCoordinate w = GetWidth();
-		const JCoordinate h = GetHeight();
-		for (JCoordinate y=0; y<=h; y++)
-			{
-			for (JCoordinate x=0; x<=w; x++)
-				{
-				JColorIndex color;
-				const unsigned long xPixel = XGetPixel(itsImage, x,y);
-				itsColormap->AllocateStaticColor(xPixel, &color);
-				RegisterColor(color, kJFalse);
-				}
-			}
-		}
-	else if (needRegister)	// using PseudoColor => small # of X pixels
-		{
-		// By building a list of unique X pixel values and then converting
-		// each once, we reduce O(W H (alloc)) to O(W H) + O(P (alloc)),
-		// where W=width, H=height, P=# of distinct pixels in Drawable.
-		// Typically, W*H is much larger than P.  Alloc usually requires
-		// a server call.
-
-		JIndex i;
-
-		// build boolean array telling which X pixel values are used
-
-		ConvertToImage();
-
-		const JSize maxColorCount = itsColormap->GetMaxColorCount();
-		char* pixelUsed = new char [ maxColorCount ];
-		assert( pixelUsed != NULL );
-		for (i=0; i<maxColorCount; i++)
-			{
-			pixelUsed[i] = 0;
-			}
-
-		const JCoordinate w = GetWidth();
-		const JCoordinate h = GetHeight();
-		for (JCoordinate y=0; y<=h; y++)
-			{
-			for (JCoordinate x=0; x<=w; x++)
-				{
-				const unsigned long xPixel = XGetPixel(itsImage, x,y);
-				assert( xPixel < maxColorCount );
-				pixelUsed [ xPixel ] = 1;
-				}
-			}
-
-		// register each X pixel value that is used
-
-		JColorIndex color;
-		for (i=0; i<maxColorCount; i++)
-			{
-			if (pixelUsed[i])
-				{
-				itsColormap->AllocateStaticColor(i, &color);
-				RegisterColor(color, kJFalse);
-				}
-			}
-
-		delete [] pixelUsed;
-		}
 }
 
 /******************************************************************************
@@ -246,24 +165,23 @@ JXImage::JXImageFromDrawable
 JXImage::JXImage
 	(
 	JXDisplay*			display,
-	JXColormap*			colormap,
 	const JConstBitmap&	bitmap,
 	const JColorIndex	origForeColor,
 	const JColorIndex	origBackColor,
 	const JSize			depth
 	)
 	:
-	JImage(bitmap.w, bitmap.h, colormap)
+	JImage(bitmap.w, bitmap.h, display->GetColormap())
 {
-	JXImageX(display, colormap, depth);
+	JXImageX(display, depth);
 
 	const JColorIndex foreColor =
 		(origForeColor == kJXTransparentColor && itsDepth > 1 ?
-		 colormap->GetBlackColor() : origForeColor);
+		 itsXColormap->GetBlackColor() : origForeColor);
 
 	const JColorIndex backColor =
 		(origBackColor == kJXTransparentColor && itsDepth > 1 ?
-		 colormap->GetDefaultBackColor() : origBackColor);
+		 itsXColormap->GetDefaultBackColor() : origBackColor);
 
 	unsigned long forePixel, backPixel;
 	if (itsDepth == 1)
@@ -273,8 +191,8 @@ JXImage::JXImage
 		}
 	else
 		{
-		forePixel = itsColormap->GetXPixel(foreColor);
-		backPixel = itsColormap->GetXPixel(backColor);
+		forePixel = foreColor;
+		backPixel = backColor;
 		}
 
 	itsPixmap =
@@ -285,12 +203,9 @@ JXImage::JXImage
 
 	if (itsDepth != itsDisplay->GetDepth())
 		{
-		itsGC = new JXGC(itsDisplay, itsColormap, itsPixmap);
+		itsGC = new JXGC(itsDisplay, itsPixmap);
 		assert( itsGC != NULL );
 		}
-
-	RegisterColor(foreColor);
-	RegisterColor(backColor);
 }
 
 /******************************************************************************
@@ -303,13 +218,12 @@ JXImage::JXImage
 JXImage::JXImage
 	(
 	JXDisplay*	display,
-	JXColormap*	colormap,
 	const JXPM&	data
 	)
 	:
-	JImage(0,0, colormap)
+	JImage(0,0, display->GetColormap())
 {
-	JXImageX(display, colormap);
+	JXImageX(display);
 	ReadFromJXPM(data);
 }
 
@@ -325,11 +239,10 @@ JXImage::JXImage
 	const Pixmap		bitmap,
 	const JCoordinate	width,
 	const JCoordinate	height,
-	JXDisplay*			display,
-	JXColormap*			colormap
+	JXDisplay*			display
 	)
 	:
-	JImage(width, height, colormap)
+	JImage(width, height, display->GetColormap())
 {
 #ifndef NDEBUG
 	{
@@ -342,11 +255,11 @@ JXImage::JXImage
 	}
 #endif
 
-	JXImageX(display, colormap, 1);
+	JXImageX(display, 1);
 
 	itsPixmap = bitmap;
 
-	itsGC = new JXGC(itsDisplay, itsColormap, itsPixmap);
+	itsGC = new JXGC(itsDisplay, itsPixmap);
 	assert( itsGC != NULL );
 }
 
@@ -359,13 +272,12 @@ JXImage::JXImage
 
 JXImage::JXImage
 	(
-	JXDisplay*	display,
-	JXColormap*	colormap
+	JXDisplay* display
 	)
 	:
-	JImage(0,0, colormap)
+	JImage(0,0, display->GetColormap())
 {
-	JXImageX(display, colormap);
+	JXImageX(display);
 }
 
 /******************************************************************************
@@ -380,7 +292,7 @@ JXImage::JXImage
 	:
 	JImage(source)
 {
-	JXImageX(source.itsDisplay, source.itsColormap, source.itsDepth);
+	JXImageX(source.itsDisplay, source.itsDepth);
 	itsDefState = source.itsDefState;
 
 	if (source.itsGC != NULL)
@@ -409,8 +321,6 @@ JXImage::JXImage
 		itsMask = new JXImageMask(*(source.itsMask));
 		assert( itsMask != NULL );
 		}
-
-	CopyColorList(source);
 }
 
 /******************************************************************************
@@ -426,7 +336,7 @@ JXImage::JXImage
 	:
 	JImage(rect.width(), rect.height(), source.GetColormap())
 {
-	JXImageX(source.itsDisplay, source.itsColormap, source.itsDepth);
+	JXImageX(source.itsDisplay, source.itsDepth);
 	itsDefState = source.itsDefState;
 
 	if (source.itsGC != NULL)
@@ -461,36 +371,6 @@ JXImage::JXImage
 		itsMask = new JXImageMask(*(source.itsMask), rect);
 		assert( itsMask != NULL );
 		}
-
-	CopyColorList(source);
-}
-
-/******************************************************************************
- CopyColorList (private)
-
-	We have to tell the colormap that we need the colors copied from source.
-
- ******************************************************************************/
-
-void
-JXImage::CopyColorList
-	(
-	const JXImage& source
-	)
-{
-	assert( itsColorList == NULL );
-
-	if (source.itsColorList != NULL)
-		{
-		itsColorList = new JArray<JColorIndex>(*(source.itsColorList));
-		assert( itsColorList != NULL );
-
-		const JSize colorCount = itsColorList->GetElementCount();
-		for (JIndex i=1; i<=colorCount; i++)
-			{
-			itsColormap->UsingColor(itsColorList->GetElement(i));
-			}
-		}
 }
 
 /******************************************************************************
@@ -504,12 +384,11 @@ void
 JXImage::JXImageX
 	(
 	JXDisplay*	display,
-	JXColormap*	colormap,
 	const JSize	depth
 	)
 {
 	itsDisplay   = display;
-	itsColormap  = colormap;
+	itsXColormap = display->GetColormap();
 	itsGC        = NULL;
 	itsDepth     = (depth > 0 ? depth : itsDisplay->GetDepth());
 
@@ -517,10 +396,6 @@ JXImage::JXImageX
 	itsPixmap    = None;
 	itsImage     = NULL;
 	itsMask      = NULL;
-
-	itsColorList = NULL;
-
-	ListenTo(itsColormap);
 }
 
 /******************************************************************************
@@ -542,17 +417,6 @@ JXImage::~JXImage()
 
 	delete itsMask;
 	delete itsGC;
-
-	if (itsColorList != NULL)
-		{
-		const JSize colorCount = itsColorList->GetElementCount();
-		for (JIndex i=1; i<=colorCount; i++)
-			{
-			itsColormap->DeallocateColor(itsColorList->GetElement(i));
-			}
-
-		delete itsColorList;
-		}
 }
 
 /******************************************************************************
@@ -566,24 +430,14 @@ JError
 JXImage::CreateFromGIF
 	(
 	JXDisplay*			display,
-	JXColormap*			colormap,
 	const JCharacter*	fileName,
-	JXImage**			image,
-	const JBoolean		allowApproxColors
+	JXImage**			image
 	)
 {
-	*image = new JXImage(display, colormap);
+	*image = new JXImage(display);
 	assert( *image != NULL );
 
-	const JBoolean saveApprox = colormap->WillApproximateColors();
-	const JBoolean savePre    = colormap->WillPreemptivelyApproximateColors();
-	colormap->ShouldApproximateColors(allowApproxColors);
-	colormap->ShouldPreemptivelyApproximateColors(kJTrue);
-
 	const JError err = (**image).ReadGIF(fileName);
-
-	colormap->ShouldApproximateColors(saveApprox);
-	colormap->ShouldPreemptivelyApproximateColors(savePre);
 
 	if (!err.OK())
 		{
@@ -604,13 +458,13 @@ JError
 JXImage::CreateFromXPM
 	(
 	JXDisplay*			display,
-	JXColormap*			colormap,
 	const JCharacter*	fileName,
-	JXImage**			image,
-	const JBoolean		allowApproxColors
+	JXImage**			image
 	)
 {
 #ifdef _J_HAS_XPM
+
+	JXColormap* colormap = display->GetColormap();
 
 	Pixmap image_pixmap = None;
 	Pixmap mask_pixmap  = None;
@@ -627,17 +481,8 @@ JXImage::CreateFromXPM
 	attr.alloc_pixels       = NULL;
 	attr.nalloc_pixels      = 0;
 	attr.alloc_close_colors = kJTrue;	// so we can free all resulting pixels
-
-	if (allowApproxColors)
-		{
-		attr.exactColors = 0;
-		attr.closeness   = 40000;		// recommended by XPM docs
-		}
-	else
-		{
-		attr.exactColors = 1;
-		attr.closeness   = 0;
-		}
+	attr.exactColors        = 1;
+	attr.closeness          = 0;
 
 	const int xpmErr =
 		XpmReadFileToPixmap(*display, display->GetRootWindow(),
@@ -679,14 +524,14 @@ JXImage::CreateFromXPM
 
 	// create image and mask
 
-	*image = new JXImage(display, colormap, image_pixmap);
+	*image = new JXImage(display, image_pixmap);
 	assert( *image != NULL );
 
 	XFreePixmap(*display, image_pixmap);
 
 	if (mask_pixmap != None)
 		{
-		JXImageMask* mask = new JXImageMask(display, colormap, mask_pixmap);
+		JXImageMask* mask = new JXImageMask(display, mask_pixmap);
 		assert( mask != NULL );
 		(**image).SetMask(mask);
 
@@ -727,7 +572,7 @@ JXImage::WriteXPM
 
 	XpmAttributes attr;
 	attr.valuemask = XpmColormap;
-	attr.colormap  = itsColormap->GetXColormap();
+	attr.colormap  = itsXColormap->GetXColormap();
 
 	int xpmErr;
 	if (itsImage != NULL)
@@ -964,14 +809,11 @@ JXImage::GetColor
 {
 	if (itsDepth == 1)
 		{
-		return JXImageMask::BitToColor(GetSystemColor(x,y), itsColormap);
+		return JXImageMask::BitToColor(GetSystemColor(x,y), itsXColormap);
 		}
 	else
 		{
-		JColorIndex color;
-		const JBoolean found = itsColormap->GetColorIndex(GetSystemColor(x,y), &color);
-		assert( found );
-		return color;
+		return GetSystemColor(x,y);
 		}
 }
 
@@ -1001,67 +843,10 @@ JXImage::SetColor
 		}
 	else
 		{
-		xPixel = itsColormap->GetXPixel(color);
+		xPixel = color;
 		}
 
 	XPutPixel(itsImage, x,y, xPixel);
-}
-
-/******************************************************************************
- RegisterColor (private)
-
-	Make a note that we are using the given color.  If tellColormap is kJTrue,
-	tell the colormap that we need the specified color.
-
- ******************************************************************************/
-
-void
-JXImage::RegisterColor
-	(
-	const JColorIndex	color,
-	const JBoolean		tellColormap
-	)
-{
-	if (itsDepth > 1)
-		{
-		if (itsColorList == NULL)
-			{
-			itsColorList = new JArray<JColorIndex>;
-			assert( itsColorList != NULL );
-			itsColorList->SetCompareFunction(JCompareIndices);
-			}
-
-		JBoolean isDuplicate;
-		const JIndex index =
-			itsColorList->GetInsertionSortIndex(color, &isDuplicate);
-		if (!isDuplicate)
-			{
-			itsColorList->InsertElementAtIndex(index, color);
-			if (tellColormap)
-				{
-				itsColormap->UsingColor(color);
-				}
-			}
-		}
-}
-
-// called by JXImagePainter
-
-void
-JXImage::RegisterColors
-	(
-	const JArray<JColorIndex>&	colorList,
-	const JBoolean				tellColormap
-	)
-{
-	if (itsDepth > 1)
-		{
-		const JSize count = colorList.GetElementCount();
-		for (JIndex i=1; i<=count; i++)
-			{
-			RegisterColor(colorList.GetElement(i), tellColormap);
-			}
-		}
 }
 
 /******************************************************************************
@@ -1082,7 +867,7 @@ JXImage::GetSystemColor
 		}
 	else
 		{
-		return itsColormap->GetXPixel(color);
+		return color;
 		}
 }
 
@@ -1194,14 +979,14 @@ JXImage::ForcePrivateGC()
 						  1,1, itsDepth);
 		assert( tempPixmap != None );
 
-		itsGC = new JXGC(itsDisplay, itsColormap, tempPixmap);
+		itsGC = new JXGC(itsDisplay, tempPixmap);
 		assert( itsGC != NULL );
 
 		XFreePixmap(*itsDisplay, tempPixmap);
 		}
 	else if (itsGC == NULL)
 		{
-		itsGC = new JXGC(itsDisplay, itsColormap, itsDisplay->GetRootWindow());
+		itsGC = new JXGC(itsDisplay, itsDisplay->GetRootWindow());
 		assert( itsGC != NULL );
 		}
 }
@@ -1290,49 +1075,6 @@ JXImage::ConvertToImage()
 }
 
 /******************************************************************************
- Receive (protected)
-
-	Update our pixel values.
-
- ******************************************************************************/
-
-void
-JXImage::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsColormap && message.Is(JXColormap::kNewColormap) &&
-		itsDepth > 1 && (itsPixmap != None || itsImage != NULL))
-		{
-		const JXColormap::NewColormap* info =
-			dynamic_cast(const JXColormap::NewColormap*, &message);
-		assert( info != NULL );
-
-		ConvertToImage();
-
-		const JCoordinate width  = GetWidth();
-		const JCoordinate height = GetHeight();
-		for (JCoordinate y=0; y<height; y++)
-			{
-			for (JCoordinate x=0; x<width; x++)
-				{
-				const unsigned long xPixel = XGetPixel(itsImage, x,y);
-				XPutPixel(itsImage, x,y, info->ConvertPixel(xPixel));
-				}
-			}
-
-		ConvertToDefaultState();
-		}
-
-	else
-		{
-		JBroadcaster::Receive(sender, message);
-		}
-}
-
-/******************************************************************************
  SetImageData (virtual protected)
 
 	colorTable[ imageData[x][y] ] is the JColorIndex for pixel (x,y)
@@ -1365,8 +1107,7 @@ JXImage::SetImageData
 		{
 		if (!hasMask || i != maskColor)
 			{
-			RegisterColor(colorTable[i], kJFalse);
-			xColorTable[i] = itsColormap->GetXPixel(colorTable[i]);
+			xColorTable[i] = colorTable[i];
 			}
 		}
 
@@ -1382,7 +1123,7 @@ JXImage::SetImageData
 				{
 				if (itsMask == NULL)
 					{
-					itsMask = new JXImageMask(itsDisplay, itsColormap, w,h, kJTrue);
+					itsMask = new JXImageMask(itsDisplay, w,h, kJTrue);
 					assert( itsMask != NULL );
 					}
 				itsMask->RemovePixel(x,y);
@@ -1415,7 +1156,7 @@ JXImage::PrepareForImageData()
 
 	const int bitmap_pad = (itsDepth > 16 ? 32 : (itsDepth > 8 ? 16 : 8));
 
-	itsImage = XCreateImage(*itsDisplay, itsColormap->GetVisual(), itsDepth,
+	itsImage = XCreateImage(*itsDisplay, itsXColormap->GetVisual(), itsDepth,
 							ZPixmap, 0, NULL, w,h, bitmap_pad, 0);
     assert( itsImage != NULL );
 

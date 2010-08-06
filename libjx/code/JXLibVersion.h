@@ -20,6 +20,78 @@
 
 static const char* kCurrentJXLibVersionStr = "2.6.0";
 
+// version 3.0.0:
+//	Switched all uses of "6x13" to JGetMonospaceFontName().
+//	JXFontManager:
+//		Added support for anti-aliased fonts.
+//		Removed JXColormap* arg from ctor.
+//	JXGC:
+//		Added support for anti-aliased fonts.
+//		Removed JXColormap* arg from ctor.
+//	JXPSPrintSetupDialog:
+//		Fixed bug so Print button is enabled when dialog is opened.
+//		Fixed crash when print to printer and file name input is empty.
+//	JXColormap:
+//		Private colormaps are obsolete.
+//		Renamed AllocateStaticNamedColor() to GetColor(),
+//		Renamed AllocateStaticColor() to GetColor().
+//			Now returns JColorIndex.  Removed exactMatch argument
+//		Replaced GetGray*Color() with GetGrayColor(percentage).
+//		Removed public version of Create(), GetMaxColorCount(),
+//			CanAllocateDynamicColors(), AllocateDynamicColor(),
+//			SetDynamicColor(), SetDynamicColors(), UsingColor(),
+//			DeallocateColor(), PrepareForMassColorAllocation(),
+//			MassColorAllocationFinished(), Will/ShouldApproximateColors(),
+//			Will/ShouldPreemptivelyApproximateColors(),
+//			Get/SetColorDistanceFunction(), Get/SetColorBoxHalfWidth(),
+//			Get/SetPreemptiveColorBoxHalfWidth(), XPMColorDistance(),
+//			AllColorsPreallocated(), CalcPreallocatedXPixel(), GetColorIndex(),
+//			GetXPixel(), GetSystemColorIndex().
+//			NewColormap message, JXColorDistanceFn
+//	JXWindow:
+//		Removed ownsColormap and colormap arguments from ctor.
+//	JXDisplay:
+//		Removed AllowPrivateColormap() and ForcePrivateColormap().
+//	JXImage:
+//		Removed allowApproxColors argument from all CreateFrom*().
+//		Removed JXColormap* arg from all ctors and CreateFrom*().
+//	JXImageMask:
+//		Removed JXColormap* arg from all ctors and CreateFrom*().
+//	JXImageSelection:
+//		Removed allowApproxColors argument from GetImage().
+//	JXStyleMenu:
+//		Removed first ctor arg allowChooseCustomColors.
+//		Removed HandleCustomColor().  HandleMenuItem() is called for all items.
+//	JXWindowPainter:
+//		Promoted GetDrawable() to public.
+//	Created JXColorWheel.
+//	JXChooseColorDialog:
+//		Added color wheel.
+//	jXGlobals:
+//		Removed JXGet*FontName().
+//	JXXFontMenu:
+//		Renamed FontNeedsUpdate to NameNeedsUpdate, FontChanged to NameChanged.
+//	JXTextSelection:
+//		Removed JXColormap* arg from ctor.
+//	JXPSPrinter:
+//		Removed JXColormap* arg from ctor.
+//	JXEPSPrinter:
+//		Removed JXColormap* arg from ctor.
+//	JXWidget:
+//		Added Will/ShouldAllowUnboundedScrolling().
+//	JXStaticText:
+//		Added SetToLabel().  jxlayout uses this to make labels in dialogs look nicer.
+//	Removed kJXDefaultFontSize.  Use kJDefaultFontSize or kJDefaultMonoFontSize.
+//	JXButton:
+//		Automatically expands to make space for border when ^M shortcut is added.
+//	JXGetStringDialog:
+//		Added optional arg "password" to make the dialog usable for passwords.
+//	JXTabGroup:
+//		Tabs now scroll when you use the horizontal scroll buttons (6,7)
+//			in addition to the vertical scroll buttons (4,5).
+//	JXPasswordInput:
+//		Renders dots instead of hashes, and displays symbol when Caps Lock is on.
+
 // version 2.6.0:
 //	JXWebBrowser:
 //		Fixed ShowFileLocation() to accept $p for the file path.

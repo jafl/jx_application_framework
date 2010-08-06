@@ -17,7 +17,6 @@
 #include <JXScrollableWidget.h>
 #include <JKLRand.h>
 
-class AnimateColorTask;
 class ResizeWidgetDialog;
 
 class JPainter;
@@ -34,8 +33,7 @@ class TestWidget : public JXScrollableWidget
 public:
 
 	TestWidget(const JBoolean isMaster, const JBoolean isImage,
-			   const JBoolean allocDynamicColors, JXMenuBar* menuBar,
-			   JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
+			   JXMenuBar* menuBar, JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 			   const HSizingOption hSizing, const VSizingOption vSizing,
 			   const JCoordinate x, const JCoordinate y,
 			   const JCoordinate w, const JCoordinate h);
@@ -84,16 +82,12 @@ protected:
 private:
 
 	JBoolean	itsFillFlag;
-	JColorIndex	itsNextAnimColor;
 
 	JRect	its2Rect;
 	JRect	its3Rect;
 
 	JSize	itsRandPointCount;
 	JKLRand	itsRNG;
-
-	JArray<JColorIndex>*	itsAnimColorList;	// can be empty
-	AnimateColorTask*		itsAnimColorTask;	// can be NULL
 
 	JXImage*	itsXPMImage;
 	JXImage*	itsPartialXPMImage;

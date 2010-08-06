@@ -16,9 +16,11 @@
 
 class JXTabGroup;
 class JXTextButton;
+class JXRadioGroup;
+class JXInputField;
 class JXFontNameMenu;
 class JXFontSizeMenu;
-class JXRadioGroup;
+class JXChooseMonoFont;
 
 class TestTabDirector : public JXWindowDirector
 {
@@ -34,16 +36,19 @@ protected:
 
 private:
 
-	JXTabGroup*		itsTabGroup;
-	JXTextButton*	itsAddTabButton;
-	JIndex			itsNextTabIndex;
-	JXFontNameMenu*	itsFontMenu;
-	JXFontSizeMenu*	itsSizeMenu;
-	JXRadioGroup*	itsEdgeRG;
+	JXTabGroup*			itsTabGroup;
+	JXTextButton*		itsAddTabButton;
+	JIndex				itsNextTabIndex;
+	JXFontNameMenu*		itsFontMenu;
+	JXFontSizeMenu*		itsSizeMenu;
+	JXRadioGroup*		itsEdgeRG;
+	JXChooseMonoFont*	itsMonoFont;
+	JXInputField*		itsMonoFontSample;
 
 private:
 
 	void	BuildWindow();
+	void	UpdateFontSample();
 
 	// not allowed
 

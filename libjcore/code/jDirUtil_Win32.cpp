@@ -540,7 +540,8 @@ JRemoveDirectory
 JBoolean
 JKillDirectory
 	(
-	const JCharacter* dirName
+	const JCharacter*	dirName,
+	const JBoolean		sync
 	)
 {
 	JDirInfo* info;

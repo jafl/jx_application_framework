@@ -3,12 +3,6 @@
 
 	Base class for all objects that read HTML files.
 
-	Derived classes must override:
-
-		SwitchCharSet
-			Switch the font to a different character set.
-			Return kJFalse if the character set is not available.
-
 	Information on HTML can be found at:
 
 		http://home.netscape.com/assist/net_sites/index.html
@@ -71,9 +65,6 @@ JHTMLScanner::LexHTML
 	istream& input
 	)
 {
-	JString defaultCharSet = "iso8859-1";
-	itsDefaultCharSet      = &defaultCharSet;
-
 	TagInfo info;
 	itsTagInfo     = &info;
 	itsTagOpenFlag = kJFalse;
@@ -84,7 +75,6 @@ JHTMLScanner::LexHTML
 	itsEmbeddedPHPRangeList = &phpRangeList;
 	itsPHPRange.SetToNothing();
 
-	SwitchCharSet(*itsDefaultCharSet);
 	FlexLexer::yylex(&input);
 
 	if (itsTagOpenFlag)
@@ -95,7 +85,6 @@ JHTMLScanner::LexHTML
 
 	HandleEmbeddedPHPTags(*itsEmbeddedPHPRangeList);
 
-	itsDefaultCharSet       = NULL;
 	itsTagInfo              = NULL;
 	itsEmbeddedPHPRangeList = NULL;
 }
@@ -338,47 +327,6 @@ JHTMLScanner::HandleGreekChar
 									JIndexRange(itsMatchRange.last+1, itsMatchRange.last)) &&
 					  result);
 		(itsTagInfo->name).Clear();
-		}
-	else
-		{
-		(itsTagInfo->valueBuffer).AppendCharacter(c);
-		}
-
-	yy_pop_state();
-	return result;
-}
-
-/******************************************************************************
- HandleLatinChar (private)
-
-	If the character is part of an attribute value, we append it to the
-	attribute value buffer.  Otherwise, we treat it like a normal word.
-
- ******************************************************************************/
-
-JBoolean
-JHTMLScanner::HandleLatinChar
-	(
-	const JCharacter	c,
-	const JIndex		latinIndex,
-	const JCharacter*	latin1Str
-	)
-{
-	JBoolean result = kJTrue;
-	if (yy_top_state() == 0)
-		{
-		JString charSet = "iso8859-" + JString(latinIndex, JString::kBase10);
-		if (SwitchCharSet(charSet))
-			{
-			const JCharacter str[] = { c, '\0' };
-			result = HandleHTMLWord(str, itsMatchRange);
-			SwitchCharSet(*itsDefaultCharSet);
-			}
-		else
-			{
-			SwitchCharSet(*itsDefaultCharSet);
-			result = HandleHTMLWord(latin1Str, itsMatchRange);
-			}
 		}
 	else
 		{

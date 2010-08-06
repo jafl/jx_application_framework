@@ -19,8 +19,6 @@
 
 const JCoordinate kJXDefaultBorderWidth = 2;
 
-const JSize kJXDefaultFontSize = kJDefaultFontSize;
-
 const Time kJXDoubleClickTime = 500;	// milliseconds
 
 // Since 24-bit color is the maximum, we should never get indicies

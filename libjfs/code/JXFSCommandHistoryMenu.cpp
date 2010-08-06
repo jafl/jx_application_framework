@@ -73,7 +73,7 @@ JXFSCommandHistoryMenu::JXFSCommandHistoryMenu
 void
 JXFSCommandHistoryMenu::JFSCommandHistoryMenuX()
 {
-	JXImage* icon = new JXImage(GetDisplay(), GetColormap(), jx_executable_small);
+	JXImage* icon = new JXImage(GetDisplay(), jx_executable_small);
 	assert( icon != NULL );
 	SetDefaultIcon(icon, kJTrue);
 }

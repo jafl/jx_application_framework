@@ -404,7 +404,7 @@ GMFindTableDir::BuildWindow()
 		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
 		}
 
-	itsMenuIcon = new JXImage(itsWindow->GetDisplay(), itsWindow->GetColormap(), JXPM(envelopes));
+	itsMenuIcon = new JXImage(itsWindow->GetDisplay(), envelopes);
 	assert(itsMenuIcon != NULL);
 	itsMenuIcon->ConvertToRemoteStorage();
 }

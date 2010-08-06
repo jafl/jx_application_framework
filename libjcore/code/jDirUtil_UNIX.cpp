@@ -9,7 +9,7 @@
 
 #include <JCoreStdInc.h>
 #include <jDirUtil.h>
-#include <jProcessUtil.h>
+#include <JSimpleProcess.h>
 #include <JDirInfo.h>
 #include <JProgressDisplay.h>
 #include <JLatentPG.h>
@@ -769,21 +769,27 @@ JRemoveDirectory
 JBoolean
 JKillDirectory
 	(
-	const JCharacter* dirName
+	const JCharacter*	dirName,
+	const JBoolean		sync
 	)
 {
 	const JCharacter* argv[] = {"rm", "-rf", dirName, NULL};
-	const JError err = JExecute(argv, sizeof(argv), NULL,
-								kJIgnoreConnection, NULL,
-								kJIgnoreConnection, NULL,
-								kJTossOutput,       NULL);
-	if (err.OK())
+	if (sync)
 		{
-		return !JNameUsed(dirName);
+		const JError err = JExecute(argv, sizeof(argv), NULL);
+		if (err.OK())
+			{
+			return !JNameUsed(dirName);
+			}
+		else
+			{
+			return kJFalse;
+			}
 		}
 	else
 		{
-		return kJFalse;
+		JSimpleProcess::Create(argv, sizeof(argv), kJTrue);
+		return kJTrue;
 		}
 }
 

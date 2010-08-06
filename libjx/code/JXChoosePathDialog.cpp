@@ -100,7 +100,7 @@ JXChoosePathDialog::BuildWindow
 
     JXTextButton* openButton =
         new JXTextButton(JGetString("openButton::JXChoosePathDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 219,279, 72,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,280, 70,20);
     assert( openButton != NULL );
     openButton->SetShortcuts(JGetString("openButton::JXChoosePathDialog::shortcuts::JXLayout"));
 
@@ -118,6 +118,7 @@ JXChoosePathDialog::BuildWindow
         new JXStaticText(JGetString("pathLabel::JXChoosePathDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,20, 40,20);
     assert( pathLabel != NULL );
+    pathLabel->SetToLabel();
 
     JXScrollbarSet* scrollbarSet =
         new JXScrollbarSet(window,
@@ -143,6 +144,7 @@ JXChoosePathDialog::BuildWindow
         new JXStaticText(JGetString("filterLabel::JXChoosePathDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,50, 40,20);
     assert( filterLabel != NULL );
+    filterLabel->SetToLabel();
 
     JXInputField* filterInput =
         new JXInputField(window,
@@ -153,6 +155,7 @@ JXChoosePathDialog::BuildWindow
         new JXStaticText(JGetString("explanText::JXChoosePathDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,340, 270,20);
     assert( explanText != NULL );
+    explanText->SetToLabel();
 
     JXPathHistoryMenu* pathHistory =
         new JXPathHistoryMenu(1, "", window,

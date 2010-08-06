@@ -65,7 +65,7 @@ JXGoToLineDialog::BuildWindow
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::JXGoToLineDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 109,89, 62,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 110,90, 60,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::JXGoToLineDialog::shortcuts::JXLayout"));
 
@@ -83,6 +83,7 @@ JXGoToLineDialog::BuildWindow
         new JXStaticText(JGetString("obj1_JXLayout::JXGoToLineDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,20, 70,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     itsPhysicalLineIndexCB =
         new JXTextCheckbox(JGetString("itsPhysicalLineIndexCB::JXGoToLineDialog::JXLayout"), window,

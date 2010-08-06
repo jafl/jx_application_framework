@@ -141,10 +141,11 @@ JXPSPageSetupDialog::BuildWindow
         new JXStaticText(JGetString("obj1_JXLayout::JXPSPageSetupDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,85, 75,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::JXPSPageSetupDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 139,129, 72,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 140,130, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::JXPSPageSetupDialog::shortcuts::JXLayout"));
 

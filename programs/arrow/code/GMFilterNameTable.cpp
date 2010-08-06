@@ -124,7 +124,7 @@ GMFilterNameTable::GMFilterNameTableX()
 
 	const JFontManager* fm	= GetFontManager();
 	itsRowHeight	=
-		fm->GetLineHeight(JGetDefaultFontName(), kJXDefaultFontSize,
+		fm->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize,
 						JFontStyle()) + kRowHeightAdjust;
 
 	const JSize count = itsFilters->GetElementCount();

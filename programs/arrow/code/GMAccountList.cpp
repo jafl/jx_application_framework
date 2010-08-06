@@ -86,7 +86,7 @@ GMAccountList::GMAccountList
 
 	const JSize fontHeight =
 		(GetFontManager())->GetLineHeight(JGetDefaultFontName(),
-		kJXDefaultFontSize, JFontStyle());
+		kJDefaultFontSize, JFontStyle());
 	const JCoordinate rowHeight = fontHeight + 2*kVMarginWidth;
 	SetDefaultRowHeight(rowHeight);
 	SetAllRowHeights(rowHeight);
@@ -176,7 +176,7 @@ GMAccountList::TableDrawCell
 		fontstyle.bold	= kJTrue;
 		}
 
-	p.SetFont(JGetDefaultFontName(), kJXDefaultFontSize, fontstyle);
+	p.SetFont(JGetDefaultFontName(), kJDefaultFontSize, fontstyle);
 
 	JString str = itsAccountInfo->NthElement(cell.y)->GetNickname();
 

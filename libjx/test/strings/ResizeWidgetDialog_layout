@@ -1,6 +1,6 @@
 0
-obj1::ResizeWidgetDialog::JXLayout "Width:"
+obj2_JXLayout::ResizeWidgetDialog::JXLayout "Height:"
 okButton::ResizeWidgetDialog::shortcuts::JXLayout "^M"
 okButton::ResizeWidgetDialog::JXLayout "OK"
+obj1_JXLayout::ResizeWidgetDialog::JXLayout "Width:"
 cancelButton::ResizeWidgetDialog::JXLayout "Cancel"
-obj2::ResizeWidgetDialog::JXLayout "Height:"

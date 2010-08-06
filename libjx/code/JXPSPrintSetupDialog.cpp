@@ -106,10 +106,11 @@ JXPSPrintSetupDialog::BuildWindow
         new JXStaticText(JGetString("itsPrintCmdLabel::JXPSPrintSetupDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 100,19);
     assert( itsPrintCmdLabel != NULL );
+    itsPrintCmdLabel->SetToLabel();
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::JXPSPrintSetupDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 219,219, 72,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 220,220, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::JXPSPrintSetupDialog::shortcuts::JXLayout"));
 
@@ -122,6 +123,7 @@ JXPSPrintSetupDialog::BuildWindow
         new JXStaticText(JGetString("obj1_JXLayout::JXPSPrintSetupDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 50,30, 80,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     itsDestination =
         new JXRadioGroup(window,
@@ -180,18 +182,21 @@ JXPSPrintSetupDialog::BuildWindow
 
     itsFirstPageIndexLabel =
         new JXStaticText(JGetString("itsFirstPageIndexLabel::JXPSPrintSetupDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 163,153, 66,20);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 160,150, 70,20);
     assert( itsFirstPageIndexLabel != NULL );
+    itsFirstPageIndexLabel->SetToLabel();
 
     itsLastPageIndexLabel =
         new JXStaticText(JGetString("itsLastPageIndexLabel::JXPSPrintSetupDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 273,153, 16,20);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 270,150, 20,20);
     assert( itsLastPageIndexLabel != NULL );
+    itsLastPageIndexLabel->SetToLabel();
 
     JXStaticText* obj4_JXLayout =
         new JXStaticText(JGetString("obj4_JXLayout::JXPSPrintSetupDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 55,110, 115,20);
     assert( obj4_JXLayout != NULL );
+    obj4_JXLayout->SetToLabel();
 
     itsCollateCB =
         new JXTextCheckbox(JGetString("itsCollateCB::JXPSPrintSetupDialog::JXLayout"), window,
@@ -316,7 +321,9 @@ JXPSPrintSetupDialog::SetObjects
 void
 JXPSPrintSetupDialog::UpdateDisplay()
 {
-	itsPrintButton->SetActive(!itsFileInput->IsEmpty());
+	itsPrintButton->SetActive(JI2B(
+		itsDestination->GetSelectedItem() == kPrintToPrinterID ||
+		!itsFileInput->IsEmpty()));
 }
 
 /******************************************************************************
@@ -545,7 +552,7 @@ JXPSPrintSetupDialog::SetParameters
 		itsFileInput->GetText() != p->GetFileName());
 
 	JString fullName;
-	JConvertToAbsolutePath(itsFileInput->GetText(), NULL, &fullName);
+	itsFileInput->GetFile(&fullName);
 
 	p->SetDestination(newDest, itsPrintCmd->GetText(), fullName);
 

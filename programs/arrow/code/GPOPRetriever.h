@@ -32,7 +32,7 @@ class GMAccount;
 class JLatentPG;
 class JOutPipeStream;
 
-class JXGetPasswordDialog;
+class JXGetStringDialog;
 class JXTimerTask;
 
 class GPOPRetriever : virtual public JBroadcaster
@@ -56,7 +56,7 @@ private:
 private:
 
 	InetLink*				itsLink;
-	JXGetPasswordDialog*	itsDialog;
+	JXGetStringDialog*		itsDialog;
 	JString					itsPasswd;
 	JString					itsTimeStamp;
 	JIndex					itsCurrentIndex;

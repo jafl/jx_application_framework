@@ -1807,7 +1807,11 @@ JIsPrint
 	const JCharacter c
 	)
 {
+#ifdef _J_OSX
+	return JI2B( isprint(c) || 0xA1 <= (unsigned char) c );
+#else
 	return JI2B( isprint(c) /* || (c & 0x80) */ );
+#endif
 }
 
 JBoolean

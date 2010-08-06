@@ -58,7 +58,7 @@ endif
 # make variables
 
 LOADLIBES := -L${JLIBDIR} ${lj3d} ${ljx} ${ljcore} \
-             ${J_MESA_LIBS} ${J_SYS_LIBS}
+             ${J_MESA_LIBS} ${J_IMG_LIBS} ${J_SYS_LIBS}
 LDFLAGS   := 
 
 #####

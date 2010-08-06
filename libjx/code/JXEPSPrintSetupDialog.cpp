@@ -88,7 +88,7 @@ JXEPSPrintSetupDialog::BuildWindow
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::JXEPSPrintSetupDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 229,99, 72,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 230,100, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::JXEPSPrintSetupDialog::shortcuts::JXLayout"));
 
@@ -255,7 +255,7 @@ JXEPSPrintSetupDialog::SetParameters
 		itsBWCheckbox->IsChecked()      != p->PSWillPrintBlackWhite());
 
 	JString fullName;
-	JConvertToAbsolutePath(itsFileInput->GetText(), NULL, &fullName);
+	itsFileInput->GetFile(&fullName);
 
 	p->SetOutputFileName(fullName);
 	p->ShouldPrintPreview(itsPreviewCheckbox->IsChecked());

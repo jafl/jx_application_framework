@@ -79,7 +79,7 @@ GPMAboutDialog::BuildWindow
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::GPMAboutDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 319,149, 62,22);
+                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,150, 60,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::GPMAboutDialog::shortcuts::JXLayout"));
 
@@ -111,11 +111,11 @@ GPMAboutDialog::BuildWindow
 	ListenTo(itsHelpButton);
 	ListenTo(itsCreditsButton);
 
-	JXImage* image = new JXImage(GetDisplay(), GetColormap(), JXPM(gpm_about_icon));
+	JXImage* image = new JXImage(GetDisplay(), gpm_about_icon);
 	assert( image != NULL );
 	gpmIcon->SetImage(image, kJTrue);
 
-	image = new JXImage(GetDisplay(), GetColormap(), JXPM(new_planet_software));
+	image = new JXImage(GetDisplay(), new_planet_software);
 	assert( image != NULL );
 	npsIcon->SetImage(image, kJTrue);
 

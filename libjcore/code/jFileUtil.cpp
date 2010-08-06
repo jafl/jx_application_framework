@@ -86,10 +86,7 @@ JSplitPathAndName
 	assert( !JStringEmpty(fullName) );
 
 	JString pathAndName = fullName;
-	if (pathAndName.GetLastCharacter() == ACE_DIRECTORY_SEPARATOR_CHAR)
-		{
-		JStripTrailingDirSeparator(&pathAndName);
-		}
+	JStripTrailingDirSeparator(&pathAndName);
 
 	JIndex i;
 	if (pathAndName.LocateLastSubstring(ACE_DIRECTORY_SEPARATOR_STR, &i) &&
@@ -100,6 +97,12 @@ JSplitPathAndName
 
 		JCleanPath(path);
 		return kJTrue;
+		}
+	else if (JIsRootDirectory(pathAndName))
+		{
+		*path = pathAndName;
+		name->Clear();
+		return kJFalse;
 		}
 	else
 		{

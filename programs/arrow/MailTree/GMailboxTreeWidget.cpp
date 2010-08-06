@@ -153,23 +153,23 @@ GMailboxTreeWidget::GMailboxTreeWidget
 	itsMessageXAtom		= GetDisplay()->RegisterXAtom(kDragMessagesXAtomName);
 	itsMailboxXAtom		= GetDisplay()->RegisterXAtom(kDragMailboxesXAtomName);
 
-	itsMailIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(tall_envelopes));
+	itsMailIcon = new JXImage(GetDisplay(), tall_envelopes);
 	assert( itsMailIcon != NULL );
 	itsMailIcon->ConvertToRemoteStorage();
 
-	itsSelectedMailIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(selected_envelopes));
+	itsSelectedMailIcon = new JXImage(GetDisplay(), selected_envelopes);
 	assert( itsSelectedMailIcon != NULL );
 	itsSelectedMailIcon->ConvertToRemoteStorage();
 
-	itsLockedMailIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(locked_envelopes));
+	itsLockedMailIcon = new JXImage(GetDisplay(), locked_envelopes);
 	assert( itsLockedMailIcon != NULL );
 	itsLockedMailIcon->ConvertToRemoteStorage();
 
-	itsSelectedFolderIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(selectedfolderIcon_xpm));
+	itsSelectedFolderIcon = new JXImage(GetDisplay(), selectedfolderIcon_xpm);
 	assert( itsSelectedFolderIcon != NULL );
 	itsSelectedFolderIcon->ConvertToRemoteStorage();
 
-	itsFolderIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(tall_folder_xpm));
+	itsFolderIcon = new JXImage(GetDisplay(), tall_folder_xpm);
 	assert( itsFolderIcon != NULL );
 	itsFolderIcon->ConvertToRemoteStorage();
 
@@ -494,7 +494,6 @@ GMailboxTreeWidget::UpdateGMailboxMenu()
 
 /******************************************************************************
  HandleGMailboxMenu
-
 
  ******************************************************************************/
 

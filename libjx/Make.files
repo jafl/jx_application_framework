@@ -101,7 +101,6 @@
 .cpp ./code/JXTextEditor
 .cpp ./code/JXFontNameMenu
 .cpp ./code/JXFontSizeMenu
-.cpp ./code/JXFontCharSetMenu
 .cpp ./code/JXTEStyleMenu
 .cpp ./code/JXChooseMonoFont
 .cpp ./code/JXChooseFontSizeDialog
@@ -243,6 +242,7 @@
 .cpp ./code/JXWebBrowser
 .cpp ./code/JXStringCompletionMenu
 .cpp ./code/JXChooseColorDialog
+.cpp ./code/JXColorWheel
 .cpp ./code/JXGetStringDialog
 .cpp ./code/jXUtil
 .cpp ./code/JXAssert

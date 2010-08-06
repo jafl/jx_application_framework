@@ -168,12 +168,18 @@ protected:
 	virtual void	HandleDNDResponse(const JXContainer* target,
 									  const JBoolean dropAccepted, const Atom action);
 
+	// use with extreme caution
+
+	JBoolean	WillAllowUnboundedScrolling() const;
+	void		ShouldAllowUnboundedScrolling(const JBoolean allow);
+
 private:
 
 	JRect		itsFrameG;				// global coords
 	JRect		itsBoundsG;				// global coords
 	JBoolean	itsApertureBoundedFlag;	// kJTrue if we are bounded by aperture
 	JSize		itsBorderWidth;
+	JBoolean	itsAllowUnboundedScrollingFlag;	// kJTrue if scroll offset is not restricted
 	// aperture is calculated when needed
 
 	// resizing information
@@ -471,6 +477,20 @@ JXWidget::WillAcceptShortcut()
 	const
 {
 	return JConvertToBoolean( IsVisible() && IsActive() );
+}
+
+/******************************************************************************
+ WillAllowUnboundedScrolling
+
+	Unbounded scrolling does not constrain the scroll offset.
+
+ ******************************************************************************/
+
+inline JBoolean
+JXWidget::WillAllowUnboundedScrolling()
+	const
+{
+	return itsAllowUnboundedScrollingFlag;
 }
 
 #endif

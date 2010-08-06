@@ -69,7 +69,7 @@ static const JCharacter* kFileMenuStr =
 	"  | Open... %k Meta-O %i Open::GXDataDocument"
 	"  | Save %k Meta-S %i Save::GXDataDocument"
 	"  | Save as..."
-	"%l| Export modules..."
+	"%l| Export module"
 	"%l| Page setup... "
 	"  | Print... %k Meta-P %i "kJXPrintAction
 	"%l| Close %k Meta-W %i "kJXCloseWindowAction
@@ -176,7 +176,7 @@ GXDataDocument::GXDataDocument
 
 	BuildWindow();
 
-	itsPrinter = new JXPSPrinter(GetDisplay(), (GetWindow())->GetColormap());
+	itsPrinter = new JXPSPrinter(GetDisplay());
 	assert( itsPrinter != NULL );
 	ListenTo(itsPrinter);
 
@@ -236,19 +236,19 @@ GXDataDocument::BuildWindow()
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	ListenTo(itsFileMenu);
 
-	JXImage* image = new JXImage(GetDisplay(), GetColormap(), JXPM(filenew));
+	JXImage* image = new JXImage(GetDisplay(), JXPM(filenew));
 	assert(image != NULL);
 	itsFileMenu->SetItemImage(kNewCmd, image, kJTrue);
 
-	image = new JXImage(GetDisplay(), GetColormap(), JXPM(fileopen));
+	image = new JXImage(GetDisplay(), JXPM(fileopen));
 	assert(image != NULL);
 	itsFileMenu->SetItemImage(kOpenCmd, image, kJTrue);
 
-	image = new JXImage(GetDisplay(), GetColormap(), JXPM(filefloppy));
+	image = new JXImage(GetDisplay(), JXPM(filefloppy));
 	assert(image != NULL);
 	itsFileMenu->SetItemImage(kSaveCmd, image, kJTrue);
 
-	image = new JXImage(GetDisplay(), GetColormap(), JXPM(fileprint));
+	image = new JXImage(GetDisplay(), JXPM(fileprint));
 	assert(image != NULL);
 	itsFileMenu->SetItemImage(kPrintCmd, image, kJFalse);
 
@@ -273,11 +273,10 @@ GXDataDocument::BuildWindow()
 	JRect enclApG     = encl->GetApertureGlobal();
 
 	JXTextButton* okButton =
-		new JXTextButton("Ok", encl,
+		new JXTextButton("OK", encl,
 						JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						0, 0, kRowHeaderWidth-2, kColHeaderHeight-2);
 	assert(okButton != NULL);
-	okButton->SetFontName("6x13");
 
 	itsTable =
 		new GXRaggedFloatTable(this, okButton, itsData, 6,
@@ -323,7 +322,7 @@ GXDataDocument::BuildWindow()
 	ListenTo(itsHelpMenu);
 
 
-	image = new JXImage(GetDisplay(), GetColormap(), JXPM(manual));
+	image = new JXImage(GetDisplay(), JXPM(manual));
 	assert(image != NULL);
 	itsHelpMenu->SetItemImage(kTOCCmd, image, kJFalse);
 

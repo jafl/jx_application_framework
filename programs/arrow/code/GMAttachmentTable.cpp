@@ -82,11 +82,11 @@ GMAttachmentTable::GMAttachmentTable
 {
 	itsMinColWidth	= 10;
 
-	itsFileIcon	= new JXImage(GetDisplay(), GetColormap(), JXPM(jx_plain_file_small));
+	itsFileIcon	= new JXImage(GetDisplay(), jx_plain_file_small);
 	assert(itsFileIcon != NULL);
 	itsFileIcon->ConvertToRemoteStorage();
 
-	itsBinaryIcon	= new JXImage(GetDisplay(), GetColormap(), JXPM(binary_file_xpm));
+	itsBinaryIcon	= new JXImage(GetDisplay(), binary_file_xpm);
 	assert(itsBinaryIcon != NULL);
 	itsBinaryIcon->ConvertToRemoteStorage();
 
@@ -354,15 +354,18 @@ GMAttachmentTable::SetParser
 		}
 	RemoveAllRows();
 	itsFiles->DeleteAll();
-	const JSize count	= parser->GetAttachmentCount();
+
+	const JSize count = parser->GetAttachmentCount();
 	AppendRows(count, kDefRowHeight);
-	for (JSize i = 1; i <= count; i++)
+
+	for (JIndex i=1; i<=count; i++)
 		{
 		JString* s = new JString(parser->GetAttachmentName(i));
 		assert(s != NULL);
 		itsFiles->Append(s);
 		itsEncoding->AppendElement(kJFalse);
 		}
+
 	TableRefresh();
 }
 
@@ -596,7 +599,7 @@ GMAttachmentTable::HandleDNDDrop
 }
 
 /******************************************************************************
- GetAttachmentName (public)
+ GetAttachmentName
 
  ******************************************************************************/
 

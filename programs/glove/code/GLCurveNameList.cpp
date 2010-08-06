@@ -59,7 +59,7 @@ GLCurveNameList::GLCurveNameList
 
 	const JFontManager* fontMgr = GetFontManager();
 	const JSize rowHeight = 2*kVMarginWidth +
-		fontMgr->GetLineHeight(JGetDefaultFontName(), kJXDefaultFontSize, JFontStyle());
+		fontMgr->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle());
 	SetDefaultRowHeight(rowHeight);
 
 	const JSize count = plot->GetCurveCount();
@@ -75,7 +75,7 @@ GLCurveNameList::GLCurveNameList
 		itsNameList->Append(str);
 
 		const JCoordinate width = 2*kHMarginWidth +
-			fontMgr->GetStringWidth(JGetDefaultFontName(), kJXDefaultFontSize,
+			fontMgr->GetStringWidth(JGetDefaultFontName(), kJDefaultFontSize,
 									JFontStyle(), *str);
 		if (width > itsMinColWidth)
 			{
@@ -158,7 +158,7 @@ GLCurveNameList::TableDrawCell
 	JColorIndex color	= GetColormap()->GetBlackColor();
 	if (itsDir->CurveIsFit(cell.y))
 		{
-		color	= GetColormap()->GetGray60Color();
+		color	= GetColormap()->GetGrayColor(60);
 		}
 	p.SetFontStyle(JFontStyle(kJFalse, kJFalse, 0, kJFalse, color));
 	p.String(r, *curveName, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
@@ -317,7 +317,7 @@ GLCurveNameList::Receive
 		itsNameList->Append(str);
 
 		const JCoordinate width = 2*kHMarginWidth +
-			GetFontManager()->GetStringWidth(JGetDefaultFontName(), kJXDefaultFontSize,
+			GetFontManager()->GetStringWidth(JGetDefaultFontName(), kJDefaultFontSize,
 									JFontStyle(), *str);
 		if (width > itsMinColWidth)
 			{

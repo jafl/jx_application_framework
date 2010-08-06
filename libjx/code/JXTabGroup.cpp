@@ -43,6 +43,8 @@ const JCoordinate kCloseMarginWidth = 5;
 const JFloat kInitialScrollDelay    = 0.2;
 const JFloat kContinuousScrollDelay = 0.05;
 
+const JSize kSelGrayPercentage = 70;
+
 // setup information
 
 const JFileVersion kCurrentSetupVersion = 0;
@@ -106,10 +108,10 @@ JXTabGroup::JXTabGroup
 	itsTabInfoList = new JArray<TabInfo>;
 	assert( itsTabInfoList != NULL );
 
-	itsCloseImage = new JXImage(GetDisplay(), GetColormap(), jx_tab_close);
+	itsCloseImage = new JXImage(GetDisplay(), jx_tab_close);
 	assert( itsCloseImage != NULL );
 
-	itsClosePushedImage = new JXImage(GetDisplay(), GetColormap(), jx_tab_close_pushed);
+	itsClosePushedImage = new JXImage(GetDisplay(), jx_tab_close_pushed);
 	assert( itsClosePushedImage != NULL );
 
 	itsTabRects = new JArray<JRect>;
@@ -584,7 +586,7 @@ JXTabGroup::Draw
 
 			if (isSel)
 				{
-				p.SetPenColor(cmap->GetGray70Color());
+				p.SetPenColor(cmap->GetGrayColor(kSelGrayPercentage));
 				p.SetFilling(kJTrue);
 				p.JPainter::Rect(r);
 				p.SetFilling(kJFalse);
@@ -655,7 +657,7 @@ JXTabGroup::Draw
 
 			if (isSel)
 				{
-				p.SetPenColor(cmap->GetGray70Color());
+				p.SetPenColor(cmap->GetGrayColor(kSelGrayPercentage));
 				p.SetFilling(kJTrue);
 				p.JPainter::Rect(r);
 				p.SetFilling(kJFalse);
@@ -726,7 +728,7 @@ JXTabGroup::Draw
 
 			if (isSel)
 				{
-				p.SetPenColor(cmap->GetGray70Color());
+				p.SetPenColor(cmap->GetGrayColor(kSelGrayPercentage));
 				p.SetFilling(kJTrue);
 				p.JPainter::Rect(r);
 				p.SetFilling(kJFalse);
@@ -797,7 +799,7 @@ JXTabGroup::Draw
 
 			if (isSel)
 				{
-				p.SetPenColor(cmap->GetGray70Color());
+				p.SetPenColor(cmap->GetGrayColor(kSelGrayPercentage));
 				p.SetFilling(kJTrue);
 				p.JPainter::Rect(r);
 				p.SetFilling(kJFalse);
@@ -955,7 +957,7 @@ JXTabGroup::DrawTabBorder
 			{
 			JRect r(rect.bottom - kBorderWidth, rect.left  + kBorderWidth,
 					rect.bottom,                rect.right - kBorderWidth);
-			p.SetPenColor(cmap->GetGray70Color());
+			p.SetPenColor(cmap->GetGrayColor(kSelGrayPercentage));
 			p.JPainter::Rect(r);
 			p.JPainter::Point(rect.topLeft() + JPoint(-1,kSelMargin+kBorderWidth));
 			p.SetPenColor(cmap->Get3DLightColor());
@@ -983,7 +985,7 @@ JXTabGroup::DrawTabBorder
 			{
 			JRect r(rect.top    + kBorderWidth, rect.right - kBorderWidth,
 					rect.bottom - kBorderWidth, rect.right);
-			p.SetPenColor(cmap->GetGray70Color());
+			p.SetPenColor(cmap->GetGrayColor(kSelGrayPercentage));
 			p.JPainter::Rect(r);
 			p.JPainter::Point(rect.topLeft() + JPoint(kSelMargin+kBorderWidth,-1));
 			p.SetPenColor(cmap->Get3DLightColor());
@@ -1014,7 +1016,7 @@ JXTabGroup::DrawTabBorder
 			{
 			JRect r(rect.top,                rect.left  + kBorderWidth,
 					rect.top + kBorderWidth, rect.right - kBorderWidth);
-			p.SetPenColor(cmap->GetGray70Color());
+			p.SetPenColor(cmap->GetGrayColor(kSelGrayPercentage));
 			p.JPainter::Rect(r);
 			p.SetPenColor(cmap->Get3DShadeColor());
 			if (rect.left > (GetAperture()).left)
@@ -1044,7 +1046,7 @@ JXTabGroup::DrawTabBorder
 			{
 			JRect r(rect.top    + kBorderWidth, rect.left,
 					rect.bottom - kBorderWidth, rect.left + kBorderWidth);
-			p.SetPenColor(cmap->GetGray70Color());
+			p.SetPenColor(cmap->GetGrayColor(kSelGrayPercentage));
 			p.JPainter::Rect(r);
 			p.SetPenColor(cmap->Get3DShadeColor());
 			if (rect.top > (GetAperture()).top)
@@ -1642,13 +1644,15 @@ JXTabGroup::ScrollForWheel
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (button == kJXButton4 && itsCanScrollUpFlag && itsFirstDrawIndex > 1)
+	if ((button == kJXButton4 || button == kJXButton6) &&
+		itsCanScrollUpFlag && itsFirstDrawIndex > 1)
 		{
 		itsFirstDrawIndex--;
 		Refresh();
 		return kJTrue;
 		}
-	else if (button == kJXButton5 && itsCanScrollDownFlag && itsFirstDrawIndex < GetTabCount())
+	else if ((button == kJXButton5 || button == kJXButton7) &&
+			 itsCanScrollDownFlag && itsFirstDrawIndex < GetTabCount())
 		{
 		itsFirstDrawIndex++;
 		Refresh();

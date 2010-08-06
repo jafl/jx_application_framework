@@ -274,7 +274,7 @@ GMailboxTreeDir::BuildWindow()
 		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
 		}
 
-	itsMenuIcon = new JXImage(window->GetDisplay(), window->GetColormap(), JXPM(mailbox));
+	itsMenuIcon = new JXImage(window->GetDisplay(), mailbox);
 	assert(itsMenuIcon != NULL);
 	itsMenuIcon->ConvertToRemoteStorage();
 

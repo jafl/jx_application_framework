@@ -45,7 +45,7 @@ JXTextCheckbox::JXTextCheckbox
 	itsShortcuts = NULL;
 	itsULIndex   = 0;
 
-	itsFontSize = kJXDefaultFontSize;
+	itsFontSize = kJDefaultFontSize;
 	// itsFontStyle already initialized to correct default
 
 	JXColormap* colormap = GetColormap();

@@ -881,24 +881,10 @@ JPSPrinterBase::PSSetFont
 		itsLastFontSize  = size;
 		itsLastFontStyle = style;
 
-		JString fontName, charSet;
-		JFontManager::ExtractCharacterSet(fontManager->GetFontName(id),
-										  &fontName, &charSet);
+		JString fontName = fontManager->GetFontName(id);
+		AdjustFontName(&fontName, style);
 		*itsFile << '/';
 		fontName.Print(*itsFile);
-
-		if (style.bold && style.italic)
-			{
-			*itsFile << "-BoldOblique";
-			}
-		else if (style.bold)
-			{
-			*itsFile << "-Bold";
-			}
-		else if (style.italic)
-			{
-			*itsFile << "-Oblique";
-			}
 
 		*itsFile << " findfont\n";
 		*itsFile << "dup length dict begin\n";
@@ -912,6 +898,143 @@ JPSPrinterBase::PSSetFont
 		}
 
 	PSSetColor(style.color);
+}
+
+/******************************************************************************
+ AdjustFontName (private)
+
+	Convert system font name to PS font name.
+
+	http://www.sketchpad.net/ps-font-substitution.htm
+
+ ******************************************************************************/
+
+void
+JPSPrinterBase::AdjustFontName
+	(
+	JString*			name,
+	const JFontStyle&	style
+	)
+{
+	if (name->Contains(" Mono"))
+		{
+		*name = "Courier";
+		ApplyStyles(name, style, NULL, "Oblique");
+		return;
+		}
+	else if (name->Contains(" Sans"))
+		{
+		*name = "Helvetica";
+		ApplyStyles(name, style, NULL, "Oblique");
+		return;
+		}
+	else if (*name == "Times" || name->Contains(" Serif"))
+		{
+		*name = "Times";
+		ApplyStyles(name, style, "Roman", "Italic");
+		return;
+		}
+	else if (name->Contains("Century Schoolbook"))
+		{
+		*name = "NewCenturySchlbk";
+		ApplyStyles(name, style, "Roman", "Italic");
+		return;
+		}
+	else if (name->Contains("Bookman"))
+		{
+		*name = "Bookman";
+
+		if (style.bold && style.italic)
+			{
+			name->Append("-DemiItalic");
+			}
+		else if (style.bold)
+			{
+			name->Append("-Demi");
+			}
+		else if (style.italic)
+			{
+			name->Append("-LightItalic");
+			}
+		else
+			{
+			name->Append("-Light");
+			}
+		return;
+		}
+	else if (name->Contains("Palatino"))
+		{
+		*name = "Bookman";
+		ApplyStyles(name, style, "Roman", "Italic");
+		return;
+		}
+	else if (name->Contains("Chancery"))
+		{
+		*name = "ZapfChancery-MediumItalic";
+		return;
+		}
+	else if (*name == "Symbol")
+		{
+		return;
+		}
+
+	// default processing
+/*
+	if (name->EndsWith(" L"))
+		{
+		name->RemoveSubstring(name->GetLength()-1, name->GetLength());
+		}
+	else if (name->EndsWith(" Light"))
+		{
+		name->RemoveSubstring(name->GetLength()-1, name->GetLength());
+		}
+
+	const JSize length = name->GetLength();
+	for (JIndex i=length; i>=1; i--)
+		{
+		if (isspace(name->GetCharacter(i)))
+			{
+			name->RemoveSubstring(i,i);
+			}
+		}
+*/
+	*name = "Helvetica";
+	ApplyStyles(name, style, NULL, "Oblique");
+}
+
+/******************************************************************************
+ ApplyStyles (private)
+
+ ******************************************************************************/
+
+void
+JPSPrinterBase::ApplyStyles
+	(
+	JString*			name,
+	const JFontStyle&	style,
+	const JCharacter*	defaultStr,
+	const JCharacter*	italicStr
+	)
+{
+	if (style.bold && style.italic)
+		{
+		name->Append("-Bold");
+		name->Append(italicStr);
+		}
+	else if (style.bold)
+		{
+		name->Append("-Bold");
+		}
+	else if (style.italic)
+		{
+		name->Append("-");
+		name->Append(italicStr);
+		}
+	else if (!JStringEmpty(defaultStr))
+		{
+		name->Append("-");
+		name->Append(defaultStr);
+		}
 }
 
 /******************************************************************************

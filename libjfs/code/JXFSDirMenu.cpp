@@ -145,16 +145,16 @@ JXFSDirMenu::JXFSDirMenuX()
 	itsEntries = NULL;
 	itsParent  = NULL;
 
-	itsFileIcon = new JXImage(GetDisplay(), GetColormap(), jx_plain_file_small);
+	itsFileIcon = new JXImage(GetDisplay(), jx_plain_file_small);
 	assert( itsFileIcon != NULL );
 
-	itsFolderIcon = new JXImage(GetDisplay(), GetColormap(), jx_folder_small);
+	itsFolderIcon = new JXImage(GetDisplay(), jx_folder_small);
 	assert( itsFolderIcon != NULL );
 
-	itsExecIcon = new JXImage(GetDisplay(), GetColormap(), jx_executable_small);
+	itsExecIcon = new JXImage(GetDisplay(), jx_executable_small);
 	assert( itsExecIcon != NULL );
 
-	itsUnknownIcon = new JXImage(GetDisplay(), GetColormap(), jx_unknown_file_small);
+	itsUnknownIcon = new JXImage(GetDisplay(), jx_unknown_file_small);
 	assert( itsUnknownIcon != NULL );
 
 	JXFSDirMenuX1();
@@ -281,7 +281,7 @@ JXFSDirMenu::SetFileIcon
 	)
 {
 	delete itsFileIcon;
-	itsFileIcon = new JXImage(GetDisplay(), GetColormap(), data);
+	itsFileIcon = new JXImage(GetDisplay(), data);
 	assert( itsFileIcon != NULL );
 }
 
@@ -308,7 +308,7 @@ JXFSDirMenu::SetExecIcon
 	)
 {
 	delete itsExecIcon;
-	itsExecIcon = new JXImage(GetDisplay(), GetColormap(), data);
+	itsExecIcon = new JXImage(GetDisplay(), data);
 	assert( itsExecIcon != NULL );
 }
 

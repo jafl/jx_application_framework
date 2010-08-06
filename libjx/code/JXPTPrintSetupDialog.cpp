@@ -104,10 +104,11 @@ JXPTPrintSetupDialog::BuildWindow
         new JXStaticText(JGetString("itsPrintCmdLabel::JXPTPrintSetupDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 100,19);
     assert( itsPrintCmdLabel != NULL );
+    itsPrintCmdLabel->SetToLabel();
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::JXPTPrintSetupDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 219,189, 72,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 220,190, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::JXPTPrintSetupDialog::shortcuts::JXLayout"));
 
@@ -120,6 +121,7 @@ JXPTPrintSetupDialog::BuildWindow
         new JXStaticText(JGetString("obj1_JXLayout::JXPTPrintSetupDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 50,30, 80,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     itsDestination =
         new JXRadioGroup(window,
@@ -172,18 +174,21 @@ JXPTPrintSetupDialog::BuildWindow
 
     itsFirstPageIndexLabel =
         new JXStaticText(JGetString("itsFirstPageIndexLabel::JXPTPrintSetupDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 163,153, 66,20);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 160,150, 70,20);
     assert( itsFirstPageIndexLabel != NULL );
+    itsFirstPageIndexLabel->SetToLabel();
 
     itsLastPageIndexLabel =
         new JXStaticText(JGetString("itsLastPageIndexLabel::JXPTPrintSetupDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 273,153, 16,20);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 270,150, 20,20);
     assert( itsLastPageIndexLabel != NULL );
+    itsLastPageIndexLabel->SetToLabel();
 
     JXStaticText* obj4_JXLayout =
         new JXStaticText(JGetString("obj4_JXLayout::JXPTPrintSetupDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,110, 115,20);
     assert( obj4_JXLayout != NULL );
+    obj4_JXLayout->SetToLabel();
 
     itsPrintLineNumbersCB =
         new JXTextCheckbox(JGetString("itsPrintLineNumbersCB::JXPTPrintSetupDialog::JXLayout"), window,
@@ -253,6 +258,8 @@ JXPTPrintSetupDialog::SetObjects
 	assert( itsFileInput != NULL );
 	itsFileInput->ShouldAllowInvalidFile();
 	itsFileInput->SetText(fileName);
+	itsFileInput->ShouldBroadcastAllTextChanged(kJTrue);
+	ListenTo(itsFileInput);
 
 	itsPrintCmd->SetText(printCmd);
 	itsPrintCmd->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
@@ -289,6 +296,21 @@ JXPTPrintSetupDialog::SetObjects
     itsChooseFileButton->SetShortcuts("#O");
     itsPrintAllCB->SetShortcuts("#L");
     itsPrintLineNumbersCB->SetShortcuts("#N");
+
+	UpdateDisplay();
+}
+
+/******************************************************************************
+ UpdateDisplay (private)
+
+ ******************************************************************************/
+
+void
+JXPTPrintSetupDialog::UpdateDisplay()
+{
+	itsPrintButton->SetActive(JI2B(
+		itsDestination->GetSelectedItem() == kPrintToPrinterID ||
+		!itsFileInput->IsEmpty()));
 }
 
 /******************************************************************************
@@ -342,6 +364,12 @@ JXPTPrintSetupDialog::Receive
 		{
 		ChooseDestinationFile();
 		}
+	else if (sender == itsFileInput &&
+			 (message.Is(JTextEditor::kTextSet) ||
+			  message.Is(JTextEditor::kTextChanged)))
+		{
+		UpdateDisplay();
+		}
 
 	else if (sender == itsPrintAllCB && message.Is(JXCheckbox::kPushed))
 		{
@@ -388,6 +416,7 @@ JXPTPrintSetupDialog::SetDestination
 		itsFileInput->Show();
 		itsFileInput->Focus();
 
+		UpdateDisplay();
 		if (itsFileInput->IsEmpty())
 			{
 			ChooseDestinationFile();
@@ -468,7 +497,10 @@ JXPTPrintSetupDialog::SetParameters
 		itsPrintCmd->GetText()  != p->GetPrintCmd()    ||
 		itsFileInput->GetText() != p->GetFileName());
 
-	p->SetDestination(newDest, itsPrintCmd->GetText(), itsFileInput->GetText());
+	JString fullName;
+	itsFileInput->GetFile(&fullName);
+
+	p->SetDestination(newDest, itsPrintCmd->GetText(), fullName);
 
 	JInteger copyCount;
 	const JBoolean ok = itsCopyCount->GetValue(&copyCount);

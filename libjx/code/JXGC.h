@@ -20,6 +20,7 @@
 #include <JArray.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <X11/Xft/Xft.h>
 
 class JXDisplay;
 class JXColormap;
@@ -29,7 +30,7 @@ class JXGC
 {
 public:
 
-	JXGC(JXDisplay* display, JXColormap* colormap, const Drawable drawable);
+	JXGC(JXDisplay* display, const Drawable drawable);
 
 	~JXGC();
 
@@ -75,8 +76,9 @@ public:
 						const JSize ptCount, XPoint xpt[]) const;
 
 	void	SetFont(const JFontID id);
-	void	DrawString(const Drawable drawable, const JCoordinate x,
-					   const JCoordinate y, const JCharacter* str) const;
+	void	DrawString(const Drawable drawable, XftDraw* fdrawable,
+					   const JCoordinate x, const JCoordinate y,
+					   const JCharacter* str) const;
 
 	void	CopyPixels(const Drawable source,
 					   const JCoordinate src_x, const JCoordinate src_y,

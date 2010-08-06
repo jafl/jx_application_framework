@@ -19,7 +19,6 @@
 #include <JChooseSaveFile.h>
 #include <JCreateProgressDisplay.h>
 #include <JStringManager.h>
-#include <JString.h>
 
 class JGetCurrentFontManager;
 class JFontManager;

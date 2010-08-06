@@ -71,7 +71,7 @@ JX2DPlotLabelDialog::BuildWindow()
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::JX2DPlotLabelDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 349,119, 72,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 350,120, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::JX2DPlotLabelDialog::shortcuts::JXLayout"));
 
@@ -90,6 +90,7 @@ JX2DPlotLabelDialog::BuildWindow()
         new JXStaticText(JGetString("obj1_JXLayout::JX2DPlotLabelDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 90,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     itsXAxisLabel =
         new JXInputField(window,
@@ -100,6 +101,7 @@ JX2DPlotLabelDialog::BuildWindow()
         new JXStaticText(JGetString("obj2_JXLayout::JX2DPlotLabelDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 90,20);
     assert( obj2_JXLayout != NULL );
+    obj2_JXLayout->SetToLabel();
 
     itsYAxisLabel =
         new JXInputField(window,
@@ -110,6 +112,7 @@ JX2DPlotLabelDialog::BuildWindow()
         new JXStaticText(JGetString("obj3_JXLayout::JX2DPlotLabelDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 90,20);
     assert( obj3_JXLayout != NULL );
+    obj3_JXLayout->SetToLabel();
 
     itsFontMenu =
         new JXFontNameMenu("Font:", window,

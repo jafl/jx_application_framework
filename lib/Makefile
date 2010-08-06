@@ -88,7 +88,9 @@ test:
 # build all for ~/bin
 #
 
-PERSONAL_PROGS := code_crusader code_medic code_mill systemg leibnitz arrow
+PERSONAL_PROGS := \
+    arrow code_crusader code_medic code_mill \
+    drakon leibnitz svn_client systemg
 
 .PHONY : personal
 personal:

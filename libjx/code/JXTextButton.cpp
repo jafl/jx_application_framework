@@ -42,7 +42,7 @@ JXTextButton::JXTextButton
 	itsShortcuts = NULL;
 	itsULIndex   = 0;
 
-	itsFontSize = kJXDefaultFontSize;
+	itsFontSize = kJDefaultFontSize;
 	// itsFontStyle already initialized to correct default
 
 	itsPushedColor    = (GetColormap())->GetDefaultBackColor();

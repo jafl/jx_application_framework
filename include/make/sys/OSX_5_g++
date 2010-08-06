@@ -6,11 +6,11 @@
 
 # This tells us where to find the X libraries.
 
-J_X11_LIB_DIR := -L/usr/X11R6/lib
+J_X11_LIB_DIR := -L/usr/X11/lib
 
 # Uncomment this and change it if your X11 headers are not in /usr/include/X11.
 
-J_X11_INCLUDE_DIR := -I/usr/X11R6/include
+J_X11_INCLUDE_DIR := -I/usr/X11/include
 
 # This sets the optimization level
 
@@ -62,7 +62,7 @@ J_USE_THREADS := yes
 
 J_RAW_SYSTEM_STUFF := \
   -D_J_OSX -DSIZEOF_LONG=4 -DSIZEOF_INT=4 -DSIZEOF_LONGLONG=8 \
-  -D_J_HAS_SYSCTL \
+  -D_J_HAS_SYSCTL -D_XFT_NO_COMPAT_ -I/usr/X11/include/freetype2 \
   -Wno-deprecated
 
 #
@@ -85,7 +85,7 @@ CXXFLAGS  = ${J_MAKE_NEEDS_OUTPUT_ARG}
 
 J_GCC_LIBS  := -lstdc++ -lm -lc
 J_ACE_LIBS  := -L${JX_ROOT}/lib -lACE-${ACE_LIB_VERSION}
-J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} -lXext -lXpm -lX11
+J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} -lXext -lXft -lfontconfig -lXpm -lX11
 J_MESA_LIBS := ${JX_ROOT}/lib/libGLU.a ${JX_ROOT}/lib/libGL.a
 
 # modify settings based on OS, compiler, etc.

@@ -51,7 +51,7 @@ JXBusyIconTask::JXBusyIconTask
 	JXColormap* colormap = widget->GetColormap();
 	for (JIndex i=1; i<=kBusyIconCount; i++)
 		{
-		JXImage* icon = new JXImage(display, colormap, kBusyIcon[i-1]);
+		JXImage* icon = new JXImage(display, kBusyIcon[i-1]);
 		assert( icon != NULL );
 		itsImageList->Append(icon);
 		}

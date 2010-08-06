@@ -33,14 +33,12 @@ const JCharacter kSetupDataEndDelimiter = '\1';
 
 JXEPSPrinter::JXEPSPrinter
 	(
-	JXDisplay*	display,
-	JXColormap*	colormap
+	JXDisplay* display
 	)
 	:
-	JEPSPrinter(display->GetFontManager(), colormap)
+	JEPSPrinter(display->GetFontManager(), display->GetColormap())
 {
-	itsDisplay  = display;
-	itsColormap = colormap;
+	itsDisplay = display;
 
 	itsPreviewImage   = NULL;
 	itsPreviewPainter = NULL;
@@ -114,8 +112,8 @@ JXEPSPrinter::GetPreviewPainter
 	)
 {
 	itsPreviewImage =
-		new JXImage(itsDisplay, itsColormap, bounds.width(), bounds.height(),
-					itsColormap->GetWhiteColor());
+		new JXImage(itsDisplay, bounds.width(), bounds.height(),
+					(itsDisplay->GetColormap())->GetWhiteColor());
 	assert( itsPreviewImage != NULL );
 
 	itsPreviewPainter = itsPreviewImage->CreatePainter();

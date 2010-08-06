@@ -113,7 +113,7 @@ SyGFindFileDialog::BuildWindow()
 
     itsSearchButton =
         new JXTextButton(JGetString("itsSearchButton::SyGFindFileDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 279,189, 62,22);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 280,190, 60,20);
     assert( itsSearchButton != NULL );
     itsSearchButton->SetShortcuts(JGetString("itsSearchButton::SyGFindFileDialog::shortcuts::JXLayout"));
 
@@ -154,6 +154,7 @@ SyGFindFileDialog::BuildWindow()
         new JXStaticText(JGetString("obj3_JXLayout::SyGFindFileDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 50,20);
     assert( obj3_JXLayout != NULL );
+    obj3_JXLayout->SetToLabel();
 
     itsPathInput =
         new JXPathInput(window,
@@ -185,10 +186,12 @@ SyGFindFileDialog::BuildWindow()
 
 	itsFileInput->ShouldBroadcastAllTextChanged(kJTrue);
 	itsFileInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsFileInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
 	ListenTo(itsFileInput);
 
 	itsExprInput->ShouldBroadcastAllTextChanged(kJTrue);
 	itsExprInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	itsExprInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
 	ListenTo(itsExprInput);
 
 	itsStayOpenCB->SetState(kJTrue);

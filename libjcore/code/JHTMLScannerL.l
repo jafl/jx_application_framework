@@ -35,9 +35,8 @@ following virtual functions:
 
 #define YY_USER_ACTION	UpdatePosition();
 
-#define HANDLE_CHAR(c)				if (!HandleChar(c))          { return 0; }
-#define HANDLE_GREEK_CHAR(c)		if (!HandleGreekChar(c))     { return 0; }
-#define HANDLE_LATIN_CHAR(c,i,s)	if (!HandleLatinChar(c,i,s)) { return 0; }
+#define HANDLE_CHAR(c)			if (!HandleChar(c))      { return 0; }
+#define HANDLE_GREEK_CHAR(c)	if (!HandleGreekChar(c)) { return 0; }
 
 #define TAG_FINISHED \
 	if (!TagFinished()) \
@@ -605,12 +604,12 @@ int;?      HANDLE_GREEK_CHAR('\xF2');	/* integral */
 rceil;?    HANDLE_GREEK_CHAR('\xF9');	/* right ceiling */
 rfloor;?   HANDLE_GREEK_CHAR('\xFB');	/* right floor */
 
-Scaron;?   HANDLE_LATIN_CHAR('\xA9', 2, "S");
-scaron;?   HANDLE_LATIN_CHAR('\xB9', 2, "s");
+	/* Scaron;? */
+	/* scaron;? */
 
-OElig;?    HANDLE_LATIN_CHAR('\xBC', 9, "OE");
-oelig;?    HANDLE_LATIN_CHAR('\xBD', 9, "oe");
-Yuml;?     HANDLE_LATIN_CHAR('\xBE', 9, "Y");
+	/* OElig;? */
+	/* oelig;? */
+	/* Yuml;? */
 
 circ;?     HANDLE_CHAR('\x5E');
 tilde;?    HANDLE_CHAR('\x7E');
@@ -635,8 +634,8 @@ rdquo;?    HANDLE_CHAR('"');
 	/* permil;? */
 lsaquo;?   HANDLE_CHAR('<');	/* ? */
 rsaquo;?   HANDLE_CHAR('>');	/* ? */
-euro;?     HANDLE_LATIN_CHAR('\xA4', 15, "EUR");
 
+	/* euro;? */
 }
 
 

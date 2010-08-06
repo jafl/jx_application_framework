@@ -52,7 +52,7 @@ JXDirectSaveSource::JXDirectSaveSource
 	itsDialog    = dialog;
 	itsNameInput = nameInput;
 
-	JXImage* icon = new JXImage(GetDisplay(), GetColormap(), jx_plain_file_small);
+	JXImage* icon = new JXImage(GetDisplay(), jx_plain_file_small);
 	assert( icon != NULL );
 	icon->ConvertToRemoteStorage();
 	SetImage(icon, kJTrue);

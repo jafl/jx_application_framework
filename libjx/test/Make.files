@@ -14,7 +14,6 @@
 .cpp ./code/TestDirector
 .cpp ./code/TestWidget
 .cpp ./code/ResizeWidgetDialog
-.cpp ./code/AnimateColorTask
 .cpp ./code/AnimateWindowIconTask
 .cpp ./code/AnimateHelpMenuTask
 .cpp ./code/TestImageDirector

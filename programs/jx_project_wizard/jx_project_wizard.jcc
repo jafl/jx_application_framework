@@ -1,4 +1,4 @@
-jx_browser_data 82
+jx_browser_data 83
 # project tree
 0 "root"
 T
@@ -57,9 +57,9 @@ T
 F
 "./strings/jxwizard_strings"
 T
-2 "jxwizard.fd"
+2 "jx_project_wizard.fd"
 F
-"./jxwizard.fd"
+"./jx_project_wizard.fd"
 F
 F
 # tasks

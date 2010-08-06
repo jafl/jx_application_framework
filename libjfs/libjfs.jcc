@@ -1,4 +1,4 @@
-jx_browser_data 82
+jx_browser_data 83
 # project tree
 0 "root"
 T
@@ -83,6 +83,13 @@ T
 2 "JFSRunFileHelpText"
 F
 "./strings/JFSRunFileHelpText"
+F
+T
+1 "layout"
+T
+2 "libjfs.fd"
+F
+"./libjfs.fd"
 F
 F
 # tasks

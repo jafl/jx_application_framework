@@ -28,28 +28,26 @@ JXTextSelection::JXTextSelection
 	(
 	JXDisplay*							display,
 	const JCharacter*					text,
-	const JXColormap*					colormap,
 	const JRunArray<JTextEditor::Font>*	style
 	)
 	:
 	JXSelectionData(display)
 {
 	JXTextSelectionX();
-	SetData(text, colormap, style);
+	SetData(text, display->GetColormap(), style);
 }
 
 JXTextSelection::JXTextSelection
 	(
 	JXDisplay*						display,
 	JString*						text,
-	const JXColormap*				colormap,
 	JRunArray<JTextEditor::Font>*	style
 	)
 	:
 	JXSelectionData(display)
 {
 	JXTextSelectionX();
-	SetData(text, colormap, style);
+	SetData(text, display->GetColormap(), style);
 }
 
 JXTextSelection::JXTextSelection

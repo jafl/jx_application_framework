@@ -105,7 +105,7 @@ SyGViewManPageDialog::BuildWindow()
 
     itsViewButton =
         new JXTextButton(JGetString("itsViewButton::SyGViewManPageDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 279,119, 62,22);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 280,120, 60,20);
     assert( itsViewButton != NULL );
     itsViewButton->SetShortcuts(JGetString("itsViewButton::SyGViewManPageDialog::shortcuts::JXLayout"));
 
@@ -118,11 +118,13 @@ SyGViewManPageDialog::BuildWindow()
         new JXStaticText(JGetString("obj1_JXLayout::SyGViewManPageDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 100,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     JXStaticText* obj2_JXLayout =
         new JXStaticText(JGetString("obj2_JXLayout::SyGViewManPageDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 90,20);
     assert( obj2_JXLayout != NULL );
+    obj2_JXLayout->SetToLabel();
 
     itsAproposCheckbox =
         new JXTextCheckbox(JGetString("itsAproposCheckbox::SyGViewManPageDialog::JXLayout"), window,

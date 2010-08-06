@@ -34,23 +34,15 @@ public:
 	void		SetCellStyle(const JPoint& cell, const JFontStyle& style);
 	void		SetAllCellStyles(const JFontStyle& style);
 
-protected:
-
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
-
 private:
 
 	JString		itsFontName;
 	JSize		itsFontSize;
-	JBoolean	itsProcessMessagesFlag;
 
 	const JFontManager*	itsFontManager;			// not owned
 	JColormap*			itsColormap;			// not owned
 
 private:
-
-	void	UpdateAllColors(const JBoolean allocate);
-	void	UpdateRectColors(const JRect& rect, const JBoolean allocate);
 
 	// not allowed
 

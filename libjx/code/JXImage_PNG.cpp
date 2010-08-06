@@ -23,24 +23,14 @@ JError
 JXImage::CreateFromPNG
 	(
 	JXDisplay*			display,
-	JXColormap*			colormap,
 	const JCharacter*	fileName,
-	JXImage**			image,
-	const JBoolean		allowApproxColors
+	JXImage**			image
 	)
 {
-	*image = new JXImage(display, colormap);
+	*image = new JXImage(display);
 	assert( *image != NULL );
 
-	const JBoolean saveApprox = colormap->WillApproximateColors();
-	const JBoolean savePre    = colormap->WillPreemptivelyApproximateColors();
-	colormap->ShouldApproximateColors(allowApproxColors);
-	colormap->ShouldPreemptivelyApproximateColors(kJTrue);
-
 	const JError err = (**image).ReadPNG(fileName);
-
-	colormap->ShouldApproximateColors(saveApprox);
-	colormap->ShouldPreemptivelyApproximateColors(savePre);
 
 	if (!err.OK())
 		{

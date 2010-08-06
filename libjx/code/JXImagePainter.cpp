@@ -35,7 +35,7 @@ JXImagePainter::JXImagePainter
 	const Region	defaultClipRegion
 	)
 	:
-	JXWindowPainter(new JXGC(image->GetDisplay(), image->GetXColormap(), drawable),
+	JXWindowPainter(new JXGC(image->GetDisplay(), drawable),
 					drawable, defaultClipRect, defaultClipRegion)
 {
 	assert( image != NULL );
@@ -87,7 +87,7 @@ JXImagePainter::String
 	const VAlignment	vAlign
 	)
 {
-	if (PrepareText())
+	if (PrepareXDraw())
 		{
 		JXWindowPainter::String(left, top, str, width, hAlign, height, vAlign);
 		}
@@ -106,7 +106,7 @@ JXImagePainter::String
 	const VAlignment	vAlign
 	)
 {
-	if (PrepareText())
+	if (PrepareXDraw())
 		{
 		JXWindowPainter::String(left, top, str, uIndex, width, hAlign, height, vAlign);
 		}
@@ -125,7 +125,7 @@ JXImagePainter::String
 	const VAlignment	vAlign
 	)
 {
-	if (PrepareText())
+	if (PrepareXDraw())
 		{
 		JXWindowPainter::String(angle, left, top, str, width, hAlign, height, vAlign);
 		}
@@ -143,7 +143,7 @@ JXImagePainter::Point
 	const JCoordinate y
 	)
 {
-	if (PrepareDraw())
+	if (PrepareXDraw())
 		{
 		JXWindowPainter::Point(x,y);
 		}
@@ -163,7 +163,7 @@ JXImagePainter::Line
 	const JCoordinate y2
 	)
 {
-	if (PrepareDraw())
+	if (PrepareXDraw())
 		{
 		JXWindowPainter::Line(x1,y1, x2,y2);
 		}
@@ -183,7 +183,7 @@ JXImagePainter::Rect
 	const JCoordinate h
 	)
 {
-	if (PrepareDraw())
+	if (PrepareXDraw())
 		{
 		JXWindowPainter::Rect(x,y,w,h);
 		}
@@ -205,7 +205,7 @@ JXImagePainter::Ellipse
 	const JCoordinate h
 	)
 {
-	if (PrepareDraw())
+	if (PrepareXDraw())
 		{
 		JXWindowPainter::Ellipse(x,y,w,h);
 		}
@@ -227,7 +227,7 @@ JXImagePainter::Arc
 	const JFloat		deltaAngle
 	)
 {
-	if (PrepareDraw())
+	if (PrepareXDraw())
 		{
 		JXWindowPainter::Arc(x,y,w,h, startAngle, deltaAngle);
 		}
@@ -246,7 +246,7 @@ JXImagePainter::Polygon
 	const JPolygon&		poly
 	)
 {
-	if (PrepareDraw())
+	if (PrepareXDraw())
 		{
 		JXWindowPainter::Polygon(left, top, poly);
 		}
@@ -268,70 +268,9 @@ JXImagePainter::Image
 	const JXImage* ximage = dynamic_cast(const JXImage*, &image);
 	assert( ximage != NULL );
 
-	if (PrepareImage(*ximage))
+	if (PrepareXDraw())
 		{
 		JXWindowPainter::Image(image, srcRect, destRect);
-		}
-}
-
-/******************************************************************************
- PrepareText (private)
-
- ******************************************************************************/
-
-JBoolean
-JXImagePainter::PrepareText()
-{
-	if (PrepareXDraw())
-		{
-		const JFontStyle& style = GetFontStyle();
-		itsImage->RegisterColor(style.color);
-		return kJTrue;
-		}
-	else
-		{
-		return kJFalse;
-		}
-}
-
-/******************************************************************************
- PrepareDraw (private)
-
- ******************************************************************************/
-
-JBoolean
-JXImagePainter::PrepareDraw()
-{
-	if (PrepareXDraw())
-		{
-		itsImage->RegisterColor(GetPenColor());
-		return kJTrue;
-		}
-	else
-		{
-		return kJFalse;
-		}
-}
-
-/******************************************************************************
- PrepareImage (private)
-
- ******************************************************************************/
-
-JBoolean
-JXImagePainter::PrepareImage
-	(
-	const JXImage& image
-	)
-{
-	if (PrepareXDraw())
-		{
-		itsImage->RegisterColors(*(image.itsColorList));
-		return kJTrue;
-		}
-	else
-		{
-		return kJFalse;
 		}
 }
 

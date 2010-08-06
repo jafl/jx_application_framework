@@ -12,7 +12,7 @@
 #include <JXWindow.h>
 #include <JXStaticText.h>
 #include <JXTextButton.h>
-#include <JXInputField.h>
+#include <JXPasswordInput.h>
 #include <jXGlobals.h>
 #include <jAssert.h>
 
@@ -27,12 +27,13 @@ JXGetStringDialog::JXGetStringDialog
 	const JCharacter*	windowTitle,
 	const JCharacter*	prompt,
 	const JCharacter*	initialValue,
-	const JBoolean		modal
+	const JBoolean		modal,
+	const JBoolean		password
 	)
 	:
 	JXDialogDirector(supervisor, modal)
 {
-	BuildWindow(windowTitle, prompt, initialValue);
+	BuildWindow(windowTitle, prompt, initialValue, password);
 }
 
 /******************************************************************************
@@ -64,9 +65,10 @@ JXGetStringDialog::GetString()
 void
 JXGetStringDialog::BuildWindow
 	(
-	const JCharacter* windowTitle,
-	const JCharacter* prompt,
-	const JCharacter* initialValue
+	const JCharacter*	windowTitle,
+	const JCharacter*	prompt,
+	const JCharacter*	initialValue,
+	const JBoolean		password
 	)
 {
 // begin JXLayout
@@ -77,7 +79,7 @@ JXGetStringDialog::BuildWindow
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::JXGetStringDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 189,79, 62,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 190,80, 60,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::JXGetStringDialog::shortcuts::JXLayout"));
 
@@ -96,6 +98,7 @@ JXGetStringDialog::BuildWindow
         new JXStaticText(JGetString("promptDisplay::JXGetStringDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 270,20);
     assert( promptDisplay != NULL );
+    promptDisplay->SetToLabel();
 
 // end JXLayout
 
@@ -104,6 +107,19 @@ JXGetStringDialog::BuildWindow
 
 	promptDisplay->SetText(prompt);
 
-	itsInputField->SetText(initialValue);
+	if (password)
+		{
+		const JRect r = itsInputField->GetFrame();
+		delete itsInputField;
+		itsInputField =
+			new JXPasswordInput(window,
+				JXWidget::kHElastic, JXWidget::kFixedTop,
+				r.left, r.top, r.width(), r.height());
+		assert( itsInputField != NULL );
+		}
+	else if (!JStringEmpty(initialValue))
+		{
+		itsInputField->SetText(initialValue);
+		}
 	itsInputField->SetIsRequired();
 }

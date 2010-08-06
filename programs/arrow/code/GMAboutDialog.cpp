@@ -83,7 +83,7 @@ GMAboutDialog::BuildWindow
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::GMAboutDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 339,209, 62,22);
+                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 340,210, 60,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::GMAboutDialog::shortcuts::JXLayout"));
 
@@ -119,7 +119,7 @@ GMAboutDialog::BuildWindow
 	assert( itsAnimTask != NULL );
 	(JXGetApplication())->InstallIdleTask(itsAnimTask);
 
-	JXImage* image = new JXImage(GetDisplay(), GetColormap(), JXPM(new_planet_software));
+	JXImage* image = new JXImage(GetDisplay(), new_planet_software);
 	assert( image != NULL );
 	npsIcon->SetImage(image, kJTrue);
 

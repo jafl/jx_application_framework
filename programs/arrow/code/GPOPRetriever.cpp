@@ -26,7 +26,7 @@
 
 #include <GMGlobals.h>
 
-#include <JXGetPasswordDialog.h>
+#include <JXGetStringDialog.h>
 #include <JXTimerTask.h>
 
 #include <JLatentPG.h>
@@ -213,7 +213,7 @@ GPOPRetriever::Receive
 		assert(info != NULL);
 		if (info->Successful())
 			{
-			itsPasswd = itsDialog->GetPassword();
+			itsPasswd = itsDialog->GetString();
 			if (!itsPasswd.IsEmpty())
 				{
 				if (itsAccount->IsSavingPass())
@@ -335,8 +335,10 @@ GPOPRetriever::CheckMail()
 			"account", itsAccount->GetNickname()
 			};
 		const JString msg = JGetString("PasswordPrompt::GPOPRetreiver", map, sizeof(map));
-		
-		itsDialog = new JXGetPasswordDialog(JXGetApplication(), msg);
+
+		itsDialog =
+			new JXGetStringDialog(JXGetApplication(), JGetString("GMGetPasswordTitle"),
+								  msg, NULL, kJTrue, kJTrue);
 		assert(itsDialog != NULL);
 		ListenTo(itsDialog);
 		itsDialog->BeginDialog();
@@ -350,9 +352,9 @@ GPOPRetriever::CheckMail()
 /******************************************************************************
  ConnectToServer
 
- If the necessary settings are available in the preferences (ie. pop server
- and user name), a connection is made here to the pop socket (110) of the
- pop server.
+	If the necessary settings are available in the preferences (ie. pop
+	server and user name), a connection is made here to the pop socket
+	(110) of the pop server.
 
  *****************************************************************************/
 
@@ -451,7 +453,8 @@ GPOPRetriever::ReadReturnValue()
 					};
 				const JString msg = JGetString("PasswordPrompt::GPOPRetreiver", map, sizeof(map));
 
-				itsDialog = new JXGetPasswordDialog(JXGetApplication(), msg);
+				itsDialog = new JXGetStringDialog(JXGetApplication(), JGetString("GMGetPasswordTitle"),
+												  msg, NULL, kJTrue, kJTrue);
 				assert(itsDialog != NULL);
 				ListenTo(itsDialog);
 				itsDialog->BeginDialog();

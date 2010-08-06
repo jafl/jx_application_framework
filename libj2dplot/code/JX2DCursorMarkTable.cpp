@@ -53,8 +53,8 @@ JX2DCursorMarkTable::JX2DCursorMarkTable
 	itsPrintingFlag = kJFalse;
 
 	AppendCols(2, kDefColWidth);
-	SetColBorderInfo(1, GetColormap()->GetGray80Color());
-	SetRowBorderInfo(1, GetColormap()->GetGray80Color());
+	SetColBorderInfo(1, GetColormap()->GetGrayColor(80));
+	SetRowBorderInfo(1, GetColormap()->GetGrayColor(80));
 
 	const JFontManager* fm = GetFontManager();
 	const JSize lineHeight = fm->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle());

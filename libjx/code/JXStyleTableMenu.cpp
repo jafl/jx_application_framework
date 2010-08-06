@@ -32,7 +32,7 @@ JXStyleTableMenu::JXStyleTableMenu
 	const JCoordinate	h
 	)
 	:
-	JXStyleMenu(kJFalse, enclosure, hSizing, vSizing, x,y, w,h)
+	JXStyleMenu(enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsTable = table;
 }
@@ -45,7 +45,7 @@ JXStyleTableMenu::JXStyleTableMenu
 	JXContainer*	enclosure
 	)
 	:
-	JXStyleMenu(kJFalse, owner, itemIndex, enclosure)
+	JXStyleMenu(owner, itemIndex, enclosure)
 {
 	itsTable = table;
 }

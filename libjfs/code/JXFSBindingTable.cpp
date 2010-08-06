@@ -27,8 +27,6 @@
 const JCoordinate kHMarginWidth = 3;
 const JCoordinate kVMarginWidth = 1;
 
-static const JCharacter* kDefaultFontName = "6x13";
-
 enum
 {
 	kPatternColumn = 1,
@@ -39,7 +37,7 @@ enum
 
 const JCoordinate kInitColWidth[] =
 {
-	80, 100, 50, 80
+	80, 100, 50, 100
 };
 
 static const JCharacter* kColTitle[] =
@@ -121,8 +119,8 @@ JXFSBindingTable::JXFSBindingTable
 	// row height
 
 	const JSize rowHeight = 2*kVMarginWidth + JMax(
-		(GetFontManager())->GetLineHeight(JGetDefaultFontName(), kJXDefaultFontSize, JFontStyle()),
-		(GetFontManager())->GetLineHeight(kDefaultFontName, 0, JFontStyle()));
+		(GetFontManager())->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle()),
+		(GetFontManager())->GetLineHeight(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle()));
 	SetDefaultRowHeight(rowHeight);
 
 	// buttons
@@ -198,23 +196,23 @@ JXFSBindingTable::TableDrawCell
 
 	if (cell.x == kPatternColumn)
 		{
-		p.SetFontName(kDefaultFontName);
+		p.SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
 
 		JRect r = rect;
 		r.left += kHMarginWidth;
 		p.String(r, b->GetPattern(), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 
-		p.SetFontName(JGetDefaultFontName());
+		p.SetFont(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle());
 		}
 	else if (cell.x == kCommandColumn)
 		{
-		p.SetFontName(kDefaultFontName);
+		p.SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
 
 		JRect r = rect;
 		r.left += kHMarginWidth;
 		p.String(r, cmd, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 
-		p.SetFontName(JGetDefaultFontName());
+		p.SetFont(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle());
 		}
 	else if (cell.x == kTypeColumn)
 		{
@@ -363,7 +361,7 @@ JXFSBindingTable::CreateXInputField
 		itsTextInput->SetText(cmd);
 		}
 
-	itsTextInput->SetFontName(kDefaultFontName);
+	itsTextInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
 	itsTextInput->SetIsRequired();
 	ListenTo(itsTextInput);
 	return itsTextInput;

@@ -103,8 +103,6 @@ const JCharacter* JXWindow::kTitleChanged   = "TitleChanged::JXWindow";
 /******************************************************************************
  Constructor
 
-	colormap can be NULL.
-
  ******************************************************************************/
 
 JXWindow::JXWindow
@@ -113,8 +111,6 @@ JXWindow::JXWindow
 	const JCoordinate	w,
 	const JCoordinate	h,
 	const JCharacter*	title,
-	const JBoolean		ownsColormap,
-	JXColormap*			colormap,
 	const JBoolean		isOverlay
 	)
 	:
@@ -172,25 +168,10 @@ JXWindow::JXWindow
 	itsPrevMouseContainer = NULL;
 	itsClickCount         = 1;
 
-	// get display for this window
+	// get display/colormap for this window
 
-	itsDisplay = (JXGetApplication())->GetCurrentDisplay();
-
-	// get colormap for this window
-
-	if (colormap != NULL)
-		{
-		assert( itsDisplay == colormap->GetDisplay() );
-
-		itsColormap         = colormap;
-		itsOwnsColormapFlag = ownsColormap;
-		}
-	else
-		{
-		itsColormap         = itsDisplay->GetColormap();
-		itsOwnsColormapFlag = kJFalse;
-		}
-
+	itsDisplay   = (JXGetApplication())->GetCurrentDisplay();
+	itsColormap  = itsDisplay->GetColormap();
 	itsBackColor = itsColormap->GetDefaultBackColor();
 
 	// create window
@@ -200,8 +181,8 @@ JXWindow::JXWindow
 		CWSaveUnder | CWOverrideRedirect | CWEventMask;
 
 	XSetWindowAttributes attr;
-	attr.background_pixel  = itsColormap->GetXPixel(itsBackColor);
-	attr.border_pixel      = itsColormap->GetXPixel(itsColormap->GetBlackColor());
+	attr.background_pixel  = itsBackColor;
+	attr.border_pixel      = itsColormap->GetBlackColor();
 	attr.colormap          = *itsColormap;
 	attr.cursor            = itsDisplay->GetXCursorID(itsCursorIndex);
 	attr.save_under        = itsIsOverlayFlag;
@@ -266,7 +247,7 @@ JXWindow::JXWindow
 
 	// create GC to use when drawing
 
-	itsGC = new JXGC(itsDisplay, itsColormap, itsXWindow);
+	itsGC = new JXGC(itsDisplay, itsXWindow);
 	assert( itsGC != NULL );
 
 	// init wm offset
@@ -344,11 +325,6 @@ JXWindow::~JXWindow()
 	if (itsBufferPixmap != None)
 		{
 		XFreePixmap(*itsDisplay, itsBufferPixmap);
-		}
-
-	if (itsOwnsColormapFlag)
-		{
-		delete itsColormap;
 		}
 
 	delete itsGC;
@@ -1205,8 +1181,7 @@ JXWindow::FinishUpdate
 		}
 	else if (itsUseBkgdPixmapFlag)
 		{
-		XSetWindowBackground(*itsDisplay, itsXWindow,
-							 itsColormap->GetXPixel(itsBackColor));
+		XSetWindowBackground(*itsDisplay, itsXWindow, itsBackColor);
 		}
 	else if (itsBufferPixmap != None)
 		{
@@ -2080,7 +2055,7 @@ JXWindow::SetBackColor
 	itsBackColor = color;
 	if (!itsUseBkgdPixmapFlag)
 		{
-		XSetWindowBackground(*itsDisplay, itsXWindow, itsColormap->GetXPixel(color));
+		XSetWindowBackground(*itsDisplay, itsXWindow, color);
 		}
 }
 

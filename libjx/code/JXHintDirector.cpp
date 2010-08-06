@@ -40,7 +40,7 @@ JXHintDirector::JXHintDirector
 	JXWindowDirector(supervisor)
 {
 	const JRect frameR = (widget->GetWindow())->GlobalToRoot(widget->GetFrameGlobal());
-	BuildWindow(widget->GetColormap(), frameR, text);
+	BuildWindow(frameR, text);
 }
 
 JXHintDirector::JXHintDirector
@@ -55,7 +55,7 @@ JXHintDirector::JXHintDirector
 {
 	const JRect frameR =
 		(widget->GetWindow())->GlobalToRoot(widget->JXContainer::LocalToGlobal(rect));
-	BuildWindow(widget->GetColormap(), frameR, text);
+	BuildWindow(frameR, text);
 }
 
 /******************************************************************************
@@ -75,14 +75,13 @@ JXHintDirector::~JXHintDirector()
 void
 JXHintDirector::BuildWindow
 	(
-	JXColormap*			colormap,
 	const JRect&		frameR,
 	const JCharacter*	text
 	)
 {
 	// create window and contents
 
-	JXWindow* window = new JXWindow(this, 10,10, "", kJFalse, colormap, kJTrue);
+	JXWindow* window = new JXWindow(this, 10,10, "", kJTrue);
     assert( window != NULL );
     SetWindow(window);
     window->SetWMWindowType(JXWindow::kWMTooltipType);
@@ -140,11 +139,7 @@ JXHintDirector::BuildWindow
 
 	// use standard background color
 
-	JColorIndex backColorIndex;
-	if (!colormap->JColormap::AllocateStaticColor(kBackColor, &backColorIndex))
-		{
-		backColorIndex = colormap->GetGray90Color();
-		}
+	JColorIndex backColorIndex = (GetColormap())->JColormap::GetColor(kBackColor);
 	window->SetBackColor(backColorIndex);
 	border->SetBackColor(backColorIndex);
 	textWidget->SetBackgroundColor(backColorIndex);

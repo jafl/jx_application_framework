@@ -89,9 +89,6 @@ Usage:  <options>
               (for bragging about optimized redrawing code)
 -imagebuffer  buffer drawing in main window by using JXImage
               (bad idea in general because it hogs memory)
--staticcolor  don't switch colormaps if default is TrueColor
--nodyncolor   don't allocate any dynamic colors
--preappcolor  use preemptive color approximation
 -snoopwindow  print message whenever main window is (de)iconified
 
 -MDI          activate Multiple Document Interface

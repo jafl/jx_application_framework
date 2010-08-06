@@ -15,7 +15,7 @@
 #include <JOrderedSet.h>
 #include <jMath.h>
 
-struct JHSV;
+struct JHSB;
 
 	// index into JColormap
 
@@ -42,7 +42,7 @@ struct JRGB
 		red(r), green(g), blue(b)
 	{ };
 
-	JRGB(const JHSV& color);
+	JRGB(const JHSB& color);
 
 	void
 	Set(const JSize r, const JSize g, const JSize b)
@@ -140,61 +140,61 @@ operator/
 	return JRGB(JRound(c.red / v), JRound(c.green / v), JRound(c.blue / v));
 }
 
-	// color specified via hue,saturation,value
+	// color specified via hue,saturation,brightness
 
-const JSize  kJMaxHSVValue  = 65535;
-const JFloat kJMaxHSVValueF = 65535.0;
+const JSize  kJMaxHSBValue  = 65535;
+const JFloat kJMaxHSBValueF = 65535.0;
 
-struct JHSV
+struct JHSB
 {
 	JSize	hue;
 	JSize	saturation;
-	JSize	value;
+	JSize	brightness;
 
-	JHSV()
+	JHSB()
 		:
-		hue(0), saturation(0), value(0)
+		hue(0), saturation(0), brightness(0)
 	{ };
 
-	JHSV(const JSize h, const JSize s, const JSize v)
+	JHSB(const JSize h, const JSize s, const JSize b)
 		:
-		hue(h), saturation(s), value(v)
+		hue(h), saturation(s), brightness(b)
 	{ };
 
-	JHSV(const JRGB& color);
+	JHSB(const JRGB& color);
 
 	void
-	Set(const JSize h, const JSize s, const JSize v)
+	Set(const JSize h, const JSize s, const JSize b)
 	{
 		hue        = h;
 		saturation = s;
-		value      = v;
+		brightness = b;
 	};
 };
 
-istream& operator>>(istream& input, JHSV& color);
-ostream& operator<<(ostream& output, const JHSV& color);
+istream& operator>>(istream& input, JHSB& color);
+ostream& operator<<(ostream& output, const JHSB& color);
 
-JOrderedSetT::CompareResult JCompareHSVValues(const JHSV& c1, const JHSV& c2);
+JOrderedSetT::CompareResult JCompareHSBValues(const JHSB& c1, const JHSB& c2);
 
 inline int
 operator==
 	(
-	const JHSV& c1,
-	const JHSV& c2
+	const JHSB& c1,
+	const JHSB& c2
 	)
 {
-	return (c1.hue == c2.hue && c1.saturation == c2.saturation && c1.value == c2.value);
+	return (c1.hue == c2.hue && c1.saturation == c2.saturation && c1.brightness == c2.brightness);
 }
 
 inline int
 operator!=
 	(
-	const JHSV& c1,
-	const JHSV& c2
+	const JHSB& c1,
+	const JHSB& c2
 	)
 {
-	return (c1.hue != c2.hue || c1.saturation != c2.saturation || c1.value != c2.value);
+	return (c1.hue != c2.hue || c1.saturation != c2.saturation || c1.brightness != c2.brightness);
 }
 
 	// information about an animated color

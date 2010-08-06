@@ -72,7 +72,7 @@ JXSearchTextButton::Draw
 	r.right  = r.left + 2*kArrowHalfWidth;
 
 	const JColorIndex colorIndex =
-		IsActive() ? (p.GetColormap())->GetGray40Color() :
+		IsActive() ? (p.GetColormap())->GetGrayColor(40) :
 					 (p.GetColormap())->GetInactiveLabelColor();
 	if (itsFwdFlag)
 		{

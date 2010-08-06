@@ -17,6 +17,7 @@
 #include <JPainter.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <X11/Xft/Xft.h>
 
 class JXDisplay;
 class JXGC;
@@ -91,12 +92,13 @@ public:
 
 	// use with extreme caution
 
+	Drawable	GetDrawable() const;
+	XftDraw*	GetFontDrawable() const;
+
 	JBoolean	GetDefaultClipRegion(Region* region) const;
 	void		SetDefaultClipRegion(const Region region);
 
 protected:
-
-	Drawable	GetDrawable() const;
 
 	void	SetDrawable(Drawable d);
 
@@ -107,7 +109,8 @@ private:
 	JXGC*		itsGC;				// we don't own this
 	Region		itsDefClipRegion;	// can be NULL
 	Region		itsClipRegion;		// can be NULL
-	JXGC*		itsRotTextGC;
+	XftDraw*	itsFontDrawable;	// NULL until first needed
+	Region		itsFontClipRegion;
 	JBoolean	itsResetShouldClearClipRegionFlag;
 
 private:
@@ -162,7 +165,7 @@ JXWindowPainter::GetDisplay()
 }
 
 inline Drawable
-JXWindowPainter::GetDrawable()	// protected
+JXWindowPainter::GetDrawable()
 	const
 {
 	return itsDrawable;

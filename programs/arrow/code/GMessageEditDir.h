@@ -14,8 +14,7 @@
 
 #include <GMAccount.h>
 #include <GMessageHeader.h>
-#include <JPtrArray.h>
-#include <JString.h>
+#include <JPtrArray-JString.h>
 
 class JXTextMenu;
 class JXStaticText;
@@ -23,7 +22,7 @@ class JXInputField;
 class GMessageEditor;
 class JXScrollbarSet;
 class JXTextButton;
-class JXGetPasswordDialog;
+class JXGetStringDialog;
 class SMTPMessage;
 class JXToolBar;
 class JXImage;
@@ -99,9 +98,9 @@ private:
 
 	JXTextButton*	itsSendButton;
 
-	JXGetPasswordDialog*	itsPasswdDialog;
-	SMTPMessage*			itsMessage;
-	JString					itsFileName;
+	JXGetStringDialog*	itsPasswdDialog;
+	SMTPMessage*		itsMessage;
+	JString				itsFileName;
 
 	JBoolean		itsShowReplyString;
 

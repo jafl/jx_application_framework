@@ -72,11 +72,11 @@ TestImageDirector::TestImageDirector
 
 	JXDisplay* display = GetDisplay();
 
-	itsPSPrinter = new JXPSPrinter(display, (GetWindow())->GetColormap());
+	itsPSPrinter = new JXPSPrinter(display);
 	assert( itsPSPrinter != NULL );
 	ListenTo(itsPSPrinter);
 
-	itsEPSPrinter = new JXEPSPrinter(display, (GetWindow())->GetColormap());
+	itsEPSPrinter = new JXEPSPrinter(display);
 	assert( itsEPSPrinter != NULL );
 	ListenTo(itsEPSPrinter);
 }
@@ -310,13 +310,11 @@ TestImageDirector::LoadImage()
 		if (JImage::GetFileType(itsFileName) == JImage::kXBMType)
 			{
 			JXImageMask* mask;
-			err = JXImageMask::CreateFromXBM(display, cmap,
-											 itsFileName, &mask);
+			err = JXImageMask::CreateFromXBM(display, itsFileName, &mask);
 
 			if (err.OK())
 				{
-				image = new JXImage(display, cmap,
-									mask->GetWidth(), mask->GetHeight(),
+				image = new JXImage(display, mask->GetWidth(), mask->GetHeight(),
 									cmap->GetRedColor());
 				assert( image != NULL );
 				image->SetMask(mask);
@@ -324,8 +322,7 @@ TestImageDirector::LoadImage()
 			}
 		else
 			{
-			err = JXImage::CreateFromFile(display, cmap,
-										  itsFileName, &image);
+			err = JXImage::CreateFromFile(display, itsFileName, &image);
 			}
 
 		if (err.OK())

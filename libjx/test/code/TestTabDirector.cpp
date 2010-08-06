@@ -15,6 +15,7 @@
 #include <JXIntegerInput.h>
 #include <JXFontNameMenu.h>
 #include <JXFontSizeMenu.h>
+#include <JXChooseMonoFont.h>
 #include <JXRadioGroup.h>
 #include <JXTextRadioButton.h>
 #include <jXGlobals.h>
@@ -129,14 +130,29 @@ TestTabDirector::BuildWindow()
 	assert( itsAddTabButton != NULL );
 	ListenTo(itsAddTabButton);
 
-	// card 3
 
 	JXIntegerInput* input =
-		new JXIntegerInput(card3, JXWidget::kHElastic, JXWidget::kFixedTop,
-						   20, 20, 250, 20);
+		new JXIntegerInput(card2, JXWidget::kHElastic, JXWidget::kFixedTop,
+						   20, 60, 250, 20);
 	assert( input != NULL );
 	input->SetLimits(-10, 10);
 	input->SetValue(0);
+
+	// card 3
+
+	itsMonoFontSample =
+		new JXInputField(card3, JXWidget::kHElastic, JXWidget::kFixedTop,
+						 20, 20, 250, 20);
+	assert( itsMonoFontSample != NULL );
+	itsMonoFontSample->SetText("I code, therefore I am. ©Åå");
+
+	itsMonoFont =
+		new JXChooseMonoFont(card3, JXWidget::kHElastic, JXWidget::kFixedTop,
+							 20, 50, 300, 100);
+	assert( itsMonoFont != NULL );
+	ListenTo(itsMonoFont);
+
+	UpdateFontSample();
 }
 
 /******************************************************************************
@@ -191,8 +207,27 @@ TestTabDirector::Receive
 		itsTabGroup->SetTabEdge((JXTabGroup::Edge) itsEdgeRG->GetSelectedItem());
 		}
 
+	else if (sender == itsMonoFont && message.Is(JXChooseMonoFont::kFontChanged))
+		{
+		UpdateFontSample();
+		}
+
 	else
 		{
 		JXWindowDirector::Receive(sender, message);
 		}
+}
+
+/******************************************************************************
+ UpdateFontSample (private)
+
+ ******************************************************************************/
+
+void
+TestTabDirector::UpdateFontSample()
+{
+	JString name;
+	JSize size;
+	itsMonoFont->GetFont(&name, &size);
+	itsMonoFontSample->SetFont(name, size);
 }

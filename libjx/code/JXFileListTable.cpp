@@ -89,7 +89,7 @@ JXFileListTable::JXFileListTable
 	assert( itsVisibleList != NULL );
 	itsVisibleList->SetSortOrder(JOrderedSetT::kSortAscending);
 
-	itsFileIcon = new JXImage(GetDisplay(), GetColormap(), jx_plain_file_small);
+	itsFileIcon = new JXImage(GetDisplay(), jx_plain_file_small);
 	assert( itsFileIcon != NULL );
 	itsFileIcon->ConvertToRemoteStorage();
 
@@ -99,7 +99,7 @@ JXFileListTable::JXFileListTable
 
 	AppendCols(1);
 	SetDefaultRowHeight((GetFontManager())->
-							GetLineHeight(JGetDefaultFontName(), kJXDefaultFontSize, JFontStyle()) +
+							GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle()) +
 						2*kVMarginWidth);
 
 	SetSelectionBehavior(kJTrue, kJTrue);
@@ -453,7 +453,7 @@ JXFileListTable::FilterFile
 			const JCharacter* drawStr =
 				(itsFileList->NthElement(info.fileIndex))->GetCString() + info.drawIndex-1;
 			const JSize w = (GetFontManager())->GetStringWidth(
-				JGetDefaultFontName(), kJXDefaultFontSize, JFontStyle(), drawStr);
+				JGetDefaultFontName(), kJDefaultFontSize, JFontStyle(), drawStr);
 			if (w > itsMaxStringWidth)
 				{
 				itsMaxStringWidth = w;
@@ -844,7 +844,7 @@ JXFileListTable::TableDrawCell
 
 	if (IsInactive(*name))
 		{
-		p.SetFontStyle((p.GetColormap())->GetGray50Color());
+		p.SetFontStyle((p.GetColormap())->GetGrayColor(50));
 		}
 
 	r = rect;

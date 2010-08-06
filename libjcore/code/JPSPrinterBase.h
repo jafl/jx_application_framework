@@ -162,6 +162,10 @@ private:
 	void	PSSetLineWidth(const JSize width);
 	void	PSSetLineDashes(const JBoolean drawDashedLines);
 
+	void	AdjustFontName(JString* name, const JFontStyle& style);
+	void	ApplyStyles(JString* name, const JFontStyle& style,
+						const JCharacter* defaultStr, const JCharacter* italicStr);
+
 	// not allowed
 
 	JPSPrinterBase(const JPSPrinterBase& source);

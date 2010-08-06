@@ -233,11 +233,6 @@ JImage::ReadGD
 
 	if (gdImageTrueColor(image))
 		{
-		if (!itsColormap->AllColorsPreallocated())
-			{
-			return TooManyColors();
-			}
-
 		PrepareForImageData();
 
 		for (JCoordinate x=0; x<itsWidth; x++)
@@ -245,11 +240,10 @@ JImage::ReadGD
 			for (JCoordinate y=0; y<itsHeight; y++)
 				{
 				const int c = gdImageGetPixel(image, x,y);
-				JColorIndex color;
-				itsColormap->AllocateStaticColor(gdImageRed  (image, c) * kGDColorScale,
-												 gdImageGreen(image, c) * kGDColorScale,
-												 gdImageBlue (image, c) * kGDColorScale,
-												 &color);
+				JColorIndex color =
+					itsColormap->GetColor(gdImageRed  (image, c) * kGDColorScale,
+										  gdImageGreen(image, c) * kGDColorScale,
+										  gdImageBlue (image, c) * kGDColorScale);
 				SetColor(x,y, color);
 				}
 			}
@@ -276,8 +270,6 @@ JImage::ReadGD
 
 		// build color table
 
-		itsColormap->PrepareForMassColorAllocation();
-
 		const JSize colorCount = gdImageColorsTotal(image);
 
 		JColorIndex* colorTable = new JColorIndex [ colorCount ];
@@ -287,18 +279,14 @@ JImage::ReadGD
 
 		for (JIndex i=0; i<colorCount; i++)
 			{
-			if (!(hasMask && i == (JIndex) maskColor) &&
-				!itsColormap->AllocateStaticColor(gdImageRed  (image, i) * kGDColorScale,
-												  gdImageGreen(image, i) * kGDColorScale,
-												  gdImageBlue (image, i) * kGDColorScale,
-												  &colorTable[i]))
+			if (!hasMask || i != (JIndex) maskColor)
 				{
-				itsColormap->MassColorAllocationFinished();
-				return TooManyColors();
+				colorTable[i] =
+					itsColormap->GetColor(gdImageRed  (image, i) * kGDColorScale,
+										  gdImageGreen(image, i) * kGDColorScale,
+										  gdImageBlue (image, i) * kGDColorScale);
 				}
 			}
-
-		itsColormap->MassColorAllocationFinished();
 
 		// convert image data
 
@@ -530,8 +518,6 @@ JIndex i;
 
 	// decode color table
 
-	itsColormap->PrepareForMassColorAllocation();
-
 	const JColorIndex blackColor = itsColormap->GetBlackColor();
 
 	JBoolean hasMask        = kJFalse;
@@ -557,13 +543,11 @@ JIndex i;
 			maskColor       = i-1;
 			colorTable[i-1] = blackColor;
 			}
-		else if (!itsColormap->AllocateStaticNamedColor(colorName, &colorTable[i-1]))
+		else if (!itsColormap->GetColor(colorName, &colorTable[i-1]))
 			{
 			colorTable[i-1] = blackColor;
 			}
 		}
-
-	itsColormap->MassColorAllocationFinished();
 
 	// allocate space for image data
 

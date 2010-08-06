@@ -241,17 +241,17 @@ GMessageTable::GMessageTable
 	JCoordinate ascent, descent;
 	itsLineHeight =
 		(GetFontManager())->GetLineHeight(JGetDefaultFontName(),
-		12, JFontStyle(), &ascent, &descent) + 5;
+		kJDefaultFontSize, JFontStyle(), &ascent, &descent) + 5;
 
-	itsMailIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(envelope_front));
+	itsMailIcon = new JXImage(GetDisplay(), envelope_front);
 	assert( itsMailIcon != NULL );
 	itsMailIcon->ConvertToRemoteStorage();
 
-	itsCheckIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(check1_xpm));
+	itsCheckIcon = new JXImage(GetDisplay(), check1_xpm);
 	assert( itsCheckIcon != NULL );
 	itsCheckIcon->ConvertToRemoteStorage();
 
-	itsClipIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(paperclip));
+	itsClipIcon = new JXImage(GetDisplay(), paperclip);
 	assert( itsClipIcon != NULL );
 	itsClipIcon->ConvertToRemoteStorage();
 
@@ -276,23 +276,23 @@ GMessageTable::GMessageTable
 	itsPopupMenu->SetItemImage(kSaveMsgPopCmd, filefloppy);
 	itsPopupMenu->SetItemImage(kPrintMsgPopCmd, fileprint);
 
-	itsReplyIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(reply_xpm));
+	itsReplyIcon = new JXImage(GetDisplay(), reply_xpm);
 	assert( itsReplyIcon != NULL );
 	itsReplyIcon->ConvertToRemoteStorage();
 
-	itsReplySenderIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(reply_sender_xpm));
+	itsReplySenderIcon = new JXImage(GetDisplay(), reply_sender_xpm);
 	assert( itsReplySenderIcon != NULL );
 	itsReplySenderIcon->ConvertToRemoteStorage();
 
-	itsReplyAllIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(reply_all_xpm));
+	itsReplyAllIcon = new JXImage(GetDisplay(), reply_all_xpm);
 	assert( itsReplyAllIcon != NULL );
 	itsReplyAllIcon->ConvertToRemoteStorage();
 
-	itsForwardIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(forward_xpm));
+	itsForwardIcon = new JXImage(GetDisplay(), forward_xpm);
 	assert( itsForwardIcon != NULL );
 	itsForwardIcon->ConvertToRemoteStorage();
 
-	itsRedirectIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(redirect_xpm));
+	itsRedirectIcon = new JXImage(GetDisplay(), redirect_xpm);
 	assert( itsRedirectIcon != NULL );
 	itsRedirectIcon->ConvertToRemoteStorage();
 
@@ -795,7 +795,7 @@ GMessageTable::TableDrawCell
 	JColorIndex cindex = JGetCurrColormap()->GetBlackColor();
 	if (header->GetTo().IsEmpty())
 		{
-		cindex = JGetCurrColormap()->GetGray50Color();
+		cindex = JGetCurrColormap()->GetGrayColor(50);
 		}
 	p.SetFontStyle(JFontStyle(isNew, kJFalse, 0, kJFalse, cindex));
 	if (cell.x > (JCoordinate)kIconIndex)

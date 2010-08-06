@@ -72,7 +72,8 @@ J_RAW_SYSTEM_STUFF := \
   -DSIZEOF_LONGLONG=8 -DULLONG_MAX=0xffffffffffffffffULL \
   -DLLONG_MIN=\(-0x7fffffffffffffffLL-1\) -DLLONG_MAX=0x7fffffffffffffffLL \
   -D_J_HAS_PROC \
-  -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED
+  -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED \
+  -D_XFT_NO_COMPAT_ -I/usr/include/freetype2
 
 #
 # Nothing below this line should ever need to be changed.
@@ -94,7 +95,7 @@ CXXFLAGS  = ${J_MAKE_NEEDS_OUTPUT_ARG}
 
 J_GCC_LIBS  := -lstdc++ -lm -lc -ldl
 J_ACE_LIBS  := -L${JX_ROOT}/lib -lACE-${ACE_LIB_VERSION}
-J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} ${J_XINERAMA_LIBS} -lXext -lXpm -lX11
+J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} ${J_XINERAMA_LIBS} -lXext -lXft -lXpm -lX11
 J_MESA_LIBS := -L${JX_ROOT}/lib -lglut -lGLU -lGL -lpthread
 
 # gzipped libraries to include in RPM

@@ -44,14 +44,8 @@ JXProgressIndicator::JXProgressIndicator
 
 	JXColormap* colormap = GetColormap();
 
-	if (!colormap->JColormap::AllocateStaticColor(foreColor, &itsForeColor))
-		{
-		itsForeColor = colormap->GetBlueColor();
-		}
-	if (!colormap->JColormap::AllocateStaticColor(backColor, &itsBackColor))
-		{
-		itsBackColor = colormap->GetDefaultSliderBackColor();
-		}
+	itsForeColor = colormap->JColormap::GetColor(foreColor);
+	itsBackColor = colormap->JColormap::GetColor(backColor);
 	SetBackColor(itsBackColor);
 
 	SetBorderWidth(2);

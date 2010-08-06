@@ -100,6 +100,11 @@ http://www.newplanetsoftware.com/arrow/
 
 "
 
+# Passwords
+
+GMGetPasswordTitle	"Enter password"
+GMGetPasswordPrompt	"Password:"
+
 # SMTPMessage
 
 SMTPERROR

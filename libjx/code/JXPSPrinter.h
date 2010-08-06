@@ -17,7 +17,6 @@
 #include <JPSPrinter.h>
 
 class JXDisplay;
-class JXColormap;
 class JXPSPrintSetupDialog;
 class JXPSPageSetupDialog;
 
@@ -36,7 +35,7 @@ public:
 
 public:
 
-	JXPSPrinter(const JXDisplay* display, const JXColormap* colormap);
+	JXPSPrinter(const JXDisplay* display);
 
 	virtual ~JXPSPrinter();
 

@@ -114,7 +114,7 @@ GMFilterActionTable::GMFilterActionTableX()
 {
 	const JFontManager* fm	= GetFontManager();
 	itsRowHeight	=
-		fm->GetLineHeight(JGetDefaultFontName(), kJXDefaultFontSize,
+		fm->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize,
 						JFontStyle()) + kRowHeightAdjust;
 	AppendCols(1, kTypeColWidth);
 	AppendCols(1, kCopyColWidth);

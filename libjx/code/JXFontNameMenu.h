@@ -46,8 +46,6 @@ private:
 private:
 
 	void	BuildMenu();
-	JString	GetFontName(const JIndex index) const;
-	void	SetFontName1(const JIndex index);
 
 	// not allowed
 
@@ -94,7 +92,7 @@ inline JString
 JXFontNameMenu::GetFontName()
 	const
 {
-	return GetFontName(itsFontIndex);
+	return GetItemText(itsFontIndex);
 }
 
 #endif

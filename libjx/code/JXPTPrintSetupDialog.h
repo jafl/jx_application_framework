@@ -81,6 +81,7 @@ private:
 	void	BuildWindow(const JXPTPrinter::Destination dest,
 						const JCharacter* printCmd, const JCharacter* fileName,
 						const JBoolean printLineNumbers);
+	void	UpdateDisplay();
 
 	void	SetDestination(const JIndex id);
 	void	PrintAllPages(const JBoolean all);

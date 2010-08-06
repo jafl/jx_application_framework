@@ -38,8 +38,6 @@ public:
 				 const JBoolean startIconic = kJFalse,
 				 const JBoolean bufferTestWidget = kJTrue,
 				 const JBoolean testWidgetIsImage = kJFalse,
-				 const JBoolean useStaticColors = kJFalse,
-				 const JBoolean allocDynamicColors = kJTrue,
 				 const JBoolean snoopWindow = kJFalse);
 
 	virtual ~TestDirector();
@@ -86,9 +84,7 @@ private:
 private:
 
 	void	BuildWindow(const JBoolean isMaster, const JBoolean bufferTestWidget,
-						const JBoolean testWidgetIsImage,
-						const JBoolean useStaticColors,
-						const JBoolean allocDynamicColors);
+						const JBoolean testWidgetIsImage);
 	void	BuildIconMenus(JXWindow* window, JXMenuBar* menuBar);
 
 	void	UpdateAboutMenu();

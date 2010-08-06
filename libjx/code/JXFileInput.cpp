@@ -23,9 +23,6 @@
 #include <jDirUtil.h>
 #include <jAssert.h>
 
-static const JCharacter* kFontName = "6x13";
-const JSize kFontSize              = 12;
-
 /******************************************************************************
  Constructor
 
@@ -53,7 +50,7 @@ JXFileInput::JXFileInput
 	itsExpectURLDropFlag    = kJFalse;
 	SetIsRequired();
 	SetCharacterInWordFunction(IsCharacterInWord);
-	SetDefaultFontName(kFontName);
+	SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
 	ShouldBroadcastCaretLocationChanged(kJTrue);
 	SetHint(JGetString("Hint::JXFileInput"));
 	ListenTo(this);
@@ -80,8 +77,8 @@ JXFileInput::GetFont
 	JSize* size
 	)
 {
-	*size = kFontSize;
-	return kFontName;
+	*size = kJDefaultMonoFontSize;
+	return JGetMonospaceFontName();
 }
 
 /******************************************************************************

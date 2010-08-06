@@ -146,8 +146,6 @@ public:
 	JBoolean IsCaseSensitive() const;
 	void     SetSingleLine(const JBoolean yesNo = kJTrue);
 	JBoolean IsSingleLine() const;
-	void     SetMatchOnly(const JBoolean yesNo = kJTrue);
-	JBoolean IsMatchOnly() const;
 	void     SetLineBegin(const JBoolean yesNo = kJTrue);
 	JBoolean IsLineBegin() const;
 	void     SetLineEnd(const JBoolean yesNo = kJTrue);
@@ -411,37 +409,6 @@ inline JBoolean
 JRegex::IsSingleLine() const
 {
 	return !RawGetOption(itsCFlags, PCRE_MULTILINE);
-}
-
-/******************************************************************************
- MatchOnly
-
-	Controls whether it is possible to determine the substring which was matched
-	after a successful match (the default) or not.  SetMatchOnly(kJFalse) allows
-	determination of the substring(s) matched by the overall regular expression
-	and/or by each subexpression.  SetMatchOnly(kJTrue) allows (potentially)
-	faster matches at the expense of *all* information about the match location
-	including the location of the overall match; only whether a match took place
-	or not can be determined.
-
-	Performance note: changing this option can cause a recompile before the next
-	match.
-
- *****************************************************************************/
-
-inline void
-JRegex::SetMatchOnly
-	(
-	const JBoolean yesNo // = kJTrue
-	)
-{
-	SetCompileOption(0, yesNo);
-}
-
-inline JBoolean
-JRegex::IsMatchOnly() const
-{
-	return RawGetOption(itsCFlags, 0);
 }
 
 /******************************************************************************

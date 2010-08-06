@@ -29,26 +29,3 @@ JColormap::JColormap()
 JColormap::~JColormap()
 {
 }
-
-/******************************************************************************
- SetDynamicColors (virtual)
-
-	Sets the rgb components for the specified colors.  This is provided to
-	allow optimization when possible.  The default implementation is to
-	call SetDynamicColor().
-
- ******************************************************************************/
-
-void
-JColormap::SetDynamicColors
-	(
-	const JArray<JDynamicColorInfo>& colorList
-	)
-{
-	const JSize count = colorList.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
-		{
-		const JDynamicColorInfo info = colorList.GetElement(i);
-		SetDynamicColor(info.index, info.color);
-		}
-}

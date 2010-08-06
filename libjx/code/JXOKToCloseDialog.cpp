@@ -71,7 +71,7 @@ JXOKToCloseDialog::BuildWindow
 
     JXTextButton* saveButton =
         new JXTextButton(JGetString("saveButton::JXOKToCloseDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 249,79, 62,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 250,80, 60,20);
     assert( saveButton != NULL );
     saveButton->SetShortcuts(JGetString("saveButton::JXOKToCloseDialog::shortcuts::JXLayout"));
 

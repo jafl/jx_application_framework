@@ -61,7 +61,7 @@ GMMessageDragSource::GMMessageDragSource
 {
 	itsDir	= dir;
 
-	JXImage* icon = new JXImage(GetDisplay(), GetColormap(), JXPM(envelope_front));
+	JXImage* icon = new JXImage(GetDisplay(), envelope_front);
 	assert( icon != NULL );
 	icon->ConvertToRemoteStorage();
 	SetImage(icon, kJTrue);

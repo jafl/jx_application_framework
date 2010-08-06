@@ -26,11 +26,10 @@ const JCharacter kSetupDataEndDelimiter = '\1';
 
 JX2DPlotEPSPrinter::JX2DPlotEPSPrinter
 	(
-	JXDisplay*	display,
-	JXColormap*	colormap
+	JXDisplay* display
 	)
 	:
-	JXEPSPrinter(display, colormap)
+	JXEPSPrinter(display)
 {
 	itsPlotWidth  = JPSPrinter::GetPaperWidth(JPSPrinter::kUSLetter);
 	itsPlotHeight = JPSPrinter::GetPaperHeight(JPSPrinter::kUSLetter);

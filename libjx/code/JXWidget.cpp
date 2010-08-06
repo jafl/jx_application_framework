@@ -83,6 +83,8 @@ JXWidget::JXWidget
 	itsFocusColor  = (GetColormap())->GetDefaultFocusColor();
 	itsDragPainter = NULL;
 
+	itsAllowUnboundedScrollingFlag = kJFalse;
+
 	itsWantInputFlag  = kJFalse;
 	itsWantTabFlag    = kJFalse;
 	itsWantModTabFlag = kJFalse;
@@ -858,6 +860,30 @@ JXWidget::AdjustBounds
 }
 
 /******************************************************************************
+ ShouldAllowUnboundedScrolling
+
+ ******************************************************************************/
+
+void
+JXWidget::ShouldAllowUnboundedScrolling
+	(
+	const JBoolean allow
+	)
+{
+	itsAllowUnboundedScrollingFlag = allow;
+	if (!allow)
+		{
+		const JRect apG = GetApertureGlobal();
+		const JRect bG  = GetBoundsGlobal();
+		if (apG.top < bG.top || apG.left < bG.left)
+			{
+			ScrollTo(JMax(0L, apG.left - bG.left),
+					 JMax(0L, apG.top - bG.top));
+			}
+		}
+}
+
+/******************************************************************************
  Scroll
 
 	Positive values scroll up and to the left.
@@ -884,7 +910,11 @@ JXWidget::Scroll
 		const JRect apG = GetApertureGlobal();
 
 		JCoordinate dx = userdx;
-		if (itsBoundsG.width() <= apG.width())
+		if (itsAllowUnboundedScrollingFlag)
+			{
+			// allow any value
+			}
+		else if (itsBoundsG.width() <= apG.width())
 			{
 			dx = 0;
 			}
@@ -898,7 +928,11 @@ JXWidget::Scroll
 			}
 
 		JCoordinate dy = userdy;
-		if (itsBoundsG.height() <= apG.height())
+		if (itsAllowUnboundedScrollingFlag)
+			{
+			// allow any value
+			}
+		else if (itsBoundsG.height() <= apG.height())
 			{
 			dy = 0;
 			}

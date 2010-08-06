@@ -80,10 +80,7 @@ JXDocktab::JXDocktab
 {
 	SetHint(JGetString(kHintID));
 
-	if (!(GetColormap())->AllocateStaticColor(0, 0, kJMaxRGBValue/2, &itsFocusColor))
-		{
-		itsFocusColor = (GetColormap())->GetBlueColor();
-		}
+	itsFocusColor = (GetColormap())->GetColor(0, 0, kJMaxRGBValue/2);
 }
 
 /******************************************************************************
@@ -130,7 +127,7 @@ JXDocktab::Draw
 		}
 	else
 		{
-		p.SetPenColor(cmap->GetGray60Color());
+		p.SetPenColor(cmap->GetGrayColor(60));
 		}
 
 	const JRect ap       = GetAperture();

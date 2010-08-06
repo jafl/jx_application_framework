@@ -134,21 +134,25 @@ JXSpellCheckerDialog::BuildWindow()
         new JXStaticText(JGetString("obj1_JXLayout::JXSpellCheckerDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,15, 110,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     itsCheckText =
         new JXStaticText(JGetString("itsCheckText::JXSpellCheckerDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kFixedTop, 135,15, 280,20);
     assert( itsCheckText != NULL );
+    itsCheckText->SetToLabel();
 
     JXStaticText* obj2_JXLayout =
         new JXStaticText(JGetString("obj2_JXLayout::JXSpellCheckerDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,48, 90,20);
     assert( obj2_JXLayout != NULL );
+    obj2_JXLayout->SetToLabel();
 
     JXStaticText* obj3_JXLayout =
         new JXStaticText(JGetString("obj3_JXLayout::JXSpellCheckerDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,78, 90,20);
     assert( obj3_JXLayout != NULL );
+    obj3_JXLayout->SetToLabel();
 
     itsFirstGuess =
         new JXInputField(window,

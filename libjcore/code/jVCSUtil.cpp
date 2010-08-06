@@ -231,32 +231,24 @@ JRenameVCS
 		return JAccessDenied(oldPath);
 		}
 
-	JVCSType type1 = JGetVCSType(oldPath);
-	if (type1 == kJSVNType && !JIsManagedByVCS(oldFullName))
-		{
-		type1 = kJUnknownVCSType;
-		}
-
+	JVCSType type1    = JGetVCSType(oldPath);
 	JVCSType type2    = JGetVCSType(newPath);
 	JError err        = JNoError();
 	JBoolean tryPlain = kJFalse;
 	JString cmd;
-	JSimpleProcess* p = NULL;
+	JProcess* p = NULL;
 	if (type1 != type2)
 		{
 		tryPlain = kJTrue;
 		}
 	else if (type1 == kJSVNType || type1 == kJGitType)
 		{
-		const JCharacter* plainMsg;
 		if (type1 == kJSVNType)
 			{
 			cmd  = "svn mv --force ";
 			cmd += JPrepArgForExec(oldFullName);
 			cmd += " ";
 			cmd += JPrepArgForExec(newFullName);
-
-			plainMsg = "AskPlainSVNMove::VCSUtil";
 			}
 		else if (type1 == kJGitType)
 			{
@@ -264,11 +256,9 @@ JRenameVCS
 			cmd += JPrepArgForExec(name);
 			cmd += " ";
 			cmd += JPrepArgForExec(newFullName);
-
-			plainMsg = "AskPlainGitMove::VCSUtil";
 			}
 
-		err = JSimpleProcess::Create(&p, cmd);
+		err = JProcess::Create(&p, cmd);
 		if (err.OK())
 			{
 			p->WaitUntilFinished();
@@ -276,11 +266,8 @@ JRenameVCS
 
 		if (p != NULL && !p->SuccessfulFinish())
 			{
-			err = JAccessDenied(oldFullName, newFullName);
-			if ((JGetUserNotification())->AskUserYes(JGetString(plainMsg)))
-				{
-				tryPlain = kJTrue;
-				}
+			err      = JAccessDenied(oldFullName, newFullName);
+			tryPlain = kJTrue;
 			}
 		}
 	else if (type1 == kJUnknownVCSType)
@@ -299,7 +286,9 @@ JRenameVCS
 		cmd += " ";
 		cmd += JPrepArgForExec(newFullName);
 
-		err = JSimpleProcess::Create(&p, cmd);
+		JSimpleProcess* p1;
+		err = JSimpleProcess::Create(&p1, cmd);
+		p   = p1;
 		if (err.OK())
 			{
 			p->WaitUntilFinished();
@@ -327,7 +316,8 @@ JRenameVCS
 JError
 JRemoveVCS
 	(
-	const JCharacter* fullName
+	const JCharacter*	fullName,
+	const JBoolean		sync
 	)
 {
 	if (!JNameUsed(fullName))
@@ -344,33 +334,30 @@ JRemoveVCS
 		return JAccessDenied(path);
 		}
 
-	JVCSType type = JGetVCSType(path);
-	if (type == kJSVNType && !JIsManagedByVCS(fullName))
-		{
-		type = kJUnknownVCSType;
-		}
-
+	JVCSType type     = JGetVCSType(path);
 	JError err        = JNoError();
 	JBoolean tryPlain = kJFalse;
 	JString cmd;
-	JSimpleProcess* p = NULL;
+	JProcess* p = NULL;
 	if (type == kJSVNType || type == kJGitType)
 		{
-		const JCharacter *binary, *plainMsg;
-		if (type == kJSVNType)
+		const JCharacter *binary;
+		if (type == kJCVSType)
 			{
-			binary   = "svn rm --force ";
-			plainMsg = "AskPlainSVNRemove::VCSUtil";
+			binary = "cvs remove -f ";
+			}
+		else if (type == kJSVNType)
+			{
+			binary = "svn rm --force ";
 			}
 		else if (type == kJGitType)
 			{
-			binary   = "git rm -rf ";
-			plainMsg = "AskPlainGitRemove::VCSUtil";
+			binary = "git rm -rf ";
 			}
 
 		cmd  = binary;
 		cmd += JPrepArgForExec(name);
-		err  = JSimpleProcess::Create(&p, cmd);
+		err  = JProcess::Create(&p, cmd);
 		if (err.OK())
 			{
 			p->WaitUntilFinished();
@@ -378,31 +365,8 @@ JRemoveVCS
 
 		if (p != NULL && !p->SuccessfulFinish())
 			{
-			err = JAccessDenied(fullName);
-			if ((JGetUserNotification())->AskUserYes(JGetString(plainMsg)))
-				{
-				tryPlain = kJTrue;
-				}
-			}
-		}
-	else if (type == kJCVSType)
-		{
-		cmd  = "cvs remove -f ";
-		cmd += JPrepArgForExec(name);
-
-		err = JSimpleProcess::Create(&p, cmd);
-		if (err.OK())
-			{
-			p->WaitUntilFinished();
-			}
-
-		if (p != NULL && !p->SuccessfulFinish())
-			{
-			err = JAccessDenied(fullName);
-			if ((JGetUserNotification())->AskUserYes(JGetString("AskPlainCVSRemove::VCSUtil")))
-				{
-				tryPlain = kJTrue;
-				}
+			err      = JAccessDenied(fullName);
+			tryPlain = kJTrue;
 			}
 		}
 	else if (type == kJUnknownVCSType)
@@ -414,7 +378,7 @@ JRemoveVCS
 		err = JUnsupportedVCS(fullName);
 		}
 
-	if (tryPlain && JKillDirectory(fullName))
+	if (tryPlain && JKillDirectory(fullName, sync))
 		{
 		err = JNoError();
 		}

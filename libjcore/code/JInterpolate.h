@@ -21,22 +21,13 @@ class JInterpolate : public JSubstitute
 public:
 
 	JInterpolate();
-#ifdef PCRE_MAJOR
 	JInterpolate(const JCharacter* source, const pcre* regex,
 				 const JArray<JIndexRange>* matchList);
-#else
-	JInterpolate(const JCharacter* source,
-				 const JArray<JIndexRange>* matchList);
-#endif
+
 	virtual ~JInterpolate();
 
-#ifdef PCRE_MAJOR
 	void	SetMatchResults(const JCharacter* source, const pcre* regex,
 							const JArray<JIndexRange>* matchList);
-#else
-	void	SetMatchResults(const JCharacter* source,
-							const JArray<JIndexRange>* matchList);
-#endif
 
 protected:
 
@@ -45,9 +36,7 @@ protected:
 private:
 
 	const JCharacter*			itsSource;
-#ifdef PCRE_MAJOR
 	const pcre*					itsRegex;
-#endif
 	const JArray<JIndexRange>*	itsMatchList;
 
 private:
@@ -68,16 +57,12 @@ inline void
 JInterpolate::SetMatchResults
 	(
 	const JCharacter*			source,
-#ifdef PCRE_MAJOR
 	const pcre*					regex,
-#endif
 	const JArray<JIndexRange>*	matchList
 	)
 {
 	itsSource    = source;
-#ifdef PCRE_MAJOR
 	itsRegex     = regex;
-#endif
 	itsMatchList = matchList;
 }
 

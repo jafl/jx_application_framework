@@ -41,14 +41,13 @@ const int kDefaultJoinStyle = JoinMiter;
 JXGC::JXGC
 	(
 	JXDisplay*		display,
-	JXColormap*		colormap,
 	const Drawable	drawable
 	)
 	:
 	itsClipOffset(0,0)
 {
 	itsDisplay  = display;
-	itsColormap = colormap;
+	itsColormap = display->GetColormap();
 
 	XGCValues values;
 	values.graphics_exposures = False;
@@ -66,7 +65,7 @@ JXGC::JXGC
 	itsClipPixmap = None;
 
 	itsLastColorInit     = kJFalse;
-	itsLastColor         = colormap->GetBlackColor();
+	itsLastColor         = itsColormap->GetBlackColor();
 	itsLastFunction      = GXcopy;
 	itsLastLineWidth     = 0;
 	itsDashedLinesFlag   = kJFalse;
@@ -115,7 +114,7 @@ JXGC::GetClipping
 
 	if (itsClipPixmap != None)
 		{
-		*pixmap = new JXImageMask(itsDisplay, itsColormap, itsClipPixmap);
+		*pixmap = new JXImageMask(itsDisplay, itsClipPixmap);
 		assert( *pixmap != NULL );
 		}
 	else
@@ -274,7 +273,7 @@ JXGC::SetDrawingColor
 			}
 		else
 			{
-			xPixel = itsColormap->GetXPixel(color);
+			xPixel = color;
 			}
 
 		XSetForeground(*itsDisplay, itsXGC, xPixel);
@@ -578,8 +577,11 @@ JXGC::SetFont
 		{
 		itsLastFont = id;
 
-		XFontStruct* xfont = (itsDisplay->GetXFontManager())->GetXFontInfo(id);
-		XSetFont(*itsDisplay, itsXGC, xfont->fid);
+		JXFontManager::XFont xfont = (itsDisplay->GetXFontManager())->GetXFontInfo(id);
+		if (xfont.type == JXFontManager::kStdType)
+			{
+			XSetFont(*itsDisplay, itsXGC, xfont.xfstd->fid);
+			}
 		}
 }
 
@@ -594,13 +596,32 @@ JXGC::SetFont
 void
 JXGC::DrawString
 	(
-	const Drawable		drawable,
+	Drawable			drawable,
+	XftDraw*			fdrawable,
 	const JCoordinate	origX,
 	const JCoordinate	y,
 	const JCharacter*	str
 	)
 	const
 {
+	JXFontManager::XFont xfont = (itsDisplay->GetXFontManager())->GetXFontInfo(itsLastFont);
+
+	XftColor color;
+	if (xfont.type == JXFontManager::kTrueType)
+		{
+		JSize red, green, blue;
+		itsColormap->GetRGB(itsLastColor, &red, &green, &blue);
+
+		XRenderColor renderColor;
+		renderColor.red   = red;
+		renderColor.green = green;
+		renderColor.blue  = blue;
+		renderColor.alpha = 65535;
+
+		XftColorAllocValue(*itsDisplay, itsDisplay->GetDefaultVisual(),
+						   itsColormap->GetXColormap(), &renderColor, &color);
+		}
+
 	const JFontManager* fontMgr = itsDisplay->GetFontManager();
 
 	const JSize length          = strlen(str);
@@ -611,7 +632,16 @@ JXGC::DrawString
 	while (offset < length)
 		{
 		const JSize count = JMin(length - offset, maxStringLength);
-		XDrawString(*itsDisplay, drawable, itsXGC, x,y, str + offset, count);
+
+		if (xfont.type == JXFontManager::kStdType)
+			{
+			XDrawString(*itsDisplay, drawable, itsXGC, x,y, str + offset, count);
+			}
+		else
+			{
+			assert( xfont.type == JXFontManager::kTrueType );
+			XftDrawString8(fdrawable, &color, xfont.xftrue, x,y, (FcChar8*) (str + offset), count);
+			}
 
 		if (offset + count < length)
 			{

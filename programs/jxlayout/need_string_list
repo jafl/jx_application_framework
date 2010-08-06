@@ -1,0 +1,9 @@
+# This file lists all the widgets that require a string as
+# the first ctor arg. By storing this list in a separate file,
+# you can easily add your own custom widgets.
+# (JXStaticText must not be listed.)
+
+JXTextButton
+JXTextCheckbox
+JXTextRadioButton
+JXTextMenu

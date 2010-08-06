@@ -40,8 +40,6 @@
 const JSize kHistoryLength       = 20;
 const JCoordinate kMessageMargin = 20;
 
-static const JCharacter* kFilterFont = "6x13";
-
 // enter button says "Set" while itsFilterInput has focus
 
 static const JCharacter* kOpenLabel = "Open";
@@ -330,8 +328,8 @@ JXCSFDialogBase::SetObjects
 	itsPathHistory->SetHistoryLength(kHistoryLength);
 	itsFilterHistory->SetHistoryLength(kHistoryLength);
 
-	itsFilterInput->SetFontName(kFilterFont);
-	itsFilterHistory->SetDefaultFontName(kFilterFont, kJTrue);
+	itsFilterInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsFilterHistory->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle(), kJTrue);
 
 	itsShowHiddenCB->SetState(itsDirInfo->HiddenVisible());
 	itsCurrPathMenu->SetPath(itsDirInfo->GetDirectory());

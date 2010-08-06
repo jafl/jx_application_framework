@@ -31,7 +31,7 @@
 
 const JSize kFileByteCount 	= 1000;
 const JCharacter kSpaceChar	= 0xb7;
-const JCharacter kTabChar	= 0xae;
+const JCharacter kTabChar	= 0xbb;
 
 const JIndex kDelimiterPrefsVersionID = 1;
 
@@ -68,7 +68,7 @@ GXGetDelimiterDialog::GXGetDelimiterDialog
 	for (JSize i = 1; i <= count; i++)
 		{
 		findex = tabs.GetElement(i);
-		itsFileText->JTextEditor::SetFontName(findex, findex, JXGetSymbolFontName(), kJTrue);
+		itsFileText->JTextEditor::SetFontName(findex, findex, JGetGreekFontName(), kJTrue);
 		}
 	JPrefObject::ReadPrefs();
 }
@@ -203,7 +203,7 @@ GXGetDelimiterDialog::BuildWindow()
 	helpText.SetCharacter(21, kTabChar);
 	helpText.SetCharacter(35, kSpaceChar);
 	helplabel->SetText(helpText);
-	helplabel->JTextEditor::SetFontName(21, 21, JXGetSymbolFontName(), kJTrue);
+	helplabel->JTextEditor::SetFontName(21, 21, JGetGreekFontName(), kJTrue);
 
 	ListenTo(itsRG);
 	ListenTo(itsSkipCB);

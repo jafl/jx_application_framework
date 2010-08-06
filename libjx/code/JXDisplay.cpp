@@ -177,7 +177,7 @@ JXDisplay::JXDisplay
 	assert( itsWindowList != NULL );
 	itsWindowList->SetCompareFunction(CompareXWindows);
 
-	itsDefaultGC = new JXGC(this, itsColormap, GetRootWindow());
+	itsDefaultGC = new JXGC(this, GetRootWindow());
 	assert( itsDefaultGC != NULL );
 
 	itsNeedsUpdateFlag = kJFalse;
@@ -193,7 +193,7 @@ JXDisplay::JXDisplay
 	CreateBuiltInCursor("XC_watch",    XC_watch);
 	CreateBuiltInCursor("XC_X_cursor", XC_X_cursor);
 
-	itsFontManager = new JXFontManager(this, itsColormap);
+	itsFontManager = new JXFontManager(this);
 	assert( itsFontManager != NULL );
 
 	itsSelectionManager = new JXSelectionManager(this);
@@ -829,12 +829,12 @@ JXDisplay::CreateCustomXCursor
 	const
 {
 	XColor foreColor;
-	foreColor.pixel = itsColormap->GetXPixel(itsColormap->GetBlackColor());
+	foreColor.pixel = itsColormap->GetBlackColor();
 	foreColor.red = foreColor.green = foreColor.blue = 0;
 	foreColor.flags = DoRed | DoGreen | DoBlue;
 
 	XColor backColor;
-	backColor.pixel = itsColormap->GetXPixel(itsColormap->GetWhiteColor());
+	backColor.pixel = itsColormap->GetWhiteColor();
 	backColor.red = backColor.green = backColor.blue = 65535;
 	backColor.flags = DoRed | DoGreen | DoBlue;
 
@@ -912,31 +912,6 @@ JXDisplay::DisplayCursorInAllWindows
 	// we need to make sure that the X server gets the messages.
 
 	Flush();
-}
-
-/******************************************************************************
- AllowPrivateColormap
-
- ******************************************************************************/
-
-void
-JXDisplay::AllowPrivateColormap
-	(
-	const JBoolean allow
-	)
-{
-	itsColormap->AllowSwitchColormap(allow);
-}
-
-/******************************************************************************
- ForcePrivateColormap
-
- ******************************************************************************/
-
-JBoolean
-JXDisplay::ForcePrivateColormap()
-{
-	return itsColormap->CreateEmptyColormap();
 }
 
 /******************************************************************************

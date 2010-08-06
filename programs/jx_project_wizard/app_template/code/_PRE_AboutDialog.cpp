@@ -106,7 +106,7 @@ void
 	ListenTo(itsHelpButton);
 	ListenTo(itsCreditsButton);
 
-	JXImage* image = new JXImage(GetDisplay(), GetColormap(), JXPM(<pre>_about_icon));
+	JXImage* image = new JXImage(GetDisplay(), <pre>_about_icon);
 	assert( image != NULL );
 	imageWidget->SetImage(image, kJTrue);
 

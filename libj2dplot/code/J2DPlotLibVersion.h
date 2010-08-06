@@ -20,6 +20,10 @@
 
 static const char* kCurrentJ2DPlotLibVersionStr = "1.1.0";
 
+// version 1.1.1:
+//	JX2DPlotEPSPrinter:
+//		Removed JXColormap* ctor arg.
+
 // version 1.1.0:
 //	J2DPlotWidget:
 //		Grid lines are gray, except for the axes.

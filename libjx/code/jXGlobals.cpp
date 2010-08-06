@@ -55,6 +55,16 @@ static JIndex					theLatinCharacterSetIndex = 0;
 static const JCharacter* kInvisibleWindowClass = "Do_not_display_in_taskbar";
 static const JCharacter* kDockWindowClass      = "JX_Dock";
 
+#ifdef _J_OSX
+static const JCharacter* kX11LocalePath     = "/usr/X11/share/X11/locale/";
+static const JCharacter* kDefaultFontName   = "Arial";
+#else
+static const JCharacter* kX11LocalePath     = "/usr/share/X11/locale/";
+static const JCharacter* kDefaultFontName   = "Helvetica";
+#endif
+static const JCharacter* kMonospaceFontName = "Bitstream Vera Sans Mono";
+static const JCharacter* kGreekFontName     = "Symbol";
+
 // Prototypes
 
 void		JXInitLocale();
@@ -89,7 +99,7 @@ JXCreateGlobals
 	JInitCore(theAssertHandler, appSignature, defaultStringData,
 			  un, theChooseSaveFile, new JXCreatePG,
 			  new JXGetCurrFontMgr, new JXGetCurrColormap,
-			  "Helvetica", "Symbol", "Courier");
+			  kDefaultFontName, kGreekFontName, kMonospaceFontName);
 
 	XSetErrorHandler(JXDisplay::JXErrorHandler);
 	XSetIOErrorHandler(JXApplication::JXIOErrorHandler);
@@ -619,50 +629,6 @@ JXGetProgramDataDirectories
 }
 
 /******************************************************************************
- JXGetHelveticaFontName
-
- ******************************************************************************/
-
-const JCharacter*
-JXGetHelveticaFontName()
-{
-	return "Helvetica";
-}
-
-/******************************************************************************
- JXGetTimesFontName
-
- ******************************************************************************/
-
-const JCharacter*
-JXGetTimesFontName()
-{
-	return "Times";
-}
-
-/******************************************************************************
- JXGetCourierFontName
-
- ******************************************************************************/
-
-const JCharacter*
-JXGetCourierFontName()
-{
-	return "Courier";
-}
-
-/******************************************************************************
- JXGetSymbolFontName
-
- ******************************************************************************/
-
-const JCharacter*
-JXGetSymbolFontName()
-{
-	return "Symbol";
-}
-
-/******************************************************************************
  JXGetInvisibleWindowClass
 
  ******************************************************************************/
@@ -715,7 +681,7 @@ JXInitLocale()
 		}
 
 	JTextEditor::SetI18NCharacterInWordFunction(I18NIsCharacterInWord);
-
+/*
 	// get language name
 
 	const JCharacter* langAliasPtr = getenv("LC_ALL");
@@ -736,9 +702,9 @@ JXInitLocale()
 		langAlias.RemoveSubstring(langAlias.GetLength() - kUTF8SuffixLength + 1, langAlias.GetLength());
 		setenv("LC_ALL", langAlias, kJTrue);
 		}
-
+*/
 	setlocale(LC_ALL, "");	// for Xkb support (e.g. Russian)
-
+/*
 	// resolve alias to complete language name
 
 	ifstream langInput;
@@ -774,6 +740,8 @@ JXInitLocale()
 		{
 		langName = langAlias;
 		}
+*/
+	JString langName = "en_US.ISO8859-1";
 
 	// extract Latin charset index
 
@@ -818,7 +786,7 @@ JXInitLocale()
 		return;
 		}
 
-	found = kJFalse;
+	JBoolean found = kJFalse;
 	JString composeFile, name;
 	while (!composeDirInput.eof() && !composeDirInput.fail())
 		{
@@ -875,7 +843,7 @@ JXOpenLocaleFile
 	input.close();
 
 	input.clear();
-	JString fullName = JCombinePathAndName("/usr/X11R6/lib/X11/locale/", fileName);
+	JString fullName = JCombinePathAndName(kX11LocalePath, fileName);
 	input.open(fullName);
 	if (input.good())
 		{

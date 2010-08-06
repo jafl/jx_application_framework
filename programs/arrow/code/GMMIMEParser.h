@@ -69,6 +69,7 @@ private:
 	void		ParseByType(istream& input, const GMIMEHeader& header, const JIndex isEnd);
 	JBoolean	TextIsReadable(const GMIMEHeader& header) const;
 	void		ParseQuotedPrintable(JString* text);
+	void		AdjustAttachmentName(const GMIMEHeader& header, JString* name);
 
 	// not allowed
 

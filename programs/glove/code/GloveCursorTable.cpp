@@ -57,8 +57,8 @@ GloveCursorTable::GloveCursorTable
 {
 	itsPlot = plot;
 	AppendCols(2, kDefColWidth);
-	SetColBorderInfo(1, GetColormap()->GetGray80Color());
-	SetRowBorderInfo(1, GetColormap()->GetGray80Color());
+	SetColBorderInfo(1, GetColormap()->GetGrayColor(80));
+	SetRowBorderInfo(1, GetColormap()->GetGrayColor(80));
 	
 	const JFontManager* fm = GetFontManager();
 	JSize lineHeight = fm->GetLineHeight(JGetDefaultFontName(), kDefaultSize, JFontStyle());

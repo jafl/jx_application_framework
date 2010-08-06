@@ -482,7 +482,7 @@ JXTextMenu::SetItemImage
 		}
 	else
 		{
-		JXImage* image = new JXImage(GetDisplay(), GetColormap(), data);
+		JXImage* image = new JXImage(GetDisplay(), data);
 		assert( image != NULL );
 		SetItemImage(index, image, kJTrue);
 		}

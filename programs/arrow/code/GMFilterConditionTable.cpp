@@ -117,7 +117,7 @@ GMFilterConditionTable::GMFilterConditionTableX()
 {
 	const JFontManager* fm	= GetFontManager();
 	itsRowHeight	=
-		fm->GetLineHeight(JGetDefaultFontName(), kJXDefaultFontSize,
+		fm->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize,
 						JFontStyle()) + kRowHeightAdjust;
 
 	itsTypeMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0,10,10);

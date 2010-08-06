@@ -158,35 +158,35 @@ GAddressBookTreeWidget::GAddressBookTreeWidget
 	itsMessageXAtom		= GetDisplay()->RegisterXAtom(kDragMessagesXAtomName);
 	itsAddressBookXAtom	= GetDisplay()->RegisterXAtom(kDragAddressBooksXAtomName);
 
-	itsBookIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(address_book));
+	itsBookIcon = new JXImage(GetDisplay(), address_book);
 	assert( itsBookIcon != NULL );
 	itsBookIcon->ConvertToRemoteStorage();
 
-	itsSelectedBookIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(address_book_selected));
+	itsSelectedBookIcon = new JXImage(GetDisplay(), address_book_selected);
 	assert( itsSelectedBookIcon != NULL );
 	itsSelectedBookIcon->ConvertToRemoteStorage();
 
-	itsEntryIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(address_entry));
+	itsEntryIcon = new JXImage(GetDisplay(), address_entry);
 	assert( itsEntryIcon != NULL );
 	itsEntryIcon->ConvertToRemoteStorage();
 
-	itsSelectedEntryIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(address_entry_selected));
+	itsSelectedEntryIcon = new JXImage(GetDisplay(), address_entry_selected);
 	assert( itsSelectedEntryIcon != NULL );
 	itsSelectedEntryIcon->ConvertToRemoteStorage();
 
-	itsEMailIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(address_email));
+	itsEMailIcon = new JXImage(GetDisplay(), address_email);
 	assert( itsEMailIcon != NULL );
 	itsEMailIcon->ConvertToRemoteStorage();
 
-	itsNameIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(address_name));
+	itsNameIcon = new JXImage(GetDisplay(), address_name);
 	assert( itsNameIcon != NULL );
 	itsNameIcon->ConvertToRemoteStorage();
 
-	itsMailboxIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(envelopes));
+	itsMailboxIcon = new JXImage(GetDisplay(), envelopes);
 	assert( itsMailboxIcon != NULL );
 	itsMailboxIcon->ConvertToRemoteStorage();
 
-	itsCommentIcon = new JXImage(GetDisplay(), GetColormap(), JXPM(address_comment));
+	itsCommentIcon = new JXImage(GetDisplay(), address_comment);
 	assert( itsCommentIcon != NULL );
 	itsCommentIcon->ConvertToRemoteStorage();
 

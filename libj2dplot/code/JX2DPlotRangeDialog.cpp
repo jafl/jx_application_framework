@@ -68,7 +68,7 @@ JX2DPlotRangeDialog::BuildWindow()
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::JX2DPlotRangeDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 279,89, 72,22);
+                    JXWidget::kFixedRight, JXWidget::kFixedTop, 280,90, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::JX2DPlotRangeDialog::shortcuts::JXLayout"));
 
@@ -87,11 +87,13 @@ JX2DPlotRangeDialog::BuildWindow()
         new JXStaticText(JGetString("obj1_JXLayout::JX2DPlotRangeDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 70,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     JXStaticText* obj2_JXLayout =
         new JXStaticText(JGetString("obj2_JXLayout::JX2DPlotRangeDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,20, 30,20);
     assert( obj2_JXLayout != NULL );
+    obj2_JXLayout->SetToLabel();
 
     itsXMax =
         new JXFloatInput(window,
@@ -107,11 +109,13 @@ JX2DPlotRangeDialog::BuildWindow()
         new JXStaticText(JGetString("obj3_JXLayout::JX2DPlotRangeDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 70,20);
     assert( obj3_JXLayout != NULL );
+    obj3_JXLayout->SetToLabel();
 
     JXStaticText* obj4_JXLayout =
         new JXStaticText(JGetString("obj4_JXLayout::JX2DPlotRangeDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,50, 30,20);
     assert( obj4_JXLayout != NULL );
+    obj4_JXLayout->SetToLabel();
 
     itsYMax =
         new JXFloatInput(window,

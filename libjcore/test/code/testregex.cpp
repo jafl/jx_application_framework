@@ -572,21 +572,9 @@ main()
 	regex.RestoreDefaults();
 	ShouldCompile(__LINE__, regex, "a(b*)(c*)d");
 	Assert(__LINE__, regex.GetSubCount() == 2, "Wrong number of subexpressions");
-	regex.SetMatchOnly(kJTrue);
-#ifndef PCRE_MAJOR
-	Assert(__LINE__, regex.GetSubCount() == 0, "Wrong number of subexpressions");
-#endif
-	regex.SetMatchOnly(kJFalse);
-	Assert(__LINE__, regex.GetSubCount() == 2, "Wrong number of subexpressions");
 
-	regex.SetMatchOnly(kJTrue);
 	ShouldCompile(__LINE__, regex, "a(b*)d");
 	regex.Match("abbd");
-#ifndef PCRE_MAJOR
-	Assert(__LINE__, regex.GetSubCount() == 0, "Wrong number of subexpressions");
-#endif
-	regex.SetMatchOnly(kJFalse);
-	// Recompilation triggered here
 	Assert(__LINE__, regex.GetSubCount() == 1, "Wrong number of subexpressions");
 
 

@@ -53,7 +53,7 @@ TestTextEditor::TestTextEditor
 		SetType(kSelectableText);
 		}
 
-	itsPrinter = new JXPSPrinter(GetDisplay(), GetColormap());
+	itsPrinter = new JXPSPrinter(GetDisplay());
 	assert( itsPrinter != NULL );
 	SetPSPrinter(itsPrinter);
 

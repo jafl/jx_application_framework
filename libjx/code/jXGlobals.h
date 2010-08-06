@@ -50,11 +50,6 @@ JXSearchTextDialog*		JXGetSearchTextDialog();
 JBoolean				JXGetProgramDataDirectories(const JCharacter* dirName,
 													JString* sysDir, JString* userDir);
 
-const JCharacter*		JXGetHelveticaFontName();
-const JCharacter*		JXGetTimesFontName();
-const JCharacter*		JXGetCourierFontName();
-const JCharacter*		JXGetSymbolFontName();
-
 const JCharacter*		JXGetInvisibleWindowClass();
 const JCharacter*		JXGetDockWindowClass();
 

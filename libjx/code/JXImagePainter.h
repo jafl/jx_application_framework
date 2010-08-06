@@ -73,9 +73,6 @@ private:
 
 private:
 
-	JBoolean	PrepareText();
-	JBoolean	PrepareDraw();
-	JBoolean	PrepareImage(const JXImage& image);
 	JBoolean	PrepareXDraw();
 
 	// not allowed

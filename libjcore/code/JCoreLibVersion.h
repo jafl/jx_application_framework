@@ -20,6 +20,45 @@
 
 static const char* kCurrentJCoreLibVersionStr = "2.6.0";
 
+// version 3.0.0:
+//	JRexex:
+//		Removed no-op Is/SetMatchOnly().
+//	JPSPrinterBase:
+//		Fixed font name logic to leverage default fonts built into
+//			PostScript printers.
+//	JColormap:
+//		Private colormaps are obsolete.
+//		Renamed AllocateStaticNamedColor() to GetColor(),
+//		Renamed AllocateStaticColor() to GetColor().
+//			Now returns JColorIndex.  Removed exactMatch argument
+//		Replaced GetGray*Color() with GetGrayColor(percentage).
+//		Removed CanAllocateDynamicColors(), AllocateDynamicColor(),
+//			SetDynamicColor(), SetDynamicColors(), UsingColor(),
+//			DeallocateColor(), PrepareForMassColorAllocation(),
+//			MassColorAllocationFinished(), AllColorsPreallocated(),
+//			GetSystemColorIndex().
+//			NewColormap message, JXColorDistanceFn
+//	Removed JColorList.
+//	Renamed JHSV to JHSB, since "brightness" makes more sense than "value".
+//	JFontManager:
+//		Removed GetFontStyles().
+//		Removed charset support, since TrueType fonts use Unicode:
+//			GetFontCharSets(), CombineNameAndCharacterSet, ExtractCharacterSet()
+//	JHTMLScanner:
+//		Removed SwitchCharSet().
+//	JTextEditor:
+//		Removed SwitchHTMLCharSet().
+//	JFontStyle:
+//		Added kJDefaultMonoFontSize.
+//	jDirUtil:
+//		Added optional 2nd arg sync to JKillDirectory().
+//	jVCSUtil:
+//		Added optional 2nd arg sync to JRemoveVCS().
+//		No longer whines about unmanaged files in git repositories.
+//	jFileUtil:
+//		Fixed JSplitPathAndName() to recognize root directory and return it
+//			instead of returning the current working directory.
+
 // version 2.6.0:
 //	JOrderedSet:
 //		Removed const from GetElement(), GetElementFromEnd(),

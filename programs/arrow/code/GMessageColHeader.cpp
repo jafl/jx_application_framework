@@ -101,7 +101,7 @@ GMessageColHeader::TableDrawCell
 	
 	JString str;
 	JBoolean hasTitle = GetColTitle(cell.x, &str);
-	p.SetFont(JGetDefaultFontName(), 12,
+	p.SetFont(JGetDefaultFontName(), kJDefaultFontSize,
 			  JFontStyle());//kJTrue, kJFalse, 0, kJFalse, (p.GetColormap())->GetBlackColor()));
 	if (hasTitle)
 		{		
@@ -112,7 +112,7 @@ GMessageColHeader::TableDrawCell
 		itsData != NULL &&
 		itsData->GetSortType() == cell.x - kAdjustCol)
 		{
-		p.SetPenColor(GetColormap()->GetGray40Color());
+		p.SetPenColor(GetColormap()->GetGrayColor(40));
 		p.SetFilling(kJTrue);
 		JPoint polyPt(rect.right - 15, 0);
 		if (itsData->SortIsAscending())

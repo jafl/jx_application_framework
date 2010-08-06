@@ -152,7 +152,7 @@ void
 	window->SetTitle("Program");
 	window->SetWMClass(<PRE>GetWMClassInstance(), <PRE>GetMainWindowClass());
 
-	JXImage* image = new JXImage(GetDisplay(), GetColormap(), <pre>_main_window_icon);
+	JXImage* image = new JXImage(GetDisplay(), <pre>_main_window_icon);
 	assert( image != NULL );
 	window->SetIcon(image);
 
