@@ -63,23 +63,23 @@ SCEditVarValueDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 210,90, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* cancelButton =
-        new JXTextButton("Cancel", window,
+        new JXTextButton(JGetString("cancelButton::SCEditVarValueDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 30,55, 60,20);
     assert( cancelButton != NULL );
 
     JXTextButton* okButton =
-        new JXTextButton("OK", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 119,54, 62,22);
+        new JXTextButton(JGetString("okButton::SCEditVarValueDialog::JXLayout"), window,
+                    JXWidget::kHElastic, JXWidget::kVElastic, 120,55, 60,20);
     assert( okButton != NULL );
-    okButton->SetShortcuts("^M");
+    okButton->SetShortcuts(JGetString("okButton::SCEditVarValueDialog::shortcuts::JXLayout"));
 
-    JXStaticText* obj1 =
-        new JXStaticText("New value:", window,
+    JXStaticText* obj1_JXLayout =
+        new JXStaticText(JGetString("obj1_JXLayout::SCEditVarValueDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 80,20);
-    assert( obj1 != NULL );
+    assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     itsValue =
         new JXFloatInput(window,

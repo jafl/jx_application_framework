@@ -53,19 +53,22 @@ JXWindowDirector::JXWindowDirector
 
 JXWindowDirector::~JXWindowDirector()
 {
-	// call GetDisplay() before deleting window!
-
-	JXWDManager* mgr;
-	if ((GetDisplay())->GetWDManager(&mgr))
+	if (itsWindow != NULL)
 		{
-		mgr->DirectorDeleted(this);
-		}
+		// call GetDisplay() before deleting window!
 
-	if (itsWindow != NULL && !itsWindow->IsIconified())
-		{
-		itsWindow->Hide();
+		JXWDManager* mgr;
+		if ((GetDisplay())->GetWDManager(&mgr))
+			{
+			mgr->DirectorDeleted(this);
+			}
+
+		if (!itsWindow->IsIconified())
+			{
+			itsWindow->Hide();
+			}
+		delete itsWindow;
 		}
-	delete itsWindow;
 }
 
 /******************************************************************************
@@ -105,7 +108,7 @@ JXWindowDirector::GetColormap()
 }
 
 /******************************************************************************
- SetWindow (protected)
+ SetWindow (private)
 
  ******************************************************************************/
 

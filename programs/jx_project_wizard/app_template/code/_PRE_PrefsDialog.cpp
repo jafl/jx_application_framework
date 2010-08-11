@@ -54,7 +54,6 @@ void
 
     JXWindow* window = new JXWindow(this, 400,290, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* cancelButton =
         new JXTextButton(JGetString("cancelButton::<PRE>PrefsDialog::JXLayout"), window,

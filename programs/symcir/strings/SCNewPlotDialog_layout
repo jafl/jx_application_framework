@@ -1,0 +1,7 @@
+0
+cancelButton::SCNewPlotDialog::JXLayout "Cancel"
+obj1_JXLayout::SCNewPlotDialog::JXLayout "Curve name:"
+okButton::SCNewPlotDialog::JXLayout "OK"
+obj2_JXLayout::SCNewPlotDialog::JXLayout "Frequency range (Hz):"
+okButton::SCNewPlotDialog::shortcuts::JXLayout "^M"
+obj3_JXLayout::SCNewPlotDialog::JXLayout "to"

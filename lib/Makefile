@@ -90,7 +90,7 @@ test:
 
 PERSONAL_PROGS := \
     arrow code_crusader code_medic code_mill \
-    drakon leibnitz svn_client systemg
+    drakon leibnitz svn_client systemg ssh_askpass
 
 .PHONY : personal
 personal:

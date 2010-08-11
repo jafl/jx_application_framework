@@ -2743,41 +2743,37 @@ J2DPlotWidget::DrawLabels
 {
 	const JSize cursorLabelHeight	= GetCursorLabelHeight(p);
 	const JCoordinate yWidth		= p.GetStringWidth(itsYLabel);
-	const JCoordinate yStart		= itsYAxisStart - (itsYAxisStart - itsYAxisEnd - yWidth)/2;
+	const JCoordinate yStart		= (itsYAxisStart + itsYAxisEnd + yWidth)/2;
 
 	const JCoordinate xWidth		= p.GetStringWidth(itsXLabel);
-	const JCoordinate xStart		= itsXAxisStart + (itsXAxisEnd - itsXAxisStart - xWidth)/2;
+	const JCoordinate xStart		= (itsXAxisStart + itsXAxisEnd - xWidth)/2;
 	const JCoordinate xTop			= PWGetHeight() - kLabelBuffer - itsLineHeight - cursorLabelHeight;
 
 	const JCoordinate titleWidth	= p.GetStringWidth(itsTitle);
 	const JCoordinate titleStart	= itsXAxisStart + (itsXAxisEnd - itsXAxisStart - titleWidth)/2;
 
-	itsYLabelRect.Set(	yStart - yWidth, kLabelBuffer,
-						yStart, kLabelBuffer + itsLineHeight);
-
 	itsXLabelRect.Set(	xTop,
 						xStart, xTop + itsLineHeight,
 						xStart + xWidth);
+
+	itsYLabelRect.Set(	yStart - yWidth, kLabelBuffer,
+						yStart, kLabelBuffer + itsLineHeight);
 
 	itsTitleRect.Set(	kTitleBuffer, titleStart,
 						2 * kTitleBuffer + itsLineHeight,
 						titleStart + titleWidth);
 
-// Draw Axis Labels
+// Draw X Axis Label
 
-	p.String(90.0, kLabelBuffer, yStart, itsYLabel, yWidth,
-			 JPainter::kHAlignCenter, itsLineHeight,
-			 JPainter::kVAlignCenter);
+	p.String(itsXLabelRect, itsXLabel, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 
-	p.String(xStart, xTop, itsXLabel,
-			 xWidth, JPainter::kHAlignCenter,
-			 itsLineHeight, JPainter::kVAlignCenter);
+// Draw Y Axis Label
+
+	p.String(90.0, itsYLabelRect, itsYLabel, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 
 // Draw Title
 
-	p.String(titleStart, kTitleBuffer, itsTitle,
-			 titleWidth, JPainter::kHAlignCenter,
-			 itsLineHeight, JPainter::kVAlignCenter);
+	p.String(itsTitleRect, itsTitle, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 }
 
 /*******************************************************************************

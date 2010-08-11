@@ -108,7 +108,6 @@ JIndex i;
 
 	JXWindow* window = new JXWindow(this, 10,10, windowTitle);
 	assert( window != NULL );
-	SetWindow(window);
 
 	JCoordinate y = kFirstItemTop;
 

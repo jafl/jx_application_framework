@@ -100,8 +100,8 @@ private:
 	JCoordinate	itsWidth;
 	JCoordinate	itsHeight;
 
-	JBoolean	itsNeedRedrawFlag;
-	JBoolean	itsNeedRenderFlag;
+	mutable JBoolean	itsNeedRedrawFlag;
+	mutable JBoolean	itsNeedRenderFlag;
 
 private:
 

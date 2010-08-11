@@ -270,11 +270,9 @@ JXFontManager::GetFontNames
 
 		// save names for next time
 
-		JXFontManager* me = const_cast<JXFontManager*>(this);
-
-		me->itsAllFontNames =
+		itsAllFontNames =
 			new JPtrArray<JString>(*fontNames, JPtrArrayT::kDeleteAll, kJTrue);
-		assert( me->itsAllFontNames != NULL );
+		assert( itsAllFontNames != NULL );
 		}
 }
 
@@ -438,11 +436,9 @@ JXFontManager::GetMonospaceFontNames
 
 		// save names for next time
 
-		JXFontManager* me = const_cast<JXFontManager*>(this);
-
-		me->itsMonoFontNames =
+		itsMonoFontNames =
 			new JPtrArray<JString>(*fontNames, JPtrArrayT::kDeleteAll, kJTrue);
-		assert( me->itsMonoFontNames != NULL );
+		assert( itsMonoFontNames != NULL );
 		}
 }
 

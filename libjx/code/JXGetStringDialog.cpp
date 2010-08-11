@@ -75,7 +75,6 @@ JXGetStringDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 310,110, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::JXGetStringDialog::JXLayout"), window,

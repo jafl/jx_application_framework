@@ -58,6 +58,8 @@ static const char* kCurrentJCoreLibVersionStr = "2.6.0";
 //	jFileUtil:
 //		Fixed JSplitPathAndName() to recognize root directory and return it
 //			instead of returning the current working directory.
+//	JPainter:
+//		Fixed String(angle, rect, ...) to pick correct corner based on angle.
 
 // version 2.6.0:
 //	JOrderedSet:

@@ -74,13 +74,12 @@ WizConnectDialog::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 370,115, "");
+    JXWindow* window = new JXWindow(this, 370,110, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::WizConnectDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 259,84, 62,22);
+                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 260,85, 60,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::WizConnectDialog::shortcuts::JXLayout"));
 
@@ -99,11 +98,13 @@ WizConnectDialog::BuildWindow
         new JXStaticText(JGetString("obj1_JXLayout::WizConnectDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 100,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     JXStaticText* obj2_JXLayout =
         new JXStaticText(JGetString("obj2_JXLayout::WizConnectDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 20,40, 100,20);
     assert( obj2_JXLayout != NULL );
+    obj2_JXLayout->SetToLabel();
 
     itsServerAddr =
         new JXInputField(window,

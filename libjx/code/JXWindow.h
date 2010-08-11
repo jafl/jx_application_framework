@@ -214,6 +214,8 @@ public:
 
 	void	AcceptSaveYourself(const JBoolean accept);
 
+	static void	AnalyzeWindowManager(JXDisplay* d);
+
 	// called by JXContainer
 
 	JBoolean	GetMouseContainer(JXContainer** window) const;
@@ -256,11 +258,6 @@ public:
 
 	void	SetCurrentHintManager(JXHintManager* mgr);
 	void	DeactivateHint();
-
-	// called by JXSharedPrefsManager
-
-	static JBoolean	GetWMPlacementStrategy();
-	static void		SetWMPlacementStrategy(const JBoolean strategy);
 
 	// called by JXDockWidget
 
@@ -365,10 +362,9 @@ private:
 	JColorIndex	itsBackColor;
 	JXImage*	itsIcon;					// can be NULL
 	JRect		itsBounds;
-/**/
-	JPoint		itsDesktopLoc;				// stored separately, since bounds = (0,0,h,w)
-	JPoint		itsWMFrameLoc;				// upper left of Window Manager border
-/**/
+	JPoint		itsDesktopLoc;				// convert to root coordinates
+	JPoint		itsWMFrameLoc;				// top left of Window Manager frame
+	JBoolean	itsHasBeenVisibleFlag;		// XQuartz placement
 	Region		itsUpdateRegion;
 	JBoolean	itsIsMappedFlag;
 	JBoolean	itsIsIconifiedFlag;
@@ -403,6 +399,8 @@ private:
 	JXWidget*				itsFocusWidget;		// receives key events directly; not owned; can be NULL
 	JXHintManager*			itsCurrHintMgr;		// not owned; can be NULL; deactivate when key press
 
+	mutable Window	itsRootChild;				// ancestor which is direct child of root window
+
 	// multiple click detection
 
 	JXContainer*	itsPrevMouseContainer;
@@ -423,19 +421,6 @@ private:
 
 	static JBoolean	theAutoDockNewWindowFlag;			// kJTrue => check auto-docking settings
 	static JBoolean	theFocusFollowsCursorInDockFlag;	// kJTrue => automatically set input focus to docked window containing cursor
-
-	// window placement method
-/**/
-	static JBoolean theFoundWMFrameMethodFlag;
-	static JBoolean theWMFrameCompensateFlag;
-
-	static JBoolean	theWMOffsetInitFlag;
-	static JPoint	theWMOffset;
-/**/
-	static JPoint	theDesktopMargin;
-
-	static JBoolean	theWMDesktopStyleInitFlag;
-	static JBoolean	theWMDesktopMapsWindowsFlag;
 
 private:
 
@@ -1067,26 +1052,6 @@ JXWindow::SetCurrentHintManager
 }
 
 /******************************************************************************
- Window manager placement strategy (static)
-
- ******************************************************************************/
-
-inline JBoolean
-JXWindow::GetWMPlacementStrategy()
-{
-	return theWMFrameCompensateFlag;
-}
-
-inline void
-JXWindow::SetWMPlacementStrategy
-	(
-	const JBoolean strategy
-	)
-{
-	theWMFrameCompensateFlag = strategy;
-}
-
-/******************************************************************************
  Docking strategy (static)
 
  ******************************************************************************/
@@ -1124,29 +1089,6 @@ JXWindow::ShouldFocusFollowCursorInDock
 	)
 {
 	theFocusFollowsCursorInDockFlag = focusFollowsCursor;
-}
-
-/******************************************************************************
- Desktop margin (static)
-
- ******************************************************************************/
-
-inline void
-JXWindow::SetDesktopHMargin
-	(
-	const JCoordinate dw
-	)
-{
-	theDesktopMargin.x = dw;
-}
-
-inline void
-JXWindow::SetDesktopVMargin
-	(
-	const JCoordinate dh
-	)
-{
-	theDesktopMargin.y = dh;
 }
 
 #endif

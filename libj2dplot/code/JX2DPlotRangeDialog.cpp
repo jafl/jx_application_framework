@@ -64,7 +64,6 @@ JX2DPlotRangeDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 390,120, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::JX2DPlotRangeDialog::JXLayout"), window,

@@ -50,7 +50,6 @@ AboutDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 100,100, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::AboutDialog::JXLayout"), window,

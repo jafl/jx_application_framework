@@ -61,7 +61,6 @@ JIndex i;
 
 	JXWindow* window = new JXWindow(this, kWindowWidth,kWindowHeight, "");
 	assert( window != NULL );
-	SetWindow(window);
 
 	window->SetTitle("Test Drag-And-Drop (text)");
 

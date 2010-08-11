@@ -81,10 +81,10 @@ private:
 	JBoolean	itsIsValidFlag;
 	JBoolean	itsIsListeningFlag;
 
-	JFloat	itsCurrentXMin;
-	JFloat	itsCurrentXMax;
-	JFloat	itsCurrentYMin;
-	JFloat	itsCurrentYMax;
+	mutable JFloat	itsCurrentXMin;
+	mutable JFloat	itsCurrentXMax;
+	mutable JFloat	itsCurrentYMin;
+	mutable JFloat	itsCurrentYMax;
 
 private:
 

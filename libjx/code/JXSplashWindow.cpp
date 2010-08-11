@@ -88,7 +88,6 @@ JXSplashWindow::BuildWindow
 									totalHeight + 3*borderWidth,
 									"Splash", kJTrue);
 	assert( window != NULL );
-	SetWindow(window);
 
 	JXEmbossedRect* border =
 		new JXEmbossedRect(window, JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);

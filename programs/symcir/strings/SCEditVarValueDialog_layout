@@ -1,0 +1,5 @@
+0
+okButton::SCEditVarValueDialog::JXLayout "OK"
+obj1_JXLayout::SCEditVarValueDialog::JXLayout "New value:"
+okButton::SCEditVarValueDialog::shortcuts::JXLayout "^M"
+cancelButton::SCEditVarValueDialog::JXLayout "Cancel"

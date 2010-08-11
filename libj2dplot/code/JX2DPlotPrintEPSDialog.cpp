@@ -192,7 +192,6 @@ JX2DPlotPrintEPSDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 370,190, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* chooseFileButton =
         new JXTextButton(JGetString("chooseFileButton::JX2DPlotPrintEPSDialog::JXLayout"), window,

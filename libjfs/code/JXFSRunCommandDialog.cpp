@@ -119,7 +119,6 @@ JXFSRunCommandDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 440,180, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsCmdInput =
         new JXInputField(window,

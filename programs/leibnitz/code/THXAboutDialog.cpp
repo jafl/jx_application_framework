@@ -72,7 +72,6 @@ THXAboutDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 430,180, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXImageWidget* thxIcon =
         new JXImageWidget(window,

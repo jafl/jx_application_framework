@@ -96,7 +96,6 @@ JXChoosePathDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 310,370, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* openButton =
         new JXTextButton(JGetString("openButton::JXChoosePathDialog::JXLayout"), window,

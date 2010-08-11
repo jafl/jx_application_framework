@@ -135,7 +135,6 @@ THXBaseConvDirector::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 180,160, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsCloseButton =
         new JXTextButton(JGetString("itsCloseButton::THXBaseConvDirector::JXLayout"), window,

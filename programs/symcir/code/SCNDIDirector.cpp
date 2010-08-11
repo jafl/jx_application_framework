@@ -106,9 +106,8 @@ SCNDIDirector::BuildWindow
 
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 365,345, "");
+    JXWindow* window = new JXWindow(this, 360,340, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsMainPartition =
         new JXVertPartition(heights, 0, minHeights, window,
@@ -126,12 +125,12 @@ SCNDIDirector::BuildWindow
     assert( itsSource2 != NULL );
 
     itsEvalButton =
-        new JXTextButton("Evaluate", window,
+        new JXTextButton(JGetString("itsEvalButton::SCNDIDirector::JXLayout"), window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 230,20, 80,20);
     assert( itsEvalButton != NULL );
 
     JXStaticText* layoutMessage =
-        new JXStaticText("Output fn", window,
+        new JXStaticText(JGetString("layoutMessage::SCNDIDirector::JXLayout"), window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 210,50, 120,40);
     assert( layoutMessage != NULL );
 

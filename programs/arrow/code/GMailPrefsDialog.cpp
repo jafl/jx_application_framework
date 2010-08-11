@@ -103,7 +103,6 @@ GMailPrefsDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 360,550, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsMaxReplyInput =
         new JXIntegerInput(window,

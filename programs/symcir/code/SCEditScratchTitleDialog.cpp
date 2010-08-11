@@ -58,23 +58,23 @@ SCEditScratchTitleDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 210,110, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* cancelButton =
-        new JXTextButton("Cancel", window,
+        new JXTextButton(JGetString("cancelButton::SCEditScratchTitleDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 30,75, 60,20);
     assert( cancelButton != NULL );
 
     JXTextButton* okButton =
-        new JXTextButton("OK", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 119,74, 62,22);
+        new JXTextButton(JGetString("okButton::SCEditScratchTitleDialog::JXLayout"), window,
+                    JXWidget::kHElastic, JXWidget::kVElastic, 120,75, 60,20);
     assert( okButton != NULL );
-    okButton->SetShortcuts("^M");
+    okButton->SetShortcuts(JGetString("okButton::SCEditScratchTitleDialog::shortcuts::JXLayout"));
 
-    JXStaticText* obj1 =
-        new JXStaticText("New window title:", window,
+    JXStaticText* obj1_JXLayout =
+        new JXStaticText(JGetString("obj1_JXLayout::SCEditScratchTitleDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 110,20);
-    assert( obj1 != NULL );
+    assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     itsTitle =
         new JXInputField(window,

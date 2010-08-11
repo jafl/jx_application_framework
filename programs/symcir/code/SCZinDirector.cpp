@@ -88,17 +88,16 @@ SCZinDirector::BuildWindow
 
     JXWindow* window = new JXWindow(this, 350,240, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsEvalButton =
-        new JXTextButton("Evaluate", window,
+        new JXTextButton(JGetString("itsEvalButton::SCZinDirector::JXLayout"), window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 230,45, 80,20);
     assert( itsEvalButton != NULL );
 
-    SCExprEditorSet* obj1 =
+    SCExprEditorSet* obj1_JXLayout =
         new SCExprEditorSet(doc, &itsResult, window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 0,110, 350,130);
-    assert( obj1 != NULL );
+    assert( obj1_JXLayout != NULL );
 
     itsPosNode =
         new SCNodeMenu(circuit, "Positive node:", window,

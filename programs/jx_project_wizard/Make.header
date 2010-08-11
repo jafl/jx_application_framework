@@ -23,7 +23,6 @@ SEARCHDIRS := -I${CODEDIR} \
 # other constants
 
 PROG_NAME          := jx_project_wizard
-PROG_VERSION        = ${JX_VERSION}
 PROG_STRING_FILES  := strings/*
 ROOT_DATA_FILE_DIR := /usr/lib/jx/jx_project_wizard
 

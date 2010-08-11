@@ -45,7 +45,7 @@ public:
 	JXImage(JXDisplay* display,
 			const JCoordinate width, const JCoordinate height,
 			const JColorIndex initColor = kJXTransparentColor, // placeholder for GetDefaultBackColor()
-			const JSize depth = 0);
+			const JSize depth = 0, const State initState = kRemoteStorage);
 
 	JXImage(JXDisplay* display, Drawable source);
 	JXImage(JXDisplay* display, Drawable source, const JRect& rect);

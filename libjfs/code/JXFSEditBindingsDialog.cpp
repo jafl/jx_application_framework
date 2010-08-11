@@ -150,7 +150,6 @@ JXFSEditBindingsDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 580,430, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsSaveButton =
         new JXTextButton(JGetString("itsSaveButton::JXFSEditBindingsDialog::JXLayout"), window,

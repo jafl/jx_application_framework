@@ -169,9 +169,10 @@ GMailboxTreeDir::BuildWindow()
 {
 	JCoordinate w = 360;
 	JCoordinate h = 500;
+
 	JXWindow* window = new JXWindow(this, w,h, "Mailbox window");
     assert( window != NULL );
-    SetWindow(window);
+
 	window->SetWMClass(GMGetWMClassInstance(), GMGetMailboxWindowClass());
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
     window->PlaceAsDialogWindow();

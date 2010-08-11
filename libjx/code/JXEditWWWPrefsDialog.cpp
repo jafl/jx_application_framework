@@ -62,7 +62,6 @@ JXEditWWWPrefsDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 520,290, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsShowURLCmdInput =
         new JXInputField(window,

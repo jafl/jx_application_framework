@@ -82,11 +82,6 @@ public:
 		return JPoint(xcenter(), ycenter());
 	};
 
-	// Metrowerks <MacHeaders.c> #define's topLeft()
-	#ifdef topLeft
-	#undef topLeft
-	#endif
-
 	JPoint
 	topLeft() const
 	{

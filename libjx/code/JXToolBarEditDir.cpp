@@ -95,7 +95,6 @@ JXToolBarEditDir::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 320,430, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXScrollbarSet* scrollbarSet =
         new JXScrollbarSet(window,

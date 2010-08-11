@@ -144,7 +144,6 @@ THXVarDirector::BuildWindow
 
     JXWindow* window = new JXWindow(this, 260,250, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXMenuBar* menuBar =
         new JXMenuBar(window,

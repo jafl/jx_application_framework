@@ -52,7 +52,6 @@ JXAcceptLicenseDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 510,570, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* noButton =
         new JXTextButton(JGetString("noButton::JXAcceptLicenseDialog::JXLayout"), window,

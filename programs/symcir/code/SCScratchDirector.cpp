@@ -82,12 +82,11 @@ SCScratchDirector::BuildWindow
 
     JXWindow* window = new JXWindow(this, 350,130, "");
     assert( window != NULL );
-    SetWindow(window);
 
-    SCExprEditorSet* obj1 =
+    SCExprEditorSet* obj1_JXLayout =
         new SCExprEditorSet(doc, &itsFunction, window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 350,130);
-    assert( obj1 != NULL );
+    assert( obj1_JXLayout != NULL );
 
 // end JXLayout
 

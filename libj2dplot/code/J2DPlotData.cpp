@@ -213,8 +213,8 @@ J2DPlotData::GetXRange
 				}
 			}
 
-		const_cast<J2DPlotData*>(this)->itsCurrentXMin = *min;
-		const_cast<J2DPlotData*>(this)->itsCurrentXMax = *max;
+		itsCurrentXMin = *min;
+		itsCurrentXMax = *max;
 		}
 }
 
@@ -259,8 +259,8 @@ J2DPlotData::GetYRange
 				}
 			}
 
-		const_cast<J2DPlotData*>(this)->itsCurrentYMin = *yMin;
-		const_cast<J2DPlotData*>(this)->itsCurrentYMax = *yMax;
+		itsCurrentYMin = *yMin;
+		itsCurrentYMax = *yMax;
 		}
 
 	return kJTrue;

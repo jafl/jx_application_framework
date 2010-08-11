@@ -523,16 +523,35 @@ JIndex i;
 	p.String(180.0, textPt, "Hello");
 	p.String(270.0, textPt, "Hello");
 
-	p.Rect(310, 70, 80, 80);
-	p.String(  0.0, 310, 70, "Hello", 80, JPainter::kHAlignCenter,
-									  80, JPainter::kVAlignCenter);
-	p.String( 90.0, 310,150, "Hello", 80, JPainter::kHAlignCenter,
-									  80, JPainter::kVAlignCenter);
-	p.String(180.0, 390,150, "Hello", 80, JPainter::kHAlignCenter,
-									  80, JPainter::kVAlignCenter);
-	p.String(270.0, 390, 70, "Hello", 80, JPainter::kHAlignCenter,
-									  80, JPainter::kVAlignCenter);
+	p.ShiftOrigin(-2, 0);
 
+	p.SetPenColor(colormap->GetBlueColor());
+	JRect r(70, 290, 150, 390);
+	p.Rect(r);
+/*
+	for (JCoordinate y=70; y<150; y++)
+		{
+		p.SetPenColor(colormap->GetGrayColor(y-50));
+		p.Line(290,y, 390,y);
+		}
+
+	for (JCoordinate x=290; x<390; x++)
+		{
+		p.SetPenColor(colormap->GetGrayColor(x-290));
+		p.Line(x,70, x,150);
+		}
+*/
+	p.String(  0.0, r, "Hello", JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+	p.String( 90.0, r, "Hello", JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+	p.String(180.0, r, "Hello", JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+	p.String(270.0, r, "Hello", JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+
+	p.String(  0.0, r, "Hello", JPainter::kHAlignRight, JPainter::kVAlignBottom);
+	p.String( 90.0, r, "Hello", JPainter::kHAlignRight, JPainter::kVAlignBottom);
+	p.String(180.0, r, "Hello", JPainter::kHAlignRight, JPainter::kVAlignBottom);
+	p.String(270.0, r, "Hello", JPainter::kHAlignRight, JPainter::kVAlignBottom);
+
+	p.SetPenColor(colormap->GetBlueColor());
 	p.Rect(200, 10, 100, 50);
 	p.String(200, 10, "Hello", 100, JPainter::kHAlignLeft);
 	p.String(200, 10+p.GetLineHeight(), "Hello", 100, JPainter::kHAlignCenter);
@@ -540,8 +559,22 @@ JIndex i;
 
 	p.SetPenColor(colormap->GetDarkGreenColor());
 	p.SetFilling(kJTrue);
-	p.Rect(310, 160, 80, 80);
-	textPt.Set(350, 200);
+	p.Rect(290, 160, 100, 80);
+	p.SetFilling(kJFalse);
+/*
+	for (JCoordinate y=160; y<240; y++)
+		{
+		p.SetPenColor(colormap->GetGrayColor(y-140));
+		p.Line(290,y, 390,y);
+		}
+
+	for (JCoordinate x=290; x<390; x++)
+		{
+		p.SetPenColor(colormap->GetGrayColor(x-290));
+		p.Line(x,160, x,240);
+		}
+*/
+	textPt.Set(340, 200);
 	p.SetFontName("Times");
 	p.SetFontStyle(colormap->GetBlueColor());
 	p.String(  0.0, textPt, "Hello");
@@ -549,10 +582,9 @@ JIndex i;
 	p.SetFontStyle(colormap->GetYellowColor());
 	p.String(180.0, textPt, "Hello");
 	p.String(270.0, textPt, "Hello");
-	p.SetFilling(kJFalse);
 
 	p.SetPenColor(colormap->GetYellowColor());
-	JRect r(0,11,80,91);
+	r.Set(0,11,80,91);
 	p.Rect(r);
 	r.Shrink(1,1);
 	p.SetPenColor(colormap->GetBlueColor());

@@ -466,3 +466,53 @@ JPainter::RectInside
 
 	Rect(r);
 }
+
+/******************************************************************************
+ String
+
+ ******************************************************************************/
+
+void
+JPainter::String
+	(
+	const JFloat		userAngle,
+	const JRect&		rect,
+	const JCharacter*	str,
+	const HAlignment	hAlign,
+	const VAlignment	vAlign
+	)
+{
+	// adjust the angle to lie between -45 and 315
+
+	JFloat angle = userAngle;
+	while (angle <= -45.0)
+		{
+		angle += 360.0;
+		}
+	while (angle > 315.0)
+		{
+		angle -= 360.0;
+		}
+
+	// pick the correct origin
+
+	JPoint topLeft;
+	if (-45.0 < angle && angle <= 45.0)
+		{
+		topLeft = rect.topLeft();
+		}
+	else if (45.0 < angle && angle <= 135.0)
+		{
+		topLeft = rect.bottomLeft();
+		}
+	else if (135.0 < angle && angle <= 225.0)
+		{
+		topLeft = rect.bottomRight();
+		}
+	else	// 225.0 < angle && angle <= 315.0
+		{
+		topLeft = rect.topRight();
+		}
+
+	String(angle, topLeft, str, rect.width(), hAlign, rect.height(), vAlign);
+}

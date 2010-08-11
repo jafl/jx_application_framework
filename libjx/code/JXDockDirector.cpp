@@ -154,7 +154,6 @@ JXDockDirector::BuildWindow
 
 	JXWindow* window = new JXWindow(this, w, h, title);
 	assert( window != NULL );
-	SetWindow(window);
 
 	JXImage* icon;
 	if ((JXGetDockManager())->CreateIcon(&icon))

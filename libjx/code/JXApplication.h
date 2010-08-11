@@ -173,6 +173,7 @@ private:
 	friend class JXUserNotification;
 	friend class JXStandAlonePG;
 	friend class JXDNDManager;
+	friend class JXWindow;
 
 	// not allowed
 

@@ -59,7 +59,6 @@ JXWarningDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 330,110, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* noButton =
         new JXTextButton(JGetString("noButton::JXWarningDialog::JXLayout"), window,

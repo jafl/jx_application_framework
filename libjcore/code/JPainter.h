@@ -521,20 +521,6 @@ JPainter::String
 	String(angle, topLeft.x, topLeft.y, str, width, hAlign, height, vAlign);
 }
 
-inline void
-JPainter::String
-	(
-	const JFloat		angle,
-	const JRect&		rect,
-	const JCharacter*	str,
-	const HAlignment	hAlign,
-	const VAlignment	vAlign
-	)
-{
-	String(angle, rect.left, rect.top, str,
-		   rect.width(), hAlign, rect.height(), vAlign);
-}
-
 /******************************************************************************
  Point
 

@@ -94,7 +94,6 @@ SCVarListDirector::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 260,280, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXMenuBar* menuBar =
         new JXMenuBar(window,

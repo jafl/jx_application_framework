@@ -43,10 +43,8 @@
 #include <jMissingProto.h>
 #include <jAssert.h>
 
-static const JCharacter* kDisplayOptionName        = "-display";
-static const JCharacter* kXDebugOptionName         = "--xdebug";
-static const JCharacter* kHDesktopAdjustOptionName = "--desktop-h";
-static const JCharacter* kVDesktopAdjustOptionName = "--desktop-v";
+static const JCharacter* kDisplayOptionName = "-display";
+static const JCharacter* kXDebugOptionName  = "--xdebug";
 
 const time_t kTimerStart = J_TIME_T_MAX/1000U;	// milliseconds before rollover
 const Time kMaxSleepTime = 50;					// 0.05 seconds (in milliseconds)
@@ -1143,30 +1141,6 @@ JXApplication::ParseBaseOptions
 			RemoveCmdLineOption(argc, argv, i, 1);
 			i--;
 			}
-		else if (strcmp(argv[i], kHDesktopAdjustOptionName) == 0)
-			{
-			i++;
-			if (i >= *argc || argv[i][0] == '-')
-				{
-				cerr << argv[0] << ": Invalid desktop adjustment option" << endl;
-				JThisProcess::Exit(1);
-				}
-			JXWindow::SetDesktopHMargin(atoi(argv[i]));
-			RemoveCmdLineOption(argc, argv, i-1, 2);
-			i -= 2;
-			}
-		else if (strcmp(argv[i], kVDesktopAdjustOptionName) == 0)
-			{
-			i++;
-			if (i >= *argc || argv[i][0] == '-')
-				{
-				cerr << argv[0] << ": Invalid desktop adjustment option" << endl;
-				JThisProcess::Exit(1);
-				}
-			JXWindow::SetDesktopVMargin(atoi(argv[i]));
-			RemoveCmdLineOption(argc, argv, i-1, 2);
-			i -= 2;
-			}
 		}
 }
 
@@ -1191,9 +1165,7 @@ JXApplication::StripBaseOptions
 			count--;
 			i--;
 			}
-		else if (*arg == kDisplayOptionName       ||
-				 *arg == kHDesktopAdjustOptionName ||
-				 *arg == kVDesktopAdjustOptionName)
+		else if (*arg == kDisplayOptionName)
 			{
 			argList->DeleteElement(i);
 			argList->DeleteElement(i);

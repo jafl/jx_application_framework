@@ -266,7 +266,6 @@ GMessageEditDir::BuildWindow()
 	JString path;
 	JXWindow* window = new JXWindow(this, w,h, "New Message");
 	assert( window != NULL );
-	SetWindow(window);
 
 	window->SetMinSize(w, 250);
 	window->ShouldFocusWhenShow(kJTrue);

@@ -68,7 +68,6 @@ JXExprEvalDirector::BuildWindow
 {
 	JXWindow* window = new JXWindow(this, 200,40, "");
 	assert( window != NULL );
-	SetWindow(window);
 
 	itsTextDisplay =
 		new JXStaticText("", kJFalse, kJTrue, NULL, window,

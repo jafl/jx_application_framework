@@ -61,7 +61,6 @@ TestExprDirector::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 150,150, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsTestFEditButton =
         new JXTextButton(JGetString("itsTestFEditButton::TestExprDirector::JXLayout"), window,

@@ -61,7 +61,6 @@ JXChooseColorDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 510,250, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::JXChooseColorDialog::JXLayout"), window,

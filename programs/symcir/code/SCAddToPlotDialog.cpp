@@ -58,7 +58,6 @@ SCAddToPlotDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 300,170, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* cancelButton =
         new JXTextButton(JGetString("cancelButton::SCAddToPlotDialog::JXLayout"), window,
@@ -67,7 +66,7 @@ SCAddToPlotDialog::BuildWindow
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::SCAddToPlotDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 179,139, 62,22);
+                    JXWidget::kHElastic, JXWidget::kVElastic, 180,140, 60,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::SCAddToPlotDialog::shortcuts::JXLayout"));
 
@@ -75,6 +74,7 @@ SCAddToPlotDialog::BuildWindow
         new JXStaticText(JGetString("obj1_JXLayout::SCAddToPlotDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 20,70, 80,20);
     assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     itsCurveName =
         new JXInputField(window,
@@ -95,11 +95,13 @@ SCAddToPlotDialog::BuildWindow
         new JXStaticText(JGetString("obj2_JXLayout::SCAddToPlotDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 20,100, 140,20);
     assert( obj2_JXLayout != NULL );
+    obj2_JXLayout->SetToLabel();
 
     JXStaticText* obj3_JXLayout =
         new JXStaticText(JGetString("obj3_JXLayout::SCAddToPlotDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 210,100, 20,20);
     assert( obj3_JXLayout != NULL );
+    obj3_JXLayout->SetToLabel();
 
     itsPlotMenu =
         new JXTextMenu(JGetString("itsPlotMenu::SCAddToPlotDialog::JXLayout"), window,

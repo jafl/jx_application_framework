@@ -69,33 +69,33 @@ SCEditFnDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 330,230, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsVarName =
         new JXExprInput(window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 110,15, 200,20);
     assert( itsVarName != NULL );
 
-    JXExprEditorSet* obj1 =
+    JXExprEditorSet* obj1_JXLayout =
         new JXExprEditorSet(varList, &itsExprWidget, window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 0,50, 330,130);
-    assert( obj1 != NULL );
+    assert( obj1_JXLayout != NULL );
 
     JXTextButton* cancelButton =
-        new JXTextButton("Cancel", window,
+        new JXTextButton(JGetString("cancelButton::SCEditFnDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 50,200, 70,20);
     assert( cancelButton != NULL );
 
     JXTextButton* okButton =
-        new JXTextButton("OK", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 199,199, 72,22);
+        new JXTextButton(JGetString("okButton::SCEditFnDialog::JXLayout"), window,
+                    JXWidget::kHElastic, JXWidget::kVElastic, 200,200, 70,20);
     assert( okButton != NULL );
-    okButton->SetShortcuts("^M");
+    okButton->SetShortcuts(JGetString("okButton::SCEditFnDialog::shortcuts::JXLayout"));
 
-    JXStaticText* obj2 =
-        new JXStaticText("Variable name:", window,
+    JXStaticText* obj2_JXLayout =
+        new JXStaticText(JGetString("obj2_JXLayout::SCEditFnDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 10,15, 100,20);
-    assert( obj2 != NULL );
+    assert( obj2_JXLayout != NULL );
+    obj2_JXLayout->SetToLabel();
 
 // end JXLayout
 

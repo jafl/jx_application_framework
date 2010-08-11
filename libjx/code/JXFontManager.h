@@ -110,8 +110,8 @@ private:
 	JXDisplay*			itsDisplay;
 	JArray<FontInfo>*	itsFontList;
 
-	JPtrArray<JString>*	itsAllFontNames;	// can be NULL
-	JPtrArray<JString>*	itsMonoFontNames;	// can be NULL
+	mutable JPtrArray<JString>*	itsAllFontNames;	// can be NULL
+	mutable JPtrArray<JString>*	itsMonoFontNames;	// can be NULL
 
 private:
 

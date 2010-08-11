@@ -70,7 +70,6 @@ GPMAboutDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 430,180, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXStaticText* textWidget =
         new JXStaticText(JGetString("textWidget::GPMAboutDialog::JXLayout"), window,

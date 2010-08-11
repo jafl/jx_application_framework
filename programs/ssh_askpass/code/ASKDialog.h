@@ -12,11 +12,11 @@
 #pragma once
 #endif
 
-#include <JXDialogDirector.h>
+#include <JXGetStringDialog.h>
 
 class JXPasswordInput;
 
-class ASKDialog : public JXDialogDirector
+class ASKDialog : public JXGetStringDialog
 {
 public:
 
@@ -29,16 +29,6 @@ protected:
 	virtual JBoolean	OKToDeactivate();
 
 private:
-
-// begin JXLayout
-
-    JXPasswordInput* itsPassphraseInput;
-
-// end JXLayout
-
-private:
-
-	void	BuildWindow();
 
 	// not allowed
 

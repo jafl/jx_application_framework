@@ -67,7 +67,6 @@ SyGChoosePathDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 310,400, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* cancelButton =
         new JXTextButton(JGetString("cancelButton::SyGChoosePathDialog::JXLayout"), window,

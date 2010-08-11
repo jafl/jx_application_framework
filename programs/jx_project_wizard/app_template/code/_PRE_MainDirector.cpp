@@ -135,7 +135,6 @@ void
 
     JXWindow* window = new JXWindow(this, 500,300, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXMenuBar* menuBar =
         new JXMenuBar(window,

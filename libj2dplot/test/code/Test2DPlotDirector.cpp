@@ -73,7 +73,6 @@ Test2DPlotDirector::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 600,400, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXMenuBar* menuBar =
         new JXMenuBar(window,

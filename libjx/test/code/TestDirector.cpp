@@ -44,6 +44,7 @@
 #include <JXColormap.h>
 #include <JXHelpManager.h>
 #include <JXTipOfTheDayDialog.h>
+#include <JXStandAlonePG.h>
 #include <jXActionDefs.h>
 
 #include <JConstBitmap.h>
@@ -307,7 +308,6 @@ TestDirector::BuildWindow
 
     JXWindow* window = new JXWindow(this, 400,330, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXMenuBar* menuBar =
         new JXMenuBar(window,
@@ -1136,6 +1136,7 @@ TestDirector::FGProcess
 	)
 {
 	JProgressDisplay* pg = JNewPG();
+	dynamic_cast<JXStandAlonePG*>(pg)->RaiseWhenUpdate();
 
 	const JSize stepCount = 100;
 	if (fixedLength)

@@ -59,7 +59,32 @@ public:
 		kWMPopupMenuTypeXAtomIndex,
 		kWMTooltipTypeXAtomIndex,
 
+		kJXWMBehaviorV0XAtomIndex,
+
 		kStandardXAtomCount
+	};
+
+	// filled in by JXWindow::AnalyzeWindowManager
+
+	struct WMBehavior
+	{
+		JBoolean	desktopMapsWindowsFlag;	// windows on virtual desktops are unmapped
+		JBoolean	frameCompensateFlag;	// compensate for wm frame when placing
+		JPoint		reshowOffset;			// re-showing a window also moves it
+
+		WMBehavior()
+			:
+			desktopMapsWindowsFlag(kJTrue),
+			frameCompensateFlag(kJFalse)
+		{ };
+
+		JBoolean	Load(JXDisplay* display);
+		void		Save(JXDisplay* display) const;
+
+		private:
+
+		JBoolean	Read(istream& input, const JFileVersion vers);
+		void		WriteV0(ostream& output) const;
 	};
 
 public:
@@ -170,6 +195,9 @@ public:
 	Atom	GetWMCurrentDesktopXAtom() const;
 	Atom	GetWMWindowTypeXAtom() const;
 	Atom	GetWMWindowTypeXAtom(const JIndex type) const;
+
+	const WMBehavior&	GetWMBehavior() const;
+	void				SetWMBehavior(const WMBehavior& behavior);
 
 	// called by Menu objects
 
@@ -294,6 +322,8 @@ private:
 	JXImageCache*		itsImageCache;
 
 	Atom	itsStandardXAtoms[ kStandardXAtomCount ];
+
+	WMBehavior	itsWMBehavior;
 
 private:
 
@@ -931,6 +961,27 @@ JXDisplay::SetKeyboardGrabber
 	)
 {
 	itsKeyboardGrabber = window;
+}
+
+/******************************************************************************
+ Window Manager behavior
+
+ ******************************************************************************/
+
+inline const JXDisplay::WMBehavior&
+JXDisplay::GetWMBehavior()
+	const
+{
+	return itsWMBehavior;
+}
+
+inline void
+JXDisplay::SetWMBehavior
+	(
+	const WMBehavior& behavior
+	)
+{
+	itsWMBehavior = behavior;
 }
 
 #endif

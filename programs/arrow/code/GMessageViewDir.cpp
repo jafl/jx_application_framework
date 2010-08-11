@@ -261,10 +261,9 @@ GMessageViewDir::BuildWindow
 {
 	JSize w = 500;
 	JSize h = 300;
-	JXWindow* window =
-		new JXWindow(this, w,h, mailfile);
+	JXWindow* window = new JXWindow(this, w,h, mailfile);
     assert( window != NULL );
-    SetWindow(window);
+
 	window->SetWMClass(GMGetWMClassInstance(), GMGetViewWindowClass());
     GGetPrefsMgr()->GetViewWindowSize(window);
 	w = window->GetFrameWidth();

@@ -111,7 +111,6 @@ JX2DPlotScaleDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 540,190, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::JX2DPlotScaleDialog::JXLayout"), window,

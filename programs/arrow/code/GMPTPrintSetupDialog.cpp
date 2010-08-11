@@ -78,7 +78,6 @@ GMPTPrintSetupDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 370,240, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXStaticText* printCmdLabel =
         new JXStaticText(JGetString("printCmdLabel::GMPTPrintSetupDialog::JXLayout"), window,

@@ -83,7 +83,7 @@ JXHintDirector::BuildWindow
 
 	JXWindow* window = new JXWindow(this, 10,10, "", kJTrue);
     assert( window != NULL );
-    SetWindow(window);
+
     window->SetWMWindowType(JXWindow::kWMTooltipType);
 
 	JXBorderRect* border =

@@ -92,7 +92,6 @@ THX3DPlotFunctionDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 440,300, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXExprEditorSet* obj1_JXLayout =
         new JXExprEditorSet(varList, &itsExprWidget, window,

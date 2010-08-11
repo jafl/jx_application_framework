@@ -70,7 +70,6 @@ void
 
     JXWindow* window = new JXWindow(this, 370,120, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXStaticText* textWidget =
         new JXStaticText(JGetString("textWidget::<PRE>AboutDialog::JXLayout"), window,

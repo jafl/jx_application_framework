@@ -83,7 +83,6 @@ TestStrTableDirector::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 400,330, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXMenuBar* menuBar =
         new JXMenuBar(window,

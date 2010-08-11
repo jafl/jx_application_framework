@@ -39,6 +39,7 @@ public:
 	// const JKLRand& operator=(const JKLRand& source);
 
 // random ints
+
 	JInt32  UniformInt32() const;
 	JUInt32 UniformUInt32() const;
 
@@ -47,6 +48,7 @@ public:
 	unsigned long UniformULong(const unsigned long lim1, const unsigned long lim2) const;
 
 // random floats
+
 	double UniformClosedProb() const;
 	double UniformSemiOpenProb() const;
 	// A default with a shorter name
@@ -55,13 +57,14 @@ public:
 	double UniformDouble(const double lim1, const double lim2) const;
 
 // Methods to manipulate the seed
+
 	JInt32 GetSeed() const;
 	void   SetSeed(const JInt32 newSeed);
 	JInt32 SetSeedByAbsoluteTime();
 
 private:
 
-	JInt32 itsSeed;
+	mutable JInt32 itsSeed;
 };
 
 /******************************************************************************
@@ -75,7 +78,7 @@ private:
 inline JInt32
 JKLRand::UniformInt32() const
 {
-	const_cast<JKLRand*>(this)->itsSeed = JKLRandInt32(itsSeed);
+	itsSeed = JKLRandInt32(itsSeed);
 	return itsSeed;
 }
 

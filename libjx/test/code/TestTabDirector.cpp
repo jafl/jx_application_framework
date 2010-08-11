@@ -57,7 +57,6 @@ TestTabDirector::BuildWindow()
 {
 	JXWindow* window = new JXWindow(this, 300,300, "");
 	assert( window != NULL );
-	SetWindow(window);
 
 	window->SetTitle("Test Tab Group");
 	window->SetWMClass("testjx", "TestTabDirector");

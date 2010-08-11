@@ -74,7 +74,6 @@ GMAboutDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 460,240, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXStaticText* textWidget =
         new JXStaticText(JGetString("textWidget::GMAboutDialog::JXLayout"), window,

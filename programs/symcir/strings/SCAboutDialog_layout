@@ -1,0 +1,4 @@
+0
+okButton::SCAboutDialog::JXLayout "OK"
+text::SCAboutDialog::JXLayout ""
+okButton::SCAboutDialog::shortcuts::JXLayout "^M"

@@ -150,7 +150,6 @@ JXHelpDirector::BuildWindow
 
     JXWindow* window = new JXWindow(this, 600,550, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXScrollbarSet* scrollbarSet =
         new JXScrollbarSet(window,

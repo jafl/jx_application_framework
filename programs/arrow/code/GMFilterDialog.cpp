@@ -95,7 +95,6 @@ GMFilterDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 470,450, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsVertPartition =
         new JXVertPartition(heights, elasticIndex, minHeights, window,

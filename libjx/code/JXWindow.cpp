@@ -17,7 +17,6 @@
 #include <JXDNDManager.h>
 #include <JXHintManager.h>
 #include <JXRaiseWindowTask.h>
-#include <JXWidget.h>
 #include <JXTextMenu.h>
 #include <JXDisplay.h>
 #include <JXGC.h>
@@ -30,7 +29,6 @@
 #include <JXDockDirector.h>
 #include <JXDockWidget.h>
 #include <JXDockWindowTask.h>
-#include <jXEventUtil.h>
 #include <jXUtil.h>
 #include <jXGlobals.h>
 
@@ -39,30 +37,13 @@
 
 #include <JThisProcess.h>
 #include <jASCIIConstants.h>
-#include <JMinMax.h>
 #include <jStreamUtil.h>
-#include <jDirUtil.h>
-#include <jMath.h>
 #include <jTime.h>
-#include <sstream>
-#include <stdlib.h>
-#include <ctype.h>
-#include <limits.h>
 #include <jAssert.h>
 
-JBoolean JXWindow::theFoundWMFrameMethodFlag = kJFalse;
-JBoolean JXWindow::theWMFrameCompensateFlag  = kJFalse;
-const JCoordinate kWMFrameSlop               = 2;	// pixels
-
-// useful for research
-static const JCharacter* kWMOffsetFileName = "~/.jx/wm_offset";
-JBoolean JXWindow::theWMOffsetInitFlag     = kJFalse;
-JPoint JXWindow::theWMOffset;
-JPoint JXWindow::theDesktopMargin;
-
-static const JCharacter* kWMDesktopStyleFileName = "~/.jx/wm_desktop_style";
-JBoolean JXWindow::theWMDesktopStyleInitFlag   = kJFalse;
-JBoolean JXWindow::theWMDesktopMapsWindowsFlag = kJTrue;
+static JBoolean theAnalyzeWMFlag = kJFalse;
+const JCoordinate kWMFrameSlop   = 2;		// pixels
+const JFloat kSyncExtraDelay     = 0.3;		// seconds
 
 JBoolean JXWindow::theAutoDockNewWindowFlag        = kJTrue;
 JBoolean JXWindow::theFocusFollowsCursorInDockFlag = kJFalse;
@@ -116,15 +97,42 @@ JXWindow::JXWindow
 	:
 	JXContainer((JXGetApplication())->GetCurrentDisplay(), this, NULL),
 	itsDirector(director),
+	itsIconDir(NULL),
 	itsMainWindow(NULL),
 	itsIsOverlayFlag(isOverlay),
+	itsBufferPixmap(None),
 	itsTitle(title),
+	itsIcon(NULL),
 	itsBounds(0, 0, h, w),
+	itsHasBeenVisibleFlag(kJFalse),
+	itsUpdateRegion(XCreateRegion()),
+	itsIsMappedFlag(kJFalse),
+	itsIsIconifiedFlag(kJFalse),
+	itsHasFocusFlag(kJFalse),
+	itsFocusWhenShowFlag(kJFalse),
+	itsBufferDrawingFlag(isOverlay),
+	itsKeepBufferPixmapFlag(isOverlay),
+	itsUseBkgdPixmapFlag(isOverlay),
 	itsIsDestructingFlag(kJFalse),
 	itsHasMinSizeFlag(kJFalse),
 	itsHasMaxSizeFlag(kJFalse),
+	itsCloseAction(kCloseDirector),
+	itsCursorIndex(kJXDefaultCursor),
+	itsMouseContainer(NULL),
+	itsIsDraggingFlag(kJFalse),
+	itsProcessDragFlag(kJFalse),
+	itsCursorLeftFlag(kJFalse),
+	itsCleanAfterBlockFlag(kJFalse),
+	itsButtonPressReceiver(this),
+	itsPointerGrabbedFlag(kJFalse),
+	itsBPRChangedFlag(kJFalse),
+	itsFocusWidget(NULL),
+	itsCurrHintMgr(NULL),
+	itsRootChild(None),
+	itsPrevMouseContainer(NULL),
 	itsFirstClick(kJXNoButton, 0, JPoint(-1,-1)),
 	itsSecondClick(kJXNoButton, 0, JPoint(-1,-1)),
+	itsClickCount(1),
 	itsIsDockedFlag(kJFalse),
 	itsDockXWindow(None),
 	itsDockWidget(NULL),
@@ -135,38 +143,12 @@ JXWindow::JXWindow
 
 	AdjustTitle();
 
-	itsFocusWhenShowFlag    = kJFalse;
-	itsBufferPixmap         = None;
-	itsBufferDrawingFlag    = isOverlay;
-	itsKeepBufferPixmapFlag = isOverlay;
-	itsUseBkgdPixmapFlag    = isOverlay;
-	itsCursorIndex          = kJXDefaultCursor;
-	itsUpdateRegion         = XCreateRegion();
-	itsIcon                 = NULL;
-	itsIconDir              = NULL;
-
 	itsShortcuts = new JArray<Shortcut>;
 	assert( itsShortcuts != NULL );
 	itsShortcuts->SetCompareFunction(CompareShortcuts);
 
-	itsMouseContainer      = NULL;
-	itsIsDraggingFlag      = kJFalse;
-	itsProcessDragFlag     = kJFalse;
-	itsCursorLeftFlag      = kJFalse;
-	itsCleanAfterBlockFlag = kJFalse;
-
-	itsButtonPressReceiver = this;
-	itsPointerGrabbedFlag  = kJFalse;
-	itsBPRChangedFlag      = kJFalse;
-
 	itsFocusList = new JPtrArray<JXWidget>(JPtrArrayT::kForgetAll);
 	assert( itsFocusList != NULL );
-
-	itsFocusWidget = NULL;
-	itsCurrHintMgr = NULL;
-
-	itsPrevMouseContainer = NULL;
-	itsClickCount         = 1;
 
 	// get display/colormap for this window
 
@@ -227,15 +209,8 @@ JXWindow::JXWindow
 
 	(GetDNDManager())->EnableDND(itsXWindow);
 
-	// we need to listen for map/unmap, iconify/deiconify, focus in/out
-
-	itsIsMappedFlag    = kJFalse;
-	itsIsIconifiedFlag = kJFalse;
-	itsHasFocusFlag    = kJFalse;
-
 	// trap window manager's delete message
 
-	itsCloseAction = kCloseDirector;
 	AcceptSaveYourself(kJFalse);
 
 	// tell window manager what kind of window we are
@@ -250,51 +225,10 @@ JXWindow::JXWindow
 	itsGC = new JXGC(itsDisplay, itsXWindow);
 	assert( itsGC != NULL );
 
-	// init wm offset
-	// Ideally, we would use ConfigureNotify::border_width, but
-	// this information isn't available early enough.
-
-	if (!theWMOffsetInitFlag)
-		{
-		theWMOffsetInitFlag = kJTrue;
-
-		JString offsetName;
-		if (JExpandHomeDirShortcut(kWMOffsetFileName, &offsetName))
-			{
-			ifstream offsetInput(offsetName);
-			JPoint offset;
-			offsetInput >> offset;
-			if (offsetInput.good())
-				{
-				theWMOffset = offset;
-				}
-			}
-		}
-
-	// init wm virtual desktop style
-	// Modern window managers map/unmap windows when switching desktops.
-	// This completely destroys the usefulness of itsFocusWhenShowFlag.
-
-	if (!theWMDesktopStyleInitFlag)
-		{
-		theWMDesktopStyleInitFlag = kJTrue;
-
-		JString styleName;
-		if (JExpandHomeDirShortcut(kWMDesktopStyleFileName, &styleName))
-			{
-			ifstream styleInput(styleName);
-			JBoolean usesMap;
-			styleInput >> usesMap;
-			if (styleInput.good())
-				{
-				theWMDesktopMapsWindowsFlag = usesMap;
-				}
-			}
-		}
-
 	// notify the display that we exist
 
 	itsDisplay->WindowCreated(this, itsXWindow);
+	itsDirector->SetWindow(this);
 }
 
 /******************************************************************************
@@ -574,7 +508,7 @@ JXWindow::Activate()
 	if (!WouldBeActive())
 		{
 		JXContainer::Activate();
-		if (IsDocked())
+		if (itsIsDockedFlag)
 			{
 			Raise();
 			}
@@ -619,11 +553,21 @@ JXWindow::Show()
 			{
 			Redraw();
 			}
+
+		const JXDisplay::WMBehavior& b = itsDisplay->GetWMBehavior();
+		if (!theAnalyzeWMFlag && itsHasBeenVisibleFlag &&
+			!itsIsIconifiedFlag && !itsIsDockedFlag &&
+			(b.reshowOffset.x != 0 || b.reshowOffset.y != 0))
+			{
+			Move(- b.reshowOffset.x, - b.reshowOffset.y);
+			}
+		itsHasBeenVisibleFlag = kJTrue;
+
 		XMapWindow(*itsDisplay, itsXWindow);
 		// input focus set by HandleMapNotify()
 
 		JXWindow* parent;
-		if (itsIsDockedFlag && GetDockWindow(&parent))
+		if (GetDockWindow(&parent))
 			{
 			parent->Show();
 			}
@@ -640,7 +584,7 @@ JXWindow::Show()
 void
 JXWindow::Hide()
 {
-	if (IsVisible() && !IsDocked())
+	if (IsVisible() && !itsIsDockedFlag)
 		{
 		// We have to deiconify the window first because otherwise,
 		// the icon won't disappear, at least under fvwm and fvwm2.
@@ -684,14 +628,7 @@ JXWindow::GetNextMapNotifyEvent
 	char*		arg
 	)
 {
-	if (event->type == MapNotify)
-		{
-		return True;
-		}
-	else
-		{
-		return False;
-		}
+	return (event->type == MapNotify ? True : False);
 }
 
 /******************************************************************************
@@ -713,11 +650,6 @@ JXWindow::Raise
 	Show();
 	Activate();		// in case it wasn't already
 
-//	Attempt to move window to current desktop on Gnome:
-//	Only works if window is iconfied on its current desktop
-//		XUnmapWindow(*itsDisplay, itsXWindow);
-//		XMapWindow(*itsDisplay, itsXWindow);
-
 	if (itsIsIconifiedFlag)
 		{
 		Deiconify();
@@ -727,7 +659,8 @@ JXWindow::Raise
 		RequestFocus();
 		}
 
-	if (!(wasVisible && !itsIsMappedFlag) || wasIcon)
+	if (!itsIsDockedFlag &&
+		(!(wasVisible && !itsIsMappedFlag) || wasIcon))
 		{
 		// Don't call Place() if window director is being activated
 		// a second time before XMapWindow event arrives.
@@ -735,14 +668,16 @@ JXWindow::Raise
 		// By calling Place() we ensure that the window is visible on
 		// the current virtual desktop.
 
-		Place(itsWMFrameLoc.x, itsWMFrameLoc.y);
+		Move(0,0);
 		}
 
 	// move window to current desktop
 	// http://standards.freedesktop.org/wm-spec/latest/ar01s05.html
 
 	Window root = itsDisplay->GetRootWindow();
-	if (theWMDesktopMapsWindowsFlag || itsIsMappedFlag)
+
+	const JXDisplay::WMBehavior& b = itsDisplay->GetWMBehavior();
+	if (b.desktopMapsWindowsFlag || itsIsMappedFlag)
 		{
 		Atom actualType;
 		int actualFormat;
@@ -835,7 +770,7 @@ JXWindow::RequestFocus()
 void
 JXWindow::Iconify()
 {
-	if (IsDocked())
+	if (itsIsDockedFlag)
 		{
 		return;
 		}
@@ -1318,6 +1253,130 @@ JXWindow::RootToGlobal
 }
 
 /******************************************************************************
+ AnalyzeWindowManager (static)
+
+	Figure out how to compensate for quirky window manager behavior.
+
+	After we call XSync(), we wait a bit longer because the window manager
+	gets the placement request, and XSync() doesn't wait for a reply from
+	the WM, only from the X server.  We don't have to wait very long,
+	however, since XSync() already took care of the network delay.
+
+	This is a member of JXWindow because it needs access to private data.
+
+ ******************************************************************************/
+
+void
+JXWindow::AnalyzeWindowManager
+	(
+	JXDisplay* d
+	)
+{
+	const JCoordinate p = 100;
+
+	JXDisplay::WMBehavior behavior;
+	theAnalyzeWMFlag = kJTrue;
+
+	// init wm virtual desktop style
+	// Modern window managers map/unmap windows when switching desktops.
+	// This completely destroys the usefulness of itsFocusWhenShowFlag.
+	{
+	Atom actualType;
+	int actualFormat;
+	unsigned long itemCount, remainingBytes;
+	unsigned char* xdata;
+	XGetWindowProperty(*d, d->GetRootWindow(), d->GetWMCurrentDesktopXAtom(),
+					   0, LONG_MAX, False, XA_CARDINAL,
+					   &actualType, &actualFormat,
+					   &itemCount, &remainingBytes, &xdata);
+
+	behavior.desktopMapsWindowsFlag =
+		JI2B(actualType == XA_CARDINAL && actualFormat == 32 && itemCount > 0);
+
+	XFree(xdata);
+	}
+	d->SetWMBehavior(behavior);
+
+	// block off everything until we get some answers about window placement
+
+	JXApplication* app = JXGetApplication();
+	app->DisplayInactiveCursor();
+	app->PrepareForBlockingWindow();
+
+	// create a test window
+
+	JXWindowDirector* dir = new JXWindowDirector(JXGetApplication());
+	assert( dir != NULL );
+
+	JXWindow* w = new JXWindow(dir, 100, 100, "Testing Window Manager");
+	assert( w != NULL );
+
+	// test placing visible window (fvwm2)
+
+	w->Show();
+	d->Synchronize();
+	JWait(kSyncExtraDelay);
+	w->Place(p, p);
+
+	for (JIndex i=1; i<=2; i++)
+		{
+		d->Synchronize();
+		JWait(kSyncExtraDelay);
+
+		while (XPending(*d) > 0)
+			{
+			app->HandleOneEventForWindow(w);
+			}
+		assert( w->itsIsMappedFlag );
+
+		const JPoint pt = w->GetDesktopLocation();
+		if (JLAbs(w->itsWMFrameLoc.x - p) > kWMFrameSlop ||
+			JLAbs(w->itsWMFrameLoc.y - p) > kWMFrameSlop)
+			{
+			behavior.frameCompensateFlag = !behavior.frameCompensateFlag;
+			d->SetWMBehavior(behavior);
+			w->Place(p, p);
+			}
+		else
+			{
+			break;
+			}
+		}
+
+	// test hiding and then showing (XQuartz)
+
+	const JPoint pt1 = w->GetDesktopLocation();
+
+	w->Hide();
+	d->Synchronize();
+	JWait(kSyncExtraDelay);
+	w->Show();
+	d->Synchronize();
+	JWait(kSyncExtraDelay);
+
+	while (XPending(*d) > 0)
+		{
+		app->HandleOneEventForWindow(w);
+		}
+	assert( w->itsIsMappedFlag );
+
+	const JPoint pt2 = w->GetDesktopLocation();
+
+	if (pt2 != pt1)
+		{
+		behavior.reshowOffset = pt2 - pt1;
+		d->SetWMBehavior(behavior);
+		}
+
+	// done
+
+	dir->Close();
+	app->BlockingWindowFinished();
+
+	theAnalyzeWMFlag = kJFalse;
+}
+
+/******************************************************************************
  CalcDesktopLocation (private)
 
 	Shift the given point to cancel the window manager border.
@@ -1351,38 +1410,10 @@ JXWindow::CalcDesktopLocation
 {
 	assert( !itsIsDockedFlag );
 
-#ifdef _J_CYGWIN
-
-	theFoundWMFrameMethodFlag = kJTrue;
-	theWMFrameCompensateFlag  = kJTrue;
-
-	JPoint desktopPt(origX, origY);
-	if (itsIsOverlayFlag || !itsIsMappedFlag)
-		{
-		return desktopPt;
-		}
-	else
-		{
-		return desktopPt + JPoint(4, 30) * JSign(origDirection);
-		}
-
-#else
-
-	if (origDirection > 0 && !theWMFrameCompensateFlag)
+	Window rootChild;
+	if (!GetRootChild(&rootChild))
 		{
 		return JPoint(origX, origY);
-		}
-
-	Window rootChild;
-	if (!GetRootChild(&rootChild) || rootChild == itsXWindow)
-		{
-		JPoint desktopPt(origX, origY);
-		if (!itsIsOverlayFlag)
-			{
-			desktopPt += theWMOffset * origDirection;
-			}
-
-		return desktopPt;
 		}
 
 	JCoordinate desktopX = origX;
@@ -1398,17 +1429,7 @@ JXWindow::CalcDesktopLocation
 		desktopY += y * direction;
 		}
 
-	// useful for research (originally for fixing fvwm2 bug)
-
-	JPoint desktopPt(desktopX, desktopY);
-	if (!itsIsOverlayFlag)
-		{
-		desktopPt += theWMOffset * origDirection;
-		}
-
-	return desktopPt;
-
-#endif
+	return JPoint(desktopX, desktopY);
 }
 
 /******************************************************************************
@@ -1426,7 +1447,13 @@ JXWindow::GetRootChild
 	)
 	const
 {
-	*rootChild = None;
+	if (itsRootChild != None)
+		{
+		*rootChild = itsRootChild;
+		return JI2B(itsRootChild != itsXWindow);
+		}
+
+	*rootChild = itsRootChild = None;
 
 	Window currWindow = itsXWindow;
 	while (1)
@@ -1443,8 +1470,8 @@ JXWindow::GetRootChild
 
 		if (parentWindow == rootWindow)
 			{
-			*rootChild = currWindow;
-			return kJTrue;
+			*rootChild = itsRootChild = currWindow;
+			return JI2B(currWindow != itsXWindow);
 			}
 		else
 			{
@@ -1461,8 +1488,6 @@ JXWindow::GetRootChild
 
  ******************************************************************************/
 
-static JSize thePlacementAttempt = 0;
-
 void
 JXWindow::Place
 	(
@@ -1472,7 +1497,6 @@ JXWindow::Place
 {
 	if (itsIsDockedFlag)
 		{
-//		itsUndockedGeom.Place(CalcDesktopLocation(enclX, enclY, +1));
 		itsUndockedWMFrameLoc.Set(enclX, enclY);
 		}
 	else
@@ -1491,7 +1515,8 @@ JXWindow::UndockedPlace
 	JCoordinate enclX = origEnclX;
 	JCoordinate enclY = origEnclY;
 
-	const JRect desktopBounds = itsDisplay->GetBounds();
+	const JRect desktopBounds      = itsDisplay->GetBounds();
+	const JXDisplay::WMBehavior& b = itsDisplay->GetWMBehavior();
 
 	JPoint pt(enclX, enclY);
 	if (!itsIsDockedFlag)
@@ -1519,7 +1544,14 @@ JXWindow::UndockedPlace
 
 		// compensate for width of window manager frame
 
-		pt = CalcDesktopLocation(enclX, enclY, +1);
+		if (b.frameCompensateFlag)
+			{
+			pt = CalcDesktopLocation(enclX, enclY, +1);
+			}
+		else
+			{
+			pt = JPoint(enclX, enclY);
+			}
 		}
 
 	// tell the window manager to move us
@@ -1542,91 +1574,29 @@ JXWindow::UndockedPlace
 		XSetWMNormalHints(*itsDisplay, itsXWindow, &sizeHints);
 		}
 
-	// menu needs to know its location immediately
-	// (This works because menus have OverrideRedirect.)
+	// OverrideRedirect means the Window Manager doesn't interfere.  For
+	// all others, Window Manager moves the window, and we don't know how
+	// long that will take.  CalcDesktopLocation() doesn't care where the
+	// window actually is.  It only cares about the position relative to
+	// the Window Manager frame.
 
 	if (itsIsOverlayFlag || itsIsDockedFlag)
 		{
-		itsDisplay->Synchronize();
 		UpdateFrame();
 		}
-/*
-	We can't just call XSync(), because the window manager gets the
-	placement request, and XSync() doesn't wait for a reply from the WM,
-	only from the X server.  We can't simply use itsExpectedPosition in
-	HandleEvent(), because there may be other, earlier ConfigureNotify
-	events in the queue (or worse, in the network, on their way to us),
-	which will confuse us.
-*/
-	else if (!theFoundWMFrameMethodFlag && itsIsMappedFlag &&
-			 thePlacementAttempt < 2)
-		{
-		itsDisplay->Synchronize();
-		JWait(0.5);
-		UpdateFrame();
-/*
-		cout << endl;
-		cout << JPoint(enclX, enclY) << endl;
-		cout << pt << endl;
-		cout << thePlacementAttempt;
-		cout << theFoundWMFrameMethodFlag;
-		cout << theWMFrameCompensateFlag << endl;
-		cout << GetDesktopLocation() << endl;
-*/
-		thePlacementAttempt++;
-
-		const JPoint pt = GetDesktopLocation();
-		if (JLAbs(pt.x - enclX) > kWMFrameSlop ||
-			JLAbs(pt.y - enclY) > kWMFrameSlop)
-			{
-			theWMFrameCompensateFlag = !theWMFrameCompensateFlag;
-			Place(enclX, enclY);
-			}
-		else
-			{
-			theFoundWMFrameMethodFlag = kJTrue;
-			}
-
-		assert( thePlacementAttempt > 0 );
-		thePlacementAttempt--;
-		}
-	else
+	else if (b.frameCompensateFlag)
 		{
 		// same as UpdateFrame()
 
 		itsDesktopLoc = pt;
 		itsWMFrameLoc = CalcDesktopLocation(pt.x, pt.y, -1);
-/*
-		cout << endl;
-		cout << JPoint(enclX, enclY) << endl;
-		cout << pt << endl;
-		cout << thePlacementAttempt;
-		cout << theFoundWMFrameMethodFlag;
-		cout << theWMFrameCompensateFlag << endl;
-		cout << GetDesktopLocation() << endl;
-*/
 		}
-
-	// adjust window to fit on screen, since resize will otherwise be unavailable on OS X
-
-	if (!itsIsDockedFlag &&
-		(theDesktopMargin.x != 0 || theDesktopMargin.y != 0))
+	else
 		{
-		JCoordinate dw = 0, dh = 0;
+		// same as UpdateFrame()
 
-		if (itsBounds.width() > desktopBounds.width() - theDesktopMargin.x)
-			{
-			dw = desktopBounds.width() - theDesktopMargin.x - itsBounds.width();
-			}
-		if (itsBounds.height() > desktopBounds.height() - theDesktopMargin.y)
-			{
-			dh = desktopBounds.height() - theDesktopMargin.y - itsBounds.height();
-			}
-
-		if (dw != 0 || dh != 0)
-			{
-			AdjustSize(dw, dh);
-			}
+		itsDesktopLoc = CalcDesktopLocation(pt.x, pt.y, +1);
+		itsWMFrameLoc = pt;
 		}
 }
 
@@ -1698,23 +1668,6 @@ JXWindow::UndockedSetSize
 		{
 		w = JMin(w, itsMaxSize.x);
 		h = JMin(h, itsMaxSize.y);
-		}
-
-	// adjust window to fit on screen, since resize will otherwise be unavailable on OS X
-
-	if (!itsIsDockedFlag &&
-		(theDesktopMargin.x != 0 || theDesktopMargin.y != 0))
-		{
-		const JRect desktopBounds = itsDisplay->GetBounds();
-
-		if (w > desktopBounds.width() - theDesktopMargin.x)
-			{
-			w = desktopBounds.width() - theDesktopMargin.x;
-			}
-		if (h > desktopBounds.height() - theDesktopMargin.y)
-			{
-			h = desktopBounds.height() - theDesktopMargin.y;
-			}
 		}
 
 	XResizeWindow(*itsDisplay, itsXWindow, w, h);
@@ -2468,10 +2421,17 @@ JXWindow::WriteGeometry
 		}
 	else
 		{
-		output << ' ' << GetDesktopLocation();
+		JPoint loc = GetDesktopLocation();
+		if (itsHasBeenVisibleFlag && !IsVisible())
+			{
+			const JXDisplay::WMBehavior& b = itsDisplay->GetWMBehavior();
+			loc -= b.reshowOffset;
+			}
+
+		output << ' ' << loc;
 		output << ' ' << GetFrameWidth();
 		output << ' ' << GetFrameHeight();
-		output << ' ' << IsIconified();
+		output << ' ' << itsIsIconifiedFlag;
 		}
 
 	output << ' ' << (itsDockWidget != NULL ? itsDockWidget->GetID() :
@@ -2577,6 +2537,8 @@ JXWindow::HandleEvent
 
 	else if (xEvent.type == ReparentNotify && xEvent.xreparent.window == itsXWindow)
 		{
+		itsRootChild = None;
+
 		// When window is dragged to different compartment in same window
 		// with exactly the same size, we don't receive ConfigureNotify!
 		UpdateFrame();
@@ -4400,7 +4362,8 @@ JXWindow::HandleMapNotify
 
 	// focus to the window for convenience
 
-	if (!theWMDesktopMapsWindowsFlag && itsFocusWhenShowFlag)
+	const JXDisplay::WMBehavior& b = itsDisplay->GetWMBehavior();
+	if (!b.desktopMapsWindowsFlag && itsFocusWhenShowFlag)
 		{
 		(itsDisplay->GetMenuManager())->CloseCurrentMenus();	// avoid deadlock
 		RequestFocus();
@@ -4473,7 +4436,7 @@ JXWindow::HandleWMStateChange()
 					   &itemCount, &remainingBytes, &xdata);
 	if (actualType != itsDisplay->GetWMStateXAtom() || actualFormat != 32)
 		{
-#ifndef _J_CYGWIN
+#if ! defined _J_OSX && ! defined _J_CYGWIN
 		cerr << endl;
 		cerr << "Error detected in JXWindow::HandleMapNotify():" << endl;
 		cerr << "Your window manager is not setting the WM_STATE property correctly!" << endl;
@@ -4677,8 +4640,7 @@ JXWindow::Dock
 		}
 	else
 		{
-		itsUndockedGeom = itsBounds;
-		itsUndockedGeom.Shift(itsDesktopLoc);
+		itsUndockedGeom       = itsBounds;
 		itsUndockedWMFrameLoc = itsWMFrameLoc;
 		}
 
@@ -4726,8 +4688,11 @@ JXWindow::Undock()
 	itsIsDockedFlag = kJFalse;
 	itsDockXWindow  = None;
 	itsDockWidget   = NULL;
+	itsRootChild    = None;	// don't wait for ReparentNotify
 	delete itsDockingTask;	// automatically cleared
 
+	itsDisplay->Synchronize();
+	JWait(kSyncExtraDelay);
 	Place(itsUndockedWMFrameLoc.x, itsUndockedWMFrameLoc.y);
 	SetSize(itsUndockedGeom.width(), itsUndockedGeom.height());
 
@@ -4918,16 +4883,21 @@ JXWindow::SetChildWindowVisible
 void
 JXWindow::PrintWindowConfig()
 {
+	const JXDisplay::WMBehavior& b = itsDisplay->GetWMBehavior();
+
 	cout << endl;
-	cout << "theFoundWMFrameMethodFlag:      " << theFoundWMFrameMethodFlag << endl;
-	cout << "theWMFrameCompensateFlag:       " << theWMFrameCompensateFlag << endl;
-	cout << "theWMOffsetInitFlag:            " << theWMOffsetInitFlag << endl;
-	cout << "theWMOffset:                    " << theWMOffset << endl;
-	cout << "theWMDesktopStyleInitFlag:      " << theWMDesktopStyleInitFlag << endl;
-	cout << "theWMDesktopMapsWindowsFlag:    " << theWMDesktopMapsWindowsFlag << endl;
-	cout << "theDesktopMargin:               " << theDesktopMargin << endl;
-	cout << "itsDesktopLoc:                  " << itsDesktopLoc << endl;
-	cout << "itsWMFrameLoc:                  " << itsWMFrameLoc << endl;
+	cout << "wmFrameCompensateFlag:    " << b.frameCompensateFlag << endl;
+	cout << "wmDesktopMapsWindowsFlag: " << b.desktopMapsWindowsFlag << endl;
+	cout << "wmReshowOffset:           " << b.reshowOffset << endl;
+	cout << "itsWMFrameLoc:            " << itsWMFrameLoc << endl;
+	cout << "itsDesktopLoc:            " << itsDesktopLoc << endl;
+
+	if (itsIsDockedFlag)
+		{
+		cout << "itsUndockedWMFrameLoc:    " << itsUndockedWMFrameLoc << endl;
+		cout << "itsUndockedGeom:          " << itsUndockedGeom << endl;
+		}
+
 	cout << endl;
 }
 

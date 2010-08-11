@@ -1,4 +1,4 @@
-%define askpass_version 1.0.1
+%define askpass_version 1.0.2
 
 Summary: nps-ssh-askpass provides a cross-platform user interface for SSH to ask for a password.
 Name: nps-ssh-askpass

@@ -56,7 +56,6 @@ ResizeWidgetDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 160,120, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* cancelButton =
         new JXTextButton(JGetString("cancelButton::ResizeWidgetDialog::JXLayout"), window,

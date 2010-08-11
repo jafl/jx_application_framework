@@ -66,7 +66,6 @@ JX2DCursorMarkTableDir::BuildWindow
 
     JXWindow* window = new JXWindow(this, 250,200, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXScrollbarSet* scrollbarSet =
         new JXScrollbarSet(window,

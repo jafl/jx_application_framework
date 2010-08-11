@@ -35,7 +35,6 @@ JXIconDirector::JXIconDirector
 	JXWindow* window = new JXWindow(this, normalIcon->GetWidth(),
 									normalIcon->GetHeight(), "");
 	assert( window != NULL );
-	SetWindow(window);
 
 	itsIconWidget =
 		new JXWindowIcon(normalIcon, dropIcon, supervisor->GetWindow(), window,

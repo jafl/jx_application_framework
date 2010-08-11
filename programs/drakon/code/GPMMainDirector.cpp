@@ -181,7 +181,6 @@ GPMMainDirector::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 530,350, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXMenuBar* menuBar =
         new JXMenuBar(window,

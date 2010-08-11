@@ -105,7 +105,6 @@ GMAccountDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 530,570, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsFullNameInput =
         new JXInputField(window,

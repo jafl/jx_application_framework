@@ -24,6 +24,8 @@ class JXColormap;
 
 class JXWindowDirector : public JXDirector
 {
+	friend class JXWindow;
+
 public:
 
 	JXWindowDirector(JXDirector* supervisor);
@@ -54,13 +56,13 @@ protected:
 
 	virtual JBoolean	OKToDeactivate();
 
-	void	SetWindow(JXWindow* window);
-
 private:
 
 	JXWindow*	itsWindow;
 
 private:
+
+	void	SetWindow(JXWindow* window);
 
 	// not allowed
 

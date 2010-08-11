@@ -94,7 +94,7 @@ other constructor.
 
 Changes from previous versions
 
-2.2.0
+3.0.0
 
 Added need_string_list to allow configuring which classes require a string
 as the first ctor arg.
@@ -105,6 +105,11 @@ set to not wrap text and the text is vertically centered.
 Removed option to specify additional JXWindow constructor arguments.
 JXWindow no longer accepts JXColormap, and the window title should be
 loaded via JGetString().
+
+Updated code generator to no longer insert call to SetWindow().  JXWindow
+automatically calls JXWindowDirector::SetWindow().
+
+Updated to parse sliders correctly.
 
 2.1.1
 

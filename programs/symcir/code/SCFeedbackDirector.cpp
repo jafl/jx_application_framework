@@ -117,9 +117,8 @@ SCFeedbackDirector::BuildWindow
 
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 365,525, "");
+    JXWindow* window = new JXWindow(this, 360,520, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsMainPartition =
         new JXVertPartition(heights, 0, minHeights, window,
@@ -137,12 +136,12 @@ SCFeedbackDirector::BuildWindow
     assert( itsDepSource != NULL );
 
     itsEvalButton =
-        new JXTextButton("Evaluate", window,
+        new JXTextButton(JGetString("itsEvalButton::SCFeedbackDirector::JXLayout"), window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 230,20, 80,20);
     assert( itsEvalButton != NULL );
 
     JXStaticText* layoutMessage =
-        new JXStaticText("Output fn", window,
+        new JXStaticText(JGetString("layoutMessage::SCFeedbackDirector::JXLayout"), window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 240,50, 110,60);
     assert( layoutMessage != NULL );
 

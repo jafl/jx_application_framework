@@ -218,7 +218,6 @@ SyGTreeDir::BuildWindow
 
     JXWindow* window = new JXWindow(this, 420,500, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXMenuBar* menuBar =
         new JXMenuBar(window,

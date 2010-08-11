@@ -53,23 +53,23 @@ SCNewPlotDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 300,120, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* cancelButton =
-        new JXTextButton("Cancel", window,
+        new JXTextButton(JGetString("cancelButton::SCNewPlotDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 60,90, 60,20);
     assert( cancelButton != NULL );
 
     JXTextButton* okButton =
-        new JXTextButton("OK", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 179,89, 62,22);
+        new JXTextButton(JGetString("okButton::SCNewPlotDialog::JXLayout"), window,
+                    JXWidget::kHElastic, JXWidget::kVElastic, 180,90, 60,20);
     assert( okButton != NULL );
-    okButton->SetShortcuts("^M");
+    okButton->SetShortcuts(JGetString("okButton::SCNewPlotDialog::shortcuts::JXLayout"));
 
-    JXStaticText* obj1 =
-        new JXStaticText("Curve name:", window,
+    JXStaticText* obj1_JXLayout =
+        new JXStaticText(JGetString("obj1_JXLayout::SCNewPlotDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 80,20);
-    assert( obj1 != NULL );
+    assert( obj1_JXLayout != NULL );
+    obj1_JXLayout->SetToLabel();
 
     itsCurveName =
         new JXInputField(window,
@@ -86,15 +86,17 @@ SCNewPlotDialog::BuildWindow()
                     JXWidget::kHElastic, JXWidget::kVElastic, 230,50, 50,20);
     assert( itsMaxValue != NULL );
 
-    JXStaticText* obj2 =
-        new JXStaticText("Frequency range (Hz):", window,
+    JXStaticText* obj2_JXLayout =
+        new JXStaticText(JGetString("obj2_JXLayout::SCNewPlotDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 20,50, 140,20);
-    assert( obj2 != NULL );
+    assert( obj2_JXLayout != NULL );
+    obj2_JXLayout->SetToLabel();
 
-    JXStaticText* obj3 =
-        new JXStaticText("to", window,
+    JXStaticText* obj3_JXLayout =
+        new JXStaticText(JGetString("obj3_JXLayout::SCNewPlotDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 210,50, 20,20);
-    assert( obj3 != NULL );
+    assert( obj3_JXLayout != NULL );
+    obj3_JXLayout->SetToLabel();
 
 // end JXLayout
 

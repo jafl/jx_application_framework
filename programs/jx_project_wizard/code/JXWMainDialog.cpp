@@ -128,7 +128,6 @@ JXWMainDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 500,370, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsCreateButton =
         new JXTextButton(JGetString("itsCreateButton::JXWMainDialog::JXLayout"), window,

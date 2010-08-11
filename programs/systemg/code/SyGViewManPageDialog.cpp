@@ -95,7 +95,6 @@ SyGViewManPageDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 360,150, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsCloseButton =
         new JXTextButton(JGetString("itsCloseButton::SyGViewManPageDialog::JXLayout"), window,

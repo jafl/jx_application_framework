@@ -58,7 +58,6 @@ JXPGMessageDirector::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 500,210, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXScrollbarSet* scrollbarSet =
         new JXScrollbarSet(window,

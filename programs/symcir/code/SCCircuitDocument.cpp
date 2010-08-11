@@ -159,7 +159,6 @@ SCCircuitDocument::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 260,300, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXMenuBar* menuBar =
         new JXMenuBar(window,
@@ -167,7 +166,7 @@ SCCircuitDocument::BuildWindow()
     assert( menuBar != NULL );
 
     itsNetlistText =
-        new JXStaticText("", kJFalse, kJTrue, NULL, window,
+        new JXStaticText("", kJFalse, kJTrue, NULL, JGetString("itsNetlistText::SCCircuitDocument::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 260,270);
     assert( itsNetlistText != NULL );
 

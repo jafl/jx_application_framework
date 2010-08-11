@@ -67,7 +67,6 @@ JX2DPlotLabelDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 540,150, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* okButton =
         new JXTextButton(JGetString("okButton::JX2DPlotLabelDialog::JXLayout"), window,

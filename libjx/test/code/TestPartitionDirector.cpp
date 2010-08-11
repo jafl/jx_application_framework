@@ -102,7 +102,6 @@ JIndex i;
 
     JXWindow* window = new JXWindow(this, 310,340, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXMenuBar* menuBar =
         new JXMenuBar(window,

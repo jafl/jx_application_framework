@@ -98,7 +98,6 @@ JXPTPrintSetupDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 370,220, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsPrintCmdLabel =
         new JXStaticText(JGetString("itsPrintCmdLabel::JXPTPrintSetupDialog::JXLayout"), window,

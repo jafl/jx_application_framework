@@ -98,7 +98,6 @@ SyGFindFileDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 360,220, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsActionRG =
         new JXRadioGroup(window,

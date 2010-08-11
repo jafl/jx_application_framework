@@ -288,7 +288,6 @@ THXExprDirector::BuildWindow
 
     JXWindow* window = new JXWindow(this, 360,240, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXMenuBar* menuBar =
         new JXMenuBar(window,

@@ -447,7 +447,7 @@ JXWindowPainter::String
 		return;
 		}
 
-	// Adjust the angle to lie between -45 and 315.
+	// adjust the angle to lie between -45 and 315
 
 	JFloat angle = userAngle;
 	while (angle <= -45.0)
@@ -459,7 +459,15 @@ JXWindowPainter::String
 		angle -= 360.0;
 		}
 
-	// If the angle is zero, we can do it easily.
+	// if the angle is zero, we can do it easily
+
+	if (-45.0 < angle && angle <= 45.0)
+		{
+		String(left, top, str, width, hAlign, height, vAlign);
+		return;
+		}
+
+	// we have to do it pixel by pixel
 
 	JXImage* srcImage = NULL;
 	const JPoint& o   = GetOrigin();
@@ -472,93 +480,101 @@ JXWindowPainter::String
 	const JCoordinate y0 = o.y + top;
 
 	JIndex quadrant;
-	if (-45.0 < angle && angle <= 45.0)
-		{
-		String(left, top, str, width, hAlign, height, vAlign);
-		return;
-		}
-	else if (45.0 < angle && angle <= 135.0)
+	JCoordinate dx=0, dy=0;
+	if (45.0 < angle && angle <= 135.0)
 		{
 		quadrant = 2;
+		AlignString(&dx,&dy, str, height, hAlign, width, vAlign);
 		srcImage = new JXImage(itsDisplay, itsDrawable,
-							   JRect(y0 - stringWidth, x0, y0+1, x0 + lineHeight + 1));
+							   JRect(y0-dx - stringWidth, x0+dy, y0-dx + 1, x0+dy + lineHeight + 1));
 		}
 	else if (135.0 < angle && angle <= 225.0)
 		{
 		quadrant = 3;
+		AlignString(&dx,&dy, str, width, hAlign, height, vAlign);
 		srcImage = new JXImage(itsDisplay, itsDrawable,
-							   JRect(y0 - lineHeight, x0 - stringWidth, y0+1, x0+1));
+							   JRect(y0-dy - lineHeight, x0-dx - stringWidth, y0-dy + 1, x0-dx + 1));
 		}
 	else	// 225.0 < angle && angle <= 315.0
 		{
 		quadrant = 4;
+		AlignString(&dx,&dy, str, height, hAlign, width, vAlign);
 		srcImage = new JXImage(itsDisplay, itsDrawable,
-							   JRect(y0, x0 - lineHeight, y0 + stringWidth + 1, x0+1));
+							   JRect(y0+dx, x0-dy - lineHeight, y0+dx + stringWidth + 1, x0-dy + 1));
 		}
 	assert( srcImage != NULL );
 
-	// We have to do it pixel by pixel.
-
-	JCoordinate dx=0, dy=0;
-	AlignString(&dx,&dy, str, width, hAlign, height, vAlign);
-
-	JXColormap* colormap        = itsDisplay->GetColormap();
-	const JColorIndex backColor = colormap->GetWhiteColor();
-	const JFontStyle& fontStyle = GetFontStyle();
-
-	JXImage* tempImage = new JXImage(itsDisplay, stringWidth, lineHeight, backColor);
+	JXImage* tempImage = new JXImage(itsDisplay, stringWidth, lineHeight, 0, 0,
+									 JXImage::kLocalStorage);
 	assert( tempImage != NULL );
 
-	JXImagePainter* p    = tempImage->CreatePainter();
-	JFontStyle tempStyle = fontStyle;
-	tempStyle.color      = colormap->GetBlackColor();
-	p->SetFont(GetFontID(), 0, tempStyle);
-	p->String(0,0, str);
+	// transfer the source
 
-	const JRGB c1 = colormap->JColormap::GetRGB(fontStyle.color);
+	for (JCoordinate x=0; x < (JCoordinate) stringWidth; x++)
+		{
+		for (JCoordinate y=0; y < (JCoordinate) lineHeight; y++)
+			{
+			unsigned long srcPixel;
+			if (quadrant == 2)
+				{
+				srcPixel = srcImage->GetColor(y, stringWidth - x);
+				}
+			else if (quadrant == 3)
+				{
+				srcPixel = srcImage->GetColor(stringWidth - x, lineHeight - y);
+				}
+			else	// quadrant == 4
+				{
+				srcPixel = srcImage->GetColor(lineHeight - y, x);
+				}
+
+			tempImage->SetColor(x,y, srcPixel);
+			}
+		}
+
+	// draw the string
+	{
+	JXImagePainter* p = tempImage->CreatePainter();
+	p->SetFont(GetFontID(), GetFontSize(), GetFontStyle());
+	p->String(0,0, str);
+	delete p;
+	}
+
+	// transfer the result
+
 	for (JCoordinate x=0; x < (JCoordinate) stringWidth; x++)
 		{
 		for (JCoordinate y=0; y < (JCoordinate) lineHeight; y++)
 			{
 			const unsigned long pixelValue = tempImage->GetColor(x,y);
-			if (pixelValue != backColor)
+			JCoordinate xp,yp;
+			if (quadrant == 2)
 				{
-				unsigned long srcPixel;
-				JCoordinate xp,yp;
-				if (quadrant == 2)
-					{
-					xp       = +dy+y;
-					yp       = -dx-x;
-					srcPixel = srcImage->GetColor(y, stringWidth - x);
-					}
-				else if (quadrant == 3)
-					{
-					xp       = -dx-x;
-					yp       = -dy-y;
-					srcPixel = srcImage->GetColor(stringWidth - x, lineHeight - y);
-					}
-				else
-					{
-					assert( quadrant == 4 );
-
-					xp       = -dy-y;
-					yp       = +dx+x;
-					srcPixel = srcImage->GetColor(lineHeight - y, stringWidth - x);
-					}
-
-				const JRGB c2 = colormap->JColormap::GetRGB(srcPixel);
-				const JRGB c3 = colormap->JColormap::GetRGB(pixelValue);
-				itsGC->SetDrawingColor(
-					colormap->JColormap::GetColor(JBlend(c1, c2, c3.red/kJMaxRGBValueF)));
-				itsGC->DrawPoint(itsDrawable, x0+xp, y0+yp);
+				xp = +dy+y;
+				yp = -dx-x;
 				}
+			else if (quadrant == 3)
+				{
+				xp = -dx-x;
+				yp = -dy-y;
+				}
+			else	// quadrant == 4
+				{
+				xp = -dy-y;
+				yp = +dx+x;
+				}
+
+			itsGC->SetDrawingColor(pixelValue);
+			itsGC->DrawPoint(itsDrawable, x0+xp, y0+yp);
 			}
 		}
+
+	// clean up
 
 	delete tempImage;
 	delete srcImage;
 
-	itsGC->SetDrawingColor(fontStyle.color);	// expected pen color
+	itsGC->SetDrawingColor(GetFontStyle().color);	// expected pen color
 }
 
 /******************************************************************************

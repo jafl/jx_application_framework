@@ -3,7 +3,7 @@
 
 	Asks for the passphrase and prints it to stdout.
 
-	BASE CLASS = public JXDialogDirector
+	BASE CLASS = public JXGetStringDialog
 
 	Copyright © 2006 by New Planet Software, Inc.. All rights reserved.
 
@@ -31,9 +31,9 @@ ASKDialog::ASKDialog
 	JXDirector* supervisor
 	)
 	:
-	JXDialogDirector(supervisor, kJTrue)
+	JXGetStringDialog(supervisor, JGetString("Title::ASKDialog"),
+					  JGetString("Prompt::ASKDialog"), NULL, kJTrue, kJTrue)
 {
-	BuildWindow();
 }
 
 /******************************************************************************
@@ -46,50 +46,6 @@ ASKDialog::~ASKDialog()
 }
 
 /******************************************************************************
- BuildWindow (private)
-
- ******************************************************************************/
-
-void
-ASKDialog::BuildWindow()
-{
-// begin JXLayout
-
-    JXWindow* window = new JXWindow(this, 300,90, "");
-    assert( window != NULL );
-    SetWindow(window);
-
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::ASKDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kVElastic, 50,60, 70,20);
-    assert( cancelButton != NULL );
-    cancelButton->SetShortcuts(JGetString("cancelButton::ASKDialog::shortcuts::JXLayout"));
-
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::ASKDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kVElastic, 180,60, 70,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::ASKDialog::shortcuts::JXLayout"));
-
-    JXStaticText* obj1_JXLayout =
-        new JXStaticText(JGetString("obj1_JXLayout::ASKDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 280,20);
-    assert( obj1_JXLayout != NULL );
-
-    itsPassphraseInput =
-        new JXPasswordInput(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 10,30, 280,20);
-    assert( itsPassphraseInput != NULL );
-
-// end JXLayout
-
-	window->SetTitle("OpenSSH");
-	window->LockCurrentSize();
-
-	SetButtons(okButton, cancelButton);
-}
-
-/******************************************************************************
  OKToDeactivate (virtual protected)
 
  ******************************************************************************/
@@ -97,9 +53,9 @@ ASKDialog::BuildWindow()
 JBoolean
 ASKDialog::OKToDeactivate()
 {
-	if (JXDialogDirector::OKToDeactivate())
+	if (JXGetStringDialog::OKToDeactivate())
 		{
-		cout << itsPassphraseInput->GetText() << endl;
+		cout << GetString() << endl;
 		return kJTrue;
 		}
 	else

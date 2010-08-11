@@ -67,7 +67,6 @@ JXOKToCloseDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 330,110, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* saveButton =
         new JXTextButton(JGetString("saveButton::JXOKToCloseDialog::JXLayout"), window,

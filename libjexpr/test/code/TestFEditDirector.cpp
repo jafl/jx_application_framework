@@ -77,7 +77,6 @@ TestFEditDirector::BuildWindow
 
     JXWindow* window = new JXWindow(this, 500,290, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXExprEditorSet* obj1_JXLayout =
         new JXExprEditorSet(varList, &itsExprWidget, window,

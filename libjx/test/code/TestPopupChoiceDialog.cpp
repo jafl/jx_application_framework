@@ -56,7 +56,6 @@ TestPopupChoiceDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 230,170, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* cancelButton =
         new JXTextButton(JGetString("cancelButton::TestPopupChoiceDialog::JXLayout"), window,

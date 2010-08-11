@@ -235,7 +235,6 @@ JXSearchTextDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 450,310, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsCloseButton =
         new JXTextButton(JGetString("itsCloseButton::JXSearchTextDialog::JXLayout"), window,
@@ -1214,7 +1213,6 @@ JXSearchTextDialog::GetXSearch()
 		}
 
 	JXDisplay* display       = GetDisplay();
-	const Window rootWindow  = display->GetRootWindow();
 	const Atom plainTextAtom = (display->GetSelectionManager())->GetMimePlainTextXAtom();
 
 	Atom actualType;
@@ -1267,7 +1265,6 @@ JXSearchTextDialog::SetXSearch
 		}
 
 	JXDisplay* display         = GetDisplay();
-	const Window rootWindow    = display->GetRootWindow();
 	JXSelectionManager* selMgr = display->GetSelectionManager();
 	const Atom plainTextAtom   = selMgr->GetMimePlainTextXAtom();
 
@@ -1315,7 +1312,7 @@ JXSearchTextDialog::SetXSearch
 		XUngrabServer(*display);
 		}
 
-	const_cast<JXSearchTextDialog*>(this)->itsNeedXSearchBcastFlag = kJFalse;
+	itsNeedXSearchBcastFlag = kJFalse;
 }
 
 /******************************************************************************

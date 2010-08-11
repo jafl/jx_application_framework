@@ -135,7 +135,6 @@ JXPSPageSetupDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 240,160, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXStaticText* obj1_JXLayout =
         new JXStaticText(JGetString("obj1_JXLayout::JXPSPageSetupDialog::JXLayout"), window,

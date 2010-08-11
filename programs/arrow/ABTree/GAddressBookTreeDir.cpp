@@ -134,9 +134,10 @@ GAddressBookTreeDir::BuildWindow()
 	JCoordinate minW	= 250;
 	JCoordinate h 		= 500;
 	JCoordinate minH	= 250;
+
 	JXWindow* window = new JXWindow(this, w,h, "Addresses");
     assert( window != NULL );
-    SetWindow(window);
+
 	window->SetWMClass(GMGetWMClassInstance(), GMGetAddressBookWindowClass());
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
     window->PlaceAsDialogWindow();

@@ -61,7 +61,6 @@ JXVarLenPGDirector::BuildWindow
 
     JXWindow* window = new JXWindow(this, 270,80, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* cancelButton =
         new JXTextButton(JGetString("cancelButton::JXVarLenPGDirector::JXLayout"), window,

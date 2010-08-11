@@ -28,9 +28,7 @@
 
 static const JCharacter* kVersionStr =
 
-	"jxlayout 2.2.0\n"
-	"\n"
-	"For use with JX 3.0.0 and up\n"
+	"jxlayout 3.0.0\n"
 	"\n"
 	"Copyright © 1996-2010 New Planet Software, Inc.  All rights reserved.\n"
 	"\n"
@@ -589,7 +587,6 @@ JIndex i;
 		output << formWidth << ',' << formHeight;
 		output << ", \"\");" << endl;
 		output << "    assert( window != NULL );" << endl;
-		output << "    SetWindow(window);" << endl;
 		output << endl;
 		}
 	else
@@ -754,6 +751,14 @@ JIndex i;
 
 		JString cbArg = JReadLine(input);
 		RemoveIdentifier(kObjCBArgMarker, &cbArg);
+
+		JString cbArgExtra;
+		do
+			{
+			cbArgExtra = JReadLine(input);
+			cbArgExtra.TrimWhitespace();
+			}
+			while (!cbArgExtra.IsEmpty());
 
 		// don't bother to generate code for initial box
 		// if it is FL_BOX, FLAT_BOX, FL_COL1

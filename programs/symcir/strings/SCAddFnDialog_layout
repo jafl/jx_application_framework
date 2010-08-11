@@ -1,0 +1,5 @@
+0
+cancelButton::SCAddFnDialog::JXLayout "Cancel"
+okButton::SCAddFnDialog::shortcuts::JXLayout "^M"
+okButton::SCAddFnDialog::JXLayout "OK"
+obj2_JXLayout::SCAddFnDialog::JXLayout "Variable name:"

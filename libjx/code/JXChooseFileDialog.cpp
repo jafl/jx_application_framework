@@ -151,7 +151,6 @@ JXChooseFileDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 310,340, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* openButton =
         new JXTextButton(JGetString("openButton::JXChooseFileDialog::JXLayout"), window,

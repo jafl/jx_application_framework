@@ -88,7 +88,6 @@ JXTipOfTheDayDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 410,260, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXFlatRect* sideBar =
         new JXFlatRect(window,

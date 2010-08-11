@@ -55,7 +55,6 @@ TestInputFieldsDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 620,180, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* cancelButton =
         new JXTextButton(JGetString("cancelButton::TestInputFieldsDialog::JXLayout"), window,

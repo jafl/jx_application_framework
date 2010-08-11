@@ -3,7 +3,7 @@ Magic: 13000
 Internal Form Definition File
     (do not change)
 
-Number of forms: 15
+Number of forms: 16
 Unit of measure: FL_COORD_PIXEL
 
 =============== FORM ===============
@@ -2363,6 +2363,104 @@ gravity: FL_NoGravity FL_NoGravity
 name: (scrollbarSet)
 callback: 
 argument: 
+
+=============== FORM ===============
+Name: TestSliderDirector
+Width: 230
+Height: 240
+Number of Objects: 5
+
+--------------------
+class: FL_BOX
+type: FLAT_BOX
+box: 0 0 230 240
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NoGravity FL_NoGravity
+name: 
+callback: 
+argument: 
+
+--------------------
+class: FL_SLIDER
+type: VERT_BROWSER_SLIDER
+box: 60 20 30 110
+boxtype: FL_DOWN_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_BOTTOM
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_West FL_NoGravity
+name: itsMaxSlider
+callback: 
+argument: 
+
+--------------------
+class: FL_SLIDER
+type: VERT_FILL_SLIDER
+box: 150 20 20 110
+boxtype: FL_DOWN_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_BOTTOM
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_East FL_NoGravity
+name: itsMaxLevel
+callback: 
+argument: 
+	slsize: 0.15
+
+--------------------
+class: FL_SLIDER
+type: HOR_BROWSER_SLIDER
+box: 20 150 190 30
+boxtype: FL_DOWN_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_BOTTOM
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_South FL_NoGravity
+name: itsSlider
+callback: 
+argument: 
+
+--------------------
+class: FL_SLIDER
+type: HOR_FILL_SLIDER
+box: 20 200 190 20
+boxtype: FL_DOWN_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_BOTTOM
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_South FL_NoGravity
+name: itsLevel
+callback: 
+argument: 
+	slsize: 0.15
 
 ==============================
 create_the_forms

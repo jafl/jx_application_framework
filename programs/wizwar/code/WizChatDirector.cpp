@@ -155,7 +155,6 @@ WizChatDirector::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 600,250, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXMenuBar* menuBar =
         new JXMenuBar(window,

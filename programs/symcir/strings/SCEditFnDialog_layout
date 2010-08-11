@@ -1,0 +1,5 @@
+0
+obj2_JXLayout::SCEditFnDialog::JXLayout "Variable name:"
+okButton::SCEditFnDialog::shortcuts::JXLayout "^M"
+okButton::SCEditFnDialog::JXLayout "OK"
+cancelButton::SCEditFnDialog::JXLayout "Cancel"

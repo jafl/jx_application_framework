@@ -63,9 +63,7 @@
 #ifdef _J_HAS_XINERAMA
 #include <X11/extensions/Xinerama.h>
 #endif
-#include <JString.h>
-#include <jMath.h>
-#include <stdlib.h>
+#include <sstream>
 #include <jAssert.h>
 
 const JSize kMaxSleepTime = 50;		// 0.05 seconds (in milliseconds)
@@ -91,7 +89,11 @@ static const JCharacter* kStandardXAtomNames[ JXDisplay::kStandardXAtomCount ] =
 	"_NET_WM_WINDOW_TYPE_DIALOG",
 	"_NET_WM_WINDOW_TYPE_DROPDOWN_MENU",
 	"_NET_WM_WINDOW_TYPE_POPUP_MENU",
-	"_NET_WM_WINDOW_TYPE_TOOLTIP"
+	"_NET_WM_WINDOW_TYPE_TOOLTIP",
+
+	// private
+
+	"JXWindowManagerBehaviorV0"
 };
 
 // prototypes
@@ -185,6 +187,7 @@ JXDisplay::JXDisplay
 	itsMouseGrabber    = NULL;
 	itsKeyboardGrabber = NULL;
 
+	assert( kStandardXAtomCount == (sizeof(kStandardXAtomNames) / sizeof(JCharacter*)) );
 	RegisterXAtoms(kStandardXAtomCount, kStandardXAtomNames, itsStandardXAtoms);
 
 	CreateBuiltInCursor("XC_left_ptr", XC_left_ptr);
@@ -219,6 +222,12 @@ JXDisplay::JXDisplay
 	if (_Xdebug)
 		{
 		XSetAfterFunction(itsXDisplay, JXDebugAfterFunction);
+		}
+
+	if (!itsWMBehavior.Load(this))
+		{
+		JXWindow::AnalyzeWindowManager(this);
+		itsWMBehavior.Save(this);
 		}
 }
 
@@ -1578,6 +1587,106 @@ JXDebugAfterFunction
 	XSync(xDisplay, False);
 	JXDisplay::CheckForXErrors();
 	return True;
+}
+
+/******************************************************************************
+ WMBehavior::Load
+
+ ******************************************************************************/
+
+JBoolean
+JXDisplay::WMBehavior::Load
+	(
+	JXDisplay* display
+	)
+{
+	JBoolean success = kJFalse;
+
+	const Atom atom = display->itsStandardXAtoms[ kJXWMBehaviorV0XAtomIndex ];
+
+	Atom actualType;
+	int actualFormat;
+	unsigned long itemCount, remainingBytes;
+	unsigned char* data = NULL;
+	XGetWindowProperty(*display, display->GetRootWindow(), atom,
+					   0, LONG_MAX, False, atom,
+					   &actualType, &actualFormat,
+					   &itemCount, &remainingBytes, &data);
+
+	if (actualType == atom && actualFormat == 8 && itemCount > 0)
+		{
+		const std::string s(reinterpret_cast<char*>(data), itemCount);
+		std::istringstream input(s);
+		success = Read(input, 0);
+		}
+
+	XFree(data);
+	return success;
+}
+
+/******************************************************************************
+ WMBehavior::Save
+
+ ******************************************************************************/
+
+void
+JXDisplay::WMBehavior::Save
+	(
+	JXDisplay* display
+	)
+	const
+{
+	// version 0
+
+	std::ostringstream dataV0;
+	WriteV0(dataV0);
+	const std::string s = dataV0.str();
+
+	const Atom atom = display->itsStandardXAtoms[ kJXWMBehaviorV0XAtomIndex ];
+	XChangeProperty(*display, display->GetRootWindow(),
+					atom, atom, 8, PropModeReplace,
+					(unsigned char*) s.c_str(), s.length());
+}
+
+/******************************************************************************
+ WMBehavior::Read (private)
+
+ ******************************************************************************/
+
+JBoolean
+JXDisplay::WMBehavior::Read
+	(
+	istream&			input,
+	const JFileVersion	vers
+	)
+{
+	if (vers > 0)
+		{
+		return kJFalse;
+		}
+
+	input >> desktopMapsWindowsFlag;
+	input >> frameCompensateFlag;
+	input >> reshowOffset;
+
+	return kJTrue;
+}
+
+/******************************************************************************
+ WMBehavior::WriteV0 (private)
+
+ ******************************************************************************/
+
+void
+JXDisplay::WMBehavior::WriteV0
+	(
+	ostream& output
+	)
+	const
+{
+	output << desktopMapsWindowsFlag;
+	output << ' ' << frameCompensateFlag;
+	output << ' ' << reshowOffset;
 }
 
 #define JTemplateType JXDisplay::WindowInfo

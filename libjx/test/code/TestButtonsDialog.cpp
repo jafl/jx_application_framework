@@ -90,7 +90,6 @@ TestButtonsDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 270,330, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXStaticText* obj1_JXLayout =
         new JXStaticText(JGetString("obj1_JXLayout::TestButtonsDialog::JXLayout"), window,

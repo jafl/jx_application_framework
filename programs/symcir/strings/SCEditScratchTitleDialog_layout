@@ -1,0 +1,5 @@
+0
+okButton::SCEditScratchTitleDialog::shortcuts::JXLayout "^M"
+okButton::SCEditScratchTitleDialog::JXLayout "OK"
+obj1_JXLayout::SCEditScratchTitleDialog::JXLayout "New window title:"
+cancelButton::SCEditScratchTitleDialog::JXLayout "Cancel"

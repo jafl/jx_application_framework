@@ -59,7 +59,6 @@ GMMessageFindDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 350,120, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsSearchInput =
         new JXInputField(window,

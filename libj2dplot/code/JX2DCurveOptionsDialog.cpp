@@ -100,7 +100,6 @@ JX2DCurveOptionsDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 370,260, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXScrollbarSet* scrollbarSet =
         new JXScrollbarSet(window,

@@ -1,27 +1,26 @@
-release System G update
-	test that U10 notices update to NPS deb repo
+release System G, Drakon
 
 libXft:
 	test all window/dialog layouts on Linux and OSX
 	jxlayout -cp code -cs .cpp --post-cmd 'jcc --reload-open' --choose
-
-store window placement info on root window, so only first app has to jiggle
-OSX: detect that hide/show shifts window down
-
-	throw out current detection code and write clean suite in JXDisplay to get offsets
-		create window & place
-		create window then wait then showg
-		place while visible
-		hide then show
-		hide then place then show
-		save all data on root window (JXWindowManagerBehavior) for next time
-			if not there, ask user if ok to test (reply: yes, no, never)
 
 jcc:
 	clean whitespace should not change alignment
 	new "clean indentation" for forcing alignment
 
 	cvs,svn,git:  need to pass rev args to "summary" diff command
+
+	if modified separately in memory and on disk, offer to show diff
+		if window closed, deactivate "Redo diff" button
+
+	import/export Task menu contents
+
+	CBProjectTable AddDirectoryTree & AddFiles:
+		treelist should stop listening to tree until done adding
+
+	implement *not* "one a a time" for commands
+		when invoke one-at-a-time from not-one-at-a-time, invoke separate loop
+		when invoke @ commands, must treat as one-at-a-time
 
 medic:
 	set commands when restore breakpoints -- split on \1
@@ -75,15 +74,7 @@ Docking
 		(test:  move tab group tabs from side to top)
 
 jcc:
-	shell window doesn't work on ubuntu
-
-	if modified separately in memory and on disk, offer to show diff
-		if window closed, deactivate "Redo diff" button
-
-	import/export Task menu contents
-
-	CBProjectTable AddDirectoryTree & AddFiles:
-		treelist should stop listening to tree until done adding
+	shell window doesn't work on ubuntu -- bash process is stopped
 
 	support D
 		http://en.wikipedia.org/wiki/D_(programming_language)
@@ -315,9 +306,6 @@ Mondrian:
 		fixedLeftProportional, fixedRightProportional
 
 jcc:
-	implement *not* "one a a time" for commands
-		when invoke one-at-a-time from not-one-at-a-time, invoke separate loop
-		when invoke @ commands, must treat as one-at-a-time
 	search results:  option to show n lines above and below matching line
 
 	Pick a default size and location for text windows when first run
@@ -445,33 +433,3 @@ object model:
 	object constructor initializes hash table of get/set function pointers
 		in base class JXWidget
 	need generalized object to contain values for get/set
-
------
-
-XML editor
-	xmltree_source-1.0.0.tar.gz
-
-	What my program does is parse the xml and create a tree of nodes whose
-	styles are contextual. Clicking on a node takes you to that line in
-	jcc. The are two other cmd-click operations that take you to the end of
-	the xml node or that select the entire node.
-	
-	Xml is just text, so it just didn't make sense to me to create a new
-	different sort of text editor. I thought this approach made sense.
-
-	For pure XML, it makes more sense to edit directly in the tree,
-	however.
-
-	For the stuff I was doing, writing docbook stuff, the current method
-	seemed to make the most sense. If it is just simple strings, however, I
-	can imagine that it would make more sense to deal with it inline. You
-	might want to keep in mind what I needed it for so whatever changes you
-	make still make sense in that context. For example, if I'm editing in
-	jcc and I make a change in the xml editor, do I need to reload the file
-	in jcc?
-
-	I'll make separate types for XML formatted text and pure XML.  The
-	former will use your method, while the latter will stick to the tree.
-
-	Once integrated, the former method will rebuild the XML tree when the
-	text changes.  This is manual in the current version.

@@ -67,7 +67,6 @@ SyGEditPrefsDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 450,300, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsManInput =
         new JXInputField(window,

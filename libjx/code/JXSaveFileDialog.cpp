@@ -148,7 +148,6 @@ JXSaveFileDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 310,340, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXScrollbarSet* scrollbarSet =
         new JXScrollbarSet(window,

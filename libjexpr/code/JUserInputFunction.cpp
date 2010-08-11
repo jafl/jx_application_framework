@@ -269,7 +269,8 @@ JUserInputFunction::Render
 {
 	JUserInputFunction* me = const_cast<JUserInputFunction*>(this);
 	assert( me != NULL );
-	me->itsNeedRedrawFlag = kJFalse;
+
+	itsNeedRedrawFlag = kJFalse;
 
 	// find ourselves in the list
 

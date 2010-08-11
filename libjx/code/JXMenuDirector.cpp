@@ -30,7 +30,6 @@ JXMenuDirector::JXMenuDirector
 {
 	JXWindow* window = new JXWindow(this, 10,10, "", kJTrue);
 	assert( window != NULL );
-	SetWindow(window);
 
 	itsMenuTable = NULL;
 }

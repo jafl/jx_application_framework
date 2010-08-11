@@ -247,9 +247,10 @@ GMFindTableDir::BuildWindow()
 	JString path;
 	JSplitPathAndName(itsData->GetMailFile(), &path, &title);
 	title.Prepend("Find messages in: ");
+
 	itsWindow = new JXWindow(this, w,h, title);
 	assert( itsWindow != NULL );
-	SetWindow(itsWindow);
+
 	itsWindow->SetWMClass(GMGetWMClassInstance(), GMGetFindDirWindowClass());
 //	ListenTo(itsWindow);
     GGetPrefsMgr()->GetTableWindowSize(itsWindow);

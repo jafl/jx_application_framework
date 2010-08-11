@@ -41,6 +41,8 @@
 /******************************************************************************
  Constructor (empty)
 
+	initState == kLocalStorage accepts origInitColor=0
+
  ******************************************************************************/
 
 JXImage::JXImage
@@ -49,7 +51,8 @@ JXImage::JXImage
 	const JCoordinate	width,
 	const JCoordinate	height,
 	const JColorIndex	origInitColor,
-	const JSize			depth
+	const JSize			depth,
+	const State			initState
 	)
 	:
 	JImage(width, height, display->GetColormap())
@@ -60,21 +63,41 @@ JXImage::JXImage
 		(origInitColor == kJXTransparentColor && itsDepth > 1 ?
 		 itsXColormap->GetDefaultBackColor() : origInitColor);
 
-	itsPixmap =
-		XCreatePixmap(*itsDisplay, itsDisplay->GetRootWindow(),
-					  width, height, itsDepth);
-	assert( itsPixmap != None );
+	if (initState == kRemoteStorage)
+		{
+		itsPixmap =
+			XCreatePixmap(*itsDisplay, itsDisplay->GetRootWindow(),
+						  width, height, itsDepth);
+		assert( itsPixmap != None );
 
-	// We need a private GC so we can draw.
+		// We need a private GC so we can draw.
 
-	itsGC = new JXGC(itsDisplay, itsPixmap);
-	assert( itsGC != NULL );
+		itsGC = new JXGC(itsDisplay, itsPixmap);
+		assert( itsGC != NULL );
 
-	itsGC->SetDrawingColor(initColor);
-	itsGC->FillRect(itsPixmap, 0,0, width, height);
+		itsGC->SetDrawingColor(initColor);
+		itsGC->FillRect(itsPixmap, 0,0, width, height);
 
-	// We don't convert to an image because the user probably wants
-	// to draw to us.
+		// We don't convert to an image because the user probably wants
+		// to draw to us.
+		}
+	else
+		{
+		assert( initState == kLocalStorage );
+
+		PrepareForImageData();
+
+		if (origInitColor != 0)
+			{
+			for (JCoordinate x=0; x<width; x++)
+				{
+				for (JCoordinate y=0; y<height; y++)
+					{
+					SetColor(x,y, initColor);
+					}
+				}
+			}
+		}
 }
 
 /******************************************************************************
@@ -881,8 +904,7 @@ JXImage::GetSystemColor
 {
 	if (itsImage == NULL)
 		{
-		JXImage* me = const_cast<JXImage*>(this);
-		me->ConvertToImage();
+		ConvertToImage();
 		}
 
 	return XGetPixel(itsImage, x,y);
@@ -931,8 +953,7 @@ JXImage::CreateXImage()
 {
 	if (itsPixmap == None)
 		{
-		JXImage* me = const_cast<JXImage*>(this);
-		me->ConvertToPixmap();
+		ConvertToPixmap();
 		}
 
 	XImage* image = XGetImage(*itsDisplay, itsPixmap,
@@ -1039,12 +1060,11 @@ void
 JXImage::ConvertToPixmap()
 	const
 {
-	JXImage* me = const_cast<JXImage*>(this);
-
 	if (itsPixmap == None)
 		{
 		assert( itsImage != NULL );
 
+		JXImage* me = const_cast<JXImage*>(this);
 		me->itsPixmap = CreatePixmap();
 
 		XDestroyImage(itsImage);
@@ -1061,12 +1081,11 @@ void
 JXImage::ConvertToImage()
 	const
 {
-	JXImage* me = const_cast<JXImage*>(this);
-
 	if (itsImage == NULL)
 		{
 		assert( itsPixmap != None );
 
+		JXImage* me = const_cast<JXImage*>(this);
 		me->itsImage = CreateXImage();
 
 		XFreePixmap(*itsDisplay, itsPixmap);

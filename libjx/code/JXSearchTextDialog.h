@@ -131,8 +131,8 @@ private:
 	Window	itsVersionWindow;		// None if init failed
 	Window	itsDataWindow;			// None if init failed
 
-	JBoolean	itsNeedXSearchBcastFlag;		// kJTrue => bcast in GetSearchParameters()
-	JBoolean	itsIgnoreXSearchChangeFlag;		// kJTrue => ignore in Receive()
+	mutable JBoolean	itsNeedXSearchBcastFlag;		// kJTrue => bcast in GetSearchParameters()
+	JBoolean			itsIgnoreXSearchChangeFlag;		// kJTrue => ignore in Receive()
 
 // begin JXLayout
 

@@ -254,8 +254,8 @@ J2DVectorData::GetXRange
 				}
 			}
 
-		const_cast<J2DVectorData*>(this)->itsCurrentXMin = *min;
-		const_cast<J2DVectorData*>(this)->itsCurrentXMax = *max;
+		itsCurrentXMin = *min;
+		itsCurrentXMax = *max;
 		}
 }
 
@@ -316,8 +316,8 @@ J2DVectorData::GetYRange
 				}
 			}
 
-		const_cast<J2DVectorData*>(this)->itsCurrentYMin = *yMin;
-		const_cast<J2DVectorData*>(this)->itsCurrentYMax = *yMax;
+		itsCurrentYMin = *yMin;
+		itsCurrentYMax = *yMax;
 		}
 
 	return kJTrue;

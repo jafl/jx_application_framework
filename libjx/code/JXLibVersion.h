@@ -28,6 +28,10 @@ static const char* kCurrentJXLibVersionStr = "2.6.0";
 //	JXGC:
 //		Added support for anti-aliased fonts.
 //		Removed JXColormap* arg from ctor.
+//	JXWindowPainter:
+//		Rotated strings are anti-aliased.
+//		Fixed bugs in placement of rotated text.
+//		Promoted GetDrawable() to public.
 //	JXPSPrintSetupDialog:
 //		Fixed bug so Print button is enabled when dialog is opened.
 //		Fixed crash when print to printer and file name input is empty.
@@ -50,11 +54,23 @@ static const char* kCurrentJXLibVersionStr = "2.6.0";
 //			NewColormap message, JXColorDistanceFn
 //	JXWindow:
 //		Removed ownsColormap and colormap arguments from ctor.
+//		Removed --desktop-h & --desktop-v options.  They are not useful.
+//		Replaced ~/.jx/wm_offset & ~/.jx/wm_desktop_style with
+//			AnalyzeWindowManager(), since you may run programs from a single
+//			computer on multiple X servers, each with a different window manager
+//			with different quirks.
+//		Fixed Show() and Raise() so they don't destroy the undocked window
+//			position while the window is docked.
+//		Optimized GetRootChild() to cache the result.  (Reparenting clears it.)
 //	JXDisplay:
 //		Removed AllowPrivateColormap() and ForcePrivateColormap().
+//		When created, analyzes window manager behavior to detect quirks for
+//			which JXWindow must compensate.  This information is cached on the
+//			root window to avoid wasting time at the next invocation.
 //	JXImage:
 //		Removed allowApproxColors argument from all CreateFrom*().
 //		Removed JXColormap* arg from all ctors and CreateFrom*().
+//		Added optional initState arg to basic ctor, to allow creating XImage.
 //	JXImageMask:
 //		Removed JXColormap* arg from all ctors and CreateFrom*().
 //	JXImageSelection:
@@ -62,8 +78,6 @@ static const char* kCurrentJXLibVersionStr = "2.6.0";
 //	JXStyleMenu:
 //		Removed first ctor arg allowChooseCustomColors.
 //		Removed HandleCustomColor().  HandleMenuItem() is called for all items.
-//	JXWindowPainter:
-//		Promoted GetDrawable() to public.
 //	Created JXColorWheel.
 //	JXChooseColorDialog:
 //		Added color wheel.
@@ -91,6 +105,8 @@ static const char* kCurrentJXLibVersionStr = "2.6.0";
 //			in addition to the vertical scroll buttons (4,5).
 //	JXPasswordInput:
 //		Renders dots instead of hashes, and displays symbol when Caps Lock is on.
+//	JXWindowDirector:
+//		Demoted SetWindow() to private.  JXWindow now calls it automatically.
 
 // version 2.6.0:
 //	JXWebBrowser:

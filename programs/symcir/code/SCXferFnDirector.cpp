@@ -93,9 +93,8 @@ SCXferFnDirector::BuildWindow
 
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 500,235, "");
+    JXWindow* window = new JXWindow(this, 500,230, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXMenuBar* menuBar =
         new JXMenuBar(window,
@@ -108,7 +107,7 @@ SCXferFnDirector::BuildWindow
     assert( itsPartition != NULL );
 
     itsEvalButton =
-        new JXTextButton("Evaluate", window,
+        new JXTextButton(JGetString("itsEvalButton::SCXferFnDirector::JXLayout"), window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 430,0, 70,30);
     assert( itsEvalButton != NULL );
 

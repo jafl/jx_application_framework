@@ -398,9 +398,10 @@ GMessageTableDir::BuildWindow
 	JString title;
 	JString path;
 	JSplitPathAndName(mailfile, &path, &title);
+
 	itsWindow = new JXWindow(this, w,h, title);
 	assert( itsWindow != NULL );
-	SetWindow(itsWindow);
+
 	itsWindow->SetWMClass(GMGetWMClassInstance(), GMGetTableWindowClass());
 //	ListenTo(itsWindow);
     GGetPrefsMgr()->GetTableWindowSize(itsWindow);

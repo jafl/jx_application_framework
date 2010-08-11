@@ -52,7 +52,7 @@ GNetDebugDir::GNetDebugDir
 	JSize h = 300;
 	JXWindow* window = new JXWindow(this, w,h, title);
     assert( window != NULL );
-    SetWindow(window);
+
     window->SetCloseAction(JXWindow::kDeactivateDirector);
 
     JXMenuBar* menuBar =

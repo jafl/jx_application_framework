@@ -104,6 +104,8 @@ JXDockWindowTask::Perform
 		{
 		XReparentWindow(*(itsWindow->GetDisplay()), itsWindow->GetXWindow(),
 						itsParent, itsPoint.x, itsPoint.y);
+		itsWindow->itsRootChild = None;
+
 		itsState = kCheckParent;
 		SetPeriod(kCheckParentInterval);
 		}
@@ -130,6 +132,7 @@ JXDockWindowTask::Perform
 			cerr << "XReparentWindow failed during docking:  trying again" << endl;
 			XReparentWindow(*(itsWindow->GetDisplay()), itsWindow->GetXWindow(),
 							itsParent, itsPoint.x, itsPoint.y);
+			itsWindow->itsRootChild = None;
 			}
 		}
 	else	// itsState == kShowWindow
