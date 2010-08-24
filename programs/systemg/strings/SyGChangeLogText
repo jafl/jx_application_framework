@@ -12,15 +12,15 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
-<h3> 2.3.1 </h3>
+<h3> 2.4 </h3>
 
+Renamed Branch menu to Git.  Add more functions and restructured contents based on the frequency of use of each item.  Git menu is now always visible, to allow items to be added to the toolbar, but the menu is only enabled in top level directories managed by git, not sub-directories.
+<p>
 No longer blocks when deleting a large directory.
 <p>
 No longer blocks when opening a directory mananged by git.
 <p>
 No longer whines when renaming or deleting unmanaged items in a directory mananged by git.
-<p>
-Only shows Branch menu in the top level directory managed by git, not sub-directories.
 <p>
 Anti-alised text.
 

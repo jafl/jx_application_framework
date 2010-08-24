@@ -1,8 +1,6 @@
 /******************************************************************************
  GPMProcessList.cc
 
-	<Description>
-
 	BASE CLASS = JContainer
 
 	Copyright © 2000 by Glenn W. Bach.  All rights reserved.
@@ -266,36 +264,6 @@ GPMProcessList::Update()
 		}
 
 	Broadcast(ListChanged());
-}
-
-/******************************************************************************
- GetProcessEntry
-
- ******************************************************************************/
-
-const GPMProcessEntry&
-GPMProcessList::GetProcessEntry
-	(
-	const JIndex index
-	)
-	const
-{
-	return *(itsEntries->NthElement(index));
-}
-
-/******************************************************************************
- GetEntryIndex
-
- ******************************************************************************/
-
-JBoolean
-GPMProcessList::GetEntryIndex
-	(
-	const GPMProcessEntry*	entry,
-	JIndex*					index
-	)
-{
-	return itsEntries->Find(const_cast<GPMProcessEntry*>(entry), index);
 }
 
 /******************************************************************************

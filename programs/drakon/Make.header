@@ -178,7 +178,7 @@ static: debug
 
 .PHONY : personal
 personal: static
-	@mv drakon ${HOME}/bin/
+	@cp drakon ${HOME}/bin/
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

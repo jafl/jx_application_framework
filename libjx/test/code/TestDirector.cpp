@@ -473,7 +473,7 @@ JIndex i;
 
 	for (i=0; i<kSmileyBitmapCount; i++)
 		{
-		itsIconMenu->AppendItem(image[i], kJFalse, kJTrue, kJTrue);
+		itsIconMenu->AppendItem(image[i], kJFalse, JXMenu::kRadioType);
 		}
 
 	itsIconMenuItem = 1;

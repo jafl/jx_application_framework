@@ -24,7 +24,7 @@ SEARCHDIRS := -I${CODEDIR} \
 
 # other constants
 
-SYSTEMG_VERSION  := 2.3.0
+SYSTEMG_VERSION  := 2.4.0
 SIGNATURE        := systemg
 SYG_STRING_FILES := ${filter-out %/systemg_menu_strings, \
                       ${shell echo strings/*}}
@@ -188,7 +188,7 @@ static: debug
 .PHONY : ibeta
 ibeta: static
 	@tar -czf ${HOME}/systemg.tgz systemg
-	@mv systemg ${HOME}/bin/systemg_stable
+	@cp systemg ${HOME}/bin/systemg_stable
 
 #
 # personal install
@@ -196,7 +196,7 @@ ibeta: static
 
 .PHONY : personal
 personal: static
-	@mv systemg ${HOME}/bin/
+	@cp systemg ${HOME}/bin/
 
 #
 # development backups

@@ -58,7 +58,7 @@ JXTextEditor::JXTextEditor
 
 	itsMenuBar = menuBar;
 
-	AppendEditMenu(menuBar, kJTrue, kJTrue, kJTrue, kJTrue, kJFalse, kJFalse, kJTrue, kJTrue);
+	AppendEditMenu(menuBar, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue);
 	AppendSearchReplaceMenu(menuBar);
 
 	itsFontMenu = new JXFontNameMenu(kFontMenuTitleStr, menuBar,

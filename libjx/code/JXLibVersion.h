@@ -21,6 +21,7 @@
 static const char* kCurrentJXLibVersionStr = "2.6.0";
 
 // version 3.0.0:
+//	*** Re-run jxlayout on all .fd files.
 //	Switched all uses of "6x13" to JGetMonospaceFontName().
 //	JXFontManager:
 //		Added support for anti-aliased fonts.
@@ -107,6 +108,24 @@ static const char* kCurrentJXLibVersionStr = "2.6.0";
 //		Renders dots instead of hashes, and displays symbol when Caps Lock is on.
 //	JXWindowDirector:
 //		Demoted SetWindow() to private.  JXWindow now calls it automatically.
+//	JXMenu:
+//		Added ItemType enum.
+//		Added IsFromShortcut() to NeedsUpdate message.
+//	JXMenuData:
+//		Collapsed isCheckbox and isRadio args for Insert/Prepend/AppendItem()
+//			into single type.
+//		Replaced IsCheckbox() with GetType().
+//	JXTextMenu:
+//		Collapsed isCheckbox and isRadio args for Insert/Prepend/AppendItem()
+//			into single type.
+//	JXImageMenu:
+//		Collapsed isCheckbox and isRadio args for Insert/Prepend/AppendItem()
+//			into single type.
+//	JXToolBar:
+//		Fixed bug so all buttons associated with deactivated menus are disabled.
+//	JXTEBase:
+//		Added menu items "Clean all ws & alignment" and
+//			"Clean ws & align in selection"
 
 // version 2.6.0:
 //	JXWebBrowser:

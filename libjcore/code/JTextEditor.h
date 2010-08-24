@@ -77,6 +77,8 @@ public:
 		kShowWhitespaceCmd,
 		kCleanAllWhitespaceCmd,
 		kCleanWhitespaceSelCmd,
+		kCleanAllWSAlignCmd,
+		kCleanWSAlignSelCmd,
 		kToggleReadOnlyCmd,
 
 		kFindDialogCmd,
@@ -374,9 +376,9 @@ public:
 								 const JBoolean force = kJFalse);
 	void		TabSelectionRight(const JSize tabCount = 1);
 
-	void	CleanAllWhitespace();
-	void	CleanSelectedWhitespace();
-	void	CleanWhitespace(const JIndexRange& range);
+	void	CleanAllWhitespace(const JBoolean align);
+	void	CleanSelectedWhitespace(const JBoolean align);
+	void	CleanWhitespace(const JIndexRange& range, const JBoolean align);
 
 	JBoolean	WillAutoIndent() const;
 	void		ShouldAutoIndent(const JBoolean indent);
@@ -1632,9 +1634,12 @@ JTextEditor::TabShouldInsertSpaces
  ******************************************************************************/
 
 inline void
-JTextEditor::CleanAllWhitespace()
+JTextEditor::CleanAllWhitespace
+	(
+	const JBoolean align
+	)
 {
-	CleanWhitespace(JIndexRange(1, GetTextLength()));
+	CleanWhitespace(JIndexRange(1, GetTextLength()), align);
 }
 
 /******************************************************************************
@@ -1646,12 +1651,15 @@ JTextEditor::CleanAllWhitespace()
  ******************************************************************************/
 
 inline void
-JTextEditor::CleanSelectedWhitespace()
+JTextEditor::CleanSelectedWhitespace
+	(
+	const JBoolean align
+	)
 {
 	JIndexRange r;
 	if (GetSelection(&r))
 		{
-		CleanWhitespace(r);
+		CleanWhitespace(r, align);
 		}
 }
 

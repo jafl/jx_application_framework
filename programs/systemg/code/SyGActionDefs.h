@@ -28,11 +28,11 @@
 #define kSGAlternateOpenAction  "SGAlternateOpen"
 #define kSGRunOnFileAction      "SGRunOnFile"
 #define kSGFindAction           "SGFind"
-#define kSGRenameAction			"SGRename"
+#define kSGRenameAction         "SGRename"
 #define kSGDuplicateAction      "SGDuplicate"
 #define kSGMakeAliasAction      "SGMakeAlias"
-#define kSGConvertToFile		"SGConvertToFile"
-#define kSGConvertToProgram		"SGConvertToProgram"
+#define kSGConvertToFile        "SGConvertToFile"
+#define kSGConvertToProgram     "SGConvertToProgram"
 #define kSGFindOriginalAction   "SGFindOriginal"
 #define kSGMountAction          "SGMount"
 #define kSGEraseAction          "SGErase"
@@ -57,6 +57,14 @@
 #define kSGShowAllAction         "SGShowAll"
 #define kSGShowNoneAction        "SGShowNone"
 #define kSGRefreshAction         "SGRefresh"
+
+// Git menu
+
+#define kSGGitStatusAction       "SGGitStatus"
+#define kSGGitHistoryAction      "SGGitHistory"
+#define kSGGitCommitAllAction    "SGGitCommitAll"
+#define kSGGitRevertAllAction    "SGGitRevertAll"
+#define kSGGitCreateBranchAction "SGGitCreateBranch"
 
 // Shortcuts menu
 

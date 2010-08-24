@@ -115,7 +115,7 @@ debug: staticACE
 .PHONY : personal
 personal: debug
 	@strip ${call EXE, makemake}
-	@mv makemake ${JX_INSTALL_ROOT}/
+	@cp makemake ${JX_INSTALL_ROOT}/
 
 ### makemake inserts here ###
 

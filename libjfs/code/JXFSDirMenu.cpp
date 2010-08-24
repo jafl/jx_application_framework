@@ -453,7 +453,7 @@ JXFSDirMenu::AppendEntry
 			JSplitPathAndName(*link, &path, &name);
 			}
 
-		AppendItem(name, kJFalse, kJFalse, NULL, path);
+		AppendItem(name, kPlainType, NULL, path);
 		}
 	else
 		{

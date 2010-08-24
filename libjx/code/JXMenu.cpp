@@ -1010,11 +1010,14 @@ JXMenu::AdjustAppearance
  ******************************************************************************/
 
 JBoolean
-JXMenu::PrepareToOpenMenu()
+JXMenu::PrepareToOpenMenu
+	(
+	const JBoolean shortcut
+	)
 {
 	if (itsOwner != NULL && !itsOwner->IsOpen())	// parent may have effect on child
 		{
-		itsOwner->PrepareToOpenMenu();
+		itsOwner->PrepareToOpenMenu(shortcut);
 		}
 
 	if ((itsOwner == NULL &&			// active status of sub-menus depends on menu item active status
@@ -1032,7 +1035,7 @@ JXMenu::PrepareToOpenMenu()
 
 	// let owner update us as appropriate
 
-	Broadcast(NeedsUpdate());
+	Broadcast(NeedsUpdate(shortcut));
 	return JI2B(IsActive() && GetItemCount() > 0);
 }
 
@@ -1060,7 +1063,7 @@ JXMenu::Open
 		}
 	assert( itsMenuDirector == NULL );
 
-	if (!PrepareToOpenMenu())
+	if (!PrepareToOpenMenu(kJFalse))
 		{
 		return kJFalse;
 		}

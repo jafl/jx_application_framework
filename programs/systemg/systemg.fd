@@ -10,7 +10,7 @@ Unit of measure: FL_COORD_PIXEL
 Name: SyGEditPrefsDialog
 Width: 450
 Height: 300
-Number of Objects: 16
+Number of Objects: 18
 
 --------------------
 class: FL_BOX
@@ -63,6 +63,24 @@ shortcut:
 resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
 name: itsTerminalInput
+callback: 
+argument: 
+
+--------------------
+class: FL_INPUT
+type: NORMAL_INPUT
+box: 220 180 215 20
+boxtype: FL_DOWN_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_LEFT
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_North FL_NoGravity
+name: itsGitStatusInput
 callback: 
 argument: 
 
@@ -211,27 +229,9 @@ callback:
 argument: 
 
 --------------------
-class: FL_INPUT
-type: NORMAL_INPUT
-box: 220 180 215 20
-boxtype: FL_DOWN_BOX
-colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_LEFT
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: 
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_North FL_NoGravity
-name: itsPostCheckoutInput
-callback: 
-argument: 
-
---------------------
 class: FL_TEXT
 type: NORMAL_TEXT
-box: 10 180 210 20
+box: 10 220 210 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -249,7 +249,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: NORMAL_TEXT
-box: 220 200 215 20
+box: 220 240 215 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -257,6 +257,60 @@ style: FL_NORMAL_STYLE
 size: FL_DEFAULT_SIZE
 lcol: FL_BLACK
 label: (automatically run in checkout directory)
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: 
+callback: 
+argument: 
+
+--------------------
+class: FL_TEXT
+type: NORMAL_TEXT
+box: 10 180 210 20
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Cmd to display git status:
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthWest FL_NoGravity
+name: 
+callback: 
+argument: 
+
+--------------------
+class: FL_INPUT
+type: NORMAL_INPUT
+box: 220 200 215 20
+boxtype: FL_DOWN_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_LEFT
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_North FL_NoGravity
+name: itsGitHistoryInput
+callback: 
+argument: 
+
+--------------------
+class: FL_TEXT
+type: NORMAL_TEXT
+box: 10 200 210 20
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Cmd to display git history:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
@@ -278,25 +332,7 @@ label:
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_North FL_NoGravity
-name: itsGitStatusInput
-callback: 
-argument: 
-
---------------------
-class: FL_TEXT
-type: NORMAL_TEXT
-box: 10 220 210 20
-boxtype: FL_FLAT_BOX
-colors: FL_COL1 FL_MCOL
-alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: Cmd to display git status:
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
-name: 
+name: itsPostCheckoutInput
 callback: 
 argument: 
 

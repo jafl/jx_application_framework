@@ -115,6 +115,8 @@ static const JCharacter* kWinEditMenuStr =
 #define kShowWhitespaceAction		"ShowWhitespaceCmd::JXTEBase"
 #define kCleanAllWhitespaceAction	"CleanAllWhitespaceCmd::JXTEBase"
 #define kCleanWhitespaceSelAction	"CleanWhitespaceSelCmd::JXTEBase"
+#define kCleanAllWSAlignAction		"CleanAllWSAlignCmd::JXTEBase"
+#define kCleanWSAlignSelAction		"CleanWSAlignSelCmd::JXTEBase"
 #define kToggleReadOnlyAction		"ToggleReadOnlyCmd::JXTEBase"
 
 static const JCharacter* kMacCheckSpellingMenuStr =
@@ -140,14 +142,18 @@ static const JCharacter* kWinAdjustMarginsMenuStr =
 	"  | Force shift left    %h f %k Ctrl-{            %i" kForceShiftSelLeftAction;
 
 static const JCharacter* kMacCleanWhitespaceMenuStr =
-	"  Show whitespace      %b %i" kShowWhitespaceAction
-	"| Clean all whitespace    %i" kCleanAllWhitespaceAction
-	"| Clean selection         %i" kCleanWhitespaceSelAction;
+	"  Show whitespace        %b %i" kShowWhitespaceAction
+	"| Clean all whitespace      %i" kCleanAllWhitespaceAction
+	"| Clean selected ws         %i" kCleanWhitespaceSelAction
+	"| Clean all ws & alignment  %i" kCleanAllWSAlignAction
+	"| Clean selected ws & align %i" kCleanWSAlignSelAction;
 
 static const JCharacter* kWinCleanWhitespaceMenuStr =
-	"  Show whitespace            %b      %i" kShowWhitespaceAction
-	"| Clean all whitespace          %h w %i" kCleanAllWhitespaceAction
-	"| Clean whitespace in selection %h h %i" kCleanWhitespaceSelAction;
+	"  Show whitespace   %b      %i" kShowWhitespaceAction
+	"| Clean all whitespace %h w %i" kCleanAllWhitespaceAction
+	"| Clean selected ws         %i" kCleanWhitespaceSelAction
+	"| Clean all ws & alignment  %i" kCleanAllWSAlignAction
+	"| Clean selected ws & align %i" kCleanWSAlignSelAction;
 
 static const JCharacter* kMacReadOnlyMenuStr =
 	"Read only %b %i" kToggleReadOnlyAction;
@@ -175,6 +181,8 @@ static const MenuItemInfo kEditMenuItemInfo[] =
 	{ JTextEditor::kShowWhitespaceCmd,     kShowWhitespaceAction     },
 	{ JTextEditor::kCleanAllWhitespaceCmd, kCleanAllWhitespaceAction },
 	{ JTextEditor::kCleanWhitespaceSelCmd, kCleanWhitespaceSelAction },
+	{ JTextEditor::kCleanAllWSAlignCmd,    kCleanAllWSAlignAction    },
+	{ JTextEditor::kCleanWSAlignSelCmd,    kCleanWSAlignSelAction    },
 	{ JTextEditor::kToggleReadOnlyCmd,     kToggleReadOnlyAction     },
 };
 const JSize kEditMenuItemCount = sizeof(kEditMenuItemInfo)/sizeof(MenuItemInfo);
@@ -2451,7 +2459,9 @@ JXTEBase::UpdateEditMenu()
 					}
 				}
 			else if (cmd == kCleanAllWhitespaceCmd ||
-					 cmd == kCleanWhitespaceSelCmd)
+					 cmd == kCleanWhitespaceSelCmd ||
+					 cmd == kCleanAllWSAlignCmd    ||
+					 cmd == kCleanWSAlignSelCmd)
 				{
 				enable = itsCanCleanWhitespaceFlag;
 				}
@@ -2562,11 +2572,19 @@ JXTEBase::HandleEditMenu
 		}
 	else if (cmd == kCleanAllWhitespaceCmd)
 		{
-		CleanAllWhitespace();
+		CleanAllWhitespace(kJFalse);
 		}
 	else if (cmd == kCleanWhitespaceSelCmd)
 		{
-		CleanSelectedWhitespace();
+		CleanSelectedWhitespace(kJFalse);
+		}
+	else if (cmd == kCleanAllWSAlignCmd)
+		{
+		CleanAllWhitespace(kJTrue);
+		}
+	else if (cmd == kCleanWSAlignSelCmd)
+		{
+		CleanSelectedWhitespace(kJTrue);
 		}
 
 	else if (cmd == kToggleReadOnlyCmd)

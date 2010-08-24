@@ -157,12 +157,7 @@ GPMProcessTable::Receive
 {
 	if (sender == itsList && message.Is(GPMProcessList::kPrepareForUpdate))
 		{
-		if (itsSelectedEntry != NULL)
-			{
-			StopListening(itsSelectedEntry);
-			itsSelectedEntry = NULL;
-			}
-
+		StopListening(itsSelectedEntry);
 		if (GetSelectedProcess(&itsSelectedEntry))
 			{
 			ClearWhenGoingAway(itsSelectedEntry, &itsSelectedEntry);
@@ -244,13 +239,14 @@ GPMProcessTable::TableDrawCell
 
 	HilightIfSelected(p, cell, rect);
 
-	const GPMProcessEntry& entry = itsList->GetProcessEntry(cell.y);
+	const GPMProcessEntry& entry = *(itsList->GetProcessEntry(cell.y));
 
 	JString str;
 	JPainter::HAlignment halign = JPainter::kHAlignRight;
 	if (cell.x == GPMProcessList::kListState)
 		{
 		DrawProcessState(entry, p, rect, *itsZombieImage);
+		return;
 		}
 	else if (cell.x == GPMProcessList::kListPID)
 		{
@@ -303,9 +299,8 @@ GPMProcessTable::TableDrawCell
 		halign	= JPainter::kHAlignLeft;
 		}
 
-	JRect r  = rect;
-	r.left  += kHMarginWidth;
-	r.right -= kHMarginWidth;
+	JRect r = rect;
+	r.Shrink(kHMarginWidth, 0);
 	p.JPainter::String(r, str, halign, JPainter::kVAlignCenter);
 }
 
@@ -400,8 +395,8 @@ GPMProcessTable::HandleMouseDown
 
 	if (cell.x == GPMProcessList::kListState)
 		{
-		const GPMProcessEntry& entry = itsList->GetProcessEntry(cell.y);
-		ToggleProcessState(entry);
+		const GPMProcessEntry* entry = itsList->GetProcessEntry(cell.y);
+		ToggleProcessState(*entry);
 		itsList->Update();
 		}
 	else if (button == kJXRightButton)
@@ -498,7 +493,7 @@ GPMProcessTable::HandleKeyPress
 
 	else
 		{
-		if (0 < key && key <= 255)
+		if (JXIsPrint(key))
 			{
 			itsKeyBuffer.Clear();
 			}
@@ -626,7 +621,7 @@ GPMProcessTable::GetSelectedProcess
 	JPoint cell;
 	if (GetTableSelection().GetFirstSelectedCell(&cell))
 		{
-		*entry = & itsList->GetProcessEntry(cell.y);
+		*entry = itsList->GetProcessEntry(cell.y);
 		return kJTrue;
 		}
 	else

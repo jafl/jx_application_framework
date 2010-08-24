@@ -13,10 +13,10 @@
 #endif
 
 #include <JXMenu.h>
+#include <JXImageMenuData.h>	// need defn of ItemType
 #include <JXPM.h>
 
 class JXImage;
-class JXImageMenuData;
 
 class JXImageMenu : public JXMenu
 {
@@ -41,16 +41,13 @@ public:
 
 	void			InsertItem(const JIndex index, JXImage* image,
 							   const JBoolean menuOwnsImage,
-							   const JBoolean isCheckbox = kJFalse,
-							   const JBoolean isRadio = kJFalse,
+							   const ItemType type = kPlainType,
 							   const JCharacter* id = NULL);
 	void			PrependItem(JXImage* image, const JBoolean menuOwnsImage,
-								const JBoolean isCheckbox = kJFalse,
-								const JBoolean isRadio = kJFalse,
+							   const ItemType type = kPlainType,
 								const JCharacter* id = NULL);
 	void			AppendItem(JXImage* image, const JBoolean menuOwnsImage,
-							   const JBoolean isCheckbox = kJFalse,
-							   const JBoolean isRadio = kJFalse,
+							   const ItemType type = kPlainType,
 							   const JCharacter* id = NULL);
 
 	const JXImage*	GetItemImage(const JIndex index) const;

@@ -31,27 +31,18 @@
 #include <JFontStyle.h>
 #include <jAssert.h>
 
-#include <jx_spell_check.xpm>
-#include <jx_spell_check_selection.xpm>
-
 // Edit menu
 
-static const JCharacter* kPasteQuotedStr           = "Paste quoted";
-static const JCharacter* kQuoteSelectedStr         = "Quote selected";
-static const JCharacter* kCheckSpellingStr         = "Check spelling";
-static const JCharacter* kCheckSelectedSpellingStr = "Check spelling for selection";
+static const JCharacter* kPasteQuotedStr   = "Paste quoted";
+static const JCharacter* kQuoteSelectedStr = "Quote selected";
 
-static const JCharacter* kPasteQuotedID           = "PasteQuoted::Arrow";
-static const JCharacter* kQuoteSelectedID         = "QuoteSelected::Arrow";
-static const JCharacter* kCheckSpellingID         = "CheckSpelling::Arrow";
-static const JCharacter* kCheckSelectedSpellingID = "CheckSpellingSelection::Arrow";
+static const JCharacter* kPasteQuotedID    = "PasteQuoted::Arrow";
+static const JCharacter* kQuoteSelectedID  = "QuoteSelected::Arrow";
 
 enum
 {
 	kPasteQuotedCmd = 0,
-	kQuoteSelectedCmd,
-	kCheckSpellingCmd,
-	kCheckSelectedSpellingCmd
+	kQuoteSelectedCmd
 };
 
 /******************************************************************************
@@ -84,20 +75,14 @@ GMessageEditor::GMessageEditor
 	(scrollbarSet->GetVScrollbar())->SetScrollDelay(0);
 
 	SetPTPrinter(GMGetPTPrinter());
-	AppendEditMenu(menuBar, kJFalse, kJFalse, kJTrue, kJTrue, kJFalse, kJFalse, kJFalse, kJFalse);
+	AppendEditMenu(menuBar, kJTrue, kJTrue, kJTrue, kJTrue, kJFalse, kJFalse, kJFalse, kJFalse);
 	JXTextMenu* editMenu;
 	GetEditMenu(&editMenu);
 	const JSize editCount = editMenu->GetItemCount();
 	itsStartEditCmd = editCount + 1;
 	editMenu->ShowSeparatorAfter(editCount);
-	editMenu->AppendItem(kPasteQuotedStr, kJFalse, kJFalse, "", "Meta-Shift-V", kPasteQuotedID);
-	editMenu->AppendItem(kQuoteSelectedStr, kJFalse, kJFalse, NULL, NULL, kQuoteSelectedID);
-	editMenu->ShowSeparatorAfter(editCount+2);
-	editMenu->AppendItem(kCheckSpellingStr, kJFalse, kJFalse, NULL, NULL, kCheckSpellingID);
-	editMenu->AppendItem(kCheckSelectedSpellingStr, kJFalse, kJFalse, NULL, NULL, kCheckSelectedSpellingID);
-
-	editMenu->SetItemImage(itsStartEditCmd + ::kCheckSpellingCmd, jx_spell_check);
-	editMenu->SetItemImage(itsStartEditCmd + ::kCheckSelectedSpellingCmd, jx_spell_check_selection);
+	editMenu->AppendItem(kPasteQuotedStr, JXMenu::kPlainType, "", "Meta-Shift-V", kPasteQuotedID);
+	editMenu->AppendItem(kQuoteSelectedStr, JXMenu::kPlainType, NULL, NULL, kQuoteSelectedID);
 
 	AppendSearchReplaceMenu(menuBar);
 
@@ -243,16 +228,6 @@ GMessageEditor::UpdateEditMenu()
 			editMenu->EnableItem(kQuoteSelectedCmd + itsStartEditCmd);
 			}
 		}
-
-	if ((JXGetSpellChecker())->IsAvailable())
-		{
-		editMenu->EnableItem(::kCheckSpellingCmd + itsStartEditCmd);
-
-		if (HasSelection())
-			{
-			editMenu->EnableItem(::kCheckSelectedSpellingCmd + itsStartEditCmd);
-			}
-		}
 }
 
 /******************************************************************************
@@ -298,15 +273,6 @@ GMessageEditor::HandleEditMenu
 			GQuoteString(&text, kJTrue);
 			Paste(text);
 			}
-		}
-
-	else if (index == ::kCheckSpellingCmd)
-		{
-		(JXGetSpellChecker())->Check(this);
-		}
-	else if (index == ::kCheckSelectedSpellingCmd)
-		{
-		(JXGetSpellChecker())->CheckSelection(this);
 		}
 }
 

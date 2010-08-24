@@ -142,7 +142,7 @@ debug: libs
 .PHONY : personal
 personal: debug
 	@strip ${call EXE, ${PROG_NAME}}
-	@mv ${PROG_NAME} ${JX_INSTALL_ROOT}/
+	@cp ${PROG_NAME} ${JX_INSTALL_ROOT}/
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

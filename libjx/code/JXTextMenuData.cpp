@@ -81,13 +81,12 @@ JXTextMenuData::~JXTextMenuData()
 void
 JXTextMenuData::InsertItem
 	(
-	const JIndex		index,
-	const JCharacter*	str,
-	const JBoolean		isCheckbox,
-	const JBoolean		isRadio,
-	const JCharacter*	shortcuts,
-	const JCharacter*	nmShortcut,
-	const JCharacter*	id
+	const JIndex			index,
+	const JCharacter*		str,
+	const JXMenu::ItemType	type,
+	const JCharacter*		shortcuts,
+	const JCharacter*		nmShortcut,
+	const JCharacter*		id
 	)
 {
 	JString* text = new JString(str);
@@ -96,7 +95,7 @@ JXTextMenuData::InsertItem
 	TextItemData itemData(text, itsDefFontID, itsDefFontSize, itsDefFontStyle);
 	itsTextItemData->InsertElementAtIndex(index, itemData);
 
-	JXMenuData::InsertItem(index, isCheckbox, isRadio, shortcuts, id);
+	JXMenuData::InsertItem(index, type, shortcuts, id);
 
 	const JString* s;
 	GetItemShortcuts(index, &s);
@@ -288,9 +287,10 @@ JXTextMenuData::InsertMenuItems
 			done     = kJTrue;
 			}
 
-		JBoolean isActive, hasSeparator, isCheckbox, isRadio;
+		JBoolean isActive, hasSeparator;
+		JXMenu::ItemType type;
 		ParseMenuItemStr(&itemText, &isActive, &hasSeparator,
-						 &isCheckbox, &isRadio, &shortcuts, &nmShortcut, &id);
+						 &type, &shortcuts, &nmShortcut, &id);
 
 		if (!JStringEmpty(idNamespace) && !id.IsEmpty())
 			{
@@ -301,13 +301,14 @@ JXTextMenuData::InsertMenuItems
 			if (strMgr->GetElement(strID, &itemText1) && itemText1 != NULL)
 				{
 				itemText = *itemText1;
-				JBoolean isActive1, hasSeparator1, isCheckbox1, isRadio1;
+				JBoolean isActive1, hasSeparator1;
+				JXMenu::ItemType type1;
 				ParseMenuItemStr(&itemText, &isActive1, &hasSeparator1,
-								 &isCheckbox1, &isRadio1, &shortcuts, &nmShortcut, &id1);
+								 &type1, &shortcuts, &nmShortcut, &id1);
 				}
 			}
 
-		InsertItem(currIndex, itemText, isCheckbox, isRadio, shortcuts, nmShortcut, id);
+		InsertItem(currIndex, itemText, type, shortcuts, nmShortcut, id);
 		if (!isActive)
 			{
 			DisableItem(currIndex);
@@ -333,21 +334,19 @@ JXTextMenuData::InsertMenuItems
 void
 JXTextMenuData::ParseMenuItemStr
 	(
-	JString*	text,
-	JBoolean*	isActive,
-	JBoolean*	hasSeparator,
-	JBoolean*	isCheckbox,
-	JBoolean*	isRadio,
-	JString*	shortcuts,
-	JString*	nmShortcut,
-	JString*	id
+	JString*			text,
+	JBoolean*			isActive,
+	JBoolean*			hasSeparator,
+	JXMenu::ItemType*	type,
+	JString*			shortcuts,
+	JString*			nmShortcut,
+	JString*			id
 	)
 	const
 {
 	*isActive     = kJTrue;
 	*hasSeparator = kJFalse;
-	*isCheckbox   = kJFalse;
-	*isRadio      = kJFalse;
+	*type         = JXMenu::kPlainType;
 
 	shortcuts->Clear();
 	nmShortcut->Clear();
@@ -377,12 +376,11 @@ JXTextMenuData::ParseMenuItemStr
 			}
 		else if (opc == 'b' || opc == 'B')
 			{
-			*isCheckbox = kJTrue;
+			*type = JXMenu::kCheckboxType;
 			}
 		else if (opc == 'r' || opc == 'R')
 			{
-			*isCheckbox = kJTrue;
-			*isRadio    = kJTrue;
+			*type = JXMenu::kRadioType;
 			}
 
 		else if (opc == 'h' && shortcuts->IsEmpty())

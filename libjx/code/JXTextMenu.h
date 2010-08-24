@@ -50,20 +50,17 @@ public:
 							const JCharacter* idNamespace = NULL);
 
 	void	InsertItem(const JIndex index, const JCharacter* str,
-					   const JBoolean isCheckbox = kJFalse,
-					   const JBoolean isRadio = kJFalse,
+					   const ItemType type = kPlainType,
 					   const JCharacter* shortcuts = NULL,
 					   const JCharacter* nmShortcut = NULL,
 					   const JCharacter* id = NULL);
 	void	PrependItem(const JCharacter* str,
-						const JBoolean isCheckbox = kJFalse,
-						const JBoolean isRadio = kJFalse,
+					   const ItemType type = kPlainType,
 						const JCharacter* shortcuts = NULL,
 						const JCharacter* nmShortcut = NULL,
 						const JCharacter* id = NULL);
 	void	AppendItem(const JCharacter* str,
-					   const JBoolean isCheckbox = kJFalse,
-					   const JBoolean isRadio = kJFalse,
+					   const ItemType type = kPlainType,
 					   const JCharacter* shortcuts = NULL,
 					   const JCharacter* nmShortcut = NULL,
 					   const JCharacter* id = NULL);

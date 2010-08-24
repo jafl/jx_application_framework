@@ -107,12 +107,11 @@ JXImageMenu::InsertItem
 	const JIndex		index,
 	JXImage*			image,
 	const JBoolean		menuOwnsImage,
-	const JBoolean		isCheckbox,
-	const JBoolean		isRadio,
+	const ItemType		type,
 	const JCharacter*	id
 	)
 {
-	itsIconMenuData->InsertItem(index, image, menuOwnsImage, isCheckbox, isRadio, id);
+	itsIconMenuData->InsertItem(index, image, menuOwnsImage, type, id);
 }
 
 void
@@ -120,12 +119,11 @@ JXImageMenu::PrependItem
 	(
 	JXImage*			image,
 	const JBoolean		menuOwnsImage,
-	const JBoolean		isCheckbox,
-	const JBoolean		isRadio,
+	const ItemType		type,
 	const JCharacter*	id
 	)
 {
-	itsIconMenuData->PrependItem(image, menuOwnsImage, isCheckbox, isRadio, id);
+	itsIconMenuData->PrependItem(image, menuOwnsImage, type, id);
 }
 
 void
@@ -133,12 +131,11 @@ JXImageMenu::AppendItem
 	(
 	JXImage*			image,
 	const JBoolean		menuOwnsImage,
-	const JBoolean		isCheckbox,
-	const JBoolean		isRadio,
+	const ItemType		type,
 	const JCharacter*	id
 	)
 {
-	itsIconMenuData->AppendItem(image, menuOwnsImage, isCheckbox, isRadio, id);
+	itsIconMenuData->AppendItem(image, menuOwnsImage, type, id);
 }
 
 /******************************************************************************

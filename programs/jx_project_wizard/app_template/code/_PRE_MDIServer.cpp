@@ -14,10 +14,6 @@
 #include "<pre>Globals.h"
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kCommandLineHelpID = "CommandLineHelp::<PRE>MDIServer";
-
 /******************************************************************************
  Constructor
 
@@ -50,20 +46,4 @@ void
 	const JPtrArray<JString>&	argList
 	)
 {
-}
-
-/******************************************************************************
- PrintCommandLineHelp (static)
-
- ******************************************************************************/
-
-void
-<PRE>MDIServer::PrintCommandLineHelp()
-{
-	const JCharacter* map[] =
-		{
-		"vers", <PRE>GetVersionNumberStr()
-		};
-	const JString s = JGetString(kCommandLineHelpID, map, sizeof(map));
-	cout << endl << s << endl << endl;
 }

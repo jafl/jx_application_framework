@@ -220,8 +220,6 @@ F
 T "../../include/make/" T
 T "../../libjcore/code/" T
 T "../../libjfs/code/" T
-T "../../libjtoolbar/code/" T
-T "../../libjtree/code/" T
 T "../../libjx/code/" T
 T "../../libjx/image/" T
 T "./" F

@@ -15,7 +15,7 @@
 #endif
 
 #include <JContainer.h>
-#include <JXMenu.h>		// need definition of JXMenu::UpdateAction
+#include <JXMenu.h>		// need defn of ItemType, UpdateAction
 #include <JArray.h>
 
 class JString;
@@ -33,10 +33,9 @@ public:
 	JBoolean	HasCheckboxes() const;
 	JBoolean	HasSubmenus() const;
 
-	JBoolean	IsEnabled(const JIndex index) const;
-	JBoolean	IsCheckbox(const JIndex index, JBoolean* isRadio,
-						   JBoolean* isChecked) const;
-	JBoolean	IsChecked(const JIndex index) const;
+	JBoolean			IsEnabled(const JIndex index) const;
+	JXMenu::ItemType	GetType(const JIndex index) const;
+	JBoolean			IsChecked(const JIndex index) const;
 
 	JBoolean	HasSubmenu(const JIndex index) const;
 	JBoolean	GetSubmenu(const JIndex index, JXMenu** menu) const;
@@ -46,16 +45,13 @@ public:
 protected:
 
 	void			InsertItem(const JIndex index,
-							   const JBoolean isCheckbox = kJFalse,
-							   const JBoolean isRadio = kJFalse,
+							   const JXMenu::ItemType type = JXMenu::kPlainType,
 							   const JCharacter* shortcuts = NULL,
 							   const JCharacter* id = NULL);
-	void			PrependItem(const JBoolean isCheckbox = kJFalse,
-								const JBoolean isRadio = kJFalse,
+	void			PrependItem(const JXMenu::ItemType type = JXMenu::kPlainType,
 								const JCharacter* shortcuts = NULL,
 								const JCharacter* id = NULL);
-	void			AppendItem(const JBoolean isCheckbox = kJFalse,
-							   const JBoolean isRadio = kJFalse,
+	void			AppendItem(const JXMenu::ItemType type = JXMenu::kPlainType,
 							   const JCharacter* shortcuts = NULL,
 							   const JCharacter* id = NULL);
 	virtual void	DeleteItem(const JIndex index);		// must call inherited
@@ -82,15 +78,14 @@ private:
 
 	struct BaseItemData
 	{
-		JBoolean	enabled;
-		JString*	shortcuts;		// can be NULL
-		JString*	id;				// can be NULL
+		JBoolean			enabled;
+		JString*			shortcuts;	// can be NULL
+		JString*			id;			// can be NULL
 
-		JXMenu*		submenu;		// this overrides isCheckbox; we own it; can be NULL
+		JXMenu*				submenu;	// this overrides isCheckbox; we own it; can be NULL
 
-		JBoolean	isCheckbox;
-		JBoolean	isRadio;		// implies isCheckbox
-		JBoolean	isChecked;		// only used when menu is visible
+		JXMenu::ItemType	type;
+		JBoolean			isChecked;	// only used when menu is visible
 
 		BaseItemData()
 			:
@@ -98,8 +93,7 @@ private:
 			shortcuts( NULL ),
 			id( NULL ),
 			submenu( NULL ),
-			isCheckbox( kJFalse ),
-			isRadio( kJFalse ),
+			type( JXMenu::kPlainType ),
 			isChecked( kJFalse )
 		{ };
 	};
@@ -135,25 +129,23 @@ private:
 inline void
 JXMenuData::PrependItem
 	(
-	const JBoolean		isCheckbox,
-	const JBoolean		isRadio,
-	const JCharacter*	shortcuts,
-	const JCharacter*	id
+	const JXMenu::ItemType	type,
+	const JCharacter*		shortcuts,
+	const JCharacter*		id
 	)
 {
-	InsertItem(1, isCheckbox, isRadio, shortcuts, id);
+	InsertItem(1, type, shortcuts, id);
 }
 
 inline void
 JXMenuData::AppendItem
 	(
-	const JBoolean		isCheckbox,
-	const JBoolean		isRadio,
-	const JCharacter*	shortcuts,
-	const JCharacter*	id
+	const JXMenu::ItemType	type,
+	const JCharacter*		shortcuts,
+	const JCharacter*		id
 	)
 {
-	InsertItem(GetElementCount()+1, isCheckbox, isRadio, shortcuts, id);
+	InsertItem(GetElementCount()+1, type, shortcuts, id);
 }
 
 /******************************************************************************
@@ -201,23 +193,19 @@ JXMenuData::DisableItem
 }
 
 /******************************************************************************
- IsCheckbox
+ GetType
 
  ******************************************************************************/
 
-inline JBoolean
-JXMenuData::IsCheckbox
+inline JXMenu::ItemType
+JXMenuData::GetType
 	(
-	const JIndex	index,
-	JBoolean*		isRadio,
-	JBoolean*		isChecked
+	const JIndex index
 	)
 	const
 {
 	const BaseItemData itemData = itsBaseItemData->GetElement(index);
-	*isRadio   = itemData.isRadio;
-	*isChecked = itemData.isChecked;
-	return itemData.isCheckbox;
+	return itemData.type;
 }
 
 /******************************************************************************

@@ -242,6 +242,7 @@ JMMTable::PrintRecord
 {
 	cout << "\n                ID: " << record.GetID();
 	cout << "\n           Address: " << record.GetAddress();
+	cout << "\n           Content: " << (unsigned char*) record.GetAddress();
 	cout << "\n              Size: " << record.GetSize();
 	cout << "\n        New method: " << record.NewTypeName();
 	cout << "\n         New'ed at: " << record.GetNewFile() << ":" << record.GetNewLine();

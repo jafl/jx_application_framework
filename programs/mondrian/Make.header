@@ -180,7 +180,7 @@ static: debug
 
 .PHONY : personal
 personal: static
-	@mv ${PROG_NAME} ${HOME}/bin/
+	@cp ${PROG_NAME} ${HOME}/bin/
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

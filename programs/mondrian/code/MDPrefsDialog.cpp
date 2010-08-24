@@ -3,7 +3,7 @@
 
 	BASE CLASS = JXDialogDirector
 
-	Copyright © 2008 by New Planet Software. All rights reserved.
+	Copyright © 2008 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -54,7 +54,6 @@ MDPrefsDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 400,290, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXTextButton* cancelButton =
         new JXTextButton(JGetString("cancelButton::MDPrefsDialog::JXLayout"), window,

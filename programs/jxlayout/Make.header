@@ -127,7 +127,7 @@ debug: staticACE libs
 .PHONY : personal
 personal: debug
 	@strip ${call EXE, jxlayout}
-	@mv jxlayout ${JX_INSTALL_ROOT}/
+	@cp jxlayout ${JX_INSTALL_ROOT}/
 	@cp ${DATA_FILES} ${JXLAYOUTDIR}/
 	@chmod a+x ${SCRIPTS}
 	@cp jfdesign ${JX_INSTALL_ROOT}/

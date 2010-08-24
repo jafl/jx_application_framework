@@ -1,8 +1,6 @@
 /******************************************************************************
  <PRE>MainDirector.cc
 
-	<Description>
-
 	BASE CLASS = public JXWindowDirector, public JPrefObject
 
 	Copyright © <Year> by <Company>. All rights reserved.
@@ -77,8 +75,6 @@ enum
 // preferences
 
 const JFileVersion kCurrentPrefsVersion	= 0;
-
-// string ID's
 
 /******************************************************************************
  Constructor

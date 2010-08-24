@@ -3,7 +3,7 @@
 
 	Access to global objects and factories.
 
-	Copyright © 2008 by New Planet Software. All rights reserved.
+	Copyright © 2008 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

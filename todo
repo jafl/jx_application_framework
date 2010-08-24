@@ -1,13 +1,42 @@
-release System G, Drakon
+memory analyzer
+	start program
+		setenv (if unset or no):
+			JMM_INITIALIZE=default
+			JMM_SHRED=default
+			JMM_RECORD_ALLOCATED=<named pipe>
+			JMM_BROADCAST_ERRORS=yes
+			MALLOC_CHECK_=2
+	while app running:
+		ping app periodically for update:
+			total allocations, total allocated, invalid blocks
+		request all blocks:
+			> size
+			allocated in file
 
 libXft:
 	test all window/dialog layouts on Linux and OSX
 	jxlayout -cp code -cs .cpp --post-cmd 'jcc --reload-open' --choose
 
-jcc:
-	clean whitespace should not change alignment
-	new "clean indentation" for forcing alignment
+	arrow
+	buzzer
+	code_crusader
+	code_medic
+	code_mill
+	drakon
+	glove
+	jx_project_wizard
+	leibnitz
+	svn_client
+	systemg
 
+-----
+
+all:
+	if run as root, shouldn't change owner for prefs files
+		since file is user-only, only need to check for running root/not owned root
+		apply to prefs, ~/.jxcb, ~/.jx
+
+jcc:
 	cvs,svn,git:  need to pass rev args to "summary" diff command
 
 	if modified separately in memory and on disk, offer to show diff

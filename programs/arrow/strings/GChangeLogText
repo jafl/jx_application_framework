@@ -26,6 +26,8 @@ Anti-aliased text.
 <p>
 Attachments without a file type suffix now receive a suffix based on the MIME type.
 <p>
+Fixed bug so scroll positions of messages and drafts are restored when Arrow is re-started.
+<p>
 
 <h3> 2.0.2 </h3>
 

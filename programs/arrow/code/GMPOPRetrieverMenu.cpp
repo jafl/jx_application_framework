@@ -125,7 +125,7 @@ GMPOPRetrieverMenu::AdjustItems()
 		}
 	for (JIndex i = 1; i <= count; i++)
 		{
-		AppendItem(*(accounts.NthElement(i)), kJFalse, kJFalse, NULL, NULL, *(accounts.NthElement(i)));
+		AppendItem(*(accounts.NthElement(i)), JXMenu::kPlainType, NULL, NULL, *(accounts.NthElement(i)));
 		}
 	accounts.DeleteAll();
 }

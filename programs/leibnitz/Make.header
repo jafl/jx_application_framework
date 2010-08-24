@@ -204,7 +204,7 @@ static: debug
 .PHONY : ibeta
 ibeta: static
 	@tar -czf ${HOME}/leibnitz.tgz leibnitz
-	@mv leibnitz ${HOME}/bin/leibnitz_stable
+	@cp leibnitz ${HOME}/bin/leibnitz_stable
 
 #
 # personal install
@@ -212,7 +212,7 @@ ibeta: static
 
 .PHONY : personal
 personal: static
-	@mv leibnitz ${HOME}/bin/
+	@cp leibnitz ${HOME}/bin/
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

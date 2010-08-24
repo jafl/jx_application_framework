@@ -1,8 +1,6 @@
 /******************************************************************************
  <PRE>PrefsManager.cc
 
-	<Description>
-
 	BASE CLASS = public JXPrefsManager
 
 	Copyright © <Year> by <Company>. All rights reserved.

@@ -3,7 +3,7 @@
 
 	BASE CLASS = JXDialogDirector
 
-	Copyright © 2008 by New Planet Software. All rights reserved.
+	Copyright © 2008 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -70,7 +70,6 @@ MDAboutDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 430,200, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXStaticText* textWidget =
         new JXStaticText(JGetString("textWidget::MDAboutDialog::JXLayout"), window,
@@ -112,7 +111,7 @@ MDAboutDialog::BuildWindow
 	ListenTo(itsHelpButton);
 	ListenTo(itsCreditsButton);
 
-	JXImage* image = new JXImage(GetDisplay(), GetColormap(), JXPM(md_about_icon));
+	JXImage* image = new JXImage(GetDisplay(), JXPM(md_about_icon));
 	assert( image != NULL );
 	imageWidget->SetImage(image, kJTrue);
 

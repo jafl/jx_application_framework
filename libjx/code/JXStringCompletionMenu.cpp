@@ -106,7 +106,7 @@ JXStringCompletionMenu::AddString
 			s.SetCharacter(3, '-');
 			}
 
-		AppendItem(s, kJFalse, kJFalse, shortcut);
+		AppendItem(s, kPlainType, shortcut);
 		return kJTrue;
 		}
 	else if (i == kMaxItemCount+1)
@@ -144,7 +144,7 @@ JXStringCompletionMenu::CompletionRequested
 		if (itsAllowTabChar &&
 			(!GetItemShortcuts(1, &s) || s != kInsertTabShortcut))
 			{
-			PrependItem(kInsertTabStr, kJFalse, kJFalse, kInsertTabShortcut);
+			PrependItem(kInsertTabStr, kPlainType, kInsertTabShortcut);
 			}
 
 		// place it next to the caret (use the character in front of the caret)

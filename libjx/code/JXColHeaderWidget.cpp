@@ -21,7 +21,6 @@
 #include <JString.h>
 #include <jAssert.h>
 
-const JSize kFontSize                  = 10;
 const JSize kCellFrameWidth            = kJXDefaultBorderWidth;
 const JCoordinate kDragRegionHalfWidth = 2;
 
@@ -192,7 +191,7 @@ JXColHeaderWidget::TableDrawCell
 		str = JString(cell.x, JString::kBase10);
 		}
 
-	p.SetFont(JGetDefaultFontName(), kFontSize,
+	p.SetFont(JGetDefaultFontName(), kJDefaultRowColHeaderFontSize,
 			  JFontStyle(kJTrue, kJFalse, 0, kJFalse, (p.GetColormap())->GetBlackColor()));
 	p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 }

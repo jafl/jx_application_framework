@@ -161,7 +161,7 @@ JXXFontMenu::BuildMenu
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JString* fontName = fontNames.NthElement(i);
-		AppendItem(*fontName, kJTrue, kJTrue);
+		AppendItem(*fontName, kRadioType);
 		SetItemFontName(i, *fontName);
 		}
 

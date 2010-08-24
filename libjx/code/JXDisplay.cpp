@@ -254,6 +254,7 @@ JXDisplay::~JXDisplay()
 	delete itsWindowList;
 	delete itsDefaultGC;
 	delete itsColormap;
+	delete itsBounds;
 
 	const JSize count = itsCursorList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)

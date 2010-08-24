@@ -21,10 +21,9 @@ Program description
 
 $copyright"
 
-# <PRE>MDIServer
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890
 
-CommandLineHelp::<PRE>MDIServer
+CommandLineHelp
 "<Program> $vers
 
 $copyright

@@ -22,8 +22,6 @@ public:
 
 	virtual	~<PRE>MDIServer();
 
-	static void	PrintCommandLineHelp();
-
 protected:
 
 	virtual void	HandleMDIRequest(const JCharacter* dir,

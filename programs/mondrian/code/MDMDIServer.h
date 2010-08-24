@@ -1,7 +1,7 @@
 /******************************************************************************
  MDMDIServer.h
 
-	Copyright © 2008 by New Planet Software. All rights reserved.
+	Copyright © 2008 by John Lindal. All rights reserved.
 
  *****************************************************************************/
 
@@ -21,8 +21,6 @@ public:
 	MDMDIServer();
 
 	virtual	~MDMDIServer();
-
-	static void	PrintCommandLineHelp();
 
 protected:
 

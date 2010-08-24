@@ -65,7 +65,7 @@ private:
 	GPMProcessList*			itsList;
 	JString					itsKeyBuffer;
 	JXTextMenu*				itsContextMenu;
-	const GPMProcessEntry* 	itsSelectedEntry;
+	const GPMProcessEntry* 	itsSelectedEntry;	// NULL unless updating
 	JXTEBase*				itsFullCmdDisplay;
 	JXImage*				itsZombieImage;
 

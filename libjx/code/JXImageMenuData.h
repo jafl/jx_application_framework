@@ -28,16 +28,13 @@ public:
 
 	void			InsertItem(const JIndex index, JXImage* image,
 							   const JBoolean menuOwnsImage,
-							   const JBoolean isCheckbox = kJFalse,
-							   const JBoolean isRadio = kJFalse,
+							   const JXMenu::ItemType type = JXMenu::kPlainType,
 							   const JCharacter* id = NULL);
 	void			PrependItem(JXImage* image, const JBoolean menuOwnsImage,
-								const JBoolean isCheckbox = kJFalse,
-								const JBoolean isRadio = kJFalse,
+							   const JXMenu::ItemType type = JXMenu::kPlainType,
 								const JCharacter* id = NULL);
 	void			AppendItem(JXImage* image, const JBoolean menuOwnsImage,
-							   const JBoolean isCheckbox = kJFalse,
-							   const JBoolean isRadio = kJFalse,
+							   const JXMenu::ItemType type = JXMenu::kPlainType,
 							   const JCharacter* id = NULL);
 	virtual void	DeleteItem(const JIndex index);		// must call inherited
 	virtual void	DeleteAll();						// must call inherited
@@ -127,27 +124,25 @@ public:
 inline void
 JXImageMenuData::PrependItem
 	(
-	JXImage*			image,
-	const JBoolean		menuOwnsImage,
-	const JBoolean		isCheckbox,
-	const JBoolean		isRadio,
-	const JCharacter*	id
+	JXImage*				image,
+	const JBoolean			menuOwnsImage,
+	const JXMenu::ItemType	type,
+	const JCharacter*		id
 	)
 {
-	InsertItem(1, image, menuOwnsImage, isCheckbox, isRadio, id);
+	InsertItem(1, image, menuOwnsImage, type, id);
 }
 
 inline void
 JXImageMenuData::AppendItem
 	(
-	JXImage*			image,
-	const JBoolean		menuOwnsImage,
-	const JBoolean		isCheckbox,
-	const JBoolean		isRadio,
-	const JCharacter*	id
+	JXImage*				image,
+	const JBoolean			menuOwnsImage,
+	const JXMenu::ItemType	type,
+	const JCharacter*		id
 	)
 {
-	InsertItem(GetElementCount()+1, image, menuOwnsImage, isCheckbox, isRadio, id);
+	InsertItem(GetElementCount()+1, image, menuOwnsImage, type, id);
 }
 
 /******************************************************************************

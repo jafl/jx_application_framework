@@ -1,11 +1,9 @@
 /******************************************************************************
  MDMainDirector.cc
 
-	<Description>
-
 	BASE CLASS = public JXWindowDirector, public JPrefObject
 
-	Copyright © 2008 by New Planet Software. All rights reserved.
+	Copyright © 2008 by John Lindal. All rights reserved.
 
  *****************************************************************************/
 
@@ -135,7 +133,6 @@ MDMainDirector::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 500,300, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXMenuBar* menuBar =
         new JXMenuBar(window,
@@ -152,7 +149,7 @@ MDMainDirector::BuildWindow()
 	window->SetTitle("Mondrian");
 	window->SetWMClass(MDGetWMClassInstance(), MDGetMainWindowClass());
 
-	JXImage* image = new JXImage(GetDisplay(), GetColormap(), md_main_window_icon);
+	JXImage* image = new JXImage(GetDisplay(), md_main_window_icon);
 	assert( image != NULL );
 	window->SetIcon(image);
 

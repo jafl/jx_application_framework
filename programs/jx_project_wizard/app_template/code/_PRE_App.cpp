@@ -1,8 +1,6 @@
 /******************************************************************************
  <PRE>App.cc
 
-	<Description>
-
 	BASE CLASS = public JXApplication
 
 	Copyright © <Year> by <Company>. All rights reserved.

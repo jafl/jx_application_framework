@@ -115,7 +115,7 @@ JXDisplayMenu::BuildMenu()
 	for (JIndex i=1; i<=count; i++)
 		{
 		JXDisplay* display = app->GetDisplay(i);
-		AppendItem(display->GetName(), kJTrue, kJTrue);
+		AppendItem(display->GetName(), kRadioType);
 		}
 
 	ShowSeparatorAfter(count);

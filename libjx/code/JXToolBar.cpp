@@ -262,24 +262,27 @@ JXToolBar::Receive
 			if (sender == button)
 				{
 				JXTextMenu* menu = button->GetMenu();
-				menu->PrepareToOpenMenu();
-				JIndex itemIndex;
-				if (button->GetMenuItemIndex(&itemIndex) &&
-					menu->IsEnabled(itemIndex))
+				if (menu->IsActive())
 					{
-					JXDisplay* display = GetDisplay();	// need local copy, since we might be deleted
-					Display* xDisplay  = *display;
-					Window xWindow     = (GetWindow())->GetXWindow();
-
-					menu->BroadcastSelection(itemIndex, kJFalse);
-
-					if (!JXDisplay::WindowExists(display, xDisplay, xWindow))
+					menu->PrepareToOpenMenu(kJTrue);
+					JIndex itemIndex;
+					if (button->GetMenuItemIndex(&itemIndex) &&
+						menu->IsEnabled(itemIndex))
 						{
-						// we have been deleted
-						return;
-						}
+						JXDisplay* display = GetDisplay();	// need local copy, since we might be deleted
+						Display* xDisplay  = *display;
+						Window xWindow     = (GetWindow())->GetXWindow();
 
-					UpdateButtons();
+						menu->BroadcastSelection(itemIndex, kJFalse);
+
+						if (!JXDisplay::WindowExists(display, xDisplay, xWindow))
+							{
+							// we have been deleted
+							return;
+							}
+
+						UpdateButtons();
+						}
 					}
 				propagate = kJFalse;
 				break;
@@ -1020,7 +1023,10 @@ JXToolBar::UpdateButtons()
 	for (i=1; i<=count; i++)
 		{
 		JXMenu* menu = itsMenus->NthElement(i);
-		menu->PrepareToOpenMenu();
+		if (menu->IsActive())
+			{
+			menu->PrepareToOpenMenu(kJTrue);
+			}
 		}
 
 	JBoolean needsAdjustment = kJFalse;
@@ -1030,6 +1036,7 @@ JXToolBar::UpdateButtons()
 		JXToolBarButton* button = itsButtons->NthElement(i);
 		JIndex itemIndex;
 		if (button->GetMenuItemIndex(&itemIndex) &&
+			button->GetMenu()->IsActive()        &&
 			button->GetMenu()->IsEnabled(itemIndex))
 			{
 			button->Activate();

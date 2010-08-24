@@ -52,16 +52,14 @@ JXMenuData::~JXMenuData()
 void
 JXMenuData::InsertItem
 	(
-	const JIndex		index,
-	const JBoolean		isCheckbox,
-	const JBoolean		isRadio,
-	const JCharacter*	shortcuts,
-	const JCharacter*	id
+	const JIndex			index,
+	const JXMenu::ItemType	type,
+	const JCharacter*		shortcuts,
+	const JCharacter*		id
 	)
 {
 	BaseItemData itemData;
-	itemData.isCheckbox = JConvertToBoolean(isCheckbox || isRadio);
-	itemData.isRadio    = isRadio;
+	itemData.type = type;
 
 	if (!JStringEmpty(shortcuts))
 		{
@@ -150,7 +148,7 @@ JXMenuData::HasCheckboxes()
 	for (JIndex i=1; i<=count; i++)
 		{
 		const BaseItemData itemData = itsBaseItemData->GetElement(i);
-		if (itemData.isCheckbox)
+		if (itemData.type == JXMenu::kCheckboxType || itemData.type == JXMenu::kRadioType)
 			{
 			return kJTrue;
 			}
@@ -387,7 +385,7 @@ JXMenuData::CheckItem
 	)
 {
 	BaseItemData itemData = itsBaseItemData->GetElement(index);
-	assert( itemData.isCheckbox );
+	assert( itemData.type == JXMenu::kCheckboxType || itemData.type == JXMenu::kRadioType );
 	if (!itemData.isChecked)
 		{
 		itemData.isChecked = kJTrue;
@@ -418,11 +416,10 @@ JXMenuData::AttachSubmenu
 		(itemData.submenu)->itsOwner = NULL;
 		delete (itemData.submenu);
 		}
-	itemData.submenu    = submenu;
-	itemData.enabled    = submenu->IsActive();
-	itemData.isCheckbox = kJFalse;
-	itemData.isRadio    = kJFalse;
-	itemData.isChecked  = kJFalse;
+	itemData.submenu   = submenu;
+	itemData.enabled   = submenu->IsActive();
+	itemData.type      = JXMenu::kPlainType;
+	itemData.isChecked = kJFalse;
 	itsBaseItemData->SetElement(index, itemData);
 }
 

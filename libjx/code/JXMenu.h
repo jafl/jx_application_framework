@@ -41,6 +41,13 @@ class JXMenu : public JXWidget
 
 public:
 
+	enum ItemType
+	{
+		kPlainType,
+		kCheckboxType,
+		kRadioType
+	};
+
 	enum UpdateAction
 	{
 		kDisableNone,
@@ -180,7 +187,7 @@ protected:
 
 	void		SetBaseItemData(JXMenuData* baseItemData);
 	void		ClearBaseItemData();
-	JBoolean	PrepareToOpenMenu();
+	JBoolean	PrepareToOpenMenu(const JBoolean shortcut);
 
 	virtual JXMenuDirector*	CreateMenuWindow(JXWindowDirector* supervisor) = 0;
 	virtual void			AdjustPopupChoiceTitle(const JIndex index) = 0;
@@ -273,10 +280,21 @@ public:
 		{
 		public:
 
-			NeedsUpdate()
+			NeedsUpdate(const JBoolean fromShortcut)
 				:
-				JBroadcaster::Message(kNeedsUpdate)
+				JBroadcaster::Message(kNeedsUpdate),
+				itsFromShortcutFlag(fromShortcut)
 				{ };
+
+			JBoolean
+			IsFromShortcut() const
+			{
+				return itsFromShortcutFlag;
+			};
+
+		private:
+
+			const JBoolean itsFromShortcutFlag;
 		};
 
 	class ItemSelected : public JBroadcaster::Message

@@ -107,4 +107,4 @@ debug: staticACE libs
 .PHONY : personal
 personal: debug
 	@strip ${call EXE, compile_jstrings}
-	@mv compile_jstrings ${JX_INSTALL_ROOT}/
+	@cp compile_jstrings ${JX_INSTALL_ROOT}/

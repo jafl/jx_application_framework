@@ -70,7 +70,7 @@ public:
 
 	void	Update();
 
-	const GPMProcessEntry&	GetProcessEntry(const JIndex index) const;
+	const GPMProcessEntry*	GetProcessEntry(const JIndex index) const;
 	JBoolean				GetEntryIndex(const GPMProcessEntry* entry, JIndex *index);
 	JBoolean				FindProcessEntry(const pid_t pid, GPMProcessEntry** entry) const;
 	JBoolean				ClosestMatch(const JCharacter* prefix, GPMProcessEntry** entry) const;
@@ -214,6 +214,36 @@ GPMProcessList::WillShowUserOnly()
 	const
 {
 	return itsIsShowingUserOnly;
+}
+
+/******************************************************************************
+ GetProcessEntry
+
+ ******************************************************************************/
+
+inline const GPMProcessEntry*
+GPMProcessList::GetProcessEntry
+	(
+	const JIndex index
+	)
+	const
+{
+	return itsEntries->NthElement(index);
+}
+
+/******************************************************************************
+ GetEntryIndex
+
+ ******************************************************************************/
+
+inline JBoolean
+GPMProcessList::GetEntryIndex
+	(
+	const GPMProcessEntry*	entry,
+	JIndex*					index
+	)
+{
+	return itsEntries->Find(const_cast<GPMProcessEntry*>(entry), index);
 }
 
 #endif

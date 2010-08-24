@@ -32,20 +32,17 @@ public:
 	virtual ~JXTextMenuData();
 
 	void			InsertItem(const JIndex index, const JCharacter* str,
-							   const JBoolean isCheckbox = kJFalse,
-							   const JBoolean isRadio = kJFalse,
+							   const JXMenu::ItemType type = JXMenu::kPlainType,
 							   const JCharacter* shortcuts = NULL,
 							   const JCharacter* nmShortcut = NULL,
 							   const JCharacter* id = NULL);
 	void			PrependItem(const JCharacter* str,
-								const JBoolean isCheckbox = kJFalse,
-								const JBoolean isRadio = kJFalse,
+							   const JXMenu::ItemType type = JXMenu::kPlainType,
 								const JCharacter* shortcuts = NULL,
 								const JCharacter* nmShortcut = NULL,
 								const JCharacter* id = NULL);
 	void			AppendItem(const JCharacter* str,
-							   const JBoolean isCheckbox = kJFalse,
-							   const JBoolean isRadio = kJFalse,
+							   const JXMenu::ItemType type = JXMenu::kPlainType,
 							   const JCharacter* shortcuts = NULL,
 							   const JCharacter* nmShortcut = NULL,
 							   const JCharacter* id = NULL);
@@ -173,9 +170,9 @@ private:
 private:
 
 	void	ParseMenuItemStr(JString* text, JBoolean* isActive,
-							 JBoolean* hasSeparator, JBoolean* isCheckbox,
-							 JBoolean* isRadio, JString* shortcuts,
-							 JString* nmShortcut, JString* id) const;
+							 JBoolean* hasSeparator, JXMenu::ItemType* type,
+							 JString* shortcuts, JString* nmShortcut,
+							 JString* id) const;
 	void	CleanOutTextItem(TextItemData* itemData);
 
 	JBoolean	ParseNMShortcut(JString* str, int* key,
@@ -228,29 +225,27 @@ public:
 inline void
 JXTextMenuData::PrependItem
 	(
-	const JCharacter*	str,
-	const JBoolean		isCheckbox,
-	const JBoolean		isRadio,
-	const JCharacter*	shortcuts,
-	const JCharacter*	nmShortcut,
-	const JCharacter*	id
+	const JCharacter*		str,
+	const JXMenu::ItemType	type,
+	const JCharacter*		shortcuts,
+	const JCharacter*		nmShortcut,
+	const JCharacter*		id
 	)
 {
-	InsertItem(1, str, isCheckbox, isRadio, shortcuts, nmShortcut, id);
+	InsertItem(1, str, type, shortcuts, nmShortcut, id);
 }
 
 inline void
 JXTextMenuData::AppendItem
 	(
-	const JCharacter*	str,
-	const JBoolean		isCheckbox,
-	const JBoolean		isRadio,
-	const JCharacter*	shortcuts,
-	const JCharacter*	nmShortcut,
-	const JCharacter*	id
+	const JCharacter*		str,
+	const JXMenu::ItemType	type,
+	const JCharacter*		shortcuts,
+	const JCharacter*		nmShortcut,
+	const JCharacter*		id
 	)
 {
-	InsertItem(GetElementCount()+1, str, isCheckbox, isRadio, shortcuts, nmShortcut, id);
+	InsertItem(GetElementCount()+1, str, type, shortcuts, nmShortcut, id);
 }
 
 /******************************************************************************

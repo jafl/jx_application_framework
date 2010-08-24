@@ -703,7 +703,7 @@ THXApp::BuildPlotMenu
 	for (JIndex i=1; i<=count; i++)
 		{
 		const THX2DPlotDirector* plot = its2DPlotList->NthElement(i);
-		menu->AppendItem((plot->GetWindow())->GetTitle(), kJTrue, kJTrue);
+		menu->AppendItem((plot->GetWindow())->GetTitle(), JXMenu::kRadioType);
 
 		if (plot == origPlot)
 			{
@@ -720,7 +720,7 @@ THXApp::BuildPlotMenu
 		{
 		menu->ShowSeparatorAfter(count);
 		}
-	menu->AppendItem("New window", kJTrue, kJTrue);
+	menu->AppendItem("New window", JXMenu::kRadioType);
 	menu->SetUpdateAction(JXMenu::kDisableNone);
 }
 

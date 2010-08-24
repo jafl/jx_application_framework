@@ -176,7 +176,7 @@ JXHistoryMenuBase::AddItem
 			}
 		}
 
-	InsertItem(itsFirstIndex, text, kJFalse, kJFalse, NULL, nmShortcut);
+	InsertItem(itsFirstIndex, text, kPlainType, NULL, nmShortcut);
 	AdjustLength();
 }
 
@@ -283,7 +283,7 @@ JXHistoryMenuBase::ReadSetup
 
 		if (menu != NULL)
 			{
-			menu->AppendItem(text, kJFalse, kJFalse, NULL, nmShortcut);
+			menu->AppendItem(text, kPlainType, NULL, nmShortcut);
 			}
 		if (itemList != NULL)
 			{

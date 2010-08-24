@@ -1,0 +1,19 @@
+/* XPM */
+static char * git_commit_all[] = {
+"15 13 3 1",
+" 	c None",
+".	c black",
+"X	c white",
+"    .....      ",
+"    .XXX..     ",
+"    .XXX...    ",
+"    .XXXXX.    ",
+"    .XXX.....  ",
+"  ...XXX.XXX.. ",
+" .. .XXX.XXX...",
+"..........XXXX.",
+"..........XXXX.",
+" ..     .XXXXX.",
+"  ..    .XXXXX.",
+"        .......",
+"               "};

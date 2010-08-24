@@ -540,6 +540,22 @@ JIndex i;
 		p.SetPenColor(colormap->GetGrayColor(x-290));
 		p.Line(x,70, x,150);
 		}
+
+	p.SetLineWidth(2);
+	for (JCoordinate y=70; y<150; y+=2)
+		{
+		p.SetPenColor(colormap->GetGrayColor(y%4 ? 40 : 60));
+		p.Line(290,y, 390,y);
+		}
+	p.SetLineWidth(1);
+
+	p.SetLineWidth(2);
+	for (JCoordinate x=290; x<390; x+=2)
+		{
+		p.SetPenColor(colormap->GetGrayColor(x%4 ? 40 : 60));
+		p.Line(x,70, x,150);
+		}
+	p.SetLineWidth(1);
 */
 	p.String(  0.0, r, "Hello", JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 	p.String( 90.0, r, "Hello", JPainter::kHAlignCenter, JPainter::kVAlignCenter);
@@ -573,6 +589,22 @@ JIndex i;
 		p.SetPenColor(colormap->GetGrayColor(x-290));
 		p.Line(x,160, x,240);
 		}
+
+	p.SetLineWidth(2);
+	for (JCoordinate y=160; y<240; y+=2)
+		{
+		p.SetPenColor(colormap->GetGrayColor(y%4 ? 40 : 60));
+		p.Line(290,y, 390,y);
+		}
+	p.SetLineWidth(1);
+
+	p.SetLineWidth(2);
+	for (JCoordinate x=290; x<390; x+=2)
+		{
+		p.SetPenColor(colormap->GetGrayColor(x%4 ? 40 : 60));
+		p.Line(x,160, x,240);
+		}
+	p.SetLineWidth(1);
 */
 	textPt.Set(340, 200);
 	p.SetFontName("Times");

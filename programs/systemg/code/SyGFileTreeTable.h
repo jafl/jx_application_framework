@@ -168,11 +168,13 @@ private:
 	JXFSDirMenu*		itsRecentFilesMenu;
 	JXTextMenu*			itsEditMenu;				// not owned
 	JIndex				itsCopyPathCmdIndex;
-	JXTextMenu*			itsGitBranchMenu;			// can be NULL
-	JSize				itsGitLocalBranchCount;
-	JSize				itsGitRemoteBranchCount;
-	JXTextMenu*			itsGitPullSourceMenu;		// can be NULL
-	JXTextMenu*			itsGitPushDestMenu;			// can be NULL
+	JXTextMenu*			itsGitMenu;
+	JXTextMenu*			itsGitLocalBranchMenu;
+	JXTextMenu*			itsGitPullSourceMenu;
+	JXTextMenu*			itsGitPushDestMenu;
+	JXTextMenu*			itsGitMergeBranchMenu;
+	JXTextMenu*			itsGitRemoteBranchMenu;
+	JXTextMenu*			itsGitRemoveBranchMenu;
 	JXTextMenu* 		itsViewMenu;
 	JXTextMenu*			itsShortcutMenu;
 
@@ -181,9 +183,9 @@ private:
 	JXRadioGroupDialog*	itsChooseDiskFormatDialog;	// NULL unless asking user
 	JProcess*			itsFormatProcess;			// NULL unless formatting
 
-	JXGetStringDialog*	itsCreateBranchDialog;		// NULL unless creating branch
-	JXGetStringDialog*	itsCommitBranchDialog;		// NULL unless committing branch
-	JProcess*			itsCommitProcess;			// NULL unless committing branch
+	JXGetStringDialog*	itsCreateGitBranchDialog;	// NULL unless creating branch
+	JXGetStringDialog*	itsCommitGitBranchDialog;	// NULL unless committing branch
+	JProcess*			itsGitProcess;				// NULL unless waiting for git
 
 	// Drag-and-Drop
 
@@ -214,7 +216,7 @@ private:
 	JPoint					itsEditCell;
 	SyGFileTreeNode*		itsSortNode;	// sort when mouse released
 
-	// set by AppendGitBranches()
+	// set by GetGitBranches()
 
 	JString	itsCurrentGitBranch;
 
@@ -244,18 +246,24 @@ private:
 
 	void	CopySelectedFileNames(const JBoolean useFullPath) const;
 
-	void	UpdateGitBranchMenu();
-	void	HandleGitBranchMenu(const JIndex index);
+	void	InitGitBranchMenus();
+	void	UpdateGitMenus(const JBoolean shortcut);
+	void	UpdateGitLocalBranchMenu();
+	void	HandleGitMenu(const JIndex index);
 
-	JSize	AppendGitBranches(const JCharacter* cmd, const JBoolean italic,
-							  JPtrArray<JString>* repoList);
-	void	CreateBranch(const JCharacter* branchName);
-	void	CommitBranch(const JCharacter* msg);
-	void	RevertBranch();
+	JBoolean	GetGitBranches(const JCharacter* cmd,
+							   JPtrArray<JString>* branchList, JIndex* currentIndex,
+							   JPtrArray<JString>* repoList);
+	void		CreateGitBranch(const JCharacter* branchName);
+	void		CommitGitBranch(const JCharacter* msg);
+	void		RevertGitBranch();
 
-	void	UpdateRemoteRepoMenu(JXTextMenu* menu, const JPtrArray<JString>& repoList);
-	void	PullBranch(const JCharacter* repo);
-	void	PushBranch(const JCharacter* repo);
+	void	SwitchToGitBranch(const JString& branch);
+	void	MergeFromGitBranch(const JString& branch);
+	void	FetchRemoteGitBranch(const JString& branch);
+	void	PullBranch(const JString& repo);
+	void	PushBranch(const JString& repo);
+	void	RemoveGitBranch(const JString& branch);
 
 	void	UpdateViewMenu();
 	void	HandleViewMenu(const JIndex index);

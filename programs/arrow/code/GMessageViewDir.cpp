@@ -1202,7 +1202,6 @@ GMessageViewDir::FixHeaderForReply
 /******************************************************************************
  SaveState
 
-
  ******************************************************************************/
 
 void
@@ -1246,12 +1245,11 @@ GMessageViewDir::ReadState
 	JCoordinate hval, vval;
 	is >> hval;
 	is >> vval;
+	itsView->UpdateScrollbars();
 	JXScrollbar* hsb = itsSBSet->GetHScrollbar();
 	JXScrollbar* vsb = itsSBSet->GetVScrollbar();
 	hsb->SetValue(hval);
 	vsb->SetValue(vval);
-
-
 
 	JArray<JCoordinate> sizes;
 	JSize count	= 2;

@@ -5076,7 +5076,8 @@ isWhitespace
 void
 JTextEditor::CleanWhitespace
 	(
-	const JIndexRange& range
+	const JIndexRange&	range,
+	const JBoolean		align
 	)
 {
 	JIndexRange r;
@@ -5162,12 +5163,12 @@ JTextEditor::CleanWhitespace
 					}
 				}
 
-			if (0 < n && n <= itsCRMTabCharCount/2)
+			if (align && 0 < n && n <= itsCRMTabCharCount/2)
 				{
 				text.RemoveSubstring(p, i);
 				style.RemoveNextElements(p, i-p+1);
 				}
-			else if (itsCRMTabCharCount/2 < n)
+			else if (align && itsCRMTabCharCount/2 < n)
 				{
 				JSize count = itsCRMTabCharCount - n;
 
@@ -5215,12 +5216,12 @@ JTextEditor::CleanWhitespace
 					}
 				}
 
-			if (0 < n && n <= itsCRMTabCharCount/2)
+			if (align && 0 < n && n <= itsCRMTabCharCount/2)
 				{
 				text.RemoveSubstring(p, i);
 				style.RemoveNextElements(p, i-p+1);
 				}
-			else if (itsCRMTabCharCount/2 < n)
+			else if (align && itsCRMTabCharCount/2 < n)
 				{
 				text.ReplaceSubstring(p, i, "\t");
 				style.RemoveNextElements(p+1, i-p);
@@ -7323,11 +7324,13 @@ JTextEditor::GetCmdStatus
 			flags.SetElement(kShiftSelRightCmd,      kJTrue);
 			flags.SetElement(kForceShiftSelLeftCmd,  kJTrue);
 			flags.SetElement(kCleanAllWhitespaceCmd, kJTrue);
+			flags.SetElement(kCleanAllWSAlignCmd,    kJTrue);
 
 			if (!itsSelection.IsEmpty())
 				{
 				flags.SetElement(kCheckSpellingSelCmd,   kJTrue);
 				flags.SetElement(kCleanWhitespaceSelCmd, kJTrue);
+				flags.SetElement(kCleanWSAlignSelCmd,    kJTrue);
 				}
 			}
 

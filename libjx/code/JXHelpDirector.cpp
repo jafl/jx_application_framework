@@ -224,7 +224,7 @@ JXHelpDirector::BuildWindow
 	JXTextMenu* searchMenu = itsText->AppendSearchMenu(menuBar);
 	itsSearchAllCmdIndex   = searchMenu->GetItemCount() + 1;
 	searchMenu->ShowSeparatorAfter(itsSearchAllCmdIndex-1);
-	searchMenu->AppendItem(kSearchAllStr, kJFalse, kJFalse,
+	searchMenu->AppendItem(kSearchAllStr, JXMenu::kPlainType,
 						   NULL, NULL, kSearchAllAction);
 	ListenTo(searchMenu);
 

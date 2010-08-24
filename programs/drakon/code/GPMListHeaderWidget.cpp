@@ -7,20 +7,14 @@
 
  *****************************************************************************/
 
-#include <GPMListHeaderWidget.h>
-#include <GPMProcessList.h>
-
-#include <gpmGlobals.h>
-
-#include <JColormap.h>
-#include <JPainter.h>
-
-#include <jXConstants.h>
+#include "GPMListHeaderWidget.h"
+#include "GPMProcessList.h"
+#include "gpmGlobals.h"
 #include <jXPainterUtil.h>
-
+#include <jXConstants.h>
+#include <JPainter.h>
+#include <JColormap.h>
 #include <jAssert.h>
-
-const JSize kFontSize = 10;
 
 /******************************************************************************
  Constructor
@@ -93,7 +87,7 @@ GPMListHeaderWidget::TableDrawCell
 		underLines = 1;
 		}
 
-	p.SetFont(JGetDefaultFontName(), kFontSize,
+	p.SetFont(JGetDefaultFontName(), kJDefaultRowColHeaderFontSize,
 			  JFontStyle(kJTrue, kJFalse, underLines, kJFalse, (p.GetColormap())->GetBlackColor()));
 	p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 }

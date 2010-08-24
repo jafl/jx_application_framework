@@ -141,7 +141,7 @@
 #		                       obsessive) style may find this useful.  Overridden
 #		                       by the SetDisllowDeleteNULL method.
 
-#		JMM_ABORT_UNKNOWN_ALLOC If set to "yes", the process with abort if memory
+#		JMM_ABORT_UNKNOWN_ALLOC If set to "yes", the process will abort if memory
 #		                       is allocated by code that the memory manager cannot
 #		                       locate.  One reason to do this is to examine the
 #		                       resulting core dump for the location of the offending

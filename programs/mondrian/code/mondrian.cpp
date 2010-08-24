@@ -1,7 +1,7 @@
 /******************************************************************************
  mondrian.cc
 
-	Copyright © 2008 by New Planet Software. All rights reserved.
+	Copyright © 2008 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -16,8 +16,9 @@
 
 // Prototypes
 
-void ParseTextOptions(const int argc, char* argv[]);
-void PrintVersion();
+static void ParseTextOptions(const int argc, char* argv[]);
+static void PrintVersion();
+static void PrintCommandLineHelp();
 
 /******************************************************************************
  main
@@ -101,7 +102,7 @@ ParseTextOptions
 		else if (JIsHelpRequest(argv[index]))
 			{
 			MDApp::InitStrings();
-			MDMDIServer::PrintCommandLineHelp();
+			PrintCommandLineHelp();
 			exit(0);
 			}
 		index++;
@@ -119,4 +120,21 @@ PrintVersion()
 	cout << endl;
 	cout << MDGetVersionStr() << endl;
 	cout << endl;
+}
+
+/******************************************************************************
+ PrintCommandLineHelp
+
+ ******************************************************************************/
+
+void
+PrintCommandLineHelp()
+{
+	const JCharacter* map[] =
+		{
+		"vers",      MDGetVersionNumberStr(),
+		"copyright", JGetString("COPYRIGHT")
+		};
+	const JString s = JGetString("CommandLineHelp::MDMDIServer", map, sizeof(map));
+	cout << endl << s << endl << endl;
 }

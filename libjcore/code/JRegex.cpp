@@ -1623,6 +1623,7 @@ JRegex::RegExec
 		returnCode = 0;
 		}
 
+	JBoolean success = kJFalse;
 	if (returnCode == 0)
 		{
 		*matchRange = jMakeIndexRange(pmatch[0]);
@@ -1642,17 +1643,15 @@ JRegex::RegExec
 				}
 			}
 
-		return kJTrue;
+		success = kJTrue;
 		}
-	else if (returnCode == PCRE_ERROR_NOMATCH)
-		{
-		return kJFalse;
-		}
-	else
+	else if (returnCode != PCRE_ERROR_NOMATCH)
 		{
 		assert( 0 );	// unexpected error
-		return kJFalse;
 		}
+
+	delete [] pmatch;
+	return success;
 }
 
 /******************************************************************************

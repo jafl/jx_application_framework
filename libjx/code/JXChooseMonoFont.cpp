@@ -184,7 +184,7 @@ JXChooseMonoFont::PrependOtherMonospaceFonts
 		for (JIndex i=count; i>=1; i--)
 			{
 			const JString* fontName = fontNames.NthElement(i);
-			menu->PrependItem(*fontName, kJTrue, kJTrue);
+			menu->PrependItem(*fontName, JXMenu::kRadioType);
 			menu->SetItemFontName(1, *fontName);
 			}
 

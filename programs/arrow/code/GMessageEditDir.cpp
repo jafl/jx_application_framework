@@ -1344,6 +1344,7 @@ GMessageEditDir::ReadState
 	JCoordinate hval, vval;
 	is >> hval;
 	is >> vval;
+	itsEditor->UpdateScrollbars();
 	JXScrollbar* hsb = itsEditorSet->GetHScrollbar();
 	JXScrollbar* vsb = itsEditorSet->GetVScrollbar();
 	hsb->SetValue(hval);

@@ -190,7 +190,7 @@ static: debug
 
 .PHONY : personal
 personal: static
-	@mv glove ${HOME}/bin/
+	@cp glove ${HOME}/bin/
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

@@ -29,14 +29,16 @@ SyGEditPrefsDialog::SyGEditPrefsDialog
 	(
 	const JCharacter*	terminalCmd,
 	const JCharacter*	manViewCmd,
-	const JCharacter*	postCheckoutCmd,
 	const JCharacter*	gitStatusCmd,
+	const JCharacter*	gitHistoryCmd,
+	const JCharacter*	postCheckoutCmd,
 	const JBoolean		del
 	)
 	:
 	JXDialogDirector(JXGetApplication(), kJTrue)
 {
-	BuildWindow(terminalCmd, manViewCmd, postCheckoutCmd, gitStatusCmd, del);
+	BuildWindow(terminalCmd, manViewCmd, gitStatusCmd, gitHistoryCmd,
+				postCheckoutCmd, del);
 }
 
 /******************************************************************************
@@ -58,8 +60,9 @@ SyGEditPrefsDialog::BuildWindow
 	(
 	const JCharacter*	terminalCmd,
 	const JCharacter*	manViewCmd,
-	const JCharacter*	postCheckoutCmd,
 	const JCharacter*	gitStatusCmd,
+	const JCharacter*	gitHistoryCmd,
+	const JCharacter*	postCheckoutCmd,
 	const JBoolean		del
 	)
 {
@@ -77,6 +80,11 @@ SyGEditPrefsDialog::BuildWindow
         new JXInputField(window,
                     JXWidget::kHElastic, JXWidget::kFixedTop, 160,130, 275,20);
     assert( itsTerminalInput != NULL );
+
+    itsGitStatusInput =
+        new JXInputField(window,
+                    JXWidget::kHElastic, JXWidget::kFixedTop, 220,180, 215,20);
+    assert( itsGitStatusInput != NULL );
 
     JXStaticText* obj1_JXLayout =
         new JXStaticText(JGetString("obj1_JXLayout::SyGEditPrefsDialog::JXLayout"), window,
@@ -126,34 +134,40 @@ SyGEditPrefsDialog::BuildWindow
     obj4_JXLayout->SetFontSize(8);
     obj4_JXLayout->SetToLabel();
 
-    itsPostCheckoutInput =
-        new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 220,180, 215,20);
-    assert( itsPostCheckoutInput != NULL );
-
     JXStaticText* obj5_JXLayout =
         new JXStaticText(JGetString("obj5_JXLayout::SyGEditPrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,180, 210,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,220, 210,20);
     assert( obj5_JXLayout != NULL );
     obj5_JXLayout->SetToLabel();
 
     JXStaticText* obj6_JXLayout =
         new JXStaticText(JGetString("obj6_JXLayout::SyGEditPrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,200, 215,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,240, 215,20);
     assert( obj6_JXLayout != NULL );
     obj6_JXLayout->SetFontSize(8);
     obj6_JXLayout->SetToLabel();
 
-    itsGitStatusInput =
-        new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 220,220, 215,20);
-    assert( itsGitStatusInput != NULL );
-
     JXStaticText* obj7_JXLayout =
         new JXStaticText(JGetString("obj7_JXLayout::SyGEditPrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,220, 210,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,180, 210,20);
     assert( obj7_JXLayout != NULL );
     obj7_JXLayout->SetToLabel();
+
+    itsGitHistoryInput =
+        new JXInputField(window,
+                    JXWidget::kHElastic, JXWidget::kFixedTop, 220,200, 215,20);
+    assert( itsGitHistoryInput != NULL );
+
+    JXStaticText* obj8_JXLayout =
+        new JXStaticText(JGetString("obj8_JXLayout::SyGEditPrefsDialog::JXLayout"), window,
+                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,200, 210,20);
+    assert( obj8_JXLayout != NULL );
+    obj8_JXLayout->SetToLabel();
+
+    itsPostCheckoutInput =
+        new JXInputField(window,
+                    JXWidget::kHElastic, JXWidget::kFixedTop, 220,220, 215,20);
+    assert( itsPostCheckoutInput != NULL );
 
 // end JXLayout
 
@@ -168,13 +182,17 @@ SyGEditPrefsDialog::BuildWindow
 	itsTerminalInput->SetIsRequired();
 	itsTerminalInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
 
-	itsPostCheckoutInput->SetText(postCheckoutCmd);
-	itsPostCheckoutInput->SetIsRequired();
-	itsPostCheckoutInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
-
 	itsGitStatusInput->SetText(gitStatusCmd);
 	itsGitStatusInput->SetIsRequired();
 	itsGitStatusInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+
+	itsGitHistoryInput->SetText(gitHistoryCmd);
+	itsGitHistoryInput->SetIsRequired();
+	itsGitHistoryInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+
+	itsPostCheckoutInput->SetText(postCheckoutCmd);
+	itsPostCheckoutInput->SetIsRequired();
+	itsPostCheckoutInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
 
 	itsDelCB->SetState(del);
 
@@ -191,16 +209,18 @@ SyGEditPrefsDialog::GetPrefs
 	(
 	JString*	terminalCmd,
 	JString*	manViewCmd,
-	JString*	postCheckoutCmd,
 	JString*	gitStatusCmd,
+	JString*	gitHistoryCmd,
+	JString*	postCheckoutCmd,
 	JBoolean*	del
 	)
 	const
 {
 	*terminalCmd     = itsTerminalInput->GetText();
 	*manViewCmd      = itsManInput->GetText();
-	*postCheckoutCmd = itsPostCheckoutInput->GetText();
 	*gitStatusCmd    = itsGitStatusInput->GetText();
+	*gitHistoryCmd   = itsGitHistoryInput->GetText();
+	*postCheckoutCmd = itsPostCheckoutInput->GetText();
 
 	*del = itsDelCB->IsChecked();
 

@@ -16,8 +16,9 @@
 
 // Prototypes
 
-void ParseTextOptions(const int argc, char* argv[]);
-void PrintVersion();
+static void ParseTextOptions(const int argc, char* argv[]);
+static void PrintVersion();
+static void PrintCommandLineHelp();
 
 /******************************************************************************
  main
@@ -101,7 +102,7 @@ ParseTextOptions
 		else if (JIsHelpRequest(argv[index]))
 			{
 			<PRE>App::InitStrings();
-			<PRE>MDIServer::PrintCommandLineHelp();
+			PrintCommandLineHelp();
 			exit(0);
 			}
 		index++;
@@ -119,4 +120,20 @@ PrintVersion()
 	cout << endl;
 	cout << <PRE>GetVersionStr() << endl;
 	cout << endl;
+}
+
+/******************************************************************************
+ PrintCommandLineHelp
+
+ ******************************************************************************/
+
+void
+PrintCommandLineHelp()
+{
+	const JCharacter* map[] =
+		{
+		"vers", <PRE>GetVersionNumberStr()
+		};
+	const JString s = JGetString("CommandLineHelp", map, sizeof(map));
+	cout << endl << s << endl << endl;
 }

@@ -159,12 +159,12 @@ JXMenuTable::DrawCheckbox
 	const JRect&	rect
 	)
 {
-	JBoolean isRadio, isChecked;
-	const JBoolean isCheckbox =
-		itsBaseMenuData->IsCheckbox(itemIndex, &isRadio, &isChecked);
+	const JXMenu::ItemType type = itsBaseMenuData->GetType(itemIndex);
 
-	if (isRadio || isCheckbox)
+	if (type == JXMenu::kCheckboxType || type == JXMenu::kRadioType)
 		{
+		const JBoolean isChecked = itsBaseMenuData->IsChecked(itemIndex);
+
 		const JPoint center(rect.xcenter(), rect.ycenter());
 		JRect boxRect(center, center);
 		(boxRect.bottom)--;
@@ -172,7 +172,7 @@ JXMenuTable::DrawCheckbox
 
 		const JColorIndex selColor = (p.GetColormap())->GetDefaultSelButtonColor();
 
-		if (isRadio)
+		if (type == JXMenu::kRadioType)
 			{
 			boxRect.Shrink(-kRadioboxHalfHeight, -kRadioboxHalfHeight);
 			if (isChecked)
@@ -184,9 +184,10 @@ JXMenuTable::DrawCheckbox
 				JXDrawUpDiamond(p, boxRect, kJXDefaultBorderWidth);
 				}
 			}
-
-		else if (isCheckbox)
+		else
 			{
+			assert( type == JXMenu::kCheckboxType );
+
 			boxRect.Shrink(-kCheckboxHalfHeight, -kCheckboxHalfHeight);
 			if (isChecked)
 				{

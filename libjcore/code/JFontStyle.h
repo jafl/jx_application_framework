@@ -19,8 +19,9 @@
 
 typedef unsigned long	JFontID;
 
-const JSize kJDefaultFontSize     = 10;
-const JSize kJDefaultMonoFontSize = 9;
+const JSize kJDefaultFontSize             = 10;
+const JSize kJDefaultRowColHeaderFontSize = 9;
+const JSize kJDefaultMonoFontSize         = 9;
 
 struct JFontStyle
 {

@@ -64,11 +64,14 @@ public:
 	const JString&	GetTerminalCommand() const;
 	void			SetTerminalCommand(const JCharacter* cmd);
 
-	const JString&	GetPostCheckoutCommand() const;
-	void			SetPostCheckoutCommand(const JCharacter* cmd);
-
 	const JString&	GetGitStatusCommand() const;
 	void			SetGitStatusCommand(const JCharacter* cmd);
+
+	const JString&	GetGitHistoryCommand() const;
+	void			SetGitHistoryCommand(const JCharacter* cmd);
+
+	const JString&	GetPostCheckoutCommand() const;
+	void			SetPostCheckoutCommand(const JCharacter* cmd);
 
 	void	DisplayAbout(const JCharacter* prevVersStr = NULL);
 
@@ -96,8 +99,9 @@ private:
 	JStringPtrMap<JString>*	itsMountPointPrefs;
 
 	JString	itsTermCmd;
-	JString	itsPostCheckoutCmd;
 	JString	itsGitStatusCmd;
+	JString	itsGitHistoryCmd;
+	JString	itsPostCheckoutCmd;
 
 private:
 
@@ -187,28 +191,6 @@ SyGApplication::SetTerminalCommand
 }
 
 /******************************************************************************
- Post-checkout command
-
- ******************************************************************************/
-
-inline const JString&
-SyGApplication::GetPostCheckoutCommand()
-	const
-{
-	return itsPostCheckoutCmd;
-}
-
-inline void
-SyGApplication::SetPostCheckoutCommand
-	(
-	const JCharacter* cmd
-	)
-{
-	itsPostCheckoutCmd = cmd;
-	itsPostCheckoutCmd.TrimWhitespace();
-}
-
-/******************************************************************************
  Git status
 
  ******************************************************************************/
@@ -228,6 +210,50 @@ SyGApplication::SetGitStatusCommand
 {
 	itsGitStatusCmd = cmd;
 	itsGitStatusCmd.TrimWhitespace();
+}
+
+/******************************************************************************
+ Git history
+
+ ******************************************************************************/
+
+inline const JString&
+SyGApplication::GetGitHistoryCommand()
+	const
+{
+	return itsGitHistoryCmd;
+}
+
+inline void
+SyGApplication::SetGitHistoryCommand
+	(
+	const JCharacter* cmd
+	)
+{
+	itsGitHistoryCmd = cmd;
+	itsGitHistoryCmd.TrimWhitespace();
+}
+
+/******************************************************************************
+ Post-checkout command
+
+ ******************************************************************************/
+
+inline const JString&
+SyGApplication::GetPostCheckoutCommand()
+	const
+{
+	return itsPostCheckoutCmd;
+}
+
+inline void
+SyGApplication::SetPostCheckoutCommand
+	(
+	const JCharacter* cmd
+	)
+{
+	itsPostCheckoutCmd = cmd;
+	itsPostCheckoutCmd.TrimWhitespace();
 }
 
 #endif

@@ -23,6 +23,7 @@ static const char* kCurrentJCoreLibVersionStr = "2.6.0";
 // version 3.0.0:
 //	JRexex:
 //		Removed no-op Is/SetMatchOnly().
+//		Fixed memory leak in RegExec().
 //	JPSPrinterBase:
 //		Fixed font name logic to leverage default fonts built into
 //			PostScript printers.
@@ -49,7 +50,7 @@ static const char* kCurrentJCoreLibVersionStr = "2.6.0";
 //	JTextEditor:
 //		Removed SwitchHTMLCharSet().
 //	JFontStyle:
-//		Added kJDefaultMonoFontSize.
+//		Added kJDefaultMonoFontSize, kJDefaultRowColHeaderFontSize.
 //	jDirUtil:
 //		Added optional 2nd arg sync to JKillDirectory().
 //	jVCSUtil:
@@ -60,6 +61,12 @@ static const char* kCurrentJCoreLibVersionStr = "2.6.0";
 //			instead of returning the current working directory.
 //	JPainter:
 //		Fixed String(angle, rect, ...) to pick correct corner based on angle.
+//	JMMTable:
+//		Now prints contents of each pointer, to help track down string data leaks.
+//	JTextEditor:
+//		Added align parameter to CleanAllWhitespace(), CleanSelectedWhitespace(),
+//			CleanWhitespace().
+//		Added kCleanAllWSAlignCmd, kCleanWSAlignSelCmd to CmdIndex.
 
 // version 2.6.0:
 //	JOrderedSet:

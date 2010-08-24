@@ -63,12 +63,11 @@ JXImageMenuData::~JXImageMenuData()
 void
 JXImageMenuData::InsertItem
 	(
-	const JIndex		index,
-	JXImage*			image,
-	const JBoolean		menuOwnsImage,
-	const JBoolean		isCheckbox,
-	const JBoolean		isRadio,
-	const JCharacter*	id
+	const JIndex			index,
+	JXImage*				image,
+	const JBoolean			menuOwnsImage,
+	const JXMenu::ItemType	type,
+	const JCharacter*		id
 	)
 {
 	assert( image != NULL );
@@ -76,7 +75,7 @@ JXImageMenuData::InsertItem
 	const IconData itemData(image, menuOwnsImage);
 	itsIconData->InsertElementAtIndex(index, itemData);
 
-	JXMenuData::InsertItem(index, isCheckbox, isRadio, NULL, id);
+	JXMenuData::InsertItem(index, type, NULL, id);
 
 	itsNeedGeomRecalcFlag = kJTrue;
 }

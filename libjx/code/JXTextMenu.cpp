@@ -103,42 +103,39 @@ JXTextMenu::InsertItem
 	(
 	const JIndex		index,
 	const JCharacter*	str,
-	const JBoolean		isCheckbox,
-	const JBoolean		isRadio,
+	const ItemType		type,
 	const JCharacter*	shortcuts,
 	const JCharacter*	nmShortcut,
 	const JCharacter*	id
 	)
 {
-	itsTextMenuData->InsertItem(index, str, isCheckbox, isRadio, shortcuts, nmShortcut, id);
+	itsTextMenuData->InsertItem(index, str, type, shortcuts, nmShortcut, id);
 }
 
 void
 JXTextMenu::PrependItem
 	(
 	const JCharacter*	str,
-	const JBoolean		isCheckbox,
-	const JBoolean		isRadio,
+	const ItemType		type,
 	const JCharacter*	shortcuts,
 	const JCharacter*	nmShortcut,
 	const JCharacter*	id
 	)
 {
-	itsTextMenuData->PrependItem(str, isCheckbox, isRadio, shortcuts, nmShortcut, id);
+	itsTextMenuData->PrependItem(str, type, shortcuts, nmShortcut, id);
 }
 
 void
 JXTextMenu::AppendItem
 	(
 	const JCharacter*	str,
-	const JBoolean		isCheckbox,
-	const JBoolean		isRadio,
+	const ItemType		type,
 	const JCharacter*	shortcuts,
 	const JCharacter*	nmShortcut,
 	const JCharacter*	id
 	)
 {
-	itsTextMenuData->AppendItem(str, isCheckbox, isRadio, shortcuts, nmShortcut, id);
+	itsTextMenuData->AppendItem(str, type, shortcuts, nmShortcut, id);
 }
 
 /******************************************************************************
@@ -594,7 +591,7 @@ JXTextMenu::HandleNMShortcut
 	// Update menu items so active setting is correct
 	// and then broadcast the selection.
 
-	if (PrepareToOpenMenu() &&
+	if (PrepareToOpenMenu(kJTrue) &&
 		itsTextMenuData->IndexValid(index) && itsTextMenuData->IsEnabled(index))
 		{
 		BroadcastSelection(index, kJTrue);

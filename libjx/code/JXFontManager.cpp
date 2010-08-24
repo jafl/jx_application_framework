@@ -1058,7 +1058,7 @@ JXFontManager::GetLineHeight
 		if (info.ascent == 0)
 			{
 			XGlyphInfo g;
-			XftTextExtents8(*itsDisplay, info.xfont.xftrue, (FcChar8*) "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789|", 63, &g);
+			XftTextExtents8(*itsDisplay, info.xfont.xftrue, (FcChar8*) "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789|_", 64, &g);
 			info.ascent  = g.y + 1 + size/10;
 			info.descent = g.height - g.y;
 			itsFontList->SetElement(fontID, info);

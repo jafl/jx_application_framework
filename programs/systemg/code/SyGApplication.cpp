@@ -28,11 +28,13 @@
 
 static const JCharacter* kAppSignature           = "systemg";
 static const JCharacter* kDefaultTermCmd         = "gnome-terminal --working-directory=$p"; // "xterm -title $n -n $n";
-static const JCharacter* kDefaultPostCheckoutCmd = "jcc --reload-open";
 static const JCharacter* kDefaultGitStatusCmd    = "git citool";
+static const JCharacter* kDefaultGitHistoryCmd   = "gitk";
+static const JCharacter* kDefaultPostCheckoutCmd = "jcc --reload-open";
 
-const JFileVersion kCurrentPrefsVersion = 4;
+const JFileVersion kCurrentPrefsVersion = 5;
 
+	// version  5 adds itsGitHistoryCmd
 	// version  4 adds itsGitStatusCmd
 	// version  3 adds itsPostCheckoutCmd
 	// version  2 adds itsTermCmd
@@ -59,8 +61,9 @@ SyGApplication::SyGApplication
 	JXApplication(argc, argv, kAppSignature, kSyGDefaultStringData),
 	JPrefObject(NULL, kSAppID),
 	itsTermCmd(kDefaultTermCmd),
-	itsPostCheckoutCmd(kDefaultPostCheckoutCmd),
-	itsGitStatusCmd(kDefaultGitStatusCmd)
+	itsGitStatusCmd(kDefaultGitStatusCmd),
+	itsGitHistoryCmd(kDefaultGitHistoryCmd),
+	itsPostCheckoutCmd(kDefaultPostCheckoutCmd)
 {
 	// Create itsWindowList first so DirectorClosed() won't crash when
 	// warn that prefs are unreadable.
@@ -395,7 +398,7 @@ SyGApplication::UpdateShortcutMenu
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JMountPoint mp = itsMountPointList->GetElement(i);
-		menu->AppendItem(*(mp.path), kJFalse, kJFalse, NULL,
+		menu->AppendItem(*(mp.path), JXMenu::kPlainType, NULL,
 						 GetNMShortcut(&shortcutIndex), *(mp.path));
 
 		JXImage* image;
@@ -408,7 +411,7 @@ SyGApplication::UpdateShortcutMenu
 	JString trashDir;
 	if (SyGGetTrashDirectory(&trashDir, kJFalse))
 		{
-		menu->AppendItem("Trash", kJFalse, kJFalse, NULL,
+		menu->AppendItem("Trash", JXMenu::kPlainType, NULL,
 						 GetNMShortcut(&shortcutIndex), trashDir);
 		menu->SetItemImage(menu->GetItemCount(), SyGGetTrashSmallIcon(), kJFalse);
 		}
@@ -421,7 +424,7 @@ SyGApplication::UpdateShortcutMenu
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JString* path = itsShortcutList->NthElement(i);
-		menu->AppendItem(*path, kJFalse, kJFalse, NULL,
+		menu->AppendItem(*path, JXMenu::kPlainType, NULL,
 						 GetNMShortcut(&shortcutIndex), *path);
 		menu->SetItemImage(menu->GetItemCount(), folderIcon, kJFalse);
 		}
@@ -761,6 +764,11 @@ SyGApplication::ReadPrefs
 		input >> itsGitStatusCmd;
 		}
 
+	if (vers >= 5)
+		{
+		input >> itsGitHistoryCmd;
+		}
+
 	SyGWriteTaskBarSetup(*itsShortcutList, kJFalse);
 }
 
@@ -820,6 +828,7 @@ SyGApplication::WritePrefs
 	output << ' ' << itsTermCmd;
 	output << ' ' << itsPostCheckoutCmd;
 	output << ' ' << itsGitStatusCmd;
+	output << ' ' << itsGitHistoryCmd;
 }
 
 /******************************************************************************
