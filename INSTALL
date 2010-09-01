@@ -17,6 +17,14 @@ On Ubuntu, you need to install development packages:
 		libxmu-dev libxi-dev \
 		libxml2-dev libjpeg-dev libpng-dev
 
+Download and unpack ACE:
+
+	http://www.cs.wustl.edu/~schmidt/ACE.html
+
+ACE 5.7.1 needs to be patched.  Change line 241 of OS_Memory.h to:
+
+#   define ACE_throw_bad_alloc  return (void*) 0
+
 After unpacking Mesa-7.5.2:
 
 	ln -s ../../src/mesa/drivers/x11/xmesa.h include/GL
@@ -24,9 +32,9 @@ After unpacking Mesa-7.5.2:
 
 On OS X, it helps to install GNU coreutils.
 
-ACE 5.7.1 needs to be patched.  Change line 241 of OS_Memory.h to:
+To keep the Makefiles smaller:
 
-#   define ACE_throw_bad_alloc  return (void*) 0
+	setenv J_MAKEMAKE_IGNORE_PATTERN '^ace/|StdInc.h$'
 
 
 *** Step 2:  Compiling
