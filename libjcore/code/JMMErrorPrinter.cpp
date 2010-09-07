@@ -152,7 +152,7 @@ JMMErrorPrinter::HandleMultipleAllocation
 {
 	if (itsPrintErrorsFlag)
 		{
-		cout << "*** memory error: item allocated as "
+		cout << "*** memory error: Item allocated as "
 		     << thisRecord.DeleteTypeName() << " at\n                     "
 		     << thisRecord.GetNewFile() << ":" << thisRecord.GetNewLine()
 		     << "\n                  was first allocated as "

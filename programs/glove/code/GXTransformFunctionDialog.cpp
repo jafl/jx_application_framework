@@ -80,7 +80,6 @@ GXTransformFunctionDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 580,90, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsTransformButton =
         new JXTextButton("Transform", window,

@@ -22,7 +22,7 @@ public:
 
 	virtual	~MDPrefsDialog();
 
-	void	GetValues(JString* data);
+	void	GetValues(JString* data) const;
 
 private:
 

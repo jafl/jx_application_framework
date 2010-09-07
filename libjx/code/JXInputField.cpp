@@ -17,18 +17,7 @@
 #include <jXConstants.h>
 #include <jXGlobals.h>
 #include <jXKeysym.h>
-#include <JString.h>
 #include <jAssert.h>
-
-// string ID's
-
-static const JCharacter* kEmptyErrorID   = "EmptyError::JXInputField";
-static const JCharacter* kRequire1CharID = "Require1Char::JXInputField";
-static const JCharacter* kRequireNCharID = "RequireNChar::JXInputField";
-static const JCharacter* kRangeNMCharID  = "RangeNMChar::JXInputField";
-static const JCharacter* kMinNCharID     = "MinNChar::JXInputField";
-static const JCharacter* kMax1CharID     = "Max1Char::JXInputField";
-static const JCharacter* kMaxNCharID     = "MaxNChar::JXInputField";
 
 /******************************************************************************
  Constructor
@@ -362,14 +351,14 @@ JXInputField::InputValid()
 	JString errorStr;
 	if (itsMinLength == 1 && length == 0)
 		{
-		errorStr = JGetString(kEmptyErrorID);
+		errorStr = JGetString("EmptyError::JXInputField");
 		}
 	else if (itsMinLength > 0 && itsMinLength == itsMaxLength &&
 			 length != itsMinLength)
 		{
 		if (itsMaxLength == 1)
 			{
-			errorStr = JGetString(kRequire1CharID);
+			errorStr = JGetString("Require1Char::JXInputField");
 			}
 		else
 			{
@@ -378,7 +367,7 @@ JXInputField::InputValid()
 				{
 				"count", s.GetCString()
 				};
-			errorStr = JGetString(kRequireNCharID, map, sizeof(map));
+			errorStr = JGetString("RequireNChar::JXInputField", map, sizeof(map));
 			}
 		}
 	else if (itsMinLength > 0 && itsMaxLength > 0 &&
@@ -390,7 +379,7 @@ JXInputField::InputValid()
 			"min", n.GetCString(),
 			"max", m.GetCString()
 			};
-		errorStr = JGetString(kRangeNMCharID, map, sizeof(map));
+		errorStr = JGetString("RangeNMChar::JXInputField", map, sizeof(map));
 		}
 	else if (itsMinLength > 0 && length < itsMinLength)
 		{
@@ -399,13 +388,13 @@ JXInputField::InputValid()
 			{
 			"min", n.GetCString()	// itsMinLength > 1, see above
 			};
-		errorStr = JGetString(kMinNCharID, map, sizeof(map));
+		errorStr = JGetString("MinNChar::JXInputField", map, sizeof(map));
 		}
 	else if (itsMaxLength > 0 && length > itsMaxLength)
 		{
 		if (itsMaxLength == 1)
 			{
-			errorStr = JGetString(kMax1CharID);
+			errorStr = JGetString("Max1Char::JXInputField");
 			}
 		else
 			{
@@ -414,7 +403,7 @@ JXInputField::InputValid()
 				{
 				"max", n.GetCString()
 				};
-			errorStr = JGetString(kMaxNCharID, map, sizeof(map));
+			errorStr = JGetString("MaxNChar::JXInputField", map, sizeof(map));
 			}
 		}
 

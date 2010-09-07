@@ -82,5 +82,4 @@ JXAcceptLicenseDialog::BuildWindow()
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( text != NULL );
 	text->FitToEnclosure();
-	text->SetBackColor(text->GetFocusColor());
 }

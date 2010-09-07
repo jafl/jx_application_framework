@@ -78,7 +78,6 @@ GLAboutDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 430,180, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXImageWidget* gloveIcon =
         new JXImageWidget(window,

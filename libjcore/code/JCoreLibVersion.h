@@ -63,10 +63,14 @@ static const char* kCurrentJCoreLibVersionStr = "2.6.0";
 //		Fixed String(angle, rect, ...) to pick correct corner based on angle.
 //	JMMTable:
 //		Now prints contents of each pointer, to help track down string data leaks.
+//	JMMRecord:
+//		Added StreamForDebug() to support jx_memory_debugger.
 //	JTextEditor:
 //		Added align parameter to CleanAllWhitespace(), CleanSelectedWhitespace(),
 //			CleanWhitespace().
 //		Added kCleanAllWSAlignCmd, kCleanWSAlignSelCmd to CmdIndex.
+//	JTable:
+//		Fixed infinite loop in Paginate when column is too wide to fit.
 
 // version 2.6.0:
 //	JOrderedSet:

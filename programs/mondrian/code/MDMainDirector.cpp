@@ -25,7 +25,7 @@
 #include <JXImage.h>
 #include <jAssert.h>
 
-// menus
+// File menu
 
 static const JCharacter* kFileMenuTitleStr = "File";
 static const JCharacter* kFileMenuStr =
@@ -35,6 +35,12 @@ enum
 {
 	kQuitCmd = 1
 };
+
+// Windows menu
+
+static const JCharacter* kWindowsMenuTitleStr = "Windows";
+
+// Preferences menu
 
 static const JCharacter* kPrefsMenuTitleStr = "Preferences";
 static const JCharacter* kPrefsMenuStr =
@@ -52,6 +58,8 @@ enum
 	kEditMacWinPrefsCmd,
 	kSaveWindSizeCmd
 };
+
+// Help menu
 
 static const JCharacter* kHelpMenuTitleStr = "Help";
 static const JCharacter* kHelpMenuStr =
@@ -391,10 +399,12 @@ MDMainDirector::ReadPrefs
 {
 	JFileVersion vers;
 	input >> vers;
-	if (vers <= kCurrentPrefsVersion)
+	if (vers > kCurrentPrefsVersion)
 		{
-		(GetWindow())->ReadGeometry(input);
+		return;
 		}
+
+	(GetWindow())->ReadGeometry(input);
 }
 
 /******************************************************************************

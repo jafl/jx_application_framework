@@ -98,7 +98,7 @@ AnimateHelpMenuTask::Perform
 
 	if (!itsMenu->IsOpen())
 		{
-		(JXGetApplication())->RemoveIdleTask(this);
+		Stop();
 		}
 }
 

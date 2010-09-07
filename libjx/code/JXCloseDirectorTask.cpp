@@ -13,7 +13,7 @@
 
 #include <JXStdInc.h>
 #include <JXCloseDirectorTask.h>
-#include <jXGlobals.h>
+#include <JXDirector.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -29,7 +29,7 @@ JXCloseDirectorTask::Close
 {
 	JXCloseDirectorTask* task = new JXCloseDirectorTask(director);
 	assert( task != NULL );
-	(JXGetApplication())->InstallIdleTask(task);
+	task->Start();
 }
 
 /******************************************************************************

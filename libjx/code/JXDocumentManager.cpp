@@ -182,7 +182,7 @@ JXDocumentManager::DocumentCreated
 	itsDocList->AppendElement(info);
 	if (itsPerformSafetySaveFlag)
 		{
-		(JXGetApplication())->InstallIdleTask(itsSafetySaveTask);
+		itsSafetySaveTask->Start();
 		}
 
 	// ensure menu not empty; update the menu shortcuts
@@ -238,7 +238,7 @@ JXDocumentManager::DocumentDeleted
 
 	if (itsDocList->IsEmpty())
 		{
-		(JXGetApplication())->RemoveIdleTask(itsSafetySaveTask);
+		itsSafetySaveTask->Stop();
 		}
 
 	// update the menu shortcuts
@@ -261,7 +261,7 @@ JXDocumentManager::DocumentMenusNeedUpdate()
 		{
 		itsUpdateDocMenuTask = new JXUpdateDocMenuTask(this);
 		assert( itsUpdateDocMenuTask != NULL );
-		(JXGetApplication())->InstallUrgentTask(itsUpdateDocMenuTask);
+		itsUpdateDocMenuTask->Go();
 		}
 }
 
@@ -699,11 +699,11 @@ JXDocumentManager::ShouldSafetySave
 
 	if (itsPerformSafetySaveFlag && !itsDocList->IsEmpty())
 		{
-		(JXGetApplication())->InstallIdleTask(itsSafetySaveTask);
+		itsSafetySaveTask->Start();
 		}
 	else if (!itsPerformSafetySaveFlag)
 		{
-		(JXGetApplication())->RemoveIdleTask(itsSafetySaveTask);
+		itsSafetySaveTask->Stop();
 		}
 }
 

@@ -64,9 +64,17 @@ struct jUIDInfo
 	JString*	realName;
 	JString*	homeDirectory;
 	JString*	shell;
+
+	void Free()
+	{
+		delete userName;
+		delete realName;
+		delete homeDirectory;
+		delete shell;
+	};
 };
 
-static JArray<jUIDInfo> userInfoMap;
+static JArray<jUIDInfo> theUserInfoMap;
 
 #define JTemplateType jUIDInfo
 #include <JArray.tmpls>
@@ -82,6 +90,17 @@ jCompareUIDs
 	return JCompareIndices(i1.id, i2.id);
 }
 
+static void
+jCleanUserInfoMap()
+{
+	const JSize count = theUserInfoMap.GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		jUIDInfo info = theUserInfoMap.GetElement(i);
+		info.Free();
+		}
+}
+
 static JBoolean
 jGetUserInfo
 	(
@@ -89,17 +108,18 @@ jGetUserInfo
 	jUIDInfo*	info
 	)
 {
-	if (userInfoMap.IsEmpty())
+	if (theUserInfoMap.IsEmpty())
 		{
-		userInfoMap.SetCompareFunction(jCompareUIDs);
-		userInfoMap.SetSortOrder(JOrderedSetT::kSortAscending);
+		theUserInfoMap.SetCompareFunction(jCompareUIDs);
+		theUserInfoMap.SetSortOrder(JOrderedSetT::kSortAscending);
+		atexit(jCleanUserInfoMap);
 		}
 
 	const jUIDInfo target = { uid, NULL, NULL };
 	JIndex i;
-	if (userInfoMap.SearchSorted(target, JOrderedSetT::kAnyMatch, &i))
+	if (theUserInfoMap.SearchSorted(target, JOrderedSetT::kAnyMatch, &i))
 		{
-		*info = userInfoMap.GetElement(i);
+		*info = theUserInfoMap.GetElement(i);
 		}
 	else
 		{
@@ -119,7 +139,7 @@ jGetUserInfo
 			assert( info->shell != NULL );
 
 			info->id = uid;
-			const JBoolean inserted = userInfoMap.InsertSorted(*info, kJFalse);
+			const JBoolean inserted = theUserInfoMap.InsertSorted(*info, kJFalse);
 			assert( inserted );
 			}
 		else

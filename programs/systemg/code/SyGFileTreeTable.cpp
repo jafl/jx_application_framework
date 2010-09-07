@@ -348,6 +348,11 @@ SyGFileTreeTable::SyGFileTreeTable
 	itsFileMenu->SetItemImage(kViewManCmd,     man);
 	itsFileMenu->SetItemImage(kOpenTermCmd,    mini_term);
 
+	JXKeyModifiers homeModifiers(GetDisplay());
+	homeModifiers.SetState(kJXMetaKeyIndex, kJTrue);
+	homeModifiers.SetState(kJXShiftKeyIndex, kJTrue);
+	(GetWindow())->InstallMenuShortcut(itsFileMenu, kHomeWindowCmd, 'h', homeModifiers);
+
 	JString recentDir;
 	if (SyGGetRecentFileDirectory(&recentDir))
 		{
@@ -461,7 +466,7 @@ SyGFileTreeTable::SyGFileTreeTable
 	JXWindow* window = GetWindow();
 //	if (!window->IsIconified())		// update window icon while iconified
 //		{
-		JXGetApplication()->InstallIdleTask(itsUpdateTask);
+		itsUpdateTask->Start();
 //		}
 	ListenTo(window);
 
@@ -1152,7 +1157,7 @@ SyGFileTreeTable::HandleMouseUp
 			assert( itsEditTask == NULL );
 			itsEditTask = new SyGBeginEditingTask(this, itsEditCell);
 			assert( itsEditTask != NULL );
-			JXGetApplication()->InstallIdleTask(itsEditTask);
+			itsEditTask->Start();
 			}
 		}
 	else if (itsClearIfNotDNDFlag)
@@ -1362,7 +1367,7 @@ SyGFileTreeTable::GoUp
 {
 	ClearIncrementalSearchBuffer();
 
-	if (sameWindow)
+	if (sameWindow == (SyGGetPrefsMgr())->WillOpenNewWindows())
 		{
 		SyGFileTreeNode* root = itsFileTree->GetSyGRoot();
 		const JString origDir = root->GetName();
@@ -1398,7 +1403,7 @@ SyGFileTreeTable::GoTo
 {
 	ClearIncrementalSearchBuffer();
 
-	if (sameWindow)
+	if (sameWindow == (SyGGetPrefsMgr())->WillOpenNewWindows())
 		{
 		const JError err = (itsFileTree->GetSyGRoot())->GoTo(path);
 		err.ReportIfError();
@@ -2203,13 +2208,13 @@ SyGFileTreeTable::Receive
 		if (sender == GetWindow() && message.Is(JXWindow::kIconified))
 			{
 //			UpdateDisplay();
-//			JXGetApplication()->RemoveIdleTask(itsUpdateTask);
+//			itsUpdateTask->Stop();
 			}
 		else if (sender == GetWindow() && message.Is(JXWindow::kDeiconified))
 			{
 			ClearIncrementalSearchBuffer();
 //			UpdateDisplay();
-//			JXGetApplication()->InstallIdleTask(itsUpdateTask);
+//			itsUpdateTask->Start();
 			}
 
 		else if (sender == itsFileTree && message.Is(JFSFileTree::kDirectoryRenamed))
@@ -2540,7 +2545,7 @@ SyGFileTreeTable::HandleFileMenu
 		JString homeDir;
 		if (JGetHomeDirectory(&homeDir))
 			{
-			GoTo(homeDir, kJFalse);
+			GoTo(homeDir, ((GetDisplay())->GetLatestKeyModifiers()).shift());
 			}
 		}
 

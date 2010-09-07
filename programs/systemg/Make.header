@@ -24,7 +24,7 @@ SEARCHDIRS := -I${CODEDIR} \
 
 # other constants
 
-SYSTEMG_VERSION  := 2.4.0
+SYSTEMG_VERSION  := 2.4.1
 SIGNATURE        := systemg
 SYG_STRING_FILES := ${filter-out %/systemg_menu_strings, \
                       ${shell echo strings/*}}
@@ -52,9 +52,9 @@ TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR} ${JFSLIBDIR}
 # library dependencies
 
 ifdef J_BUILD_SHARED_LIB
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.so \
-              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.so \
-              ${JLIBDIR}/libjfs-${JFS_LIB_VERSION}.so 
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
+              ${JLIBDIR}/libjfs-${JFS_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} 
 else
   LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
               ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a \

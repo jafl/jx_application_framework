@@ -73,7 +73,7 @@ JXSharedPrefsManager::JXSharedPrefsManager()
 
 	itsUpdateTask = new JXTimerTask(kUpdateInterval);
 	assert( itsUpdateTask != NULL );
-	(JXGetApplication())->InstallIdleTask(itsUpdateTask);
+	itsUpdateTask->Start();
 	ListenTo(itsUpdateTask);
 }
 

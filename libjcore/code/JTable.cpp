@@ -751,7 +751,7 @@ JTable::Paginate
 			}
 
 		JCoordinate pageLen = totalLength;
-		if (totalLength > stripLength && i > prev)
+		if (totalLength > stripLength && i > prev+1)
 			{
 			// The last strip didn't fit on the page,
 			// so leave it for the next page.

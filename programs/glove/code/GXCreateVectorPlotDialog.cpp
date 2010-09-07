@@ -76,7 +76,6 @@ GXCreateVectorPlotDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 380,160, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsX1Menu =
         new JXTextMenu("X1", window,

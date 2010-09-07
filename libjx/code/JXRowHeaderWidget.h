@@ -30,7 +30,7 @@ public:
 
 	virtual ~JXRowHeaderWidget();
 
-	void	TurnOnRowResizing(const JCoordinate minRowHeight);
+	void	TurnOnRowResizing(const JCoordinate minRowHeight = 20);
 	void	TurnOffRowResizing();
 
 	JBoolean	GetRowTitle(const JIndex index, JString* title) const;
@@ -39,6 +39,15 @@ public:
 
 	JCoordinate	GetMinMarginWidth() const;
 	void		SetMinMarginWidth(const JCoordinate w);
+
+protected:
+
+	enum DragType
+	{
+		kInvalidDrag,
+		kDragOneRow,
+		kDragAllRows
+	};
 
 protected:
 
@@ -58,6 +67,7 @@ protected:
 
 	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers);
 	JBoolean		InDragRegion(const JPoint& pt, JPoint* cell) const;
+	DragType		GetDragType() const;
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
@@ -66,15 +76,6 @@ protected:
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
-
-private:
-
-	enum DragType
-	{
-		kInvalidDrag,
-		kDragOneRow,
-		kDragAllRows
-	};
 
 private:
 
@@ -132,7 +133,6 @@ public:
 
 			JCoordinate itsDeltaWidth;
 		};
-
 };
 
 
@@ -145,6 +145,18 @@ inline void
 JXRowHeaderWidget::TurnOffRowResizing()
 {
 	itsAllowRowResizingFlag = kJFalse;
+}
+
+/******************************************************************************
+ GetDragType (protected)
+
+ ******************************************************************************/
+
+inline JXRowHeaderWidget::DragType
+JXRowHeaderWidget::GetDragType()
+	const
+{
+	return itsDragType;
 }
 
 /******************************************************************************

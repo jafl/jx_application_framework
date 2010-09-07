@@ -34,7 +34,6 @@ GloveCursorTableDir::GloveCursorTableDir
 	
 	JXWindow* window = new JXWindow(this, 250,300, "Cursor Values");
     assert( window != NULL );
-    SetWindow(window);
     window->SetMinSize(250,300);
     
 	JXScrollbarSet* scrollbarSet = 

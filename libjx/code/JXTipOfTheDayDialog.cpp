@@ -155,7 +155,6 @@ JXTipOfTheDayDialog::BuildWindow
 	assert( itsText != NULL );
 	itsText->FitToEnclosure();
 	itsText->TESetLeftMarginWidth(5);
-	itsText->SetBackColor(itsText->GetFocusColor());
 
 	itsShowAtStartupCB->SetVisible(showStartupCB);
 	itsShowAtStartupCB->SetState(showAtStartup);

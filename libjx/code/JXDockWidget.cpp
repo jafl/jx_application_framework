@@ -78,7 +78,7 @@ JXDockWidget::JXDockWidget
 
 	JXUpdateMinSizeTask* task = new JXUpdateMinSizeTask(this);
 	assert( task != NULL );
-	(JXGetApplication())->InstallUrgentTask(task);
+	task->Go();
 }
 
 /******************************************************************************
@@ -543,7 +543,7 @@ JXDockWidget::WillAcceptDrop
 
 		itsDeleteHintTask = new JXTimerTask(kDeleteHintDelay, kJTrue);
 		assert( itsDeleteHintTask != NULL );
-		(JXGetApplication())->InstallIdleTask(itsDeleteHintTask);
+		itsDeleteHintTask->Start();
 		ListenTo(itsDeleteHintTask);
 		}
 

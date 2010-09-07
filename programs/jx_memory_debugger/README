@@ -1,0 +1,24 @@
+
+Installing JX Memory Debugger:
+
+The program (jx_memory_debugger) needs to be placed in a directory that is on your
+execution path.  /usr/bin or ~/bin are usually good choices.
+
+
+Running JX Memory Debugger:
+
+If the program crashes or if you find other bugs, please check the web page
+first to see if they have already been reported.
+
+
+Notes on JX Memory Debugger:
+
+
+
+The main Web page for JX Memory Debugger is
+
+    http://newplanetsoftware.com/jx
+
+John Lindal
+jafl@jafl
+

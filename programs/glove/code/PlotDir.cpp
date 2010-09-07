@@ -132,10 +132,10 @@ PlotDir::PlotDir
 	const JBoolean    hideOnClose
 	)
 	:
-	JXDocument(supervisor)
+	JXDocument(supervisor),
+	itsFileName(filename)
 {
 	itsSupervisor       = notifySupervisor;
-	itsFileName         = new JString(filename);
 	itsHideOnClose      = hideOnClose;
 	itsPlotIsClosing	= kJFalse;
 
@@ -148,7 +148,6 @@ PlotDir::PlotDir
 
 	JXWindow* window = new JXWindow(this, w,h, filename);
     assert( window != NULL );
-    SetWindow(window);
 
     window->SetMinSize(minW,minH);
     if (hideOnClose)
@@ -221,8 +220,6 @@ PlotDir::PlotDir
 	assert( itsFitParmsDir != NULL );
 	itsCurveStats = new JArray<CurveStats>;
 	assert( itsCurveStats != NULL );
-	itsCurveIndeces = new JArray<JIndex>;
-	assert( itsCurveIndeces != NULL );
 	itsCurrentCurveType = kGDataCurve;
 
 	itsDiffDirs = new JPtrArray<PlotDir>(JPtrArrayT::kForgetAll);
@@ -255,6 +252,9 @@ PlotDir::~PlotDir()
 //		}
 	delete itsDiffDirs;
 	itsSessionDir->Close();
+	delete itsVarList;
+	delete itsPrinter;
+	delete itsEPSPrinter;
 }
 
 /******************************************************************************
@@ -271,7 +271,7 @@ PlotDir::Receive
 {
 	if (sender == itsPlot && message.Is(J2DPlotWidget::kTitleChanged))
 		{
-		JString title = *itsFileName + ":  " + itsPlot->GetTitle();
+		JString title = itsFileName + ":  " + itsPlot->GetTitle();
 		(GetWindow())->SetTitle(title);
 		JString sessiontitle = "Glove session  -  " + title;
 		(itsSessionDir->GetWindow())->SetTitle(sessiontitle);
@@ -293,7 +293,7 @@ PlotDir::Receive
 			{
 			GLClosePlotDirTask* task = new GLClosePlotDirTask(this);
 			assert(task != NULL);
-			JXGetApplication()->InstallUrgentTask(task);
+			task->Go();
 			}
 		}
 
@@ -451,8 +451,8 @@ PlotDir::NewFileName
 	const JCharacter* filename
 	)
 {
-	*itsFileName = filename;
-	JString title = *itsFileName + ":  " + itsPlot->GetTitle();
+	itsFileName = filename;
+	JString title = itsFileName + ":  " + itsPlot->GetTitle();
 	(GetWindow())->SetTitle(title);
 	JString sessiontitle = "Glove session  -  " + title;
 	(itsSessionDir->GetWindow())->SetTitle(sessiontitle);
@@ -955,7 +955,7 @@ PlotDir::HandleAnalysisMenu
 		}
 	else if (index == kFitWindowCmd)
 		{
-		GLFitDirector* dir = new GLFitDirector(this, itsPlot, *itsFileName);
+		GLFitDirector* dir = new GLFitDirector(this, itsPlot, itsFileName);
 		assert(dir != NULL);
 		dir->Activate();
 		}
@@ -1306,7 +1306,7 @@ PlotDir::AddFit
 	itsAnalysisMenu->EnableItem(kFitParmsCmd);
 	itsAnalysisMenu->EnableItem(kDiffPlotCmd);
 
-	PlotDir* dir = new PlotDir(this, itsSupervisor, *itsFileName, kJTrue);
+	PlotDir* dir = new PlotDir(this, itsSupervisor, itsFileName, kJTrue);
 	assert( dir != NULL );
 	JXGetDocumentManager()->DocumentMustStayOpen(dir, kJTrue);
 	JPlotDataBase* ddata = fit->GetDiffData();

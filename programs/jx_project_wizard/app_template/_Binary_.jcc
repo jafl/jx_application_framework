@@ -107,8 +107,6 @@ T
 # search paths
 T "./code" T
 T "<JX_PATH>/libjcore/code" T
-T "<JX_PATH>/libjtoolbar/code" T
-T "<JX_PATH>/libjtree/code" T
 T "<JX_PATH>/libjx/code" T
 F
 # C preprocessor

@@ -131,8 +131,8 @@ GMDirectorManager::UpdateDirectorMenu
 		GMDirectorTimerTask* task =
 			new GMDirectorTimerTask(this, menu);
 		assert(task != NULL);
+		task->Start();
 		ListenTo(task);
-		JXGetApplication()->InstallIdleTask(task);
 		return;
 		}
 

@@ -1,0 +1,7 @@
+0
+cancelButton::MDPrefsDialog::JXLayout "Cancel"
+okButton::MDPrefsDialog::shortcuts::JXLayout "^M"
+obj1_JXLayout::MDPrefsDialog::JXLayout "Cmd to open file:"
+okButton::MDPrefsDialog::JXLayout "OK"
+cancelButton::MDPrefsDialog::shortcuts::JXLayout "^["
+obj2_JXLayout::MDPrefsDialog::JXLayout "(use $f in place of file name, $l in place of line number)"

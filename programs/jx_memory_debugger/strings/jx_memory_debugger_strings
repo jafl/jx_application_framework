@@ -1,0 +1,60 @@
+0
+
+VERSION		"1.0"
+COPYRIGHT
+"Copyright © 2010 by John Lindal.  All rights reserved.
+
+This software is subject to the license agreement set forth in the license (refer to the on-line help).
+
+http://newplanetsoftware.com/jx"
+
+# mdGlobals
+
+Description::mdGlobals
+"JX Memory Debugger $version
+
+Memory Debugger for the JX Application Framework
+
+$copyright"
+
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+CommandLineHelp
+"JX Memory Debugger $vers
+
+$copyright
+
+This program requires the X Window System.
+
+Usage:
+
+--help     prints this help
+--version  prints version information"
+
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+# MDPrefsDialog
+
+WindowTitle::MDPrefsDialog "Preferences"
+
+# MDAboutDialog
+
+WindowTitle::MDAboutDialog		"About"
+ChangeButtonLabel::MDAboutDialog	"Changes"
+
+UpgradeNotice::MDAboutDialog
+"
+
+
+You have just upgraded from version $vers"
+
+# MDStatsDirector
+
+WindowTitle::MDStatsDirector				"Live Stats"
+ExitWindowTitle::MDStatsDirector			"Exit Stats"
+QueryRecordsWindowTitle::MDStatsDirector	"Query Results"
+ExitRecordsWindowTitle::MDStatsDirector		"Leftovers"
+
+# MDFilterRecordsDialog
+
+WindowTitle::MDFilterRecordsDialog	"Filter records"

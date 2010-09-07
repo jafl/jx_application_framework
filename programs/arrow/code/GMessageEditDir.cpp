@@ -415,7 +415,6 @@ GMessageEditDir::BuildWindow()
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,0,w,newHeight - 160);
 	assert (itsEditor != NULL);
-	itsEditor->SetBackColor(GetColormap()->GetWhiteColor());
 
 	itsToInput->ShareEditMenu(itsEditor);
 	itsToInput->ShouldAllowDragAndDrop(kJTrue);

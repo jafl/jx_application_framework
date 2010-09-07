@@ -54,10 +54,10 @@ TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR} ${J2DPLOTLIBDIR} ${JEXPRLIBDIR}
 # library dependencies
 
 ifdef J_BUILD_SHARED_LIB
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.so \
-              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.so \
-              ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.so \
-              ${JLIBDIR}/libj2dplot-${J2DPLOT_LIB_VERSION}.so
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
+              ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
+              ${JLIBDIR}/libj2dplot-${J2DPLOT_LIB_VERSION}.${J_SHARED_LIB_SUFFIX}
 else
   LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
               ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a \

@@ -289,7 +289,7 @@ FitModule::HandleInput
 			JGetUserNotification()->ReportError(str);
 			DeleteFitModTask* dft = new DeleteFitModTask(this);
 			assert(dft != NULL);
-			JXGetApplication()->InstallUrgentTask(dft);
+			dft->Go();
 			}
 		else if (val == kGloveOK)
 			{
@@ -300,7 +300,7 @@ FitModule::HandleInput
 			JGetUserNotification()->ReportError("Unknown module error");
 			DeleteFitModTask* dft = new DeleteFitModTask(this);
 			assert(dft != NULL);
-			JXGetApplication()->InstallUrgentTask(dft);
+			dft->Go();
 			}
 		}
 }
@@ -336,7 +336,7 @@ FitModule::HandleDataRead
 		{
 		DeleteFitModTask* dft = new DeleteFitModTask(this);
 		assert(dft != NULL);
-		JXGetApplication()->InstallUrgentTask(dft);
+		dft->Go();
 		return;
 		}
 }
@@ -365,7 +365,7 @@ FitModule::HandleFit()
 		JGetUserNotification()->ReportError("Unknown module error.");
 		DeleteFitModTask* dft = new DeleteFitModTask(this);
 		assert(dft != NULL);
-		JXGetApplication()->InstallUrgentTask(dft);
+		dft->Go();
 		return;;
 		}
 	else
@@ -407,6 +407,6 @@ FitModule::HandleFit()
 		}
 	DeleteFitModTask* dft = new DeleteFitModTask(this);
 	assert(dft != NULL);
-	JXGetApplication()->InstallUrgentTask(dft);
+	dft->Go();
 	return;
 }

@@ -778,7 +778,7 @@ JXCSFDialogBase::SelectPrevDirectory()
 			JXCSFSelectPrevDirTask* task =
 				new JXCSFSelectPrevDirTask(itsDirInfo, itsFileBrowser, dirName);
 			assert( task != NULL );
-			(JXGetApplication())->InstallUrgentTask(task);
+			task->Go();
 			}
 		}
 

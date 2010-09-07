@@ -190,8 +190,6 @@ UNIXConnect
 
  ******************************************************************************/
 
-#include <ace/Version.h>
-
 // INET
 
 #define JTemplateName ACE_Connector
@@ -199,10 +197,6 @@ UNIXConnect
 #include <instantiate_template.h>
 #undef JTemplateName
 #undef JTemplateType
-
-#if ACE_MAJOR_VERSION > 5 || \
-	(ACE_MAJOR_VERSION == 5 && ACE_MINOR_VERSION >= 4) || \
-	(ACE_MAJOR_VERSION == 5 && ACE_MINOR_VERSION == 4 && ACE_BETA_VERSION >= 4)
 
 #define JTemplateName ACE_NonBlocking_Connect_Handler
 #define JTemplateType INETHandler
@@ -215,46 +209,6 @@ UNIXConnect
 #include <instantiate_template.h>
 #undef JTemplateName
 #undef JTemplateType
-
-#else
-
-#define JTemplateName ACE_Map_Manager
-#define JTemplateType ACE_HANDLE, ACE_Svc_Tuple<INETHandler>*, ACE_SYNCH_RW_MUTEX
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Map_Iterator
-#define JTemplateType ACE_HANDLE, ACE_Svc_Tuple<INETHandler>*, ACE_SYNCH_RW_MUTEX
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Map_Reverse_Iterator
-#define JTemplateType ACE_HANDLE, ACE_Svc_Tuple<INETHandler>*, ACE_SYNCH_RW_MUTEX
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Map_Iterator_Base
-#define JTemplateType ACE_HANDLE, ACE_Svc_Tuple<INETHandler>*, ACE_SYNCH_RW_MUTEX
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Map_Entry
-#define JTemplateType ACE_HANDLE, ACE_Svc_Tuple<INETHandler>*
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Svc_Tuple
-#define JTemplateType INETHandler
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#endif
 
 // UNIX
 
@@ -264,10 +218,6 @@ UNIXConnect
 #undef JTemplateName
 #undef JTemplateType
 
-#if ACE_MAJOR_VERSION > 5 || \
-	(ACE_MAJOR_VERSION == 5 && ACE_MINOR_VERSION >= 4) || \
-	(ACE_MAJOR_VERSION == 5 && ACE_MINOR_VERSION == 4 && ACE_BETA_VERSION >= 4)
-
 #define JTemplateName ACE_NonBlocking_Connect_Handler
 #define JTemplateType UNIXHandler
 #include <instantiate_template.h>
@@ -279,63 +229,3 @@ UNIXConnect
 #include <instantiate_template.h>
 #undef JTemplateName
 #undef JTemplateType
-
-#else
-
-#define JTemplateName ACE_Map_Manager
-#define JTemplateType ACE_HANDLE, ACE_Svc_Tuple<UNIXHandler>*, ACE_SYNCH_RW_MUTEX
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Map_Iterator
-#define JTemplateType ACE_HANDLE, ACE_Svc_Tuple<UNIXHandler>*, ACE_SYNCH_RW_MUTEX
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Map_Reverse_Iterator
-#define JTemplateType ACE_HANDLE, ACE_Svc_Tuple<UNIXHandler>*, ACE_SYNCH_RW_MUTEX
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Map_Iterator_Base
-#define JTemplateType ACE_HANDLE, ACE_Svc_Tuple<UNIXHandler>*, ACE_SYNCH_RW_MUTEX
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Map_Entry
-#define JTemplateType ACE_HANDLE, ACE_Svc_Tuple<UNIXHandler>*
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Svc_Tuple
-#define JTemplateType UNIXHandler
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-// generic
-
-#define JTemplateName ACE_Read_Guard
-#define JTemplateType ACE_Mutex
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Write_Guard
-#define JTemplateType ACE_Mutex
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Guard
-#define JTemplateType ACE_Mutex
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#endif

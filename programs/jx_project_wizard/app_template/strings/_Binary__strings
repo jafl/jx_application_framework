@@ -55,3 +55,7 @@ UpgradeNotice::<PRE>AboutDialog
 
 
 You have just upgraded from version $vers"
+
+# <PRE>MainDirector
+
+WindowTitle::<PRE>MainDirector	"Program"

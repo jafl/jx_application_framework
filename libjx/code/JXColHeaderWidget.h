@@ -31,12 +31,21 @@ public:
 
 	virtual ~JXColHeaderWidget();
 
-	void	TurnOnColResizing(const JCoordinate minColWidth);
+	void	TurnOnColResizing(const JCoordinate minColWidth = 20);
 	void	TurnOffColResizing();
 
 	JBoolean	GetColTitle(const JIndex index, JString* title) const;
 	void		SetColTitle(const JIndex index, const JCharacter* title);
 	void		ClearColTitle(const JIndex index);
+
+protected:
+
+	enum DragType
+	{
+		kInvalidDrag,
+		kDragOneCol,
+		kDragAllCols
+	};
 
 protected:
 
@@ -54,6 +63,7 @@ protected:
 
 	virtual void	AdjustCursor(const JPoint& pt, const JXKeyModifiers& modifiers);
 	JBoolean		InDragRegion(const JPoint& pt, JPoint* cell) const;
+	DragType		GetDragType() const;
 
 	virtual JXInputField*	CreateXInputField(const JPoint& cell,
 											  const JCoordinate x, const JCoordinate y,
@@ -62,15 +72,6 @@ protected:
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
-
-private:
-
-	enum DragType
-	{
-		kInvalidDrag,
-		kDragOneCol,
-		kDragAllCols
-	};
 
 private:
 
@@ -101,6 +102,7 @@ private:
 	const JXColHeaderWidget& operator=(const JXColHeaderWidget& source);
 };
 
+
 /******************************************************************************
  TurnOffColResizing
 
@@ -110,6 +112,18 @@ inline void
 JXColHeaderWidget::TurnOffColResizing()
 {
 	itsAllowColResizingFlag = kJFalse;
+}
+
+/******************************************************************************
+ GetDragType (protected)
+
+ ******************************************************************************/
+
+inline JXColHeaderWidget::DragType
+JXColHeaderWidget::GetDragType()
+	const
+{
+	return itsDragType;
 }
 
 #endif

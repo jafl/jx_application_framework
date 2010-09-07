@@ -62,7 +62,7 @@ protected:
 
 private:
 
-	GPMProcessList*			itsList;
+	GPMProcessList*			itsList;			// not owned
 	JString					itsKeyBuffer;
 	JXTextMenu*				itsContextMenu;
 	const GPMProcessEntry* 	itsSelectedEntry;	// NULL unless updating

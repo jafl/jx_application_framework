@@ -216,7 +216,6 @@ GXDataDocument::BuildWindow()
 
     JXWindow* window = new JXWindow(this, w,h, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXMenuBar* menuBar =
         new JXMenuBar(window,
@@ -250,7 +249,7 @@ GXDataDocument::BuildWindow()
 
 	image = new JXImage(GetDisplay(), JXPM(fileprint));
 	assert(image != NULL);
-	itsFileMenu->SetItemImage(kPrintCmd, image, kJFalse);
+	itsFileMenu->SetItemImage(kPrintCmd, image, kJTrue);
 
 	const JCoordinate scrollheight = 
 		toolBar->GetWidgetEnclosure()->GetBoundsHeight();
@@ -321,10 +320,9 @@ GXDataDocument::BuildWindow()
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
 
-
 	image = new JXImage(GetDisplay(), JXPM(manual));
 	assert(image != NULL);
-	itsHelpMenu->SetItemImage(kTOCCmd, image, kJFalse);
+	itsHelpMenu->SetItemImage(kTOCCmd, image, kJTrue);
 
 	toolBar->LoadPrefs();
 	if (toolBar->IsEmpty())
@@ -336,11 +334,10 @@ GXDataDocument::BuildWindow()
 		toolBar->AppendButton(itsFileMenu, kPrintCmd);
 
 		itsTable->LoadDefaultToolButtons(toolBar);
-		
+
 		toolBar->NewGroup();
 		toolBar->AppendButton(itsHelpMenu, kTOCCmd);
 		}
-
 }
 
 /******************************************************************************

@@ -82,7 +82,6 @@ GloveHistoryDir::BuildWindow()
 //	JBoolean foundWindowPref = gjdbApp->GetCmdWindowSize(&dtl, &w, &h);
 	JXWindow* window = new JXWindow(this, w,h, "Glove session");
     assert( window != NULL );
-    SetWindow(window);
     window->SetMinSize(300,200);
     window->SetCloseAction(JXWindow::kDeactivateDirector);
 //	if (foundWindowPref)

@@ -126,6 +126,16 @@ static const char* kCurrentJXLibVersionStr = "2.6.0";
 //	JXTEBase:
 //		Added menu items "Clean all ws & alignment" and
 //			"Clean ws & align in selection"
+//	JXColHeaderWidget:
+//		Added GetDragType() for use by derived classes overriding HandleMouseDown().
+//	JXRowHeaderWidget:
+//		Added GetDragType() for use by derived classes overriding HandleMouseDown().
+//	JXIdleTask:
+//		Added Start(), Stop().
+//	JXUrgentTask:
+//		Added Go().
+//	JXScrollableWidget:
+//		Sets back color = focus color if it has scrollbars.
 
 // version 2.6.0:
 //	JXWebBrowser:

@@ -35,14 +35,13 @@ SyGTOCHelp
 	<li> <a href=jxhelp:SyGFolderHelp#Views>View options</a>
 	<li> <a href=jxhelp:SyGFolderHelp#Filters>Filters</a>
 	<li> <a href=jxhelp:SyGFolderHelp#Shortcuts>Shortcuts</a>
-	<li> <a href=jxhelp:SyGFolderHelp#GitBranch>Working with git</a>
 	</ul>
 <p>
 <li> Version Control
 <p>
 	<ul>
 	<li> <a href=http://newplanetsoftware.com/svn_client/>Subversion</a>
-	<li> <a href=jxhelp:SyGFolderHelp#GitBranch>Git</a>
+	<li> <a href=jxhelp:SyGGitHelp>Git</a>
 	</ul>
 <p>
 <li> <a href=jxhelp:SyGExecHelp>Programs (executables)</a>

@@ -127,6 +127,7 @@
 .cpp ./code/JMemoryManager
 .cpp ./code/JMMArrayTable
 .cpp ./code/JMMErrorPrinter
+.cpp ./code/JMMDebugErrorStream
 .cpp ./code/JMMHashTable
 .cpp ./code/JMMMonitor
 .cpp ./code/JMMRecord

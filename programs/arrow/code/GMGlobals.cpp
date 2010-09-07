@@ -179,8 +179,6 @@ GMCreateGlobals
 		itsLockFilePrgExists = kJTrue;
 		}
 
-	JXFSBindingManager::Initialize();
-
 	return isNew;
 }
 
@@ -213,7 +211,7 @@ GMDeleteGlobals()
 	delete itsAddressBookMgr;
 	delete itsDirMgr;
 
-	delete JXFSBindingManager::Instance();
+	JXFSBindingManager::Destroy();
 }
 
 /******************************************************************************

@@ -26,6 +26,10 @@ J_OPTIMIZE_LEVEL := 0
 
 J_SHARED_LIB_LINK_OPTION := -shared
 
+# This specifies the suffix for shared libraries
+
+J_SHARED_LIB_SUFFIX := so
+
 # Uncomment this if you want debugging versions of the libraries.
 
 J_COMPILE_DEBUG := -g

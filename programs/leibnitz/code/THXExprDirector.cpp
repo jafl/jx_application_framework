@@ -331,7 +331,6 @@ THXExprDirector::BuildWindow
 						0,0, 10,10);
 	assert( itsTapeWidget != NULL );
 	itsTapeWidget->FitToEnclosure();
-	itsTapeWidget->SetBackColor(itsTapeWidget->GetFocusColor());
 	itsTapeWidget->SetPTPrinter(THXGetTapePrinter());
 
 	// create expr editor -- requires tape
@@ -350,7 +349,6 @@ THXExprDirector::BuildWindow
 						  0,0, 10,10);
 	assert( itsExprWidget != NULL );
 	itsExprWidget->FitToEnclosure();
-	itsExprWidget->SetBackColor(itsExprWidget->GetFocusColor());
 
 	itsKeyPad->SetExprEditor(itsExprWidget);
 	itsTapeWidget->ShareEditMenu(itsExprWidget->GetEditMenu());

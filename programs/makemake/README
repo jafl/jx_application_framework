@@ -7,6 +7,12 @@ for makemake to work correctly.
 Changes from previous versions
 *****
 
+3.4.0
+
+Replaced hardcoded exclusions of "ace/*" and "*StdInc.h" with environment
+variable J_MAKEMAKE_IGNORE_PATTERN.  This defines a regular expression.
+Any #include which matches is ignored.
+
 3.3.0
 
 Adds output file to .cvsignore.

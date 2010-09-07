@@ -94,7 +94,7 @@ GAddressBookTreeDir::GAddressBookTreeDir
 	JPrefObject::ReadPrefs();
 	itsTimerTask = new JXTimerTask(kDirUpdateDelay);
 	assert(itsTimerTask != NULL);
-	JXGetApplication()->InstallIdleTask(itsTimerTask);
+	itsTimerTask->Start();
 	ListenTo(itsTimerTask);
 	itsWidget->Update();
 	if (!itsPrefsOK)

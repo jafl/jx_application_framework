@@ -25,6 +25,7 @@
 #include <JXWindow.h>
 #include <JXMenuBar.h>
 #include <JXToolBar.h>
+#include <JXTextButton.h>
 #include <JXWDManager.h>
 #include <JXWDMenu.h>
 #include <JXCurrentPathMenu.h>
@@ -231,7 +232,7 @@ SyGTreeDir::BuildWindow
 
     itsPathInput =
         new SyGPathInput(window,
-                    JXWidget::kHElastic, JXWidget::kFixedBottom, 20,480, 370,20);
+                    JXWidget::kHElastic, JXWidget::kFixedBottom, 20,480, 340,20);
     assert( itsPathInput != NULL );
 
     SyGTrashButton* trashButton =
@@ -243,6 +244,11 @@ SyGTreeDir::BuildWindow
         new SyGFolderDragSource(itsPathInput, &pathMenu, window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,480, 20,20);
     assert( itsDragSrc != NULL );
+
+    itsUpButton =
+        new JXTextButton(JGetString("itsUpButton::SyGTreeDir::JXLayout"), window,
+                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 360,480, 30,20);
+    assert( itsUpButton != NULL );
 
 // end JXLayout
 
@@ -290,11 +296,18 @@ SyGTreeDir::BuildWindow
 	else if ((SyGGetPrefsMgr())->GetDefaultWindowSize(&w, &h))
 		{
 		window->SetSize(w,h);
+
+		delete input;
+		input = NULL;
 		}
 	window->SetCloseAction(JXWindow::kCloseDirector);
 	window->SetWMClass(SyGGetWMClassInstance(), SyGGetFolderWindowClass());
 	window->ShouldFocusWhenShow(kJTrue);
 	window->SetMinSize(150, 150);
+
+	// Up button
+
+	ListenTo(itsUpButton);
 
 	// trash button
 
@@ -371,6 +384,11 @@ SyGTreeDir::BuildWindow
 void
 SyGTreeDir::SaveState()
 {
+	if (!(SyGGetPrefsMgr())->WillSaveFolderPrefs())
+		{
+		return;
+		}
+
 	const JString& path = GetDirectory();
 	if ((SyGGetApplication())->IsMountPoint(path))
 		{
@@ -447,6 +465,11 @@ SyGTreeDir::Receive
 			dynamic_cast(const JXMenu::ItemSelected*, &message);
 		assert( selection != NULL );
 		HandleHelpMenu(selection->GetIndex());
+		}
+
+	else if (sender == itsUpButton && message.Is(JXButton::kPushed))
+		{
+		(GetTable())->GoUp(((GetDisplay())->GetLatestKeyModifiers()).meta());
 		}
 
 	else

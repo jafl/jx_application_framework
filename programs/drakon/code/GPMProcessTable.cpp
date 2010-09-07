@@ -97,8 +97,6 @@ GPMProcessTable::GPMProcessTable
 	SetRowBorderInfo(0, GetColormap()->GetBlackColor());
 	SetColBorderInfo(0, GetColormap()->GetBlackColor());
 
-	SetBackColor((GetColormap())->GetWhiteColor());
-
 	itsZombieImage = new JXImage(GetDisplay(), jx_edit_clear);
 	assert( itsZombieImage != NULL );
 

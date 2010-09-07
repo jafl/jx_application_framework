@@ -23,6 +23,7 @@
 #include <JXImage.h>
 #include <JXDNDManager.h>
 #include <JXWDManager.h>
+#include <JXFSBindingManager.h>
 #include <JSimpleProcess.h>
 #include <JDirInfo.h>
 #include <jDirUtil.h>
@@ -162,6 +163,8 @@ SyGDeleteGlobals()
 	theTrashDirInfo = NULL;
 
 	SyGDeleteIcons();
+
+	JXFSBindingManager::Destroy();
 
 	theApplication = NULL;
 	theDNDSource   = NULL;

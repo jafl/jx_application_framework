@@ -38,11 +38,10 @@ GCLAlarmManager::GCLAlarmManager()
 
 	itsMinuteTask	= new JXTimerTask(kMinutePeriod);
 	assert(itsMinuteTask != NULL);
+	itsMinuteTask->Start();
 	ListenTo(itsMinuteTask);
 
-	JXGetApplication()->InstallIdleTask(itsMinuteTask);
-
-	itsLastBroadcast	= GetCurrentEpochTime();
+	itsLastBroadcast = GetCurrentEpochTime();
 }
 
 /******************************************************************************

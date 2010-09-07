@@ -74,7 +74,6 @@ GXChooseFileImportDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 330,230, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXStaticText* obj1 =
         new JXStaticText("This is not a Glove data file.\nPlease select the appropriate filter.", window,
@@ -147,7 +146,6 @@ GXChooseFileImportDialog::BuildWindow
 			JXWidget::kHElastic, JXWidget::kVElastic, 10,60, 310,90);
 	assert(itsFileText != NULL);
 	itsFileText->FitToEnclosure();
-	itsFileText->SetBackColor(JGetCurrColormap()->GetWhiteColor());
 }
 
 /******************************************************************************

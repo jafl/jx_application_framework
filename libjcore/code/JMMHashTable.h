@@ -12,17 +12,12 @@
 
  *****************************************************************************/
 
-
-// Superclass header
 #if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
 #pragma once
 #endif
 
 #include <JMMTable.h>
-
 #include <JHashTable.h>
-
-#include <JArray.h>
 
 class JMMHashTable : public JMMTable
 {
@@ -32,10 +27,13 @@ public:
 	virtual ~JMMHashTable();
 
 	virtual JSize GetAllocatedCount() const;
+	virtual JSize GetAllocatedBytes() const;
 	virtual JSize GetDeletedCount() const;
 	virtual JSize GetTotalCount() const;
 
 	virtual void PrintAllocated(const JBoolean printInternal = kJFalse) const;
+	virtual void StreamAllocatedForDebug(ostream& output, const JMemoryManager::RecordFilter& filter) const;
+	virtual void StreamAllocationSizeHistogram(ostream& output) const;
 
 protected:
 
@@ -50,8 +48,10 @@ protected:
 
 private:
 
-	JHashTable<JMMRecord>* itsAllocatedTable;
-	JHashTable<JMMRecord>* itsDeletedTable;
+	JHashTable<JMMRecord>*	itsAllocatedTable;
+	JSize					itsAllocatedBytes;
+	JHashTable<JMMRecord>*	itsDeletedTable;
+	JSize					itsDeletedCount;	// used if itsDeletedTable==NULL
 
 private:
 

@@ -38,7 +38,6 @@ ExprDirector::ExprDirector
 {
 	JXWindow* window = new JXWindow(this, 300,240, "Function Editor");
 	assert( window != NULL );
-	SetWindow(window);
     
     JXExprEditorSet* set = 
     	new JXExprEditorSet(list, &itsEditor, window,

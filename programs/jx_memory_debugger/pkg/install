@@ -1,0 +1,40 @@
+#!/bin/sh
+
+# With no arguments, this script must install from an unpacked tgz.
+
+PRE=$1
+ZIP=$2
+
+BIN=$PRE/usr/bin
+DOC=$PRE/usr/share/doc/jx_memory_debugger
+LIB=$PRE/usr/lib/jx_memory_debugger
+APP=$PRE/usr/share/applications
+ICON=$PRE/usr/share/pixmaps
+
+if { test ! -z $PRE; } then
+	{
+	mkdir -p $BIN $APP $ICON;
+	}
+fi
+
+# jx_memory_debugger
+
+install -m755 jx_memory_debugger $BIN
+
+mkdir -p $LIB
+cp lib/* $LIB
+
+mkdir -p $DOC/HTML
+cp README FAQ COPYING menu_strings $DOC
+cp docs_HTML/*                     $DOC/HTML
+
+cp desktop/jx_memory_debugger.desktop $APP/
+cp desktop/jx_memory_debugger.xpm     $ICON/
+
+# post
+
+if { test -z "$ZIP"; } then
+	{
+	gunzip $LIB/*.gz;
+	}
+fi

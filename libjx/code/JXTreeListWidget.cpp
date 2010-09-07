@@ -774,7 +774,7 @@ JXTreeListWidget::NeedsAdjustToTree()
 		{
 		itsAdjustToTreeTask = new JXTLWAdjustToTreeTask(this);
 		assert( itsAdjustToTreeTask != NULL );
-		(JXGetApplication())->InstallUrgentTask(itsAdjustToTreeTask);
+		itsAdjustToTreeTask->Go();
 		}
 }
 

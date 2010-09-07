@@ -116,7 +116,7 @@ GMAboutDialog::BuildWindow
 
 	itsAnimTask = new GMAboutDialogIconTask(arrowIcon);
 	assert( itsAnimTask != NULL );
-	(JXGetApplication())->InstallIdleTask(itsAnimTask);
+	itsAnimTask->Start();
 
 	JXImage* image = new JXImage(GetDisplay(), new_planet_software);
 	assert( image != NULL );

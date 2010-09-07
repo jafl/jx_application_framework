@@ -37,7 +37,7 @@ enum
 
 const JCoordinate kInitColWidth[] =
 {
-	80, 100, 50, 100
+	80, 100, 50, 85
 };
 
 static const JCharacter* kColTitle[] =
@@ -141,7 +141,8 @@ JXFSBindingTable::JXFSBindingTable
 
 	// regex for testing
 
-	itsTestRegex = JFSBinding::CreateContentRegex();
+	itsTestRegex = new JRegex;
+	assert( itsTestRegex != NULL );
 
 	// data
 

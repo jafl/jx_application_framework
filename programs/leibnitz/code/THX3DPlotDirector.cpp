@@ -22,6 +22,7 @@
 #include <JXColormap.h>
 #include <JXImage.h>
 #include <JXHelpManager.h>
+#include <JXDeleteObjectTask.h>
 #include <jXActionDefs.h>
 #include <JMatrix.h>
 #include <JFunction.h>
@@ -138,6 +139,7 @@ THX3DPlotDirector::THX3DPlotDirectorX
 
 THX3DPlotDirector::~THX3DPlotDirector()
 {
+	JXDeleteObjectTask<J3DObject>::Delete(itsUniverse);
 }
 
 /******************************************************************************
@@ -530,3 +532,7 @@ THX3DPlotDirector::UpdateFunction()
 
 	ComputeFunction();
 }
+
+#define JTemplateType J3DObject
+#include <JXDeleteObjectTask.tmpls>
+#undef JTemplateType

@@ -98,7 +98,6 @@ GXGetDelimiterDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 330,360, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXScrollbarSet* scollbarSet =
         new JXScrollbarSet( window,
@@ -191,7 +190,6 @@ GXGetDelimiterDialog::BuildWindow()
 			JXWidget::kHElastic, JXWidget::kVElastic, 10,60, 310,90);
 	assert(itsFileText != NULL);
 	itsFileText->FitToEnclosure();
-	itsFileText->SetBackColor(JGetCurrColormap()->GetWhiteColor());
 
 	itsCharInput->Deactivate();
 	itsCharInput->SetMaxLength(1);

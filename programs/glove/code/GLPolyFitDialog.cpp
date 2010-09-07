@@ -79,7 +79,6 @@ GLPolyFitDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 380,450, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXScrollbarSet* scrollbarSet =
         new JXScrollbarSet(window,

@@ -24,11 +24,11 @@ class <PRE>PrefsDialog;
 enum
 {
 	k<PRE>ProgramVersionID = 1,
+	k<PRE>VersionCheckID,
 	k<PRE>gCSFSetupID,
 	k<PRE>MainDirectorID,
 	k<PRE>MainToolBarID,
-	k<PRE>MainDirectorWindSizeID,
-	k<PRE>VersionCheckID
+	k<PRE>MainDirectorWindSizeID
 };
 
 class <PRE>PrefsManager : public JXPrefsManager

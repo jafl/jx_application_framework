@@ -802,7 +802,7 @@ GMailboxTreeWidget::HandleMouseUp
 			{
 			itsEditTask = new JXTimerTask(kWaitForEditDelay, kJTrue);
 			assert(itsEditTask != NULL);
-			JXGetApplication()->InstallIdleTask(itsEditTask);
+			itsEditTask->Start();
 			ListenTo(itsEditTask);
 			}
 		}

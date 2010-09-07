@@ -39,7 +39,6 @@ JXSpellList::JXSpellList
 	:
 	JXStringList(scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h)
 {
-	SetBackColor(GetColormap()->GetWhiteColor());
 }
 
 /******************************************************************************

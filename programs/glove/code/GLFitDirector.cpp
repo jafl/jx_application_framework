@@ -217,7 +217,6 @@ GLFitDirector::BuildWindow()
 	JCoordinate h = 420;
 	JXWindow* window = new JXWindow(this, w,h, "Fit");
     assert( window != NULL );
-    SetWindow(window);
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
     
 	JXMenuBar* menuBar =

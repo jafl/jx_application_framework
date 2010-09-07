@@ -147,8 +147,8 @@ GPMMainDirector::GPMMainDirector
 
 	itsTimerTask = new JXTimerTask(kTimerDelay);
 	assert(itsTimerTask != NULL);
+	itsTimerTask->Start();
 	ListenTo(itsTimerTask);
-	JXGetApplication()->InstallIdleTask(itsTimerTask);
 
 	JPrefObject::ReadPrefs();
 }

@@ -195,8 +195,6 @@ GXRaggedFloatTable::GXRaggedFloatTable
 	ListenTo(itsOKButton);
 	itsOKButton->Deactivate();
 
-	SetBackColor(JGetCurrColormap()->GetWhiteColor());
-
 	itsFloatData = data;
 
 	itsFloatInputField = NULL;

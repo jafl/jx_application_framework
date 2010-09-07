@@ -44,8 +44,8 @@ GInboxMgr::GInboxMgr()
 	itsTimer = new JXTimerTask(kTimerDelay);
 	assert(itsTimer != NULL);
 
+	itsTimer->Start();
 	ListenTo(itsTimer);
-	JXGetApplication()->InstallIdleTask(itsTimer);
 
 	ListenTo(GGetPrefsMgr());
 	ListenTo(GMGetApplication());

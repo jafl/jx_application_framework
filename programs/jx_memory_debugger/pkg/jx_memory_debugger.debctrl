@@ -1,0 +1,11 @@
+Package: jx_memory_debugger
+Version: 1.0.0
+Maintainer: John Lindal <jafl@jafl>
+Homepage: http://newplanetsoftware.com/jx
+Section: ...
+Priority: optional
+Architecture: i386
+Essential: no
+Depends: libx11-6, libxext6, libxpm4, libxau6, libxml2, libstdc++6
+Description: JX Memory Debugger provides ...
+ JX Memory Debugger provides ...

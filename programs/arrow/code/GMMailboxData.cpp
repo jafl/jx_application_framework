@@ -75,7 +75,7 @@ GMMailboxData::GMMailboxData
 
 	itsIdleTask = new GMessageDataUpdateTask(this);
 	assert(itsIdleTask != NULL);
-	JXGetApplication()->InstallIdleTask(itsIdleTask);
+	itsIdleTask->Start();
 	GMessageDataUpdateTask::StopUpdate(kJFalse);
 
 	AdjustList(list);
@@ -142,7 +142,6 @@ GMMailboxData::GMMailboxDataX()
 GMMailboxData::~GMMailboxData()
 {
 	delete itsEntry;
-	JXGetApplication()->RemoveIdleTask(itsIdleTask);
 	delete itsIdleTask;
 	if (itsFromList != NULL)
 		{

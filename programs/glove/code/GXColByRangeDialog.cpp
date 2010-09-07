@@ -64,7 +64,6 @@ GXColByRangeDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 210,190, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsDestMenu =
         new JXTextMenu("Destination:", window,

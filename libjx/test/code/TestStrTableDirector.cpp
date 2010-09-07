@@ -135,7 +135,7 @@ TestStrTableDirector::BuildWindow()
 // end tablelayout
 
 	itsTable->TurnOnRowResizing(itsRowHeader);
-	itsColHeader->TurnOnColResizing(20);
+	itsColHeader->TurnOnColResizing();
 	ListenTo(itsRowHeader);
 }
 

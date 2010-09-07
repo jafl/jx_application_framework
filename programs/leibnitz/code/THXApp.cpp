@@ -84,9 +84,6 @@ THXApp::THXApp
 {
 	itsStartupFlag = kJTrue;
 
-	itsStatePath = new JString;
-	assert( itsStatePath != NULL );
-
 	itsExprList = new JPtrArray<THXExprDirector>(JPtrArrayT::kForgetAll);
 	assert( itsExprList != NULL );
 
@@ -120,7 +117,6 @@ THXApp::THXApp
 
 THXApp::~THXApp()
 {
-	delete itsStatePath;
 	delete itsVarList;
 	delete itsExprList;		// objects deleted by JXDirector
 	delete its2DPlotList;	// objects deleted by JXDirector
@@ -339,17 +335,17 @@ THXApp::RestoreProgramState()
 {
 JIndex i;
 
-	if (!JGetPrefsDirectory(itsStatePath))
+	if (!JGetPrefsDirectory(&itsStatePath))
 		{
 		(JGetUserNotification())->ReportError(
 			"I am unable to find your preferences directory.");
 		JThisProcess::Exit(1);
 		}
 
-	const JString fullName = JCombinePathAndName(*itsStatePath, kStateFileName);
+	const JString fullName = JCombinePathAndName(itsStatePath, kStateFileName);
 	if (!JFileExists(fullName))
 		{
-		const JString oldName = JCombinePathAndName(*itsStatePath, kOldStateFileName);
+		const JString oldName = JCombinePathAndName(itsStatePath, kOldStateFileName);
 		if (!JFileExists(oldName) || !(JRenameFile(oldName, fullName)).OK())
 			{
 			InitProgramState();
@@ -538,7 +534,7 @@ THXApp::SaveProgramState()
 {
 JIndex i;
 
-	const JString fullName = JCombinePathAndName(*itsStatePath, kStateFileName);
+	const JString fullName = JCombinePathAndName(itsStatePath, kStateFileName);
 	ofstream output(fullName);
 
 	output << kCurrentStateVersion;

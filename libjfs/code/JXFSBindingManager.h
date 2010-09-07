@@ -29,6 +29,7 @@ public:
 
 	static void					Initialize();
 	static JXFSBindingManager*	Instance();
+	static void					Destroy();
 
 	virtual	~JXFSBindingManager();
 

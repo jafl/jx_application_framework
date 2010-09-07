@@ -83,5 +83,6 @@ MDPrefsDialog::GetValues
 	(
 	JString* data
 	)
+	const
 {
 }

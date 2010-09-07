@@ -708,12 +708,12 @@ GMApp::FileLocked
 						{
 						GUnlockFile(filename);
 						locked = kJFalse;
-						RemoveIdleTask(itsLockTasks->NthElement(i));
+						itsLockTasks->NthElement(i)->Stop();
 						itsLockTasks->DeleteElement(i);
 						}
 					else
 						{
-						RemoveIdleTask(itsLockTasks->NthElement(i));
+						itsLockTasks->NthElement(i)->Stop();
 						itsLockTasks->DeleteElement(i);
 						}
 					}
@@ -748,7 +748,7 @@ GMApp::FileLocked
 				GLockFileTask* task = new GLockFileTask(filename, iconify);
 				assert(task != NULL);
 				itsLockTasks->Append(task);
-				InstallIdleTask(task);
+				task->Start();
 				}
 			}
 		}
@@ -758,7 +758,7 @@ GMApp::FileLocked
 			{
 			if (itsLockTasks->NthElement(i)->GetMailbox() == filename)
 				{
-				RemoveIdleTask(itsLockTasks->NthElement(i));
+				itsLockTasks->NthElement(i)->Stop();
 				itsLockTasks->DeleteElement(i);
 				break;
 				}

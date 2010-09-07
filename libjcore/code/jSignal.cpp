@@ -7,7 +7,7 @@
 
 #include <JCoreStdInc.h>
 #include <jSignal.h>
-#include <JString.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -25,56 +25,59 @@ JGetSignalName
 {
 	if (value == SIGINT)
 		{
-		return JString("interrupt signal (SIGINT)");
+		return JGetString("SIGINT::jSignal");
 		}
 	else if (value == SIGQUIT)
 		{
-		return JString("quit signal (SIGQUIT)");
+		return JGetString("SIGQUIT::jSignal");
 		}
 	else if (value == SIGILL)
 		{
-		return JString("illegal instruction (SIGILL)");
+		return JGetString("SIGILL::jSignal");
 		}
 	else if (value == SIGABRT)
 		{
-		return JString("call from abort() (SIGABRT)");
+		return JGetString("SIGABRT::jSignal");
 		}
 	else if (value == SIGFPE)
 		{
-		return JString("floating point exception (SIGFPE)");
+		return JGetString("SIGFPE::jSignal");
 		}
 	else if (value == SIGKILL)
 		{
-		return JString("kill signal (SIGKILL)");
+		return JGetString("SIGKILL::jSignal");
 		}
 	else if (value == SIGSEGV)
 		{
-		return JString("segmentation fault (SIGSEGV)");
+		return JGetString("SIGSEGV::jSignal");
 		}
 	else if (value == SIGPIPE)
 		{
-		return JString("broken pipe (SIGPIPE)");
+		return JGetString("SIGPIPE::jSignal");
 		}
 	else if (value == SIGALRM)
 		{
-		return JString("timer signal from alarm (SIGALRM)");
+		return JGetString("SIGALRM::jSignal");
 		}
 	else if (value == SIGTERM)
 		{
-		return JString("termination signal (SIGTERM)");
+		return JGetString("SIGTERM::jSignal");
 		}
 	else if (value == SIGSTOP)
 		{
-		return JString("stop signal (SIGSTOP)");
+		return JGetString("SIGSTOP::jSignal");
 		}
 	else if (value == SIGBUS)
 		{
-		return JString("bus error (SIGBUS)");
+		return JGetString("SIGBUS::jSignal");
 		}
 	else
 		{
-		JString sigName(value, 0);
-		sigName.Prepend("signal ");
-		return sigName;
+		const JString sigName(value, JString::kBase10);
+		const JCharacter* map[] =
+			{
+			"name", sigName
+			};
+		return JGetString("unknown::jSignal", map, sizeof(map));
 		}
 }

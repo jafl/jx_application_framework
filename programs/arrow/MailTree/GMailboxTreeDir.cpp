@@ -582,7 +582,7 @@ GMailboxTreeDir::Activate()
 		assert(itsTimerTask != NULL);
 		}
 
-	JXGetApplication()->InstallIdleTask(itsTimerTask);
+	itsTimerTask->Start();
 	ListenTo(itsTimerTask);
 
 	GMManagedDirector::Activate();
@@ -598,7 +598,7 @@ GMailboxTreeDir::Deactivate()
 {
 	if (itsTimerTask != NULL)
 		{
-		JXGetApplication()->RemoveIdleTask(itsTimerTask);
+		itsTimerTask->Stop();
 		}
 
 	return GMManagedDirector::Deactivate();

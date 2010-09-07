@@ -30,6 +30,10 @@ J_END_LINK_STATIC   := -Xlinker -Bdynamic
 
 J_SHARED_LIB_LINK_OPTION := -shared
 
+# This specifies the suffix for shared libraries
+
+J_SHARED_LIB_SUFFIX := so
+
 # Uncomment this if you want debugging versions of the libraries.
 
 J_COMPILE_DEBUG := -g
@@ -67,7 +71,8 @@ J_RAW_SYSTEM_STUFF := \
   -DSIZEOF_INT=4 -DSIZEOF_LONG=8 -DSIZEOF_LONGLONG=8 \
   -D_J_HAS_PROC \
   -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED \
-  -D_XFT_NO_COMPAT_ -I/usr/include/freetype2
+  -D_XFT_NO_COMPAT_ -I/usr/include/freetype2 \
+  ${shell getconf LFS_CFLAGS}
 
 #  -D_BSD_SOURCE -D_GNU_SOURCE
 

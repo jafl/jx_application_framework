@@ -1,8 +1,6 @@
 /******************************************************************************
  JXPGMessageDirector.h
 
-	Interface for the JXPGMessageDirector class
-
 	Copyright © 1996 by Glenn W. Bach. All rights reserved.
 
  ******************************************************************************/

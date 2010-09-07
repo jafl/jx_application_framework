@@ -18,6 +18,7 @@ JString
 JIndexRange
 JSubstitute
 jCommandLine
+JBooleanIO
 jStreamUtil
 jStreamUtil_UNIX
 jFStreamUtil
@@ -89,6 +90,7 @@ JMMArrayTable
 JMMHashTable
 JMMMonitor
 JMMErrorPrinter
+JMMDebugErrorStream
 JMMRecord
 
 -prefix ${PCREDIR}/.libs/

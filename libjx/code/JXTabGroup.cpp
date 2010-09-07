@@ -415,7 +415,7 @@ JXTabGroup::RemoveTab
 		{
 		JXScrollTabsTask* task = new JXScrollTabsTask(this);
 		assert( task != NULL );
-		(JXGetApplication())->InstallUrgentTask(task);
+		task->Go();
 		}
 
 	Refresh();
@@ -1305,7 +1305,7 @@ JXTabGroup::BoundsResized
 		{
 		JXScrollTabsTask* task = new JXScrollTabsTask(this);
 		assert( task != NULL );
-		(JXGetApplication())->InstallUrgentTask(task);
+		task->Go();
 		}
 }
 

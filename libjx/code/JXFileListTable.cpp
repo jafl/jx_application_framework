@@ -103,7 +103,6 @@ JXFileListTable::JXFileListTable
 						2*kVMarginWidth);
 
 	SetSelectionBehavior(kJTrue, kJTrue);
-	SetBackColor(GetFocusColor());
 }
 
 /******************************************************************************

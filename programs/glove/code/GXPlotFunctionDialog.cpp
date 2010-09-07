@@ -66,7 +66,6 @@ GXPlotFunctionDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 500,80, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsFunctionString =
         new JXInputField(window,

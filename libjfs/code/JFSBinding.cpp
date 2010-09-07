@@ -11,10 +11,13 @@
 #include "JFSBinding.h"
 #include <JRegex.h>
 #include <JSubstitute.h>
+#include <JDirInfo.h>
 #include <jStreamUtil.h>
 #include <jAssert.h>
 
-static const JCharacter* kOrigDefaultMarker = "<default>";
+static const JCharacter* kOrigDefaultMarker  = "<default>";
+static const JCharacter* kNameRegexMarker    = "*";
+static const JCharacter* kContentRegexMarker = "^";
 
 /******************************************************************************
  Constructor
@@ -35,7 +38,8 @@ JFSBinding::JFSBinding
 	itsCmdType(type),
 	itsSingleFileFlag(singleFile),
 	itsIsSystemFlag(isSystem),
-	itsRegex(NULL)
+	itsNameRegex(NULL),
+	itsContentRegex(NULL)
 {
 	UpdateRegex();
 }
@@ -50,7 +54,8 @@ JFSBinding::JFSBinding
 	)
 	:
 	itsIsSystemFlag(isSystem),
-	itsRegex(NULL)
+	itsNameRegex(NULL),
+	itsContentRegex(NULL)
 {
 	input >> itsPattern >> itsCmd;
 
@@ -90,7 +95,8 @@ JFSBinding::JFSBinding
 
 JFSBinding::~JFSBinding()
 {
-	delete itsRegex;
+	delete itsNameRegex;
+	delete itsContentRegex;
 }
 
 /******************************************************************************
@@ -110,10 +116,14 @@ JFSBinding::Match
 		{
 		return kJFalse;
 		}
-	else if (itsRegex != NULL)
+	else if (itsContentRegex != NULL)
 		{
 		return JI2B(content.BeginsWith(itsLiteralPrefix) &&
-					itsRegex->Match(content));
+					itsContentRegex->Match(content));
+		}
+	else if (itsNameRegex != NULL)
+		{
+		return itsNameRegex->Match(fileName);
 		}
 	else
 		{
@@ -130,26 +140,55 @@ JFSBinding::Match
 void
 JFSBinding::UpdateRegex()
 {
-	if (!WillBeRegex(itsPattern))
+	if (itsPattern.BeginsWith(kContentRegexMarker))
 		{
-		delete itsRegex;
-		itsRegex = NULL;
-		return;
-		}
+		delete itsNameRegex;
+		itsNameRegex = NULL;
 
-	if (itsRegex == NULL)
-		{
-		itsRegex = CreateContentRegex();
-		}
+		if (itsContentRegex == NULL)
+			{
+			itsContentRegex = new JRegex;
+			assert( itsContentRegex != NULL );
+			itsContentRegex->SetSingleLine(kJTrue);
+			}
 
-	if ((itsRegex->SetPattern(itsPattern)).OK())
+		if (itsContentRegex->SetPattern(itsPattern).OK())
+			{
+			CalcLiteralPrefix();
+			}
+		else
+			{
+			delete itsContentRegex;
+			itsContentRegex = NULL;
+			}
+		}
+	else if (itsPattern.Contains(kNameRegexMarker))
 		{
-		CalcLiteralPrefix();
+		delete itsContentRegex;
+		itsContentRegex = NULL;
+
+		if (itsNameRegex == NULL)
+			{
+			itsNameRegex = new JRegex;
+			assert( itsNameRegex != NULL );
+			}
+
+		JString s;
+		const JBoolean ok = JDirInfo::BuildRegexFromWildcardFilter(itsPattern, &s);
+		assert( ok );
+		if (!itsNameRegex->SetPattern(s).OK())
+			{
+			delete itsNameRegex;
+			itsNameRegex = NULL;
+			}
 		}
 	else
 		{
-		delete itsRegex;
-		itsRegex = NULL;
+		delete itsNameRegex;
+		itsNameRegex = NULL;
+
+		delete itsContentRegex;
+		itsContentRegex = NULL;
 		}
 }
 
@@ -164,21 +203,7 @@ JFSBinding::WillBeRegex
 	const JString& pattern
 	)
 {
-	return pattern.BeginsWith("^");
-}
-
-/******************************************************************************
- CreateContentRegex (static)
-
- ******************************************************************************/
-
-JRegex*
-JFSBinding::CreateContentRegex()
-{
-	JRegex* r = new JRegex;
-	assert( r != NULL );
-	r->SetSingleLine(kJTrue);
-	return r;
+	return pattern.BeginsWith(kContentRegexMarker);
 }
 
 /******************************************************************************

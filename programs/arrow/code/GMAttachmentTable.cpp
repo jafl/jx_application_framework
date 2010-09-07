@@ -99,8 +99,6 @@ GMAttachmentTable::GMAttachmentTable
 	SetRowBorderInfo(0, GetColormap()->GetBlackColor());
 	SetColBorderInfo(0, GetColormap()->GetBlackColor());
 
-	SetBackColor(GetColormap()->GetWhiteColor());
-
 	itsFiles	= new JPtrArray<JString>(JPtrArrayT::kForgetAll);
 	assert(itsFiles != NULL);
 
@@ -179,7 +177,7 @@ GMAttachmentTable::TableDrawCell
 		itsMinColWidth = w;
 		GMUpdateAttachTableWidth* task = new GMUpdateAttachTableWidth(this);
 		assert( task != NULL );
-		(JXGetApplication())->InstallUrgentTask(task);
+		task->Go();
 		}
 
 	p.String(r, name, JPainter::kHAlignLeft, JPainter::kVAlignCenter);

@@ -20,6 +20,7 @@ static const JCharacter* kSyGGettingStartedHelpName	= "SyGGettingStartedHelp";
 static const JCharacter* kSyGFileHelpName			= "SyGFileHelp";
 static const JCharacter* kSyGFolderHelpName			= "SyGFolderHelp";
 static const JCharacter* kSyGExecHelpName			= "SyGExecHelp";
+static const JCharacter* kSyGGitHelpName			= "SyGGitHelp";
 static const JCharacter* kSyGBindingEditorHelpName	= "JFSBindingEditorHelp";
 static const JCharacter* kSyGRunCommandHelpName		= "JFSRunCommandHelp";
 static const JCharacter* kSyGRunFileHelpName		= "JFSRunFileHelp";
@@ -42,6 +43,7 @@ static const JCharacter* kSyGHelpSectionName[] =
 	kSyGFileHelpName,
 	kSyGFolderHelpName,
 	kSyGExecHelpName,
+	kSyGGitHelpName,
 	kSyGBindingEditorHelpName,
 	kSyGRunCommandHelpName,
 	kSyGRunFileHelpName,

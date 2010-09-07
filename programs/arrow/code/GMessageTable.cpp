@@ -236,7 +236,6 @@ GMessageTable::GMessageTable
 	AppendCols(1, kSizeColWidth);
 	SetRowBorderInfo(0, GetColormap()->GetBlackColor());
 	SetColBorderInfo(0, GetColormap()->GetBlackColor());
-	SetBackColor(GetColormap()->GetWhiteColor());
 
 	JCoordinate ascent, descent;
 	itsLineHeight =
@@ -952,7 +951,7 @@ GMessageTable::HandleMouseDrag
 //				cout << "a3" << flush;
 				itsUnlockTask = new JXTimerTask(500);
 				assert(itsUnlockTask != NULL);
-				JXGetApplication()->InstallIdleTask(itsUnlockTask);
+				itsUnlockTask->Start();
 				ListenTo(itsUnlockTask);
 				GMessageDragData* data =
 					new GMessageDragData(this, kDNDClassID);

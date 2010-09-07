@@ -24,6 +24,8 @@ public:
 
 	virtual ~JXUrgentTask();
 
+	void	Go();
+
 	virtual void	Perform() = 0;
 
 private:

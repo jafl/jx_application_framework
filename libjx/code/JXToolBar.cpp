@@ -128,12 +128,12 @@ JXToolBar::JXToolBar
 
 	itsTimerTask = new JXTimerTask(kTimerDelay);
 	assert(itsTimerTask != NULL);
-	JXGetApplication()->InstallIdleTask(itsTimerTask);
+	itsTimerTask->Start();
 	ListenTo(itsTimerTask);
 
 	itsAdjustTask = new JXAdjustToolBarGeometryTask(this);
 	assert( itsAdjustTask != NULL );
-	JXGetApplication()->InstallUrgentTask(itsAdjustTask);
+	itsAdjustTask->Go();
 
 	ListenTo(prefsMgr);
 	ListenTo(GetWindow());
@@ -325,12 +325,12 @@ JXToolBar::Receive
 
 	else if (sender == GetWindow() && message.Is(JXWindow::kIconified))
 		{
-		(JXGetApplication())->RemoveIdleTask(itsTimerTask);
+		itsTimerTask->Stop();
 		}
 	else if (itsIsShowingButtons &&
 			 sender == GetWindow() && message.Is(JXWindow::kDeiconified))
 		{
-		(JXGetApplication())->InstallIdleTask(itsTimerTask);
+		itsTimerTask->Start();
 		}
 
 	// If nobody else handled it, pass it to the base class.
@@ -955,7 +955,7 @@ JXToolBar::ShowToolBar
 
 		if (!(GetWindow())->IsIconified())
 			{
-			(JXGetApplication())->InstallIdleTask(itsTimerTask);
+			itsTimerTask->Start();
 			}
 		}
 	else if (!show && itsIsShowingButtons)
@@ -967,7 +967,7 @@ JXToolBar::ShowToolBar
 		itsToolBarEnclosure->Place(0,0);
 		itsToolBarEnclosure->SetSize(GetBoundsWidth(), GetBoundsHeight());
 
-		(JXGetApplication())->RemoveIdleTask(itsTimerTask);
+		itsTimerTask->Stop();
 		}
 }
 

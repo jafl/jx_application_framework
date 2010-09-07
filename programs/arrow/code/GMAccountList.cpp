@@ -82,7 +82,6 @@ GMAccountList::GMAccountList
 	const JColorIndex blackColor = colormap->GetBlackColor();
 	SetRowBorderInfo(0, blackColor);
 	SetColBorderInfo(0, blackColor);
-	SetBackColor(JGetCurrColormap()->GetWhiteColor());
 
 	const JSize fontHeight =
 		(GetFontManager())->GetLineHeight(JGetDefaultFontName(),

@@ -17,23 +17,68 @@
 #pragma once
 #endif
 
-#include <JBroadcaster.h>
-
-#include <jTypes.h>
-#include <JArray.h>
-
 #include <JMMRecord.h>
-#include <JMMTable.h>
+
+#include <ace/UNIX_Addr.h>
+#include <ace/LSOCK_Stream.h>
+#include <JMessageProtocol.h>	// template; requires ace includes
+#include <sstream>
 
 #include <stdlib.h> // For size_t
 
+	class JMMTable;
 	class JMMErrorPrinter;
+	class JMMDebugErrorStream;
+
+const JFileVersion kJMemoryManagerDebugVersion = 0;
 
 class JMemoryManager : virtual public JBroadcaster
 {
 	friend void JLocateDelete(const JCharacter* file, const JUInt32 line);
 	friend void JMMHandleExit();
+	friend void JMMHandleACEExit(void*, void*);
 	friend class JMMTable;
+
+public:
+
+	typedef JMessageProtocol<ACE_LSOCK_STREAM>	DebugLink;
+
+	enum
+	{
+		kRunningStatsMessage,
+		kExitStatsMessage,
+		kErrorMessage,
+		kRecordsMessage
+	};
+
+	enum
+	{
+		kHistogramSlotCount = 30
+	};
+
+	struct RecordFilter
+	{
+		JBoolean	includeInternal;
+		JSize		minSize;
+		JString*	fileName;
+
+		RecordFilter()
+			:
+			includeInternal(kJFalse), minSize(0), fileName(NULL)
+			{ };
+
+		~RecordFilter()
+		{
+			delete fileName;
+		};
+
+		JBoolean	Match(const JMMRecord& record) const;
+
+		void	Read(istream& input);
+		void	Write(ostream& output) const;
+	};
+
+	static const JCharacter* kUnknownFile;
 
 public:
 
@@ -46,7 +91,7 @@ public:
 
 	void  Delete(void* memory, JBoolean isArray);
 
-// Recordkeeping
+// Record keeping
 
 	JBoolean RecordingAllocated() const;
 //	JBoolean RecordingDeallocated() const;
@@ -80,7 +125,7 @@ public:
 
 	void PrintAllocated() const;
 
-	// Error notification
+// Error notification
 
 	JBoolean GetBroadcastErrors() const;
 	void     SetBroadcastErrors(const JBoolean broadcast);
@@ -97,9 +142,16 @@ public:
 	JBoolean GetPrintErrors() const;
 	void     SetPrintErrors(const JBoolean print);
 
+// Debug link
+
+	static void SetProtocol(DebugLink* link);
+	static void SendError(const JString& msg);
+
 protected:
 
 	JMemoryManager();
+
+	virtual void	Receive(JBroadcaster* sender, const Message& message);
 
 	// Message handlers
 
@@ -128,7 +180,9 @@ private:
 	};
 
 // Static data
+
 	static JBoolean theConstructingFlag;
+	static JBoolean theInternalFlag;
 
 	static JMMRecord theAllocStack[];
 	static JSize     theAllocStackSize;
@@ -143,9 +197,12 @@ private:
 
 // Member data
 
-	JMMErrorPrinter* itsErrorPrinter;
-
-	JMMTable* itsMemoryTable;
+	JMMTable*				itsMemoryTable;
+	JMMErrorPrinter*		itsErrorPrinter;
+	DebugLink*				itsLink;
+	JMMDebugErrorStream*	itsErrorStream;
+	JString*				itsExitStatsFileName;
+	mutable std::ofstream*	itsExitStatsStream;
 
 	JSize itsRecursionDepth;
 
@@ -159,9 +216,8 @@ private:
 	JBoolean itsPrintExitStatsFlag;
 	JBoolean itsPrintInternalStatsFlag;
 
-	JBoolean        itsShredFlag;
-
-	unsigned char        itsDeallocateGarbage;
+	JBoolean      itsShredFlag;
+	unsigned char itsDeallocateGarbage;
 
 	size_t itsTagSize;
 
@@ -171,6 +227,16 @@ private:
 	JBoolean itsDisallowDeleteNULLFlag;
 
 private:
+
+	void	ConnectToDebugger(const JCharacter* socketName);
+	void	HandleDebugRequest() const;
+	void	SendDebugMessage(std::ostringstream& data) const;
+	void	SendRunningStats() const;
+	void	WriteRunningStats(ostream& output) const;
+	void	SendRecords(istream& input) const;
+	void	WriteRecords(ostream& output, const RecordFilter& filter) const;
+	void	SendExitStats() const;
+	void	WriteExitStats() const;
 
 	void AddNewRecord(const JMMRecord& record);
 	void DeleteRecord(void* block, const JCharacter* file, const JUInt32 line, const JBoolean isArray);
@@ -185,6 +251,7 @@ private:
 	void LocateDelete(const JCharacter* file, const JUInt32 line);
 
 	void HandleExit();
+	void HandleACEExit();
 
 	void ReadValue(JBoolean* hasValue, unsigned char* value, const JCharacter* string);
 
@@ -213,9 +280,12 @@ public:
 				:
 				Message(kObjectDeletedAsArray),
 				itsRecord(record)
-			{ };
+				{ };
+
 			const JMMRecord&  GetRecord() const { return itsRecord; };
+
 		private:
+
 			const JMMRecord&  itsRecord;
 		};
 
@@ -235,9 +305,12 @@ public:
 				:
 				Message(kArrayDeletedAsObject),
 				itsRecord(record)
-			{ };
+				{ };
+
 			const JMMRecord&  GetRecord() const { return itsRecord; };
+
 		private:
+
 			const JMMRecord&  itsRecord;
 		};
 
@@ -260,11 +333,14 @@ public:
 				itsFile(file),
 				itsLine(line),
 				itsArrayFlag(isArray)
-			{ };
+				{ };
+
 			const JCharacter* GetFile() const { return itsFile; };
 			JUInt32           GetLine() const { return itsLine; };
 			JBoolean          IsArray() const { return itsArrayFlag; };
+
 		private:
+
 			const JCharacter* itsFile;
 			const JUInt32     itsLine;
 			const JBoolean    itsArrayFlag;
@@ -290,12 +366,15 @@ public:
 				itsFile(file),
 				itsLine(line),
 				itsArrayFlag(isArray)
-			{ };
+				{ };
+
 			const JMMRecord&  GetRecord() const { return itsRecord; };
 			const JCharacter* GetFile() const { return itsFile; };
 			JUInt32           GetLine() const { return itsLine; };
 			JBoolean          IsArray() const { return itsArrayFlag; };
+
 		private:
+
 			const JMMRecord&  itsRecord;
 			const JCharacter* itsFile;
 			const JUInt32     itsLine;
@@ -320,10 +399,13 @@ public:
 				Message(kMultipleAllocation),
 				itsThisRecord(thisRecord),
 				itsFirstRecord(firstRecord)
-			{ };
+				{ };
+
 			const JMMRecord&  GetThisRecord() const { return itsThisRecord; };
 			const JMMRecord&  GetFirstRecord() const { return itsFirstRecord; };
+
 		private:
+
 			const JMMRecord&  itsThisRecord;
 			const JMMRecord&  itsFirstRecord;
 		};
@@ -346,11 +428,14 @@ public:
 				itsFile(file),
 				itsLine(line),
 				itsIsArrayFlag(isArray)
-			{ };
+				{ };
+
 			const JCharacter* GetFile() const { return itsFile; };
 			JUInt32           GetLine() const { return itsLine; };
 			JBoolean          IsArray() const { return itsIsArrayFlag; };
+
 		private:
+
 			const JCharacter* itsFile;
 			const JUInt32     itsLine;
 			const JBoolean    itsIsArrayFlag;
@@ -366,56 +451,6 @@ inline JBoolean
 JMemoryManager::RecordingAllocated() const
 {
 	return JConvertToBoolean(itsMemoryTable != NULL);
-}
-
-/******************************************************************************
- CancelRecordAllocated
-
-	Discards (permanently) all allocation records.  Cancels JMM_RECORD_ALLOCATED.
-	Implies CancelRecordDeallocated.
-
- *****************************************************************************/
-
-inline void
-JMemoryManager::CancelRecordAllocated()
-{
-	if (itsMemoryTable != NULL)
-		{
-		BeginRecursiveBlock();
-		delete itsMemoryTable;
-		itsMemoryTable = NULL;
-		EndRecursiveBlock();
-		}
-}
-
-/******************************************************************************
- CancelRecordDeallocated
-
-	Discards (permanently) all deletion records.  Cancels JMM_RECORD_DEALLOCATED.
-
- *****************************************************************************/
-
-inline void
-JMemoryManager::CancelRecordDeallocated()
-{
-	if (itsMemoryTable != NULL)
-		{
-		itsMemoryTable->CancelRecordDeallocated();
-		}
-}
-
-/******************************************************************************
- PrintAllocated
-
- *****************************************************************************/
-
-inline void
-JMemoryManager::PrintAllocated() const
-{
-	if (itsMemoryTable != NULL)
-		{
-		itsMemoryTable->PrintAllocated(itsPrintInternalStatsFlag);
-		}
 }
 
 /******************************************************************************

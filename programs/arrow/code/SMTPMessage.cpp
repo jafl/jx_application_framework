@@ -522,14 +522,16 @@ SMTPMessage::Send()
 		notice += JString(errNumber);
 		JGetUserNotification()->ReportError(notice);
 		itsDeleteTask = new JXTimerTask(1000,kJTrue);
-		JXGetApplication()->InstallIdleTask(itsDeleteTask);
+		assert( itsDeleteTask != NULL );
+		itsDeleteTask->Start();
 		ListenTo(itsDeleteTask);
 		Broadcast(SendFailure());
 //		itsLink = NULL;
 		return;
 		}
 	itsTimeoutTask = new JXTimerTask(kMaxWaitSeconds * 1000,kJTrue);
-	JXGetApplication()->InstallIdleTask(itsTimeoutTask);
+	assert( itsTimeoutTask != NULL );
+	itsTimeoutTask->Start();
 	ListenTo(itsTimeoutTask);
 	ClearWhenGoingAway(itsLink, &itsLink);
 }
@@ -563,7 +565,8 @@ SMTPMessage::Receive
 			JGetUserNotification()->ReportError("The connection to sendmail closed early.");
 			Broadcast(SendFailure());
 			itsDeleteTask = new JXTimerTask(1000,kJTrue);
-			JXGetApplication()->InstallIdleTask(itsDeleteTask);
+			assert( itsDeleteTask != NULL );
+			itsDeleteTask->Start();
 			ListenTo(itsDeleteTask);
 //			itsLink = NULL;
 			}
@@ -649,7 +652,8 @@ SMTPMessage::ReadReturnValue()
 			if (!itsIsTryingToQuit)
 				{
 				itsDeleteTask = new JXTimerTask(1000,kJTrue);
-				JXGetApplication()->InstallIdleTask(itsDeleteTask);
+				assert( itsDeleteTask != NULL );
+				itsDeleteTask->Start();
 				ListenTo(itsDeleteTask);
 				}
 			return;
@@ -716,7 +720,8 @@ SMTPMessage::ReadReturnValue()
 		if (!itsIsTryingToQuit)
 			{
 			itsDeleteTask = new JXTimerTask(1000,kJTrue);
-			JXGetApplication()->InstallIdleTask(itsDeleteTask);
+			assert( itsDeleteTask != NULL );
+			itsDeleteTask->Start();
 			ListenTo(itsDeleteTask);
 			}
 		return;

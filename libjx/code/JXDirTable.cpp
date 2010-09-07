@@ -77,7 +77,7 @@ JXDirTable::JXDirTable
 
 	itsDirUpdateTask = new JXTimerTask(kDirUpdatePeriod);
 	assert( itsDirUpdateTask != NULL );
-	(JXGetApplication())->InstallIdleTask(itsDirUpdateTask);
+	itsDirUpdateTask->Start();
 	ListenTo(itsDirUpdateTask);
 
 	itsAllowSelectFilesFlag      = kJTrue;
@@ -126,8 +126,6 @@ JXDirTable::JXDirTable
 	AdjustTableContents();
 	ListenTo(itsDirInfo);
 	ListenTo(&(GetTableSelection()));
-
-	SetBackColor(GetFocusColor());
 }
 
 /******************************************************************************

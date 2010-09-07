@@ -1027,7 +1027,7 @@ JXTEBase::PrivateActivate()
 		if ((GetWindow())->HasFocus())
 			{
 			itsBlinkTask->Reset();
-			(JXGetApplication())->InstallIdleTask(itsBlinkTask);
+			itsBlinkTask->Start();
 			TEActivateSelection();
 			}
 		}
@@ -1044,7 +1044,7 @@ JXTEBase::PrivateDeactivate()
 	if (!IsActive())
 		{
 		TEDeactivate();
-		(JXGetApplication())->RemoveIdleTask(itsBlinkTask);
+		itsBlinkTask->Stop();
 		TEDeactivateSelection();
 		}
 }
@@ -1062,7 +1062,7 @@ JXTEBase::HandleFocusEvent()
 	if (IsActive() && (GetWindow())->HasFocus())
 		{
 		itsBlinkTask->Reset();
-		(JXGetApplication())->InstallIdleTask(itsBlinkTask);
+		itsBlinkTask->Start();
 		TEActivateSelection();
 
 		if (itsSearchMenu != NULL || itsReplaceMenu != NULL)
@@ -1082,7 +1082,7 @@ JXTEBase::HandleUnfocusEvent()
 {
 	JXScrollableWidget::HandleUnfocusEvent();
 	TEDeactivate();
-	(JXGetApplication())->RemoveIdleTask(itsBlinkTask);
+	itsBlinkTask->Stop();
 	TEDeactivateSelection();
 
 	if (itsSearchMenu != NULL || itsReplaceMenu != NULL)
@@ -1104,7 +1104,7 @@ JXTEBase::HandleWindowFocusEvent()
 	if (IsActive() && HasFocus())
 		{
 		itsBlinkTask->Reset();
-		(JXGetApplication())->InstallIdleTask(itsBlinkTask);
+		itsBlinkTask->Start();
 		}
 }
 
@@ -1119,7 +1119,7 @@ JXTEBase::HandleWindowUnfocusEvent()
 	JXScrollableWidget::HandleWindowUnfocusEvent();
 	TEHideCaret();
 	TEDeactivateSelection();
-	(JXGetApplication())->RemoveIdleTask(itsBlinkTask);
+	itsBlinkTask->Stop();
 }
 
 /******************************************************************************

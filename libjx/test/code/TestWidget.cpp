@@ -199,6 +199,8 @@ JIndex i;
 	itsRandPointCount = 10;
 	itsResizeDialog   = NULL;
 
+	SetBackColor(GetColormap()->GetDefaultBackColor());
+
 	// cursors
 
 	JXDisplay* display = GetDisplay();

@@ -68,6 +68,22 @@ StatusTerminated::jProcessUtil	"Program terminated by $signal"
 StatusStopped::jProcessUtil		"Program stopped by $signal"
 StatusUnknown::jProcessUtil		"Program terminated for unknown reason"
 
+# jSignal
+
+SIGINT::jSignal		"interrupt signal (SIGINT)"
+SIGQUIT::jSignal	"quit signal (SIGQUIT)"
+SIGILL::jSignal		"illegal instruction (SIGILL)"
+SIGABRT::jSignal	"call from abort() (SIGABRT)"
+SIGFPE::jSignal		"floating point exception (SIGFPE)"
+SIGKILL::jSignal	"kill signal (SIGKILL)"
+SIGSEGV::jSignal	"segmentation fault (SIGSEGV)"
+SIGPIPE::jSignal	"broken pipe (SIGPIPE)"
+SIGALRM::jSignal	"timer signal from alarm (SIGALRM)"
+SIGTERM::jSignal	"termination signal (SIGTERM)"
+SIGSTOP::jSignal	"stop signal (SIGSTOP)"
+SIGBUS::jSignal		"bus error (SIGBUS)"
+unknown::jSignal	"signal $name"
+
 # JImage
 
 UnknownFileType::JImage		"\"$name\" either does not contain an image or uses an supported format."

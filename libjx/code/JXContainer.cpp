@@ -1486,7 +1486,7 @@ JXContainer::ActivateCursor
 		{
 		itsCursorAnim->Activate();
 		assert( itsCursorAnimTask != NULL );
-		(JXGetApplication())->InstallIdleTask(itsCursorAnimTask);
+		itsCursorAnimTask->Start();
 		}
 	else if (isActive)
 		{
@@ -1509,7 +1509,7 @@ JXContainer::DeactivateCursor()
 	if (itsCursorAnim != NULL)
 		{
 		itsCursorAnim->Deactivate();
-		(JXGetApplication())->RemoveIdleTask(itsCursorAnimTask);
+		itsCursorAnimTask->Stop();
 		}
 }
 

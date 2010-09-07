@@ -66,6 +66,20 @@ JXFSBindingManager::Instance()
 }
 
 /******************************************************************************
+ Destroy (static)
+
+ ******************************************************************************/
+
+void
+JXFSBindingManager::Destroy()
+{
+	delete itsSelf;
+	itsSelf = NULL;
+
+	initSelf = kJFalse;
+}
+
+/******************************************************************************
  Constructor (protected)
 
  *****************************************************************************/
@@ -84,7 +98,7 @@ JXFSBindingManager::JXFSBindingManager
 
 	itsUpdateBindingListTask = new JXTimerTask(kUpdateInterval);
 	assert( itsUpdateBindingListTask != NULL );
-	(JXGetApplication())->InstallIdleTask(itsUpdateBindingListTask);
+	itsUpdateBindingListTask->Start();
 	ListenTo(itsUpdateBindingListTask);
 
 	itsRunCmdDialog = new JXFSRunCommandDialog;

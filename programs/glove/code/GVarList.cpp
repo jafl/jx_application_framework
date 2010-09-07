@@ -157,12 +157,8 @@ GVarList::GVarListX()
 
 GVarList::~GVarList()
 {
-	itsNames->DeleteAll();
 	delete itsNames;
-
 	delete itsValues;
-
-	itsArrays->DeleteAll();
 	delete itsArrays;
 }
 

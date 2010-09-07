@@ -72,7 +72,6 @@ GXColByIncDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 220,190, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsDestMenu =
         new JXTextMenu("Destination:", window,

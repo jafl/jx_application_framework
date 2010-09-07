@@ -157,8 +157,6 @@ THX2DPlotFunctionDialog::BuildWindow
 
 	itsMaxInput->SetValue(1.0);
 	itsMaxInput->ShareEditMenu(itsExprWidget->GetEditMenu());
-
-	itsExprWidget->SetBackColor(itsExprWidget->GetFocusColor());
 }
 
 /******************************************************************************

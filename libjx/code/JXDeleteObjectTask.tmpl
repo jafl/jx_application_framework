@@ -21,7 +21,6 @@
  ******************************************************************************/
 
 #include <JXDeleteObjectTask.h>
-#include <jXGlobals.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -38,7 +37,7 @@ JXDeleteObjectTask<T>::Delete
 {
 	JXDeleteObjectTask<T>* task = new JXDeleteObjectTask<T>(obj);
 	assert( task != NULL );
-	(JXGetApplication())->InstallIdleTask(task);
+	task->Start();
 }
 
 /******************************************************************************

@@ -178,6 +178,16 @@ SyGPrefsMgr::UpgradeData
 			RemoveData(12);
 			}
 		}
+
+	if (currentVersion < 10)
+		{
+		ShouldOpenNewWindows(kJTrue);
+		}
+
+	if (currentVersion < 11)
+		{
+		ShouldSaveFolderPrefs(kJTrue);
+		}
 }
 
 /******************************************************************************
@@ -226,7 +236,8 @@ SyGPrefsMgr::EditPrefs()
 	const JString coCmd         = (SyGGetApplication())->GetPostCheckoutCommand();
 
 	itsDialog = new SyGEditPrefsDialog(termCmd, manCmd, gitStatusCmd, gitHistoryCmd,
-									   coCmd, DelWillDelete());
+									   coCmd, DelWillDelete(), WillOpenNewWindows(),
+									   WillSaveFolderPrefs());
 	assert(itsDialog != NULL);
 
 	itsDialog->BeginDialog();
@@ -244,9 +255,9 @@ SyGPrefsMgr::UpdatePrefs()
 	assert( itsDialog != NULL );
 
 	JString manCmd, termCmd, gitStatusCmd, gitHistoryCmd, postCheckoutCmd;
-	JBoolean del;
+	JBoolean del, newWindows, perFolderPrefs;
 	itsDialog->GetPrefs(&termCmd, &manCmd, &gitStatusCmd, &gitHistoryCmd,
-						&postCheckoutCmd, &del);
+						&postCheckoutCmd, &del, &newWindows, &perFolderPrefs);
 
 	(SyGGetApplication())->SetTerminalCommand(termCmd);
 	(SyGGetApplication())->SetGitStatusCommand(gitStatusCmd);
@@ -254,6 +265,8 @@ SyGPrefsMgr::UpdatePrefs()
 	(SyGGetApplication())->SetPostCheckoutCommand(postCheckoutCmd);
 	(SyGGetManPageDialog())->SetViewManPageCommand(manCmd);
 	DelShouldDelete(del);
+	ShouldOpenNewWindows(newWindows);
+	ShouldSaveFolderPrefs(perFolderPrefs);
 
 	Broadcast(PrefsChanged());
 }
@@ -409,17 +422,6 @@ SyGPrefsMgr::SaveProgramState
 
  ******************************************************************************/
 
-void
-SyGPrefsMgr::DelShouldDelete
-	(
-	const JBoolean del
-	)
-{
-	std::ostringstream data;
-	data << del << ' ';
-	SetData(kSDelDeleteID, data);
-}
-
 JBoolean
 SyGPrefsMgr::DelWillDelete()
 	const
@@ -430,4 +432,71 @@ SyGPrefsMgr::DelWillDelete()
 	JBoolean del;
 	dataStream >> del;
 	return del;
+}
+
+void
+SyGPrefsMgr::DelShouldDelete
+	(
+	const JBoolean del
+	)
+{
+	std::ostringstream data;
+	data << del;
+	SetData(kSDelDeleteID, data);
+}
+
+/******************************************************************************
+ Open new windows
+
+ ******************************************************************************/
+
+JBoolean
+SyGPrefsMgr::WillOpenNewWindows()
+	const
+{
+	std::string data;
+	GetData(kSNewWindowsID, &data);
+	std::istringstream dataStream(data);
+	JBoolean newWindows;
+	dataStream >> newWindows;
+	return newWindows;
+}
+
+void
+SyGPrefsMgr::ShouldOpenNewWindows
+	(
+	const JBoolean newWindows
+	)
+{
+	std::ostringstream data;
+	data << newWindows;
+	SetData(kSNewWindowsID, data);
+}
+
+/******************************************************************************
+ Per folder prefs
+
+ ******************************************************************************/
+
+JBoolean
+SyGPrefsMgr::WillSaveFolderPrefs()
+	const
+{
+	std::string data;
+	GetData(kSPerFolderPrefsID, &data);
+	std::istringstream dataStream(data);
+	JBoolean perFolder;
+	dataStream >> perFolder;
+	return perFolder;
+}
+
+void
+SyGPrefsMgr::ShouldSaveFolderPrefs
+	(
+	const JBoolean perFolder
+	)
+{
+	std::ostringstream data;
+	data << perFolder;
+	SetData(kSPerFolderPrefsID, data);
 }

@@ -192,7 +192,7 @@ JXDeleteGlobals2()
 	theAssertHandler  = NULL;
 	theApplication    = NULL;
 
-	JDeleteGlobals();
+//	JDeleteGlobals();	// called atexit()
 }
 
 /******************************************************************************

@@ -171,6 +171,10 @@ T
 F
 "./strings/SyGExecHelpText"
 T
+2 "SyGGitHelpText"
+F
+"./strings/SyGGitHelpText"
+T
 2 "SyGBindingEditorHelpText"
 F
 "./strings/SyGBindingEditorHelpText"

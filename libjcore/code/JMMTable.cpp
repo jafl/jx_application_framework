@@ -229,12 +229,12 @@ JMMTable::NotifyMultipleAllocation
 }
 
 /******************************************************************************
- PrintRecord (protected)
+ PrintAllocatedRecord (protected)
 
  *****************************************************************************/
 
 void
-JMMTable::PrintRecord
+JMMTable::PrintAllocatedRecord
 	(
 	const JMMRecord& record
 	)
@@ -242,7 +242,7 @@ JMMTable::PrintRecord
 {
 	cout << "\n                ID: " << record.GetID();
 	cout << "\n           Address: " << record.GetAddress();
-	cout << "\n           Content: " << (unsigned char*) record.GetAddress();
+	cout << "\n              Data: " << (unsigned char*) record.GetAddress();
 	cout << "\n              Size: " << record.GetSize();
 	cout << "\n        New method: " << record.NewTypeName();
 	cout << "\n         New'ed at: " << record.GetNewFile() << ":" << record.GetNewLine();
@@ -256,4 +256,64 @@ JMMTable::PrintRecord
 		cout << "allocated status consistent, probably correct";
 		}
 	cout << endl;
+}
+
+/******************************************************************************
+ AddToHistogram (protected)
+
+ *****************************************************************************/
+
+void
+JMMTable::AddToHistogram
+	(
+	const JMMRecord&	record,
+	JSize				histo[ JMemoryManager::kHistogramSlotCount ]
+	)
+	const
+{
+	const JSize size = record.GetSize();
+
+	JUInt64 max    = 0x100000000ULL;
+	JIndex slot    = JMemoryManager::kHistogramSlotCount - 2;
+	JBoolean found = kJFalse;
+	while (slot > 0)
+		{
+		if (size < max)
+			{
+			histo[ slot ]++;
+			found = kJTrue;
+			break;
+			}
+		max >>= 1;
+		max &=  0x1FFFFFFFFULL;
+		slot--;
+		}
+
+	if (!found)
+		{
+		histo[ JMemoryManager::kHistogramSlotCount-1 ]++;
+		}
+}
+
+/******************************************************************************
+ StreamHistogram (protected)
+
+	The dual function is in jx_memory_debugger.
+
+ *****************************************************************************/
+
+void
+JMMTable::StreamHistogram
+	(
+	ostream&	output,
+	const JSize	histo[ JMemoryManager::kHistogramSlotCount ]
+	)
+	const
+{
+	output << JMemoryManager::kHistogramSlotCount;
+
+	for (JIndex i=0; i<JMemoryManager::kHistogramSlotCount; i++)
+		{
+		output << ' ' << histo[i];
+		}
 }

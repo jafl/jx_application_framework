@@ -1,0 +1,10 @@
+0
+obj1_statsLayout::MDStatsDirector::statsLayout "Binary:"
+itsRunProgramButton::MDStatsDirector::statsLayout "Run"
+obj5_statsLayout::MDStatsDirector::statsLayout "Deallocated:"
+obj4_statsLayout::MDStatsDirector::statsLayout "Bytes:"
+obj2_statsLayout::MDStatsDirector::statsLayout "Args:"
+itsRunProgramButton::MDStatsDirector::shortcuts::statsLayout "#R"
+itsChooseProgramButton::MDStatsDirector::shortcuts::statsLayout "#O"
+itsChooseProgramButton::MDStatsDirector::statsLayout "Choose"
+obj3_statsLayout::MDStatsDirector::statsLayout "Blocks:"

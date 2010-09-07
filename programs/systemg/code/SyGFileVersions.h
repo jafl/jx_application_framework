@@ -28,8 +28,12 @@ const JFileVersion kSyGCurrentDirSetupVersion = 4;
 //	Removed HiddenEntriesVisible() from SyGTreeSet.
 //	SyGFileTreeTable saves pref[0].
 
-const JFileVersion kCurrentPrefsFileVersion = 9;
+const JFileVersion kCurrentPrefsFileVersion = 11;
 
+// version 11:
+//	Added WillSaveFolderPrefs().
+// version 10:
+//	Added WillOpenNewWindows().
 // version 9:
 //	Added git status cmd to SyGApplication.
 // version 8:
@@ -39,7 +43,7 @@ const JFileVersion kCurrentPrefsFileVersion = 9;
 //	Removed ID = 6, 8, 9, 16, 17 (all unused)
 // version 6:
 //	Removed ID = 13, 14, 15, 20.
-//	Created DelShouldDelete (ID=13).
+//	Added DelShouldDelete (ID=13).
 // version 5:
 //	Converted kSShortcutStringsID (3) to kSAppID (3).
 

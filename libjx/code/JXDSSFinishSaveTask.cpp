@@ -10,7 +10,6 @@
 #include <JXStdInc.h>
 #include <JXDSSFinishSaveTask.h>
 #include <JXSaveFileDialog.h>
-#include <jXGlobals.h>
 #include <jDirUtil.h>
 #include <jAssert.h>
 
@@ -56,8 +55,7 @@ JXDSSFinishSaveTask::Save
 {
 	JString name;
 	JSplitPathAndName(fullName, itsDirName, &name);
-
-	(JXGetApplication())->InstallUrgentTask(this);
+	Go();
 }
 
 /******************************************************************************

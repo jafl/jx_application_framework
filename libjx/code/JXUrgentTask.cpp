@@ -32,6 +32,17 @@ JXUrgentTask::~JXUrgentTask()
 	(JXGetApplication())->RemoveUrgentTask(this);
 }
 
+/******************************************************************************
+ Go
+
+ ******************************************************************************/
+
+void
+JXUrgentTask::Go()
+{
+	(JXGetApplication())->InstallUrgentTask(this);
+}
+
 #define JTemplateType JXUrgentTask
 #include <JPtrArray.tmpls>
 #undef JTemplateType

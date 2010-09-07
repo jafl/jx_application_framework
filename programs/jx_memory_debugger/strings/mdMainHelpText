@@ -1,0 +1,19 @@
+0
+
+MDMainHelp
+
+"<html>
+
+<head>
+<title> Main Window </title>
+</head>
+
+<h3>Main Window</h3>
+
+This text will explain how to use the main window.
+<p>
+Uninitialized: &#xA7;
+<p>
+Deallocated: &#xD7;
+<p>
+In order to be able to open files, run jx_memory_debugger in the build directory."

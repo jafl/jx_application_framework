@@ -50,7 +50,7 @@ Wiz2War::Wiz2War()
 
 	itsPingTask = new JXTimerTask(kServerPingInterval, kJFalse);
 	assert( itsPingTask != NULL );
-	(JXGetApplication())->InstallIdleTask(itsPingTask);
+	itsPingTask->Start();
 	ListenTo(itsPingTask);
 }
 

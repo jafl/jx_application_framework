@@ -33,7 +33,9 @@ JMMHashTable::JMMHashTable
 	:
 	JMMTable(manager),
 	itsAllocatedTable(NULL),
-	itsDeletedTable(NULL)
+	itsAllocatedBytes(0),
+	itsDeletedTable(NULL),
+	itsDeletedCount(0)
 {
 	itsAllocatedTable = new JHashTable<JMMRecord>(kInitialSize);
 	assert(itsAllocatedTable != NULL);
@@ -71,6 +73,17 @@ JMMHashTable::GetAllocatedCount() const
 }
 
 /******************************************************************************
+ GetAllocatedBytes (virtual)
+
+ *****************************************************************************/
+
+JSize
+JMMHashTable::GetAllocatedBytes() const
+{
+	return itsAllocatedBytes;
+}
+
+/******************************************************************************
  GetDeletedCount (virtual)
 
 	Returns zero if the table is not recording deletions.
@@ -86,7 +99,7 @@ JMMHashTable::GetDeletedCount() const
 		}
 	else
 		{
-		return 0;
+		return itsDeletedCount;
 		}
 }
 
@@ -121,10 +134,10 @@ JMMHashTable::PrintAllocated
 	JSize totalSize = 0;
 	while ( cursor.NextFull() )
 		{
-		JMMRecord thisRecord = cursor.GetValue();
+		const JMMRecord thisRecord = cursor.GetValue();
 		if ( !thisRecord.IsManagerMemory() )
 			{
-			PrintRecord(thisRecord);
+			PrintAllocatedRecord(thisRecord);
 			totalSize += thisRecord.GetSize();
 			}
 		}
@@ -140,13 +153,66 @@ JMMHashTable::PrintAllocated
 		cursor.Reset();
 		while ( cursor.NextFull() )
 			{
-			JMMRecord thisRecord = cursor.GetValue();
+			const JMMRecord thisRecord = cursor.GetValue();
 			if ( thisRecord.IsManagerMemory() )
 				{
-				PrintRecord(thisRecord);
+				PrintAllocatedRecord(thisRecord);
 				}
 			}
 		}
+}
+
+/******************************************************************************
+ StreamAllocatedForDebug (virtual)
+
+ *****************************************************************************/
+
+void
+JMMHashTable::StreamAllocatedForDebug
+	(
+	ostream&							output,
+	const JMemoryManager::RecordFilter&	filter
+	)
+	const
+{
+	JConstHashCursor<JMMRecord> cursor(itsAllocatedTable);
+	JSize totalSize = 0;
+	while ( cursor.NextFull() )
+		{
+		const JMMRecord thisRecord = cursor.GetValue();
+		if (filter.Match(thisRecord))
+			{
+			output << ' ' << kJTrue;
+			output << ' ';
+			thisRecord.StreamForDebug(output);
+			}
+		}
+
+	output << ' ' << kJFalse;
+}
+
+/******************************************************************************
+ StreamAllocationSizeHistogram (virtual)
+
+ *****************************************************************************/
+
+void
+JMMHashTable::StreamAllocationSizeHistogram
+	(
+	ostream& output
+	)
+	const
+{
+	JSize histo[ JMemoryManager::kHistogramSlotCount ];
+	bzero(histo, sizeof(histo));
+
+	JConstHashCursor<JMMRecord> cursor(itsAllocatedTable);
+	while ( cursor.NextFull() )
+		{
+		AddToHistogram(cursor.GetValue(), histo);
+		}
+
+	StreamHistogram(output, histo);
 }
 
 /******************************************************************************
@@ -159,6 +225,8 @@ JMMHashTable::_CancelRecordDeallocated()
 {
 	if (itsDeletedTable != NULL)
 		{
+		itsDeletedCount = itsDeletedTable->GetElementCount();
+
 		delete itsDeletedTable;
 		itsDeletedTable = NULL;
 		}
@@ -183,6 +251,7 @@ JMMHashTable::_AddNewRecord
 		if ( cursor.IsFull() )
 			{
 			JMMRecord thisRecord = cursor.GetValue();
+			itsAllocatedBytes   -= thisRecord.GetSize();
 			NotifyMultipleAllocation(record, thisRecord);
 			}
 		// Might as well trust malloc--the table should never have duplicate
@@ -193,6 +262,7 @@ JMMHashTable::_AddNewRecord
 		cursor.ForceNextOpen();
 		}
 	cursor.Set(reinterpret_cast<JHashValue>( record.GetAddress() ), record);
+	itsAllocatedBytes += record.GetSize();
 }
 
 /******************************************************************************
@@ -215,6 +285,7 @@ JMMHashTable::_SetRecordDeleted
 		{
 		JMMRecord thisRecord = allocCursor.GetValue();
 		thisRecord.SetDeleteLocation(file, line, isArray);
+		itsAllocatedBytes -= thisRecord.GetSize();
 
 		if (!thisRecord.ArrayNew() && isArray)
 			{
@@ -231,6 +302,10 @@ JMMHashTable::_SetRecordDeleted
 			JHashCursor<JMMRecord> deallocCursor(itsDeletedTable, reinterpret_cast<JHashValue>(block) );
 			deallocCursor.ForceNextOpen();
 			deallocCursor.Set(reinterpret_cast<JHashValue>(block), thisRecord);
+			}
+		else
+			{
+			itsDeletedCount++;
 			}
 
 		*record = thisRecord;

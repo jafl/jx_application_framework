@@ -224,8 +224,6 @@ THX3DPlotFunctionDialog::BuildWindow
 	itsYCountInput->SetValue(20);
 	itsYCountInput->SetLimits(2, 100);
 	itsYCountInput->ShareEditMenu(itsExprWidget->GetEditMenu());
-
-	itsExprWidget->SetBackColor(itsExprWidget->GetFocusColor());
 }
 
 /******************************************************************************

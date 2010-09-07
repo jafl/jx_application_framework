@@ -165,6 +165,28 @@ JMMRecord::TypeName
 	return (isArray) ? "array" : "object";
 }
 
+/******************************************************************************
+ StreamForDebug
+
+	Dual function is MDRecord constructor.
+
+ *****************************************************************************/
+
+void
+JMMRecord::StreamForDebug
+	(
+	ostream& output
+	)
+	const
+{
+	output << JNegate(IsDeleted());
+	output << ' ' << ArrayNew();
+	output << ' ' << JString(itsNewFile);
+	output << ' ' << itsNewLine;
+	output << ' ' << itsSize;
+	output << ' ' << JString((JCharacter*) itsAddress);
+}
+
 #if 0
 /******************************************************************************
  Print
@@ -172,7 +194,8 @@ JMMRecord::TypeName
  *****************************************************************************/
 
 JString
-JMMRecord::Print() const
+JMMRecord::Print()
+	const
 {
 	JString string;
 

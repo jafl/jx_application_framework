@@ -170,7 +170,7 @@ DataModule::Receive
 					JGetUserNotification()->ReportError("Module column removed.");
 					DeleteBroadcasterTask* dbt = new DeleteBroadcasterTask(this);
 					assert(dbt != NULL);
-					JXGetApplication()->InstallUrgentTask(dbt);
+					dbt->Go();
 					return;
 					}
 				}
@@ -233,7 +233,7 @@ DataModule::HandleInput
 					JGetUserNotification()->ReportError("Module Error.");
 					DeleteBroadcasterTask* dbt = new DeleteBroadcasterTask(this);
 					assert(dbt != NULL);
-					JXGetApplication()->InstallUrgentTask(dbt);
+					dbt->Go();
 					return;
 					}
 				itsSentData = kJTrue;
@@ -308,25 +308,18 @@ DataModule::HandleDataRead
 		{
 		DeleteBroadcasterTask* dbt = new DeleteBroadcasterTask(this);
 		assert(dbt != NULL);
-		JXGetApplication()->InstallUrgentTask(dbt);
+		dbt->Go();
 		return;
 		}
-	else if (eval == kGloveFail)
+	else if (eval == kGloveFail || eval != kGloveOK)
 		{
 		JGetUserNotification()->ReportError("Module Error.");
 		DeleteBroadcasterTask* dbt = new DeleteBroadcasterTask(this);
 		assert(dbt != NULL);
-		JXGetApplication()->InstallUrgentTask(dbt);
+		dbt->Go();
 		return;
 		}
-	else if (eval != kGloveOK)
-		{
-		JGetUserNotification()->ReportError("Module Error.");
-		DeleteBroadcasterTask* dbt = new DeleteBroadcasterTask(this);
-		assert(dbt != NULL);
-		JXGetApplication()->InstallUrgentTask(dbt);
-		return;
-		}
+
 	iss >> ws;
 	JFloat value;
 	if (itsDataIsDump)
@@ -346,7 +339,7 @@ DataModule::HandleDataRead
 				JGetUserNotification()->ReportError("Module Error.");
 				DeleteBroadcasterTask* dbt = new DeleteBroadcasterTask(this);
 				assert(dbt != NULL);
-				JXGetApplication()->InstallUrgentTask(dbt);
+				dbt->Go();
 				return;		
 				}
 			}
@@ -376,7 +369,7 @@ DataModule::HandleDataRead
 						JGetUserNotification()->ReportError("Module Error.");
 						DeleteBroadcasterTask* dbt = new DeleteBroadcasterTask(this);
 						assert(dbt != NULL);
-						JXGetApplication()->InstallUrgentTask(dbt);
+						dbt->Go();
 						return;	
 						}
 					}
@@ -385,7 +378,7 @@ DataModule::HandleDataRead
 					JGetUserNotification()->ReportError("Module Error.");
 					DeleteBroadcasterTask* dbt = new DeleteBroadcasterTask(this);
 					assert(dbt != NULL);
-					JXGetApplication()->InstallUrgentTask(dbt);
+					dbt->Go();
 					return;	
 					}
 				}
@@ -394,7 +387,7 @@ DataModule::HandleDataRead
 				JGetUserNotification()->ReportError("Module Error.");
 				DeleteBroadcasterTask* dbt = new DeleteBroadcasterTask(this);
 				assert(dbt != NULL);
-				JXGetApplication()->InstallUrgentTask(dbt);
+				dbt->Go();
 				return;	
 				}
 			}
@@ -403,7 +396,7 @@ DataModule::HandleDataRead
 			JGetUserNotification()->ReportError("Module Error.");
 			DeleteBroadcasterTask* dbt = new DeleteBroadcasterTask(this);
 			assert(dbt != NULL);
-			JXGetApplication()->InstallUrgentTask(dbt);
+			dbt->Go();
 			return;		
 			}
 		}
@@ -412,7 +405,7 @@ DataModule::HandleDataRead
 		{
 		DeleteBroadcasterTask* dbt = new DeleteBroadcasterTask(this);
 		assert(dbt != NULL);
-		JXGetApplication()->InstallUrgentTask(dbt);
+		dbt->Go();
 		return;
 		}
 	itsTable->Redraw();

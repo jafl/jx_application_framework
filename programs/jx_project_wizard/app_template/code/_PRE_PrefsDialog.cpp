@@ -83,5 +83,6 @@ void
 	(
 	JString* data
 	)
+	const
 {
 }

@@ -132,7 +132,7 @@ JXSplashWindow::BuildWindow
 	JXTimerTask* task = new JXTimerTask(displayInterval * 1000, kJTrue);
 	assert( task != NULL );
 	ListenTo(task);
-	(JXGetApplication())->InstallIdleTask(task);
+	task->Start();
 
 	// place window
 

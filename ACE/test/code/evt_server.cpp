@@ -37,9 +37,10 @@ class UNIXAcceptor :
 public:
 
 	virtual ~UNIXAcceptor()
-		{
+	{
+		close();
 		(acceptor()).remove();
-		}
+	};
 };
 
 // Prototypes

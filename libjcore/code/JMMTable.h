@@ -17,20 +17,12 @@
 #pragma once
 #endif
 
-#include <jTypes.h>
+#include <JMemoryManager.h>
 
 	class JMMRecord;
-	class JMemoryManager;
 
 class JMMTable
 {
-	enum Status
-	{
-		kUnallocated,
-		kAllocated,
-		kDeleted
-	};
-
 public:
 
 	JMMTable(JMemoryManager* manager);
@@ -46,11 +38,13 @@ public:
 	virtual void CancelRecordDeallocated();
 
 	virtual JSize GetAllocatedCount() const = 0;
+	virtual JSize GetAllocatedBytes() const = 0;
 	virtual JSize GetDeletedCount() const = 0;
-
 	virtual JSize GetTotalCount() const = 0;
 
 	virtual void PrintAllocated(const JBoolean printInternal = kJFalse) const = 0;
+	virtual void StreamAllocatedForDebug(ostream& output, const JMemoryManager::RecordFilter& filter) const = 0;
+	virtual void StreamAllocationSizeHistogram(ostream& output) const = 0;
 
 protected:
 
@@ -79,7 +73,9 @@ protected:
 	void NotifyMultipleAllocation(const JMMRecord& thisRecord,
 	                              const JMMRecord& firstRecord);
 
-	void PrintRecord(const JMMRecord& record) const;
+	void PrintAllocatedRecord(const JMMRecord& record) const;
+	void AddToHistogram(const JMMRecord& record, JSize histo[JMemoryManager::kHistogramSlotCount]) const;
+	void StreamHistogram(ostream& output, const JSize histo[JMemoryManager::kHistogramSlotCount]) const;
 
 private:
 

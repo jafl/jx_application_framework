@@ -4646,7 +4646,7 @@ JXWindow::Dock
 
 	itsDockingTask = new JXDockWindowTask(this, parent, JPoint(geom.left, geom.top));
 	assert( itsDockingTask != NULL );
-	(JXGetApplication())->InstallIdleTask(itsDockingTask);
+	itsDockingTask->Start();
 	ClearWhenGoingAway(itsDockingTask, &itsDockingTask);
 
 	itsIsDockedFlag = kJTrue;						// after creating task
@@ -4700,7 +4700,7 @@ JXWindow::Undock()
 		{
 		JXRaiseWindowTask* task = new JXRaiseWindowTask(this);
 		assert( task != NULL );
-		(JXGetApplication())->InstallUrgentTask(task);
+		task->Go();
 		}
 
 	Broadcast(Undocked());

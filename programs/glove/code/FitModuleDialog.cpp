@@ -57,7 +57,6 @@ FitModuleDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 270,100, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXStaticText* obj1 =
         new JXStaticText("Please select the appropriate module.", window,

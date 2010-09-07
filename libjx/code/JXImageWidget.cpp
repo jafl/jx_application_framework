@@ -228,7 +228,7 @@ JXImageWidget::NeedAdjustBounds()
 		{
 		itsAdjustBoundsTask = new JXAdjustIWBoundsTask(this);
 		assert( itsAdjustBoundsTask != NULL );
-		(JXGetApplication())->InstallUrgentTask(itsAdjustBoundsTask);
+		itsAdjustBoundsTask->Go();
 		}
 }
 

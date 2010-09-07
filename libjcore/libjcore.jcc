@@ -1,4 +1,4 @@
-jx_browser_data 83
+jx_browser_data 84
 # project tree
 0 "root"
 T
@@ -793,6 +793,10 @@ T
 2 "JMMErrorPrinter.cpp"
 F
 "./code/JMMErrorPrinter.cpp"
+T
+2 "JMMDebugErrorStream.cpp"
+F
+"./code/JMMDebugErrorStream.cpp"
 T
 2 "JMMHashTable.cpp"
 F

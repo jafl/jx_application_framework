@@ -64,7 +64,7 @@ ifneq (${COMPILE_STRINGS},0)
 endif
 
 ${LIB_NAME_ROOT}.a :: strings
-${LIB_NAME_ROOT}.so:: strings
+${LIB_NAME_ROOT}.${J_SHARED_LIB_SUFFIX}:: strings
 
 #
 # remove binaries

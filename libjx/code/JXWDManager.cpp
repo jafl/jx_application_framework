@@ -321,7 +321,7 @@ JXWDManager::WDMenusNeedUpdate()
 		{
 		itsUpdateWDMenuTask = new JXUpdateWDMenuTask(this);
 		assert( itsUpdateWDMenuTask != NULL );
-		(JXGetApplication())->InstallUrgentTask(itsUpdateWDMenuTask);
+		itsUpdateWDMenuTask->Go();
 		}
 }
 

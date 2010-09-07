@@ -150,7 +150,7 @@ TestFloatTableDirector::BuildWindow()
 
 // end tablelayout
 
-	itsColHeader->TurnOnColResizing(20);
+	itsColHeader->TurnOnColResizing();
 	ListenTo(itsRowHeader);
 }
 

@@ -28,6 +28,10 @@ J_BUILD_SHARED_LIB := -fPIC
 
 J_SHARED_LIB_LINK_OPTION := -shared
 
+# This specifies the suffix for shared libraries
+
+J_SHARED_LIB_SUFFIX := so
+
 # Uncomment this if libACE.so doesn't work
 
 # J_FORCE_ACE_STATIC := yes
@@ -86,8 +90,9 @@ J_RANLIB_VIA_AR_S := -D_J_RANLIB_VIA_AR_S
 # On most systems, N and M are both 4.  Check /usr/include/limits.h
 
 J_RAW_SYSTEM_STUFF := \
-  -DSIZEOF_INT=_ -DSIZEOF_LONG=_ -DSIZEOF_LONGLONG=_ \
-  -D_XFT_NO_COMPAT_ -I/usr/include/freetype2
+  -DSIZEOF_INT=* -DSIZEOF_LONG=* -DSIZEOF_LONGLONG=* \
+  -D_XFT_NO_COMPAT_ -I/usr/include/freetype2 \
+  ${shell getconf LFS_CFLAGS}
 
 #
 # Nothing below this line should ever need to be changed.

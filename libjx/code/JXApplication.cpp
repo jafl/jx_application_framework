@@ -148,7 +148,7 @@ JXApplication::JXApplication
 
 	JXQuitIfAllDeactTask* task = new JXQuitIfAllDeactTask;
 	assert( task != NULL );
-	InstallIdleTask(task);
+	task->Start();
 }
 
 /******************************************************************************

@@ -85,11 +85,11 @@ public:
 
 	JBoolean IsDeleted() const;
 
-	JBoolean    IsMarked() const;
-	void        SetMarked(const JBoolean yesNo);
+	JBoolean IsMarked() const;
+	void     SetMarked(const JBoolean yesNo);
 
-	JBoolean    ArrayNew() const;
-	JBoolean    ArrayDelete() const;
+	JBoolean ArrayNew() const;
+	JBoolean ArrayDelete() const;
 
 	const JCharacter* NewTypeName() const;
 	const JCharacter* DeleteTypeName() const;
@@ -98,6 +98,7 @@ public:
 
 	JBoolean    IsManagerMemory() const;
 
+	void	StreamForDebug(ostream& output) const;
 //	JString Print() const;
 	void PrintLayout();
 };

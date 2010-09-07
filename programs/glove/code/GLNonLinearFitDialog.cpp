@@ -58,8 +58,8 @@ GLNonLinearFitDialog::GLNonLinearFitDialog
 
 	itsDelButtonTask	= new JXTimerTask(kDeleteButtonUpdateDelay);
 	assert(itsDelButtonTask != NULL);
+	itsDelButtonTask->Start();
 	ListenTo(itsDelButtonTask);
-	JXGetApplication()->InstallIdleTask(itsDelButtonTask);
 }
 
 /******************************************************************************
@@ -102,7 +102,6 @@ GLNonLinearFitDialog::BuildWindow()
 
     JXWindow* window = new JXWindow(this, 400,430, "");
     assert( window != NULL );
-    SetWindow(window);
 
     JXMenuBar* menuBar =
         new JXMenuBar(window,

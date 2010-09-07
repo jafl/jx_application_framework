@@ -1,33 +1,20 @@
 memory analyzer
-	start program
-		setenv (if unset or no):
-			JMM_INITIALIZE=default
-			JMM_SHRED=default
-			JMM_RECORD_ALLOCATED=<named pipe>
-			JMM_BROADCAST_ERRORS=yes
-			MALLOC_CHECK_=2
-	while app running:
-		ping app periodically for update:
-			total allocations, total allocated, invalid blocks
-		request all blocks:
-			> size
-			allocated in file
+	print table:  partial column on page 1
+
+	display histogram of block sizes: <16, <32, <64, <128, ..., <2^32, >=2^32
+	Refresh button in Records windows (only while program is running)
+
+	test
+		leibnitz -- THX3DPlotDirector leaking
+		jcc -- crash with deleted JMessageProtocol -- only when open project
 
 libXft:
 	test all window/dialog layouts on Linux and OSX
 	jxlayout -cp code -cs .cpp --post-cmd 'jcc --reload-open' --choose
 
 	arrow
-	buzzer
 	code_crusader
 	code_medic
-	code_mill
-	drakon
-	glove
-	jx_project_wizard
-	leibnitz
-	svn_client
-	systemg
 
 -----
 
@@ -35,6 +22,56 @@ all:
 	if run as root, shouldn't change owner for prefs files
 		since file is user-only, only need to check for running root/not owned root
 		apply to prefs, ~/.jxcb, ~/.jx
+
+	OSX:
+		modal windows, e.g., File Chooser, still migrate upward
+		System G windows in dirs with no prefs open downward
+
+svn_client:
+	Repo tab for "svn list"
+		drag => svn copy/move (for branching/tagging)
+			ask for destination name before performing action
+
+medic:
+	breakpoint window
+		modeless: update on ":Medic breakpoints changed:"
+		create/edit/delete
+		shows bkpt, watch, catch: need to update GDBGetBreakpoints
+		set watchpoints on items in Variables and Local Variables window
+		need to trap auto-deletion of watchpoints (going out of scope)
+		sort by any column
+
+	set commands when restore breakpoints -- split on \1
+		test on leibnitz_debug_config
+
+	disassembly window
+		show output for current function only -- normally step through source code
+		show location via CMLineNumberTable: extend to allow arbitrary line numbers
+		show breakpoints via address field?
+
+		&"disas\n"
+		~"Dump of assembler code for function main:\n"
+		~"End of assembler dump.\n"
+		^done,reason="breakpoint-hit",commands="no",times="1",bkptno="1",thread-id="1",asm_insns=[{address="0x00002904",func-name="main",offset="0",inst="push   %ebp"},{address="0x00002905",func-name="main",offset="1",inst="mov    %esp,%ebp"},{address="0x00002907",func-name="main",offset="3",inst="push   %esi"},{address="0x00002908",func-name="main",offset="4",inst="push   %ebx"},{address="0x00002909",func-name="main",offset="5",inst="sub    $0x50,%esp"},{address="0x0000290c",func-name="main",offset="8",inst="call   0x2911 <main+13>"},{address="0x00002911",func-name="main",offset="13",inst="pop    %ebx"},{address="0x00002912",func-name="main",offset="14",inst="mov    0x8(%ebp),%edx"},{address="0x00002915",func-name="main",offset="17",inst="mov    0xc(%ebp),%eax"},{address="0x00002918",func-name="main",offset="20",inst="mov    %eax,0x4(%esp)"},{address="0x0000291c",func-name="main",offset="24",inst="mov    %edx,(%esp)"},{address="0x0000291f",func-name="main",offset="27",inst="call   0x2882 <_Z16ParseTextOptionsiPPc>"},{address="0x00002924",func-name="main",offset="32",inst="mov    0x8(%ebp),%esi"},{address="0x00002927",func-name="main",offset="35",inst="call   0x55fa <_ZN14SyGApplication15GetAppSignatureEv>"},
+
+		&"stepi\n"
+		^done
+		(gdb) 
+		i s
+		&"i s\n"
+		^done,reason="end-stepping-range",thread-id="1",frame={level="0",addr="0x0000291c",fp="0xbffff150",func="main",args=[{name="argc",value="1"},{name="argv",value="0xbffff168"}],file="code/systemg.cpp",fullname="/Users/lindalj/tools/JX/programs/systemg/code/systemg.cpp",line="38",dir="/Users/lindalj/tools/JX/programs/systemg"}
+
+	gdb for program with threads:
+		set scheduler-locking on/off/step
+		break <location> thread <gdb thread number>
+
+	OSX: stack trace loaded twice when hit breakpoint
+
+	java
+		thread list
+			convert to tree
+			listen for thread start/death to update tree
+		display stack trace for selected thread
 
 jcc:
 	cvs,svn,git:  need to pass rev args to "summary" diff command
@@ -51,26 +88,9 @@ jcc:
 		when invoke one-at-a-time from not-one-at-a-time, invoke separate loop
 		when invoke @ commands, must treat as one-at-a-time
 
-medic:
-	set commands when restore breakpoints -- split on \1
-		test on leibnitz_debug_config
-
-	breakpoint window
-		modeless: update on ":Medic breakpoints changed:"
-		create/edit/delete
-		shows bkpt, watch, catch: need to update GDBGetBreakpoints
-		set watchpoints on items in Variables and Local Variables window
-		need to trap auto-deletion of watchpoints (going out of scope)
-		sort by any column
-
-	java
-		thread list
-			convert to tree
-			listen for thread start/death to update tree
-		display stack trace for selected thread
-
 buzzer:
 	merge code from Glenn and get it to build
+	test layouts on both Linux and OS X
 
 systemg:
 	optimize selection of multiple items
@@ -176,9 +196,6 @@ svn_client:
 	show multiple files in same folder in systemg:  only selects last one
 
 	Repo tab for "svn list"
-		drag => svn copy/move (for branching/tagging)
-			ask for destination name before performing action
-
 		checkout single selected item
 			only directories
 			ask for dest, warn if same name already exists
@@ -208,6 +225,7 @@ svn_client:
 glove:
 	switch to JXExprEditor
 	clean up .fd to match current layouts
+	test layouts on Linux and OS X
 
 JBroadcaster:
 	register handler for message:  function which takes obj, msg type, function pointer
@@ -298,6 +316,7 @@ Mondrian:
 			sizing
 			variable name
 			ctor arguments
+			validation (for input fields)
 		palette
 			just another layout window
 			save in prefs -- allows rearranging, resizing, custom objects, etc

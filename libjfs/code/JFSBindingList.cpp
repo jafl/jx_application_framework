@@ -43,12 +43,6 @@ static const JCharacter* kDefaultWindowCmd = "xterm -title $q -n $q -e $u";
 
 const JSize kContentLength = 1024;
 
-// string ID's
-
-static const JCharacter* kDefaultBindingListID    = "DefaultBindingList::JFSBindingList";
-static const JCharacter* kOSXDefaultBindingListID = "DefaultBindingList-OSX::JFSBindingList";
-static const JCharacter* kUpgradeFromVersion1ID   = "UpgradeFromVersion1::JFSBindingList";
-
 /******************************************************************************
  Constructor function (static)
 
@@ -635,7 +629,7 @@ JFSBindingList::Revert()
 				if (userInput.good())
 					{
 					Load(userInput, kJFalse);
-					userMsg = JGetString(kUpgradeFromVersion1ID);
+					userMsg = JGetString("UpgradeFromVersion1::JFSBindingList");
 					}
 				}
 			}
@@ -665,9 +659,9 @@ JFSBindingList::Revert()
 	if (IsEmpty())		// nothing loaded
 		{
 #ifdef _J_OSX
-		const JCharacter* data = JGetString(kOSXDefaultBindingListID);
+		const JCharacter* data = JGetString("DefaultBindingList-OSX::JFSBindingList");
 #else
-		const JCharacter* data = JGetString(kDefaultBindingListID);
+		const JCharacter* data = JGetString("DefaultBindingList::JFSBindingList");
 #endif
 		const std::string s(data, strlen(data));
 		std::istringstream input(s);

@@ -153,7 +153,7 @@ JXSearchTextDialog::Activate()
 		itsSearchInput->Focus();
 		itsSearchInput->SelectAll();
 
-		(JXGetApplication())->InstallIdleTask(itsUpdateTask);
+		itsUpdateTask->Start();
 		}
 }
 
@@ -172,7 +172,7 @@ JXSearchTextDialog::Deactivate()
 			SetXSearch();
 			}
 
-		(JXGetApplication())->RemoveIdleTask(itsUpdateTask);
+		itsUpdateTask->Stop();
 		return kJTrue;
 		}
 	else
@@ -748,14 +748,14 @@ JXSearchTextDialog::Receive
 		{
 		if ((GetWindow())->IsVisible())
 			{
-			(JXGetApplication())->RemoveIdleTask(itsUpdateTask);
+			itsUpdateTask->Stop();
 			}
 		}
 	else if (sender == GetWindow() && message.Is(JXWindow::kDeiconified))
 		{
 		if ((GetWindow())->IsVisible())
 			{
-			(JXGetApplication())->InstallIdleTask(itsUpdateTask);
+			itsUpdateTask->Start();
 			}
 		}
 	else if (sender == itsUpdateTask && message.Is(JXTimerTask::kTimerWentOff))

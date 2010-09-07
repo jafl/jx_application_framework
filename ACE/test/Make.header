@@ -31,8 +31,8 @@ DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
 # library dependencies
 
 ifdef J_BUILD_SHARED_LIB
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.so \
-              ${JLIBDIR}/libACE-${ACE_LIB_VERSION}.so
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
+              ${JLIBDIR}/libACE-${ACE_LIB_VERSION}.${J_SHARED_LIB_SUFFIX}
 else
   LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
               ${JLIBDIR}/libACE-${ACE_LIB_VERSION}.a

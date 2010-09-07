@@ -103,6 +103,7 @@ JXScrollableWidget::JXScrollableWidget
 	if (itsScrollbarSet != NULL)
 		{
 		ScrollTo(0,0);
+		SetBackColor(GetFocusColor());
 		}
 }
 
@@ -372,7 +373,7 @@ JXScrollableWidget::NeedAdjustScrollbars()
 		{
 		itsAdjustScrollbarTask = new JXAdjustScrollbarTask(this);
 		assert( itsAdjustScrollbarTask != NULL );
-		(JXGetApplication())->InstallUrgentTask(itsAdjustScrollbarTask);
+		itsAdjustScrollbarTask->Go();
 		}
 }
 

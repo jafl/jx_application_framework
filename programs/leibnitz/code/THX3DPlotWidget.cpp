@@ -83,6 +83,8 @@ THX3DPlotWidget::THX3DPlotWidget
 
 THX3DPlotWidget::~THX3DPlotWidget()
 {
+	delete itsAxes;
+	delete itsSurface;
 }
 
 /******************************************************************************

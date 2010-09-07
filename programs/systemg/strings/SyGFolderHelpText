@@ -121,22 +121,4 @@ Shortcuts provide a way to quickly access a folder. Once you have opened a folde
 <p>
 The Shortcuts menu always includes the mount points corresponding to floppy disks, CDROM's, ZIP and JAZ disks, Windows partitions, etc.  If you select one of these items, System G will automatically try to mount the disk if it isn't already mounted.  When you close the window, System G will automatically try to unmount the disk if it wasn't mounted before its window was opened.  This allows you to insert a disk, open the window in System G, do whatever you want, close the window, and then <em>safely</em> remove the disk.  The only caveat for this to work is that you must leave the window open until you are completely finished with the disk.  If you are editing files on the disk, have other windows open for folders on the disk, etc., then System G will not be able to unmount the disk when you close its window.  (You can always open the window again and use the \"Unmount\" item on the File menu.)
 
-<a name=GitBranch>
-
-<h3> Working with git </h3>
-
-If the directory is managed by git, the Branch menu will be displayed.  The first group of items is the locally available branches.  Selecting one of these items will switch your directory contents to that branch.  The second group of items, displayed in white, are the remote branches.  Selecting one of these will download the branch so you can work with it.
-<p>
-\"Create branch...\" will create a new branch and switch to it.  The initial contents of the branch will be copied from the previously selected branch.
-<p>
-\"Status...\" displays the status of the current branch.  By default, <code>git citool</code> is used.  You can change this in the Preferences dialog.
-<p>
-\"Commit all changes...\" commits <em>all</em> changes, both staged and unstaged.  To commit only some changes, use either <code>git citool</code> or <code>git commit</code>.
-<p>
-\"Revert all changes\" discards all changes made to tracked files, both staged and unstaged.
-<p>
-\"Fetch &amp; merge from\" displays a list of remote repositories.  Selecting an item retrieves the latest from that repository and merges it into your working copy.
-<p>
-\"Push current branch to\" displays a list of remote repositories.  Selecting an item pushes the committed changes in the current branch to that repository.
-
 </html>"

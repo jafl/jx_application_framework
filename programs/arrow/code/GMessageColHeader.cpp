@@ -57,7 +57,6 @@ GMessageColHeader::GMessageColHeader
 	itsData(NULL)
 {
 	TurnOnColResizing(kMinColSize);
-//	SetBackColor(GetColormap()->GetWhiteColor());
 }
 
 /******************************************************************************

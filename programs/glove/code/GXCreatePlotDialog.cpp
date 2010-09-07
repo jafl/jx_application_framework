@@ -77,7 +77,6 @@ GXCreatePlotDialog::BuildWindow
 
     JXWindow* window = new JXWindow(this, 380,160, "");
     assert( window != NULL );
-    SetWindow(window);
 
     itsXMenu =
         new JXTextMenu("X Axis", window,

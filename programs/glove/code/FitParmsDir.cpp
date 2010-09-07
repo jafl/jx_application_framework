@@ -42,7 +42,6 @@ FitParmsDir::FitParmsDir
 	
 	JXWindow* window = new JXWindow(this, 260,240, "Fit Parameters");
     assert( window != NULL );
-    SetWindow(window);
     
     window->LockCurrentSize();
 	

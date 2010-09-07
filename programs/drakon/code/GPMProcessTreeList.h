@@ -47,7 +47,7 @@ protected:
 
 private:
 
-	GPMProcessList*			itsList;
+	GPMProcessList*			itsList;			// not owned
 	JXTextMenu*				itsContextMenu;
 	const GPMProcessEntry* 	itsSelectedEntry;
 	JXTEBase*				itsFullCmdDisplay;

@@ -44,7 +44,9 @@ enum
 	kSViewManPagePrefID,
 	kSAltCSSetupID,
 	kSFindFilePrefID,
-	kSVersionCheckID
+	kSVersionCheckID,
+	kSNewWindowsID,
+	kSPerFolderPrefsID
 };
 
 const JSize kSyGTreePrefCount = 7;
@@ -71,8 +73,14 @@ public:
 	JBoolean	RestoreProgramState(JPtrArray<JString>* children);
 	void		SaveProgramState(const JPtrArray<JString>& children);
 
-	void		DelShouldDelete(const JBoolean del);
 	JBoolean	DelWillDelete() const;
+	void		DelShouldDelete(const JBoolean del);
+
+	JBoolean	WillOpenNewWindows() const;
+	void		ShouldOpenNewWindows(const JBoolean newWindows);
+
+	JBoolean	WillSaveFolderPrefs() const;
+	void		ShouldSaveFolderPrefs(const JBoolean perFolder);
 
 	void		EditPrefs();
 

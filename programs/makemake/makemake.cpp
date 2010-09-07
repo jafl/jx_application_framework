@@ -35,9 +35,9 @@
 
 static const JCharacter* kVersionStr =
 
-	"makemake 3.3.0\n"
+	"makemake 3.4.0\n"
 	"\n"
-	"Copyright © 1994-2005 by John Lindal.  All rights reserved.\n"
+	"Copyright © 1994-2010 by John Lindal.  All rights reserved.\n"
 	"\n"
 	"http://www.newplanetsoftware.com/";
 
@@ -82,6 +82,8 @@ const JSize kSharedLibSuffixCount = sizeof(kSharedLibSuffix) / sizeof(JCharacter
 #else
 #define J_SHARED_LIB_SUFFIX	J_LINUX_SHARED_LIB_SUFFIX
 #endif
+
+static JRegex* globalIgnorePattern = NULL;
 
 static const JRegex objFileSuffix     = "^\\.(o|a|so|class|jar) ";
 static       JRegex noParseFileSuffix = "^\\.(java|e|m[23])$";		// modified by GetOptions()
@@ -783,30 +785,9 @@ main
 
 #endif
 
-/*
-	You may ask why one needs to connect to /dev/null.  Apparently, some
-	programs (e.g. mc) don't like the fact that the pgid of the child
-	process differs from that of makemake itself, so they block the output
-	of the child process.  Patch submitted by:
-
-		Igor Khristophorov <igor@atdot.org>
-
-		I always needed the patch attached to compile JX under Linux
-		(kernels 2.2.x, 2.4.x-pre, glibc 2.1.3, gcc 2.95.2, GNU make
-		3.79.1).
-
-	Does this need to be the default in JExecute()?  Surely that is
-	unreasonable because then the output of child processes won't be
-	displayed in the shell.
-
-*/
-
 	JProcess* p;
 	const JError depErr =
 		JProcess::Create(&p, depArgv, sizeof(depArgv));
-//						 kJIgnoreConnection, NULL,
-//						 kJTossOutput, NULL,
-//						 kJAttachToFromFD, NULL);
 	if (!depErr.OK())
 		{
 		cerr << argv[0] << ": " << depErr.GetMessage() << endl;
@@ -1025,6 +1006,8 @@ GetOptions
 
 	JPtrArray<JString> searchPaths(JPtrArrayT::kDeleteAll);
 	searchPaths.Append(kCurrentDir);
+
+	// command line options
 
 	JIndex index = 1;
 	JArray<JIndexRange> matchList;
@@ -1451,6 +1434,15 @@ CalcDepend
 	(JMemoryManager::Instance())->CancelRecordAllocated();
 	(JMemoryManager::Instance())->CancelRecordDeallocated();
 	(JMemoryManager::Instance())->SetPrintExitStats(kJFalse);
+
+	// apply environment variables
+
+	const JCharacter* env = getenv("J_MAKEMAKE_IGNORE_PATTERN");
+	if (!JStringEmpty(env))
+		{
+		globalIgnorePattern = new JRegex(env);
+		assert( globalIgnorePattern != NULL );
+		}
 
 	// parse command line arguments
 
@@ -1882,8 +1874,8 @@ GetNextIncludedFile
 					if (i <= length)
 						{
 						const JString name = line.GetSubstring(2, i-1);
-						if (name.BeginsWith("ace/") ||
-							name.EndsWith("StdInc.h"))
+						if (globalIgnorePattern != NULL &&
+							globalIgnorePattern->Match(name))
 							{
 							// skip
 							}

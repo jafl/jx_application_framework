@@ -594,11 +594,11 @@ TestDirector::Receive
 
 	else if (sender == window && message.Is(JXWindow::kIconified))
 		{
-		(JXGetApplication())->InstallIdleTask(itsAnimIconTask);
+		itsAnimIconTask->Start();
 		}
 	else if (sender == window && message.Is(JXWindow::kDeiconified))
 		{
-		(JXGetApplication())->RemoveIdleTask(itsAnimIconTask);
+		itsAnimIconTask->Stop();
 		}
 
 	else if (sender == itsPSPrinter &&
@@ -648,7 +648,7 @@ void
 TestDirector::UpdateAboutMenu()
 {
 	itsAnimHelpTask->Reset();
-	(JXGetApplication())->InstallIdleTask(itsAnimHelpTask);		// removes itself
+	itsAnimHelpTask->Start();		// removes itself
 }
 
 /******************************************************************************
@@ -1180,8 +1180,7 @@ TestDirector::BeginBGProcess
 {
 	TestPGTask* task = new TestPGTask(fixedLength);
 	assert( task != NULL );
-
-	(JXGetApplication())->InstallIdleTask(task);
+	task->Start();
 }
 
 /******************************************************************************

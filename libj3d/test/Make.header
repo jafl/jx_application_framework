@@ -46,9 +46,9 @@ TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR} ${J3DLIBDIR}
 # library dependencies
 
 ifdef J_BUILD_SHARED_LIB
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.so \
-              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.so \
-              ${JLIBDIR}/libj3d-${J3D_LIB_VERSION}.so
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
+              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
+              ${JLIBDIR}/libj3d-${J3D_LIB_VERSION}.${J_SHARED_LIB_SUFFIX}
 else
   LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
               ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a \

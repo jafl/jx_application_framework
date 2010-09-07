@@ -77,7 +77,6 @@ JXExprWidget::JXExprEditorX()
 	// (also calls EIPBoundsChanged and EIPAdjustNeedTab)
 
 	ClearFunction();
-	SetBackColor(GetColormap()->GetWhiteColor());
 	EIPDeactivate();
 }
 

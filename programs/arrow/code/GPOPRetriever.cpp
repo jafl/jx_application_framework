@@ -147,7 +147,7 @@ GPOPRetriever::GPOPRetriever
 		JInteger delay = itsAccount->GetCheckInterval();
 		itsTimerTask = new JXTimerTask(delay * 60 * 1000);
 		assert(itsTimerTask != NULL);
-		JXGetApplication()->InstallIdleTask(itsTimerTask);
+		itsTimerTask->Start();
 		ListenTo(itsTimerTask);
 		}
 }
@@ -391,7 +391,8 @@ GPOPRetriever::ConnectToServer()
 	else
 		{
 		itsTimeoutTask = new JXTimerTask(kMaxWaitSeconds * 1000,kJTrue);
-		JXGetApplication()->InstallIdleTask(itsTimeoutTask);
+		assert( itsTimeoutTask != NULL );
+		itsTimeoutTask->Start();
 		ListenTo(itsTimeoutTask);
 		ListenTo(itsLink);
 		}
@@ -434,7 +435,7 @@ GPOPRetriever::ReadReturnValue()
 			{
 			itsDeleteTask = new JXTimerTask(10,kJTrue);
 			assert(itsDeleteTask != NULL);
-			JXGetApplication()->InstallIdleTask(itsDeleteTask);
+			itsDeleteTask->Start();
 			ListenTo(itsDeleteTask);
 			StopListening(itsLink);
 			JGetUserNotification()->ReportError(line);
@@ -497,7 +498,7 @@ GPOPRetriever::ReadReturnValue()
 				{
 				itsDeleteTask = new JXTimerTask(10,kJTrue);
 				assert(itsDeleteTask != NULL);
-				JXGetApplication()->InstallIdleTask(itsDeleteTask);
+				itsDeleteTask->Start();
 				ListenTo(itsDeleteTask);
 				JString report = "This server does not support APOP";
 				JGetUserNotification()->ReportError(report);
@@ -588,7 +589,7 @@ GPOPRetriever::ReadReturnValue()
 					{
 					itsDeleteTask = new JXTimerTask(10,kJTrue);
 					assert(itsDeleteTask != NULL);
-					JXGetApplication()->InstallIdleTask(itsDeleteTask);
+					itsDeleteTask->Start();
 					ListenTo(itsDeleteTask);
 					StopListening(itsLink);
 					JString report("Arrow needs the formail and procmail programs"
@@ -663,7 +664,7 @@ GPOPRetriever::ReadReturnValue()
 		itsCurrentIndex = 1;
 		itsDeleteTask = new JXTimerTask(10,kJTrue);
 		assert(itsDeleteTask != NULL);
-		JXGetApplication()->InstallIdleTask(itsDeleteTask);
+		itsDeleteTask->Start();
 		ListenTo(itsDeleteTask);
 		if (itsMessageBuffer != NULL)
 			{
@@ -762,7 +763,8 @@ GPOPRetriever::SendNextData()
 		GGetInboxMgr()->ShouldBePostponingUpdate(kJTrue);
 
 		itsPGCheckTask = new JXTimerTask(kPGWaitWaitSeconds * 1000);
-		JXGetApplication()->InstallIdleTask(itsPGCheckTask);
+		assert( itsPGCheckTask != NULL );
+		itsPGCheckTask->Start();
 		ListenTo(itsPGCheckTask);
 		
 /*		while (itsCurrentMode == kRetr)

@@ -25,6 +25,9 @@ public:
 
 	virtual ~JXIdleTask();
 
+	void	Start();
+	void	Stop();
+
 	virtual void	Perform(const Time delta, Time* maxSleepTime) = 0;
 
 	Time	GetPeriod() const;

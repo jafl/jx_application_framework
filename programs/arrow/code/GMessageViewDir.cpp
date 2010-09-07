@@ -657,7 +657,7 @@ GMessageViewDir::HandleFileMenu
 		GMMarkHeaderDeletedTask* task	=
 			new GMMarkHeaderDeletedTask(itsDir->GetData(), itsMessageHeader);
 		assert(task != NULL);
-		JXGetApplication()->InstallUrgentTask(task);		
+		task->Go();
 		Close();
 		}
 	else if (index == kDeleteShowNextCmd)
@@ -665,7 +665,7 @@ GMessageViewDir::HandleFileMenu
 		GMMarkHeaderDeletedTask* task	=
 			new GMMarkHeaderDeletedTask(itsDir->GetData(), itsMessageHeader);
 		assert(task != NULL);
-		JXGetApplication()->InstallUrgentTask(task);		
+		task->Go();
 
 		GMessageHeader* header = itsMessageHeader;
 		if (!itsSourceOnly)

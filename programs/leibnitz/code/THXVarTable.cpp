@@ -50,9 +50,6 @@ THXVarTable::THXVarTable
 	itsTextInput = NULL;
 	itsFontMenu  = fontMenu;
 
-	itsOrigText = new JString;
-	assert( itsOrigText != NULL );
-
 	AppendCols(2);	// name, function
 
 	const JSize count = itsVarList->GetElementCount() - THXVarList::kUserFnOffset;
@@ -72,7 +69,6 @@ THXVarTable::THXVarTable
 
 THXVarTable::~THXVarTable()
 {
-	delete itsOrigText;
 }
 
 /******************************************************************************
@@ -212,7 +208,7 @@ THXVarTable::CreateXInputField
 		itsTextInput->SetVarName(s);
 		}
 
-	*itsOrigText = itsTextInput->GetVarName();
+	itsOrigText = itsTextInput->GetVarName();
 
 	itsTextInput->SetIsRequired();
 	itsTextInput->SetFontMenu(itsFontMenu);
@@ -233,7 +229,7 @@ THXVarTable::ExtractInputData
 	assert( itsTextInput != NULL );
 
 	const JString s = itsTextInput->GetVarName();
-	if (s == *itsOrigText)
+	if (s == itsOrigText)
 		{
 		return kJTrue;
 		}

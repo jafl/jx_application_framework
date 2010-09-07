@@ -78,7 +78,7 @@ protected:
 private:
 
 	GlovePlotter* 				itsPlot;
-	JString* 					itsFileName;
+	JString 					itsFileName;
 	GVarList*					itsVarList;
 	JXTextMenu*					itsPlotMenu;
 	JXTextMenu*					itsAnalysisMenu;
@@ -90,7 +90,6 @@ private:
 	JPtrArray<JFitBase>*		itsFits;
 	FitParmsDir*				itsFitParmsDir;
 	JArray<CurveStats>*			itsCurveStats;
-	JArray<JIndex>*				itsCurveIndeces;
 	GCurveType					itsCurrentCurveType;
 	JXFileDocument*				itsSupervisor;
 	JPtrArray<PlotDir>*			itsDiffDirs;

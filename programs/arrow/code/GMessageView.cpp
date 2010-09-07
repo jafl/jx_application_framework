@@ -113,7 +113,6 @@ GMessageView::GMessageViewX
 	)
 {
 	SetPTPrinter(GMGetPTPrinter());
-	SetBackColor(GetColormap()->GetWhiteColor());
 	ShouldAllowDragAndDrop(kJTrue);
 	SetDefaultFont(GGetPrefsMgr()->GetDefaultMonoFont(), GGetPrefsMgr()->GetDefaultFontSize());
 	JSize tabChars = GGetPrefsMgr()->GetTabCharWidth();

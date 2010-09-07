@@ -79,6 +79,10 @@ GPMProcessList::~GPMProcessList()
 	delete itsEntries;
 	delete itsAlphaEntries;
 	delete itsTree;
+
+	#ifdef _J_HAS_PROC
+	delete itsDirInfo;
+	#endif
 }
 
 /******************************************************************************

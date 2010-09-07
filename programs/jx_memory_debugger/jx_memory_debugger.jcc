@@ -1,0 +1,140 @@
+jx_browser_data 84
+# project tree
+0 "root"
+T
+1 "main"
+T
+2 "jx_memory_debugger.cpp"
+F
+"./code/jx_memory_debugger.cpp"
+T
+2 "MDApp.cpp"
+F
+"./code/MDApp.cpp"
+T
+2 "mdGlobals.cpp"
+F
+"./code/mdGlobals.cpp"
+T
+2 "MDPrefsManager.cpp"
+F
+"./code/MDPrefsManager.cpp"
+T
+2 "MDPrefsDialog.cpp"
+F
+"./code/MDPrefsDialog.cpp"
+T
+2 "MDAboutDialog.cpp"
+F
+"./code/MDAboutDialog.cpp"
+F
+T
+1 "stats"
+T
+2 "MDStatsDirector.cpp"
+F
+"./code/MDStatsDirector.cpp"
+T
+2 "MDFilterRecordsDialog.cpp"
+F
+"./code/MDFilterRecordsDialog.cpp"
+F
+T
+1 "records"
+T
+2 "MDRecordDirector.cpp"
+F
+"./code/MDRecordDirector.cpp"
+T
+2 "MDHeaderWidget.cpp"
+F
+"./code/MDHeaderWidget.cpp"
+T
+2 "MDRecordTable.cpp"
+F
+"./code/MDRecordTable.cpp"
+T
+2 "MDRecordList.cpp"
+F
+"./code/MDRecordList.cpp"
+T
+2 "MDRecord.cpp"
+F
+"./code/MDRecord.cpp"
+T
+2 "MDRecordDataField.cpp"
+F
+"./code/MDRecordDataField.cpp"
+F
+T
+1 "misc"
+T
+2 "jx_memory_debugger.fd"
+F
+"./jx_memory_debugger.fd"
+T
+2 "jx_memory_debugger_strings"
+F
+"./strings/jx_memory_debugger_strings"
+T
+2 "license"
+F
+"./strings/license"
+F
+T
+1 "help"
+T
+2 "mdHelpText.h"
+F
+"./code/mdHelpText.h"
+T
+2 "mdTOCHelpText"
+F
+"./strings/mdTOCHelpText"
+T
+2 "mdOverviewHelpText"
+F
+"./strings/mdOverviewHelpText"
+T
+2 "mdMainHelpText"
+F
+"./strings/mdMainHelpText"
+T
+2 "mdChangeLogText"
+F
+"./strings/mdChangeLogText"
+T
+2 "mdCreditsText"
+F
+"./strings/mdCreditsText"
+F
+T
+1 "images"
+T
+2 "md_about_icon.xpm"
+F
+"./code/md_about_icon.xpm"
+T
+2 "md_main_window_icon.xpm"
+F
+"./code/md_main_window_icon.xpm"
+F
+F
+# tasks
+4
+"makemake"
+T "./" "jxlayout --choose --post-cmd \"jcc --force-reload-open\" -cp code $project_name.fd" "" F F T T T T F "Compile layouts" "Meta-'" "&|3Ss+=IL_ywwy[Pm}cG::CBCommandManager" F
+F
+# build settings
+1
+F
+"jx_memory_debugger"
+"${LIB_DEPS}"
+"make -k all"
+# search paths
+T "../../libjcore/code" T
+T "../../libjx/code" T
+T "./code" T
+F
+# C preprocessor
+F

@@ -127,8 +127,8 @@ JMessageProtocol<ACE_PEER_STREAM_2>::SetProtocol
 {
 	assert( separatorLength > 0 );
 
-	itsSeparatorStr.Set(separatorStr, separatorLength);
-	itsDisconnectStr.Set(disconnectStr, disconnectLength);
+	itsSeparatorStr.Set(separatorStr, separatorLength > 0 ? separatorLength : strlen(separatorStr));
+	itsDisconnectStr.Set(disconnectStr, disconnectLength > 0 ? disconnectLength : strlen(disconnectStr));
 
 	assert( disconnectLength == 0 ||
 			(separatorLength == disconnectLength &&

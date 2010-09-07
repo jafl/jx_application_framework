@@ -28,6 +28,10 @@ J_OPTIMIZE_LEVEL := 0
 
 J_SHARED_LIB_LINK_OPTION := -G
 
+# This specifies the suffix for shared libraries
+
+J_SHARED_LIB_SUFFIX := so
+
 # Uncomment this if your system requires separate .o files for
 # static and shared libraries.  The actual value is not used.
 

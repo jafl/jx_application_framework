@@ -59,7 +59,7 @@
 #		                       to the default AllocateGarbage value.  If it is
 #		                       given a numerical value, that will be the value
 #		                       used for initialization.  If the manager cannot
-#		                       understand the value given the default is used
+#		                       understand the value given, the default is used
 #		                       (setting it to "default" is the recommended way
 #		                       to do this intentionally).  If it does not exist
 #		                       or is set to "no" memory blocks will not be
@@ -70,7 +70,7 @@
 #		                       default DeallocateGarbage value.  If it is given
 #		                       a numerical value, that will be the value the
 #		                       blocks are set to.  If the manager cannot
-#		                       understand the value given the default is used
+#		                       understand the value given, the default is used
 #		                       (setting it to "default" is the recommended way
 #		                       to do this intentionally).  If it does not exist
 #		                       or is set to "no" memory blocks will not be
@@ -153,6 +153,9 @@
 #		                       and if you turn them on you likely want to print error
 #		                       messages).
 
+#		JMM_PIPE               UNIX pipe on which to receive requests.  Also used
+#		                       to send exit stats.
+
 #		MALLOC_CHECK_          Setting this environment variable turns on checking
 #		                       in libc.  1 => print error  2 => abort
 
@@ -210,15 +213,25 @@
 #include <stdlib.h>
 #include <new>
 
-#include <JString.h>
-
 #include <JMMArrayTable.h>
 #include <JMMHashTable.h>
 #include <JMMErrorPrinter.h>
 
+#include <ace/Connector.h>
+#include <ace/LSOCK_Connector.h>
+#include <JMMDebugErrorStream.h>
+#include <jFileUtil.h>
+#include <fstream>
+
+#include <jErrno.h>
 #include <jAssert.h>
 #undef new
 #undef delete
+
+typedef ACE_Connector<JMemoryManager::DebugLink, ACE_LSOCK_CONNECTOR>	DebugLinkConnector;
+
+static const JCharacter* kDisconnectStr = "JMemoryManager::DebugLinkDisconnect";
+const JSize kDisconnectStrLength        = strlen(kDisconnectStr);
 
 // Broadcaster message types
 
@@ -234,8 +247,6 @@
 
 // Constants
 
-	static const JCharacter* kUnknownFile = "<UNKNOWN>";
-
 	const unsigned char defaultAllocateGarbage = 0xA7;   // A for Allocate :-)
 	const unsigned char defaultDeallocateGarbage = 0xD7; // D for Delete   :-)
 
@@ -246,6 +257,8 @@
 	JMMRecord JMemoryManager::theAllocStack[theStackMax];
 	JSize     JMemoryManager::theAllocStackSize = 0;
 
+	JBoolean JMemoryManager::theInternalFlag = kJFalse;
+
 	JMemoryManager::DeleteRequest JMemoryManager::theDeallocStack[theStackMax];
 	JSize        JMemoryManager::theDeallocStackSize = 0;
 
@@ -254,9 +267,13 @@
 
 	JBoolean      JMemoryManager::theAbortUnknownAllocFlag = kJFalse;
 
-	// Ordinary functions
+	const JCharacter* JMemoryManager::kUnknownFile = "<UNKNOWN>";
+
+// static functions
+
 	void JMMHandleExit();
-	
+	void JMMHandleACEExit(void*, void*);
+
 /******************************************************************************
  Constructor (protected)
 
@@ -264,8 +281,12 @@
 
 JMemoryManager::JMemoryManager()
 	:
-	itsErrorPrinter(NULL),
 	itsMemoryTable(NULL),
+	itsErrorPrinter(NULL),
+	itsLink(NULL),
+	itsErrorStream(NULL),
+	itsExitStatsFileName(NULL),
+	itsExitStatsStream(NULL),
 	itsRecursionDepth(0),
 	itsLastDeleteFile(kUnknownFile),
 	itsLastDeleteLine(0),
@@ -344,7 +365,9 @@ JMemoryManager::JMemoryManager()
 		assert(itsMemoryTable != NULL);
 		}
 
-	(void) atexit(::JMMHandleExit);
+	// JMM_PIPE done in Instance()
+
+	atexit(::JMMHandleExit);
 }
 
 /******************************************************************************
@@ -357,11 +380,18 @@ JMemoryManager::~JMemoryManager()
 	assert(0); // Impossible to call, except maliciously.  So don't do that.
 
 	// For form's sake, write it correctly
+
 	if (itsMemoryTable != NULL)
 		{
 		delete itsMemoryTable;
 		itsMemoryTable = NULL;
 		}
+
+	delete itsErrorPrinter;
+	// ACE deletes the link on exit
+	delete itsErrorStream;
+	delete itsExitStatsFileName;
+	delete itsExitStatsStream;
 }
 
 /******************************************************************************
@@ -388,8 +418,43 @@ JMemoryManager::Instance()
 		manager->itsErrorPrinter = new(__FILE__, __LINE__) JMMErrorPrinter;
 		assert(manager->itsErrorPrinter != NULL);
 
+		const JCharacter* pipeName = getenv("JMM_PIPE");
+		if (!JStringEmpty(pipeName))
+			{
+			manager->itsErrorStream = new(__FILE__, __LINE__) JMMDebugErrorStream;
+			assert(manager->itsErrorStream != NULL);
+			}
+
 		theConstructingFlag = kJFalse;
 		manager->EmptyStacks();
+
+		// do it here since it calls delete as well as new
+
+		if (!JStringEmpty(pipeName))
+			{
+			manager->ConnectToDebugger(pipeName);
+			ACE_Object_Manager::at_exit(NULL, ::JMMHandleACEExit, NULL);
+
+			// If we create the file when we actually need it, it
+			// re-constructs JStringManager.
+
+			JString fileName;
+			const JError err = JCreateTempFile(&fileName);
+			if (err.OK())
+				{
+				theInternalFlag = kJTrue;
+
+				manager->itsExitStatsFileName = new JString(fileName);
+				assert( manager->itsExitStatsFileName != NULL );
+
+				theInternalFlag = kJFalse;
+				}
+			else
+				{
+				cerr << "Failed to create exit stats file:" << endl;
+				cerr << err.GetMessage() << endl;
+				}
+			}
 		}
 
 	return manager;
@@ -429,7 +494,7 @@ JMemoryManager::New
 		memset(newBlock, theAllocateGarbage, trueSize);
 		}
 
-	JBoolean isManager = JI2B(theConstructingFlag || Instance()->itsRecursionDepth > 0);
+	const JBoolean isManager = JI2B(theConstructingFlag || Instance()->itsRecursionDepth > 0 || theInternalFlag);
 	JMMRecord newRecord(GetNewID(), newBlock, trueSize, file, line, isArray, isManager);
 
 	if (theConstructingFlag || Instance()->itsRecursionDepth > 0)
@@ -523,6 +588,56 @@ JMemoryManager::PrintMemoryStats()
 		cout << "      Additional memory used by memory manager: " << managerMemory << " bytes\n";
 #endif
 		cout << endl;
+		}
+}
+
+/******************************************************************************
+ CancelRecordAllocated
+
+	Discards (permanently) all allocation records.  Cancels JMM_RECORD_ALLOCATED.
+	Implies CancelRecordDeallocated.
+
+ *****************************************************************************/
+
+void
+JMemoryManager::CancelRecordAllocated()
+{
+	if (itsMemoryTable != NULL)
+		{
+		BeginRecursiveBlock();
+		delete itsMemoryTable;
+		itsMemoryTable = NULL;
+		EndRecursiveBlock();
+		}
+}
+
+/******************************************************************************
+ CancelRecordDeallocated
+
+	Discards (permanently) all deletion records.  Cancels JMM_RECORD_DEALLOCATED.
+
+ *****************************************************************************/
+
+void
+JMemoryManager::CancelRecordDeallocated()
+{
+	if (itsMemoryTable != NULL)
+		{
+		itsMemoryTable->CancelRecordDeallocated();
+		}
+}
+
+/******************************************************************************
+ PrintAllocated
+
+ *****************************************************************************/
+
+void
+JMemoryManager::PrintAllocated() const
+{
+	if (itsMemoryTable != NULL)
+		{
+		itsMemoryTable->PrintAllocated(itsPrintInternalStatsFlag);
 		}
 }
 
@@ -708,20 +823,30 @@ JMemoryManager::LocateDelete
 }
 
 /******************************************************************************
- HandleExit (private)
+ JMMHandleACEExit (ordinary)
 
  *****************************************************************************/
 
 void
-JMemoryManager::HandleExit()
+JMMHandleACEExit(void*, void*)
 {
-	if ( itsPrintExitStatsFlag )
-		{
-		cout << "\n*******************************************************************" << endl;
-		cout << "\n\nJCore Exit Statistics: anything unallocated is probable garbage" << "\n";
-		PrintMemoryStats();
+	JMemoryManager::Instance()->HandleACEExit();
+}
 
-		PrintAllocated();
+/******************************************************************************
+ HandleACEExit (private)
+
+ *****************************************************************************/
+
+void
+JMemoryManager::HandleACEExit()
+{
+	if (itsLink != NULL)
+		{
+		SendExitStats();
+		itsLink->SendDisconnect();
+		itsLink->Flush();
+		itsLink = NULL;
 		}
 }
 
@@ -734,6 +859,295 @@ void
 JMMHandleExit()
 {
 	JMemoryManager::Instance()->HandleExit();
+}
+
+/******************************************************************************
+ HandleExit (private)
+
+ *****************************************************************************/
+
+void
+JMemoryManager::HandleExit()
+{
+	if (itsLink != NULL)
+		{
+		HandleACEExit();
+		}
+
+	if (itsExitStatsStream != NULL)
+		{
+		WriteExitStats();
+		}
+
+	if (itsPrintExitStatsFlag)
+		{
+		cout << "\n*******************************************************************" << endl;
+		cout << "\n\nJCore Exit Statistics: anything unallocated is probably garbage" << "\n";
+		PrintMemoryStats();
+
+		PrintAllocated();
+		}
+}
+
+/******************************************************************************
+ Receive (virtual protected)
+
+ ******************************************************************************/
+
+void
+JMemoryManager::Receive
+	(
+	JBroadcaster*	sender,
+	const Message&	message
+	)
+{
+	if (sender == itsLink && message.Is(JMessageProtocolT::kMessageReady))
+		{
+		HandleDebugRequest();
+		}
+	else
+		{
+		JBroadcaster::Receive(sender, message);
+		}
+}
+
+/******************************************************************************
+ HandleDebugRequest (private)
+
+ ******************************************************************************/
+
+void
+JMemoryManager::HandleDebugRequest()
+	const
+{
+	assert( itsLink != NULL );
+
+	JString text;
+	const JBoolean ok = itsLink->GetNextMessage(&text);
+	assert( ok );
+
+	std::string s(text, text.GetLength());
+	std::istringstream input(s);
+
+	JFileVersion vers;
+	input >> vers;
+	if (vers != kJMemoryManagerDebugVersion)
+		{
+		cerr << "JMemoryManager::HandleDebugRequest received version (" << vers;
+		cerr << ") different than expected (" << kJMemoryManagerDebugVersion << ")" << endl;
+		return;
+		}
+
+	long type;
+	input >> type;
+
+	if (type == kRunningStatsMessage)
+		{
+		SendRunningStats();
+		}
+	else if (type == kRecordsMessage)
+		{
+		SendRecords(input);
+		}
+}
+
+/******************************************************************************
+ SendRunningStats (private)
+
+ ******************************************************************************/
+
+void
+JMemoryManager::SendRunningStats()
+	const
+{
+	std::ostringstream output;
+	output << kJMemoryManagerDebugVersion;
+	output << ' ';
+	WriteRunningStats(output);
+
+	SendDebugMessage(output);
+}
+
+/******************************************************************************
+ WriteRunningStats (private)
+
+ ******************************************************************************/
+
+void
+JMemoryManager::WriteRunningStats
+	(
+	ostream& output
+	)
+	const
+{
+	output << kRunningStatsMessage;
+	output << ' ' << itsMemoryTable->GetAllocatedCount();
+	output << ' ' << itsMemoryTable->GetAllocatedBytes();
+	output << ' ' << itsMemoryTable->GetDeletedCount();
+	output << ' ';
+	itsMemoryTable->StreamAllocationSizeHistogram(output);
+}
+
+/******************************************************************************
+ SendRecords (private)
+
+ ******************************************************************************/
+
+void
+JMemoryManager::SendRecords
+	(
+	istream& input
+	)
+	const
+{
+	RecordFilter filter;
+	filter.Read(input);
+
+	std::ostringstream output;
+	output << kJMemoryManagerDebugVersion;
+	output << ' ';
+	WriteRecords(output, filter);
+
+	SendDebugMessage(output);
+}
+
+/******************************************************************************
+ WriteRecords (private)
+
+ ******************************************************************************/
+
+void
+JMemoryManager::WriteRecords
+	(
+	ostream&			output,
+	const RecordFilter&	filter
+	)
+	const
+{
+	output << kRecordsMessage;
+	output << ' ';
+	itsMemoryTable->StreamAllocatedForDebug(output, filter);
+}
+
+/******************************************************************************
+ SendExitStats (private)
+
+	We can't write useful exit stats when ACE is shutting down, so we
+	simply tell jx_memory_debugger where to find the information after we
+	are gone.
+
+ ******************************************************************************/
+
+void
+JMemoryManager::SendExitStats()
+	const
+{
+	if (!itsExitStatsFileName->IsEmpty())
+		{
+		std::ostringstream output;
+		output << kJMemoryManagerDebugVersion;
+		output << ' ' << kExitStatsMessage;
+		output << ' ' << *itsExitStatsFileName;
+
+		SendDebugMessage(output);
+
+		theInternalFlag = kJTrue;
+
+		itsExitStatsStream = new std::ofstream(*itsExitStatsFileName);
+		assert( itsExitStatsStream != NULL );
+
+		theInternalFlag = kJFalse;
+		}
+}
+
+/******************************************************************************
+ WriteExitStats (private)
+
+	We don't need to include a version number because we already sent
+	itsExitStatsFileName.
+
+ ******************************************************************************/
+
+void
+JMemoryManager::WriteExitStats()
+	const
+{
+	*itsExitStatsStream << ' ';
+	WriteRunningStats(*itsExitStatsStream);
+
+	RecordFilter filter;
+	*itsExitStatsStream << ' ';
+	WriteRecords(*itsExitStatsStream, filter);
+
+	delete itsExitStatsStream;
+	itsExitStatsStream = NULL;
+}
+
+/******************************************************************************
+ SendError (static)
+
+	called by JMMDebugErrorStream.
+
+ ******************************************************************************/
+
+void
+JMemoryManager::SendError
+	(
+	const JString& msg
+	)
+{
+	JMemoryManager* mgr = JMemoryManager::Instance();
+	if (mgr->itsLink != NULL)
+		{
+		std::ostringstream output;
+		output << kJMemoryManagerDebugVersion;
+		output << ' ' << kErrorMessage;
+		output << ' ' << msg;
+
+		mgr->SendDebugMessage(output);
+		}
+	else if (mgr->itsExitStatsStream != NULL)
+		{
+		*(mgr->itsExitStatsStream) << ' ' << kErrorMessage;
+		*(mgr->itsExitStatsStream) << ' ' << msg;
+		}
+}
+
+/******************************************************************************
+ SendDebugMessage (private)
+
+ ******************************************************************************/
+
+void
+JMemoryManager::SendDebugMessage
+	(
+	std::ostringstream& data
+	)
+	const
+{
+	JString s1 = data.str();
+	JIndex i   = 1;
+	while (s1.LocateNextSubstring(kDisconnectStr, &i))
+		{
+		s1.ReplaceSubstring(i, i+kDisconnectStrLength-1, "<ixnay on the disconnect string!>");
+		}
+
+	std::string s2 = s1.GetCString();
+	itsLink->SendMessage(s2.c_str(), s2.length());
+}
+
+/******************************************************************************
+ SetProtocol (static)
+
+ ******************************************************************************/
+
+void
+JMemoryManager::SetProtocol
+	(
+	DebugLink* link
+	)
+{
+	link->SetProtocol("\0", 1, kDisconnectStr, kDisconnectStrLength);
 }
 
 /******************************************************************************
@@ -884,3 +1298,161 @@ JMemoryManager::ReadValue
 			}
 		}
 }
+
+/******************************************************************************
+ JMemoryManager::RecordFilter
+
+ *****************************************************************************/
+
+JBoolean
+JMemoryManager::RecordFilter::Match
+	(
+	const JMMRecord& record
+	)
+	const
+{
+	JBoolean match = kJTrue;
+
+	if (!includeInternal && record.IsManagerMemory())
+		{
+		match = kJFalse;
+		}
+
+	if (record.GetSize() < minSize)
+		{
+		match = kJFalse;
+		}
+
+	const JSize newFileLength = strlen(record.GetNewFile());
+	if (match && fileName != NULL && newFileLength == fileName->GetLength())
+		{
+		if (record.GetNewFile() != *fileName)
+			{
+			match = kJFalse;
+			}
+		}
+	else if (match && fileName != NULL)
+		{
+		const JCharacter *s1, *s2;
+		JSize l1, l2;
+		if (newFileLength > fileName->GetLength())
+			{
+			s1 = record.GetNewFile();
+			l1 = newFileLength;
+			s2 = *fileName;
+			l2 = fileName->GetLength();
+			}
+		else
+			{
+			s1 = *fileName;
+			l1 = fileName->GetLength();
+			s2 = record.GetNewFile();
+			l2 = newFileLength;
+			}
+
+		if (*(s1 + l1 - l2 - 1) != ACE_DIRECTORY_SEPARATOR_CHAR ||
+			strcmp(s1 + l1 - l2, s2) != 0)
+			{
+			match = kJFalse;
+			}
+		}
+
+	return match;
+}
+
+void
+JMemoryManager::RecordFilter::Read
+	(
+	istream& input
+	)
+{
+	input >> includeInternal;
+	input >> minSize;
+
+	JBoolean hasFile;
+	input >> hasFile;
+
+	if (hasFile)
+		{
+		if (fileName == NULL)
+			{
+			fileName = new JString;
+			assert( fileName != NULL );
+			}
+
+		input >> *fileName;
+		}
+}
+
+void
+JMemoryManager::RecordFilter::Write
+	(
+	ostream& output
+	)
+	const
+{
+	output << includeInternal;
+	output << ' ' << minSize;
+
+	const JBoolean hasFile = JI2B(fileName != NULL && !fileName->IsEmpty());
+	output << ' ' << hasFile;
+	if (hasFile)
+		{
+		output << ' ' << *fileName;
+		}
+}
+
+/******************************************************************************
+ ConnectToDebugger (private)
+
+	Connects to the specified named UNIX socket.
+
+ ******************************************************************************/
+
+// This function has to be last so JCore::new works for everything else.
+
+#undef new
+
+void
+JMemoryManager::ConnectToDebugger
+	(
+	const JCharacter* socketName
+	)
+{
+	itsLink = new DebugLink;
+	assert( itsLink != NULL );
+
+	DebugLinkConnector* connector = new DebugLinkConnector;
+	assert( connector != NULL );
+
+	ACE_UNIX_Addr addr(socketName);
+	if (connector->connect(itsLink, addr, ACE_Synch_Options::asynch) == -1 &&
+		jerrno() != EAGAIN)
+		{
+		cerr << "error trying to connect JMemoryManager::DebugLink: " << jerrno() << endl;
+		}
+	else
+		{
+		SetProtocol(itsLink);
+		ListenTo(itsLink);
+		ClearWhenGoingAway(itsLink, &itsLink);
+		}
+}
+
+#define JTemplateName ACE_Connector
+#define JTemplateType JMemoryManager::DebugLink, ACE_LSOCK_CONNECTOR
+#include <instantiate_template.h>
+#undef JTemplateName
+#undef JTemplateType
+
+#define JTemplateName ACE_NonBlocking_Connect_Handler
+#define JTemplateType JMemoryManager::DebugLink
+#include <instantiate_template.h>
+#undef JTemplateName
+#undef JTemplateType
+
+#define JTemplateName ACE_Connector_Base
+#define JTemplateType JMemoryManager::DebugLink
+#include <instantiate_template.h>
+#undef JTemplateName
+#undef JTemplateType

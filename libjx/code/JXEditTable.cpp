@@ -58,7 +58,6 @@ JXEditTable::JXEditTable
 	itsInputField      = NULL;
 	itsEditMenuHandler = NULL;
 	WantInput(kJTrue, kJTrue);		// tab moves to next column
-	SetBackColor(GetFocusColor());	// remain white when input has focus
 }
 
 /******************************************************************************

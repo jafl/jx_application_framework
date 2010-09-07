@@ -70,7 +70,7 @@ protected:
 private:
 
 	JBoolean	itsStartupFlag;
-	JString*	itsStatePath;
+	JString		itsStatePath;
 
 	THXVarList*						itsVarList;
 	THXVarDirector*					itsVarDirector;

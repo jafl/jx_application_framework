@@ -57,7 +57,7 @@ JXFSRunCommandDialog::JXFSRunCommandDialog()
 		{
 		itsSignalTask = new JXCheckModTimeTask(kUpdateInterval, signalFileName);
 		assert( itsSignalTask != NULL );
-		(JXGetApplication())->InstallIdleTask(itsSignalTask);
+		itsSignalTask->Start();
 		ListenTo(itsSignalTask);
 		}
 

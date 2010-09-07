@@ -19,6 +19,7 @@
 class JXMenuBar;
 class JXTextMenu;
 class JXToolBar;
+class JXTextButton;
 
 class SyGTreeSet;
 class SyGFileTreeTable;
@@ -60,6 +61,7 @@ private:
     JXToolBar*           itsToolBar;
     SyGPathInput*        itsPathInput;
     SyGFolderDragSource* itsDragSrc;
+    JXTextButton*        itsUpButton;
 
 // end JXLayout
 

@@ -199,7 +199,6 @@ WizChatDirector::BuildWindow()
 						 0,0, 100,100);
 	assert( itsMessageDisplay != NULL );
 	itsMessageDisplay->FitToEnclosure();
-	itsMessageDisplay->SetBackColor(itsMessageDisplay->GetFocusColor());
 
 	itsChatInput->SetShortcutMenu(itsChatShortcutMenu);
 	ListenTo(itsChatTargetMenu);

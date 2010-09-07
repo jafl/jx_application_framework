@@ -20,6 +20,13 @@
 
 static const char* kCurrentJFSLibVersionStr = "1.1.3";
 
+// version 1.1.4:
+//	JXFSBindingManager:
+//		Added Destroy().
+//	JFSBinding:
+//		Removed CreateContentRegex().
+//		Supports file name patterns, not just suffixes.
+
 // version 1.1.2:
 //	*** All egcs thunks hacks have been removed.
 //	JXFSDirMenu:
