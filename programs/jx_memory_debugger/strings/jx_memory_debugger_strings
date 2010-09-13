@@ -55,6 +55,11 @@ ExitWindowTitle::MDStatsDirector			"Exit Stats"
 QueryRecordsWindowTitle::MDStatsDirector	"Query Results"
 ExitRecordsWindowTitle::MDStatsDirector		"Leftovers"
 
+# MDSizeHistogram
+
+Size::MDSizeHistogram	"Max Size"
+Count::MDSizeHistogram	"# of Records"
+
 # MDFilterRecordsDialog
 
 WindowTitle::MDFilterRecordsDialog	"Filter records"

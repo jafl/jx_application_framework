@@ -9,6 +9,7 @@
 
 #include <mdStdInc.h>
 #include "MDStatsDirector.h"
+#include "MDSizeHistogram.h"
 #include "MDFilterRecordsDialog.h"
 #include "MDRecordDirector.h"
 #include "MDRecordList.h"
@@ -154,6 +155,7 @@ MDStatsDirector::MDStatsDirector
 	:
 	JXWindowDirector(supervisor),
 	JPrefObject(MDGetPrefsManager(), kMDStatsDirectorID),
+	itsAcceptor(NULL),
 	itsLink(NULL),
 	itsProcess(NULL),
 	itsPingTask(NULL),
@@ -364,6 +366,12 @@ MDStatsDirector::BuildWindow()
 						   0,headerHeight, 100,histoHeight);
 	assert( scrollbarSet != NULL );
 	scrollbarSet->FitToEnclosure(kJTrue, kJFalse);
+
+	itsAllocatedHisto =
+		new MDSizeHistogram(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+						   JXWidget::kHElastic,JXWidget::kVElastic, 0,0, 100,100);
+	assert( itsAllocatedHisto != NULL );
+	itsAllocatedHisto->FitToEnclosure();
 
 	itsProgramInput->ShouldBroadcastAllTextChanged(kJTrue);
 	ListenTo(itsProgramInput);
@@ -748,10 +756,11 @@ MDStatsDirector::ReceiveRunningStats
 	istream& input
 	)
 {
-	JSize value;
-	input >> value;
-	mdSetValue(itsAllocatedBlocksDisplay, value);
+	JSize total;
+	input >> total;
+	mdSetValue(itsAllocatedBlocksDisplay, total);
 
+	JSize value;
 	input >> value;
 	mdSetValue(itsAllocatedBytesDisplay, value, kJFalse);
 
@@ -767,6 +776,8 @@ MDStatsDirector::ReceiveRunningStats
 		{
 		input >> histo[i];
 		}
+
+	itsAllocatedHisto->SetValues(total, histo);
 }
 
 /******************************************************************************

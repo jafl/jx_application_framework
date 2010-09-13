@@ -26,6 +26,7 @@ class JXFileInput;
 class JXTimerTask;
 class JXPGMessageDirector;
 class MDLinkAcceptor;
+class MDSizeHistogram;
 class MDFilterRecordsDialog;
 
 class MDStatsDirector : public JXWindowDirector, public JPrefObject
@@ -59,6 +60,7 @@ private:
 	JXPGMessageDirector*		itsMessageDir;
 	JString						itsExitStatsFile;
 
+	MDSizeHistogram*		itsAllocatedHisto;
 	MDFilterRecordsDialog*	itsRequestRecordsDialog;
 
 // begin JXLayout

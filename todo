@@ -1,8 +1,10 @@
 memory analyzer
 	print table:  partial column on page 1
 
-	display histogram of block sizes: <16, <32, <64, <128, ..., <2^32, >=2^32
-	Refresh button in Records windows (only while program is running)
+	option to print MDStatsDirector
+	documentation:
+		only via new or new[], only in your code and JX, not from ACE,Mesa,other 3rd party libs
+		histogram of block sizes: <16, <32, <64, <128, ..., <2^32, >=2^32
 
 	test
 		leibnitz -- THX3DPlotDirector leaking

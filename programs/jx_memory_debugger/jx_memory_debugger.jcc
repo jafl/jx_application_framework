@@ -35,6 +35,10 @@ T
 F
 "./code/MDStatsDirector.cpp"
 T
+2 "MDSizeHistogram.cpp"
+F
+"./code/MDSizeHistogram.cpp"
+T
 2 "MDFilterRecordsDialog.cpp"
 F
 "./code/MDFilterRecordsDialog.cpp"

@@ -11,6 +11,7 @@
 .cpp ./code/MDPrefsDialog
 .cpp ./code/MDAboutDialog
 .cpp ./code/MDStatsDirector
+.cpp ./code/MDSizeHistogram
 .cpp ./code/MDFilterRecordsDialog
 .cpp ./code/MDRecordDirector
 .cpp ./code/MDHeaderWidget

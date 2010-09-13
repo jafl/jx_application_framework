@@ -273,20 +273,22 @@ JMMTable::AddToHistogram
 {
 	const JSize size = record.GetSize();
 
-	JUInt64 max    = 0x100000000ULL;
-	JIndex slot    = JMemoryManager::kHistogramSlotCount - 2;
+	JUInt64 max = 0x000000001ULL;
+	max       <<= 32 - (JMemoryManager::kHistogramSlotCount - 1);
+
+	JIndex slot    = 0;
 	JBoolean found = kJFalse;
-	while (slot > 0)
+	while (slot < JMemoryManager::kHistogramSlotCount - 1)
 		{
-		if (size < max)
+		if (size <= max)
 			{
 			histo[ slot ]++;
 			found = kJTrue;
 			break;
 			}
-		max >>= 1;
-		max &=  0x1FFFFFFFFULL;
-		slot--;
+		max <<= 1;
+		max  &= 0x1FFFFFFFFULL;
+		slot++;
 		}
 
 	if (!found)

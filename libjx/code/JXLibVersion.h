@@ -21,7 +21,8 @@
 static const char* kCurrentJXLibVersionStr = "2.6.0";
 
 // version 3.0.0:
-//	*** Re-run jxlayout on all .fd files.
+//	*** Run new jxlayout on all .fd files.
+//	Created jx_memory_debugger.
 //	Switched all uses of "6x13" to JGetMonospaceFontName().
 //	JXFontManager:
 //		Added support for anti-aliased fonts.
