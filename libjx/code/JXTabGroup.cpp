@@ -52,11 +52,16 @@ const JCharacter kSetupDataEndDelimiter = '\1';
 
 // Context menu
 
+#define kShowTopAction		"ShowTop::JXTabGroup"
+#define kShowBottomAction	"ShowBottom::JXTabGroup"
+#define kShowLeftAction		"ShowLeft::JXTabGroup"
+#define kShowRightAction	"ShowRight::JXTabGroup"
+
 static const JCharacter* kContextMenuStr =
-	"    Show on top"
-	"  | Show on bottom"
-	"%l| Show at left"
-	"  | Show at right";
+	"    Show on top    %i" kShowTopAction
+	"  | Show on bottom %i" kShowBottomAction
+	"%l| Show at left   %i" kShowLeftAction
+	"  | Show at right  %i" kShowRightAction;
 
 enum
 {

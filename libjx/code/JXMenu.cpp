@@ -1427,9 +1427,8 @@ JXMenu::Suspend()
 /******************************************************************************
  Resume (virtual)
 
-	We do not support suspending submenus.  If we suspend a submenu, it
-	deactivates the menu, so Resume() will still think the menu is not
-	active.
+	We have to process resume because if a window is created while the
+	application is suspended, the menu will initially be disabled.
 
  ******************************************************************************/
 
@@ -1438,7 +1437,7 @@ JXMenu::Resume()
 {
 	const JBoolean wasActive = IsActive();
 	JXWidget::Resume();
-	if (itsOwner == NULL && !wasActive && IsActive())
+	if (!wasActive && IsActive())
 		{
 		PrivateActivate();
 		}

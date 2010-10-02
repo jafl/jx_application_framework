@@ -6,7 +6,7 @@
 JX_ROOT := ..
 
 JCOREDIR := ./code
-PCREDIR  := ${JX_ROOT}/misc/pcre
+PCREDIR  := ${JX_ROOT}/misc/pcre-8.10
 GDDIR    := ${JX_ROOT}/misc/gd
 
 # Directories to search for header files
@@ -46,11 +46,13 @@ OTHER_DEPS    := regex gd
 
 include ${JX_ROOT}/include/make/default_lib_target
 
+CONFIGURE_PCRE := ./configure --with-match-limit-recursion=10000
+
 .PHONY : Makefiles
 Makefiles:
 	@cd test; makemake; ${MAKE} Makefiles
 	@cd ${PCREDIR}; \
-     if ! test -e Makefile; then ./configure; fi;
+     if ! test -e Makefile; then ${CONFIGURE_PCRE}; fi;
 
 #
 # string data
@@ -85,7 +87,7 @@ clean::
 .PHONY : regex
 regex:
 	@cd ${PCREDIR}; \
-     if ! test -e Makefile; then ./configure; fi; \
+     if ! test -e Makefile; then ${CONFIGURE_PCRE}; fi; \
      ${MAKE} libpcre.la
 
 .PHONY : gd

@@ -11,6 +11,7 @@
 
 #include <JXStdInc.h>
 #include <JXInputField.h>
+#include <JXTextMenu.h>
 #include <JXEditTable.h>
 #include <JXWindowPainter.h>
 #include <JXColormap.h>
@@ -18,6 +19,48 @@
 #include <jXGlobals.h>
 #include <jXKeysym.h>
 #include <jAssert.h>
+
+// Context menu
+
+struct MenuItemInfo
+{
+	JTextEditor::CmdIndex	cmd;
+	const JCharacter*		id;
+};
+
+#define kContextUndoAction		"ContextUndo::JXInputField"
+#define kContextCutAction		"ContextCut::JXInputField"
+#define kContextCopyAction		"ContextCopy::JXInputField"
+#define kContextPasteAction		"ContextPaste::JXInputField"
+#define kContextClearAction		"ContextClear::JXInputField"
+#define kContextSelectAllAction	"ContextSelectAll::JXInputField"
+
+static const JCharacter* kMacContextMenuStr =
+	"    Undo       %k Meta-Z. %i" kContextUndoAction
+	"%l| Cut        %k Meta-X. %i" kContextCutAction
+	"  | Copy       %k Meta-C. %i" kContextCopyAction
+	"  | Paste      %k Meta-V. %i" kContextPasteAction
+	"  | Clear                 %i" kContextClearAction
+	"%l| Select All %k Meta-A. %i" kContextSelectAllAction;
+
+static const JCharacter* kWinContextMenuStr =
+	"    Undo       %k Ctrl-Z. %i" kContextUndoAction
+	"%l| Cut        %k Ctrl-X. %i" kContextCutAction
+	"  | Copy       %k Ctrl-C. %i" kContextCopyAction
+	"  | Paste      %k Ctrl-V. %i" kContextPasteAction
+	"  | Clear                 %i" kContextClearAction
+	"%l| Select All %k Ctrl-A. %i" kContextSelectAllAction;
+
+static const MenuItemInfo kContextMenuItemInfo[] =
+{
+	{ JTextEditor::kUndoCmd,      kContextUndoAction      },
+	{ JTextEditor::kCutCmd,       kContextCutAction       },
+	{ JTextEditor::kCopyCmd,      kContextCopyAction      },
+	{ JTextEditor::kPasteCmd,     kContextPasteAction     },
+	{ JTextEditor::kDeleteSelCmd, kContextClearAction     },
+	{ JTextEditor::kSelectAllCmd, kContextSelectAllAction }
+};
+const JSize kContextMenuItemCount = sizeof(kContextMenuItemInfo)/sizeof(MenuItemInfo);
 
 /******************************************************************************
  Constructor
@@ -72,7 +115,8 @@ JXInputField::JXInputFieldX
 	itsMinLength         = 0;
 	itsMaxLength         = 0;
 
-	itsTable = NULL;
+	itsContextMenu = NULL;
+	itsTable       = NULL;
 
 	SetDefaultFontSize(kJDefaultFontSize);
 	TESetLeftMarginWidth(kMinLeftMarginWidth);
@@ -309,8 +353,20 @@ JXInputField::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
-	ShouldAllowDragAndDrop(modifiers.meta());
-	JXTEBase::HandleMouseDown(pt, button, clickCount, buttonStates, modifiers);
+	if (button == kJXRightButton)
+		{
+//		if (!PointInSelection(pt))
+//			{
+//			JXTEBase::HandleMouseDown(pt, kJXLeftButton, 1, buttonStates, modifiers);
+//			}
+		CreateContextMenu();
+		itsContextMenu->PopUp(this, pt, buttonStates, modifiers);
+		}
+	else
+		{
+		ShouldAllowDragAndDrop(modifiers.meta());
+		JXTEBase::HandleMouseDown(pt, button, clickCount, buttonStates, modifiers);
+		}
 }
 
 /******************************************************************************
@@ -520,3 +576,160 @@ JXInputField::FilterText
 
 	return kJTrue;
 }
+
+/******************************************************************************
+ Receive (virtual protected)
+
+ ******************************************************************************/
+
+void
+JXInputField::Receive
+	(
+	JBroadcaster*	sender,
+	const Message&	message
+	)
+{
+	if (sender == itsContextMenu && message.Is(JXTextMenu::kNeedsUpdate))
+		{
+		UpdateContextMenu();
+		}
+	else if (sender == itsContextMenu && message.Is(JXTextMenu::kItemSelected))
+		{
+		const JXMenu::ItemSelected* selection =
+			dynamic_cast(const JXMenu::ItemSelected*, &message);
+		assert( selection != NULL );
+		HandleContextMenu(selection->GetIndex());
+		}
+
+	else
+		{
+		JXTEBase::Receive(sender, message);
+		}
+}
+
+/******************************************************************************
+ CreateContextMenu (private)
+
+ ******************************************************************************/
+
+void
+JXInputField::CreateContextMenu()
+{
+	if (itsContextMenu == NULL)
+		{
+		itsContextMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		assert( itsContextMenu != NULL );
+		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
+			{
+			itsContextMenu->SetMenuItems(kMacContextMenuStr, "JXInputField");
+			}
+		else
+			{
+			itsContextMenu->SetMenuItems(kWinContextMenuStr, "JXInputField");
+			}
+		itsContextMenu->SetUpdateAction(JXMenu::kDisableAll);
+		itsContextMenu->SetToHiddenPopupMenu();
+		ListenTo(itsContextMenu);
+		}
+}
+
+/******************************************************************************
+ UpdateContextMenu (private)
+
+ ******************************************************************************/
+
+void
+JXInputField::UpdateContextMenu()
+{
+	JString crmActionText, crm2ActionText;
+	JBoolean isReadOnly;
+	const JArray<JBoolean> enableFlags =
+		GetCmdStatus(&crmActionText, &crm2ActionText, &isReadOnly);
+
+	const JSize count = itsContextMenu->GetItemCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		CmdIndex cmd;
+		if (ContextMenuIndexToCmd(i, &cmd))
+			{
+			JBoolean enable;
+			if (cmd == JTextEditor::kDeleteSelCmd)
+				{
+				enable = kJTrue;
+				}
+			else
+				{
+				enable = enableFlags.GetElement(cmd);
+				}
+			itsContextMenu->SetItemEnable(i, enable);
+			}
+		}
+}
+
+/******************************************************************************
+ HandleContextMenu (private)
+
+ ******************************************************************************/
+
+void
+JXInputField::HandleContextMenu
+	(
+	const JIndex index
+	)
+{
+	CmdIndex cmd;
+	if (!ContextMenuIndexToCmd(index, &cmd))
+		{
+		return;
+		}
+
+	if (cmd == kUndoCmd)
+		{
+		Undo();
+		}
+
+	else if (cmd == kCutCmd)
+		{
+		Cut();
+		}
+	else if (cmd == kCopyCmd)
+		{
+		Copy();
+		}
+	else if (cmd == kPasteCmd)
+		{
+		Paste();
+		}
+	else if (cmd == kDeleteSelCmd)
+		{
+		if (!HasSelection())
+			{
+			SelectAll();
+			}
+		DeleteSelection();
+		}
+
+	else if (cmd == kSelectAllCmd)
+		{
+		SelectAll();
+		}
+}
+
+/******************************************************************************
+ Context menu index <-> cmd
+
+ ******************************************************************************/
+
+#define ClassName    JXInputField
+#define IndexToCmdFn ContextMenuIndexToCmd
+#define CmdToIndexFn ContextMenuCmdToIndex
+#define MenuVar      itsContextMenu
+#define CmdCount     kContextMenuItemCount
+#define CmdIDList    kContextMenuItemInfo
+#include <JXMenuItemIDUtil.th>
+#undef ClassName
+#undef IndexToCmdFn
+#undef CmdToIndexFn
+#undef MenuVar
+#undef CmdCount
+#undef CmdIDList

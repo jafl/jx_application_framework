@@ -216,7 +216,7 @@ JCheckForNewerVersion
 		if (connector->connect(socket, addr, ACE_Synch_Options::asynch) == -1 &&
 			jerrno() != EAGAIN)
 			{
-			cerr << "unable to open socket: " << versionURL << endl;
+//			cerr << "unable to open socket: " << versionURL << endl;
 			delete connector;
 			}
 		}

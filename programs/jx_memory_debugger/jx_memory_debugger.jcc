@@ -104,6 +104,10 @@ T
 F
 "./strings/mdMainHelpText"
 T
+2 "mdRecordHelpText"
+F
+"./strings/mdRecordHelpText"
+T
 2 "mdChangeLogText"
 F
 "./strings/mdChangeLogText"

@@ -13,7 +13,9 @@ MDTOCHelp
 <ul>
 <li> <a href=jxhelp:MDOverviewHelp>Overview</a>
 <p>
-<li> <a href=jxhelp:MDMainHelp>Main window</a>
+<li> <a href=jxhelp:MDMainHelp>Live/Exit Stats</a>
+<p>
+<li> <a href=jxhelp:MDRecordHelp>Query Results / Leftovers</a>
 <p>
 <li> <a href=jxhelp:MDChanges>Changes</a>
 <p>

@@ -449,7 +449,7 @@ MDRecordDirector::HandleHelpMenu
 		}
 	else if (index == kThisWindowCmd)
 		{
-		(JXGetHelpManager())->ShowSection(kMDMainHelpName);
+		(JXGetHelpManager())->ShowSection(kMDRecordHelpName);
 		}
 
 	else if (index == kChangesCmd)

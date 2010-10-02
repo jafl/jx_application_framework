@@ -10,4 +10,8 @@ MDOverviewHelp
 
 <h3>Overview</h3>
 
-Overview text."
+This program helps analyze the memory usage of programs built on top of the <a href=http://newplanetsoftware.com/jx/>JX Application Framework</a>.  It only displays memory allocated via <code>new</code> by your code or by JX.  It cannot display memory allocated via <code>malloc()</code> or by other libraries like ACE or Mesa.
+<p>
+Statistics are displayed in the <a href=jxhelp:MDMainHelp>Live Stats window</a>.
+<p>
+Detailed information can be displayed by opening a <a href=jxhelp:MDRecordHelp>Query Results window</a>."

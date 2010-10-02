@@ -318,12 +318,12 @@ GMAccountDialog::BuildWindow()
 
     itsDeleteDaysInput =
         new JXIntegerInput(widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 218,37, 40,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 218,35, 40,20);
     assert( itsDeleteDaysInput != NULL );
 
     itsAutoCheckMinutesInput =
         new JXIntegerInput(widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 245,97, 40,20);
+                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 245,95, 40,20);
     assert( itsAutoCheckMinutesInput != NULL );
 
     itsPopServerInput =
@@ -386,7 +386,7 @@ GMAccountDialog::BuildWindow()
 
     JXStaticText* obj4_popLayout =
         new JXStaticText(JGetString("obj4_popLayout::GMAccountDialog::popLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 292,98, 55,19);
+                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 292,95, 55,20);
     assert( obj4_popLayout != NULL );
     obj4_popLayout->SetToLabel();
 
@@ -397,7 +397,7 @@ GMAccountDialog::BuildWindow()
 
     JXStaticText* obj5_popLayout =
         new JXStaticText(JGetString("obj5_popLayout::GMAccountDialog::popLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 265,38, 55,19);
+                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 265,35, 55,20);
     assert( obj5_popLayout != NULL );
     obj5_popLayout->SetToLabel();
 

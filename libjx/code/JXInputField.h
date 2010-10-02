@@ -16,6 +16,7 @@
 
 #include <JXTEBase.h>
 
+class JXTextMenu;
 class JXEditTable;
 
 class JXInputField : public JXTEBase
@@ -81,17 +82,26 @@ protected:
 	virtual JBoolean	NeedsToFilterText(const JCharacter* text) const;
 	virtual JBoolean	FilterText(JString* text, JRunArray<Font>* style);
 
+	virtual void	Receive(JBroadcaster* sender, const Message& message);
+
 private:
 
 	JBoolean	itsAcceptNewlineFlag;
 	JSize		itsMinLength;
 	JSize		itsMaxLength;		// 0 => no maximum
 
+	JXTextMenu*		itsContextMenu;	// NULL until first used
 	JXEditTable*	itsTable;		// can be NULL; if not, it owns us
 
 private:
 
 	void	JXInputFieldX(const JBoolean acceptNewline);
+
+	void		CreateContextMenu();
+	void		UpdateContextMenu();
+	void		HandleContextMenu(const JIndex index);
+	JBoolean	ContextMenuIndexToCmd(const JIndex index, CmdIndex* cmd) const;
+	JBoolean	ContextMenuCmdToIndex(const CmdIndex cmd, JIndex* index) const;
 
 	// not allowed
 

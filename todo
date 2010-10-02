@@ -1,38 +1,49 @@
-memory analyzer
-	print table:  partial column on page 1
-
-	option to print MDStatsDirector
-	documentation:
-		only via new or new[], only in your code and JX, not from ACE,Mesa,other 3rd party libs
-		histogram of block sizes: <16, <32, <64, <128, ..., <2^32, >=2^32
-
-	test
-		leibnitz -- THX3DPlotDirector leaking
-		jcc -- crash with deleted JMessageProtocol -- only when open project
-
-libXft:
-	test all window/dialog layouts on Linux and OSX
-	jxlayout -cp code -cs .cpp --post-cmd 'jcc --reload-open' --choose
-
-	arrow
-	code_crusader
-	code_medic
-
------
+jx_memory_debugger:
+	program icon
 
 all:
 	if run as root, shouldn't change owner for prefs files
 		since file is user-only, only need to check for running root/not owned root
 		apply to prefs, ~/.jxcb, ~/.jx
 
-	OSX:
-		modal windows, e.g., File Chooser, still migrate upward
-		System G windows in dirs with no prefs open downward
+-----
+
+memory analyzer
+	print table:  partial column on page 1
+
+	option to print MDStatsDirector
+	records window:
+		show info about query in window title
+
+	test
+		leibnitz -- THX3DPlotDirector leaking
+		jcc -- crash with deleted JMessageProtocol -- only when open project
+
+Docking
+	possible to select first tab in each pane after program starts?
+
+OSX:
+	modal windows, e.g., File Chooser, still migrate upward
+	System G windows in dirs with no prefs open downward
 
 svn_client:
 	Repo tab for "svn list"
 		drag => svn copy/move (for branching/tagging)
 			ask for destination name before performing action
+
+		checkout single selected item
+			only directories
+			ask for dest, warn if same name already exists
+			create new window (see --checkout)
+
+	--checkout [-r rev] url [path]
+		error if URL is not type dir
+		warn if same name already exists in dest location
+		open window for dest dir
+			only show Repo tab initially
+		exec in target dir: svn checkout [-r rev] url
+			display output in SVNCommandLog
+		when finished, create/refresh Status tab
 
 medic:
 	breakpoint window
@@ -42,6 +53,12 @@ medic:
 		set watchpoints on items in Variables and Local Variables window
 		need to trap auto-deletion of watchpoints (going out of scope)
 		sort by any column
+
+	java
+		thread list
+			convert to tree
+			listen for thread start/death to update tree
+		display stack trace for selected thread
 
 	set commands when restore breakpoints -- split on \1
 		test on leibnitz_debug_config
@@ -54,26 +71,36 @@ medic:
 		&"disas\n"
 		~"Dump of assembler code for function main:\n"
 		~"End of assembler dump.\n"
-		^done,reason="breakpoint-hit",commands="no",times="1",bkptno="1",thread-id="1",asm_insns=[{address="0x00002904",func-name="main",offset="0",inst="push   %ebp"},{address="0x00002905",func-name="main",offset="1",inst="mov    %esp,%ebp"},{address="0x00002907",func-name="main",offset="3",inst="push   %esi"},{address="0x00002908",func-name="main",offset="4",inst="push   %ebx"},{address="0x00002909",func-name="main",offset="5",inst="sub    $0x50,%esp"},{address="0x0000290c",func-name="main",offset="8",inst="call   0x2911 <main+13>"},{address="0x00002911",func-name="main",offset="13",inst="pop    %ebx"},{address="0x00002912",func-name="main",offset="14",inst="mov    0x8(%ebp),%edx"},{address="0x00002915",func-name="main",offset="17",inst="mov    0xc(%ebp),%eax"},{address="0x00002918",func-name="main",offset="20",inst="mov    %eax,0x4(%esp)"},{address="0x0000291c",func-name="main",offset="24",inst="mov    %edx,(%esp)"},{address="0x0000291f",func-name="main",offset="27",inst="call   0x2882 <_Z16ParseTextOptionsiPPc>"},{address="0x00002924",func-name="main",offset="32",inst="mov    0x8(%ebp),%esi"},{address="0x00002927",func-name="main",offset="35",inst="call   0x55fa <_ZN14SyGApplication15GetAppSignatureEv>"},
+		^done,reason="breakpoint-hit",commands="no",times="1",bkptno="1",thread-id="1",
+		asm_insns=[{address="0x00002904",func-name="main",offset="0",inst="push   %ebp"},
+		{address="0x00002905",func-name="main",offset="1",inst="mov    %esp,%ebp"},
+		{address="0x00002907",func-name="main",offset="3",inst="push   %esi"},
+		{address="0x00002908",func-name="main",offset="4",inst="push   %ebx"},
+		{address="0x00002909",func-name="main",offset="5",inst="sub    $0x50,%esp"},
+		{address="0x0000290c",func-name="main",offset="8",inst="call   0x2911 <main+13>"},
+		{address="0x00002911",func-name="main",offset="13",inst="pop    %ebx"},
+		{address="0x00002912",func-name="main",offset="14",inst="mov    0x8(%ebp),%edx"},
+		{address="0x00002915",func-name="main",offset="17",inst="mov    0xc(%ebp),%eax"},
+		{address="0x00002918",func-name="main",offset="20",inst="mov    %eax,0x4(%esp)"},
+		{address="0x0000291c",func-name="main",offset="24",inst="mov    %edx,(%esp)"},
+		{address="0x0000291f",func-name="main",offset="27",inst="call   0x2882 <_Z16ParseTextOptionsiPPc>"},
+		{address="0x00002924",func-name="main",offset="32",inst="mov    0x8(%ebp),%esi"},
+		{address="0x00002927",func-name="main",offset="35",inst="call   0x55fa <_ZN14SyGApplication15GetAppSignatureEv>"},
 
 		&"stepi\n"
 		^done
 		(gdb) 
 		i s
 		&"i s\n"
-		^done,reason="end-stepping-range",thread-id="1",frame={level="0",addr="0x0000291c",fp="0xbffff150",func="main",args=[{name="argc",value="1"},{name="argv",value="0xbffff168"}],file="code/systemg.cpp",fullname="/Users/lindalj/tools/JX/programs/systemg/code/systemg.cpp",line="38",dir="/Users/lindalj/tools/JX/programs/systemg"}
+		^done,reason="end-stepping-range",thread-id="1",frame={level="0",addr="0x0000291c",fp="0xbffff150",func="main",
+		args=[{name="argc",value="1"},{name="argv",value="0xbffff168"}],file="code/systemg.cpp",
+		fullname="/Users/lindalj/tools/JX/programs/systemg/code/systemg.cpp",line="38",dir="/Users/lindalj/tools/JX/programs/systemg"}
 
 	gdb for program with threads:
 		set scheduler-locking on/off/step
 		break <location> thread <gdb thread number>
 
 	OSX: stack trace loaded twice when hit breakpoint
-
-	java
-		thread list
-			convert to tree
-			listen for thread start/death to update tree
-		display stack trace for selected thread
 
 jcc:
 	cvs,svn,git:  need to pass rev args to "summary" diff command
@@ -114,8 +141,6 @@ readelf
 dwarfdump
 
 Docking
-	possible to select first tab in each pane after program starts?
-
 	OSX: window placement inside dock sometimes wrong (iconfied windows)
 	undock: window placement not restored
 	raise window via menu shortcut:  dock moves on Ubuntu, and focus not set to the window
@@ -198,23 +223,9 @@ svn_client:
 	show multiple files in same folder in systemg:  only selects last one
 
 	Repo tab for "svn list"
-		checkout single selected item
-			only directories
-			ask for dest, warn if same name already exists
-			create new window (see --checkout)
-
 		refresh selected nodes
 			find closest directory parent for each selected item
 			add open subitems to tree's open list and then call Update on each one
-
-	--checkout [-r rev] url [path]
-		error if URL is not type dir
-		warn if same name already exists in dest location
-		open window for dest dir
-			only show Repo tab initially
-		exec in target dir: svn checkout [-r rev] url
-			display output in SVNCommandLog
-		when finished, create/refresh Status tab
 
 	svn log:
 		kJForceNonblockingPipe doesn't fully solve the problem

@@ -2895,7 +2895,7 @@ argument:
 --------------------
 class: FL_INPUT
 type: INT_INPUT
-box: 218 37 40 20
+box: 218 35 40 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
@@ -2913,7 +2913,7 @@ argument:
 --------------------
 class: FL_INPUT
 type: INT_INPUT
-box: 245 97 40 20
+box: 245 95 40 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT
@@ -3129,7 +3129,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: NORMAL_TEXT
-box: 292 98 55 19
+box: 292 95 55 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -3165,7 +3165,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: NORMAL_TEXT
-box: 265 38 55 19
+box: 265 35 55 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE

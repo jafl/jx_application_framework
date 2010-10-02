@@ -137,6 +137,8 @@ static const char* kCurrentJXLibVersionStr = "2.6.0";
 //		Added Go().
 //	JXScrollableWidget:
 //		Sets back color = focus color if it has scrollbars.
+//	JXInputField:
+//		Added context menu for basic commands.
 
 // version 2.6.0:
 //	JXWebBrowser:

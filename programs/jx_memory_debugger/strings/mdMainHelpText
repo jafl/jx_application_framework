@@ -5,15 +5,15 @@ MDMainHelp
 "<html>
 
 <head>
-<title> Main Window </title>
+<title> Live/Exit Stats Window </title>
 </head>
 
-<h3>Main Window</h3>
+<h3>Live/Exit Stats</h3>
 
-This text will explain how to use the main window.
+This window displays live statistics of the program's memory usage while the program is running.  After the program exits, the window displays the leftovers: the blocks that were never deallocated.
 <p>
-Uninitialized: &#xA7;
+First, set the binary to run and the arguments to pass to it.  Then click the \"Run\" button.
 <p>
-Deallocated: &#xD7;
+\"Blocks\" counts the number of allocated memory blocks.  \"Bytes\" is the total size of the allocated blocks.  \"Deallocated\" counts the number of blocks that have been deallocated over the life of the process.
 <p>
-In order to be able to open files, run jx_memory_debugger in the build directory."
+The histogram displays the number of blocks in each size range.  Each size range includes values larger than the next lower \"Max Size\" and at most equal to the range's \"Max Size\".  The last bucket is open ended.  Note that the histogram is logarithmic."

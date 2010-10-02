@@ -919,25 +919,105 @@ F
 T
 1 "pcre"
 T
-2 "Makefile.in"
+3 "pcre_chartables.o"
 F
-"../misc/pcre/Makefile.in"
+"../misc/pcre-8.10/pcre_chartables.o"
+ T "" T
 T
-2 "get.o"
+3 "pcre_compile.o"
 F
-"../misc/pcre/.libs/get.o"
+"../misc/pcre-8.10/pcre_compile.o"
+ T "" T
 T
-2 "maketables.o"
+3 "pcre_config.o"
 F
-"../misc/pcre/.libs/maketables.o"
+"../misc/pcre-8.10/pcre_config.o"
+ T "" T
 T
-2 "pcre.o"
+3 "pcre_dfa_exec.o"
 F
-"../misc/pcre/.libs/pcre.o"
+"../misc/pcre-8.10/pcre_dfa_exec.o"
+ T "" T
 T
-2 "study.o"
+3 "pcre_exec.o"
 F
-"../misc/pcre/.libs/study.o"
+"../misc/pcre-8.10/pcre_exec.o"
+ T "" T
+T
+3 "pcre_fullinfo.o"
+F
+"../misc/pcre-8.10/pcre_fullinfo.o"
+ T "" T
+T
+3 "pcre_get.o"
+F
+"../misc/pcre-8.10/pcre_get.o"
+ T "" T
+T
+3 "pcre_globals.o"
+F
+"../misc/pcre-8.10/pcre_globals.o"
+ T "" T
+T
+3 "pcre_info.o"
+F
+"../misc/pcre-8.10/pcre_info.o"
+ T "" T
+T
+3 "pcre_maketables.o"
+F
+"../misc/pcre-8.10/pcre_maketables.o"
+ T "" T
+T
+3 "pcre_newline.o"
+F
+"../misc/pcre-8.10/pcre_newline.o"
+ T "" T
+T
+3 "pcre_ord2utf8.o"
+F
+"../misc/pcre-8.10/pcre_ord2utf8.o"
+ T "" T
+T
+3 "pcre_refcount.o"
+F
+"../misc/pcre-8.10/pcre_refcount.o"
+ T "" T
+T
+3 "pcre_study.o"
+F
+"../misc/pcre-8.10/pcre_study.o"
+ T "" T
+T
+3 "pcre_tables.o"
+F
+"../misc/pcre-8.10/pcre_tables.o"
+ T "" T
+T
+3 "pcre_try_flipped.o"
+F
+"../misc/pcre-8.10/pcre_try_flipped.o"
+ T "" T
+T
+3 "pcre_ucd.o"
+F
+"../misc/pcre-8.10/pcre_ucd.o"
+ T "" T
+T
+3 "pcre_valid_utf8.o"
+F
+"../misc/pcre-8.10/pcre_valid_utf8.o"
+ T "" T
+T
+3 "pcre_version.o"
+F
+"../misc/pcre-8.10/pcre_version.o"
+ T "" T
+T
+3 "pcre_xclass.o"
+F
+"../misc/pcre-8.10/pcre_xclass.o"
+ T "" T
 F
 T
 1 "gd"

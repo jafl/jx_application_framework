@@ -1645,9 +1645,10 @@ JRegex::RegExec
 
 		success = kJTrue;
 		}
-	else if (returnCode != PCRE_ERROR_NOMATCH)
+	else if (returnCode != PCRE_ERROR_NOMATCH &&
+			 returnCode != PCRE_ERROR_RECURSIONLIMIT)
 		{
-		assert( 0 );	// unexpected error
+		cerr << "unexpected error from PCRE: " << returnCode << endl;
 		}
 
 	delete [] pmatch;
