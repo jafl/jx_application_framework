@@ -3,9 +3,9 @@ http://www.newplanetsoftware.com/jx/
 http://www.newplanetsoftware.com/blog/
 twitter:  newplanetsw
 
-This is version 2.5.0 of the JX source distribution.  To build it, simply
+This is version 2.6.0 of the JX source distribution.  To build it, simply
 run gnu make ("make" or "gmake" on most systems) in a command line window
-in the JX-2.5.0 directory and follow the instructions that are printed.
+in the JX-2.6.0 directory and follow the instructions that are printed.
 
 If you are new to the JX Application Framework, then it is important to
 understand that it is not a program that you can run.  Rather, it is a set
@@ -19,8 +19,8 @@ New Planet Software         MicroSoft          MetroWerks
 Code Crusader/Code Medic    Visual Studio      CodeWarrior
 jx_project_wizard           Project Wizards    Project Wizards
 JX Application Framework    MFC                PowerPlant
-JX-2.5.0/tutorials/         MSDN               Sample code
-JX-2.5.0/libjx/test/        MSDN               Sample code
+JX-2.6.0/tutorials/         MSDN               Sample code
+JX-2.6.0/libjx/test/        MSDN               Sample code
 
 In this directory, you will find:
 
