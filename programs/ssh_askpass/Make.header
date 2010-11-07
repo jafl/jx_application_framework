@@ -23,7 +23,7 @@ SEARCHDIRS := -I${CODEDIR} \
 # other constants
 
 PROG_NAME         := nps-ssh-askpass
-PROG_VERSION      := 1.0.2
+PROG_VERSION      := 1.0.3
 SIGNATURE         := nps-ssh-askpass
 PROG_STRING_FILES := strings/*
 

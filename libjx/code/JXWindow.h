@@ -482,6 +482,10 @@ private:
 
 	static Bool	GetNextExposeEvent(Display* display, XEvent* event, char* arg);
 
+	// used by AnalyzeWindowManager
+
+	static void	WaitForWM(JXDisplay* d, JXWindow* w);
+
 	// not allowed
 
 	JXWindow(const JXWindow& source);

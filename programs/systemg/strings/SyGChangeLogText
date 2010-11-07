@@ -12,6 +12,14 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 2.4.2 </h3>
+
+Duplicating now works correctly with Subversion.  (What took me so long?)
+<p>
+Fixed bug in incremental search in directories containing broken symlinks.
+<p>
+Work around for strange X11 behavior that could cause Code Crusader to hang when run for the first time.
+
 <h3> 2.4.1 </h3>
 
 Added Up button at the right of the path display (at the bottom of every window).

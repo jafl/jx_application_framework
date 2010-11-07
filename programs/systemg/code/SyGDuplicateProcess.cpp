@@ -15,8 +15,8 @@
 #include <JSimpleProcess.h>
 #include <JThisProcess.h>
 #include <JDirEntry.h>
-#include <jDirUtil.h>
 #include <jFileUtil.h>
+#include <jVCSUtil.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -181,6 +181,13 @@ SyGDuplicateProcess::ProcessNextFile()
 	JSplitPathAndName(name, &path, &itsCurrentName);
 
 	const JCharacter* argv[] = { "cp", "-Rdf", *origName, name, NULL };
+
+	const JVCSType type = JGetVCSType(*origName);
+	if (type == kJSVNType)
+		{
+		argv[0] = "svn";
+		argv[1] = "cp";
+		}
 
 	const JError err = JSimpleProcess::Create(&itsProcess, argv, sizeof(argv));
 	err.ReportIfError();

@@ -29,7 +29,7 @@ SEARCHDIRS := -I${CODEDIR} \
 
 # other constants
 
-ARROW_VERSION     := 2.0.2
+ARROW_VERSION     := 2.1.0
 SIGNATURE         := arrow
 PROG_STRING_FILES := ${filter-out %/arrow_menu_strings, \
                       ${shell echo strings/*}}

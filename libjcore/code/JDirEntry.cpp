@@ -347,8 +347,9 @@ JDirEntry::NeedsUpdate()
 	const
 {
 	ACE_stat linfo, info;
-	if (ACE_OS::lstat(itsFullName, &linfo) == 0 &&
-		ACE_OS::stat(itsFullName, &info) == 0)
+	const int lstatErr = ACE_OS::lstat(itsFullName, &linfo);
+	const int statErr  = ACE_OS::stat(itsFullName, &info);
+	if (lstatErr == 0 && statErr == 0)
 		{
 		const_cast<JDirEntry*>(this)->itsAccessTime = linfo.st_atime;
 
@@ -357,9 +358,13 @@ JDirEntry::NeedsUpdate()
 					itsSModTime    != (time_t)  info.st_mtime ||
 					itsSStatusTime != (time_t)  info.st_ctime);
 		}
+	else if (lstatErr == 0 && statErr == -1)
+		{
+		return JI2B(itsType != kBrokenLink);
+		}
 	else
 		{
-		return JNegate(itsType == kDoesNotExist);
+		return JI2B(itsType != kDoesNotExist);
 		}
 }
 

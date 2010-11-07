@@ -27,7 +27,7 @@ SEARCHDIRS := -I${CODEDIR} \
 
 # other constants
 
-GLOVE_VERSION     := 2.0.1
+GLOVE_VERSION     := 2.0.2
 SIGNATURE         := glove
 PROG_STRING_FILES := ${filter-out %/glove_menu_strings, \
                        ${shell echo strings/*}}

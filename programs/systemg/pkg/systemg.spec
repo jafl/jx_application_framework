@@ -1,4 +1,4 @@
-%define systemg_version 2.4.1
+%define systemg_version 2.4.2
 
 Summary: System G provides a graphical interface to UNIX file system.
 Name: System_G

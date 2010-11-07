@@ -7,7 +7,7 @@ JX_ROOT := ../..
 
 CODEDIR  := .
 JCOREDIR := ${JX_ROOT}/include/jcore
-PCREDIR  := ${JX_ROOT}/misc/pcre
+PCREDIR  := ${JX_ROOT}/misc/pcre-8.10
 
 JLIBDIR := ${JX_ROOT}/lib
 

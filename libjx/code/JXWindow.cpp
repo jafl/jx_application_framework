@@ -1266,6 +1266,24 @@ JXWindow::RootToGlobal
 
  ******************************************************************************/
 
+inline void
+JXWindow::WaitForWM
+	(
+	JXDisplay*	d,
+	JXWindow*	w
+	)
+{
+	const time_t start = time(NULL);
+	while (XPending(*d) > 0)
+		{
+		(JXGetApplication())->HandleOneEventForWindow(w);
+		if (time(NULL) - start > 5)	// sometimes we get events for other windows
+			{
+			break;
+			}
+		}
+}
+
 void
 JXWindow::AnalyzeWindowManager
 	(
@@ -1323,10 +1341,7 @@ JXWindow::AnalyzeWindowManager
 		d->Synchronize();
 		JWait(kSyncExtraDelay);
 
-		while (XPending(*d) > 0)
-			{
-			app->HandleOneEventForWindow(w);
-			}
+		WaitForWM(d, w);
 		assert( w->itsIsMappedFlag );
 
 		const JPoint pt = w->GetDesktopLocation();
@@ -1354,10 +1369,7 @@ JXWindow::AnalyzeWindowManager
 	d->Synchronize();
 	JWait(kSyncExtraDelay);
 
-	while (XPending(*d) > 0)
-		{
-		app->HandleOneEventForWindow(w);
-		}
+	WaitForWM(d, w);
 	assert( w->itsIsMappedFlag );
 
 	const JPoint pt2 = w->GetDesktopLocation();

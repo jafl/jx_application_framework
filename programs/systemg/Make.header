@@ -24,7 +24,7 @@ SEARCHDIRS := -I${CODEDIR} \
 
 # other constants
 
-SYSTEMG_VERSION  := 2.4.1
+SYSTEMG_VERSION  := 2.4.2
 SIGNATURE        := systemg
 SYG_STRING_FILES := ${filter-out %/systemg_menu_strings, \
                       ${shell echo strings/*}}
