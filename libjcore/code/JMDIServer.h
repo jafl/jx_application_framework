@@ -44,6 +44,8 @@ public:
 
 protected:
 
+	JBoolean	IsFirstTime() const;
+
 	virtual JBoolean	CanAcceptMDIRequest() = 0;
 	virtual void		PreprocessArgList(JPtrArray<JString>* argList);
 	virtual void		HandleMDIRequest(const JCharacter* dir,
@@ -51,6 +53,7 @@ protected:
 
 private:
 
+	JBoolean			itsFirstTimeFlag;
 	ACE_LSOCK_Acceptor*	itsAcceptor;
 	ACE_LSOCK_Stream*	itsSocket;		// always closed before returning
 
@@ -70,5 +73,18 @@ private:
 	JMDIServer(const JMDIServer& source);
 	const JMDIServer& operator=(const JMDIServer& source);
 };
+
+
+/******************************************************************************
+ IsFirstTime (protected)
+
+ ******************************************************************************/
+
+inline JBoolean
+JMDIServer::IsFirstTime()
+	const
+{
+	return itsFirstTimeFlag;
+}
 
 #endif

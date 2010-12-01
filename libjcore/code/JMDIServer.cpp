@@ -63,6 +63,8 @@ JMDIServer::JMDIServer
 	(
 	const JCharacter* signature
 	)
+	:
+	itsFirstTimeFlag(kJTrue)
 {
 	const JString socketName = GetMDISocketName(signature);
 	ACE_OS::unlink(socketName);
@@ -245,6 +247,8 @@ JMDIServer::CheckForConnections()
 void
 JMDIServer::ProcessMDIMessage()
 {
+	itsFirstTimeFlag = kJFalse;
+
 	JBoolean receivedFinishedFlag = kJFalse;
 
 	// tell them our status

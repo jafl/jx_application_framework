@@ -71,6 +71,8 @@ static const char* kCurrentJCoreLibVersionStr = "2.6.0";
 //		Added kCleanAllWSAlignCmd, kCleanWSAlignSelCmd to CmdIndex.
 //	JTable:
 //		Fixed infinite loop in Paginate when column is too wide to fit.
+//	JMDIServer:
+//		Added IsFirstTime() to allow HandleMDIRequest() to behave differently on init.
 
 // version 2.6.0:
 //	JOrderedSet:

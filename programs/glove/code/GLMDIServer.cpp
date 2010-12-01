@@ -1,8 +1,6 @@
 /******************************************************************************
  GLMDIServer.cpp
 
-	<Description>
-
 	BASE CLASS = public JXMDIServer
 
 	Copyright © 1999 by Glenn W. Bach.  All rights reserved.

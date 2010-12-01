@@ -52,28 +52,28 @@ SyGMDIServer::HandleMDIRequest
 {
 	const JSize argCount = argList.GetElementCount();
 	SyGApplication* app  = SyGGetApplication();
-	if (argCount == 1 && app->RestoreProgramState())
-		{
-		return;
-		}
-	else if (argCount == 1)
-		{
-		app->OpenDirectory(dir);
-		}
 
 	const JString cwd = JGetCurrentDirectory();
-	if (!(JChangeDirectory(dir)).OK())
+	const JError err  = JChangeDirectory(dir);
+	if (!err.OK())
 		{
+		err.ReportIfError();
 		return;
 		}
 
+	JBoolean restore = IsFirstTime();
 	if (argCount == 2 && *(argList.LastElement()) == "--choose")
 		{
 		app->OpenDirectory();
+		restore = kJFalse;
 		}
 	else if (argCount == 2 && *(argList.LastElement()) == "--open")
 		{
 		OpenFiles();
+		if (IsFirstTime())
+			{
+			exit(0);
+			}
 		}
 	else if (argCount == 2 && *(argList.LastElement()) == "--run")
 		{
@@ -102,11 +102,19 @@ SyGMDIServer::HandleMDIRequest
 					app->OpenDirectory(path, NULL, NULL, kJTrue, kJTrue, forceNew, clearSelection);
 					clearSelection = kJFalse;
 					}
+				restore = kJFalse;
 				}
 			}
 		}
 
 	JChangeDirectory(cwd);
+
+	// if argCount == 1, restore guaranteed to be true
+
+	if (restore && !app->RestoreProgramState())
+		{
+		app->OpenDirectory(dir);
+		}
 }
 
 /******************************************************************************
