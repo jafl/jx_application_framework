@@ -37,6 +37,7 @@ JString	JGetGroupName();
 JString	JGetGroupName(const gid_t gid);
 
 JBoolean	JUserIsAdmin();
+JBoolean	JUserIsAdmin(const uid_t uid);
 
 JBoolean	JUNIXSocketExists(const JCharacter* pathName);
 

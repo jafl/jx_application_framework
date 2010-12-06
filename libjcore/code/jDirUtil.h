@@ -42,6 +42,7 @@ JError		JSetPermissions(const JCharacter* name, const mode_t perms);
 JString		JGetPermissionsString(const mode_t mode);
 JError		JGetOwnerID(const JCharacter* name, uid_t* uid);
 JError		JGetOwnerGroup(const JCharacter* name, gid_t* gid);
+JError		JSetOwner(const JCharacter* name, const uid_t uid, const gid_t gid);
 
 JBoolean	JDirectoryExists(const JCharacter* dirName);
 JBoolean	JDirectoryReadable(const JCharacter* dirName);

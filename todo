@@ -1,25 +1,42 @@
-all:
-	if run as root, shouldn't change owner for prefs files
-		since file is user-only, only need to check for running root/not owned root
-		apply to prefs, ~/.jxcb, ~/.jx
+JTextEditor:
+	JKeyHandler:
+		if installed, overrides TEHandleKeypress (after pre-processing)
+			if returns kJFalse, TEHandleKeypress gets it
+		friend of JTextEditor
+		may need protected mirror of JTextEditor protected/private API
+			fn: MoveCaretVert, Forward/BackwardDelete, InsertSpacesForTab
+				Get*Undo, NewUndo, CalcCaretLocation, Recalc, TEUpdateDisplay
+				AutoIndent, InsertText, DeleteText, BroadcastCaretMessages
+			get: itsInsertionFont
+			set: itsSelectionPivot, itsCaretX, itsCaretLoc, itsPrevDragType
+	JKeyHandlerStack extends JKeyHandler
+		to combine different key handlers, can construct a stack
+		if one returns kJFalse, the next one gets it
+	JXKeyHandlerFactory
+		mapping of id's to display name + constructor
+	Create JVIKeyHandler
+		JXVIKeyHandler extends JVIKeyHandler to implement functions checking modifier keys from JXDisplay::GetLatestKeyModifiers()
+		Esc to get out of edit mode
+			: to focus line number field
+			i to go into edit mode
+			o to insert blank line
+			Ctrl-U to go up 1/2 page
+			Ctrl-D to go down 1/2 page
+			x to delete character to right
+			X to delete character to left
+			dd to delete line
+			# to switch to number mode
+				dd to delete specified number of lines
+				anything else cancels
 
 -----
 
-memory analyzer
-	print table:  partial column on page 1
-
-	option to print MDStatsDirector
-	records window:
-		show info about query in window title
-
-	test
-		leibnitz -- THX3DPlotDirector leaking
-		jcc -- crash with deleted JMessageProtocol -- only when open project
+leibnitz -- THX3DPlotDirector leaking
 
 Docking
 	possible to select first tab in each pane after program starts?
 
-OSX:
+OSX window placement:
 	modal windows, e.g., File Chooser, still migrate upward
 	System G windows in dirs with no prefs open downward
 
@@ -43,11 +60,13 @@ svn_client:
 		when finished, create/refresh Status tab
 
 medic:
-	breakpoint window
+	breakpoint, watchpoint, catchpoint windows:
+		can they all be in one table?
 		modeless: update on ":Medic breakpoints changed:"
+		need to update GDBGetBreakpoints to understand watch, catch
 		create/edit/delete
-		shows bkpt, watch, catch: need to update GDBGetBreakpoints
 		set watchpoints on items in Variables and Local Variables window
+			option to attach to address instead of expression
 		need to trap auto-deletion of watchpoints (going out of scope)
 		sort by any column
 
@@ -114,6 +133,15 @@ jcc:
 		when invoke one-at-a-time from not-one-at-a-time, invoke separate loop
 		when invoke @ commands, must treat as one-at-a-time
 
+memory analyzer
+	jcc -- crash with deleted JMessageProtocol -- only when open project
+
+	print table:  partial column on page 1
+
+	option to print MDStatsDirector
+	records window:
+		show info about query in window title
+
 buzzer:
 	merge code from Glenn and get it to build
 	test layouts on both Linux and OS X
@@ -153,8 +181,6 @@ jcc:
 		http://en.wikipedia.org/wiki/D_(programming_language)
 		http://www.digitalmars.com/d/download.html
 		http://digitalmars.com/d/archives/digitalmars/D/Exuberant_Ctags_Support_for_D_51878.html
-
-	lua for embedding a language in jcc?
 
 medic:
 	accept connection or switch to gdb:  should stop listening on port

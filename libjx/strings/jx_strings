@@ -108,6 +108,11 @@ NoRestoreFilePermsError::JXFileDocument
 
 $err"
 
+NoRestoreFileOwnerError::JXFileDocument
+"The file ownership could not be preserved because:
+
+$err"
+
 OpenSafetyAssertFilePrompt::JXFileDocument
 "There are newer versions of \"$name\" that were safety saved when the X server and this program crashed.
 

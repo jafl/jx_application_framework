@@ -31,7 +31,16 @@ static const JCharacter* kWrongSiteID = "WrongSite::jSysUtil";
 JBoolean
 JUserIsAdmin()
 {
-	return JI2B(getuid() == 0);
+	return JUserIsAdmin(getuid());
+}
+
+JBoolean
+JUserIsAdmin
+	(
+	const uid_t uid
+	)
+{
+	return JI2B(uid == 0);
 }
 
 /******************************************************************************

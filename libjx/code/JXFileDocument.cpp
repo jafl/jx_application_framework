@@ -42,6 +42,12 @@ JBoolean JXFileDocument::itsAskOKToCloseFlag = kJTrue;
 
 static const JCharacter* kBackupFileSuffix = "~";
 
+static const JCharacter* kSafetySavePrefix = "#";
+static const JCharacter* kSafetySaveSuffix = "#";
+
+static const JCharacter* kAssertSavePrefix = "##";
+static const JCharacter* kAssertSaveSuffix = "##";
+
 // setup information
 
 const JFileVersion kCurrentSetupVersion = 1;
@@ -56,37 +62,6 @@ const JCharacter* JXFileDocument::kNameChanged = "NameChanged::JXFileDocument";
 // JError messages
 
 const JCharacter* JXFileDocument::kWriteFailed = "WriteFailed::JXFileDocument";
-
-// string ID's
-
-static const JCharacter* kSaveBeforeClosePromptID = "SaveBeforeClosePrompt::JXFileDocument";
-static const JCharacter* kSaveNewFilePromptID     = "SaveNewFilePrompt::JXFileDocument";
-static const JCharacter* kOKToRevertPromptID      = "OKToRevertPrompt::JXFileDocument";
-static const JCharacter* kFileNameVarName         = "name";
-
-static const JCharacter* kSafetySavePrefix    = "#";
-static const JCharacter* kSafetySaveSuffix    = "#";
-static const JCharacter* kUnsavedFilePrefixID = "UnsavedFilePrefix::JXFileDocument";
-
-static const JCharacter* kAssertSavePrefix          = "##";
-static const JCharacter* kAssertSaveSuffix          = "##";
-static const JCharacter* kAssertUnsavedFilePrefixID = "AssertUnsavedFilePrefix::JXFileDocument";
-
-static const JCharacter* kOKToRevertSavedPromptID        = "OKToRevertSavedPrompt::JXFileDocument";
-static const JCharacter* kOKToRevertUnsavedPromptID      = "OKToRevertUnsavedPrompt::JXFileDocument";
-static const JCharacter* kTryChangeWriteProtectID        = "TryChangeWriteProtect::JXFileDocument";
-static const JCharacter* kNoRestoreWriteProtectErrorID   = "NoRestoreWriteProtectError::JXFileDocument";
-static const JCharacter* kTriedWriteSaveNewFileID        = "TriedWriteSaveNewFile::JXFileDocument";
-static const JCharacter* kNoTryWriteSaveNewFileID        = "NoTryWriteSaveNewFile::JXFileDocument";
-static const JCharacter* kDirNonexistentNoSaveErrorID    = "DirNonexistentNoSaveError::JXFileDocument";
-static const JCharacter* kDirWriteProtectNoSaveErrorID   = "DirWriteProtectNoSaveError::JXFileDocument";
-static const JCharacter* kOverwriteChangedFilePromptID   = "OverwriteChangedFilePrompt::JXFileDocument";
-static const JCharacter* kNoBackupErrorID                = "NoBackupError::JXFileDocument";
-static const JCharacter* kNoBackupDirWriteProtectErrorID = "NoBackupDirWriteProtectError::JXFileDocument";
-static const JCharacter* kNoRestoreFilePermsErrorID      = "NoRestoreFilePermsError::JXFileDocument";
-static const JCharacter* kOpenSafetyAssertFilePromptID   = "OpenSafetyAssertFilePrompt::JXFileDocument";
-static const JCharacter* kOpenSafetyFilePromptID         = "OpenSafetyFilePrompt::JXFileDocument";
-static const JCharacter* kOpenAssertFilePromptID         = "OpenAssertFilePrompt::JXFileDocument";
 
 /******************************************************************************
  Constructor
@@ -110,9 +85,9 @@ JXFileDocument::JXFileDocument
 	:
 	JXDocument(supervisor),
 	itsFileSuffix(defaultFileNameSuffix),
-	itsSaveBeforeClosePrompt(JGetString(kSaveBeforeClosePromptID)),
-	itsSaveNewFilePrompt(JGetString(kSaveNewFilePromptID)),
-	itsOKToRevertPrompt(JGetString(kOKToRevertPromptID))
+	itsSaveBeforeClosePrompt(JGetString("SaveBeforeClosePrompt::JXFileDocument")),
+	itsSaveNewFilePrompt(JGetString("SaveNewFilePrompt::JXFileDocument")),
+	itsOKToRevertPrompt(JGetString("OKToRevertPrompt::JXFileDocument"))
 {
 	itsAllocateTitleSpaceFlag     = kJFalse;
 	itsWantBackupFileFlag         = wantBackupFile;
@@ -318,7 +293,7 @@ JXFileDocument::OKToClose()
 	JString msg = itsSaveBeforeClosePrompt;
 	const JCharacter* map[] =
 		{
-		kFileNameVarName, itsFileName
+		"name", itsFileName
 		};
 	(JGetStringManager())->Replace(&msg, map, sizeof(map));
 
@@ -359,10 +334,10 @@ JXFileDocument::OKToRevert()
 		{
 		const JCharacter* map[] =
 			{
-			kFileNameVarName, itsFileName
+			"name", itsFileName
 			};
 		const JString msg = JGetString(
-			itsSavedFlag? kOKToRevertSavedPromptID : kOKToRevertUnsavedPromptID,
+			itsSavedFlag? "OKToRevertSavedPrompt::JXFileDocument" : "OKToRevertUnsavedPrompt::JXFileDocument",
 			map, sizeof(map));
 
 		return (JGetUserNotification())->AskUserNo(msg);
@@ -373,7 +348,7 @@ JXFileDocument::OKToRevert()
 		JString msg = itsOKToRevertPrompt;
 		const JCharacter* map[] =
 			{
-			kFileNameVarName, itsFileName
+			"name", itsFileName
 			};
 		(JGetStringManager())->Replace(&msg, map, sizeof(map));
 		return (JGetUserNotification())->AskUserYes(msg);
@@ -700,7 +675,7 @@ JXFileDocument::SaveInCurrentFile()
 		{
 		JBoolean triedWrite = kJFalse;
 		if ((JGetUserNotification())->AskUserYes(
-				JGetString(kTryChangeWriteProtectID)))
+				JGetString("TryChangeWriteProtect::JXFileDocument")))
 			{
 			mode_t perms;
 			if (JGetPermissions(fullName, &perms)          == kJNoError &&
@@ -711,7 +686,7 @@ JXFileDocument::SaveInCurrentFile()
 				const JError err   = JSetPermissions(fullName, perms);
 				if (!err.OK())
 					{
-					(JGetStringManager())->ReportError(kNoRestoreWriteProtectErrorID, err);
+					(JGetStringManager())->ReportError("NoRestoreWriteProtectError::JXFileDocument", err);
 					}
 				if (ok2)
 					{
@@ -728,7 +703,7 @@ JXFileDocument::SaveInCurrentFile()
 
 		if ((JGetUserNotification())->AskUserYes(
 				JGetString(triedWrite ?
-					kTriedWriteSaveNewFileID : kNoTryWriteSaveNewFileID)))
+					"TriedWriteSaveNewFile::JXFileDocument" : "NoTryWriteSaveNewFile::JXFileDocument")))
 			{
 			return SaveInNewFile();
 			}
@@ -740,13 +715,13 @@ JXFileDocument::SaveInCurrentFile()
 	else if (!exists && !JDirectoryExists(itsFilePath))
 		{
 		(JGetUserNotification())->ReportError(
-			JGetString(kDirNonexistentNoSaveErrorID));
+			JGetString("DirNonexistentNoSaveError::JXFileDocument"));
 		return kJFalse;
 		}
 	else if (!exists && !dirWritable)
 		{
 		(JGetUserNotification())->ReportError(
-			JGetString(kDirWriteProtectNoSaveErrorID));
+			JGetString("DirWriteProtectNoSaveError::JXFileDocument"));
 		return kJFalse;
 		}
 	else
@@ -755,9 +730,9 @@ JXFileDocument::SaveInCurrentFile()
 			{
 			const JCharacter* map[] =
 				{
-				kFileNameVarName, itsFileName
+				"name", itsFileName
 				};
-			const JString msg = JGetString(kOverwriteChangedFilePromptID,
+			const JString msg = JGetString("OverwriteChangedFilePrompt::JXFileDocument",
 										   map, sizeof(map));
 			if (!(JGetUserNotification())->AskUserNo(msg))
 				{
@@ -767,6 +742,8 @@ JXFileDocument::SaveInCurrentFile()
 
 		JBoolean madeBackupFile = kJFalse;
 		mode_t filePerms        = 0;
+		uid_t ownerID           = (uid_t) -1;
+		gid_t groupID           = (gid_t) -1;
 		if (itsMakeBackupFileFlag)
 			{
 			const JString backupName  = fullName + kBackupFileSuffix;
@@ -779,7 +756,9 @@ JXFileDocument::SaveInCurrentFile()
 				const JError err = JRenameFile(fullName, backupName);
 				if (err.OK())
 					{
-					madeBackupFile = (JGetPermissions(backupName, &filePerms)).OK();
+					JGetPermissions(backupName, &filePerms);
+					JGetOwnerID(backupName, &ownerID);
+					JGetOwnerGroup(backupName, &groupID);
 					}
 				else
 					{
@@ -787,7 +766,7 @@ JXFileDocument::SaveInCurrentFile()
 						{
 						"err", err.GetMessage()
 						};
-					const JString msg = JGetString(kNoBackupErrorID, map, sizeof(map));
+					const JString msg = JGetString("NoBackupError::JXFileDocument", map, sizeof(map));
 					if (!(JGetUserNotification())->AskUserNo(msg))
 						{
 						return kJFalse;
@@ -796,7 +775,7 @@ JXFileDocument::SaveInCurrentFile()
 				}
 			else if (makeBackup &&
 					 !(JGetUserNotification())->AskUserNo(
-					 		JGetString(kNoBackupDirWriteProtectErrorID)))
+					 		JGetString("NoBackupDirWriteProtectError::JXFileDocument")))
 				{
 				return kJFalse;
 				}
@@ -811,21 +790,26 @@ JXFileDocument::SaveInCurrentFile()
 			RemoveSafetySaveFile();
 			AdjustWindowTitle();
 
-			if (madeBackupFile)
+			if (filePerms != 0)
 				{
 				const JError err = JSetPermissions(fullName, filePerms);
 				if (!err.OK())
 					{
-					(JGetStringManager())->ReportError(kNoRestoreFilePermsErrorID, err);
+					(JGetStringManager())->ReportError("NoRestoreFilePermsError::JXFileDocument", err);
 					}
 				}
 
-			JError err          = JGetModificationTime(fullName, &itsFileModTime);
-			itsCheckModTimeFlag = err.OK();
+			if (ownerID != (uid_t) -1 || groupID != (gid_t) -1)
+				{
+				const JError err = JSetOwner(fullName, ownerID, groupID);
+				if (!err.OK())
+					{
+					(JGetStringManager())->ReportError("NoRestoreFileOwnerError::JXFileDocument", err);
+					}
+				}
 
-			err               = JGetPermissions(fullName, &itsFilePerms);
-			itsCheckPermsFlag = err.OK();
-
+			itsCheckModTimeFlag = JGetModificationTime(fullName, &itsFileModTime).OK();
+			itsCheckPermsFlag   = JGetPermissions(fullName, &itsFilePerms).OK();
 			return kJTrue;
 			}
 		else
@@ -949,11 +933,11 @@ JXFileDocument::SafetySave
 			}
 		else if (reason == JXDocumentManager::kAssertFired)
 			{
-			err = JCreateTempFile(homeDir, JGetString(kAssertUnsavedFilePrefixID), &fullName);
+			err = JCreateTempFile(homeDir, JGetString("AssertUnsavedFilePrefix::JXFileDocument"), &fullName);
 			}
 		else
 			{
-			err = JCreateTempFile(homeDir, JGetString(kUnsavedFilePrefixID), &fullName);
+			err = JCreateTempFile(homeDir, JGetString("UnsavedFilePrefix::JXFileDocument"), &fullName);
 			}
 
 		if (err.OK())
@@ -1070,20 +1054,20 @@ JXFileDocument::CheckForSafetySaveFiles
 		const JCharacter* id = NULL;
 		if (safetyExists && assertExists)
 			{
-			id = kOpenSafetyAssertFilePromptID;
+			id = "OpenSafetyAssertFilePrompt::JXFileDocument";
 			}
 		else if (safetyExists)
 			{
-			id = kOpenSafetyFilePromptID;
+			id = "OpenSafetyFilePrompt::JXFileDocument";
 			}
 		else if (assertExists)
 			{
-			id = kOpenAssertFilePromptID;
+			id = "OpenAssertFilePrompt::JXFileDocument";
 			}
 
 		const JCharacter* map[] =
 			{
-			kFileNameVarName, name
+			"name", name
 			};
 
 		if (id != NULL &&

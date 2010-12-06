@@ -261,6 +261,65 @@ JGetOwnerGroup
 }
 
 /******************************************************************************
+ JSetOwner
+
+	Sets the owner to the specified uid and the group to the specified gid.
+
+ ******************************************************************************/
+
+JError
+JSetOwner
+	(
+	const JCharacter*	name,
+	const uid_t			uid,
+	const gid_t			gid
+	)
+{
+	if (chown(name, uid, gid) == 0)
+		{
+		return JNoError();
+		}
+
+	const int err = jerrno();
+	if (err == EPERM || err == EACCES)
+		{
+		return JAccessDenied(name);
+		}
+	else if (err == EFAULT)
+		{
+		return JSegFault();
+		}
+	else if (err == ENAMETOOLONG)
+		{
+		return JNameTooLong();
+		}
+	else if (err == ENOENT)
+		{
+		return JDirEntryDoesNotExist(name);
+		}
+	else if (err == ENOTDIR)
+		{
+		return JComponentNotDirectory(name);
+		}
+	else if (err == ENOMEM)
+		{
+		return JNoKernelMemory();
+		}
+	else if (err == EROFS)
+		{
+		return JFileSystemReadOnly();
+		}
+	else if (err == ELOOP)
+		{
+		return JPathContainsLoop(name);
+		}
+	else
+		{
+		return JUnexpectedError(err);
+		}
+}
+
+/******************************************************************************
  JCreateSymbolicLink
 
 	Creates a symbolic link dest that points to src.

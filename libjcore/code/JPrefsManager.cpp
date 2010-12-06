@@ -30,6 +30,7 @@
 #include <JPrefsManager.h>
 #include <JPrefsFile.h>
 #include <jFileUtil.h>
+#include <jSysUtil.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -198,6 +199,31 @@ JPrefsManager::SaveToDisk()
 		return err;
 		}
 
+	// save owner
+
+	JBoolean preserveOwner = JUserIsAdmin();
+	JString fullName;
+	uid_t ownerID;
+	gid_t groupID;
+	if (preserveOwner)
+		{
+		JError err = JPrefsFile::GetFullName(*itsFileName, &fullName);
+		if (err.OK())
+			{
+			err = JGetOwnerID(fullName, &ownerID);
+			}
+		if (err.OK())
+			{
+			err = JGetOwnerGroup(fullName, &groupID);
+			}
+		if (!err.OK())
+			{
+			return err;
+			}
+
+		preserveOwner = !JUserIsAdmin(ownerID);
+		}
+
 	// toss everything
 
 	err = DeletePrefsFile(*itsFileName);
@@ -224,6 +250,14 @@ JPrefsManager::SaveToDisk()
 		}
 
 	delete file;
+
+	// restore owner -- too late to do anything if it fails
+
+	if (preserveOwner)
+		{
+		JSetOwner(fullName, ownerID, groupID);
+		}
+
 	return JNoError();
 }
 
@@ -348,7 +382,7 @@ JPrefsManager::Open
 }
 
 /******************************************************************************
- DeletePrefsFile (virtual protected)
+ DeletePrefsFile (private)
 
 	We can't call it "DeleteFile" because Windows #defines this.
 

@@ -8729,7 +8729,7 @@ JTextEditor::TEHandleKeyPress
 		SetCaretLocation(itsSelection.first);
 		}
 	else if (key == kJUpArrow && itsCaretLoc.charIndex == bufLength+1 &&
-			 EndsWithNewline())									// ends with newline
+			 EndsWithNewline())
 		{
 		SetCaretLocation(GetLineStart(itsCaretLoc.lineIndex));
 		}

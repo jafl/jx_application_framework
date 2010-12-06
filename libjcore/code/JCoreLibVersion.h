@@ -53,6 +53,7 @@ static const char* kCurrentJCoreLibVersionStr = "2.6.0";
 //		Added kJDefaultMonoFontSize, kJDefaultRowColHeaderFontSize.
 //	jDirUtil:
 //		Added optional 2nd arg sync to JKillDirectory().
+//		Added JSetOwner().
 //	jVCSUtil:
 //		Added optional 2nd arg sync to JRemoveVCS().
 //		No longer whines about unmanaged files in git repositories.
@@ -73,6 +74,8 @@ static const char* kCurrentJCoreLibVersionStr = "2.6.0";
 //		Fixed infinite loop in Paginate when column is too wide to fit.
 //	JMDIServer:
 //		Added IsFirstTime() to allow HandleMDIRequest() to behave differently on init.
+//	jSysUtil:
+//		Added JUserIsAdmin(uid).
 
 // version 2.6.0:
 //	JOrderedSet:
