@@ -1,17 +1,14 @@
 /******************************************************************************
- JTEUndoBase.cpp
+ JTEKeyHandler.cpp
 
-	Base class to support undoing any operation on a JTextEditor object.
+	Base class to support overriding key presses sent to JTextEditor.
 
-	BASE CLASS = JUndo
-
-	Copyright © 1996 by John Lindal. All rights reserved.
+	Copyright © 2010 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
 #include <JCoreStdInc.h>
-#include <JTEUndoBase.h>
-#include <JFontManager.h>
+#include <JTEKeyHandler.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -19,12 +16,11 @@
 
  ******************************************************************************/
 
-JTEUndoBase::JTEUndoBase
+JTEKeyHandler::JTEKeyHandler
 	(
 	JTextEditor* te
 	)
 	:
-	JUndo(),
 	itsTE(te)
 {
 }
@@ -34,65 +30,76 @@ JTEUndoBase::JTEUndoBase
 
  ******************************************************************************/
 
-JTEUndoBase::~JTEUndoBase()
+JTEKeyHandler::~JTEKeyHandler()
 {
 }
 
 /******************************************************************************
- SetFont (virtual)
-
-	Called by JTextEditor::SetAllFontNameAndSize().
+ InsertKeyPress (protected; delegation)
 
  ******************************************************************************/
 
 void
-JTEUndoBase::SetFont
+JTEKeyHandler::InsertKeyPress
 	(
-	const JCharacter*	name,
-	const JSize			size
+	const JCharacter key
 	)
 {
+	itsTE->InsertKeyPress(key);
 }
 
 /******************************************************************************
- SetFont (protected)
-
-	Convenience function for derived classes that need to implement SetFont().
+ BackwardDelete (protected; delegation)
 
  ******************************************************************************/
 
 void
-JTEUndoBase::SetFont
+JTEKeyHandler::BackwardDelete
 	(
-	JRunArray<JTextEditor::Font>*	styles,
-	const JCharacter*				name,
-	const JSize						size
+	const JBoolean deleteToTabStop
 	)
 {
-	const JFontManager* fontMgr = itsTE->TEGetFontManager();
-
-	const JSize runCount = styles->GetRunCount();
-	for (JIndex i=1; i<=runCount; i++)
+	if (itsTE->HasSelection())
 		{
-		JTextEditor::Font f = styles->GetRunData(i);
-		f.size = size;
-		f.id   = fontMgr->GetFontID(name, f.size, f.style);
-		styles->SetRunData(i, f);
+		itsTE->DeleteSelection();
+		}
+	else
+		{
+		itsTE->BackwardDelete(deleteToTabStop);
 		}
 }
 
 /******************************************************************************
- SetPasteLength (virtual)
-
-	Required by some derived classes.
+ ForwardDelete (protected; delegation)
 
  ******************************************************************************/
 
 void
-JTEUndoBase::SetPasteLength
+JTEKeyHandler::ForwardDelete
 	(
-	const JSize length
+	const JBoolean deleteToTabStop
 	)
 {
-	assert( 0 /* programmer forgot to override JTEUndoBase::SetPasteLength */ );
+	if (itsTE->HasSelection())
+		{
+		itsTE->DeleteSelection();
+		}
+	else
+		{
+		itsTE->ForwardDelete(deleteToTabStop);
+		}
+}
+
+/******************************************************************************
+ MoveCaretVert (protected; delegation)
+
+ ******************************************************************************/
+
+void
+JTEKeyHandler::MoveCaretVert
+	(
+	const JInteger deltaLines
+	)
+{
+	itsTE->MoveCaretVert(deltaLines);
 }

@@ -437,6 +437,10 @@ T
 2 "JXLinkText.cpp"
 F
 "./code/JXLinkText.cpp"
+T
+2 "JXVIKeyHandler.cpp"
+F
+"./code/JXVIKeyHandler.cpp"
 F
 T
 1 "SpellCheck"

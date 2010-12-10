@@ -49,6 +49,7 @@ static const char* kCurrentJCoreLibVersionStr = "2.6.0";
 //		Removed SwitchCharSet().
 //	JTextEditor:
 //		Removed SwitchHTMLCharSet().
+//		Added Get/SetCaretMode().
 //	JFontStyle:
 //		Added kJDefaultMonoFontSize, kJDefaultRowColHeaderFontSize.
 //	jDirUtil:
@@ -76,6 +77,7 @@ static const char* kCurrentJCoreLibVersionStr = "2.6.0";
 //		Added IsFirstTime() to allow HandleMDIRequest() to behave differently on init.
 //	jSysUtil:
 //		Added JUserIsAdmin(uid).
+//	Created JTEKeyHandler and JVIKeyHandler.
 
 // version 2.6.0:
 //	JOrderedSet:

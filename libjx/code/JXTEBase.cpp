@@ -1241,7 +1241,7 @@ JXTEBase::HandleKeyPress
 		}
 
 	else if (type == kFullEditor &&
-			 !controlOn && !metaOn &&
+			 !((controlOn || metaOn) && '1' <= key && key <= '9') &&
 			 OKToPassToJTE(key, &typedKey))
 		{
 		JBoolean deleteToTabStop = TabInsertsSpaces();

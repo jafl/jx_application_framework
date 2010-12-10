@@ -106,6 +106,7 @@
 .cpp ./code/JXChooseFontSizeDialog
 .cpp ./code/JXGoToLineDialog
 .cpp ./code/JXLinkText
+.cpp ./code/JXVIKeyHandler
 .cpp ./code/JXSpellChecker
 .cpp ./code/JXSpellCheckerDialog
 .cpp ./code/JXSpellList

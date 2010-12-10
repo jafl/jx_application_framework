@@ -692,6 +692,14 @@ T
 F
 "./code/JTEStyler.cpp"
 T
+2 "JTEKeyHandler.cpp"
+F
+"./code/JTEKeyHandler.cpp"
+T
+2 "JVIKeyHandler.cpp"
+F
+"./code/JVIKeyHandler.cpp"
+T
 2 "JTEHTMLScanner.cpp"
 F
 "./code/JTEHTMLScanner.cpp"

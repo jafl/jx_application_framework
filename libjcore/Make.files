@@ -106,6 +106,8 @@
 .cpp ./code/JTEUndoTabShift
 .cpp ./code/JTEUndoTyping
 .cpp ./code/JTEStyler
+.cpp ./code/JTEKeyHandler
+.cpp ./code/JVIKeyHandler
 .cpp ./code/JTEHTMLScanner
 .cpp ./code/Templates-JTextEditor
 .cpp ./code/JPartition

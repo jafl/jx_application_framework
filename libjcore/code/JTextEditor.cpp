@@ -30,9 +30,7 @@
 
 	When the text ends with a newline, we have to draw the caret on the
 	next line.  This is a special case because (charIndex == bufLength+1)
-	would normally catch this.  The code required to handle this special
-	case is marked with "ends with newline".  (Most, but not all, such
-	code calls EndsWithNewline().)  We handle this special case internally
+	would normally catch this.  We handle this special case internally
 	rather than appending an extra item to itsLineStarts because this keeps
 	the issue internal rather than forcing clients to deal with it.
 
@@ -155,6 +153,7 @@
 #include <JTEUndoDrop.h>
 #include <JTEUndoStyle.h>
 #include <JTEUndoTabShift.h>
+#include <JTEKeyHandler.h>
 #include <JPagePrinter.h>
 #include <JFontManager.h>
 #include <JColormap.h>
@@ -240,6 +239,8 @@ JTextEditor::JTextEditor
 	itsDragColor(dragColor),
 	itsWhitespaceColor(wsColor),
 
+	itsKeyHandler(NULL),
+
 	itsStoreClipFlag(useInternalClipboard)
 {
 	itsBuffer = new JString;
@@ -266,6 +267,7 @@ JTextEditor::JTextEditor
 	itsBreakCROnlyFlag         = breakCROnly;
 	itsIsPrintingFlag          = kJFalse;
 	itsDrawWhitespaceFlag      = kJFalse;
+	itsCaretMode               = kLineCaret;
 
 	itsDefFont.size = kJDefaultFontSize;
 	// itsDefFont.style is automatically empty
@@ -401,6 +403,7 @@ JTextEditor::JTextEditor
 
 	itsCharInWordFn   = source.itsCharInWordFn;
 	itsHTMLLexerState = NULL;
+	itsKeyHandler     = NULL;
 }
 
 /******************************************************************************
@@ -416,6 +419,7 @@ JTextEditor::~JTextEditor()
 	delete itsLineStarts;
 	delete itsLineGeom;
 	delete itsUndoList;
+	delete itsKeyHandler;
 
 	delete itsClipText;
 	delete itsClipStyle;
@@ -5390,8 +5394,7 @@ JTextEditor::PrivateCleanRightMargin
 		}
 
 	const JIndex caretChar = GetInsertionIndex();
-	if (caretChar == itsBuffer->GetLength()+1 &&		// ends with newline
-		EndsWithNewline())
+	if (caretChar == itsBuffer->GetLength()+1 && EndsWithNewline())
 		{
 		return kJFalse;
 		}
@@ -7931,7 +7934,7 @@ JTextEditor::TEDrawCaret
 	JCoordinate x, y1, y2;
 
 	if (caretLoc.charIndex == itsBuffer->GetLength()+1 &&
-		EndsWithNewline())									// ends with newline
+		EndsWithNewline())
 		{
 		x  = -1;
 		y1 = GetLineBottom(caretLoc.lineIndex) + 1;
@@ -7951,7 +7954,22 @@ JTextEditor::TEDrawCaret
 
 	const JColorIndex savedColor = p.GetPenColor();
 	p.SetPenColor(itsCaretColor);
-	p.Line(x,y1, x,y2);
+
+	if (itsCaretMode == kBlockCaret)
+		{
+		JCoordinate w = 5;
+		if (IndexValid(caretLoc.charIndex) &&
+			itsBuffer->GetCharacter(caretLoc.charIndex) != '\n')
+			{
+			w = GetCharWidth(caretLoc);
+			}
+		p.Rect(x,y1, w+1,y2-y1);
+		}
+	else
+		{
+		p.Line(x,y1, x,y2);
+		}
+
 	p.SetPenColor(savedColor);
 }
 
@@ -8541,6 +8559,21 @@ JTextEditor::TEHitSamePart
 }
 
 /******************************************************************************
+ SetKeyHandler
+
+ ******************************************************************************/
+
+void
+JTextEditor::SetKeyHandler
+	(
+	JTEKeyHandler* handler
+	)
+{
+	delete itsKeyHandler;
+	itsKeyHandler = handler;
+}
+
+/******************************************************************************
  TEHandleKeyPress (protected)
 
 	Returns kJTrue if the key was processed.
@@ -8581,6 +8614,14 @@ JTextEditor::TEHandleKeyPress
 	if (key == '\r')
 		{
 		key = '\n';
+		}
+
+	// overrides
+
+	if (itsKeyHandler != NULL &&
+		itsKeyHandler->HandleKeyPress(key, selectText, motion, deleteToTabStop))
+		{
+		return kJTrue;
 		}
 
 	const JSize bufLength = itsBuffer->GetLength();
@@ -8625,6 +8666,8 @@ JTextEditor::TEHandleKeyPress
 		{
 		return kJFalse;
 		}
+
+	JBoolean processed = kJTrue;
 
 	// left arrow
 
@@ -8802,32 +8845,12 @@ JTextEditor::TEHandleKeyPress
 
 	else if (JIsPrint(key) || key == '\n' || key == '\t')
 		{
-		JBoolean isNew;
-		JTEUndoTyping* typingUndo = GetTypingUndo(&isNew);
-		typingUndo->HandleCharacter();
+		InsertKeyPress(key);
+		}
 
-		const JBoolean hadSelection = !itsSelection.IsEmpty();
-		if (hadSelection)
-			{
-			itsInsertionFont = itsStyles->GetElement(itsSelection.first);
-			DeleteText(itsSelection);
-			itsCaretLoc = CalcCaretLocation(itsSelection.first);
-			itsSelection.SetToNothing();
-			}
-		const JCharacter s[2]   = { key, '\0' };
-		const JSize pasteLength = InsertText(itsCaretLoc.charIndex, s);
-		assert( pasteLength == 1 );
-		Recalc(itsCaretLoc, 1, hadSelection, kJFalse);
-		SetCaretLocation(itsCaretLoc.charIndex+1);
-
-		typingUndo->Activate();		// cancel SetCaretLocation()
-
-		if (key == '\n' && itsAutoIndentFlag)
-			{
-			AutoIndent(typingUndo);
-			}
-
-		NewUndo(typingUndo, isNew);
+	else
+		{
+		processed = kJFalse;
 		}
 
 	// finish selection process
@@ -8855,7 +8878,46 @@ JTextEditor::TEHandleKeyPress
 	// when the display does not instantly show the changes.
 
 	TEUpdateDisplay();
-	return kJTrue;
+	return processed;
+}
+
+/******************************************************************************
+ InsertKeyPress (private)
+
+ ******************************************************************************/
+
+void
+JTextEditor::InsertKeyPress
+	(
+	const JCharacter key
+	)
+{
+	JBoolean isNew;
+	JTEUndoTyping* typingUndo = GetTypingUndo(&isNew);
+	typingUndo->HandleCharacter();
+
+	const JBoolean hadSelection = !itsSelection.IsEmpty();
+	if (hadSelection)
+		{
+		itsInsertionFont = itsStyles->GetElement(itsSelection.first);
+		DeleteText(itsSelection);
+		itsCaretLoc = CalcCaretLocation(itsSelection.first);
+		itsSelection.SetToNothing();
+		}
+	const JCharacter s[2]   = { key, '\0' };
+	const JSize pasteLength = InsertText(itsCaretLoc.charIndex, s);
+	assert( pasteLength == 1 );
+	Recalc(itsCaretLoc, 1, hadSelection, kJFalse);
+	SetCaretLocation(itsCaretLoc.charIndex+1);
+
+	typingUndo->Activate();		// cancel SetCaretLocation()
+
+	if (key == '\n' && itsAutoIndentFlag)
+		{
+		AutoIndent(typingUndo);
+		}
+
+	NewUndo(typingUndo, isNew);
 }
 
 /******************************************************************************
@@ -9124,8 +9186,7 @@ JTextEditor::InsertSpacesForTab()
 	JSize lineIndex        = GetLineForChar(charIndex);
 	JSize column           = charIndex - GetLineStart(lineIndex);
 
-	if (charIndex == itsBuffer->GetLength()+1 &&
-		EndsWithNewline())									// ends with newline
+	if (charIndex == itsBuffer->GetLength()+1 && EndsWithNewline())
 		{
 		lineIndex++;
 		column = 0;
@@ -9702,7 +9763,7 @@ JTextEditor::BroadcastCaretMessages
 		{
 		JIndex line = caretLoc.lineIndex;
 		if (caretLoc.charIndex == itsBuffer->GetLength()+1 &&
-			EndsWithNewline())									// ends with newline
+			EndsWithNewline())
 			{
 			line++;
 			}
@@ -9721,7 +9782,7 @@ JTextEditor::BroadcastCaretPosChanged
 		JIndex line = caretLoc.lineIndex;
 		JIndex col  = GetColumnForChar(caretLoc);
 		if (caretLoc.charIndex == itsBuffer->GetLength()+1 &&
-			EndsWithNewline())									// ends with newline
+			EndsWithNewline())
 			{
 			line++;
 			col = 1;
@@ -9762,8 +9823,7 @@ JTextEditor::GetColumnForChar
 	)
 	const
 {
-	if (caretLoc.charIndex == itsBuffer->GetLength()+1 &&
-		EndsWithNewline())									// ends with newline
+	if (caretLoc.charIndex == itsBuffer->GetLength()+1 && EndsWithNewline())
 		{
 		return 1;
 		}
@@ -9803,7 +9863,7 @@ JTextEditor::GoToColumn
 	const JSize lineCount = GetLineCount();
 
 	CaretLocation caretLoc(0, lineIndex);
-	if (lineIndex > lineCount && EndsWithNewline())		// ends with newline
+	if (lineIndex > lineCount && EndsWithNewline())
 		{
 		caretLoc.charIndex = itsBuffer->GetLength() + 1;
 		caretLoc.lineIndex = lineCount;
@@ -9845,7 +9905,7 @@ JTextEditor::GoToLine
 	const JSize lineCount = GetLineCount();
 
 	CaretLocation caretLoc;
-	if (trueIndex > lineCount && EndsWithNewline())		// ends with newline
+	if (trueIndex > lineCount && EndsWithNewline())
 		{
 		caretLoc.charIndex = itsBuffer->GetLength() + 1;
 		caretLoc.lineIndex = lineCount;
@@ -9914,7 +9974,7 @@ JTextEditor::GoToBeginningOfLine()
 		}
 
 	if (caretLoc.charIndex == itsBuffer->GetLength()+1 &&
-		EndsWithNewline())										// ends with newline
+		EndsWithNewline())
 		{
 		// set current value so we scroll to it
 		}
@@ -9972,7 +10032,7 @@ JTextEditor::GoToEndOfLine()
 			}
 		}
 	else if (itsCaretLoc.charIndex == itsBuffer->GetLength()+1 &&
-			 EndsWithNewline())										// ends with newline
+			 EndsWithNewline())
 		{
 		SetCaretLocation(itsCaretLoc);	// scroll to it
 		}
@@ -10103,8 +10163,7 @@ JTextEditor::CalcCaretRect
 {
 	JRect r;
 
-	if (caretLoc.charIndex == itsBuffer->GetLength()+1 &&
-		EndsWithNewline())								// ends with newline
+	if (caretLoc.charIndex == itsBuffer->GetLength()+1 && EndsWithNewline())
 		{
 		r.top    = GetLineBottom(caretLoc.lineIndex) + 1;
 		r.bottom = r.top + GetEWNHeight();
@@ -10192,7 +10251,7 @@ JTextEditor::TERefreshLines
 {
 	JRect r(GetLineTop(firstLine), 0, GetLineBottom(lastLine)+1,
 			itsLeftMarginWidth + JMax(itsGUIWidth, itsWidth) + kRightMarginWidth);
-	if (lastLine == GetLineCount() && EndsWithNewline())	// ends with newline
+	if (lastLine == GetLineCount() && EndsWithNewline())
 		{
 		r.bottom += GetEWNHeight();
 		}
@@ -10211,7 +10270,7 @@ JTextEditor::TERefreshCaret
 	)
 {
 	if (caretLoc.charIndex == itsBuffer->GetLength()+1 &&
-		EndsWithNewline())								// ends with newline
+		EndsWithNewline())
 		{
 		const JRect r(itsHeight - GetEWNHeight(), 0, itsHeight,
 					  itsLeftMarginWidth + JMax(itsGUIWidth, itsWidth) +
@@ -10753,7 +10812,7 @@ JTextEditor::Recalc
 
 	const JSize lineCount = GetLineCount();
 	JCoordinate newHeight = GetLineTop(lineCount) + GetLineHeight(lineCount);
-	if (EndsWithNewline())								// ends with newline
+	if (EndsWithNewline())
 		{
 		newHeight += GetEWNHeight();
 		}
@@ -11336,7 +11395,7 @@ JTextEditor::CalcCaretLocation
 
 	JCoordinate lineTop;
 	const JIndex lineIndex = CalcLineIndex(pt.y, &lineTop);
-	if (EndsWithNewline() &&									// ends with newline
+	if (EndsWithNewline() &&
 		itsHeight - GetEWNHeight() < pt.y && pt.y <= itsHeight)
 		{
 		return CaretLocation(bufLength+1, GetLineCount());
@@ -11349,7 +11408,7 @@ JTextEditor::CalcCaretLocation
 	const JIndex lineStart = GetLineStart(lineIndex);
 
 	JIndex lineEnd = GetLineEnd(lineIndex);
-	if ((lineEnd < bufLength || EndsWithNewline()) &&	// ends with newline
+	if ((lineEnd < bufLength || EndsWithNewline()) &&
 		isspace(itsBuffer->GetCharacter(lineEnd)))
 		{
 		lineEnd--;

@@ -203,6 +203,20 @@ JXSearchTextDialog::SetSearchText
 }
 
 /******************************************************************************
+ SetRegexSearch
+
+ ******************************************************************************/
+
+void
+JXSearchTextDialog::SetRegexSearch
+	(
+	const JBoolean regex
+	)
+{
+	itsSearchIsRegexCB->SetState(regex);
+}
+
+/******************************************************************************
  SetReplaceText
 
  ******************************************************************************/
@@ -221,6 +235,20 @@ JXSearchTextDialog::SetReplaceText
 	itsReplaceInput->SelectAll();
 //	itsPrevReplaceMenu->AddString(str);
 	itsReplaceIsRegexCB->SetState(kJFalse);
+}
+
+/******************************************************************************
+ SetRegexReplace
+
+ ******************************************************************************/
+
+void
+JXSearchTextDialog::SetRegexReplace
+	(
+	const JBoolean regex
+	)
+{
+	itsReplaceIsRegexCB->SetState(regex);
 }
 
 /******************************************************************************

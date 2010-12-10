@@ -55,9 +55,11 @@ public:
 
 	JBoolean	HasSearchText() const;
 	void		SetSearchText(const JCharacter* str);
+	void		SetRegexSearch(const JBoolean regex = kJTrue);
 
 	JBoolean	HasReplaceText() const;
 	void		SetReplaceText(const JCharacter* str);
+	void		SetRegexReplace(const JBoolean regex = kJTrue);
 
 	JBoolean	GetSearchParameters(JString* searchStr, JBoolean* searchIsRegex,
 									JBoolean* caseSensitive, JBoolean* entireWord,

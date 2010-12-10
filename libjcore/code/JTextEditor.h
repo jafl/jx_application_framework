@@ -31,12 +31,15 @@ class JTEUndoTyping;
 class JTEUndoDrop;
 class JTEUndoStyle;
 class JTEUndoTabShift;
+class JTEKeyhandler;
 
 class JTextEditor : virtual public JBroadcaster
 {
 	friend class JTEUndoTextBase;
 	friend class JTEUndoDrop;
 	friend class JTEUndoStyle;
+
+	friend class JTEKeyHandler;
 
 	friend class JTEHTMLScanner;
 
@@ -116,6 +119,12 @@ public:
 			:
 			id(anID), size(aSize), style(aStyle)
 		{ };
+	};
+
+	enum CaretMode
+	{
+		kLineCaret,
+		kBlockCaret
 	};
 
 	enum CaretMotion
@@ -472,6 +481,9 @@ public:
 	static JBoolean	(*GetI18NCharacterInWordFunction())(const JCharacter);
 	static void		SetI18NCharacterInWordFunction(JBoolean (*f)(const JCharacter));
 
+	JTEKeyHandler*	GetKeyHandler() const;
+	void			SetKeyHandler(JTEKeyHandler* handler);
+
 	JBoolean	AllowsDragAndDrop() const;
 	void		ShouldAllowDragAndDrop(const JBoolean allow);
 
@@ -494,11 +506,14 @@ public:
 	JColorIndex	GetWhitespaceColor() const;
 	void		SetWhitespaceColor(const JColorIndex color);
 
-	JBoolean	WillBroadcastCaretLocationChanged();
+	JBoolean	WillBroadcastCaretLocationChanged() const;
 	void		ShouldBroadcastCaretLocationChanged(const JBoolean broadcast);
 
-	JBoolean	WillBroadcastAllTextChanged();
+	JBoolean	WillBroadcastAllTextChanged() const;
 	void		ShouldBroadcastAllTextChanged(const JBoolean broadcast);
+
+	CaretMode	GetCaretMode() const;
+	void		SetCaretMode(const CaretMode mode);
 
 	JBoolean	IndexValid(const JIndex charIndex) const;
 
@@ -769,6 +784,7 @@ private:
 	JBoolean			itsBcastAllTextChangedFlag;	// kJTrue => broadcast TextChanged every time
 	JBoolean			itsIsPrintingFlag;			// kJTrue => stack threads through Print()
 	JBoolean			itsDrawWhitespaceFlag;		// kJTrue => show tabs, spaces, newlines
+	CaretMode			itsCaretMode;
 	static JBoolean		theCopyWhenSelectFlag;		// kJTrue => SetSelection() calls Copy()
 
 	const JFontManager*	itsFontMgr;
@@ -799,6 +815,8 @@ private:
 
 	JBoolean (*itsCharInWordFn)(const JString&, const JIndex);
 	static JBoolean (*theI18NCharInWordFn)(const JCharacter);	// can be NULL
+
+	JTEKeyHandler*	itsKeyHandler;
 
 	// information for Recalc
 
@@ -928,6 +946,7 @@ private:
 	JBoolean	SetText1(const JRunArray<Font>* style);
 	JRect		CalcLocalDNDRect(const JPoint& pt) const;
 
+	void	InsertKeyPress(const JCharacter key);
 	void	BackwardDelete(const JBoolean deleteToTabStop);
 	void	ForwardDelete(const JBoolean deleteToTabStop);
 
@@ -1729,6 +1748,18 @@ JTextEditor::ShouldCopyWhenSelect
 }
 
 /******************************************************************************
+ Key handler
+
+ ******************************************************************************/
+
+inline JTEKeyHandler*
+JTextEditor::GetKeyHandler()
+	const
+{
+	return itsKeyHandler;
+}
+
+/******************************************************************************
  Drag-And-Drop
 
  ******************************************************************************/
@@ -2000,6 +2031,7 @@ JTextEditor::GetCharRight
 
 inline JBoolean
 JTextEditor::WillBroadcastCaretLocationChanged()
+	const
 {
 	return itsBcastLocChangedFlag;
 }
@@ -2023,6 +2055,7 @@ JTextEditor::ShouldBroadcastCaretLocationChanged
 
 inline JBoolean
 JTextEditor::WillBroadcastAllTextChanged()
+	const
 {
 	return itsBcastAllTextChangedFlag;
 }
@@ -2034,6 +2067,27 @@ JTextEditor::ShouldBroadcastAllTextChanged
 	)
 {
 	itsBcastAllTextChangedFlag = broadcast;
+}
+
+/******************************************************************************
+ Caret mode
+
+ ******************************************************************************/
+
+inline JTextEditor::CaretMode
+JTextEditor::GetCaretMode()
+	const
+{
+	return itsCaretMode;
+}
+
+inline void
+JTextEditor::SetCaretMode
+	(
+	const CaretMode mode
+	)
+{
+	itsCaretMode = mode;
 }
 
 /******************************************************************************

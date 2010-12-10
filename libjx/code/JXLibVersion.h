@@ -141,6 +141,9 @@ static const char* kCurrentJXLibVersionStr = "2.6.0";
 //		Added context menu for basic commands.
 //	JXFileDocument:
 //		Preserves file ownership.  (What took me so long?)
+//	JXSearchTextDialog:
+//		Added SetRegexSearch(), SetRegexReplace().
+//	Created JXVIKeyHandler.
 
 // version 2.6.0:
 //	JXWebBrowser:

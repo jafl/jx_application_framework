@@ -1,35 +1,34 @@
-JTextEditor:
-	JKeyHandler:
-		if installed, overrides TEHandleKeypress (after pre-processing)
-			if returns kJFalse, TEHandleKeypress gets it
-		friend of JTextEditor
-		may need protected mirror of JTextEditor protected/private API
-			fn: MoveCaretVert, Forward/BackwardDelete, InsertSpacesForTab
-				Get*Undo, NewUndo, CalcCaretLocation, Recalc, TEUpdateDisplay
-				AutoIndent, InsertText, DeleteText, BroadcastCaretMessages
-			get: itsInsertionFont
-			set: itsSelectionPivot, itsCaretX, itsCaretLoc, itsPrevDragType
-	JKeyHandlerStack extends JKeyHandler
-		to combine different key handlers, can construct a stack
-		if one returns kJFalse, the next one gets it
-	JXKeyHandlerFactory
-		mapping of id's to display name + constructor
-	Create JVIKeyHandler
-		JXVIKeyHandler extends JVIKeyHandler to implement functions checking modifier keys from JXDisplay::GetLatestKeyModifiers()
-		Esc to get out of edit mode
-			: to focus line number field
-			i to go into edit mode
-			o to insert blank line
-			Ctrl-U to go up 1/2 page
-			Ctrl-D to go down 1/2 page
-			x to delete character to right
-			X to delete character to left
-			dd to delete line
-			# to switch to number mode
-				dd to delete specified number of lines
-				anything else cancels
+w	beginning of next word; 5w moves to the beginning of the 5th word to the right
+e	end of next word
+b	beginning of previous word
 
------
+dw	delete word; 5dw deletes 5 words
+cw	delete word, leaves you in insert mode (i.e. change word)
+cc	change line -- delete line and start insert mode
+s	change character -- delete character and start insert mode
+D	delete from cursor to end of line
+C	change from cursor to end of line -- delete and start insert mode
+
+md d'd  mark starting line, cut to ending line
+my y'y  mark starting line, copy to ending line
+D d$    delete to end of line
+dw      delete to end of word
+db      delete to beginning of word
+all deletions put text in cut buffer
+	p to paste after, P to paste before
+	if operate on lines, paste as lines
+	else, paste normally
+#Y - yank N lines into cut buffer
+yw - yank to end of word
+yb - yank to beginning of word
+y$ yank to end of line
+
+yy	yank (i.e. copy) one line into a general buffer (5yy to yank 5 lines)
+"ayy	yank into the buffer named a
+P	put the general buffer back before the current line
+"aP	put from buffer a before current line
+p	put the general buffer back after the current line
+"ap	put from buffer a after the current line 
 
 leibnitz -- THX3DPlotDirector leaking
 
@@ -39,6 +38,7 @@ Docking
 OSX window placement:
 	modal windows, e.g., File Chooser, still migrate upward
 	System G windows in dirs with no prefs open downward
+	jcc man page window and "find file" result window appear under active window
 
 svn_client:
 	Repo tab for "svn list"
@@ -335,6 +335,13 @@ multi-pane editing:
 	When close, only require save if refCount == 1
 	Active undo needs to know which view it is for
 		since event from another view needs to deactivate it and create new one
+
+JKeyHandler:
+	if we build key handlers for different file types:
+		specify key handler in CharAction config
+		JKeyHandlerStack extends JKeyHandler
+			to combine different key handlers, can construct a stack
+			if one returns kJFalse, the next one gets it
 
 Mondrian:
 	build
