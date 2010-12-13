@@ -8930,7 +8930,9 @@ JTextEditor::InsertKeyPress
 void
 JTextEditor::BackwardDelete
 	(
-	const JBoolean deleteToTabStop
+	const JBoolean		deleteToTabStop,
+	JString*			returnText,
+	JRunArray<Font>*	returnStyle
 	)
 {
 	assert( itsSelection.IsEmpty() );
@@ -8979,12 +8981,23 @@ JTextEditor::BackwardDelete
 		deleteLength = 1;
 		}
 
+	JIndexRange deleteRange(startIndex, startIndex + deleteLength - 1);
+	if (returnText != NULL)
+		{
+		returnText->Set(*itsBuffer, deleteRange);
+		}
+	if (returnStyle != NULL)
+		{
+		returnStyle->RemoveAll();
+		returnStyle->AppendSlice(*itsStyles, deleteRange);
+		}
+
 	JBoolean isNew;
 	JTEUndoTyping* typingUndo = GetTypingUndo(&isNew);
-	typingUndo->HandleDelete(startIndex, startIndex + deleteLength - 1);
+	typingUndo->HandleDelete(deleteRange.first, deleteRange.last);
 
 	const Font f = itsStyles->GetElement(startIndex);	// preserve font
-	DeleteText(startIndex, startIndex + deleteLength - 1);
+	DeleteText(deleteRange);
 	Recalc(startIndex, 1, kJTrue, kJFalse);
 	SetCaretLocation(startIndex);
 	if (itsPasteStyledTextFlag)
@@ -9006,7 +9019,9 @@ JTextEditor::BackwardDelete
 void
 JTextEditor::ForwardDelete
 	(
-	const JBoolean deleteToTabStop
+	const JBoolean		deleteToTabStop,
+	JString*			returnText,
+	JRunArray<Font>*	returnStyle
 	)
 {
 	assert( itsSelection.IsEmpty() );
@@ -9042,11 +9057,22 @@ JTextEditor::ForwardDelete
 		deleteLength = 1;
 		}
 
+	JIndexRange deleteRange(itsCaretLoc.charIndex, itsCaretLoc.charIndex + deleteLength - 1);
+	if (returnText != NULL)
+		{
+		returnText->Set(*itsBuffer, deleteRange);
+		}
+	if (returnStyle != NULL)
+		{
+		returnStyle->RemoveAll();
+		returnStyle->AppendSlice(*itsStyles, deleteRange);
+		}
+
 	JBoolean isNew;
 	JTEUndoTyping* typingUndo = GetTypingUndo(&isNew);
-	typingUndo->HandleFwdDelete(itsCaretLoc.charIndex, itsCaretLoc.charIndex + deleteLength - 1);
+	typingUndo->HandleFwdDelete(deleteRange.first, deleteRange.last);
 
-	DeleteText(itsCaretLoc.charIndex, itsCaretLoc.charIndex + deleteLength - 1);
+	DeleteText(deleteRange);
 	Recalc(itsCaretLoc, 1, kJTrue, kJFalse);
 	SetCaretLocation(itsCaretLoc.charIndex);
 

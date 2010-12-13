@@ -56,16 +56,18 @@ JTEKeyHandler::InsertKeyPress
 void
 JTEKeyHandler::BackwardDelete
 	(
-	const JBoolean deleteToTabStop
+	const JBoolean	deleteToTabStop,
+	JString*		text
 	)
 {
 	if (itsTE->HasSelection())
 		{
+		itsTE->GetSelection(text);
 		itsTE->DeleteSelection();
 		}
 	else
 		{
-		itsTE->BackwardDelete(deleteToTabStop);
+		itsTE->BackwardDelete(deleteToTabStop, text);
 		}
 }
 
@@ -77,16 +79,18 @@ JTEKeyHandler::BackwardDelete
 void
 JTEKeyHandler::ForwardDelete
 	(
-	const JBoolean deleteToTabStop
+	const JBoolean	deleteToTabStop,
+	JString*		text
 	)
 {
 	if (itsTE->HasSelection())
 		{
+		itsTE->GetSelection(text);
 		itsTE->DeleteSelection();
 		}
 	else
 		{
-		itsTE->ForwardDelete(deleteToTabStop);
+		itsTE->ForwardDelete(deleteToTabStop, text);
 		}
 }
 

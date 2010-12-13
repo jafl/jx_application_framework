@@ -31,7 +31,7 @@ class JTEUndoTyping;
 class JTEUndoDrop;
 class JTEUndoStyle;
 class JTEUndoTabShift;
-class JTEKeyhandler;
+class JTEKeyHandler;
 
 class JTextEditor : virtual public JBroadcaster
 {
@@ -947,8 +947,10 @@ private:
 	JRect		CalcLocalDNDRect(const JPoint& pt) const;
 
 	void	InsertKeyPress(const JCharacter key);
-	void	BackwardDelete(const JBoolean deleteToTabStop);
-	void	ForwardDelete(const JBoolean deleteToTabStop);
+	void	BackwardDelete(const JBoolean deleteToTabStop,
+						   JString* returnText = NULL, JRunArray<Font>* returnStyle = NULL);
+	void	ForwardDelete(const JBoolean deleteToTabStop,
+						  JString* returnText = NULL, JRunArray<Font>* returnStyle = NULL);
 
 	void	AutoIndent(JTEUndoTyping* typingUndo);
 	void	InsertSpacesForTab();

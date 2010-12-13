@@ -1,34 +1,22 @@
+jcc: type 'x' at end of line in C++ and it is not styled correctly
+
+D d$	delete from cursor to end of line
+y$ yank to end of line
+dw      delete to end of word
+db      delete to beginning of word
+yw - yank to end of word
+yb - yank to beginning of word
+
 w	beginning of next word; 5w moves to the beginning of the 5th word to the right
 e	end of next word
 b	beginning of previous word
 
-dw	delete word; 5dw deletes 5 words
-cw	delete word, leaves you in insert mode (i.e. change word)
 cc	change line -- delete line and start insert mode
 s	change character -- delete character and start insert mode
-D	delete from cursor to end of line
 C	change from cursor to end of line -- delete and start insert mode
 
 md d'd  mark starting line, cut to ending line
 my y'y  mark starting line, copy to ending line
-D d$    delete to end of line
-dw      delete to end of word
-db      delete to beginning of word
-all deletions put text in cut buffer
-	p to paste after, P to paste before
-	if operate on lines, paste as lines
-	else, paste normally
-#Y - yank N lines into cut buffer
-yw - yank to end of word
-yb - yank to beginning of word
-y$ yank to end of line
-
-yy	yank (i.e. copy) one line into a general buffer (5yy to yank 5 lines)
-"ayy	yank into the buffer named a
-P	put the general buffer back before the current line
-"aP	put from buffer a before current line
-p	put the general buffer back after the current line
-"ap	put from buffer a after the current line 
 
 leibnitz -- THX3DPlotDirector leaking
 

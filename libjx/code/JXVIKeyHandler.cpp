@@ -80,7 +80,7 @@ JXVIKeyHandler::HandleKeyPress
 
 			MoveCaretVert(lineCount);
 			}
-		ClearKeyBuffer();
+		ClearKeyBuffers();
 		return kJTrue;
 		}
 	else if (key == JXCtrl('B') || key == JXCtrl('F'))
@@ -93,7 +93,7 @@ JXVIKeyHandler::HandleKeyPress
 			v->StepPage(key == JXCtrl('B') ? -1 : +1);
 			JXTEBase::CaretShouldFollowScroll(save);
 			}
-		ClearKeyBuffer();
+		ClearKeyBuffers();
 		return kJTrue;
 		}
 
@@ -102,13 +102,13 @@ JXVIKeyHandler::HandleKeyPress
 		JXSearchTextDialog* dlog = JXGetSearchTextDialog();
 		dlog->SetRegexSearch();
 		dlog->Activate();
-		ClearKeyBuffer();
+		ClearKeyBuffers();
 		return kJTrue;
 		}
 	else if (key == 'n')
 		{
 		itsJXTE->SearchForward();
-		ClearKeyBuffer();
+		ClearKeyBuffers();
 		return kJTrue;
 		}
 
