@@ -35,7 +35,6 @@ JVIKeyHandler::JVIKeyHandler
 	:
 	JTEKeyHandler(te)
 {
-	SetMode(kCommandMode);
 }
 
 /******************************************************************************
@@ -45,6 +44,19 @@ JVIKeyHandler::JVIKeyHandler
 
 JVIKeyHandler::~JVIKeyHandler()
 {
+	(GetTE())->SetCaretMode(JTextEditor::kLineCaret);
+}
+
+/******************************************************************************
+ Initialize (virtual protected)
+
+ ******************************************************************************/
+
+void
+JVIKeyHandler::Initialize()
+{
+	JTEKeyHandler::Initialize();
+	SetMode(kCommandMode);
 }
 
 /******************************************************************************
@@ -59,7 +71,7 @@ JVIKeyHandler::SetMode
 	)
 {
 	itsMode = mode;
-		ClearKeyBuffers();
+	ClearKeyBuffers();
 
 	JTextEditor* te = GetTE();
 	if (mode == kTextEntryMode)

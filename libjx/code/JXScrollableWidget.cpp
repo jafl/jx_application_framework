@@ -602,6 +602,13 @@ JXScrollableWidget::ScrollForWheel
 		return kJFalse;
 		}
 
+	// if scrollbar modified by button, we need to treat it as captured
+
+	if (scrollbar == NULL)
+		{
+		return kJTrue;
+		}
+
 	const JBoolean osx = (GetDisplay())->IsOSX();
 
 	if (osx && modifiers.control())

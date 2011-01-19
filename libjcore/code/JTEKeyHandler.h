@@ -16,6 +16,8 @@
 
 class JTEKeyHandler
 {
+	friend class JTextEditor;
+
 public:
 
 	JTEKeyHandler(JTextEditor* te);
@@ -33,6 +35,10 @@ protected:
 	void			BackwardDelete(const JBoolean deleteToTabStop, JString* text);
 	void			ForwardDelete(const JBoolean deleteToTabStop, JString* text);
 	void			MoveCaretVert(const JInteger deltaLines);
+
+	// called by JTextEditor
+
+	virtual void	Initialize();
 
 private:
 

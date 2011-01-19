@@ -1,5 +1,3 @@
-jcc: type 'x' at end of line in C++ and it is not styled correctly
-
 D d$	delete from cursor to end of line
 y$ yank to end of line
 dw      delete to end of word
@@ -19,6 +17,21 @@ md d'd  mark starting line, cut to ending line
 my y'y  mark starting line, copy to ending line
 
 leibnitz -- THX3DPlotDirector leaking
+
+libjexpr write to mathml
+	https://developer.mozilla.org/en/Mathml
+	http://en.wikipedia.org/wiki/MathML
+	http://www.w3.org/TR/MathML/
+	http://www.w3.org/TR/MathML2/
+leibnitz in canvas 2d
+	http://developer-resource.blogspot.com/2008/09/html-canvas-element.html
+	http://code.google.com/p/canvasplus/
+	http://dev.opera.com/articles/view/html-5-canvas-the-basics/
+	http://thinkvitamin.com/code/how-to-draw-with-html-5-canvas/
+	http://dev.w3.org/html5/canvas-api/canvas-2d-api.html
+	http://code.google.com/p/explorercanvas/
+libj3d write scene to canvas 3d
+	http://www.graphycalc.com/
 
 Docking
 	possible to select first tab in each pane after program starts?
@@ -48,15 +61,46 @@ svn_client:
 		when finished, create/refresh Status tab
 
 medic:
+	OSX:  never finishes breakpoint command:  no \032\032end
+		cannot wrap in GDBSimpleCommand
+
+		=== DebuggerReadyForInput::CMLink
+		(gdb) echo \032\032:Medic ignore command:20:
+		=== DebuggerBusy::CMLink
+		(gdb) commands 3
+		(gdb) echo \032\032:Medic ignore command done:20:
+		&"echo \\032\\032:Medic ignore command:20:\n"
+		~"\032\032:Medic ignore command:20:"
+		^done
+		(gdb) 
+		&"commands 3\n"
+		~"\032\032:Medic defining script:"
+
+	show only file name
+	create in breakpoint window: break vs tbreak
+	replace "ignore breakpoint" dialog with inline edit in breakpoint window
+	replace setting commands in cmd window with inline edit in breakpoint window
+	breapoints window help
+
 	breakpoint, watchpoint, catchpoint windows:
 		can they all be in one table?
-		modeless: update on ":Medic breakpoints changed:"
 		need to update GDBGetBreakpoints to understand watch, catch
-		create/edit/delete
 		set watchpoints on items in Variables and Local Variables window
 			option to attach to address instead of expression
 		need to trap auto-deletion of watchpoints (going out of scope)
-		sort by any column
+
+		watch -- Set a write watchpoint for an expression
+		awatch -- Set read/write watchpoint for an expression
+		rwatch -- Set a read watchpoint for an expression
+
+		dialog to support all the crazy args for catch
+			catch -- Set catchpoints to catch events
+			tcatch -- Set temporary catchpoints to catch events
+		gdb can only catch all exceptions, so provides a global filter:
+			set exception-catch-type-regexp -- Set exception regexp
+			set exception-throw-type-regexp -- Set throw regexp
+			show exception-catch-type-regexp -- Show exception regexp
+			show exception-throw-type-regexp -- Show throw regexp
 
 	java
 		thread list

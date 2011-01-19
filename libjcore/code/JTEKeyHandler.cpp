@@ -35,6 +35,19 @@ JTEKeyHandler::~JTEKeyHandler()
 }
 
 /******************************************************************************
+ Initialize (virtual protected)
+
+	This is necessary because the old key handler is deleted in
+	JTextEditor::SetKeyHandler(), *after* the new one is constructed.
+
+ ******************************************************************************/
+
+void
+JTEKeyHandler::Initialize()
+{
+}
+
+/******************************************************************************
  InsertKeyPress (protected; delegation)
 
  ******************************************************************************/

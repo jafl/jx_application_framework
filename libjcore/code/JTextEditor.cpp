@@ -8571,6 +8571,10 @@ JTextEditor::SetKeyHandler
 {
 	delete itsKeyHandler;
 	itsKeyHandler = handler;
+	if (itsKeyHandler != NULL)
+		{
+		itsKeyHandler->Initialize();
+		}
 }
 
 /******************************************************************************

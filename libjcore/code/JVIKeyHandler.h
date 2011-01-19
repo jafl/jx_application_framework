@@ -64,6 +64,8 @@ public:
 
 protected:
 
+	virtual void	Initialize();
+
 	Mode	GetMode() const;
 	void	SetMode(const Mode mode);
 

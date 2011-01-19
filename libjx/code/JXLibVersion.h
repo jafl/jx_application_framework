@@ -137,6 +137,7 @@ static const char* kCurrentJXLibVersionStr = "2.6.0";
 //		Added Go().
 //	JXScrollableWidget:
 //		Sets back color = focus color if it has scrollbars.
+//		Fixed crash in ScrollForWheel() when side-scrolling and hScrollbar is NULL.
 //	JXInputField:
 //		Added context menu for basic commands.
 //	JXFileDocument:
