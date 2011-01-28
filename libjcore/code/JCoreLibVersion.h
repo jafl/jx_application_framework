@@ -78,6 +78,7 @@ static const char* kCurrentJCoreLibVersionStr = "2.6.0";
 //	jSysUtil:
 //		Added JUserIsAdmin(uid).
 //	Created JTEKeyHandler and JVIKeyHandler.
+//	Moved JConvertToStream() from jStreamUtil.h to jFStreamUtil.h.
 
 // version 2.6.0:
 //	JOrderedSet:

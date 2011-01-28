@@ -84,7 +84,6 @@
 #include <JStdError.h>
 #include <stdlib.h>
 #include <jErrno.h>
-#include <ace/OS.h>
 #include <jAssert.h>
 
 JThisProcess* JThisProcess::itsSelf = NULL;

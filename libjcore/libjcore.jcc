@@ -1166,6 +1166,7 @@ F
 "${GD_JPEG_FILES}"
 "make -k all"
 # search paths
+T "../ACE/ACE_wrappers/ace" T
 T "./code" T
 F
 # C preprocessor

@@ -37,7 +37,7 @@
 #include <jDirUtil.h>
 #include <jTime.h>
 #include <jGlobals.h>
-#include <ace/OS.h>
+#include <ace/OS_NS_sys_stat.h>
 #include <jAssert.h>
 
 // Broadcaster messages types

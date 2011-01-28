@@ -15,6 +15,7 @@
 #include <JProcess.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <ace/OS_NS_sys_stat.h>
 #include <stdio.h>
 #include <jErrno.h>
 #include <jAssert.h>

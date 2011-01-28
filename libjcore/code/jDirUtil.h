@@ -24,7 +24,7 @@
 #endif
 
 #include <sys/stat.h>
-#include <ace/OS.h>
+#include <ace/Default_Constants.h>
 #include <jFileUtil.h>	// for convenience
 
 class JString;

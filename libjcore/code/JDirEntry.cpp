@@ -22,7 +22,6 @@
 #include <utime.h>
 #include <jFStreamUtil.h>
 #include <jMissingProto.h>
-#include <ace/OS.h>
 #include <jAssert.h>
 
 /******************************************************************************

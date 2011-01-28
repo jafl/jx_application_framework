@@ -21,9 +21,17 @@ Download and unpack ACE:
 
 	http://www.cs.wustl.edu/~schmidt/ACE.html
 
-ACE 5.7.1 needs to be patched.  Change line 241 of OS_Memory.h to:
+ACE 5.7.1 needs to be patched.  Replace the following file with the version
+in ACE/patch-5.7.1:
 
-#   define ACE_throw_bad_alloc  return (void*) 0
+	ace/OS_Memory.h
+
+ACE 6.0.x needs to be patched.  Replace the following files with the
+versions in ACE/patch-6.0.1:
+
+	include/makeinclude/wrapper_macros.GNU
+	ace/config-g++-common.h
+	ace/OS_Memory.h
 
 After unpacking Mesa-7.5.2:
 

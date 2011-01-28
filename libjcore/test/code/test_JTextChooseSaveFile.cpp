@@ -2,7 +2,6 @@
 #include <JUserNotification.h>
 #include <jCommandLine.h>
 #include <jGlobals.h>
-#include <ace/OS.h>
 #include <jAssert.h>
 
 int

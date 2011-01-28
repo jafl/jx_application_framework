@@ -10,6 +10,7 @@
 #include <JCoreStdInc.h>
 #include <jFStreamUtil.h>
 #include <jStreamUtil.h>
+#include <jFileUtil.h>
 #include <JString.h>
 #include <stdio.h>
 #include <jAssert.h>
@@ -91,6 +92,45 @@ JGetFStreamLength
 	const JSize fileLength = theStream.tellg();
 	theStream.seekg(savedMark, ios::beg);
 	return fileLength;
+}
+
+/******************************************************************************
+ JConvertToStream
+
+	Convert the data from the given file descriptor into an ifstream.
+	The location of the file is returned in tempFullName.
+
+	This would be unnecessary if libstdc++ provided a stream wrapper for
+	arbitrary file descriptors.
+
+ ******************************************************************************/
+
+JBoolean
+JConvertToStream
+	(
+	const int		input,
+	ifstream*		input2,
+	JString*		tempFullName,
+	const JBoolean	closeInput
+	)
+{
+	JString data;
+	if (!JReadAll(input, &data, closeInput))
+		{
+		return kJFalse;
+		}
+
+	if (!(JCreateTempFile(tempFullName)).OK())
+		{
+		return kJFalse;
+		}
+
+	ofstream output(*tempFullName);
+	data.Print(output);
+	output.close();
+
+	input2->open(*tempFullName);
+	return JI2B(input2->good());
 }
 
 #if 0

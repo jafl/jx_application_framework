@@ -61,29 +61,11 @@ svn_client:
 		when finished, create/refresh Status tab
 
 medic:
-	OSX:  never finishes breakpoint command:  no \032\032end
-		cannot wrap in GDBSimpleCommand
+	JXEditTable:
+		pressing return while editing the last row should save the value
+		problem is that setting takes time, so can't restart editing immediately
 
-		=== DebuggerReadyForInput::CMLink
-		(gdb) echo \032\032:Medic ignore command:20:
-		=== DebuggerBusy::CMLink
-		(gdb) commands 3
-		(gdb) echo \032\032:Medic ignore command done:20:
-		&"echo \\032\\032:Medic ignore command:20:\n"
-		~"\032\032:Medic ignore command:20:"
-		^done
-		(gdb) 
-		&"commands 3\n"
-		~"\032\032:Medic defining script:"
-
-	show only file name
-	create in breakpoint window: break vs tbreak
-	replace "ignore breakpoint" dialog with inline edit in breakpoint window
-	replace setting commands in cmd window with inline edit in breakpoint window
-	breapoints window help
-
-	breakpoint, watchpoint, catchpoint windows:
-		can they all be in one table?
+	watchpoint, catchpoint windows:
 		need to update GDBGetBreakpoints to understand watch, catch
 		set watchpoints on items in Variables and Local Variables window
 			option to attach to address instead of expression
@@ -92,6 +74,11 @@ medic:
 		watch -- Set a write watchpoint for an expression
 		awatch -- Set read/write watchpoint for an expression
 		rwatch -- Set a read watchpoint for an expression
+
+		bkpt={number="5",type="hw watchpoint",disp="keep",enabled="y",addr="",what="wantMDI",times="0"},
+		bkpt={number="7",type="hw watchpoint",disp="keep",enabled="y",addr="",what="*(JBoolean *) 3221221700",times="0"},
+		bkpt={number="8",type="hw watchpoint",disp="keep",enabled="y",addr="",what="app",times="0"},
+		bkpt={number="9",type="hw watchpoint",disp="keep",enabled="y",addr="",what="*(TestApp **) 3221221704",times="0"}
 
 		dialog to support all the crazy args for catch
 			catch -- Set catchpoints to catch events
@@ -102,19 +89,20 @@ medic:
 			show exception-catch-type-regexp -- Show exception regexp
 			show exception-throw-type-regexp -- Show throw regexp
 
+		bkpt={number="10",type="catch throw",disp="keep",enabled="y",addr="0x9273d201",what="exception throw",shlib="/usr/lib/libstdc++.6.0.4.dylib",times="0"},
+		bkpt={number="11",type="catch catch",disp="keep",enabled="y",addr="0x9273c43c",what="exception catch",shlib="/usr/lib/libstdc++.6.0.4.dylib",times="0"}
+
 	java
 		thread list
 			convert to tree
 			listen for thread start/death to update tree
 		display stack trace for selected thread
 
-	set commands when restore breakpoints -- split on \1
-		test on leibnitz_debug_config
-
 	disassembly window
 		show output for current function only -- normally step through source code
 		show location via CMLineNumberTable: extend to allow arbitrary line numbers
-		show breakpoints via address field?
+		show breakpoints via address field
+		double click on address in Breakpoints window to open disassembly window
 
 		&"disas\n"
 		~"Dump of assembler code for function main:\n"
@@ -220,7 +208,10 @@ medic:
 	restart either xdebug or java:  unable to listen on port & crashes on exit
 		also need to fix SetProgram()
 
+	Same prefs menu in all windows
+
 	gdb
+		crash when open examine memory window -- disabled temporarily
 		enable call to UnlockDisplays(), when JXGetAssertHandler is defined
 			check every time symbols are loaded
 	gdb test suite
@@ -340,15 +331,6 @@ systemg:
 		~/.trash/.source stores list of original locations
 		cull non-existent when re-write the file
 		delete when empty trash
-
-medic:
-	CMLineNumberTable
-		need helper to set bp condition -- different for each debugger
-	gdb
-		crash when open examine memory window -- disabled temporarily
-	DND for breakpoints -- moves associated commands, conditions, etc.
-
-	Same prefs menu in all windows
 
 leibnitz
 	finish 3D plotting

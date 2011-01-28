@@ -14,7 +14,7 @@
 
 #include <JPtrArray-JString.h>
 #include <ace/Svc_Handler.h>
-#include <ace/Synch_T.h>
+#include <ace/Synch_Traits.h>
 
 class JAsynchDataReceiverT
 {

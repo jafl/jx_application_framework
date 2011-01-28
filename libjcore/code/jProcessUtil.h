@@ -18,7 +18,7 @@
 #include <JProcessError.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include <ace/OS.h>
+#include <ace/Basic_Types.h>
 
 class JString;
 

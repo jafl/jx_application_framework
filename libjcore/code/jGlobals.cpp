@@ -20,6 +20,7 @@
 #include <jDirUtil.h>
 #include <jFileUtil.h>
 #include <stdlib.h>
+#include <ace/OS_NS_sys_socket.h>
 #include <jAssert.h>
 
 static JAssertBase*				theAssertHandler     = NULL;

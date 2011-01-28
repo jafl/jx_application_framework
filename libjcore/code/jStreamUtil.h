@@ -15,7 +15,6 @@
 #endif
 
 #include <jTypes.h>
-#include <ace/OS.h>
 
 class JString;
 
@@ -64,9 +63,6 @@ void JIgnoreUntil(const int input, const JCharacter* delimiter,
 
 JBoolean JIgnoreUntil(const int input, const JSize delimiterCount,
 					  const JCharacter* delimiters, JCharacter* delimiter = NULL);
-
-JBoolean	JConvertToStream(const int input, ifstream* input2, JString* tempFullName,
-							 const JBoolean closeInput = kJTrue);
 
 JBoolean	JWaitForInput(const int input, const time_t timeout);
 

@@ -573,10 +573,6 @@ JXScrollableWidget::ScrollForWheel
 	)
 {
 	JXScrollbar* scrollbar = modifiers.meta() ? hScrollbar : vScrollbar;
-	if (scrollbar == NULL)
-		{
-		return kJFalse;
-		}
 
 	JCoordinate delta;
 	if (button == kJXButton4)
@@ -602,7 +598,7 @@ JXScrollableWidget::ScrollForWheel
 		return kJFalse;
 		}
 
-	// if scrollbar modified by button, we need to treat it as captured
+	// even if no scrollbar, we need to treat it as captured
 
 	if (scrollbar == NULL)
 		{

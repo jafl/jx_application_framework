@@ -2,7 +2,6 @@
 #include <JString.h>
 #include <stdio.h>
 #include <jGlobals.h>
-#include <ace/OS.h>
 #include <jAssert.h>
 
 int

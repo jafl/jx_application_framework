@@ -12,7 +12,6 @@
 #include <JString.h>
 #include <jSysUtil.h>
 #include <jFStreamUtil.h>
-#include <ace/OS.h>
 #include <jMissingProto.h>
 #include <JStdError.h>
 #include <jErrno.h>

@@ -13,7 +13,6 @@
 #include <JXStdInc.h>
 #include <JXSaveFileInput.h>
 #include <jFileUtil.h>
-#include <ace/OS.h>
 #include <jAssert.h>
 
 JBoolean JXSaveFileInput::itsAllowSpaceFlag = kJTrue;

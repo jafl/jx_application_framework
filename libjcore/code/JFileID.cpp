@@ -13,7 +13,7 @@
 #include <JCoreStdInc.h>
 #include <JFileID.h>
 #include <sys/stat.h>
-#include <ace/OS.h>
+#include <ace/OS_NS_sys_stat.h>
 #include <jAssert.h>
 
 /******************************************************************************

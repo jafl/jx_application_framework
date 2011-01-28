@@ -15,7 +15,7 @@
 #include <JPrefObject.h>
 #include <JString.h>
 #include <ace/Svc_Handler.h>
-#include <ace/Synch_T.h>
+#include <ace/Synch_Traits.h>
 
 template <ACE_PEER_STREAM_1>
 class JVersionSocket : public ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>,

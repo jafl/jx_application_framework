@@ -14,9 +14,9 @@
 #pragma once
 #endif
 
-#include <ace/Svc_Handler.h>
-#include <ace/Synch_T.h>
 #include <jTypes.h>
+#include <ace/Svc_Handler.h>
+#include <ace/Synch_Traits.h>
 
 template <ACE_PEER_STREAM_1>
 class ClientHandler : public ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>
