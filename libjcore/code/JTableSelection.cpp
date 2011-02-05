@@ -286,6 +286,7 @@ JTableSelection::GetSingleSelectedCell
 		}
 	else
 		{
+		cell->Set(0,0);
 		return kJFalse;
 		}
 }

@@ -17,6 +17,12 @@ On Ubuntu, you need to install development packages:
 		libxmu-dev libxi-dev \
 		libxml2-dev libjpeg-dev libpng-dev
 
+On OS X, it helps to install GNU coreutils.
+
+To keep the Makefiles smaller:
+
+	setenv J_MAKEMAKE_IGNORE_PATTERN '^ace/|StdInc.h$'
+
 Download and unpack ACE:
 
 	http://www.cs.wustl.edu/~schmidt/ACE.html
@@ -33,16 +39,15 @@ versions in ACE/patch-6.0.1:
 	ace/config-g++-common.h
 	ace/OS_Memory.h
 
-After unpacking Mesa-7.5.2:
+If you have mesa-libGL-devel installed, run this in the JX directory:
+
+	ln -s /usr Mesa
+
+Otherwise, if you built from Mesa-7.5.2 source, run this in the Mesa
+directory:
 
 	ln -s ../../src/mesa/drivers/x11/xmesa.h include/GL
 	ln -s ../../src/mesa/drivers/x11/xmesa_x.h include/GL
-
-On OS X, it helps to install GNU coreutils.
-
-To keep the Makefiles smaller:
-
-	setenv J_MAKEMAKE_IGNORE_PATTERN '^ace/|StdInc.h$'
 
 
 *** Step 2:  Compiling

@@ -4656,7 +4656,7 @@ JXWindow::Dock
 		itsUndockedWMFrameLoc = itsWMFrameLoc;
 		}
 
-	itsDockingTask = new JXDockWindowTask(this, parent, JPoint(geom.left, geom.top));
+	itsDockingTask = new JXDockWindowTask(this, parent, JPoint(geom.left, geom.top), dock);
 	assert( itsDockingTask != NULL );
 	itsDockingTask->Start();
 	ClearWhenGoingAway(itsDockingTask, &itsDockingTask);

@@ -17,17 +17,21 @@
 #include <JPoint.h>
 
 class JXWindow;
+class JXDockWidget;
 
 class JXDockWindowTask : public JXIdleTask, virtual public JBroadcaster
 {
 public:
 
-	JXDockWindowTask(JXWindow* window, const Window parent, const JPoint& topLeft);
+	JXDockWindowTask(JXWindow* window, const Window parent, const JPoint& topLeft,
+					 JXDockWidget* dock);
 
 	virtual ~JXDockWindowTask();
 
 	virtual void	Perform(const Time delta, Time* maxSleepTime);
 	JBoolean		IsDone() const;
+
+	static void	PrepareForDockAll();
 
 protected:
 

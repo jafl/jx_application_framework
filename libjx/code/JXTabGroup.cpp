@@ -1886,6 +1886,10 @@ JXTabGroup::WriteSetup
 	output << kSetupDataEndDelimiter;
 }
 
+#define JTemplateType JXTabGroup
+#include <JPtrArray.tmpls>
+#undef JTemplateType
+
 #define JTemplateType JXTabGroup::TabInfo
 #include <JArray.tmpls>
 #undef JTemplateType

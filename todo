@@ -1,20 +1,21 @@
-D d$	delete from cursor to end of line
-y$ yank to end of line
-dw      delete to end of word
-db      delete to beginning of word
-yw - yank to end of word
-yb - yank to beginning of word
+vi emulator
+	all check for itsKeyBuffer.GetLastCharacter() are wrong:
+		"dd triggers delete instead of "ddd
 
-w	beginning of next word; 5w moves to the beginning of the 5th word to the right
-e	end of next word
-b	beginning of previous word
+	dw      delete to end of word
+	db      delete to beginning of word
+	yw - yank to end of word
+	yb - yank to beginning of word
 
-cc	change line -- delete line and start insert mode
-s	change character -- delete character and start insert mode
-C	change from cursor to end of line -- delete and start insert mode
+	w	beginning of next word; 5w moves to the beginning of the 5th word to the right
+	e	end of next word
+	b	beginning of previous word
 
-md d'd  mark starting line, cut to ending line
-my y'y  mark starting line, copy to ending line
+	cc	change line -- delete line and start insert mode
+	s	change character -- delete character and start insert mode
+
+	md d'd  mark starting line, cut to ending line
+	my y'y  mark starting line, copy to ending line
 
 leibnitz -- THX3DPlotDirector leaking
 
@@ -24,6 +25,8 @@ libjexpr write to mathml
 	http://www.w3.org/TR/MathML/
 	http://www.w3.org/TR/MathML2/
 leibnitz in canvas 2d
+	http://diveintohtml5.org/canvas.html
+	https://developer.mozilla.org/en/drawing_text_using_a_canvas
 	http://developer-resource.blogspot.com/2008/09/html-canvas-element.html
 	http://code.google.com/p/canvasplus/
 	http://dev.opera.com/articles/view/html-5-canvas-the-basics/
@@ -32,9 +35,6 @@ leibnitz in canvas 2d
 	http://code.google.com/p/explorercanvas/
 libj3d write scene to canvas 3d
 	http://www.graphycalc.com/
-
-Docking
-	possible to select first tab in each pane after program starts?
 
 OSX window placement:
 	modal windows, e.g., File Chooser, still migrate upward
@@ -61,36 +61,9 @@ svn_client:
 		when finished, create/refresh Status tab
 
 medic:
-	JXEditTable:
+	CMBreakpointTable:
 		pressing return while editing the last row should save the value
-		problem is that setting takes time, so can't restart editing immediately
-
-	watchpoint, catchpoint windows:
-		need to update GDBGetBreakpoints to understand watch, catch
-		set watchpoints on items in Variables and Local Variables window
-			option to attach to address instead of expression
-		need to trap auto-deletion of watchpoints (going out of scope)
-
-		watch -- Set a write watchpoint for an expression
-		awatch -- Set read/write watchpoint for an expression
-		rwatch -- Set a read watchpoint for an expression
-
-		bkpt={number="5",type="hw watchpoint",disp="keep",enabled="y",addr="",what="wantMDI",times="0"},
-		bkpt={number="7",type="hw watchpoint",disp="keep",enabled="y",addr="",what="*(JBoolean *) 3221221700",times="0"},
-		bkpt={number="8",type="hw watchpoint",disp="keep",enabled="y",addr="",what="app",times="0"},
-		bkpt={number="9",type="hw watchpoint",disp="keep",enabled="y",addr="",what="*(TestApp **) 3221221704",times="0"}
-
-		dialog to support all the crazy args for catch
-			catch -- Set catchpoints to catch events
-			tcatch -- Set temporary catchpoints to catch events
-		gdb can only catch all exceptions, so provides a global filter:
-			set exception-catch-type-regexp -- Set exception regexp
-			set exception-throw-type-regexp -- Set throw regexp
-			show exception-catch-type-regexp -- Show exception regexp
-			show exception-throw-type-regexp -- Show throw regexp
-
-		bkpt={number="10",type="catch throw",disp="keep",enabled="y",addr="0x9273d201",what="exception throw",shlib="/usr/lib/libstdc++.6.0.4.dylib",times="0"},
-		bkpt={number="11",type="catch catch",disp="keep",enabled="y",addr="0x9273c43c",what="exception catch",shlib="/usr/lib/libstdc++.6.0.4.dylib",times="0"}
+		problem is that setting breakpoint value takes time, so can't restart editing immediately
 
 	java
 		thread list

@@ -13,6 +13,8 @@
 
 #include <JXStdInc.h>
 #include <JXDockWindowTask.h>
+#include <JXDockWidget.h>
+#include <JXTabGroup.h>
 #include <JXDisplay.h>
 #include <JXWindowDirector.h>
 #include <JXWindow.h>
@@ -32,6 +34,9 @@ const Time kReparentDelay       = 500;	// ms
 const Time kCheckParentInterval = 100;	//ms
 const Time kShowDelay           = 1;	// ms
 
+static JPtrArray<JXTabGroup>* theUpdateList = new JPtrArray<JXTabGroup>(JPtrArrayT::kForgetAll);
+static JSize theTaskCount                   = 0;
+
 /******************************************************************************
  Constructor
 
@@ -41,7 +46,8 @@ JXDockWindowTask::JXDockWindowTask
 	(
 	JXWindow*		window,
 	const Window	parent,
-	const JPoint&	topLeft
+	const JPoint&	topLeft,
+	JXDockWidget*	dock
 	)
 	:
 	JXIdleTask(kReparentDelay),
@@ -65,6 +71,14 @@ JXDockWindowTask::JXDockWindowTask
 		}
 
 	ClearWhenGoingAway(itsWindow, &itsWindow);
+
+	theTaskCount++;
+
+	JXTabGroup* tabGroup = dock->GetTabGroup();
+	if (theUpdateList != NULL && !theUpdateList->Includes(tabGroup))
+		{
+		theUpdateList->Append(tabGroup);
+		}
 }
 
 /******************************************************************************
@@ -74,6 +88,33 @@ JXDockWindowTask::JXDockWindowTask
 
 JXDockWindowTask::~JXDockWindowTask()
 {
+	theTaskCount--;
+	if (theTaskCount == 0 && theUpdateList != NULL)
+		{
+		const JSize count = theUpdateList->GetElementCount();
+		for (JIndex i=1; i<=count; i++)
+			{
+			(theUpdateList->NthElement(i))->ShowTab(1);
+			}
+
+		delete theUpdateList;
+		theUpdateList = NULL;
+		}
+}
+
+/******************************************************************************
+ PrepareForDockAll (static)
+
+ ******************************************************************************/
+
+void
+JXDockWindowTask::PrepareForDockAll()
+{
+	if (theUpdateList == NULL)
+		{
+		theUpdateList = new JPtrArray<JXTabGroup>(JPtrArrayT::kForgetAll);
+		assert( theUpdateList != NULL );
+		}
 }
 
 /******************************************************************************

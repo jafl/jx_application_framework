@@ -208,16 +208,6 @@ JVIKeyHandler::HandleKeyPress
 		{
 		te->GoToBeginningOfLine();
 		}
-	else if (key == '$')
-		{
-		te->GoToEndOfLine();
-		JIndex i = te->GetInsertionIndex();
-		if (i > 1 && te->IndexValid(i) &&
-			(te->GetText()).GetCharacter(i) == '\n')
-			{
-			te->SetCaretLocation(i-1);
-			}
-		}
 	else if (key == '\n')
 		{
 		MoveCaretVert(1);
@@ -269,6 +259,13 @@ JVIKeyHandler::HandleKeyPress
 			buf->buf->Append(s);
 			}
 		}
+	else if (key == 'C' || key == 'D' ||
+			 (key == '$' && !itsKeyBuffer.IsEmpty() &&
+			  (itsKeyBuffer.GetLastCharacter() == 'd' || itsKeyBuffer.GetLastCharacter() == 'y')))
+		{
+		const JBoolean del = JNegate(!itsKeyBuffer.IsEmpty() && itsKeyBuffer.GetLastCharacter() == 'y' && key == '$');
+		YankToEndOfLine(del, JI2B(key == 'C'));
+		}
 	else if ((key == 'Y' || key == 'y' || key == 'd') &&
 			 yankDeletePattern.Match(itsKeyBuffer, &matchList))
 		{
@@ -316,6 +313,17 @@ JVIKeyHandler::HandleKeyPress
 		te->Undo();
 		}
 
+	else if (key == '$')	// after d$ and y$
+		{
+		te->GoToEndOfLine();
+		JIndex i = te->GetInsertionIndex();
+		if (i > 1 && te->IndexValid(i) &&
+			(te->GetText()).GetCharacter(i) == '\n')
+			{
+			te->SetCaretLocation(i-1);
+			}
+		}
+
 	if (clearKeyBuffer)
 		{
 		ClearKeyBuffers();
@@ -356,6 +364,44 @@ JVIKeyHandler::YankLines
 }
 
 /******************************************************************************
+ YankToEndOfLine (protected)
+
+ ******************************************************************************/
+
+void
+JVIKeyHandler::YankToEndOfLine
+	(
+	const JBoolean del,
+	const JBoolean ins
+	)
+{
+	JTextEditor* te = GetTE();
+
+	JIndexRange r;
+	r.first           = te->GetInsertionIndex();
+	const JIndex line = te->GetLineForChar(r.first) + GetOperationCount() - 1;
+	r.last            = te->GetLineEnd(line);
+	if (te->GetText().GetCharacter(r.last) == '\n')
+		{
+		r.last--;
+		}
+
+	CutBuffer* buf = GetCutBuffer(cutbufPattern);
+	buf->Set(te->GetText().GetSubstring(r), kJFalse);
+
+	if (del)
+		{
+		te->SetSelection(r);
+		te->DeleteSelection();
+		}
+
+	if (ins)
+		{
+		SetMode(kTextEntryMode);
+		}
+}
+
+/******************************************************************************
  GetOperationCount (protected)
 
  ******************************************************************************/
@@ -364,7 +410,7 @@ JSize
 JVIKeyHandler::GetOperationCount()
 	const
 {
-	return numberPrefixPattern.Match(itsKeyBuffer) ? atoi(itsKeyBuffer) : 1;
+	return (numberPrefixPattern.Match(itsKeyBuffer) ? atoi(itsKeyBuffer) : 1);
 }
 
 /******************************************************************************

@@ -18,6 +18,7 @@
 #include <JXDockManager.h>
 #include <JXDockDirector.h>
 #include <JXDockWidget.h>
+#include <JXDockWindowTask.h>
 #include <JXDisplay.h>
 #include <JXImage.h>
 #include <jXGlobals.h>
@@ -99,6 +100,7 @@ JXDockManager::CreateDock
 	const JString title = GetNewDockTitle();
 
 	(JXGetApplication())->SetCurrentDisplay(itsDisplay);
+	JXDockWindowTask::PrepareForDockAll();
 
 	JXDockDirector* dock = new JXDockDirector(title, splitHoriz);
 	assert( dock != NULL );

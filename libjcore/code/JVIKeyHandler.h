@@ -77,6 +77,7 @@ protected:
 
 	JBoolean	PrehandleKeyPress(const JCharacter key, JBoolean* result);
 	void		YankLines(const JArray<JIndexRange>& matchList, const JBoolean del);
+	void		YankToEndOfLine(const JBoolean del, const JBoolean ins);
 
 	CutBuffer*	GetCutBuffer(const JRegex& r) const;
 	CutBuffer*	GetCutBuffer(const JRegex& r, const JArray<JIndexRange>& matchList) const;

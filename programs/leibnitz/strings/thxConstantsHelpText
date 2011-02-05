@@ -9,38 +9,18 @@ THXConstantsHelp
 
 <h3> Defining constants </h3>
 
-The Constants window lets you define named constants for use in
-<a href=jxhelp:THXExprHelp>expressions</a> and <a href=jxhelp:THX2DPlotHelp>plots</a>.
-The name x is reserved as the independent variable when
-<a href=jxhelp:THX2DPlotHelp>plotting a function</a>.  The name y is reserved
-as a second independent variable for the future, when 3D plots will be
-implemented.  The name t is reserved as the independent variable for the future,
-when parametric plots will be implemented.  pi, Pi, <font face=Symbol>p</font>,
-e, E, i, <tt>I</tt>, and j are also reserved to represent the standard mathematical
-constants 3.14..., 2.718..., and sqrt(-1).
+The Constants window lets you define named constants for use in <a href=jxhelp:THXExprHelp>expressions</a> and <a href=jxhelp:THX2DPlotHelp>plots</a>.  The names x and y are reserved as the independent variables when plotting <a href=jxhelp:THX2DPlotHelp>2D</a> and <a href=jxhelp:THX3DPlotHelp>3D</a> functions.  The name t is reserved as the independent variable for the future, when parametric plots are implemented.  pi, Pi, <font face=Symbol>p</font>, e, E, i, <tt>I</tt>, and j are also reserved to represent the standard mathematical constants 3.14..., 2.718..., and sqrt(-1).
 <p>
-To include a Greek character in a name, either use the Font menu or type a back
-quote ( ` ).  The back quote toggles between Normal and Greek fonts.
+To include a Greek character in a name, either use the Font menu or type a back quote ( ` ).  The back quote toggles between Normal and Greek fonts.
 <p>
-Following standard mathematical convention, all letters in the name beyond the
-first one are displayed as a subscript when the constant is used in an
-<a href=jxhelp:THXExprHelp>Expression</a> window.
+Following standard mathematical convention, all letters in the name beyond the first one are displayed as a subscript when the constant is used in an <a href=jxhelp:THXExprHelp>Expression</a> window.
 <p>
-The value of a named constant can be any valid expression such as 3 or -1+0.5*i.
-You can even include other named constants.  This allows you to reuse a value in
-several other constants and to store functions of x for plotting.
+The value of a named constant can be any valid expression such as 3 or -1+0.5*i. You can even include other named constants.  This allows you to reuse a value in several other constants and to store functions of x for plotting.
 <p>
-The \"New constant\" item on the Actions menu creates a new constant with the
-initial value of zero.
+The \"New constant\" item on the Actions menu creates a new constant with the initial value of zero.
 <p>
-The \"Remove constant\" item on the Actions menu removes the selected constant,
-if there is one and if it is not being used in any expressions or plots.
-(Note that even if a constant is not visible in any Expression windows, it may
-still be used in an undo buffer.)
+The \"Remove constant\" item on the Actions menu removes the selected constant, if it is not being used in any expressions or plots.  (Note that even if a constant is not visible in any Expression windows, it may still be used in an undo buffer.  If you quit and restart, all undo buffers will be cleared.)
 <p>
-You can change the name and value of a constant even when it is in use.
-All expressions will automatically be redrawn to display the new name, and
-all plots will be redrawn to use the new value.  Among other uses, this can help
-you visualize how a function changes as its parameters vary.
+You can change the name and value of a constant even when it is in use.  All expressions will automatically be redrawn to display the new name, and all plots will be redrawn to use the new value.  Among other uses, this can help you visualize how a function changes as its parameters vary.
 
 </html>"
