@@ -11,7 +11,6 @@ GDDIR    := ${JX_ROOT}/misc/gd
 
 JLIBDIR     := ${JX_ROOT}/lib
 JCORELIBDIR := ${JX_ROOT}/libjcore
-ACELIBDIR   := ${JX_ROOT}/ACE
 
 # Directories to search for header files
 
@@ -39,6 +38,12 @@ endif
 
 LOADLIBES := -L${JLIBDIR} ${ljcore} ${J_ACE_LIBS} ${J_GCC_LIBS}
 LDFLAGS   := 
+
+STATIC_LOADLIBES := -L${JLIBDIR} \
+                    ${J_BEGIN_LINK_STATIC} \
+                    ${ljcore} ${J_ACE_LIBS} \
+                    ${J_END_LINK_STATIC} \
+                    ${J_GCC_LIBS}
 
 #####
 
@@ -84,16 +89,8 @@ source:
 # statically linked version
 #
 
-STATIC_LOADLIBES := -L${JLIBDIR} \
-                    ${J_BEGIN_LINK_STATIC} \
-                    ${ljcore} ${J_ACE_LIBS} \
-                    ${J_END_LINK_STATIC} \
-                    ${J_GCC_LIBS}
-
 .PHONY : static
-static: libs
-  ifdef J_BUILD_SHARED_LIB
-	@cd ${ACELIBDIR}; ${MAKE} static
-  endif
+static: staticACE libs
 	@${RM} webgif
 	@${MAKE} "LOADLIBES=${STATIC_LOADLIBES}" webgif
+	@${J_STRIP_DEBUG} ${call EXE, webgif}

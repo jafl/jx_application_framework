@@ -9,8 +9,10 @@ JX_CORE_LIBS := ../libjcore/. \
 
 DISTR_PROGS := ../programs/makemake/. \
                ../programs/compile_jstrings/. \
+               ../programs/mondrian/. \
                ../programs/jxlayout/. \
                ../programs/jx_project_wizard/. \
+               ../programs/jx_memory_debugger/. \
                ../programs/ssh_askpass/.
 
 include ${JX_ROOT}/include/make/jx_constants

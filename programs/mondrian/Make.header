@@ -28,10 +28,6 @@ PROG_STRING_FILES := ${filter-out %/${PROG_NAME}_menu_strings, \
                       ${shell echo strings/*}}
 MENU_STRINGS_FILE := strings/${PROG_NAME}_menu_strings
 
-# also defined in .spec
-
-RPM_LIB_PATH := /usr/lib/${SIGNATURE}
-
 # makemake variables
 
 J_STRING_FILES := ${PROG_STRING_FILES}
@@ -119,43 +115,16 @@ jxuninstall:
 # source distribution (only useful if project is in ${JX_ROOT}/programs)
 #
 
-SRC_TAR_FILE := ${PROG_NAME}_source-${PROG_VERSION}.tar.gz
 SRC_FILE_DIR := ${JX}/programs/mondrian
 
-.PHONY : source
-source:
+.PHONY : jxsource
+jxsource:
 	@cd ${J_DISTR_TAR_DIR}; \
-     ${TAR} -czf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cpp %Y.cpp, \
-                                   ${shell cd ${J_DISTR_TAR_DIR}; echo \
+     ${TAR} -czf ${DISTR_TAR_FILE} ${filter-out %.o %~, \
+                                     ${shell cd ${J_DISTR_TAR_DIR}; echo \
               ${addprefix ${SRC_FILE_DIR}/, \
-                README COPYING FAQ Make.* *.jcc *.fd \
-                code/* strings/* pkg } }}
-
-#
-# binary distributions
-#
-
-PROG := ${PROG_NAME}-${PROG_VERSION}
-
-PROG_SHARED_TAR_NAME := ${PROG_NAME}_${PROG_VERSION}.tar
-
-RPM_TAR_FILE  := ${RPM_SRC_DIR}/${PROG_NAME}_${PROG_VERSION}.tar
-RPM_SPEC_FILE := ./pkg/${PROG_NAME}.spec
-
-DEB_CTRL_FILE := ./pkg/mondrian.debctrl
-DEB_PKG_FILE  := mondrian_${PROG_VERSION}_i386.deb
-
-.PHONY : release
-release: pre_build_pkgs static
-	@${MAKE} PROG_DISTR_TAR_FILE=${PROG_SHARED_TAR_NAME} distr_sub
-
-# distr_sub (PROG_DISTR_TAR_FILE)
-
-.PHONY : distr_sub
-distr_sub: menu_strings
-	@${MAKE} PKG_PATH=${PROG} DOC_NAME="Mondrian" DOC_HEADER=code/mdHelpText.h init_tarball
-	@ln -s ../${call EXE,${PROG_NAME}} ${PROG}/${call EXE,${PROG_NAME}}
-	@${MAKE} PKG_PATH=${PROG} SOURCE_TAR_NAME=${PROG_DISTR_TAR_FILE} build_pkgs
+                README Make.* *.jcc *.fd \
+                code/* strings/* } }}
 
 #
 # debugging version

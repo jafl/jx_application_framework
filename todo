@@ -1,7 +1,21 @@
-vi emulator
-	all check for itsKeyBuffer.GetLastCharacter() are wrong:
-		"dd triggers delete instead of "ddd
+leibnitz -- THX3DPlotDirector leaking
 
+memory analyzer
+	print table:  partial column on page 1
+
+arrow
+*	doesn't save drafts if no inbox open
+	when show full headers in HTML mode, doesn't update link ranges
+
+medic:
+	accept connection or switch to gdb:  should stop listening on port
+		need simple example to submit to ACE list
+	restart either xdebug or java:  unable to listen on port & crashes on exit
+		also need to fix SetProgram()
+
+-----
+
+vi emulator
 	dw      delete to end of word
 	db      delete to beginning of word
 	yw - yank to end of word
@@ -16,8 +30,6 @@ vi emulator
 
 	md d'd  mark starting line, cut to ending line
 	my y'y  mark starting line, copy to ending line
-
-leibnitz -- THX3DPlotDirector leaking
 
 libjexpr write to mathml
 	https://developer.mozilla.org/en/Mathml
@@ -61,10 +73,6 @@ svn_client:
 		when finished, create/refresh Status tab
 
 medic:
-	CMBreakpointTable:
-		pressing return while editing the last row should save the value
-		problem is that setting breakpoint value takes time, so can't restart editing immediately
-
 	java
 		thread list
 			convert to tree
@@ -76,6 +84,7 @@ medic:
 		show location via CMLineNumberTable: extend to allow arbitrary line numbers
 		show breakpoints via address field
 		double click on address in Breakpoints window to open disassembly window
+		need register window:  info all-registers
 
 		&"disas\n"
 		~"Dump of assembler code for function main:\n"
@@ -129,15 +138,9 @@ jcc:
 memory analyzer
 	jcc -- crash with deleted JMessageProtocol -- only when open project
 
-	print table:  partial column on page 1
-
 	option to print MDStatsDirector
 	records window:
 		show info about query in window title
-
-buzzer:
-	merge code from Glenn and get it to build
-	test layouts on both Linux and OS X
 
 systemg:
 	optimize selection of multiple items
@@ -148,8 +151,15 @@ systemg:
 	locks up when find returns many files
 		-name *.cpp -o -name *.h -o -name *.xpm
 
-rendering
-	http://cairographics.org/
+multi-pane editing:
+	split off itsBuffer,itsStyles,itsUndo/RedoList into JTextBuffer
+	leave recalc engine, cursor location, and other display stuff in JTextEditor
+	JTextEditor can be constructed from string or JTextBuffer
+	CBTextEditor has handle to {JTextBuffer, refCount}
+	Edit menu has "New view..." which opens another CBTextEditor and incr refCount
+	When close, only require save if refCount == 1
+	Active undo needs to know which view it is for
+		since event from another view needs to deactivate it and create new one
 
 -----
 
@@ -168,7 +178,12 @@ Docking
 		(test:  move tab group tabs from side to top)
 
 jcc:
-	shell window doesn't work on ubuntu -- bash process is stopped
+	Clean up prefs
+		JXPrefsDialog has tree list and card file
+			tree list pane adjusts width to bounds of tree list
+			card file pane sets min size to union of card sizes
+		Split CBTextEditorPrefs into multiple panes
+		factor out JXEditStylesWidget from JXEditStylesDialog so it can be a card
 
 	support D
 		http://en.wikipedia.org/wiki/D_(programming_language)
@@ -176,10 +191,9 @@ jcc:
 		http://digitalmars.com/d/archives/digitalmars/D/Exuberant_Ctags_Support_for_D_51878.html
 
 medic:
-	accept connection or switch to gdb:  should stop listening on port
-		need simple example to submit to ACE list
-	restart either xdebug or java:  unable to listen on port & crashes on exit
-		also need to fix SetProgram()
+	CMBreakpointTable:
+		pressing return while editing the last row should save the value
+		problem is that setting breakpoint value takes time, so can't restart editing immediately
 
 	Same prefs menu in all windows
 
@@ -230,10 +244,8 @@ medic:
 		http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html
 
 arrow
-	when show full headers in HTML mode, doesn't update link ranges
 	fix SaveState() so it doesn't need JFileArray
 	specify timeout for lockfile and handle it as lock failure
-*	doesn't save drafts if no inbox open
 *	doesn't recv mail if flush inbox during download (locking problem?)
 
 svn_client:
@@ -254,11 +266,6 @@ svn_client:
 		when set process + fd, show input
 		when process finished, hide input
 
-glove:
-	switch to JXExprEditor
-	clean up .fd to match current layouts
-	test layouts on Linux and OS X
-
 JBroadcaster:
 	register handler for message:  function which takes obj, msg type, function pointer
 		pass in friend function that takes obj, sender, msg
@@ -267,9 +274,6 @@ JBroadcaster:
 
 JXMenu::PrepareToOpenMenu()
 	itsOwner may delete us!
-
-Support D-Bus
-	http://www.freedesktop.org/wiki/Software/dbus
 
 -----
 
@@ -295,6 +299,21 @@ Daily Comics:
 	when first open dashboard after reboot, sizes window to back, even when front visible
 	export favorites to HTML for sharing
 
+buzzer:
+	merge code from Glenn and get it to build
+	test layouts on both Linux and OS X
+
+glove:
+	switch to JXExprEditor
+	clean up .fd to match current layouts
+	test layouts on Linux and OS X
+
+rendering
+	http://cairographics.org/
+
+Support D-Bus
+	http://www.freedesktop.org/wiki/Software/dbus
+
 systemg:
 	store alternate-open prefs for every executable in the directory
 		use these prefs when plain-open is invoked
@@ -308,20 +327,10 @@ systemg:
 leibnitz
 	finish 3D plotting
 		latent pg for eval?
+		scale axes to fit range
+		allow range to be away from origin
+		edit axis scale:  min, max, delta
 	Add tip-of-the-day with editing shortcuts like space, fn names, etc.
-	scale axes to fit range
-	allow range to be away from origin
-	edit axis scale:  min, max, delta
-
-multi-pane editing:
-	split off itsBuffer,itsStyles,itsUndo/RedoList into JTextBuffer
-	leave recalc engine, cursor location, and other display stuff in JTextEditor
-	JTextEditor can be constructed from string or JTextBuffer
-	CBTextEditor has handle to {JTextBuffer, refCount}
-	Edit menu has "New view..." which opens another CBTextEditor and incr refCount
-	When close, only require save if refCount == 1
-	Active undo needs to know which view it is for
-		since event from another view needs to deactivate it and create new one
 
 JKeyHandler:
 	if we build key handlers for different file types:
@@ -384,6 +393,7 @@ Mondrian:
 		fixedLeftProportional, fixedRightProportional
 
 jcc:
+	shell window doesn't work on ubuntu -- bash process is stopped
 	search results:  option to show n lines above and below matching line
 
 	Pick a default size and location for text windows when first run
@@ -447,13 +457,6 @@ drakon:
 		else, default 0
 
 	SendSignal dialog
-
-Clean up prefs
-	JXPrefsDialog has tree list and card file
-		tree list pane adjusts width to bounds of tree list
-		card file pane sets min size to union of card sizes
-	Split CBTextEditorPrefs into multiple panes
-	factor out JXEditStylesWidget from JXEditStylesDialog so it can be a card
 
 Dock
 	Key shortcuts to move between dock compartments

@@ -12,7 +12,6 @@ JXDIR    := ${JX_ROOT}/include/jx
 JLIBDIR     := ${JX_ROOT}/lib
 JCORELIBDIR := ${JX_ROOT}/libjcore
 JXLIBDIR    := ${JX_ROOT}/libjx
-ACELIBDIR   := ${JX_ROOT}/ACE
 
 # Directories to search for header files
 
@@ -35,7 +34,6 @@ include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
-                \
                ${J_COMPILE_DEBUG} ${SEARCHDIRS}
 
 TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR}

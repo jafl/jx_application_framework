@@ -1,9 +1,0 @@
-[Desktop Entry]
-Categories=Utility;X-Red-Hat-Base;
-Name=JX Memory Debugger
-Comment=JX Memory Debugger
-Icon=jx_memory_debugger.xpm
-Exec=jx_memory_debugger
-Type=Application
-Terminal=0
-MapNotify=true

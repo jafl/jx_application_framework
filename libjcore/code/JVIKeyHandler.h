@@ -69,7 +69,8 @@ protected:
 	Mode	GetMode() const;
 	void	SetMode(const Mode mode);
 
-	JSize	GetOperationCount() const;
+	JSize		GetOperationCount() const;
+	JBoolean	GetPrevCharacter(JCharacter* c) const;
 
 	const JString&	GetCommandLine() const;
 	void			AppendToCommandLine(const JCharacter key);

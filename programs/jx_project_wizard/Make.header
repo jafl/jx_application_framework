@@ -12,7 +12,6 @@ JXDIR    := ${JX_ROOT}/include/jx
 JLIBDIR        := ${JX_ROOT}/lib
 JCORELIBDIR    := ${JX_ROOT}/libjcore
 JXLIBDIR       := ${JX_ROOT}/libjx
-ACELIBDIR      := ${JX_ROOT}/ACE
 
 # Directories to search for header files
 
@@ -53,6 +52,12 @@ endif
 
 LOADLIBES := ${J_STD_LIBS}
 LDFLAGS   := 
+
+DEBUG_LOADLIBES := -L${JLIBDIR} \
+                    ${J_BEGIN_LINK_STATIC} \
+                    ${ljx} ${ljcore} ${J_ACE_LIBS} \
+                    ${J_END_LINK_STATIC} \
+                    ${J_X11_LIBS} ${J_GCC_LIBS}
 
 #####
 
@@ -111,7 +116,7 @@ SRC_FILE_DIR := ${JX}/programs/jx_project_wizard
 jxsource:
 	@for d in *_template; do ( if cd $$d; then rmchanged; fi; ) done
 	@cd ${J_DISTR_TAR_DIR}; \
-     ${TAR} -rf ${DISTR_TAR_FILE} ${filter-out %.o %~ %/.svn/%, \
+     ${TAR} -rf ${DISTR_TAR_FILE} ${filter-out %.o %~, \
                                     ${shell cd ${J_DISTR_TAR_DIR}; echo \
              ${addprefix ${SRC_FILE_DIR}/, \
                README Make.* *.jcc *.fd \
@@ -121,27 +126,25 @@ jxsource:
 # debugging version
 #
 
-DEBUG_LOADLIBES := -L${JLIBDIR} \
-                    ${J_BEGIN_LINK_STATIC} \
-                    ${ljx} ${ljcore} ${J_ACE_LIBS} \
-                    ${J_END_LINK_STATIC} \
-                    ${J_X11_LIBS} ${J_GCC_LIBS}
-
 .PHONY : debug
-debug: libs
-  ifdef J_BUILD_SHARED_LIB
-	@cd ${ACELIBDIR}; ${MAKE} static
-  endif
+debug: staticACE libs
 	@${RM} ${PROG_NAME}
 	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" ${PROG_NAME}
+
+#
+# static binary
+#
+
+.PHONY : static
+static: debug
+	@${J_STRIP_DEBUG} ${call EXE, ${PROG_NAME}}
 
 #
 # personal install
 #
 
 .PHONY : personal
-personal: debug
-	@strip ${call EXE, ${PROG_NAME}}
+personal: static
 	@cp ${PROG_NAME} ${JX_INSTALL_ROOT}/
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.

@@ -18,6 +18,7 @@
 static const JRegex numberPattern("^[0-9]+$");
 static const JRegex numberPrefixPattern("^[0-9]+");
 static const JRegex cutbufPattern("^[0-9]*(?<cutbuf>\"[a-zA-Z0-9])$");
+static const JRegex prevCharPattern("^[0-9]*(?<cutbuf>\"[a-zA-Z0-9])?[^\"]+$");
 static const JRegex yankDeletePattern("^[0-9]*(?<cutbuf>\"[a-zA-Z0-9])?[yd]?$");
 
 JVIKeyHandler::CutBuffer JVIKeyHandler::theCutBuffer;
@@ -161,6 +162,7 @@ JVIKeyHandler::HandleKeyPress
 
 	JBoolean clearKeyBuffer = kJTrue;
 	JArray<JIndexRange> matchList;
+	JCharacter prevChar;
 	if (key == 'i')
 		{
 		SetMode(kTextEntryMode);
@@ -178,7 +180,8 @@ JVIKeyHandler::HandleKeyPress
 	else if (key == 'a')
 		{
 		SetMode(kTextEntryMode);
-		if ((te->GetText()).GetCharacter(te->GetInsertionIndex()) != '\n')
+		const JIndex i = te->GetInsertionIndex();
+		if (te->IndexValid(i) && (te->GetText()).GetCharacter(i) != '\n')
 			{
 			te->SetCaretLocation(te->GetInsertionIndex()+1);
 			}
@@ -193,8 +196,13 @@ JVIKeyHandler::HandleKeyPress
 		SetMode(kTextEntryMode);
 
 		te->GoToBeginningOfLine();
-		te->SetCaretLocation(te->GetInsertionIndex()-1);
+		const JIndex i = te->GetInsertionIndex();
+		te->SetCaretLocation(i-1);
 		InsertKeyPress('\n');
+		if (i == 1)
+			{
+			te->SetCaretLocation(1);
+			}
 		}
 	else if (key == 'o')
 		{
@@ -249,10 +257,18 @@ JVIKeyHandler::HandleKeyPress
 			{
 			if (key == 'X')
 				{
+				if (te->GetInsertionIndex() == 1)
+					{
+					break;
+					}
 				BackwardDelete(deleteToTabStop, &s);
 				}
 			else
 				{
+				if (te->GetInsertionIndex() >= te->GetTextLength())
+					{
+					break;
+					}
 				ForwardDelete(deleteToTabStop, &s);
 				}
 
@@ -260,17 +276,17 @@ JVIKeyHandler::HandleKeyPress
 			}
 		}
 	else if (key == 'C' || key == 'D' ||
-			 (key == '$' && !itsKeyBuffer.IsEmpty() &&
-			  (itsKeyBuffer.GetLastCharacter() == 'd' || itsKeyBuffer.GetLastCharacter() == 'y')))
+			 (key == '$' && GetPrevCharacter(&prevChar) &&
+			  (prevChar == 'd' || prevChar == 'y')))
 		{
-		const JBoolean del = JNegate(!itsKeyBuffer.IsEmpty() && itsKeyBuffer.GetLastCharacter() == 'y' && key == '$');
+		const JBoolean del = JNegate(GetPrevCharacter(&prevChar) && prevChar == 'y' && key == '$');
 		YankToEndOfLine(del, JI2B(key == 'C'));
 		}
 	else if ((key == 'Y' || key == 'y' || key == 'd') &&
 			 yankDeletePattern.Match(itsKeyBuffer, &matchList))
 		{
 		if (key == 'Y' ||
-			(!itsKeyBuffer.IsEmpty() && itsKeyBuffer.GetLastCharacter() == key))
+			(GetPrevCharacter(&prevChar) && prevChar == key))
 			{
 			YankLines(matchList, JI2B(key == 'd'));
 			}
@@ -286,6 +302,7 @@ JVIKeyHandler::HandleKeyPress
 		CutBuffer* buf = GetCutBuffer(cutbufPattern);
 		if (buf->buf != NULL)
 			{
+			const JIndex i = te->GetInsertionIndex();
 			if (buf->line)
 				{
 				te->GoToBeginningOfLine();
@@ -295,7 +312,7 @@ JVIKeyHandler::HandleKeyPress
 					}
 				}
 			else if (key == 'p' &&
-					 (te->GetText()).GetCharacter(te->GetInsertionIndex()) != '\n')
+					 (te->IndexValid(i) && (te->GetText()).GetCharacter(i) != '\n'))
 				{
 				te->SetCaretLocation(te->GetInsertionIndex()+1);
 				}
@@ -316,7 +333,7 @@ JVIKeyHandler::HandleKeyPress
 	else if (key == '$')	// after d$ and y$
 		{
 		te->GoToEndOfLine();
-		JIndex i = te->GetInsertionIndex();
+		const JIndex i = te->GetInsertionIndex();
 		if (i > 1 && te->IndexValid(i) &&
 			(te->GetText()).GetCharacter(i) == '\n')
 			{
@@ -343,23 +360,23 @@ JVIKeyHandler::YankLines
 	const JBoolean				del
 	)
 {
-	CutBuffer* buf = GetCutBuffer(yankDeletePattern, matchList);
-
 	JTextEditor* te = GetTE();
 	te->GoToBeginningOfLine();
 	const JIndex start = te->GetInsertionIndex();
 
-	MoveCaretVert(
-		!itsKeyBuffer.IsEmpty() && isdigit(itsKeyBuffer.GetFirstCharacter()) ?
-			atoi(itsKeyBuffer) : 1);
+	MoveCaretVert(GetOperationCount());
 
 	JIndexRange r(start, te->GetInsertionIndex()-1);
-	buf->Set((te->GetText()).GetSubstring(r), kJTrue);
-
-	if (del)
+	if (!r.IsEmpty())
 		{
-		te->SetSelection(r);
-		te->DeleteSelection();
+		CutBuffer* buf = GetCutBuffer(yankDeletePattern, matchList);
+		buf->Set((te->GetText()).GetSubstring(r), kJTrue);
+
+		if (del)
+			{
+			te->SetSelection(r);
+			te->DeleteSelection();
+			}
 		}
 }
 
@@ -381,23 +398,26 @@ JVIKeyHandler::YankToEndOfLine
 	r.first           = te->GetInsertionIndex();
 	const JIndex line = te->GetLineForChar(r.first) + GetOperationCount() - 1;
 	r.last            = te->GetLineEnd(line);
-	if (te->GetText().GetCharacter(r.last) == '\n')
+	if (te->IndexValid(r.last) && te->GetText().GetCharacter(r.last) == '\n')
 		{
 		r.last--;
 		}
 
-	CutBuffer* buf = GetCutBuffer(cutbufPattern);
-	buf->Set(te->GetText().GetSubstring(r), kJFalse);
-
-	if (del)
+	if (!r.IsEmpty())
 		{
-		te->SetSelection(r);
-		te->DeleteSelection();
-		}
+		CutBuffer* buf = GetCutBuffer(cutbufPattern);
+		buf->Set(te->GetText().GetSubstring(r), kJFalse);
 
-	if (ins)
-		{
-		SetMode(kTextEntryMode);
+		if (del)
+			{
+			te->SetSelection(r);
+			te->DeleteSelection();
+			}
+
+		if (ins)
+			{
+			SetMode(kTextEntryMode);
+			}
 		}
 }
 
@@ -411,6 +431,30 @@ JVIKeyHandler::GetOperationCount()
 	const
 {
 	return (numberPrefixPattern.Match(itsKeyBuffer) ? atoi(itsKeyBuffer) : 1);
+}
+
+/******************************************************************************
+ GetPrevCharacter (protected)
+
+ ******************************************************************************/
+
+JBoolean
+JVIKeyHandler::GetPrevCharacter
+	(
+	JCharacter* c
+	)
+	const
+{
+	if (prevCharPattern.Match(itsKeyBuffer))
+		{
+		*c = itsKeyBuffer.GetLastCharacter();
+		return kJTrue;
+		}
+	else
+		{
+		*c = 0;
+		return kJFalse;
+		}
 }
 
 /******************************************************************************
