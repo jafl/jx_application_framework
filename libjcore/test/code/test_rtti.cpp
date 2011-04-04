@@ -27,16 +27,16 @@ private:
 int main()
 {
 	B b;
-	cout << &b << endl;
+	std::cout << &b << std::endl;
 	A* a = &b;
-	cout << a << endl;
+	std::cout << a << std::endl;
 	B* b1 = dynamic_cast<B*>(a);
-	cout << b1 << endl;
+	std::cout << b1 << std::endl;
 
 	A a2;
 	A* a3 = &a2;
 	B* b2 = dynamic_cast<B*>(a3);
-	cout << b2 << endl;
+	std::cout << b2 << std::endl;
 
 	return 0;
 }

@@ -80,13 +80,13 @@ SCScratchDirector::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 350,130, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 350,130, "");
+	assert( window != NULL );
 
-    SCExprEditorSet* obj1_JXLayout =
-        new SCExprEditorSet(doc, &itsFunction, window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 350,130);
-    assert( obj1_JXLayout != NULL );
+	SCExprEditorSet* obj1_JXLayout =
+		new SCExprEditorSet(doc, &itsFunction, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 350,130);
+	assert( obj1_JXLayout != NULL );
 
 // end JXLayout
 

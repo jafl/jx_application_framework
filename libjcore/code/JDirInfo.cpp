@@ -35,6 +35,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include <jDirUtil.h>
+#include <jVCSUtil.h>
 #include <jTime.h>
 #include <jGlobals.h>
 #include <ace/OS_NS_sys_stat.h>
@@ -131,10 +132,11 @@ JDirInfo::JDirInfo
 	itsModTime             = 0;
 	itsStatusTime          = 0;
 
-	itsShowFilesFlag  = kJTrue;			// remember to update ResetCSFFilters()
-	itsShowDirsFlag   = kJTrue;
-	itsShowHiddenFlag = kJFalse;
-	itsShowOthersFlag = kJFalse;
+	itsShowFilesFlag   = kJTrue;		// remember to update ResetCSFFilters()
+	itsShowDirsFlag    = kJTrue;
+	itsShowHiddenFlag  = kJFalse;
+	itsShowVCSDirsFlag = kJTrue;
+	itsShowOthersFlag  = kJFalse;
 
 	itsNameRegex           = NULL;
 	itsOwnsNameRegexFlag   = kJFalse;
@@ -353,10 +355,11 @@ JDirInfo::PrivateCopySettings
 	const JDirInfo& source
 	)
 {
-	itsShowFilesFlag  = source.itsShowFilesFlag;
-	itsShowDirsFlag   = source.itsShowDirsFlag;
-	itsShowHiddenFlag = source.itsShowHiddenFlag;
-	itsShowOthersFlag = source.itsShowOthersFlag;
+	itsShowFilesFlag   = source.itsShowFilesFlag;
+	itsShowDirsFlag    = source.itsShowDirsFlag;
+	itsShowHiddenFlag  = source.itsShowHiddenFlag;
+	itsShowVCSDirsFlag = source.itsShowVCSDirsFlag;
+	itsShowOthersFlag  = source.itsShowOthersFlag;
 
 	itsPermFilter = source.itsPermFilter;
 
@@ -442,12 +445,12 @@ JDirInfo::CopyDirEntries
 void
 JDirInfo::ShowFiles
 	(
-	const JBoolean showFiles
+	const JBoolean show
 	)
 {
-	if (showFiles != itsShowFilesFlag)
+	if (show != itsShowFilesFlag)
 		{
-		itsShowFilesFlag = showFiles;
+		itsShowFilesFlag = show;
 		ApplyFilters(kJTrue);
 		Broadcast(SettingsChanged());
 		}
@@ -461,12 +464,12 @@ JDirInfo::ShowFiles
 void
 JDirInfo::ShowDirs
 	(
-	const JBoolean showDirs
+	const JBoolean show
 	)
 {
-	if (showDirs != itsShowDirsFlag)
+	if (show != itsShowDirsFlag)
 		{
-		itsShowDirsFlag = showDirs;
+		itsShowDirsFlag = show;
 		ApplyFilters(kJTrue);
 		Broadcast(SettingsChanged());
 		}
@@ -480,12 +483,31 @@ JDirInfo::ShowDirs
 void
 JDirInfo::ShowHidden
 	(
-	const JBoolean showHidden
+	const JBoolean show
 	)
 {
-	if (showHidden != itsShowHiddenFlag)
+	if (show != itsShowHiddenFlag)
 		{
-		itsShowHiddenFlag = showHidden;
+		itsShowHiddenFlag = show;
+		ApplyFilters(kJTrue);
+		Broadcast(SettingsChanged());
+		}
+}
+
+/******************************************************************************
+ ShowVCSDirs
+
+ ******************************************************************************/
+
+void
+JDirInfo::ShowVCSDirs
+	(
+	const JBoolean show
+	)
+{
+	if (show != itsShowVCSDirsFlag)
+		{
+		itsShowVCSDirsFlag = show;
 		ApplyFilters(kJTrue);
 		Broadcast(SettingsChanged());
 		}
@@ -499,12 +521,12 @@ JDirInfo::ShowHidden
 void
 JDirInfo::ShowOthers
 	(
-	const JBoolean showOthers
+	const JBoolean show
 	)
 {
-	if (showOthers != itsShowOthersFlag)
+	if (show != itsShowOthersFlag)
 		{
-		itsShowOthersFlag = showOthers;
+		itsShowOthersFlag = show;
 		ApplyFilters(kJTrue);
 		Broadcast(SettingsChanged());
 		}
@@ -933,7 +955,12 @@ JDirInfo::IsVisible
 	const JDirEntry::Type type = entry.GetType();
 	const JString& name        = entry.GetName();
 
-	if (name.GetFirstCharacter() == '.' && name != ".." && !itsShowHiddenFlag)
+	if (!itsShowHiddenFlag && name.GetFirstCharacter() == '.' && name != "..")
+		{
+		return kJFalse;
+		}
+
+	if (!itsShowVCSDirsFlag && JIsVCSDirectory(name))
 		{
 		return kJFalse;
 		}
@@ -1343,6 +1370,11 @@ JDirInfo::ResetCSFFilters()
 //		itsShowHiddenFlag = kJFalse;
 //		apply             = kJTrue;
 //		}
+	if (!itsShowVCSDirsFlag)
+		{
+		itsShowVCSDirsFlag = kJTrue;
+		apply              = kJTrue;
+		}
 	if (itsShowOthersFlag)
 		{
 		itsShowOthersFlag = kJFalse;

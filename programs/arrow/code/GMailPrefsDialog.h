@@ -68,25 +68,25 @@ private:
 
 // begin JXLayout
 
-    JXIntegerInput*   itsMaxReplyInput;
-    JXInputField*     itsSenderStringInput;
-    JXIntegerInput*   itsSpacesPerTabInput;
-    JXTextCheckbox*   itsShowStateInTitle;
-    JXTextCheckbox*   itsAutoQuote;
-    JXTextCheckbox*   itsShowSenderString;
-    JXStaticText*     itsSenderText;
-    JXTextButton*     itsHelpButton;
-    JXChooseMonoFont* itsFontMenu;
-    JXTextCheckbox*   itsReportSCErrorsCB;
-    JXTextCheckbox*   itsBeepOnNewMailCB;
-    JXRadioGroup*     itsEncryptionType;
-    JXTextButton*     itsFilterButton;
-    JXFileInput*      itsDefaultInbox;
-    JXTextButton*     itsInboxButton;
-    JXFileInput*      itsFilterFileInput;
-    JXTextCheckbox*   itsCopySelectedCB;
-    JXTextCheckbox*   itsHomeEndCB;
-    JXTextCheckbox*   itsOpenMailTreeCB;
+	JXIntegerInput*   itsMaxReplyInput;
+	JXInputField*     itsSenderStringInput;
+	JXIntegerInput*   itsSpacesPerTabInput;
+	JXTextCheckbox*   itsShowStateInTitle;
+	JXTextCheckbox*   itsAutoQuote;
+	JXTextCheckbox*   itsShowSenderString;
+	JXStaticText*     itsSenderText;
+	JXTextButton*     itsHelpButton;
+	JXChooseMonoFont* itsFontMenu;
+	JXTextCheckbox*   itsReportSCErrorsCB;
+	JXTextCheckbox*   itsBeepOnNewMailCB;
+	JXRadioGroup*     itsEncryptionType;
+	JXTextButton*     itsFilterButton;
+	JXFileInput*      itsDefaultInbox;
+	JXTextButton*     itsInboxButton;
+	JXFileInput*      itsFilterFileInput;
+	JXTextCheckbox*   itsCopySelectedCB;
+	JXTextCheckbox*   itsHomeEndCB;
+	JXTextCheckbox*   itsOpenMailTreeCB;
 
 // end JXLayout
 

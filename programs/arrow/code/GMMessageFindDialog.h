@@ -38,9 +38,9 @@ private:
 
 // begin JXLayout
 
-    JXInputField*   itsSearchInput;
-    JXTextCheckbox* itsMessageBodyCB;
-    JXTextButton*   itsHelpButton;
+	JXInputField*   itsSearchInput;
+	JXTextCheckbox* itsMessageBodyCB;
+	JXTextButton*   itsHelpButton;
 
 // end JXLayout
 

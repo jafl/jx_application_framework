@@ -45,7 +45,7 @@ private:
 
 // begin JXLayout
 
-    JX2DPlotWidget* itsPlot;
+	JX2DPlotWidget* itsPlot;
 
 // end JXLayout
 

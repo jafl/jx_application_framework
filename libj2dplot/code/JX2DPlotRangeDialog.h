@@ -42,11 +42,11 @@ private:
 
 // begin JXLayout
 
-    JXFloatInput* itsXMin;
-    JXFloatInput* itsXMax;
-    JXFloatInput* itsYMin;
-    JXFloatInput* itsYMax;
-    JXTextButton* itsClearButton;
+	JXFloatInput* itsXMin;
+	JXFloatInput* itsXMax;
+	JXFloatInput* itsYMin;
+	JXFloatInput* itsYMax;
+	JXTextButton* itsClearButton;
 
 // end JXLayout
 

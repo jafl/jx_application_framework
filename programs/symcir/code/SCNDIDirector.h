@@ -48,10 +48,10 @@ private:
 
 // begin JXLayout
 
-    JXVertPartition* itsMainPartition;
-    SCComponentMenu* itsSource1;
-    SCComponentMenu* itsSource2;
-    JXTextButton*    itsEvalButton;
+	JXVertPartition* itsMainPartition;
+	SCComponentMenu* itsSource1;
+	SCComponentMenu* itsSource2;
+	JXTextButton*    itsEvalButton;
 
 // end JXLayout
 

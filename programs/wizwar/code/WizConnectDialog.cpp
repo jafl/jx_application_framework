@@ -74,47 +74,47 @@ WizConnectDialog::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 370,110, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 370,110, "");
+	assert( window != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::WizConnectDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 260,85, 60,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::WizConnectDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::WizConnectDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 260,85, 60,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::WizConnectDialog::shortcuts::JXLayout"));
 
-    JXTextButton* quitButton =
-        new JXTextButton(JGetString("quitButton::WizConnectDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,85, 60,20);
-    assert( quitButton != NULL );
+	JXTextButton* quitButton =
+		new JXTextButton(JGetString("quitButton::WizConnectDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,85, 60,20);
+	assert( quitButton != NULL );
 
-    itsHelpButton =
-        new JXTextButton(JGetString("itsHelpButton::WizConnectDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 155,85, 60,20);
-    assert( itsHelpButton != NULL );
-    itsHelpButton->SetShortcuts(JGetString("itsHelpButton::WizConnectDialog::shortcuts::JXLayout"));
+	itsHelpButton =
+		new JXTextButton(JGetString("itsHelpButton::WizConnectDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 155,85, 60,20);
+	assert( itsHelpButton != NULL );
+	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::WizConnectDialog::shortcuts::JXLayout"));
 
-    JXStaticText* obj1_JXLayout =
-        new JXStaticText(JGetString("obj1_JXLayout::WizConnectDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 100,20);
-    assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetToLabel();
+	JXStaticText* obj1_JXLayout =
+		new JXStaticText(JGetString("obj1_JXLayout::WizConnectDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 100,20);
+	assert( obj1_JXLayout != NULL );
+	obj1_JXLayout->SetToLabel();
 
-    JXStaticText* obj2_JXLayout =
-        new JXStaticText(JGetString("obj2_JXLayout::WizConnectDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,40, 100,20);
-    assert( obj2_JXLayout != NULL );
-    obj2_JXLayout->SetToLabel();
+	JXStaticText* obj2_JXLayout =
+		new JXStaticText(JGetString("obj2_JXLayout::WizConnectDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,40, 100,20);
+	assert( obj2_JXLayout != NULL );
+	obj2_JXLayout->SetToLabel();
 
-    itsServerAddr =
-        new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 120,20, 230,20);
-    assert( itsServerAddr != NULL );
+	itsServerAddr =
+		new JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 120,20, 230,20);
+	assert( itsServerAddr != NULL );
 
-    itsPlayerName =
-        new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 120,40, 230,20);
-    assert( itsPlayerName != NULL );
+	itsPlayerName =
+		new JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 120,40, 230,20);
+	assert( itsPlayerName != NULL );
 
 // end JXLayout
 

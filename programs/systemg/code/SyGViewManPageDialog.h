@@ -54,14 +54,14 @@ private:
 
 // begin JXLayout
 
-    JXTextButton*        itsCloseButton;
-    JXTextButton*        itsViewButton;
-    JXInputField*        itsFnName;
-    JXTextCheckbox*      itsAproposCheckbox;
-    JXTextButton*        itsHelpButton;
-    JXStringHistoryMenu* itsFnHistoryMenu;
-    JXCharInput*         itsManIndex;
-    JXTextCheckbox*      itsStayOpenCB;
+	JXTextButton*        itsCloseButton;
+	JXTextButton*        itsViewButton;
+	JXInputField*        itsFnName;
+	JXTextCheckbox*      itsAproposCheckbox;
+	JXTextButton*        itsHelpButton;
+	JXStringHistoryMenu* itsFnHistoryMenu;
+	JXCharInput*         itsManIndex;
+	JXTextCheckbox*      itsStayOpenCB;
 
 // end JXLayout
 

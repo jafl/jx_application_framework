@@ -153,33 +153,33 @@ WizChatDirector::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 600,250, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 600,250, "");
+	assert( window != NULL );
 
-    JXMenuBar* menuBar =
-        new JXMenuBar(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 600,30);
-    assert( menuBar != NULL );
+	JXMenuBar* menuBar =
+		new JXMenuBar(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 600,30);
+	assert( menuBar != NULL );
 
-    JXScrollbarSet* scrollbarSet =
-        new JXScrollbarSet(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,180);
-    assert( scrollbarSet != NULL );
+	JXScrollbarSet* scrollbarSet =
+		new JXScrollbarSet(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,180);
+	assert( scrollbarSet != NULL );
 
-    itsChatInput =
-        new WizChatInput(window,
-                    JXWidget::kHElastic, JXWidget::kFixedBottom, 90,210, 510,40);
-    assert( itsChatInput != NULL );
+	itsChatInput =
+		new WizChatInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 90,210, 510,40);
+	assert( itsChatInput != NULL );
 
-    itsChatShortcutMenu =
-        new WizChatShortcutMenu(itsChatInput, window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,210, 90,20);
-    assert( itsChatShortcutMenu != NULL );
+	itsChatShortcutMenu =
+		new WizChatShortcutMenu(itsChatInput, window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,210, 90,20);
+	assert( itsChatShortcutMenu != NULL );
 
-    itsChatTargetMenu =
-        new WizChatTargetMenu(itsChatInput, itsChatShortcutMenu, window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,230, 90,20);
-    assert( itsChatTargetMenu != NULL );
+	itsChatTargetMenu =
+		new WizChatTargetMenu(itsChatInput, itsChatShortcutMenu, window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,230, 90,20);
+	assert( itsChatTargetMenu != NULL );
 
 // end JXLayout
 

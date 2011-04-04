@@ -68,40 +68,40 @@ MDAboutDialog::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 430,200, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 430,200, "");
+	assert( window != NULL );
 
-    JXStaticText* textWidget =
-        new JXStaticText(JGetString("textWidget::MDAboutDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 90,20, 330,130);
-    assert( textWidget != NULL );
+	JXStaticText* textWidget =
+		new JXStaticText(JGetString("textWidget::MDAboutDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 90,20, 330,130);
+	assert( textWidget != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::MDAboutDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 319,169, 62,22);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::MDAboutDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::MDAboutDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,170, 60,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::MDAboutDialog::shortcuts::JXLayout"));
 
-    itsHelpButton =
-        new JXTextButton(JGetString("itsHelpButton::MDAboutDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,170, 60,20);
-    assert( itsHelpButton != NULL );
-    itsHelpButton->SetShortcuts(JGetString("itsHelpButton::MDAboutDialog::shortcuts::JXLayout"));
+	itsHelpButton =
+		new JXTextButton(JGetString("itsHelpButton::MDAboutDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,170, 60,20);
+	assert( itsHelpButton != NULL );
+	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::MDAboutDialog::shortcuts::JXLayout"));
 
-    JXImageWidget* imageWidget =
-        new JXImageWidget(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,20, 40,40);
-    assert( imageWidget != NULL );
+	JXImageWidget* imageWidget =
+		new JXImageWidget(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,20, 40,40);
+	assert( imageWidget != NULL );
 
-    itsCreditsButton =
-        new JXTextButton(JGetString("itsCreditsButton::MDAboutDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,170, 60,20);
-    assert( itsCreditsButton != NULL );
+	itsCreditsButton =
+		new JXTextButton(JGetString("itsCreditsButton::MDAboutDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,170, 60,20);
+	assert( itsCreditsButton != NULL );
 
-    JXImageWidget* npsIcon =
-        new JXImageWidget(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,75, 65,65);
-    assert( npsIcon != NULL );
+	JXImageWidget* npsIcon =
+		new JXImageWidget(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,75, 65,65);
+	assert( npsIcon != NULL );
 
 // end JXLayout
 

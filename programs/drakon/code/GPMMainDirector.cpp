@@ -179,23 +179,23 @@ GPMMainDirector::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 530,350, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 530,350, "");
+	assert( window != NULL );
 
-    JXMenuBar* menuBar =
-        new JXMenuBar(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 540,30);
-    assert( menuBar != NULL );
+	JXMenuBar* menuBar =
+		new JXMenuBar(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 540,30);
+	assert( menuBar != NULL );
 
-    itsToolBar =
-        new JXToolBar(GPMGetPrefsManager(), kGPMMainToolBarID, menuBar, 540, 250, window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 530,300);
-    assert( itsToolBar != NULL );
+	itsToolBar =
+		new JXToolBar(GPMGetPrefsManager(), kGPMMainToolBarID, menuBar, 540, 250, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 530,300);
+	assert( itsToolBar != NULL );
 
-    itsFullCmdDisplay =
-        new JXStaticText("", kJFalse, kJTrue, NULL, window,
-                    JXWidget::kHElastic, JXWidget::kFixedBottom, 0,330, 530,20);
-    assert( itsFullCmdDisplay != NULL );
+	itsFullCmdDisplay =
+		new JXStaticText("", kJFalse, kJTrue, NULL, window,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 0,330, 530,20);
+	assert( itsFullCmdDisplay != NULL );
 
 // end JXLayout
 

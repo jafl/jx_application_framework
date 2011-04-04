@@ -1769,7 +1769,7 @@ JTextEditor::HandleHTMLOnCmd
 			JString s = *valueStr;
 			s.PrependCharacter('[');
 			s.AppendCharacter(']');
- 			AppendTextForHTML(s);
+			AppendTextForHTML(s);
 			}
 		else
 			{
@@ -2471,7 +2471,7 @@ JTextEditor::SearchForward
 										   caseSensitive, startIndex);
 		if (found && entireWord)
 			{
-			found = IsEntireWord(*startIndex, *startIndex + searchLength - 1);
+			found = IsEntireWord(buffer, *startIndex, *startIndex + searchLength - 1);
 			}
 
 		if (found)
@@ -2591,7 +2591,7 @@ JTextEditor::SearchBackward
 										   caseSensitive, startIndex);
 		if (found && entireWord)
 			{
-			found = IsEntireWord(*startIndex, *startIndex + searchLength - 1);
+			found = IsEntireWord(buffer, *startIndex, *startIndex + searchLength - 1);
 			}
 
 		if (found)
@@ -2727,7 +2727,7 @@ JTextEditor::SearchForward
 			JIndexRange all = submatchList->GetElement(1);
 			*startIndex     = all.first;
 			found           = !all.IsEmpty();
-			if (found && (!entireWord || IsEntireWord(all)))
+			if (found && (!entireWord || IsEntireWord(buffer, all.first, all.last)))
 				{
 				break;
 				}
@@ -2825,7 +2825,7 @@ JTextEditor::SearchBackward
 			JIndexRange all = submatchList->GetElement(1);
 			*startIndex     = all.first;
 			found           = !all.IsEmpty();
-			if (found && (!entireWord || IsEntireWord(all)))
+			if (found && (!entireWord || IsEntireWord(buffer, all.first, all.last)))
 				{
 				break;
 				}
@@ -2911,21 +2911,22 @@ JTextEditor::SelectionMatches
 JBoolean
 JTextEditor::IsEntireWord
 	(
-	const JIndex startIndex,
-	const JIndex endIndex
+	const JString&	buffer,
+	const JIndex	startIndex,
+	const JIndex	endIndex
 	)
 	const
 {
-	if ((startIndex > 1 && IsCharacterInWord(*itsBuffer, startIndex-1)) ||
-		(endIndex < itsBuffer->GetLength() &&
-		 IsCharacterInWord(*itsBuffer, endIndex+1)))
+	if ((startIndex > 1 && IsCharacterInWord(buffer, startIndex-1)) ||
+		(endIndex < buffer.GetLength() &&
+		 IsCharacterInWord(buffer, endIndex+1)))
 		{
 		return kJFalse;
 		}
 
 	for (JIndex i=startIndex; i<=endIndex; i++)
 		{
-		if (!IsCharacterInWord(*itsBuffer, i))
+		if (!IsCharacterInWord(buffer, i))
 			{
 			return kJFalse;
 			}
@@ -5061,10 +5062,17 @@ JIndex i;
 }
 
 /******************************************************************************
- CleanWhitespace
+ AnalyzeWhitespace
 
-	Clean up the indentation whitespace and strip trailing whitespace in
-	the specified range.
+	Check all indent whitespace.
+
+	If default is tabs, check for indent containing spaces.  Allow up to
+	N-1 spaces at the end of the line, where N = tab width.
+
+	If default is spaces, check for any indent containing tabs.
+
+	If mixed indentation, show whitespace.  Set mode based on majority of
+	indentation.
 
  ******************************************************************************/
 
@@ -5076,6 +5084,124 @@ isWhitespace
 {
 	return JI2B( c == ' ' || c == '\t' );
 }
+
+void
+JTextEditor::AnalyzeWhitespace
+	(
+	const JSize tabWidth
+	)
+{
+	JBoolean useSpaces, showWhitespace;
+	AnalyzeWhitespace(*itsBuffer, tabWidth, itsTabToSpacesFlag,
+					  &useSpaces, &showWhitespace);
+
+	TabShouldInsertSpaces(useSpaces);
+	ShouldShowWhitespace(showWhitespace);
+}
+
+// static
+
+void
+JTextEditor::AnalyzeWhitespace
+	(
+	const JString&	buffer,
+	const JSize		tabWidth,
+	const JBoolean	defaultUseSpaces,
+	JBoolean*		useSpaces,
+	JBoolean*		showWhitespace
+	)
+{
+	assert( tabWidth > 0 );
+
+	*showWhitespace = kJFalse;
+
+	JSize spaceLines = 0, tinySpaceLines = 0, tabLines = 0;
+
+	JIndex i = 0;
+	do
+		{
+		i++;	// start at 1; move past newline
+
+		JSize spaceCount = 0, tailSpaceCount = 0;
+		JBoolean tabs = kJFalse;
+		while (buffer.IndexValid(i))
+			{
+			const JCharacter c = buffer.GetCharacter(i);
+			if (c == ' ')
+				{
+				spaceCount++;
+				tailSpaceCount++;
+				}
+			else if (c == '\t')
+				{
+				tabs           = kJTrue;
+				tailSpaceCount = 0;
+				}
+			else
+				{
+				break;
+				}
+
+			i++;
+			}
+
+		if (spaceCount == tailSpaceCount && tailSpaceCount < tabWidth)
+			{
+			if (tabs)
+				{
+				tabLines++;
+				}
+			else if (spaceCount > 0)
+				{
+				tinySpaceLines++;
+				}
+			}
+		else if (spaceCount > 0 && tabs)
+			{
+			*showWhitespace = kJTrue;
+
+			if (defaultUseSpaces)
+				{
+				spaceLines++;
+				}
+			else
+				{
+				tabLines++;
+				}
+			}
+		else if (spaceCount > 0)
+			{
+			spaceLines++;
+			}
+		}
+		while (buffer.LocateNextSubstring("\n", &i) && i < buffer.GetLength());
+
+	if (tabLines > 0)
+		{
+		tabLines += tinySpaceLines;
+		}
+	else
+		{
+		spaceLines += tinySpaceLines;
+		}
+
+	if (tabLines > 0 && spaceLines > 0)
+		{
+		*showWhitespace = kJTrue;
+		}
+
+	*useSpaces = JI2B(spaceLines > tabLines);
+
+//	cout << "space: " << spaceLines << ", tab: " << tabLines << endl;
+}
+
+/******************************************************************************
+ CleanWhitespace
+
+	Clean up the indentation whitespace and strip trailing whitespace in
+	the specified range.
+
+ ******************************************************************************/
 
 void
 JTextEditor::CleanWhitespace
@@ -9531,7 +9657,7 @@ JTextEditor::DefaultIsCharacterInWord
 	location.  This function is required to work for charIndex == 0.
 
 	Example:  get_word Get142TheWordABCGood ABCDe
-	          ^   ^    ^  ^  ^  ^   ^  ^    ^  ^
+			  ^   ^    ^  ^  ^  ^   ^  ^    ^  ^
  ******************************************************************************/
 
 JIndex
@@ -9590,7 +9716,7 @@ JTextEditor::GetPartialWordStart
 	location.  This function is required to work for charIndex > buffer length.
 
 	Example:  get_word Get142TheWordABCGood
-	            ^    ^   ^  ^  ^   ^  ^   ^
+				^    ^   ^  ^  ^   ^  ^   ^
  ******************************************************************************/
 
 JIndex

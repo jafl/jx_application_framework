@@ -64,13 +64,13 @@ JX2DCursorMarkTableDir::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 250,200, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 250,200, "");
+	assert( window != NULL );
 
-    JXScrollbarSet* scrollbarSet =
-        new JXScrollbarSet(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 250,200);
-    assert( scrollbarSet != NULL );
+	JXScrollbarSet* scrollbarSet =
+		new JXScrollbarSet(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 250,200);
+	assert( scrollbarSet != NULL );
 
 // end JXLayout
 

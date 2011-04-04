@@ -35,9 +35,9 @@ private:
 
 // begin JXLayout
 
-    JXInputField*   itsCmdInput;
-    JXTextCheckbox* itsUseShellCB;
-    JXTextCheckbox* itsUseWindowCB;
+	JXInputField*   itsCmdInput;
+	JXTextCheckbox* itsUseShellCB;
+	JXTextCheckbox* itsUseWindowCB;
 
 // end JXLayout
 

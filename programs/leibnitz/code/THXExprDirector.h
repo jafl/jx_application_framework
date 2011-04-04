@@ -60,8 +60,8 @@ private:
 
 // begin JXLayout
 
-    JXVertPartition* itsPartition;
-    THXKeyPad*       itsKeyPad;
+	JXVertPartition* itsPartition;
+	THXKeyPad*       itsKeyPad;
 
 // end JXLayout
 

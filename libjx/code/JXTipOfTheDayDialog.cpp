@@ -86,45 +86,45 @@ JXTipOfTheDayDialog::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 410,260, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 410,260, "");
+	assert( window != NULL );
 
-    JXFlatRect* sideBar =
-        new JXFlatRect(window,
-                    JXWidget::kFixedLeft, JXWidget::kVElastic, 10,10, 50,200);
-    assert( sideBar != NULL );
+	JXFlatRect* sideBar =
+		new JXFlatRect(window,
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 10,10, 50,200);
+	assert( sideBar != NULL );
     sideBar->SetColor((GetColormap())->GetInactiveLabelColor());
 
-    itsCloseButton =
-        new JXTextButton(JGetString("itsCloseButton::JXTipOfTheDayDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 340,225, 60,20);
-    assert( itsCloseButton != NULL );
+	itsCloseButton =
+		new JXTextButton(JGetString("itsCloseButton::JXTipOfTheDayDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 340,225, 60,20);
+	assert( itsCloseButton != NULL );
 
-    itsNextTipButton =
-        new JXTextButton(JGetString("itsNextTipButton::JXTipOfTheDayDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,225, 60,20);
-    assert( itsNextTipButton != NULL );
-    itsNextTipButton->SetShortcuts(JGetString("itsNextTipButton::JXTipOfTheDayDialog::shortcuts::JXLayout"));
+	itsNextTipButton =
+		new JXTextButton(JGetString("itsNextTipButton::JXTipOfTheDayDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,225, 60,20);
+	assert( itsNextTipButton != NULL );
+	itsNextTipButton->SetShortcuts(JGetString("itsNextTipButton::JXTipOfTheDayDialog::shortcuts::JXLayout"));
 
-    JXImageWidget* icon =
-        new JXImageWidget(sideBar,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,15, 30,30);
-    assert( icon != NULL );
+	JXImageWidget* icon =
+		new JXImageWidget(sideBar,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,15, 30,30);
+	assert( icon != NULL );
 
-    JXScrollbarSet* scrollbarSet =
-        new JXScrollbarSet(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 60,60, 340,150);
-    assert( scrollbarSet != NULL );
+	JXScrollbarSet* scrollbarSet =
+		new JXScrollbarSet(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 60,60, 340,150);
+	assert( scrollbarSet != NULL );
 
-    JXStaticText* title =
-        new JXStaticText(JGetString("title::JXTipOfTheDayDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 60,10, 340,50);
-    assert( title != NULL );
+	JXStaticText* title =
+		new JXStaticText(JGetString("title::JXTipOfTheDayDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 60,10, 340,50);
+	assert( title != NULL );
 
-    itsShowAtStartupCB =
-        new JXTextCheckbox(JGetString("itsShowAtStartupCB::JXTipOfTheDayDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,225, 140,20);
-    assert( itsShowAtStartupCB != NULL );
+	itsShowAtStartupCB =
+		new JXTextCheckbox(JGetString("itsShowAtStartupCB::JXTipOfTheDayDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,225, 140,20);
+	assert( itsShowAtStartupCB != NULL );
 
 // end JXLayout
 

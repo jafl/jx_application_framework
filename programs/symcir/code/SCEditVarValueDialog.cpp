@@ -61,30 +61,30 @@ SCEditVarValueDialog::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 210,90, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 210,90, "");
+	assert( window != NULL );
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::SCEditVarValueDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 30,55, 60,20);
-    assert( cancelButton != NULL );
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::SCEditVarValueDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 30,55, 60,20);
+	assert( cancelButton != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::SCEditVarValueDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 120,55, 60,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::SCEditVarValueDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::SCEditVarValueDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 120,55, 60,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::SCEditVarValueDialog::shortcuts::JXLayout"));
 
-    JXStaticText* obj1_JXLayout =
-        new JXStaticText(JGetString("obj1_JXLayout::SCEditVarValueDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 80,20);
-    assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetToLabel();
+	JXStaticText* obj1_JXLayout =
+		new JXStaticText(JGetString("obj1_JXLayout::SCEditVarValueDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 80,20);
+	assert( obj1_JXLayout != NULL );
+	obj1_JXLayout->SetToLabel();
 
-    itsValue =
-        new JXFloatInput(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 100,20, 90,20);
-    assert( itsValue != NULL );
+	itsValue =
+		new JXFloatInput(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 100,20, 90,20);
+	assert( itsValue != NULL );
 
 // end JXLayout
 

@@ -52,49 +52,49 @@ private:
 
 // begin JXLayout
 
-    JXInputField* itsFullNameInput;
-    JXInputField* itsSMTPUserName;
-    JXInputField* itsSMTPServerInput;
-    JXInputField* itsReplyToAddress;
-    JXInputField* itsCCInput;
-    JXInputField* itsBCCInput;
-    JXInputField* itsSigInput;
-    JXTextButton* itsCancelButton;
-    JXTextButton* itsNewButton;
-    JXTextButton* itsDeleteButton;
-    JXRadioGroup* itsSigType;
-    JXTextButton* itsDupButton;
-    JXTextButton* itsDefButton;
-    JXTextButton* itsHelpButton;
-    JXCardFile*   itsAccountTypeCardFile;
-    JXTextMenu*   itsAccountTypeMenu;
+	JXInputField* itsFullNameInput;
+	JXInputField* itsSMTPUserName;
+	JXInputField* itsSMTPServerInput;
+	JXInputField* itsReplyToAddress;
+	JXInputField* itsCCInput;
+	JXInputField* itsBCCInput;
+	JXInputField* itsSigInput;
+	JXTextButton* itsCancelButton;
+	JXTextButton* itsNewButton;
+	JXTextButton* itsDeleteButton;
+	JXRadioGroup* itsSigType;
+	JXTextButton* itsDupButton;
+	JXTextButton* itsDefButton;
+	JXTextButton* itsHelpButton;
+	JXCardFile*   itsAccountTypeCardFile;
+	JXTextMenu*   itsAccountTypeMenu;
 
 // end JXLayout
 
 // begin localLayout
 
-    JXFileInput*  itsLocalDefaultInboxInput;
-    JXTextButton* itsChooseLocalInboxButton;
-    JXPathInput*  itsLocalPathInput;
-    JXTextButton* itsChooseLocalPathButton;
+	JXFileInput*  itsLocalDefaultInboxInput;
+	JXTextButton* itsChooseLocalInboxButton;
+	JXPathInput*  itsLocalPathInput;
+	JXTextButton* itsChooseLocalPathButton;
 
 // end localLayout
 
 // begin popLayout
 
-    JXIntegerInput* itsDeleteDaysInput;
-    JXIntegerInput* itsAutoCheckMinutesInput;
-    JXInputField*   itsPopServerInput;
-    JXInputField*   itsPopAccountInput;
-    JXFileInput*    itsDefaultInboxInput;
-    JXTextButton*   itsChooseInboxButton;
-    JXTextCheckbox* itsLeaveMailCB;
-    JXTextCheckbox* itsSavePasswdCB;
-    JXTextCheckbox* itsUseAPOPCB;
-    JXTextCheckbox* itsAutoCheckCB;
-    JXTextCheckbox* itsDeleteFromServerCB;
-    JXPathInput*    itsAccountFolderInput;
-    JXTextButton*   itsChoosePathButton;
+	JXIntegerInput* itsDeleteDaysInput;
+	JXIntegerInput* itsAutoCheckMinutesInput;
+	JXInputField*   itsPopServerInput;
+	JXInputField*   itsPopAccountInput;
+	JXFileInput*    itsDefaultInboxInput;
+	JXTextButton*   itsChooseInboxButton;
+	JXTextCheckbox* itsLeaveMailCB;
+	JXTextCheckbox* itsSavePasswdCB;
+	JXTextCheckbox* itsUseAPOPCB;
+	JXTextCheckbox* itsAutoCheckCB;
+	JXTextCheckbox* itsDeleteFromServerCB;
+	JXPathInput*    itsAccountFolderInput;
+	JXTextButton*   itsChoosePathButton;
 
 // end popLayout
 

@@ -65,7 +65,7 @@ private:
 
 // begin JXLayout
 
-    JXHorizPartition* itsHorizPartition;
+	JXHorizPartition* itsHorizPartition;
 
 // end JXLayout
 

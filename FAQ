@@ -1,6 +1,6 @@
 The FAQ is on the web:
 
-  http://www.newplanetsoftware.com/jx/faq.html
+  http://www.newplanetsoftware.com/jx/
 
 Important notes:
 
@@ -8,6 +8,6 @@ Important notes:
   subdirectory of the programs directory.
 
   Source distributions that unpack into different directories (e.g.
-  JX-2.1.0 and JX-2.0.0) are guaranteed to be incompatible.  Contact the
+  JX-2.6.0 and JX-3.0.0) are guaranteed to be incompatible.  Contact the
   developer if the program that you want to build does not unpack into the
   latest version of the JX distribution.

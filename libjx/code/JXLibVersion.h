@@ -3,7 +3,7 @@
 
 	Defines current version of JX library
 
-	Copyright © 1996-2010 by John Lindal. All rights reserved.
+	Copyright © 1996-2011 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -12,13 +12,13 @@
 
 // This has to be a #define so it can be used for conditional compilation.
 
-#define CURRENT_JX_MAJOR_VERSION	2
-#define CURRENT_JX_MINOR_VERSION	6
+#define CURRENT_JX_MAJOR_VERSION	3
+#define CURRENT_JX_MINOR_VERSION	0
 #define CURRENT_JX_PATCH_VERSION	0
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJXLibVersionStr = "2.6.0";
+static const char* kCurrentJXLibVersionStr = "3.0.0";
 
 // version 3.0.0:
 //	*** Run new jxlayout on all .fd files.
@@ -145,6 +145,8 @@ static const char* kCurrentJXLibVersionStr = "2.6.0";
 //	JXSearchTextDialog:
 //		Added SetRegexSearch(), SetRegexReplace().
 //	Created JXVIKeyHandler.
+//	JXFileInput, JXPathInput:
+//		Tab completion ignores VCS directories (CVS, .svn, .git, etc.)
 
 // version 2.6.0:
 //	JXWebBrowser:

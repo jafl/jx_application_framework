@@ -1,6 +1,19 @@
-leibnitz -- THX3DPlotDirector leaking
+jcc
+	vi emulator
+		dd doesn't work on last line of file
+
+	write out prefs every few minutes
+		call JPrefObject::WritePrefs() after major change, not just in destructors
+
+leibnitz
+	abs( => grey right bar
+		not reseting color correctly?
+		does draw correctly when quit and restart
+
+	THX3DPlotDirector leaking
 
 memory analyzer
+	jcc -- crash with deleted JMessageProtocol -- only when open project
 	print table:  partial column on page 1
 
 arrow
@@ -12,6 +25,11 @@ medic:
 		need simple example to submit to ACE list
 	restart either xdebug or java:  unable to listen on port & crashes on exit
 		also need to fix SetProgram()
+
+svn_client:
+	Repo tab
+		drag => svn copy/move (for branching/tagging)
+			ask for destination name before performing action
 
 -----
 
@@ -31,46 +49,24 @@ vi emulator
 	md d'd  mark starting line, cut to ending line
 	my y'y  mark starting line, copy to ending line
 
-libjexpr write to mathml
-	https://developer.mozilla.org/en/Mathml
-	http://en.wikipedia.org/wiki/MathML
-	http://www.w3.org/TR/MathML/
-	http://www.w3.org/TR/MathML2/
 leibnitz in canvas 2d
+	support constants and save them in local storage
+	http://simon.html5.org/dump/html5-canvas-cheat-sheet.html
+	http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html
 	http://diveintohtml5.org/canvas.html
 	https://developer.mozilla.org/en/drawing_text_using_a_canvas
+	https://developer.mozilla.org/en/Canvas_tutorial/Drawing_shapes
 	http://developer-resource.blogspot.com/2008/09/html-canvas-element.html
 	http://code.google.com/p/canvasplus/
 	http://dev.opera.com/articles/view/html-5-canvas-the-basics/
 	http://thinkvitamin.com/code/how-to-draw-with-html-5-canvas/
 	http://dev.w3.org/html5/canvas-api/canvas-2d-api.html
 	http://code.google.com/p/explorercanvas/
-libj3d write scene to canvas 3d
-	http://www.graphycalc.com/
 
 OSX window placement:
 	modal windows, e.g., File Chooser, still migrate upward
 	System G windows in dirs with no prefs open downward
 	jcc man page window and "find file" result window appear under active window
-
-svn_client:
-	Repo tab for "svn list"
-		drag => svn copy/move (for branching/tagging)
-			ask for destination name before performing action
-
-		checkout single selected item
-			only directories
-			ask for dest, warn if same name already exists
-			create new window (see --checkout)
-
-	--checkout [-r rev] url [path]
-		error if URL is not type dir
-		warn if same name already exists in dest location
-		open window for dest dir
-			only show Repo tab initially
-		exec in target dir: svn checkout [-r rev] url
-			display output in SVNCommandLog
-		when finished, create/refresh Status tab
 
 medic:
 	java
@@ -135,13 +131,6 @@ jcc:
 		when invoke one-at-a-time from not-one-at-a-time, invoke separate loop
 		when invoke @ commands, must treat as one-at-a-time
 
-memory analyzer
-	jcc -- crash with deleted JMessageProtocol -- only when open project
-
-	option to print MDStatsDirector
-	records window:
-		show info about query in window title
-
 systemg:
 	optimize selection of multiple items
 		systemg *.cpp in large directory
@@ -150,6 +139,8 @@ systemg:
 		fix jcc to send one request for multiple items
 	locks up when find returns many files
 		-name *.cpp -o -name *.h -o -name *.xpm
+	when start with args, unminify the requested directories
+		deiconify fails because window created iconified
 
 multi-pane editing:
 	split off itsBuffer,itsStyles,itsUndo/RedoList into JTextBuffer
@@ -253,7 +244,7 @@ svn_client:
 	incremental search in SVNListBase:  only search file name
 	show multiple files in same folder in systemg:  only selects last one
 
-	Repo tab for "svn list"
+	Repo tab
 		refresh selected nodes
 			find closest directory parent for each selected item
 			add open subitems to tree's open list and then call Update on each one
@@ -275,29 +266,22 @@ JBroadcaster:
 JXMenu::PrepareToOpenMenu()
 	itsOwner may delete us!
 
+libjexpr write to mathml
+	https://developer.mozilla.org/en/Mathml
+	http://en.wikipedia.org/wiki/MathML
+	http://www.w3.org/TR/MathML/
+	http://www.w3.org/TR/MathML2/
+libj3d write scene to canvas 3d
+	http://www.graphycalc.com/
+
 -----
 
 Daily Comics:
-	xkcd:
-		include title attribute from image
-	iphone:
-		scrape each site once per hour (comics.com and other big sites once per day)
-			for each domain, 1 request per minute
-		scp results to sourceforge.net
-		app pulls from sourceforge
-
-		skin:
-			[>] title  [>]
-			[<] image  [>]
-			    config
-
-		kathleen_minor@yahoo.com
-			download and cache all comics, so can read them even without connection
-		ebaysj@yahoo.com
-
 	if skip before loaded, saves prev in that slot
 	when first open dashboard after reboot, sizes window to back, even when front visible
 	export favorites to HTML for sharing
+	xkcd:
+		include title attribute from image
 
 buzzer:
 	merge code from Glenn and get it to build
@@ -325,6 +309,7 @@ systemg:
 		delete when empty trash
 
 leibnitz
+	symbol font: transform to unicode and use X11 utf8 string width/drawing functions
 	finish 3D plotting
 		latent pg for eval?
 		scale axes to fit range
@@ -444,6 +429,11 @@ jcc:
 	takes a long time to figure out that a 251MB file is large enough to
 	warn about -- is the underlying code somehow reading the file to figure out
 	how big it is?
+
+memory analyzer
+	option to print MDStatsDirector
+	records window:
+		show info about query in window title
 
 drakon:
 	FreeBSD missing

@@ -54,30 +54,30 @@ JXChooseFontSizeDialog::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 190,90, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 190,90, "");
+	assert( window != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::JXChooseFontSizeDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 110,60, 60,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::JXChooseFontSizeDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::JXChooseFontSizeDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 110,60, 60,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::JXChooseFontSizeDialog::shortcuts::JXLayout"));
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::JXChooseFontSizeDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 60,20);
-    assert( cancelButton != NULL );
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::JXChooseFontSizeDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 60,20);
+	assert( cancelButton != NULL );
 
-    itsFontSize =
-        new JXIntegerInput(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 120,20, 40,20);
-    assert( itsFontSize != NULL );
+	itsFontSize =
+		new JXIntegerInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 120,20, 40,20);
+	assert( itsFontSize != NULL );
 
-    JXStaticText* obj1_JXLayout =
-        new JXStaticText(JGetString("obj1_JXLayout::JXChooseFontSizeDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 110,20);
-    assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetToLabel();
+	JXStaticText* obj1_JXLayout =
+		new JXStaticText(JGetString("obj1_JXLayout::JXChooseFontSizeDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 110,20);
+	assert( obj1_JXLayout != NULL );
+	obj1_JXLayout->SetToLabel();
 
 // end JXLayout
 

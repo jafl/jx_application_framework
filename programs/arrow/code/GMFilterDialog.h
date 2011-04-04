@@ -47,8 +47,8 @@ private:
 
 // begin JXLayout
 
-    JXVertPartition* itsVertPartition;
-    JXTextButton*    itsHelpButton;
+	JXVertPartition* itsVertPartition;
+	JXTextButton*    itsHelpButton;
 
 // end JXLayout
 

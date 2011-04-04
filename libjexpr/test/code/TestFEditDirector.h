@@ -44,9 +44,9 @@ private:
 
 // begin JXLayout
 
-    JXTextButton* itsDoneButton;
-    JXTextButton* itsNextButton;
-    JXTextButton* itsEvalButton;
+	JXTextButton* itsDoneButton;
+	JXTextButton* itsNextButton;
+	JXTextButton* itsEvalButton;
 
 // end JXLayout
 

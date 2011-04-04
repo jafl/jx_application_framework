@@ -47,8 +47,8 @@ private:
 
 // begin JXLayout
 
-    JXTextButton*  itsCloseButton;
-    JXImageButton* itsTOCButton;
+	JXTextButton*  itsCloseButton;
+	JXImageButton* itsTOCButton;
 
 // end JXLayout
 

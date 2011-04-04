@@ -75,33 +75,33 @@ TestFEditDirector::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 500,290, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 500,290, "");
+	assert( window != NULL );
 
-    JXExprEditorSet* obj1_JXLayout =
-        new JXExprEditorSet(varList, &itsExprWidget, window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,260);
-    assert( obj1_JXLayout != NULL );
+	JXExprEditorSet* obj1_JXLayout =
+		new JXExprEditorSet(varList, &itsExprWidget, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,260);
+	assert( obj1_JXLayout != NULL );
 
-    itsDoneButton =
-        new JXTextButton(JGetString("itsDoneButton::TestFEditDirector::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 50,30);
-    assert( itsDoneButton != NULL );
+	itsDoneButton =
+		new JXTextButton(JGetString("itsDoneButton::TestFEditDirector::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 50,30);
+	assert( itsDoneButton != NULL );
 
-    itsNextButton =
-        new JXTextButton(JGetString("itsNextButton::TestFEditDirector::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,0, 50,30);
-    assert( itsNextButton != NULL );
+	itsNextButton =
+		new JXTextButton(JGetString("itsNextButton::TestFEditDirector::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,0, 50,30);
+	assert( itsNextButton != NULL );
 
-    itsEvalButton =
-        new JXTextButton(JGetString("itsEvalButton::TestFEditDirector::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,0, 70,30);
-    assert( itsEvalButton != NULL );
+	itsEvalButton =
+		new JXTextButton(JGetString("itsEvalButton::TestFEditDirector::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,0, 70,30);
+	assert( itsEvalButton != NULL );
 
-    JXInputField* obj2_JXLayout =
-        new JXInputField(window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 240,0, 260,20);
-    assert( obj2_JXLayout != NULL );
+	JXInputField* obj2_JXLayout =
+		new JXInputField(window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 240,0, 260,20);
+	assert( obj2_JXLayout != NULL );
 
 // end JXLayout
 

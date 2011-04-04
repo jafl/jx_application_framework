@@ -86,28 +86,28 @@ SCZinDirector::BuildWindow
 
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 350,240, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 350,240, "");
+	assert( window != NULL );
 
-    itsEvalButton =
-        new JXTextButton(JGetString("itsEvalButton::SCZinDirector::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 230,45, 80,20);
-    assert( itsEvalButton != NULL );
+	itsEvalButton =
+		new JXTextButton(JGetString("itsEvalButton::SCZinDirector::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 230,45, 80,20);
+	assert( itsEvalButton != NULL );
 
-    SCExprEditorSet* obj1_JXLayout =
-        new SCExprEditorSet(doc, &itsResult, window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,110, 350,130);
-    assert( obj1_JXLayout != NULL );
+	SCExprEditorSet* obj1_JXLayout =
+		new SCExprEditorSet(doc, &itsResult, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,110, 350,130);
+	assert( obj1_JXLayout != NULL );
 
-    itsPosNode =
-        new SCNodeMenu(circuit, "Positive node:", window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,20, 160,30);
-    assert( itsPosNode != NULL );
+	itsPosNode =
+		new SCNodeMenu(circuit, "Positive node:", window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,20, 160,30);
+	assert( itsPosNode != NULL );
 
-    itsNegNode =
-        new SCNodeMenu(circuit, "Negative node:", window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,60, 160,30);
-    assert( itsNegNode != NULL );
+	itsNegNode =
+		new SCNodeMenu(circuit, "Negative node:", window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,60, 160,30);
+	assert( itsNegNode != NULL );
 
 // end JXLayout
 

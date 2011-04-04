@@ -46,7 +46,7 @@ private:
 
 // begin JXLayout
 
-    JXRadioGroup* itsFormatRG;
+	JXRadioGroup* itsFormatRG;
 
 // end JXLayout
 

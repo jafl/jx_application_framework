@@ -139,18 +139,18 @@ MDMainDirector::BuildWindow()
 
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 500,300, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 500,300, "");
+	assert( window != NULL );
 
-    JXMenuBar* menuBar =
-        new JXMenuBar(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
-    assert( menuBar != NULL );
+	JXMenuBar* menuBar =
+		new JXMenuBar(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
+	assert( menuBar != NULL );
 
-    itsToolBar =
-        new JXToolBar(MDGetPrefsManager(), kMDMainToolBarID, menuBar, minWidth, minHeight, window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
-    assert( itsToolBar != NULL );
+	itsToolBar =
+		new JXToolBar(MDGetPrefsManager(), kMDMainToolBarID, menuBar, minWidth, minHeight, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
+	assert( itsToolBar != NULL );
 
 // end JXLayout
 

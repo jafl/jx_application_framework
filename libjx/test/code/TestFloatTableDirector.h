@@ -50,9 +50,9 @@ private:
 
 // begin tablelayout
 
-    TestFloatTable*    itsTable;
-    JXColHeaderWidget* itsColHeader;
-    JXRowHeaderWidget* itsRowHeader;
+	TestFloatTable*    itsTable;
+	JXColHeaderWidget* itsColHeader;
+	JXRowHeaderWidget* itsRowHeader;
 
 // end tablelayout
 

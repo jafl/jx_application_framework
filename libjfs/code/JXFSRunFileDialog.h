@@ -46,15 +46,15 @@ private:
 
 // begin JXLayout
 
-    JXInputField*           itsCmdInput;
-    JXTextButton*           itsHelpButton;
-    JXTextButton*           itsOKButton;
-    JXFSCommandHistoryMenu* itsCmdHistoryMenu;
-    JXTextButton*           itsChooseCmdButton;
-    JXTextCheckbox*         itsSaveBindingCB;
-    JXTextCheckbox*         itsUseShellCB;
-    JXTextCheckbox*         itsUseWindowCB;
-    JXTextCheckbox*         itsSingleFileCB;
+	JXInputField*           itsCmdInput;
+	JXTextButton*           itsHelpButton;
+	JXTextButton*           itsOKButton;
+	JXFSCommandHistoryMenu* itsCmdHistoryMenu;
+	JXTextButton*           itsChooseCmdButton;
+	JXTextCheckbox*         itsSaveBindingCB;
+	JXTextCheckbox*         itsUseShellCB;
+	JXTextCheckbox*         itsUseWindowCB;
+	JXTextCheckbox*         itsSingleFileCB;
 
 // end JXLayout
 

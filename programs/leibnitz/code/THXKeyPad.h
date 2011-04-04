@@ -62,7 +62,7 @@ private:
 
 // begin kpLayout
 
-    JXTextButton* itsClearAllButton;
+	JXTextButton* itsClearAllButton;
 
 // end kpLayout
 

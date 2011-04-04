@@ -42,9 +42,9 @@ private:
 
 // begin JXLayout
 
-    JXTextButton* itsEvalButton;
-    SCNodeMenu*   itsPosNode;
-    SCNodeMenu*   itsNegNode;
+	JXTextButton* itsEvalButton;
+	SCNodeMenu*   itsPosNode;
+	SCNodeMenu*   itsNegNode;
 
 // end JXLayout
 

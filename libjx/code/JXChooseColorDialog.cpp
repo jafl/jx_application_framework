@@ -59,119 +59,119 @@ JXChooseColorDialog::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 510,250, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 510,250, "");
+	assert( window != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::JXChooseColorDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 410,220, 60,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::JXChooseColorDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::JXChooseColorDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 410,220, 60,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::JXChooseColorDialog::shortcuts::JXLayout"));
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::JXChooseColorDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,220, 60,20);
-    assert( cancelButton != NULL );
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::JXChooseColorDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,220, 60,20);
+	assert( cancelButton != NULL );
 
-    JXStaticText* obj1_JXLayout =
-        new JXStaticText(JGetString("obj1_JXLayout::JXChooseColorDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 340,25, 60,20);
-    assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetToLabel();
+	JXStaticText* obj1_JXLayout =
+		new JXStaticText(JGetString("obj1_JXLayout::JXChooseColorDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 340,25, 60,20);
+	assert( obj1_JXLayout != NULL );
+	obj1_JXLayout->SetToLabel();
 
-    JXStaticText* obj2_JXLayout =
-        new JXStaticText(JGetString("obj2_JXLayout::JXChooseColorDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,70, 50,20);
-    assert( obj2_JXLayout != NULL );
-    obj2_JXLayout->SetToLabel();
+	JXStaticText* obj2_JXLayout =
+		new JXStaticText(JGetString("obj2_JXLayout::JXChooseColorDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,70, 50,20);
+	assert( obj2_JXLayout != NULL );
+	obj2_JXLayout->SetToLabel();
 
-    JXStaticText* obj3_JXLayout =
-        new JXStaticText(JGetString("obj3_JXLayout::JXChooseColorDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,90, 50,20);
-    assert( obj3_JXLayout != NULL );
-    obj3_JXLayout->SetToLabel();
+	JXStaticText* obj3_JXLayout =
+		new JXStaticText(JGetString("obj3_JXLayout::JXChooseColorDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,90, 50,20);
+	assert( obj3_JXLayout != NULL );
+	obj3_JXLayout->SetToLabel();
 
-    JXStaticText* obj4_JXLayout =
-        new JXStaticText(JGetString("obj4_JXLayout::JXChooseColorDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,110, 50,20);
-    assert( obj4_JXLayout != NULL );
-    obj4_JXLayout->SetToLabel();
+	JXStaticText* obj4_JXLayout =
+		new JXStaticText(JGetString("obj4_JXLayout::JXChooseColorDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,110, 50,20);
+	assert( obj4_JXLayout != NULL );
+	obj4_JXLayout->SetToLabel();
 
-    itsHSlider =
-        new JXSlider(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 340,70, 150,20);
-    assert( itsHSlider != NULL );
+	itsHSlider =
+		new JXSlider(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 340,70, 150,20);
+	assert( itsHSlider != NULL );
 
-    itsSSlider =
-        new JXSlider(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 340,90, 150,20);
-    assert( itsSSlider != NULL );
+	itsSSlider =
+		new JXSlider(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 340,90, 150,20);
+	assert( itsSSlider != NULL );
 
-    itsVSlider =
-        new JXSlider(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 340,110, 150,20);
-    assert( itsVSlider != NULL );
+	itsVSlider =
+		new JXSlider(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 340,110, 150,20);
+	assert( itsVSlider != NULL );
 
-    itsColorSample =
-        new JXFlatRect(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 400,20, 30,30);
-    assert( itsColorSample != NULL );
+	itsColorSample =
+		new JXFlatRect(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 400,20, 30,30);
+	assert( itsColorSample != NULL );
 
-    JXStaticText* obj5_JXLayout =
-        new JXStaticText(JGetString("obj5_JXLayout::JXChooseColorDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,140, 50,20);
-    assert( obj5_JXLayout != NULL );
-    obj5_JXLayout->SetToLabel();
+	JXStaticText* obj5_JXLayout =
+		new JXStaticText(JGetString("obj5_JXLayout::JXChooseColorDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,140, 50,20);
+	assert( obj5_JXLayout != NULL );
+	obj5_JXLayout->SetToLabel();
 
-    JXStaticText* obj6_JXLayout =
-        new JXStaticText(JGetString("obj6_JXLayout::JXChooseColorDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,160, 50,20);
-    assert( obj6_JXLayout != NULL );
-    obj6_JXLayout->SetToLabel();
+	JXStaticText* obj6_JXLayout =
+		new JXStaticText(JGetString("obj6_JXLayout::JXChooseColorDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,160, 50,20);
+	assert( obj6_JXLayout != NULL );
+	obj6_JXLayout->SetToLabel();
 
-    JXStaticText* obj7_JXLayout =
-        new JXStaticText(JGetString("obj7_JXLayout::JXChooseColorDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,180, 50,20);
-    assert( obj7_JXLayout != NULL );
-    obj7_JXLayout->SetToLabel();
+	JXStaticText* obj7_JXLayout =
+		new JXStaticText(JGetString("obj7_JXLayout::JXChooseColorDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 290,180, 50,20);
+	assert( obj7_JXLayout != NULL );
+	obj7_JXLayout->SetToLabel();
 
-    itsRInput =
-        new JXIntegerInput(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 420,140, 70,20);
-    assert( itsRInput != NULL );
+	itsRInput =
+		new JXIntegerInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 420,140, 70,20);
+	assert( itsRInput != NULL );
 
-    itsGInput =
-        new JXIntegerInput(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 420,160, 70,20);
-    assert( itsGInput != NULL );
+	itsGInput =
+		new JXIntegerInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 420,160, 70,20);
+	assert( itsGInput != NULL );
 
-    itsBInput =
-        new JXIntegerInput(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 420,180, 70,20);
-    assert( itsBInput != NULL );
+	itsBInput =
+		new JXIntegerInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 420,180, 70,20);
+	assert( itsBInput != NULL );
 
-    JXStaticText* obj8_JXLayout =
-        new JXStaticText(JGetString("obj8_JXLayout::JXChooseColorDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 340,140, 80,20);
-    assert( obj8_JXLayout != NULL );
-    obj8_JXLayout->SetToLabel();
+	JXStaticText* obj8_JXLayout =
+		new JXStaticText(JGetString("obj8_JXLayout::JXChooseColorDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 340,140, 80,20);
+	assert( obj8_JXLayout != NULL );
+	obj8_JXLayout->SetToLabel();
 
-    JXStaticText* obj9_JXLayout =
-        new JXStaticText(JGetString("obj9_JXLayout::JXChooseColorDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 340,160, 80,20);
-    assert( obj9_JXLayout != NULL );
-    obj9_JXLayout->SetToLabel();
+	JXStaticText* obj9_JXLayout =
+		new JXStaticText(JGetString("obj9_JXLayout::JXChooseColorDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 340,160, 80,20);
+	assert( obj9_JXLayout != NULL );
+	obj9_JXLayout->SetToLabel();
 
-    JXStaticText* obj10_JXLayout =
-        new JXStaticText(JGetString("obj10_JXLayout::JXChooseColorDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 340,180, 80,20);
-    assert( obj10_JXLayout != NULL );
-    obj10_JXLayout->SetToLabel();
+	JXStaticText* obj10_JXLayout =
+		new JXStaticText(JGetString("obj10_JXLayout::JXChooseColorDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 340,180, 80,20);
+	assert( obj10_JXLayout != NULL );
+	obj10_JXLayout->SetToLabel();
 
-    itsColorWheel =
-        new JXColorWheel(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 250,220);
-    assert( itsColorWheel != NULL );
+	itsColorWheel =
+		new JXColorWheel(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 250,220);
+	assert( itsColorWheel != NULL );
 
 // end JXLayout
 

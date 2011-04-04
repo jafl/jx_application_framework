@@ -306,18 +306,18 @@ TestDirector::BuildWindow
 
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 400,330, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 400,330, "");
+	assert( window != NULL );
 
-    JXMenuBar* menuBar =
-        new JXMenuBar(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
-    assert( menuBar != NULL );
+	JXMenuBar* menuBar =
+		new JXMenuBar(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
+	assert( menuBar != NULL );
 
-    JXScrollbarSet* scrollbarSet =
-        new JXScrollbarSet(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
-    assert( scrollbarSet != NULL );
+	JXScrollbarSet* scrollbarSet =
+		new JXScrollbarSet(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
+	assert( scrollbarSet != NULL );
 
 // end JXLayout
 

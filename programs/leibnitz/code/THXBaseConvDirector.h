@@ -47,12 +47,12 @@ private:
 
 // begin JXLayout
 
-    JXTextButton* itsCloseButton;
-    JXInputField* its10Input;
-    JXTextButton* itsHelpButton;
-    JXInputField* its2Input;
-    JXInputField* its8Input;
-    JXInputField* its16Input;
+	JXTextButton* itsCloseButton;
+	JXInputField* its10Input;
+	JXTextButton* itsHelpButton;
+	JXInputField* its2Input;
+	JXInputField* its8Input;
+	JXInputField* its16Input;
 
 // end JXLayout
 

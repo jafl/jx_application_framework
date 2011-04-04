@@ -43,8 +43,8 @@ private:
 
 // begin JXLayout
 
-    JXVertPartition* itsPartition;
-    JXTextButton*    itsEvalButton;
+	JXVertPartition* itsPartition;
+	JXTextButton*    itsEvalButton;
 
 // end JXLayout
 

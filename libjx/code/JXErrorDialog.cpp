@@ -57,24 +57,24 @@ JXErrorDialog::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 330,110, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 330,110, "");
+	assert( window != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::JXErrorDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 140,80, 60,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::JXErrorDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::JXErrorDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 140,80, 60,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::JXErrorDialog::shortcuts::JXLayout"));
 
-    JXStaticText* text =
-        new JXStaticText(JGetString("text::JXErrorDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 60,20, 250,50);
-    assert( text != NULL );
+	JXStaticText* text =
+		new JXStaticText(JGetString("text::JXErrorDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 60,20, 250,50);
+	assert( text != NULL );
 
-    JXImageWidget* icon =
-        new JXImageWidget(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
-    assert( icon != NULL );
+	JXImageWidget* icon =
+		new JXImageWidget(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
+	assert( icon != NULL );
 
 // end JXLayout
 

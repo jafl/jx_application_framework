@@ -56,29 +56,29 @@ JXPGMessageDirector::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 500,210, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 500,210, "");
+	assert( window != NULL );
 
-    JXScrollbarSet* scrollbarSet =
-        new JXScrollbarSet(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 500,170);
-    assert( scrollbarSet != NULL );
+	JXScrollbarSet* scrollbarSet =
+		new JXScrollbarSet(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 500,170);
+	assert( scrollbarSet != NULL );
 
-    itsSaveButton =
-        new JXTextButton(JGetString("itsSaveButton::JXPGMessageDirector::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 100,180, 60,20);
-    assert( itsSaveButton != NULL );
+	itsSaveButton =
+		new JXTextButton(JGetString("itsSaveButton::JXPGMessageDirector::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 100,180, 60,20);
+	assert( itsSaveButton != NULL );
 
-    itsCloseButton =
-        new JXTextButton(JGetString("itsCloseButton::JXPGMessageDirector::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 180,180, 60,20);
-    assert( itsCloseButton != NULL );
-    itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXPGMessageDirector::shortcuts::JXLayout"));
+	itsCloseButton =
+		new JXTextButton(JGetString("itsCloseButton::JXPGMessageDirector::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 180,180, 60,20);
+	assert( itsCloseButton != NULL );
+	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXPGMessageDirector::shortcuts::JXLayout"));
 
-    itsPrintButton =
-        new JXTextButton(JGetString("itsPrintButton::JXPGMessageDirector::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,180, 60,20);
-    assert( itsPrintButton != NULL );
+	itsPrintButton =
+		new JXTextButton(JGetString("itsPrintButton::JXPGMessageDirector::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,180, 60,20);
+	assert( itsPrintButton != NULL );
 
 // end JXLayout
 

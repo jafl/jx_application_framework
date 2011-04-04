@@ -23,10 +23,10 @@
 // and ParseMenuItemStr().
 
 static const JCharacter* kActionsMenuTitleStr = "Actions";
-static const JCharacter* kActionsMenuStr = 
+static const JCharacter* kActionsMenuStr =
 	"Undo %k Meta-Z|Redo %k Meta-Shift-Z"
 	"|Quit %k Meta-Q";
-	
+
 enum
 {
 	kUndo = 1,
@@ -60,8 +60,8 @@ UndoWidgetDir::~UndoWidgetDir()
 
 /******************************************************************************
  BuildWindow
- 	 	This is a convenient and organized way of putting all of the initial 
- 	elements into a window. This will keep the constructor less cluttered.
+		This is a convenient and organized way of putting all of the initial
+	elements into a window. This will keep the constructor less cluttered.
 
  ******************************************************************************/
 
@@ -70,49 +70,46 @@ UndoWidgetDir::BuildWindow()
 {
 		// Create the window
 	JXWindow* window = new JXWindow(this, 300,200, "Undo Program");
-    assert( window != NULL );
-    
-    // Give the window to the director
-    SetWindow(window);
-    
-    // Set the window sizing
-    window->SetMinSize(300,200);
+	assert( window != NULL );
+
+	// Set the window sizing
+	window->SetMinSize(300,200);
 	window->SetMaxSize(800,600);
 
-    // Create the menu bar so that it stays on top, but expands as the window
-    // expands. 
-    JXMenuBar* menuBar = 
-    	new JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop, 
-    					0,0, 300,kJXDefaultMenuBarHeight);
-    assert( menuBar != NULL );
-    
-    // Attach our menu to the menu bar.
-    itsActionsMenu = menuBar->AppendTextMenu(kActionsMenuTitleStr);
-    
-    // Set the menu items in our menu.
-    itsActionsMenu->SetMenuItems(kActionsMenuStr);
-    
-    // Set the menu to never disable the menu items.
-    itsActionsMenu->SetUpdateAction(JXMenu::kDisableNone);
-    
-    // The director needs to listen to the menu for messages. The message
-    // we care about is JXMenu::kItemSelected.
+	// Create the menu bar so that it stays on top, but expands as the window
+	// expands.
+	JXMenuBar* menuBar =
+		new JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
+						0,0, 300,kJXDefaultMenuBarHeight);
+	assert( menuBar != NULL );
+
+	// Attach our menu to the menu bar.
+	itsActionsMenu = menuBar->AppendTextMenu(kActionsMenuTitleStr);
+
+	// Set the menu items in our menu.
+	itsActionsMenu->SetMenuItems(kActionsMenuStr);
+
+	// Set the menu to never disable the menu items.
+	itsActionsMenu->SetUpdateAction(JXMenu::kDisableNone);
+
+	// The director needs to listen to the menu for messages. The message
+	// we care about is JXMenu::kItemSelected.
 	ListenTo(itsActionsMenu);
-	
+
 	// Create the scrollbar set
 	JXScrollbarSet* scrollbarSet =
 		new JXScrollbarSet(window,
-			JXWidget::kHElastic, JXWidget::kVElastic, 
+			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kJXDefaultMenuBarHeight, 300,200 - kJXDefaultMenuBarHeight);
 	assert( scrollbarSet != NULL );
 
-	// Create the custom widget with the scrollbarset as its enclosure	
-	itsWidget = 
-		new UndoWidget(scrollbarSet, scrollbarSet->GetScrollEnclosure(), 
+	// Create the custom widget with the scrollbarset as its enclosure
+	itsWidget =
+		new UndoWidget(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 10, 10);
 	assert( itsWidget != NULL );
-	
+
 	// Fit the widget within the scrollbarset enclosure
 	itsWidget->FitToEnclosure(kJTrue, kJTrue);
 }
@@ -137,7 +134,7 @@ UndoWidgetDir::BuildWindow()
 void
 UndoWidgetDir::Receive
 	(
-	JBroadcaster* 	sender, 
+	JBroadcaster* 	sender,
 	const Message&	message
 	)
 {
@@ -162,7 +159,7 @@ UndoWidgetDir::Receive
 		UpdateActionsMenu();
 		}
 
-	// If we don't handle the message, we need to pass it to the base class	
+	// If we don't handle the message, we need to pass it to the base class
 	else
 		{
 		JXWindowDirector::Receive(sender,message);

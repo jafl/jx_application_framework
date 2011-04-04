@@ -93,64 +93,64 @@ SyGViewManPageDialog::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 360,150, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 360,150, "");
+	assert( window != NULL );
 
-    itsCloseButton =
-        new JXTextButton(JGetString("itsCloseButton::SyGViewManPageDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,120, 60,20);
-    assert( itsCloseButton != NULL );
-    itsCloseButton->SetShortcuts(JGetString("itsCloseButton::SyGViewManPageDialog::shortcuts::JXLayout"));
+	itsCloseButton =
+		new JXTextButton(JGetString("itsCloseButton::SyGViewManPageDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,120, 60,20);
+	assert( itsCloseButton != NULL );
+	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::SyGViewManPageDialog::shortcuts::JXLayout"));
 
-    itsViewButton =
-        new JXTextButton(JGetString("itsViewButton::SyGViewManPageDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 280,120, 60,20);
-    assert( itsViewButton != NULL );
-    itsViewButton->SetShortcuts(JGetString("itsViewButton::SyGViewManPageDialog::shortcuts::JXLayout"));
+	itsViewButton =
+		new JXTextButton(JGetString("itsViewButton::SyGViewManPageDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 280,120, 60,20);
+	assert( itsViewButton != NULL );
+	itsViewButton->SetShortcuts(JGetString("itsViewButton::SyGViewManPageDialog::shortcuts::JXLayout"));
 
-    itsFnName =
-        new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 290,20);
-    assert( itsFnName != NULL );
+	itsFnName =
+		new JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 290,20);
+	assert( itsFnName != NULL );
 
-    JXStaticText* obj1_JXLayout =
-        new JXStaticText(JGetString("obj1_JXLayout::SyGViewManPageDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 100,20);
-    assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetToLabel();
+	JXStaticText* obj1_JXLayout =
+		new JXStaticText(JGetString("obj1_JXLayout::SyGViewManPageDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 100,20);
+	assert( obj1_JXLayout != NULL );
+	obj1_JXLayout->SetToLabel();
 
-    JXStaticText* obj2_JXLayout =
-        new JXStaticText(JGetString("obj2_JXLayout::SyGViewManPageDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 90,20);
-    assert( obj2_JXLayout != NULL );
-    obj2_JXLayout->SetToLabel();
+	JXStaticText* obj2_JXLayout =
+		new JXStaticText(JGetString("obj2_JXLayout::SyGViewManPageDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 90,20);
+	assert( obj2_JXLayout != NULL );
+	obj2_JXLayout->SetToLabel();
 
-    itsAproposCheckbox =
-        new JXTextCheckbox(JGetString("itsAproposCheckbox::SyGViewManPageDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,80, 80,20);
-    assert( itsAproposCheckbox != NULL );
-    itsAproposCheckbox->SetShortcuts(JGetString("itsAproposCheckbox::SyGViewManPageDialog::shortcuts::JXLayout"));
+	itsAproposCheckbox =
+		new JXTextCheckbox(JGetString("itsAproposCheckbox::SyGViewManPageDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,80, 80,20);
+	assert( itsAproposCheckbox != NULL );
+	itsAproposCheckbox->SetShortcuts(JGetString("itsAproposCheckbox::SyGViewManPageDialog::shortcuts::JXLayout"));
 
-    itsHelpButton =
-        new JXTextButton(JGetString("itsHelpButton::SyGViewManPageDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 200,120, 60,20);
-    assert( itsHelpButton != NULL );
-    itsHelpButton->SetShortcuts(JGetString("itsHelpButton::SyGViewManPageDialog::shortcuts::JXLayout"));
+	itsHelpButton =
+		new JXTextButton(JGetString("itsHelpButton::SyGViewManPageDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 200,120, 60,20);
+	assert( itsHelpButton != NULL );
+	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::SyGViewManPageDialog::shortcuts::JXLayout"));
 
-    itsFnHistoryMenu =
-        new JXStringHistoryMenu(kHistoryLength, "", window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 310,40, 30,20);
-    assert( itsFnHistoryMenu != NULL );
+	itsFnHistoryMenu =
+		new JXStringHistoryMenu(kHistoryLength, "", window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 310,40, 30,20);
+	assert( itsFnHistoryMenu != NULL );
 
-    itsManIndex =
-        new JXCharInput(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,80, 30,20);
-    assert( itsManIndex != NULL );
+	itsManIndex =
+		new JXCharInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,80, 30,20);
+	assert( itsManIndex != NULL );
 
-    itsStayOpenCB =
-        new JXTextCheckbox(JGetString("itsStayOpenCB::SyGViewManPageDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,120, 90,20);
-    assert( itsStayOpenCB != NULL );
+	itsStayOpenCB =
+		new JXTextCheckbox(JGetString("itsStayOpenCB::SyGViewManPageDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,120, 90,20);
+	assert( itsStayOpenCB != NULL );
 
 // end JXLayout
 

@@ -148,29 +148,29 @@ JXHelpDirector::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 600,550, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 600,550, "");
+	assert( window != NULL );
 
-    JXScrollbarSet* scrollbarSet =
-        new JXScrollbarSet(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,520);
-    assert( scrollbarSet != NULL );
+	JXScrollbarSet* scrollbarSet =
+		new JXScrollbarSet(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,520);
+	assert( scrollbarSet != NULL );
 
-    JXMenuBar* menuBar =
-        new JXMenuBar(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
-    assert( menuBar != NULL );
+	JXMenuBar* menuBar =
+		new JXMenuBar(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
+	assert( menuBar != NULL );
 
-    itsCloseButton =
-        new JXTextButton(JGetString("itsCloseButton::JXHelpDirector::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 550,0, 50,30);
-    assert( itsCloseButton != NULL );
-    itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXHelpDirector::shortcuts::JXLayout"));
+	itsCloseButton =
+		new JXTextButton(JGetString("itsCloseButton::JXHelpDirector::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 550,0, 50,30);
+	assert( itsCloseButton != NULL );
+	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXHelpDirector::shortcuts::JXLayout"));
 
-    itsTOCButton =
-        new JXImageButton(window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 500,0, 50,30);
-    assert( itsTOCButton != NULL );
+	itsTOCButton =
+		new JXImageButton(window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 500,0, 50,30);
+	assert( itsTOCButton != NULL );
 
 // end JXLayout
 

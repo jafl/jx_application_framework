@@ -118,33 +118,33 @@ SCEETDirector::BuildWindow
 
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 360,520, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 360,520, "");
+	assert( window != NULL );
 
-    itsMainPartition =
-        new JXVertPartition(heights, 0, minHeights, window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,110, 365,415);
-    assert( itsMainPartition != NULL );
+	itsMainPartition =
+		new JXVertPartition(heights, 0, minHeights, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,110, 365,415);
+	assert( itsMainPartition != NULL );
 
-    itsInputSource =
-        new SCComponentMenu(circuit, SCACSourceFilter, "Input source:", window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 150,30);
-    assert( itsInputSource != NULL );
+	itsInputSource =
+		new SCComponentMenu(circuit, SCACSourceFilter, "Input source:", window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 150,30);
+	assert( itsInputSource != NULL );
 
-    itsExtraElement =
-        new SCComponentMenu(circuit, SCPassiveLinearFilter, "Extra element:", window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 150,30);
-    assert( itsExtraElement != NULL );
+	itsExtraElement =
+		new SCComponentMenu(circuit, SCPassiveLinearFilter, "Extra element:", window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 150,30);
+	assert( itsExtraElement != NULL );
 
-    itsEvalButton =
-        new JXTextButton(JGetString("itsEvalButton::SCEETDirector::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 230,20, 80,20);
-    assert( itsEvalButton != NULL );
+	itsEvalButton =
+		new JXTextButton(JGetString("itsEvalButton::SCEETDirector::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 230,20, 80,20);
+	assert( itsEvalButton != NULL );
 
-    JXStaticText* layoutMessage =
-        new JXStaticText(JGetString("layoutMessage::SCEETDirector::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 240,50, 110,60);
-    assert( layoutMessage != NULL );
+	JXStaticText* layoutMessage =
+		new JXStaticText(JGetString("layoutMessage::SCEETDirector::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 240,50, 110,60);
+	assert( layoutMessage != NULL );
 
 // end JXLayout
 

@@ -38,9 +38,9 @@ private:
 
 // begin JXLayout
 
-    JXTextButton*   itsSelectButton;
-    JXTextCheckbox* itsNewWindowCB;
-    JXTextButton*   itsOpenButton;
+	JXTextButton*   itsSelectButton;
+	JXTextCheckbox* itsNewWindowCB;
+	JXTextButton*   itsOpenButton;
 
 // end JXLayout
 

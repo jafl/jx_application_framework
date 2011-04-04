@@ -31,7 +31,7 @@ PrintWidgetDir::PrintWidgetDir
 	BuildWindow();
 
 	// Create the printer object
-	itsPrinter = new JXPSPrinter(GetDisplay(), (GetWindow())->GetColormap());
+	itsPrinter = new JXPSPrinter(GetDisplay());
 	assert( itsPrinter != NULL );
 
 	// We need to know when a dialog is closed
@@ -92,8 +92,8 @@ PrintWidgetDir::Receive
 
 /******************************************************************************
  BuildWindow
- 	 	This is a convenient and organized way of putting all of the initial 
- 	elements into a window. This will keep the constructor less cluttered.
+		This is a convenient and organized way of putting all of the initial
+	elements into a window. This will keep the constructor less cluttered.
 
  ******************************************************************************/
 
@@ -104,16 +104,13 @@ PrintWidgetDir::BuildWindow()
 	JXWindow* window = new JXWindow(this, 300,200, "Printing Test Program");
 	assert( window != NULL );
 
-	// Give the window to the director
-	SetWindow(window);
-
 	// Set the window sizing
 	window->SetMinSize(300,200);
 	window->SetMaxSize(800,600);
 
 	// Create the print button
-	itsPrintButton = 
-		new JXTextButton("Print", window, 
+	itsPrintButton =
+		new JXTextButton("Print", window,
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 300, 20);
 
@@ -126,9 +123,9 @@ PrintWidgetDir::BuildWindow()
 			JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 300,180);
 	assert( scrollbarSet != NULL );
 
-	// Create the custom widget with the scrollbarset as its enclosure		
-	PrintWidget* widget = 
-		new PrintWidget(scrollbarSet, scrollbarSet->GetScrollEnclosure(), 
+	// Create the custom widget with the scrollbarset as its enclosure
+	PrintWidget* widget =
+		new PrintWidget(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 10, 10);
 	assert( widget != NULL );

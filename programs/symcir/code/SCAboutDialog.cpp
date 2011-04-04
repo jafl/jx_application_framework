@@ -54,24 +54,24 @@ SCAboutDialog::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 370,110, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 370,110, "");
+	assert( window != NULL );
 
-    JXImageWidget* icon =
-        new JXImageWidget(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
-    assert( icon != NULL );
+	JXImageWidget* icon =
+		new JXImageWidget(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
+	assert( icon != NULL );
 
-    JXStaticText* text =
-        new JXStaticText(JGetString("text::SCAboutDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 70,20, 280,50);
-    assert( text != NULL );
+	JXStaticText* text =
+		new JXStaticText(JGetString("text::SCAboutDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 70,20, 280,50);
+	assert( text != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::SCAboutDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 160,80, 60,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::SCAboutDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::SCAboutDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 160,80, 60,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::SCAboutDialog::shortcuts::JXLayout"));
 
 // end JXLayout
 

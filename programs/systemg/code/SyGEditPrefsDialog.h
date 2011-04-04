@@ -42,15 +42,15 @@ private:
 
 // begin JXLayout
 
-    JXInputField*   itsManInput;
-    JXInputField*   itsTerminalInput;
-    JXInputField*   itsGitStatusInput;
-    JXTextCheckbox* itsDelCB;
-    JXTextCheckbox* itsAllowSpaceCB;
-    JXInputField*   itsGitHistoryInput;
-    JXInputField*   itsPostCheckoutInput;
-    JXTextCheckbox* itsOpenNewWindowsCB;
-    JXTextCheckbox* itsFolderPrefsCB;
+	JXInputField*   itsManInput;
+	JXInputField*   itsTerminalInput;
+	JXInputField*   itsGitStatusInput;
+	JXTextCheckbox* itsDelCB;
+	JXTextCheckbox* itsAllowSpaceCB;
+	JXInputField*   itsGitHistoryInput;
+	JXInputField*   itsPostCheckoutInput;
+	JXTextCheckbox* itsOpenNewWindowsCB;
+	JXTextCheckbox* itsFolderPrefsCB;
 
 // end JXLayout
 

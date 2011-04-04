@@ -3,7 +3,7 @@
 
 	BASE CLASS = JXWindowDirector
 
-	Written by Glenn Bach - 1998. 
+	Written by Glenn Bach - 1998.
 
  ******************************************************************************/
 
@@ -44,9 +44,9 @@ SimpleTableDir::~SimpleTableDir()
 
 /******************************************************************************
  BuildWindow
- 	
- 	This is a convenient and organized way of putting all of the initial 
- 	elements into a window. This will keep the constructor less cluttered.
+
+	This is a convenient and organized way of putting all of the initial
+	elements into a window. This will keep the constructor less cluttered.
 
  ******************************************************************************/
 
@@ -55,15 +55,12 @@ SimpleTableDir::BuildWindow()
 {
 	// Create the window
 	JXWindow* window = new JXWindow(this, 300,200, "Test SimpleTable Program");
-    assert( window != NULL );
-    
-    // Give the window to the director
-    SetWindow(window);
-    
-    // Set sizing
-    window->SetMinSize(300,200);
+	assert( window != NULL );
+
+	// Set sizing
+	window->SetMinSize(300,200);
 	window->SetMaxSize(800,600);
-	
+
 	// Create the scrollbar set to hold the table
 	JXScrollbarSet* scrollbarSet =
 		new JXScrollbarSet(window,
@@ -73,8 +70,8 @@ SimpleTableDir::BuildWindow()
 	// Create our SimpleTable. It must be placed inside the
 	// special widget that JXScrollbarSet creates.  We get a
 	// pointer to this special widget by calling GetScrollEnclosure().
-	SimpleTable* table = 
-		new SimpleTable(scrollbarSet, scrollbarSet->GetScrollEnclosure(), 
+	SimpleTable* table =
+		new SimpleTable(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 10, 10);
 	assert( table != NULL );

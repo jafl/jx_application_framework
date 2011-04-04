@@ -106,38 +106,38 @@ SCNDIDirector::BuildWindow
 
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 360,340, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 360,340, "");
+	assert( window != NULL );
 
-    itsMainPartition =
-        new JXVertPartition(heights, 0, minHeights, window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,140, 365,205);
-    assert( itsMainPartition != NULL );
+	itsMainPartition =
+		new JXVertPartition(heights, 0, minHeights, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,140, 365,205);
+	assert( itsMainPartition != NULL );
 
-    itsSource1 =
-        new SCComponentMenu(circuit, SCACSourceFilter, "First source:", window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 150,30);
-    assert( itsSource1 != NULL );
+	itsSource1 =
+		new SCComponentMenu(circuit, SCACSourceFilter, "First source:", window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 150,30);
+	assert( itsSource1 != NULL );
 
-    itsSource2 =
-        new SCComponentMenu(circuit, SCACSourceFilter, "Second source:", window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 150,30);
-    assert( itsSource2 != NULL );
+	itsSource2 =
+		new SCComponentMenu(circuit, SCACSourceFilter, "Second source:", window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 150,30);
+	assert( itsSource2 != NULL );
 
-    itsEvalButton =
-        new JXTextButton(JGetString("itsEvalButton::SCNDIDirector::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 230,20, 80,20);
-    assert( itsEvalButton != NULL );
+	itsEvalButton =
+		new JXTextButton(JGetString("itsEvalButton::SCNDIDirector::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 230,20, 80,20);
+	assert( itsEvalButton != NULL );
 
-    JXStaticText* layoutMessage =
-        new JXStaticText(JGetString("layoutMessage::SCNDIDirector::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 210,50, 120,40);
-    assert( layoutMessage != NULL );
+	JXStaticText* layoutMessage =
+		new JXStaticText(JGetString("layoutMessage::SCNDIDirector::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 210,50, 120,40);
+	assert( layoutMessage != NULL );
 
-    JXMenuBar* menuBar =
-        new JXMenuBar(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,110, 365,30);
-    assert( menuBar != NULL );
+	JXMenuBar* menuBar =
+		new JXMenuBar(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,110, 365,30);
+	assert( menuBar != NULL );
 
 // end JXLayout
 

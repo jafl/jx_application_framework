@@ -37,8 +37,8 @@ private:
 
 // begin JXLayout
 
-    JXIntegerInput* itsLineNumber;
-    JXTextCheckbox* itsPhysicalLineIndexCB;
+	JXIntegerInput* itsLineNumber;
+	JXTextCheckbox* itsPhysicalLineIndexCB;
 
 // end JXLayout
 

@@ -41,9 +41,9 @@ private:
 
 // begin JXLayout
 
-    JXTextButton* itsHelpButton;
-    JXInputField* itsServerAddr;
-    JXInputField* itsPlayerName;
+	JXTextButton* itsHelpButton;
+	JXInputField* itsServerAddr;
+	JXInputField* itsPlayerName;
 
 // end JXLayout
 

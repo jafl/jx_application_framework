@@ -56,30 +56,30 @@ SetElasticDialog::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 200,90, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 200,90, "");
+	assert( window != NULL );
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::SetElasticDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 30,60, 50,20);
-    assert( cancelButton != NULL );
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::SetElasticDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 30,60, 50,20);
+	assert( cancelButton != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::SetElasticDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 120,60, 50,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::SetElasticDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::SetElasticDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 120,60, 50,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::SetElasticDialog::shortcuts::JXLayout"));
 
-    itsElasticIndex =
-        new JXIntegerInput(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 140,20, 40,20);
-    assert( itsElasticIndex != NULL );
+	itsElasticIndex =
+		new JXIntegerInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 140,20, 40,20);
+	assert( itsElasticIndex != NULL );
 
-    JXStaticText* obj1_JXLayout =
-        new JXStaticText(JGetString("obj1_JXLayout::SetElasticDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 130,20);
-    assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetToLabel();
+	JXStaticText* obj1_JXLayout =
+		new JXStaticText(JGetString("obj1_JXLayout::SetElasticDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 130,20);
+	assert( obj1_JXLayout != NULL );
+	obj1_JXLayout->SetToLabel();
 
 // end JXLayout
 

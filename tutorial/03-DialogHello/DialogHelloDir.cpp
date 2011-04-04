@@ -21,9 +21,9 @@
 
 // This defines the menu title and menu items
 static const JCharacter* kTextMenuTitleStr = "Text";
-static const JCharacter* kTextMenuStr = 
+static const JCharacter* kTextMenuStr =
 	"Change Text %k Meta-C %l|Quit %k Meta-Q";
-	
+
 enum
 {
 	kChangeText = 1,
@@ -43,7 +43,7 @@ DialogHelloDir::DialogHelloDir
 	JXWindowDirector(supervisor)
 {
 	BuildWindow();
-	
+
 	// We create the dialog when we need it.
 	itsDialog = NULL;
 }
@@ -55,7 +55,7 @@ DialogHelloDir::DialogHelloDir
 
 DialogHelloDir::~DialogHelloDir()
 {
-	// We don't need to delete anything here, since the director deletes the 
+	// We don't need to delete anything here, since the director deletes the
 	// window automatically, and the window will delete anything within it.
 }
 
@@ -69,34 +69,33 @@ DialogHelloDir::BuildWindow()
 {
 	// Create the window and give it to the director.
 	JXWindow* window = new JXWindow(this, 200,100, "Hello World Program");
-    assert( window != NULL );
-    SetWindow(window);
-    
+	assert( window != NULL );
+
 	// This sets the minimum and maximum size to be the
 	// current size.
-    window->LockCurrentSize();
+	window->LockCurrentSize();
 
-	// Create the menu bar and make it expand horizontally as the window expands.    
-    JXMenuBar* menuBar = 
-    	new JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop, 
-    					0,0, 200,kJXDefaultMenuBarHeight);
-    assert( menuBar != NULL );
-    
-    // Create the menu and attach it to the menu bar.
-    itsTextMenu = menuBar->AppendTextMenu(kTextMenuTitleStr);
-    
-    // Set the menu items.
-    itsTextMenu->SetMenuItems(kTextMenuStr);
-    
-    // The menu items don't need to be disabled
-    itsTextMenu->SetUpdateAction(JXMenu::kDisableNone);
-    
-    // Listen for messages from the menu.
+	// Create the menu bar and make it expand horizontally as the window expands.
+	JXMenuBar* menuBar =
+		new JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
+						0,0, 200,kJXDefaultMenuBarHeight);
+	assert( menuBar != NULL );
+
+	// Create the menu and attach it to the menu bar.
+	itsTextMenu = menuBar->AppendTextMenu(kTextMenuTitleStr);
+
+	// Set the menu items.
+	itsTextMenu->SetMenuItems(kTextMenuStr);
+
+	// The menu items don't need to be disabled
+	itsTextMenu->SetUpdateAction(JXMenu::kDisableNone);
+
+	// Listen for messages from the menu.
 	ListenTo(itsTextMenu);
-	
+
 	// Create the object to hold the text.
-	itsText = 
-		new JXStaticText("Hello world!", window, 
+	itsText =
+		new JXStaticText("Hello world!", window,
 			JXWidget::kFixedLeft, JXWidget::kFixedTop,
 			20, 40, 160, 20);
 	assert ( itsText != NULL );
@@ -128,7 +127,7 @@ DialogHelloDir::Receive
 		HandleTextMenu(selection->GetIndex());
 		}
 
-	// Check if the sender is our dialog and that it's been diactivated.	
+	// Check if the sender is our dialog and that it's been diactivated.
 	else if (sender == itsDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		// Cast the sender so we can access its functions.
@@ -147,7 +146,7 @@ DialogHelloDir::Receive
 		itsDialog = NULL;
 		}
 
-	// If we don't handle the message, we need to pass it to the base class	
+	// If we don't handle the message, we need to pass it to the base class
 	else
 		{
 		JXWindowDirector::Receive(sender,message);
@@ -174,10 +173,10 @@ DialogHelloDir::HandleTextMenu
 
 		SetupInputDialog();
 		}
-		
+
 	else if (index == kQuit)
 		{
-		// Quit the program. The application object is one of the few global  
+		// Quit the program. The application object is one of the few global
 		// objects that can be accessed from anywhere within the application.
 
 		(JXGetApplication())->Quit();
@@ -201,14 +200,14 @@ DialogHelloDir::SetupInputDialog()
 {
 	// Make sure the dialog hasn't already been created.
 	assert ( itsDialog == NULL );
-	
+
 	// Create the dialog with text from our static text object.
 	itsDialog = new DHStringInputDialog(this, itsText->GetText());
 	assert ( itsDialog != NULL );
-	
+
 	// We need to listen for the dialog's deactivation message.
 	ListenTo(itsDialog);
-	
+
 	// Activate the dialog.
 	itsDialog->BeginDialog();
 }

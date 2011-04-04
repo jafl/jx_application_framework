@@ -54,34 +54,34 @@ TestPopupChoiceDialog::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 230,170, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 230,170, "");
+	assert( window != NULL );
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::TestPopupChoiceDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,140, 70,20);
-    assert( cancelButton != NULL );
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::TestPopupChoiceDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,140, 70,20);
+	assert( cancelButton != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::TestPopupChoiceDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 130,140, 70,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::TestPopupChoiceDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::TestPopupChoiceDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,140, 70,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::TestPopupChoiceDialog::shortcuts::JXLayout"));
 
-    JXFontNameMenu* fontMenu =
-        new JXFontNameMenu("Font", window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 190,30);
-    assert( fontMenu != NULL );
+	JXFontNameMenu* fontMenu =
+		new JXFontNameMenu("Font", window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 190,30);
+	assert( fontMenu != NULL );
 
-    JXFontSizeMenu* sizeMenu =
-        new JXFontSizeMenu(fontMenu, "Size", window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 190,30);
-    assert( sizeMenu != NULL );
+	JXFontSizeMenu* sizeMenu =
+		new JXFontSizeMenu(fontMenu, "Size", window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 190,30);
+	assert( sizeMenu != NULL );
 
-    JXImageMenu* iconMenu =
-        new JXImageMenu("Icons", 2, window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 190,30);
-    assert( iconMenu != NULL );
+	JXImageMenu* iconMenu =
+		new JXImageMenu("Icons", 2, window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 190,30);
+	assert( iconMenu != NULL );
 
 // end JXLayout
 

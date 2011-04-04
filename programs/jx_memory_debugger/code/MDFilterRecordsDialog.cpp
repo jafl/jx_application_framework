@@ -52,41 +52,41 @@ MDFilterRecordsDialog::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 420,120, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 420,120, "");
+	assert( window != NULL );
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::MDFilterRecordsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kVElastic, 90,90, 70,20);
-    assert( cancelButton != NULL );
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::MDFilterRecordsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 90,90, 70,20);
+	assert( cancelButton != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::MDFilterRecordsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kVElastic, 260,90, 70,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::MDFilterRecordsDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::MDFilterRecordsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 260,90, 70,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::MDFilterRecordsDialog::shortcuts::JXLayout"));
 
-    itsFileCB =
-        new JXTextCheckbox(JGetString("itsFileCB::MDFilterRecordsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 130,20);
-    assert( itsFileCB != NULL );
-    itsFileCB->SetShortcuts(JGetString("itsFileCB::MDFilterRecordsDialog::shortcuts::JXLayout"));
+	itsFileCB =
+		new JXTextCheckbox(JGetString("itsFileCB::MDFilterRecordsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 130,20);
+	assert( itsFileCB != NULL );
+	itsFileCB->SetShortcuts(JGetString("itsFileCB::MDFilterRecordsDialog::shortcuts::JXLayout"));
 
-    itsSizeCB =
-        new JXTextCheckbox(JGetString("itsSizeCB::MDFilterRecordsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 130,20);
-    assert( itsSizeCB != NULL );
-    itsSizeCB->SetShortcuts(JGetString("itsSizeCB::MDFilterRecordsDialog::shortcuts::JXLayout"));
+	itsSizeCB =
+		new JXTextCheckbox(JGetString("itsSizeCB::MDFilterRecordsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 130,20);
+	assert( itsSizeCB != NULL );
+	itsSizeCB->SetShortcuts(JGetString("itsSizeCB::MDFilterRecordsDialog::shortcuts::JXLayout"));
 
-    itsFileInput =
-        new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 150,20, 250,20);
-    assert( itsFileInput != NULL );
+	itsFileInput =
+		new JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 150,20, 250,20);
+	assert( itsFileInput != NULL );
 
-    itsSizeInput =
-        new JXIntegerInput(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 150,50, 250,20);
-    assert( itsSizeInput != NULL );
+	itsSizeInput =
+		new JXIntegerInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 150,50, 250,20);
+	assert( itsSizeInput != NULL );
 
 // end JXLayout
 

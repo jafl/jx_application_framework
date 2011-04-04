@@ -56,30 +56,30 @@ SCEditScratchTitleDialog::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 210,110, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 210,110, "");
+	assert( window != NULL );
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::SCEditScratchTitleDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 30,75, 60,20);
-    assert( cancelButton != NULL );
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::SCEditScratchTitleDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 30,75, 60,20);
+	assert( cancelButton != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::SCEditScratchTitleDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 120,75, 60,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::SCEditScratchTitleDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::SCEditScratchTitleDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 120,75, 60,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::SCEditScratchTitleDialog::shortcuts::JXLayout"));
 
-    JXStaticText* obj1_JXLayout =
-        new JXStaticText(JGetString("obj1_JXLayout::SCEditScratchTitleDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 110,20);
-    assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetToLabel();
+	JXStaticText* obj1_JXLayout =
+		new JXStaticText(JGetString("obj1_JXLayout::SCEditScratchTitleDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 110,20);
+	assert( obj1_JXLayout != NULL );
+	obj1_JXLayout->SetToLabel();
 
-    itsTitle =
-        new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,40, 170,20);
-    assert( itsTitle != NULL );
+	itsTitle =
+		new JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,40, 170,20);
+	assert( itsTitle != NULL );
 
 // end JXLayout
 

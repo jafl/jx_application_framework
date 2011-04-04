@@ -49,9 +49,9 @@ private:
 
 // begin tablelayout
 
-    TestStringTable*   itsTable;
-    JXColHeaderWidget* itsColHeader;
-    JXRowHeaderWidget* itsRowHeader;
+	TestStringTable*   itsTable;
+	JXColHeaderWidget* itsColHeader;
+	JXRowHeaderWidget* itsRowHeader;
 
 // end tablelayout
 

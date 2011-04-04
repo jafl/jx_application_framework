@@ -49,13 +49,13 @@ private:
 
 // begin JXLayout
 
-    JXInputField*   itsSurfaceName;
-    JXFloatInput*   itsXMinInput;
-    JXFloatInput*   itsXMaxInput;
-    JXIntegerInput* itsXCountInput;
-    JXFloatInput*   itsYMinInput;
-    JXFloatInput*   itsYMaxInput;
-    JXIntegerInput* itsYCountInput;
+	JXInputField*   itsSurfaceName;
+	JXFloatInput*   itsXMinInput;
+	JXFloatInput*   itsXMaxInput;
+	JXIntegerInput* itsXCountInput;
+	JXFloatInput*   itsYMinInput;
+	JXFloatInput*   itsYMaxInput;
+	JXIntegerInput* itsYCountInput;
 
 // end JXLayout
 

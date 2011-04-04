@@ -31,7 +31,7 @@ private:
 
 // begin JXLayout
 
-    JXTextCheckbox* itsSaveHeadersCB;
+	JXTextCheckbox* itsSaveHeadersCB;
 
 // end JXLayout
 

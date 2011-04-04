@@ -35,10 +35,10 @@ private:
 
 // begin JXLayout
 
-    JXSlider*       itsMaxSlider;
-    JXLevelControl* itsMaxLevel;
-    JXSlider*       itsSlider;
-    JXLevelControl* itsLevel;
+	JXSlider*       itsMaxSlider;
+	JXLevelControl* itsMaxLevel;
+	JXSlider*       itsSlider;
+	JXLevelControl* itsLevel;
 
 // end JXLayout
 

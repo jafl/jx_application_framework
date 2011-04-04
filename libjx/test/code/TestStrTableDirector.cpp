@@ -81,18 +81,18 @@ TestStrTableDirector::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 400,330, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 400,330, "");
+	assert( window != NULL );
 
-    JXMenuBar* menuBar =
-        new JXMenuBar(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
-    assert( menuBar != NULL );
+	JXMenuBar* menuBar =
+		new JXMenuBar(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
+	assert( menuBar != NULL );
 
-    JXScrollbarSet* scrollbarSet =
-        new JXScrollbarSet(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
-    assert( scrollbarSet != NULL );
+	JXScrollbarSet* scrollbarSet =
+		new JXScrollbarSet(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
+	assert( scrollbarSet != NULL );
 
 // end JXLayout
 
@@ -111,26 +111,26 @@ TestStrTableDirector::BuildWindow()
 
 // begin tablelayout
 
-    const JRect tablelayout_Frame    = encl->GetFrame();
-    const JRect tablelayout_Aperture = encl->GetAperture();
-    encl->AdjustSize(400 - tablelayout_Aperture.width(), 300 - tablelayout_Aperture.height());
+	const JRect tablelayout_Frame    = encl->GetFrame();
+	const JRect tablelayout_Aperture = encl->GetAperture();
+	encl->AdjustSize(400 - tablelayout_Aperture.width(), 300 - tablelayout_Aperture.height());
 
-    itsTable =
-        new TestStringTable(itsData, menuBar, scrollbarSet, encl,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 10,20, 390,280);
-    assert( itsTable != NULL );
+	itsTable =
+		new TestStringTable(itsData, menuBar, scrollbarSet, encl,
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,20, 390,280);
+	assert( itsTable != NULL );
 
-    itsColHeader =
-        new JXColHeaderWidget(itsTable, scrollbarSet, encl,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 10,0, 390,20);
-    assert( itsColHeader != NULL );
+	itsColHeader =
+		new JXColHeaderWidget(itsTable, scrollbarSet, encl,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 10,0, 390,20);
+	assert( itsColHeader != NULL );
 
-    itsRowHeader =
-        new JXRowHeaderWidget(itsTable, scrollbarSet, encl,
-                    JXWidget::kFixedLeft, JXWidget::kVElastic, 0,20, 10,280);
-    assert( itsRowHeader != NULL );
+	itsRowHeader =
+		new JXRowHeaderWidget(itsTable, scrollbarSet, encl,
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 0,20, 10,280);
+	assert( itsRowHeader != NULL );
 
-    encl->SetSize(tablelayout_Frame.width(), tablelayout_Frame.height());
+	encl->SetSize(tablelayout_Frame.width(), tablelayout_Frame.height());
 
 // end tablelayout
 

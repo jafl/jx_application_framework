@@ -3,7 +3,7 @@
 
 	Defines current version of JCore library
 
-	Copyright © 1996-2010 by John Lindal. All rights reserved.
+	Copyright © 1996-2011 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -12,13 +12,13 @@
 
 // These have to be #defined so they can be used for conditional compilation.
 
-#define CURRENT_JCORE_MAJOR_VERSION	2
-#define CURRENT_JCORE_MINOR_VERSION	6
+#define CURRENT_JCORE_MAJOR_VERSION	3
+#define CURRENT_JCORE_MINOR_VERSION	0
 #define CURRENT_JCORE_PATCH_VERSION	0
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJCoreLibVersionStr = "2.6.0";
+static const char* kCurrentJCoreLibVersionStr = "3.0.0";
 
 // version 3.0.0:
 //	JRexex:
@@ -50,6 +50,9 @@ static const char* kCurrentJCoreLibVersionStr = "2.6.0";
 //	JTextEditor:
 //		Removed SwitchHTMLCharSet().
 //		Added Get/SetCaretMode().
+//		Fixed bug in ReplaceAllForward() when entireWord=kJTrue, so it replaces
+//			all occurrences instead of only the first one.
+//		Added AnalyzeWhitespace().
 //	JFontStyle:
 //		Added kJDefaultMonoFontSize, kJDefaultRowColHeaderFontSize.
 //	jDirUtil:
@@ -79,6 +82,8 @@ static const char* kCurrentJCoreLibVersionStr = "2.6.0";
 //		Added JUserIsAdmin(uid).
 //	Created JTEKeyHandler and JVIKeyHandler.
 //	Moved JConvertToStream() from jStreamUtil.h to jFStreamUtil.h.
+//	JDirInfo:
+//		Added VCSDirsVisible(), ShowVCSDirs().
 
 // version 2.6.0:
 //	JOrderedSet:

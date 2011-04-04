@@ -49,6 +49,7 @@ enum
 	kLocalMboxCmd = 1,
 	kPOPServerCmd
 };
+
 /******************************************************************************
  Constructor
 
@@ -103,321 +104,321 @@ GMAccountDialog::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 530,570, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 530,570, "");
+	assert( window != NULL );
 
-    itsFullNameInput =
-        new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 280,15, 240,20);
-    assert( itsFullNameInput != NULL );
+	itsFullNameInput =
+		new JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 280,15, 240,20);
+	assert( itsFullNameInput != NULL );
 
-    itsSMTPUserName =
-        new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 280,40, 240,20);
-    assert( itsSMTPUserName != NULL );
+	itsSMTPUserName =
+		new JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 280,40, 240,20);
+	assert( itsSMTPUserName != NULL );
 
-    itsSMTPServerInput =
-        new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 280,65, 240,20);
-    assert( itsSMTPServerInput != NULL );
+	itsSMTPServerInput =
+		new JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 280,65, 240,20);
+	assert( itsSMTPServerInput != NULL );
 
-    itsReplyToAddress =
-        new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 280,90, 240,20);
-    assert( itsReplyToAddress != NULL );
+	itsReplyToAddress =
+		new JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 280,90, 240,20);
+	assert( itsReplyToAddress != NULL );
 
-    itsCCInput =
-        new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 280,115, 240,20);
-    assert( itsCCInput != NULL );
+	itsCCInput =
+		new JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 280,115, 240,20);
+	assert( itsCCInput != NULL );
 
-    itsBCCInput =
-        new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 280,140, 240,20);
-    assert( itsBCCInput != NULL );
+	itsBCCInput =
+		new JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 280,140, 240,20);
+	assert( itsBCCInput != NULL );
 
-    itsSigInput =
-        new JXInputField(kJFalse, kJTrue, window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 280,165, 240,40);
-    assert( itsSigInput != NULL );
+	itsSigInput =
+		new JXInputField(kJFalse, kJTrue, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 280,165, 240,40);
+	assert( itsSigInput != NULL );
 
-    JXScrollbarSet* scrollbarset =
-        new JXScrollbarSet(window,
-                    JXWidget::kFixedLeft, JXWidget::kVElastic, 10,10, 170,170);
-    assert( scrollbarset != NULL );
+	JXScrollbarSet* scrollbarset =
+		new JXScrollbarSet(window,
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 10,10, 170,170);
+	assert( scrollbarset != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 355,540, 70,20);
-    assert( okButton != NULL );
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::GMAccountDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 355,540, 70,20);
+	assert( okButton != NULL );
 
-    itsCancelButton =
-        new JXTextButton(JGetString("itsCancelButton::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 105,540, 70,20);
-    assert( itsCancelButton != NULL );
+	itsCancelButton =
+		new JXTextButton(JGetString("itsCancelButton::GMAccountDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 105,540, 70,20);
+	assert( itsCancelButton != NULL );
 
-    JXStaticText* obj1_JXLayout =
-        new JXStaticText(JGetString("obj1_JXLayout::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,65, 90,20);
-    assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetToLabel();
+	JXStaticText* obj1_JXLayout =
+		new JXStaticText(JGetString("obj1_JXLayout::GMAccountDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,65, 90,20);
+	assert( obj1_JXLayout != NULL );
+	obj1_JXLayout->SetToLabel();
 
-    JXStaticText* obj2_JXLayout =
-        new JXStaticText(JGetString("obj2_JXLayout::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,40, 90,20);
-    assert( obj2_JXLayout != NULL );
-    obj2_JXLayout->SetToLabel();
+	JXStaticText* obj2_JXLayout =
+		new JXStaticText(JGetString("obj2_JXLayout::GMAccountDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,40, 90,20);
+	assert( obj2_JXLayout != NULL );
+	obj2_JXLayout->SetToLabel();
 
-    JXStaticText* obj3_JXLayout =
-        new JXStaticText(JGetString("obj3_JXLayout::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,90, 90,20);
-    assert( obj3_JXLayout != NULL );
-    obj3_JXLayout->SetToLabel();
+	JXStaticText* obj3_JXLayout =
+		new JXStaticText(JGetString("obj3_JXLayout::GMAccountDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,90, 90,20);
+	assert( obj3_JXLayout != NULL );
+	obj3_JXLayout->SetToLabel();
 
-    itsNewButton =
-        new JXTextButton(JGetString("itsNewButton::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 15,195, 60,20);
-    assert( itsNewButton != NULL );
-    itsNewButton->SetShortcuts(JGetString("itsNewButton::GMAccountDialog::shortcuts::JXLayout"));
+	itsNewButton =
+		new JXTextButton(JGetString("itsNewButton::GMAccountDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 15,195, 60,20);
+	assert( itsNewButton != NULL );
+	itsNewButton->SetShortcuts(JGetString("itsNewButton::GMAccountDialog::shortcuts::JXLayout"));
 
-    itsDeleteButton =
-        new JXTextButton(JGetString("itsDeleteButton::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 15,220, 60,20);
-    assert( itsDeleteButton != NULL );
+	itsDeleteButton =
+		new JXTextButton(JGetString("itsDeleteButton::GMAccountDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 15,220, 60,20);
+	assert( itsDeleteButton != NULL );
 
-    JXStaticText* obj4_JXLayout =
-        new JXStaticText(JGetString("obj4_JXLayout::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,15, 90,20);
-    assert( obj4_JXLayout != NULL );
-    obj4_JXLayout->SetToLabel();
+	JXStaticText* obj4_JXLayout =
+		new JXStaticText(JGetString("obj4_JXLayout::GMAccountDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,15, 90,20);
+	assert( obj4_JXLayout != NULL );
+	obj4_JXLayout->SetToLabel();
 
-    JXStaticText* obj5_JXLayout =
-        new JXStaticText(JGetString("obj5_JXLayout::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,115, 90,20);
-    assert( obj5_JXLayout != NULL );
-    obj5_JXLayout->SetToLabel();
+	JXStaticText* obj5_JXLayout =
+		new JXStaticText(JGetString("obj5_JXLayout::GMAccountDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,115, 90,20);
+	assert( obj5_JXLayout != NULL );
+	obj5_JXLayout->SetToLabel();
 
-    JXStaticText* obj6_JXLayout =
-        new JXStaticText(JGetString("obj6_JXLayout::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,140, 90,20);
-    assert( obj6_JXLayout != NULL );
-    obj6_JXLayout->SetToLabel();
+	JXStaticText* obj6_JXLayout =
+		new JXStaticText(JGetString("obj6_JXLayout::GMAccountDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,140, 90,20);
+	assert( obj6_JXLayout != NULL );
+	obj6_JXLayout->SetToLabel();
 
-    JXStaticText* obj7_JXLayout =
-        new JXStaticText(JGetString("obj7_JXLayout::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,165, 90,20);
-    assert( obj7_JXLayout != NULL );
-    obj7_JXLayout->SetToLabel();
+	JXStaticText* obj7_JXLayout =
+		new JXStaticText(JGetString("obj7_JXLayout::GMAccountDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,165, 90,20);
+	assert( obj7_JXLayout != NULL );
+	obj7_JXLayout->SetToLabel();
 
-    itsSigType =
-        new JXRadioGroup(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 280,210, 240,30);
-    assert( itsSigType != NULL );
+	itsSigType =
+		new JXRadioGroup(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 280,210, 240,30);
+	assert( itsSigType != NULL );
 
-    JXTextRadioButton* obj8_JXLayout =
-        new JXTextRadioButton(1, JGetString("obj8_JXLayout::GMAccountDialog::JXLayout"), itsSigType,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 5,5, 75,20);
-    assert( obj8_JXLayout != NULL );
+	JXTextRadioButton* obj8_JXLayout =
+		new JXTextRadioButton(1, JGetString("obj8_JXLayout::GMAccountDialog::JXLayout"), itsSigType,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 5,5, 75,20);
+	assert( obj8_JXLayout != NULL );
 
-    JXTextRadioButton* obj9_JXLayout =
-        new JXTextRadioButton(2, JGetString("obj9_JXLayout::GMAccountDialog::JXLayout"), itsSigType,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 85,5, 75,20);
-    assert( obj9_JXLayout != NULL );
+	JXTextRadioButton* obj9_JXLayout =
+		new JXTextRadioButton(2, JGetString("obj9_JXLayout::GMAccountDialog::JXLayout"), itsSigType,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 85,5, 75,20);
+	assert( obj9_JXLayout != NULL );
 
-    JXTextRadioButton* obj10_JXLayout =
-        new JXTextRadioButton(3, JGetString("obj10_JXLayout::GMAccountDialog::JXLayout"), itsSigType,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 165,5, 70,20);
-    assert( obj10_JXLayout != NULL );
+	JXTextRadioButton* obj10_JXLayout =
+		new JXTextRadioButton(3, JGetString("obj10_JXLayout::GMAccountDialog::JXLayout"), itsSigType,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 165,5, 70,20);
+	assert( obj10_JXLayout != NULL );
 
-    itsDupButton =
-        new JXTextButton(JGetString("itsDupButton::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 85,195, 90,20);
-    assert( itsDupButton != NULL );
+	itsDupButton =
+		new JXTextButton(JGetString("itsDupButton::GMAccountDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 85,195, 90,20);
+	assert( itsDupButton != NULL );
 
-    itsDefButton =
-        new JXTextButton(JGetString("itsDefButton::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 85,220, 90,20);
-    assert( itsDefButton != NULL );
+	itsDefButton =
+		new JXTextButton(JGetString("itsDefButton::GMAccountDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 85,220, 90,20);
+	assert( itsDefButton != NULL );
 
-    itsHelpButton =
-        new JXTextButton(JGetString("itsHelpButton::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 230,540, 70,20);
-    assert( itsHelpButton != NULL );
+	itsHelpButton =
+		new JXTextButton(JGetString("itsHelpButton::GMAccountDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 230,540, 70,20);
+	assert( itsHelpButton != NULL );
 
-    itsAccountTypeCardFile =
-        new JXCardFile(window,
-                    JXWidget::kHElastic, JXWidget::kFixedBottom, 30,280, 470,250);
-    assert( itsAccountTypeCardFile != NULL );
+	itsAccountTypeCardFile =
+		new JXCardFile(window,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 30,280, 470,250);
+	assert( itsAccountTypeCardFile != NULL );
 
-    itsAccountTypeMenu =
-        new JXTextMenu(JGetString("itsAccountTypeMenu::GMAccountDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 15,255, 120,20);
-    assert( itsAccountTypeMenu != NULL );
+	itsAccountTypeMenu =
+		new JXTextMenu(JGetString("itsAccountTypeMenu::GMAccountDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 15,255, 120,20);
+	assert( itsAccountTypeMenu != NULL );
 
 // end JXLayout
 
 	JXWidgetSet* widgetSet =
-        new JXWidgetSet(itsAccountTypeCardFile,
-                    	JXWidget::kHElastic, JXWidget::kFixedBottom, 30,280, 470,250);
-    assert( widgetSet != NULL );
+		new JXWidgetSet(itsAccountTypeCardFile,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 30,280, 470,250);
+	assert( widgetSet != NULL );
 
 // begin localLayout
 
-    const JRect localLayout_Frame    = widgetSet->GetFrame();
-    const JRect localLayout_Aperture = widgetSet->GetAperture();
-    widgetSet->AdjustSize(470 - localLayout_Aperture.width(), 250 - localLayout_Aperture.height());
+	const JRect localLayout_Frame    = widgetSet->GetFrame();
+	const JRect localLayout_Aperture = widgetSet->GetAperture();
+	widgetSet->AdjustSize(470 - localLayout_Aperture.width(), 250 - localLayout_Aperture.height());
 
-    itsLocalDefaultInboxInput =
-        new JXFileInput(widgetSet,
-                    JXWidget::kHElastic, JXWidget::kFixedBottom, 150,55, 180,20);
-    assert( itsLocalDefaultInboxInput != NULL );
+	itsLocalDefaultInboxInput =
+		new JXFileInput(widgetSet,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 150,55, 180,20);
+	assert( itsLocalDefaultInboxInput != NULL );
 
-    itsChooseLocalInboxButton =
-        new JXTextButton(JGetString("itsChooseLocalInboxButton::GMAccountDialog::localLayout"), widgetSet,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 330,55, 60,20);
-    assert( itsChooseLocalInboxButton != NULL );
+	itsChooseLocalInboxButton =
+		new JXTextButton(JGetString("itsChooseLocalInboxButton::GMAccountDialog::localLayout"), widgetSet,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 330,55, 60,20);
+	assert( itsChooseLocalInboxButton != NULL );
 
-    JXStaticText* obj1_localLayout =
-        new JXStaticText(JGetString("obj1_localLayout::GMAccountDialog::localLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,55, 110,20);
-    assert( obj1_localLayout != NULL );
-    obj1_localLayout->SetToLabel();
+	JXStaticText* obj1_localLayout =
+		new JXStaticText(JGetString("obj1_localLayout::GMAccountDialog::localLayout"), widgetSet,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,55, 110,20);
+	assert( obj1_localLayout != NULL );
+	obj1_localLayout->SetToLabel();
 
-    itsLocalPathInput =
-        new JXPathInput(widgetSet,
-                    JXWidget::kHElastic, JXWidget::kFixedBottom, 150,30, 180,20);
-    assert( itsLocalPathInput != NULL );
+	itsLocalPathInput =
+		new JXPathInput(widgetSet,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 150,30, 180,20);
+	assert( itsLocalPathInput != NULL );
 
-    itsChooseLocalPathButton =
-        new JXTextButton(JGetString("itsChooseLocalPathButton::GMAccountDialog::localLayout"), widgetSet,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 330,30, 60,20);
-    assert( itsChooseLocalPathButton != NULL );
+	itsChooseLocalPathButton =
+		new JXTextButton(JGetString("itsChooseLocalPathButton::GMAccountDialog::localLayout"), widgetSet,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 330,30, 60,20);
+	assert( itsChooseLocalPathButton != NULL );
 
-    JXStaticText* obj2_localLayout =
-        new JXStaticText(JGetString("obj2_localLayout::GMAccountDialog::localLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,30, 110,20);
-    assert( obj2_localLayout != NULL );
-    obj2_localLayout->SetToLabel();
+	JXStaticText* obj2_localLayout =
+		new JXStaticText(JGetString("obj2_localLayout::GMAccountDialog::localLayout"), widgetSet,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,30, 110,20);
+	assert( obj2_localLayout != NULL );
+	obj2_localLayout->SetToLabel();
 
-    widgetSet->SetSize(localLayout_Frame.width(), localLayout_Frame.height());
+	widgetSet->SetSize(localLayout_Frame.width(), localLayout_Frame.height());
 
 // end localLayout
 
 	itsAccountTypeCardFile->AppendCard(widgetSet);
 
 	widgetSet =
-        new JXWidgetSet(itsAccountTypeCardFile,
-                    	JXWidget::kHElastic, JXWidget::kFixedBottom, 30,280, 470,250);
-    assert( widgetSet != NULL );
+		new JXWidgetSet(itsAccountTypeCardFile,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 30,280, 470,250);
+	assert( widgetSet != NULL );
 
 // begin popLayout
 
-    const JRect popLayout_Frame    = widgetSet->GetFrame();
-    const JRect popLayout_Aperture = widgetSet->GetAperture();
-    widgetSet->AdjustSize(470 - popLayout_Aperture.width(), 250 - popLayout_Aperture.height());
+	const JRect popLayout_Frame    = widgetSet->GetFrame();
+	const JRect popLayout_Aperture = widgetSet->GetAperture();
+	widgetSet->AdjustSize(470 - popLayout_Aperture.width(), 250 - popLayout_Aperture.height());
 
-    itsDeleteDaysInput =
-        new JXIntegerInput(widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 218,35, 40,20);
-    assert( itsDeleteDaysInput != NULL );
+	itsDeleteDaysInput =
+		new JXIntegerInput(widgetSet,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 218,35, 40,20);
+	assert( itsDeleteDaysInput != NULL );
 
-    itsAutoCheckMinutesInput =
-        new JXIntegerInput(widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 245,95, 40,20);
-    assert( itsAutoCheckMinutesInput != NULL );
+	itsAutoCheckMinutesInput =
+		new JXIntegerInput(widgetSet,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 245,95, 40,20);
+	assert( itsAutoCheckMinutesInput != NULL );
 
-    itsPopServerInput =
-        new JXInputField(widgetSet,
-                    JXWidget::kHElastic, JXWidget::kFixedBottom, 140,130, 240,20);
-    assert( itsPopServerInput != NULL );
+	itsPopServerInput =
+		new JXInputField(widgetSet,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 140,130, 240,20);
+	assert( itsPopServerInput != NULL );
 
-    itsPopAccountInput =
-        new JXInputField(widgetSet,
-                    JXWidget::kHElastic, JXWidget::kFixedBottom, 140,155, 240,20);
-    assert( itsPopAccountInput != NULL );
+	itsPopAccountInput =
+		new JXInputField(widgetSet,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 140,155, 240,20);
+	assert( itsPopAccountInput != NULL );
 
-    itsDefaultInboxInput =
-        new JXFileInput(widgetSet,
-                    JXWidget::kHElastic, JXWidget::kFixedBottom, 140,205, 180,20);
-    assert( itsDefaultInboxInput != NULL );
+	itsDefaultInboxInput =
+		new JXFileInput(widgetSet,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 140,205, 180,20);
+	assert( itsDefaultInboxInput != NULL );
 
-    itsChooseInboxButton =
-        new JXTextButton(JGetString("itsChooseInboxButton::GMAccountDialog::popLayout"), widgetSet,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 320,205, 60,20);
-    assert( itsChooseInboxButton != NULL );
+	itsChooseInboxButton =
+		new JXTextButton(JGetString("itsChooseInboxButton::GMAccountDialog::popLayout"), widgetSet,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 320,205, 60,20);
+	assert( itsChooseInboxButton != NULL );
 
-    JXStaticText* obj1_popLayout =
-        new JXStaticText(JGetString("obj1_popLayout::GMAccountDialog::popLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,205, 110,20);
-    assert( obj1_popLayout != NULL );
-    obj1_popLayout->SetToLabel();
+	JXStaticText* obj1_popLayout =
+		new JXStaticText(JGetString("obj1_popLayout::GMAccountDialog::popLayout"), widgetSet,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,205, 110,20);
+	assert( obj1_popLayout != NULL );
+	obj1_popLayout->SetToLabel();
 
-    JXStaticText* obj2_popLayout =
-        new JXStaticText(JGetString("obj2_popLayout::GMAccountDialog::popLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,130, 110,20);
-    assert( obj2_popLayout != NULL );
-    obj2_popLayout->SetToLabel();
+	JXStaticText* obj2_popLayout =
+		new JXStaticText(JGetString("obj2_popLayout::GMAccountDialog::popLayout"), widgetSet,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,130, 110,20);
+	assert( obj2_popLayout != NULL );
+	obj2_popLayout->SetToLabel();
 
-    itsLeaveMailCB =
-        new JXTextCheckbox(JGetString("itsLeaveMailCB::GMAccountDialog::popLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,15, 205,20);
-    assert( itsLeaveMailCB != NULL );
+	itsLeaveMailCB =
+		new JXTextCheckbox(JGetString("itsLeaveMailCB::GMAccountDialog::popLayout"), widgetSet,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,15, 205,20);
+	assert( itsLeaveMailCB != NULL );
 
-    itsSavePasswdCB =
-        new JXTextCheckbox(JGetString("itsSavePasswdCB::GMAccountDialog::popLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,55, 150,20);
-    assert( itsSavePasswdCB != NULL );
+	itsSavePasswdCB =
+		new JXTextCheckbox(JGetString("itsSavePasswdCB::GMAccountDialog::popLayout"), widgetSet,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,55, 150,20);
+	assert( itsSavePasswdCB != NULL );
 
-    JXStaticText* obj3_popLayout =
-        new JXStaticText(JGetString("obj3_popLayout::GMAccountDialog::popLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,155, 110,20);
-    assert( obj3_popLayout != NULL );
-    obj3_popLayout->SetToLabel();
+	JXStaticText* obj3_popLayout =
+		new JXStaticText(JGetString("obj3_popLayout::GMAccountDialog::popLayout"), widgetSet,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,155, 110,20);
+	assert( obj3_popLayout != NULL );
+	obj3_popLayout->SetToLabel();
 
-    itsUseAPOPCB =
-        new JXTextCheckbox(JGetString("itsUseAPOPCB::GMAccountDialog::popLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,75, 205,20);
-    assert( itsUseAPOPCB != NULL );
+	itsUseAPOPCB =
+		new JXTextCheckbox(JGetString("itsUseAPOPCB::GMAccountDialog::popLayout"), widgetSet,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,75, 205,20);
+	assert( itsUseAPOPCB != NULL );
 
-    itsAutoCheckCB =
-        new JXTextCheckbox(JGetString("itsAutoCheckCB::GMAccountDialog::popLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,95, 205,20);
-    assert( itsAutoCheckCB != NULL );
+	itsAutoCheckCB =
+		new JXTextCheckbox(JGetString("itsAutoCheckCB::GMAccountDialog::popLayout"), widgetSet,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,95, 205,20);
+	assert( itsAutoCheckCB != NULL );
 
-    JXStaticText* obj4_popLayout =
-        new JXStaticText(JGetString("obj4_popLayout::GMAccountDialog::popLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 292,95, 55,20);
-    assert( obj4_popLayout != NULL );
-    obj4_popLayout->SetToLabel();
+	JXStaticText* obj4_popLayout =
+		new JXStaticText(JGetString("obj4_popLayout::GMAccountDialog::popLayout"), widgetSet,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 292,95, 55,20);
+	assert( obj4_popLayout != NULL );
+	obj4_popLayout->SetToLabel();
 
-    itsDeleteFromServerCB =
-        new JXTextCheckbox(JGetString("itsDeleteFromServerCB::GMAccountDialog::popLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,35, 165,20);
-    assert( itsDeleteFromServerCB != NULL );
+	itsDeleteFromServerCB =
+		new JXTextCheckbox(JGetString("itsDeleteFromServerCB::GMAccountDialog::popLayout"), widgetSet,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,35, 165,20);
+	assert( itsDeleteFromServerCB != NULL );
 
-    JXStaticText* obj5_popLayout =
-        new JXStaticText(JGetString("obj5_popLayout::GMAccountDialog::popLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 265,35, 55,20);
-    assert( obj5_popLayout != NULL );
-    obj5_popLayout->SetToLabel();
+	JXStaticText* obj5_popLayout =
+		new JXStaticText(JGetString("obj5_popLayout::GMAccountDialog::popLayout"), widgetSet,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 265,35, 55,20);
+	assert( obj5_popLayout != NULL );
+	obj5_popLayout->SetToLabel();
 
-    itsAccountFolderInput =
-        new JXPathInput(widgetSet,
-                    JXWidget::kHElastic, JXWidget::kFixedBottom, 140,180, 180,20);
-    assert( itsAccountFolderInput != NULL );
+	itsAccountFolderInput =
+		new JXPathInput(widgetSet,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 140,180, 180,20);
+	assert( itsAccountFolderInput != NULL );
 
-    itsChoosePathButton =
-        new JXTextButton(JGetString("itsChoosePathButton::GMAccountDialog::popLayout"), widgetSet,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 320,180, 60,20);
-    assert( itsChoosePathButton != NULL );
+	itsChoosePathButton =
+		new JXTextButton(JGetString("itsChoosePathButton::GMAccountDialog::popLayout"), widgetSet,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 320,180, 60,20);
+	assert( itsChoosePathButton != NULL );
 
-    JXStaticText* obj6_popLayout =
-        new JXStaticText(JGetString("obj6_popLayout::GMAccountDialog::popLayout"), widgetSet,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,180, 110,20);
-    assert( obj6_popLayout != NULL );
-    obj6_popLayout->SetToLabel();
+	JXStaticText* obj6_popLayout =
+		new JXStaticText(JGetString("obj6_popLayout::GMAccountDialog::popLayout"), widgetSet,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 30,180, 110,20);
+	assert( obj6_popLayout != NULL );
+	obj6_popLayout->SetToLabel();
 
-    widgetSet->SetSize(popLayout_Frame.width(), popLayout_Frame.height());
+	widgetSet->SetSize(popLayout_Frame.width(), popLayout_Frame.height());
 
 // end popLayout
 
@@ -429,8 +430,8 @@ GMAccountDialog::BuildWindow()
 		GMAccountList::Create(this, itsAccountInfo,
 			scrollbarset, scrollbarset->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 135,240);
-    assert( itsAccountList != NULL );
-    itsAccountList->FitToEnclosure(kJTrue, kJTrue);
+	assert( itsAccountList != NULL );
+	itsAccountList->FitToEnclosure(kJTrue, kJTrue);
 	ListenTo(itsAccountList);
 
 	window->SetTitle("Accounts");

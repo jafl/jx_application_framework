@@ -93,23 +93,23 @@ SCXferFnDirector::BuildWindow
 
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 500,230, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 500,230, "");
+	assert( window != NULL );
 
-    JXMenuBar* menuBar =
-        new JXMenuBar(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 430,30);
-    assert( menuBar != NULL );
+	JXMenuBar* menuBar =
+		new JXMenuBar(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 430,30);
+	assert( menuBar != NULL );
 
-    itsPartition =
-        new JXVertPartition(heights, 0, minHeights, window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,205);
-    assert( itsPartition != NULL );
+	itsPartition =
+		new JXVertPartition(heights, 0, minHeights, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,205);
+	assert( itsPartition != NULL );
 
-    itsEvalButton =
-        new JXTextButton(JGetString("itsEvalButton::SCXferFnDirector::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 430,0, 70,30);
-    assert( itsEvalButton != NULL );
+	itsEvalButton =
+		new JXTextButton(JGetString("itsEvalButton::SCXferFnDirector::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 430,0, 70,30);
+	assert( itsEvalButton != NULL );
 
 // end JXLayout
 

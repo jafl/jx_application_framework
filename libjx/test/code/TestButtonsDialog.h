@@ -36,14 +36,14 @@ private:
 
 // begin JXLayout
 
-    JXRadioGroup*   itsRG1;
-    JXRadioGroup*   itsRG2;
-    JXTextCheckbox* itsEnable1CB;
-    JXTextCheckbox* its1CB;
-    JXTextCheckbox* itsEnable2CB;
-    JXTextCheckbox* its2CB;
-    JXTextCheckbox* itsEnable3CB;
-    JXTextCheckbox* its3CB;
+	JXRadioGroup*   itsRG1;
+	JXRadioGroup*   itsRG2;
+	JXTextCheckbox* itsEnable1CB;
+	JXTextCheckbox* its1CB;
+	JXTextCheckbox* itsEnable2CB;
+	JXTextCheckbox* its2CB;
+	JXTextCheckbox* itsEnable3CB;
+	JXTextCheckbox* its3CB;
 
 // end JXLayout
 

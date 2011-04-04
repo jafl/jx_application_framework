@@ -48,14 +48,14 @@ AboutDialog::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 100,100, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 100,100, "");
+	assert( window != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::AboutDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 10,35, 80,30);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::AboutDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::AboutDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,35, 80,30);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::AboutDialog::shortcuts::JXLayout"));
     okButton->SetFontSize(8);
 
 // end JXLayout

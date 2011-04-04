@@ -35,7 +35,7 @@ private:
 
 // begin JXLayout
 
-    JXTextButton* itsDiscardButton;
+	JXTextButton* itsDiscardButton;
 
 // end JXLayout
 

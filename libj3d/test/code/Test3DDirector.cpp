@@ -51,13 +51,8 @@ Test3DDirector::~Test3DDirector()
 void
 Test3DDirector::BuildWindow()
 {
-// begin JXLayout
-
-    JXWindow* window = new JXWindow(this, 400,330, "Test 3D Director");
-    assert( window != NULL );
-    SetWindow(window);
-
-// end JXLayout
+	JXWindow* window = new JXWindow(this, 400,330, "Test 3D Director");
+	assert( window != NULL );
 
 	// create a universe (where else do you get to do that, eh?)
 

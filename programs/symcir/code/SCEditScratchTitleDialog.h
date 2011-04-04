@@ -36,7 +36,7 @@ private:
 
 // begin JXLayout
 
-    JXInputField* itsTitle;
+	JXInputField* itsTitle;
 
 // end JXLayout
 

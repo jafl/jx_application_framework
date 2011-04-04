@@ -62,51 +62,51 @@ JXMacWinPrefsDialog::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 350,230, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 350,230, "");
+	assert( window != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::JXMacWinPrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 210,200, 60,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::JXMacWinPrefsDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::JXMacWinPrefsDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 210,200, 60,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::JXMacWinPrefsDialog::shortcuts::JXLayout"));
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::JXMacWinPrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,200, 60,20);
-    assert( cancelButton != NULL );
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::JXMacWinPrefsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,200, 60,20);
+	assert( cancelButton != NULL );
 
-    itsMacStyleCB =
-        new JXTextCheckbox(JGetString("itsMacStyleCB::JXMacWinPrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 320,20);
-    assert( itsMacStyleCB != NULL );
+	itsMacStyleCB =
+		new JXTextCheckbox(JGetString("itsMacStyleCB::JXMacWinPrefsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 320,20);
+	assert( itsMacStyleCB != NULL );
 
-    itsHomeEndCB =
-        new JXTextCheckbox(JGetString("itsHomeEndCB::JXMacWinPrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 320,20);
-    assert( itsHomeEndCB != NULL );
+	itsHomeEndCB =
+		new JXTextCheckbox(JGetString("itsHomeEndCB::JXMacWinPrefsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 320,20);
+	assert( itsHomeEndCB != NULL );
 
-    JXStaticText* obj1_JXLayout =
-        new JXStaticText(JGetString("obj1_JXLayout::JXMacWinPrefsDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 40,40, 300,20);
-    assert( obj1_JXLayout != NULL );
+	JXStaticText* obj1_JXLayout =
+		new JXStaticText(JGetString("obj1_JXLayout::JXMacWinPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 40,40, 300,20);
+	assert( obj1_JXLayout != NULL );
     obj1_JXLayout->SetFontSize(8);
-    obj1_JXLayout->SetToLabel();
+	obj1_JXLayout->SetToLabel();
 
-    itsScrollCaretCB =
-        new JXTextCheckbox(JGetString("itsScrollCaretCB::JXMacWinPrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 320,20);
-    assert( itsScrollCaretCB != NULL );
+	itsScrollCaretCB =
+		new JXTextCheckbox(JGetString("itsScrollCaretCB::JXMacWinPrefsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 320,20);
+	assert( itsScrollCaretCB != NULL );
 
-    itsCopyWhenSelectCB =
-        new JXTextCheckbox(JGetString("itsCopyWhenSelectCB::JXMacWinPrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,130, 320,20);
-    assert( itsCopyWhenSelectCB != NULL );
+	itsCopyWhenSelectCB =
+		new JXTextCheckbox(JGetString("itsCopyWhenSelectCB::JXMacWinPrefsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,130, 320,20);
+	assert( itsCopyWhenSelectCB != NULL );
 
-    itsFocusInDockCB =
-        new JXTextCheckbox(JGetString("itsFocusInDockCB::JXMacWinPrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,160, 320,20);
-    assert( itsFocusInDockCB != NULL );
+	itsFocusInDockCB =
+		new JXTextCheckbox(JGetString("itsFocusInDockCB::JXMacWinPrefsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,160, 320,20);
+	assert( itsFocusInDockCB != NULL );
 
 // end JXLayout
 

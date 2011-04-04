@@ -21,9 +21,9 @@
 // and ParseMenuItemStr().
 
 static const JCharacter* kTextMenuTitleStr = "Text";
-static const JCharacter* kTextMenuStr = 
+static const JCharacter* kTextMenuStr =
 	"Hello world! | Goodbye cruel world!";
-	
+
 enum
 {
 	kHello = 1,
@@ -58,9 +58,9 @@ MenuHelloDir::~MenuHelloDir()
 
 /******************************************************************************
  BuildWindow
- 	
- 	This is a convenient and organized way of putting all of the initial 
- 	elements into a window. This will keep the constructor less cluttered.
+
+	This is a convenient and organized way of putting all of the initial
+	elements into a window. This will keep the constructor less cluttered.
 
  ******************************************************************************/
 
@@ -69,37 +69,36 @@ MenuHelloDir::BuildWindow()
 {
 	// Create the window and give it to the director.
 	JXWindow* window = new JXWindow(this, 200,100, "Hello World Program");
-    assert( window != NULL );
-    SetWindow(window);
+	assert( window != NULL );
 
 	// This sets the minimum and maximum size to be the
 	// current size.
-    window->LockCurrentSize();
+	window->LockCurrentSize();
 
-    // Create the menu bar so that it stays on top, but expands as the window
-    // expands. 
-    JXMenuBar* menuBar = 
-    	new JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop, 
-    					0,0, 200,kJXDefaultMenuBarHeight);
-    assert( menuBar != NULL );
-    
-    // Attach our menu to the menu bar.
-    itsTextMenu = menuBar->AppendTextMenu(kTextMenuTitleStr);
-    
-    // Set the menu items in our menu.
-    itsTextMenu->SetMenuItems(kTextMenuStr);
-    
-    // Set the menu to never disable the menu items.
-    itsTextMenu->SetUpdateAction(JXMenu::kDisableNone);
-    
-    // The director needs to listen to the menu for messages. The message
-    // we care about is JXMenu::kItemSelected.
+	// Create the menu bar so that it stays on top, but expands as the window
+	// expands.
+	JXMenuBar* menuBar =
+		new JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
+						0,0, 200,kJXDefaultMenuBarHeight);
+	assert( menuBar != NULL );
+
+	// Attach our menu to the menu bar.
+	itsTextMenu = menuBar->AppendTextMenu(kTextMenuTitleStr);
+
+	// Set the menu items in our menu.
+	itsTextMenu->SetMenuItems(kTextMenuStr);
+
+	// Set the menu to never disable the menu items.
+	itsTextMenu->SetUpdateAction(JXMenu::kDisableNone);
+
+	// The director needs to listen to the menu for messages. The message
+	// we care about is JXMenu::kItemSelected.
 	ListenTo(itsTextMenu);
-	
-	// Create the object to display the text. This time, we need to keep a 
+
+	// Create the object to display the text. This time, we need to keep a
 	// pointer to it so we can change the text later.
-	itsText = 
-		new JXStaticText("Hello world!", window, 
+	itsText =
+		new JXStaticText("Hello world!", window,
 			JXWidget::kFixedLeft, JXWidget::kFixedTop,
 			20, 40, 160, 20);
 	assert( itsText != NULL );
@@ -144,7 +143,7 @@ MenuHelloDir::Receive
 		HandleTextMenu(selection->GetIndex());
 		}
 
-	// If we don't handle the message, we need to pass it to the base class	
+	// If we don't handle the message, we need to pass it to the base class
 	else
 		{
 		JXWindowDirector::Receive(sender,message);
@@ -153,7 +152,7 @@ MenuHelloDir::Receive
 
 /******************************************************************************
  HandleTextMenu
-	
+
 	Respond when a menu item has been selected
 
  ******************************************************************************/
@@ -169,7 +168,7 @@ MenuHelloDir::HandleTextMenu
 		{
 		itsText->SetText("Hello world!");
 		}
-		
+
 	else if (index == kGoodbye)
 		{
 		itsText->SetText("Goodbye cruel world!");

@@ -54,41 +54,41 @@ ResizeWidgetDialog::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 160,120, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 160,120, "");
+	assert( window != NULL );
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::ResizeWidgetDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 20,90, 50,20);
-    assert( cancelButton != NULL );
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::ResizeWidgetDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 20,90, 50,20);
+	assert( cancelButton != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::ResizeWidgetDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 90,90, 50,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::ResizeWidgetDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::ResizeWidgetDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 90,90, 50,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::ResizeWidgetDialog::shortcuts::JXLayout"));
 
-    itsWidth =
-        new JXIntegerInput(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 70,20, 70,20);
-    assert( itsWidth != NULL );
+	itsWidth =
+		new JXIntegerInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 70,20, 70,20);
+	assert( itsWidth != NULL );
 
-    itsHeight =
-        new JXIntegerInput(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 70,50, 70,20);
-    assert( itsHeight != NULL );
+	itsHeight =
+		new JXIntegerInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 70,50, 70,20);
+	assert( itsHeight != NULL );
 
-    JXStaticText* obj1_JXLayout =
-        new JXStaticText(JGetString("obj1_JXLayout::ResizeWidgetDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 50,20);
-    assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetToLabel();
+	JXStaticText* obj1_JXLayout =
+		new JXStaticText(JGetString("obj1_JXLayout::ResizeWidgetDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 50,20);
+	assert( obj1_JXLayout != NULL );
+	obj1_JXLayout->SetToLabel();
 
-    JXStaticText* obj2_JXLayout =
-        new JXStaticText(JGetString("obj2_JXLayout::ResizeWidgetDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 50,20);
-    assert( obj2_JXLayout != NULL );
-    obj2_JXLayout->SetToLabel();
+	JXStaticText* obj2_JXLayout =
+		new JXStaticText(JGetString("obj2_JXLayout::ResizeWidgetDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 50,20);
+	assert( obj2_JXLayout != NULL );
+	obj2_JXLayout->SetToLabel();
 
 // end JXLayout
 

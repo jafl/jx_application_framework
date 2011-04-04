@@ -3,7 +3,7 @@
 
 	Program to generate JX code from an fdesign .fd file.
 
-	Copyright © 1996-2000 by John Lindal. All rights reserved.
+	Copyright © 1996-2011 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -11,6 +11,7 @@
 #include <JXLibVersion.h>
 #include <JPtrArray-JString.h>
 #include <JRegex.h>
+#include <JTextEditor.h>
 #include <jFStreamUtil.h>
 #include <jStreamUtil.h>
 #include <jFileUtil.h>
@@ -28,9 +29,9 @@
 
 static const JCharacter* kVersionStr =
 
-	"jxlayout 3.0.0\n"
+	"jxlayout 3.1.0\n"
 	"\n"
-	"Copyright © 1996-2010 New Planet Software, Inc.  All rights reserved.\n"
+	"Copyright © 1996-2011 New Planet Software, Inc.  All rights reserved.\n"
 	"\n"
 	"http://www.newplanetsoftware.com/jx/";
 
@@ -158,10 +159,10 @@ JBoolean ShouldGenerateForm(const JString& form, const JPtrArray<JString>& list)
 JBoolean ShouldBackupForm(const JString& form, JPtrArray<JString>* list);
 void GenerateCode(istream& input, ostream& output, const JString& stringPath,
 				  const JString& formName, const JString& tagName,
-				  const JString& userTopEnclVarName,
+				  const JString& userTopEnclVarName, const JCharacter* indent,
 				  JPtrArray<JString>* objTypes, JPtrArray<JString>* objNames);
 void GenerateHeader(ostream& output, const JPtrArray<JString>& objTypes,
-					const JPtrArray<JString>& objNames);
+					const JPtrArray<JString>& objNames, const JCharacter* indent);
 
 JBoolean ParseGravity(const JString& gravity, JString* hSizing, JString* vSizing);
 void GetTempVarName(const JCharacter* tagName, JString* varName,
@@ -174,7 +175,7 @@ void ApplyOptions(ostream& output, const JString& className,
 				  const JString& formName, const JString& tagName, const JString& varName,
 				  const JPtrArray<JString>& values, const JString& flSize,
 				  const JString& flStyle, const JString& flColor,
-				  JStringManager* stringMgr);
+				  const JCharacter* indent, JStringManager* stringMgr);
 JBoolean AcceptsFontSpec(const JString& className);
 JBoolean NeedsStringArg(const JString& className);
 JBoolean NeedsCreateFunction(const JString& className);
@@ -182,7 +183,8 @@ JBoolean FindClassName(const JString& fileName, const JString& className);
 JBoolean ConvertXFormsFontSize(const JString& flSize, JString* jxSize);
 JBoolean ConvertXFormsColor(const JString& flColor, JString* jxColor);
 
-JBoolean CopyBeforeCodeDelimiter(const JString& tag, istream& input, ostream& output);
+JBoolean CopyBeforeCodeDelimiter(const JString& tag, istream& input, ostream& output,
+								 JString* indent);
 JBoolean CopyAfterCodeDelimiter(const JString& tag, istream& input, ostream& output);
 void RemoveIdentifier(const JCharacter* id, JString* line);
 
@@ -388,6 +390,8 @@ GenerateForm
 		return;
 		}
 
+	JString indent;
+
 	ifstream origCode(codeFileName);
 	ofstream outputCode(tempCodeFileName);
 	if (!outputCode.good())
@@ -396,7 +400,7 @@ GenerateForm
 		remove(tempCodeFileName);
 		return;
 		}
-	if (!CopyBeforeCodeDelimiter(tagName, origCode, outputCode))
+	if (!CopyBeforeCodeDelimiter(tagName, origCode, outputCode, &indent))
 		{
 		cerr << "No starting delimiter in " << codeFileName << endl;
 		outputCode.close();
@@ -409,7 +413,7 @@ GenerateForm
 	JPtrArray<JString> objTypes(JPtrArrayT::kDeleteAll),
 					   objNames(JPtrArrayT::kDeleteAll);
 	GenerateCode(input, outputCode, stringPath, formName, tagName, enclName,
-				 &objTypes, &objNames);
+				 indent, &objTypes, &objNames);
 
 	// copy code file contents after end delimiter
 
@@ -451,7 +455,7 @@ GenerateForm
 		remove(tempHeaderFileName);
 		return;
 		}
-	if (!CopyBeforeCodeDelimiter(tagName, origHeader, outputHeader))
+	if (!CopyBeforeCodeDelimiter(tagName, origHeader, outputHeader, &indent))
 		{
 		cerr << "No starting delimiter in " << headerFileName << endl;
 		outputHeader.close();
@@ -461,7 +465,7 @@ GenerateForm
 
 	// generate instance variable for each object in the form
 
-	GenerateHeader(outputHeader, objTypes, objNames);
+	GenerateHeader(outputHeader, objTypes, objNames, indent);
 
 	// copy header file contents after end delimiter
 
@@ -543,6 +547,7 @@ GenerateCode
 	const JString&		formName,
 	const JString&		tagName,
 	const JString&		userTopEnclVarName,
+	const JCharacter*	indent,
 	JPtrArray<JString>*	objTypes,
 	JPtrArray<JString>*	objNames
 	)
@@ -583,10 +588,10 @@ JIndex i;
 		{
 		topEnclVarName = kDefTopEnclVarName;
 
-		output << "    JXWindow* window = new JXWindow(this, ";
+		output << indent << "JXWindow* window = new JXWindow(this, ";
 		output << formWidth << ',' << formHeight;
 		output << ", \"\");" << endl;
-		output << "    assert( window != NULL );" << endl;
+		output << indent << "assert( window != NULL );" << endl;
 		output << endl;
 		}
 	else
@@ -594,19 +599,19 @@ JIndex i;
 		assert( !userTopEnclVarName.IsEmpty() );
 		topEnclVarName = userTopEnclVarName;
 
-		output << "    const JRect ";
+		output << indent << "const JRect ";
 		topEnclFrameName.Print(output);
 		output << "    = ";
 		topEnclVarName.Print(output);
 		output << "->GetFrame();" << endl;
 
-		output << "    const JRect ";
+		output << indent << "const JRect ";
 		topEnclApName.Print(output);
 		output << " = ";
 		topEnclVarName.Print(output);
 		output << "->GetAperture();" << endl;
 
-		output << "    ";
+		output << indent;
 		topEnclVarName.Print(output);
 		output << "->AdjustSize(" << formWidth << " - ";
 		topEnclApName.Print(output);
@@ -831,7 +836,7 @@ JIndex i;
 
 		const JBoolean needCreate = NeedsCreateFunction(*className);
 
-		output << "    ";
+		output << indent;
 		if (isLocal)
 			{
 			className->Print(output);
@@ -839,7 +844,7 @@ JIndex i;
 			}
 		varName->Print(output);
 		output << " =" << endl;
-		output << "        ";
+		output << indent << indent;
 		if (!needCreate)
 			{
 			output << "new ";
@@ -888,24 +893,24 @@ JIndex i;
 
 		enclName.Print(output);
 		output << ',' << endl;
-		output << "                    JXWidget::";
+		output << indent << indent << indent << indent << indent << "JXWidget::";
 		hSizing.Print(output);
 		output << ", JXWidget::";
 		vSizing.Print(output);
 		output << ", " << localFrame.left << ',' << localFrame.top << ", ";
 		output << localFrame.width() << ',' << localFrame.height() << ");" << endl;
 
-		output << "    assert( ";
+		output << indent << "assert( ";
 		varName->Print(output);
 		output << " != NULL );" << endl;
 
 		ApplyOptions(output, *className, formName, tagName, *varName, optionValues,
-					 lSize, lStyle, lColor, &stringMgr);
+					 lSize, lStyle, lColor, indent, &stringMgr);
 
 		if (*className == "JXStaticText" && cbArg.IsEmpty() &&
 			!lAlign.Contains("FL_ALIGN_TOP") && localFrame.height() <= 20)
 			{
-			output << "    ";
+			output << indent;
 			varName->Print(output);
 			output << "->SetToLabel();" << endl;
 			}
@@ -942,7 +947,7 @@ JIndex i;
 
 	if (tagName != kDefaultDelimTag)
 		{
-		output << "    ";
+		output << indent;
 		topEnclVarName.Print(output);
 		output << "->SetSize(";
 		topEnclFrameName.Print(output);
@@ -978,7 +983,8 @@ GenerateHeader
 	(
 	ostream&					output,
 	const JPtrArray<JString>&	objTypes,
-	const JPtrArray<JString>&	objNames
+	const JPtrArray<JString>&	objNames,
+	const JCharacter*			indent
 	)
 {
 	JIndex i;
@@ -1002,7 +1008,7 @@ GenerateHeader
 
 	for (i=1; i<=count; i++)
 		{
-		output << "    ";
+		output << indent;
 		const JString* type = objTypes.NthElement(i);
 		type->Print(output);
 		output << '*';
@@ -1287,6 +1293,7 @@ ApplyOptions
 	const JString&				flSize,
 	const JString&				flStyle,
 	const JString&				flColor,
+	const JCharacter*			indent,
 	JStringManager*				stringMgr
 	)
 {
@@ -1333,7 +1340,7 @@ ApplyOptions
 						id += "::shortcuts::";
 						id += tagName;		// last since it is almost always the same
 
-						output << "    ";
+						output << indent;
 						varName.Print(output);
 						output << "->";
 						function.Print(output);
@@ -1625,9 +1632,12 @@ CopyBeforeCodeDelimiter
 	(
 	const JString&	tag,
 	istream&		input,
-	ostream&		output
+	ostream&		output,
+	JString*		indent
 	)
 {
+	JString buffer;
+
 	const JString delim = kBeginCodeDelimiterPrefix + tag;
 	while (!input.eof() && !input.fail())
 		{
@@ -1639,7 +1649,15 @@ CopyBeforeCodeDelimiter
 			output << '\n';
 			break;
 			}
+
+		buffer += line;
+		buffer += "\n";
 		}
+
+	JBoolean useSpaces, showWhitespace;
+	JTextEditor::AnalyzeWhitespace(buffer, 4, kJFalse,
+								   &useSpaces, &showWhitespace);
+	*indent = useSpaces ? "    " : "\t";
 
 	return JI2B( !input.eof() && !input.fail() );
 }

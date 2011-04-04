@@ -30,7 +30,7 @@ private:
 
 // begin JXLayout
 
-    JXInputField* itsOpenFileInput;
+	JXInputField* itsOpenFileInput;
 
 // end JXLayout
 

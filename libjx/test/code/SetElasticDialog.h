@@ -33,7 +33,7 @@ private:
 
 // begin JXLayout
 
-    JXIntegerInput* itsElasticIndex;
+	JXIntegerInput* itsElasticIndex;
 
 // end JXLayout
 

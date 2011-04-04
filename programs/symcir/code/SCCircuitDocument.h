@@ -75,7 +75,7 @@ private:
 
 // begin JXLayout
 
-    JXStaticText* itsNetlistText;
+	JXStaticText* itsNetlistText;
 
 // end JXLayout
 

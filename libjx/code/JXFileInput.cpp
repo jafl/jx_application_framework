@@ -704,6 +704,7 @@ JXFileInput::HandleKeyPress
 				return;
 				}
 			itsCompleter->ShowHidden(kJTrue);
+			itsCompleter->ShowVCSDirs(kJFalse);
 			itsCompleter->ShowDirs(kJTrue);
 			itsCompleter->ShowFiles(kJTrue);
 			itsCompleter->ShouldApplyWildcardFilterToDirs();

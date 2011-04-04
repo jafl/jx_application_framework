@@ -60,7 +60,7 @@ private:
 
 // begin JXLayout
 
-    THX3DPlotWidget* its3DPlot;
+	THX3DPlotWidget* its3DPlot;
 
 // end JXLayout
 

@@ -190,75 +190,75 @@ JX2DPlotPrintEPSDialog::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 370,190, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 370,190, "");
+	assert( window != NULL );
 
-    JXTextButton* chooseFileButton =
-        new JXTextButton(JGetString("chooseFileButton::JX2DPlotPrintEPSDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 80,20);
-    assert( chooseFileButton != NULL );
-    chooseFileButton->SetShortcuts(JGetString("chooseFileButton::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
+	JXTextButton* chooseFileButton =
+		new JXTextButton(JGetString("chooseFileButton::JX2DPlotPrintEPSDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 80,20);
+	assert( chooseFileButton != NULL );
+	chooseFileButton->SetShortcuts(JGetString("chooseFileButton::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::JX2DPlotPrintEPSDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 230,160, 70,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::JX2DPlotPrintEPSDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 230,160, 70,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::JX2DPlotPrintEPSDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,160, 70,20);
-    assert( cancelButton != NULL );
-    cancelButton->SetShortcuts(JGetString("cancelButton::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::JX2DPlotPrintEPSDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,160, 70,20);
+	assert( cancelButton != NULL );
+	cancelButton->SetShortcuts(JGetString("cancelButton::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
 
-    JXTextCheckbox* bwCB =
-        new JXTextCheckbox(JGetString("bwCB::JX2DPlotPrintEPSDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 190,120, 150,20);
-    assert( bwCB != NULL );
-    bwCB->SetShortcuts(JGetString("bwCB::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
+	JXTextCheckbox* bwCB =
+		new JXTextCheckbox(JGetString("bwCB::JX2DPlotPrintEPSDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 190,120, 150,20);
+	assert( bwCB != NULL );
+	bwCB->SetShortcuts(JGetString("bwCB::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
 
-    JXTextCheckbox* previewCB =
-        new JXTextCheckbox(JGetString("previewCB::JX2DPlotPrintEPSDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,120, 130,20);
-    assert( previewCB != NULL );
-    previewCB->SetShortcuts(JGetString("previewCB::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
+	JXTextCheckbox* previewCB =
+		new JXTextCheckbox(JGetString("previewCB::JX2DPlotPrintEPSDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,120, 130,20);
+	assert( previewCB != NULL );
+	previewCB->SetShortcuts(JGetString("previewCB::JX2DPlotPrintEPSDialog::shortcuts::JXLayout"));
 
-    JXFileInput* fileInput =
-        new JXFileInput(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 100,20, 250,20);
-    assert( fileInput != NULL );
+	JXFileInput* fileInput =
+		new JXFileInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 100,20, 250,20);
+	assert( fileInput != NULL );
 
-    itsWidthInput =
-        new JXFloatInput(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 70,60, 60,20);
-    assert( itsWidthInput != NULL );
+	itsWidthInput =
+		new JXFloatInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 70,60, 60,20);
+	assert( itsWidthInput != NULL );
 
-    itsHeightInput =
-        new JXFloatInput(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 70,80, 60,20);
-    assert( itsHeightInput != NULL );
+	itsHeightInput =
+		new JXFloatInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 70,80, 60,20);
+	assert( itsHeightInput != NULL );
 
-    JXStaticText* obj1_JXLayout =
-        new JXStaticText(JGetString("obj1_JXLayout::JX2DPlotPrintEPSDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 50,20);
-    assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetToLabel();
+	JXStaticText* obj1_JXLayout =
+		new JXStaticText(JGetString("obj1_JXLayout::JX2DPlotPrintEPSDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 50,20);
+	assert( obj1_JXLayout != NULL );
+	obj1_JXLayout->SetToLabel();
 
-    JXStaticText* obj2_JXLayout =
-        new JXStaticText(JGetString("obj2_JXLayout::JX2DPlotPrintEPSDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 50,20);
-    assert( obj2_JXLayout != NULL );
-    obj2_JXLayout->SetToLabel();
+	JXStaticText* obj2_JXLayout =
+		new JXStaticText(JGetString("obj2_JXLayout::JX2DPlotPrintEPSDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 50,20);
+	assert( obj2_JXLayout != NULL );
+	obj2_JXLayout->SetToLabel();
 
-    itsUnitMenu =
-        new JXTextMenu(JGetString("itsUnitMenu::JX2DPlotPrintEPSDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 130,70, 60,20);
-    assert( itsUnitMenu != NULL );
+	itsUnitMenu =
+		new JXTextMenu(JGetString("itsUnitMenu::JX2DPlotPrintEPSDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,70, 60,20);
+	assert( itsUnitMenu != NULL );
 
-    itsPredefSizeMenu =
-        new JXTextMenu(JGetString("itsPredefSizeMenu::JX2DPlotPrintEPSDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 220,65, 120,30);
-    assert( itsPredefSizeMenu != NULL );
+	itsPredefSizeMenu =
+		new JXTextMenu(JGetString("itsPredefSizeMenu::JX2DPlotPrintEPSDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 220,65, 120,30);
+	assert( itsPredefSizeMenu != NULL );
 
 // end JXLayout
 

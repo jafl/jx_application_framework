@@ -77,39 +77,39 @@ JXEPSPrintSetupDialog::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 370,130, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 370,130, "");
+	assert( window != NULL );
 
-    itsChooseFileButton =
-        new JXTextButton(JGetString("itsChooseFileButton::JXEPSPrintSetupDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 80,20);
-    assert( itsChooseFileButton != NULL );
+	itsChooseFileButton =
+		new JXTextButton(JGetString("itsChooseFileButton::JXEPSPrintSetupDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 80,20);
+	assert( itsChooseFileButton != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::JXEPSPrintSetupDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 230,100, 70,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::JXEPSPrintSetupDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::JXEPSPrintSetupDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 230,100, 70,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::JXEPSPrintSetupDialog::shortcuts::JXLayout"));
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::JXEPSPrintSetupDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,100, 70,20);
-    assert( cancelButton != NULL );
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::JXEPSPrintSetupDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,100, 70,20);
+	assert( cancelButton != NULL );
 
-    itsBWCheckbox =
-        new JXTextCheckbox(JGetString("itsBWCheckbox::JXEPSPrintSetupDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 190,60, 150,20);
-    assert( itsBWCheckbox != NULL );
+	itsBWCheckbox =
+		new JXTextCheckbox(JGetString("itsBWCheckbox::JXEPSPrintSetupDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 190,60, 150,20);
+	assert( itsBWCheckbox != NULL );
 
-    itsPreviewCheckbox =
-        new JXTextCheckbox(JGetString("itsPreviewCheckbox::JXEPSPrintSetupDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,60, 130,20);
-    assert( itsPreviewCheckbox != NULL );
+	itsPreviewCheckbox =
+		new JXTextCheckbox(JGetString("itsPreviewCheckbox::JXEPSPrintSetupDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,60, 130,20);
+	assert( itsPreviewCheckbox != NULL );
 
-    itsFileInput =
-        new JXFileInput(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 100,20, 250,20);
-    assert( itsFileInput != NULL );
+	itsFileInput =
+		new JXFileInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 100,20, 250,20);
+	assert( itsFileInput != NULL );
 
 // end JXLayout
 

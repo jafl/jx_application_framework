@@ -4,8 +4,8 @@
 # version numbers
 #
 
-JFS_VERSION     := 1.1.3
-JFS_LIB_VERSION := 1_1_3
+JFS_VERSION     := 1.1.4
+JFS_LIB_VERSION := 1_1_4
 
 #
 # library names

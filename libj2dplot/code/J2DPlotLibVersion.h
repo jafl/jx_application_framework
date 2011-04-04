@@ -14,11 +14,11 @@
 
 #define CURRENT_J2DPLOT_MAJOR_VERSION	1
 #define CURRENT_J2DPLOT_MINOR_VERSION	1
-#define CURRENT_J2DPLOT_PATCH_VERSION	0
+#define CURRENT_J2DPLOT_PATCH_VERSION	1
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJ2DPlotLibVersionStr = "1.1.0";
+static const char* kCurrentJ2DPlotLibVersionStr = "1.1.1";
 
 // version 1.1.1:
 //	JX2DPlotEPSPrinter:

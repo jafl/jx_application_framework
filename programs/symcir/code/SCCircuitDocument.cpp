@@ -157,18 +157,18 @@ SCCircuitDocument::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 260,300, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 260,300, "");
+	assert( window != NULL );
 
-    JXMenuBar* menuBar =
-        new JXMenuBar(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 260,30);
-    assert( menuBar != NULL );
+	JXMenuBar* menuBar =
+		new JXMenuBar(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 260,30);
+	assert( menuBar != NULL );
 
-    itsNetlistText =
-        new JXStaticText("", kJFalse, kJTrue, NULL, JGetString("itsNetlistText::SCCircuitDocument::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 260,270);
-    assert( itsNetlistText != NULL );
+	itsNetlistText =
+		new JXStaticText("", kJFalse, kJTrue, NULL, JGetString("itsNetlistText::SCCircuitDocument::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 260,270);
+	assert( itsNetlistText != NULL );
 
 // end JXLayout
 

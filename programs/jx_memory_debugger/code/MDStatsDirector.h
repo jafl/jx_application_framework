@@ -65,19 +65,19 @@ private:
 
 // begin JXLayout
 
-    JXToolBar* itsToolBar;
+	JXToolBar* itsToolBar;
 
 // end JXLayout
 
 // begin statsLayout
 
-    JXFileInput*  itsProgramInput;
-    JXTextButton* itsChooseProgramButton;
-    JXInputField* itsArgsInput;
-    JXTextButton* itsRunProgramButton;
-    JXStaticText* itsAllocatedBlocksDisplay;
-    JXStaticText* itsAllocatedBytesDisplay;
-    JXStaticText* itsDeallocatedBlocksDisplay;
+	JXFileInput*  itsProgramInput;
+	JXTextButton* itsChooseProgramButton;
+	JXInputField* itsArgsInput;
+	JXTextButton* itsRunProgramButton;
+	JXStaticText* itsAllocatedBlocksDisplay;
+	JXStaticText* itsAllocatedBytesDisplay;
+	JXStaticText* itsDeallocatedBlocksDisplay;
 
 // end statsLayout
 

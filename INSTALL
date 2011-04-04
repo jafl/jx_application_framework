@@ -12,42 +12,42 @@ everything if you move JX to a different location after building it.
 
 On Ubuntu, you need to install development packages:
 
-	sudo apt-get install g++ flex bison \
-		libX11-dev libXinerama-dev libXpm-dev libxft-dev \
-		libxmu-dev libxi-dev \
-		libxml2-dev libjpeg-dev libpng-dev
+    sudo apt-get install g++ flex bison \
+        libX11-dev libXinerama-dev libXpm-dev libxft-dev \
+        libxmu-dev libxi-dev \
+        libxml2-dev libjpeg-dev libpng-dev
 
 On OS X, it helps to install GNU coreutils.
 
 To keep the Makefiles smaller:
 
-	setenv J_MAKEMAKE_IGNORE_PATTERN '^ace/|StdInc.h$'
+    setenv J_MAKEMAKE_IGNORE_PATTERN '^ace/|StdInc.h$'
 
 Download and unpack ACE:
 
-	http://www.cs.wustl.edu/~schmidt/ACE.html
+    http://www.cs.wustl.edu/~schmidt/ACE.html
 
 ACE 5.7.1 needs to be patched.  Replace the following file with the version
 in ACE/patch-5.7.1:
 
-	ace/OS_Memory.h
+    ace/OS_Memory.h
 
 ACE 6.0.x needs to be patched.  Replace the following files with the
 versions in ACE/patch-6.0.1:
 
-	include/makeinclude/wrapper_macros.GNU
-	ace/config-g++-common.h
-	ace/OS_Memory.h
+    include/makeinclude/wrapper_macros.GNU
+    ace/config-g++-common.h
+    ace/OS_Memory.h
 
 If you have mesa-libGL-devel installed, run this in the JX directory:
 
-	ln -s /usr Mesa
+    ln -s /usr Mesa
 
 Otherwise, if you built from Mesa-7.5.2 source, run this in the Mesa
 directory:
 
-	ln -s ../../src/mesa/drivers/x11/xmesa.h include/GL
-	ln -s ../../src/mesa/drivers/x11/xmesa_x.h include/GL
+    ln -s ../../src/mesa/drivers/x11/xmesa.h include/GL
+    ln -s ../../src/mesa/drivers/x11/xmesa_x.h include/GL
 
 
 *** Step 2:  Compiling
@@ -103,7 +103,7 @@ Makefile by copying one of the existing ones and modifying it as follows:
 
 Get the xforms distribution from
 
-	http://world.std.com/~xforms/
+    http://world.std.com/~xforms/
 
 and extract the fdesign binary.  This should be placed in ~/bin. (or
 $JX_INSTALL_ROOT, if you set it)  fdesign is the graphical layout tool.

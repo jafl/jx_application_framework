@@ -54,14 +54,14 @@ private:
 
 // begin JXLayout
 
-    JXStaticText* itsCheckText;
-    JXInputField* itsFirstGuess;
-    JXTextButton* itsIgnoreButton;
-    JXTextButton* itsChangeButton;
-    JXTextButton* itsLearnButton;
-    JXTextButton* itsChangeAllButton;
-    JXTextButton* itsCloseButton;
-    JXTextButton* itsLearnCapsButton;
+	JXStaticText* itsCheckText;
+	JXInputField* itsFirstGuess;
+	JXTextButton* itsIgnoreButton;
+	JXTextButton* itsChangeButton;
+	JXTextButton* itsLearnButton;
+	JXTextButton* itsChangeAllButton;
+	JXTextButton* itsCloseButton;
+	JXTextButton* itsLearnCapsButton;
 
 // end JXLayout
 

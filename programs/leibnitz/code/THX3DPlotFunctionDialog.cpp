@@ -90,113 +90,113 @@ THX3DPlotFunctionDialog::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 440,300, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 440,300, "");
+	assert( window != NULL );
 
-    JXExprEditorSet* obj1_JXLayout =
-        new JXExprEditorSet(varList, &itsExprWidget, window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 440,150);
-    assert( obj1_JXLayout != NULL );
+	JXExprEditorSet* obj1_JXLayout =
+		new JXExprEditorSet(varList, &itsExprWidget, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 440,150);
+	assert( obj1_JXLayout != NULL );
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::THX3DPlotFunctionDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 110,270, 60,20);
-    assert( cancelButton != NULL );
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::THX3DPlotFunctionDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 110,270, 60,20);
+	assert( cancelButton != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::THX3DPlotFunctionDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 270,270, 70,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::THX3DPlotFunctionDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::THX3DPlotFunctionDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 270,270, 70,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::THX3DPlotFunctionDialog::shortcuts::JXLayout"));
 
-    JXStaticText* obj2_JXLayout =
-        new JXStaticText(JGetString("obj2_JXLayout::THX3DPlotFunctionDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,170, 90,20);
-    assert( obj2_JXLayout != NULL );
-    obj2_JXLayout->SetToLabel();
+	JXStaticText* obj2_JXLayout =
+		new JXStaticText(JGetString("obj2_JXLayout::THX3DPlotFunctionDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,170, 90,20);
+	assert( obj2_JXLayout != NULL );
+	obj2_JXLayout->SetToLabel();
 
-    JXStaticText* obj3_JXLayout =
-        new JXStaticText(JGetString("obj3_JXLayout::THX3DPlotFunctionDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,200, 90,20);
-    assert( obj3_JXLayout != NULL );
-    obj3_JXLayout->SetToLabel();
+	JXStaticText* obj3_JXLayout =
+		new JXStaticText(JGetString("obj3_JXLayout::THX3DPlotFunctionDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,200, 90,20);
+	assert( obj3_JXLayout != NULL );
+	obj3_JXLayout->SetToLabel();
 
-    JXStaticText* obj4_JXLayout =
-        new JXStaticText(JGetString("obj4_JXLayout::THX3DPlotFunctionDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 180,200, 20,20);
-    assert( obj4_JXLayout != NULL );
-    obj4_JXLayout->SetToLabel();
+	JXStaticText* obj4_JXLayout =
+		new JXStaticText(JGetString("obj4_JXLayout::THX3DPlotFunctionDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 180,200, 20,20);
+	assert( obj4_JXLayout != NULL );
+	obj4_JXLayout->SetToLabel();
 
-    JXStaticText* obj5_JXLayout =
-        new JXStaticText(JGetString("obj5_JXLayout::THX3DPlotFunctionDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,230, 90,20);
-    assert( obj5_JXLayout != NULL );
-    obj5_JXLayout->SetToLabel();
+	JXStaticText* obj5_JXLayout =
+		new JXStaticText(JGetString("obj5_JXLayout::THX3DPlotFunctionDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,230, 90,20);
+	assert( obj5_JXLayout != NULL );
+	obj5_JXLayout->SetToLabel();
 
-    JXStaticText* obj6_JXLayout =
-        new JXStaticText(JGetString("obj6_JXLayout::THX3DPlotFunctionDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 180,230, 20,20);
-    assert( obj6_JXLayout != NULL );
-    obj6_JXLayout->SetToLabel();
+	JXStaticText* obj6_JXLayout =
+		new JXStaticText(JGetString("obj6_JXLayout::THX3DPlotFunctionDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 180,230, 20,20);
+	assert( obj6_JXLayout != NULL );
+	obj6_JXLayout->SetToLabel();
 
-    JXStaticText* obj7_JXLayout =
-        new JXStaticText(JGetString("obj7_JXLayout::THX3DPlotFunctionDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 280,200, 30,20);
-    assert( obj7_JXLayout != NULL );
-    obj7_JXLayout->SetToLabel();
+	JXStaticText* obj7_JXLayout =
+		new JXStaticText(JGetString("obj7_JXLayout::THX3DPlotFunctionDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 280,200, 30,20);
+	assert( obj7_JXLayout != NULL );
+	obj7_JXLayout->SetToLabel();
 
-    JXStaticText* obj8_JXLayout =
-        new JXStaticText(JGetString("obj8_JXLayout::THX3DPlotFunctionDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 390,200, 40,20);
-    assert( obj8_JXLayout != NULL );
-    obj8_JXLayout->SetToLabel();
+	JXStaticText* obj8_JXLayout =
+		new JXStaticText(JGetString("obj8_JXLayout::THX3DPlotFunctionDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 390,200, 40,20);
+	assert( obj8_JXLayout != NULL );
+	obj8_JXLayout->SetToLabel();
 
-    JXStaticText* obj9_JXLayout =
-        new JXStaticText(JGetString("obj9_JXLayout::THX3DPlotFunctionDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 280,230, 30,20);
-    assert( obj9_JXLayout != NULL );
-    obj9_JXLayout->SetToLabel();
+	JXStaticText* obj9_JXLayout =
+		new JXStaticText(JGetString("obj9_JXLayout::THX3DPlotFunctionDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 280,230, 30,20);
+	assert( obj9_JXLayout != NULL );
+	obj9_JXLayout->SetToLabel();
 
-    JXStaticText* obj10_JXLayout =
-        new JXStaticText(JGetString("obj10_JXLayout::THX3DPlotFunctionDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 390,230, 40,20);
-    assert( obj10_JXLayout != NULL );
-    obj10_JXLayout->SetToLabel();
+	JXStaticText* obj10_JXLayout =
+		new JXStaticText(JGetString("obj10_JXLayout::THX3DPlotFunctionDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 390,230, 40,20);
+	assert( obj10_JXLayout != NULL );
+	obj10_JXLayout->SetToLabel();
 
-    itsSurfaceName =
-        new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kFixedBottom, 100,170, 290,20);
-    assert( itsSurfaceName != NULL );
+	itsSurfaceName =
+		new JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 100,170, 290,20);
+	assert( itsSurfaceName != NULL );
 
-    itsXMinInput =
-        new JXFloatInput(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 100,200, 80,20);
-    assert( itsXMinInput != NULL );
+	itsXMinInput =
+		new JXFloatInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 100,200, 80,20);
+	assert( itsXMinInput != NULL );
 
-    itsXMaxInput =
-        new JXFloatInput(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 200,200, 80,20);
-    assert( itsXMaxInput != NULL );
+	itsXMaxInput =
+		new JXFloatInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 200,200, 80,20);
+	assert( itsXMaxInput != NULL );
 
-    itsXCountInput =
-        new JXIntegerInput(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 310,200, 80,20);
-    assert( itsXCountInput != NULL );
+	itsXCountInput =
+		new JXIntegerInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 310,200, 80,20);
+	assert( itsXCountInput != NULL );
 
-    itsYMinInput =
-        new JXFloatInput(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 100,230, 80,20);
-    assert( itsYMinInput != NULL );
+	itsYMinInput =
+		new JXFloatInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 100,230, 80,20);
+	assert( itsYMinInput != NULL );
 
-    itsYMaxInput =
-        new JXFloatInput(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 200,230, 80,20);
-    assert( itsYMaxInput != NULL );
+	itsYMaxInput =
+		new JXFloatInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 200,230, 80,20);
+	assert( itsYMaxInput != NULL );
 
-    itsYCountInput =
-        new JXIntegerInput(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 310,230, 80,20);
-    assert( itsYCountInput != NULL );
+	itsYCountInput =
+		new JXIntegerInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 310,230, 80,20);
+	assert( itsYCountInput != NULL );
 
 // end JXLayout
 

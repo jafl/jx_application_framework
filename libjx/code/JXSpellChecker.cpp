@@ -299,6 +299,10 @@ JXSpellChecker::ReadPrefs
 {
 	JFileVersion vers;
 	input >> vers;
+	if (vers > kCurrentPrefsVersion)
+		{
+		return;
+		}
 
 	input >> itsReportNoErrorsFlag;
 	input >> itsDefaultWindowSize;

@@ -67,35 +67,35 @@ SCEditFnDialog::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 330,230, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 330,230, "");
+	assert( window != NULL );
 
-    itsVarName =
-        new JXExprInput(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 110,15, 200,20);
-    assert( itsVarName != NULL );
+	itsVarName =
+		new JXExprInput(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 110,15, 200,20);
+	assert( itsVarName != NULL );
 
-    JXExprEditorSet* obj1_JXLayout =
-        new JXExprEditorSet(varList, &itsExprWidget, window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,50, 330,130);
-    assert( obj1_JXLayout != NULL );
+	JXExprEditorSet* obj1_JXLayout =
+		new JXExprEditorSet(varList, &itsExprWidget, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,50, 330,130);
+	assert( obj1_JXLayout != NULL );
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::SCEditFnDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 50,200, 70,20);
-    assert( cancelButton != NULL );
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::SCEditFnDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 50,200, 70,20);
+	assert( cancelButton != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::SCEditFnDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 200,200, 70,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::SCEditFnDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::SCEditFnDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 200,200, 70,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::SCEditFnDialog::shortcuts::JXLayout"));
 
-    JXStaticText* obj2_JXLayout =
-        new JXStaticText(JGetString("obj2_JXLayout::SCEditFnDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 10,15, 100,20);
-    assert( obj2_JXLayout != NULL );
-    obj2_JXLayout->SetToLabel();
+	JXStaticText* obj2_JXLayout =
+		new JXStaticText(JGetString("obj2_JXLayout::SCEditFnDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,15, 100,20);
+	assert( obj2_JXLayout != NULL );
+	obj2_JXLayout->SetToLabel();
 
 // end JXLayout
 

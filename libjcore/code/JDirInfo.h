@@ -59,16 +59,19 @@ public:
 	void		ChangeSort(JCompareDirEntries* f, const JOrderedSetT::SortOrder order);
 
 	JBoolean	FilesVisible() const;
-	void		ShowFiles(const JBoolean showFiles);
+	void		ShowFiles(const JBoolean show);
 
 	JBoolean	DirsVisible() const;
-	void		ShowDirs(const JBoolean showDirs);
+	void		ShowDirs(const JBoolean show);
 
 	JBoolean	HiddenVisible() const;
-	void		ShowHidden(const JBoolean showHidden);
+	void		ShowHidden(const JBoolean show);
+
+	JBoolean	VCSDirsVisible() const;
+	void		ShowVCSDirs(const JBoolean show);
 
 	JBoolean	OthersVisible() const;
-	void		ShowOthers(const JBoolean showOthers);
+	void		ShowOthers(const JBoolean show);
 
 	JBoolean	HasWildcardFilter() const;
 	void		SetWildcardFilter(const JCharacter* filterStr,
@@ -131,6 +134,7 @@ private:
 	JBoolean	itsShowFilesFlag;
 	JBoolean	itsShowDirsFlag;
 	JBoolean	itsShowHiddenFlag;
+	JBoolean	itsShowVCSDirsFlag;
 	JBoolean	itsShowOthersFlag;
 	JRegex*		itsNameRegex;			// can be NULL
 	JBoolean	itsOwnsNameRegexFlag;
@@ -269,6 +273,13 @@ JDirInfo::HiddenVisible()
 	const
 {
 	return itsShowHiddenFlag;
+}
+
+inline JBoolean
+JDirInfo::VCSDirsVisible()
+	const
+{
+	return itsShowVCSDirsFlag;
 }
 
 inline JBoolean

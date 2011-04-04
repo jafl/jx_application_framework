@@ -32,7 +32,7 @@ private:
 
 // begin JXLayout
 
-    JXIntegerInput* itsFontSize;
+	JXIntegerInput* itsFontSize;
 
 // end JXLayout
 

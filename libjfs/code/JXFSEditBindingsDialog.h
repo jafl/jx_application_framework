@@ -48,18 +48,18 @@ private:
 
 // begin JXLayout
 
-    JXTextButton*   itsSaveButton;
-    JXTextButton*   itsCloseButton;
-    JXTextButton*   itsRevertButton;
-    JXTextButton*   itsHelpButton;
-    JXInputField*   itsDefCmd;
-    JXTextCheckbox* itsUseDefaultCB;
-    JXInputField*   itsShellCmd;
-    JXInputField*   itsWindowCmd;
-    JXTextCheckbox* itsDefShellCB;
-    JXTextCheckbox* itsDefWindowCB;
-    JXTextCheckbox* itsDefSingleCB;
-    JXTextCheckbox* itsAutoShellCB;
+	JXTextButton*   itsSaveButton;
+	JXTextButton*   itsCloseButton;
+	JXTextButton*   itsRevertButton;
+	JXTextButton*   itsHelpButton;
+	JXInputField*   itsDefCmd;
+	JXTextCheckbox* itsUseDefaultCB;
+	JXInputField*   itsShellCmd;
+	JXInputField*   itsWindowCmd;
+	JXTextCheckbox* itsDefShellCB;
+	JXTextCheckbox* itsDefWindowCB;
+	JXTextCheckbox* itsDefSingleCB;
+	JXTextCheckbox* itsAutoShellCB;
 
 // end JXLayout
 

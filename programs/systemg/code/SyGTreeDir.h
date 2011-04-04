@@ -58,10 +58,10 @@ private:
 
 // begin JXLayout
 
-    JXToolBar*           itsToolBar;
-    SyGPathInput*        itsPathInput;
-    SyGFolderDragSource* itsDragSrc;
-    JXTextButton*        itsUpButton;
+	JXToolBar*           itsToolBar;
+	SyGPathInput*        itsPathInput;
+	SyGFolderDragSource* itsDragSrc;
+	JXTextButton*        itsUpButton;
 
 // end JXLayout
 

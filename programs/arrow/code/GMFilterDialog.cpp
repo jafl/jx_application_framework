@@ -93,30 +93,30 @@ GMFilterDialog::BuildWindow()
 
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 470,450, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 470,450, "");
+	assert( window != NULL );
 
-    itsVertPartition =
-        new JXVertPartition(heights, elasticIndex, minHeights, window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 430,390);
-    assert( itsVertPartition != NULL );
+	itsVertPartition =
+		new JXVertPartition(heights, elasticIndex, minHeights, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 430,390);
+	assert( itsVertPartition != NULL );
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::GMFilterDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kVElastic, 85,420, 60,20);
-    assert( cancelButton != NULL );
-    cancelButton->SetShortcuts(JGetString("cancelButton::GMFilterDialog::shortcuts::JXLayout"));
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::GMFilterDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 85,420, 60,20);
+	assert( cancelButton != NULL );
+	cancelButton->SetShortcuts(JGetString("cancelButton::GMFilterDialog::shortcuts::JXLayout"));
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::GMFilterDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kVElastic, 325,420, 60,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::GMFilterDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::GMFilterDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 325,420, 60,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::GMFilterDialog::shortcuts::JXLayout"));
 
-    itsHelpButton =
-        new JXTextButton(JGetString("itsHelpButton::GMFilterDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kVElastic, 205,420, 60,20);
-    assert( itsHelpButton != NULL );
+	itsHelpButton =
+		new JXTextButton(JGetString("itsHelpButton::GMFilterDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 205,420, 60,20);
+	assert( itsHelpButton != NULL );
 
 // end JXLayout
 
@@ -134,36 +134,36 @@ GMFilterDialog::BuildWindow()
 
 // begin actionLayout
 
-    const JRect actionLayout_Frame    = container->GetFrame();
-    const JRect actionLayout_Aperture = container->GetAperture();
-    container->AdjustSize(430 - actionLayout_Aperture.width(), 120 - actionLayout_Aperture.height());
+	const JRect actionLayout_Frame    = container->GetFrame();
+	const JRect actionLayout_Aperture = container->GetAperture();
+	container->AdjustSize(430 - actionLayout_Aperture.width(), 120 - actionLayout_Aperture.height());
 
-    JXTextButton* newActionButton =
-        new JXTextButton(JGetString("newActionButton::GMFilterDialog::actionLayout"), container,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 360,20, 70,20);
-    assert( newActionButton != NULL );
+	JXTextButton* newActionButton =
+		new JXTextButton(JGetString("newActionButton::GMFilterDialog::actionLayout"), container,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 360,20, 70,20);
+	assert( newActionButton != NULL );
 
-    JXTextButton* removeActionButton =
-        new JXTextButton(JGetString("removeActionButton::GMFilterDialog::actionLayout"), container,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 360,50, 70,20);
-    assert( removeActionButton != NULL );
+	JXTextButton* removeActionButton =
+		new JXTextButton(JGetString("removeActionButton::GMFilterDialog::actionLayout"), container,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 360,50, 70,20);
+	assert( removeActionButton != NULL );
 
-    JXWidgetSet* mboxColHeaderEncl =
-        new JXWidgetSet(container,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 350,20);
-    assert( mboxColHeaderEncl != NULL );
+	JXWidgetSet* mboxColHeaderEncl =
+		new JXWidgetSet(container,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 350,20);
+	assert( mboxColHeaderEncl != NULL );
 
-    JXScrollbarSet* mboxScrollbarSet =
-        new JXScrollbarSet(container,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 350,100);
-    assert( mboxScrollbarSet != NULL );
+	JXScrollbarSet* mboxScrollbarSet =
+		new JXScrollbarSet(container,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 350,100);
+	assert( mboxScrollbarSet != NULL );
 
-    JXTextButton* chooseActionButton =
-        new JXTextButton(JGetString("chooseActionButton::GMFilterDialog::actionLayout"), container,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 360,80, 70,20);
-    assert( chooseActionButton != NULL );
+	JXTextButton* chooseActionButton =
+		new JXTextButton(JGetString("chooseActionButton::GMFilterDialog::actionLayout"), container,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 360,80, 70,20);
+	assert( chooseActionButton != NULL );
 
-    container->SetSize(actionLayout_Frame.width(), actionLayout_Frame.height());
+	container->SetSize(actionLayout_Frame.width(), actionLayout_Frame.height());
 
 // end actionLayout
 
@@ -188,31 +188,31 @@ GMFilterDialog::BuildWindow()
 
 // begin conditionLayout
 
-    const JRect conditionLayout_Frame    = container->GetFrame();
-    const JRect conditionLayout_Aperture = container->GetAperture();
-    container->AdjustSize(430 - conditionLayout_Aperture.width(), 130 - conditionLayout_Aperture.height());
+	const JRect conditionLayout_Frame    = container->GetFrame();
+	const JRect conditionLayout_Aperture = container->GetAperture();
+	container->AdjustSize(430 - conditionLayout_Aperture.width(), 130 - conditionLayout_Aperture.height());
 
-    JXTextButton* newConditionButton =
-        new JXTextButton(JGetString("newConditionButton::GMFilterDialog::conditionLayout"), container,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 360,20, 70,20);
-    assert( newConditionButton != NULL );
+	JXTextButton* newConditionButton =
+		new JXTextButton(JGetString("newConditionButton::GMFilterDialog::conditionLayout"), container,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 360,20, 70,20);
+	assert( newConditionButton != NULL );
 
-    JXTextButton* removeConditionButton =
-        new JXTextButton(JGetString("removeConditionButton::GMFilterDialog::conditionLayout"), container,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 360,50, 70,20);
-    assert( removeConditionButton != NULL );
+	JXTextButton* removeConditionButton =
+		new JXTextButton(JGetString("removeConditionButton::GMFilterDialog::conditionLayout"), container,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 360,50, 70,20);
+	assert( removeConditionButton != NULL );
 
-    JXWidgetSet* conditionColHeaderEncl =
-        new JXWidgetSet(container,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 350,20);
-    assert( conditionColHeaderEncl != NULL );
+	JXWidgetSet* conditionColHeaderEncl =
+		new JXWidgetSet(container,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 350,20);
+	assert( conditionColHeaderEncl != NULL );
 
-    JXScrollbarSet* conditionScrollbarSet =
-        new JXScrollbarSet(container,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 350,110);
-    assert( conditionScrollbarSet != NULL );
+	JXScrollbarSet* conditionScrollbarSet =
+		new JXScrollbarSet(container,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 350,110);
+	assert( conditionScrollbarSet != NULL );
 
-    container->SetSize(conditionLayout_Frame.width(), conditionLayout_Frame.height());
+	container->SetSize(conditionLayout_Frame.width(), conditionLayout_Frame.height());
 
 // end conditionLayout
 
@@ -237,31 +237,31 @@ GMFilterDialog::BuildWindow()
 
 // begin filterLayout
 
-    const JRect filterLayout_Frame    = container->GetFrame();
-    const JRect filterLayout_Aperture = container->GetAperture();
-    container->AdjustSize(430 - filterLayout_Aperture.width(), 130 - filterLayout_Aperture.height());
+	const JRect filterLayout_Frame    = container->GetFrame();
+	const JRect filterLayout_Aperture = container->GetAperture();
+	container->AdjustSize(430 - filterLayout_Aperture.width(), 130 - filterLayout_Aperture.height());
 
-    JXTextButton* newFilterButton =
-        new JXTextButton(JGetString("newFilterButton::GMFilterDialog::filterLayout"), container,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 360,20, 70,20);
-    assert( newFilterButton != NULL );
+	JXTextButton* newFilterButton =
+		new JXTextButton(JGetString("newFilterButton::GMFilterDialog::filterLayout"), container,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 360,20, 70,20);
+	assert( newFilterButton != NULL );
 
-    JXTextButton* removeFilterButton =
-        new JXTextButton(JGetString("removeFilterButton::GMFilterDialog::filterLayout"), container,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 360,50, 70,20);
-    assert( removeFilterButton != NULL );
+	JXTextButton* removeFilterButton =
+		new JXTextButton(JGetString("removeFilterButton::GMFilterDialog::filterLayout"), container,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 360,50, 70,20);
+	assert( removeFilterButton != NULL );
 
-    JXWidgetSet* filterColHeaderEncl =
-        new JXWidgetSet(container,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 350,20);
-    assert( filterColHeaderEncl != NULL );
+	JXWidgetSet* filterColHeaderEncl =
+		new JXWidgetSet(container,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 350,20);
+	assert( filterColHeaderEncl != NULL );
 
-    JXScrollbarSet* filterScrollbarSet =
-        new JXScrollbarSet(container,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 350,110);
-    assert( filterScrollbarSet != NULL );
+	JXScrollbarSet* filterScrollbarSet =
+		new JXScrollbarSet(container,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 350,110);
+	assert( filterScrollbarSet != NULL );
 
-    container->SetSize(filterLayout_Frame.width(), filterLayout_Frame.height());
+	container->SetSize(filterLayout_Frame.width(), filterLayout_Frame.height());
 
 // end filterLayout
 

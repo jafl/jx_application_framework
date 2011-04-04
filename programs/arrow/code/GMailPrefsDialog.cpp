@@ -101,156 +101,156 @@ GMailPrefsDialog::BuildWindow
 
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 360,550, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 360,550, "");
+	assert( window != NULL );
 
-    itsMaxReplyInput =
-        new JXIntegerInput(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 270,335, 40,20);
-    assert( itsMaxReplyInput != NULL );
+	itsMaxReplyInput =
+		new JXIntegerInput(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 270,335, 40,20);
+	assert( itsMaxReplyInput != NULL );
 
-    itsSenderStringInput =
-        new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 100,385, 240,20);
-    assert( itsSenderStringInput != NULL );
+	itsSenderStringInput =
+		new JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 100,385, 240,20);
+	assert( itsSenderStringInput != NULL );
 
-    itsSpacesPerTabInput =
-        new JXIntegerInput(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 140,80, 40,20);
-    assert( itsSpacesPerTabInput != NULL );
+	itsSpacesPerTabInput =
+		new JXIntegerInput(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 140,80, 40,20);
+	assert( itsSpacesPerTabInput != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::GMailPrefsDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 260,515, 70,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::GMailPrefsDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::GMailPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 260,515, 70,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::GMailPrefsDialog::shortcuts::JXLayout"));
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::GMailPrefsDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 30,515, 70,20);
-    assert( cancelButton != NULL );
-    cancelButton->SetShortcuts(JGetString("cancelButton::GMailPrefsDialog::shortcuts::JXLayout"));
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::GMailPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 30,515, 70,20);
+	assert( cancelButton != NULL );
+	cancelButton->SetShortcuts(JGetString("cancelButton::GMailPrefsDialog::shortcuts::JXLayout"));
 
-    itsShowStateInTitle =
-        new JXTextCheckbox(JGetString("itsShowStateInTitle::GMailPrefsDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,310, 250,20);
-    assert( itsShowStateInTitle != NULL );
+	itsShowStateInTitle =
+		new JXTextCheckbox(JGetString("itsShowStateInTitle::GMailPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,310, 250,20);
+	assert( itsShowStateInTitle != NULL );
 
-    itsAutoQuote =
-        new JXTextCheckbox(JGetString("itsAutoQuote::GMailPrefsDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,335, 250,20);
-    assert( itsAutoQuote != NULL );
+	itsAutoQuote =
+		new JXTextCheckbox(JGetString("itsAutoQuote::GMailPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,335, 250,20);
+	assert( itsAutoQuote != NULL );
 
-    itsShowSenderString =
-        new JXTextCheckbox(JGetString("itsShowSenderString::GMailPrefsDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,360, 250,20);
-    assert( itsShowSenderString != NULL );
+	itsShowSenderString =
+		new JXTextCheckbox(JGetString("itsShowSenderString::GMailPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,360, 250,20);
+	assert( itsShowSenderString != NULL );
 
-    itsSenderText =
-        new JXStaticText(JGetString("itsSenderText::GMailPrefsDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 50,385, 50,20);
-    assert( itsSenderText != NULL );
-    itsSenderText->SetToLabel();
+	itsSenderText =
+		new JXStaticText(JGetString("itsSenderText::GMailPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 50,385, 50,20);
+	assert( itsSenderText != NULL );
+	itsSenderText->SetToLabel();
 
-    itsHelpButton =
-        new JXTextButton(JGetString("itsHelpButton::GMailPrefsDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 145,515, 70,20);
-    assert( itsHelpButton != NULL );
+	itsHelpButton =
+		new JXTextButton(JGetString("itsHelpButton::GMailPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 145,515, 70,20);
+	assert( itsHelpButton != NULL );
 
-    itsFontMenu =
-        new JXChooseMonoFont(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,10, 310,60);
-    assert( itsFontMenu != NULL );
+	itsFontMenu =
+		new JXChooseMonoFont(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,10, 310,60);
+	assert( itsFontMenu != NULL );
 
-    JXStaticText* obj1_JXLayout =
-        new JXStaticText(JGetString("obj1_JXLayout::GMailPrefsDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 315,335, 30,20);
-    assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetToLabel();
+	JXStaticText* obj1_JXLayout =
+		new JXStaticText(JGetString("obj1_JXLayout::GMailPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 315,335, 30,20);
+	assert( obj1_JXLayout != NULL );
+	obj1_JXLayout->SetToLabel();
 
-    itsReportSCErrorsCB =
-        new JXTextCheckbox(JGetString("itsReportSCErrorsCB::GMailPrefsDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,420, 250,20);
-    assert( itsReportSCErrorsCB != NULL );
+	itsReportSCErrorsCB =
+		new JXTextCheckbox(JGetString("itsReportSCErrorsCB::GMailPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,420, 250,20);
+	assert( itsReportSCErrorsCB != NULL );
 
-    JXStaticText* obj2_JXLayout =
-        new JXStaticText(JGetString("obj2_JXLayout::GMailPrefsDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 40,80, 100,20);
-    assert( obj2_JXLayout != NULL );
-    obj2_JXLayout->SetToLabel();
+	JXStaticText* obj2_JXLayout =
+		new JXStaticText(JGetString("obj2_JXLayout::GMailPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 40,80, 100,20);
+	assert( obj2_JXLayout != NULL );
+	obj2_JXLayout->SetToLabel();
 
-    itsBeepOnNewMailCB =
-        new JXTextCheckbox(JGetString("itsBeepOnNewMailCB::GMailPrefsDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,285, 250,20);
-    assert( itsBeepOnNewMailCB != NULL );
+	itsBeepOnNewMailCB =
+		new JXTextCheckbox(JGetString("itsBeepOnNewMailCB::GMailPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,285, 250,20);
+	assert( itsBeepOnNewMailCB != NULL );
 
-    itsEncryptionType =
-        new JXRadioGroup(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 45,175, 145,70);
-    assert( itsEncryptionType != NULL );
+	itsEncryptionType =
+		new JXRadioGroup(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 45,175, 145,70);
+	assert( itsEncryptionType != NULL );
 
-    JXTextRadioButton* obj3_JXLayout =
-        new JXTextRadioButton(1, JGetString("obj3_JXLayout::GMailPrefsDialog::JXLayout"), itsEncryptionType,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,15, 100,20);
-    assert( obj3_JXLayout != NULL );
+	JXTextRadioButton* obj3_JXLayout =
+		new JXTextRadioButton(1, JGetString("obj3_JXLayout::GMailPrefsDialog::JXLayout"), itsEncryptionType,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,15, 100,20);
+	assert( obj3_JXLayout != NULL );
 
-    JXTextRadioButton* obj4_JXLayout =
-        new JXTextRadioButton(2, JGetString("obj4_JXLayout::GMailPrefsDialog::JXLayout"), itsEncryptionType,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,35, 100,20);
-    assert( obj4_JXLayout != NULL );
+	JXTextRadioButton* obj4_JXLayout =
+		new JXTextRadioButton(2, JGetString("obj4_JXLayout::GMailPrefsDialog::JXLayout"), itsEncryptionType,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,35, 100,20);
+	assert( obj4_JXLayout != NULL );
 
-    JXStaticText* obj5_JXLayout =
-        new JXStaticText(JGetString("obj5_JXLayout::GMailPrefsDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 55,168, 120,20);
-    assert( obj5_JXLayout != NULL );
-    obj5_JXLayout->SetToLabel();
+	JXStaticText* obj5_JXLayout =
+		new JXStaticText(JGetString("obj5_JXLayout::GMailPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 55,168, 120,20);
+	assert( obj5_JXLayout != NULL );
+	obj5_JXLayout->SetToLabel();
 
-    JXStaticText* obj6_JXLayout =
-        new JXStaticText(JGetString("obj6_JXLayout::GMailPrefsDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,480, 90,20);
-    assert( obj6_JXLayout != NULL );
-    obj6_JXLayout->SetToLabel();
+	JXStaticText* obj6_JXLayout =
+		new JXStaticText(JGetString("obj6_JXLayout::GMailPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,480, 90,20);
+	assert( obj6_JXLayout != NULL );
+	obj6_JXLayout->SetToLabel();
 
-    itsFilterButton =
-        new JXTextButton(JGetString("itsFilterButton::GMailPrefsDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 290,480, 60,20);
-    assert( itsFilterButton != NULL );
+	itsFilterButton =
+		new JXTextButton(JGetString("itsFilterButton::GMailPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 290,480, 60,20);
+	assert( itsFilterButton != NULL );
 
-    itsDefaultInbox =
-        new JXFileInput(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 110,450, 180,20);
-    assert( itsDefaultInbox != NULL );
+	itsDefaultInbox =
+		new JXFileInput(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 110,450, 180,20);
+	assert( itsDefaultInbox != NULL );
 
-    itsInboxButton =
-        new JXTextButton(JGetString("itsInboxButton::GMailPrefsDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 290,450, 60,20);
-    assert( itsInboxButton != NULL );
+	itsInboxButton =
+		new JXTextButton(JGetString("itsInboxButton::GMailPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 290,450, 60,20);
+	assert( itsInboxButton != NULL );
 
-    JXStaticText* obj7_JXLayout =
-        new JXStaticText(JGetString("obj7_JXLayout::GMailPrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,450, 90,20);
-    assert( obj7_JXLayout != NULL );
-    obj7_JXLayout->SetToLabel();
+	JXStaticText* obj7_JXLayout =
+		new JXStaticText(JGetString("obj7_JXLayout::GMailPrefsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,450, 90,20);
+	assert( obj7_JXLayout != NULL );
+	obj7_JXLayout->SetToLabel();
 
-    itsFilterFileInput =
-        new JXFileInput(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 110,480, 180,20);
-    assert( itsFilterFileInput != NULL );
+	itsFilterFileInput =
+		new JXFileInput(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 110,480, 180,20);
+	assert( itsFilterFileInput != NULL );
 
-    itsCopySelectedCB =
-        new JXTextCheckbox(JGetString("itsCopySelectedCB::GMailPrefsDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,110, 270,20);
-    assert( itsCopySelectedCB != NULL );
+	itsCopySelectedCB =
+		new JXTextCheckbox(JGetString("itsCopySelectedCB::GMailPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,110, 270,20);
+	assert( itsCopySelectedCB != NULL );
 
-    itsHomeEndCB =
-        new JXTextCheckbox(JGetString("itsHomeEndCB::GMailPrefsDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,135, 270,20);
-    assert( itsHomeEndCB != NULL );
+	itsHomeEndCB =
+		new JXTextCheckbox(JGetString("itsHomeEndCB::GMailPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,135, 270,20);
+	assert( itsHomeEndCB != NULL );
 
-    itsOpenMailTreeCB =
-        new JXTextCheckbox(JGetString("itsOpenMailTreeCB::GMailPrefsDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,260, 250,20);
-    assert( itsOpenMailTreeCB != NULL );
+	itsOpenMailTreeCB =
+		new JXTextCheckbox(JGetString("itsOpenMailTreeCB::GMailPrefsDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,260, 250,20);
+	assert( itsOpenMailTreeCB != NULL );
 
 // end JXLayout
 

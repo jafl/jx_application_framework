@@ -56,57 +56,57 @@ SCAddToPlotDialog::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 300,170, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 300,170, "");
+	assert( window != NULL );
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::SCAddToPlotDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 60,140, 60,20);
-    assert( cancelButton != NULL );
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::SCAddToPlotDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 60,140, 60,20);
+	assert( cancelButton != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::SCAddToPlotDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 180,140, 60,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::SCAddToPlotDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::SCAddToPlotDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 180,140, 60,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::SCAddToPlotDialog::shortcuts::JXLayout"));
 
-    JXStaticText* obj1_JXLayout =
-        new JXStaticText(JGetString("obj1_JXLayout::SCAddToPlotDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,70, 80,20);
-    assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetToLabel();
+	JXStaticText* obj1_JXLayout =
+		new JXStaticText(JGetString("obj1_JXLayout::SCAddToPlotDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,70, 80,20);
+	assert( obj1_JXLayout != NULL );
+	obj1_JXLayout->SetToLabel();
 
-    itsCurveName =
-        new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 100,70, 180,20);
-    assert( itsCurveName != NULL );
+	itsCurveName =
+		new JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 100,70, 180,20);
+	assert( itsCurveName != NULL );
 
-    itsMinValue =
-        new JXFloatInput(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 160,100, 50,20);
-    assert( itsMinValue != NULL );
+	itsMinValue =
+		new JXFloatInput(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 160,100, 50,20);
+	assert( itsMinValue != NULL );
 
-    itsMaxValue =
-        new JXFloatInput(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 230,100, 50,20);
-    assert( itsMaxValue != NULL );
+	itsMaxValue =
+		new JXFloatInput(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 230,100, 50,20);
+	assert( itsMaxValue != NULL );
 
-    JXStaticText* obj2_JXLayout =
-        new JXStaticText(JGetString("obj2_JXLayout::SCAddToPlotDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,100, 140,20);
-    assert( obj2_JXLayout != NULL );
-    obj2_JXLayout->SetToLabel();
+	JXStaticText* obj2_JXLayout =
+		new JXStaticText(JGetString("obj2_JXLayout::SCAddToPlotDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,100, 140,20);
+	assert( obj2_JXLayout != NULL );
+	obj2_JXLayout->SetToLabel();
 
-    JXStaticText* obj3_JXLayout =
-        new JXStaticText(JGetString("obj3_JXLayout::SCAddToPlotDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 210,100, 20,20);
-    assert( obj3_JXLayout != NULL );
-    obj3_JXLayout->SetToLabel();
+	JXStaticText* obj3_JXLayout =
+		new JXStaticText(JGetString("obj3_JXLayout::SCAddToPlotDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 210,100, 20,20);
+	assert( obj3_JXLayout != NULL );
+	obj3_JXLayout->SetToLabel();
 
-    itsPlotMenu =
-        new JXTextMenu(JGetString("itsPlotMenu::SCAddToPlotDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 260,30);
-    assert( itsPlotMenu != NULL );
+	itsPlotMenu =
+		new JXTextMenu(JGetString("itsPlotMenu::SCAddToPlotDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 260,30);
+	assert( itsPlotMenu != NULL );
 
 // end JXLayout
 

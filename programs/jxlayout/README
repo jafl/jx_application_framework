@@ -94,6 +94,11 @@ other constructor.
 
 Changes from previous versions
 
+3.1.0
+
+Automatically detects whether each file is indented with spaces or tabs,
+and then applies the same indenting to the generated code.
+
 3.0.0
 
 Added need_string_list to allow configuring which classes require a string

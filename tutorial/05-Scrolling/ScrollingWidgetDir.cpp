@@ -53,9 +53,6 @@ ScrollingWidgetDir::BuildWindow()
 	JXWindow* window = new JXWindow(this, 300,200, "Scrolling Program");
     assert( window != NULL );
 
-    // Give the window to the director
-    SetWindow(window);
-
     // Set window sizing
     window->SetMinSize(300,200);
 	window->SetMaxSize(800,600);

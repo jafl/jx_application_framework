@@ -70,29 +70,28 @@ ClipboardDir::BuildWindow()
 {
 	// Create the window and give it to the director.
 	JXWindow* window = new JXWindow(this, 200,100, "Hello World Program");
-    assert( window != NULL );
-    SetWindow(window);
+	assert( window != NULL );
 
 	// This sets the minimum and maximum size to be the
 	// current size.
-    window->LockCurrentSize();
+	window->LockCurrentSize();
 
 	// Create the menu bar and make it expand horizontally as the window expands.
-    JXMenuBar* menuBar =
-    	new JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
-    					0,0, 200,kJXDefaultMenuBarHeight);
-    assert( menuBar != NULL );
+	JXMenuBar* menuBar =
+		new JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
+						0,0, 200,kJXDefaultMenuBarHeight);
+	assert( menuBar != NULL );
 
-    // Create the menu and attach it to the menu bar.
-    itsTextMenu = menuBar->AppendTextMenu(kTextMenuTitleStr);
+	// Create the menu and attach it to the menu bar.
+	itsTextMenu = menuBar->AppendTextMenu(kTextMenuTitleStr);
 
-    // Set the menu items.
-    itsTextMenu->SetMenuItems(kTextMenuStr);
+	// Set the menu items.
+	itsTextMenu->SetMenuItems(kTextMenuStr);
 
-    // The menu items don't need to be disabled
-    itsTextMenu->SetUpdateAction(JXMenu::kDisableNone);
+	// The menu items don't need to be disabled
+	itsTextMenu->SetUpdateAction(JXMenu::kDisableNone);
 
-    // Listen for messages from the menu.
+	// Listen for messages from the menu.
 	ListenTo(itsTextMenu);
 
 	// Create the object to hold the text.

@@ -126,74 +126,74 @@ JXSpellCheckerDialog::BuildWindow()
 
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 530,270, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 530,270, "");
+	assert( window != NULL );
 
-    JXStaticText* obj1_JXLayout =
-        new JXStaticText(JGetString("obj1_JXLayout::JXSpellCheckerDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,15, 110,20);
-    assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetToLabel();
+	JXStaticText* obj1_JXLayout =
+		new JXStaticText(JGetString("obj1_JXLayout::JXSpellCheckerDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,15, 110,20);
+	assert( obj1_JXLayout != NULL );
+	obj1_JXLayout->SetToLabel();
 
-    itsCheckText =
-        new JXStaticText(JGetString("itsCheckText::JXSpellCheckerDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 135,15, 280,20);
-    assert( itsCheckText != NULL );
-    itsCheckText->SetToLabel();
+	itsCheckText =
+		new JXStaticText(JGetString("itsCheckText::JXSpellCheckerDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 135,15, 280,20);
+	assert( itsCheckText != NULL );
+	itsCheckText->SetToLabel();
 
-    JXStaticText* obj2_JXLayout =
-        new JXStaticText(JGetString("obj2_JXLayout::JXSpellCheckerDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,48, 90,20);
-    assert( obj2_JXLayout != NULL );
-    obj2_JXLayout->SetToLabel();
+	JXStaticText* obj2_JXLayout =
+		new JXStaticText(JGetString("obj2_JXLayout::JXSpellCheckerDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,48, 90,20);
+	assert( obj2_JXLayout != NULL );
+	obj2_JXLayout->SetToLabel();
 
-    JXStaticText* obj3_JXLayout =
-        new JXStaticText(JGetString("obj3_JXLayout::JXSpellCheckerDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,78, 90,20);
-    assert( obj3_JXLayout != NULL );
-    obj3_JXLayout->SetToLabel();
+	JXStaticText* obj3_JXLayout =
+		new JXStaticText(JGetString("obj3_JXLayout::JXSpellCheckerDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,78, 90,20);
+	assert( obj3_JXLayout != NULL );
+	obj3_JXLayout->SetToLabel();
 
-    itsFirstGuess =
-        new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 105,45, 230,20);
-    assert( itsFirstGuess != NULL );
+	itsFirstGuess =
+		new JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 105,45, 230,20);
+	assert( itsFirstGuess != NULL );
 
-    JXScrollbarSet* set =
-        new JXScrollbarSet(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 105,75, 230,180);
-    assert( set != NULL );
+	JXScrollbarSet* set =
+		new JXScrollbarSet(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 105,75, 230,180);
+	assert( set != NULL );
 
-    itsIgnoreButton =
-        new JXTextButton(JGetString("itsIgnoreButton::JXSpellCheckerDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 440,60, 75,20);
-    assert( itsIgnoreButton != NULL );
-    itsIgnoreButton->SetShortcuts(JGetString("itsIgnoreButton::JXSpellCheckerDialog::shortcuts::JXLayout"));
+	itsIgnoreButton =
+		new JXTextButton(JGetString("itsIgnoreButton::JXSpellCheckerDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 440,60, 75,20);
+	assert( itsIgnoreButton != NULL );
+	itsIgnoreButton->SetShortcuts(JGetString("itsIgnoreButton::JXSpellCheckerDialog::shortcuts::JXLayout"));
 
-    itsChangeButton =
-        new JXTextButton(JGetString("itsChangeButton::JXSpellCheckerDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 350,60, 75,20);
-    assert( itsChangeButton != NULL );
+	itsChangeButton =
+		new JXTextButton(JGetString("itsChangeButton::JXSpellCheckerDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 350,60, 75,20);
+	assert( itsChangeButton != NULL );
 
-    itsLearnButton =
-        new JXTextButton(JGetString("itsLearnButton::JXSpellCheckerDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 350,130, 165,20);
-    assert( itsLearnButton != NULL );
+	itsLearnButton =
+		new JXTextButton(JGetString("itsLearnButton::JXSpellCheckerDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 350,130, 165,20);
+	assert( itsLearnButton != NULL );
 
-    itsChangeAllButton =
-        new JXTextButton(JGetString("itsChangeAllButton::JXSpellCheckerDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 350,90, 75,20);
-    assert( itsChangeAllButton != NULL );
+	itsChangeAllButton =
+		new JXTextButton(JGetString("itsChangeAllButton::JXSpellCheckerDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 350,90, 75,20);
+	assert( itsChangeAllButton != NULL );
 
-    itsCloseButton =
-        new JXTextButton(JGetString("itsCloseButton::JXSpellCheckerDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 440,235, 75,20);
-    assert( itsCloseButton != NULL );
-    itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXSpellCheckerDialog::shortcuts::JXLayout"));
+	itsCloseButton =
+		new JXTextButton(JGetString("itsCloseButton::JXSpellCheckerDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 440,235, 75,20);
+	assert( itsCloseButton != NULL );
+	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXSpellCheckerDialog::shortcuts::JXLayout"));
 
-    itsLearnCapsButton =
-        new JXTextButton(JGetString("itsLearnCapsButton::JXSpellCheckerDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 350,160, 165,20);
-    assert( itsLearnCapsButton != NULL );
+	itsLearnCapsButton =
+		new JXTextButton(JGetString("itsLearnCapsButton::JXSpellCheckerDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 350,160, 165,20);
+	assert( itsLearnCapsButton != NULL );
 
 // end JXLayout
 

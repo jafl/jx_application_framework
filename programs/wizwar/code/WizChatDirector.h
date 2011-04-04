@@ -51,9 +51,9 @@ private:
 
 // begin JXLayout
 
-    WizChatInput*        itsChatInput;
-    WizChatShortcutMenu* itsChatShortcutMenu;
-    WizChatTargetMenu*   itsChatTargetMenu;
+	WizChatInput*        itsChatInput;
+	WizChatShortcutMenu* itsChatShortcutMenu;
+	WizChatTargetMenu*   itsChatTargetMenu;
 
 // end JXLayout
 

@@ -29,7 +29,7 @@ private:
 
 // begin JXLayout
 
-    JXTextCheckbox* itsPrintHeadersCB;
+	JXTextCheckbox* itsPrintHeadersCB;
 
 // end JXLayout
 

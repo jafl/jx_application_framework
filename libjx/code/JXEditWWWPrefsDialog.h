@@ -38,10 +38,10 @@ private:
 
 // begin JXLayout
 
-    JXInputField* itsShowURLCmdInput;
-    JXInputField* itsShowFileContentCmdInput;
-    JXInputField* itsShowFileLocationCmdInput;
-    JXInputField* itsComposeMailCmdInput;
+	JXInputField* itsShowURLCmdInput;
+	JXInputField* itsShowFileContentCmdInput;
+	JXInputField* itsShowFileLocationCmdInput;
+	JXInputField* itsComposeMailCmdInput;
 
 // end JXLayout
 

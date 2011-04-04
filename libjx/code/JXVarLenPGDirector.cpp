@@ -59,26 +59,26 @@ JXVarLenPGDirector::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 270,80, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 270,80, "");
+	assert( window != NULL );
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::JXVarLenPGDirector::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 190,40, 60,20);
-    assert( cancelButton != NULL );
-    cancelButton->SetShortcuts(JGetString("cancelButton::JXVarLenPGDirector::shortcuts::JXLayout"));
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::JXVarLenPGDirector::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 190,40, 60,20);
+	assert( cancelButton != NULL );
+	cancelButton->SetShortcuts(JGetString("cancelButton::JXVarLenPGDirector::shortcuts::JXLayout"));
 
-    JXStaticText* text =
-        new JXStaticText(JGetString("text::JXVarLenPGDirector::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,10, 230,20);
-    assert( text != NULL );
-    text->SetToLabel();
+	JXStaticText* text =
+		new JXStaticText(JGetString("text::JXVarLenPGDirector::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,10, 230,20);
+	assert( text != NULL );
+	text->SetToLabel();
 
-    JXStaticText* counter =
-        new JXStaticText(JGetString("counter::JXVarLenPGDirector::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kFixedBottom, 60,40, 100,20);
-    assert( counter != NULL );
-    counter->SetToLabel();
+	JXStaticText* counter =
+		new JXStaticText(JGetString("counter::JXVarLenPGDirector::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,40, 100,20);
+	assert( counter != NULL );
+	counter->SetToLabel();
 
 // end JXLayout
 

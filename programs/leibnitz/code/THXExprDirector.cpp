@@ -286,23 +286,23 @@ THXExprDirector::BuildWindow
 
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 360,240, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 360,240, "");
+	assert( window != NULL );
 
-    JXMenuBar* menuBar =
-        new JXMenuBar(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 360,30);
-    assert( menuBar != NULL );
+	JXMenuBar* menuBar =
+		new JXMenuBar(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 360,30);
+	assert( menuBar != NULL );
 
-    itsPartition =
-        new JXVertPartition(heights, elasticIndex, minHeights, window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 300,210);
-    assert( itsPartition != NULL );
+	itsPartition =
+		new JXVertPartition(heights, elasticIndex, minHeights, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 300,210);
+	assert( itsPartition != NULL );
 
-    itsKeyPad =
-        new THXKeyPad(window,
-                    JXWidget::kFixedRight, JXWidget::kVElastic, 300,30, 60,210);
-    assert( itsKeyPad != NULL );
+	itsKeyPad =
+		new THXKeyPad(window,
+					JXWidget::kFixedRight, JXWidget::kVElastic, 300,30, 60,210);
+	assert( itsKeyPad != NULL );
 
 // end JXLayout
 

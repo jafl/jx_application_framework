@@ -625,7 +625,7 @@ JString::LocateSubstring
 
 	In:  *startIndex is first character to consider
 	Out: If function returns kJTrue, *startIndex is location of next occurrence.
-	     Otherwise, *startIndex is beyond end of string.
+		 Otherwise, *startIndex is beyond end of string.
 
  ******************************************************************************/
 
@@ -707,7 +707,7 @@ JString::LocateLastSubstring
 
 	In:  *startIndex is first character to consider
 	Out: If function returns kJTrue, *startIndex is location of prev occurrence.
-	     Otherwise, *startIndex is zero.
+		 Otherwise, *startIndex is zero.
 
  ******************************************************************************/
 
@@ -2045,14 +2045,14 @@ JAppendChar(char s1[], char c)
 	Converts doubleVal to a string stored at returnStr.
 
 	afterDec = # of digits after decimal point, doubleVal is rounded appropriately
-	           -1 => as many as needed, -2 => truncate, 0 => round up
+			   -1 => as many as needed, -2 => truncate, 0 => round up
 
 	sigDigitCount = # of significant digits
-	                0 => use as many as possible
+					0 => use as many as possible
 
 	exp = desired exponent, decimal point is shifted appropriately
-	      kStandardExponent => use exponent if magnitude >=7
-	      kForceExponent    => force use of exponent
+		  kStandardExponent => use exponent if magnitude >=7
+		  kForceExponent    => force use of exponent
 
  -----------------------------------------------------------------------------*/
 

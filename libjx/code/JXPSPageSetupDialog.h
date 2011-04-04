@@ -53,8 +53,8 @@ private:
 
 // begin JXLayout
 
-    JXRadioGroup* itsOrientation;
-    JXTextMenu*   itsPaperTypeMenu;
+	JXRadioGroup* itsOrientation;
+	JXTextMenu*   itsPaperTypeMenu;
 
 // end JXLayout
 

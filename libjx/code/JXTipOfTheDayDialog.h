@@ -40,9 +40,9 @@ private:
 
 // begin JXLayout
 
-    JXTextButton*   itsCloseButton;
-    JXTextButton*   itsNextTipButton;
-    JXTextCheckbox* itsShowAtStartupCB;
+	JXTextButton*   itsCloseButton;
+	JXTextButton*   itsNextTipButton;
+	JXTextCheckbox* itsShowAtStartupCB;
 
 // end JXLayout
 

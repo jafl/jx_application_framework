@@ -55,7 +55,7 @@ protected:
 
 private:
 
-    JX2DCurveNameList*		itsNameList;		// not owned
+	JX2DCurveNameList*		itsNameList;		// not owned
 	JArray<J2DCurveInfo>*	itsCurveInfo;
 	JArray<JBoolean>*		itsHasXErrors;
 	JArray<JBoolean>*		itsHasYErrors;
@@ -65,15 +65,15 @@ private:
 
 // begin JXLayout
 
-    JXRadioGroup*      itsCurveStyleRG;
-    JXTextCheckbox*    itsShowCurveCB;
-    JXTextRadioButton* itsShowLinesRB;
-    JXTextRadioButton* itsShowBothRB;
-    JXTextRadioButton* itsShowSymbolsRB;
-    JXTextRadioButton* itsShowPointsRB;
-    JXTextButton*      itsCancelButton;
-    JXTextCheckbox*    itsShowXErrorsCB;
-    JXTextCheckbox*    itsShowYErrorsCB;
+	JXRadioGroup*      itsCurveStyleRG;
+	JXTextCheckbox*    itsShowCurveCB;
+	JXTextRadioButton* itsShowLinesRB;
+	JXTextRadioButton* itsShowBothRB;
+	JXTextRadioButton* itsShowSymbolsRB;
+	JXTextRadioButton* itsShowPointsRB;
+	JXTextButton*      itsCancelButton;
+	JXTextCheckbox*    itsShowXErrorsCB;
+	JXTextCheckbox*    itsShowYErrorsCB;
 
 // end JXLayout
 

@@ -39,7 +39,7 @@ private:
 
 // begin JXLayout
 
-    JXExprInput* itsVarName;
+	JXExprInput* itsVarName;
 
 // end JXLayout
 

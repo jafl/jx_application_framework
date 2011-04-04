@@ -388,6 +388,11 @@ public:
 	void	CleanAllWhitespace(const JBoolean align);
 	void	CleanSelectedWhitespace(const JBoolean align);
 	void	CleanWhitespace(const JIndexRange& range, const JBoolean align);
+	void	AnalyzeWhitespace(const JSize tabWidth);
+
+	static void	AnalyzeWhitespace(const JString& buffer, const JSize tabWidth,
+								  const JBoolean defaultUseSpaces,
+								  JBoolean* useSpaces, JBoolean* showWhitespace);
 
 	JBoolean	WillAutoIndent() const;
 	void		ShouldAutoIndent(const JBoolean indent);
@@ -1006,10 +1011,12 @@ private:
 							   const JRegex& regex, const JBoolean entireWord,
 							   const JBoolean wrapSearch, JBoolean* wrapped,
 							   JArray<JIndexRange>* submatchList);
-	JSize	ReplaceRange(JString* buffer, JRunArray<Font>* styles,
-						 const JIndexRange& range, const JCharacter* replaceStr,
-						 const JBoolean preserveCase, const JBoolean replaceIsRegex,
-						 const JRegex& regex, const JArray<JIndexRange>& submatchList);
+	JSize		ReplaceRange(JString* buffer, JRunArray<Font>* styles,
+							 const JIndexRange& range, const JCharacter* replaceStr,
+							 const JBoolean preserveCase, const JBoolean replaceIsRegex,
+							 const JRegex& regex, const JArray<JIndexRange>& submatchList);
+	JBoolean	IsEntireWord(const JString& buffer,
+							 const JIndex startIndex, const JIndex endIndex) const;
 
 	void	HandleHTMLOnCmd(const JString& cmd, const JStringPtrMap<JString>& attr);
 	void	HandleHTMLOffCmd(const JString& cmd, const JStringPtrMap<JString>& attr);
@@ -1452,11 +1459,22 @@ JTextEditor::ClearLastSaveLocation()
 inline JBoolean
 JTextEditor::IsEntireWord
 	(
+	const JIndex startIndex,
+	const JIndex endIndex
+	)
+	const
+{
+	return IsEntireWord(*itsBuffer, startIndex, endIndex);
+}
+
+inline JBoolean
+JTextEditor::IsEntireWord
+	(
 	const JIndexRange& range
 	)
 	const
 {
-	return IsEntireWord(range.first, range.last);
+	return IsEntireWord(*itsBuffer, range.first, range.last);
 }
 
 /******************************************************************************

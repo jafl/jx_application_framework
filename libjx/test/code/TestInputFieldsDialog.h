@@ -34,8 +34,8 @@ private:
 
 // begin JXLayout
 
-    JXIntegerInput* itsLowerValue;
-    JXIntegerInput* itsUpperValue;
+	JXIntegerInput* itsLowerValue;
+	JXIntegerInput* itsUpperValue;
 
 // end JXLayout
 

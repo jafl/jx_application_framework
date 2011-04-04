@@ -37,10 +37,10 @@ private:
 
 // begin JXLayout
 
-    JXTextCheckbox* itsFileCB;
-    JXTextCheckbox* itsSizeCB;
-    JXInputField*   itsFileInput;
-    JXIntegerInput* itsSizeInput;
+	JXTextCheckbox* itsFileCB;
+	JXTextCheckbox* itsSizeCB;
+	JXInputField*   itsFileInput;
+	JXIntegerInput* itsSizeInput;
 
 // end JXLayout
 

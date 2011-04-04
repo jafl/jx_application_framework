@@ -217,38 +217,38 @@ SyGTreeDir::BuildWindow
 
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 420,500, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 420,500, "");
+	assert( window != NULL );
 
-    JXMenuBar* menuBar =
-        new JXMenuBar(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 420,30);
-    assert( menuBar != NULL );
+	JXMenuBar* menuBar =
+		new JXMenuBar(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 420,30);
+	assert( menuBar != NULL );
 
-    itsToolBar =
-        new JXToolBar(SyGGetPrefsMgr(), kSMainToolBarID, menuBar, 200,200, window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 420,450);
-    assert( itsToolBar != NULL );
+	itsToolBar =
+		new JXToolBar(SyGGetPrefsMgr(), kSMainToolBarID, menuBar, 200,200, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 420,450);
+	assert( itsToolBar != NULL );
 
-    itsPathInput =
-        new SyGPathInput(window,
-                    JXWidget::kHElastic, JXWidget::kFixedBottom, 20,480, 340,20);
-    assert( itsPathInput != NULL );
+	itsPathInput =
+		new SyGPathInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,480, 340,20);
+	assert( itsPathInput != NULL );
 
-    SyGTrashButton* trashButton =
-        new SyGTrashButton(window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 390,480, 30,20);
-    assert( trashButton != NULL );
+	SyGTrashButton* trashButton =
+		new SyGTrashButton(window,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 390,480, 30,20);
+	assert( trashButton != NULL );
 
-    itsDragSrc =
-        new SyGFolderDragSource(itsPathInput, &pathMenu, window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,480, 20,20);
-    assert( itsDragSrc != NULL );
+	itsDragSrc =
+		new SyGFolderDragSource(itsPathInput, &pathMenu, window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,480, 20,20);
+	assert( itsDragSrc != NULL );
 
-    itsUpButton =
-        new JXTextButton(JGetString("itsUpButton::SyGTreeDir::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 360,480, 30,20);
-    assert( itsUpButton != NULL );
+	itsUpButton =
+		new JXTextButton(JGetString("itsUpButton::SyGTreeDir::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 360,480, 30,20);
+	assert( itsUpButton != NULL );
 
 // end JXLayout
 

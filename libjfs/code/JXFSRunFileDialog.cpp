@@ -130,78 +130,78 @@ JXFSRunFileDialog::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 450,170, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 450,170, "");
+	assert( window != NULL );
 
-    itsCmdInput =
-        new JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 300,20);
-    assert( itsCmdInput != NULL );
+	itsCmdInput =
+		new JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 300,20);
+	assert( itsCmdInput != NULL );
 
-    JXStaticText* prompt =
-        new JXStaticText(JGetString("prompt::JXFSRunFileDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 430,20);
-    assert( prompt != NULL );
-    prompt->SetToLabel();
+	JXStaticText* prompt =
+		new JXStaticText(JGetString("prompt::JXFSRunFileDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 430,20);
+	assert( prompt != NULL );
+	prompt->SetToLabel();
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::JXFSRunFileDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 290,100, 60,20);
-    assert( cancelButton != NULL );
-    cancelButton->SetShortcuts(JGetString("cancelButton::JXFSRunFileDialog::shortcuts::JXLayout"));
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::JXFSRunFileDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 290,100, 60,20);
+	assert( cancelButton != NULL );
+	cancelButton->SetShortcuts(JGetString("cancelButton::JXFSRunFileDialog::shortcuts::JXLayout"));
 
-    itsHelpButton =
-        new JXTextButton(JGetString("itsHelpButton::JXFSRunFileDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 190,100, 60,20);
-    assert( itsHelpButton != NULL );
-    itsHelpButton->SetShortcuts(JGetString("itsHelpButton::JXFSRunFileDialog::shortcuts::JXLayout"));
+	itsHelpButton =
+		new JXTextButton(JGetString("itsHelpButton::JXFSRunFileDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 190,100, 60,20);
+	assert( itsHelpButton != NULL );
+	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::JXFSRunFileDialog::shortcuts::JXLayout"));
 
-    itsOKButton =
-        new JXTextButton(JGetString("itsOKButton::JXFSRunFileDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 370,100, 60,20);
-    assert( itsOKButton != NULL );
-    itsOKButton->SetShortcuts(JGetString("itsOKButton::JXFSRunFileDialog::shortcuts::JXLayout"));
+	itsOKButton =
+		new JXTextButton(JGetString("itsOKButton::JXFSRunFileDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 370,100, 60,20);
+	assert( itsOKButton != NULL );
+	itsOKButton->SetShortcuts(JGetString("itsOKButton::JXFSRunFileDialog::shortcuts::JXLayout"));
 
-    itsCmdHistoryMenu =
-        new JXFSCommandHistoryMenu(kHistoryLength, "", window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 320,40, 30,20);
-    assert( itsCmdHistoryMenu != NULL );
+	itsCmdHistoryMenu =
+		new JXFSCommandHistoryMenu(kHistoryLength, "", window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,40, 30,20);
+	assert( itsCmdHistoryMenu != NULL );
 
-    itsChooseCmdButton =
-        new JXTextButton(JGetString("itsChooseCmdButton::JXFSRunFileDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 370,40, 60,20);
-    assert( itsChooseCmdButton != NULL );
+	itsChooseCmdButton =
+		new JXTextButton(JGetString("itsChooseCmdButton::JXFSRunFileDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 370,40, 60,20);
+	assert( itsChooseCmdButton != NULL );
 
-    itsSaveBindingCB =
-        new JXTextCheckbox(JGetString("itsSaveBindingCB::JXFSRunFileDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 160,140, 280,20);
-    assert( itsSaveBindingCB != NULL );
-    itsSaveBindingCB->SetShortcuts(JGetString("itsSaveBindingCB::JXFSRunFileDialog::shortcuts::JXLayout"));
+	itsSaveBindingCB =
+		new JXTextCheckbox(JGetString("itsSaveBindingCB::JXFSRunFileDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 160,140, 280,20);
+	assert( itsSaveBindingCB != NULL );
+	itsSaveBindingCB->SetShortcuts(JGetString("itsSaveBindingCB::JXFSRunFileDialog::shortcuts::JXLayout"));
 
-    itsUseShellCB =
-        new JXTextCheckbox(JGetString("itsUseShellCB::JXFSRunFileDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 130,20);
-    assert( itsUseShellCB != NULL );
-    itsUseShellCB->SetShortcuts(JGetString("itsUseShellCB::JXFSRunFileDialog::shortcuts::JXLayout"));
+	itsUseShellCB =
+		new JXTextCheckbox(JGetString("itsUseShellCB::JXFSRunFileDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 130,20);
+	assert( itsUseShellCB != NULL );
+	itsUseShellCB->SetShortcuts(JGetString("itsUseShellCB::JXFSRunFileDialog::shortcuts::JXLayout"));
 
-    itsUseWindowCB =
-        new JXTextCheckbox(JGetString("itsUseWindowCB::JXFSRunFileDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,110, 130,20);
-    assert( itsUseWindowCB != NULL );
-    itsUseWindowCB->SetShortcuts(JGetString("itsUseWindowCB::JXFSRunFileDialog::shortcuts::JXLayout"));
+	itsUseWindowCB =
+		new JXTextCheckbox(JGetString("itsUseWindowCB::JXFSRunFileDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,110, 130,20);
+	assert( itsUseWindowCB != NULL );
+	itsUseWindowCB->SetShortcuts(JGetString("itsUseWindowCB::JXFSRunFileDialog::shortcuts::JXLayout"));
 
-    JXStaticText* obj1_JXLayout =
-        new JXStaticText(JGetString("obj1_JXLayout::JXFSRunFileDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 20,60, 350,20);
-    assert( obj1_JXLayout != NULL );
+	JXStaticText* obj1_JXLayout =
+		new JXStaticText(JGetString("obj1_JXLayout::JXFSRunFileDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 20,60, 350,20);
+	assert( obj1_JXLayout != NULL );
     obj1_JXLayout->SetFontSize(8);
-    obj1_JXLayout->SetToLabel();
+	obj1_JXLayout->SetToLabel();
 
-    itsSingleFileCB =
-        new JXTextCheckbox(JGetString("itsSingleFileCB::JXFSRunFileDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,140, 130,20);
-    assert( itsSingleFileCB != NULL );
-    itsSingleFileCB->SetShortcuts(JGetString("itsSingleFileCB::JXFSRunFileDialog::shortcuts::JXLayout"));
+	itsSingleFileCB =
+		new JXTextCheckbox(JGetString("itsSingleFileCB::JXFSRunFileDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,140, 130,20);
+	assert( itsSingleFileCB != NULL );
+	itsSingleFileCB->SetShortcuts(JGetString("itsSingleFileCB::JXFSRunFileDialog::shortcuts::JXLayout"));
 
 // end JXLayout
 

@@ -60,23 +60,23 @@ protected:
 
 private:
 
-    JXFileInput*	itsFileInput;
-    JXTextButton*	itsPrintButton;
+	JXFileInput*	itsFileInput;
+	JXTextButton*	itsPrintButton;
 
 // begin JXLayout
 
-    JXStaticText*   itsPrintCmdLabel;
-    JXRadioGroup*   itsDestination;
-    JXInputField*   itsPrintCmd;
-    JXTextButton*   itsChooseFileButton;
-    JXIntegerInput* itsCopyCount;
-    JXTextCheckbox* itsBWCheckbox;
-    JXIntegerInput* itsFirstPageIndex;
-    JXIntegerInput* itsLastPageIndex;
-    JXTextCheckbox* itsPrintAllCB;
-    JXStaticText*   itsFirstPageIndexLabel;
-    JXStaticText*   itsLastPageIndexLabel;
-    JXTextCheckbox* itsCollateCB;
+	JXStaticText*   itsPrintCmdLabel;
+	JXRadioGroup*   itsDestination;
+	JXInputField*   itsPrintCmd;
+	JXTextButton*   itsChooseFileButton;
+	JXIntegerInput* itsCopyCount;
+	JXTextCheckbox* itsBWCheckbox;
+	JXIntegerInput* itsFirstPageIndex;
+	JXIntegerInput* itsLastPageIndex;
+	JXTextCheckbox* itsPrintAllCB;
+	JXStaticText*   itsFirstPageIndexLabel;
+	JXStaticText*   itsLastPageIndexLabel;
+	JXTextCheckbox* itsCollateCB;
 
 // end JXLayout
 

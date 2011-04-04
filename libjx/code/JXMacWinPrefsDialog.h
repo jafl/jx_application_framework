@@ -36,11 +36,11 @@ private:
 
 // begin JXLayout
 
-    JXTextCheckbox* itsMacStyleCB;
-    JXTextCheckbox* itsHomeEndCB;
-    JXTextCheckbox* itsScrollCaretCB;
-    JXTextCheckbox* itsCopyWhenSelectCB;
-    JXTextCheckbox* itsFocusInDockCB;
+	JXTextCheckbox* itsMacStyleCB;
+	JXTextCheckbox* itsHomeEndCB;
+	JXTextCheckbox* itsScrollCaretCB;
+	JXTextCheckbox* itsCopyWhenSelectCB;
+	JXTextCheckbox* itsFocusInDockCB;
 
 // end JXLayout
 

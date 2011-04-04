@@ -56,11 +56,11 @@ private:
 
 // begin JXLayout
 
-    JXInputField*   itsPrintCmd;
-    JXIntegerInput* itsWidth;
-    JXIntegerInput* itsHeight;
-    JXTextButton*   itsPrintTestButton;
-    JXTextCheckbox* itsPrintReverseOrderCB;
+	JXInputField*   itsPrintCmd;
+	JXIntegerInput* itsWidth;
+	JXIntegerInput* itsHeight;
+	JXTextButton*   itsPrintTestButton;
+	JXTextCheckbox* itsPrintReverseOrderCB;
 
 // end JXLayout
 

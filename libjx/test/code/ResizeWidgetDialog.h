@@ -33,8 +33,8 @@ private:
 
 // begin JXLayout
 
-    JXIntegerInput* itsWidth;
-    JXIntegerInput* itsHeight;
+	JXIntegerInput* itsWidth;
+	JXIntegerInput* itsHeight;
 
 // end JXLayout
 

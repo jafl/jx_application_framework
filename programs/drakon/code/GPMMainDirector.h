@@ -53,8 +53,8 @@ private:
 
 // begin JXLayout
 
-    JXToolBar*    itsToolBar;
-    JXStaticText* itsFullCmdDisplay;
+	JXToolBar*    itsToolBar;
+	JXStaticText* itsFullCmdDisplay;
 
 // end JXLayout
 

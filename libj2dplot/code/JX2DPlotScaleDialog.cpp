@@ -109,116 +109,116 @@ JX2DPlotScaleDialog::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 540,190, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 540,190, "");
+	assert( window != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::JX2DPlotScaleDialog::JXLayout"), window,
-                    JXWidget::kFixedRight, JXWidget::kFixedTop, 360,160, 70,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::JX2DPlotScaleDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::JX2DPlotScaleDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 360,160, 70,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::JX2DPlotScaleDialog::shortcuts::JXLayout"));
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::JX2DPlotScaleDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,160, 70,20);
-    assert( cancelButton != NULL );
-    cancelButton->SetShortcuts(JGetString("cancelButton::JX2DPlotScaleDialog::shortcuts::JXLayout"));
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::JX2DPlotScaleDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,160, 70,20);
+	assert( cancelButton != NULL );
+	cancelButton->SetShortcuts(JGetString("cancelButton::JX2DPlotScaleDialog::shortcuts::JXLayout"));
 
-    itsXMin =
-        new JXFloatInput(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,20, 120,20);
-    assert( itsXMin != NULL );
+	itsXMin =
+		new JXFloatInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,20, 120,20);
+	assert( itsXMin != NULL );
 
-    JXStaticText* obj1_JXLayout =
-        new JXStaticText(JGetString("obj1_JXLayout::JX2DPlotScaleDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 70,20);
-    assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetToLabel();
+	JXStaticText* obj1_JXLayout =
+		new JXStaticText(JGetString("obj1_JXLayout::JX2DPlotScaleDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 70,20);
+	assert( obj1_JXLayout != NULL );
+	obj1_JXLayout->SetToLabel();
 
-    JXStaticText* obj2_JXLayout =
-        new JXStaticText(JGetString("obj2_JXLayout::JX2DPlotScaleDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,20, 30,20);
-    assert( obj2_JXLayout != NULL );
-    obj2_JXLayout->SetToLabel();
+	JXStaticText* obj2_JXLayout =
+		new JXStaticText(JGetString("obj2_JXLayout::JX2DPlotScaleDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,20, 30,20);
+	assert( obj2_JXLayout != NULL );
+	obj2_JXLayout->SetToLabel();
 
-    itsXMax =
-        new JXFloatInput(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,20, 120,20);
-    assert( itsXMax != NULL );
+	itsXMax =
+		new JXFloatInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,20, 120,20);
+	assert( itsXMax != NULL );
 
-    itsXIncLabel =
-        new JXStaticText(JGetString("itsXIncLabel::JX2DPlotScaleDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,50, 70,20);
-    assert( itsXIncLabel != NULL );
-    itsXIncLabel->SetToLabel();
+	itsXIncLabel =
+		new JXStaticText(JGetString("itsXIncLabel::JX2DPlotScaleDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,50, 70,20);
+	assert( itsXIncLabel != NULL );
+	itsXIncLabel->SetToLabel();
 
-    itsXInc =
-        new JXFloatInput(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,50, 120,20);
-    assert( itsXInc != NULL );
+	itsXInc =
+		new JXFloatInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,50, 120,20);
+	assert( itsXInc != NULL );
 
-    itsYMin =
-        new JXFloatInput(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,90, 120,20);
-    assert( itsYMin != NULL );
+	itsYMin =
+		new JXFloatInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,90, 120,20);
+	assert( itsYMin != NULL );
 
-    JXStaticText* obj3_JXLayout =
-        new JXStaticText(JGetString("obj3_JXLayout::JX2DPlotScaleDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 70,20);
-    assert( obj3_JXLayout != NULL );
-    obj3_JXLayout->SetToLabel();
+	JXStaticText* obj3_JXLayout =
+		new JXStaticText(JGetString("obj3_JXLayout::JX2DPlotScaleDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 70,20);
+	assert( obj3_JXLayout != NULL );
+	obj3_JXLayout->SetToLabel();
 
-    JXStaticText* obj4_JXLayout =
-        new JXStaticText(JGetString("obj4_JXLayout::JX2DPlotScaleDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,90, 30,20);
-    assert( obj4_JXLayout != NULL );
-    obj4_JXLayout->SetToLabel();
+	JXStaticText* obj4_JXLayout =
+		new JXStaticText(JGetString("obj4_JXLayout::JX2DPlotScaleDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 220,90, 30,20);
+	assert( obj4_JXLayout != NULL );
+	obj4_JXLayout->SetToLabel();
 
-    itsYMax =
-        new JXFloatInput(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,90, 120,20);
-    assert( itsYMax != NULL );
+	itsYMax =
+		new JXFloatInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,90, 120,20);
+	assert( itsYMax != NULL );
 
-    itsYIncLabel =
-        new JXStaticText(JGetString("itsYIncLabel::JX2DPlotScaleDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,120, 70,20);
-    assert( itsYIncLabel != NULL );
-    itsYIncLabel->SetToLabel();
+	itsYIncLabel =
+		new JXStaticText(JGetString("itsYIncLabel::JX2DPlotScaleDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,120, 70,20);
+	assert( itsYIncLabel != NULL );
+	itsYIncLabel->SetToLabel();
 
-    itsYInc =
-        new JXFloatInput(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,120, 120,20);
-    assert( itsYInc != NULL );
+	itsYInc =
+		new JXFloatInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,120, 120,20);
+	assert( itsYInc != NULL );
 
-    itsXAxisTypeRG =
-        new JXRadioGroup(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 400,15, 124,64);
-    assert( itsXAxisTypeRG != NULL );
+	itsXAxisTypeRG =
+		new JXRadioGroup(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 400,15, 124,64);
+	assert( itsXAxisTypeRG != NULL );
 
-    JXTextRadioButton* obj5_JXLayout =
-        new JXTextRadioButton(kLinear, JGetString("obj5_JXLayout::JX2DPlotScaleDialog::JXLayout"), itsXAxisTypeRG,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 100,20);
-    assert( obj5_JXLayout != NULL );
+	JXTextRadioButton* obj5_JXLayout =
+		new JXTextRadioButton(kLinear, JGetString("obj5_JXLayout::JX2DPlotScaleDialog::JXLayout"), itsXAxisTypeRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 100,20);
+	assert( obj5_JXLayout != NULL );
 
-    JXTextRadioButton* obj6_JXLayout =
-        new JXTextRadioButton(kLog, JGetString("obj6_JXLayout::JX2DPlotScaleDialog::JXLayout"), itsXAxisTypeRG,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 100,20);
-    assert( obj6_JXLayout != NULL );
+	JXTextRadioButton* obj6_JXLayout =
+		new JXTextRadioButton(kLog, JGetString("obj6_JXLayout::JX2DPlotScaleDialog::JXLayout"), itsXAxisTypeRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 100,20);
+	assert( obj6_JXLayout != NULL );
 
-    itsYAxisTypeRG =
-        new JXRadioGroup(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 400,85, 124,64);
-    assert( itsYAxisTypeRG != NULL );
+	itsYAxisTypeRG =
+		new JXRadioGroup(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 400,85, 124,64);
+	assert( itsYAxisTypeRG != NULL );
 
-    JXTextRadioButton* obj7_JXLayout =
-        new JXTextRadioButton(kLinear, JGetString("obj7_JXLayout::JX2DPlotScaleDialog::JXLayout"), itsYAxisTypeRG,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 100,20);
-    assert( obj7_JXLayout != NULL );
+	JXTextRadioButton* obj7_JXLayout =
+		new JXTextRadioButton(kLinear, JGetString("obj7_JXLayout::JX2DPlotScaleDialog::JXLayout"), itsYAxisTypeRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 100,20);
+	assert( obj7_JXLayout != NULL );
 
-    JXTextRadioButton* obj8_JXLayout =
-        new JXTextRadioButton(kLog, JGetString("obj8_JXLayout::JX2DPlotScaleDialog::JXLayout"), itsYAxisTypeRG,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 100,20);
-    assert( obj8_JXLayout != NULL );
+	JXTextRadioButton* obj8_JXLayout =
+		new JXTextRadioButton(kLog, JGetString("obj8_JXLayout::JX2DPlotScaleDialog::JXLayout"), itsYAxisTypeRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 100,20);
+	assert( obj8_JXLayout != NULL );
 
 // end JXLayout
 

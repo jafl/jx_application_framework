@@ -53,10 +53,10 @@ private:
 
 // begin JXLayout
 
-    JXTextCheckbox* itsShowToolBarCB;
-    JXTextCheckbox* itsUseSmallButtonsCB;
-    JXTextCheckbox* itsShowImagesCB;
-    JXTextCheckbox* itsShowTextCB;
+	JXTextCheckbox* itsShowToolBarCB;
+	JXTextCheckbox* itsUseSmallButtonsCB;
+	JXTextCheckbox* itsShowImagesCB;
+	JXTextCheckbox* itsShowTextCB;
 
 // end JXLayout
 

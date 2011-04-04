@@ -138,30 +138,30 @@ private:
 
 // begin JXLayout
 
-    JXTextButton*        itsCloseButton;
-    JXTextCheckbox*      itsIgnoreCaseCB;
-    JXTextCheckbox*      itsWrapSearchCB;
-    JXTextButton*        itsReplaceButton;
-    JXTextCheckbox*      itsEntireWordCB;
-    JXStringHistoryMenu* itsPrevReplaceMenu;
-    JXStringHistoryMenu* itsPrevSearchMenu;
-    JXTextButton*        itsHelpButton;
-    JXTextCheckbox*      itsSearchIsRegexCB;
-    JXTextCheckbox*      itsReplaceIsRegexCB;
-    JXTextCheckbox*      itsSingleLineCB;
-    JXTextCheckbox*      itsPreserveCaseCB;
-    JXTextButton*        itsQRefButton;
-    JXSearchTextButton*  itsFindBackButton;
-    JXSearchTextButton*  itsFindFwdButton;
-    JXSearchTextButton*  itsReplaceFindBackButton;
-    JXSearchTextButton*  itsReplaceFindFwdButton;
-    JXSearchTextButton*  itsReplaceAllBackButton;
-    JXSearchTextButton*  itsReplaceAllFwdButton;
-    JXTextButton*        itsReplaceAllInSelButton;
-    JXTextCheckbox*      itsStayOpenCB;
-    JXTextCheckbox*      itsRetainFocusCB;
-    JXInputField*        itsSearchInput;
-    JXInputField*        itsReplaceInput;
+	JXTextButton*        itsCloseButton;
+	JXTextCheckbox*      itsIgnoreCaseCB;
+	JXTextCheckbox*      itsWrapSearchCB;
+	JXTextButton*        itsReplaceButton;
+	JXTextCheckbox*      itsEntireWordCB;
+	JXStringHistoryMenu* itsPrevReplaceMenu;
+	JXStringHistoryMenu* itsPrevSearchMenu;
+	JXTextButton*        itsHelpButton;
+	JXTextCheckbox*      itsSearchIsRegexCB;
+	JXTextCheckbox*      itsReplaceIsRegexCB;
+	JXTextCheckbox*      itsSingleLineCB;
+	JXTextCheckbox*      itsPreserveCaseCB;
+	JXTextButton*        itsQRefButton;
+	JXSearchTextButton*  itsFindBackButton;
+	JXSearchTextButton*  itsFindFwdButton;
+	JXSearchTextButton*  itsReplaceFindBackButton;
+	JXSearchTextButton*  itsReplaceFindFwdButton;
+	JXSearchTextButton*  itsReplaceAllBackButton;
+	JXSearchTextButton*  itsReplaceAllFwdButton;
+	JXTextButton*        itsReplaceAllInSelButton;
+	JXTextCheckbox*      itsStayOpenCB;
+	JXTextCheckbox*      itsRetainFocusCB;
+	JXInputField*        itsSearchInput;
+	JXInputField*        itsReplaceInput;
 
 // end JXLayout
 

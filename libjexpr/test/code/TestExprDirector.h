@@ -32,11 +32,11 @@ private:
 
 // begin JXLayout
 
-    JXTextButton* itsTestFEditButton;
-    JXTextButton* itsTestDParseButton;
-    JXTextButton* itsTestFEqButton;
-    JXTextButton* itsTestDEqButton;
-    JXTextButton* itsTestCFEditButton;
+	JXTextButton* itsTestFEditButton;
+	JXTextButton* itsTestDParseButton;
+	JXTextButton* itsTestFEqButton;
+	JXTextButton* itsTestDEqButton;
+	JXTextButton* itsTestCFEditButton;
 
 // end JXLayout
 

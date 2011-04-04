@@ -187,18 +187,18 @@ THX3DPlotDirector::BuildWindow()
 
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 450,480, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 450,480, "");
+	assert( window != NULL );
 
-    JXMenuBar* menuBar =
-        new JXMenuBar(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 450,30);
-    assert( menuBar != NULL );
+	JXMenuBar* menuBar =
+		new JXMenuBar(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 450,30);
+	assert( menuBar != NULL );
 
-    its3DPlot =
-        new THX3DPlotWidget(itsUniverse, window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 450,450);
-    assert( its3DPlot != NULL );
+	its3DPlot =
+		new THX3DPlotWidget(itsUniverse, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 450,450);
+	assert( its3DPlot != NULL );
 
 // end JXLayout
 

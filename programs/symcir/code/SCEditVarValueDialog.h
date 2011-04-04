@@ -39,7 +39,7 @@ private:
 
 // begin JXLayout
 
-    JXFloatInput* itsValue;
+	JXFloatInput* itsValue;
 
 // end JXLayout
 

@@ -34,9 +34,9 @@ private:
 
 // begin JXLayout
 
-    JXInputField* itsCurveName;
-    JXFloatInput* itsMinValue;
-    JXFloatInput* itsMaxValue;
+	JXInputField* itsCurveName;
+	JXFloatInput* itsMinValue;
+	JXFloatInput* itsMaxValue;
 
 // end JXLayout
 

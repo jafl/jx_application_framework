@@ -3,7 +3,7 @@
 
 	BASE CLASS = JXWindowDirector
 
-	Written by Glenn Bach - 1997. 
+	Written by Glenn Bach - 1997.
 
  ******************************************************************************/
 
@@ -42,9 +42,9 @@ WidgetDir::~WidgetDir()
 
 /******************************************************************************
  BuildWindow
- 	
- 	This is a convenient and organized way of putting all of the initial 
- 	elements into a window. This will keep the constructor less cluttered.
+
+	This is a convenient and organized way of putting all of the initial
+	elements into a window. This will keep the constructor less cluttered.
 
  ******************************************************************************/
 
@@ -53,17 +53,14 @@ WidgetDir::BuildWindow()
 {
 	// Create the window
 	JXWindow* window = new JXWindow(this, 300,200, "Test Widget Program");
-    assert( window != NULL );
-    
-    // Give the window to the director
-    SetWindow(window);
-    
-    // Set sizing
-    window->SetMinSize(300,200);
+	assert( window != NULL );
+
+	// Set sizing
+	window->SetMinSize(300,200);
 	window->SetMaxSize(800,600);
-	
+
 	// Create our custom widget
-	Widget* widget = 
+	Widget* widget =
 		new Widget(window, JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 300, 200);
 	assert( widget != NULL );
