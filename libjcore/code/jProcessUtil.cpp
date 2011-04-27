@@ -441,19 +441,19 @@ JExecute
 
 	Actions:
 
-		kJIgnoreConnection  don't create a pipe, use default connection
+		kJIgnoreConnection	don't create a pipe, use default connection
 
-		kJCreatePipe        create a pipe and return the end that the
-		                    parent should use
+		kJCreatePipe		create a pipe and return the end that the
+							parent should use
 
-		kJAttachToFD        connect the child to the descriptor passed in
-		                    via the corresponding int* (don't create pipe)
+		kJAttachToFD		connect the child to the descriptor passed in
+							via the corresponding int* (don't create pipe)
 
-		kJTossOutput        connects output to /dev/null
-		                    (only works for fromAction and errAction)
+		kJTossOutput		connects output to /dev/null
+							(only works for fromAction and errAction)
 
-		kJAttachToFromFD    connect stderr to stdout
-		                    (only works for errAction)
+		kJAttachToFromFD	connect stderr to stdout
+							(only works for errAction)
 
 		kJForceNonblockingPipe	same as kJCreatePipe, but monitors and turns
 								off non-blocking mode

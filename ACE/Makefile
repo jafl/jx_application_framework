@@ -73,7 +73,7 @@ static:
 SRC_FILE_DIR := ${JX}/ACE
 
 EXTRA_ACE_FILES := ${ACE_VERSION} VERSION ACE-INSTALL* docs/ \
-                   AUTHORS FAQ README COPYING PROBLEM-REPORT-FORM \
+                   AUTHORS README COPYING PROBLEM-REPORT-FORM \
                    bin/ace_components etc/ 
 
 .PHONY : jxsource

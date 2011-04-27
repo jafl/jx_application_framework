@@ -120,7 +120,7 @@ SRC_FILE_DIR := ${JX}/programs/mondrian
 .PHONY : jxsource
 jxsource:
 	@cd ${J_DISTR_TAR_DIR}; \
-     ${TAR} -czf ${DISTR_TAR_FILE} ${filter-out %.o %~, \
+     ${TAR} -rf ${DISTR_TAR_FILE} ${filter-out %.o %~, \
                                      ${shell cd ${J_DISTR_TAR_DIR}; echo \
               ${addprefix ${SRC_FILE_DIR}/, \
                 README Make.* *.jcc *.fd \

@@ -20,6 +20,10 @@
 
 static const char* kCurrentJXLibVersionStr = "3.0.0";
 
+// version 3.0.1:
+//	JXGetStringDialog:
+//		Promoted GetInputField() to public.
+
 // version 3.0.0:
 //	*** Run new jxlayout on all .fd files.
 //	Created jx_memory_debugger.

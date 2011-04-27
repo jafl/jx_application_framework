@@ -1,8 +1,8 @@
 /******************************************************************************
  JRotateComplex.cpp
 
-	This class rotates the given complex number by the specified number
-	of degrees.
+	This class rotates the given complex number by the specified angle in
+	radians.
 
 	BASE CLASS = JBinaryFunction
 

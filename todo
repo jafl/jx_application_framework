@@ -1,6 +1,9 @@
 jcc
+	pref to turn off making mixed whitespace visible
+
 	vi emulator
 		dd doesn't work on last line of file
+		Ndd doesn't include last line of file even if it should be included
 
 	write out prefs every few minutes
 		call JPrefObject::WritePrefs() after major change, not just in destructors
@@ -25,11 +28,6 @@ medic:
 		need simple example to submit to ACE list
 	restart either xdebug or java:  unable to listen on port & crashes on exit
 		also need to fix SetProgram()
-
-svn_client:
-	Repo tab
-		drag => svn copy/move (for branching/tagging)
-			ask for destination name before performing action
 
 -----
 

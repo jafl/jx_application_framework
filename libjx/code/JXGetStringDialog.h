@@ -30,8 +30,6 @@ public:
 
 	const JString&	GetString() const;
 
-protected:
-
 	JXInputField*	GetInputField();
 
 private:
@@ -56,7 +54,7 @@ private:
 
 
 /******************************************************************************
- GetInputField (protected)
+ GetInputField
 
  ******************************************************************************/
 
