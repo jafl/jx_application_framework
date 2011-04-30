@@ -1205,14 +1205,14 @@ JXFileListTable::Receive
 	if (sender == itsFileList && message.Is(JOrderedSetT::kElementsInserted))
 		{
 		const JOrderedSetT::ElementsInserted* m =
-			dynamic_cast(const JOrderedSetT::ElementsInserted*, &message);
+			dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
 		assert( m != NULL );
 		ADJUST_INDEX(m);
 		}
 	else if (sender == itsFileList && message.Is(JOrderedSetT::kElementsRemoved))
 		{
 		const JOrderedSetT::ElementsRemoved* m =
-			dynamic_cast(const JOrderedSetT::ElementsRemoved*, &message);
+			dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
 		assert( m != NULL );
 
 		const JSize count = itsVisibleList->GetElementCount();
@@ -1233,14 +1233,14 @@ JXFileListTable::Receive
 	else if (sender == itsFileList && message.Is(JOrderedSetT::kElementMoved))
 		{
 		const JOrderedSetT::ElementMoved* m =
-			dynamic_cast(const JOrderedSetT::ElementMoved*, &message);
+			dynamic_cast<const JOrderedSetT::ElementMoved*>(&message);
 		assert( m != NULL );
 		ADJUST_INDEX(m);
 		}
 	else if (sender == itsFileList && message.Is(JOrderedSetT::kElementsSwapped))
 		{
 		const JOrderedSetT::ElementsSwapped* m =
-			dynamic_cast(const JOrderedSetT::ElementsSwapped*, &message);
+			dynamic_cast<const JOrderedSetT::ElementsSwapped*>(&message);
 		assert( m != NULL );
 		ADJUST_INDEX(m);
 		}
@@ -1260,7 +1260,7 @@ JXFileListTable::Receive
 	else if (sender == itsEditMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleEditMenu(selection->GetIndex());
 		}
@@ -1370,7 +1370,7 @@ JXFileListTable::GetSelectionData
 		{
 		assert( HasSelection() );
 
-		JXFileSelection* fileData = dynamic_cast(JXFileSelection*, data);
+		JXFileSelection* fileData = dynamic_cast<JXFileSelection*>(data);
 		assert( fileData != NULL );
 
 		JPtrArray<JString> list(JPtrArrayT::kDeleteAll);

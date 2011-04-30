@@ -359,7 +359,7 @@ GXDataDocument::Receive
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleFileMenu(selection->GetIndex());
 		}
@@ -367,7 +367,7 @@ GXDataDocument::Receive
 	else if (sender == itsExportMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleExportMenu(selection->GetIndex());
 		}
@@ -375,7 +375,7 @@ GXDataDocument::Receive
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleHelpMenu(selection->GetIndex());
 		}
@@ -384,7 +384,7 @@ GXDataDocument::Receive
 			 message.Is(JPrinter::kPrintSetupFinished))
 		{
 		const JPrinter::PrintSetupFinished* info =
-			dynamic_cast(const JPrinter::PrintSetupFinished*, &message);
+			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert(info != NULL);
 		if (info->Successful())
 			{
@@ -395,7 +395,7 @@ GXDataDocument::Receive
 	else if (sender == itsFileImportDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -407,7 +407,7 @@ GXDataDocument::Receive
 	else if (sender == itsDelimiterDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{

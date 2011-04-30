@@ -149,7 +149,7 @@ JSummation::Print
 			{
 			output << JPGetSubtractionString();
 			f = arg;
-			const JNegation* neg = dynamic_cast(const JNegation*, arg);
+			const JNegation* neg = dynamic_cast<const JNegation*>(arg);
 			assert( neg != NULL );
 			arg = neg->GetArg();
 			}
@@ -214,7 +214,7 @@ JSummation::PrepareToRender
 				argUpperLeft.x += spaceWidth;
 				}
 			f = arg;
-			JNegation* neg = dynamic_cast(JNegation*, arg);
+			JNegation* neg = dynamic_cast<JNegation*>(arg);
 			assert( neg != NULL );
 			arg = neg->GetArg();
 			}
@@ -256,7 +256,7 @@ JSummation::PrepareToRender
 			const JFunction* arg = GetArg(i);
 			if (arg->GetType() == kJNegationType)
 				{
-				const JNegation* neg = dynamic_cast(const JNegation*, arg);
+				const JNegation* neg = dynamic_cast<const JNegation*>(arg);
 				assert( neg != NULL );
 				arg = neg->GetArg();
 				}
@@ -311,7 +311,7 @@ JSummation::Render
 			{
 			renderer.DrawString(h, ourMidline, fontSize, JPGetSubtractionString());
 			f = arg;
-			const JNegation* neg = dynamic_cast(const JNegation*, arg);
+			const JNegation* neg = dynamic_cast<const JNegation*>(arg);
 			assert( neg != NULL );
 			arg = neg->GetArg();
 			}

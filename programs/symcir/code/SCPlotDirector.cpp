@@ -197,7 +197,7 @@ SCPlotDirector::StreamOut
 	for (JIndex i=1; i<=fnCount; i++)
 		{
 		const JPlotDataBase& data      = itsPlot->GetCurve(i);
-		const J2DPlotJFunction* fnData = dynamic_cast(const J2DPlotJFunction*, &data);
+		const J2DPlotJFunction* fnData = dynamic_cast<const J2DPlotJFunction*>(&data);
 		assert( fnData != NULL );
 
 		JFloat xMin, xMax;

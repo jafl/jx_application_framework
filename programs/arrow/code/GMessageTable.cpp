@@ -370,7 +370,7 @@ GMessageTable::Receive
 		if (message.Is(GMMailboxData::kHeaderRemoved))
 			{
 			const GMMailboxData::HeaderRemoved* info = 
-				dynamic_cast(const GMMailboxData::HeaderRemoved*, &message);
+				dynamic_cast<const GMMailboxData::HeaderRemoved*>(&message);
 			assert(info != NULL);
 			JIndex findex;
 			if (itsData->Includes(info->GetHeader(), &findex))
@@ -385,7 +385,7 @@ GMessageTable::Receive
 		else if (message.Is(GMMailboxData::kHeaderAdded))
 			{
 			const GMMailboxData::HeaderAdded* info = 
-				dynamic_cast(const GMMailboxData::HeaderAdded*, &message);
+				dynamic_cast<const GMMailboxData::HeaderAdded*>(&message);
 			assert(info != NULL);
 			JIndex findex;
 			if (itsData->Includes(info->GetHeader(), &findex))
@@ -406,7 +406,7 @@ GMessageTable::Receive
 	else if (sender == itsMessageMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleMessageMenu(selection->GetIndex());
 		}
@@ -427,21 +427,21 @@ GMessageTable::Receive
 	else if (sender == itsPopupMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* info =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert(info != NULL);
 		HandlePopupMenu(info->GetIndex());
 		}
 	else if (sender == itsTransferMenu && message.Is(JXFSDirMenu::kFileSelected))
 		{
 		const JXFSDirMenu::FileSelected* info =
-			dynamic_cast(const JXFSDirMenu::FileSelected*, &message);
+			dynamic_cast<const JXFSDirMenu::FileSelected*>(&message);
 		assert(info != NULL);
 		HandleMessageTransfer(info->GetFileName(), kJTrue);
 		}
 	else if (sender == itsCopyMenu && message.Is(JXFSDirMenu::kFileSelected))
 		{
 		const JXFSDirMenu::FileSelected* info =
-			dynamic_cast(const JXFSDirMenu::FileSelected*, &message);
+			dynamic_cast<const JXFSDirMenu::FileSelected*>(&message);
 		assert(info != NULL);
 		HandleMessageTransfer(info->GetFileName(), kJFalse);
 		}
@@ -1334,7 +1334,7 @@ GMessageTable::GetSelectionData
 	if (strcmp(id, kDNDClassID) == 0)
 		{
 		GMessageDragData* messageData =
-			dynamic_cast(GMessageDragData*, data);
+			dynamic_cast<GMessageDragData*>(data);
 		assert(messageData != NULL);
 
 		messageData->SetDirector(itsDir);

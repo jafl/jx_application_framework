@@ -29,6 +29,7 @@ public:
 	JTree*			GetTree();
 	const JTree*	GetTree() const;
 
+	JBoolean			IndexValid(const JIndex index) const;
 	JTreeNode*			GetNode(const JIndex index);
 	const JTreeNode*	GetNode(const JIndex index) const;
 	JBoolean			FindNode(const JTreeNode* node, JIndex* index) const;
@@ -198,6 +199,21 @@ JTreeList::GetTree()
 	const
 {
 	return itsTree;
+}
+
+/******************************************************************************
+ IndexValid
+
+ ******************************************************************************/
+
+inline JBoolean
+JTreeList::IndexValid
+	(
+	const JIndex index
+	)
+	const
+{
+	return itsVisibleNodeList->IndexValid(index);
 }
 
 /******************************************************************************

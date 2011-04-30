@@ -233,7 +233,7 @@ GXCreatePlotDialog::Receive
 	if (sender == itsXMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		itsStartX = selection->GetIndex();
 		}
@@ -241,7 +241,7 @@ GXCreatePlotDialog::Receive
 	else if (sender == itsXErrMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		itsStartXErr = selection->GetIndex();
 		}
@@ -249,7 +249,7 @@ GXCreatePlotDialog::Receive
 	else if (sender == itsYMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		itsStartY = selection->GetIndex();
 		}
@@ -257,7 +257,7 @@ GXCreatePlotDialog::Receive
 	else if (sender == itsYErrMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		itsStartYErr = selection->GetIndex();
 		}
@@ -265,7 +265,7 @@ GXCreatePlotDialog::Receive
 	else if (sender == itsPlotsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		itsPlotIndex = selection->GetIndex();
 		}

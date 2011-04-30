@@ -73,7 +73,7 @@ JTaskIterator<T>::OrderedSetChanged
 	if (message.Is(JOrderedSetT::kElementsInserted))
 		{
 		const JOrderedSetT::ElementsInserted* info =
-			dynamic_cast(const JOrderedSetT::ElementsInserted*, &message);
+			dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
 		assert( info != NULL );
 		if (JOrderedSetIterator<T*>::GetCursor() == 0 && info->GetFirstIndex() == 1)
 			{

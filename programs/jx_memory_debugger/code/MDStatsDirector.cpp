@@ -490,7 +490,7 @@ MDStatsDirector::Receive
 	else if (sender == itsRequestRecordsDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -508,7 +508,7 @@ MDStatsDirector::Receive
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleFileMenu(selection->GetIndex());
 		}
@@ -520,7 +520,7 @@ MDStatsDirector::Receive
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandlePrefsMenu(selection->GetIndex());
 		}
@@ -532,7 +532,7 @@ MDStatsDirector::Receive
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleHelpMenu(selection->GetIndex());
 		}

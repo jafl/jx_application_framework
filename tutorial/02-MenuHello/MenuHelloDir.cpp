@@ -136,7 +136,7 @@ MenuHelloDir::Receive
 		// We need to cast the sender in order to get access to its
 		// member function - GetIndex() in this case.
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 
 		// Pass the index to a menu handler function

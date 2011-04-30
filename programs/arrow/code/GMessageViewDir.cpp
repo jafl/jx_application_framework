@@ -481,21 +481,21 @@ GMessageViewDir::Receive
 	if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleFileMenu(selection->GetIndex());
 		}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleHelpMenu(selection->GetIndex());
 		}
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandlePrefsMenu(selection->GetIndex());
 		}
@@ -506,7 +506,7 @@ GMessageViewDir::Receive
 	else if (sender == itsMessageMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleMessageMenu(selection->GetIndex());
 		}
@@ -517,7 +517,7 @@ GMessageViewDir::Receive
 	else if (sender == itsPasswdDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -552,14 +552,14 @@ GMessageViewDir::Receive
 	else if (sender == itsTransferMenu && message.Is(JXFSDirMenu::kFileSelected))
 		{
 		const JXFSDirMenu::FileSelected* info =
-			dynamic_cast(const JXFSDirMenu::FileSelected*, &message);
+			dynamic_cast<const JXFSDirMenu::FileSelected*>(&message);
 		assert(info != NULL);
 		HandleMessageTransfer(info->GetFileName(), kJTrue);
 		}
 	else if (sender == itsCopyMenu && message.Is(JXFSDirMenu::kFileSelected))
 		{
 		const JXFSDirMenu::FileSelected* info =
-			dynamic_cast(const JXFSDirMenu::FileSelected*, &message);
+			dynamic_cast<const JXFSDirMenu::FileSelected*>(&message);
 		assert(info != NULL);
 		HandleMessageTransfer(info->GetFileName(), kJFalse);
 		}

@@ -92,7 +92,7 @@ SyGDuplicateProcess::Receive
 	if (sender == itsProcess && message.Is(JProcess::kFinished))
 		{
 		const JProcess::Finished* info =
-			dynamic_cast(const JProcess::Finished*, &message);
+			dynamic_cast<const JProcess::Finished*>(&message);
 		if (info->Successful() && itsTable != NULL && !itsTable->IsEditing())
 			{
 			SyGFileTreeNode* node   = itsNodeList.FirstElement();

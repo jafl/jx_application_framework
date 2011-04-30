@@ -425,7 +425,7 @@ JX2DPlotWidget::Receive
 	else if (sender == itsOptionsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleOptionsMenu(selection->GetIndex());
 		}
@@ -437,7 +437,7 @@ JX2DPlotWidget::Receive
 	else if (sender == itsRemoveCurveMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleRemoveCurveMenu(selection->GetIndex());
 		}
@@ -449,7 +449,7 @@ JX2DPlotWidget::Receive
 	else if (sender == itsCursorMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleCursorMenu(selection->GetIndex());
 		}
@@ -461,7 +461,7 @@ JX2DPlotWidget::Receive
 	else if (sender == itsMarkMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleMarkMenu(selection->GetIndex());
 		}
@@ -473,7 +473,7 @@ JX2DPlotWidget::Receive
 	else if (sender == itsCurveOptionsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleCurveOptionsMenu(selection->GetIndex());
 		}
@@ -481,7 +481,7 @@ JX2DPlotWidget::Receive
 	else if (sender == itsPlotLabelDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -493,7 +493,7 @@ JX2DPlotWidget::Receive
 	else if (sender == itsPlotScaleDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -505,7 +505,7 @@ JX2DPlotWidget::Receive
 	else if (sender == itsPlotRangeDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -517,7 +517,7 @@ JX2DPlotWidget::Receive
 	else if (sender == itsCurveOptionsDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -530,7 +530,7 @@ JX2DPlotWidget::Receive
 			 message.Is(JPrinter::kPrintSetupFinished))
 		{
 		const JPrinter::PrintSetupFinished* info =
-			dynamic_cast(const JPrinter::PrintSetupFinished*, &message);
+			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -544,7 +544,7 @@ JX2DPlotWidget::Receive
 			 message.Is(JPrinter::kPrintSetupFinished))
 		{
 		const JPrinter::PrintSetupFinished* info =
-			dynamic_cast(const JPrinter::PrintSetupFinished*, &message);
+			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != NULL );
 		if (info->Successful() && itsPrintEPSPlotFlag)
 			{

@@ -190,7 +190,7 @@ GMMessageDragSource::GetSelectionData
 	if (strcmp(id, kDNDClassID) == 0)
 		{
 		GMessageDragData* messageData =
-			dynamic_cast(GMessageDragData*, data);
+			dynamic_cast<GMessageDragData*>(data);
 		assert(messageData != NULL);
 
 		messageData->SetDirector(itsDir->GetDir());

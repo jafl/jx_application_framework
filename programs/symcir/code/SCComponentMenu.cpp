@@ -287,7 +287,7 @@ SCComponentMenu::Receive
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		itsMenuIndex = selection->GetIndex();
 
@@ -310,7 +310,7 @@ SCComponentMenu::Receive
 		else if (message.Is(JOrderedSetT::kElementsInserted))
 			{
 			const JOrderedSetT::ElementsInserted* info =
-				dynamic_cast(const JOrderedSetT::ElementsInserted*, &message);
+				dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
 			assert( info != NULL && info->GetCount() == 1 );
 			info->AdjustIndex(&compIndex);
 			const JBoolean ok = CompIndexToMenuIndex(compIndex, &itsMenuIndex);
@@ -319,7 +319,7 @@ SCComponentMenu::Receive
 		else if (message.Is(JOrderedSetT::kElementsRemoved))
 			{
 			const JOrderedSetT::ElementsRemoved* info =
-				dynamic_cast(const JOrderedSetT::ElementsRemoved*, &message);
+				dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
 			assert( info != NULL && info->GetCount() == 1 );
 			if (info->AdjustIndex(&compIndex))
 				{
@@ -334,7 +334,7 @@ SCComponentMenu::Receive
 		else if (message.Is(JOrderedSetT::kElementMoved))
 			{
 			const JOrderedSetT::ElementMoved* info =
-				dynamic_cast(const JOrderedSetT::ElementMoved*, &message);
+				dynamic_cast<const JOrderedSetT::ElementMoved*>(&message);
 			assert( info != NULL );
 			info->AdjustIndex(&compIndex);
 			const JBoolean ok = CompIndexToMenuIndex(compIndex, &itsMenuIndex);
@@ -343,7 +343,7 @@ SCComponentMenu::Receive
 		else if (message.Is(JOrderedSetT::kElementsSwapped))
 			{
 			const JOrderedSetT::ElementsSwapped* info =
-				dynamic_cast(const JOrderedSetT::ElementsSwapped*, &message);
+				dynamic_cast<const JOrderedSetT::ElementsSwapped*>(&message);
 			assert( info != NULL );
 			info->AdjustIndex(&compIndex);
 			const JBoolean ok = CompIndexToMenuIndex(compIndex, &itsMenuIndex);

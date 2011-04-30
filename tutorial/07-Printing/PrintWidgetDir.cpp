@@ -74,7 +74,7 @@ PrintWidgetDir::Receive
 		{
 		// See if the user cancelled the print job
 		const JPrinter::PrintSetupFinished* info =
-			dynamic_cast(const JPrinter::PrintSetupFinished*, &message);
+			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{

@@ -511,7 +511,7 @@ JXCSFDialogBase::Receive
 	else if (sender == itsShowHiddenCB && message.Is(JXCheckbox::kPushed))
 		{
 		const JXCheckbox::Pushed* state =
-			dynamic_cast(const JXCheckbox::Pushed*, &message);
+			dynamic_cast<const JXCheckbox::Pushed*>(&message);
 		assert( state != NULL );
 		itsFileBrowser->ShowHidden(state->IsChecked());
 		}
@@ -574,7 +574,7 @@ JXCSFDialogBase::Receive
 	else if (sender == itsNewDirDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{

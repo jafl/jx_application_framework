@@ -358,7 +358,7 @@ JXSpellCheckerDialog::Receive
 	if (sender == itsSuggestionWidget && message.Is(JXSpellList::kWordSelected))
 		{
 		const JXSpellList::WordSelected* choice =
-			dynamic_cast(const JXSpellList::WordSelected*, &message);
+			dynamic_cast<const JXSpellList::WordSelected*>(&message);
 		assert( choice != NULL );
 
 		itsFirstGuess->SetText(choice->GetWord());
@@ -369,7 +369,7 @@ JXSpellCheckerDialog::Receive
 	else if (sender == itsSuggestionWidget && message.Is(JXSpellList::kReplaceWord))
 		{
 		const JXSpellList::ReplaceWord* choice =
-			dynamic_cast(const JXSpellList::ReplaceWord*, &message);
+			dynamic_cast<const JXSpellList::ReplaceWord*>(&message);
 		assert( choice != NULL );
 
 		itsFirstGuess->SetText(choice->GetWord());
@@ -379,7 +379,7 @@ JXSpellCheckerDialog::Receive
 	else if (sender == itsSuggestionWidget && message.Is(JXSpellList::kReplaceWordAll))
 		{
 		const JXSpellList::ReplaceWordAll* choice =
-			dynamic_cast(const JXSpellList::ReplaceWordAll*, &message);
+			dynamic_cast<const JXSpellList::ReplaceWordAll*>(&message);
 		assert( choice != NULL );
 
 		itsFirstGuess->SetText(choice->GetWord());

@@ -605,7 +605,7 @@ JXMenuTable::GetMenuWidgetToActivate
 
 	if ((**widget).IsMenu())
 		{
-		JXMenu* menu = dynamic_cast(JXMenu*, *widget);
+		JXMenu* menu = dynamic_cast<JXMenu*>(*widget);
 		assert( menu != NULL );
 
 		JXMenuBar* menuBar1;

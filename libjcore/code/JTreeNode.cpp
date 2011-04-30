@@ -484,7 +484,7 @@ JTreeNode::Receive
 		assert( itsTree != NULL );
 
 		const JOrderedSetT::ElementMoved* info =
-			dynamic_cast(const JOrderedSetT::ElementMoved*, &message);
+			dynamic_cast<const JOrderedSetT::ElementMoved*>(&message);
 		assert( info != NULL );
 
 		const JIndex origIndex = info->GetOrigIndex();

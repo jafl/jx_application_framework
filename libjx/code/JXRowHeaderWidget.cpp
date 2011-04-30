@@ -515,7 +515,7 @@ JXRowHeaderWidget::Receive
 	else if (sender == itsTable && message.Is(JTable::kRowHeightChanged))
 		{
 		const JTable::RowHeightChanged* info =
-			dynamic_cast(const JTable::RowHeightChanged*, &message);
+			dynamic_cast<const JTable::RowHeightChanged*>(&message);
 		assert( info != NULL );
 		SetRowHeight(info->GetIndex(), info->GetNewRowHeight());
 		}
@@ -523,7 +523,7 @@ JXRowHeaderWidget::Receive
 	else if (sender == itsTable && message.Is(JTable::kAllRowHeightsChanged))
 		{
 		const JTable::AllRowHeightsChanged* info =
-			dynamic_cast(const JTable::AllRowHeightsChanged*,& message);
+			dynamic_cast<const JTable::AllRowHeightsChanged*>(& message);
 		assert( info != NULL );
 		SetAllRowHeights(info->GetNewRowHeight());
 		}
@@ -531,7 +531,7 @@ JXRowHeaderWidget::Receive
 	else if (sender == itsTable && message.Is(JTable::kRowsInserted))
 		{
 		const JTable::RowsInserted* info =
-			dynamic_cast(const JTable::RowsInserted*, &message);
+			dynamic_cast<const JTable::RowsInserted*>(&message);
 		assert( info != NULL );
 		if (itsTitles != NULL)
 			{
@@ -546,7 +546,7 @@ JXRowHeaderWidget::Receive
 	else if (sender == itsTable && message.Is(JTable::kRowsRemoved))
 		{
 		const JTable::RowsRemoved* info =
-			dynamic_cast(const JTable::RowsRemoved*, &message);
+			dynamic_cast<const JTable::RowsRemoved*>(&message);
 		assert( info != NULL );
 		if (itsTitles != NULL)
 			{
@@ -561,7 +561,7 @@ JXRowHeaderWidget::Receive
 	else if (sender == itsTable && message.Is(JTable::kRowMoved))
 		{
 		const JTable::RowMoved* info =
-			dynamic_cast(const JTable::RowMoved*, &message);
+			dynamic_cast<const JTable::RowMoved*>(&message);
 		assert( info != NULL );
 		if (itsTitles != NULL)
 			{
@@ -573,7 +573,7 @@ JXRowHeaderWidget::Receive
 	else if (sender == itsTable && message.Is(JTable::kRowBorderWidthChanged))
 		{
 		const JTable::RowBorderWidthChanged* info =
-			dynamic_cast(const JTable::RowBorderWidthChanged*, &message);
+			dynamic_cast<const JTable::RowBorderWidthChanged*>(&message);
 		assert( info != NULL );
 		SetRowBorderInfo(info->GetNewBorderWidth(), (GetColormap())->GetDefaultBackColor());
 		}

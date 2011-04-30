@@ -710,7 +710,7 @@ JXTEBase::GetSelectionData
 {
 	if (strcmp(id, kSelectionDataID) == 0)
 		{
-		JXTextSelection* textData = dynamic_cast(JXTextSelection*, data);
+		JXTextSelection* textData = dynamic_cast<JXTextSelection*>(data);
 		assert( textData != NULL );
 
 		JString* text = new JString;
@@ -2312,7 +2312,7 @@ JXTEBase::Receive
 		if (HasFocus())
 			{
 			const JXMenu::ItemSelected* selection =
-				dynamic_cast(const JXMenu::ItemSelected*, &message);
+				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != NULL );
 			HandleEditMenu(selection->GetIndex());
 			}
@@ -2330,7 +2330,7 @@ JXTEBase::Receive
 		if (HasFocus())
 			{
 			const JXMenu::ItemSelected* selection =
-				dynamic_cast(const JXMenu::ItemSelected*, &message);
+				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != NULL );
 			HandleSearchMenu(selection->GetIndex());
 			}
@@ -2348,7 +2348,7 @@ JXTEBase::Receive
 		if (HasFocus())
 			{
 			const JXMenu::ItemSelected* selection =
-				dynamic_cast(const JXMenu::ItemSelected*, &message);
+				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != NULL );
 			HandleReplaceMenu(selection->GetIndex());
 			}
@@ -2358,7 +2358,7 @@ JXTEBase::Receive
 			 message.Is(JPrinter::kPrintSetupFinished))
 		{
 		const JPrinter::PrintSetupFinished* info =
-			dynamic_cast(const JPrinter::PrintSetupFinished*, &message);
+			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -2372,7 +2372,7 @@ JXTEBase::Receive
 			 message.Is(JPrinter::kPrintSetupFinished))
 		{
 		const JPrinter::PrintSetupFinished* info =
-			dynamic_cast(const JPrinter::PrintSetupFinished*, &message);
+			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -2385,7 +2385,7 @@ JXTEBase::Receive
 	else if (sender == itsGoToLineDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{

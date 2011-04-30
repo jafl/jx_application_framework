@@ -151,7 +151,7 @@ GloveCursorMonitor::Receive
 	if (sender == itsPlot && message.Is(GlovePlotter::kCursorsChanged))
 		{
 		 const GlovePlotter::CursorsChanged* info =
-			dynamic_cast(const GlovePlotter::CursorsChanged*, &message);
+			dynamic_cast<const GlovePlotter::CursorsChanged*>(&message);
 		assert( info != NULL );
 		itsShowX = info->ShowX();
 		itsShowY = info->ShowY();

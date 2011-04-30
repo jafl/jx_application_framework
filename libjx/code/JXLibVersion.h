@@ -20,9 +20,11 @@
 
 static const char* kCurrentJXLibVersionStr = "3.0.0";
 
-// version 3.0.1:
+// version 3.1.0:
 //	JXGetStringDialog:
 //		Promoted GetInputField() to public.
+//	JXTreeListWidget:
+//		Fixed crash when item being toggled by drag disappears before mouse up.
 
 // version 3.0.0:
 //	*** Run new jxlayout on all .fd files.

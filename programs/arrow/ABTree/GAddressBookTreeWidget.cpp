@@ -290,7 +290,7 @@ GAddressBookTreeWidget::TableDrawCell
 		if (jnode->GetDepth() == 3)
 			{
 			GAddressItemTreeNode* node =
-				dynamic_cast(GAddressItemTreeNode*, jnode);
+				dynamic_cast<GAddressItemTreeNode*>(jnode);
 			p.String(rect, node->GetText(),
 					 JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 			}
@@ -317,7 +317,7 @@ GAddressBookTreeWidget::Receive
 	if (sender == itsAddressBookMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleAddressBookMenu(selection->GetIndex());
 		}
@@ -398,7 +398,7 @@ GAddressBookTreeWidget::HandleKeyPress
 					JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
 					assert(jnode->GetDepth() == 3);
 					GAddressItemTreeNode* item =
-						dynamic_cast(GAddressItemTreeNode*, jnode);
+						dynamic_cast<GAddressItemTreeNode*>(jnode);
 					assert(item != NULL);
 					if (item->GetType() == GAddressItemTreeNode::kEMail)
 						{
@@ -639,7 +639,7 @@ GAddressBookTreeWidget::UpdateAddressBookMenu()
 			}
 		JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
 		GAddressBookTreeNode* book =
-			dynamic_cast(GAddressBookTreeNode*, jnode);
+			dynamic_cast<GAddressBookTreeNode*>(jnode);
 		assert(book != NULL);
 		if (book->OKToChange())
 			{
@@ -668,7 +668,7 @@ GAddressBookTreeWidget::UpdateAddressBookMenu()
 			}
 		JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
 		GAddressEntryTreeNode* node =
-			dynamic_cast(GAddressEntryTreeNode*, jnode);
+			dynamic_cast<GAddressEntryTreeNode*>(jnode);
 		assert(node != NULL);
 		if (node->OKToChange())
 			{
@@ -706,7 +706,7 @@ GAddressBookTreeWidget::UpdateAddressBookMenu()
 			{
 			JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
 			GAddressItemTreeNode* node =
-				dynamic_cast(GAddressItemTreeNode*, jnode);
+				dynamic_cast<GAddressItemTreeNode*>(jnode);
 			assert(node != NULL);
 			if (!node->OKToChange())
 				{
@@ -725,7 +725,7 @@ GAddressBookTreeWidget::UpdateAddressBookMenu()
 				{
 				JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
 				GAddressEntryTreeNode* node =
-					dynamic_cast(GAddressEntryTreeNode*, jnode);
+					dynamic_cast<GAddressEntryTreeNode*>(jnode);
 				assert(node != NULL);
 				if (node->OKToChange())
 					{
@@ -753,7 +753,7 @@ GAddressBookTreeWidget::UpdateAddressBookMenu()
 			{
 			JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
 			GAddressItemTreeNode* node =
-				dynamic_cast(GAddressItemTreeNode*, jnode);
+				dynamic_cast<GAddressItemTreeNode*>(jnode);
 			assert(node != NULL);
 			if (node->OKToChange())
 				{
@@ -762,7 +762,7 @@ GAddressBookTreeWidget::UpdateAddressBookMenu()
 				}
 			JTreeNode* jparent = jnode->GetParent();
 			GAddressEntryTreeNode* parent =
-				dynamic_cast(GAddressEntryTreeNode*, jparent);
+				dynamic_cast<GAddressEntryTreeNode*>(jparent);
 			assert(parent != NULL);
 			if (parent->OKToChange())
 				{
@@ -787,7 +787,7 @@ GAddressBookTreeWidget::UpdateAddressBookMenu()
 				{
 				JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
 				GAddressEntryTreeNode* node =
-					dynamic_cast(GAddressEntryTreeNode*, jnode);
+					dynamic_cast<GAddressEntryTreeNode*>(jnode);
 				assert(node != NULL);
 				if (node->OKToChange())
 					{
@@ -814,7 +814,7 @@ GAddressBookTreeWidget::UpdateAddressBookMenu()
 			{
 			JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
 			GAddressItemTreeNode* node =
-				dynamic_cast(GAddressItemTreeNode*, jnode);
+				dynamic_cast<GAddressItemTreeNode*>(jnode);
 			assert(node != NULL);
 			if (node->OKToChange())
 				{
@@ -823,7 +823,7 @@ GAddressBookTreeWidget::UpdateAddressBookMenu()
 				}
 			JTreeNode* jparent = jnode->GetParent();
 			GAddressEntryTreeNode* parent =
-				dynamic_cast(GAddressEntryTreeNode*, jparent);
+				dynamic_cast<GAddressEntryTreeNode*>(jparent);
 			assert(parent != NULL);
 			if (parent->OKToChange())
 				{
@@ -852,7 +852,7 @@ GAddressBookTreeWidget::UpdateAddressBookMenu()
 				{
 				JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
 				GAddressEntryTreeNode* node =
-					dynamic_cast(GAddressEntryTreeNode*, jnode);
+					dynamic_cast<GAddressEntryTreeNode*>(jnode);
 				assert(node != NULL);
 				if (node->OKToChange())
 					{
@@ -912,7 +912,7 @@ GAddressBookTreeWidget::HandleAddressBookMenu
 				}
 			JBoolean ok = kJFalse;
 			JTreeNode* jnode = GetTreeList()->GetNode(cell.y);
-			parent = dynamic_cast(GAddressBookTreeNode*, jnode);
+			parent = dynamic_cast<GAddressBookTreeNode*>(jnode);
 			assert(parent != NULL);
 			if (!parent->OKToChange())
 				{
@@ -946,7 +946,7 @@ GAddressBookTreeWidget::HandleAddressBookMenu
 			}
 		JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
 		GAddressEntryTreeNode* node =
-			dynamic_cast(GAddressEntryTreeNode*, jnode);
+			dynamic_cast<GAddressEntryTreeNode*>(jnode);
 		assert(node != NULL);
 		GAddressItemTreeNode* item =
 			new GAddressItemTreeNode(GAddressItemTreeNode::kEMail,
@@ -1002,7 +1002,7 @@ GAddressBookTreeWidget::HandleAddressBookMenu
 			}
 		JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
 		GAddressEntryTreeNode* node =
-			dynamic_cast(GAddressEntryTreeNode*, jnode);
+			dynamic_cast<GAddressEntryTreeNode*>(jnode);
 		assert(node != NULL);
 		GAddressItemTreeNode* item =
 			new GAddressItemTreeNode(GAddressItemTreeNode::kFcc,
@@ -1040,7 +1040,7 @@ GAddressBookTreeWidget::HandleAddressBookMenu
 			}
 		JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
 		GAddressEntryTreeNode* node =
-			dynamic_cast(GAddressEntryTreeNode*, jnode);
+			dynamic_cast<GAddressEntryTreeNode*>(jnode);
 		assert(node != NULL);
 		GAddressItemTreeNode* item =
 			new GAddressItemTreeNode(GAddressItemTreeNode::kComment,
@@ -1084,7 +1084,7 @@ GAddressBookTreeWidget::HandleAddressBookMenu
 				while (iter.Next(&cell))
 					{
 					JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
-					GAddressBookTreeNode* node = dynamic_cast(GAddressBookTreeNode*, jnode);
+					GAddressBookTreeNode* node = dynamic_cast<GAddressBookTreeNode*>(jnode);
 					JError err = JRemoveFile(node->GetFullPathAndName());
 					if (err.OK())
 						{
@@ -1098,7 +1098,7 @@ GAddressBookTreeWidget::HandleAddressBookMenu
 				ok = GetEditedCell(&cell);
 				assert(ok);
 				JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
-				GAddressBookTreeNode* node = dynamic_cast(GAddressBookTreeNode*, jnode);
+				GAddressBookTreeNode* node = dynamic_cast<GAddressBookTreeNode*>(jnode);
 				JError err = JRemoveFile(node->GetFullPathAndName());
 				if (err.OK())
 					{
@@ -1111,7 +1111,7 @@ GAddressBookTreeWidget::HandleAddressBookMenu
 		{
 		JXDirector* dir = GetWindow()->GetDirector();
 		GAddressBookTreeDir* aDir =
-			dynamic_cast(GAddressBookTreeDir*, dir);
+			dynamic_cast<GAddressBookTreeDir*>(dir);
 		assert(aDir != NULL);
 		aDir->EditToolBar();
 		}
@@ -1357,7 +1357,7 @@ GAddressBookTreeWidget::HandleMouseUp
 			{
 			JXNamedTreeListWidget::HandleMouseUp(pt, button, buttonStates, modifiers);
 			JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
-			GAddressBaseTreeNode* node = dynamic_cast(GAddressBaseTreeNode*, jnode);
+			GAddressBaseTreeNode* node = dynamic_cast<GAddressBaseTreeNode*>(jnode);
 			assert(node != NULL);
 			if (node->OKToChange())
 				{
@@ -1567,7 +1567,7 @@ GAddressBookTreeWidget::HandleDNDDrop
 				assert(oldIndex <= GetNamedTreeList()->GetElementCount());
 				JTreeNode* jnode = GetNamedTreeList()->GetNode(oldIndex);
 				GAddressBookTreeNode* nnode =
-					dynamic_cast(GAddressBookTreeNode*, jnode);
+					dynamic_cast<GAddressBookTreeNode*>(jnode);
 				assert(nnode != NULL);
 				JBoolean move = kJTrue;
 				if (realAction == dndMgr->GetDNDActionCopyXAtom())
@@ -1579,7 +1579,7 @@ GAddressBookTreeWidget::HandleDNDDrop
 					{
 					JTreeNode* jbook = GetNamedTreeList()->GetNode(cell.y);
 					GAddressBookTreeNode* gbook =
-						dynamic_cast(GAddressBookTreeNode*, jbook);
+						dynamic_cast<GAddressBookTreeNode*>(jbook);
 					assert(gbook != NULL);
 					if (!gbook->OKToChange())
 						{
@@ -1590,7 +1590,7 @@ GAddressBookTreeWidget::HandleDNDDrop
 						{
 						JTreeNode* jchild = jbook->GetChild(i);
 						JNamedTreeNode* nchild =
-							dynamic_cast(JNamedTreeNode*, jchild);
+							dynamic_cast<JNamedTreeNode*>(jchild);
 						assert(nchild != NULL);
 						AddEntryToBook(nchild, nnode, move);
 						}
@@ -1608,7 +1608,7 @@ GAddressBookTreeWidget::HandleDNDDrop
 					JTreeNode* jbook = GetNamedTreeList()->GetNode(findex);
 					GetNamedTreeList()->Open(findex);
 					GAddressBookTreeNode* nbook =
-						dynamic_cast(GAddressBookTreeNode*, jbook);
+						dynamic_cast<GAddressBookTreeNode*>(jbook);
 					assert(nbook != NULL);
 					JBoolean move = kJTrue;
 					if (realAction == dndMgr->GetDNDActionCopyXAtom())
@@ -1623,7 +1623,7 @@ GAddressBookTreeWidget::HandleDNDDrop
 				assert(oldIndex <= GetNamedTreeList()->GetElementCount());
 				JTreeNode* jnode = GetNamedTreeList()->GetNode(oldIndex);
 				JNamedTreeNode* nnode =
-					dynamic_cast(JNamedTreeNode*, jnode);
+					dynamic_cast<JNamedTreeNode*>(jnode);
 				assert(nnode != NULL);
 				JSize depth = jnode->GetDepth();
 				if (depth == 1)
@@ -1645,7 +1645,7 @@ GAddressBookTreeWidget::HandleDNDDrop
 							{
 							JTreeNode* jchild = jdrag->GetChild(1);
 							GAddressItemTreeNode* item =
-								dynamic_cast(GAddressItemTreeNode*, jchild);
+								dynamic_cast<GAddressItemTreeNode*>(jchild);
 							assert(item != NULL);
 							AddAddressToEntry(nnode, item->GetText());
 							}
@@ -1664,7 +1664,7 @@ GAddressBookTreeWidget::HandleDNDDrop
 					JTreeNode* jbook = GetNamedTreeList()->GetNode(findex);
 					GetNamedTreeList()->Open(findex);
 					JNamedTreeNode* nbook =
-						dynamic_cast(JNamedTreeNode*, jbook);
+						dynamic_cast<JNamedTreeNode*>(jbook);
 					assert(nbook != NULL);
 					JBoolean move = kJTrue;
 					SelectionType type = GetSelectionType();
@@ -1681,7 +1681,7 @@ GAddressBookTreeWidget::HandleDNDDrop
 				assert(oldIndex <= GetNamedTreeList()->GetElementCount());
 				JTreeNode* jnode = GetNamedTreeList()->GetNode(oldIndex);
 				JNamedTreeNode* nnode =
-					dynamic_cast(JNamedTreeNode*, jnode);
+					dynamic_cast<JNamedTreeNode*>(jnode);
 				assert(nnode != NULL);
 				JSize depth = jnode->GetDepth();
 				SelectionType type = GetSelectionType();
@@ -1705,7 +1705,7 @@ GAddressBookTreeWidget::HandleDNDDrop
 						if (jparent != jnode)
 							{
 							GAddressItemTreeNode* ndrag =
-								dynamic_cast(GAddressItemTreeNode*, jdrag);
+								dynamic_cast<GAddressItemTreeNode*>(jdrag);
 							assert(ndrag != NULL);
 							AddAddressToEntry(nnode, ndrag->GetText());
 //							if (move && ndrag->OKToChange())
@@ -1743,7 +1743,7 @@ GAddressBookTreeWidget::HandleDNDDrop
 					JTreeNode* jbook = GetNamedTreeList()->GetNode(findex);
 					GetNamedTreeList()->Open(findex);
 					JNamedTreeNode* nbook =
-						dynamic_cast(JNamedTreeNode*, jbook);
+						dynamic_cast<JNamedTreeNode*>(jbook);
 					assert(nbook != NULL);
 					NewNickName(nbook, list);
 					}
@@ -1753,7 +1753,7 @@ GAddressBookTreeWidget::HandleDNDDrop
 				assert(oldIndex <= GetNamedTreeList()->GetElementCount());
 				JTreeNode* jnode = GetNamedTreeList()->GetNode(oldIndex);
 				JNamedTreeNode* nnode =
-					dynamic_cast(JNamedTreeNode*, jnode);
+					dynamic_cast<JNamedTreeNode*>(jnode);
 				assert(nnode != NULL);
 				JSize depth = jnode->GetDepth();
 				if (depth == 1)
@@ -1854,7 +1854,7 @@ GAddressBookTreeWidget::ConvertSelection
 			for (JSize j = 1; j <= count; j++)
 				{
 				JTreeNode* child = jnode->GetChild(j);
-				GSimpleFileTreeNode* node = dynamic_cast(GSimpleFileTreeNode*, child);
+				GSimpleFileTreeNode* node = dynamic_cast<GSimpleFileTreeNode*>(child);
 				assert(node != NULL);
 				node->WriteFileName(os);
 				}
@@ -1867,7 +1867,7 @@ GAddressBookTreeWidget::ConvertSelection
 		while(iter->Next(&cell))
 			{
 			JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
-			GMailboxTreeNode* node = dynamic_cast(GMailboxTreeNode*, jnode);
+			GMailboxTreeNode* node = dynamic_cast<GMailboxTreeNode*>(jnode);
 			assert(node != NULL);
 			node->WriteFileName(os);
 			}
@@ -1922,7 +1922,7 @@ GAddressBookTreeWidget::GetImage
 	if (depth == 3)
 		{
 		const GAddressItemTreeNode* node =
-			dynamic_cast(const GAddressItemTreeNode*, jnode);
+			dynamic_cast<const GAddressItemTreeNode*>(jnode);
 		assert(node != NULL);
 		if (node->GetType() == GAddressItemTreeNode::kFcc)
 			{
@@ -1984,7 +1984,7 @@ GAddressBookTreeWidget::ReadPrefs
 		while (!found && (index <= listcount))
 			{
 			JTreeNode* jnode = GetNamedTreeList()->GetNode(index);
-			GAddressBaseTreeNode* node = dynamic_cast(GAddressBaseTreeNode*, jnode);
+			GAddressBaseTreeNode* node = dynamic_cast<GAddressBaseTreeNode*>(jnode);
 			assert(node != NULL);
 			if (node->GetFullPathAndName() == name)
 				{
@@ -2019,7 +2019,7 @@ GAddressBookTreeWidget::WritePrefs
 		{
 		JTreeNode* child = base->GetChild(i);
 		GAddressBaseTreeNode* node =
-			dynamic_cast(GAddressBaseTreeNode*, child);
+			dynamic_cast<GAddressBaseTreeNode*>(child);
 		assert(node != NULL);
 		output << node->GetFullPathAndName() << ' ';
 		}
@@ -2039,7 +2039,7 @@ GAddressBookTreeWidget::WritePrefs
 			{
 			const JTreeNode* child = GetNamedTreeList()->GetNode(i);
 			const GAddressBaseTreeNode* node =
-				dynamic_cast(const GAddressBaseTreeNode*, child);
+				dynamic_cast<const GAddressBaseTreeNode*>(child);
 			assert(node != NULL);
 			output << node->GetFullPathAndName() << ' ';
 			}
@@ -2071,7 +2071,7 @@ GAddressBookTreeWidget::NewMailFromAddress
 	JTreeNode* jnode = GetNamedTreeList()->GetNode(index);
 	JTreeNode* child = jnode->GetChild(1);
 	GAddressItemTreeNode* node =
-		dynamic_cast(GAddressItemTreeNode*, child);
+		dynamic_cast<GAddressItemTreeNode*>(child);
 	assert(node != NULL);
 	GMGetApplication()->NewMessage(node->GetText());
 	ClearIncrementalSearchBuffer();
@@ -2109,7 +2109,7 @@ GAddressBookTreeWidget::ClosestSelection
 		JTreeNode* jBookNode;
 		if (depth == 1)
 			{
-			GAddressBaseTreeNode* nnode = dynamic_cast(GAddressBaseTreeNode*, jnode);
+			GAddressBaseTreeNode* nnode = dynamic_cast<GAddressBaseTreeNode*>(jnode);
 			assert(nnode != NULL);
 			if (inNode && nnode->OKToChange())
 				{
@@ -2134,7 +2134,7 @@ GAddressBookTreeWidget::ClosestSelection
 		}
 	else
 		{
-		GAddressBaseTreeNode* nnode = dynamic_cast(GAddressBaseTreeNode*, jnode);
+		GAddressBaseTreeNode* nnode = dynamic_cast<GAddressBaseTreeNode*>(jnode);
 		assert(nnode != NULL);
 		if (nnode->OKToChange())
 			{
@@ -2195,7 +2195,7 @@ GAddressBookTreeWidget::OkToDND()
 			JSize depth = jnode->GetDepth();
 			assert(depth == 3);
 			GAddressItemTreeNode* node =
-				dynamic_cast(GAddressItemTreeNode*, jnode);
+				dynamic_cast<GAddressItemTreeNode*>(jnode);
 			assert(node != NULL);
 			if (node->GetType() != GAddressItemTreeNode::kEMail)
 				{
@@ -2240,7 +2240,7 @@ GAddressBookTreeWidget::GetSelectionType()
 				JTreeNode* jparent = jnode->GetParent();
 				assert(jparent != NULL);
 				GAddressItemTreeNode* node =
-					dynamic_cast(GAddressItemTreeNode*, jnode);
+					dynamic_cast<GAddressItemTreeNode*>(jnode);
 				assert(node != NULL);
 				JBoolean okToChange = node->OKToChange();
 				GAddressItemTreeNode::Type itype = node->GetType();
@@ -2268,7 +2268,7 @@ GAddressBookTreeWidget::GetSelectionType()
 						{
 						JTreeNode* jchild = jparent->GetChild(i);
 						GAddressItemTreeNode* child =
-							dynamic_cast(GAddressItemTreeNode*, jchild);
+							dynamic_cast<GAddressItemTreeNode*>(jchild);
 						if (child->GetType() == GAddressItemTreeNode::kEMail)
 							{
 							childCount++;
@@ -2321,7 +2321,7 @@ GAddressBookTreeWidget::GetSelectionType()
 			JTreeNode* jparent = jnode->GetParent();
 			assert(jparent != NULL);
 			GAddressItemTreeNode* node =
-				dynamic_cast(GAddressItemTreeNode*, jnode);
+				dynamic_cast<GAddressItemTreeNode*>(jnode);
 			assert(node != NULL);
 			JBoolean okToChange = node->OKToChange();
 			GAddressItemTreeNode::Type itype = node->GetType();
@@ -2335,7 +2335,7 @@ GAddressBookTreeWidget::GetSelectionType()
 				{
 				JTreeNode* jchild = jparent->GetChild(i);
 				GAddressItemTreeNode* child =
-					dynamic_cast(GAddressItemTreeNode*, jchild);
+					dynamic_cast<GAddressItemTreeNode*>(jchild);
 				if (child->GetType() == GAddressItemTreeNode::kEMail)
 					{
 					JIndex findex;
@@ -2382,7 +2382,7 @@ GAddressBookTreeWidget::GetEditType()
 			JTreeNode* jparent = jnode->GetParent();
 			assert(jparent != NULL);
 			GAddressItemTreeNode* node =
-				dynamic_cast(GAddressItemTreeNode*, jnode);
+				dynamic_cast<GAddressItemTreeNode*>(jnode);
 			assert(node != NULL);
 			JBoolean okToChange = node->OKToChange();
 			GAddressItemTreeNode::Type itype = node->GetType();
@@ -2403,7 +2403,7 @@ GAddressBookTreeWidget::GetEditType()
 					{
 					JTreeNode* jchild = jparent->GetChild(i);
 					GAddressItemTreeNode* child =
-						dynamic_cast(GAddressItemTreeNode*, jchild);
+						dynamic_cast<GAddressItemTreeNode*>(jchild);
 					if (child->GetType() == GAddressItemTreeNode::kEMail)
 						{
 						childCount++;
@@ -2455,7 +2455,7 @@ GAddressBookTreeWidget::GetMinCellWidth
 		if (jnode->GetDepth() == 3)
 			{
 			const GAddressItemTreeNode* node =
-				dynamic_cast(const GAddressItemTreeNode*, jnode);
+				dynamic_cast<const GAddressItemTreeNode*>(jnode);
 			assert(node != NULL);
 			JString str = node->GetText();
 			JSize size;
@@ -2488,7 +2488,7 @@ GAddressBookTreeWidget::AdjustToTree()
 		if (jnode->GetDepth() == 3)
 			{
 			GAddressItemTreeNode* node =
-				dynamic_cast(GAddressItemTreeNode*, jnode);
+				dynamic_cast<GAddressItemTreeNode*>(jnode);
 			assert(node != NULL);
 			JString str = node->GetText();
 			JSize size;
@@ -2540,7 +2540,7 @@ GAddressBookTreeWidget::CreateXInputField
 		JTreeNode* jnode = GetTreeList()->GetNode(cell.y);
 		assert(jnode->GetDepth() == 3);
 		GAddressItemTreeNode* node =
-			dynamic_cast(GAddressItemTreeNode*, jnode);
+			dynamic_cast<GAddressItemTreeNode*>(jnode);
 		assert(node != NULL);
 		itsStringInputField->SetText(node->GetText());
 	//	if (itsEMEditor != NULL)
@@ -2579,7 +2579,7 @@ GAddressBookTreeWidget::ExtractInputData
 	if (depth == 1)
 		{
 		GAddressBookTreeNode* node =
-			dynamic_cast(GAddressBookTreeNode*, jnode);
+			dynamic_cast<GAddressBookTreeNode*>(jnode);
 		assert(node != NULL);
 
 		JString fullname = node->GetFullPathAndName();
@@ -2611,7 +2611,7 @@ GAddressBookTreeWidget::ExtractInputData
 	else if (depth == 2)
 		{
 		GAddressEntryTreeNode* node =
-			dynamic_cast(GAddressEntryTreeNode*, jnode);
+			dynamic_cast<GAddressEntryTreeNode*>(jnode);
 		assert(node != NULL);
 
 		if (node->GetName() == newName)
@@ -2625,7 +2625,7 @@ GAddressBookTreeWidget::ExtractInputData
 		for (JIndex i=1; i<=childCount; i++)
 			{
 			GAddressItemTreeNode* child =
-				dynamic_cast(GAddressItemTreeNode*, node->GetChild(i));
+				dynamic_cast<GAddressItemTreeNode*>(node->GetChild(i));
 			assert(child != NULL);
 			if (child->GetType() == GAddressItemTreeNode::kName &&
 				(child->GetText()).BeginsWith("Untitled"))
@@ -2655,7 +2655,7 @@ GAddressBookTreeWidget::ExtractInputData
 		const JBoolean nodeOpen = GetNamedTreeList()->IsOpen(node);
 
 		GAddressBookTreeNode* parent =
-			dynamic_cast(GAddressBookTreeNode*, node->GetParent());
+			dynamic_cast<GAddressBookTreeNode*>(node->GetParent());
 		assert( parent != NULL );
 		parent->Remove(node);
 		parent->InsertSorted(node);
@@ -2679,7 +2679,7 @@ GAddressBookTreeWidget::ExtractInputData
 		assert( itsStringInputField != NULL );
 
 		GAddressItemTreeNode* node =
-			dynamic_cast(GAddressItemTreeNode*, jnode);
+			dynamic_cast<GAddressItemTreeNode*>(jnode);
 		assert(node != NULL);
 
 		if (node->GetText() == newName)
@@ -2706,7 +2706,7 @@ GAddressBookTreeWidget::ExtractInputData
 			}
 
 		GAddressEntryTreeNode* parent =
-			dynamic_cast(GAddressEntryTreeNode*, node->GetParent());
+			dynamic_cast<GAddressEntryTreeNode*>(node->GetParent());
 		assert(parent != NULL);
 
 		AdjustToTree();
@@ -2751,7 +2751,7 @@ GAddressBookTreeWidget::GetFirstWritableBook
 	for (JSize i = 1; i <= count; i++)
 		{
 		JTreeNode* jnode = base->GetChild(i);
-		*book = dynamic_cast(GAddressBookTreeNode*, jnode);
+		*book = dynamic_cast<GAddressBookTreeNode*>(jnode);
 		assert(*book != NULL);
 		if ((*book)->OKToChange())
 			{
@@ -2788,7 +2788,7 @@ GAddressBookTreeWidget::DoubleClickIcon
 	if (jnode->GetDepth() == 3)
 		{
 		GAddressItemTreeNode* item =
-			dynamic_cast(GAddressItemTreeNode*, jnode);
+			dynamic_cast<GAddressItemTreeNode*>(jnode);
 		assert(item != NULL);
 		if (item->GetType() == GAddressItemTreeNode::kEMail)
 			{
@@ -2989,7 +2989,7 @@ GAddressBookTreeWidget::AddSelectedToBook
 			{
 			JTreeNode* jinode = GetNamedTreeList()->GetNode(cell.y);
 			GAddressItemTreeNode* item =
-				dynamic_cast(GAddressItemTreeNode*, jinode);
+				dynamic_cast<GAddressItemTreeNode*>(jinode);
 			JString* name = new JString(item->GetText());
 			addresses.Append(name);
 			if (dndmove && item->OKToChange())
@@ -3008,12 +3008,12 @@ GAddressBookTreeWidget::AddSelectedToBook
 			JTreeNode* jdrag = GetNamedTreeList()->GetNode(cell.y);
 			JTreeNode* jparent = jdrag->GetParent();
 			JNamedTreeNode* nparent =
-				dynamic_cast(JNamedTreeNode*, jparent);
+				dynamic_cast<JNamedTreeNode*>(jparent);
 			assert(nparent != NULL);
 			if (nparent != book)
 				{
 				GAddressBaseTreeNode* ndrag =
-					dynamic_cast(GAddressBaseTreeNode*, jdrag);
+					dynamic_cast<GAddressBaseTreeNode*>(jdrag);
 				assert(ndrag != NULL);
 				if (!ndrag->OKToChange())
 					{
@@ -3055,7 +3055,7 @@ GAddressBookTreeWidget::AddEntryToBook
 			{
 			JTreeNode* jchild = entry->GetChild(i);
 			GAddressItemTreeNode* ichild =
-				dynamic_cast(GAddressItemTreeNode*, jchild);
+				dynamic_cast<GAddressItemTreeNode*>(jchild);
 			assert(ichild != NULL);
 			GAddressItemTreeNode* newchild =
 				new GAddressItemTreeNode(ichild->GetType(),
@@ -3089,7 +3089,7 @@ GAddressBookTreeWidget::AddAddressToEntry
 	)
 {
 	GAddressEntryTreeNode* entry =
-		dynamic_cast(GAddressEntryTreeNode*, node);
+		dynamic_cast<GAddressEntryTreeNode*>(node);
 	assert(entry != NULL);
 	JBoolean before = kJFalse;
 	JSize endcount = 0;
@@ -3135,7 +3135,7 @@ GAddressBookTreeWidget::Save()
 		{
 		JTreeNode* jbook = base->GetChild(i);
 		GAddressBookTreeNode* book =
-			dynamic_cast(GAddressBookTreeNode*, jbook);
+			dynamic_cast<GAddressBookTreeNode*>(jbook);
 		assert(book != NULL);
 		book->Save();
 		}
@@ -3155,7 +3155,7 @@ GAddressBookTreeWidget::IsEditable
 {
 	const JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
 	const GAddressBaseTreeNode* nnode =
-		dynamic_cast(const GAddressBaseTreeNode*, jnode);
+		dynamic_cast<const GAddressBaseTreeNode*>(jnode);
 	assert( nnode != NULL );
 
 	const JSize depth = jnode->GetDepth();
@@ -3225,7 +3225,7 @@ GAddressBookTreeWidget::SelectedHaveSameParent()
 		return kJFalse;
 		}
 	GAddressBaseTreeNode* parent =
-		dynamic_cast(GAddressBaseTreeNode*, jparent);
+		dynamic_cast<GAddressBaseTreeNode*>(jparent);
 	assert(parent != NULL);
 	if (parent->OKToChange())
 		{
@@ -3288,7 +3288,7 @@ GAddressBookTreeWidget::SelectedInSameBook()
 		return kJFalse;
 		}
 	GAddressBaseTreeNode* book =
-		dynamic_cast(GAddressBaseTreeNode*, jbook);
+		dynamic_cast<GAddressBaseTreeNode*>(jbook);
 	assert(book != NULL);
 	if (book->OKToChange())
 		{
@@ -3351,7 +3351,7 @@ GAddressBookTreeWidget::SelectedInSameEntry()
 		return kJFalse;
 		}
 	GAddressBaseTreeNode* entry =
-		dynamic_cast(GAddressBaseTreeNode*, jentry);
+		dynamic_cast<GAddressBaseTreeNode*>(jentry);
 	assert(entry != NULL);
 	if (entry->OKToChange())
 		{
@@ -3378,17 +3378,17 @@ GAddressBookTreeWidget::GetCurrentBook
 		JTreeNode* jnode	= GetTreeList()->GetNode(cell.y);
 		if (jnode->GetDepth() == 2)
 			{
-			*book	= dynamic_cast(GAddressBookTreeNode*, jnode->GetParent());
+			*book	= dynamic_cast<GAddressBookTreeNode*>(jnode->GetParent());
 			return kJTrue;
 			}
 		else if (jnode->GetDepth() == 3)
 			{
-			*book	= dynamic_cast(GAddressBookTreeNode*, jnode->GetParent()->GetParent());
+			*book	= dynamic_cast<GAddressBookTreeNode*>(jnode->GetParent()->GetParent());
 			return kJTrue;
 			}
 		else
 			{
-			*book	= dynamic_cast(GAddressBookTreeNode*, jnode);
+			*book	= dynamic_cast<GAddressBookTreeNode*>(jnode);
 			return kJTrue;
 			}
 		}

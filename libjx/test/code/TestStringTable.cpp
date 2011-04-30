@@ -360,7 +360,7 @@ TestStringTable::Receive
 	else if (sender == itsTableMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleTableMenu(selection->GetIndex());
 		}
@@ -372,7 +372,7 @@ TestStringTable::Receive
 	else if (sender == itsRowBorderMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleRowBorderMenu(selection->GetIndex());
 		}
@@ -384,7 +384,7 @@ TestStringTable::Receive
 	else if (sender == itsColBorderMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleColBorderMenu(selection->GetIndex());
 		}

@@ -39,7 +39,7 @@ GAddressItemTreeNode::GAddressItemTreeNode
 		if (parent != NULL)
 			{
 			GAddressEntryTreeNode* eparent =
-				dynamic_cast(GAddressEntryTreeNode*, parent);
+				dynamic_cast<GAddressEntryTreeNode*>(parent);
 			assert(eparent != NULL);
 			eparent->SetHasFcc(kJTrue);
 			}
@@ -50,7 +50,7 @@ GAddressItemTreeNode::GAddressItemTreeNode
 		if (parent != NULL)
 			{
 			GAddressEntryTreeNode* eparent =
-				dynamic_cast(GAddressEntryTreeNode*, parent);
+				dynamic_cast<GAddressEntryTreeNode*>(parent);
 			assert(eparent != NULL);
 			eparent->SetHasComment(kJTrue);
 			}
@@ -72,7 +72,7 @@ GAddressItemTreeNode::~GAddressItemTreeNode()
 	if (jparent != NULL)
 		{
 		GAddressEntryTreeNode* parent =
-			dynamic_cast(GAddressEntryTreeNode*, jparent);
+			dynamic_cast<GAddressEntryTreeNode*>(jparent);
 		if (parent != NULL && itsType == kFcc)
 			{
 			parent->SetHasFcc(kJFalse);
@@ -122,7 +122,7 @@ GAddressItemTreeNode::OKToChange()
 	const JTreeNode* parent = GetParent();
 	assert(parent != NULL);
 	const GAddressBaseTreeNode* node =
-		dynamic_cast(const GAddressBaseTreeNode*, parent);
+		dynamic_cast<const GAddressBaseTreeNode*>(parent);
 	assert(node != NULL);
 	return node->OKToChange();
 }

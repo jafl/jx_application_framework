@@ -1529,7 +1529,7 @@ TestWidget::Receive
 			 sender == windowIcon && message.Is(JXWindowIcon::kHandleDrop))
 		{
 		const JXWindowIcon::HandleDrop* data =
-			dynamic_cast(const JXWindowIcon::HandleDrop*, &message);
+			dynamic_cast<const JXWindowIcon::HandleDrop*>(&message);
 		assert( data != NULL );
 		HandleDNDDrop(JPoint(0,0), data->GetTypeList(), data->GetAction(),
 					  data->GetTime(), data->GetSource());
@@ -1542,7 +1542,7 @@ TestWidget::Receive
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleActionsMenu(selection->GetIndex());
 		}
@@ -1554,7 +1554,7 @@ TestWidget::Receive
 	else if (sender == itsPointMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandlePointMenu(selection->GetIndex());
 		}
@@ -1562,7 +1562,7 @@ TestWidget::Receive
 	else if (sender == itsSecretMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		if (selection->GetIndex() == kSecretMenuDialogCmd)
 			{
@@ -1574,7 +1574,7 @@ TestWidget::Receive
 	else if (sender == itsResizeDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -1607,7 +1607,7 @@ TestWidget::ReceiveWithFeedback
 		sender == windowIcon && message->Is(JXWindowIcon::kAcceptDrop))
 		{
 		JXWindowIcon::AcceptDrop* data =
-			dynamic_cast(JXWindowIcon::AcceptDrop*, message);
+			dynamic_cast<JXWindowIcon::AcceptDrop*>(message);
 		assert( data != NULL );
 		if (!data->WillAcceptDrop())
 			{

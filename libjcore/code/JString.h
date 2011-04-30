@@ -57,7 +57,7 @@ public:
 	JString(const JFloat number, const JInteger precision = kPrecisionAsNeeded,
 			const ExponentDisplay expDisplay = kStandardExponent,
 			const JInteger exponent = 0, const JInteger sigDigitCount = 0);
-	JString(const JUInt number, const Base base, const JBoolean pad = kJFalse);
+	JString(const JUInt64 number, const Base base, const JBoolean pad = kJFalse);
 	JString(const std::string& s);
 
 	~JString();

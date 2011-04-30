@@ -930,7 +930,7 @@ GXRaggedFloatTable::Receive
 	if (sender == itsEditMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleEditMenu(selection->GetIndex());
 		}
@@ -943,7 +943,7 @@ GXRaggedFloatTable::Receive
 	else if (sender == itsDataMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleDataMenu(selection->GetIndex());
 		}
@@ -956,7 +956,7 @@ GXRaggedFloatTable::Receive
 	else if (sender == itsModuleMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleModuleMenu(selection->GetIndex());
 		}
@@ -964,7 +964,7 @@ GXRaggedFloatTable::Receive
 	else if (sender == itsCreatePlotDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -976,7 +976,7 @@ GXRaggedFloatTable::Receive
 	else if (sender == itsCreateVectorPlotDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -988,7 +988,7 @@ GXRaggedFloatTable::Receive
 	else if (sender == itsTransDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -1002,7 +1002,7 @@ GXRaggedFloatTable::Receive
 	else if (sender == itsColByIncDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -1014,7 +1014,7 @@ GXRaggedFloatTable::Receive
 	else if (sender == itsColByRangeDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -1031,14 +1031,14 @@ GXRaggedFloatTable::Receive
 	else if (sender == itsFloatData && message.Is(GRaggedFloatTableData::kElementRemoved))
 		{
 		const GRaggedFloatTableData::ElementRemoved* info =
-			dynamic_cast(const GRaggedFloatTableData::ElementRemoved*, &message);
+			dynamic_cast<const GRaggedFloatTableData::ElementRemoved*>(&message);
 		assert( info != NULL );
 		TableRefreshCol(info->GetCol());
 		}
 	else if (sender == itsFloatData && message.Is(GRaggedFloatTableData::kElementInserted))
 		{
 		const GRaggedFloatTableData::ElementRemoved* info =
-			dynamic_cast(const GRaggedFloatTableData::ElementRemoved*, &message);
+			dynamic_cast<const GRaggedFloatTableData::ElementRemoved*>(&message);
 		assert( info != NULL );
 		TableRefreshCol(info->GetCol());
 		}

@@ -324,7 +324,7 @@ THX3DPlotDirector::Receive
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleActionsMenu(selection->GetIndex());
 		}
@@ -336,7 +336,7 @@ THX3DPlotDirector::Receive
 	else if (sender == itsOptionsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleOptionsMenu(selection->GetIndex());
 		}
@@ -348,7 +348,7 @@ THX3DPlotDirector::Receive
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		(THXGetApplication())->HandleHelpMenu(itsHelpMenu, kTHX3DPlotHelpName,
 											  selection->GetIndex());
@@ -357,7 +357,7 @@ THX3DPlotDirector::Receive
 	else if (sender == itsEditFnDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{

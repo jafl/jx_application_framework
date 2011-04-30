@@ -100,7 +100,7 @@ WizChatShortcutMenu::Receive
 	if (sender == connMgr && message.Is(Wiz2War::kConnectionAccepted))
 		{
 		const Wiz2War::ConnectionAccepted* info =
-			dynamic_cast(const Wiz2War::ConnectionAccepted*, &message);
+			dynamic_cast<const Wiz2War::ConnectionAccepted*>(&message);
 		assert( info != NULL );
 		InitMenu(info->GetPlayerIndex());
 		}
@@ -110,7 +110,7 @@ WizChatShortcutMenu::Receive
 		if (sender == this && message.Is(JXMenu::kItemSelected))
 			{
 			const JXMenu::ItemSelected* info =
-				dynamic_cast(const JXMenu::ItemSelected*, &message);
+				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( info != NULL );
 			itsMessage->SetText(GetItemText(info->GetIndex()));
 			itsMessage->SetCaretLocation(itsMessage->GetTextLength()+1);

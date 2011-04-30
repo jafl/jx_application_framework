@@ -244,7 +244,7 @@ SCVdepSource::Receive
 	if (sender == nodeList && message.Is(JOrderedSetT::kElementsInserted))
 		{
 		const JOrderedSetT::ElementsInserted* info =
-			dynamic_cast(const JOrderedSetT::ElementsInserted*, &message);
+			dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
 		assert( info != NULL );
 		info->AdjustIndex(&itsPosDepNode);
 		info->AdjustIndex(&itsNegDepNode);
@@ -255,7 +255,7 @@ SCVdepSource::Receive
 		if (!nodeList->IsEmpty())
 			{
 			const JOrderedSetT::ElementsRemoved* info =
-				dynamic_cast(const JOrderedSetT::ElementsRemoved*, &message);
+				dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
 			assert( info != NULL );
 			const JBoolean posOK = info->AdjustIndex(&itsPosDepNode);
 			assert( posOK );
@@ -267,7 +267,7 @@ SCVdepSource::Receive
 	else if (sender == nodeList && message.Is(JOrderedSetT::kElementMoved))
 		{
 		const JOrderedSetT::ElementMoved* info =
-			dynamic_cast(const JOrderedSetT::ElementMoved*, &message);
+			dynamic_cast<const JOrderedSetT::ElementMoved*>(&message);
 		assert( info != NULL );
 		info->AdjustIndex(&itsPosDepNode);
 		info->AdjustIndex(&itsNegDepNode);
@@ -276,7 +276,7 @@ SCVdepSource::Receive
 	else if (sender == nodeList && message.Is(JOrderedSetT::kElementsSwapped))
 		{
 		const JOrderedSetT::ElementsSwapped* info =
-			dynamic_cast(const JOrderedSetT::ElementsSwapped*, &message);
+			dynamic_cast<const JOrderedSetT::ElementsSwapped*>(&message);
 		assert( info != NULL );
 		info->AdjustIndex(&itsPosDepNode);
 		info->AdjustIndex(&itsNegDepNode);

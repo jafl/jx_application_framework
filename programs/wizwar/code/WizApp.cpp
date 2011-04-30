@@ -190,7 +190,7 @@ WizApp::Receive
 	else if (sender == connMgr && message.Is(Wiz2War::kConnectionRefused))
 		{
 		const Wiz2War::ConnectionRefused* info =
-			dynamic_cast(const Wiz2War::ConnectionRefused*, &message);
+			dynamic_cast<const Wiz2War::ConnectionRefused*>(&message);
 		assert( info != NULL );
 		if (NotifyConnectionRefused(*info))
 			{
@@ -212,7 +212,7 @@ WizApp::Receive
 	else if (sender == itsConnectDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{

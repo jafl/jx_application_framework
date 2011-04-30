@@ -142,7 +142,7 @@ GMailboxTreeWidget::GMailboxTreeWidget
 	ListenTo(GMGetApplication());
 
 	JFSFileTreeNode* base =
-		dynamic_cast(JFSFileTreeNode*, itsTree->GetRoot());
+		dynamic_cast<JFSFileTreeNode*>(itsTree->GetRoot());
 
 	itsCurrentDndHereIndex	= 0;
 	itsDraggingFiles		= kJFalse;
@@ -252,7 +252,7 @@ GMailboxTreeWidget::Receive
 	if (sender == itsMailboxMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleGMailboxMenu(selection->GetIndex());
 		}
@@ -275,7 +275,7 @@ GMailboxTreeWidget::Receive
 	else if (sender == itsTree && message.Is(GMFileTree::kNodeHasNewMail))
 		{
 		const GMFileTree::NodeHasNewMail* info =
-			dynamic_cast(const GMFileTree::NodeHasNewMail*, &message);
+			dynamic_cast<const GMFileTree::NodeHasNewMail*>(&message);
 		assert(info != NULL);
 		const JTreeNode* jnode    = info->GetNode();
 		const JBoolean hasNewMail = info->HasNewMail();
@@ -524,7 +524,7 @@ GMailboxTreeWidget::HandleGMailboxMenu
 
 //			JTreeNode* base = itsTree->GetRoot();
 //			JNamedTreeNode* parent =
-//				dynamic_cast(JNamedTreeNode*, base);
+//				dynamic_cast<JNamedTreeNode*>(base);
 //			assert(parent != NULL);
 //			JSize count = fullNameList.GetElementCount();
 //			for (JSize i = 1; i <= count; i++)
@@ -566,7 +566,7 @@ GMailboxTreeWidget::HandleGMailboxMenu
 			while(iter.Prev(&cell))
 				{
 				JTreeNode* jnode		= GetNamedTreeList()->GetNode(cell.y);
-				JFSFileTreeNode* node	= dynamic_cast(JFSFileTreeNode*, jnode);
+				JFSFileTreeNode* node	= dynamic_cast<JFSFileTreeNode*>(jnode);
 				JDirEntry* entry		= node->GetDirEntry();
 				JError err = JRemoveFile(entry->GetFullName());
 				if (err.OK())
@@ -592,7 +592,7 @@ GMailboxTreeWidget::HandleGMailboxMenu
 			while(iter.Prev(&cell))
 				{
 				JTreeNode* jnode		= GetNamedTreeList()->GetNode(cell.y);
-				JFSFileTreeNode* node	= dynamic_cast(JFSFileTreeNode*, jnode);
+				JFSFileTreeNode* node	= dynamic_cast<JFSFileTreeNode*>(jnode);
 				JDirEntry* entry		= node->GetDirEntry();
 				GUnlockFile(entry->GetFullName());
 				}
@@ -845,7 +845,7 @@ GMailboxTreeWidget::HandleDNDHere
 		{
 		JTreeNode* jnode = GetNamedTreeList()->GetNode(oldIndex);
 		GMailFileTreeNode* node =
-			dynamic_cast(GMailFileTreeNode*, jnode);
+			dynamic_cast<GMailFileTreeNode*>(jnode);
 		GUnlockFile(node->GetDirEntry()->GetFullName());
 		TableRefreshRow(oldIndex);
 		}
@@ -889,7 +889,7 @@ GMailboxTreeWidget::HandleDNDLeave()
 		{
 		JTreeNode* jnode = GetNamedTreeList()->GetNode(oldIndex);
 		GMailFileTreeNode* node =
-			dynamic_cast(GMailFileTreeNode*, jnode);
+			dynamic_cast<GMailFileTreeNode*>(jnode);
 		GUnlockFile(node->GetDirEntry()->GetFullName());
 		TableRefreshRow(oldIndex);
 		}
@@ -971,7 +971,7 @@ GMailboxTreeWidget::HandleDNDDrop
 				{
 				JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
 				GMailFileTreeNode* dnode =
-					dynamic_cast(GMailFileTreeNode*, jnode);
+					dynamic_cast<GMailFileTreeNode*>(jnode);
 				assert(dnode != NULL);
 				if (oldIndex == 0)
 					{
@@ -1016,7 +1016,7 @@ GMailboxTreeWidget::HandleDNDDrop
 			{
 			JTreeNode* node = GetNamedTreeList()->GetNode(oldIndex);
 			GMailFileTreeNode* mnode =
-				dynamic_cast(GMailFileTreeNode*, node);
+				dynamic_cast<GMailFileTreeNode*>(node);
 			assert(mnode != NULL);
 			if (mnode->IsOpenable())
 				{
@@ -1027,7 +1027,7 @@ GMailboxTreeWidget::HandleDNDDrop
 					{
 					JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
 					GMailFileTreeNode* dnode =
-						dynamic_cast(GMailFileTreeNode*, jnode);
+						dynamic_cast<GMailFileTreeNode*>(jnode);
 					assert(dnode != NULL);
 					JString fullname = dnode->GetDirEntry()->GetFullName();
 					JString newname;
@@ -1082,7 +1082,7 @@ GMailboxTreeWidget::HandleDNDDrop
 		else
 			{
 			JTreeNode* node = GetNamedTreeList()->GetNode(oldIndex);
-			mnode = dynamic_cast(GMailFileTreeNode*, node);
+			mnode = dynamic_cast<GMailFileTreeNode*>(node);
 			assert(mnode != NULL);
 			mailfile = mnode->GetDirEntry()->GetFullName();
 			if (node->IsOpenable())
@@ -1333,7 +1333,7 @@ GMailboxTreeWidget::ConvertSelection
 			for (JSize j = 1; j <= count; j++)
 				{
 				JTreeNode* child = jnode->GetChild(j);
-				GSimpleFileTreeNode* node = dynamic_cast(GSimpleFileTreeNode*, child);
+				GSimpleFileTreeNode* node = dynamic_cast<GSimpleFileTreeNode*>(child);
 				assert(node != NULL);
 				node->WriteFileName(os);
 				}
@@ -1346,7 +1346,7 @@ GMailboxTreeWidget::ConvertSelection
 		while(iter->Next(&cell))
 			{
 			JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
-			GMailboxTreeNode* node = dynamic_cast(GMailboxTreeNode*, jnode);
+			GMailboxTreeNode* node = dynamic_cast<GMailboxTreeNode*>(jnode);
 			assert(node != NULL);
 			node->WriteFileName(os);
 			}
@@ -1396,7 +1396,7 @@ GMailboxTreeWidget::AddFile
 		
 	JTreeNode* base = itsTree->GetRoot();
 	JNamedTreeNode* parent =
-		dynamic_cast(JNamedTreeNode*, base);
+		dynamic_cast<JNamedTreeNode*>(base);
 	assert(parent != NULL);
 	JDirEntry* entry = new JDirEntry(fullname);
 	assert(entry != NULL);
@@ -1408,7 +1408,7 @@ GMailboxTreeWidget::AddFile
 		assert(node != NULL);
 		parent->Append(node);
 		GMailboxTreeDir* dir =
-			dynamic_cast(GMailboxTreeDir*, GetWindow()->GetDirector());
+			dynamic_cast<GMailboxTreeDir*>(GetWindow()->GetDirector());
 		assert(dir != NULL);
 		dir->BroadcastMailTreeChanged();
 		}
@@ -1435,7 +1435,7 @@ GMailboxTreeWidget::AddDirectory
 
 	JTreeNode* base = itsTree->GetRoot();
 	JNamedTreeNode* parent =
-		dynamic_cast(JNamedTreeNode*, base);
+		dynamic_cast<JNamedTreeNode*>(base);
 	assert(parent != NULL);
 	JDirEntry* entry = new JDirEntry(path);
 	assert(entry != NULL);
@@ -1444,7 +1444,7 @@ GMailboxTreeWidget::AddDirectory
 	assert(node != NULL);
 	parent->Append(node);
 	GMailboxTreeDir* dir =
-		dynamic_cast(GMailboxTreeDir*, GetWindow()->GetDirector());
+		dynamic_cast<GMailboxTreeDir*>(GetWindow()->GetDirector());
 	assert(dir != NULL);
 
 	GetTreeList()->Open(node);
@@ -1487,7 +1487,7 @@ GMailboxTreeWidget::GetImage
 		return kJTrue;
 		}
 	const GMailFileTreeNode* node =
-		dynamic_cast(const GMailFileTreeNode*, jnode);
+		dynamic_cast<const GMailFileTreeNode*>(jnode);
 	if (GFileLocked(node->GetDirEntry()->GetFullName()))
 		{
 		*image = itsLockedMailIcon;
@@ -1537,7 +1537,7 @@ GMailboxTreeWidget::ReadPrefs
 		while (!found && (index <= count))
 			{
 			JTreeNode* jnode = GetNamedTreeList()->GetNode(index);
-			GMailFileTreeNode* node = dynamic_cast(GMailFileTreeNode*, jnode);
+			GMailFileTreeNode* node = dynamic_cast<GMailFileTreeNode*>(jnode);
 			assert(node != NULL);
 			if (node->GetDirEntry()->GetFullName() == dir)
 				{
@@ -1572,7 +1572,7 @@ GMailboxTreeWidget::WritePrefs
 		{
 		JTreeNode* child = base->GetChild(i);
 		GMailFileTreeNode* node =
-		dynamic_cast(GMailFileTreeNode*, child);
+		dynamic_cast<GMailFileTreeNode*>(child);
 		assert(node != NULL);
 		output << node->GetDirEntry()->GetFullName() << ' ';
 		}
@@ -1592,7 +1592,7 @@ GMailboxTreeWidget::WritePrefs
 			{
 			const JTreeNode* child = GetNamedTreeList()->GetNode(i);
 			const GMailFileTreeNode* node =
-				dynamic_cast(const GMailFileTreeNode*, child);
+				dynamic_cast<const GMailFileTreeNode*>(child);
 			assert(node != NULL);
 			output << node->GetDirEntry()->GetFullName() << ' ';
 			}
@@ -1614,7 +1614,7 @@ GMailboxTreeWidget::Update()
 	for (JSize i = 1; i <= count; i++)
 		{
 		JTreeNode* jchild = base->GetChild(i);
-		GMailFileTreeNode* child	= dynamic_cast(GMailFileTreeNode*, jchild);
+		GMailFileTreeNode* child	= dynamic_cast<GMailFileTreeNode*>(jchild);
 		assert(child != NULL);
 		changed		 = child->Update(kJFalse);
 		}
@@ -1639,7 +1639,7 @@ GMailboxTreeWidget::OpenMailbox
 	if (!node->IsOpenable())
 		{
 		GMailFileTreeNode* mnode =
-			dynamic_cast(GMailFileTreeNode*, node);
+			dynamic_cast<GMailFileTreeNode*>(node);
 		assert(mnode != NULL);
 
 		GMGetApplication()->OpenMailbox(mnode->GetDirEntry()->GetFullName());
@@ -1678,7 +1678,7 @@ GMailboxTreeWidget::ClosestSelection
 		}
 	JTreeNode* jnode = GetNamedTreeList()->GetNode(index);
 	GMailFileTreeNode* node =
-		dynamic_cast(GMailFileTreeNode*, jnode);
+		dynamic_cast<GMailFileTreeNode*>(jnode);
 	if (itsDraggingFiles)
 		{
 		if (node->GetDepth() > 1)
@@ -1749,7 +1749,7 @@ GMailboxTreeWidget::LastWritableTopLevel()
 		{
 		JTreeNode* jnode = base->GetChild(i);
 		GMailFileTreeNode* node =
-			dynamic_cast(GMailFileTreeNode*, jnode);
+			dynamic_cast<GMailFileTreeNode*>(jnode);
 		if (NodeIsWritable(node))
 			{
 			JIndex findex;
@@ -1779,7 +1779,7 @@ GMailboxTreeWidget::WritableParent
 		}
 	JTreeNode* jparent = node->GetParent();
 	GMailFileTreeNode* parent =
-		dynamic_cast(GMailFileTreeNode*, jparent);
+		dynamic_cast<GMailFileTreeNode*>(jparent);
 	if (JDirectoryWritable(parent->GetDirEntry()->GetFullName()))
 		{
 			JIndex findex;
@@ -1846,7 +1846,7 @@ GMailboxTreeWidget::ExtractInputData
 	JIndex index = cell.y;
 	JTreeNode* jnode = GetNamedTreeList()->GetNode(index);
 	GMailFileTreeNode* node =
-		dynamic_cast(GMailFileTreeNode*, jnode);
+		dynamic_cast<GMailFileTreeNode*>(jnode);
 	assert(node != NULL);
 	if (newName == node->GetName())
 		{
@@ -1859,7 +1859,7 @@ GMailboxTreeWidget::ExtractInputData
 			{
 			JTreeNode* jparent = node->GetParent();
 			GMailFileTreeNode* parent =
-				dynamic_cast(GMailFileTreeNode*, jparent);
+				dynamic_cast<GMailFileTreeNode*>(jparent);
 			parent->SortChildren();
 //			parent->Remove(node);
 //			parent->InsertSorted(node);
@@ -1908,7 +1908,7 @@ GMailboxTreeWidget::IsEditable
 {
 	const JTreeNode* jnode = GetNamedTreeList()->GetNode(cell.y);
 	const JNamedTreeNode* nnode =
-		dynamic_cast(const JNamedTreeNode*, jnode);
+		dynamic_cast<const JNamedTreeNode*>(jnode);
 	assert(nnode != NULL);
 	if (cell.x == 2)
 		{
@@ -1949,7 +1949,7 @@ GMailboxTreeWidget::CheckSelectionForMenus
 			*okFile	= kJFalse;
 			}
 		GMailFileTreeNode* mnode =
-			dynamic_cast(GMailFileTreeNode*, node);
+			dynamic_cast<GMailFileTreeNode*>(node);
 		if (GFileLocked(mnode->GetDirEntry()->GetFullName()))
 			{
 			*unLock = kJTrue;
@@ -2086,7 +2086,7 @@ GMailboxTreeWidget::GetNewName
 		{
 		if (GetTreeList()->GetNode(cell.y)->IsOpenable())
 			{
-			node = dynamic_cast(GMailFileTreeNode*, GetTreeList()->GetNode(cell.y));
+			node = dynamic_cast<GMailFileTreeNode*>(GetTreeList()->GetNode(cell.y));
 			assert (node != NULL);
 			GetTreeList()->Open(node);
 			dirName = node->GetDirEntry()->GetFullName();
@@ -2097,7 +2097,7 @@ GMailboxTreeWidget::GetNewName
 			JTreeNode* jnode = GetTreeList()->GetNode(cell.y);
 			if (jnode->GetDepth() == 1)
 				{
-				node = dynamic_cast(GMailFileTreeNode*, jnode);
+				node = dynamic_cast<GMailFileTreeNode*>(jnode);
 				assert (node != NULL);
 				dirName = node->GetDirEntry()->GetPath();
 				node	= NULL;
@@ -2105,7 +2105,7 @@ GMailboxTreeWidget::GetNewName
 			else
 				{
 				JTreeNode* jparent	= jnode->GetParent();
-				node	= dynamic_cast(GMailFileTreeNode*, jparent);
+				node	= dynamic_cast<GMailFileTreeNode*>(jparent);
 				assert(node != NULL);
 				dirName = node->GetDirEntry()->GetFullName();
 				}
@@ -2213,13 +2213,13 @@ GMailboxTreeWidget::AlreadyPresent
 {
 	JTreeNode* base = itsTree->GetRoot();
 	JNamedTreeNode* parent =
-		dynamic_cast(JNamedTreeNode*, base);
+		dynamic_cast<JNamedTreeNode*>(base);
 	assert(parent != NULL);
 	const JSize count	= parent->GetChildCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
 		JTreeNode* jchild	= parent->GetChild(i);
-		GMailFileTreeNode* child	= dynamic_cast(GMailFileTreeNode*, jchild);
+		GMailFileTreeNode* child	= dynamic_cast<GMailFileTreeNode*>(jchild);
 		assert(child != NULL);
 		if (child->GetDirEntry()->GetFullName() == fullname)
 			{

@@ -194,7 +194,7 @@ JFSFileTreeNode::UpdatePath
 	assert( message.Is(JFSFileTree::kDirectoryRenamed) );
 
 	const JFSFileTree::DirectoryRenamed* info =
-		dynamic_cast(const JFSFileTree::DirectoryRenamed*, &message);
+		dynamic_cast<const JFSFileTree::DirectoryRenamed*>(&message);
 	assert( info != NULL );
 
 	UpdatePath(info->GetOldPath(), info->GetNewPath());
@@ -365,7 +365,7 @@ JFSFileTreeNode::CreateDirInfo()
 	JTreeNode* parent;
 	if (GetParent(&parent))
 		{
-		JFSFileTreeNodeBase* fsParent = dynamic_cast(JFSFileTreeNodeBase*, parent);
+		JFSFileTreeNodeBase* fsParent = dynamic_cast<JFSFileTreeNodeBase*>(parent);
 		assert( fsParent != NULL );
 
 		JDirInfo* parentInfo;
@@ -532,7 +532,7 @@ JFSFileTreeNode::Update
 			if (parentIndex < parent->GetChildCount())
 				{
 				*updateNode =
-					dynamic_cast(JFSFileTreeNodeBase*, parent->GetChild(parentIndex+1));
+					dynamic_cast<JFSFileTreeNodeBase*>(parent->GetChild(parentIndex+1));
 				break;
 				}
 			else
@@ -546,7 +546,7 @@ JFSFileTreeNode::Update
 		if (parent == NULL)
 			{
 			*updateNode =
-				dynamic_cast(JFSFileTreeNodeBase*, (GetTree())->GetRoot());
+				dynamic_cast<JFSFileTreeNodeBase*>((GetTree())->GetRoot());
 			}
 		}
 	else
@@ -624,8 +624,8 @@ JFSFileTreeNode::CompareTypeAndName
 	JTreeNode * const & e2
 	)
 {
-	JFSFileTreeNode* n1	= dynamic_cast(JFSFileTreeNode*, e1);
-	JFSFileTreeNode* n2	= dynamic_cast(JFSFileTreeNode*, e2);
+	JFSFileTreeNode* n1	= dynamic_cast<JFSFileTreeNode*>(e1);
+	JFSFileTreeNode* n2	= dynamic_cast<JFSFileTreeNode*>(e2);
 
 	const long t = n1->itsDirEntry->GetType() - n2->itsDirEntry->GetType();
 	if (t < 0)
@@ -654,8 +654,8 @@ JFSFileTreeNode::CompareUserName
 	JTreeNode * const & e2
 	)
 {
-	JFSFileTreeNode* n1	= dynamic_cast(JFSFileTreeNode*, e1);
-	JFSFileTreeNode* n2	= dynamic_cast(JFSFileTreeNode*, e2);
+	JFSFileTreeNode* n1	= dynamic_cast<JFSFileTreeNode*>(e1);
+	JFSFileTreeNode* n2	= dynamic_cast<JFSFileTreeNode*>(e2);
 
 	JString u1 = n1->itsDirEntry->GetUserName();
 	JString u2 = n2->itsDirEntry->GetUserName();
@@ -681,8 +681,8 @@ JFSFileTreeNode::CompareGroupName
 	JTreeNode * const & e2
 	)
 {
-	JFSFileTreeNode* n1	= dynamic_cast(JFSFileTreeNode*, e1);
-	JFSFileTreeNode* n2	= dynamic_cast(JFSFileTreeNode*, e2);
+	JFSFileTreeNode* n1	= dynamic_cast<JFSFileTreeNode*>(e1);
+	JFSFileTreeNode* n2	= dynamic_cast<JFSFileTreeNode*>(e2);
 
 	JString u1 = n1->itsDirEntry->GetGroupName();
 	JString u2 = n2->itsDirEntry->GetGroupName();
@@ -708,8 +708,8 @@ JFSFileTreeNode::CompareSize
 	JTreeNode * const & e2
 	)
 {
-	JFSFileTreeNode* n1	= dynamic_cast(JFSFileTreeNode*, e1);
-	JFSFileTreeNode* n2	= dynamic_cast(JFSFileTreeNode*, e2);
+	JFSFileTreeNode* n1	= dynamic_cast<JFSFileTreeNode*>(e1);
+	JFSFileTreeNode* n2	= dynamic_cast<JFSFileTreeNode*>(e2);
 
 	JOrderedSetT::CompareResult result;
 
@@ -749,8 +749,8 @@ JFSFileTreeNode::CompareDate
 	JTreeNode * const & e2
 	)
 {
-	JFSFileTreeNode* n1	= dynamic_cast(JFSFileTreeNode*, e1);
-	JFSFileTreeNode* n2	= dynamic_cast(JFSFileTreeNode*, e2);
+	JFSFileTreeNode* n1	= dynamic_cast<JFSFileTreeNode*>(e1);
+	JFSFileTreeNode* n2	= dynamic_cast<JFSFileTreeNode*>(e2);
 
 	JOrderedSetT::CompareResult result =
 		JDirEntry::CompareModTimes(n1->itsDirEntry, n2->itsDirEntry);
@@ -773,7 +773,7 @@ JFSFileTreeNode::GetFSChild
 	const JIndex index
 	)
 {
-	JFSFileTreeNode* node = dynamic_cast(JFSFileTreeNode*, GetChild(index));
+	JFSFileTreeNode* node = dynamic_cast<JFSFileTreeNode*>(GetChild(index));
 	assert (node != NULL);
 	return node;
 }
@@ -785,7 +785,7 @@ JFSFileTreeNode::GetFSChild
 	)
 	const
 {
-	const JFSFileTreeNode* node = dynamic_cast(const JFSFileTreeNode*, GetChild(index));
+	const JFSFileTreeNode* node = dynamic_cast<const JFSFileTreeNode*>(GetChild(index));
 	assert (node != NULL);
 	return node;
 }

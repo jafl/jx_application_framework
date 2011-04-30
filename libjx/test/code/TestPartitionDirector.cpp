@@ -283,7 +283,7 @@ TestPartitionDirector::Receive
 	else if (sender == itsHorizMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleHorizMenu(selection->GetIndex());
 		}
@@ -295,7 +295,7 @@ TestPartitionDirector::Receive
 	else if (sender == itsVertMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleVertMenu(selection->GetIndex());
 		}
@@ -304,7 +304,7 @@ TestPartitionDirector::Receive
 			 message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		const JBoolean ok = info->Successful();
 		const JIndex newElasticIndex = itsSetElasticDialog->GetElasticIndex();

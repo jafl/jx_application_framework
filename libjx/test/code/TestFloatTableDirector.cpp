@@ -173,7 +173,7 @@ TestFloatTableDirector::Receive
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleFileMenu(selection->GetIndex());
 		}
@@ -181,7 +181,7 @@ TestFloatTableDirector::Receive
 	else if (sender == itsRowHeader && message.Is(JXRowHeaderWidget::kNeedsToBeWidened))
 		{
 		const JXRowHeaderWidget::NeedsToBeWidened* info =
-			dynamic_cast(const JXRowHeaderWidget::NeedsToBeWidened*, &message);
+			dynamic_cast<const JXRowHeaderWidget::NeedsToBeWidened*>(&message);
 		assert( info != NULL );
 
 		const JCoordinate dw = info->GetDeltaWidth();
@@ -196,7 +196,7 @@ TestFloatTableDirector::Receive
 			 message.Is(JPrinter::kPrintSetupFinished))
 		{
 		const JPrinter::PrintSetupFinished* info =
-			dynamic_cast(const JPrinter::PrintSetupFinished*, &message);
+			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{

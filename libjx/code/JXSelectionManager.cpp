@@ -1059,7 +1059,7 @@ JXSelectionManager::ReceiveWithFeedback
 {
 	if (sender == itsDisplay && message->Is(JXDisplay::kXError))
 		{
-		JXDisplay::XError* err = dynamic_cast(JXDisplay::XError*, message);
+		JXDisplay::XError* err = dynamic_cast<JXDisplay::XError*>(message);
 		assert( err != NULL );
 
 		if (err->GetType() == BadAlloc)

@@ -252,7 +252,7 @@ TestSaveFileDialog::Receive
 	if (sender == itsFormatRG && message.Is(JXRadioGroup::kSelectionChanged))
 		{
 		const JXRadioGroup::SelectionChanged* selection =
-			dynamic_cast(const JXRadioGroup::SelectionChanged*, &message);
+			dynamic_cast<const JXRadioGroup::SelectionChanged*>(&message);
 		assert( selection != NULL );
 		HandleFormatChange(selection->GetID());
 		}

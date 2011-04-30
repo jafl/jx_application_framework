@@ -265,7 +265,7 @@ JXImagePainter::Image
 	const JRect&	destRect
 	)
 {
-	const JXImage* ximage = dynamic_cast(const JXImage*, &image);
+	const JXImage* ximage = dynamic_cast<const JXImage*>(&image);
 	assert( ximage != NULL );
 
 	if (PrepareXDraw())

@@ -467,7 +467,7 @@ SyGCopyProcess::Receive
 		itsProcess = NULL;
 
 		const JProcess::Finished* info =
-			dynamic_cast(const JProcess::Finished*, &message);
+			dynamic_cast<const JProcess::Finished*>(&message);
 		if (info->Successful())
 			{
 			if (itsSrcTable != NULL)

@@ -348,7 +348,7 @@ JXChooseFileDialog::Receive
 	if (sender == fileBrowser && message.Is(JXDirTable::kFileDblClicked))
 		{
 		const JXDirTable::FileDblClicked* info =
-			dynamic_cast(const JXDirTable::FileDblClicked*, &message);
+			dynamic_cast<const JXDirTable::FileDblClicked*>(&message);
 		assert( info != NULL );
 		if (info->IsActive())
 			{

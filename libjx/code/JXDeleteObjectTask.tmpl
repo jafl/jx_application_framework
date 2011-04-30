@@ -55,7 +55,7 @@ JXDeleteObjectTask<T>::JXDeleteObjectTask
 {
 	itsObject = obj;
 
-	JBroadcaster* b = dynamic_cast(JBroadcaster*, obj);
+	JBroadcaster* b = dynamic_cast<JBroadcaster*>(obj);
 	if (b != NULL)
 		{
 		ListenTo(b);
@@ -103,7 +103,7 @@ JXDeleteObjectTask<T>::ReceiveGoingAway
 	JBroadcaster* sender
 	)
 {
-	JBroadcaster* b = dynamic_cast(JBroadcaster*, itsObject);
+	JBroadcaster* b = dynamic_cast<JBroadcaster*>(itsObject);
 	if (sender == b)
 		{
 		itsObject = NULL;

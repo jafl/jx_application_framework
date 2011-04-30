@@ -242,7 +242,7 @@ TestFloatTable::Receive
 	else if (sender == itsTableMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleTableMenu(selection->GetIndex());
 		}

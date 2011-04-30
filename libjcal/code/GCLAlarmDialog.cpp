@@ -206,7 +206,7 @@ GCLAlarmDialog::Receive
 	if (sender == itsTimeUnitMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* info =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert(info != NULL);
 		itsTimeUnit	= info->GetIndex();
 		itsTimeUnitMenu->SetTitleText(itsTimeUnitMenu->GetItemText(info->GetIndex()));

@@ -389,14 +389,14 @@ GMailPrefsDialog::Receive
 	else if (sender == itsShowSenderString && message.Is(JXCheckbox::kPushed))
 		{
 		const JXCheckbox::Pushed* info =
-			dynamic_cast(const JXCheckbox::Pushed*, &message);
+			dynamic_cast<const JXCheckbox::Pushed*>(&message);
 		assert(info != NULL);
 		AdjustForSenderString(info->IsChecked());
 		}
 	else if (sender == itsAutoQuote && message.Is(JXCheckbox::kPushed))
 		{
 		const JXCheckbox::Pushed* info =
-			dynamic_cast(const JXCheckbox::Pushed*, &message);
+			dynamic_cast<const JXCheckbox::Pushed*>(&message);
 		assert(info != NULL);
 		AdjustForQuotedReply(info->IsChecked());
 		}

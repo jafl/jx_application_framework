@@ -219,7 +219,7 @@ JXEPSPrinter::EndUserPrintSetup
 	assert( message.Is(JXDialogDirector::kDeactivated) );
 
 	const JXDialogDirector::Deactivated* info =
-		dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+		dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 	assert( info != NULL );
 
 	if (info->Successful())

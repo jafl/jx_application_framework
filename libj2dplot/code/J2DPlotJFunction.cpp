@@ -164,7 +164,7 @@ J2DPlotJFunction::Receive
 	if (sender == itsVarList && message.Is(JVariableList::kVarInserted))
 		{
 		const JVariableList::VarInserted* info =
-			dynamic_cast(const JVariableList::VarInserted*, &message);
+			dynamic_cast<const JVariableList::VarInserted*>(&message);
 		assert( info != NULL );
 		info->AdjustIndex(&itsXIndex);
 		}
@@ -172,7 +172,7 @@ J2DPlotJFunction::Receive
 	else if (sender == itsVarList && message.Is(JVariableList::kVarRemoved))
 		{
 		const JVariableList::VarRemoved* info =
-			dynamic_cast(const JVariableList::VarRemoved*, &message);
+			dynamic_cast<const JVariableList::VarRemoved*>(&message);
 		assert( info != NULL );
 		const JBoolean ok = info->AdjustIndex(&itsXIndex);
 		assert( ok );	// client must insure this
@@ -181,7 +181,7 @@ J2DPlotJFunction::Receive
 	else if (sender == itsVarList && message.Is(JVariableList::kVarMoved))
 		{
 		const JVariableList::VarMoved* info =
-			dynamic_cast(const JVariableList::VarMoved*, &message);
+			dynamic_cast<const JVariableList::VarMoved*>(&message);
 		assert( info != NULL );
 		info->AdjustIndex(&itsXIndex);
 		}
@@ -189,7 +189,7 @@ J2DPlotJFunction::Receive
 	else if (sender == itsVarList && message.Is(JVariableList::kVarValueChanged))
 		{
 		const JVariableList::VarValueChanged* info =
-			dynamic_cast(const JVariableList::VarValueChanged*, &message);
+			dynamic_cast<const JVariableList::VarValueChanged*>(&message);
 		assert( info != NULL );
 		if (info->GetVarIndex() != itsXIndex)
 			{

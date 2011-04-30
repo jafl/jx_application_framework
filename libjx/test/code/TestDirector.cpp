@@ -515,7 +515,7 @@ TestDirector::Receive
 	else if (sender == itsAboutMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleAboutMenu(selection->GetIndex());
 		}
@@ -527,7 +527,7 @@ TestDirector::Receive
 	else if (sender == itsPrintPSMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandlePrintPSMenu(selection->GetIndex());
 		}
@@ -539,7 +539,7 @@ TestDirector::Receive
 	else if (sender == itsTestMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleTestMenu(selection->GetIndex());
 		}
@@ -551,7 +551,7 @@ TestDirector::Receive
 	else if (sender == itsUNMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleUNMenu(selection->GetIndex());
 		}
@@ -563,7 +563,7 @@ TestDirector::Receive
 	else if (sender == itsCSFMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleCSFMenu(selection->GetIndex());
 		}
@@ -575,7 +575,7 @@ TestDirector::Receive
 	else if (sender == itsPGMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandlePGMenu(selection->GetIndex());
 		}
@@ -587,7 +587,7 @@ TestDirector::Receive
 	else if (sender == itsIconMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleIconMenu(selection->GetIndex());
 		}
@@ -605,7 +605,7 @@ TestDirector::Receive
 			 message.Is(JPrinter::kPrintSetupFinished))
 		{
 		const JPrinter::PrintSetupFinished* info =
-			dynamic_cast(const JPrinter::PrintSetupFinished*, &message);
+			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -617,7 +617,7 @@ TestDirector::Receive
 			 message.Is(JPrinter::kPrintSetupFinished))
 		{
 		const JPrinter::PrintSetupFinished* info =
-			dynamic_cast(const JPrinter::PrintSetupFinished*, &message);
+			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -628,7 +628,7 @@ TestDirector::Receive
 	else if (message.Is(JXTipOfTheDayDialog::kShowAtStartup))
 		{
 		const JXTipOfTheDayDialog::ShowAtStartup* info =
-			dynamic_cast(const JXTipOfTheDayDialog::ShowAtStartup*, &message);
+			dynamic_cast<const JXTipOfTheDayDialog::ShowAtStartup*>(&message);
 		assert( info != NULL );
 		cout << "Should show at startup: " << info->ShouldShowAtStartup() << endl;
 		}

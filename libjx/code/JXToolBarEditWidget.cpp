@@ -93,7 +93,7 @@ JXToolBarEditWidget::GetImage
 		return kJTrue;
 		}
 
-	const JXToolBarNode* tbnode = dynamic_cast(const JXToolBarNode*, node);
+	const JXToolBarNode* tbnode = dynamic_cast<const JXToolBarNode*>(node);
 	assert( tbnode != NULL );
 
 	*image = tbnode->IsChecked() ? itsCheckedItemImage : itsUncheckedItemImage;
@@ -121,7 +121,7 @@ JXToolBarEditWidget::HandleMouseDown
 		JTreeNode* node = GetTreeList()->GetNode(cell.y);
 		if (cell.x == 2 && button == kJXLeftButton && !node->IsOpenable())
 			{
-			JXToolBarNode* tbnode = dynamic_cast(JXToolBarNode*, node);
+			JXToolBarNode* tbnode = dynamic_cast<JXToolBarNode*>(node);
 			assert(tbnode != NULL);
 			tbnode->ToggleChecked();
 			}

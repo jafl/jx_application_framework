@@ -407,7 +407,7 @@ GMAttachmentTable::GetSelectionData
 {
 	if (strcmp(id, kDNDClassID) == 0)
 		{
-		JXFileSelection* fileData = dynamic_cast(JXFileSelection*, data);
+		JXFileSelection* fileData = dynamic_cast<JXFileSelection*>(data);
 		assert( fileData != NULL );
 
 		JTableSelection& s = GetTableSelection();
@@ -732,7 +732,7 @@ GMAttachmentTable::Receive
 		if (HasFocus())
 			{
 			const JXMenu::ItemSelected* selection =
-				dynamic_cast(const JXMenu::ItemSelected*, &message);
+				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != NULL );
 			HandleEditMenu(selection->GetIndex());
 			}

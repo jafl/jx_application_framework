@@ -297,7 +297,7 @@ GMailboxTreeDir::Receive
 	if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleFileMenu(selection->GetIndex());
 		}
@@ -317,14 +317,14 @@ GMailboxTreeDir::Receive
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleHelpMenu(selection->GetIndex());
 		}
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandlePrefsMenu(selection->GetIndex());
 		}
@@ -620,7 +620,7 @@ GMailboxTreeDir::GetTopLevelNodes
 	for (JIndex i = 1; i <= count; i++)
 		{
 		JTreeNode* jnode		= base->GetChild(i);
-		JFSFileTreeNode* node	= dynamic_cast(JFSFileTreeNode*, jnode);
+		JFSFileTreeNode* node	= dynamic_cast<JFSFileTreeNode*>(jnode);
 		assert(node != NULL);
 		JDirEntry* entry		= node->GetDirEntry();
 		JString* str			= new JString(entry->GetFullName());

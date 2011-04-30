@@ -487,6 +487,11 @@ JXTreeListWidget::HandleMouseDrag
 	const JXKeyModifiers&	modifiers
 	)
 {
+	if (!itsTreeList->IndexValid(itsToggleDragIndex))
+		{
+		itsToggleDragIndex = 0;
+		}
+
 	JPoint cell;
 	if (itsToggleDragIndex > 0 &&
 		GetCell(pt, &cell) &&
@@ -520,6 +525,11 @@ JXTreeListWidget::HandleMouseUp
 	const JXKeyModifiers&	modifiers
 	)
 {
+	if (!itsTreeList->IndexValid(itsToggleDragIndex))
+		{
+		itsToggleDragIndex = 0;
+		}
+
 	if (itsToggleDragIndex > 0 && itsMouseInToggleFlag)
 		{
 		ToggleNode(itsToggleDragIndex, modifiers.shift(), modifiers.meta());
@@ -619,7 +629,7 @@ JXTreeListWidget::Receive
 	if (sender == itsTreeList && message.Is(JTreeList::kNodeInserted))
 		{
 		const JTreeList::NodeInserted* info =
-			dynamic_cast(const JTreeList::NodeInserted*, &message);
+			dynamic_cast<const JTreeList::NodeInserted*>(&message);
 		assert( info != NULL );
 		InsertRows(info->GetIndex(), 1);
 		NeedsAdjustToTree();
@@ -628,7 +638,7 @@ JXTreeListWidget::Receive
 	else if (sender == itsTreeList && message.Is(JTreeList::kNodeRemoved))
 		{
 		const JTreeList::NodeRemoved* info =
-			dynamic_cast(const JTreeList::NodeRemoved*, &message);
+			dynamic_cast<const JTreeList::NodeRemoved*>(&message);
 		assert( info != NULL );
 		RemoveRow(info->GetIndex());
 		NeedsAdjustToTree();
@@ -637,7 +647,7 @@ JXTreeListWidget::Receive
 	else if (sender == itsTreeList && message.Is(JTreeList::kNodeChanged))
 		{
 		const JTreeList::NodeChanged* info =
-			dynamic_cast(const JTreeList::NodeChanged*, &message);
+			dynamic_cast<const JTreeList::NodeChanged*>(&message);
 		assert( info != NULL );
 		TableRefreshRow(info->GetIndex());
 		NeedsAdjustToTree();
@@ -648,7 +658,7 @@ JXTreeListWidget::Receive
 			  message.Is(JTreeList::kNodeClosed)))
 		{
 		const JTreeList::NodeMessage* info =
-			dynamic_cast(const JTreeList::NodeMessage*, &message);
+			dynamic_cast<const JTreeList::NodeMessage*>(&message);
 		assert( info != NULL );
 		TableRefreshRow(info->GetIndex());
 		}
@@ -669,7 +679,7 @@ JXTreeListWidget::Receive
 		{
 		if (sender == this && message.Is(kColsInserted))
 			{
-			const ColsInserted* info = dynamic_cast(const ColsInserted*, &message);
+			const ColsInserted* info = dynamic_cast<const ColsInserted*>(&message);
 			assert( info != NULL );
 			info->AdjustIndex(&itsToggleOpenColIndex);
 			info->AdjustIndex(&itsNodeColIndex);
@@ -679,7 +689,7 @@ JXTreeListWidget::Receive
 
 		else if (sender == this && message.Is(kColsRemoved))
 			{
-			const ColsRemoved* info = dynamic_cast(const ColsRemoved*, &message);
+			const ColsRemoved* info = dynamic_cast<const ColsRemoved*>(&message);
 			assert( info != NULL );
 			JBoolean ok = info->AdjustIndex(&itsToggleOpenColIndex);
 			assert( ok );
@@ -692,7 +702,7 @@ JXTreeListWidget::Receive
 		else if (sender == this && message.Is(kColMoved))
 			{
 			const ColMoved* info =
-				dynamic_cast(const ColMoved*, &message);
+				dynamic_cast<const ColMoved*>(&message);
 			assert( info != NULL );
 			info->AdjustIndex(&itsToggleOpenColIndex);
 			info->AdjustIndex(&itsNodeColIndex);

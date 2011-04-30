@@ -872,7 +872,7 @@ JXDNDManager::Receive
 		message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -1899,7 +1899,7 @@ JXDNDManager::ReceiveWithFeedback
 {
 	if (sender == itsDisplay && message->Is(JXDisplay::kXError))
 		{
-		JXDisplay::XError* err = dynamic_cast(JXDisplay::XError*, message);
+		JXDisplay::XError* err = dynamic_cast<JXDisplay::XError*>(message);
 		assert( err != NULL );
 
 		// source: target crashed -- nothing to do

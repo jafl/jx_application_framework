@@ -239,7 +239,7 @@ WizChatDirector::Receive
 	if (sender == connMgr && message.Is(Wiz2War::kChatMessage))
 		{
 		const Wiz2War::ChatMessage* info =
-			dynamic_cast(const Wiz2War::ChatMessage*, &message);
+			dynamic_cast<const Wiz2War::ChatMessage*>(&message);
 		assert( info != NULL );
 		AppendMessage(info->GetSenderIndex(), info->GetMessage());
 		(GetWindow())->Deiconify();
@@ -248,14 +248,14 @@ WizChatDirector::Receive
 	else if (sender == connMgr && message.Is(Wiz2War::kPlayerJoined))
 		{
 		const Wiz2War::PlayerJoined* info =
-			dynamic_cast(const Wiz2War::PlayerJoined*, &message);
+			dynamic_cast<const Wiz2War::PlayerJoined*>(&message);
 		assert( info != NULL );
 		NotifyPlayerJoined(*info);
 		}
 	else if (sender == connMgr && message.Is(Wiz2War::kPlayerLeft))
 		{
 		const Wiz2War::PlayerLeft* info =
-			dynamic_cast(const Wiz2War::PlayerLeft*, &message);
+			dynamic_cast<const Wiz2War::PlayerLeft*>(&message);
 		assert( info != NULL );
 		NotifyPlayerLeft(info->GetIndex(), info->TimedOut());
 		}
@@ -264,7 +264,7 @@ WizChatDirector::Receive
 			 message.Is(WizChatTargetMenu::kSendChatMessage))
 		{
 		const WizChatTargetMenu::SendChatMessage* info =
-			dynamic_cast(const WizChatTargetMenu::SendChatMessage*, &message);
+			dynamic_cast<const WizChatTargetMenu::SendChatMessage*>(&message);
 		assert( info != NULL );
 		if (info->GetReceiverIndex() != kWWAllPlayersIndex)
 			{
@@ -280,7 +280,7 @@ WizChatDirector::Receive
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleActionsMenu(selection->GetIndex());
 		}
@@ -292,7 +292,7 @@ WizChatDirector::Receive
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandlePrefsMenu(selection->GetIndex());
 		}
@@ -304,7 +304,7 @@ WizChatDirector::Receive
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleHelpMenu(selection->GetIndex());
 		}

@@ -412,7 +412,7 @@ THXExprDirector::Receive
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleActionsMenu(selection->GetIndex());
 		}
@@ -424,7 +424,7 @@ THXExprDirector::Receive
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandlePrefsMenu(selection->GetIndex());
 		}
@@ -436,7 +436,7 @@ THXExprDirector::Receive
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		(THXGetApplication())->HandleHelpMenu(itsHelpMenu, kTHXExprHelpName,
 											  selection->GetIndex());

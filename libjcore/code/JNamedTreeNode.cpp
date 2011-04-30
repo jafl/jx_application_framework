@@ -133,7 +133,7 @@ JNamedTreeNode::FindNamedChild
 JNamedTreeNode*
 JNamedTreeNode::GetNamedParent()
 {
-	JNamedTreeNode* node = dynamic_cast(JNamedTreeNode*, GetParent());
+	JNamedTreeNode* node = dynamic_cast<JNamedTreeNode*>(GetParent());
 	assert (node != NULL);
 	return node;
 }
@@ -142,7 +142,7 @@ const JNamedTreeNode*
 JNamedTreeNode::GetNamedParent()
 	const
 {
-	const JNamedTreeNode* node = dynamic_cast(const JNamedTreeNode*, GetParent());
+	const JNamedTreeNode* node = dynamic_cast<const JNamedTreeNode*>(GetParent());
 	assert (node != NULL);
 	return node;
 }
@@ -156,7 +156,7 @@ JNamedTreeNode::GetNamedParent
 	JTreeNode* p;
 	if (GetParent(&p))
 		{
-		*parent = dynamic_cast(JNamedTreeNode*, p);
+		*parent = dynamic_cast<JNamedTreeNode*>(p);
 		assert( *parent != NULL );
 		return kJTrue;
 		}
@@ -177,7 +177,7 @@ JNamedTreeNode::GetNamedParent
 	const JTreeNode* p;
 	if (GetParent(&p))
 		{
-		*parent = dynamic_cast(const JNamedTreeNode*, p);
+		*parent = dynamic_cast<const JNamedTreeNode*>(p);
 		assert( *parent != NULL );
 		return kJTrue;
 		}
@@ -199,7 +199,7 @@ JNamedTreeNode::GetNamedChild
 	const JIndex index
 	)
 {
-	JNamedTreeNode* node = dynamic_cast(JNamedTreeNode*, GetChild(index));
+	JNamedTreeNode* node = dynamic_cast<JNamedTreeNode*>(GetChild(index));
 	assert (node != NULL);
 	return node;
 }
@@ -211,7 +211,7 @@ JNamedTreeNode::GetNamedChild
 	)
 	const
 {
-	const JNamedTreeNode* node = dynamic_cast(const JNamedTreeNode*, GetChild(index));
+	const JNamedTreeNode* node = dynamic_cast<const JNamedTreeNode*>(GetChild(index));
 	assert (node != NULL);
 	return node;
 }
@@ -228,8 +228,8 @@ JNamedTreeNode::DynamicCastCompareNames
 	JTreeNode * const & e2
 	)
 {
-	return CompareNames(dynamic_cast(JNamedTreeNode*, e1),
-						dynamic_cast(JNamedTreeNode*, e2));
+	return CompareNames(dynamic_cast<JNamedTreeNode*>(e1),
+						dynamic_cast<JNamedTreeNode*>(e2));
 }
 
 /******************************************************************************
@@ -265,8 +265,8 @@ JNamedTreeNode::DynamicCastCompareNamesForIncrSearch
 	JTreeNode * const & e2
 	)
 {
-	return CompareNamesForIncrSearch(dynamic_cast(JNamedTreeNode*, e1),
-									 dynamic_cast(JNamedTreeNode*, e2));
+	return CompareNamesForIncrSearch(dynamic_cast<JNamedTreeNode*>(e1),
+									 dynamic_cast<JNamedTreeNode*>(e2));
 }
 
 /******************************************************************************

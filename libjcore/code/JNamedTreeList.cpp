@@ -61,7 +61,7 @@ JNamedTreeList::GetNamedNode
 	const JIndex index
 	)
 {
-	JNamedTreeNode* node = dynamic_cast(JNamedTreeNode*, GetNode(index));
+	JNamedTreeNode* node = dynamic_cast<JNamedTreeNode*>(GetNode(index));
 	assert( node != NULL );
 	return node;
 }
@@ -73,7 +73,7 @@ JNamedTreeList::GetNamedNode
 	)
 	const
 {
-	const JNamedTreeNode* node = dynamic_cast(const JNamedTreeNode*, GetNode(index));
+	const JNamedTreeNode* node = dynamic_cast<const JNamedTreeNode*>(GetNode(index));
 	assert( node != NULL );
 	return node;
 }
@@ -192,7 +192,7 @@ JNamedTreeList::Receive
 	if (sender == this && message.Is(kNodeInserted))
 		{
 		const NodeInserted* info =
-			dynamic_cast(const NodeInserted*, &message);
+			dynamic_cast<const NodeInserted*>(&message);
 		assert( info != NULL );
 		itsSortedNodeList->InsertSorted(const_cast<JTreeNode*>(info->GetNode()));
 		}
@@ -200,7 +200,7 @@ JNamedTreeList::Receive
 	else if (sender == this && message.Is(kNodeRemoved))
 		{
 		const NodeRemoved* info =
-			dynamic_cast(const NodeRemoved*, &message);
+			dynamic_cast<const NodeRemoved*>(&message);
 		assert( info != NULL );
 		itsSortedNodeList->Remove(info->GetNode());
 		}
@@ -208,7 +208,7 @@ JNamedTreeList::Receive
 	else if (sender == this && message.Is(kNodeChanged))
 		{
 		const NodeChanged* info =
-			dynamic_cast(const NodeChanged*, &message);
+			dynamic_cast<const NodeChanged*>(&message);
 		assert( info != NULL );
 		itsSortedNodeList->Remove(info->GetNode());
 		itsSortedNodeList->InsertSorted(const_cast<JTreeNode*>(info->GetNode()));

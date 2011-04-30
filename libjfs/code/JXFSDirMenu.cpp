@@ -346,7 +346,7 @@ JXFSDirMenu::Receive
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* info =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert(info != NULL);
 		if (itsEntries != NULL)
 			{

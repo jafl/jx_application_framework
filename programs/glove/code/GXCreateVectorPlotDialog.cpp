@@ -237,7 +237,7 @@ GXCreateVectorPlotDialog::Receive
 	if (sender == itsX1Menu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		itsStartX1 = selection->GetIndex();
 		}
@@ -245,7 +245,7 @@ GXCreateVectorPlotDialog::Receive
 	else if (sender == itsX2Menu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		itsStartX2 = selection->GetIndex();
 		}
@@ -253,7 +253,7 @@ GXCreateVectorPlotDialog::Receive
 	else if (sender == itsY1Menu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		itsStartY1 = selection->GetIndex();
 		}
@@ -261,7 +261,7 @@ GXCreateVectorPlotDialog::Receive
 	else if (sender == itsY2Menu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		itsStartY2 = selection->GetIndex();
 		}
@@ -269,7 +269,7 @@ GXCreateVectorPlotDialog::Receive
 	else if (sender == itsPlotsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		itsPlotIndex = selection->GetIndex();
 		}

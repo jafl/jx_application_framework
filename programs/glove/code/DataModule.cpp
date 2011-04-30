@@ -152,7 +152,7 @@ DataModule::Receive
 	else if (sender == itsData && message.Is(JTableData::kColsRemoved))
 		{
 		const JTableData::ColsRemoved* info =
-			dynamic_cast(const JTableData::ColsRemoved*, &message);
+			dynamic_cast<const JTableData::ColsRemoved*>(&message);
 		assert( info != NULL );
 		JIndex fIndex	= info->GetFirstIndex();
 		JIndex lIndex	= info->GetLastIndex();
@@ -180,7 +180,7 @@ DataModule::Receive
 	else if (sender == itsData && message.Is(JTableData::kColsInserted))
 		{
 		const JTableData::ColsInserted* info =
-			dynamic_cast(const JTableData::ColsInserted*, &message);
+			dynamic_cast<const JTableData::ColsInserted*>(&message);
 		assert( info != NULL );
 		JIndex fIndex	= info->GetFirstIndex();
 		JIndex lIndex	= info->GetLastIndex();

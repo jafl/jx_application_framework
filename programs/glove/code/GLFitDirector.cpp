@@ -520,7 +520,7 @@ GLFitDirector::Receive
 	if (sender == itsFitMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleFitMenu(selection->GetIndex());
 		}
@@ -531,21 +531,21 @@ GLFitDirector::Receive
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandlePrefsMenu(selection->GetIndex());
 		}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleHelpMenu(selection->GetIndex());
 		}
 	else if (sender == itsCurveList && message.Is(GLCurveNameList::kCurveSelected))
 		{
 		const GLCurveNameList::CurveSelected* info = 
-			dynamic_cast(const GLCurveNameList::CurveSelected*, &message);
+			dynamic_cast<const GLCurveNameList::CurveSelected*>(&message);
 		assert(info != NULL);
 		JPlotDataBase& curve = itsPlot->GetCurve(info->GetIndex());
 
@@ -562,7 +562,7 @@ GLFitDirector::Receive
 	else if (sender == itsFitList && message.Is(GLFitDescriptionList::kFitSelected))
 		{
 		const GLFitDescriptionList::FitSelected* info = 
-			dynamic_cast(const GLFitDescriptionList::FitSelected*, &message);
+			dynamic_cast<const GLFitDescriptionList::FitSelected*>(&message);
 		assert(info != NULL);
 		const GLFitDescription& fd	= GetFitManager()->GetFitDescription(info->GetIndex());
 		itsParameterTable->SetFitDescription(fd);
@@ -578,7 +578,7 @@ GLFitDirector::Receive
 	else if (sender == itsFitList && message.Is(GLFitDescriptionList::kFitInitiated))
 		{
 		const GLFitDescriptionList::FitInitiated* info = 
-			dynamic_cast(const GLFitDescriptionList::FitInitiated*, &message);
+			dynamic_cast<const GLFitDescriptionList::FitInitiated*>(&message);
 		assert(info != NULL);
 		const GLFitDescription& fd	= GetFitManager()->GetFitDescription(info->GetIndex());
 		if (!itsParameterTable->BeginEditingStartValues())
@@ -590,7 +590,7 @@ GLFitDirector::Receive
 	else if (sender == itsParameterTable && message.Is(GLFitParameterTable::kValueChanged))
 		{
 		const GLFitParameterTable::ValueChanged* info =
-			dynamic_cast(const GLFitParameterTable::ValueChanged*, &message);
+			dynamic_cast<const GLFitParameterTable::ValueChanged*>(&message);
 		assert(info != NULL);
 		JIndex index;
 		JBoolean ok	= itsFitList->GetCurrentFitIndex(&index);
@@ -607,7 +607,7 @@ GLFitDirector::Receive
 	else if (sender == itsNLFitDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert(info != NULL);
 		if (info->Successful())
 			{
@@ -624,7 +624,7 @@ GLFitDirector::Receive
 	else if (sender == itsPolyFitDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert(info != NULL);
 		if (info->Successful())
 			{
@@ -642,7 +642,7 @@ GLFitDirector::Receive
 			 message.Is(JPrinter::kPrintSetupFinished))
 		{
 		const JPrinter::PrintSetupFinished* info =
-			dynamic_cast(const JPrinter::PrintSetupFinished*, &message);
+			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert(info != NULL);
 		if (info->Successful())
 			{
@@ -918,7 +918,7 @@ GLFitDirector::Fit()
 	if (fd.GetType() == GLFitDescription::kPolynomial)
 		{
 		JArray<JIndex> powers;
-		const GLPolyFitDescription& pd	= dynamic_cast(const GLPolyFitDescription&, fd);
+		const GLPolyFitDescription& pd	= dynamic_cast<const GLPolyFitDescription&>(fd);
 		pd.GetPowers(&powers);
 		assert(ok);
 
@@ -957,7 +957,7 @@ GLFitDirector::Fit()
 	else if (fd.GetType() == GLFitDescription::kNonLinear)
 		{
 		GLNonLinearFitDescription& nd	= 
-			dynamic_cast(GLNonLinearFitDescription&, const_cast<GLFitDescription&>(fd));
+			dynamic_cast<GLNonLinearFitDescription&>(const_cast<GLFitDescription&>(fd));
 
 		JFloat xmax, xmin, ymax, ymin;
 		JPlotFitNonLinear* fit;
@@ -1092,7 +1092,7 @@ GLFitDirector::Fit()
 	else if (fd.GetType() == GLFitDescription::kModule)
 		{
 		GLModuleFitDescription& md	= 
-			dynamic_cast(GLModuleFitDescription&, const_cast<GLFitDescription&>(fd));
+			dynamic_cast<GLModuleFitDescription&>(const_cast<GLFitDescription&>(fd));
 		JFloat xmax, xmin, ymax, ymin;
 		JPlotFitModule* fit;
 		if (itsFitPlot->IsUsingRange())

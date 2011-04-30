@@ -222,7 +222,7 @@ War2Wiz::ReceiveWithFeedback
 {
 	if (sender == JThisProcess::Instance() && message->Is(JThisProcess::kBrokenPipe))
 		{
-		JThisProcess::Signal* info = dynamic_cast(JThisProcess::Signal*, message);
+		JThisProcess::Signal* info = dynamic_cast<JThisProcess::Signal*>(message);
 		assert( info != NULL );
 		info->SetCaught();
 

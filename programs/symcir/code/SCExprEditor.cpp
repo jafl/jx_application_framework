@@ -142,7 +142,7 @@ SCExprEditor::Receive
 	else if (sender == itsExtraMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleExtraMenu(selection->GetIndex());
 		}
@@ -150,7 +150,7 @@ SCExprEditor::Receive
 	else if (sender == itsNewPlotDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -162,7 +162,7 @@ SCExprEditor::Receive
 	else if (sender == itsAddToPlotDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -363,7 +363,7 @@ SCExprEditor::SelectionIsVarFn
 	const JFunction* f;
 	if (GetConstSelectedFunction(&f) && f->GetType() == kJVariableValueType)
 		{
-		*varF = dynamic_cast(const JVariableValue*, f);
+		*varF = dynamic_cast<const JVariableValue*>(f);
 		assert( varF != NULL );
 		const JIndex varIndex = (**varF).GetVariableIndex();
 		return itsVarList->IsFunction(varIndex);

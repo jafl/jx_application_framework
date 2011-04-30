@@ -63,7 +63,7 @@ TestLinkedDocument::TestLinkedDocument
 		JXFileDocument* doc = NULL;
 		if (docMgr->FileDocumentIsOpen(newName, &doc))
 			{
-			itsDoc = dynamic_cast(TestTextEditDocument*, doc);
+			itsDoc = dynamic_cast<TestTextEditDocument*>(doc);
 			if (itsDoc == NULL)
 				{
 				(JGetUserNotification())->ReportError(

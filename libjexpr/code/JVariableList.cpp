@@ -566,7 +566,7 @@ JVariableList::Receive
 		message.Is(JOrderedSetT::kElementsInserted))
 		{
 		const JOrderedSetT::ElementsInserted* info =
-			dynamic_cast(const JOrderedSetT::ElementsInserted*, &message);
+			dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
 		assert( info != NULL );
 		VariablesInserted(*info);
 		}
@@ -580,7 +580,7 @@ JVariableList::Receive
 			// we obviously should not complain.
 
 			const JOrderedSetT::ElementsRemoved* info =
-				dynamic_cast(const JOrderedSetT::ElementsRemoved*, &message);
+				dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
 			assert( info != NULL );
 			VariablesRemoved(*info);
 			}
@@ -589,7 +589,7 @@ JVariableList::Receive
 			 message.Is(JOrderedSetT::kElementMoved))
 		{
 		const JOrderedSetT::ElementMoved* info =
-			dynamic_cast(const JOrderedSetT::ElementMoved*, &message);
+			dynamic_cast<const JOrderedSetT::ElementMoved*>(&message);
 		assert( info != NULL );
 		VariableMoved(*info);
 		}
@@ -597,7 +597,7 @@ JVariableList::Receive
 			 message.Is(JOrderedSetT::kElementsSwapped))
 		{
 		const JOrderedSetT::ElementsSwapped* info =
-			dynamic_cast(const JOrderedSetT::ElementsSwapped*, &message);
+			dynamic_cast<const JOrderedSetT::ElementsSwapped*>(&message);
 		assert( info != NULL );
 		VariablesSwapped(*info);
 		}

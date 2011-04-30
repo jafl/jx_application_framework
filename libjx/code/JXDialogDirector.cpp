@@ -139,7 +139,7 @@ JXDialogDirector::Activate()
 		if (supervisor->IsWindowDirector())
 			{
 			JXWindowDirector* windowDir =
-				dynamic_cast(JXWindowDirector*, supervisor);
+				dynamic_cast<JXWindowDirector*>(supervisor);
 			assert( windowDir != NULL );
 			window->SetTransientFor(windowDir);
 			}

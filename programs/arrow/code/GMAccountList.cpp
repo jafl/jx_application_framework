@@ -232,7 +232,7 @@ GMAccountList::Receive
 		message.Is(JOrderedSetT::kElementsInserted))
 		{
 		const JOrderedSetT::ElementsInserted* info =
-			dynamic_cast(const JOrderedSetT::ElementsInserted*, &message);
+			dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
 		assert( info != NULL );
 		const JIndex firstIndex = info->GetFirstIndex();
 		const JSize count       = info->GetCount();
@@ -243,7 +243,7 @@ GMAccountList::Receive
 			 message.Is(JOrderedSetT::kElementsRemoved))
 		{
 		const JOrderedSetT::ElementsRemoved* info =
-			dynamic_cast(const JOrderedSetT::ElementsRemoved*, &message);
+			dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
 		assert( info != NULL );
 		const JIndex firstIndex = info->GetFirstIndex();
 		const JSize count       = info->GetCount();

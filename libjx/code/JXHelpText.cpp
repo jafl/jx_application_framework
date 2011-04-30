@@ -187,7 +187,7 @@ JXHelpText::LinkClicked
 	)
 {
 	JXHelpDirector* helpDir =
-		dynamic_cast(JXHelpDirector*, (GetWindow())->GetDirector());
+		dynamic_cast<JXHelpDirector*>((GetWindow())->GetDirector());
 	assert( helpDir != NULL );
 
 	const LinkInfo info = itsLinks->GetElement(index);

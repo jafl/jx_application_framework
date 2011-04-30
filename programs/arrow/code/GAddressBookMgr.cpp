@@ -181,7 +181,7 @@ GAddressBookMgr::AddAddressBook
 	JDirEntry* dirEntry = new JDirEntry(name);
 	assert(dirEntry != NULL);
 	JTreeNode* jbase = tree->GetRoot();
-	JNamedTreeNode* base = dynamic_cast(JNamedTreeNode*, jbase);
+	JNamedTreeNode* base = dynamic_cast<JNamedTreeNode*>(jbase);
 	assert(base != NULL);
 	GAddressBookTreeNode* book = new
 		GAddressBookTreeNode(dirEntry, base, dirEntry->GetName());
@@ -287,7 +287,7 @@ GAddressBookMgr::ChangeNickName
 		{
 		JTreeNode* jbook	= root->GetChild(i);
 		GAddressBaseTreeNode* book = 
-			dynamic_cast(GAddressBaseTreeNode*, jbook);
+			dynamic_cast<GAddressBaseTreeNode*>(jbook);
 		assert(book != NULL);
 		if (book->OKToChange())
 			{
@@ -301,7 +301,7 @@ GAddressBookMgr::ChangeNickName
 					{
 					JTreeNode* jitem	= jentry->GetChild(k);
 					GAddressItemTreeNode* item	=
-						dynamic_cast(GAddressItemTreeNode*, jitem);
+						dynamic_cast<GAddressItemTreeNode*>(jitem);
 					assert(item != NULL);
 					if (item->GetType() == GAddressItemTreeNode::kEMail &&
 						item->GetText() == oldname)
@@ -314,7 +314,7 @@ GAddressBookMgr::ChangeNickName
 				if (kNeedsAdjustment)
 					{
 					GAddressEntryTreeNode* entry =
-						dynamic_cast(GAddressEntryTreeNode*, jentry);
+						dynamic_cast<GAddressEntryTreeNode*>(jentry);
 					assert(entry != NULL);
 					AdjustProperties(entry);
 					}
@@ -338,7 +338,7 @@ GAddressBookMgr::AdjustProperties
 {
 	JTreeNode* jchild1 = node->GetChild(1);
 	GAddressItemTreeNode* child1 =
-		dynamic_cast(GAddressItemTreeNode*, jchild1);
+		dynamic_cast<GAddressItemTreeNode*>(jchild1);
 	assert(child1 != NULL);
 	GAddressBookEntry* entry;
 	if (itsAddresses->GetElement(child1->GetText(), &entry))
@@ -370,7 +370,7 @@ GAddressBookMgr::AdjustProperties
 			{
 			JTreeNode* jchild = node->GetChild(i);
 			GAddressItemTreeNode* child =
-				dynamic_cast(GAddressItemTreeNode*, jchild);
+				dynamic_cast<GAddressItemTreeNode*>(jchild);
 			assert(child != NULL);
 			GAddressItemTreeNode::Type type = child->GetType();
 			if (type == GAddressItemTreeNode::kFcc)

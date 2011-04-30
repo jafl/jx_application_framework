@@ -84,7 +84,7 @@ WizChatTargetMenu::Receive
 	if (sender == connMgr && message.Is(Wiz2War::kConnectionAccepted))
 		{
 		const Wiz2War::ConnectionAccepted* info =
-			dynamic_cast(const Wiz2War::ConnectionAccepted*, &message);
+			dynamic_cast<const Wiz2War::ConnectionAccepted*>(&message);
 		assert( info != NULL );
 		InitMenu(info->GetMaxPlayerCount());
 		}
@@ -92,7 +92,7 @@ WizChatTargetMenu::Receive
 	else if (sender == connMgr && message.Is(Wiz2War::kPlayerJoined))
 		{
 		const Wiz2War::PlayerJoined* info =
-			dynamic_cast(const Wiz2War::PlayerJoined*, &message);
+			dynamic_cast<const Wiz2War::PlayerJoined*>(&message);
 		assert( info != NULL );
 		if (info->GetIndex() != connMgr->GetPlayerIndex())
 			{
@@ -104,7 +104,7 @@ WizChatTargetMenu::Receive
 	else if (sender == connMgr && message.Is(Wiz2War::kPlayerLeft))
 		{
 		const Wiz2War::PlayerLeft* info =
-			dynamic_cast(const Wiz2War::PlayerLeft*, &message);
+			dynamic_cast<const Wiz2War::PlayerLeft*>(&message);
 		assert( info != NULL );
 		DisableItem(info->GetIndex()+1);
 		const JString text = kEmptySlotPrefix + JString(info->GetIndex(), JString::kBase10);
@@ -116,7 +116,7 @@ WizChatTargetMenu::Receive
 		if (sender == this && message.Is(JXMenu::kItemSelected))
 			{
 			const JXMenu::ItemSelected* info =
-				dynamic_cast(const JXMenu::ItemSelected*, &message);
+				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( info != NULL );
 			itsMessageMenu->CheckForShortcut();
 			Broadcast(SendChatMessage(info->GetIndex()-1, itsMessage->GetText()));

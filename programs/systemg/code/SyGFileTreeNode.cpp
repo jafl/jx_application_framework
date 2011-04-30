@@ -93,7 +93,7 @@ SyGFileTreeNode::SetChildCompareFunction
 SyGFileTree*
 SyGFileTreeNode::GetSyGFileTree()
 {
-	SyGFileTree* tree = dynamic_cast(SyGFileTree*, GetTree());
+	SyGFileTree* tree = dynamic_cast<SyGFileTree*>(GetTree());
 	assert (tree != NULL);
 	return tree;
 }
@@ -102,7 +102,7 @@ const SyGFileTree*
 SyGFileTreeNode::GetSyGFileTree()
 	const
 {
-	const SyGFileTree* tree = dynamic_cast(const SyGFileTree*, GetTree());
+	const SyGFileTree* tree = dynamic_cast<const SyGFileTree*>(GetTree());
 	assert (tree != NULL);
 	return tree;
 }
@@ -116,7 +116,7 @@ SyGFileTreeNode*
 SyGFileTreeNode::GetSyGParent()
 {
 	JTreeNode* p       = GetParent();
-	SyGFileTreeNode* n = dynamic_cast(SyGFileTreeNode*, p);
+	SyGFileTreeNode* n = dynamic_cast<SyGFileTreeNode*>(p);
 	assert( n != NULL );
 	return n;
 }
@@ -126,7 +126,7 @@ SyGFileTreeNode::GetSyGParent()
 	const
 {
 	const JTreeNode* p       = GetParent();
-	const SyGFileTreeNode* n = dynamic_cast(const SyGFileTreeNode*, p);
+	const SyGFileTreeNode* n = dynamic_cast<const SyGFileTreeNode*>(p);
 	assert( n != NULL );
 	return n;
 }
@@ -140,7 +140,7 @@ SyGFileTreeNode::GetSyGParent
 	JTreeNode* p;
 	if (GetParent(&p))
 		{
-		*parent = dynamic_cast(SyGFileTreeNode*, p);
+		*parent = dynamic_cast<SyGFileTreeNode*>(p);
 		assert( *parent != NULL );
 		return kJTrue;
 		}
@@ -161,7 +161,7 @@ SyGFileTreeNode::GetSyGParent
 	const JTreeNode* p;
 	if (GetParent(&p))
 		{
-		*parent = dynamic_cast(const SyGFileTreeNode*, p);
+		*parent = dynamic_cast<const SyGFileTreeNode*>(p);
 		assert( *parent != NULL );
 		return kJTrue;
 		}
@@ -183,7 +183,7 @@ SyGFileTreeNode::GetSyGChild
 	const JIndex index
 	)
 {
-	SyGFileTreeNode* node = dynamic_cast(SyGFileTreeNode*, GetChild(index));
+	SyGFileTreeNode* node = dynamic_cast<SyGFileTreeNode*>(GetChild(index));
 	assert (node != NULL);
 	return node;
 }
@@ -195,7 +195,7 @@ SyGFileTreeNode::GetSyGChild
 	)
 	const
 {
-	const SyGFileTreeNode* node = dynamic_cast(const SyGFileTreeNode*, GetChild(index));
+	const SyGFileTreeNode* node = dynamic_cast<const SyGFileTreeNode*>(GetChild(index));
 	assert (node != NULL);
 	return node;
 }

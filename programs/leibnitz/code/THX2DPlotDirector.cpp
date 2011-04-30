@@ -153,7 +153,7 @@ THX2DPlotDirector::WriteState
 	for (JIndex i=1; i<=fnCount; i++)
 		{
 		const JPlotDataBase& data      = itsPlotWidget->GetCurve(i);
-		const J2DPlotJFunction* fnData = dynamic_cast(const J2DPlotJFunction*, &data);
+		const J2DPlotJFunction* fnData = dynamic_cast<const J2DPlotJFunction*>(&data);
 		assert( fnData != NULL );
 
 		JFloat xMin, xMax;
@@ -336,7 +336,7 @@ THX2DPlotDirector::Receive
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleActionsMenu(selection->GetIndex());
 		}
@@ -348,7 +348,7 @@ THX2DPlotDirector::Receive
 	else if (sender == itsEditFnMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleEditFnMenu(selection->GetIndex());
 		}
@@ -360,7 +360,7 @@ THX2DPlotDirector::Receive
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		(THXGetApplication())->HandleHelpMenu(itsHelpMenu, kTHX2DPlotHelpName,
 											  selection->GetIndex());
@@ -375,7 +375,7 @@ THX2DPlotDirector::Receive
 			 message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleCurveOptionsMenu(selection->GetIndex());
 		}
@@ -383,7 +383,7 @@ THX2DPlotDirector::Receive
 	else if (sender == itsEditFnDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{

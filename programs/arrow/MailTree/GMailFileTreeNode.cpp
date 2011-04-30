@@ -94,7 +94,7 @@ GMailFileTreeNode::Update
 		if (!itsHasNewMail)
 			{
 			JTree* jtree		= GetTree();
-			GMFileTree* tree	= dynamic_cast(GMFileTree*, jtree);
+			GMFileTree* tree	= dynamic_cast<GMFileTree*>(jtree);
 			assert(tree != NULL);
 			tree->BroadcastNodeHasNewMail(this, kJTrue);
 			itsHasNewMail		= kJTrue;
@@ -103,7 +103,7 @@ GMailFileTreeNode::Update
 	else if (itsHasNewMail)
 		{
 		JTree* jtree			= GetTree();
-		GMFileTree* tree		= dynamic_cast(GMFileTree*, jtree);
+		GMFileTree* tree		= dynamic_cast<GMFileTree*>(jtree);
 		assert(tree != NULL);
 		tree->BroadcastNodeHasNewMail(this, kJFalse);
 		itsHasNewMail			= kJFalse;

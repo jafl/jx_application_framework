@@ -113,7 +113,7 @@ GAddressBookTreeNode::Save
 		{
 		JTreeNode* jchild = GetChild(i);
 		GAddressEntryTreeNode* entry =
-			dynamic_cast(GAddressEntryTreeNode*, jchild);
+			dynamic_cast<GAddressEntryTreeNode*>(jchild);
 		assert(entry != NULL);
 		entry->Save(os);
 		}

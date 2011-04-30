@@ -176,7 +176,7 @@ GMDirectorManager::Receive
 	if (message.Is(GMDirectorTimerTask::kDirMenuTimerWentOff))
 		{
 		const GMDirectorTimerTask::DirMenuTimerWentOff* info =
-			dynamic_cast(const GMDirectorTimerTask::DirMenuTimerWentOff*, &message);
+			dynamic_cast<const GMDirectorTimerTask::DirMenuTimerWentOff*>(&message);
 		assert(info != NULL);
 		UpdateDirectorMenu(info->GetMenu());
 		}

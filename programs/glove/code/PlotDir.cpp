@@ -305,7 +305,7 @@ PlotDir::Receive
 	else if (sender == itsPlot && message.Is(J2DPlotWidget::kCurveRemoved))
 		{
 		const J2DPlotWidget::CurveRemoved* info =
-			dynamic_cast(const J2DPlotWidget::CurveRemoved*, &message);
+			dynamic_cast<const J2DPlotWidget::CurveRemoved*>(&message);
 		assert( info != NULL );
 		HandleCurveRemoved(info->GetIndex());
 		}
@@ -313,21 +313,21 @@ PlotDir::Receive
 	else if (sender == itsPlotMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandlePlotMenu(selection->GetIndex());
 		}
 	else if (sender == itsAnalysisMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleAnalysisMenu(selection->GetIndex());
 		}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleHelpMenu(selection->GetIndex());
 		}
@@ -350,7 +350,7 @@ PlotDir::Receive
 	else if (sender == itsFitParmsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		itsFitParmsDir->Activate();
 		itsFitParmsDir->ShowFit(selection->GetIndex());
@@ -359,7 +359,7 @@ PlotDir::Receive
 	else if (sender == itsDiffMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		PlotDir* dir = itsDiffDirs->NthElement(selection->GetIndex());
 		dir->Activate();
@@ -370,7 +370,7 @@ PlotDir::Receive
 	else if (sender == itsFunctionDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -387,7 +387,7 @@ PlotDir::Receive
 	else if (sender == itsFitModuleDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -409,7 +409,7 @@ PlotDir::Receive
 			 message.Is(JPrinter::kPageSetupFinished))
 		{
 		const JPrinter::PageSetupFinished* info =
-			dynamic_cast(const JPrinter::PageSetupFinished*, &message);
+			dynamic_cast<const JPrinter::PageSetupFinished*>(&message);
 		assert(info != NULL);
 		if (info->Changed())
 			{
@@ -422,7 +422,7 @@ PlotDir::Receive
 			 message.Is(JPrinter::kPrintSetupFinished))
 		{
 		const JPrinter::PrintSetupFinished* info =
-			dynamic_cast(const JPrinter::PrintSetupFinished*, &message);
+			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert(info != NULL);
 		if (info->Successful())
 			{
@@ -545,7 +545,7 @@ PlotDir::WriteCurves
 		CurveStats stat = itsCurveStats->GetElement(i);
 		if ((stat.type == kGDataCurve) && (jpdb.GetType() == JPlotDataBase::kScatterPlot))
 			{
-			J2DPlotData* pd = dynamic_cast(J2DPlotData*, &jpdb);
+			J2DPlotData* pd = dynamic_cast<J2DPlotData*>(&jpdb);
 			assert( pd != NULL );
 			if (pd->IsValid())
 				{
@@ -555,7 +555,7 @@ PlotDir::WriteCurves
 		else if (stat.type == kGFitCurve)
 			{
 			JPlotDataBase& pdb = itsPlot->GetCurve(stat.provider);
-			J2DPlotData* pd = dynamic_cast(J2DPlotData*, &pdb);
+			J2DPlotData* pd = dynamic_cast<J2DPlotData*>(&pdb);
 			assert( pd != NULL );
 			if (pd->IsValid())
 				{
@@ -577,7 +577,7 @@ PlotDir::WriteCurves
 			{
 			if (jpdb.GetType() == JPlotDataBase::kScatterPlot)
 				{
-				J2DPlotData* pd = dynamic_cast(J2DPlotData*, &jpdb);
+				J2DPlotData* pd = dynamic_cast<J2DPlotData*>(&jpdb);
 				assert( pd != NULL );
 				if (pd->IsValid())
 					{
@@ -608,7 +608,7 @@ PlotDir::WriteCurves
 				}
 			else if (jpdb.GetType() == JPlotDataBase::kVectorPlot)
 				{
-				J2DVectorData* vd = dynamic_cast(J2DVectorData*, &jpdb);
+				J2DVectorData* vd = dynamic_cast<J2DVectorData*>(&jpdb);
 				assert( vd != NULL );
 				os << (int)kGDataCurve << ' ';
 				os << (int)jpdb.GetType() << ' ';
@@ -639,14 +639,14 @@ PlotDir::WriteCurves
 				os << (int)kGFitCurve << ' ';
 				os << (int)stat.fitType << ' ';
 				os << stat.provider << ' ';
-				JPlotModuleFit* mf = dynamic_cast(JPlotModuleFit*, &jpdb);
+				JPlotModuleFit* mf = dynamic_cast<JPlotModuleFit*>(&jpdb);
 				assert( mf != NULL );
 				mf->WriteData(os);
 				}
 			else
 				{
 				JPlotDataBase& pdb = itsPlot->GetCurve(stat.provider);
-				J2DPlotData* pd = dynamic_cast(J2DPlotData*, &pdb);
+				J2DPlotData* pd = dynamic_cast<J2DPlotData*>(&pdb);
 				assert( pd != NULL );
 				if (pd->IsValid())
 					{
@@ -656,7 +656,7 @@ PlotDir::WriteCurves
 
 					if (stat.fitType == kGProxyFit)
 						{
-						JPlotFitProxy* pf	= dynamic_cast(JPlotFitProxy*, &jpdb);
+						JPlotFitProxy* pf	= dynamic_cast<JPlotFitProxy*>(&jpdb);
 						assert(pf != NULL);
 						pf->WriteData(os);
 						}
@@ -665,7 +665,7 @@ PlotDir::WriteCurves
 			}
 		else if (stat.type == kGFunctionCurve)
 			{
-			J2DPlotJFunction* pd = dynamic_cast(J2DPlotJFunction*, &jpdb);
+			J2DPlotJFunction* pd = dynamic_cast<J2DPlotJFunction*>(&jpdb);
 			assert( pd != NULL );
 			os << (int)kGFunctionCurve << ' ';
 			os << pd->GetFunctionString() << ' ';

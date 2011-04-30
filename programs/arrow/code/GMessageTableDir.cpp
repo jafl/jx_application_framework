@@ -624,7 +624,7 @@ GMessageTableDir::Receive
 	if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleFileMenu(selection->GetIndex());
 		}
@@ -636,7 +636,7 @@ GMessageTableDir::Receive
 	else if (sender == itsInboxMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleInboxMenu(selection->GetIndex());
 		}
@@ -644,7 +644,7 @@ GMessageTableDir::Receive
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleHelpMenu(selection->GetIndex());
 		}
@@ -652,7 +652,7 @@ GMessageTableDir::Receive
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandlePrefsMenu(selection->GetIndex());
 		}
@@ -704,14 +704,14 @@ GMessageTableDir::Receive
 	else if (sender == itsTransferMenu && message.Is(JXFSDirMenu::kFileSelected))
 		{
 		const JXFSDirMenu::FileSelected* info =
-			dynamic_cast(const JXFSDirMenu::FileSelected*, &message);
+			dynamic_cast<const JXFSDirMenu::FileSelected*>(&message);
 		assert(info != NULL);
 		HandleMessageTransfer(info->GetFileName(), kJTrue);
 		}
 	else if (sender == itsCopyMenu && message.Is(JXFSDirMenu::kFileSelected))
 		{
 		const JXFSDirMenu::FileSelected* info =
-			dynamic_cast(const JXFSDirMenu::FileSelected*, &message);
+			dynamic_cast<const JXFSDirMenu::FileSelected*>(&message);
 		assert(info != NULL);
 		HandleMessageTransfer(info->GetFileName(), kJFalse);
 		}
@@ -725,7 +725,7 @@ GMessageTableDir::Receive
 	else if (sender == itsFindDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert(info != NULL);
 		if (info->Successful())
 			{
@@ -752,7 +752,7 @@ GMessageTableDir::Receive
 		else if (message.Is(GMMailboxData::kNewMail))
 			{
 			const GMMailboxData::NewMail* info	= 
-				dynamic_cast(const GMMailboxData::NewMail*, &message);
+				dynamic_cast<const GMMailboxData::NewMail*>(&message);
 			assert(info != NULL);
 			
 			if (GGetPrefsMgr()->IsBeepingOnNewMail())
@@ -772,7 +772,7 @@ GMessageTableDir::Receive
 		else if (message.Is(GMMailboxData::kMBoxState))
 			{
 			const GMMailboxData::MBoxState* info	= 
-				dynamic_cast(const GMMailboxData::MBoxState*, &message);
+				dynamic_cast<const GMMailboxData::MBoxState*>(&message);
 			assert(info != NULL);
 			if (info->Exists())
 				{
@@ -786,14 +786,14 @@ GMessageTableDir::Receive
 		else if (message.Is(GMMailboxData::kHeaderRemoved))
 			{
 			const GMMailboxData::HeaderRemoved* info	= 
-				dynamic_cast(const GMMailboxData::HeaderRemoved*, &message);
+				dynamic_cast<const GMMailboxData::HeaderRemoved*>(&message);
 			assert(info != NULL);
 			CloseMessage(info->GetHeader());
 			}
 		else if (message.Is(GMMailboxData::kHeaderMarkedDeleted))
 			{
 			const GMMailboxData::HeaderMarkedDeleted* info	= 
-				dynamic_cast(const GMMailboxData::HeaderMarkedDeleted*, &message);
+				dynamic_cast<const GMMailboxData::HeaderMarkedDeleted*>(&message);
 			assert(info != NULL);
 			CloseMessage(info->GetHeader());
 			}

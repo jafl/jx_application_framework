@@ -350,7 +350,7 @@ JX2DPlotPrintEPSDialog::Receive
 	else if (sender == itsUnitMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleUnitMenu(selection->GetIndex());
 		}
@@ -358,7 +358,7 @@ JX2DPlotPrintEPSDialog::Receive
 	else if (sender == itsPredefSizeMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandlePredefSizeMenu(selection->GetIndex());
 		}

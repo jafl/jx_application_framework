@@ -403,21 +403,21 @@ SCVarTable::Receive
 	if (sender == itsVarList && message.Is(JVariableList::kVarInserted))
 		{
 		const JVariableList::VarInserted* info =
-			dynamic_cast(const JVariableList::VarInserted*, &message);
+			dynamic_cast<const JVariableList::VarInserted*>(&message);
 		assert( info != NULL );
 		SetVarList(itsVarList);
 		}
 	else if (sender == itsVarList && message.Is(JVariableList::kVarNameChanged))
 		{
 		const JVariableList::VarNameChanged* info =
-			dynamic_cast(const JVariableList::VarNameChanged*, &message);
+			dynamic_cast<const JVariableList::VarNameChanged*>(&message);
 		assert( info != NULL );
 		Refresh();
 		}
 	else if (sender == itsVarList && message.Is(JVariableList::kVarValueChanged))
 		{
 		const JVariableList::VarValueChanged* info =
-			dynamic_cast(const JVariableList::VarValueChanged*, &message);
+			dynamic_cast<const JVariableList::VarValueChanged*>(&message);
 		assert( info != NULL );
 		Refresh();
 		}

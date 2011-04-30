@@ -391,7 +391,7 @@ JXStringList::Receive
 		message.Is(JOrderedSetT::kElementsInserted))
 		{
 		const JOrderedSetT::ElementsInserted* info =
-			dynamic_cast(const JOrderedSetT::ElementsInserted*, &message);
+			dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
 		assert( info != NULL );
 		InsertRows(info->GetFirstIndex(), info->GetCount());
 		}
@@ -400,7 +400,7 @@ JXStringList::Receive
 			 message.Is(JOrderedSetT::kElementsRemoved))
 		{
 		const JOrderedSetT::ElementsRemoved* info =
-			dynamic_cast(const JOrderedSetT::ElementsRemoved*, &message);
+			dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
 		assert( info != NULL );
 		itsMinColWidth = 1;
 		RemoveNextRows(info->GetFirstIndex(), info->GetCount());
@@ -410,7 +410,7 @@ JXStringList::Receive
 			 message.Is(JOrderedSetT::kElementMoved))
 		{
 		const JOrderedSetT::ElementMoved* info =
-			dynamic_cast(const JOrderedSetT::ElementMoved*, &message);
+			dynamic_cast<const JOrderedSetT::ElementMoved*>(&message);
 		assert( info != NULL );
 		MoveRow(info->GetOrigIndex(), info->GetNewIndex());
 		}
@@ -419,7 +419,7 @@ JXStringList::Receive
 			 message.Is(JOrderedSetT::kElementsSwapped))
 		{
 		const JOrderedSetT::ElementsSwapped* info =
-			dynamic_cast(const JOrderedSetT::ElementsSwapped*, &message);
+			dynamic_cast<const JOrderedSetT::ElementsSwapped*>(&message);
 		assert( info != NULL );
 		const JFontStyle s1 = itsStyles->GetElement(info->GetIndex1(), 1);
 		itsStyles->SetElement(info->GetIndex1(), 1, itsStyles->GetElement(info->GetIndex2(), 1));

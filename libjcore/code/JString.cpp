@@ -131,7 +131,7 @@ JString::JString
 
 JString::JString
 	(
-	const JUInt		number,
+	const JUInt64	number,
 	const Base		base,
 	const JBoolean	pad
 	)
@@ -149,7 +149,7 @@ JString::JString
 		{
 		CopyToPrivateString("");
 
-		JUInt v = number;
+		JUInt64 v = number;
 		do
 			{
 			if (v & 0x01)

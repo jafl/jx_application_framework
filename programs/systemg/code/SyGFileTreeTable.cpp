@@ -1730,7 +1730,7 @@ SyGFileTreeTable::GetSelectionData
 		{
 		assert( GetTableSelection().HasSelection() );
 
-		JXFileSelection* fileData = dynamic_cast(JXFileSelection*, data);
+		JXFileSelection* fileData = dynamic_cast<JXFileSelection*>(data);
 		assert( fileData != NULL );
 
 		JPtrArray<JString>* fileList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
@@ -1956,7 +1956,7 @@ SyGFileTreeTable::Receive
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleFileMenu(selection->GetIndex());
 		}
@@ -1964,7 +1964,7 @@ SyGFileTreeTable::Receive
 	else if (sender == itsRecentFilesMenu && message.Is(JXFSDirMenu::kFileSelected))
 		{
 		const JXFSDirMenu::FileSelected* info	= 
-			dynamic_cast(const JXFSDirMenu::FileSelected*, &message);
+			dynamic_cast<const JXFSDirMenu::FileSelected*>(&message);
 		assert( info != NULL );
 
 		const JDirEntry entry(info->GetFileName());
@@ -1993,7 +1993,7 @@ SyGFileTreeTable::Receive
 		if (HasFocus())
 			{
 			const JXMenu::ItemSelected* selection =
-				dynamic_cast(const JXMenu::ItemSelected*, &message);
+				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert( selection != NULL );
 			HandleEditMenu(selection->GetIndex());
 			}
@@ -2002,14 +2002,14 @@ SyGFileTreeTable::Receive
 	else if (sender == itsGitMenu && message.Is(JXMenu::kNeedsUpdate))
 		{
 		const JXMenu::NeedsUpdate* info =
-			dynamic_cast(const JXMenu::NeedsUpdate*, &message);
+			dynamic_cast<const JXMenu::NeedsUpdate*>(&message);
 		assert( info != NULL );
 		UpdateGitMenus(info->IsFromShortcut());
 		}
 	else if (sender == itsGitMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleGitMenu(selection->GetIndex());
 		}
@@ -2021,7 +2021,7 @@ SyGFileTreeTable::Receive
 	else if (sender == itsGitLocalBranchMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		SwitchToGitBranch(itsGitLocalBranchMenu->GetItemText(selection->GetIndex()));
 		}
@@ -2029,35 +2029,35 @@ SyGFileTreeTable::Receive
 	else if (sender == itsGitPullSourceMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		PullBranch(itsGitPullSourceMenu->GetItemText(selection->GetIndex()));
 		}
 	else if (sender == itsGitPushDestMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		PushBranch(itsGitPushDestMenu->GetItemText(selection->GetIndex()));
 		}
 	else if (sender == itsGitMergeBranchMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		MergeFromGitBranch(itsGitMergeBranchMenu->GetItemText(selection->GetIndex()));
 		}
 	else if (sender == itsGitRemoteBranchMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		FetchRemoteGitBranch(itsGitRemoteBranchMenu->GetItemText(selection->GetIndex()));
 		}
 	else if (sender == itsGitRemoveBranchMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		RemoveGitBranch(itsGitRemoveBranchMenu->GetItemText(selection->GetIndex()));
 		}
@@ -2069,7 +2069,7 @@ SyGFileTreeTable::Receive
 	else if (sender == itsViewMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleViewMenu(selection->GetIndex());
 		}
@@ -2081,7 +2081,7 @@ SyGFileTreeTable::Receive
 	else if (sender == itsShortcutMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleShortcutMenu(selection->GetIndex());
 		}
@@ -2098,7 +2098,7 @@ SyGFileTreeTable::Receive
 	else if (sender == itsContextMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleContextMenu(selection->GetIndex());
 		}
@@ -2107,7 +2107,7 @@ SyGFileTreeTable::Receive
 			 message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert(info != NULL);
 		if (info->Successful())
 			{
@@ -2136,7 +2136,7 @@ SyGFileTreeTable::Receive
 			 message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert(info != NULL);
 		if (info->Successful())
 			{
@@ -2149,7 +2149,7 @@ SyGFileTreeTable::Receive
 			 message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert(info != NULL);
 		if (info->Successful())
 			{
@@ -2160,7 +2160,7 @@ SyGFileTreeTable::Receive
 	else if (sender == itsGitProcess && message.Is(JProcess::kFinished))
 		{
 		const JProcess::Finished* info =
-			dynamic_cast(const JProcess::Finished*, &message);
+			dynamic_cast<const JProcess::Finished*>(&message);
 		assert(info != NULL);
 		if (info->Successful())
 			{
@@ -2180,7 +2180,7 @@ SyGFileTreeTable::Receive
 	else if (sender == itsIconWidget && message.Is(JXWindowIcon::kHandleDrop))
 		{
 		const JXWindowIcon::HandleDrop* info =
-			dynamic_cast(const JXWindowIcon::HandleDrop*, &message);
+			dynamic_cast<const JXWindowIcon::HandleDrop*>(&message);
 		assert( info != NULL );
 		HandleDNDDrop(JPoint(0,0), info->GetTypeList(), info->GetAction(),
 					  info->GetTime(), info->GetSource());
@@ -2246,7 +2246,7 @@ SyGFileTreeTable::ReceiveWithFeedback
 	if (sender == itsIconWidget && message->Is(JXWindowIcon::kAcceptDrop))
 		{
 		JXWindowIcon::AcceptDrop* info =
-			dynamic_cast(JXWindowIcon::AcceptDrop*, message);
+			dynamic_cast<JXWindowIcon::AcceptDrop*>(message);
 		assert( info != NULL );
 		info->ShouldAcceptDrop(WillAcceptDrop(
 									info->GetTypeList(), info->GetActionPtr(),

@@ -149,7 +149,7 @@ SCNodeMenu::Receive
 	else if (sender == this && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		itsNodeIndex = selection->GetIndex();
 		Broadcast(NodeChanged(itsNodeIndex));
@@ -160,14 +160,14 @@ SCNodeMenu::Receive
 		if (message.Is(JOrderedSetT::kElementsInserted))
 			{
 			const JOrderedSetT::ElementsInserted* info =
-				dynamic_cast(const JOrderedSetT::ElementsInserted*, &message);
+				dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
 			assert( info != NULL && info->GetCount() == 1 );
 			info->AdjustIndex(&itsNodeIndex);
 			}
 		else if (message.Is(JOrderedSetT::kElementsRemoved))
 			{
 			const JOrderedSetT::ElementsRemoved* info =
-				dynamic_cast(const JOrderedSetT::ElementsRemoved*, &message);
+				dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
 			assert( info != NULL && info->GetCount() == 1 );
 			if (!info->AdjustIndex(&itsNodeIndex))
 				{
@@ -177,14 +177,14 @@ SCNodeMenu::Receive
 		else if (message.Is(JOrderedSetT::kElementMoved))
 			{
 			const JOrderedSetT::ElementMoved* info =
-				dynamic_cast(const JOrderedSetT::ElementMoved*, &message);
+				dynamic_cast<const JOrderedSetT::ElementMoved*>(&message);
 			assert( info != NULL );
 			info->AdjustIndex(&itsNodeIndex);
 			}
 		else if (message.Is(JOrderedSetT::kElementsSwapped))
 			{
 			const JOrderedSetT::ElementsSwapped* info =
-				dynamic_cast(const JOrderedSetT::ElementsSwapped*, &message);
+				dynamic_cast<const JOrderedSetT::ElementsSwapped*>(&message);
 			assert( info != NULL );
 			info->AdjustIndex(&itsNodeIndex);
 			}

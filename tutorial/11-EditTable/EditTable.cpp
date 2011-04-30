@@ -198,7 +198,7 @@ EditTable::Receive
 			{
 			// cast the message to an ElementsInserted object
 			const JOrderedSetT::ElementsInserted* info = 
-				dynamic_cast(const JOrderedSetT::ElementsInserted*, &message);
+				dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
 			assert(info != NULL);
 
 			// For each element inserted, we insert a row
@@ -210,7 +210,7 @@ EditTable::Receive
 			{
 			// cast the message to an ElementsRemoved object
 			const JOrderedSetT::ElementsRemoved* info = 
-				dynamic_cast(const JOrderedSetT::ElementsRemoved*, &message);
+				dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
 			assert(info != NULL);
 
 			// Remove corresponding table rows.
@@ -222,7 +222,7 @@ EditTable::Receive
 			{
 			// cast the message to an ElementsRemoved object
 			const JOrderedSetT::ElementChanged* info = 
-				dynamic_cast(const JOrderedSetT::ElementChanged*, &message);
+				dynamic_cast<const JOrderedSetT::ElementChanged*>(&message);
 			assert(info != NULL);
 
 			// The element changed, so redraw it.
@@ -247,7 +247,7 @@ EditTable::Receive
 			// cast the message to an ItemSelecte object.
 			// This will tell us which item was selected.
 			const JXMenu::ItemSelected* info = 
-				dynamic_cast(const JXMenu::ItemSelected*, &message);
+				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert(info != NULL);
 
 			// Pass the selected menu item to our menu handler function.

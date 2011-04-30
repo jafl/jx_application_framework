@@ -116,7 +116,7 @@ ClipboardWidget::Receive
 		{
 		// Cast the sender so we can access its functions.
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 
 		// Handle the menu selection

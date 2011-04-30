@@ -121,7 +121,7 @@ ClipboardDir::Receive
 		{
 		// Cast the sender so we can access its functions.
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 
 		// Handle the menu selection
@@ -133,7 +133,7 @@ ClipboardDir::Receive
 		{
 		// Cast the sender so we can access its functions.
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 
 		// If the user pressed the cancel button, this will fail.

@@ -10,8 +10,6 @@
 #ifndef _H_jAssert
 #define _H_jAssert
 
-#define dynamic_cast(TYPE,EXPR)		(dynamic_cast<TYPE>(EXPR))
-
 // regular assert macro
 
 #undef assert

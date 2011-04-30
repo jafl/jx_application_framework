@@ -177,21 +177,21 @@ GMMailboxData::Receive
 		if (message.Is(GMMailboxData::kHeaderRemoved))
 			{
 			const GMMailboxData::HeaderRemoved* info = 
-				dynamic_cast(const GMMailboxData::HeaderRemoved*, &message);
+				dynamic_cast<const GMMailboxData::HeaderRemoved*>(&message);
 			assert(info != NULL);
 			RemoveHeader(info->GetHeader());
 			}
 		else if (message.Is(GMMailboxData::kHeaderMarkedDeleted))
 			{
 			const GMMailboxData::HeaderMarkedDeleted* info = 
-				dynamic_cast(const GMMailboxData::HeaderMarkedDeleted*, &message);
+				dynamic_cast<const GMMailboxData::HeaderMarkedDeleted*>(&message);
 			assert(info != NULL);
 			Broadcast(HeaderMarkedDeleted(info->GetHeader()));
 			}
 		else if (message.Is(GMMailboxData::kHeaderStatusChanged))
 			{
 			const GMMailboxData::HeaderStatusChanged* info = 
-				dynamic_cast(const GMMailboxData::HeaderStatusChanged*, &message);
+				dynamic_cast<const GMMailboxData::HeaderStatusChanged*>(&message);
 			assert(info != NULL);
 			Broadcast(HeaderStatusChanged(info->GetHeader(), info->GetStatus()));
 			}

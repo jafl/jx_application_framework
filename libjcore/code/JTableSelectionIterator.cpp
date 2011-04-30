@@ -394,7 +394,7 @@ JTableSelectionIterator::Receive
 	if (message.Is(JTableData::kRowsInserted))
 		{
 		const JTableData::RowsInserted* info =
-			dynamic_cast(const JTableData::RowsInserted*, &message);
+			dynamic_cast<const JTableData::RowsInserted*>(&message);
 		assert( info != NULL );
 		info->AdjustCell(&itsCursor);
 		}
@@ -402,7 +402,7 @@ JTableSelectionIterator::Receive
 	else if (message.Is(JTableData::kRowDuplicated))
 		{
 		const JTableData::RowDuplicated* info =
-			dynamic_cast(const JTableData::RowDuplicated*, &message);
+			dynamic_cast<const JTableData::RowDuplicated*>(&message);
 		assert( info != NULL );
 		info->AdjustCell(&itsCursor);
 		}
@@ -410,7 +410,7 @@ JTableSelectionIterator::Receive
 	else if (message.Is(JTableData::kRowsRemoved))
 		{
 		const JTableData::RowsRemoved* info =
-			dynamic_cast(const JTableData::RowsRemoved*, &message);
+			dynamic_cast<const JTableData::RowsRemoved*>(&message);
 		assert( info != NULL );
 		JPoint newCursor = itsCursor;
 		if (info->AdjustCell(&newCursor))
@@ -439,7 +439,7 @@ JTableSelectionIterator::Receive
 	else if (message.Is(JTableData::kColsInserted))
 		{
 		const JTableData::ColsInserted* info =
-			dynamic_cast(const JTableData::ColsInserted*, &message);
+			dynamic_cast<const JTableData::ColsInserted*>(&message);
 		assert( info != NULL );
 		info->AdjustCell(&itsCursor);
 		}
@@ -447,7 +447,7 @@ JTableSelectionIterator::Receive
 	else if (message.Is( JTableData::kColDuplicated))
 		{
 		const JTableData::ColDuplicated* info =
-			dynamic_cast(const JTableData::ColDuplicated*, &message);
+			dynamic_cast<const JTableData::ColDuplicated*>(&message);
 		assert( info != NULL );
 		info->AdjustCell(&itsCursor);
 		}
@@ -455,7 +455,7 @@ JTableSelectionIterator::Receive
 	else if (message.Is(JTableData::kColsRemoved))
 		{
 		const JTableData::ColsRemoved* info =
-			dynamic_cast(const JTableData::ColsRemoved*, &message);
+			dynamic_cast<const JTableData::ColsRemoved*>(&message);
 		assert( info != NULL );
 		JPoint newCursor = itsCursor;
 		if (info->AdjustCell(&newCursor))

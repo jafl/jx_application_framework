@@ -299,7 +299,7 @@ JXToolBar::Receive
 	else if (sender == itsEditDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert(info != NULL);
 		if (info->Successful())
 			{
@@ -314,7 +314,7 @@ JXToolBar::Receive
 			 sender == prefsMgr && message.Is(JPrefsManager::kDataChanged))
 		{
 		const JPrefsManager::DataChanged* info =
-			dynamic_cast(const JPrefsManager::DataChanged*, &message);
+			dynamic_cast<const JPrefsManager::DataChanged*>(&message);
 		assert(info != NULL);
 		if (info->GetID() == prefID)
 			{
@@ -429,7 +429,7 @@ JXToolBar::ExtractItemNodes
 			}
 		else
 			{
-			JXToolBarNode* item	= dynamic_cast(JXToolBarNode*, child);
+			JXToolBarNode* item	= dynamic_cast<JXToolBarNode*>(child);
 			assert(item != NULL);
 			if (item->IsChecked())
 				{
@@ -461,7 +461,7 @@ JXToolBar::BuildTree()
 	for (JIndex i=1; i<=count; i++)
 		{
 		JXMenu* menu		= itsMenuBar->GetMenu(i);
-		JXTextMenu* tmenu	= dynamic_cast(JXTextMenu*, menu);
+		JXTextMenu* tmenu	= dynamic_cast<JXTextMenu*>(menu);
 		assert(tmenu != NULL);
 		AddMenuToTree(tmenu, base, tmenu->GetTitleText());
 		}
@@ -490,7 +490,7 @@ JXToolBar::AddMenuToTree
 		const JXMenu* sub;
 		if (menu->GetSubmenu(i, &sub))
 			{
-			const JXTextMenu* temp	= dynamic_cast(const JXTextMenu*, sub);
+			const JXTextMenu* temp	= dynamic_cast<const JXTextMenu*>(sub);
 			JXTextMenu* tsub = const_cast<JXTextMenu*>(temp);
 			AddMenuToTree(tsub, mnode, name);
 			}
@@ -654,7 +654,7 @@ JXToolBar::FindItemAndAdd
 	for (JSize i = 1; i <= count; i++)
 		{
 		JXMenu* menu		= itsMenuBar->GetMenu(i);
-		JXTextMenu* tmenu	= dynamic_cast(JXTextMenu*, menu);
+		JXTextMenu* tmenu	= dynamic_cast<JXTextMenu*>(menu);
 		assert(tmenu != NULL);
 		FindItemAndAdd(tmenu, id);
 		}
@@ -673,7 +673,7 @@ JXToolBar::FindItemAndAdd
 		const JXMenu* sub;
 		if (menu->GetSubmenu(i, &sub))
 			{
-			const JXTextMenu* temp	= dynamic_cast(const JXTextMenu*, sub);
+			const JXTextMenu* temp	= dynamic_cast<const JXTextMenu*>(sub);
 			JXTextMenu* tsub = const_cast<JXTextMenu*>(temp);
 			FindItemAndAdd(tsub, id);
 			}

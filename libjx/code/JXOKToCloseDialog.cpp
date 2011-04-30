@@ -118,7 +118,7 @@ JXOKToCloseDialog::Receive
 {
 	if (sender == this && message.Is(kDeactivated))
 		{
-		const Deactivated* info = dynamic_cast(const Deactivated*, &message);
+		const Deactivated* info = dynamic_cast<const Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{

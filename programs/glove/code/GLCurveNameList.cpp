@@ -309,7 +309,7 @@ GLCurveNameList::Receive
 	if (sender == itsPlot && message.Is(J2DPlotWidget::kCurveAdded))
 		{
 		const J2DPlotWidget::CurveAdded* info = 
-			dynamic_cast(const J2DPlotWidget::CurveAdded*, &message);
+			dynamic_cast<const J2DPlotWidget::CurveAdded*>(&message);
 		assert(info != NULL);
 		AppendRows(1);
 		JString* str	= new JString(itsPlot->GetCurveName(info->GetIndex()));
@@ -329,7 +329,7 @@ GLCurveNameList::Receive
 	else if (sender == itsPlot && message.Is(J2DPlotWidget::kCurveRemoved))
 		{
 		const J2DPlotWidget::CurveRemoved* info = 
-			dynamic_cast(const J2DPlotWidget::CurveRemoved*, &message);
+			dynamic_cast<const J2DPlotWidget::CurveRemoved*>(&message);
 		assert(info != NULL);
 		RemoveRow(info->GetIndex());
 		itsNameList->DeleteElement(info->GetIndex());

@@ -2522,7 +2522,7 @@ JTable::Receive
 		message.Is(JTableData::kRectChanged))
 		{
 		const JTableData::RectChanged* info =
-			dynamic_cast(const JTableData::RectChanged*, &message);
+			dynamic_cast<const JTableData::RectChanged*>(&message);
 		assert( info != NULL );
 		const JRect& r = info->GetRect();
 		if (sender == const_cast<JTableData*>(itsTableData) &&
@@ -2539,7 +2539,7 @@ JTable::Receive
 			 message.Is(JTableData::kRowsInserted))
 		{
 		const JTableData::RowsInserted* info =
-			dynamic_cast(const JTableData::RowsInserted*, &message);
+			dynamic_cast<const JTableData::RowsInserted*>(&message);
 		assert( info != NULL );
 		InsertRows(info->GetFirstIndex(), info->GetCount());
 		}
@@ -2548,7 +2548,7 @@ JTable::Receive
 			 message.Is(JTableData::kRowDuplicated))
 		{
 		const JTableData::RowDuplicated* info =
-			dynamic_cast(const JTableData::RowDuplicated*, &message);
+			dynamic_cast<const JTableData::RowDuplicated*>(&message);
 		assert( info != NULL );
 		InsertRows(info->GetNewIndex(), 1);
 		}
@@ -2557,7 +2557,7 @@ JTable::Receive
 			 message.Is(JTableData::kRowsRemoved))
 		{
 		const JTableData::RowsRemoved* info =
-			dynamic_cast(const JTableData::RowsRemoved*, &message);
+			dynamic_cast<const JTableData::RowsRemoved*>(&message);
 		assert( info != NULL );
 		RemoveNextRows(info->GetFirstIndex(), info->GetCount());
 		}
@@ -2566,7 +2566,7 @@ JTable::Receive
 			 message.Is(JTableData::kRowMoved))
 		{
 		const JTableData::RowMoved* info =
-			dynamic_cast(const JTableData::RowMoved*, &message);
+			dynamic_cast<const JTableData::RowMoved*>(&message);
 		assert( info != NULL );
 		MoveRow(info->GetOrigIndex(), info->GetNewIndex());
 		}
@@ -2577,7 +2577,7 @@ JTable::Receive
 			 message.Is(JTableData::kColsInserted))
 		{
 		const JTableData::ColsInserted* info =
-			dynamic_cast(const JTableData::ColsInserted*, &message);
+			dynamic_cast<const JTableData::ColsInserted*>(&message);
 		assert( info != NULL );
 		InsertCols(info->GetFirstIndex(), info->GetCount());
 		}
@@ -2586,7 +2586,7 @@ JTable::Receive
 			 message.Is(JTableData::kColDuplicated))
 		{
 		const JTableData::ColDuplicated* info =
-			dynamic_cast(const JTableData::ColDuplicated*, &message);
+			dynamic_cast<const JTableData::ColDuplicated*>(&message);
 		assert( info != NULL );
 		InsertCols(info->GetNewIndex(), 1);
 		}
@@ -2595,7 +2595,7 @@ JTable::Receive
 			 message.Is(JTableData::kColsRemoved))
 		{
 		const JTableData::ColsRemoved* info =
-			dynamic_cast(const JTableData::ColsRemoved*, &message);
+			dynamic_cast<const JTableData::ColsRemoved*>(&message);
 		assert( info != NULL );
 		RemoveNextCols(info->GetFirstIndex(), info->GetCount());
 		}
@@ -2604,7 +2604,7 @@ JTable::Receive
 			 message.Is(JTableData::kColMoved))
 		{
 		const JTableData::ColMoved* info =
-			dynamic_cast(const JTableData::ColMoved*, &message);
+			dynamic_cast<const JTableData::ColMoved*>(&message);
 		assert( info != NULL );
 		MoveCol(info->GetOrigIndex(), info->GetNewIndex());
 		}

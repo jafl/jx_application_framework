@@ -348,7 +348,7 @@ DNDWidget::GetSelectionData
 	if (strcmp(id, kSelectionID) == 0)
 		{
 		// Cast the data object to the object that we know it is.
-		DNDData* lineData = dynamic_cast(DNDData*, data);
+		DNDData* lineData = dynamic_cast<DNDData*>(data);
 		assert(lineData != NULL);
 
 		// Pass our points to the line data object.

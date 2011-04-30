@@ -290,7 +290,7 @@ SCIdepSource::Receive
 	if (sender == compList && message.Is(JOrderedSetT::kElementsInserted))
 		{
 		const JOrderedSetT::ElementsInserted* info =
-			dynamic_cast(const JOrderedSetT::ElementsInserted*, &message);
+			dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
 		assert( info != NULL );
 		info->AdjustIndex(&itsDepCompIndex);
 		}
@@ -298,7 +298,7 @@ SCIdepSource::Receive
 	else if (sender == compList && message.Is(JOrderedSetT::kElementsRemoved))
 		{
 		const JOrderedSetT::ElementsRemoved* info =
-			dynamic_cast(const JOrderedSetT::ElementsRemoved*, &message);
+			dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
 		assert( info != NULL );
 		info->AdjustIndex(&itsDepCompIndex);
 		}
@@ -306,7 +306,7 @@ SCIdepSource::Receive
 	else if (sender == compList && message.Is(JOrderedSetT::kElementMoved))
 		{
 		const JOrderedSetT::ElementMoved* info =
-			dynamic_cast(const JOrderedSetT::ElementMoved*, &message);
+			dynamic_cast<const JOrderedSetT::ElementMoved*>(&message);
 		assert( info != NULL );
 		info->AdjustIndex(&itsDepCompIndex);
 		}
@@ -314,7 +314,7 @@ SCIdepSource::Receive
 	else if (sender == compList && message.Is(JOrderedSetT::kElementsSwapped))
 		{
 		const JOrderedSetT::ElementsSwapped* info =
-			dynamic_cast(const JOrderedSetT::ElementsSwapped*, &message);
+			dynamic_cast<const JOrderedSetT::ElementsSwapped*>(&message);
 		assert( info != NULL );
 		info->AdjustIndex(&itsDepCompIndex);
 		}

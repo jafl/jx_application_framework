@@ -209,7 +209,7 @@ JXUserNotification::Receive
 	if (sender == itsCurrentDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		itsWarningResponse = info->Successful();
 		itsCurrentDialog   = NULL;
@@ -218,7 +218,7 @@ JXUserNotification::Receive
 	else if (sender == itsOKToCloseDialog && message.Is(JXOKToCloseDialog::kGotResponse))
 		{
 		const JXOKToCloseDialog::GotResponse* response =
-			dynamic_cast(const JXOKToCloseDialog::GotResponse*, &message);
+			dynamic_cast<const JXOKToCloseDialog::GotResponse*>(&message);
 		assert( response != NULL );
 		itsCloseAction     = response->GetResponse();
 		itsCurrentDialog   = NULL;

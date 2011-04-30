@@ -119,7 +119,7 @@ JXCardFile::RemoveCard
 	const JIndex index
 	)
 {
-	JXWidgetSet* card = dynamic_cast(JXWidgetSet*, itsCards->NthElement(index));
+	JXWidgetSet* card = dynamic_cast<JXWidgetSet*>(itsCards->NthElement(index));
 	assert( card != NULL );
 
 	itsCards->RemoveElement(index);

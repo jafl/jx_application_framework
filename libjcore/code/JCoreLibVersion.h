@@ -20,6 +20,14 @@
 
 static const char* kCurrentJCoreLibVersionStr = "3.0.0";
 
+// version 3.1.0:
+//	*** Removed dynamic_cast macro.
+//		Run lib/util/convert_dynamic_cast on all your source files.
+//	JString:
+//		Changed ctor for JUInt to JUInt64.
+//	JOrderedSetUtil:
+//		Added JCompareUInt64().
+
 // version 3.0.0:
 //	JRexex:
 //		Removed no-op Is/SetMatchOnly().

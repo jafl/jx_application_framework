@@ -163,7 +163,7 @@ GXTransformFunctionDialog::Receive
 	else if (sender == itsEditor && message.Is(JXDialogDirector::kDeactivated))
 		{
 		const JXDialogDirector::Deactivated* info =
-			dynamic_cast(const JXDialogDirector::Deactivated*, &message);
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != NULL );
 		if (info->Successful())
 			{
@@ -174,7 +174,7 @@ GXTransformFunctionDialog::Receive
 	else if (sender == itsDestMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		itsDestCol = selection->GetIndex();
 		JString num(itsDestCol);
@@ -184,7 +184,7 @@ GXTransformFunctionDialog::Receive
 	else if (sender == itsVarMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		JIndex index = selection->GetIndex();
 		JString str = itsVarMenu->GetItemText(index);

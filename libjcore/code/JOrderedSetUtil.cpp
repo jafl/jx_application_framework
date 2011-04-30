@@ -63,6 +63,32 @@ JCompareSizes
 }
 
 /******************************************************************************
+ JCompareUInt64
+
+ ******************************************************************************/
+
+JOrderedSetT::CompareResult
+JCompareUInt64
+	(
+	const JUInt64& s1,
+	const JUInt64& s2
+	)
+{
+	if (s1 < s2)
+		{
+		return JOrderedSetT::kFirstLessSecond;
+		}
+	else if (s1 == s2)
+		{
+		return JOrderedSetT::kFirstEqualSecond;
+		}
+	else
+		{
+		return JOrderedSetT::kFirstGreaterSecond;
+		}
+}
+
+/******************************************************************************
  JAdjustIndexAfterInsert
 
 	The default way to adjust all indices after a block of elements have been inserted.

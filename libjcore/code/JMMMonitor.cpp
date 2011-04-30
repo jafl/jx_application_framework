@@ -62,38 +62,38 @@ JMMMonitor::Receive
 	if ( message.Is(JMemoryManager::kObjectDeletedAsArray) )
 		{
 		const JMemoryManager::ObjectDeletedAsArray* msg
-			= dynamic_cast(const JMemoryManager::ObjectDeletedAsArray*, &message);
+			= dynamic_cast<const JMemoryManager::ObjectDeletedAsArray*>(&message);
 		HandleObjectDeletedAsArray( msg->GetRecord() );
 		}
 	else if ( message.Is(JMemoryManager::kArrayDeletedAsObject) )
 		{
 		const JMemoryManager::ArrayDeletedAsObject* msg
-			= dynamic_cast(const JMemoryManager::ArrayDeletedAsObject*, &message);
+			= dynamic_cast<const JMemoryManager::ArrayDeletedAsObject*>(&message);
 		HandleArrayDeletedAsObject( msg->GetRecord() );
 		}
 	else if ( message.Is(JMemoryManager::kUnallocatedDeletion) )
 		{
 		const JMemoryManager::UnallocatedDeletion* msg
-			= dynamic_cast(const JMemoryManager::UnallocatedDeletion*, &message);
+			= dynamic_cast<const JMemoryManager::UnallocatedDeletion*>(&message);
 		HandleUnallocatedDeletion( msg->GetFile(), msg->GetLine(), msg->IsArray() );
 		}
 	else if ( message.Is(JMemoryManager::kMultipleDeletion) )
 		{
 		const JMemoryManager::MultipleDeletion* msg
-			= dynamic_cast(const JMemoryManager::MultipleDeletion*, &message);
+			= dynamic_cast<const JMemoryManager::MultipleDeletion*>(&message);
 		HandleMultipleDeletion( msg->GetRecord(), msg->GetFile(),
 		                        msg->GetLine(), msg->IsArray() );
 		}
 	else if ( message.Is(JMemoryManager::kMultipleAllocation) )
 		{
 		const JMemoryManager::MultipleAllocation* msg
-			= dynamic_cast(const JMemoryManager::MultipleAllocation*, &message);
+			= dynamic_cast<const JMemoryManager::MultipleAllocation*>(&message);
 		HandleMultipleAllocation( msg->GetThisRecord(), msg->GetFirstRecord() );
 		}
 	else if ( message.Is(JMemoryManager::kNULLDeleted) )
 		{
 		const JMemoryManager::NULLDeleted* msg
-			= dynamic_cast(const JMemoryManager::NULLDeleted*, &message);
+			= dynamic_cast<const JMemoryManager::NULLDeleted*>(&message);
 		HandleNULLDeleted( msg->GetFile(), msg->GetLine(), msg->IsArray() );
 		}
 }

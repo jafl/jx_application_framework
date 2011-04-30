@@ -283,7 +283,7 @@ JUserInputFunction::Render
 	// JTextEditor draws text
 
 	JExprEditor* exprEditor =
-		dynamic_cast(JExprEditor*, const_cast<JExprRenderer*>(&renderer));
+		dynamic_cast<JExprEditor*>(const_cast<JExprRenderer*>(&renderer));
 	assert( exprEditor != NULL );
 
 	JPainter* p = exprEditor->GetPainter();
@@ -558,7 +558,7 @@ JUserInputFunction::Parse
 		delete tempUIF;
 		if (ok)
 			{
-			*newUIF = dynamic_cast(JUserInputFunction*, newArg);
+			*newUIF = dynamic_cast<JUserInputFunction*>(newArg);
 			assert( *newUIF != NULL );
 			}
 		else

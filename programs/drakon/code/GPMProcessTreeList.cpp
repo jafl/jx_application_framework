@@ -133,7 +133,7 @@ GPMProcessTreeList::Receive
 	else if (sender == itsContextMenu && message.Is(JXMenu::kItemSelected))
 		{
 		 const JXMenu::ItemSelected* selection =
-			dynamic_cast(const JXMenu::ItemSelected*, &message);
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		HandleContextMenu(selection->GetIndex());
 		}
@@ -178,7 +178,7 @@ GPMProcessTreeList::TableDrawCell
 	HilightIfSelected(p, cell, rect);
 
 	const JTreeNode* node        = (GetTreeList())->GetNode(cell.y);
-	const GPMProcessEntry& entry = * dynamic_cast(const GPMProcessEntry*, node);
+	const GPMProcessEntry& entry = * dynamic_cast<const GPMProcessEntry*>(node);
 
 	JString str;
 	JPainter::HAlignment halign = JPainter::kHAlignRight;

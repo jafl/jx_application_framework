@@ -1297,7 +1297,7 @@ JExprEditor::SelectFunction
 
 		if (f->GetType() == kJUserInputType)
 			{
-			const JUserInputFunction* uif = dynamic_cast(const JUserInputFunction*, f);
+			const JUserInputFunction* uif = dynamic_cast<const JUserInputFunction*>(f);
 			assert( uif != NULL );
 			ActivateUIF(const_cast<JUserInputFunction*>(uif));
 			}
@@ -1687,7 +1687,7 @@ JExprEditor::EIPHandleMouseUp()
 		const JFunctionType selectedFType = selectedF->GetType();
 		if (selectedFType == kJUserInputType)
 			{
-			JUserInputFunction* uif = dynamic_cast(JUserInputFunction*, selectedF);
+			JUserInputFunction* uif = dynamic_cast<JUserInputFunction*>(selectedF);
 			assert( uif != NULL );
 			ActivateUIF(uif);
 			assert( itsActiveUIF != NULL );
@@ -1703,7 +1703,7 @@ JExprEditor::EIPHandleMouseUp()
 			JString s;
 			if (selectedFType == kJConstantValueType)
 				{
-				JConstantValue* constVal = dynamic_cast(JConstantValue*, selectedF);
+				JConstantValue* constVal = dynamic_cast<JConstantValue*>(selectedF);
 				assert( constVal != NULL );
 				s = constVal->GetValue();
 				}
@@ -2366,7 +2366,7 @@ JExprEditor::FindNextUIF
 		const JFunction* f = itsRectList->GetFunction(i);
 		if (f->GetType() == kJUserInputType)
 			{
-			const JUserInputFunction* uif = dynamic_cast(const JUserInputFunction*, f);
+			const JUserInputFunction* uif = dynamic_cast<const JUserInputFunction*>(f);
 			assert( uif != NULL );
 			return const_cast<JUserInputFunction*>(uif);
 			}
@@ -2378,7 +2378,7 @@ JExprEditor::FindNextUIF
 		const JFunction* f = itsRectList->GetFunction(i);
 		if (f->GetType() == kJUserInputType)
 			{
-			const JUserInputFunction* uif = dynamic_cast(const JUserInputFunction*, f);
+			const JUserInputFunction* uif = dynamic_cast<const JUserInputFunction*>(f);
 			assert( uif != NULL );
 			return const_cast<JUserInputFunction*>(uif);
 			}

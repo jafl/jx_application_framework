@@ -86,7 +86,7 @@ GInboxMgr::Receive
 	else if (sender == GGetPrefsMgr() && message.Is(GPrefsMgr::kInboxAdded))
 		{
 		const GPrefsMgr::InboxAdded* info =
-			dynamic_cast(const GPrefsMgr::InboxAdded*, &message);
+			dynamic_cast<const GPrefsMgr::InboxAdded*>(&message);
 		assert(info != NULL);
 		JPtrArray<JString> inboxes(JPtrArrayT::kForgetAll);
 		GGetPrefsMgr()->GetInboxes(inboxes);
@@ -101,7 +101,7 @@ GInboxMgr::Receive
 	else if (sender == GGetPrefsMgr() && message.Is(GPrefsMgr::kInboxRemoved))
 		{
 		const GPrefsMgr::InboxRemoved* info =
-			dynamic_cast(const GPrefsMgr::InboxRemoved*, &message);
+			dynamic_cast<const GPrefsMgr::InboxRemoved*>(&message);
 		assert(info != NULL);
 		JIndex index = info->GetIndex();
 		assert(itsEntries->IndexValid(index));
@@ -112,7 +112,7 @@ GInboxMgr::Receive
 	else if (sender == GMGetApplication() && message.Is(GMApp::kMailboxClosed))
 		{
 		const GMApp::MailboxClosed* info =
-			dynamic_cast(const GMApp::MailboxClosed*, &message);
+			dynamic_cast<const GMApp::MailboxClosed*>(&message);
 		assert(info != NULL);
 		MailboxClosed(info->GetMailbox());
 		}

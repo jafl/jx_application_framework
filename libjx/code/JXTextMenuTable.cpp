@@ -147,7 +147,7 @@ JXTextMenuTable::TableDrawCell
 
 		rect.left += kHMarginWidth;
 
-		JXWindowPainter* xp = dynamic_cast(JXWindowPainter*, &p);
+		JXWindowPainter* xp = dynamic_cast<JXWindowPainter*>(&p);
 		assert( xp != NULL );
 		xp->String(rect.left, rect.top, text, ulIndex,
 				   rect.width(), JPainter::kHAlignLeft,
@@ -301,7 +301,7 @@ JXTextMenuTable::Receive
 		message.Is(JXTextMenuData::kImageChanged))
 		{
 		const JXTextMenuData::ImageChanged* item =
-			dynamic_cast(const JXTextMenuData::ImageChanged*, &message);
+			dynamic_cast<const JXTextMenuData::ImageChanged*>(&message);
 		assert( item != NULL );
 		TableRefreshCell(JPoint(kImageColumnIndex, item->GetIndex()));
 		}

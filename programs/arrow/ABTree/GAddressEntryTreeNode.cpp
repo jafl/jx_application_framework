@@ -61,7 +61,7 @@ GAddressEntryTreeNode::GetFullPathAndName()
 		}
 
 	const GAddressBaseTreeNode* node =
-		dynamic_cast(const GAddressBaseTreeNode*, parent);
+		dynamic_cast<const GAddressBaseTreeNode*>(parent);
 	assert(node != NULL);
 	return JString(node->GetFullPathAndName() + ":" + GetName());
 }
@@ -78,7 +78,7 @@ GAddressEntryTreeNode::OKToChange()
 	const JTreeNode* parent = GetParent();
 	assert(parent != NULL);
 	const GAddressBaseTreeNode* node =
-		dynamic_cast(const GAddressBaseTreeNode*, parent);
+		dynamic_cast<const GAddressBaseTreeNode*>(parent);
 	assert(node != NULL);
 	return node->OKToChange();
 }
@@ -134,7 +134,7 @@ GAddressEntryTreeNode::Save
 {
 	JTreeNode* jchild = GetChild(1);
 	GAddressItemTreeNode* child =
-		dynamic_cast(GAddressItemTreeNode*, jchild);
+		dynamic_cast<GAddressItemTreeNode*>(jchild);
 	assert(child != NULL);
 	JSize count = GetChildCount();
 	child->GetText().Print(os);
@@ -147,7 +147,7 @@ GAddressEntryTreeNode::Save
 		{
 		JTreeNode* jnode = GetChild(count);
 		child =
-			dynamic_cast(GAddressItemTreeNode*, jnode);
+			dynamic_cast<GAddressItemTreeNode*>(jnode);
 		assert(child != NULL);
 		child->GetText().Print(os);
 		}
@@ -161,7 +161,7 @@ GAddressEntryTreeNode::Save
 			}
 		JTreeNode* jnode = GetChild(findex);
 		child =
-			dynamic_cast(GAddressItemTreeNode*, jnode);
+			dynamic_cast<GAddressItemTreeNode*>(jnode);
 		assert(child != NULL);
 		child->GetText().Print(os);
 		}
@@ -203,7 +203,7 @@ GAddressEntryTreeNode::GetFullAddress
 		{
 		JTreeNode* jchild = GetChild(i);
 		GAddressItemTreeNode* child =
-			dynamic_cast(GAddressItemTreeNode*, jchild);
+			dynamic_cast<GAddressItemTreeNode*>(jchild);
 		assert(child != NULL);
 		GAddressItemTreeNode::Type type = child->GetType();
 		if (type == GAddressItemTreeNode::kEMail)

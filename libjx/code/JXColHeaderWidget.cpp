@@ -481,7 +481,7 @@ JXColHeaderWidget::Receive
 	else if (sender == itsTable && message.Is(JTable::kColWidthChanged))
 		{
 		const JTable::ColWidthChanged* info =
-			dynamic_cast(const JTable::ColWidthChanged*, &message);
+			dynamic_cast<const JTable::ColWidthChanged*>(&message);
 		assert( info != NULL );
 		SetColWidth(info->GetIndex(), info->GetNewColWidth());
 		}
@@ -489,7 +489,7 @@ JXColHeaderWidget::Receive
 	else if (sender == itsTable && message.Is(JTable::kAllColWidthsChanged))
 		{
 		const JTable::AllColWidthsChanged* info =
-			dynamic_cast(const JTable::AllColWidthsChanged*, &message);
+			dynamic_cast<const JTable::AllColWidthsChanged*>(&message);
 		assert( info != NULL );
 		SetAllColWidths(info->GetNewColWidth());
 		}
@@ -497,7 +497,7 @@ JXColHeaderWidget::Receive
 	else if (sender == itsTable && message.Is(JTable::kColsInserted))
 		{
 		const JTable::ColsInserted* info =
-			dynamic_cast(const JTable::ColsInserted*, &message);
+			dynamic_cast<const JTable::ColsInserted*>(&message);
 		assert( info != NULL );
 		if (itsTitles != NULL)
 			{
@@ -512,7 +512,7 @@ JXColHeaderWidget::Receive
 	else if (sender == itsTable && message.Is(JTable::kColsRemoved))
 		{
 		const JTable::ColsRemoved* info =
-			dynamic_cast(const JTable::ColsRemoved*, &message);
+			dynamic_cast<const JTable::ColsRemoved*>(&message);
 		assert( info != NULL );
 		if (itsTitles != NULL)
 			{
@@ -527,7 +527,7 @@ JXColHeaderWidget::Receive
 	else if (sender == itsTable && message.Is(JTable::kColMoved))
 		{
 		const JTable::ColMoved* info =
-			dynamic_cast(const JTable::ColMoved*, &message);
+			dynamic_cast<const JTable::ColMoved*>(&message);
 		assert( info != NULL );
 		if (itsTitles != NULL)
 			{
@@ -539,7 +539,7 @@ JXColHeaderWidget::Receive
 	else if (sender == itsTable && message.Is(JTable::kColBorderWidthChanged))
 		{
 		const JTable::ColBorderWidthChanged* info =
-			dynamic_cast(const JTable::ColBorderWidthChanged*, &message);
+			dynamic_cast<const JTable::ColBorderWidthChanged*>(&message);
 		assert( info != NULL );
 		SetColBorderInfo(info->GetNewBorderWidth(), (GetColormap())->GetDefaultBackColor());
 		}

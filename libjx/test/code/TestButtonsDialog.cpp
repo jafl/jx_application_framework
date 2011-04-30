@@ -297,7 +297,7 @@ TestButtonsDialog::Receive
 	if (sender == itsRG1 && message.Is(JXRadioGroup::kSelectionChanged))
 		{
 		const JXRadioGroup::SelectionChanged* selection =
-			dynamic_cast(const JXRadioGroup::SelectionChanged*, &message);
+			dynamic_cast<const JXRadioGroup::SelectionChanged*>(&message);
 		assert( selection != NULL );
 		if (selection->GetID() == 2)
 			{

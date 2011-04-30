@@ -1483,7 +1483,7 @@ JXSearchTextDialog::ReceiveWithFeedback
 	if (sender == GetDisplay() && message->Is(JXDisplay::kXEventMessage))
 		{
 		JXDisplay::XEventMessage* info =
-			dynamic_cast(JXDisplay::XEventMessage*, message);
+			dynamic_cast<JXDisplay::XEventMessage*>(message);
 		assert( info != NULL );
 		const XEvent& event = info->GetXEvent();
 		if (event.type             == PropertyNotify &&
