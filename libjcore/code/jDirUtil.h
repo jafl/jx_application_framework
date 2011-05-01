@@ -29,6 +29,7 @@
 
 class JString;
 class JProgressDisplay;
+class JProcess;
 
 JBoolean	JNameUsed(const JCharacter* name);
 JBoolean	JSameDirEntry(const JCharacter* name1, const JCharacter* name2);
@@ -54,7 +55,8 @@ JError		JCreateDirectory(const JCharacter* dirName, const mode_t mode);
 JError		JRenameDirectory(const JCharacter* oldName, const JCharacter* newName);
 JError		JChangeDirectory(const JCharacter* dirName);
 JError		JRemoveDirectory(const JCharacter* dirName);
-JBoolean	JKillDirectory(const JCharacter* dirName, const JBoolean sync = kJTrue);
+JBoolean	JKillDirectory(const JCharacter* dirName, const JBoolean sync = kJTrue,
+						   JProcess** p = NULL);
 
 JString		JGetCurrentDirectory();
 JBoolean	JGetHomeDirectory(JString* homeDir);

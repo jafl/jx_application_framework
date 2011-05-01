@@ -18,7 +18,7 @@
 
 JOrderedSetT::CompareResult JCompareIndices(const JIndex& i, const JIndex& j);
 JOrderedSetT::CompareResult JCompareSizes(const JSize& s1, const JSize& s2);
-JOrderedSetT::CompareResult JCompareUInt64(const JUInt64& s1, const JUInt64& s2);
+JOrderedSetT::CompareResult JCompareUInt64(const JUInt64& i1, const JUInt64& i2);
 
 void		JAdjustIndexAfterInsert(const JIndex firstInsertedIndex, const JSize count,
 									JIndex* indexToAdjust);

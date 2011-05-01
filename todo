@@ -1,5 +1,4 @@
-systemg:
-	when remove process is finished, update window
+release systemg
 
 jcc
 	pref to turn off making mixed whitespace visible
@@ -71,10 +70,6 @@ OSX window placement:
 
 medic:
 	java
-		JVMThreadNode::FindParent -- also search new, unlinked nodes
-		after kill JVM, when run, asks "ok to kill?"
-			need to clear itsProcess -- ought to get JProcess::kFinished
-		task to periodically test existing thread groups: delete invalid ones
 		display stack trace for selected thread
 
 		source-jar unzips to /tmp

@@ -12,6 +12,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 2.4.4 </h3>
+
+Deleted items are removed immediately after asynchronous delete process finishes.
+
 <h3> 2.4.3 </h3>
 
 <code>systemg --run</code> now works even if System G is not already running.

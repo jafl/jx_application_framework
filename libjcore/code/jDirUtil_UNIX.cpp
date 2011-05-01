@@ -10,6 +10,7 @@
 #include <JCoreStdInc.h>
 #include <jDirUtil.h>
 #include <JSimpleProcess.h>
+#include <JThisProcess.h>
 #include <JDirInfo.h>
 #include <JProgressDisplay.h>
 #include <JLatentPG.h>
@@ -823,15 +824,23 @@ JRemoveDirectory
 	Deletes the directory and everything in it.
 	Returns kJTrue if successful.
 
+	if !sync, *p will contain the process
+
  ******************************************************************************/
 
 JBoolean
 JKillDirectory
 	(
 	const JCharacter*	dirName,
-	const JBoolean		sync
+	const JBoolean		sync,
+	JProcess**			p
 	)
 {
+	if (p != NULL)
+		{
+		*p = NULL;
+		}
+
 	const JCharacter* argv[] = {"rm", "-rf", dirName, NULL};
 	if (sync)
 		{
@@ -847,8 +856,22 @@ JKillDirectory
 		}
 	else
 		{
-		JSimpleProcess::Create(argv, sizeof(argv), kJTrue);
-		return kJTrue;
+		JSimpleProcess* sp;
+		const JError err = JSimpleProcess::Create(&sp, argv, sizeof(argv), kJTrue);
+		if (err.OK())
+			{
+			JThisProcess::Ignore(sp);
+			if (p != NULL)
+				{
+				*p = sp;
+				}
+			return kJTrue;
+			}
+		else
+			{
+			err.ReportIfError();
+			return kJFalse;
+			}
 		}
 }
 

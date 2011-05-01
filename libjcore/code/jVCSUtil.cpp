@@ -311,15 +311,23 @@ JRenameVCS
 /******************************************************************************
  JRemoveVCS
 
+	if !sync and p != NULL, p *may* return a process.
+
  ******************************************************************************/
 
 JError
 JRemoveVCS
 	(
 	const JCharacter*	fullName,
-	const JBoolean		sync
+	const JBoolean		sync,
+	JProcess**			returnP
 	)
 {
+	if (returnP != NULL)
+		{
+		*returnP = NULL;
+		}
+
 	if (!JNameUsed(fullName))
 		{
 		return JDirEntryDoesNotExist(fullName);
@@ -378,7 +386,7 @@ JRemoveVCS
 		err = JUnsupportedVCS(fullName);
 		}
 
-	if (tryPlain && JKillDirectory(fullName, sync))
+	if (tryPlain && JKillDirectory(fullName, sync, returnP))
 		{
 		err = JNoError();
 		}

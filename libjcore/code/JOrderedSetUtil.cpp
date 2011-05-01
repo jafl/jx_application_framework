@@ -70,15 +70,15 @@ JCompareSizes
 JOrderedSetT::CompareResult
 JCompareUInt64
 	(
-	const JUInt64& s1,
-	const JUInt64& s2
+	const JUInt64& i1,
+	const JUInt64& i2
 	)
 {
-	if (s1 < s2)
+	if (i1 < i2)
 		{
 		return JOrderedSetT::kFirstLessSecond;
 		}
-	else if (s1 == s2)
+	else if (i1 == i2)
 		{
 		return JOrderedSetT::kFirstEqualSecond;
 		}

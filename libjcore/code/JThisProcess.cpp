@@ -20,25 +20,25 @@
 
 	The signals that are caught by default are:
 
-       Signal   Action   Description
-       ------------------------------------------------------
-       SIGPIPE           Broken pipe: write to pipe with no readers
-                         (non-fatal because no control over when other end dies)
+		Signal  Action  Description
+		------------------------------------------------------
+		SIGPIPE			Broken pipe: write to pipe with no readers
+						(non-fatal because no control over when other end dies)
 
-       SIGTERM    Q      Termination signal
-       SIGQUIT    Q      Quit from keyboard
+		SIGTERM		Q	Termination signal
+		SIGQUIT		Q	Quit from keyboard
 
-       SIGINT     D      Interrupt from keyboard
+		SIGINT		D	Interrupt from keyboard
 
-       SIGHUP            Hangup detected on controlling terminal
-                         or death of controlling process
-       SIGCHLD           Child stopped or terminated
-       SIGTTIN           tty input for background process
-       SIGTTOU           tty output for background process
+		SIGHUP			Hangup detected on controlling terminal
+						or death of controlling process
+		SIGCHLD			Child stopped or terminated
+		SIGTTIN			tty input for background process
+		SIGTTOU			tty output for background process
 
-       SIGALRM           Timer signal from alarm(1)
-       SIGUSR1           User-defined signal 1
-       SIGUSR2           User-defined signal 2
+		SIGALRM			Timer signal from alarm(1)
+		SIGUSR1			User-defined signal 1
+		SIGUSR2			User-defined signal 2
 
 		A = Abort if the signal is not caught.
 		Q = Cause CheckForSignals() to return kJTrue,
@@ -49,22 +49,22 @@
 
 	The signals that are not caught by default are:
 
-       Signal    Description                 Reason
-       ------------------------------------------------------
-       SIGSEGV   Invalid memory reference    How does one recover?
-       SIGFPE    Floating point exception    How does one recover?
-       SIGILL    Illegal Instruction         How does one recover?
+		Signal    Description                 Reason
+		------------------------------------------------------
+		SIGSEGV   Invalid memory reference    How does one recover?
+		SIGFPE    Floating point exception    How does one recover?
+		SIGILL    Illegal Instruction         How does one recover?
 
 	The signals that should never be caught are:
 
-       Signal    Description                 Reason
-       ------------------------------------------------------
-       SIGKILL   Kill signal                 Can't be caught
-       SIGCONT   Continue if stopped         It does the right thing already
-       SIGSTOP   Stop process                Can't be caught
-       SIGTSTP   Stop typed at tty           Catching this means Ctrl-Z won't work
-       SIGABRT   Abort signal from abort(3)  assert() calls abort()
-                                             abort() generates infinite # of SIGABRT's
+		Signal    Description                Reason
+		------------------------------------------------------
+		SIGKILL   Kill signal                Can't be caught
+		SIGCONT   Continue if stopped        It does the right thing already
+		SIGSTOP   Stop process               Can't be caught
+		SIGTSTP   Stop typed at tty          Catching this means Ctrl-Z won't work
+		SIGABRT   Abort signal from abort(3) assert() calls abort()
+											 abort() generates infinite # of SIGABRT's
 
 	Wishful thinking:  If one could do actual work inside a signal handler,
 	one could catch SIGINT, longjmp() back to JXApplication(), call

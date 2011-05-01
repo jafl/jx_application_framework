@@ -1266,7 +1266,12 @@ SyGFileTreeTable::DeleteSelected()
 		{
 		SyGFileTreeNode* node = itsFileTreeList->GetSyGNode(cell.y);
 		const JString file    = (node->GetDirEntry())->GetFullName();
-		JRemoveVCS(file, kJFalse);
+		JProcess* p;
+		JRemoveVCS(file, kJFalse, &p);
+		if (p != NULL)
+			{
+			ListenTo(p);
+			}
 		}
 }
 
@@ -2225,6 +2230,11 @@ SyGFileTreeTable::Receive
 				 message.Is(JDirInfo::kPathChanged))
 			{
 			UpdateInfo();
+			}
+
+		else if (message.Is(JProcess::kFinished))
+			{
+			UpdateDisplay(kJTrue);
 			}
 
 		JXNamedTreeListWidget::Receive(sender, message);

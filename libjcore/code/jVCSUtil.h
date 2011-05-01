@@ -15,6 +15,7 @@
 #include <JError.h>
 
 class JString;
+class JProcess;
 
 enum JVCSType
 {
@@ -39,7 +40,8 @@ JBoolean	JIsManagedByVCS(const JCharacter* fullName, JVCSType* returnType = NULL
 
 void		JEditVCS(const JCharacter* fullName);
 JError		JRenameVCS(const JCharacter* oldFullName, const JCharacter* newFullName);
-JError		JRemoveVCS(const JCharacter* fullName, const JBoolean sync = kJTrue);
+JError		JRemoveVCS(const JCharacter* fullName, const JBoolean sync = kJTrue,
+					   JProcess** p = NULL);
 
 JBoolean	JGetVCSRepositoryPath(const JCharacter* path, JString* repoPath);
 
