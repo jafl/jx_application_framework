@@ -1,4 +1,6 @@
-release systemg
+drakon
+	update screenshot on website
+	release
 
 jcc
 	pref to turn off making mixed whitespace visible
@@ -25,11 +27,15 @@ arrow
 *	doesn't save drafts if no inbox open
 	when show full headers in HTML mode, doesn't update link ranges
 
-medic:
+medic
 	accept connection or switch to gdb:  should stop listening on port
 		need simple example to submit to ACE list
 	restart either xdebug or java:  unable to listen on port & crashes on exit
 		also need to fix SetProgram()
+
+svn_client
+	incremental search in SVNListBase:  only search file name
+	show multiple files in same folder in systemg:  only selects last one
 
 -----
 
@@ -63,18 +69,32 @@ leibnitz in canvas 2d
 	http://dev.w3.org/html5/canvas-api/canvas-2d-api.html
 	http://code.google.com/p/explorercanvas/
 
-OSX window placement:
+OSX window placement
 	modal windows, e.g., File Chooser, still migrate upward
 	System G windows in dirs with no prefs open downward
 	jcc man page window and "find file" result window appear under active window
 
-medic:
+medic
 	java
-		display stack trace for selected thread
+		selected stack frame
+			select source line
+			show local variables
+		start JVM
+			JVMDisplaySourceForMain
+				get Methods for main-class, find "main", get LineTable, get first line number, scroll to that
+		set breakpoint
+			search code index <-> line index for location
 
 		source-jar unzips to /tmp
 			display stderr from zip in cmd line window
 			delete /tmp directories when delete link or open different program
+
+		http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html
+		http://java.sun.com/javase/6/docs/technotes/guides/jpda/jdwp-spec.html
+		http://java.sun.com/javase/6/docs/platform/jpda/jdwp/jdwp-protocol.html
+
+		http://java.sun.com/j2se/1.5.0/docs/tooldocs/solaris/jdb.html
+		http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html
 
 	disassembly window
 		show output for current function only -- normally step through source code
@@ -117,7 +137,7 @@ medic:
 
 	OSX: stack trace loaded twice when hit breakpoint
 
-jcc:
+jcc
 	cvs,svn,git:  need to pass rev args to "summary" diff command
 
 	if modified separately in memory and on disk, offer to show diff
@@ -132,7 +152,7 @@ jcc:
 		when invoke one-at-a-time from not-one-at-a-time, invoke separate loop
 		when invoke @ commands, must treat as one-at-a-time
 
-systemg:
+systemg
 	optimize selection of multiple items
 		systemg *.cpp in large directory
 		rewrite api to take list of items to select
@@ -143,7 +163,7 @@ systemg:
 	when start with args, unminify the requested directories
 		deiconify fails because window created iconified
 
-multi-pane editing:
+multi-pane editing
 	split off itsBuffer,itsStyles,itsUndo/RedoList into JTextBuffer
 	leave recalc engine, cursor location, and other display stuff in JTextEditor
 	JTextEditor can be constructed from string or JTextBuffer
@@ -169,7 +189,7 @@ Docking
 	When min page size increases in dock, adjust panes so divider visible
 		(test:  move tab group tabs from side to top)
 
-jcc:
+jcc
 	Clean up prefs
 		JXPrefsDialog has tree list and card file
 			tree list pane adjusts width to bounds of tree list
@@ -182,79 +202,12 @@ jcc:
 		http://www.digitalmars.com/d/download.html
 		http://digitalmars.com/d/archives/digitalmars/D/Exuberant_Ctags_Support_for_D_51878.html
 
-medic:
-	CMBreakpointTable:
-		pressing return while editing the last row should save the value
-		problem is that setting breakpoint value takes time, so can't restart editing immediately
-
-	Same prefs menu in all windows
-
-	gdb
-		crash when open examine memory window -- disabled temporarily
-		enable call to UnlockDisplays(), when JXGetAssertHandler is defined
-			check every time symbols are loaded
-	gdb test suite
-		start, choose program, set bkpt, run
-		start, run, open file, stop, set bkpt, continue
-		start with program name, set bkpt, run
-		start with core name
-		switch from core dump to running binary
-		switch from running binary to core dump
-		switch from one program to another
-
-	xdebug
-		click stack trace: selection jumps back to last frame
-		temp breakpoint doesn't disappear
-
-		Enable XDSocket::StartTimer() when not debugging
-		Always update stack, even if Stack Trace window is hidden
-		Eliminate double call to get local vars
-			Preserve existing items; don't just delete all before update
-		request source from debugger instead of assuming that file:// exists
-		*set* values
-		support conditional breakpoints, etc.
-
-	java
-		start JVM
-			JVMDisplaySourceForMain
-				get Methods for main-class, find "main", get LineTable, get first line number, scroll to that
-		set breakpoint
-			request id for class (cache it)
-				listen for class unload events to clean up cache
-			request all methods for class (cache it)
-			search code index <-> line index for location
-
-		http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html
-		http://java.sun.com/javase/6/docs/technotes/guides/jpda/jdwp-spec.html
-		http://java.sun.com/javase/6/docs/platform/jpda/jdwp/jdwp-protocol.html
-
-		http://java.sun.com/j2se/1.5.0/docs/tooldocs/solaris/jdb.html
-		http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html
-
 arrow
 	fix SaveState() so it doesn't need JFileArray
 	specify timeout for lockfile and handle it as lock failure
 *	doesn't recv mail if flush inbox during download (locking problem?)
 
-svn_client:
-	svn update doesn't always restore to correct scroll location (if lots of files)
-	incremental search in SVNListBase:  only search file name
-	show multiple files in same folder in systemg:  only selects last one
-
-	Repo tab
-		refresh selected nodes
-			find closest directory parent for each selected item
-			add open subitems to tree's open list and then call Update on each one
-
-	svn log:
-		kJForceNonblockingPipe doesn't fully solve the problem
-
-	Input field on every action tab
-		wrapper widget creates JXScrollbarSet and input field
-		when set process + fd, show input
-		when process finished, hide input
-
-JBroadcaster:
+JBroadcaster
 	register handler for message:  function which takes obj, msg type, function pointer
 		pass in friend function that takes obj, sender, msg
 		dynamic_cast obj to correct type and do whatever
@@ -273,14 +226,14 @@ libj3d write scene to canvas 3d
 
 -----
 
-Daily Comics:
+Daily Comics
 	if skip before loaded, saves prev in that slot
 	when first open dashboard after reboot, sizes window to back, even when front visible
 	export favorites to HTML for sharing
 	xkcd:
 		include title attribute from image
 
-buzzer:
+buzzer
 	merge code from Glenn and get it to build
 	test layouts on both Linux and OS X
 
@@ -295,7 +248,7 @@ rendering
 Support D-Bus
 	http://www.freedesktop.org/wiki/Software/dbus
 
-systemg:
+systemg
 	store alternate-open prefs for every executable in the directory
 		use these prefs when plain-open is invoked
 		when open prefs file for directory, flush non-existent executables
@@ -314,14 +267,14 @@ leibnitz
 		edit axis scale:  min, max, delta
 	Add tip-of-the-day with editing shortcuts like space, fn names, etc.
 
-JKeyHandler:
+JKeyHandler
 	if we build key handlers for different file types:
 		specify key handler in CharAction config
 		JKeyHandlerStack extends JKeyHandler
 			to combine different key handlers, can construct a stack
 			if one returns kJFalse, the next one gets it
 
-Mondrian:
+Mondrian
 	build
 		string list
 		main window with single, generic widget type
@@ -374,7 +327,7 @@ Mondrian:
 		floatingCenter, proportional
 		fixedLeftProportional, fixedRightProportional
 
-jcc:
+jcc
 	shell window doesn't work on ubuntu -- bash process is stopped
 	search results:  option to show n lines above and below matching line
 
@@ -427,12 +380,60 @@ jcc:
 	warn about -- is the underlying code somehow reading the file to figure out
 	how big it is?
 
+medic
+	CMBreakpointTable:
+		pressing return while editing the last row should save the value
+		problem is that setting breakpoint value takes time, so can't restart editing immediately
+
+	Same prefs menu in all windows
+
+	gdb
+		crash when open examine memory window -- disabled temporarily
+		enable call to UnlockDisplays(), when JXGetAssertHandler is defined
+			check every time symbols are loaded
+	gdb test suite
+		start, choose program, set bkpt, run
+		start, run, open file, stop, set bkpt, continue
+		start with program name, set bkpt, run
+		start with core name
+		switch from core dump to running binary
+		switch from running binary to core dump
+		switch from one program to another
+
+	xdebug
+		click stack trace: selection jumps back to last frame
+		temp breakpoint doesn't disappear
+
+		Enable XDSocket::StartTimer() when not debugging
+		Always update stack, even if Stack Trace window is hidden
+		Eliminate double call to get local vars
+			Preserve existing items; don't just delete all before update
+		request source from debugger instead of assuming that file:// exists
+		*set* values
+		support conditional breakpoints, etc.
+
+svn_client
+	svn update doesn't always restore to correct scroll location (if lots of files)
+
+	Repo tab
+		refresh selected nodes
+			find closest directory parent for each selected item
+			add open subitems to tree's open list and then call Update on each one
+
+	svn log:
+		kJForceNonblockingPipe doesn't fully solve the problem
+
+	Input field on every action tab
+		wrapper widget creates JXScrollbarSet and input field
+		when set process + fd, show input
+		when process finished, hide input
+
 memory analyzer
 	option to print MDStatsDirector
 	records window:
 		show info about query in window title
 
-drakon:
+drakon
 	FreeBSD missing
 		size, resident, share
 		utime, stime always zero
@@ -451,30 +452,30 @@ Dock
 		cycle through leaf nodes of tree from left to right
 		(first, build array of leaf nodes, then find current pane and switch to next)
 
-JXHelpDirector:
+JXHelpDirector
 	Add forward and backward buttons/menus
 	Middle-click on link => new window
 	Right-click on link => menu
 		"Open %k Left-click | Open in new window %k Middle-click"
 
-JPrefsManager:
+JPrefsManager
 	Atomic lock around SaveToDisk(), etc. in case multiple instances try writing
 
 JTextEditor::DrawInMargin
 	line #'s
 	bookmarks -- easier to see which line was marked
 
-libXft:
-	printing:
+libXft
+	printing
 		gs -dNOPAUSE -dBATCH -sDEVICE=pswrite -sOutputFile=junk2.ps junk.ps
 		http://www.stat.auckland.ac.nz/~paul/R/CM/CMR.html
 		http://pages.cs.wisc.edu/~ghost/doc/gnu/7.05/Fonts.htm
-	Symbol:
+	Symbol
 		Figure out how to use tt version -- this will also fix printing
 
 -----
 
-Windows:
+Windows
 	Replace S_ISLNK with check for .lnk
 	Test usage of R/W/X_OK
 	Replace X_OK and S_IXUSR with check for .exe/.com?
@@ -486,16 +487,16 @@ Windows:
 		use TCP socket instead of UNIX socket
 		write file in /tmp with pid and local port
 
-theme:
+theme
 	each widget looks for its function in all loaded theme dlls
 		start with JXButton
 	jXGlobals loads all ddls in theme directory that start with theme ID
 	http://www.newplanetsoftware/jx/theme.php
 
-widget factory:
+widget factory
 	JX defines function pointer and sets it to JX widget factory
 	other library installs its function pointer and saves original => linked list
-object model:
+object model
 	query available values on any object
 	query value by name on any object
 	object constructor initializes hash table of get/set function pointers

@@ -10,6 +10,7 @@
  *****************************************************************************/
 
 #include "GPMMainDirector.h"
+#include "GPMSystemStats.h"
 #include "GPMProcessTable.h"
 #include "GPMListHeaderWidget.h"
 #include "GPMProcessTreeList.h"
@@ -44,6 +45,9 @@
 #include "gpm_all_processes.xpm"
 #include <jx_edit_clear.xpm>
 
+const JCoordinate kStatusHeight = 30;
+const JCoordinate kStatusMargin = 5;
+
 const JFileVersion kCurrentPrefsVersion	= 6;
 
 	// version  6: removed showFullCommand; added tree sorting column
@@ -53,7 +57,7 @@ const JFileVersion kCurrentPrefsVersion	= 6;
 	// version  2: added window geometry
 	// version  1: add showUserOnly
 
-const JCoordinate kTimerDelay = 3000;
+const Time kTimerDelay = 3000;
 
 enum
 {
@@ -140,13 +144,13 @@ GPMMainDirector::GPMMainDirector
 	JPrefObject(GPMGetPrefsManager(), kGPMMainDirectorID),
 	itsTimerTask(NULL)
 {
-	itsList	= new GPMProcessList();
-	assert(itsList != NULL);
+	itsProcessList	= new GPMProcessList();
+	assert( itsProcessList != NULL );
 
 	BuildWindow();
 
 	itsTimerTask = new JXTimerTask(kTimerDelay);
-	assert(itsTimerTask != NULL);
+	assert( itsTimerTask != NULL );
 	itsTimerTask->Start();
 	ListenTo(itsTimerTask);
 
@@ -161,7 +165,7 @@ GPMMainDirector::GPMMainDirector
 GPMMainDirector::~GPMMainDirector()
 {
 	JPrefObject::WritePrefs();
-	delete itsList;
+	delete itsProcessList;
 	delete itsTimerTask;
 }
 
@@ -207,6 +211,15 @@ GPMMainDirector::BuildWindow()
 	assert( image != NULL );
 	window->SetIcon(image);
 
+	// system stats
+
+	itsSystemStats =
+		new GPMSystemStats(itsProcessList, itsToolBar->GetWidgetEnclosure(),
+					   JXWidget::kHElastic, JXWidget::kFixedTop,
+					   0,kStatusMargin, 100,kStatusHeight);
+	assert( itsSystemStats != NULL );
+	itsSystemStats->FitToEnclosure(kJTrue, kJFalse);
+
 	// tab group
 
 	itsTabGroup =
@@ -216,6 +229,10 @@ GPMMainDirector::BuildWindow()
 	assert( itsTabGroup != NULL );
 	itsTabGroup->FitToEnclosure();
 	ListenTo(itsTabGroup->GetCardEnclosure());
+
+	const JCoordinate statusHeight = kStatusHeight + 2*kStatusMargin;
+	itsTabGroup->AdjustSize(0, -statusHeight);
+	itsTabGroup->Move(0, statusHeight);
 
 	JXWidgetSet* listTab = itsTabGroup->AppendTab("List");
 	JXWidgetSet* treeTab = itsTabGroup->AppendTab("Tree");
@@ -232,19 +249,19 @@ GPMMainDirector::BuildWindow()
 	const JCoordinate tableHeight   = scrollbarSet->GetScrollEnclosure()->GetBoundsHeight() - kHeaderHeight;
 
 	itsProcessTable =
-		new GPMProcessTable(itsList, itsFullCmdDisplay,
+		new GPMProcessTable(itsProcessList, itsFullCmdDisplay,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kHeaderHeight, 100,tableHeight);
-    assert( itsProcessTable != NULL );
+	assert( itsProcessTable != NULL );
 	itsProcessTable->FitToEnclosure(kJTrue, kJFalse);
 
 	GPMListHeaderWidget* tableHeader =
-		new GPMListHeaderWidget(itsProcessTable, itsList,
+		new GPMListHeaderWidget(itsProcessTable, itsProcessList,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kFixedTop,
 			0,0, 100,kHeaderHeight);
-    assert( tableHeader != NULL );
+	assert( tableHeader != NULL );
 	tableHeader->FitToEnclosure(kJTrue, kJFalse);
 
 	// tree view
@@ -255,23 +272,23 @@ GPMMainDirector::BuildWindow()
 	assert( scrollbarSet != NULL );
 	scrollbarSet->FitToEnclosure();
 
-	JNamedTreeList* treeList = new JNamedTreeList(itsList->GetProcessTree());
+	JNamedTreeList* treeList = new JNamedTreeList(itsProcessList->GetProcessTree());
 	assert( treeList != NULL );
 
 	itsProcessTree =
-		new GPMProcessTreeList(itsList, treeList, itsFullCmdDisplay,
+		new GPMProcessTreeList(itsProcessList, treeList, itsFullCmdDisplay,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kHeaderHeight, 100,tableHeight);
-    assert( itsProcessTree != NULL );
+	assert( itsProcessTree != NULL );
 	itsProcessTree->FitToEnclosure(kJTrue, kJFalse);
 
 	GPMTreeHeaderWidget* treeHeader =
-		new GPMTreeHeaderWidget(itsProcessTree, itsList,
+		new GPMTreeHeaderWidget(itsProcessTree, itsProcessList,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kFixedTop,
 			0,0, 100,kHeaderHeight);
-    assert( treeHeader != NULL );
+	assert( treeHeader != NULL );
 	treeHeader->FitToEnclosure(kJTrue, kJFalse);
 
 	itsProcessTable->SetDefaultRowHeight(itsProcessTree->GetDefaultRowHeight());
@@ -396,7 +413,7 @@ GPMMainDirector::Receive
 
 	else if (sender == itsTimerTask && message.Is(JXTimerTask::kTimerWentOff))
 		{
-		itsList->Update();
+		itsProcessList->Update();
 		}
 
 	else if (sender == itsTabGroup->GetCardEnclosure() &&
@@ -459,7 +476,7 @@ void
 GPMMainDirector::UpdateProcessMenu()
 {
 	itsProcessMenu->EnableItem(kShowAllCmd);
-	if (!itsList->WillShowUserOnly())
+	if (!itsProcessList->WillShowUserOnly())
 		{
 		itsProcessMenu->CheckItem(kShowAllCmd);
 		}
@@ -499,7 +516,7 @@ GPMMainDirector::HandleProcessMenu
 {
 	if (index == kShowAllCmd)
 		{
-		itsList->ShouldShowUserOnly(!itsList->WillShowUserOnly());
+		itsProcessList->ShouldShowUserOnly(!itsProcessList->WillShowUserOnly());
 		return;
 		}
 
@@ -543,7 +560,7 @@ GPMMainDirector::HandleProcessMenu
 			if (sigValue != 0 && pid != 0)
 				{
 				JSendSignalToProcess(pid, sigValue);
-				itsList->Update();
+				itsProcessList->Update();
 				}
 			}
 		}
@@ -647,7 +664,7 @@ GPMMainDirector::ReadPrefs
 		{
 		JBoolean show;
 		input >> show;
-		itsList->ShouldShowUserOnly(show);
+		itsProcessList->ShouldShowUserOnly(show);
 		}
 
 	if (vers >= 2)
@@ -666,14 +683,14 @@ GPMMainDirector::ReadPrefs
 		{
 		int type;
 		input >> type;
-		itsList->ListColSelected(type);
+		itsProcessList->ListColSelected(type);
 		}
 
 	if (vers >= 6)
 		{
 		int type;
 		input >> type;
-		itsList->TreeColSelected(type);
+		itsProcessList->TreeColSelected(type);
 		}
 
 	if (vers >= 5)
@@ -697,12 +714,12 @@ GPMMainDirector::WritePrefs
 	const
 {
 	output << kCurrentPrefsVersion;
-	output << ' ' << itsList->WillShowUserOnly();
+	output << ' ' << itsProcessList->WillShowUserOnly();
 
 	GetWindow()->WriteGeometry(output);
 
-	output << ' ' << (int) itsList->GetSelectedListCol();
-	output << ' ' << (int) itsList->GetSelectedTreeCol();
+	output << ' ' << (int) itsProcessList->GetSelectedListCol();
+	output << ' ' << (int) itsProcessList->GetSelectedTreeCol();
 
 	JIndex tabIndex;
 	const JBoolean ok = itsTabGroup->GetCurrentTabIndex(&tabIndex);

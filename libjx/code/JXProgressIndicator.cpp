@@ -35,7 +35,8 @@ JXProgressIndicator::JXProgressIndicator
 	const JCoordinate	x,
 	const JCoordinate	y,
 	const JCoordinate	w,
-	const JCoordinate	h)
+	const JCoordinate	h
+	)
 	:
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h)
 {
@@ -134,7 +135,7 @@ JXProgressIndicator::Draw
 	const JRect&		r
 	)
 {
-	const JRect bounds = GetBounds();	
+	const JRect bounds = GetBounds();
 	JRect fillRect;
 
 	const JCoordinate w = bounds.width();

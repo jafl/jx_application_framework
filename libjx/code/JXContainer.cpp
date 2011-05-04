@@ -1865,7 +1865,7 @@ JXContainer::RemoveEnclosedObject
 /******************************************************************************
  Receive (virtual protected)
 
- 	We provide this as a gateway to JBroadcaster::Receive().
+	We provide this as a gateway to JBroadcaster::Receive().
 
  ******************************************************************************/
 

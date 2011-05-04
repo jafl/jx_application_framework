@@ -29,6 +29,13 @@ F
 "./code/GPMAboutDialog.cpp"
 F
 T
+1 "system stats"
+T
+2 "GPMSystemStats.cpp"
+F
+"./code/GPMSystemStats.cpp"
+F
+T
 1 "process view"
 T
 2 "GPMMainDirector.cpp"

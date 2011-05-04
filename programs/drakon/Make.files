@@ -10,6 +10,7 @@
 .cpp ./code/GPMPrefsManager
 .cpp ./code/GPMMDIServer
 .cpp ./code/GPMAboutDialog
+.cpp ./code/GPMSystemStats
 .cpp ./code/GPMMainDirector
 .cpp ./code/GPMProcessTable
 .cpp ./code/GPMListHeaderWidget

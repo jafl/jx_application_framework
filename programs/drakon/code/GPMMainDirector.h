@@ -17,6 +17,7 @@ class JXStaticText;
 class JXTextMenu;
 class JXTimerTask;
 
+class GPMSystemStats;
 class GPMProcessList;
 class GPMProcessTable;
 class GPMProcessTreeList;
@@ -44,8 +45,10 @@ private:
 	JXTextMenu*	itsPrefsMenu;
 	JXTextMenu*	itsHelpMenu;
 
-	GPMProcessList*	itsList;
+	GPMProcessList*	itsProcessList;
 	JXTimerTask*	itsTimerTask;
+
+	GPMSystemStats*	itsSystemStats;
 
 	JXTabGroup*			itsTabGroup;
 	GPMProcessTable*	itsProcessTable;

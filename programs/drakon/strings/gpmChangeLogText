@@ -13,6 +13,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3>1.2.0</h3>
+
+Added display of CPU history and memory usage.
+
 <h3>1.1.2</h3>
 
 Preserves ownership of preferences file if you run as root.

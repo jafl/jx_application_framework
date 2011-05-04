@@ -122,7 +122,6 @@ GPMProcessEntry::Update
 	{
 	ReadStat();
 	ReadStatM();
-	ReadCmdline();
 
 	JSize mem;
 	if (GPMGetSystemMemory(&mem))
@@ -176,92 +175,18 @@ GPMProcessEntry::Update
 			itsPercentMemory = JFloat(itsResident) / mem;
 			}
 		}
-
-#ifdef KERN_PROC_ARGS
-
-	mib[0] = CTL_KERN;
-	mib[1] = KERN_PROC;
-	mib[2] = KERN_PROC_ARGS;
-	mib[3] = itsPID;
-
-	if (sysctl(mib, 4, NULL, &len, NULL, 0) == 0)
-		{
-		void* buf = malloc(len);
-		assert( buf != NULL );
-
-		result = sysctl(mib, 4, buf, &len, NULL, 0);
-		if (result == 0)
-			{
-			itsFullCommand.Clear();
-			JIndex i = 0;
-			while (i < len)
-				{
-				itsFullCommand += ((char*) buf) + i;
-				itsFullCommand.AppendCharacter(' ');
-
-				i += strlen(((char*) buf) + i) + 1;
-				}
-			}
-
-		free(buf);
-		}
-
-#elif defined KERN_PROCARGS2
-
-	mib[0] = CTL_KERN;
-	mib[1] = KERN_ARGMAX;
-
-	int argmax;
-	len = sizeof(argmax);
-	if (sysctl(mib, 2, &argmax, &len, NULL, 0) == 0)
-		{
-		void* buf = malloc(argmax);
-		assert( buf != NULL );
-
-		mib[0] = CTL_KERN;
-		mib[1] = KERN_PROCARGS2;
-		mib[2] = itsPID;
-
-		len = argmax;
-		if (sysctl(mib, 3, buf, &len, NULL, 0) == 0)
-			{
-			int argc = * (int*) buf;
-			buf      = ((char*) buf) + sizeof(argc);
-
-			itsFullCommand.Clear();
-
-			int offset = 0;
-			for (int i=0; i<argc; i++)
-				{
-				itsFullCommand += ((char*) buf) + offset;
-				itsFullCommand.AppendCharacter(' ');
-
-				offset += strlen(((char*) buf) + offset) + 1;
-				}
-			}
-		}
-/*
-	task_port_t task;
-	task_basic_info task_info;
-	unsigned int info_count = TASK_BASIC_INFO_COUNT;
-	if (task_for_pid(mach_task_self(), itsPID, &task) == KERN_SUCCESS &&
-		task_info(task, TASK_BASIC_INFO, &task_info, &info_count) == KERN_SUCCESS)
-		{
-		cout << task_info.resident_size;
-		}
-*/
-#endif
 	}
 #endif
 
+	ReadCmdline();	// not in ctor, to make ctor faster
 	SetName(itsCommand);
 	ShouldBeOpenable(HasChildren());
 
 	itsTime	        = (itsUTime + itsSTime) / sysconf(_SC_CLK_TCK);
-	JSize totalTime	= (itsUTime - itsLastUTime) + (itsSTime - itsLastSTime);
+	JSize totalTime	= (itsLastUTime == 0 || itsLastSTime == 0) ? 0 : (itsUTime - itsLastUTime) + (itsSTime - itsLastSTime);
 	itsLastUTime	= itsUTime;
 	itsLastSTime	= itsSTime;
-	itsPercentCPU	= JFloat(totalTime * 1000 / sysconf(_SC_CLK_TCK)) / (10 * elapsedTime);
+	itsPercentCPU	= elapsedTime == 0 ? 0 : JFloat(totalTime * 1000 / sysconf(_SC_CLK_TCK)) / (10 * elapsedTime);
 }
 
 #ifdef _J_HAS_PROC
@@ -357,6 +282,11 @@ GPMProcessEntry::ReadStatM()
 void
 GPMProcessEntry::ReadCmdline()
 {
+	if (!itsFullCommand.IsEmpty())
+		{
+		return;
+		}
+
 	JString str = JCombinePathAndName(itsProcPath, "cmdline");
 	ifstream is(str);
 	if (is.good())
@@ -378,6 +308,94 @@ GPMProcessEntry::ReadCmdline()
 			}
 		itsFullCommand = cmdline;
 		}
+}
+
+#elif defined _J_HAS_SYSCTL
+
+/******************************************************************************
+ ReadCmdline (private)
+
+ ******************************************************************************/
+
+void
+GPMProcessEntry::ReadCmdline()
+{
+	if (!itsFullCommand.IsEmpty())
+		{
+		return;
+		}
+
+#ifdef KERN_PROC_ARGS
+
+	mib[0] = CTL_KERN;
+	mib[1] = KERN_PROC;
+	mib[2] = KERN_PROC_ARGS;
+	mib[3] = itsPID;
+
+	if (sysctl(mib, 4, NULL, &len, NULL, 0) == 0)
+		{
+		void* buf = malloc(len);
+		assert( buf != NULL );
+
+		result = sysctl(mib, 4, buf, &len, NULL, 0);
+		if (result == 0)
+			{
+			JIndex i = 0;
+			while (i < len)
+				{
+				itsFullCommand += ((char*) buf) + i;
+				itsFullCommand.AppendCharacter(' ');
+
+				i += strlen(((char*) buf) + i) + 1;
+				}
+			}
+
+		free(buf);
+		}
+
+#elif defined KERN_PROCARGS2
+
+	mib[0] = CTL_KERN;
+	mib[1] = KERN_ARGMAX;
+
+	int argmax;
+	len = sizeof(argmax);
+	if (sysctl(mib, 2, &argmax, &len, NULL, 0) == 0)
+		{
+		void* buf = malloc(argmax);
+		assert( buf != NULL );
+
+		mib[0] = CTL_KERN;
+		mib[1] = KERN_PROCARGS2;
+		mib[2] = itsPID;
+
+		len = argmax;
+		if (sysctl(mib, 3, buf, &len, NULL, 0) == 0)
+			{
+			int argc = * (int*) buf;
+			buf      = ((char*) buf) + sizeof(argc);
+
+			int offset = 0;
+			for (int i=0; i<argc; i++)
+				{
+				itsFullCommand += ((char*) buf) + offset;
+				itsFullCommand.AppendCharacter(' ');
+
+				offset += strlen(((char*) buf) + offset) + 1;
+				}
+			}
+		}
+/*
+	task_port_t task;
+	task_basic_info task_info;
+	unsigned int info_count = TASK_BASIC_INFO_COUNT;
+	if (task_for_pid(mach_task_self(), itsPID, &task) == KERN_SUCCESS &&
+		task_info(task, TASK_BASIC_INFO, &task_info, &info_count) == KERN_SUCCESS)
+		{
+		cout << task_info.resident_size;
+		}
+*/
+#endif
 }
 
 #endif
@@ -758,7 +776,6 @@ GPMProcessEntry::CompareTreeCommand
 		}
 }
 
-#include <JArray.tmpls>
 #define JTemplateType GPMProcessEntry
 #include <JPtrArray.tmpls>
 #undef JTemplateType

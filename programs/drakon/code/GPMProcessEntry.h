@@ -126,12 +126,11 @@ private:
 
 private:
 
-	#ifdef _J_HAS_PROC
-
-	void	ReadStat();
-	void	ReadStatM();
 	void	ReadCmdline();
 
+	#ifdef _J_HAS_PROC
+	void	ReadStat();
+	void	ReadStatM();
 	#endif
 
 	// not allowed

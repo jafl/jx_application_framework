@@ -75,6 +75,8 @@ public:
 	JBoolean				FindProcessEntry(const pid_t pid, GPMProcessEntry** entry) const;
 	JBoolean				ClosestMatch(const JCharacter* prefix, GPMProcessEntry** entry) const;
 
+	const JPtrArray<GPMProcessEntry>&	GetHiddenProcesses() const;
+
 	JBoolean	ListColIsSelected(const JIndex index) const;
 	ListColType	GetSelectedListCol() const;
 	void		ListColSelected(const JIndex index);
@@ -90,8 +92,9 @@ public:
 
 private:
 
-	JPtrArray<GPMProcessEntry>*	itsEntries;
+	JPtrArray<GPMProcessEntry>*	itsVisibleEntries;
 	JPtrArray<GPMProcessEntry>*	itsAlphaEntries;
+	JPtrArray<GPMProcessEntry>*	itsHiddenEntries;
 	JTree*						itsTree;
 	JTreeNode*					itsRootNode;
 	JFloat						itsElapsedTime;
@@ -99,7 +102,7 @@ private:
 	ListColType					itsListColType;
 	TreeColType					itsTreeColType;
 	JBoolean					itsIsShowingUserOnly;
-	JIndex						itsUID;
+	const JIndex				itsUID;
 
 	#ifdef _J_HAS_PROC
 	JDirInfo*					itsDirInfo;
@@ -228,7 +231,7 @@ GPMProcessList::GetProcessEntry
 	)
 	const
 {
-	return itsEntries->NthElement(index);
+	return itsVisibleEntries->NthElement(index);
 }
 
 /******************************************************************************
@@ -243,7 +246,19 @@ GPMProcessList::GetEntryIndex
 	JIndex*					index
 	)
 {
-	return itsEntries->Find(const_cast<GPMProcessEntry*>(entry), index);
+	return itsVisibleEntries->SearchSorted(const_cast<GPMProcessEntry*>(entry), JOrderedSetT::kAnyMatch, index);
+}
+
+/******************************************************************************
+ GetHiddenProcesses
+
+ ******************************************************************************/
+
+inline const JPtrArray<GPMProcessEntry>&
+GPMProcessList::GetHiddenProcesses()
+	const
+{
+	return *itsHiddenEntries;
 }
 
 #endif
