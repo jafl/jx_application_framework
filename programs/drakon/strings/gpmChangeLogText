@@ -13,6 +13,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3>1.2.1</h3>
+
+Tweaked rendering of memory usage pie chart to make it look nicer.
+
 <h3>1.2.0</h3>
 
 Added display of CPU history and memory usage.

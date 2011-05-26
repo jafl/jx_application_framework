@@ -21,7 +21,7 @@ SEARCHDIRS := -I${CODEDIR} \
 
 # other constants
 
-PROG_VERSION      := 1.2.0
+PROG_VERSION      := 1.2.1
 SIGNATURE         := npsprocessmgr
 PROG_STRING_FILES := ${filter-out %/drakon_menu_strings, \
                       ${shell echo strings/*}}

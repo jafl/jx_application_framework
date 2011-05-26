@@ -128,9 +128,9 @@ GPMSystemStats::Draw
 
 	p.SetFilling(kJTrue);
 	p.SetPenColor(otherMem);
-	p.JPainter::Arc(r, 90, -angle1);
+	p.JPainter::Arc(r, 90, -360);
 	p.SetPenColor(userMem);
-	p.JPainter::Arc(r, 90 - angle1, -angle2);
+	p.JPainter::Arc(r, 90 - angle1, -360 + angle1);
 	p.SetPenColor(freeMem);
 	p.JPainter::Arc(r, 90 - angle1 - angle2, - 360 + angle1 + angle2);
 

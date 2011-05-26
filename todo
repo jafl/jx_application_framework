@@ -1,6 +1,7 @@
 drakon
 	update screenshot on website
-	release
+
+-----
 
 jcc
 	pref to turn off making mixed whitespace visible
@@ -11,6 +12,31 @@ jcc
 
 	write out prefs every few minutes
 		call JPrefObject::WritePrefs() after major change, not just in destructors
+
+	cvs,svn,git:  need to pass rev args to "summary" diff command
+
+	if modified separately in memory and on disk, offer to show diff
+		if window closed, deactivate "Redo diff" button
+
+	import/export Task menu contents
+
+	CBProjectTable AddDirectoryTree & AddFiles:
+		treelist should stop listening to tree until done adding
+
+	implement *not* "one a a time" for commands
+		when invoke one-at-a-time from not-one-at-a-time, invoke separate loop
+		when invoke @ commands, must treat as one-at-a-time
+
+systemg
+	optimize selection of multiple items
+		systemg *.cpp in large directory
+		rewrite api to take list of items to select
+		fix cmd line to accept multiple items
+		fix jcc to send one request for multiple items
+	locks up when find returns many files
+		-name *.cpp -o -name *.h -o -name *.xpm
+	when start with args, unminify the requested directories
+		deiconify fails because window created iconified
 
 leibnitz
 	abs( => grey right bar
@@ -26,59 +52,44 @@ memory analyzer
 arrow
 *	doesn't save drafts if no inbox open
 	when show full headers in HTML mode, doesn't update link ranges
+	fix SaveState() so it doesn't need JFileArray
+	specify timeout for lockfile and handle it as lock failure
+*	doesn't recv mail if flush inbox during download (locking problem?)
 
 medic
 	accept connection or switch to gdb:  should stop listening on port
 		need simple example to submit to ACE list
 	restart either xdebug or java:  unable to listen on port & crashes on exit
 		also need to fix SetProgram()
+	gdb
+		crash when open examine memory window -- disabled temporarily
+		enable call to UnlockDisplays(), when JXGetAssertHandler is defined
+			check every time symbols are loaded
 
 svn_client
 	incremental search in SVNListBase:  only search file name
 	show multiple files in same folder in systemg:  only selects last one
 
+JBroadcaster
+	register handler for message:  function which takes obj, msg type, function pointer
+		pass in friend function that takes obj, sender, msg
+		dynamic_cast obj to correct type and do whatever
+		multiple inheritance Receive needs to turn off dispatching for all but the last path to JBroadcaster
+
+JXMenu::PrepareToOpenMenu()
+	itsOwner may delete us!
+
 -----
-
-vi emulator
-	dw      delete to end of word
-	db      delete to beginning of word
-	yw - yank to end of word
-	yb - yank to beginning of word
-
-	w	beginning of next word; 5w moves to the beginning of the 5th word to the right
-	e	end of next word
-	b	beginning of previous word
-
-	cc	change line -- delete line and start insert mode
-	s	change character -- delete character and start insert mode
-
-	md d'd  mark starting line, cut to ending line
-	my y'y  mark starting line, copy to ending line
-
-leibnitz in canvas 2d
-	support constants and save them in local storage
-	http://simon.html5.org/dump/html5-canvas-cheat-sheet.html
-	http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html
-	http://diveintohtml5.org/canvas.html
-	https://developer.mozilla.org/en/drawing_text_using_a_canvas
-	https://developer.mozilla.org/en/Canvas_tutorial/Drawing_shapes
-	http://developer-resource.blogspot.com/2008/09/html-canvas-element.html
-	http://code.google.com/p/canvasplus/
-	http://dev.opera.com/articles/view/html-5-canvas-the-basics/
-	http://thinkvitamin.com/code/how-to-draw-with-html-5-canvas/
-	http://dev.w3.org/html5/canvas-api/canvas-2d-api.html
-	http://code.google.com/p/explorercanvas/
-
-OSX window placement
-	modal windows, e.g., File Chooser, still migrate upward
-	System G windows in dirs with no prefs open downward
-	jcc man page window and "find file" result window appear under active window
 
 medic
 	java
 		selected stack frame
 			select source line
+				get code offset <-> line number for method
+				search for frame's code offset
 			show local variables
+				get list of method's variables (slot #'s)
+				get frame's value for each slot #'s
 		start JVM
 			JVMDisplaySourceForMain
 				get Methods for main-class, find "main", get LineTable, get first line number, scroll to that
@@ -137,32 +148,6 @@ medic
 
 	OSX: stack trace loaded twice when hit breakpoint
 
-jcc
-	cvs,svn,git:  need to pass rev args to "summary" diff command
-
-	if modified separately in memory and on disk, offer to show diff
-		if window closed, deactivate "Redo diff" button
-
-	import/export Task menu contents
-
-	CBProjectTable AddDirectoryTree & AddFiles:
-		treelist should stop listening to tree until done adding
-
-	implement *not* "one a a time" for commands
-		when invoke one-at-a-time from not-one-at-a-time, invoke separate loop
-		when invoke @ commands, must treat as one-at-a-time
-
-systemg
-	optimize selection of multiple items
-		systemg *.cpp in large directory
-		rewrite api to take list of items to select
-		fix cmd line to accept multiple items
-		fix jcc to send one request for multiple items
-	locks up when find returns many files
-		-name *.cpp -o -name *.h -o -name *.xpm
-	when start with args, unminify the requested directories
-		deiconify fails because window created iconified
-
 multi-pane editing
 	split off itsBuffer,itsStyles,itsUndo/RedoList into JTextBuffer
 	leave recalc engine, cursor location, and other display stuff in JTextEditor
@@ -173,12 +158,70 @@ multi-pane editing
 	Active undo needs to know which view it is for
 		since event from another view needs to deactivate it and create new one
 
+Mondrian
+	build
+		string list
+		main window with single, generic widget type
+			create by dragging from palette
+			class name
+				widget renders based on class name
+					button with ^M => return button
+				tab complete in class name input field
+				menu next to class name input field with known types
+			x,y,w,h
+			text (enabled for some types)
+			shortcuts
+			sizing
+			variable name
+			ctor arguments
+			validation (for input fields)
+		palette
+			just another layout window
+			save in prefs -- allows rearranging, resizing, custom objects, etc
+		import from .fd
+		load/save own format
+
+	main window is sorted JXStringList
+	hash table stores serialized layouts
+	open item from main window => look up and deserialize into layout
+		JXLayoutCanvas contains tree of JXLayoutObject
+		JXLayoutObject has option to accept drop to create child node
+	layout window options
+		show rulers/grid
+		snap to grid (5,10,other)
+		align selected: top,bottom,center; right,left,center
+		outline bounding rects
+	need option to control tab order
+		show index in each item
+		cmd-click to select item without re-ordering
+		click to make object the next in list
+	resize object:  only show corner handles if object very small
+	special object for JXTabGroup, to allow direct editing of all cards
+	sizing references
+		http://developer.apple.com/documentation/DeveloperTools/Conceptual/IB_UserGuide/Introduction/chapter_1_section_1.html
+		http://www.reportmill.com/ribs/support/layout-management/
+	localization
+		store separate copy of layout for each locale (en_US, en_GB, fr_FR, fr_CA, ...)
+		when create or delete, apply to all locales
+		generated code pulls strings *and* x,y,w,h
+		menu in editor window to choose locale
+			resizes and replaces contents with locale's layout
+	sizing
+		fixedLeft, fixedRight, elastic
+		floatingCenter, proportional
+		fixedLeftProportional, fixedRightProportional
+
 -----
 
 nm
 objdump
 readelf
 dwarfdump
+
+OSX window placement
+	modal windows, e.g., File Chooser, still migrate upward
+	System G windows in dirs with no prefs open downward
+	jcc man page window and "find file" result window appear under active window
 
 Docking
 	OSX: window placement inside dock sometimes wrong (iconfied windows)
@@ -189,32 +232,46 @@ Docking
 	When min page size increases in dock, adjust panes so divider visible
 		(test:  move tab group tabs from side to top)
 
-jcc
-	Clean up prefs
-		JXPrefsDialog has tree list and card file
-			tree list pane adjusts width to bounds of tree list
-			card file pane sets min size to union of card sizes
-		Split CBTextEditorPrefs into multiple panes
-		factor out JXEditStylesWidget from JXEditStylesDialog so it can be a card
+vi emulator
+	dw      delete to end of word
+	db      delete to beginning of word
+	yw - yank to end of word
+	yb - yank to beginning of word
 
-	support D
-		http://en.wikipedia.org/wiki/D_(programming_language)
-		http://www.digitalmars.com/d/download.html
-		http://digitalmars.com/d/archives/digitalmars/D/Exuberant_Ctags_Support_for_D_51878.html
+	w	beginning of next word; 5w moves to the beginning of the 5th word to the right
+	e	end of next word
+	b	beginning of previous word
 
-arrow
-	fix SaveState() so it doesn't need JFileArray
-	specify timeout for lockfile and handle it as lock failure
-*	doesn't recv mail if flush inbox during download (locking problem?)
+	cc	change line -- delete line and start insert mode
+	s	change character -- delete character and start insert mode
 
-JBroadcaster
-	register handler for message:  function which takes obj, msg type, function pointer
-		pass in friend function that takes obj, sender, msg
-		dynamic_cast obj to correct type and do whatever
-		multiple inheritance Receive needs to turn off dispatching for all but the last path to JBroadcaster
+	md d'd  mark starting line, cut to ending line
+	my y'y  mark starting line, copy to ending line
 
-JXMenu::PrepareToOpenMenu()
-	itsOwner may delete us!
+Clean up prefs
+	JXPrefsDialog has tree list and card file
+		tree list pane adjusts width to bounds of tree list
+		card file pane sets min size to union of card sizes
+	Split CBTextEditorPrefs into multiple panes
+	factor out JXEditStylesWidget from JXEditStylesDialog so it can be a card
+
+medic
+	xdebug
+		click stack trace: selection jumps back to last frame
+		temp breakpoint doesn't disappear
+
+		Enable XDSocket::StartTimer() when not debugging
+		Always update stack, even if Stack Trace window is hidden
+		Eliminate double call to get local vars
+			Preserve existing items; don't just delete all before update
+		request source from debugger instead of assuming that file:// exists
+		*set* values
+		support conditional breakpoints, etc.
+
+support D
+	http://en.wikipedia.org/wiki/D_(programming_language)
+	http://www.digitalmars.com/d/download.html
+	http://digitalmars.com/d/archives/digitalmars/D/Exuberant_Ctags_Support_for_D_51878.html
 
 libjexpr write to mathml
 	https://developer.mozilla.org/en/Mathml
@@ -274,66 +331,12 @@ JKeyHandler
 			to combine different key handlers, can construct a stack
 			if one returns kJFalse, the next one gets it
 
-Mondrian
-	build
-		string list
-		main window with single, generic widget type
-			create by dragging from palette
-			class name
-				widget renders based on class name
-					button with ^M => return button
-				tab complete in class name input field
-				menu next to class name input field with known types
-			x,y,w,h
-			text (enabled for some types)
-			shortcuts
-			sizing
-			variable name
-			ctor arguments
-			validation (for input fields)
-		palette
-			just another layout window
-			save in prefs -- allows rearranging, resizing, custom objects, etc
-		import from .fd
-		load/save own format
-
-	main window is sorted JXStringList
-	hash table stores serialized layouts
-	open item from main window => look up and deserialize into layout
-		JXLayoutCanvas contains tree of JXLayoutObject
-		JXLayoutObject has option to accept drop to create child node
-	layout window options
-		show rulers/grid
-		snap to grid (5,10,other)
-		align selected: top,bottom,center; right,left,center
-		outline bounding rects
-	need option to control tab order
-		show index in each item
-		cmd-click to select item without re-ordering
-		click to make object the next in list
-	resize object:  only show corner handles if object very small
-	special object for JXTabGroup, to allow direct editing of all cards
-	sizing references
-		http://developer.apple.com/documentation/DeveloperTools/Conceptual/IB_UserGuide/Introduction/chapter_1_section_1.html
-		http://www.reportmill.com/ribs/support/layout-management/
-	localization
-		store separate copy of layout for each locale (en_US, en_GB, fr_FR, fr_CA, ...)
-		when create or delete, apply to all locales
-		generated code pulls strings *and* x,y,w,h
-		menu in editor window to choose locale
-			resizes and replaces contents with locale's layout
-	sizing
-		fixedLeft, fixedRight, elastic
-		floatingCenter, proportional
-		fixedLeftProportional, fixedRightProportional
-
 jcc
 	shell window doesn't work on ubuntu -- bash process is stopped
 	search results:  option to show n lines above and below matching line
 
 	Pick a default size and location for text windows when first run
 		based on desktop size (if not auto-dock all)
-	Same prefs menu in all windows
 
 	multi-project
 		open all .jcc files and display in one tree
@@ -387,10 +390,6 @@ medic
 
 	Same prefs menu in all windows
 
-	gdb
-		crash when open examine memory window -- disabled temporarily
-		enable call to UnlockDisplays(), when JXGetAssertHandler is defined
-			check every time symbols are loaded
 	gdb test suite
 		start, choose program, set bkpt, run
 		start, run, open file, stop, set bkpt, continue
@@ -399,18 +398,6 @@ medic
 		switch from core dump to running binary
 		switch from running binary to core dump
 		switch from one program to another
-
-	xdebug
-		click stack trace: selection jumps back to last frame
-		temp breakpoint doesn't disappear
-
-		Enable XDSocket::StartTimer() when not debugging
-		Always update stack, even if Stack Trace window is hidden
-		Eliminate double call to get local vars
-			Preserve existing items; don't just delete all before update
-		request source from debugger instead of assuming that file:// exists
-		*set* values
-		support conditional breakpoints, etc.
 
 svn_client
 	svn update doesn't always restore to correct scroll location (if lots of files)
