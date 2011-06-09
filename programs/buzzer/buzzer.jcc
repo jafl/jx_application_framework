@@ -213,6 +213,10 @@ F
 T
 1 "strings"
 T
+2 "buzzer"
+F
+"./strings/buzzer"
+T
 2 "GNBChangeLogText"
 F
 "./strings/GNBChangeLogText"
