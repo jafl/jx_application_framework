@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Notebook
+Comment=Notebook and To-do list manager(buzzer)
+Exec=buzzer
+Icon=/usr/share/icons/mini/buzzer.xpm
+Terminal=0
+Type=Application
+Categories=Application;Utility;X-Red-Hat-Base;

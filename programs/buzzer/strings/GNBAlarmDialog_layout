@@ -1,0 +1,10 @@
+0
+okButton::GNBAlarmDialog::shortcuts::JXLayout "^M"
+itsAlarmCB::GNBAlarmDialog::JXLayout "Remind me"
+obj2_JXLayout::GNBAlarmDialog::JXLayout "in advance."
+okButton::GNBAlarmDialog::JXLayout "OK"
+itsTimeUnitMenu::GNBAlarmDialog::JXLayout ""
+obj1_JXLayout::GNBAlarmDialog::JXLayout ":"
+cancelButton::GNBAlarmDialog::JXLayout "Cancel"
+obj3_JXLayout::GNBAlarmDialog::JXLayout "Alarm time:"
+cancelButton::GNBAlarmDialog::shortcuts::JXLayout "^["

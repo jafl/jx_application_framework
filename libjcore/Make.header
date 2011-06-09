@@ -46,7 +46,7 @@ OTHER_DEPS    := regex gd
 
 include ${JX_ROOT}/include/make/default_lib_target
 
-CONFIGURE_PCRE := ./configure --with-match-limit-recursion=10000
+CONFIGURE_PCRE := ./configure --enable-utf8 --with-match-limit-recursion=10000
 
 .PHONY : Makefiles
 Makefiles:

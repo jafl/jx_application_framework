@@ -80,96 +80,95 @@ GCLAlarmDialog::BuildWindow()
 
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 390,250, "");
-    assert( window != NULL );
-    SetWindow(window);
+	JXWindow* window = new JXWindow(this, 390,250, "");
+	assert( window != NULL );
 
-    itsHelpButton =
-        new JXTextButton(JGetString("itsHelpButton::GCLAlarmDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 80,220, 70,20);
-    assert( itsHelpButton != NULL );
+	itsHelpButton =
+		new JXTextButton(JGetString("itsHelpButton::GCLAlarmDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 80,220, 70,20);
+	assert( itsHelpButton != NULL );
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::GCLAlarmDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 230,220, 70,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::GCLAlarmDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::GCLAlarmDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 230,220, 70,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::GCLAlarmDialog::shortcuts::JXLayout"));
 
-    itsStatusText =
-        new JXStaticText(JGetString("itsStatusText::GCLAlarmDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,140, 350,20);
-    assert( itsStatusText != NULL );
-    itsStatusText->SetFontSize(14);
+	itsStatusText =
+		new JXStaticText(JGetString("itsStatusText::GCLAlarmDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,140, 350,20);
+	assert( itsStatusText != NULL );
+	itsStatusText->SetFontSize(14);
 
-    itsRG =
-        new JXRadioGroup(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,170, 350,45);
-    assert( itsRG != NULL );
+	itsRG =
+		new JXRadioGroup(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,170, 350,45);
+	assert( itsRG != NULL );
 
-    JXTextRadioButton* obj1_JXLayout =
-        new JXTextRadioButton(1, JGetString("obj1_JXLayout::GCLAlarmDialog::JXLayout"), itsRG,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 10,0, 140,20);
-    assert( obj1_JXLayout != NULL );
+	JXTextRadioButton* obj1_JXLayout =
+		new JXTextRadioButton(1, JGetString("obj1_JXLayout::GCLAlarmDialog::JXLayout"), itsRG,
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,0, 140,20);
+	assert( obj1_JXLayout != NULL );
 
-    JXTextRadioButton* obj2_JXLayout =
-        new JXTextRadioButton(2, JGetString("obj2_JXLayout::GCLAlarmDialog::JXLayout"), itsRG,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 10,20, 150,20);
-    assert( obj2_JXLayout != NULL );
+	JXTextRadioButton* obj2_JXLayout =
+		new JXTextRadioButton(2, JGetString("obj2_JXLayout::GCLAlarmDialog::JXLayout"), itsRG,
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,20, 150,20);
+	assert( obj2_JXLayout != NULL );
 
-    itsAmountInput =
-        new JXIntegerInput(itsRG,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 160,0, 80,20);
-    assert( itsAmountInput != NULL );
+	itsAmountInput =
+		new JXIntegerInput(itsRG,
+					JXWidget::kHElastic, JXWidget::kVElastic, 160,0, 80,20);
+	assert( itsAmountInput != NULL );
 
-    itsTimeUnitMenu =
-        new JXTextMenu(JGetString("itsTimeUnitMenu::GCLAlarmDialog::JXLayout"), itsRG,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 240,0, 100,20);
-    assert( itsTimeUnitMenu != NULL );
+	itsTimeUnitMenu =
+		new JXTextMenu(JGetString("itsTimeUnitMenu::GCLAlarmDialog::JXLayout"), itsRG,
+					JXWidget::kHElastic, JXWidget::kVElastic, 240,0, 100,20);
+	assert( itsTimeUnitMenu != NULL );
 
-    JXStaticText* obj3_JXLayout =
-        new JXStaticText(JGetString("obj3_JXLayout::GCLAlarmDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,10, 350,20);
-    assert( obj3_JXLayout != NULL );
+	JXStaticText* obj3_JXLayout =
+		new JXStaticText(JGetString("obj3_JXLayout::GCLAlarmDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,10, 350,20);
+	assert( obj3_JXLayout != NULL );
 
-    JXStaticText* obj4_JXLayout =
-        new JXStaticText(JGetString("obj4_JXLayout::GCLAlarmDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,40, 70,20);
-    assert( obj4_JXLayout != NULL );
-    obj4_JXLayout->SetFontSize(14);
-    const JFontStyle obj4_JXLayout_style(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetBlackColor());
-    obj4_JXLayout->SetFontStyle(obj4_JXLayout_style);
+	JXStaticText* obj4_JXLayout =
+		new JXStaticText(JGetString("obj4_JXLayout::GCLAlarmDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,40, 70,20);
+	assert( obj4_JXLayout != NULL );
+	obj4_JXLayout->SetFontSize(14);
+	const JFontStyle obj4_JXLayout_style(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetBlackColor());
+	obj4_JXLayout->SetFontStyle(obj4_JXLayout_style);
 
-    itsSubjectText =
-        new JXStaticText(JGetString("itsSubjectText::GCLAlarmDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 90,40, 280,20);
-    assert( itsSubjectText != NULL );
-    itsSubjectText->SetFontSize(14);
-    const JFontStyle itsSubjectText_style(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetBlackColor());
-    itsSubjectText->SetFontStyle(itsSubjectText_style);
+	itsSubjectText =
+		new JXStaticText(JGetString("itsSubjectText::GCLAlarmDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 90,40, 280,20);
+	assert( itsSubjectText != NULL );
+	itsSubjectText->SetFontSize(14);
+	const JFontStyle itsSubjectText_style(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetBlackColor());
+	itsSubjectText->SetFontStyle(itsSubjectText_style);
 
-    JXStaticText* obj5_JXLayout =
-        new JXStaticText(JGetString("obj5_JXLayout::GCLAlarmDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,70, 70,20);
-    assert( obj5_JXLayout != NULL );
-    obj5_JXLayout->SetFontSize(14);
-    const JFontStyle obj5_JXLayout_style(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetBlackColor());
-    obj5_JXLayout->SetFontStyle(obj5_JXLayout_style);
+	JXStaticText* obj5_JXLayout =
+		new JXStaticText(JGetString("obj5_JXLayout::GCLAlarmDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,70, 70,20);
+	assert( obj5_JXLayout != NULL );
+	obj5_JXLayout->SetFontSize(14);
+	const JFontStyle obj5_JXLayout_style(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetBlackColor());
+	obj5_JXLayout->SetFontStyle(obj5_JXLayout_style);
 
-    itsTimeText =
-        new JXStaticText(JGetString("itsTimeText::GCLAlarmDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 90,70, 280,20);
-    assert( itsTimeText != NULL );
-    itsTimeText->SetFontSize(14);
-    const JFontStyle itsTimeText_style(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetBlackColor());
-    itsTimeText->SetFontStyle(itsTimeText_style);
+	itsTimeText =
+		new JXStaticText(JGetString("itsTimeText::GCLAlarmDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 90,70, 280,20);
+	assert( itsTimeText != NULL );
+	itsTimeText->SetFontSize(14);
+	const JFontStyle itsTimeText_style(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetBlackColor());
+	itsTimeText->SetFontStyle(itsTimeText_style);
 
-    itsDateText =
-        new JXStaticText(JGetString("itsDateText::GCLAlarmDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 90,100, 280,20);
-    assert( itsDateText != NULL );
-    itsDateText->SetFontSize(14);
-    const JFontStyle itsDateText_style(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetBlackColor());
-    itsDateText->SetFontStyle(itsDateText_style);
+	itsDateText =
+		new JXStaticText(JGetString("itsDateText::GCLAlarmDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 90,100, 280,20);
+	assert( itsDateText != NULL );
+	itsDateText->SetFontSize(14);
+	const JFontStyle itsDateText_style(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetBlackColor());
+	itsDateText->SetFontStyle(itsDateText_style);
 
 // end JXLayout
 

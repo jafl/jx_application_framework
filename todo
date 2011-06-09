@@ -1,5 +1,7 @@
-drakon
-	update screenshot on website
+systemg
+	duplicate file not under svn control:  fails
+
+	move folder and child of folder to same destination -- crash?
 
 -----
 
@@ -49,20 +51,12 @@ memory analyzer
 	jcc -- crash with deleted JMessageProtocol -- only when open project
 	print table:  partial column on page 1
 
-arrow
-*	doesn't save drafts if no inbox open
-	when show full headers in HTML mode, doesn't update link ranges
-	fix SaveState() so it doesn't need JFileArray
-	specify timeout for lockfile and handle it as lock failure
-*	doesn't recv mail if flush inbox during download (locking problem?)
-
 medic
 	accept connection or switch to gdb:  should stop listening on port
 		need simple example to submit to ACE list
 	restart either xdebug or java:  unable to listen on port & crashes on exit
 		also need to fix SetProgram()
 	gdb
-		crash when open examine memory window -- disabled temporarily
 		enable call to UnlockDisplays(), when JXGetAssertHandler is defined
 			check every time symbols are loaded
 
@@ -105,7 +99,25 @@ medic
 		http://java.sun.com/javase/6/docs/platform/jpda/jdwp/jdwp-protocol.html
 
 		http://java.sun.com/j2se/1.5.0/docs/tooldocs/solaris/jdb.html
-		http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html
+
+	examine memory
+		item in Var & Local Var to examine content of selected variable
+		use correct font
+		menu bar
+		mouse wheel scroll
+		copy contents of selected cell(s)
+
+		(gdb) x/10b *argv
+		0xbffff03c:	0x2f	0x55	0x73	0x65	0x72	0x73	0x2f	0x6c
+		0xbffff044:	0x69	0x6e
+
+	disassemble memory
+		item in Var & Local Var to diassemble content of selected variable
+		address or function name:  x/10i main
+		put it in text editor, not table
+		use correct font
+		menu bar
+		mouse wheel scroll
 
 	disassembly window
 		show output for current function only -- normally step through source code
@@ -290,10 +302,6 @@ Daily Comics
 	xkcd:
 		include title attribute from image
 
-buzzer
-	merge code from Glenn and get it to build
-	test layouts on both Linux and OS X
-
 glove:
 	switch to JXExprEditor
 	clean up .fd to match current layouts
@@ -459,6 +467,88 @@ libXft
 		http://pages.cs.wisc.edu/~ghost/doc/gnu/7.05/Fonts.htm
 	Symbol
 		Figure out how to use tt version -- this will also fix printing
+
+-----
+
+UTF-8
+	convert one file at a time
+		intermediate should be safe, except maybe confusion in JTextEditor/rendering
+	JString
+		if input not valid UTF-8, convert from ISO8859-1 (configurable?)
+		store character count separate from byte count
+		static functions: utf8_strlen, utf8_prev(&i), utf8_next(&i)
+	for loops must use utf8_next/prev instead of i++/--
+
+	JRegex::defaultCFlags: add PCRE_UTF8
+
+	UTF8_STRING for X selection
+	use real X compose mechanism
+
+// http://www.daemonology.net/blog/2008-06-05-faster-utf8-strlen.html
+
+#include <unistd.h>
+#include <stdint.h>
+#include <stdio.h>
+#define ONEMASK ((size_t)(-1) / 0xFF)
+
+size_t
+utf8_strlen(const char * _s)
+{
+	const char * s;
+	size_t count = 0;
+	size_t u;
+	unsigned char b;
+
+	/* Handle any initial misaligned bytes. */
+	for (s = _s; (uintptr_t)(s) & (sizeof(size_t) - 1); s++) {
+		b = *s;
+
+		/* Exit if we hit a zero byte. */
+		if (b == '\0')
+			goto done;
+
+		/* Is this byte NOT the first byte of a character? */
+		count += (b >> 7) & ((~b) >> 6);
+	}
+
+	/* Handle complete blocks. */
+	for (; ; s += sizeof(size_t)) {
+		/* Prefetch 256 bytes ahead. */
+		__builtin_prefetch(&s[256], 0, 0);
+
+		/* Grab 4 or 8 bytes of UTF-8 data. */
+		u = *(size_t *)(s);
+
+		/* Exit the loop if there are any zero bytes. */
+		if ((u - ONEMASK) & (~u) & (ONEMASK * 0x80))
+			break;
+
+		/* Count bytes which are NOT the first byte of a character. */
+		u = ((u & (ONEMASK * 0x80)) >> 7) & ((~u) >> 6);
+		count += (u * ONEMASK) >> ((sizeof(size_t) - 1) * 8);
+	}
+
+	/* Take care of any left-over bytes. */
+	for (; ; s++) {
+		b = *s;
+
+		/* Exit if we hit a zero byte. */
+		if (b == '\0')
+			break;
+
+		/* Is this byte NOT the first byte of a character? */
+		count += (b >> 7) & ((~b) >> 6);
+	}
+
+done:
+	return ((s - _s) - count);
+}
+
+int main()
+{
+	printf("%d" , cp_strlen_utf8("xyz•åj()"));
+	return 0;
+}
 
 -----
 

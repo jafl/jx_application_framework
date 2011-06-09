@@ -1,0 +1,31 @@
+Styles To do:
+
+GNBNoteDir:
+
+In Save, after WriteGeometry, write some marker, then call: 		
+	WritePrivateFormat(ostream& output).
+	
+In constructor, after ReadGeometry, do a JTellg and look at that point in the
+JStaticBuffer to see if the marker matches if it does, JSeekg past the marker
+and call:
+
+	ReadPrivateFormat(istream& input);
+
+otherwise, do what is currently being done.
+
+
+Perhaps:
+
+ char marker[5];
+ marker[0]	= (char)1;
+ marker[1]	= (char)2;
+ marker[2]	= (char)3;
+ marker[4]	= (char)4;
+
+then:
+
+ for (JIndex i = 0; i < 4; i++)
+ 	{
+ 	cout << marker[i];
+ 	}
+

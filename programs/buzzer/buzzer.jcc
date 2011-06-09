@@ -1,0 +1,267 @@
+jx_browser_data 84
+# project tree
+0 "root"
+T
+1 "notebook"
+T
+2 "GNB.cc"
+F
+"./code/GNB.cc"
+T
+2 "GNBApp.cc"
+F
+"./code/GNBApp.cc"
+T
+2 "GNBGlobals.cc"
+F
+"./code/GNBGlobals.cc"
+T
+2 "GNBMDIServer.cc"
+F
+"./code/GNBMDIServer.cc"
+T
+2 "GNBPrefsMgr.cc"
+F
+"./code/GNBPrefsMgr.cc"
+T
+2 "GNBAboutDialog.cc"
+F
+"./code/GNBAboutDialog.cc"
+T
+2 "GNBArrayFlushTask.cc"
+F
+"./code/GNBArrayFlushTask.cc"
+T
+2 "GNBTreeWidgetDragData.cc"
+F
+"./code/GNBTreeWidgetDragData.cc"
+T
+2 "GNBPTPrinter.cc"
+F
+"./code/GNBPTPrinter.cc"
+F
+T
+1 "directors"
+T
+2 "GNBNoteDir.cc"
+F
+"./code/GNBNoteDir.cc"
+T
+2 "GNBTreeDir.cc"
+F
+"./code/GNBTreeDir.cc"
+T
+2 "GNBPTPrintSetupDialog.cc"
+F
+"./code/GNBPTPrintSetupDialog.cc"
+T
+2 "GNBAlarmDialog.cc"
+F
+"./code/GNBAlarmDialog.cc"
+F
+T
+1 "widgets"
+T
+2 "GNBTrashWidget.cc"
+F
+"./code/GNBTrashWidget.cc"
+T
+2 "GNBTreeWidget.cc"
+F
+"./code/GNBTreeWidget.cc"
+T
+2 "GNBTreeWidgetBase.cc"
+F
+"./code/GNBTreeWidgetBase.cc"
+T
+2 "GNBNoteEditor.cc"
+F
+"./code/GNBNoteEditor.cc"
+F
+T
+1 "tree"
+T
+2 "GNBBaseNode.cc"
+F
+"./code/GNBBaseNode.cc"
+T
+2 "GNBCategoryNode.cc"
+F
+"./code/GNBCategoryNode.cc"
+T
+2 "GNBNoteNode.cc"
+F
+"./code/GNBNoteNode.cc"
+T
+2 "GNBRootNode.cc"
+F
+"./code/GNBRootNode.cc"
+T
+2 "GNBToDoNode.cc"
+F
+"./code/GNBToDoNode.cc"
+T
+2 "GNBTree.cc"
+F
+"./code/GNBTree.cc"
+F
+T
+1 "arrays"
+T
+2 "JPtrArray-GNBNoteDir.cc"
+F
+"./code/JPtrArray-GNBNoteDir.cc"
+T
+2 "JPtrArray-GNBTreeDir.cc"
+F
+"./code/JPtrArray-GNBTreeDir.cc"
+T
+2 "JPtrArray-JNamedTreeNode.cc"
+F
+"./code/JPtrArray-JNamedTreeNode.cc"
+F
+T
+1 "images"
+T
+2 "editcopy.xpm"
+F
+"./code/editcopy.xpm"
+T
+2 "editcut.xpm"
+F
+"./code/editcut.xpm"
+T
+2 "editpaste.xpm"
+F
+"./code/editpaste.xpm"
+T
+2 "filefloppy.xpm"
+F
+"./code/filefloppy.xpm"
+T
+2 "filenew.xpm"
+F
+"./code/filenew.xpm"
+T
+2 "fileopen.xpm"
+F
+"./code/fileopen.xpm"
+T
+2 "fileprint.xpm"
+F
+"./code/fileprint.xpm"
+T
+2 "GNBFolderIcon.xpm"
+F
+"./code/GNBFolderIcon.xpm"
+T
+2 "GNBTrashIcon.xpm"
+F
+"./code/GNBTrashIcon.xpm"
+T
+2 "GNBTreeIcon.xpm"
+F
+"./code/GNBTreeIcon.xpm"
+T
+2 "manual.xpm"
+F
+"./code/manual.xpm"
+T
+2 "notebook.xpm"
+F
+"./code/notebook.xpm"
+T
+2 "selectedfolderIcon.xpm"
+F
+"./code/selectedfolderIcon.xpm"
+T
+2 "tododone.xpm"
+F
+"./code/tododone.xpm"
+T
+2 "todonotdone.xpm"
+F
+"./code/todonotdone.xpm"
+T
+2 "todonotedone.xpm"
+F
+"./code/todonotedone.xpm"
+T
+2 "todonotenotdone.xpm"
+F
+"./code/todonotenotdone.xpm"
+T
+2 "todourgent.xpm"
+F
+"./code/todourgent.xpm"
+F
+T
+1 "other"
+T
+2 "ToDo"
+F
+"./ToDo"
+T
+2 "jcal.jcc"
+F
+"../../libjcal/jcal.jcc"
+T
+2 "buzzer.fd"
+F
+"./buzzer.fd"
+F
+T
+1 "strings"
+T
+2 "GNBChangeLogText"
+F
+"./strings/GNBChangeLogText"
+T
+2 "GNBCreditsText"
+F
+"./strings/GNBCreditsText"
+T
+2 "GNBGettingStartedHelpText"
+F
+"./strings/GNBGettingStartedHelpText"
+T
+2 "GNBMainHelpText"
+F
+"./strings/GNBMainHelpText"
+T
+2 "GNBMiscHelpText"
+F
+"./strings/GNBMiscHelpText"
+T
+2 "GNBNoteEditorHelpText"
+F
+"./strings/GNBNoteEditorHelpText"
+T
+2 "GNBTOCHelpText"
+F
+"./strings/GNBTOCHelpText"
+T
+2 "GNBTrashHelpText"
+F
+"./strings/GNBTrashHelpText"
+F
+F
+# tasks
+4
+"makemake"
+T "./" "make personal" "" T F T F T F T "" "" "a]+NU]Q[p qkZHBhR(#Y::CBCommandManager" F
+F
+# build settings
+1
+F
+"buzzer"
+"${LIB_DEPS}"
+"make -k all"
+# search paths
+T "../../libjcal/code/" T
+T "../../libjcore/code/" T
+T "../../libjx/code/" T
+T "./code/" T
+F
+# C preprocessor
+F

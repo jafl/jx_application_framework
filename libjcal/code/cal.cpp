@@ -46,7 +46,6 @@ static char sccsid[] = "@(#)cal.c	8.4 (Berkeley) 4/2/94";
    Dunno. */
 
 #include <JXStdInc.h>
-#include "/usr/include/_G_config.h"
 #include "cal.h"
 #include <sys/types.h>
 
@@ -65,12 +64,6 @@ static char sccsid[] = "@(#)cal.c	8.4 (Berkeley) 4/2/94";
 # define LANGINFO 1
 #else
 # define LANGINFO 0
-#endif
-
-#if LANGINFO
-# include <langinfo.h>
-#else
-# include <localeinfo.h>
 #endif
 
 #define	THURSDAY		4		/* for reformation */
@@ -217,7 +210,7 @@ day_in_week
 	long temp;
 
 	temp = (long)(year - 1) * 365 + leap_years_since_year_1(year - 1)
-	    + day_in_year(day, month, year);
+		+ day_in_year(day, month, year);
 	if (temp < FIRST_MISSING_DAY)
 		return ((temp - 1 + SATURDAY) % 7);
 	if (temp >= (FIRST_MISSING_DAY + NUMBER_MISSING_DAYS))

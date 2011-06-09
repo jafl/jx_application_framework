@@ -1,0 +1,23 @@
+/* XPM */
+static char * todonotenotdone[] = {
+"15 15 5 1",
+" 	c None",
+".	c #666666666666",
+"X	c #FFFFFFFFFFFF",
+"o	c #7F7F7F7F7F7F",
+"O	c #808080808080",
+"    ........   ",
+"   .XXXXXX..   ",
+"   .XXXXXX.X.  ",
+"   .XXXXXX...o ",
+" OOOOOOOOOOX.o ",
+" OOOOOOOOOOX.o ",
+" OOXXXXXXOOX.o ",
+" OOXXXXXXOOX.o ",
+" OOXXXXXXOOX.o ",
+" OOXXXXXXOOX.o ",
+" OOXXXXXXOOX.o ",
+" OOXXXXXXOO..o ",
+" OOOOOOOOOOooo ",
+" OOOOOOOOOO    ",
+"               "};

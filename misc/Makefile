@@ -28,4 +28,4 @@ clean::
 	@${foreach dir, \
                ${filter-out ./CVS/., ${wildcard ./*/.}}, \
                cd ${dir}; ${MAKE} clean > /dev/null; cd ${MAKE_DIR};}
-	@rm -f pcre/Makefile pcre/libtool
+	@rm -f pcre-8.10/Makefile pcre-8.10/libtool

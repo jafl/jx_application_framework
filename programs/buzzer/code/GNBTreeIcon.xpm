@@ -1,0 +1,23 @@
+/* XPM */
+static char * GNBTreeIcon[] = {
+"15 15 5 1",
+" 	c None",
+".	c #666666666666",
+"X	c #FFFFFFFFFFFF",
+"o	c #52525151FFFF",
+"O	c #7F7F7F7F7F7F",
+"               ",
+"  ........     ",
+"  .XXXXXX..    ",
+"  .XXXXXX.X.   ",
+"  .XoooXX...O  ",
+"  .XoooXXXX.O  ",
+"  .XXXoooXX.O  ",
+"  .XXXoXoXX.O  ",
+"  .XXXoooXX.O  ",
+"  .XoooXXXX.O  ",
+"  .XoooXXXX.O  ",
+"  .XXXXXXXX.O  ",
+"  ..........O  ",
+"   OOOOOOOOOO  ",
+"               "};

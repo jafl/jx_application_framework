@@ -1,0 +1,31 @@
+/* XPM */
+/* Drawn  by Mark Donohoe for the K Desktop Environment */
+/* See http://www.kde.org */
+static char*kfm_trash[]={
+"16 16 9 1",
+"# c #000000",
+"e c #808080",
+"f c #004000",
+"a c #c0c0c0",
+"d c #585858",
+"g c #a0a0a4",
+"b c #004040",
+"c c #ffffff",
+". c None",
+".....#####......",
+"..###abbba###...",
+".#aacbaaabaaa#..",
+".#aaaacccaaad#..",
+"..#bbaaaaabb#...",
+"..#aebbbbbdf#...",
+"..#aacaegdef#...",
+"..#aacaegdef#...",
+"..#aacaegdef#...",
+"..#aacaegdef#...",
+"..#aacaegdef#...",
+"..#aacaegdef#...",
+"..#aacaegdef#...",
+"..#aacaegdef#...",
+"...##aaggd##....",
+".....#####......"};
+

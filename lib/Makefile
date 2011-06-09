@@ -91,7 +91,7 @@ test:
 #
 
 PERSONAL_PROGS := \
-    arrow code_crusader code_medic code_mill \
+    code_crusader code_medic code_mill \
     drakon leibnitz svn_client systemg ssh_askpass \
     jx_project_wizard jx_memory_debugger
 
@@ -161,7 +161,7 @@ source: jxsource
 
 RELEASE_PROGS := ${addprefix ../programs/, \
                    code_crusader code_medic code_mill svn_client \
-                   arrow drakon glove leibnitz ssh_askpass systemg }
+                   drakon glove leibnitz ssh_askpass systemg }
 
 .PHONY : release
 release:

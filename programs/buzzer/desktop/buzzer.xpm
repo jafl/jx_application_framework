@@ -1,0 +1,27 @@
+/* XPM */
+static char *GNBTreeIcon[] = {
+/* width height num_colors chars_per_pixel */
+"    15    15        5            1",
+/* colors */
+". c None",
+"# c #666666",
+"a c #ffffff",
+"b c #5251ff",
+"c c #7f7f7f",
+/* pixels */
+"...............",
+"..########.....",
+"..#aaaaaa##....",
+"..#aaaaaa#a#...",
+"..#abbbaa###c..",
+"..#abbbaaaa#c..",
+"..#aaabbbaa#c..",
+"..#aaababaa#c..",
+"..#aaabbbaa#c..",
+"..#abbbaaaa#c..",
+"..#abbbaaaa#c..",
+"..#aaaaaaaa#c..",
+"..##########c..",
+"...cccccccccc..",
+"..............."
+};
