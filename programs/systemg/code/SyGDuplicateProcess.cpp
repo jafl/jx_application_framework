@@ -182,8 +182,8 @@ SyGDuplicateProcess::ProcessNextFile()
 
 	const JCharacter* argv[] = { "cp", "-Rdf", *origName, name, NULL };
 
-	const JVCSType type = JGetVCSType(*origName);
-	if (type == kJSVNType)
+	JVCSType type;
+	if (JIsManagedByVCS(*origName, &type) && type == kJSVNType)
 		{
 		argv[0] = "svn";
 		argv[1] = "cp";
