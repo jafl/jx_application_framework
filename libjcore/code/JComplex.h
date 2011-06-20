@@ -17,13 +17,7 @@
 #include <complex>
 #include <jTypes.h>
 
-#ifdef __KCC
-typedef complex<double>	JComplex;
-#elif __SUNPRO_CC == 0x420
-typedef complex	JComplex;
-#else
 typedef std::complex<double>	JComplex;
-#endif
 
 class JString;
 

@@ -69,10 +69,13 @@ public:
 	void	GoTo(const JString& path, const JBoolean sameWindow);
 
 	JBoolean	SelectName(const JCharacter* name, const SyGFileTreeNode* parent,
-						   JPoint* cell);
+						   JPoint* cell,
+						   const JBoolean updateContent = kJTrue,
+						   const JBoolean updateView = kJTrue);
 	JBoolean	SelectName(const JPtrArray<JString>& pathList,
 						   const JCharacter* name, JPoint* cell,
-						   const JBoolean clearSelection = kJTrue);
+						   const JBoolean clearSelection = kJTrue,
+						   const JBoolean updateContent = kJTrue);
 
 	void	LoadToolBarDefaults(JXToolBar* toolBar);
 

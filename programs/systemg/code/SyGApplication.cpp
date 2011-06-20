@@ -279,6 +279,10 @@ SyGApplication::OpenDirectory
 	SyGTreeDir* childDir = new SyGTreeDir(trueName);
 	assert( childDir != NULL );
 
+	if (deiconify)
+		{
+		childDir->GetWindow()->Deiconify();
+		}
 	childDir->Activate();
 
 	JPoint cell;
@@ -288,10 +292,6 @@ SyGApplication::OpenDirectory
 		*row = cell.y;
 		}
 
-	if (deiconify)
-		{
-		childDir->GetWindow()->Deiconify();
-		}
 	itsWindowList->Append(childDir);
 
 	if (dir != NULL)

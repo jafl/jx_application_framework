@@ -29,14 +29,10 @@
 #include <JRunArray.h>
 #include <jAssert.h>
 
-#if !defined J_NO_HAS_STATIC_TEMPLATE_DATA
 template <class T>
 const JElementComparison<T>* JRunArray<T>::itsCurrentCompareObj = NULL;
-#endif
 
-#if !defined __SUNPRO_CC
 static int (*theCurrentQuickSortCompareFn)(const void*, const void*) = NULL;
-#endif
 
 /******************************************************************************
  Constructor
@@ -1118,8 +1114,6 @@ JRunArray<T>::InsertSlice
 	}
 }
 
-#if !defined J_NO_HAS_STATIC_TEMPLATE_DATA
-
 /******************************************************************************
  Sort (virtual)
 
@@ -1216,10 +1210,6 @@ JRunArray<T>::CompareRuns
 	return itsCurrentCompareObj->Compare(r1.data, r2.data);
 }
 
-#endif
-
-#if !defined __SUNPRO_CC
-
 /******************************************************************************
  QuickSort
 
@@ -1275,8 +1265,6 @@ JRunArray<T>::QuickSortCompareRuns
 	const JRunArrayElement<T>* r2 = static_cast<const JRunArrayElement<T>*>(p2);
 	return theCurrentQuickSortCompareFn(&(r1->data), &(r2->data));
 }
-
-#endif
 
 /******************************************************************************
  MergeAdjacentRuns (private)

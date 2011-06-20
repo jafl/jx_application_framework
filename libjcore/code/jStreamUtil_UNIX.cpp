@@ -153,11 +153,5 @@ JSetState
 	const int	flag
 	)
 {
-#ifdef __SUNPRO_CC
-	stream.clear(stream.rdstate() | flag);
-#elif __GNUG__ >= 3
 	stream.setstate((ios_base::iostate) flag);
-#else
-	stream.setstate(flag);
-#endif
 }

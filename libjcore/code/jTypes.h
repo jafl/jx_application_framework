@@ -331,7 +331,7 @@ typedef  JWord JDualHashValue;
 
  ******************************************************************************/
 
-#if __GNUG__ >= 3
+#if defined __GNUG__
 
 	using std::ios_base;
 	using std::streampos;
@@ -341,22 +341,6 @@ typedef  JWord JDualHashValue;
 	typedef ios_base::seekdir  JIOStreamSeekDir;
 
 	const JFStreamOpenMode kJBinaryModifier = ios_base::binary;
-
-#elif defined __GNUG__
-
-	#error "g++ 3.x or later is required to avoid thunks bugs"
-
-	#include <string>
-
-	namespace std
-	{
-		typedef ::string	string;
-	};
-
-	typedef int           JFStreamOpenMode;
-	typedef ios::seek_dir JIOStreamSeekDir;
-
-	const JFStreamOpenMode kJBinaryModifier = ios::bin;
 
 #elif defined _MSC_VER
 
@@ -368,20 +352,6 @@ typedef  JWord JDualHashValue;
 	typedef ios_base::seekdir  JIOStreamSeekDir;
 
 	const JFStreamOpenMode kJBinaryModifier = ios_base::binary;
-
-#elif defined __KCC
-
-	typedef ios::openmode JFStreamOpenMode;
-	typedef ios::seekdir  JIOStreamSeekDir;
-
-	const JFStreamOpenMode kJBinaryModifier = ios::binary;
-
-#elif defined __SUNPRO_CC
-
-	typedef int           JFStreamOpenMode;
-	typedef ios::seek_dir JIOStreamSeekDir;
-
-	const JFStreamOpenMode kJBinaryModifier = ios::binary;
 
 #else
 

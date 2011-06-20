@@ -79,16 +79,12 @@ public:
 	virtual void	MoveElementToIndex(const JIndex currentIndex, const JIndex newIndex);
 	virtual void	SwapElements(const JIndex index1, const JIndex index2);
 
-	#if !defined J_NO_HAS_STATIC_TEMPLATE_DATA
 	virtual void	Sort();
 	virtual JIndex	SearchSorted1(const T& target,
 								  const JOrderedSetT::SearchReturn which,
 								  JBoolean* found) const;
-	#endif
 
-	#if !defined __SUNPRO_CC
 	void	QuickSort(int (*compare)(const void*, const void*));
-	#endif
 
 	virtual JOrderedSetIterator<T>*
 		NewIterator(const JIteratorPosition start = kJIteratorStartAtBeginning,
@@ -144,9 +140,7 @@ private:
 
 	JArray< JRunArrayElement<T> >*	itsRuns;	// JArray object that stores the data
 
-	#if !defined J_NO_HAS_STATIC_TEMPLATE_DATA
 	static const JElementComparison<T>*	itsCurrentCompareObj;	// NULL unless sorting
-	#endif
 
 private:
 
@@ -182,14 +176,10 @@ private:
 
 	void	MergeAdjacentRuns();
 
-	#if !defined J_NO_HAS_STATIC_TEMPLATE_DATA
 	static JOrderedSetT::CompareResult
 		CompareRuns(const JRunArrayElement<T>& r1, const JRunArrayElement<T>& r2);
-	#endif
 
-	#if !defined __SUNPRO_CC
 	static int	QuickSortCompareRuns(const void* p1, const void* p2);
-	#endif
 };
 
 #endif

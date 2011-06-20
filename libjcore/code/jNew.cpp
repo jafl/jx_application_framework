@@ -29,9 +29,6 @@ operator new
 	(
 	size_t size
 	)
-	#ifdef __KCC
-	MSIPL_THROW_STR(std::bad_alloc)
-	#endif
 {
 	return operator new(size, "<UNKNOWN>", 0);
 }
@@ -62,9 +59,6 @@ operator new[]
 	(
 	size_t size
 	)
-	#ifdef __KCC
-	MSIPL_THROW_STR(std::bad_alloc)
-	#endif
 {
 	return operator new[](size, "<UNKNOWN>", 0);
 }
@@ -95,9 +89,6 @@ operator delete
 	(
 	void* memory
 	)
-	#ifdef __KCC
-	MSIPL_THROW_STR()
-	#endif
 {
 	JMemoryManager::Instance()->Delete(memory, kJFalse);
 }
@@ -112,9 +103,6 @@ operator delete[]
 	(
 	void* memory
 	)
-	#ifdef __KCC
-	MSIPL_THROW_STR()
-	#endif
 {
 	JMemoryManager::Instance()->Delete(memory, kJTrue);
 }

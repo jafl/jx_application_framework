@@ -21,8 +21,7 @@
 inline int
 jerrno()
 {
-	#if defined __GNUG__ || defined __KCC || \
-		defined _MSC_VER || defined __SUNPRO_CC
+	#if defined __GNUG__ || defined _MSC_VER
 		return errno;
 	#else
 		figure out what to do!
@@ -35,8 +34,7 @@ jset_errno
 	const int err
 	)
 {
-	#if defined __GNUG__ || defined __KCC || \
-		defined _MSC_VER || defined __SUNPRO_CC
+	#if defined __GNUG__ || defined _MSC_VER
 		errno = err;
 	#else
 		figure out what to do!
@@ -46,8 +44,7 @@ jset_errno
 inline void
 jclear_errno()
 {
-	#if defined __GNUG__ || defined __KCC || \
-		defined _MSC_VER || defined __SUNPRO_CC
+	#if defined __GNUG__ || defined _MSC_VER
 		errno = 0;
 	#else
 		figure out what to do!

@@ -34,7 +34,8 @@ public:
 
 protected:
 
-	SyGFindFileTask(SyGTreeDir* dir, JProcess* p, int outFD, int errFD);
+	SyGFindFileTask(SyGTreeDir* dir, const JCharacter* relPath,
+					JProcess* p, int outFD, int errFD);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 	virtual void	ReceiveGoingAway(JBroadcaster* sender);
@@ -42,6 +43,7 @@ protected:
 private:
 
 	SyGTreeDir*			itsDirector;		// not owned
+	JPtrArray<JString>*	itsPathList;
 	JProcess*			itsProcess;			// can be NULL
 	RecordLink*			itsMessageLink;		// can be NULL
 	RecordLink*			itsErrorLink;		// can be NULL
@@ -55,6 +57,8 @@ private:
 	void	ReceiveMessageLine();
 	void	ReceiveErrorLine();
 	void	DisplayErrors();
+
+	static void	SplitPath(const JCharacter* origRelPath, JPtrArray<JString>* pathList);
 
 	// not allowed
 

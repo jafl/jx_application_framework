@@ -11,13 +11,11 @@
 #include "SyGFindFileTask.h"
 #include "SyGTreeDir.h"
 #include "SyGFileTreeTable.h"
+#include "SyGFileTree.h"
 #include "SyGGlobals.h"
 #include <JProcess.h>
+#include <jDirUtil.h>
 #include <jAssert.h>
-
-// string ID's
-
-static const JCharacter* kNoMatchID = "NoMatch::SyGFindFileTask";
 
 /******************************************************************************
  Create (static)
@@ -33,21 +31,21 @@ SyGFindFileTask::Create
 	SyGFindFileTask**	task
 	)
 {
-	JString cmd = "find ";
-	cmd        += JPrepArgForExec(path);
-	cmd        += " ";
-//	JString cmd = "find . ";
+	JString cmd = "find . ";
 	cmd        += expr;
 
 	JProcess* p;
 	int outFD, errFD;
-	const JError err = JProcess::Create(&p, /*path,*/ cmd,
+	const JError err = JProcess::Create(&p, path, cmd,
 										kJIgnoreConnection, NULL,
 										kJCreatePipe, &outFD,
 										kJCreatePipe, &errFD);
 	if (err.OK())
 		{
-		*task = new SyGFindFileTask(dir, p, outFD, errFD);
+		JString relPath = path;
+		relPath.RemoveSubstring(1, dir->GetDirectory().GetLength());
+
+		*task = new SyGFindFileTask(dir, relPath, p, outFD, errFD);
 		assert( *task != NULL );
 		return kJTrue;
 		}
@@ -66,14 +64,15 @@ SyGFindFileTask::Create
 
 SyGFindFileTask::SyGFindFileTask
 	(
-	SyGTreeDir*	dir,
-	JProcess*	p,
-	int			outFD,
-	int			errFD
+	SyGTreeDir*			dir,
+	const JCharacter*	relPath,
+	JProcess*			process,
+	int					outFD,
+	int					errFD
 	)
 	:
 	itsDirector(dir),
-	itsProcess(p),
+	itsProcess(process),
 	itsFoundFilesFlag(kJFalse)
 {
 	SetConnection(outFD, errFD);
@@ -81,6 +80,13 @@ SyGFindFileTask::SyGFindFileTask
 	itsProcess->ShouldDeleteWhenFinished();
 	ListenTo(itsProcess);
 	ListenTo(itsDirector);
+
+	itsPathList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	assert( itsPathList != NULL );
+
+	SplitPath(relPath, itsPathList);
+
+	itsDirector->GetTable()->GetFileTree()->Update(kJTrue);
 }
 
 /******************************************************************************
@@ -97,6 +103,7 @@ SyGFindFileTask::~SyGFindFileTask()
 		}
 	delete itsProcess;
 
+	delete itsPathList;
 	DeleteLinks();
 }
 
@@ -167,8 +174,6 @@ SyGFindFileTask::ReceiveMessageLine()
 	const JBoolean ok = itsMessageLink->GetNextMessage(&path);
 	assert( ok );
 
-	(SyGGetApplication())->OpenDirectory(path, NULL, NULL, kJFalse, kJFalse, kJFalse, kJFalse);
-/*
 	if (!path.BeginsWith("." ACE_DIRECTORY_SEPARATOR_STR))
 		{
 		return;
@@ -176,11 +181,20 @@ SyGFindFileTask::ReceiveMessageLine()
 	path.RemoveSubstring(1, 2);
 
 	JPtrArray<JString> pathList(JPtrArrayT::kDeleteAll);
-	JString name = path;
+	SplitPath(path, &pathList);
+
+	JString* name = pathList.LastElement();
+	pathList.RemoveElement(pathList.GetElementCount());
+
+	for (JIndex i=itsPathList->GetElementCount(); i>=1; i--)
+		{
+		pathList.Prepend(*(itsPathList->NthElement(i)));
+		}
 
 	JPoint cell;
-	(itsDirector->GetTable())->SelectName(pathList, name, &cell, kJFalse);
-*/
+	(itsDirector->GetTable())->SelectName(pathList, *name, &cell, kJFalse, kJFalse);
+
+	delete name;
 	itsFoundFilesFlag = kJTrue;
 }
 
@@ -219,8 +233,46 @@ SyGFindFileTask::DisplayErrors()
 		}
 	else if (!itsFoundFilesFlag)
 		{
-		(JGetUserNotification())->DisplayMessage(JGetString(kNoMatchID));
+		(JGetUserNotification())->DisplayMessage(JGetString("NoMatch::SyGFindFileTask"));
 		}
+}
+
+/******************************************************************************
+ SplitPath (private static)
+
+ ******************************************************************************/
+
+void
+SyGFindFileTask::SplitPath
+	(
+	const JCharacter*	origRelPath,
+	JPtrArray<JString>*	pathList
+	)
+{
+	pathList->CleanOut();
+	if (JStringEmpty(origRelPath))
+		{
+		return;
+		}
+
+	JString relPath = origRelPath;
+	while (relPath.BeginsWith(ACE_DIRECTORY_SEPARATOR_STR))
+		{
+		relPath.RemoveSubstring(1,1);
+		}
+	JStripTrailingDirSeparator(&relPath);
+
+	JString p, n;
+	while (relPath.Contains(ACE_DIRECTORY_SEPARATOR_STR))
+		{
+		JSplitPathAndName(relPath, &p, &n);
+		pathList->Prepend(n);
+
+		JStripTrailingDirSeparator(&p);
+		relPath = p;
+		}
+
+	pathList->Prepend(relPath);
 }
 
 /******************************************************************************

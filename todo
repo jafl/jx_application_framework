@@ -1,98 +1,4 @@
-jcc
-	pref to turn off making mixed whitespace visible
-
-	vi emulator
-		dd doesn't work on last line of file
-		Ndd doesn't include last line of file even if it should be included
-
-	write out prefs every few minutes
-		call JPrefObject::WritePrefs() after major change, not just in destructors
-
-	cvs,svn,git:  need to pass rev args to "summary" diff command
-
-	if modified separately in memory and on disk, offer to show diff
-		if window closed, deactivate "Redo diff" button
-
-	import/export Task menu contents
-
-	CBProjectTable AddDirectoryTree & AddFiles:
-		treelist should stop listening to tree until done adding
-
-	implement *not* "one a a time" for commands
-		when invoke one-at-a-time from not-one-at-a-time, invoke separate loop
-		when invoke @ commands, must treat as one-at-a-time
-
-systemg
-	optimize selection of multiple items
-		systemg *.cpp in large directory
-		rewrite api to take list of items to select
-		fix cmd line to accept multiple items
-		fix jcc to send one request for multiple items
-	locks up when find returns many files
-		-name *.cpp -o -name *.h -o -name *.xpm
-	when start with args, unminify the requested directories
-		deiconify fails because window created iconified
-
-leibnitz
-	abs( => grey right bar
-		not reseting color correctly?
-		does draw correctly when quit and restart
-
-	THX3DPlotDirector leaking
-
-memory analyzer
-	jcc -- crash with deleted JMessageProtocol -- only when open project
-	print table:  partial column on page 1
-
 medic
-	accept connection or switch to gdb:  should stop listening on port
-		need simple example to submit to ACE list
-	restart either xdebug or java:  unable to listen on port & crashes on exit
-		also need to fix SetProgram()
-	gdb
-		enable call to UnlockDisplays(), when JXGetAssertHandler is defined
-			check every time symbols are loaded
-
-svn_client
-	incremental search in SVNListBase:  only search file name
-	show multiple files in same folder in systemg:  only selects last one
-
-JBroadcaster
-	register handler for message:  function which takes obj, msg type, function pointer
-		pass in friend function that takes obj, sender, msg
-		dynamic_cast obj to correct type and do whatever
-		multiple inheritance Receive needs to turn off dispatching for all but the last path to JBroadcaster
-
-JXMenu::PrepareToOpenMenu()
-	itsOwner may delete us!
-
------
-
-medic
-	java
-		selected stack frame
-			select source line
-				get code offset <-> line number for method
-				search for frame's code offset
-			show local variables
-				get list of method's variables (slot #'s)
-				get frame's value for each slot #'s
-		start JVM
-			JVMDisplaySourceForMain
-				get Methods for main-class, find "main", get LineTable, get first line number, scroll to that
-		set breakpoint
-			search code index <-> line index for location
-
-		source-jar unzips to /tmp
-			display stderr from zip in cmd line window
-			delete /tmp directories when delete link or open different program
-
-		http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html
-		http://java.sun.com/javase/6/docs/technotes/guides/jpda/jdwp-spec.html
-		http://java.sun.com/javase/6/docs/platform/jpda/jdwp/jdwp-protocol.html
-
-		http://java.sun.com/j2se/1.5.0/docs/tooldocs/solaris/jdb.html
-
 	examine memory
 		item in Var & Local Var to examine content of selected variable
 		use correct font
@@ -146,6 +52,91 @@ medic
 		^done,reason="end-stepping-range",thread-id="1",frame={level="0",addr="0x0000291c",fp="0xbffff150",func="main",
 		args=[{name="argc",value="1"},{name="argv",value="0xbffff168"}],file="code/systemg.cpp",
 		fullname="/Users/lindalj/tools/JX/programs/systemg/code/systemg.cpp",line="38",dir="/Users/lindalj/tools/JX/programs/systemg"}
+
+-----
+
+jcc
+	pref to turn off making mixed whitespace visible
+
+	vi emulator
+		dd doesn't work on last line of file
+		Ndd doesn't include last line of file even if it should be included
+
+	write out prefs every few minutes
+		call JPrefObject::WritePrefs() after major change, not just in destructors
+
+	cvs,svn,git:  need to pass rev args to "summary" diff command
+
+	if modified separately in memory and on disk, offer to show diff
+		if window closed, deactivate "Redo diff" button
+
+	import/export Task menu contents
+
+	CBProjectTable AddDirectoryTree & AddFiles:
+		treelist should stop listening to tree until done adding
+
+	implement *not* "one a a time" for commands
+		when invoke one-at-a-time from not-one-at-a-time, invoke separate loop
+		when invoke @ commands, must treat as one-at-a-time
+
+leibnitz
+	abs( => grey right bar
+		not reseting color correctly?
+		does draw correctly when quit and restart
+
+	THX3DPlotDirector leaking
+
+memory analyzer
+	jcc -- crash with deleted JMessageProtocol -- only when open project
+	print table:  partial column on page 1
+
+medic
+	accept connection or switch to gdb:  should stop listening on port
+		need simple example to submit to ACE list
+	restart either xdebug or java:  unable to listen on port & crashes on exit
+		also need to fix SetProgram()
+	gdb
+		enable call to UnlockDisplays(), when JXGetAssertHandler is defined
+			check every time symbols are loaded
+
+svn_client
+	incremental search in SVNListBase:  only search file name
+
+JBroadcaster
+	register handler for message:  function which takes obj, msg type, function pointer
+		pass in friend function that takes obj, sender, msg
+		dynamic_cast obj to correct type and do whatever
+		multiple inheritance Receive needs to turn off dispatching for all but the last path to JBroadcaster
+
+JXMenu::PrepareToOpenMenu()
+	itsOwner may delete us!
+
+-----
+
+medic
+	java
+		selected stack frame
+			select source line
+				get code offset <-> line number for method
+				search for frame's code offset
+			show local variables
+				get list of method's variables (slot #'s)
+				get frame's value for each slot #'s
+		start JVM
+			JVMDisplaySourceForMain
+				get Methods for main-class, find "main", get LineTable, get first line number, scroll to that
+		set breakpoint
+			search code index <-> line index for location
+
+		source-jar unzips to /tmp
+			display stderr from zip in cmd line window
+			delete /tmp directories when delete link or open different program
+
+		http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html
+		http://java.sun.com/javase/6/docs/technotes/guides/jpda/jdwp-spec.html
+		http://java.sun.com/javase/6/docs/platform/jpda/jdwp/jdwp-protocol.html
+
+		http://java.sun.com/j2se/1.5.0/docs/tooldocs/solaris/jdb.html
 
 	gdb for program with threads:
 		set scheduler-locking on/off/step
@@ -315,6 +306,11 @@ systemg
 		~/.trash/.source stores list of original locations
 		cull non-existent when re-write the file
 		delete when empty trash
+
+	optimize selection of multiple items via cmd line
+		systemg code/*.cpp code/*.h
+		rewrite MDI server to collect files in same directory
+			then pass collection to SyGFindFileTask
 
 leibnitz
 	symbol font: transform to unicode and use X11 utf8 string width/drawing functions

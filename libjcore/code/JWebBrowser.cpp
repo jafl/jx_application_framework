@@ -148,9 +148,8 @@ JWebBrowser::ShowFileLocations
 		JString s = itsShowFileLocationCmd;
 		for (JIndex i=1; i<=count; i++)
 			{
-			s += " '";
-			s += *(fileList.NthElement(i));
-			s += "'";
+			s += " ";
+			s += JPrepArgForExec(*(fileList.NthElement(i)));
 			}
 
 		JSimpleProcess::Create(s, kJTrue);

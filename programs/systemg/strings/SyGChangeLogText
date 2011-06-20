@@ -14,7 +14,11 @@ Please send all bug reports and suggestions for features to
 
 <h3> 2.4.5 </h3>
 
+\"Find files\" dialog is now much faster when there is a large number of matches.
+<p>
 Fixed bug preventing duplication of unmanaged file inside directory managed by Subversion.
+<p>
+Fixed bug so when you open a directory that was previously iconified, the window will automatically be de-iconified.
 
 <h3> 2.4.4 </h3>
 

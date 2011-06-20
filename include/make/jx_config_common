@@ -11,37 +11,6 @@ endif
 ACELIBDIR = ${JX_ROOT}/ACE
 
 #
-# Check version of g++
-# (shamelessly stolen from ACE_wrappers/include/makeinclude/wrapper_macros.GNU)
-#
-
-JX_HAS_GNUG := 0
-
-ifeq ($(findstring g++,${CXX}),g++)
-  JX_HAS_GNUG := 1
-  ifeq (${CXX},g++)
-    JX_HAS_GNUG_PRE_2_8 := ${shell \
-        if { ${CXX} --version | egrep '^(cygnus-)?2\.[0-7]' > /dev/null; } \
-        then { echo 1; } \
-        else { echo 0; } fi}
-    JX_HAS_GNUG_2_95 := ${shell \
-        if { ${CXX} --version | egrep '^(cygnus-)?2\.95' > /dev/null; } \
-        then { echo 1; } \
-        else { echo 0; } fi}
-  else  # ! g++
-  ifeq (eg++,$(findstring eg++,${CXX}))
-    # Assume that eg++ is egcs.
-    JX_HAS_GNUG_PRE_2_8 := 0
-    JX_HAS_GNUG_2_95    := 0
-  else  # ! plain g++ or eg++
-    # CXX is something like g++386.  Assume, for now, that it's an old g++.
-    JX_HAS_GNUG_PRE_2_8 := 1
-    JX_HAS_GNUG_2_95    := 0
-  endif # ! plain g++ or eg++
-  endif # ! g++
-endif # g++
-
-#
 # modify configuration based on OS, compiler, etc.
 #
 
@@ -56,7 +25,7 @@ endif
 
 # -Wno-write-strings to avoid warnings from auto-generated XPM files
 
-ifeq (${JX_HAS_GNUG},1)
+ifeq ($(findstring g++,${CXX}),g++)
   J_RAW_SYSTEM_STUFF += \
     -Wall -Wno-unused -Wno-write-strings \
     -fno-implicit-templates -DJ_EXPLICIT_TEMPLATES
@@ -67,15 +36,7 @@ ifeq (${JX_HAS_GNUG},1)
     J_RAW_SYSTEM_STUFF += -O2
   endif
 
-  ifeq (${JX_HAS_GNUG_PRE_2_8},1)
-    J_RAW_SYSTEM_STUFF += -DJ_NO_HAS_STATIC_TEMPLATE_DATA
-  else
-    J_RAW_SYSTEM_STUFF += -fno-exceptions
-  endif
-
-  ifeq (${JX_HAS_GNUG_2_95},1)
-    J_RAW_SYSTEM_STUFF += -fpermissive
-  endif
+  J_RAW_SYSTEM_STUFF += -fno-exceptions
 endif
 
 J_COMPILER_DEPEND_FLAGS_FOR_BISON := ${J_RAW_SYSTEM_STUFF}

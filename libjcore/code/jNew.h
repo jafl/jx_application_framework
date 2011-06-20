@@ -25,20 +25,10 @@
 #include <stdlib.h> // For size_t
 #include <jTypes.h>
 
-	#ifdef __KCC
-	void* operator new(size_t size) MSIPL_THROW_STR(std::bad_alloc);
-	#else
 	void* operator new(size_t size);
-	#endif
-
 	void* operator new(size_t size, const JCharacter* file, const JUInt32 line);
 
-	#ifdef __KCC
-	void* operator new[](size_t size) MSIPL_THROW_STR(std::bad_alloc);
-	#else
 	void* operator new[](size_t size);
-	#endif
-
 	void* operator new[](size_t size, const JCharacter* file, const JUInt32 line);
 
 	void operator delete(void* memory);

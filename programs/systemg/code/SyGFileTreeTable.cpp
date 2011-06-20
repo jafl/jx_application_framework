@@ -732,12 +732,17 @@ SyGFileTreeTable::SelectName
 	(
 	const JCharacter*		name,
 	const SyGFileTreeNode*	parent,
-	JPoint*					cell
+	JPoint*					cell,
+	const JBoolean			updateContent,
+	const JBoolean			updateView
 	)
 {
 	if (!JStringEmpty(name))
 		{
-		itsFileTree->Update(kJTrue);
+		if (updateContent)
+			{
+			itsFileTree->Update(kJTrue);
+			}
 
 		if (parent == NULL)
 			{
@@ -751,8 +756,13 @@ SyGFileTreeTable::SelectName
 			{
 			cell->Set(GetNodeColIndex(), index);
 			(GetTableSelection()).SelectCell(*cell);
-			ForceAdjustToTree();	// make sure col widths are correct
-			UpdateScrollbars();		// make sure they are visible
+
+			if (updateView)
+				{
+				ForceAdjustToTree();	// make sure col widths are correct
+				UpdateScrollbars();		// make sure they are visible
+				}
+
 			TableScrollToCell(*cell);
 			return kJTrue;
 			}
@@ -774,10 +784,15 @@ SyGFileTreeTable::SelectName
 	const JPtrArray<JString>&	pathList,
 	const JCharacter*			name,
 	JPoint*						cell,
-	const JBoolean				clearSelection
+	const JBoolean				clearSelection,
+	const JBoolean				updateContent
 	)
 {
-	itsFileTree->Update(kJTrue);
+	if (updateContent)
+		{
+		itsFileTree->Update(kJTrue);
+		}
+	JBoolean updateView = updateContent;
 
 	JTableSelection& s      = GetTableSelection();
 	SyGFileTreeNode* parent = itsFileTree->GetSyGRoot();
@@ -800,7 +815,7 @@ SyGFileTreeTable::SelectName
 					{
 					s.ClearSelection();
 					}
-				SelectName(name1, parent, cell);
+				SelectName(name1, parent, cell, kJFalse, updateView);
 				}
 			}
 		else
@@ -809,11 +824,15 @@ SyGFileTreeTable::SelectName
 				{
 				s.ClearSelection();
 				}
-			SelectName(name1, parent, cell);
+			SelectName(name1, parent, cell, kJFalse, updateView);
 			return kJFalse;
 			}
 
-		itsFileTreeList->Open(cell->y);
+		if (!itsFileTreeList->IsOpen(cell->y))
+			{
+			itsFileTreeList->Open(cell->y);
+			updateView = kJTrue;
+			}
 		parent = itsFileTreeList->GetSyGNode(cell->y);
 		}
 
@@ -821,7 +840,7 @@ SyGFileTreeTable::SelectName
 		{
 		s.ClearSelection();
 		}
-	return SelectName(name, parent, cell);
+	return SelectName(name, parent, cell, kJFalse, updateView);
 }
 
 /******************************************************************************

@@ -92,10 +92,6 @@ protected:
 
 private:
 
-#ifdef __SUNPRO_CC
-public:
-#endif
-
 	struct VarInfo
 	{
 		JString*	name;

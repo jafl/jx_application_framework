@@ -13,6 +13,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3>1.2.2</h3>
+
+Fixed crash when process disappeared while Drakon was updating the process' status.
+
 <h3>1.2.1</h3>
 
 Tweaked rendering of memory usage pie chart to make it look nicer.
