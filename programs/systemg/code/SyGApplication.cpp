@@ -695,13 +695,6 @@ SyGApplication::RestoreProgramState()
 			path = JGetRootDirectory();
 			}
 		OpenDirectory(path);
-
-		SyGTreeDir* dir;
-		if (SyGGetTrashDirectory(&path, kJFalse) &&
-			OpenDirectory(path, &dir))
-			{
-			(dir->GetWindow())->Iconify();
-			}
 		}
 
 	return kJTrue;

@@ -13,7 +13,6 @@
 #endif
 
 #include <JXPrefsManager.h>
-#include <JXDocumentManager.h>	// need definition of SafetySaveReason
 
 class JPoint;
 class JXWindow;
@@ -57,13 +56,10 @@ public:
 	JString	GetOpenFileCommand() const;
 	void	SetOpenFileCommand(const JString& cmd);
 
-	// called by MDCleanUpBeforeSuddenDeath
-
-	void CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
-
 protected:
 
 	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion);
+	virtual void	SaveAllBeforeDestruct();
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 
 private:
@@ -71,8 +67,6 @@ private:
 	MDPrefsDialog*	itsPrefsDialog;
 
 private:
-
-	void	SaveAllBeforeDestruct();
 
 	// not allowed
 

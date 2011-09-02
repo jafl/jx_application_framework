@@ -280,16 +280,19 @@ SyGCopyProcess::SyGCopyProcess
 
 	itsVCSType = kJUnknownVCSType;
 	{
-	JVCSType type1, type2;
+	JVCSType type1, type2, type3;
 	JBoolean anyVCS, allVCS, sameVCS;
 
 	const JSize srcCount = srcNameList->GetElementCount();
 	JString path, name;
 	for (JIndex i=1; i<=srcCount; i++)
 		{
-		const JString* src = srcNameList->NthElement(i);
-		if (JDirectoryExists(*src))
+		const JString* src   = srcNameList->NthElement(i);
+		const JBoolean isDir = JDirectoryExists(*src);
+		JBoolean isVCS3      = kJFalse;
+		if (isDir)
 			{
+			isVCS3 = JIsManagedByVCS(*src, &type3);
 			JSplitPathAndName(*src, &path, &name);
 			}
 		else
@@ -297,7 +300,17 @@ SyGCopyProcess::SyGCopyProcess
 			path = *src;
 			}
 
-		const JBoolean isVCS = JIsManagedByVCS(path, &type2);
+		JBoolean isVCS;
+		if (isDir && !isVCS3)
+			{
+			isVCS = kJFalse;
+			type2 = kJUnknownVCSType;
+			}
+		else
+			{
+			isVCS = JIsManagedByVCS(path, &type2);
+			}
+
 		if (i == 1)
 			{
 			type1 = type2;
@@ -516,11 +529,11 @@ SyGCopyProcess::Receive
 					}
 				}
 			}
-		else if (itsVCSType == kJGitType && itsIsMoveFlag)
+		else if (itsVCSType != kJUnknownVCSType && itsIsMoveFlag)
 			{
 			process->ReportError(kJFalse);
 
-			if ((JGetUserNotification())->AskUserYes(JGetString("AskPlainGitMove::SyGCopyProcess")))
+			if ((JGetUserNotification())->AskUserYes(JGetString("AskPlainVCSMove::SyGCopyProcess")))
 				{
 				done = kJFalse;
 

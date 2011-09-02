@@ -63,7 +63,7 @@ J_RANLIB_VIA_AR_S := -D_J_RANLIB_VIA_AR_S
 # Comment this out if you don't have Xinerama
 
 J_HAS_XINERAMA  := -D_J_HAS_XINERAMA
-J_XINERAMA_LIBS := ${J_BEGIN_LINK_STATIC} -lXinerama ${J_END_LINK_STATIC}
+J_XINERAMA_LIBS := -lXinerama
 
 # Adjust these until everything compiles
 

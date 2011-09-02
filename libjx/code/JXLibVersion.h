@@ -25,6 +25,11 @@ static const char* kCurrentJXLibVersionStr = "3.0.0";
 //		Promoted GetInputField() to public.
 //	JXTreeListWidget:
 //		Fixed crash when item being toggled by drag disappears before mouse up.
+//	JXPrefsManager:
+//		Added default implementation of CleanUpBeforeSuddenDeath()
+//		Add virtual SaveAllBeforeDestruct() which must be called by the
+//			leaf class destructor.
+//		Periodically saves all data to disk to protected against crashes.
 
 // version 3.0.0:
 //	*** Run new jxlayout on all .fd files.

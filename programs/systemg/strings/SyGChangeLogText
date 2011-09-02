@@ -12,6 +12,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 2.4.6 </h3>
+
+Fixed bug so you can move unmanaged directories within a Subversion directory tree.
+
 <h3> 2.4.5 </h3>
 
 \"Find files\" dialog is now much faster when there is a large number of matches.

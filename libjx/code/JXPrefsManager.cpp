@@ -11,8 +11,12 @@
 
 #include <JXStdInc.h>
 #include <JXPrefsManager.h>
+#include <JXChooseSaveFile.h>
+#include <JXTimerTask.h>
 #include <jXGlobals.h>
 #include <jAssert.h>
+
+const Time kSafetySaveInterval = 15 * 60 * 1000;	// 15 minutes (ms)
 
 /******************************************************************************
  Constructor (protected)
@@ -28,6 +32,10 @@ JXPrefsManager::JXPrefsManager
 	JPrefsManager((JXGetApplication())->GetSignature(),
 				  currentVersion, eraseFileIfOpen)
 {
+	itsSafetySaveTask = new JXTimerTask(kSafetySaveInterval);
+	assert( itsSafetySaveTask != NULL );
+	itsSafetySaveTask->Start();
+	ListenTo(itsSafetySaveTask);
 }
 
 /******************************************************************************
@@ -37,4 +45,64 @@ JXPrefsManager::JXPrefsManager
 
 JXPrefsManager::~JXPrefsManager()
 {
+	delete itsSafetySaveTask;
+}
+
+/******************************************************************************
+ CleanUpBeforeSuddenDeath (virtual)
+
+	This must be the last one called by the application's
+	CleanUpBeforeSuddenDeath() function so we can save the preferences to
+	disk.
+
+	*** If the server is dead, you cannot call any code that contacts it.
+
+ ******************************************************************************/
+
+void
+JXPrefsManager::CleanUpBeforeSuddenDeath
+	(
+	const JXDocumentManager::SafetySaveReason reason
+	)
+{
+	if (reason != JXDocumentManager::kAssertFired)
+		{
+		SaveAllBeforeDestruct();
+		}
+}
+
+/******************************************************************************
+ SaveAllBeforeDestruct (virtual protected)
+
+	This must be called by the leaf class destructor.
+
+ ******************************************************************************/
+
+void
+JXPrefsManager::SaveAllBeforeDestruct()
+{
+	(JXGetChooseSaveFile())->JPrefObject::WritePrefs();
+	SaveToDisk();
+}
+
+/******************************************************************************
+ Receive (virtual protected)
+
+ ******************************************************************************/
+
+void
+JXPrefsManager::Receive
+	(
+	JBroadcaster*	sender,
+	const Message&	message
+	)
+{
+	if (sender == itsSafetySaveTask && message.Is(JXTimerTask::kTimerWentOff))
+		{
+		SaveAllBeforeDestruct();
+		}
+	else
+		{
+		JPrefsManager::Receive(sender, message);
+		}
 }

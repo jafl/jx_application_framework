@@ -46,18 +46,16 @@ GPMPrefsManager::~GPMPrefsManager()
 }
 
 /******************************************************************************
- SaveAllBeforeDestruct (private)
+ SaveAllBeforeDestruct (virtual protected)
 
  ******************************************************************************/
 
 void
 GPMPrefsManager::SaveAllBeforeDestruct()
 {
-	(JXGetChooseSaveFile())->JPrefObject::WritePrefs();
-
 	SetData(kGPMProgramVersionID, GPMGetVersionNumberStr());
 
-	SaveToDisk();
+	JXPrefsManager::SaveAllBeforeDestruct();
 }
 
 /******************************************************************************
@@ -91,26 +89,4 @@ GPMPrefsManager::GetPrevVersionStr()
 	const JBoolean ok = GetData(kGPMProgramVersionID, &data);
 	assert( ok );
 	return JString(data);
-}
-
-/******************************************************************************
- CleanUpBeforeSuddenDeath
-
-	This must be the last one called by GPMCleanUpBeforeSuddenDeath()
-	so we can save the preferences to disk.
-
-	*** If the server is dead, you cannot call any code that contacts it.
-
- ******************************************************************************/
-
-void
-GPMPrefsManager::CleanUpBeforeSuddenDeath
-	(
-	const JXDocumentManager::SafetySaveReason reason
-	)
-{
-	if (reason != JXDocumentManager::kAssertFired)
-		{
-		SaveAllBeforeDestruct();
-		}
 }

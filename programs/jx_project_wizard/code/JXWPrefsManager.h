@@ -13,7 +13,6 @@
 #endif
 
 #include <JXPrefsManager.h>
-#include <JXDocumentManager.h>	// need definition of SafetySaveReason
 
 class JString;
 
@@ -36,17 +35,12 @@ public:
 
 	JString GetPrevVersionStr() const;
 
-	// called by JXWCleanUpBeforeSuddenDeath
-
-	void CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
-
 protected:
 
 	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion);
+	virtual void	SaveAllBeforeDestruct();
 
 private:
-
-	void	SaveAllBeforeDestruct();
 
 	// not allowed
 

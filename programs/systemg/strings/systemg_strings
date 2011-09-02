@@ -4,7 +4,7 @@
 
 # main
 
-VERSION		"2.4.5"
+VERSION		"2.4.6"
 COPYRIGHT
 "Copyright © 1997-2011 John Lindal.  All rights reserved.
 
@@ -154,7 +154,7 @@ NoReplaceWithContents::SyGCopyProcess
 UseVCSCopy::SyGCopyProcess
 "Do you want to place the copy under version control?"
 
-AskPlainGitMove::SyGCopyProcess	"Do you want to move without using Git?"
+AskPlainVCSMove::SyGCopyProcess	"Do you want to move without using version control?"
 
 # SyGMDIServer
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890

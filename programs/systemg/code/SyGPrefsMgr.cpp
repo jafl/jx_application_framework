@@ -54,29 +54,7 @@ SyGPrefsMgr::~SyGPrefsMgr()
 }
 
 /******************************************************************************
- CleanUpBeforeSuddenDeath
-
-	This must be the last one called by SyGCleanUpBeforeSuddenDeath()
-	so we can save the preferences to disk.
-
-	*** If the server is dead, you cannot call any code that contacts it.
-
- ******************************************************************************/
-
-void
-SyGPrefsMgr::CleanUpBeforeSuddenDeath
-	(
-	const JXDocumentManager::SafetySaveReason reason
-	)
-{
-	if (reason != JXDocumentManager::kAssertFired)
-		{
-		SaveAllBeforeDestruct();
-		}
-}
-
-/******************************************************************************
- SaveAllBeforeDestruct (private)
+ SaveAllBeforeDestruct (virtual protected)
 
  ******************************************************************************/
 
@@ -84,9 +62,8 @@ void
 SyGPrefsMgr::SaveAllBeforeDestruct()
 {
 	SetData(kSProgramVersionID, SyGGetVersionNumberStr());
-	(JXGetChooseSaveFile())->JPrefObject::WritePrefs();
 
-	SaveToDisk();
+	JXPrefsManager::SaveAllBeforeDestruct();
 }
 
 /******************************************************************************

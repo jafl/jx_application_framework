@@ -1,4 +1,4 @@
-%define drakon_version 1.2.2
+%define drakon_version 1.2.3
 
 Summary: Drakon provides a simple way to manage UNIX processes.
 Name: Drakon

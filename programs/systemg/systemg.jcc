@@ -212,7 +212,6 @@ F
 4
 "makemake"
 T "./" "make -k personal" "" T F T F T F T "" "" "',zr*.RST,~UET!;/(p]::CBCommandManager" F
-T "./" "make -k ibeta" "" T F T F T F T "" "" "$zw]i2?219CnU`N-,x4%::CBCommandManager" F
 F
 # build settings
 1

@@ -9,7 +9,6 @@
 #define _H_GPMPrefsManager
 
 #include <JXPrefsManager.h>
-#include <JXDocumentManager.h>	// need definition of SafetySaveReason
 
 // Preferences -- do not change ID's once they are assigned
 
@@ -32,17 +31,12 @@ public:
 
 	JString GetPrevVersionStr() const;
 
-	// called by GPMCleanUpBeforeSuddenDeath
-
-	void CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
-
 protected:
 
 	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion);
+	virtual void	SaveAllBeforeDestruct();
 
 private:
-
-	void	SaveAllBeforeDestruct();
 
 	// not allowed
 

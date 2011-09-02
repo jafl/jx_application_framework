@@ -136,12 +136,9 @@ JIsManagedByVCS
 	JVCSType*			returnType
 	)
 {
-	JVCSType type = JGetVCSType(fullName);
-	if (returnType != NULL)
-		{
-		*returnType = type;
-		}
+	const JVCSType type = JGetVCSType(fullName);
 
+	JBoolean isManaged = kJFalse;
 	if (type == kJSVNType)
 		{
 		JString path, name, entriesFileName, data, pattern;
@@ -153,8 +150,8 @@ JIsManagedByVCS
 		if (data.BeginsWith("<?xml"))
 			{
 			pattern = "<entry[^>]+name=\"" + JRegex::BackslashForLiteral(name) + "\"(.|\n)*?>";
-			JRegex r(pattern);
-			return r.Match(data);
+			const JRegex r(pattern);
+			isManaged = r.Match(data);
 			}
 		else
 			{
@@ -164,19 +161,20 @@ JIsManagedByVCS
 			if (version == "8" || version == "9" || version == "10")
 				{
 				pattern = "\n\f\n" + name + "\n";
-
-				JBoolean found;
-				JIgnoreUntil(input, pattern, &found);
-				return found;
+				JIgnoreUntil(input, pattern, &isManaged);
 				}
 			}
 		}
 	else if (type == kJGitType)
 		{
-		return kJTrue;	// TODO: ask git (until then, better safe than sorry)
+		isManaged = kJTrue;	// TODO: ask git (until then, better safe than sorry)
 		}
 
-	return kJFalse;
+	if (returnType != NULL)
+		{
+		*returnType = (isManaged ? type : kJUnknownVCSType);
+		}
+	return isManaged;
 }
 
 /******************************************************************************

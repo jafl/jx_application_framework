@@ -195,7 +195,7 @@ GPMProcessEntry::Update
 	JSize totalTime	= (itsLastUTime == 0 || itsLastSTime == 0) ? 0 : (itsUTime - itsLastUTime) + (itsSTime - itsLastSTime);
 	itsLastUTime	= itsUTime;
 	itsLastSTime	= itsSTime;
-	itsPercentCPU	= elapsedTime == 0 ? 0 : JFloat(totalTime * 1000 / sysconf(_SC_CLK_TCK)) / (10 * elapsedTime);
+	itsPercentCPU	= elapsedTime == 0 || itsState == kZombie ? 0 : JFloat(totalTime * 1000 / sysconf(_SC_CLK_TCK)) / (10 * elapsedTime);
 }
 
 #ifdef _J_HAS_PROC
@@ -208,6 +208,8 @@ GPMProcessEntry::Update
 void
 GPMProcessEntry::ReadStat()
 {
+	const JSize uTime = itsUTime, sTime = itsSTime;
+
 	JString str = JCombinePathAndName(itsProcPath, "stat");
 	ifstream is(str);
 	if (is.good())
@@ -259,6 +261,14 @@ GPMProcessEntry::ReadStat()
 		is >> itsPriority;
 		is >> itsNice;
 		}
+
+	if (!is.good())
+		{
+		itsState = kZombie;
+		itsUTime = uTime;
+		itsSTime = sTime;
+		itsPriority = itsNice = 0;
+		}
 }
 
 /******************************************************************************
@@ -280,6 +290,12 @@ GPMProcessEntry::ReadStatM()
 		itsResident	*= 4;
 		is >> itsShare;
 		itsShare	*= 4;
+		}
+
+	if (!is.good())
+		{
+		itsState = kZombie;
+		itsSize = itsResident = itsShare = 0;
 		}
 }
 

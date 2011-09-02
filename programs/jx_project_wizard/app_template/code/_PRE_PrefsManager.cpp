@@ -48,18 +48,16 @@ const JFileVersion kCurrentPrefsFileVersion = 0;
 }
 
 /******************************************************************************
- SaveAllBeforeDestruct (private)
+ SaveAllBeforeDestruct (virtual protected)
 
  ******************************************************************************/
 
 void
 <PRE>PrefsManager::SaveAllBeforeDestruct()
 {
-	(JXGetChooseSaveFile())->JPrefObject::WritePrefs();
-
 	SetData(k<PRE>ProgramVersionID, <PRE>GetVersionNumberStr());
 
-	SaveToDisk();
+	JXPrefsManager::SaveAllBeforeDestruct();
 }
 
 /******************************************************************************
@@ -194,27 +192,5 @@ void
 	else
 		{
 		JXPrefsManager::Receive(sender, message);
-		}
-}
-
-/******************************************************************************
- CleanUpBeforeSuddenDeath
-
-	This must be the last one called by <PRE>CleanUpBeforeSuddenDeath()
-	so we can save the preferences to disk.
-
-	*** If the server is dead, you cannot call any code that contacts it.
-
- ******************************************************************************/
-
-void
-<PRE>PrefsManager::CleanUpBeforeSuddenDeath
-	(
-	const JXDocumentManager::SafetySaveReason reason
-	)
-{
-	if (reason != JXDocumentManager::kAssertFired)
-		{
-		SaveAllBeforeDestruct();
 		}
 }

@@ -54,25 +54,3 @@ THXPrefsManager::UpgradeData
 	)
 {
 }
-
-/******************************************************************************
- CleanUpBeforeSuddenDeath
-
-	This must be the last one called by MDCleanUpBeforeSuddenDeath()
-	so we can save the preferences to disk.
-
-	*** If the server is dead, you cannot call any code that contacts it.
-
- ******************************************************************************/
-
-void
-THXPrefsManager::CleanUpBeforeSuddenDeath
-	(
-	const JXDocumentManager::SafetySaveReason reason
-	)
-{
-	if (reason != JXDocumentManager::kAssertFired)
-		{
-		SaveToDisk();
-		}
-}

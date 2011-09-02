@@ -13,7 +13,6 @@
 #endif
 
 #include <JXPrefsManager.h>
-#include <JXDocumentManager.h>	// need definition of SafetySaveReason
 
 // Preferences -- do not change ID's once they are assigned
 
@@ -29,10 +28,6 @@ public:
 	THXPrefsManager(JBoolean* isNew);
 
 	virtual	~THXPrefsManager();
-
-	// called by MDCleanUpBeforeSuddenDeath
-
-	void CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 
 protected:
 

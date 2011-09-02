@@ -27,6 +27,8 @@ static const char* kCurrentJCoreLibVersionStr = "3.0.0";
 //		Changed ctor for JUInt to JUInt64.
 //	JOrderedSetUtil:
 //		Added JCompareUInt64().
+//	jVCSUtil:
+//		Fixed JIsManagedByVCS() to return type=kJUnknownVCSType if not managed.
 
 // version 3.0.0:
 //	JRexex:

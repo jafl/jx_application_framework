@@ -15,7 +15,6 @@
 #endif
 
 #include <JXPrefsManager.h>
-#include <JXDocumentManager.h>	// need defn of SafetySaveReason
 #include <JPtrArray-JString.h>
 #include <JFontStyle.h>
 
@@ -84,11 +83,10 @@ public:
 
 	void		EditPrefs();
 
-	void		CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
-
 protected:
 
 	virtual void	UpgradeData(const JBoolean isNew, const JFileVersion currentVersion);
+	virtual void	SaveAllBeforeDestruct();
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 
 private:
@@ -98,7 +96,6 @@ private:
 private:
 
 	void	UpdatePrefs();
-	void	SaveAllBeforeDestruct();
 
 	// not allowed
 

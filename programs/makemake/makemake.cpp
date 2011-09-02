@@ -37,7 +37,7 @@ static const JCharacter* kVersionStr =
 
 	"makemake 3.4.0\n"
 	"\n"
-	"Copyright © 1994-2010 by John Lindal.  All rights reserved.\n"
+	"Copyright (C) 1994-2010 by John Lindal.  All rights reserved.\n"
 	"\n"
 	"http://www.newplanetsoftware.com/";
 

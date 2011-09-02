@@ -51,18 +51,16 @@ MDPrefsManager::~MDPrefsManager()
 }
 
 /******************************************************************************
- SaveAllBeforeDestruct (private)
+ SaveAllBeforeDestruct (virtual protected)
 
  ******************************************************************************/
 
 void
 MDPrefsManager::SaveAllBeforeDestruct()
 {
-	(JXGetChooseSaveFile())->JPrefObject::WritePrefs();
-
 	SetData(kMDProgramVersionID, MDGetVersionNumberStr());
 
-	SaveToDisk();
+	JXPrefsManager::SaveAllBeforeDestruct();
 }
 
 /******************************************************************************
@@ -278,27 +276,5 @@ MDPrefsManager::Receive
 	else
 		{
 		JXPrefsManager::Receive(sender, message);
-		}
-}
-
-/******************************************************************************
- CleanUpBeforeSuddenDeath
-
-	This must be the last one called by MDCleanUpBeforeSuddenDeath()
-	so we can save the preferences to disk.
-
-	*** If the server is dead, you cannot call any code that contacts it.
-
- ******************************************************************************/
-
-void
-MDPrefsManager::CleanUpBeforeSuddenDeath
-	(
-	const JXDocumentManager::SafetySaveReason reason
-	)
-{
-	if (reason != JXDocumentManager::kAssertFired)
-		{
-		SaveAllBeforeDestruct();
 		}
 }

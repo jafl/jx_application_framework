@@ -13,6 +13,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3>1.2.3</h3>
+
+Fixed display of processes that die while Drakon is updating the status.
+
 <h3>1.2.2</h3>
 
 Fixed crash when process disappeared while Drakon was updating the process' status.

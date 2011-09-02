@@ -24,7 +24,7 @@ SEARCHDIRS := -I${CODEDIR} \
 
 # other constants
 
-SYSTEMG_VERSION  := 2.4.5
+SYSTEMG_VERSION  := 2.4.6
 SIGNATURE        := systemg
 SYG_STRING_FILES := ${filter-out %/systemg_menu_strings, \
                       ${shell echo strings/*}}
@@ -180,15 +180,6 @@ debug: staticACE libs
 .PHONY : static
 static: debug
 	@${J_STRIP_DEBUG} ${call EXE, systemg}
-
-#
-# internal beta version
-#
-
-.PHONY : ibeta
-ibeta: static
-	@tar -czf ${HOME}/systemg.tgz systemg
-	@cp systemg ${HOME}/bin/systemg_stable
 
 #
 # personal install

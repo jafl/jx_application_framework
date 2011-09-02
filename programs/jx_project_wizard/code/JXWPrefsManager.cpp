@@ -45,18 +45,16 @@ JXWPrefsManager::~JXWPrefsManager()
 }
 
 /******************************************************************************
- SaveAllBeforeDestruct (private)
+ SaveAllBeforeDestruct (virtual protected)
 
  ******************************************************************************/
 
 void
 JXWPrefsManager::SaveAllBeforeDestruct()
 {
-	(JXGetChooseSaveFile())->JPrefObject::WritePrefs();
-
 	SetData(kJXWProgramVersionID, JXWGetVersionNumberStr());
 
-	SaveToDisk();
+	JXPrefsManager::SaveAllBeforeDestruct();
 }
 
 /******************************************************************************
@@ -90,26 +88,4 @@ JXWPrefsManager::GetPrevVersionStr()
 	const JBoolean ok = GetData(kJXWProgramVersionID, &data);
 	assert( ok );
 	return JString(data);
-}
-
-/******************************************************************************
- CleanUpBeforeSuddenDeath
-
-	This must be the last one called by JXWCleanUpBeforeSuddenDeath()
-	so we can save the preferences to disk.
-
-	*** If the server is dead, you cannot call any code that contacts it.
-
- ******************************************************************************/
-
-void
-JXWPrefsManager::CleanUpBeforeSuddenDeath
-	(
-	const JXDocumentManager::SafetySaveReason reason
-	)
-{
-	if (reason != JXDocumentManager::kAssertFired)
-		{
-		SaveAllBeforeDestruct();
-		}
 }

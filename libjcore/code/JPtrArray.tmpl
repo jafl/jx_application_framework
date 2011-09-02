@@ -44,7 +44,7 @@ JPtrArray<T>::JPtrArray
 /******************************************************************************
  Copy constructor
 
-	CleanUpAction should not be kDeleteAllAs* for both original and copy.
+	CleanUpAction should not be kDeleteAll* for both original and copy.
 
  ******************************************************************************/
 
@@ -119,7 +119,7 @@ JPtrArray<T>::CleanOut()
 /******************************************************************************
  CopyPointers (Shallow assignment operator)
 
-	CleanUpAction should not be kDeleteAllAs* for both original and copy.
+	CleanUpAction should not be kDeleteAll* for both original and copy.
 
 	If !append, CleanOut() is called first.
 
@@ -159,7 +159,7 @@ JPtrArray<T>::CopyPointers
 /******************************************************************************
  CopyObjects (Deep assignment operator)
 
-	CleanUpAction can be kDeleteAllAs* for both original and copy.
+	CleanUpAction can be kDeleteAll* for both original and copy.
 
 	If !append, CleanOut() is called first.
 
