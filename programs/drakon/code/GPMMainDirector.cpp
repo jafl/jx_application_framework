@@ -35,7 +35,7 @@
 #include <JXWindow.h>
 
 #include <JNamedTreeList.h>
-#include <jProcessUtil.h>
+#include <JSimpleProcess.h>
 #include <jAssert.h>
 
 #include "pause.xpm"
@@ -489,9 +489,7 @@ GPMMainDirector::UpdateProcessMenu()
 	if ((tabIndex == kListTabIndex && itsProcessTable->GetSelectedProcess(&entry)) ||
 		(tabIndex == kTreeTabIndex && itsProcessTree->GetSelectedProcess(&entry)))
 		{
-		const uid_t uid = getuid();
-		if (entry->GetState() != GPMProcessEntry::kZombie &&
-			(uid == 0 || entry->GetUID() == uid))
+		if (entry->GetState() != GPMProcessEntry::kZombie)
 			{
 			const JBoolean notSelf = JI2B(entry->GetPID() != getpid());
 			itsProcessMenu->EnableItem(kEndCmd);
@@ -528,40 +526,55 @@ GPMMainDirector::HandleProcessMenu
 	if ((tabIndex == kListTabIndex && itsProcessTable->GetSelectedProcess(&entry)) ||
 		(tabIndex == kTreeTabIndex && itsProcessTree->GetSelectedProcess(&entry)))
 		{
-		const uid_t uid = getuid();
-		if (entry->GetState() != GPMProcessEntry::kZombie &&
-			(uid == 0 || entry->GetUID() == uid))
+		if (entry->GetState() == GPMProcessEntry::kZombie)
 			{
-			if (index == kReNiceCmd)
-				{
-				JSetProcessPriority(entry->GetPID(), 19);
-				return;
-				}
+			return;
+			}
 
-			JIndex sigValue = 0;
-			if (index == kEndCmd)
-				{
-				sigValue = SIGTERM;
-				}
-			else if (index == kKillCmd)
-				{
-				sigValue = SIGKILL;
-				}
-			else if (index == kPauseCmd)
-				{
-				sigValue = SIGSTOP;
-				}
-			else if (index == kContinueCmd)
-				{
-				sigValue = SIGCONT;
-				}
+		if (index == kReNiceCmd)
+			{
+			JSetProcessPriority(entry->GetPID(), 19);
+			return;
+			}
 
-			const pid_t pid = entry->GetPID();
-			if (sigValue != 0 && pid != 0)
-				{
-				JSendSignalToProcess(pid, sigValue);
-				itsProcessList->Update();
-				}
+		JIndex sigValue = 0;
+		if (index == kEndCmd)
+			{
+			sigValue = SIGTERM;
+			}
+		else if (index == kKillCmd)
+			{
+			sigValue = SIGKILL;
+			}
+		else if (index == kPauseCmd)
+			{
+			sigValue = SIGSTOP;
+			}
+		else if (index == kContinueCmd)
+			{
+			sigValue = SIGCONT;
+			}
+
+		const pid_t pid = entry->GetPID();
+		if (sigValue == 0 || pid == 0)
+			{
+			return;
+			}
+
+		const uid_t uid = getuid();
+		if (uid == 0 || entry->GetUID() == uid)
+			{
+			JSendSignalToProcess(pid, sigValue);
+			itsProcessList->Update();
+			}
+		else
+			{
+			JString cmd = "xterm -title 'Drakon sudo' -e /bin/sh -c 'sudo -k ; sudo kill -";
+			cmd        += JString(sigValue, JString::kBase10);
+			cmd        += " ";
+			cmd        += JString(pid, JString::kBase10);
+			cmd        += "'";
+			JSimpleProcess::Create(cmd, kJTrue);
 			}
 		}
 }

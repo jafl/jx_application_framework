@@ -3915,7 +3915,7 @@ SyGFileTreeTable::HandleGitMenu
 		if (getenv("GIT_EDITOR") == NULL)
 			{
 			itsCommitGitBranchDialog =
-				new JXGetStringDialog((GetWindow())->GetDirector(), JGetString("CreateBranchPrompt::SyGFileTreeTable"),
+				new JXGetStringDialog((GetWindow())->GetDirector(), JGetString("CommitBranchTitle::SyGFileTreeTable"),
 									  JGetString("CommitBranchPrompt::SyGFileTreeTable"), "");
 			assert( itsCommitGitBranchDialog != NULL );
 			itsCommitGitBranchDialog->Activate();

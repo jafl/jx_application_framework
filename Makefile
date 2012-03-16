@@ -65,6 +65,8 @@ default:
 	@echo
 	@echo "  ${MAKE} cygwin32       for Cygwin on Windows"
 	@echo "  ${MAKE} darwin_leopard for Macintosh OS X 10.5"
+	@echo "  ${MAKE} darwin_snow    for Macintosh OS X 10.6"
+	@echo "  ${MAKE} darwin_lion    for Macintosh OS X 10.7"
 #	@echo "  ${MAKE} freebsd3_x     for FreeBSD 3.x"
 	@echo "  ${MAKE} linux_intel    for Linux with g++ 3.x or above"
 	@echo "  ${MAKE} linux_intel-64 for Linux with g++ 3.x or above on 64-bit systems"
@@ -220,6 +222,26 @@ darwin_leopard: prep
             include/jcore/jMissingProto.h
 	@${TEST_ACE_CONFIG} config-macosx-leopard.h ${CREATE_ACE_CONFIG}
 	@${TEST_ACE_MACROS} platform_macosx_leopard.GNU ${CREATE_ACE_MACROS}
+	@${INSTALL_CMD}
+
+.PHONY: darwin_snow
+darwin_snow: prep
+	@ln -sf sys/OSX_6_g++ \
+            include/make/jx_config
+	@ln -sf ../../include/missing_proto/jMissingProto_empty.h \
+            include/jcore/jMissingProto.h
+	@${TEST_ACE_CONFIG} config-macosx-snowleopard.h ${CREATE_ACE_CONFIG}
+	@${TEST_ACE_MACROS} platform_macosx_snowleopard.GNU ${CREATE_ACE_MACROS}
+	@${INSTALL_CMD}
+
+.PHONY: darwin_lion
+darwin_lion: prep
+	@ln -sf sys/OSX_6_g++ \
+            include/make/jx_config
+	@ln -sf ../../include/missing_proto/jMissingProto_empty.h \
+            include/jcore/jMissingProto.h
+	@${TEST_ACE_CONFIG} config-macosx-lion.h ${CREATE_ACE_CONFIG}
+	@${TEST_ACE_MACROS} platform_macosx_lion.GNU ${CREATE_ACE_MACROS}
 	@${INSTALL_CMD}
 
 #

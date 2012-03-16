@@ -152,30 +152,28 @@ JExprRectList::GetSelection
 	)
 	const
 {
+	// Check if startPt is in the bounding rect.
+
+	const JRect boundsRect = GetBoundsRect();
+	if (!boundsRect.Contains(startPt))
+		{
+		return 0;
+		}
+
+	// The bounding rect is the last rect in the list.
+
 	const JSize rectCount = itsRects->GetElementCount();
-	JSize minArea = 0;
-	JIndex result = 0;
-	for (JIndex i=1; i<=rectCount; i++)
+	JSize minArea         = 0;
+	JIndex result         = rectCount;
+	for (JIndex i=1; i<rectCount; i++)
 		{
 		const JRect rect = itsRects->GetElement(i);
 		const JSize area = rect.area();
 		if (rect.Contains(startPt) && rect.Contains(currPt) &&
-			(result == 0 || area < minArea))
+			(minArea == 0 || area < minArea))
 			{
 			result = i;
 			minArea = area;
-			}
-		}
-
-	// Check if startPt is in the bounding rect.
-	// (The bounding rect is the last rect in the list.)
-
-	if (result == 0)
-		{
-		const JRect boundsRect = GetBoundsRect();
-		if (boundsRect.Contains(startPt))
-			{
-			result = itsRects->GetElementCount();
 			}
 		}
 

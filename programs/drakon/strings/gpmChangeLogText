@@ -13,6 +13,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3>1.2.4</h3>
+
+Allow signaling other user's process via sudo.
+
 <h3>1.2.3</h3>
 
 Fixed display of processes that die while Drakon is updating the status.

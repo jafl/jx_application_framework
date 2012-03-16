@@ -29,6 +29,9 @@ static const char* kCurrentJCoreLibVersionStr = "3.0.0";
 //		Added JCompareUInt64().
 //	jVCSUtil:
 //		Fixed JIsManagedByVCS() to return type=kJUnknownVCSType if not managed.
+//	JTextEditor:
+//		Fixed TEHandleKeyPress() so deleteToTabStop only applies to complete tabstops.
+//			(Deleting space inside prose should always only delete one space at a time.)
 
 // version 3.0.0:
 //	JRexex:
@@ -63,6 +66,9 @@ static const char* kCurrentJCoreLibVersionStr = "3.0.0";
 //		Fixed bug in ReplaceAllForward() when entireWord=kJTrue, so it replaces
 //			all occurrences instead of only the first one.
 //		Added AnalyzeWhitespace().
+//		Added align parameter to CleanAllWhitespace(), CleanSelectedWhitespace(),
+//			CleanWhitespace().
+//		Added kCleanAllWSAlignCmd, kCleanWSAlignSelCmd to CmdIndex.
 //	JFontStyle:
 //		Added kJDefaultMonoFontSize, kJDefaultRowColHeaderFontSize.
 //	jDirUtil:
@@ -80,10 +86,6 @@ static const char* kCurrentJCoreLibVersionStr = "3.0.0";
 //		Now prints contents of each pointer, to help track down string data leaks.
 //	JMMRecord:
 //		Added StreamForDebug() to support jx_memory_debugger.
-//	JTextEditor:
-//		Added align parameter to CleanAllWhitespace(), CleanSelectedWhitespace(),
-//			CleanWhitespace().
-//		Added kCleanAllWSAlignCmd, kCleanWSAlignSelCmd to CmdIndex.
 //	JTable:
 //		Fixed infinite loop in Paginate when column is too wide to fit.
 //	JMDIServer:

@@ -1,7 +1,3 @@
-release systemg, drakon
-
------
-
 jcc
 	implement *not* "one a a time" for commands -- svn remove, yui build
 		when invoke one-at-a-time from not-one-at-a-time, invoke separate loop
@@ -9,20 +5,6 @@ jcc
 
 	if modified separately in memory and on disk, offer to show diff
 		if window closed, deactivate "Redo diff" button
-
-MathCanvas
-	selection
-	uif
-		render as part of canvas, not input field
-		no paste event, only click and keyup
-
-	sqrt(2)^(2^((2/3)^(2^2))) or 2^log(3/2,27) or log(3/2,27) - 2/3 looks wrong
-	2^2^2 - too much space between opening paren and base
-	log2(2) - base too close to open paren
-
-	|| (nary parallel)
-	variable should draw all but first char as subscript
-	smarter parenthesizing
 
 medic
 	disassembly window
@@ -32,10 +14,14 @@ medic
 	update online documentation
 		requires gdb 7.4 on Linux
 
+	execute selected text by passing to interpreter running in command window
+		perl/php -- executes only after closing pipe, wrap php in <? ... ?> if not already there
+		python/ruby -- write to pipe after invoking, to allow inspecting result
+
 -----
 
 jcc
-	pref to turn off making mixed whitespace visible
+	pref to turn off making mixed whitespace visible when indentation is mixed
 
 	vi emulator
 		dd doesn't work on last line of file

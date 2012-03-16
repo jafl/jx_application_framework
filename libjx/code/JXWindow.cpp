@@ -1277,11 +1277,21 @@ JXWindow::WaitForWM
 	while (XPending(*d) > 0)
 		{
 		(JXGetApplication())->HandleOneEventForWindow(w);
-		if (time(NULL) - start > 5)	// sometimes we get events for other windows
+		if (time(NULL) - start > 2)	// sometimes we get events for other windows
 			{
 			break;
 			}
 		}
+}
+
+inline void
+Sync
+	(
+	JXDisplay* d
+	)
+{
+	d->Synchronize();		// make sure server has processed all requests
+	JWait(kSyncExtraDelay);	// give window manager some extra time to catch up (not very long, since it runs locally on server)
 }
 
 void
@@ -1332,14 +1342,12 @@ JXWindow::AnalyzeWindowManager
 	// test placing visible window (fvwm2)
 
 	w->Show();
-	d->Synchronize();
-	JWait(kSyncExtraDelay);
+	Sync(d);
 	w->Place(p, p);
 
 	for (JIndex i=1; i<=2; i++)
 		{
-		d->Synchronize();
-		JWait(kSyncExtraDelay);
+		Sync(d);
 
 		WaitForWM(d, w);
 		assert( w->itsIsMappedFlag );
@@ -1363,11 +1371,9 @@ JXWindow::AnalyzeWindowManager
 	const JPoint pt1 = w->GetDesktopLocation();
 
 	w->Hide();
-	d->Synchronize();
-	JWait(kSyncExtraDelay);
+	Sync(d);
 	w->Show();
-	d->Synchronize();
-	JWait(kSyncExtraDelay);
+	Sync(d);
 
 	WaitForWM(d, w);
 	assert( w->itsIsMappedFlag );
@@ -4703,8 +4709,7 @@ JXWindow::Undock()
 	itsRootChild    = None;	// don't wait for ReparentNotify
 	delete itsDockingTask;	// automatically cleared
 
-	itsDisplay->Synchronize();
-	JWait(kSyncExtraDelay);
+	Sync(itsDisplay);
 	Place(itsUndockedWMFrameLoc.x, itsUndockedWMFrameLoc.y);
 	SetSize(itsUndockedGeom.width(), itsUndockedGeom.height());
 

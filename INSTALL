@@ -32,8 +32,8 @@ in ACE/patch-5.7.1:
 
     ace/OS_Memory.h
 
-ACE 6.0.x needs to be patched.  Replace the following files with the
-versions in ACE/patch-6.0.1:
+ACE 6.x needs to be patched.  Replace the following files with the
+versions in the appropriate ACE/patch-* directory:
 
     include/makeinclude/wrapper_macros.GNU
     ace/config-g++-common.h

@@ -22,7 +22,7 @@
 #include <JPainter.h>
 #include <JTableSelection.h>
 
-#include <jProcessUtil.h>
+#include <JSimpleProcess.h>
 #include <jASCIIConstants.h>
 #include <signal.h>
 #include <sys/time.h>
@@ -523,9 +523,7 @@ GPMProcessTable::UpdateContextMenu
 	const GPMProcessEntry&	entry
 	)
 {
-	const uid_t uid = getuid();
-	if (entry.GetState() != GPMProcessEntry::kZombie &&
-		(uid == 0 || entry.GetUID() == uid))
+	if (entry.GetState() != GPMProcessEntry::kZombie)
 		{
 		const JBoolean notSelf = JI2B(entry.GetPID() != getpid());
 		menu->EnableItem(kContextEndCmd);
@@ -564,9 +562,7 @@ GPMProcessTable::HandleContextMenu
 	GPMProcessList*			list
 	)
 {
-	const uid_t uid = getuid();
-	if (entry.GetState() == GPMProcessEntry::kZombie ||
-		!(uid == 0 || entry.GetUID() == uid))
+	if (entry.GetState() == GPMProcessEntry::kZombie)
 		{
 		return;
 		}
@@ -597,10 +593,25 @@ GPMProcessTable::HandleContextMenu
 		}
 
 	const pid_t pid = entry.GetPID();
-	if (sigValue != 0 && pid != 0)
+	if (sigValue == 0 || pid == 0)
+		{
+		return;
+		}
+
+	const uid_t uid = getuid();
+	if (uid == 0 || entry.GetUID() == uid)
 		{
 		JSendSignalToProcess(pid, sigValue);
 		list->Update();
+		}
+	else
+		{
+		JString cmd = "xterm -title 'Drakon sudo' -e /bin/sh -c 'sudo -k ; sudo kill -";
+		cmd        += JString(sigValue, JString::kBase10);
+		cmd        += " ";
+		cmd        += JString(pid, JString::kBase10);
+		cmd        += "'";
+		JSimpleProcess::Create(cmd, kJTrue);
 		}
 }
 

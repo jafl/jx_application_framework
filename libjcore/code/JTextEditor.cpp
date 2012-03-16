@@ -9067,7 +9067,8 @@ JTextEditor::BackwardDelete
 {
 	assert( itsSelection.IsEmpty() );
 
-	JIndex startIndex = itsCaretLoc.charIndex-1;
+	JIndex startIndex           = itsCaretLoc.charIndex-1;
+	const JIndex origStartIndex = startIndex;
 	JSize deleteLength;
 	if (deleteToTabStop &&
 		(itsBuffer->GetCharacter(startIndex) == ' ' ||
@@ -9078,32 +9079,36 @@ JTextEditor::BackwardDelete
 		if (deleteLength == 0)
 			{
 			deleteLength = itsCRMTabCharCount;
+
+			for (JIndex i=1; i<=deleteLength; i++)
+				{
+				if (i > 1)
+					{
+					startIndex--;
+					}
+
+				const JCharacter c = itsBuffer->GetCharacter(startIndex);
+				if (c == ' ')
+					{
+					textColumn--;
+					}
+				else if (c == '\t')
+					{
+					JSize tabWidth = CRMGetTabWidth(GetColumnForChar(CaretLocation(startIndex, itsCaretLoc.lineIndex))-1);
+					textColumn    -= tabWidth;
+					deleteLength  -= (tabWidth-1);
+					}
+				else	// normal delete when close to text
+					{
+					startIndex   = origStartIndex;
+					deleteLength = 1;
+					break;
+					}
+				}
 			}
-
-		for (JIndex i=1; i<=deleteLength; i++)
+		else			// normal delete when close to text
 			{
-			if (i > 1)
-				{
-				startIndex--;
-				}
-
-			const JCharacter c = itsBuffer->GetCharacter(startIndex);
-			if (c == ' ')
-				{
-				textColumn--;
-				}
-			else if (c == '\t')
-				{
-				JSize tabWidth = CRMGetTabWidth(GetColumnForChar(CaretLocation(startIndex, itsCaretLoc.lineIndex))-1);
-				textColumn    -= tabWidth;
-				deleteLength  -= (tabWidth-1);
-				}
-			else
-				{
-				startIndex++;
-				deleteLength = i-1;
-				break;
-				}
+			deleteLength = 1;
 			}
 		}
 	else
@@ -9165,21 +9170,25 @@ JTextEditor::ForwardDelete
 		if (deleteLength == 0)
 			{
 			deleteLength = itsCRMTabCharCount;
-			}
 
-		for (JIndex i=1; i<=deleteLength; i++)
+			for (JIndex i=1; i<=deleteLength; i++)
+				{
+				const JCharacter c = itsBuffer->GetCharacter(itsCaretLoc.charIndex+i-1);
+				if (c == '\t')
+					{
+					deleteLength = i;
+					break;
+					}
+				else if (c != ' ')	// normal delete when close to text
+					{
+					deleteLength = 1;
+					break;
+					}
+				}
+			}
+		else						// normal delete when close to text
 			{
-			const JCharacter c = itsBuffer->GetCharacter(itsCaretLoc.charIndex+i-1);
-			if (c == '\t')
-				{
-				deleteLength = i;
-				break;
-				}
-			else if (c != ' ')
-				{
-				deleteLength = i-1;
-				break;
-				}
+			deleteLength = 1;
 			}
 		}
 	else
