@@ -121,21 +121,8 @@ IllegalControlChar::JSubstitute	"The control character sequence (\\c) must be fo
 
 # jTime
 
-WarnExpire::jTime
-"This copy of $name $version will expire on $date.
-
-If you have found $name to be useful, please consider purchasing one or more licenses from New Planet Software before the expiration date so you can continue to use this software without interruption.
-
-$url
-$email"
-
-Expired::jTime
-"This copy of $name $version has expired.
-
-If you have found $name to be useful, please consider purchasing one or more licenses from New Planet Software so you can continue to use it.
-
-$url
-$email"
+# WarnExpire::jTime -- defined by application
+# Expired::jTime -- defined by application
 
 # jSysUtil
 

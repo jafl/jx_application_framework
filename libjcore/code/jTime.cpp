@@ -15,11 +15,6 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kWarnExpireID = "WarnExpire::jTime";
-static const JCharacter* kExpiredID    = "Expired::jTime";
-
 /******************************************************************************
  JGetTimeStamp
 
@@ -105,6 +100,9 @@ JPrintTimeInterval
 	map must define:  date, name, version, url, email
 	*** date must be first!
 
+	*** The application string data must define WarnExpire::jTime and
+		Expired::jTime, because these messages should be customized.
+
  ******************************************************************************/
 
 void
@@ -119,7 +117,7 @@ JCheckExpirationDate
 	if (t > expireTime)
 		{
 		map[1] = "";
-		const JString msg = JGetString(kExpiredID, map, size);
+		const JString msg = JGetString("Expired::jTime", map, size);
 		(JGetUserNotification())->DisplayMessage(msg);
 		exit(0);
 		}
@@ -128,7 +126,7 @@ JCheckExpirationDate
 		JCharacter date[100];
 		strftime(date, 100, "%B %e, %Y", localtime(&expireTime));
 		map[1] = date;
-		const JString msg = JGetString(kWarnExpireID, map, size);
+		const JString msg = JGetString("WarnExpire::jTime", map, size);
 		(JGetUserNotification())->DisplayMessage(msg);
 		}
 }

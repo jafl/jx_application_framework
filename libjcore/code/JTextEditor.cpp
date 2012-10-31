@@ -2390,6 +2390,136 @@ JTextEditor::HTMLLexerState::ReportError
 }
 
 /******************************************************************************
+ PasteUNIXTerminalOutput
+
+	Parses text and approximates the formatting.
+	Pastes the result into the existing text.
+	Returns the number of characters inserted.
+
+ ******************************************************************************/
+
+static const JRegex theUNIXTerminalFormatPattern = "^\\[([0-9]+(?:;[0-9]+)*)m";
+
+JSize
+JTextEditor::PasteUNIXTerminalOutput
+	(
+	const JCharacter* text
+	)
+{
+	JString buffer;
+	JRunArray<Font> styles;
+
+	const JSize length = strlen(text);
+	buffer.SetBlockSize(length);
+	JString cmd, cmdIDStr;
+	Font f        = GetCurrentFont();
+	const Font f0 = f;
+	for (JIndex i=0; i<length; i++)
+		{
+		if (text[i] == '\033')
+			{
+			i++;
+			cmd.Clear();
+			JArray<JIndexRange> matchList;
+			if (theUNIXTerminalFormatPattern.Match(text+i, &matchList))
+				{
+				cmd.Set(text+i, matchList.GetElement(2));
+				i += matchList.GetElement(1).GetLength()-1;
+				while (!cmd.IsEmpty())
+					{
+					JIndex semiIndex;
+					if (cmd.LocateSubstring(";", &semiIndex))
+						{
+						cmdIDStr = cmd.GetSubstring(1, semiIndex-1);
+						cmd.RemoveSubstring(1, semiIndex);
+						}
+					else
+						{
+						cmdIDStr = cmd;
+						cmd.Clear();
+						}
+
+					JUInt cmdID;
+					if (cmdIDStr.ConvertToUInt(&cmdID))
+						{
+						switch (cmdID)
+							{
+							case 0:
+								f = f0;
+								break;
+
+							case 1:
+								f.style.bold = kJTrue;
+								break;
+							case 22:
+								f.style.bold = kJFalse;
+								break;
+
+							case 3:
+								f.style.italic = kJTrue;
+								break;
+							case 23:
+								f.style.italic = kJFalse;
+								break;
+
+							case 4:
+								f.style.underlineCount = 1;
+								break;
+							case 24:
+								f.style.underlineCount = 0;
+								break;
+
+							case 30:
+							case 39:
+								f.style.color = itsColormap->GetBlackColor();
+								break;
+							case 37:
+								f.style.color = itsColormap->GetGrayColor(80);
+								break;
+							case 90:
+								f.style.color = itsColormap->GetGrayColor(50);
+								break;
+							case 31:
+								f.style.color = itsColormap->GetRedColor();
+								break;
+							case 32:
+								f.style.color = itsColormap->GetDarkGreenColor();	// green-on-white is impossible to read
+								break;
+							case 33:
+								f.style.color = itsColormap->GetBrownColor();		// yellow-on-white is impossible to read
+								break;
+							case 34:
+								f.style.color = itsColormap->GetBlueColor();
+								break;
+							case 35:
+								f.style.color = itsColormap->GetMagentaColor();
+								break;
+							case 36:
+								f.style.color = itsColormap->GetLightBlueColor();	// cyan-on-white is impossible to read
+								break;
+							}
+
+						f.id = itsFontMgr->UpdateFontID(f.id, f.size, f.style);
+						}
+					}
+				}
+			}
+		else
+			{
+			buffer.AppendCharacter(text[i]);
+			styles.AppendElement(f);
+			}
+		}
+
+	const JBoolean saved   = itsPasteStyledTextFlag;
+	itsPasteStyledTextFlag = kJTrue;
+	Paste(buffer, &styles);
+	itsPasteStyledTextFlag = saved;
+
+	return buffer.GetLength();
+}
+
+/******************************************************************************
  Search and replace
 
  ******************************************************************************/

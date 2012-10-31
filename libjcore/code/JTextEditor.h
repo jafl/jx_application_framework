@@ -238,6 +238,7 @@ public:
 	JSize		GetHTMLBufferLength() const;
 
 	JBoolean	ReadUNIXManOutput(istream& input, const JBoolean allowCancel = kJFalse);
+	JSize		PasteUNIXTerminalOutput(const JCharacter* text);
 
 	JBoolean	ReadPrivateFormat(istream& input);
 	void		WritePrivateFormat(ostream& output) const;
@@ -1720,7 +1721,11 @@ JTextEditor::ShouldShowWhitespace
 	const JBoolean show
 	)
 {
-	itsDrawWhitespaceFlag = show;
+	if (show != itsDrawWhitespaceFlag)
+		{
+		itsDrawWhitespaceFlag = show;
+		TERefresh();
+		}
 }
 
 /******************************************************************************

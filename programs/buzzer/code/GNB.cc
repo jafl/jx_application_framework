@@ -62,20 +62,6 @@ main
 		new GNBApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != NULL );
 
-	#ifdef BUZZER_BETA
-
-	const JCharacter* map[] =
-		{
-		"date",    NULL,
-		"name",    JGetString("GNBName"),
-		"version", JGetString("VERSION"),
-		"url",     JGetString("GNBURL"),
-		"email",   JGetString("GNBEmail")
-		};
-	JCheckExpirationDate(BETA_EXPIRE_TIME_STAMP, map, sizeof(map));
-
-	#endif
-
 	if (displayAbout &&
 		!(JGetUserNotification())->AcceptLicense())
 		{

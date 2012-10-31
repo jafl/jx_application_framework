@@ -6,21 +6,10 @@ jcc
 	if modified separately in memory and on disk, offer to show diff
 		if window closed, deactivate "Redo diff" button
 
-medic
-	disassembly window
-		until/jump -- use version with addr argument
-		show breakpoints via address field
-
-	update online documentation
-		requires gdb 7.4 on Linux
-
 	execute selected text by passing to interpreter running in command window
 		perl/php -- executes only after closing pipe, wrap php in <? ... ?> if not already there
 		python/ruby -- write to pipe after invoking, to allow inspecting result
 
------
-
-jcc
 	pref to turn off making mixed whitespace visible when indentation is mixed
 
 	vi emulator
@@ -32,6 +21,23 @@ jcc
 	CBProjectTable AddDirectoryTree & AddFiles:
 		treelist should stop listening to tree until done adding
 
+medic
+	disassembly window
+		until/jump -- use version with addr argument
+		show breakpoints via address field
+
+	update online documentation
+		requires gdb 7.4 on Linux
+
+	accept connection or switch to gdb:  should stop listening on port
+		need simple example to submit to ACE list
+	restart either xdebug or java:  unable to listen on port & crashes on exit
+		also need to fix SetProgram()
+	gdb
+		enable call to UnlockDisplays(), when JXGetAssertHandler is defined
+			check every time symbols are loaded
+
+-----
 
 leibnitz
 	abs( => grey right bar
@@ -43,15 +49,6 @@ leibnitz
 memory analyzer
 	jcc -- crash with deleted JMessageProtocol -- only when open project
 	print table:  partial column on page 1
-
-medic
-	accept connection or switch to gdb:  should stop listening on port
-		need simple example to submit to ACE list
-	restart either xdebug or java:  unable to listen on port & crashes on exit
-		also need to fix SetProgram()
-	gdb
-		enable call to UnlockDisplays(), when JXGetAssertHandler is defined
-			check every time symbols are loaded
 
 svn_client
 	incremental search in SVNListBase:  only search file name

@@ -32,6 +32,10 @@ static const char* kCurrentJCoreLibVersionStr = "3.0.0";
 //	JTextEditor:
 //		Fixed TEHandleKeyPress() so deleteToTabStop only applies to complete tabstops.
 //			(Deleting space inside prose should always only delete one space at a time.)
+//		Added PasteUNIXTerminalOutput() to handle embedded style commands.
+//	jTime:
+//		*** JCheckExpirationDate() requires that you provide these strings:
+//			WarnExpire::jTime, Expired::jTime
 
 // version 3.0.0:
 //	JRexex:

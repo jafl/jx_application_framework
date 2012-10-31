@@ -4301,7 +4301,7 @@ SyGFileTreeTable::RemoveGitBranch
 		return;
 		}
 
-	JString cmd = "git branch -d ";
+	JString cmd = "git branch -D ";
 	cmd        += JPrepArgForExec(branch);
 
 	JSimpleProcess::Create(itsFileTree->GetDirectory(), cmd, kJTrue);
