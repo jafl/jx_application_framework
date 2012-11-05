@@ -44,9 +44,8 @@ ifndef JX_INSTALL_ROOT
   endif
 endif
 
-# Don't install libraries because they will overwrite JX.rpm
 #ifndef JX_LIB_ROOT
-#  JX_LIB_ROOT := ${JX_ROOT_LIB_DIRECTORY}
+  JX_LIB_ROOT := ${JX_ROOT_LIB_DIRECTORY}
 #endif
 
 #
