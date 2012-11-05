@@ -1,0 +1,1744 @@
+#!/usr/bin/perl -w
+
+#******************************************************************************
+# dirdiff -- diff all the files in two directories against each other
+#
+#	Dirdiff diffs files of the same name in different directories against each
+#	other, as diff can, but with more output flexibility.
+#
+#   Copyright © 1998-1999 by Dustin Laurence. All rights reserved.
+#
+#   This source code is released for free distribution under the terms of the
+#   GNU General Public License.
+#
+#   1.0.1 -- 10/31/2005
+#     --ignoreCVS & --ignoreSubversion options added by John Lindal
+#   1.0.2 -- 5/31/2006
+#     Fixed bug so spaces are allowed in paths and file names (John Lindal)
+#
+#******************************************************************************
+
+# Try not to be a scripting language :-)
+
+	use diagnostics;
+	use English;
+	use strict;
+	use strict 'refs';
+
+# What are we?
+
+	local $Global::version = "1.0.2";
+
+# Packages
+
+	use Cwd;
+	use Cwd 'chdir';
+	use Getopt::Long;
+
+# Declare subroutines
+
+	# Main program
+	sub Main();
+
+	# Command Handlers
+	sub HandleDifferent();
+	sub HandleDifferentLinks();
+
+	sub HandleDiffs($$);
+	sub HandleLists($);
+
+	sub HandleIdentical();
+	sub HandleA();
+	sub HandleB();
+
+	sub HandleIdenticalLinks();
+	sub HandleALinks();
+	sub HandleBLinks();
+
+	sub HandleIdenticalMixed();
+	sub HandleDifferentMixed();
+
+	sub HandleVerbose();
+	sub HandleListOnly();
+	sub HandleOneLine();
+	sub HandleMultipleLines();
+	sub HandleSorted();
+	sub HandleUnsorted();
+
+	# Other Stuff
+	sub SortAsFiles($$$);
+	sub GetFiles($$$$$$$$$$);
+	sub GetDirListing($$$);
+	sub RestorePath($$);
+	sub FilterRegex($$$);
+	sub ValidateDir($$);
+	sub ParseCommandLine();
+	sub Usage(*$$$$$$$$$$);
+
+# Parameter defaults.  These are conceptually constant and should never
+# be changed.
+
+	local $Global::listOnlyDefault         = 0;
+	local $Global::singleLineDefault       = 1;
+	local $Global::diffOptsDefault         = "";
+	local $Global::sortedDefault           = 0;
+	local $Global::commandsDefault         = "DdXIiSAaBb";
+	local $Global::globDefault             = "";
+	local $Global::dirGlobDefault          = "";
+	local $Global::regexDefault            = "";
+	local $Global::dirRegexDefault         = "";
+	local $Global::notRegexDefault         = "";
+	local $Global::dirNotRegexDefault      = "";
+	local $Global::prefixDefault           = "";
+	local $Global::recursiveDefault        = 1;
+	local $Global::followLinksDefault      = 0;
+	local $Global::linkComparisonDefault   = "filecontents";
+	local $Global::mixedComparisonDefault  = ""; # dummy value for special default
+	local $Global::fullPathDefault         = 0;
+	local $Global::ignoreCVSDefault        = 1;
+	local $Global::ignoreSubversionDefault = 1;
+
+# The dispatch table and such; conceptually constant.  They wouldn't have
+# to be global but it is nicer to have them here where they can be changed
+# easily.  See also the option list in ParseCommandLine, which is only local
+# there so it can reference local data.
+
+	local %Global::dispatchTable =
+		(
+		'D' => \&HandleDifferent,
+		'I' => \&HandleIdentical,
+		'A' => \&HandleA,
+		'B' => \&HandleB,
+
+		'd' => \&HandleDifferentLinks,
+		'i' => \&HandleIdenticalLinks,
+		'a' => \&HandleALinks,
+		'b' => \&HandleBLinks,
+
+		'S' => \&HandleIdenticalMixed,
+		'X' => \&HandleDifferentMixed,
+
+		'v' => \&HandleVerbose,
+		'l' => \&HandleListOnly,
+
+		'o' => \&HandleOneLine,
+		'm' => \&HandleMultipleLines,
+
+		's' => \&HandleSorted,
+		'u' => \&HandleUnsorted,
+		);
+
+	# List of legal command characters (space separated), automated
+	# for maintenance ease
+	local $Global::commandList = join "", keys %Global::dispatchTable;
+
+# Some "global" data referenced in the command subroutines.  It would be nice
+# if they weren't global, but then the parser would have to know what to pass
+# the parser functions.  Otherwise, I've avoided global variables.
+
+	# Parameters the command handlers must know about
+	local $Global::listOnly         = $Global::listOnlyDefault;
+	local $Global::singleLine       = $Global::singleLineDefault;
+	local $Global::diffOpts         = $Global::diffOptsDefault;
+	local $Global::sorted           = $Global::sortedDefault;
+	local $Global::followLinks      = $Global::followLinksDefault;
+	local $Global::linkComparison   = $Global::linkComparisonDefault;
+	local $Global::mixedComparison  = $Global::mixedComparisonDefault;
+	local $Global::ignoreCVS        = $Global::ignoreCVSDefault;
+	local $Global::ignoreSubversion = $Global::ignoreSubversionDefault;
+	local $Global::prefix           = $Global::prefixDefault;
+	local $Global::pathA;
+	local $Global::pathB;
+	local $Global::outPath;
+
+	# The data
+	local @Global::onlyA;
+	local @Global::onlyB;
+	local @Global::different;
+	local @Global::identical;
+
+	local @Global::onlyALinks;
+	local @Global::onlyBLinks;
+	local @Global::differentLinks;
+	local @Global::identicalLinks;
+
+	local @Global::identicalMixed; # Temporary, must handle
+	local @Global::differentMixed; # Temporary, must handle
+
+# Execute main routine and exit
+
+	Main;
+
+	exit 0;
+
+#******************************************************************************
+# main
+#
+#	Main is an actual routine to keep locals local.  Is it obvious yet I'm not
+#	a freedom-loving Perl programmer? :-)
+#
+#*****************************************************************************/
+
+sub Main()
+{
+# Command line parameters
+
+	my $commands;
+	my $recursive;
+	my $glob;
+	my $dirGlob;
+	my $regex;
+	my $dirRegex;
+	my $notRegex;
+	my $dirNotRegex;
+	my $fullPath;
+
+	($commands, $recursive, $glob, $dirGlob, $regex, $dirRegex,
+		$notRegex, $dirNotRegex, $fullPath) = ParseCommandLine;
+
+# Get lists of all files
+
+	my @fileListA = GetFiles $Global::pathA, $recursive, $Global::followLinks, $glob,
+							$dirGlob, $regex, $dirRegex, $notRegex, $dirNotRegex,
+							$fullPath;
+	@fileListA = sort @fileListA;
+
+	my @fileListB = GetFiles $Global::pathB, $recursive, $Global::followLinks, $glob,
+							$dirGlob, $regex, $dirRegex, $notRegex, $dirNotRegex,
+							$fullPath;
+	@fileListB = sort @fileListB;
+
+# Sort into appropriate files found in one, the other, or both lists
+
+	my @both;
+
+	while ($#fileListA >= 0 and $#fileListB >= 0)
+		{
+		if ($fileListB[0] lt $fileListA[0])
+			{
+			my $file = shift @fileListB;
+			if (-l $Global::pathB."/".$file)
+				{
+				push @Global::onlyBLinks, $file;
+				}
+			else
+				{
+				push @Global::onlyB, $file;
+				}
+			}
+		elsif ($fileListA[0] lt $fileListB[0])
+			{
+			my $file = shift @fileListA;
+			if (-l $Global::pathA."/".$file)
+				{
+				push @Global::onlyALinks, $file;
+				}
+			else
+				{
+				push @Global::onlyA, $file;
+				}
+			}
+		else
+			{
+			# Filenames are equal
+			push @both, shift @fileListA;
+			shift @fileListB;
+			}
+		}
+
+	# Anything remaining must be unique
+	foreach my $file (@fileListA)
+		{
+		if (-l $Global::pathA."/".$file)
+			{
+			push @Global::onlyALinks, $file;
+			}
+		else
+			{
+			push @Global::onlyA, $file;
+			}
+		}
+	foreach my $file (@fileListB)
+		{
+		if (-l $Global::pathB."/".$file)
+			{
+			push @Global::onlyBLinks, $file;
+			}
+		else
+			{
+			push @Global::onlyB, $file;
+			}
+		}
+
+# Distinguish between identical and non-identical files in the @both array
+
+	if ($commands =~ m/[IiDdXS]/) # no need to test if not using
+		{
+		my $file;
+		foreach $file (@both)
+			{
+			my $fullPathA = $Global::pathA."/".$file;
+			my $fullPathB = $Global::pathB."/".$file;
+			my $isLinkA = -l $fullPathA;
+			my $isLinkB = -l $fullPathB;
+			if (not $isLinkA and not $isLinkB)
+				{
+				SortAsFiles $file, \@Global::identical, \@Global::different;
+				}
+			elsif ($isLinkA and $isLinkB)
+				{
+				if ($Global::linkComparison eq "linkname")
+					{
+					push @Global::identicalLinks, $file;
+					}
+				elsif ($Global::linkComparison eq "filename")
+					{
+					if ( readlink($fullPathA) eq readlink($fullPathB) )
+						{
+						push @Global::identicalLinks, $file;
+						}
+					else
+						{
+						push @Global::differentLinks, $file;
+						}
+					}
+				elsif ($Global::linkComparison eq "filecontents")
+					{
+					SortAsFiles $file, \@Global::identicalLinks,
+					                   \@Global::differentLinks;
+					}
+				else
+					{
+					# Shouldn't be able to happen
+					print STDERR "dirdiff ERROR: coding error in line ", __LINE__,
+					           "\n               please notify the maintainer.\n";
+					}
+				}
+			else
+				{
+				# One is a link and the other a file
+				if ($Global::mixedComparison eq "linkname")
+					{
+					push @Global::identicalMixed, $file;
+					}
+				elsif ($Global::mixedComparison eq "filename")
+					{
+					my $linkPath;
+					my $filePath;
+					if ($isLinkA)
+						{
+						$linkPath = $fullPathA;
+						$filePath = $fullPathB;
+						}
+					else
+						{
+						$linkPath = $fullPathB;
+						$filePath = $fullPathA;
+						}
+
+					if ( readlink($linkPath) eq $filePath )
+						{
+						push @Global::identicalMixed, $file;
+						}
+					else
+						{
+						push @Global::differentMixed, $file;
+						}
+					}
+				elsif ($Global::mixedComparison eq "filecontents")
+					{
+					SortAsFiles $file, \@Global::identicalMixed,
+					                   \@Global::differentMixed;
+					}
+				else
+					{
+					# Shouldn't be able to happen
+					print STDERR "dirdiff ERROR: coding error in line ", __LINE__,
+					           "\n               please notify the maintainer.\n";
+					}
+				}
+			}
+		}
+
+# Execute specified output commands
+
+	my $thisChar;
+	for (my $i=0;$i < length $commands;$i++)
+		{
+		# Get the next command character
+		$thisChar = substr $commands, $i, 1;
+
+		# Dispatch
+		if ($thisChar =~ m/\s/)
+			{
+			next; # Ignore whitespace
+			}
+		elsif ( (index $commands, $thisChar) != -1)
+			{
+			my $subRef = $Global::dispatchTable{$thisChar};
+			&$subRef;
+			}
+		else
+			{
+			# Shouldn't be able to happen
+			print STDERR "dirdiff ERROR: coding error in line ", __LINE__,
+			           "\n               please notify the maintainer.\n";
+			}
+		}
+}
+
+#******************************************************************************
+# SortAsFiles
+#
+#*****************************************************************************/
+
+sub SortAsFiles($$$)
+{
+	my $file = $_[0];
+	my $identicalRef = $_[1];
+	my $differentRef = $_[2];
+
+	my $fullPathA = $Global::pathA."/".$file;
+	my $fullPathB = $Global::pathB."/".$file;
+
+	# cmp -s is a fast way to test if files are different
+	my $status = (system "cmp -s '$fullPathA' '$fullPathB'")/256;
+	if ($status == 0)
+		{
+		push @$identicalRef, $file;
+		}
+	elsif ($status == 1)
+		{
+		push @$differentRef, $file;
+		}
+	else
+		{
+		print STDERR "dirdiff WARNING: cmp returned status $status on"
+		    . " files\n$fullPathA,$fullPathB; they will not be"
+		    . " processed.\n";
+		}
+}
+
+#******************************************************************************
+# HandleDifferent
+#
+#*****************************************************************************/
+
+sub HandleDifferent()
+{
+	HandleDiffs \@Global::different, "file";
+}
+
+#******************************************************************************
+# HandleDifferentLinks
+#
+#*****************************************************************************/
+
+sub HandleDifferentLinks()
+{
+	if (   $Global::linkComparison eq "linkname"
+	    or $Global::linkComparison eq "filename")
+		{
+		if (!$Global::listOnly)
+			{
+			print "\nNon-identical links appearing in both directories:\n";
+			}
+		HandleLists \@Global::differentLinks;
+		}
+	elsif ($Global::linkComparison eq "filecontents")
+		{
+		HandleDiffs \@Global::differentLinks, "link";
+		}
+	else
+		{
+		# Shouldn't be able to happen
+		print STDERR "dirdiff ERROR: coding error in line ", __LINE__,
+		           "\n               please notify the maintainer.\n";
+		}
+
+}
+
+#******************************************************************************
+# HandleDifferentMixed
+#
+#*****************************************************************************/
+
+sub HandleDifferentMixed()
+{
+	if (   $Global::mixedComparison eq "linkname"
+	    or $Global::mixedComparison eq "filename")
+		{
+		if (!$Global::listOnly)
+			{
+			print "\nRegular files in one directory differing from a link in the",
+			      " other:\n";
+			}
+		HandleLists \@Global::differentMixed;
+		}
+	elsif ($Global::mixedComparison eq "filecontents")
+		{
+		HandleDiffs \@Global::differentMixed, "mixed link and file";
+		}
+	else
+		{
+		# Shouldn't be able to happen
+		print STDERR "dirdiff ERROR: coding error in line ", __LINE__,
+		           "\n               please notify the maintainer.\n";
+		}
+
+}
+
+#******************************************************************************
+# HandleDiffs
+#
+#*****************************************************************************/
+
+sub HandleDiffs($$)
+{
+	my $listRef = $_[0];
+	my $type = $_[1];
+
+	my $file; # Loop var
+
+	if ($Global::outPath)
+		{
+		# We don't need to sort when writing outputfiles!
+
+		if (!$Global::listOnly)
+			{
+			print "\nSaving diffs of non-identical ${type}s in "
+			    . "$Global::outPath/*.diff files\n";
+			}
+
+		my $excludeDir = "";
+		foreach $file (@$listRef)
+			{
+			my $fullPathA = $Global::pathA."/".$file;
+			my $fullPathB = $Global::pathB."/".$file;
+			my $fullPathOut = $Global::outPath."/".$file.".diff";
+
+			my $lastSlash = rindex $fullPathOut, "/";
+			my $dir;
+			if ($lastSlash > -1)
+				{
+				$dir = substr $fullPathOut, 0, $lastSlash;
+				}
+			else
+				{
+				$dir = "";
+				}
+
+			# Only generate one error per directory
+			if ($excludeDir)
+				{
+				if ($excludeDir eq $dir)
+					{
+					next;
+					}
+				else
+					{
+					$excludeDir = "";
+					}
+				}
+
+			# Determine if the directory exists; if not, attempt to create it
+			if ($dir)
+				{
+				if (!-e $dir)
+					{
+					my $success = mkdir $dir, 0777; # Is this a security hazard?
+					if (!$success)
+						{
+						print STDERR "dirdiff ERROR: could not create directory $dir",
+						           "\nno *.diff files will be generated in it.\n";
+						$excludeDir = $dir;
+						next;
+						}
+					}
+				elsif (! -d $dir)
+					{
+					print STDERR "dirdiff ERROR: $dir is not a directory\n",
+					             "no *.diff files can be generated in it.\n";
+					$excludeDir = $dir;
+					next;
+					}
+				}
+
+			# Do the diff
+			system "diff $Global::diffOpts '$fullPathA' '$fullPathB' > $fullPathOut";
+			}
+		}
+	else
+		{
+		if ($Global::listOnly)
+			{
+			# HandleLists will sort for us.
+
+			HandleLists $listRef;
+			}
+		else
+			{
+			if ($Global::sorted)
+				{
+				@$listRef = sort @$listRef;
+				}
+
+			print "\nDiffs of non-identical ${type}s appearing in both"
+			    . " directories:\n";
+			print "    < == $Global::pathA\n";
+			print "    > == $Global::pathB\n\n";
+
+			foreach $file (@$listRef)
+				{
+				my $fullPathA = $Global::pathA."/".$file;
+				my $fullPathB = $Global::pathB."/".$file;
+
+				print "----- $file ($type) -----\n";
+				print `diff $Global::diffOpts '$fullPathA' '$fullPathB'`;
+				print "\n";
+				}
+
+			print     "----- End of $type diffs -----\n";
+			}
+		}
+}
+
+#******************************************************************************
+# HandleLists
+#
+#*****************************************************************************/
+
+sub HandleLists($)
+{
+	my $listRef = $_[0];
+
+	if ($Global::sorted)
+		{
+		@$listRef = sort @$listRef;
+		}
+
+	if ($Global::singleLine)
+		{
+		if ($Global::prefix ne "")
+			{
+			my @temp = map {$Global::prefix.$_} @$listRef;
+			print "@temp\n";
+			}
+		else
+			{
+			print "@$listRef\n";
+			}
+		}
+	else
+		{
+		my $file;
+		foreach $file (@$listRef)
+			{
+			print "$Global::prefix$file\n";
+			}
+		print "\n";
+		}
+}
+
+#******************************************************************************
+# HandleIdentical
+#
+#*****************************************************************************/
+
+sub HandleIdentical()
+{
+	if (!$Global::listOnly)
+		{
+		print "\nIdentical files appearing in both directories:\n";
+		}
+
+	HandleLists \@Global::identical;
+}
+
+#******************************************************************************
+# HandleIdenticalLinks
+#
+#*****************************************************************************/
+
+sub HandleIdenticalLinks()
+{
+	if (!$Global::listOnly)
+		{
+		print "\nIdentical links appearing in both directories:\n";
+		}
+
+	HandleLists \@Global::identicalLinks;
+}
+
+#******************************************************************************
+# HandleIdenticalMixed
+#
+#*****************************************************************************/
+
+sub HandleIdenticalMixed()
+{
+	if (!$Global::listOnly)
+		{
+		print "\nRegular files in one directory identical to a link in the other:\n";
+		}
+
+	HandleLists \@Global::identicalMixed;
+}
+
+#******************************************************************************
+# HandleA
+#
+#*****************************************************************************/
+
+sub HandleA()
+{
+	if (!$Global::listOnly)
+		{
+		print "\nFiles appearing only in directory $Global::pathA:\n";
+		}
+
+	HandleLists \@Global::onlyA;
+}
+
+#******************************************************************************
+# HandleALinks
+#
+#*****************************************************************************/
+
+sub HandleALinks()
+{
+	if (!$Global::listOnly)
+		{
+		print "\nLinks appearing only in directory $Global::pathA:\n";
+		}
+
+	HandleLists \@Global::onlyALinks;
+}
+
+#******************************************************************************
+# HandleB
+#
+#*****************************************************************************/
+
+sub HandleB()
+{
+	if (!$Global::listOnly)
+		{
+		print "\nFiles appearing only in directory $Global::pathB:\n";
+		}
+
+	HandleLists \@Global::onlyB;
+}
+
+#******************************************************************************
+# HandleBLinks
+#
+#*****************************************************************************/
+
+sub HandleBLinks()
+{
+	if (!$Global::listOnly)
+		{
+		print "\nLinks appearing only in directory $Global::pathB:\n";
+		}
+
+	HandleLists \@Global::onlyBLinks;
+}
+
+#******************************************************************************
+# HandleVerbose
+#
+#*****************************************************************************/
+
+sub HandleVerbose()
+{
+	$Global::listOnly = 0;
+}
+
+#******************************************************************************
+# HandleListOnly
+#
+#*****************************************************************************/
+
+sub HandleListOnly()
+{
+	$Global::listOnly = 1;
+}
+
+#******************************************************************************
+# HandleOneLine
+#
+#*****************************************************************************/
+
+sub HandleOneLine()
+{
+	$Global::singleLine = 1;
+}
+
+#******************************************************************************
+# HandleMultipleLines
+#
+#*****************************************************************************/
+
+sub HandleMultipleLines()
+{
+	$Global::singleLine = 0;
+}
+
+#******************************************************************************
+# HandleSorted
+#
+#*****************************************************************************/
+
+sub HandleSorted()
+{
+	$Global::sorted = 1;
+}
+
+#******************************************************************************
+# HandleUnsorted
+#
+#*****************************************************************************/
+
+sub HandleUnsorted()
+{
+	$Global::sorted = 0;
+}
+
+#******************************************************************************
+# GetFiles
+#
+#	Gets all files (non-directories) matching the pattern criteria in the given
+#	directory tree.
+#
+#*****************************************************************************/
+
+sub GetFiles($$$$$$$$$$)
+{
+	my $basePath    = shift;
+	my $recursive   = shift;
+	my $followLinks = shift;
+	my $glob        = shift;
+	my $dirGlob     = shift;
+	my $regex       = shift;
+	my $dirRegex    = shift;
+	my $notRegex    = shift;
+	my $dirNotRegex = shift;
+	my $fullPath    = shift;
+
+	my @workingList = ("");
+	my @subDirList;
+	my @fileList;
+
+	while ($#workingList >=0)
+		{
+		my $thisDir = shift @workingList;
+		push @subDirList, $thisDir;
+
+		my @thisList;
+		if ($recursive)
+			{
+			# Look for more directories
+			@thisList = GetDirListing $basePath, $thisDir, $dirGlob;
+			# Directory filtering takes place here if --fullpath is not set
+			if (!$fullPath)
+				{
+				@thisList = FilterRegex $dirRegex, $dirNotRegex, \@thisList;
+				}
+			@thisList = RestorePath $thisDir, \@thisList;
+
+			# Filter out non-dirs, also non-links unless $followLinks is true
+			foreach my $file (@thisList)
+				{
+				if (-d $basePath."/".$file
+					and ($followLinks or ! -l $basePath."/".$file) )
+					{
+					push @workingList, $file;
+					}
+				}
+			}
+		}
+
+	# Directory filtering takes place here if --fullpath is set
+	if ($fullPath)
+		{
+		@subDirList = FilterRegex $dirRegex, $dirNotRegex, \@subDirList;
+		}
+
+	# Get the files
+	while ($#subDirList >=0)
+		{
+		my $thisDir = shift @subDirList;
+
+		my @thisList = GetDirListing $basePath, $thisDir, $glob;
+		# File filtering takes place here if --fullpath is not set
+		if (!$fullPath)
+			{
+			@thisList = FilterRegex $regex, $notRegex, \@thisList;
+			}
+		@thisList = RestorePath $thisDir, \@thisList;
+		# Filter out dirs
+		foreach my $file (@thisList)
+			{
+			if (!-d $basePath."/".$file)
+				{
+				push @fileList, $file;
+				}
+			}
+		}
+
+	# File filtering takes place here if --fullpath is set
+	if ($fullPath)
+		{
+		@fileList = FilterRegex $regex, $notRegex, \@fileList;
+		}
+
+	return @fileList;
+}
+
+#******************************************************************************
+# GetDirListing
+#
+#	Gets all directory entries in $dirName matching the $glob pattern,
+#	specified relative to $basePath, and returns them.  The '.' and '..'
+#	entries are not included.
+#
+#*****************************************************************************/
+
+sub GetDirListing($$$)
+{
+	my $basePath    = shift;
+	my $dirName     = shift;
+	my $glob        = shift;
+
+# Get the directory lists
+
+	my $path = $basePath;
+	if (substr($path, -1, 1) ne "/")
+		{
+		$path = $path."/";
+		}
+	$path = $path.$dirName;
+
+	my @rawList;
+	if ($glob)
+		{
+		my $startDir = cwd();
+		chdir $path;
+
+		@rawList = sort glob $glob;
+		# Sane people would think that @rawList would contain all valid
+		# filenames matching the glob pattern.  But because perl globs
+		# are actually expanded by the shell, if the pattern has no magic
+		# characters *it is not even tested for existence*.
+		if ($#rawList == 0)
+			{
+			# We have only one entry; the glob pattern might be literal
+			# and have undergone no expansion.  We check for existence
+			# directly rather than interpret the pattern because the shell
+			# is different on different machines.
+			if (! -e $rawList[0])
+				{
+				# File does not really exist, get rid of it.
+				pop @rawList;
+				}
+			}
+
+		chdir $startDir;
+		}
+	else
+		{
+		if (! opendir DIRHANDLE, $path)
+			{
+			print STDERR "\ndirdiff WARNING: cannot open directory $path\n";
+			}
+		@rawList = sort readdir DIRHANDLE;
+		closedir DIRHANDLE;
+		}
+
+	# The grep excludes the '.' and '..' directory entries; including them
+	# invites all sorts of mayhem.
+	@rawList = grep !m/^\.\.?$/so, @rawList;
+
+	return @rawList;
+}
+
+#******************************************************************************
+# RestorePath
+#
+#	Pastes the path specified by $dirName onto the list of files in
+#	@$fileListRef.
+#
+#*****************************************************************************/
+
+sub RestorePath($$)
+{
+	my $dirName     = shift;
+	my $fileListRef = shift;
+
+	my @rawList = @$fileListRef;
+	if ($dirName ne "")
+		{
+		# Paste on the leading directory name
+		my $relativePath = $dirName;
+		if (substr($relativePath, -1, 1) ne "/")
+			{
+			$relativePath = $relativePath."/";
+			}
+		@rawList = map { $relativePath . $_ } @rawList;
+		}
+
+	return @rawList;
+}
+
+#******************************************************************************
+# FilterRegex
+#
+#	Filter @$fileListRef according to the specified regexes on the command
+#	line, if any.  Note that blank means do nothing in either case.
+#
+#*****************************************************************************/
+
+sub FilterRegex($$$)
+{
+	my $regex       = shift;
+	my $notRegex    = shift;
+	my $fileListRef = shift;
+
+	my @rawList = @$fileListRef;
+	if ($regex ne "")
+		{
+		@rawList = grep( m/$regex/, @rawList );
+		}
+
+	if ($notRegex ne "")
+		{
+		@rawList = grep(!m/$notRegex/, @rawList );
+		}
+
+	return @rawList;
+}
+
+#******************************************************************************
+# ValidateDir
+#
+#*****************************************************************************/
+
+sub ValidateDir($$)
+{
+	my $thisDir = shift;
+	if (! defined $thisDir)
+		{
+		return;
+		}
+
+	my $isOutput = shift;
+
+	if (! -d $thisDir)
+		{
+		print STDERR "\ndirdiff ERROR: argument $thisDir is not a directory.\n";
+		exit 1;
+		}
+
+	if ($isOutput)
+		{
+		if (! -w $thisDir)
+			{
+			print STDERR "\ndirdiff ERROR: argument $thisDir is not writeable.\n";
+			exit 1;
+			}
+		}
+	else
+		{
+		if (! -r $thisDir)
+			{
+			print STDERR "\ndirdiff ERROR: argument $thisDir is not readable.\n";
+			exit 1;
+			}
+		}
+}
+
+#******************************************************************************
+# ParseCommandLine
+#
+#*****************************************************************************/
+
+sub ParseCommandLine()
+{
+# Command line parameters
+
+	my $commands      = $Global::commandsDefault;
+	my $glob          = $Global::globDefault;
+	my $dirGlob       = $Global::dirGlobDefault;
+	my $regex         = $Global::regexDefault;
+	my $dirRegex      = $Global::dirRegexDefault;
+	my $notRegex      = $Global::notRegexDefault;
+	my $dirNotRegex   = $Global::dirNotRegexDefault;
+	my $fullPath      = $Global::fullPathDefault;
+	my $help = 0;
+	my $recursive = $Global::recursiveDefault;
+	my $printVersion = 0;
+
+# Process arguments
+
+	my $fileListARef = shift;
+	my $fileListBRef = shift;
+
+	$Getopt::Long::ignorecase = 0;
+	my $success = GetOptions(
+		"commands=s"        => \$commands,
+		"diffoptions=s"     => \$Global::diffOpts,
+		"dirglob=s"         => \$dirGlob,
+		"dirnotregex=s"     => \$dirNotRegex,
+		"dirregex=s"        => \$dirRegex,
+		"Followlinks"       => \$Global::followLinks,
+		"IgnoreCVS!"        => \$Global::ignoreCVS,
+		"IgnoreSubversion!" => \$Global::ignoreSubversion,
+		"fullpath!"         => \$fullPath,
+		"glob=s"            => \$glob,
+		"help"              => \$help,
+		"listonly"          => \$Global::listOnly,
+		"Linkcomparison=s"  => \$Global::linkComparison,
+		"Mixedcomparison=s" => \$Global::mixedComparison,
+		"notregex=s"        => \$notRegex,
+		"outdir=s"          => \$Global::outPath,
+		"prefix=s"          => \$Global::prefix,
+		"regex=s"           => \$regex,
+		"Recursive!"        => \$recursive,
+		"sorted!"           => \$Global::sorted,
+		"version"           => \$printVersion,
+		);
+
+	# If requested, print version and exit.  No other text so it is easy to
+	# test in scripts.
+
+	if ($printVersion)
+		{
+		print "$Global::version\n";
+		exit 0;
+		}
+
+	# On the command line, it is convenient if -l also controls this
+	if ($Global::listOnly)
+		{
+		$Global::singleLine = 0; # Global parameter
+		}
+
+# Validate linkComparison
+
+	if (    $Global::linkComparison ne "linkname"
+		and $Global::linkComparison ne "filename"
+		and $Global::linkComparison ne "filecontents")
+		{
+		print STDERR "dirdiff ERROR: link comparison method of "
+		           . "'$Global::linkComparison',\n"
+		           . "must be 'linkname, 'filename', or 'filecontents'.\n";
+		exit 1;
+		}
+
+# Special mixedComparison default
+
+	# We do it this way because the mixed case defaults to the same as the pure
+	# link case, so the default must be enforced after linkComparison is read.
+	if ($Global::mixedComparison eq "")
+		{
+		$Global::mixedComparison = $Global::linkComparison
+		}
+
+# Validate mixedComparison
+
+	if (    $Global::mixedComparison ne "linkname"
+		and $Global::mixedComparison ne "filename"
+		and $Global::mixedComparison ne "filecontents")
+		{
+		print STDERR "dirdiff ERROR: link comparison method of "
+		           . "'$Global::mixedComparison',\n"
+		           . "must be 'linkname, 'filename', or 'filecontents'.\n";
+		exit 1;
+		}
+
+# Validate commands
+
+	my $i;
+	my $thisChar;
+	my $unknownChars = "";
+	for ($i=0;$i < length $commands;$i++)
+		{
+		# Get the next command character
+		$thisChar = substr $commands, $i, 1;
+
+		# Dispatch
+		if ($thisChar =~ m/\s/)
+			{
+			next; # Ignore whitespace
+			}
+		elsif ( (index $Global::commandList, $thisChar) == -1)
+			{
+			$unknownChars .= $thisChar;
+			}
+		}
+
+	if ($unknownChars)
+		{
+		print STDERR "dirdiff ERROR: unknown command characters \"$unknownChars\".\n";
+		Usage \*STDERR, $glob, $dirGlob, $regex, $dirRegex, $notRegex,
+						$dirNotRegex, $commands, $help, $recursive, $fullPath;
+		exit 1;
+		}
+
+# Right number of directory arguments?
+
+	if ($#ARGV != 1)
+		{
+		if ($#ARGV != -1)
+			{
+			print STDERR "\ndirdiff ERROR: I can only diff two directories against ",
+			             "each\nother (you entered ", $#ARGV + 1, " directories).\n";
+
+			Usage \*STDERR, $glob, $dirGlob, $regex, $dirRegex, $notRegex,
+							$dirNotRegex, $commands, $help, $recursive, $fullPath;
+			exit 1;
+			}
+		else
+			{
+			Usage \*STDOUT, $glob, $dirGlob, $regex, $dirRegex, $notRegex,
+							$dirNotRegex, $commands, $help, $recursive, $fullPath;
+			exit 0;
+			}
+		}
+
+# Get the directories
+
+	# Get the paths
+	$Global::pathA = shift @ARGV; # Global parameter
+	ValidateDir $Global::pathA, 0;
+	$Global::pathB = shift @ARGV; # Global parameter
+
+	ValidateDir $Global::pathB, 0;
+
+	# Must also validate the output dir, if any.
+	if ($Global::outPath)
+		{
+		ValidateDir $Global::outPath, 1;
+		}
+
+	if ($help)
+		{
+		Usage \*STDOUT, $glob, $dirGlob, $regex, $dirRegex, $notRegex,
+						$dirNotRegex, $commands, $help, $recursive, $fullPath;
+		exit 0;
+		}
+
+	if ($Global::ignoreCVS || $Global::ignoreSubversion)
+		{
+		if (length($dirNotRegex) > 0)
+			{
+			$dirNotRegex = '('.$dirNotRegex.')';
+			}
+
+		if ($Global::ignoreCVS)
+			{
+			if (length($dirNotRegex) > 0)
+				{
+				$dirNotRegex .= '|';
+				}
+
+			if ($fullPath)
+				{
+				$dirNotRegex .= '((*/)?CVS(/*)?)';
+				}
+			else
+				{
+				$dirNotRegex .= '(CVS)';
+				}
+			}
+
+		if ($Global::ignoreSubversion)
+			{
+			if (length($dirNotRegex) > 0)
+				{
+				$dirNotRegex .= '|';
+				}
+
+			if ($fullPath)
+				{
+				$dirNotRegex .= '((*/)?\.svn(/*)?)';
+				}
+			else
+				{
+				$dirNotRegex .= '(\.svn)';
+				}
+			}
+		}
+
+	return ($commands, $recursive, $glob, $dirGlob, $regex, $dirRegex,
+			$notRegex, $dirNotRegex, $fullPath);
+}
+
+#******************************************************************************
+# Usage
+#
+#*****************************************************************************/
+
+sub Usage(*$$$$$$$$$$)
+{
+	my $fh          = shift; # Grab the filehandle reference
+	my $glob        = shift;
+	my $dirGlob     = shift;
+	my $regex       = shift;
+	my $dirRegex    = shift;
+	my $notRegex    = shift;
+	my $dirNotRegex = shift;
+	my $commands    = shift;
+	my $help        = shift;
+	my $recursive   = shift;
+	my $fullPath    = shift;
+
+
+	print $fh "\nDirdiff version $Global::version.";
+	print $fh "\n";
+	print $fh "\nUsage: dirdiff [<options>] <dirA> <dirB>";
+	print $fh "\n";
+	print $fh "\nSynopsis:";
+	print $fh "\nDirdiff runs diff on every pair of files whose names appear in";
+	print $fh "\nboth dirA and dirB.";
+
+	if ($help)
+	{
+	print $fh                      "  By default the outputs are sent to stdout one";
+	print $fh "\nafter the other, separated with headers containing the names of the";
+	print $fh "\nfiles diffed, as well as lists of the files which did not occur";
+	print $fh "\nin both directories.  The output is highly customizable.  Regular";
+	print $fh "\ndiff can be invoked on directories too, but dirdiff is more";
+	print $fh "\nflexible.";
+	print $fh "\n";
+	print $fh "\nOption syntax:";
+	print $fh "\nDirdiff has a variety of options controlling its behavior.";
+	print $fh "\nEach option name may be preceded by either one or two dashes";
+	print $fh "\n(\"-\"), and may be abbreviated if the abbreviation is unique.";
+	print $fh "\nHowever, they may NOT be combined; \"-ls\" is not equivalent to";
+	print $fh "\n\"-l -s\" as in some old unix programs.  Most require an argument;";
+	print $fh "\nit follows the option and may be separated from it either by";
+	print $fh "\nwhitespace or an equals sign (\"=\").  Case is significant in";
+	print $fh "\noption names.";
+	}
+	print $fh "\n";
+	print $fh "\nOptions:";
+	if ($help)
+	{
+	print $fh "\nNote that for options taking arguments this help message prints the";		print $fh "\ncurrent argument values including all command line switches";
+	print $fh "\nspecified along with the help option.  This is occasionally useful";
+	print $fh "\nto help figure out what is going wrong with a dirdiff invocation;";
+	print $fh "\nsimply add '--help' to the errant invocation and see what argument";
+	print $fh "\nvalues result.";
+	print $fh "\n";
+	print $fh "\nInformation About Dirdiff";
+	print $fh "\n";
+	}
+	print $fh "\n  --help";
+	if ($help)
+	{
+	print $fh "\n                  Prints out this usage message.  Invoking dirdiff";
+	print $fh "\n                  with no directories prints a synopsis, as do";
+	print $fh "\n                  certain error conditions.";
+	print $fh "\n";
+	}
+	print $fh "\n  --version";
+	if ($help)
+	{
+	print $fh "\n                  Print dirdiff's version number and exit.";
+	print $fh "\n";
+	}
+	if ($help)
+	{
+	print $fh "\nDirectories and symbolic links";
+	print $fh "\n";
+	}
+	print $fh "\n  --(no)Recursive   (default: \"";
+	if ($Global::recursiveDefault)
+	{
+	print "--Recursive\")";
+	} else {
+	print "--noRecursive\")";
+	}
+	if ($help)
+	{
+	print $fh "\n                    (current: \"";
+	if ($recursive)
+	{
+	print "--Recursive\")";
+	} else {
+	print "--noRecursive\")";
+	}
+	print $fh "\n                  Specifies that dirdiff should examine all files";
+	print $fh "\n                  in the directory trees, not merely at the top";
+	print $fh "\n                  level in the specified directories.  The \"no\"";
+	print $fh "\n                  prefix naturally specifies the opposite.";
+	print $fh "\n";
+	}
+	print $fh "\n  --Followlinks";
+	if ($help)
+	{
+	print $fh "\n                  When activated, dirdiff will follow symbolic";
+	print $fh "\n                  directory links; otherwise they are ignored.";
+	print $fh "\n                  However, if the command-line directory arguments";
+	print $fh "\n                  themselves are symbolic links, those links are";
+	print $fh "\n                  still followed without this switch; dirdiff";
+	print $fh "\n                  assumes you know what you meant to do with paths";
+	print $fh "\n                  you specified yourself.  Obviously meaningless";
+	print $fh "\n                  if the search is --noRecursive.";
+	print $fh "\n";
+	}
+	print $fh "\n  --Linkcomparison  (default: \"$Global::linkComparisonDefault\")";
+	if ($help)
+	{
+	print $fh "\n                    (current: \"$Global::linkComparison\")";
+	print $fh "\n                  This option determines the comparison method for";
+	print $fh "\n                  symbolic links.  The mandatory string argument";
+	print $fh "\n                  may be one of the following values (no";
+	print $fh "\n                  abbreviations are allowed).  'linkname' indicates";
+	print $fh "\n                  that only the names are compared, i.e. links with";
+	print $fh "\n                  the same path relative to dirA and dirB are";
+	print $fh "\n                  considered identical.  'filename' indicates that";
+	print $fh "\n                  only the paths of the files pointed to are";
+	print $fh "\n                  compared (dirdiff only compares the path strings,";
+	print $fh "\n                  so be aware that different path strings may point";
+	print $fh "\n                  to the same file and identical path strings may";
+	print $fh "\n                  point to different files).  'filecontents' means";
+	print $fh "\n                  that dirdiff treats the links as normal files and";
+	print $fh "\n                  uses diff to determine if they are identical.";
+	print $fh "\n";
+	}
+	print $fh "\n  --Mixedcomparison (default: \"$Global::linkComparison\")";
+	if ($help)
+	{
+	print $fh "\n                    (current: \"$Global::mixedComparison\")";
+	print $fh "\n                  Identical to --Linkcomparison, but specifies the";
+	print $fh "\n                  comparison method when one entry is a file and";
+	print $fh "\n                  one is a symbolic link.  Defaults to whatever the";
+	print $fh "\n                  value of --Linkcomparison is, so this flag is";
+	print $fh "\n                  only necessary when the two cases must be";
+	print $fh "\n                  handled differently.";
+	print $fh "\n";
+	}
+	print $fh "\n  --(no)IgnoreCVS   (default: \"";
+	if ($Global::ignoreCVSDefault)
+	{
+	print "--IgnoreCVS\")";
+	} else {
+	print "--noIgnoreCVS\")";
+	}
+	if ($help)
+	{
+	print $fh "\n                    (current: \"";
+	if ($Global::ignoreCVS)
+	{
+	print "--IgnoreCVS\")";
+	} else {
+	print "--noIgnoreCVS\")";
+	}
+	print $fh "\n                  When active, ignores CVS directories.";
+	print $fh "\n";
+	}
+	print $fh "\n  --(no)IgnoreSubversion (default: \"";
+	if ($Global::ignoreSubversionDefault)
+	{
+	print "--IgnoreSubversion\")";
+	} else {
+	print "--noIgnoreSubversion\")";
+	}
+	if ($help)
+	{
+	print $fh "\n                         (current: \"";
+	if ($Global::ignoreSubversion)
+	{
+	print "--IgnoreSubversion\")";
+	} else {
+	print "--noIgnoreSubversion\")";
+	}
+	print $fh "\n                  When active, ignores Subversion directories.";
+	print $fh "\n";
+	}
+	if ($help)
+	{
+	print $fh "\nPattern matching";
+	print $fh "\n";
+	print $fh "\n  The mandatory arguments to the following options specify patterns";
+	print $fh "\n  (filename globs or Perl regular expressions) which control which";
+	print $fh "\n  directories will be examined (those with a 'dir' prefix) or which";
+	print $fh "\n  files in those directories will be reported.  Patterns generally";
+	print $fh "\n  contain characters like '*' which are especially beloved of the";
+	print $fh "\n  shell; remember to protect them with quotes or backslashes!";
+	print $fh "\n  Obviously, directory patterns are meaningless if the search is";
+	print $fh "\n  --noRecursive.";
+	print $fh "\n";
+	}
+	print $fh "\n  --glob            (default: \"$Global::globDefault\")";
+	if ($help)
+	{
+	print $fh "\n                    (current: \"$glob\")";
+	print $fh "\n                  Specifies a file globbing pattern; only matching";
+	print $fh "\n                  files will be examined.  Without globbing, all";
+	print $fh "\n                  files including hidden ones are processed.  File";
+	print $fh "\n                  globbing applies only to the base filename,";
+	print $fh "\n                  regardless of the value of --fullpath.";
+	print $fh "\n";
+	print $fh "\n                  Note that Perl--and therefore dirdiff--is at the";
+	print $fh "\n                  mercy of whatever shell you have installed, so";
+	print $fh "\n                  the results cannot be guaranteed to be the same";
+	print $fh "\n                  on all machines.  On the other hand, you can use";
+	print $fh "\n                  whatever shell globbing behavior you are used to.";
+	print $fh "\n";
+	}
+	print $fh "\n  --dirglob         (default: \"$Global::dirGlobDefault\")";
+	if ($help)
+	{
+	print $fh "\n                    (current: \"$dirGlob\")";
+	print $fh "\n                  Specifies a directory globbing pattern, which";
+	print $fh "\n                  applies to each element of the path regardless";
+	print $fh "\n                  of the value of --fullpath.  This means that if";
+	print $fh "\n                  directory A does not match the glob then";
+	print $fh "\n                  directory A/B/ will not be examined even if B";
+	print $fh "\n                  matches the glob.  The top-level directories";
+	print $fh "\n                  specified on the command line are assumed to";
+	print $fh "\n                  always match (as otherwise the match is useless).";
+	print $fh "\n";
+	}
+	print $fh "\n  --fullpath        (default: \"";
+	if ($Global::fullPathDefault)
+	{
+	print "--fullpath\")";
+	} else {
+	print "--nofullpath\")";
+	}
+	if ($help)
+	{
+	print $fh "\n                    (current: \"";
+	if ($fullPath)
+	{
+	print "--fullpath\")";
+	} else {
+	print "--nofullpath\")";
+	}
+	print $fh "\n                  When set, all regexes (for files or directories,";
+	print $fh "\n                  inclusive or exclusive) apply to the full";
+	print $fh "\n                  pathname of the file relative to the top-level";
+	print $fh "\n                  directories specified on the command line.";
+	print $fh "\n                  This is usually more convenient.  Otherwise, they";
+	print $fh "\n                  apply to each element of the path separately just";
+	print $fh "\n                  as --glob and --dirglob do, and like the globs";
+	print $fh "\n                  the top-level directories is implicitly assumed";
+	print $fh "\n                  to match.";
+	print $fh "\n";
+	}
+	print $fh "\n  --regex           (default: \"$Global::regexDefault\")";
+	if ($help)
+	{
+	print $fh "\n                    (current: \"$regex\")";
+	print $fh "\n                  Specifies a file regular expression.";
+	print $fh "\n";
+	}
+	print $fh "\n  --dirregex        (default: \"$Global::dirRegexDefault\")";
+	if ($help)
+	{
+	print $fh "\n                    (current: \"$dirRegex\")";
+	print $fh "\n                  Specifies a directory regular expression.";
+	print $fh "\n";
+	}
+	print $fh "\n  --notregex        (default: \"$Global::notRegexDefault\")";
+	if ($help)
+	{
+	print $fh "\n                    (current: \"$notRegex\")";
+	print $fh "\n                  As for --regex, but the regular expression";
+	print $fh "\n                  specifies files to be excluded.  If --regex and";
+	print $fh "\n                  --notregex are used together, files must both";
+	print $fh "\n                  match the former and fail to match the latter;";
+	print $fh "\n                  that is, the conditions are implicitly ANDed";
+	print $fh "\n                  together.  Also, a blank string means \"no";
+	print $fh "\n                  regex\", not \"exclude everything\".";
+	print $fh "\n";
+	}
+	print $fh "\n  --dirnotregex     (default: \"$Global::dirNotRegexDefault\")";
+	if ($help)
+	{
+	print $fh "\n                    (current: \"$dirNotRegex\")";
+	print $fh "\n                  Like --notregex, but applies instead to";
+	print $fh "\n                  subdirectory names just as --dirregex does.";
+	print $fh "\n";
+	}
+	if ($help)
+	{
+	print $fh "\nInvoking diff:";
+	print $fh "\n";
+	}
+	print $fh "\n  --diffoptions     (default: \"$Global::diffOptsDefault\")";
+	if ($help)
+	{
+	print $fh "\n                    (current: \"$Global::diffOpts\")";
+	print $fh "\n                  The mandatory string argument specifies the";
+	print $fh "\n                  option switches to be passed to diff on each";
+	print $fh "\n                  invocation.  Dirdiff does not examine or modify";
+	print $fh "\n                  this string in any way.";
+	print $fh "\n";
+	print $fh "\nControlling dirdiff's output:";
+	print $fh "\n";
+	}
+	print $fh "\n  --outdir          (default: <none>)";
+	if ($help)
+	{
+	if ($Global::outPath) {
+	print $fh "\n                    (current: \"$Global::outPath\")";
+	} else {
+	print $fh "\n                    (current: <none>)";
+	}
+	print $fh "\n                  The mandatory string argument specifies a";
+	print $fh "\n                  directory where all diff output should be written";
+	print $fh "\n                  in *.diff files (i.e. the filename is the same as";
+	print $fh "\n                  the original files with a \".diff\" extension).";
+	print $fh "\n                  ANY EXISTING *.diff FILES WILL BE OVERWRITTEN.";
+	print $fh "\n                  The output directory may be the same as one of";
+	print $fh "\n                  the input directories, but no special precautions";
+	print $fh "\n                  are taken, so the preceding warning goes double.";
+	print $fh "\n                  Dirdiff will attempt to create subdirectories of";
+	print $fh "\n                  <outdir> as necessary to place the output files";
+	print $fh "\n                  in a subdirectory of the same name as it found";
+	print $fh "\n                  the input files (i.e. the diff of dirA/foo/bar";
+	print $fh "\n                  and dirB/foo/bar goes in outdir/foo/bar.diff).";
+	print $fh "\n";
+	}
+	print $fh "\n  --prefix          (default: \"$Global::prefixDefault\")";
+	if ($help)
+	{
+	print $fh "\n                    (current: \"$Global::prefix\")";
+	print $fh "\n                  Specifies a string to prepend to all filenames";
+	print $fh "\n                  in the output filename lists.  Does NOT affect";
+	print $fh "\n                  output of diffs or diff files, only filename";
+	print $fh "\n                  lists output either on a single line or on";
+	print $fh "\n                  separate lines.  Also, dirdiff does no processing";
+	print $fh "\n                  of any kind on the value; if the prefix specifies";
+	print $fh "\n                  a path, as it usually does, the prefix must end";
+	print $fh "\n                  with a '/'. Otherwise, the prefix modifies the";
+	print $fh "\n                  basenames, probably not what was wanted.";
+	print $fh "\n";
+	}
+
+	print $fh "\n  --commands        (default: \"$Global::commandsDefault\")";
+	if ($help)
+	{
+	print $fh "\n                    (current: \"$commands\")";
+	print $fh "\n                  The mandatory string argument specifies a";
+	print $fh "\n                  sequence of command characters which dirdiff will";
+	print $fh "\n                  execute in left-to-right order to produce its";
+	print $fh "\n                  output.  There are no restrictions on the order";
+	print $fh "\n                  or number of command characters.";
+	print $fh "\n                  The output commands generate output reporting";
+	print $fh "\n                  on a particular category of file:";
+	print $fh "\n";
+	print $fh "\n                    D  \"different\"--same name, different contents";
+	print $fh "\n                    I  \"identical\"--same name and contents";
+	print $fh "\n                    A  \"directory A\"--only present in directory A";
+	print $fh "\n                    B  \"directory B\"--only present in directory B";
+	print $fh "\n";
+	print $fh "\n                    d  --these are as above, but apply to symbolic";
+	print $fh "\n                    i    links rather than real files.";
+	print $fh "\n                    a";
+	print $fh "\n                    b";
+	print $fh "\n";
+	print $fh "\n                    S  --report names which appear as a file in";
+	print $fh "\n                         one directory and as a symbolic link in";
+	print $fh "\n                         the other, and which are identical under";
+	print $fh "\n                         the --Mixedcomparison test.";
+	print $fh "\n                    X  --as for S, but for those which differ.";
+	print $fh "\n";
+	print $fh "\n                  The style commands change the way the commands";
+	print $fh "\n                  report:";
+	print $fh "\n";
+	print $fh "\n                    v  \"verbose\"  --print diffs, generate human-";
+	print $fh "\n                                      friendly output";
+	print $fh "\n                    l  \"list only\"--only list files and do";
+	print $fh "\n                                      not print the diffs.";
+	print $fh "\n                    o  \"one line\"      --one line per list";
+	print $fh "\n                    m  \"multiple lines\"--list one line per file";
+	print $fh "\n                    s  \"sorted\"  --sort lists before output";
+	print $fh "\n                    u  \"unsorted\"--output lists in current order";
+	print $fh "\n";
+	print $fh "\n                  The \"svo\" styles are on by default.";
+	print $fh "\n";
+	}
+
+	print $fh "\n  --listonly        (default: \"";
+	if ($Global::listOnlyDefault)
+	{
+	print "--listonly\")";
+	} else {
+	print "--nolistonly\")";
+	}
+	if ($help)
+	{
+	print $fh "\n                    (current: \"";
+	if ($Global::listOnly)
+	{
+	print "--listonly\")";
+	} else {
+	print "--nolistonly\")";
+	}
+	print $fh "\n                  This flag is a convenience; with it activated";
+	print $fh "\n                  the \"lm\" styles rather than the \"vo\" styles";
+	print $fh "\n                  (see --commands) are on by default.  Useful for";
+	print $fh "\n                  pipes.";
+	print $fh "\n";
+	}
+
+	print $fh "\n  --(no)sorted      (default: \"";
+	if ($Global::sortedDefault)
+	{
+	print "--sorted\")";
+	} else {
+	print "--nosorted\")";
+	}
+	if ($help)
+	{
+	print $fh "\n                    (current: \"";
+	if ($Global::sorted)
+	{
+	print "--sorted\")";
+	} else {
+	print "--nosorted\")";
+	}
+	print $fh "\n                  Another convenience; affects whether the \"s\"";
+	print $fh "\n                  or \"u\" styles (see --commands) are on by";
+	print $fh "\n                  default.";
+	print $fh "\n";
+
+	print $fh "\nExamples:";
+	print $fh "\n";
+	print $fh "\nDirdiff isn't actually as formidable as it looks.  A few";
+	print $fh "\nexamples may help.";
+	print $fh "\n";
+	print $fh "\nPrint out how the contents of dirA and dirB differ, in";
+	print $fh "\nhuman-readable form:";
+	print $fh "\n";
+	print $fh "\n    dirdiff dirA dirB";
+	print $fh "\n";
+	print $fh "\nPrint out context diffs of files different in dirA and dirB:";
+	print $fh "\n";
+	print $fh "\n    dirdiff --diff='-c' --commands='D' dirA dirB";
+	print $fh "\n";
+	print $fh "\nMake diffs of all .c and .h files in the top-level";
+	print $fh "\ndirectories which differ and store them in dirC:";
+	print $fh "\n";
+	print $fh "\n    dirdiff --outdir dirC --glob='*.[ch]' -commands=D -noRecursive dirA dirB";
+	print $fh "\n";
+	print $fh "\nTar up all non-object, non-library files which have been changed";
+	print $fh "\nor created since the last version:";
+	print $fh "\n";
+	print $fh "\n    tar cf newversion.tar `dirdiff -not '\.(o|a|so[.0-9]*)\$' -l -c DB -p 'newversion/' lastversion newversion`";
+	print $fh "\n";
+	}
+
+	if (!$help)
+	{
+	print $fh "\n\nType 'dirdiff --help' for more info.";
+	}
+	print $fh "\n";
+}
