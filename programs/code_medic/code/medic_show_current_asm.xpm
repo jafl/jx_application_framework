@@ -1,0 +1,21 @@
+/* XPM */
+static char * medic_show_current_asm[] = {
+"10 15 3 1",
+" 	c None",
+".	c black",
+"X	c magenta",
+"          ",
+" .        ",
+" ..       ",
+" .X.      ",
+" .XX.     ",
+" .XXX.    ",
+" .XXXX.   ",
+" .XXXXX.  ",
+" .XXXX.   ",
+" .XXX.    ",
+" .XX.     ",
+" .X.      ",
+" ..       ",
+" .        ",
+"          "};

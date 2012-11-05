@@ -1,0 +1,40 @@
+0
+
+CMSourceWindowHelp
+
+"<html>
+<head>
+<title>Source View Window</title>
+</head>
+
+When the program is paused, the Current Source window displays the source file corresponding to the <a href=jxhelp:CMStackHelp>stack frame</a> that is currently being debugged.  If a cyan colored arrow is visible to the left of the line numbers, this indicates the line at which the program is paused.
+<p>
+All other Source View windows display the source files that you have opened either via the <a href=jxhelp:#FileList>Files</a> window or the \"Open source file...\" item on the File menu.
+<p>
+These windows only display the program's source files.  They do not allow you to edit the files because then it would no longer correspond to the debugging information stored in the program.  When the files and the debugging information do not correspond, the result is pure confusion.
+<p>
+Since one cannot edit the files, all keypresses (except menu shortcuts) are sent to the <a href=jxhelp:CMCommandDirHelp>Command Line</a>.
+
+<a name=FileList>
+
+<h3> Opening source files </h3>
+
+The Files window displays a list of all the source files that are used by the program being debugged.  (Unfortunately, <tt>gdb</tt> does not report files used by shared libraries until after the program has been started.)
+<p>
+To open a file, either select it and press Return or double click on it.  You can also <a href=jxhelp:CMMiscHelp#MultiSelect>select several files</a> and press Return to open them all at once.
+<p>
+To locate a file, simply type the first few letters in its name, and the first file name that matches will be selected.  You can search for groups of files by using the wildcard or the <a href=jxhelp:JXRegexHelp>regular expression</a> filter on the Actions menu.
+
+<a name=Execution>
+
+<h3> Controlling execution </h3>
+
+The basic commands are provided on the Debug menu:  Next, Step, Finish, and Continue.
+<p>
+To execute to a particular point and then stop, hold down the Meta key and click on the line number.  This is equivalent to the Until command.  Note that this only works when the program is stopped.
+<p>
+To arbitrarily change the point of execution, hold down the Control key and click on the line number.  This is equivalent to the Jump command, but Code Medic will halt the program after the jump.  Note that this only works when the program is stopped.
+<p>
+These functions are also available in the menu that appears when you right-click on a line number.
+
+</html>"

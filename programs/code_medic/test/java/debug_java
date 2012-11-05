@@ -1,0 +1,1 @@
+java -agentlib:jdwp=transport=dt_socket,address=localhost:9001 test/$1

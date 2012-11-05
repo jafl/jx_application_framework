@@ -1,0 +1,3 @@
+gcc -g -c test.c -o test.o
+g77 -g -c fsub.f -o fsub.o
+gcc test.o fsub.o -o ftest

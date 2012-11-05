@@ -1,0 +1,76 @@
+# To use this file, first run "makemake" and then run "make".
+# (makemake is part of the JX distribution)
+
+# Useful directories
+
+JX_ROOT := ../../../..
+
+CODEDIR  := .
+JCOREDIR := ${JX_ROOT}/include/jcore
+
+JLIBDIR     := ${JX_ROOT}/lib
+JCORELIBDIR := ${JX_ROOT}/libjcore
+
+# Directories to search for header files
+
+SEARCHDIRS := -I- \
+              -I${CODEDIR} \
+              -I${JCOREDIR}
+
+# makemake variables
+
+include ${JX_ROOT}/include/make/jx_constants
+include ${JX_ROOT}/include/make/jx_config
+
+DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
+               ${J_COMPILE_DEBUG} ${SEARCHDIRS}
+
+# library dependencies
+
+ifdef J_BUILD_SHARED_LIB
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX}
+else
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+endif
+
+# make variables
+
+LOADLIBES := ${J_STD_LIBS}
+LDFLAGS   := 
+
+#####
+
+.PHONY : default
+default: libs test
+
+.PHONY : Makefiles
+Makefiles:
+
+include ${JX_ROOT}/include/make/jx_targets
+
+#
+# required libraries
+#
+
+.PHONY : libs
+libs:
+	@cd ${JCORELIBDIR}; ${MAKE}
+
+.PHONY : touch
+touch::
+	@cd ${JCORELIBDIR}; ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch
+
+#
+# debugging version
+#
+
+DEBUG_LOADLIBES := -L${JLIBDIR} \
+                   -Xlinker -Bstatic \
+                   ${ljcore} ${J_ACE_LIBS} \
+                   -Xlinker -Bdynamic \
+                   ${J_GCC_LIBS}
+
+.PHONY : debug
+debug: staticACE libs
+	@${RM} test
+	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" test

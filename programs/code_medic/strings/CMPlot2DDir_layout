@@ -1,0 +1,4 @@
+0
+itsDuplicatePlotButton::CMPlot2DDir::JXLayout "Duplicate"
+itsAddPlotButton::CMPlot2DDir::JXLayout "New"
+itsRemovePlotButton::CMPlot2DDir::JXLayout "Remove"

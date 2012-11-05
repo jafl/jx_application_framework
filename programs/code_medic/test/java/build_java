@@ -1,0 +1,2 @@
+javac -g test/*.java
+jar cfm HelloWorld.jar manifest.txt test/HelloWorld.class

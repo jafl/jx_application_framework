@@ -1,0 +1,39 @@
+0
+
+CM2DPlotHelp
+
+"<html>
+<head>
+<title> 2D Plot Window </title>
+</head>
+
+<h3> Overview </h3>
+
+To plot the contents of a one dimensional array, select its name and then use the \"Plot as 1D array\" item on the Debug menu in any Source window or the Actions menu in any Variables window.
+<p>
+When the plot window opens, it displays the expression to be plotted and the range of elements at the top of the window.  To change a value, double click on it.  When you tab out of a cell or press Return, the plot is automatically adjusted to match the new expression and range.
+<p>
+Though the window intially plots the array index (<code>$i</code>) vs. the array value, it actually lets you to plot any expression vs. any other expression.  For example, if you have two arrays <code>foo</code> and <code>bar</code>, you can enter <code>foo</code> in the X column and <code>bar</code> in the Y column.  You can even plot functions of array, e.g., <code>2*foo[$i-5]</code> vs. <code>bar[2*$i]/2</code>.  Note that you must include the array index explicitly when the expression is not a plain variable name.  Also note that you are limited to functions which <code>gdb</code> can evaluate.
+<p>
+You can also plot multiple curves in a single window.  Click \"New\" to create a new plot.  Select an existing expression and click \"Duplicate\" to create a copy of an existing plot.  Select an existing expression and click \"Remove\" to remove an existing plot.  When you have multiple plots in a window, it often makes sense to turn on the \"Show legend\" option in the Options menu.
+<p>
+You can print the plot to either PostScript or EPS via the items on the File menu.
+
+<h3> Changing the Appearance of the Plots </h3>
+
+To change the display options of a curve, either select \"Change curve options...\" from the Options menu, double-click on the appropriate curve label in the legend, or right-click on the curve name in the legend.  In the Curve Options dialog, you can edit the name of a curve by clicking the curve name in the list at the left.  Note that the curve name will be reset if you change the expressions or range.
+<p>
+You can change the X and Y scales of the plot in several ways. To view the \"Edit Plot Scale\" dialog box, select \"Change scale...\" from the Options menu or double-click
+on the numbers displayed along either axis.  To zoom, click and drag the mouse to select a region of the plot.  If the Meta key is held down, the scale will be changed to the exact region contained by the zoom rectangle.  Otherwise, a reasonable scale will be chosen around the area of interest.  To return the scale to the default, select \"Reset scale\" from the Options menu.
+<p>
+The range specifies what portion of the curves will be drawn, within the limits set by the axis scales.  To set the range, select \"Change range...\" from the Options menu.  An alternate method is to zoom in to the desired range, select \"Copy scale to range\" from the Options menu, and then reset the scale by selecting \"Reset scale\" from the Options menu.  You can clear the Range by selecting \"Clear range\" from the Options menu.
+<p>
+You can edit the plot labels either by selecting \"Change labels...\" from the Options menu or by double-clicking on the appropriate label.  When you change the title of the plot, the window title will automatically update.
+
+<h3> Cursors </h3>
+
+Cursors are a useful way of determining the position of various features on a curve.  You can turn on X and Y cursors via the Cursors menu.  If you turn on Dual cursors, the values of both cursors will be displayed, along with the distance between them.  To move a cursor, click and drag it.  For fine adjustments, click and then use appropriate the arrow keys.  Holding down the Meta key while using the arrow keys makes the cursor move faster.
+<p>
+You can mark a particular cursor location by selecting the cursor and then selecting \"Mark cursor\" from the Cursor menu.  The position will then be marked with a gray line, even after you move the cursor.
+
+</html>"

@@ -1,0 +1,2 @@
+crash with assert:        ./vartree assert
+crash with fp exception:  ./vartree divzero

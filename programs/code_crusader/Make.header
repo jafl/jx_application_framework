@@ -84,7 +84,6 @@ default: libs jcc ctags
 
 .PHONY : Makefiles
 Makefiles:
-	@cd ${JX_ROOT}/misc/ctags; ./configure > /dev/null
 
 include ${JX_ROOT}/include/make/jx_targets
 
@@ -116,7 +115,7 @@ menu_strings:
 
 .PHONY : ctags
 ctags:
-	@if ! test -f ${JX_ROOT}/misc/ctags/Makefile; then ${MAKE} Makefiles; fi
+	@if ! test -f ${JX_ROOT}/misc/ctags/Makefile; then cd ${JX_ROOT}/misc/ctags; ./configure > /dev/null; fi
 	@cd ${JX_ROOT}/misc/ctags; ${MAKE}; strip ${call EXE, ctags}
 
 #

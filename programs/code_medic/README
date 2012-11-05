@@ -1,0 +1,37 @@
+
+Installing Code Medic:
+
+The easiest way to install is to run:  sudo ./install
+
+Otherwise, the program (medic) needs to be placed in a directory that is on
+your execution path.  /usr/bin or ~/bin are usually good choices.  Copy the
+libraries in lib/ to a directory on your LD_LIBRARY_PATH.
+
+
+Running Code Medic:
+
+If Code Medic crashes or if you find other bugs, please check the web page
+first to see if they have already been reported.
+
+On OS X, this program requires XQuartz, the X11 server.  Before running
+this program, you must first start XQuartz.
+
+
+Notes on Code Medic:
+
+Code Medic is a graphical debugging environment for UNIX.
+
+The on-line help explains all the features of the program.
+
+Since we use Code Medic for all our development, we guarantee that it will
+continue to improve.  We have a very long list of features that we intend
+to implement, so please tell us what features you need, so we will know
+which ones on our list to implement first.
+
+Menu items that seem to be permanently disabled are features waiting
+to be implemented.
+
+The main web page for Code Medic is
+
+    http://www.newplanetsoftware.com/medic/
+

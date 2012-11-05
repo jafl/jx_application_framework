@@ -1,0 +1,350 @@
+0
+
+CMChangeLog
+
+"<html>
+<head>
+<title> Changes from previous versions </title>
+</head>
+
+Please send all bug reports and suggestions for features to 
+<a href=http://www.newplanetsoftware.com/nps/contact.php>New Planet Software</a>.
+<p>
+<hr>
+
+<h3> 3.3 </h3>
+
+Enabled \"Examine memory\" and \"Disassemble memory\" items on Debug menu.  Both now display a modeless window for examining memory at an arbitrary expression in several ways: hex dump, character dump, or assembly code.
+<p>
+Added \"Disassemble function\" item to Debug menu.  This displays the assembly code for the selected function name.
+<p>
+Double-clicking on the function name or address in the Breakpoints window displays the assembly code for the function.
+
+<h3> 3.2 </h3>
+
+Breakpoints window displays breakpoint, watchpoints, and catchpoints.
+<p>
+Fixed parser to understand updated output for std::list.
+
+<h3> 3.1.1 </h3>
+
+Work around for strange X11 behavior that could cause Code Crusader to hang when run for the first time.
+
+<h3> 3.1 </h3>
+
+<b> Debugging </b>
+
+<p>
+Updated breakpoint parsing to work with gdb 7.1.
+<p>
+Added menu items for backward execution.
+<p>
+Fixed bug so setting breakpoints works reliably on OS X.
+<p>
+Fixed bug so run after quitting attached process works correctly.
+<p>
+
+<b> Miscellaneous </b>
+
+<p>
+Anti-alised text.
+<p>
+Fixed window placement issues on OS X.
+<p>
+
+<h3> 3.0.1 </h3>
+
+<b> Debugging </b>
+
+<p>
+Fixed bug to avoid losing program output.
+<p>
+Updated to display contents of reference variables in Local Variables window when running gdb 7.
+<p>
+Fixed bug so Kill works on OS X.
+<p>
+Choosing a program and running it is now much faster.
+<p>
+
+<h3> 3.0 </h3>
+
+<b> Major changes </b>
+
+<p>
+Refactored engine to allow different back ends.  Added support for <a href=\"http://www.xdebug.org/\">Xdebug 2.0</a>, a remote debugger for PHP.  When you choose a program to debug, Code Medic will automatically switch to the appropriate back end.  To force a particular back end, use the command line options <code>--gdb</code> and <code>--xdebug</code>.
+<p>
+Rewrote gdb engine to use the GDB/MI interface.  Code Medic now requires gdb 6.0 or newer.
+<p>
+Added \"Plot as 1D array\" menu item in Source and Variables windows.  This plots the selected variable as a 1D array.  In the <a href=jxhelp:CM2DPlotHelp>Plot window</a>, you can define additional curves, even plotting a function of one array vs. a function of another array.
+<p>
+Window docking finally works with all window managers.
+<p>
+
+<b> Debugging </b>
+
+<p>
+Updated to work with gdb 7.
+<p>
+Now recognizes when the program being debugged has changed and reloads the file list and all open source windows.
+<p>
+\"Run program\" automatically asks you to choose a program if you haven't already done so.  You no longer have to perform two separate steps.
+<p>
+Fixed crash when opening certain types of nodes in any Variables window.
+<p>
+Fixed issues to allow Code Medic to work with gdb when debugging Java compiled with gcj.  It's still useless, however, because gdb doesn't understand how to display the values of Java variables.
+<p>
+Cleaned up Files window to eliminate duplicates.
+<p>
+
+<b> Source window </b>
+
+<p>
+Fixes to work with files where lines are so long that text is forced to wrap.
+<p>
+
+<b> Variables and Array windows </b>
+
+<p>
+Fixed variable parser to recognize template information within enum values, e.g., MyTemplate<int>::blue.
+<p>
+Enabled \"Display as 1D array\" and \"Display as 2D array\" in 2D Array windows.
+<p>
+
+<b> Miscellaneous </b>
+
+<p>
+Added awareness of Xinerama, so it works better with 2 monitors.
+<p>
+Added <code>--quit</code> option which acts just like the \"Quit\" item on the File menu.
+<p>
+Added support for vi and emacs embedded configuration options:  tab-width for emacs and tabstop for vi.
+<p>
+Ctrl-Page-Up/Down cycles through docked windows in a pane.
+<p>
+Added \"Desktop\" button in all Choose File and Save File dialogs.
+<p>
+Automatically quits if you close all windows. (Finally!)
+<p>
+Re-ordered menus in all windows so Edit always follows File.
+<p>
+Mouse wheel now scrolls smaller increments on OS X.
+<p>
+Added support for horizontal scrolling.  This is especially useful on Macintosh trackpads that support gestures.
+<p>
+
+<h3> 2.1.2 </h3>
+
+<b> Debugging </b>
+
+<p>
+Updated to work with idiosyncrasies of the OS X version of gdb:  recognizes when a core file has been loaded.
+<p>
+
+<h3> 2.1.1 </h3>
+
+<b> Debugging </b>
+
+<p>
+Added \"Load configuration...\" and \"Save configuration...\" items to File menu in Current Source window.
+<p>
+Updated to work with idiosyncrasies of the OS X version of gdb:  recognizes when a binary has been loaded.
+<p>
+
+<b> Miscellaneous </b>
+
+<p>
+Fixed bug so window docks cannot be shrunk below a safe, minimum size.  Some windows may still pop out of the dock because they no longer fit, but the program will not crash.
+<p>
+
+<h3> 2.1.0 </h3>
+
+<b> Debugging </b>
+
+<p>
+Added \"Load configuration...\" and \"Save configuration...\" items to File menu in Command Line window.  This saves the breakpoints and displayed variables so the debugging session can be quickly restored later.
+<p>
+On Debug menu, changed shortcut for \"Step into\" to Meta-J, added shortcut Meta-K for \"Finish subroutine,\" Meta-Shift-N for \"Continue execution,\" and Ctrl-X for \"Remove all breakpoints.\"
+<p>
+Updated to work with gdb 6.x.
+<p>
+Fixed gdb crash recovery mechanism to restore breakpoint conditions.
+<p>
+Fixed Stack Trace parser to ignore modifiers such as \"const\" in function prototypes.
+<p>
+Fixed bug in Stack Trace parser that caused occasional crashes when parsing string data.
+<p>
+Fixed Variables parser to ignore warnings printed by gdb.
+<p>
+Fixed Files window to handle paths relative to the location of the binary.
+<p>
+Fixed bug in Files window that would miss one source file from \"info sources.\"
+<p>
+Current Source window is raised when breakpoint is hit.
+<p>
+Regular expression search and replace now uses Perl syntax, thanks to the <a href=http://pcre.org/>PCRE package</a>.
+<p>
+
+<b> Miscellaneous </b>
+
+<p>
+\"Dock all windows in default configuration\" is now active on docktab menu.
+<p>
+Docking configuration is now saved.
+<p>
+Added File menu to all windows.
+<p>
+If menus do not fit on the menu bar, they are available in an overflow menu.
+<p>
+A menu will never again cover the menu bar when it is opened.  This prevents menu items from being accidentally selected with a click on the menu bar.
+<p>
+
+<h3> 2.0.2 </h3>
+
+<b> Debugging </b>
+
+<p>
+Updated Stack Trace window to handle new gdb format that includes function prototypes.
+<p>
+Fixed Command Line window to not lose current command if user uses arrow keys to scroll up the history and then back down.
+<p>
+
+<b> Miscellaneous </b>
+
+<p>
+Now installs correctly into the Start Menu in Gnome 2.
+<p>
+Fixed bug that occasionally caused a window to remain blank after switching to its desktop in Gnome 2.
+<p>
+Fixed scrolltab shortcuts to be Meta-1..9 when Windows-style menu shortcuts are used.
+<p>
+
+<h3> 2.0.1 </h3>
+
+<b> Debugging </b>
+
+<p>
+Custom commands can now include ##.  This is replaced by the currently selected text, if any.
+<p>
+Custom commands are now available all the time, not only when a program is being debugged.
+<p>
+
+<b> Miscellaneous </b>
+
+<p>
+If gdb crashes, you can now choose not to restart it automatically.
+<p>
+Fixed bug to avoid crash when restarting gdb after it crashes.
+<p>
+Fixed bug in Choose File and Save File dialogs so they remember the \"Show hidden files\" setting.
+<p>
+Fixed bug so menu shortcuts which require the Shift key work even if Caps Lock is on.
+<p>
+
+<h3> 2.0.0 </h3>
+
+<p>
+<b> Major changes </b>
+<p>
+Added support for <a href=jxhelp:CMThreadsHelp>threads</a>.
+<p>
+Improved support for <a href=jxhelp:CMBreakpointsHelp>breakpoints</a>, including conditional breakpoints, commands to execute when a breakpoint is hit, number of times to ignore a breakpoint, temporary breakpoints, and multiple breakpoints on a single line.
+<p>
+Expressions and values in the <a href=jxhelp:CMVarTreeHelp>Variables</a> window are editable.
+<p>
+Array window allows an arbitrary expression to be entered with <tt>$i</tt> as a placeholder for the array index.
+<p>
+<a href=jxhelp:CMVarTreeHelp#Array2D>Two dimensional arrays</a> can now be displayed.
+<p>
+Code Medic can now debug Fortran programs compiled with g77 and Java programs compiled with gcj.
+<p>
+<a href=jxhelp:CMVarTreeHelp#Local>Local Variables</a> window now works like the Variables window.
+<p>
+
+<b> Debugging </b>
+
+<p>
+Core file can be opened without first selecting a program.  This feature is available on the command line via the <tt>-c</tt> option.
+<p>
+Updates breakpoints when \"<tt>clear</tt>\" is used on the command line.
+<p>
+Automatically restarts the debugger if it crashes.
+<p>
+Fixed bug so Code Medic reliably beeps when program finishes or crashes.
+<p>
+When a core dump that was caused by an assert is opened, Code Medic selects the frame in which the assert fired.
+<p>
+It is no longer necessary to choose the program binary before attaching to a running process.
+<p>
+As a stop-gap until somebody can find a better solution, Code Medic will ask you to select the PID of the process being debugged if it cannot be obtained automatically.  This is mainly for those using threads, because gdb prints the thread information instead of the process information.
+<p>
+Fixed bug so breakpoints can now be set in files that were compiled via a symbolic link.
+<p>
+
+<b> Source window </b>
+
+<p>
+Added right-click context menu to line number display.
+<p>
+Ctrl-click on a line number resets the point of execution to that line number.
+<p>
+If text is selected, \"Open this file in editor\" opens the file to the selection, not to the current point of execution.
+<p>
+Added Drag-and-Drop source to the left of the file name.  Double clicking on the icon displays the file in the file manager of your choice.
+<p>
+Removed Line button since it was only wasting space.  Use the item on the Edit menu instead.
+<p>
+\"Current line\" marker is now consistently removed when the program is running.
+<p>
+Automatically displays new contents of file when program is reloaded.
+
+<b> Files window </b>
+
+<p>
+Updates when core file is loaded or gdb attaches to a process.
+<p>
+Fixed bug so it now can find header files that do not contain inline code.
+<p>
+
+<b> Variables and Array windows </b>
+
+<p>
+Updates displayed value when \"set\" is used on command line to change values.
+<p>
+Edit menu works with selected items.
+<p>
+Unsigned integers can be displayed in base 2, 8, 10, or 16.
+<p>
+Improved robustness of the parser so it is much less likely to get confused and have to resort to displaying the raw output from gdb.
+<p>
+When debugging C++ code, <tt>this</tt> is displayed in the Local Variables window.
+<p>
+Added \"Display as 1D array\" menu item to Actions menu in Array windows.
+<p>
+Updating of displayed values is much faster.
+<p>
+
+<b> Miscellaneous </b>
+
+<p>
+Added \"Mac/Win/X emulation...\" item to Preferences menu to provide option to choose between Macintosh and Windows style menu shortcuts.  (This assumes that you have not changed Meta to Ctrl in the menu_strings file.)
+<p>
+Renamed \"Restart gdb\" item to \"Restart debugger\" and moved it to Debug menu.
+<p>
+Merged \"Change gdb binary...\" item on File menu into \"Preferences...\" item on Preferences menu.  You can now specify an entire command instead of merely choosing a binary.
+<p>
+Added Windows menu to all menu bars.  The list of open source files is alphabetized to make it useful.
+<p>
+Tab completion works in all path and file name input fields.
+<p>
+You can change the menu font by creating <tt>~/.jx/menu_font</tt>.  The first line in the file must be the font name.  The second line in the file must be the font size.
+<p>
+Optimized all windows so they only update if they are visible and not iconified.
+<p>
+Fixed bug in Stack window so Help menu works.
+<p>
+Fixed bug in connection to gdb to avoid locking up in obscure cases.
+<p>
+Removed \"Close\" button from menu bars since all reasonable window managers provide their own Close button in the title bar.
+<p>
+
+</html>"

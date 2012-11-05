@@ -1,0 +1,55 @@
+#!/bin/sh
+
+# With no arguments, this script must install from an unpacked tgz.
+
+PRE=$1
+ZIP=$2
+
+BIN=$PRE/usr/bin
+DOC=$PRE/usr/share/doc/code_medic
+LIB=$PRE/usr/lib/medic
+APP=$PRE/usr/share/applications
+ICON=$PRE/usr/share/pixmaps
+
+CTAGS_DOC=$PRE/usr/share/doc/ctags
+
+if { test ! -z $PRE; } then
+	{
+	mkdir -p $BIN $APP $ICON;
+	}
+fi
+
+# medic
+
+install -m755 medic $BIN
+
+mkdir -p $LIB
+cp lib/* $LIB
+
+mkdir -p $DOC/HTML
+cp README FAQ COPYING menu_strings $DOC
+cp docs_HTML/*                     $DOC/HTML
+
+cp desktop/code_medic.desktop $APP/
+cp desktop/code_medic.xpm     $ICON/
+
+# ctags
+
+install -m755 ctags/ctags $BIN
+
+mkdir -p $PRE/usr/man/man1
+cp ctags/ctags.1 $PRE/usr/man/man1
+
+mkdir -p $CTAGS_DOC
+cp ctags/COPYING $CTAGS_DOC
+cp ctags/FAQ     $CTAGS_DOC
+cp ctags/NEWS    $CTAGS_DOC
+cp ctags/README  $CTAGS_DOC
+
+# post
+
+if { test -z "$ZIP"; } then
+	{
+	gunzip $LIB/*.gz;
+	}
+fi

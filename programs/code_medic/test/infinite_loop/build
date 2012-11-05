@@ -1,0 +1,1 @@
+g++ -g crunch.cc -o crunch

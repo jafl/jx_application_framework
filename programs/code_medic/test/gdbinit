@@ -1,0 +1,14 @@
+set args -Djava.library.path=\
+..:\
+/usr/java/java/jre/lib/i386/client:\
+/usr/java/java/jre/lib/i386:\
+/usr/java/java/jre/lib/i386/native_threads:\
+/export/home/brinkman/tp:\
+/usr/facet/facet_demo/src/gov/nasa/arc/sim\
+ -Djava.class.path=\
+/usr/java/java/jre/lib/i386/native_threads:\
+/usr/java/java/jre/lib/rt.jar:\
+/usr/java/java/lib/dt.jar:\
+/usr/java/java/lib/tools.jar:\
+/usr/facet/facet_demo/classes \
+gov.nasa.arc.sim.ATADSS 

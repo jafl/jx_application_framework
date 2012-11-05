@@ -1,0 +1,917 @@
+jx_browser_data 84
+# project tree
+0 "root"
+T
+1 "var parsing"
+T
+2 "GDBVarTreeParserY.y"
+F
+"./code/GDBVarTreeParserY.y"
+T
+2 "GDBVarTreeParser.cpp"
+F
+"./code/GDBVarTreeParser.cpp"
+T
+2 "GDBVarTreeScanner.cpp"
+F
+"./code/GDBVarTreeScanner.cpp"
+T
+2 "GDBVarTreeScannerL.l"
+F
+"./code/GDBVarTreeScannerL.l"
+F
+T
+1 "main"
+T
+2 "medic.cpp"
+F
+"./code/medic.cpp"
+T
+2 "cmGlobals.cpp"
+F
+"./code/cmGlobals.cpp"
+T
+2 "CMApp.cpp"
+F
+"./code/CMApp.cpp"
+T
+2 "CMPrefsManager.cpp"
+F
+"./code/CMPrefsManager.cpp"
+T
+2 "CMDockManager.cpp"
+F
+"./code/CMDockManager.cpp"
+T
+2 "CMEditPrefsDialog.cpp"
+F
+"./code/CMEditPrefsDialog.cpp"
+T
+2 "CMDebuggerProgramInput.cpp"
+F
+"./code/CMDebuggerProgramInput.cpp"
+T
+2 "CMMDIServer.cpp"
+F
+"./code/CMMDIServer.cpp"
+T
+2 "CMAboutDialog.cpp"
+F
+"./code/CMAboutDialog.cpp"
+T
+2 "CMDebugDir.cpp"
+F
+"./code/CMDebugDir.cpp"
+T
+2 "CMQuitTask.cpp"
+F
+"./code/CMQuitTask.cpp"
+F
+T
+1 "command line"
+T
+2 "CMCommandDirector.cpp"
+F
+"./code/CMCommandDirector.cpp"
+T
+2 "CMHistoryText.cpp"
+F
+"./code/CMHistoryText.cpp"
+T
+2 "CMCommandInput.cpp"
+F
+"./code/CMCommandInput.cpp"
+T
+2 "CMGetCompletions.cpp"
+F
+"./code/CMGetCompletions.cpp"
+T
+2 "CMGetInitArgs.cpp"
+F
+"./code/CMGetInitArgs.cpp"
+T
+2 "JISOStyler.cpp"
+F
+"./code/JISOStyler.cpp"
+T
+2 "CMChooseProcessDialog.cpp"
+F
+"./code/CMChooseProcessDialog.cpp"
+T
+2 "CMProcessText.cpp"
+F
+"./code/CMProcessText.cpp"
+T
+2 "CMEditCommandsDialog.cpp"
+F
+"./code/CMEditCommandsDialog.cpp"
+T
+2 "CMEditCommandsTable.cpp"
+F
+"./code/CMEditCommandsTable.cpp"
+T
+2 "CMUpdateCommandsTableWidth.cpp"
+F
+"./code/CMUpdateCommandsTableWidth.cpp"
+T
+2 "CMRunProgramTask.cpp"
+F
+"./code/CMRunProgramTask.cpp"
+F
+T
+1 "source view"
+T
+2 "CMSourceDirector.cpp"
+F
+"./code/CMSourceDirector.cpp"
+T
+2 "CMSourceText.cpp"
+F
+"./code/CMSourceText.cpp"
+T
+2 "CMTextDisplayBase.cpp"
+F
+"./code/CMTextDisplayBase.cpp"
+T
+2 "CMLineNumberTable.cpp"
+F
+"./code/CMLineNumberTable.cpp"
+T
+2 "CMDeselectLineNumberTask.cpp"
+F
+"./code/CMDeselectLineNumberTask.cpp"
+T
+2 "CMFileDragSource.cpp"
+F
+"./code/CMFileDragSource.cpp"
+T
+2 "CMDisplaySourceForMain.cpp"
+F
+"./code/CMDisplaySourceForMain.cpp"
+T
+2 "CMClearSourceDisplayTask.cpp"
+F
+"./code/CMClearSourceDisplayTask.cpp"
+T
+2 "CMGetAssembly.cpp"
+F
+"./code/CMGetAssembly.cpp"
+F
+T
+1 "breakpoint"
+T
+2 "CMBreakpointsDir.cpp"
+F
+"./code/CMBreakpointsDir.cpp"
+T
+2 "CMBreakpointTable.cpp"
+F
+"./code/CMBreakpointTable.cpp"
+T
+2 "CMBreakpointManager.cpp"
+F
+"./code/CMBreakpointManager.cpp"
+T
+2 "CMBreakpoint.cpp"
+F
+"./code/CMBreakpoint.cpp"
+T
+2 "CMLocation.cpp"
+F
+"./code/CMLocation.cpp"
+T
+2 "CMGetBreakpoints.cpp"
+F
+"./code/CMGetBreakpoints.cpp"
+F
+T
+1 "threads"
+T
+2 "CMThreadsDir.cpp"
+F
+"./code/CMThreadsDir.cpp"
+T
+2 "CMThreadsWidget.cpp"
+F
+"./code/CMThreadsWidget.cpp"
+T
+2 "CMThreadNode.cpp"
+F
+"./code/CMThreadNode.cpp"
+T
+2 "CMGetThreads.cpp"
+F
+"./code/CMGetThreads.cpp"
+T
+2 "CMGetThread.cpp"
+F
+"./code/CMGetThread.cpp"
+F
+T
+1 "stack"
+T
+2 "CMStackDir.cpp"
+F
+"./code/CMStackDir.cpp"
+T
+2 "CMStackWidget.cpp"
+F
+"./code/CMStackWidget.cpp"
+T
+2 "CMStackFrameNode.cpp"
+F
+"./code/CMStackFrameNode.cpp"
+T
+2 "CMStackArgNode.cpp"
+F
+"./code/CMStackArgNode.cpp"
+T
+2 "CMGetStack.cpp"
+F
+"./code/CMGetStack.cpp"
+T
+2 "CMGetFrame.cpp"
+F
+"./code/CMGetFrame.cpp"
+F
+T
+1 "locals"
+T
+2 "CMLocalVarsDir.cpp"
+F
+"./code/CMLocalVarsDir.cpp"
+T
+2 "CMGetLocalVars.cpp"
+F
+"./code/CMGetLocalVars.cpp"
+F
+T
+1 "variables"
+T
+2 "CMVarTreeDir.cpp"
+F
+"./code/CMVarTreeDir.cpp"
+T
+2 "CMVarTreeWidget.cpp"
+F
+"./code/CMVarTreeWidget.cpp"
+T
+2 "CMVarNode.cpp"
+F
+"./code/CMVarNode.cpp"
+T
+2 "CMInitVarNodeTask.cpp"
+F
+"./code/CMInitVarNodeTask.cpp"
+T
+2 "CMVarCommand.cpp"
+F
+"./code/CMVarCommand.cpp"
+F
+T
+1 "arrays"
+T
+2 "CMArray1DDir.cpp"
+F
+"./code/CMArray1DDir.cpp"
+T
+2 "CMArray2DDir.cpp"
+F
+"./code/CMArray2DDir.cpp"
+T
+2 "CMArray2DTable.cpp"
+F
+"./code/CMArray2DTable.cpp"
+T
+2 "CMArray2DCommand.cpp"
+F
+"./code/CMArray2DCommand.cpp"
+T
+2 "CMArrayExprInput.cpp"
+F
+"./code/CMArrayExprInput.cpp"
+T
+2 "CMArrayIndexInput.cpp"
+F
+"./code/CMArrayIndexInput.cpp"
+F
+T
+1 "plots"
+T
+2 "CMPlot2DDir.cpp"
+F
+"./code/CMPlot2DDir.cpp"
+T
+2 "CMPlot2DExprTable.cpp"
+F
+"./code/CMPlot2DExprTable.cpp"
+T
+2 "CMPlot2DCommand.cpp"
+F
+"./code/CMPlot2DCommand.cpp"
+F
+T
+1 "memory"
+T
+2 "CMMemoryDir.cpp"
+F
+"./code/CMMemoryDir.cpp"
+T
+2 "CMGetMemory.cpp"
+F
+"./code/CMGetMemory.cpp"
+F
+T
+1 "registers"
+T
+2 "CMRegistersDir.cpp"
+F
+"./code/CMRegistersDir.cpp"
+T
+2 "CMGetRegisters.cpp"
+F
+"./code/CMGetRegisters.cpp"
+F
+T
+1 "file list"
+T
+2 "CMFileListDir.cpp"
+F
+"./code/CMFileListDir.cpp"
+T
+2 "CMGetSourceFileList.cpp"
+F
+"./code/CMGetSourceFileList.cpp"
+T
+2 "CMGetFullPath.cpp"
+F
+"./code/CMGetFullPath.cpp"
+F
+T
+1 "link"
+T
+2 "CMLink.cpp"
+F
+"./code/CMLink.cpp"
+T
+2 "CMCommand.cpp"
+F
+"./code/CMCommand.cpp"
+T
+2 "CMPipeT.cpp"
+F
+"./code/CMPipeT.cpp"
+T
+2 "CMPipe.h"
+F
+"./code/CMPipe.h"
+F
+T
+1 "gbd"
+T
+2 "GDBLink.cpp"
+F
+"./code/GDBLink.cpp"
+T
+2 "GDBScanner.cpp"
+F
+"./code/GDBScanner.cpp"
+T
+2 "GDBScannerL.l"
+F
+"./code/GDBScannerL.l"
+T
+2 "GDBPingTask.cpp"
+F
+"./code/GDBPingTask.cpp"
+T
+2 "GDBBreakpointManager.cpp"
+F
+"./code/GDBBreakpointManager.cpp"
+T
+2 "GDBAnalyzeCore.cpp"
+F
+"./code/GDBAnalyzeCore.cpp"
+T
+2 "GDBArray2DCommand.cpp"
+F
+"./code/GDBArray2DCommand.cpp"
+T
+2 "GDBPlot2DCommand.cpp"
+F
+"./code/GDBPlot2DCommand.cpp"
+T
+2 "GDBCheckCoreStatus.cpp"
+F
+"./code/GDBCheckCoreStatus.cpp"
+T
+2 "GDBDisplaySourceForMain.cpp"
+F
+"./code/GDBDisplaySourceForMain.cpp"
+T
+2 "GDBGetAssembly.cpp"
+F
+"./code/GDBGetAssembly.cpp"
+T
+2 "GDBGetBreakpoints.cpp"
+F
+"./code/GDBGetBreakpoints.cpp"
+T
+2 "GDBGetCompletions.cpp"
+F
+"./code/GDBGetCompletions.cpp"
+T
+2 "GDBGetFrame.cpp"
+F
+"./code/GDBGetFrame.cpp"
+T
+2 "GDBGetFullPath.cpp"
+F
+"./code/GDBGetFullPath.cpp"
+T
+2 "GDBGetLocalVars.cpp"
+F
+"./code/GDBGetLocalVars.cpp"
+T
+2 "GDBGetInitArgs.cpp"
+F
+"./code/GDBGetInitArgs.cpp"
+T
+2 "GDBGetMemory.cpp"
+F
+"./code/GDBGetMemory.cpp"
+T
+2 "GDBGetProgramName.cpp"
+F
+"./code/GDBGetProgramName.cpp"
+T
+2 "GDBGetRegisters.cpp"
+F
+"./code/GDBGetRegisters.cpp"
+T
+2 "GDBGetSourceFileList.cpp"
+F
+"./code/GDBGetSourceFileList.cpp"
+T
+2 "GDBGetStack.cpp"
+F
+"./code/GDBGetStack.cpp"
+T
+2 "GDBGetStackArguments.cpp"
+F
+"./code/GDBGetStackArguments.cpp"
+T
+2 "GDBGetStopLocation.cpp"
+F
+"./code/GDBGetStopLocation.cpp"
+T
+2 "GDBGetStopLocationForLink.cpp"
+F
+"./code/GDBGetStopLocationForLink.cpp"
+T
+2 "GDBGetStopLocationForAsm.cpp"
+F
+"./code/GDBGetStopLocationForAsm.cpp"
+T
+2 "GDBGetThread.cpp"
+F
+"./code/GDBGetThread.cpp"
+T
+2 "GDBGetThreads.cpp"
+F
+"./code/GDBGetThreads.cpp"
+T
+2 "GDBSimpleCommand.cpp"
+F
+"./code/GDBSimpleCommand.cpp"
+T
+2 "GDBVarCommand.cpp"
+F
+"./code/GDBVarCommand.cpp"
+T
+2 "GDBVarNode.cpp"
+F
+"./code/GDBVarNode.cpp"
+F
+T
+1 "JVM"
+T
+2 "JVMLink.cpp"
+F
+"./code/JVMLink.cpp"
+T
+2 "JVMSocket.cpp"
+F
+"./code/JVMSocket.cpp"
+T
+2 "JVMThreadNode.cpp"
+F
+"./code/JVMThreadNode.cpp"
+T
+2 "JVMStackFrameNode.cpp"
+F
+"./code/JVMStackFrameNode.cpp"
+T
+2 "JVMGetThreadGroups.cpp"
+F
+"./code/JVMGetThreadGroups.cpp"
+T
+2 "JVMGetThreadName.cpp"
+F
+"./code/JVMGetThreadName.cpp"
+T
+2 "JVMGetThreadParent.cpp"
+F
+"./code/JVMGetThreadParent.cpp"
+T
+2 "JVMGetClassInfo.cpp"
+F
+"./code/JVMGetClassInfo.cpp"
+T
+2 "JVMGetClassMethods.cpp"
+F
+"./code/JVMGetClassMethods.cpp"
+T
+2 "JVMWelcomeTask.cpp"
+F
+"./code/JVMWelcomeTask.cpp"
+T
+2 "JVMSetProgramTask.cpp"
+F
+"./code/JVMSetProgramTask.cpp"
+T
+2 "JVMBreakpointManager.cpp"
+F
+"./code/JVMBreakpointManager.cpp"
+T
+2 "JVMArray2DCommand.cpp"
+F
+"./code/JVMArray2DCommand.cpp"
+T
+2 "JVMPlot2DCommand.cpp"
+F
+"./code/JVMPlot2DCommand.cpp"
+T
+2 "JVMDisplaySourceForMain.cpp"
+F
+"./code/JVMDisplaySourceForMain.cpp"
+T
+2 "JVMGetBreakpoints.cpp"
+F
+"./code/JVMGetBreakpoints.cpp"
+T
+2 "JVMGetCompletions.cpp"
+F
+"./code/JVMGetCompletions.cpp"
+T
+2 "JVMGetFrame.cpp"
+F
+"./code/JVMGetFrame.cpp"
+T
+2 "JVMGetFullPath.cpp"
+F
+"./code/JVMGetFullPath.cpp"
+T
+2 "JVMGetIDSizes.cpp"
+F
+"./code/JVMGetIDSizes.cpp"
+T
+2 "JVMGetInitArgs.cpp"
+F
+"./code/JVMGetInitArgs.cpp"
+T
+2 "JVMGetLocalVars.cpp"
+F
+"./code/JVMGetLocalVars.cpp"
+T
+2 "JVMGetSourceFileList.cpp"
+F
+"./code/JVMGetSourceFileList.cpp"
+T
+2 "JVMGetStack.cpp"
+F
+"./code/JVMGetStack.cpp"
+T
+2 "JVMGetThread.cpp"
+F
+"./code/JVMGetThread.cpp"
+T
+2 "JVMGetThreads.cpp"
+F
+"./code/JVMGetThreads.cpp"
+T
+2 "JVMVarCommand.cpp"
+F
+"./code/JVMVarCommand.cpp"
+T
+2 "JVMVarNode.cpp"
+F
+"./code/JVMVarNode.cpp"
+F
+T
+1 "Xdebug"
+T
+2 "XDLink.cpp"
+F
+"./code/XDLink.cpp"
+T
+2 "XDSocket.cpp"
+F
+"./code/XDSocket.cpp"
+T
+2 "XDWelcomeTask.cpp"
+F
+"./code/XDWelcomeTask.cpp"
+T
+2 "XDSetProgramTask.cpp"
+F
+"./code/XDSetProgramTask.cpp"
+T
+2 "XDCloseSocketTask.cpp"
+F
+"./code/XDCloseSocketTask.cpp"
+T
+2 "XDBreakpointManager.cpp"
+F
+"./code/XDBreakpointManager.cpp"
+T
+2 "XDArray2DCommand.cpp"
+F
+"./code/XDArray2DCommand.cpp"
+T
+2 "XDPlot2DCommand.cpp"
+F
+"./code/XDPlot2DCommand.cpp"
+T
+2 "XDDisplaySourceForMain.cpp"
+F
+"./code/XDDisplaySourceForMain.cpp"
+T
+2 "XDGetBreakpoints.cpp"
+F
+"./code/XDGetBreakpoints.cpp"
+T
+2 "XDGetCompletions.cpp"
+F
+"./code/XDGetCompletions.cpp"
+T
+2 "XDGetContextVars.cpp"
+F
+"./code/XDGetContextVars.cpp"
+T
+2 "XDGetFrame.cpp"
+F
+"./code/XDGetFrame.cpp"
+T
+2 "XDGetFullPath.cpp"
+F
+"./code/XDGetFullPath.cpp"
+T
+2 "XDGetInitArgs.cpp"
+F
+"./code/XDGetInitArgs.cpp"
+T
+2 "XDGetLocalVars.cpp"
+F
+"./code/XDGetLocalVars.cpp"
+T
+2 "XDGetSourceFileList.cpp"
+F
+"./code/XDGetSourceFileList.cpp"
+T
+2 "XDGetStack.cpp"
+F
+"./code/XDGetStack.cpp"
+T
+2 "XDGetThread.cpp"
+F
+"./code/XDGetThread.cpp"
+T
+2 "XDGetThreads.cpp"
+F
+"./code/XDGetThreads.cpp"
+T
+2 "XDVarCommand.cpp"
+F
+"./code/XDVarCommand.cpp"
+T
+2 "XDVarNode.cpp"
+F
+"./code/XDVarNode.cpp"
+F
+T
+1 "jcc"
+T
+2 "shared.txt"
+F
+"./JCC/shared.txt"
+T
+2 "CMStylerStubs.cpp"
+F
+"./JCC/CMStylerStubs.cpp"
+T
+2 "CBCScanner.cpp"
+F
+"./JCC/CBCScanner.cpp"
+T
+2 "CBCScannerL.l"
+F
+"./JCC/CBCScannerL.l"
+T
+2 "CBCStyler.cpp"
+F
+"./JCC/CBCStyler.cpp"
+T
+2 "CBJavaScanner.cpp"
+F
+"./JCC/CBJavaScanner.cpp"
+T
+2 "CBJavaScannerL.l"
+F
+"./JCC/CBJavaScannerL.l"
+T
+2 "CBJavaStyler.cpp"
+F
+"./JCC/CBJavaStyler.cpp"
+T
+2 "CBHTMLStyler.cpp"
+F
+"./JCC/CBHTMLStyler.cpp"
+T
+2 "CBHTMLScanner.cpp"
+F
+"./JCC/CBHTMLScanner.cpp"
+T
+2 "CBHTMLScannerL.l"
+F
+"./JCC/CBHTMLScannerL.l"
+T
+2 "CBStylerBase.cpp"
+F
+"./JCC/CBStylerBase.cpp"
+T
+2 "CBEditStylerDialog.cpp"
+F
+"./JCC/CBEditStylerDialog.cpp"
+T
+2 "CBStylerTable.cpp"
+F
+"./JCC/CBStylerTable.cpp"
+T
+2 "CBStylerTableInput.cpp"
+F
+"./JCC/CBStylerTableInput.cpp"
+T
+2 "CBStylerTableMenu.cpp"
+F
+"./JCC/CBStylerTableMenu.cpp"
+T
+2 "CBFnMenuUpdater.cpp"
+F
+"./JCC/CBFnMenuUpdater.cpp"
+T
+2 "CBFunctionMenu.cpp"
+F
+"./JCC/CBFunctionMenu.cpp"
+T
+2 "CBTextFileType.cpp"
+F
+"./JCC/CBTextFileType.cpp"
+T
+2 "cbmUtil.cpp"
+F
+"./JCC/cbmUtil.cpp"
+T
+2 "CBCtagsUser.cpp"
+F
+"./JCC/CBCtagsUser.cpp"
+F
+T
+1 "layouts"
+T
+2 "medic.fd"
+F
+"./medic.fd"
+F
+T
+1 "strings"
+T
+2 "medic_strings"
+F
+"./strings/medic_strings"
+F
+T
+1 "help"
+T
+2 "cmHelpText.h"
+F
+"./code/cmHelpText.h"
+T
+2 "cmChangeLogText"
+F
+"./strings/cmChangeLogText"
+T
+2 "cmTOCHelpText"
+F
+"./strings/cmTOCHelpText"
+T
+2 "cmOverviewHelpText"
+F
+"./strings/cmOverviewHelpText"
+T
+2 "cmGettingStartedHelpText"
+F
+"./strings/cmGettingStartedHelpText"
+T
+2 "cmCommandDirHelpText"
+F
+"./strings/cmCommandDirHelpText"
+T
+2 "cmJavaConfigFileHelpText"
+F
+"./strings/cmJavaConfigFileHelpText"
+T
+2 "cmXdebugConfigFileHelpText"
+F
+"./strings/cmXdebugConfigFileHelpText"
+T
+2 "cmSourceWindowHelpText"
+F
+"./strings/cmSourceWindowHelpText"
+T
+2 "cmVarTreeHelpText"
+F
+"./strings/cmVarTreeHelpText"
+T
+2 "cm2DPlotHelpText"
+F
+"./strings/cm2DPlotHelpText"
+T
+2 "cmStackHelpText"
+F
+"./strings/cmStackHelpText"
+T
+2 "cmBreakpointsHelpText"
+F
+"./strings/cmBreakpointsHelpText"
+T
+2 "cmSearchTextHelpText"
+F
+"./strings/cmSearchTextHelpText"
+T
+2 "cmRegexHelpText"
+F
+"./strings/cmRegexHelpText"
+T
+2 "cmRegexQRefText"
+F
+"./strings/cmRegexQRefText"
+T
+2 "cmMiscHelpText"
+F
+"./strings/cmMiscHelpText"
+T
+2 "cmDockHelpText"
+F
+"./strings/cmDockHelpText"
+T
+2 "cmCreditsText"
+F
+"./strings/cmCreditsText"
+F
+F
+# tasks
+4
+"makemake"
+T "./test/java" "&make_default ; ../../$program" "" F F F F T F F "Build & Run test-java" "F11" "buisq_rB]DwU{C$m7*o-::CBCommandManager" T
+T "./" "make -k ibeta" "" T F T F T F T "Build internal beta" "" "Jq@k ^^gKiQs&)vP/!g%::CBCommandManager" F
+T "./" "make -k personal" "" T F T F T F T "Build personal (static)" "" " =(l,*afwISdTYg6?EW,::CBCommandManager" F
+T "./" "make -k static" "" T F T F T F T "" "" " =(l,*afwISdTYg6?EW,::CBCommandManager" T
+T "./" "./run_medic test/threads/threads" "" F F F F T F F "" "" "l~[{OM:ACL C>=hPa+46::CBCommandManager" F
+T "./" "&make_default ; $program test/var_tree/vartree" "" F F F F T F F "Build & Run var_tree" "F10" "B+)Aw+h5(i~v5.aEj(K}::CBCommandManager" F
+T "./" "./run_medic test/printf-scanf/scanftest" "" F F F F T F F "" "" "K1Bf|sH=F97^5wq&}I)g::CBCommandManager" F
+T "./" "./run_medic test/var_local/varlocal" "" F F F F T F F "" "" "c&Cm>M2#_L, AVGdp )p::CBCommandManager" F
+T "./" "./run_medic test/fortran/ftest" "" F F F F T F F "" "" "<`E>^_U-F+ei{7h1p/(m::CBCommandManager" F
+F
+# build settings
+1
+T
+"medic"
+"${LIB_DEPS}"
+"make -k all"
+# search paths
+T "../../libj2dplot/code" T
+T "../../libjcore/code/" T
+T "../../libjexpr/code" T
+T "../../libjx/code/" T
+T "../../libjx/image/" T
+T "./JCC" T
+T "./code/" T
+T "./strings/" T
+F
+# C preprocessor
+T "CBCFlexLexer" "yyFlexLexer"
+T "GDBOutputFlexLexer" "yyFlexLexer"
+T "JHTMLFlexLexer" "yyFlexLexer"
+T "JXComposeFlexLexer" "yyFlexLexer"
+F

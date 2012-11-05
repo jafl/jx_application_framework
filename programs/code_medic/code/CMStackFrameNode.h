@@ -1,0 +1,94 @@
+/******************************************************************************
+ CMStackFrameNode.h
+
+	Copyright © 2001 by John Lindal.  All rights reserved.
+
+ *****************************************************************************/
+
+#ifndef _H_CMStackFrameNode
+#define _H_CMStackFrameNode
+
+#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
+#pragma once
+#endif
+
+#include <JNamedTreeNode.h>
+
+class CMStackFrameNode : public JNamedTreeNode
+{
+public:
+
+	CMStackFrameNode(JTreeNode* parent,
+					  const JUInt64 id, const JCharacter* name,
+					  const JCharacter* fileName, const JIndex lineIndex);
+
+	virtual	~CMStackFrameNode();
+
+	JUInt64		GetID() const;
+	JBoolean	GetFile(JString* fileName, JIndex* lineIndex) const;
+
+	void	AppendArg(JTreeNode* node);
+
+private:
+
+	JUInt64	itsID;
+	JString	itsFileName;	// relative path
+	JIndex	itsLineIndex;
+
+private:
+
+	// not allowed
+
+	CMStackFrameNode(const CMStackFrameNode& source);
+	const CMStackFrameNode& operator=(const CMStackFrameNode& source);
+};
+
+
+/******************************************************************************
+ GetID
+
+ ******************************************************************************/
+
+inline JUInt64
+CMStackFrameNode::GetID()
+	const
+{
+	return itsID;
+}
+
+/******************************************************************************
+ GetFile
+
+	This returns the relative path provided by gdb.
+
+ ******************************************************************************/
+
+inline JBoolean
+CMStackFrameNode::GetFile
+	(
+	JString*	fileName,
+	JIndex*		lineIndex
+	)
+	const
+{
+	*fileName  = itsFileName;
+	*lineIndex = itsLineIndex;
+	return JI2B(!itsFileName.IsEmpty() && itsLineIndex > 0);
+}
+
+/******************************************************************************
+ AppendArg
+
+ *****************************************************************************/
+
+inline void
+CMStackFrameNode::AppendArg
+	(
+	JTreeNode* node
+	)
+{
+	Append(node);
+	ShouldBeOpenable(kJTrue);
+}
+
+#endif

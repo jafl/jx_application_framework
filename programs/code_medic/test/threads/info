@@ -1,0 +1,167 @@
+Then I did 'info program' in the CM gdb window, it gave:
+(gdb) info program
+    Using the running image of child Thread 1024 (LWP 12954).
+Program stopped at 0x409df39e.
+It stopped with signal SIGSTOP, Stopped (signal).
+
+Then 'info threads':
+(gdb) info threads
+* 1 Thread 1024 (LWP 12954)  0x409df39e in __select () from 
+/lib/i686/libc.so.6
+
+
+Debugging programs with multiple threads
+========================================
+
+   In some operating systems, such as HP-UX and Solaris, a single
+program may have more than one "thread" of execution.  The precise
+semantics of threads differ from one operating system to another, but
+in general the threads of a single program are akin to multiple
+processes--except that they share one address space (that is, they can
+all examine and modify the same variables).  On the other hand, each
+thread has its own registers and execution stack, and perhaps private
+memory.
+
+   GDB provides these facilities for debugging multi-thread programs:
+
+   * automatic notification of new threads
+
+   * `thread THREADNO', a command to switch among threads
+
+   * `info threads', a command to inquire about existing threads
+
+   * `thread apply [THREADNO] [ALL] ARGS', a command to apply a command
+     to a list of threads
+
+   * thread-specific breakpoints
+
+     _Warning:_ These facilities are not yet available on every GDB
+     configuration where the operating system supports threads.  If
+     your GDB does not support threads, these commands have no effect.
+     For example, a system without thread support shows no output from
+     `info threads', and always rejects the `thread' command, like this:
+
+          (gdb) info threads
+          (gdb) thread 1
+          Thread ID 1 not known.  Use the "info threads" command to
+          see the IDs of currently known threads.
+
+   The GDB thread debugging facility allows you to observe all threads
+while your program runs--but whenever GDB takes control, one thread in
+particular is always the focus of debugging.  This thread is called the
+"current thread".  Debugging commands show program information from the
+perspective of the current thread.
+
+   Whenever GDB detects a new thread in your program, it displays the
+target system's identification for the thread with a message in the
+form `[New SYSTAG]'.  SYSTAG is a thread identifier whose form varies
+depending on the particular system.  For example, on LynxOS, you might
+see
+
+     [New process 35 thread 27]
+
+when GDB notices a new thread.  In contrast, on an SGI system, the
+SYSTAG is simply something like `process 368', with no further
+qualifier.
+
+   For debugging purposes, GDB associates its own thread number--always
+a single integer--with each thread in your program.
+
+`info threads'
+     Display a summary of all threads currently in your program.  GDB
+     displays for each thread (in this order):
+
+       1. the thread number assigned by GDB
+
+       2. the target system's thread identifier (SYSTAG)
+
+       3. the current stack frame summary for that thread
+
+     An asterisk `*' to the left of the GDB thread number indicates the
+     current thread.
+
+     For example,
+
+     (gdb) info threads
+       3 process 35 thread 27  0x34e5 in sigpause ()
+       2 process 35 thread 23  0x34e5 in sigpause ()
+     * 1 process 35 thread 13  main (argc=1, argv=0x7ffffff8)
+         at threadtest.c:68
+
+   On HP-UX systems:
+
+   For debugging purposes, GDB associates its own thread number--a
+small integer assigned in thread-creation order--with each thread in
+your program.
+
+   Whenever GDB detects a new thread in your program, it displays both
+GDB's thread number and the target system's identification for the
+thread with a message in the form `[New SYSTAG]'.  SYSTAG is a thread
+identifier whose form varies depending on the particular system.  For
+example, on HP-UX, you see
+
+     [New thread 2 (system thread 26594)]
+
+when GDB notices a new thread.
+
+`info threads'
+     Display a summary of all threads currently in your program.  GDB
+     displays for each thread (in this order):
+
+       1. the thread number assigned by GDB
+
+       2. the target system's thread identifier (SYSTAG)
+
+       3. the current stack frame summary for that thread
+
+     An asterisk `*' to the left of the GDB thread number indicates the
+     current thread.
+
+     For example,
+
+     (gdb) info threads
+         * 3 system thread 26607  worker (wptr=0x7b09c318 "@") \
+
+     at quicksort.c:137
+           2 system thread 26606  0x7b0030d8 in __ksleep () \
+
+     from /usr/lib/libc.2
+           1 system thread 27905  0x7b003498 in _brk () \
+
+     from /usr/lib/libc.2
+
+`thread THREADNO'
+     Make thread number THREADNO the current thread.  The command
+     argument THREADNO is the internal GDB thread number, as shown in
+     the first field of the `info threads' display.  GDB responds by
+     displaying the system identifier of the thread you selected, and
+     its current stack frame summary:
+
+          (gdb) thread 2
+          [Switching to process 35 thread 23]
+          0x34e5 in sigpause ()
+
+     As with the `[New ...]' message, the form of the text after
+     `Switching to' depends on your system's conventions for identifying
+     threads.
+
+`thread apply [THREADNO] [ALL]  ARGS'
+     The `thread apply' command allows you to apply a command to one or
+     more threads.  Specify the numbers of the threads that you want
+     affected with the command argument THREADNO.  THREADNO is the
+     internal GDB thread number, as shown in the first field of the
+     `info threads' display.  To apply a command to all threads, use
+     `thread apply all' ARGS.
+
+   Whenever GDB stops your program, due to a breakpoint or a signal, it
+automatically selects the thread where that breakpoint or signal
+happened.  GDB alerts you to the context switch with a message of the
+form `[Switching to SYSTAG]' to identify the thread.
+
+   *Note Stopping and starting multi-thread programs: Thread Stops, for
+more information about how GDB behaves when you stop and start programs
+with multiple threads.
+
+   *Note Setting watchpoints: Set Watchpoints, for information about
+watchpoints in programs with multiple threads.
+

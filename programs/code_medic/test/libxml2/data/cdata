@@ -1,0 +1,1 @@
+<response command="run" transaction_id="abc" status="break" reason="error"><error code="2" exception="Warning"><![CDATA[Cannot modify header information - headers already sent by (output started at /home/jafl/ypn_ui-dev/php/classes/YPNWebPage.php:242)]]></error></response>

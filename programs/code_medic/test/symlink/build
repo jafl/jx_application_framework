@@ -1,0 +1,1 @@
+g++ -g test_lnk.cc -o test

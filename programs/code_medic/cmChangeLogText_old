@@ -1,0 +1,110 @@
+<h3> 1.1.3 </h3>
+
+Fixed bug so Meta key works correctly on Mandrake Linux.
+
+<h3> 1.1.2 </h3>
+
+Fixed bug so Ctrl-K in command line input area won't cause crash if text is selected.
+
+<h3> 1.1.1 </h3>
+
+Fixed bug so closing source windows no longer causes a crash later on.
+
+<h3> 1.1.0 </h3>
+
+<p>
+<b> Major changes </b>
+<p>
+You can now define your own debug commands.  They are displayed on the bottom of the Debug menu.  These commands can be placed in the toolbar.
+<p>
+Added Functions menu that lists all of the functions defined in the current source file.  This requires <a href=http://ctags.sourceforge.net/> Exuberant <tt>ctags</tt></a> version 5.0.
+<p>
+Added a configurable button toolbar.
+<p>
+Added <tt>-b</tt> command line option to allow setting breakpoints without having to open the source file in a window.  Check the Code Crusader on-line help for information on how to use this feature effectively.
+<p>
+All of the Code Crusader editor preferences are now honored, so once you set up Code Crusader the way you want it, Code Medic will look the same.  This is especially important for syntax highlighting.
+<p>
+
+<b> Debugging commands </b>
+
+<p>
+Added \"Reload binary\" to Debug menu.
+<p>
+Ctrl-C and Meta-period are both shortcuts for \"Pause execution.\"  This keeps both Windows and Macintosh users happy.
+<p>
+
+<b> Source window </b>
+
+<p>
+Added \"Balance closest grouping symbols\" and \"Go to line...\" to Search menu.
+<p>
+Moved \"Find current line\" from File menu to Search menu.  For consistency with \"Go to line...\", renamed it to \"Go to current line\" and changed the shortcut to Meta-&lt;.
+<p>
+Middle-double-click is now a shortcut to display a variable in the Variables window.  This is faster than \"double click, Meta-D\".
+<p>
+
+<b> Miscellaneous </b>
+
+<p>
+Dramatically reduced startup time by eliminating need to verify the existence of all source files.
+<p>
+Fixed hierarchical menus.  It now stays open as long as you are moving the mouse towards it, regardless of what the mouse passes over on the way.
+<p>
+Added icons for all singleton windows.
+<p>
+Removed \"Save window size\" item from all singleton windows.  They now simply remember their last position without having to be told.
+<p>
+Fixed <a href=jxhelp:CMVarTreeHelp#Array1D>Array</a> window so \"Save window size\" saves preference for itself, not for <a href=jxhelp:CMVarTreeHelp>Variables</a> window.
+<p>
+Variables, Stack Trace, etc. no longer close when you close the Command Line window.
+
+<h3> 1.0.5 </h3>
+
+Fixed a bug in the Local Variables window.
+
+<h3> 1.0.4 </h3>
+
+Added a run arguments input field to the <a href=jxhelp:CMCommandDirHelp>Command Line</a> window.
+<p>
+Fixed a few <a href=jxhelp:CMStackHelp>Stack Trace</a> window parser bugs.
+<p>
+Fixed a few <a href=jxhelp:CMVarTreeHelp>Variables</a> window parser bugs.
+
+<h3> 1.0.3 </h3>
+
+Fixed a bug that caused a crash in the raw memory viewer.
+
+<h3> 1.0.2 </h3>
+
+Added an <a href=jxhelp:CMVarTreeHelp#Array1D>Array</a> window for displaying arrays.
+<p>  
+Rewrote the variable parser to improve reliability.
+<p>
+The <a href=jxhelp:CMVarTreeHelp>Variables</a> window now displays invalid variables in light gray.
+<p>
+The <a href=jxhelp:CMVarTreeHelp>Variables</a> window now displays in blue variables whose values have changed.
+<p>
+You can now attach to a running process for debugging.
+<p>
+The command line input field now supports completion.
+
+<h3> 0.6.1 </h3>
+
+Primarily a fix to allow Solaris users to compile the source.
+<p>
+There is preliminary array support from the <a href=jxhelp:CMVarTreeHelp>Variables</a> window.
+
+<h3> 0.6.0 </h3>
+
+Added a <a href=jxhelp:CMStackHelp>Stack Trace</a> window.
+<p>
+Meta-clicking on a source line executes the program until it reaches that line.
+<p>
+Fixed a bug in the Local Variables window (which needs to be completely redone anyway).
+<p>
+The <a href=jxhelp:CMVarTreeHelp>Variables</a> window now supports arbitrary expressions.
+
+<h3> 0.5.0 </h3>
+
+Initial release

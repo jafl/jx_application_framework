@@ -1,0 +1,8 @@
+0
+obj4_JXLayout::CMArray2DDir::JXLayout "Start:"
+obj1_JXLayout::CMArray2DDir::JXLayout "Start:"
+colIndexLabel::CMArray2DDir::JXLayout "Column index ($j):"
+obj3_JXLayout::CMArray2DDir::JXLayout "Expression:"
+obj5_JXLayout::CMArray2DDir::JXLayout "End:"
+rowIndexLabel::CMArray2DDir::JXLayout "Row index ($i):"
+obj2_JXLayout::CMArray2DDir::JXLayout "End:"

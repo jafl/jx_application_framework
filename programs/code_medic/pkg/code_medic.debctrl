@@ -1,0 +1,14 @@
+Package: code-medic
+Version: 3.2.0
+Maintainer: New Planet Software <http://www.newplanetsoftware.com/nps/contact.php>
+Homepage: http://www.newplanetsoftware.com/medic/
+Section: non-free/debug
+Priority: optional
+Architecture: i386
+Essential: no
+Depends: libx11-6, libxext6, libxpm4, libxau6, libxml2, libstdc++6
+Suggests: code-crusader
+Replaces: code-crusader, exuberant-ctags
+Description: Code Medic is a graphical debugging environment for UNIX.
+ Code Medic is a graphical debugging environment for UNIX.
+ It supports gdb and Xdebug.

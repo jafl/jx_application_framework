@@ -1,0 +1,1705 @@
+/******************************************************************************
+ XDLink.cpp
+
+	Interface to Xdebug.
+
+	BASE CLASS = CMLink
+
+	Copyright © 2007 by John Lindal.  All rights reserved.
+
+ *****************************************************************************/
+
+#include <cmStdInc.h>
+#include "XDLink.h"
+#include "XDSocket.h"
+#include "XDWelcomeTask.h"
+#include "XDSetProgramTask.h"
+#include "XDCloseSocketTask.h"
+#include "XDBreakpointManager.h"
+
+#include "XDArray2DCommand.h"
+#include "XDPlot2DCommand.h"
+#include "XDDisplaySourceForMain.h"
+#include "XDGetCompletions.h"
+#include "XDGetFrame.h"
+#include "XDGetStack.h"
+#include "XDGetThread.h"
+#include "XDGetThreads.h"
+#include "XDGetFullPath.h"
+#include "XDGetInitArgs.h"
+#include "XDGetLocalVars.h"
+#include "XDGetSourceFileList.h"
+#include "XDVarCommand.h"
+#include "XDVarNode.h"
+
+#include "CMCommandDirector.h"
+#include "CMStackDir.h"
+#include "CMStackWidget.h"
+#include "CMStackFrameNode.h"
+#include "CMMDIServer.h"
+#include "cmGlobals.h"
+
+#include <libxml/parser.h>
+
+#include <JXAssert.h>
+#include <jFileUtil.h>
+#include <jStreamUtil.h>
+#include <jErrno.h>
+#include <jAssert.h>
+
+const JIndex kXdebugPort = 9000;
+
+static const JBoolean kFeatures[]=
+{
+	kJTrue,		// kSetProgram
+	kJFalse,	// kSetArgs
+	kJFalse,	// kSetCore
+	kJFalse,	// kSetProcess
+	kJFalse,	// kRunProgram
+	kJFalse,	// kStopProgram
+	kJFalse,	// kSetExecutionPoint
+	kJFalse,	// kExecuteBackwards
+	kJFalse,	// kShowBreakpointInfo
+	kJFalse,	// kSetBreakpointCondition
+	kJFalse,	// kSetBreakpointIgnoreCount
+	kJFalse,	// kWatchExpression
+	kJFalse,	// kWatchLocation
+	kJFalse,	// kExamineMemory
+	kJFalse,	// kDisassembleMemory
+};
+
+/******************************************************************************
+ Constructor
+
+ *****************************************************************************/
+
+XDLink::XDLink()
+	:
+	CMLink(kFeatures),
+	itsAcceptor(NULL),
+	itsLink(NULL),
+	itsParsedDataRoot(NULL)
+{
+	InitFlags();
+
+	itsBPMgr = new XDBreakpointManager(this);
+	assert( itsBPMgr != NULL );
+
+	itsSourcePathList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	assert( itsSourcePathList != NULL );
+
+	StartDebugger();
+}
+
+/******************************************************************************
+ Destructor
+
+ *****************************************************************************/
+
+XDLink::~XDLink()
+{
+	StopDebugger();
+	DeleteAcceptor();
+
+	delete itsBPMgr;
+	delete itsSourcePathList;
+
+	DeleteOneShotCommands();
+}
+
+/******************************************************************************
+ InitFlags (private)
+
+ *****************************************************************************/
+
+void
+XDLink::InitFlags()
+{
+	itsStackFrameIndex      = (JIndex) -1;
+	itsInitFinishedFlag     = kJFalse;
+	itsProgramIsStoppedFlag = kJFalse;
+	itsDebuggerBusyFlag     = kJTrue;
+}
+
+/******************************************************************************
+ GetPrompt
+
+ ******************************************************************************/
+
+const JString&
+XDLink::GetPrompt()
+	const
+{
+	return JGetString("Prompt::XDLink");
+}
+
+/******************************************************************************
+ GetScriptPrompt
+
+ ******************************************************************************/
+
+const JString&
+XDLink::GetScriptPrompt()
+	const
+{
+	return JGetString("ScriptPrompt::XDLink");
+}
+
+/******************************************************************************
+ DebuggerHasStarted
+
+ ******************************************************************************/
+
+JBoolean
+XDLink::DebuggerHasStarted()
+	const
+{
+	return kJTrue;
+}
+
+/******************************************************************************
+ GetChooseProgramInstructions
+
+ ******************************************************************************/
+
+JString
+XDLink::GetChooseProgramInstructions()
+	const
+{
+	return JGetString("ChooseProgramInstr::XDLink");
+}
+
+/******************************************************************************
+ HasProgram
+
+ ******************************************************************************/
+
+JBoolean
+XDLink::HasProgram()
+	const
+{
+	return JI2B(!itsProgramName.IsEmpty() || itsLink != NULL);
+}
+
+/******************************************************************************
+ GetProgram
+
+ ******************************************************************************/
+
+JBoolean
+XDLink::GetProgram
+	(
+	JString* fullName
+	)
+	const
+{
+	*fullName = (itsProgramName.IsEmpty() ? "PHP" : itsProgramName);
+	return kJTrue;
+}
+
+/******************************************************************************
+ HasCore
+
+ ******************************************************************************/
+
+JBoolean
+XDLink::HasCore()
+	const
+{
+	return kJFalse;
+}
+
+/******************************************************************************
+ GetCore
+
+ ******************************************************************************/
+
+JBoolean
+XDLink::GetCore
+	(
+	JString* fullName
+	)
+	const
+{
+	fullName->Clear();
+	return kJFalse;
+}
+
+/******************************************************************************
+ HasLoadedSymbols
+
+ ******************************************************************************/
+
+JBoolean
+XDLink::HasLoadedSymbols()
+	const
+{
+	return JI2B(itsLink != NULL);
+}
+
+/******************************************************************************
+ IsDebugging
+
+ *****************************************************************************/
+
+JBoolean
+XDLink::IsDebugging()
+	const
+{
+	return JI2B(itsLink != NULL);
+}
+
+/******************************************************************************
+ ProgramIsRunning
+
+ *****************************************************************************/
+
+JBoolean
+XDLink::ProgramIsRunning()
+	const
+{
+	return JI2B(itsLink != NULL && !itsProgramIsStoppedFlag);
+}
+
+/******************************************************************************
+ ProgramIsStopped
+
+ *****************************************************************************/
+
+JBoolean
+XDLink::ProgramIsStopped()
+	const
+{
+	return JI2B(itsLink != NULL && itsProgramIsStoppedFlag);
+}
+
+/******************************************************************************
+ OKToSendCommands
+
+ *****************************************************************************/
+
+JBoolean
+XDLink::OKToSendCommands
+	(
+	const JBoolean background
+	)
+	const
+{
+	return kJTrue;
+}
+
+/******************************************************************************
+ IsDefiningScript
+
+ *****************************************************************************/
+
+JBoolean
+XDLink::IsDefiningScript()
+	const
+{
+	return kJFalse;
+}
+
+/******************************************************************************
+ Receive (virtual protected)
+
+ *****************************************************************************/
+
+void
+XDLink::Receive
+	(
+	JBroadcaster*	sender,
+	const Message&	message
+	)
+{
+	if (sender == itsLink && message.Is(JMessageProtocolT::kMessageReady))
+		{
+		ReceiveMessageFromDebugger();
+		}
+	else
+		{
+		JBroadcaster::Receive(sender, message);
+		}
+}
+
+/******************************************************************************
+ ReceiveMessageFromDebugger (private)
+
+ *****************************************************************************/
+
+void
+XDLink::ReceiveMessageFromDebugger()
+{
+	itsLink->StopTimer();
+
+	JString data;
+	const JBoolean ok = itsLink->GetNextMessage(&data);
+	assert( ok );
+
+	if (data.IsEmpty() || data.GetFirstCharacter() != '<')
+		{
+		return;
+		}
+
+	Broadcast(DebugOutput(data, kOutputType));
+
+	if (itsInitFinishedFlag)
+		{
+		if (!itsProgramIsStoppedFlag)
+			{
+			itsProgramIsStoppedFlag = kJTrue;
+			Broadcast(ProgramStopped(CMLocation("", 1)));
+			}
+
+		itsDebuggerBusyFlag = kJFalse;
+		Broadcast(DebuggerReadyForInput());
+		}
+
+	xmlDoc* doc = xmlReadMemory(data.GetCString(), data.GetLength(),
+								NULL, NULL, XML_PARSE_NOCDATA);
+	if (doc != NULL)
+		{
+		xmlNode* root = xmlDocGetRootElement(doc);
+
+		if (root != NULL && strcmp((char*) root->name, "init") == 0)
+			{
+			itsIDEKey         = JGetXMLNodeAttr(root, "idekey");
+			const JString uri = JGetXMLNodeAttr(root, "fileuri");
+
+			const JCharacter* map[] =
+				{
+				"idekey", itsIDEKey,
+				"uri",    uri
+				};
+			JString msg = JGetString("ConnectionInfo::XDLink", map, sizeof(map));
+			Broadcast(UserOutput(msg, kJFalse));
+
+			Send("feature_set -n show_hidden -v 1");
+			Send("step_into");
+
+			JString programName;
+			GetProgram(&programName);
+
+			Broadcast(AttachedToProcess());
+			Broadcast(SymbolsLoaded(JI2B(uri == itsScriptURI), programName));
+
+			itsInitFinishedFlag = kJTrue;
+			itsScriptURI        = uri;
+			}
+		else if (root != NULL && strcmp((char*) root->name, "response") == 0)
+			{
+			const JString status = JGetXMLNodeAttr(root, "status");
+			const JString reason = JGetXMLNodeAttr(root, "reason");
+			if (status == "break" && reason == "error" &&
+				root->children != NULL && root->children->children != NULL &&
+				strcmp((char*) root->children->name, "error") == 0 &&
+				root->children->children->type == XML_TEXT_NODE)
+				{
+				JString msg            = (char*) root->children->children->content;
+				const JString encoding = JGetXMLNodeAttr(root->children, "encoding");
+				if (encoding == "base64")
+					{
+					msg.DecodeBase64(&msg);
+					}
+				msg += "\n";
+				Broadcast(UserOutput(msg, kJTrue));
+				}
+
+			const JString idStr = JGetXMLNodeAttr(root, "transaction_id");
+			JUInt id;
+			if (idStr.ConvertToUInt(&id))
+				{
+				HandleCommandRunning(id);
+				}
+
+			CMCommand* cmd;
+			if (GetRunningCommand(&cmd))
+				{
+				itsParsedDataRoot = root;
+
+				cmd->Finished(JI2B(
+					root->children == NULL || strcmp((char*) root->children->name, "error") != 0));
+
+				itsParsedDataRoot = NULL;
+
+				SetRunningCommand(NULL);
+				if (!HasForegroundCommands())
+					{
+					RunNextCommand();
+					}
+				}
+
+			if (status == "stopping" || status == "stopped")
+				{
+				CancelAllCommands();
+
+				XDCloseSocketTask* task = new XDCloseSocketTask(itsLink);
+				assert( task != NULL );
+				task->Go();
+				}
+			}
+
+		xmlFreeDoc(doc);
+		}
+}
+
+/******************************************************************************
+ SetProgram
+
+ *****************************************************************************/
+
+void
+XDLink::SetProgram
+	(
+	const JCharacter* fileName
+	)
+{
+	Send("detach");
+
+//	StopDebugger();		// avoid broadcasting DebuggerRestarted
+//	StartDebugger();
+
+	itsProgramConfigFileName.Clear();
+	itsSourcePathList->DeleteAll();
+
+	JString fullName;
+	if (!JConvertToAbsolutePath(fileName, NULL, &fullName) ||
+		!JFileReadable(fullName))
+		{
+		const JString error = JGetString("ConfigFileUnreadable::XDLink");
+		Broadcast(UserOutput(error, kJTrue));
+		return;
+		}
+	else if (CMMDIServer::IsBinary(fullName))
+		{
+		const JString error = JGetString("ConfigFileIsBinary::XDLink");
+		Broadcast(UserOutput(error, kJTrue));
+		return;
+		}
+
+	JString line;
+	if (!CMMDIServer::GetLanguage(fullName, &line) ||
+		JStringCompare(line, "php", kJFalse) != 0)
+		{
+		const JString error = JGetString("ConfigFileWrongLanguage::XDLink");
+		Broadcast(UserOutput(error, kJTrue));
+		return;
+		}
+
+	JString path, name, suffix;
+	JSplitPathAndName(fullName, &path, &name);
+	JSplitRootAndSuffix(name, &itsProgramName, &suffix);
+
+	itsProgramConfigFileName = fullName;
+
+	ifstream input(fullName);
+	while (1)
+		{
+		line = JReadLine(input);
+		line.TrimWhitespace();
+
+		if (line.BeginsWith("source-path:"))
+			{
+			line.RemoveSubstring(1, 12);
+			line.TrimWhitespace();
+
+			name = JCombinePathAndName(path, line);
+			itsSourcePathList->Append(name);
+			}
+		else if (!line.IsEmpty() && !line.BeginsWith("code-medic:"))
+			{
+			line.Prepend("Unknown option: ");
+			line.AppendCharacter('\n');
+			Broadcast(UserOutput(line, kJTrue));
+			}
+
+		if (!input.good())
+			{
+			break;
+			}
+		}
+
+	XDSetProgramTask* task = new XDSetProgramTask();
+	assert( task != NULL );
+	task->Go();
+}
+
+/******************************************************************************
+ BroadcastProgramSet
+
+ *****************************************************************************/
+
+void
+XDLink::BroadcastProgramSet()
+{
+	JString programName;
+	GetProgram(&programName);
+
+	Broadcast(SymbolsLoaded(kJFalse, programName));
+}
+
+/******************************************************************************
+ ReloadProgram
+
+ *****************************************************************************/
+
+void
+XDLink::ReloadProgram()
+{
+}
+
+/******************************************************************************
+ SetCore
+
+ *****************************************************************************/
+
+void
+XDLink::SetCore
+	(
+	const JCharacter* fullName
+	)
+{
+}
+
+/******************************************************************************
+ AttachToProcess
+
+ *****************************************************************************/
+
+void
+XDLink::AttachToProcess
+	(
+	const pid_t pid
+	)
+{
+}
+
+/******************************************************************************
+ RunProgram
+
+ *****************************************************************************/
+
+void
+XDLink::RunProgram
+	(
+	const JCharacter* args
+	)
+{
+}
+
+/******************************************************************************
+ GetBreakpointManager
+
+ *****************************************************************************/
+
+CMBreakpointManager*
+XDLink::GetBreakpointManager()
+{
+	return itsBPMgr;
+}
+
+/******************************************************************************
+ ShowBreakpointInfo
+
+ *****************************************************************************/
+
+void
+XDLink::ShowBreakpointInfo
+	(
+	const JIndex debuggerIndex
+	)
+{
+}
+
+/******************************************************************************
+ SetBreakpoint
+
+ *****************************************************************************/
+
+void
+XDLink::SetBreakpoint
+	(
+	const JCharacter*	fileName,
+	const JIndex		lineIndex,
+	const JBoolean		temporary
+	)
+{
+	JString cmd = "breakpoint_set -t line -f ";
+	cmd        += fileName;
+	cmd        += " -n ";
+	cmd        += lineIndex;
+
+	if (temporary)
+		{
+		cmd += " -r 1";
+		}
+
+	Send(cmd);
+
+	Broadcast(BreakpointsChanged());
+}
+
+/******************************************************************************
+ RemoveBreakpoint
+
+ *****************************************************************************/
+
+void
+XDLink::RemoveBreakpoint
+	(
+	const JIndex debuggerIndex
+	)
+{
+	JString cmd = "breakpoint_remove -d ";
+	cmd        += debuggerIndex;
+	Send(cmd);
+
+	Broadcast(BreakpointsChanged());
+}
+
+/******************************************************************************
+ RemoveAllBreakpointsOnLine
+
+ *****************************************************************************/
+
+void
+XDLink::RemoveAllBreakpointsOnLine
+	(
+	const JCharacter*	fileName,
+	const JIndex		lineIndex
+	)
+{
+	JBoolean changed = kJFalse;
+
+	JPtrArray<CMBreakpoint> list(JPtrArrayT::kForgetAll);
+	JString cmd;
+	if (itsBPMgr->GetBreakpoints(fileName, &list))
+		{
+		for (JIndex i=1; i<=list.GetElementCount(); i++)
+			{
+			CMBreakpoint* bp = list.NthElement(i);
+			if (bp->GetLineNumber() == lineIndex)
+				{
+				cmd  = "breakpoint_remove -d ";
+				cmd += bp->GetDebuggerIndex();
+				Send(cmd);
+				changed = kJTrue;
+				}
+			}
+		}
+
+	if (changed)
+		{
+		Broadcast(BreakpointsChanged());
+		}
+}
+
+/******************************************************************************
+ RemoveAllBreakpoints
+
+ *****************************************************************************/
+
+void
+XDLink::RemoveAllBreakpoints()
+{
+	JBoolean changed = kJFalse;
+
+	const JPtrArray<CMBreakpoint>& list = itsBPMgr->GetBreakpoints();
+	JString cmd;
+	for (JIndex i=1; i<=list.GetElementCount(); i++)
+		{
+		const CMBreakpoint* bp = list.NthElement(i);
+
+		cmd	 = "breakpoint_remove -d ";
+		cmd += bp->GetDebuggerIndex();
+		Send(cmd);
+		changed = kJTrue;
+		}
+
+	if (changed)
+		{
+		Broadcast(BreakpointsChanged());
+		}
+}
+
+/******************************************************************************
+ SetBreakpointEnabled
+
+ *****************************************************************************/
+
+void
+XDLink::SetBreakpointEnabled
+	(
+	const JIndex	debuggerIndex,
+	const JBoolean	enabled,
+	const JBoolean	once
+	)
+{
+	JString cmd = "breakpoint_update -d ";
+	cmd        += debuggerIndex;
+	cmd        += " -s ";
+	cmd        += (enabled ? "enabled" : "disabled");
+	Send(cmd);
+
+	Broadcast(BreakpointsChanged());
+}
+
+/******************************************************************************
+ SetBreakpointCondition
+
+ *****************************************************************************/
+
+void
+XDLink::SetBreakpointCondition
+	(
+	const JIndex		debuggerIndex,
+	const JCharacter*	condition
+	)
+{
+}
+
+/******************************************************************************
+ RemoveBreakpointCondition
+
+ *****************************************************************************/
+
+void
+XDLink::RemoveBreakpointCondition
+	(
+	const JIndex debuggerIndex
+	)
+{
+}
+
+/******************************************************************************
+ SetBreakpointIgnoreCount
+
+ *****************************************************************************/
+
+void
+XDLink::SetBreakpointIgnoreCount
+	(
+	const JIndex	debuggerIndex,
+	const JSize		count
+	)
+{
+}
+
+/******************************************************************************
+ WatchExpression
+
+ *****************************************************************************/
+
+void
+XDLink::WatchExpression
+	(
+	const JCharacter* expr
+	)
+{
+}
+
+/******************************************************************************
+ WatchLocation
+
+ *****************************************************************************/
+
+void
+XDLink::WatchLocation
+	(
+	const JCharacter* expr
+	)
+{
+}
+
+/******************************************************************************
+ SwitchToThread
+
+ *****************************************************************************/
+
+void
+XDLink::SwitchToThread
+	(
+	const JUInt64 id
+	)
+{
+}
+
+/******************************************************************************
+ SwitchToFrame
+
+ *****************************************************************************/
+
+void
+XDLink::SwitchToFrame
+	(
+	const JUInt64 id
+	)
+{
+	if (id != itsStackFrameIndex)
+		{
+		itsStackFrameIndex = id;
+		Broadcast(FrameChanged());
+		}
+
+	const CMStackFrameNode* frame;
+	JString fileName;
+	JIndex lineIndex;
+	if (CMGetCommandDirector()->GetStackDir()->GetStackWidget()->GetStackFrame(id, &frame) &&
+		frame->GetFile(&fileName, &lineIndex))
+		{
+		if (fileName.BeginsWith("file://"))
+			{
+			fileName.RemoveSubstring(1, 7);
+			}
+		Broadcast(ProgramStopped(CMLocation(fileName, lineIndex)));
+		}
+}
+
+/******************************************************************************
+ StepOver
+
+ *****************************************************************************/
+
+void
+XDLink::StepOver()
+{
+	Send("step_over");
+	itsProgramIsStoppedFlag = kJFalse;
+	Broadcast(ProgramRunning());
+}
+
+/******************************************************************************
+ StepInto
+
+ *****************************************************************************/
+
+void
+XDLink::StepInto()
+{
+	Send("step_into");
+	itsProgramIsStoppedFlag = kJFalse;
+	Broadcast(ProgramRunning());
+}
+
+/******************************************************************************
+ StepOut
+
+ *****************************************************************************/
+
+void
+XDLink::StepOut()
+{
+	Send("step_out");
+	itsProgramIsStoppedFlag = kJFalse;
+	Broadcast(ProgramRunning());
+}
+
+/******************************************************************************
+ Continue
+
+ *****************************************************************************/
+
+void
+XDLink::Continue()
+{
+	Send("run");
+	itsProgramIsStoppedFlag = kJFalse;
+	Broadcast(ProgramRunning());
+}
+
+/******************************************************************************
+ RunUntil
+
+ *****************************************************************************/
+
+void
+XDLink::RunUntil
+	(
+	const JCharacter*	fileName,
+	const JIndex		lineIndex
+	)
+{
+	SetBreakpoint(fileName, lineIndex, kJTrue);
+	Continue();
+}
+
+/******************************************************************************
+ SetExecutionPoint
+
+ *****************************************************************************/
+
+void
+XDLink::SetExecutionPoint
+	(
+	const JCharacter*	fileName,
+	const JIndex		lineIndex
+	)
+{
+}
+
+/******************************************************************************
+ SetValue
+
+ *****************************************************************************/
+
+void
+XDLink::SetValue
+	(
+	const JCharacter* name,
+	const JCharacter* value
+	)
+{
+	if (ProgramIsStopped())
+		{
+		const JString encValue = JString(value).EncodeBase64();
+
+		JString cmd = "property_set @i -n ";
+		cmd        += name;
+		cmd        += " -l ";
+		cmd        += encValue.GetLength();
+		cmd        += " -- ";
+		cmd        += encValue;
+		Send(cmd);
+
+		Broadcast(ValueChanged());
+		}
+}
+
+/******************************************************************************
+ CreateArray2DCommand
+
+ *****************************************************************************/
+
+CMArray2DCommand*
+XDLink::CreateArray2DCommand
+	(
+	CMArray2DDir*		dir,
+	JXStringTable*		table,
+	JStringTableData*	data
+	)
+{
+	CMArray2DCommand* cmd = new XDArray2DCommand(dir, table, data);
+	assert( cmd != NULL );
+	return cmd;
+}
+
+/******************************************************************************
+ CreatePlot2DCommand
+
+ *****************************************************************************/
+
+CMPlot2DCommand*
+XDLink::CreatePlot2DCommand
+	(
+	CMPlot2DDir*	dir,
+	JArray<JFloat>*	x,
+	JArray<JFloat>*	y
+	)
+{
+	CMPlot2DCommand* cmd = new XDPlot2DCommand(dir, x, y);
+	assert( cmd != NULL );
+	return cmd;
+}
+
+/******************************************************************************
+ CreateDisplaySourceForMain
+
+ *****************************************************************************/
+
+CMDisplaySourceForMain*
+XDLink::CreateDisplaySourceForMain
+	(
+	CMSourceDirector* sourceDir
+	)
+{
+	CMDisplaySourceForMain* cmd = new XDDisplaySourceForMain(sourceDir);
+	assert( cmd != NULL );
+	return cmd;
+}
+
+/******************************************************************************
+ CreateGetCompletions
+
+ *****************************************************************************/
+
+CMGetCompletions*
+XDLink::CreateGetCompletions
+	(
+	CMCommandInput*	input,
+	CMHistoryText*	history
+	)
+{
+	CMGetCompletions* cmd = new XDGetCompletions(input, history);
+	assert( cmd != NULL );
+	return cmd;
+}
+
+/******************************************************************************
+ CreateGetFrame
+
+ *****************************************************************************/
+
+CMGetFrame*
+XDLink::CreateGetFrame
+	(
+	CMStackWidget* widget
+	)
+{
+	CMGetFrame* cmd = new XDGetFrame(widget);
+	assert( cmd != NULL );
+	return cmd;
+}
+
+/******************************************************************************
+ CreateGetStack
+
+ *****************************************************************************/
+
+CMGetStack*
+XDLink::CreateGetStack
+	(
+	JTree*			tree,
+	CMStackWidget*	widget
+	)
+{
+	CMGetStack* cmd = new XDGetStack(tree, widget);
+	assert( cmd != NULL );
+	return cmd;
+}
+
+/******************************************************************************
+ CreateGetThread
+
+ *****************************************************************************/
+
+CMGetThread*
+XDLink::CreateGetThread
+	(
+	CMThreadsWidget* widget
+	)
+{
+	CMGetThread* cmd = new XDGetThread(widget);
+	assert( cmd != NULL );
+	return cmd;
+}
+
+/******************************************************************************
+ CreateGetThreads
+
+ *****************************************************************************/
+
+CMGetThreads*
+XDLink::CreateGetThreads
+	(
+	JTree*				tree,
+	CMThreadsWidget*	widget
+	)
+{
+	CMGetThreads* cmd = new XDGetThreads(tree, widget);
+	assert( cmd != NULL );
+	return cmd;
+}
+
+/******************************************************************************
+ CreateGetFullPath
+
+ *****************************************************************************/
+
+CMGetFullPath*
+XDLink::CreateGetFullPath
+	(
+	const JCharacter*	fileName,
+	const JIndex		lineIndex
+	)
+{
+	CMGetFullPath* cmd = new XDGetFullPath(fileName, lineIndex);
+	assert( cmd != NULL );
+	return cmd;
+}
+
+/******************************************************************************
+ CreateGetInitArgs
+
+ *****************************************************************************/
+
+CMGetInitArgs*
+XDLink::CreateGetInitArgs
+	(
+	JXInputField* argInput
+	)
+{
+	CMGetInitArgs* cmd = new XDGetInitArgs(argInput);
+	assert( cmd != NULL );
+	return cmd;
+}
+
+/******************************************************************************
+ CreateGetLocalVars
+
+ *****************************************************************************/
+
+CMGetLocalVars*
+XDLink::CreateGetLocalVars
+	(
+	CMVarNode* rootNode
+	)
+{
+	CMGetLocalVars* cmd = new XDGetLocalVars(rootNode);
+	assert( cmd != NULL );
+	return cmd;
+}
+
+/******************************************************************************
+ CreateGetSourceFileList
+
+ *****************************************************************************/
+
+CMGetSourceFileList*
+XDLink::CreateGetSourceFileList
+	(
+	CMFileListDir* fileList
+	)
+{
+	CMGetSourceFileList* cmd = new XDGetSourceFileList(fileList);
+	assert( cmd != NULL );
+	return cmd;
+}
+
+/******************************************************************************
+ CreateVarValueCommand
+
+ *****************************************************************************/
+
+CMVarCommand*
+XDLink::CreateVarValueCommand
+	(
+	const JCharacter* expr
+	)
+{
+	JString s = "property_get -n ";
+	s        += expr;
+	s        += " -d ";
+	s        += itsStackFrameIndex;
+
+	CMVarCommand* cmd = new XDVarCommand(s);
+	assert( cmd != NULL );
+	return cmd;
+}
+
+/******************************************************************************
+ CreateVarContentCommand
+
+ *****************************************************************************/
+
+CMVarCommand*
+XDLink::CreateVarContentCommand
+	(
+	const JCharacter* expr
+	)
+{
+	return CreateVarValueCommand(expr);
+}
+
+/******************************************************************************
+ CreateVarNode
+
+ *****************************************************************************/
+
+CMVarNode*
+XDLink::CreateVarNode
+	(
+	const JBoolean shouldUpdate		// kJFalse for Local Variables
+	)
+{
+	CMVarNode* node = new XDVarNode(shouldUpdate);
+	assert( node != NULL );
+	return node;
+}
+
+CMVarNode*
+XDLink::CreateVarNode
+	(
+	JTreeNode*			parent,
+	const JCharacter*	name,
+	const JCharacter*	fullName,
+	const JCharacter*	value
+	)
+{
+	CMVarNode* node = new XDVarNode(parent, name, fullName, value);
+	assert( node != NULL );
+	return node;
+}
+
+/******************************************************************************
+ Build1DArrayExpression
+
+ *****************************************************************************/
+
+JString
+XDLink::Build1DArrayExpression
+	(
+	const JCharacter*	origExpr,
+	const JInteger		index
+	)
+{
+	JString expr = origExpr;
+
+	const JString indexStr(index, 0);	// must use floating point conversion
+	if (expr.Contains("$i"))
+		{
+		// double literal $'s
+
+		for (JIndex i=expr.GetLength()-1; i>=1; i--)
+			{
+			if (expr.GetCharacter(i)   == '$' &&
+				expr.GetCharacter(i+1) != 'i')
+				{
+				expr.InsertCharacter('$', i);
+				}
+			}
+
+		const JCharacter* map[] =
+			{
+			"i", indexStr.GetCString()
+			};
+		(JGetStringManager())->Replace(&expr, map, sizeof(map));
+		}
+	else
+		{
+		expr.AppendCharacter('[');
+		expr += indexStr;
+		expr.AppendCharacter(']');
+		}
+
+	return expr;
+}
+
+/******************************************************************************
+ Build2DArrayExpression
+
+ *****************************************************************************/
+
+JString
+XDLink::Build2DArrayExpression
+	(
+	const JCharacter*	origExpr,
+	const JInteger		rowIndex,
+	const JInteger		colIndex
+	)
+{
+	JString expr = origExpr;
+
+	const JBoolean usesI = expr.Contains("$i");		// row
+	const JBoolean usesJ = expr.Contains("$j");		// col
+
+	const JString iStr(rowIndex, 0);	// must use floating point conversion
+	const JString jStr(colIndex, 0);	// must use floating point conversion
+
+	// We have to do both at the same time because otherwise we lose a $.
+
+	if (usesI || usesJ)
+		{
+		// double literal $'s
+
+		for (JIndex i=expr.GetLength()-1; i>=1; i--)
+			{
+			if (expr.GetCharacter(i)   == '$' &&
+				expr.GetCharacter(i+1) != 'i' &&
+				expr.GetCharacter(i+1) != 'j')
+				{
+				expr.InsertCharacter('$', i);
+				}
+			}
+
+		const JCharacter* map[] =
+			{
+			"i", iStr.GetCString(),
+			"j", jStr.GetCString()
+			};
+		(JGetStringManager())->Replace(&expr, map, sizeof(map));
+		}
+
+	if (!usesI || !usesJ)
+		{
+		if (expr.GetFirstCharacter() != '(' ||
+			expr.GetLastCharacter()  != ')')
+			{
+			expr.PrependCharacter('(');
+			expr.AppendCharacter(')');
+			}
+
+		if (!usesI)
+			{
+			expr.AppendCharacter('[');
+			expr += iStr;
+			expr.AppendCharacter(']');
+			}
+		if (!usesJ)
+			{
+			expr.AppendCharacter('[');
+			expr += jStr;
+			expr.AppendCharacter(']');
+			}
+		}
+
+	return expr;
+}
+
+/******************************************************************************
+ CreateGetMemory
+
+ *****************************************************************************/
+
+CMGetMemory*
+XDLink::CreateGetMemory
+	(
+	CMMemoryDir* dir
+	)
+{
+	return NULL;
+}
+
+/******************************************************************************
+ CreateGetAssembly
+
+ *****************************************************************************/
+
+CMGetAssembly*
+XDLink::CreateGetAssembly
+	(
+	CMSourceDirector* dir
+	)
+{
+	return NULL;
+}
+
+/******************************************************************************
+ CreateGetRegisters
+
+ *****************************************************************************/
+
+CMGetRegisters*
+XDLink::CreateGetRegisters
+	(
+	CMRegistersDir* dir
+	)
+{
+	return NULL;
+}
+
+/******************************************************************************
+ Send
+
+	Sends the given text as command(s) to xdebug.
+
+ *****************************************************************************/
+
+void
+XDLink::Send
+	(
+	const JCharacter* text
+	)
+{
+	if (itsLink != NULL)
+		{
+		if (ProgramIsRunning())
+			{
+			StopProgram();
+			}
+
+		JString arg = " -i not_command";
+
+		JString s = text;
+		JIndex i;
+		if (s.LocateSubstring("@i", &i))
+			{
+			s.ReplaceSubstring(i, i+1, arg);
+			}
+		else
+			{
+			s += arg;
+			}
+
+		SendRaw(s);
+		}
+}
+
+/******************************************************************************
+ SendRaw
+
+	Sends the given text as text to whatever is currently accepting text.
+
+ *****************************************************************************/
+
+void
+XDLink::SendRaw
+	(
+	const JCharacter* text
+	)
+{
+	if (itsLink != NULL)
+		{
+		JString s = text;
+		s.TrimWhitespace();
+
+		JIndex i;
+		while (s.LocateSubstring("  ", &i))
+			{
+			s.ReplaceSubstring(i, i+1, " ");
+			}
+
+		itsLink->SendMessage(s);
+		itsLink->StartTimer();
+
+		if (!itsDebuggerBusyFlag)
+			{
+			itsDebuggerBusyFlag = kJTrue;
+			Broadcast(DebuggerBusy());
+			}
+
+		Broadcast(DebugOutput(s, kCommandType));
+		}
+}
+
+/******************************************************************************
+ SendMedicCommand (virtual protected)
+
+ *****************************************************************************/
+
+void
+XDLink::SendMedicCommand
+	(
+	CMCommand* command
+	)
+{
+	command->Starting();
+
+	JString arg = " -i ";
+	arg        += JString(command->GetTransactionID(), JString::kBase10);
+
+	JString s = command->GetCommand();
+	JIndex i;
+	if (s.LocateSubstring("@i", &i))
+		{
+		s.ReplaceSubstring(i, i+1, arg);
+		}
+	else
+		{
+		s += arg;
+		}
+
+	SendRaw(s);
+}
+
+/******************************************************************************
+ StopProgram
+
+	xdebug 1.0.4 doesn't support break.  It returns an error and treats it
+	as "continue"
+
+ *****************************************************************************/
+
+void
+XDLink::StopProgram()
+{
+//	SendRaw("break -i break");
+}
+
+/******************************************************************************
+ KillProgram
+
+ *****************************************************************************/
+
+void
+XDLink::KillProgram()
+{
+}
+
+/******************************************************************************
+ OKToDetachOrKill
+
+ *****************************************************************************/
+
+JBoolean
+XDLink::OKToDetachOrKill()
+	const
+{
+	return kJTrue;
+}
+
+/******************************************************************************
+ ChangeDebugger
+
+ *****************************************************************************/
+
+JBoolean
+XDLink::ChangeDebugger()
+{
+	return kJTrue;
+}
+
+/******************************************************************************
+ RestartDebugger
+
+ *****************************************************************************/
+
+JBoolean
+XDLink::RestartDebugger()
+{
+	StopDebugger();
+	const JBoolean ok = StartDebugger();
+
+	if (ok)
+		{
+		Broadcast(DebuggerRestarted());
+		}
+
+	return ok;
+}
+
+/******************************************************************************
+ StopDebugger (private)
+
+ *****************************************************************************/
+
+void
+XDLink::StopDebugger()
+{
+	Send("detach");
+
+	DeleteLink();
+	CancelAllCommands();
+
+	InitFlags();
+}
+
+/******************************************************************************
+ ConnectionEstablished
+
+ *****************************************************************************/
+
+void
+XDLink::ConnectionEstablished
+	(
+	XDSocket* socket
+	)
+{
+	InitFlags();
+
+	itsLink = socket;
+	ListenTo(itsLink);
+
+	itsIDEKey.Clear();
+
+	itsAcceptor->close();
+
+	Broadcast(DebuggerStarted());
+	Broadcast(UserOutput(JGetString("Connected::XDLink"), kJFalse));
+}
+
+/******************************************************************************
+ ConnectionFinished
+
+ *****************************************************************************/
+
+void
+XDLink::ConnectionFinished
+	(
+	XDSocket* socket
+	)
+{
+	assert( socket == itsLink );
+
+	itsLink = NULL;
+	itsIDEKey.Clear();
+
+	RestartDebugger();
+}
+
+#define JTemplateName ACE_Acceptor
+#define JTemplateType XDSocket, ACE_SOCK_ACCEPTOR
+#include <instantiate_template.h>
+#undef JTemplateName
+#undef JTemplateType
+
+/******************************************************************************
+ StartDebugger (private)
+
+	We cannot send anything to xdebug until it has successfully started.
+
+ *****************************************************************************/
+
+// This function has to be last so JCore::new works for everything else.
+
+#undef new
+
+JBoolean
+XDLink::StartDebugger()
+{
+	if (itsAcceptor == NULL)
+		{
+		itsAcceptor = new XDAcceptor;
+		assert( itsAcceptor != NULL );
+		}
+
+	const JString portStr(kXdebugPort, JString::kBase10);
+	if (itsAcceptor->open(ACE_INET_Addr(kXdebugPort)) == -1)
+		{
+		const JString errStr(jerrno(), JString::kBase10);
+
+		const JCharacter* map[] =
+			{
+			"port",  portStr,
+			"errno", errStr
+			};
+		JString msg = JGetString("ListenError::XDLink", map, sizeof(map));
+
+		XDWelcomeTask* task = new XDWelcomeTask(msg, kJTrue);
+		assert( task != NULL );
+		task->Go();
+		return kJFalse;
+		}
+	else
+		{
+		const JCharacter* map[] =
+			{
+			"port", portStr
+			};
+		JString msg = JGetString("Welcome::XDLink", map, sizeof(map));
+
+		XDWelcomeTask* task = new XDWelcomeTask(msg, kJFalse);
+		assert( task != NULL );
+		task->Go();
+		return kJTrue;
+		}
+}
+
+/******************************************************************************
+ DeleteLink (private)
+
+ ******************************************************************************/
+
+// This function has to be last so JCore::delete works for everything else.
+
+#undef delete
+
+void
+XDLink::DeleteLink()
+{
+	delete itsLink;
+	itsLink = NULL;
+}
+
+/******************************************************************************
+ DeleteAcceptor (private)
+
+ ******************************************************************************/
+
+// This function has to be last so JCore::delete works for everything else.
+
+void
+XDLink::DeleteAcceptor()
+{
+	delete itsAcceptor;
+	itsAcceptor = NULL;
+}

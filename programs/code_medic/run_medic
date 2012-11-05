@@ -1,0 +1,5 @@
+#!/bin/tcsh
+
+setenv JMM_RECORD_ALLOCATED   "yes"
+setenv MALLOC_CHECK_ 2
+./medic $*

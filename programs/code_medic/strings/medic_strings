@@ -1,0 +1,497 @@
+0
+
+# Copyright © 2000-11 by John Lindal. All rights reserved.
+
+VERSION		"3.2"
+
+COPYRIGHT
+"Copyright © 1996-2011 John Lindal.  All rights reserved.
+
+This software is subject to the license agreement set forth in the license (refer to the on-line help).
+
+Code Medic and New Planet Software are trademarks of John Lindal.
+
+http://www.newplanetsoftware.com/"
+
+CMName	"Code Medic"
+CMURL	"http://www.newplanetsoftware.com/medic/"
+CMEmail	""
+
+VERSION_URL		"http://newplanetsoftware.com/medic/VERSION"
+DOWNLOAD_URL	"http://newplanetsoftware.com/nps/downloads.php"
+
+# overrides
+
+JRemindNewVersion
+"An improved version of this program ($vers) is available for download from $site.
+
+Would you like to go there now to download it?
+
+(If you do not see the new version after you log in, then the upgrade requires a new license.  You will receive a discount code via email.)"
+
+# CMMDIServer
+
+CMCommandLineHelp
+
+"Medic $version
+
+$copyright
+
+A debugging environment for X.
+
+Because Medic fully supports the Multiple Document concept, 
+it can be safely invoked from the command line or via a file manager 
+as often as you like.
+
+Usage:
+medic [ program_file [ core_file ] ] [ options ]
+
+--help       prints this help
+--version    prints version information
+--gdb        debug using gdb
+--xdebug     debug using xdebug
+--java       debug using java
+-f           file_name[:line_number]  : opens file to specified line
+-f           [+line_number] file_name : opens file to specified line
+-b           file_name:line_number    : sets breakpoint in file at specified line
+-b           +line_number file_name   : sets breakpoint in file at specified line
+-c           core_file                : analyze core file
+-display     display_name : connect to the specified X display
+--quit       same as Quit option on File menu; for switching displays"
+
+CMDescription
+
+"Medic $version
+
+A debugging environment for X.
+
+$copyright"
+
+# CMAboutDialog
+
+ChangeButtonLabel::CMAboutDialog	"Changes"
+
+UpgradeNotice::CMAboutDialog
+"
+
+
+You have just upgraded from version $vers"
+
+# CMEditPrefsDialog
+
+ChooseDebuggerPrompt::CMEditPrefsDialog	"Choose $name binary:"
+
+# CMCommandDirector
+
+WindowsMenuText::CMCommandDirector	"Command line"
+CannotOpenFile::CMCommandDirector	"Unable to open $name because it either does not exist or is not readable."
+
+NoBinaryButtonLabel::CMCommandDirector "<no binary>"
+
+NoSelection::CMCommandDirector
+"This command cannot be run because you either have not selected any text or have selected more than one line."
+
+Welcome::CMCommandDirector
+"Welcome to Code Medic $vers
+(requires: gdb 6.0 or newer, Xdebug 2.0 or newer)
+
+Running on top of:
+"
+
+# CMSourceDirector
+
+MainSourceName::CMSourceDirector	"Current source"
+MainAsmName::CMSourceDirector		"Current assembly"
+
+WindowTitlePrefixMainSrc::CMSourceDirector	" Current Source - "
+WindowTitleNoSrc::CMSourceDirector			"(No source)"
+
+WindowTitlePrefixMainAsm::CMSourceDirector	" Current Disassembly - "
+WindowTitleNoAsm::CMSourceDirector			"(No function)"
+
+InitSourceWindowTitle::CMSourceDirector	"Current Source - (No source)"
+InitAsmWindowTitle::CMSourceDirector	"Current Disassembly - (No function)"
+
+# CMVarTreeDir
+
+WindowsMenuText::CMVarTreeDir	"Variables"
+
+# CMLocalVarsDir
+
+WindowsMenuText::CMLocalVarsDir	"Local variables"
+
+# CMThreadsDir
+
+WindowsMenuText::CMThreadsDir	"Threads"
+
+# CMThreadsWidget
+
+NoSourceFile::CMThreadsWidget	"Unable to determine the source file for this thread."
+
+# CMStackDir
+
+WindowsMenuText::CMStackDir		"Stack trace"
+WindowTitleSuffix::CMStackDir	" Stack Trace"
+
+# CMStackWidget
+
+NoSourceFile::CMStackWidget	"Unable to determine the source file for this stack frame."
+
+# CMRegistersDir
+
+WindowsMenuText::CMRegistersDir		"Registers"
+WindowTitleSuffix::CMRegistersDir	" Registers"
+
+# CMBreakpointsDir
+
+WindowsMenuText::CMBreakpointsDir	"Breakpoints"
+
+# CMFileListDir
+
+WindowsMenuText::CMFileListDir	"File list"
+
+# CMDebugDir
+
+WindowsMenuText::CMDebugDir	"Debugging info"
+
+# CMPlot2DDir
+
+WindowTitleSuffix::CMPlot2DDir	" (2D Plot)"
+
+# CMPlot2DExprTable
+
+XExprColTitle::CMPlot2DExprTable	"X"
+YExprColTitle::CMPlot2DExprTable	"Y"
+RangeMinColTitle::CMPlot2DExprTable	"Start"
+RangeMaxColTitle::CMPlot2DExprTable	"End"
+
+# GDBAnalyzeCore
+
+FindProgram::GDBAnalyzeCore	"Please locate \"$name\""
+
+# GDBVarTreeParser
+
+ErrorNodeName::GDBVarTreeParser		"gdb error"
+ErrorNodeValue::GDBVarTreeParser	"<gdb encountered an error.  Some fields may be missing.>"
+
+# XDLink
+
+Prompt::XDLink			"(xdb)"
+ScriptPrompt::XDLink	"    >"
+
+ListenError::XDLink
+"Unable to listen on port $port (error #$errno)
+Please quit Code Medic and run it again.
+"
+
+Welcome::XDLink
+"Xdebug (http://www.xdebug.org/)
+
+Waiting for connection on port $port...
+"
+
+Connected::XDLink	"Connected to Xdebug
+"
+
+ConnectionInfo::XDLink
+"
+Debugging $uri
+Session name is $idekey
+"
+
+ChooseProgramInstr::XDLink		"Choose the Code Medic configuration file that defines the PHP program to debug."
+ConfigFileUnreadable::XDLink	"Unable to read configuration file.
+"
+ConfigFileIsBinary::XDLink		"The file you specified appears to be a program, not a configuration file.
+"
+ConfigFileWrongLanguage::XDLink	"The file you specified is not for PHP.
+"
+
+# JVMLink
+
+Prompt::JVMLink			"(jdb)"
+ScriptPrompt::JVMLink	"    >"
+
+ListenError::JVMLink
+"Unable to listen on port $port (error #$errno)
+Please quit Code Medic and run it again.
+"
+
+Welcome::JVMLink
+"Code Medic Java Debugger
+
+Waiting for connection on port $port...
+"
+
+Connected::JVMLink
+"Connected to JVM
+"
+
+ChooseProgramInstr::JVMLink			"Choose the Code Medic configuration file that defines the Java program to debug."
+ConfigFileUnreadable::JVMLink		"Unable to read configuration file.
+"
+ConfigFileIsBinary::JVMLink			"The file you specified appears to be a program, not a configuration file.
+"
+ConfigFileWrongLanguage::JVMLink	"The file you specified is not for Java.
+"
+
+ProgramFinished::JVMLink	"Program finished"
+
+WarnKillProgram::JVMLink	"Are you sure you want to kill the current program?"
+WarnDetachProgram::JVMLink	"Are you sure you want to detach from the current program?"
+
+# GDBLink
+
+Prompt::GDBLink			"(gdb)"
+ScriptPrompt::GDBLink	"    >"
+
+UnableToStartDebugger::GDBLink
+"Unable to start the debugger because:
+
+$err
+
+If gdb is not on your execution path, please use the \"Preferences...\" item on the Preferences menu."
+
+ChooseProgramInstr::GDBLink	"Choose the program binary to debug."
+
+WarnKillProgram::GDBLink	"Are you sure you want to kill the current program?"
+WarnDetachProgram::GDBLink	"Are you sure you want to detach from the current program?"
+
+DebuggerCrashed::GDBLink
+"gdb appears to have crashed.
+
+Do you wish to restart it?  Your breakpoints will be restored, but the program state has been lost, and core files may have been overwritten.
+
+You can restart gdb manually by selecting \"Restart debugger\" on the Debug menu.  To use a different gdb binary, select \"Preferences...\" from the Preferences menu."
+
+StartCommand::GDBLink				"echo \\032\\032:Medic command:$id:"
+EndCommand::GDBLink					"echo \\032\\032:Medic command done:$id:"
+StartIgnoreResultCommand::GDBLink	"echo \\032\\032:Medic ignore command:$id:"
+EndIgnoreResultCommand::GDBLink		"echo \\032\\032:Medic ignore command done:$id:"
+PingCommand::GDBLink				"echo \\032\\032:Medic debugger ready:$id:"
+
+# GDBDisplaySourceForMain
+
+RunCommand::GDBDisplaySourceForMain
+"echo \\032\\032:Medic command:0:
+define hook-run
+echo \\032\\032:Medic program starting:
+$tbreak_cmd
+set $$medic_first_stop=1
+echo \\032\\032:Medic program running:
+end
+echo \\032\\032:Medic command done:0:
+"
+
+# gdb init
+
+InitCommands::GDBLink
+"echo \\032\\032:Medic command:0:
+
+set $medic_first_stop=0
+
+set width 0
+set height 0
+set print repeats 0
+set print asm-demangle on
+set print demangle on
+#set print pretty on
+#set print array on
+set print sevenbit-strings off
+set print union on
+
+define hook-quit
+echo \\032\\032:Medic debugger quit:
+end
+
+define hook-start
+echo \\032\\032:Medic program starting:
+echo \\032\\032:Medic program running:
+end
+
+define hook-stop
+if $medic_first_stop
+set $medic_first_stop=0
+echo \\032\\032:Medic acquire pid:
+info program
+echo \\032\\032:Medic acquire pid end:
+end
+end
+
+define hook-file
+echo \\032\\032:Medic loading file:
+end
+
+define hook-core-file
+echo \\032\\032:Medic loading core:
+end
+
+define hook-attach
+echo \\032\\032:Medic attaching:
+end
+
+define hook-detach
+echo \\032\\032:Medic detaching:
+end
+
+
+define hook-next
+echo \\032\\032:Medic program running:
+end
+
+define hook-step
+echo \\032\\032:Medic program running:
+end
+
+define hook-continue
+echo \\032\\032:Medic program running:
+end
+
+define hook-until
+echo \\032\\032:Medic program running:
+end
+
+define hook-finish
+echo \\032\\032:Medic program running:
+end
+
+define hook-return
+echo \\032\\032:Medic program running:
+end
+
+define hook-stepi
+echo \\032\\032:Medic program running:
+end
+
+define hook-nexti
+echo \\032\\032:Medic program running:
+end
+
+
+define hook-awatch
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-break
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-catch
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-clear
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-condition
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-delete
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-disable
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-enable
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-hbreak
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-ignore
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-rbreak
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-rwatch
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-tbreak
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-tcatch
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-thbreak
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-watch
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-xbreak
+echo \\032\\032:Medic breakpoints changed:
+end
+
+define hook-txbreak
+echo \\032\\032:Medic breakpoints changed:
+end
+
+
+define hook-kill
+echo \\032\\032:Medic program killed:
+end
+
+
+define hook-frame
+echo \\032\\032:Medic frame changed:
+end
+
+define hook-up
+echo \\032\\032:Medic frame changed:
+end
+
+define hook-down
+echo \\032\\032:Medic frame changed:
+end
+
+
+define hook-thread
+echo \\032\\032:Medic thread changed:
+end
+
+
+# doesn't trigger when setting options or \"set variable\"
+
+define hook-set
+echo \\032\\032:Medic value changed:
+end
+
+
+define hook-commands
+echo \\032\\032:Medic defining script:
+echo \\n
+echo Type commands for when breakpoint is hit, one per line.\\n
+echo End with a line saying just \"end\".\\n
+echo Give \"silent\" as the first line to make the breakpoint silent;\\n
+echo then no output is printed when it is hit, except what the commands print.\\n
+end
+
+define hook-if
+echo \\032\\032:Medic defining script:
+end
+
+# must be last!
+
+define hook-define
+echo \\032\\032:Medic defining script:
+echo \\n
+echo Type commands for definition of script.\\n
+echo End with a line saying just \"end\".\\n
+end
+
+echo \\032\\032:Medic command done:0:
+"

@@ -1,0 +1,24 @@
+0
+
+CMCommandDirHelp
+
+"<html>
+<head>
+<title>Command Line Window</title>
+</head>
+
+When using gdb, the Command Line window is used to interact directly with the underlying gdb process.  The main area of the window displays the results of this interaction.  You can save this text with the \"Save history\" command on the File menu.
+<p>
+Below the interaction history is the command line input area where you enter the commands to be set to gdb.  Simply type in the command and press Return.  Pressing the Tab key performs command and symbol name completion, just like when using plain gdb.  The menu below the (gdb) prompt lists the last one hundred commands sent to gdb.  You can also access these commands by using the up and down arrow keys, just like when using plain gdb.
+<p>
+When your program is running or gdb is otherwise busy, the (gdb) prompt will be gray.  This indicates that your commands will be buffered.
+<p>
+If your program reads from the standard input, you can send it text by typing in the command line input area when your program is running.
+<p>
+The button in the lower left corner displays the name of the program that is being debugged.  You can choose which program to debug by clicking on this button.
+<p>
+The input field next to this button contains the arguments that will be passed to the program when it is started.  You can enter anything you want in this input field.
+<p>
+The \"Restart debugger\" item on the Debug menu is provided in case gdb should crash.  It restarts gdb while maintaining the current breakpoints, variables, etc.
+
+</html>"

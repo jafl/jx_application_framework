@@ -1,0 +1,4 @@
+g++ -g -c 1/vartest.cc -o 1/vartest.o
+g++ -g -c 2/vartest.cc -o 2/vartest.o
+g++ -g -c vartest.cc -o vartest.o
+g++ vartest.o 1/vartest.o 2/vartest.o -o vartest

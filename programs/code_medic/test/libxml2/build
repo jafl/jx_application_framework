@@ -1,0 +1,3 @@
+g++ `xml2-config --cflags --libs` -g tree1.c -o tree1
+g++ `xml2-config --cflags --libs` -g tree2.c -o tree2
+g++ `xml2-config --cflags --libs` -g tree.cpp -o tree -I../../../../include/jcore -L../../../../lib -Xlinker -R../../../../lib -ljcore-2_5_0 -lACE-5_4_4 -DSIZEOF_LONG=4 -DSIZEOF_INT=4

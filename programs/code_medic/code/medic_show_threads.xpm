@@ -1,0 +1,22 @@
+/* XPM */
+static char * medic_show_threads[] = {
+"15 15 4 1",
+" 	c None",
+".	c #000000000000",
+"X	c #FFFF00000000",
+"o	c #00000000FFFF",
+"  .  X     o   ",
+"  .  X     o   ",
+" .   X     o   ",
+" .    X   o    ",
+"  .    X o     ",
+"  .     oX     ",
+"   . ooo  X    ",
+"    o      X   ",
+"   o .      X  ",
+"   o  .     X  ",
+"   o  .      X ",
+"    o  .     X ",
+"     o .    X  ",
+"      o     X  ",
+"      .o   X   "};

@@ -1,0 +1,26 @@
+0
+
+CMBreakpointsHelp
+
+"<html>
+<head>
+<title>Breakpoints Window</title>
+</head>
+
+To set a breakpoint, either click on the line number in a <a href=jxhelp:CMSourceWindowHelp>Source View</a> window or use the <code>break</code> or <code>tbreak</code> commands in the <a href=jxhelp:CMCommandDirHelp>Command Line</a> window.
+<p>
+To set a watchpoint, either use the \"Watch expression\" menu item or use the <code>watch</code> command in the <a href=jxhelp:CMCommandDirHelp>Command Line</a> window.
+<p>
+To set a catchpoint, use the <code>catch</code> command in the <a href=jxhelp:CMCommandDirHelp>Command Line</a> window.
+<p>
+The Breakpoints window displays a list of all the breakpoints, watchpoints, and catchpoints that you have set.  Breakpoints are also displayed in the Source View windows, to the left of the line number.
+<p>
+A single, plain breakpoint is indicated by a red dot inside a black circle.  A conditional breakpoint is drawn yellow, while a disabled breakpoint is drawn green.  If the breakpoint is temporary, there is no black circle around the colored dot.  Two concentric circles in a Source View window indicates that there is more than one breakpoint on that line.
+<p>
+To remove a breakpoint, watchpoints, or catchpoint in the Breakpoints window, click on it and press the Delete key.  To remove a breakpoint in a Source View window, click on the line number.  To remove all breakpoints, use the \"Clear all breakpoints\" menu item in any Source View window or the Breakpoints window.
+<p>
+In a Source View window, right-click on a line number to set conditions for breakpoints, to set temporary breakpoints, or to enable/disable breakpoints.
+<p>
+In the Breakpoints window, click the dot in the left-most column to enable/disable a breakpoint.  Double click the file name, line number, function, or address to open the source file.  Double click on the ignore count or condition to change it, then press Meta-Return to save the value.  You can also use the arrow keys to move the selection, and then press return to get the same result as double clicking.
+
+</html>"

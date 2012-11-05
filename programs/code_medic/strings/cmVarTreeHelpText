@@ -1,0 +1,115 @@
+0
+
+CMVarTreeHelp
+
+"<html>
+<head>
+<title> Variables Window </title>
+</head>
+
+The Variables window displays the values of variables and expressions and the contents of structures and objects.  Structures, objects, and pointers have an arrow to the left of their names.  Clicking on this arrow displays the variable's contents below its name.
+<p>
+Whenever the program pauses at a breakpoint, the values are updated automatically.  Values that have changed since the last pause are displayed in blue.  Variables and expressions that cannot be evaluated in the current context are displayed in gray.
+<p>
+There are severals ways to display a variable or expression:
+<p>
+<ul>
+<li> Use the \"New expression\" item on the Actions menu and then type in the expression in the input field that is created.
+<li> Select the expression in a <a href=jxhelp:CMSourceWindowHelp>Source View</a> window and use the \"Display variable\" item on the Debug menu.
+<li> Double click with the middle mouse button on the text in the <a href=jxhelp:CMSourceWindowHelp>Source View</a> window.
+</ul>
+<p>
+You can display the value of any arbitrary expression, not just a simple variable name.
+<p>
+To display the value of a variable in a different base, either right-click on the variable or select it and then use the Base menu.  Note that this only works for unsigned integers.
+<p>
+To change an expression that is being displayed, double click on it.  If the expression is inside a structure, it will be copied to a new line so you can edit it.
+<p>
+To change the value of a variable, double click on it.  Note that this is only appropriate for simple variables.  To edit a string, you must first display it as an array of characters.  In addition, an attempt to change the result of evaluating an expression containing mathematical operations will not succeed.  All errors are displayed in the <a href=jxhelp:CMCommandDirHelp>Command Line</a> window.
+
+<p>
+Here is the complete list of all the ways to view the contents of structures, objects, and pointers:
+
+<dl>
+<dt> Right-arrow
+<dt> Click on triangle when item is closed
+<dd> Open the item to display its contents.
+<p>
+<dt> Left-arrow
+<dt> Click on triangle when item is open
+<dd> Close the item.
+<p>
+<br>
+<dt> Meta-Right-arrow
+<dt> Meta-click on triangle when item is closed
+<dd> Open the item to display its contents and the contents of all the items that are contained within it.
+<p>
+<dt> Meta-Left-arrow
+<dt> Meta-click on triangle when item is open
+<dd> Close the item and all the items contained within it.  (If you only close the item itself, the contained items will remain open and be visible next time you open the item.)
+<p>
+<br>
+<dt> Shift-Right-arrow
+<dt> Shift-click on triangle when item is closed
+<dd> Open all items to display their contents.
+<p>
+<dt> Shift-Left-arrow
+<dt> Shift-click on triangle when item is open
+<dd> Close all items.
+</dl>
+
+The keyboard shortcuts obviously only work when one or more items are <a href=jxhelp:CMMiscHelp#MultiSelect>selected</a>.
+
+<a name=Local>
+
+<h3> Local variables </h3>
+
+Examining the variables that are local to the current function is such a common task that a separate window is used to display the values of all the currently defined local variables.  This window works exactly the same way as the Variables window, except that double clicking on a variable name always transfers it to the Variables window instead of allowing you to edit in place.
+<p>
+There is one caveat when using the Local Variables window.  Variables from enclosing blocks are displayed below the variables defined in the current block.  This is very useful for integers and other simple values.  However, if the same variable name is re-used, and it is a pointer in the outer block, then you will not be able to display the contents of the pointer while executing code in the inner block.
+
+<a name=Registers>
+
+<h3> Registers </h3>
+
+The Registers window displays the current values in all the registers.  It updates automatically as you step through code.
+
+<a name=Array1D>
+
+<h3> Examining a one dimensional array </h3>
+
+To examine the contents of a one dimensional array, select its name and then use the \"Display as 1D array\" item on the Debug menu in any Source window or the Actions menu in any Variables window.
+<p>
+The window displays the expression to be evaluated and the range of elements at the top of the window.  When you tab out of any of the input fields or press Return, the list of values is automatically adjusted to match the new expression and range.
+<p>
+If the elements in the array are structures, object, or pointers, they will each have an arrow to the left of the name, and you can use the same techniques as in the Variables window to display the contents of each item.  If you are only interested in a particular element of a structure, you can modify the expression, using <tt>$i</tt> as a placeholder for the array index.  As an example, \"<tt>x[$i].y</tt>\" will display element y for each of the items in the array x.  (If you omit <tt>[$i]</tt>, it will automatically be appended to the end of the expression.)
+
+<h3> Plotting a one dimensional array </h3>
+
+Instructions for plotting are provided in a <a href=jxhelp:CM2DPlotHelp>separate section</a>.
+
+<a name=Array2D>
+
+<h3> Examining a two dimensional array </h3>
+
+To examine the contents of a two dimensional array, select its name and then use the \"Display as 2D array\" item on the Debug menu in any Source window or the Actions menu in any Variables window.
+<p>
+The window displays the expression to be evaluated and the range of elements at the top of the window.  When you tab out of any of the input fields or press Return, the matrix of values is automatically adjusted to match the new expression and range.  It is best to restrict the range to at most 100 rows and 100 columns.  This is typically the limit of what can be displayed on a large screen, and it also takes a very long time to update so many values.
+<p>
+The window only works well if the elements are simple values.  If the elements in the array are structures, object, or pointers, you should modify the expression to focus on a particular element of the structure, using <tt>$i</tt> as a placeholder for the row index and <tt>$j</tt> as a placeholder for the column index.  As an example, \"<tt>x[$i][$j].y</tt>\" will display element y for each of the items in the array x.  (If you omit either index, it will automatically be appended to the end of the expression.)
+<p>
+As with all windows that display data, to change a value in the table, simply double click on it.
+<p>
+To transfer a value to the Variables window, hold down the Meta key while clicking on the value.
+<p>
+You can change the widths of the columns by dragging the boundary between two columns in the column header.  If you hold down the Meta key while dragging, all the columns will be set to the new width.
+
+<a name=Memory>
+
+<h3> Examining memory </h3>
+
+To examine memory, select either \"Examine memory\" or \"Disassemble memory\" from the Debug menu in any Source window or the Actions menu in any Variables window.  If you have selected an expression, it will automatically be copied to the Memory window.
+<p>
+The window displays the expression for the starting memory location, the display format, and the number of items to display.  The expression can be a function name, pointer, or raw value.  When you tab out of any of the input fields or press Return, or select a different display format, the memory dump is automatically adjusted to match the new expression, format, and item count.
+
+</html>"

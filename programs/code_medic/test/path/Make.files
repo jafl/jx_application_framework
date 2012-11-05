@@ -1,0 +1,6 @@
+-suffix .cc
+
+@test
+
+test
+literal: ${LIB_DEPS}

@@ -1,0 +1,6 @@
+code-medic: java
+main-class: test.HelloWorld
+source-path: .
+source-jar: jsonplugin-sources.jar
+ 
+garbage: invalid config option
