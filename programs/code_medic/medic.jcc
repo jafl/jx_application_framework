@@ -702,13 +702,13 @@ F
 T
 1 "jcc"
 T
-2 "shared.txt"
+2 "jcc_shared.txt"
 F
-"./JCC/shared.txt"
+"./jcc_shared.txt"
 T
 2 "CMStylerStubs.cpp"
 F
-"./JCC/CMStylerStubs.cpp"
+"./code/CMStylerStubs.cpp"
 T
 2 "CBCScanner.cpp"
 F
@@ -895,7 +895,7 @@ T "./" "./run_medic test/fortran/ftest" "" F F F F T F F "" "" "<`E>^_U-F+ei{7h1
 F
 # build settings
 1
-T
+F
 "medic"
 "${LIB_DEPS}"
 "make -k all"

@@ -164,7 +164,7 @@
 .cpp ./code/XDGetThreads
 .cpp ./code/XDVarCommand
 .cpp ./code/XDVarNode
-.cpp ./JCC/CMStylerStubs
+.cpp ./code/CMStylerStubs
 .cpp ./JCC/CBCScanner
 .l ./JCC/CBCScannerL
 .cpp ./JCC/CBCStyler
