@@ -1,0 +1,36 @@
+0
+
+GFGChanges
+
+"<html>
+
+<head>
+<title> Changes from previous versions </title>
+</head>
+
+Please send all bug reports and suggestions for features to 
+<a href=http://www.newplanetsoftware.com/nps/contact.php>New Planet Software</a>.
+<p>
+<hr>
+
+<h3> 1.0.4</h3>
+
+Work around for strange X11 behavior that could cause Code Crusader to hang when run for the first time.
+
+<h3> 1.0.3 </h3>
+
+Anti-aliased text.
+
+<h3> 1.0.2 </h3>
+
+Plays nicely with Xinerama.
+
+<h3> 1.0.1 </h3>
+
+Now installs correctly into the Start Menu in Gnome 2.
+<p>
+Fixed bug that occasionally caused a window to remain blank after switching to its desktop in Gnome 2.
+
+<h3> 1.0.0 </h3>
+
+Initial release."

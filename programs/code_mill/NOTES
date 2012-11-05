@@ -1,0 +1,93 @@
+Finds class + inheritance in header:
+
+ctags -f - --fields=kzafimns --format=2 ../../arrow/code/GMAccountList.h
+
+GMAccountList   ../../arrow/code/GMAccountList.h        /^class GMAccountList : public JXEditTable$/;"  kind:c  line:19 inherits:JXEditTable
+
+* scan through directories and build tree of class and has of names that point to   
+  classes. 
+  - Save for reference. only save name, file
+  - Check directory times.
+
+* --c-types=-mf gives only classes
+* --c-types=p gives only member functions
+* -n gives line numbers, w/out regexes
+
+* with ctags -f - -n --fields=kzafimns --format=2 --c-types=p GFGMemberFunction.h
+
+class->file->line#;"->kind:p->line:line#->class:classname->access:(public|protected|private)
+
+ where -> denotes a tab
+
+* additional class (multiple inheritance) added in ptrarray
+
+* tree view 
+  - derive from element in tree
+  - starting from node, scan up tree for available public/protected virtual functions 
+  - c-types=p gives all functions
+  - allow new baseless class
+
+Dialog:
+
+* class name input
+* is child class checkbox (ie. JBroadcaster::Message)
+  - only display results, don't build file - user insertion
+* file name
+* derived from (input ? - no) (set after above)
+* list of overridable functions, check to select
+* template for src/hdr ? not needed for version 1
+* if exists, only display results in an editor, otherwise create files.
+* list of new funtions w/ args
+* list of vars
+* list of headers to include w/choose button
+* lists like filter header in arrow
+* include base class calls in src
+
+Tree steps:
+
+* build tree
+* parse given files and build list
+  - need available virtual functions
+  - find full extent (including return value on preceding line)
+  - parse args ([^,]*)
+
+Library:
+
+* data object
+  x name
+  x access - color coded, italicized for pure virtual
+  x interface
+  x args - JPtrArray<JString>
+  x required (bool) for pure virtual
+
+* collection
+  x base class and all ancestors, for includes and class definition
+  x set base/base file
+  x add ancestor/file
+  x insert sorted, omitting duplicates
+    x sort function
+  x write
+    x default constructors as private
+    x use str mgr with templates
+  x parse
+    x Parse(filelist ?) function
+    x ace object to read/write - see xoctave - should parse?
+    x parse ctags output line and create corresponding data object
+    x parse interface
+    x parse arguments
+    x cout for test
+
+* director
+  x table to display function
+  x result class name/ file name
+  x reads file from arglist with 
+    version
+    count
+    read base/file, ancestor/file...
+  x check fields before generate
+
+* jcc mods
+  - CBSymbolDirector::BuildAncestorList
+  - CBClass knows file name & parent
+  - CBTree::GetSelectedClasses
+  

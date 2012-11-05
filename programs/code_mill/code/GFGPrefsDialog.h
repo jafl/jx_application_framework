@@ -1,0 +1,69 @@
+/******************************************************************************
+ GFGPrefsDialog.h
+
+	Copyright © 2002 by New Planet Software. All rights reserved.
+
+ ******************************************************************************/
+
+#ifndef _H_GFGPrefsDialog
+#define _H_GFGPrefsDialog
+
+#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
+#pragma once
+#endif
+
+#include <JXDialogDirector.h>
+#include <JString.h>
+
+class JXInputField;
+class JXTextButton;
+
+class GFGPrefsDialog : public JXDialogDirector
+{
+public:
+
+	GFGPrefsDialog(JXDirector* supervisor, 
+					const JString& header,
+					const JString& source,
+					const JString& constructor,
+					const JString& destructor,
+					const JString& function);
+
+	virtual	~GFGPrefsDialog();
+
+	void	GetValues(JString* header, JString* source,
+					  JString* constructor, JString* destructor,
+					  JString* function);
+
+protected:
+
+	virtual JBoolean	OKToDeactivate();
+
+private:
+
+// begin JXLayout
+
+	JXInputField* itsHeaderInput;
+	JXInputField* itsSourceInput;
+	JXInputField* itsConstructorInput;
+	JXInputField* itsDestructorInput;
+	JXInputField* itsFunctionInput;
+	JXTextButton* itsHelpButton;
+
+// end JXLayout
+
+private:
+
+	void	BuildWindow(const JString& header,
+						const JString& source,
+						const JString& constructor,
+						const JString& destructor,
+						const JString& function);
+
+	// not allowed
+
+	GFGPrefsDialog(const GFGPrefsDialog& source);
+	const GFGPrefsDialog& operator=(const GFGPrefsDialog& source);
+};
+
+#endif

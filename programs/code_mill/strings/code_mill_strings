@@ -1,0 +1,224 @@
+0
+
+VERSION		"1.0.4"
+
+COPYRIGHT
+"Copyright © 2002-2011 John Lindal.  All rights reserved.
+
+This software is subject to the license agreement set forth in the license (refer to the on-line help).
+
+Code Mill and New Planet Software are trademarks of John Lindal.
+
+http://www.newplanetsoftware.com/"
+
+VERSION_URL		"http://newplanetsoftware.com/code_mill/VERSION"
+DOWNLOAD_URL	"http://newplanetsoftware.com/nps/downloads.php"
+
+# overrides
+
+JRemindNewVersion
+"An improved version of this program ($vers) is available for download from $site.
+
+Would you like to go there now to download it?
+
+(If you do not see the new version after you log in, then the upgrade requires a new license.  You will receive a discount code via email.)"
+
+# gfgGlobals
+
+Description::gfgGlobals
+"Code Mill $version
+
+Program description
+
+$copyright"
+
+# GFGMDIServer
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+CommandLineHelp::GFGMDIServer
+"Code Mill $vers
+
+http://www.newplanetsoftware.com/code_mill/
+
+This program requires the X Window System.
+
+Usage:
+
+--help         prints this help
+--version      prints version information
+--delete       input files will be deleted once they have been processed
+--output_path  <path>:  sets initial value of output path"
+
+#2345678901234567890123456789012345678901234567890123456789012345678901234567890
+
+# GFGPrefsDialog
+
+WindowTitle::GFGPrefsDialog "Preferences"
+
+# GFGAboutDialog
+
+WindowTitle::GFGAboutDialog		"About"
+ChangeButtonLabel::GFGAboutDialog	"Changes"
+
+UpgradeNotice::GFGAboutDialog
+"
+
+
+You have just upgraded from version $vers"
+
+HEADER_COMMENT
+
+"/******************************************************************************
+ $class.h
+
+	Interface for the $class class
+
+	Copyright © 2002 by Glenn W. Bach.  All rights reserved.
+	
+ *****************************************************************************/
+
+#ifndef _H_$class
+#define _H_$class
+
+$basefile
+
+class $class : public $base
+{
+public:
+
+"
+
+SOURCE_COMMENT
+
+"/******************************************************************************
+ $class.cc
+
+	<Description>
+
+	BASE CLASS = public $base
+
+	Copyright © 2002 by Glenn W. Bach.  All rights reserved.
+	
+ *****************************************************************************/
+
+#include <$class.h>
+
+/******************************************************************************
+ Constructor
+
+ *****************************************************************************/
+
+$class::$class()
+	:
+$constructs
+{
+}
+
+/******************************************************************************
+ Destructor
+
+ *****************************************************************************/
+
+$class::~$class()
+{
+}
+
+"
+
+FUNCTION_COMMENT
+
+"/******************************************************************************
+ $function (virtual $access)
+
+ *****************************************************************************/
+
+"
+
+CLASS_COPYRIGHT
+
+"Copyright © $year by $author.  All rights reserved."
+
+CLASS_HEADER_COMMENT
+
+"/******************************************************************************
+ $class.h
+
+	Interface for the $class class
+
+	$copyright
+	
+ *****************************************************************************/
+"
+
+CLASS_SOURCE_COMMENT
+
+"/******************************************************************************
+ $class.cc
+
+	<Description>
+
+	BASE CLASS = $base
+
+	$copyright
+	
+ *****************************************************************************/
+"
+
+CLASS_CONSTRUCTOR_COMMENT
+
+"/******************************************************************************
+ Constructor
+
+ *****************************************************************************/
+"
+ 
+CLASS_DESTRUCTOR_COMMENT
+
+"/******************************************************************************
+ Destructor
+
+ *****************************************************************************/
+"
+
+CLASS_FUNCTION_COMMENT
+
+"/******************************************************************************
+ $function (virtual $access)
+
+ *****************************************************************************/
+
+"
+
+CLASS_HEADER_START
+
+"
+#ifndef _H_$class
+#define _H_$class
+
+$basefile
+
+class $class : $base
+{
+public:
+
+"
+
+CLASS_CONSTRUCTOR_DATA
+
+"
+$class::$class()
+	:
+$constructs
+{
+}
+
+"
+
+CLASS_DESTRUCTOR_DATA
+
+"
+$class::~$class()
+{
+}
+
+"

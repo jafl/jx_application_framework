@@ -1,0 +1,11 @@
+Package: code-mill
+Version: 1.0.4
+Maintainer: New Planet Software <http://www.newplanetsoftware.com/nps/contact.php>
+Homepage: http://www.newplanetsoftware.com/code_mill/
+Section: non-free/devel
+Priority: optional
+Architecture: i386
+Essential: no
+Depends: libx11-6, libxext6, libxpm4, libxau6, libxml2, libstdc++6
+Description: Code Mill is a Code Crusader plug-in for creating C++ derived classes.
+ Code Mill is a Code Crusader plug-in for creating C++ derived classes.
