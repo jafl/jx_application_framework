@@ -75,17 +75,3 @@ include ${JX_ROOT}/include/make/jx_targets
 strings:
 	compile_jstrings ${J_STRING_FILES} \
       --code kTutorialStringData TutorialStringData.h
-
-#
-# JX source distribution (DISTR_TAR_FILE)
-#
-
-SRC_FILE_DIR := ${JX}/tutorial
-
-.PHONY : jxsource
-jxsource:
-	@cd ${J_DISTR_TAR_DIR}; \
-     ${TAR} -rf ${DISTR_TAR_FILE} ${filter-out %.o %~ Makefile, \
-                                    ${shell cd ${J_DISTR_TAR_DIR}; echo \
-             ${addprefix ${SRC_FILE_DIR}/, README Make.*} \
-             ${SRC_FILE_DIR}/*/* }}

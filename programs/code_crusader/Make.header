@@ -39,7 +39,6 @@ RPM_LIB_PATH := /usr/lib/${SIGNATURE}
 
 J_STRING_FILES := ${JCC_STRING_FILES}
 
-include ${JX_ROOT}/include/make/nps_constants
 include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jfs_constants
 include ${JX_ROOT}/include/make/jx_config

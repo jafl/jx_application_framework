@@ -33,7 +33,6 @@ J_STRING_FILES    := ${filter-out %~, \
 include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jcal_constants
 include ${JX_ROOT}/include/make/jx_config
-include ${JX_ROOT}/include/make/nps_constants
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} ${J_COMPILE_DEBUG} ${SEARCHDIRS} 
 

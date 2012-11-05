@@ -67,33 +67,6 @@ static:
 	@${BEGIN_ACE_MAKE} ${ACE_DEBUG} ${ACE_MAKE_FLAGS} shared_libs=0 static_libs=1 ${END_ACE_MAKE}
 
 #
-# JX source distribution (DISTR_TAR_FILE)
-#
-
-SRC_FILE_DIR := ${JX}/ACE
-
-EXTRA_ACE_FILES := ${ACE_VERSION} VERSION ACE-INSTALL* docs/ \
-                   AUTHORS README COPYING PROBLEM-REPORT-FORM \
-                   bin/ace_components etc/ 
-
-.PHONY : jxsource
-jxsource:
-	@cd ${J_DISTR_TAR_DIR}; \
-     ${TAR} -rf ${DISTR_TAR_FILE} \
-                ${SRC_FILE_DIR}/README \
-                ${SRC_FILE_DIR}/Makefile \
-                ${JX}/lib/libACE-${ACE_LIB_VERSION}.* \
-                ${JX}/lib/libACE.so.${ACE_VERSION} \
-                ${addprefix ${SRC_FILE_DIR}/ACE_wrappers/, ${EXTRA_ACE_FILES} }
-	@cd ${J_DISTR_TAR_DIR}; \
-     ${TAR} -rf ${DISTR_TAR_FILE} ${filter-out %.a %.so %~ %/ace/config.h, \
-                                    ${shell cd ${J_DISTR_TAR_DIR}; echo \
-             ${SRC_FILE_DIR}/ACE_wrappers/bin/* \
-             ${SRC_FILE_DIR}/ACE_wrappers/ace/* \
-             ${SRC_FILE_DIR}/ACE_wrappers/include/makeinclude/* }};
-	@cd test; ${MAKE} jxsource
-
-#
 # remove object files
 #
 

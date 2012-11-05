@@ -44,7 +44,6 @@ RPM_LIB_PATH := /usr/lib/${SIGNATURE}
 
 J_STRING_FILES := ${MEDIC_STRING_FILES}
 
-include ${JX_ROOT}/include/make/nps_constants
 include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/j2dplot_constants
 include ${JX_ROOT}/include/make/jexpr_constants

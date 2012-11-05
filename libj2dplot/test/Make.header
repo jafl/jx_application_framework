@@ -88,21 +88,6 @@ stringdb:
 testj2dplot:: strings
 
 #
-# source distribution (SRC_TAR_FILE)
-#
-
-SRC_FILE_DIR := ${JX}/libj2dplot/test
-
-.PHONY : source
-source:
-	@cd ${J_DISTR_TAR_DIR}; \
-     ${TAR} -rf ${SRC_TAR_FILE} ${filter-out %.o %~, \
-                                  ${shell cd ${J_DISTR_TAR_DIR}; echo \
-             ${addprefix ${SRC_FILE_DIR}/, \
-               Make.* *.jcc *.fd \
-               code/* ${MY_STRING_FILES} }}}
-
-#
 # debugging version
 #
 

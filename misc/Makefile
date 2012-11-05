@@ -5,18 +5,6 @@ include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jx_config
 
 #
-# JX source distribution (DISTR_TAR_FILE)
-#
-
-SRC_DIRS := ${addprefix ${JX}/misc/, \
-              ${wildcard *} }
-
-.PHONY : jxsource
-jxsource: clean
-	@cd ${J_DISTR_TAR_DIR}; \
-     ${TAR} -rf ${DISTR_TAR_FILE} ${SRC_DIRS} ${JX}/lib/libXpm.*
-
-#
 # remove object files
 #
 

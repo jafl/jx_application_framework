@@ -73,20 +73,6 @@ touch::
 	@cd ${JCORELIBDIR}; ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch
 
 #
-# JX source distribution (DISTR_TAR_FILE)
-#
-
-SRC_FILE_DIR := ${JX}/ACE/test
-
-.PHONY : jxsource
-jxsource:
-	@cd ${J_DISTR_TAR_DIR}; \
-     ${TAR} -rf ${DISTR_TAR_FILE} ${filter-out %.o %~, \
-                                    ${shell cd ${J_DISTR_TAR_DIR}; echo \
-             ${addprefix ${SRC_FILE_DIR}/, Make.* *.jcc README} \
-             ${SRC_FILE_DIR}/code/* }}
-
-#
 # debugging version
 #
 

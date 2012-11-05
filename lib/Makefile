@@ -102,58 +102,6 @@ personal:
        ${BEGIN_DIR}; ${MAKE} personal; ${END_DIR};}
 
 #
-# source distribution
-#
-
-SRC_TAR_FILE := JX_source-${JX_VERSION}.tar
-
-.PHONY : jxsource
-jxsource:
-	@cd ${J_DISTR_TAR_DIR}; \
-     ${TAR} -cf ${SRC_TAR_FILE} ${JX}/README ${JX}/FAQ ${JX}/CHANGES \
-                                ${JX}/LICENSE ${JX}/COPYING \
-                                ${JX}/INSTALL ${JX}/Makefile ${JX}/*.dsw ${JX}/*.bat
-
-	@${foreach dir, \
-          ${JX_CORE_LIBS} ../ACE/ ../tutorial/ ../misc/ ${DISTR_PROGS} \
-          ${filter-out %/CVS/., ${wildcard ./util/*/.}}, \
-       ${BEGIN_DIR}; \
-       ${MAKE} DISTR_TAR_FILE=${SRC_TAR_FILE} jxsource; \
-       ${END_DIR}; }
-
-	@cd ${J_DISTR_TAR_DIR}; \
-     ${TAR} -rf ${SRC_TAR_FILE} ${filter-out %~, \
-                                ${shell cd ${J_DISTR_TAR_DIR}; echo \
-             ${JX}/doc/ \
-             ${JX}/include/missing_proto/* \
-             ${JX}/include/make/jx_constants \
-             ${JX}/include/make/nps_constants \
-             ${JX}/include/make/jx_config_common \
-             ${JX}/include/make/jx_targets \
-             ${JX}/include/make/default_lib_target \
-             ${JX}/include/make/sys/* \
-             ${addprefix ${JX}/lib/, \
-               Makefile* \
-               util/j_has_ace.c \
-               ${filter-out util/encode_site_name, \
-                            ${shell grep -l /usr/bin/perl util/*}} } }}; \
-     gzip ${SRC_TAR_FILE}
-
-.PHONY : libsource
-libsource: jxsource
-	@${foreach dir, \
-          ${filter-out ${JX_CORE_LIBS} ${DISTR_PROGS}, \
-            ${wildcard ../lib?*/.}}, \
-       ${BEGIN_DIR}; ${MAKE} source; ${END_DIR};}
-
-.PHONY : source
-source: jxsource
-	@${foreach dir, \
-          ${filter-out ${JX_CORE_LIBS} ${DISTR_PROGS}, \
-            ${wildcard ../lib?*/. ../programs/*/.}}, \
-       ${BEGIN_DIR}; ${MAKE} source; ${END_DIR};}
-
-#
 # Release
 #
 # leibnitz is last so it can fail silently
@@ -161,33 +109,13 @@ source: jxsource
 
 RELEASE_PROGS := ${addprefix ../programs/, \
                    code_crusader code_medic code_mill svn_client \
-                   drakon glove leibnitz ssh_askpass systemg }
+                   drakon glove ssh_askpass systemg leibnitz }
 
 .PHONY : release
 release:
 	@if ! test -e ../ACE/ACE_wrappers/${ACE_VERSION}; then echo 'Wrong ACE version!'; false; fi
 	@${foreach dir, ${RELEASE_PROGS}, \
        ${BEGIN_DIR}; ${MAKE} release; ${END_DIR}; }
-
-#
-# Demo
-#
-
-DEMO_PROGS := ${addprefix ../programs/, \
-                code_crusader}
-
-.PHONY : demo
-demo:
-	@${foreach dir, ${DEMO_PROGS}, \
-       ${BEGIN_DIR}; ${MAKE} demo; ${END_DIR}; }
-
-DEMO_LIMIT_PROGS := ${addprefix ../programs/, \
-                      code_crusader code_medic svn_client}
-
-.PHONY : demo_limit
-demo_limit:
-	@${foreach dir, ${DEMO_LIMIT_PROGS}, \
-       ${BEGIN_DIR}; ${MAKE} demo_limit; ${END_DIR}; }
 
 #
 # clean up
