@@ -1,0 +1,12 @@
+Package: nps-svn-client
+Version: 1.1.0
+Maintainer: New Planet Software <http://www.newplanetsoftware.com/nps/contact.php>
+Homepage: http://www.newplanetsoftware.com/svn_client/
+Section: non-free/vcs
+Priority: optional
+Architecture: i386
+Essential: no
+Depends: libx11-6, libxext6, libxpm4, libxau6, libxml2, libstdc++6
+Suggests: code-crusader
+Description: NPS Subversion Client provides a simple, graphical Subversion client.
+ NPS Subversion Client provides a simple, graphical Subversion client.

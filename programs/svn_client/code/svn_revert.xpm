@@ -1,0 +1,22 @@
+/* XPM */
+static char * svn_revert[] = {
+"14 13 6 1",
+"  c None",
+". c #000000",
+"# c #c0c0c0",
+"a c #ffffff",
+"b c #dcdcdc",
+"c c #808080",
+"    .......   ",
+"    .aaaabb.  ",
+"    .aaaa#ab. ",
+"    .aaaa#aab.",
+"    .aaaa#....",
+"    .a....c##.",
+".   ..aaaa.ca.",
+".. ..aaaaaa.a.",
+"... .aaaaaa.a.",
+".....aaaaaa.a.",
+".....aaaaa.ca.",
+"    .aaaac.aa.",
+"    .........."};

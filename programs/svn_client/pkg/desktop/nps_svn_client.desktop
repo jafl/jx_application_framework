@@ -1,0 +1,9 @@
+[Desktop Entry]
+Categories=Development;RevisionControl;X-Red-Hat-Base;
+Name=NPS Subversion Client
+Comment=NPS Subversion Client
+Icon=nps_svn_client.xpm
+Exec=nps_svn_client
+Type=Application
+Terminal=0
+MapNotify=true

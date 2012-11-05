@@ -1,0 +1,21 @@
+/* XPM */
+static char * svn_repo_busy_selected[] = {
+"15 15 3 1",
+" 	c None",
+".	c black",
+"X	c gray60",
+"     ....      ",
+"     ....      ",
+"     ....      ",
+"     ....      ",
+"    .XXXX.     ",
+"   .XXX.XX.    ",
+"   .XXX.XX..   ",
+"   .XXX..X..   ",
+"   .XXXXXX.    ",
+"    .XXXX.     ",
+"     ....      ",
+"     ....      ",
+"     ....      ",
+"     ....      ",
+"               "};

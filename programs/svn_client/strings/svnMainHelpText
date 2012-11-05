@@ -1,0 +1,78 @@
+0
+
+SVNMainHelp
+
+"<html>
+
+<head>
+<title> Main Window </title>
+</head>
+
+<h3>Main Window</h3>
+
+A window can be opened for either a remote repository or a local working copy.  In the former case, the window will start one tab, \"Repo\", which shows the contents of the repository.  In the latter case, the window will start two tabs, \"Repo\" and \"Status\".  The second tab shows the output from <code>svn status</code>.
+<p>
+Use the File menu to open a new window with either a remote repository or a local working copy.
+
+<h3>Repo Tab</h3>
+
+This tab displays the contents of the remote repository.
+<p>
+Click on an item to select it.  Ctrl-click or Shift-click to select additional items.
+<p>
+To rename an existing item, click on the name.  The Actions menu allows creations of new directories and removal or duplication of selected items.
+<p>
+If the window is linked to a local working copy, you can find the corresponding file on disk by selecting an item and then invoking \"Show selected files in file manager\" on the File menu.
+<p>
+The Info menu lets you view the commit history of an item, the properties set on an item, and the differences between the current and previous contents of the item.
+<p>
+If you select an item and then invoke \"Copy full path\" on the Edit menu, the full repository URL of the selected item will be placed on the clipboard.
+<p>
+Right-clicking on an item gives a menu of the most common actions.
+<p>
+Use \"Refresh display\" on the Actions menu to update the list after somebody else commits to the repository.  The list is automatically updated when you commit from the Status tab.
+
+<h3>Status Tab</h3>
+
+This tab displays all the uncommitted changes in the local working copy.  New files are displayed in blue.  Deleted files are displayed with strike-through.  Unmanaged files are displayed in gray.  Conflicts and missing files are displayed in red.
+<p>
+Click on an item to select it.  Ctrl-click or Shift-click to select additional items.
+<p>
+The Actions menu lets you perform Subversion actions on the selected items.  The Info menu lets you analyze commit history, view properties, and compare with previous revisions.  (Code Crusader provides a more general interface to <code>svn diff</code>.)
+<p>
+You can find the corresponding file on disk by selecting an item and then invoking \"Show selected files in file manager\" on the File menu.
+<p>
+If you select an item and then invoke \"Copy full path\" on the Edit menu, the full path to the selected item will be placed on the clipboard.  Invoking \"Copy\" on the Edit menu places the relative path to the item on the clipboard.
+<p>
+Right-clicking on an item gives a menu of the most common actions.  Note that the \"Ignore...\" item places the name of the selected item on the clipboard, so you can paste it into the Subversion properties editor.
+<p>
+Use \"Refresh display\" on the Actions menu to update the list after you make changes to your working copy.
+
+<h3>Commit Tab</h3>
+
+A new Commit tab is created every time you commit changes from the Status tab.  The Commit tab shows the output of <code>svn commit</code>.  You can close the tab by clicking the red [x] that appears when you move the mouse over the tab.
+
+<h3>Log/Info Tab</h3>
+
+A new Log/Info tab is created every time you invoke \"Info &amp; Log\" on the Info menu.  This shows the output of <code>svn info</code> and <code>svn log</code>.  You can close the tab by clicking the red [x] that appears when you move the mouse over the tab.
+<p>
+If you right-click on the revision number in the upper left corner of a log entry, you can quickly compare the selected revision with other, common revisions and also get details on what was committed.
+<p>
+The right-click menu also provides a shortcut to browse the repository as it appeared in that revision.
+<p>
+You can copy text from this tab by selecting it and then invoking \"Copy\" on the Edit menu.
+<p>
+Use \"Refresh display\" on the Actions menu to update the list after you or somebody else commits to the repository.
+
+<h3>Properties Tab</h3>
+
+A new Properties tab is created every time you invoke \"Properties\" on the Info menu.  This shows the output of <code>svn proplist</code>.  You can close the tab by clicking the red [x] that appears when you move the mouse over the tab.
+<p>
+Special properties, e.g., svn:ignore, are displayed in bold.
+<p>
+Double click a property to edit it.  Create a new property by using the \"New property...\" item on the Actions menu.  Remove an existing property by selecting it and then invoking \"Remove selected properties...\" on the Actions menu.
+
+<h3>Clean Up Tab</h3>
+
+A new Clean Up tab is created if a commit fails.  This displays the output (usually nothing) from <code>svn cleanup</code>.  You can close the tab by clicking the red [x] that appears when you move the mouse over the tab.
+"

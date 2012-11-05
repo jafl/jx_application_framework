@@ -1,0 +1,33 @@
+
+Installing NPS Subversion Client:
+
+The easiest way to install is to run:  sudo ./install
+
+Otherwise, the program (nps_svn_client) needs to be placed in a directory
+that is on your execution path.  /usr/bin or ~/bin are usually good
+choices.  Copy the libraries in lib/ to a directory on your
+LD_LIBRARY_PATH.
+
+
+
+Running NPS Subversion Client:
+
+If the program crashes or if you find other bugs, please check the web page
+first to see if they have already been reported.
+
+On OS X, this program requires XQuartz, the X11 server.  Before running
+this program, you must first start XQuartz.
+
+
+
+Notes on NPS Subversion Client:
+
+This X application provides a simple interface for performing common
+subversion tasks, e.g., updating from the repository and checking in to the
+repository.
+
+
+The main Web page for NPS Subversion Client is
+
+    http://www.newplanetsoftware.com/svn_client/
+

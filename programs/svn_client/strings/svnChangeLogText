@@ -1,0 +1,42 @@
+0
+
+SVNChanges
+
+"<html>
+
+<head>
+<title> Changes from previous versions </title>
+</head>
+
+Please send all bug reports and suggestions for features to 
+<a href=http://www.newplanetsoftware.com/nps/contact.php>New Planet Software</a>.
+<p>
+<hr>
+
+<h3>1.2</h3>
+
+Added drag-and-drop on the Repo tab for tagging and branching.
+
+<h3>1.1</h3>
+
+Added Check Out items on File menu.
+<p>
+Added history menu in \"Browse Repository\" dialog, so you don't have to re-type frequently accessed URL's.
+<p>
+When you ask to browse a repository that is contained inside an existing window's repository, the sub-repository will be opened in the Repo tab.
+
+<h3>1.0.3</h3>
+
+Work around for strange X11 behavior that could cause Code Crusader to hang when run for the first time.
+
+<h3>1.0.2</h3>
+
+Anti-alised text.
+
+<h3>1.0.1</h3>
+
+Fixed crash when command line action is invoked while Subversion is busy.
+
+<h3>1.0</h3>
+
+Initial release."

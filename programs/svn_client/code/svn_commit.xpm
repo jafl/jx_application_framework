@@ -1,0 +1,21 @@
+/* XPM */
+static char * svn_commit[] = {
+"14 13 5 1",
+"  c None",
+". c #000000",
+"# c #c0c0c0",
+"a c #ffffff",
+"b c #dcdcdc",
+"    .......   ",
+"    .aaaabb.  ",
+"    .aaaa#ab. ",
+"    .aaaa#aab.",
+"    .aaaa#....",
+"  ...aaaaa###.",
+" .. .aaaaaaaa.",
+"..........aaa.",
+"..........aaa.",
+" .. .aaaaaaaa.",
+"  ...aaaaaaaa.",
+"    .aaaaaaaa.",
+"    .........."};

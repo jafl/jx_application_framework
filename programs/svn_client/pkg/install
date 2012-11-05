@@ -1,0 +1,40 @@
+#!/bin/sh
+
+# With no arguments, this script must install from an unpacked tgz.
+
+PRE=$1
+ZIP=$2
+
+BIN=$PRE/usr/bin
+DOC=$PRE/usr/share/doc/nps_svn_client
+LIB=$PRE/usr/lib/nps_svn_client
+APP=$PRE/usr/share/applications
+ICON=$PRE/usr/share/pixmaps
+
+if { test ! -z $PRE; } then
+	{
+	mkdir -p $BIN $APP $ICON;
+	}
+fi
+
+# nps_svn_client
+
+install -m755 nps_svn_client $BIN
+
+mkdir -p $LIB
+cp lib/* $LIB
+
+mkdir -p $DOC/HTML
+cp README FAQ COPYING menu_strings $DOC
+cp docs_HTML/*                     $DOC/HTML
+
+cp desktop/nps_svn_client.desktop $APP/
+cp desktop/nps_svn_client.xpm     $ICON/
+
+# post
+
+if { test -z "$ZIP"; } then
+	{
+	gunzip $LIB/*.gz;
+	}
+fi

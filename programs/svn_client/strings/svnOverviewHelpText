@@ -1,0 +1,24 @@
+0
+
+SVNOverviewHelp
+
+"<html>
+
+<head>
+<title> Overview of NPS Subversion(R) Client </title>
+</head>
+
+<h3>Overview</h3>
+
+This programs simplifies the most common Subversion tasks:
+
+<ul>
+<li> Retrieving updates
+<li> Managing and committing changes
+<p>
+<li> Analyzing change history
+<li> Comparing revisions
+<p>
+<li> Browsing the central repository
+</ul> 
+"
