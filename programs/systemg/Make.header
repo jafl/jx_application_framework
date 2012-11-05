@@ -122,23 +122,6 @@ jxuninstall:
 	@${RM} ${JX_INSTALL_ROOT}/systemg
 
 #
-# source distribution
-#
-
-SRC_TAR_FILE := System_G_source-${SYSTEMG_VERSION}.tgz
-SRC_FILE_DIR := ${JX}/programs/systemg
-
-.PHONY : source
-source:
-	@cd ${J_DISTR_TAR_DIR}; \
-     ${TAR} -czf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cpp %Y.cpp, \
-                                   ${shell cd ${J_DISTR_TAR_DIR}; echo \
-              ${addprefix ${SRC_FILE_DIR}/, \
-                README COPYING FAQ Make.* *.jcc *.fd \
-                text/* pkg test \
-                code/* strings/* }}}
-
-#
 # binary distributions
 #
 
@@ -153,16 +136,10 @@ DEB_CTRL_FILE := ./pkg/systemg.debctrl
 DEB_PKG_FILE  := systemg_${SYSTEMG_VERSION}_i386.deb
 
 .PHONY : release
-release: pre_build_pkgs static
-	@${MAKE} SYG_DISTR_TAR_FILE=${SYG_RELEASE_TAR_NAME} distr_sub
-
-# distr_sub (SYG_DISTR_TAR_FILE)
-
-.PHONY : distr_sub
-distr_sub: menu_strings
+release: pre_build_pkgs static menu_strings
 	@${MAKE} PKG_PATH=${SYG} DOC_NAME="System G" DOC_HEADER=code/SyGHelpText.h init_tarball
 	@ln -s ../${call EXE,systemg} ${SYG}/${call EXE,systemg}
-	@${MAKE} PKG_PATH=${SYG} SOURCE_TAR_NAME=${SYG_DISTR_TAR_FILE} build_pkgs
+	@${MAKE} PKG_PATH=${SYG} SOURCE_TAR_NAME=${SYG_RELEASE_TAR_NAME} build_pkgs
 
 #
 # debugging version
@@ -188,33 +165,6 @@ static: debug
 .PHONY : personal
 personal: static
 	@cp systemg ${HOME}/bin/
-
-#
-# development backups
-#
-
-.PHONY : zip
-zip: source
-	@cd ${J_DISTR_TAR_DIR}; \
-	 cp ${SRC_TAR_FILE} /mnt/zip
-
-.PHONY : upgrade
-upgrade:
-	@${MAKE} "SRC_TAR_FILE=SystemG_source_upgrade-${SYSTEMG_VERSION}.tar.gz" "J_DISTR_TAR_DIR=${J_DISTR_TAR_DIR}/${JX}" "SRC_FILE_DIR=programs/systemg" source
-
-DATE := ${shell date '+%-m%d'}
-		
-.PHONY : backup
-backup:
-	@${MAKE} "SRC_TAR_FILE=systemg.${DATE}.tgz" source
-
-.PHONY : changes
-changes:
-	@tar -czf systemg.changes.${DATE}.tgz ${shell savechanges}
-
-.PHONY : rmchanges
-rmchanges:
-	@rm ${shell findchanges}
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

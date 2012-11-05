@@ -97,16 +97,6 @@ jxuninstall:
 	@${RM} ${JX_INSTALL_ROOT}/wiz ${JX_INSTALL_ROOT}/war
 
 #
-# source distribution
-#
-
-SRC_TAR_FILE := wizwar_source-${WIZWAR_VERSION}.tar.gz
-SRC_FILE_DIR := ${JX}/programs/wizwar
-
-.PHONY : source
-source:
-
-#
 # debugging version
 #
 

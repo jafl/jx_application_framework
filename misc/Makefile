@@ -29,3 +29,4 @@ clean::
                ${wildcard ./*/.}, \
                cd ${dir}; ${MAKE} clean > /dev/null; cd ${MAKE_DIR};}
 	@rm -f pcre-8.10/Makefile pcre-8.10/libtool gd/*.o
+	@cd ctags; ${MAKE} distclean > /dev/null

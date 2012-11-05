@@ -109,21 +109,6 @@ jxuninstall:
 	@${RM} ${JX_INSTALL_ROOT}/${PROG_NAME}
 
 #
-# JX source distribution
-#
-
-SRC_FILE_DIR := ${JX}/programs/jx_memory_debugger
-
-.PHONY : jxsource
-jxsource:
-	@cd ${J_DISTR_TAR_DIR}; \
-     ${TAR} -rf ${DISTR_TAR_FILE} ${filter-out %.o %~, \
-                                    ${shell cd ${J_DISTR_TAR_DIR}; echo \
-              ${addprefix ${SRC_FILE_DIR}/, \
-                README Make.* *.jcc *.fd \
-                code/* strings/* } }}
-
-#
 # debugging version
 #
 

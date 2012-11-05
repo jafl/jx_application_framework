@@ -109,22 +109,6 @@ jxuninstall:
 	@${RM} ${JX_INSTALL_ROOT}/${PROG_NAME}
 
 #
-# source distribution
-#
-
-SRC_TAR_FILE := Buzzer_source-${PROG_VERSION}.tar.gz
-
-.PHONY : source
-source:
-	@cd ${J_DISTR_TAR_DIR}; \
-     tar -czf ${SRC_TAR_FILE} ${filter-out %.o %~, \
-                                 ${shell cd ${J_DISTR_TAR_DIR}; echo \
-             ${addprefix ${SRC_FILE_DIR}/, \
-               LICENSE README.* Make.* *.announce *.spec ToDo \
-               code/* *.jcc *.fd *.lsm strings/* rpm/* desktop/* }}}
-	@mv ${J_DISTR_TAR_DIR}/${SRC_TAR_FILE} ${J_DISTR_TAR_DIR}/Archive/Latest
-
-#
 # debugging version
 #
 

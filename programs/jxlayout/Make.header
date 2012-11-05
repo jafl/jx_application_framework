@@ -67,19 +67,6 @@ Makefiles:
 include ${JX_ROOT}/include/make/jx_targets
 
 #
-# JX source distribution (DISTR_TAR_FILE)
-#
-
-SRC_FILE_DIR := ${JX}/programs/jxlayout
-
-.PHONY : jxsource
-jxsource:
-	@cd ${J_DISTR_TAR_DIR}; \
-     ${TAR} -rf ${DISTR_TAR_FILE} ${addprefix ${SRC_FILE_DIR}/, \
-                README Make.header Make.files \
-                ${SCRIPTS} jxlayout.cpp ${DATA_FILES}}
-
-#
 # install binaries
 #
 

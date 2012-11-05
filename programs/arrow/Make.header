@@ -125,23 +125,6 @@ jxuninstall:
 	@${RM} ${JX_INSTALL_ROOT}/arrow
 
 #
-# source distribution
-#
-
-SRC_TAR_FILE := Arrow_source-${ARROW_VERSION}.tar.gz
-SRC_FILE_DIR := ${JX}/programs/arrow
-
-.PHONY : source
-source:
-	@cd ${J_DISTR_TAR_DIR}; \
-     ${TAR} -czf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cc %Y.cc, \
-                                   ${shell cd ${J_DISTR_TAR_DIR}; echo \
-             ${addprefix ${SRC_FILE_DIR}/, \
-               README COPYING FAQ *Todo Make.* *.jcc *.fd pkg \
-               code/* MailTree/* ABTree/* strings/* tests/* "Arrow*Notes" \
-               rfc*.txt }}}
-
-#
 # Binary distributions
 #
 
@@ -156,16 +139,10 @@ DEB_CTRL_FILE := ./pkg/arrow.debctrl
 DEB_PKG_FILE  := arrow_${ARROW_VERSION}_i386.deb
 
 .PHONY : release
-release: pre_build_pkgs static
-	@${MAKE} PROG_DISTR_TAR_FILE=${PROG_RELEASE_TAR_NAME} distr_sub
-
-# distr_sub (PROG_DISTR_TAR_FILE)
-
-.PHONY : distr_sub
-distr_sub: menu_strings
+release: pre_build_pkgs static menu_strings
 	@${MAKE} PKG_PATH=${PROG} DOC_NAME="Arrow" DOC_HEADER=code/GHelpText.h init_tarball
 	@ln -s ../${call EXE,arrow} ${PROG}/${call EXE,arrow}
-	@${MAKE} PKG_PATH=${PROG} SOURCE_TAR_NAME=${PROG_DISTR_TAR_FILE} build_pkgs
+	@${MAKE} PKG_PATH=${PROG} SOURCE_TAR_NAME=${PROG_RELEASE_TAR_NAME} build_pkgs
 
 #
 # debugging version

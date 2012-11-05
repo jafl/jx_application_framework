@@ -139,22 +139,6 @@ jxuninstall:
 	@${RM} ${JX_INSTALL_ROOT}/leibnitz
 
 #
-# source distribution
-#
-
-SRC_TAR_FILE := Leibnitz_source-${LEIBNITZ_VERSION}.tar.gz
-SRC_FILE_DIR := ${JX}/programs/leibnitz
-
-.PHONY : source
-source:
-	@cd ${J_DISTR_TAR_DIR}; \
-     ${TAR} -czf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cpp %Y.cpp, \
-                                   ${shell cd ${J_DISTR_TAR_DIR}; echo \
-              ${addprefix ${SRC_FILE_DIR}/, \
-                README COPYING FAQ Make.* *.jcc *.fd \
-                code/* strings/* pkg } }}
-
-#
 # binary distributions
 #
 
@@ -169,16 +153,10 @@ DEB_CTRL_FILE := ./pkg/leibnitz.debctrl
 DEB_PKG_FILE  := leibnitz_${LEIBNITZ_VERSION}_i386.deb
 
 .PHONY : release
-release: pre_build_pkgs static
-	@${MAKE} LN_DISTR_TAR_FILE=${LN_RELEASE_TAR_NAME} distr_sub
-
-# distr_sub (LN_DISTR_TAR_FILE)
-
-.PHONY : distr_sub
-distr_sub: menu_strings
+release: pre_build_pkgs static menu_strings
 	@${MAKE} PKG_PATH=${LN} DOC_NAME="Leibnitz" DOC_HEADER=code/thxHelpText.h init_tarball
 	@ln -s ../${call EXE,leibnitz} ${LN}/${call EXE,leibnitz}
-	@${MAKE} PKG_PATH=${LN} SOURCE_TAR_NAME=${LN_DISTR_TAR_FILE} build_pkgs
+	@${MAKE} PKG_PATH=${LN} SOURCE_TAR_NAME=${LN_RELEASE_TAR_NAME} build_pkgs
 
 #
 # debugging version

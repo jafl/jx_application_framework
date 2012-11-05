@@ -79,13 +79,6 @@ jxuninstall:
 	@${RM} ${JX_INSTALL_ROOT}/webgif
 
 #
-# source distribution
-#
-
-.PHONY : source
-source:
-
-#
 # statically linked version
 #
 
