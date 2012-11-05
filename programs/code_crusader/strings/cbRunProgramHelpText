@@ -1,0 +1,52 @@
+0
+
+CBRunProgramHelp
+
+"<html>
+<head>
+<title> Running and debugging your program </title>
+</head>
+
+In order to run anything, you must first create or open a project.  You can create a new project by using the \"New project...\" item on the File menu.  The <a href=jxhelp:CBProjectTutorialHelp>tutorial</a> walks you through the basics of creating a project and compiling and running a very simple program.  Once you have mastered these basics, you can get as fancy as you want by defining your own tasks on the <a href=jxhelp:CBTasksHelp>Tasks menu</a> to run or debug your program with different sets of command line arguments.
+<p>
+The basic tasks for running and debugging a program are automatically included on the Tasks menu.  These are:
+
+<blockquote>
+<dl>
+<dt> Run
+<dd> Runs your program in an Editor window so you can search and save the output.
+<p>
+<dt> Debug
+<dd> Runs your program in a debugger.
+<p>
+<dt> Set breakpoint in debugger
+<dd> From an Editor window, sets a breakpoint at the selected line in a debugger.  From any other window, opens the selected files or classes in a debugger.
+<p>
+<dt> Open source file in debugger
+<dd> From an Editor window, opens the file in a debugger.  From any other window, opens the selected files or classes in a debugger.
+</dl>
+</blockquote>
+
+<a href=http://www.newplanetsoftware.com/medic/>Code Medic</a> is the default debugger.  You can change this by editing the <a href=jxhelp:CBTasksHelp>Tasks menu</a>.  Please note that other debuggers may not provide the same features, e.g., setting a breakpoint when the debugger is already running.
+<p>
+For your convenience, the following tasks are also provided by default:
+
+<blockquote>
+<dl>
+<dt> Build & Run
+<dd> Compiles, links, and runs your program in an Editor window so you can search and save the output.
+<p>
+<dt> Build & Debug
+<dd> Compiles, links, and runs your program in a debugger.
+</dl>
+</blockquote>
+
+While your program is running, you can pause it by pressing the Pause button in the upper right corner or by pressing Control-Z, just like on the command line.  You can stop your program by pressing the Stop button in the upper right corner or by pressing Control-C (as on the command line) or Meta-period (for Macintosh fans).  If your program refuses to respond to the Stop button, you can kill your program by pressing the Kill button in the upper right corner.  You can use the key shortcuts even when the window is iconified.  (Note that, while the window is iconified, the *** in the window title tells you whether or not the program is running.)
+<p>
+The input field at the bottom of the window lets you send text to the running process.  Simply type the text and press Return.  The EOF button sends end-of-file to the process.  You can also use Control-D, as on the command line.
+<p>
+If you run your program in an Editor window, and the program terminates abnormally, Code Crusader will beep and display the reason in the Editor window.
+<p>
+If you run your program in a debugger, you must remember that if you have modified the source file, then the line numbers in Code Crusader will not match those used by the debugger, and confusion will ensue.  A good strategy is to never save your source files until you are ready to compile again.  With this method, you will never forget which files have been modified.  You can view the version of the source code that was compiled into the binary by opening the source file in the debugger.
+
+</html>"

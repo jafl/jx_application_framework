@@ -1,0 +1,83 @@
+0
+
+CBSymbolHelp
+
+"<html>
+<head>
+<title> Symbol Browser </title>
+</head>
+
+<h3> The Symbol Browser </h3>
+
+If you have <a href=http://ctags.sourceforge.net/>Exuberant <tt>ctags</tt></a> version 5.0 or later on your execution path, the symbol browser will display a list of all the symbols in all the source files in the <a href=jxhelp:CBProjectHelp>project</a> and on the project's search paths.
+
+<h3> Purpose of the Symbol Browser </h3>
+
+The Symbol Browser is primarily intended to work behind the scenes.  Unlike the
+C++ and Java class inheritance trees, the display itself does not provide useful
+information because it is simply an alphabetized list of all symbols that have been defined.
+The real power of the Symbol Browser lies in its connection to the
+<a href=jxhelp:CBEditorHelp>Text Editor</a>.  When you
+<a href=jxhelp:CBEditorHelp#MouseShortcuts>Meta-double-click</a> on a symbol in a
+Text Editor window, Code Crusader searches the list of symbols:
+
+<ul>
+<li> If a single class or function name is matched, and you used the left mouse button,
+the file containing the definition will be opened.
+<p>
+<li> If a single class or function name is matched, and you used the middle mouse button,
+the file containing the declaration will be opened.
+<p>
+<li> If multiple symbols are matched, or you used the right mouse button,
+a list of the fully qualified symbol names will be displayed so you can choose the one
+you want.  To automatically close this window after you have found the symbol you want,
+hold down Meta and Control while double clicking on the symbol name.  Alternatively,
+you can use the arrow keys to select the symbol and then press Meta-Ctrl-Return.
+<p>
+<li> If nothing matches, Code Crusader automatically checks the UNIX man pages.
+</ul>
+
+Code Crusader also attempts to narrow down the appropriate choices by using context.
+If the name of the source file displayed in the Text Editor window matches a known class
+name, only symbols defined by this class and its ancestors will be considered.
+Since this is sometimes inappropriate, you can use Meta-Shift-double-click to avoid
+context sensitivity.
+
+<h3> Using the Symbol Browser </h3>
+
+To locate a particular symbol, press the space bar and then type the first few
+letters in its name.  This search is case-insensitive.  To open the file to show the
+symbol's definition, press Return.  You do not have to de-iconify the
+window before typing.
+<p>
+Since both a function's declaration and its definition are included in the list
+of symbols, the declaration is italicized so you can tell the difference.
+<p>
+If a symbol is defined within a namespace (i.e. not at global scope), both the
+fully qualified version and the unqualified version will be displayed in the list,
+though at very different positions since the symbols are alphabetized.
+If a symbol is defined in more than one namespace, incremental search by typing will
+find the unqualified version (unless you type the entire namespace, too).
+To display a list of the fully qualified versions so
+you can choose the one you want, hold down the Meta key and double click on the
+unqualified symbol name, just like in the Text Editor window (see above).
+
+<a name=Prefs>
+
+<h3> Preferences </h3>
+
+The following options can be changed in the Symbol Preferences dialog:
+
+<blockquote>
+<dl>
+<dt> Raise class inheritance trees when searching with right mouse button
+<dd> If this is checked and you right-double-click on a symbol in a
+     <a href=jxhelp:CBEditorHelp>Text Editor</a> or the Symbol Browser,
+     the class inheritance trees that find a match will automatically
+     show themselves.  If this is not checked, you can show the trees
+     by using the items on the Actions menu in the window that displays
+     the search results.
+</dl>
+</blockquote>
+
+</html>"

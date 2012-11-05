@@ -1,0 +1,36 @@
+# Edit this file to define constants and custom build targets.
+# Please refer to the makemake documentation for more information.
+#
+# To compile multiple versions of a program or library, please study
+#     http://www.newplanetsoftware.com/jcc/multi_version.html
+
+# Useful directories
+
+MYCODEDIR := .
+
+# Directories to search for header files
+
+SEARCHDIRS := -I${MYCODEDIR}
+
+# makemake variables
+
+DEPENDFLAGS  := -g -Wall -Werror ${SEARCHDIRS}
+TOUCHHEADERS := ${MYCODEDIR}/*.h
+
+# C preprocessor (C, C++, FORTRAN)
+
+CPPFLAGS = 
+
+# C compiler
+
+CC     := gcc
+CFLAGS  = ${DEPENDFLAGS}
+
+%.o : %.c
+	${CC} ${CPPFLAGS} ${CFLAGS} -c $< -o $@
+
+# C linker
+
+LINKER    := gcc
+LDFLAGS    = 
+LOADLIBES := -lm

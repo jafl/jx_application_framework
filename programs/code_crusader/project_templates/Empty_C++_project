@@ -1,0 +1,62 @@
+jx_browser_project_template 3 64  0 "root" 0    0  0 T  1 0 0  1 0 0   0  0   1 T "a.out" "" "/mnt/local/jafl/JX-1.5.4/programs/code_crusader/template/project/C++/" 935276673 935276673 0 0 0 "make -k all"  T "# Edit this file to define constants and custom build targets.
+# Please refer to the makemake documentation for more information.
+#
+# To compile multiple versions of a program or library, please study
+#     http://www.newplanetsoftware.com/jcc/multi_version.html
+
+# Useful directories
+
+MYCODEDIR := .
+
+# Directories to search for header files
+
+SEARCHDIRS := -I- -I${MYCODEDIR}
+
+# makemake variables
+
+DEPENDFLAGS  := -g -Wall -Werror ${SEARCHDIRS}
+TOUCHHEADERS := ${MYCODEDIR}/*.h
+
+# C preprocessor (C, C++, FORTRAN)
+
+CPPFLAGS = 
+
+# C compiler
+
+CC     := gcc
+CFLAGS  = ${DEPENDFLAGS}
+
+%.o : %.c
+	${CC} ${CPPFLAGS} ${CFLAGS} -c $< -o $@
+
+# C++ compiler
+
+CXX      := g++
+CXXFLAGS  = ${DEPENDFLAGS}
+
+%.o : %.cc
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -c $< -o $@
+
+%.o : %.C
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -c $< -o $@
+
+%.o : %.cpp
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -c $< -o $@
+
+%.o : %.cxx
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -c $< -o $@
+
+# C/C++ linker
+
+LINKER    := g++
+LDFLAGS    = 
+LOADLIBES := -lm
+" T "# Edit this file to list the files in your project.
+# Please refer to the makemake documentation for more information.
+
+-suffix .cc
+
+@my_program_name
+
+-prefix ${MYCODEDIR}/
+" F F  2 "makemake" 0 

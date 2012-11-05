@@ -1,0 +1,58 @@
+#!/usr/bin/perl
+
+use strict;
+
+my $indent = 0;
+while (<STDIN>)
+	{
+	s/^[ \t]+//;		# strip indentation
+	s/[ \t]+$//;		# strip trailing whitespace
+
+	# print out the line
+
+	my $i = $indent;
+	if (m|^</|)			# close tag should be indented one less
+		{
+		$i--;
+		}
+
+	if (length > 1)		# only indent if line is not empty
+		{
+		for (1..$i)
+			{
+			print "\t";
+			}
+		}
+	print;
+
+	# process the line to determine indent for next line
+
+	chomp;
+	my $delta = 0;
+	while (1)
+		{
+		s|^[^</]+||;
+		if (/<\?xml/)
+			{
+			# ignore
+			}
+		elsif (m|^/>| || m|^</|)	# close tag
+			{
+			$delta--;
+			}
+		elsif (/^<(?!!)/)			# open tag, except comments
+			{
+			$delta++;
+			}
+		elsif (length == 0)			# nothing left
+			{
+			last;
+			}
+
+		s|^[</]||;
+		}
+
+	$indent += ($delta > 0 ? +1 : ($delta < 0 ? -1 : 0));
+	}
+
+print "\n";

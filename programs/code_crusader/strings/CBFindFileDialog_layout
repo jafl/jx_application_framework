@@ -1,0 +1,9 @@
+0
+itsStayOpenCB::CBFindFileDialog::JXLayout "Stay open"
+itsIgnoreCaseCB::CBFindFileDialog::shortcuts::JXLayout "#I"
+itsIgnoreCaseCB::CBFindFileDialog::JXLayout "Ignore case (only if no partial path)"
+itsFindButton::CBFindFileDialog::JXLayout "Find"
+itsCloseButton::CBFindFileDialog::shortcuts::JXLayout "#W^["
+itsFindButton::CBFindFileDialog::shortcuts::JXLayout "^M"
+itsCloseButton::CBFindFileDialog::JXLayout "Close"
+obj1_JXLayout::CBFindFileDialog::JXLayout "Name of file:"

@@ -1,0 +1,8 @@
+#!/usr/bin/perl
+
+while (<STDIN>)
+	{
+	print "// ";
+	print;
+	}
+print "\n";

@@ -1,0 +1,40 @@
+0
+
+CBFileTemplateHelp
+
+"<html>
+<head>
+<title> Template files </title>
+</head>
+
+<h3> Project templates </h3>
+
+The \"Save as template...\" item on the File menu in the <a href=jxhelp:CBProjectHelp>Project</a> window lets you create a template from the current project.  It will save all the project settings, including Make.files, Make.header, CMake.header, QMake.header, .pro file, Makefile, the search paths, the <a href=jxhelp:CBTasksHelp>Tasks menu</a>, and the <a href=jxhelp:CBCTreeHelp#CPP>C preprocessor</a> configuration.  It will also save the <em>contents</em> of all the files in the project that are in the project directory or in directories below the project directory.  (i.e. files that are specified as <tt>./something</tt>)  These files will be recreated automatically when the project template is used.  When creating a template, you can add other files to the project window as well, but it usually only makes sense to include files relative to the root directory (<tt>/</tt>) since these will always be there.
+<p>
+Project templates must be stored in <tt>~/.jxcb/project_templates/</tt>.  When you create a template, the Save File dialog will automatically display this directory.  When creating a project, Code Crusader will automatically let you choose a template from this directory, if the directory exists.
+<p>
+If you want a particular template to be available to all Code Crusader users, place it in <tt>/usr/lib/jxcb/project_templates/</tt>.  When creating a project, Code Crusader will automatically include templates in this directory in the menu of available project templates.
+
+<h3> Project wizards </h3>
+
+There are actually two different types of files that can be placed in the Code Crusader project template directory.  The first is the type discussed above.  The second type is a wizard interface.  A wizard is a program that will create a customized project after asking you for the relevant information.  The format of a wizard interface file is:
+
+<blockquote>
+<pre>
+jx_browser_project_wizard
+0
+<i>command to run the wizard program</i>
+</pre>
+</blockquote>
+
+The zero on the second line is the version number.  The command on the third line can run an arbitrary program, but it must be a single command, not a sequence of commands separated by semicolons.  (For this case, use a separate shell script.)  In the command, <tt>$path</tt> will be replaced by the directory in which the user wants to create the project, and <tt>$name</tt> will be replaced by the name of the project.
+<p>
+The wizard must notify Code Crusader when it is finished by invoking Code Crusader (<tt>jcc</tt>) with the full path and name of the project file that has been created. (i.e. just as if the user had requested to open the project via the command line)  If an error occurs in the wizard, it is the wizard's responsibility to report it.
+
+<h3> Text file templates </h3>
+
+The \"Save as template...\" item on the File menu in the <a href=jxhelp:CBEditorHelp>Text Editor</a> window lets you create a template from the text in the window.  You can use the template by selecting the \"New text file from template...\" item from the File menu in any window.  This creates a new Text Editor window containing the template's text.  You can then use <a href=jxhelp:CBSearchTextHelp>Search & Replace</a> and <a href=jxhelp:CBMacroHelp>macros</a> to fill in the template.
+<p>
+Text file templates must be stored in <tt>~/.jxcb/text_templates/</tt>.  As with project templates, Code Crusader automatically displays this directory when you create or wish to use a text file template.
+
+</html>"

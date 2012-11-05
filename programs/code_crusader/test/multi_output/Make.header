@@ -1,0 +1,92 @@
+# Edit this file to define constants and custom build targets.
+# Please refer to the makemake documentation for more information.
+#
+# To compile multiple versions of a program or library, please study
+#     http://www.newplanetsoftware.com/jcc/multi_version.html
+
+# Useful directories
+
+MYCODEDIR := .
+
+# Directories to search for header files
+
+SEARCHDIRS := -I${MYCODEDIR}
+
+# makemake variables
+
+DEPENDFLAGS  := -Wall -Werror ${SEARCHDIRS}
+TOUCHHEADERS := ${MYCODEDIR}/*.h
+
+# C preprocessor (C, C++, FORTRAN)
+
+CPPFLAGS = 
+
+# C
+
+CC     := gcc
+CFLAGS  = ${DEPENDFLAGS}
+
+%.o : %.c
+	${CC} ${CPPFLAGS} ${CFLAGS} -c $< -o $@
+
+# C++
+
+CXX      := g++
+CXXFLAGS  = ${DEPENDFLAGS}
+
+ifeq (${debug},1)
+  BIN_DIR  := ./obj_debug
+  CXXFLAGS += -g
+else
+  BIN_DIR  := ./obj_release
+  CXXFLAGS += -DNDEBUG
+endif
+
+# Make sure that the directory exists.
+TEMP := ${shell test -d ${BIN_DIR} || mkdir ${BIN_DIR}}
+
+# You can modify this to use a suffix other than .cc
+${BIN_DIR}/%.o : code/%.cc
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -c $< -o $@
+
+# Build the requested version of the program.
+ifeq (${debug},1)
+  default: test_debug
+else
+  default: test
+endif
+
+tidy::
+	@${RM} -r ./obj_*
+
+%.o : %.cc
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -c $< -o $@
+
+%.o : %.C
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -c $< -o $@
+
+%.o : %.cpp
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -c $< -o $@
+
+%.o : %.cxx
+	${CXX} ${CPPFLAGS} ${CXXFLAGS} -c $< -o $@
+
+# FORTRAN
+
+FC     := f77
+FFLAGS  = 
+
+# linker
+
+LINKER    := g++
+LDFLAGS    = 
+LOADLIBES := -lm
+
+# Java
+
+JAVAC  := javac
+JFLAGS  = 
+JAR    := jar
+
+%.class : %.java
+	${JAVAC} ${JFLAGS} $<

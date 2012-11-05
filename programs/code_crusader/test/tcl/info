@@ -1,0 +1,198 @@
+From rideline@home.com  Fri May  4 11:34:55 2001
+X-Arrow-Account: jafl@localhost:5000
+Return-Path: <rideline@home.com>
+Received: from web21.topchoice.com ([209.53.126.229])
+	by alice.caltech.edu (8.9.3/8.9.3) with ESMTP id CAA19676
+	for <jcc@alice.wonderland.caltech.edu>; Fri, 4 May 2001 02:09:01 -0700
+Received: from femail2.sdc1.sfba.home.com (femail2.sdc1.sfba.home.com [24.0.95.82])
+	by web21.topchoice.com (8.9.3/8.9.3) with ESMTP id CAA01780
+	for <jcc@newplanetsoftware.com>; Fri, 4 May 2001 02:13:56 -0700
+Received: from technocity ([65.3.197.94]) by femail2.sdc1.sfba.home.com
+          (InterMail vM.4.01.03.20 201-229-121-120-20010223) with SMTP
+          id <20010504091322.EZMX27407.femail2.sdc1.sfba.home.com@technocity>
+          for <jcc@newplanetsoftware.com>; Fri, 4 May 2001 02:13:22 -0700
+Message-ID: <000001c0d47a$90eb1d00$0b01a8c0@frmt1.sfba.home.com>
+From: "Robert Colbert" <rideline@home.com>
+To: <jcc@newplanetsoftware.com>
+References: <200105032105.OAA04940@CBL221.temp001.CH001-pasadena.dhcp.hs.earthlink.net>
+Subject: Re: TCL support
+Date: Fri, 4 May 2001 02:11:10 -0700
+MIME-Version: 1.0
+Content-Type: text/plain;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 5.50.4522.1200
+X-MimeOLE: Produced By Microsoft MimeOLE V5.50.4522.1200
+X-UIDL: :?4e9?h%!!Q<Oe9J?Oe9
+Status: RO
+X-Arrow-Reply-Status: R
+X-Status: A
+
+First, you can receive faster responses from me by using my work addresses:
+
+    rcolbert@cisco.com
+
+Don't hesitate to use it! This is all "business-related," and is directly a
+part of my job. At this point, even it were an "advertisement," I would not
+consider email from your organization to be "spam." Thank you, however, for
+showing this courtesy. By all means, don't "lose" my home address :-), but
+definitely feel free to use the cisco.com address for correspondence as
+well.
+
+We would definitely beta test a version of Code Crusader with TCL keyword
+completion in our production environment! I'm assuming that you're referring
+to the Tab-completion of known words within the language. TCL calls them
+procedures like Pascal, not functions, though every procedure in TCL can
+return a value, and does not get declared with type safety at all. The
+reason that there is no type safety in TCL is that everything is, at some
+layer, represented as ASCII.
+
+> Since you expressed satisfaction with CC's support for TCL, I should point
+> out that it doesn't yet have keyword completion.
+> If you could point me to a reference for the reserved keywords and basic
+> built-in functions, I can implement keyword completion and give you a
+beta.
+
+For the authoritatively terse answer, click to:
+http://dev.scriptics.com/man/tcl8.3.2/TclCmd/contents.htm
+
+Remember also that script authors can and do implement their own procedures.
+Your functions menu covers these as far as jumping to their location within
+a file. And scripts can "override" the languages keywords. For example, it
+is perfectly legal for a script to look like:
+
+proc puts { {ch stdout} string } {
+    # just ignore the output channel, and assume that we're running bash or
+sh.
+    exec echo $string
+}
+
+That's a really lame example, but legal in TCL (and the best I can do at
+2:07 a.m.!).
+
+"puts" in TCL is kind of like printf() in C. A very basic core procedure
+used by almost every script frequently. A script can override the language's
+built-in [insert command name here] with their own implementation, and I can
+override any of the language's built-in procedures from C++ as follows:
+
+Tcl_CreateCommand(m_interp, "puts", cmdPuts, (ClientData)this, null);
+
+Not that any of that really matters, but it kind of speaks to the fact that
+there really aren't any language "keywords" in TCL, per se. You'd want to
+think of them as initial guidelines for the language. We do not override any
+"keywords" in the language. You'll love this one: even "if" is -not- a
+keyword. I can override it, and have overridden it only as an educational
+experience to see if it could (or should) be done.
+
+> (I also need to know what characters are allowed in an identifier.  Also,
+TCL is case sensitive,
+> right?)
+
+For the authoritative answer, click to
+http://dev.scriptics.com/man/tcl8.3.2/TclCmd/Tcl.htm. I think there are
+enough rules on that man page to build a TCL lexer :-)
+
+My answer would be: As far as allowable characters, same as C/C++. You
+cannot begin any identifier with a numeral. Legal identifier chars are
+alphanumerics and the underscore.
+
+Invalid: 1puts
+Valie: puts1
+
+Invalid: 1_puts
+Valid: puts_1
+
+Also, procedures can take parameters, and those parameters can have default
+values as in C/C++. In C++, we would do this:
+
+int myFunc(int a, int b = 0)
+{
+    return a + b;
+}
+
+and in TCL, it would look like:
+
+proc myFunc { a {b = 0} } {
+    return [expr $a + $b];
+}
+
+Variables are typeless.
+
+There is one condition for variables: scope. You can have global vars, local
+vars, and "instance" vars (believe it or not, TCL can declare objects and
+namespaces):
+
+set myVar1 "0";
+
+proc myFunc { } {
+    global myVar1; # has to be here or proc can't see global var
+    puts "$myVar1"
+}
+
+Arrays use parenthesis, not brackets, to index into the array as follows:
+
+set myArray(12) 128
+
+Our group does not use object-oriented TCL, so I can't really give you any
+pointers there. But, the http://dev.scriptics.com/ web site is the official
+resource for that kind of documentation. I could also point you to the TCL
+distribution itself for object-oriented reference. Some of the included
+packages such as [incr::Tcl] are object-oriented and can show you that kind
+of syntax.
+
+Declaring objects in TCL looks, for the most part, nothing at all like C++;
+and
+using objects looks almost exactly like C++ using the :: scope operator,
+etc.
+
+TCL is a bizarre little language with some quirks. But, once you get to
+learn its syntactical rules, it's an extremely powerful scripting language.
+You can embed TCL into your code in as few as 25 lines of code and get all
+of the default language available for people to use when scripting your app.
+Adding commands that can be called by any script really only takes a few
+lines of code that are TCL specific:
+
+[begin]
+#include <tcl.h>
+
+Tcl_Interp* g_interp; // bad, of course, but this is a VERY short example!
+int cmd_my_command(ClientData cd, Tcl_Interp* inter, int argc, char*
+argv[]);
+
+.... whatever ...
+
+    // Create our command
+    Tcl_CreateCommand(g_interp, "my_command", cmd_my_command,
+(ClientData)this, null);
+
+.... whatever ...
+
+int
+cmd_proc(ClientData cd, Tcl_Interp* interp, int argc, char* argv[])
+{
+    return TCL_OK;
+}
+
+[end]
+
+Any other code in that module would be app-specific, not TCL-specific.
+
+Compile flags:
+    -I/usr/local/include
+
+Linker flags:
+    -L/usr/local/lib
+    -ltcl8.3
+
+And there you have it! A one-email crash course in TCL :-)
+
+Yours,
+-Rob Colbert
+rcolbert@cisco.com (preferred);
+rideline@home.com
+
+
+
+

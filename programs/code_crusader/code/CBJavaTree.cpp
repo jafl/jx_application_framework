@@ -1,0 +1,276 @@
+/******************************************************************************
+ CBJavaTree.cpp
+
+	This class instantiates a Java inheritance tree.
+
+	BASE CLASS = CBTree, CBCtagsUser
+
+	Copyright © 1995-99 John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <cbStdInc.h>
+#include "CBJavaTree.h"
+#include "CBJavaClass.h"
+#include "CBJavaTreeDirector.h"
+#include "CBJavaTreeScanner.h"
+#include "CBProjectDocument.h"
+#include "cbGlobals.h"
+#include <jStreamUtil.h>
+#include <jDirUtil.h>
+#include <strstream>
+#include <jAssert.h>
+
+static const JCharacter* kCtagsArgs =
+	"--format=2 --excmd=number --sort=no --java-kinds=me";
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+CBJavaTree::CBJavaTree
+	(
+	CBJavaTreeDirector*	director,
+	const JSize			marginWidth
+	)
+	:
+	CBTree(StreamInJavaClass, director, kCBJavaSourceFT, marginWidth),
+	CBCtagsUser(kCtagsArgs)
+{
+	itsClassNameLexer = NULL;
+}
+
+CBJavaTree::CBJavaTree
+	(
+	istream&			projInput,
+	const JFileVersion	projVers,
+	istream*			setInput,
+	const JFileVersion	setVers,
+	istream*			symInput,
+	const JFileVersion	symVers,
+	CBJavaTreeDirector*	director,
+	const JSize			marginWidth,
+	CBDirList*			dirList
+	)
+	:
+	CBTree(projInput, projVers, setInput, setVers, symInput, symVers,
+		   StreamInJavaClass, director, kCBJavaSourceFT, marginWidth, dirList),
+	CBCtagsUser(kCtagsArgs)
+{
+	itsClassNameLexer = NULL;
+
+	if (projVers < 81 && !IsEmpty())
+		{
+		NextUpdateMustReparseAll();
+		}
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+CBJavaTree::~CBJavaTree()
+{
+	delete itsClassNameLexer;
+}
+
+/******************************************************************************
+ StreamOut (virtual)
+
+ ******************************************************************************/
+
+void
+CBJavaTree::StreamOut
+	(
+	ostream&			projOutput,
+	ostream*			setOutput,
+	ostream*			symOutput,
+	const CBDirList*	dirList
+	)
+	const
+{
+	assert( dirList == NULL );
+	CBTree::StreamOut(projOutput, setOutput, symOutput, dirList);
+}
+
+/******************************************************************************
+ StreamInJavaClass (static private)
+
+	Creates a new CBJavaClass from the data in the given stream.
+
+ ******************************************************************************/
+
+CBClass*
+CBJavaTree::StreamInJavaClass
+	(
+	istream&			input,
+	const JFileVersion	vers,
+	CBTree*				tree
+	)
+{
+	CBJavaClass* newClass = new CBJavaClass(input, vers, tree);
+	assert( newClass != NULL );
+	return newClass;
+}
+
+/******************************************************************************
+ UpdateFinished (virtual)
+
+	*** This often runs in the update thread.
+
+ ******************************************************************************/
+
+JBoolean
+CBJavaTree::UpdateFinished
+	(
+	const JArray<JFAID_t>& deadFileList
+	)
+{
+	delete itsClassNameLexer;
+	itsClassNameLexer = NULL;
+
+	DeleteProcess();
+
+	return CBTree::UpdateFinished(deadFileList);
+}
+
+/******************************************************************************
+ ParseFile (virtual protected)
+
+	Parses the given file and creates one CBJavaClass.
+
+ ******************************************************************************/
+
+void
+CBJavaTree::ParseFile
+	(
+	const JCharacter*	fileName,
+	const JFAID_t		id
+	)
+{
+	if (itsClassNameLexer == NULL)
+		{
+		itsClassNameLexer = new CBJavaTreeScanner;
+		assert( itsClassNameLexer != NULL );
+		}
+
+	// extract info about class
+
+	CBClass* newClass;
+	if (!itsClassNameLexer->CreateClass(fileName, id, this, &newClass))
+		{
+		return;
+		}
+
+/* this destroys the ability to minimize MI links
+
+	// default superclass
+
+	if (newClass != NULL && !newClass->HasParents())
+		{
+		newClass->AddParent(CBClass::kInheritPublic, "java.lang.Object");
+		}
+*/
+	// extract functions via ctags
+
+	JString data;
+	CBLanguage lang;
+	if (ProcessFile(fileName, kCBJavaSourceFT, &data, &lang))
+		{
+		std::istrstream input(data.GetCString(), data.GetLength());
+		ReadFunctionList(input, newClass);
+		}
+}
+
+/******************************************************************************
+ ReadFunctionList (private)
+
+ ******************************************************************************/
+
+void
+CBJavaTree::ReadFunctionList
+	(
+	istream&	input,
+	CBClass*	theClass
+	)
+{
+	input >> ws;
+	while (input.peek() == '!')
+		{
+		JIgnoreLine(input);
+		input >> ws;
+		}
+
+	JString name;
+	JStringPtrMap<JString> flags(JPtrArrayT::kDeleteAll);
+	while (1)
+		{
+		input >> ws;
+		name = JReadUntil(input, '\t');			// function name
+		if (input.eof() || input.fail())
+			{
+			break;
+			}
+
+		ReadExtensionFlags(input, &flags);		// skips file name and line number
+
+		JString* impl;
+		const JBoolean implemented =
+			JNegate(flags.GetElement("implementation", &impl) && *impl == "abstract");
+
+		theClass->AddFunction(name, DecodeAccess(flags), implemented);
+		}
+}
+
+/******************************************************************************
+ DecodeAccess (private)
+
+ ******************************************************************************/
+
+CBClass::FnAccessLevel
+CBJavaTree::DecodeAccess
+	(
+	const JStringPtrMap<JString>& flags
+	)
+	const
+{
+	const JString* value;
+	const JBoolean exists = flags.GetElement("access", &value);
+
+	if (exists && *value == "public")
+		{
+		return CBClass::kPublicAccess;
+		}
+	else if (exists && *value == "private")
+		{
+		return CBClass::kPrivateAccess;
+		}
+	else if (exists && *value == "protected")
+		{
+		return CBClass::kProtectedAccess;
+		}
+	else	// default
+		{
+		return CBClass::kJavaDefaultAccess;
+		}
+}
+
+/******************************************************************************
+ Receive (virtual protected)
+
+	Required because of multiple inheritance.
+
+ ******************************************************************************/
+
+void
+CBJavaTree::Receive
+	(
+	JBroadcaster*	sender,
+	const Message&	message
+	)
+{
+	CBTree::Receive(sender, message);
+	CBCtagsUser::Receive(sender, message);
+}

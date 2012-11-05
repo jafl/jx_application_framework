@@ -1,0 +1,9 @@
+0
+itsRunButton::CBRunTEScriptDialog::shortcuts::JXLayout "^M"
+itsStayOpenCB::CBRunTEScriptDialog::JXLayout "Stay open"
+itsHelpButton::CBRunTEScriptDialog::JXLayout "Help"
+itsCloseButton::CBRunTEScriptDialog::shortcuts::JXLayout "#W^["
+itsCloseButton::CBRunTEScriptDialog::JXLayout "Close"
+obj1_JXLayout::CBRunTEScriptDialog::JXLayout "Enter the command to process the selected text (if any):"
+itsHelpButton::CBRunTEScriptDialog::shortcuts::JXLayout "F1"
+itsRunButton::CBRunTEScriptDialog::JXLayout "Run"

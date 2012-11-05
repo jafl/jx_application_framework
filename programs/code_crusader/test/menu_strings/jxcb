@@ -1,0 +1,40 @@
+0
+
+CBConfigureCTreeCPP::CBCTreeDirector
+"Configure C preprocessor... %k testing"
+
+CBNewProject::CBFileListDirector
+"New project %k testing"
+
+CBUseWildcardFilter::CBFileListDirector
+"Use wildcard filter %k testing"
+
+HelpSpecific::JX::CBFileListDirector
+"This window %k testing"
+
+CBEditSearchPaths::CBJavaTreeDirector
+"Add classes... %k testing"
+
+CBNewProject::CBProjectDocument
+"New project... %k testing"
+
+CBNewProject::CBSymbolDirector
+"New project... %k testing"
+
+CBNewProject::CBTextDocument
+"New project... %k testing"
+
+CBDiffFiles::CBTextEditor
+"Compare files... %k testing"
+
+CBPrintTreeEPS::CBTreeDirector
+"Print EPS... %k testing"
+
+HelpTOC::JX::CBTreeDirector
+"Table of Contents %k testing"
+
+Clear::JX::JXTEBase
+"Clear %k testing %h e"
+
+ReplaceAllForward::JX::JXTEBase
+"Replace all forward %k testing"

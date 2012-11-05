@@ -1,0 +1,6 @@
+0
+thisRemoveButton::CBEditCommandsDialog::thisProjectLayout "Remove"
+thisDuplicateButton::CBEditCommandsDialog::thisProjectLayout "Duplicate"
+thisCaption::CBEditCommandsDialog::thisProjectLayout "Tasks that are specific to the currently active project:"
+thisNewButton::CBEditCommandsDialog::thisProjectLayout "New"
+obj1_thisProjectLayout::CBEditCommandsDialog::thisProjectLayout "Command to update this project's Makefile:"

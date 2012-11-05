@@ -1,0 +1,5 @@
+0
+okButton::CBEditCommandsDialog::JXLayout "OK"
+cancelButton::CBEditCommandsDialog::JXLayout "Cancel"
+itsHelpButton::CBEditCommandsDialog::JXLayout "Help"
+itsHelpButton::CBEditCommandsDialog::shortcuts::JXLayout "F1"

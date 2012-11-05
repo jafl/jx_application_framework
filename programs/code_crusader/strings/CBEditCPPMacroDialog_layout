@@ -1,0 +1,13 @@
+0
+loadMacroButton::CBEditCPPMacroDialog::JXLayout "Load"
+addMacroButton::CBEditCPPMacroDialog::JXLayout "New"
+cancelButton::CBEditCPPMacroDialog::JXLayout "Cancel"
+itsHelpButton::CBEditCPPMacroDialog::JXLayout "Help"
+saveMacroButton::CBEditCPPMacroDialog::JXLayout "Save"
+itsHelpButton::CBEditCPPMacroDialog::shortcuts::JXLayout "F1"
+addMacroButton::CBEditCPPMacroDialog::shortcuts::JXLayout "#N"
+loadMacroButton::CBEditCPPMacroDialog::shortcuts::JXLayout "#L"
+removeMacroButton::CBEditCPPMacroDialog::JXLayout "Remove"
+removeMacroButton::CBEditCPPMacroDialog::shortcuts::JXLayout "#R"
+saveMacroButton::CBEditCPPMacroDialog::shortcuts::JXLayout "#S"
+okButton::CBEditCPPMacroDialog::JXLayout "OK"

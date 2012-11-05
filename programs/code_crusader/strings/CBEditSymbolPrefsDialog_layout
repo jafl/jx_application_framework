@@ -1,0 +1,7 @@
+0
+itsHelpButton::CBEditSymbolPrefsDialog::JXLayout "Help"
+cancelButton::CBEditSymbolPrefsDialog::JXLayout "Cancel"
+okButton::CBEditSymbolPrefsDialog::shortcuts::JXLayout "^M"
+okButton::CBEditSymbolPrefsDialog::JXLayout "OK"
+itsHelpButton::CBEditSymbolPrefsDialog::shortcuts::JXLayout "F1"
+itsRaiseTreeOnRightClickCB::CBEditSymbolPrefsDialog::JXLayout "Raise class inheritance trees when searching with right mouse button"

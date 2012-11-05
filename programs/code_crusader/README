@@ -1,0 +1,54 @@
+
+Installing Code Crusader:
+
+The easiest way to install is to run:  sudo ./install
+
+Otherwise, the programs (jcc, makemake, ctags, dirdiff) need to be placed
+in a directory that is on your execution path.  /usr/bin or ~/bin are
+usually good choices.  Copy the libraries in lib/ to a directory on your
+LD_LIBRARY_PATH.
+
+The project_templates and text_templates directories should be copied to
+~/.jxcb/
+
+The macros files can be loaded into Code Crusader by using the "Macros..."
+item on the Preferences menu in any Editor window.
+
+The CPM_rules files can be loaded into Code Crusader by using the "Clean
+paragraph margin rules..." item on the Preferences menu in any Editor
+window.
+
+
+Running Code Crusader:
+
+If Code Crusader crashes or if you find other bugs, please check the web
+page first to see if they have already been reported.
+
+On OS X, this program requires XQuartz, the X11 server.  Before running
+this program, you must first start XQuartz.
+
+
+Notes on Code Crusader:
+
+Code Crusader is a graphical development environment for UNIX.
+
+The on-line help explains all the features of the program.
+
+Since we use Code Crusader for all our development, we guarantee that it
+will continue to improve.  We have a very long list of features that we
+intend to implement, so please tell us what features you need, so we will
+know which ones on our list to implement first.
+
+Menu items that seem to be permanently disabled are features waiting
+to be implemented.
+
+The C++ parser in Code Crusader is home-grown and therefore not up to
+parsing all valid C++ header files.  It parses JX correctly, but it can be
+confused by g++.  This does not cause serious problems, however, because it
+usually only affects the functions that Code Crusader thinks are
+implemented by particular classes.
+
+The main web page for Code Crusader is
+
+    http://www.newplanetsoftware.com/jcc/
+

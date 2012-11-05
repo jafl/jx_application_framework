@@ -1,0 +1,24 @@
+# Please refer to the makemake documentation for more information.
+
+# Useful directories
+
+MYCODEDIR := .
+
+# Directories to search for header files
+
+SEARCHDIRS := -I${MYCODEDIR}
+
+# makemake variables
+
+LINKER       := gcc
+DEPENDFLAGS  := -g -Wall -Werror ${SEARCHDIRS}
+TOUCHHEADERS := ${MYCODEDIR}/*.h
+
+# make variables
+
+CC        := gcc
+CXX       := g++
+CCC       := g++
+CPPFLAGS   = ${DEPENDFLAGS}
+LOADLIBES := -lm
+LDFLAGS   := 

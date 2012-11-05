@@ -1,0 +1,10 @@
+#!/usr/bin/perl
+
+# usage:  select the line(s) of text to comment and then run this script
+
+while (<STDIN>)
+	{
+	print '#';
+	print;
+	}
+print "\n";

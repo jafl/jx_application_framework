@@ -1,0 +1,45 @@
+0
+
+CBTreePrefsHelp
+
+"<html>
+<head>
+<title> Class Tree Preferences </title>
+</head>
+
+The following options can be changed in the Tree Preferences dialog:
+
+<blockquote>
+<dl>
+<dt> Font size
+<dd> This menu lets you change the font size used in the Tree and Function List windows.
+<p>
+<br>
+<dt> Show inherited functions in lists
+<dd> If this is checked, the popup menu and all newly created windows will display both
+     the functions implemented by the class and the functions inherited from all base
+     classes.  The functions implemented by the class will be boldfaced to make them
+     easy to find.
+<p>
+<dt> Raise window if search matches single class
+<dd> If there is only one match when you
+     <a href=jxhelp:CBEditorHelp#MouseShortcuts>Meta-dbl-click</a> in an editor window,
+     it is usually less disruptive if only the source file containing what you are
+     looking for is displayed.  This will be the case if this item is not checked.
+<p>
+<br>
+<dt> Automatically minimize MI link lengths
+<dd> If this is checked, the multiple inheritance link lengths will be minimized every
+     time the class tree is changed.  If this is not checked, you can use the \"Minimize
+     MI link lengths now\" item on the Tree menu to do it when needed.  This option is
+     provided because the optimal algorithm is exponential so it can take a long time if
+     you make heavy use of multiple inheritance.
+<p>
+<dt> Draw MI links
+<dd> Multiple inheritance links are much easier to follow if they are drawn on top of
+     everything else.  However, sometimes it is better to drawn them underneath to
+     minimize the clutter.
+</dl>
+</blockquote>
+
+</html>"

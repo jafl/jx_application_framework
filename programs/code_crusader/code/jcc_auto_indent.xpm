@@ -1,0 +1,19 @@
+/* XPM */
+static char * jcc_auto_indent[] = {
+"14 14 2 1",
+" 	c None",
+"X	c black",
+"              ",
+"              ",
+"              ",
+"        X     ",
+"         X    ",
+"          X   ",
+"XXXXXXXXXXXX  ",
+"          X   ",
+"         X    ",
+"        X     ",
+"              ",
+"              ",
+"              ",
+"              "};

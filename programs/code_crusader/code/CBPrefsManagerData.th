@@ -1,0 +1,300 @@
+/******************************************************************************
+ CBPrefsManagerData.th
+
+	Use this file to instantiate code for CBPrefsManager data sets
+
+	To use this file:
+
+		#define DataType      ____
+		#define ListVar       ____
+		#define CreateListFn  ____
+		#define CompareNameFn ____
+		#define MainDataID    ____
+		#define EmptyDataID   ____
+		#define FirstDataID   ____
+		#define FindIDFn      ____
+		#define FTStructIDVar ____
+		#define EditDataFn    ____
+		#define EditDataArg   ____
+		#define EditDataSel   ____
+		#define UpdateDataFn  ____
+		#define DialogClass   ____
+		#define DialogVar     ____
+		#define ExtractDataFn ____
+		#define CopyConstr    ____
+		#define PtrCheck      ____
+		#define Destr         ____
+		#include "CBPrefsManagerData.th"
+		#undef DataType
+		#undef ListVar
+		#undef CreateListFn
+		#undef CompareNameFn
+		#undef MainDataID
+		#undef EmptyDataID
+		#undef FirstDataID
+		#undef FindIDFn
+		#undef FTStructIDVar
+		#undef EditDataFn
+		#undef EditDataArg
+		#undef EditDataSel
+		#undef UpdateDataFn
+		#undef DialogClass
+		#undef DialogVar
+		#undef ExtractDataFn
+		#undef CopyConstr
+		#undef PtrCheck
+		#undef Destr
+
+	Copyright © 1998 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+/******************************************************************************
+ CreateListFn
+
+ ******************************************************************************/
+
+JArray<CBPrefsManager::DataType>*
+CBPrefsManager::CreateListFn()
+{
+	JArray<DataType>* list = new JArray<DataType>;
+	assert( list != NULL );
+	list->SetSortOrder(JOrderedSetT::kSortAscending);
+	list->SetCompareFunction(CompareNameFn);
+	return list;
+}
+
+/******************************************************************************
+ CompareNameFn (static private)
+
+ ******************************************************************************/
+
+JOrderedSetT::CompareResult
+CBPrefsManager::CompareNameFn
+	(
+	const DataType& i1,
+	const DataType& i2
+	)
+{
+	return JCompareStringsCaseInsensitive(i1.name, i2.name);
+}
+
+/******************************************************************************
+ CreateAndReadData (private)
+
+	Reads in the data sets and deletes the pref data.
+
+ ******************************************************************************/
+
+void
+CBPrefsManager::CreateAndReadData
+	(
+	JArray<DataType>**	list,
+	const JFileVersion	vers
+	)
+{
+	*list = CreateListFn();
+
+	std::string listData;
+	JBoolean ok = GetData(MainDataID, &listData);
+	assert( ok );
+	std::istringstream listStream(listData);
+
+	JSize count;
+	listStream >> count;
+
+	for (JIndex i=1; i<=count; i++)
+		{
+		DataType info;
+
+		info.name = new JString;
+		assert( info.name != NULL );
+
+		listStream >> info.id >> *(info.name);
+
+		std::string data;
+		const JBoolean ok = GetData(info.id, &data);
+		assert( ok );
+		RemoveData(info.id);
+		std::istringstream input(data);
+
+		info.CreateAndRead(input, vers);
+
+		(**list).AppendElement(info);
+		}
+
+	RemoveData(MainDataID);		// delete it since it might be an old version (see below)
+}
+
+/******************************************************************************
+ WriteData
+
+	Deletes the old data sets and writes out the new data sets.
+
+ ******************************************************************************/
+
+void
+CBPrefsManager::WriteData
+	(
+	const JArray<DataType>& list
+	)
+{
+	std::string listData;
+	if (GetData(MainDataID, &listData))		// if it exists, it's our current version (see above)
+		{
+		std::istringstream listStream(listData);
+
+		JSize count;
+		listStream >> count;
+
+		JIndex id;
+		JString name;
+		for (JIndex i=1; i<=count; i++)
+			{
+			listStream >> id >> name;
+			RemoveData(id);
+			}
+		}
+
+	std::ostringstream listStream;
+
+	const JSize count = list.GetElementCount();
+	listStream << count;
+
+	for (JIndex i=1; i<=count; i++)
+		{
+		DataType info = list.GetElement(i);
+		listStream << ' ' << info.id << ' ' << *(info.name);
+
+		std::ostringstream data;
+		info.Write(data);
+		SetData(info.id, data);
+		}
+
+	SetData(MainDataID, listStream);
+}
+
+/******************************************************************************
+ EditDataFn
+
+ ******************************************************************************/
+
+void
+CBPrefsManager::EditDataFn
+	(
+	EditDataArg* initialSelection
+	)
+{
+	assert( DialogVar == NULL );
+
+	JArray<DataType>* list = CreateListFn();
+	JIndex firstUnusedID   = FirstDataID;
+	JIndex initialIndex    = 1;
+
+	const JSize count = ListVar->GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		const DataType origInfo = ListVar->GetElement(i);
+
+		DataType newInfo(origInfo.id, new JString(*(origInfo.name)), CopyConstr);
+		assert( newInfo.name != NULL && PtrCheck );
+		list->AppendElement(newInfo);
+
+		if (origInfo.id >= firstUnusedID)
+			{
+			firstUnusedID = origInfo.id + 1;
+			}
+
+		if (origInfo.EditDataSel == initialSelection)
+			{
+			initialIndex = i;
+			}
+		}
+
+	DialogVar = new DialogClass(list, initialIndex, firstUnusedID);
+	assert( DialogVar != NULL );
+	DialogVar->BeginDialog();
+	ListenTo(DialogVar);
+}
+
+/******************************************************************************
+ UpdateDataFn (private)
+
+ ******************************************************************************/
+
+void
+CBPrefsManager::UpdateDataFn
+	(
+	const DialogClass& dlog
+	)
+{
+JIndex i,j;
+
+	JIndex firstNewID, lastNewID;
+	JArray<DataType>* newList =
+		dlog.ExtractDataFn(&firstNewID, &lastNewID);
+
+	const JSize origCount = ListVar->GetElementCount();
+	const JSize newCount  = newList->GetElementCount();
+	const JSize ftCount   = itsFileTypeList->GetElementCount();
+
+	// throw out old objects and update file type->data links
+
+	for (i=1; i<=origCount; i++)
+		{
+		DataType info = ListVar->GetElement(i);
+		delete info.name;
+		Destr;
+
+		if (!FindIDFn(*newList, info.id, &j))
+			{
+			for (j=1; j<=ftCount; j++)
+				{
+				FileTypeInfo ftInfo = itsFileTypeList->GetElement(j);
+				if (ftInfo.FTStructIDVar == info.id)
+					{
+					ftInfo.FTStructIDVar = EmptyDataID;
+					itsFileTypeList->SetElement(j, ftInfo);
+					}
+				}
+			}
+		}
+
+	// replace list with the new one
+
+	delete ListVar;
+	ListVar = newList;
+	ListVar->Sort();
+
+	// compact to fill in unused id's
+
+	for (JIndex id=lastNewID; id>=firstNewID; id--)
+		{
+		JIndex index;
+		const JBoolean found = FindIDFn(*ListVar, id, &index);
+		assert( found );
+
+		JBoolean foundEmptySlot = kJFalse;
+		for (i=FirstDataID; i<firstNewID; i++)
+			{
+			if (!FindIDFn(*ListVar, i, &j))
+				{
+				DataType info = ListVar->GetElement(index);
+				info.id       = i;
+				ListVar->SetElement(index, info);
+
+				foundEmptySlot = kJTrue;
+				break;
+				}
+			}
+
+		if (!foundEmptySlot)
+			{
+			break;
+			}
+		}
+
+	// update open text documents in case a data set was deleted
+
+	Broadcast(FileTypesChanged());
+}

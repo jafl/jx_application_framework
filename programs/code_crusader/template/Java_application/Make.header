@@ -1,0 +1,9 @@
+# Edit this file to define constants and custom build targets.
+# Please refer to the makemake documentation for more information.
+
+# Java compiler
+
+JAVAC  := javac
+JFLAGS  = 
+JPATH  := 
+JAR    := jar

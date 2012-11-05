@@ -1,0 +1,5 @@
+0
+saveActionFileButton::CBEditMacroDialog::actionLayout "Save"
+newActionButton::CBEditMacroDialog::actionLayout "New"
+loadActionFileButton::CBEditMacroDialog::actionLayout "Load"
+removeActionButton::CBEditMacroDialog::actionLayout "Remove"

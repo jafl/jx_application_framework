@@ -1,0 +1,807 @@
+<h3> 4.0.4 </h3>
+
+<b> <a href=jxhelp:CBProjectHelp> Project </a> </b>
+
+<p>
+Fixed Run Command dialog to allow running make commands even if no project is open.
+<p>
+Fixed bug that caused crashes when cancelling a command that contained calls to other commands.
+<p>
+
+<h3> 4.0.3 </h3>
+
+<b> <a href=jxhelp:CBProjectHelp> Project </a> </b>
+
+<p>
+Fixed bug that caused crashes when executing commands that contained calls to other commands.
+<p>
+
+<b> <a href=jxhelp:CBCTreeHelp> C++ Class Tree </a> </b>
+
+<p>
+Fixed bug that caused occasional crashes when displaying menu of functions or closing Function List window.
+<p>
+
+<h3> 4.0.2 </h3>
+
+<b> <a href=jxhelp:CBEditorHelp> Text Editor </a> </b>
+
+<p>
+Fixed \"Open selection as file name\" to recognize single quotes, too.
+<p>
+If the caret is just outside a grouping symbol, \"Balance closest grouping symbols\" now balances it rather than the enclosing group.
+<p>
+\"Balance closest grouping symbols\" now recognizes &lt; and &gt; when editing HTML.
+<p>
+Updated PHP function name completion to PHP 5.
+<p>
+Updated PHP syntax highlighting to recognize &lt;script type=\"text/...\"&gt;.
+<p>
+Fixed bug in PHP syntax highlighting so &lt;? and other such shortcuts do not need to be followed by whitespace.
+<p>
+Fixed bug in PHP syntax highlighting so $$a is recognized as a valid variable reference.
+<p>
+Fixed bug in PHP syntax highlighting so \"as\" is recognized as a keyword.
+<p>
+Fixed bug in PHP syntax highlighting to eliminate occasional crashes and styling errors.
+<p>
+Updated Perl syntax highlighting to handle [] construct in subroutine prototypes.
+<p>
+Fixed bug in Windows-style menu shortcuts so Ctrl-left-arrow moves caret by one word instead of indenting selected text.
+<p>
+Fixed scrolltab shortcuts to be Meta-1..9 when Windows-style menu shortcuts are used.
+<p>
+Fixed bug in Drag-and-Drop that caused crash in a very rare situation:  drop text ending in a newline at the end of a file that did not end with a newline.
+<p>
+
+<b> Miscellaneous </b>
+
+<p>
+Now installs correctly into the Start Menu in Gnome 2.
+<p>
+Fixed bug that occasionally caused a window to remain blank after switching to its desktop in Gnome 2.
+<p>
+Fixed UNIX man page viewer to handle embedded Unicode characters.  (Unrecognized characters are printed to the console.  Please report them!)
+<p>
+Changed default image viewer from xv to Eye of Gnome.
+<p>
+
+<h3> 4.0.1 </h3>
+
+<b> Miscellaneous </b>
+
+<p>
+Fixed bug in sub-project build system so it now works even if <code>./</code> is not on your execution path.
+<p>
+Fixed bug to avoid crash when clicking on file icon at bottom of Text Editor window with empty file name input.
+<p>
+Fixed bug to avoid crash when Compiler Output window is shrunk to its minimum size.
+<p>
+Fixed bug in Choose File and Save File dialogs so they remember the \"Show hidden files\" setting.
+<p>
+Fixed bug so menu shortcuts which require the Shift key work even if Caps Lock is on.
+<p>
+
+<h3> 4.0.0 </h3>
+
+<p>
+<b> Major changes </b>
+<p>
+Added <a href=jxhelp:CBCommandsHelp>Commands menu</a> to all windows.  This replaces the Project menu in the Editor window and makes the Make and Run dialogs obsolete.
+<p>
+You are no longer restricted to only one <code>make</code> related task at a time.  For example, you can select any number of files or groups in the Project or inheritance tree windows and compile them all.  You can also request a second compile job while the first one is still running.  Another neat feature is that you can compile from either source or header file, provided they both have the same root name.
+<p>
+Added support for Bison, lex, Pascal, REXX, and Ruby.  Added syntax higlighting for Bison, Bourne shell, C shell, Java, Perl, and TCL.  Dramatically improved syntax highlighting for PHP and added support for XML namespaces.  Added keyword completion for TCL.
+<p>
+Function arguments are now displayed in the <a href=jxhelp:CBSymbolHelp>symbol browser</a> for C, C++, and Java functions.
+<p>
+Requires <a href=http://ctags.sourceforge.net/> Exuberant <code>ctags</code></a> version 5.4.
+<p>
+Added support for <a href=http://www.trolltech.com/products/qt/qmake.html>qmake</a> as an alternative to makemake.
+<p>
+All windows are dockable.  Right-click in the docktab at the left of the menu bar to create a dock.  Then drag the docktab and drop it in a docking area.  (If the window can't shrink far enough to fit, the docking area will not accept the drop.)
+<p>
+
+<b> <a href=jxhelp:CBProjectHelp> Project </a> </b>
+
+<p>
+Redesigned sub-project build system.  When <code>makemake</code> is used to build the Makefile, the project dependencies are encoded in the Makefile so everything can be built without running Code Crusader.  This is useful when writing scripts for nightly builds.
+<p>
+Added right-click context menu in Project window.
+<p>
+Added \"Add directory tree...\" item to Source menu.
+<p>
+Added \"Compare selected files with backup\" item to Source menu.
+<p>
+Added new <a href=jxhelp:CBProjectHelp#Prefs>preferences</a> to raise output window when building, compiling, and running.
+<p>
+Added \"Show selected files in file manager\" item to the List menu in the <a href=jxhelp:CBFileListHelp>File List</a> window and to the Source menu in the <a href=jxhelp:CBProjectHelp>Project</a> window.
+<p>
+When you create a project template, it saves the Makefile if there are no makemake or qmake files.
+<p>
+Simplified interface for creating new project from template by using single Save File dialog with menu of all available templates.  This menu includes all personal (<code>~/.jxcb/project_templates/</code>) and system wide (<code>/usr/lib/jxcb/project_templates/</code>) templates, so you are no longer restricted to using only your personal templates.
+<p>
+When you open a group by clicking on the arrow to the left of the name, the display scrolls to show the contents of the group.
+<p>
+When you select a group name and then add files to the project, the files are prepended to the group if the group is open.  Otherwise, they are appended to the group.
+<p>
+Symbolic links can now be added to the project.
+<p>
+Ignores backup, safety save, and compiler output files if you try to add them to a project.  This allows you to select all files in a directory and let Code Crusader sort them out instead of having to filter them manually.
+<p>
+Understands the <code>.dylib</code> suffix used by Mac OSX.
+<p>
+Removed \"raise window\" and \"beep\" options from Project Preferences dialog because these options are now provided in the \"Edit commands...\" dialog.
+<p>
+Eliminated need for \"Recalculate dependencies before make\" option.  Makefile is now rebuilt once a day, even if the project has not changed, in order to keep the dependencies up to date.  (You can do it more often, if you wish, by using the \"Update Makefile\" item on the Project menu in the Project window.  If you use CVS and do not wish to have the Makefile built automatically, you can turn off this option in the Project Preferences dialog.)
+<p>
+Added <code>--make-name</code> option to <a href=jxhelp:CBMakemakeHelp>makemake</a>.
+<p>
+When the contents of a command output window are saved, the command window will not be re-used again, i.e., it becomes like a regular Text Editor window.
+<p>
+Fixed bug so project only reparses files once after a file name is changed.
+<p>
+Fixed bug so Make.files is updated when files or groups in the project have been rearranged.
+<p>
+
+<b> <a href=jxhelp:CBEditorHelp> Text Editor </a> </b>
+
+<p>
+Added right-click context menu.
+<p>
+File name at bottom of window is editable.  Change it and press Return to get the equivalent of \"Save as...\"  Ctrl-Return renames the file, deleting the version with the old name.
+<p>
+Added Drag-and-Drop source to the left of the file name at the bottom of the window.  This turns into a Direct Save (XDS) source when you are editing the file name.  Double clicking on the icon displays the file in the file manager of your choice.
+<p>
+Added more convenient interface for running <a href=jxhelp:CBEditorHelp#ExtScript>external scripts</a>.
+<p>
+Moved \"Compare files...\" item to File menu.  Also added smart item to compare the current file with whatever is most appropriate.  This smart item works just like the <a href=jxhelp:CBDiffHelp><code>--diff</code> command line option</a>.
+<p>
+Added \"Place bookmark\" item to Search menu.  This places a scrolltab at the current scrollbar thumb location.
+<p>
+Added <a href=jxhelp:CBEditorHelp#Prefs>option</a> to include namespace for each function in <a href=jxhelp:CBEditorHelp#SourceCode>Functions menu</a>.  This setting is toggled via the Shift key.
+<p>
+Added <a href=jxhelp:CBEditorHelp#Prefs>option</a> to draw right margin indicator.
+<p>
+If no text is selected, \"Find selection\" menu items search for the word that contains the caret.  This avoids the need to double click before performing \"Find selection\" when you want to search for a single word.
+<p>
+Cursor changes to arrow when cursor is over the selection and dragging will initiate Drag-and-Drop.
+<p>
+Dollar ($) character is now recognized as part of a word in the scripting languages that use this as a prefix character.  Hash (%) and Array (@) are also included for Perl.
+<p>
+Fixed bug so macro won't be triggered by the end of a word, e.g., \"Waldo\".
+<p>
+Fixed bug in C syntax highlighting so only the first part of \"#if 0 ... #else ... #endif\" will be considered a comment.  Also fixed bugs so comments after \"#if 0\" and spaces within \"#if\" don't affect the result.
+<p>
+Fixed bug in Sections menu (when editing HTML) so quoted section names are not listed twice.
+<p>
+Changed Edit Styles dialogs to simplify changing styles and avoid Meta-click conflict with window managers.
+<p>
+Optimized code so opening files with syntax highlighting is at least twice as fast.
+<p>
+Fixed bug so undo shift left/right works correctly when selection includes a partial line.
+<p>
+Fixed bug in C/C++ styler so \"0\" is treated as decimal rather than octal.
+<p>
+
+<b> <a href=jxhelp:CBCTreeHelp> C++ Class Tree </a> </b>
+
+<p>
+Fixed parser to handle classes declared inside a namespace.
+<p>
+
+<b> Miscellaneous </b>
+
+<p>
+Added option to \"Miscellaneous Preferences\" dialog to choose between Macintosh and Windows style menu shortcuts.  (This assumes that you have not changed Meta to Ctrl in the menu_strings file.)  This affects all menu shortcuts and the Meta-Tab shortcut for opening header files.
+<p>
+Added command line option <code>--cvs-commit</code> to allow Code Crusader to be used as the CVS Commit editor.  Simply tell CVS to invoke \"<code>jcc --cvs-commit file_name</code>\".  When you are done editing the change log, use Quit on the File menu and CVS will process it automatically.
+<p>
+Added \"Ignore changes in amount of whitespace\" and \"Ignore blank lines\" options to the Compare Files dialog.  The latter option only works if you have GNU's version of <code>diff</code> installed.
+<p>
+Tab completion works in all path and file name input fields.
+<p>
+Renamed Files menu to Windows menu, alphabetized it to make it more useful, and moved it after Commands menu so that File menu is in the standard location.
+<p>
+You can change the menu font by creating <code>~/.jx/menu_font</code>.  The first line in the file must be the font name.  The second line in the file must be the font size.
+<p>
+Removed \"Close\" button from menu bars since all reasonable window managers provide their own Close button in the title bar.
+<p>
+Fixed bug in UNIX man page display so error output is no longer mixed in with text.
+<p>
+
+<h3> 3.0.3 </h3>
+
+Fixed bug so Meta key works correctly on Mandrake Linux.
+
+<h3> 3.0.2 </h3>
+
+Fixed bug so \"Replace all in selection\" works correctly when source and target do not have the same length.
+
+<h3> 3.0.1 </h3>
+
+Fixed Compile Output window so it works with version of gcc shipped with RedHat 7.1.
+
+<h3> 3.0.0 </h3>
+
+<p>
+<b> Major changes </b>
+<p>
+Created <a href=jxhelp:CBSymbolHelp>symbol browser</a> to display and
+allow searching of all symbols in source code.  It includes symbols from
+Assembly, ASP, AWK, Bourne Shell, C, C++, Cobol, Eiffel, FORTRAN, Java, Lisp, make,
+Perl, PHP, Python, Scheme, TCL, and Vim.
+<p>
+<a href=jxhelp:CBEditorHelp#SourceCode>Functions menu</a> is available in Editor window for all the above languages and also HTML.
+<p>
+Requires <a href=http://ctags.sourceforge.net/> Exuberant <tt>ctags</tt></a> version 5.0.
+<p>
+Meta-double-click in the editor now searches the symbol list, so it is
+no longer restricted to only C++ class names and functions.  Meta-double-click
+is now also context sensitive.  Use Meta-Shift-double-click to avoid this.
+<p>
+Added <a href=jxhelp:CBJavaTreeHelp>Java class tree</a>.
+<p>
+<a href=jxhelp:CBCompleterHelp>Keyword completion</a> uses
+<a href=jxhelp:CBSymbolHelp>symbol list</a> instead of
+the C++ class tree, so it now works for Bourne Shell, C, C++, Eiffel, FORTRAN, Java,
+Perl, and Python.
+<p>
+Created <a href=jxhelp:CBDiffHelp>File Differences</a> dialog for displaying
+the differences between two files.
+<p>
+Added ability to create projects and text files from
+<a href=jxhelp:CBFileTemplateHelp>templates</a>.
+<p>
+<a href=jxhelp:CBFileTypeHelp>File types</a> are no longer restricted to pure suffixes, i.e., they don't have to start with a period.
+<p>
+Added support for editing binary files via an <a href=jxhelp:CBProjectHelp#ExtEditor>external editor</a>.  If a file appears to be binary, Code Crusader will ask if you want to edit as a text or binary file.  Also added \"Binary\" type in <a href=jxhelp:CBFileTypeHelp>File Types</a> dialog.  Files of this type are automatically opened as binary files without asking.
+<p>
+Added \"External\" type in <a href=jxhelp:CBFileTypeHelp>File Types</a> dialog to
+allow particular types of files (e.g. window layouts and images) to be edited via
+other programs.  When these files are added to a
+<a href=jxhelp:CBProjectHelp>project</a>, double-clicking automatically
+runs the appropriate program instead of opening a
+<a href=jxhelp:CBEditorHelp>Text Editor</a> window.
+<p>
+Added support for all <a href=jxhelp:JXComposeHelp>European languages</a>.
+<p>
+
+<b> <a href=jxhelp:CBProjectHelp> Project </a> </b>
+
+<p>
+New \"External\" file type allows use of wizard to create and edit Make.header.  Simply add the wizard's file to the project and define a file type for it.
+<p>
+Added \"Java archive\" <a href=jxhelp:CBFileTypeHelp>file type</a> to allow automatic
+building of subprojects and convenient access to the subprojects by double-clicking
+on the <tt>.jar</tt> file in the project window.
+<p>
+For Java projects, <tt>.jar</tt> files are automatically added to the <tt>-classpath</tt>.  <tt>JPATH</tt> must now be used in Make.header to specify additional values for <tt>-classpath</tt>.  All <tt>.java</tt> files are compiled with a single call to <tt>${JAVAC}</tt> to avoid link errors.  To upgrade existing Make.header files, remove the \"<tt>%.class : %.java</tt>\" rule.
+<p>
+Added several command line options to <a href=jxhelp:CBMakemakeHelp>makemake</a>.
+<p>
+Saves symbol table and C++ class tree in separate <tt>.jst</tt> file.  This file can
+be safely deleted, because it will be regenerated automatically when needed.  The
+main project file (<tt>.jcc</tt>) is now very small and therefore suitable for
+inclusion in source distributions.  If you use the same project file on more than
+one machine, you only need to transfer the <tt>.jcc</tt> file.
+<p>
+You can choose the active project by holding down the Meta key while selecting
+a project from the Files menu.
+<p>
+If you hold down the Meta key while choosing a project from the \"Recent
+projects\" menu, everything else will be closed before the project is
+opened.
+<p>
+Added icon for the <a href=jxhelp:CBFileListHelp>File List</a> window.  This is now
+a \"first class\" window with all the menu items and shortcuts provided by the
+Project, Symbol Browser, and Class Tree windows.
+<p>
+<a href=jxhelp:CBFileListHelp>File List</a> now displays unique portions of the
+paths if two files have the same name.
+<p>
+When you Meta-double-click on a file in the project window, the icon becomes a
+button.  Clicking this button lets you change the name of the file via the
+Choose File dialog.
+<p>
+To open or close all groups in the project, hold down the Shift key while clicking
+one of the arrows.
+<p>
+Uses only one progress window when updating the symbol database.
+<p>
+Provides the option to disable makemake when a project is created so you don't have
+to delete Make.files and Make.header by hand afterwards.
+<p>
+If the <tt>.jcc</tt> file is write protected, Code Crusader will not write to it.  This avoids annoying users who share the project file over CVS.
+<p>
+Fixed bug so it correctly selects non-existent files when there is an error
+while rebuilding the Makefile.
+<p>
+Fixed bug so it doesn't crash when a very large group of files is dropped on the window.
+<p>
+
+<b> <a href=jxhelp:CBEditorHelp> Text Editor </a> </b>
+
+<p>
+Renamed \"HTML preferences...\" menu item to \"Web browser preferences...\"  The URL
+prefixes no longer need to be specified.  The file suffixes have been moved to the
+<a href=jxhelp:CBFileTypeHelp>File Types</a> dialog.
+<p>
+Added column display at bottom of window.  Shift-return in the line number display
+jumps to the line and activates the column display.
+<p>
+Shift left/right items on Edit menu honor the <a href=jxhelp:CBEditorHelp#Prefs>
+Tab inserts spaces</a> preference option.
+<p>
+The Control and Meta double click shortcuts activate when you release the mouse button, so you can select more than a single word.  This is useful for strings like \"<tt>std::ios</tt>\".  In addition, to help avoid mistakes, if the selected text contains a newline, the action is not performed.
+<p>
+Displays pop-up menu if there is more than one possible
+<a href=jxhelp:CBCompleterHelp>completion</a>.
+<p>
+Added Operator, Delimiter, and Unicode Character categories to C/C++
+<a href=jxhelp:CBStylerHelp>context-sensitive highlighting</a>.
+<p>
+Updated list of keywords in C/C++
+<a href=jxhelp:CBStylerHelp>context-sensitive highlighting</a> and
+<a href=jxhelp:CBCompleterHelp>keyword completion</a>.
+<p>
+\"<tt>#if 0 ... #endif</tt>\" is styled as a comment.
+<p>
+<a href=jxhelp:CBEditorHelp#SourceCode>Functions menu</a> for FORTRAN includes labels.  (This is most useful when the menu displays the items in the order in which they appear in the file.)
+<p>
+Recognizes Modula-2 and Modula-3 <a href=jxhelp:CBFileTypeHelp>file types</a>
+and provides button to switch between module and interface.
+<p>
+Updated <a href=jxhelp:CBCompleterHelp>HTML keyword completion</a> to include all the
+<a href=http://www.w3.org/TR/html401/sgml/entities.html>new escaped characters in HTML
+4.01</a>.
+<p>
+Added \"Script\" type in <a href=jxhelp:CBStylerHelp>Edit HTML Styles</a> dialog.
+Specific language names can be overridden by entering them in the lower table.
+<p>
+Added <tt>$r</tt> and <tt>$s</tt> variables to <a href=jxhelp:CBMacroHelp>macros</a>.
+<p>
+Added \"Search clipboard forward\" and \"Search clipboard backwards\" to Search menu.
+This allows you to search for text that is selected in a terminal window just like selected text in a Text Editor window.  You simply use Ctrl-H instead of Meta-H.
+<p>
+Added \"Replace all in selection\" to Search menu and Search Text dialog.
+<p>
+Added \"Search directory\" option to Search Text dialog.
+<p>
+\"Search files\" checkbox is no longer inactive if there are no files in the list.
+Instead, turning it on automatically opens the Choose Files dialog.
+<p>
+\"Search directory\" and \"Search files\" checkboxes are turned off when Search Text dialog is opened, since this is what one expects 95% of the time.
+<p>
+Binary files in the list of files to search are ignored.
+<p>
+Search output lists files that were not found, unreadable, or not searched.
+<p>
+Search output lists only partial line if there is too much text.  This keeps Code Crusader from locking up while receiving huge amounts of text from the search process.
+<p>
+Added separate window preferences for Search Output window.  (i.e. \"Save window size\" on Preferences menu changes a separate setting)
+<p>
+Search Text dialog finally uses monospace font on history menus.
+<p>
+Changed <tt>--search</tt> command line option to clear the list of files
+before adding the specified files to the list.  Added <tt>--add-search</tt>
+command line option to append to the list of files instead of replacing it.
+<p>
+Activates Search Text window when the <tt>--search</tt> command line options are invoked.
+<p>
+Fixed bug so \"Entire word\" works correctly when searching multiple files.
+<p>
+Added option in plain text Page Setup dialog to print pages in reverse order.
+<p>
+\"Print with styles...\" is now active for UNIX man pages.
+<p>
+When a file is opened to a particular function definition, the scroll position is more useful.
+<p>
+If the caret follows when you scroll and you are at the beginning/end of the text,
+pressing Page Up/Down or Home/End moves the caret to the beginning/end of the text.
+<p>
+If you open a file that is already displayed in an unmodified Text Editor window,
+and the file has been changed on disk, it will automatically ask you if you want
+to update to the new contents of the file.
+<p>
+If the file has been changed on disk, the file name at the bottom of the window will
+turn red.
+<p>
+\"Revert to saved\" updates the \"Read only\" checkbox setting.
+<p>
+Added command line options --force-reload and --no-force-reload.  If a file is listed
+after --force-reload on the command line and the file is already open in a Text Editor
+window, Code Crusader will automatically load the latest version from disk if the disk
+version has been modified and the contents of the Text Editor window have not been
+modified.
+<p>
+If <a href=jxhelp:CBEditorHelp#SourceCode>Functions menu</a> is not sorted alphabetically, horizontal line marks location of caret.
+<p>
+Added option to display items on <a href=jxhelp:CBEditorHelp#SourceCode>Functions menu</a> with a smaller font, so more will fit on the screen.
+<p>
+Fixed bug so \"Read only\" is set correctly when a file is re-opened as a result of
+opening a project.
+<p>
+Allows you to try to save a file even if it is write protected.
+<p>
+Fixed bug in <a href=jxhelp:CBEditorHelp#SourceCode>Functions menu</a> so it works when file is in a write-protected directory and text is not saved.
+<p>
+Fixed bug to allow pasting to and from Gnome and KDE programs.
+<p>
+Added hack to allow pasting from rxvt and other similar, broken terminal programs.
+<p>
+
+<b> <a href=jxhelp:CBCompileHelp> Make </a> and
+    <a href=jxhelp:CBRunProgramHelp> Run </a> </b>
+
+<p>
+The target name for a new project is now set to the name of the project instead of a.out.
+<p>
+Fixed bug so it no longer forgets scroll position when compile errors are encountered.
+<p>
+Prompts are printed while waiting for input, not after input is entered.
+<p>
+
+<b> <a href=jxhelp:CBCTreeHelp> C++ Class Tree </a> </b>
+
+<p>
+Added \"Select descendants\" item to Tree menu.  When this selection is
+dragged to the file list in the Search Text dialog, you can search all
+derived classes of a given class.
+<p>
+Now includes information about which classes are templates.
+<p>
+Added support for Qt signals and slots extension to C++.
+<p>
+All files in the project are parsed, regardless of the search paths.
+<p>
+Fixed bug so class names are case sensitive.
+<p>
+Fixed bug so functions with <tt>throws()</tt> declarations are recognized.
+<p>
+Fixed bug so function definition is found even if it includes whitespace.
+(e.g. \"Foo :: Bar\")
+<p>
+
+<b> Miscellaneous </b>
+
+<p>
+Fixed hierarchical menus.  It now stays open as long as you are moving the mouse towards it, regardless of what the mouse passes over on the way.
+<p>
+On-line help is now searchable.
+<p>
+Shift-Page up/down scrolls by 1/2 page in all windows.
+<p>
+Fixed command line operation so it doesn't ask if you want to create the file if you accidentally specify a directory name.
+<p>
+Running Code Crusader with <tt>--man</tt> and no argument opens the Man Page dialog.
+<p>
+Fixed MDI operation so multiple, simultaneous invocations don't time out and start new processes.
+<p>
+No longer reparses all source files after you edit <a href=jxhelp:CBMacroHelp>macros</a> or <a href=jxhelp:CBCRMHelp>CPM rules</a>.
+<p>
+Unsaved files on the Files menu are now dark red instead of bright red to make the file names easier to read.
+<p>
+Shortcuts on Files menu are now numbered 1, .., 9, 0 to match the ordering on standard keyboards.
+<p>
+Printing commands, etc. accept <tt>~</tt> notation.
+<p>
+Input fields are smarter about what constitutes a word for double clicking, etc.
+<p>
+Added \"Stay open\" checkbox to all modeless dialogs.
+<p>
+Added menu to Choose File, Choose Path, and Save File dialogs to display current path.
+<p>
+Safely quits if the system is shutdown or rebooted properly.  (i.e. <tt>shutdown</tt> or <tt>reboot</tt> is used)
+<p>
+When dragging text to a non-XDND window, you only lose the clipboard contents if another program currently owns it, not if Code Crusader owns it.
+<p>
+Windows will no longer jump because the setting is saved in the preferences.
+<p>
+Fixed bug so MDI now works on Solaris.
+<p>
+Fixed bugs so works with ctags on Linux kernel 2.4.x and Solaris.
+
+<h3> 2.1.4 </h3>
+
+<b> <a href=jxhelp:CBProjectHelp> Project </a> </b>
+
+<p>
+Updates Make.files when you close the project, so it can be built even if Code Crusader
+is not running.
+<p>
+Added option --check to <a href=jxhelp:CBMakemakeHelp>makemake</a>.  Fixed <tt>touch</tt>
+target so <tt>TOUCHHEADERS</tt> is no longer needed and fixed bug so it no longer
+adds a link command to Java targets.
+<p>
+Fixed bug so scrollbar no longer jumps when you rearrange files at the bottom of
+the project window.
+<p>
+Fixed bug in Sub-project configuration dialog so Choose button doesn't crash if
+text in input field ends with slash.
+<p>
+
+<b> <a href=jxhelp:CBEditorHelp> Text Editor </a> </b>
+
+<p>
+<a href=jxhelp:CBEditorHelp#SourceCode>Functions menu</a> now requires <a href=http://ctags.sourceforge.net/>Exuberant <tt>ctags</tt></a> version 3.3.
+<p>
+Fixed bug so \"Run script\" menu item won't hang if the script outputs a large amount of text.
+<p>
+Added <tt>namespace</tt> to the built-in list of C++ keywords used by
+<a href=jxhelp:CBStylerHelp>context-sensitive highlighting</a> and
+<a href=jxhelp:CBCompleterHelp>keyword completion</a>.
+<p>
+Added <tt>::</tt> to list of recognized operators for C/C++
+<a href=jxhelp:CBStylerHelp>context-sensitive highlighting</a>.
+<p>
+
+<b> <a href=jxhelp:CBCompileHelp> Make </a> and
+    <a href=jxhelp:CBRunProgramHelp> Run </a> </b>
+
+<p>
+Fixed bug so it now rebuilds Makefile when you move a project to a different machine.
+<p>
+
+<b> <a href=jxhelp:CBCTreeHelp> C++ Class Tree </a> </b>
+
+<p>
+Fixed bug so parser doesn't mistake <tt>::</tt> in class name for an inheritance declaration.
+<p>
+
+<b> Miscellaneous </b>
+
+<p>
+Fixed Choose File, Choose Path, and Save File dialogs so they no longer require a valid
+path when the Cancel button is pushed.
+<p>
+
+<h3> 2.1.3 </h3>
+
+<b> <a href=jxhelp:CBCompileHelp> Make </a> and
+    <a href=jxhelp:CBRunProgramHelp> Run </a> </b>
+
+<p>
+Automatically adds <tt>./</tt> to your execution path so you don't have to remember
+to specify it explicitly.
+<p>
+
+<b> <a href=jxhelp:CBCTreeHelp> C++ Class Tree </a> </b>
+
+<p>
+Now searches for class::function when looking for a function's definition.  If this fails,
+it falls back on the original ::function.
+<p>
+
+<h3> 2.1.2 </h3>
+
+<b> <a href=jxhelp:CBProjectHelp> Project </a> </b>
+
+<p>
+Figured out <a href=http://www.newplanetsoftware.com/jcc/multi_version.php>how</a>
+to build multiple versions of a program or library from a single project.
+<p>
+Added option to not update C++ class tree while compiling.
+<p>
+Fixed bug that caused crash when dropping all files from the last group
+into another group.
+<p>
+Fixed bug in Search Paths dialog so it no longer crashes when you toggle
+the recursion flag for an empty path.
+<p>
+
+<b> <a href=jxhelp:CBEditorHelp> Text Editor </a> </b>
+
+<p>
+Holding down the Meta key toggles the Drag-And-Drop setting
+in the <a href=jxhelp:CBEditorHelp#Prefs>Preferences</a> dialog.  (Once you
+begin dragging, you can release the Meta key so that you can move the text.)
+<p>
+Added option to set styled printing font size independently of the screen font size.
+<p>
+Correctly ignores key presses during a drag.
+<p>
+
+<b> Miscellaneous </b>
+
+<p>
+Holding down the Meta key initiates Drag-And-Drop from any input field.
+<p>
+
+<h3> 2.1.1 </h3>
+
+<b> <a href=jxhelp:CBProjectHelp> Project </a> </b>
+
+<p>
+Added option in <a href=jxhelp:CBProjectHelp#Config>Project Configuration</a>
+dialog to include an arbitrary expression at the end of the dependency list.
+<p>
+Target name in <a href=jxhelp:CBProjectHelp#Config>Project Configuration</a>
+dialog can now be a list of target names separated by commas.
+<p>
+Added option in Sub-project configuration dialog to not include the library
+in the list of dependencies passed to make.
+<p>
+Split Project menu into Project and Source menus.
+<p>
+
+<b> <a href=jxhelp:CBEditorHelp> Text Editor </a> </b>
+
+<p>
+Added option in <a href=jxhelp:CBEditorHelp#Prefs>Preferences</a> dialog
+to not sort the function names displayed in the <a href=jxhelp:CBEditorHelp#SourceCode>Functions menu</a>.  Holding down the
+Meta key while opening the menu toggles this setting.
+<p>
+Fixed bug in toolbar so it is now safe to use Close, Close All, and Quit buttons.
+In addition, the Open button no longer crashes when used from an empty editor.
+<p>
+
+<b> <a href=jxhelp:CBCompileHelp> Make </a> and
+    <a href=jxhelp:CBRunProgramHelp> Run </a> </b>
+
+<p>
+Added option in <a href=jxhelp:CBRunProgramHelp>Run</a> dialog to not create an
+editor to display the program's output.  If an editor is not created, then you
+can quit Code Crusader without having to first quit the program.
+<p>
+
+<b> Miscellaneous </b>
+
+<p>
+Fixed bug in Find File dialog so it no longer crashes if you press the \"Find\"
+button when the input field is empty.
+<p>
+
+<h3> 2.1.0 </h3>
+
+<p>
+<b> Major changes </b>
+<p>
+Added button toolbars in all major windows.  They are configurable via the \"Toolbar
+buttons...\" item on each Preferences menu.
+<p>
+
+<b> <a href=jxhelp:CBProjectHelp> Project </a> </b>
+
+<p>
+Automatically builds projects associated with library files before building
+the project itself.  You can also do this from within the Makefile, but now you
+don't have to learn how until you need it for some other reason.
+<p>
+Added \"Edit sub-project configuration\" item on Project menu to edit the name
+of the project file attached to a library.  This also allows you to turn off
+the automatic building of individual sub-projects.
+<p>
+Created <a href=jxhelp:CBProjectHelp#Prefs>Project Preferences</a> dialog, which
+includes the option to not reopen text files when a project is opened.
+<p>
+Fixed several bugs so Make.files is now always updated when necessary.
+<p>
+Fixed bug so it no longer crashes in rare cases when adding project relative
+paths to the list of search paths.
+<p>
+
+<b> <a href=jxhelp:CBEditorHelp> Text Editor </a> </b>
+
+<p>
+Shift-return maintains the current indentation but ignores the line prefix.
+<p>
+Changed the default behavior so <a href=jxhelp:CBEditorHelp#MouseShortcuts>
+Meta-dbl-click</a> doesn't raise the C++ class tree if there is a single match.
+You can change this in the <a href=jxhelp:CBTreePrefsHelp>C++ Class Tree
+Preferences</a> dialog.
+<p>
+Added option in <a href=jxhelp:CBEditorHelp#Prefs>Preferences</a> dialog
+to have Tab insert spaces instead of a Tab character.
+<p>
+Added option in plain text Print Setup dialog to print line numbers.
+<p>
+So many people have asked that I have finally added the option to make
+Home/End work like on Windows and to have the caret follow when the text scrolls.
+They are in the <a href=jxhelp:CBEditorHelp#Prefs>Preferences</a> dialog.
+<p>
+Optimized opening batches of files and DOS files.
+<p>
+Fixed bug in <a href=jxhelp:CBMacroHelp>macros</a> so $f, $p, $n, $l now work correctly.
+<p>
+
+<b> <a href=jxhelp:CBCompileHelp> Make </a> and
+    <a href=jxhelp:CBRunProgramHelp> Run </a> </b>
+
+<p>
+Fixed Program Output window so text appears when it is printed, not just when
+a newline is received.
+<p>
+
+<b> Miscellaneous </b>
+
+<p>
+Added draggable icon in Save File dialog.  This implements local saving via the new
+<a href=http://www.newplanetsoftware.com/xds/>Direct Save</a>
+(XDS) protocol.
+<p>
+Fixed <a href=jxhelp:CBCompileHelp>Compiler Output</a> window and
+<a href=jxhelp:CBSearchTextHelp#Multifile>multi-file Search Results</a> window
+to use current font color instead of always black.
+<p>
+Fixed bug so it now correctly restores the position and size of the Text Editor windows
+when they are re-opened along with a project.
+<p>
+
+<h3> 2.0.1 </h3>
+
+<b> <a href=jxhelp:CBProjectHelp> Project </a> </b>
+
+<p>
+Fixed bugs in specification of when to rewrite Make.files.
+<p>
+Optimized code for \"Add files...\" item on Project menu.
+<p>
+
+<b> <a href=jxhelp:CBCompileHelp> Make </a> and
+    <a href=jxhelp:CBRunProgramHelp> Run </a> </b>
+
+<p>
+Fixed code to work around egcs thunks bug.
+<p>
+
+<h3> 2.0.0 </h3>
+
+<p>
+<b> Major changes </b>
+<p>
+<a href=jxhelp:CBProjectHelp>Project</a> window simplifies interface to
+<a href=http://www.gnu.org/manual/make/>GNU <tt>make</tt></a>.
+<p>
+<a href=jxhelp:CBEditorHelp#SourceCode>Functions menu</a> in <a href=jxhelp:CBEditorHelp>Text Editor</a> windows displaying source lets you jump to each function's definition.
+<p>
+
+<b> <a href=jxhelp:CBEditorHelp> Text Editor </a> </b>
+
+<p>
+Added variables $f, $p, $n, $l to the <a href=jxhelp:CBEditorHelp#ExtScript>
+Run Script</a> dialog.
+<p>
+Added option in Miscellaneous Preferences dialog to turn off \"Close before saving?\"
+message.
+<p>
+
+<b> <a href=jxhelp:CBCompileHelp> Make </a> and
+    <a href=jxhelp:CBRunProgramHelp> Run </a> </b>
+
+<p>
+Execution paths can be specified relative to the project file's directory.
+<p>
+Recognizes error messages from Absoft FORTRAN compiler.
+<p>
+Added EOF button to send end-of-file to running process.
+<p>
+Prompts printed by process are displayed in front of echoed input.
+<p>
+The command line input field now activates the Edit menu.
+<p>
+If the window is read-only, Tab switches focus between the display and the command
+line input field.
+<p>
+
+<b> <a href=jxhelp:CBCTreeHelp> C++ Class Tree </a> </b>
+
+<p>
+This window is now a secondary window accessible from the
+<a href=jxhelp:CBProjectHelp>Project</a> window.
+<p>
+Search paths can be specified relative to the project file's directory.
+<p>
+
+<b> Miscellaneous </b>
+
+<p>
+Added Matches menu in <a href=jxhelp:CBSearchTextHelp#Multifile>multi-file Search
+Results</a> window.  This works just like the Errors menu in the
+<a href=jxhelp:CBCompileHelp>Compiler Output</a> window.
+<p>
+Added support for <a href=jxhelp:CBMiscHelp#Scrolling>wheel mice</a>.
+<p>
+No longer pauses when you begin dragging text or files.
+<p>
+Displaying files and URLs in a browser is done in the background.

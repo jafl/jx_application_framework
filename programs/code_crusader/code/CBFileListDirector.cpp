@@ -1,0 +1,768 @@
+/******************************************************************************
+ CBFileListDirector.cpp
+
+	Window to display all files found by CBParseFiles().
+
+	BASE CLASS = JXWindowDirector
+
+	Copyright © 1998 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+#include <cbStdInc.h>
+#include "CBFileListDirector.h"
+#include "CBFileListTable.h"
+#include "CBProjectDocument.h"
+#include "CBSymbolDirector.h"
+#include "CBCTreeDirector.h"
+#include "CBJavaTreeDirector.h"
+#include "CBViewManPageDialog.h"
+#include "CBFindFileDialog.h"
+#include "CBDiffFileDialog.h"
+#include "CBSearchTextDialog.h"
+#include "CBCommandMenu.h"
+#include "CBDocumentMenu.h"
+#include "CBFileHistoryMenu.h"
+#include "cbActionDefs.h"
+#include "cbGlobals.h"
+#include <JXDisplay.h>
+#include <JXWindow.h>
+#include <JXMenuBar.h>
+#include <JXTextMenu.h>
+#include <JXFileListSet.h>
+#include <JXToolBar.h>
+#include <JXScrollbarSet.h>
+#include <JXWebBrowser.h>
+#include <JXImage.h>
+#include <JString.h>
+#include <jAssert.h>
+
+static const JCharacter* kWindowTitleSuffix = " Files";
+
+// File menu
+
+static const JCharacter* kFileMenuTitleStr = "File";
+static const JCharacter* kFileMenuStr =
+	"    New text file                  %k Meta-N       %i" kCBNewTextFileAction
+	"  | New text file from template... %k Meta-Shift-N %i" kCBNewTextFileFromTmplAction
+	"  | New project...                                 %i" kCBNewProjectAction
+	"  | New shell...                                   %i" kCBNewShellAction
+	"%l| Open...                        %k Meta-O       %i" kCBOpenSomethingAction
+	"  | Recent projects"
+	"  | Recent text files"
+	"%l| Close                          %k Meta-W       %i" kJXCloseWindowAction
+	"  | Quit                           %k Meta-Q       %i" kJXQuitAction;
+
+enum
+{
+	kNewTextEditorCmd = 1, kNewTextTemplateCmd, kNewProjectCmd, kNewShellCmd,
+	kOpenSomethingCmd,
+	kRecentProjectMenuCmd, kRecentTextMenuCmd,
+	kCloseCmd, kQuitCmd
+};
+
+// List menu
+
+static const JCharacter* kListMenuTitleStr = "List";
+static const JCharacter* kListMenuStr =
+	"    Open selected files                 %k Return.     %i" kCBOpenSelectedFilesAction
+	"  | Show selected files in file manager %k Meta-Return %i" kCBOpenSelectedFileLocationsAction
+	"  | Update                              %k Meta-U      %i" kCBUpdateClassTreeAction
+	"%l| Use wildcard filter %b                             %i" kCBUseWildcardFilterAction
+	"  | Use regex filter    %b                             %i" kCBUseRegexFilterAction;
+
+enum
+{
+	kOpenSelectionCmd = 1, kShowLocationCmd, kUpdateCmd,
+	kUseWildcardCmd, kUseRegexCmd
+};
+
+// Project menu
+
+static const JCharacter* kProjectMenuTitleStr = "Project";
+static const JCharacter* kProjectMenuStr =
+	"    Show symbol browser                 %i" kCBShowSymbolBrowserAction
+	"  | Show C++ class tree                 %i" kCBShowCPPClassTreeAction
+	"  | Show Java class tree                %i" kCBShowJavaClassTreeAction
+	"  | Look up man page... %k Meta-I       %i" kCBViewManPageAction
+	"%l| Find file...        %k Meta-D       %i" kCBFindFileAction
+	"  | Search files...     %k Meta-F       %i" kCBSearchFilesAction
+	"  | Compare files...                    %i" kCBDiffFilesAction
+	"%l| Save all            %k Meta-Shift-S %i" kCBSaveAllTextFilesAction
+	"  | Close all           %k Meta-Shift-W %i" kCBCloseAllTextFilesAction;
+
+enum
+{
+	kShowSymbolBrowserCmd = 1, kShowCTreeCmd, kShowJavaTreeCmd, kViewManPageCmd,
+	kFindFileCmd, kSearchFilesCmd, kDiffFilesCmd,
+	kSaveAllTextCmd, kCloseAllTextCmd
+};
+
+// Windows menu
+
+static const JCharacter* kFileListMenuTitleStr = "Windows";
+
+// Preferences menu
+
+static const JCharacter* kPrefsMenuTitleStr = "Preferences";
+static const JCharacter* kPrefsMenuStr =
+	"    Toolbar buttons..."
+	"  | File types..."
+	"  | External editors..."
+	"  | File manager & web browser..."
+	"  | Miscellaneous..."
+	"%l| Save window size as default";
+
+enum
+{
+	kToolBarPrefsCmd = 1,
+	kEditFileTypesCmd, kChooseExtEditorsCmd,
+	kShowLocationPrefsCmd, kMiscPrefsCmd,
+	kSaveWindSizeCmd
+};
+
+/******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+CBFileListDirector::CBFileListDirector
+	(
+	CBProjectDocument* supervisor
+	)
+	:
+	JXWindowDirector(supervisor)
+{
+	CBFileListDirectorX(supervisor);
+}
+
+CBFileListDirector::CBFileListDirector
+	(
+	istream&			projInput,
+	const JFileVersion	projVers,
+	istream*			setInput,
+	const JFileVersion	setVers,
+	istream*			symInput,
+	const JFileVersion	symVers,
+	CBProjectDocument*	supervisor,
+	const JBoolean		subProject
+	)
+	:
+	JXWindowDirector(supervisor)
+{
+	CBFileListDirectorX(supervisor);
+
+	if (projVers >= 20)
+		{
+		const JBoolean useProjData = JI2B( setInput == NULL || setVers < 71 );
+		if (projVers < 71)
+			{
+			if (useProjData)
+				{
+				(GetWindow())->ReadGeometry(projInput);
+				}
+			else
+				{
+				JXWindow::SkipGeometry(projInput);
+				}
+
+			JBoolean active = kJFalse;
+			if (projVers >= 50)
+				{
+				projInput >> active;
+				}
+			if (useProjData && active && !subProject)
+				{
+				Activate();
+				}
+
+			itsFLSet->ReadSetup(projInput);		// no way to skip
+			}
+
+		if (!useProjData)
+			{
+			(GetWindow())->ReadGeometry(*setInput);
+
+			JBoolean active;
+			*setInput >> active;
+			if (active && !subProject)
+				{
+				Activate();
+				}
+
+			itsFLSet->ReadSetup(*setInput);
+			}
+
+		itsFLTable->ReadSetup(projInput, projVers, symInput, symVers);
+		}
+}
+
+// private
+
+void
+CBFileListDirector::CBFileListDirectorX
+	(
+	CBProjectDocument* projDoc
+	)
+{
+	itsProjDoc = projDoc;
+	ListenTo(itsProjDoc);
+
+	BuildWindow();
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+CBFileListDirector::~CBFileListDirector()
+{
+}
+
+/******************************************************************************
+ StreamOut
+
+ ******************************************************************************/
+
+void
+CBFileListDirector::StreamOut
+	(
+	ostream& projOutput,
+	ostream* setOutput,
+	ostream* symOutput
+	)
+	const
+{
+	if (setOutput != NULL)
+		{
+		*setOutput << ' ';
+		(GetWindow())->WriteGeometry(*setOutput);
+		*setOutput << ' ' << IsActive();
+		*setOutput << ' ';
+		itsFLSet->WriteSetup(*setOutput);
+		*setOutput << ' ';
+		}
+
+	itsFLTable->WriteSetup(projOutput, symOutput);
+}
+
+/******************************************************************************
+ BuildWindow (private)
+
+ ******************************************************************************/
+
+#include "jcc_file_list_window.xpm"
+
+#include <jx_file_new.xpm>
+#include <jx_file_open.xpm>
+#include <jx_filter_wildcard.xpm>
+#include <jx_filter_regex.xpm>
+#include "jcc_show_symbol_list.xpm"
+#include "jcc_show_c_tree.xpm"
+#include "jcc_show_java_tree.xpm"
+#include "jcc_view_man_page.xpm"
+#include "jcc_search_files.xpm"
+#include "jcc_compare_files.xpm"
+#include <jx_file_save_all.xpm>
+
+void
+CBFileListDirector::BuildWindow()
+{
+// begin JXLayout
+
+	JXWindow* window = new JXWindow(this, 340,450, "");
+	assert( window != NULL );
+
+	JXMenuBar* menuBar =
+		new JXMenuBar(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 340,30);
+	assert( menuBar != NULL );
+
+	itsToolBar =
+		new JXToolBar(CBGetPrefsManager(), kCBFileListToolBarID, menuBar, 150,150, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 340,420);
+	assert( itsToolBar != NULL );
+
+// end JXLayout
+
+	AdjustWindowTitle();
+	window->ShouldFocusWhenShow(kJTrue);
+	window->SetCloseAction(JXWindow::kDeactivateDirector);
+	window->SetWMClass(CBGetWMClassInstance(), CBGetFileListWindowClass());
+
+	JXDisplay* display = GetDisplay();
+	JXImage* icon      = new JXImage(display, jcc_file_list_window);
+	assert( icon != NULL );
+	window->SetIcon(icon);
+
+	JPoint desktopLoc;
+	JCoordinate w,h;
+	if ((CBGetPrefsManager())->GetWindowSize(kCBFileListWindSizeID, &desktopLoc, &w, &h))
+		{
+		window->Place(desktopLoc.x, desktopLoc.y);
+		window->SetSize(w,h);
+		}
+
+	itsFLSet =
+		new JXFileListSet(itsToolBar->GetWidgetEnclosure(),
+						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
+	assert( itsFLSet != NULL );
+	itsFLSet->FitToEnclosure();
+
+	JXScrollbarSet* scrollbarSet = itsFLSet->GetScrollbarSet();
+	itsFLTable =
+		new CBFileListTable(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
+	assert( itsFLTable != NULL );
+	itsFLSet->SetTable(itsFLTable);
+	ListenTo(itsFLTable);
+
+	itsFileMenu = menuBar->AppendTextMenu(kFileMenuTitleStr);
+	itsFileMenu->SetMenuItems(kFileMenuStr, "CBFileListDirector");
+	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ListenTo(itsFileMenu);
+
+	itsFileMenu->SetItemImage(kNewTextEditorCmd, jx_file_new);
+	itsFileMenu->SetItemImage(kOpenSomethingCmd, jx_file_open);
+
+	CBFileHistoryMenu* recentProjectMenu =
+		new CBFileHistoryMenu(CBDocumentManager::kProjectFileHistory,
+							  itsFileMenu, kRecentProjectMenuCmd, menuBar);
+	assert( recentProjectMenu != NULL );
+
+	CBFileHistoryMenu* recentTextMenu =
+		new CBFileHistoryMenu(CBDocumentManager::kTextFileHistory,
+							  itsFileMenu, kRecentTextMenuCmd, menuBar);
+	assert( recentTextMenu != NULL );
+
+	itsListMenu = menuBar->AppendTextMenu(kListMenuTitleStr);
+	itsListMenu->SetMenuItems(kListMenuStr, "CBFileListDirector");
+	itsListMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ListenTo(itsListMenu);
+
+	itsListMenu->SetItemImage(kUseWildcardCmd, jx_filter_wildcard);
+	itsListMenu->SetItemImage(kUseRegexCmd,    jx_filter_regex);
+
+	itsFLSet->AppendEditMenu(menuBar);
+
+	itsProjectMenu = menuBar->AppendTextMenu(kProjectMenuTitleStr);
+	itsProjectMenu->SetMenuItems(kProjectMenuStr, "CBFileListDirector");
+	itsProjectMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ListenTo(itsProjectMenu);
+
+	itsProjectMenu->SetItemImage(kShowSymbolBrowserCmd, jcc_show_symbol_list);
+	itsProjectMenu->SetItemImage(kShowCTreeCmd,         jcc_show_c_tree);
+	itsProjectMenu->SetItemImage(kShowJavaTreeCmd,      jcc_show_java_tree);
+	itsProjectMenu->SetItemImage(kViewManPageCmd,       jcc_view_man_page);
+	itsProjectMenu->SetItemImage(kSearchFilesCmd,       jcc_search_files);
+	itsProjectMenu->SetItemImage(kDiffFilesCmd,         jcc_compare_files);
+	itsProjectMenu->SetItemImage(kSaveAllTextCmd,       jx_file_save_all);
+
+	itsCmdMenu =
+		new CBCommandMenu(itsProjDoc, NULL, menuBar,
+						  JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
+	assert( itsCmdMenu != NULL );
+	menuBar->AppendMenu(itsCmdMenu);
+	ListenTo(itsCmdMenu);
+
+	CBDocumentMenu* fileListMenu =
+		new CBDocumentMenu(kFileListMenuTitleStr, menuBar,
+						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
+	assert( fileListMenu != NULL );
+	menuBar->AppendMenu(fileListMenu);
+
+	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
+	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "CBFileListDirector");
+	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ListenTo(itsPrefsMenu);
+
+	itsHelpMenu = (CBGetApplication())->CreateHelpMenu(menuBar, "CBFileListDirector");
+	ListenTo(itsHelpMenu);
+
+	// must do this after creating menus
+
+	itsToolBar->LoadPrefs();
+	if (itsToolBar->IsEmpty())
+		{
+		itsToolBar->AppendButton(itsFileMenu, kNewTextEditorCmd);
+		itsToolBar->AppendButton(itsFileMenu, kOpenSomethingCmd);
+		itsToolBar->NewGroup();
+		itsToolBar->AppendButton(itsListMenu, kUseWildcardCmd);
+		itsToolBar->AppendButton(itsListMenu, kUseRegexCmd);
+		itsToolBar->NewGroup();
+		itsToolBar->AppendButton(itsProjectMenu, kSearchFilesCmd);
+
+		(CBGetApplication())->AppendHelpMenuToToolBar(itsToolBar, itsHelpMenu);
+		}
+}
+
+/******************************************************************************
+ AdjustWindowTitle (private)
+
+ ******************************************************************************/
+
+void
+CBFileListDirector::AdjustWindowTitle()
+{
+	const JString title = itsProjDoc->GetName() + kWindowTitleSuffix;
+	(GetWindow())->SetTitle(title);
+}
+
+/******************************************************************************
+ Receive (virtual protected)
+
+ ******************************************************************************/
+
+void
+CBFileListDirector::Receive
+	(
+	JBroadcaster*	sender,
+	const Message&	message
+	)
+{
+	if (sender == itsFLTable && message.Is(JXFileListTable::kProcessSelection))
+		{
+		OpenSelectedFiles();
+		}
+
+	else if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
+		{
+		UpdateFileMenu();
+		}
+	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
+		{
+		const JXMenu::ItemSelected* selection =
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		assert( selection != NULL );
+		HandleFileMenu(selection->GetIndex());
+		}
+
+	else if (sender == itsListMenu && message.Is(JXMenu::kNeedsUpdate))
+		{
+		UpdateListMenu();
+		}
+	else if (sender == itsListMenu && message.Is(JXMenu::kItemSelected))
+		{
+		const JXMenu::ItemSelected* selection =
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		assert( selection != NULL );
+		HandleListMenu(selection->GetIndex());
+		}
+
+	else if (sender == itsProjectMenu && message.Is(JXMenu::kNeedsUpdate))
+		{
+		UpdateProjectMenu();
+		}
+	else if (sender == itsProjectMenu && message.Is(JXMenu::kItemSelected))
+		{
+		const JXMenu::ItemSelected* selection =
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		assert( selection != NULL );
+		HandleProjectMenu(selection->GetIndex());
+		}
+
+	else if (sender == itsPrefsMenu && message.Is(JXMenu::kNeedsUpdate))
+		{
+		UpdatePrefsMenu();
+		}
+	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
+		{
+		const JXMenu::ItemSelected* selection =
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		assert( selection != NULL );
+		HandlePrefsMenu(selection->GetIndex());
+		}
+
+	else if (sender == itsHelpMenu && message.Is(JXMenu::kNeedsUpdate))
+		{
+		(CBGetApplication())->UpdateHelpMenu(itsHelpMenu);
+		}
+	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
+		{
+		const JXMenu::ItemSelected* selection =
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		assert( selection != NULL );
+		(CBGetApplication())->HandleHelpMenu(itsHelpMenu, kCBFileListHelpName,
+											 selection->GetIndex());
+		}
+
+	else if (sender == itsProjDoc && message.Is(JXFileDocument::kNameChanged))
+		{
+		AdjustWindowTitle();
+		}
+
+	else
+		{
+		JXWindowDirector::Receive(sender, message);
+		}
+}
+
+/******************************************************************************
+ OpenSelectedFiles (private)
+
+ ******************************************************************************/
+
+void
+CBFileListDirector::OpenSelectedFiles()
+	const
+{
+	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
+	if (itsFLTable->GetSelection(&fileList))
+		{
+		(CBGetDocumentManager())->OpenSomething(fileList);
+		}
+}
+
+/******************************************************************************
+ UpdateFileMenu (private)
+
+ ******************************************************************************/
+
+void
+CBFileListDirector::UpdateFileMenu()
+{
+	itsFileMenu->SetItemEnable(kCloseCmd, !(GetWindow())->IsDocked());
+}
+
+/******************************************************************************
+ HandleFileMenu (private)
+
+ ******************************************************************************/
+
+void
+CBFileListDirector::HandleFileMenu
+	(
+	const JIndex index
+	)
+{
+	(CBGetDocumentManager())->SetActiveProjectDocument(itsProjDoc);
+
+	if (index == kNewTextEditorCmd)
+		{
+		(CBGetDocumentManager())->NewTextDocument();
+		}
+	else if (index == kNewTextTemplateCmd)
+		{
+		(CBGetDocumentManager())->NewTextDocumentFromTemplate();
+		}
+	else if (index == kNewProjectCmd)
+		{
+		(CBGetDocumentManager())->NewProjectDocument();
+		}
+	else if (index == kNewShellCmd)
+		{
+		(CBGetDocumentManager())->NewShellDocument();
+		}
+	else if (index == kOpenSomethingCmd)
+		{
+		(CBGetDocumentManager())->OpenSomething();
+		}
+
+	else if (index == kCloseCmd)
+		{
+		(GetWindow())->Close();
+		}
+	else if (index == kQuitCmd)
+		{
+		(JXGetApplication())->Quit();
+		}
+}
+
+/******************************************************************************
+ UpdateListMenu (private)
+
+ ******************************************************************************/
+
+void
+CBFileListDirector::UpdateListMenu()
+{
+	const JBoolean allowOpen =
+		JI2B( itsFLTable->HasFocus() && itsFLTable->HasSelection() );
+	itsListMenu->SetItemEnable(kOpenSelectionCmd, allowOpen);
+	itsListMenu->SetItemEnable(kShowLocationCmd,  allowOpen);
+
+	const JXFileListSet::FilterType type = itsFLSet->GetFilterType();
+	if (type == JXFileListSet::kWildcardFilter)
+		{
+		itsListMenu->CheckItem(kUseWildcardCmd);
+		}
+	else if (type == JXFileListSet::kRegexFilter)
+		{
+		itsListMenu->CheckItem(kUseRegexCmd);
+		}
+}
+
+/******************************************************************************
+ HandleListMenu (private)
+
+ ******************************************************************************/
+
+void
+CBFileListDirector::HandleListMenu
+	(
+	const JIndex index
+	)
+{
+	if (index == kOpenSelectionCmd)
+		{
+		OpenSelectedFiles();
+		}
+	else if (index == kShowLocationCmd)
+		{
+		itsFLTable->ShowSelectedFileLocations();
+		}
+	else if (index == kUpdateCmd)
+		{
+		itsProjDoc->UpdateSymbolDatabase();
+		}
+
+	else if (index == kUseWildcardCmd)
+		{
+		itsFLSet->ToggleWildcardFilter();
+		}
+	else if (index == kUseRegexCmd)
+		{
+		itsFLSet->ToggleRegexFilter();
+		}
+}
+
+/******************************************************************************
+ UpdateProjectMenu (private)
+
+ ******************************************************************************/
+
+void
+CBFileListDirector::UpdateProjectMenu()
+{
+	itsProjectMenu->SetItemEnable(kCloseAllTextCmd,
+								  (CBGetDocumentManager())->HasTextDocuments());
+	itsProjectMenu->SetItemEnable(kSaveAllTextCmd,
+								  (CBGetDocumentManager())->TextDocumentsNeedSave());
+}
+
+/******************************************************************************
+ HandleProjectMenu (private)
+
+ ******************************************************************************/
+
+void
+CBFileListDirector::HandleProjectMenu
+	(
+	const JIndex index
+	)
+{
+	(CBGetDocumentManager())->SetActiveProjectDocument(itsProjDoc);
+
+	if (index == kShowSymbolBrowserCmd)
+		{
+		(itsProjDoc->GetSymbolDirector())->Activate();
+		}
+	else if (index == kShowCTreeCmd)
+		{
+		(itsProjDoc->GetCTreeDirector())->Activate();
+		}
+	else if (index == kShowJavaTreeCmd)
+		{
+		(itsProjDoc->GetJavaTreeDirector())->Activate();
+		}
+	else if (index == kViewManPageCmd)
+		{
+		(CBGetViewManPageDialog())->Activate();
+		}
+
+	else if (index == kFindFileCmd)
+		{
+		(CBGetFindFileDialog())->Activate();
+		}
+	else if (index == kSearchFilesCmd)
+		{
+		(CBGetSearchTextDialog())->Activate();
+		}
+	else if (index == kDiffFilesCmd)
+		{
+		(CBGetDiffFileDialog())->Activate();
+		}
+
+	else if (index == kSaveAllTextCmd)
+		{
+		(CBGetDocumentManager())->SaveTextDocuments(kJTrue);
+		}
+	else if (index == kCloseAllTextCmd)
+		{
+		(CBGetDocumentManager())->CloseTextDocuments();
+		}
+}
+
+/******************************************************************************
+ UpdatePrefsMenu (private)
+
+ ******************************************************************************/
+
+void
+CBFileListDirector::UpdatePrefsMenu()
+{
+}
+
+/******************************************************************************
+ HandlePrefsMenu (private)
+
+ ******************************************************************************/
+
+void
+CBFileListDirector::HandlePrefsMenu
+	(
+	const JIndex index
+	)
+{
+	if (index == kToolBarPrefsCmd)
+		{
+		itsToolBar->Edit();
+		}
+	else if (index == kEditFileTypesCmd)
+		{
+		(CBGetPrefsManager())->EditFileTypes();
+		}
+	else if (index == kChooseExtEditorsCmd)
+		{
+		(CBGetDocumentManager())->ChooseEditors();
+		}
+	else if (index == kShowLocationPrefsCmd)
+		{
+		(JXGetWebBrowser())->EditPrefs();
+		}
+	else if (index == kMiscPrefsCmd)
+		{
+		(CBGetApplication())->EditMiscPrefs();
+		}
+
+	else if (index == kSaveWindSizeCmd)
+		{
+		(CBGetPrefsManager())->SaveWindowSize(kCBFileListWindSizeID, GetWindow());
+		}
+}
+
+/******************************************************************************
+ ReceiveWithFeedback (virtual protected)
+
+ ******************************************************************************/
+
+void
+CBFileListDirector::ReceiveWithFeedback
+	(
+	JBroadcaster*	sender,
+	Message*		message
+	)
+{
+	if (sender == itsCmdMenu && message->Is(CBCommandMenu::kGetTargetInfo))
+		{
+		CBCommandMenu::GetTargetInfo* info =
+			dynamic_cast<CBCommandMenu::GetTargetInfo*>(message);
+		assert( info != NULL );
+		itsFLTable->GetSelection(info->GetFileList());
+		}
+	else
+		{
+		JXWindowDirector::ReceiveWithFeedback(sender, message);
+		}
+}

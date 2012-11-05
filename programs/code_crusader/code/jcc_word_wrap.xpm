@@ -1,0 +1,19 @@
+/* XPM */
+static char * jcc_word_wrap[] = {
+"14 14 2 1",
+" 	c None",
+"X	c black",
+"              ",
+"              ",
+" XXXX XXXX    ",
+" XXXX XXXX X  ",
+"            X ",
+"            X ",
+"           X  ",
+"  XX XXX XX   ",
+" X            ",
+"X             ",
+"X             ",
+" X XXXX XXXX  ",
+"   XXXX XXXX  ",
+"              "};

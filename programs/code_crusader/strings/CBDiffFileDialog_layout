@@ -1,0 +1,10 @@
+0
+itsStayOpenCB::CBDiffFileDialog::JXLayout "Stay open"
+itsViewButton::CBDiffFileDialog::shortcuts::JXLayout "^M"
+itsHelpButton::CBDiffFileDialog::JXLayout "Help"
+itsIgnoreSpaceChangeCB::CBDiffFileDialog::JXLayout "Ignore changes in amount of whitespace"
+itsViewButton::CBDiffFileDialog::JXLayout "View"
+itsIgnoreBlankLinesCB::CBDiffFileDialog::JXLayout "Ignore blank lines (requires GNU)"
+itsCloseButton::CBDiffFileDialog::JXLayout "Close"
+itsHelpButton::CBDiffFileDialog::shortcuts::JXLayout "F1"
+itsCloseButton::CBDiffFileDialog::shortcuts::JXLayout "#W^["

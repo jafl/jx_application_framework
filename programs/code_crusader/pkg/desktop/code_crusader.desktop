@@ -1,0 +1,11 @@
+[Desktop Entry]
+Categories=Development;IDE;X-Red-Hat-Base;
+Name=Code Crusader
+Comment=Integrated Development Environment for C,C++,Java,Perl,PHP,etc.
+Icon=code_crusader.xpm
+Exec=jcc
+Type=Application
+Terminal=0
+MapNotify=true
+Protocols=file;
+MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;text/html;

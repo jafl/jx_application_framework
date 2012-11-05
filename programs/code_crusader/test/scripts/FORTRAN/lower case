@@ -1,0 +1,7 @@
+#!/usr/bin/perl
+
+while (<STDIN>)
+	{
+	$s = lc;
+	print $s;
+	}

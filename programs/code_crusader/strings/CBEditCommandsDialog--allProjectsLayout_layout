@@ -1,0 +1,5 @@
+0
+allDuplicateButton::CBEditCommandsDialog::allProjectsLayout "Duplicate"
+allRemoveButton::CBEditCommandsDialog::allProjectsLayout "Remove"
+obj1_allProjectsLayout::CBEditCommandsDialog::allProjectsLayout "Tasks that can be used with any project:"
+allNewButton::CBEditCommandsDialog::allProjectsLayout "New"

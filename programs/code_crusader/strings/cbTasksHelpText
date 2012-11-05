@@ -1,0 +1,110 @@
+0
+
+CBTasksHelp
+
+"<html>
+<head>
+<title> Task menu reference </title>
+</head>
+
+<h3> Performing a task </h3>
+
+The \"Perform one-off task...\" item allows you to execute one or more commands in an Editor window.  The syntax is the same as in a terminal window, including chaining multiple commands by separating them with semicolons, except that if you want to use shell specific functions such as loops or environment variable expansion, you must explicitly invoke the shell of your choice, e.g., <tt>/bin/bash -c my_program</tt>
+<p>
+You can perform as many tasks as you wish simultaneously.  Each time you start a new task, it either re-uses an existing, inactive window or creates a new one.  Each window title contains the name of the task so you can identify each one.  If you save the output of a task to a file, the window will not be re-used again.
+<p>
+Code Crusader provides many useful variables that you can use in your tasks to make them usable in any project or on any file:
+
+<blockquote>
+<dl>
+<dt> <tt>$project_path</tt>
+<dd> Absolute path to project file
+<dt> <tt>$project_name</tt>
+<dd> Name of project (without .jcc suffix)
+<dt> <tt>$program</tt>
+<dd> Target name entered in Project Configuration dialog
+<p>
+<dt> <tt>$full_name</tt>
+<dd> Full path and file name
+<dt> <tt>$relative_name</tt>
+<dd> Project-relative path and file name
+<dt> <tt>$file_name</tt>
+<dd> File name
+<dt> <tt>$file_name_root</tt>
+<dd> File name root (e.g. <tt>file.c</tt> -> <tt>file</tt>)
+<dt> <tt>$file_name_suffix</tt>
+<dd> File name suffix (e.g. <tt>file.c</tt> -> <tt>.c</tt>)
+<p>
+<dt> <tt>$full_path</tt>
+<dd> Full path to file
+<dt> <tt>$relative_path</tt>
+<dd> Project-relative path to file
+<p>
+<dt> <tt>$line</tt>
+<dd> Current line number in file
+</dl>
+</blockquote>
+
+If a character is preceded by a backslash, the backslash is removed and any special meaning is ignored.  Thus, use<tt>\\$</tt> to get a dollar character and <tt>\\\\</tt> to get a backslash character.
+<p>
+If you want to perform a task on a file, and you want the task to execute in the directory that contains the file, then enter \"@\" as the path.  This is especially useful for version control tasks.
+<p>
+There are many options that you can specify when performing a task:
+
+<blockquote>
+<dl>
+<dt> This task invokes make
+<dd> If this option is checked, then the Makefile is checked to see if it needs to be updated before the task is performed, a Compiler Output window is used to display the results from the task, and error messages are hilighted.
+<p>
+<br>
+<dt> Save all files before executing
+<dd> If this option is checked, the contents of all Editor windows will be saved before the task is performed.  You must check this option for any task that is supposed to operate on a file!
+<p>
+<dt> Run on one file at a time (cannot yet be turned off)
+<dd> If this option is checked, the task is performed once for each file that is selected in the window.  This applies to any window where multiple files can be selected at the same time.
+<p>
+<br>
+<dt> Display output in window
+<dd> If this option is checked, an Editor window will be created to display the output from the task.  Otherwise, the task's output will appear in the terminal window, if any, from which you started Code Crusader.  When you use an Editor window to display the output of a task, you will not be able to quit Code Crusader until the task is finished.
+<p>
+<dt> Raise window before executing
+<dd> Code Crusader re-uses existing task output windows when possible.  If this option is checked, a window that is about to be re-used will be brought to your attention before the task begins executing.
+<p>
+<dt> Beep when execution is finished
+<dd> If this option is checked, Code Crusader will beep to notify you that a task is finished.
+</dl>
+</blockquote>
+
+If you find yourself performing the same task over and over again, you can use the \"Save in menu\" menu to add the task to the Tasks menu so you do not have to use the Perform Task dialog again.
+
+<h3> Customizing the Tasks menu </h3>
+
+The \"Customize this menu...\" item opens a dialog that lets you specify what the Tasks menu looks like and the command that each menu item executes.  The top list displays the tasks that are always available, regardless of which project you have open.  The bottom list displays takss that are only available when the specified project is the active one.  This allows you to specify both tasks that are generic and usable with all projects (e.g., compiling) and tasks that are specific to individual projects (e.g., running a program with a particular set of command line arguments).
+<p>
+To edit a text item, double click on it.  To change the options for a task, click in the cell to get a menu of the available options.
+<p>
+The menu text and menu shortcut are displayed when the menu is opened.  The menu text can be anything you want.  If you leave it blank, the text of the command will be displayed.  The menu shortcut can include any combination of the following prefix modifiers:
+
+<ul>
+<li> Shift-
+<li> Ctrl-
+<li> Meta- (This key is labeled Alt on PC keyboards.)
+<li> Alt-
+<li> Super-
+<li> Hyper-
+<li> Mod1- through Mod5-
+</ul>
+
+If you choose a menu shortcut that is already being used for an item on another menu, then the shortcut will not appear on the Tasks menu.  If you prefer that the shortcut be used on the Tasks menu instead, you can remove the original assignment by editing the menu_strings file that came as part of the Code Crusader distribution.
+<p>
+A bold line between rows indicates that a separator will be displayed between the corresponding items on the menu.  To change this setting, click in the Options column.
+<p>
+To rearrange items, simply click and drag.  This works both within a list and between lists.  To move (rather than copy) an item from one list to the other, hold down the Meta key while you drag the item.
+<p>
+The command to execute, the options, and the directory are exactly the same as in the Perform Task dialog described above.
+<p>
+The name of the task is the name that can be used to call the task from other tasks via the & notation, e.g., the task <tt>&make_default</tt> calls the task whose name is \"make_default\".  You cannot specify arguments when you call another task.
+<p>
+The command to rebuild dependencies cannot invoke subroutines with the &amp; notation.  This command is the same one displayed in the Edit Project Configuration dialog.  You can manually invoke this command via the \"Update Makefile\" item on the Project menu in the Project window.
+
+</html>"

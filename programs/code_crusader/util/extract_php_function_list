@@ -1,0 +1,30 @@
+#!/usr/bin/perl
+
+if (!($dir = $ARGV[0]))
+	{
+	print STDERR "usage:  $0 path_to_PHP_manual\n";
+	exit 1;
+	}
+
+open(F, "> cbPHPFunctionList.h");
+
+chdir($dir) or die "Can't cd to $dir\n";
+@list = glob("function.*.html");
+
+foreach $file (@list)
+	{
+	$file =~ /^function\.(.+)\.html$/ or die "doesn't match";
+	$name =  $1;
+	$name =~ s/-/_/g;
+	$name =~ s/^.*\.//;
+	if ($name =~ /^[A-Za-z0-9_]+$/)
+		{
+		print F "\"",$name,"\",\n";
+		}
+	else
+		{
+		print $name,"\n";
+		}
+	}
+
+close(F);

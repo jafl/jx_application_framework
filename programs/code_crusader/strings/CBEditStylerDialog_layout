@@ -1,0 +1,11 @@
+0
+itsHelpButton::CBEditStylerDialog::JXLayout "Help"
+instrText::CBEditStylerDialog::JXLayout "instr"
+itsHelpButton::CBEditStylerDialog::shortcuts::JXLayout "F1"
+newWordButton::CBEditStylerDialog::shortcuts::JXLayout "#N"
+newWordButton::CBEditStylerDialog::JXLayout "New"
+itsActiveCB::CBEditStylerDialog::JXLayout "Use context sensitive highlighting"
+okButton::CBEditStylerDialog::JXLayout "OK"
+removeButton::CBEditStylerDialog::shortcuts::JXLayout "#R"
+cancelButton::CBEditStylerDialog::JXLayout "Cancel"
+removeButton::CBEditStylerDialog::JXLayout "Remove"

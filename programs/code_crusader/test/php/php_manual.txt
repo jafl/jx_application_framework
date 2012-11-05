@@ -1,0 +1,5127 @@
+II. Language Reference
+
+   Table of Contents
+          
+   5. Basic syntax
+          
+   6. Types
+          
+   7. Variables
+          
+   8. Constants
+          
+   9. Expressions
+          
+   10. Operators
+          
+   11. Control Structures
+          
+   12. Functions
+          
+   13. Classes and Objects
+          
+   14. References Explained
+     _________________________________________________________________
+   
+Chapter 5. Basic syntax
+
+Escaping from HTML
+
+   When PHP starts to handle file, it will just output the text it
+   encouters. So if you have a HTML-file, and you change its extension to
+   .php, your file will keep working.
+   
+   If you want to insert php-statements at some point in your file,
+   you'll need to indicate so to php, by entering "PHP mode" in either of
+   the following ways:
+   
+   Example 5-1. Ways of escaping from HTML
+1.  <? echo ("this is the simplest, an SGML processing instruction\n"); ?>
+    <?= expression ?>  This is a shortcut for "<? echo expression ?>"
+
+2.  <?php echo("if you want to serve XHTML or XML documents, do like this\n"); ?>
+
+3.  <script language="php">
+        echo ("some editors (like FrontPage) don't
+              like processing instructions");
+    </script>
+
+4.  <% echo ("You may optionally use ASP-style tags"); %>
+    <%= $variable; # This is a shortcut for "<%echo .." %>
+
+
+   The first way is only available if short tags have been enabled. This
+   can be done by enabling the short_open_tag configuration setting in
+   the PHP config file, or by compiling PHP with the --enable-short-tags
+   option to configure.
+   
+   The second way is the generally preferred method, as it allows for the
+   next generation of XHTML to be easily implemented with PHP.
+   
+   The fourth way is only available if ASP-style tags have been enabled
+   using the asp_tags configuration setting.
+   
+     Note: Support for ASP-style tags was added in 3.0.4.
+     
+   The closing tag for the block will include the immediately trailing
+   newline if one is present.
+   
+   PHP allows you to use structures like this:
+   
+   Example 5-2. Advanced escaping
+<?php
+
+if ( boolean-expression )
+{
+    ?>
+<strong>This is true.</strong>
+    <?php
+}
+else
+{
+    ?>
+<strong>This is false.</strong>
+    <?php
+}
+
+
+   This works as expected, because PHP handles text within ?> and <?php
+   as an echo() statement.
+     _________________________________________________________________
+   
+Instruction separation
+
+   Instructions are separated the same as in C or perl - terminate each
+   statement with a semicolon.
+   
+   The closing tag (?>) also implies the end of the statement, so the
+   following are equivalent:
+   
+<?php
+    echo "This is a test";
+?>
+
+<?php echo "This is a test" ?>
+
+     _________________________________________________________________
+   
+Comments
+
+   PHP supports 'C', 'C++' and Unix shell-style comments. For example:
+   
+<?php
+    echo "This is a test"; // This is a one-line c++ style comment
+    /* This is a multi line comment
+       yet another line of comment */
+    echo "This is yet another test";
+    echo "One Final Test"; # This is shell-style style comment
+?>
+
+
+   The "one-line" comment styles actually only comment to the end of the
+   line or the current block of PHP code, whichever comes first.
+   
+<h1>This is an <?php # echo "simple";?> example.</h1>
+<p>The header above will say 'This is an example'.
+
+   You should be careful not to nest 'C' style comments, which can happen
+   when commenting out large blocks.
+   
+<?php
+ /*
+    echo "This is a test"; /* This comment will cause a problem */
+ */
+?>
+
+     _________________________________________________________________
+   
+Chapter 6. Types
+
+Introduction
+
+   PHP supports eight primitive types.
+   
+   Four scalar types:
+   
+     * boolean
+     * integer
+     * floating-point number (double)
+     * string
+       
+   Two compound types:
+   
+     * array
+     * object
+       
+   And finally two special types:
+   
+     * resource
+     * null
+       
+     Note: In this manual you'll often find mixed parameters. This
+     pseudo-type indicates multiple possiblities for that parameter.
+     
+   The type of a variable is usually not set by the programmer; rather,
+   it is decided at runtime by PHP depending on the context in which that
+   variable is used.
+   
+   If you would like to force a variable to be converted to a certain
+   type, you may either cast the variable or use the settype() function
+   on it.
+   
+   Note that a variable may behave in different manners in certain
+   situations, depending on what type it is at the time. For more
+   information, see the section on Type Juggling.
+     _________________________________________________________________
+   
+Booleans
+
+   This is the easiest type. A boolean expresses a truth value. It can be
+   either true or false.
+   
+     Note: The boolean-type was introduced in PHP 4.
+     _________________________________________________________________
+   
+Syntax
+
+   To specify a boolean-literal, use either the keyword TRUE or FALSE.
+   Both are case-insensitive.
+   
+$foo = True; // assign the value TRUE to $foo
+
+
+   Usually you use some kind of operator which returns a boolean value,
+   and then pass it on to a control structure.
+   
+if ($action == "show_version") // == is an operator which returns a boolean
+{
+    echo "The version is 1.23";
+}
+
+// this is not necessary:
+if ($show_separators == true)
+{
+    echo "<hr>\n";
+}
+
+// because you can simply type this:
+if ($show_separators)
+{
+    echo "<hr>\n";
+}
+
+     _________________________________________________________________
+   
+Converting to boolean
+
+   To explicitely convert a value to boolean, use either the (bool) or
+   the (boolean) cast. However, in most cases you do not need to use the
+   cast, since a value will be autmatically converted if an operator,
+   function or control-structure requires a boolean-argument.
+   
+   See also type-juggling.
+   
+   When converting to boolean, the following values are considered FALSE:
+   
+     * the boolean FALSE
+     * the integer 0 (zero)
+     * the double 0.0 (zero)
+     * the empty string, and the string "0"
+     * an array with zero elements
+     * an object with zero elements
+     * the special value NULL
+       
+   Every other value is considered TRUE (including any resource).
+   
+   Warning
+   
+   -1 is considered TRUE, like any other non-zero (whether negative or
+   positive) number!
+     _________________________________________________________________
+   
+Integers
+
+   An integer is a number of the set Z = {..., -2, -1, 0, 1, 2, ...}.
+   
+   See also: Arbitrary precision integers and Floating point numbers
+     _________________________________________________________________
+   
+Syntax
+
+   Integers can be specified in decimal (10-based), hexadecimal
+   (16-based) or octal (8-based) notation, optionally preceded by a sign
+   (- or +).
+   
+   If you use the octal notation, you must precede the number with a 0
+   (zero), to use hexadecimal notation precede the number with 0x.
+   
+   Example 6-1. Integer literals
+$a = 1234; # decimal number
+$a = -123; # a negative number
+$a = 0123; # octal number (equivalent to 83 decimal)
+$a = 0x1A; # hexadecimal number (equivalent to 26 decimal)
+
+
+   The size of an integer is platform-dependent, although a maximum value
+   of about two billion is the usual value (that's 32 bits signed).
+   
+     Note: In PHP there is no such thing as integer-division. 1/2 yields
+     the double 0.5.
+     _________________________________________________________________
+   
+Integer overflow
+
+   If you specify a number beyond the bounds of the integer-type, it will
+   be interpreted as a double instead.
+   
+$large_number =  2147483647;
+var_dump($large_number);
+// output: int(2147483647)
+$large_number =  2147483648;
+var_dump($large_number);
+// output: float(2147483648)
+
+
+   Furthermore, if some function or operator yields a number that is
+   beyond the boundaries of integer, it will also be automatically
+   converted to double.
+   
+$million = 1000000;
+$large_number =  50000 * $million;
+var_dump($large_number);
+// output: float(50000000000)
+
+     _________________________________________________________________
+   
+Converting to integer
+
+   To explicitely convert a value to integer, use either the (int) or the
+   (integer) cast. However, in most cases you do not need to use the
+   cast, since a value will be autmatically converted if an operator,
+   function or control-structure requires a boolean-argument.
+   
+   See also type-juggling.
+     _________________________________________________________________
+   
+From booleans
+
+   FALSE will yield 0 (zero), and TRUE will yield 1 (one).
+     _________________________________________________________________
+   
+From floating point numbers
+
+   When converting from float to integer, the number will be rounded
+   towards zero.
+   
+   If the float is beyond the boundaries of integer (usually +/- 2.15e+9
+   = 2^31), the result is undefined, since the float hasn't got enough
+   precision to give an exact integer result. No warning, not even a
+   notice will be issued in this case!
+   
+   Warning
+   
+   Never cast an unknown fraction to integer, as this can sometimes lead
+   to unexpected results.
+   
+echo (int) ( (0.1+0.7) * 10 ); // echo's 7!
+
+
+   See for more information the warning about float-precision.
+     _________________________________________________________________
+   
+From strings
+
+   See String conversion
+     _________________________________________________________________
+   
+From other types
+
+   Behaviour of converting to integer is undefined for other types.
+   Currently, the behaviour is the same as if the value was first
+   converted to boolean.
+   
+   Caution
+   
+   However, do not relay on this behaviour, as it can change without
+   notice.
+     _________________________________________________________________
+   
+Floating point numbers
+
+   Floating point numbers (aka "doubles", "floats" or "real numbers") can
+   be specified using any of the following syntaxes:
+$a = 1.234; $a = 1.2e3; $a = 7E-10;
+
+
+   The size of a floating point number is platform-dependent, although a
+   maximum of ~1.8e308 with a precision of roughly 14 decimal digits is a
+   common value (that's 64 bit IEEE format).
+   
+   Floating point precision
+   
+   It is quite usual that simple decimal fractions like 0.1 or 0.7 cannot
+   be converted into their internal binary counterparts without a little
+   loss of precision. This can lead to confusing results: for example,
+   floor((0.1+0.7)*10) will usually return 7 instead of the expected 8 as
+   the result of the internal representation really being something like
+   7.9999999999....
+   
+   This is related to the fact that it is impossible to exactly express
+   some fractions in decimal notation with a finite number of digits. For
+   instance, 1/3 in decimal form becomes 0.3333333. . ..
+   
+   So never trust floating number results to the last digit and never
+   compare floating point numbers for equality. If you really need higher
+   precision, you should use the arbitrary precision math functions or
+   gmp functions instead.
+     _________________________________________________________________
+   
+Strings
+
+   A string is series of characters. In PHP, a character is the same as a
+   byte, that is, there are exactly 256 different characters possible.
+   This also implies that PHP has no native support of Unicode.
+   
+     Note: It is no problem for a string to become very large. There is
+     no practical bound to the size of strings imposed by PHP, so there
+     is no reason at all to worry about long strings.
+     _________________________________________________________________
+   
+Syntax
+
+   A string literal can be specified in three different ways.
+   
+     * single quoted
+     * double quoted
+     * heredoc syntax
+     _________________________________________________________________
+   
+Single quoted
+
+   The easiest way to specify a simple string is to enclose it in single
+   quotes (the character ').
+   
+   To specify a literal single quote, you will need to escape it with a
+   backslash (\), like in many other languages. If a backslash needs to
+   occur before a single quote or at the end of the string, you need to
+   double it. Note that if you try to escape any other character, the
+   backslash too will be printed! So usually there is no need to escape
+   the backslash itself.
+   
+     Note: In PHP 3, a warning will be issued at the E_NOTICE level when
+     this happens.
+     
+     Note: Unlike the two other syntaxes, variables will not be expanded
+     when they occur in single quoted strings.
+     
+echo 'this is a simple string';
+echo 'You can also have embedded newlines in strings,
+like this way.';
+echo 'Arnold once said: "I\'ll be back"';
+// output: ... "I'll be back"
+echo 'Are you sure you want to delete C:\\*.*?';
+// output: ... delete C:\*.*?
+echo 'Are you sure you want to delete C:\*.*?';
+// output: ... delete C:\*.*?
+echo 'I am trying to include at this point: \n a newline';
+// output: ... this point: \n a newline
+
+     _________________________________________________________________
+   
+Double quoted
+
+   If the string is enclosed in double-quotes ("), PHP understands more
+   escape sequences for special characters:
+   
+   Table 6-1. Escaped characters
+   sequence meaning
+   \n linefeed (LF or 0x0A (10) in ASCII)
+   \r carriage return (CR or 0x0D (13) in ASCII)
+   \t horizontal tab (HT or 0x09 (9) in ASCII)
+   \\ backslash
+   \$ dollar sign
+   \" double-quote
+   \[0-7]{1,3} the sequence of characters matching the regular expression
+   is a character in octal notation
+   \x[0-9A-Fa-f]{1,2} the sequence of characters matching the regular
+   expression is a character in hexadecimal notation
+   
+   Again, if you try to escape any other character, the backspace will be
+   printed too!
+   
+   But the most important pre of double-quoted strings is the fact that
+   variable names will be expanded. See string parsing for details.
+     _________________________________________________________________
+   
+Heredoc
+
+   Another way to delimit strings is by using here doc syntax ("<<<").
+   One should provide an identifier after <<<, then the string, and then
+   the same identifier to close the quotation.
+   
+   The closing identifier must begin in the first column of the line.
+   Also, the identifier used must follow the same naming rules as any
+   other label in PHP: it must contain only alphanumeric characters and
+   underscores, and must start with a non-digit character or underscore.
+   
+   Warning
+   
+   It is very important to note that the line with the closing identifier
+   contains no other characters, except possibly a ;. That means
+   especially that the identifier may not be indented, and there may not
+   be any spaces or tabs after or before the ;.
+   
+   Probably the nastiest gotcha is that there may also not be a carriage
+   return (\r) at the end of the line, only a form feed, a.k.a. newline
+   (\n). Since Microsoft Windows uses the sequence \r\n as a line
+   terminator, your heredoc may not work if you write your script in a
+   windows editor. However, most programming editors provide a way to
+   save your files with UNIX line terminator.
+   
+   Here doc text behaves just like a double-quoted string, without the
+   double-quotes. This means that you do not need to escape quotes in
+   your here docs, but you can still use the escape codes listed above.
+   Variables are expanded, but the same care must be taken when
+   expressing complex variables inside a here doc as with strings.
+   
+   Example 6-2. Here doc string quoting example
+<?php
+$str = <<<EOD
+Example of string
+spanning multiple lines
+using heredoc syntax.
+EOD;
+
+/* More complex example, with variables. */
+class foo {
+    var $foo;
+    var $bar;
+
+    function foo() {
+        $this->foo = 'Foo';
+        $this->bar = array('Bar1', 'Bar2', 'Bar3');
+    }
+}
+
+$foo = new foo();
+$name = 'MyName';
+
+echo <<<EOT
+My name is "$name". I am printing some $foo->foo.
+Now, I am printing some {$foo->bar[1]}.
+This should print a capital 'A': \x41
+EOT;
+?>
+
+
+     Note: Here doc support was added in PHP 4.
+     _________________________________________________________________
+   
+Variable parsing
+
+   When a string is specified in double quotes or with heredoc, variables
+   are parsed within it.
+   
+   There are two types of syntax, a simple one and a complex one. The
+   simple syntax is the most common and convenient, it provides a way to
+   parse a variable, an array-value, or a object-property.
+   
+   The complex syntax was introduced in PHP 4, and can by recognised by
+   the curly braces surrounding the expression.
+     _________________________________________________________________
+   
+Simple syntax
+
+   If a $ is encoutered, the parser will greedily take as much tokens as
+   possible to form a valid variable name. Enclose the the variable name
+   in curly braces if you want to explicitely specify the end of the
+   name.
+   
+$beer = 'Heineken';
+echo "$beer's taste is great"; // works, "'" is an invalid character for varnam
+es
+echo "He drunk some $beers"; // won't work, 's' is a valid character for varnam
+es
+echo "He drunk some ${beer}s"; // works
+
+
+   Similary, you can also have an array-index and an object-property
+   parsed. With array-indices, the ']' marks the end of the index, for
+   object-properties the same rules apply as to simple variables, though
+   with object properties there doesn't exist a trick like the one with
+   variables.
+   
+$fruits = array( 'strawberry' => 'red' , 'banana' => 'yellow' );
+echo "A banana is $fruits[banana].";
+echo "This square is $square->width meters broad.";
+echo "This square is $square->width00 centimeters broad."; // won't work,
+   // for a solution, see the complex syntax.
+
+
+
+
+
+   For anything more complex, you should use the complex syntax.
+     _________________________________________________________________
+   
+Complex (curly) syntax
+
+   This isn't called complex because the syntax is complex, but because
+   you can include complex expressions this way.
+   
+   In fact, you can include any value that is in the namespace in strings
+   with this syntax. You simply write the expression the same way as you
+   would outside the string, and then include it in { and }. Since you
+   can't escape '{', this syntax will only be recognised when the $ is
+   immediately following the {. (Use "{\$" or "\{$" to get a literal
+   "{$"). Some examples to make it clear:
+   
+$great = 'fantastic';
+echo "This is { $great}"; // won't work, outputs: This is { fantastic}
+echo "This is {$great}";  // works, outputs: This is fantastic
+echo "This square is {$square->width}00 centimeters broad.";
+echo "This works: {$arr[4][3]}";
+echo "This is wrong: {$arr[foo][3]}"; // for the same reason
+   // as $foo[bar] is wrong outside a string.
+echo "You should do it this way: {$arr['foo'][3]}";
+echo "You can even write {$obj->values[3]->name}";
+echo "This is the value of the var named $name: {${$name}}";
+
+
+     _________________________________________________________________
+   
+String access by character
+
+   Characters within strings may be accessed by specifying the zero-based
+   offset of the desired character after the string in curly braces.
+   
+     Note: For backwards compatibility, you can still use the
+     array-braces. However, this syntax is deprecated as of PHP 4.
+     
+   Example 6-3. Some string examples
+<?php
+/* Assigning a string. */
+$str = "This is a string";
+
+/* Appending to it. */
+$str = $str . " with some more text";
+
+/* Another way to append, includes an escaped newline. */
+$str .= " and a newline at the end.\n";
+
+/* This string will end up being '<p>Number: 9</p>' */
+$num = 9;
+$str = "<p>Number: $num</p>";
+
+/* This one will be '<p>Number: $num</p>' */
+$num = 9;
+$str = '<p>Number: $num</p>';
+
+/* Get the first character of a string  */
+$str = 'This is a test.';
+$first = $str{0};
+
+/* Get the last character of a string. */
+$str = 'This is still a test.';
+$last = $str{strlen($str)-1};
+?>
+
+     _________________________________________________________________
+   
+Useful functions
+
+   Strings may be concatenated using the '.' (dot) operator. Note that
+   the '+' (addition) operator will not work for this. Please see String
+   operators for more information.
+   
+   There are a lot of useful functions for string modification.
+   
+   See the string functions section for general functions, the regular
+   expression functions for advanced find&replacing (in two tastes: Perl
+   and POSIX extended).
+   
+   There are also functions for URL-strings, and functions to
+   encrypt/decrypt strings (mcrypt and mhash).
+   
+   Finally, if you still didn't find what you're looking for, see also
+   the character type functions.
+     _________________________________________________________________
+   
+String conversion
+
+   When a string is evaluated as a numeric value, the resulting value and
+   type are determined as follows.
+   
+   The string will evaluate as a double if it contains any of the
+   characters '.', 'e', or 'E'. Otherwise, it will evaluate as an
+   integer.
+   
+   The value is given by the initial portion of the string. If the string
+   starts with valid numeric data, this will be the value used.
+   Otherwise, the value will be 0 (zero). Valid numeric data is an
+   optional sign, followed by one or more digits (optionally containing a
+   decimal point), followed by an optional exponent. The exponent is an
+   'e' or 'E' followed by one or more digits.
+   
+   When the first expression is a string, the type of the variable will
+   depend on the second expression.
+   
+$foo = 1 + "10.5";              // $foo is float (11.5)
+$foo = 1 + "-1.3e3";            // $foo is float (-1299)
+$foo = 1 + "bob-1.3e3";         // $foo is integer (1)
+$foo = 1 + "bob3";              // $foo is integer (1)
+$foo = 1 + "10 Small Pigs";     // $foo is integer (11)
+$foo = 1 + "10 Little Piggies"; // $foo is integer (11)
+$foo = "10.0 pigs " + 1;        // $foo is integer (11)
+$foo = "10.0 pigs " + 1.0;      // $foo is float (11)
+
+
+   For more information on this conversion, see the Unix manual page for
+   strtod(3).
+   
+   If you would like to test any of the examples in this section, you can
+   cut and paste the examples and insert the following line to see for
+   yourself what's going on:
+   
+echo "\$foo==$foo; type is " . gettype ($foo) . "<br>\n";
+
+     _________________________________________________________________
+   
+Arrays
+
+   An array in PHP is actually an ordered map. A map is a type that maps
+   values to keys. This type is optimized in several ways, so you can use
+   it as a real array, or a list (vector), hashtable (which is an
+   implementation of a map), dictionary, collection, stack, queue and
+   probably more. Because you can have another PHP-array as a value, you
+   can also quite easily simulate trees.
+   
+   Explaination of those structures is beyond the scope of this manual,
+   but you'll find at least one example for each of those structures. For
+   more information about those structures, buy a good book about
+   datastructures.
+     _________________________________________________________________
+   
+Syntax
+
+Specifying with array()
+
+   An array can be created by the array() language-construct. It takes a
+   certain number of comma-separated key => value pairs.
+   
+   A key is either a nonnegative integer or a string. If a key is the
+   standard representation of a non-negative integer, it will be
+   interpreted as such (i.e. '8' will be interpreted as 8, while '08'
+   will be interpreted as '08').
+   
+   A value can be anything.
+   
+   Omitting keys. If you omit a key, the maximum of the integer-indices
+   is taken, and the new key will be that maximum + 1. If no
+   integer-indices yet exist, the key will be 0 (zero). If you specify a
+   key that already has a value assigned to, that key will be
+   overwritten.
+   
+array( [key =>] value
+     , ...
+     )
+// key is either string or nonnegative integer
+// value can be anything
+
+     _________________________________________________________________
+   
+Creating/modifying with square-bracket syntax
+
+   You can also modify an existing array, by explicitely setting values.
+   
+   This is done by assigning values to the array while specifying the key
+   in brackets. You can also omit the key, add an empty pair of brackets
+   ("[]") to the variable-name in that case.
+$arr[key] = value;
+$arr[] = value;
+// key is either string or nonnegative integer
+// value can be anything
+
+
+   If $arr doesn't yet exist, it will be created. So this is also an
+   alternative way to specify an array. To change a certain value, just
+   assign a new value to it. If you want to remove a key/value pair, you
+   need to unset() it.
+     _________________________________________________________________
+   
+Useful functions
+
+   There are quite some useful function for working with arrays, see the
+   array-functions section.
+   
+   The foreach control-structure exists specificly for arrays. It
+   provides an easy way to traverse an array.
+     _________________________________________________________________
+   
+Array do's and don'ts
+
+Why is $foo[bar] wrong?
+
+   You might have seen the following syntax in old scripts:
+   
+$foo[bar] = 'enemy';
+echo $foo[bar];
+// etc
+
+
+   This is wrong, but it works. Then, why is it wrong? The reason is
+   that, as stated in the syntax section, there must be an expression
+   between the square brackets ('[' and ']'). That means that you can
+   write things like this:
+   
+echo $arr[ foo(true) ];
+
+
+   This is an example of using function-output as the array index. PHP
+   knows also about constants, and you may have seen the E_* before.
+   
+$error_descriptions[E_ERROR] = "A fatal error has occured";
+$error_descriptions[E_WARNING] = "PHP issued a warning";
+$error_descriptions[E_NOTICE] = "This is just an informal notice";
+
+
+   Note that E_ERROR is also a valid identifier, just like bar in the
+   first example. But the last example is in fact the same as writing:
+   
+$error_descriptions[1] = "A fatal error has occured";
+$error_descriptions[2] = "PHP issued a warning";
+$error_descriptions[8] = "This is just an informal notice";
+
+
+   because E_ERROR equals 1, etc.
+   
+   Then, how is it possible that $foo[bar] yet works? That is, because
+   bar is due to it's syntax expected to be a constant expression.
+   However, in this case no constant with the name bar exists. PHP now
+   assumes that you meant bar literally, as the string "bar", but that
+   you forgot to write the quotes.
+     _________________________________________________________________
+   
+So why is it bad then?
+
+   At some point in the future, the PHP team might want to add another
+   constant or keyword, and then you get in trouble. For example, you can
+   already not use the words empty and default this way, since it are
+   special keywords.
+   
+   And, if these arguments don't help: this syntax is simply deprecated,
+   and it might stop working some day.
+   
+     Tip: When you turn error_reporting to E_ALL, you will see that PHP
+     generates warnings whenever this construct is used. This is also
+     valid for other deprecated 'features'. (put the line
+     error_reporting(E_ALL); in your script)
+     
+     Note: Inside a double-quoted string, an other syntax is valid. See
+     variable parsing in strings for more details.
+     _________________________________________________________________
+   
+Examples
+
+   The array-type in PHP is very versatile, so here will be some examples
+   to show you the full power of arrays.
+   
+// this
+$a = array( 'color' => 'red'
+          , 'taste' => 'sweet',
+          , 'shape' => 'round',
+          , 'name'  => 'apple',
+          ,            4        // key will be 0
+          );
+
+// is completely equivalent with
+$a['color'] = 'red';
+$a['taste'] = 'sweet';
+$a['shape'] = 'round';
+$a[]        = 4;        // key will be 0
+
+$b[] = 'a';
+$b[] = 'b';
+$b[] = 'c';
+// will result in the array array( 0 => 'a' , 1 => 'b' , 2 => 'c' )
+
+
+   Example 6-4. Using array()
+// Array as (property-)map
+$map = array( 'version'    => 4
+            , 'OS'         => 'Linux'
+            , 'lang'       => 'english'
+            , 'short_tags' => true
+            );
+
+// strictly numerical keys
+$array = array( 7
+              , 8
+              , 0
+              , 156
+              , -10
+              );
+// this is the same as array( 0 => 7, 1 => 8, ...)
+
+$switching = array(         10 // key = 0
+                  , 5    =>  6
+                  , 3    =>  7
+                  , 'a'  =>  4
+                  ,         11 // key = 6 (maximum of integer-indices was 5)
+                  , '8'  =>  2 // key = 8 (integer!)
+                  , '02' => 77 // key = '02'
+                  , 0    => 12 // the value 10 will be overwritten by 12
+                  );
+
+
+
+// empty array
+$empty = array();
+
+
+   Example 6-5. Collection
+$colors = array('red','blue','green','yellow');
+
+foreach ( $colors as $color )
+{
+    echo "Do you like $color?\n";
+}
+
+/* output:
+Do you like red?
+Do you like blue?
+Do you like green?
+Do you like yellow?
+*/
+
+
+   Note that it is currently not possible to change the values of the
+   array directly in such a loop. A workaround is the following:
+   
+   Example 6-6. Collection
+foreach ( $colors as $key => $color )
+{
+    // won't work:
+    //$color = strtoupper($color);
+
+    //works:
+    $colors[$key] = strtoupper($color);
+}
+print_r($colors);
+
+/* output:
+Array
+(
+    [0] => RED
+    [1] => BLUE
+    [2] => GREEN
+    [3] => YELLOW
+)
+*/
+
+
+   This example creates a one-based array.
+   
+   Example 6-7. One-based index
+$firstquarter  = array(1 => 'January', 'February', 'March');
+print_r($firstquarter);
+
+/* output:
+Array
+(
+    [1] => 'January'
+    [2] => 'February'
+    [3] => 'March'
+)
+*/
+
+
+   Example 6-8. Filling real array
+// fill an array with all items from a directory
+$handle = opendir('.');
+while ( $file = readdir($handle) )
+{
+    $files[] = $file;
+}
+closedir($handle);
+
+
+   Arrays are ordered. You can also change the order using differen
+   sorting-functions. See array-functions for more information.
+   
+   Example 6-9. Sorting array
+sort($files);
+print_r($files);
+
+
+   Because the value of an array can be everything, it can also be
+   another array. This way you can make recursive arrays, and
+   multi-dimensional arrays.
+   
+   Example 6-10. Recursive and multi-dimensional arrays
+$fruits = array ( "fruits"  => array ( "a" => "orange"
+                                     , "b" => "banana"
+                                     , "c" => "apple"
+                                     )
+                , "numbers" => array ( 1
+                                     , 2
+                                     , 3
+                                     , 4
+                                     , 5
+                                     , 6
+                                     )
+                , "holes"   => array (      "first"
+                                     , 5 => "second"
+                                     ,      "third"
+                                     )
+                );
+
+
+
+     _________________________________________________________________
+   
+Objects
+
+Object Initialization
+
+   To initialize an object, you use the new statement to instantiate the
+   object to a variable.
+   
+<?php
+class foo {
+    function do_foo() {
+        echo "Doing foo.";
+    }
+}
+
+$bar = new foo;
+$bar->do_foo();
+?>
+
+
+   For a full discussion, please read the section Classes and Objects.
+     _________________________________________________________________
+   
+Resource
+
+   A resource is a special variable, holding a reference to an external
+   resource. Resources are created and used by special functions. See the
+   appendix for a listing of all these functions and the corresponding
+   resource-types.
+   
+     Note: The resource-type was introduced in PHP 4
+     _________________________________________________________________
+   
+Freeing resources
+
+   Due to the reference-counting system introduced with PHP4's
+   Zend-engine, it is automatically detected when a resource is no longer
+   referred to (just like Java). When this is the case, all resources
+   that were in use for this resource are made free by the garbage
+   collector. For this reason, it is rarely ever necessary to free the
+   memory manually by using some free_result function.
+   
+     Note: Persistant database-links are special, they are not destroyed
+     by the gc. See also persistent links
+     _________________________________________________________________
+   
+Null
+
+   The special NULL value represents that a variable has no value.
+   
+     Note: The null-type was introduced in PHP 4
+     _________________________________________________________________
+   
+Syntax
+
+   There is only one value of type null, and that is the case-insensitive
+   keyword NULL.
+   
+$var = Null;
+
+     _________________________________________________________________
+   
+Type Juggling
+
+   PHP does not require (or support) explicit type definition in variable
+   declaration; a variable's type is determined by the context in which
+   that variable is used. That is to say, if you assign a string value to
+   variable var, var becomes a string. If you then assign an integer
+   value to var, it becomes an integer.
+   
+   An example of PHP's automatic type conversion is the addition operator
+   '+'. If any of the operands is a double, then all operands are
+   evaluated as doubles, and the result will be a double. Otherwise, the
+   operands will be interpreted as integers, and the result will also be
+   an integer. Note that this does NOT change the types of the operands
+   themselves; the only change is in how the operands are evaluated.
+   
+$foo = "0";  // $foo is string (ASCII 48)
+
+$foo += 2;   // $foo is now an integer (2)
+$foo = $foo + 1.3;  // $foo is now a double (3.3)
+$foo = 5 + "10 Little Piggies"; // $foo is integer (15)
+$foo = 5 + "10 Small Pigs";     // $foo is integer (15)
+
+
+
+   If the last two examples above seem odd, see String conversion.
+   
+   If you wish to force a variable to be evaluated as a certain type, see
+   the section on Type casting. If you wish to change the type of a
+   variable, see settype().
+   
+   If you would like to test any of the examples in this section, you can
+   use the var_dump() function.
+   
+     Note: The behaviour of an automatic conversion to array is
+     currently undefined.
+     
+$a = 1;       // $a is an integer
+$a[0] = "f";  // $a becomes an array, with $a[0] holding "f"
+
+
+     While the above example may seem like it should clearly result in
+     $a becoming an array, the first element of which is 'f', consider
+     this:
+     
+$a = "1";     // $a is a string
+$a[0] = "f";  // What about string offsets? What happens?
+
+
+     Since PHP supports indexing into strings via offsets using the same
+     syntax as array indexing, the example above leads to a problem:
+     should $a become an array with its first element being "f", or
+     should "f" become the first character of the string $a?
+     
+     For this reason, as of PHP 3.0.12 and PHP 4.0b3-RC4, the result of
+     this automatic conversion is considered to be undefined. Fixes are,
+     however, being discussed.
+     _________________________________________________________________
+   
+Type Casting
+
+   Type casting in PHP works much as it does in C: the name of the
+   desired type is written in parentheses before the variable which is to
+   be cast.
+   
+$foo = 10;   // $foo is an integer
+$bar = (double) $foo;   // $bar is a double
+
+
+   The casts allowed are:
+   
+     * (int), (integer) - cast to integer
+     * (bool), (boolean) - cast to boolean
+     * (real), (double), (float) - cast to double
+     * (string) - cast to string
+     * (array) - cast to array
+     * (object) - cast to object
+       
+     Tip: Instead of casting a variable to string, you can also use
+     enclose the variable in double quotes.
+     
+   Note that tabs and spaces are allowed inside the parentheses, so the
+   following are functionally equivalent:
+   
+$foo = (int) $bar;
+$foo = ( int ) $bar;
+
+
+   It may not be obvious exactly what will happen when casting between
+   certain types. For more info, see these sections:
+   
+     * Converting to boolean
+     * Converting to integer
+       
+   When casting or forcing a conversion from array to string, the result
+   will be the word Array. When casting or forcing a conversion from
+   object to string, the result will be the word Object.
+   
+   When casting from a scalar or a string variable to an array, the
+   variable will become the first element of the array:
+   
+$var = 'ciao';
+$arr = (array) $var;
+echo $arr[0];  // outputs 'ciao'
+
+
+   When casting from a scalar or a string variable to an object, the
+   variable will become an attribute of the object; the attribute name
+   will be 'scalar':
+   
+$var = 'ciao';
+$obj = (object) $var;
+echo $obj->scalar;  // outputs 'ciao'
+
+     _________________________________________________________________
+   
+Chapter 7. Variables
+
+Basics
+
+   Variables in PHP are represented by a dollar sign followed by the name
+   of the variable. The variable name is case-sensitive.
+   
+   Variable names follow the same rules as other labels in PHP. A valid
+   variable name starts with a letter or underscore, followed by any
+   number of letters, numbers, or underscores. As a regular expression,
+   it would be expressed thus: '[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*'
+   
+     Note: For our purposes here, a letter is a-z, A-Z, and the ASCII
+     characters from 127 through 255 (0x7f-0xff).
+     
+
+$var = "Bob";
+$Var = "Joe";
+echo "$var, $Var";      // outputs "Bob, Joe"
+
+$4site = 'not yet';     // invalid; starts with a number
+$_4site = 'not yet';    // valid; starts with an underscore
+$täyte = 'mansikka';    // valid; 'ä' is ASCII 228.
+
+
+   In PHP 3, variables are always assigned by value. That is to say, when
+   you assign an expression to a variable, the entire value of the
+   original expression is copied into the destination variable. This
+   means, for instance, that after assigning one variable's value to
+   another, changing one of those variables will have no effect on the
+   other. For more information on this kind of assignment, see
+   Expressions.
+   
+   PHP 4 offers another way to assign values to variables: assign by
+   reference. This means that the new variable simply references (in
+   other words, "becomes an alias for" or "points to") the original
+   variable. Changes to the new variable affect the original, and vice
+   versa. This also means that no copying is performed; thus, the
+   assignment happens more quickly. However, any speedup will likely be
+   noticed only in tight loops or when assigning large arrays or objects.
+   
+   To assign by reference, simply prepend an ampersand (&) to the
+   beginning of the variable which is being assigned (the source
+   variable). For instance, the following code snippet outputs 'My name
+   is Bob' twice:
+   
+<?php
+$foo = 'Bob';              // Assign the value 'Bob' to $foo
+$bar = &$foo;          // Reference $foo via $bar.
+$bar = "My name is $bar";  // Alter $bar...
+echo $foo;                 // $foo is altered too.
+echo $bar;
+?>
+
+
+   One important thing to note is that only named variables may be
+   assigned by reference.
+   
+<?php
+$foo = 25;
+$bar = &$foo;      // This is a valid assignment.
+$bar = &(24 * 7);  // Invalid; references an unnamed expression.
+
+function test() {
+   return 25;
+}
+
+$bar = &test();    // Invalid.
+?>
+
+     _________________________________________________________________
+   
+Predefined variables
+
+   PHP provides a large number of predefined variables to any script
+   which it runs. Many of these variables, however, cannot be fully
+   documented as they are dependent upon which server is running, the
+   version and setup of the server, and other factors. Some of these
+   variables will not be available when PHP is run on the command-line.
+   
+   Despite these factors, here is a list of predefined variables
+   available under a stock installation of PHP 3 running as a module
+   under a stock installation of Apache 1.3.6.
+   
+   For a list of all predefined variables (and lots of other useful
+   information), please see (and use) phpinfo().
+   
+     Note: This list is neither exhaustive nor intended to be. It is
+     simply a guideline as to what sorts of predefined variables you can
+     expect to have access to in your script.
+     _________________________________________________________________
+   
+Apache variables
+
+   These variables are created by the Apache webserver. If you are
+   running another webserver, there is no guarantee that it will provide
+   the same variables; it may omit some, or provide others not listed
+   here. That said, a large number of these variables are accounted for
+   in the CGI 1.1 specification, so you should be able to expect those.
+   
+   Note that few, if any, of these will be available (or indeed have any
+   meaning) if running PHP on the command line.
+   
+   $GATEWAY_INTERFACE
+          What revision of the CGI specification the server is using;
+          i.e. 'CGI/1.1'.
+          
+   $SERVER_NAME
+          The name of the server host under which the current script is
+          executing. If the script is running on a virtual host, this
+          will be the value defined for that virtual host.
+          
+   $SERVER_SOFTWARE
+          Server identification string, given in the headers when
+          responding to requests.
+          
+   $SERVER_PROTOCOL
+          Name and revision of the information protocol via which the
+          page was requested; i.e. 'HTTP/1.0';
+          
+   $REQUEST_METHOD
+          Which request method was used to access the page; i.e. 'GET',
+          'HEAD', 'POST', 'PUT'.
+          
+   $QUERY_STRING
+          The query string, if any, via which the page was accessed.
+          
+   $DOCUMENT_ROOT
+          The document root directory under which the current script is
+          executing, as defined in the server's configuration file.
+          
+   $HTTP_ACCEPT
+          Contents of the Accept: header from the current request, if
+          there is one.
+          
+   $HTTP_ACCEPT_CHARSET
+          Contents of the Accept-Charset: header from the current
+          request, if there is one. Example: 'iso-8859-1,*,utf-8'.
+          
+   $HTTP_ACCEPT_ENCODING
+          Contents of the Accept-Encoding: header from the current
+          request, if there is one. Example: 'gzip'.
+          
+   $HTTP_ACCEPT_LANGUAGE
+          Contents of the Accept-Language: header from the current
+          request, if there is one. Example: 'en'.
+          
+   $HTTP_CONNECTION
+          Contents of the Connection: header from the current request, if
+          there is one. Example: 'Keep-Alive'.
+          
+   $HTTP_HOST
+          Contents of the Host: header from the current request, if there
+          is one.
+          
+   $HTTP_REFERER
+          The address of the page (if any) which referred the browser to
+          the current page. This is set by the user's browser; not all
+          browsers will set this.
+          
+   $HTTP_USER_AGENT
+          Contents of the User_Agent: header from the current request, if
+          there is one. This is a string denoting the browser software
+          being used to view the current page; i.e. Mozilla/4.5 [en]
+          (X11; U; Linux 2.2.9 i586). Among other things, you can use
+          this value with get_browser() to tailor your page's
+          functionality to the capabilities of the user's browser.
+          
+   $REMOTE_ADDR
+          The IP address from which the user is viewing the current page.
+          
+   $REMOTE_PORT
+          The port being used on the user's machine to communicate with
+          the web server.
+          
+   $SCRIPT_FILENAME
+          The absolute pathname of the currently executing script.
+          
+   $SERVER_ADMIN
+          The value given to the SERVER_ADMIN (for Apache) directive in
+          the web server configuration file. If the script is running on
+          a virtual host, this will be the value defined for that virtual
+          host.
+          
+   $SERVER_PORT
+          The port on the server machine being used by the web server for
+          communication. For default setups, this will be '80'; using
+          SSL, for instance, will change this to whatever your defined
+          secure HTTP port is.
+          
+   $SERVER_SIGNATURE
+          String containing the server version and virtual host name
+          which are added to server-generated pages, if enabled.
+          
+   $PATH_TRANSLATED
+          Filesystem- (not document root-) based path to the current
+          script, after the server has done any virtual-to-real mapping.
+          
+   $SCRIPT_NAME
+          Contains the current script's path. This is useful for pages
+          which need to point to themselves.
+          
+   $REQUEST_URI
+          The URI which was given in order to access this page; for
+          instance, '/index.html'.
+     _________________________________________________________________
+   
+Environment variables
+
+   These variables are imported into PHP's global namespace from the
+   environment under which the PHP parser is running. Many are provided
+   by the shell under which PHP is running and different systems are
+   likely running different kinds of shells, a definitive list is
+   impossible. Please see your shell's documentation for a list of
+   defined environment variables.
+   
+   Other environment variables include the CGI variables, placed there
+   regardless of whether PHP is running as a server module or CGI
+   processor.
+     _________________________________________________________________
+   
+PHP variables
+
+   These variables are created by PHP itself. The $HTTP_*_VARS variables
+   are available only if the track_vars configuration is turned on. When
+   enabled, the variables are always set, even if they are empty arrays.
+   This prevents a malicious user from spoofing these variables.
+   
+     Note: As of PHP 4.0.3, track_vars is always turned on, regardless
+     of the configuration file setting.
+     
+   If the register_globals directive is set, then these variables will
+   also be made available in the global scope of the script; i.e.,
+   separate from the $HTTP_*_VARS arrays. This feature should be used
+   with care, and turned off if possible; while the $HTTP_*_VARS
+   variables are safe, the bare global equivalents can be overwritten by
+   user input, with possibly malicious intent. If you cannot turn off
+   register_globals, you must take whatever steps are necessary to ensure
+   that the data you are using is safe.
+   
+   $argv
+          Array of arguments passed to the script. When the script is run
+          on the command line, this gives C-style access to the command
+          line parameters. When called via the GET method, this will
+          contain the query string.
+          
+   $argc
+          Contains the number of command line parameters passed to the
+          script (if run on the command line).
+          
+   $PHP_SELF
+          The filename of the currently executing script, relative to the
+          document root. If PHP is running as a command-line processor,
+          this variable is not available.
+          
+   $HTTP_COOKIE_VARS
+          An associative array of variables passed to the current script
+          via HTTP cookies.
+          
+   $HTTP_GET_VARS
+          An associative array of variables passed to the current script
+          via the HTTP GET method.
+          
+   $HTTP_POST_VARS
+          An associative array of variables passed to the current script
+          via the HTTP POST method.
+          
+   $HTTP_POST_FILES
+          An associative array of variables containing information about
+          files uploaded via the HTTP POST method. See POST method
+          uploads for information on the contents of $HTTP_POST_FILES.
+          
+          $HTTP_POST_FILES is available only in PHP 4.0.0 and later.
+          
+   $HTTP_ENV_VARS
+          An associative array of variables passed to the current script
+          via the parent environment.
+          
+   $HTTP_SERVER_VARS
+          An associative array of variables passed to the current script
+          from the HTTP server. These variables are analogous to the
+          Apache variables described above.
+     _________________________________________________________________
+   
+Variable scope
+
+   The scope of a variable is the context within which it is defined. For
+   the most part all PHP variables only have a single scope. This single
+   scope spans included and required files as well. For example:
+   
+$a = 1;
+include "b.inc";
+
+
+   Here the $a variable will be available within the included b.inc
+   script. However, within user-defined functions a local function scope
+   is introduced. Any variable used inside a function is by default
+   limited to the local function scope. For example:
+   
+
+$a = 1; /* global scope */
+
+Function Test () {
+    echo $a; /* reference to local scope variable */
+}
+
+Test ();
+
+
+   This script will not produce any output because the echo statement
+   refers to a local version of the $a variable, and it has not been
+   assigned a value within this scope. You may notice that this is a
+   little bit different from the C language in that global variables in C
+   are automatically available to functions unless specifically
+   overridden by a local definition. This can cause some problems in that
+   people may inadvertently change a global variable. In PHP global
+   variables must be declared global inside a function if they are going
+   to be used in that function. An example:
+   
+$a = 1;
+$b = 2;
+
+Function Sum () {
+    global $a, $b;
+
+    $b = $a + $b;
+}
+
+Sum ();
+echo $b;
+
+
+   The above script will output "3". By declaring $a and $b global within
+   the function, all references to either variable will refer to the
+   global version. There is no limit to the number of global variables
+   that can be manipulated by a function.
+   
+   A second way to access variables from the global scope is to use the
+   special PHP-defined $GLOBALS array. The previous example can be
+   rewritten as:
+   
+$a = 1;
+$b = 2;
+
+Function Sum () {
+    $GLOBALS["b"] = $GLOBALS["a"] + $GLOBALS["b"];
+}
+
+Sum ();
+echo $b;
+
+
+   The $GLOBALS array is an associative array with the name of the global
+   variable being the key and the contents of that variable being the
+   value of the array element.
+   
+   Another important feature of variable scoping is the static variable.
+   A static variable exists only in a local function scope, but it does
+   not lose its value when program execution leaves this scope. Consider
+   the following example:
+   
+Function Test () {
+    $a = 0;
+    echo $a;
+    $a++;
+}
+
+
+   This function is quite useless since every time it is called it sets
+   $a to 0 and prints "0". The $a++ which increments the variable serves
+   no purpose since as soon as the function exits the $a variable
+   disappears. To make a useful counting function which will not lose
+   track of the current count, the $a variable is declared static:
+   
+Function Test () {
+    static $a = 0;
+    echo $a;
+    $a++;
+}
+
+
+   Now, every time the Test() function is called it will print the value
+   of $a and increment it.
+   
+   Static variables also provide one way to deal with recursive
+   functions. A recursive function is one which calls itself. Care must
+   be taken when writing a recursive function because it is possible to
+   make it recurse indefinitely. You must make sure you have an adequate
+   way of terminating the recursion. The following simple function
+   recursively counts to 10, using the static variable $count to know
+   when to stop:
+   
+Function Test () {
+    static $count = 0;
+
+    $count++;
+    echo $count;
+    if ($count < 10) {
+        Test ();
+    }
+    $count--;
+}
+
+     _________________________________________________________________
+   
+Variable variables
+
+   Sometimes it is convenient to be able to have variable variable names.
+   That is, a variable name which can be set and used dynamically. A
+   normal variable is set with a statement such as:
+   
+$a = "hello";
+
+
+   A variable variable takes the value of a variable and treats that as
+   the name of a variable. In the above example, hello, can be used as
+   the name of a variable by using two dollar signs. i.e.
+   
+$$a = "world";
+
+
+   At this point two variables have been defined and stored in the PHP
+   symbol tree: $a with contents "hello" and $hello with contents
+   "world". Therefore, this statement:
+   
+echo "$a ${$a}";
+
+
+   produces the exact same output as:
+   
+echo "$a $hello";
+
+
+   i.e. they both produce: hello world.
+   
+   In order to use variable variables with arrays, you have to resolve an
+   ambiguity problem. That is, if you write $$a[1] then the parser needs
+   to know if you meant to use $a[1] as a variable, or if you wanted $$a
+   as the variable and then the [1] index from that variable. The syntax
+   for resolving this ambiguity is: ${$a[1]} for the first case and
+   ${$a}[1] for the second.
+     _________________________________________________________________
+   
+Variables from outside PHP
+
+HTML Forms (GET and POST)
+
+   When a form is submitted to a PHP script, any variables from that form
+   will be automatically made available to the script by PHP. If the
+   track_vars configuration option is turned on, then these variables
+   will be located in the associative arrays $HTTP_POST_VARS,
+   $HTTP_GET_VARS, and/or $HTTP_POST_FILES, according to the source of
+   the variable in question.
+   
+   For more information on these variables, please read Predefined
+   variables.
+   
+   Example 7-1. Simple form variable
+<form action="foo.php" method="post">
+    Name: <input type="text" name="username"><br>
+    <input type="submit">
+</form>
+
+
+   When the above form is submitted, the value from the text input will
+   be available in $HTTP_POST_VARS['username']. If the register_globals
+   configuration directive is turned on, then the variable will also be
+   available as $username in the global scope.
+   
+   PHP also understands arrays in the context of form variables. You may,
+   for example, group related variables together, or use this feature to
+   retrieve values from a multiple select input:
+   
+   Example 7-2. More complex form variables
+<form action="array.php" method="post">
+    Name: <input type="text" name="personal[name]"><br>
+    Email: <input type="text" name="personal[email]"><br>
+    Beer: <br>
+    <select multiple name="beer[]">
+        <option value="warthog">Warthog
+        <option value="guinness">Guinness
+        <option value="stuttgarter">Stuttgarter Schwabenbräu
+        </select>
+    <input type="submit">
+</form>
+
+
+   In PHP 3, the array form variable usage is limited to
+   single-dimensional arrays. In PHP 4, no such restriction applies.
+     _________________________________________________________________
+   
+IMAGE SUBMIT variable names
+
+   When submitting a form, it is possible to use an image instead of the
+   standard submit button with a tag like:
+   
+<input type=image src="image.gif" name="sub">
+
+
+   When the user clicks somewhere on the image, the accompanying form
+   will be transmitted to the server with two additional variables, sub_x
+   and sub_y. These contain the coordinates of the user click within the
+   image. The experienced may note that the actual variable names sent by
+   the browser contains a period rather than an underscore, but PHP
+   converts the period to an underscore automatically.
+     _________________________________________________________________
+   
+HTTP Cookies
+
+   PHP transparently supports HTTP cookies as defined by Netscape's Spec.
+   Cookies are a mechanism for storing data in the remote browser and
+   thus tracking or identifying return users. You can set cookies using
+   the SetCookie() function. Cookies are part of the HTTP header, so the
+   SetCookie function must be called before any output is sent to the
+   browser. This is the same restriction as for the Header() function.
+   Any cookies sent to you from the client will automatically be turned
+   into a PHP variable just like GET and POST method data.
+   
+   If you wish to assign multiple values to a single cookie, just add []
+   to the cookie name. For example:
+   
+SetCookie ("MyCookie[]", "Testing", time()+3600);
+
+
+   Note that a cookie will replace a previous cookie by the same name in
+   your browser unless the path or domain is different. So, for a
+   shopping cart application you may want to keep a counter and pass this
+   along. i.e.
+   
+   Example 7-3. SetCookie Example
+$Count++;
+SetCookie ("Count", $Count, time()+3600);
+SetCookie ("Cart[$Count]", $item, time()+3600);
+
+     _________________________________________________________________
+   
+Environment variables
+
+   PHP automatically makes environment variables available as normal PHP
+   variables.
+   
+echo $HOME;  /* Shows the HOME environment variable, if set. */
+
+
+   Since information coming in via GET, POST and Cookie mechanisms also
+   automatically create PHP variables, it is sometimes best to explicitly
+   read a variable from the environment in order to make sure that you
+   are getting the right version. The getenv() function can be used for
+   this. You can also set an environment variable with the putenv()
+   function.
+     _________________________________________________________________
+   
+Dots in incoming variable names
+
+   Typically, PHP does not alter the names of variables when they are
+   passed into a script. However, it should be noted that the dot
+   (period, full stop) is not a valid character in a PHP variable name.
+   For the reason, look at it:
+$varname.ext;  /* invalid variable name */
+
+
+   Now, what the parser sees is a variable named $varname, followed by
+   the string concatenation operator, followed by the barestring (i.e.
+   unquoted string which doesn't match any known key or reserved words)
+   'ext'. Obviously, this doesn't have the intended result.
+   
+   For this reason, it is important to note that PHP will automatically
+   replace any dots in incoming variable names with underscores.
+     _________________________________________________________________
+   
+Determining variable types
+
+   Because PHP determines the types of variables and converts them
+   (generally) as needed, it is not always obvious what type a given
+   variable is at any one time. PHP includes several functions which find
+   out what type a variable is. They are gettype(), is_long(),
+   is_double(), is_string(), is_array(), and is_object().
+     _________________________________________________________________
+   
+Chapter 8. Constants
+
+   PHP defines several constants and provides a mechanism for defining
+   more at run-time. Constants are much like variables, save for the two
+   facts that constants must be defined using the define() function, and
+   that they cannot later be redefined to another value.
+   
+   The predefined constants (always available) are:
+   
+   __FILE__ (case-insensitive)
+          The name of the script file presently being parsed. If used
+          within a file which has been included or required, then the
+          name of the included file is given, and not the name of the
+          parent file.
+          
+   __LINE__ (case-insensitive)
+          The number of the line within the current script file which is
+          being parsed. If used within a file which has been included or
+          required, then the position within the included file is given.
+          
+   PHP_VERSION
+          The string representation of the version of the PHP parser
+          presently in use; e.g. '3.0.8-dev'.
+          
+   PHP_OS
+          The name of the operating system on which the PHP parser is
+          executing;. Possible values may be : "AIX", "Darwin" (MacOS),
+          "Linux", "SunOS", "WIN32", "WINNT". Note : other values may be
+          available too.
+          
+   TRUE (case-insensitive)
+          A true value.
+          
+   FALSE (case-insensitive)
+          A false value.
+          
+   E_ERROR
+          Denotes an error other than a parsing error from which recovery
+          is not possible.
+          
+   E_WARNING
+          Denotes a condition where PHP knows something is wrong, but
+          will continue anyway; these can be caught by the script itself.
+          An example would be an invalid regexp in ereg().
+          
+   E_PARSE
+          The parser choked on invalid syntax in the script file.
+          Recovery is not possible.
+          
+   E_NOTICE
+          Something happened which may or may not be an error. Execution
+          continues. Examples include using an unquoted string as a hash
+          index, or accessing a variable which has not been set.
+          
+   E_ALL
+          All of the E_* constants rolled into one. If used with
+          error_reporting(), will cause any and all problems noticed by
+          PHP to be reported.
+          
+   The E_* constants are typically used with the error_reporting()
+   function for setting the error reporting level. See all these
+   constants at Error handling.
+   
+   You can define additional constants using the define() function.
+   
+   Note that these are constants, not C-style macros; only valid scalar
+   data may be represented by a constant.
+   
+   Example 8-1. Defining Constants
+<?php
+define("CONSTANT", "Hello world.");
+echo CONSTANT; // outputs "Hello world."
+?>
+
+
+   Example 8-2. Using __FILE__ and __LINE__
+<?php
+function report_error($file, $line, $message) {
+    echo "An error occured in $file on line $line: $message.";
+}
+
+report_error(__FILE__,__LINE__, "Something went wrong!");
+?>
+
+     _________________________________________________________________
+   
+Chapter 9. Expressions
+
+   Expressions are the most important building stones of PHP. In PHP,
+   almost anything you write is an expression. The simplest yet most
+   accurate way to define an expression is "anything that has a value".
+   
+   The most basic forms of expressions are constants and variables. When
+   you type "$a = 5", you're assigning '5' into $a. '5', obviously, has
+   the value 5, or in other words '5' is an expression with the value of
+   5 (in this case, '5' is an integer constant).
+   
+   After this assignment, you'd expect $a's value to be 5 as well, so if
+   you wrote $b = $a, you'd expect it to behave just as if you wrote $b =
+   5. In other words, $a is an expression with the value of 5 as well. If
+   everything works right, this is exactly what will happen.
+   
+   Slightly more complex examples for expressions are functions. For
+   instance, consider the following function:
+   
+function foo () {
+    return 5;
+}
+
+
+   Assuming you're familiar with the concept of functions (if you're not,
+   take a look at the chapter about functions), you'd assume that typing
+   $c = foo() is essentially just like writing $c = 5, and you're right.
+   Functions are expressions with the value of their return value. Since
+   foo() returns 5, the value of the expression 'foo()' is 5. Usually
+   functions don't just return a static value but compute something.
+   
+   Of course, values in PHP don't have to be integers, and very often
+   they aren't. PHP supports three scalar value types: integer values,
+   floating point values and string values (scalar values are values that
+   you can't 'break' into smaller pieces, unlike arrays, for instance).
+   PHP also supports two composite (non-scalar) types: arrays and
+   objects. Each of these value types can be assigned into variables or
+   returned from functions.
+   
+   So far, users of PHP/FI 2 shouldn't feel any change. However, PHP
+   takes expressions much further, in the same way many other languages
+   do. PHP is an expression-oriented language, in the sense that almost
+   everything is an expression. Consider the example we've already dealt
+   with, '$a = 5'. It's easy to see that there are two values involved
+   here, the value of the integer constant '5', and the value of $a which
+   is being updated to 5 as well. But the truth is that there's one
+   additional value involved here, and that's the value of the assignment
+   itself. The assignment itself evaluates to the assigned value, in this
+   case 5. In practice, it means that '$a = 5', regardless of what it
+   does, is an expression with the value 5. Thus, writing something like
+   '$b = ($a = 5)' is like writing '$a = 5; $b = 5;' (a semicolon marks
+   the end of a statement). Since assignments are parsed in a right to
+   left order, you can also write '$b = $a = 5'.
+   
+   Another good example of expression orientation is pre- and
+   post-increment and decrement. Users of PHP/FI 2 and many other
+   languages may be familiar with the notation of variable++ and
+   variable--. These are increment and decrement operators. In PHP/FI 2,
+   the statement '$a++' has no value (is not an expression), and thus you
+   can't assign it or use it in any way. PHP enhances the
+   increment/decrement capabilities by making these expressions as well,
+   like in C. In PHP, like in C, there are two types of increment -
+   pre-increment and post-increment. Both pre-increment and
+   post-increment essentially increment the variable, and the effect on
+   the variable is idential. The difference is with the value of the
+   increment expression. Pre-increment, which is written '++$variable',
+   evaluates to the incremented value (PHP increments the variable before
+   reading its value, thus the name 'pre-increment'). Post-increment,
+   which is written '$variable++' evaluates to the original value of
+   $variable, before it was incremented (PHP increments the variable
+   after reading its value, thus the name 'post-increment').
+   
+   A very common type of expressions are comparison expressions. These
+   expressions evaluate to either 0 or 1, meaning FALSE or TRUE
+   (respectively). PHP supports > (bigger than), >= (bigger than or equal
+   to), == (equal), != (not equal), < (smaller than) and <= (smaller than
+   or equal to). These expressions are most commonly used inside
+   conditional execution, such as if statements.
+   
+   The last example of expressions we'll deal with here is combined
+   operator-assignment expressions. You already know that if you want to
+   increment $a by 1, you can simply write '$a++' or '++$a'. But what if
+   you want to add more than one to it, for instance 3? You could write
+   '$a++' multiple times, but this is obviously not a very efficient or
+   comfortable way. A much more common practice is to write '$a = $a +
+   3'. '$a + 3' evaluates to the value of $a plus 3, and is assigned back
+   into $a, which results in incrementing $a by 3. In PHP, as in several
+   other languages like C, you can write this in a shorter way, which
+   with time would become clearer and quicker to understand as well.
+   Adding 3 to the current value of $a can be written '$a += 3'. This
+   means exactly "take the value of $a, add 3 to it, and assign it back
+   into $a". In addition to being shorter and clearer, this also results
+   in faster execution. The value of '$a += 3', like the value of a
+   regular assignment, is the assigned value. Notice that it is NOT 3,
+   but the combined value of $a plus 3 (this is the value that's assigned
+   into $a). Any two-place operator can be used in this
+   operator-assignment mode, for example '$a -= 5' (subtract 5 from the
+   value of $a), '$b *= 7' (multiply the value of $b by 7), etc.
+   
+   There is one more expression that may seem odd if you haven't seen it
+   in other languages, the ternary conditional operator:
+   
+$first ? $second : $third
+
+   If the value of the first subexpression is true (non-zero), then it
+   the second subexpression is evaluated, and that is the result of the
+   conditional expression. Otherwise, the third subexpression is
+   evaluated, and that is the value.
+   
+   The following example should help you understand pre- and
+   post-increment and expressions in general a bit better:
+   
+function double($i) {
+    return $i*2;
+}
+$b = $a = 5;        /* assign the value five into the variable $a and $b */
+$c = $a++;          /* post-increment, assign original value of $a
+                       (5) to $c */
+$e = $d = ++$b;     /* pre-increment, assign the incremented value of
+                       $b (6) to $d and $e */
+
+/* at this point, both $d and $e are equal to 6 */
+
+$f = double($d++);  /* assign twice the value of $d before
+                       the increment, 2*6 = 12 to $f */
+$g = double(++$e);  /* assign twice the value of $e after
+                       the increment, 2*7 = 14 to $g */
+$h = $g += 10;      /* first, $g is incremented by 10 and ends with the
+                       value of 24. the value of the assignment (24) is
+                       then assigned into $h, and $h ends with the value
+                       of 24 as well. */
+
+   In the beginning of the chapter we said that we'll be describing the
+   various statement types, and as promised, expressions can be
+   statements. However, not every expression is a statement. In this
+   case, a statement has the form of 'expr' ';' that is, an expression
+   followed by a semicolon. In '$b=$a=5;', $a=5 is a valid expression,
+   but it's not a statement by itself. '$b=$a=5;' however is a valid
+   statement.
+   
+   One last thing worth mentioning is the truth value of expressions. In
+   many events, mainly in conditional execution and loops, you're not
+   interested in the specific value of the expression, but only care
+   about whether it means TRUE or FALSE. The constants TRUE and FALSE
+   (case-insensitive) are the two possible boolean values. When
+   necessary, an expression is autmatically converted to boolean. See the
+   section about type-casting for details about how.
+   
+   PHP provides a full and powerful implementation of expressions, and
+   documenting it entirely goes beyond the scope of this manual. The
+   above examples should give you a good idea about what expressions are
+   and how you can construct useful expressions. Throughout the rest of
+   this manual we'll write expr to indicate any valid PHP expression.
+     _________________________________________________________________
+   
+Chapter 10. Operators
+     _________________________________________________________________
+   
+Arithmetic Operators
+
+   Remember basic arithmetic from school? These work just like those.
+   
+   Table 10-1. Arithmetic Operators
+   Example Name Result
+   $a + $b Addition Sum of $a and $b.
+   $a - $b Subtraction Difference of $a and $b.
+   $a * $b Multiplication Product of $a and $b.
+   $a / $b Division Quotient of $a and $b.
+   $a % $b Modulus Remainder of $a divided by $b.
+   
+   The division operator ("/") returns an integer value (the result of an
+   integer division) if the two operands are integers (or strings that
+   get converted to integers) and the quotient is an integer. If either
+   operand is a floating-point value, or the operation results in a
+   non-integer value, a floating-point value is returned.
+     _________________________________________________________________
+   
+Assignment Operators
+
+   The basic assignment operator is "=". Your first inclination might be
+   to think of this as "equal to". Don't. It really means that the the
+   left operand gets set to the value of the expression on the rights
+   (that is, "gets set to").
+   
+   The value of an assignment expression is the value assigned. That is,
+   the value of "$a = 3" is 3. This allows you to do some tricky things:
+   
+
+$a = ($b = 4) + 5; // $a is equal to 9 now, and $b has been set to 4.
+
+
+   In addition to the basic assignment operator, there are "combined
+   operators" for all of the binary arithmetic and string operators that
+   allow you to use a value in an expression and then set its value to
+   the result of that expression. For example:
+   
+$a = 3;
+$a += 5; // sets $a to 8, as if we had said: $a = $a + 5;
+$b = "Hello ";
+$b .= "There!"; // sets $b to "Hello There!", just like $b = $b . "There!";
+
+
+   Note that the assignment copies the original variable to the new one
+   (assignment by value), so changes to one will not affect the other.
+   This may also have relevance if you need to copy something like a
+   large array inside a tight loop. PHP 4 supports assignment by
+   reference, using the $var = &$othervar; syntax, but this is not
+   possible in PHP 3. 'Assignment by reference' means that both variables
+   end up pointing at the same data, and nothing is copied anywhere. To
+   learn more about references, please read References explained.
+     _________________________________________________________________
+   
+Bitwise Operators
+
+   Bitwise operators allow you to turn specific bits within an integer on
+   or off.
+   
+   Table 10-2. Bitwise Operators
+   Example Name Result
+   $a & $b And Bits that are set in both $a and $b are set.
+   $a | $b Or Bits that are set in either $a or $b are set.
+   $a ^ $b Xor Bits that are set in $a or $b but not both are set.
+   ~ $a Not Bits that are set in $a are not set, and vice versa.
+   $a << $b Shift left Shift the bits of $a $b steps to the left (each
+   step means "multiply by two")
+   $a >> $b Shift right Shift the bits of $a $b steps to the right (each
+   step means "divide by two")
+     _________________________________________________________________
+   
+Comparison Operators
+
+   Comparison operators, as their name implies, allow you to compare two
+   values.
+   
+   Table 10-3. Comparison Operators
+   Example Name Result
+   $a == $b Equal True if $a is equal to $b.
+   $a === $b Identical True if $a is equal to $b, and they are of the
+   same type. (PHP 4 only)
+   $a != $b Not equal True if $a is not equal to $b.
+   $a !== $b Not identical True if $a is not equal to $b, or they are not
+   of the same type. (PHP 4 only)
+   $a < $b Less than True if $a is strictly less than $b.
+   $a > $b Greater than True if $a is strictly greater than $b.
+   $a <= $b Less than or equal to True if $a is less than or equal to $b.
+   $a >= $b Greater than or equal to True if $a is greater than or equal
+   to $b.
+   
+   Another conditional operator is the "?:" (or ternary) operator, which
+   operates as in C and many other languages.
+   
+(expr1) ? (expr2) : (expr3);
+
+
+   This expression evaluates to expr2 if expr1 evaluates to true, and
+   expr3 if expr1 evaluates to false.
+     _________________________________________________________________
+   
+Error Control Operators
+
+   PHP supports one error control operator: the at sign (@). When
+   prepended to an expression in PHP, any error messages that might be
+   generated by that expression will be ignored.
+   
+   If the track_errors feature is enabled, any error message generated by
+   the expression will be saved in the global variable $php_errormsg.
+   This variable will be overwritten on each error, so check early if you
+   want to use it.
+   
+<?php
+/* Intentional file error */
+$my_file = @file ('non_existent_file') or
+    die ("Failed opening file: error was '$php_errormsg'");
+
+// this works for any expression, not just functions:
+$value = @$cache[$key];
+// will not issue a notication if the index $key doesn't exist.
+
+?>
+
+
+     Note: The @-operator works only on expressions. A simple rule of
+     thumb is: if you can take the value of something, you can prepend
+     the @ operator to it. For instance, you can prepend it to
+     variables, function and include() calls, constants, and so forth.
+     You cannot prepend it to function or class definitions, or
+     conditional structures such as if and foreach, and so forth.
+     
+     Note: Most database-functions do not return PHP-errors, rather, you
+     must use some get_error() function applicable for your database
+     type.
+     
+   See also error_reporting().
+   
+   Warning
+   
+   Currently the "@" error-control operator prefix will even disable
+   error reporting for critical errors that will terminate script
+   execution. Among other things, this means that if you use "@" to
+   suppress errors from a certain function and either it isn't available
+   or has been mistyped, the script will die right there with no
+   indication as to why.
+     _________________________________________________________________
+   
+Execution Operators
+
+   PHP supports one execution operator: backticks (``). Note that these
+   are not single-quotes! PHP will attempt to execute the contents of the
+   backticks as a shell command; the output will be returned (i.e., it
+   won't simply be dumped to output; it can be assigned to a variable).
+   
+$output = `ls -al`;
+echo "<pre>$output</pre>";
+
+
+     Note: The backtick operator is disabled when safe mode is enabled.
+     
+   See also system(), passthru(), exec(), popen(), and escapeshellcmd().
+     _________________________________________________________________
+   
+Incrementing/Decrementing Operators
+
+   PHP supports C-style pre- and post-increment and decrement operators.
+   
+   Table 10-4. Increment/decrement Operators
+   Example Name Effect
+   ++$a Pre-increment Increments $a by one, then returns $a.
+   $a++ Post-increment Returns $a, then increments $a by one.
+   --$a Pre-decrement Decrements $a by one, then returns $a.
+   $a-- Post-decrement Returns $a, then decrements $a by one.
+   
+   Here's a simple example script:
+   
+<?php
+echo "<h3>Postincrement</h3>";
+$a = 5;
+echo "Should be 5: " . $a++ . "<br>\n";
+echo "Should be 6: " . $a . "<br>\n";
+
+echo "<h3>Preincrement</h3>";
+$a = 5;
+echo "Should be 6: " . ++$a . "<br>\n";
+echo "Should be 6: " . $a . "<br>\n";
+
+echo "<h3>Postdecrement</h3>";
+$a = 5;
+echo "Should be 5: " . $a-- . "<br>\n";
+echo "Should be 4: " . $a . "<br>\n";
+
+echo "<h3>Predecrement</h3>";
+$a = 5;
+echo "Should be 4: " . --$a . "<br>\n";
+echo "Should be 4: " . $a . "<br>\n";
+?>
+
+     _________________________________________________________________
+   
+Logical Operators
+
+   Table 10-5. Logical Operators
+   Example Name Result
+   $a and $b And True if both $a and $b are true.
+   $a or $b Or True if either $a or $b is true.
+   $a xor $b Xor True if either $a or $b is true, but not both.
+   ! $a Not True if $a is not true.
+   $a && $b And True if both $a and $b are true.
+   $a || $b Or True if either $a or $b is true.
+   
+   The reason for the two different variations of "and" and "or"
+   operators is that they operate at different precedences. (See Operator
+   Precedence.)
+     _________________________________________________________________
+   
+Operator Precedence
+
+   The precedence of an operator specifies how "tightly" it binds two
+   expressions together. For example, in the expression 1 + 5 * 3, the
+   answer is 16 and not 18 because the multiplication ("*") operator has
+   a higher precedence than the addition ("+") operator. Parentheses may
+   be used to force precedence, if necessary. For instance: (1 + 5) * 3
+   evaluates to 18.
+   
+   The following table lists the precedence of operators with the
+   lowest-precedence operators listed first.
+   
+   Table 10-6. Operator Precedence
+   Associativity Operators
+   left ,
+   left or
+   left xor
+   left and
+   right print
+   left = += -= *= /= .= %= &= |= ^= ~= <<= >>=
+   left ? :
+   left ||
+   left &&
+   left |
+   left ^
+   left &
+   non-associative == != === !==
+   non-associative < <= > >=
+   left << >>
+   left + - .
+   left * / %
+   right ! ~ ++ -- (int) (double) (string) (array) (object) @
+   right [
+   non-associative new
+     _________________________________________________________________
+   
+String Operators
+
+   There are two string operators. The first is the concatenation
+   operator ('.'), which returns the concatenation of its right and left
+   arguments. The second is the concatenating assignment operator ('.='),
+   which appends the argument on the right side to the argument on the
+   left side. Please read Assignment Operators for more information.
+   
+$a = "Hello ";
+$b = $a . "World!"; // now $b contains "Hello World!"
+
+$a = "Hello ";
+$a .= "World!";     // now $a contains "Hello World!"
+
+     _________________________________________________________________
+   
+Chapter 11. Control Structures
+
+   Any PHP script is built out of a series of statements. A statement can
+   be an assignment, a function call, a loop, a conditional statement of
+   even a statement that does nothing (an empty statement). Statements
+   usually end with a semicolon. In addition, statements can be grouped
+   into a statement-group by encapsulating a group of statements with
+   curly braces. A statement-group is a statement by itself as well. The
+   various statement types are described in this chapter.
+     _________________________________________________________________
+   
+if
+
+   The if construct is one of the most important features of many
+   languages, PHP included. It allows for conditional execution of code
+   fragments. PHP features an if structure that is similar to that of C:
+   
+if (expr)
+    statement
+
+
+   As described in the section about expressions, expr is evaluated to
+   its truth value. If expr evaluates to TRUE, PHP will execute
+   statement, and if it evaluates to FALSE - it'll ignore it.
+   
+   The following example would display a is bigger than b if $a is bigger
+   than $b:
+   
+if ($a > $b)
+    print "a is bigger than b";
+
+
+   Often you'd want to have more than one statement to be executed
+   conditionally. Of course, there's no need to wrap each statement with
+   an if clause. Instead, you can group several statements into a
+   statement group. For example, this code would display a is bigger than
+   b if $a is bigger than $b, and would then assign the value of $a into
+   $b:
+   
+if ($a > $b) {
+    print "a is bigger than b";
+    $b = $a;
+}
+
+
+   If statements can be nested indefinitely within other if statements,
+   which provides you with complete flexibility for conditional execution
+   of the various parts of your program.
+     _________________________________________________________________
+   
+else
+
+   Often you'd want to execute a statement if a certain condition is met,
+   and a different statement if the condition is not met. This is what
+   else is for. else extends an if statement to execute a statement in
+   case the expression in the if statement evaluates to FALSE. For
+   example, the following code would display a is bigger than b if $a is
+   bigger than $b, and a is NOT bigger than b otherwise:
+   
+if ($a > $b) {
+    print "a is bigger than b";
+} else {
+    print "a is NOT bigger than b";
+}
+
+
+   The else statement is only executed if the if expression evaluated to
+   FALSE, and if there were any elseif expressions - only if they
+   evaluated to FALSE as well (see elseif).
+     _________________________________________________________________
+   
+elseif
+
+   elseif, as its name suggests, is a combination of if and else. Like
+   else, it extends an if statement to execute a different statement in
+   case the original if expression evaluates to FALSE. However, unlike
+   else, it will execute that alternative expression only if the elseif
+   conditional expression evaluates to TRUE. For example, the following
+   code would display a is bigger than b, a equal to b or a is smaller
+   than b:
+   
+if ($a > $b) {
+    print "a is bigger than b";
+} elseif ($a == $b) {
+    print "a is equal to b";
+} else {
+    print "a is smaller than b";
+}
+
+
+   There may be several elseifs within the same if statement. The first
+   elseif expression (if any) that evaluates to true would be executed.
+   In PHP, you can also write 'else if' (in two words) and the behavior
+   would be identical to the one of 'elseif' (in a single word). The
+   syntactic meaning is slightly different (if you're familiar with C,
+   this is the same behavior) but the bottom line is that both would
+   result in exactly the same behavior.
+   
+   The elseif statement is only executed if the preceding if expression
+   and any preceding elseif expressions evaluated to FALSE, and the
+   current elseif expression evaluated to TRUE.
+     _________________________________________________________________
+   
+Alternative syntax for control structures
+
+   PHP offers an alternative syntax for some of its control structures;
+   namely, if, while, for, foreach, and switch. In each case, the basic
+   form of the alternate syntax is to change the opening brace to a colon
+   (:) and the closing brace to endif;, endwhile;, endfor;, endforeach;,
+   or endswitch;, respectively.
+   
+ <?php if ($a == 5): ?>
+ A is equal to 5
+ <?php endif; ?>
+
+
+   In the above example, the HTML block "A = 5" is nested within an if
+   statement written in the alternative syntax. The HTML block would be
+   displayed only if $a is equal to 5.
+   
+   The alternative syntax applies to else and elseif as well. The
+   following is an if structure with elseif and else in the alternative
+   format:
+   
+if ($a == 5):
+    print "a equals 5";
+    print "...";
+elseif ($a == 6):
+    print "a equals 6";
+    print "!!!";
+else:
+    print "a is neither 5 nor 6";
+endif;
+
+
+   See also while, for, and if for further examples.
+     _________________________________________________________________
+   
+while
+
+   while loops are the simplest type of loop in PHP. They behave just
+   like their C counterparts. The basic form of a while statement is:
+   
+while (expr) statement
+
+
+   The meaning of a while statement is simple. It tells PHP to execute
+   the nested statement(s) repeatedly, as long as the while expression
+   evaluates to TRUE. The value of the expression is checked each time at
+   the beginning of the loop, so even if this value changes during the
+   execution of the nested statement(s), execution will not stop until
+   the end of the iteration (each time PHP runs the statements in the
+   loop is one iteration). Sometimes, if the while expression evaluates
+   to FALSE from the very beginning, the nested statement(s) won't even
+   be run once.
+   
+   Like with the if statement, you can group multiple statements within
+   the same while loop by surrounding a group of statements with curly
+   braces, or by using the alternate syntax:
+   
+while (expr): statement ... endwhile;
+
+
+   The following examples are identical, and both print numbers from 1 to
+   10:
+   
+/* example 1 */
+
+$i = 1;
+while ($i <= 10) {
+    print $i++;  /* the printed value would be
+                    $i before the increment
+                    (post-increment) */
+}
+
+/* example 2 */
+
+$i = 1;
+while ($i <= 10):
+    print $i;
+    $i++;
+endwhile;
+
+     _________________________________________________________________
+   
+do..while
+
+   do..while loops are very similar to while loops, except the truth
+   expression is checked at the end of each iteration instead of in the
+   beginning. The main difference from regular while loops is that the
+   first iteration of a do..while loop is guarenteed to run (the truth
+   expression is only checked at the end of the iteration), whereas it's
+   may not necessarily run with a regular while loop (the truth
+   expression is checked at the beginning of each iteration, if it
+   evaluates to FALSE right from the beginning, the loop execution would
+   end immediately).
+   
+   There is just one syntax for do..while loops:
+   
+$i = 0;
+do {
+   print $i;
+} while ($i>0);
+
+
+   The above loop would run one time exactly, since after the first
+   iteration, when truth expression is checked, it evaluates to FALSE ($i
+   is not bigger than 0) and the loop execution ends.
+   
+   Advanced C users may be familiar with a different usage of the
+   do..while loop, to allow stopping execution in the middle of code
+   blocks, by encapsulating them with do..while(0), and using the break
+   statement. The following code fragment demonstrates this:
+   
+do {
+    if ($i < 5) {
+        print "i is not big enough";
+        break;
+    }
+    $i *= $factor;
+    if ($i < $minimum_limit) {
+        break;
+    }
+    print "i is ok";
+
+     ...process i...
+
+} while(0);
+
+
+   Don't worry if you don't understand this right away or at all. You can
+   code scripts and even powerful scripts without using this `feature'.
+     _________________________________________________________________
+   
+for
+
+   for loops are the most complex loops in PHP. They behave like their C
+   counterparts. The syntax of a for loop is:
+   
+for (expr1; expr2; expr3) statement
+
+
+   The first expression (expr1) is evaluated (executed) once
+   unconditionally at the beginning of the loop.
+   
+   In the beginning of each iteration, expr2 is evaluated. If it
+   evaluates to TRUE, the loop continues and the nested statement(s) are
+   executed. If it evaluates to FALSE, the execution of the loop ends.
+   
+   At the end of each iteration, expr3 is evaluated (executed).
+   
+   Each of the expressions can be empty. expr2 being empty means the loop
+   should be run indefinitely (PHP implicitly considers it as TRUE, like
+   C). This may not be as useless as you might think, since often you'd
+   want to end the loop using a conditional break statement instead of
+   using the for truth expression.
+   
+   Consider the following examples. All of them display numbers from 1 to
+   10:
+   
+/* example 1 */
+
+for ($i = 1; $i <= 10; $i++) {
+    print $i;
+}
+
+/* example 2 */
+
+for ($i = 1;;$i++) {
+    if ($i > 10) {
+        break;
+    }
+    print $i;
+}
+
+/* example 3 */
+
+$i = 1;
+for (;;) {
+    if ($i > 10) {
+        break;
+    }
+    print $i;
+    $i++;
+}
+
+/* example 4 */
+
+for ($i = 1; $i <= 10; print $i, $i++) ;
+
+
+   Of course, the first example appears to be the nicest one (or perhaps
+   the fourth), but you may find that being able to use empty expressions
+   in for loops comes in handy in many occasions.
+   
+   PHP also supports the alternate "colon syntax" for for loops.
+   
+for (expr1; expr2; expr3): statement; ...; endfor;
+
+
+   Other languages have a foreach statement to traverse an array or hash.
+   PHP 3 has no such construct; PHP 4 does (see foreach). In PHP 3, you
+   can combine while with the list() and each() functions to achieve the
+   same effect. See the documentation for these functions for an example.
+     _________________________________________________________________
+   
+foreach
+
+   PHP 4 (not PHP 3) includes a foreach construct, much like perl and
+   some other languages. This simply gives an easy way to iterate over
+   arrays. There are two syntaxes; the second is a minor but useful
+   extension of the first:
+   
+foreach(array_expression as $value) statement
+foreach(array_expression as $key => $value) statement
+
+
+   The first form loops over the array given by array_expression. On each
+   loop, the value of the current element is assigned to $value and the
+   internal array pointer is advanced by one (so on the next loop, you'll
+   be looking at the next element).
+   
+   The second form does the same thing, except that the current element's
+   key will be assigned to the variable $key on each loop.
+   
+     Note: When foreach first starts executing, the internal array
+     pointer is automatically reset to the first element of the array.
+     This means that you do not need to call reset() before a foreach
+     loop.
+     
+     Note: Also note that foreach operates on a copy of the specified
+     array, not the array itself, therefore the array pointer is not
+     modified as with the each() construct and changes to the array
+     element returned are not reflected in the original array.
+     
+     Note: foreach does not support the ability to suppress error
+     messages using '@'.
+     
+   You may have noticed that the following are functionally identical:
+   
+reset ($arr);
+while (list(, $value) = each ($arr)) {
+    echo "Value: $value<br>\n";
+}
+
+foreach ($arr as $value) {
+    echo "Value: $value<br>\n";
+}
+
+
+   The following are also functionally identical:
+   
+reset ($arr);
+while (list($key, $value) = each ($arr)) {
+    echo "Key: $key; Value: $value<br>\n";
+}
+
+foreach ($arr as $key => $value) {
+    echo "Key: $key; Value: $value<br>\n";
+}
+
+
+   Some more examples to demonstrate usages:
+   
+/* foreach example 1: value only */
+
+$a = array (1, 2, 3, 17);
+
+foreach ($a as $v) {
+   print "Current value of \$a: $v.\n";
+}
+
+/* foreach example 2: value (with key printed for illustration) */
+
+$a = array (1, 2, 3, 17);
+
+$i = 0; /* for illustrative purposes only */
+
+foreach($a as $v) {
+    print "\$a[$i] => $v.\n";
+}
+
+/* foreach example 3: key and value */
+
+$a = array (
+    "one" => 1,
+    "two" => 2,
+    "three" => 3,
+    "seventeen" => 17
+);
+
+foreach($a as $k => $v) {
+    print "\$a[$k] => $v.\n";
+}
+
+/* foreach example 4: multi-dimensional arrays */
+
+$a[0][0] = "a";
+$a[0][1] = "b";
+$a[1][0] = "y";
+$a[1][1] = "z";
+
+foreach($a as $v1) {
+    foreach ($v1 as $v2) {
+        print "$v2\n";
+    }
+}
+
+/* foreach example 5: dynamic arrays
+
+foreach(array(1, 2, 3, 4, 5) as $v) {
+    print "$v\n";
+}
+
+     _________________________________________________________________
+   
+break
+
+   break ends execution of the current for, while, foreach or switch
+   structure.
+   
+   break accepts an optional numeric argument which tells it how many
+   nested enclosing structures are to be broken out of.
+   
+$arr = array ('one', 'two', 'three', 'four', 'stop', 'five');
+while (list (, $val) = each ($arr)) {
+    if ($val == 'stop') {
+        break;    /* You could also write 'break 1;' here. */
+    }
+    echo "$val<br>\n";
+}
+
+/* Using the optional argument. */
+
+$i = 0;
+while (++$i) {
+    switch ($i) {
+    case 5:
+        echo "At 5<br>\n";
+        break 1;  /* Exit only the switch. */
+    case 10:
+        echo "At 10; quitting<br>\n";
+        break 2;  /* Exit the switch and the while. */
+    default:
+        break;
+    }
+}
+
+     _________________________________________________________________
+   
+continue
+
+   continue is used within looping structures to skip the rest of the
+   current loop iteration and continue execution at the beginning of the
+   next iteration.
+   
+   continue accepts an optional numeric argument which tells it how many
+   levels of enclosing loops it should skip to the end of.
+   
+while (list ($key, $value) = each ($arr)) {
+    if (!($key % 2)) { // skip odd members
+        continue;
+    }
+    do_something_odd ($value);
+}
+
+$i = 0;
+while ($i++ < 5) {
+    echo "Outer<br>\n";
+    while (1) {
+        echo "  Middle<br>\n";
+        while (1) {
+            echo "  Inner<br>\n";
+            continue 3;
+        }
+        echo "This never gets output.<br>\n";
+    }
+    echo "Neither does this.<br>\n";
+}
+
+     _________________________________________________________________
+   
+switch
+
+   The switch statement is similar to a series of IF statements on the
+   same expression. In many occasions, you may want to compare the same
+   variable (or expression) with many different values, and execute a
+   different piece of code depending on which value it equals to. This is
+   exactly what the switch statement is for.
+   
+   The following two examples are two different ways to write the same
+   thing, one using a series of if statements, and the other using the
+   switch statement:
+   
+if ($i == 0) {
+    print "i equals 0";
+}
+if ($i == 1) {
+    print "i equals 1";
+}
+if ($i == 2) {
+    print "i equals 2";
+}
+
+switch ($i) {
+    case 0:
+        print "i equals 0";
+        break;
+    case 1:
+        print "i equals 1";
+        break;
+    case 2:
+        print "i equals 2";
+        break;
+}
+
+
+   It is important to understand how the switch statement is executed in
+   order to avoid mistakes. The switch statement executes line by line
+   (actually, statement by statement). In the beginning, no code is
+   executed. Only when a case statement is found with a value that
+   matches the value of the switch expression does PHP begin to execute
+   the statements. PHP continues to execute the statements until the end
+   of the switch block, or the first time it sees a break statement. If
+   you don't write a break statement at the end of a case's statement
+   list, PHP will go on executing the statements of the following case.
+   For example:
+   
+switch ($i) {
+    case 0:
+        print "i equals 0";
+    case 1:
+        print "i equals 1";
+    case 2:
+        print "i equals 2";
+}
+
+
+   Here, if $i equals to 0, PHP would execute all of the print
+   statements! If $i equals to 1, PHP would execute the last two print
+   statements, and only if $i equals to 2, you'd get the 'expected'
+   behavior and only 'i equals 2' would be displayed. So, it's important
+   not to forget break statements (even though you may want to avoid
+   supplying them on purpose under certain circumstances).
+   
+   In a switch statement, the condition is evaluated only once and the
+   result is compared to each case statement. In an elseif statement, the
+   condition is evaluated again. If your condition is more complicated
+   than a simple compare and/or is in a tight loop, a switch may be
+   faster.
+   
+   The statement list for a case can also be empty, which simply passes
+   control into the statement list for the next case.
+   
+switch ($i) {
+    case 0:
+    case 1:
+    case 2:
+        print "i is less than 3 but not negative";
+        break;
+    case 3:
+        print "i is 3";
+}
+
+
+   A special case is the default case. This case matches anything that
+   wasn't matched by the other cases, and should be the last case
+   statement. For example:
+   
+switch ($i) {
+    case 0:
+        print "i equals 0";
+        break;
+    case 1:
+        print "i equals 1";
+        break;
+    case 2:
+        print "i equals 2";
+        break;
+    default:
+        print "i is not equal to 0, 1 or 2";
+}
+
+
+   The case expression may be any expression that evaluates to a simple
+   type, that is, integer or floating-point numbers and strings. Arrays
+   or objects cannot be used here unless they are dereferenced to a
+   simple type.
+   
+   The alternative syntax for control structures is supported with
+   switches. For more information, see Alternative syntax for control
+   structures .
+   
+switch ($i):
+    case 0:
+        print "i equals 0";
+        break;
+    case 1:
+        print "i equals 1";
+        break;
+    case 2:
+        print "i equals 2";
+        break;
+    default:
+        print "i is not equal to 0, 1 or 2";
+endswitch;
+
+     _________________________________________________________________
+   
+declare
+
+   The declare statement is used to temporarily change the state of the
+   parser in a block of code. Here's how it looks:
+   
+function tick()
+{
+    static $i;
+    printf("[tick i=%d]\n", ++$i);
+}
+
+register_tick_function("tick");
+
+declare (ticks = 2) {
+    1; 2; 3;
+}
+
+   This example shows the only implemented parser parameter today: ticks.
+   A tick is an event that occurs for every N low-level statements
+   executed by the parser, where N is specified in the declare statement.
+   The example above will print: [tick i=1] [tick i=2]
+   
+   Ticks is well suited for implementing simple multitasking,
+   backgrounded IO and many other things in PHP.
+   
+   See also register_tick_function() and unregister_tick_function().
+     _________________________________________________________________
+   
+require()
+
+   The require() statement replaces itself with the specified file, much
+   like the C preprocessor's #include works.
+   
+   If "URL fopen wrappers" are enabled in PHP (which they are in the
+   default configuration), you can specify the file to be require()ed
+   using an URL instead of a local pathname. See Remote files and fopen()
+   for more information.
+   
+   An important note about how this works is that when a file is
+   include()ed or require()ed, parsing drops out of PHP mode and into
+   HTML mode at the beginning of the target file, and resumes PHP mode
+   again at the end. For this reason, any code inside the target file
+   which should be executed as PHP code must be enclosed within valid PHP
+   start and end tags.
+   
+   require() is not actually a function in PHP; rather, it is a language
+   construct. It is subject to some different rules than functions are.
+   For instance, require() is not subject to any containing control
+   structures. For another, it does not return any value; attempting to
+   read a return value from a require() call results in a parse error.
+   
+   Unlike include(), require() will always read in the target file, even
+   if the line it's on never executes. If you want to conditionally
+   include a file, use include(). The conditional statement won't affect
+   the require(). However, if the line on which the require() occurs is
+   not executed, neither will any of the code in the target file be
+   executed.
+   
+   Similarly, looping structures do not affect the behaviour of
+   require(). Although the code contained in the target file is still
+   subject to the loop, the require() itself happens only once.
+   
+   This means that you can't put a require() statement inside of a loop
+   structure and expect it to include the contents of a different file on
+   each iteration. To do that, use an include() statement.
+   
+require ('header.inc');
+
+
+   When a file is require()ed, the code it contains inherits the variable
+   scope of the line on which the require() occurs. Any variables
+   available at that line in the calling file will be available within
+   the called file. If the require() occurs inside a function within the
+   calling file, then all of the code contained in the called file will
+   behave as though it had been defined inside that function.
+   
+   If the require()ed file is called via HTTP using the fopen wrappers,
+   and if the target server interprets the target file as PHP code,
+   variables may be passed to the require()ed file using an URL request
+   string as used with HTTP GET. This is not strictly speaking the same
+   thing as require()ing the file and having it inherit the parent file's
+   variable scope; the script is actually being run on the remote server
+   and the result is then being included into the local script.
+   
+/* This example assumes that someserver is configured to parse .php
+ * files and not .txt files. Also, 'works' here means that the variables
+ * $varone and $vartwo are available within the require()ed file. */
+
+/* Won't work; file.txt wasn't handled by someserver. */
+require ("http://someserver/file.txt?varone=1&vartwo=2");
+
+/* Won't work; looks for a file named 'file.php?varone=1&vartwo=2'
+ * on the local filesystem. */
+require ("file.php?varone=1&vartwo=2");
+
+/* Works. */
+require ("http://someserver/file.php?varone=1&vartwo=2");
+
+$varone = 1;
+$vartwo = 2;
+require ("file.txt");  /* Works. */
+require ("file.php");  /* Works. */
+
+
+   In PHP 3, it is possible to execute a return statement inside a
+   require()ed file, as long as that statement occurs in the global scope
+   of the require()ed file. It may not occur within any block (meaning
+   inside braces ({}). In PHP 4, however, this ability has been
+   discontinued. If you need this functionality, see include().
+   
+   See also include(), require_once(), include_once(), readfile(), and
+   virtual().
+     _________________________________________________________________
+   
+include()
+
+   The include() statement includes and evaluates the specified file.
+   
+   If "URL fopen wrappers" are enabled in PHP (which they are in the
+   default configuration), you can specify the file to be include()ed
+   using an URL instead of a local pathname. See Remote files and fopen()
+   for more information.
+   
+   An important note about how this works is that when a file is
+   include()ed or require()ed, parsing drops out of PHP mode and into
+   HTML mode at the beginning of the target file, and resumes again at
+   the end. For this reason, any code inside the target file which should
+   be executed as PHP code must be enclosed within valid PHP start and
+   end tags.
+   
+   This happens each time the include() statement is encountered, so you
+   can use an include() statement within a looping structure to include a
+   number of different files.
+   
+$files = array ('first.inc', 'second.inc', 'third.inc');
+for ($i = 0; $i < count($files); $i++) {
+    include $files[$i];
+}
+
+
+   include() differs from require() in that the include statement is
+   re-evaluated each time it is encountered (and only when it is being
+   executed), whereas the require() statement is replaced by the required
+   file when it is first encountered, whether the contents of the file
+   will be evaluated or not (for example, if it is inside an if statement
+   whose condition evaluated to false).
+   
+   Because include() is a special language construct, you must enclose it
+   within a statement block if it is inside a conditional block.
+   
+/* This is WRONG and will not work as desired. */
+
+if ($condition)
+    include($file);
+else
+    include($other);
+
+/* This is CORRECT. */
+
+if ($condition) {
+    include($file);
+} else {
+    include($other);
+}
+
+
+   In both PHP 3 and PHP 4, it is possible to execute a return statement
+   inside an include()ed file, in order to terminate processing in that
+   file and return to the script which called it. Some differences in the
+   way this works exist, however. The first is that in PHP 3, the return
+   may not appear inside a block unless it's a function block, in which
+   case the return applies to that function and not the whole file. In
+   PHP 4, however, this restriction does not exist. Also, PHP 4 allows
+   you to return values from include()ed files. You can take the value of
+   the include() call as you would a normal function. This generates a
+   parse error in PHP 3.
+   
+   Example 11-1. include() in PHP 3 and PHP 4
+   
+   Assume the existence of the following file (named test.inc) in the
+   same directory as the main file:
+<?php
+echo "Before the return <br>\n";
+if (1) {
+    return 27;
+}
+echo "After the return <br>\n";
+?>
+
+
+   Assume that the main file (main.html) contains the following:
+<?php
+$retval = include ('test.inc');
+echo "File returned: '$retval'<br>\n";
+?>
+
+
+   When main.html is called in PHP 3, it will generate a parse error on
+   line 2; you can't take the value of an include() in PHP 3. In PHP 4,
+   however, the result will be:
+Before the return
+File returned: '27'
+
+
+   Now, assume that main.html has been altered to contain the following:
+<?php
+include ('test.inc');
+echo "Back in main.html<br>\n";
+?>
+
+
+   In PHP 4, the output will be:
+Before the return
+Back in main.html
+
+
+   However, PHP 3 will give the following output:
+Before the return
+27Back in main.html
+
+Parse error: parse error in /home/torben/public_html/phptest/main.html on line
+5
+
+
+   The above parse error is a result of the fact that the return
+   statement is enclosed in a non-function block within test.inc. When
+   the return is moved outside of the block, the output is:
+Before the return
+27Back in main.html
+
+
+   The spurious '27' is due to the fact that PHP 3 does not support
+   returning values from files like that.
+   
+   When a file is include()ed, the code it contains inherits the variable
+   scope of the line on which the include() occurs. Any variables
+   available at that line in the calling file will be available within
+   the called file. If the include() occurs inside a function within the
+   calling file, then all of the code contained in the called file will
+   behave as though it had been defined inside that function.
+   
+   If the include()ed file is called via HTTP using the fopen wrappers,
+   and if the target server interprets the target file as PHP code,
+   variables may be passed to the include()ed file using an URL request
+   string as used with HTTP GET. This is not strictly speaking the same
+   thing as include()ing the file and having it inherit the parent file's
+   variable scope; the script is actually being run on the remote server
+   and the result is then being included into the local script.
+   
+/* This example assumes that someserver is configured to parse .php
+ * files and not .txt files. Also, 'works' here means that the variables
+ * $varone and $vartwo are available within the include()ed file. */
+
+/* Won't work; file.txt wasn't handled by someserver. */
+include ("http://someserver/file.txt?varone=1&vartwo=2");
+
+/* Won't work; looks for a file named 'file.php?varone=1&vartwo=2'
+ * on the local filesystem. */
+include ("file.php?varone=1&vartwo=2");
+
+/* Works. */
+include ("http://someserver/file.php?varone=1&vartwo=2");
+
+$varone = 1;
+$vartwo = 2;
+include ("file.txt");  /* Works. */
+include ("file.php");  /* Works. */
+
+
+   See also require(), require_once(), include_once(), readfile(), and
+   virtual().
+     _________________________________________________________________
+   
+require_once()
+
+   The require_once() statement replaces itself with the specified file,
+   much like the C preprocessor's #include works, and in that respect is
+   similar to the require() statement. The main difference is that in an
+   inclusion chain, the use of require_once() will assure that the code
+   is added to your script only once, and avoid clashes with variable
+   values or function names that can happen.
+   
+   For example, if you create the following 2 include files utils.inc and
+   foolib.inc
+   
+   Example 11-2. utils.inc
+<?php
+define(PHPVERSION, floor(phpversion()));
+echo "GLOBALS ARE NICE\n";
+function goodTea() {
+        return "Oolong tea tastes good!";
+}
+?>
+        
+
+   Example 11-3. foolib.inc
+<?php
+require ("utils.inc");
+function showVar($var) {
+        if (PHPVERSION == 4) {
+                print_r($var);
+        } else {
+                var_dump($var);
+        }
+}
+
+// bunch of other functions ...
+?>
+        
+
+   And then you write a script cause_error_require.php
+   
+   Example 11-4. cause_error_require.php
+<?php
+require("foolib.inc");
+/* the following will generate an error */
+require("utils.inc");
+$foo = array("1",array("complex","quaternion"));
+echo "this is requiring utils.inc again which is also\n";
+echo "required in foolib.inc\n";
+echo "Running goodTea: ".goodTea()."\n";
+echo "Printing foo: \n";
+showVar($foo);
+?>
+        
+
+   When you try running the latter one, the resulting ouptut will be
+   (using PHP 4.01pl2):
+   
+GLOBALS ARE NICE
+GLOBALS ARE NICE
+
+Fatal error:  Cannot redeclare goodTea() in utils.inc on line 5
+        
+
+   By modifying foolib.inc and cause_errror_require.php to use
+   require_once() instead of require() and renaming the last one to
+   avoid_error_require_once.php, we have:
+   
+   Example 11-5. foolib.inc (fixed)
+...
+require_once("utils.inc");
+function showVar($var) {
+...
+        
+
+   Example 11-6. avoid_error_require_once.php
+...
+require_once("foolib.inc");
+require_once("utils.inc");
+$foo = array("1",array("complex","quaternion"));
+...
+        
+
+   And when running the latter, the output will be (using PHP 4.0.1pl2):
+   
+GLOBALS ARE NICE
+this is requiring globals.inc again which is also
+required in foolib.inc
+Running goodTea: Oolong tea tastes good!
+Printing foo:
+Array
+(
+    [0] => 1
+    [1] => Array
+        (
+            [0] => complex
+            [1] => quaternion
+        )
+
+)
+        
+
+   Also note that, analogous to the behavior of the #include of the C
+   preprocessor, this statement acts at "compile time", e.g. when the
+   script is parsed and before it is executed, and should not be used for
+   parts of the script that need to be inserted dynamically during its
+   execution. You should use include_once() or include() for that
+   purpose.
+   
+   For more examples on using require_once() and include_once(), look at
+   the PEAR code included in the latest PHP source code distributions.
+   
+   See also: require(), include(), include_once(), get_required_files(),
+   get_included_files(), readfile(), and virtual().
+     _________________________________________________________________
+   
+include_once()
+
+   The include_once() statement includes and evaluates the specified file
+   during the execution of the script. This is a behavior similar to the
+   include() statement, with the important difference that if the code
+   from a file has already been included, it will not be included again.
+   
+   As mentioned in the require_once() description, the include_once()
+   should be used in the cases in which the same file might be included
+   and evaluated more than once during a particular execution of a
+   script, and you want to be sure that it is included exactly once to
+   avoid problems with function redefinitions, variable value
+   reassignments, etc.
+   
+   For more examples on using require_once() and include_once(), look at
+   the PEAR code included in the latest PHP source code distributions.
+   
+   include_once() was added in PHP 4.0.1pl2
+   
+   See also: require(), include(), require_once(), get_required_files(),
+   get_included_files(), readfile(), and virtual().
+     _________________________________________________________________
+   
+Chapter 12. Functions
+
+User-defined functions
+
+   A function may be defined using syntax such as the following:
+   
+function foo ($arg_1, $arg_2, ..., $arg_n) {
+    echo "Example function.\n";
+    return $retval;
+}
+
+
+   Any valid PHP code may appear inside a function, even other functions
+   and class definitions.
+   
+   In PHP 3, functions must be defined before they are referenced. No
+   such requirement exists in PHP 4.
+   
+   PHP does not support function overloading, nor is it possible to
+   undefine or redefine previously-declared functions.
+   
+   PHP 3 does not support variable numbers of arguments to functions,
+   although default arguments are supported (see Default argument values
+   for more information). PHP 4 supports both: see Variable-length
+   argument lists and the function references for func_num_args(),
+   func_get_arg(), and func_get_args() for more information.
+     _________________________________________________________________
+   
+Function arguments
+
+   Information may be passed to functions via the argument list, which is
+   a comma-delimited list of variables and/or constants.
+   
+   PHP supports passing arguments by value (the default), passing by
+   reference, and default argument values. Variable-length argument lists
+   are supported only in PHP 4 and later; see Variable-length argument
+   lists and the function references for func_num_args(), func_get_arg(),
+   and func_get_args() for more information. A similar effect can be
+   achieved in PHP 3 by passing an array of arguments to a function:
+   
+function takes_array($input) {
+    echo "$input[0] + $input[1] = ", $input[0]+$input[1];
+}
+
+     _________________________________________________________________
+   
+Making arguments be passed by reference
+
+   By default, function arguments are passed by value (so that if you
+   change the value of the argument within the function, it does not get
+   changed outside of the function). If you wish to allow a function to
+   modify its arguments, you must pass them by reference.
+   
+   If you want an argument to a function to always be passed by
+   reference, you can prepend an ampersand (&) to the argument name in
+   the function definition:
+   
+function add_some_extra(&$string) {
+    $string .= 'and something extra.';
+}
+$str = 'This is a string, ';
+add_some_extra($str);
+echo $str;    // outputs 'This is a string, and something extra.'
+
+
+   If you wish to pass a variable by reference to a function which does
+   not do this by default, you may prepend an ampersand to the argument
+   name in the function call:
+   
+function foo ($bar) {
+    $bar .= ' and something extra.';
+}
+$str = 'This is a string, ';
+foo ($str);
+echo $str;    // outputs 'This is a string, '
+foo (&$str);
+echo $str;    // outputs 'This is a string, and something extra.'
+
+     _________________________________________________________________
+   
+Default argument values
+
+   A function may define C++-style default values for scalar arguments as
+   follows:
+   
+function makecoffee ($type = "cappucino") {
+    return "Making a cup of $type.\n";
+}
+echo makecoffee ();
+echo makecoffee ("espresso");
+
+
+   The output from the above snippet is:
+Making a cup of cappucino.
+Making a cup of espresso.
+
+
+   The default value must be a constant expression, not (for example) a
+   variable or class member.
+   
+   Note that when using default arguments, any defaults should be on the
+   right side of any non-default arguments; otherwise, things will not
+   work as expected. Consider the following code snippet:
+   
+function makeyogurt ($type = "acidophilus", $flavour) {
+    return "Making a bowl of $type $flavour.\n";
+}
+
+echo makeyogurt ("raspberry");   // won't work as expected
+
+
+   The output of the above example is:
+Warning: Missing argument 2 in call to makeyogurt() in
+/usr/local/etc/httpd/htdocs/php3test/functest.html on line 41
+Making a bowl of raspberry .
+
+
+   Now, compare the above with this:
+   
+function makeyogurt ($flavour, $type = "acidophilus") {
+    return "Making a bowl of $type $flavour.\n";
+}
+
+echo makeyogurt ("raspberry");   // works as expected
+
+
+   The output of this example is:
+Making a bowl of acidophilus raspberry.
+
+     _________________________________________________________________
+   
+Variable-length argument lists
+
+   PHP 4 has support for variable-length argument lists in user-defined
+   functions. This is really quite easy, using the func_num_args(),
+   func_get_arg(), and func_get_args() functions.
+   
+   No special syntax is required, and argument lists may still be
+   explicitly provided with function definitions and will behave as
+   normal.
+     _________________________________________________________________
+   
+Returning values
+
+   Values are returned by using the optional return statement. Any type
+   may be returned, including lists and objects.
+   
+function square ($num) {
+    return $num * $num;
+}
+echo square (4);   // outputs '16'.
+
+
+   You can't return multiple values from a function, but similar results
+   can be obtained by returning a list.
+   
+function small_numbers() {
+    return array (0, 1, 2);
+}
+list ($zero, $one, $two) = small_numbers();
+
+
+   To return a reference from a function, you have to use the reference
+   operator & in both the function declaration and when assigning the
+   returned value to a variable:
+   
+function &returns_reference() {
+    return $someref;
+}
+
+$newref =&returns_reference();
+
+     _________________________________________________________________
+   
+old_function
+
+   The old_function statement allows you to declare a function using a
+   syntax identical to PHP/FI2 (except you must replace 'function' with
+   'old_function'.
+   
+   This is a deprecated feature, and should only be used by the
+   PHP/FI2->PHP 3 convertor.
+   
+   Warning
+   
+   Functions declared as old_function cannot be called from PHP's
+   internal code. Among other things, this means you can't use them in
+   functions such as usort(), array_walk(), and
+   register_shutdown_function(). You can get around this limitation by
+   writing a wrapper function (in normal PHP 3 form) to call the
+   old_function.
+     _________________________________________________________________
+   
+Variable functions
+
+   PHP supports the concept of variable functions. This means that if a
+   variable name has parentheses appended to it, PHP will look for a
+   function with the same name as whatever the variable evaluates to, and
+   will attempt to execute it. Among other things, this can be used to
+   implement callbacks, function tables, and so forth.
+   
+   Variable functions won't work with language constructs such as echo(),
+   unset(), isset() and empty(). This is one of the major differences
+   between PHP functions and language constructs.
+   
+   Example 12-1. Variable function example
+<?php
+function foo() {
+    echo "In foo()<br>\n";
+}
+
+function bar( $arg = '' ) {
+    echo "In bar(); argument was '$arg'.<br>\n";
+}
+
+$func = 'foo';
+$func();
+$func = 'bar';
+$func( 'test' );
+?>
+
+     _________________________________________________________________
+   
+Chapter 13. Classes and Objects
+
+class
+
+   A class is a collection of variables and functions working with these
+   variables. A class is defined using the following syntax:
+   
+<?php
+class Cart {
+    var $items;  // Items in our shopping cart
+
+    // Add $num articles of $artnr to the cart
+
+    function add_item ($artnr, $num) {
+        $this->items[$artnr] += $num;
+    }
+
+    // Take $num articles of $artnr out of the cart
+
+    function remove_item ($artnr, $num) {
+        if ($this->items[$artnr] > $num) {
+            $this->items[$artnr] -= $num;
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+?>
+
+
+   This defines a class named Cart that consists of an associative array
+   of articles in the cart and two functions to add and remove items from
+   this cart.
+   
+   Caution
+   
+   The following cautionary notes are valid for PHP 4.
+   
+   The name stdClass is used interally by Zend and is reserved. You
+   cannot have a class named stdClass in PHP.
+   
+   The function names __sleep and __wakeup are magical in PHP classes.
+   You cannot have functions with these names in any of your classes
+   unless you want the magic functionality associated with them. See
+   below for more information.
+   
+   PHP reserves all function names starting with __ as magical. It is
+   recommended that you do not use function names with __ in PHP unless
+   you want some documented magic functionality.
+   
+     Note: In PHP 4, only constant initializers for var variables are
+     allowed. To initialize variables with non-constant values, you need
+     an initialization function which is called automatically when an
+     object is being constructed from the class. Such a function is
+     called a constructor (see below).
+     
+/* None of these will work in PHP 4. */
+class Cart {
+    var $todays_date = date("Y-m-d");
+    var $name = $firstname;
+    var $owner = 'Fred ' . 'Jones';
+}
+
+/* This is how it should be done. */
+class Cart {
+    var $todays_date;
+    var $name;
+    var $owner;
+
+    function Cart() {
+        $this->todays_date = date("Y-m-d");
+        $this->name = $GLOBALS['firstname'];
+        /* etc. . . */
+    }
+}
+
+
+   Classes are types, that is, they are blueprints for actual variables.
+   You have to create a variable of the desired type with the new
+   operator.
+   
+  $cart = new Cart;
+  $cart->add_item("10", 1);
+
+  $another_cart = new Cart;
+  $another_cart->add_item("0815", 3);
+
+
+   This creates the objects $cart and $another_cart, both of the class
+   Cart. The function add_item() of the $cart object is being called to
+   add 1 item of article number 10 to the $cart. 3 items of article
+   number 0815 are being added to $another_cart.
+   
+   Both, $cart and $another_cart, have functions add_item(),
+   remove_item() and a variable items. These are distinct functions and
+   variables. You can think of the objects as something similar to
+   directories in a filesystem. In a filesystem you can have two
+   different files README.TXT, as long as they are in different
+   directories. Just like with directories where you'll have to type the
+   full pathname in order to reach each file from the toplevel directory,
+   you have to specify the complete name of the function you want to
+   call: In PHP terms, the toplevel directory would be the global
+   namespace, and the pathname separator would be ->. Thus, the names
+   $cart->items and $another_cart->items name two different variables.
+   Note that the variable is named $cart->items, not $cart->$items, that
+   is, a variable name in PHP has only a single dollar sign.
+   
+// correct, single $
+$cart->items  = array("10" => 1);
+
+// invalid, because $cart->$items becomes $cart->""
+$cart->$items = array("10" => 1);
+
+// correct, but may or may not be what was intended:
+// $cart->$myvar becomes $ncart->items
+$myvar = 'items';
+$cart->$myvar = array("10" => 1);
+
+
+   Within a class definition, you do not know under which name the object
+   will be accessible in your program: At the time the Cart class was
+   written, it was unknown that the object will be named $cart or
+   $another_cart later. Thus, you cannot write $cart->items within the
+   Cart class itself. Instead, in order to be able to access it's own
+   functions and variables from within a class, one can use the
+   pseudo-variable $this which can be read as 'my own' or 'current
+   object'. Thus, '$this->items[$artnr] += $num' can be read as 'add $num
+   to the $artnr counter of my own items array' or 'add $num to the
+   $artnr counter of the items array within the current object'.
+     _________________________________________________________________
+   
+extends
+
+   Often you need classes with similar variables and functions to another
+   existing class. In fact, it is good practice to define a generic class
+   which can be used in all your projects and adapt this class for the
+   needs of each of your specific projects. To facilitate this, Classes
+   can be extensions of other classes. The extended or derived class has
+   all variables and functions of the base class (this is called
+   'inheritance' despite the fact that nobody died) and what you add in
+   the extended definition. It is not possible to substract from a class,
+   that is, to undefine any existing functions or variables. An extended
+   class is always dependent on a single base class, that is, multiple
+   inheritance is not supported. Classes are extended using the keyword
+   'extends'.
+   
+class Named_Cart extends Cart {
+    var $owner;
+
+    function set_owner ($name) {
+        $this->owner = $name;
+    }
+}
+
+
+   This defines a class Named_Cart that has all variables and functions
+   of Cart plus an additional variable $owner and an additional function
+   set_owner(). You create a named cart the usual way and can now set and
+   get the carts owner. You can still use normal cart functions on named
+   carts:
+   
+$ncart = new Named_Cart;    // Create a named cart
+$ncart->set_owner ("kris"); // Name that cart
+print $ncart->owner;        // print the cart owners name
+$ncart->add_item ("10", 1); // (inherited functionality from cart)
+
+     _________________________________________________________________
+   
+Constructors
+
+   Caution
+   
+   In PHP 3 and PHP 4 constructors behave differently. The PHP 4
+   semantics are strongly preferred.
+   
+   Constructors are functions in a class that are automatically called
+   when you create a new instance of a class with new. In PHP 3, a
+   function becomes a constructor when it has the same name as the class.
+   In PHP 4, a function becomes a constructor, when it has the same name
+   as the class it is defined in - the difference is subtle, but crucial
+   (see below).
+   
+// Works in PHP 3 and PHP 4.
+class Auto_Cart extends Cart {
+    function Auto_Cart () {
+        $this->add_item ("10", 1);
+    }
+}
+
+
+   This defines a class Auto_Cart that is a Cart plus a constructor which
+   initializes the cart with one item of article number "10" each time a
+   new Auto_Cart is being made with "new". Constructors can take
+   arguments and these arguments can be optional, which makes them much
+   more useful. To be able to still use the class without parameters, all
+   parameters to constructors should be made optional by providing
+   default values.
+   
+// Works in PHP 3 and PHP 4.
+class Constructor_Cart extends Cart {
+    function Constructor_Cart ($item = "10", $num = 1) {
+        $this->add_item ($item, $num);
+    }
+}
+
+// Shop the same old boring stuff.
+
+$default_cart   = new Constructor_Cart;
+
+// Shop for real...
+
+$different_cart = new Constructor_Cart ("20", 17);
+
+
+   Caution
+   
+   In PHP 3, derived classes and constructors have a number of
+   limitations. The following examples should be read carefully to
+   understand these limitations.
+   
+class A {
+  function A() {
+    echo "I am the constructor of A.<br>\n";
+  }
+}
+
+class B extends A {
+  function C() {
+    "I am a regular function.<br>\n";
+  }
+}
+
+// no constructor is being called in PHP 3.
+$b = new B;
+
+
+   In PHP 3, no constructor is being called in the above example. The
+   rule in PHP 3 is: 'A constructor is a function of the same name as the
+   class.'. The name of the class is B, and there is no function called
+   B() in class B. Nothing happens.
+   
+   This is fixed in PHP 4 by introducing another rule: If a class has no
+   constructor, the constructor of the base class is being called, if it
+   exists. The above example would have printed 'I am the constructor of
+   A.<br>' in PHP 4.
+   
+class A {
+  function A() {
+    echo "I am the constructor of A.<br>\n";
+  }
+
+  function B() {
+    echo "I am a regular function named B in class A.<br>\n";
+    echo "I am not a constructor in A.<br>\n";
+  }
+}
+
+class B extends A {
+  function C() {
+    echo "I am a regular function.<br>\n";
+  }
+}
+
+// This will call B() as a constructor.
+$b = new B;
+
+
+   In PHP 3, the function B() in class A will suddenly become a
+   constructor in class B, although it was never intended to be. The rule
+   in PHP 3 is: 'A constructor is a function of the same name as the
+   class.'. PHP 3 does not care if the function is being defined in class
+   B, or if it has been inherited.
+   
+   This is fixed in PHP 4 by modifying the rule to: 'A constructor is a
+   function of the same name as the class it is being defined in.'. Thus
+   in PHP 4, the class B would have no constructor function of its own
+   and the constructor of the base class would have been called, printing
+   'I am the constructor of A.<br>'.
+   
+   Caution
+   
+   Neither PHP 3 nor PHP 4 call constructors of the base class
+   automatically from a constructor of a derived class. It is your
+   responsibility to propagate the call to constructors upstream where
+   appropriate.
+   
+     Note: There are no destructors in PHP 3 or PHP 4. You may use
+     register_shutdown_function() instead to simulate most effects of
+     destructors.
+     
+   Destructors are functions that are called automatically when a
+   variable is destroyed, either with unset() or by simply going out of
+   scope. There are no destructors in PHP.
+     _________________________________________________________________
+   
+::
+
+   Caution
+   
+   The following is valid for PHP 4 only.
+   
+   Sometimes it is useful to refer to functions and variables in base
+   classes or to refer to functions in classes that have not yet any
+   instances. The :: operator is being used for this.
+   
+class A {
+  function example() {
+    echo "I am the original function A::example().<br>\n";
+  }
+}
+
+class B extends A {
+  function example() {
+    echo "I am the redefined function B::example().<br>\n";
+    A::example();
+  }
+}
+
+// there is no object of class A.
+// this will print
+//   I am the original function A::example().<br>
+A::example();
+
+// create an object of class B.
+$b = new B;
+
+// this will print
+//   I am the redefined function B::example().<br>
+//   I am the original function A::example().<br>
+$b->example();
+
+
+   The above example calls the function example() in class A, but there
+   is no object of class A, so that we cannot write $a->example() or
+   similar. Instead we call example() as a 'class function', that is, as
+   a function of the class itself, not any object of that class.
+   
+   There are class functions, but there are no class variables. In fact,
+   there is no object at all at the time of the call. Thus, a class
+   function may not use any object variables (but it can use local and
+   global variables), and it may no use $this at all.
+   
+   In the above example, class B redefines the function example(). The
+   original definition in class A is shadowed and no longer available,
+   unless you are refering specifically to the implementation of
+   example() in class A using the ::-operator. Write A::example() to do
+   this (in fact, you should be writing parent::example(), as shown in
+   the next section).
+   
+   In this context, there is a current object and it may have object
+   variables. Thus, when used from WITHIN an object function, you may use
+   $this and object variables.
+     _________________________________________________________________
+   
+parent
+
+   You may find yourself writing code that refers to variables and
+   functions in base classes. This is particularly true if your derived
+   class is a refinement or specialisation of code in your base class.
+   
+   Instead of using the literal name of the base class in your code, you
+   should be using the special name parent, which refers to the name of
+   your base class as given in the extends declation of your class. By
+   doing this, you avoid using the name of your base class in more than
+   one place. Should your inheritance tree change during implementation,
+   the change is easily made by simply changing the extends declaration
+   of your class.
+   
+class A {
+  function example() {
+    echo "I am A::example() and provide basic functionality.<br>\n";
+  }
+}
+
+class B extends A {
+  function example() {
+    echo "I am B::example and provide additional functionality().<br>\n";
+    parent::example();
+  }
+}
+
+$b = new B;
+
+// This will call B::example(), which will in turn call A::example().
+$b->example();
+
+     _________________________________________________________________
+   
+Serializing objects - objects in sessions
+
+     Note: In PHP 3, objects will lose their class association
+     throughout the process of serialization and unserialization. The
+     resulting variable is of type object, but has no class and no
+     methods, thus it is pretty useless (it has become just like an
+     array with a funny syntax).
+     
+   Caution
+   
+   The following information is valid for PHP 4 only.
+   
+   serialize() returns a string containing a byte-stream representation
+   of any value that can be stored in PHP. unserialize() can use this
+   string to recreate the original variable values. Using serialize to
+   save an object will save all variables in an object. The functions in
+   an object will not be saved, only the name of the class.
+   
+   In order to be able to unserialize() an object, the class of that
+   object needs to be defined. That is, if you have an object $a of class
+   A on page1.php and serialize this, you'll get a string that refers to
+   class A and contains all values of variabled contained in $a. If you
+   want to be able to unserialize this on page2.php, recreating $a of
+   class A, the definition of class A must be present in page2.php. This
+   can be done for example by storing the class defintion of class A in
+   an include file and including this file in both page1.php and
+   page2.php.
+   
+classa.inc:
+  class A {
+    var $one = 1;
+
+    function show_one() {
+      echo $this->one;
+    }
+  }
+
+page1.php:
+  include("classa.inc");
+
+  $a = new A;
+  $s = serialize($a);
+  // store $s somewhere where page2.php can find it.
+  $fp = fopen("store", "w");
+  echo $s;
+  fclose($fp);
+
+page2.php:
+  // this is needed for the unserialize to work properly.
+  include("classa.inc");
+
+  $s = implode("", @file("store"));
+  unserialize($s);
+
+  // now use the function show_one of the $a object.
+  $a->show_one();
+
+
+   If you are using sessions and use session_register() to register
+   objects, these objects are serialized automatically at the end of each
+   PHP page, and are unserialized automatically on each of the following
+   pages. This basically means that these objects can show up on any of
+   your pages once they become part of your session.
+   
+   It is strongly recommended that you include the class definitions of
+   all such registered objects on all of your pages, even if you do not
+   actually use these classes on all of your pages. If you don't and an
+   object is being unserialized without its class definition being
+   present, it will lose its class association and become an object of
+   class stdClass without any functions available at all, that is, it
+   will become quite useless.
+   
+   So if the in the example above $a became part of a session by running
+   session_register("a"), you should include the file classa.inc on all
+   of your pages, not only page1.php and page2.php.
+     _________________________________________________________________
+   
+The magic functions __sleep and __wakeup
+
+   serialize() checks if your class has a function with the magic name
+   __sleep. If so, that function is being run prior to any serialization.
+   It can clean up the object and is supposed to return an array with the
+   names of all variables of that object that should be serialized.
+   
+   The intended use of __sleep is to close any database connections that
+   object may have, committing pending data or perform similar cleanup
+   tasks. Also, the function is useful if you have very large objects
+   which need not be saved completely.
+   
+   Conversely, unserialize() checks for the presence of a function with
+   the magic name __wakeup. If present, this function can reconstruct any
+   ressources that object may have.
+   
+   The intended use of __wakeup is to reestablish any database
+   connections that may have been lost during serialization and perform
+   other reinitialization tasks.
+     _________________________________________________________________
+   
+References inside the constructor
+
+   Creating references within the constructor can lead to confusing
+   results. This tutorial-like section helps you to avoid problems.
+   
+class foo {
+    function foo($name) {
+        // create a reference inside the global array $globalref
+        global $globalref;
+                $globalref[] = &$this;
+        // set name to passed value
+        $this->setName($name);
+                // and put it out
+        $this->echoName();
+    }
+
+    function echoName() {
+        echo "<br>",$this->Name;
+    }
+        
+        function setName($name) {
+                $this->Name = $name;
+    }
+}
+
+
+   Let us check out if there is a difference between $bar1 which has been
+   created using the copy = operator and $bar2 which has been created
+   using the reference =& operator...
+   
+
+    $bar1 = new foo('set in constructor');
+    $bar1->echoName();
+    $globalref[0]->echoName();
+
+    /* output:
+    set in constructor
+    set in constructor
+    set in constructor */
+
+    $bar2 =& new foo('set in constructor');
+    $bar2->echoName();
+    $globalref[1]->echoName();
+
+    /* output:
+    set in constructor
+    set in constructor
+    set in constructor */
+
+
+
+   Apparently there is no difference, but in fact there is a very
+   significant one: $bar1 and $globalref[0] are _NOT_ referenced, they
+   are NOT the same variable. This is because "new" does not return a
+   reference by default, instead it returns a copy.
+   
+     Note: There is no performance loss (since php 4 and up use
+     reference counting) returning copies instead of references. On the
+     contrary it is most often better to simply work with copies instead
+     of references, because creating references takes some time where
+     creating copies virtually takes no time (unless none of them is a
+     large array or object and one of them gets changed and the other(s)
+     one(s) subsequently, then it would be wise to use references to
+     change them all concurrently).
+     
+   To prove what is written above let us watch the code below.
+   
+        // now we will change the name. what do you expect?
+        // you could expect that both $bar and $globalref[0] change their names
+...
+        $bar1->setName('set from outside');
+
+        // as mentioned before this is not the case.
+        $bar1->echoName();
+        $globalref[0]->echoName();
+
+        /* output:
+        set on object creation
+        set from outside */
+
+        // let us see what is different with $bar2 and $globalref[1]
+        $bar2->setName('set from outside');
+
+        // luckily they are not only equyl, they are thesame variable
+        // thus $bar2->Name and $globalref[1]->Name are the same too
+        $bar2->echoName();
+        $globalref[1]->echoName();
+
+        /* output:
+        set from outside
+        set from outside */
+
+
+
+   Another final example, try to understand it.
+   
+class a {
+    function a($i) {
+        $this->value = $i;
+        // try to figure out why we do not need a reference here
+        $this->b = new b($this);
+    }
+
+    function createRef() {
+        $this->c = new b($this);
+    }
+
+    function echoValue() {
+        echo "<br>","class ",get_class($this),': ',$this->value;
+        }
+}
+
+
+class b  {
+
+    function b(&$a) {
+        $this->a = &$a;
+    }
+
+   function echoValue() {
+        echo "<br>","class ",get_class($this),': ',$this->a->value;
+        }
+
+}
+
+// try to undestand why using a simple copy here would yield
+// in an undesired result in the *-marked line
+$a =& new a(10);
+$a->createRef();
+
+$a->echoValue();
+$a->b->echoValue();
+$a->c->echoValue();
+
+$a->value = 11;
+
+$a->echoValue();
+$a->b->echoValue(); // *
+$a->c->echoValue();
+
+/*
+output:
+class a: 10
+class b: 10
+class b: 10
+class a: 11
+class b: 11
+class b: 11
+*/
+
+     _________________________________________________________________
+   
+Chapter 14. References Explained
+
+What References Are
+
+   References are a means in PHP to access the same variable content by
+   different names. They are not like C pointers, they are symbol table
+   aliases. Note that in PHP, variable name and variable content are
+   different, so the same content can have different names. The most
+   close analogy is with Unix filenames and files - variable names are
+   directory entries, while variable contents is the file itself.
+   References can be thought of as hardlinking in Unix filesystem.
+     _________________________________________________________________
+   
+What References Do
+
+   PHP references allow you to make two variables to refer to the same
+   content. Meaning, when you do:
+   
+$a =& $b
+
+
+   it means that $a and $b point to the same variable.
+   
+     Note: $a and $b are completely equal here, that's not $a is
+     pointing to $b or vice versa, that's $a and $b pointing to the same
+     place.
+     
+   The same syntax can be used with functions, that return references,
+   and with new operator (in PHP 4.0.4 and later):
+   
+$bar =& new fooclass();
+$foo =& find_var ($bar);
+
+
+     Note: Unless you use the syntax above, the result of $bar = new
+     fooclass() will not be the same variable as $this in the
+     constructor, meaning that if you have used reference to $this in
+     the constructor, you should use reference assignment, or you get
+     two different objects.
+     
+   The second thing references do is to pass variables by-reference. This
+   is done by making a local variable in a function and a variable in the
+   calling scope reference to the same content. Example:
+   
+function foo (&$var) {
+    $var++;
+}
+
+$a=5;
+foo ($a);
+
+
+   will make $a to be 6. This happens because in the function foo the
+   variable $var refers to the same content as $a. See also more detailed
+   explanations about passing by reference.
+   
+   The third thing reference can do is return by reference.
+     _________________________________________________________________
+   
+What References Are Not
+
+   As said before, references aren't pointers. That means, the following
+   construct won't do what you expect:
+   
+function foo (&$var) {
+    $var =& $GLOBALS["baz"];
+}
+foo($bar);
+
+
+   What happens is that $var in foo will be bound with $bar in caller,
+   but then it will be re-bound with $GLOBALS["baz"]. There's no way to
+   bind $bar in the calling scope to something else using the reference
+   mechanism, since $bar is not available in the function foo (it is
+   represented by $var, but $var has only variable contents and not
+   name-to-value binding in the calling symbol table).
+     _________________________________________________________________
+   
+Passing by Reference
+
+   You can pass variable to function by reference, so that function could
+   modify its arguments. The sytax is as follows:
+   
+function foo (&$var) {
+    $var++;
+}
+
+$a=5;
+foo ($a);
+// $a is 6 here
+
+
+   Note that there's no reference sign on function call - only on
+   function definition. Function definition alone is enough to correctly
+   pass the argument by reference.
+   
+   Following things can be passed by reference:
+   
+     * Variable, i.e. foo($a)
+     * New statement, i.e. foo(new foobar())
+     * Reference, returned from a function, i.e.:
+       
+function &bar()
+{
+   $a = 5;
+   return $a;
+}
+foo(bar());
+
+
+       See also explanations about returning by reference.
+       
+   Any other expression should not be passed by reference, as the result
+   is undefined. For example, the following examples of passing by
+   reference are invalid:
+   
+function bar() // Note the missing &
+{
+        $a = 5;
+        return $a;
+}
+foo(bar));
+
+foo($a = 5) // Expression, not variable
+foo(5) // Constant, not variable
+
+
+   These requirements are for PHP 4.0.4 and later.
+     _________________________________________________________________
+   
+Returning References
+
+   Returning by-reference is useful when you want to use a function to
+   find which variable a reference should be bound to. When returning
+   references, use this syntax:
+   
+function &find_var ($param) {
+    ...code...
+    return $found_var;
+}
+
+$foo =& find_var ($bar);
+$foo->x = 2;
+
+
+   In this example, the property of the object returned by the find_var
+   function would be set, not the copy, as it would be without using
+   reference syntax.
+   
+     Note: Unlike parameter passing, here you have to use & in both
+     places - to indicate that you return by-reference, not a copy as
+     usual, and to indicate that reference binding, rather than usual
+     assignment, should be done for $foo.
+     _________________________________________________________________
+   
+Unsetting References
+
+   When you unset the reference, you just break the binding between
+   variable name and variable content. This does not mean that variable
+   content will be destroyed. For example:
+   
+$a = 1;
+$b =& $a;
+unset ($a);
+
+
+   won't unset $b, just $a.
+   
+   Again, it might be useful to think about this as analogous to Unix
+   unlink call.
+     _________________________________________________________________
+   
+Spotting References
+
+   Many syntax constructs in PHP are implemented via referencing
+   mechanisms, so everything told above about reference binding also
+   apply to these constructs. Some constructs, like passing and returning
+   by-reference, are mentioned above. Other constructs that use
+   references are:
+     _________________________________________________________________
+   
+global References
+
+   When you declare variable as global $var you are in fact creating
+   reference to a global variable. That means, this is the same as:
+   
+$var =& $GLOBALS["var"];
+
+
+   That means, for example, that unsetting $var won't unset global
+   variable.
+     _________________________________________________________________
+   
+$this
+
+   In an object method, $this is always reference to the caller object.
+   
+III. Features
+
+   Table of Contents
+          
+   15. Error Handling
+          
+   16. Creating and manipulating images
+          
+   17. HTTP authentication with PHP
+          
+   18. Cookies
+          
+   19. Handling file uploads
+          
+   20. Using remote files
+          
+   21. Connection handling
+          
+   22. Persistent Database Connections
+     _________________________________________________________________
+   
+Chapter 15. Error Handling
+
+   There are several types of errors and warnings in PHP. They are:
+   
+   Table 15-1. PHP error types
+   Value Constant Description Note
+   1 E_ERROR fatal run-time errors
+   2 E_WARNING run-time warnings (non fatal errors)
+   4 E_PARSE compile-time parse errors
+   8 E_NOTICE run-time notices (less serious than warnings)
+   16 E_CORE_ERROR fatal errors that occur during PHP's initial startup
+   PHP 4 only
+   32 E_CORE_WARNING warnings (non fatal errors) that occur during PHP's
+   initial startup PHP 4 only
+   64 E_COMPILE_ERROR fatal compile-time errors PHP 4 only
+   128 E_COMPILE_WARNING compile-time warnings (non fatal errors) PHP 4
+   only
+   256 E_USER_ERROR user-generated error message PHP 4 only
+   512 E_USER_WARNING user-generated warning message PHP 4 only
+   1024 E_USER_NOTICE user-generated notice message PHP 4 only
+     E_ALL all of the above, as supported
+   
+   The above values (either numerical or symbolic) are used to build up a
+   bitmask that specifies which errors to report. You can use the bitwise
+   operators to combine these values or mask out certain types of errors.
+   Note that only '|', '~', '!', and '&' will be understood within
+   php.ini, however, and that no bitwise operators will be understood
+   within php3.ini.
+   
+   In PHP 4, the default error_reporting setting is E_ALL & ~E_NOTICE,
+   meaning to display all errors and warnings which are not
+   E_NOTICE-level. In PHP 3, the default setting is (E_ERROR | E_WARNING
+   | E_PARSE), meaning the same thing. Note, however, that since
+   constants are not supported in PHP 3's php3.ini, the error_reporting
+   setting there must be numeric; hence, it is 7.
+   
+   The initial setting can be changed in the ini file with the
+   error_reporting directive, in your Apache httpd.conf file with the
+   php_error_reporting (php3_error_reporting for PHP 3) directive, and
+   lastly it may be set at runtime within a script by using the
+   error_reporting() function.
+   
+   Warning
+   
+   When upgrading code or servers from PHP 3 to PHP 4 you should check
+   these settings and calls to error_reporting() or you might disable
+   reporting the new error types, especially E_COMPILE_ERROR. This may
+   lead to empty documents without any feedback of what happened or where
+   to look for the problem.
+   
+   All PHP expressions can also be called with the "@" prefix, which
+   turns off error reporting for that particular expression. If an error
+   occurred during such an expression and the track_errors feature is
+   enabled, you can find the error message in the global variable
+   $php_errormsg.
+   
+     Note: The @ error-control operator prefix will not disable messages
+     that are the result of parse errors.
+     
+   Warning
+   
+   Currently the @ error-control operator prefix will even disable error
+   reporting for critical errors that will terminate script execution.
+   Among other things, this means that if you use @ to suppress errors
+   from a certain function and either it isn't available or has been
+   mistyped, the script will die right there with no indication as to
+   why.
+   
+   Below we can see an example of using the error handling capabilities
+   in PHP. We define a error handling function which logs the information
+   into a file (using an XML format), and e-mails the developer in case a
+   critical error in the logic happens.
+   
+   Example 15-1. Using error handling in a script
+<?php
+// we will do our own error handling
+error_reporting(0);
+
+// user defined error handling function
+function userErrorHandler ($errno, $errmsg, $filename, $linenum, $vars) {
+    // timestamp for the error entry
+    $dt = date("Y-m-d H:i:s (T)");
+
+    // define an assoc array of error string
+    // in reality the only entries we should
+    // consider are 2,8,256,512 and 1024
+    $errortype = array (
+                1   =>  "Error",
+                2   =>  "Warning",
+                4   =>  "Parsing Error",
+                8   =>  "Notice",
+                16  =>  "Core Error",
+                32  =>  "Core Warning",
+                64  =>  "Compile Error",
+                128 =>  "Compile Warning",
+                256 =>  "User Error",
+                512 =>  "User Warning",
+                1024=>  "User Notice"
+                );
+    // set of errors for which a var trace will be saved
+    $user_errors = array(E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE);
+
+    $err = "<errorentry>\n";
+    $err .= "\t<datetime>".$dt."</datetime>\n";
+    $err .= "\t<errornum>".$errno."</errnumber>\n";
+    $err .= "\t<errortype>".$errortype[$errno]."</errortype>\n";
+    $err .= "\t<errormsg>".$errmsg."</errormsg>\n";
+    $err .= "\t<scriptname>".$filename."</scriptname>\n";
+    $err .= "\t<scriptlinenum>".$linenum."</scriptlinenum>\n";
+
+    if (in_array($errno, $user_errors))
+        $err .= "\t<vartrace>".wddx_serialize_value($vars,"Variables")."</vartr
+ace>\n";
+    $err .= "</errorentry>\n\n";
+
+    // for testing
+    // echo $err;
+
+    // save to the error log, and e-mail me if there is a critical user error
+    error_log($err, 3, "/usr/local/php4/error.log");
+    if ($errno == E_USER_ERROR)
+        mail("phpdev@mydomain.com","Critical User Error",$err);
+}
+
+
+function distance ($vect1, $vect2) {
+    if (!is_array($vect1) || !is_array($vect2)) {
+        trigger_error("Incorrect parameters, arrays expected", E_USER_ERROR);
+        return NULL;
+    }
+
+    if (count($vect1) != count($vect2)) {
+        trigger_error("Vectors need to be of the same size", E_USER_ERROR);
+        return NULL;
+    }
+
+    for ($i=0; $i<count($vect1); $i++) {
+        $c1 = $vect1[$i]; $c2 = $vect2[$i];
+        $d = 0.0;
+        if (!is_numeric($c1)) {
+            trigger_error("Coordinate $i in vector 1 is not a number, using zer
+o",
+                            E_USER_WARNING);
+            $c1 = 0.0;
+        }
+        if (!is_numeric($c2)) {
+            trigger_error("Coordinate $i in vector 2 is not a number, using zer
+o",
+                            E_USER_WARNING);
+            $c2 = 0.0;
+        }
+        $d += $c2*$c2 - $c1*$c1;
+    }
+    return sqrt($d);
+}
+
+$old_error_handler = set_error_handler("userErrorHandler");
+
+// undefined constant, generates a warning
+$t = I_AM_NOT_DEFINED;
+
+// define some "vectors"
+$a = array(2,3,"foo");
+$b = array(5.5, 4.3, -1.6);
+$c = array (1,-3);
+
+// generate a user error
+$t1 = distance($c,$b)."\n";
+
+// generate another user error
+$t2 = distance($b,"i am not an array")."\n";
+
+// generate a warning
+$t3 = distance($a,$b)."\n";
+
+?>
+
+
+   This is just a simple example showing how to use the Error Handling
+   and Logging functions.
+   
+   See also error_reporting(), error_log(), set_error_handler(),
+   restore_error_handler(), trigger_error(), user_error()
+     _________________________________________________________________
+   
+Chapter 16. Creating and manipulating images
+
+   PHP is not limited to creating just HTML output. It can also be used
+   to create and manipulate image files in a variety of different image
+   formats, including gif, png, jpg, wbmp, and xpm. Even more convenient,
+   php can output image streams directly to a browser. You will need to
+   compile PHP with the GD library of image functions for this to work.
+   GD and PHP may also require other libraries, depending on which image
+   formats you want to work with. GD stopped supporting Gif images in
+   version 1.6.
+   
+   Example 16-1. PNG creation with PHP
+<?php
+    Header("Content-type: image/png");
+    $string=implode($argv," ");
+    $im = imageCreateFromPng("images/button1.png");
+    $orange = ImageColorAllocate($im, 220, 210, 60);
+    $px = (imagesx($im)-7.5*strlen($string))/2;
+    ImageString($im,3,$px,9,$string,$orange);
+    ImagePng($im);
+    ImageDestroy($im);
+?>
+
+
+   This example would be called from a page with a tag like: <img
+   src="button.php?text"> The above button.php script then takes this
+   "text" string an overlays it on top of a base image which in this case
+   is "images/button1.png" and outputs the resulting image. This is a
+   very convenient way to avoid having to draw new button images every
+   time you want to change the text of a button. With this method they
+   are dynamically generated.
+     _________________________________________________________________
+   
+Chapter 17. HTTP authentication with PHP
+
+   The HTTP Authentication hooks in PHP are only available when it is
+   running as an Apache module and is hence not available in the CGI
+   version. In an Apache module PHP script, it is possible to use the
+   Header() function to send an "Authentication Required" message to the
+   client browser causing it to pop up a Username/Password input window.
+   Once the user has filled in a username and a password, the URL
+   containing the PHP script will be called again with the variables,
+   $PHP_AUTH_USER, $PHP_AUTH_PW and $PHP_AUTH_TYPE set to the user name,
+   password and authentication type respectively. Only "Basic"
+   authentication is supported at this point. See the Header() function
+   for more information.
+   
+   An example script fragment which would force client authentication on
+   a page would be the following:
+   
+   Example 17-1. HTTP Authentication example
+<?php
+  if(!isset($PHP_AUTH_USER)) {
+    Header("WWW-Authenticate: Basic realm=\"My Realm\"");
+    Header("HTTP/1.0 401 Unauthorized");
+    echo "Text to send if user hits Cancel button\n";
+    exit;
+  } else {
+    echo "Hello $PHP_AUTH_USER.<P>";
+    echo "You entered $PHP_AUTH_PW as your password.<P>";
+  }
+?>
+
+
+   Instead of simply printing out the $PHP_AUTH_USER and $PHP_AUTH_PW,
+   you would probably want to check the username and password for
+   validity. Perhaps by sending a query to a database, or by looking up
+   the user in a dbm file.
+   
+   Watch out for buggy Internet Explorer browsers out there. They seem
+   very picky about the order of the headers. Sending the
+   WWW-Authenticate header before the HTTP/1.0 401 header seems to do the
+   trick for now.
+   
+   In order to prevent someone from writing a script which reveals the
+   password for a page that was authenticated through a traditional
+   external mechanism, the PHP_AUTH variables will not be set if external
+   authentication is enabled for that particular page. In this case, the
+   $REMOTE_USER variable can be used to identify the
+   externally-authenticated user.
+   
+   Note, however, that the above does not prevent someone who controls a
+   non-authenticated URL from stealing passwords from authenticated URLs
+   on the same server.
+   
+   Both Netscape Navigator and Internet Explorer will clear the local
+   browser window's authentication cache for the realm upon receiving a
+   server response of 401. This can effectively "log out" a user, forcing
+   them to re-enter their username and password. Some people use this to
+   "time out" logins, or provide a "log-out" button.
+   
+   Example 17-2. HTTP Authentication example forcing a new name/password
+<?php
+  function  authenticate()  {
+      Header( "WWW-authenticate: basic  realm=\"Test  Authentication  System\""
+);
+      Header( "HTTP/1.0  401  Unauthorized");
+      echo  "You  must  enter  a  valid  login  ID  and  password  to  access
+this  resource\n";
+      exit;
+  }
+
+  if(!isset($PHP_AUTH_USER)  ||  ($SeenBefore ==  1  &&  !strcmp($OldAuth,  $PH
+P_AUTH_USER))  )  {
+    authenticate();
+  }
+  else  {
+    echo  "Welcome:  $PHP_AUTH_USER<BR>";
+    echo  "Old:  $OldAuth";
+    echo  "<FORM  ACTION=\"$PHP_SELF\"  METHOD=POST>\n";
+    echo  "<INPUT  TYPE=HIDDEN  NAME=\"SeenBefore\"  VALUE=\"1\">\n";
+    echo  "<INPUT  TYPE=HIDDEN  NAME=\"OldAuth\"  VALUE=\"$PHP_AUTH_USER\">\n";
+    echo  "<INPUT  TYPE=Submit  VALUE=\"Re  Authenticate\">\n";
+    echo  "</FORM>\n";
+
+}
+?>
+
+
+   This behavior is not required by the HTTP Basic authentication
+   standard, so you should never depend on this. Testing with Lynx has
+   shown that Lynx does not clear the authentication credentials with a
+   401 server response, so pressing back and then forward again will open
+   the resource as long as the credential requirements haven't changed.
+   The user can press the '_' key to clear their authentication
+   information, however.
+   
+   Also note that this does not work using Microsoft's IIS server and the
+   CGI version of PHP due to a limitation of IIS.
+     _________________________________________________________________
+   
+Chapter 18. Cookies
+
+   PHP transparently supports HTTP cookies. Cookies are a mechanism for
+   storing data in the remote browser and thus tracking or identifying
+   return users. You can set cookies using the setcookie() function.
+   Cookies are part of the HTTP header, so setcookie() must be called
+   before any output is sent to the browser. This is the same limitation
+   that header() has.
+   
+   Any cookies sent to you from the client will automatically be turned
+   into a PHP variable just like GET and POST method data. If you wish to
+   assign multiple values to a single cookie, just add [] to the cookie
+   name. For more details see the setcookie() function.
+     _________________________________________________________________
+   
+Chapter 19. Handling file uploads
+
+POST method uploads
+
+   PHP is capable of receiving file uploads from any RFC-1867 compliant
+   browser (which includes Netscape Navigator 3 or later, Microsoft
+   Internet Explorer 3 with a patch from Microsoft, or later without a
+   patch). This feature lets people upload both text and binary files.
+   With PHP's authentication and file manipulation functions, you have
+   full control over who is allowed to upload and what is to be done with
+   the file once it has been uploaded.
+   
+   Note that PHP also supports PUT-method file uploads as used by
+   Netscape Composer and W3C's Amaya clients. See the PUT Method Support
+   for more details.
+   
+   A file upload screen can be built by creating a special form which
+   looks something like this:
+   
+   Example 19-1. File Upload Form
+<FORM ENCTYPE="multipart/form-data" ACTION="_URL_" METHOD=POST>
+<INPUT TYPE="hidden" name="MAX_FILE_SIZE" value="1000">
+Send this file: <INPUT NAME="userfile" TYPE="file">
+<INPUT TYPE="submit" VALUE="Send File">
+</FORM>
+
+
+   The _URL_ should point to a PHP file. The MAX_FILE_SIZE hidden field
+   must precede the file input field and its value is the maximum
+   filesize accepted. The value is in bytes.
+   
+   In PHP 3, the following variables will be defined within the
+   destination script upon a successful upload, assuming that
+   register_globals is turned on in php3.ini. If track_vars is turned on,
+   they will also be available in PHP 3 within the global array
+   $HTTP_POST_VARS. Note that the following variable names assume the use
+   of the file upload name 'userfile', as used in the example above:
+   
+     * $userfile - The temporary filename in which the uploaded file was
+       stored on the server machine.
+     * $userfile_name - The original name or path of the file on the
+       sender's system.
+     * $userfile_size - The size of the uploaded file in bytes.
+     * $userfile_type - The mime type of the file if the browser provided
+       this information. An example would be "image/gif".
+       
+   Note that the "$userfile" part of the above variables is whatever the
+   name of the INPUT field of TYPE=file is in the upload form. In the
+   above upload form example, we chose to call it "userfile"
+   
+   In PHP 4, the behaviour is slightly different, in that the new global
+   array $HTTP_POST_FILES is provided to contain the uploaded file
+   information. This is still only available if track_vars is turned on,
+   but track_vars is always turned on in versions of PHP after PHP 4.0.2.
+   
+   The contents of $HTTP_POST_FILES are as follows. Note that this
+   assumes the use of the file upload name 'userfile', as used in the
+   example above:
+   
+   $HTTP_POST_FILES['userfile']['name']
+          The original name of the file on the client machine.
+          
+   $HTTP_POST_FILES['userfile']['type']
+          The mime type of the file, if the browser provided this
+          information. An example would be "image/gif".
+          
+   $HTTP_POST_FILES['userfile']['size']
+          The size, in bytes, of the uploaded file.
+          
+   $HTTP_POST_FILES['userfile']['tmp_name']
+          The temporary filename of the file in which the uploaded file
+          was stored on the server.
+          
+   Files will by default be stored in the server's default temporary
+   directory, unless another location has been given with the
+   upload_tmp_dir directive in php.ini. The server's default directory
+   can be changed by setting the environment variable TMPDIR in the
+   environment in which PHP runs. Setting it using putenv() from within a
+   PHP script will not work. This environment variable can also be used
+   to make sure that other operations are working on uploaded files, as
+   well.
+   
+   Example 19-2. Validating file uploads
+   
+   The following examples are for versions of PHP 3 greater than 3.0.16,
+   and versions of PHP 4 greater than 4.0.2. See the function entries for
+   is_uploaded_file() and move_uploaded_file().
+<?php
+if (is_uploaded_file($userfile)) {
+    copy($userfile, "/place/to/put/uploaded/file");
+} else {
+    echo "Possible file upload attack: filename '$userfile'.";
+}
+/* ...or... */
+move_uploaded_file($userfile, "/place/to/put/uploaded/file");
+?>
+
+
+   For earlier versions of PHP, you'll need to do something like the
+   following.
+   
+     Note: This will not work in versions of PHP 4 after 4.0.2. It
+     depends on internal functionality of PHP which changed after that
+     version.
+     
+<?php
+/* Userland test for uploaded file. */
+function is_uploaded_file($filename) {
+    if (!$tmp_file = get_cfg_var('upload_tmp_dir')) {
+        $tmp_file = dirname(tempnam('', ''));
+    }
+    $tmp_file .= '/' . basename($filename);
+    /* User might have trailing slash in php.ini... */
+    return (ereg_replace('/+', '/', $tmp_file) == $filename);
+}
+
+if (is_uploaded_file($userfile)) {
+    copy($userfile, "/place/to/put/uploaded/file");
+} else {
+    echo "Possible file upload attack: filename '$userfile'.";
+}
+?>
+
+
+   The PHP script which receives the uploaded file should implement
+   whatever logic is necessary for determining what should be done with
+   the uploaded file. You can for example use the $file_size variable to
+   throw away any files that are either too small or too big. You could
+   use the $file_type variable to throw away any files that didn't match
+   a certain type criteria. Whatever the logic, you should either delete
+   the file from the temporary directory or move it elsewhere.
+   
+   The file will be deleted from the temporary directory at the end of
+   the request if it has not been moved away or renamed.
+     _________________________________________________________________
+   
+Common Pitfalls
+
+   The MAX_FILE_SIZE item cannot specify a file size greater than the
+   file size that has been set in the upload_max_filesize in the PHP
+   3.ini file or the corresponding php3_upload_max_filesize Apache .conf
+   directive. The default is 2 Megabytes.
+   
+   Not validating which file you operate on may mean that users can
+   access sensitive information in other directories.
+   
+   Please note that the CERN httpd seems to strip off everything starting
+   at the first whitespace in the content-type mime header it gets from
+   the client. As long as this is the case, CERN httpd will not support
+   the file upload feature.
+     _________________________________________________________________
+   
+Uploading multiple files
+
+   It is possible to upload multiple files simultaneously and have the
+   information organized automatically in arrays for you. To do so, you
+   need to use the same array submission syntax in the HTML form as you
+   do with multiple selects and checkboxes:
+   
+     Note: Support for multiple file uploads was added in version
+     3.0.10.
+     
+   Example 19-3. Uploading multiple files
+<form action="file-upload.php" method="post" enctype="multipart/form-data">
+  Send these files:<br>
+  <input name="userfile[]" type="file"><br>
+  <input name="userfile[]" type="file"><br>
+  <input type="submit" value="Send files">
+</form>
+
+
+   When the above form is submitted, the arrays $userfile,
+   $userfile_name, and $userfile_size will be formed in the global scope
+   (as well as in $HTTP_POST_FILES ($HTTP_POST_VARS in PHP 3)). Each of
+   these will be a numerically indexed array of the appropriate values
+   for the submitted files.
+   
+   For instance, assume that the filenames /home/test/review.html and
+   /home/test/xwp.out are submitted. In this case, $userfile_name[0]
+   would contain the value review.html, and $userfile_name[1] would
+   contain the value xwp.out. Similarly, $userfile_size[0] would contain
+   review.html's filesize, and so forth.
+   
+   $userfile['name'][0], $userfile['tmp_name'][0], $userfile['size'][0],
+   and $userfile['type'][0] are also set.
+     _________________________________________________________________
+   
+PUT method support
+
+   PHP provides support for the HTTP PUT method used by clients such as
+   Netscape Composer and W3C Amaya. PUT requests are much simpler than a
+   file upload and they look something like this:
+   
+PUT /path/filename.html HTTP/1.1
+
+
+   This would normally mean that the remote client would like to save the
+   content that follows as: /path/filename.html in your web tree. It is
+   obviously not a good idea for Apache or PHP to automatically let
+   everybody overwrite any files in your web tree. So, to handle such a
+   request you have to first tell your web server that you want a certain
+   PHP script to handle the request. In Apache you do this with the
+   Script directive. It can be placed almost anywhere in your Apache
+   configuration file. A common place is inside a <Directory> block or
+   perhaps inside a <Virtualhost> block. A line like this would do the
+   trick:
+   
+Script PUT /put.php3
+
+
+   This tells Apache to send all PUT requests for URIs that match the
+   context in which you put this line to the put.php3 script. This
+   assumes, of course, that you have PHP enabled for the .php3 extension
+   and PHP is active.
+   
+   Inside your put.php3 file you would then do something like this:
+   
+<?php copy($PHP_UPLOADED_FILE_NAME,$DOCUMENT_ROOT.$REQUEST_URI); ?>
+
+
+   This would copy the file to the location requested by the remote
+   client. You would probably want to perform some checks and/or
+   authenticate the user before performing this file copy. The only trick
+   here is that when PHP sees a PUT-method request it stores the uploaded
+   file in a temporary file just like those handled but the POST-method.
+   When the request ends, this temporary file is deleted. So, your PUT
+   handling PHP script has to copy that file somewhere. The filename of
+   this temporary file is in the $PHP_PUT_FILENAME variable, and you can
+   see the suggested destination filename in the $REQUEST_URI (may vary
+   on non-Apache web servers). This destination filename is the one that
+   the remote client specified. You do not have to listen to this client.
+   You could, for example, copy all uploaded files to a special uploads
+   directory.
+     _________________________________________________________________
+   
+Chapter 20. Using remote files
+
+   As long as support for the "URL fopen wrapper" is enabled when you
+   configure PHP (which it is unless you explicitly pass the
+   --disable-url-fopen-wrapper flag to configure (for versions up to
+   4.0.3) or set allow_url_fopen to off in php.ini (for newer versions),
+   you can use HTTP and FTP URLs with most functions that take a filename
+   as a parameter, including the require() and include() statements.
+   
+     Note: You can't use remote files in include() and require()
+     statements on Windows.
+     
+   For example, you can use this to open a file on a remote web server,
+   parse the output for the data you want, and then use that data in a
+   database query, or simply to output it in a style matching the rest of
+   your website.
+   
+   Example 20-1. Getting the title of a remote page
+<?php
+$file = fopen ("http://www.php.net/", "r");
+if (!$file) {
+    echo "<p>Unable to open remote file.\n";
+    exit;
+}
+while (!feof ($file)) {
+    $line = fgets ($file, 1024);
+    /* This only works if the title and its tags are on one line */
+    if (eregi ("<title>(.*)</title>", $line, $out)) {
+        $title = $out[1];
+        break;
+    }
+}
+fclose($file);
+?>
+
+
+
+   You can also write to files on an FTP as long you connect as a user
+   with the correct access rights, and the file doesn't exist already. To
+   connect as a user other than 'anonymous', you need to specify the
+   username (and possibly password) within the URL, such as
+   'ftp://user:password@ftp.example.com/path/to/file'. (You can use the
+   same sort of syntax to access files via HTTP when they require Basic
+   authentication.)
+   
+   Example 20-2. Storing data on a remote server
+<?php
+$file = fopen ("ftp://ftp.php.net/incoming/outputfile", "w");
+if (!$file) {
+    echo "<p>Unable to open remote file for writing.\n";
+    exit;
+}
+/* Write the data here. */
+fputs ($file, "$HTTP_USER_AGENT\n");
+fclose ($file);
+?>
+
+
+
+     Note: You might get the idea from the example above to use this
+     technique to write to a remote log, but as mentioned above, you can
+     only write to a new file using the URL fopen() wrappers. To do
+     distributed logging like that, you should take a look at syslog().
+     _________________________________________________________________
+   
+Chapter 21. Connection handling
+
+     Note: The following applies to 3.0.7 and later.
+     
+   Internally in PHP a connection status is maintained. There are 3
+   possible states:
+   
+     * 0 - NORMAL
+     * 1 - ABORTED
+     * 2 - TIMEOUT
+       
+   When a PHP script is running normally the NORMAL state, is active. If
+   the remote client disconnects the ABORTED state flag is turned on. A
+   remote client disconnect is usually caused by the user hitting his
+   STOP button. If the PHP-imposed time limit (see set_time_limit()) is
+   hit, the TIMEOUT state flag is turned on.
+   
+   You can decide whether or not you want a client disconnect to cause
+   your script to be aborted. Sometimes it is handy to always have your
+   scripts run to completion even if there is no remote browser receiving
+   the output. The default behaviour is however for your script to be
+   aborted when the remote client disconnects. This behaviour can be set
+   via the ignore_user_abort php3.ini directive as well as through the
+   corresponding php3_ignore_user_abort Apache .conf directive or with
+   the ignore_user_abort() function. If you do not tell PHP to ignore a
+   user abort and the user aborts, your script will terminate. The one
+   exception is if you have registered a shutdown function using
+   register_shutdown_function(). With a shutdown function, when the
+   remote user hits his STOP button, the next time your script tries to
+   output something PHP will detect that the connection has been aborted
+   and the shutdown function is called. This shutdown function will also
+   get called at the end of your script terminating normally, so to do
+   something different in case of a client diconnect you can use the
+   connection_aborted() function. This function will return true if the
+   connection was aborted.
+   
+   Your script can also be terminated by the built-in script timer. The
+   default timeout is 30 seconds. It can be changed using the
+   max_execution_time php3.ini directive or the corresponding
+   php3_max_execution_time Apache .conf directive as well as with the
+   set_time_limit() function. When the timer expires the script will be
+   aborted and as with the above client disconnect case, if a shutdown
+   function has been registered it will be called. Within this shutdown
+   function you can check to see if a timeout caused the shutdown
+   function to be called by calling the connection_timeout() function.
+   This function will return true if a timeout caused the shutdown
+   function to be called.
+   
+   One thing to note is that both the ABORTED and the TIMEOUT states can
+   be active at the same time. This is possible if you tell PHP to ignore
+   user aborts. PHP will still note the fact that a user may have broken
+   the connection, but the script will keep running. If it then hits the
+   time limit it will be aborted and your shutdown function, if any, will
+   be called. At this point you will find that connection_timeout() and
+   connection_aborted() return true. You can also check both states in a
+   single call by using the connection_status(). This function returns a
+   bitfield of the active states. So, if both states are active it would
+   return 3, for example.
+     _________________________________________________________________
+   
+Chapter 22. Persistent Database Connections
+
+   Persistent connections are SQL links that do not close when the
+   execution of your script ends. When a persistent connection is
+   requested, PHP checks if there's already an identical persistent
+   connection (that remained open from earlier) - and if it exists, it
+   uses it. If it does not exist, it creates the link. An 'identical'
+   connection is a connection that was opened to the same host, with the
+   same username and the same password (where applicable).
+   
+   People who aren't thoroughly familiar with the way web servers work
+   and distribute the load may mistake persistent connects for what
+   they're not. In particular, they do not give you an ability to open
+   'user sessions' on the same SQL link, they do not give you an ability
+   to build up a transaction efficently, and they don't do a whole lot of
+   other things. In fact, to be extremely clear about the subject,
+   persistent connections don't give you any functionality that wasn't
+   possible with their non-persistent brothers.
+   
+   Why?
+   
+   This has to do with the way web servers work. There are three ways in
+   which your web server can utilize PHP to generate web pages.
+   
+   The first method is to use PHP as a CGI "wrapper". When run this way,
+   an instance of the PHP interpreter is created and destroyed for every
+   page request (for a PHP page) to your web server. Because it is
+   destroyed after every request, any resources that it acquires (such as
+   a link to an SQL database server) are closed when it is destroyed. In
+   this case, you do not gain anything from trying to use persistent
+   connections -- they simply don't persist.
+   
+   The second, and most popular, method is to run PHP as a module in a
+   multiprocess web server, which currently only includes Apache. A
+   multiprocess server typically has one process (the parent) which
+   coordinates a set of processes (its children) who actually do the work
+   of serving up web pages. When each request comes in from a client, it
+   is handed off to one of the children that is not already serving
+   another client. This means that when the same client makes a second
+   request to the server, it may be serviced by a different child process
+   than the first time. What a persistent connection does for you in this
+   case it make it so each child process only needs to connect to your
+   SQL server the first time that it serves a page that makes us of such
+   a connection. When another page then requires a connection to the SQL
+   server, it can reuse the connection that child established earlier.
+   
+   The last method is to use PHP as a plug-in for a multithreaded web
+   server. Currently PHP 4 has support for ISAPI, WSAPI, and NSAPI (on
+   Windows), which all allow PHP to be used as a plug-in on multithreaded
+   servers like Netscape FastTrack, Microsoft's Internet Information
+   Server (IIS), and O'Reilly's WebSite Pro. The behavior is essentially
+   the same as for the multiprocess model described before. Note that
+   SAPI support is not available in PHP 3.
+   
+   If persistent connections don't have any added functionality, what are
+   they good for?
+   
+   The answer here is extremely simple -- efficiency. Persistent
+   connections are good if the overhead to create a link to your SQL
+   server is high. Whether or not this overhead is really high depends on
+   many factors. Like, what kind of database it is, whether or not it
+   sits on the same computer on which your web server sits, how loaded
+   the machine the SQL server sits on is and so forth. The bottom line is
+   that if that connection overhead is high, persistent connections help
+   you considerably. They cause the child process to simply connect only
+   once for its entire lifespan, instead of every time it processes a
+   page that requires connecting to the SQL server. This means that for
+   every child that opened a persistent connection will have its own open
+   persistent connection to the server. For example, if you had 20
+   different child processes that ran a script that made a persistent
+   connection to your SQL server, you'd have 20 different connections to
+   the SQL server, one from each child.
+   
+   Note, however, that this can have some drawbacks if you are using a
+   database with connection limits that are exceeded by persistant child
+   connections. If your database has a limit of 16 simultaneous
+   connections, and in the course of a busy server session, 17 child
+   threads attempt to connect, one will not be able to. If there are bugs
+   in your scripts which do not allow the connections to shut down (such
+   as infinite loops), a database with only 32 connections may be rapidly
+   swamped. Check your database documentation for information on handling
+   abandoned or idle connections.
+   
+   An important summary. Persistent connections were designed to have
+   one-to-one mapping to regular connections. That means that you should
+   always be able to replace persistent connections with non-persistent
+   connections, and it won't change the way your script behaves. It may
+   (and probably will) change the efficiency of the script, but not its
+   behavior!

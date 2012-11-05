@@ -1,0 +1,124 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+<y:content-section></y:content-section>
+<junk:junk></junk:junk>
+<junk:jank></junk:jank>
+<junk></junk>
+<>
+</>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.yahoo.sm.common</groupId>
+	<artifactId>ysm-common</artifactId>
+	<packaging>jar</packaging>
+	<version>0.1</version>
+	<name>YSM WebApp Framework</name>
+	<url>http://maven.apache.org</url>
+
+	<parent>
+		<groupId>com.yahoo.sm.supply</groupId>
+		<artifactId>PubUI</artifactId>
+		<version>1.0</version>
+	</parent>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>hibernate3-maven-plugin</artifactId>
+				<version>2.0-SNAPSHOT</version>
+				<configuration>
+					<componentProperties>
+						<configurationfile>/build-config/hibernate.cfg.xml</configurationfile>
+						<drop>true</drop>
+						<outputfilename>schema.ddl</outputfilename>
+						<jdk5>true</jdk5>
+					</componentProperties>
+				</configuration>
+				<executions>
+					<execution>
+						<id>compile</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>hbm2java</goal>
+							<goal>hbm2ddl</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>site</id>
+						<phase>site</phase>
+						<goals>
+							<goal>hbm2doc</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>yjava.maven</groupId>
+				<artifactId>maven-jflex-plugin</artifactId>
+				<configuration>
+					<files>
+						<file>
+							<inputFile>${basedir}/src/jflex/MessageFormatScanner.l</inputFile>
+							<outputPath>${project.build.sourceDirectory}/com/yahoo/sm/common/text/</outputPath>
+						</file>
+					</files>
+					<args>
+						<arg>--skel</arg>
+						<arg>${basedir}/src/jflex/skeleton.state_stack</arg>
+					</args>
+				</configuration>
+				<executions>
+					<execution>
+					<phase>process-resources</phase>
+					<goals>
+						<goal>generate</goal>
+					</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+		<extensions>
+			<extension>
+				<groupId>yahoo.yinst.yjava_oracle_jdbc_thin</groupId>
+				<artifactId>ojdbc14</artifactId>
+				<version>10.2.0.3</version>
+			</extension>
+			<extension>
+				<groupId>yahoo.yinst.ypn_3rd_party_jflex</groupId>
+				<artifactId>JFlex</artifactId>
+				<version>1.4.1</version>
+			</extension>
+			<extension>
+				<groupId>yahoo.yinst.ypn_3rd_party_c3p0</groupId>
+				<artifactId>c3p0</artifactId>
+				<version>0.8.5.2_1</version>
+			</extension>
+			<extension>
+				<groupId>yahoo.yinst.yjava_log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.14.1</version>
+			</extension>
+		</extensions>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>yahoo.yinst.hibernate</groupId>
+			<artifactId>hibernate3</artifactId>
+			<version>3.1.3_4</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>yahoo.yinst.yjava_log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14.1</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+</project>

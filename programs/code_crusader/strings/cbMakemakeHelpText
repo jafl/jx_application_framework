@@ -1,0 +1,195 @@
+0
+
+CBMakemakeHelp
+
+"<html>
+<head>
+<title> makemake </title>
+</head>
+
+When compared with the scriptable, integrated development environments
+available on other platforms, UNIX <tt>make</tt> is a painful mess.
+makemake was written to alleviate some of the pain by generating a Makefile
+from a list of source files.
+<p>
+More specifically, given the two files Make.header and Make.files, makemake
+parses the files specified in Make.files to calculate their dependency lists and
+then generates a Makefile compatible with <a href=http://www.gnu.org/manual/make/>GNU's version of <tt>make</tt></a>.
+<p>
+Make.header is simply copied to become the first part of the Makefile.  It
+should contain all the variable definitions and special targets.  (makemake
+automatically generates the targets all, tidy (double colon), clean (double
+colon), checksyntax (see makecheck below), touch (see maketouch below), and
+jdepend (internal use only).)  In particular, LINKER must be defined to be the
+name of the program to use during linking, and DEPENDFLAGS must be set to
+contain all the compiler directives so that jdepend will work correctly.
+(LINKER is usually just the same as the name of the compiler, but it needs to be
+mcc in order to use Mathematica's MathLink package.)
+<p>
+Here is a simple example of a Make.header file:
+
+<pre>
+    # Useful directories
+
+    MYCODEDIR := .
+
+    # Directories to search for header files
+
+    SEARCHDIRS := -I- -I${MYCODEDIR}
+
+    # makemake variables
+
+    LINKER      := gcc
+    DEPENDFLAGS := -g -Wall -Werror ${SEARCHDIRS}
+
+    # make variables
+
+    CC       := gcc
+    CXX      := g++
+    CCC      := g++
+    CPPFLAGS  = ${DEPENDFLAGS}
+</pre>
+
+If you include a line \"### makemake inserts here ###\" somewhere in
+Make.header, then the targets that makemake generates will be inserted
+there instead of being appended at the end.
+<p>
+Make.files contains a simple list of all the files required to build each
+target as follows:
+
+<pre>
+    @&lt;name of first target&gt;
+    &lt;first object file&gt;
+    &lt;second object file&gt;
+    ...
+    @&lt;name of second target&gt;
+    ...
+</pre>
+
+The object files should not contain a suffix, because makemake appends the
+appropriate suffixes automatically.  (e.g. <tt>.c</tt>, <tt>.cc</tt>, <tt>.o</tt>, etc.)  The source file
+suffix is <tt>.c</tt> by default, but can be set with the -suffix option.  The current
+suffix can be overridden by placing the desired suffix in front of the source
+name as follows:
+
+<pre>
+    -suffix .cc
+    @myprog
+    .c myprog
+    JString
+</pre>
+
+The first line sets the default suffix to <tt>.cc</tt>.  The next line specifies the
+name of the make target.  The third line tells makemake that the object file
+myprog.o is required in order to build myprog, and that the source file is
+called myprog.c.  The last line tells makemake that the object file JString.o is
+also required in order to build myprog, and that the source file is called
+JString.cc.
+<p>
+You can also specify the suffix for the output file by including it between
+the source suffix and the file name:
+
+<pre>
+    @myprog
+    .java .class myprog
+</pre>
+
+Note that this is not usually necessary since makemake is reasonably intelligent
+about guessing the correct output suffix.
+<p>
+makemake correctly calculates dependencies for lex, flex, yacc, and bison
+files.  Simply specify the <tt>.l</tt> or <tt>.y</tt> suffix.  Dependencies on libraries can be
+included by specifying the <tt>.a</tt> or <tt>.so</tt> suffix.  (<tt>make</tt> is not powerful enough to
+handle <tt>.so.&lt;vers&gt;</tt>, so create a symbolic link to get a pure <tt>.so</tt> file.)  Libraries
+must also be listed in the standard <tt>make</tt> variable LOADLIBES so the linker will
+pick the correct type.  Dependencies on precompiled files can also be included
+by specifying the <tt>.o</tt> suffix.  This is useful if some files have to be compiled
+in a completely different way, e.g. using a different Makefile.  makemake
+recognizes <tt>.a</tt>, <tt>.so</tt>, <tt>.o</tt>, <tt>.class</tt>, and <tt>.jar</tt> as special suffixes and does not try to calculate
+their dependencies.  You can specify additional suffixes
+that should not be parsed with the --no-parse command line option.
+<p>
+The -prefix option sets the prefix of all subsequent source files.  This is
+useful if a group of files is in a different directory from the Makefile.  For
+convenience, the prefix is cleared when a new target is encountered.  As usual,
+comments can be included in Make.files by starting the line with a hash (#).
+<p>
+If no objects files are listed for a target, it is assumed that they are the
+same as those for the next target in the file.  This is especially convenient
+for building several different versions of the same library.  (e.g. static <tt>.a</tt>
+and shared <tt>.so</tt> versions)
+<p>
+The command line options for makemake are as follows:
+
+<pre>
+    -h                prints help
+    -hf               &lt;header file name&gt;  - default Make.header
+    -if               &lt;project file name&gt; - default Make.files
+    -of               &lt;output file name&gt;  - default Makefile
+    --obj-dir         &lt;variable name&gt;     - specifies directory for all .o files
+    --assume-autogen  assume unfound \"...\" files reside in includer's directory
+    --no-std-inc      exclude dependencies on files in /usr/include
+    --check           only rebuild output file if input files are newer
+    --choose          interactively choose the targets
+	--make-name       &lt;make binary&gt; - name of GNU make binary
+</pre>
+
+The following options can be used multiple times:
+
+<pre>
+    --define      &lt;code&gt; - make code to prepend to Make.header
+    --search-path &lt;path&gt; - add to paths to search after . for input files
+    --suffix-map  .x.y   - file.y results from compiling file.x
+    --no-parse    .x.y.z - specifies suffixes of files which should not be parsed
+</pre>
+
+The --choose option prints a list of the targets found in Make.files, and lets you
+choose which ones to include in the final Makefile.  Another way to specify a
+particular subset of targets is to include their names after the other options.
+<p>
+As mentioned above, your own special targets should be included in
+Make.header.  Some targets (e.g. TAGS used for the etags program) require a list
+of all the source files.  makemake provides this in the variable called
+MM_ALL_SOURCES.  Thus, to define the TAGS target, simply include the following
+in your Make.header:
+
+<pre>
+    .PHONY : TAGS
+    TAGS: ${MM_ALL_SOURCES}
+        etags ${MM_ALL_SOURCES}
+</pre>
+
+<h3> makecheck </h3>
+
+Sometimes it is helpful to be able to check a single source file after
+modifying it.  This provides instant feedback on typos and such.  Of course, one
+would prefer not to have to run <tt>make</tt> and wait while other files are recompiled
+first.  This can be done by running <tt>make</tt> directly, but one has to include the
+path exactly the way it is specified in the Makefile.  makecheck was written to
+solve this problem.  Once the Makefile is built, simply type  \"makecheck
+MyClass.cc\" to recompile only MyClass.cc.  makecheck finds the correct path for
+you.
+
+<h3> maketouch </h3>
+
+Sometimes it is necessary to use compile-time flags to include or exclude
+certain pieces of code.  (One should obviously try to minimize the need for
+this, but NDEBUG, which turns off assert(), will always be there.)  In such
+cases, one would prefer not to have to recompile everything (i.e. <tt>make clean</tt>)
+when a flag that only affects a few source files is changed.  maketouch was
+written to alleviate this problem.  It works in conjunction with makemake's
+special touch target to insure that only the files that use the flag are
+actually recompiled.
+<p>
+Since makemake does most of the work automatically, maketouch is very easy
+to use.  Simply type \"maketouch compile_flag\" to touch all the source and header
+files that include \"compile_flag\".  If the program depends on libraries that use
+the same \"compile_flag\", simply add the paths to each library's Makefile to the TOUCHPATHS variable.  makemake will automatically run maketouch in each of these directories.  If you need to do anything more complicated, you can define extra code for the touch target in Make.header as follows:
+
+<pre>
+    .PHONY : touch
+    touch::
+        &lt;your code here&gt;
+</pre>
+
+</html>"

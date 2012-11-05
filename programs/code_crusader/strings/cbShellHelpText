@@ -1,0 +1,28 @@
+0
+
+CBShellHelp
+
+"<html>
+<head>
+<title> Running a shell </title>
+</head>
+
+Shell support is provided to allow easy capturing and editing of program output.  It does not provide any terminal support.  The existing terminals, e.g., <code>xterm</code>, already do an excellent job.
+<p>
+To start a shell window, select \"New shell...\" on the File menu.  Your default command shell, set via <code>chsh</code>, is used when you open the window.
+<p>
+Text that you type is displayed bold to make it easy to find.  Pressing return sends the bold text <em>containing the caret</em> to the shell as a command.
+<p>
+While annotating output, press Shift-Return to insert a line break without sending your comments to the shell.
+<p>
+Since there is no terminal support, the following commands invoke Code Crusader:
+
+<ul>
+<li> more
+<li> less
+<li> vi
+<li> man
+<li> apropos
+</ul>
+
+</html>"

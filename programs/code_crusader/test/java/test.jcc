@@ -1,0 +1,54 @@
+jx_browser_data 81
+# project tree
+0 "root"
+T
+1 "main"
+T
+2 "HelloWorld.java"
+F
+"./code/HelloWorld.java"
+T
+2 "test.java"
+F
+"./code/test.java"
+T
+2 "test2.java"
+F
+"./code/test2.java"
+F
+T
+1 "New group"
+T
+3 "test.jar"
+F
+"./code/test.jar"
+ T "" T
+F
+T
+1 "New group"
+T
+2 "test3.java"
+F
+"./code/stuff/test3.java"
+F
+F
+# tasks
+4
+"makemake"
+T "./" "make -k" "" T F T F T F T "" "" "" T
+T "./" "make $file_name_root" "" T F T T T T F "" "" "" F
+T "./" "make CHECKSTRING=$file_name checksyntax" "" T F T T T T F "" "" "" T
+T "./" "a.out" "" F F F F T T F "" "" "" T
+T "./" "medic -f +$line $full_name" "" F F F T F F F "" "" "" T
+F
+# build settings
+1
+F
+"hello_world"
+""
+"make -k all"
+# search paths
+T "./" T
+F
+# C preprocessor
+F

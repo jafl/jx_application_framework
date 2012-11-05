@@ -1,0 +1,775 @@
+<project name="ypn-services" default="push">
+
+<!--== Variables ==-->
+
+<!-- Import environment variables -->
+
+<property environment="ENV" />
+
+<!-- directories -->
+
+<property name="base.path"		value="${ENV.PLAYPEN_ROOT}" />
+
+<property name="src.path"		value="${base.path}/src/java" />
+<property name="test.src.path"	value="${base.path}/src/test" />
+<property name="xml.path"		value="${base.path}/src/xml" />
+<property name="web.path"		value="${base.path}/src/web" />
+
+<property name="config.path"	value="${base.path}/server/config" />
+
+<property name="build.path"		value="${base.path}/build" />
+<property name="build.gen.path"	value="${build.path}/generated" />
+<property name="build.src.path"	value="${build.gen.path}/java" />
+<property name="build.ddl.path"	value="${build.gen.path}/ddl" />
+<property name="build.doc.path"	value="${build.gen.path}/doc" />
+<property name="test.out.path"	value="${build.path}/test" />
+<property name="war.path"		value="${build.path}/war" />	<!-- smokum peace pipe before reading further! -->
+<property name="web.inf.path"	value="${war.path}/WEB-INF" />
+<property name="classes.path"	value="${web.inf.path}/classes" />
+
+<property name="lib.path"		value="${base.path}/lib" />
+<property name="ext.lib.path"	value="${base.path}/ext/lib" />
+
+<!-- webapp properties -->
+
+<property name="app.name"		value="ypnservice" />
+<property name="app.context"	value="ypn" />
+<property name="app.version"	value="1.0" />
+<property name="war.file"		value="${app.name}-${app.version}.war" />
+
+<!-- hibernate -->
+
+<fileset id="config.hbm" dir="${xml.path}/hbm">
+	<include name="*.hbm.xml"/>
+</fileset>
+
+<!-- target server properties -->
+
+<property name="tomcat.port"		value="${ENV.TOMCAT_PORT}" />
+<property name="tomcat.host"		value="${ENV.TOMCAT_HOST}" />
+<property name="catalina.home"		value="${ENV.CATALINA_HOME}" />
+<property name="catalina.base"		value="${ENV.CATALINA_BASE}" />
+<property name="manager.url"		value="http://${tomcat.host}:${tomcat.port}/manager" />
+<property name="manager.username"	value="${ENV.SYSTEM_USER}" />
+<property name="manager.password"	value="${ENV.SYSTEM_PASSWORD}" />
+
+<!-- javac options -->
+
+<property name="compile.debug"			value="on" />
+<property name="compile.debuglevel"		value="source,lines" />
+<property name="compile.deprecation"	value="true" />
+<property name="compile.optimize"		value="true" />
+
+<!-- classpath: includes all elements that Tomcat exposes to applications -->
+
+<path id="classpath">
+	<pathelement location="${catalina.home}/common/classes" />
+	<pathelement location="${catalina.base}/shared/classes" />
+
+	<fileset dir="${catalina.home}/common/endorsed" includes="*.jar" />
+	<fileset dir="${catalina.home}/common/lib" includes="*.jar" />
+	<fileset dir="${catalina.base}/shared/lib" includes="*.jar" />
+
+	<fileset dir="${lib.path}" includes="*.jar" />
+	<fileset dir="${ext.lib.path}" includes="*.jar" />
+</path>
+
+<property name="myclasspath" refid="classpath"/>
+
+<!--== Custom tasks ==-->
+
+<!-- axis -->
+
+<taskdef name="deploy"		classname="org.apache.catalina.ant.DeployTask" />
+<taskdef name="list"		classname="org.apache.catalina.ant.ListTask" />
+<taskdef name="reload"		classname="org.apache.catalina.ant.ReloadTask" />
+<taskdef name="undeploy"	classname="org.apache.catalina.ant.UndeployTask" />
+
+<!-- wsdl -->
+
+<taskdef name="wsdl2java"	classname="org.apache.axis.tools.ant.wsdl.Wsdl2javaAntTask" />
+
+<!-- hibernate -->
+
+<path id="hibernate_tool_path">
+	<pathelement location="${classes.path}" />	<!-- include H8 UserTypes -->
+	<path refid="classpath" />
+</path>
+
+<taskdef name="hibernatetool"	classname="org.hibernate.tool.ant.HibernateToolTask" classpathref="hibernate_tool_path" />
+<taskdef name="schemaupdate"	classname="org.hibernate.tool.hbm2ddl.SchemaUpdateTask" classpathref="classpath" />
+		
+<!--== Targets ==-->
+
+<target name="push" depends="clean, dist" />
+
+<!-- create build directory structure -->
+
+<target name="prepare">
+	<mkdir dir="${build.path}" />
+	<mkdir dir="${web.inf.path}/lib" />
+	<mkdir dir="${classes.path}" />
+	<mkdir dir="${build.src.path}" />
+	<mkdir dir="${build.ddl.path}" />
+
+	<copy todir="${war.path}">
+		<fileset dir="${web.path}" />
+	</copy>
+
+	<copy todir="${web.inf.path}/lib" flatten="true">
+		<fileset dir="${ext.lib.path}">
+			<include name="*.jar" />
+		</fileset>
+	</copy>
+
+	<copy todir="${web.inf.path}/lib" flatten="true">
+		<fileset dir="${lib.path}">
+			<include name="*.jar" />
+		</fileset>
+	</copy>
+
+	<!-- generate hibernate config file -->
+
+	<chmod file="${classes.path}/hibernate.cfg.xml" perm="u+w" />
+	<exec executable="sub-conf-wrapper">
+		<arg value="hibernate/hibernate.cfg.xml.pre" />
+		<arg value="${classes.path}/hibernate.cfg.xml" />
+	</exec>
+
+	<!-- generate log4j config file -->
+
+	<chmod file="${classes.path}/log4j.properties" perm="u+w" />
+	<exec executable="sub-conf-wrapper">
+		<arg value="logging/log4j.properties.pre" />
+		<arg value="${classes.path}/log4j.properties" />
+	</exec>
+	
+	<!-- generate ypn config file -->
+
+	<chmod file="${classes.path}/ypn.properties" perm="u+w" />
+	<exec executable="sub-conf-wrapper">
+		<arg value="ypn.properties.pre" />
+		<arg value="${classes.path}/ypn.properties" />
+	</exec>
+
+	<!-- generate crontab.in config file -->
+
+	<chmod file="${classes.path}/crontab.in" perm="u+w" />
+	<exec executable="sub-conf-wrapper">
+		<arg value="crontab.in" />
+		<arg value="${classes.path}/crontab.in" />
+	</exec>
+	
+	<!-- copy config files to build directory -->
+
+	<copy file="${config.path}/hibernate.properties" todir="${classes.path}" />
+	<copy todir="${classes.path}">
+		<fileset refid="config.hbm" />
+	</copy>
+</target>
+
+<!-- wipe out build directory structure -->
+
+<target name="clean">
+	<delete dir="${build.path}" />
+</target>
+
+<!-- generate output files from hbm, wsdl, etc. -->
+
+<target name="generate" depends="prepare">
+	<wsdl2java
+		output="${build.src.path}"
+		url="${xml.path}/wsdl/ypn.wsdl"
+		serverSide="true"
+		skeletonDeploy="true"
+		verbose="true"
+		>
+		<mapping
+			namespace="urn:core:ypn:ysm:com"
+			package="com.ysm.ypn.core.util"
+			/>
+		<mapping
+			namespace="urn:cache:ypn:ysm:com"
+			package="com.ysm.ypn.cache.svc"
+			/>
+		<mapping
+			namespace="urn:external:ypn:ysm:com"
+			package="com.ysm.ypn.external.svc"
+			/>
+		<mapping
+			namespace="http://www.overture.com/spn/partnermanagement"
+			package="com.ysm.ypn.external.svc"
+			/>
+		<mapping
+			namespace="urn:account:ypn:ysm:com"
+			package="com.ysm.ypn.account.svc"
+			/>
+		<mapping
+			namespace="urn:contentmatch:ypn:ysm:com"
+			package="com.ysm.ypn.contentmatch.svc"
+			/>
+		<mapping
+			namespace="urn:domainmatch:ypn:ysm:com"
+			package="com.ysm.ypn.domainmatch.svc"
+			/>
+		<mapping
+			namespace="urn:feedback:ypn:ysm:com"
+			package="com.ysm.ypn.feedback.svc"
+			/>
+		<mapping
+			namespace="urn:logging:ypn:ysm:com"
+			package="com.ysm.ypn.logging.svc"
+			/>
+		<mapping
+			namespace="urn:directpartner:ypn:ysm:com"
+			package="com.ysm.ypn.directpartner.svc"
+			/>
+	</wsdl2java>
+
+	<wsdl2java
+			output="${build.src.path}"
+			url="${xml.path}/remote_wsdl/spn.wsdl"
+			serverSide="false"
+			verbose="true"
+			>
+		<mapping
+			namespace="http://www.overture.com/spn/partnermanagement"
+			package="com.ysm.crm.account.svc"
+			/>
+		<mapping
+			namespace="http://www.overture.com/common"
+			package="com.ysm.crm.common.types"
+			/>
+	</wsdl2java>
+
+	<wsdl2java
+			output="${build.src.path}"
+			url="${xml.path}/remote_wsdl/dmssws.wsdl"
+			serverSide="false"
+			verbose="true"
+			>
+		<mapping
+			namespace="urn:ws:dm:ysm:com"
+			package="com.ysm.ypn.domainmatch.ws.svc"
+			/>
+	</wsdl2java>
+
+	<delete>
+		<fileset dir="${build.src.path}" includes="**/*BindingImpl.java" />
+	</delete>
+
+	<!-- compile all auto-generated code, except BindingSkeletons -->
+
+	<javac
+		classpathref="classpath"
+		srcdir="${build.src.path}"
+		sourcepath="${src.path}"
+		excludes="**/*BindingSkeleton.java"
+		destdir="${classes.path}"
+		debug="${compile.debug}"
+		debuglevel="${compile.debuglevel}"
+		deprecation="${compile.deprecation}"
+		optimize="${compile.optimize}"
+		/>
+
+	<!-- compile UserTypes; required by hbm2java -->
+
+	<javac
+		classpathref="classpath"
+		srcdir="${src.path}"
+		includes="**/H8*.java"
+		destdir="${classes.path}"
+		debug="${compile.debug}"
+		debuglevel="${compile.debuglevel}"
+		deprecation="${compile.deprecation}"
+		optimize="${compile.optimize}"
+		/>
+
+	<hibernatetool destdir="${build.src.path}">
+		<configuration configurationfile="${classes.path}/hibernate.cfg.xml"> 
+			<fileset refid="config.hbm" />
+		</configuration> 
+
+		<!-- generate POJO classes -->
+		<hbm2java />
+
+		<!-- generate html documentation -->
+		<hbm2doc destdir="${build.doc.path}/database" />
+
+		<!-- generate table definitions -->
+		<hbm2ddl destdir="${build.ddl.path}" console="false" export="false" outputfilename="ypn-services.ddl"/>
+	</hibernatetool>
+</target>
+
+<!-- compile .java to .class -->
+
+<target name="compile" depends="generate, compile_only" />
+
+<target name="compile_only">
+
+	<!-- compile all auto-generated code, except BindingSkeletons -->
+
+	<javac
+		classpathref="classpath"
+		srcdir="${build.src.path}"
+		sourcepath="${src.path}"
+		excludes="**/*BindingSkeleton.java"
+		destdir="${classes.path}"
+		debug="${compile.debug}"
+		debuglevel="${compile.debuglevel}"
+		deprecation="${compile.deprecation}"
+		optimize="${compile.optimize}"
+		/>
+
+	<!-- compile all programmer-generated code -->
+
+	<javac
+		srcdir="${src.path}"
+		destdir="${classes.path}"
+		debug="${compile.debug}"
+		debuglevel="${compile.debuglevel}"
+		deprecation="${compile.deprecation}"
+		optimize="${compile.optimize}"
+		>
+		<classpath>
+			<pathelement location="${classes.path}" />
+			<path refid="classpath" />
+		</classpath>
+	</javac>
+
+	<!-- compile BindingSkeletons; depends on programmer-generated code -->
+
+	<javac
+		classpathref="classpath"
+		srcdir="${build.src.path}"
+		sourcepath="${src.path}"
+		includes="**/*BindingSkeleton.java"
+		destdir="${classes.path}"
+		debug="${compile.debug}"
+		debuglevel="${compile.debuglevel}"
+		deprecation="${compile.deprecation}"
+		optimize="${compile.optimize}"
+		/>
+
+	<!-- compile all test code -->
+
+	<javac
+		srcdir="${test.src.path}"
+		destdir="${classes.path}"
+		debug="${compile.debug}"
+		debuglevel="${compile.debuglevel}"
+		deprecation="${compile.deprecation}"
+		optimize="${compile.optimize}"
+		>
+		<classpath>
+			<pathelement location="${classes.path}" />
+			<path refid="classpath" />
+		</classpath>
+	</javac>
+
+	<!-- generate server-config.wsdd file -->
+
+	<java
+		classname="org.apache.axis.utils.Admin"
+		fork="true"
+		dir="${web.inf.path}"
+		>
+		<classpath>
+			<pathelement location="${classes.path}" />
+			<path refid="classpath" />
+		</classpath>
+		<arg value="server" />
+		<arg value="${build.src.path}/com/ysm/ypn/svc/deploy.wsdd" />
+	</java>
+</target>
+
+<!-- unit testing -->
+
+<target name="test" depends="compile, test_only" />
+
+<target name="test_only"
+	description="Run JUnit tests"
+	>
+
+    <echo> CLASSPATH is  : ${myclasspath} </echo>
+
+	<delete dir="${test.out.path}" />
+	<delete file="${base.path}/src/velocity.log" />
+	<mkdir dir="${test.out.path}" />
+
+	<junit
+		haltonfailure="false"
+		haltonerror="false"
+		fork="yes"
+		printsummary="withOutAndErr"
+		>
+		<formatter type="plain" />
+
+		<classpath>
+			<pathelement path="${classes.path}" />
+			<path refid="classpath" />
+		</classpath>
+
+		<batchtest fork="no" todir="${test.out.path}">
+			<fileset dir="${test.src.path}" includes="**/*Test.java" />
+		</batchtest>
+	</junit>
+</target>
+
+	
+<!-- email cron job -->
+
+<target name="email_cron"
+	description="Run cron jobs"
+	>
+
+    <echo> CLASSPATH is  : ${myclasspath} </echo>
+	
+	<java
+		classname="com.ysm.ypn.cron.EmailVerificationReminderCron"
+		fork="true"
+		dir="${web.inf.path}"
+		>
+		<classpath>
+			<pathelement location="${classes.path}" />
+			<path refid="classpath" />
+		</classpath>
+	</java>
+</target>
+
+<!-- generate documentation -->
+
+<target name="javadoc" depends="generate, javadoc_only" />
+
+<target name="javadoc_only"
+	description="Generate documentation"
+	>
+	<delete dir="${build.doc.path}/java" />
+
+	<javadoc destdir="${build.doc.path}/java">
+		<classpath>
+			<pathelement location="${classes.path}" />
+			<path refid="classpath" />
+		</classpath>
+		<fileset dir="${src.path}" includes="**/*.java" />
+		<fileset dir="${build.src.path}" includes="**/*.java" />
+	</javadoc>
+</target>
+
+<!-- build war file -->
+
+<target name="dist" depends="compile, dist_only" />
+
+<target name="dist_only">
+	<jar
+		jarfile="${build.path}/${war.file}"
+		basedir="${war.path}"
+		/>
+</target>
+
+<!-- deploy war file to the war room (no fighting!) -->
+
+<target name="install">
+	<deploy
+		url="${manager.url}"
+		username="${manager.username}"
+		password="${manager.password}"
+		path="/${app.context}"
+		update="true"
+		localWar="file://${build.path}/${war.file}"
+		/>
+</target>
+
+<!-- retreat -->
+
+<target name="uninstall">
+	<undeploy
+		url="${manager.url}"
+		username="${manager.username}"
+		password="${manager.password}"
+		path="/${app.context}"
+		/>
+</target>
+
+<!-- misc tasks -->
+
+<target name="list">
+	<list
+		url="${manager.url}"
+		username="${manager.username}"
+		password="${manager.password}"
+		/>
+</target>
+
+<target name="reload">
+	<reload
+		url="${manager.url}"
+		username="${manager.username}"
+		password="${manager.password}"
+		path="/${app.context}"
+	/>
+</target>
+
+</project>
+
+<project name="pmc" default="main">
+
+    <property environment="ENV"/>
+    <property name="build.type" value="test"/>
+    <property file="build.properties"/>
+
+    <target name="main" depends="dist, test"/>
+
+    <target name="build" depends="init, check.pmc.build.installed"
+            description="compiles java source files.">
+        <compile cpath="classpath"
+                 srcdir="${java.dir}"/>
+    </target>
+
+    <target name="build.c.tools" description="Build Apache-related C code.">
+        <exec dir="src/c_code/tools" executable="make" failonerror="true">
+            <env key="APACHE_HOME" value="${ROOT}"/>
+        </exec>
+    </target>
+
+    <target name="dist.c.tools" description="Install Apache-related C code" depends="build.c.tools">
+        <exec dir="src/c_code/tools" executable="make" failonerror="true">
+            <arg line="install"/>
+            <env key="GOTO_HOME" value="../../../"/>
+        </exec>
+    </target>
+
+    <target name="dist" depends="build, dist.c.tools">
+        <copy todir="${dist.dir}/${java.dir}">
+            <fileset dir="${java.dir}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy todir="${dist.dir}">
+            <fileset dir=".">
+                <include name="apache_servers/**/*"/>
+                <include name="bin/**/*"/>
+                <include name="content/**/*"/>
+                <include name="dynamo_servers/**/*"/>
+                <include name="etc/**/*"/>
+                <include name="lib/**/*"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="build.tst" description="Compiles Junit java source files">
+        <compile cpath="test.classpath"
+                 srcdir="${test.dir}"/>
+    </target>
+
+    <target name="test" depends="validate.yinst.build.time.deps, build, build.tst" unless="ant.not.found"
+            description="Runs Java Unit Tests">
+        <junit printsummary="yes" fork="yes" filtertrace="true" haltonfailure="true">
+            <formatter type="brief" usefile="false"/>
+            <classpath refid="test.classpath"/>
+            <batchtest todir="tst">
+                <fileset dir="${test.dir}">
+                    <include name="**/*Test.class"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="clean" depends="clean.build, clean.build.c_source, clean.test, clean.logs, clean.dynamo, clean.dist" description="Deletes all generated files">
+        <delete file="${ant.project.name}.tar.gz"/>
+    </target>
+
+    <target name="clean.dist" description="cleans tar.gz files">
+        <delete dir="${dist.dir}"/>
+        <delete dir="lib"/>
+    </target>
+
+    <target name="clean.logs" description="cleans all log files">
+        <delete>
+            <fileset dir="dynamo_servers/ami">
+                <include name="**/*log*"/>
+            </fileset>
+            <fileset dir="dynamo_servers/amiloadmanager">
+                <include name="**/*log*"/>
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="clean.dynamo" description="cleans all Dynamo-generated files">
+        <delete dir="dynamo_servers/ami/data"/>
+        <delete dir="dynamo_servers/ami/parsedconfig/_ami_localconfig"/>
+        <delete dir="dynamo_servers/ami/parsedconfig/_localconfig_5.6"/>
+        <delete dir="dynamo_servers/ami/pagebuild/_ami_3__UTF_s8"/>
+        <delete dir="dynamo_servers/amiloadmanager/data"/>
+        <delete dir="dynamo_servers/amiloadmanager/parsedconfig/_amiloadmanager_localconfig"/>
+        <delete dir="dynamo_servers/amiloadmanager/parsedconfig/_localconfig_5.6"/>
+    </target>
+
+    <target name="clean.build" description="cleans all class files generated from the build">
+        <delete>
+            <fileset dir="${java.dir}">
+                <include name="**/*.class"/>
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="clean.build.c_source" description="Runs make clean on the src/c_code/tools folder">
+        <exec dir="src/c_code/tools" executable="make">
+            <arg line="clean"/>
+            <env key="GOTO_HOME" value="../../../"/>
+        </exec>
+    </target>
+
+    <target name="clean.test" description="cleans all class files generated from the unit tests">
+        <delete>
+            <fileset dir="${test.dir}">
+                <include name="**/*.class"/>
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="package" description="Package for a qa/production deploy" depends="clean.dist, build, test, clean.logs, clean.dynamo, init, dist, create.yinst">
+        <delete includeEmptyDirs="true">
+            <fileset dir="${dist.dir}">
+                <exclude name="over_pmc_server*.tgz"/>
+                <include name="**/*"/>
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="create.yinst" depends="create.strict.yinst, create.build.yinst" description="Creates the pmc yinst packages"/>
+
+    <target name="create.strict.yinst" description="Create the over_pmc_server_strict package" depends="main">
+        <exec dir="${dist.dir}" executable="yinst_create" failonerror="true">
+            <arg line="../over_pmc_server_strict.yicf -t ${build.type} "/>
+        </exec>
+    </target>
+
+    <target name="create.build.yinst" description="Create the over_pmc_build.yicf package">
+        <mkdir dir="${dist.dir}"/>
+        <exec dir="${dist.dir}" executable="yinst_create" failonerror="true">
+            <arg line="../over_pmc_build.yicf -t ${build.type} "/>
+        </exec>
+    </target>
+
+    <target name="init">
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${lib.dir}"/>
+        <condition property="ROOT" value="/home/y">
+            <equals arg1="${ENV.ROOT}" arg2="$${ENV.ROOT}"/>
+        </condition>
+        <condition property="ROOT" value="${ENV.ROOT}">
+            <not>
+                <equals arg1="${ENV.ROOT}" arg2="$${ENV.ROOT}"/>
+            </not>
+        </condition>
+        <copy todir="${lib.dir}">
+            <fileset dir="${ROOT}/lib/jars">
+                <include name="apache_soap.jar"/>
+                <include name="commons_discovery.jar"/>
+                <include name="jaxrpc.jar"/>
+                <include name="ocrs12.jar"/>
+                <include name="wsdl4j.jar"/>
+                <include name="axis-ant.jar"/>
+                <include name="commons_logging.jar"/>
+                <include name="log4j.jar"/>
+                <include name="ojdbc14.jar"/>
+                <include name="axis.jar"/>
+                <include name="jakarta_oro.jar"/>
+                <include name="mail.jar"/>
+                <include name="saaj.jar"/>
+            </fileset>
+        </copy>
+        <path id="classpath">
+            <fileset dir="${lib.dir}">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${ROOT}/libexec/dynamo/DAS/lib/">
+                <include name="*.jar"/>
+            </fileset>
+        </path>
+
+        <path id="test.classpath">
+            <path refid="classpath"/>
+            <pathelement location="${test.dir}"/>
+            <pathelement location="${java.dir}"/>
+        </path>
+    </target>
+
+    <target name="wsdl2java" depends="init" description="Generate Java from WSDL definition file">
+        <taskdef resource="axis-tasks.properties" classpathref="classpath" />
+        <axis-wsdl2java
+        output="${java.dir}"
+        testcase="true"
+        verbose="true"
+        url="${local.wsdl}"
+        >
+            <mapping
+            namespace="urn:yahoo:overture:stats:3.0"
+            package="com.go2.ami.stats.ws" />
+            <mapping
+            namespace="http://schemas.xmlsoap.org/wsdl/"
+            package="com.go2.ami.stats.ws.wsdl" />
+        </axis-wsdl2java>
+    </target>
+
+    <!-- VALIDATION TARGETS -->
+
+    <target name="validate.pmc.build" description="Checks that the dynamo yinst package is installed">
+        <exec executable="yinst" errorproperty="build.not.found" outputproperty="build.found">
+            <arg line="list over_pmc_build"/>
+        </exec>
+        <condition property="yinst.pmc.build.found" value="true">
+            <contains string="${build.found}" substring="over_pmc_build-"/>
+        </condition>
+    </target>
+
+
+    <target name="check.pmc.build.installed"
+                description="print out a message to the screen if the yinst strict package is not installed"
+                unless="yinst.pmc.build.found"
+                depends="validate.pmc.build">
+        <fail>.
+#########################################
+The build can not continue!
+The yinst over_pmc_build package is not installed!
+#########################################
+        </fail>
+    </target>
+
+    <target name="validate.yinst.build.time.deps" depends="yinst.build.time.deps.check, check.built.time.deps.installed"/>
+
+    <target name="yinst.build.time.deps.check" description="Checks to make sure the required YInst Package is installed">
+        <exec executable="yinst" errorproperty="build.time.yinst.not.found" outputproperty="build.time.yinst.found">
+            <arg line="list over_pmc_build"/>
+        </exec>
+        <condition property="build.time.deps.found" value="true">
+            <contains string="${build.time.yinst.found}" substring="over_pmc_build-"/>
+        </condition>
+    </target>
+
+    <target name="check.built.time.deps.installed" description="Checks that the correct Yinst ant package is installed" unless="build.time.deps.found">
+        <fail>.
+#################################################################
+Please install the yinst over_pmc_build_time package before continuing
+#################################################################
+        </fail>
+    </target>
+
+    <!-- END VALIDATION TAGS -->
+
+    <macrodef name="compile">
+        <attribute name="cpath"/>
+        <attribute name="srcdir"/>
+        <sequential>
+            <javac srcdir="@{srcdir}"
+                        destdir="@{srcdir}"
+                        classpathref="@{cpath}"
+                        optimize="on"
+                        nowarn="true"
+                        debug="true"
+                        fork="true"/>
+        </sequential>
+    </macrodef>
+
+</project>

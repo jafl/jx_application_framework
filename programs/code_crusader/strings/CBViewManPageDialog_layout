@@ -1,0 +1,12 @@
+0
+itsHelpButton::CBViewManPageDialog::JXLayout "Help"
+itsStayOpenCB::CBViewManPageDialog::JXLayout "Stay open"
+itsCloseButton::CBViewManPageDialog::JXLayout "Close"
+obj1_JXLayout::CBViewManPageDialog::JXLayout "Function name:"
+itsViewButton::CBViewManPageDialog::shortcuts::JXLayout "^M"
+itsViewButton::CBViewManPageDialog::JXLayout "View"
+itsCloseButton::CBViewManPageDialog::shortcuts::JXLayout "#W^["
+obj2_JXLayout::CBViewManPageDialog::JXLayout "Section index:"
+itsHelpButton::CBViewManPageDialog::shortcuts::JXLayout "F1"
+itsAproposCheckbox::CBViewManPageDialog::JXLayout "Apropos"
+itsAproposCheckbox::CBViewManPageDialog::shortcuts::JXLayout "#p"

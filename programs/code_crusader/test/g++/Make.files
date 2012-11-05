@@ -1,0 +1,7 @@
+# Please refer to the makemake documentation for more information.
+
+-suffix .cc
+
+@my_program_name
+
+-prefix ${MYCODEDIR}/

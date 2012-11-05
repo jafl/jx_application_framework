@@ -1,0 +1,197 @@
+0
+
+CBProjectTutorialHelp
+
+"<html>
+<head>
+<title> Project Tutorial </title>
+</head>
+
+This tutorial will walk you through the steps required to create and run the famous Hello World program in C++ using the GNU C++ compiler.  The basic steps are the same for other compilers and languages.  Refer to the end of this tutorial for notes on other languages.
+
+<p>
+<b> Creating the project </b>
+<p>
+
+<ol>
+<li> Select \"New project...\" from the File menu.
+<li> In the Save File dialog, go to the directory where you want to save the project files. (usually a new, empty directory)
+<li> Specify the name of the project as <tt>hello_world.jcc</tt>
+<li> Select \"None\" from the Project Template menu.
+<li> Set the method of generating the Makefile to \"via makemake\"
+<li> Click the Save button.
+</ol>
+
+This creates the project file hello_world.jcc along with the text files Make.header and Make.files.  You will learn how to edit Make.header later in this tutorial.  Make.files will be automatically rewritten for you based on the contents of the Project window.  These two files will be used by <a href=jxhelp:CBMakemakeHelp><tt>makemake</tt></a> to create Makefile which will in turn be used to <a href=jxhelp:CBCompileHelp>compile your program</a>.
+
+<p>
+<b> Configuring the project </b>
+<p>
+
+<ol>
+<li> Select \"Edit project configuration...\" from the Project menu in the Project window.
+<li> Change the target name to <tt>hello_world</tt>.
+<li> Click the OK button.
+</ol>
+
+Since this is a C++ project, you need to link the standard C++ library to your program:
+
+<ol>
+<li> Click the Config button in the upper right corner of the Project window to open Make.header.
+<li> Add <tt>-lstdc++</tt> in front of <tt>-lm</tt> on the line that begins with <tt>LOADLIBES</tt>.
+</ol>
+
+You need to learn at least the basics of <a href=http://www.gnu.org/manual/make/>GNU make</a> in order to fully understand the contents of Make.header.  You do not have to do this in order to complete this tutorial, however.
+
+<p>
+<b> Creating your program </b>
+<p>
+
+<ol>
+<li> Select \"New text file\" from the File menu to get a Text Editor window.
+<li> Drag, paste, or type the following text into the Text Editor window:
+
+<pre>
+#include &lt;iostream&gt;
+using namespace std;
+
+int main(int argc, char* argv[])
+{
+    cout &lt;&lt; \"Hello world!\" &lt;&lt; endl;
+    return 0;
+}
+</pre>
+
+<li> Select \"Save\" from the File menu and save the file as <tt>hello_world.cc</tt>
+</ol>
+
+<tt>argc</tt> is the number of command line arguments.  <tt>argv</tt> contains the command line arguments, starting with <tt>argv[0]</tt> which is the name of the program.  The return value is used by shell scripts to determine success or failure.  Returning zero indicates success.
+
+<p>
+Notice that once you saved file, <a href=jxhelp:CBStylerHelp>context-sensitive highlighting</a> became active and the Functions menu appeared in the menu bar.  This is because the suffix \"<tt>.cc</tt>\" tagged it as a <a href=jxhelp:CBFileTypeHelp>C++ source file</a>.
+
+<p>
+<b> Building the project </b>
+<p>
+
+<ol>
+<li> Select \"Relative to project file\" from the \"Add to project: hello_world\" menu on the Tasks menu in the Text Editor window.
+<li> Select \"Build & Run\" from the Tasks menu in the Text Editor window.
+</ol>
+
+The first window shows the result of compiling and linking your program.  The second window shows the result of running your program.
+
+<p>
+<b> Using the Symbol Browser </b>
+<p>
+
+Now that the project has been built, the <a href=jxhelp:CBSymbolHelp>Symbol Browser</a> window will display the reference to your function, <tt>main()</tt>.  If you double-click on the function name, Code Crusader will open the source file to display the function.
+<p>
+When you add functions, classes, static variables, preprocessor defintions, etc. to your program, these will all show up in the Symbol Browser window once you either build the project or use the \"Update\" item on the Symbol menu.  Note that function declarations (prototypes) are displayed in italics to distinguish them from function definitions.
+
+<h3> Where to go from here </h3>
+
+Now that you have successfully compiled and run a simple project, the possibilities are endless.  This can be both a blessing and a curse.
+<p>
+The following sub-sections discuss how to create libraries and projects for other languages.  Once you have read this information, we suggest that you study the full on-line documentation for <a href=jxhelp:CBProjectHelp>working with Code Crusader projects</a>.
+<p>
+<a href=http://www.oreilly.com/>O'Reilly</a> publishes books on a wide variety of programming languages.  You should also consider reading the books in the <a href=http://www.newplanetsoftware.com/jx/bibliography.php>New Planet Software Bibliography</a>.  These cover both general programming practices and philosophy and specific issues for C/C++ programmers.
+<p>
+You can learn more about <tt>make</tt> either by reading books published by <a href=http://www.oreilly.com/>O'Reilly</a>, such as <cite>Programming with GNU software</cite> and <cite>Managing projects with make</cite>, or by studying the <a href=http://www.gnu.org/manual/make/>on-line documentation for GNU make</a>.
+<p>
+The documentation for <a href=jxhelp:CBMakemakeHelp><tt>makemake</tt></a> is included in this on-line help.
+
+<p>
+<b> Organizing your projects and source code </b>
+<p>
+
+Each project must be placed in a separate directory to prevent the Makefiles from interfering with each other.
+<p>
+The simplest way to manage the source code for a project is to put all the files in a subdirectory of the project directory and then use groups in the Project window to organize the files. However, since organization is largely a personal preference, Code Crusader does not place any restrictions on the arrangement of the source files in a project.
+
+<p>
+<b> Creating libraries </b>
+<p>
+
+To build a library instead of a program, all the steps are the same except:
+
+<ul>
+<li> Specify the target name in the Project Configuration dialog to be either <tt>libMyProject.a</tt> for a static library or <tt>libMyProject.so</tt> for a shared library.  You could build both at the same time by entering <tt>libMyProject.a,libMyProject.so</tt>.  (\"MyProject\" should be replaced with the name of your project.  The \"lib\" prefix is a standard which allows others to link to your library by specifying <tt>-lMyProject</tt> in the link command.)
+<p>
+<li> To build a shared library with gcc, you must add <tt>-fPIC</tt> to the line that begins with <tt>CPPFLAGS</tt>.  This tells the compiler to generate \"position independent code.\"  For other compilers, please consult the relevant documentation to determine the name of the appropriate option.
+</ul>
+
+Any language that compiles to <tt>.o</tt> files can be used when writing a library:  C, C++, FORTRAN, Assembly, etc.  You can even mix them together, i.e., write one source file in C, another in Assembly, etc.
+
+<p>
+<b> Java </b>
+<p>
+
+If you use Java, all the steps are the same except:
+
+<ul>
+<li> Change the target name to <tt>HelloWorld</tt>.
+
+<p>
+<li> Modify the Java section of Make.header instead.  (e.g. add flags to JFLAGS, if necessary)
+<p>
+<li> The source code is obviously different:
+
+<pre>
+public class HelloWorld
+{
+    public static void main(String[] args)
+        {
+        System.out.println(\"Hello world!\");
+        }
+}
+</pre>
+
+<p>
+In addition, you should save the file as <tt>HelloWorld.java</tt>
+
+<p>
+<li> For this example, you need to use the \"Build (via make)\" and \"Run (java)\" items on the Tasks menu.
+</ul>
+
+In general, you need to change the Run task to either <tt>appletviewer my_java_applet.html</tt> or <tt>java my_java_program</tt>, depending on whether you are writing an applet or a program.
+
+<p>
+<b> FORTRAN </b>
+<p>
+
+If you use FORTRAN, all the steps are the same except:
+
+<ul>
+<li> Modify the FORTRAN section of Make.header instead.  (e.g. add flags to FFLAGS, if necessary, and change FC to the name of your particular compiler)
+<p>
+<li> Change the value of LINKER in Make.header to the name of your FORTRAN compiler.
+<p>
+<li> The source code is obviously different:
+
+<pre>
+    program helloworld
+    write(6,*) \"Hello world!\"
+    end
+</pre>
+
+<p>
+In addition, you should save the file as <tt>hello_world.f</tt>
+</ul>
+
+<p>
+<b> Building multiple versions of a program </b>
+<p>
+
+Often, one requires multiple versions of a single program.  The most common example is Debug and Release versions.  The easiest way to do this is to let Code Crusader build the Debug version and then create a separate Release build target in the Makefile that builds the Debug version and then runs <tt>strip</tt>:
+
+<pre>
+.PHONY: release
+release: my_program
+    @cp my_program my_program_release
+    @strip my_program_release
+</pre>
+
+A more sophisticated method is described <a href=http://www.newplanetsoftware.com/jcc/multi_version.php>here</a>.  This method is useful if one must build the release version with a higher compiler optimization level than the debug version, or if one wants only the shared version of a library to be compiled with position independent code.
+
+</html>"

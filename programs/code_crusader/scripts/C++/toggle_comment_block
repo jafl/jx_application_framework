@@ -1,0 +1,25 @@
+#!/usr/bin/perl
+
+use strict;
+
+my $init    = 0;
+my $comment = 0;
+
+while (<STDIN>)
+	{
+	if (!$init)
+		{
+		$comment = ($_ =~ m|^//|o);
+		}
+	if ($comment)
+		{
+		s|^//||o;
+		print;
+		}
+	else
+		{
+		print '//';
+		print;
+		}
+	}
+print "\n";

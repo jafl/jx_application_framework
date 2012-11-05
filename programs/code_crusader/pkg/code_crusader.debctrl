@@ -1,0 +1,13 @@
+Package: code-crusader
+Version: 6.2.0
+Maintainer: New Planet Software <http://www.newplanetsoftware.com/nps/contact.php>
+Homepage: http://www.newplanetsoftware.com/jcc/
+Section: non-free/devel
+Priority: optional
+Architecture: i386
+Essential: no
+Depends: libx11-6, libxext6, libxpm4, libxau6, libxml2, libstdc++6
+Suggests: code-medic, code-mill, nps-svn-client
+Replaces: code-medic, exuberant-ctags
+Description: Code Crusader is a graphical development environment for UNIX.
+ Code Crusader is a graphical development environment for UNIX.

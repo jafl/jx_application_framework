@@ -1,0 +1,208 @@
+#!/bin/sh
+# JX Development Suite installation script
+###################################################
+# copyright notice
+###################################################
+echo ""
+echo Welcome to the JX Development Suite installation program.
+echo "Copyright © 2001 New Planet Software"
+echo ""
+
+$* $ $$ $@ $% $3 ${039823#abc} ${#xyz} ${xy+z}
+
+"$* $ $$ $@ $% $3 ${039823#abc} ${#xyz} ${xy+z}"
+
+for f in *; do echo hi; done
+
+###################################################
+# check for root 
+###################################################
+set effUser = `whoami`
+if ($effUser != "root") then
+ echo You must be root to install using this script.
+ echo Exiting
+ exit 1
+endif
+
+###################################################
+# check for perl 
+###################################################
+set hasPerl = `which perl`
+if ($status != 0) then
+ echo ""
+ echo This installer requires that perl is installed.
+ echo Exiting
+ exit 1
+endif
+
+###################################################
+# Request license acceptance
+###################################################
+more LICENSE
+echo -n "Do you accept this license (yes/no)?"
+set licAccept = $<
+if ($licAccept !~ yes) then
+ echo Exiting
+ exit 1
+endif
+
+###################################################
+# check for Linux x86
+###################################################
+set OS = `uname -s`
+set HardWare = `uname -m`
+if (($OS != "Linux") || ($HardWare !~ i[3456]86))then
+ echo The programs included on the cd are built only for Linux systems running
+ echo on Intel compatible hardware. You will only be able to install the JX source.
+ echo ""
+ echo -n "Would you like to continue (y/n) [y] ? "
+ set nonLinCont = $<
+ if ($nonLinCont !~ [Yy]*) then
+  echo Exiting
+  exit 1
+ endif
+endif
+
+###################################################
+# ask if they are running Mandrake 8.0
+###################################################
+
+echo -n "Are you running Mandrake 8.0 (y/n) [n]?"
+set mandrakeReq = $<
+set mandrake8 = n
+if ($mandrakeReq =~ [Yy]*) then 
+ set mandrake8 = y
+endif 
+
+###################################################
+# install programs - only if Linux x86
+###################################################
+if (($OS == "Linux") && ($HardWare =~ i[3456]86)) then
+ set tmpDir = "/tmp/.nps-install"
+ set insFile = "$tmpDir/full_install.tgz"
+
+ if (! -d $tmpDir) then
+  mkdir -p $tmpDir
+  if ($status != 0) then
+   echo ""
+   echo Unable to create temporary install directory.
+   echo Exiting
+   exit 1
+  endif
+ endif
+ 
+ set currentDir = `pwd`
+ set binFile = "$currentDir/data/full_install_rh6.npl"
+ set ctFile  = "$currentDir/data/ctags"
+ if ($mandrake8 == "y") then
+  set binFile = "$currentDir/data/full_install_md8.npl"
+  set ctFile  = "$currentDir/data/ctags_md"
+ endif
+
+ echo Installing programs...
+ echo ""
+
+ cat "$binFile" | perl -e 'use integer; while (read(STDIN, $byte, 1)) { print chr(ord($byte) ^ 69); }' > "$insFile"
+
+ cd /
+ tar xzf "$insFile"
+
+ echo Code Crusader can be run by typing \'jcc\' on the command line.
+ echo Code Medic can be run by typing \'medic\' on the command line.
+ echo SystemG can be run by typing \'systemg\' on the command line.
+ echo Leibnitz can be run by typing \'leibnitz\' on the command line.
+
+ cd $currentDir
+
+ set wctags = `which ctags`
+ set wctagsOK = no
+ if (-e "$wctags") then
+  set wctagsOK = yes
+  echo ""
+  echo For some of Code Crusader\'s features, ctags version 5.0 or above is required.
+  echo A version of ctags is installed on your system. 
+  echo ""
+  ctags --version
+  echo ""
+  echo -n "Would you like to replace your ctags at this time (y/n) [y] ?"
+  set ctagsOK = $<
+  if ($ctagsOK == "") then 
+   set ctagsOK = y
+  endif
+  if ($ctagsOK =~ [Yy]*) then
+   cp -f $ctFile $wctags
+  endif
+ else
+  cp -f $ctFile /usr/bin/ctags
+ endif
+
+ rm -rf $tmpDir
+ 
+endif
+
+###################################################
+# install JX
+###################################################
+echo ""
+echo -n "Would you like to install the source for the JX libraries (y/n) [y] ? "
+set insJX = $<
+if ($insJX == "") then
+ set insJX = y
+endif
+if ($insJX !~ [Yy]*) then
+ echo Thank you for choosing the JX Development Suite.
+ exit 1
+endif
+if ($insJX =~ [Yy]*) then
+ set defDir = ~/
+ if ($effUser == "root") then
+  set defDir = /usr/lib
+ endif
+ echo ""
+ echo -n "Where would you like to install the JX source code [$defDir] ? "
+ set inDir = $<
+ if ($inDir != "") then
+  set defDir = $inDir
+ endif
+
+ mkdir -p $defDir
+ if ($status != 0) then
+  echo ""
+  echo Unable to create directory.
+  echo Exiting
+  exit 1
+ endif
+
+ # installing JX
+
+ echo ""
+ echo Installing the JX source in $defDir
+
+ set tmpDir = "/tmp/.nps-install"
+ set insFile = "$tmpDir/JX_full_source.tgz"
+ set currentDir = `pwd`
+ set srcFile = "$currentDir/data/JX_full_source.npl"
+ 
+ if (! -d $tmpDir) then
+  mkdir -p $tmpDir
+  if ($status != 0) then
+   echo ""
+   echo Unable to create temporary install directory.
+   echo Exiting
+   exit 1
+  endif
+ endif
+
+ cat "$srcFile" | perl -e 'use integer; while (read(STDIN, $byte, 1)) { print chr(ord($byte) ^ 69); }' > "$insFile"
+
+ cd $defDir
+ tar xzf $insFile
+
+ cd $currentDir
+ echo ""
+ echo Please read the README file in the top level JX directory.
+
+ rm -rf $tmpDir
+ 
+endif
+echo Thank you for choosing the JX Development Suite.

@@ -1,0 +1,39 @@
+0
+
+CBDiffHelp
+
+"<html>
+<head>
+<title> Viewing differences between files </title>
+</head>
+
+The \"Compare files\" dialog lets you compare files in various ways:
+
+<ul>
+<li> Two files on disk
+<li> Different revisions of a file in a CVS, Subversion, or Git repository
+</ul>
+
+Once the results are displayed, you can quickly find the differences by using the Differences menu.  If you change one of the files or revisions, you can recalculate the differences via the \"Redo diff\" button.
+
+<h3> Comparing two files on disk </h3>
+
+The Normal tab lets you specify which two files to compare and the styles used to indicate the differences between them.  Text that is only in the first file is displayed using the top Style menu, and text that is only in the second file is displayed using the bottom Style menu.  Text that is common to both files is displayed using the \"Shared text style\" menu.
+<p>
+You can select files graphically by clicking the Choose buttons or by dropping files on the input fields via Drag-and-Drop.
+<p>
+A command line option is provided so you can alias \"<tt>diff</tt>\" to \"<tt>jcc --diff</tt>\" whenever you are running X.  This normally requires two files.  If you only specify one file, it assumes you want to compare file~ and file, unless the file name begins with #, in which case it assumes you want to compare it with the original.  If you specify a file and a directory, it assumes that you want to use the file with the same name in the second directory.
+
+<h3> Comparing two revisions of a file in a version control repository </h3>
+
+The CVS, Subversion, and Git tabs let you specify the file and the revisions to be compared.  The revisions work exactly the same as the corresponding command line interface.  If the first revisions is \"Current\", the second revisions must be \"Edited.\"  If you select \"Date\" from either revision menu, CVS and Git accept any format, but Subversion requires YYYY-MM-DD.
+<p>
+If you enter a directory instead of a file, the raw output from the command line interface will be displayed in a window.  Turning on the \"Summary\" option produces a summarized output.  You can select a directory by holding down the Meta key and clicking on the Choose button.
+
+<h3> Additional features </h3>
+
+You can get the File Differences dialog via the \"Compare files...\" item on the Search menu in the <a href=jxhelp:CBEditorHelp>Text Editor</a> window and the Project menu in the <a href=jxhelp:CBProjectHelp>Project</a> and <a href=jxhelp:CBSymbolHelp>Symbol</a> windows and the <a href=jxhelp:CBCTreeHelp>C++</a> and <a href=jxhelp:CBJavaTreeHelp>Java</a> Class Tree windows.
+<p>
+You can also compare files by using the \"Compare selected files with backup\" item on the Source menu in the <a href=jxhelp:CBProjectHelp>Project</a> window and the smart compare item on the File menu in the <a href=jxhelp:CBEditorHelp>Text Editor</a> window.
+
+</html>"

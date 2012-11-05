@@ -1,0 +1,20 @@
+#!/usr/bin/perl
+
+# usage:   character action
+# example: >  =>  $(xml-auto-complete $t)
+
+$line = $ARGV[0];
+
+# ignore PHP (<?), JSP (<%), HTML comments (<!), closing tags (</), and closed tags (/>)
+
+if ($line =~ m|<([^?%!/\s<>]+)(\s+[^<>]+)?>$| &&
+	$line !~ m|/\s*>$|)
+	{
+	$s = '</'.$1.'>';
+	print $s;
+
+	foreach (1..length($s))
+		{
+		print chr(28);
+		}
+	}
