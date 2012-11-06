@@ -121,7 +121,6 @@ CBAboutDialog::BuildWindow
 		itsHelpButton->SetLabel(JGetString("ChangeButtonLabel::CBAboutDialog"));
 		itsIsUpgradeFlag = kJTrue;
 		}
-	}
 	textWidget->SetText(text);
 
 	// Code Crusader icon

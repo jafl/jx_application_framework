@@ -7,7 +7,7 @@
 *.jup
 *L.cpp
 *Y.hpp
-*/code/*StringData.h
+programs/*/code/*StringData.h
 libj*/Makefile
 */test/Makefile
 programs/*/Makefile

@@ -87,7 +87,7 @@ main
 
 	if (displayAbout)
 		{
-		app->DisplayAbout(prevVersStr, kJFalse, kJTrue);
+		app->DisplayAbout(prevVersStr, kJTrue);
 		}
 #ifdef DISPLAY_SPLASH
 	else
