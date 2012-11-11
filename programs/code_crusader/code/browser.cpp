@@ -54,7 +54,7 @@ main
 	CBApp* app = new CBApp(&argc, argv, useMDI, &displayAbout, &prevVersStr);
 	assert( app != NULL );
 
-	if (displayAbout && prevVersStr.IsEmpty() &&
+	if (displayAbout &&
 		!(JGetUserNotification())->AcceptLicense())
 		{
 		return 0;

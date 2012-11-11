@@ -42,6 +42,12 @@ main
 	GPMApp* app = new GPMApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != NULL );
 
+	if (displayAbout &&
+		!(JGetUserNotification())->AcceptLicense())
+		{
+		return 0;
+		}
+
 	JCheckForNewerVersion(GPMGetPrefsManager(), kGPMVersionCheckID);
 
 	(GPMGetMDIServer())->HandleCmdLineOptions(argc, argv);

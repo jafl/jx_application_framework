@@ -14,15 +14,6 @@ http://www.newplanetsoftware.com/"
 VERSION_URL		"http://newplanetsoftware.com/code_mill/VERSION"
 DOWNLOAD_URL	"http://newplanetsoftware.com/nps/downloads.php"
 
-# overrides
-
-JRemindNewVersion
-"An improved version of this program ($vers) is available for download from $site.
-
-Would you like to go there now to download it?
-
-(If you do not see the new version after you log in, then the upgrade requires a new license.  You will receive a discount code via email.)"
-
 # gfgGlobals
 
 Description::gfgGlobals

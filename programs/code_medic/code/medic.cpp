@@ -52,7 +52,7 @@ main
 	CMApp* app = new CMApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != NULL );
 
-	if (displayAbout && prevVersStr.IsEmpty() &&
+	if (displayAbout &&
 		!(JGetUserNotification())->AcceptLicense())
 		{
 		return 0;

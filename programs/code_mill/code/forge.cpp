@@ -47,7 +47,7 @@ main
 	GFGApp* app = new GFGApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != NULL );
 
-	if (displayAbout && prevVersStr.IsEmpty() &&
+	if (displayAbout &&
 		!(JGetUserNotification())->AcceptLicense())
 		{
 		return 0;

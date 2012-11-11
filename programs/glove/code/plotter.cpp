@@ -52,6 +52,12 @@ main
 		new GLPlotApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != NULL );
 
+	if (displayAbout &&
+		!(JGetUserNotification())->AcceptLicense())
+		{
+		return 0;
+		}
+
 	JCheckForNewerVersion(GetPrefsMgr(), kVersionCheckID);
 
 	GLGetMDIServer()->HandleCmdLineOptions(argc, argv);

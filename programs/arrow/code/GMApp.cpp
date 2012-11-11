@@ -112,12 +112,10 @@ GMApp::GMApp
 	itsLockTasks = new JPtrArray<GLockFileTask>(JPtrArrayT::kForgetAll);
 	assert(itsLockTasks != NULL);
 
-	if (*displayAbout)
+	if (*displayAbout &&
+		!(JGetUserNotification())->AcceptLicense())
 		{
-		if (!(JGetUserNotification())->AcceptLicense())
-			{
-			exit(0);
-			}
+		exit(0);
 		}
 
 	JString home;

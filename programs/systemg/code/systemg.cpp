@@ -47,6 +47,12 @@ main
 	SyGApplication* app = new SyGApplication(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != NULL );
 
+	if (displayAbout &&
+		!(JGetUserNotification())->AcceptLicense())
+		{
+		return 0;
+		}
+
 	JCheckForNewerVersion(SyGGetPrefsMgr(), kSVersionCheckID);
 
 	(SyGGetMDIServer())->HandleCmdLineOptions(argc, argv);
