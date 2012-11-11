@@ -5,7 +5,6 @@
 *.la
 *.jst
 *.jup
-*L.cpp
 *Y.hpp
 programs/*/code/*StringData.h
 libj*/Makefile
