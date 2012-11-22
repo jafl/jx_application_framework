@@ -1,11 +1,31 @@
+JX Application Framework
+------------------------
+
+JX is a full-featured C++ application framework and widget library (SDK)
+for use with the X Window System. The power of JX stems from its rich
+feature set and extensibility which support all aspects of professional
+quality application development. The library provides a wide variety of
+widgets for use in your program's windows along with useful functionality
+that connects the widgets and windows to make complete, working software.
+The package also includes a graphical window layout editor that lets you
+quickly position and configure the widgets in each of the program's
+windows. JX is built directly on top of Xlib and has been carefully
+optimized for performance.
+
+The package also includes a complete test suite that demonstrates all of
+the features of the library and a set of tutorial programs that introduce
+the major concepts, one at a time. This provides a rich source of sample
+code, both for top level application design and for individual widget
+classes. It also shows how to extend the functionality of the library by,
+for example, creating custom tables or menus.
 
 http://www.newplanetsoftware.com/jx/
 http://www.newplanetsoftware.com/blog/
 twitter:  newplanetsw
 
-This is version 2.6.0 of the JX source distribution.  To build it, simply
-run gnu make ("make" or "gmake" on most systems) in a command line window
-in the JX-2.6.0 directory and follow the instructions that are printed.
+To build the libraries and programs, simply run GNU make ("make" or "gmake"
+on most systems) in a command line window inside the JX directory and
+follow the instructions that are printed.
 
 If you are new to the JX Application Framework, then it is important to
 understand that it is not a program that you can run.  Rather, it is a set
@@ -19,15 +39,15 @@ New Planet Software         MicroSoft          MetroWerks
 Code Crusader/Code Medic    Visual Studio      CodeWarrior
 jx_project_wizard           Project Wizards    Project Wizards
 JX Application Framework    MFC                PowerPlant
-JX-2.6.0/tutorials/         MSDN               Sample code
-JX-2.6.0/libjx/test/        MSDN               Sample code
+JX/tutorials/               MSDN               Sample code
+JX/libjx/test/              MSDN               Sample code
 
 In this directory, you will find:
 
 README               This file
 INSTALL              Instructions for compiling and installing this package
 FAQ                  List of Frequently Asked Questions
-LICENSE              License information for JCore, JX, and the libs they use
+LICENSE              License information
 CHANGES              Describes changes from previous versions
 
 tutorial             Tutorial source code demonstrating JX library
@@ -48,16 +68,29 @@ libjx
   test               Sample application demonstrating JX library
 
 programs
+  arrow              (Obsolete) Email client
+  buzzer             (Obsolete) Manages notes and todo lists
+  code_crusader      IDE
+  code_medic         Debugger
+  code_mill          C++ class generator
   compile_jstrings   Compiles string database files for use with JX
+  drakon             UNIX process manager
+  glove              Data analysis
   jx_memory_debugger Graphical display and inspection of memory usage
   jx_project_wizard  Wizard to create skeleton JX application
                      and project file for use in Code Crusader 
   jxlayout           Graphical window layout editor
+  leibnitz           Electronic paper for calculations and graphing
   makemake           Builds Makefile from Make.files and Make.header
+  mondrian           (Unfinished) Graphical layout builder
   ssh_askpass        Replacement for x11-ssh-askpass
+  svn_client         Subversion client
+  symcir             Linear circuit analysis
+  systemg            Graphical file manager
+  webgif             Utility program for working with gifs
+  wizwar             (Unfinished) Network game based on WizWar
 
 ACE
-  ACE_wrappers       Header files for the ACE library
   test               Sample source for using ACE library
 
 misc
@@ -70,23 +103,12 @@ misc
 Please read the LICENSE file for the conditions under which the source is
 provided.
 
-The code has been thoroughly tested on Linux and Solaris.  Bizzare behavior
+The code has been thoroughly tested on Linux and OS X.  Bizzare behavior
 and crashes may be the result of broken system libraries.  We am willing to
 work with you to solve such problems, so please don't hesitate to contact
 us, but since we don't have access to your system, the burden of proof must
 rest on you if a system call that works fine on all other systems doesn't
 work for you.
-
-To help reduce our email load, please always check the JX web site before
-sending us a bug report because we might already know about it and have
-posted a fix.  Suggestions are always welcome because they help us decide
-what is most important, so we know what to implement next, but please check
-the Bazaar Projects page first to check if somebody else is already working
-on it.
-
-The main web page for JX is:
-
-    http://www.newplanetsoftware.com/jx/
 
 It is also important to realize that we do not maintain ACE.  You are
 welcome to contact us if you have problems compiling it, but the ACE
