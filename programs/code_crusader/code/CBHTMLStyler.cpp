@@ -20,8 +20,9 @@
 
 CBHTMLStyler* CBHTMLStyler::itsSelf = NULL;
 
-const JFileVersion kCurrentTypeListVersion = 5;
+const JFileVersion kCurrentTypeListVersion = 6;
 
+	// version 6 inserts kMustacheCommand after kHTMLComment (5)
 	// version 5 inserts kJSPStartEnd, kJSPComment, kJavaID,
 	//					 kJavaReservedKeyword, kJavaBuiltInDataType,
 	//					 kJavaOperator, kJavaDelimiter, kJavaString,
@@ -45,6 +46,10 @@ static const JCharacter* kTypeNames[] =
 	"HTML script",
 	"HTML special character",
 	"HTML comment",
+
+	// Mustache
+
+	"Mustache/Handlebars command",
 
 	// PHP
 
@@ -184,6 +189,7 @@ CBHTMLStyler::CBHTMLStyler()
 	SetTypeStyle(kHTMLComment        - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
 	SetTypeStyle(kError              - kWhitespace, JFontStyle(colormap->GetRedColor()));
 
+	InitMustacheTypeStyles();
 	InitPHPTypeStyles();
 	InitJSPTypeStyles();
 	InitJavaScriptTypeStyles();
@@ -216,6 +222,19 @@ CBHTMLStyler::~CBHTMLStyler()
 {
 	JPrefObject::WritePrefs();
 	itsSelf = NULL;
+}
+
+/******************************************************************************
+ InitMustacheTypeStyles (private)
+
+ ******************************************************************************/
+
+void
+CBHTMLStyler::InitMustacheTypeStyles()
+{
+	JColormap* colormap = GetColormap();
+
+	SetTypeStyle(kMustacheCommand - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
 }
 
 /******************************************************************************
@@ -373,6 +392,7 @@ CBHTMLStyler::Scan
 			}
 		else if (token.type == kHTMLText             ||
 				 token.type == kHTMLComment          ||
+				 token.type == kMustacheCommand      ||
 				 token.type == kPHPStartEnd          ||
 				 token.type == kPHPSingleQuoteString ||
 				 token.type == kPHPDoubleQuoteString ||
@@ -765,6 +785,11 @@ CBHTMLStyler::UpgradeTypeList
 			}
 		}
 
+	if (vers < 6)
+		{
+		typeStyles->InsertElementAtIndex(6, JFontStyle());
+		}
+
 	// set new values after all new slots have been created
 
 	if (vers < 2)
@@ -780,6 +805,11 @@ CBHTMLStyler::UpgradeTypeList
 	if (vers < 5)
 		{
 		InitJSPTypeStyles();
+		}
+
+	if (vers < 6)
+		{
+		InitMustacheTypeStyles();
 		}
 }
 

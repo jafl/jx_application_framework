@@ -16,6 +16,8 @@ Please send all bug reports and suggestions for features to
 
 Added support for terminal styling commands in Command Output and Compiler Output windows.
 <p>
+Added support for styling Mustache commands in HTML.
+<p>
 Fixed bug that sometimes caused \"Program Output\" windows to think that a process was running even after everything finished.
 <p>
 Fixed \"Compare files\" dialog to correctly display directory diffs for Subversion and Git when revisions are specified.

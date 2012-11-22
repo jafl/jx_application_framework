@@ -32,6 +32,8 @@ CBHTMLScanner::GetCurrentLexerState()
 %x TAG_STATE SCRIPT_STATE CHAR_ESC_STATE
 %x QUOTED_ATTR_VALUE_STATE
 
+%x MUSTACHE_STATE
+
 %x PHP_STATE
 %x PHP_QUOTED_VARIABLE_STATE PHP_CPP_COMMENT_STATE
 %x PHP_SINGLE_STRING_STATE PHP_DOUBLE_STRING_STATE PHP_HEREDOC_STRING_STATE
@@ -150,6 +152,11 @@ JS_BADHEX     (0[xX][0-9A-Fa-f]{9,})
 	return ThisToken(kHTMLEmptyTag);
 	}
 
+"{{"\{? {
+	StartToken();
+	BEGIN(MUSTACHE_STATE);
+	}
+
 {PHPSTART} {
 	yyless(0);
 	yy_push_state(PHP_STATE);
@@ -175,7 +182,8 @@ JS_BADHEX     (0[xX][0-9A-Fa-f]{9,})
 	yy_push_state(CHAR_ESC_STATE);
 	}
 
-[^<&]+ {
+[^<&{]+ |
+"{"     {
 	StartToken();
 	return ThisToken(kHTMLText);
 	}
@@ -705,6 +713,32 @@ euro;?     {
 	const Token t = ThisToken(kHTMLNamedCharacter);
 	itsCurrentRange.SetToEmptyAt(itsCurrentRange.last+1);	/* req'd when reentering tag */
 	return t;
+	}
+
+}
+
+
+
+	/* Match Mustache command */
+
+
+
+<MUSTACHE_STATE>{
+
+"}}"\}? {
+	ContinueToken();
+	BEGIN(INITIAL);
+	return ThisToken(kMustacheCommand);
+	}
+
+[^}]+ |
+"}"   {
+	ContinueToken();
+	}
+
+<<EOF>> {
+	BEGIN(INITIAL);
+	return ThisToken(kMustacheCommand);
 	}
 
 }

@@ -53,6 +53,10 @@ public:
 		kHTMLNamedCharacter,
 		kHTMLComment,
 
+		// Mustache
+
+		kMustacheCommand,
+
 		// PHP
 
 		kPHPStartEnd,
@@ -258,12 +262,8 @@ operator==
 	const CBHTMLScanner::Token& t2
 	)
 {
-	return ( t1.type == t2.type
-	         &&
-	            (
-	               t1.range == t2.range || t1.type == CBHTMLScanner::kEOF
-	            )
-	       );
+	return (t1.type == t2.type &&
+			(t1.range == t2.range || t1.type == CBHTMLScanner::kEOF));
 }
 
 inline int

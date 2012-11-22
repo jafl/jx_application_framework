@@ -43,6 +43,7 @@ private:
 
 private:
 
+	void		InitMustacheTypeStyles();
 	void		InitPHPTypeStyles();
 	void		InitJSPTypeStyles();
 	void		InitJavaScriptTypeStyles();
