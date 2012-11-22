@@ -26,7 +26,7 @@ SEARCHDIRS := -I${CODEDIR} \
 # other constants
 
 PROG_NAME         := nps_svn_client
-PROG_VERSION      := 1.1.0
+PROG_VERSION      := 1.2.0
 SIGNATURE         := nps_svn_client
 PROG_STRING_FILES := ${filter-out %/${PROG_NAME}_menu_strings, \
                       ${shell echo strings/*}}
