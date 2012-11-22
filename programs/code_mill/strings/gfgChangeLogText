@@ -13,6 +13,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 1.0.5 </h3>
+
+Released under GPL.
+
 <h3> 1.0.4</h3>
 
 Work around for strange X11 behavior that could cause Code Crusader to hang when run for the first time.
