@@ -19,9 +19,9 @@ code, both for top level application design and for individual widget
 classes. It also shows how to extend the functionality of the library by,
 for example, creating custom tables or menus.
 
-http://www.newplanetsoftware.com/jx/
-http://www.newplanetsoftware.com/blog/
-twitter:  newplanetsw
+* http://www.newplanetsoftware.com/jx/
+* http://www.newplanetsoftware.com/blog/
+* twitter:  newplanetsw
 
 To build the libraries and programs, simply run GNU make ("make" or "gmake"
 on most systems) in a command line window inside the JX directory and
@@ -34,6 +34,7 @@ a graphical interface.  If you are familiar with either MicroSoft Visual
 Studio or MetroWerks CodeWarrior, then the equivalent components are as
 follows:
 
+```
 New Planet Software         MicroSoft          MetroWerks
 -------------------         ---------          ----------
 Code Crusader/Code Medic    Visual Studio      CodeWarrior
@@ -41,9 +42,11 @@ jx_project_wizard           Project Wizards    Project Wizards
 JX Application Framework    MFC                PowerPlant
 JX/tutorials/               MSDN               Sample code
 JX/libjx/test/              MSDN               Sample code
+```
 
 In this directory, you will find:
 
+```
 README               This file
 INSTALL              Instructions for compiling and installing this package
 FAQ                  List of Frequently Asked Questions
@@ -98,7 +101,7 @@ misc
   png                PNG library (new libgd)
   xpm                XPM library (libXpm)
   win32              Partial port to Windows
-
+```
 
 Please read the LICENSE file for the conditions under which the source is
 provided.
