@@ -21,7 +21,7 @@ for example, creating custom tables or menus.
 
 * http://www.newplanetsoftware.com/jx/
 * http://www.newplanetsoftware.com/blog/
-* twitter:  newplanetsw
+* twitter: @newplanetsw
 
 To build the libraries and programs, simply run GNU make ("make" or "gmake"
 on most systems) in a command line window inside the JX directory and
