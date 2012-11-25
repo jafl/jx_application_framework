@@ -407,6 +407,10 @@ libXft
 	Symbol
 		Figure out how to use tt version -- this will also fix printing
 
+ASIO
+	http://think-async.com/Asio
+	lightweight networking library
+
 -----
 
 UTF-8
