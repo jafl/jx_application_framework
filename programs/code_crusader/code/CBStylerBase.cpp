@@ -139,22 +139,28 @@ JIndex i;
 
 	JBoolean active;
 	input >> active;
-	SetActive(active);
 
 	// type styles
 
-	itsTypeStyles->RemoveAll();
+	JArray<JFontStyle> typeStyles;
 
 	JSize typeCount;
 	input >> typeCount;
 
 	for (i=1; i<=typeCount; i++)
 		{
-		itsTypeStyles->AppendElement(ReadStyle(input));
+		typeStyles.AppendElement(ReadStyle(input));
 		}
 
 	JFileVersion typeListVers;
 	input >> typeListVers;
+	if (typeListVers > itsTypeNameVersion)
+		{
+		return;
+		}
+
+	SetActive(active);
+	*itsTypeStyles = typeStyles;
 	UpgradeTypeList(typeListVers, itsTypeStyles);
 	assert( itsTypeStyles->GetElementCount() == itsTypeNameCount );
 
