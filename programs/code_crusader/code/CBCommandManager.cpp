@@ -1203,7 +1203,7 @@ static const DefCmd kDefCmd[] =
 	{ "@", "svn info $file_name; svn log $file_name",
 		"",
 		kJFalse, kJTrue, kJFalse, kJTrue, kJTrue, kJTrue, kJFalse,
-		"DefCmdSVNResolveText::CBCommandManager", "DefCmdVCSCheckOutShortcut::CBCommandManager",
+		"DefCmdSVNInfoText::CBCommandManager", "DefCmdVCSInfoShortcut::CBCommandManager",
 		kJFalse },
 	{ "@", "svn resolved $file_name",
 		"",

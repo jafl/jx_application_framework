@@ -266,6 +266,9 @@ DefCmdVCSUpdateAllShortcut::CBCommandManager	"Meta-@"
 DefCmdSVNStatusText::CBCommandManager			"SVN status"
 DefCmdVCSStatusShortcut::CBCommandManager		""
 
+DefCmdSVNInfoText::CBCommandManager				"SVN info"
+DefCmdVCSInfoShortcut::CBCommandManager			""
+
 DefCmdCVSDiffAllText::CBCommandManager			"CVS diff summary"
 DefCmdSVNDiffAllText::CBCommandManager			"SVN diff summary"
 DefCmdGitDiffAllText::CBCommandManager			"Git status"
