@@ -313,6 +313,7 @@ SyGFileTreeTable::SyGFileTreeTable
 	itsChooseDiskFormatDialog	= NULL;
 	itsFormatProcess			= NULL;
 	itsCreateGitBranchDialog	= NULL;
+	itsFetchGitBranchDialog     = NULL;
 	itsCommitGitBranchDialog	= NULL;
 	itsGitProcess				= NULL;
 	itsIconWidget				= NULL;
@@ -2076,7 +2077,7 @@ SyGFileTreeTable::Receive
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
-		FetchRemoteGitBranch(itsGitRemoteBranchMenu->GetItemText(selection->GetIndex()));
+		FetchRemoteGitBranch1(itsGitRemoteBranchMenu->GetItemText(selection->GetIndex()));
 		}
 	else if (sender == itsGitRemoveBranchMenu && message.Is(JXMenu::kItemSelected))
 		{
@@ -2167,6 +2168,19 @@ SyGFileTreeTable::Receive
 			CreateGitBranch(itsCreateGitBranchDialog->GetString());
 			}
 		itsCreateGitBranchDialog = NULL;
+		}
+
+	else if (sender == itsFetchGitBranchDialog &&
+			 message.Is(JXDialogDirector::kDeactivated))
+		{
+		const JXDialogDirector::Deactivated* info =
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+		assert(info != NULL);
+		if (info->Successful())
+			{
+			FetchRemoteGitBranch2(itsFetchGitBranchDialog->GetString());
+			}
+		itsFetchGitBranchDialog = NULL;
 		}
 
 	else if (sender == itsCommitGitBranchDialog &&
@@ -3916,7 +3930,7 @@ SyGFileTreeTable::HandleGitMenu
 			{
 			itsCommitGitBranchDialog =
 				new JXGetStringDialog((GetWindow())->GetDirector(), JGetString("CommitBranchTitle::SyGFileTreeTable"),
-									  JGetString("CommitBranchPrompt::SyGFileTreeTable"), "");
+									  JGetString("CommitBranchPrompt::SyGFileTreeTable"));
 			assert( itsCommitGitBranchDialog != NULL );
 			itsCommitGitBranchDialog->Activate();
 			ListenTo(itsCommitGitBranchDialog);
@@ -3935,7 +3949,7 @@ SyGFileTreeTable::HandleGitMenu
 		{
 		itsCreateGitBranchDialog =
 			new JXGetStringDialog((GetWindow())->GetDirector(), JGetString("CreateBranchTitle::SyGFileTreeTable"),
-								  JGetString("CreateBranchPrompt::SyGFileTreeTable"), "");
+								  JGetString("CreateBranchPrompt::SyGFileTreeTable"));
 		assert( itsCreateGitBranchDialog != NULL );
 		itsCreateGitBranchDialog->Activate();
 		ListenTo(itsCreateGitBranchDialog);
@@ -4170,12 +4184,12 @@ SyGFileTreeTable::MergeFromGitBranch
 }
 
 /******************************************************************************
- FetchRemoteGitBranch (private)
+ FetchRemoteGitBranch1 (private)
 
  ******************************************************************************/
 
 void
-SyGFileTreeTable::FetchRemoteGitBranch
+SyGFileTreeTable::FetchRemoteGitBranch1
 	(
 	const JString& branch
 	)
@@ -4193,12 +4207,35 @@ SyGFileTreeTable::FetchRemoteGitBranch
 		name = branch;
 		}
 
+	itsFetchGitBranch = branch;
+
+	itsFetchGitBranchDialog =
+		new JXGetStringDialog((GetWindow())->GetDirector(), JGetString("FetchBranchTitle::SyGFileTreeTable"),
+							  JGetString("FetchBranchPrompt::SyGFileTreeTable"), name);
+	assert( itsFetchGitBranchDialog != NULL );
+	itsFetchGitBranchDialog->Activate();
+	ListenTo(itsFetchGitBranchDialog);
+}
+
+/******************************************************************************
+ FetchRemoteGitBranch2 (private)
+
+ ******************************************************************************/
+
+void
+SyGFileTreeTable::FetchRemoteGitBranch2
+	(
+	const JString& name
+	)
+{
+	assert( itsGitProcess == NULL );
+
 	JString cmd =
 		"xterm -T 'Fetch branch $name' "
 			"-e '( git checkout -b $name $branch ) | less'";
 
 	const JString nameArg   = JPrepArgForExec(name);
-	const JString branchArg = JPrepArgForExec(branch);
+	const JString branchArg = JPrepArgForExec(itsFetchGitBranch);
 
 	JSubstitute subst;
 	subst.DefineVariable("name", nameArg);

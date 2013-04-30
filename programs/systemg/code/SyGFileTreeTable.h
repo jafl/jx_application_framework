@@ -187,6 +187,8 @@ private:
 	JProcess*			itsFormatProcess;			// NULL unless formatting
 
 	JXGetStringDialog*	itsCreateGitBranchDialog;	// NULL unless creating branch
+	JXGetStringDialog*	itsFetchGitBranchDialog;	// NULL unless creating branch
+	JString				itsFetchGitBranch;
 	JXGetStringDialog*	itsCommitGitBranchDialog;	// NULL unless committing branch
 	JProcess*			itsGitProcess;				// NULL unless waiting for git
 
@@ -263,7 +265,8 @@ private:
 
 	void	SwitchToGitBranch(const JString& branch);
 	void	MergeFromGitBranch(const JString& branch);
-	void	FetchRemoteGitBranch(const JString& branch);
+	void	FetchRemoteGitBranch1(const JString& branch);
+	void	FetchRemoteGitBranch2(const JString& name);
 	void	PullBranch(const JString& repo);
 	void	PushBranch(const JString& repo);
 	void	RemoveGitBranch(const JString& branch);
