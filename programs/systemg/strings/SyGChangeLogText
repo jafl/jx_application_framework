@@ -12,6 +12,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 2.4.7 </h3>
+
+Now asks for local name when fetching a remote git branch.
+
 <h3> 2.4.6 </h3>
 
 Fixed bug so you can move unmanaged directories within a Subversion directory tree.
