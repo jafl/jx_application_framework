@@ -20,8 +20,9 @@
 
 CBHTMLStyler* CBHTMLStyler::itsSelf = NULL;
 
-const JFileVersion kCurrentTypeListVersion = 6;
+const JFileVersion kCurrentTypeListVersion = 7;
 
+	// version 7 inserts kCDATABlock after kHTMLComment (5)
 	// version 6 inserts kMustacheCommand after kHTMLComment (5)
 	// version 5 inserts kJSPStartEnd, kJSPComment, kJavaID,
 	//					 kJavaReservedKeyword, kJavaBuiltInDataType,
@@ -46,6 +47,7 @@ static const JCharacter* kTypeNames[] =
 	"HTML script",
 	"HTML special character",
 	"HTML comment",
+	"CDATA block",
 
 	// Mustache
 
@@ -392,6 +394,7 @@ CBHTMLStyler::Scan
 			}
 		else if (token.type == kHTMLText             ||
 				 token.type == kHTMLComment          ||
+				 token.type == kCDATABlock           ||
 				 token.type == kMustacheCommand      ||
 				 token.type == kPHPStartEnd          ||
 				 token.type == kPHPSingleQuoteString ||
@@ -786,6 +789,11 @@ CBHTMLStyler::UpgradeTypeList
 		}
 
 	if (vers < 6)
+		{
+		typeStyles->InsertElementAtIndex(6, JFontStyle());
+		}
+
+	if (vers < 7)
 		{
 		typeStyles->InsertElementAtIndex(6, JFontStyle());
 		}

@@ -32,7 +32,7 @@ CBHTMLScanner::GetCurrentLexerState()
 %x TAG_STATE SCRIPT_STATE CHAR_ESC_STATE
 %x QUOTED_ATTR_VALUE_STATE
 
-%x MUSTACHE_STATE
+%x CDATA_STATE MUSTACHE_STATE
 
 %x PHP_STATE
 %x PHP_QUOTED_VARIABLE_STATE PHP_CPP_COMMENT_STATE
@@ -150,6 +150,11 @@ JS_BADHEX     (0[xX][0-9A-Fa-f]{9,})
 "<>" {
 	StartToken();
 	return ThisToken(kHTMLEmptyTag);
+	}
+
+"<![CDATA[" {
+	StartToken();
+	BEGIN(CDATA_STATE);
 	}
 
 "{{"\{? {
@@ -346,6 +351,33 @@ JS_BADHEX     (0[xX][0-9A-Fa-f]{9,})
 	return ScriptToken();
 	}
 
+{PHPSTART} {
+	yyless(0);
+	yy_push_state(PHP_STATE);
+	if (!itsCurrentRange.IsEmpty())	/* may come directly from ESC/PHP */
+		{
+		return ScriptToken();
+		}
+	}
+
+{JSPSTART} {
+	yyless(0);
+	yy_push_state(JSP_STATE);
+	if (!itsCurrentRange.IsEmpty())	/* may come directly from ESC/JSP */
+		{
+		return ScriptToken();
+		}
+	}
+
+{JSP_COMMENT} {
+	yyless(0);
+	yy_push_state(JSP_HTML_COMMENT_STATE);
+	if (!itsCurrentRange.IsEmpty())	/* may come directly from ESC/JSP */
+		{
+		return ScriptToken();
+		}
+	}
+
 [^<]+ |
 "<"   {
 	ContinueToken();
@@ -354,6 +386,60 @@ JS_BADHEX     (0[xX][0-9A-Fa-f]{9,})
 <<EOF>> {
 	BEGIN(INITIAL);
 	return ScriptToken();
+	}
+
+}
+
+
+
+	/* Match CDATA */
+
+
+
+<CDATA_STATE>{
+
+"]]>" {
+	ContinueToken();
+	BEGIN(INITIAL);
+	return ThisToken(kCDATABlock);
+	}
+
+{PHPSTART} {
+	yyless(0);
+	yy_push_state(PHP_STATE);
+	if (!itsCurrentRange.IsEmpty())	/* may come directly from ESC/PHP */
+		{
+		return ThisToken(kCDATABlock);
+		}
+	}
+
+{JSPSTART} {
+	yyless(0);
+	yy_push_state(JSP_STATE);
+	if (!itsCurrentRange.IsEmpty())	/* may come directly from ESC/JSP */
+		{
+		return ThisToken(kCDATABlock);
+		}
+	}
+
+{JSP_COMMENT} {
+	yyless(0);
+	yy_push_state(JSP_HTML_COMMENT_STATE);
+	if (!itsCurrentRange.IsEmpty())	/* may come directly from ESC/JSP */
+		{
+		return ThisToken(kCDATABlock);
+		}
+	}
+
+[^]<]+ |
+"]"    |
+"<"    {
+	ContinueToken();
+	}
+
+<<EOF>> {
+	BEGIN(INITIAL);
+	return ThisToken(kCDATABlock);
 	}
 
 }

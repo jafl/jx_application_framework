@@ -52,6 +52,7 @@ public:
 		kHTMLScript,
 		kHTMLNamedCharacter,
 		kHTMLComment,
+		kCDATABlock,
 
 		// Mustache
 
