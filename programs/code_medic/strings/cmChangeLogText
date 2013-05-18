@@ -12,6 +12,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 3.3.1 </h3>
+
+Updated variable parser to accept completely blank value.
+
 <h3> 3.3 </h3>
 
 Enabled \"Examine memory\" and \"Disassemble memory\" items on Debug menu.  Both now display a modeless window for examining memory at an arbitrary expression in several ways: hex dump, character dump, or assembly code.

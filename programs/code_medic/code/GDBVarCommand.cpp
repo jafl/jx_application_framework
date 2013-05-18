@@ -63,7 +63,7 @@ GDBVarCommand::HandleSuccess
 
 	JIndexRange r;
 	prefixPattern.SetSingleLine();
-	if (prefixPattern.Match(data, &r))
+	if (prefixPattern.Match(s, &r))
 		{
 		s.RemoveSubstring(r);
 		SetData(s);

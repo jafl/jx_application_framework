@@ -307,6 +307,19 @@ node :
 
 		delete $1;
 		}
+
+	| name_eq
+		{
+		if ($1->EndsWith("="))
+			{
+			$1->RemoveSubstring($1->GetLength(), $1->GetLength());
+			$1->TrimWhitespace();
+			}
+		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(NULL, *$1, NULL, "<nothing>");
+		itsIsPointerFlag = kJFalse;
+
+		delete $1;
+		}
 	;
 
 name_eq :

@@ -30,7 +30,7 @@ SEARCHDIRS := -I${CODEDIR} \
 
 # other constants
 
-MEDIC_VERSION      := 3.3.0
+MEDIC_VERSION      := 3.3.1
 SIGNATURE          := medic
 MEDIC_STRING_FILES := ${filter-out %/medic_menu_strings, \
                         ${shell echo strings/*}}
