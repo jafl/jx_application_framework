@@ -1865,21 +1865,8 @@ CBDiffFileDialog::BuildGitDiffCmd
 
 	// git show must be run with path relative to repo root
 
-	JString gitRoot, p = path, n;
-	do
-		{
-		n = JCombinePathAndName(p, ".git");
-		if (JDirectoryExists(n))
-			{
-			gitRoot = p;
-			break;
-			}
-
-		JSplitPathAndName(p, &p, &n);
-		}
-		while (!JIsRootDirectory(p));
-
-	if (gitRoot.IsEmpty())
+	JString gitRoot;
+	if (!JSearchGitRoot(path, &gitRoot))
 		{
 		return kJFalse;
 		}
@@ -1967,7 +1954,7 @@ CBDiffFileDialog::BuildGitDiffCmd
 			*name1 += get1Rev;
 			}
 
-		n = JPrepArgForExec(gitFile);
+		const JString n = JPrepArgForExec(gitFile);
 
 		*get1Cmd  = "git show ";
 		*get1Cmd += JPrepArgForExec(get1Rev);
@@ -2022,21 +2009,8 @@ CBDiffFileDialog::BuildGitDiffDirectoryCmd
 
 	// git show must be run with path relative to repo root
 
-	JString gitRoot, p = path, n;
-	do
-		{
-		n = JCombinePathAndName(p, ".git");
-		if (JDirectoryExists(n))
-			{
-			gitRoot = p;
-			break;
-			}
-
-		JSplitPathAndName(p, &p, &n);
-		}
-		while (!JIsRootDirectory(p));
-
-	if (gitRoot.IsEmpty())
+	JString gitRoot;
+	if (!JSearchGitRoot(path, &gitRoot))
 		{
 		return kJFalse;
 		}

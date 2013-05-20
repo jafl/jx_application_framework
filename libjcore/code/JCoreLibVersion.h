@@ -29,6 +29,7 @@ static const char* kCurrentJCoreLibVersionStr = "3.0.0";
 //		Added JCompareUInt64().
 //	jVCSUtil:
 //		Fixed JIsManagedByVCS() to return type=kJUnknownVCSType if not managed.
+//		Added JSearchGitRoot().
 //	JTextEditor:
 //		Fixed TEHandleKeyPress() so deleteToTabStop only applies to complete tabstops.
 //			(Deleting space inside prose should always only delete one space at a time.)

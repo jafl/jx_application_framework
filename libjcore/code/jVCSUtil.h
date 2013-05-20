@@ -54,4 +54,8 @@ JBoolean	JGetSVNEntryType(const JCharacter* url, JString* type, JString* error);
 
 void		JUpdateCVSIgnore(const JCharacter* ignoreFullName);
 
+// git specific
+
+JBoolean	JSearchGitRoot(const JCharacter* path, JString* gitRoot);
+
 #endif

@@ -109,17 +109,10 @@ JGetVCSType
 
 	// check git last, since it needs to search directory tree up to root
 
-	do
-		{
-		vcsDir = JCombinePathAndName(p, kGitDirName);
-		if (JDirectoryExists(vcsDir))
-			{
-			return kJGitType;
-			}
-
-		JSplitPathAndName(p, &p, &n);
-		}
-		while (!JIsRootDirectory(p));
+	if (JSearchGitRoot(p, &n))
+	{
+		return kJGitType;
+	}
 
 	return kJUnknownVCSType;
 }
@@ -665,6 +658,44 @@ JUpdateCVSIgnore
 		ofstream output(cvsFile);
 		cvsData.Print(output);
 		}
+}
+
+/******************************************************************************
+ JSearchGitRoot
+
+	Search directory tree up to root.
+
+ ******************************************************************************/
+
+JBoolean
+JSearchGitRoot
+	(
+	const JCharacter*	path,
+	JString*			gitRoot
+	)
+{
+	JString p = path, n;
+	if (JFileExists(path) ||
+		!JDirectoryExists(path))	// broken link
+		{
+		JSplitPathAndName(path, &p, &n);
+		}
+
+	do
+		{
+		n = JCombinePathAndName(p, kGitDirName);
+		if (JDirectoryExists(n))
+			{
+			*gitRoot = p;
+			return kJTrue;
+			}
+
+		JSplitPathAndName(p, &p, &n);
+		}
+		while (!JIsRootDirectory(p));
+
+	gitRoot->Clear();
+	return kJFalse;
 }
 
 /******************************************************************************
