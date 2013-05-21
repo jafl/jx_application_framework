@@ -1374,7 +1374,7 @@ ApplyOptions
 							JString jxColor;
 							if (ConvertXFormsColor(*value, &jxColor))
 								{
-								output << "    ";
+								output << indent;
 								varName.Print(output);
 								output << "->";
 								function.Print(output);
@@ -1405,13 +1405,13 @@ ApplyOptions
 		JString fontName = JGetDefaultFontName();
 		if (flStyle.Contains("FIXED"))
 			{
-			output << "    ";
+			output << indent;
 			varName.Print(output);
 			output << "->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());" << endl;
 			}
 		else if (flStyle.Contains("TIMES"))
 			{
-			output << "    ";
+			output << indent;
 			varName.Print(output);
 			output << "->SetFontName(\"Times\");" << endl;
 			}
@@ -1421,7 +1421,7 @@ ApplyOptions
 			JString jxSize;
 			if (ConvertXFormsFontSize(flSize, &jxSize))
 				{
-				output << "    ";
+				output << indent;
 				varName.Print(output);
 				output << "->SetFontSize(";
 				jxSize.Print(output);
@@ -1473,7 +1473,7 @@ ApplyOptions
 				jxColor.Print(output);
 				output << ");" << endl;
 
-				output << "    ";
+				output << indent;
 				varName.Print(output);
 				output << "->SetFontStyle(";
 				varName.Print(output);

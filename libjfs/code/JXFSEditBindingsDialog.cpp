@@ -195,7 +195,7 @@ JXFSEditBindingsDialog::BuildWindow()
 		new JXStaticText(JGetString("obj1_JXLayout::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 130,370, 360,20);
 	assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetFontSize(8);
+	obj1_JXLayout->SetFontSize(8);
 	obj1_JXLayout->SetToLabel();
 
 	itsDefCmd =
@@ -218,7 +218,7 @@ JXFSEditBindingsDialog::BuildWindow()
 		new JXStaticText(JGetString("obj3_JXLayout::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 140,270, 350,20);
 	assert( obj3_JXLayout != NULL );
-    obj3_JXLayout->SetFontSize(8);
+	obj3_JXLayout->SetFontSize(8);
 	obj3_JXLayout->SetToLabel();
 
 	JXStaticText* obj4_JXLayout =

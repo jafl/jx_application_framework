@@ -118,7 +118,7 @@ SyGEditPrefsDialog::BuildWindow
 		new JXStaticText(JGetString("obj3_JXLayout::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 155,230, 300,20);
 	assert( obj3_JXLayout != NULL );
-    obj3_JXLayout->SetFontSize(8);
+	obj3_JXLayout->SetFontSize(8);
 	obj3_JXLayout->SetToLabel();
 
 	itsDelCB =
@@ -135,7 +135,7 @@ SyGEditPrefsDialog::BuildWindow
 		new JXStaticText(JGetString("obj4_JXLayout::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,90, 310,20);
 	assert( obj4_JXLayout != NULL );
-    obj4_JXLayout->SetFontSize(8);
+	obj4_JXLayout->SetFontSize(8);
 	obj4_JXLayout->SetToLabel();
 
 	JXStaticText* obj5_JXLayout =
@@ -148,7 +148,7 @@ SyGEditPrefsDialog::BuildWindow
 		new JXStaticText(JGetString("obj6_JXLayout::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 215,320, 240,20);
 	assert( obj6_JXLayout != NULL );
-    obj6_JXLayout->SetFontSize(8);
+	obj6_JXLayout->SetFontSize(8);
 	obj6_JXLayout->SetToLabel();
 
 	JXStaticText* obj7_JXLayout =
@@ -182,7 +182,7 @@ SyGEditPrefsDialog::BuildWindow
 		new JXStaticText(JGetString("obj9_JXLayout::SyGEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,40, 410,20);
 	assert( obj9_JXLayout != NULL );
-    obj9_JXLayout->SetFontSize(8);
+	obj9_JXLayout->SetFontSize(8);
 	obj9_JXLayout->SetToLabel();
 
 	itsFolderPrefsCB =
