@@ -97,11 +97,16 @@ DefaultBindingList-OSX::JFSBindingList
 \".mpg\"  \"open\" p T
 \".mpeg\" \"open\" p T
 
-\".doc\" \"open\" p F
-\".pdf\" \"open\" p F
-\".ps\"  \"open\" p T
-\".eps\" \"open\" p T
-\".txt\" \"jcc\"  p F
+\".doc\"  \"open\" p F
+\".docx\" \"open\" p F
+\".xls\"  \"open\" p F
+\".xlsx\" \"open\" p F
+\".ppt\"  \"open\" p F
+\".pptx\" \"open\" p F
+\".pdf\"  \"open\" p F
+\".ps\"   \"open\" p T
+\".eps\"  \"open\" p T
+\".txt\"  \"jcc\"  p F
 
 \".jcc\"  \"jcc\" p F
 \".jst\"  \"jcc\" p F
@@ -117,11 +122,6 @@ DefaultBindingList-OSX::JFSBindingList
 
 \".mws\" \"open\"  p F
 \".glv\" \"glove\" p F
-
-\".doc\" \"open\"  p F
-\".docx\" \"open\" p F
-\".xls\" \"open\"  p F
-\".xlsx\" \"open\" p F
 
 \".gz\"  \"gunzip\"            p F
 \".Z\"   \"uncompress\"        p F
