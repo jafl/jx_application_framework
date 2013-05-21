@@ -118,6 +118,11 @@ DefaultBindingList-OSX::JFSBindingList
 \".mws\" \"open\"  p F
 \".glv\" \"glove\" p F
 
+\".doc\" \"open\"  p F
+\".docx\" \"open\" p F
+\".xls\" \"open\"  p F
+\".xlsx\" \"open\" p F
+
 \".gz\"  \"gunzip\"            p F
 \".Z\"   \"uncompress\"        p F
 \".tar\" \"tar -tf $q | less\" w T
