@@ -135,6 +135,9 @@
 .cpp ./code/CBPythonStyler
 .cpp ./code/CBPythonScanner
 .l ./code/CBPythonScannerL
+.cpp ./code/CBRubyStyler
+.cpp ./code/CBRubyScanner
+.l ./code/CBRubyScannerL
 .cpp ./code/CBTCLStyler
 .cpp ./code/CBTCLScanner
 .l ./code/CBTCLScannerL

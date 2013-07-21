@@ -481,7 +481,7 @@ __DATA__ {
 
 <<EOF>> {
 	BEGIN(INITIAL);
-	return ThisToken(kUnterminatedRegex);
+	return ThisToken(kUnterminatedFileGlob);
 	}
 
 }

@@ -1,17 +1,17 @@
 /******************************************************************************
- CBPerlStyler.cpp
+ CBRubyStyler.cpp
 
-	Helper object for CBTextEditor that displays Perl with styles to hilight
+	Helper object for CBTextEditor that displays Ruby with styles to hilight
 	keywords, comments, etc.
 
-	BASE CLASS = CBStylerBase, CBPerlScanner
+	BASE CLASS = CBStylerBase, CBRubyScanner
 
 	Copyright © 2003 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
 #include <cbStdInc.h>
-#include "CBPerlStyler.h"
+#include "CBRubyStyler.h"
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
 #include <JRegex.h>
@@ -19,24 +19,19 @@
 #include <ctype.h>
 #include <jAssert.h>
 
-CBPerlStyler* CBPerlStyler::itsSelf = NULL;
+CBRubyStyler* CBRubyStyler::itsSelf = NULL;
 
-const JFileVersion kCurrentTypeListVersion = 3;
+const JFileVersion kCurrentTypeListVersion = 1;
 
-	// version 3 inserts kFileGlob after kTransliteration (26)
-	// version 2 inserts kReference after kPrototypeArgList (5)
-	// version 1 inserts kPrototypeArgList after kSubroutine (4)
+// version 1 inserts kWordList after kSymbol (11)
 
 static const JCharacter* kTypeNames[] =
 {
-	"Scalar identifier",
-	"List identifier",
-	"Hash identifier",
-	"Subroutine name (explicit via &)",
-	"Subroutine prototype argument list",
-	"Reference",
+	"Local variable",
+	"Instance variable",
+	"Global variable",
+	"Symbol",
 	"Reserved keyword",
-	"Bareword",
 
 	"Operator",
 	"Delimiter",
@@ -52,27 +47,18 @@ static const JCharacter* kTypeNames[] =
 	"Binary constant",
 	"Octal constant",
 	"Hexadecimal constant",
-	"Version constant",
 
-	"Regex search",
-	"Regex replace",
-	"One-shot regex search (?...?)",
-	"Compiled regex",
-	"Transliteration",
-
-	"Readline / File Glob",
+	"Regex",
 
 	"Comment",
-	"POD",
-	"Preprocessor directive",
-	"Module data",
+	"Embedded documentation",
 
 	"Detectable error"
 };
 
 const JSize kTypeCount = sizeof(kTypeNames)/sizeof(JCharacter*);
 
-static const JCharacter* kEditDialogTitle = "Edit Perl Styles";
+static const JCharacter* kEditDialogTitle = "Edit Ruby Styles";
 
 /******************************************************************************
  Instance (static)
@@ -82,13 +68,13 @@ static const JCharacter* kEditDialogTitle = "Edit Perl Styles";
 static JBoolean recursiveInstance = kJFalse;
 
 CBStylerBase*
-CBPerlStyler::Instance()
+CBRubyStyler::Instance()
 {
 	if (itsSelf == NULL && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBPerlStyler;
+		itsSelf = new CBRubyStyler;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -103,7 +89,7 @@ CBPerlStyler::Instance()
  ******************************************************************************/
 
 void
-CBPerlStyler::Shutdown()
+CBRubyStyler::Shutdown()
 {
 	delete itsSelf;
 }
@@ -113,11 +99,11 @@ CBPerlStyler::Shutdown()
 
  ******************************************************************************/
 
-CBPerlStyler::CBPerlStyler()
+CBRubyStyler::CBRubyStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
-				 kEditDialogTitle, kCBPerlStyleID, kCBPerlFT),
-	CBPerlScanner()
+				 kEditDialogTitle, kCBRubyStyleID, kCBRubyFT),
+	CBRubyScanner()
 {
 	JFontStyle blankStyle;
 	for (JIndex i=1; i<=kTypeCount; i++)
@@ -128,7 +114,6 @@ CBPerlStyler::CBPerlStyler()
 	JColormap* colormap   = GetColormap();
 	const JColorIndex red = colormap->GetRedColor();
 
-	SetTypeStyle(kPrototypeArgList   - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse));
 	SetTypeStyle(kReservedKeyword    - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
 
 	SetTypeStyle(kSingleQuoteString  - kWhitespace, JFontStyle(colormap->GetBrownColor()));
@@ -136,16 +121,10 @@ CBPerlStyler::CBPerlStyler()
 	SetTypeStyle(kHereDocString      - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
 	SetTypeStyle(kExecString         - kWhitespace, JFontStyle(colormap->GetPinkColor()));
 
-	SetTypeStyle(kRegexSearch        - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kRegexReplace       - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kOneShotRegexSearch - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
-	SetTypeStyle(kCompiledRegex      - kWhitespace, JFontStyle(colormap->GetPinkColor()));
-	SetTypeStyle(kTransliteration    - kWhitespace, JFontStyle(colormap->GetLightBlueColor()));
-	SetTypeStyle(kFileGlob           - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
+	SetTypeStyle(kRegex              - kWhitespace, JFontStyle(colormap->GetDarkGreenColor()));
 
 	SetTypeStyle(kComment            - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
-	SetTypeStyle(kPOD                - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse, colormap->GetGrayColor(50)));
-	SetTypeStyle(kPPDirective        - kWhitespace, JFontStyle(colormap->GetBlueColor()));
+	SetTypeStyle(kEmbeddedDoc        - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse, colormap->GetGrayColor(50)));
 
 	SetTypeStyle(kError              - kWhitespace, JFontStyle(red));
 
@@ -157,7 +136,7 @@ CBPerlStyler::CBPerlStyler()
 
  ******************************************************************************/
 
-CBPerlStyler::~CBPerlStyler()
+CBRubyStyler::~CBRubyStyler()
 {
 	JPrefObject::WritePrefs();
 	itsSelf = NULL;
@@ -169,7 +148,7 @@ CBPerlStyler::~CBPerlStyler()
  ******************************************************************************/
 
 void
-CBPerlStyler::Scan
+CBRubyStyler::Scan
 	(
 	istream&			input,
 	const TokenExtra&	initData
@@ -179,6 +158,7 @@ CBPerlStyler::Scan
 
 	const JString& text = GetText();
 
+	JBoolean keepGoing;
 	Token token;
 	JFontStyle style;
 	do
@@ -191,16 +171,24 @@ CBPerlStyler::Scan
 
 		// save token starts -- must set itsProbableOperatorFlag
 
-		if (token.type == kScalar            ||
-			token.type == kList              ||
-			token.type == kHash              ||
-			token.type == kSubroutine        ||
+		if (token.type == kLocalVariable     ||
+			token.type == kInstanceVariable  ||
+			token.type == kGlobalVariable    ||
+			token.type == kSymbol            ||
 			token.type == kReservedKeyword   ||
 			token.type == kSingleQuoteString ||
 			token.type == kDoubleQuoteString ||
 			token.type == kExecString)
 			{
 			SaveTokenStart(TokenExtra());
+			}
+
+		// handle special cases
+
+		if (token.type == kDoubleQuoteString ||
+			token.type == kExecString)
+			{
+			ExtendCheckRangeForString(token.range);
 			}
 
 		// set the style
@@ -214,22 +202,11 @@ CBPerlStyler::Scan
 				 token.type == kDoubleQuoteString  ||
 				 token.type == kHereDocString      ||
 				 token.type == kExecString         ||
-				 token.type == kWordList           ||
-				 token.type == kRegexSearch        ||
-				 token.type == kRegexReplace       ||
-				 token.type == kOneShotRegexSearch ||
-				 token.type == kCompiledRegex      ||
-				 token.type == kTransliteration    ||
-				 token.type == kFileGlob           ||
+				 token.type == kRegex              ||
 				 token.type == kComment            ||
-				 token.type == kPOD                ||
-				 token.type == kModuleData)
+				 token.type == kEmbeddedDoc)
 			{
 			style = GetTypeStyle(typeIndex);
-			}
-		else if (token.type == kPPDirective)
-			{
-			style = GetStyle(typeIndex, text.GetSubstring(GetPPNameRange()));
 			}
 		else if (token.type < kWhitespace)
 			{
@@ -246,40 +223,92 @@ CBPerlStyler::Scan
 			{
 			style = GetStyle(typeIndex, text.GetSubstring(token.range));
 			}
+
+		keepGoing = SetStyle(token.range, style);
+
+		if (token.type == kDoubleQuoteString ||
+			token.type == kExecString)
+			{
+			StyleEmbeddedVariables(token);
+			}
 		}
-		while (SetStyle(token.range, style));
+		while (keepGoing);
 }
 
 /******************************************************************************
- PreexpandCheckRange (virtual protected)
+ ExtendCheckRangeForString (private)
 
-	Expand checkRange if the preceding text is #[[:space:]]*
-	This catches "#lin" when typing 'e' and the token start happens
-	to be after the #.
+	There is one case where modifying a string doesn't force a restyling:
 
-	modifiedRange is the range of text that was changed.
-	deletion is kJTrue if the modification was that text was deleted.
+	"x"#{x}"
+	  ^
+	Inserting the marked character tricks JTEStyler into not continuing
+	because the style didn't change and it was at a style run boundary.
 
  ******************************************************************************/
 
 void
-CBPerlStyler::PreexpandCheckRange
+CBRubyStyler::ExtendCheckRangeForString
 	(
-	const JString&						text,
-	const JRunArray<JTextEditor::Font>&	styles,
-	const JIndexRange&					modifiedRange,
-	const JBoolean						deletion,
-	JIndexRange*						checkRange
+	const JIndexRange& tokenRange
 	)
 {
-	JIndex i = checkRange->first - 1;
-	while (i > 1 && isspace(text.GetCharacter(i)))
+	ExtendCheckRange(tokenRange.last+1);
+}
+
+/******************************************************************************
+ StyleEmbeddedVariables (private)
+
+	Called after lexing a string to mark variables that will be expanded.
+
+ ******************************************************************************/
+
+static JRegex variablePattern =      "^#\\{[^}]+\\}";
+static JRegex emptyVariablePattern = "^#\\{\\}?";
+
+void
+CBRubyStyler::StyleEmbeddedVariables
+	(
+	const Token& token
+	)
+{
+	variablePattern.SetSingleLine();
+	emptyVariablePattern.SetSingleLine();
+
+	const JString& text = GetText();
+
+	JFontStyle varStyle = GetTypeStyle(token.type - kWhitespace);
+	varStyle.underlineCount++;
+
+	JFontStyle errStyle = GetTypeStyle(kError - kWhitespace);
+	errStyle.underlineCount++;
+
+	JIndexRange r = token.range, r1, r2;
+	while (!r.IsEmpty())
 		{
-		i--;
-		}
-	if (i > 0 && text.GetCharacter(i) == '#')
-		{
-		checkRange->first = i;
+		const JCharacter c = text.GetCharacter(r.first);
+		if (c == '\\')
+			{
+			r.first++;
+			}
+		else if (c == '#')
+			{
+			r1 = r - (r.first-1);
+			if (variablePattern.MatchWithin(text.GetCString() + r.first-1, r1, &r2))
+				{
+				r2 += r.first-1;
+				AdjustStyle(r2, varStyle);
+				r.first = r2.last;
+				}
+			else if (emptyVariablePattern.MatchWithin(text.GetCString() + r.first-1, r1, &r2))
+				{
+				r2 += r.first-1;
+				AdjustStyle(r2, errStyle);
+				r.first = r2.last;
+				}
+			}
+
+		r.first++;
 		}
 }
 
@@ -289,27 +318,15 @@ CBPerlStyler::PreexpandCheckRange
  ******************************************************************************/
 
 void
-CBPerlStyler::UpgradeTypeList
+CBRubyStyler::UpgradeTypeList
 	(
 	const JFileVersion	vers,
 	JArray<JFontStyle>*	typeStyles
 	)
 {
-	JColormap* colormap = GetColormap();
-
 	if (vers < 1)
 		{
-		typeStyles->InsertElementAtIndex(5, JFontStyle(kJTrue, kJFalse, 0, kJFalse));
-		}
-
-	if (vers < 2)
-		{
-		typeStyles->InsertElementAtIndex(6, typeStyles->GetElement(1));
-		}
-
-	if (vers < 3)
-		{
-		typeStyles->InsertElementAtIndex(27, JFontStyle(colormap->GetDarkGreenColor()));
+		typeStyles->InsertElementAtIndex(12, typeStyles->GetElement(9));
 		}
 
 	// set new values after all new slots have been created

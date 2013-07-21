@@ -558,6 +558,18 @@ T
 F
 "./code/CBPythonScannerL.l"
 T
+2 "CBRubyStyler.cpp"
+F
+"./code/CBRubyStyler.cpp"
+T
+2 "CBRubyScanner.cpp"
+F
+"./code/CBRubyScanner.cpp"
+T
+2 "CBRubyScannerL.l"
+F
+"./code/CBRubyScannerL.l"
+T
 2 "CBTCLStyler.cpp"
 F
 "./code/CBTCLStyler.cpp"

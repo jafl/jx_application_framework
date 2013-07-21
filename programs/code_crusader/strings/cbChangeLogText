@@ -12,6 +12,12 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 6.4 </h3>
+
+Added syntax hilighting for Ruby.
+<p>
+Updated PHP completer to use function list from PHP 5.5.
+
 <h3> 6.3.1 </h3>
 
 Fixed HTML styler to understand CDATA and to recognize PHP and JSP code inside non-JavaScript script blocks.

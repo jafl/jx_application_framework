@@ -85,7 +85,7 @@ CBLuaCompleter::Shutdown()
 
 CBLuaCompleter::CBLuaCompleter()
 	:
-	CBStringCompleter(kCBPerlLang, kKeywordCount, kKeywordList, kJTrue)
+	CBStringCompleter(kCBLuaLang, kKeywordCount, kKeywordList, kJTrue)
 {
 }
 

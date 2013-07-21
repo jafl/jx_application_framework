@@ -168,10 +168,11 @@ static const JCharacter* kPrefsStylesMenuStr =
 	"| C#"
 	"| Eiffel"
 	"| HTML / PHP / JSP / XML"
-	"| Perl"
-	"| Python"
 	"| Java"
 	"| JavaScript"
+	"| Perl"
+	"| Python"
+	"| Ruby"
 	"| TCL";
 
 static const CBLanguage kMenuItemToLang[] =
@@ -182,10 +183,11 @@ static const CBLanguage kMenuItemToLang[] =
 	kCBCSharpLang,
 	kCBEiffelLang,
 	kCBHTMLLang,
-	kCBPerlLang,
-	kCBPythonLang,
 	kCBJavaLang,
 	kCBJavaScriptLang,
+	kCBPerlLang,
+	kCBPythonLang,
+	kCBRubyLang,
 	kCBTCLLang
 };
 

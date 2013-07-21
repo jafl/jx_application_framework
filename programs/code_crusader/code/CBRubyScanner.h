@@ -1,16 +1,16 @@
-#ifndef _H_CBPerlScanner
-#define _H_CBPerlScanner
+#ifndef _H_CBRubyScanner
+#define _H_CBRubyScanner
 
 /******************************************************************************
- CBPerlScanner.h
+ CBRubyScanner.h
 
 	Copyright © 2003 by John Lindal.  All rights reserved.
 
  *****************************************************************************/
 
-#ifndef _H_CBPerlScannerL
+#ifndef _H_CBRubyScannerL
 #undef yyFlexLexer
-#define yyFlexLexer CBPerlFlexLexer
+#define yyFlexLexer CBRubyFlexLexer
 #include <FlexLexer.h>
 #endif
 
@@ -22,11 +22,11 @@
 
 class JString;
 
-class CBPerlScanner : public CBPerlFlexLexer
+class CBRubyScanner : public CBRubyFlexLexer
 {
 public:
 
-	// these types are ordered to correspond to the type table in CBPerlStyler
+	// these types are ordered to correspond to the type table in CBRubyStyler
 
 	enum TokenType
 	{
@@ -35,27 +35,20 @@ public:
 		kBadInt,
 		kBadBinary,
 		kBadHex,
-		kEmptyVariable,
-		kUnterminatedVariable,
 		kUnterminatedString,
 		kUnterminatedRegex,
 		kUnterminatedWordList,
-		kUnterminatedTransliteration,
-		kUnterminatedFileGlob,
-		kUnterminatedPOD,
+		kUnterminatedEmbeddedDoc,
 		kIllegalChar,
 		kNonPrintChar,
 
 		kWhitespace,	// must be the one before the first item in type table
 
-		kScalar,
-		kList,
-		kHash,
-		kSubroutine,
-		kPrototypeArgList,
-		kReference,
+		kLocalVariable,
+		kInstanceVariable,
+		kGlobalVariable,
+		kSymbol,
 		kReservedKeyword,
-		kBareword,
 
 		kOperator,
 		kDelimiter,
@@ -71,22 +64,13 @@ public:
 		kBinaryInt,
 		kOctalInt,
 		kHexInt,
-		kVersion,
 
-		kRegexSearch,
-		kRegexReplace,
-		kOneShotRegexSearch,
-		kCompiledRegex,
-		kTransliteration,
-
-		kFileGlob,
+		kRegex,
 
 		kComment,
-		kPOD,
-		kPPDirective,
-		kModuleData,
+		kEmbeddedDoc,
 
-		kError			// place holder for CBPerlStyler
+		kError			// place holder for CBRubyStyler
 	};
 
 	struct Token
@@ -107,20 +91,17 @@ public:
 
 public:
 
-	CBPerlScanner();
+	CBRubyScanner();
 
-	virtual ~CBPerlScanner();
+	virtual ~CBRubyScanner();
 
 	void	BeginScan(istream& input);
 	Token	NextToken();		// written by flex
-
-	const JIndexRange&	GetPPNameRange() const;
 
 private:
 
 	JBoolean	itsResetFlag;
 	JIndexRange	itsCurrentRange;
-	JIndexRange	itsPPNameRange;
 	JBoolean	itsProbableOperatorFlag;	// kTrue if /,? are most likely operators instead of regex
 	TokenType	itsComplexVariableType;
 	JString		itsHereDocTag;
@@ -132,14 +113,12 @@ private:
 	void	ContinueToken();
 	Token	ThisToken(const TokenType type);
 
-	JBoolean	SlurpQuoted(const JSize count, const JCharacter* suffixList);
-
-	void	SavePPNameRange();
+	JBoolean	SlurpQuoted(const JCharacter* suffixList);
 
 	// not allowed
 
-	CBPerlScanner(const CBPerlScanner& source);
-	const CBPerlScanner& operator=(const CBPerlScanner& source);
+	CBRubyScanner(const CBRubyScanner& source);
+	const CBRubyScanner& operator=(const CBRubyScanner& source);
 };
 
 
@@ -149,7 +128,7 @@ private:
  *****************************************************************************/
 
 inline void
-CBPerlScanner::StartToken()
+CBRubyScanner::StartToken()
 {
 	const JIndex prevEnd = itsCurrentRange.last;
 	itsCurrentRange.Set(prevEnd+1, prevEnd+yyleng);
@@ -161,7 +140,7 @@ CBPerlScanner::StartToken()
  *****************************************************************************/
 
 inline void
-CBPerlScanner::ContinueToken()
+CBRubyScanner::ContinueToken()
 {
 	itsCurrentRange.last += yyleng;
 }
@@ -171,33 +150,13 @@ CBPerlScanner::ContinueToken()
 
  *****************************************************************************/
 
-inline CBPerlScanner::Token
-CBPerlScanner::ThisToken
+inline CBRubyScanner::Token
+CBRubyScanner::ThisToken
 	(
 	const TokenType type
 	)
 {
 	return Token(type, itsCurrentRange);
-}
-
-/******************************************************************************
- GetPPNameRange
-
-	Saves the range containing the name of the preprocessor directive.
-
-	e.g.  ...\n  #line 200 "foo"\n...
-				 ^^^^^
-
-	This is necessary because the entire line is treated as one token
-	in order to simplify the context-sensitive highlighting code.
-
- *****************************************************************************/
-
-inline const JIndexRange&
-CBPerlScanner::GetPPNameRange()
-	const
-{
-	return itsPPNameRange;
 }
 
 /******************************************************************************
@@ -212,14 +171,14 @@ CBPerlScanner::GetPPNameRange()
 inline int
 operator==
 	(
-	const CBPerlScanner::Token& t1,
-	const CBPerlScanner::Token& t2
+	const CBRubyScanner::Token& t1,
+	const CBRubyScanner::Token& t2
 	)
 {
 	return ( t1.type == t2.type
 			 &&
 				(
-				   t1.range == t2.range || t1.type == CBPerlScanner::kEOF
+				   t1.range == t2.range || t1.type == CBRubyScanner::kEOF
 				)
 		   );
 }
@@ -227,8 +186,8 @@ operator==
 inline int
 operator!=
 	(
-	const CBPerlScanner::Token& t1,
-	const CBPerlScanner::Token& t2
+	const CBRubyScanner::Token& t1,
+	const CBRubyScanner::Token& t2
 	)
 {
 	return !(t1 == t2);

@@ -22,6 +22,7 @@
 #include "CBCShellStyler.h"
 #include "CBTCLStyler.h"
 #include "CBJavaScriptStyler.h"
+#include "CBRubyStyler.h"
 
 #include "CBBisonCompleter.h"
 #include "CBCCompleter.h"
@@ -298,7 +299,7 @@ static const CBLang2Styler kLang2Styler[] =
 	{ kCBMakeLang,        NULL, NULL },
 	{ kCBPascalLang,      NULL, NULL },
 	{ kCBREXXLang,        NULL, NULL },
-	{ kCBRubyLang,        NULL, NULL },
+	{ kCBRubyLang,        &CBRubyStyler::Instance,        &CBRubyStyler::Shutdown },
 	{ kCBLexLang,         NULL, NULL },
 	{ kCBCShellLang,      &CBCShellStyler::Instance,      &CBCShellStyler::Shutdown },
 	{ kCBBisonLang,       &CBCStyler::Instance,           &CBCStyler::Shutdown },
