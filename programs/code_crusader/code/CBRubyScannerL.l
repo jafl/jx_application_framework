@@ -38,7 +38,7 @@ WS      ([ \v\t\f\r]*)
 
 KEYWORD      (__FILE__|__LINE__|BEGIN|END|alias|and|begin|break|case|class|def|defined|do|else|elsif|end|ensure|false|for|if|in|module|next|nil|not|or|redo|rescue|retry|return|self|super|then|true|undef|unless|until|when|while|yield)
 
-ID           ([_[:alpha:]][_[:alnum:]]*)
+ID           ([_[:alpha:]][_[:alnum:]]*[?!]?)
 
 
 
@@ -241,14 +241,14 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 
 
-^"="begin {
+^=begin {
 	StartToken();
 	BEGIN(EMBEDDED_DOC_STATE);
 	}
 
 <EMBEDDED_DOC_STATE>{
 
-^"=end" {
+^=end\n? {
 	ContinueToken();
 	BEGIN(INITIAL);
 	return ThisToken(kEmbeddedDoc);
