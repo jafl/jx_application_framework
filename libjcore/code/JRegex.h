@@ -403,6 +403,7 @@ JRegex::SetSingleLine
 	)
 {
 	SetCompileOption(PCRE_MULTILINE, !yesNo);
+	SetCompileOption(PCRE_DOTALL, yesNo);
 }
 
 inline JBoolean
