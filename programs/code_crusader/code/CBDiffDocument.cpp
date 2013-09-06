@@ -10,13 +10,13 @@
 #include <cbStdInc.h>
 #include "CBDiffDocument.h"
 #include "CBTextEditor.h"
+#include "cbGlobals.h"
 #include "cbHelpText.h"
 #include <JXDisplay.h>
 #include <JXWindow.h>
 #include <JXMenuBar.h>
 #include <JXTextMenu.h>
 #include <JXTextButton.h>
-#include <jXGlobals.h>
 #include <JProcess.h>
 #include <jFStreamUtil.h>
 #include <jStreamUtil.h>
@@ -981,6 +981,17 @@ CBDiffDocument::ReadDiff
 
 	DataReverted();
 	UpdateFileType();		// reset word wrap
+
+	JXFileDocument* doc;
+	if (CBGetDocumentManager()->FileDocumentIsOpen(itsFullName, &doc))
+		{
+		CBTextDocument* textDoc = dynamic_cast<CBTextDocument*>(doc);
+		if (textDoc != NULL)
+			{
+			te->SetBreakCROnly(textDoc->GetTextEditor()->WillBreakCROnly());
+			}
+		}
+
 	ShowFirstDiff();
 }
 
