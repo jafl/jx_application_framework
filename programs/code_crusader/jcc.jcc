@@ -510,6 +510,18 @@ T
 F
 "./code/CBHTMLScannerL.l"
 T
+2 "CBINIStyler.cpp"
+F
+"./code/CBINIStyler.cpp"
+T
+2 "CBINIScanner.cpp"
+F
+"./code/CBINIScanner.cpp"
+T
+2 "CBINIScannerL.l"
+F
+"./code/CBINIScannerL.l"
+T
 2 "CBJavaStyler.cpp"
 F
 "./code/CBJavaStyler.cpp"

@@ -23,6 +23,7 @@
 #include "CBTCLStyler.h"
 #include "CBJavaScriptStyler.h"
 #include "CBRubyStyler.h"
+#include "CBINIStyler.h"
 
 #include "CBBisonCompleter.h"
 #include "CBCCompleter.h"
@@ -249,6 +250,7 @@ static const CBFT2Lang kFT2Lang[] =
 	{ kCBShellOutputFT,      kCBOtherLang       },
 	{ kCBMatlabFT,           kCBMatlabLang      },
 	{ kCBAdobeFlexFT,        kCBAdobeFlexLang   },
+	{ kCBINIFT,              kCBINILang         },
 };
 
 const JSize kFT2LangCount = sizeof(kFT2Lang) / sizeof(CBFT2Lang);
@@ -319,6 +321,7 @@ static const CBLang2Styler kLang2Styler[] =
 	{ kCBBasicLang,       NULL, NULL },
 	{ kCBMatlabLang,      NULL, NULL },
 	{ kCBAdobeFlexLang,   NULL, NULL },
+	{ kCBINILang,         &CBINIStyler::Instance,         &CBINIStyler::Shutdown },
 };
 
 const JSize kLang2StylerCount = sizeof(kLang2Styler) / sizeof(CBLang2Styler);
@@ -414,6 +417,7 @@ static const CBLang2Completer kLang2Completer[] =
 	{ kCBBasicLang,       NULL, NULL },
 	{ kCBMatlabLang,      NULL, NULL },
 	{ kCBAdobeFlexLang,   NULL, NULL },
+	{ kCBINILang,         NULL, NULL },
 };
 
 const JSize kLang2CompleterCount = sizeof(kLang2Completer) / sizeof(CBLang2Completer);

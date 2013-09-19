@@ -16,8 +16,10 @@
 
 #include <jTypes.h>
 
-const JFileVersion kCurrentPrefsFileVersion = 65;
+const JFileVersion kCurrentPrefsFileVersion = 66;
 
+// version 66:
+//	Added support for INI files.
 // version 65:
 //	Simplified sort of FileTypeInfo.
 //	Added "core.*" file type to execute "medic -c $f".

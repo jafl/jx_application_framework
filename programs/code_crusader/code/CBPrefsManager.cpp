@@ -1168,6 +1168,15 @@ CBPrefsManager::UpgradeData
 		cbAddNewExternalSuffixes(kCoreSuffix, sizeof(kCoreSuffix)/sizeof(CBNewExternalSuffixInfo), itsFileTypeList);
 		}
 
+	if (currentVersion < 66)
+		{
+		CBNewSuffixInfo kINISuffix[] =
+		{
+			{ ".ini", kJFalse }
+		};
+		cbAddNewSuffixes("INI", ".ini", kCBINIFT, kINISuffix, sizeof(kINISuffix), itsFileTypeList, itsMacroList, *itsCRMList);
+		}
+
 	//
 	// upgrades that can be done in any order
 	//

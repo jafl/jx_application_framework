@@ -65,8 +65,6 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 %{
 /************************************************************************/
 
-	JSize braceCount = 0;
-
 	if (itsResetFlag)
 		{
 		BEGIN(INITIAL);
