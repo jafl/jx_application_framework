@@ -46,6 +46,14 @@ public:
 	static void				Shutdown();
 };
 
+class CBINIStyler
+{
+public:
+
+	static CBStylerBase*	Instance();
+	static void				Shutdown();
+};
+
 class CBJavaScriptStyler
 {
 public:
@@ -63,6 +71,14 @@ public:
 };
 
 class CBPythonStyler
+{
+public:
+
+	static CBStylerBase*	Instance();
+	static void				Shutdown();
+};
+
+class CBRubyStyler
 {
 public:
 

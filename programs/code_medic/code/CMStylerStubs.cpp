@@ -73,7 +73,23 @@ CBEiffelStyler::Shutdown()
 }
 
 /******************************************************************************
- CBEiffelStyler
+ CBINIStyler
+
+ ******************************************************************************/
+
+CBStylerBase*
+CBINIStyler::Instance()
+{
+	return NULL;
+}
+
+void
+CBINIStyler::Shutdown()
+{
+}
+
+/******************************************************************************
+ CBJavaScriptStyler
 
  ******************************************************************************/
 
@@ -117,6 +133,22 @@ CBPythonStyler::Instance()
 
 void
 CBPythonStyler::Shutdown()
+{
+}
+
+/******************************************************************************
+ CBRubyStyler
+
+ ******************************************************************************/
+
+CBStylerBase*
+CBRubyStyler::Instance()
+{
+	return NULL;
+}
+
+void
+CBRubyStyler::Shutdown()
 {
 }
 
