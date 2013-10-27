@@ -119,6 +119,12 @@ const JCharacter* JAsynchDataReceiverT::kDataReady = "DataReady::JAsynchDataRece
 #undef JTemplateName
 #undef JTemplateType
 
+#define JTemplateName ACE_Time_Value_T
+#define JTemplateType ACE_System_Time_Policy
+#include <instantiate_template.h>
+#undef JTemplateName
+#undef JTemplateType
+
 #define JTemplateType iovec
 #include <JArray.tmpls>
 #undef JTemplateType
