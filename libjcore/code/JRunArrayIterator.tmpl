@@ -278,7 +278,7 @@ JRunArrayIterator<T>::SetPrev
 	)
 {
 	JOrderedSet<T>* obj;
-	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
+	if (!JRunArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -306,7 +306,7 @@ JRunArrayIterator<T>::SetNext
 	)
 {
 	JOrderedSet<T>* obj;
-	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtEnd())
+	if (!JRunArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtEnd())
 		{
 		return kJFalse;
 		}
@@ -331,7 +331,7 @@ JBoolean
 JRunArrayIterator<T>::RemovePrev()
 {
 	JOrderedSet<T>* obj;
-	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
+	if (!JRunArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -356,7 +356,7 @@ JBoolean
 JRunArrayIterator<T>::RemoveNext()
 {
 	JOrderedSet<T>* obj;
-	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
+	if (!JRunArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
 		{
 		return kJFalse;
 		}

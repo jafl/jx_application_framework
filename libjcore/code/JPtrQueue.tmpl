@@ -161,7 +161,7 @@ JPtrQueue<T,S>::AppendCopy
 {
 	T* ptr = new T(data);
 	assert( ptr != NULL );
-	Append(ptr);
+	JPtrQueue<T,S>::Append(ptr);
 }
 
 #endif

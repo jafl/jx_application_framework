@@ -161,7 +161,7 @@ JPtrStack<T,S>::PushCopy
 {
 	T* ptr = new T(data);
 	assert( ptr != NULL );
-	Push(ptr);
+	JPtrStack<T,S>::Push(ptr);
 }
 
 #endif

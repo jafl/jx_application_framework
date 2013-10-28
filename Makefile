@@ -67,12 +67,9 @@ default:
 	@echo "  ${MAKE} darwin_leopard for Macintosh OS X 10.5"
 	@echo "  ${MAKE} darwin_snow    for Macintosh OS X 10.6"
 	@echo "  ${MAKE} darwin_lion    for Macintosh OS X 10.7"
-#	@echo "  ${MAKE} freebsd3_x     for FreeBSD 3.x"
+	@echo "  ${MAKE} darwin_mav     for Macintosh OS X 10.9"
 	@echo "  ${MAKE} linux_intel    for Linux with g++ 3.x or above"
 	@echo "  ${MAKE} linux_intel-64 for Linux with g++ 3.x or above on 64-bit systems"
-#	@echo "  ${MAKE} sunos5_7-g++   for SunOS 5.7 (Solaris 7)   with g++"
-#	@echo "  ${MAKE} sunos5_8-g++   for SunOS 5.8 (Solaris 8)   with g++"
-#	@echo "  ${MAKE} sunos5_9-g++   for SunOS 5.9 (Solaris 9)   with g++"
 	@echo
 	@echo "If you are not sure which system you have, run \"uname -a\"."
 	@echo
@@ -197,20 +194,6 @@ cygwin32: prep
 	@${INSTALL_CMD}
 
 #
-# FreeBSD
-#
-
-.PHONY : freebsd3_x
-freebsd3_x: prep
-	@ln -sf sys/FreeBSD-3.x_g++ \
-            include/make/jx_config
-	@ln -sf ../../include/missing_proto/jMissingProto_empty.h \
-            include/jcore/jMissingProto.h
-	@${TEST_ACE_CONFIG} config-freebsd-pthread.h ${CREATE_ACE_CONFIG}
-	@${TEST_ACE_MACROS} platform_freebsd_pthread.GNU ${CREATE_ACE_MACROS}
-	@${INSTALL_CMD}
-
-#
 # OS X
 #
 
@@ -244,46 +227,14 @@ darwin_lion: prep
 	@${TEST_ACE_MACROS} platform_macosx_lion.GNU ${CREATE_ACE_MACROS}
 	@${INSTALL_CMD}
 
-#
-# SunOS 5.7 (Solaris 7)
-#
-
-.PHONY : sunos5_7-g++
-sunos5_7-g++: prep
-	@ln -sf sys/SunOS-5.7_g++ \
+.PHONY: darwin_mav
+darwin_mav: prep
+	@ln -sf sys/OSX_9_g++ \
             include/make/jx_config
-	@ln -sf ../../include/missing_proto/jMissingProto_SunOS5.7.h \
+	@ln -sf ../../include/missing_proto/jMissingProto_empty.h \
             include/jcore/jMissingProto.h
-	@${TEST_ACE_CONFIG} config-sunos5.7.h ${CREATE_ACE_CONFIG}
-	@${TEST_ACE_MACROS} platform_sunos5_g++.GNU ${CREATE_ACE_MACROS}
-	@${INSTALL_CMD}
-
-#
-# SunOS 5.8 (Solaris 8)
-#
-
-.PHONY :	sunos5_8-g++
-sunos5_8-g++: prep
-	@ln -sf sys/SunOS-5.7_g++ \
-            include/make/jx_config
-	@ln -sf ../../include/missing_proto/jMissingProto_SunOS5.x.h \
-            include/jcore/jMissingProto.h
-	@${TEST_ACE_CONFIG} config-sunos5.8.h ${CREATE_ACE_CONFIG}
-	@${TEST_ACE_MACROS} platform_sunos5_g++.GNU ${CREATE_ACE_MACROS}
-	@${INSTALL_CMD}
-
-#
-# SunOS 5.9 (Solaris 9)
-#
-
-.PHONY :	sunos5_9-g++
-sunos5_9-g++: prep
-	@ln -sf sys/SunOS-5.9_g++ \
-            include/make/jx_config
-	@ln -sf ../../include/missing_proto/jMissingProto_SunOS5.x.h \
-            include/jcore/jMissingProto.h
-	@${TEST_ACE_CONFIG} config-sunos5.9.h ${CREATE_ACE_CONFIG}
-	@${TEST_ACE_MACROS} platform_sunos5_g++.GNU ${CREATE_ACE_MACROS}
+	@${TEST_ACE_CONFIG} config-macosx-mountainlion.h ${CREATE_ACE_CONFIG}
+	@${TEST_ACE_MACROS} platform_macosx_mountainlion.GNU ${CREATE_ACE_MACROS}
 	@${INSTALL_CMD}
 
 #

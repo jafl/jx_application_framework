@@ -94,7 +94,7 @@ JArray<T>::operator=
 	JCollection::operator=(source);		// JOrderedSet::operator= is private
 
 	CopyArray(source);
-	OrderedSetAssigned(source);
+	JArray<T>::OrderedSetAssigned(source);
 
 	return *this;
 }
@@ -450,7 +450,7 @@ JArray<T>::Sort()
 		const T& data = ProtectedGetElement(i);
 
 		JCollection::SetElementCount(i-1);		// safe because search doesn't modify data
-		const JIndex j = GetInsertionSortIndex(data, &isDuplicate);
+		const JIndex j = JArray<T>::GetInsertionSortIndex(data, &isDuplicate);
 		JCollection::SetElementCount(count);
 
 		if (j != i)
@@ -483,7 +483,7 @@ JArray<T>::SearchSorted1
 	const
 {
 	const JElementComparison<T>* compareObj = NULL;
-	const JBoolean hasCompare = GetCompareObject(&compareObj);
+	const JBoolean hasCompare = JArray<T>::GetCompareObject(&compareObj);
 	assert( hasCompare );
 
 	const JOrderedSetT::SortOrder sortOrder = JOrderedSet<T>::GetSortOrder();

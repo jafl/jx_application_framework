@@ -17,7 +17,7 @@
 #include <JFAID.h>
 #include "CBPrefsManager.h"		// need definition of FileTypesChanged
 
-class JXPM;
+struct JXPM;
 class JXTextMenu;
 class JXToolBar;
 class JXScrollbarSet;

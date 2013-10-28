@@ -127,7 +127,7 @@ JRunArray<T>::operator=
 	JCollection::operator=(source);		// JOrderedSet::operator= is private
 
 	*itsRuns = *(source.itsRuns);
-	OrderedSetAssigned(source);
+	JRunArray<T>::OrderedSetAssigned(source);
 
 	return *this;
 }
@@ -1128,7 +1128,7 @@ JRunArray<T>::Sort()
 {
 	assert( itsCurrentCompareObj == NULL );
 
-	const JBoolean ok = GetCompareObject(&itsCurrentCompareObj);
+	const JBoolean ok = JRunArray<T>::GetCompareObject(&itsCurrentCompareObj);
 	assert( ok );
 
 	itsRuns->SetCompareFunction(CompareRuns);
@@ -1165,7 +1165,7 @@ JRunArray<T>::SearchSorted1
 {
 	assert( itsCurrentCompareObj == NULL );
 
-	const JBoolean ok = GetCompareObject(&itsCurrentCompareObj);
+	const JBoolean ok = JRunArray<T>::GetCompareObject(&itsCurrentCompareObj);
 	assert( ok );
 
 	itsRuns->SetCompareFunction(CompareRuns);

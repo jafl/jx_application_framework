@@ -57,7 +57,7 @@ public:
 	CBTextDocument(const CBTextFileType type = kCBUnknownFT,
 				   const JCharacter* helpSectionName = kCBEditorHelpName,
 				   const JBoolean setWMClass = kJTrue,
-				   const CBTextEditorCtorFn* teCtorFn = ConstructTextEditor);
+				   CBTextEditorCtorFn* teCtorFn = ConstructTextEditor);
 	CBTextDocument(const JCharacter* fileName,
 				   const CBTextFileType type = kCBUnknownFT,
 				   const JBoolean tmpl = kJFalse);
@@ -191,7 +191,7 @@ private:
 	void	CBTextDocumentX1(const CBTextFileType type);
 	void	CBTextDocumentX2(const JBoolean setWindowSize);
 	void	BuildWindow(const JBoolean setWMClass,
-						const CBTextEditorCtorFn* teCtorFn);
+						CBTextEditorCtorFn* teCtorFn);
 	void	DisplayFileName(const JCharacter* name);
 
 	void	UpdateFileMenu();

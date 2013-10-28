@@ -191,7 +191,7 @@ JDynamicHistogram<T>::CreateSetCount
 		{
 		AppendBin();
 		}
-	SetCount(index, count);
+	JDynamicHistogram<T>::SetCount(index, count);
 }
 
 /******************************************************************************
@@ -213,7 +213,7 @@ JDynamicHistogram<T>::CreateIncrementCount
 		{
 		AppendBin();
 		}
-	IncrementCount(index, delta);
+	JDynamicHistogram<T>::IncrementCount(index, delta);
 }
 
 /******************************************************************************

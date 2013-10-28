@@ -555,7 +555,7 @@ JIsMounted
 			isMounted = kJTrue;
 			if (writable != NULL)
 				{
-				*writable = JNegate(info[i].f_flags & MNT_RDONLY != 0);
+				*writable = JNegate((info[i].f_flags & MNT_RDONLY) != 0);
 				}
 			if (isTop != NULL)
 				{

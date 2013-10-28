@@ -63,7 +63,7 @@ JPtrArrayIterator<T>::SetPrev
 	)
 {
 	JOrderedSet<T*>* obj;
-	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtBeginning())
+	if (!JPtrArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -92,7 +92,7 @@ JPtrArrayIterator<T>::SetNext
 	)
 {
 	JOrderedSet<T*>* obj;
-	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtEnd())
+	if (!JPtrArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtEnd())
 		{
 		return kJFalse;
 		}
@@ -117,7 +117,7 @@ JBoolean
 JPtrArrayIterator<T>::DeletePrev()
 {
 	JOrderedSet<T*>* obj;
-	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtBeginning())
+	if (!JPtrArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -142,7 +142,7 @@ JBoolean
 JPtrArrayIterator<T>::DeleteNext()
 {
 	JOrderedSet<T*>* obj;
-	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtEnd())
+	if (!JPtrArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtEnd())
 		{
 		return kJFalse;
 		}
@@ -167,7 +167,7 @@ JBoolean
 JPtrArrayIterator<T>::DeletePrevAsArray()
 {
 	JOrderedSet<T*>* obj;
-	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtBeginning())
+	if (!JPtrArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -192,7 +192,7 @@ JBoolean
 JPtrArrayIterator<T>::DeleteNextAsArray()
 {
 	JOrderedSet<T*>* obj;
-	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtEnd())
+	if (!JPtrArrayIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T*>::AtEnd())
 		{
 		return kJFalse;
 		}

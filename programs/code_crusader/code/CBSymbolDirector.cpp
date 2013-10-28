@@ -432,7 +432,7 @@ CBSymbolDirector::FindSymbol
 
 	JFAID_t contextFileID = JFAID::kInvalidID;
 	JString contextNamespace;
-	CBLanguage contextLang;
+	CBLanguage contextLang = kCBOtherLang;
 	JPtrArray<JString> cContextNamespaceList(JPtrArrayT::kDeleteAll);
 	JPtrArray<JString> javaContextNamespaceList(JPtrArrayT::kDeleteAll);
 	if (!JStringEmpty(fileName))

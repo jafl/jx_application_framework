@@ -53,8 +53,8 @@ void
 JStringMap<V>::JStringMapX()
 {
 	JHashTable< JStrValue<V> >::DisallowCursors();
-	SetKeyComparison(Compare);
-	SetHashFunction(Hash);
+	JStringMap<V>::SetKeyComparison(Compare);
+	JStringMap<V>::SetHashFunction(Hash);
 }
 
 /******************************************************************************

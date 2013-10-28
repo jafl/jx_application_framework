@@ -25,7 +25,20 @@ endif
 
 # -Wno-write-strings to avoid warnings from auto-generated XPM files
 
-ifeq ($(findstring g++,${CXX}),g++)
+ifeq ($(findstring clang++,${CXX}),clang++)
+  J_RAW_SYSTEM_STUFF += \
+    -Wall -Wno-unused -Wno-write-strings -Wno-overloaded-virtual \
+    -DJ_EXPLICIT_TEMPLATES
+
+  ifeq (${J_COMPILE_DEBUG},-g)
+    J_RAW_SYSTEM_STUFF += -O${J_OPTIMIZE_LEVEL}
+  else
+    J_RAW_SYSTEM_STUFF += -O2
+  endif
+
+  J_RAW_SYSTEM_STUFF += -fno-exceptions
+
+else ifeq ($(findstring g++,${CXX}),g++)
   J_RAW_SYSTEM_STUFF += \
     -Wall -Wno-unused -Wno-write-strings \
     -fno-implicit-templates -DJ_EXPLICIT_TEMPLATES

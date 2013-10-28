@@ -340,12 +340,8 @@ JRemoveVCS
 	JProcess* p = NULL;
 	if (type == kJSVNType || type == kJGitType)
 		{
-		const JCharacter *binary;
-		if (type == kJCVSType)
-			{
-			binary = "cvs remove -f ";
-			}
-		else if (type == kJSVNType)
+		const JCharacter *binary = NULL;
+		if (type == kJSVNType)
 			{
 			binary = "svn rm --force ";
 			}

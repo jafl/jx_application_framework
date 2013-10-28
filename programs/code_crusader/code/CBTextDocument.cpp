@@ -230,10 +230,10 @@ const JCharacter* CBTextDocument::kSaved = "Saved::CBTextDocument";
 
 CBTextDocument::CBTextDocument
 	(
-	const CBTextFileType		type,		// first to avoid conflict with fileName
-	const JCharacter*			helpSectionName,
-	const JBoolean				setWMClass,
-	const CBTextEditorCtorFn*	teCtorFn
+	const CBTextFileType	type,		// first to avoid conflict with fileName
+	const JCharacter*		helpSectionName,
+	const JBoolean			setWMClass,
+	CBTextEditorCtorFn*		teCtorFn
 	)
 	:
 	JXFileDocument(CBGetApplication(),
@@ -483,8 +483,8 @@ CBTextDocument::GetMenuIcon
 void
 CBTextDocument::BuildWindow
 	(
-	const JBoolean				setWMClass,
-	const CBTextEditorCtorFn*	teCtorFn
+	const JBoolean		setWMClass,
+	CBTextEditorCtorFn*	teCtorFn
 	)
 {
 // begin JXLayout
