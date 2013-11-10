@@ -21,6 +21,8 @@ Fixed Ruby styler to recognize ? or ! at end of function name.
 Fixed \"Treat as single line\" in Search Text dialog so <code>.</code> matches newlines.
 <p>
 Fixed Diff Output windows to maintain word wrap configuration from the source window.
+<p>
+Changed keyboard shortcuts for switching windows in a dock from Page up/down to Ctrl-page up/down.
 
 <h3> 6.4 </h3>
 

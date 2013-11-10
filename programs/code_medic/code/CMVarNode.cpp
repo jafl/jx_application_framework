@@ -181,7 +181,7 @@ CMVarNode::ConvertToBase()
 		JUInt v;
 		itsCanConvertBaseFlag = JI2B(
 			vStr.ConvertToUInt(&v, vStr.GetFirstCharacter() == '0' ? 8 : 10) &&
-			(itsBase != 1 || (0 <= v && v <= 255)));
+			(itsBase != 1 || v <= 255));
 		if (itsCanConvertBaseFlag)
 			{
 			// save value for when base reset to "default"

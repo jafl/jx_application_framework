@@ -12,6 +12,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 3.3.2 </h3>
+
+Changed keyboard shortcuts for switching windows in a dock from Page up/down to Ctrl-page up/down.
+
 <h3> 3.3.1 </h3>
 
 Updated variable parser to accept completely blank value.

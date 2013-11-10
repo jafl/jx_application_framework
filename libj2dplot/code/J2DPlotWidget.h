@@ -23,9 +23,9 @@ class JPainter;
 class JPagePrinter;
 class JEPSPrinter;
 class JPlotDataBase;
-class J2DDataPoint;
-class J2DVectorPoint;
-class J2DDataRect;
+struct J2DDataPoint;
+struct J2DVectorPoint;
+struct J2DDataRect;
 
 class J2DPlotWidget : virtual public JBroadcaster
 {

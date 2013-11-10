@@ -3397,12 +3397,12 @@ JXWindow::HandleKeyPress
 		{
 		// IsShortcut() dispatches event
 		}
-	else if (itsIsDockedFlag &&
+	else if (itsIsDockedFlag && modifiers.control() &&
 			 (keySym == XK_Page_Down || keySym == XK_KP_Page_Down))
 		{
 		itsDockWidget->ShowPreviousWindow();
 		}
-	else if (itsIsDockedFlag &&
+	else if (itsIsDockedFlag && modifiers.control() &&
 			 (keySym == XK_Page_Up || keySym == XK_KP_Page_Up))
 		{
 		itsDockWidget->ShowNextWindow();
