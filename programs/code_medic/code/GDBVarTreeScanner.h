@@ -37,7 +37,7 @@ public:
 
 protected:
 
-	virtual int LexerInput( char* buf, int max_size );
+	virtual size_t LexerInput(char* buf, size_t max_size);
 
 private:
 

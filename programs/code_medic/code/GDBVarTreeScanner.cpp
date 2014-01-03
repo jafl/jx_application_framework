@@ -43,20 +43,18 @@ GDBVarTreeScanner::~GDBVarTreeScanner()
 
  *****************************************************************************/
 
-int
+size_t
 GDBVarTreeScanner::LexerInput
 	(
-	char* flexBuf,
-	int   flexBufSize
+	char*  flexBuf,
+	size_t flexBufSize
 	)
 {
-	size_t numCopy;
-
 	assert(flexBuf != NULL);
 	assert(flexBufSize > 0);
 
-	int charLeft = itsInputBuffer.GetLength() - itsBytesRead;
-	numCopy = (charLeft > flexBufSize) ? flexBufSize : charLeft;
+	const int charLeft   = itsInputBuffer.GetLength() - itsBytesRead;
+	const size_t numCopy = (charLeft > flexBufSize) ? flexBufSize : charLeft;
 
 	if (numCopy > 0)
 		{
