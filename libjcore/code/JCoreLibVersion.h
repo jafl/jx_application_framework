@@ -30,6 +30,7 @@ static const char* kCurrentJCoreLibVersionStr = "3.0.0";
 //	jVCSUtil:
 //		Fixed JIsManagedByVCS() to return type=kJUnknownVCSType if not managed.
 //		Added JSearchGitRoot().
+//		Updated JGetVCSType() to ignore unsupportable, newer versions of Subversion.
 //	JTextEditor:
 //		Fixed TEHandleKeyPress() so deleteToTabStop only applies to complete tabstops.
 //			(Deleting space inside prose should always only delete one space at a time.)

@@ -22,6 +22,7 @@
 
 static const JCharacter* kGitDirName         = ".git";
 static const JCharacter* kSubversionDirName  = ".svn";
+static const JCharacter* kSubversionFileName = "entries";
 static const JCharacter* kCVSDirName         = "CVS";
 static const JCharacter* kSCCSDirName        = "SCCS";
 
@@ -89,10 +90,18 @@ JGetVCSType
 		JSplitPathAndName(path, &p, &n);
 		}
 
+	// can't read newer versions
+
 	JString vcsDir = JCombinePathAndName(p, kSubversionDirName);
-	if (JDirectoryExists(vcsDir))
+	vcsDir         = JCombinePathAndName(vcsDir, kSubversionFileName);
+	if (JFileExists(vcsDir))
 		{
-		return kJSVNType;
+		JSize size;
+		const JError err = JGetFileLength(vcsDir, &size);
+		if (err.OK() && size > 10)
+			{
+			return kJSVNType;
+			}
 		}
 
 	vcsDir = JCombinePathAndName(p, kCVSDirName);
@@ -136,8 +145,8 @@ JIsManagedByVCS
 		{
 		JString path, name, entriesFileName, data, pattern;
 		JSplitPathAndName(fullName, &path, &name);
-		entriesFileName = JCombinePathAndName(path, ".svn");
-		entriesFileName = JCombinePathAndName(entriesFileName, "entries");
+		entriesFileName = JCombinePathAndName(path, kSubversionDirName);
+		entriesFileName = JCombinePathAndName(entriesFileName, kSubversionFileName);
 		JReadFile(entriesFileName, &data);
 
 		if (data.BeginsWith("<?xml"))
@@ -432,7 +441,7 @@ JGetVCSRepositoryPath
 		{
 		JString entriesFileName, data;
 		entriesFileName = JCombinePathAndName(path, kSubversionDirName);
-		entriesFileName = JCombinePathAndName(entriesFileName, "entries");
+		entriesFileName = JCombinePathAndName(entriesFileName, kSubversionFileName);
 		JReadFile(entriesFileName, &data);
 
 		if (data.BeginsWith("<?xml"))
@@ -494,8 +503,8 @@ JGetCurrentSVNRevision
 {
 	JString path, name, entriesFileName, data, pattern;
 	JSplitPathAndName(fullName, &path, &name);
-	entriesFileName = JCombinePathAndName(path, ".svn");
-	entriesFileName = JCombinePathAndName(entriesFileName, "entries");
+	entriesFileName = JCombinePathAndName(path, kSubversionDirName);
+	entriesFileName = JCombinePathAndName(entriesFileName, kSubversionFileName);
 	JReadFile(entriesFileName, &data);
 
 	if (data.BeginsWith("<?xml"))
