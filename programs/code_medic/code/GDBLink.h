@@ -144,7 +144,7 @@ public:
 	void	SaveProgramName(const JCharacter* fileName);
 	void	SaveCoreName(const JCharacter* fileName);
 
-	static JBoolean	ParseList(std::istringstream& stream, JPtrArray<JString>* list);
+	static JBoolean	ParseList(std::istringstream& stream, JPtrArray<JString>* list, const JCharacter terminator = '}');
 	static JBoolean	ParseMap(std::istringstream& stream, JStringPtrMap<JString>* map);
 	static JBoolean	ParseMapArray(std::istringstream& stream, JPtrArray< JStringPtrMap<JString> >* list);
 

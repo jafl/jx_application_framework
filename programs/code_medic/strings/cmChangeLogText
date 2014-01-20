@@ -14,6 +14,10 @@ Please send all bug reports and suggestions for features to
 
 <h3> 3.3.2 </h3>
 
+Fixed parser to understand wrapped container classes.
+<p>
+Updated to work with standard gdb on Mavericks, since OS X now includes lldb instead.
+<p>
 Changed keyboard shortcuts for switching windows in a dock from Page up/down to Ctrl-page up/down.
 
 <h3> 3.3.1 </h3>

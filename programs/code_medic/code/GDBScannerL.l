@@ -54,7 +54,7 @@ PROMPT "(gdb) "\n
 
 {PROMPT} {
 	Flush();
-	#ifdef _J_OSX
+	#ifdef _J_OLD_OSX
 	RETURN(kMaybeReadyForInput);
 	#else
 	RETURN(kReadyForInput);
@@ -308,7 +308,7 @@ PROMPT "(gdb) "\n
 
 \^done\n {
 	BEGIN(INITIAL);
-	#ifdef _J_OSX
+	#ifdef _J_OLD_OSX
 	itsString       = "Symbols (hopefully) loaded.\n";
 	itsData.pString = &itsString;
 	RETURN(kFinishedLoadingSymbolsFromProgram);

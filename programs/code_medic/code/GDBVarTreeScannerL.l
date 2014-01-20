@@ -37,6 +37,9 @@ NAN			([nN][aA][nN]\({HEX}\))
 ID			([[:alpha:]$_][[:alnum:]$_.]*)
 NAME		({ID}(::{ID})*)
 
+STDCLASS	(std::[a-z]+)
+STDWRAP		({STDCLASS}" wrapping: ")
+
 %%
 
 %{
@@ -93,18 +96,16 @@ static {
 	BEGIN(TEMPLATE_NAME_STATE);
 	}
 
-"std::vector of length 0, capacity "[+-]?{INT} |
-"std::map with 0 elements"                     |
-"std::set with 0 elements"                     |
-"empty std::list"                              {
+{STDWRAP}*{STDCLASS}" of length 0, capacity "[+-]?{INT} |
+{STDWRAP}*{STDCLASS}" with 0 elements"                  |
+{STDWRAP}*"empty "{STDCLASS}                            {
 	NEW_TOKEN(yytext);
 	return P_EMPTY_SUMMARY;
 	}
 
-"std::vector of length "[+-]?{INT}", capacity "[+-]?{INT}{WS}= |
-"std::map with "[+-]?{INT}" elements"{WS}=                     |
-"std::set with "[+-]?{INT}" elements"{WS}=                     |
-"std::list"{WS}=                                               {
+{STDWRAP}*{STDCLASS}" of length "[+-]?{INT}", capacity "[+-]?{INT}{WS}= |
+{STDWRAP}*{STDCLASS}" with "[+-]?{INT}" elements"{WS}=                  |
+{STDWRAP}*{STDCLASS}{WS}=                                               {
 	NEW_TOKEN(yytext);
 	const JSize length = lvalp->pString->GetLength();
 	lvalp->pString->RemoveSubstring(length, length);

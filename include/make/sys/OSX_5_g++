@@ -65,7 +65,7 @@ J_USE_THREADS := yes
 # Adjust these until everything compiles
 
 J_RAW_SYSTEM_STUFF := \
-  -D_J_OSX -DSIZEOF_LONG=4 -DSIZEOF_INT=4 -DSIZEOF_LONGLONG=8 \
+  -D_J_OSX -D_J_OLD_OSX -DSIZEOF_LONG=4 -DSIZEOF_INT=4 -DSIZEOF_LONGLONG=8 \
   -D_J_HAS_SYSCTL -D_XFT_NO_COMPAT_ -I/usr/X11/include/freetype2 \
   -Wno-deprecated
 

@@ -308,7 +308,7 @@ JBoolean
 GDBLink::OKToSendMultipleCommands()
 	const
 {
-	#ifdef _J_OSX
+	#ifdef _J_OLD_OSX
 	return kJFalse;
 	#else
 	return CMLink::OKToSendMultipleCommands();
@@ -327,7 +327,7 @@ GDBLink::OKToSendCommands
 	)
 	const
 {
-	#ifdef _J_OSX
+	#ifdef _J_OLD_OSX
 	return (background ? JI2B(itsContinueCount == 0) :
 						 !itsDebuggerBusyFlag);
 	#else
@@ -397,7 +397,7 @@ GDBLink::ReadFromDebugger()
 	JString data;
 	itsInputLink->Read(&data);
 
-#ifdef _J_OSX
+#ifdef _J_OLD_OSX
 	pingRecvPattern.SetSingleLine();
 	if (!pingRecvPattern.Match(data))
 		{
@@ -405,7 +405,7 @@ GDBLink::ReadFromDebugger()
 
 		Broadcast(DebugOutput(data, kOutputType));
 
-#ifdef _J_OSX
+#ifdef _J_OLD_OSX
 		}
 #endif
 
@@ -446,7 +446,7 @@ GDBLink::ReadFromDebugger()
 			}
 		else if (token.type == GDBScanner::kReadyForInput)
 			{
-			#ifdef _J_OSX
+			#ifdef _J_OLD_OSX
 			itsIgnoreNextMaybeReadyFlag = kJTrue;
 			#endif
 
@@ -473,7 +473,7 @@ GDBLink::ReadFromDebugger()
 
 			if (itsContinueCount > 0 && !HasForegroundCommands())
 				{
-				#ifdef _J_OSX
+				#ifdef _J_OLD_OSX
 				itsContinueCount = 0;
 				#else
 				itsContinueCount--;
@@ -550,7 +550,7 @@ GDBLink::ReadFromDebugger()
 				cmd->Finished(kJTrue);	// may delete object
 				SetRunningCommand(NULL);
 
-				#ifdef _J_OSX
+				#ifdef _J_OLD_OSX
 				RunNextCommand();
 				#else
 				if (!HasForegroundCommands())
@@ -1047,7 +1047,7 @@ GDBLink::SetBreakpoint
 
 	JString cmd = "echo \\032\\032:Medic breakpoints changed:\n";
 	cmd += (temporary ? "-break-insert -t " : "-break-insert ");
-	#ifdef _J_OSX
+	#ifdef _J_OLD_OSX
 	cmd += "-l -1 ";
 	#endif
 	cmd += name + ":" + JString(lineIndex, JString::kBase10);
@@ -1663,7 +1663,7 @@ GDBLink::CreateGetFullPath
 	const JIndex		lineIndex
 	)
 {
-	#ifdef _J_OSX
+	#ifdef _J_OLD_OSX
 	if (ProgramIsRunning())
 		{
 		StopProgram();
@@ -1955,7 +1955,8 @@ JBoolean
 GDBLink::ParseList
 	(
 	std::istringstream&	stream,
-	JPtrArray<JString>*	list
+	JPtrArray<JString>*	list,
+	const JCharacter	terminator
 	)
 {
 	list->CleanOut();
@@ -1972,7 +1973,7 @@ GDBLink::ParseList
 		list->Append(value);
 
 		int c = stream.peek();
-		if (c == '}')
+		if (c == terminator)
 			{
 			return kJTrue;
 			}
@@ -2014,11 +2015,12 @@ GDBLink::ParseMap
 			return kJFalse;
 			}
 
-		if (stream.peek() == '{')
+		const JCharacter next = stream.peek();
+		if (next == '{' || next == '[')
 			{
 			stream.ignore();	// skip {
 			JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
-			if (!ParseList(stream, &list))
+			if (!ParseList(stream, &list, next == '[' ? ']' : '}'))
 				{
 				return kJFalse;
 				}
@@ -2162,7 +2164,7 @@ GDBLink::SendWhenStopped
 	const JCharacter* text
 	)
 {
-#ifdef _J_OSX
+#ifdef _J_OLD_OSX
 
 	if (itsOutputLink != NULL)
 		{
@@ -2236,14 +2238,14 @@ GDBLink::SendRaw
 		{
 		itsOutputLink->Write(text);
 
-#ifdef _J_OSX
+#ifdef _J_OLD_OSX
 		if (!pingSendPattern.Match(text))
 			{
 #endif
 
 			Broadcast(DebugOutput(text, kCommandType));
 
-#ifdef _J_OSX
+#ifdef _J_OLD_OSX
 			}
 #endif
 
