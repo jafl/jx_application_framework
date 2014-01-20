@@ -24,7 +24,7 @@ static const JCharacter* kVersionStr =
 
 	"compile_jstrings 1.1.0\n"
 	"\n"
-	"Copyright © 2000-05 John Lindal.  All rights reserved.\n"
+	"Copyright (C) 2000-05 John Lindal.  All rights reserved.\n"
 	"\n"
 	"http://www.newplanetsoftware.com/jx/";
 
