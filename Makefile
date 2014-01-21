@@ -4,7 +4,7 @@
 # create a symbolic link to the existing directory.
 
 ifndef ACE_ROOT
-  DEFAULT_ACE_ROOT := ${shell cd ACE/ACE_wrappers; pwd}
+  DEFAULT_ACE_ROOT := ${shell pwd}/ACE/ACE_wrappers
 endif
 
 #
@@ -290,6 +290,22 @@ fix_ace:
          } \
      fi; \
      if { test ! '(' -f ${ACE_ROOT}/ace/Makefile -o -f ${ACE_ROOT}/ace/GNUmakefile ')'; } then \
+         { \
+         ${RM} lib/libACE-${ACE_LIB_VERSION}.a; \
+         ln -sf /usr/lib/libACE.a lib/libACE-${ACE_LIB_VERSION}.a; \
+         ${RM} lib/libACE-${ACE_LIB_VERSION}.so; \
+         ln -sf /usr/lib/libACE.so lib/libACE-${ACE_LIB_VERSION}.so; \
+         ${RM} lib/libACE.so.${ACE_VERSION}; \
+         } \
+     fi
+  else
+	 if { which wget; } then \
+         wget -O ACE/ACE.tgz http://newplanetsoftware.com/ftp/misc/ACE-${ACE_VERSION}.tar.gz; \
+     elif { which curl; } then \
+         curl -o ACE/ACE.tgz http://newplanetsoftware.com/ftp/misc/ACE-${ACE_VERSION}.tar.gz; \
+     fi
+	@cd ACE; tar -xzf ACE.tgz; ./patch_ace ${ACE_VERSION}
+	@if { test ! '(' -f ${DEFAULT_ACE_ROOT}/ace/Makefile -o -f ${DEFAULT_ACE_ROOT}/ace/GNUmakefile ')'; } then \
          { \
          ${RM} lib/libACE-${ACE_LIB_VERSION}.a; \
          ln -sf /usr/lib/libACE.a lib/libACE-${ACE_LIB_VERSION}.a; \

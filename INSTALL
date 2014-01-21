@@ -23,11 +23,9 @@ To keep the Makefiles smaller:
 
     setenv J_MAKEMAKE_IGNORE_PATTERN '^ace/|StdInc.h$'
 
-Download and unpack ACE:
-
-    http://www.cs.wustl.edu/~schmidt/ACE.html
-
-ACE needs to be patched.  In the ACE directory, run patch_ace
+The build can download ACE automatically.  If you download and unpack ACE
+yourself (http://www.cs.wustl.edu/~schmidt/ACE.html), then the source needs
+to be patched.  In the ACE directory, run patch_ace.
 
 If you have mesa-libGL-devel installed, run this in the JX directory:
 
