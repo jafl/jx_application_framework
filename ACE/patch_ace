@@ -1,28 +1,37 @@
 #!/bin/sh
 
-VERS=`echo ACE_wrappers/*.*.*`
+if [[ ! -d ACE_wrappers/ ]]; then
+	if [[ -z $ACE_ROOT ]]; then
+		echo "please set ACE_ROOT";
+		exit 1;
+	else
+		ln -sf ${ACE_ROOT} ACE_wrappers;
+	fi
+fi
+
+VERS=`echo ACE_wrappers/*.*.*`;
 if [[ -f $VERS ]]; then
-	VERS=${VERS##*/}
+	VERS=${VERS##*/};
 else
 	if [[ $# < 1 ]]; then
-		echo "usage: $0 patch_version"
-		exit 1
+		echo "usage: $0 patch_version";
+		exit 1;
 	fi
 
 	VERS=$1;
 fi
 
-echo "patching version $VERS"
+echo "patching version $VERS";
 
-DIR="./patch-$VERS"
+DIR="./patch-$VERS";
 if [[ ! -d $DIR ]]; then
-	echo "$DIR does not exist"
-	exit 1
+	echo "$DIR does not exist";
+	exit 1;
 fi
 
 for SRC in $DIR/*; do
-	f=${SRC##*/}
-	echo $f
-	DST=`find ./ACE_wrappers/ -name $f`
-	cp -f $SRC $DST
+	f=${SRC##*/};
+	echo $f;
+	DST=`find ./ACE_wrappers/ -name $f`;
+	cp -f $SRC $DST;
 done
