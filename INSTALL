@@ -27,17 +27,7 @@ Download and unpack ACE:
 
     http://www.cs.wustl.edu/~schmidt/ACE.html
 
-ACE 5.7.1 needs to be patched.  Replace the following file with the version
-in ACE/patch-5.7.1:
-
-    ace/OS_Memory.h
-
-ACE 6.x needs to be patched.  Replace the following files with the
-versions in the appropriate ACE/patch-* directory:
-
-    include/makeinclude/wrapper_macros.GNU
-    ace/config-g++-common.h
-    ace/OS_Memory.h
+ACE needs to be patched.  In the ACE directory, run patch_ace
 
 If you have mesa-libGL-devel installed, run this in the JX directory:
 
