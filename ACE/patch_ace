@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [[ ! -d ACE_wrappers/ ]]; then
 	if [[ -z $ACE_ROOT ]]; then
