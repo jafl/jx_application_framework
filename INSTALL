@@ -22,6 +22,7 @@ On OS X, it helps to install GNU coreutils.
 To keep the Makefiles smaller:
 
     setenv J_MAKEMAKE_IGNORE_PATTERN '^ace/|StdInc.h$'
+    export J_MAKEMAKE_IGNORE_PATTERN='^ace/|StdInc.h$'
 
 The build can download ACE automatically.  If you download and unpack ACE
 yourself (http://www.cs.wustl.edu/~schmidt/ACE.html), then the source needs
