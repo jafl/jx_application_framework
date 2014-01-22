@@ -304,7 +304,7 @@ fix_ace:
      elif { which curl; } then \
          curl -o ACE/ACE.tgz http://newplanetsoftware.com/ftp/misc/ACE-${ACE_VERSION}.tar.gz; \
      fi
-	@cd ACE; tar -xzf ACE.tgz; ./patch_ace ${ACE_VERSION}
+	@cd ACE; tar -xzf ACE.tgz; touch ACE_wrappers/${ACE_VERSION}; ./patch_ace
 	@if { test ! '(' -f ${DEFAULT_ACE_ROOT}/ace/Makefile -o -f ${DEFAULT_ACE_ROOT}/ace/GNUmakefile ')'; } then \
          { \
          ${RM} lib/libACE-${ACE_LIB_VERSION}.a; \
