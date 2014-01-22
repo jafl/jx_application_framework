@@ -53,3 +53,7 @@ if { test -z "$ZIP"; } then
 	gunzip $LIB/*.gz;
 	}
 fi
+
+# ignore gzip errors
+
+exit 0;
