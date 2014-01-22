@@ -299,10 +299,13 @@ fix_ace:
          } \
      fi
   else
-	 if { which wget; } then \
+	@if { which wget; } then \
          wget -O ACE/ACE.tgz http://newplanetsoftware.com/ftp/misc/ACE-${ACE_VERSION}.tar.gz; \
      elif { which curl; } then \
          curl -o ACE/ACE.tgz http://newplanetsoftware.com/ftp/misc/ACE-${ACE_VERSION}.tar.gz; \
+     else \
+         echo "Please install either curl or wget"; \
+         exit 1; \
      fi
 	@cd ACE; tar -xzf ACE.tgz; touch ACE_wrappers/${ACE_VERSION}; ./patch_ace
 	@if { test ! '(' -f ${DEFAULT_ACE_ROOT}/ace/Makefile -o -f ${DEFAULT_ACE_ROOT}/ace/GNUmakefile ')'; } then \
