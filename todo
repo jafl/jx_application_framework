@@ -215,6 +215,14 @@ medic
 		*set* values
 		support conditional breakpoints, etc.
 
+	lldb
+		http://lldb.llvm.org/lldb-gdb.html
+		http://lldb.llvm.org/varformats.html
+
+		http://lldb.llvm.org/architecture.html
+		http://lldb.llvm.org/cpp_reference/html/index.html
+		http://stackoverflow.com/questions/19019330/do-i-need-to-build-lldb-locally-to-use-c-interface
+
 support D
 	http://en.wikipedia.org/wiki/D_(programming_language)
 	http://www.digitalmars.com/d/download.html
