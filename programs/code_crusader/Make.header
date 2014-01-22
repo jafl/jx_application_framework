@@ -25,7 +25,7 @@ SEARCHDIRS := -I${CODEDIR} \
 
 # other constants
 
-JCC_VERSION       := 6.4.0
+JCC_VERSION       := 6.5.0
 SIGNATURE         := jxcb
 JCC_STRING_FILES  := ${filter-out %/jcc_menu_strings, \
                        ${shell echo strings/*}}
