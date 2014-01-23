@@ -59,7 +59,7 @@ install1:
 install2:
 	@cd ../libjcore; ${MAKE} COMPILE_STRINGS=0 default
 	@cd ../programs/compile_jstrings; ${MAKE} jxinstall
-	@${foreach dir, \
+	@-${foreach dir, \
           ${wildcard ../lib?*/.}, \
        ${BEGIN_DIR}; ${MAKE} default; ${END_DIR};}
 	@${foreach dir, \
