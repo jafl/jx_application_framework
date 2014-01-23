@@ -288,7 +288,7 @@ fix_ace:
          ${RM} -r ACE/ACE_wrappers; \
          ln -sf ${ACE_ROOT} ACE/ACE_wrappers; \
          } \
-     fi; \
+     fi;
 	@if { test ! '(' -f ${ACE_ROOT}/ace/Makefile -o -f ${ACE_ROOT}/ace/GNUmakefile ')'; } then \
          { \
          ${RM} lib/libACE-${ACE_LIB_VERSION}.a; \
