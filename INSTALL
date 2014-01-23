@@ -10,6 +10,13 @@ Decide where you want the JX directory to reside.  Absolute paths are
 compiled into some of the utility programs, so you will have to rebuild
 everything if you move JX to a different location after building it.
 
+On Fedora, you need to install development packages:
+
+    sudo yum install perl git gcc-c++ flex bison \
+        libX11-devel libXinerama-devel libXpm-devel libXft-devel \
+        libXmu-devel libXi-devel \
+        libxml2-devel libjpeg-devel libpng-devel
+
 On Ubuntu, you need to install development packages:
 
     sudo apt-get install git g++ flex bison \

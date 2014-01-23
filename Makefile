@@ -289,7 +289,7 @@ fix_ace:
          ln -sf ${ACE_ROOT} ACE/ACE_wrappers; \
          } \
      fi; \
-     if { test ! '(' -f ${ACE_ROOT}/ace/Makefile -o -f ${ACE_ROOT}/ace/GNUmakefile ')'; } then \
+	@if { test ! '(' -f ${ACE_ROOT}/ace/Makefile -o -f ${ACE_ROOT}/ace/GNUmakefile ')'; } then \
          { \
          ${RM} lib/libACE-${ACE_LIB_VERSION}.a; \
          ln -sf /usr/lib/libACE.a lib/libACE-${ACE_LIB_VERSION}.a; \
@@ -299,15 +299,17 @@ fix_ace:
          } \
      fi
   else
-	@if { which wget; } then \
-         wget -O ACE/ACE.tgz http://newplanetsoftware.com/ftp/misc/ACE-${ACE_VERSION}.tar.gz; \
-     elif { which curl; } then \
-         curl -o ACE/ACE.tgz http://newplanetsoftware.com/ftp/misc/ACE-${ACE_VERSION}.tar.gz; \
-     else \
-         echo "Please install either curl or wget"; \
-         exit 1; \
+	@if { test ! -e ${DEFAULT_ACE_ROOT}; } then
+         if { which wget; } then \
+             wget -O ACE/ACE.tgz http://newplanetsoftware.com/ftp/misc/ACE-${ACE_VERSION}.tar.gz; \
+         elif { which curl; } then \
+             curl -o ACE/ACE.tgz http://newplanetsoftware.com/ftp/misc/ACE-${ACE_VERSION}.tar.gz; \
+         else \
+             echo "Please install either curl or wget"; \
+             exit 1; \
+         fi;
+         cd ACE; tar -xzf ACE.tgz; touch ACE_wrappers/${ACE_VERSION}; ./patch_ace;
      fi
-	@cd ACE; tar -xzf ACE.tgz; touch ACE_wrappers/${ACE_VERSION}; ./patch_ace
 	@if { test ! '(' -f ${DEFAULT_ACE_ROOT}/ace/Makefile -o -f ${DEFAULT_ACE_ROOT}/ace/GNUmakefile ')'; } then \
          { \
          ${RM} lib/libACE-${ACE_LIB_VERSION}.a; \
