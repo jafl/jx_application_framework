@@ -36,7 +36,7 @@ endif
 
 # make variables
 
-LOADLIBES := -L${JLIBDIR} ${ljcore} ${J_ACE_LIBS} ${J_GCC_LIBS}
+LOADLIBES := ${ljcore} ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
 LDFLAGS   := 
 
 STATIC_LOADLIBES := -L${JLIBDIR} \

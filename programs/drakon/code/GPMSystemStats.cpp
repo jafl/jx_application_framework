@@ -16,6 +16,7 @@
 #include <JColormap.h>
 #include <JRegex.h>
 #include <jStreamUtil.h>
+#include <unistd.h>
 #include <jAssert.h>
 
 const JCoordinate kCPUHistoryBarWidth    = 2;
