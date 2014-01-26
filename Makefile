@@ -158,7 +158,7 @@ linux_intel: linux_common
 .PHONY : linux_intel-64
 linux_intel-64: linux_common
 	@ln -sf sys/Linux-Intel-64  include/make/jx_config
-	@if { test -d Mesa ; } then cd Mesa; make linux-x86-64-static; fi
+	@if { test -d Mesa ; } then cd Mesa; make linux-x86-64-static; ln -s lib64 Mesa/lib; fi
 	@${INSTALL_CMD}
 
 #
