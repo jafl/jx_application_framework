@@ -331,7 +331,7 @@ fix_mesa:
          fi; \
          tar -xzf misc/Mesa.tgz; mv Mesa-${MESA_VERSION} Mesa; \
      fi
-	@if { test -d Mesa/. -a ! -e Mesa/include/GL/xmesa.h ; } then \
+	@if { test -d Mesa/. ; } then \
          { \
          ln -sf ../../src/mesa/drivers/x11/xmesa.h   Mesa/include/GL/xmesa.h; \
          ln -sf ../../src/mesa/drivers/x11/xmesa_x.h Mesa/include/GL/xmesa_x.h; \
