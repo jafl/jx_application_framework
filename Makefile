@@ -148,15 +148,7 @@ CREATE_ACE_MACROS = \
 .PHONY : linux_intel
 linux_intel: linux_common
 	@ln -sf sys/Linux-Intel-32  include/make/jx_config
-	@${INSTALL_CMD}
-
-#
-# Fedora 4 (glibc 2.6)
-#
-
-.PHONY : linux_fc4
-linux_fc4: linux_common
-	@ln -sf sys/Linux-Intel-FC4  include/make/jx_config
+	@if { test -d Mesa ; } then cd Mesa; make linux-x86-static; fi
 	@${INSTALL_CMD}
 
 #
@@ -166,6 +158,7 @@ linux_fc4: linux_common
 .PHONY : linux_intel-64
 linux_intel-64: linux_common
 	@ln -sf sys/Linux-Intel-64  include/make/jx_config
+	@if { test -d Mesa ; } then cd Mesa; make linux-x86-64-static; fi
 	@${INSTALL_CMD}
 
 #
@@ -205,6 +198,7 @@ darwin_leopard: prep
             include/jcore/jMissingProto.h
 	@${TEST_ACE_CONFIG} config-macosx-leopard.h ${CREATE_ACE_CONFIG}
 	@${TEST_ACE_MACROS} platform_macosx_leopard.GNU ${CREATE_ACE_MACROS}
+	@if { test -d Mesa ; } then cd Mesa; make darwin-static; fi
 	@${INSTALL_CMD}
 
 .PHONY: darwin_snow
@@ -215,6 +209,7 @@ darwin_snow: prep
             include/jcore/jMissingProto.h
 	@${TEST_ACE_CONFIG} config-macosx-snowleopard.h ${CREATE_ACE_CONFIG}
 	@${TEST_ACE_MACROS} platform_macosx_snowleopard.GNU ${CREATE_ACE_MACROS}
+	@if { test -d Mesa ; } then cd Mesa; make darwin-static; fi
 	@${INSTALL_CMD}
 
 .PHONY: darwin_lion
@@ -225,6 +220,7 @@ darwin_lion: prep
             include/jcore/jMissingProto.h
 	@${TEST_ACE_CONFIG} config-macosx-lion.h ${CREATE_ACE_CONFIG}
 	@${TEST_ACE_MACROS} platform_macosx_lion.GNU ${CREATE_ACE_MACROS}
+	@if { test -d Mesa ; } then cd Mesa; make darwin-static; fi
 	@${INSTALL_CMD}
 
 .PHONY: darwin_mav
@@ -235,6 +231,7 @@ darwin_mav: prep
             include/jcore/jMissingProto.h
 	@${TEST_ACE_CONFIG} config-macosx-mountainlion.h ${CREATE_ACE_CONFIG}
 	@${TEST_ACE_MACROS} platform_macosx_mountainlion.GNU ${CREATE_ACE_MACROS}
+	@if { test -d Mesa ; } then cd Mesa; make darwin-static; fi
 	@${INSTALL_CMD}
 
 #
