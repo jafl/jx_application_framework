@@ -323,6 +323,17 @@ fix_ace:
 
 .PHONY : fix_mesa
 fix_mesa:
+	@if { test ! -e Mesa ; } then \
+         if { which wget; } then \
+             wget -O misc/Mesa.tgz http://newplanetsoftware.com/ftp/misc/MesaLib-${MESA_VERSION}.tar.gz; \
+         elif { which curl; } then \
+             curl -o misc/Mesa.tgz http://newplanetsoftware.com/ftp/misc/MesaLib-${MESA_VERSION}.tar.gz; \
+         else \
+             echo "Please install either curl or wget"; \
+             exit 1; \
+         fi; \
+         tar -xzf misc/Mesa.tgz; mv Mesa-${MESA_VERSION} Mesa; \
+     fi
 	@if { test -d Mesa/. ; } then \
          { \
          ln -sf ../../src/mesa/drivers/x11/xmesa.h   Mesa/include/GL/xmesa.h; \

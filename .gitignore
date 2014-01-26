@@ -13,3 +13,4 @@ programs/*/Makefile
 programs/*/strings/*_menu_strings
 programs/*/ChangeLog.php
 Mesa
+misc/Mesa.tgz
