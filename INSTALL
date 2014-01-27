@@ -15,14 +15,19 @@ On Fedora, you need to install development packages:
     sudo yum install perl git gcc-c++ flex bison \
         libX11-devel libXinerama-devel libXpm-devel libXft-devel \
         libXmu-devel libXi-devel \
-        libxml2-devel libjpeg-devel libpng-devel
+        libxml2-devel libjpeg-devel libpng-devel \
+        llvm-devel imake libtool  xorg-x11-proto-devel libdrm-devel \
+        xorg-x11-server-devel libXdamage-devel expat-devel
 
 On Ubuntu, you need to install development packages:
 
     sudo apt-get install git g++ flex bison \
         libX11-dev libXinerama-dev libXpm-dev libxft-dev \
         libxmu-dev libxi-dev \
-        libxml2-dev libjpeg-dev libpng-dev
+        libxml2-dev libjpeg-dev libpng-dev \
+        llvm automake libx11-xcb-dev \
+        libxcb-dri2-0-dev libxcb-xfixes0-dev \
+        x11proto-gl-dev libdrm-dev
 
 On OS X, it helps to install GNU coreutils.
 
