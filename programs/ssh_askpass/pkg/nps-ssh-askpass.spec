@@ -21,7 +21,7 @@ to ask for a password.
 %define askpass_doc_dir  /usr/share/doc/nps-ssh-askpass
 %define askpass_lib_dir  /usr/lib/nps-ssh-askpass
 
-./install "" nozip
+./install "$RPM_BUILD_ROOT" nozip
 
 %post
 gunzip %askpass_lib_dir/*.gz

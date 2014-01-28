@@ -22,7 +22,7 @@ NPS Subversion Client provides a simple, graphical Subversion client.
 %define gnome_app_path     /usr/share/applications
 %define gnome_icon_path    /usr/share/pixmaps
 
-./install "" nozip
+./install "$RPM_BUILD_ROOT" nozip
 
 %post
 gunzip %svn_client_lib_dir/*.gz

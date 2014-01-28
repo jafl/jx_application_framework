@@ -25,7 +25,7 @@ and intuitively manipulate the data we had.
 %define gnome_app_path  /usr/share/applications
 %define gnome_icon_path /usr/share/pixmaps
 
-./install "" nozip
+./install "$RPM_BUILD_ROOT" nozip
 
 %post
 gunzip %glove_lib_dir/*.gz

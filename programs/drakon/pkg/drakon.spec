@@ -22,7 +22,7 @@ Drakon provides a simple way to manage UNIX processes.
 %define gnome_app_path  /usr/share/applications
 %define gnome_icon_path /usr/share/pixmaps
 
-./install "" nozip
+./install "$RPM_BUILD_ROOT" nozip
 
 %post
 gunzip %drakon_lib_dir/*.gz

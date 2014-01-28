@@ -36,7 +36,7 @@ This is the latest version of ctags, for use with Code Crusader.
 %define gnome_app_path  /usr/share/applications
 %define gnome_icon_path /usr/share/pixmaps
 
-./install "" nozip
+./install "$RPM_BUILD_ROOT" nozip
 
 %post
 gunzip %jcc_lib_dir/*.gz
