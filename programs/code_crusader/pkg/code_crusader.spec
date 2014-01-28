@@ -71,5 +71,5 @@ rm -rf %jcc_lib_dir
 %docdir %ctags_doc_dir
 
 /usr/bin/ctags
-/usr/man/man1/ctags.1
+/usr/man/man1/ctags.1.gz
 %ctags_doc_dir
