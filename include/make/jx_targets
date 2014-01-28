@@ -77,7 +77,6 @@ _post_build_pkgs:
 .PHONY : build_rpm
 build_rpm:
   ifeq (${HAS_RPM},1)
-	@sudo mkdir -p ${RPM_SRC_DIR} ${RPM_SPEC_DIR} ${RPM_BIN_DIR} ${RPM_SRPM_DIR}
 	@sudo ./pkg/uninstall
 	@sudo cp ${J_DISTR_TAR_DIR}/${SOURCE_TAR_NAME} ${RPM_TAR_FILE}
 	@sudo ${RPM} ${RPM_SPEC_FILE}
