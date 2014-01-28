@@ -17,4 +17,4 @@ rm -rf /usr/share/doc/makemake;
 
 rm -f  /usr/bin/ctags;
 rm -rf /usr/share/doc/ctags;
-rm -f  /usr/man/man1/ctags.1;
+rm -f  /usr/share/man/man1/ctags.1;

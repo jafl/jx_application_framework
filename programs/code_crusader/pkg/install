@@ -59,8 +59,8 @@ cp makemake/Make.files_sample  $MM_DOC
 
 install -m755 ctags/ctags $BIN
 
-mkdir -p $PRE/usr/man/man1
-cp ctags/ctags.1 $PRE/usr/man/man1
+mkdir -p $PRE/usr/share/man/man1
+cp ctags/ctags.1 $PRE/usr/share/man/man1
 
 mkdir -p $CTAGS_DOC
 cp ctags/COPYING $CTAGS_DOC
