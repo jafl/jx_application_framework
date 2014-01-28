@@ -4,8 +4,6 @@ Summary: Drakon provides a simple way to manage UNIX processes.
 Name: Drakon
 Version: %drakon_version
 Release: 1
-ExclusiveArch: i386
-ExclusiveOS: Linux
 License: GPL
 Group: System/Monitoring
 Source: Drakon_%drakon_version.tar

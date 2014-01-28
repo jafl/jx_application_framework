@@ -4,8 +4,6 @@ Summary: A mail reading program for the X Window System.
 Name: Arrow
 Version: %arrow_version
 Release: 1
-ExclusiveArch: i386
-ExclusiveOS: Linux
 License: GPL
 Group: Productivity/Networking/Email/Clients
 Source: Arrow_%arrow_version.tar

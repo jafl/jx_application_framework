@@ -4,8 +4,6 @@ Summary: Leibnitz provides electronic paper for calculations and graphs.
 Name: Leibnitz
 Version: %leibnitz_version
 Release: 1
-ExclusiveArch: i386
-ExclusiveOS: Linux
 License: GPL
 Group: Applications/Scientific
 Source: Leibnitz_%leibnitz_version.tar

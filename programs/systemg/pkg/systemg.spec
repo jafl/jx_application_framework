@@ -4,8 +4,6 @@ Summary: System G provides a graphical interface to UNIX file system.
 Name: System_G
 Version: %systemg_version
 Release: 1
-ExclusiveArch: i386
-ExclusiveOS: Linux
 License: GPL
 Group: Filemanager
 Source: System_G_%systemg_version.tar

@@ -4,8 +4,6 @@ Summary: NPS Subversion Client provides a simple, graphical Subversion client.
 Name: nps_svn_client
 Version: %svn_client_version
 Release: 1
-ExclusiveArch: i386
-ExclusiveOS: Linux
 License: Copyright John Lindal
 Group: Development/Tools/Version Control
 Source: nps_svn_client_%svn_client_version.tar

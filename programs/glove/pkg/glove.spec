@@ -4,8 +4,6 @@ Summary: Data acquisition, manipulation, and analysis program for X.
 Name: Glove
 Version: %glove_version
 Release: 1
-ExclusiveArch: i386
-ExclusiveOS: Linux
 License: GPL
 Group: Applications/Scientific
 Source: Glove_%glove_version.tar
