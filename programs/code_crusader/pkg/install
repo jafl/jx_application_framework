@@ -27,7 +27,7 @@ install -m755 dirdiff/dirdiff        $BIN
 install -m755 macros/xml-auto-close  $BIN
 install -m755 macros/html-auto-close $BIN
 
-ln -s jcc $BIN/code_crusader
+ln -sf jcc $BIN/code_crusader
 
 mkdir -p $LIB
 cp lib/*                $LIB
