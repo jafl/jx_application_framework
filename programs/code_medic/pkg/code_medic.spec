@@ -1,4 +1,5 @@
 %define medic_version 3.3.2
+%define _unpackaged_files_terminate_build 0
 
 Summary: Code Medic is a graphical debugging environment for UNIX.
 Name: Code_Medic
@@ -23,7 +24,7 @@ It supports gdb and Xdebug.
 %define gnome_app_path  /usr/share/applications
 %define gnome_icon_path /usr/share/pixmaps
 
-./install "" nozip
+./install "$RPM_BUILD_ROOT" nozip
 
 %post
 gunzip %medic_lib_dir/*.gz

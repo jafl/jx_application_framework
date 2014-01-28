@@ -6,8 +6,6 @@ Summary: Code Crusader is a UNIX development environment for X.
 Name: Code_Crusader
 Version: %jcc_version
 Release: 1
-ExclusiveArch: i386
-ExclusiveOS: Linux
 License: Copyright John Lindal
 Group: Development/Tools/IDE
 Source: Code_Crusader_%jcc_version.tar
