@@ -25,7 +25,7 @@ On Ubuntu, you need to install development packages:
         libX11-dev libXinerama-dev libXpm-dev libxft-dev \
         libxmu-dev libxi-dev \
         libxml2-dev libjpeg-dev libpng-dev \
-        llvm automake libx11-xcb-dev \
+        llvm automake xutils-dev libx11-xcb-dev \
         libxcb-dri2-0-dev libxcb-xfixes0-dev \
         x11proto-gl-dev libdrm-dev
 

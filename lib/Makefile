@@ -52,7 +52,7 @@ install: install1 install2
 .PHONY: install1
 install1:
 	@cd ../ACE; ${MAKE} jxinstall
-	@-cd ../Mesa; ./configure --enable-xlib-glx --enable-dri=no; make
+	@-cd ../Mesa; ./configure --enable-xlib-glx --enable-dri=no --with-gallium-drivers=; make
 	@cd ../programs/makemake; ${MAKE} -f Makefile.port jxinstall
 	@if { test ! -f ../libjcore/Makefile; } then { ${MAKE} Makefiles; } fi
 
