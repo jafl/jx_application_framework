@@ -7,6 +7,8 @@ ifndef ACE_ROOT
   DEFAULT_ACE_ROOT := ${shell pwd}/ACE/ACE_wrappers
 endif
 
+MAKE_CMD := ${notdir ${MAKE}}
+
 #
 # tell user what options are available
 #
@@ -63,13 +65,13 @@ default:
 	@echo
 	@echo "Then run one of the following or check the README file:"
 	@echo
-	@echo "  ${MAKE} cygwin32       for Cygwin on Windows"
-	@echo "  ${MAKE} darwin_leopard for Macintosh OS X 10.5"
-	@echo "  ${MAKE} darwin_snow    for Macintosh OS X 10.6"
-	@echo "  ${MAKE} darwin_lion    for Macintosh OS X 10.7"
-	@echo "  ${MAKE} darwin_mav     for Macintosh OS X 10.9"
-	@echo "  ${MAKE} linux_intel    for Linux with g++ 3.x or above"
-	@echo "  ${MAKE} linux_intel-64 for Linux with g++ 3.x or above on 64-bit systems"
+	@echo "  ${MAKE_CMD} cygwin32       for Cygwin on Windows"
+	@echo "  ${MAKE_CMD} darwin_leopard for Macintosh OS X 10.5"
+	@echo "  ${MAKE_CMD} darwin_snow    for Macintosh OS X 10.6"
+	@echo "  ${MAKE_CMD} darwin_lion    for Macintosh OS X 10.7"
+	@echo "  ${MAKE_CMD} darwin_mav     for Macintosh OS X 10.9"
+	@echo "  ${MAKE_CMD} linux_intel    for Linux with g++ 3.x or above"
+	@echo "  ${MAKE_CMD} linux_intel-64 for Linux with g++ 3.x or above on 64-bit systems"
 	@echo
 	@echo "If you are not sure which system you have, run \"uname -a\"."
 	@echo
@@ -77,27 +79,16 @@ default:
 	@echo
 	@echo "To clean up afterwards, you can use:"
 	@echo
-	@echo "  ${MAKE} tidy           removes .o files"
-	@echo "  ${MAKE} clean          removes .o files and libraries"
+	@echo "  ${MAKE_CMD} tidy           removes .o files"
+	@echo "  ${MAKE_CMD} clean          removes .o files and libraries"
 
   ifeq ($(shell whoami),root)
-	@echo "  ${MAKE} uninstall      removes installed binaries and libraries"
+	@echo "  ${MAKE_CMD} uninstall      removes installed binaries and libraries"
   else
-	@echo "  ${MAKE} uninstall      removes installed binaries"
+	@echo "  ${MAKE_CMD} uninstall      removes installed binaries"
 	@echo
 	@echo "The libraries are not installed in any system directories, so only use"
 	@echo "\"clean\" if you link everything statically."
-  endif
-
-  ifeq ($(findstring CVS, $(shell ls)), CVS)
-	@echo
-	@echo "For CVS users:"
-	@echo
-	@echo "  ${MAKE} -f lib/Makefile_CVS cvsprep"
-	@echo "    prepares directory structure after 'cvs get'"
-	@echo
-	@echo "  ${MAKE} -f lib/Makefile_CVS cvsupdate"
-	@echo "    gets latest source from CVS and prepares for build"
   endif
 
 	@echo
