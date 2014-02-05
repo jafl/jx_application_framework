@@ -12,7 +12,7 @@ everything if you move JX to a different location after building it.
 
 On Fedora, you need to install development packages:
 
-    sudo yum install perl git gcc-c++ flex bison rpm-build \
+    sudo yum install perl git gcc-c++ flex bison kernel-devel rpm-build \
         libX11-devel libXinerama-devel libXpm-devel libXft-devel \
         libXmu-devel libXi-devel \
         libxml2-devel libjpeg-devel libpng-devel \
@@ -40,7 +40,8 @@ The build can download ACE automatically.  If you download and unpack ACE
 yourself (http://www.cs.wustl.edu/~schmidt/ACE.html), then the source needs
 to be patched.  In the ACE directory, run patch_ace.
 
-If you have mesa-libGL-devel installed, run this in the JX directory:
+The build can download Mesa automatically.  If not, and you have
+mesa-libGL-devel installed, run this in the JX directory:
 
     ln -s /usr Mesa
 
