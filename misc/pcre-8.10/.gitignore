@@ -12,3 +12,4 @@ pcre_chartables.c
 pcre_stringpiece.h
 pcrecpparg.h
 stamp-h1
+*.cache

@@ -101,7 +101,7 @@ J_MESA_LIBS := -L${JX_ROOT}/lib -lGLU -lGL
 
 # gzipped libraries to include in RPM
 
-J_RPM_GZ_LIBS := /lib64/libc.so.6 /usr/lib64/libstdc++.so.6
+J_RPM_GZ_LIBS := /usr/lib64/libstdc++.so.6
 
 # modify settings based on OS, compiler, etc.
 
