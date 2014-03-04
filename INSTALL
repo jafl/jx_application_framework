@@ -12,7 +12,7 @@ everything if you move JX to a different location after building it.
 
 On Fedora, you need to install development packages:
 
-    sudo yum install perl git gcc-c++ flex bison kernel-devel rpm-build \
+    sudo yum install perl git gcc-c++ flex bison rpm-build \
         libX11-devel libXinerama-devel libXpm-devel libXft-devel \
         libXmu-devel libXi-devel \
         libxml2-devel libjpeg-devel libpng-devel \
