@@ -99,17 +99,17 @@ GDBScanner::AppendInput
 
  *****************************************************************************/
 
-size_t
+int
 GDBScanner::LexerInput
 	(
-	char*  flexBuf,
-	size_t flexBufSize
+	char*	flexBuf,
+	int		flexBufSize
 	)
 {
 	assert( flexBuf != NULL && flexBufSize > 0 );
 
-	const int charLeft   = itsInputBuffer.GetLength() - itsBytesRead;
-	const size_t numCopy = (charLeft > flexBufSize) ? flexBufSize : charLeft;
+	const int charLeft = itsInputBuffer.GetLength() - itsBytesRead;
+	const int numCopy  = (charLeft > flexBufSize) ? flexBufSize : charLeft;
 
 	if (numCopy > 0)
 		{
