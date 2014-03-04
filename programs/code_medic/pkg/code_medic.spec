@@ -1,4 +1,4 @@
-%define medic_version 3.3.2
+%define medic_version 3.3.3
 %define _unpackaged_files_terminate_build 0
 
 Summary: Code Medic is a graphical debugging environment for UNIX.

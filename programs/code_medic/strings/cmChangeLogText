@@ -12,6 +12,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 3.3.3 </h3>
+
+Fixed bug causing About dialog to hang on Linux.
+
 <h3> 3.3.2 </h3>
 
 Fixed parser to understand wrapped container classes.
