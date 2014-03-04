@@ -99,11 +99,11 @@ GDBScanner::AppendInput
 
  *****************************************************************************/
 
-int
+FlexLexerInputSize
 GDBScanner::LexerInput
 	(
-	char*	flexBuf,
-	int		flexBufSize
+	char*				flexBuf,
+	FlexLexerInputSize	flexBufSize
 	)
 {
 	assert( flexBuf != NULL && flexBufSize > 0 );

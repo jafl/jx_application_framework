@@ -1,12 +1,12 @@
-#ifndef _H_GDBScanner
-#define _H_GDBScanner
-
 /******************************************************************************
  GDBScanner.h
 
 	Copyright © 2001 by John Lindal.  All rights reserved.
 
  *****************************************************************************/
+
+#ifndef _H_GDBScanner
+#define _H_GDBScanner
 
 #ifndef _H_GDBScannerL
 #undef yyFlexLexer
@@ -19,6 +19,7 @@
 #endif
 
 #include "CMLocation.h"
+#include "CMFlexLexerHacks.h"
 
 class GDBScanner : public GDBOutputFlexLexer
 {
@@ -111,7 +112,7 @@ public:
 
 protected:
 
-	virtual int	LexerInput(char* buf, int max_size);
+	virtual FlexLexerInputSize	LexerInput(char* buf, FlexLexerInputSize max_size);
 
 private:
 

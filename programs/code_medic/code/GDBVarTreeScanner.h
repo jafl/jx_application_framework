@@ -5,7 +5,6 @@
 
  *****************************************************************************/
 
-
 #ifndef _H_GDBVarTreeScanner
 #define _H_GDBVarTreeScanner
 
@@ -25,6 +24,8 @@
 #include "GDBVarTreeParserY.hpp"
 #endif
 
+#include "CMFlexLexerHacks.h"
+
 class GDBVarTreeScanner : public GDBVarFlexLexer
 {
 public:
@@ -37,7 +38,7 @@ public:
 
 protected:
 
-	virtual int LexerInput(char* buf, int max_size);
+	virtual FlexLexerInputSize LexerInput(char* buf, FlexLexerInputSize max_size);
 
 private:
 
