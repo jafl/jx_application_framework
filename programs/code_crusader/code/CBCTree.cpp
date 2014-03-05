@@ -139,6 +139,8 @@ static const JCharacter* kStructKW    = "struct ";
 static const JSize kStructKWLength    = strlen(kStructKW);
 static const JCharacter* kEnumKW      = "enum ";
 static const JSize kEnumKWLength      = strlen(kEnumKW);
+static const JCharacter* kEnumClassKW = "enum class ";
+static const JSize kEnumClassKWLength = strlen(kEnumClassKW);
 
 static const JCharacter* kVirtualKW = "virtual";
 static const JSize kVirtualKWLength = strlen(kVirtualKW);
@@ -222,7 +224,7 @@ CBCTree::ParseClasses
 
 	while (1)
 		{
-		JIndex nsIndex, classIndex, structIndex, enumIndex;
+		JIndex nsIndex, classIndex, structIndex, enumIndex, enumClassIndex;
 		if (!buffer->LocateSubstring(kNamespaceKW, &nsIndex))
 			{
 			nsIndex = buffer->GetLength()+1;
@@ -239,33 +241,43 @@ CBCTree::ParseClasses
 			{
 			enumIndex = buffer->GetLength()+1;
 			}
+		if (!buffer->LocateSubstring(kEnumClassKW, &enumClassIndex))
+			{
+			enumClassIndex = buffer->GetLength()+1;
+			}
 
 		JSize kwIndex, kwLength;
 		CBClass::DeclareType declType;
 		JBoolean isNamespace = kJFalse;
-		if (nsIndex < classIndex && nsIndex < structIndex && nsIndex < enumIndex)
+		if (nsIndex < classIndex && nsIndex < structIndex && nsIndex < enumIndex && nsIndex < enumClassIndex)
 			{
 			kwIndex     = nsIndex;
 			kwLength    = kNamespaceKWLength;
 			declType    = CBClass::kClassType;
 			isNamespace = kJTrue;
 			}
-		else if (classIndex < nsIndex && classIndex < structIndex && classIndex < enumIndex)
+		else if (classIndex < nsIndex && classIndex < structIndex && classIndex < enumIndex && classIndex < enumClassIndex)
 			{
 			kwIndex  = classIndex;
 			kwLength = kClassKWLength;
 			declType = CBClass::kClassType;
 			}
-		else if (structIndex < nsIndex && structIndex < classIndex && structIndex < enumIndex)
+		else if (structIndex < nsIndex && structIndex < classIndex && structIndex < enumIndex && structIndex < enumClassIndex)
 			{
 			kwIndex  = structIndex;
 			kwLength = kStructKWLength;
 			declType = CBClass::kStructType;
 			}
-		else if (enumIndex < nsIndex && enumIndex < classIndex && enumIndex < structIndex)
+		else if (enumIndex < nsIndex && enumIndex < classIndex && enumIndex < structIndex && enumIndex < enumClassIndex)
 			{
 			kwIndex  = enumIndex;
 			kwLength = kEnumKWLength;
+			declType = CBClass::kEnumType;
+			}
+		else if (enumClassIndex < nsIndex && enumClassIndex < classIndex && enumClassIndex < structIndex && enumClassIndex < enumIndex)
+			{
+			kwIndex  = enumClassIndex;
+			kwLength = kEnumClassKWLength;
 			declType = CBClass::kEnumType;
 			}
 		else
@@ -305,7 +317,8 @@ CBCTree::ParseClasses
 		bufLength = buffer->GetLength();
 		assert( !isspace(buffer->GetFirstCharacter()) );
 
-		if (buffer->GetFirstCharacter() == '{')		// typedef or unnamed enum
+		const JCharacter c = buffer->GetFirstCharacter();
+		if (c == '{' || c == ':')		// typedef or unnamed enum
 			{
 			continue;
 			}
