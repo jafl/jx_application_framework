@@ -68,6 +68,7 @@
 #include <jSysUtil.h>
 #include <sstream>
 #include <sys/time.h>
+#include <signal.h>
 #include <jErrno.h>
 #include <jAssert.h>
 
@@ -208,6 +209,21 @@ enum
 	kEditFileTypesCmd, kChooseExtEditorsCmd,
 	kShowLocationPrefsCmd, kMiscPrefsCmd,
 	kSaveWindSizeCmd
+};
+
+// catch crashes during child process parsing
+
+class ChildAssertHandler : public JAssertBase
+{
+	virtual int Assert(const JCharacter* expr, const JCharacter* file, const int line)
+	{
+		return JAssertBase::DefaultAssert(expr, file, line);
+	}
+
+	virtual void Abort()
+	{
+		exit(1);
+	}
 };
 
 /******************************************************************************
@@ -2654,7 +2670,7 @@ CBProjectDocument::UpdateSymbolDatabase()
 		JThisProcess::Instance()->SetPriority(19);
 
 		// get rid of JXCreatePG, since we must not use X connection
-		JInitCore();
+		JInitCore(new ChildAssertHandler());
 		CBSetUpdateThread();
 
 		JOutPipeStream output(fd[0][1], kJTrue);
