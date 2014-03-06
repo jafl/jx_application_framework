@@ -14,36 +14,48 @@ template <class T>
 T
 JMin
 	(
-	const T x1,
-	const T x2
+	const T v1,
+	const T v2
 	)
 {
-	if (x1 <= x2)
-		{
-		return x1;
-		}
-	else
-		{
-		return x2;
-		}
+	return (v1 <= v2) ? v1 : v2;
+}
+
+template <class T, typename... Args>
+T
+JMin
+	(
+	const T v1,
+	const T v2,
+	Args... more
+	)
+{
+	const T v3 = JMin(v2, more...);
+	return (v1 <= v3) ? v1 : v3;
 }
 
 template <class T>
 T
 JMax
 	(
-	const T x1,
-	const T x2
+	const T v1,
+	const T v2
 	)
 {
-	if (x1 >= x2)
-		{
-		return x1;
-		}
-	else
-		{
-		return x2;
-		}
+	return (v1 >= v2) ? v1 : v2;
+}
+
+template <class T, typename... Args>
+T
+JMax
+	(
+	const T v1,
+	const T v2,
+	Args... more
+	)
+{
+	const T v3 = JMax(v2, more...);
+	return (v1 >= v3) ? v1 : v3;
 }
 
 template <class T>
@@ -51,21 +63,21 @@ T
 JLimit
 	(
 	const T min,
-	const T x,
+	const T v,
 	const T max
 	)
 {
-	if (x <= min)
+	if (v <= min)
 		{
 		return min;
 		}
-	else if (x >= max)
+	else if (v >= max)
 		{
 		return max;
 		}
 	else
 		{
-		return x;
+		return v;
 		}
 }
 
@@ -73,7 +85,7 @@ JLimit
 
 // Instantiate the template for the specified type.
 
-#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition && defined J_EXPLICIT_TEMPLATES
 	#define JTemplateReturnType JTemplateType
 	#define JTemplateArgList    const JTemplateType,const JTemplateType
 

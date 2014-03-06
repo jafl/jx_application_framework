@@ -368,4 +368,7 @@ private:
 	const JOrderedSet<T>& operator=(const JOrderedSet<T>& source);
 };
 
+#include <JOrderedSet.tmpl>
+#include <JOrderedSetIterator.tmpl>
+
 #endif

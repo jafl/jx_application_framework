@@ -84,4 +84,6 @@ private:
 	void	ResizeMemoryAllocation(const JSize newSlotCount);
 };
 
+#include <JArray.tmpl>
+
 #endif

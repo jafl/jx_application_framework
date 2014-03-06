@@ -46,6 +46,8 @@ int JAssert(const char*, const char*, const int);
 #pragma once
 #endif
 
-#include <jNew.h>
+#endif
 
+#ifndef J_SKIP_NEW
+#include <jNew.h>
 #endif

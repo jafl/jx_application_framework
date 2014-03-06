@@ -15,12 +15,20 @@
 #endif
 
 template <class T>
-T JMin(const T x1, const T x2);
+T JMin(const T v1, const T v2);
+
+template <class T, typename... Args>
+T JMin(const T v1, const T v2, Args... more);
 
 template <class T>
-T JMax(const T x1, const T x2);
+T JMax(const T v1, const T v2);
+
+template <class T, typename... Args>
+T JMax(const T v1, const T v2, Args... more);
 
 template <class T>
-T JLimit(const T min, const T x, const T max);
+T JLimit(const T min, const T v, const T max);
+
+#include <JMinMax.tmpl>
 
 #endif

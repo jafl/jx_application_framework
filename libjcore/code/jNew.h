@@ -25,16 +25,16 @@
 #include <stdlib.h> // For size_t
 #include <jTypes.h>
 
-	void* operator new(size_t size);
-	void* operator new(size_t size, const JCharacter* file, const JUInt32 line);
+void* operator new(size_t size);
+void* operator new(size_t size, const JCharacter* file, const JUInt32 line);
 
-	void* operator new[](size_t size);
-	void* operator new[](size_t size, const JCharacter* file, const JUInt32 line);
+void* operator new[](size_t size);
+void* operator new[](size_t size, const JCharacter* file, const JUInt32 line);
 
-	void operator delete(void* memory);
-	void operator delete[](void* memory);
+void operator delete(void* memory);
+void operator delete[](void* memory);
 
-	void JLocateDelete(const JCharacter* file, const JUInt32 line);
+void JLocateDelete(const JCharacter* file, const JUInt32 line);
 
 #endif
 
