@@ -188,7 +188,7 @@ JStringMap<V>::SetElement
 }
 
 /******************************************************************************
- PrepareForSet (protected)
+ PrepareForSet (virtual protected)
 
 	Operates on the cursor's element.
 
@@ -201,26 +201,7 @@ JStringMap<V>::PrepareForSet
 	const JPtrArrayT::SetElementAction action
 	)
 {
-#ifdef JStringMapDelete
-
-	if (action == JPtrArrayT::kDelete)
-		{
-		delete JHashTable< JStrValue<V> >::GetCursor()->GetValue().value;
-		}
-	else if (action == JPtrArrayT::kDeleteAsArray)
-		{
-		delete [] JHashTable< JStrValue<V> >::GetCursor()->GetValue().value;
-		}
-	else
-		{
-		assert( action == JPtrArrayT::kForget );
-		}
-
-#else
-
 	assert( action == JPtrArrayT::kForget );
-
-#endif
 }
 
 /******************************************************************************
@@ -328,7 +309,7 @@ JStringMap<V>::Hash
 
 // Instantiate the template for the specified type.
 
-#if defined JTemplateType && !defined JOnlyWantTemplateDefinition
+#if defined JTemplateType && !defined JOnlyWantTemplateDefinition && defined J_EXPLICIT_TEMPLATES
 	#define JTemplateName JStringMap
 	#include <instantiate_template.h>
 	#undef JTemplateName

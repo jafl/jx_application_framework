@@ -49,4 +49,6 @@ private:
 	const JAuxTableData<T>& operator=(const JAuxTableData<T>& source);
 };
 
+#include <JAuxTableData.tmpl>
+
 #endif

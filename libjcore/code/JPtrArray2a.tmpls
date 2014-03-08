@@ -9,7 +9,7 @@
 // This file exists because one must define JPtrArray<T> with JPtrArrayCopy
 // and JPtrArray<JPtrArray<T>> without it.
 
-#if defined JTemplateType
+#if defined JTemplateType && defined J_EXPLICIT_TEMPLATES
 
 	template class JOrderedSet< JPtrArray< JTemplateType >* >;
 	template class JOrderedSetIterator< JPtrArray< JTemplateType >* >;

@@ -23,7 +23,7 @@
 #include <JMMErrorPrinter.h>
 
 #include <JArray.h>
-#include <iomanip.h>
+#include <iomanip>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -45,20 +45,20 @@ main()
 	cout << "\n   Testing initialization value" << endl;
 	const JSize blockSize = 4;
 	aLong = new long[blockSize];
-	cout << setbase(16) << "\n   Block of longs initialized to: ";
+	cout << std::setbase(16) << "\n   Block of longs initialized to: ";
 	for (JIndex i=0;i<blockSize;i++)
 		{
 		cout << aLong[i];
 		}
-	cout << setbase(10) << endl;
+	cout << std::setbase(10) << endl;
 	delete[] aLong;
 	cout << "\n   Testing shredding value (slightly dangerous!)" << endl;
-	cout << setbase(16) << "\n   Block of longs shredded to: ";
+	cout << std::setbase(16) << "\n   Block of longs shredded to: ";
 	for (JIndex i=0;i<blockSize;i++)
 		{
 		cout << aLong[i];
 		}
-	cout << setbase(10) << endl;
+	cout << std::setbase(10) << endl;
 
 //	JMemoryManager::Instance()->DiscardDeletionRecords();
 

@@ -18,7 +18,7 @@
 #include <JArray.tmpl>
 #undef JOnlyWantTemplateDefinition
 
-#if defined JTemplateType
+#if defined JTemplateType && defined J_EXPLICIT_TEMPLATES
 
 	template class JOrderedSet< JRunArrayElement< JTemplateType > >;
 	template class JOrderedSetIterator< JRunArrayElement< JTemplateType > >;

@@ -176,4 +176,6 @@ private:
 	JMessageProtocol& operator=(const JMessageProtocol& source);
 };
 
+#include <JMessageProtocol.tmpl>
+
 #endif

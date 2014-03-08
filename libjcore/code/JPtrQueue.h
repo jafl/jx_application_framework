@@ -53,4 +53,6 @@ private:
 	const JPtrQueue<T,S>& operator=(const JPtrQueue<T,S>& source);
 };
 
+#include <JPtrQueue.tmpl>
+
 #endif

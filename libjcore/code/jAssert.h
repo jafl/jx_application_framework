@@ -48,6 +48,4 @@ int JAssert(const char*, const char*, const int);
 
 #endif
 
-#ifndef J_SKIP_NEW
 #include <jNew.h>
-#endif

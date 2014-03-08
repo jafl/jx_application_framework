@@ -57,6 +57,4 @@ JOutPipeStream::close()
 		}
 }
 
-#include <JOutPipeStreambuf.tmpl>
-
-template class JOutPipeStreambuf<char, std::char_traits<char> >;
+//template class JOutPipeStreambuf<char, std::char_traits<char> >;

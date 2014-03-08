@@ -182,4 +182,7 @@ private:
 	static int	QuickSortCompareRuns(const void* p1, const void* p2);
 };
 
+#include <JRunArray.tmpl>
+#include <JRunArrayIterator.tmpl>
+
 #endif

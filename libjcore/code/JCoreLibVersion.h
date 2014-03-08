@@ -13,12 +13,14 @@
 // These have to be #defined so they can be used for conditional compilation.
 
 #define CURRENT_JCORE_MAJOR_VERSION	3
-#define CURRENT_JCORE_MINOR_VERSION	0
+#define CURRENT_JCORE_MINOR_VERSION	1
 #define CURRENT_JCORE_PATCH_VERSION	0
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJCoreLibVersionStr = "3.0.0";
+static const char* kCurrentJCoreLibVersionStr = "3.1.0";
+
+// version 3.2.0:
 
 // version 3.1.0:
 //	*** Removed dynamic_cast macro.
@@ -38,6 +40,10 @@ static const char* kCurrentJCoreLibVersionStr = "3.0.0";
 //	jTime:
 //		*** JCheckExpirationDate() requires that you provide these strings:
 //			WarnExpire::jTime, Expired::jTime
+//	*** Switched to automatic template instantiation
+//		JPtrArray copy constructor now takes only two arguments and does shallow copy.
+//		To do a deep copy, construct JDCCPtrArray instead.
+//		Before including any ACE header files, include j_prep_ace.h
 
 // version 3.0.0:
 //	JRexex:

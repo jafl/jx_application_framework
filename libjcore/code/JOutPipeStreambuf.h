@@ -41,4 +41,6 @@ private:
 	JBoolean	itsCloseFlag;	// kJTrue => close when we are destructed
 };
 
+#include <JOutPipeStreambuf.tmpl>
+
 #endif

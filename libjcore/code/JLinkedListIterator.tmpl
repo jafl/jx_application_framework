@@ -244,7 +244,7 @@ JLinkedListIterator<T>::SetPrev
 	)
 {
 	JOrderedSet<T>* obj;
-	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
+	if (!JLinkedListIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -269,7 +269,7 @@ JLinkedListIterator<T>::SetNext
 	)
 {
 	JOrderedSet<T>* obj;
-	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtEnd())
+	if (!JLinkedListIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtEnd())
 		{
 		return kJFalse;
 		}
@@ -293,7 +293,7 @@ JBoolean
 JLinkedListIterator<T>::RemovePrev()
 {
 	JOrderedSet<T>* obj;
-	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
+	if (!JLinkedListIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtBeginning())
 		{
 		return kJFalse;
 		}
@@ -315,7 +315,7 @@ JBoolean
 JLinkedListIterator<T>::RemoveNext()
 {
 	JOrderedSet<T>* obj;
-	if (!GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtEnd())
+	if (!JLinkedListIterator<T>::GetOrderedSet(&obj) || JOrderedSetIterator<T>::AtEnd())
 		{
 		return kJFalse;
 		}
@@ -406,7 +406,7 @@ JLinkedListIterator<T>::OrderedSetChanged
 
 // Instantiate the template for the specified type.
 
-#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition && defined J_EXPLICIT_TEMPLATES
 	#define JTemplateName JLinkedListIterator
 	#include <instantiate_template.h>
 	#undef JTemplateName

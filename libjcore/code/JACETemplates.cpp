@@ -31,6 +31,8 @@ const JCharacter* JMessageProtocolT::kReceivedDisconnect =
 
 const JCharacter* JAsynchDataReceiverT::kDataReady = "DataReady::JAsynchDataReceiverT";
 
+#ifdef J_EXPLICIT_TEMPLATES
+
 #include <ace/SOCK_Stream.h>
 #include <ace/INET_Addr.h>
 #define JTemplateType ACE_SOCK_STREAM
@@ -128,3 +130,5 @@ const JCharacter* JAsynchDataReceiverT::kDataReady = "DataReady::JAsynchDataRece
 #define JTemplateType iovec
 #include <JArray.tmpls>
 #undef JTemplateType
+
+#endif

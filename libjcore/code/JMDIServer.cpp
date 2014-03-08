@@ -31,6 +31,7 @@
 
 #include <JCoreStdInc.h>
 #include <JMDIServer.h>
+#include <j_prep_ace.h>
 #include <ace/LSOCK_Acceptor.h>
 #include <ace/LSOCK_Connector.h>
 #include <ace/LSOCK_Stream.h>

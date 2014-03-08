@@ -53,4 +53,6 @@ private:
 	const JPtrStack<T,S>& operator=(const JPtrStack<T,S>& source);
 };
 
+#include <JPtrStack.tmpl>
+
 #endif

@@ -85,7 +85,7 @@ JLinkedList<T>::operator=
 	JCollection::operator=(source);		// JOrderedSet::operator= is private
 
 	CopyList(source);
-	OrderedSetAssigned(source);
+	JLinkedList<T>::OrderedSetAssigned(source);
 
 	return *this;
 }
@@ -730,7 +730,7 @@ JLinkedList<T>::StoreData
 
 // Instantiate the template for the specified type.
 
-#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition && defined J_EXPLICIT_TEMPLATES
 	#define JTemplateName JLinkedList
 	#include <instantiate_template.h>
 	#undef JTemplateName

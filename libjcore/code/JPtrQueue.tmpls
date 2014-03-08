@@ -14,7 +14,7 @@
 #include <JQueue.tmpls>
 #undef JOnlyWantTemplateDefinition
 
-#if defined JTemplateDataType && defined JTemplateStorageType
+#if defined JTemplateDataType && defined JTemplateStorageType && defined J_EXPLICIT_TEMPLATES
 
 	template class JQueue< JTemplateDataType*, JTemplateStorageType >;
 

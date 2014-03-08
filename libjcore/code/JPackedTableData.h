@@ -104,4 +104,6 @@ private:
 	const JPackedTableData<T>& operator=(const JPackedTableData<T>& source);
 };
 
+#include <JPackedTableData.tmpl>
+
 #endif

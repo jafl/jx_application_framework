@@ -42,4 +42,6 @@ public:
 	void	SetBinBlockSize(const JSize blockSize);
 };
 
+#include <JDynamicHistogram.tmpl>
+
 #endif

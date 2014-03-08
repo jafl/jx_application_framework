@@ -54,8 +54,7 @@ JObjTableData<T>::JObjTableData
 		{
 		const JPtrArray<T>* origColData = (source.itsCols)->NthElement(j);
 
-		JPtrArray<T>* newColData =
-			new JPtrArray<T>(*origColData, JPtrArrayT::kDeleteAll, kJTrue);
+		JPtrArray<T>* newColData = new JDCCPtrArray<T>(*origColData, JPtrArrayT::kDeleteAll);
 		assert( newColData != NULL );
 		itsCols->InsertAtIndex(j, newColData);
 		}
@@ -540,8 +539,7 @@ JObjTableData<T>::DuplicateCol
 
 	JPtrArray<T>* origColData = itsCols->NthElement(origIndex);
 
-	JPtrArray<T>* newColData =
-		new JPtrArray<T>(*origColData, JPtrArrayT::kDeleteAll, kJTrue);
+	JPtrArray<T>* newColData = new JDCCPtrArray<T>(*origColData, JPtrArrayT::kDeleteAll);
 	assert( newColData != NULL );
 	itsCols->InsertAtIndex(trueIndex, newColData);
 
@@ -641,7 +639,7 @@ JObjTableData<T>::MoveCol
 
 // Instantiate the template for the specified type.
 
-#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition && defined J_EXPLICIT_TEMPLATES
 	#define JTemplateName JObjTableData
 	#include <instantiate_template.h>
 	#undef JTemplateName

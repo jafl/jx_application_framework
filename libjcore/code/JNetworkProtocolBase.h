@@ -12,6 +12,7 @@
 #pragma once
 #endif
 
+#include <j_prep_ace.h>
 #include <ace/Svc_Handler.h>
 #include <ace/Synch_Traits.h>
 #include <JString.h>
@@ -56,5 +57,7 @@ private:
 	JNetworkProtocolBase(const JNetworkProtocolBase& source);
 	JNetworkProtocolBase& operator=(const JNetworkProtocolBase& source);
 };
+
+#include <JNetworkProtocolBase.tmpl>
 
 #endif

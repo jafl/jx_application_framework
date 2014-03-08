@@ -39,8 +39,7 @@ class JPtrArray : public JArray<T*>
 public:
 
 	JPtrArray(const JPtrArrayT::CleanUpAction action, const JSize aBlockSize = 10);
-	JPtrArray(const JPtrArray<T>& source, const JPtrArrayT::CleanUpAction action,
-			  const JBoolean copyObjects);
+	JPtrArray(const JPtrArray<T>& source, const JPtrArrayT::CleanUpAction action);
 
 	virtual ~JPtrArray();
 
@@ -110,6 +109,25 @@ private:
 	const JPtrArray<T>& operator=(const JPtrArray<T>& source);
 };
 
+// "deep copy constructor" version of JPtrArray
+
+template <class T>
+class JDCCPtrArray : public JPtrArray<T>
+{
+public:
+
+	JDCCPtrArray(const JPtrArrayT::CleanUpAction action, const JSize aBlockSize = 10);
+	JDCCPtrArray(const JPtrArray<T>& source, const JPtrArrayT::CleanUpAction action);
+
+private:
+
+	// These are not safe because the CleanUpAction must not be kDeleteAllAs*
+	// for both the original and the copy.
+
+	JDCCPtrArray(const JDCCPtrArray<T>& source);
+	const JDCCPtrArray<T>& operator=(const JDCCPtrArray<T>& source);
+};
+
 // JPtrArrayIterator.h can't include JPtrArray.h because that would create
 // a loop.  JPtrArrayIterator.h would have to include JPtrArray.h because
 // it needs SetElementAction.
@@ -137,5 +155,8 @@ public:
 	JBoolean	DeletePrevAsArray();
 	JBoolean	DeleteNextAsArray();
 };
+
+#include <JPtrArray.tmpl>
+#include <JPtrArrayIterator.tmpl>
 
 #endif

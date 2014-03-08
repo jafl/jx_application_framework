@@ -13,6 +13,7 @@
 #include <JRegex.h>
 #include <JWebBrowser.h>
 #include <jGlobals.h>
+#include <j_prep_ace.h>
 #include <ace/Connector.h>
 #include <ace/SOCK_Connector.h>
 #include <jErrno.h>
@@ -226,6 +227,8 @@ JCheckForNewerVersion
 		}
 }
 
+#ifdef J_EXPLICIT_TEMPLATES
+
 #define JTemplateType ACE_SOCK_STREAM
 #include <JVersionSocket.tmpl>
 #undef JTemplateType
@@ -247,3 +250,5 @@ JCheckForNewerVersion
 #include <instantiate_template.h>
 #undef JTemplateName
 #undef JTemplateType
+
+#endif

@@ -13,6 +13,7 @@
 #endif
 
 #include <JPtrArray-JString.h>
+#include <j_prep_ace.h>
 #include <ace/Svc_Handler.h>
 #include <ace/Synch_Traits.h>
 
@@ -91,5 +92,7 @@ private:
 	JAsynchDataReceiver(const JAsynchDataReceiver& source);
 	JAsynchDataReceiver& operator=(const JAsynchDataReceiver& source);
 };
+
+#include <JAsynchDataReceiver.tmpl>
 
 #endif

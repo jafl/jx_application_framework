@@ -208,7 +208,7 @@ JPtrArrayIterator<T>::DeleteNextAsArray()
 
 // Instantiate the template for the specified type.
 
-#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition && defined J_EXPLICIT_TEMPLATES
 	#define JTemplateName JPtrArrayIterator
 	#include <instantiate_template.h>
 	#undef JTemplateName

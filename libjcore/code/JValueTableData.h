@@ -75,4 +75,6 @@ private:
 	const JValueTableData<S,T>& operator=(const JValueTableData<S,T>& source);
 };
 
+#include <JValueTableData.tmpl>
+
 #endif

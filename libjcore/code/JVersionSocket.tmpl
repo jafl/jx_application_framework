@@ -318,7 +318,7 @@ JVersionSocket<ACE_PEER_STREAM_2>::WritePrefs
 
 // Instantiate the templates for the specified type.
 
-#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition && defined J_EXPLICIT_TEMPLATES
 	#define JTemplateName JVersionSocket
 	#include <instantiate_template.h>
 	#undef JTemplateName

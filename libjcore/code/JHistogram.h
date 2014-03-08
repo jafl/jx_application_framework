@@ -55,4 +55,6 @@ private:
 	JArray<T>*	itsBins;	// bins for counts
 };
 
+#include <JHistogram.tmpl>
+
 #endif

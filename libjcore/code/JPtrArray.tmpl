@@ -52,26 +52,48 @@ template <class T>
 JPtrArray<T>::JPtrArray
 	(
 	const JPtrArray<T>&				source,
-	const JPtrArrayT::CleanUpAction	action,
-	const JBoolean					copyObjects
+	const JPtrArrayT::CleanUpAction	action
 	)
 	:
 	JArray<T*>(source),
 	itsCleanUpAction(action)
 {
-#ifdef JPtrArrayCopy
+}
 
-	if (copyObjects)
-		{
-		JArray<T*>::RemoveAll();
-		CopyObjects(source, action, kJTrue);
-		}
+/******************************************************************************
+ Constructor
 
-#else
+ ******************************************************************************/
 
-	assert( !copyObjects );
+template <class T>
+JDCCPtrArray<T>::JDCCPtrArray
+	(
+	const JPtrArrayT::CleanUpAction	action,
+	const JSize						blockSize
+	)
+	:
+	JPtrArray<T>(action, blockSize)
+{
+}
 
-#endif
+/******************************************************************************
+ Copy constructor
+
+	CleanUpAction should not be kDeleteAll* for both original and copy.
+
+ ******************************************************************************/
+
+template <class T>
+JDCCPtrArray<T>::JDCCPtrArray
+	(
+	const JPtrArray<T>&				source,
+	const JPtrArrayT::CleanUpAction	action
+	)
+	:
+	JPtrArray<T>(source, action)
+{
+	JArray<T*>::RemoveAll();
+	JPtrArray<T>::CopyObjects(source, action, kJTrue);
 }
 
 /******************************************************************************
@@ -154,7 +176,7 @@ JPtrArray<T>::CopyPointers
 	return *this;
 }
 
-#ifdef JPtrArrayCopy
+#if defined JPtrArrayCopy || ! defined J_EXPLICIT_TEMPLATES
 
 /******************************************************************************
  CopyObjects (Deep assignment operator)
@@ -290,7 +312,7 @@ JPtrArray<T>::InsertAtIndex
 	JPtrArray<T>::InsertElementAtIndex(index, dataPtr);
 }
 
-#ifdef JPtrArrayCopy
+#if defined JPtrArrayCopy || ! defined J_EXPLICIT_TEMPLATES
 
 template <class T>
 void
@@ -322,7 +344,7 @@ JPtrArray<T>::Prepend
 	InsertAtIndex(1, dataPtr);
 }
 
-#ifdef JPtrArrayCopy
+#if defined JPtrArrayCopy || ! defined J_EXPLICIT_TEMPLATES
 
 template <class T>
 void
@@ -353,7 +375,7 @@ JPtrArray<T>::Append
 	InsertAtIndex(JCollection::GetElementCount() + 1, dataPtr);
 }
 
-#ifdef JPtrArrayCopy
+#if defined JPtrArrayCopy || ! defined J_EXPLICIT_TEMPLATES
 
 template <class T>
 void
@@ -397,7 +419,7 @@ JPtrArray<T>::InsertBefore
 		}
 }
 
-#ifdef JPtrArrayCopy
+#if defined JPtrArrayCopy || ! defined J_EXPLICIT_TEMPLATES
 
 template <class T>
 void
@@ -442,7 +464,7 @@ JPtrArray<T>::InsertAfter
 		}
 }
 
-#ifdef JPtrArrayCopy
+#if defined JPtrArrayCopy || ! defined J_EXPLICIT_TEMPLATES
 
 template <class T>
 void
@@ -491,7 +513,7 @@ JPtrArray<T>::SetElement
 	JArray<T*>::SetElement(index, dataPtr);
 }
 
-#ifdef JPtrArrayCopy
+#if defined JPtrArrayCopy || ! defined J_EXPLICIT_TEMPLATES
 
 template <class T>
 void
@@ -701,7 +723,7 @@ JPtrArray<T>::SetCleanUpAction
 
 // Instantiate the template for the specified type.
 
-#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition && defined J_EXPLICIT_TEMPLATES
 	#define JTemplateName JPtrArray
 	#include <instantiate_template.h>
 	#undef JTemplateName

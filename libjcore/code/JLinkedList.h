@@ -101,4 +101,7 @@ private:
 									   JLinkedListElement<T>* origElement);
 };
 
+#include <JLinkedList.tmpl>
+#include <JLinkedListIterator.tmpl>
+
 #endif

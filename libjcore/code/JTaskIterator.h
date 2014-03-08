@@ -31,4 +31,6 @@ protected:
 	virtual void	OrderedSetChanged(const JBroadcaster::Message& message);
 };
 
+#include <JTaskIterator.tmpl>
+
 #endif

@@ -123,15 +123,15 @@ JHashRecord<V>::PrintLayout()
 	cout << "Memory layout of JHashRecord:" << endl;
 
 	cout << "\n       itsState = " << offsetof(JHashRecord, itsState) << "-"
-	     << offsetof(JHashRecord, itsState)+sizeof(JHashRecord::itsState)-1 << endl;
+		 << offsetof(JHashRecord, itsState)+sizeof(JHashRecord::itsState)-1 << endl;
 	cout << "   itsHashValue = " << offsetof(JHashRecord, itsHashValue) << "-"
-	     << offsetof(JHashRecord, itsHashValue)+sizeof(JHashRecord::itsHashValue)-1 << endl;
+		 << offsetof(JHashRecord, itsHashValue)+sizeof(JHashRecord::itsHashValue)-1 << endl;
 	cout << "       itsValue = " << offsetof(JHashRecord, itsValue) << "-"
-	     << offsetof(JHashRecord, itsValue)+sizeof(JHashRecord::itsValue)-1 << endl;
+		 << offsetof(JHashRecord, itsValue)+sizeof(JHashRecord::itsValue)-1 << endl;
 
 	cout << "\n       overhead = "
-	     << offsetof(JHashRecord, itsValue)+sizeof(JHashRecord::itsValue) << "-"
-	     << sizeof(JHashRecord)-1 << "\n" << endl;
+		 << offsetof(JHashRecord, itsValue)+sizeof(JHashRecord::itsValue) << "-"
+		 << sizeof(JHashRecord)-1 << "\n" << endl;
 }
 
 #endif
@@ -140,7 +140,7 @@ JHashRecord<V>::PrintLayout()
 
 // Instantiate the template for the specified type.
 
-#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition && defined J_EXPLICIT_TEMPLATES
 	#define JTemplateName JHashRecord
 	#include <instantiate_template.h>
 	#undef JTemplateName

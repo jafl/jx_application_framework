@@ -90,7 +90,35 @@ JStringPtrMap<V>::CleanOut()
 		}
 }
 
-#ifdef JStringPtrMapCopy
+/******************************************************************************
+ PrepareForSet (virtual protected)
+
+	Operates on the cursor's element.
+
+ *****************************************************************************/
+
+template <class V>
+void
+JStringPtrMap<V>::PrepareForSet
+	(
+	const JPtrArrayT::SetElementAction action
+	)
+{
+	if (action == JPtrArrayT::kDelete)
+		{
+		delete JHashTable< JStrValue<V*> >::GetCursor()->GetValue().value;
+		}
+	else if (action == JPtrArrayT::kDeleteAsArray)
+		{
+		delete [] JHashTable< JStrValue<V*> >::GetCursor()->GetValue().value;
+		}
+	else
+		{
+		assert( action == JPtrArrayT::kForget );
+		}
+}
+
+#if defined JStringPtrMapCopy || ! defined J_EXPLICIT_TEMPLATES
 
 /******************************************************************************
  Set...Element
@@ -162,7 +190,7 @@ JStringPtrMap<V>::SetContains
 
 // Instantiate the template for the specified type.
 
-#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition && defined J_EXPLICIT_TEMPLATES
 	#define JTemplateName JStringPtrMap
 	#include <instantiate_template.h>
 	#undef JTemplateName

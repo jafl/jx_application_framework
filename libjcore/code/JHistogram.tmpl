@@ -299,7 +299,7 @@ JHistogram<T>::GetBins()
 
 // Instantiate the template for the specified type.
 
-#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
+#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition && defined J_EXPLICIT_TEMPLATES
 	#define JTemplateName JHistogram
 	#include <instantiate_template.h>
 	#undef JTemplateName

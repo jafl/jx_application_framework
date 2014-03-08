@@ -85,4 +85,6 @@ private:
 	const JAliasArray<T>& operator=(const JAliasArray<T>& source);
 };
 
+#include <JAliasArray.tmpl>
+
 #endif

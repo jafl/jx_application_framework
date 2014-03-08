@@ -52,4 +52,6 @@ private:
 	S*	itsElements;
 };
 
+#include <JQueue.tmpl>
+
 #endif

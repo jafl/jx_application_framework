@@ -14,6 +14,7 @@
  ******************************************************************************/
 
 #include <JPtrStack.h>
+#include <jAssert.h>
 
 /******************************************************************************
  Constructor
@@ -150,7 +151,7 @@ JPtrStack<T,S>::UnwindDeleteAsArrays
 
  ******************************************************************************/
 
-#ifdef JPtrStackCopy
+#if defined JPtrStackCopy || ! defined J_EXPLICIT_TEMPLATES
 
 template <class T, class S>
 void
@@ -197,7 +198,7 @@ JPtrStack<T,S>::SetCleanUpAction
 
 // Instantiate the template for the specified type.
 
-#if defined JTemplateDataType && defined JTemplateStorageType && ! defined JOnlyWantTemplateDefinition
+#if defined JTemplateDataType && defined JTemplateStorageType && ! defined JOnlyWantTemplateDefinition && defined J_EXPLICIT_TEMPLATES
 	#define JTemplateType JTemplateDataType,JTemplateStorageType
 	#define JTemplateName JPtrStack
 	#include <instantiate_template.h>

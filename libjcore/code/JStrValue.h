@@ -32,4 +32,6 @@ public:
 	JStrValue(const JCharacter* k, const V& v);
 };
 
+#include <JStrValue.tmpl>
+
 #endif

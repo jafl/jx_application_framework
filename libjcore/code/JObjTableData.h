@@ -71,4 +71,6 @@ private:
 	const JObjTableData<T>& operator=(const JObjTableData<T>& source);
 };
 
+#include <JObjTableData.tmpl>
+
 #endif

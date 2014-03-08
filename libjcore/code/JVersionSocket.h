@@ -14,6 +14,7 @@
 
 #include <JPrefObject.h>
 #include <JString.h>
+#include <j_prep_ace.h>
 #include <ace/Svc_Handler.h>
 #include <ace/Synch_Traits.h>
 
@@ -73,5 +74,7 @@ JVersionSocket<ACE_PEER_STREAM_2>::GetLatestVersion()
 {
 	return itsVersion;
 }
+
+#include <JVersionSocket.tmpl>
 
 #endif
