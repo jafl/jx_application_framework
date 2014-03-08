@@ -14,6 +14,7 @@
 #include <jCommandLine.h>
 #include <jFStreamUtil.h>
 #include <limits.h>
+#include <typeinfo>
 
 void TestCopyMaxN();
 void TestLeak();

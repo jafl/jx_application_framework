@@ -93,7 +93,7 @@ JPtrArrayIterator<JString> iter(&a1,kJIteratorStartAtBeginning);
 
 	JWaitForReturn();
 
-JPtrArray<JString> a2(a1, JPtrArrayT::kForgetAll, kJFalse);		// copy constructor
+JPtrArray<JString> a2(a1, JPtrArrayT::kForgetAll);		// copy constructor
 
 	cout << "array a2 created from a1" << endl << endl;
 
