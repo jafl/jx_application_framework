@@ -106,21 +106,6 @@ F
 "./code/GNBTree.cc"
 F
 T
-1 "arrays"
-T
-2 "JPtrArray-GNBNoteDir.cc"
-F
-"./code/JPtrArray-GNBNoteDir.cc"
-T
-2 "JPtrArray-GNBTreeDir.cc"
-F
-"./code/JPtrArray-GNBTreeDir.cc"
-T
-2 "JPtrArray-JNamedTreeNode.cc"
-F
-"./code/JPtrArray-JNamedTreeNode.cc"
-F
-T
 1 "images"
 T
 2 "editcopy.xpm"

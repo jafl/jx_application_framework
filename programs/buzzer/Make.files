@@ -27,8 +27,5 @@
 .cc ./code/GNBRootNode
 .cc ./code/GNBToDoNode
 .cc ./code/GNBTree
-.cc ./code/JPtrArray-GNBNoteDir
-.cc ./code/JPtrArray-GNBTreeDir
-.cc ./code/JPtrArray-JNamedTreeNode
 
 literal: ${LIB_DEPS}

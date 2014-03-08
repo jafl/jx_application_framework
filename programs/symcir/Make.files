@@ -29,8 +29,6 @@
 .cpp ./code/SCVarTable
 .cpp ./code/SCXferFnDirector
 .cpp ./code/SCZinDirector
-.cpp ./code/JPtrArray-SCDirectorBase
-.cpp ./code/JPtrArray-SCPlotDirector
 .cpp ./circuit/SCACSource
 .cpp ./circuit/SCCapacitor
 .cpp ./circuit/SCCircuit
@@ -52,8 +50,6 @@
 .cpp ./circuit/SCVdepISource
 .cpp ./circuit/SCVdepSource
 .cpp ./circuit/SCVdepVSource
-.cpp ./circuit/JArray-VarInfo
-.cpp ./circuit/JPtrArray-SCComponent
 .cpp ../../jextra/JMathematicaSM
 .cpp ../../jextra/JSymbolicMath
 

@@ -404,65 +404,6 @@ F
 "./code/GMUpdateAttachTableWidth.cpp"
 F
 T
-1 "arrays"
-T
-2 "JPtrArray-GLockFileTask.cpp"
-F
-"./code/JPtrArray-GLockFileTask.cpp"
-T
-2 "JPtrArray-GMAccount.cpp"
-F
-"./code/JPtrArray-GMAccount.cpp"
-T
-2 "JPtrArray-GMessageEditDir.cpp"
-F
-"./code/JPtrArray-GMessageEditDir.cpp"
-T
-2 "JPtrArray-GMessageFrom.cpp"
-F
-"./code/JPtrArray-GMessageFrom.cpp"
-T
-2 "JPtrArray-GMessageHeader.cpp"
-F
-"./code/JPtrArray-GMessageHeader.cpp"
-T
-2 "JPtrArray-GMessageTableDir.cpp"
-F
-"./code/JPtrArray-GMessageTableDir.cpp"
-T
-2 "JPtrArray-GMessageViewDir.cpp"
-F
-"./code/JPtrArray-GMessageViewDir.cpp"
-T
-2 "JStringMap-GAddressBookEntry.cpp"
-F
-"./code/JStringMap-GAddressBookEntry.cpp"
-T
-2 "JPtrArray-GMManagedDirector.cpp"
-F
-"./code/JPtrArray-GMManagedDirector.cpp"
-T
-2 "JPtrArray-GPOPRetriever.cpp"
-F
-"./code/JPtrArray-GPOPRetriever.cpp"
-T
-2 "JPtrArray-GMFilter.cpp"
-F
-"./code/JPtrArray-GMFilter.cpp"
-T
-2 "JPtrArray-GMFilterCondition.cpp"
-F
-"./code/JPtrArray-GMFilterCondition.cpp"
-T
-2 "JPtrArray-GMFilterAction.cpp"
-F
-"./code/JPtrArray-GMFilterAction.cpp"
-T
-2 "JArray-AttachmentType.cpp"
-F
-"./code/JArray-AttachmentType.cpp"
-F
-T
 1 "misc"
 T
 2 "GMPixmaps.cpp"
@@ -556,7 +497,7 @@ T "./" "make -k debug" "" T F T T T F F "" "" "" F
 F
 # build settings
 1
-F
+T
 "arrow"
 "${LIB_DEPS}"
 "make -k all"

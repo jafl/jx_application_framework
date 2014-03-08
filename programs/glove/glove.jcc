@@ -307,17 +307,6 @@ F
 "./code/GLClosePlotDirTask.cpp"
 F
 T
-1 "arrays"
-T
-2 "JArray-CurveStats.cpp"
-F
-"./code/JArray-CurveStats.cpp"
-T
-2 "JPtrArray-GLFitDescription.cpp"
-F
-"./code/JPtrArray-GLFitDescription.cpp"
-F
-T
 1 "strings"
 T
 2 "glove_strings"

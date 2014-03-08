@@ -74,8 +74,6 @@
 .cpp ./code/DeleteBroadcasterTask
 .cpp ./code/DeleteFitModTask
 .cpp ./code/GLClosePlotDirTask
-.cpp ./code/JArray-CurveStats
-.cpp ./code/JPtrArray-GLFitDescription
 .cpp ./code/GLUndoBase
 .cpp ./code/GLUndoElementAppend
 .cpp ./code/GLUndoElementBase

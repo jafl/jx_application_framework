@@ -69,13 +69,7 @@ JDirEntry
 
 JStringManager
 
-Templates-int
-Templates-long
-Templates-ulong
-Templates-longlong
-Templates-double
 JPtrArray-JString
-Templates-JString
 JACETemplates
 
 JRegex

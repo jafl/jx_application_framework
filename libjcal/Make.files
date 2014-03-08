@@ -13,5 +13,3 @@
 .cpp ./code/GCLUtil
 .cpp ./code/cal
 .cpp ./code/GCLGlobals
-.cpp ./code/JArray-CLDay
-.cpp ./code/JPtrArray-GCLAlarm
