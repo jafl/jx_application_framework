@@ -186,7 +186,7 @@ CMLineNumberTable::SetLineNumbers
 {
 	if (itsLineNumberList == NULL)
 		{
-		itsLineNumberList = new JPtrArray<JString>(*list, JPtrArrayT::kDeleteAll, kJFalse);
+		itsLineNumberList = new JPtrArray<JString>(*list, JPtrArrayT::kDeleteAll);
 		assert( itsLineNumberList != NULL );
 		}
 	else

@@ -15,8 +15,7 @@
 #endif
 
 #include <JBinaryDecision.h>
-
-class JFunction;
+#include <JFunction.h>
 
 class JFunctionComparison : public JBinaryDecision<JFunction>
 {

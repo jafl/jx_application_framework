@@ -118,10 +118,6 @@ T
 F
 "./code/JBinaryOperator.cpp"
 T
-2 "JBinD-JFunction.cpp"
-F
-"./code/JBinD-JFunction.cpp"
-T
 2 "JConjugate.cpp"
 F
 "./code/JConjugate.cpp"
@@ -256,10 +252,6 @@ T
 2 "JDecision.cpp"
 F
 "./code/JDecision.cpp"
-T
-2 "JBinD-JDecision.cpp"
-F
-"./code/JBinD-JDecision.cpp"
 T
 2 "JBooleanAND.cpp"
 F

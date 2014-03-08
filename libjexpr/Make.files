@@ -32,7 +32,6 @@
 .cpp ./code/JArcTangent2
 .cpp ./code/JBinaryFunction
 .cpp ./code/JBinaryOperator
-.cpp ./code/JBinD-JFunction
 .cpp ./code/JConjugate
 .cpp ./code/JConstantValue
 .cpp ./code/JCosine
@@ -66,7 +65,6 @@
 .cpp ./code/JUnaryFunction
 .cpp ./code/JVariableValue
 .cpp ./code/JDecision
-.cpp ./code/JBinD-JDecision
 .cpp ./code/JBooleanAND
 .cpp ./code/JBooleanConstant
 .cpp ./code/JBooleanDecision

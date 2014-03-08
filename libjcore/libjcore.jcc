@@ -1133,7 +1133,7 @@ T "./" "medic -f +$line $full_name" "" F F F T F F F "" "" "" T
 F
 # build settings
 1
-T
+F
 "libjcore-${JX_LIB_VERSION}.a,libjcore-${JX_LIB_VERSION}.so"
 "${GD_JPEG_FILES}"
 "make -k all"
