@@ -38,6 +38,7 @@
 #include <jVCSUtil.h>
 #include <jTime.h>
 #include <jGlobals.h>
+#include <j_prep_ace.h>
 #include <ace/OS_NS_sys_stat.h>
 #include <jAssert.h>
 

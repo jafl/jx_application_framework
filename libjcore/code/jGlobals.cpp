@@ -20,6 +20,7 @@
 #include <jDirUtil.h>
 #include <jFileUtil.h>
 #include <stdlib.h>
+#include <j_prep_ace.h>
 #include <ace/OS_NS_sys_socket.h>
 #include <jAssert.h>
 

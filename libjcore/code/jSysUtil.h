@@ -15,6 +15,7 @@
 #include <JError.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <j_prep_ace.h>
 #include <ace/OS_NS_sys_stat.h>
 
 class JString;

@@ -22,6 +22,7 @@
 #include <jFileUtil.h>
 #include <jDirUtil.h>
 #include <jSysUtil.h>
+#include <j_prep_ace.h>
 #include <ace/OS_NS_sys_wait.h>
 #include <jErrno.h>
 #include <jMissingProto.h>
