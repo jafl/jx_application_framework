@@ -151,8 +151,6 @@ JPtrQueue<T,S>::DiscardDeleteAsArrays
 
  ******************************************************************************/
 
-#if defined JPtrQueueCopy || ! defined J_EXPLICIT_TEMPLATES
-
 template <class T, class S>
 void
 JPtrQueue<T,S>::AppendCopy
@@ -164,8 +162,6 @@ JPtrQueue<T,S>::AppendCopy
 	assert( ptr != NULL );
 	JPtrQueue<T,S>::Append(ptr);
 }
-
-#endif
 
 /******************************************************************************
  Clean up action

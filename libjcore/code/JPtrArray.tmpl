@@ -176,8 +176,6 @@ JPtrArray<T>::CopyPointers
 	return *this;
 }
 
-#if defined JPtrArrayCopy || ! defined J_EXPLICIT_TEMPLATES
-
 /******************************************************************************
  CopyObjects (Deep assignment operator)
 
@@ -223,8 +221,6 @@ JPtrArray<T>::CopyObjects
 
 	return *this;
 }
-
-#endif
 
 /******************************************************************************
  NthElement
@@ -312,8 +308,6 @@ JPtrArray<T>::InsertAtIndex
 	JPtrArray<T>::InsertElementAtIndex(index, dataPtr);
 }
 
-#if defined JPtrArrayCopy || ! defined J_EXPLICIT_TEMPLATES
-
 template <class T>
 void
 JPtrArray<T>::InsertAtIndex
@@ -326,8 +320,6 @@ JPtrArray<T>::InsertAtIndex
 	assert( ptr != NULL );
 	InsertAtIndex(index, ptr);
 }
-
-#endif
 
 /******************************************************************************
  Prepend
@@ -344,8 +336,6 @@ JPtrArray<T>::Prepend
 	InsertAtIndex(1, dataPtr);
 }
 
-#if defined JPtrArrayCopy || ! defined J_EXPLICIT_TEMPLATES
-
 template <class T>
 void
 JPtrArray<T>::Prepend
@@ -357,8 +347,6 @@ JPtrArray<T>::Prepend
 	assert( ptr != NULL );
 	Prepend(ptr);
 }
-
-#endif
 
 /******************************************************************************
  Append
@@ -375,8 +363,6 @@ JPtrArray<T>::Append
 	InsertAtIndex(JCollection::GetElementCount() + 1, dataPtr);
 }
 
-#if defined JPtrArrayCopy || ! defined J_EXPLICIT_TEMPLATES
-
 template <class T>
 void
 JPtrArray<T>::Append
@@ -388,8 +374,6 @@ JPtrArray<T>::Append
 	assert( ptr != NULL );
 	Append(ptr);
 }
-
-#endif
 
 /******************************************************************************
  InsertBefore
@@ -419,8 +403,6 @@ JPtrArray<T>::InsertBefore
 		}
 }
 
-#if defined JPtrArrayCopy || ! defined J_EXPLICIT_TEMPLATES
-
 template <class T>
 void
 JPtrArray<T>::InsertBefore
@@ -433,8 +415,6 @@ JPtrArray<T>::InsertBefore
 	assert( ptr != NULL );
 	InsertBefore(beforePtr, ptr);
 }
-
-#endif
 
 /******************************************************************************
  InsertAfter
@@ -464,8 +444,6 @@ JPtrArray<T>::InsertAfter
 		}
 }
 
-#if defined JPtrArrayCopy || ! defined J_EXPLICIT_TEMPLATES
-
 template <class T>
 void
 JPtrArray<T>::InsertAfter
@@ -478,8 +456,6 @@ JPtrArray<T>::InsertAfter
 	assert( ptr != NULL );
 	InsertAfter(afterPtr, ptr);
 }
-
-#endif
 
 /******************************************************************************
  SetElement
@@ -513,8 +489,6 @@ JPtrArray<T>::SetElement
 	JArray<T*>::SetElement(index, dataPtr);
 }
 
-#if defined JPtrArrayCopy || ! defined J_EXPLICIT_TEMPLATES
-
 template <class T>
 void
 JPtrArray<T>::SetElement
@@ -528,8 +502,6 @@ JPtrArray<T>::SetElement
 	assert( ptr != NULL );
 	SetElement(index, ptr, action);
 }
-
-#endif
 
 /******************************************************************************
  SetToNull

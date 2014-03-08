@@ -151,8 +151,6 @@ JPtrStack<T,S>::UnwindDeleteAsArrays
 
  ******************************************************************************/
 
-#if defined JPtrStackCopy || ! defined J_EXPLICIT_TEMPLATES
-
 template <class T, class S>
 void
 JPtrStack<T,S>::PushCopy
@@ -164,8 +162,6 @@ JPtrStack<T,S>::PushCopy
 	assert( ptr != NULL );
 	JPtrStack<T,S>::Push(ptr);
 }
-
-#endif
 
 /******************************************************************************
  Clean up action
