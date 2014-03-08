@@ -167,7 +167,7 @@ MDRecordTable::TableDrawCell
 	const MDRecord& record = *(itsRecordList->GetRecord(cell.y));
 
 	JString str;
-	JPainter::HAlignment halign;
+	JPainter::HAlignment halign = JPainter::kHAlignLeft;
 	if (cell.x == MDRecordList::kRecordState)
 		{
 		DrawRecordState(record, p, rect);

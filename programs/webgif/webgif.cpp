@@ -310,7 +310,7 @@ PrintVersion()
 	cout << endl;
 	cout << "webgif 1.0.0\n";
 	cout << endl;
-	cout << "Copyright © 1998 by John Lindal." << endl;
+	cout << "Copyright (C) 1998 by John Lindal." << endl;
 	cout << "This program may be freely distributed at no charge." << endl;
 	cout << endl;
 	cout << "jafl@newplanetsoftware.com" << endl;

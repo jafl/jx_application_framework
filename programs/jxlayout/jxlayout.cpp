@@ -31,7 +31,7 @@ static const JCharacter* kVersionStr =
 
 	"jxlayout 3.1.0\n"
 	"\n"
-	"Copyright © 1996-2011 New Planet Software, Inc.  All rights reserved.\n"
+	"Copyright (C) 1996-2011 New Planet Software, Inc.  All rights reserved.\n"
 	"\n"
 	"http://www.newplanetsoftware.com/jx/";
 
