@@ -27,8 +27,7 @@ endif
 
 ifeq ($(findstring clang++,${CXX}),clang++)
   J_RAW_SYSTEM_STUFF += \
-    -Wall -Wno-unused -Wno-write-strings -Wno-overloaded-virtual \
-    -DJ_EXPLICIT_TEMPLATES
+    -Wall -Wno-unused -Wno-write-strings -Wno-overloaded-virtual
 
   ifeq (${J_COMPILE_DEBUG},-g)
     J_RAW_SYSTEM_STUFF += -O${J_OPTIMIZE_LEVEL}
@@ -41,7 +40,7 @@ ifeq ($(findstring clang++,${CXX}),clang++)
 else ifeq ($(findstring g++,${CXX}),g++)
   J_RAW_SYSTEM_STUFF += \
     -Wall -Wno-unused -Wno-write-strings \
-    -fno-implicit-templates -DJ_EXPLICIT_TEMPLATES
+    -fno-implicit-templates
 
   ifeq (${J_COMPILE_DEBUG},-g)
     J_RAW_SYSTEM_STUFF += -O${J_OPTIMIZE_LEVEL}

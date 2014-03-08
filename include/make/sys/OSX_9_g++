@@ -83,7 +83,7 @@ CC       := clang
 CXX      := clang++
 CPPFLAGS  = ${DEPENDFLAGS}
 CFLAGS    = ${J_MAKE_NEEDS_OUTPUT_ARG}
-CXXFLAGS  = ${J_MAKE_NEEDS_OUTPUT_ARG}
+CXXFLAGS  = ${J_MAKE_NEEDS_OUTPUT_ARG} -Wno-c++11-extensions
 
 # libraries to link
 
