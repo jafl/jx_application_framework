@@ -1034,113 +1034,140 @@ T
 F
 "../misc/gd/makefile.sample"
 T
-2 "gd.o"
+3 "gd.o"
 F
 "../misc/gd/gd.o"
+ T "" T
 T
-2 "gd_gd.o"
+3 "gd_gd.o"
 F
 "../misc/gd/gd_gd.o"
+ T "" T
 T
-2 "gd_gd2.o"
+3 "gd_gd2.o"
 F
 "../misc/gd/gd_gd2.o"
+ T "" T
 T
-2 "gd_gif_in.o"
+3 "gd_gif_in.o"
 F
 "../misc/gd/gd_gif_in.o"
+ T "" T
 T
-2 "gd_gif_out.o"
+3 "gd_gif_out.o"
 F
 "../misc/gd/gd_gif_out.o"
+ T "" T
 T
-2 "gd_io.o"
+3 "gd_io.o"
 F
 "../misc/gd/gd_io.o"
+ T "" T
 T
-2 "gd_io_dp.o"
+3 "gd_io_dp.o"
 F
 "../misc/gd/gd_io_dp.o"
+ T "" T
 T
-2 "gd_io_file.o"
+3 "gd_io_file.o"
 F
 "../misc/gd/gd_io_file.o"
+ T "" T
 T
-2 "gd_io_ss.o"
+3 "gd_io_ss.o"
 F
 "../misc/gd/gd_io_ss.o"
+ T "" T
 T
-2 "gd_png.o"
+3 "gd_png.o"
 F
 "../misc/gd/gd_png.o"
+ T "" T
 T
-2 "gd_security.o"
+3 "gd_security.o"
 F
 "../misc/gd/gd_security.o"
+ T "" T
 T
-2 "gd_ss.o"
+3 "gd_ss.o"
 F
 "../misc/gd/gd_ss.o"
+ T "" T
 T
-2 "gd_topal.o"
+3 "gd_topal.o"
 F
 "../misc/gd/gd_topal.o"
+ T "" T
 T
-2 "gd_wbmp.o"
+3 "gd_wbmp.o"
 F
 "../misc/gd/gd_wbmp.o"
+ T "" T
 T
-2 "gdcache.o"
+3 "gdcache.o"
 F
 "../misc/gd/gdcache.o"
+ T "" T
 T
-2 "gdfontg.o"
+3 "gdfontg.o"
 F
 "../misc/gd/gdfontg.o"
+ T "" T
 T
-2 "gdfontl.o"
+3 "gdfontl.o"
 F
 "../misc/gd/gdfontl.o"
+ T "" T
 T
-2 "gdfontmb.o"
+3 "gdfontmb.o"
 F
 "../misc/gd/gdfontmb.o"
+ T "" T
 T
-2 "gdfonts.o"
+3 "gdfonts.o"
 F
 "../misc/gd/gdfonts.o"
+ T "" T
 T
-2 "gdfontt.o"
+3 "gdfontt.o"
 F
 "../misc/gd/gdfontt.o"
+ T "" T
 T
-2 "gdft.o"
+3 "gdft.o"
 F
 "../misc/gd/gdft.o"
+ T "" T
 T
-2 "gdfx.o"
+3 "gdfx.o"
 F
 "../misc/gd/gdfx.o"
+ T "" T
 T
-2 "gdhelpers.o"
+3 "gdhelpers.o"
 F
 "../misc/gd/gdhelpers.o"
+ T "" T
 T
-2 "gdkanji.o"
+3 "gdkanji.o"
 F
 "../misc/gd/gdkanji.o"
+ T "" T
 T
-2 "gdtables.o"
+3 "gdtables.o"
 F
 "../misc/gd/gdtables.o"
+ T "" T
 T
-2 "gdxpm.o"
+3 "gdxpm.o"
 F
 "../misc/gd/gdxpm.o"
+ T "" T
 T
-2 "wbmp.o"
+3 "wbmp.o"
 F
 "../misc/gd/wbmp.o"
+ T "" T
 F
 T
 1 "strings"
