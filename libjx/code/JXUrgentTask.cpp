@@ -42,7 +42,3 @@ JXUrgentTask::Go()
 {
 	(JXGetApplication())->InstallUrgentTask(this);
 }
-
-#define JTemplateType JXUrgentTask
-#include <JPtrArray.tmpls>
-#undef JTemplateType

@@ -1138,7 +1138,7 @@ JIndex i,j;
 		marked.AppendElement(kJFalse);
 		}
 
-	JPtrArray<CBClass> newByGeom(*itsVisibleByGeom, JPtrArrayT::kForgetAll, kJFalse);
+	JPtrArray<CBClass> newByGeom(*itsVisibleByGeom, JPtrArrayT::kForgetAll);
 
 	JLatentPG pg(1000);
 	pg.VariableLengthProcessBeginning("Minimizing multiple inheritance lengths...", kJTrue, kJFalse);
@@ -2769,23 +2769,3 @@ CBTree::CompareRSContent
 
 	return JOrderedSetT::kFirstEqualSecond;
 }
-
-#define JTemplateType CBTree::RootGeom
-#include <JArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType CBTree::RootMIInfo
-#include <JArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType CBTree::RootConn
-#include <JArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType CBTree::RootSubset
-#include <JArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType CBClass
-#include <JPtrArray.tmpls>
-#undef JTemplateType

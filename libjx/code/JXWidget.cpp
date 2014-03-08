@@ -1414,7 +1414,3 @@ JXWidget::HandleDNDResponse
 {
 	DisplayCursor((GetDNDManager())->GetDefaultDNDCursor(dropAccepted, action));
 }
-
-#define JTemplateType JXWidget
-#include <JPtrArray.tmpls>
-#undef JTemplateType

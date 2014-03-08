@@ -203,7 +203,7 @@ JXDockManager::CloseAll()
 {
 	// make copy of list so DirectorClosed() doesn't interfere
 
-	JPtrArray<JXDockDirector> list(*itsDockList, JPtrArrayT::kForgetAll, kJFalse);
+	JPtrArray<JXDockDirector> list(*itsDockList, JPtrArrayT::kForgetAll);
 	itsDockList->RemoveAll();
 	itsNextDockIndex = 1;
 	itsNextDockID    = 1;

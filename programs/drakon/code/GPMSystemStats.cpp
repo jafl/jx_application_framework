@@ -286,7 +286,3 @@ GPMSystemStats::ComputeStats
 	}
 #endif
 }
-
-#define JTemplateType GPMSystemStats::CPU
-#include <JArray.tmpls>
-#undef JTemplateType

@@ -703,10 +703,6 @@ T
 2 "JTEHTMLScanner.cpp"
 F
 "./code/JTEHTMLScanner.cpp"
-T
-2 "Templates-JTextEditor.cpp"
-F
-"./code/Templates-JTextEditor.cpp"
 F
 T
 1 "widgets"
@@ -872,57 +868,6 @@ T
 2 "jXMLUtil.cpp"
 F
 "./code/jXMLUtil.cpp"
-F
-T
-1 "templates"
-T
-2 "Templates-short.cpp"
-F
-"./code/Templates-short.cpp"
-T
-2 "Templates-int.cpp"
-F
-"./code/Templates-int.cpp"
-T
-2 "Templates-uint.cpp"
-F
-"./code/Templates-uint.cpp"
-T
-2 "Templates-long.cpp"
-F
-"./code/Templates-long.cpp"
-T
-2 "Templates-longlong.cpp"
-F
-"./code/Templates-longlong.cpp"
-T
-2 "Templates-ulong.cpp"
-F
-"./code/Templates-ulong.cpp"
-T
-2 "Templates-float.cpp"
-F
-"./code/Templates-float.cpp"
-T
-2 "Templates-double.cpp"
-F
-"./code/Templates-double.cpp"
-T
-2 "Templates-JCharacter.cpp"
-F
-"./code/Templates-JCharacter.cpp"
-T
-2 "Templates-JBoolean.cpp"
-F
-"./code/Templates-JBoolean.cpp"
-T
-2 "Templates-JString.cpp"
-F
-"./code/Templates-JString.cpp"
-T
-2 "Templates-JString2.cpp"
-F
-"./code/Templates-JString2.cpp"
 F
 T
 1 "pcre"
@@ -1188,7 +1133,7 @@ T "./" "medic -f +$line $full_name" "" F F F T F F F "" "" "" T
 F
 # build settings
 1
-F
+T
 "libjcore-${JX_LIB_VERSION}.a,libjcore-${JX_LIB_VERSION}.so"
 "${GD_JPEG_FILES}"
 "make -k all"

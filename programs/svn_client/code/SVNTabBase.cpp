@@ -639,7 +639,3 @@ SVNTabBase::Execute
 
 	return kJTrue;
 }
-
-#define JTemplateType SVNTabBase
-#include <JPtrArray.tmpls>
-#undef JTemplateType

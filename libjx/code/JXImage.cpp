@@ -1177,10 +1177,10 @@ JXImage::PrepareForImageData()
 
 	itsImage = XCreateImage(*itsDisplay, itsXColormap->GetVisual(), itsDepth,
 							ZPixmap, 0, NULL, w,h, bitmap_pad, 0);
-    assert( itsImage != NULL );
+	assert( itsImage != NULL );
 
-    itsImage->data = (char*) malloc(h * itsImage->bytes_per_line);
-    assert( itsImage->data != NULL );
+	itsImage->data = (char*) malloc(h * itsImage->bytes_per_line);
+	assert( itsImage->data != NULL );
 }
 
 /******************************************************************************
@@ -1198,7 +1198,3 @@ JXImage::ImageDataFinished()
 		itsMask->ConvertToDefaultState();
 		}
 }
-
-#define JTemplateType JXImage
-#include <JPtrArray.tmpls>
-#undef JTemplateType

@@ -47,8 +47,7 @@ CBCharActionManager::CBCharActionManager
 	const CBCharActionManager& source
 	)
 {
-	itsActionList = new JPtrArray<JString>(*(source.itsActionList),
-										   JPtrArrayT::kDeleteAll, kJTrue);
+	itsActionList = new JDCCPtrArray<JString>(*(source.itsActionList), JPtrArrayT::kDeleteAll);
 	assert( itsActionList != NULL );
 }
 

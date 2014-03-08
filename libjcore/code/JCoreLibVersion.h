@@ -41,6 +41,7 @@ static const char* kCurrentJCoreLibVersionStr = "3.1.0";
 //		*** JCheckExpirationDate() requires that you provide these strings:
 //			WarnExpire::jTime, Expired::jTime
 //	*** Switched to automatic template instantiation
+//		Removed all .tmpls files and instantiate_template.h
 //		JPtrArray copy constructor now takes only two arguments and does shallow copy.
 //		To do a deep copy, construct JDCCPtrArray instead.
 //		Before including any ACE header files, include j_prep_ace.h

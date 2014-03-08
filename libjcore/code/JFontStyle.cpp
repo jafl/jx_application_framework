@@ -31,13 +31,3 @@ operator==
 			s1.strike         == s2.strike &&
 			s1.color          == s2.color);
 }
-
-#define JTemplateType JFontStyle
-#include <JArray.tmpl>
-#include <JRunArray.tmpls>
-#include <JAuxTableData.tmpls>
-#undef JTemplateType
-
-#define JTemplateType JRunArray<JFontStyle>
-#include <JPtrArray.tmpls>
-#undef JTemplateType

@@ -14,6 +14,7 @@
 
 #include <JBroadcaster.h>
 #include <JString.h>
+#include <j_prep_ace.h>
 #include <ace/Svc_Handler.h>
 #include <ace/Synch_Traits.h>
 
@@ -81,5 +82,7 @@ private:
 	GFGProtocol(const GFGProtocol& source);
 	GFGProtocol& operator=(const GFGProtocol& source);
 };
+
+#include <GFGProtocol.tmpl>
 
 #endif

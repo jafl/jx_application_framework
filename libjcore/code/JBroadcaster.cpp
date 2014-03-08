@@ -589,11 +589,3 @@ JBroadcaster::ClearGone
 JBroadcaster::Message::~Message()
 {
 }
-
-#define JTemplateType JBroadcaster
-#include <JPtrArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType JBroadcaster::ClearPointer
-#include <JArray.tmpls>
-#undef JTemplateType

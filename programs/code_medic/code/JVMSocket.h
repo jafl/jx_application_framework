@@ -13,6 +13,7 @@
 #endif
 
 #include <JNetworkProtocolBase.h>
+#include <j_prep_ace.h>
 #include <ace/SOCK_Stream.h>
 
 class JVMSocket : public JNetworkProtocolBase<ACE_SOCK_STREAM>,

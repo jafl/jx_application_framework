@@ -226,29 +226,3 @@ JCheckForNewerVersion
 		delete socket;
 		}
 }
-
-#ifdef J_EXPLICIT_TEMPLATES
-
-#define JTemplateType ACE_SOCK_STREAM
-#include <JVersionSocket.tmpl>
-#undef JTemplateType
-
-#define JTemplateName ACE_Connector
-#define JTemplateType VersionSocket, ACE_SOCK_CONNECTOR
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_NonBlocking_Connect_Handler
-#define JTemplateType VersionSocket
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Connector_Base
-#define JTemplateType VersionSocket
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#endif

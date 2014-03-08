@@ -81,7 +81,7 @@ enum
 	kPageSetupCmd = 1,
 	kPrintCmd,
 	kPrintSessionCmd,
-	kPrintPlotEPSCmd, 
+	kPrintPlotEPSCmd,
 	kPrintMarksEPSCmd,
 	kCloseCmd
 };
@@ -147,18 +147,18 @@ PlotDir::PlotDir
 	JCoordinate minH    = 300;
 
 	JXWindow* window = new JXWindow(this, w,h, filename);
-    assert( window != NULL );
+	assert( window != NULL );
 
-    window->SetMinSize(minW,minH);
-    if (hideOnClose)
-    	{
-    	window->SetCloseAction(JXWindow::kDeactivateDirector);
-    	}
+	window->SetMinSize(minW,minH);
+	if (hideOnClose)
+		{
+		window->SetCloseAction(JXWindow::kDeactivateDirector);
+		}
 
 	JXMenuBar* menuBar =
 		new JXMenuBar(window,
 			JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, w, kJXDefaultMenuBarHeight);
-    assert( menuBar != NULL );
+	assert( menuBar != NULL );
 
 	itsPlotMenu = menuBar->AppendTextMenu(kPlotMenuTitleStr);
 	itsPlotMenu->SetMenuItems(kPlotMenuStr);
@@ -1330,7 +1330,7 @@ PlotDir::AddFit
 void
 PlotDir::AddFitProxy
 	(
-	JPlotFitProxy*		fit, 
+	JPlotFitProxy*		fit,
 	const JIndex		index,
 	const JCharacter*	name
 	)
@@ -1445,6 +1445,3 @@ PlotDir::Close()
 	itsPlotIsClosing = kJTrue;
 	return JXDocument::Close();
 }
-
-#define JTemplateType PlotDir
-#include <JPtrArray.tmpls>

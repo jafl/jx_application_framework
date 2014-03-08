@@ -4819,7 +4819,3 @@ J2DPlotWidget::UpdateCursorInternals()
 								itsYCursorVal2));
 	Broadcast(PlotChanged());
 }
-
-#define JTemplateType J2DCurveInfo
-#include <JArray.tmpls>
-#undef JTemplateType

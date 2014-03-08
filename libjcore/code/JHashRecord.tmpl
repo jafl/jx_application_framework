@@ -137,11 +137,3 @@ JHashRecord<V>::PrintLayout()
 #endif
 
 #endif
-
-// Instantiate the template for the specified type.
-
-#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition && defined J_EXPLICIT_TEMPLATES
-	#define JTemplateName JHashRecord
-	#include <instantiate_template.h>
-	#undef JTemplateName
-#endif

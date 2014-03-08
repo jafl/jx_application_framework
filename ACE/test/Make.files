@@ -21,8 +21,6 @@ literal: ${LIB_DEPS}
 -prefix ${CODEDIR}/
 
 evt_client
-unix_handlers
-inet_handlers
 util
 literal: ${LIB_DEPS}
 
@@ -31,8 +29,6 @@ literal: ${LIB_DEPS}
 -prefix ${CODEDIR}/
 
 evt_server
-unix_handlers
-inet_handlers
 util
 literal: ${LIB_DEPS}
 

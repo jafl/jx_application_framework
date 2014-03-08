@@ -12,7 +12,7 @@
 
  ******************************************************************************/
 
-#include <Pipe.h>
+#include "Pipe.h"
 #include <jTime.h>
 #include <jAssert.h>
 
@@ -110,18 +110,5 @@ Pipe<ACE_PEER_STREAM_2>::handle_input
 
 	return 0;
 }
-
-// If JTemplateType is defined, then user wants to instantiate
-// a template immediately.  The user cannot instantiate more than one
-// template per file with this method.  This should not be a problem.
-
-#if defined JTemplateType
-	#define JTemplateName Pipe
-	#include <instantiate_template.h>
-	#undef JTemplateName
-
-//	instantiated by JCore
-//	template class ACE_Svc_Handler<JTemplateType, ACE_SYNCH>;
-#endif
 
 #endif

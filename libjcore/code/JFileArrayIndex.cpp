@@ -568,7 +568,3 @@ JFileArrayIndex::GetIndexLength()
 {
 	return GetElementCount() * kIndexElementLength;
 }
-
-#define JTemplateType JFileArrayIndex::ElementInfo
-#include <JArray.tmpls>
-#undef JTemplateType

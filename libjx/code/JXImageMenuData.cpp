@@ -223,7 +223,3 @@ JXImageMenuData::ConfigureTable
 	table->SetAllColWidths(itsColWidth);
 	table->SetDefaultRowHeight(itsRowHeight);
 }
-
-#define JTemplateType JXImageMenuData::IconData
-#include <JArray.tmpls>
-#undef JTemplateType

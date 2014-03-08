@@ -139,7 +139,3 @@ JXSharedPrefObject::Receive
 		JBroadcaster::Receive(sender, message);
 		}
 }
-
-#define JTemplateType JXSharedPrefObject::VersionInfo
-#include <JArray.tmpls>
-#undef JTemplateType

@@ -89,7 +89,7 @@ CBRunCommandDialog::CBRunCommandDialog
 	itsProjDoc(projDoc),
 	itsTextDoc(NULL)
 {
-	itsFullNameList = new JPtrArray<JString>(fullNameList, JPtrArrayT::kDeleteAll, kJTrue);
+	itsFullNameList = new JDCCPtrArray<JString>(fullNameList, JPtrArrayT::kDeleteAll);
 	assert( itsFullNameList != NULL );
 
 	itsLineIndexList = new JArray<JIndex>(lineIndexList);

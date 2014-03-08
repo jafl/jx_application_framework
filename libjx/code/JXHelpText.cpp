@@ -435,11 +435,3 @@ JXHelpText::CompareMarkNames
 {
 	return JCompareStringsCaseInsensitive(m1.name, m2.name);
 }
-
-#define JTemplateType JXHelpText::MarkInfo
-#include <JArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType JXHelpText::LinkInfo
-#include <JArray.tmpls>
-#undef JTemplateType

@@ -436,7 +436,3 @@ CBDirInfo::CompareProjIndex
 		return ComparePathNames(i1, i2);
 		}
 }
-
-#define JTemplateType CBDirInfo
-#include <JArray.tmpls>
-#undef JTemplateType

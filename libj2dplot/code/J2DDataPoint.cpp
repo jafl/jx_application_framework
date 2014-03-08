@@ -36,7 +36,3 @@ operator<<
 	output << pt.y << ' ' << pt.yerr << ' ' << pt.ymerr;
 	return output;
 }
-
-#define JTemplateType J2DDataPoint
-#include <JArray.tmpls>
-#undef JTemplateType

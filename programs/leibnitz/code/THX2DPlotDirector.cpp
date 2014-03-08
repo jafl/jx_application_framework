@@ -579,7 +579,3 @@ THX2DPlotDirector::HandleCurveOptionsMenu
 		EditFunction(itsPlotWidget->GetCurveOptionsMenuCurveIndex());
 		}
 }
-
-#define JTemplateType J2DPlotJFunction
-#include <JPtrArray.tmpls>
-#undef JTemplateType

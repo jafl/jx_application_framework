@@ -392,7 +392,3 @@ operator<<
 
 	return output;
 }
-
-#define JTemplateType JFSBinding
-#include <JPtrArray.tmpls>
-#undef JTemplateType

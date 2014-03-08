@@ -88,4 +88,6 @@ private:
 	const JFileHashTable<T>& operator=(const JFileHashTable<T>& source);
 };
 
+#include <JFileHashTable.tmpl>
+
 #endif

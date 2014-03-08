@@ -1616,12 +1616,6 @@ XDLink::ConnectionFinished
 	RestartDebugger();
 }
 
-#define JTemplateName ACE_Acceptor
-#define JTemplateType XDSocket, ACE_SOCK_ACCEPTOR
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
 /******************************************************************************
  StartDebugger (private)
 

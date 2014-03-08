@@ -788,7 +788,3 @@ CMArray1DDir::HandleHelpMenu
 		(JXGetHelpManager())->ShowSection(kCMCreditsName);
 		}
 }
-
-#define JTemplateType CMArray1DDir
-#include <JPtrArray.tmpls>
-#undef JTemplateType

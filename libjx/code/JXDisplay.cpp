@@ -1689,19 +1689,3 @@ JXDisplay::WMBehavior::WriteV0
 	output << ' ' << frameCompensateFlag;
 	output << ' ' << reshowOffset;
 }
-
-#define JTemplateType JXDisplay::WindowInfo
-#include <JArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType JXDisplay::CursorInfo
-#include <JArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType XErrorEvent
-#include <JArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType JXDisplay
-#include <JPtrArray.tmpls>
-#undef JTemplateType

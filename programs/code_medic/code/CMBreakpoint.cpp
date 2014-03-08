@@ -196,9 +196,3 @@ CMBreakpoint::Receive
 		JBroadcaster::Receive(sender, message);
 		}
 }
-
-#define JTemplateType CMBreakpoint
-#define JPtrArrayCopy
-#include <JPtrArray.tmpls>
-#undef JPtrArrayCopy
-#undef JTemplateType

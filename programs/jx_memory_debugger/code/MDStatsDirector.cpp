@@ -35,6 +35,7 @@
 #include <JXTimerTask.h>
 #include <JXPGMessageDirector.h>
 #include <JMemoryManager.h>
+#include <j_prep_ace.h>
 #include <ace/Acceptor.h>
 #include <ace/LSOCK_Acceptor.h>
 #include <JProcess.h>
@@ -1153,9 +1154,3 @@ MDStatsDirector::DeleteDebugAcceptor()
 		itsAcceptor = NULL;
 		}
 }
-
-#define JTemplateName ACE_Acceptor
-#define JTemplateType DebugLink, ACE_LSOCK_ACCEPTOR
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType

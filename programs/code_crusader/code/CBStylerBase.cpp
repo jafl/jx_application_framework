@@ -548,15 +548,3 @@ CBStylerBase::WordStylesChanged
 
 	return kJFalse;
 }
-
-#define JTemplateType CBStylerBase::WordStyle
-#include <JArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType JFontStyle
-#include <JStringMap.tmpls>
-#undef JTemplateType
-
-#define JTemplateType JStrValue<JFontStyle>
-#include <JHashTable.tmpls>
-#undef JTemplateType

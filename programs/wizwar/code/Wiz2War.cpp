@@ -13,6 +13,7 @@
 #include "Wiz2War.h"
 #include "WizPlayer.h"
 #include "wwUtil.h"
+#include <j_prep_ace.h>
 #include <ace/Connector.h>
 #include <ace/SOCK_Connector.h>
 #include <JXTimerTask.h>

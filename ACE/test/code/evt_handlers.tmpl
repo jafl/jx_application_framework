@@ -97,15 +97,3 @@ ServerHandler<ACE_PEER_STREAM_2>::handle_output
 }
 
 #endif
-
-// Instantiate the templates for the specified type.
-
-#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
-	#define JTemplateName ClientHandler
-	#include <instantiate_template.h>
-	#undef JTemplateName
-
-	#define JTemplateName ServerHandler
-	#include <instantiate_template.h>
-	#undef JTemplateName
-#endif

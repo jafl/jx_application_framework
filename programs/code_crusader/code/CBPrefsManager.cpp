@@ -3369,15 +3369,3 @@ CBPrefsManager::SetStringList
 	data << list;
 	SetData(id, data);
 }
-
-#define JTemplateType CBPrefsManager::MacroSetInfo
-#include <JArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType CBPrefsManager::CRMRuleListInfo
-#include <JArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType CBPrefsManager::FileTypeInfo
-#include <JArray.tmpls>
-#undef JTemplateType

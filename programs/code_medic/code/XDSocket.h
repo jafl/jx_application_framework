@@ -13,6 +13,7 @@
 #endif
 
 #include <JMessageProtocol.h>
+#include <j_prep_ace.h>
 #include <ace/SOCK_Stream.h>
 
 class XDSocket : public JMessageProtocol<ACE_SOCK_STREAM>

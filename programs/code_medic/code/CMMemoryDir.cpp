@@ -683,7 +683,3 @@ CMMemoryDir::HandleHelpMenu
 		(JXGetHelpManager())->ShowSection(kCMCreditsName);
 		}
 }
-
-#define JTemplateType CMMemoryDir
-#include <JPtrArray.tmpls>
-#undef JTemplateType

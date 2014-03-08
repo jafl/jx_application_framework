@@ -330,7 +330,3 @@ JXComposeRuleList::CompareForHelp
 		return CompareRules(r1, r2);
 		}
 }
-
-#define JTemplateType JXComposeRuleList::Rule
-#include <JArray.tmpls>
-#undef JTemplateType

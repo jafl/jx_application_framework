@@ -549,7 +549,3 @@ JTEStyler::AdjustStyle
 		assert( ok );
 		}
 }
-
-#define JTemplateType JTEStyler::TokenData
-#include <JArray.tmpls>
-#undef JTemplateType

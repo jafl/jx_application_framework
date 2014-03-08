@@ -548,7 +548,3 @@ SyGTreeDir::HandleHelpMenu
 		(JXGetHelpManager())->ShowSection(kSyGCreditsName);
 		}
 }
-
-#define JTemplateType SyGTreeDir
-#include <JPtrArray.tmpls>
-#undef JTemplateType

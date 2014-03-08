@@ -364,7 +364,3 @@ JXDockDirector::ClearFocusWindow
 		itsFocusWindow = NULL;
 		}
 }
-
-#define JTemplateType JXDockDirector
-#include <JPtrArray.tmpls>
-#undef JTemplateType

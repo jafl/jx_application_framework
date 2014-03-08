@@ -176,7 +176,3 @@ JPlotDataBase::IsFunction()
 {
 	return kJFalse;
 }
-
-#define JTemplateType JPlotDataBase
-#include <JPtrArray.tmpls>
-#undef JTemplateType

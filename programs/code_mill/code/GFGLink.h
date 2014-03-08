@@ -15,12 +15,10 @@
 #pragma once
 #endif
 
-#include <JBroadcaster.h>
-#include <JString.h>
-
+#include <j_prep_ace.h>
 #include <ace/LSOCK_Stream.h>
 #include <ace/UNIX_Addr.h>
-#include "JMessageProtocol.h"
+#include <JMessageProtocol.h>
 
 class JOutPipeStream;
 class JProcess;

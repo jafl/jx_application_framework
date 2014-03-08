@@ -94,6 +94,3 @@ JFitBase::SetHasGoodnessOfFit
 	itsHasGOF = gof;
 
 }
-
-#define JTemplateType JFitBase
-#include <JPtrArray.tmpls>

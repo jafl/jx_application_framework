@@ -434,7 +434,3 @@ JFunction::CastToJFunctionWithVar()
 {
 	return NULL;
 }
-
-#define JTemplateType JFunction
-#include <JPtrArray.tmpls>
-#undef JTemplateType

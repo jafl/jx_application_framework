@@ -174,7 +174,3 @@ JXCheckbox::SetShortcuts
 	w->InstallShortcuts(this, list);
 	Refresh();
 }
-
-#define JTemplateType JXCheckbox
-#include <JPtrArray.tmpls>
-#undef JTemplateType

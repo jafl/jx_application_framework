@@ -85,10 +85,6 @@ struct jUIDInfo
 
 static JArray<jUIDInfo> theUserInfoMap;
 
-#define JTemplateType jUIDInfo
-#include <JArray.tmpls>
-#undef JTemplateType
-
 static JOrderedSetT::CompareResult
 jCompareUIDs
 	(
@@ -295,10 +291,6 @@ struct jGIDInfo
 };
 
 static JArray<jGIDInfo> groupInfoMap;
-
-#define JTemplateType jGIDInfo
-#include <JArray.tmpls>
-#undef JTemplateType
 
 static JOrderedSetT::CompareResult
 jCompareGIDs

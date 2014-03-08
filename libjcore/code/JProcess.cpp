@@ -429,7 +429,3 @@ JProcess::ComparePID
 		return JOrderedSetT::kFirstEqualSecond;
 		}
 }
-
-#define JTemplateType JProcess
-#include <JPtrArray.tmpls>
-#undef JTemplateType

@@ -205,7 +205,3 @@ SyGDuplicateProcess::ProcessNextFile()
 		ProcessNextFile();
 		}
 }
-
-#define JTemplateType SyGFileTreeNode
-#include <JPtrArray.tmpls>
-#undef JTemplateType

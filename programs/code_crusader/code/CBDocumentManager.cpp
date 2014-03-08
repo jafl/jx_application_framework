@@ -1718,10 +1718,6 @@ CompareMatchLengths
 		}
 }
 
-#define JTemplateType DirMatchInfo
-#include <JArray.tmpls>
-#undef JTemplateType
-
 /******************************************************************************
  ReadFromProject
 
@@ -2143,11 +2139,3 @@ CBDocumentManager::ChooseEditors()
 	itsExtEditorDialog->BeginDialog();
 	ListenTo(itsExtEditorDialog);
 }
-
-#define JTemplateType CBProjectDocument
-#include <JPtrArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType CBTextDocument
-#include <JPtrArray.tmpls>
-#undef JTemplateType

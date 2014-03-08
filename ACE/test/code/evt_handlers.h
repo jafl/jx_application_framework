@@ -15,6 +15,7 @@
 #endif
 
 #include <jTypes.h>
+#include <j_prep_ace.h>
 #include <ace/Svc_Handler.h>
 #include <ace/Synch_Traits.h>
 
@@ -35,5 +36,7 @@ public:
 	virtual int	handle_input(ACE_HANDLE);
 	virtual int	handle_output(ACE_HANDLE);
 };
+
+#include "evt_handlers.tmpl"
 
 #endif

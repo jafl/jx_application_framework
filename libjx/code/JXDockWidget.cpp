@@ -996,7 +996,3 @@ JXDockWidget::UpdateMinSize()
 
 	itsDirector->UpdateMinSize();
 }
-
-#define JTemplateType JXDockWidget
-#include <JPtrArray.tmpls>
-#undef JTemplateType

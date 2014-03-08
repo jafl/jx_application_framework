@@ -299,7 +299,3 @@ CBPPMacroList::DeleteAll()
 
 	RemoveAll();
 }
-
-#define JTemplateType CBCPreprocessor::MacroInfo
-#include <JArray.tmpls>
-#undef JTemplateType

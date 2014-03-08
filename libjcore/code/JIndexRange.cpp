@@ -129,7 +129,3 @@ operator<<
 	output << range.first << ' ' << range.last;
 	return output;
 }
-
-#define JTemplateType JIndexRange
-#include <JArray.tmpls>
-#undef JTemplateType

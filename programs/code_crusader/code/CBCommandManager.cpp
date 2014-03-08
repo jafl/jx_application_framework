@@ -1834,7 +1834,3 @@ CBCommandManager::CmdInfo::Free()
 	delete menuID;
 	menuID = NULL;
 }
-
-#define JTemplateType CBCommandManager::CmdInfo
-#include <JArray.tmpls>
-#undef JTemplateType

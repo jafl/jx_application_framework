@@ -1551,7 +1551,3 @@ JXMenu::IsMenu()
 {
 	return kJTrue;
 }
-
-#define JTemplateType JXMenu
-#include <JPtrArray.tmpls>
-#undef JTemplateType

@@ -79,7 +79,3 @@ WarPlayer::Receive
 {
 	WWPlayer::Receive(sender, message);
 }
-
-#define JTemplateType WarPlayer
-#include <JPtrArray.tmpls>
-#undef JTemplateType

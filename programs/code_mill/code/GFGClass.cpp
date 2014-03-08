@@ -377,7 +377,3 @@ GFGClass::Receive
 		JPtrArray<GFGMemberFunction>::Receive(sender, message);
 		}
 }
-
-#include <JArray.tmpls>
-#define JTemplateType GFGMemberFunction
-#include <JPtrArray.tmpls>

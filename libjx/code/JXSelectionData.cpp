@@ -372,7 +372,3 @@ JXSelectionData::CompareAtoms
 		return JOrderedSetT::kFirstGreaterSecond;
 		}
 }
-
-#define JTemplateType JXSelectionData
-#include <JPtrArray.tmpls>
-#undef JTemplateType

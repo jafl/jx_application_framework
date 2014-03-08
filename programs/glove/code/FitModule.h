@@ -2,11 +2,11 @@
  FitModule.h
 
 	Interface for the FitModule class.
- 
+
 	Copyright @ 1997 by Glenn W. Bach. All rights reserved.
 
  ********************************************************************************/
- 
+
 #ifndef _H_FitModule
 #define _H_FitModule
 
@@ -14,10 +14,9 @@
 #pragma once
 #endif
 
-#include <JBroadcaster.h>
 #include <JPtrArray.h>
-#include <JArray.h>
 
+#include <j_prep_ace.h>
 #include <ace/LSOCK_Stream.h>
 #include <ace/UNIX_Addr.h>
 #include <JMessageProtocol.h>	// template which requires ace includes
@@ -41,7 +40,7 @@ public:
 
 protected:
 
-	FitModule(	PlotDir* dir, JPlotDataBase* fitData, JProcess* process, 
+	FitModule(	PlotDir* dir, JPlotDataBase* fitData, JProcess* process,
 				const int fd, JOutPipeStream* output);
 
 	virtual void	Receive(JBroadcaster* sender,
@@ -65,7 +64,7 @@ private:
 	JProcess*					itsProcess;
 	JArray<JFloat>*				itsValues;
 	JPtrArray<JString>*			itsNames;
- 	JString*					itsFunction;
+	JString*					itsFunction;
 	ProcessLink*				itsLink;
 
 private:
@@ -73,7 +72,7 @@ private:
 	void		HandleInput(JString& str);
 	void		HandleDataRead(JString& str);
 	void		HandleFit();
-	
+
 	// not allowed
 
 	FitModule(const FitModule& source);

@@ -226,7 +226,3 @@ CMCommand::SaveResult
 
 	itsResultList->Append(data);
 }
-
-#define JTemplateType CMCommand
-#include <JPtrArray.tmpls>
-#undef JTemplateType

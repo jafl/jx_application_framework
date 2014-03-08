@@ -69,7 +69,3 @@ operator<<
 	output << pt.x << ' ' << pt.y;
 	return output;
 }
-
-#define JTemplateType JPoint
-#include <JArray.tmpls>
-#undef JTemplateType

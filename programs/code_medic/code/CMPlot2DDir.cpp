@@ -900,7 +900,3 @@ CMPlot2DDir::HandleHelpMenu
 		(JXGetHelpManager())->ShowSection(kCMCreditsName);
 		}
 }
-
-#define JTemplateType CMPlot2DDir
-#include <JPtrArray.tmpls>
-#undef JTemplateType

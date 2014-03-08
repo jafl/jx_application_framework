@@ -702,11 +702,3 @@ JFileHashTable<T>::WriteSearchDistance()
 }
 
 #endif
-
-// Instantiate the template for the specified type.
-
-#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
-	#define JTemplateName JFileHashTable
-	#include <instantiate_template.h>
-	#undef JTemplateName
-#endif

@@ -532,7 +532,3 @@ THX3DPlotDirector::UpdateFunction()
 
 	ComputeFunction();
 }
-
-#define JTemplateType J3DObject
-#include <JXDeleteObjectTask.tmpls>
-#undef JTemplateType

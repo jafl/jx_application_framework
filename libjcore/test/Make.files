@@ -21,26 +21,21 @@ ${CODEDIR}/test_JPipe
 
 @testJArray
 ${CODEDIR}/test_JArray
-${CODEDIR}/Everything-long
 
 @testJLinkedList
 ${CODEDIR}/test_JLinkedList
-${CODEDIR}/Everything-long
 
 @testJPtrArray
 ${CODEDIR}/test_JPtrArray
 
 @testJRunArray
 ${CODEDIR}/test_JRunArray
-${CODEDIR}/Everything-long
 
 @testJQueue
 ${CODEDIR}/test_JQueue
-${CODEDIR}/Everything-long
 
 @testJStack
 ${CODEDIR}/test_JStack
-${CODEDIR}/Everything-long
 
 @testJSubset
 ${CODEDIR}/test_JSubset
@@ -56,7 +51,6 @@ ${CODEDIR}/testrand
 
 @testRandom
 ${CODEDIR}/test_jRandom
-${CODEDIR}/Everything-long
 
 @testJFileArray
 ${CODEDIR}/test_JFileArray
@@ -81,15 +75,12 @@ ${CODEDIR}/testhash
 
 @testtable
 ${CODEDIR}/testtable
-${CODEDIR}/JHashTable-strint
 
 @testmap
 ${CODEDIR}/testmap
-${CODEDIR}/JStringMap-int
 
 @testptrmap
 ${CODEDIR}/testptrmap
-${CODEDIR}/JStringPtrMap-char
 
 @testnew
 ${CODEDIR}/testnew

@@ -109,7 +109,6 @@
 .cpp ./code/JTEKeyHandler
 .cpp ./code/JVIKeyHandler
 .cpp ./code/JTEHTMLScanner
-.cpp ./code/Templates-JTextEditor
 .cpp ./code/JPartition
 .cpp ./code/JSliderBase
 .cpp ./code/JUserNotification
@@ -145,18 +144,6 @@
 .cpp ./code/JWebBrowser
 .cpp ./code/jWebUtil
 .cpp ./code/jXMLUtil
-.cpp ./code/Templates-short
-.cpp ./code/Templates-int
-.cpp ./code/Templates-uint
-.cpp ./code/Templates-long
-.cpp ./code/Templates-longlong
-.cpp ./code/Templates-ulong
-.cpp ./code/Templates-float
-.cpp ./code/Templates-double
-.cpp ./code/Templates-JCharacter
-.cpp ./code/Templates-JBoolean
-.cpp ./code/Templates-JString
-.cpp ./code/Templates-JString2
 .o ../misc/pcre-8.10/pcre_chartables
 .o ../misc/pcre-8.10/pcre_compile
 .o ../misc/pcre-8.10/pcre_config

@@ -79,7 +79,3 @@ J3DCamera::~J3DCamera()
 {
 	itsUniverse->RemoveCamera(this);
 }
-
-#define JTemplateType J3DCamera
-#include <JPtrArray.tmpls>
-#undef JTemplateType

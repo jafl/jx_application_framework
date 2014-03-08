@@ -1486,11 +1486,3 @@ operator<<
 	output << (long) access;
 	return output;
 }
-
-#define JTemplateType CBClass::ParentInfo
-#include <JArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType CBClass::FunctionInfo
-#include <JArray.tmpls>
-#undef JTemplateType

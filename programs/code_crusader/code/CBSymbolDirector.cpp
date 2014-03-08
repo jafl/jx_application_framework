@@ -1080,7 +1080,3 @@ CBSymbolDirector::ReceiveWithFeedback
 		JXWindowDirector::ReceiveWithFeedback(sender, message);
 		}
 }
-
-#define JTemplateType CBSymbolSRDirector
-#include <JPtrArray.tmpls>
-#undef JTemplateType

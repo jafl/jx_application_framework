@@ -176,7 +176,3 @@ JXRadioButton::SetShortcuts
 	w->InstallShortcuts(this, list);
 	Refresh();
 }
-
-#define JTemplateType JXRadioButton
-#include <JPtrArray.tmpls>
-#undef JTemplateType

@@ -3,7 +3,7 @@
 
 	BASE CLASS = JXWindowDirector
 
-	Written by Glenn Bach - 1997. 
+	Written by Glenn Bach - 1997.
 
  ******************************************************************************/
 
@@ -28,11 +28,11 @@ UndoWidget::UndoWidget
 	(
 	JXScrollbarSet* scrollbarSet,
 	JXContainer* enclosure,
-	const HSizingOption hSizing, 
+	const HSizingOption hSizing,
 	const VSizingOption vSizing,
-	const JCoordinate x, 
+	const JCoordinate x,
 	const JCoordinate y,
-	const JCoordinate w, 
+	const JCoordinate w,
 	const JCoordinate h
 	)
 	:
@@ -83,17 +83,17 @@ UndoWidget::~UndoWidget()
 void
 UndoWidget::Draw
 	(
-	JXWindowPainter& p, 
+	JXWindowPainter& p,
 	const JRect&     rect
 	)
 {
 	// Set pen color
 	p.SetPenColor((GetColormap())->GetBlackColor());
-	
+
 	// Find out how many points there are
 	// There are count/2 lines
 	JSize count = itsPoints->GetElementCount();
-	
+
 	// Loop through the points by twos
 	for (JSize i = 1; i <= count; i += 2)
 		{
@@ -138,7 +138,7 @@ UndoWidget::HandleMouseDown
 		{
 		// Create the drag painter to draw the rubber-band like lines
 		JPainter* p = CreateDragInsidePainter();
-		
+
 		// Start the first line
 		p->Line(pt, pt);
 		}
@@ -184,13 +184,13 @@ UndoWidget::HandleMouseDrag
 	JPainter* p = NULL;
 	const JBoolean ok = GetDragPainter(&p);
 	assert( ok );
-	
-	// Make sure that the left button is pressed, 
+
+	// Make sure that the left button is pressed,
 	// that we have moved,
 	// and that a drag painter exists
 	if (buttonStates.left() && pt != itsPrevPt && p != NULL)	// p is NULL for multiple click
 		{
-		
+
 		// Draw line depending on whether or not we scrolled
 		if (!scrolled)
 			{
@@ -231,16 +231,16 @@ UndoWidget::HandleMouseUp
 {
 	JPainter* p = NULL;
 
-	// Make sure that the left button is pressed, 
+	// Make sure that the left button is pressed,
 	// and that a drag painter exists
 	if (button == kJXLeftButton && GetDragPainter(&p))
 		{
 		// Erase the last line that was drawn
 		p->Line(itsStartPt, itsPrevPt);
-		
+
 		// Delete the drag painter
 		DeleteDragPainter();
-		
+
 		// Add this set of points to our JArray
 		itsPoints->AppendElement(itsStartPt);
 		itsPoints->AppendElement(itsPrevPt);
@@ -250,7 +250,7 @@ UndoWidget::HandleMouseUp
 		UndoLine* undo = new UndoLine(this);
 		assert(undo != NULL);
 		NewUndo(undo);
-		
+
 		// Tell the widget to redraw itself
 		Refresh();
 		}
@@ -259,7 +259,7 @@ UndoWidget::HandleMouseUp
 /******************************************************************************
  Undo (public)
 
- 	This is the function that is called when the user asks to undo.
+	This is the function that is called when the user asks to undo.
 
  ******************************************************************************/
 
@@ -286,7 +286,7 @@ UndoWidget::Undo()
 /******************************************************************************
  Redo (public)
 
- 	This is the function that is called when the user asks to redo.
+	This is the function that is called when the user asks to redo.
 
  ******************************************************************************/
 
@@ -434,25 +434,25 @@ UndoWidget::NewUndo
 }
 
 /******************************************************************************
- AddLine (private) 
+ AddLine (private)
 
- 	This is called by a RedoLine object.
+	This is called by a RedoLine object.
 
  ******************************************************************************/
 
 void
 UndoWidget::AddLine
 	(
-	const JPoint& start, 
+	const JPoint& start,
 	const JPoint& end
 	)
 {
 	// Add this set of points to our JArray
 	itsPoints->AppendElement(start);
 	itsPoints->AppendElement(end);
-	
+
 	// Tell the widget to redraw itself
-	Refresh();	
+	Refresh();
 
 	UndoLine* undo = new UndoLine(this);
 	assert(undo != NULL);
@@ -463,7 +463,7 @@ UndoWidget::AddLine
 /******************************************************************************
  RemoveLastLine (private)
 
- 	This is called by an UndoLine object.
+	This is called by an UndoLine object.
 
  ******************************************************************************/
 
@@ -483,12 +483,3 @@ UndoWidget::RemoveLastLine()
 
 	NewUndo(redo);
 }
-
-/******************************************************************************
- Instantiate templates
-
- ******************************************************************************/
-
-#define JTemplateType JUndo
-#include <JPtrArray.tmpls>
-#undef JTemplateType

@@ -263,11 +263,3 @@ JBinaryDecision<T>::SetArg2
 }
 
 #endif
-
-// Instantiate the template for the specified type.
-
-#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
-	#define JTemplateName JBinaryDecision
-	#include <instantiate_template.h>
-	#undef JTemplateName
-#endif

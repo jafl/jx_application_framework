@@ -17,6 +17,7 @@
 #include <JProcess.h>
 #include <JAliasArray.h>
 
+#include <j_prep_ace.h>
 #include <ace/Acceptor.h>
 #include <ace/SOCK_Acceptor.h>
 #include <ace/INET_Addr.h>

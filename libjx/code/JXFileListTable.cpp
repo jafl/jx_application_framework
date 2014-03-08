@@ -1528,7 +1528,3 @@ JXFileListTable::AdjustColWidths()
 	const JCoordinate minWidth = kIconWidth + itsMaxStringWidth + kTextPadding;
 	SetColWidth(1, JMax(minWidth, GetApertureWidth()));
 }
-
-#define JTemplateType JXFileListTable::VisInfo
-#include <JArray.tmpls>
-#undef JTemplateType

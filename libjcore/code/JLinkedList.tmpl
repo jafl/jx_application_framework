@@ -727,14 +727,3 @@ JLinkedList<T>::StoreData
 }
 
 #endif
-
-// Instantiate the template for the specified type.
-
-#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition && defined J_EXPLICIT_TEMPLATES
-	#define JTemplateName JLinkedList
-	#include <instantiate_template.h>
-	#undef JTemplateName
-	#define JTemplateName JLinkedListElement
-	#include <instantiate_template.h>
-	#undef JTemplateName
-#endif

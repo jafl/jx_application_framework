@@ -590,7 +590,3 @@ void
 CBSymbolTypeList::DeleteIcons()
 {
 }
-
-#define JTemplateType CBSymbolTypeList::SymbolTypeInfo
-#include <JArray.tmpls>
-#undef JTemplateType

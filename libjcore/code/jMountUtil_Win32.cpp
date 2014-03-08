@@ -311,7 +311,3 @@ JMountPointList::SetCleanUpAction
 {
 	itsCleanUpAction = action;
 }
-
-#define JTemplateType JMountPoint
-#include <JArray.tmpls>
-#undef JTemplateType

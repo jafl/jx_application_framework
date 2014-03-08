@@ -429,7 +429,3 @@ JPrefsManager::ComparePrefIDs
 		return JOrderedSetT::kFirstGreaterSecond;
 		}
 }
-
-#define JTemplateType JPrefsManager::PrefItem
-#include <JArray.tmpls>
-#undef JTemplateType

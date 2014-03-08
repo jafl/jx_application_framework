@@ -1295,7 +1295,3 @@ JXTextMenuData::ConfigureTable
 		+ 2*(JXTextMenuTable::kHilightBorderWidth + 1));
 	table->SetDefaultRowHeight(scrollStep);
 }
-
-#define JTemplateType JXTextMenuData::TextItemData
-#include <JArray.tmpls>
-#undef JTemplateType

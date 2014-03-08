@@ -12,12 +12,6 @@
 #include <JCoreStdInc.h>
 #include <JFloatTableData.h>
 
-// instantiate base class
-
-#define JTemplateType JArray<JFloat>,JFloat
-#include <JValueTableData.tmpls>
-#undef JTemplateType
-
 /******************************************************************************
  Constructor
 

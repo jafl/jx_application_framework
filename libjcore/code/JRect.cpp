@@ -110,7 +110,3 @@ operator<<
 	output << r.top << ' ' << r.left << ' ' << r.bottom << ' ' << r.right;
 	return output;
 }
-
-#define JTemplateType JRect
-#include <JArray.tmpls>
-#undef JTemplateType

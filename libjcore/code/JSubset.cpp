@@ -1172,7 +1172,3 @@ JFindPositionOfElementInStream
 	streamoff offset = theStream.tellg();
 	theStream.seekp(offset + indexToAdd - 1);
 }
-
-#define JTemplateType JSubset
-#include <JPtrArray.tmpls>
-#undef JTemplateType

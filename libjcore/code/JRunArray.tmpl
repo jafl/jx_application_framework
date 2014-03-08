@@ -1687,14 +1687,3 @@ JRunArray<T>::SetRunInfo
 }
 
 #endif
-
-// Instantiate the template for the specified type.
-
-#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition && defined J_EXPLICIT_TEMPLATES
-	#define JTemplateName JRunArray
-	#include <instantiate_template.h>
-	#undef JTemplateName
-	#define JTemplateName JRunArrayElement
-	#include <instantiate_template.h>
-	#undef JTemplateName
-#endif

@@ -12,15 +12,12 @@
 #ifndef _H_GPOPRetriever
 #define _H_GPOPRetriever
 
-#include <JBroadcaster.h>
 #include <JMessageProtocol.h>
 
-#include <JString.h>
-#include <JPtrArray.h>
+#include <JPtrArray-JString.h>
 #include <JProcess.h>
 
-#include <jTypes.h>
-
+#include <j_prep_ace.h>
 #include <ace/INET_Addr.h>
 #include <ace/UNIX_Addr.h>
 

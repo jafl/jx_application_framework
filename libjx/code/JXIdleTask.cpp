@@ -115,11 +115,3 @@ JXIdleTask::TimeToPerform
 		return kJFalse;
 		}
 }
-
-#define JTemplateType JXIdleTask
-#include <JPtrArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType JPtrArray<JXIdleTask>
-#include <JPtrArray.tmpls>
-#undef JTemplateType

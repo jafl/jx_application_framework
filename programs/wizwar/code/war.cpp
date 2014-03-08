@@ -10,6 +10,7 @@
 #include <JXStdInc.h>
 #include "WarSocket.h"
 #include "warGlobals.h"
+#include <j_prep_ace.h>
 #include <ace/Acceptor.h>
 #include <ace/SOCK_Acceptor.h>
 #include <jErrno.h>
@@ -62,21 +63,3 @@ main
 	WarDeleteGlobals();
 	return 0;
 }
-
-/******************************************************************************
- Required templates
-
-	These are defined because the linker asked for them.
-
- ******************************************************************************/
-
-#undef new
-#undef delete
-
-// INET
-
-#define JTemplateName ACE_Acceptor
-#define JTemplateType WarSocket, ACE_SOCK_ACCEPTOR
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType

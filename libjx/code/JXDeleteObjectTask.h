@@ -44,4 +44,6 @@ private:
 	const JXDeleteObjectTask& operator=(const JXDeleteObjectTask& source);
 };
 
+#include <JXDeleteObjectTask.tmpl>
+
 #endif

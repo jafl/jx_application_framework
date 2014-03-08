@@ -787,11 +787,3 @@ CBCommand::CmdInfo::Free
 		cmdInfo = NULL;
 		}
 }
-
-#define JTemplateType CBCommand::CmdInfo
-#include <JArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType CBCommand
-#include <JXDeleteObjectTask.tmpls>
-#undef JTemplateType

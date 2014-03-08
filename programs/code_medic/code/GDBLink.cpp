@@ -2537,14 +2537,6 @@ GDBLink::StopDebugger()
 	InitFlags();
 }
 
-#define JTemplateType ACE_LSOCK_STREAM
-#include <CMPipe.tmpl>
-#undef JTemplateType
-
-#define JTemplateType JStringPtrMap<JString>
-#include <JPtrArray.tmpls>
-#undef JTemplateType
-
 /******************************************************************************
  StartDebugger (private)
 

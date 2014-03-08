@@ -53,6 +53,3 @@ GLUndoBase::NewUndo
 {
 	itsTable->NewUndo(undo);
 }
-
-#define JTemplateType JUndo
-#include <JPtrArray.tmpls>

@@ -632,11 +632,3 @@ CMThreadsWidget::FinishedLoading
 
 	itsIsWaitingForReloadFlag = kJFalse;
 }
-
-#define JTemplateType CMGetThreads
-#include <JXDeleteObjectTask.tmpls>
-#undef JTemplateType
-
-#define JTemplateType JUInt64
-#include <JArray.tmpls>
-#undef JTemplateType

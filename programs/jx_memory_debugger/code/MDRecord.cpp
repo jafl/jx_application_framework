@@ -170,8 +170,3 @@ MDRecord::CompareData
 		return result;
 		}
 }
-
-#include <JArray.tmpls>
-#define JTemplateType MDRecord
-#include <JPtrArray.tmpls>
-#undef JTemplateType

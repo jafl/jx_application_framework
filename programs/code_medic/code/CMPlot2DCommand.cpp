@@ -71,7 +71,3 @@ CMPlot2DCommand::UpdateRange
 			}
 		}
 }
-
-#define JTemplateType CMPlot2DCommand
-#include <JPtrArray.tmpls>
-#undef JTemplateType

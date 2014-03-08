@@ -886,7 +886,3 @@ CMVarNode::GetVarChild
 	assert (node != NULL);
 	return node;
 }
-
-#define JTemplateType CMVarNode
-#include <JPtrArray.tmpls>
-#undef JTemplateType

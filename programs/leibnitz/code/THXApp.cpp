@@ -878,15 +878,3 @@ THXApp::InitStrings()
 {
 	(JGetStringManager())->Register(kAppSignature, kTHXDefaultStringData);
 }
-
-#define JTemplateType THXExprDirector
-#include <JPtrArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType THX2DPlotDirector
-#include <JPtrArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType THX3DPlotDirector
-#include <JPtrArray.tmpls>
-#undef JTemplateType

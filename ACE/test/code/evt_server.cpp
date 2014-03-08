@@ -16,6 +16,7 @@
 #include <JCoreStdInc.h>
 #include "evt_handlers.h"
 #include "util.h"
+#include <j_prep_ace.h>
 #include <ace/Acceptor.h>
 #include <ace/SOCK_Acceptor.h>
 #include <ace/LSOCK_Acceptor.h>
@@ -186,26 +187,3 @@ CreateUNIXServer
 
 	return acceptor;
 }
-
-/******************************************************************************
- Required templates
-
-	These are defined because the linker asked for them.
-
- ******************************************************************************/
-
-// INET
-
-#define JTemplateName ACE_Acceptor
-#define JTemplateType INETHandler, ACE_SOCK_ACCEPTOR
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-// UNIX
-
-#define JTemplateName ACE_Acceptor
-#define JTemplateType UNIXHandler, ACE_LSOCK_ACCEPTOR
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType

@@ -581,7 +581,3 @@ JXHelpManager::CompareSections
 		return JOrderedSetT::kFirstEqualSecond;
 		}
 }
-
-#define JTemplateType JXHelpManager::SectionInfo
-#include <JArray.tmpls>
-#undef JTemplateType

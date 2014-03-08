@@ -1196,7 +1196,3 @@ CBTreeDirector::DirectorClosed
 	itsFnBrowsers->Remove((CBFnListDirector*) theDirector);	// safe: doesn't call object
 	JXWindowDirector::DirectorClosed(theDirector);
 }
-
-#define JTemplateType CBFnListDirector
-#include <JPtrArray.tmpls>
-#undef JTemplateType

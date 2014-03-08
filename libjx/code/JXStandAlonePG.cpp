@@ -227,7 +227,3 @@ JXStandAlonePG::ProcessFinished()
 
 	JXProgressDisplay::ProcessFinished();
 }
-
-#define JTemplateType JXPGWindowPosition
-#include <JArray.tmpls>
-#undef JTemplateType

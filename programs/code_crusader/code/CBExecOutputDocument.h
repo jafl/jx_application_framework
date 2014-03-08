@@ -16,6 +16,7 @@
 
 #include "CBTextDocument.h"
 #include <JProcess.h>			// need definition of JProcess::Finished
+#include <j_prep_ace.h>
 #include <ace/LSOCK_Stream.h>
 #include <ace/UNIX_Addr.h>
 #include <JMessageProtocol.h>	// template; requires ace includes

@@ -609,15 +609,3 @@ JAliasArray<T>::ReceiveGoingAway
 }
 
 #endif
-
-// Instantiate the template for the specified type.
-
-#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition && defined J_EXPLICIT_TEMPLATES
-	#define JTemplateName JAliasArray
-	#include <instantiate_template.h>
-	#undef JTemplateName
-
-	#define JTemplateName JCompareAliasWrapper
-	#include <instantiate_template.h>
-	#undef JTemplateName
-#endif

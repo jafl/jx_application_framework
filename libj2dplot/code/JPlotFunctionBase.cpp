@@ -230,7 +230,3 @@ JPlotFunctionBase::EvaluateFunction
 			}
 		}
 }
-
-#define JTemplateType JPlotFunctionBase::Point
-#include <JArray.tmpls>
-#undef JTemplateType

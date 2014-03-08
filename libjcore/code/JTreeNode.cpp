@@ -639,7 +639,3 @@ JTreeNode::DeleteAllChildren()
 		itsChildren = NULL;
 		}
 }
-
-#define JTemplateType JTreeNode
-#include <JPtrArray.tmpls>
-#undef JTemplateType

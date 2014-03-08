@@ -1,9 +1,0 @@
-// Use this file to define templates
-//
-// To use this file:
-//
-//   #define JTemplateType ____
-//   #include <JSortablePtrArray.tmpls>
-
-#include <JPtrArray.tmpls>
-#include <JSortablePtrArray.tmpl>

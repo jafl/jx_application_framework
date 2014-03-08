@@ -506,7 +506,3 @@ GMessageView::HandleShortcut
 
 	JXLinkText::HandleShortcut(key, modifiers);
 }
-
-#define JTemplateType GMessageView::LinkInfo
-#include <JArray.tmpls>
-#undef JTemplateType

@@ -31,6 +31,7 @@
 #include <jXGlobals.h>
 
 #include <JThisProcess.h>
+#include <j_prep_ace.h>
 #include <ace/Reactor.h>
 #include <ace/Service_Config.h>
 #include <sys/time.h>
@@ -1079,7 +1080,7 @@ JXApplication::PerformUrgentTasks()
 		{
 		// clear out itsUrgentTasks so new ones can safely be added
 
-		JPtrArray<JXUrgentTask> taskList(*itsUrgentTasks, JPtrArrayT::kDeleteAll, kJFalse);
+		JPtrArray<JXUrgentTask> taskList(*itsUrgentTasks, JPtrArrayT::kDeleteAll);
 		itsUrgentTasks->RemoveAll();
 
 		// perform each task
@@ -1307,7 +1308,3 @@ JXApplication::CleanUpBeforeSuddenDeath
 	)
 {
 }
-
-#define JTemplateType JBroadcaster
-#include <JXDeleteObjectTask.tmpls>
-#undef JTemplateType

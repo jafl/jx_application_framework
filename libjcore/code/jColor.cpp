@@ -249,7 +249,3 @@ JHSB::JHSB
 		hue = JRound(kJMaxHSBValueF * h / 6.0);
 		}
 }
-
-#define JTemplateType JDynamicColorInfo
-#include <JArray.tmpls>
-#undef JTemplateType

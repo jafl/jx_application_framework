@@ -1129,9 +1129,4 @@ CMSourceDirector::HandleHelpMenu
 		{
 		(JXGetHelpManager())->ShowSection(kCMCreditsName);
 		}
-
 }
-
-#define JTemplateType CMSourceDirector
-#include <JPtrArray.tmpls>
-#undef JTemplateType

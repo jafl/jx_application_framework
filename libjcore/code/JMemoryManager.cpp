@@ -1439,25 +1439,3 @@ JMemoryManager::ConnectToDebugger
 		ClearWhenGoingAway(itsLink, &itsLink);
 		}
 }
-
-#ifdef J_EXPLICIT_TEMPLATES
-
-#define JTemplateName ACE_Connector
-#define JTemplateType JMemoryManager::DebugLink, ACE_LSOCK_CONNECTOR
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_NonBlocking_Connect_Handler
-#define JTemplateType JMemoryManager::DebugLink
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Connector_Base
-#define JTemplateType JMemoryManager::DebugLink
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#endif

@@ -916,7 +916,3 @@ JSubstitute::GetValue
 	value->Clear();
 	return kJFalse;
 }
-
-#define JTemplateType JSubstitute::VarInfo
-#include <JArray.tmpls>
-#undef JTemplateType

@@ -137,7 +137,3 @@ JVMThreadNode::CompareID
 {
 	return JCompareUInt64(t1->GetID(), t2->GetID());
 }
-
-#define JTemplateType JVMThreadNode
-#include <JPtrArray.tmpls>
-#undef JTemplateType

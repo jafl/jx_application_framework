@@ -759,7 +759,3 @@ CBFileListTable::WriteSetup
 		*symOutput << ' ';
 		}
 }
-
-#define JTemplateType CBFileListTable::FileInfo
-#include <JArray.tmpls>
-#undef JTemplateType

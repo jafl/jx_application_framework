@@ -314,7 +314,3 @@ JXScrolltab::HandleMouseLeave()
 {
 	SetBackColor((GetColormap())->GetBlueColor());
 }
-
-#define JTemplateType JXScrolltab
-#include <JPtrArray.tmpls>
-#undef JTemplateType

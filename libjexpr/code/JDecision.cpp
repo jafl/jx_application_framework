@@ -296,7 +296,3 @@ operator!=
 {
 	return !(d1 == d2);
 }
-
-#define JTemplateType JDecision
-#include <JPtrArray.tmpls>
-#undef JTemplateType

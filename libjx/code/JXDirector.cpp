@@ -270,7 +270,3 @@ JXDirector::DirectorClosed
 	)
 {
 }
-
-#define JTemplateType JXDirector
-#include <JPtrArray.tmpls>
-#undef JTemplateType

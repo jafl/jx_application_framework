@@ -32,6 +32,7 @@
 
 #include <GMGlobals.h>
 
+#include <j_prep_ace.h>
 #include <ace/Connector.h>
 #include <ace/INET_Addr.h>
 #include <ace/UNIX_Addr.h>
@@ -1037,30 +1038,3 @@ SMTPMessage::BlockUntilOkOrFail()
 		delete this;
 		}
 }
-
-/******************************************************************************
- Required templates
-
-	These are defined because the linker asked for them.
-
- ******************************************************************************/
-
-#include <ace/Version.h>
-
-#define JTemplateName ACE_Connector
-#define JTemplateType InetLink, ACE_SOCK_CONNECTOR
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_NonBlocking_Connect_Handler
-#define JTemplateType InetLink
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Connector_Base
-#define JTemplateType InetLink
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType

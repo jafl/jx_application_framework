@@ -561,7 +561,3 @@ JXMenuData::PrepareToOpenMenu
 			}
 		}
 }
-
-#define JTemplateType JXMenuData::BaseItemData
-#include <JArray.tmpls>
-#undef JTemplateType

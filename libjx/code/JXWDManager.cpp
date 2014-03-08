@@ -518,11 +518,3 @@ JXWDManager::CompareWindowNames
 	return JCompareStringsCaseInsensitive(const_cast<JString*>(&((w1.dir)->GetName())),
 										  const_cast<JString*>(&((w2.dir)->GetName())));
 }
-
-#define JTemplateType JXWDManager::WindowInfo
-#include <JArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType JXWindowDirector
-#include <JPtrArray.tmpls>
-#undef JTemplateType

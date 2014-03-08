@@ -106,7 +106,7 @@ JXFileSelection::SetData
 	const JSize count = list.GetElementCount();
 	if (itsList == NULL)
 		{
-		itsList = new JPtrArray<JString>(list, JPtrArrayT::kDeleteAll, kJTrue);
+		itsList = new JDCCPtrArray<JString>(list, JPtrArrayT::kDeleteAll);
 		assert( itsList != NULL );
 		}
 	else

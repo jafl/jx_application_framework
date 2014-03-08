@@ -270,8 +270,7 @@ JXFontManager::GetFontNames
 
 		// save names for next time
 
-		itsAllFontNames =
-			new JPtrArray<JString>(*fontNames, JPtrArrayT::kDeleteAll, kJTrue);
+		itsAllFontNames = new JDCCPtrArray<JString>(*fontNames, JPtrArrayT::kDeleteAll);
 		assert( itsAllFontNames != NULL );
 		}
 }
@@ -436,8 +435,7 @@ JXFontManager::GetMonospaceFontNames
 
 		// save names for next time
 
-		itsMonoFontNames =
-			new JPtrArray<JString>(*fontNames, JPtrArrayT::kDeleteAll, kJTrue);
+		itsMonoFontNames = new JDCCPtrArray<JString>(*fontNames, JPtrArrayT::kDeleteAll);
 		assert( itsMonoFontNames != NULL );
 		}
 }
@@ -1241,7 +1239,3 @@ JXFontManager::XFont::Free
 		XftFontClose(*display, xftrue);
 	}
 }
-
-#define JTemplateType JXFontManager::FontInfo
-#include <JArray.tmpls>
-#undef JTemplateType

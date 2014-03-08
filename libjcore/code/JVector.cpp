@@ -714,7 +714,3 @@ operator<<
 
 	return output;
 }
-
-#define JTemplateType JVector
-#include <JPtrArray.tmpls>
-#undef JTemplateType

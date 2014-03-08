@@ -9,6 +9,7 @@
 
 #include <cbStdInc.h>
 #include "CBSearchFontManager.h"
+#include <JString.h>
 #include <jAssert.h>
 
 /******************************************************************************

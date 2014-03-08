@@ -2002,10 +2002,6 @@ SOURCE=.\code\JXXFontMenu.h
 
 SOURCE=.\code\JXDeleteObjectTask.tmpl
 # End Source File
-# Begin Source File
-
-SOURCE=.\code\JXDeleteObjectTask.tmpls
-# End Source File
 # End Group
 # Begin Group "Images"
 

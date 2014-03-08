@@ -1120,7 +1120,3 @@ CBSymbolList::SymbolInfo::Free()
 	delete name;
 	name = NULL;
 }
-
-#define JTemplateType CBSymbolList::SymbolInfo
-#include <JArray.tmpls>
-#undef JTemplateType

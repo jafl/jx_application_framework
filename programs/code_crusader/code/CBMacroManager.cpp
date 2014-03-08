@@ -359,7 +359,3 @@ CBMacroList::DeleteAll()
 		}
 	RemoveAll();
 }
-
-#define JTemplateType CBMacroManager::MacroInfo
-#include <JArray.tmpls>
-#undef JTemplateType

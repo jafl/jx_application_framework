@@ -9,6 +9,7 @@
 
 #include <JCoreStdInc.h>
 #include "util.h"
+#include <j_prep_ace.h>
 #include <ace/SOCK_Acceptor.h>
 #include <ace/LSOCK_Acceptor.h>
 #include <JString.h>

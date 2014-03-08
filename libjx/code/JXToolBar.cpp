@@ -1081,7 +1081,3 @@ JXToolBar::AdjustWindowMinSize()
 		}
 	GetWindow()->SetMinSize(itsWindowMinWidth, minHeight);
 }
-
-#define JTemplateType JXToolBarButton
-#include <JPtrArray.tmpls>
-#undef JTemplateType

@@ -44,7 +44,7 @@ JXCheckboxGroup::JXCheckboxGroup
 	:
 	JContainer()
 {
-	itsCBList = new JPtrArray<JXCheckbox>(cbList, JPtrArrayT::kForgetAll, kJFalse);
+	itsCBList = new JPtrArray<JXCheckbox>(cbList, JPtrArrayT::kForgetAll);
 	assert( itsCBList != NULL );
 
 	InstallOrderedSet(itsCBList);

@@ -158,9 +158,6 @@ enum
 	kPrintMsgPopCmd
 };
 
-//#define JTemplateType JXTimerTask
-//#include <JXDeleteObjectTask.tmpls>
-
 /******************************************************************************
  Constructor
 

@@ -115,11 +115,3 @@ JXDeleteObjectTask<T>::ReceiveGoingAway
 }
 
 #endif
-
-// Instantiate the template for the specified type.
-
-#if defined JTemplateType && ! defined JOnlyWantTemplateDefinition
-	#define JTemplateName JXDeleteObjectTask
-	#include <instantiate_template.h>
-	#undef JTemplateName
-#endif

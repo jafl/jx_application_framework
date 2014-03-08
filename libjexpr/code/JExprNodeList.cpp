@@ -274,11 +274,3 @@ JExprNodeList::RecurseNodesForFunction
 	const JIndex currentNode = itsNodes->GetElementCount();
 	theFunction->BuildNodeList(this, currentNode);
 }
-
-#define JTemplateType JExprNodeList::Node
-#include <JArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType JExprNodeList
-#include <JPtrArray.tmpls>
-#undef JTemplateType

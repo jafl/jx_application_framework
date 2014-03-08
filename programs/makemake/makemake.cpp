@@ -2012,11 +2012,3 @@ CompareHeaderFiles
 		return JOrderedSetT::kFirstEqualSecond;
 		}
 }
-
-#define JTemplateType HeaderDep
-#include <JArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType JBoolean
-#include <JArray.tmpls>
-#undef JTemplateType

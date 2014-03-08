@@ -246,41 +246,37 @@ CBCTree::ParseClasses
 			enumClassIndex = buffer->GetLength()+1;
 			}
 
-		JSize kwIndex, kwLength;
+		const JSize kwIndex = JMin(nsIndex, classIndex, structIndex, enumIndex, enumClassIndex);
+		JSize kwLength;
 		CBClass::DeclareType declType;
 		JBoolean isNamespace = kJFalse;
-		if (nsIndex < classIndex && nsIndex < structIndex && nsIndex < enumIndex && nsIndex < enumClassIndex)
+		if (kwIndex == nsIndex)
 			{
-			kwIndex     = nsIndex;
 			kwLength    = kNamespaceKWLength;
 			declType    = CBClass::kClassType;
 			isNamespace = kJTrue;
 			}
-		else if (classIndex < nsIndex && classIndex < structIndex && classIndex < enumIndex && classIndex < enumClassIndex)
+		else if (kwIndex == classIndex)
 			{
-			kwIndex  = classIndex;
 			kwLength = kClassKWLength;
 			declType = CBClass::kClassType;
 			}
-		else if (structIndex < nsIndex && structIndex < classIndex && structIndex < enumIndex && structIndex < enumClassIndex)
+		else if (kwIndex == structIndex)
 			{
-			kwIndex  = structIndex;
 			kwLength = kStructKWLength;
 			declType = CBClass::kStructType;
 			}
-		else if (enumIndex < nsIndex && enumIndex < classIndex && enumIndex < structIndex && enumIndex < enumClassIndex)
+		else if (kwIndex == enumIndex)
 			{
-			kwIndex  = enumIndex;
 			kwLength = kEnumKWLength;
 			declType = CBClass::kEnumType;
 			}
-		else if (enumClassIndex < nsIndex && enumClassIndex < classIndex && enumClassIndex < structIndex && enumClassIndex < enumIndex)
+		else if (kwIndex == enumClassIndex)
 			{
-			kwIndex  = enumClassIndex;
 			kwLength = kEnumClassKWLength;
 			declType = CBClass::kEnumType;
 			}
-		else
+		else	// paranoia
 			{
 			break;
 			}

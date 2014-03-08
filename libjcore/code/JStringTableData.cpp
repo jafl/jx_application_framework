@@ -11,12 +11,7 @@
 
 #include <JCoreStdInc.h>
 #include <JStringTableData.h>
-
-// instantiate base class
-
 #include <JString.h>
-#define JTemplateType JString
-#include <JObjTableData.tmpls>
 
 /******************************************************************************
  Constructor

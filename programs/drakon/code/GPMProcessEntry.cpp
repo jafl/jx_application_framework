@@ -796,7 +796,3 @@ GPMProcessEntry::CompareTreeCommand
 		return result;
 		}
 }
-
-#define JTemplateType GPMProcessEntry
-#include <JPtrArray.tmpls>
-#undef JTemplateType

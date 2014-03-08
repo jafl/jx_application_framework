@@ -195,13 +195,3 @@ JPtrStack<T,S>::SetCleanUpAction
 }
 
 #endif
-
-// Instantiate the template for the specified type.
-
-#if defined JTemplateDataType && defined JTemplateStorageType && ! defined JOnlyWantTemplateDefinition && defined J_EXPLICIT_TEMPLATES
-	#define JTemplateType JTemplateDataType,JTemplateStorageType
-	#define JTemplateName JPtrStack
-	#include <instantiate_template.h>
-	#undef JTemplateName
-	#undef JTemplateType
-#endif

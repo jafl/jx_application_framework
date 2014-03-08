@@ -9,6 +9,7 @@
 
 #include <JCoreStdInc.h>
 #include "Pipe.h"
+#include <j_prep_ace.h>
 #include <ace/LSOCK_Stream.h>
 #include <JProcess.h>
 #include <jGlobals.h>
@@ -111,7 +112,3 @@ main
 		return 1;
 		}
 }
-
-#define JTemplateType ACE_LSOCK_STREAM
-#include "Pipe.tmpl"
-#undef JTemplateType

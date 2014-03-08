@@ -12,12 +12,10 @@
 #ifndef _H_SMTPMessage
 #define _H_SMTPMessage
 
-#include <JBroadcaster.h>
 #include <JMessageProtocol.h>
 #include <JPtrArray.h>
 
-#include <jTypes.h>
-
+#include <j_prep_ace.h>
 #include <ace/Connector.h>
 #include <ace/INET_Addr.h>
 #include <ace/UNIX_Addr.h>

@@ -1045,11 +1045,6 @@ JVMLink::CompareClassNames
 	return JCompareStringsCaseSensitive(c1.name, c2.name);
 }
 
-#define JTemplateType JVMLink::ClassInfo
-#include <JArray.tmpls>
-#include <JAliasArray.tmpls>
-#undef JTemplateType
-
 /******************************************************************************
  CompareMethodIDs (private static)
 
@@ -1075,10 +1070,6 @@ JVMLink::CompareMethodIDs
 		return JOrderedSetT::kFirstEqualSecond;
 		}
 }
-
-#define JTemplateType JVMLink::MethodInfo
-#include <JArray.tmpls>
-#undef JTemplateType
 
 /******************************************************************************
  FlushFrameList
@@ -1143,10 +1134,6 @@ JVMLink::GetFrame
 	*index = 0;
 	return kJFalse;
 }
-
-#define JTemplateType JVMLink::FrameInfo
-#include <JArray.tmpls>
-#undef JTemplateType
 
 /******************************************************************************
  ReadFromProcess (private)
@@ -2449,12 +2436,6 @@ JVMLink::ConnectionFinished
 
 	RestartDebugger();
 }
-
-#define JTemplateName ACE_Acceptor
-#define JTemplateType JVMSocket, ACE_SOCK_ACCEPTOR
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
 
 /******************************************************************************
  StartDebugger (private)

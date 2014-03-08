@@ -794,11 +794,3 @@ JXDocumentManager::CompareDocNames
 	return JCompareStringsCaseInsensitive(const_cast<JString*>(&((d1.doc)->GetName())),
 										  const_cast<JString*>(&((d2.doc)->GetName())));
 }
-
-#define JTemplateType JXDocumentManager::DocInfo
-#include <JArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType JXDocumentManager::FileMap
-#include <JArray.tmpls>
-#undef JTemplateType

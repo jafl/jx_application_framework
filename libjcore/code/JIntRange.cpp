@@ -93,7 +93,3 @@ operator<<
 	output << range.first << ' ' << range.last;
 	return output;
 }
-
-#define JTemplateType JIntRange
-#include <JArray.tmpls>
-#undef JTemplateType

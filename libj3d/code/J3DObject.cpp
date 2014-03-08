@@ -353,7 +353,3 @@ J3DObject::RemoveChild
 		Refresh();
 		}
 }
-
-#define JTemplateType J3DObject
-#include <JPtrArray.tmpls>
-#undef JTemplateType

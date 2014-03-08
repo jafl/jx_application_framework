@@ -1897,7 +1897,3 @@ JXContainer::IsMenuTable()
 {
 	return kJFalse;
 }
-
-#define JTemplateType JXContainer
-#include <JPtrArray.tmpls>
-#undef JTemplateType

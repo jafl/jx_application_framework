@@ -4917,15 +4917,3 @@ JXWindow::PrintWindowConfig()
 
 	cout << endl;
 }
-
-#define JTemplateType JXWindow::Shortcut
-#include <JArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType JXWindow::ChildWindowInfo
-#include <JArray.tmpls>
-#undef JTemplateType
-
-#define JTemplateType JXWindow
-#include <JPtrArray.tmpls>
-#undef JTemplateType

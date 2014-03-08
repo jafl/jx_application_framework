@@ -79,7 +79,3 @@ WizPlayer::Receive
 {
 	WWPlayer::Receive(sender, message);
 }
-
-#define JTemplateType WizPlayer
-#include <JPtrArray.tmpls>
-#undef JTemplateType

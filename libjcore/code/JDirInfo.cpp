@@ -1428,7 +1428,3 @@ JDirInfo::Empty
 	delete info;
 	return empty;
 }
-
-#define JTemplateType JDirEntry
-#include <JPtrArray.tmpls>
-#undef JTemplateType

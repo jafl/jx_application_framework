@@ -58,4 +58,6 @@ private:
 	const JBinaryDecision& operator=(const JBinaryDecision& source);
 };
 
+#include <JBinaryDecision.tmpl>
+
 #endif

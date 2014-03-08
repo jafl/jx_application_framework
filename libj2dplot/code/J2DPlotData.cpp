@@ -602,7 +602,3 @@ J2DPlotData::ValidateCurve()
 
 	SetElementCount(itsIsValidFlag ? xCount : 0);
 }
-
-#define JTemplateType J2DPlotData
-#include <JPtrArray.tmpls>
-#undef JTemplateType

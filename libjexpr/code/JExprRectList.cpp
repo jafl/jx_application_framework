@@ -222,7 +222,3 @@ JExprRectList::GetParent
 
 	return rectCount;
 }
-
-#define JTemplateType JExprRectList::ExtraInfo
-#include <JArray.tmpls>
-#undef JTemplateType

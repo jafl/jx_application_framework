@@ -794,10 +794,6 @@ SOURCE=".\code\Templates-ulong.cpp"
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=.\code\instantiate_template.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\code\JAliasArray.h
 # End Source File
 # Begin Source File
@@ -1470,23 +1466,11 @@ SOURCE=.\code\JAliasArray.tmpl
 # End Source File
 # Begin Source File
 
-SOURCE=.\code\JAliasArray.tmpls
-# End Source File
-# Begin Source File
-
 SOURCE=.\code\JArray.tmpl
 # End Source File
 # Begin Source File
 
-SOURCE=.\code\JArray.tmpls
-# End Source File
-# Begin Source File
-
 SOURCE=.\code\JAuxTableData.tmpl
-# End Source File
-# Begin Source File
-
-SOURCE=.\code\JAuxTableData.tmpls
 # End Source File
 # Begin Source File
 
@@ -1495,10 +1479,6 @@ SOURCE=.\code\JConstHashCursor.tmpl
 # Begin Source File
 
 SOURCE=.\code\JDynamicHistogram.tmpl
-# End Source File
-# Begin Source File
-
-SOURCE=.\code\JDynamicHistogram.tmpls
 # End Source File
 # Begin Source File
 
@@ -1514,23 +1494,11 @@ SOURCE=.\code\JHashTable.tmpl
 # End Source File
 # Begin Source File
 
-SOURCE=.\code\JHashTable.tmpls
-# End Source File
-# Begin Source File
-
 SOURCE=.\code\JHistogram.tmpl
 # End Source File
 # Begin Source File
 
-SOURCE=.\code\JHistogram.tmpls
-# End Source File
-# Begin Source File
-
 SOURCE=.\code\JLinkedList.tmpl
-# End Source File
-# Begin Source File
-
-SOURCE=.\code\JLinkedList.tmpls
 # End Source File
 # Begin Source File
 
@@ -1542,15 +1510,7 @@ SOURCE=.\code\JMinMax.tmpl
 # End Source File
 # Begin Source File
 
-SOURCE=.\code\JMinMax.tmpls
-# End Source File
-# Begin Source File
-
 SOURCE=.\code\JObjTableData.tmpl
-# End Source File
-# Begin Source File
-
-SOURCE=.\code\JObjTableData.tmpls
 # End Source File
 # Begin Source File
 
@@ -1570,23 +1530,7 @@ SOURCE=.\code\JPackedTableData.tmpl
 # End Source File
 # Begin Source File
 
-SOURCE=.\code\JPackedTableData.tmpls
-# End Source File
-# Begin Source File
-
 SOURCE=.\code\JPtrArray.tmpl
-# End Source File
-# Begin Source File
-
-SOURCE=.\code\JPtrArray.tmpls
-# End Source File
-# Begin Source File
-
-SOURCE=.\code\JPtrArray2.tmpls
-# End Source File
-# Begin Source File
-
-SOURCE=.\code\JPtrArray2a.tmpls
 # End Source File
 # Begin Source File
 
@@ -1598,15 +1542,7 @@ SOURCE=.\code\JPtrQueue.tmpl
 # End Source File
 # Begin Source File
 
-SOURCE=.\code\JPtrQueue.tmpls
-# End Source File
-# Begin Source File
-
 SOURCE=.\code\JPtrStack.tmpl
-# End Source File
-# Begin Source File
-
-SOURCE=.\code\JPtrStack.tmpls
 # End Source File
 # Begin Source File
 
@@ -1614,15 +1550,7 @@ SOURCE=.\code\JQueue.tmpl
 # End Source File
 # Begin Source File
 
-SOURCE=.\code\JQueue.tmpls
-# End Source File
-# Begin Source File
-
 SOURCE=.\code\JRunArray.tmpl
-# End Source File
-# Begin Source File
-
-SOURCE=.\code\JRunArray.tmpls
 # End Source File
 # Begin Source File
 
@@ -1630,23 +1558,11 @@ SOURCE=.\code\JRunArrayIterator.tmpl
 # End Source File
 # Begin Source File
 
-SOURCE=.\code\JSortablePtrArray.tmpls
-# End Source File
-# Begin Source File
-
 SOURCE=.\code\JStack.tmpl
 # End Source File
 # Begin Source File
 
-SOURCE=.\code\JStack.tmpls
-# End Source File
-# Begin Source File
-
 SOURCE=.\code\JStringMap.tmpl
-# End Source File
-# Begin Source File
-
-SOURCE=.\code\JStringMap.tmpls
 # End Source File
 # Begin Source File
 
@@ -1658,10 +1574,6 @@ SOURCE=.\code\JStringPtrMap.tmpl
 # End Source File
 # Begin Source File
 
-SOURCE=.\code\JStringPtrMap.tmpls
-# End Source File
-# Begin Source File
-
 SOURCE=.\code\JStringPtrMapCursor.tmpl
 # End Source File
 # Begin Source File
@@ -1670,19 +1582,11 @@ SOURCE=.\code\JStrValue.tmpl
 # End Source File
 # Begin Source File
 
-SOURCE=.\code\JStrValue.tmpls
-# End Source File
-# Begin Source File
-
 SOURCE=.\code\JTaskIterator.tmpl
 # End Source File
 # Begin Source File
 
 SOURCE=.\code\JValueTableData.tmpl
-# End Source File
-# Begin Source File
-
-SOURCE=.\code\JValueTableData.tmpls
 # End Source File
 # End Group
 # Begin Source File

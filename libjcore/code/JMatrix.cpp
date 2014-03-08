@@ -1136,7 +1136,3 @@ JGaussianElimination
 
 	return kJTrue;
 }
-
-#define JTemplateType JMatrix
-#include <JPtrArray.tmpls>
-#undef JTemplateType

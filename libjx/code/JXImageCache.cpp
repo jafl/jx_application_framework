@@ -94,10 +94,3 @@ JXImageCache::GetImageData
 
 	return s;
 }
-
-#define JTemplateType JXImage
-#include <JStringPtrMap.tmpls>
-#undef JTemplateType
-#define JTemplateType JStrValue<JXImage*>
-#include <JHashTable.tmpls>
-#undef JTemplateType

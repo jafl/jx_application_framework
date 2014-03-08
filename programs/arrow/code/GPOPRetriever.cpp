@@ -24,7 +24,7 @@
 #include "GInboxMgr.h"
 #include "md5.h"
 
-#include <GMGlobals.h>
+#include "GMGlobals.h"
 
 #include <JXGetStringDialog.h>
 #include <JXTimerTask.h>
@@ -42,6 +42,7 @@
 #include <jFStreamUtil.h>
 #include <jTime.h>
 
+#include <j_prep_ace.h>
 #include <ace/Connector.h>
 #include <ace/INET_Addr.h>
 #include <ace/UNIX_Addr.h>

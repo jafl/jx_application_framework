@@ -12,6 +12,7 @@
 #include <JCoreStdInc.h>
 #include "evt_handlers.h"
 #include "util.h"
+#include <j_prep_ace.h>
 #include <ace/Connector.h>
 #include <ace/SOCK_Connector.h>
 #include <ace/LSOCK_Connector.h>
@@ -182,50 +183,3 @@ UNIXConnect
 
 	return connector;
 }
-
-/******************************************************************************
- Required templates
-
-	These are defined because the linker asked for them.
-
- ******************************************************************************/
-
-// INET
-
-#define JTemplateName ACE_Connector
-#define JTemplateType INETHandler, ACE_SOCK_CONNECTOR
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_NonBlocking_Connect_Handler
-#define JTemplateType INETHandler
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Connector_Base
-#define JTemplateType INETHandler
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-// UNIX
-
-#define JTemplateName ACE_Connector
-#define JTemplateType UNIXHandler, ACE_LSOCK_CONNECTOR
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_NonBlocking_Connect_Handler
-#define JTemplateType UNIXHandler
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
-
-#define JTemplateName ACE_Connector_Base
-#define JTemplateType UNIXHandler
-#include <instantiate_template.h>
-#undef JTemplateName
-#undef JTemplateType
