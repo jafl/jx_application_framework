@@ -248,10 +248,6 @@ T
 2 "GMailboxDragData.cpp"
 F
 "./MailTree/GMailboxDragData.cpp"
-T
-2 "JPtrArray-JNamedTreeNode.cpp"
-F
-"./MailTree/JPtrArray-JNamedTreeNode.cpp"
 F
 T
 1 "accounts"
@@ -497,7 +493,7 @@ T "./" "make -k debug" "" T F T T T F F "" "" "" F
 F
 # build settings
 1
-T
+F
 "arrow"
 "${LIB_DEPS}"
 "make -k all"
