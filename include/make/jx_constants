@@ -4,11 +4,11 @@
 # version numbers
 #
 
-JX_VERSION   := 3.0.0
+JX_VERSION   := 3.1.0
 ACE_VERSION  := 6.2.0
 MESA_VERSION := 8.0.5
 
-JX_LIB_VERSION  := 3_0_0
+JX_LIB_VERSION  := 3_1_0
 ACE_LIB_VERSION := 6_2_0
 
 JX := JX-${JX_VERSION}
