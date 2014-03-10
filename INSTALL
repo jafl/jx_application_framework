@@ -1,7 +1,7 @@
 
 *** Step 1:  Preparation
 
-You need gcc 4 (or later) and GNU's version of make.
+You need g++ 4.4 or clang and GNU's version of make.
 
 You should find a computer where you can compile to the local disk.
 Compiling to a remote disk over NFS is usually very slow.
