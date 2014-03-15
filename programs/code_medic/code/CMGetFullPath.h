@@ -45,6 +45,7 @@ public:
 
 	static const JCharacter* kFileFound;
 	static const JCharacter* kFileNotFound;
+	static const JCharacter* kNewCommand;
 
 	class FileFound : public JBroadcaster::Message
 		{
@@ -93,6 +94,27 @@ public:
 		private:
 
 			const JString& itsFileName;
+		};
+
+	class NewCommand : public JBroadcaster::Message
+		{
+		public:
+
+			NewCommand(CMGetFullPath* cmd)
+				:
+				JBroadcaster::Message(kNewCommand),
+				itsCmd(cmd)
+				{ };
+
+			CMGetFullPath*
+			GetNewCommand() const
+			{
+				return itsCmd;
+			}
+
+		private:
+
+			CMGetFullPath*	itsCmd;
 		};
 };
 

@@ -75,7 +75,7 @@ ChooseDebuggerPrompt::CMEditPrefsDialog	"Choose $name binary:"
 # CMCommandDirector
 
 WindowsMenuText::CMCommandDirector	"Command line"
-CannotOpenFile::CMCommandDirector	"Unable to open $name because it either does not exist or is not readable."
+CannotOpenFile::CMCommandDirector	"Unable to open $name because it either does not exist or is not readable, or the debugger is being unhelpful."
 
 NoBinaryButtonLabel::CMCommandDirector "<no binary>"
 

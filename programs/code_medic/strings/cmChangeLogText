@@ -12,6 +12,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 3.3.4 </h3>
+
+Fixed bug on OS X that caused all requests for source files to open the file with <code>main()</code>.
+
 <h3> 3.3.3 </h3>
 
 Fixed bug causing About dialog to hang on Linux.

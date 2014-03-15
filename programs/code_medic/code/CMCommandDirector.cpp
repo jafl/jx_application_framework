@@ -1104,6 +1104,13 @@ CMCommandDirector::Receive
 		assert( info != NULL );
 		ReportUnreadableSourceFile(info->GetFileName());
 		}
+	else if (message.Is(CMGetFullPath::kNewCommand))
+		{
+		const CMGetFullPath::NewCommand* info =
+			dynamic_cast<const CMGetFullPath::NewCommand*>(&message);
+		assert( info != NULL );
+		ListenTo(info->GetNewCommand());
+		}
 
 	else
 		{

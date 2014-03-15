@@ -191,6 +191,13 @@ CMBreakpoint::Receive
 		{
 		(CMGetLink()->GetBreakpointManager())->BreakpointFileNameInvalid(this);
 		}
+	else if (message.Is(CMGetFullPath::kNewCommand))
+		{
+		const CMGetFullPath::NewCommand* info =
+			dynamic_cast<const CMGetFullPath::NewCommand*>(&message);
+		assert( info != NULL );
+		ListenTo(info->GetNewCommand());
+		}
 	else
 		{
 		JBroadcaster::Receive(sender, message);

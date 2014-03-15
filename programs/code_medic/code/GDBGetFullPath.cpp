@@ -55,7 +55,7 @@ GDBGetFullPath::BuildCommand
 {
 	JString cmd = "list ";
 	cmd        += fileName;
-	cmd        += ":1,1\n-file-list-exec-source-file";
+	cmd        += ":1\n-file-list-exec-source-file";
 	return cmd;
 }
 
@@ -64,7 +64,8 @@ GDBGetFullPath::BuildCommand
 
  ******************************************************************************/
 
-static const JRegex pathPattern = ",fullname=\"([^\"]+)\"";
+static const JRegex redirectPattern = "file: \\\"([^\"]+)\\\", line number: 1\\n";
+static const JRegex pathPattern     = ",fullname=\"([^\"]+)\"";
 
 void
 GDBGetFullPath::HandleSuccess
@@ -72,6 +73,29 @@ GDBGetFullPath::HandleSuccess
 	const JString& cmdData
 	)
 {
+	JArray<JIndexRange> matchList;
+	if (redirectPattern.Match(cmdData, &matchList))
+		{
+		const JString fullName = cmdData.GetSubstring(matchList.GetElement(2));
+		if (fullName == GetFileName())
+			{
+			Broadcast(FileNotFound(GetFileName()));
+			(CMGetLink())->RememberFile(GetFileName(), NULL);
+			}
+		else if (JIsAbsolutePath(fullName))
+			{
+			(CMGetLink())->RememberFile(GetFileName(), fullName);
+			Broadcast(FileFound(fullName, GetLineIndex()));
+			}
+		else
+			{
+			GDBGetFullPath* cmd = new GDBGetFullPath(fullName, GetLineIndex());
+			assert( cmd != NULL );
+			Broadcast(NewCommand(cmd));
+			}
+		return;
+		}
+
 	const JString& data = GetLastResult();
 	JBoolean fileOK     = kJFalse;
 
@@ -82,7 +106,6 @@ GDBGetFullPath::HandleSuccess
 		data1 = *(resultList.FirstElement());
 		}
 
-	JArray<JIndexRange> matchList;
 	if (!data1.Contains("No source file") &&
 		pathPattern.Match(data, &matchList))
 		{

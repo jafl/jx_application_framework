@@ -15,6 +15,7 @@
 
 const JCharacter* CMGetFullPath::kFileFound    = "FileFound::CMGetFullPath";
 const JCharacter* CMGetFullPath::kFileNotFound = "FileNotFound::CMGetFullPath";
+const JCharacter* CMGetFullPath::kNewCommand   = "NewCommand::CMGetFullPath";
 
 /******************************************************************************
  Constructor
