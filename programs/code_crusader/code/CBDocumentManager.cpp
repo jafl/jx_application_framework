@@ -40,13 +40,6 @@
 static const JCharacter* kSaveNewFilePrompt = "Save file as:";
 static const JCharacter* kTextTemplateDir   = "text_templates";
 
-// Max reasonable file size
-
-const JSize kMinWarnFileSize = 1000000;
-static const JCharacter* kMinWarnFileSizeStr =
-	"\" is larger than 1MB, so it may take a while to open it.  "
-	"Do you wish to proceed?";
-
 // External editors
 
 static const JCharacter* kDefEditTextFileCmd     = "emacsclient $f";
@@ -85,12 +78,6 @@ const JCharacter* CBDocumentManager::kProjectDocumentActivated =
 
 const JCharacter* CBDocumentManager::kAddFileToHistory =
 	"AddFileToHistory::CBDocumentManager";
-
-// string ID's
-
-static const JCharacter* kNotAFileID         = "NotAFile::CBDocumentManager";
-static const JCharacter* kFileDoesNotExistID = "FileDoesNotExist::CBDocumentManager";
-static const JCharacter* kCannotCreateFileID = "CannotCreateFile::CBDocumentManager";
 
 /******************************************************************************
  Constructor
@@ -903,13 +890,13 @@ CBDocumentManager::OpenTextDocument
 	const JBoolean isFile = JFileExists(fileName);
 	if (!isFile && JNameUsed(fileName))
 		{
-		const JString msg = JGetString(kNotAFileID, map, sizeof(map));
+		const JString msg = JGetString("NotAFile::CBDocumentManager", map, sizeof(map));
 		(JGetUserNotification())->ReportError(msg);
 		return kJFalse;
 		}
 	else if (!isFile)
 		{
-		const JString msg = JGetString(kFileDoesNotExistID, map, sizeof(map));
+		const JString msg = JGetString("FileDoesNotExist::CBDocumentManager", map, sizeof(map));
 		if (!(JGetUserNotification())->AskUserYes(msg))
 			{
 			return kJFalse;
@@ -919,7 +906,7 @@ CBDocumentManager::OpenTextDocument
 			ofstream temp(fileName);
 			if (!temp.good())
 				{
-				const JString msg = JGetString(kCannotCreateFileID, map, sizeof(map));
+				const JString msg = JGetString("CannotCreateFile::CBDocumentManager", map, sizeof(map));
 				(JGetUserNotification())->ReportError(msg);
 				return kJFalse;
 				}
@@ -1038,9 +1025,11 @@ CBDocumentManager::WarnFileSize
 		JString path, fileName;
 		JSplitPathAndName(fullName, &path, &fileName);
 
-		JString msg = "\"";
-		msg += fileName;
-		msg += kMinWarnFileSizeStr;
+		const JCharacter* map[] =
+			{
+			"f", fileName
+			};
+		const JString msg = JGetString("WarnFileTooLarge::CBDocumentManager", map, sizeof(map));
 		if (!(JGetUserNotification())->AskUserNo(msg))
 			{
 			return kJFalse;

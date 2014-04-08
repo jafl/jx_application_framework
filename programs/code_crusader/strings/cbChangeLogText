@@ -12,6 +12,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 6.5.1 </h3>
+
+Syntax hilighting is disabled for files > 1MB.  This dramatically speeds up opening large JSON files.  (I hope you don't have any source files that big!)
+
 <h3> 6.5 </h3>
 
 Added syntax hilighting for INI files.

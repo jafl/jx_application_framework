@@ -1761,7 +1761,8 @@ CBTextEditor::AdjustStylesBeforeRecalc
 	)
 {
 	CBStylerBase* styler = NULL;
-	if (itsDoc->GetStyler(&styler))
+	if (GetTextLength() < CBDocumentManager::kMinWarnFileSize &&
+		itsDoc->GetStyler(&styler))
 		{
 		styler->UpdateStyles(this, buffer, styles,
 							 recalcRange, redrawRange,
@@ -1783,19 +1784,23 @@ CBTextEditor::AdjustStylesBeforeRecalc
 void
 CBTextEditor::RecalcStyles()
 {
-	if (GetTextLength() > 0)
+	const JSize length = GetTextLength();
+	if (length == 0)
 		{
-		CBStylerBase* styler;
-		if (itsDoc->GetStyler(&styler))
-			{
-			RecalcAll(kJTrue);
-			}
-		else
-			{
-			JTextEditor::SetFont(1, GetTextLength(),
-								 GetFontName(1), GetFontSize(1),
-								 GetDefaultFontStyle(), kJFalse);
-			}
+		return;
+		}
+
+	CBStylerBase* styler;
+	if (length < CBDocumentManager::kMinWarnFileSize &&
+		itsDoc->GetStyler(&styler))
+		{
+		RecalcAll(kJTrue);
+		}
+	else
+		{
+		JTextEditor::SetFont(1, GetTextLength(),
+							 GetFontName(1), GetFontSize(1),
+							 GetDefaultFontStyle(), kJFalse);
 		}
 }
 

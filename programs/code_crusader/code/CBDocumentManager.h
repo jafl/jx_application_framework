@@ -39,6 +39,11 @@ public:
 		kTextFileHistory
 	};
 
+	enum
+	{
+		kMinWarnFileSize = 1000000
+	};
+
 public:
 
 	CBDocumentManager();
