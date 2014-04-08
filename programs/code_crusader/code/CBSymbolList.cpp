@@ -243,7 +243,7 @@ CBSymbolList::FindSymbol
 		for (JIndex i=startIndex; i<=count; i++)
 			{
 			const SymbolInfo info = itsSymbolList->GetElement(i);
-			if (!CompareSymbols(target, info) == JOrderedSetT::kFirstEqualSecond)
+			if (CompareSymbols(target, info) != JOrderedSetT::kFirstEqualSecond)
 				{
 				break;
 				}
