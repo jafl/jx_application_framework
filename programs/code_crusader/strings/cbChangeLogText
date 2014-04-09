@@ -15,6 +15,8 @@ Please send all bug reports and suggestions for features to
 <h3> 6.5.1 </h3>
 
 Syntax hilighting is disabled for files > 1MB.  This dramatically speeds up opening large JSON files.  (I hope you don't have any source files that big!)
+<p>
+Updated PHP syntax hilighting keyword list to PHP 5.5.
 
 <h3> 6.5 </h3>
 
