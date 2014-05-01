@@ -137,7 +137,7 @@ static const JCharacter* kProjectMenuStr =
 	"    Edit project configuration...                  %i" kCBEditMakeConfigAction
 	"  | Update Makefile                                %i" kCBUpdateMakefileAction
 	"%l| Update symbol database         %k Meta-U       %i" kCBUpdateClassTreeAction
-	"  | Show symbol browser                            %i" kCBShowSymbolBrowserAction
+	"  | Show symbol browser            %k Ctrl-F12     %i" kCBShowSymbolBrowserAction
 	"  | Show C++ class tree                            %i" kCBShowCPPClassTreeAction
 	"  | Show Java class tree                           %i" kCBShowJavaClassTreeAction
 	"  | Look up man page...            %k Meta-I       %i" kCBViewManPageAction

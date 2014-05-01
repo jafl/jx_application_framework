@@ -76,7 +76,7 @@ enum
 
 static const JCharacter* kProjectMenuTitleStr = "Project";
 static const JCharacter* kProjectMenuStr =
-	"    Show symbol browser                 %i" kCBShowSymbolBrowserAction
+	"    Show symbol browser %k Ctrl-F12     %i" kCBShowSymbolBrowserAction
 	"  | Look up man page... %k Meta-I       %i" kCBViewManPageAction
 	"%l| Show file list      %k Meta-Shift-F %i" kCBShowFileListAction
 	"  | Find file...        %k Meta-D       %i" kCBFindFileAction

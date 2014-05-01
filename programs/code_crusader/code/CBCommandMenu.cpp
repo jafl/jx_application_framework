@@ -74,7 +74,7 @@ enum
 
 static const JCharacter* kManageProjMenuStr =
 	"    Update symbol database         %k Meta-U       %i" kCBUpdateClassTreeAction
-	"%l| Show symbol browser                            %i" kCBShowSymbolBrowserAction
+	"%l| Show symbol browser            %k Ctrl-F12     %i" kCBShowSymbolBrowserAction
 	"  | Show C++ class tree                            %i" kCBShowCPPClassTreeAction
 	"  | Show Java class tree                           %i" kCBShowJavaClassTreeAction
 	"  | Show file list                 %k Meta-Shift-F %i" kCBShowFileListAction;
