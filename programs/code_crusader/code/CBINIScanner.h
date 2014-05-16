@@ -41,6 +41,7 @@ public:
 
 		kKeyOrValue,
 		kAssignment,
+		kArrayIndex,
 
 		kSingleQuoteString,
 		kDoubleQuoteString,

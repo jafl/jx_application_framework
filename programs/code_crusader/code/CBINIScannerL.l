@@ -43,9 +43,14 @@ WS      ([ \v\t\f\r]*)
 
 
 
-"["[^]]+"]" {
+^"["[^]]+"]" {
 	StartToken();
 	return ThisToken(kSectionName);
+	}
+
+"["[^]]*"]" {
+	StartToken();
+	return ThisToken(kArrayIndex);
 	}
 
 [^['";= \v\t\f\r]+ {

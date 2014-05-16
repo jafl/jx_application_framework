@@ -21,7 +21,9 @@
 
 CBINIStyler* CBINIStyler::itsSelf = NULL;
 
-const JFileVersion kCurrentTypeListVersion = 0;
+const JFileVersion kCurrentTypeListVersion = 1;
+
+	// version 1 inserts kArrayIndex after kAssignment (2)
 
 static const JCharacter* kTypeNames[] =
 {
@@ -29,6 +31,7 @@ static const JCharacter* kTypeNames[] =
 
 	"Key or Value",
 	"Assignment",
+	"Array index",
 
 	"Single quoted string",
 	"Double quoted string",
@@ -227,5 +230,8 @@ CBINIStyler::UpgradeTypeList
 	JArray<JFontStyle>*	typeStyles
 	)
 {
-	// set new values after all new slots have been created
+	if (vers < 1)
+		{
+		typeStyles->InsertElementAtIndex(3, JFontStyle());
+		}
 }
