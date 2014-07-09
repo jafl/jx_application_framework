@@ -40,6 +40,11 @@ const JSize kDirCount = sizeof(kDirName) / sizeof(const JCharacter*);
 
 const JCharacter* kJUnsupportedVCS = "JUnsupportedVCS";
 
+// local
+
+static JBoolean	jSearchVCSRoot(const JCharacter* path, const JCharacter* vcsDirName,
+							   JString* vcsRoot);
+
 /******************************************************************************
  JIsVCSDirectory
 
@@ -80,7 +85,8 @@ JGetVCSDirectoryNames
 JVCSType
 JGetVCSType
 	(
-	const JCharacter* path
+	const JCharacter*	path,
+	const JBoolean		deepInspection
 	)
 {
 	JString p = path, n;
@@ -96,6 +102,11 @@ JGetVCSType
 	vcsDir         = JCombinePathAndName(vcsDir, kSubversionFileName);
 	if (JFileExists(vcsDir))
 		{
+		if (!deepInspection)
+			{
+			return kJSVNType;
+			}
+
 		JSize size;
 		const JError err = JGetFileLength(vcsDir, &size);
 		if (err.OK() && size > 10)
@@ -116,11 +127,15 @@ JGetVCSType
 		return kJSCCSType;
 		}
 
-	// check git last, since it needs to search directory tree up to root
+	// check git & new svc last, since they need to search directory tree up to root
 
 	if (JSearchGitRoot(p, &n))
 	{
 		return kJGitType;
+	}
+	else if (!deepInspection && jSearchVCSRoot(p, kSubversionDirName, &n))
+	{
+		return kJSVNType;
 	}
 
 	return kJUnknownVCSType;
@@ -630,35 +645,23 @@ JUpdateCVSIgnore
 	JSplitPathAndName(ignoreFullName, &path, &name);
 	const JString cvsFile = JCombinePathAndName(path, ".cvsignore");
 
-	if (!JFileExists(cvsFile))
+	if (!JFileExists(cvsFile) && JGetVCSType(path) != kJCVSType)
 		{
-		// We cannot just check for CVS, because they might be planning to
-		// add it to CVS later.
-
-		const JVCSType type = JGetVCSType(path);
-		if (type != kJUnknownVCSType && type != kJCVSType)
-			{
-			return;
-			}
+		return;
 		}
 
 	JString cvsData;
 	JReadFile(cvsFile, &cvsData);
+	if (!cvsData.IsEmpty() && !cvsData.EndsWith("\n"))
+		{
+		cvsData += "\n";
+		}
 
 	name += "\n";
 	if (!cvsData.Contains(name))
 		{
 		JEditVCS(cvsFile);
-
-		// append new data
-
-		if (!cvsData.IsEmpty() && !cvsData.EndsWith("\n"))
-			{
-			cvsData += "\n";
-			}
 		cvsData += name;
-
-		// write result
 
 		ofstream output(cvsFile);
 		cvsData.Print(output);
@@ -679,28 +682,7 @@ JSearchGitRoot
 	JString*			gitRoot
 	)
 {
-	JString p = path, n;
-	if (JFileExists(path) ||
-		!JDirectoryExists(path))	// broken link
-		{
-		JSplitPathAndName(path, &p, &n);
-		}
-
-	do
-		{
-		n = JCombinePathAndName(p, kGitDirName);
-		if (JDirectoryExists(n))
-			{
-			*gitRoot = p;
-			return kJTrue;
-			}
-
-		JSplitPathAndName(p, &p, &n);
-		}
-		while (!JIsRootDirectory(p));
-
-	gitRoot->Clear();
-	return kJFalse;
+	return jSearchVCSRoot(path, kGitDirName, gitRoot);
 }
 
 /******************************************************************************
@@ -720,4 +702,43 @@ JUnsupportedVCS::JUnsupportedVCS
 		"file", fullName
 		};
 	SetMessage(map, sizeof(map));
+}
+
+/******************************************************************************
+ jSearchVCSRoot
+
+	Search directory tree up to root.
+
+ ******************************************************************************/
+
+JBoolean
+jSearchVCSRoot
+	(
+	const JCharacter*	path,
+	const JCharacter*	vcsDirName,
+	JString*			vcsRoot
+	)
+{
+	JString p = path, n;
+	if (JFileExists(path) ||
+		!JDirectoryExists(path))	// broken link
+		{
+		JSplitPathAndName(path, &p, &n);
+		}
+
+	do
+		{
+		n = JCombinePathAndName(p, vcsDirName);
+		if (JDirectoryExists(n))
+			{
+			*vcsRoot = p;
+			return kJTrue;
+			}
+
+		JSplitPathAndName(p, &p, &n);
+		}
+		while (!JIsRootDirectory(p));
+
+	vcsRoot->Clear();
+	return kJFalse;
 }

@@ -19,6 +19,8 @@ Syntax hilighting is disabled for files > 1MB.  This dramatically speeds up open
 Updated PHP syntax hilighting keyword list to PHP 5.5.
 <p>
 Added Ctrl-F12 shortcut to show Symbol Browser window.
+<p>
+Only generates <code>.cvsignore</code> file if the directory is actually using CVS.
 
 <h3> 6.5 </h3>
 
