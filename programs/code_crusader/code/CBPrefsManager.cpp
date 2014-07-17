@@ -1174,7 +1174,7 @@ CBPrefsManager::UpgradeData
 		{
 			{ ".ini", kJFalse }
 		};
-		cbAddNewSuffixes("INI", ".ini", kCBINIFT, kINISuffix, sizeof(kINISuffix), itsFileTypeList, itsMacroList, *itsCRMList);
+		cbAddNewSuffixes("INI", NULL, kCBINIFT, kINISuffix, sizeof(kINISuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
 
 	//
@@ -2162,6 +2162,12 @@ static const InitCRMInfo kInitCRM[] =
 	  { "[Cc][[:space:]]*" },
 	  { "[Cc][[:space:]]*" },
 	  { "$0"               }
+	},
+
+	{ "INI", 1,
+	  { "[[:space:]]*(;+[[:space:]]*)+" },
+	  { "[[:space:]]*(;+[[:space:]]*)+" },
+	  { "$0"                            }
 	},
 
 	{ "Java", 3,
