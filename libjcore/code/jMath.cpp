@@ -138,25 +138,3 @@ JATanh
 		return 0.0;
 		}
 }
-
-#if __GNUG__ >= 3
-
-#include <complex>
-
-namespace std
-{
-	template double abs<double>(complex<double> const&);
-	template double arg<double>(complex<double> const&);
-	template complex<double> conj<double>(complex<double> const&);
-	template complex<double> sqrt<double>(complex<double> const&);
-	template complex<double> pow<double>(complex<double> const&, complex<double> const&);
-	template complex<double> exp<double>(complex<double> const&);
-	template complex<double> log<double>(complex<double> const&);
-	template complex<double> sin<double>(complex<double> const&);
-	template complex<double> cos<double>(complex<double> const&);
-	template complex<double> sinh<double>(complex<double> const&);
-	template complex<double> cosh<double>(complex<double> const&);
-	template complex<double> polar<double>(double const&, double const&);
-}
-
-#endif
