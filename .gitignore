@@ -6,9 +6,9 @@
 *.jst
 *.jup
 *Y.hpp
-programs/*/code/*StringData.h
 libj*/Makefile
 */test/Makefile
+programs/*/code/*StringData.h
 programs/*/Makefile
 programs/*/strings/*_menu_strings
 programs/*/ChangeLog.php
