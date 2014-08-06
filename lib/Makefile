@@ -37,8 +37,7 @@ Makefiles:
          } \
      fi
 	@${foreach dir, \
-          ${filter-out %/CVS/., \
-            ${wildcard ../lib?*/. ./util/*/. ../programs/*/.}} \
+          ${wildcard ../lib?*/. ./util/*/. ../programs/*/.} \
           ../ACE/test/ ../tutorial/, \
        ${BEGIN_DIR}; makemake; ${MAKE} Makefiles; ${END_DIR};}
 
@@ -64,7 +63,7 @@ install2:
           ${wildcard ../lib?*/.}, \
        ${BEGIN_DIR}; ${MAKE} default; ${END_DIR};}
 	@${foreach dir, \
-          ${filter-out %/CVS/., ${wildcard ./util/*/. ../programs/*/.}}, \
+          ${wildcard ./util/*/. ../programs/*/.}, \
        ${BEGIN_DIR}; ${MAKE} jxinstall; ${END_DIR};}
 
 #
@@ -125,23 +124,20 @@ release:
 .PHONY : tidy
 tidy:
 	@${foreach dir, \
-          ${filter-out %/CVS/., \
-            ${wildcard ../lib?*/. ../programs/*/. ./util/*/.}} \
+          ${wildcard ../lib?*/. ../programs/*/. ./util/*/.} \
           ../ACE/ ../misc/ ../tutorial/, \
        ${BEGIN_DIR}; ${MAKE} tidy; ${END_DIR};}
 
 .PHONY : clean
 clean:
 	@${foreach dir, \
-          ${filter-out %/CVS/., \
-            ${wildcard ../lib?*/. ../programs/*/. ./util/*/.}} \
+          ${wildcard ../lib?*/. ../programs/*/. ./util/*/.} \
           ../ACE/ ../misc/ ../tutorial/, \
        ${BEGIN_DIR}; ${MAKE} clean; ${END_DIR};}
 
 .PHONY : uninstall
 uninstall:
 	@${foreach dir, \
-          ${filter-out %/CVS/., \
-            ${wildcard ../lib?*/. ../programs/*/. ./util/*/.}} \
+          ${wildcard ../lib?*/. ../programs/*/. ./util/*/.} \
           ../ACE/, \
        ${BEGIN_DIR}; ${MAKE} jxuninstall; ${END_DIR};}
