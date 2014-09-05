@@ -57,7 +57,7 @@ JSP_COMMENT   "<%--"
 DOCTAG       (attribute|author|chainable|class|code|config|constructor|default|deprecated|description|docRoot|event|exception|extends|final|for|inheritDoc|link|linkplain|literal|method|module|namespace|param|private|property|protected|public|requires|return|see|serial|serialData|serialField|since|static|throws|type|uses|value|version|writeonce)
 
 
-PHPKEYWORD    (__CLASS__|__DIR__|__FILE__|__FUNCTION__|__LINE__|__METHOD__|__NAMESPACE__|__TRAIT__|abstract|and|as|break|callable|case|catch|class|clone|const|continue|declare|default|do|echo|else|elseif|enddeclare|endfor|endforeach|endif|endswitch|endwhile|extends|final(ly)?|for|foreach|function|global|goto|if|implements|include|include_once|instanceof|insteadof|interface|namespace|new|or|parent|print|private|protected|public|require|require_once|return|static|switch|throw|trait|try|use|var|while|xor|yield)
+PHPKEYWORD    (__CLASS__|__DIR__|__FILE__|__FUNCTION__|__LINE__|__METHOD__|__NAMESPACE__|__TRAIT__|abstract|and|array|as|break|callable|case|catch|class|clone|const|continue|declare|default|do|echo|else|elseif|enddeclare|endfor|endforeach|endif|endswitch|endwhile|extends|final(ly)?|for|foreach|function|global|goto|if|implements|include|include_once|instanceof|insteadof|interface|list|namespace|new|or|parent|print|private|protected|public|require|require_once|return|static|switch|throw|trait|try|use|var|while|xor|yield)
 
 PHPDATATYPE   (array|bool|boolean|double|float|int|integer|object|real|string|null|NULL|true|TRUE|false|FALSE)
 
