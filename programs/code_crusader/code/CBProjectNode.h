@@ -23,6 +23,7 @@ class CBFileListTable;
 class CBSymbolList;
 class CBCTree;
 class CBJavaTree;
+class CBPHPTree;
 
 class CBProjectNode : public JNamedTreeNode
 {
@@ -65,6 +66,7 @@ public:
 								   const JPtrArray<JString>& allSuffixList,
 								   CBSymbolList* symbolList,
 								   CBCTree* cTree, CBJavaTree* javaTree,
+								   CBPHPTree* phpTree,
 								   JProgressDisplay& pg) const;
 	virtual void		Print(JString* text) const;
 

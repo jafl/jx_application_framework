@@ -435,6 +435,7 @@ CBProjectNode::ParseFiles
 	CBSymbolList*				symbolList,
 	CBCTree*					cTree,
 	CBJavaTree*					javaTree,
+	CBPHPTree*					phpTree,
 	JProgressDisplay&			pg
 	)
 	const
@@ -445,7 +446,7 @@ CBProjectNode::ParseFiles
 		const CBProjectNode* child = dynamic_cast<const CBProjectNode*>(GetChild(i));
 		assert( child != NULL );
 
-		if (!child->ParseFiles(parser, allSuffixList, symbolList, cTree, javaTree, pg))
+		if (!child->ParseFiles(parser, allSuffixList, symbolList, cTree, javaTree, phpTree, pg))
 			{
 			return kJFalse;
 			}

@@ -17,6 +17,7 @@
 #include "CBProjectDocument.h"
 #include "CBCTreeDirector.h"
 #include "CBJavaTreeDirector.h"
+#include "CBPHPTreeDirector.h"
 #include "CBCommandMenu.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
@@ -36,13 +37,14 @@ static const JCharacter* kActionsMenuStr =
 	"%l| Update               %k Meta-U"
 	"  | Show C++ class tree  %k Meta-Shift-C"
 	"  | Show Java class tree %k Meta-Shift-J"
+	"  | Show PHP class tree  %k Meta-Shift-P"
 	"%l| Close window         %k Meta-W"
 	"  | Close all            %k Meta-Shift-W";
 
 enum
 {
 	kCopySelNamesCmd = 1,
-	kUpdateCmd, kShowCTreeCmd, kShowJavaTreeCmd,
+	kUpdateCmd, kShowCTreeCmd, kShowJavaTreeCmd, kShowPHPTreeCmd,
 	kCloseWindowCmd, kCloseAllCmd
 };
 
@@ -127,6 +129,7 @@ CBSymbolSRDirector::~CBSymbolSRDirector()
 
 #include "jcc_show_c_tree.xpm"
 #include "jcc_show_java_tree.xpm"
+#include "jcc_show_php_tree.xpm"
 
 void
 CBSymbolSRDirector::BuildWindow
@@ -173,6 +176,7 @@ CBSymbolSRDirector::BuildWindow
 
 	itsActionsMenu->SetItemImage(kShowCTreeCmd,    jcc_show_c_tree);
 	itsActionsMenu->SetItemImage(kShowJavaTreeCmd, jcc_show_java_tree);
+	itsActionsMenu->SetItemImage(kShowPHPTreeCmd,  jcc_show_php_tree);
 
 	itsCmdMenu =
 		new CBCommandMenu(itsProjDoc, NULL, menuBar,
@@ -276,6 +280,10 @@ CBSymbolSRDirector::HandleActionsMenu
 	else if (index == kShowJavaTreeCmd)
 		{
 		(itsProjDoc->GetJavaTreeDirector())->Activate();
+		}
+	else if (index == kShowPHPTreeCmd)
+		{
+		(itsProjDoc->GetPHPTreeDirector())->Activate();
 		}
 
 	else if (index == kCloseWindowCmd)

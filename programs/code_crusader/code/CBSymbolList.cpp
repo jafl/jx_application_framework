@@ -220,6 +220,7 @@ CBSymbolList::FindSymbol
 	const CBLanguage	contextLang,
 	JPtrArray<JString>*	cContextNamespaceList,
 	JPtrArray<JString>*	javaContextNamespaceList,
+	JPtrArray<JString>*	phpContextNamespaceList,
 	const JBoolean		findDeclaration,
 	const JBoolean		findDefinition,
 	JArray<JIndex>*		matchList
@@ -283,11 +284,13 @@ CBSymbolList::FindSymbol
 		PrepareContextNamespace(contextNamespace, contextLang, &ns1, &ns2);
 		PrepareCContextNamespaceList(cContextNamespaceList);
 		PrepareJavaContextNamespaceList(javaContextNamespaceList);
+		PreparePHPContextNamespaceList(phpContextNamespaceList);
 
 		JArray<JIndex> noContextList = *matchList;
 		if (!ConvertToFullNames(&noContextList, matchList,
 								ns1, ns2, contextLang,
-								*cContextNamespaceList, *javaContextNamespaceList))
+								*cContextNamespaceList, *javaContextNamespaceList,
+								*phpContextNamespaceList))
 			{
 			if (!usedAllList && !findDeclaration && findDefinition)
 				{
@@ -297,7 +300,8 @@ CBSymbolList::FindSymbol
 				JArray<JIndex> allNoContextList = allMatchList;
 				if (ConvertToFullNames(&allNoContextList, &allMatchList,
 									   ns1, ns2, contextLang,
-									   *cContextNamespaceList, *javaContextNamespaceList))
+									   *cContextNamespaceList, *javaContextNamespaceList,
+									   *phpContextNamespaceList))
 					{
 					*matchList = allMatchList;
 					}
@@ -343,13 +347,15 @@ CBSymbolList::ConvertToFullNames
 	const JString&				contextNamespace2,
 	const CBLanguage			contextLang,
 	const JPtrArray<JString>&	cContextNamespaceList,
-	const JPtrArray<JString>&	javaContextNamespaceList
+	const JPtrArray<JString>&	javaContextNamespaceList,
+	const JPtrArray<JString>&	phpContextNamespaceList
 	)
 	const
 {
 	const JBoolean useLangNSContext = !contextNamespace1.IsEmpty();
 	const JBoolean useCNSContext    = !cContextNamespaceList.IsEmpty();
 	const JBoolean useJavaNSContext = !javaContextNamespaceList.IsEmpty();
+	const JBoolean usePHPNSContext  = !phpContextNamespaceList.IsEmpty();
 
 	// substitute indicies of fully qualified symbols
 	// and filter based on namespace context
@@ -379,6 +385,8 @@ CBSymbolList::ConvertToFullNames
 					 !InContext(*(sym[k].name), cContextNamespaceList, kJTrue)) ||
 					(info.lang == kCBJavaLang && useJavaNSContext &&
 					 !InContext(*(sym[k].name), javaContextNamespaceList, kJTrue)) ||
+					(info.lang == kCBPHPLang && usePHPNSContext &&
+					 !InContext(*(sym[k].name), phpContextNamespaceList, kJTrue)) ||
 					(info.lang == contextLang && useLangNSContext &&
 					 !(sym[k].name)->BeginsWith(contextNamespace1, caseSens) &&
 					 !(sym[k].name)->Contains(contextNamespace2, caseSens)))
@@ -456,6 +464,16 @@ CBSymbolList::PrepareJavaContextNamespaceList
 	const
 {
 	PrepareContextNamespaceList(contextNamespace, ".");
+}
+
+void
+CBSymbolList::PreparePHPContextNamespaceList
+	(
+	JPtrArray<JString>* contextNamespace
+	)
+	const
+{
+	PrepareContextNamespaceList(contextNamespace, "\\");
 }
 
 void

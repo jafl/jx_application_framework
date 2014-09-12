@@ -48,6 +48,7 @@ public:
 						   const JString& contextNamespace, const CBLanguage contextLang,
 						   JPtrArray<JString>* cContextNamespaceList,
 						   JPtrArray<JString>* javaContextNamespaceList,
+						   JPtrArray<JString>* phpContextNamespaceList,
 						   const JBoolean findDeclaration, const JBoolean findDefinition,
 						   JArray<JIndex>* matchList) const;
 	JBoolean	ClosestMatch(const JString& prefixStr,
@@ -133,11 +134,13 @@ private:
 								   const JString& contextNamespace2,
 								   const CBLanguage contextLang,
 								   const JPtrArray<JString>& contextNamespace,
-								   const JPtrArray<JString>& javaContextNamespaceList) const;
+								   const JPtrArray<JString>& javaContextNamespaceList,
+								   const JPtrArray<JString>& phpContextNamespaceList) const;
 	void		PrepareContextNamespace(const JString& contextNamespace, const CBLanguage lang,
 										JString* ns1, JString* ns2) const;
 	void		PrepareCContextNamespaceList(JPtrArray<JString>* contextNamespace) const;
 	void		PrepareJavaContextNamespaceList(JPtrArray<JString>* contextNamespace) const;
+	void		PreparePHPContextNamespaceList(JPtrArray<JString>* contextNamespace) const;
 	void		PrepareContextNamespaceList(JPtrArray<JString>* contextNamespace,
 											const JCharacter* namespaceOp) const;
 	JBoolean	InContext(const JString& fullName,

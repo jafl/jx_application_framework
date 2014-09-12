@@ -61,6 +61,9 @@ static const JCharacter* kCBCTreeCPPHelpName         = "CBCTreeHelp#CPP";
 static const JCharacter* kCBJavaTreeHelpName         = "CBJavaTreeHelp";
 static const JCharacter* kCBJavaFunctionListHelpName = "CBJavaTreeHelp#FunctionList";
 
+static const JCharacter* kCBPHPTreeHelpName          = "CBPHPTreeHelp";
+static const JCharacter* kCBPHPFunctionListHelpName  = "CBPHPTreeHelp#FunctionList";
+
 static const JCharacter* kCBTreePrefsHelpName        = "CBTreePrefsHelp";
 
 static const JCharacter* kCBTasksHelpName            = "CBTasksHelp";

@@ -172,8 +172,10 @@ const JFileVersion kCurrentPrefsFileVersion = 66;
 // version 1:
 //	Stores "local text editing" flag in kViewFileCmdID
 
-const JFileVersion kCurrentProjectFileVersion = 84;
+const JFileVersion kCurrentProjectFileVersion = 85;
 
+// version 85:
+//	Added CBPHPTreeDirector.
 // version 84:
 //	CBTextDocument: removed kCharSetIndex setting.
 // version 83:

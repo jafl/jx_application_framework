@@ -20,6 +20,7 @@
 #include "CBSymbolDirector.h"
 #include "CBCTreeDirector.h"
 #include "CBJavaTreeDirector.h"
+#include "CBPHPTreeDirector.h"
 #include "CBFileListDirector.h"
 #include "CBTextDocument.h"
 #include "CBRelPathCSF.h"
@@ -70,6 +71,7 @@ enum
 #include "jcc_show_symbol_list.xpm"
 #include "jcc_show_c_tree.xpm"
 #include "jcc_show_java_tree.xpm"
+#include "jcc_show_php_tree.xpm"
 #include "jcc_show_file_list.xpm"
 
 static const JCharacter* kManageProjMenuStr =
@@ -77,6 +79,7 @@ static const JCharacter* kManageProjMenuStr =
 	"%l| Show symbol browser            %k Ctrl-F12     %i" kCBShowSymbolBrowserAction
 	"  | Show C++ class tree                            %i" kCBShowCPPClassTreeAction
 	"  | Show Java class tree                           %i" kCBShowJavaClassTreeAction
+	"  | Show PHP class tree                            %i" kCBShowPHPClassTreeAction
 	"  | Show file list                 %k Meta-Shift-F %i" kCBShowFileListAction;
 
 enum
@@ -85,6 +88,7 @@ enum
 	kShowSymbolBrowserCmd,
 	kShowCTreeCmd,
 	kShowJavaTreeCmd,
+	kShowPHPTreeCmd,
 	kShowFileListCmd
 };
 
@@ -169,6 +173,7 @@ CBCommandMenu::CBCommandMenuX
 		itsManageProjMenu->SetItemImage(kShowSymbolBrowserCmd, jcc_show_symbol_list);
 		itsManageProjMenu->SetItemImage(kShowCTreeCmd,         jcc_show_c_tree);
 		itsManageProjMenu->SetItemImage(kShowJavaTreeCmd,      jcc_show_java_tree);
+		itsManageProjMenu->SetItemImage(kShowPHPTreeCmd,       jcc_show_php_tree);
 		itsManageProjMenu->SetItemImage(kShowFileListCmd,      jcc_show_file_list);
 		}
 
@@ -537,6 +542,10 @@ CBCommandMenu::HandleManageProjectMenu
 	else if (index == kShowJavaTreeCmd)
 		{
 		(projDoc->GetJavaTreeDirector())->Activate();
+		}
+	else if (index == kShowPHPTreeCmd)
+		{
+		(projDoc->GetPHPTreeDirector())->Activate();
 		}
 	else if (index == kShowFileListCmd)
 		{

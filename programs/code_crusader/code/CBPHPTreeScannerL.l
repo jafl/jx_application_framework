@@ -1,14 +1,14 @@
 %{
 /*
-Copyright © 1999 by John Lindal. All rights reserved.
+Copyright © 2014 by John Lindal. All rights reserved.
 
-This scanner reads a Java file and builds a CBJavaClass.
+This scanner reads a PHP file and builds a CBPHPClass.
 */
 
-#define _H_CBJavaTreeScannerL
+#define _H_CBPHPTreeScannerL
 
-#include "CBJavaTreeScanner.h"
-#include "CBJavaClass.h"
+#include "CBPHPTreeScanner.h"
+#include "CBPHPClass.h"
 #include <JString.h>
 #include <jFStreamUtil.h>
 #include <jErrno.h>
@@ -16,15 +16,15 @@ This scanner reads a Java file and builds a CBJavaClass.
 
 #undef YY_DECL
 #define YY_DECL \
-	JBoolean CBJavaTreeScanner::CreateClass( \
+	JBoolean CBPHPTreeScanner::CreateClass( \
 		const JCharacter* fileName, const JFAID_t fileID, \
 		CBTree* tree, CBClass** theClass)
 %}
 
-%option c++ yyclass="CBJavaTree" prefix="CBJavaTree"
+%option c++ yyclass="CBPHPTree" prefix="CBPHPTree"
 %option 8bit nodefault stack noyywrap
 
-%x PACKAGE_STATE IMPORT_STATE NAME_STATE INHERIT_STATE
+%x NAMESPACE_STATE USE_STATE USE_AS_STATE NAME_STATE INHERIT_STATE
 %x C_COMMENT_STATE CPP_COMMENT_STATE
 
 WS	[[:space:]]+
@@ -34,59 +34,50 @@ UESCCODE     (\\[uU]{HEXQUAD})
 IDCAR        ([_[:alpha:]]|{UESCCODE})
 IDCDR        ([_[:alnum:]]|{UESCCODE})
 ID           ({IDCAR}{IDCDR}*)
-NSID         ({ID}(\.{ID})*)
+NSID         ({ID}(\\{ID})*)
 
 %%
 
 %{
 	BEGIN(INITIAL);
 
-	JString package;
-	JPtrArray<JString> importList(JPtrArrayT::kDeleteAll);
+	JString phpNamespace, useName;
+	JStringPtrMap<JString> useMap(JPtrArrayT::kDeleteAll);
 	*theClass           = NULL;
 	JBoolean isAbstract = kJFalse;
-	JBoolean isPublic   = kJFalse;
 	JBoolean isFinal    = kJFalse;
 
 	ifstream input(fileName);
 	switch_streams(&input, NULL);
 %}
 
-package {
-	BEGIN(PACKAGE_STATE);
+namespace{WS} {
+	BEGIN(NAMESPACE_STATE);
 	}
 
-import  {
-	BEGIN(IMPORT_STATE);
+use{WS} {
+	BEGIN(USE_STATE);
 	}
 
-public {
-	isPublic = kJTrue;
-	}
-
-final {
+final{WS} {
 	isFinal = kJTrue;
 	}
 
-abstract {
+abstract{WS} {
 	isAbstract = kJTrue;
 	}
 
-class {
+class{WS} {
 	BEGIN(NAME_STATE);
 	}
 
-interface {
+interface{WS} {
 	BEGIN(NAME_STATE);
 	isAbstract = kJTrue;
 	}
 
-enum {
-	BEGIN(NAME_STATE);
-	}
-
-extends    |
-implements {
+extends{WS}    |
+implements{WS} {
 	BEGIN(INHERIT_STATE);
 	}
 
@@ -94,7 +85,7 @@ implements {
 	yy_push_state(C_COMMENT_STATE);
 	}
 
-"//" {
+"//"|"#" {
 	yy_push_state(CPP_COMMENT_STATE);
 	}
 
@@ -109,13 +100,13 @@ implements {
 	}
 
 
-	/* Extract class package */
+	/* Extract class namespace */
 
 
-<PACKAGE_STATE>{
+<NAMESPACE_STATE>{
 
 {NSID} {
-	package.Set(yytext, yyleng);
+	phpNamespace.Set(yytext, yyleng);
 	BEGIN(INITIAL);
 	}
 
@@ -125,7 +116,7 @@ implements {
 	yy_push_state(C_COMMENT_STATE);
 	}
 
-"//" {
+"//"|"#" {
 	yy_push_state(CPP_COMMENT_STATE);
 	}
 
@@ -139,11 +130,20 @@ implements {
 	/* Extract imported class */
 
 
-<IMPORT_STATE>{
+<USE_STATE>{
+
+as{WS} {
+	BEGIN(USE_AS_STATE);
+	}
 
 {NSID} {
-	JString s(yytext, yyleng);
-	importList.Append(s);
+	JString* s = new JString(yytext, yyleng);
+	assert( s != NULL );
+	useMap.SetElement(*s, s, JPtrArrayT::kDelete);
+	useName = *s;
+	}
+
+; {
 	BEGIN(INITIAL);
 	}
 
@@ -153,7 +153,7 @@ implements {
 	yy_push_state(C_COMMENT_STATE);
 	}
 
-"//" {
+"//"|"#" {
 	yy_push_state(CPP_COMMENT_STATE);
 	}
 
@@ -164,21 +164,46 @@ implements {
 }
 
 
-	/* Extract class name and create CBJavaClass */
+<USE_AS_STATE>{
+
+{ID} {
+	JString* s = new JString(yytext, yyleng);
+	assert( s != NULL );
+	useMap.SetElement(useName, s, JPtrArrayT::kDelete);
+	BEGIN(INITIAL);
+	}
+
+{WS}	/* ignore */
+
+"/*" {
+	yy_push_state(C_COMMENT_STATE);
+	}
+
+"//"|"#" {
+	yy_push_state(CPP_COMMENT_STATE);
+	}
+
+. {
+	return JI2B( *theClass != NULL );
+	}
+
+}
+
+
+	/* Extract class name and create CBPHPClass */
 
 
 <NAME_STATE>{
 
 {NSID} {
 	JString fullName(yytext, yyleng);
-	if (!JStringEmpty(package))
+	if (!JStringEmpty(phpNamespace))
 		{
-		fullName.PrependCharacter('.');
-		fullName.Prepend(package);
+		fullName.PrependCharacter('\\');
+		fullName.Prepend(phpNamespace);
 		}
 
-	*theClass = new CBJavaClass(fullName, CBClass::kClassType, fileID, tree,
-								isPublic, isFinal);
+	*theClass = new CBPHPClass(fullName, CBClass::kClassType, fileID, tree, isFinal);
 	assert( *theClass != NULL );
 
 	if (isAbstract)
@@ -195,7 +220,7 @@ implements {
 	yy_push_state(C_COMMENT_STATE);
 	}
 
-"//" {
+"//"|"#" {
 	yy_push_state(CPP_COMMENT_STATE);
 	}
 
@@ -220,18 +245,20 @@ implements {
 	JString parentName(yytext, yyleng);
 	if (parentName != "extends" && parentName != "implements")
 		{
-		if (!parentName.Contains("."))
+		if (!parentName.Contains("\\"))
 			{
 			JString s = parentName;
-			s.Prepend(".");
+			s.Prepend("\\");
 
-			const JSize count = importList.GetElementCount();
-			for (JIndex i=1; i<=count; i++)
+			JStringPtrMapCursor<JString> cursor(&useMap);
+			JString key;
+			while (cursor.Next())
 				{
-				const JString* c = importList.NthElement(i);
-				if (c->EndsWith(s))
+				key              = cursor.GetKey();
+				const JString* c = cursor.GetValue();
+				if (parentName == *c || key.EndsWith(s))
 					{
-					parentName = *c;
+					parentName = key;
 					break;
 					}
 				}
@@ -249,7 +276,7 @@ implements {
 	yy_push_state(C_COMMENT_STATE);
 	}
 
-"//" {
+"//"|"#" {
 	yy_push_state(CPP_COMMENT_STATE);
 	}
 

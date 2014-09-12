@@ -23,6 +23,7 @@ class CBFileListTable;
 class CBSymbolList;
 class CBCTree;
 class CBJavaTree;
+class CBPHPTree;
 
 class CBProjectTree : public JTree
 {
@@ -49,6 +50,7 @@ public:
 						   const JPtrArray<JString>& allSuffixList,
 						   CBSymbolList* symbolList,
 						   CBCTree* cTree, CBJavaTree* javaTree,
+						   CBPHPTree* phpTree,
 						   JProgressDisplay& pg) const;
 	void		Print(JString* text) const;
 

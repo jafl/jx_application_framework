@@ -25,6 +25,7 @@
 #include "CBFileListTable.h"
 #include "CBCTreeDirector.h"
 #include "CBJavaTreeDirector.h"
+#include "CBPHPTreeDirector.h"
 #include "CBTreeWidget.h"
 #include "CBTree.h"
 #include "CBClass.h"
@@ -101,6 +102,7 @@ static const JCharacter* kProjectMenuTitleStr = "Project";
 static const JCharacter* kProjectMenuStr =
 	"    Show C++ class tree                 %i" kCBShowCPPClassTreeAction
 	"  | Show Java class tree                %i" kCBShowJavaClassTreeAction
+	"  | Show PHP class tree                 %i" kCBShowPHPClassTreeAction
 	"  | Look up man page... %k Meta-I       %i" kCBViewManPageAction
 	"%l| Show file list      %k Meta-Shift-F %i" kCBShowFileListAction
 	"  | Find file...        %k Meta-D       %i" kCBFindFileAction
@@ -111,7 +113,7 @@ static const JCharacter* kProjectMenuStr =
 
 enum
 {
-	kShowCTreeCmd = 1, kShowJavaTreeCmd, kViewManPageCmd,
+	kShowCTreeCmd = 1, kShowJavaTreeCmd, kShowPHPTreeCmd, kViewManPageCmd,
 	kShowFileListCmd, kFindFileCmd, kSearchFilesCmd, kDiffFilesCmd,
 	kSaveAllTextCmd, kCloseAllTextCmd
 };
@@ -429,12 +431,14 @@ CBSymbolDirector::FindSymbol
 
 	CBTree* cTree    = (itsProjDoc->GetCTreeDirector())->GetTree();
 	CBTree* javaTree = (itsProjDoc->GetJavaTreeDirector())->GetTree();
+	CBTree* phpTree  = (itsProjDoc->GetPHPTreeDirector())->GetTree();
 
 	JFAID_t contextFileID = JFAID::kInvalidID;
 	JString contextNamespace;
 	CBLanguage contextLang = kCBOtherLang;
 	JPtrArray<JString> cContextNamespaceList(JPtrArrayT::kDeleteAll);
 	JPtrArray<JString> javaContextNamespaceList(JPtrArrayT::kDeleteAll);
+	JPtrArray<JString> phpContextNamespaceList(JPtrArrayT::kDeleteAll);
 	if (!JStringEmpty(fileName))
 		{
 		(itsProjDoc->GetAllFileList())->GetFileID(fileName, &contextFileID);
@@ -452,8 +456,13 @@ CBSymbolDirector::FindSymbol
 			{
 			BuildAncestorList(*theClass, &javaContextNamespaceList);
 			}
-		if (cContextNamespaceList.IsEmpty() &&
+		if (phpTree->IsUniqueClassName(className, &theClass))
+			{
+			BuildAncestorList(*theClass, &phpContextNamespaceList);
+			}
+		if (cContextNamespaceList.IsEmpty()    &&
 			javaContextNamespaceList.IsEmpty() &&
+			phpContextNamespaceList.IsEmpty()  &&
 			itsSymbolList->IsUniqueClassName(className, &contextLang))
 			{
 			contextNamespace = className;
@@ -465,6 +474,7 @@ CBSymbolDirector::FindSymbol
 		itsSymbolList->FindSymbol(name,
 			contextFileID, contextNamespace, contextLang,
 			&cContextNamespaceList, &javaContextNamespaceList,
+			&phpContextNamespaceList,
 			JI2B(button == kJXMiddleButton || button == kJXRightButton),
 			JI2B(button == kJXLeftButton   || button == kJXRightButton),
 			&symbolList);
@@ -479,6 +489,10 @@ CBSymbolDirector::FindSymbol
 	treeWidget = (itsProjDoc->GetJavaTreeDirector())->GetTreeWidget();
 	const JBoolean jc = treeWidget->FindClass(name, button, raiseTree, kJFalse, raiseTree, kJTrue);
 	const JBoolean jf = treeWidget->FindFunction(name, kJTrue, button, raiseTree, kJFalse, raiseTree, kJFalse);
+
+	treeWidget = (itsProjDoc->GetPHPTreeDirector())->GetTreeWidget();
+	const JBoolean pc = treeWidget->FindClass(name, button, raiseTree, kJFalse, raiseTree, kJTrue);
+	const JBoolean pf = treeWidget->FindFunction(name, kJTrue, button, raiseTree, kJFalse, raiseTree, kJFalse);
 
 	if (symbolList.GetElementCount() == 1 && button != kJXRightButton)
 		{
@@ -512,7 +526,7 @@ CBSymbolDirector::FindSymbol
 		}
 	else
 		{
-		return JI2B( cc || cf || jc || jf );
+		return JI2B( cc || cf || jc || jf || pc || pf );
 		}
 }
 
@@ -553,6 +567,7 @@ CBSymbolDirector::BuildAncestorList
 #include <jx_file_open.xpm>
 #include "jcc_show_c_tree.xpm"
 #include "jcc_show_java_tree.xpm"
+#include "jcc_show_php_tree.xpm"
 #include "jcc_view_man_page.xpm"
 #include "jcc_show_file_list.xpm"
 #include "jcc_search_files.xpm"
@@ -641,6 +656,7 @@ CBSymbolDirector::BuildWindow
 
 	itsProjectMenu->SetItemImage(kShowCTreeCmd,    jcc_show_c_tree);
 	itsProjectMenu->SetItemImage(kShowJavaTreeCmd, jcc_show_java_tree);
+	itsProjectMenu->SetItemImage(kShowPHPTreeCmd,  jcc_show_php_tree);
 	itsProjectMenu->SetItemImage(kViewManPageCmd,  jcc_view_man_page);
 	itsProjectMenu->SetItemImage(kShowFileListCmd, jcc_show_file_list);
 	itsProjectMenu->SetItemImage(kSearchFilesCmd,  jcc_search_files);
@@ -940,6 +956,10 @@ CBSymbolDirector::HandleProjectMenu
 	else if (index == kShowJavaTreeCmd)
 		{
 		(itsProjDoc->GetJavaTreeDirector())->Activate();
+		}
+	else if (index == kShowPHPTreeCmd)
+		{
+		(itsProjDoc->GetPHPTreeDirector())->Activate();
 		}
 	else if (index == kViewManPageCmd)
 		{

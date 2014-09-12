@@ -16,6 +16,7 @@
 #include "CBSymbolDirector.h"
 #include "CBCTreeDirector.h"
 #include "CBJavaTreeDirector.h"
+#include "CBPHPTreeDirector.h"
 #include "CBViewManPageDialog.h"
 #include "CBFindFileDialog.h"
 #include "CBDiffFileDialog.h"
@@ -84,6 +85,7 @@ static const JCharacter* kProjectMenuStr =
 	"    Show symbol browser %k Ctrl-F12     %i" kCBShowSymbolBrowserAction
 	"  | Show C++ class tree                 %i" kCBShowCPPClassTreeAction
 	"  | Show Java class tree                %i" kCBShowJavaClassTreeAction
+	"  | Show PHP class tree                 %i" kCBShowPHPClassTreeAction
 	"  | Look up man page... %k Meta-I       %i" kCBViewManPageAction
 	"%l| Find file...        %k Meta-D       %i" kCBFindFileAction
 	"  | Search files...     %k Meta-F       %i" kCBSearchFilesAction
@@ -93,7 +95,9 @@ static const JCharacter* kProjectMenuStr =
 
 enum
 {
-	kShowSymbolBrowserCmd = 1, kShowCTreeCmd, kShowJavaTreeCmd, kViewManPageCmd,
+	kShowSymbolBrowserCmd = 1,
+	kShowCTreeCmd, kShowJavaTreeCmd, kShowPHPTreeCmd,
+	kViewManPageCmd,
 	kFindFileCmd, kSearchFilesCmd, kDiffFilesCmd,
 	kSaveAllTextCmd, kCloseAllTextCmd
 };
@@ -261,6 +265,7 @@ CBFileListDirector::StreamOut
 #include "jcc_show_symbol_list.xpm"
 #include "jcc_show_c_tree.xpm"
 #include "jcc_show_java_tree.xpm"
+#include "jcc_show_php_tree.xpm"
 #include "jcc_view_man_page.xpm"
 #include "jcc_search_files.xpm"
 #include "jcc_compare_files.xpm"
@@ -354,6 +359,7 @@ CBFileListDirector::BuildWindow()
 	itsProjectMenu->SetItemImage(kShowSymbolBrowserCmd, jcc_show_symbol_list);
 	itsProjectMenu->SetItemImage(kShowCTreeCmd,         jcc_show_c_tree);
 	itsProjectMenu->SetItemImage(kShowJavaTreeCmd,      jcc_show_java_tree);
+	itsProjectMenu->SetItemImage(kShowPHPTreeCmd,       jcc_show_php_tree);
 	itsProjectMenu->SetItemImage(kViewManPageCmd,       jcc_view_man_page);
 	itsProjectMenu->SetItemImage(kSearchFilesCmd,       jcc_search_files);
 	itsProjectMenu->SetItemImage(kDiffFilesCmd,         jcc_compare_files);
@@ -665,6 +671,10 @@ CBFileListDirector::HandleProjectMenu
 	else if (index == kShowJavaTreeCmd)
 		{
 		(itsProjDoc->GetJavaTreeDirector())->Activate();
+		}
+	else if (index == kShowPHPTreeCmd)
+		{
+		(itsProjDoc->GetPHPTreeDirector())->Activate();
 		}
 	else if (index == kViewManPageCmd)
 		{

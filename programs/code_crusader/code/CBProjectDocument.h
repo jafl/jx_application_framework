@@ -37,6 +37,7 @@ class CBSymbolDirector;
 class CBTreeDirector;
 class CBCTreeDirector;
 class CBJavaTreeDirector;
+class CBPHPTreeDirector;
 class CBCommandManager;
 class CBCommandMenu;
 class CBFileListDirector;
@@ -90,6 +91,7 @@ public:
 	CBSymbolDirector*	GetSymbolDirector() const;
 	CBCTreeDirector*	GetCTreeDirector() const;
 	CBJavaTreeDirector*	GetJavaTreeDirector() const;
+	CBPHPTreeDirector*	GetPHPTreeDirector() const;
 	CBRelPathCSF*		GetRelPathCSF() const;
 
 	JBoolean					HasDirectories() const;
@@ -170,6 +172,7 @@ private:
 	CBSymbolDirector*	itsSymbolDirector;
 	CBCTreeDirector*	itsCTreeDirector;
 	CBJavaTreeDirector*	itsJavaTreeDirector;
+	CBPHPTreeDirector*	itsPHPTreeDirector;
 
 	JProcess*							itsUpdateProcess;
 	CBExecOutputDocument::RecordLink*	itsUpdateLink;
@@ -392,6 +395,18 @@ CBProjectDocument::GetJavaTreeDirector()
 	const
 {
 	return itsJavaTreeDirector;
+}
+
+/******************************************************************************
+ GetPHPTreeDirector
+
+ ******************************************************************************/
+
+inline CBPHPTreeDirector*
+CBProjectDocument::GetPHPTreeDirector()
+	const
+{
+	return itsPHPTreeDirector;
 }
 
 /******************************************************************************

@@ -14,6 +14,7 @@
 #include "CBFileListDirector.h"
 #include "CBCTreeDirector.h"
 #include "CBJavaTreeDirector.h"
+#include "CBPHPTreeDirector.h"
 #include "CBTextDocument.h"
 #include "cbGlobals.h"
 #include <JXDockDirector.h>
@@ -127,6 +128,7 @@ CBDockManager::DockAll()
 
 		dock2->Dock(projDoc->GetCTreeDirector());
 		dock2->Dock(projDoc->GetJavaTreeDirector());
+		dock2->Dock(projDoc->GetPHPTreeDirector());
 		}
 
 	JPtrArray<CBTextDocument>* textList =

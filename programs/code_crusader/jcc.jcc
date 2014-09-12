@@ -1,4 +1,4 @@
-jx_browser_data 84
+jx_browser_data 85
 # project tree
 0 "root"
 T
@@ -309,6 +309,26 @@ T
 2 "CBJavaClass.cpp"
 F
 "./code/CBJavaClass.cpp"
+T
+2 "CBPHPTreeDirector.cpp"
+F
+"./code/CBPHPTreeDirector.cpp"
+T
+2 "CBPHPTree.cpp"
+F
+"./code/CBPHPTree.cpp"
+T
+2 "CBPHPTreeScanner.cpp"
+F
+"./code/CBPHPTreeScanner.cpp"
+T
+2 "CBPHPTreeScannerL.l"
+F
+"./code/CBPHPTreeScannerL.l"
+T
+2 "CBPHPClass.cpp"
+F
+"./code/CBPHPClass.cpp"
 F
 T
 1 "file types"
@@ -919,6 +939,10 @@ T
 2 "cbJavaTreeHelpText"
 F
 "./strings/cbJavaTreeHelpText"
+T
+2 "cbPHPTreeHelpText"
+F
+"./strings/cbPHPTreeHelpText"
 T
 2 "cbTreePrefsHelpText"
 F

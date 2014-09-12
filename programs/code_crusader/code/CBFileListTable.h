@@ -27,6 +27,8 @@ class CBCTreeDirector;
 class CBCTree;
 class CBJavaTreeDirector;
 class CBJavaTree;
+class CBPHPTreeDirector;
+class CBPHPTree;
 
 class CBFileListTable : public JXFileListTable
 {
@@ -42,7 +44,8 @@ public:
 	JBoolean	Update(ostream& link,
 					   CBProjectTree* fileTree, const CBDirList& dirList,
 					   CBSymbolDirector* symbolDir,
-					   CBCTreeDirector* cTreeDir, CBJavaTreeDirector* javaTreeDir);
+					   CBCTreeDirector* cTreeDir, CBJavaTreeDirector* javaTreeDir,
+					   CBPHPTreeDirector* phpTreeDir);
 	void		UpdateFinished();
 
 	const JString&	GetFileName(const JFAID_t id) const;
@@ -60,7 +63,8 @@ public:
 
 	void	ParseFile(const JString& fullName, const JPtrArray<JString>& allSuffixList,
 					  const time_t modTime,
-					  CBSymbolList* symbolList, CBCTree* cTree, CBJavaTree* javaTree);
+					  CBSymbolList* symbolList, CBCTree* cTree, CBJavaTree* javaTree,
+					  CBPHPTree* phpTree);
 
 protected:
 
@@ -96,12 +100,13 @@ private:
 
 	void		ScanAll(CBProjectTree* fileTree, const CBDirList& dirList,
 						CBSymbolList* symbolList,
-						CBCTree* cTree, CBJavaTree* javaTree,
+						CBCTree* cTree, CBJavaTree* javaTree, CBPHPTree* phpTree,
 						JProgressDisplay& pg);
 	void		ScanDirectory(const JString& path, const JBoolean recurse,
 							  const JPtrArray<JString>& allSuffixList,
 							  CBSymbolList* symbolList,
 							  CBCTree* cTree, CBJavaTree* javaTree,
+							  CBPHPTree* phpTree,
 							  JProgressDisplay& pg);
 	JBoolean	AddFile(const JCharacter* fullName, const CBTextFileType fileType,
 						const time_t modTime, JFAID_t* id);

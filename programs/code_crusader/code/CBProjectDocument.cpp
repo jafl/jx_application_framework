@@ -22,6 +22,7 @@
 #include "CBCTree.h"
 #include "CBCPreprocessor.h"
 #include "CBJavaTreeDirector.h"
+#include "CBPHPTreeDirector.h"
 #include "CBFileHistoryMenu.h"
 #include "CBCommandManager.h"
 #include "CBCommandMenu.h"
@@ -140,6 +141,7 @@ static const JCharacter* kProjectMenuStr =
 	"  | Show symbol browser            %k Ctrl-F12     %i" kCBShowSymbolBrowserAction
 	"  | Show C++ class tree                            %i" kCBShowCPPClassTreeAction
 	"  | Show Java class tree                           %i" kCBShowJavaClassTreeAction
+	"  | Show PHP class tree                            %i" kCBShowPHPClassTreeAction
 	"  | Look up man page...            %k Meta-I       %i" kCBViewManPageAction
 	"%l| Edit search paths...                           %i" kCBEditSearchPathsAction
 	"  | Show file list                 %k Meta-Shift-F %i" kCBShowFileListAction
@@ -151,7 +153,7 @@ enum
 {
 	kOpenMakeConfigDlogCmd = 1, kUpdateMakefileCmd,
 	kUpdateSymbolDBCmd, kShowSymbolBrowserCmd,
-	kShowCTreeCmd, kShowJavaTreeCmd,
+	kShowCTreeCmd, kShowJavaTreeCmd, kShowPHPTreeCmd,
 	kViewManPageCmd,
 	kEditSearchPathsCmd,
 	kShowFileListCmd, kFindFileCmd, kSearchFilesCmd, kDiffFilesCmd
@@ -504,6 +506,9 @@ CBProjectDocument::CBProjectDocument
 	itsJavaTreeDirector = new CBJavaTreeDirector(this);
 	assert( itsJavaTreeDirector != NULL );
 
+	itsPHPTreeDirector = new CBPHPTreeDirector(this);
+	assert( itsPHPTreeDirector != NULL );
+
 	if (fromTemplate)
 		{
 		ReadTemplate(*input, tmplVers, projVers);
@@ -674,6 +679,22 @@ CBProjectDocument::CBProjectDocument
 		itsJavaTreeDirector = new CBJavaTreeDirector(this);
 		assert( itsJavaTreeDirector != NULL );
 		(itsJavaTreeDirector->GetTree())->NextUpdateMustReparseAll();
+		}
+
+	// read PHP class tree
+
+	if (projVers >= 85)
+		{
+		itsPHPTreeDirector = new CBPHPTreeDirector(projInput, projVers, setInput, setVers,
+												   symInput, symVers, this, silent);
+		assert( itsPHPTreeDirector != NULL );
+		// activates itself
+		}
+	else
+		{
+		itsPHPTreeDirector = new CBPHPTreeDirector(this);
+		assert( itsPHPTreeDirector != NULL );
+		(itsPHPTreeDirector->GetTree())->NextUpdateMustReparseAll();
 		}
 
 	StopSymbolLoadTimer(timerStatus);
@@ -935,6 +956,9 @@ CBProjectDocument::WriteFiles
 
 	cbWriteSpace(projOutput, setOutput, symOutput);
 	itsJavaTreeDirector->StreamOut(projOutput, setOutput, symOutput, NULL);
+
+	cbWriteSpace(projOutput, setOutput, symOutput);
+	itsPHPTreeDirector->StreamOut(projOutput, setOutput, symOutput, NULL);
 
 	// this must be last so it can be cancelled
 
@@ -1243,6 +1267,11 @@ CBProjectDocument::SetTreePrefs
 				  fontSize, showInheritedFns,
 				  autoMinMILinks, drawMILinksOnTop,
 				  raiseWhenSingleMatch, writePrefs);
+
+	SetTreePrefs1(itsPHPTreeDirector,
+				  fontSize, showInheritedFns,
+				  autoMinMILinks, drawMILinksOnTop,
+				  raiseWhenSingleMatch, writePrefs);
 }
 
 // private
@@ -1352,6 +1381,7 @@ CBProjectDocument::GetMenuIcon
 #include "jcc_show_symbol_list.xpm"
 #include "jcc_show_c_tree.xpm"
 #include "jcc_show_java_tree.xpm"
+#include "jcc_show_php_tree.xpm"
 #include "jcc_view_man_page.xpm"
 #include "jcc_show_file_list.xpm"
 #include "jcc_search_files.xpm"
@@ -1477,6 +1507,7 @@ CBProjectDocument::BuildWindow
 	itsProjectMenu->SetItemImage(kShowSymbolBrowserCmd, jcc_show_symbol_list);
 	itsProjectMenu->SetItemImage(kShowCTreeCmd,         jcc_show_c_tree);
 	itsProjectMenu->SetItemImage(kShowJavaTreeCmd,      jcc_show_java_tree);
+	itsProjectMenu->SetItemImage(kShowPHPTreeCmd,       jcc_show_php_tree);
 	itsProjectMenu->SetItemImage(kViewManPageCmd,       jcc_view_man_page);
 	itsProjectMenu->SetItemImage(kShowFileListCmd,      jcc_show_file_list);
 	itsProjectMenu->SetItemImage(kSearchFilesCmd,       jcc_search_files);
@@ -1660,6 +1691,7 @@ CBProjectDocument::Receive
 			itsSymbolDirector->FileTypesChanged(*info);
 			itsCTreeDirector->FileTypesChanged(*info);
 			itsJavaTreeDirector->FileTypesChanged(*info);
+			itsPHPTreeDirector->FileTypesChanged(*info);
 			UpdateSymbolDatabase();
 
 			itsFileTable->Refresh();	// update icons
@@ -1947,6 +1979,10 @@ CBProjectDocument::HandleProjectMenu
 	else if (index == kShowJavaTreeCmd)
 		{
 		itsJavaTreeDirector->Activate();
+		}
+	else if (index == kShowPHPTreeCmd)
+		{
+		itsPHPTreeDirector->Activate();
 		}
 	else if (index == kViewManPageCmd)
 		{
@@ -2473,7 +2509,7 @@ CBProjectDocument::SymbolUpdateProgress()
 		std::ostringstream pgOutput;
 		itsAllFileDirector->GetFileListTable()->Update(
 			pgOutput, itsFileTree, *itsDirList, itsSymbolDirector,
-			itsCTreeDirector, itsJavaTreeDirector);
+			itsCTreeDirector, itsJavaTreeDirector, itsPHPTreeDirector);
 
 		itsAllFileDirector->GetFileListTable()->UpdateFinished();
 		SymbolUpdateFinished();
@@ -2522,6 +2558,7 @@ CBProjectDocument::SymbolUpdateProgress()
 			itsSymbolDirector->ReadSetup(symInput, symVers);
 			itsCTreeDirector->ReloadSetup(symInput, symVers);
 			itsJavaTreeDirector->ReloadSetup(symInput, symVers);
+			itsPHPTreeDirector->ReloadSetup(symInput, symVers);
 
 			StopSymbolLoadTimer(timerStatus);
 			}
@@ -2684,7 +2721,7 @@ CBProjectDocument::UpdateSymbolDatabase()
 
 		if (!itsAllFileDirector->GetFileListTable()->Update(
 				output, itsFileTree, *itsDirList, itsSymbolDirector,
-				itsCTreeDirector, itsJavaTreeDirector))
+				itsCTreeDirector, itsJavaTreeDirector, itsPHPTreeDirector))
 			{
 			exit(0);
 			}

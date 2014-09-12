@@ -71,6 +71,7 @@
 #define kCBShowSymbolBrowserAction         "CBShowSymbolBrowser"
 #define kCBShowCPPClassTreeAction          "CBShowCPPClassTree"
 #define kCBShowJavaClassTreeAction         "CBShowJavaClassTree"
+#define kCBShowPHPClassTreeAction          "CBShowPHPClassTree"
 #define kCBViewManPageAction               "CBViewManPage"
 #define kCBEditSearchPathsAction           "CBEditSearchPaths"
 #define kCBShowFileListAction              "CBShowFileList"

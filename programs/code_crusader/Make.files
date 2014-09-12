@@ -76,6 +76,11 @@
 .cpp ./code/CBJavaTreeScanner
 .l ./code/CBJavaTreeScannerL
 .cpp ./code/CBJavaClass
+.cpp ./code/CBPHPTreeDirector
+.cpp ./code/CBPHPTree
+.cpp ./code/CBPHPTreeScanner
+.l ./code/CBPHPTreeScannerL
+.cpp ./code/CBPHPClass
 .cpp ./code/CBTextFileType
 .cpp ./code/CBEditFileTypesDialog
 .cpp ./code/CBFileTypeTable

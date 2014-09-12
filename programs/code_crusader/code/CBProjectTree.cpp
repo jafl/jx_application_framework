@@ -160,11 +160,12 @@ CBProjectTree::ParseFiles
 	CBSymbolList*				symbolList,
 	CBCTree*					cTree,
 	CBJavaTree*					javaTree,
+	CBPHPTree*					phpTree,
 	JProgressDisplay&			pg
 	)
 	const
 {
-	(GetProjectRoot())->ParseFiles(parser, allSuffixList, symbolList, cTree, javaTree, pg);
+	(GetProjectRoot())->ParseFiles(parser, allSuffixList, symbolList, cTree, javaTree, phpTree, pg);
 }
 
 /******************************************************************************

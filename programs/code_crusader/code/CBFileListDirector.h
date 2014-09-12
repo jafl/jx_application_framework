@@ -20,12 +20,7 @@ class JXTextMenu;
 class JXToolBar;
 class JXFileListSet;
 class CBFileListTable;
-class CBDirList;
 class CBProjectDocument;
-class CBProjectTree;
-class CBSymbolDirector;
-class CBCTreeDirector;
-class CBJavaTreeDirector;
 class CBCommandMenu;
 
 class CBFileListDirector : public JXWindowDirector

@@ -21,6 +21,8 @@
 #include "CBCTree.h"
 #include "CBJavaTreeDirector.h"
 #include "CBJavaTree.h"
+#include "CBPHPTreeDirector.h"
+#include "CBPHPTree.h"
 #include "cbGlobals.h"
 #include <JDirInfo.h>
 #include <jVCSUtil.h>
@@ -88,7 +90,8 @@ CBFileListTable::Update
 	const CBDirList&	dirList,
 	CBSymbolDirector*	symbolDir,
 	CBCTreeDirector*	cTreeDir,
-	CBJavaTreeDirector*	javaTreeDir
+	CBJavaTreeDirector*	javaTreeDir,
+	CBPHPTreeDirector*	phpTreeDir
 	)
 {
 JIndex i;
@@ -100,11 +103,13 @@ JIndex i;
 	CBSymbolList* symbolList = symbolDir->GetSymbolList();
 	CBCTree* cTree           = cTreeDir->GetCTree();
 	CBJavaTree* javaTree     = javaTreeDir->GetJavaTree();
+	CBPHPTree* phpTree       = phpTreeDir->GetPHPTree();
 
-	const JBoolean reparseAll = JI2B(itsReparseAllFlag ||
+	const JBoolean reparseAll = JI2B(itsReparseAllFlag             ||
 									 symbolList->NeedsReparseAll() ||
-									 cTree->NeedsReparseAll() ||
-									 javaTree->NeedsReparseAll());
+									 cTree->NeedsReparseAll()      ||
+									 javaTree->NeedsReparseAll()   ||
+									 phpTree->NeedsReparseAll());
 
 	if (reparseAll)
 		{
@@ -113,6 +118,7 @@ JIndex i;
 	symbolDir->PrepareForListUpdate(reparseAll, pg);
 	cTreeDir->PrepareForTreeUpdate(reparseAll);
 	javaTreeDir->PrepareForTreeUpdate(reparseAll);
+	phpTreeDir->PrepareForTreeUpdate(reparseAll);
 
 	itsChangedDuringParseFlag = reparseAll;
 
@@ -129,7 +135,7 @@ JIndex i;
 
 	// process each file
 
-	ScanAll(fileTree, dirList, symbolList, cTree, javaTree, pg);
+	ScanAll(fileTree, dirList, symbolList, cTree, javaTree, phpTree, pg);
 
 	// collect files that no longer exist
 
@@ -156,6 +162,7 @@ JIndex i;
 	symbolDir->ListUpdateFinished(deadFileIDList, pg);
 	cTreeDir->TreeUpdateFinished(deadFileIDList);
 	javaTreeDir->TreeUpdateFinished(deadFileIDList);
+	phpTreeDir->TreeUpdateFinished(deadFileIDList);
 
 	if (!deadFileIDList.IsEmpty())
 		{
@@ -187,6 +194,7 @@ CBFileListTable::ScanAll
 	CBSymbolList*		symbolList,
 	CBCTree*			cTree,
 	CBJavaTree*			javaTree,
+	CBPHPTree*			phpTree,
 	JProgressDisplay&	pg
 	)
 {
@@ -206,12 +214,13 @@ CBFileListTable::ScanAll
 				{
 				ScanDirectory(fullPath, recurse,
 							  allSuffixList, symbolList,
-							  cTree, javaTree,
+							  cTree, javaTree, phpTree,
 							  pg);
 				}
 			}
 
-		fileTree->ParseFiles(this, allSuffixList, symbolList, cTree, javaTree, pg);
+		fileTree->ParseFiles(this, allSuffixList, symbolList,
+							 cTree, javaTree, phpTree, pg);
 
 		pg.ProcessFinished();
 		}
@@ -233,6 +242,7 @@ CBFileListTable::ScanDirectory
 	CBSymbolList*				symbolList,
 	CBCTree*					cTree,
 	CBJavaTree*					javaTree,
+	CBPHPTree*					phpTree,
 	JProgressDisplay&			pg
 	)
 {
@@ -256,7 +266,7 @@ CBFileListTable::ScanDirectory
 			{
 			ScanDirectory(entry.GetFullName(), recurse,
 						  allSuffixList, symbolList,
-						  cTree, javaTree,
+						  cTree, javaTree, phpTree,
 						  pg);
 			}
 
@@ -275,7 +285,7 @@ CBFileListTable::ScanDirectory
 				}
 
 			ParseFile(trueName, allSuffixList, modTime,
-					  symbolList, cTree, javaTree);
+					  symbolList, cTree, javaTree, phpTree);
 			}
 
 		pg.IncrementProgress();
@@ -301,7 +311,8 @@ CBFileListTable::ParseFile
 	const time_t				modTime,
 	CBSymbolList*				symbolList,
 	CBCTree*					cTree,
-	CBJavaTree*					javaTree
+	CBJavaTree*					javaTree,
+	CBPHPTree*					phpTree
 	)
 {
 	if (CBPrefsManager::FileMatchesSuffix(fullName, allSuffixList))
@@ -315,6 +326,7 @@ CBFileListTable::ParseFile
 			symbolList->FileChanged(fullName, fileType, id);
 			cTree->FileChanged(fullName, fileType, id);
 			javaTree->FileChanged(fullName, fileType, id);
+			phpTree->FileChanged(fullName, fileType, id);
 			}
 		}
 }
