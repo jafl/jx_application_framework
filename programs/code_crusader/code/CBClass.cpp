@@ -551,6 +551,7 @@ CBClass::FindParent
 	// check for exact match that isn't a ghost
 
 	if (itsTree->FindClass(*(pInfo->name), &(pInfo->parent)) &&
+		pInfo->parent != this &&
 		!(pInfo->parent)->IsGhost())
 		{
 		return kJTrue;
@@ -573,7 +574,8 @@ CBClass::FindParent
 		testName  = nameSpace;
 		testName += namespaceOp;
 		testName += *(pInfo->name);
-		if (itsTree->FindClass(testName, &(pInfo->parent)))
+		if (itsTree->FindClass(testName, &(pInfo->parent)) &&
+			pInfo->parent != this)
 			{
 			*(pInfo->name) = testName;
 			return kJTrue;
@@ -583,7 +585,8 @@ CBClass::FindParent
 
 		const CBClass* nsClass;
 		if (itsTree->FindClass(nameSpace, &nsClass) &&
-			itsTree->FindParent(*(pInfo->name), nsClass, &(pInfo->parent), &prefixStr))
+			itsTree->FindParent(*(pInfo->name), nsClass, &(pInfo->parent), &prefixStr) &&
+			pInfo->parent != this)
 			{
 			(pInfo->name)->Prepend(prefixStr);
 			return kJTrue;
@@ -593,7 +596,8 @@ CBClass::FindParent
 	// check for any exact match
 
 	return JConvertToBoolean(okToSearchGhosts &&
-							 itsTree->FindClass(*(pInfo->name), &(pInfo->parent)));
+							 itsTree->FindClass(*(pInfo->name), &(pInfo->parent)) &&
+							 pInfo->parent != this);
 }
 
 /******************************************************************************
