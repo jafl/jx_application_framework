@@ -245,7 +245,11 @@ as{WS} {
 	JString parentName(yytext, yyleng);
 	if (parentName != "extends" && parentName != "implements")
 		{
-		if (!parentName.Contains("\\"))
+		if (parentName.BeginsWith("\\"))
+			{
+			parentName.RemoveSubstring(1, 1);
+			}
+		else if (!parentName.Contains("\\"))
 			{
 			JString s = parentName;
 			s.Prepend("\\");
