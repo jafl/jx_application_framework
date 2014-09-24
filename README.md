@@ -19,10 +19,6 @@ code, both for top level application design and for individual widget
 classes. It also shows how to extend the functionality of the library by,
 for example, creating custom tables or menus.
 
-* http://www.newplanetsoftware.com/jx/
-* http://www.newplanetsoftware.com/blog/
-* twitter: @newplanetsw
-
 To build the libraries and programs, simply run GNU make ("make" or "gmake"
 on most systems) in a command line window inside the JX directory and
 follow the instructions that are printed.
@@ -71,8 +67,6 @@ libjx
   test               Sample application demonstrating JX library
 
 programs
-  arrow              (Obsolete) Email client
-  buzzer             (Obsolete) Manages notes and todo lists
   code_crusader      IDE
   code_medic         Debugger
   code_mill          C++ class generator
@@ -87,11 +81,8 @@ programs
   makemake           Builds Makefile from Make.files and Make.header
   mondrian           (Unfinished) Graphical layout builder
   ssh_askpass        Replacement for x11-ssh-askpass
-  svn_client         Subversion client
-  symcir             Linear circuit analysis
   systemg            Graphical file manager
   webgif             Utility program for working with gifs
-  wizwar             (Unfinished) Network game based on WizWar
 
 ACE
   test               Sample source for using ACE library
