@@ -1,4 +1,4 @@
-jx_browser_data 84
+jx_browser_data 85
 # project tree
 0 "root"
 T
@@ -124,6 +124,10 @@ T
 2 "SyGChoosePathDialog.cpp"
 F
 "./code/SyGChoosePathDialog.cpp"
+T
+2 "SyGNewGitRemoteDialog.cpp"
+F
+"./code/SyGNewGitRemoteDialog.cpp"
 T
 2 "SyGTaskBarUtil.cpp"
 F

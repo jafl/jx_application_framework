@@ -19,6 +19,7 @@
 #include "SyGViewManPageDialog.h"
 #include "SyGFindFileDialog.h"
 #include "SyGChooseSaveFile.h"
+#include "SyGNewGitRemoteDialog.h"
 #include "SyGBeginEditingTask.h"
 #include "SyGCopyProcess.h"
 #include "SyGDuplicateProcess.h"
@@ -184,7 +185,7 @@ enum
 static const JCharacter* kMountStr   = "Mount";
 static const JCharacter* kUnmountStr = "Unmount";
 
-// Git Branch menu
+// Git menu
 // (can take time to run "git branch", so only run it when user opens the menu)
 
 static const JCharacter* kGitMenuTitleStr = "Git";
@@ -199,7 +200,9 @@ static const JCharacter* kGitMenuStr =
 	"%l| Merge from local branch"
 	"%l| Fetch remote branch"
 	"  | Create local branch...        %i" kSGGitCreateBranchAction
-	"  | Remove local branch";
+	"  | Remove local branch"
+	"%l| Add remote...                 %i" kSGGitAddRemoteAction
+	"  | Remove remote";
 
 enum
 {
@@ -213,7 +216,9 @@ enum
 	kGitMergeFromBranchItemIndex,
 	kGitFetchBranchItemIndex,
 	kGitCreateBranchCmd,
-	kGitRemoveBranchItemIndex
+	kGitRemoveBranchItemIndex,
+	kGitAddRemoteCmd,
+	kGitRemoveRemoteItemIndex
 };
 
 // Shortcuts menu
@@ -316,6 +321,7 @@ SyGFileTreeTable::SyGFileTreeTable
 	itsFetchGitBranchDialog     = NULL;
 	itsCommitGitBranchDialog	= NULL;
 	itsGitProcess				= NULL;
+	itsAddGitRemoteDialog		= NULL;
 	itsIconWidget				= NULL;
 	itsWindowIconType			= 0;
 
@@ -448,6 +454,13 @@ SyGFileTreeTable::SyGFileTreeTable
 	assert( itsGitRemoveBranchMenu != NULL );
 	itsGitRemoveBranchMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsGitRemoveBranchMenu);
+
+	itsGitRemoveRemoteMenu =
+		new JXTextMenu(itsGitMenu, kGitRemoveRemoteItemIndex,
+					   itsGitMenu->GetEnclosure());
+	assert( itsGitRemoveRemoteMenu != NULL );
+	itsGitRemoveRemoteMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ListenTo(itsGitRemoveRemoteMenu);
 
 	itsShortcutMenu = menuBar->AppendTextMenu(kShortcutMenuTitleStr);
 	assert (itsShortcutMenu != NULL);
@@ -2086,6 +2099,13 @@ SyGFileTreeTable::Receive
 		assert( selection != NULL );
 		RemoveGitBranch(itsGitRemoveBranchMenu->GetItemText(selection->GetIndex()));
 		}
+	else if (sender == itsGitRemoveRemoteMenu && message.Is(JXMenu::kItemSelected))
+		{
+		const JXMenu::ItemSelected* selection =
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		assert( selection != NULL );
+		RemoveGitRemote(itsGitRemoveRemoteMenu->GetItemText(selection->GetIndex()));
+		}
 
 	else if (sender == itsViewMenu && message.Is(JXMenu::kNeedsUpdate))
 		{
@@ -2205,6 +2225,20 @@ SyGFileTreeTable::Receive
 			JExecute(itsFileTree->GetDirectory(), (SyGGetApplication())->GetPostCheckoutCommand(), NULL);
 			}
 		itsGitProcess = NULL;
+		}
+
+	else if (sender == itsAddGitRemoteDialog &&
+			 message.Is(JXDialogDirector::kDeactivated))
+		{
+		const JXDialogDirector::Deactivated* info =
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+		assert(info != NULL);
+		if (info->Successful())
+			{
+			AddGitRemote(itsAddGitRemoteDialog->GetRepoURL(),
+						 itsAddGitRemoteDialog->GetLocalName());
+			}
+		itsAddGitRemoteDialog = NULL;
 		}
 
 	else if (sender == itsIconWidget && message.Is(JXWindowIcon::kHandleEnter))
@@ -3809,6 +3843,7 @@ SyGFileTreeTable::UpdateGitMenus
 
 	itsGitPullSourceMenu->RemoveAllItems();
 	itsGitPushDestMenu->RemoveAllItems();
+	itsGitRemoveRemoteMenu->RemoveAllItems();
 
 	const JSize repoCount = repoList.GetElementCount();
 	for (JIndex i=1; i<=repoCount; i++)
@@ -3816,6 +3851,7 @@ SyGFileTreeTable::UpdateGitMenus
 		const JString* s = repoList.NthElement(i);
 		itsGitPullSourceMenu->AppendItem(*s);
 		itsGitPushDestMenu->AppendItem(*s);
+		itsGitRemoveRemoteMenu->AppendItem(*s);
 		}
 
 	itsGitLocalBranchMenu->RemoveAllItems();
@@ -3953,6 +3989,15 @@ SyGFileTreeTable::HandleGitMenu
 		assert( itsCreateGitBranchDialog != NULL );
 		itsCreateGitBranchDialog->Activate();
 		ListenTo(itsCreateGitBranchDialog);
+		}
+
+	else if (index == kGitAddRemoteCmd)
+		{
+		itsAddGitRemoteDialog =
+			new SyGNewGitRemoteDialog((GetWindow())->GetDirector());
+		assert( itsAddGitRemoteDialog != NULL );
+		itsAddGitRemoteDialog->Activate();
+		ListenTo(itsAddGitRemoteDialog);
 		}
 }
 
@@ -4340,6 +4385,53 @@ SyGFileTreeTable::RemoveGitBranch
 
 	JString cmd = "git branch -D ";
 	cmd        += JPrepArgForExec(branch);
+
+	JSimpleProcess::Create(itsFileTree->GetDirectory(), cmd, kJTrue);
+}
+
+/******************************************************************************
+ AddGitRemote (private)
+
+ ******************************************************************************/
+
+void
+SyGFileTreeTable::AddGitRemote
+	(
+	const JString& repoURL,
+	const JString& name
+	)
+{
+	JString cmd = "git remote add -f ";
+	cmd        += JPrepArgForExec(name);
+	cmd        += " ";
+	cmd        += JPrepArgForExec(repoURL);
+
+	JSimpleProcess::Create(itsFileTree->GetDirectory(), cmd, kJTrue);
+}
+
+/******************************************************************************
+ RemoveGitRemote (private)
+
+ ******************************************************************************/
+
+void
+SyGFileTreeTable::RemoveGitRemote
+	(
+	const JString& name
+	)
+{
+	const JCharacter* map[] =
+		{
+		"name", name
+		};
+	const JString msg = JGetString("WarnRemoveRemote::SyGFileTreeTable", map, sizeof(map));
+	if (!(JGetUserNotification())->AskUserNo(msg))
+		{
+		return;
+		}
+
+	JString cmd = "git remote rm ";
+	cmd        += JPrepArgForExec(name);
 
 	JSimpleProcess::Create(itsFileTree->GetDirectory(), cmd, kJTrue);
 }

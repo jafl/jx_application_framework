@@ -108,8 +108,13 @@ CommitBranchTitle::SyGFileTreeTable		"Commit Branch"
 CommitBranchPrompt::SyGFileTreeTable	"Commit log message:"
 WarnRevertBranch::SyGFileTreeTable		"Are you sure you want to discard all changes?"
 WarnRemoveBranch::SyGFileTreeTable		"Are you sure you want to remove the $name branch?"
+WarnRemoveRemote::SyGFileTreeTable		"Are you sure you want to remove the connection to $name?"
 
 AskRelativeAlias::SyGFileTreeTable	"Do you want the alias for $name to be a relative symlink?"
+
+# SyGNewGitRemoteDialog
+
+WindowTitle::SyGNewGitRemoteDialog "Link to Remote Repo"
 
 # SyGFindFileTask
 

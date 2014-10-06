@@ -31,6 +31,7 @@ class SyGFileTreeList;
 class SyGFileTree;
 class SyGTrashButton;
 class SyGBeginEditingTask;
+class SyGNewGitRemoteDialog;
 
 class SyGFileTreeTable : public JXNamedTreeListWidget
 {
@@ -178,6 +179,7 @@ private:
 	JXTextMenu*			itsGitMergeBranchMenu;
 	JXTextMenu*			itsGitRemoteBranchMenu;
 	JXTextMenu*			itsGitRemoveBranchMenu;
+	JXTextMenu*			itsGitRemoveRemoteMenu;
 	JXTextMenu* 		itsViewMenu;
 	JXTextMenu*			itsShortcutMenu;
 
@@ -191,6 +193,8 @@ private:
 	JString				itsFetchGitBranch;
 	JXGetStringDialog*	itsCommitGitBranchDialog;	// NULL unless committing branch
 	JProcess*			itsGitProcess;				// NULL unless waiting for git
+
+	SyGNewGitRemoteDialog*	itsAddGitRemoteDialog;
 
 	// Drag-and-Drop
 
@@ -270,6 +274,8 @@ private:
 	void	PullBranch(const JString& repo);
 	void	PushBranch(const JString& repo);
 	void	RemoveGitBranch(const JString& branch);
+	void	AddGitRemote(const JString& repoURL, const JString& name);
+	void	RemoveGitRemote(const JString& repo);
 
 	void	UpdateViewMenu();
 	void	HandleViewMenu(const JIndex index);

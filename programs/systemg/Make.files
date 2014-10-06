@@ -32,6 +32,7 @@
 .cpp ./code/SyGViewManPageDialog
 .cpp ./code/SyGChooseSaveFile
 .cpp ./code/SyGChoosePathDialog
+.cpp ./code/SyGNewGitRemoteDialog
 .cpp ./code/SyGTaskBarUtil
 
 literal: ${LIB_DEPS}
