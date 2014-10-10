@@ -1,3 +1,14 @@
+This repository contains all the New Planet Software tools and applications:
+
+* JX Application Framework
+* Code Crusader - IDE
+* Code Medic - Debugging UI on top of gdb / Xdebug
+* Code Mill - Class generator plugin for Code Crusader
+* System G - File manager with git support
+* Leibnitz - Graphing calculator
+* Glove - Data acquisition, manipulation, and analysis tool
+* Drakon - Process manager
+
 JX Application Framework
 ------------------------
 
