@@ -202,7 +202,8 @@ static const JCharacter* kGitMenuStr =
 	"  | Create local branch...        %i" kSGGitCreateBranchAction
 	"  | Remove local branch"
 	"%l| Add remote...                 %i" kSGGitAddRemoteAction
-	"  | Remove remote";
+	"  | Remove remote"
+	"  | Clean list of remote branches %i" kSGGitPruneRemoteAction;
 
 enum
 {
@@ -218,7 +219,8 @@ enum
 	kGitCreateBranchCmd,
 	kGitRemoveBranchItemIndex,
 	kGitAddRemoteCmd,
-	kGitRemoveRemoteItemIndex
+	kGitRemoveRemoteItemIndex,
+	kGitPruneRemoteItemIndex
 };
 
 // Shortcuts menu
@@ -461,6 +463,13 @@ SyGFileTreeTable::SyGFileTreeTable
 	assert( itsGitRemoveRemoteMenu != NULL );
 	itsGitRemoveRemoteMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsGitRemoveRemoteMenu);
+
+	itsGitPruneRemoteMenu =
+		new JXTextMenu(itsGitMenu, kGitPruneRemoteItemIndex,
+					   itsGitMenu->GetEnclosure());
+	assert( itsGitPruneRemoteMenu != NULL );
+	itsGitPruneRemoteMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ListenTo(itsGitPruneRemoteMenu);
 
 	itsShortcutMenu = menuBar->AppendTextMenu(kShortcutMenuTitleStr);
 	assert (itsShortcutMenu != NULL);
@@ -2105,6 +2114,13 @@ SyGFileTreeTable::Receive
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		RemoveGitRemote(itsGitRemoveRemoteMenu->GetItemText(selection->GetIndex()));
+		}
+	else if (sender == itsGitPruneRemoteMenu && message.Is(JXMenu::kItemSelected))
+		{
+		const JXMenu::ItemSelected* selection =
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		assert( selection != NULL );
+		PruneRemoteGitBranches(itsGitPruneRemoteMenu->GetItemText(selection->GetIndex()));
 		}
 
 	else if (sender == itsViewMenu && message.Is(JXMenu::kNeedsUpdate))
@@ -3844,6 +3860,7 @@ SyGFileTreeTable::UpdateGitMenus
 	itsGitPullSourceMenu->RemoveAllItems();
 	itsGitPushDestMenu->RemoveAllItems();
 	itsGitRemoveRemoteMenu->RemoveAllItems();
+	itsGitPruneRemoteMenu->RemoveAllItems();
 
 	const JSize repoCount = repoList.GetElementCount();
 	for (JIndex i=1; i<=repoCount; i++)
@@ -3852,6 +3869,7 @@ SyGFileTreeTable::UpdateGitMenus
 		itsGitPullSourceMenu->AppendItem(*s);
 		itsGitPushDestMenu->AppendItem(*s);
 		itsGitRemoveRemoteMenu->AppendItem(*s);
+		itsGitPruneRemoteMenu->AppendItem(*s);
 		}
 
 	itsGitLocalBranchMenu->RemoveAllItems();
@@ -4432,6 +4450,30 @@ SyGFileTreeTable::RemoveGitRemote
 
 	JString cmd = "git remote rm ";
 	cmd        += JPrepArgForExec(name);
+
+	JSimpleProcess::Create(itsFileTree->GetDirectory(), cmd, kJTrue);
+}
+
+/******************************************************************************
+ PruneRemoteGitBranches (private)
+
+ ******************************************************************************/
+
+void
+SyGFileTreeTable::PruneRemoteGitBranches
+	(
+	const JString& name
+	)
+{
+	JString cmd =
+		"xterm -T 'Prune $name' "
+			"-e 'git remote prune $name | less'";
+
+	const JString nameArg = JPrepArgForExec(name);
+
+	JSubstitute subst;
+	subst.DefineVariable("name", nameArg);
+	subst.Substitute(&cmd);
 
 	JSimpleProcess::Create(itsFileTree->GetDirectory(), cmd, kJTrue);
 }

@@ -180,6 +180,7 @@ private:
 	JXTextMenu*			itsGitRemoteBranchMenu;
 	JXTextMenu*			itsGitRemoveBranchMenu;
 	JXTextMenu*			itsGitRemoveRemoteMenu;
+	JXTextMenu*			itsGitPruneRemoteMenu;
 	JXTextMenu* 		itsViewMenu;
 	JXTextMenu*			itsShortcutMenu;
 
@@ -276,6 +277,7 @@ private:
 	void	RemoveGitBranch(const JString& branch);
 	void	AddGitRemote(const JString& repoURL, const JString& name);
 	void	RemoveGitRemote(const JString& repo);
+	void	PruneRemoteGitBranches(const JString& name);
 
 	void	UpdateViewMenu();
 	void	HandleViewMenu(const JIndex index);

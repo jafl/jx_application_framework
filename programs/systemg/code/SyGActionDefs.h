@@ -65,7 +65,8 @@
 #define kSGGitCommitAllAction    "SGGitCommitAll"
 #define kSGGitRevertAllAction    "SGGitRevertAll"
 #define kSGGitCreateBranchAction "SGGitCreateBranch"
-#define kSGGitAddRemoteAction    "SGGitAdd Remote"
+#define kSGGitAddRemoteAction    "SGGitAddRemote"
+#define kSGGitPruneRemoteAction  "SGGitPruneRemote"
 
 // Shortcuts menu
 
