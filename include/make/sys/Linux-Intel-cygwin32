@@ -59,12 +59,13 @@ J_RANLIB_VIA_AR_S := -D_J_RANLIB_VIA_AR_S
 # Adjust these until everything compiles
 
 J_RAW_SYSTEM_STUFF := \
-  -DSIZEOF_LONG=4 -DSIZEOF_INT=4 \
+  -DSIZEOF_LONG=4 -DSIZEOF_INT=4 -DSIZEOF_LONGLONG=8 \
   -D_J_HAS_PROC \
   -D_LOOSE_KERNEL_NAMES \
   -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED \
   -D_BSD_SOURCE -D_GNU_SOURCE \
-  -D_J_CYGWIN -DACE_AS_STATIC_LIBS
+  -D_J_CYGWIN -DACE_AS_STATIC_LIBS \
+  -I/usr/include/freetype2
 
 #
 # Nothing below this line should ever need to be changed.
@@ -86,7 +87,7 @@ CXXFLAGS  = ${J_MAKE_NEEDS_OUTPUT_ARG}
 
 J_GCC_LIBS  := 
 J_ACE_LIBS  := -L${JX_ROOT}/lib -lACE-${ACE_LIB_VERSION}
-J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} -lXext -lXpm -lX11
+J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} -lfontconfig -lXext -lXft -lXpm -lX11
 J_MESA_LIBS := -L${JX_ROOT}/lib -lglut -lGLU -lGL
 
 # modify settings based on OS, compiler, etc.

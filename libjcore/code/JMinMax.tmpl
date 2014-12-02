@@ -21,6 +21,13 @@ JMin
 	return (v1 <= v2) ? v1 : v2;
 }
 
+#if __GNUG__ < 4
+template <class T>
+T JMin(const T v1, const T v2, const T v3, const T v4, const T v5)
+{
+	return JMin(JMin(JMin(v1,v2),JMin(v3,v4)),v5);
+}
+#else
 template <class T, typename... Args>
 T
 JMin
@@ -33,6 +40,7 @@ JMin
 	const T v3 = JMin(v2, more...);
 	return (v1 <= v3) ? v1 : v3;
 }
+#endif
 
 template <class T>
 T
@@ -45,6 +53,8 @@ JMax
 	return (v1 >= v2) ? v1 : v2;
 }
 
+#if __GNUG__ < 4
+#else
 template <class T, typename... Args>
 T
 JMax
@@ -57,6 +67,7 @@ JMax
 	const T v3 = JMax(v2, more...);
 	return (v1 >= v3) ? v1 : v3;
 }
+#endif
 
 template <class T>
 T

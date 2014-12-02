@@ -31,10 +31,8 @@ END_DIR   = ) fi
 Makefiles:
 	@if { test -d ${JX_ROOT}/programs/code_crusader \
                -a -d ${JX_ROOT}/programs/code_medic; } then \
-         { \
          cd ${JX_ROOT}/programs/code_medic; \
          ${MAKE} -f Make.header update_jcc; \
-         } \
      fi
 	@${foreach dir, \
           ${wildcard ../lib?*/. ./util/*/. ../programs/*/.} \
@@ -50,8 +48,14 @@ install: install1 install2
 
 .PHONY: install1
 install1:
-	@cd ../ACE; ${MAKE} jxinstall
-	@-cd ../Mesa; ./configure --enable-xlib-glx --enable-dri=no --disable-egl --with-gallium-drivers= --enable-static; make
+	@if { ! test -e ./libACE-*.so -o -e ./libACE-*.a; } then \
+         cd ../ACE; ${MAKE} jxinstall; \
+     fi
+	@if { test -d ../Mesa; } then \
+         cd ../Mesa; \
+         ./configure --enable-xlib-glx --enable-dri=no --disable-egl --with-gallium-drivers= --enable-static; \
+         make; \
+     fi
 	@cd ../programs/makemake; ${MAKE} -f Makefile.port jxinstall
 	@if { test ! -f ../libjcore/Makefile; } then { ${MAKE} Makefiles; } fi
 

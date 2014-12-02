@@ -3,6 +3,8 @@
 *.so
 *.lo
 *.la
+*.dll
+*.exe
 *.jst
 *.jup
 *Y.hpp
@@ -18,3 +20,4 @@ obsolete/*/strings/*_menu_strings
 obsolete/*/ChangeLog.php
 Mesa
 misc/Mesa.tgz
+misc/aspell*
