@@ -317,15 +317,17 @@ get_mesa:
 
 .PHONY : get_aspell
 get_aspell:
-	@if { test ! -d misc/aspell-* ; } then \
+	@if { ! test -d misc/aspell-* ; } then \
          cd misc; \
-         if { which wget; } then \
-             wget -O aspell.tgz http://newplanetsoftware.com/ftp/misc/aspell-0.60.6.1.tar.gz; \
-         elif { which curl; } then \
-             curl -o aspell.tgz http://newplanetsoftware.com/ftp/misc/aspell-0.60.6.1.tar.gz; \
-         else \
-             echo "Please install either curl or wget"; \
-             exit 1; \
+         if { ! test -f aspell.tgz ; } then \
+             if { which wget; } then \
+                 wget -O aspell.tgz http://newplanetsoftware.com/ftp/misc/aspell-0.60.6.1.tar.gz; \
+             elif { which curl; } then \
+                 curl -o aspell.tgz http://newplanetsoftware.com/ftp/misc/aspell-0.60.6.1.tar.gz; \
+             else \
+                 echo "Please install either curl or wget"; \
+                 exit 1; \
+             fi; \
          fi; \
          tar -xzf aspell.tgz; \
          ./patch/aspell/apply; \
@@ -333,17 +335,19 @@ get_aspell:
          echo please enter sudo password to install aspell; \
          sudo make install; \
      fi
-	@if { test ! -d misc/aspell6-* ; } then \
+	@if { ! test -d misc/aspell6-* ; } then \
          cd misc; \
-         if { which wget; } then \
-             wget -O aspell-en.tgz http://newplanetsoftware.com/ftp/misc/aspell6-en-7.1-0.tar.gz; \
-         elif { which curl; } then \
-             curl -o aspell-en.tgz http://newplanetsoftware.com/ftp/misc/aspell6-en-7.1-0.tar.gz; \
-         else \
-             echo "Please install either curl or wget"; \
-             exit 1; \
+         if { ! test -f aspell_en.tgz ; } then \
+             if { which wget; } then \
+                 wget -O aspell_en.tgz http://newplanetsoftware.com/ftp/misc/aspell6-en-7.1-0.tar.gz; \
+             elif { which curl; } then \
+                 curl -o aspell_en.tgz http://newplanetsoftware.com/ftp/misc/aspell6-en-7.1-0.tar.gz; \
+             else \
+                 echo "Please install either curl or wget"; \
+                 exit 1; \
+             fi; \
          fi; \
-         tar -xzf aspell-en.tgz; \
+         tar -xzf aspell_en.tgz; \
          cd aspell6-*; ./configure; make; \
          echo please enter sudo password to install aspell-en; \
          sudo make install; \
