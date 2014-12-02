@@ -14,6 +14,7 @@
 #include <jFileUtil.h>
 #include <jVCSUtil.h>
 #include <jCommandLine.h>
+#include <JMinMax.h>
 #include <sstream>
 #include <stdlib.h>
 #include <jAssert.h>

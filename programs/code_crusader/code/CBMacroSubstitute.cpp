@@ -12,6 +12,7 @@
 #include <jProcessUtil.h>
 #include <jStreamUtil.h>
 #include <JString.h>
+#include <JMinMax.h>
 #include <jASCIIConstants.h>
 #include <jGlobals.h>
 #include <jAssert.h>
