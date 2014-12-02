@@ -318,7 +318,7 @@ get_mesa:
 .PHONY : get_aspell
 get_aspell:
 	@if { test ! -d misc/aspell-* ; } then \
-         cd misc;
+         cd misc; \
          if { which wget; } then \
              wget -O aspell.tgz http://newplanetsoftware.com/ftp/misc/aspell-0.60.6.1.tar.gz; \
          elif { which curl; } then \
@@ -328,10 +328,10 @@ get_aspell:
              exit 1; \
          fi; \
          tar -xzf aspell.tgz; \
-         cd aspell-*; ./configure; make; sudo make install;
+         cd aspell-*; ./configure; make; sudo make install; \
      fi
 	@if { test ! -d misc/aspell6-* ; } then \
-         cd misc;
+         cd misc; \
          if { which wget; } then \
              wget -O aspell-en.tgz http://newplanetsoftware.com/ftp/misc/aspell6-en-7.1-0.tar.gz; \
          elif { which curl; } then \
@@ -341,7 +341,7 @@ get_aspell:
              exit 1; \
          fi; \
          tar -xzf aspell-en.tgz; \
-         cd aspell6-*; ./configure; make; sudo make install;
+         cd aspell6-*; ./configure; make; sudo make install; \
      fi
 
 .PHONY : clean_links
