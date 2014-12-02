@@ -224,7 +224,7 @@ darwin_mav: prep
 #
 
 .PHONY : prep
-prep: check_install_dir fix_ace fix_mesa clean_links
+prep: check_install_dir get_ace get_mesa get_aspell clean_links
 	@if { test ! -e libjcore/code/jStringData.h; } then \
          { \
          cp -f libjcore/jStringData_init.h libjcore/code/jStringData.h; \
@@ -260,25 +260,21 @@ CC := ${shell if { which gcc > /dev/null; } \
               then { echo gcc; } \
               else { echo ${CC}; } fi }
 
-.PHONY : fix_ace
-fix_ace:
+.PHONY : get_ace
+get_ace:
   ifdef ACE_ROOT
 	@if { test ! -d ACE/ACE_wrappers || \
           { ${CC} ${CHECK_ACE}.c -o ${CHECK_ACE}; \
             ${CHECK_ACE} ${ACE_ROOT} ACE/ACE_wrappers; } ; } then \
-         { \
          ${RM} -r ACE/ACE_wrappers; \
          ln -sf ${ACE_ROOT} ACE/ACE_wrappers; \
-         } \
      fi;
 	@if { test ! '(' -f ${ACE_ROOT}/ace/Makefile -o -f ${ACE_ROOT}/ace/GNUmakefile ')'; } then \
-         { \
          ${RM} lib/libACE-${ACE_LIB_VERSION}.a; \
          ln -sf /usr/lib/libACE.a lib/libACE-${ACE_LIB_VERSION}.a; \
          ${RM} lib/libACE-${ACE_LIB_VERSION}.so; \
          ln -sf /usr/lib/libACE.so lib/libACE-${ACE_LIB_VERSION}.so; \
          ${RM} lib/libACE.so.${ACE_VERSION}; \
-         } \
      fi
   else
 	@if { test ! -e ${DEFAULT_ACE_ROOT}; } then \
@@ -293,18 +289,16 @@ fix_ace:
          cd ACE; tar -xzf ACE.tgz; touch ACE_wrappers/${ACE_VERSION}; ./patch_ace; \
      fi
 	@if { test ! '(' -f ${DEFAULT_ACE_ROOT}/ace/Makefile -o -f ${DEFAULT_ACE_ROOT}/ace/GNUmakefile ')'; } then \
-         { \
          ${RM} lib/libACE-${ACE_LIB_VERSION}.a; \
          ln -sf /usr/lib/libACE.a lib/libACE-${ACE_LIB_VERSION}.a; \
          ${RM} lib/libACE-${ACE_LIB_VERSION}.so; \
          ln -sf /usr/lib/libACE.so lib/libACE-${ACE_LIB_VERSION}.so; \
          ${RM} lib/libACE.so.${ACE_VERSION}; \
-         } \
      fi
   endif
 
-.PHONY : fix_mesa
-fix_mesa:
+.PHONY : get_mesa
+get_mesa:
 	@if { test ! -e Mesa ; } then \
          if { which wget; } then \
              wget -O misc/Mesa.tgz http://newplanetsoftware.com/ftp/misc/MesaLib-${MESA_VERSION}.tar.gz; \
@@ -317,10 +311,37 @@ fix_mesa:
          tar -xzf misc/Mesa.tgz; mv Mesa-${MESA_VERSION} Mesa; \
      fi
 	@if { test -d Mesa/. ; } then \
-         { \
          ln -sf ../../src/mesa/drivers/x11/xmesa.h   Mesa/include/GL/xmesa.h; \
          ln -sf ../../src/mesa/drivers/x11/xmesa_x.h Mesa/include/GL/xmesa_x.h; \
-         } \
+     fi
+
+.PHONY : get_aspell
+get_aspell:
+	@if { test ! -d misc/aspell-* ; } then \
+         cd misc;
+         if { which wget; } then \
+             wget -O aspell.tgz http://newplanetsoftware.com/ftp/misc/aspell-0.60.6.1.tar.gz; \
+         elif { which curl; } then \
+             curl -o aspell.tgz http://newplanetsoftware.com/ftp/misc/aspell-0.60.6.1.tar.gz; \
+         else \
+             echo "Please install either curl or wget"; \
+             exit 1; \
+         fi; \
+         tar -xzf aspell.tgz; \
+         cd aspell-*; ./configure; make; sudo make install;
+     fi
+	@if { test ! -d misc/aspell6-* ; } then \
+         cd misc;
+         if { which wget; } then \
+             wget -O aspell-en.tgz http://newplanetsoftware.com/ftp/misc/aspell6-en-7.1-0.tar.gz; \
+         elif { which curl; } then \
+             curl -o aspell-en.tgz http://newplanetsoftware.com/ftp/misc/aspell6-en-7.1-0.tar.gz; \
+         else \
+             echo "Please install either curl or wget"; \
+             exit 1; \
+         fi; \
+         tar -xzf aspell-en.tgz; \
+         cd aspell6-*; ./configure; make; sudo make install;
      fi
 
 .PHONY : clean_links
@@ -328,10 +349,8 @@ clean_links:
 	@${RM} include/make/jx_config
 	@${RM} include/jcore/jMissingProto.h
 	@if { test ! -L ACE/ACE_wrappers; } then \
-         { \
          ${RM} ACE/ACE_wrappers/ace/config.h; \
          ${RM} ACE/ACE_wrappers/include/makeinclude/platform_macros.GNU; \
-         } \
      fi
 
 #
