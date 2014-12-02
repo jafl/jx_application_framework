@@ -21,3 +21,5 @@ obsolete/*/ChangeLog.php
 Mesa
 misc/Mesa.tgz
 misc/aspell*
+misc/gd/Makefile.in
+misc/pcre-8.10/Makefile.in
