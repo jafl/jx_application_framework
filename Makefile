@@ -328,7 +328,10 @@ get_aspell:
              exit 1; \
          fi; \
          tar -xzf aspell.tgz; \
-         cd aspell-*; ./configure; make; sudo make install; \
+         ./patch/aspell/apply; \
+         cd aspell-*; ./configure; make; \
+         echo please enter sudo password to install aspell;
+         sudo make install; \
      fi
 	@if { test ! -d misc/aspell6-* ; } then \
          cd misc; \
@@ -341,7 +344,9 @@ get_aspell:
              exit 1; \
          fi; \
          tar -xzf aspell-en.tgz; \
-         cd aspell6-*; ./configure; make; sudo make install; \
+         cd aspell6-*; ./configure; make; \
+         echo please enter sudo password to install aspell-en;
+         sudo make install; \
      fi
 
 .PHONY : clean_links
