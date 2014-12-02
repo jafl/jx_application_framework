@@ -13,7 +13,6 @@
 #endif
 
 #include <jTypes.h>
-#include <JMinMax.h>
 #include <sys/types.h>
 
 class JIndexRange

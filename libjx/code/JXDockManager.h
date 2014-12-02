@@ -16,6 +16,7 @@
 #include <JPrefObject.h>
 #include <JStringMap.h>
 #include <JString.h>
+#include <JMinMax.h>
 #include <JXDockDirector.h>		// for Windows template compile
 #include <X11/Xlib.h>
 
