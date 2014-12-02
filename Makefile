@@ -330,7 +330,7 @@ get_aspell:
          tar -xzf aspell.tgz; \
          ./patch/aspell/apply; \
          cd aspell-*; ./configure; make; \
-         echo please enter sudo password to install aspell;
+         echo please enter sudo password to install aspell; \
          sudo make install; \
      fi
 	@if { test ! -d misc/aspell6-* ; } then \
@@ -345,7 +345,7 @@ get_aspell:
          fi; \
          tar -xzf aspell-en.tgz; \
          cd aspell6-*; ./configure; make; \
-         echo please enter sudo password to install aspell-en;
+         echo please enter sudo password to install aspell-en; \
          sudo make install; \
      fi
 
