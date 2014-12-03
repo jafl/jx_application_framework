@@ -26,10 +26,18 @@
 #include <jDirUtil.h>
 #include <jAssert.h>
 
-static const JCharacter* kAppSignature           = "systemg";
-static const JCharacter* kDefaultTermCmd         = "gnome-terminal --working-directory=$p"; // "xterm -title $n -n $n";
-static const JCharacter* kDefaultGitStatusCmd    = "git citool";
-static const JCharacter* kDefaultGitHistoryCmd   = "gitk --all";
+static const JCharacter* kAppSignature = "systemg";
+
+#ifdef _J_CYGWIN
+static const JCharacter* kDefaultTermCmd       = "xterm -title $n -n $n";
+static const JCharacter* kDefaultGitStatusCmd  = "xterm -e git citool";
+static const JCharacter* kDefaultGitHistoryCmd = "xterm -e gitk --all";
+#else
+static const JCharacter* kDefaultTermCmd       = "gnome-terminal --working-directory=$p";
+static const JCharacter* kDefaultGitStatusCmd  = "git citool";
+static const JCharacter* kDefaultGitHistoryCmd = "gitk --all";
+#endif
+
 static const JCharacter* kDefaultPostCheckoutCmd = "jcc --reload-open";
 
 const JFileVersion kCurrentPrefsVersion = 5;
