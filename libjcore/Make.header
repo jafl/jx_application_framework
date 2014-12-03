@@ -46,8 +46,6 @@ OTHER_DEPS    := regex gd
 
 include ${JX_ROOT}/include/make/default_lib_target
 
-CONFIGURE_PCRE := ./configure --enable-utf8 --with-match-limit-recursion=10000
-
 .PHONY : Makefiles
 Makefiles:
 	@cd test; makemake; ${MAKE} Makefiles
@@ -88,7 +86,7 @@ clean::
 regex:
 	@cd ${PCREDIR}; \
      if ! test -e Makefile; then ${CONFIGURE_PCRE}; fi; \
-     ${MAKE} libpcre.la
+     ${BUILD_PCRE}
 
 .PHONY : gd
 gd:
