@@ -235,7 +235,7 @@ AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
-CFLAGS = -fPIC @CFLAGS@
+CFLAGS = @CFLAGS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
@@ -276,6 +276,7 @@ LIPO = @LIPO@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
+MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 NM = @NM@
 NMEDIT = @NMEDIT@
@@ -306,6 +307,7 @@ abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
+ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
@@ -340,7 +342,6 @@ libdir = @libdir@
 libexecdir = @libexecdir@
 localedir = @localedir@
 localstatedir = @localstatedir@
-lt_ECHO = @lt_ECHO@
 mandir = @mandir@
 mkdir_p = @mkdir_p@
 oldincludedir = @oldincludedir@
@@ -420,7 +421,7 @@ dist_noinst_DATA = $(pcrecpp_html)
 
 # The Libtool libraries to install.  We'll add to this later.
 lib_LTLIBRARIES = libpcre.la libpcreposix.la $(am__append_4)
-check_SCRIPTS =
+check_SCRIPTS = 
 dist_noinst_SCRIPTS = RunTest RunGrepTest
 
 # Additional files to delete on 'make clean' and 'make maintainer-clean'.
@@ -633,7 +634,7 @@ config.h: stamp-h1
 stamp-h1: $(srcdir)/config.h.in $(top_builddir)/config.status
 	@rm -f stamp-h1
 	cd $(top_builddir) && $(SHELL) ./config.status config.h
-$(srcdir)/config.h.in:  $(am__configure_deps)
+$(srcdir)/config.h.in:  $(am__configure_deps) 
 	cd $(top_srcdir) && $(AUTOHEADER)
 	rm -f stamp-h1
 	touch $@
@@ -681,11 +682,11 @@ clean-libLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-libpcre.la: $(libpcre_la_OBJECTS) $(libpcre_la_DEPENDENCIES)
+libpcre.la: $(libpcre_la_OBJECTS) $(libpcre_la_DEPENDENCIES) 
 	$(libpcre_la_LINK) -rpath $(libdir) $(libpcre_la_OBJECTS) $(libpcre_la_LIBADD) $(LIBS)
-libpcrecpp.la: $(libpcrecpp_la_OBJECTS) $(libpcrecpp_la_DEPENDENCIES)
+libpcrecpp.la: $(libpcrecpp_la_OBJECTS) $(libpcrecpp_la_DEPENDENCIES) 
 	$(libpcrecpp_la_LINK) $(am_libpcrecpp_la_rpath) $(libpcrecpp_la_OBJECTS) $(libpcrecpp_la_LIBADD) $(LIBS)
-libpcreposix.la: $(libpcreposix_la_OBJECTS) $(libpcreposix_la_DEPENDENCIES)
+libpcreposix.la: $(libpcreposix_la_OBJECTS) $(libpcreposix_la_DEPENDENCIES) 
 	$(libpcreposix_la_LINK) -rpath $(libdir) $(libpcreposix_la_OBJECTS) $(libpcreposix_la_LIBADD) $(LIBS)
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
@@ -722,22 +723,22 @@ clean-noinstPROGRAMS:
 	  echo " rm -f $$p $$f"; \
 	  rm -f $$p $$f ; \
 	done
-dftables$(EXEEXT): $(dftables_OBJECTS) $(dftables_DEPENDENCIES)
+dftables$(EXEEXT): $(dftables_OBJECTS) $(dftables_DEPENDENCIES) 
 	@rm -f dftables$(EXEEXT)
 	$(LINK) $(dftables_OBJECTS) $(dftables_LDADD) $(LIBS)
-pcre_scanner_unittest$(EXEEXT): $(pcre_scanner_unittest_OBJECTS) $(pcre_scanner_unittest_DEPENDENCIES)
+pcre_scanner_unittest$(EXEEXT): $(pcre_scanner_unittest_OBJECTS) $(pcre_scanner_unittest_DEPENDENCIES) 
 	@rm -f pcre_scanner_unittest$(EXEEXT)
 	$(CXXLINK) $(pcre_scanner_unittest_OBJECTS) $(pcre_scanner_unittest_LDADD) $(LIBS)
-pcre_stringpiece_unittest$(EXEEXT): $(pcre_stringpiece_unittest_OBJECTS) $(pcre_stringpiece_unittest_DEPENDENCIES)
+pcre_stringpiece_unittest$(EXEEXT): $(pcre_stringpiece_unittest_OBJECTS) $(pcre_stringpiece_unittest_DEPENDENCIES) 
 	@rm -f pcre_stringpiece_unittest$(EXEEXT)
 	$(CXXLINK) $(pcre_stringpiece_unittest_OBJECTS) $(pcre_stringpiece_unittest_LDADD) $(LIBS)
-pcrecpp_unittest$(EXEEXT): $(pcrecpp_unittest_OBJECTS) $(pcrecpp_unittest_DEPENDENCIES)
+pcrecpp_unittest$(EXEEXT): $(pcrecpp_unittest_OBJECTS) $(pcrecpp_unittest_DEPENDENCIES) 
 	@rm -f pcrecpp_unittest$(EXEEXT)
 	$(CXXLINK) $(pcrecpp_unittest_OBJECTS) $(pcrecpp_unittest_LDADD) $(LIBS)
-pcregrep$(EXEEXT): $(pcregrep_OBJECTS) $(pcregrep_DEPENDENCIES)
+pcregrep$(EXEEXT): $(pcregrep_OBJECTS) $(pcregrep_DEPENDENCIES) 
 	@rm -f pcregrep$(EXEEXT)
 	$(LINK) $(pcregrep_OBJECTS) $(pcregrep_LDADD) $(LIBS)
-pcretest$(EXEEXT): $(pcretest_OBJECTS) $(pcretest_DEPENDENCIES)
+pcretest$(EXEEXT): $(pcretest_OBJECTS) $(pcretest_DEPENDENCIES) 
 	@rm -f pcretest$(EXEEXT)
 	$(LINK) $(pcretest_OBJECTS) $(pcretest_LDADD) $(LIBS)
 install-binSCRIPTS: $(bin_SCRIPTS)

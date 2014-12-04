@@ -9,6 +9,7 @@
 
 #include <JStringManager.h>
 #include <JPtrArray-JString.h>
+#include <JMinMax.h>
 #include <jFStreamUtil.h>
 #include <jStreamUtil.h>
 #include <jFileUtil.h>
