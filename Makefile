@@ -278,15 +278,18 @@ get_ace:
      fi
   else
 	@if { test ! -e ${DEFAULT_ACE_ROOT}; } then \
-         if { which wget; } then \
-             wget -O ACE/ACE.tgz http://newplanetsoftware.com/ftp/misc/ACE-${ACE_VERSION}.tar.gz; \
-         elif { which curl; } then \
-             curl -o ACE/ACE.tgz http://newplanetsoftware.com/ftp/misc/ACE-${ACE_VERSION}.tar.gz; \
-         else \
-             echo "Please install either curl or wget"; \
-             exit 1; \
+         cd ACE; \
+         if { ! test -f ACE.tgz ; } then \
+           if { which wget; } then \
+               wget -O ACE.tgz http://newplanetsoftware.com/ftp/misc/ACE-${ACE_VERSION}.tar.gz; \
+           elif { which curl; } then \
+               curl -o ACE.tgz http://newplanetsoftware.com/ftp/misc/ACE-${ACE_VERSION}.tar.gz; \
+           else \
+               echo "Please install either curl or wget"; \
+               exit 1; \
+           fi; \
          fi; \
-         cd ACE; tar -xzf ACE.tgz; touch ACE_wrappers/${ACE_VERSION}; ./patch_ace; \
+         tar -xzf ACE.tgz; touch ACE_wrappers/${ACE_VERSION}; ./patch_ace; \
      fi
 	@if { test ! '(' -f ${DEFAULT_ACE_ROOT}/ace/Makefile -o -f ${DEFAULT_ACE_ROOT}/ace/GNUmakefile ')'; } then \
          ${RM} lib/libACE-${ACE_LIB_VERSION}.a; \
@@ -299,16 +302,19 @@ get_ace:
 
 .PHONY : get_mesa
 get_mesa:
-	@if { test ! -e Mesa ; } then \
-         if { which wget; } then \
-             wget -O misc/Mesa.tgz http://newplanetsoftware.com/ftp/misc/MesaLib-${MESA_VERSION}.tar.gz; \
-         elif { which curl; } then \
-             curl -o misc/Mesa.tgz http://newplanetsoftware.com/ftp/misc/MesaLib-${MESA_VERSION}.tar.gz; \
-         else \
-             echo "Please install either curl or wget"; \
-             exit 1; \
+	@-if { test ! -e Mesa ; } then \
+         cd misc; \
+         if { ! test -f Mesa.tgz ; } then \
+           if { which wget; } then \
+               wget -O Mesa.tgz http://newplanetsoftware.com/ftp/misc/MesaLib-${MESA_VERSION}.tar.gz; \
+           elif { which curl; } then \
+               curl -o Mesa.tgz http://newplanetsoftware.com/ftp/misc/MesaLib-${MESA_VERSION}.tar.gz; \
+           else \
+               echo "Please install either curl or wget"; \
+               exit 1; \
+           fi; \
          fi; \
-         tar -xzf misc/Mesa.tgz; mv Mesa-${MESA_VERSION} Mesa; \
+         tar -xzf Mesa.tgz; mv Mesa-${MESA_VERSION} ../Mesa; \
      fi
 	@if { test -d Mesa/. ; } then \
          ln -sf ../../src/mesa/drivers/x11/xmesa.h   Mesa/include/GL/xmesa.h; \

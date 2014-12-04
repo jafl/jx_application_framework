@@ -64,7 +64,7 @@ jxinstall: regex makemake
 .PHONY : regex
 regex:
 	@cd ${PCREDIR}; \
-     if ! test -e Makefile; then ${CONFIGURE_PCRE}e; fi; \
+     if ! test -e Makefile; then ${CONFIGURE_PCRE}; fi; \
      ${BUILD_PCRE}
 
 
