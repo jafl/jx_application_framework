@@ -323,7 +323,7 @@ get_mesa:
 
 .PHONY : get_aspell
 get_aspell:
-	@if { ! test -d misc/aspell-* ; } then \
+	@if { ! which aspell 2> /dev/null; } then \
          cd misc; \
          if { ! test -f aspell.tgz ; } then \
              if { which wget; } then \
@@ -335,9 +335,15 @@ get_aspell:
                  exit 1; \
              fi; \
          fi; \
-         tar -xzf aspell.tgz; \
-         ./patch/aspell/apply; \
-         cd aspell-*; ./configure; make; \
+         if { ! test -d aspell-* ; } then \
+             tar -xzf aspell.tgz; \
+             ./patch/aspell/apply; \
+         fi; \
+         cd aspell-*; \
+         if { ! test -f Makefile ; } then \
+             ./configure; \
+         fi; \
+         make; \
          echo please enter sudo password to install aspell; \
          sudo make install; \
      fi
@@ -353,8 +359,14 @@ get_aspell:
                  exit 1; \
              fi; \
          fi; \
-         tar -xzf aspell_en.tgz; \
-         cd aspell6-*; ./configure; make; \
+         if { ! test -d aspell6-* ; } then \
+             tar -xzf aspell_en.tgz; \
+         fi; \
+         cd aspell6-*; \
+         if { ! test -f Makefile ; } then \
+             ./configure; \
+         fi; \
+         make; \
          echo please enter sudo password to install aspell-en; \
          sudo make install; \
      fi

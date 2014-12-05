@@ -39,7 +39,7 @@ ifeq ($(findstring clang++,${CXX}),clang++)
   J_RAW_SYSTEM_STUFF += -fno-exceptions
 
 else ifeq ($(findstring g++,${CXX}),g++)
-  GPP_VERSION := $(shell g++ --version | grep g++ | sed 's/^[^0-9]* //' | sed 's/\..*$//')
+  GPP_VERSION := $(shell g++ --version | grep g++ | sed 's/^[^0-9]* //' | sed 's/\..*//')
 
   J_RAW_SYSTEM_STUFF += \
     -Wall -Wno-unused -Wno-write-strings \
