@@ -15,6 +15,8 @@
 #     --ignoreCVS & --ignoreSubversion options added by John Lindal
 #   1.0.2 -- 5/31/2006
 #     Fixed bug so spaces are allowed in paths and file names (John Lindal)
+#   1.0.3 -- 3/4/2015
+#     --ignoreGit option added by John Lindal
 #
 #******************************************************************************
 
@@ -97,6 +99,7 @@
 	local $Global::fullPathDefault         = 0;
 	local $Global::ignoreCVSDefault        = 1;
 	local $Global::ignoreSubversionDefault = 1;
+	local $Global::ignoreGitDefault        = 1;
 
 # The dispatch table and such; conceptually constant.  They wouldn't have
 # to be global but it is nicer to have them here where they can be changed
@@ -146,6 +149,7 @@
 	local $Global::mixedComparison  = $Global::mixedComparisonDefault;
 	local $Global::ignoreCVS        = $Global::ignoreCVSDefault;
 	local $Global::ignoreSubversion = $Global::ignoreSubversionDefault;
+	local $Global::ignoreGit        = $Global::ignoreGitDefault;
 	local $Global::prefix           = $Global::prefixDefault;
 	local $Global::pathA;
 	local $Global::pathB;
@@ -1094,6 +1098,7 @@ sub ParseCommandLine()
 		"Followlinks"       => \$Global::followLinks,
 		"IgnoreCVS!"        => \$Global::ignoreCVS,
 		"IgnoreSubversion!" => \$Global::ignoreSubversion,
+		"IgnoreGit!"        => \$Global::ignoreGit,
 		"fullpath!"         => \$fullPath,
 		"glob=s"            => \$glob,
 		"help"              => \$help,
@@ -1229,7 +1234,7 @@ sub ParseCommandLine()
 		exit 0;
 		}
 
-	if ($Global::ignoreCVS || $Global::ignoreSubversion)
+	if ($Global::ignoreCVS || $Global::ignoreSubversion || $Global::ignoreGit)
 		{
 		if (length($dirNotRegex) > 0)
 			{
@@ -1267,6 +1272,23 @@ sub ParseCommandLine()
 			else
 				{
 				$dirNotRegex .= '(\.svn)';
+				}
+			}
+
+		if ($Global::ignoreGit)
+			{
+			if (length($dirNotRegex) > 0)
+				{
+				$dirNotRegex .= '|';
+				}
+
+			if ($fullPath)
+				{
+				$dirNotRegex .= '((*/)?\.git(/*)?)';
+				}
+			else
+				{
+				$dirNotRegex .= '(\.git)';
 				}
 			}
 		}
@@ -1457,6 +1479,25 @@ sub Usage(*$$$$$$$$$$)
 	print "--noIgnoreSubversion\")";
 	}
 	print $fh "\n                  When active, ignores Subversion directories.";
+	print $fh "\n";
+	}
+	print $fh "\n  --(no)IgnoreGit   (default: \"";
+	if ($Global::ignoreCVSDefault)
+	{
+	print "--IgnoreGit\")";
+	} else {
+	print "--noIgnoreGit\")";
+	}
+	if ($help)
+	{
+	print $fh "\n                    (current: \"";
+	if ($Global::ignoreGit)
+	{
+	print "--IgnoreGit\")";
+	} else {
+	print "--noIgnoreGit\")";
+	}
+	print $fh "\n                  When active, ignores Git directories.";
 	print $fh "\n";
 	}
 	if ($help)
