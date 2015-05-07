@@ -1043,7 +1043,8 @@ CBPrefsManager::UpgradeData
 		{
 		CBNewSuffixInfo kJavaScriptSuffix[] =
 		{
-			{ ".js", kJFalse }
+			{ ".js",   kJFalse },
+			{ ".json", kJFalse }
 		};
 		cbAddNewSuffixes("JavaScript", "Java", kCBJavaScriptFT, kJavaScriptSuffix, sizeof(kJavaScriptSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
