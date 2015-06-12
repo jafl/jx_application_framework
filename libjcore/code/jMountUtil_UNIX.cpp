@@ -838,7 +838,7 @@ jGetFullHostName
 /******************************************************************************
  JTranslateLocalToRemote
 
-	Translate remote host and path to local path, if it is mounted.
+	Translate local path to remote host and path, if it is mounted.
 
  ******************************************************************************/
 
@@ -853,30 +853,44 @@ jTranslateLocalToRemote1
 	JString*			remotePath
 	)
 {
-	if (JIsSamePartition(localPath, mountDir))
+	if (!JIsSamePartition(localPath, mountDir))
 		{
-		const JString dev = mountDev;
-		JIndex hostEndIndex;
-		if (dev.LocateSubstring(":/", &hostEndIndex) && hostEndIndex > 1)
-			{
-			*host = dev.GetSubstring(1, hostEndIndex-1);
-			jGetFullHostName(host);
-
-			*remotePath = dev.GetSubstring(hostEndIndex+1, dev.GetLength());
-			JAppendDirSeparator(remotePath);
-
-			// use JIndexRange to allow empty
-
-			JIndexRange r(strlen(mountDir)+1, localPath.GetLength());
-			*remotePath += localPath.GetSubstring(r);
-			JCleanPath(remotePath);
-
-			*found = kJTrue;
-			}
-		return kJTrue;
+		return kJFalse;
 		}
 
-	return kJFalse;
+	const JString dev = mountDev;
+	JIndex hostEndIndex;
+	if (dev.LocateSubstring(":/", &hostEndIndex) && hostEndIndex > 1)
+		{
+		*host = dev.GetSubstring(1, hostEndIndex-1);
+
+		#ifdef _J_CYGWIN
+		if (host->GetLength() == 1 &&
+			'A' <= host->GetFirstCharacter() && host->GetFirstCharacter() <= 'Z')
+			{
+			*host       = JGetHostName();
+			*remotePath = localPath;
+			JCleanPath(remotePath);
+			*found = kJTrue;
+			return kJTrue;
+			}
+		#endif
+
+		jGetFullHostName(host);
+
+		*remotePath = dev.GetSubstring(hostEndIndex+1, dev.GetLength());
+		JAppendDirSeparator(remotePath);
+
+		// use JIndexRange to allow empty
+
+		JIndexRange r(strlen(mountDir)+1, localPath.GetLength());
+		*remotePath += localPath.GetSubstring(r);
+		JCleanPath(remotePath);
+
+		*found = kJTrue;
+		}
+
+	return kJTrue;
 }
 
 #if defined JMOUNT_BSD
