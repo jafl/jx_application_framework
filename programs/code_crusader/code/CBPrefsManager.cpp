@@ -1178,6 +1178,15 @@ CBPrefsManager::UpgradeData
 		cbAddNewSuffixes("INI", NULL, kCBINIFT, kINISuffix, sizeof(kINISuffix), itsFileTypeList, itsMacroList, *itsCRMList);
 		}
 
+	if (currentVersion < 67)
+		{
+		CBNewSuffixInfo kPropertiesSuffix[] =
+		{
+			{ ".properties", kJFalse }
+		};
+		cbAddNewSuffixes("Properties", "UNIX script", kCBPropertiesFT, kPropertiesSuffix, sizeof(kPropertiesSuffix), itsFileTypeList, itsMacroList, *itsCRMList);
+		}
+
 	//
 	// upgrades that can be done in any order
 	//

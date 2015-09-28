@@ -147,4 +147,3 @@ CBRubyScanner::SlurpQuoted
 			}
 		}
 }
-	

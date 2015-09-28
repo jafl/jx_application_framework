@@ -1,17 +1,17 @@
 /******************************************************************************
- CBINIStyler.cpp
+ CBPropertiesStyler.cpp
 
-	Helper object for CBTextEditor that displays .ini with styles to hilight
-	sections, comments, etc.
+	Helper object for CBTextEditor that displays .properties with styles to
+	hilight comments, etc.
 
-	BASE CLASS = CBStylerBase, CBINIScanner
+	BASE CLASS = CBStylerBase, CBPropertiesScanner
 
-	Copyright © 2013 by John Lindal. All rights reserved.
+	Copyright © 2015 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
 #include <cbStdInc.h>
-#include "CBINIStyler.h"
+#include "CBPropertiesStyler.h"
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
 #include <JRegex.h>
@@ -19,22 +19,14 @@
 #include <ctype.h>
 #include <jAssert.h>
 
-CBINIStyler* CBINIStyler::itsSelf = NULL;
+CBPropertiesStyler* CBPropertiesStyler::itsSelf = NULL;
 
-const JFileVersion kCurrentTypeListVersion = 1;
-
-	// version 1 inserts kArrayIndex after kAssignment (2)
+const JFileVersion kCurrentTypeListVersion = 0;
 
 static const JCharacter* kTypeNames[] =
 {
-	"Section Name",
-
 	"Key or Value",
 	"Assignment",
-	"Array index",
-
-	"Single quoted string",
-	"Double quoted string",
 
 	"Comment",
 
@@ -53,13 +45,13 @@ static const JCharacter* kEditDialogTitle = "Edit INI Styles";
 static JBoolean recursiveInstance = kJFalse;
 
 CBStylerBase*
-CBINIStyler::Instance()
+CBPropertiesStyler::Instance()
 {
 	if (itsSelf == NULL && !recursiveInstance)
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBINIStyler;
+		itsSelf = new CBPropertiesStyler;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -74,7 +66,7 @@ CBINIStyler::Instance()
  ******************************************************************************/
 
 void
-CBINIStyler::Shutdown()
+CBPropertiesStyler::Shutdown()
 {
 	delete itsSelf;
 }
@@ -84,11 +76,11 @@ CBINIStyler::Shutdown()
 
  ******************************************************************************/
 
-CBINIStyler::CBINIStyler()
+CBPropertiesStyler::CBPropertiesStyler()
 	:
 	CBStylerBase(kCurrentTypeListVersion, kTypeCount, kTypeNames,
-				 kEditDialogTitle, kCBINIStyleID, kCBINIFT),
-	CBINIScanner()
+				 kEditDialogTitle, kCBPropertiesStyleID, kCBPropertiesFT),
+	CBPropertiesScanner()
 {
 	JFontStyle blankStyle;
 	for (JIndex i=1; i<=kTypeCount; i++)
@@ -98,14 +90,9 @@ CBINIStyler::CBINIStyler()
 
 	JColormap* colormap = GetColormap();
 
-	SetTypeStyle(kSectionName       - kWhitespace, JFontStyle(kJTrue, kJFalse, 0, kJFalse));
+	SetTypeStyle(kComment - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
 
-	SetTypeStyle(kSingleQuoteString - kWhitespace, JFontStyle(colormap->GetBrownColor()));
-	SetTypeStyle(kDoubleQuoteString - kWhitespace, JFontStyle(colormap->GetDarkRedColor()));
-
-	SetTypeStyle(kComment           - kWhitespace, JFontStyle(colormap->GetGrayColor(50)));
-
-	SetTypeStyle(kError             - kWhitespace, JFontStyle(colormap->GetRedColor()));
+	SetTypeStyle(kError   - kWhitespace, JFontStyle(colormap->GetRedColor()));
 
 	JPrefObject::ReadPrefs();
 }
@@ -115,7 +102,7 @@ CBINIStyler::CBINIStyler()
 
  ******************************************************************************/
 
-CBINIStyler::~CBINIStyler()
+CBPropertiesStyler::~CBPropertiesStyler()
 {
 	JPrefObject::WritePrefs();
 	itsSelf = NULL;
@@ -127,7 +114,7 @@ CBINIStyler::~CBINIStyler()
  ******************************************************************************/
 
 void
-CBINIStyler::Scan
+CBPropertiesStyler::Scan
 	(
 	istream&			input,
 	const TokenExtra&	initData
@@ -155,13 +142,6 @@ CBINIStyler::Scan
 			SaveTokenStart(TokenExtra());
 			}
 
-		// handle special cases
-
-		if (token.type == kDoubleQuoteString)
-			{
-			ExtendCheckRangeForString(token.range);
-			}
-
 		// set the style
 
 		const JIndex typeIndex = token.type - kWhitespace;
@@ -169,9 +149,7 @@ CBINIStyler::Scan
 			{
 			style = GetDefaultFontStyle();
 			}
-		else if (token.type == kSingleQuoteString ||
-				 token.type == kDoubleQuoteString ||
-				 token.type == kComment)
+		else if (token.type == kComment)
 			{
 			style = GetTypeStyle(typeIndex);
 			}
@@ -197,40 +175,15 @@ CBINIStyler::Scan
 }
 
 /******************************************************************************
- ExtendCheckRangeForString (private)
-
-	There is one case where modifying a string doesn't force a restyling:
-
-	"x"#{x}"
-	  ^
-	Inserting the marked character tricks JTEStyler into not continuing
-	because the style didn't change and it was at a style run boundary.
-
- ******************************************************************************/
-
-void
-CBINIStyler::ExtendCheckRangeForString
-	(
-	const JIndexRange& tokenRange
-	)
-{
-	ExtendCheckRange(tokenRange.last+1);
-}
-
-/******************************************************************************
  UpgradeTypeList (virtual protected)
 
  ******************************************************************************/
 
 void
-CBINIStyler::UpgradeTypeList
+CBPropertiesStyler::UpgradeTypeList
 	(
 	const JFileVersion	vers,
 	JArray<JFontStyle>*	typeStyles
 	)
 {
-	if (vers < 1)
-		{
-		typeStyles->InsertElementAtIndex(3, JFontStyle());
-		}
 }

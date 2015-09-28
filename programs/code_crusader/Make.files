@@ -140,6 +140,9 @@
 .cpp ./code/CBPerlStyler
 .cpp ./code/CBPerlScanner
 .l ./code/CBPerlScannerL
+.cpp ./code/CBPropertiesStyler
+.cpp ./code/CBPropertiesScanner
+.l ./code/CBPropertiesScannerL
 .cpp ./code/CBPythonStyler
 .cpp ./code/CBPythonScanner
 .l ./code/CBPythonScannerL

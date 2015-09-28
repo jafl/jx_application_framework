@@ -170,6 +170,7 @@ static const JCharacter* kPrefsStylesMenuStr =
 	"| HTML / PHP / JSP / XML"
 	"| INI"
 	"| Java"
+	"| Java properties"
 	"| JavaScript"
 	"| Perl"
 	"| Python"
@@ -186,6 +187,7 @@ static const CBLanguage kMenuItemToLang[] =
 	kCBHTMLLang,
 	kCBINILang,
 	kCBJavaLang,
+	kCBPropertiesLang,
 	kCBJavaScriptLang,
 	kCBPerlLang,
 	kCBPythonLang,

@@ -16,8 +16,10 @@
 
 #include <jTypes.h>
 
-const JFileVersion kCurrentPrefsFileVersion = 66;
+const JFileVersion kCurrentPrefsFileVersion = 67;
 
+// version 67:
+//	Added support for Java properties files.
 // version 66:
 //	Added support for INI files.
 // version 65:

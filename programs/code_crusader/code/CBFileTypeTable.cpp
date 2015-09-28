@@ -91,6 +91,7 @@ static const JCharacter* kTypeMenuStr =
 	"| HTML %r"
 	"| INI %r"
 	"| Java archive %r"
+	"| Java properties %r"
 	"| Java source %r"
 	"| JavaScript %r"
 	"| JSP %r"
@@ -150,6 +151,7 @@ enum
 	kHTMLTypeCmd,
 	kINITypeCmd,
 	kJavaArchiveTypeCmd,
+	kPropertiesTypeCmd,
 	kJavaSourceTypeCmd,
 	kJavaScriptTypeCmd,
 	kJSPTypeCmd,
@@ -210,6 +212,7 @@ static const CBTextFileType kMenuIndexToFileType[] =
 	kCBHTMLFT,
 	kCBINIFT,
 	kCBJavaArchiveFT,
+	kCBPropertiesFT,
 	kCBJavaSourceFT,
 	kCBJavaScriptFT,
 	kCBJSPFT,
@@ -310,7 +313,8 @@ static const JIndex kFileTypeToMenuIndex[] =
 	0,					// kCBShellOutputFT
 	kMatlabTypeCmd,
 	kAdobeFlexTypeCmd,
-	kINITypeCmd
+	kINITypeCmd,
+	kPropertiesTypeCmd
 };
 
 // Script menu

@@ -83,12 +83,13 @@ enum CBTextFileType
 	kCBShellOutputFT,
 	kCBMatlabFT,
 	kCBAdobeFlexFT,
-	kCBINIFT,				// = kCBLastFT	// special
+	kCBINIFT,
+	kCBPropertiesFT,		// = kCBLastFT	// special
 
 	// When you add new types, be sure to increment the prefs version!
 
 	kCBFirstFT = kCBUnknownFT,
-	kCBLastFT  = kCBINIFT
+	kCBLastFT  = kCBPropertiesFT
 };
 
 const JSize kCBFTCount = kCBLastFT+1;
@@ -238,6 +239,7 @@ CBUseCSourceWindowSize
 				type == kCBMakeFT          ||
 				type == kCBPerlFT          ||
 				type == kCBPHPFT           ||
+				type == kCBPropertiesFT    ||
 				type == kCBPythonFT        ||
 				type == kCBREXXFT          ||
 				type == kCBRubyFT          ||
@@ -329,12 +331,13 @@ enum CBLanguage
 	kCBBasicLang,
 	kCBMatlabLang,
 	kCBAdobeFlexLang,
-	kCBINILang,			// = kCBLastLang
+	kCBINILang,
+	kCBPropertiesLang,	// = kCBLastLang
 
 	// When you add new types, be sure to increment the prefs version!
 
 	kCBFirstLang = kCBOtherLang,
-	kCBLastLang  = kCBINILang
+	kCBLastLang  = kCBPropertiesLang
 };
 
 const JSize kCBLangCount = kCBLastLang+1;

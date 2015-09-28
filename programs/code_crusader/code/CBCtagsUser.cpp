@@ -120,6 +120,7 @@ static const FTInfo kFTInfo[] =		// index on CBTextFileType
 	{ kCBMatlabFT,           kCBMatlabLang,      "--language-force=matlab"     , "Functions"   },
 	{ kCBAdobeFlexFT,        kCBAdobeFlexLang,   "--language-force=flex"       , "Functions"   },
 	{ kCBINIFT,              kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
+	{ kCBPropertiesFT,       kCBOtherLang,       kOtherLangCmd                 , kDefFnTitle   },
 };
 
 const JSize kFTCount = sizeof(kFTInfo) / sizeof(FTInfo);

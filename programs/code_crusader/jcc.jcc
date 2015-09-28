@@ -578,6 +578,18 @@ T
 F
 "./code/CBPerlScannerL.l"
 T
+2 "CBPropertiesStyler.cpp"
+F
+"./code/CBPropertiesStyler.cpp"
+T
+2 "CBPropertiesScanner.cpp"
+F
+"./code/CBPropertiesScanner.cpp"
+T
+2 "CBPropertiesScannerL.l"
+F
+"./code/CBPropertiesScannerL.l"
+T
 2 "CBPythonStyler.cpp"
 F
 "./code/CBPythonStyler.cpp"
