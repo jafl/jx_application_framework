@@ -1,0 +1,14 @@
+.deps
+.libs
+Makefile
+config.h
+*.log
+*.status
+*.pc
+libtool
+pcre-config
+pcre.h
+pcre_chartables.c
+pcre_stringpiece.h
+pcrecpparg.h
+stamp-h1

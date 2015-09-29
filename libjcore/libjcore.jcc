@@ -1,4 +1,4 @@
-jx_browser_data 84
+jx_browser_data 85
 # project tree
 0 "root"
 T
@@ -872,104 +872,109 @@ F
 T
 1 "pcre"
 T
-3 "pcre_chartables.o"
+3 "libpcre_la-pcre_byte_order.o"
 F
-"../misc/pcre-8.10/pcre_chartables.o"
+"../misc/pcre-8.37/libpcre_la-pcre_byte_order.o"
  T "" T
 T
-3 "pcre_compile.o"
+3 "libpcre_la-pcre_chartables.o"
 F
-"../misc/pcre-8.10/pcre_compile.o"
+"../misc/pcre-8.37/libpcre_la-pcre_chartables.o"
  T "" T
 T
-3 "pcre_config.o"
+3 "libpcre_la-pcre_compile.o"
 F
-"../misc/pcre-8.10/pcre_config.o"
+"../misc/pcre-8.37/libpcre_la-pcre_compile.o"
  T "" T
 T
-3 "pcre_dfa_exec.o"
+3 "libpcre_la-pcre_config.o"
 F
-"../misc/pcre-8.10/pcre_dfa_exec.o"
+"../misc/pcre-8.37/libpcre_la-pcre_config.o"
  T "" T
 T
-3 "pcre_exec.o"
+3 "libpcre_la-pcre_dfa_exec.o"
 F
-"../misc/pcre-8.10/pcre_exec.o"
+"../misc/pcre-8.37/libpcre_la-pcre_dfa_exec.o"
  T "" T
 T
-3 "pcre_fullinfo.o"
+3 "libpcre_la-pcre_exec.o"
 F
-"../misc/pcre-8.10/pcre_fullinfo.o"
+"../misc/pcre-8.37/libpcre_la-pcre_exec.o"
  T "" T
 T
-3 "pcre_get.o"
+3 "libpcre_la-pcre_fullinfo.o"
 F
-"../misc/pcre-8.10/pcre_get.o"
+"../misc/pcre-8.37/libpcre_la-pcre_fullinfo.o"
  T "" T
 T
-3 "pcre_globals.o"
+3 "libpcre_la-pcre_get.o"
 F
-"../misc/pcre-8.10/pcre_globals.o"
+"../misc/pcre-8.37/libpcre_la-pcre_get.o"
  T "" T
 T
-3 "pcre_info.o"
+3 "libpcre_la-pcre_globals.o"
 F
-"../misc/pcre-8.10/pcre_info.o"
+"../misc/pcre-8.37/libpcre_la-pcre_globals.o"
  T "" T
 T
-3 "pcre_maketables.o"
+3 "libpcre_la-pcre_jit_compile.o"
 F
-"../misc/pcre-8.10/pcre_maketables.o"
+"../misc/pcre-8.37/libpcre_la-pcre_jit_compile.o"
  T "" T
 T
-3 "pcre_newline.o"
+3 "libpcre_la-pcre_maketables.o"
 F
-"../misc/pcre-8.10/pcre_newline.o"
+"../misc/pcre-8.37/libpcre_la-pcre_maketables.o"
  T "" T
 T
-3 "pcre_ord2utf8.o"
+3 "libpcre_la-pcre_newline.o"
 F
-"../misc/pcre-8.10/pcre_ord2utf8.o"
+"../misc/pcre-8.37/libpcre_la-pcre_newline.o"
  T "" T
 T
-3 "pcre_refcount.o"
+3 "libpcre_la-pcre_ord2utf8.o"
 F
-"../misc/pcre-8.10/pcre_refcount.o"
+"../misc/pcre-8.37/libpcre_la-pcre_ord2utf8.o"
  T "" T
 T
-3 "pcre_study.o"
+3 "libpcre_la-pcre_refcount.o"
 F
-"../misc/pcre-8.10/pcre_study.o"
+"../misc/pcre-8.37/libpcre_la-pcre_refcount.o"
  T "" T
 T
-3 "pcre_tables.o"
+3 "libpcre_la-pcre_string_utils.o"
 F
-"../misc/pcre-8.10/pcre_tables.o"
+"../misc/pcre-8.37/libpcre_la-pcre_string_utils.o"
  T "" T
 T
-3 "pcre_try_flipped.o"
+3 "libpcre_la-pcre_study.o"
 F
-"../misc/pcre-8.10/pcre_try_flipped.o"
+"../misc/pcre-8.37/libpcre_la-pcre_study.o"
  T "" T
 T
-3 "pcre_ucd.o"
+3 "libpcre_la-pcre_tables.o"
 F
-"../misc/pcre-8.10/pcre_ucd.o"
+"../misc/pcre-8.37/libpcre_la-pcre_tables.o"
  T "" T
 T
-3 "pcre_valid_utf8.o"
+3 "libpcre_la-pcre_ucd.o"
 F
-"../misc/pcre-8.10/pcre_valid_utf8.o"
+"../misc/pcre-8.37/libpcre_la-pcre_ucd.o"
  T "" T
 T
-3 "pcre_version.o"
+3 "libpcre_la-pcre_valid_utf8.o"
 F
-"../misc/pcre-8.10/pcre_version.o"
+"../misc/pcre-8.37/libpcre_la-pcre_valid_utf8.o"
  T "" T
 T
-3 "pcre_xclass.o"
+3 "libpcre_la-pcre_version.o"
 F
-"../misc/pcre-8.10/pcre_xclass.o"
+"../misc/pcre-8.37/libpcre_la-pcre_version.o"
+ T "" T
+T
+3 "libpcre_la-pcre_xclass.o"
+F
+"../misc/pcre-8.37/libpcre_la-pcre_xclass.o"
  T "" T
 F
 T
@@ -1133,7 +1138,7 @@ T "./" "medic -f +$line $full_name" "" F F F T F F F "" "" "" T
 F
 # build settings
 1
-F
+T
 "libjcore-${JX_LIB_VERSION}.a,libjcore-${JX_LIB_VERSION}.so"
 "${GD_JPEG_FILES}"
 "make -k all"

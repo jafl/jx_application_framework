@@ -6,7 +6,7 @@
 JX_ROOT := ..
 
 JCOREDIR := ./code
-PCREDIR  := ${JX_ROOT}/misc/pcre-8.10
+PCREDIR  := ${JX_ROOT}/misc/pcre-8.37
 GDDIR    := ${JX_ROOT}/misc/gd
 
 # Directories to search for header files
