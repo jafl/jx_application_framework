@@ -89,6 +89,10 @@ CBIsCharacterInWord
 		{
 		return JI2B(c == '$');
 		}
+	else if (type == kCBJavaSourceFT)
+		{
+		return JI2B(c == '@');
+		}
 	else
 		{
 		return kJFalse;
