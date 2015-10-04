@@ -110,5 +110,5 @@ CONFIGURE_PCRE := ./configure --enable-utf8 --with-match-limit-recursion=10000
 ifeq (${J_CYGWIN},1)
   BUILD_PCRE := ${MAKE} pcre.dll; mkdir -p .libs; cp *.o .libs/
 else
-  BUILD_PCRE := ${MAKE} libpcre.la
+  BUILD_PCRE := ${MAKE} libpcre.la; find . -name 'libpcre_la-*.o' -exec ./jx_rename_output_files '{}' +
 endif
