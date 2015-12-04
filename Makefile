@@ -70,6 +70,7 @@ default:
 	@echo "  ${MAKE_CMD} darwin_snow    for Macintosh OS X 10.6"
 	@echo "  ${MAKE_CMD} darwin_lion    for Macintosh OS X 10.7"
 	@echo "  ${MAKE_CMD} darwin_mav     for Macintosh OS X 10.9"
+	@echo "  ${MAKE_CMD} darwin_yos     for Macintosh OS X 10.10"
 	@echo "  ${MAKE_CMD} linux_intel    for Linux with g++ 3.x or above"
 	@echo "  ${MAKE_CMD} linux_intel-64 for Linux with g++ 3.x or above on 64-bit systems"
 	@echo
@@ -217,6 +218,16 @@ darwin_mav: prep
             include/jcore/jMissingProto.h
 	@${TEST_ACE_CONFIG} config-macosx-mountainlion.h ${CREATE_ACE_CONFIG}
 	@${TEST_ACE_MACROS} platform_macosx_mountainlion.GNU ${CREATE_ACE_MACROS}
+	@${INSTALL_CMD}
+
+.PHONY: darwin_yos
+darwin_yos: prep
+	@ln -sf sys/OSX_9_g++ \
+            include/make/jx_config
+	@ln -sf ../../include/missing_proto/jMissingProto_empty.h \
+            include/jcore/jMissingProto.h
+	@${TEST_ACE_CONFIG} config-macosx-yosemite.h ${CREATE_ACE_CONFIG}
+	@${TEST_ACE_MACROS} platform_macosx_yosemite.GNU ${CREATE_ACE_MACROS}
 	@${INSTALL_CMD}
 
 #

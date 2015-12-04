@@ -70,6 +70,14 @@ public:
 	static void				Shutdown();
 };
 
+class CBPropertiesStyler
+{
+public:
+
+	static CBStylerBase*	Instance();
+	static void				Shutdown();
+};
+
 class CBPythonStyler
 {
 public:

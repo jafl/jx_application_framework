@@ -99,7 +99,7 @@ ACE
   test               Sample source for using ACE library
 
 misc
-  pcre-8.10          PCRE regular expression package
+  pcre-*             PCRE regular expression package
   png                PNG library (new libgd)
   xpm                XPM library (libXpm)
   win32              Partial port to Windows
