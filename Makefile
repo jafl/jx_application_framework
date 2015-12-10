@@ -292,9 +292,9 @@ get_ace:
          cd ACE; \
          if { ! test -f ACE.tgz ; } then \
            if { which wget; } then \
-               wget -O ACE.tgz http://newplanetsoftware.com/ftp/misc/ACE-${ACE_VERSION}.tar.gz; \
+               wget -O ACE.tgz http://libjx.sourceforge.net/data/ACE-${ACE_VERSION}.tar.gz; \
            elif { which curl; } then \
-               curl -o ACE.tgz http://newplanetsoftware.com/ftp/misc/ACE-${ACE_VERSION}.tar.gz; \
+               curl -o ACE.tgz http://libjx.sourceforge.net/data/ACE-${ACE_VERSION}.tar.gz; \
            else \
                echo "Please install either curl or wget"; \
                exit 1; \
@@ -317,9 +317,9 @@ get_mesa:
          cd misc; \
          if { ! test -f Mesa.tgz ; } then \
            if { which wget; } then \
-               wget -O Mesa.tgz http://newplanetsoftware.com/ftp/misc/MesaLib-${MESA_VERSION}.tar.gz; \
+               wget -O Mesa.tgz http://libjx.sourceforge.net/data/MesaLib-${MESA_VERSION}.tar.gz; \
            elif { which curl; } then \
-               curl -o Mesa.tgz http://newplanetsoftware.com/ftp/misc/MesaLib-${MESA_VERSION}.tar.gz; \
+               curl -o Mesa.tgz http://libjx.sourceforge.net/data/MesaLib-${MESA_VERSION}.tar.gz; \
            else \
                echo "Please install either curl or wget"; \
                exit 1; \
@@ -338,9 +338,9 @@ get_aspell:
          cd misc; \
          if { ! test -f aspell.tgz ; } then \
              if { which wget; } then \
-                 wget -O aspell.tgz http://newplanetsoftware.com/ftp/misc/aspell-0.60.6.1.tar.gz; \
+                 wget -O aspell.tgz http://libjx.sourceforge.net/data/aspell-0.60.6.1.tar.gz; \
              elif { which curl; } then \
-                 curl -o aspell.tgz http://newplanetsoftware.com/ftp/misc/aspell-0.60.6.1.tar.gz; \
+                 curl -o aspell.tgz http://libjx.sourceforge.net/data/aspell-0.60.6.1.tar.gz; \
              else \
                  echo "Please install either curl or wget"; \
                  exit 1; \
@@ -362,9 +362,9 @@ get_aspell:
          cd misc; \
          if { ! test -f aspell_en.tgz ; } then \
              if { which wget; } then \
-                 wget -O aspell_en.tgz http://newplanetsoftware.com/ftp/misc/aspell6-en-7.1-0.tar.gz; \
+                 wget -O aspell_en.tgz http://libjx.sourceforge.net/data/aspell6-en-7.1-0.tar.gz; \
              elif { which curl; } then \
-                 curl -o aspell_en.tgz http://newplanetsoftware.com/ftp/misc/aspell6-en-7.1-0.tar.gz; \
+                 curl -o aspell_en.tgz http://libjx.sourceforge.net/data/aspell6-en-7.1-0.tar.gz; \
              else \
                  echo "Please install either curl or wget"; \
                  exit 1; \
