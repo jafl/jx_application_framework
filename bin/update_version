@@ -1,0 +1,30 @@
+#!/bin/sh
+
+if [[ $# < 1 ]]; then
+	echo "usage: $0 program_name ...";
+	exit 1;
+fi
+
+for NAME in $*; do
+	case $NAME in
+		code_crusader)
+			PROJ="codecrusader";;
+		code_medic)
+			PROJ="codemedic";;
+		code_mill)
+			PROJ="nps-codemill";;
+		drakon)
+			PROJ="drakon";;
+		glove)
+			PROJ="glove";;
+		leibnitz)
+			PROJ="leibnitz";;
+		systemg)
+			PROJ="nps-systemg";;
+		*)
+			echo "$NAME not found";
+			exit 1;;
+	esac;
+
+	scp programs/$NAME/VERSION jafl,$PROJ@web.sourceforge.net:htdocs/;
+done

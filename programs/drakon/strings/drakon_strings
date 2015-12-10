@@ -10,8 +10,8 @@ New Planet Software is a trademark of John Lindal.
 
 http://www.newplanetsoftware.com/"
 
-VERSION_URL		"http://newplanetsoftware.com/drakon/VERSION"
-DOWNLOAD_URL	"http://newplanetsoftware.com/nps/downloads.php"
+VERSION_URL		"http://drakon.sourceforge.net/VERSION"
+DOWNLOAD_URL	"https://sourceforge.net/projects/drakon/"
 
 # gpmGlobals
 

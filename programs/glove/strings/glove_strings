@@ -9,8 +9,8 @@ Glove is a trademark of Glenn Bach.  New Planet Software is a trademark of John 
 
 http://www.newplanetsoftware.com/glove/"
 
-VERSION_URL		"http://newplanetsoftware.com/glove/VERSION"
-DOWNLOAD_URL	"http://newplanetsoftware.com/nps/downloads.php"
+VERSION_URL		"http://glove.sourceforge.net/VERSION"
+DOWNLOAD_URL	"https://sourceforge.net/projects/glove/"
 
 GLCommandLineHelp
 

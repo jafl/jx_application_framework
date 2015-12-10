@@ -17,8 +17,8 @@ CMName	"Code Medic"
 CMURL	"http://www.newplanetsoftware.com/medic/"
 CMEmail	""
 
-VERSION_URL		"http://newplanetsoftware.com/medic/VERSION"
-DOWNLOAD_URL	"http://newplanetsoftware.com/nps/downloads.php"
+VERSION_URL		"http://codemedic.sourceforge.net/VERSION"
+DOWNLOAD_URL	"https://sourceforge.net/projects/codemedic/"
 
 # CMMDIServer
 

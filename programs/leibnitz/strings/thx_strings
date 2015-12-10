@@ -10,8 +10,8 @@ Leibnitz and New Planet Software are trademarks of John Lindal.
 
 http://www.newplanetsoftware.com/leibnitz/"
 
-VERSION_URL		"http://newplanetsoftware.com/leibnitz/VERSION"
-DOWNLOAD_URL	"http://newplanetsoftware.com/nps/downloads.php"
+VERSION_URL		"http://leibnitz.sourceforge.net/VERSION"
+DOWNLOAD_URL	"https://sourceforge.net/projects/leibnitz/"
 
 # thxGlobals
 

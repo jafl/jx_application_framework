@@ -8,8 +8,8 @@ This software is subject to the license agreement set forth in the license (refe
 
 http://www.newplanetsoftware.com/"
 
-VERSION_URL		"http://www.newplanetsoftware.com/mondrian/VERSION"
-DOWNLOAD_URL	"http://newplanetsoftware.com/nps/downloads.php"
+VERSION_URL		"http://mondrian.sourceforge.net/VERSION"
+DOWNLOAD_URL	"https://sourceforge.net/projects/mondrian/"
 
 # mdGlobals
 
