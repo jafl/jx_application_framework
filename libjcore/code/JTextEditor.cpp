@@ -169,6 +169,7 @@
 #include <jTime.h>
 #include <ctype.h>
 #include <jGlobals.h>
+#include <sstream>
 #include <jAssert.h>
 
 const JCoordinate kDefLeftMarginWidth = 10;
@@ -2409,22 +2410,29 @@ JTextEditor::PasteUNIXTerminalOutput
 	JString buffer;
 	JRunArray<Font> styles;
 
-	const JSize length = strlen(text);
-	buffer.SetBlockSize(length);
+	const std::string s(text);
+	std::istringstream input(s);
+
+	buffer.SetBlockSize(s.length());
 	JString cmd, cmdIDStr;
 	Font f        = GetCurrentFont();
 	const Font f0 = f;
-	for (JIndex i=0; i<length; i++)
+	while (!input.eof() && !input.fail())
 		{
-		if (text[i] == '\033')
+		const JCharacter c = jReadUNIXManUnicodeCharacter(input);
+		if (c == -1)
 			{
-			i++;
+			break;
+			}
+		else if (c == '\033')
+			{
+			const JIndex i = JTellg(input);
 			cmd.Clear();
 			JArray<JIndexRange> matchList;
 			if (theUNIXTerminalFormatPattern.Match(text+i, &matchList))
 				{
 				cmd.Set(text+i, matchList.GetElement(2));
-				i += matchList.GetElement(1).GetLength()-1;
+				JSeekg(input, i + matchList.GetElement(1).GetLength());
 				while (!cmd.IsEmpty())
 					{
 					JIndex semiIndex;
@@ -2506,7 +2514,7 @@ JTextEditor::PasteUNIXTerminalOutput
 			}
 		else
 			{
-			buffer.AppendCharacter(text[i]);
+			buffer.AppendCharacter(c);
 			styles.AppendElement(f);
 			}
 		}
