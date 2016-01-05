@@ -1,20 +1,20 @@
 Changes from previous versions
 
 1.1.0
-	Adds output file to .cvsignore.
+    Adds output file to .cvsignore.
 
-	To keep Visual C++ happy, output file contains array of strings, each no
-	longer than 2040 characters.
+    To keep Visual C++ happy, output file contains array of strings, each no
+    longer than 2040 characters.
 
 1.0.3
-	Fixed bug so safety save files are ignored.
+    Fixed bug so safety save files are ignored.
 
 1.0.2
-	Added --debug option.  This prints all string ID's, making it easy to
-	discover where in a file a problem is occurring.
+    Added --debug option.  This prints all string ID's, making it easy to
+    discover where in a file a problem is occurring.
 
 1.0.1
-	Ignores directories in the argument list.
+    Ignores directories in the argument list.
 
 1.0.0
     Initial release.
