@@ -48,4 +48,7 @@ int JAssert(const char*, const char*, const int);
 
 #endif
 
-#include <jNew.h>
+// 2016/01/05: This breaks in the latest C++ standard,
+// because "= delete" can be appended to a function declaration
+//
+// #include <jNew.h>
