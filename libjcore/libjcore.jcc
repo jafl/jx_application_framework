@@ -1142,4 +1142,5 @@ T "../ACE/ACE_wrappers/ace" T
 T "./code" T
 F
 # C preprocessor
+T "ACE_UNIMPLEMENTED_FUNC()" ""
 F

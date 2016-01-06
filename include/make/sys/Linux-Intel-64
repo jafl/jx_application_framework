@@ -22,7 +22,8 @@ J_OPTIMIZE_LEVEL := 0
 
 # Comment this out if your system is not ELF.
 
-J_BUILD_SHARED_LIB  := -fPIC
+# need to enable -fPIC for pcre-8.37
+#J_BUILD_SHARED_LIB  := -fPIC
 J_BEGIN_LINK_STATIC := -Xlinker -Bstatic
 J_END_LINK_STATIC   := -Xlinker -Bdynamic
 
@@ -72,6 +73,7 @@ J_RAW_SYSTEM_STUFF := \
   -D_J_HAS_PROC \
   -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED \
   -D_XFT_NO_COMPAT_ -I/usr/include/freetype2 \
+  -Wno-narrowing \
   ${shell getconf LFS_CFLAGS}
 
 #  -D_BSD_SOURCE -D_GNU_SOURCE
