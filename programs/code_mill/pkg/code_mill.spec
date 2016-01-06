@@ -1,4 +1,4 @@
-%define code_mill_version 1.0.5
+%define code_mill_version 1.0.6
 
 Summary: Code Mill is a Code Crusader plug-in for creating C++ derived classes.
 Name: Code_Mill
