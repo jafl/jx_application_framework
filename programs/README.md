@@ -130,7 +130,7 @@ Window manager issues
 
 ### Which window manager do you recommend using?
 
-All programs that are written with the **JX** Application Framework will work with any window manager, except for the bugs mentioned below.  We at New Planet Software prefer [fvwm2](http://www.fvwm.org/) because it supports icons for iconfied windows.  This allows Drag-and-Drop onto iconfied windows as well as visible ones.
+All programs that are written with the **JX** Application Framework will work with any window manager, except for the bugs mentioned below.  I prefer [fvwm2](http://www.fvwm.org/) because it supports icons for iconfied windows.  This allows Drag-and-Drop onto iconfied windows as well as visible ones.
 
 Many people consider fvwm2 to be too raw, however.  A good alternative is Openbox, when configured to run gnome-panel at startup.  To do this, create `~/.config/openbox/autostart.sh` with the following content:
 
@@ -142,17 +142,10 @@ Many people consider fvwm2 to be too raw, however.  A good alternative is Openbo
 
 Your window manager is ignoring the program's attempts to place the windows.  We know how to fix this for the following window managers:
 
-$ fvwm
-$ Comment out "NoPPosition" from `~/.fvwmrc`
-
-$ fvwm2
-$ Use "UsePPosition" instead of "NoPPosition" in `~/.fvwm2rc`
-
-$ sawfish
-$ Select the Placement item for Sawfish in the Gnome control panel and change the Method to "None".
-
-$ twm
-$ Set "UsePPosition on" in `~/.twmrc`
+* fvwm : Comment out "NoPPosition" from `~/.fvwmrc`
+* fvwm2 : Use "UsePPosition" instead of "NoPPosition" in `~/.fvwm2rc`
+* sawfish : Select the Placement item for Sawfish in the Gnome control panel and change the Method to "None".
+* twm : Set "UsePPosition on" in `~/.twmrc`
 
 
 ### Why do I get the error:

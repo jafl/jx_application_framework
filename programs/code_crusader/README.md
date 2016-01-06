@@ -232,8 +232,7 @@ Java class tree
 
 ### Why don't my Java classes show up in the class tree?
 
-<blockquote>
-and is set to the type "Java".  Then check that you have defined all preprocessor symbols used in your class definitions.  The preprocessor definitions are accessed from the Tree menu.  If neither of these is the problem, please [contact me](http://johnlindal.wix.com/aboutme).
+Check that the header file suffix that you use is listed in the File Types dialog window and is set to the type "Java".  Then check that you have defined all preprocessor symbols used in your class definitions.  The preprocessor definitions are accessed from the Tree menu.  If neither of these is the problem, please [contact me](http://johnlindal.wix.com/aboutme).
 
 
 ### Why can't Code Crusader find my source files from the class tree?

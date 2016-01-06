@@ -120,36 +120,36 @@ It is left as an exercise to the reader to figure out how to link to the appropr
 
 Aaron Lefohn submitted the following instructions for building multiple versions of the same program on multiple architectures that all share a single file system:
 
-1 Add the following aliases to your `.cshrc` (if you're using tcsh/csh)
+1. Add the following aliases to your `.cshrc` (if you're using tcsh/csh)
 
-    alias fast    setenv OPTIMIZE=true
-    alias nofast  setenv OPTIMIZE=false
+        alias fast    setenv OPTIMIZE=true
+        alias nofast  setenv OPTIMIZE=false
 
-1 Ensure that your system automatically sets the`ARCH` variable (most do)
-1 Set the target name in your Code Crusader project to `${PROG_NAME}`
-1 Put the following in your `Make.header` somewhere before the rules for making the objects:
+1. Ensure that your system automatically sets the`ARCH` variable (most do)
+1. Set the target name in your Code Crusader project to `${PROG_NAME}`
+1. Put the following in your `Make.header` somewhere before the rules for making the objects:
 
-    # set the program BASE and PATH
-    PROG_BASE := program_name                 (e.g. a.out)
-    PROG_PATH := path_to_executable_directory (e.g. ../../bin/)
+        # set the program BASE and PATH
+        PROG_BASE := program_name                 (e.g. a.out)
+        PROG_PATH := path_to_executable_directory (e.g. ../../bin/)
 
-    # choose optimized or debug version of program
-    ifeq (${OPTIMIZE},true)
-      PROG := ${PROG_PATH}${PROG_BASE}.opt
-    else
-      PROG := ${PROG_PATH}${PROG_BASE}.debug
-    endif
+        # choose optimized or debug version of program
+        ifeq (${OPTIMIZE},true)
+          PROG := ${PROG_PATH}${PROG_BASE}.opt
+        else
+          PROG := ${PROG_PATH}${PROG_BASE}.debug
+        endif
 
-    # choose the correct architecture extension for the program name
-    ifneq (,$(findstring IRIX,$(ARCH)))
-      PROG_NAME := ${PROG}.sgi
-    endif
-    ifneq (,$(findstring AIX,$(ARCH)))
-      PROG_NAME := ${PROG}.aix
-    endif
-    ifneq (,$(findstring Linux,$(ARCH)))
-      PROG_NAME := ${PROG}.x86linux
-    endif
+        # choose the correct architecture extension for the program name
+        ifneq (,$(findstring IRIX,$(ARCH)))
+          PROG_NAME := ${PROG}.sgi
+        endif
+        ifneq (,$(findstring AIX,$(ARCH)))
+          PROG_NAME := ${PROG}.aix
+        endif
+        ifneq (,$(findstring Linux,$(ARCH)))
+          PROG_NAME := ${PROG}.x86linux
+        endif
 
 1 You can do a similar architecture and `OPTIMIZE` detection to create the name for the unique object directory. (see above)
 1 The executable is then named, for example, "a.out.debug.sgi".  This is ugly, but it is easy to write a shell script that is called a.out that does the same sort of architecture detection, reads the state of the `OPTIMIZE` variable and then calls the correct executable.  Put this script in your `~/bin/` directory and voila!

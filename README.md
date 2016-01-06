@@ -185,8 +185,7 @@ If you do not have root access and your system administrator doesn't want to cre
 Comment out `J_DIE_ON_WARNING` in `include/make/jx_config`.
 
 
-### When I compile, I get an error "undefined reference to 'CMSG_DATA'".  How
-do I get around this?
+### When I compile, I get an error "undefined reference to 'CMSG_DATA'".  How do I get around this?
 
 Uncomment `J_FORCE_ACE_STATIC` in `include/make/jx_config`.  Then delete `ACE/ACE_wrappers/ace/libACE.so` and run make again.  Please notify us so we can update the configuration for your system.
 
