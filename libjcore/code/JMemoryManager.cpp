@@ -226,6 +226,7 @@
 
 #include <jErrno.h>
 #include <jAssert.h>
+#include <jNew.h>
 #undef new
 #undef delete
 
