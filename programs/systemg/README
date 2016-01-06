@@ -1,7 +1,7 @@
 
 Installing System G:
 
-The easiest way to install is to run:  sudo ./install
+The easiest way to install from the binary package is to run:  sudo ./install
 
 Otherwise, the program (systemg) need to be placed in a directory that is
 on your execution path.  /usr/bin or ~/bin are usually good choices.  Copy
