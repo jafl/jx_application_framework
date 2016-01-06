@@ -101,7 +101,7 @@ test:
 
 PERSONAL_PROGS := \
     code_crusader code_medic code_mill \
-    drakon leibnitz svn_client systemg ssh_askpass \
+    drakon leibnitz systemg ssh_askpass \
     jx_project_wizard jx_memory_debugger
 
 .PHONY : personal
@@ -117,7 +117,7 @@ personal:
 #
 
 RELEASE_PROGS := ${addprefix ../programs/, \
-                   code_crusader code_medic code_mill svn_client \
+                   code_crusader code_medic code_mill \
                    drakon glove ssh_askpass systemg leibnitz }
 
 .PHONY : release
