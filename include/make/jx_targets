@@ -37,7 +37,6 @@ init_tarball:
 	@mkdir -p ${PKG_PATH}/lib ${PKG_PATH}/docs_HTML
 	@ln -s ../README               ${PKG_PATH}/README
 	@ln -s ../COPYING              ${PKG_PATH}/COPYING
-	@ln -s ../FAQ                  ${PKG_PATH}/FAQ
 	@ln -s ../pkg/install          ${PKG_PATH}/install
 	@ln -s ../pkg/uninstall        ${PKG_PATH}/uninstall
 	@ln -s ../pkg/desktop          ${PKG_PATH}/desktop
