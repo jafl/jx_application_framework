@@ -24,6 +24,8 @@ Updated PHP syntax hilighting keyword list to PHP 5.5.
 <p>
 Added Ctrl-F12 shortcut to show Symbol Browser window.
 <p>
+Updated C++ class parser and syntax highlighting for c++011 features.
+<p>
 Only generates <code>.cvsignore</code> file if the directory is actually using CVS.
 
 <h3> 6.5 </h3>
