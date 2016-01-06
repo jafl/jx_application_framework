@@ -20,11 +20,11 @@ Run `rpm -qlp` on the `.rpm` file to list the files that it installed.
 
 ### The binary that I downloaded doesn't work on my system.  Does this mean that I have to obtain the source?
 
-If you have Mac OS X, upgrade to the latest version of <a href="http://xquartz.macosforge.org/trac/wiki/Releases">XQuartz</a> (X11 for Mac).
+If you have Mac OS X, upgrade to the latest version of [XQuartz](http://www.xquartz.org) (X11 for Mac).
 
 If you are missing a system library (e.g. `libucb.so` on Solaris), then search for it on your system (easiest via `find`) and add its directory to your `LD_LIBRARY_PATH` environment variable.
 
-Otherwise, the answer is yes.  Please <a href="/form/contact.php">contact us</a>.
+Otherwise, the answer is yes.  Please [contact me](http://johnlindal.wix.com/aboutme).
 
 
 ### When I start the program, it crashes with the message "The X server does not have any PostScript fonts at all, not even Helvetica."  How do I fix this?
@@ -34,7 +34,7 @@ Install the `xorg-x11-fonts-75dpi` package.
 
 ### When I start the program, it crashes before I even get a window.  How do I fix this?
 
-Try deleting the file `~/._program_name_.pref` and the directory `~/.jx/`.  Also, make sure that you have write permission on your home directory.  If this doesn't fix the problem, please <a href="/form/contact.php">contact us</a>.
+Try deleting the file `~/._program_name_.pref` and the directory `~/.jx/`.  Also, make sure that you have write permission on your home directory.  If this doesn't fix the problem, please [contact me](http://johnlindal.wix.com/aboutme).
 
 
 ### When I start the program, it complains that the preferences cannot be used.  How do I fix this?
@@ -117,7 +117,7 @@ Thanks to Ian Wakeling for figuring this out!
 
 ### On OS X, I don't want to display the location of files using System G.  How do I get it to use Finder?
 
-<a href=http://yost.com/computers/MacStuff/reveal/index.html>This script</a> will display the file in the Finder.  Update the \"Shell cmd to view file in file manager\" command in the Web Browser Preferences dialog to execute the script.
+[This script](http://yost.com/computers/MacStuff/reveal/index.html) will display the file in the Finder.  Update the \"Shell cmd to view file in file manager\" command in the Web Browser Preferences dialog to execute the script.
 
 
 ### When I type in an input area in a dialog window, buttons and checkboxes get activated.  How do I avoid this?
@@ -130,7 +130,7 @@ Window manager issues
 
 ### Which window manager do you recommend using?
 
-All programs that are written with the **JX** Application Framework will work with any window manager, except for the bugs mentioned below.  We at New Planet Software prefer <a href="http://www.fvwm.org/">fvwm2</a> because it supports icons for iconfied windows.  This allows Drag-and-Drop onto iconfied windows as well as visible ones.
+All programs that are written with the **JX** Application Framework will work with any window manager, except for the bugs mentioned below.  We at New Planet Software prefer [fvwm2](http://www.fvwm.org/) because it supports icons for iconfied windows.  This allows Drag-and-Drop onto iconfied windows as well as visible ones.
 
 Many people consider fvwm2 to be too raw, however.  A good alternative is Openbox, when configured to run gnome-panel at startup.  To do this, create `~/.config/openbox/autostart.sh` with the following content:
 
@@ -169,7 +169,7 @@ Every window manager seems to have a different way of placing windows.  The prog
 
 On Ubuntu, go to Systems &rarr; Preference &rarr; Appearance &rarr; Visual Effects and then select "None".
 
-If you have trouble with other window managers, please <a href="/form/contact.php">notify us</a>.
+If you have trouble with other window managers, please [contact me](http://johnlindal.wix.com/aboutme).
 
 
 Miscellaneous

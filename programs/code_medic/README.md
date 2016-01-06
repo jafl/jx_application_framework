@@ -108,4 +108,4 @@ Variables window
 
 ### Why does the Variables window display all the data in my struct on a single line?
 
-Congratulations.  You have found a bug in our parser.  Please <a href="/form/contact.php?target=medic">send us</a> the output from running `print *your_expression*` on the gdb command line and we will fix the problem.
+Congratulations.  You have found a bug in our parser.  Please [send me](http://johnlindal.wix.com/aboutme) the output from running `print *your_expression*` on the gdb command line and we will fix the problem.

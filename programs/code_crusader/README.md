@@ -34,7 +34,7 @@ The C++ parser in Code Crusader is home-grown and therefore not up to parsing al
 FAQ
 ===
 
-For general questions, refer to the programs FAQ.
+For general questions, refer to the [programs FAQ](../README.md).
 
 Configuration
 -------------
@@ -84,7 +84,7 @@ It's too much trouble for too little gain.  Currently, they are styled as part o
 
 ### Why doesn't the Functions menu appear in my source files?
 
-Check that the file suffix that you use is listed in the File Types dialog window and is set to the appropriate type.  You also need to use the version of ctags included with Code Crusader, and it needs to be first on your execution path.  If neither of these is the problem, please <a href="/form/contact.php?target=jcc">contact us</a>.
+Check that the file suffix that you use is listed in the File Types dialog window and is set to the appropriate type.  You also need to use the version of ctags included with Code Crusader, and it needs to be first on your execution path.  If neither of these is the problem, please [contact me](http://johnlindal.wix.com/aboutme).
 
 
 ### How do I print a file so the pages come out in reverse order?
@@ -112,7 +112,7 @@ can be run from the command line with the name of the file to be printed.
 
 ### Why isn't my favorite font available in the Editor Preferences dialog?
 
-Since it is primarily designed for editing code, Code Crusader only allows monospace fonts.  If you have a monospace font that isn't listed, please <a href="/form/contact.php?target=jcc">let us know</a>.
+Since it is primarily designed for editing code, Code Crusader only allows monospace fonts.  If you have a monospace font that isn't listed, please [contact me](http://johnlindal.wix.com/aboutme).
 
 
 ### Can I use Asian (multibyte) languages in Code Crusader?
@@ -182,12 +182,12 @@ This avoids changing the modification time of the .tab.h file unless its content
 
 ### How do I put my source files in a directory other than the source directory?
 
-Please refer to <a href="multi_version.php">this example</a>.
+Please refer to [this example](multi_version.md).
 
 
 ### Can I build multiple versions of a program (e.g. debug and release) or library (e.g. static and shared) from a single project?
 
-Yes.  Refer to <a href="multi_version.php">this explanation</a>.
+Yes.  Refer to [this explanation](multi_version.md).
 
 
 ### Can I build several different programs or libraries from a single project?
@@ -206,7 +206,7 @@ You need to flush the program's output buffer.  In C, use `fflush(stdout)`.  In 
 
 ### When I try to use CVS or SVN, it hangs because ssh cannot ask for my password.  What can I do about this?
 
-First, set the environment variable `SSH_ASKPASS` to point to an AskPass program, like `/usr/libexec/openssh/x11-ssh-askpass`, `/usr/libexec/openssh/gnome-ssh-askpass`, or <a href="/ssh_askpass/">`nps-ssh-askpass`</a>.  Then kill the terminal, if any, from which you ran Code Crusader.  This will force SSH to run the AskPass program to get your password.  <a href="/ssh_askpass/">`nps-ssh-askpass`</a> has the advantage that it runs on Linux, Mac OS X, and Cygwin.
+First, set the environment variable `SSH_ASKPASS` to point to an AskPass program, like `/usr/libexec/openssh/x11-ssh-askpass`, `/usr/libexec/openssh/gnome-ssh-askpass`, or [`nps-ssh-askpass`](http://sourceforge.net/p/nps-ssh-askpass/).  Then kill the terminal, if any, from which you ran Code Crusader.  This will force SSH to run the AskPass program to get your password.  [`nps-ssh-askpass`](http://sourceforge.net/p/nps-ssh-askpass/) has the advantage that it runs on Linux, Mac OS X, and Cygwin.
 
 
 C++ class tree
@@ -214,7 +214,7 @@ C++ class tree
 
 ### Why don't my C++ classes show up in the class tree?
 
-Check that the header file suffix that you use is listed in the File Types dialog window and is set to the type "C/C++ header".  Then check that you have defined all preprocessor symbols used in your class definitions.  The preprocessor definitions are accessed from the Tree menu.  If neither of these is the problem, please <a href="/form/contact.php?target=jcc">contact us</a>.
+Check that the header file suffix that you use is listed in the File Types dialog window and is set to the type "C/C++ header".  Then check that you have defined all preprocessor symbols used in your class definitions.  The preprocessor definitions are accessed from the Tree menu.  If neither of these is the problem, please [contact me](http://johnlindal.wix.com/aboutme).
 
 
 ### Why don't Qt classes show up in the class tree?
@@ -224,7 +224,7 @@ Define `Q_EXPORT`, `Q_ENUMS()`, and `Q_PROPERTY()` to be removed (replaced by th
 
 ### Why can't Code Crusader find my source files from the class tree?
 
-Check that the source file suffix that you use is listed in the File Types dialog window and is set to the type "C/C++ source".  Then check that the directory containing your source files is listed in the Search Paths dialog.  If none of these issues is the problem, please <a href="/form/contact.php?target=jcc">contact us</a>.
+Check that the source file suffix that you use is listed in the File Types dialog window and is set to the type "C/C++ source".  Then check that the directory containing your source files is listed in the Search Paths dialog.  If none of these issues is the problem, please [contact me](http://johnlindal.wix.com/aboutme).
 
 
 Java class tree
@@ -233,12 +233,12 @@ Java class tree
 ### Why don't my Java classes show up in the class tree?
 
 <blockquote>
-and is set to the type "Java".  Then check that you have defined all preprocessor symbols used in your class definitions.  The preprocessor definitions are accessed from the Tree menu.  If neither of these is the problem, please <a href="/form/contact.php?target=jcc">contact us</a>.
+and is set to the type "Java".  Then check that you have defined all preprocessor symbols used in your class definitions.  The preprocessor definitions are accessed from the Tree menu.  If neither of these is the problem, please [contact me](http://johnlindal.wix.com/aboutme).
 
 
 ### Why can't Code Crusader find my source files from the class tree?
 
-Check that the source file suffix that you use is listed in the File Types dialog window and is set to the type "Java".  Then check that the directory containing your source files is listed in the Search Paths dialog.  If none of these issues is the problem, please <a href="/form/contact.php?target=jcc">contact us</a>.
+Check that the source file suffix that you use is listed in the File Types dialog window and is set to the type "Java".  Then check that the directory containing your source files is listed in the Search Paths dialog.  If none of these issues is the problem, please [contact me](http://johnlindal.wix.com/aboutme).
 
 
 ### Mouse and key bindings
