@@ -41,15 +41,13 @@ a graphical interface.  If you are familiar with either MicroSoft Visual
 Studio or MetroWerks CodeWarrior, then the equivalent components are as
 follows:
 
-```
-New Planet Software         MicroSoft          MetroWerks
--------------------         ---------          ----------
-Code Crusader/Code Medic    Visual Studio      CodeWarrior
-jx_project_wizard           Project Wizards    Project Wizards
-JX Application Framework    MFC                PowerPlant
-JX/tutorials/               MSDN               Sample code
-JX/libjx/test/              MSDN               Sample code
-```
+New Planet Software       | MicroSoft       | MetroWerks
+-------------------       | ---------       |  ----------
+Code Crusader/Code Medic  | Visual Studio   |  CodeWarrior
+jx_project_wizard         | Project Wizards |  Project Wizards
+JX Application Framework  | MFC             |  PowerPlant
+JX/tutorials/             | MSDN            |  Sample code
+JX/libjx/test/            | MSDN            |  Sample code
 
 In this directory, you will find:
 
