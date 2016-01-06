@@ -12,6 +12,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 2.5 </h3>
+
+Added \"Add remote...\", \"Remove remote\", and \"Clean list of remote branches\" to help manage connections to remote git repositories.
+
 <h3> 2.4.7 </h3>
 
 Now asks for local name when fetching a remote git branch.
