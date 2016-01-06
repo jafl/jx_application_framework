@@ -44,10 +44,10 @@ follows:
 New Planet Software       | MicroSoft       | MetroWerks
 -------------------       | ---------       |  ----------
 Code Crusader/Code Medic  | Visual Studio   |  CodeWarrior
-jx_project_wizard         | Project Wizards |  Project Wizards
+`jx_project_wizard`       | Project Wizards |  Project Wizards
 JX Application Framework  | MFC             |  PowerPlant
-JX/tutorials/             | MSDN            |  Sample code
-JX/libjx/test/            | MSDN            |  Sample code
+`JX/tutorials/`           | MSDN            |  Sample code
+`JX/libjx/test/`          | MSDN            |  Sample code
 
 In this directory, you will find:
 

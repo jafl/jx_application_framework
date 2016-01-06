@@ -21,7 +21,7 @@ on-line help explains all the features of the program.
 FAQ
 ===
 
-For general questions, refer to the programs FAQ.
+For general questions, refer to the [Programs FAQ](../README.md).
 
 Usage
 -----

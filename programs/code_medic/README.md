@@ -31,7 +31,7 @@ to be implemented.
 FAQ
 ===
 
-For general questions, refer to the programs FAQ.
+For general questions, refer to the [Programs FAQ](../README.md).
 
 Configuration
 -------------

@@ -34,7 +34,7 @@ The C++ parser in Code Crusader is home-grown and therefore not up to parsing al
 FAQ
 ===
 
-For general questions, refer to the [programs FAQ](../README.md).
+For general questions, refer to the [Programs FAQ](../README.md).
 
 Configuration
 -------------
@@ -117,7 +117,7 @@ Since it is primarily designed for editing code, Code Crusader only allows monos
 
 ### Can I use Asian (multibyte) languages in Code Crusader?
 
-No.  Someday I hope to add support for Unicode to the underlying library (*JX*).
+Not yet.  Someday I hope to add support for Unicode to the underlying library (**JX**).
 
 
 Project

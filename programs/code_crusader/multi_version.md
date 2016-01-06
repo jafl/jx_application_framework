@@ -151,7 +151,7 @@ Aaron Lefohn submitted the following instructions for building multiple versions
           PROG_NAME := ${PROG}.x86linux
         endif
 
-1 You can do a similar architecture and `OPTIMIZE` detection to create the name for the unique object directory. (see above)
-1 The executable is then named, for example, "a.out.debug.sgi".  This is ugly, but it is easy to write a shell script that is called a.out that does the same sort of architecture detection, reads the state of the `OPTIMIZE` variable and then calls the correct executable.  Put this script in your `~/bin/` directory and voila!
+1. You can do a similar architecture and `OPTIMIZE` detection to create the name for the unique object directory. (see above)
+1. The executable is then named, for example, "a.out.debug.sgi".  This is ugly, but it is easy to write a shell script that is called a.out that does the same sort of architecture detection, reads the state of the `OPTIMIZE` variable and then calls the correct executable.  Put this script in your `~/bin/` directory and voila!
 
 You can now type "nofast" or "fast" and then the name of your program on any platform and the correct executable will launch.  You can also build from the command line simply by typing "nofast" or "fast" and then "make".  If you want to build from within Code Crusader, just set the build command to `make OPTIMIZE=true/false -k` in the Make Settings dialog.  Don't forget that the target name in the Project Configuration dialog must be `${PROG_NAME}`.
