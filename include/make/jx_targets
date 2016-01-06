@@ -35,8 +35,8 @@ pre_build_pkgs:
 init_tarball:
 	@${RM} -r ${PKG_PATH}
 	@mkdir -p ${PKG_PATH}/lib ${PKG_PATH}/docs_HTML
-	@if [[ -e ../README ]];    then ln -s ../README    ${PKG_PATH}/README;    fi
-	@if [[ -e ../README.md ]]; then ln -s ../README.md ${PKG_PATH}/README.md; fi
+	@if [[ -e README ]];    then ln -s ../README    ${PKG_PATH}/README;    fi
+	@if [[ -e README.md ]]; then ln -s ../README.md ${PKG_PATH}/README.md; fi
 	@ln -s ../COPYING              ${PKG_PATH}/COPYING
 	@ln -s ../pkg/install          ${PKG_PATH}/install
 	@ln -s ../pkg/uninstall        ${PKG_PATH}/uninstall
