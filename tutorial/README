@@ -6,8 +6,7 @@ To run the programs, make sure that the jx and jcore libraries are on your
 LD_LIBRARY_PATH.  These libraries will either be installed in standard
 system directories or will be found in the "jlib/lib" directory of the JX
 distribution.  For instructions on setting environment variables (i.e.
-LD_LIBRARY_PATH), please refer to the JX FAQ on the web.
-(http://www.newplanetsoftware.com/jx/faq.html)
+LD_LIBRARY_PATH), please refer to the JX FAQ.
 
 When studying the source code, you will probably find it useful to refer to
 the documentation provided with the JX distribution for further information

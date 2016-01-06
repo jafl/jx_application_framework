@@ -36,10 +36,10 @@ cp -R text_templates    $LIB
 cp -R scripts           $LIB
 
 mkdir -p $DOC/HTML
-cp README FAQ menu_strings $DOC
-cp -R macros               $DOC
-cp -R CPM_rules            $DOC
-cp docs_HTML/*             $DOC/HTML
+cp README.md menu_strings $DOC
+cp -R macros              $DOC
+cp -R CPM_rules           $DOC
+cp docs_HTML/*            $DOC/HTML
 
 cp desktop/code_crusader.desktop $APP/
 cp desktop/code_crusader.xpm     $ICON/

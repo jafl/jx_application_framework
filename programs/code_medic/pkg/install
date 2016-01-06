@@ -27,8 +27,8 @@ mkdir -p $LIB
 cp lib/* $LIB
 
 mkdir -p $DOC/HTML
-cp README FAQ COPYING menu_strings $DOC
-cp docs_HTML/*                     $DOC/HTML
+cp README.md COPYING menu_strings $DOC
+cp docs_HTML/*                    $DOC/HTML
 
 cp desktop/code_medic.desktop $APP/
 cp desktop/code_medic.xpm     $ICON/

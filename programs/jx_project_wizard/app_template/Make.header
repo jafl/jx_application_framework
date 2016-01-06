@@ -127,7 +127,7 @@ source:
      ${TAR} -czf ${SRC_TAR_FILE} ${filter-out %.o %~ %L.cpp %Y.cpp, \
                                    ${shell cd ${J_DISTR_TAR_DIR}; echo \
               ${addprefix ${SRC_FILE_DIR}/, \
-                README COPYING FAQ Make.* *.jcc *.fd \
+                README COPYING Make.* *.jcc *.fd \
                 code/* strings/* pkg } }}
 
 #

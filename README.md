@@ -54,7 +54,6 @@ In this directory, you will find:
 ```
 README               This file
 INSTALL              Instructions for compiling and installing this package
-FAQ                  List of Frequently Asked Questions
 LICENSE              License information
 CHANGES              Describes changes from previous versions
 

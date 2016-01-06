@@ -23,7 +23,7 @@ mkdir -p $LIB
 cp lib/* $LIB
 
 mkdir -p $DOC
-cp README FAQ COPYING $DOC
+cp README COPYING $DOC
 
 # post
 
