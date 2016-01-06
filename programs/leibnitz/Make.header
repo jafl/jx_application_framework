@@ -34,7 +34,7 @@ SEARCHDIRS := -I${CODEDIR} \
 
 # other constants
 
-LEIBNITZ_VERSION  := 2.0.1
+LEIBNITZ_VERSION  := ${shell cat VERSION}
 SIGNATURE         := leibnitz
 LN_STRING_FILES   := ${filter-out %/leibnitz_menu_strings, \
                        ${shell echo strings/*}}

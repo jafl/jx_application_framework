@@ -22,7 +22,7 @@ SEARCHDIRS := -I${CODEDIR} \
 # other constants
 
 PROG_NAME         := code_mill
-PROG_VERSION      := 1.0.5
+PROG_VERSION      := ${shell cat VERSION}
 SIGNATURE         := code_mill
 PROG_STRING_FILES := ${filter-out %/code_mill_menu_strings, \
                        ${shell echo strings/*}}
