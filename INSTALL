@@ -22,7 +22,9 @@ On Fedora, you need to install development packages:
 
 On Ubuntu, you need to install development packages:
 
-    sudo apt-get install git g++ flex bison \
+    sudo apt-get update
+    sudo apt-get install curl \
+        git g++ flex bison make \
         libX11-dev libXinerama-dev libXpm-dev libxft-dev \
         libxmu-dev libxi-dev \
         libxml2-dev libjpeg-dev libpng-dev \

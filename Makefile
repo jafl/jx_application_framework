@@ -71,8 +71,8 @@ default:
 	@echo "  ${MAKE_CMD} darwin_lion    for Macintosh OS X 10.7"
 	@echo "  ${MAKE_CMD} darwin_mav     for Macintosh OS X 10.9"
 	@echo "  ${MAKE_CMD} darwin_yos     for Macintosh OS X 10.10"
-	@echo "  ${MAKE_CMD} linux_intel    for Linux with g++ 3.x or above"
-	@echo "  ${MAKE_CMD} linux_intel-64 for Linux with g++ 3.x or above on 64-bit systems"
+	@echo "  ${MAKE_CMD} linux_intel-32 for Linux with g++ 3.x or above on 32-bit systems"
+	@echo "  ${MAKE_CMD} linux_intel    for Linux with g++ 3.x or above on 64-bit systems"
 	@echo
 	@echo "If you are not sure which system you have, run \"uname -a\"."
 	@echo
@@ -137,8 +137,8 @@ CREATE_ACE_MACROS = \
 # glibc 2.8
 #
 
-.PHONY : linux_intel
-linux_intel: linux_common
+.PHONY : linux_intel-32
+linux_intel-32: linux_common
 	@ln -sf sys/Linux-Intel-32  include/make/jx_config
 	@${INSTALL_CMD}
 
@@ -146,8 +146,8 @@ linux_intel: linux_common
 # 64-bit RedHat 5.x
 #
 
-.PHONY : linux_intel-64
-linux_intel-64: linux_common
+.PHONY : linux_intel
+linux_intel: linux_common
 	@ln -sf sys/Linux-Intel-64  include/make/jx_config
 	@${INSTALL_CMD}
 
