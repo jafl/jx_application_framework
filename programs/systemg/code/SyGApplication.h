@@ -94,7 +94,7 @@ private:
 
 	JPtrArray<SyGTreeDir>*	itsWindowList;
 	JMountPointList*		itsMountPointList;
-	mutable time_t			itsMountPointTime;
+	mutable JMountState		itsMountPointState;
 	JPtrArray<JString>*		itsShortcutList;
 	JStringPtrMap<JString>*	itsMountPointPrefs;
 

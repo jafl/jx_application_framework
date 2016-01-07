@@ -100,7 +100,7 @@ SyGApplication::SyGApplication
 
 	itsMountPointList = new JMountPointList(JPtrArrayT::kDeleteAll);
 	assert( itsMountPointList != NULL );
-	JGetUserMountPointList(itsMountPointList, &itsMountPointTime);
+	JGetUserMountPointList(itsMountPointList, &itsMountPointState);
 
 	itsShortcutList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsShortcutList != NULL );
@@ -380,7 +380,7 @@ void
 SyGApplication::UpdateMountPointList()
 	const
 {
-	if (JGetUserMountPointList(itsMountPointList, &itsMountPointTime))
+	if (JGetUserMountPointList(itsMountPointList, &itsMountPointState))
 		{
 		const_cast<SyGApplication*>(this)->Broadcast(ShortcutsChanged());
 		}

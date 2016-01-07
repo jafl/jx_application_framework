@@ -2360,12 +2360,13 @@ void
 SyGFileTreeTable::UpdateInfo()
 {
 	JBoolean writable, isTop;
-	JString device, fsType;
+	JString device;
+	JFileSystemType fsType;
 
 	itsIgnoreExecPermFlag = JI2B(
 		JIsMounted((itsFileTree->GetRootDirInfo())->GetDirectory(),
 				   &writable, &isTop, &device, &fsType) &&
-		JStringCompare(fsType, "vfat", kJFalse) == 0);
+		!JMountSupportsExecFlag(fsType));
 	Refresh();
 
 	SetWindowIcon();

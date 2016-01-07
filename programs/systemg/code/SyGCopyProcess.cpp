@@ -498,7 +498,8 @@ SyGCopyProcess::Receive
 				}
 
 			const JSize count = itsSrcNameList->GetElementCount();
-			JString path, name, oldName, newName, device, fsType;
+			JString path, name, oldName, newName, device;
+			JFileSystemType fsType;
 			for (JIndex i=1; i<=count; i++)
 				{
 				JString* fullName = itsSrcNameList->NthElement(i);
@@ -507,7 +508,7 @@ SyGCopyProcess::Receive
 
 				JBoolean writable, isTop;
 				if (JIsMounted(*fullName, &writable, &isTop, &device, &fsType) &&
-					JStringCompare(fsType, "vfat", kJFalse) == 0)
+					!JMountSupportsExecFlag(fsType))
 					{
 					RemoveExecutePermissions(*fullName, *destPath);
 					}

@@ -707,10 +707,10 @@ ssize_t
 jReadN
 	(
 	const int	handle,
-    void*		buf,
-    size_t		len,
-    size_t*		bt
-    )
+	void*		buf,
+	size_t		len,
+	size_t*		bt
+	)
 {
 	size_t temp;
 	size_t &bytes_transferred = (bt == 0 ? temp : *bt);

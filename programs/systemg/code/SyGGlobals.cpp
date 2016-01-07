@@ -610,16 +610,12 @@ SyGGetVersionStr()
 #include "syg_floppy_folder_read_only_large.xpm"
 #include "syg_cdrom_folder_large.xpm"
 #include "syg_cdrom_folder_read_only_large.xpm"
-#include "syg_zip_folder_large.xpm"
-#include "syg_zip_folder_read_only_large.xpm"
 #include <jx_trash_can_empty_large.xpm>
 #include <jx_trash_can_empty_selected_large.xpm>
 #include <jx_trash_can_full_large.xpm>
 #include <jx_trash_can_full_selected_large.xpm>
 #include <jx_hard_disk_large.xpm>
 #include <jx_hard_disk_selected_large.xpm>
-#include <jx_zip_disk_large.xpm>
-#include <jx_zip_disk_selected_large.xpm>
 #include <jx_floppy_disk_large.xpm>
 #include <jx_floppy_disk_selected_large.xpm>
 #include <jx_cdrom_disk_large.xpm>
@@ -776,10 +772,11 @@ SyGGetMountPointLargeIcon
 	if (!isMP)
 		{
 		JBoolean writable, isTop;
-		JString device, fsType;
-		if (JIsMounted(path, &writable, &isTop, &device, &fsType))
+		JString device, fsTypeString;
+		JFileSystemType fsType;
+		if (JIsMounted(path, &writable, &isTop, &device, &fsType, &fsTypeString))
 			{
-			type = JGetUserMountPointType(path, device, fsType);
+			type = JGetUserMountPointType(path, device, fsTypeString);
 			}
 		else
 			{
@@ -836,18 +833,6 @@ SyGGetMountPointLargeIcon
 		*selectedIcon = syg_cdrom_folder_large;
 		return 5;
 		}
-	else if (!isMP && type == kJZipDisk && !writable)
-		{
-		*plainIcon    = syg_zip_folder_read_only_large;
-		*selectedIcon = syg_zip_folder_read_only_large;
-		return 4;
-		}
-	else if (!isMP && type == kJZipDisk)
-		{
-		*plainIcon    = syg_zip_folder_large;
-		*selectedIcon = syg_zip_folder_large;
-		return 5;
-		}
 	else if (!isMP && !writable)
 		{
 		*plainIcon    = jx_folder_read_only_large;
@@ -871,12 +856,6 @@ SyGGetMountPointLargeIcon
 		*plainIcon    = jx_cdrom_disk_large;
 		*selectedIcon = jx_cdrom_disk_selected_large;
 		return 9;
-		}
-	else if (type == kJZipDisk)
-		{
-		*plainIcon    = jx_zip_disk_large;
-		*selectedIcon = jx_zip_disk_selected_large;
-		return 10;
 		}
 	else
 		{

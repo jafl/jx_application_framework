@@ -304,10 +304,6 @@ SyGGetMountPointSmallIcon
 		{
 		*image = theHDSmallIcon;
 		}
-	else if (type == kJZipDisk)
-		{
-		*image = theZipSmallIcon;
-		}
 	else if (type == kJFloppyDisk)
 		{
 		*image = theFDSmallIcon;

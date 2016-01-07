@@ -21,6 +21,13 @@
 static const char* kCurrentJCoreLibVersionStr = "3.1.0";
 
 // version 3.2.0:
+//	jMountUtil:
+//		*** Modified 2nd argument to JGetUserMountPointList() to be
+//			JMountState* instead of time_t*.
+//		*** Modified last arguments to JIsMounted() to be (..., fsType, fsTypeString)
+//		Added separate code paths for OSX, since it no longer uses /etc/fstab.
+//		Removed obsolete JMountType::kJZipDisk.
+//		Added fsType to JMountPoint
 
 // version 3.1.0:
 //	*** Removed dynamic_cast macro.

@@ -1,7 +1,7 @@
 /******************************************************************************
- testrand.cc
+ testsystem.cc
 
-	Test random number code.
+	Test JHash parameter code.
 
 	Copyright © 1997 by Dustin Laurence.  All rights reserved.
 	

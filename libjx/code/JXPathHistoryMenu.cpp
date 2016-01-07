@@ -113,8 +113,7 @@ JXPathHistoryMenu::UpdateMenu()
 	if (GetFirstIndex() == 1)
 		{
 		JMountPointList list(JPtrArrayT::kDeleteAll);
-		time_t t;
-		if (JGetUserMountPointList(&list, &t))
+		if (JGetUserMountPointList(&list, NULL))
 			{
 			const JSize count = list.GetElementCount();
 			SetFirstIndex(count+1);
@@ -131,10 +130,6 @@ JXPathHistoryMenu::UpdateMenu()
 				if (mp.type == kJHardDisk)
 					{
 					SetItemImage(1, jx_hard_disk_small);
-					}
-				else if (mp.type == kJZipDisk)
-					{
-					SetItemImage(1, jx_zip_disk_small);
 					}
 				else if (mp.type == kJFloppyDisk)
 					{

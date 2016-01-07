@@ -25,26 +25,46 @@ enum JMountType
 	kJHardDisk = 0,
 	kJFloppyDisk,
 	kJCDROM,
-	kJZipDisk,
+	kJObsolete1,
 	kJUnknownMountType
+};
+
+enum JFileSystemType
+{
+	kOtherFSType = 0,
+	kVFATType
 };
 
 struct JMountPoint
 {
-	JString*	path;
-	JMountType	type;
-	dev_t		device;
-	JString*	devicePath;
+	JString*		path;
+	JMountType		type;
+	dev_t			device;
+	JString*		devicePath;
+	JFileSystemType	fsType;
 
 	JMountPoint()
 		:
-		path(NULL), type(kJHardDisk), device(0), devicePath(NULL)
+		path(NULL), type(kJHardDisk), device(0), devicePath(NULL), fsType(kOtherFSType)
 	{ };
 
-	JMountPoint(JString* p, const JMountType t, const dev_t d, JString* dp)
+	JMountPoint(JString* p, const JMountType t, const dev_t d, JString* dp, const JFileSystemType fst)
 		:
-		path(p), type(t), device(d), devicePath(dp)
+		path(p), type(t), device(d), devicePath(dp), fsType(fst)
 	{ };
+};
+
+union JMountState
+{
+	time_t		modTime;
+	JString*	mountCmdOutput;
+
+	JMountState()
+		:
+		mountCmdOutput(NULL)	// can only init one member, and ptr is critical
+	{ };
+
+	~JMountState();
 };
 
 class JMountPointList : public JArray<JMountPoint>
@@ -66,12 +86,13 @@ private:
 	JPtrArrayT::CleanUpAction	itsCleanUpAction;
 };
 
-JBoolean	JGetUserMountPointList(JMountPointList* list, time_t* modTime);
+JBoolean	JGetUserMountPointList(JMountPointList* list, JMountState* state);
 JMountType	JGetUserMountPointType(const JCharacter* path,
 								   const JCharacter* device, const JCharacter* fsType);
 JBoolean	JIsMounted(const JCharacter* path,
 					   JBoolean* writable = NULL, JBoolean* isTop = NULL,
-					   JString* device = NULL, JString* fsType = NULL);
+					   JString* device = NULL,
+					   JFileSystemType* fsType = NULL, JString* fsTypeString = NULL);
 JBoolean	JFindUserMountPoint(const JCharacter* path, const JMountPointList& list,
 								JIndex* index);
 
@@ -87,5 +108,14 @@ JBoolean	JTranslateRemoteToLocal(const JCharacter* hostStr,
 JError		JFormatPartition(const JCharacter* path, const JCharacter* type,
 							 JProcess** process);
 JBoolean	JIsSamePartition(const JCharacter* path1, const JCharacter* path2);
+
+inline JBoolean
+JMountSupportsExecFlag
+	(
+	const JFileSystemType type
+	)
+{
+	return JI2B(type != kVFATType);
+}
 
 #endif
