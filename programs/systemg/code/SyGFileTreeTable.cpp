@@ -4493,7 +4493,9 @@ SyGFileTreeTable::UpdateShortcutMenu()
 		itsShortcutMenu->RemoveItem(i);
 		}
 
+	StopListening(SyGGetApplication());		// avoid double update
 	SyGGetApplication()->UpdateShortcutMenu(itsShortcutMenu);
+	ListenTo(SyGGetApplication());
 }
 
 /******************************************************************************

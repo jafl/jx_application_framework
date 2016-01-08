@@ -15,6 +15,8 @@ Please send all bug reports and suggestions for features to
 <h3> 2.5 </h3>
 
 Added \"Add remote...\", \"Remove remote\", and \"Clean list of remote branches\" to help manage connections to remote git repositories.
+<p>
+Fixed bug on OSX so it recognizes mounted volumes.
 
 <h3> 2.4.7 </h3>
 

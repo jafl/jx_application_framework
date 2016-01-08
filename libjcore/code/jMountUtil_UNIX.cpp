@@ -101,7 +101,7 @@ static const JCharacter* kMountedInfoName = _PATH_MOUNTED;
 
 #if defined JMOUNT_OSX
 
-static const JRegex theLinePattern = "^(/[^\\s]+) on (/[^)]+?) \\((.+)\\)";
+static const JRegex theLinePattern = "^(/[^\\s]+)\\s+on\\s+(/[^)]+?)\\s+\\((.+)\\)";
 
 JBoolean
 JGetUserMountPointList
