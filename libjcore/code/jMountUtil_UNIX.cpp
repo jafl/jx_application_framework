@@ -333,7 +333,7 @@ JGetUserMountPointList
 			assert( path != NULL );
 			JString* devicePath = new JString(info.vfs_special);
 			assert( devicePath != NULL );
-			list->AppendElement(JMountPoint(path, type, stbuf.st_dev, devicePath));
+			list->AppendElement(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
 			}
 		}
 
@@ -428,7 +428,7 @@ JGetUserMountPointList
 		assert( path != NULL );
 		JString* devicePath = new JString(info->mnt_fsname);
 		assert( devicePath != NULL );
-		list->AppendElement(JMountPoint(path, type, stbuf.st_dev, devicePath));
+		list->AppendElement(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
 		}
 
 	endmntent(f);
