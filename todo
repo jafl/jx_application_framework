@@ -1,4 +1,40 @@
+lldb
+	http://lldb.llvm.org/lldb-gdb.html
+	http://lldb.llvm.org/varformats.html
+
+	http://lldb.llvm.org/architecture.html
+	http://lldb.llvm.org/cpp_reference/html/index.html
+	http://stackoverflow.com/questions/19019330/do-i-need-to-build-lldb-locally-to-use-c-interface
+
+java
+	selected stack frame
+		select source line
+			get code offset <-> line number for method
+			search for frame's code offset
+		show local variables
+			get list of method's variables (slot #'s)
+			get frame's value for each slot #'s
+	start JVM
+		JVMDisplaySourceForMain
+			get Methods for main-class, find "main", get LineTable, get first line number, scroll to that
+	set breakpoint
+		search code index <-> line index for location
+
+	source-jar unzips to /tmp
+		display stderr from zip in cmd line window
+		delete /tmp directories when delete link or open different program
+
+	http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html
+	http://java.sun.com/javase/6/docs/technotes/guides/jpda/jdwp-spec.html
+	http://java.sun.com/javase/6/docs/platform/jpda/jdwp/jdwp-protocol.html
+
+	http://java.sun.com/j2se/1.5.0/docs/tooldocs/solaris/jdb.html
+
+-----
+
 UTF-8
+	todo-utf8.c
+
 	JString
 		if input not valid UTF-8, convert from ISO8859-1 (configurable?)
 		store character count separate from byte count
@@ -18,72 +54,6 @@ UTF-8
 
 leibnitz
 	symbol font: transform to unicode and use X11 utf8 string width/drawing functions
-
-// http://www.daemonology.net/blog/2008-06-05-faster-utf8-strlen.html
-
-#include <unistd.h>
-#include <stdint.h>
-#include <stdio.h>
-#define ONEMASK ((size_t)(-1) / 0xFF)
-
-size_t
-utf8_strlen(const char * _s)
-{
-	const char * s;
-	size_t count = 0;
-	size_t u;
-	unsigned char b;
-
-	/* Handle any initial misaligned bytes. */
-	for (s = _s; (uintptr_t)(s) & (sizeof(size_t) - 1); s++) {
-		b = *s;
-
-		/* Exit if we hit a zero byte. */
-		if (b == '\0')
-			goto done;
-
-		/* Is this byte NOT the first byte of a character? */
-		count += (b >> 7) & ((~b) >> 6);
-	}
-
-	/* Handle complete blocks. */
-	for (; ; s += sizeof(size_t)) {
-		/* Prefetch 256 bytes ahead. */
-		__builtin_prefetch(&s[256], 0, 0);
-
-		/* Grab 4 or 8 bytes of UTF-8 data. */
-		u = *(size_t *)(s);
-
-		/* Exit the loop if there are any zero bytes. */
-		if ((u - ONEMASK) & (~u) & (ONEMASK * 0x80))
-			break;
-
-		/* Count bytes which are NOT the first byte of a character. */
-		u = ((u & (ONEMASK * 0x80)) >> 7) & ((~u) >> 6);
-		count += (u * ONEMASK) >> ((sizeof(size_t) - 1) * 8);
-	}
-
-	/* Take care of any left-over bytes. */
-	for (; ; s++) {
-		b = *s;
-
-		/* Exit if we hit a zero byte. */
-		if (b == '\0')
-			break;
-
-		/* Is this byte NOT the first byte of a character? */
-		count += (b >> 7) & ((~b) >> 6);
-	}
-
-done:
-	return ((s - _s) - count);
-}
-
-int main()
-{
-	printf("%d" , cp_strlen_utf8("xyz•åj()"));
-	return 0;
-}
 
 -----
 
@@ -139,9 +109,6 @@ memory analyzer
 	jcc -- crash with deleted JMessageProtocol -- only when open project
 	print table:  partial column on page 1
 
-svn_client
-	incremental search in SVNListBase:  only search file name
-
 JBroadcaster
 	register handler for message:  function which takes obj, msg type, function pointer
 		pass in friend function that takes obj, sender, msg
@@ -154,30 +121,6 @@ JXMenu::PrepareToOpenMenu()
 -----
 
 medic
-	java
-		selected stack frame
-			select source line
-				get code offset <-> line number for method
-				search for frame's code offset
-			show local variables
-				get list of method's variables (slot #'s)
-				get frame's value for each slot #'s
-		start JVM
-			JVMDisplaySourceForMain
-				get Methods for main-class, find "main", get LineTable, get first line number, scroll to that
-		set breakpoint
-			search code index <-> line index for location
-
-		source-jar unzips to /tmp
-			display stderr from zip in cmd line window
-			delete /tmp directories when delete link or open different program
-
-		http://java.sun.com/javase/6/docs/technotes/guides/jpda/conninv.html
-		http://java.sun.com/javase/6/docs/technotes/guides/jpda/jdwp-spec.html
-		http://java.sun.com/javase/6/docs/platform/jpda/jdwp/jdwp-protocol.html
-
-		http://java.sun.com/j2se/1.5.0/docs/tooldocs/solaris/jdb.html
-
 	gdb for program with threads:
 		set scheduler-locking on/off/step
 		break <location> thread <gdb thread number>
@@ -304,14 +247,6 @@ medic
 		*set* values
 		support conditional breakpoints, etc.
 
-	lldb
-		http://lldb.llvm.org/lldb-gdb.html
-		http://lldb.llvm.org/varformats.html
-
-		http://lldb.llvm.org/architecture.html
-		http://lldb.llvm.org/cpp_reference/html/index.html
-		http://stackoverflow.com/questions/19019330/do-i-need-to-build-lldb-locally-to-use-c-interface
-
 support D
 	http://en.wikipedia.org/wiki/D_(programming_language)
 	http://www.digitalmars.com/d/download.html
@@ -393,7 +328,6 @@ jcc
 	PHP styler:
 		falls out of PHP mode when it sees ?>
 		while editing string, it may find ?> that should be inside string
-	PHP class tree
 	tabs/spaces:
 		search up in directory tree until find .project_modeline
 		parse some standard format to get tabs/spaces settings
@@ -441,22 +375,6 @@ medic
 		switch from core dump to running binary
 		switch from running binary to core dump
 		switch from one program to another
-
-svn_client
-	svn update doesn't always restore to correct scroll location (if lots of files)
-
-	Repo tab
-		refresh selected nodes
-			find closest directory parent for each selected item
-			add open subitems to tree's open list and then call Update on each one
-
-	svn log:
-		kJForceNonblockingPipe doesn't fully solve the problem
-
-	Input field on every action tab
-		wrapper widget creates JXScrollbarSet and input field
-		when set process + fd, show input
-		when process finished, hide input
 
 memory analyzer
 	option to print MDStatsDirector
