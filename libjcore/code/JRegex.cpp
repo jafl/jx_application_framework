@@ -713,22 +713,20 @@ JRegex::MatchLastWithin
 
 	JIndexRange searchRegion = range;
 	JSize matchCount = 0;
+	JIndexRange m;
 
-	while ( MatchWithin(str, searchRegion, match) )
+	while ( MatchWithin(str, searchRegion, &m) )
 		{
-		if ( match->IsEmpty() ) // Avoid infinite loop if get a null match!
+		if ( m.IsEmpty() ) // Avoid infinite loop if get a null match!
 			{
-			if ( match->first > range.first )
-				{
-				break; // Avoid calling MatchWithin with match beyond end of string
-				}
-			else
-				{
-				*match += 1;
-				}
+			searchRegion.first = m.first + 1;
 			}
-		matchCount++;
-		searchRegion.first = match->last + 1;
+		else
+			{
+			matchCount++;
+			*match             = m;
+			searchRegion.first = m.last + 1;
+			}
 		}
 
 	return matchCount;
@@ -804,20 +802,16 @@ JRegex::MatchAllWithin
 
 	while ( MatchWithin(str, searchRegion, &match) )
 		{
-		matchList->AppendElement(match);
-		searchRegion.first = match.last + 1;
 		if ( match.IsEmpty() ) // Avoid infinite loop if get a null match!
 			{
-			if ( match.first > range.first )
-				{
-				break; // Avoid calling MatchWithin with match beyond end of string
-				}
-			else
-				{
-				match += 1;
-				}
+			searchRegion.first = match.first + 1;
 			}
-		matchCount++;
+		else
+			{
+			matchCount++;
+			matchList->AppendElement(match);
+			searchRegion.first = match.last + 1;
+			}
 		}
 
 	return matchCount;
@@ -924,31 +918,25 @@ JRegex::MatchLastWithin
 {
 	assert(subMatchList != NULL);
 
+	subMatchList->RemoveAll();
+
 	JIndexRange searchRegion = range;
 	JSize matchCount = 0;
-	JIndexRange match;
+	JArray<JIndexRange> sml;
 
-	while ( MatchWithin(str, searchRegion, subMatchList) )
+	while ( MatchWithin(str, searchRegion, &sml) )
 		{
-		match = subMatchList->GetFirstElement();
+		JIndexRange match = sml.GetFirstElement();
 		if ( match.IsEmpty() ) // Avoid infinite loop if get a null match!
 			{
-			if ( match.first > range.first )
-				{
-				break; // Avoid calling MatchWithin with match beyond end of string
-				}
-			else
-				{
-				match += 1;
-				}
+			searchRegion.first = match.first + 1;
 			}
-		matchCount++;
-		searchRegion.first = match.last + 1;
-		}
-
-	if (matchCount > 0 && match.IsEmpty())
-		{
-		subMatchList->AppendElement(match);
+		else
+			{
+			matchCount++;
+			*subMatchList      = sml;
+			searchRegion.first = match.last + 1;
+			}
 		}
 
 	return matchCount;
@@ -1638,7 +1626,8 @@ JRegex::RegExec
 		success = kJTrue;
 		}
 	else if (returnCode != PCRE_ERROR_NOMATCH &&
-			 returnCode != PCRE_ERROR_RECURSIONLIMIT)
+			 returnCode != PCRE_ERROR_RECURSIONLIMIT &&
+			 returnCode != PCRE_ERROR_BADOFFSET)
 		{
 		cerr << "unexpected error from PCRE: " << returnCode << endl;
 		}
