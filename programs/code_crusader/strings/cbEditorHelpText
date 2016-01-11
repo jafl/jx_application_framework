@@ -69,7 +69,7 @@ input fields.)
 Drag-And-Drop can be cancelled by pressing the Escape key before releasing the
 mouse button.
 <p>
-The underlying X protocol is <a href=http://www.newplanetsoftware.com/xdnd/>
+The underlying X protocol is <a href=http://johnlindal.wix.com/xdnd>
 XDND</a>.
 
 <a name=BalanceGrouping>

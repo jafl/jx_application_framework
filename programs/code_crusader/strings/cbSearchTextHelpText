@@ -119,7 +119,7 @@ You can add files to the list by:
 <li> using the \"Add files...\" item on the Files menu
 <p>
 <li> dragging them from any
-     <a href=http://www.newplanetsoftware.com/xdnd/>XDND</a> compliant file manager <br>
+     <a href=http://johnlindal.wix.com/xdnd>XDND</a> compliant file manager <br>
      (You can also drag files from this list to such file managers.)
 <p>
 <li> dragging files from the <a href=jxhelp:CBFileListHelp>File List</a> window <br>
@@ -148,6 +148,6 @@ This option is only available if you are using the
 
 <h3> Sharing search parameters between programs </h3>
 
-Since many programs allow you to search through text, Code Crusader has been designed to allow the search parameters to be automatically shared with other programs via the <a href=http://www.newplanetsoftware.com/xsearch/>XSearch protocol</a>.  The advantage of this is that you can use the \"Enter search string\" menu item in one program, the \"Enter replace string\" menu item in a second program, and then search and replace in a third program without ever having to use the clipboard to transfer any of the text.  All the other options in the Search Text dialog are also shared, so you can configure a search in one program and then use it in any other program that supports the protocol.
+Since many programs allow you to search through text, Code Crusader has been designed to allow the search parameters to be automatically shared with other programs via the <a href=http://johnlindal.wix.com/xsearch>XSearch protocol</a>.  The advantage of this is that you can use the \"Enter search string\" menu item in one program, the \"Enter replace string\" menu item in a second program, and then search and replace in a third program without ever having to use the clipboard to transfer any of the text.  All the other options in the Search Text dialog are also shared, so you can configure a search in one program and then use it in any other program that supports the protocol.
 
 </html>"

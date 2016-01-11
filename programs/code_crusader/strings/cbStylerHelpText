@@ -147,9 +147,9 @@ The last item in the top list is \"<u>Detectable</u> error\" because only a few 
 
 <h3> Supporting other languages </h3>
 
-The context-senstitive highlighting API is very simple, so it is easy to add support for other languages <em>once a lexer is written</em>.  This cannot be linked in dynamically, however, because it does require minor changes to other parts of Code Crusader, such as the preferences file and the Preferences menus.  If you are interested in adding support for another language, please read the discussion on the <a href=http://www.newplanetsoftware.com/jcc/projects.php>Bazaar Projects</a> web page.
+The context-senstitive highlighting API is very simple, so it is easy to add support for other languages <em>once a lexer is written</em>.  This cannot be linked in dynamically, however, because it does require minor changes to other parts of Code Crusader, such as the preferences file and the Preferences menus.  If you are interested in adding support for another language, please contact <a href=http://johnlindal.wix.com/aboutme>John Lindal</a>.
 <p>
-Note that, in order to be compatible with Code Crusader, the code will have to be written in C++ and will have to use the <a href=http://www.newplanetsoftware.com/jx/jcore.php><b>JCore</b></a> library.
+Note that, in order to be compatible with Code Crusader, the code will have to be written in C++ and will have to use the <b>JCore</b> library.
 <p>
 Also, before suggesting support for FORTRAN, please realize that it is impossible to write a lexer for it.  Pure FORTRAN requires a full parser, which, while not impossible, is a <em>lot</em> more work.  One ought to be able to write a lexer if one requires whitespace between symbols, however.  This is unlikely to cause problems with any existing source code.
 

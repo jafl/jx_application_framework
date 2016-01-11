@@ -24,9 +24,9 @@ let me know.
 <p>
 This program was written using:
 <ul>
-<li> <a href=http://www.newplanetsoftware.com/jx/>
+<li> <a href=https://github.com/jafl/jx_application_framework>
 	  JX Application Framework <br></a>
-     http://www.newplanetsoftware.com/jx/
+     https://github.com/jafl/jx_application_framework
 <p>
 <li> <a href=http://cs.wustl.edu/~schmidt/ACE.html>
 	  ACE networking library <br></a>

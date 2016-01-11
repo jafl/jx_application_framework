@@ -19,7 +19,7 @@ If you add a library to the project and then try to open it, you will be asked t
 <p>
 As with all lists in Code Crusader, to find a group or a file that is visible, simply type the first few letters of its name.
 <p>
-Groups are used to collect related files and hide them when you are not working on them.  To rearrange files or groups, simply <a href=jxhelp:CBMiscHelp#MultiSelect>select them</a> and drag them to where you want them to be.  You can also drag them to other windows that support the <a href=http://www.newplanetsoftware.com/xdnd/>XDND protocol</a>, like the multi-file search list in the Search Text dialog.  If you drag a group, it is like dragging all the files in that group.
+Groups are used to collect related files and hide them when you are not working on them.  To rearrange files or groups, simply <a href=jxhelp:CBMiscHelp#MultiSelect>select them</a> and drag them to where you want them to be.  You can also drag them to other windows that support the <a href=http://johnlindal.wix.com/xdnd>XDND protocol</a>, like the multi-file search list in the Search Text dialog.  If you drag a group, it is like dragging all the files in that group.
 <p>
 To change the name of a group, simply double click on it.
 <p>

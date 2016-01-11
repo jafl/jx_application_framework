@@ -8,7 +8,7 @@ CBChangeLog
 </head>
 
 Please send all bug reports and suggestions for features to 
-<a href=http://www.newplanetsoftware.com/nps/contact.php>New Planet Software</a>.
+<a href=http://johnlindal.wix.com/aboutme>John Lindal</a>.
 <p>
 <hr>
 
@@ -281,7 +281,7 @@ Ctrl-Page-Up/Down cycles through docked windows in a pane.
 <p>
 Each pane in the dock remembers the previously selected tab, so if you open a file and then close it again, you will return to the file you were working with.
 <p>
-Supports the latest updates to the <a href=http://newplanetsoftware.com/xdnd/>XDND protocol</a>.
+Supports the latest updates to the <a href=http://johnlindal.wix.com/xdnd>XDND protocol</a>.
 <p>
 
 <h3> 5.2.1 </h3>

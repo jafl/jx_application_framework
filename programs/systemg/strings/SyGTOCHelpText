@@ -40,7 +40,6 @@ SyGTOCHelp
 <li> Version Control
 <p>
 	<ul>
-	<li> <a href=http://newplanetsoftware.com/svn_client/>Subversion</a>
 	<li> <a href=jxhelp:SyGGitHelp>Git</a>
 	</ul>
 <p>
@@ -59,10 +58,6 @@ SyGTOCHelp
      <li> <a href=jxhelp:SyGMiscHelp#Shortcuts>Useful shortcuts</a>
      <li> <a href=jxhelp:SyGMiscHelp#MultiSelect>Selecting multiple items from a list</a>
      </ul>
-<p>
-<li> <a href=http://www.newplanetsoftware.com/systemg/faq.php>Frequently Asked Questions</a>
-<p>
-<li> <a href=http://www.newplanetsoftware.com/nps/support.php>Technical support</a>
 <p>
 <li> <a href=jxhelp:SyGChanges>Changes from previous versions</a>
 <p>

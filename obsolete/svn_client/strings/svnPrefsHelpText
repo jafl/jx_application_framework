@@ -29,7 +29,7 @@ The File Bindings dialog allows you to configure which program to use for viewin
 
 <hr>
 
-The Web Browser Preferences dialog is primarily useful for specifying the command to use to open a file manager window.  The default is <a href=http://newplanetsoftware.com/systemg/>systemg</a>.  On OS X, <a href=http://yost.com/computers/MacStuff/reveal/index.html>this script</a> will display the file in the Finder.
+The Web Browser Preferences dialog is primarily useful for specifying the command to use to open a file manager window.  The default is <a href=http://sourceforge.net/p/nps-systemg/>systemg</a>.  On OS X, <a href=http://yost.com/computers/MacStuff/reveal/index.html>this script</a> will display the file in the Finder.
 
 <hr>
 

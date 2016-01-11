@@ -156,15 +156,6 @@ YExprColTitle::CMPlot2DExprTable	"Y"
 RangeMinColTitle::CMPlot2DExprTable	"Start"
 RangeMaxColTitle::CMPlot2DExprTable	"End"
 
-# GDBAnalyzeCore
-
-FindProgram::GDBAnalyzeCore	"Please locate \"$name\""
-
-# GDBVarTreeParser
-
-ErrorNodeName::GDBVarTreeParser		"gdb error"
-ErrorNodeValue::GDBVarTreeParser	"<gdb encountered an error.  Some fields may be missing.>"
-
 # XDLink
 
 Prompt::XDLink			"(xdb)"
@@ -273,6 +264,15 @@ echo \\032\\032:Medic program running:
 end
 echo \\032\\032:Medic command done:0:
 "
+
+# GDBAnalyzeCore
+
+FindProgram::GDBAnalyzeCore	"Please locate \"$name\""
+
+# GDBVarTreeParser
+
+ErrorNodeName::GDBVarTreeParser		"gdb error"
+ErrorNodeValue::GDBVarTreeParser	"<gdb encountered an error.  Some fields may be missing.>"
 
 # gdb init
 

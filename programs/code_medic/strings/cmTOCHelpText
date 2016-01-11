@@ -14,8 +14,6 @@ CMTOCHelp
 <p>
 <li> <a href=jxhelp:CMGettingStartedHelp>Getting started</a>
 <p>
-<li> <a	href=http://www.newplanetsoftware.com/medic/techniques.php>General debugging techniques</a>
-<p>
 <li> <a href=jxhelp:CMSourceWindowHelp>Viewing source files</a>
 <p>
 <li> <a href=jxhelp:CMBreakpointsHelp>Setting breakpoints, watchpoints, catchpoints</a>
@@ -42,10 +40,6 @@ CMTOCHelp
 	</ul>
 <p>
 <li> <a href=http://www.gnu.org/software/gdb/documentation/>gdb manual</a>
-<p>
-<li> <a href=http://www.newplanetsoftware.com/medic/faq.php>Frequently Asked Questions</a>
-<p>
-<li> <a href=http://www.newplanetsoftware.com/nps/support.php>Technical support</a>
 <p>
 <li> <a href=jxhelp:CMChangeLog>Changes from previous versions</a>
 <p>

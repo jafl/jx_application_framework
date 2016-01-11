@@ -45,9 +45,9 @@ The <i>From:</i> pop-up menu lets you select from which
 E-mail attachments allow you to send files along with your messages. To add 
 attachments in arrow, either select <i>Attach files...</i> from the 
 <i>Message</i> menu, or drag-and-drop files from an 
-<a href=http://www.newplanetsoftware.com/jx/dnd.html>XDND</a> 
+<a href=http://johnlindal.wix.com/xdnd>XDND</a> 
 compliant file manager (like 
-<a href=http://www.newplanetsoftware.com/systemg/>SystemG</a>) 
+<a href=http://sourceforge.net/p/nps-systemg/>SystemG</a>) 
 onto the edit window. Once an attachment has been added, it will 
 be displayed in a table to the right of the message text. 
 Further attachments can then be dropped either on the message text or 

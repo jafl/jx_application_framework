@@ -79,9 +79,9 @@ If you receive a message containing attachments, those attachments will
 be displayed in a table to the right of the message. You can view an 
 attachment by clicking on it. To save one or more attachments, either 
 drag-and-drop them to any 
-<a href=http://www.newplanetsoftware.com/jx/dnd.html>XDND</a> 
+<a href=http://johnlindal.wix.com/xdnd>XDND</a> 
 compliant file manager (like 
-<a href=http://www.newplanetsoftware.com/systemg/>SystemG</a>), 
+<a href=http://sourceforge.net/p/nps-systemg/>SystemG</a>), 
 or select the attachments that you want to save, and select 
 <i>Save selected attachments</i> from the <i>Message</i> menu.
 <p>

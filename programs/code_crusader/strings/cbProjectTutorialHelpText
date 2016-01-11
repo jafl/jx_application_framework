@@ -95,7 +95,7 @@ Now that you have successfully compiled and run a simple project, the possibilit
 <p>
 The following sub-sections discuss how to create libraries and projects for other languages.  Once you have read this information, we suggest that you study the full on-line documentation for <a href=jxhelp:CBProjectHelp>working with Code Crusader projects</a>.
 <p>
-<a href=http://www.oreilly.com/>O'Reilly</a> publishes books on a wide variety of programming languages.  You should also consider reading the books in the <a href=http://www.newplanetsoftware.com/jx/bibliography.php>New Planet Software Bibliography</a>.  These cover both general programming practices and philosophy and specific issues for C/C++ programmers.
+<a href=http://www.oreilly.com/>O'Reilly</a> publishes books on a wide variety of programming languages.  These cover both general programming practices and philosophy and specific issues for C/C++ programmers.
 <p>
 You can learn more about <tt>make</tt> either by reading books published by <a href=http://www.oreilly.com/>O'Reilly</a>, such as <cite>Programming with GNU software</cite> and <cite>Managing projects with make</cite>, or by studying the <a href=http://www.gnu.org/manual/make/>on-line documentation for GNU make</a>.
 <p>
@@ -192,6 +192,6 @@ release: my_program
     @strip my_program_release
 </pre>
 
-A more sophisticated method is described <a href=http://www.newplanetsoftware.com/jcc/multi_version.php>here</a>.  This method is useful if one must build the release version with a higher compiler optimization level than the debug version, or if one wants only the shared version of a library to be compiled with position independent code.
+A more sophisticated method is described <a href=https://github.com/jafl/jx_application_framework/blob/master/programs/code_crusader/multi_version.md>here</a>.  This method is useful if one must build the release version with a higher compiler optimization level than the debug version, or if one wants only the shared version of a library to be compiled with position independent code.
 
 </html>"

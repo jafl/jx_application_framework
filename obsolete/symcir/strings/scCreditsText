@@ -7,21 +7,10 @@ SCCredits
 <title> Credits </title>
 </head>
 
-It is a huge amount of work to write a program from scratch.  All forms of
-encouragement (including suggestions and encouragement) are therefore
-gratefully accepted.
-<p>
-John Lindal<br>
-<a href=mailto:jafl@newplanetsoftware.com>
-<address>jafl@newplanetsoftware.com</address>
-</a>
-<p>
-<hr>
-<p>
 This program was written using:
 
 <ul>
-<li> <a href=http://www.newplanetsoftware.com/jx/>
+<li> <a href=https://github.com/jafl/jx_application_framework>
      JX Application Framework </a>
 <p>
 <li> <a href=http://www.cs.wustl.edu/~schmidt/ACE.html>

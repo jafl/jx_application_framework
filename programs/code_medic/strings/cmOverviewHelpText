@@ -7,7 +7,7 @@ CMOverviewHelp
 <title>Overview of Code Medic</title>
 </head>
 
-Code Medic is a graphical front-end for various debuggers:  gdb, xdebug, Java.  It was designed to work with <a href=http://www.newplanetsoftware.com/jcc/>Code Crusader</a> but can also be used alone. 
+Code Medic is a graphical front-end for various debuggers:  gdb, xdebug, Java.  It was designed to work with <a href=http://sourceforge.net/p/codecrusader/>Code Crusader</a> but can also be used alone. 
 
 <p>
 See the <a href=jxhelp:CMGettingStartedHelp>getting started</a> page for a quick guide to using Code Medic.

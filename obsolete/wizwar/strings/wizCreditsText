@@ -7,17 +7,14 @@ WizCredits
 <title> Credits </title>
 </head>
 
-John Lindal<br>
-<a href=mailto:jafl@newplanetsoftware.com>
-<address>jafl@newplanetsoftware.com</address>
-</a>
+<a href=http://johnlindal.wix.com/aboutme>John Lindal</a>
 <p>
 <hr>
 <p>
 This program is based on the board game WizWar by Tom Jolly.  It was written using:
 
 <ul>
-<li> <a href=http://www.newplanetsoftware.com/jx/>
+<li> <a href=https://github.com/jafl/jx_application_framework>
      JX Application Framework </a>
 <p>
 <li> <a href=http://www.cs.wustl.edu/~schmidt/ACE.html>

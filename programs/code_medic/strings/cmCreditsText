@@ -7,15 +7,13 @@ CMCredits
 <title>Credits</title>
 </head>
 
-You can purchase the latest version of <a href=http://www.newplanetsoftware.com/medic/>Code Medic</a> from <a href=http://www.newplanetsoftware.com/>New Planet Software</a> as part of their Development Suite.
-<p>
 Our thanks to everyone who has submitted bug reports, or suggestions.  If you find a bug or have a suggestion for improving Code Medic, please let us know.
 <p>
 <hr>
 <p>
 This program was written using:
 <ul>
-<li> <a href=http://www.newplanetsoftware.com/jx/> JX Application Framework </a>
+<li> <a href=https://github.com/jafl/jx_application_framework> JX Application Framework </a>
 <p>
 <li> <a href=http://www.cs.wustl.edu/~schmidt/ACE.html> ACE networking library </a>
 <p>

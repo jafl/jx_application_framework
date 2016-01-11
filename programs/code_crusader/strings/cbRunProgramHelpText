@@ -27,7 +27,7 @@ The basic tasks for running and debugging a program are automatically included o
 </dl>
 </blockquote>
 
-<a href=http://www.newplanetsoftware.com/medic/>Code Medic</a> is the default debugger.  You can change this by editing the <a href=jxhelp:CBTasksHelp>Tasks menu</a>.  Please note that other debuggers may not provide the same features, e.g., setting a breakpoint when the debugger is already running.
+<a href=http://sourceforge.net/p/codemedic/>Code Medic</a> is the default debugger.  You can change this by editing the <a href=jxhelp:CBTasksHelp>Tasks menu</a>.  Please note that other debuggers may not provide the same features, e.g., setting a breakpoint when the debugger is already running.
 <p>
 For your convenience, the following tasks are also provided by default:
 

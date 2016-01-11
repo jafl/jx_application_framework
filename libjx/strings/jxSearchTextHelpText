@@ -80,6 +80,6 @@ shortcut Meta-Shift-L.  These are the same shortcuts as in the Text Editor windo
 
 <h3> Sharing search parameters between programs </h3>
 
-Since many programs allow you to search through text, this program has been designed to allow the search parameters to be automatically shared with other programs via the <a href=http://www.newplanetsoftware.com/xsearch/>XSearch protocol</a>.  The advantage of this is that you can use the \"Enter search string\" menu item in one program, the \"Enter replace string\" menu item in a second program, and then search and replace in a third program without ever having to use the clipboard to transfer any of the text.  All the other options in the Search Text dialog are also shared, so you can configure a search in one program and then use it in any other program that supports the protocol.
+Since many programs allow you to search through text, this program has been designed to allow the search parameters to be automatically shared with other programs via the <a href=http://johnlindal.wix.com/xsearch>XSearch protocol</a>.  The advantage of this is that you can use the \"Enter search string\" menu item in one program, the \"Enter replace string\" menu item in a second program, and then search and replace in a third program without ever having to use the clipboard to transfer any of the text.  All the other options in the Search Text dialog are also shared, so you can configure a search in one program and then use it in any other program that supports the protocol.
 
 </html>"

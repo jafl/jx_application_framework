@@ -8,7 +8,7 @@ SyGChanges
 </head>
 
 Please send all bug reports and suggestions for features to 
-<a href=http://www.newplanetsoftware.com/nps/contact.php>New Planet Software</a>.
+<a href=http://johnlindal.wix.com/aboutme>John Lindal</a>.
 <p>
 <hr>
 
@@ -96,7 +96,7 @@ Fixed displaying of files so it does <em>not</em> dereference symlinks before it
 <p>
 Fixed bug so state of opened subdirectories is restored correctly even after the directory is renamed.
 <p>
-Supports the latest updates to the <a href=http://newplanetsoftware.com/xdnd/>XDND protocol</a>.
+Supports the latest updates to the <a href=http://johnlindal.wix.com/xdnd>XDND protocol</a>.
 <p>
 Fixed crash on OSX 10.4 due to missing <code>/etc/fstab</code>.
 <p>

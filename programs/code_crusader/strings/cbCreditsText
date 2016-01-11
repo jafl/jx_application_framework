@@ -7,8 +7,6 @@ CBCredits
 <title> Credits </title>
 </head>
 
-You can purchase the latest version of <a href=http://www.newplanetsoftware.com/jcc/>Code Crusader</a> from <a href=http://www.newplanetsoftware.com/>New Planet Software</a> as part of their JX Development Suite.
-<p>
 Our thanks to everyone who has submitted bug reports, suggestions, and/or code.  If you find a bug or have a suggestion for improving Code Crusader, please let us know.
 <p>
 <hr>
@@ -16,7 +14,7 @@ Our thanks to everyone who has submitted bug reports, suggestions, and/or code. 
 This program was written using:
 
 <ul>
-<li> <a href=http://www.newplanetsoftware.com/jx/>
+<li> <a href=https://github.com/jafl/jx_application_framework>
      JX Application Framework </a>
 <p>
 <li> <a href=http://www.cs.wustl.edu/~schmidt/ACE.html>

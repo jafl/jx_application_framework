@@ -17,7 +17,7 @@ To search the man pages for all occurrences of the function, check the Apropos c
 <p>
 You can get the Man Pages window via the \"View man page\" menu item on the File menu.
 <p>
-The default action is to display the man page using <a href=http://www.newplanetsoftware.com/jcc/>Code Crusader</a>.  If you wish to display it in a terminal instead, you can change the action to \"<tt>xterm -e man</tt>\" in the Preferences dialog.
+The default action is to display the man page using <a href=http://sourceforge.net/p/codecrusader/>Code Crusader</a>.  If you wish to display it in a terminal instead, you can change the action to \"<tt>xterm -e man</tt>\" in the Preferences dialog.
 
 <a name=Term>
 

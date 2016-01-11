@@ -9,25 +9,13 @@ Credits
 </title>
 </head>
 
-You can purchase the latest version of <a
-href=http://www.newplanetsoftware.com/glove/> Glove</a> from <a
-href=ftp://www.newplanetsoftware.com/> New Planet Software</a>.
-
-<p>
-Our thanks to everyone who has submitted bug reports, suggestions, and/or code. If you find a bug or have a suggestion for improving Glove, please let us know.
-<p>
-
-Glenn Bach<br>
-New Planet Software<br>
-<a href=mailto:glove@newplanetsoftware.com>
-<address>glove@newplanetsoftware.com</address>
-</a>
+Our thanks to everyone who has submitted bug reports, suggestions, and/or code. If you find a bug or have a suggestion for improving Glove, please contact <a href=http://johnlindal.wix.com/aboutme>John Lindal</a>.
 <p>
 <hr>
 <p>
 This program was written using:
 <ul>
-<li> <a href=http://www.newplanetsoftware.com/jx/>
+<li> <a href=https://github.com/jafl/jx_application_framework>
      JX Application Framework </a>
 <p>
 <li> <a href=http://www.cs.wustl.edu/~schmidt/ACE.html>

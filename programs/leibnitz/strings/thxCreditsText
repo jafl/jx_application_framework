@@ -8,7 +8,7 @@ THXCredits
 </head>
 
 You can obtain the latest version of Leibnitz from the
-<a href=http://www.newplanetsoftware.com/leibnitz/>official web site</a>.
+<a href=http://sourceforge.net/p/leibnitz/>official web site</a>.
 <p>
 It is a huge amount of work to write a program from scratch.  All forms of
 encouragement (including suggestions and bug reports) are therefore
@@ -17,16 +17,12 @@ gratefully accepted.
 Our thanks to everyone who has submitted bug reports, suggestions, and/or code.
 If you find a bug or have a suggestion for improving Leibnitz, please let us know.
 <p>
-The continuing development of Leibnitz is supported in part by
-<a href=http://www.newplanetsoftware.com/>New Planet Software</a>.
-Please consider supporting them.
-<p>
 <hr>
 <p>
 This program was written using:
 
 <ul>
-<li> <a href=http://www.newplanetsoftware.com/jx/>
+<li> <a href=https://github.com/jafl/jx_application_framework>
      JX Application Framework </a>
 <p>
 <li> <a href=http://www.cs.wustl.edu/~schmidt/ACE.html>

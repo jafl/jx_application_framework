@@ -6,10 +6,7 @@ GNBCredits
 <head>
 <title>Credits</title>
 </head>
-You can download the latest version of <a href=http://www.newplanetsoftware.com/notebook/>
-the Buzzer Electronic Notebook</a> from the <a href=ftp://ftp.newplanetsoftware.com/pub/glenn/Notebook/>
-ftp site</a>.
-<p>
+
 It is a huge amount of work to write a program from scratch.  All forms of 
 encouragement (including suggestions, encouragement, and donations) are 
 therefore gratefully accepted.
@@ -18,16 +15,13 @@ My thanks to everyone who has submitted bug reports, suggestions, and/or code.
 If you find a bug or have a suggestion for improving this program, please 
 let me know.
 <p>
-Glenn Bach<br>
-<a href=mailto:glenn@newplanetsoftware.com>
-<address>glenn@its.caltech.edu</address>
-</a>
+Glenn Bach
 <p>
 <hr>
 <p>
 This program was written using:
 <ul>
-<li> <a href=http://www.newplanetsoftware.com/jx/>
+<li> <a href=https://github.com/jafl/jx_application_framework>
 	  JX Application Framework <br></a>
      http://www.newplanetsoftware.com/jx/
 <p>
