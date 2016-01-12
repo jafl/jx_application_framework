@@ -41,6 +41,8 @@ CMTOCHelp
 <p>
 <li> <a href=http://www.gnu.org/software/gdb/documentation/>gdb manual</a>
 <p>
+<li> <a href=https://github.com/jafl/jx_application_framework/blob/master/programs/code_medic/README.md>Frequently Asked Questions</a>
+<p>
 <li> <a href=jxhelp:CMChangeLog>Changes from previous versions</a>
 <p>
 <li> <a href=jxhelp:CMCredits>Credits</a>
