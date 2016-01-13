@@ -6,6 +6,8 @@ lldb
 	http://lldb.llvm.org/cpp_reference/html/index.html
 	http://stackoverflow.com/questions/19019330/do-i-need-to-build-lldb-locally-to-use-c-interface
 
+	run "version" when start lldb
+
 java
 	selected stack frame
 		select source line
@@ -34,6 +36,14 @@ java
 
 UTF-8
 	todo-utf8.c
+		http://utfcpp.sourceforge.net/
+		http://stackoverflow.com/questions/313555/light-c-unicode-library
+		http://stackoverflow.com/questions/4861965/is-there-an-stl-string-class-that-properly-handles-unicode
+		http://www.utf8everywhere.org/
+		http://www.nubaria.com/en/blog/?p=289
+		http://www.cprogramming.com/tutorial/unicode.html
+		http://userguide.icu-project.org/strings/utf-8
+		https://code.google.com/p/easl/
 
 	JString
 		if input not valid UTF-8, convert from ISO8859-1 (configurable?)
