@@ -230,6 +230,12 @@ protected:
 
 	virtual void	SendMedicCommand(CMCommand* command) = 0;
 
+	JString	Build1DArrayExpressionForCFamilyLanguage(const JCharacter* expr,
+													 const JInteger index);
+	JString	Build2DArrayExpressionForCFamilyLanguage(const JCharacter* expr,
+													 const JInteger rowIndex,
+													 const JInteger colIndex);
+
 private:
 
 	const JBoolean*	itsFeatures;

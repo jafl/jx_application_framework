@@ -1804,36 +1804,11 @@ GDBLink::CreateVarNode
 JString
 GDBLink::Build1DArrayExpression
 	(
-	const JCharacter*	origExpr,
+	const JCharacter*	expr,
 	const JInteger		index
 	)
 {
-	JString expr = origExpr;
-
-	const JString indexStr(index, 0);	// must use floating point conversion
-	if (expr.Contains("$i"))
-		{
-		const JCharacter* map[] =
-			{
-			"i", indexStr.GetCString()
-			};
-		(JGetStringManager())->Replace(&expr, map, sizeof(map));
-		}
-	else
-		{
-		if (expr.GetFirstCharacter() != '(' ||
-			expr.GetLastCharacter()  != ')')
-			{
-			expr.PrependCharacter('(');
-			expr.AppendCharacter(')');
-			}
-
-		expr.AppendCharacter('[');
-		expr += indexStr;
-		expr.AppendCharacter(']');
-		}
-
-	return expr;
+	return Build1DArrayExpressionForCFamilyLanguage(expr, index);
 }
 
 /******************************************************************************
@@ -1844,55 +1819,12 @@ GDBLink::Build1DArrayExpression
 JString
 GDBLink::Build2DArrayExpression
 	(
-	const JCharacter*	origExpr,
+	const JCharacter*	expr,
 	const JInteger		rowIndex,
 	const JInteger		colIndex
 	)
 {
-	JString expr = origExpr;
-
-	const JBoolean usesI = expr.Contains("$i");		// row
-	const JBoolean usesJ = expr.Contains("$j");		// col
-
-	const JString iStr(rowIndex, 0);	// must use floating point conversion
-	const JString jStr(colIndex, 0);	// must use floating point conversion
-
-	// We have to do both at the same time because otherwise we lose a $.
-
-	if (usesI || usesJ)
-		{
-		const JCharacter* map[] =
-			{
-			"i", iStr.GetCString(),
-			"j", jStr.GetCString()
-			};
-		(JGetStringManager())->Replace(&expr, map, sizeof(map));
-		}
-
-	if (!usesI || !usesJ)
-		{
-		if (expr.GetFirstCharacter() != '(' ||
-			expr.GetLastCharacter()  != ')')
-			{
-			expr.PrependCharacter('(');
-			expr.AppendCharacter(')');
-			}
-
-		if (!usesI)
-			{
-			expr.AppendCharacter('[');
-			expr += iStr;
-			expr.AppendCharacter(']');
-			}
-		if (!usesJ)
-			{
-			expr.AppendCharacter('[');
-			expr += jStr;
-			expr.AppendCharacter(']');
-			}
-		}
-
-	return expr;
+	return Build2DArrayExpressionForCFamilyLanguage(expr, rowIndex, colIndex);
 }
 
 /******************************************************************************

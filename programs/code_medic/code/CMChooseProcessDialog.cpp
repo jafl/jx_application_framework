@@ -141,8 +141,8 @@ CMChooseProcessDialog::BuildWindow()
 	itsText =
 		new CMProcessText(this, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
-    assert( itsText != NULL );
-    itsText->FitToEnclosure();
+	assert( itsText != NULL );
+	itsText->FitToEnclosure();
 	itsText->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize);
 }
 
