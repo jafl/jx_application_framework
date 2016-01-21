@@ -1,3 +1,4 @@
+#include <iostream>
 #include <vector>
 #include <map>
 #include <string>
@@ -447,6 +448,8 @@ void value_f(Test* test, Pt3<double>& pt, aircraft& arg)
 
 int main(int argc, char** argv)
 {
+	std::cout << "Hello World!" << std::endl;
+
 	if (argc > 1 && strcmp(argv[1], "divzero") == 0)
 		{
 		crash_divzero = 1;

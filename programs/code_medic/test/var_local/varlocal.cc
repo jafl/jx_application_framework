@@ -1,4 +1,4 @@
-#include <iostream.h>
+#include <iostream>
 
 // This program tests for a variable that changes from a struct to a
 // pointer and back again to see if the local variables tree parses it
@@ -17,7 +17,7 @@ int X;
 float a = 3.2;
 	{
 	char* a = "this is a string aaaaaaaaaaaaaaaaab";
-	cout << a << endl;
+	std::cout << a << std::endl;
 		{
 		int  b = 2;
 		int* a = &b;
