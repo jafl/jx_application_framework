@@ -144,21 +144,23 @@ CMDebugDir::Receive
 				}
 
 			itsText->Paste(msg->GetText());
+			itsText->Paste("\n");
+
 			itsFile << msg->GetText();
+			itsFile << endl;
 
 			itsText->SetCurrentFontColor((GetColormap())->GetBlackColor());
 			}
-		else
+		else if (JStringCompare(message.GetType(), CMLink::kUserOutput, kJTrue) != 0)
 			{
 			itsText->Paste(kLogPrefix);
 			itsText->Paste(message.GetType());
+			itsText->Paste("\n");
 
 			itsFile << kLogPrefix;
 			itsFile << message.GetType();
+			itsFile << endl;
 			}
-
-		itsText->Paste("\n");
-		itsFile << endl;
 		}
 
 	else if (sender == itsCopyButton && message.Is(JXButton::kPushed))
