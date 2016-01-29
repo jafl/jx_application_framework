@@ -508,7 +508,7 @@ GDBLink::ReadFromDebugger()
 			{
 			if (itsPrintingOutputFlag)
 				{
-				Broadcast(UserOutput(*(token.data.pString), kJFalse));
+				Broadcast(UserOutput(*(token.data.pString), kJFalse, kJTrue));
 				}
 			}
 		else if (token.type == GDBScanner::kErrorOutput)
@@ -1577,7 +1577,7 @@ CMGetCompletions*
 GDBLink::CreateGetCompletions
 	(
 	CMCommandInput*	input,
-	CMHistoryText*	history
+	CMCommandOutputDisplay*	history
 	)
 {
 	CMGetCompletions* cmd = new GDBGetCompletions(input, history);

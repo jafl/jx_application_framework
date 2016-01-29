@@ -28,9 +28,9 @@ public:
 public:
 
 	CMCommand(const JCharacter* cmd,
-			   const JBoolean oneShot, const JBoolean background);
+			  const JBoolean oneShot, const JBoolean background);
 	CMCommand(const JString& cmd,
-			   const JBoolean oneShot, const JBoolean background);
+			  const JBoolean oneShot, const JBoolean background);
 
 	virtual	~CMCommand();
 
@@ -41,7 +41,7 @@ public:
 	State			GetState() const;
 	JBoolean		IsOneShot() const;
 	JBoolean		IsBackground() const;
-	JBoolean		WillIgnoreResult() const;			// mainly for gdb-mid
+	JBoolean		WillIgnoreResult() const;			// mainly for gdb-mi
 	void			ShouldIgnoreResult(const JBoolean ignore);
 
 	// Execution

@@ -24,7 +24,7 @@
 #include "CMDebugDir.h"
 
 #include "CMMDIServer.h"
-#include "CMHistoryText.h"
+#include "CMCommandOutputDisplay.h"
 #include "CMCommandInput.h"
 #include "CMGetCompletions.h"
 #include "CMEditCommandsDialog.h"
@@ -175,6 +175,7 @@ static const JCharacter* kWindowsMenuTitleStr = "Windows";
 static const JCharacter* kPrefsMenuTitleStr = "Preferences";
 static const JCharacter* kPrefsMenuStr =
 	"    gdb %r"
+	"  | lldb %r"
 	"  | Java %r"
 	"  | Xdebug %r"
 	"%l| Preferences..."
@@ -185,6 +186,7 @@ static const JCharacter* kPrefsMenuStr =
 enum
 {
 	kUseGDBCmd = 1,
+	kUseLLDBCmd,
 	kUseJavaCmd,
 	kUseXdebugCmd,
 	kEditPrefsCmd,
@@ -197,7 +199,8 @@ static const JIndex kDebuggerTypeToMenuIndex[] =
 {
 	kUseGDBCmd,
 	kUseXdebugCmd,
-	kUseJavaCmd
+	kUseJavaCmd,
+	kUseLLDBCmd
 };
 
 // Help menu
@@ -238,7 +241,7 @@ CMCommandDirector::CMCommandDirector
 
 	JXMenuBar* menuBar = BuildWindow();
 
-//	itsISOStyler = new JISOStyler(itsCommandHistory);
+//	itsISOStyler = new JISOStyler(itsCommandOutput);
 //	assert( itsISOStyler != NULL );
 
 	itsCurrentSourceDir = new CMSourceDirector(this, CMSourceDirector::kMainSourceType);
@@ -312,12 +315,7 @@ CMCommandDirector::CMCommandDirector
 	itsHistoryIndex     = 0;
 	itsWaitingToRunFlag = kJFalse;
 
-	const JCharacter* map[] =
-		{
-		"vers", CMGetVersionNumberStr()
-		};
-	const JString welcome = JGetString("Welcome::CMCommandDirector", map, sizeof(map));
-	itsCommandHistory->SetText(welcome);
+	InitializeCommandOutput();
 
 	itsGetArgsCmd = itsLink->CreateGetInitArgs(itsArgInput);
 
@@ -427,6 +425,24 @@ CMCommandDirector::TransferKeyPressToInput
 }
 
 /******************************************************************************
+ InitializeCommandOutput
+
+ ******************************************************************************/
+
+void
+CMCommandDirector::InitializeCommandOutput()
+{
+	itsCommandOutput->SetText("");
+
+	const JCharacter* map[] =
+		{
+		"vers", CMGetVersionNumberStr()
+		};
+	const JString welcome = JGetString("Welcome::CMCommandDirector", map, sizeof(map));
+	itsCommandOutput->SetText(welcome);
+}
+
+/******************************************************************************
  PrepareCommand
 
  ******************************************************************************/
@@ -486,13 +502,13 @@ CMCommandDirector::BuildWindow()
 
 	itsFakePrompt =
 		new JXStaticText(JGetString("itsFakePrompt::CMCommandDirector::JXLayout"), itsDownRect,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 35,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 38,20);
 	assert( itsFakePrompt != NULL );
 	itsFakePrompt->SetToLabel();
 
 	itsCommandInput =
 		new CMCommandInput(itsDownRect,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 50,0, 448,56);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 53,0, 445,56);
 	assert( itsCommandInput != NULL );
 
 	itsHistoryMenu =
@@ -552,20 +568,20 @@ CMCommandDirector::BuildWindow()
 
 	// appends Edit & Search menus
 
-	itsCommandHistory =
-		new CMHistoryText(menuBar,
+	itsCommandOutput =
+		new CMCommandOutputDisplay(menuBar,
 							 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-	assert( itsCommandHistory != NULL );
-	itsCommandHistory->FitToEnclosure(kJTrue, kJTrue);
+	assert( itsCommandOutput != NULL );
+	itsCommandOutput->FitToEnclosure(kJTrue, kJTrue);
 
-	itsCommandHistory->AppendSearchMenu(menuBar);
+	itsCommandOutput->AppendSearchMenu(menuBar);
 
 	itsDebugMenu = CreateDebugMenu(menuBar);
 	ListenTo(itsDebugMenu);
 
-	itsCommandInput->ShareEditMenu(itsCommandHistory);
-	itsArgInput->ShareEditMenu(itsCommandHistory);
+	itsCommandInput->ShareEditMenu(itsCommandOutput);
+	itsArgInput->ShareEditMenu(itsCommandOutput);
 
 	itsPrefsMenu = menuBar->AppendTextMenu(kPrefsMenuTitleStr);
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr, "CMCommandDirector");
@@ -908,20 +924,22 @@ CMCommandDirector::Receive
 		const CMLink::UserOutput* output =
 			dynamic_cast<const CMLink::UserOutput*>(&message);
 		assert(output != NULL);
-		itsCommandHistory->SetCaretLocation(itsCommandHistory->GetTextLength() + 1);
+		itsCommandOutput->SetCaretLocation(itsCommandOutput->GetTextLength() + 1);
 //		itsISOStyler->FilterISO(output->GetText());
 
-		JFontStyle s = itsCommandHistory->GetDefaultFontStyle();
+		JFontStyle s = itsCommandOutput->GetDefaultFontStyle();
+		s.bold       = output->IsFromTarget();
 		if (output->IsError())
 			{
-			s.color = (itsCommandHistory->GetColormap())->GetDarkRedColor();
+			s.color = (itsCommandOutput->GetColormap())->GetDarkRedColor();
 			}
-		itsCommandHistory->SetCurrentFontStyle(s);
-		itsCommandHistory->Paste(output->GetText());
+		itsCommandOutput->SetCurrentFontStyle(s);
+		itsCommandOutput->Paste(output->GetText());
 		if (output->IsError())
 			{
-			itsCommandHistory->Paste("\n");
+			itsCommandOutput->Paste("\n");
 			}
+		itsCommandOutput->ClearUndo();
 		}
 
 	else if (sender == itsLink && message.Is(CMLink::kDebuggerBusy))
@@ -1041,14 +1059,14 @@ CMCommandDirector::Receive
 
 	else if (sender == itsDebugMenu && message.Is(JXMenu::kNeedsUpdate))
 		{
-		UpdateDebugMenu(itsDebugMenu, itsCommandHistory, itsCommandInput);
+		UpdateDebugMenu(itsDebugMenu, itsCommandOutput, itsCommandInput);
 		}
 	else if (sender == itsDebugMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
-		HandleDebugMenu(itsDebugMenu, selection->GetIndex(), itsCommandHistory, itsCommandInput);
+		HandleDebugMenu(itsDebugMenu, selection->GetIndex(), itsCommandOutput, itsCommandInput);
 		}
 
 	else if (sender == CMGetPrefsManager() && message.Is(CMPrefsManager::kCustomCommandsChanged))
@@ -1167,20 +1185,20 @@ CMCommandDirector::HandleUserInput()
 	if ((!itsLink->IsDebugging() || itsLink->ProgramIsStopped()) &&
 		!itsLink->IsDefiningScript())
 		{
-		itsCommandHistory->PlaceCursorAtEnd();
+		itsCommandOutput->PlaceCursorAtEnd();
 //		itsISOStyler->FilterISO("\n" + itsLink->GetPrompt() + " ");
-		itsCommandHistory->SetCurrentFontStyle(itsCommandHistory->GetDefaultFontStyle());
-		itsCommandHistory->Paste("\n" + itsLink->GetPrompt() + " ");
+		itsCommandOutput->SetCurrentFontStyle(itsCommandOutput->GetDefaultFontStyle());
+		itsCommandOutput->Paste("\n" + itsLink->GetPrompt() + " ");
 		}
 	else
 		{
-		itsCommandHistory->SetCaretLocation(itsCommandHistory->GetTextLength() + 1);
+		itsCommandOutput->SetCaretLocation(itsCommandOutput->GetTextLength() + 1);
 		}
 //	itsISOStyler->FilterISO(input);
-	itsCommandHistory->SetCurrentFontStyle(itsCommandHistory->GetDefaultFontStyle());
-	itsCommandHistory->Paste(input);
+	itsCommandOutput->SetCurrentFontStyle(itsCommandOutput->GetDefaultFontStyle());
+	itsCommandOutput->Paste(input);
 
-	itsCommandHistory->Paste("\n");
+	itsCommandOutput->Paste("\n");
 	input.TrimWhitespace();
 	if (!input.IsEmpty())
 		{
@@ -1205,7 +1223,7 @@ CMCommandDirector::HandleCompletionRequest()
 		!input.EndsWith(":"))
 		{
 		CMGetCompletions* cmd =
-			itsLink->CreateGetCompletions(itsCommandInput, itsCommandHistory);
+			itsLink->CreateGetCompletions(itsCommandInput, itsCommandOutput);
 		cmd->Send();
 		}
 	else
@@ -1294,11 +1312,11 @@ CMCommandDirector::HandleFileMenu
 
 	else if (index == kPageSetupCmd)
 		{
-		itsCommandHistory->HandlePTPageSetup();
+		itsCommandOutput->HandlePTPageSetup();
 		}
 	else if (index == kPrintCmd)
 		{
-		itsCommandHistory->PrintPT();
+		itsCommandOutput->PrintPT();
 		}
 
 	else if (index == kCloseCmd)
@@ -1613,7 +1631,7 @@ CMCommandDirector::SaveInCurrentFile()
 		}
 	else
 		{
-		itsCommandHistory->WritePlainText(itsCurrentHistoryFile, JTextEditor::kUNIXText);
+		itsCommandOutput->WritePlainText(itsCurrentHistoryFile, JTextEditor::kUNIXText);
 		}
 }
 
@@ -2156,7 +2174,7 @@ CMCommandDirector::UpdatePrefsMenu()
 	CMPrefsManager::DebuggerType type = (CMGetPrefsManager())->GetDebuggerType();
 	itsPrefsMenu->CheckItem(kDebuggerTypeToMenuIndex[ type ]);
 
-	itsPrefsMenu->DisableItem(kUseJavaCmd);
+//	itsPrefsMenu->DisableItem(kUseJavaCmd);
 }
 
 /******************************************************************************
@@ -2173,6 +2191,10 @@ CMCommandDirector::HandlePrefsMenu
 	if (index == kUseGDBCmd)
 		{
 		(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kGDBType);
+		}
+	else if (index == kUseLLDBCmd)
+		{
+		(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kLLDBType);
 		}
 	else if (index == kUseJavaCmd)
 		{

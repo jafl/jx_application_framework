@@ -15,13 +15,13 @@
 #include "CMGetCompletions.h"
 
 class CMCommandInput;
-class CMHistoryText;
+class CMCommandOutputDisplay;
 
 class XDGetCompletions : public CMGetCompletions
 {
 public:
 
-	XDGetCompletions(CMCommandInput* input, CMHistoryText* history);
+	XDGetCompletions(CMCommandInput* input, CMCommandOutputDisplay* history);
 
 	virtual	~XDGetCompletions();
 
@@ -31,9 +31,9 @@ protected:
 
 private:
 
-	JString			itsPrefix;
-	CMCommandInput*	itsInput;
-	CMHistoryText*	itsHistory;
+	JString					itsPrefix;
+	CMCommandInput*			itsInput;
+	CMCommandOutputDisplay*	itsHistory;
 
 private:
 

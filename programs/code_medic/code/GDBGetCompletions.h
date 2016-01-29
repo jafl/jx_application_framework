@@ -15,13 +15,13 @@
 #include "CMGetCompletions.h"
 
 class CMCommandInput;
-class CMHistoryText;
+class CMCommandOutputDisplay;
 
 class GDBGetCompletions : public CMGetCompletions
 {
 public:
 
-	GDBGetCompletions(CMCommandInput* input, CMHistoryText* history);
+	GDBGetCompletions(CMCommandInput* input, CMCommandOutputDisplay* history);
 
 	virtual	~GDBGetCompletions();
 
@@ -31,9 +31,9 @@ protected:
 
 private:
 
-	JString			itsPrefix;
-	CMCommandInput*	itsInput;
-	CMHistoryText*	itsHistory;
+	JString					itsPrefix;
+	CMCommandInput*			itsInput;
+	CMCommandOutputDisplay*	itsHistory;
 
 private:
 

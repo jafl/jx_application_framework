@@ -20,7 +20,7 @@
 XDGetCompletions::XDGetCompletions
 	(
 	CMCommandInput*	input,
-	CMHistoryText*	history
+	CMCommandOutputDisplay*	history
 	)
 	:
 	CMGetCompletions("status"),

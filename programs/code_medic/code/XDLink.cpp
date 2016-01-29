@@ -1026,7 +1026,7 @@ CMGetCompletions*
 XDLink::CreateGetCompletions
 	(
 	CMCommandInput*	input,
-	CMHistoryText*	history
+	CMCommandOutputDisplay*	history
 	)
 {
 	CMGetCompletions* cmd = new XDGetCompletions(input, history);

@@ -29,7 +29,7 @@ class JXDockWidget;
 class JXStringHistoryMenu;
 class JXKeyModifiers;
 class CMLink;
-class CMHistoryText;
+class CMCommandOutputDisplay;
 class CMCommandInput;
 class CMSourceDirector;
 class CMThreadsDir;
@@ -58,6 +58,7 @@ public:
 	virtual const JString&	GetName() const;
 	virtual JBoolean		GetMenuIcon(const JXImage** icon) const;
 
+	void	InitializeCommandOutput();
 	void	PrepareCommand(const JCharacter* cmd);
 
 	void	RunProgram();
@@ -159,7 +160,6 @@ private:
 	JPtrArray<CMPlot2DDir>*			itsPlot2DDirs;
 	JPtrArray<CMMemoryDir>*			itsMemoryDirs;
 
-	CMHistoryText*	itsCommandHistory;
 	JXTextMenu*		itsFileMenu;
 	JXTextMenu*		itsDebugMenu;
 	JXTextMenu*		itsPrefsMenu;
@@ -184,6 +184,8 @@ private:
 	JXInputField*        itsArgInput;
 
 // end JXLayout
+
+	CMCommandOutputDisplay*	itsCommandOutput;
 
 private:
 

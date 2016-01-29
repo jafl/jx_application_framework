@@ -19,7 +19,7 @@
 JVMGetCompletions::JVMGetCompletions
 	(
 	CMCommandInput*	input,
-	CMHistoryText*	history
+	CMCommandOutputDisplay*	history
 	)
 	:
 	CMGetCompletions("NOP")

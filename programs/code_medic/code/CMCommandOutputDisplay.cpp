@@ -1,5 +1,5 @@
 /******************************************************************************
- CMHistoryText.cpp
+ CMCommandOutputDisplay.cpp
 
 	BASE CLASS = CMTextDisplayBase
 
@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include <cmStdInc.h>
-#include "CMHistoryText.h"
+#include "CMCommandOutputDisplay.h"
 #include <jAssert.h>
 
 /******************************************************************************
@@ -16,7 +16,7 @@
 
  ******************************************************************************/
 
-CMHistoryText::CMHistoryText
+CMCommandOutputDisplay::CMCommandOutputDisplay
 	(
 	JXMenuBar*			menuBar,
 	JXScrollbarSet*		scrollbarSet,
@@ -39,7 +39,7 @@ CMHistoryText::CMHistoryText
 
  ******************************************************************************/
 
-CMHistoryText::~CMHistoryText()
+CMCommandOutputDisplay::~CMCommandOutputDisplay()
 {
 }
 
@@ -49,7 +49,7 @@ CMHistoryText::~CMHistoryText()
  ******************************************************************************/
 
 void
-CMHistoryText::PlaceCursorAtEnd()
+CMCommandOutputDisplay::PlaceCursorAtEnd()
 {
 	if (!IsEmpty())
 		{

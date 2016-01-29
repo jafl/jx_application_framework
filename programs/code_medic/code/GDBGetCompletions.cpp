@@ -10,7 +10,7 @@
 #include <cmStdInc.h>
 #include "GDBGetCompletions.h"
 #include "CMCommandInput.h"
-#include "CMHistoryText.h"
+#include "CMCommandOutputDisplay.h"
 #include <JXDisplay.h>
 #include <jAssert.h>
 
@@ -22,7 +22,7 @@
 GDBGetCompletions::GDBGetCompletions
 	(
 	CMCommandInput*	input,
-	CMHistoryText*	history
+	CMCommandOutputDisplay*	history
 	)
 	:
 	CMGetCompletions(BuildCommand(input->GetText())),

@@ -1145,7 +1145,7 @@ JVMLink::ReadFromProcess()
 {
 	JString data;
 	itsInputLink->Read(&data);
-	Broadcast(UserOutput(data, kJFalse));
+	Broadcast(UserOutput(data, kJFalse, kJTrue));
 }
 
 /******************************************************************************
@@ -1724,7 +1724,7 @@ CMGetCompletions*
 JVMLink::CreateGetCompletions
 	(
 	CMCommandInput*	input,
-	CMHistoryText*	history
+	CMCommandOutputDisplay*	history
 	)
 {
 	CMGetCompletions* cmd = new JVMGetCompletions(input, history);
@@ -2066,6 +2066,11 @@ JVMLink::SendMedicCommand
 		{
 		command->Finished(kJTrue);
 		Cancel(command);
+
+		if (!HasForegroundCommands())
+			{
+			RunNextCommand();
+			}
 		}
 }
 

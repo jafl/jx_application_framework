@@ -272,7 +272,7 @@ public:
 														JArray<JFloat>* y);
 	virtual CMDisplaySourceForMain*	CreateDisplaySourceForMain(CMSourceDirector* sourceDir);
 	virtual CMGetCompletions*		CreateGetCompletions(CMCommandInput* input,
-														 CMHistoryText* history);
+														 CMCommandOutputDisplay* history);
 	virtual CMGetFrame*				CreateGetFrame(CMStackWidget* widget);
 	virtual CMGetStack*				CreateGetStack(JTree* tree, CMStackWidget* widget);
 	virtual CMGetThread*			CreateGetThread(CMThreadsWidget* widget);

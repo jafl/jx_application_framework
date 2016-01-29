@@ -15,13 +15,13 @@
 #include "CMGetCompletions.h"
 
 class CMCommandInput;
-class CMHistoryText;
+class CMCommandOutputDisplay;
 
 class JVMGetCompletions : public CMGetCompletions
 {
 public:
 
-	JVMGetCompletions(CMCommandInput* input, CMHistoryText* history);
+	JVMGetCompletions(CMCommandInput* input, CMCommandOutputDisplay* history);
 
 	virtual	~JVMGetCompletions();
 

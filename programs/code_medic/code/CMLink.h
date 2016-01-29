@@ -34,7 +34,7 @@ class CMMemoryDir;
 class CMRegistersDir;
 class CMSourceDirector;
 class CMCommandInput;
-class CMHistoryText;
+class CMCommandOutputDisplay;
 class CMStackWidget;
 class CMThreadsWidget;
 class CMVarNode;
@@ -184,7 +184,7 @@ public:
 														JArray<JFloat>* y) = 0;
 	virtual CMDisplaySourceForMain*	CreateDisplaySourceForMain(CMSourceDirector* sourceDir) = 0;
 	virtual CMGetCompletions*		CreateGetCompletions(CMCommandInput* input,
-														 CMHistoryText* history) = 0;
+														 CMCommandOutputDisplay* history) = 0;
 	virtual CMGetFrame*				CreateGetFrame(CMStackWidget* widget) = 0;
 	virtual CMGetStack*				CreateGetStack(JTree* tree, CMStackWidget* widget) = 0;
 	virtual CMGetThread*			CreateGetThread(CMThreadsWidget* widget) = 0;
@@ -299,10 +299,11 @@ public:
 		{
 		public:
 
-			UserOutput(const JCharacter* text, const JBoolean error)
+			UserOutput(const JCharacter* text, const JBoolean error, const JBoolean fromTarget = kJFalse)
 				:
 				JBroadcaster::Message(kUserOutput),
 				itsText(text),
+				itsFromTargetFlag(fromTarget),
 				itsErrorFlag(error)
 				{ };
 
@@ -310,6 +311,12 @@ public:
 			GetText() const
 			{
 				return itsText;
+			}
+
+			JBoolean
+			IsFromTarget() const
+			{
+				return itsFromTargetFlag;
 			}
 
 			JBoolean
@@ -321,6 +328,7 @@ public:
 		private:
 
 			const JCharacter*	itsText;
+			const JBoolean		itsFromTargetFlag;
 			const JBoolean		itsErrorFlag;
 		};
 
