@@ -531,13 +531,13 @@ JXSearchTextDialog::SetObjects
 
 	// shortcuts
 
-    itsCloseButton->SetShortcuts("#W^[");
-    itsIgnoreCaseCB->SetShortcuts("#I");
-    itsWrapSearchCB->SetShortcuts("#S");
-    itsEntireWordCB->SetShortcuts("#E");
-    itsSearchIsRegexCB->SetShortcuts("#X");
-    itsSingleLineCB->SetShortcuts("#T");
-    itsPreserveCaseCB->SetShortcuts("#P");
+	itsCloseButton->SetShortcuts("#W^[");
+	itsIgnoreCaseCB->SetShortcuts("#I");
+	itsWrapSearchCB->SetShortcuts("#S");
+	itsEntireWordCB->SetShortcuts("#E");
+	itsSearchIsRegexCB->SetShortcuts("#X");
+	itsSingleLineCB->SetShortcuts("#T");
+	itsPreserveCaseCB->SetShortcuts("#P");
 
 	if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 		{
@@ -546,7 +546,7 @@ JXSearchTextDialog::SetObjects
 
 		itsFindBackButton->SetHint("Shift-Return / Meta-Shift-G");
 
-	    itsReplaceButton->SetShortcuts("#R#=");
+		itsReplaceButton->SetShortcuts("#R#=");
 		itsReplaceButton->SetHint("Meta-R / Meta-=");
 
 		itsReplaceFindFwdButton->SetShortcuts("#L");
@@ -561,7 +561,7 @@ JXSearchTextDialog::SetObjects
 
 		itsFindBackButton->SetHint("Shift-Return / Ctrl-Shift-G");
 
-	    itsReplaceButton->SetShortcuts("#R^=");
+		itsReplaceButton->SetShortcuts("#R^=");
 		itsReplaceButton->SetHint("Meta-R / Ctrl-=");
 
 		itsReplaceFindFwdButton->SetShortcuts("^L");
@@ -577,7 +577,7 @@ JXSearchTextDialog::SetObjects
 	window->InstallShortcut(itsFindBackButton, JXCtrl('M'), modifiers);
 
 	modifiers.SetState(kJXMetaKeyIndex, kJTrue);
-    itsReplaceIsRegexCB->SetShortcuts("#X");		// trick to underline x
+	itsReplaceIsRegexCB->SetShortcuts("#X");		// trick to underline x
 	window->ClearShortcuts(itsReplaceIsRegexCB);
 	window->InstallShortcut(itsReplaceIsRegexCB, 'x', modifiers);
 	window->InstallShortcut(itsReplaceIsRegexCB, 'X', modifiers);

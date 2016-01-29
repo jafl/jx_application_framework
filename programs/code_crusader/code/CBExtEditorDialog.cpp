@@ -93,7 +93,7 @@ CBExtEditorDialog::BuildWindow
 		new JXStaticText(JGetString("obj1_JXLayout::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 160,80, 270,20);
 	assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetFontSize(8);
+	obj1_JXLayout->SetFontSize(8);
 	obj1_JXLayout->SetToLabel();
 
 	JXStaticText* obj2_JXLayout =
@@ -122,7 +122,7 @@ CBExtEditorDialog::BuildWindow
 		new JXStaticText(JGetString("obj4_JXLayout::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 200,150, 230,20);
 	assert( obj4_JXLayout != NULL );
-    obj4_JXLayout->SetFontSize(8);
+	obj4_JXLayout->SetFontSize(8);
 	obj4_JXLayout->SetToLabel();
 
 	JXStaticText* obj5_JXLayout =
