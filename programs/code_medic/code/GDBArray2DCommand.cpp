@@ -68,7 +68,7 @@ GDBArray2DCommand::PrepareToSend
 	for (JIndex i=1; i<=max; i++)
 		{
 		cmd += "print ";
-		cmd += (GetDirector())->GetExpression(SetCell(i));
+		cmd += (GetDirector())->GetExpression(GetCell(i));
 		cmd.AppendCharacter('\n');
 		}
 
@@ -106,7 +106,7 @@ GDBArray2DCommand::HandleSuccess
 		value = data.GetSubstring(matchRange.GetElement(2));
 		value.TrimWhitespace();
 
-		const JPoint cell        = SetCell(i);
+		const JPoint cell        = GetCell(i);
 		const JString& origValue = (GetData())->GetString(cell);
 		const JBoolean isNew     = JI2B(!origValue.IsEmpty() && origValue != value);
 

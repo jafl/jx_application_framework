@@ -50,7 +50,7 @@ protected:
 	virtual void	HandleFailure();
 
 	void		HandleFailure(const JIndex startIndex, const JCharacter* value);
-	JPoint		SetCell(const JIndex i) const;
+	JPoint		GetCell(const JIndex i) const;
 	JBoolean	ItsIndexValid() const;
 
 private:

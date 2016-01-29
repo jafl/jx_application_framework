@@ -126,8 +126,7 @@ CMArray2DCommand::HandleFailure
 		{
 		for (JIndex i=startIndex; i<=max; i++)
 			{
-			const JPoint cell = SetCell(i);
-			itsData->SetString(cell, value);
+			itsData->SetString(GetCell(i), value);
 			}
 
 		if (!JStringEmpty(value))
@@ -147,12 +146,12 @@ CMArray2DCommand::HandleFailure
 }
 
 /******************************************************************************
- SetCell (protected)
+ GetCell (protected)
 
  *****************************************************************************/
 
 JPoint
-CMArray2DCommand::SetCell
+CMArray2DCommand::GetCell
 	(
 	const JIndex i
 	)
