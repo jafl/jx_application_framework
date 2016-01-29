@@ -13,11 +13,11 @@ libj*/Makefile
 programs/*/code/*StringData.h
 programs/*/Makefile
 programs/*/strings/*_menu_strings
-programs/*/ChangeLog.php
+programs/*/ChangeLog.html
 obsolete/*/code/*StringData.h
 obsolete/*/Makefile
 obsolete/*/strings/*_menu_strings
-obsolete/*/ChangeLog.php
+obsolete/*/ChangeLog.html
 Mesa
 misc/Mesa.tgz
 misc/aspell*

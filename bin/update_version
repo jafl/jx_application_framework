@@ -26,5 +26,5 @@ for NAME in $*; do
 			exit 1;;
 	esac;
 
-	scp programs/$NAME/VERSION jafl,$PROJ@web.sourceforge.net:htdocs/;
+	scp programs/$NAME/VERSION programs/$NAME/ChangeLog.html jafl,$PROJ@web.sourceforge.net:htdocs/;
 done

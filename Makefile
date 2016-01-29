@@ -222,7 +222,7 @@ darwin_mav: prep
 
 .PHONY: darwin_yos
 darwin_yos: prep
-	@ln -sf sys/OSX_9_g++ \
+	@ln -sf sys/OSX_10_g++ \
             include/make/jx_config
 	@ln -sf ../../include/missing_proto/jMissingProto_empty.h \
             include/jcore/jMissingProto.h
