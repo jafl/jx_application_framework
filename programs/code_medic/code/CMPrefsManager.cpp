@@ -370,8 +370,11 @@ CMPrefsManager::UpgradeData
 	if (currentVersion < 8)
 		{
 		std::ostringstream data;
+#ifdef _J_OSX
+		data << (long) kLLDBType;
+#else
 		data << (long) kGDBType;
-
+#endif
 		SetData(kDebuggerTypeID, data);
 		}
 

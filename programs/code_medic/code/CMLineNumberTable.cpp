@@ -220,17 +220,23 @@ CMLineNumberTable::SetLineNumbers
 JBoolean
 CMLineNumberTable::FindLineNumber
 	(
-	const JCharacter*	lineNumber,
+	const JCharacter*	origLineNumber,
 	JIndex*				index
 	)
 	const
 {
 	if (itsLineNumberList != NULL)
 		{
+		const JString lineNumber(origLineNumber);
+
 		const JSize count = itsLineNumberList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			if (lineNumber == *(itsLineNumberList->NthElement(i)))
+			const JString* addr = itsLineNumberList->NthElement(i);
+			JIndex j;
+			if (JStringCompare(lineNumber, *addr, kJFalse) == 0 ||
+				(addr->BeginsWith(lineNumber, kJFalse) &&
+				 isspace(addr->GetCharacter(lineNumber.GetLength()+1))))
 				{
 				*index = i;
 				return kJTrue;

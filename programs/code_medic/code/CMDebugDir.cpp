@@ -144,12 +144,11 @@ CMDebugDir::Receive
 				}
 
 			itsText->Paste(msg->GetText());
+			itsText->SetCurrentFontColor((GetColormap())->GetBlackColor());
 			itsText->Paste("\n");
 
 			itsFile << msg->GetText();
 			itsFile << endl;
-
-			itsText->SetCurrentFontColor((GetColormap())->GetBlackColor());
 			}
 		else if (JStringCompare(message.GetType(), CMLink::kUserOutput, kJTrue) != 0)
 			{

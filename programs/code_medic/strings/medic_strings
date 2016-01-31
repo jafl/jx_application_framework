@@ -2,7 +2,7 @@
 
 # Copyright (C) 2000-16 by John Lindal. All rights reserved.
 
-VERSION		"3.3.4"
+VERSION		"4.0.0"
 
 COPYRIGHT
 "Copyright (C) 1996-2015 John Lindal.  All rights reserved.
@@ -40,6 +40,7 @@ medic [ program_file [ core_file ] ] [ options ]
 --help       prints this help
 --version    prints version information
 --gdb        debug using gdb
+--lldb       debug using lldb
 --xdebug     debug using xdebug
 --java       debug using java
 -f           file_name[:line_number]  : opens file to specified line
@@ -191,8 +192,8 @@ ConfigFileWrongLanguage::XDLink	"The file you specified is not for PHP.
 
 # JVMLink
 
-Prompt::JVMLink			"(jdb)"
-ScriptPrompt::JVMLink	"    >"
+Prompt::JVMLink			""
+ScriptPrompt::JVMLink	""
 
 ListenError::JVMLink
 "Unable to listen on port $port (error #$errno)
@@ -221,6 +222,21 @@ ProgramFinished::JVMLink	"Program finished"
 
 WarnKillProgram::JVMLink	"Are you sure you want to kill the current program?"
 WarnDetachProgram::JVMLink	"Are you sure you want to detach from the current program?"
+
+# LLDBLink
+
+ScriptPrompt::LLDBLink	""
+
+Welcome::LLDBLink
+"$debugger
+"
+
+UnableToStartDebugger::LLDBLink	"Unable to start the debugger"
+
+ChooseProgramInstr::LLDBLink	"Choose the program binary to debug."
+
+WarnKillProgram::LLDBLink		"Are you sure you want to kill the current program?"
+WarnDetachProgram::LLDBLink		"Are you sure you want to detach from the current program?"
 
 # GDBLink
 

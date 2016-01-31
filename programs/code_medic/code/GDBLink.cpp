@@ -508,7 +508,8 @@ GDBLink::ReadFromDebugger()
 			{
 			if (itsPrintingOutputFlag)
 				{
-				Broadcast(UserOutput(*(token.data.pString), kJFalse, kJTrue));
+				// cannot tell the difference between gdb and process output
+				Broadcast(UserOutput(*(token.data.pString), kJFalse, kJFalse));
 				}
 			}
 		else if (token.type == GDBScanner::kErrorOutput)

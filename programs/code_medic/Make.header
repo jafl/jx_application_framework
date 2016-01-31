@@ -6,7 +6,6 @@
 JX_ROOT  := ../..
 
 CODEDIR    := ./code
-CSHDIR     := ./JCC
 JCOREDIR   := ${JX_ROOT}/include/jcore
 JXDIR      := ${JX_ROOT}/include/jx
 JEXPRDIR   := ${JX_ROOT}/include/jexpr
@@ -21,11 +20,12 @@ J2DPLOTLIBDIR := ${JX_ROOT}/libj2dplot
 # Directories to search for header files
 
 SEARCHDIRS := -I${CODEDIR} \
-              -I${CSHDIR} \
+              -I./JCC \
               -I${JCOREDIR} \
               -I${JXDIR} \
               -I${JEXPRDIR} \
               -I${J2DPLOTDIR} \
+              -I./lldb-include \
               ${shell xml2-config --cflags}
 
 # other constants
@@ -71,9 +71,10 @@ endif
 
 # make variables
 
-LOADLIBES := -L${JLIBDIR} ${lj2dplot} ${ljexpr} ${J_STD_LIBS}
+LOADLIBES := -L${JLIBDIR} ${lj2dplot} ${ljexpr} -llldb ${J_STD_LIBS}
+LDFLAGS   := -Xlinker -headerpad_max_install_names
 ifdef J_BUILD_SHARED_LIB
-  LDFLAGS := -Xlinker -R${RPM_LIB_PATH}
+  LDFLAGS += -Xlinker -R${RPM_LIB_PATH}
 endif
 
 DEBUG_LOADLIBES := -L${JLIBDIR} \
@@ -86,7 +87,11 @@ DEBUG_LOADLIBES := -L${JLIBDIR} \
 #####
 
 .PHONY : default
-default: libs medic
+default: libs medic_all
+
+.PHONY : medic_all
+medic_all: medic
+	-${J_POST_LINK_LLDB_CMD} medic
 
 .PHONY : Makefiles
 Makefiles:
@@ -153,7 +158,7 @@ update_jcc:
 #
 
 .PHONY : jxinstall
-jxinstall: medic
+jxinstall: medic_all
 	@strip ${call EXE, medic}
   ifneq (${J_WANT_INSTALL},0)
 	@cp medic ${JX_INSTALL_ROOT}/

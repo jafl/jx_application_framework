@@ -18,7 +18,7 @@
 
 JVMGetCompletions::JVMGetCompletions
 	(
-	CMCommandInput*	input,
+	CMCommandInput*			input,
 	CMCommandOutputDisplay*	history
 	)
 	:

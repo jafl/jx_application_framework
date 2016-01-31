@@ -615,14 +615,14 @@ argument:
 --------------------
 class: FL_TEXT
 type: NORMAL_TEXT
-box: 10 470 35 20
+box: 10 470 38 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: (gdb)
+label: (lldb)
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NorthWest FL_NoGravity
@@ -633,7 +633,7 @@ argument:
 --------------------
 class: FL_BOX
 type: NO_BOX
-box: 50 470 448 56
+box: 53 470 445 56
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER

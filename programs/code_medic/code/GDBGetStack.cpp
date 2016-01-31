@@ -69,6 +69,7 @@ GDBGetStack::HandleSuccess
 	JIndexRange origRange, newRange;
 	JStringPtrMap<JString> map(JPtrArrayT::kDeleteAll);
 	JString frameName, fileName;
+	JBoolean selectNextFrame = kJFalse;
 	while (framePattern.MatchAfter(data, origRange, &newRange))
 		{
 		stream.seekg(newRange.last);
@@ -126,9 +127,14 @@ GDBGetStack::HandleSuccess
 		assert( node != NULL );
 		root->Prepend(node);
 
-		if (assertPattern.Match(*fnName))
+		if (selectNextFrame)
 			{
-			initFrameIndex = frameIndex + 1;
+			initFrameIndex  = frameIndex;
+			selectNextFrame = kJFalse;
+			}
+		else if (assertPattern.Match(*fnName))
+			{
+			selectNextFrame = kJTrue;
 			}
 		}
 

@@ -74,6 +74,7 @@ enum
 static const JCharacter* kPrefsMenuTitleStr = "Preferences";
 static const JCharacter* kPrefsMenuStr =
 	"    gdb %r"
+	"  | lldb %r"
 	"  | Java %r"
 	"  | Xdebug %r"
 	"%l| Preferences..."
@@ -85,6 +86,7 @@ static const JCharacter* kPrefsMenuStr =
 enum
 {
 	kUseGDBCmd = 1,
+	kUseLLDBCmd,
 	kUseJavaCmd,
 	kUseXdebugCmd,
 	kEditPrefsCmd,
@@ -98,7 +100,8 @@ static const JIndex kDebuggerTypeToMenuIndex[] =
 {
 	kUseGDBCmd,
 	kUseXdebugCmd,
-	kUseJavaCmd
+	kUseJavaCmd,
+	kUseLLDBCmd
 };
 
 // Help menu
@@ -1052,6 +1055,10 @@ CMSourceDirector::HandlePrefsMenu
 	if (index == kUseGDBCmd)
 		{
 		(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kGDBType);
+		}
+	else if (index == kUseLLDBCmd)
+		{
+		(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kLLDBType);
 		}
 	else if (index == kUseJavaCmd)
 		{

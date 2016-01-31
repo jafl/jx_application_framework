@@ -86,6 +86,12 @@ CMMDIServer::HandleMDIRequest
 			(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kGDBType);
 			continue;
 			}
+		else if (*arg == "--lldb")
+			{
+			forcedType = kJTrue;
+			(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kLLDBType);
+			continue;
+			}
 		else if (*arg == "--xdebug")
 			{
 			forcedType = kJTrue;
@@ -233,7 +239,13 @@ CMMDIServer::UpdateDebuggerType
 	JString language;
 	if (IsBinary(program))
 		{
-		(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kGDBType);
+		(CMGetPrefsManager())->SetDebuggerType(
+#ifdef _J_OSX
+			CMPrefsManager::kLLDBType
+#else
+			CMPrefsManager::kGDBType
+#endif
+		);
 		}
 	else if (!GetLanguage(program, &language))
 		{

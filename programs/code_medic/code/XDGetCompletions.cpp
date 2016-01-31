@@ -19,7 +19,7 @@
 
 XDGetCompletions::XDGetCompletions
 	(
-	CMCommandInput*	input,
+	CMCommandInput*			input,
 	CMCommandOutputDisplay*	history
 	)
 	:

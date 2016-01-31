@@ -34,7 +34,8 @@ public:
 
 protected:
 
-	virtual void	CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
+	virtual JBoolean	HandleCustomEvent();
+	virtual void		CleanUpBeforeSuddenDeath(const JXDocumentManager::SafetySaveReason reason);
 
 private:
 

@@ -1,4 +1,4 @@
-jx_browser_data 84
+jx_browser_data 85
 # project tree
 0 "root"
 T
@@ -74,9 +74,9 @@ T
 F
 "./code/CMCommandDirector.cpp"
 T
-2 "CMHistoryText.cpp"
+2 "CMCommandOutputDisplay.cpp"
 F
-"./code/CMHistoryText.cpp"
+"./code/CMCommandOutputDisplay.cpp"
 T
 2 "CMCommandInput.cpp"
 F
@@ -494,6 +494,100 @@ F
 "./code/GDBVarNode.cpp"
 F
 T
+1 "lldb"
+T
+2 "LLDBLink.cpp"
+F
+"./code/LLDBLink.cpp"
+T
+2 "LLDBWelcomeTask.cpp"
+F
+"./code/LLDBWelcomeTask.cpp"
+T
+2 "LLDBRunBackgroundCommandTask.cpp"
+F
+"./code/LLDBRunBackgroundCommandTask.cpp"
+T
+2 "LLDBBreakpointManager.cpp"
+F
+"./code/LLDBBreakpointManager.cpp"
+T
+2 "LLDBArray2DCommand.cpp"
+F
+"./code/LLDBArray2DCommand.cpp"
+T
+2 "LLDBPlot2DCommand.cpp"
+F
+"./code/LLDBPlot2DCommand.cpp"
+T
+2 "LLDBDisplaySourceForMain.cpp"
+F
+"./code/LLDBDisplaySourceForMain.cpp"
+T
+2 "LLDBGetAssembly.cpp"
+F
+"./code/LLDBGetAssembly.cpp"
+T
+2 "LLDBGetBreakpoints.cpp"
+F
+"./code/LLDBGetBreakpoints.cpp"
+T
+2 "LLDBGetCompletions.cpp"
+F
+"./code/LLDBGetCompletions.cpp"
+T
+2 "LLDBGetFullPath.cpp"
+F
+"./code/LLDBGetFullPath.cpp"
+T
+2 "LLDBGetStack.cpp"
+F
+"./code/LLDBGetStack.cpp"
+F
+T
+1 "todo"
+T
+2 "LLDBGetFrame.cpp"
+F
+"./code/LLDBGetFrame.cpp"
+T
+2 "LLDBGetLocalVars.cpp"
+F
+"./code/LLDBGetLocalVars.cpp"
+T
+2 "LLDBGetInitArgs.cpp"
+F
+"./code/LLDBGetInitArgs.cpp"
+T
+2 "LLDBGetMemory.cpp"
+F
+"./code/LLDBGetMemory.cpp"
+T
+2 "LLDBGetRegisters.cpp"
+F
+"./code/LLDBGetRegisters.cpp"
+T
+2 "LLDBGetSourceFileList.cpp"
+F
+"./code/LLDBGetSourceFileList.cpp"
+T
+2 "LLDBGetThread.cpp"
+F
+"./code/LLDBGetThread.cpp"
+T
+2 "LLDBGetThreads.cpp"
+F
+"./code/LLDBGetThreads.cpp"
+T
+2 "LLDBVarCommand.cpp"
+F
+"./code/LLDBVarCommand.cpp"
+T
+2 "LLDBVarNode.cpp"
+F
+"./code/LLDBVarNode.cpp"
+F
+T
 1 "JVM"
 T
 2 "JVMLink.cpp"
@@ -893,7 +987,7 @@ T "./" "./run_medic test/fortran/ftest" "" F F F F T F F "" "" "<`E>^_U-F+ei{7h1
 F
 # build settings
 1
-F
+T
 "medic"
 "${LIB_DEPS}"
 "make -k all"
@@ -906,10 +1000,14 @@ T "../../libjx/image/" T
 T "./JCC" T
 T "./code/" T
 T "./strings/" T
+T "~/tools/lldb/include/" F
+T "~/tools/lldb/include/lldb/API" T
+T "~/tools/lldb/source/API" T
 F
 # C preprocessor
 T "CBCFlexLexer" "yyFlexLexer"
 T "GDBOutputFlexLexer" "yyFlexLexer"
 T "JHTMLFlexLexer" "yyFlexLexer"
 T "JXComposeFlexLexer" "yyFlexLexer"
+T "LLDB_API" ""
 F

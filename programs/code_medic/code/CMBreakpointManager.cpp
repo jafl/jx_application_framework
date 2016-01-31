@@ -394,7 +394,10 @@ CMBreakpointManager::BreakpointFileNameInvalid
 	CMBreakpoint* bp
 	)
 {
-	itsSavedBPList->Remove(bp);
+	if (itsSavedBPList != NULL)
+		{
+		itsSavedBPList->Remove(bp);
+		}
 }
 
 /******************************************************************************

@@ -100,9 +100,10 @@ public:
 
 	enum DebuggerType
 	{
-		kGDBType,
+		kGDBType = 0,
 		kXdebugType,
-		kJavaType
+		kJavaType,
+		kLLDBType
 	};
 
 	enum

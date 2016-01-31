@@ -12,6 +12,7 @@
 #include "CMMDIServer.h"
 #include "CMAboutDialog.h"
 #include "CMQuitTask.h"
+#include "LLDBLink.h"
 #include "cmGlobals.h"
 #include "cmStringData.h"
 #include <JXWindow.h>
@@ -143,6 +144,22 @@ CMApp::DisplayAbout
 		assert( task != NULL );
 		task->Start();
 		}
+}
+
+/******************************************************************************
+ HandleCustomEvent (virtual protected)
+
+ ******************************************************************************/
+
+JBoolean
+CMApp::HandleCustomEvent()
+{
+	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
+	if (link != NULL)
+		{
+		link->HandleLLDBEvent();
+		}
+	return kJTrue;
 }
 
 /******************************************************************************

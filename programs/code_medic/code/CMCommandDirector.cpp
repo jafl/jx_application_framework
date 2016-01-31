@@ -937,6 +937,8 @@ CMCommandDirector::Receive
 		itsCommandOutput->Paste(output->GetText());
 		if (output->IsError())
 			{
+			s.color = (itsCommandOutput->GetColormap())->GetBlackColor();
+			itsCommandOutput->SetCurrentFontStyle(s);
 			itsCommandOutput->Paste("\n");
 			}
 		itsCommandOutput->ClearUndo();

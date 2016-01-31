@@ -11,6 +11,7 @@
 #include "CMDockManager.h"
 #include "CBFnMenuUpdater.h"
 #include "GDBLink.h"
+#include "LLDBLink.h"
 #include "JVMLink.h"
 #include "XDLink.h"
 #include "CMCommandDirector.h"
@@ -135,6 +136,7 @@ CMCreateGlobals
 
 	thePrefsManager->SyncWithCodeCrusader();
 
+	lldb::SBDebugger::Initialize();
 	CMStartDebugger();
 
 	return isNew;
@@ -182,6 +184,7 @@ CMDeleteGlobals()
 
 	delete theLink;
 	theLink = NULL;
+	lldb::SBDebugger::Terminate();
 
 	CMDeleteIcons();
 	CBShutdownStylers();
@@ -236,6 +239,10 @@ CMStartDebugger()
 		{
 		theLink = new GDBLink;
 		}
+	else if (type == CMPrefsManager::kLLDBType)
+		{
+		theLink = new LLDBLink;
+		}
 	else if (type == CMPrefsManager::kJavaType)
 		{
 		theLink = new JVMLink;
@@ -250,6 +257,11 @@ CMStartDebugger()
 	// get the new one
 
 	delete origLink;
+
+	if (theCmdDir != NULL)
+		{
+		theCmdDir->InitializeCommandOutput();
+		}
 }
 
 /******************************************************************************

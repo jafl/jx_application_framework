@@ -21,7 +21,7 @@
 
 GDBGetCompletions::GDBGetCompletions
 	(
-	CMCommandInput*	input,
+	CMCommandInput*			input,
 	CMCommandOutputDisplay*	history
 	)
 	:
