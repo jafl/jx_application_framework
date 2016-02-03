@@ -270,7 +270,9 @@ CMRegistersDir::Receive
 		{
 		Update("");
 		}
-	else if (sender == CMGetLink() && CMVarNode::ShouldUpdate(message))
+	else if (sender == CMGetLink() &&
+			 (message.Is(CMLink::kProgramStopped) ||
+			  CMVarNode::ShouldUpdate(message)))
 		{
 		itsNeedsUpdateFlag = kJTrue;
 		Update();
