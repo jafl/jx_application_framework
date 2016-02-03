@@ -82,7 +82,7 @@ DEBUG_LOADLIBES := -L${JLIBDIR} \
                    ${lj2dplot} ${ljexpr} \
                    ${ljx} ${ljcore} ${J_ACE_LIBS} \
                    ${J_END_LINK_STATIC} \
-                   ${J_X11_LIBS} ${J_GCC_LIBS}
+                   -llldb ${J_X11_LIBS} ${J_GCC_LIBS}
 
 #####
 
