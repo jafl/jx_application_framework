@@ -508,8 +508,7 @@ GDBLink::ReadFromDebugger()
 			{
 			if (itsPrintingOutputFlag)
 				{
-				// cannot tell the difference between gdb and process output
-				Broadcast(UserOutput(*(token.data.pString), kJFalse, kJFalse));
+				Broadcast(UserOutput(*(token.data.pString), kJFalse, ProgramIsRunning()));
 				}
 			}
 		else if (token.type == GDBScanner::kErrorOutput)
@@ -1052,6 +1051,33 @@ GDBLink::SetBreakpoint
 	cmd += "-l -1 ";
 	#endif
 	cmd += name + ":" + JString(lineIndex, JString::kBase10);
+	SendWhenStopped(cmd);
+}
+
+/******************************************************************************
+ SetBreakpoint
+
+ *****************************************************************************/
+
+void
+GDBLink::SetBreakpoint
+	(
+	const JCharacter*	address,
+	const JBoolean		temporary
+	)
+{
+	if (!itsProgramIsStoppedFlag)
+		{
+		itsContinueCount = 2;
+		}
+
+	JString cmd = "echo \\032\\032:Medic breakpoints changed:\n";
+	cmd += (temporary ? "-break-insert -t " : "-break-insert ");
+	#ifdef _J_OLD_OSX
+	cmd += "-l -1 ";
+	#endif
+	cmd += "*";
+	cmd += address;
 	SendWhenStopped(cmd);
 }
 

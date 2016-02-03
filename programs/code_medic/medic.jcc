@@ -504,6 +504,10 @@ T
 F
 "./code/LLDBWelcomeTask.cpp"
 T
+2 "LLDBSymbolsLoadedTask.cpp"
+F
+"./code/LLDBSymbolsLoadedTask.cpp"
+T
 2 "LLDBRunBackgroundCommandTask.cpp"
 F
 "./code/LLDBRunBackgroundCommandTask.cpp"
@@ -536,28 +540,13 @@ T
 F
 "./code/LLDBGetCompletions.cpp"
 T
-2 "LLDBGetFullPath.cpp"
-F
-"./code/LLDBGetFullPath.cpp"
-T
-2 "LLDBGetStack.cpp"
-F
-"./code/LLDBGetStack.cpp"
-F
-T
-1 "todo"
-T
 2 "LLDBGetFrame.cpp"
 F
 "./code/LLDBGetFrame.cpp"
 T
-2 "LLDBGetLocalVars.cpp"
+2 "LLDBGetFullPath.cpp"
 F
-"./code/LLDBGetLocalVars.cpp"
-T
-2 "LLDBGetInitArgs.cpp"
-F
-"./code/LLDBGetInitArgs.cpp"
+"./code/LLDBGetFullPath.cpp"
 T
 2 "LLDBGetMemory.cpp"
 F
@@ -571,6 +560,10 @@ T
 F
 "./code/LLDBGetSourceFileList.cpp"
 T
+2 "LLDBGetStack.cpp"
+F
+"./code/LLDBGetStack.cpp"
+T
 2 "LLDBGetThread.cpp"
 F
 "./code/LLDBGetThread.cpp"
@@ -578,6 +571,17 @@ T
 2 "LLDBGetThreads.cpp"
 F
 "./code/LLDBGetThreads.cpp"
+F
+T
+1 "todo"
+T
+2 "LLDBGetLocalVars.cpp"
+F
+"./code/LLDBGetLocalVars.cpp"
+T
+2 "LLDBGetInitArgs.cpp"
+F
+"./code/LLDBGetInitArgs.cpp"
 T
 2 "LLDBVarCommand.cpp"
 F
@@ -638,45 +642,17 @@ T
 F
 "./code/JVMBreakpointManager.cpp"
 T
-2 "JVMArray2DCommand.cpp"
-F
-"./code/JVMArray2DCommand.cpp"
-T
-2 "JVMPlot2DCommand.cpp"
-F
-"./code/JVMPlot2DCommand.cpp"
-T
 2 "JVMDisplaySourceForMain.cpp"
 F
 "./code/JVMDisplaySourceForMain.cpp"
-T
-2 "JVMGetBreakpoints.cpp"
-F
-"./code/JVMGetBreakpoints.cpp"
 T
 2 "JVMGetCompletions.cpp"
 F
 "./code/JVMGetCompletions.cpp"
 T
-2 "JVMGetFrame.cpp"
-F
-"./code/JVMGetFrame.cpp"
-T
-2 "JVMGetFullPath.cpp"
-F
-"./code/JVMGetFullPath.cpp"
-T
 2 "JVMGetIDSizes.cpp"
 F
 "./code/JVMGetIDSizes.cpp"
-T
-2 "JVMGetInitArgs.cpp"
-F
-"./code/JVMGetInitArgs.cpp"
-T
-2 "JVMGetLocalVars.cpp"
-F
-"./code/JVMGetLocalVars.cpp"
 T
 2 "JVMGetSourceFileList.cpp"
 F
@@ -693,6 +669,37 @@ T
 2 "JVMGetThreads.cpp"
 F
 "./code/JVMGetThreads.cpp"
+F
+T
+1 "todo"
+T
+2 "JVMArray2DCommand.cpp"
+F
+"./code/JVMArray2DCommand.cpp"
+T
+2 "JVMPlot2DCommand.cpp"
+F
+"./code/JVMPlot2DCommand.cpp"
+T
+2 "JVMGetBreakpoints.cpp"
+F
+"./code/JVMGetBreakpoints.cpp"
+T
+2 "JVMGetFrame.cpp"
+F
+"./code/JVMGetFrame.cpp"
+T
+2 "JVMGetFullPath.cpp"
+F
+"./code/JVMGetFullPath.cpp"
+T
+2 "JVMGetInitArgs.cpp"
+F
+"./code/JVMGetInitArgs.cpp"
+T
+2 "JVMGetLocalVars.cpp"
+F
+"./code/JVMGetLocalVars.cpp"
 T
 2 "JVMVarCommand.cpp"
 F
@@ -987,7 +994,7 @@ T "./" "./run_medic test/fortran/ftest" "" F F F F T F F "" "" "<`E>^_U-F+ei{7h1
 F
 # build settings
 1
-T
+F
 "medic"
 "${LIB_DEPS}"
 "make -k all"

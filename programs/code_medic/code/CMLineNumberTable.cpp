@@ -188,6 +188,8 @@ CMLineNumberTable::SetLineNumbers
 		{
 		itsLineNumberList = new JPtrArray<JString>(*list, JPtrArrayT::kDeleteAll);
 		assert( itsLineNumberList != NULL );
+		itsLineNumberList->SetCompareFunction(JCompareStringsCaseInsensitive);
+		itsLineNumberList->SetSortOrder(JOrderedSetT::kSortAscending);
 		}
 	else
 		{
@@ -195,53 +197,52 @@ CMLineNumberTable::SetLineNumbers
 		}
 	list->SetCleanUpAction(JPtrArrayT::kForgetAll);
 
-	itsLineNumberStartIndex = 1;
+	JIndex startIndex = 1;
 	if (!itsLineNumberList->IsEmpty())
 		{
 		const JString* s = itsLineNumberList->LastElement();
 		if (s->GetLength() == (itsLineNumberList->FirstElement())->GetLength() &&
 			s->BeginsWith("0x") && s->GetLength() > 2)
 			{
-			itsLineNumberStartIndex = 3;
-			while (itsLineNumberStartIndex < s->GetLength() &&
-				   s->GetCharacter(itsLineNumberStartIndex) == '0')
+			startIndex = 3;
+			while (startIndex < s->GetLength() &&
+				   s->GetCharacter(startIndex) == '0')
 				{
-				itsLineNumberStartIndex++;
+				startIndex++;
+				}
+			}
+
+		if (startIndex > 1)
+			{
+			const JSize count = itsLineNumberList->GetElementCount();
+			for (JIndex i=1; i<=count; i++)
+				{
+				itsLineNumberList->NthElement(i)->RemoveSubstring(1, startIndex-1);
 				}
 			}
 		}
 }
 
 /******************************************************************************
- FindLineNumber
+ FindAddressLineNumber
 
  ******************************************************************************/
 
 JBoolean
-CMLineNumberTable::FindLineNumber
+CMLineNumberTable::FindAddressLineNumber
 	(
-	const JCharacter*	origLineNumber,
-	JIndex*				index
+	const JString&	origAddress,
+	JIndex*			index
 	)
 	const
 {
 	if (itsLineNumberList != NULL)
 		{
-		const JString lineNumber(origLineNumber);
+		JString addr = GetLinePrefixFromAddress(origAddress);
 
-		const JSize count = itsLineNumberList->GetElementCount();
-		for (JIndex i=1; i<=count; i++)
-			{
-			const JString* addr = itsLineNumberList->NthElement(i);
-			JIndex j;
-			if (JStringCompare(lineNumber, *addr, kJFalse) == 0 ||
-				(addr->BeginsWith(lineNumber, kJFalse) &&
-				 isspace(addr->GetCharacter(lineNumber.GetLength()+1))))
-				{
-				*index = i;
-				return kJTrue;
-				}
-			}
+		JBoolean found;
+		*index = itsLineNumberList->SearchSorted1(&addr, JOrderedSetT::kAnyMatch, &found);
+		return kJTrue;
 		}
 
 	*index = 0;
@@ -340,19 +341,18 @@ CMLineNumberTable::TableDrawCell
 		itsText->GetDefaultFont(&id, &size, &style);
 		p.SetFont(id, size, style);
 
-		JString str;
+		JRect r  = rect;
+		r.right -= kMarginWidth;
+
 		if (itsLineNumberList != NULL && itsLineNumberList->IndexValid(cell.y))
 			{
-			const JString* s = itsLineNumberList->NthElement(cell.y);
-			str              = s->GetSubstring(itsLineNumberStartIndex, s->GetLength());
+			p.String(r, *(itsLineNumberList->NthElement(cell.y)), JPainter::kHAlignRight);
 			}
 		else
 			{
-			str = JString(cell.y, JString::kBase10);
+			const JString str = JString(cell.y, JString::kBase10);
+			p.String(r, str, JPainter::kHAlignRight);
 			}
-		JRect r  = rect;
-		r.right -= kMarginWidth;
-		p.String(r, str, JPainter::kHAlignRight);
 		}
 }
 
@@ -608,18 +608,28 @@ CMLineNumberTable::AdjustBreakpoints
 	else if (modifiers.meta() && modifiers.shift())
 		{
 		const JString* fullName;
-		const JBoolean hasFile = itsDirector->GetFileName(&fullName);
-		assert( hasFile );
-
-		itsLink->SetBreakpoint(*fullName, lineIndex, kJTrue);
+		if (itsDirector->GetFileName(&fullName))
+			{
+			itsLink->SetBreakpoint(*fullName, lineIndex, kJTrue);
+			}
+		else
+			{
+			JString addr = GetAddressForBreakpoint(*(itsLineNumberList->GetElement(visualIndex)));
+			itsLink->SetBreakpoint(addr, kJTrue);
+			}
 		}
 	else
 		{
 		const JString* fullName;
-		const JBoolean hasFile = itsDirector->GetFileName(&fullName);
-		assert( hasFile );
-
-		itsLink->SetBreakpoint(*fullName, lineIndex);
+		if (itsDirector->GetFileName(&fullName))
+			{
+			itsLink->SetBreakpoint(*fullName, lineIndex);
+			}
+		else
+			{
+			JString addr = GetAddressForBreakpoint(*(itsLineNumberList->GetElement(visualIndex)));
+			itsLink->SetBreakpoint(addr);
+			}
 		}
 }
 
@@ -971,8 +981,7 @@ CMLineNumberTable::AdjustToText()
 	JString lineCountStr;
 	if (itsLineNumberList != NULL && !itsLineNumberList->IsEmpty())
 		{
-		const JString* s = itsLineNumberList->LastElement();
-		lineCountStr     = s->GetSubstring(itsLineNumberStartIndex, s->GetLength());
+		lineCountStr = *(itsLineNumberList->LastElement());
 		}
 	else
 		{
@@ -1021,10 +1030,10 @@ CMLineNumberTable::UpdateBreakpoints()
 	itsBPList->RemoveAll();
 	itsVisualBPIndexList->RemoveAll();
 
-	const JString* fileName;
-	if (itsDirector->GetFileName(&fileName))
+	const JString* name;
+	if (itsDirector->GetFileName(&name))
 		{
-		(itsLink->GetBreakpointManager())->GetBreakpoints(*fileName, itsBPList);
+		(itsLink->GetBreakpointManager())->GetBreakpoints(*name, itsBPList);
 
 		const JSize count = itsBPList->GetElementCount();
 		for (JIndex i=1; i<=count; i++)
@@ -1034,8 +1043,77 @@ CMLineNumberTable::UpdateBreakpoints()
 				itsText->CRLineIndexToVisualLineIndex(bp->GetLineNumber()));
 			}
 		}
+	else if (itsDirector->GetFunctionName(&name))
+		{
+		CMLocation loc;
+		loc.SetFunctionName(*name);
+		(itsLink->GetBreakpointManager())->GetBreakpoints(loc, itsBPList);
+		itsBPList->Sort();
+
+		const JSize count = itsBPList->GetElementCount();
+		JString target;
+		for (JIndex i=1; i<=count; i++)
+			{
+			const CMBreakpoint* bp = itsBPList->NthElement(i);
+
+			target = GetLinePrefixFromAddress(bp->GetAddress());
+
+			JBoolean found;
+			const JIndex j = itsLineNumberList->SearchSorted1(&target, JOrderedSetT::kAnyMatch, &found);
+			itsVisualBPIndexList->AppendElement(j);
+			}
+		}
 
 	Refresh();
+}
+
+/******************************************************************************
+ GetAddressForBreakpoint (static private)
+
+ ******************************************************************************/
+
+JString
+CMLineNumberTable::GetAddressForBreakpoint
+	(
+	const JString& addr
+	)
+{
+	JString s = addr;
+	JIndex i;
+	if (s.LocateSubstring(" ", &i))
+		{
+		s.RemoveSubstring(i, s.GetLength());
+		}
+
+	s.Prepend("0x");
+	return s;
+}
+
+/******************************************************************************
+ GetLinePrefixFromAddress (private)
+
+ ******************************************************************************/
+
+JString
+CMLineNumberTable::GetLinePrefixFromAddress
+	(
+	const JString& addr
+	)
+	const
+{
+	JString s = addr;
+	if (s.BeginsWith("0x"))
+		{
+		s.RemoveSubstring(1,2);
+		}
+
+	while (s.GetFirstCharacter() == '0' &&
+		   s.GetLength() > itsLineNumberList->LastElement()->GetLength())
+		{
+		s.RemoveSubstring(1,1);
+		}
+
+	return s;
 }
 
 /******************************************************************************

@@ -62,6 +62,8 @@ public:
 	virtual void	ShowBreakpointInfo(const JIndex debuggerIndex);
 	virtual void	SetBreakpoint(const JCharacter* fileName, const JIndex lineIndex,
 								  const JBoolean temporary = kJFalse);
+	virtual void	SetBreakpoint(const JCharacter* address,
+								  const JBoolean temporary = kJFalse);
 	virtual void	RemoveBreakpoint(const JIndex debuggerIndex);
 	virtual void	RemoveAllBreakpointsOnLine(const JCharacter* fileName,
 										   const JIndex lineIndex);
@@ -143,6 +145,10 @@ public:
 	// called by LLDBRunBackgroundCommandTask
 
 	void	SendMedicCommandSync(CMCommand* command);
+
+	// called by LLDBSymbolsLoadedTask
+
+	void	SymbolsLoaded(const JCharacter* fullName);
 
 	// called by CMApp
 

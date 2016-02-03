@@ -64,6 +64,8 @@ public:
 	virtual void	ShowBreakpointInfo(const JIndex debuggerIndex);
 	virtual void	SetBreakpoint(const JCharacter* fileName, const JIndex lineIndex,
 								  const JBoolean temporary = kJFalse);
+	virtual void	SetBreakpoint(const JCharacter* address,
+								  const JBoolean temporary = kJFalse);
 	virtual void	RemoveBreakpoint(const JIndex debuggerIndex);
 	virtual void	RemoveAllBreakpointsOnLine(const JCharacter* fileName,
 										   const JIndex lineIndex);

@@ -1,7 +1,5 @@
 /******************************************************************************
- LLDBRunBackgroundCommandTask.cpp
-
-	Let the event loop run between background commands.
+ LLDBSymbolsLoadedTask.cpp
 
 	BASE CLASS = JXUrgentTask
 
@@ -10,7 +8,7 @@
  ******************************************************************************/
 
 #include <cmStdInc.h>
-#include "LLDBRunBackgroundCommandTask.h"
+#include "LLDBSymbolsLoadedTask.h"
 #include "LLDBLink.h"
 #include "cmGlobals.h"
 
@@ -19,12 +17,12 @@
 
  ******************************************************************************/
 
-LLDBRunBackgroundCommandTask::LLDBRunBackgroundCommandTask
+LLDBSymbolsLoadedTask::LLDBSymbolsLoadedTask
 	(
-	CMCommand* cmd
+	const JCharacter* fileName
 	)
 	:
-	itsCmd(cmd)
+	itsFileName(fileName)
 {
 }
 
@@ -33,7 +31,7 @@ LLDBRunBackgroundCommandTask::LLDBRunBackgroundCommandTask
 
  ******************************************************************************/
 
-LLDBRunBackgroundCommandTask::~LLDBRunBackgroundCommandTask()
+LLDBSymbolsLoadedTask::~LLDBSymbolsLoadedTask()
 {
 }
 
@@ -43,11 +41,11 @@ LLDBRunBackgroundCommandTask::~LLDBRunBackgroundCommandTask()
  ******************************************************************************/
 
 void
-LLDBRunBackgroundCommandTask::Perform()
+LLDBSymbolsLoadedTask::Perform()
 {
 	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
 	if (link != NULL)
 		{
-		link->SendMedicCommandSync(itsCmd);
+		link->SymbolsLoaded(itsFileName);
 		}
 }

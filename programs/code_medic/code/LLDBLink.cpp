@@ -14,6 +14,7 @@
 #include "LLDBLink.h"
 #include "LLDBBreakpointManager.h"
 #include "LLDBWelcomeTask.h"
+#include "LLDBSymbolsLoadedTask.h"
 #include "LLDBRunBackgroundCommandTask.h"
 
 #include "LLDBArray2DCommand.h"
@@ -466,6 +467,7 @@ LLDBLink::HandleLLDBEvent
 			{
 			// sync with SwitchToThread()
 			Broadcast(ThreadChanged());
+			ProgramStopped();
 			}
 		else if ((eventType & lldb::SBThread::eBroadcastBitStackChanged) ||
 				 (eventType & lldb::SBThread::eBroadcastBitSelectedFrameChanged))
@@ -586,12 +588,29 @@ LLDBLink::SetProgram
 		{
 		StartListeningForEvents(t.GetBroadcaster(), kLLDBEventMask);
 
-		// XXX: we never get eBroadcastBitSymbolsLoaded
-		JString path, name;
-		JSplitPathAndName(fullName, &path, &name);
-		Broadcast(PrepareToLoadSymbols());
-		Broadcast(SymbolsLoaded(kJTrue, name));
+		LLDBSymbolsLoadedTask* task = new LLDBSymbolsLoadedTask(fullName);
+		assert( task != NULL );
+		task->Go();
 		}
+}
+
+/******************************************************************************
+ SymbolsLoaded
+
+	XXX: we never get eBroadcastBitSymbolsLoaded
+
+ *****************************************************************************/
+
+void
+LLDBLink::SymbolsLoaded
+	(
+	const JCharacter* fullName
+	)
+{
+	JString path, name;
+	JSplitPathAndName(fullName, &path, &name);
+	Broadcast(PrepareToLoadSymbols());
+	Broadcast(CMLink::SymbolsLoaded(kJTrue, name));
 }
 
 /******************************************************************************
@@ -750,6 +769,28 @@ LLDBLink::SetBreakpoint
 }
 
 /******************************************************************************
+ SetBreakpoint
+
+ *****************************************************************************/
+
+void
+LLDBLink::SetBreakpoint
+	(
+	const JCharacter*	address,
+	const JBoolean		temporary
+	)
+{
+	lldb::SBTarget t = itsDebugger->GetSelectedTarget();
+	if (t.IsValid())
+		{
+		JCharacter* end;
+		const lldb::addr_t a = strtoull(address, &end, 0);
+		lldb::SBBreakpoint b = t.BreakpointCreateByAddress(a);
+		b.SetOneShot(temporary);
+		}
+}
+
+/******************************************************************************
  RemoveBreakpoint
 
  *****************************************************************************/
@@ -785,8 +826,11 @@ LLDBLink::RemoveAllBreakpointsOnLine
 		return;
 		}
 
+	JString path, name;
+	JSplitPathAndName(fileName, &path, &name);
+
 	const JSize bpCount = t.GetNumBreakpoints();
-	for (JIndex i=bpCount-1; i>=0; i--)
+	for (long i=bpCount-1; i>=0; i--)
 		{
 		lldb::SBBreakpoint b = t.GetBreakpointAtIndex(i);
 
@@ -796,7 +840,7 @@ LLDBLink::RemoveAllBreakpointsOnLine
 			lldb::SBAddress a   = b.GetLocationAtIndex(j).GetAddress();
 			lldb::SBLineEntry e = a.GetLineEntry();
 			if (e.GetLine() == lineIndex &&
-				JStringCompare(e.GetFileSpec().GetFilename(), fileName) == 0)
+				JStringCompare(e.GetFileSpec().GetFilename(), name) == 0)
 				{
 				t.BreakpointDelete(b.GetID());
 				}
@@ -966,6 +1010,7 @@ LLDBLink::SwitchToThread
 
 		// sync with HandleLLDBEvent()
 		Broadcast(ThreadChanged());
+		ProgramStopped();
 		}
 }
 
@@ -1436,10 +1481,7 @@ LLDBLink::CreateVarValueCommand
 	const JCharacter* expr
 	)
 {
-	JString s = "print ";
-	s        += expr;
-
-	CMVarCommand* cmd = new LLDBVarCommand(s);
+	CMVarCommand* cmd = new LLDBVarCommand(expr);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1455,7 +1497,7 @@ LLDBLink::CreateVarContentCommand
 	const JCharacter* expr
 	)
 {
-	JString s = "print *(";
+	JString s = "*(";
 	s        += expr;
 	s        += ")";
 
@@ -1586,8 +1628,16 @@ LLDBLink::SendRaw
 	const JCharacter* text
 	)
 {
-	itsDebugger->HandleCommand(text);
-	Broadcast(DebugOutput(text, kCommandType));
+	if (ProgramIsRunning())
+		{
+		lldb::SBProcess p = itsDebugger->GetSelectedTarget().GetProcess();
+		p.PutSTDIN(text, strlen(text));
+		}
+	else
+		{
+		itsDebugger->HandleCommand(text);
+		Broadcast(DebugOutput(text, kCommandType));
+		}
 }
 
 /******************************************************************************

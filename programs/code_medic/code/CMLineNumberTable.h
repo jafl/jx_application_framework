@@ -39,7 +39,7 @@ public:
 
 	void		ClearLineNumbers();
 	void		SetLineNumbers(JPtrArray<JString>*	list);
-	JBoolean	FindLineNumber(const JCharacter* lineNumber, JIndex* index) const;
+	JBoolean	FindAddressLineNumber(const JString& addr, JIndex* index) const;
 
 	JCoordinate	GetCurrentLine() const;
 	void		SetCurrentLine(const JIndex line);
@@ -74,8 +74,7 @@ private:
 	JArray<JIndex>*				itsVisualBPIndexList;	// visual line of each breakpoint
 	JIndex						itsBPDrawIndex;			// index of next bp to draw; may be invalid
 
-	JPtrArray<JString>*	itsLineNumberList;				// can be NULL
-	JIndex				itsLineNumberStartIndex;
+	JPtrArray<JString>*			itsLineNumberList;		// can be NULL
 
 	JXTextMenu*					itsLineMenu;
 	JIndex						itsLineMenuLineIndex;
@@ -103,8 +102,13 @@ private:
 	void	UpdateLineMenu();
 	void	HandleLineMenu(const JIndex index);
 
+	static JString	GetAddressForBreakpoint(const JString& addr);
+	JString			GetLinePrefixFromAddress(const JString& addr) const;
+
 	static JOrderedSetT::CompareResult
 		CompareBreakpointLines(CMBreakpoint* const & bp1, CMBreakpoint* const & bp2);
+	static JOrderedSetT::CompareResult
+		CompareBreakpointAddresses(CMBreakpoint* const & bp1, CMBreakpoint* const & bp2);
 
 	// not allowed
 

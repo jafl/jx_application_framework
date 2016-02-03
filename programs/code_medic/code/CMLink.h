@@ -126,6 +126,8 @@ public:
 	void			SetBreakpoint(const CMLocation& loc, const JBoolean temporary = kJFalse);
 	virtual void	SetBreakpoint(const JCharacter* fileName, const JIndex lineIndex,
 								  const JBoolean temporary = kJFalse) = 0;
+	virtual void	SetBreakpoint(const JCharacter* address,
+								  const JBoolean temporary = kJFalse) = 0;
 	void			RemoveBreakpoint(const CMBreakpoint& bp);
 	virtual void	RemoveBreakpoint(const JIndex debuggerIndex) = 0;
 	virtual void	RemoveAllBreakpointsOnLine(const JCharacter* fileName,

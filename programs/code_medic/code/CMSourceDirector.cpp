@@ -20,6 +20,7 @@
 #include "CMDisplaySourceForMain.h"
 #include "CMClearSourceDisplayTask.h"
 #include "CMGetAssembly.h"
+#include "CMStackDir.h"
 #include "cbmUtil.h"
 #include "cmGlobals.h"
 #include "cmHelpText.h"
@@ -549,6 +550,7 @@ CMSourceDirector::Receive
 			itsTable->SetCurrentLine(0);	// we get blank location the first time
 			#else
 			ClearDisplay();
+			(CMGetCommandDirector())->GetStackDir()->Activate();
 			#endif
 			}
 		}
@@ -571,12 +573,19 @@ CMSourceDirector::Receive
 			}
 		}
 
-	else if (itsType == kMainAsmType && sender == itsLink &&
+	else if (sender == itsLink &&
 			 (message.Is(CMLink::kProgramFinished) ||
 			  message.Is(CMLink::kCoreCleared)     ||
 			  message.Is(CMLink::kDetachedFromProcess)))
 		{
-		ClearDisplay();
+		if (itsSrcMainCmd != NULL)
+			{
+			itsSrcMainCmd->CMCommand::Send();
+			}
+		else if (itsType == kMainAsmType)
+			{
+			ClearDisplay();
+			}
 		}
 
 	else if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
@@ -750,7 +759,7 @@ CMSourceDirector::DisplayDisassembly
 	if (fnName == itsCurrentFn)
 		{
 		JIndex i;
-		if (itsTable->FindLineNumber(addr, &i))
+		if (itsTable->FindAddressLineNumber(addr, &i))
 			{
 			DisplayLine(i);
 			}
@@ -796,7 +805,7 @@ CMSourceDirector::DisplayDisassembly
 	itsText->SetText(instText);
 
 	JIndex i;
-	if (itsTable->FindLineNumber(itsAsmLocation.GetMemoryAddress(), &i))
+	if (itsTable->FindAddressLineNumber(itsAsmLocation.GetMemoryAddress(), &i))
 		{
 		DisplayLine(i);
 		}

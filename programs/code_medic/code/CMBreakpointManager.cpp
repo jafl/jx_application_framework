@@ -164,6 +164,18 @@ CMBreakpointManager::GetBreakpoints
 				}
 			}
 		}
+	else if (!loc.GetFunctionName().IsEmpty())
+		{
+		const JSize count = itsBPList->GetElementCount();
+		for (JIndex i=1; i<=count; i++)
+			{
+			CMBreakpoint* bp = itsBPList->NthElement(i);
+			if (bp->GetFunctionName() == loc.GetFunctionName())
+				{
+				list->Append(bp);
+				}
+			}
+		}
 
 	return !list->IsEmpty();
 }
