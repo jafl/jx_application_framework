@@ -9,10 +9,13 @@
 
 #include <cmStdInc.h>
 #include "LLDBGetThread.h"
+#include "lldb/API/SBTarget.h"
+#include "lldb/API/SBProcess.h"
+#include "lldb/API/SBThread.h"
 #include "CMThreadsWidget.h"
 #include "LLDBGetThreads.h"
-#include <jStreamUtil.h>
-#include <sstream>
+#include "LLDBLink.h"
+#include "cmGlobals.h"
 #include <jAssert.h>
 
 /******************************************************************************
@@ -25,7 +28,7 @@ LLDBGetThread::LLDBGetThread
 	CMThreadsWidget* widget
 	)
 	:
-	CMGetThread("set width 0\ninfo threads", widget)
+	CMGetThread("", widget)
 {
 }
 
@@ -49,30 +52,17 @@ LLDBGetThread::HandleSuccess
 	const JString& data
 	)
 {
-	JIndex currentThreadIndex = 0;
-
-	const std::string s(data.GetCString(), data.GetLength());
-	std::istringstream input(s);
-	JString line;
-	while (1)
+	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
+	if (link == NULL)
 		{
-		line = JReadLine(input);
-		if (input.eof() || input.fail())
-			{
-			break;
-			}
-
-		line.TrimWhitespace();
-		if (!line.IsEmpty() && line.GetFirstCharacter() == '*')
-			{
-			line.RemoveSubstring(1,1);
-			line.TrimWhitespace();
-			if (LLDBGetThreads::ExtractThreadIndex(line, &currentThreadIndex))
-				{
-				break;
-				}
-			}
+		return;
 		}
 
-	(GetWidget())->FinishedLoading(currentThreadIndex);
+	lldb::SBProcess p = link->GetDebugger()->GetSelectedTarget().GetProcess();
+	if (!p.IsValid())
+		{
+		return;
+		}
+
+	(GetWidget())->FinishedLoading(p.GetSelectedThread().GetThreadID());
 }

@@ -79,7 +79,8 @@ GDBGetAssembly::Starting()
 
  *****************************************************************************/
 
-static const JRegex bpPattern = "asm_insns=\\[";
+static const JRegex bpPattern     = "asm_insns=\\[";
+static const JRegex offsetPattern = "<\\+[0-9]+>$";
 
 void
 GDBGetAssembly::HandleSuccess
@@ -95,6 +96,7 @@ GDBGetAssembly::HandleSuccess
 
 	JIndexRange r;
 	JPtrArray< JStringPtrMap<JString> > list(JPtrArrayT::kDeleteAll);
+	JSize maxOffsetLength = 0;
 	if (bpPattern.Match(data, &r))
 		{
 		stream.seekg(r.last);
@@ -105,12 +107,18 @@ GDBGetAssembly::HandleSuccess
 		else
 			{
 			const JSize count = list.GetElementCount();
-			JString *addr, *inst;
+			JString *addr, *offset, *inst;
 			for (JIndex i=1; i<=count; i++)
 				{
 				JStringPtrMap<JString>* map = list.NthElement(i);
 
 				if (!map->GetElement("address", &addr))
+					{
+					(CMGetLink())->Log("invalid assembly instruction: missing address");
+					continue;
+					}
+
+				if (!map->GetElement("offset", &offset))
 					{
 					(CMGetLink())->Log("invalid assembly instruction: missing address");
 					continue;
@@ -122,13 +130,32 @@ GDBGetAssembly::HandleSuccess
 					continue;
 					}
 
+				*addr += " <+";
+				*addr += *offset;
+				*addr += ">";
 				addrList.Append(*addr);
+
+				maxOffsetLength = JMax(maxOffsetLength, offset->GetLength() + 3);
 
 				if (!instText.IsEmpty())
 					{
 					instText.AppendCharacter('\n');
 					}
 				instText.Append(*inst);
+				}
+			}
+		}
+
+	const JSize count = addrList.GetElementCount();
+	for (JIndex i=1; i<count; i++)
+		{
+		JString* s = addrList.NthElement(i);
+		if (offsetPattern.Match(*s, &r))
+			{
+			const JSize pad = maxOffsetLength - r.GetLength();
+			for (JIndex j=0; j<pad; j++)
+				{
+				s->InsertCharacter('0', r.first+2);
 				}
 			}
 		}

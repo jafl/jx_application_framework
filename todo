@@ -5,8 +5,6 @@ lldb
 
 	ability to send text to running program as input
 
-+	registers should update after step, istep, finish, stop
-
 	should LLDBLink::OKToSendCommands() check ProgramIsRunning()?
 
 	clear breakpoint in assembly window

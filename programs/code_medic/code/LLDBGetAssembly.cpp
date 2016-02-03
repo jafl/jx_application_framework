@@ -19,6 +19,7 @@
 #include <JRegex.h>
 #include <jFileUtil.h>
 #include <jStreamUtil.h>
+#include <jProcessUtil.h>
 #include <sstream>
 #include <jAssert.h>
 
@@ -50,7 +51,7 @@ LLDBGetAssembly::~LLDBGetAssembly()
 
  *****************************************************************************/
 
-static const JRegex offsetPattern = "<\\+[0-9]+>";
+static const JRegex offsetPattern = "<\\+[0-9]+>$";
 
 void
 LLDBGetAssembly::HandleSuccess
@@ -72,7 +73,7 @@ LLDBGetAssembly::HandleSuccess
 
 	const CMLocation& loc = (GetDirector())->GetDisassemblyLocation();
 
-	const JString cmd = "disassemble -n " + loc.GetFunctionName();
+	const JString cmd = "disassemble -n " + JPrepArgForExec(loc.GetFunctionName());
 	lldb::SBCommandReturnObject result;
 	interp.HandleCommand(cmd, result);
 

@@ -9,13 +9,18 @@
 
 #include <cmStdInc.h>
 #include "LLDBGetThreads.h"
+#include "lldb/API/SBTarget.h"
+#include "lldb/API/SBProcess.h"
+#include "lldb/API/SBThread.h"
+#include "lldb/API/SBFrame.h"
+#include "lldb/API/SBStream.h"
 #include "CMThreadsWidget.h"
 #include "CMThreadNode.h"
+#include "LLDBLink.h"
+#include "cmGlobals.h"
 #include <JTree.h>
 #include <JRegex.h>
-#include <JOrderedSetUtil.h>
-#include <jStreamUtil.h>
-#include <sstream>
+#include <jFileUtil.h>
 #include <jAssert.h>
 
 const JSize kThreadIndexWidth = 2;	// width of thread index in characters
@@ -31,7 +36,7 @@ LLDBGetThreads::LLDBGetThreads
 	CMThreadsWidget*	widget
 	)
 	:
-	CMGetThreads("set width 0\ninfo threads", widget),
+	CMGetThreads("", widget),
 	itsTree(tree)
 {
 }
@@ -50,7 +55,7 @@ LLDBGetThreads::~LLDBGetThreads()
 
  ******************************************************************************/
 
-static const JRegex prefixPattern = "^[[:digit:]]+[[:space:]]+";
+static const JRegex threadIDPattern = "^thread #([0-9]+):\\s*tid = [^,]+,";
 
 void
 LLDBGetThreads::HandleSuccess
@@ -58,158 +63,63 @@ LLDBGetThreads::HandleSuccess
 	const JString& data
 	)
 {
-	JPtrArray<JString> threadList(JPtrArrayT::kDeleteAll);
-	threadList.SetCompareFunction(CompareThreadIndices);
-	threadList.SetSortOrder(JOrderedSetT::kSortAscending);
-
-	JIndex currentThreadIndex = 0;
-
-	const std::string s(data.GetCString(), data.GetLength());
-	std::istringstream input(s);
-	JString line;
-	while (1)
+	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
+	if (link == NULL)
 		{
-		line = JReadLine(input);
-		if (input.eof() || input.fail())
-			{
-			break;
-			}
+		return;
+		}
 
-		line.TrimWhitespace();
-		if (!line.IsEmpty())
-			{
-			if (line.GetFirstCharacter() == '*')
-				{
-				line.RemoveSubstring(1,1);
-				line.TrimWhitespace();
-				ExtractThreadIndex(line, &currentThreadIndex);
-				}
-
-			if (!prefixPattern.Match(line))
-				{
-				continue;
-				}
-
-			if (line.GetLength() >= kThreadIndexWidth)
-				{
-				while (!isdigit(line.GetCharacter(kThreadIndexWidth)))
-					{
-					line.PrependCharacter('0');
-					}
-				}
-
-			JString* s = new JString(line);
-			assert( s != NULL );
-			threadList.InsertSorted(s);
-			}
+	lldb::SBProcess p = link->GetDebugger()->GetSelectedTarget().GetProcess();
+	if (!p.IsValid())
+		{
+		return;
 		}
 
 	JTreeNode* root   = itsTree->GetRoot();
-	const JSize count = threadList.GetElementCount();
-	JIndex threadIndex, lineIndex;
-	JString fileName;
-	for (JIndex i=1; i<=count; i++)
+	const JSize count = p.GetNumThreads();
+	JString fileName, name, indexStr;
+	JArray<JIndexRange> matchList;
+	for (JIndex i=0; i<count; i++)
 		{
-		const JString* line = threadList.NthElement(i);
+		lldb::SBThread t = p.GetThreadAtIndex(i);
+		lldb::SBFrame f  = t.GetSelectedFrame();
 
-		if (ExtractThreadIndex(*line, &threadIndex))
+		JIndex lineIndex      = 0;
+		lldb::SBLineEntry e   = f.GetLineEntry();
+		lldb::SBFileSpec file = e.GetFileSpec();
+		if (file.IsValid())
 			{
-			ExtractLocation(*line, &fileName, &lineIndex);
-
-			CMThreadNode* node = new CMThreadNode(threadIndex, *line, fileName, lineIndex);
-			assert( node != NULL );
-
-			root->Append(node);
+			fileName  = JCombinePathAndName(file.GetDirectory(), file.GetFilename());
+			lineIndex = e.GetLine();
 			}
+		else
+			{
+			fileName.Clear();
+			}
+
+		lldb::SBStream stream;
+		t.GetDescription(stream);
+		name = stream.GetData();
+		
+		if (threadIDPattern.Match(name, &matchList))
+			{
+			indexStr = name.GetSubstring(matchList.GetElement(2));
+			while (indexStr.GetLength() < kThreadIndexWidth)
+				{
+				indexStr.PrependCharacter('0');
+				}
+			indexStr += ":  ";
+
+			name.RemoveSubstring(1, matchList.GetFirstElement().last);
+			name.TrimWhitespace();
+			name.Prepend(indexStr);
+			}
+
+		CMThreadNode* node = new CMThreadNode(t.GetThreadID(), name, fileName, lineIndex);
+		assert( node != NULL );
+
+		root->Append(node);
 		}
 
-	(GetWidget())->FinishedLoading(currentThreadIndex);
-}
-
-/******************************************************************************
- ExtractThreadIndex (static private)
-
- ******************************************************************************/
-
-static const JRegex indexPattern = "^[[:space:]]*([[:digit:]]+)[[:space:]]+";
-
-JBoolean
-LLDBGetThreads::ExtractThreadIndex
-	(
-	const JString&	line,
-	JIndex*			threadIndex
-	)
-{
-	JArray<JIndexRange> matchList;
-	if (indexPattern.Match(line, &matchList))
-		{
-		const JString lineStr = line.GetSubstring(matchList.GetElement(2));
-		const JBoolean ok     = lineStr.ConvertToUInt(threadIndex);
-		assert( ok );
-
-		return kJTrue;
-		}
-	else
-		{
-		*threadIndex = 0;
-		return kJFalse;
-		}
-}
-
-/******************************************************************************
- ExtractLocation (static private)
-
- ******************************************************************************/
-
-static const JRegex locationPattern = "[ \t]+at[ \t]+(.+):([[:digit:]]+)$";
-
-JBoolean
-LLDBGetThreads::ExtractLocation
-	(
-	const JString&	line,
-	JString*		fileName,
-	JIndex*			lineIndex
-	)
-{
-	JArray<JIndexRange> matchList;
-	if (locationPattern.Match(line, &matchList))
-		{
-		*fileName = line.GetSubstring(matchList.GetElement(2));
-
-		const JString lineStr = line.GetSubstring(matchList.GetElement(3));
-		const JBoolean ok     = lineStr.ConvertToUInt(lineIndex);
-		assert( ok );
-
-		return kJTrue;
-		}
-	else
-		{
-		fileName->Clear();
-		*lineIndex = 0;
-		return kJFalse;
-		}
-}
-
-/******************************************************************************
- CompareThreadIndices (static private)
-
- ******************************************************************************/
-
-JOrderedSetT::CompareResult
-LLDBGetThreads::CompareThreadIndices
-	(
-	JString* const & l1,
-	JString* const & l2
-	)
-{
-	JIndex i1, i2;
-	if (!ExtractThreadIndex(*l1, &i1) ||
-		!ExtractThreadIndex(*l2, &i1))
-		{
-		return JOrderedSetT::kFirstLessSecond;
-		}
-	else
-		{
-		return JCompareIndices(i1, i2);
-		}
+	(GetWidget())->FinishedLoading(p.GetSelectedThread().GetThreadID());
 }

@@ -24,10 +24,6 @@ public:
 
 	virtual	~LLDBGetThreads();
 
-	static JBoolean	ExtractThreadIndex(const JString& line, JIndex* threadIndex);
-	static JBoolean	ExtractLocation(const JString& line,
-									JString* fileName, JIndex* lineIndex);
-
 protected:
 
 	virtual void	HandleSuccess(const JString& data);
@@ -37,9 +33,6 @@ private:
 	JTree*	itsTree;	// not owned
 
 private:
-
-	static JOrderedSetT::CompareResult
-		CompareThreadIndices(JString* const & l1, JString* const & l2);
 
 	// not allowed
 

@@ -10,6 +10,13 @@
 #include <cmStdInc.h>
 #include "LLDBGetLocalVars.h"
 #include "CMVarNode.h"
+#include "lldb/API/SBTarget.h"
+#include "lldb/API/SBProcess.h"
+#include "lldb/API/SBThread.h"
+#include "lldb/API/SBFrame.h"
+#include "lldb/API/SBValueList.h"
+#include "lldb/API/SBValue.h"
+#include "LLDBLink.h"
 #include "cmGlobals.h"
 #include <jAssert.h>
 
@@ -48,75 +55,32 @@ LLDBGetLocalVars::HandleSuccess
 	const JString& data
 	)
 {
-/*
-	JIndex separatorIndex;
-	if (!data.LocateSubstring(kSeparator, &separatorIndex))
+	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
+	if (link == NULL)
 		{
 		itsRootNode->DeleteAllChildren();
 		return;
 		}
 
-	JString argData, varData;
-	if (separatorIndex > 1)
+	lldb::SBFrame f = link->GetDebugger()->GetSelectedTarget().GetProcess().GetSelectedThread().GetSelectedFrame();
+	if (!f.IsValid())
 		{
-		argData = data.GetSubstring(1, separatorIndex-1);
-		}
-	separatorIndex += strlen(kSeparator);
-	if (separatorIndex <= data.GetLength())
-		{
-		varData = data.GetSubstring(separatorIndex, data.GetLength());
+		itsRootNode->DeleteAllChildren();
+		return;
 		}
 
-	// build list of arguments
-
-	JPtrArray<JString> nameList(JPtrArrayT::kDeleteAll),
-					   valueList(JPtrArrayT::kDeleteAll);
-
-	CleanVarString(&argData);
-
-	JIndexRange matchedRange;
-	JArray<JIndexRange> matchList;
-	while (varPattern.MatchAfter(argData, matchedRange, &matchList))
+	lldb::SBValueList vars = f.GetVariables(true, true, false, false, lldb::eDynamicDontRunTarget);
+	if (!vars.IsValid())
 		{
-		JString* name = new JString(argData.GetSubstring(matchList.GetElement(2)));
-		assert( name != NULL );
-		name->TrimWhitespace();
-		nameList.Append(name);
-
-		JString* value = new JString(argData.GetSubstring(matchList.GetElement(3)));
-		assert( value != NULL );
-		value->TrimWhitespace();
-		valueList.Append(value);
-
-		matchedRange = matchList.GetFirstElement();
-		}
-
-	// build list of local variables in reverse order
-
-	CleanVarString(&varData);
-
-	matchedRange.SetToNothing();
-	const JIndex insertionIndex = nameList.GetElementCount()+1;
-	while (varPattern.MatchAfter(varData, matchedRange, &matchList))
-		{
-		JString* name = new JString(varData.GetSubstring(matchList.GetElement(2)));
-		assert( name != NULL );
-		name->TrimWhitespace();
-		nameList.InsertAtIndex(insertionIndex, name);
-
-		JString* value = new JString(varData.GetSubstring(matchList.GetElement(3)));
-		assert( value != NULL );
-		value->TrimWhitespace();
-		valueList.InsertAtIndex(insertionIndex, value);
-
-		matchedRange = matchList.GetFirstElement();
+		itsRootNode->DeleteAllChildren();
+		return;
 		}
 
 	// delete existing nodes beyond the first one that doesn't match the
 	// new variable names
 
-	JSize newCount  = nameList.GetElementCount();
-	JSize origCount = itsRootNode->GetChildCount();
+	const JSize newCount = vars.GetSize();
+	JSize origCount      = itsRootNode->GetChildCount();
 
 	while (origCount > newCount)
 		{
@@ -129,7 +93,7 @@ LLDBGetLocalVars::HandleSuccess
 	for (JIndex i=1; i<=origCount; i++)
 		{
 		if ((itsRootNode->GetVarChild(i))->GetName() !=
-			*(nameList.NthElement(i)))
+			vars.GetValueAtIndex(i-1).GetName())
 			{
 			if (i == 1)		// optimize since likely to be most common case
 				{
@@ -152,18 +116,26 @@ LLDBGetLocalVars::HandleSuccess
 
 	for (JIndex i=1; i<=newCount; i++)
 		{
+		lldb::SBValue v = vars.GetValueAtIndex(i-1);
+
 		CMVarNode* node = NULL;
 		if (i <= origCount)
 			{
 			node = itsRootNode->GetVarChild(i);
 			}
-		else
+		else if (v.GetValue() != NULL)
 			{
-			node = (CMGetLink())->CreateVarNode(NULL, *(nameList.NthElement(i)), NULL, "");
+			node = (CMGetLink())->CreateVarNode(NULL, v.GetName(), NULL, v.GetValue());
 			assert( node != NULL );
+
+			if (v.TypeIsPointerType())
+				{
+				node->MakePointer(kJTrue);
+				}
+
 			itsRootNode->Append(node);	// avoid automatic update
 			}
-
+/*
 		const JString* value = valueList.NthElement(i);
 		if (LLDB7RefPattern.Match(*value))
 			{
@@ -182,6 +154,5 @@ LLDBGetLocalVars::HandleSuccess
 				node->UpdateFailed(*(valueList.NthElement(i)));
 				}
 			}
-		}
-*/
+*/		}
 }

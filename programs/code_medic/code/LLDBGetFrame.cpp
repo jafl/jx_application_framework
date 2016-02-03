@@ -9,6 +9,10 @@
 
 #include <cmStdInc.h>
 #include "LLDBGetFrame.h"
+#include "lldb/API/SBTarget.h"
+#include "lldb/API/SBProcess.h"
+#include "lldb/API/SBThread.h"
+#include "lldb/API/SBFrame.h"
 #include "CMStackWidget.h"
 #include "LLDBLink.h"
 #include "cmGlobals.h"
@@ -25,7 +29,7 @@ LLDBGetFrame::LLDBGetFrame
 	CMStackWidget* widget
 	)
 	:
-	CMGetFrame("-stack-info-frame"),
+	CMGetFrame(""),
 	itsWidget(widget)
 {
 }
@@ -44,46 +48,21 @@ LLDBGetFrame::~LLDBGetFrame()
 
  ******************************************************************************/
 
-static const JRegex framePattern = "\\bframe=\\{";
-
 void
 LLDBGetFrame::HandleSuccess
 	(
 	const JString& cmdData
 	)
 {
-/*
-	const JString& data = GetLastResult();
-
-	JIndexRange r;
-	if (framePattern.Match(data, &r))
+	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
+	if (link == NULL)
 		{
-		std::istringstream stream(data.GetCString());
-		stream.seekg(r.last);
+		return;
+		}
 
-		JStringPtrMap<JString> map(JPtrArrayT::kDeleteAll);
-		JString* s;
-		JIndex frameIndex;
-		if (!LLDBLink::ParseMap(stream, &map))
-			{
-			(CMGetLink())->Log("invalid data map");
-			}
-		else if (!map.GetElement("level", &s))
-			{
-			(CMGetLink())->Log("missing frame index");
-			}
-		else if (!s->ConvertToUInt(&frameIndex))
-			{
-			(CMGetLink())->Log("frame index is not integer");
-			}
-		else
-			{
-			itsWidget->SelectFrame(frameIndex);
-			}
-		}
-	else
+	lldb::SBFrame f = link->GetDebugger()->GetSelectedTarget().GetProcess().GetSelectedThread().GetSelectedFrame();
+	if (f.IsValid())
 		{
-		(CMGetLink())->Log("LLDBGetFrame failed to match");
+		itsWidget->SelectFrame(f.GetFrameID());
 		}
-*/
 }

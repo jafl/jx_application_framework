@@ -22,8 +22,6 @@ public:
 
 	virtual	~LLDBGetMemory();
 
-	virtual void	Starting();
-
 protected:
 
 	virtual void	HandleSuccess(const JString& data);

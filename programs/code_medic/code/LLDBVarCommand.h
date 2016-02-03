@@ -13,6 +13,7 @@
 #endif
 
 #include "CMVarCommand.h"
+#include "lldb/API/SBFrame.h"
 
 class LLDBVarCommand : public CMVarCommand
 {
@@ -22,11 +23,21 @@ public:
 
 	virtual	~LLDBVarCommand();
 
+	static void	BuildTree(lldb::SBFrame& frame, lldb::SBValue& value,
+						  const JCharacter* expr, CMVarNode* varRoot);
+
 protected:
 
 	virtual void	HandleSuccess(const JString& data);
 
 private:
+
+	JString	itsExpr;
+
+private:
+
+	static void	BuildTree(const JSize depth, lldb::SBFrame& frame,
+						  const JCharacter* expr, CMVarNode* varRoot);
 
 	// not allowed
 

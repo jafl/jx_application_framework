@@ -9,8 +9,11 @@
 
 #include <cmStdInc.h>
 #include "LLDBGetMemory.h"
+#include "lldb/API/SBCommandInterpreter.h"
+#include "lldb/API/SBCommandReturnObject.h"
 #include "CMMemoryDir.h"
-#include <JRegex.h>
+#include "LLDBLink.h"
+#include "cmGlobals.h"
 #include <jAssert.h>
 
 /******************************************************************************
@@ -37,9 +40,9 @@ LLDBGetMemory::~LLDBGetMemory()
 }
 
 /******************************************************************************
- Starting (virtual)
+ HandleSuccess (virtual protected)
 
- *****************************************************************************/
+ ******************************************************************************/
 
 static const JCharacter* kCommandName[] =
 {
@@ -47,51 +50,38 @@ static const JCharacter* kCommandName[] =
 };
 
 void
-LLDBGetMemory::Starting()
-{
-	CMGetMemory::Starting();
-
-	CMMemoryDir::DisplayType type;
-	JSize count;
-	const JString& expr = (GetDirector())->GetExpression(&type, &count);
-
-	JString cmd = "x/";
-	cmd        += JString(count, JString::kBase10);
-	cmd        += kCommandName[ type-1 ];
-	cmd        += " ";
-	cmd        += expr;
-
-	SetCommand(cmd);
-}
-
-/******************************************************************************
- HandleSuccess (virtual protected)
-
- ******************************************************************************/
-
-static const JRegex prefixPattern = "^\\s*0[xX][[:xdigit:]]+(.*):\\s";
-
-void
 LLDBGetMemory::HandleSuccess
 	(
 	const JString& data
 	)
 {
-	JString s =  data;
-
-	JIndex i = 1;
-	JArray<JIndexRange> matchList;
-	while (prefixPattern.MatchFrom(s, i, &matchList))
+	LLDBLink* link = dynamic_cast<LLDBLink*>(CMGetLink());
+	if (link == NULL)
 		{
-		s.RemoveSubstring(matchList.GetElement(2));
-		i = matchList.GetElement(2).first;
+		return;
 		}
 
-	i = 1;
-	while (s.LocateNextSubstring("\t", &i))
+	lldb::SBCommandInterpreter interp = link->GetDebugger()->GetCommandInterpreter();
+	if (!interp.IsValid())
 		{
-		s.SetCharacter(i, ' ');
+		return;
 		}
 
-	(GetDirector())->Update(s);
+	CMMemoryDir::DisplayType type;
+	JSize count;
+	const JString& expr = (GetDirector())->GetExpression(&type, &count);
+
+	JString cmd = "memory read -g ";
+	cmd        += JString(count, JString::kBase10);
+	cmd        += kCommandName[ type-1 ];
+	cmd        += " ";
+	cmd        += expr;
+
+	lldb::SBCommandReturnObject result;
+	interp.HandleCommand(cmd, result);
+
+	if (result.IsValid() && result.Succeeded() && result.HasResult())
+		{
+		(GetDirector())->Update(result.GetOutput());
+		}
 }
