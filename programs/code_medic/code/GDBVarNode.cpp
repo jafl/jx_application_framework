@@ -65,14 +65,29 @@ GDBVarNode::GetFullName
 	)
 	const
 {
+	return GetFullName(this, isPointer);
+}
+
+/******************************************************************************
+ GetFullName (static)
+
+ ******************************************************************************/
+
+JString
+GDBVarNode::GetFullName
+	(
+	const CMVarNode*	node,
+	JBoolean*			isPointer
+	)
+{
 	JString str;
-	if (IsRoot())
+	if (node->IsRoot())
 		{
 		return str;
 		}
 
-	const GDBVarNode* parent = dynamic_cast<const GDBVarNode*>(GetVarParent());
-	const JString& name      = GetName();
+	const GDBVarNode* parent = dynamic_cast<const GDBVarNode*>(node->GetVarParent());
+	const JString& name      = node->GetName();
 	if (parent->IsRoot())
 		{
 		str = "(" + name + ")";
@@ -80,7 +95,7 @@ GDBVarNode::GetFullName
 	else if (name.IsEmpty())
 		{
 		JIndex i;
-		const JBoolean found = parent->FindChild(this, &i);
+		const JBoolean found = parent->FindChild(node, &i);
 		assert( found );
 		str = parent->GetFullName(isPointer);
 		if (!str.BeginsWith("(") || !str.EndsWith(")"))
@@ -104,7 +119,7 @@ GDBVarNode::GetFullName
 		}
 	else if (name.BeginsWith("*"))
 		{
-		str = parent->GetPath() + "(" + name + ")";
+		str = GetPath(parent) + "(" + name + ")";
 		}
 	else
 		{
@@ -113,29 +128,31 @@ GDBVarNode::GetFullName
 			{
 			str.RemoveSubstring(1,7);
 			}
-		str.Prepend(parent->GetPath());
+		str.Prepend(GetPath(parent));
 		}
 
 	return str;
 }
 
 /******************************************************************************
- GetPath (private)
+ GetPath (static private)
 
  ******************************************************************************/
 
 JString
-GDBVarNode::GetPath()
-	const
+GDBVarNode::GetPath
+	(
+	const CMVarNode* node
+	)
 {
 	JString str;
-	if (IsRoot())
+	if (node->IsRoot())
 		{
 		return str;
 		}
 
-	JBoolean isPointer = IsPointer();
-	str  = GetFullName(&isPointer);
+	JBoolean isPointer = node->IsPointer();
+	str  = node->GetFullName(&isPointer);
 	str += isPointer ? "->" : ".";
 	return str;
 }

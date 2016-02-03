@@ -1,28 +1,16 @@
-update Code Medic on Sourceforge to link to ChangeLog.html (updated along with VERSION)
-
-run w/out program: run after choosing
-
-ProgramFinished should clear
-	location pointer in src & asm
-	thread window
-	stack window
-
-should LLDBLink::OKToSendCommands() check ProgramIsRunning()?
-
-test
-	threads - switch between threads
-
 lldb
-	http://lldb.llvm.org/lldb-gdb.html
-	http://lldb.llvm.org/varformats.html
-
-	http://lldb.llvm.org/architecture.html
-	http://lldb.llvm.org/cpp_reference/html/index.html
-
 	set itsIsAttachedFlag by listening for SBProcess::eBroadcastBitStateChanged
 		with state == eStateAttaching
 	clear when state == eStateDetached
+
 	ability to send text to running program as input
+
++	registers should update after step, istep, finish, stop
+
+	should LLDBLink::OKToSendCommands() check ProgramIsRunning()?
+
+	clear breakpoint in assembly window
+		update uses of itsBPList->SearchSorted to account for asm option
 
 java
 	selected stack frame

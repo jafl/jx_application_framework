@@ -29,8 +29,6 @@ public:
 
 private:
 
-	JString	GetPath() const;
-
 	// not allowed
 
 	JVMVarNode(const JVMVarNode& source);

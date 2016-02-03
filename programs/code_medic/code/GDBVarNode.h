@@ -26,9 +26,11 @@ public:
 
 	virtual JString	GetFullName(JBoolean* isPointer = NULL) const;
 
+	static JString	GetFullName(const CMVarNode* node, JBoolean* isPointer = NULL);
+
 private:
 
-	JString	GetPath() const;
+	static JString	GetPath(const CMVarNode* node);
 
 	// not allowed
 

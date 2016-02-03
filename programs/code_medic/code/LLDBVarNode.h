@@ -28,8 +28,6 @@ public:
 
 private:
 
-	JString	GetPath() const;
-
 	// not allowed
 
 	LLDBVarNode(const LLDBVarNode& source);
