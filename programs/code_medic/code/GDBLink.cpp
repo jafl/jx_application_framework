@@ -387,7 +387,7 @@ GDBLink::Receive
  *****************************************************************************/
 
 static JRegex pingRecvPattern =
-	"^(&\"echo \\\\\\\\032\\\\\\\\032:Medic debugger ready:[0-9]+:\\\\n\"\n"
+	"^(&\"echo \\\\\\\\032\\\\\\\\032:Medic debugger ready:[[:digit:]]+:\\\\n\"\n"
 	"\\^error,msg=\"Cannot execute this command while the target is running.\"\n"
 	"\\(gdb\\) \n)+$";
 
@@ -508,7 +508,8 @@ GDBLink::ReadFromDebugger()
 			{
 			if (itsPrintingOutputFlag)
 				{
-				Broadcast(UserOutput(*(token.data.pString), kJFalse, ProgramIsRunning()));
+				// We cannot tell the difference between gdb and program output
+				Broadcast(UserOutput(*(token.data.pString), kJFalse, kJFalse));
 				}
 			}
 		else if (token.type == GDBScanner::kErrorOutput)
@@ -2185,7 +2186,7 @@ GDBLink::Send
  *****************************************************************************/
 
 static JRegex pingSendPattern =
-	"^echo \\\\032\\\\032:Medic debugger ready:[0-9]+:$";
+	"^echo \\\\032\\\\032:Medic debugger ready:[[:digit:]]+:$";
 
 void
 GDBLink::SendRaw

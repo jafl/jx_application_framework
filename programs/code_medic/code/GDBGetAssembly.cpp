@@ -80,7 +80,7 @@ GDBGetAssembly::Starting()
  *****************************************************************************/
 
 static const JRegex bpPattern     = "asm_insns=\\[";
-static const JRegex offsetPattern = "<\\+[0-9]+>$";
+static const JRegex offsetPattern = "<\\+[[:digit:]]+>$";
 
 void
 GDBGetAssembly::HandleSuccess

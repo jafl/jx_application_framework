@@ -102,7 +102,7 @@ GDBDisplaySourceForMain::Receive
  ******************************************************************************/
 
 static const JRegex infoPattern =
-	"Line [0-9]+ of \"[^\"]*\" starts at address";
+	"Line [[:digit:]]+ of \"[^\"]*\" starts at address";
 static const JRegex locationPattern =
 	"032032(.+):([[:digit:]]+):[[:digit:]]+:[^:]+:0x[[:xdigit:]]+";
 

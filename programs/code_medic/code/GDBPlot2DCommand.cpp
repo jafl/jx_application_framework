@@ -76,7 +76,7 @@ GDBPlot2DCommand::UpdateRange
  ******************************************************************************/
 
 #include "cmGlobals.h"
-static const JRegex prefixPattern = "^\\$[0-9]+[[:space:]]+=[[:space:]]+(.*)$";
+static const JRegex prefixPattern = "^\\$[[:digit:]]+[[:space:]]+=[[:space:]]+(.*)$";
 
 void
 GDBPlot2DCommand::HandleSuccess

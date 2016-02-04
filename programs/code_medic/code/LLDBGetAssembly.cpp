@@ -51,7 +51,7 @@ LLDBGetAssembly::~LLDBGetAssembly()
 
  *****************************************************************************/
 
-static const JRegex offsetPattern = "<\\+[0-9]+>$";
+static const JRegex offsetPattern = "<\\+[[:digit:]]+>$";
 
 void
 LLDBGetAssembly::HandleSuccess

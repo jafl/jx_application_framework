@@ -48,7 +48,7 @@ GDBVarCommand::~GDBVarCommand()
 
 static JRegex prefixPattern =
 	"^([^\v]*\v\n*|warning:[^\n\v]*[\n\v]+)*[[:space:]]*"
-	"\\$[0-9]+[[:space:]]*=[[:space:]]*";
+	"\\$[[:digit:]]+[[:space:]]*=[[:space:]]*";
 
 void
 GDBVarCommand::HandleSuccess
