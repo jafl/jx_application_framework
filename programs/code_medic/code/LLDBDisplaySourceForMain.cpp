@@ -96,6 +96,7 @@ LLDBDisplaySourceForMain::HandleSuccess
 			lldb::SBFileSpec file    = unit.GetFileSpec();
 			if (unit.IsValid() && file.IsValid())
 				{
+				// sym.GetLineEntry() is not valid
 				JString fullName = JCombinePathAndName(file.GetDirectory(), file.GetFilename());
 				(GetSourceDir())->DisplayFile(fullName, 1, kJFalse);
 				found = kJTrue;
