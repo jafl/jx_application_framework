@@ -1054,12 +1054,16 @@ CMLineNumberTable::UpdateBreakpoints()
 		JString target;
 		for (JIndex i=1; i<=count; i++)
 			{
-			const CMBreakpoint* bp = itsBPList->NthElement(i);
+			JIndex j = 0;
+			if (itsLineNumberList != NULL)
+				{
+				const CMBreakpoint* bp = itsBPList->NthElement(i);
 
-			target = GetLinePrefixFromAddress(bp->GetAddress());
+				target = GetLinePrefixFromAddress(bp->GetAddress());
 
-			JBoolean found;
-			const JIndex j = itsLineNumberList->SearchSorted1(&target, JOrderedSetT::kAnyMatch, &found);
+				JBoolean found;
+				j = itsLineNumberList->SearchSorted1(&target, JOrderedSetT::kAnyMatch, &found);
+				}
 			itsVisualBPIndexList->AppendElement(j);
 			}
 		}
