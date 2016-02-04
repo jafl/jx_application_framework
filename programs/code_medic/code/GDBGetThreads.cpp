@@ -50,7 +50,7 @@ GDBGetThreads::~GDBGetThreads()
 
  ******************************************************************************/
 
-static const JRegex prefixPattern = "^[[:digit:]]+[[:space:]]+";
+static const JRegex prefixPattern = "^([[:digit:]]+)[[:space:]]+";
 
 void
 GDBGetThreads::HandleSuccess
@@ -67,6 +67,7 @@ GDBGetThreads::HandleSuccess
 	const std::string s(data.GetCString(), data.GetLength());
 	std::istringstream input(s);
 	JString line;
+	JArray<JIndexRange> matchList;
 	while (1)
 		{
 		line = JReadLine(input);
@@ -85,22 +86,24 @@ GDBGetThreads::HandleSuccess
 				ExtractThreadIndex(line, &currentThreadIndex);
 				}
 
-			if (!prefixPattern.Match(line))
+			if (prefixPattern.Match(line, &matchList))
 				{
-				continue;
-				}
+				JIndexRange r;
+				line.ReplaceSubstring(matchList.GetElement(1),
+					line.GetSubstring(matchList.GetElement(2)) + ":  ", &r);
 
-			if (line.GetLength() >= kThreadIndexWidth)
-				{
-				while (!isdigit(line.GetCharacter(kThreadIndexWidth)))
+				if (line.GetLength() >= kThreadIndexWidth)
 					{
-					line.PrependCharacter('0');
+					while (!isdigit(line.GetCharacter(kThreadIndexWidth)))
+						{
+						line.PrependCharacter('0');
+						}
 					}
-				}
 
-			JString* s = new JString(line);
-			assert( s != NULL );
-			threadList.InsertSorted(s);
+				JString* s = new JString(line);
+				assert( s != NULL );
+				threadList.InsertSorted(s);
+				}
 			}
 		}
 
@@ -131,7 +134,7 @@ GDBGetThreads::HandleSuccess
 
  ******************************************************************************/
 
-static const JRegex indexPattern = "^[[:space:]]*([[:digit:]]+)[[:space:]]+";
+static const JRegex indexPattern = "^[[:digit:]]+";
 
 JBoolean
 GDBGetThreads::ExtractThreadIndex
@@ -140,10 +143,10 @@ GDBGetThreads::ExtractThreadIndex
 	JIndex*			threadIndex
 	)
 {
-	JArray<JIndexRange> matchList;
-	if (indexPattern.Match(line, &matchList))
+	JIndexRange r;
+	if (indexPattern.Match(line, &r))
 		{
-		const JString lineStr = line.GetSubstring(matchList.GetElement(2));
+		const JString lineStr = line.GetSubstring(r);
 		const JBoolean ok     = lineStr.ConvertToUInt(threadIndex);
 		assert( ok );
 
