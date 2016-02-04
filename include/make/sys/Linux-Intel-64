@@ -101,9 +101,14 @@ J_ACE_LIBS  := -L${JX_ROOT}/lib -lACE-${ACE_LIB_VERSION}
 J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} ${J_XINERAMA_LIBS} -lfontconfig -lXext -lXft -lXpm -lX11
 J_MESA_LIBS := -L${JX_ROOT}/lib -lGLU -lGL -lpthread
 
+# lldb
+
+J_LLDB_LIBS          := -L/usr/lib64/llvm -llldb
+J_POST_LINK_LLDB_CMD := :
+
 # gzipped libraries to include in RPM
 
-J_RPM_GZ_LIBS := /usr/lib64/libstdc++.so.6
+J_RPM_GZ_LIBS := /usr/lib64/libstdc++.so.6 /usr/lib64/llvm/liblldb.so
 
 # modify settings based on OS, compiler, etc.
 

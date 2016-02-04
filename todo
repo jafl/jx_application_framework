@@ -1,5 +1,3 @@
--R for Linux to find lldb in our lib directory for rpm
-
 lldb
 	set itsIsAttachedFlag by listening for SBProcess::eBroadcastBitStateChanged
 		with state == eStateAttaching
@@ -15,10 +13,6 @@ lldb
 
 gdb
 	Assembly window does not show breakpoints or correct program location
-
-	threads window format
-		##: ...
-		  ^
 
 java
 	selected stack frame

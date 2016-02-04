@@ -92,10 +92,6 @@ J_ACE_LIBS  := -L${JX_ROOT}/lib -lACE-${ACE_LIB_VERSION}
 J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} -lXext -lXft -lfontconfig -lXpm -lX11
 J_MESA_LIBS := ${JX_ROOT}/lib/libGLU.a ${JX_ROOT}/lib/libGL.a
 
-# modify settings based on OS, compiler, etc.
-
-include ${JX_ROOT}/include/make/jx_config_common
-
 # libpng is part of X11
 
 J_IMG_LIBS := ${J_X11_LIB_DIR} ${J_IMG_LIBS}
@@ -105,3 +101,7 @@ J_STD_LIBS := ${J_X11_LIB_DIR} ${J_STD_LIBS}
 
 J_LLDB_LIBS          := -losxlldb
 J_POST_LINK_LLDB_CMD := install_name_tool -add_rpath /Library/Developer/CommandLineTools/Library/PrivateFrameworks
+
+# modify settings based on OS, compiler, etc.
+
+include ${JX_ROOT}/include/make/jx_config_common
