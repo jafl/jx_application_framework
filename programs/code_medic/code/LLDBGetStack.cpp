@@ -94,7 +94,9 @@ LLDBGetStack::HandleSuccess
 			frameName.PrependCharacter('0');
 			}
 		frameName += ":  ";
-		frameName += f.GetFunctionName();
+
+		const JCharacter* name = f.GetFunctionName();
+		frameName += (name == NULL ? "?" : name);
 
 		JIndex lineIndex      = 0;
 		lldb::SBLineEntry e   = f.GetLineEntry();
