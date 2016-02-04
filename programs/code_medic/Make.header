@@ -71,7 +71,7 @@ endif
 
 # make variables
 
-LOADLIBES := -L${JLIBDIR} ${lj2dplot} ${ljexpr} -llldb ${J_STD_LIBS}
+LOADLIBES := -L${JLIBDIR} ${lj2dplot} ${ljexpr} ${J_LLDB_LIBS} ${J_STD_LIBS}
 LDFLAGS   := -Xlinker -headerpad_max_install_names
 ifdef J_BUILD_SHARED_LIB
   LDFLAGS += -Xlinker -R${RPM_LIB_PATH}
@@ -82,7 +82,7 @@ DEBUG_LOADLIBES := -L${JLIBDIR} \
                    ${lj2dplot} ${ljexpr} \
                    ${ljx} ${ljcore} ${J_ACE_LIBS} \
                    ${J_END_LINK_STATIC} \
-                   -llldb ${J_X11_LIBS} ${J_GCC_LIBS}
+                   ${J_LLDB_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
 
 #####
 

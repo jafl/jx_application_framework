@@ -1,14 +1,24 @@
+-R for Linux to find lldb in our lib directory for rpm
+
 lldb
 	set itsIsAttachedFlag by listening for SBProcess::eBroadcastBitStateChanged
 		with state == eStateAttaching
 	clear when state == eStateDetached
 
-	ability to send text to running program as input
+?	send text to running program as input: scanftest
 
 	should LLDBLink::OKToSendCommands() check ProgramIsRunning()?
 
-	clear breakpoint in assembly window
-		update uses of itsBPList->SearchSorted to account for asm option
+	Split CMLineNumberTable into 2 extensions
+		clear breakpoint in assembly window
+			update uses of itsBPList->SearchSorted to account for asm option
+
+gdb
+	Assembly window does not show breakpoints or correct program location
+
+	threads window format
+		##: ...
+		  ^
 
 java
 	selected stack frame

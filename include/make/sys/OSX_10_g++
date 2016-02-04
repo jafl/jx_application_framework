@@ -103,4 +103,5 @@ J_STD_LIBS := ${J_X11_LIB_DIR} ${J_STD_LIBS}
 
 # lldb
 
+J_LLDB_LIBS          := -losxlldb
 J_POST_LINK_LLDB_CMD := install_name_tool -add_rpath /Library/Developer/CommandLineTools/Library/PrivateFrameworks
