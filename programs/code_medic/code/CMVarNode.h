@@ -77,6 +77,9 @@ protected:
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 	virtual void	ReceiveGoingAway(JBroadcaster* sender);
 
+	JString	GetFullNameForCFamilyLanguage(JBoolean* isPointer) const;
+	JString	GetPathForCFamilyLanguage() const;
+
 private:
 
 	const JBoolean		itsShouldListenToLinkFlag;

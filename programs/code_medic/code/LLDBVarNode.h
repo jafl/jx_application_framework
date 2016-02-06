@@ -13,6 +13,8 @@
 #endif
 
 #include "CMVarNode.h"
+#include "lldb/API/SBFrame.h"
+#include "lldb/API/SBValue.h"
 
 class LLDBVarNode : public CMVarNode
 {
@@ -25,6 +27,8 @@ public:
 	virtual	~LLDBVarNode();
 
 	virtual JString	GetFullName(JBoolean* isPointer = NULL) const;
+
+	static CMVarNode*	BuildTree(lldb::SBFrame& frame, lldb::SBValue& value);
 
 private:
 

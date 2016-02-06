@@ -562,7 +562,7 @@ CMVarNode::UpdateChildren()
 /******************************************************************************
  UpdateValue
 
-	Called by self and GDBGetLocalVars.
+	Called by self and *GetLocalVars.
 
  ******************************************************************************/
 
@@ -589,7 +589,7 @@ CMVarNode::UpdateValue()
 /******************************************************************************
  UpdateValue
 
-	Called by GDBGetLocalVars.
+	Called by *GetLocalVars.
 
  ******************************************************************************/
 
@@ -606,7 +606,7 @@ CMVarNode::UpdateValue
 /******************************************************************************
  UpdateFailed
 
-	Called by GDBGetLocalVars.
+	Called by *GetLocalVars.
 
  ******************************************************************************/
 
@@ -885,4 +885,91 @@ CMVarNode::GetVarChild
 	const CMVarNode* node = dynamic_cast<const CMVarNode*>(GetChild(index));
 	assert (node != NULL);
 	return node;
+}
+
+/******************************************************************************
+ GetFullNameForCFamilyLanguage (protected)
+
+ ******************************************************************************/
+
+JString
+CMVarNode::GetFullNameForCFamilyLanguage
+	(
+	JBoolean* isPointer
+	)
+	const
+{
+	JString str;
+	if (IsRoot())
+		{
+		return str;
+		}
+
+	const CMVarNode* parent = GetVarParent();
+	const JString& name     = GetName();
+	if (parent->IsRoot())
+		{
+		str = "(" + name + ")";
+		}
+	else if (name.IsEmpty())
+		{
+		JIndex i;
+		const JBoolean found = parent->FindChild(this, &i);
+		assert( found );
+		str = parent->GetFullName(isPointer);
+		if (!str.BeginsWith("(") || !str.EndsWith(")"))
+			{
+			str.PrependCharacter('(');
+			str.AppendCharacter(')');
+			}
+		str += "[" + JString(i-1, JString::kBase10) + "]";
+		}
+	else if (name.BeginsWith("<"))
+		{
+		if (isPointer != NULL)
+			{
+			*isPointer = parent->IsPointer();
+			}
+		str = parent->GetFullName(isPointer);
+		}
+	else if (name.BeginsWith("["))
+		{
+		str = parent->GetFullName(isPointer) + name;
+		}
+	else if (name.BeginsWith("*"))
+		{
+		str = parent->GetPathForCFamilyLanguage() + "(" + name + ")";
+		}
+	else
+		{
+		str = name;
+		if (str.BeginsWith("static "))
+			{
+			str.RemoveSubstring(1,7);
+			}
+		str.Prepend(parent->GetPathForCFamilyLanguage());
+		}
+
+	return str;
+}
+
+/******************************************************************************
+ GetPathForCFamilyLanguage (protected)
+
+ ******************************************************************************/
+
+JString
+CMVarNode::GetPathForCFamilyLanguage()
+	const
+{
+	JString str;
+	if (IsRoot())
+		{
+		return str;
+		}
+
+	JBoolean isPointer = IsPointer();
+	str  = GetFullName(&isPointer);
+	str += isPointer ? "->" : ".";
+	return str;
 }

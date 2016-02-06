@@ -9,7 +9,6 @@
 
 #include <cmStdInc.h>
 #include "JVMVarNode.h"
-#include "GDBVarNode.h"
 #include "CMVarCommand.h"
 #include "cmGlobals.h"
 #include <JTree.h>
@@ -67,5 +66,5 @@ JVMVarNode::GetFullName
 	)
 	const
 {
-	return GDBVarNode::GetFullName(this, isPointer);
+	return GetFullNameForCFamilyLanguage(isPointer);
 }

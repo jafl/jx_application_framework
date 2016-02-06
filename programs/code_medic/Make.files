@@ -98,8 +98,8 @@
 .cpp ./code/GDBGetCompletions
 .cpp ./code/GDBGetFrame
 .cpp ./code/GDBGetFullPath
-.cpp ./code/GDBGetLocalVars
 .cpp ./code/GDBGetInitArgs
+.cpp ./code/GDBGetLocalVars
 .cpp ./code/GDBGetMemory
 .cpp ./code/GDBGetProgramName
 .cpp ./code/GDBGetRegisters
@@ -127,14 +127,14 @@
 .cpp ./code/LLDBGetCompletions
 .cpp ./code/LLDBGetFrame
 .cpp ./code/LLDBGetFullPath
+.cpp ./code/LLDBGetInitArgs
+.cpp ./code/LLDBGetLocalVars
 .cpp ./code/LLDBGetMemory
 .cpp ./code/LLDBGetRegisters
 .cpp ./code/LLDBGetSourceFileList
 .cpp ./code/LLDBGetStack
 .cpp ./code/LLDBGetThread
 .cpp ./code/LLDBGetThreads
-.cpp ./code/LLDBGetLocalVars
-.cpp ./code/LLDBGetInitArgs
 .cpp ./code/LLDBVarCommand
 .cpp ./code/LLDBVarNode
 .cpp ./code/JVMLink
@@ -156,6 +156,7 @@
 .cpp ./code/JVMGetStack
 .cpp ./code/JVMGetThread
 .cpp ./code/JVMGetThreads
+.cpp ./code/JVMVarNode
 .cpp ./code/JVMArray2DCommand
 .cpp ./code/JVMPlot2DCommand
 .cpp ./code/JVMGetBreakpoints
@@ -164,7 +165,6 @@
 .cpp ./code/JVMGetInitArgs
 .cpp ./code/JVMGetLocalVars
 .cpp ./code/JVMVarCommand
-.cpp ./code/JVMVarNode
 .cpp ./code/XDLink
 .cpp ./code/XDSocket
 .cpp ./code/XDWelcomeTask

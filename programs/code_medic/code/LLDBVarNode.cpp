@@ -9,7 +9,7 @@
 
 #include <cmStdInc.h>
 #include "LLDBVarNode.h"
-#include "GDBVarNode.h"
+#include "lldb/API/SBType.h"
 #include "CMVarCommand.h"
 #include "cmGlobals.h"
 #include <JTree.h>
@@ -66,5 +66,89 @@ LLDBVarNode::GetFullName
 	)
 	const
 {
-	return GDBVarNode::GetFullName(this, isPointer);
+	return GetFullNameForCFamilyLanguage(isPointer);
+}
+
+/******************************************************************************
+ BuildTree (static)
+
+ ******************************************************************************/
+
+CMVarNode*
+LLDBVarNode::BuildTree
+	(
+	lldb::SBFrame& f,
+	lldb::SBValue& v
+	)
+{
+	const JCharacter* s = v.GetValue();
+	if (s == NULL)
+		{
+		s = "";
+		}
+
+	JString value      = s;
+	JBoolean isPointer = kJFalse;
+	JBoolean isSpecial = kJFalse;
+
+	if (v.TypeIsPointerType())
+		{
+		lldb::BasicType type = v.GetType().GetPointeeType().GetBasicType();
+
+		if ((type == lldb::eBasicTypeChar       ||
+			 type == lldb::eBasicTypeSignedChar ||
+			 type == lldb::eBasicTypeUnsignedChar) &&
+			v.GetSummary() != NULL)
+			{
+			value    += "  ";
+			value    += v.GetSummary();
+			isSpecial = kJTrue;
+			}
+		else
+			{
+			isPointer = kJTrue;
+			}
+		}
+	else if (v.GetType().GetTypeClass() == lldb::eTypeClassArray)
+		{
+		lldb::BasicType type = v.GetChildAtIndex(0).GetType().GetBasicType();
+		if ((type == lldb::eBasicTypeChar       ||
+			 type == lldb::eBasicTypeSignedChar ||
+			 type == lldb::eBasicTypeUnsignedChar) &&
+			v.GetSummary() != NULL)
+			{
+			value    += "  ";
+			value    += v.GetSummary();
+			isSpecial = kJTrue;
+			}
+		}
+
+	CMVarNode* node = (CMGetLink())->CreateVarNode(NULL, v.GetName(), NULL, value);
+	assert( node != NULL );
+
+	if (isPointer)
+		{
+		node->MakePointer(kJTrue);
+		return node;
+		}
+	else if (isSpecial)
+		{
+		return node;
+		}
+
+	if (v.MightHaveChildren())
+		{
+		const JSize count = v.GetNumChildren();
+		for (JIndex i=0; i<count; i++)
+			{
+			lldb::SBValue child = v.GetChildAtIndex(i, lldb::eDynamicDontRunTarget, true);
+			if (child.IsValid())
+				{
+				CMVarNode* n = BuildTree(f, child);
+				node->Append(n);	// avoid automatic update
+				}
+			}
+		}
+
+	return node;
 }

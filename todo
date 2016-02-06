@@ -6,15 +6,14 @@ Split CMLineNumberTable into 2 extensions
 	gdb: show breakpoints and correct program location
 
 lldb
+	test on Linux
+	test watchpoints
+
 	set itsIsAttachedFlag by listening for SBProcess::eBroadcastBitStateChanged
 		with state == eStateAttaching
 	clear when state == eStateDetached
 
-?	send text to running program as input: scanftest
-
-	should LLDBLink::OKToSendCommands() check ProgramIsRunning()?
-		state seems to arrive out of sequence, so prompt is not colored correctly
-		stack window opens inappropriately
+	when read from input, it echoes as output
 
 java
 	selected stack frame

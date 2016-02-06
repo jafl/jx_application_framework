@@ -17,6 +17,7 @@
 #include "lldb/API/SBValueList.h"
 #include "lldb/API/SBValue.h"
 #include "LLDBLink.h"
+#include "LLDBVarNode.h"
 #include "cmGlobals.h"
 #include <jAssert.h>
 
@@ -117,42 +118,18 @@ LLDBGetLocalVars::HandleSuccess
 	for (JIndex i=1; i<=newCount; i++)
 		{
 		lldb::SBValue v = vars.GetValueAtIndex(i-1);
-
-		CMVarNode* node = NULL;
-		if (i <= origCount)
+		if (v.IsValid())	// paranoia
 			{
-			node = itsRootNode->GetVarChild(i);
-			}
-		else if (v.GetValue() != NULL)
-			{
-			node = (CMGetLink())->CreateVarNode(NULL, v.GetName(), NULL, v.GetValue());
-			assert( node != NULL );
+			CMVarNode* node = LLDBVarNode::BuildTree(f, v);
 
-			if (v.TypeIsPointerType())
+			if (i <= origCount)
 				{
-				node->MakePointer(kJTrue);
-				}
-
-			itsRootNode->Append(node);	// avoid automatic update
-			}
-/*
-		const JString* value = valueList.NthElement(i);
-		if (LLDB7RefPattern.Match(*value))
-			{
-			node->UpdateValue();
-			}
-		else
-			{
-			LLDBVarTreeParser parser(*value);
-			if (parser.yyparse() == 0)
-				{
-				parser.ReportRecoverableError();
-				node->UpdateValue(parser.GetRootNode());
+				itsRootNode->GetVarChild(i)->UpdateValue(node);
 				}
 			else
 				{
-				node->UpdateFailed(*(valueList.NthElement(i)));
+				itsRootNode->Append(node);	// avoid automatic update
 				}
 			}
-*/		}
+		}
 }

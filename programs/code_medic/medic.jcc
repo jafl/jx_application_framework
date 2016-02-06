@@ -429,13 +429,13 @@ T
 F
 "./code/GDBGetFullPath.cpp"
 T
-2 "GDBGetLocalVars.cpp"
-F
-"./code/GDBGetLocalVars.cpp"
-T
 2 "GDBGetInitArgs.cpp"
 F
 "./code/GDBGetInitArgs.cpp"
+T
+2 "GDBGetLocalVars.cpp"
+F
+"./code/GDBGetLocalVars.cpp"
 T
 2 "GDBGetMemory.cpp"
 F
@@ -548,6 +548,14 @@ T
 F
 "./code/LLDBGetFullPath.cpp"
 T
+2 "LLDBGetInitArgs.cpp"
+F
+"./code/LLDBGetInitArgs.cpp"
+T
+2 "LLDBGetLocalVars.cpp"
+F
+"./code/LLDBGetLocalVars.cpp"
+T
 2 "LLDBGetMemory.cpp"
 F
 "./code/LLDBGetMemory.cpp"
@@ -571,17 +579,6 @@ T
 2 "LLDBGetThreads.cpp"
 F
 "./code/LLDBGetThreads.cpp"
-F
-T
-1 "todo"
-T
-2 "LLDBGetLocalVars.cpp"
-F
-"./code/LLDBGetLocalVars.cpp"
-T
-2 "LLDBGetInitArgs.cpp"
-F
-"./code/LLDBGetInitArgs.cpp"
 T
 2 "LLDBVarCommand.cpp"
 F
@@ -669,6 +666,10 @@ T
 2 "JVMGetThreads.cpp"
 F
 "./code/JVMGetThreads.cpp"
+T
+2 "JVMVarNode.cpp"
+F
+"./code/JVMVarNode.cpp"
 F
 T
 1 "todo"
@@ -704,10 +705,6 @@ T
 2 "JVMVarCommand.cpp"
 F
 "./code/JVMVarCommand.cpp"
-T
-2 "JVMVarNode.cpp"
-F
-"./code/JVMVarNode.cpp"
 F
 T
 1 "Xdebug"

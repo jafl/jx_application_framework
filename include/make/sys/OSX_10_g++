@@ -67,7 +67,7 @@ J_USE_THREADS := yes
 J_RAW_SYSTEM_STUFF := \
   -D_J_OSX -DSIZEOF_LONG=8 -DSIZEOF_INT=4 -DSIZEOF_LONGLONG=8 \
   -D_J_HAS_SYSCTL -D_XFT_NO_COMPAT_ -I/usr/X11/include/freetype2 \
-  -Wno-deprecated
+  -Wno-deprecated -Wno-c++11-narrowing
 
 #
 # Nothing below this line should ever need to be changed.

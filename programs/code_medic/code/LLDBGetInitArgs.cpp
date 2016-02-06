@@ -25,7 +25,7 @@ LLDBGetInitArgs::LLDBGetInitArgs
 	JXInputField* argInput
 	)
 	:
-	CMGetInitArgs("show args"),
+	CMGetInitArgs("NOP"),
 	itsArgInput(argInput)
 {
 }
@@ -42,9 +42,6 @@ LLDBGetInitArgs::~LLDBGetInitArgs()
 /******************************************************************************
  HandleSuccess (virtual protected)
 
-	Use the value from the result.  Otherwise, grab everything after the
-	first \" and toss the trailing \"\.
-
  ******************************************************************************/
 
 void
@@ -53,30 +50,4 @@ LLDBGetInitArgs::HandleSuccess
 	const JString& data
 	)
 {
-/*
-	const JString& result = GetLastResult();
-
-	JArray<JIndexRange> matchList;
-	JIndex index;
-	if (resultPattern.Match(result, &matchList))
-		{
-		JString args = result.GetSubstring(matchList.GetElement(2));
-		LLDBScanner::TranslateMIOutput(&args);
-		itsArgInput->SetText(args);
-		}
-	else if (data.LocateSubstring("\"", &index) && index < data.GetLength())
-		{
-		JString args = data.GetSubstring(index+1, data.GetLength());
-		args.TrimWhitespace();
-		if (args.EndsWith("\"."))
-			{
-			args.RemoveSubstring(args.GetLength()-1, args.GetLength());
-			}
-		itsArgInput->SetText(args);
-		}
-	else
-		{
-		(CMGetLink())->Log("LLDBGetInitArgs failed to match");
-		}
-*/
 }
