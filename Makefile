@@ -65,14 +65,14 @@ default:
 	@echo
 	@echo "Then run one of the following or check the README file:"
 	@echo
-	@echo "  ${MAKE_CMD} cygwin32       for Cygwin on Windows"
-	@echo "  ${MAKE_CMD} darwin_leopard for Macintosh OS X 10.5"
-	@echo "  ${MAKE_CMD} darwin_snow    for Macintosh OS X 10.6"
-	@echo "  ${MAKE_CMD} darwin_lion    for Macintosh OS X 10.7"
-	@echo "  ${MAKE_CMD} darwin_mav     for Macintosh OS X 10.9"
-	@echo "  ${MAKE_CMD} darwin_yos     for Macintosh OS X 10.10"
-	@echo "  ${MAKE_CMD} linux_intel-32 for Linux with g++ 3.x or above on 32-bit systems"
-	@echo "  ${MAKE_CMD} linux_intel    for Linux with g++ 3.x or above on 64-bit systems"
+	@echo "  ${MAKE_CMD} cygwin32      for Cygwin on Windows"
+	@echo "  ${MAKE_CMD} darwin_5      for Macintosh OS X 10.5"
+	@echo "  ${MAKE_CMD} darwin_6      for Macintosh OS X 10.6"
+	@echo "  ${MAKE_CMD} darwin_7      for Macintosh OS X 10.7"
+	@echo "  ${MAKE_CMD} darwin_9      for Macintosh OS X 10.9"
+	@echo "  ${MAKE_CMD} darwin_10     for Macintosh OS X 10.10"
+	@echo "  ${MAKE_CMD} linux_x86_64  for 32-bit Linux systems"
+	@echo "  ${MAKE_CMD} linux_x86_32  for 64-bit Linux systems"
 	@echo
 	@echo "If you are not sure which system you have, run \"uname -a\"."
 	@echo
@@ -137,8 +137,8 @@ CREATE_ACE_MACROS = \
 # glibc 2.8
 #
 
-.PHONY : linux_intel-32
-linux_intel-32: linux_common
+.PHONY : linux_x86_32
+linux_x86_32: linux_common
 	@ln -sf sys/Linux-Intel-32  include/make/jx_config
 	@${INSTALL_CMD}
 
@@ -146,8 +146,8 @@ linux_intel-32: linux_common
 # 64-bit RedHat 5.x
 #
 
-.PHONY : linux_intel
-linux_intel: linux_common
+.PHONY : linux_x86_64
+linux_x86_64: linux_common
 	@ln -sf sys/Linux-Intel-64  include/make/jx_config
 	@${INSTALL_CMD}
 
@@ -180,8 +180,8 @@ cygwin32: prep
 # OS X
 #
 
-.PHONY: darwin_leopard 
-darwin_leopard: prep
+.PHONY: darwin_5 
+darwin_5: prep
 	@ln -sf sys/OSX_5_g++ \
             include/make/jx_config
 	@ln -sf ../../include/missing_proto/jMissingProto_empty.h \
@@ -190,8 +190,8 @@ darwin_leopard: prep
 	@${TEST_ACE_MACROS} platform_macosx_leopard.GNU ${CREATE_ACE_MACROS}
 	@${INSTALL_CMD}
 
-.PHONY: darwin_snow
-darwin_snow: prep
+.PHONY: darwin_6
+darwin_6: prep
 	@ln -sf sys/OSX_6_g++ \
             include/make/jx_config
 	@ln -sf ../../include/missing_proto/jMissingProto_empty.h \
@@ -200,8 +200,8 @@ darwin_snow: prep
 	@${TEST_ACE_MACROS} platform_macosx_snowleopard.GNU ${CREATE_ACE_MACROS}
 	@${INSTALL_CMD}
 
-.PHONY: darwin_lion
-darwin_lion: prep
+.PHONY: darwin_7
+darwin_7: prep
 	@ln -sf sys/OSX_6_g++ \
             include/make/jx_config
 	@ln -sf ../../include/missing_proto/jMissingProto_empty.h \
@@ -210,8 +210,8 @@ darwin_lion: prep
 	@${TEST_ACE_MACROS} platform_macosx_lion.GNU ${CREATE_ACE_MACROS}
 	@${INSTALL_CMD}
 
-.PHONY: darwin_mav
-darwin_mav: prep
+.PHONY: darwin_9
+darwin_9: prep
 	@ln -sf sys/OSX_9_g++ \
             include/make/jx_config
 	@ln -sf ../../include/missing_proto/jMissingProto_empty.h \
@@ -220,8 +220,8 @@ darwin_mav: prep
 	@${TEST_ACE_MACROS} platform_macosx_mountainlion.GNU ${CREATE_ACE_MACROS}
 	@${INSTALL_CMD}
 
-.PHONY: darwin_yos
-darwin_yos: prep
+.PHONY: darwin_10
+darwin_10: prep
 	@ln -sf sys/OSX_10_g++ \
             include/make/jx_config
 	@ln -sf ../../include/missing_proto/jMissingProto_empty.h \
