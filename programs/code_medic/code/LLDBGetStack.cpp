@@ -122,7 +122,7 @@ LLDBGetStack::HandleSuccess
 			initFrameIndex  = f.GetFrameID();
 			selectNextFrame = kJFalse;
 			}
-		else if (assertPattern.Match(f.GetFunctionName()))
+		else if (f.GetFunctionName() != NULL && assertPattern.Match(f.GetFunctionName()))
 			{
 			selectNextFrame = kJTrue;
 			}
