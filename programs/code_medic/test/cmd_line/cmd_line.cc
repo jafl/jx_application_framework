@@ -1,13 +1,13 @@
-#include <iostream.h>
+#include <iostream>
 
 int main()
 {
 	char s[10000];
-	while (!cin.eof())
+	while (!std::cin.eof())
 		{
-		cout << "input: ";
-		cin >> s;
-		cout << s << endl;
+		std::cout << "input: ";
+		std::cin >> s;
+		std::cout << s << std::endl;
 		}
 
 	return 0;

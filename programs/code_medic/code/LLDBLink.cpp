@@ -339,7 +339,7 @@ LLDBLink::OKToSendCommands
 	)
 	const
 {
-	return kJTrue;
+	return JNegate(ProgramIsRunning());
 }
 
 /******************************************************************************
@@ -440,11 +440,15 @@ LLDBLink::HandleLLDBEvent
 			state == lldb::eStateStepping)
 			{
 			CancelBackgroundCommands();
+			Broadcast(DebuggerBusy());
 			Broadcast(ProgramRunning());
 			}
 		else if (state == lldb::eStateStopped ||
 				 state == lldb::eStateCrashed)
 			{
+			Broadcast(DebuggerReadyForInput());
+			RunNextCommand();
+
 			JString s;
 			if (ProgramStopped(&s))
 				{
@@ -1632,6 +1636,7 @@ LLDBLink::SendRaw
 		{
 		lldb::SBProcess p = itsDebugger->GetSelectedTarget().GetProcess();
 		p.PutSTDIN(text, strlen(text));
+		p.PutSTDIN("\n", 1);
 		}
 	else
 		{
@@ -1719,7 +1724,10 @@ LLDBLink::ProgramStopped
 			}
 		CMLocation location(fullName, line.IsValid() ? line.GetLine() : 0);
 
-		location.SetFunctionName(f.GetFunctionName());
+		if (f.GetFunctionName() != NULL)
+			{
+			location.SetFunctionName(f.GetFunctionName());
+			}
 
 		lldb::SBAddress addr = f.GetPCAddress();
 		if (addr.IsValid())
@@ -1775,6 +1783,9 @@ LLDBLink::ProgramFinished1()
 
 	Broadcast(UserOutput(reasonStr, kJFalse));
 	Broadcast(ProgramFinished());
+
+	Broadcast(DebuggerReadyForInput());
+	RunNextCommand();
 }
 
 /******************************************************************************
