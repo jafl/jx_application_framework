@@ -71,9 +71,9 @@ static const JCharacter* kFileMenuStr =
 	"  | Save as..."
 	"%l| Export module"
 	"%l| Page setup... "
-	"  | Print... %k Meta-P %i "kJXPrintAction
-	"%l| Close %k Meta-W %i "kJXCloseWindowAction
-	"  | Quit %k Meta-Q %i "kJXQuitAction;
+	"  | Print... %k Meta-P %i " kJXPrintAction
+	"%l| Close %k Meta-W %i " kJXCloseWindowAction
+	"  | Quit %k Meta-Q %i " kJXQuitAction;
 
 static const JCharacter* kGloveFileSignature   = "*** Glove File Format ***";
 static const JFileVersion kCurrentGloveVersion = 3;

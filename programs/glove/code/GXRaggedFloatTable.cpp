@@ -92,11 +92,11 @@ const JCoordinate kVMarginWidth = 1;
 
 static const JCharacter* kEditMenuTitleStr  = "Edit";
 static const JCharacter* kEditMenuStr =
-	"    Undo               %k Meta-Z %i "kJXUndoAction
-	"  | Redo               %k Meta-Shift-Z %i "kJXRedoAction
-	"%l| Cut                %k Meta-X %i "kJXCutAction
-	"  | Copy               %k Meta-C %i "kJXCopyAction
-	"  | Paste              %k Meta-V %i "kJXPasteAction
+	"    Undo               %k Meta-Z %i " kJXUndoAction
+	"  | Redo               %k Meta-Shift-Z %i " kJXRedoAction
+	"%l| Cut                %k Meta-X %i " kJXCutAction
+	"  | Copy               %k Meta-C %i " kJXCopyAction
+	"  | Paste              %k Meta-V %i " kJXPasteAction
 	"  | Paste at Selection"
 	"%l| Insert             %k Meta-I"
 	"  | Duplicate          %k Meta-D"
@@ -1797,7 +1797,7 @@ GXRaggedFloatTable::HandleDeletion()
 		{
 		GLUndoElementsCut* undo =
 			new GLUndoElementsCut(this, JPoint(startCol, 1),
-						 		  JPoint(startCol + cols - 1, GetRowCount()),
+								  JPoint(startCol + cols - 1, GetRowCount()),
 								  GLUndoElementsBase::kCols);
 		assert(undo != NULL);
 		NewUndo(undo);
@@ -2790,7 +2790,7 @@ GXRaggedFloatTable::PrintRealTable
 /******************************************************************************
  Undo (public)
 
- 	This is the function that is called when the user asks to undo.
+	This is the function that is called when the user asks to undo.
 
  ******************************************************************************/
 
@@ -2817,7 +2817,7 @@ GXRaggedFloatTable::Undo()
 /******************************************************************************
  Redo (public)
 
- 	This is the function that is called when the user asks to redo.
+	This is the function that is called when the user asks to redo.
 
  ******************************************************************************/
 
