@@ -21,3 +21,6 @@ obsolete/*/ChangeLog.html
 Mesa
 misc/Mesa.tgz
 misc/aspell*
+
+!lib/*.a
+!lib/*.so
