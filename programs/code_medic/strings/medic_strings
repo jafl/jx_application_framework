@@ -85,7 +85,7 @@ NoSelection::CMCommandDirector
 
 Welcome::CMCommandDirector
 "Welcome to Code Medic $vers
-(requires: gdb 6.0 or newer, Xdebug 2.0 or newer)
+(requires: gdb 7.4 or newer, Xdebug 2.0 or newer)
 
 Running on top of:
 "

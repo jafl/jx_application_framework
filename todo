@@ -1,3 +1,10 @@
+ASIO
+	http://think-async.com/Asio
+	lightweight networking library
+
+	io_service::poll_one()
+
+
 Split CMLineNumberTable into 2 extensions
 	update uses of itsBPList->SearchSorted to account for asm option
 
@@ -5,7 +12,11 @@ Split CMLineNumberTable into 2 extensions
 
 	gdb: show breakpoints and correct program location
 
+	until/jump -- use version with addr argument
+
 lldb
+	document SB*.h
+
 	test on Linux
 	test watchpoints
 
@@ -14,6 +25,17 @@ lldb
 	clear when state == eStateDetached
 
 	when read from input, it echoes as output
+
+replace rendering engine inside JXWindowPainter with UTF-8 version
+	http://cairographics.org/
+	will YUI yogi output correct be correct with check mark
+libXft
+	printing
+		gs -dNOPAUSE -dBATCH -sDEVICE=pswrite -sOutputFile=junk2.ps junk.ps
+		http://www.stat.auckland.ac.nz/~paul/R/CM/CMR.html
+		http://pages.cs.wisc.edu/~ghost/doc/gnu/7.05/Fonts.htm
+	Symbol
+		Figure out how to use tt version -- this will also fix printing
 
 java
 	selected stack frame
@@ -38,6 +60,18 @@ java
 	http://java.sun.com/javase/6/docs/platform/jpda/jdwp/jdwp-protocol.html
 
 	http://java.sun.com/j2se/1.5.0/docs/tooldocs/solaris/jdb.html
+
+xdebug
+	click stack trace: selection jumps back to last frame
+	temp breakpoint doesn't disappear
+
+	Enable XDSocket::StartTimer() when not debugging
+	Always update stack, even if Stack Trace window is hidden
+	Eliminate double call to get local vars
+		Preserve existing items; don't just delete all before update
+	request source from debugger instead of assuming that file:// exists
+	*set* values
+	support conditional breakpoints, etc.
 
 -----
 
@@ -98,13 +132,6 @@ jcc
 		treelist should stop listening to tree until done adding
 
 medic
-	disassembly window
-		until/jump -- use version with addr argument
-		show breakpoints via address field
-
-	update online documentation
-		requires gdb 7.4 on Linux
-
 	accept connection or switch to gdb:  should stop listening on port
 		need simple example to submit to ACE list
 	restart either xdebug or java:  unable to listen on port & crashes on exit
@@ -112,6 +139,23 @@ medic
 	gdb
 		enable call to UnlockDisplays(), when JXGetAssertHandler is defined
 			check every time symbols are loaded
+
+	for program with threads:
+		set scheduler-locking on/off/step
+		break <location> thread <gdb thread number>
+
+	CMBreakpointTable:
+		pressing return while editing the last row should save the value
+		problem is that setting breakpoint value takes time, so can't restart editing immediately
+
+	gdb test suite
+		start, choose program, set bkpt, run
+		start, run, open file, stop, set bkpt, continue
+		start with program name, set bkpt, run
+		start with core name
+		switch from core dump to running binary
+		switch from running binary to core dump
+		switch from one program to another
 
 -----
 
@@ -136,13 +180,6 @@ JXMenu::PrepareToOpenMenu()
 	itsOwner may delete us!
 
 -----
-
-medic
-	gdb for program with threads:
-		set scheduler-locking on/off/step
-		break <location> thread <gdb thread number>
-
-	OSX: stack trace loaded twice when hit breakpoint
 
 multi-pane editing
 	split off itsBuffer,itsStyles,itsUndo/RedoList into JTextBuffer
@@ -251,19 +288,6 @@ Clean up prefs
 	Split CBTextEditorPrefs into multiple panes
 	factor out JXEditStylesWidget from JXEditStylesDialog so it can be a card
 
-medic
-	xdebug
-		click stack trace: selection jumps back to last frame
-		temp breakpoint doesn't disappear
-
-		Enable XDSocket::StartTimer() when not debugging
-		Always update stack, even if Stack Trace window is hidden
-		Eliminate double call to get local vars
-			Preserve existing items; don't just delete all before update
-		request source from debugger instead of assuming that file:// exists
-		*set* values
-		support conditional breakpoints, etc.
-
 support D
 	http://en.wikipedia.org/wiki/D_(programming_language)
 	http://www.digitalmars.com/d/download.html
@@ -290,8 +314,6 @@ glove:
 	clean up .fd to match current layouts
 	test layouts on Linux and OS X
 
-rendering
-	http://cairographics.org/
 
 Support D-Bus
 	http://www.freedesktop.org/wiki/Software/dbus
@@ -377,22 +399,6 @@ jcc
 	warn about -- is the underlying code somehow reading the file to figure out
 	how big it is?
 
-medic
-	CMBreakpointTable:
-		pressing return while editing the last row should save the value
-		problem is that setting breakpoint value takes time, so can't restart editing immediately
-
-	Same prefs menu in all windows
-
-	gdb test suite
-		start, choose program, set bkpt, run
-		start, run, open file, stop, set bkpt, continue
-		start with program name, set bkpt, run
-		start with core name
-		switch from core dump to running binary
-		switch from running binary to core dump
-		switch from one program to another
-
 memory analyzer
 	option to print MDStatsDirector
 	records window:
@@ -429,18 +435,6 @@ JPrefsManager
 JTextEditor::DrawInMargin
 	line #'s
 	bookmarks -- easier to see which line was marked
-
-libXft
-	printing
-		gs -dNOPAUSE -dBATCH -sDEVICE=pswrite -sOutputFile=junk2.ps junk.ps
-		http://www.stat.auckland.ac.nz/~paul/R/CM/CMR.html
-		http://pages.cs.wisc.edu/~ghost/doc/gnu/7.05/Fonts.htm
-	Symbol
-		Figure out how to use tt version -- this will also fix printing
-
-ASIO
-	http://think-async.com/Asio
-	lightweight networking library
 
 -----
 

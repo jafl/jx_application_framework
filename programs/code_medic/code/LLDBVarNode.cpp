@@ -95,13 +95,17 @@ LLDBVarNode::BuildTree
 		{
 		lldb::BasicType type = v.GetType().GetPointeeType().GetBasicType();
 
-		if ((type == lldb::eBasicTypeChar       ||
-			 type == lldb::eBasicTypeSignedChar ||
-			 type == lldb::eBasicTypeUnsignedChar) &&
-			v.GetSummary() != NULL)
+		if (type == lldb::eBasicTypeChar       ||
+			type == lldb::eBasicTypeSignedChar ||
+			type == lldb::eBasicTypeUnsignedChar)
 			{
-			value    += "  ";
-			value    += v.GetSummary();
+#ifdef _J_LLDB_HAS_SBVALUE_GETSUMMARY
+			if (v.GetSummary() != NULL)
+				{
+				value += "  ";
+				value += v.GetSummary();
+				}
+#endif
 			isSpecial = kJTrue;
 			}
 		else
@@ -112,13 +116,17 @@ LLDBVarNode::BuildTree
 	else if (v.GetType().GetTypeClass() == lldb::eTypeClassArray)
 		{
 		lldb::BasicType type = v.GetChildAtIndex(0).GetType().GetBasicType();
-		if ((type == lldb::eBasicTypeChar       ||
-			 type == lldb::eBasicTypeSignedChar ||
-			 type == lldb::eBasicTypeUnsignedChar) &&
-			v.GetSummary() != NULL)
+		if (type == lldb::eBasicTypeChar       ||
+			type == lldb::eBasicTypeSignedChar ||
+			type == lldb::eBasicTypeUnsignedChar)
 			{
-			value    += "  ";
-			value    += v.GetSummary();
+#ifdef _J_LLDB_HAS_SBVALUE_GETSUMMARY
+			if (v.GetSummary() != NULL)
+				{
+				value += "  ";
+				value += v.GetSummary();
+				}
+#endif
 			isSpecial = kJTrue;
 			}
 		}
