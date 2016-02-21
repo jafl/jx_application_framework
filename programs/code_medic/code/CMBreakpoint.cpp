@@ -85,6 +85,20 @@ CMBreakpoint::CMBreakpoint
 	CMBreakpointX();
 }
 
+CMBreakpoint::CMBreakpoint
+	(
+	const JCharacter* addr
+	)
+	:
+	itsDebuggerIndex(0),
+	itsAddr(addr),
+	itsEnabledFlag(kJTrue),
+	itsAction(kKeepBreakpoint),
+	itsIgnoreCount(0)
+{
+	CMBreakpointX();
+}
+
 // private
 
 void

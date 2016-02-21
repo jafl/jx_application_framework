@@ -1127,6 +1127,26 @@ GDBLink::RemoveAllBreakpointsOnLine
 }
 
 /******************************************************************************
+ RemoveAllBreakpointsAtAddress
+
+ *****************************************************************************/
+
+void
+GDBLink::RemoveAllBreakpointsAtAddress
+	(
+	const JCharacter* addr
+	)
+{
+	if (!itsProgramIsStoppedFlag)
+		{
+		itsContinueCount = 2;
+		}
+
+	const JString cmd = "clear *" + JString(addr);
+	SendWhenStopped(cmd);
+}
+
+/******************************************************************************
  RemoveAllBreakpoints
 
  *****************************************************************************/

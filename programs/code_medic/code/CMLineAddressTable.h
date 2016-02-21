@@ -1,12 +1,12 @@
 /******************************************************************************
- CMLineNumberTable.h
+ CMLineAddressTable.h
 
 	Copyright © 2016 by John Lindal.  All rights reserved.
 
  ******************************************************************************/
 
-#ifndef _H_CMLineNumberTable
-#define _H_CMLineNumberTable
+#ifndef _H_CMLineAddressTable
+#define _H_CMLineAddressTable
 
 #if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
 #pragma once
@@ -14,17 +14,21 @@
 
 #include "CMLineIndexTable.h"
 
-class CMLineNumberTable : public CMLineIndexTable
+class CMLineAddressTable : public CMLineIndexTable
 {
 public:
 
-	CMLineNumberTable(CMSourceDirector* dir, CMSourceText* text,
-					  JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
-					  const HSizingOption hSizing, const VSizingOption vSizing,
-					  const JCoordinate x, const JCoordinate y,
-					  const JCoordinate w, const JCoordinate h);
+	CMLineAddressTable(CMSourceDirector* dir, CMSourceText* text,
+					   JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
+					   const HSizingOption hSizing, const VSizingOption vSizing,
+					   const JCoordinate x, const JCoordinate y,
+					   const JCoordinate w, const JCoordinate h);
 
-	virtual ~CMLineNumberTable();
+	virtual ~CMLineAddressTable();
+
+	void		SetLineNumbers(JPtrArray<JString>* list);
+	void		ClearLineNumbers();
+	JBoolean	FindAddressLineNumber(const JString& address, JIndex* index) const;
 
 protected:
 
@@ -42,13 +46,21 @@ protected:
 
 private:
 
+	JArray<JIndex>*		itsVisualBPIndexList;	// visual line of each breakpoint
+	JPtrArray<JString>*	itsLineTextList;		// text for each line
+
+private:
+
+	static JString	BuildAddress(const JString& addr);
+	JString			GetLineTextFromAddress(const JString& addr) const;
+
 	static JOrderedSetT::CompareResult
-		CompareBreakpointLines(CMBreakpoint* const & bp1, CMBreakpoint* const & bp2);
+		CompareBreakpointAddresses(CMBreakpoint* const & bp1, CMBreakpoint* const & bp2);
 
 	// not allowed
 
-	CMLineNumberTable(const CMLineNumberTable& source);
-	const CMLineNumberTable& operator=(const CMLineNumberTable& source);
+	CMLineAddressTable(const CMLineAddressTable& source);
+	const CMLineAddressTable& operator=(const CMLineAddressTable& source);
 };
 
 #endif

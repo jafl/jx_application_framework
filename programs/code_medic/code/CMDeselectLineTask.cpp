@@ -1,5 +1,5 @@
 /******************************************************************************
- CMDeselectLineNumberTask.cpp
+ CMDeselectLineTask.cpp
 
 	Deselects the line number after the Line menu is closed.
 
@@ -10,8 +10,8 @@
  ******************************************************************************/
 
 #include <cmStdInc.h>
-#include "CMDeselectLineNumberTask.h"
-#include "CMLineNumberTable.h"
+#include "CMDeselectLineTask.h"
+#include "CMLineIndexTable.h"
 #include <JXTextMenu.h>
 #include <JTableSelection.h>
 #include <jAssert.h>
@@ -23,9 +23,9 @@ const Time kCheckInterval = 500;	// milliseconds
 
  ******************************************************************************/
 
-CMDeselectLineNumberTask::CMDeselectLineNumberTask
+CMDeselectLineTask::CMDeselectLineTask
 	(
-	CMLineNumberTable* table
+	CMLineIndexTable* table
 	)
 	:
 	JXIdleTask(kCheckInterval),
@@ -38,7 +38,7 @@ CMDeselectLineNumberTask::CMDeselectLineNumberTask
 
  ******************************************************************************/
 
-CMDeselectLineNumberTask::~CMDeselectLineNumberTask()
+CMDeselectLineTask::~CMDeselectLineTask()
 {
 }
 
@@ -48,7 +48,7 @@ CMDeselectLineNumberTask::~CMDeselectLineNumberTask()
  ******************************************************************************/
 
 void
-CMDeselectLineNumberTask::Perform
+CMDeselectLineTask::Perform
 	(
 	const Time	delta,
 	Time*		maxSleepTime

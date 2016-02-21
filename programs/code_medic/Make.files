@@ -34,8 +34,10 @@
 .cpp ./code/CMSourceDirector
 .cpp ./code/CMSourceText
 .cpp ./code/CMTextDisplayBase
+.cpp ./code/CMLineIndexTable
 .cpp ./code/CMLineNumberTable
-.cpp ./code/CMDeselectLineNumberTask
+.cpp ./code/CMLineAddressTable
+.cpp ./code/CMDeselectLineTask
 .cpp ./code/CMFileDragSource
 .cpp ./code/CMDisplaySourceForMain
 .cpp ./code/CMClearSourceDisplayTask

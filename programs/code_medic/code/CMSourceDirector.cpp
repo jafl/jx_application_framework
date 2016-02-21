@@ -10,6 +10,7 @@
 #include <cmStdInc.h>
 #include "CMSourceDirector.h"
 #include "CMLineNumberTable.h"
+#include "CMLineAddressTable.h"
 #include "CMSourceText.h"
 #include "CMCommandDirector.h"
 #include "CMFileDragSource.h"
@@ -372,10 +373,20 @@ CMSourceDirector::BuildWindow()
 	itsText->FitToEnclosure(kJFalse, kJTrue);
 	ListenTo(itsText);
 
-	itsTable =
-		new CMLineNumberTable(this, itsText, scrollbarSet, encl,
-							  JXWidget::kFixedLeft, JXWidget::kVElastic,
-							  0, 0, kInitTableWidth, 100);
+	if (itsType == kMainAsmType || itsType == kAsmType)
+		{
+		itsTable =
+			new CMLineAddressTable(this, itsText, scrollbarSet, encl,
+								   JXWidget::kFixedLeft, JXWidget::kVElastic,
+								   0, 0, kInitTableWidth, 100);
+		}
+	else
+		{
+		itsTable =
+			new CMLineNumberTable(this, itsText, scrollbarSet, encl,
+								  JXWidget::kFixedLeft, JXWidget::kVElastic,
+								  0, 0, kInitTableWidth, 100);
+		}
 	assert( itsTable != NULL );
 	itsTable->FitToEnclosure(kJFalse, kJTrue);
 
@@ -759,7 +770,7 @@ CMSourceDirector::DisplayDisassembly
 	if (fnName == itsCurrentFn)
 		{
 		JIndex i;
-		if (itsTable->FindAddressLineNumber(addr, &i))
+		if (dynamic_cast<CMLineAddressTable*>(itsTable)->FindAddressLineNumber(addr, &i))
 			{
 			DisplayLine(i);
 			}
@@ -801,17 +812,18 @@ CMSourceDirector::DisplayDisassembly
 	const JCharacter*	instText
 	)
 {
-	itsTable->SetLineNumbers(addrList);
+	CMLineAddressTable* table = dynamic_cast<CMLineAddressTable*>(itsTable);
+	table->SetLineNumbers(addrList);
 	itsText->SetText(instText);
 
 	JIndex i;
-	if (itsTable->FindAddressLineNumber(itsAsmLocation.GetMemoryAddress(), &i))
+	if (table->FindAddressLineNumber(itsAsmLocation.GetMemoryAddress(), &i))
 		{
 		DisplayLine(i);
 		}
 	else
 		{
-		itsTable->SetCurrentLine(0);
+		table->SetCurrentLine(0);
 		}
 }
 
@@ -851,7 +863,11 @@ CMSourceDirector::DisplayLine
 void
 CMSourceDirector::ClearDisplay()
 {
-	itsTable->ClearLineNumbers();
+	CMLineAddressTable* table = dynamic_cast<CMLineAddressTable*>(itsTable);
+	if (table != NULL)
+		{
+		table->ClearLineNumbers();
+		}
 	itsText->SetText("");
 	itsFileDisplay->SetText("");
 	itsCurrentFile.Clear();

@@ -132,6 +132,7 @@ public:
 	virtual void	RemoveBreakpoint(const JIndex debuggerIndex) = 0;
 	virtual void	RemoveAllBreakpointsOnLine(const JCharacter* fileName,
 											   const JIndex lineIndex) = 0;
+	virtual void	RemoveAllBreakpointsAtAddress(const JCharacter* addr) = 0;
 	virtual void	RemoveAllBreakpoints() = 0;
 	virtual void	SetBreakpointEnabled(const JIndex debuggerIndex, const JBoolean enabled,
 										 const JBoolean once = kJFalse) = 0;

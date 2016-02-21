@@ -45,6 +45,7 @@ public:
 
 	// search target
 	CMBreakpoint(const JCharacter* fileName, const JIndex lineIndex);
+	CMBreakpoint(const JCharacter* addr);
 
 	virtual	~CMBreakpoint();
 

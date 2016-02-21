@@ -12,7 +12,7 @@
 #include "CMBreakpointsDir.h"
 #include "CMBreakpointManager.h"
 #include "CMCommandDirector.h"
-#include "CMLineNumberTable.h"
+#include "CMLineIndexTable.h"
 #include "cmGlobals.h"
 #include <JXDisplay.h>
 #include <JXWindow.h>
@@ -353,7 +353,7 @@ CMBreakpointTable::TableDrawCell
 
 		if (bp->GetLineNumber() > 0)
 			{
-			CMLineNumberTable::DrawBreakpoint(bp, p, GetColormap(), r);
+			CMLineIndexTable::DrawBreakpoint(bp, p, GetColormap(), r);
 			}
 		else
 			{

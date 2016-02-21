@@ -23,7 +23,7 @@ class JXFileNameDisplay;
 class JXToolBar;
 class CMLink;
 class CMCommandDirector;
-class CMLineNumberTable;
+class CMLineIndexTable;
 class CMSourceText;
 class CMDisplaySourceForMain;
 class CMGetAssembly;
@@ -90,7 +90,7 @@ private:
 	CMLink*				itsLink;
 	CMCommandDirector*	itsCommandDir;
 	const Type			itsType;
-	CMLineNumberTable*	itsTable;
+	CMLineIndexTable*	itsTable;
 	CMSourceText*		itsText;
 	JString				itsCurrentFile;			// can be empty
 	JString				itsCurrentFn;			// can be empty

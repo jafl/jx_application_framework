@@ -133,13 +133,21 @@ T
 F
 "./code/CMTextDisplayBase.cpp"
 T
+2 "CMLineIndexTable.cpp"
+F
+"./code/CMLineIndexTable.cpp"
+T
 2 "CMLineNumberTable.cpp"
 F
 "./code/CMLineNumberTable.cpp"
 T
-2 "CMDeselectLineNumberTask.cpp"
+2 "CMLineAddressTable.cpp"
 F
-"./code/CMDeselectLineNumberTask.cpp"
+"./code/CMLineAddressTable.cpp"
+T
+2 "CMDeselectLineTask.cpp"
+F
+"./code/CMDeselectLineTask.cpp"
 T
 2 "CMFileDragSource.cpp"
 F

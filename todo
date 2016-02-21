@@ -1,18 +1,26 @@
+Support D-Bus?
+	http://www.freedesktop.org/wiki/Software/dbus
+
+
+
 ASIO
 	http://think-async.com/Asio
 	lightweight networking library
 
 	io_service::poll_one()
 
+	does it require exceptions?
+
 
 Split CMLineNumberTable into 2 extensions
-	update uses of itsBPList->SearchSorted to account for asm option
++	line menu should honor mac/win preference
+	test all line menu options
+
+	CMBreakpoint:  force broadcast when condition/enabled/etc changes
 
 	lldb: clear breakpoint in assembly window
 
 	gdb: show breakpoints and correct program location
-
-	until/jump -- use version with addr argument
 
 lldb
 	document SB*.h
@@ -170,12 +178,6 @@ memory analyzer
 	jcc -- crash with deleted JMessageProtocol -- only when open project
 	print table:  partial column on page 1
 
-JBroadcaster
-	register handler for message:  function which takes obj, msg type, function pointer
-		pass in friend function that takes obj, sender, msg
-		dynamic_cast obj to correct type and do whatever
-		multiple inheritance Receive needs to turn off dispatching for all but the last path to JBroadcaster
-
 JXMenu::PrepareToOpenMenu()
 	itsOwner may delete us!
 
@@ -314,10 +316,6 @@ glove:
 	clean up .fd to match current layouts
 	test layouts on Linux and OS X
 
-
-Support D-Bus
-	http://www.freedesktop.org/wiki/Software/dbus
-
 systemg
 	store alternate-open prefs for every executable in the directory
 		use these prefs when plain-open is invoked
@@ -367,10 +365,6 @@ jcc
 	PHP styler:
 		falls out of PHP mode when it sees ?>
 		while editing string, it may find ?> that should be inside string
-	tabs/spaces:
-		search up in directory tree until find .project_modeline
-		parse some standard format to get tabs/spaces settings
-		publish as open protocol on newplanetsoftware.com
 
 	perl:  = 2 ?
 		Delete 2, type 2 => styles are wrong to next ?

@@ -853,6 +853,43 @@ LLDBLink::RemoveAllBreakpointsOnLine
 }
 
 /******************************************************************************
+ RemoveAllBreakpointsAtAddress
+
+ *****************************************************************************/
+
+void
+LLDBLink::RemoveAllBreakpointsAtAddress
+	(
+	const JCharacter* addrStr
+	)
+{
+	lldb::SBTarget t = itsDebugger->GetSelectedTarget();
+	if (!t.IsValid())
+		{
+		return;
+		}
+
+	JCharacter* end;
+	const lldb::addr_t addr = strtoull(addrStr, &end, 0);
+
+	const JSize bpCount = t.GetNumBreakpoints();
+	for (long i=bpCount-1; i>=0; i--)
+		{
+		lldb::SBBreakpoint b = t.GetBreakpointAtIndex(i);
+
+		const JSize locCount = b.GetNumLocations();
+		for (JIndex j=0; j<locCount; j++)
+			{
+			lldb::SBAddress a = b.GetLocationAtIndex(j).GetAddress();
+			if (a.GetLoadAddress(t) == addr)
+				{
+				t.BreakpointDelete(b.GetID());
+				}
+			}
+		}
+}
+
+/******************************************************************************
  RemoveAllBreakpoints
 
  *****************************************************************************/
