@@ -64,9 +64,9 @@ static const JBoolean kFeatures[]=
 	kJFalse,	// kSetProcess -- lldb requires program to be chosen first, unlike gdb
 	kJTrue,		// kRunProgram
 	kJTrue,		// kStopProgram
-	kJFalse,	// kSetExecutionPoint
+	kJTrue,		// kSetExecutionPoint
 	kJFalse,	// kExecuteBackwards
-	kJFalse,	// kShowBreakpointInfo
+	kJTrue,		// kShowBreakpointInfo
 	kJTrue,		// kSetBreakpointCondition
 	kJTrue,		// kSetBreakpointIgnoreCount
 	kJTrue,		// kWatchExpression
