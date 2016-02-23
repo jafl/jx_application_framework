@@ -239,13 +239,18 @@ CMMDIServer::UpdateDebuggerType
 	JString language;
 	if (IsBinary(program))
 		{
-		(CMGetPrefsManager())->SetDebuggerType(
+		const CMPrefsManager::DebuggerType type = (CMGetPrefsManager())->GetDebuggerType();
+		if (type != CMPrefsManager::kGDBType &&
+			type != CMPrefsManager::kLLDBType)
+			{
+			(CMGetPrefsManager())->SetDebuggerType(
 #ifdef _J_OSX
-			CMPrefsManager::kLLDBType
+				CMPrefsManager::kLLDBType
 #else
-			CMPrefsManager::kGDBType
+				CMPrefsManager::kGDBType
 #endif
-		);
+			);
+			}
 		}
 	else if (!GetLanguage(program, &language))
 		{
