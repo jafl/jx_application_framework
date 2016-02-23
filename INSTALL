@@ -12,8 +12,8 @@ everything if you move JX to a different location after building it.
 
 On Fedora, you need to install development packages:
 
-    sudo yum install which sudo perl python-libxml2 \
-        git gcc-c++ flex bison rpm-build \
+    sudo dnf-2 install which sudo perl python-libxml2 \
+        git gcc-c++ flex bison lldb rpm-build \
         libX11-devel libXinerama-devel libXpm-devel libXft-devel \
         libXmu-devel libXi-devel \
         libxml2-devel libjpeg-devel libpng-devel \
@@ -24,7 +24,7 @@ On Ubuntu, you need to install development packages:
 
     sudo apt-get update
     sudo apt-get install curl \
-        git g++ flex bison make \
+        git g++ flex bison make lldb \
         libX11-dev libXinerama-dev libXpm-dev libxft-dev \
         libxmu-dev libxi-dev \
         libxml2-dev libjpeg-dev libpng-dev \
