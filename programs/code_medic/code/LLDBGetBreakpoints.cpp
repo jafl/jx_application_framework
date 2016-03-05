@@ -156,9 +156,18 @@ LLDBGetBreakpoints::HandleSuccess
 		CMLocation loc;
 		addr = JString(w.GetWatchAddress(), JString::kBase16);
 
+		if (w.GetCondition() != NULL)
+			{
+			cond = w.GetCondition();
+			}
+		else
+			{
+			cond.Clear();
+			}
+
 		CMBreakpoint* bp = new CMBreakpoint(w.GetID(), loc, "", addr,
 											JI2B(w.IsEnabled()), CMBreakpoint::kKeepBreakpoint,
-											w.GetCondition(), w.GetIgnoreCount());
+											cond, w.GetIgnoreCount());
 		assert( bp != NULL );
 		bpList.InsertSorted(bp);
 		}

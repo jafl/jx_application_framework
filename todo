@@ -8,8 +8,6 @@ LLDBLink::RunUntil() does not stop at specified address
 lldb
 	document SB*.h
 
-	test watchpoints
-
 	set itsIsAttachedFlag by listening for SBProcess::eBroadcastBitStateChanged
 		with state == eStateAttaching
 	clear when state == eStateDetached
