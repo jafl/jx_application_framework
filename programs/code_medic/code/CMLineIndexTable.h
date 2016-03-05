@@ -25,6 +25,7 @@ class CMDeselectLineTask;
 
 class CMLineIndexTable : public JXTable
 {
+	friend class CMAdjustLineTableToTextTask;
 	friend class CMDeselectLineTask;
 
 public:
@@ -67,7 +68,7 @@ protected:
 	virtual JString		GetLongestLineText(const JIndex lineCount) const = 0;
 	virtual JIndex		GetBreakpointLineIndex(const JIndex bpIndex, const CMBreakpoint* bp) const = 0;
 	virtual JBoolean	GetFirstBreakpointOnLine(const JIndex lineIndex, JIndex* bpIndex) const = 0;
-	virtual JBoolean	HasMultipleBreakpointsOnLine(const CMBreakpoint* bp1, const CMBreakpoint* bp2) const = 0;
+	virtual JBoolean	BreakpointsOnSameLine(const CMBreakpoint* bp1, const CMBreakpoint* bp2) const = 0;
 	virtual void		GetBreakpoints(JPtrArray<CMBreakpoint>* list) = 0;
 	virtual void		SetBreakpoint(const JIndex lineIndex, const JBoolean temporary) = 0;
 	virtual void		RemoveAllBreakpointsOnLine(const JIndex lineIndex) = 0;
@@ -98,7 +99,7 @@ private:
 
 	void		DrawBreakpoints(JPainter& p, const JPoint& cell, const JRect& rect);
 	JBoolean	FindNextBreakpoint(const JIndex rowIndex, JBoolean* multiple = NULL);
-	JBoolean	HasMultipleBreakpointsOnLine(const JIndex firstBPIndex) const;
+	JBoolean	HasMultipleBreakpointsOnLine(const JIndex bpIndex) const;
 
 	void	AdjustBreakpoints(const JIndex lineIndex, const JPoint& pt,
 							  const JXButtonStates& buttonStates,

@@ -211,12 +211,12 @@ CMLineAddressTable::GetFirstBreakpointOnLine
 }
 
 /******************************************************************************
- HasMultipleBreakpointsOnLine (virtual protected)
+ BreakpointsOnSameLine (virtual protected)
 
  ******************************************************************************/
 
 JBoolean
-CMLineAddressTable::HasMultipleBreakpointsOnLine
+CMLineAddressTable::BreakpointsOnSameLine
 	(
 	const CMBreakpoint* bp1,
 	const CMBreakpoint* bp2
@@ -240,8 +240,11 @@ CMLineAddressTable::GetBreakpoints
 	itsVisualBPIndexList->RemoveAll();
 
 	const JString* fnName;
-	const JBoolean hasFn = (GetDirector())->GetFunctionName(&fnName);
-	assert( hasFn );
+	if (!(GetDirector())->GetFunctionName(&fnName))
+		{
+		list->CleanOut();
+		return;
+		}
 
 	CMLocation loc;
 	loc.SetFunctionName(*fnName);
@@ -384,5 +387,7 @@ CMLineAddressTable::CompareBreakpointAddresses
 	CMBreakpoint* const & bp2
 	)
 {
-	return JCompareIndices(bp1->GetLineNumber(), bp2->GetLineNumber());
+	return JCompareStringsCaseInsensitive(
+		const_cast<JString*>(&(bp1->GetAddress())),
+		const_cast<JString*>(&(bp2->GetAddress())));
 }

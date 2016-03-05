@@ -17,6 +17,7 @@
 #include "CMBreakpointsDir.h"
 #include "CMBreakpointTable.h"
 #include "CMBreakpointManager.h"
+#include "CMAdjustLineTableToTextTask.h"
 #include "CMDeselectLineTask.h"
 #include "cmGlobals.h"
 #include <JXWindow.h>
@@ -139,7 +140,10 @@ CMLineIndexTable::CMLineIndexTable
 	SetDrawOrder(kDrawByCol);
 
 	AppendCols(3);
-	AdjustToText();
+
+	CMAdjustLineTableToTextTask* task = new CMAdjustLineTableToTextTask(this);
+	assert( task != NULL );
+	task->Go();
 
 	ListenTo(itsText);
 	ListenTo(itsVScrollbar);
@@ -358,7 +362,7 @@ CMLineIndexTable::FindNextBreakpoint
 			{
 			if (multiple != NULL && itsBPList->IndexValid(itsBPDrawIndex+1))
 				{
-				*multiple = HasMultipleBreakpointsOnLine(bp, itsBPList->NthElement(itsBPDrawIndex+1));
+				*multiple = BreakpointsOnSameLine(bp, itsBPList->NthElement(itsBPDrawIndex+1));
 				}
 			return kJTrue;
 			}
@@ -380,19 +384,19 @@ CMLineIndexTable::FindNextBreakpoint
 JBoolean
 CMLineIndexTable::HasMultipleBreakpointsOnLine
 	(
-	const JIndex firstBPIndex
+	const JIndex bpIndex
 	)
 	const
 {
-	if (!itsBPList->IndexValid(firstBPIndex) ||
-		!itsBPList->IndexValid(firstBPIndex+1))
+	if (!itsBPList->IndexValid(bpIndex) ||
+		!itsBPList->IndexValid(bpIndex+1))
 		{
 		return kJFalse;
 		}
 
-	return HasMultipleBreakpointsOnLine(
-		itsBPList->NthElement(itsBPDrawIndex),
-		itsBPList->NthElement(itsBPDrawIndex+1));
+	return BreakpointsOnSameLine(
+		itsBPList->NthElement(bpIndex),
+		itsBPList->NthElement(bpIndex+1));
 }
 
 /******************************************************************************
@@ -434,7 +438,8 @@ CMLineIndexTable::HandleMouseDown
 		{
 		RunUntil(lineIndex);
 		}
-	else if (button == kJXLeftButton && modifiers.control())
+	else if (button == kJXLeftButton &&
+			 modifiers.GetState(JXMenu::AdjustNMShortcutModifier(kJXControlKeyIndex)))
 		{
 		SetExecutionPoint(lineIndex);
 		}
@@ -591,15 +596,15 @@ CMLineIndexTable::UpdateLineMenu()
 
 	if (!itsLineMenuBPRange.IsNothing())
 		{
-		itsLineMenu->SetItemEnable(offset + kShowBreakpointInfoCmd,
-			itsLink->GetFeature(CMLink::kShowBreakpointInfo));
-		itsLineMenu->SetItemEnable(offset + kSetConditionCmd,
-			itsLink->GetFeature(CMLink::kSetBreakpointCondition));
-		itsLineMenu->SetItemEnable(offset + kIgnoreNextNCmd,
-			itsLink->GetFeature(CMLink::kSetBreakpointIgnoreCount));
-
 		for (JIndex i=itsLineMenuBPRange.first; i<=itsLineMenuBPRange.last; i++)
 			{
+			itsLineMenu->SetItemEnable(offset + kShowBreakpointInfoCmd,
+				itsLink->GetFeature(CMLink::kShowBreakpointInfo));
+			itsLineMenu->SetItemEnable(offset + kSetConditionCmd,
+				itsLink->GetFeature(CMLink::kSetBreakpointCondition));
+			itsLineMenu->SetItemEnable(offset + kIgnoreNextNCmd,
+				itsLink->GetFeature(CMLink::kSetBreakpointIgnoreCount));
+
 			const CMBreakpoint* bp = itsBPList->NthElement(i);
 			if (!bp->HasCondition())
 				{

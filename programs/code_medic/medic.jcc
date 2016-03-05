@@ -137,6 +137,14 @@ T
 F
 "./code/CMLineIndexTable.cpp"
 T
+2 "CMAdjustLineTableToTextTask.cpp"
+F
+"./code/CMAdjustLineTableToTextTask.cpp"
+T
+2 "CMDeselectLineTask.cpp"
+F
+"./code/CMDeselectLineTask.cpp"
+T
 2 "CMLineNumberTable.cpp"
 F
 "./code/CMLineNumberTable.cpp"
@@ -144,10 +152,6 @@ T
 2 "CMLineAddressTable.cpp"
 F
 "./code/CMLineAddressTable.cpp"
-T
-2 "CMDeselectLineTask.cpp"
-F
-"./code/CMDeselectLineTask.cpp"
 T
 2 "CMFileDragSource.cpp"
 F

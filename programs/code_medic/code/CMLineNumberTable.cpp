@@ -124,12 +124,12 @@ CMLineNumberTable::GetFirstBreakpointOnLine
 }
 
 /******************************************************************************
- HasMultipleBreakpointsOnLine (virtual protected)
+ BreakpointsOnSameLine (virtual protected)
 
  ******************************************************************************/
 
 JBoolean
-CMLineNumberTable::HasMultipleBreakpointsOnLine
+CMLineNumberTable::BreakpointsOnSameLine
 	(
 	const CMBreakpoint* bp1,
 	const CMBreakpoint* bp2
@@ -151,9 +151,14 @@ CMLineNumberTable::GetBreakpoints
 	)
 {
 	const JString* fullName;
-	const JBoolean hasFile = (GetDirector())->GetFileName(&fullName);
-	assert( hasFile );
-	((GetLink())->GetBreakpointManager())->GetBreakpoints(*fullName, list);
+	if ((GetDirector())->GetFileName(&fullName))
+		{
+		((GetLink())->GetBreakpointManager())->GetBreakpoints(*fullName, list);
+		}
+	else
+		{
+		list->CleanOut();
+		}
 }
 
 /******************************************************************************
