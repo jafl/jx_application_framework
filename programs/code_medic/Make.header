@@ -203,7 +203,7 @@ release: pre_build_pkgs static ctags menu_strings
 .PHONY : debug
 debug: staticACE libs
 	@${RM} medic
-	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" medic
+	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" medic_all
 
 #
 # static binary
