@@ -387,8 +387,23 @@ LLDBLink::HandleLLDBEvent()
 		count = p.GetSTDOUT(buf, 1023);
 		if (count > 0)
 			{
-			buf[ count ] = '\0';
-			Broadcast(UserOutput(buf, kJFalse, kJTrue));
+			buf[ count ]  = '\0';
+			JCharacter* b = buf;
+
+			const JSize len = itsLastProgramInput.GetLength();
+			if (len < count &&
+				JCompareMaxN(itsLastProgramInput, len, buf, count, len) &&
+				(buf[len] == '\n' || buf[len] == '\r'))
+				{
+				b += len;
+				while (*b == '\n' || *b == '\r')
+					{
+					b++;
+					}
+				}
+			itsLastProgramInput.Clear();
+
+			Broadcast(UserOutput(b, kJFalse, kJTrue));
 			}
 
 		count = p.GetSTDERR(buf, 1023);
@@ -1674,6 +1689,7 @@ LLDBLink::SendRaw
 		lldb::SBProcess p = itsDebugger->GetSelectedTarget().GetProcess();
 		p.PutSTDIN(text, strlen(text));
 		p.PutSTDIN("\n", 1);
+		itsLastProgramInput = text;
 		}
 	else
 		{

@@ -1,22 +1,12 @@
-Split CMLineNumberTable into 2 extensions
-	test in gdb
+document SB*.h
+	How to provide class-level info?
+	explain section, module, block, etc
 
-can we find line index of main() instead of just file?
-
-LLDBLink::RunUntil() does not stop at specified address
-
-lldb
-	document SB*.h
-
-	set itsIsAttachedFlag by listening for SBProcess::eBroadcastBitStateChanged
-		with state == eStateAttaching
-	clear when state == eStateDetached
-
-	when read from input, it echoes as output
+	Submit SBAddress.h patch for feedback.
 
 replace rendering engine inside JXWindowPainter with UTF-8 version
 	http://cairographics.org/
-	will YUI yogi output correct be correct with check mark
+	is YUI yogi output correct with check mark?
 libXft
 	printing
 		gs -dNOPAUSE -dBATCH -sDEVICE=pswrite -sOutputFile=junk2.ps junk.ps
@@ -60,6 +50,13 @@ xdebug
 	request source from debugger instead of assuming that file:// exists
 	*set* values
 	support conditional breakpoints, etc.
+
+lldb
+	set itsIsAttachedFlag by listening for SBProcess::eBroadcastBitStateChanged
+		with state == eStateAttaching
+	clear when state == eStateDetached
+
+	LLDBLink::RunUntil() does not stop at specified address
 
 -----
 

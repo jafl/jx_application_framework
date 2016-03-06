@@ -168,6 +168,7 @@ private:
 	lldb::SBDebugger*	itsDebugger;
 	FILE*				itsStdoutStream;
 	FILE*				itsStderrStream;
+	JString				itsLastProgramInput;	// to avoid printing echo
 
 	LLDBBreakpointManager*	itsBPMgr;
 
