@@ -708,7 +708,7 @@ void
 CMSourceDirector::DisplayFile
 	(
 	const JCharacter*	fileName,
-	const JSize			lineNumber,
+	const JIndex		lineNumber,
 	const JBoolean		markLine
 	)
 {

@@ -61,7 +61,7 @@ public:
 
 	JBoolean	GetFunctionName(const JString** fnName) const;
 
-	void	DisplayFile(const JCharacter* fileName, const JSize lineNumber = 0,
+	void	DisplayFile(const JCharacter* fileName, const JIndex lineNumber = 0,
 						const JBoolean markLine = kJTrue);
 	void	DisplayDisassembly(const CMLocation& loc);
 	void	DisplayLine(const JSize lineNumber, const JBoolean markLine = kJTrue);

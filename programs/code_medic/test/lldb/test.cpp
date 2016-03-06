@@ -56,6 +56,7 @@ int main()
 	SBSymbolContext sym = list.GetContextAtIndex(0);
 	cout << "symbol ctx: " << sym.IsValid() << endl;
 	cout << sym.GetSymbol().GetName() << endl;
+	cout << sym.GetSymbol().GetStartAddress().GetLoadAddress(t) << endl;
 	cout << sym.GetModule().GetTriple() << endl;
  
 	cout << "block: " << sym.GetBlock().GetInlinedCallSiteLine() << endl;
@@ -68,7 +69,8 @@ int main()
 
 	cout << "compile unit file: " << sym.GetCompileUnit().GetFileSpec().GetFilename() << endl;
 
-	cout << "compile unit entries: " << sym.GetCompileUnit().GetNumLineEntries() << endl;
+	int count = sym.GetCompileUnit().GetNumLineEntries();
+	cout << "compile unit entries: " << count << endl;
 	SBLineEntry e = sym.GetCompileUnit().GetLineEntryAtIndex(0);
 	cout << "entry: " << e.IsValid() << endl;
 	cout << "line: " << e.GetLine() << endl;
@@ -76,6 +78,16 @@ int main()
 	cout << "entry filespec: " << f.IsValid() << endl;
 	cout << "entry filename: " << f.GetFilename() << endl;
 	cout << "entry path: " << f.GetDirectory() << endl;
+
+	addr_t mainAddr = sym.GetSymbol().GetStartAddress().GetFileAddress();
+	for (int i=0; i<count; i++)
+		{
+		SBLineEntry e = sym.GetCompileUnit().GetLineEntryAtIndex(i);
+		if (e.GetStartAddress().GetFileAddress() == mainAddr)
+			{
+			cout << "found main: " << e.GetLine() << endl;
+			}
+		}
 
 	SBFunction func = sym.GetFunction();
 	cout << "function: " << func.IsValid() << endl;

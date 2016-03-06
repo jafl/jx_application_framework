@@ -92,13 +92,29 @@ LLDBDisplaySourceForMain::HandleSuccess
 		lldb::SBSymbolContextList list = t.FindFunctions("main");
 		if (list.IsValid() && list.GetSize() == 1)
 			{
-			lldb::SBCompileUnit unit = list.GetContextAtIndex(0).GetCompileUnit();
-			lldb::SBFileSpec file    = unit.GetFileSpec();
+			lldb::SBSymbolContext ctx = list.GetContextAtIndex(0);
+			lldb::SBCompileUnit unit  = ctx.GetCompileUnit();
+			lldb::SBFileSpec file     = unit.GetFileSpec();
 			if (unit.IsValid() && file.IsValid())
 				{
-				// sym.GetLineEntry() is not valid
+				// sym.GetLineEntry() is not valid -- we need to search
+
+				JIndex line = 1;
+
+				const lldb::addr_t target = ctx.GetSymbol().GetStartAddress().GetFileAddress();
+				const JSize count         = unit.GetNumLineEntries();
+				for (JIndex i=0; i<count; i++)
+					{
+					lldb::SBLineEntry e = unit.GetLineEntryAtIndex(i);
+					if (e.GetStartAddress().GetFileAddress() == target)
+						{
+						line = e.GetLine();
+						break;
+						}
+					}
+
 				JString fullName = JCombinePathAndName(file.GetDirectory(), file.GetFilename());
-				(GetSourceDir())->DisplayFile(fullName, 1, kJFalse);
+				(GetSourceDir())->DisplayFile(fullName, line, kJFalse);
 				found = kJTrue;
 				}
 			}
