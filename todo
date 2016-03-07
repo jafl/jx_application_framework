@@ -4,6 +4,8 @@ document SB*.h
 
 	Submit SBAddress.h patch for feedback.
 
+-----
+
 replace rendering engine inside JXWindowPainter with UTF-8 version
 	http://cairographics.org/
 	is YUI yogi output correct with check mark?
@@ -52,11 +54,9 @@ xdebug
 	support conditional breakpoints, etc.
 
 lldb
-	set itsIsAttachedFlag by listening for SBProcess::eBroadcastBitStateChanged
-		with state == eStateAttaching
-	clear when state == eStateDetached
-
 	LLDBLink::RunUntil() does not stop at specified address
+
+	support loading core file - how to generate one?
 
 -----
 

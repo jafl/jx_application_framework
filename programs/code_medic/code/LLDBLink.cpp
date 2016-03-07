@@ -61,7 +61,7 @@ static const JBoolean kFeatures[]=
 	kJTrue,		// kSetProgram
 	kJTrue,		// kSetArgs
 	kJFalse,	// kSetCore -- lldb requires program to be chosen first, unlike gdb
-	kJFalse,	// kSetProcess -- lldb requires program to be chosen first, unlike gdb
+	kJTrue,		// kSetProcess -- lldb requires program to be chosen first, unlike gdb
 	kJTrue,		// kRunProgram
 	kJTrue,		// kStopProgram
 	kJTrue,		// kSetExecutionPoint
@@ -516,28 +516,7 @@ LLDBLink::HandleLLDBEvent
 
 	Broadcast(DebugOutput(msg, kLogType));
 }
-/*
-	else if (token.type == LLDBScanner::kValueChanged)
-		{
-		Broadcast(ValueChanged());
-		}
 
-	else if (token.type == LLDBScanner::kCoreChanged)
-		{
-		// We have to check whether a core was loaded or cleared.
-
-		LLDBCheckCoreStatus* cmd = new LLDBCheckCoreStatus;
-		assert( cmd != NULL );
-		}
-
-	else if (token.type == LLDBScanner::kAttachedToProcess)
-		{
-		itsIsAttachedFlag  = kJTrue;
-		itsIsDebuggingFlag = kJTrue;
-		ProgramStarted(token.data.number);
-		Broadcast(AttachedToProcess());
-		}
-*/
 /******************************************************************************
  ReceiveLLDBMessageLine (private static)
 
@@ -680,18 +659,34 @@ LLDBLink::AttachToProcess
 	const pid_t pid
 	)
 {
-	DetachOrKill(kJFalse);
+	DetachOrKill(kJTrue);
 
-	lldb::SBTarget t = itsDebugger->GetSelectedTarget();
+	lldb::SBTarget t = itsDebugger->CreateTarget("");
 	if (t.IsValid())
 		{
-		lldb::SBListener lis;
+		lldb::SBAttachInfo info(pid);
+		info.SetListener(*this);
+
 		lldb::SBError e;
-		t.AttachToProcessWithID(lis, pid, e);
+		t.Attach(info, e);
 
 		if (e.Fail())
 			{
 			Broadcast(UserOutput(e.GetCString(), kJTrue));
+			}
+		else if (t.IsValid())
+			{
+			itsIsAttachedFlag = kJTrue;
+			StartListeningForEvents(t.GetBroadcaster(), kLLDBEventMask);
+
+			lldb::SBFileSpec f     = t.GetExecutable();
+			const JString fullName = JCombinePathAndName(f.GetDirectory(), f.GetFilename());
+
+			LLDBSymbolsLoadedTask* task = new LLDBSymbolsLoadedTask(fullName);
+			assert( task != NULL );
+			task->Go();
+
+			Broadcast(AttachedToProcess());
 			}
 		}
 }
