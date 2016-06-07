@@ -875,6 +875,47 @@ CBTreeWidget::Receive
 		Refresh();
 		}
 
+	else if (sender == itsTree && message.Is(CBTree::kChanged))
+		{
+		const JRect ap = GetAperture();
+
+		JPtrArray<CBClass> sel(JPtrArrayT::kForgetAll);
+		CBClass* closest = NULL;
+		JCoordinate miny = 0;
+		if (itsTree->GetSelectedClasses(&sel))
+			{
+			JBoolean visible  = kJFalse;
+			const JSize count = sel.GetElementCount();
+			for (JIndex i=1; i<=count; i++)
+				{
+				CBClass* c    = sel.NthElement(i);
+				const JRect r = c->GetFrame();
+				if (ap.Contains(r))
+					{
+					visible = kJTrue;
+					break;
+					}
+				else if (ap.bottom < r.bottom &&
+						 (closest == NULL || r.top - ap.bottom < miny))
+					{
+					miny    = r.top - ap.bottom;
+					closest = c;
+					}
+				else if (r.bottom < ap.top &&
+						 (closest == NULL || ap.top - r.bottom < miny))
+					{
+					miny    = ap.top - r.bottom;
+					closest = c;
+					}
+				}
+
+			if (!visible && closest != NULL)
+				{
+				ScrollToRect(closest->GetFrame());
+				}
+			}
+		}
+
 	else
 		{
 		JXScrollableWidget::Receive(sender, message);
