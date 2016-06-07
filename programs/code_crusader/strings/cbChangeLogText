@@ -12,6 +12,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 6.6.1 </h3>
+
+Added support for Perl operators // and //= and ~~.
+
 <h3> 6.6 </h3>
 
 Added PHP class tree.

@@ -117,11 +117,13 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 "eq"  |
 "ne"  |
 "cmp" |
+"~~"  |
 "&"   |
 "|"   |
 "^"   |
 "&&"  |
 "||"  |
+"//"  |
 ".."  |
 "..." |
 ":"   |
@@ -140,6 +142,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 ">>=" |
 "&&=" |
 "||=" |
+"//=" |
 "=>"  |
 "not" |
 "and" |
