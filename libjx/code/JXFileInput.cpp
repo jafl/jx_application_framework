@@ -576,6 +576,13 @@ JXFileInput::GetDroppedFileName
 				 JDirectoryExists(*(fileNameList.FirstElement()))))
 				{
 				*fileName = *(fileNameList.FirstElement());
+
+				JString homeDir;
+				if (JGetHomeDirectory(&homeDir) &&
+					fileName->BeginsWith(homeDir))
+					{
+					fileName->ReplaceSubstring(1, homeDir.GetLength(), "~" ACE_DIRECTORY_SEPARATOR_STR);
+					}
 				}
 			JXReportUnreachableHosts(urlList);
 			}
