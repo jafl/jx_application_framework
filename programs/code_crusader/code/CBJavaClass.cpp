@@ -45,7 +45,9 @@ CBJavaClass::CBJavaClass
 	CBTree*				tree
 	)
 	:
-	CBClass(input, vers, tree, RemoveNamespace)
+	CBClass(input, vers, tree, RemoveNamespace),
+	itsIsPublicFlag(kJTrue),
+	itsIsFinalFlag(kJFalse)
 {
 	if (vers >= 52)
 		{
@@ -93,7 +95,35 @@ CBJavaClass::ViewSource()
 	JString fileName;
 	if (GetFileName(&fileName))
 		{
-		(CBGetDocumentManager())->OpenTextDocument(fileName);
+		CBDocumentManager* docMgr = CBGetDocumentManager();
+
+		CBTextDocument* doc = NULL;
+		if (docMgr->OpenTextDocument(fileName, 0, &doc))
+			{
+			JString p = "(class|interface|enum)[ \t\n]*";
+			p        += GetName();
+			p        += "\\b";
+			const JRegex r(p);
+
+			CBTextEditor* te = doc->GetTextEditor();
+			te->SetCaretLocation(1);
+
+			JArray<JIndexRange> matchList;
+			JBoolean wrapped;
+			if (te->JTextEditor::SearchForward(r, kJFalse, kJFalse, &wrapped, &matchList))
+				{
+				JIndexRange range = matchList.GetElement(1);
+				te->SelectLine(te->GetLineForChar(range.first));
+				te->ScrollForDefinition(kCBJavaLang);
+				}
+			else
+				{
+				JString msg = "Unable to find the definition of \"";
+				msg += GetName();
+				msg += "\".";
+				(JGetUserNotification())->ReportError(msg);
+				}
+			}
 		}
 	else
 		{
