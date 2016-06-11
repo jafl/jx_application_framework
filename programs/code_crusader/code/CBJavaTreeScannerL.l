@@ -16,16 +16,16 @@ This scanner reads a Java file and builds a CBJavaClass.
 
 #undef YY_DECL
 #define YY_DECL \
-	JBoolean CBJavaTreeScanner::CreateClass( \
+	JBoolean CBJavaTreeScanner::CreateClasses( \
 		const JCharacter* fileName, const JFAID_t fileID, \
-		CBTree* tree, CBClass** theClass)
+		CBTree* tree, JPtrArray<CBClass>* classList)
 %}
 
 %option c++ yyclass="CBJavaTree" prefix="CBJavaTree"
 %option 8bit nodefault stack noyywrap
 
 %x PACKAGE_STATE IMPORT_STATE NAME_STATE INHERIT_STATE
-%x C_COMMENT_STATE CPP_COMMENT_STATE
+%x GENERIC_STATE C_COMMENT_STATE CPP_COMMENT_STATE STRING_STATE
 
 WS	[[:space:]]+
 
@@ -36,57 +36,61 @@ IDCDR        ([_[:alnum:]]|{UESCCODE})
 ID           ({IDCAR}{IDCDR}*)
 NSID         ({ID}(\.{ID})*)
 
+OTHER_KEYWORD (break|byvalue|case|cast|catch|ClassLoader|clone|Cloneable|Compiler|const|continue|default|do|else|equals|false|finally|finalize|for|future|generic|getClass|goto|hashCode|if|inner|instanceof|Math|NaN|native|NEGATIVE_INFINITY|new|notify(All)?|null|operator|outer|POSITIVE_INFINITY|Process|Random|rest|return|Runnable|Runtime|SecurityManager|static|StringTokenizer|super|switch|synchronized|System|this|Thread(Group)?|throws?|Throwable|toString|transient|true|try|var|void|volatile|wait|while)
+
 %%
 
 %{
 	BEGIN(INITIAL);
+	ResetState();
 
 	JString package;
 	JPtrArray<JString> importList(JPtrArrayT::kDeleteAll);
-	*theClass           = NULL;
-	JBoolean isAbstract = kJFalse;
-	JBoolean isPublic   = kJFalse;
-	JBoolean isFinal    = kJFalse;
 
 	ifstream input(fileName);
 	switch_streams(&input, NULL);
 %}
 
-package {
+package{WS} {
 	BEGIN(PACKAGE_STATE);
 	}
 
-import  {
+import{WS}  {
 	BEGIN(IMPORT_STATE);
 	}
 
-public {
-	isPublic = kJTrue;
+public{WS} {
+	itsPublicFlag = kJTrue;
 	}
 
-final {
-	isFinal = kJTrue;
+protected{WS} |
+private{WS}   {
+	itsPublicFlag = kJFalse;
 	}
 
-abstract {
-	isAbstract = kJTrue;
+final{WS} {
+	itsFinalFlag = kJTrue;
 	}
 
-class {
+abstract{WS} {
+	itsAbstractFlag = kJTrue;
+	}
+
+class{WS} {
 	BEGIN(NAME_STATE);
 	}
 
-interface {
+interface{WS} {
 	BEGIN(NAME_STATE);
-	isAbstract = kJTrue;
+	itsAbstractFlag = kJTrue;
 	}
 
-enum {
+enum{WS} {
 	BEGIN(NAME_STATE);
 	}
 
-extends    |
-implements {
+extends{WS}    |
+implements{WS} {
 	BEGIN(INHERIT_STATE);
 	}
 
@@ -98,14 +102,18 @@ implements {
 	yy_push_state(CPP_COMMENT_STATE);
 	}
 
-"{" {
-	return JI2B( *theClass != NULL );
+\" {
+	BEGIN(STRING_STATE);
+	}
+
+{OTHER_KEYWORD}{WS} {
+	ResetState();
 	}
 
 .|\n	/* ignore */
 
 <*><<EOF>> {
-	return JI2B( *theClass != NULL );
+	return JNegate( classList->IsEmpty() );
 	}
 
 
@@ -130,7 +138,8 @@ implements {
 	}
 
 . {
-	return JI2B( *theClass != NULL );
+	ResetState();
+	BEGIN(INITIAL);
 	}
 
 }
@@ -158,7 +167,8 @@ implements {
 	}
 
 . {
-	return JI2B( *theClass != NULL );
+	ResetState();
+	BEGIN(INITIAL);
 	}
 
 }
@@ -169,7 +179,12 @@ implements {
 
 <NAME_STATE>{
 
-{NSID} {
+{NSID}"<"? {
+	if (classList->GetElementCount() == 1)
+		{
+		package = classList->FirstElement()->GetFullName();
+		}
+
 	JString fullName(yytext, yyleng);
 	if (!JStringEmpty(package))
 		{
@@ -177,16 +192,36 @@ implements {
 		fullName.Prepend(package);
 		}
 
-	*theClass = new CBJavaClass(fullName, CBClass::kClassType, fileID, tree,
-								isPublic, isFinal);
-	assert( *theClass != NULL );
-
-	if (isAbstract)
+	JBoolean generic = kJFalse;
+	if (fullName.GetLastCharacter() == '<')
 		{
-		(**theClass).SetAbstract();
+		generic = kJTrue;
+		fullName.RemoveSubstring(fullName.GetLength(), fullName.GetLength());
 		}
 
-	BEGIN(INITIAL);
+	CBJavaClass* c = new CBJavaClass(fullName, CBClass::kClassType, fileID, tree,
+									  itsPublicFlag, itsFinalFlag);
+	assert( c != NULL );
+
+	if (itsAbstractFlag)
+		{
+		c->SetAbstract();
+		}
+
+	classList->Append(c);
+
+	ResetState();
+	itsCurrentClass = c;	// must be after ResetState();
+
+	if (generic)
+		{
+		itsGenericDepth = 1;
+		BEGIN(GENERIC_STATE);
+		}
+	else
+		{
+		BEGIN(INITIAL);
+		}
 	}
 
 {WS}	/* ignore */
@@ -200,7 +235,8 @@ implements {
 	}
 
 . {
-	return JI2B( *theClass != NULL );
+	ResetState();
+	BEGIN(INITIAL);
 	}
 
 }
@@ -212,7 +248,7 @@ implements {
 <INHERIT_STATE>{
 
 {NSID} {
-	if (*theClass == NULL)
+	if (itsCurrentClass == NULL)
 		{
 		return kJFalse;
 		}
@@ -225,6 +261,7 @@ implements {
 			JString s = parentName;
 			s.Prepend(".");
 
+			JBoolean found    = kJFalse;
 			const JSize count = importList.GetElementCount();
 			for (JIndex i=1; i<=count; i++)
 				{
@@ -232,13 +269,24 @@ implements {
 				if (c->EndsWith(s))
 					{
 					parentName = *c;
+					found      = kJTrue;
 					break;
 					}
 				}
+
+			if (!found)
+				{
+				parentName = package + s;
+				}
 			}
 
-		(**theClass).AddParent(CBClass::kInheritPublic, parentName);
+		itsCurrentClass->AddParent(CBClass::kInheritPublic, parentName);
 		}
+	}
+
+"{" {
+	ResetState();
+	BEGIN(INITIAL);
 	}
 
 ","		/* ignore */
@@ -254,8 +302,31 @@ implements {
 	}
 
 . {
-	return JI2B( *theClass != NULL );
+	ResetState();
+	BEGIN(INITIAL);
 	}
+
+}
+
+
+	/* Ignore generics parameters */
+
+
+<GENERIC_STATE>{
+
+"<" {
+	itsGenericDepth++;
+	}
+
+">" {
+	itsGenericDepth--;
+	if (itsGenericDepth <= 0)
+		{
+		BEGIN(INITIAL);
+		}
+	}
+
+[^<>]+	/* ignore */
 
 }
 
@@ -288,6 +359,26 @@ implements {
 \n {
 	yy_pop_state();
 	}
+
+}
+
+
+	/* Match strings -- based on the string scanner from the flex manual. */
+	/* Java does not support \\\n to continue a string on the next line.  */
+
+
+<STRING_STATE>{
+
+\" {
+	BEGIN(INITIAL);
+	}
+
+\n {
+	BEGIN(INITIAL);
+	}
+
+\\.?  |
+[^\\\n\"]+		/* ignore everything inside quotes */
 
 }
 

@@ -1,6 +1,6 @@
 package com.nps;
 
-public class test
+public class test<T extends Date>
 {
 	public test();
 	finalize();

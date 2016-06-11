@@ -31,3 +31,18 @@ CBJavaTreeScanner::CBJavaTreeScanner()
 CBJavaTreeScanner::~CBJavaTreeScanner()
 {
 }
+
+/******************************************************************************
+ ResetState (private)
+
+ ******************************************************************************/
+
+void
+CBJavaTreeScanner::ResetState()
+{
+	itsAbstractFlag = kJFalse;
+	itsPublicFlag   = kJFalse;
+	itsFinalFlag    = kJFalse;
+	itsGenericDepth = 0;
+	itsCurrentClass = NULL;
+}

@@ -60,7 +60,7 @@ CBJavaTree::CBJavaTree
 {
 	itsClassNameLexer = NULL;
 
-	if (projVers < 81 && !IsEmpty())
+	if (projVers < 86 && !IsEmpty())
 		{
 		NextUpdateMustReparseAll();
 		}
@@ -156,13 +156,15 @@ CBJavaTree::ParseFile
 		assert( itsClassNameLexer != NULL );
 		}
 
-	// extract info about class
+	// extract info about classes
 
-	CBClass* newClass;
-	if (!itsClassNameLexer->CreateClass(fileName, id, this, &newClass))
+	JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
+	if (!itsClassNameLexer->CreateClasses(fileName, id, this, &classList))
 		{
 		return;
 		}
+
+	CBClass* newClass = classList.FirstElement();
 
 /* this destroys the ability to minimize MI links
 
@@ -173,7 +175,7 @@ CBJavaTree::ParseFile
 		newClass->AddParent(CBClass::kInheritPublic, "java.lang.Object");
 		}
 */
-	// extract functions via ctags
+	// extract functions via ctags - TODO: don't attach everything to root class
 
 	JString data;
 	CBLanguage lang;

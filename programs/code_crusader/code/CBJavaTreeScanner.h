@@ -18,6 +18,7 @@
 #pragma once
 #endif
 
+#include <JPtrArray.h>
 #include <JFAID.h>
 
 class CBTree;
@@ -33,10 +34,20 @@ public:
 
 	// written by flex
 
-	JBoolean	CreateClass(const JCharacter* fileName, const JFAID_t fileID,
-							CBTree* tree, CBClass** theClass);
+	JBoolean	CreateClasses(const JCharacter* fileName, const JFAID_t fileID,
+							  CBTree* tree, JPtrArray<CBClass>* classList);
 
 private:
+
+	JBoolean	itsAbstractFlag;
+	JBoolean	itsPublicFlag;
+	JBoolean	itsFinalFlag;
+	JSize		itsGenericDepth;
+	CBClass*	itsCurrentClass;
+
+private:
+
+	void	ResetState();
 
 	// not allowed
 

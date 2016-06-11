@@ -14,7 +14,11 @@ Please send all bug reports and suggestions for features to
 
 <h3> 6.6.1 </h3>
 
+Improved parsing of Java source files to detect inner classes and be smarter about finding parent classes.
+<p>
 Added support for Perl operators // and //= and ~~.
+<p>
+Added enum keyword to Java syntax highlighting.
 
 <h3> 6.6 </h3>
 
