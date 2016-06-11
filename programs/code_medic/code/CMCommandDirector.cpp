@@ -1675,11 +1675,12 @@ CMCommandDirector::UpdateDebugMenu
 			menu->EnableItem(kSelectBinCmd);
 			}
 
-		if (itsLink->GetFeature(CMLink::kSetCore))
+		const JBoolean hasProgram = itsLink->HasProgram();
+		if (hasProgram && itsLink->GetFeature(CMLink::kSetCore))
 			{
 			menu->EnableItem(kSelectCoreCmd);
 			}
-		if (itsLink->GetFeature(CMLink::kSetProcess))
+		if (hasProgram && itsLink->GetFeature(CMLink::kSetProcess))
 			{
 			menu->EnableItem(kSelectProcessCmd);
 			}

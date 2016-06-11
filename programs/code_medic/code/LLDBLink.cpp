@@ -60,7 +60,7 @@ static const JBoolean kFeatures[]=
 {
 	kJTrue,		// kSetProgram
 	kJTrue,		// kSetArgs
-	kJFalse,	// kSetCore -- lldb requires program to be chosen first, unlike gdb
+	kJTrue,		// kSetCore -- lldb requires program to be chosen first, unlike gdb
 	kJTrue,		// kSetProcess -- lldb requires program to be chosen first, unlike gdb
 	kJTrue,		// kRunProgram
 	kJTrue,		// kStopProgram

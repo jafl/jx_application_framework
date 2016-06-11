@@ -111,7 +111,6 @@ CMMDIServer::HandleMDIRequest
 			}
 		else if (*arg == "-c")
 			{
-			(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kGDBType);
 			context = kWaitingForCore;
 			continue;
 			}
