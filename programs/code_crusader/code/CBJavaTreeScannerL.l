@@ -256,28 +256,45 @@ implements{WS} {
 	JString parentName(yytext, yyleng);
 	if (parentName != "extends" && parentName != "implements")
 		{
-		if (!parentName.Contains("."))
-			{
-			JString s = parentName;
-			s.Prepend(".");
+		JString s = parentName;
+		s.Prepend(".");
 
-			JBoolean found    = kJFalse;
+		JBoolean found = kJFalse;
+		while (1)
+			{
 			const JSize count = importList.GetElementCount();
 			for (JIndex i=1; i<=count; i++)
 				{
 				const JString* c = importList.NthElement(i);
 				if (c->EndsWith(s))
 					{
-					parentName = *c;
+					JString s1 = *c;
+					s1.RemoveSubstring(
+						s1.GetLength() - s.GetLength() + 1,
+						s1.GetLength());
+					s1.AppendCharacter('.');
+					s1.Append(parentName);
+
+					parentName = s1;
 					found      = kJTrue;
 					break;
 					}
 				}
 
-			if (!found)
+			JIndex dotIndex;
+			if (!found && s.LocateLastSubstring(".", &dotIndex) && dotIndex > 1)
 				{
-				parentName = package + s;
+				s.RemoveSubstring(dotIndex, s.GetLength());
 				}
+			else
+				{
+				break;
+				}
+			}
+
+		if (!found && !parentName.Contains("."))
+			{
+			parentName = package + "." + s;
 			}
 
 		itsCurrentClass->AddParent(CBClass::kInheritPublic, parentName);
