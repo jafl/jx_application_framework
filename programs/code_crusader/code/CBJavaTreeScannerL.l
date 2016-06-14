@@ -294,7 +294,7 @@ implements{WS} {
 
 		if (!found && !parentName.Contains("."))
 			{
-			parentName = package + "." + s;
+			parentName = package + "." + parentName;
 			}
 
 		itsCurrentClass->AddParent(CBClass::kInheritPublic, parentName);
