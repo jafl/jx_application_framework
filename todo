@@ -56,8 +56,6 @@ xdebug
 lldb
 	LLDBLink::RunUntil() does not stop at specified address
 
-	support loading core file - how to generate one?
-
 -----
 
 UTF-8

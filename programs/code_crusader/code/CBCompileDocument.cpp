@@ -187,7 +187,8 @@ CBCompileDocument::ProcessFinished
 	make:           make[#]: *** ... (ignored)
 	Absoft F77:      error on line # of $:
 	javac:           [javac] $:#:
-	maven:          $:[#,...]
+	maven2:         $:[#,...]
+	maven3:         $:#:#::
 
  ******************************************************************************/
 
@@ -196,9 +197,10 @@ static const JRegex flexErrorRegex   = "..\", line [0-9]+: ";
 static const JRegex bisonErrorRegex  = "...\", line [0-9]+\\) error: ";
 static const JRegex makeErrorRegex   = ".(\\[[0-9]+\\])?: \\*\\*\\*";
 static const JRegex absoftErrorRegex = " error on line [0-9]+ of ([^:]+): ";
-static const JRegex javacOutputRegex = "^\\s+\\[[^]]+\\]\\s+";
-static const JRegex javacErrorRegex  = "^\\s+\\[[^]]+\\]\\s+(.+):[0-9]+: ";
-static const JRegex mavenErrorRegex  = "^(?:\\[[^]]+\\]\\s+)?(.+):\\[[0-9]+,[0-9]+\\] ";
+static const JRegex javacOutputRegex = "^\\s+\\[.+?\\]\\s+";
+static const JRegex javacErrorRegex  = "^\\s+\\[.+?\\]\\s+(.+?):[0-9]+: ";
+static const JRegex maven2ErrorRegex = "^(?:\\[.+?\\]\\s+)?(.+?):\\[[0-9]+,[0-9]+\\] ";
+static const JRegex maven3ErrorRegex = "^(?:\\[.+?\\]\\s+)?(.+?):[0-9]+:[0-9]+::";
 
 static const JCharacter* makeIgnoreErrorStr = "(ignored)";
 static const JCharacter* gccMultilinePrefix = "   ";
@@ -263,8 +265,11 @@ CBCompileDocument::AppendText
 	JArray<JIndexRange> absoftRangeList;
 	const JBoolean isAbsoftError = absoftErrorRegex.Match(*text, &absoftRangeList);
 
-	JArray<JIndexRange> mavenRangeList;
-	const JBoolean isMavenError = mavenErrorRegex.Match(*text, &mavenRangeList);
+	JArray<JIndexRange> maven2RangeList;
+	const JBoolean isMaven2Error = maven2ErrorRegex.Match(*text, &maven2RangeList);
+
+	JArray<JIndexRange> maven3RangeList;
+	const JBoolean isMaven3Error = maven3ErrorRegex.Match(*text, &maven3RangeList);
 
 	if (isGCCError &&
 		gccErrorRegex.Match(itsPrevLine, &gccPrevLineRange) &&
@@ -338,9 +343,14 @@ CBCompileDocument::AppendText
 			boldRange  = absoftRangeList.GetElement(2);
 			boldRange += startIndex-1;
 			}
-		else if (isMavenError)
+		else if (isMaven2Error)
 			{
-			boldRange  = mavenRangeList.GetElement(2);
+			boldRange  = maven2RangeList.GetElement(2);
+			boldRange += startIndex-1;
+			}
+		else if (isMaven3Error)
+			{
+			boldRange  = maven3RangeList.GetElement(2);
 			boldRange += startIndex-1;
 			}
 
