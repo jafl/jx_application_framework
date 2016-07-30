@@ -1,20 +1,14 @@
 fdesign
 
-fdesign is the widget layout editor written for use with the XForms
-library.  You can download it from
+fdesign was the widget layout editor written for use with the XForms
+library.
 
-  http://newplanetsoftware.com/ftp/misc/
-
-There are two important points to keep in mind when using fdesign.  First,
-the widgets that fdesign provides are those that XForms provides.  These
-are not identical to the JX widgets.  The file class.map shows which XForms
-widgets map to JX widgets.  The first column is the type selected in the
-fdesign control window.  The second column is the type selected in the
+There are two important points to keep in mind when editing fdesign files.
+First, the widgets that fdesign provides are those that XForms provides.
+These are not identical to the JX widgets.  The file class.map shows which
+XForms widgets map to JX widgets.  The first column is the type selected in
+the fdesign control window.  The second column is the type selected in the
 Options dialog window obtained by right-double-clicking on the widget.
-
-The second point to remember is that you should not use the big arrow
-button in the upper right corner of the Options dialog window because
-jxlayout cannot parse what it produces.
 
 jfdesign
 
@@ -93,6 +87,10 @@ RadioButtons, but it can also be used to pass initial arguments to any
 other constructor.
 
 Changes from previous versions
+
+3.2.0
+
+Updated defaults so code path is ./code and code suffix is .cpp
 
 3.1.0
 

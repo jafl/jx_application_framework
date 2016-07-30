@@ -29,11 +29,9 @@
 
 static const JCharacter* kVersionStr =
 
-	"jxlayout 3.1.0\n"
+	"jxlayout 3.2.0\n"
 	"\n"
-	"Copyright (C) 1996-2011 New Planet Software, Inc.  All rights reserved.\n"
-	"\n"
-	"http://www.newplanetsoftware.com/jx/";
+	"Copyright (C) 1996-2016 John Lindal.  All rights reserved.";
 
 static const JCharacter* kBackupSuffix = "~";
 
@@ -196,7 +194,8 @@ void GetOptions(const JSize argc, char* argv[], JString* inputName,
 void PickForms(const JString& fileName, JPtrArray<JString>* list);
 JBoolean FindConfigFile(JString* configFileName);
 
-void PrintHelp(const JString& codeSuffix, const JString& headerSuffix,
+void PrintHelp(const JString& codePath,
+			   const JString& codeSuffix, const JString& headerSuffix,
 			   const JString& stringPath);
 void PrintVersion();
 
@@ -1760,11 +1759,11 @@ GetOptions
 	)
 {
 	inputName->Clear();
-	codePath->Clear();
 	postCmd->Clear();
 
+	*codePath     = "./code/";
 	*stringPath   = "./strings/";
-	*codeSuffix   = ".cc";
+	*codeSuffix   = ".cpp";
 	*headerSuffix = ".h";
 
 	JBoolean pickForms = kJFalse;
@@ -1778,7 +1777,7 @@ GetOptions
 			}
 		else if (JIsHelpRequest(argv[index]))
 			{
-			PrintHelp(*codeSuffix, *headerSuffix, *stringPath);
+			PrintHelp(*codePath, *codeSuffix, *headerSuffix, *stringPath);
 			exit(0);
 			}
 
@@ -2005,6 +2004,7 @@ FindConfigFile
 void
 PrintHelp
 	(
+	const JString& codePath,
 	const JString& codeSuffix,
 	const JString& headerSuffix,
 	const JString& stringPath
@@ -2036,7 +2036,7 @@ PrintHelp
 	cout << endl;
 	cout << "-h          prints help" << endl;
 	cout << "-v          prints version information" << endl;
-	cout << "-cp         <code path>     - default: current directory" << endl;
+	cout << "-cp         <code path>     - default: " << codePath << endl;
 	cout << "-cs         <code suffix>   - default: " << codeSuffix << endl;
 	cout << "-hs         <header suffix> - default: " << headerSuffix << endl;
 	cout << "-sp         <string path>   - default: " << stringPath << endl;

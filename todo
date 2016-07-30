@@ -1,8 +1,24 @@
+https://reviews.llvm.org/differential/
+
 document SB*.h
 	How to provide class-level info?
 	explain section, module, block, etc
 
 	Submit SBAddress.h patch for feedback.
+
+-----
+
+jcc: import/export Task menu contents
+
+JXTextLabel:
+	vertically centered static text
+
+extract JTextEditor::Font to JFont
+	store JFontManager*
+	UpdateID(), Get/SetFontName()
+
+JTextEditor
+	set bounds to include 5 extra lines at bottom
 
 -----
 
@@ -108,8 +124,6 @@ jcc
 	vi emulator
 		dd doesn't work on last line of file
 		Ndd doesn't include last line of file even if it should be included
-
-	import/export Task menu contents
 
 	CBProjectTable AddDirectoryTree & AddFiles:
 		treelist should stop listening to tree until done adding
