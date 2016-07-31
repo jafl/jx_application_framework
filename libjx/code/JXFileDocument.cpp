@@ -775,7 +775,7 @@ JXFileDocument::SaveInCurrentFile()
 				}
 			else if (makeBackup &&
 					 !(JGetUserNotification())->AskUserNo(
-					 		JGetString("NoBackupDirWriteProtectError::JXFileDocument")))
+							JGetString("NoBackupDirWriteProtectError::JXFileDocument")))
 				{
 				return kJFalse;
 				}
