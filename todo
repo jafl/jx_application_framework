@@ -8,8 +8,6 @@ document SB*.h
 
 -----
 
-jcc: import/export Task menu contents
-
 JXTextLabel:
 	vertically centered static text
 

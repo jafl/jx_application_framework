@@ -19,6 +19,7 @@ class JXTextButton;
 class JXTextMenu;
 class JXInputField;
 class JXColHeaderWidget;
+class CBListCSF;
 
 class CBCommandTable : public JXEditTable
 {
@@ -27,6 +28,7 @@ public:
 	CBCommandTable(const CBCommandManager::CmdList& cmdList,
 				   JXTextButton* addCmdButton, JXTextButton* removeCmdButton,
 				   JXTextButton* duplicateCmdButton,
+				   JXTextButton* exportButton, JXTextButton* importButton,
 				   JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 				   const HSizingOption hSizing, const VSizingOption vSizing,
 				   const JCoordinate x, const JCoordinate y,
@@ -95,6 +97,9 @@ private:
 	JXTextButton*	itsAddCmdButton;
 	JXTextButton*	itsRemoveCmdButton;
 	JXTextButton*	itsDuplicateCmdButton;
+	JXTextButton*	itsExportButton;
+	JXTextButton*	itsImportButton;
+	CBListCSF*		itsCSF;
 
 	JPoint	itsStartPt;
 	JIndex	itsDNDRowIndex;
@@ -106,6 +111,9 @@ private:
 
 	void	AddCommand();
 	void	DuplicateCommand();
+
+	void	ExportAllCommands();
+	void	ImportCommands();
 
 	void	UpdateOptionsMenu();
 	void	HandleOptionsMenu(const JIndex index);

@@ -177,17 +177,17 @@ CBListChooseFileDialog::BuildWindow
 
 	itsAppendReplaceRG =
 		new JXRadioGroup(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,340, 204,74);
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,340, 204,74);
 	assert( itsAppendReplaceRG != NULL );
 
 	JXTextRadioButton* replaceRB =
 		new JXTextRadioButton(kReplaceCmd, JGetString("replaceRB::CBListChooseFileDialog::JXLayout"), itsAppendReplaceRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 180,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 10,10, 180,20);
 	assert( replaceRB != NULL );
 
 	JXTextRadioButton* appendRB =
 		new JXTextRadioButton(kAppendCmd, JGetString("appendRB::CBListChooseFileDialog::JXLayout"), itsAppendReplaceRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 180,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 10,40, 180,20);
 	assert( appendRB != NULL );
 
 	JXCurrentPathMenu* currPathMenu =

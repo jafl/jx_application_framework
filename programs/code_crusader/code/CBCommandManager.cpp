@@ -42,14 +42,6 @@ const JFileVersion kCurrentSetupVersion = 4;
 
 const JCharacter* CBCommandManager::kUpdateCommandMenu = "UpdateCommandMenu::CBCommandManager";
 
-// string ID's
-
-static const JCharacter* kInvalidPathID     = "InvalidPath::CBCommandManager";
-static const JCharacter* kRequiresProjectID = "RequiresProject::CBCommandManager";
-static const JCharacter* kRequiresFileID    = "RequiresFile::CBCommandManager";
-static const JCharacter* kMustSaveTextID    = "MustSaveText::CBCommandManager";
-static const JCharacter* kUnknownCmdID      = "UnknownCmd::CBCommandManager";
-
 /******************************************************************************
  Constructor
 
@@ -248,7 +240,7 @@ CBCommandManager::Prepare
 			{
 			"cmd", cmdName
 			};
-		const JString msg = JGetString(kUnknownCmdID, map, sizeof(map));
+		const JString msg = JGetString("UnknownCmd::CBCommandManager", map, sizeof(map));
 		(JGetUserNotification())->ReportError(msg);
 		return kJFalse;
 		}
@@ -363,7 +355,7 @@ CBCommandManager::Prepare
 			{
 			"cmd", cmdName
 			};
-		const JString msg = JGetString(kUnknownCmdID, map, sizeof(map));
+		const JString msg = JGetString("UnknownCmd::CBCommandManager", map, sizeof(map));
 		(JGetUserNotification())->ReportError(msg);
 		return kJFalse;
 		}
@@ -511,7 +503,7 @@ CBCommandManager::Substitute
 			if (reportError)
 				{
 				(JGetUserNotification())->ReportError(
-					JGetString(onDisk ? kRequiresFileID : kMustSaveTextID));
+					JGetString(onDisk ? "RequiresFile::CBCommandManager" : "MustSaveText::CBCommandManager"));
 				}
 			return kJFalse;
 			}
@@ -525,7 +517,7 @@ CBCommandManager::Substitute
 		{
 		if (reportError)
 			{
-			(JGetUserNotification())->ReportError(JGetString(kRequiresProjectID));
+			(JGetUserNotification())->ReportError(JGetString("RequiresProject::CBCommandManager"));
 			}
 		return kJFalse;
 		}
@@ -547,7 +539,7 @@ CBCommandManager::Substitute
 					{
 					"path", cmdPath->GetCString()
 					};
-				const JString msg = JGetString(kInvalidPathID, map, sizeof(map));
+				const JString msg = JGetString("InvalidPath::CBCommandManager", map, sizeof(map));
 				(JGetUserNotification())->ReportError(msg);
 				}
 			return kJFalse;
@@ -571,7 +563,7 @@ CBCommandManager::Substitute
 		{
 		if (reportError)
 			{
-			(JGetUserNotification())->ReportError(JGetString(kRequiresProjectID));
+			(JGetUserNotification())->ReportError(JGetString("RequiresProject::CBCommandManager"));
 			}
 		return kJFalse;
 		}
@@ -589,7 +581,7 @@ CBCommandManager::Substitute
 		if (reportError)
 			{
 			(JGetUserNotification())->ReportError(
-				JGetString(onDisk ? kRequiresFileID : kMustSaveTextID));
+				JGetString(onDisk ? "RequiresFile::CBCommandManager" : "MustSaveText::CBCommandManager"));
 			}
 		return kJFalse;
 		}
@@ -803,7 +795,6 @@ CBCommandManager::ReadSetup
 			CmdInfo info = ReadCmdInfo(input, vers);
 			UpgradeCommand(&info);
 			itsCmdList->AppendElement(info);
-
 
 			if (input.fail())
 				{
@@ -1264,7 +1255,7 @@ static const DefCmd kDefCmd[] =
 		kJTrue },
 */
 	// cvs
-
+/*
 	{ "@", "cvs edit $file_name",
 		"",
 		kJFalse, kJTrue, kJTrue, kJFalse, kJFalse, kJFalse, kJFalse,
@@ -1306,7 +1297,7 @@ static const DefCmd kDefCmd[] =
 		kJFalse, kJTrue, kJTrue, kJFalse, kJTrue, kJTrue, kJFalse,
 		"DefCmdCVSCommitAllText::CBCommandManager", "DefCmdVCSCommitAllShortcut::CBCommandManager",
 		kJTrue },
-/*
+*//*
 	{ "./", "cvs commit $project_name.jcc",
 		"",
 		kJFalse, kJTrue, kJTrue, kJFalse, kJTrue, kJTrue, kJFalse,

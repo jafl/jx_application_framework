@@ -165,7 +165,7 @@ public:
 	CBCompileDocument*				GetCompileDoc(CBProjectDocument* projDoc);
 	static CBExecOutputDocument*	GetOutputDoc();
 
-	// used by CBCommandSelection
+	// used by CBCommandSelection & CBCommandTable
 
 	static JFileVersion	GetCurrentCmdInfoFileVersion();
 	static CmdInfo		ReadCmdInfo(istream& input, const JFileVersion vers);

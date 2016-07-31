@@ -304,6 +304,15 @@ ProjectTableCaption::CBEditCommandsDialog
 NoSpacesInCmdName::CBCommandTable
 "The name of a command cannot contain spaces or tabs."
 
+ReplaceCommandList::CBCommandTable	"Replace existing tasks"
+AppendToCommandList::CBCommandTable	"Merge with existing tasks"
+ImportNotTaskFile::CBCommandTable	"That is not a task file."
+ImportNewerVersion::CBCommandTable	"This task file was created by a newer version of Code Crusader.  You need the newest version in order to open it."
+
+ExportPrompt::CBCommandTable		"Save tasks as:"
+ExportFileName::CBCommandTable		"export.tsk"
+ImportFilter::CBCommandTable		"*.tsk"
+
 # CBRunCommandDialog
 
 WindowTitle::CBRunCommandDialog		"Perform Task"

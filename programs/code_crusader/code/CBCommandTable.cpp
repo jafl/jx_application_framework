@@ -12,6 +12,7 @@
 #include "CBCommandSelection.h"
 #include "CBCommandPathInput.h"
 #include "CBProjectDocument.h"
+#include "CBListCSF.h"
 #include "cbGlobals.h"
 #include <JXDisplay.h>
 #include <JXTextButton.h>
@@ -86,9 +87,9 @@ enum
 	kShowSeparatorCmd
 };
 
-// string ID's
+// import/export
 
-static const JCharacter* kNoSpacesInCmdNameID = "NoSpacesInCmdName::CBCommandTable";
+static const JCharacter* kCommandFileSignature = "jx_browser_commands";
 
 /******************************************************************************
  Constructor
@@ -102,6 +103,8 @@ CBCommandTable::CBCommandTable
 	JXTextButton*		addCmdButton,
 	JXTextButton*		removeCmdButton,
 	JXTextButton*		duplicateCmdButton,
+	JXTextButton*		exportButton,
+	JXTextButton*		importButton,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -134,10 +137,18 @@ CBCommandTable::CBCommandTable
 	itsAddCmdButton       = addCmdButton;
 	itsRemoveCmdButton    = removeCmdButton;
 	itsDuplicateCmdButton = duplicateCmdButton;
+	itsExportButton       = exportButton;
+	itsImportButton       = importButton;
 
 	ListenTo(itsAddCmdButton);
 	ListenTo(itsRemoveCmdButton);
 	ListenTo(itsDuplicateCmdButton);
+	ListenTo(itsExportButton);
+	ListenTo(itsImportButton);
+
+	itsCSF = new CBListCSF(JGetString("ReplaceCommandList::CBCommandTable"),
+						   JGetString("AppendToCommandList::CBCommandTable"));
+	assert( itsCSF != NULL );
 
 	// type menu
 
@@ -182,6 +193,8 @@ CBCommandTable::~CBCommandTable()
 {
 	itsCmdList->DeleteAll();
 	delete itsCmdList;
+
+	delete itsCSF;
 }
 
 /******************************************************************************
@@ -817,7 +830,7 @@ CBCommandTable::ExtractInputData
 		{
 		if (illegalNamePattern.Match(text))
 			{
-			(JGetUserNotification())->ReportError(JGetString(kNoSpacesInCmdNameID));
+			(JGetUserNotification())->ReportError(JGetString("NoSpacesInCmdName::CBCommandTable"));
 			return kJFalse;
 			}
 		s = info.name;
@@ -879,6 +892,16 @@ CBCommandTable::Receive
 		{
 		DuplicateCommand();
 		}
+
+	else if (sender == itsExportButton && message.Is(JXButton::kPushed))
+		{
+		ExportAllCommands();
+		}
+	else if (sender == itsImportButton && message.Is(JXButton::kPushed))
+		{
+		ImportCommands();
+		}
+
 
 	else if (sender == itsOptionsMenu && message.Is(JXMenu::kNeedsUpdate))
 		{
@@ -959,6 +982,102 @@ CBCommandTable::DuplicateCommand()
 		AppendRows(1);
 		BeginEditing(JPoint(kCommandColumn, itsCmdList->GetElementCount()));
 		}
+}
+
+/******************************************************************************
+ ExportAllCommands (private)
+
+ ******************************************************************************/
+
+void
+CBCommandTable::ExportAllCommands()
+{
+	JString origName, newName;
+	if (!EndEditing() ||
+		!itsCSF->SaveFile(JGetString("ExportPrompt::CBCommandTable"), NULL, JGetString("ExportFileName::CBCommandTable"), &newName))
+		{
+		return;
+		}
+
+	ofstream output(newName);
+	output << kCommandFileSignature << '\n';
+	output << CBCommandManager::GetCurrentCmdInfoFileVersion() << '\n';
+
+	const JSize count = itsCmdList->GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		output << kJTrue;
+		CBCommandManager::WriteCmdInfo(output, itsCmdList->GetElement(i));
+		}
+
+	output << kJFalse << '\n';
+}
+
+/******************************************************************************
+ ImportCommands (private)
+
+ ******************************************************************************/
+
+void
+CBCommandTable::ImportCommands()
+{
+	JString fileName;
+	if (!EndEditing() ||
+		!itsCSF->ChooseFile("", NULL, JGetString("ImportFilter::CBCommandTable"), NULL, &fileName))
+		{
+		return;
+		}
+
+	// read file
+
+	ifstream input(fileName);
+
+	const JString signature = JRead(input, strlen(kCommandFileSignature));
+	if (input.fail() || signature != kCommandFileSignature)
+		{
+		(JGetUserNotification())->ReportError(JGetString("ImportNotTaskFile::CBCommandTable"));
+		return;
+		}
+
+	JFileVersion vers;
+	input >> vers;
+	if (input.fail() || vers > CBCommandManager::GetCurrentCmdInfoFileVersion())
+		{
+		(JGetUserNotification())->ReportError(JGetString("ImportNewerVersion::CBCommandTable"));
+		return;
+		}
+
+	if (itsCSF->ReplaceExisting())
+		{
+		itsCmdList->DeleteAll();
+		}
+
+	while (1)
+		{
+		JBoolean keepGoing;
+		input >> keepGoing;
+		if (input.fail() || !keepGoing)
+			{
+			break;
+			}
+
+		CBCommandManager::CmdInfo info = CBCommandManager::ReadCmdInfo(input, vers);
+		itsCmdList->AppendElement(info);
+		}
+
+	// adjust table
+
+	const JSize count = itsCmdList->GetElementCount();
+	if (GetRowCount() < count)
+		{
+		AppendRows(count - GetRowCount());
+		}
+	else if (count < GetRowCount())
+		{
+		RemoveNextRows(count+1, GetRowCount() - count);
+		}
+
+	Refresh();
 }
 
 /******************************************************************************

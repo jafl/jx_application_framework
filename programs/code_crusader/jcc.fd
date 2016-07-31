@@ -4729,7 +4729,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_SouthWest FL_NoGravity
+gravity: FL_South FL_NoGravity
 name: itsAppendReplaceRG
 callback: 
 argument: 
@@ -4746,8 +4746,8 @@ size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: Replace
 shortcut: 
-resize: FL_RESIZE_NONE
-gravity: FL_NorthWest FL_NoGravity
+resize: FL_RESIZE_ALL
+gravity: FL_North FL_NoGravity
 name: (replaceRB)
 callback: 
 argument: kReplaceCmd
@@ -4764,8 +4764,8 @@ size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: Merge
 shortcut: 
-resize: FL_RESIZE_NONE
-gravity: FL_NorthWest FL_NoGravity
+resize: FL_RESIZE_ALL
+gravity: FL_North FL_NoGravity
 name: (appendRB)
 callback: 
 argument: kAppendCmd
@@ -8758,7 +8758,7 @@ argument:
 Name: CBEditCommandsDialog--allProjectsLayout--compartment
 Width: 580
 Height: 140
-Number of Objects: 6
+Number of Objects: 8
 
 --------------------
 class: FL_BOX
@@ -8868,11 +8868,47 @@ name:
 callback: 
 argument: 
 
+--------------------
+class: FL_BUTTON
+type: NORMAL_BUTTON
+box: 520 160 60 20
+boxtype: FL_UP_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Export
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthEast FL_NoGravity
+name: (allExportButton)
+callback: 
+argument: 
+
+--------------------
+class: FL_BUTTON
+type: NORMAL_BUTTON
+box: 520 190 60 20
+boxtype: FL_UP_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Import
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthEast FL_NoGravity
+name: (allImportButton)
+callback: 
+argument: 
+
 =============== FORM ===============
 Name: CBEditCommandsDialog--thisProjectLayout--compartment
 Width: 580
 Height: 170
-Number of Objects: 8
+Number of Objects: 10
 
 --------------------
 class: FL_BOX
@@ -9015,6 +9051,42 @@ shortcut:
 resize: FL_RESIZE_NONE
 gravity: FL_NorthWest FL_NoGravity
 name: (thisCaption)
+callback: 
+argument: 
+
+--------------------
+class: FL_BUTTON
+type: NORMAL_BUTTON
+box: 520 190 60 20
+boxtype: FL_UP_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Export
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthEast FL_NoGravity
+name: (thisExportButton)
+callback: 
+argument: 
+
+--------------------
+class: FL_BUTTON
+type: NORMAL_BUTTON
+box: 520 220 60 20
+boxtype: FL_UP_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Import
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NorthEast FL_NoGravity
+name: (thisImportButton)
 callback: 
 argument: 
 

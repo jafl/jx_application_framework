@@ -19,12 +19,6 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kReplaceListID  = "ReplaceMacroList::CBMacroTable";
-static const JCharacter* kAppendToListID = "AppendToMacroList::CBMacroTable";
-static const JCharacter* kSavePromptID   = "SaveMacroListPrompt::CBMacroTable";
-
 /******************************************************************************
  Constructor
 
@@ -56,7 +50,8 @@ CBMacroTable::CBMacroTable
 	itsSaveButton = saveButton;
 	ListenTo(itsSaveButton);
 
-	itsCSF = new CBListCSF(JGetString(kReplaceListID), JGetString(kAppendToListID));
+	itsCSF = new CBListCSF(JGetString("ReplaceMacroList::CBMacroTable"),
+						   JGetString("AppendToMacroList::CBMacroTable"));
 	assert( itsCSF != NULL );
 
 	SetColWidth(kMacroColumn, 60);
@@ -254,7 +249,7 @@ CBMacroTable::SaveMacros()
 		(GetDialog())->GetCurrentMacroSetName(&origName))
 		{
 		JString newName;
-		if (itsCSF->SaveFile(JGetString(kSavePromptID), NULL, origName, &newName))
+		if (itsCSF->SaveFile(JGetString("SaveMacroListPrompt::CBMacroTable"), NULL, origName, &newName))
 			{
 			WriteData(newName);
 			}

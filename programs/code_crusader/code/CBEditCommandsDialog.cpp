@@ -174,6 +174,16 @@ CBEditCommandsDialog::BuildWindow
 	assert( obj1_allProjectsLayout != NULL );
 	obj1_allProjectsLayout->SetToLabel();
 
+	JXTextButton* allExportButton =
+		new JXTextButton(JGetString("allExportButton::CBEditCommandsDialog::allProjectsLayout"), compartment,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,160, 60,20);
+	assert( allExportButton != NULL );
+
+	JXTextButton* allImportButton =
+		new JXTextButton(JGetString("allImportButton::CBEditCommandsDialog::allProjectsLayout"), compartment,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,190, 60,20);
+	assert( allImportButton != NULL );
+
 	compartment->SetSize(allProjectsLayout_Frame.width(), allProjectsLayout_Frame.height());
 
 // end allProjectsLayout
@@ -189,6 +199,7 @@ CBEditCommandsDialog::BuildWindow
 
 	itsAllTable =
 		new CBCommandTable(*allCmdList, allNewButton, allRemoveButton, allDuplicateButton,
+						   allExportButton, allImportButton,
 						   allScrollbarSet, allScrollbarSet->GetScrollEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsAllTable != NULL );
@@ -258,6 +269,16 @@ CBEditCommandsDialog::BuildWindow
 	assert( thisCaption != NULL );
 	thisCaption->SetToLabel();
 
+	JXTextButton* thisExportButton =
+		new JXTextButton(JGetString("thisExportButton::CBEditCommandsDialog::thisProjectLayout"), compartment,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,190, 60,20);
+	assert( thisExportButton != NULL );
+
+	JXTextButton* thisImportButton =
+		new JXTextButton(JGetString("thisImportButton::CBEditCommandsDialog::thisProjectLayout"), compartment,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 520,220, 60,20);
+	assert( thisImportButton != NULL );
+
 	compartment->SetSize(thisProjectLayout_Frame.width(), thisProjectLayout_Frame.height());
 
 // end thisProjectLayout
@@ -275,6 +296,7 @@ CBEditCommandsDialog::BuildWindow
 
 		itsThisTable =
 			new CBCommandTable(*thisCmdList, thisNewButton, thisRemoveButton, thisDuplicateButton,
+							   thisExportButton, thisImportButton,
 							   thisScrollbarSet, thisScrollbarSet->GetScrollEnclosure(),
 							   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 		assert( itsThisTable != NULL );

@@ -1052,9 +1052,9 @@ F
 # tasks
 4
 "makemake"
+T "@" "jxlayout --choose --post-cmd 'jcc --reload-open' $file_name" "" F F T T T T F "Compile layouts" "F10" "" F
 T "./" "make -k personal" "" T F T F T F T "" "" "" T
 T "@" "pwd" "" F F F T T F F "" "" "" F
-T "@" "jxlayout --choose --post-cmd 'jcc --reload-open' $file_name" "" F F T T T T F "" "F10" "" F
 F
 # build settings
 1
