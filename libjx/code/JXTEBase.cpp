@@ -72,6 +72,8 @@ struct MenuItemInfo
 	const JCharacter*		id;
 };
 
+const JSize kBlankLineCountBeyondBottom = 5;
+
 // JError data
 
 const JCharacter* JXTEBase::kNoData            = "NoData::JXTEBase";
@@ -1536,10 +1538,17 @@ void
 JXTEBase::TESetGUIBounds
 	(
 	const JCoordinate w,
-	const JCoordinate h,
+	const JCoordinate origH,
 	const JCoordinate changeY
 	)
 {
+	JXScrollbar *hScrollbar, *vScrollbar;
+	const JBoolean hasScrollbars = GetScrollbars(&hScrollbar, &vScrollbar);
+
+	const JCoordinate h = origH +
+		(hasScrollbars && GetType() == kFullEditor ?
+			kBlankLineCountBeyondBottom * GetLineHeight(GetLineCount()) : 0);
+
 	itsMinWidth  = w;
 	itsMinHeight = h;
 
@@ -1557,8 +1566,7 @@ JXTEBase::TESetGUIBounds
 		height = h;
 		}
 
-	JXScrollbar *hScrollbar, *vScrollbar;
-	if (changeY >= 0 && GetScrollbars(&hScrollbar, &vScrollbar))
+	if (changeY >= 0 && hasScrollbars)
 		{
 		const JCoordinate origH = GetBoundsHeight();
 		if (height < origH)

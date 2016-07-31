@@ -15,9 +15,6 @@ extract JTextEditor::Font to JFont
 	store JFontManager*
 	UpdateID(), Get/SetFontName()
 
-JTextEditor
-	set bounds to include 5 extra lines at bottom
-
 -----
 
 replace rendering engine inside JXWindowPainter with UTF-8 version
