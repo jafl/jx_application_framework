@@ -8,8 +8,7 @@ document SB*.h
 
 -----
 
-JXTextLabel:
-	vertically centered static text
+load tasks directly from project file
 
 extract JTextEditor::Font to JFont
 	store JFontManager*
