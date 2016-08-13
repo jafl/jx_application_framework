@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXFileListSet.h>
 #include <JXFileListTable.h>
 #include <JXFLRegexInput.h>
@@ -242,7 +241,7 @@ JXFileListSet::SetFilterType
 		{
 		if (itsWildcardInput->HasFocus() || itsRegexInput->HasFocus())
 			{
-			(GetWindow())->KillFocus();
+			GetWindow()->KillFocus();
 			itsTable->Focus();
 			}
 		itsTable->ClearFilterRegex();
@@ -275,7 +274,7 @@ JXFileListSet::ShowFilter
 		{
 		if (otherInput->HasFocus())
 			{
-			(GetWindow())->KillFocus();
+			GetWindow()->KillFocus();
 			}
 		otherSet->Hide();
 		}

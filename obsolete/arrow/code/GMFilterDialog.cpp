@@ -341,7 +341,7 @@ GMFilterDialog::WritePrefs
 {
 	output << ' ' << kCurrentPrefsVersion << ' ';
 
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 	output << ' ';
 
 	itsVertPartition->WriteGeometry(output);

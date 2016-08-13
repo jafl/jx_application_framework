@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "WizChatDirector.h"
 #include "WizChatInput.h"
 #include "WizChatShortcutMenu.h"
@@ -100,7 +99,7 @@ WizChatDirector::WizChatDirector
 	WizChatDirectorX();
 
 	BuildWindow();
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 
 	input >> itsDoubleSpaceFlag;
 }
@@ -136,7 +135,7 @@ WizChatDirector::WritePrefs
 	)
 	const
 {
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ' << itsDoubleSpaceFlag;
 }
@@ -242,7 +241,7 @@ WizChatDirector::Receive
 			dynamic_cast<const Wiz2War::ChatMessage*>(&message);
 		assert( info != NULL );
 		AppendMessage(info->GetSenderIndex(), info->GetMessage());
-		(GetWindow())->Deiconify();
+		GetWindow()->Deiconify();
 		}
 
 	else if (sender == connMgr && message.Is(Wiz2War::kPlayerJoined))
@@ -364,7 +363,7 @@ WizChatDirector::NotifyPlayerJoined
 								   itsChatTargetMenu->GetFrameWidth());
 	const JRect frame = itsChatInput->GetFrame();
 	itsChatInput->Place(width, frame.top);
-	itsChatInput->SetSize((GetWindow())->GetFrameWidth() - width, frame.height());
+	itsChatInput->SetSize(GetWindow()->GetFrameWidth() - width, frame.height());
 }
 
 /******************************************************************************

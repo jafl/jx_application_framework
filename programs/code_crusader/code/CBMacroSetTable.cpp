@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBMacroSetTable.h"
 #include "CBCharActionManager.h"
 #include "CBCharActionTable.h"
@@ -141,7 +140,7 @@ CBMacroSetTable::GetCurrentMacroSetName
 	if (itsMacroIndex > 0 &&
 		const_cast<CBMacroSetTable*>(this)->EndEditing())
 		{
-		*name = (GetStringData())->GetString(itsMacroIndex, 1);
+		*name = GetStringData()->GetString(itsMacroIndex, 1);
 		return kJTrue;
 		}
 	else
@@ -322,7 +321,7 @@ CBMacroSetTable::RemoveRow()
 	const JIndex macroIndex = itsMacroIndex;
 	itsMacroIndex = 0;
 	itsMacroList->RemoveElement(macroIndex);
-	(GetStringData())->RemoveRow(macroIndex);
+	GetStringData()->RemoveRow(macroIndex);
 }
 
 /******************************************************************************

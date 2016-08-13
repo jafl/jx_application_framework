@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXChooseSaveFile.h>
 #include <JXChooseFileDialog.h>
 #include <JXChoosePathDialog.h>

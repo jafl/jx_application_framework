@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <mdStdInc.h>
 #include "MDRecordTable.h"
 #include "MDRecordList.h"
 #include "MDRecord.h"
@@ -554,7 +553,7 @@ MDRecordTable::DrawPrintHeader
 	)
 {
 	JRect pageRect = p.GetPageRect();
-	p.String(pageRect.left, pageRect.top, (GetWindow())->GetTitle());
+	p.String(pageRect.left, pageRect.top, GetWindow()->GetTitle());
 	const JString dateStr = JGetTimeStamp();
 	p.String(pageRect.left, pageRect.top, dateStr,
 			 pageRect.width(), JPainter::kHAlignRight);

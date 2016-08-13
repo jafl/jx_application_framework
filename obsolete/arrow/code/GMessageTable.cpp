@@ -236,7 +236,7 @@ GMessageTable::GMessageTable
 
 	JCoordinate ascent, descent;
 	itsLineHeight =
-		(GetFontManager())->GetLineHeight(JGetDefaultFontName(),
+		GetFontManager()->GetLineHeight(JGetDefaultFontName(),
 		kJDefaultFontSize, JFontStyle(), &ascent, &descent) + 5;
 
 	itsMailIcon = new JXImage(GetDisplay(), envelope_front);
@@ -1134,7 +1134,7 @@ GMessageTable::HandleDNDDrop
 		Atom returnType;
 		JXSelectionManager* selManager = GetSelectionManager();
 		JXSelectionManager::DeleteMethod delMethod;
-		const Atom dndName = (GetDNDManager())->GetDNDSelectionName();
+		const Atom dndName = GetDNDManager()->GetDNDSelectionName();
 		if (selManager->GetData(dndName, time, itsMessageXAtom,
 										 &returnType, &data, &dataLength, &delMethod))
 			{
@@ -1193,19 +1193,19 @@ GMessageTable::GetDNDAction
 {
 	if (target == this)
 		{
-		return (GetDNDManager())->GetDNDActionMoveXAtom();
+		return GetDNDManager()->GetDNDActionMoveXAtom();
 		}
 	else if (modifiers.control())
 		{
-		return (GetDNDManager())->GetDNDActionAskXAtom();
+		return GetDNDManager()->GetDNDActionAskXAtom();
 		}
 	else if (modifiers.meta())
 		{
-		return (GetDNDManager())->GetDNDActionCopyXAtom();
+		return GetDNDManager()->GetDNDActionCopyXAtom();
 		}
 	else
 		{
-		return (GetDNDManager())->GetDNDActionMoveXAtom();
+		return GetDNDManager()->GetDNDActionMoveXAtom();
 		}
 }
 
@@ -1287,7 +1287,7 @@ GMessageTable::WillAcceptDrop
 		Atom returnType;
 		JXSelectionManager* selManager = GetSelectionManager();
 		JXSelectionManager::DeleteMethod delMethod;
-		const Atom dndName = (GetDNDManager())->GetDNDSelectionName();
+		const Atom dndName = GetDNDManager()->GetDNDSelectionName();
 		if (selManager->GetData(dndName, time, itsMessageXAtom,
 										 &returnType, &data, &dataLength, &delMethod))
 			{

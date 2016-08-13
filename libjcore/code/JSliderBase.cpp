@@ -12,7 +12,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JSliderBase.h>
 #include <jAssert.h>
 

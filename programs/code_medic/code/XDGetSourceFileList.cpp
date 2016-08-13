@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "XDGetSourceFileList.h"
 #include "CMFileListDir.h"
 #include "XDLink.h"
@@ -49,7 +48,7 @@ XDGetSourceFileList::Starting()
 {
 	CMGetSourceFileList::Starting();
 
-	JXFileListTable* table = (GetFileList())->GetTable();
+	JXFileListTable* table = GetFileList()->GetTable();
 	table->RemoveAllFiles();
 
 	const JPtrArray<JString>& list = dynamic_cast<XDLink*>(CMGetLink())->GetSourcePathList();
@@ -77,7 +76,7 @@ XDGetSourceFileList::ScanDirectory
 		return;
 		}
 
-	JXFileListTable* table = (GetFileList())->GetTable();
+	JXFileListTable* table = GetFileList()->GetTable();
 
 	const JSize count = info->GetEntryCount();
 	for (JIndex i=1; i<=count; i++)

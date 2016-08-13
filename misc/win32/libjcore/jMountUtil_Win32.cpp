@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jMountUtil.h>
 #include <jDirUtil.h>
 #include <jAssert.h>

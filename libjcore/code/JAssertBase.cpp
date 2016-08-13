@@ -24,7 +24,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JAssertBase.h>
 #include <jGlobals.h>
 #include <stdio.h>

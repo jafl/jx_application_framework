@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXGetStringDialog.h>
 #include <JXWindow.h>
 #include <JXStaticText.h>

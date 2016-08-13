@@ -84,7 +84,7 @@ GMAccountList::GMAccountList
 	SetColBorderInfo(0, blackColor);
 
 	const JSize fontHeight =
-		(GetFontManager())->GetLineHeight(JGetDefaultFontName(),
+		GetFontManager()->GetLineHeight(JGetDefaultFontName(),
 		kJDefaultFontSize, JFontStyle());
 	const JCoordinate rowHeight = fontHeight + 2*kVMarginWidth;
 	SetDefaultRowHeight(rowHeight);

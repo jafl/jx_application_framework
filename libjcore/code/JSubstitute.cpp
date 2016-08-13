@@ -14,7 +14,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JSubstitute.h>
 #include <JRegex.h>
 #include <jAssert.h>

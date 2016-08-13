@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMBreakpointsDir.h"
 #include "CMBreakpointTable.h"
 #include "CMBreakpointManager.h"
@@ -222,7 +221,7 @@ CMBreakpointsDir::UpdateWindowTitle
 {
 	JString title = binaryName;
 	title += kWindowTitleSuffix;
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 }
 
 /******************************************************************************
@@ -346,7 +345,7 @@ CMBreakpointsDir::ReceiveGoingAway
 void
 CMBreakpointsDir::UpdateFileMenu()
 {
-	itsFileMenu->SetItemEnable(kCloseWindowCmd, !(GetWindow())->IsDocked());
+	itsFileMenu->SetItemEnable(kCloseWindowCmd, !GetWindow()->IsDocked());
 }
 
 /******************************************************************************

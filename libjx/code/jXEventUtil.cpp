@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <jXEventUtil.h>
 #include <JXDisplay.h>
 #include <JString.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jMemory.h>
 #include <jAssert.h>
 

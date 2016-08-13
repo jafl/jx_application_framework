@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBLexCompleter.h"
 #include "CBCCompleter.h"
 #include "CBCStyler.h"

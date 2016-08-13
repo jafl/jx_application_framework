@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXVertDockPartition.h>
 #include <JXHorizDockPartition.h>
 #include <JXDockDirector.h>

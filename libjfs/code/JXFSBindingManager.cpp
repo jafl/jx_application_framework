@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <JXStdInc.h>
 #include "JXFSBindingManager.h"
 #include "JFSBindingList.h"
 #include "JXFSEditBindingsDialog.h"

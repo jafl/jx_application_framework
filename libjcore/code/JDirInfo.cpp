@@ -25,7 +25,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JDirInfo.h>
 #include <JRegex.h>
 #include <JLatentPG.h>

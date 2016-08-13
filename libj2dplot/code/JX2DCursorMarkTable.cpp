@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JX2DCursorMarkTable.h>
 
 #include <JXWindowDirector.h>

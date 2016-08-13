@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCCircuitVarList.h"
 #include <jParseFunction.h>
 #include <JFunction.h>

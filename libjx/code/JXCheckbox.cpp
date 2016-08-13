@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXCheckbox.h>
 #include <JXWindow.h>
 #include <jAssert.h>

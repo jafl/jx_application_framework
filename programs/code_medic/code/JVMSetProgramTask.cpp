@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "JVMSetProgramTask.h"
 #include "JVMLink.h"
 #include "cmGlobals.h"

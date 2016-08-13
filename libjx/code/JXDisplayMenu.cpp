@@ -15,7 +15,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDisplayMenu.h>
 #include <JXOpenDisplayDialog.h>
 #include <JXDisplay.h>
@@ -206,7 +205,7 @@ JXDisplayMenu::ChooseDisplay
 	else
 		{
 		assert( itsNewDisplayDialog == NULL );
-		JXWindowDirector* supervisor = (GetWindow())->GetDirector();
+		JXWindowDirector* supervisor = GetWindow()->GetDirector();
 		itsNewDisplayDialog = new JXOpenDisplayDialog(supervisor);
 		assert( itsNewDisplayDialog != NULL );
 		ListenTo(itsNewDisplayDialog);

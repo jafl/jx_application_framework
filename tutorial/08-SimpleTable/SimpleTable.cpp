@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "SimpleTable.h"
 #include <JXWindowPainter.h>
 #include <JXColormap.h>

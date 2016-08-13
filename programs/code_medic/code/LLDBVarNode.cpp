@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "LLDBVarNode.h"
 #include "lldb/API/SBType.h"
 #include "CMVarCommand.h"

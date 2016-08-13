@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "XDDisplaySourceForMain.h"
 #include <jAssert.h>
 

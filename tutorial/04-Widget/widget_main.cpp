@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "WidgetDir.h"
 #include <JXApplication.h>
 #include "../TutorialStringData.h"

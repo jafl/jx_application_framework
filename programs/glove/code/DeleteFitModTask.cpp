@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include <DeleteFitModTask.h>
 #include "FitModule.h"
 

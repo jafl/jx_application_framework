@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include "JFSBindingList.h"
 #include "JFSBinding.h"
 #include <JPrefsFile.h>

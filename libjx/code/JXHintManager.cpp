@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXHintManager.h>
 #include <JXHintDirector.h>
 #include <JXWindow.h>

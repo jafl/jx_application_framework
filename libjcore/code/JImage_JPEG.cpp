@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JImage.h>
 #include <JStdError.h>
 #include <jAssert.h>

@@ -120,15 +120,15 @@ GMMessageDragSource::GetDNDAction
 {
 	if (modifiers.control())
 		{
-		return (GetDNDManager())->GetDNDActionAskXAtom();
+		return GetDNDManager()->GetDNDActionAskXAtom();
 		}
 	else if (modifiers.meta())
 		{
-		return (GetDNDManager())->GetDNDActionCopyXAtom();
+		return GetDNDManager()->GetDNDActionCopyXAtom();
 		}
 	else
 		{
-		return (GetDNDManager())->GetDNDActionMoveXAtom();
+		return GetDNDManager()->GetDNDActionMoveXAtom();
 		}
 }
 

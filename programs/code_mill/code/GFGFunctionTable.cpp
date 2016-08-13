@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <gfgStdInc.h>
 #include <GFGFunctionTable.h>
 #include "GFGMemberFunction.h"
 #include "GFGClass.h"

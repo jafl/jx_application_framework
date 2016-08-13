@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXComposeRuleList.h>
 #include <JXComposeScanner.h>
 #include <X11/Xlib.h>

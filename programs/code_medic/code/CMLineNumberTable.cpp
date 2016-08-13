@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMLineNumberTable.h"
 #include "CMSourceDirector.h"
 #include "CMBreakpointManager.h"
@@ -57,7 +56,7 @@ JColorIndex
 CMLineNumberTable::GetCurrentLineMarkerColor()
 	const
 {
-	return (GetColormap())->GetCyanColor();
+	return GetColormap()->GetCyanColor();
 }
 
 /******************************************************************************
@@ -120,7 +119,7 @@ CMLineNumberTable::GetFirstBreakpointOnLine
 	const
 {
 	CMBreakpoint bp("", lineIndex);
-	return (GetBreakpointList())->SearchSorted(&bp, JOrderedSetT::kFirstMatch, bpIndex);
+	return GetBreakpointList()->SearchSorted(&bp, JOrderedSetT::kFirstMatch, bpIndex);
 }
 
 /******************************************************************************
@@ -151,9 +150,9 @@ CMLineNumberTable::GetBreakpoints
 	)
 {
 	const JString* fullName;
-	if ((GetDirector())->GetFileName(&fullName))
+	if (GetDirector()->GetFileName(&fullName))
 		{
-		((GetLink())->GetBreakpointManager())->GetBreakpoints(*fullName, list);
+		(GetLink()->GetBreakpointManager())->GetBreakpoints(*fullName, list);
 		}
 	else
 		{
@@ -174,9 +173,9 @@ CMLineNumberTable::SetBreakpoint
 	)
 {
 	const JString* fullName;
-	const JBoolean hasFile = (GetDirector())->GetFileName(&fullName);
+	const JBoolean hasFile = GetDirector()->GetFileName(&fullName);
 	assert( hasFile );
-	(GetLink())->SetBreakpoint(*fullName, lineIndex, temporary);
+	GetLink()->SetBreakpoint(*fullName, lineIndex, temporary);
 }
 
 /******************************************************************************
@@ -191,9 +190,9 @@ CMLineNumberTable::RemoveAllBreakpointsOnLine
 	)
 {
 	const JString* fullName;
-	const JBoolean hasFile = (GetDirector())->GetFileName(&fullName);
+	const JBoolean hasFile = GetDirector()->GetFileName(&fullName);
 	assert( hasFile );
-	(GetLink())->RemoveAllBreakpointsOnLine(*fullName, lineIndex);
+	GetLink()->RemoveAllBreakpointsOnLine(*fullName, lineIndex);
 }
 
 /******************************************************************************
@@ -208,9 +207,9 @@ CMLineNumberTable::RunUntil
 	)
 {
 	const JString* fullName;
-	const JBoolean hasFile = (GetDirector())->GetFileName(&fullName);
+	const JBoolean hasFile = GetDirector()->GetFileName(&fullName);
 	assert( hasFile );
-	(GetLink())->RunUntil(*fullName, lineIndex);
+	GetLink()->RunUntil(*fullName, lineIndex);
 }
 
 /******************************************************************************
@@ -225,9 +224,9 @@ CMLineNumberTable::SetExecutionPoint
 	)
 {
 	const JString* fullName;
-	const JBoolean hasFile = (GetDirector())->GetFileName(&fullName);
+	const JBoolean hasFile = GetDirector()->GetFileName(&fullName);
 	assert( hasFile );
-	(GetLink())->SetExecutionPoint(*fullName, lineIndex);
+	GetLink()->SetExecutionPoint(*fullName, lineIndex);
 }
 
 /******************************************************************************

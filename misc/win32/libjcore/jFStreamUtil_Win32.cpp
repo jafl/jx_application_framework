@@ -8,7 +8,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jFStreamUtil.h>
 #include <windows.h>
 #include <jAssert.h>

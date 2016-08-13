@@ -20,7 +20,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JIndexRange.h>
 #include <JMinMax.h>
 #include <jAssert.h>

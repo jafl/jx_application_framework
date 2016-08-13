@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "wwUtil.h"
 #include <JString.h>
 #include <jDirUtil.h>

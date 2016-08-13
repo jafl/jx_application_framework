@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBEditCRMDialog.h"
 #include "CBCRMRuleListTable.h"
 #include "CBCRMRuleTable.h"
@@ -318,7 +317,7 @@ CBEditCRMDialog::WritePrefs
 	output << kCurrentSetupVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ';
 	itsPartition->WriteGeometry(output);

@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMPrefsManager.h"
 #include "CMEditPrefsDialog.h"
 #include "cmGlobals.h"

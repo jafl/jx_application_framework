@@ -206,7 +206,6 @@
  *****************************************************************************/
 
 //Class Header
-#include <JCoreStdInc.h>
 #include <JMemoryManager.h>
 
 #include <ctype.h>

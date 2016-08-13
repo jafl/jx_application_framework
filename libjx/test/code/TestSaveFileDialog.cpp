@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestSaveFileDialog.h"
 #include <JXWindow.h>
 #include <JXStaticText.h>

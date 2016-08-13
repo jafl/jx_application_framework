@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXMDIServer.h>
 #include <jXGlobals.h>
 

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestStrTableDirector.h"
 #include "TestStringTable.h"
 

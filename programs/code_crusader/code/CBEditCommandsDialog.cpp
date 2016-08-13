@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBEditCommandsDialog.h"
 #include "CBCommandTable.h"
 #include "CBProjectDocument.h"
@@ -412,7 +411,7 @@ CBEditCommandsDialog::WritePrefs
 	output << kCurrentSetupVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ';
 	itsPartition->WriteGeometry(output);

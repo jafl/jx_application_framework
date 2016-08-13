@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGApplication.h"
 #include "SyGMDIServer.h"
 #include "SyGGlobals.h"

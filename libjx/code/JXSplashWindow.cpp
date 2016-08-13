@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXSplashWindow.h>
 #include <JXDisplay.h>
 #include <JXWindow.h>

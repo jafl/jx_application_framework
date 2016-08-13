@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXChoosePathDialog.h>
 #include <JXDirTable.h>
 #include <JXCurrentPathMenu.h>
@@ -314,7 +313,7 @@ JXChoosePathDialog::OKToDeactivate()
 		return kJTrue;
 		}
 
-	else if ((GetPathInput())->HasFocus() && !GoToItsPath())
+	else if (GetPathInput()->HasFocus() && !GoToItsPath())
 		{
 		return kJFalse;
 		}
@@ -340,7 +339,7 @@ JXChoosePathDialog::UpdateDisplay()
 {
 	JXCSFDialogBase::UpdateDisplay();
 
-	if (itsSelectOnlyWritableFlag && !(GetDirInfo())->IsWritable())
+	if (itsSelectOnlyWritableFlag && !GetDirInfo()->IsWritable())
 		{
 		itsSelectButton->Deactivate();
 		}

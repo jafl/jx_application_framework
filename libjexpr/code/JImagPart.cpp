@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JImagPart.h>
 #include <jMath.h>
 #include <jAssert.h>
@@ -86,7 +85,7 @@ JImagPart::Evaluate
 	const
 {
 	JComplex value;
-	if ((GetArg())->Evaluate(&value))
+	if (GetArg()->Evaluate(&value))
 		{
 		*result = imag(value);
 		return kJTrue;
@@ -105,7 +104,7 @@ JImagPart::Evaluate
 	const
 {
 	JComplex value;
-	if ((GetArg())->Evaluate(&value))
+	if (GetArg()->Evaluate(&value))
 		{
 		*result = imag(value);
 		return kJTrue;

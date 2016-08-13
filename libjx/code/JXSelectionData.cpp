@@ -14,7 +14,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXSelectionData.h>
 #include <JXDisplay.h>
 #include <JXWidget.h>

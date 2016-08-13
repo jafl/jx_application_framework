@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXUrgentTask.h>
 #include <jXGlobals.h>
 

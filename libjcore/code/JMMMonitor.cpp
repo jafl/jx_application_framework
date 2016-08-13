@@ -14,7 +14,6 @@
  *****************************************************************************/
 
 //Class Header
-#include <JCoreStdInc.h>
 #include <JMMMonitor.h>
 
 #include <JMemoryManager.h>

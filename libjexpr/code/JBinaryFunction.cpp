@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JBinaryFunction.h>
 #include <jAssert.h>
 

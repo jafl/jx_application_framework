@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <gfgStdInc.h>
 #include "GFGApp.h"
 #include "GFGAboutDialog.h"
 #include "gfgStringData.h"

@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMStackDir.h"
 #include "CMStackWidget.h"
 #include "CMCommandDirector.h"
@@ -203,7 +202,7 @@ CMStackDir::UpdateWindowTitle
 {
 	JString title = binaryName;
 	title        += JGetString("WindowTitleSuffix::CMStackDir");
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 }
 
 /******************************************************************************
@@ -308,7 +307,7 @@ CMStackDir::ReceiveGoingAway
 void
 CMStackDir::UpdateFileMenu()
 {
-	itsFileMenu->SetItemEnable(kCloseWindowCmd, !(GetWindow())->IsDocked());
+	itsFileMenu->SetItemEnable(kCloseWindowCmd, !GetWindow()->IsDocked());
 }
 
 /******************************************************************************

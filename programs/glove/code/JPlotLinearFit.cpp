@@ -7,7 +7,6 @@
 
  ********************************************************************************/
 
-#include <glStdInc.h>
 #include "JPlotLinearFit.h"
 
 #include "J2DPlotWidget.h"
@@ -1267,9 +1266,9 @@ JPlotLinearFit::AdjustDiffData()
 	for (JSize i = 1; i <= count; i++)
 		{
 		pwd->GetElement(i, &dataD);
-		(GetData())->GetElement(i, &data);
+		GetData()->GetElement(i, &data);
 		JFloat yerr;
-		if ((GetData())->HasYErrors() || (GetData())->HasXErrors())
+		if (GetData()->HasYErrors() || GetData()->HasXErrors())
 			{
 			yerr = sqrt(data.yerr*data.yerr + B*B*data.y*data.y*data.xerr*data.xerr);
 			AdjustDiffDataValue(i, yerr);

@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBPropertiesScanner.h"
 #include <JString.h>
 #include <jStreamUtil.h>

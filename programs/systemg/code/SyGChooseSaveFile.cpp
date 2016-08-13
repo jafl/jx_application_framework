@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGChooseSaveFile.h"
 #include "SyGChoosePathDialog.h"
 #include <jAssert.h>

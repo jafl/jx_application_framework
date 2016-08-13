@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNInfoLog.h"
 #include "SVNMainDirector.h"
 #include "svnMenus.h"
@@ -131,7 +130,7 @@ SVNInfoLog::Execute
 		return;
 		}
 
-	const JFontStyle red(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetRedColor());
+	const JFontStyle red(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetRedColor());
 
 	JString text;
 	JReadAll(errFD, &text);
@@ -323,12 +322,12 @@ SVNInfoLog::HandleContextMenu
 
 	else if (index == kCommitDetailsCtxCmd)
 		{
-		(GetDirector())->ShowInfoLog(itsFullName, rev);
+		GetDirector()->ShowInfoLog(itsFullName, rev);
 		}
 
 	else if (index == kBrowseRepoRevisionCtxCmd)
 		{
-		(GetDirector())->BrowseRepo(rev);
+		GetDirector()->BrowseRepo(rev);
 		}
 }
 

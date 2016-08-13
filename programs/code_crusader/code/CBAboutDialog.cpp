@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBAboutDialog.h"
 #include "CBAboutDialogIconTask.h"
 #include "cbHelpText.h"

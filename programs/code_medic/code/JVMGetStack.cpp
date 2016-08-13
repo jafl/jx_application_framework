@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "JVMGetStack.h"
 #include "JVMStackFrameNode.h"
 #include "CMStackWidget.h"
@@ -91,7 +90,7 @@ JVMGetStack::HandleSuccess
 
 	link->FlushFrameList();
 
-	JTreeNode* root = (GetTree())->GetRoot();
+	JTreeNode* root = GetTree()->GetRoot();
 
 	const unsigned char* data  = msg->GetData();
 	const JSize frameIDLength  = link->GetFrameIDSize();
@@ -126,5 +125,5 @@ JVMGetStack::HandleSuccess
 		link->AddFrame(id, classID, methodID, offset);
 		}
 
-	(GetWidget())->FinishedLoading(0);
+	GetWidget()->FinishedLoading(0);
 }

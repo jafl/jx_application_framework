@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JProcessError.h>
 
 // Types

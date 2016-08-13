@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <askStdInc.h>
 #include "ASKApp.h"
 #include "ASKDialog.h"
 #include "askGlobals.h"

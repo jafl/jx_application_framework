@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCCircuitDocument.h"
 #include "SCVarListDirector.h"
 #include "SCXferFnDirector.h"
@@ -458,7 +457,7 @@ SCCircuitDocument::ReadFile
 	ListenTo(itsVarList);
 	itsVarListDir->SetVarList(itsVarList);
 
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 	itsVarListDir->ReadSetup(input, vers);
 
 	itsIgnoreNewDirectorFlag = kJTrue;
@@ -511,7 +510,7 @@ JIndex i;
 	output << ' ' << *itsVarList;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ';
 	itsVarListDir->WriteSetup(output);

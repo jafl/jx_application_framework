@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXExprInput.h>
 #include <JXTextMenu.h>
 #include <jParserData.h>

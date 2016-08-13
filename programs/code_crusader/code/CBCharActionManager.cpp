@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBCharActionManager.h"
 #include "CBMacroManager.h"
 #include <jAssert.h>

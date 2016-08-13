@@ -20,7 +20,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXMenuBar.h>
 #include <JXTextMenu.h>
 #include <JXDocktab.h>

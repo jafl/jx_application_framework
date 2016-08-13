@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGBeginEditingTask.h"
 #include "SyGFileTreeTable.h"
 #include "SyGFileTreeList.h"

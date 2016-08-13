@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXPTPageSetupDialog.h>
 #include <JXPTPrinter.h>
 #include <JXWindow.h>

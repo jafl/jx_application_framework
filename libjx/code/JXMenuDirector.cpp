@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXMenuDirector.h>
 #include <JXDisplay.h>
 #include <JXWindow.h>
@@ -62,7 +61,7 @@ JXMenuDirector::BuildWindow
 	const JCoordinate	sourceHeight
 	)
 {
-	(GetDisplay())->ShrinkDisplayBoundsToActiveScreen();
+	GetDisplay()->ShrinkDisplayBoundsToActiveScreen();
 
 	itsMenuTable = CreateMenuTable();
 	itsMenuTable->FitToEnclosure();
@@ -73,7 +72,7 @@ JXMenuDirector::BuildWindow
 	const JCoordinate w  = bounds.width()  + 2*bw;
 	const JCoordinate h  = bounds.height() + 2*bw;
 
-	const JRect rootBounds = (GetDisplay())->GetBounds();
+	const JRect rootBounds = GetDisplay()->GetBounds();
 
 	JCoordinate windowX, windowWidth = w;
 	JPoint usedPtR = rightPtR;
@@ -147,7 +146,7 @@ JXMenuDirector::BuildWindow
 		itsMenuTable->TableScrollToCell(JPoint(1, itsMenuTable->GetRowCount()));
 		}
 
-	(GetDisplay())->RestoreDisplayBounds();
+	GetDisplay()->RestoreDisplayBounds();
 }
 
 /******************************************************************************
@@ -174,5 +173,5 @@ JXMenuDirector::GrabKeyboard()
 void
 JXMenuDirector::GrabPointer()
 {
-	(GetWindow())->GrabPointer(itsMenuTable);
+	GetWindow()->GrabPointer(itsMenuTable);
 }

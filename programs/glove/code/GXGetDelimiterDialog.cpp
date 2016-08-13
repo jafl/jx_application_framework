@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GXGetDelimiterDialog.h"
 #include "GLPlotApp.h"
 #include "GLPrefsMgr.h"

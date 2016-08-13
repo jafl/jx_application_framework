@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBSymbolTypeList.h"
 #include "cbGlobals.h"
 #include <JXColormap.h>

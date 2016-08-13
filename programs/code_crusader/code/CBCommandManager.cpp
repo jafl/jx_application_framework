@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBCommandManager.h"
 #include "CBCommand.h"
 #include "CBProjectDocument.h"

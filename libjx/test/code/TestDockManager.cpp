@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestDockManager.h"
 #include <JXDockDirector.h>
 #include <JXHorizDockPartition.h>
@@ -50,7 +49,7 @@ JBoolean
 TestDockManager::CanDockAll()
 	const
 {
-	return (GetDockList())->IsEmpty();
+	return GetDockList()->IsEmpty();
 }
 
 /******************************************************************************
@@ -64,7 +63,7 @@ TestDockManager::CanDockAll()
 void
 TestDockManager::DockAll()
 {
-	if (!(GetDockList())->IsEmpty())
+	if (!GetDockList()->IsEmpty())
 		{
 		return;
 		}

@@ -13,7 +13,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBCommand.h"
 #include "CBCommandManager.h"
 #include "CBProjectDocument.h"

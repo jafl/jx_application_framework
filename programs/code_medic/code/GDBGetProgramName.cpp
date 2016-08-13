@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBGetProgramName.h"
 #include "GDBLink.h"
 #include "cmGlobals.h"

@@ -14,7 +14,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "EditTable.h"
 
 #include <JXMenuBar.h>

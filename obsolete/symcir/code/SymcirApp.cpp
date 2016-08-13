@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SymcirApp.h"
 #include "SCAboutDialog.h"
 #include "scGlobals.h"

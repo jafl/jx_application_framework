@@ -40,7 +40,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JVariableList.h>
 #include <JDecision.h>
 #include <JFunction.h>

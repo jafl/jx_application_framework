@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestTextEditor.h"
 #include <JXTextMenu.h>
 #include <JXPSPrinter.h>

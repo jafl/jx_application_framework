@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JX2DCursorMarkTableDir.h>
 #include <JX2DCursorMarkTable.h>
 
@@ -144,7 +143,7 @@ JX2DCursorMarkTableDir::WriteSetup
 	output << ' ' << kCurrentSetupVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	// must be last so the table can adjust before the scrollbars are adjusted
 

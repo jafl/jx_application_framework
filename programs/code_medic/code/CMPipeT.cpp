@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include <CMPipe.h>
 
 // JBroadcaster message types

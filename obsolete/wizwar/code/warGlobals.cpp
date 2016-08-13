@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "warGlobals.h"
 #include "War2Wiz.h"
 #include "wwUtil.h"

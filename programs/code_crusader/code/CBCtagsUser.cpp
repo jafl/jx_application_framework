@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBCtagsUser.h"
 
 #ifdef CODE_CRUSADER

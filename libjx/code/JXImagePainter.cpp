@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXImagePainter.h>
 #include <JXImage.h>
 #include <JXGC.h>

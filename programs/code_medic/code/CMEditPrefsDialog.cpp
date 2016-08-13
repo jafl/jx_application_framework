@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMEditPrefsDialog.h"
 #include "CMDebuggerProgramInput.h"
 #include "cbmUtil.h"

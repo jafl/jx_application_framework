@@ -13,7 +13,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXGetCurrFontMgr.h>
 #include <jXGlobals.h>
 #include <JXDisplay.h>

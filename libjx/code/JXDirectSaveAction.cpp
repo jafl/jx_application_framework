@@ -12,7 +12,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDirectSaveAction.h>
 #include <jAssert.h>
 

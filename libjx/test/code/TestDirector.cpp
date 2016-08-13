@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestDirector.h"
 #include "TestWidget.h"
 #include "TestPGTask.h"
@@ -252,7 +251,7 @@ TestDirector::TestDirector
 TestDirector::~TestDirector()
 {
 	ofstream output(kWindowGeomFileName);
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	delete itsPSPrinter;
 	delete itsEPSPrinter;
@@ -409,7 +408,7 @@ TestDirector::BuildWindow
 
 	// do this -after- constructing JXScrollableWidget
 
-	(GetWindow())->BufferDrawing(bufferTestWidget);
+	GetWindow()->BufferDrawing(bufferTestWidget);
 }
 
 /******************************************************************************
@@ -689,7 +688,7 @@ TestDirector::HandleAboutMenu
 		}
 	else if (index == kQuitCmd)
 		{
-		(GetDisplay())->Close();
+		GetDisplay()->Close();
 		}
 }
 
@@ -925,11 +924,11 @@ TestDirector::HandleTestMenu
 		}
 	else if (index == kRaiseAllWindowsCmd)
 		{
-		(GetDisplay())->RaiseAllWindows();
+		GetDisplay()->RaiseAllWindows();
 		}
 	else if (index == kPrintWMConfigCmd)
 		{
-		(GetWindow())->PrintWindowConfig();
+		GetWindow()->PrintWindowConfig();
 		}
 
 	else if (index == kTestBrokenPipe)

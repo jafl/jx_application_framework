@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBBreakpointManager.h"
 #include "GDBGetBreakpoints.h"
 #include "GDBLink.h"

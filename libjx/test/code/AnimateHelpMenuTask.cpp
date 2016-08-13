@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "AnimateHelpMenuTask.h"
 #include "HelpMenuBitmaps.h"
 #include <JXTextMenu.h>

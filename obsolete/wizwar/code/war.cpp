@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "WarSocket.h"
 #include "warGlobals.h"
 #include <j_prep_ace.h>

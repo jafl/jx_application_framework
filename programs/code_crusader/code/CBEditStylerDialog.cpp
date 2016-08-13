@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBEditStylerDialog.h"
 #include "CBStylerTable.h"
 

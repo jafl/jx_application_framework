@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBTEScriptMenu.h"
 #include "CBTextEditor.h"
 #include "cbGlobals.h"

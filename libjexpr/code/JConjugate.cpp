@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JConjugate.h>
 #include <JExprRenderer.h>
 #include <JExprRectList.h>
@@ -89,7 +88,7 @@ JConjugate::Evaluate
 	)
 	const
 {
-	return (GetArg())->Evaluate(result);
+	return GetArg()->Evaluate(result);
 }
 
 JBoolean
@@ -100,7 +99,7 @@ JConjugate::Evaluate
 	const
 {
 	JComplex value;
-	if ((GetArg())->Evaluate(&value))
+	if (GetArg()->Evaluate(&value))
 		{
 		jclear_errno();
 		*result = conj(value);
@@ -172,5 +171,5 @@ JConjugate::Render
 	// draw ourselves
 
 	renderer.DrawHorizBar(ourRect.left, ourRect.top, ourRect.width());
-	(GetArg())->Render(renderer, rectList);
+	GetArg()->Render(renderer, rectList);
 }

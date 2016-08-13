@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBExecHistoryMenu.h"
 #include <JXImage.h>
 #include <jAssert.h>

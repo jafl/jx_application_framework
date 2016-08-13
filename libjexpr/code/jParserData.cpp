@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jParserData.h>
 #include <JComplex.h>
 #include <string.h>

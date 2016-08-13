@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCScratchDirector.h"
 #include "SCCircuitDocument.h"
 #include "SCExprEditor.h"

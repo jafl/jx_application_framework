@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXTEStyleMenu.h>
 #include <JXTextEditor.h>
 #include <jAssert.h>
@@ -70,7 +69,7 @@ JFontStyle
 JXTEStyleMenu::GetFontStyleForMenuUpdate()
 	const
 {
-	return itsTE->GetCurrentFontStyle();
+	return itsTE->GetCurrentFont().GetStyle();
 }
 
 /******************************************************************************
@@ -87,7 +86,7 @@ JXTEStyleMenu::HandleMenuItem
 	const JIndex index
 	)
 {
-	const JFontStyle style = itsTE->GetCurrentFontStyle();
+	const JFontStyle style = GetFontStyleForMenuUpdate();
 
 	if (index == kPlainStyleCmd)
 		{

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBGetMemory.h"
 #include "CMMemoryDir.h"
 #include <JRegex.h>
@@ -53,7 +52,7 @@ GDBGetMemory::Starting()
 
 	CMMemoryDir::DisplayType type;
 	JSize count;
-	const JString& expr = (GetDirector())->GetExpression(&type, &count);
+	const JString& expr = GetDirector()->GetExpression(&type, &count);
 
 	JString cmd = "x/";
 	cmd        += JString(count, JString::kBase10);
@@ -93,5 +92,5 @@ GDBGetMemory::HandleSuccess
 		s.SetCharacter(i, ' ');
 		}
 
-	(GetDirector())->Update(s);
+	GetDirector()->Update(s);
 }

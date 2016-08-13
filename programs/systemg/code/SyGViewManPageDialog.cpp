@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGViewManPageDialog.h"
 #include "SyGPrefsMgr.h"
 #include "SyGGlobals.h"
@@ -215,7 +214,7 @@ SyGViewManPageDialog::Receive
 		}
 	else if (sender == itsCloseButton && message.Is(JXButton::kPushed))
 		{
-		(GetWindow())->KillFocus();
+		GetWindow()->KillFocus();
 		Deactivate();
 		}
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
@@ -421,7 +420,7 @@ SyGViewManPageDialog::WritePrefs
 	output << kCurrentSetupVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ';
 	itsFnHistoryMenu->WriteSetup(output);

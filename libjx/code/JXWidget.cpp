@@ -41,7 +41,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXWidget.h>
 #include <JXWindow.h>
 #include <JXDisplay.h>
@@ -79,8 +78,8 @@ JXWidget::JXWidget
 	itsHSizing     = hSizing;
 	itsVSizing     = vSizing;
 	itsBorderWidth = 0;
-	itsBackColor   = (GetColormap())->GetDefaultBackColor();
-	itsFocusColor  = (GetColormap())->GetDefaultFocusColor();
+	itsBackColor   = GetColormap()->GetDefaultBackColor();
+	itsFocusColor  = GetColormap()->GetDefaultFocusColor();
 	itsDragPainter = NULL;
 
 	itsAllowUnboundedScrollingFlag = kJFalse;
@@ -128,9 +127,9 @@ JXWidget::Refresh()
 	const
 {
 	JRect visRectG;
-	if (IsVisible() && (GetEnclosure())->GetVisibleRectGlobal(itsFrameG, &visRectG))
+	if (IsVisible() && GetEnclosure()->GetVisibleRectGlobal(itsFrameG, &visRectG))
 		{
-		(GetWindow())->RefreshRect(visRectG);
+		GetWindow()->RefreshRect(visRectG);
 		}
 }
 
@@ -150,7 +149,7 @@ JXWidget::RefreshRect
 	JRect visRectG;
 	if (IsVisible() && GetVisibleRectGlobal(rectG, &visRectG))
 		{
-		(GetWindow())->RefreshRect(visRectG);
+		GetWindow()->RefreshRect(visRectG);
 		}
 }
 
@@ -164,9 +163,9 @@ JXWidget::Redraw()
 	const
 {
 	JRect visRectG;
-	if (IsVisible() && (GetEnclosure())->GetVisibleRectGlobal(itsFrameG, &visRectG))
+	if (IsVisible() && GetEnclosure()->GetVisibleRectGlobal(itsFrameG, &visRectG))
 		{
-		(GetWindow())->RedrawRect(visRectG);
+		GetWindow()->RedrawRect(visRectG);
 		}
 }
 
@@ -186,7 +185,7 @@ JXWidget::RedrawRect
 	JRect visRectG;
 	if (IsVisible() && GetVisibleRectGlobal(rectG, &visRectG))
 		{
-		(GetWindow())->RedrawRect(visRectG);
+		GetWindow()->RedrawRect(visRectG);
 		}
 }
 
@@ -218,7 +217,7 @@ JXWidget::Deactivate()
 	JXContainer::Deactivate();
 	if (!IsActive() && HasFocus())
 		{
-		(GetWindow())->SwitchFocusToFirstWidget();
+		GetWindow()->SwitchFocusToFirstWidget();
 		}
 }
 
@@ -237,7 +236,7 @@ JXWidget::AcceptDrag
 {
 	return JConvertToBoolean(
 			JXContainer::AcceptDrag(pt, button, modifiers) &&
-			(!itsWantInputFlag || (GetWindow())->SwitchFocusToWidget(this)));
+			(!itsWantInputFlag || GetWindow()->SwitchFocusToWidget(this)));
 }
 
 /******************************************************************************
@@ -267,11 +266,11 @@ JXWidget::WantInput
 
 	if (itsWantInputFlag)
 		{
-		(GetWindow())->RegisterFocusWidget(this);
+		GetWindow()->RegisterFocusWidget(this);
 		}
 	else
 		{
-		(GetWindow())->UnregisterFocusWidget(this);
+		GetWindow()->UnregisterFocusWidget(this);
 		}
 }
 
@@ -285,7 +284,7 @@ JXWidget::WantInput
 JBoolean
 JXWidget::Focus()
 {
-	return (GetWindow())->SwitchFocusToWidget(this);
+	return GetWindow()->SwitchFocusToWidget(this);
 }
 
 // private -- for use by JXWindow
@@ -316,7 +315,7 @@ JXWidget::Unfocus()
 {
 	if (HasFocus())
 		{
-		return (GetWindow())->UnfocusCurrentWidget();
+		return GetWindow()->UnfocusCurrentWidget();
 		}
 	else
 		{
@@ -335,7 +334,7 @@ JXWidget::HasFocus()
 {
 	JXWidget* focusWidget;
 	return JConvertToBoolean(
-			(GetWindow())->GetFocusWidget(&focusWidget) &&
+			GetWindow()->GetFocusWidget(&focusWidget) &&
 			focusWidget == this);
 }
 
@@ -482,7 +481,7 @@ JXWidget::Place
 	const JCoordinate enclY
 	)
 {
-	const JPoint oldPt = (GetEnclosure())->GlobalToLocal(itsFrameG.topLeft());
+	const JPoint oldPt = GetEnclosure()->GlobalToLocal(itsFrameG.topLeft());
 	Move(enclX - oldPt.x, enclY - oldPt.y);
 }
 
@@ -565,7 +564,7 @@ JXWidget::CenterWithinEnclosure
 {
 	const JRect frame      = GetFrame();
 	const JPoint oldPt     = frame.topLeft();
-	const JRect enclBounds = (GetEnclosure())->GetBounds();
+	const JRect enclBounds = GetEnclosure()->GetBounds();
 
 	JCoordinate dx=0, dy=0;
 	if (adjustHoriz)
@@ -594,7 +593,7 @@ JXWidget::FitToEnclosure
 {
 	const JRect frame      = GetFrame();
 	const JPoint oldPt     = frame.topLeft();
-	const JRect enclBounds = (GetEnclosure())->GetBounds();
+	const JRect enclBounds = GetEnclosure()->GetBounds();
 
 	JCoordinate dx=0, dy=0, dw=0, dh=0;
 	if (fitHoriz)
@@ -959,7 +958,7 @@ JXWidget::Scroll
 //				dest      = JXContainer::LocalToGlobal(dest);
 //				JRect src = dest;
 //				src.Shift(-dx, -dy);
-//				(GetWindow())->UpdateForScroll(JXContainer::LocalToGlobal(newAp), src, dest);
+//				GetWindow()->UpdateForScroll(JXContainer::LocalToGlobal(newAp), src, dest);
 //				}
 //			else
 //				{
@@ -1179,7 +1178,7 @@ JXWidget::CreateDragPainter
 	const JXContainer* widget
 	)
 {
-	assert( (GetWindow())->IsVisible() );
+	assert( GetWindow()->IsVisible() );
 	assert( itsDragPainter == NULL );
 
 	JRect clipRect;
@@ -1252,7 +1251,7 @@ JXWidget::BeginDND
 	JXDNDManager::TargetFinder*	targetFinder
 	)
 {
-	return (GetDNDManager())->BeginDND(this, pt, buttonStates, modifiers, data,
+	return GetDNDManager()->BeginDND(this, pt, buttonStates, modifiers, data,
 									   targetFinder);
 }
 
@@ -1355,7 +1354,7 @@ JXWidget::GetDNDAction
 	const JXKeyModifiers&	modifiers
 	)
 {
-	return (GetDNDManager())->GetDNDActionCopyXAtom();
+	return GetDNDManager()->GetDNDActionCopyXAtom();
 }
 
 /******************************************************************************
@@ -1412,5 +1411,5 @@ JXWidget::HandleDNDResponse
 	const Atom			action
 	)
 {
-	DisplayCursor((GetDNDManager())->GetDefaultDNDCursor(dropAccepted, action));
+	DisplayCursor(GetDNDManager()->GetDefaultDNDCursor(dropAccepted, action));
 }

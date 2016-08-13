@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <gfgStdInc.h>
 #include "GFGPrefsManager.h"
 #include "GFGPrefsDialog.h"
 #include "gfgGlobals.h"

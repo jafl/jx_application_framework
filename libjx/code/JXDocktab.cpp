@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDocktab.h>
 #include <JXDockManager.h>
 #include <JXDockDirector.h>
@@ -80,7 +79,7 @@ JXDocktab::JXDocktab
 {
 	SetHint(JGetString(kHintID));
 
-	itsFocusColor = (GetColormap())->GetColor(0, 0, kJMaxRGBValue/2);
+	itsFocusColor = GetColormap()->GetColor(0, 0, kJMaxRGBValue/2);
 }
 
 /******************************************************************************
@@ -120,7 +119,7 @@ JXDocktab::Draw
 		p.SetPenColor(itsFocusColor);
 		p.SetFilling(kJTrue);
 		p.JPainter::Rect(rect);
-		p.SetPenColor((GetColormap())->GetBlackColor());
+		p.SetPenColor(GetColormap()->GetBlackColor());
 		p.SetFilling(kJFalse);
 
 		p.SetPenColor(cmap->GetWhiteColor());
@@ -199,7 +198,7 @@ JXDocktab::GetDNDAction
 	const JXKeyModifiers&	modifiers
 	)
 {
-	return (GetDNDManager())->GetDNDActionPrivateXAtom();
+	return GetDNDManager()->GetDNDActionPrivateXAtom();
 }
 
 /******************************************************************************
@@ -288,14 +287,14 @@ JXDocktab::UpdateActionMenu()
 		itsActionMenu->AppendItem(itemText);
 		}
 
-	const JBoolean isDocked = (GetWindow())->IsDocked();
+	const JBoolean isDocked = GetWindow()->IsDocked();
 	itsActionMenu->SetItemEnable(kUndockCmd, isDocked);
 	itsActionMenu->SetItemEnable(kUndockAllCompartmentCmd, isDocked);
 	itsActionMenu->SetItemEnable(kUndockAllDockCmd, isDocked);
 	itsActionMenu->SetItemEnable(kUndockAllCmd, JI2B(dockCount > 0));
 	itsActionMenu->SetItemEnable(kDockAllDefConfigCmd, dockMgr->CanDockAll());
 
-	itsActionMenu->SetItemEnable(kUpdateWindowTypeMapCmd, (GetWindow())->HasWindowType());
+	itsActionMenu->SetItemEnable(kUpdateWindowTypeMapCmd, GetWindow()->HasWindowType());
 	if (isDocked)
 		{
 		itsActionMenu->SetItemText(kUpdateWindowTypeMapCmd, JGetString(kAddToWindowTypeMapID));
@@ -325,12 +324,12 @@ JXDocktab::HandleActionMenu
 
 	if (index == kUndockCmd)
 		{
-		(GetWindow())->Undock();
+		GetWindow()->Undock();
 		}
 	else if (index == kUndockAllCompartmentCmd)
 		{
 		JXDockWidget* dock;
-		if ((GetWindow())->GetDockWidget(&dock))
+		if (GetWindow()->GetDockWidget(&dock))
 			{
 			dock->UndockAll();
 			}
@@ -338,14 +337,14 @@ JXDocktab::HandleActionMenu
 	else if (index == kUndockAllDockCmd)
 		{
 		JXWindow* w;
-		if ((GetWindow())->GetDockWindow(&w))
+		if (GetWindow()->GetDockWindow(&w))
 			{
 			w->UndockAllChildWindows();
 			}
 		}
 	else if (index == kUndockAllCmd)
 		{
-		(GetDisplay())->UndockAllWindows();
+		GetDisplay()->UndockAllWindows();
 		}
 
 	else if (index == kUpdateWindowTypeMapCmd)
@@ -428,7 +427,7 @@ JXDocktab::DockFinder::FindTarget
 	Atom*				vers
 	)
 {
-	if ((GetDisplay())->FindMouseContainer(coordOwner, pt, target, xWindow))
+	if (GetDisplay()->FindMouseContainer(coordOwner, pt, target, xWindow))
 		{
 		JXDockWidget* dock;
 		if (((**target).GetWindow())->GetDockWidget(&dock))
@@ -437,7 +436,7 @@ JXDocktab::DockFinder::FindTarget
 			*xWindow = (dock->JXContainer::GetWindow())->GetXWindow();
 			}
 
-		return (GetDNDManager())->IsDNDAware(*xWindow, msgWindow, vers);
+		return GetDNDManager()->IsDNDAware(*xWindow, msgWindow, vers);
 		}
 	else
 		{

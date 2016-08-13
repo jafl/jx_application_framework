@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCVdepSource.h"
 #include "SCCircuit.h"
 #include "scNetlistUtil.h"
@@ -91,7 +90,7 @@ SCVdepSource::SCVdepSource
 void
 SCVdepSource::SCVdepSourceX()
 {
-	ListenTo((GetCircuit())->GetNodeList());
+	ListenTo(GetCircuit()->GetNodeList());
 }
 
 /******************************************************************************
@@ -132,7 +131,7 @@ SCVdepSource::SCVdepSource
 	assert( theCircuit->NodeIndexValid(itsPosDepNode) );
 	assert( theCircuit->NodeIndexValid(itsNegDepNode) );
 
-	ListenTo((GetCircuit())->GetNodeList());
+	ListenTo(GetCircuit()->GetNodeList());
 }
 
 /******************************************************************************
@@ -239,7 +238,7 @@ SCVdepSource::Receive
 	const Message&	message
 	)
 {
-	JCollection* nodeList = (GetCircuit())->GetNodeList();
+	JCollection* nodeList = GetCircuit()->GetNodeList();
 
 	if (sender == nodeList && message.Is(JOrderedSetT::kElementsInserted))
 		{

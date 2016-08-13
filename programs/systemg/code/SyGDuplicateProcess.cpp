@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGDuplicateProcess.h"
 #include "SyGFileTreeTable.h"
 #include <JXDeleteObjectTask.h>

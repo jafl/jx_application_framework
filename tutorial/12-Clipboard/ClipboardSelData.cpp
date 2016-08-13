@@ -7,7 +7,6 @@
 	
  *****************************************************************************/
 
-#include <JXStdInc.h>
 #include <GFilterDragData.h>
 
 #include <jAssert.h>

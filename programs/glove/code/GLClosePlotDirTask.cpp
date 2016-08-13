@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include <GLClosePlotDirTask.h>
 #include "PlotDir.h"
 

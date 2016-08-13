@@ -24,7 +24,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JInterpolate.h>
 #include <JRegex.h>
 #include <jAssert.h>

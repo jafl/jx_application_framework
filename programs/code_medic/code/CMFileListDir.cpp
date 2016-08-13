@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMFileListDir.h"
 #include "CMCommandDirector.h"
 #include "CMGetSourceFileList.h"
@@ -226,7 +225,7 @@ CMFileListDir::UpdateWindowTitle
 {
 	JString title = binaryName;
 	title += kWindowTitleSuffix;
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 }
 
 /******************************************************************************
@@ -362,7 +361,7 @@ CMFileListDir::ReceiveGoingAway
 void
 CMFileListDir::UpdateFileMenu()
 {
-	itsFileMenu->SetItemEnable(kCloseWindowCmd, !(GetWindow())->IsDocked());
+	itsFileMenu->SetItemEnable(kCloseWindowCmd, !GetWindow()->IsDocked());
 }
 
 /******************************************************************************

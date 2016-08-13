@@ -25,7 +25,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXHistoryMenuBase.h>
 #include <JXImage.h>
 #include <JXInputField.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jDirUtil.h>
 #include <jFileUtil.h>
 #include <JDirInfo.h>

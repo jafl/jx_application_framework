@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGFileTree.h"
 #include "SyGFileTreeNode.h"
 #include <JDirInfo.h>
@@ -46,7 +45,7 @@ const JString&
 SyGFileTree::GetDirectory()
 	const
 {
-	return (GetRootDirInfo())->GetDirectory();
+	return GetRootDirInfo()->GetDirectory();
 }
 
 /******************************************************************************
@@ -65,7 +64,7 @@ SyGFileTree::Update
 {
 	if (force || updateNode == NULL || *updateNode == NULL)
 		{
-		return (GetSyGRoot())->Update(force, updateNode);
+		return GetSyGRoot()->Update(force, updateNode);
 		}
 	else
 		{
@@ -82,7 +81,7 @@ JBoolean
 SyGFileTree::HiddenVisible()
 	const
 {
-	return (GetRootDirInfo())->HiddenVisible();
+	return GetRootDirInfo()->HiddenVisible();
 }
 
 /******************************************************************************
@@ -96,7 +95,7 @@ SyGFileTree::ShowHidden
 	const JBoolean show
 	)
 {
-	(GetRootDirInfo())->ShowHidden(show);
+	GetRootDirInfo()->ShowHidden(show);
 }
 
 /******************************************************************************
@@ -110,7 +109,7 @@ SyGFileTree::SetWildcardFilter
 	const JCharacter* filter
 	)
 {
-	(GetRootDirInfo())->SetWildcardFilter(filter);
+	GetRootDirInfo()->SetWildcardFilter(filter);
 }
 
 /******************************************************************************
@@ -121,7 +120,7 @@ SyGFileTree::SetWildcardFilter
 void
 SyGFileTree::ClearWildcardFilter()
 {
-	(GetRootDirInfo())->ClearWildcardFilter();
+	GetRootDirInfo()->ClearWildcardFilter();
 }
 
 /******************************************************************************
@@ -135,7 +134,7 @@ SyGFileTree::SetNodeCompareFunction
 	const GFMColType type
 	)
 {
-	(GetSyGRoot())->SetChildCompareFunction(type);
+	GetSyGRoot()->SetChildCompareFunction(type);
 }
 
 /******************************************************************************
@@ -169,7 +168,7 @@ JDirInfo*
 SyGFileTree::GetRootDirInfo()
 {
 	JDirInfo* info;
-	const JBoolean ok = (GetSyGRoot())->GetDirInfo(&info);
+	const JBoolean ok = GetSyGRoot()->GetDirInfo(&info);
 	assert( ok );
 	return info;
 }
@@ -179,7 +178,7 @@ SyGFileTree::GetRootDirInfo()
 	const
 {
 	const JDirInfo* info;
-	const JBoolean ok = (GetSyGRoot())->GetDirInfo(&info);
+	const JBoolean ok = GetSyGRoot()->GetDirInfo(&info);
 	assert( ok );
 	return info;
 }

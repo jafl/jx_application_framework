@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <thxStdInc.h>
 #include "THXVarTable.h"
 #include "THXVarList.h"
 #include <JXExprInput.h>
@@ -43,7 +42,7 @@ THXVarTable::THXVarTable
 	JXEditTable(1,1, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
 	const JSize rowHeight = 2*kVMarginWidth +
-		(GetFontManager())->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle());
+		GetFontManager()->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle());
 	SetDefaultRowHeight(rowHeight);
 
 	itsVarList   = varList;

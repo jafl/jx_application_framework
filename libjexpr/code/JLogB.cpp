@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JLogB.h>
 #include <JExprRenderer.h>
 #include <JExprRectList.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCNDIDirector.h"
 #include "SCCircuitDocument.h"
 #include "SCCircuit.h"
@@ -59,7 +58,7 @@ SCNDIDirector::SCNDIDirector
 {
 	BuildWindow(supervisor);
 
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 	itsMainPartition->ReadGeometry(input);
 	itsInputPartition->ReadGeometry(input);
 
@@ -249,7 +248,7 @@ SCNDIDirector::EvaluateNDITransferFunction()
 		return;
 		}
 
-	(GetCircuitDocument())->DataModified();
+	GetCircuitDocument()->DataModified();
 
 	itsResult->ClearFunction();
 
@@ -312,7 +311,7 @@ SCNDIDirector::StreamOut
 	output << ' ' << kNDIType;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 	output << ' ';
 	itsMainPartition->WriteGeometry(output);
 	output << ' ';

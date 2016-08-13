@@ -21,7 +21,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXLinkText.h>
 #include <JXDisplay.h>
 #include <X11/cursorfont.h>
@@ -47,7 +46,7 @@ JXLinkText::JXLinkText
 	JXTEBase(kSelectableText, kJFalse, kJTrue, scrollbarSet,
 			 enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsLinkCursor     = (GetDisplay())->CreateBuiltInCursor("XC_hand2", XC_hand2);
+	itsLinkCursor     = GetDisplay()->CreateBuiltInCursor("XC_hand2", XC_hand2);
 	itsMouseDownIndex = 0;
 }
 

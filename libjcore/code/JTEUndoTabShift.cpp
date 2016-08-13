@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JTEUndoTabShift.h>
 #include <JTextEditor.h>
 #include <jAssert.h>
@@ -53,7 +52,7 @@ JTEUndoTabShift::UpdateEndChar()
 	Activate();		// cancel SetSelection()
 
 	JIndexRange r;
-	const JBoolean ok = (GetTE())->GetSelection(&r);
+	const JBoolean ok = GetTE()->GetSelection(&r);
 	assert( ok );
 	SetCurrentLength(r.GetLength());
 }

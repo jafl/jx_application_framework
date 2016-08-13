@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jParseUtil.h>
 #include <string.h>
 #include <jAssert.h>

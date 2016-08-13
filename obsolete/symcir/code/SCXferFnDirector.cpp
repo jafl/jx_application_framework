@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCXferFnDirector.h"
 #include "SCCircuitDocument.h"
 #include "SCCircuit.h"
@@ -56,7 +55,7 @@ SCXferFnDirector::SCXferFnDirector
 {
 	BuildWindow(supervisor);
 
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 	itsPartition->ReadGeometry(input);
 
 	itsXferFn->ReadState(input, vers);
@@ -178,7 +177,7 @@ SCXferFnDirector::EvaluateTransferFunction()
 		return;
 		}
 
-	(GetCircuitDocument())->DataModified();
+	GetCircuitDocument()->DataModified();
 
 	itsResult->ClearFunction();
 
@@ -217,7 +216,7 @@ SCXferFnDirector::StreamOut
 	output << ' ' << kXferFnType;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 	output << ' ';
 	itsPartition->WriteGeometry(output);
 	output << ' ';

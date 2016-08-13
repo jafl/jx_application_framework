@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include "JFSFileTreeNodeBase.h"
 #include "JFSFileTree.h"
 #include <jAssert.h>

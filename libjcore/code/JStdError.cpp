@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JStdError.h>
 #include <jGlobals.h>
 #include <jAssert.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "SimpleTableDir.h"
 #include "SimpleTable.h"
 #include <JXWindow.h>

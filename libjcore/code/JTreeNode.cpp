@@ -10,7 +10,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JTreeNode.h>
 #include <JTree.h>
 #include <jAssert.h>

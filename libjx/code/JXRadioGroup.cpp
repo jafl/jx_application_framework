@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXRadioGroup.h>
 #include <JXRadioButton.h>
 #include <JXWindowPainter.h>

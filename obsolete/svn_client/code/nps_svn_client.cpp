@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNApp.h"
 #include "SVNMDIServer.h"
 #include "SVNMainDirector.h"

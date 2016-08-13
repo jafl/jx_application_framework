@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "XDGetThreads.h"
 #include "CMThreadsWidget.h"
 #include <jAssert.h>
@@ -47,5 +46,5 @@ XDGetThreads::HandleSuccess
 	const JString& data
 	)
 {
-	(GetWidget())->FinishedLoading(0);
+	GetWidget()->FinishedLoading(0);
 }

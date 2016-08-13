@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JArcHypSine.h>
 #include <jErrno.h>
 #include <jAssert.h>
@@ -86,7 +85,7 @@ JArcHypSine::Evaluate
 	const
 {
 	JFloat argValue;
-	if (!(GetArg())->Evaluate(&argValue))
+	if (!GetArg()->Evaluate(&argValue))
 		{
 		return kJFalse;
 		}
@@ -103,7 +102,7 @@ JArcHypSine::Evaluate
 	const
 {
 	JComplex argValue;
-	if (!(GetArg())->Evaluate(&argValue))
+	if (!GetArg()->Evaluate(&argValue))
 		{
 		return kJFalse;
 		}

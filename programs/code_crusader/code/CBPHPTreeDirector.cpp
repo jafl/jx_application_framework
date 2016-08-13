@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBPHPTreeDirector.h"
 #include "CBPHPTree.h"
 #include "CBProjectDocument.h"
@@ -172,11 +171,11 @@ CBPHPTreeDirector::HandleTreeMenu
 
 	if (index == kEditSearchPathsCmd)
 		{
-		(GetProjectDoc())->EditSearchPaths(this);
+		GetProjectDoc()->EditSearchPaths(this);
 		}
 	else if (index == kUpdateCurrentCmd)
 		{
-		(GetProjectDoc())->UpdateSymbolDatabase();
+		GetProjectDoc()->UpdateSymbolDatabase();
 		}
 	else if (index == kForceMinMILinksCmd)
 		{

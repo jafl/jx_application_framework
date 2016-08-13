@@ -21,7 +21,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JInterPoly.h>
 #include <jassert.h>
 

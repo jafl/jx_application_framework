@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JFunctionComparison.h>
 #include <JExprNodeList.h>
 

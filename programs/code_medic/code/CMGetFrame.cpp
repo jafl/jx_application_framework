@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMGetFrame.h"
 #include <jAssert.h>
 

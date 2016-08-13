@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JRotateComplex.h>
 #include <jErrno.h>
 #include <jAssert.h>

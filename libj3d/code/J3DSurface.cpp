@@ -19,7 +19,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <J3DSurface.h>
 #include <JMatrix.h>
 #include <GL/gl.h>

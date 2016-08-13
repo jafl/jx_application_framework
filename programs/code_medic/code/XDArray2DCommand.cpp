@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "XDArray2DCommand.h"
 #include <jAssert.h>
 

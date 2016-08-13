@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXGetNewDirDialog.h>
 #include <JXInputField.h>
 #include <JXChooseSaveFile.h>
@@ -40,7 +39,7 @@ JXGetNewDirDialog::JXGetNewDirDialog
 {
 	assert( JDirectoryExists(basePath) );
 
-	(GetInputField())->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	GetInputField()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 }
 
 /******************************************************************************

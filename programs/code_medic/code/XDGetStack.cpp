@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "XDGetStack.h"
 #include "CMStackFrameNode.h"
 #include "CMStackWidget.h"
@@ -61,7 +60,7 @@ XDGetStack::HandleSuccess
 		return;
 		}
 
-	JTreeNode* stackRoot = (GetTree())->GetRoot();
+	JTreeNode* stackRoot = GetTree()->GetRoot();
 
 	xmlNode* frame  = root->children;
 	JString frameIndexStr, fileName, lineStr, frameName, path, name;
@@ -102,6 +101,6 @@ XDGetStack::HandleSuccess
 		frame = frame->next;
 		}
 
-	(GetWidget())->FinishedLoading(0);
-	(GetWidget())->SwitchToFrame(0);
+	GetWidget()->FinishedLoading(0);
+	GetWidget()->SwitchToFrame(0);
 }

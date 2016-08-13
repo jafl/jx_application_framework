@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jVCSUtil.h>
 #include <JRegex.h>
 #include <JSimpleProcess.h>

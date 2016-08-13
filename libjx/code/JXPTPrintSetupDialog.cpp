@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXPTPrintSetupDialog.h>
 #include <JXPSPrintSetupDialog.h>
 #include <JXWindow.h>
@@ -440,8 +439,8 @@ JXPTPrintSetupDialog::PrintAllPages
 		{
 		if (itsFirstPageIndex->HasFocus() || itsLastPageIndex->HasFocus())
 			{
-			(GetWindow())->KillFocus();		// values become irrelevant
-			(GetWindow())->SwitchFocusToFirstWidget();
+			GetWindow()->KillFocus();		// values become irrelevant
+			GetWindow()->SwitchFocusToFirstWidget();
 			}
 		itsFirstPageIndex->Hide();
 		itsLastPageIndex->Hide();

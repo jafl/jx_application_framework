@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBSymbolSRDirector.h"
 #include "CBSymbolDirector.h"
 #include "CBSymbolTable.h"
@@ -71,7 +70,7 @@ CBSymbolSRDirector::CBSymbolSRDirector
 
 	JString title = kTitlePrefix;
 	title += filterStr;
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 }
 
 CBSymbolSRDirector::CBSymbolSRDirector
@@ -91,7 +90,7 @@ CBSymbolSRDirector::CBSymbolSRDirector
 
 	JString title = kTitlePrefix;
 	title += searchStr;
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 }
 
 // private

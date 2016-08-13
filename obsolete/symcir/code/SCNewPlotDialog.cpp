@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCNewPlotDialog.h"
 #include <JXWindow.h>
 #include <JXStaticText.h>

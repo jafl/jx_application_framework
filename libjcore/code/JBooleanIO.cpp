@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jTypes.h>
 #include <jStreamUtil.h>
 #include <jAssert.h>

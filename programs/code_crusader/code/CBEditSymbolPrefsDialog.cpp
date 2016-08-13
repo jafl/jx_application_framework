@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBEditSymbolPrefsDialog.h"
 #include "CBProjectDocument.h"
 #include "CBSymbolDirector.h"

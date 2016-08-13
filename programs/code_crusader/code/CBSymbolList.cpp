@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBSymbolList.h"
 #include "CBProjectDocument.h"
 #include "CBFileListTable.h"

@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXRadioButton.h>
 #include <JXRadioGroup.h>
 #include <JXWindow.h>

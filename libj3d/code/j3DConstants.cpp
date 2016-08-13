@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <j3DConstants.h>
 
 const JVector kJ3DOrigin(3, 0.0, 0.0, 0.0);

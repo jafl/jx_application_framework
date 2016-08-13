@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBTabWidthDialog.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>

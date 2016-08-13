@@ -12,7 +12,6 @@
  *****************************************************************************/
 
 //Class Header
-#include <JCoreStdInc.h>
 #include <JMMArrayTable.h>
 #include <JMMRecord.h>
 #include <jAssert.h>

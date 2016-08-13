@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBNewProjectCSF.h"
 #include "CBNewProjectSaveFileDialog.h"
 #include "cbGlobals.h"

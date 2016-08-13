@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXKeyModifiers.h>
 #include <JXDisplay.h>
 #include <jAssert.h>

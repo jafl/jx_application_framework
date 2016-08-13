@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBCRMRuleListTable.h"
 #include "CBCRMRuleTable.h"
 #include <JXTextButton.h>
@@ -120,7 +119,7 @@ CBCRMRuleListTable::GetCurrentCRMRuleSetName
 	if (itsCRMIndex > 0 &&
 		const_cast<CBCRMRuleListTable*>(this)->EndEditing())
 		{
-		*name = (GetStringData())->GetString(itsCRMIndex, 1);
+		*name = GetStringData()->GetString(itsCRMIndex, 1);
 		return kJTrue;
 		}
 	else
@@ -296,7 +295,7 @@ CBCRMRuleListTable::RemoveRow()
 	const JIndex crmIndex = itsCRMIndex;
 	itsCRMIndex = 0;
 	itsCRMList->RemoveElement(crmIndex);
-	(GetStringData())->RemoveRow(crmIndex);
+	GetStringData()->RemoveRow(crmIndex);
 }
 
 /******************************************************************************

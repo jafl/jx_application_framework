@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXWindowIcon.h>
 #include <JXDisplay.h>
 #include <JXWindow.h>
@@ -83,14 +82,14 @@ JXWindowIcon::SetIcons
 	itsDropImage->ConvertToRemoteStorage();
 
 //	Can't change size because request is forwarded to main window!
-//	(GetWindow())->SetSize(itsNormalImage->GetWidth(), itsNormalImage->GetHeight());
+//	GetWindow()->SetSize(itsNormalImage->GetWidth(), itsNormalImage->GetHeight());
 	Refresh();
 
 	JXImageMask* mask;
 	if (itsNormalImage->GetMask(&mask))
 		{
 		JXDisplay* display = GetDisplay();
-		Window xWindow     = (GetWindow())->GetXWindow();
+		Window xWindow     = GetWindow()->GetXWindow();
 		int major, minor;
 		if (XShapeQueryVersion(*display, &major, &minor))
 			{
@@ -141,7 +140,7 @@ JXWindowIcon::DrawBorder
 void
 JXWindowIcon::HandleMouseEnter()
 {
-//	(GetWindow())->RequestFocus();
+//	GetWindow()->RequestFocus();
 }
 
 /******************************************************************************

@@ -34,7 +34,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXIdleTask.h>
 #include <jXGlobals.h>
 #include <jAssert.h>

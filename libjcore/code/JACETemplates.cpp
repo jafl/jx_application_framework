@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JMessageProtocol.h>
 #include <JAsynchDataReceiver.h>
 

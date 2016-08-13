@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNMainDirector.h"
 #include "SVNTabGroup.h"
 #include "SVNRepoView.h"
@@ -205,7 +204,7 @@ SVNMainDirector::SVNMainDirector
 
 	SVNMainDirectorX();
 
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 
 	if (vers >= 1)
 		{
@@ -242,7 +241,7 @@ SVNMainDirector::SVNMainDirectorX()
 
 	BuildWindow();
 
-	((GetDisplay())->GetWDManager())->DirectorCreated(this);
+	(GetDisplay()->GetWDManager())->DirectorCreated(this);
 }
 
 /******************************************************************************
@@ -283,7 +282,7 @@ SVNMainDirector::StreamOut
 	// after BuildWindow()
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ';
 	output << JI2B(itsRepoWidget != NULL);
@@ -532,7 +531,7 @@ SVNMainDirector::UpdateWindowTitle
 		"path", path
 		};
 	const JString title = JGetString("WindowTitleID::SVNMainDirector", map, sizeof(map));
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 }
 
 /******************************************************************************
@@ -947,7 +946,7 @@ SVNMainDirector::HandleFileMenu
 
 	else if (index == kCloseCmd)
 		{
-		(GetWindow())->Close();
+		GetWindow()->Close();
 		}
 	else if (index == kQuitCmd)
 		{

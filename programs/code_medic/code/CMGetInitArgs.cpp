@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMGetInitArgs.h"
 #include <JXInputField.h>
 #include <JRegex.h>

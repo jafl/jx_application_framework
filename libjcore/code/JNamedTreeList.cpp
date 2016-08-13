@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JNamedTreeList.h>
 #include <JNamedTreeNode.h>
 #include <JTree.h>
@@ -214,7 +213,7 @@ JNamedTreeList::Receive
 		itsSortedNodeList->InsertSorted(const_cast<JTreeNode*>(info->GetNode()));
 
 		const JTreeNode* node = info->GetNode();
-		if (node != (GetTree())->GetRoot())
+		if (node != GetTree()->GetRoot())
 			{
 			itsSortedNodeList->Remove(node);
 			itsSortedNodeList->InsertSorted(const_cast<JTreeNode*>(node));
@@ -241,7 +240,7 @@ JNamedTreeList::BuildSortedNodeList()
 
 	// we have to do the root's children by hand because root isn't visible or open
 
-	JTreeNode* root   = (GetTree())->GetRoot();
+	JTreeNode* root   = GetTree()->GetRoot();
 	const JSize count = root->GetChildCount();
 	for (JIndex i=1; i<=count; i++)
 		{

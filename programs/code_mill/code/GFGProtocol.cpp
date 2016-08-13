@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <gfgStdInc.h>
 #include <GFGProtocol.h>
 
 // JBroadcaster message types

@@ -14,7 +14,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JPiecewiseFunction.h>
 #include <JVariableList.h>
 #include <JDecision.h>

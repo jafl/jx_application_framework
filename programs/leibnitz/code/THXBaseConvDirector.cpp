@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <thxStdInc.h>
 #include "THXBaseConvDirector.h"
 #include "thxGlobals.h"
 #include "thxHelpText.h"
@@ -116,7 +115,7 @@ THXBaseConvDirector::WriteState
 	output << its10Input->GetText();
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ' << IsActive();
 }
@@ -243,7 +242,7 @@ THXBaseConvDirector::Receive
 {
 	if (sender == itsCloseButton && message.Is(JXButton::kPushed))
 		{
-		(GetWindow())->Close();
+		GetWindow()->Close();
 		}
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
 		{

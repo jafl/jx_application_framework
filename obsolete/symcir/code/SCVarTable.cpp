@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCVarTable.h"
 #include "SCCircuitVarList.h"
 #include "SCVarListDirector.h"
@@ -61,7 +60,7 @@ SCVarTable::SCVarTable
 	assert( itsVisibleList != NULL );
 
 	const JSize fontHeight =
-		(GetFontManager())->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize,
+		GetFontManager()->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize,
 										  JFontStyle());
 	const JCoordinate rowHeight = fontHeight + 2*kVMarginWidth;
 	SetDefaultRowHeight(rowHeight);
@@ -272,7 +271,7 @@ SCVarTable::EditFunction
 		return;
 		}
 
-	JXWindowDirector* dir = (GetWindow())->GetDirector();
+	JXWindowDirector* dir = GetWindow()->GetDirector();
 	if (itsVarList->IsVariable(varIndex))
 		{
 		JXDialogDirector* dlog =

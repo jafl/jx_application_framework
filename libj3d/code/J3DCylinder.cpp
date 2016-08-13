@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <J3DCylinder.h>
 #include <jAssert.h>
 

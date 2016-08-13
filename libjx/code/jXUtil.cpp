@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <jXUtil.h>
 #include <JXDisplay.h>
 #include <JXImageMask.h>

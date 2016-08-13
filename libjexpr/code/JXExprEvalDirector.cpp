@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXExprEvalDirector.h>
 #include <JXWindow.h>
 #include <JXTextButton.h>
@@ -149,10 +148,10 @@ JXExprEvalDirector::UpdateDisplay()
 	const JSize apw = itsTextDisplay->GetApertureWidth();
 	if (bdw > apw)
 		{
-		(GetWindow())->AdjustSize(bdw - apw, 0);	// safe to calculate once bdw > apw
+		GetWindow()->AdjustSize(bdw - apw, 0);	// safe to calculate once bdw > apw
 		}
 	else if (apw > bdw + kSlopWidth)
 		{
-		(GetWindow())->AdjustSize(apw - bdw, 0);	// safe to calculate once apw > bdw
+		GetWindow()->AdjustSize(apw - bdw, 0);	// safe to calculate once apw > bdw
 		}
 }

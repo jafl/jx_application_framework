@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jExprUIUtil.h>
 
 #include <jParseFunction.h>

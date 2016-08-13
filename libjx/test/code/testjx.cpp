@@ -8,7 +8,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestDirector.h"
 #include "TestApp.h"
 #include "TestMDIServer.h"

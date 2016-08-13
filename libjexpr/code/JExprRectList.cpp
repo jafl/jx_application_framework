@@ -12,7 +12,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JExprRectList.h>
 #include <JFunction.h>
 #include <JRect.h>

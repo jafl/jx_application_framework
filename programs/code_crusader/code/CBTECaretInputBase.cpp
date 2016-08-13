@@ -17,7 +17,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBTECaretInputBase.h"
 #include <JXWindow.h>
 #include <JXStaticText.h>
@@ -168,12 +167,12 @@ CBTECaretInputBase::Receive
 		assert( info != NULL );
 		if (itsOptimizeUpdateFlag)
 			{
-			(GetWindow())->Update();	// avoid redrawing everything in between
+			GetWindow()->Update();	// avoid redrawing everything in between
 			}
 		SetValue(GetValue(*info));
 		if (itsOptimizeUpdateFlag)
 			{
-			(GetWindow())->Update();
+			GetWindow()->Update();
 			}
 		}
 

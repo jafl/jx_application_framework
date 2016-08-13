@@ -9,7 +9,6 @@
 	
  *****************************************************************************/
 
-#include <glStdInc.h>
 #include <GLModuleFitDescription.h>
 #include "GLDLFitModule.h"
 #include <jAssert.h>

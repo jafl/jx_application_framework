@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "JVMGetFullPath.h"
 #include <jAssert.h>
 

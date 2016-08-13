@@ -18,7 +18,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXWDManager.h>
 #include <JXWindowDirector.h>
 #include <JXWDMenu.h>

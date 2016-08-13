@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMArrayIndexInput.h"
 #include <jASCIIConstants.h>
 #include <jAssert.h>

@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestCompartment.h"
 #include "TestPartitionDirector.h"
 #include <JXHorizPartition.h>

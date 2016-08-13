@@ -16,7 +16,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXSharedPrefObject.h>
 #include <JXSharedPrefsManager.h>
 #include <jXGlobals.h>

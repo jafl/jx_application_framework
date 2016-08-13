@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include <GDBScanner.h>
 #include <jAssert.h>
 

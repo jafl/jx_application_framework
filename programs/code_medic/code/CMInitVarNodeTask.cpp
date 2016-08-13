@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMInitVarNodeTask.h"
 #include "CMVarNode.h"
 #include <jAssert.h>

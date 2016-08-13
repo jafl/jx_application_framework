@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBGetFrame.h"
 #include "CMStackWidget.h"
 #include "GDBLink.h"

@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <mdStdInc.h>
 #include "MDPrefsManager.h"
 #include "MDPrefsDialog.h"
 #include "mdGlobals.h"

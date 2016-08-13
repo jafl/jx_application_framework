@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXImageSelection.h>
 #include <JXDisplay.h>
 #include <JXSelectionManager.h>
@@ -88,7 +87,7 @@ JXImageSelection::AddTypes
 	const Atom selectionName
 	)
 {
-	(GetDisplay())->RegisterXAtoms(kAtomCount, kAtomNames, itsAtoms);
+	GetDisplay()->RegisterXAtoms(kAtomCount, kAtomNames, itsAtoms);
 
 	itsXPMAtom = itsAtoms[ kXPMAtomIndex ];
 	AddType(itsXPMAtom);

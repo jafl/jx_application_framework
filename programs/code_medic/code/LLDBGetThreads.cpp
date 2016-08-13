@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "LLDBGetThreads.h"
 #include "lldb/API/SBTarget.h"
 #include "lldb/API/SBProcess.h"
@@ -121,5 +120,5 @@ LLDBGetThreads::HandleSuccess
 		root->Append(node);
 		}
 
-	(GetWidget())->FinishedLoading(p.GetSelectedThread().GetThreadID());
+	GetWidget()->FinishedLoading(p.GetSelectedThread().GetThreadID());
 }

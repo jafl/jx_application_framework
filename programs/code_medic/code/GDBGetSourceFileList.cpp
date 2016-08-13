@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBGetSourceFileList.h"
 #include "CMFileListDir.h"
 #include "cmGlobals.h"
@@ -58,7 +57,7 @@ GDBGetSourceFileList::HandleSuccess
 		{
 		(JXGetApplication())->DisplayBusyCursor();
 
-		JXFileListTable* table = (GetFileList())->GetTable();
+		JXFileListTable* table = GetFileList()->GetTable();
 		table->RemoveAllFiles();
 
 		JString data = origData;

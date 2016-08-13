@@ -115,7 +115,7 @@ GPMProcessTreeList::Receive
 
 		JIndex index;
 		if (itsSelectedEntry != NULL &&
-			(GetTreeList())->FindNode(itsSelectedEntry, &index))
+			GetTreeList()->FindNode(itsSelectedEntry, &index))
 			{
 			s.SelectRow(index);
 
@@ -177,7 +177,7 @@ GPMProcessTreeList::TableDrawCell
 
 	HilightIfSelected(p, cell, rect);
 
-	const JTreeNode* node        = (GetTreeList())->GetNode(cell.y);
+	const JTreeNode* node        = GetTreeList()->GetNode(cell.y);
 	const GPMProcessEntry& entry = * dynamic_cast<const GPMProcessEntry*>(node);
 
 	JString str;
@@ -363,10 +363,10 @@ GPMProcessTreeList::SelectProcess
 	JTableSelection& s = GetTableSelection();
 	s.ClearSelection();
 
-	(GetTreeList())->MakeVisible(&entry);
+	GetTreeList()->MakeVisible(&entry);
 
 	JIndex index;
-	if ((GetTreeList())->FindNode(&entry, &index))
+	if (GetTreeList()->FindNode(&entry, &index))
 		{
 		s.SelectRow(index);
 		ScrollToNode(&entry);

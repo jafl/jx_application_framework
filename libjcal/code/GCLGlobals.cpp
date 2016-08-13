@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "GCLGlobals.h"
 #include "GCLAlarmManager.h"
 

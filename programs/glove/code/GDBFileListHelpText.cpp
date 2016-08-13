@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GDBHelpText.h"
 
 const JCharacter* kFileListHelpName  = "GDBFileListHelp";

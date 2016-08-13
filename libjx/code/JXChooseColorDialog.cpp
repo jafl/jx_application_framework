@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXChooseColorDialog.h>
 #include <JXWindow.h>
 #include <JXTextButton.h>
@@ -178,7 +177,7 @@ JXChooseColorDialog::BuildWindow
 	window->SetTitle("Choose color");
 	SetButtons(okButton, cancelButton);
 
-	const JRGB rgb = (GetColormap())->JColormap::GetRGB(colorIndex);
+	const JRGB rgb = GetColormap()->JColormap::GetRGB(colorIndex);
 	const JHSB hsb(rgb);
 
 	itsHSlider->SetRange(0.0, kJMaxHSBValueF);

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "LLDBGetLocalVars.h"
 #include "CMVarNode.h"
 #include "lldb/API/SBTarget.h"

@@ -136,7 +136,7 @@ GMFilterNameTable::GMFilterNameTableX()
 	ListenTo(itsNewButton);
 	ListenTo(itsRemoveButton);
 
-	const Atom dndName	= (GetDNDManager())->GetDNDSelectionName();
+	const Atom dndName	= GetDNDManager()->GetDNDSelectionName();
 	GetDisplay()->RegisterXAtom(kDragFilterXAtomName);
 }
 
@@ -538,7 +538,7 @@ GMFilterNameTable::GetDNDAction
 	const JXKeyModifiers&	modifiers
 	)
 {
-	return (GetDNDManager())->GetDNDActionMoveXAtom();
+	return GetDNDManager()->GetDNDActionMoveXAtom();
 }
 
 /******************************************************************************

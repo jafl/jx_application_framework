@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBPHPCompleter.h"
 #include "CBHTMLCompleter.h"
 #include "CBJavaScriptCompleter.h"

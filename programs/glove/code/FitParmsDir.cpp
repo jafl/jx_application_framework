@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "FitParmsDir.h"
 #include "FitParmsTable.h"
 #include "JFitBase.h"

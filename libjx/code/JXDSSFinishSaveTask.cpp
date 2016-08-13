@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDSSFinishSaveTask.h>
 #include <JXSaveFileDialog.h>
 #include <jDirUtil.h>

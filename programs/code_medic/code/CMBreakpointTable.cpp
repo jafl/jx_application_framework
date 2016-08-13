@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CMBreakpointTable.h"
 #include "CMBreakpointsDir.h"
 #include "CMBreakpointManager.h"
@@ -100,8 +99,8 @@ CMBreakpointTable::CMBreakpointTable
 	(CMGetPrefsManager())->GetDefaultFont(&itsFontName, &itsFontSize);
 
 	const JSize rowHeight = 2*kVMarginWidth + JMax(
-		(GetFontManager())->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle()),
-		(GetFontManager())->GetLineHeight(itsFontName, itsFontSize, JFontStyle()));
+		GetFontManager()->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle()),
+		GetFontManager()->GetLineHeight(itsFontName, itsFontSize, JFontStyle()));
 	SetDefaultRowHeight(rowHeight);
 
 	// data
@@ -209,7 +208,7 @@ CMBreakpointTable::Show
 	if (FindBreakpointByDebuggerIndex(bp, &i))
 		{
 		itsDir->Activate();
-		(GetWindow())->RequestFocus();
+		GetWindow()->RequestFocus();
 		TableScrollToCell(JPoint(kIgnoreCountColumn, i), kJTrue);
 
 		JTableSelection& s = GetTableSelection();
@@ -233,7 +232,7 @@ CMBreakpointTable::EditIgnoreCount
 	if (FindBreakpointByDebuggerIndex(bp, &i))
 		{
 		itsDir->Activate();
-		(GetWindow())->RequestFocus();
+		GetWindow()->RequestFocus();
 		BeginEditing(JPoint(kIgnoreCountColumn, i));
 		}
 }
@@ -253,7 +252,7 @@ CMBreakpointTable::EditCondition
 	if (FindBreakpointByDebuggerIndex(bp, &i))
 		{
 		itsDir->Activate();
-		(GetWindow())->RequestFocus();
+		GetWindow()->RequestFocus();
 		BeginEditing(JPoint(kConditionColumn, i));
 		}
 }

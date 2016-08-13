@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXUNDialogBase.h>
 #include <JXUserNotification.h>
 #include <JXDisplay.h>
@@ -64,7 +63,7 @@ JXUNDialogBase::Init
 	// adjust window size to fit text
 
 	const JRect apG = text->GetApertureGlobal();
-	const JRect dB  = (GetDisplay())->GetBounds();
+	const JRect dB  = GetDisplay()->GetBounds();
 
 	JSize dw          = 0;
 	const JSize prefw = text->TEGetMinPreferredGUIWidth();

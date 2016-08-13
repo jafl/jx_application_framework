@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <glStdInc.h>
 #include <GLMDIServer.h>
 #include <GLGlobals.h>
 #include <GLPrefsMgr.h>

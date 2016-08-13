@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "LLDBPlot2DCommand.h"
 #include "CMPlot2DDir.h"
 #include "LLDBLink.h"
@@ -94,7 +93,7 @@ LLDBPlot2DCommand::HandleSuccess
 	JString expr, v;
 	for (i=1; i<=count; i++)
 		{
-		expr             = (GetDirector())->GetXExpression(itsCurveIndex, i);
+		expr             = GetDirector()->GetXExpression(itsCurveIndex, i);
 		lldb::SBValue vx = f.EvaluateExpression(expr);
 		JFloat x1;
 		if (!JString::ConvertToFloat(vx.GetValue(), &x1))
@@ -102,7 +101,7 @@ LLDBPlot2DCommand::HandleSuccess
 			break;
 			}
 
-		expr             = (GetDirector())->GetYExpression(itsCurveIndex, i);
+		expr             = GetDirector()->GetYExpression(itsCurveIndex, i);
 		lldb::SBValue vy = f.EvaluateExpression(expr);
 		JFloat y1;
 		if (!JString::ConvertToFloat(vy.GetValue(), &y1))

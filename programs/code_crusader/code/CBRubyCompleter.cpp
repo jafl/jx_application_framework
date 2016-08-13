@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBRubyCompleter.h"
 #include <ctype.h>
 #include <jAssert.h>

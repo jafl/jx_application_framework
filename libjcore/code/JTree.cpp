@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JTree.h>
 #include <JTreeNode.h>
 #include <jAssert.h>

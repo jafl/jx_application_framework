@@ -39,7 +39,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXContainer.h>
 #include <JXDisplay.h>
 #include <JXWindow.h>
@@ -524,7 +523,7 @@ JXContainer::DispatchMouseDrag
 {
 	if (itsIsDNDSourceFlag)
 		{
-		(GetDNDManager())->HandleDND(pt, buttonStates, modifiers, (JXMouseButton) 0);
+		GetDNDManager()->HandleDND(pt, buttonStates, modifiers, (JXMouseButton) 0);
 		}
 	else
 		{
@@ -548,7 +547,7 @@ JXContainer::DispatchMouseUp
 {
 	if (itsIsDNDSourceFlag && buttonStates.AllOff())
 		{
-		(GetDNDManager())->FinishDND();
+		GetDNDManager()->FinishDND();
 		}
 	else if (!itsIsDNDSourceFlag)
 		{
@@ -751,7 +750,7 @@ JXContainer::MouseDown
 	if (itsIsDNDSourceFlag &&
 		(button == kJXButton4 || button == kJXButton5 || button == 6 || button == 7))
 		{
-		(GetDNDManager())->HandleDND(pt, buttonStates, modifiers, button);
+		GetDNDManager()->HandleDND(pt, buttonStates, modifiers, button);
 		}
 	else if (!itsIsDNDSourceFlag)
 		{

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMGetRegisters.h"
 #include "CMRegistersDir.h"
 #include <jAssert.h>

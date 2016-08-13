@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "cbGlobals.h"
 #include "CBMDIServer.h"
 #include "CBDockManager.h"

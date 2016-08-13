@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GXTransformFunctionDialog.h"
 #include "GVarList.h"
 #include "ExprDirector.h"

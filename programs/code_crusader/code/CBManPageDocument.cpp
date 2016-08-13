@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBManPageDocument.h"
 #include "CBTextEditor.h"
 #include "CBViewManPageDialog.h"
@@ -164,7 +163,7 @@ CBManPageDocument::CBManPageDocument
 			JString tempName;
 			if (JConvertToStream(fromFD, &input, &tempName))
 				{
-				if ((GetTextEditor())->ReadUNIXManOutput(input, kJTrue))
+				if (GetTextEditor()->ReadUNIXManOutput(input, kJTrue))
 					{
 					p->WaitUntilFinished();
 					success = p->SuccessfulFinish();
@@ -238,7 +237,7 @@ CBManPageDocument::CBManPageDocument
 			delete p;
 //			if (success)
 //				{
-				(GetTextEditor())->SetText(text);
+				GetTextEditor()->SetText(text);
 //				}
 /*			else
 				{
@@ -256,7 +255,7 @@ CBManPageDocument::CBManPageDocument
 	FileChanged(*cmd, kJFalse);
 	itsIgnoreNameChangedFlag = kJFalse;
 
-	(GetTextEditor())->SetWritable(kJFalse);
+	GetTextEditor()->SetWritable(kJFalse);
 
 	*trueDoc = this;
 

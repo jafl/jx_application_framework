@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "XDWelcomeTask.h"
 #include "XDLink.h"
 #include "cmGlobals.h"

@@ -33,7 +33,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JStringManager.h>
 #include <JStringPtrMapCursor.h>
 #include <JSubstitute.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBCharActionTable.h"
 #include "CBCharActionManager.h"
 #include "CBEditMacroDialog.h"
@@ -141,7 +140,7 @@ CBCharActionTable::SetData
 void
 CBCharActionTable::ClearData()
 {
-	(GetStringData())->RemoveAllRows();
+	GetStringData()->RemoveAllRows();
 	Deactivate();
 }
 
@@ -213,7 +212,7 @@ void
 CBCharActionTable::LoadMacros()
 {
 	JString fileName;
-	if ((GetDialog())->ContentsValid() &&
+	if (GetDialog()->ContentsValid() &&
 		itsCSF->ChooseFile("", NULL, &fileName))
 		{
 		ReadData(fileName, itsCSF->ReplaceExisting());
@@ -290,8 +289,8 @@ CBCharActionTable::SaveMacros()
 	const
 {
 	JString origName;
-	if ((GetDialog())->ContentsValid() &&
-		(GetDialog())->GetCurrentMacroSetName(&origName))
+	if (GetDialog()->ContentsValid() &&
+		GetDialog()->GetCurrentMacroSetName(&origName))
 		{
 		JString newName;
 		if (itsCSF->SaveFile(JGetString(kSavePromptID), NULL, origName, &newName))

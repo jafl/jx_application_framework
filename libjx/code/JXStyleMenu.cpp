@@ -26,7 +26,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXStyleMenu.h>
 #include <JXStyleMenuDirector.h>
 #include <JXChooseColorDialog.h>
@@ -309,7 +308,7 @@ JXStyleMenu::UpdateMenu()
 		plain = kJFalse;
 		}
 
-	if (plain && style.color == (GetColormap())->GetBlackColor())
+	if (plain && style.color == GetColormap()->GetBlackColor())
 		{
 		CheckItem(kPlainStyleCmd);
 		}
@@ -388,7 +387,7 @@ JXStyleMenu::ChooseColor()
 {
 	assert( itsChooseColorDialog == NULL );
 
-	JXWindowDirector* supervisor = (GetWindow())->GetDirector();
+	JXWindowDirector* supervisor = GetWindow()->GetDirector();
 	itsChooseColorDialog =
 		new JXChooseColorDialog(supervisor, IndexToColor(kCustomColorCmd));
 	assert( itsChooseColorDialog != NULL );

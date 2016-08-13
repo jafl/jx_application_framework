@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXHelpDirector.h>
 #include <JXWebBrowser.h>
 #include <JXWindow.h>
@@ -350,7 +349,7 @@ JXHelpDirector::HandleFileMenu
 	else if (index == kSaveTextCmd)
 		{
 		JChooseSaveFile* csf    = JGetChooseSaveFile();
-		const JString& origName = (GetWindow())->GetTitle();
+		const JString& origName = GetWindow()->GetTitle();
 		JString fileName;
 		if (csf->SaveFile("Save text as:", NULL, origName, &fileName))
 			{

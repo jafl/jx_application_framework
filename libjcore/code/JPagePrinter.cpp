@@ -28,7 +28,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JPagePrinter.h>
 #include <jAssert.h>
 

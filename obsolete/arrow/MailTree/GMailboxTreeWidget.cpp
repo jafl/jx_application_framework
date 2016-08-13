@@ -149,7 +149,7 @@ GMailboxTreeWidget::GMailboxTreeWidget
 	itsOutsideRoot			= kJFalse;
 	itsWaitingToEdit		= kJFalse;
 
-	const Atom dndName		= (GetDNDManager())->GetDNDSelectionName();
+	const Atom dndName		= GetDNDManager()->GetDNDSelectionName();
 	itsMessageXAtom		= GetDisplay()->RegisterXAtom(kDragMessagesXAtomName);
 	itsMailboxXAtom		= GetDisplay()->RegisterXAtom(kDragMailboxesXAtomName);
 
@@ -173,10 +173,10 @@ GMailboxTreeWidget::GMailboxTreeWidget
 	assert( itsFolderIcon != NULL );
 	itsFolderIcon->ConvertToRemoteStorage();
 
-	if (!(GetDisplay())->GetCursor(kEnvelopesCursorName, &itsDNDCursor))
+	if (!GetDisplay()->GetCursor(kEnvelopesCursorName, &itsDNDCursor))
 		{
 		itsDNDCursor =
-			(GetDisplay())->CreateCustomCursor(kEnvelopesCursorName, kEnvelopesCursor);
+			GetDisplay()->CreateCustomCursor(kEnvelopesCursorName, kEnvelopesCursor);
 		}
 
 	itsMailboxMenu->SetItemImage(kNewMBoxCmd, JXPM(envelopes));
@@ -362,7 +362,7 @@ GMailboxTreeWidget::HandleKeyPress
 						{
 						s.ExtendSelection(JPoint(2, oldBoat.y - 1));
 						TableScrollToCell(JPoint(1, oldBoat.y - 1));
-						(GetWindow())->Update();
+						GetWindow()->Update();
 						}
 					}
 				}
@@ -378,7 +378,7 @@ GMailboxTreeWidget::HandleKeyPress
 				s.SetBoat(JPoint(2, index));
 				s.SetAnchor(JPoint(2, index));
 				TableScrollToCell(JPoint(1, index));
-				(GetWindow())->Update();
+				GetWindow()->Update();
 				}
 			}
 		else
@@ -389,7 +389,7 @@ GMailboxTreeWidget::HandleKeyPress
 				s.SetBoat(JPoint(2, GetRowCount()));
 				s.SetAnchor(JPoint(2, GetRowCount()));
 				TableScrollToCell(JPoint(1, GetRowCount()));
-				(GetWindow())->Update();
+				GetWindow()->Update();
 				}
 			}
 		}
@@ -404,7 +404,7 @@ GMailboxTreeWidget::HandleKeyPress
 					if (oldBoat.y < (JCoordinate)GetRowCount())
 						{
 						s.ExtendSelection(JPoint(2, oldBoat.y + 1));
-						(GetWindow())->Update();
+						GetWindow()->Update();
 						TableScrollToCell(JPoint(1, oldBoat.y + 1));
 						}
 					}
@@ -421,7 +421,7 @@ GMailboxTreeWidget::HandleKeyPress
 				s.SetBoat(JPoint(2, index));
 				s.SetAnchor(JPoint(2, index));
 				TableScrollToCell(JPoint(1, index));
-				(GetWindow())->Update();
+				GetWindow()->Update();
 				}
 			}
 		else
@@ -432,7 +432,7 @@ GMailboxTreeWidget::HandleKeyPress
 				s.SetBoat(JPoint(2, 1));
 				s.SetAnchor(JPoint(2, 1));
 				TableScrollToCell(JPoint(1, 1));
-				(GetWindow())->Update();
+				GetWindow()->Update();
 				}
 			}
 		}
@@ -684,7 +684,7 @@ GMailboxTreeWidget::HandleMouseDown
 				s.SelectCell(index, 2);
 				s.SetBoat(newBoat);
 				s.SetAnchor(newAnchor);
-				(GetWindow())->Update();
+				GetWindow()->Update();
 				OpenMailbox(index);
 				}
 			}
@@ -698,7 +698,7 @@ GMailboxTreeWidget::HandleMouseDown
 				if (s.OKToExtendSelection())
 					{
 					s.ExtendSelection(newBoat);
-					(GetWindow())->Update();
+					GetWindow()->Update();
 					}
 				}
 			else if (button == kJXLeftButton)
@@ -710,14 +710,14 @@ GMailboxTreeWidget::HandleMouseDown
 						s.SelectCell(index, 2, kJFalse);
 						s.ClearBoat();
 						s.ClearAnchor();
-						(GetWindow())->Update();
+						GetWindow()->Update();
 						}
 					else
 						{
 						s.SelectCell(index, 2, kJTrue);
 						s.SetBoat(newBoat);
 						s.SetAnchor(newAnchor);
-						(GetWindow())->Update();
+						GetWindow()->Update();
 						}
 					}
 				else if (!s.IsSelected(index, 2))
@@ -726,7 +726,7 @@ GMailboxTreeWidget::HandleMouseDown
 					s.SelectCell(index, 2);
 					s.SetBoat(newBoat);
 					s.SetAnchor(newAnchor);
-					(GetWindow())->Update();
+					GetWindow()->Update();
 					}
 				}
 			}
@@ -1147,7 +1147,7 @@ GMailboxTreeWidget::HandleDNDDrop
 		Atom returnType;
 		JXSelectionManager* selManager = GetSelectionManager();
 		JXSelectionManager::DeleteMethod delMethod;
-		const Atom dndName = (GetDNDManager())->GetDNDSelectionName();
+		const Atom dndName = GetDNDManager()->GetDNDSelectionName();
 		if (mailboxOk &&
 			selManager->GetData(dndName, time, itsMessageXAtom,
 								&returnType, &data, &dataLength, &delMethod))

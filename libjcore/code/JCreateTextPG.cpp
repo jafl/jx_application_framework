@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JCreateTextPG.h>
 #include <JTextProgressDisplay.h>
 #include <jAssert.h>

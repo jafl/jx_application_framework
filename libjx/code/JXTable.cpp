@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXTable.h>
 #include <JXWindow.h>
 #include <JXWindowPainter.h>
@@ -39,10 +38,10 @@ JXTable::JXTable
 	:
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
 	JTable(defRowHeight, defColWidth,
-		   (GetColormap())->GetGrayColor(50),
-		   (GetColormap())->GetDefaultSelectionColor())
+		   GetColormap()->GetGrayColor(50),
+		   GetColormap()->GetDefaultSelectionColor())
 {
-	const JColorIndex gray50Color = (GetColormap())->GetGrayColor(50);
+	const JColorIndex gray50Color = GetColormap()->GetGrayColor(50);
 	SetRowBorderInfo(1, gray50Color);	// calls TableSetScrollSteps()
 	SetColBorderInfo(1, gray50Color);
 }

@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GLGlobals.h"
 #include "GLFitManager.h"
 #include "GLPrefsMgr.h"

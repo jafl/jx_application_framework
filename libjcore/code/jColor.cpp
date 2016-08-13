@@ -13,7 +13,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JColormap.h>
 #include <JMinMax.h>
 #include <jMath.h>

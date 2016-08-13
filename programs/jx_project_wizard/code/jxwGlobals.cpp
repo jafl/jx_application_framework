@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <jxwStdInc.h>
 #include "jxwGlobals.h"
 #include "JXWApp.h"
 #include "JXWPrefsManager.h"

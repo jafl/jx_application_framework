@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDockWidget.h>
 #include <JXDockManager.h>
 #include <JXDockDirector.h>
@@ -576,13 +575,13 @@ JXDockWidget::HandleDNDDrop
 	unsigned char* data;
 	JSize dataLength;
 	JXSelectionManager::DeleteMethod delMethod;
-	if (selMgr->GetData((GetDNDManager())->GetDNDSelectionName(),
+	if (selMgr->GetData(GetDNDManager()->GetDNDSelectionName(),
 						time, (JXGetDockManager())->GetDNDWindowAtom(),
 						&returnType, &data, &dataLength, &delMethod))
 		{
 		JXWindow* window;
 		if (returnType == XA_WINDOW &&
-			(GetDisplay())->FindXWindow(* (Window*) data, &window))
+			GetDisplay()->FindXWindow(* (Window*) data, &window))
 			{
 			Dock(window, kJTrue);
 			}

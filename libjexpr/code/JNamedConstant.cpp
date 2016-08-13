@@ -15,7 +15,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JNamedConstant.h>
 #include <JExprRenderer.h>
 #include <JExprRectList.h>

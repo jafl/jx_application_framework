@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "JVMGetCompletions.h"
 #include <jAssert.h>
 

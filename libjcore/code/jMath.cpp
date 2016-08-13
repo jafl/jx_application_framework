@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jMath.h>
 #include <limits.h>
 #include <jErrno.h>

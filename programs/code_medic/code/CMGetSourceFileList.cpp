@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMGetSourceFileList.h"
 #include "CMFileListDir.h"
 #include "cmGlobals.h"

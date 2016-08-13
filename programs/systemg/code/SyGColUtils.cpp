@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGColUtils.h"
 #include <JString.h>
 #include <jAssert.h>

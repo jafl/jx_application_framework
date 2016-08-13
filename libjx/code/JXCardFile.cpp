@@ -15,7 +15,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXCardFile.h>
 #include <JXWindow.h>
 #include <jAssert.h>

@@ -15,7 +15,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXUserNotification.h>
 #include <JXMessageDialog.h>
 #include <JXErrorDialog.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXAdjustToolBarGeometryTask.h>
 #include <JXToolBar.h>
 

@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBWaitForSymbolUpdateTask.h"
 #include <JXApplication.h>
 #include <JProcess.h>

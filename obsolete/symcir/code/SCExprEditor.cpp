@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCExprEditor.h"
 #include "SCCircuitDocument.h"
 #include "SCCircuitVarList.h"
@@ -412,7 +411,7 @@ SCExprEditor::WriteState
 	)
 	const
 {
-	(GetFunction())->StreamOut(output);
+	GetFunction()->StreamOut(output);
 
 	output << ' ';
 	(GetEPSPrinter()).WriteXEPSSetup(output);

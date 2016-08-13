@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <j_prep_ace.h>
 #include <ace/DLL.h>
 #include <jTypes.h>

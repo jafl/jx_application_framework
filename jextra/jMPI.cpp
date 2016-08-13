@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jMPI.h>
 #include <JString.h>
 #include <JStaticBuffer.h>

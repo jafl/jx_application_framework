@@ -12,7 +12,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JPoint.h>
 #include <JRect.h>
 #include <JMinMax.h>

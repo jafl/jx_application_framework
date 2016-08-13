@@ -26,7 +26,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JPrefsManager.h>
 #include <JPrefsFile.h>
 #include <jFileUtil.h>

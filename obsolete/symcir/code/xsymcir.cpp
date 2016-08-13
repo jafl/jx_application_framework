@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SymcirApp.h"
 #include "SCCircuitDocument.h"
 #include <jXGlobals.h>

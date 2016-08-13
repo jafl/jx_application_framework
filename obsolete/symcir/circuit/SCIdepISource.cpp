@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCIdepISource.h"
 #include "SCCircuit.h"
 #include <JString.h>

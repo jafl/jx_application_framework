@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMSourceDirector.h"
 #include "CMLineNumberTable.h"
 #include "CMLineAddressTable.h"
@@ -421,7 +420,7 @@ CMSourceDirector::BuildWindow()
 
 	if (!IsMainSourceWindow())
 		{
-		((GetDisplay())->GetWDManager())->DirectorCreated(this);
+		(GetDisplay()->GetWDManager())->DirectorCreated(this);
 		}
 }
 
@@ -972,7 +971,7 @@ CMSourceDirector::UpdateWindowTitle
 		title.Prepend(itsWindowTitlePrefix);
 		}
 
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 }
 
 /******************************************************************************
@@ -985,7 +984,7 @@ CMSourceDirector::UpdateFileMenu()
 {
 	itsFileMenu->SetItemEnable(kEditCmd, !itsCurrentFile.IsEmpty());
 	itsFileMenu->SetItemEnable(kLoadConfigCmd, itsLink->HasProgram());
-	itsFileMenu->SetItemEnable(kCloseCmd, !(GetWindow())->IsDocked());
+	itsFileMenu->SetItemEnable(kCloseCmd, !GetWindow()->IsDocked());
 }
 
 /******************************************************************************

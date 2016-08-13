@@ -11,7 +11,6 @@
 
  *****************************************************************************/
 
-#include <glStdInc.h>
 #include <GLPrefsMgr.h>
 #include <GLFitDirector.h>
 #include <GLGlobals.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBGetStackArguments.h"
 #include "CMStackFrameNode.h"
 #include "CMStackArgNode.h"

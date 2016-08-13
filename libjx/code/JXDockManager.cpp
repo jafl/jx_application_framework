@@ -14,7 +14,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDockManager.h>
 #include <JXDockDirector.h>
 #include <JXDockWidget.h>

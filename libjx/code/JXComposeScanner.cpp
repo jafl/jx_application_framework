@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXComposeScanner.h>
 #include <string.h>
 #include <jAssert.h>

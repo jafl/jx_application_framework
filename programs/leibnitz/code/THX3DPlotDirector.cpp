@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <thxStdInc.h>
 #include "THX3DPlotDirector.h"
 #include "THX3DPlotWidget.h"
 #include "THX3DPlotFunctionDialog.h"
@@ -105,11 +104,11 @@ THX3DPlotDirector::THX3DPlotDirector
 	THX3DPlotDirectorX(varList);
 
 	BuildWindow();
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 
 	JString surfaceName;
 	input >> surfaceName;
-	(GetWindow())->SetTitle(surfaceName);
+	GetWindow()->SetTitle(surfaceName);
 
 	input >> itsXMin >> itsXMax >> itsYMin >> itsYMax;
 	input >> itsXCount >> itsYCount;
@@ -154,10 +153,10 @@ THX3DPlotDirector::WriteState
 	)
 	const
 {
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ';
-	output << (GetWindow())->GetTitle();
+	output << GetWindow()->GetTitle();
 
 	output << ' ' << itsXMin << ' ' << itsXMax;
 	output << ' ' << itsYMin << ' ' << itsYMax;
@@ -259,7 +258,7 @@ THX3DPlotDirector::SetFunction
 	itsXCount = xCount;
 	itsYCount = yCount;
 
-	(GetWindow())->SetTitle(name);
+	GetWindow()->SetTitle(name);
 
 	ComputeFunction();
 }
@@ -416,7 +415,7 @@ THX3DPlotDirector::HandleActionsMenu
 
 	else if (index == kCloseWindowCmd)
 		{
-		(GetWindow())->Close();
+		GetWindow()->Close();
 		}
 	else if (index == kQuitCmd)
 		{
@@ -501,7 +500,7 @@ THX3DPlotDirector::EditFunction()
 
 	itsEditFnDialog =
 		new THX3DPlotFunctionDialog(this, itsVarList, *itsFunction,
-									(GetWindow())->GetTitle(),
+									GetWindow()->GetTitle(),
 									itsXMin, itsXMax, itsXCount,
 									itsYMin, itsYMax, itsYCount);
 	assert( itsEditFnDialog != NULL );
@@ -528,7 +527,7 @@ THX3DPlotDirector::UpdateFunction()
 	delete itsFunction;
 	itsFunction = f->Copy();
 
-	(GetWindow())->SetTitle(surfaceName);
+	GetWindow()->SetTitle(surfaceName);
 
 	ComputeFunction();
 }

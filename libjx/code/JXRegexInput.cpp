@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXRegexInput.h>
 #include <JRegex.h>
 #include <jAssert.h>

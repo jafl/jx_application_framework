@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMVarNode.h"
 #include "CMVarCommand.h"
 #include "CMInitVarNodeTask.h"

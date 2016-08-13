@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jSysUtil.h>
 #include <JStdError.h>
 #include <jErrno.h>

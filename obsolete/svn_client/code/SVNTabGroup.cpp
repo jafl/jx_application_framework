@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNTabGroup.h"
 #include "SVNBusyTabTask.h"
 #include <JXWindowPainter.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBTextDocument.h"
 #include "CBTextEditor.h"
 #include "CBEditTextPrefsDialog.h"
@@ -291,7 +290,7 @@ CBTextDocument::CBTextDocument
 	CBTextDocumentX2(kJFalse);
 
 	JXDockWidget* dock;
-	if (*keep && (GetWindow())->GetDockWidget(&dock))
+	if (*keep && GetWindow()->GetDockWidget(&dock))
 		{
 		dock->Dock(GetWindow());	// sort to correct location
 		}
@@ -1430,7 +1429,7 @@ CBTextDocument::ReadFromProject
 		input >> ptPrintName >> psPrintName;
 		}
 
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 
 	JIndex insertionIndex;
 	input >> insertionIndex;
@@ -1551,7 +1550,7 @@ CBTextDocument::WriteForProject
 		output << ' ' << itsTextEditor->GetPSPrintFileName();
 
 		output << ' ';
-		(GetWindow())->WriteGeometry(output);
+		GetWindow()->WriteGeometry(output);
 
 		output << ' ' << itsTextEditor->GetInsertionIndex();
 
@@ -2189,8 +2188,8 @@ CBTextDocument::UpdateReadOnlyDisplay()
 {
 	itsFileDragSource->SetBackColor(
 		itsTextEditor->GetType() == JTextEditor::kFullEditor ?
-		(GetColormap())->GetDefaultBackColor() :
-		(GetColormap())->GetDarkRedColor());
+		GetColormap()->GetDefaultBackColor() :
+		GetColormap()->GetDarkRedColor());
 }
 
 /******************************************************************************

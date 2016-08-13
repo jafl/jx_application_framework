@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "XDGetInitArgs.h"
 #include <jAssert.h>
 

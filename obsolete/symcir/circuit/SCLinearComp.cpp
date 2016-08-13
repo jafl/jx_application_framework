@@ -19,7 +19,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCLinearComp.h"
 #include "SCCircuit.h"
 #include "SCCircuitVarList.h"
@@ -105,7 +104,7 @@ SCLinearComp::SCLinearCompX()
 	itsCurrentSymbol = new JString;
 	assert( itsCurrentSymbol != NULL );
 
-	ListenTo((GetCircuit())->GetNodeList());
+	ListenTo(GetCircuit()->GetNodeList());
 }
 
 /******************************************************************************
@@ -153,7 +152,7 @@ SCLinearComp::SCLinearComp
 	assert( theCircuit->NodeIndexValid(itsPosNode) );
 	assert( theCircuit->NodeIndexValid(itsNegNode) );
 
-	ListenTo((GetCircuit())->GetNodeList());
+	ListenTo(GetCircuit()->GetNodeList());
 }
 
 /******************************************************************************
@@ -362,7 +361,7 @@ SCLinearComp::Receive
 	const Message&	message
 	)
 {
-	JCollection* nodeList = (GetCircuit())->GetNodeList();
+	JCollection* nodeList = GetCircuit()->GetNodeList();
 
 	if (sender == nodeList && message.Is(JOrderedSetT::kElementsInserted))
 		{

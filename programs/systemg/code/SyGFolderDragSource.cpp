@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGFolderDragSource.h"
 #include "SyGFileTreeTable.h"
 #include "SyGGlobals.h"
@@ -184,5 +183,5 @@ SyGFolderDragSource::HandleDNDResponse
 	const Atom			action
 	)
 {
-	DisplayCursor((GetDNDManager())->GetDNDDirectoryCursor(dropAccepted, action));
+	DisplayCursor(GetDNDManager()->GetDNDDirectoryCursor(dropAccepted, action));
 }

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jDirUtil.h>
 #include <JSimpleProcess.h>
 #include <JThisProcess.h>

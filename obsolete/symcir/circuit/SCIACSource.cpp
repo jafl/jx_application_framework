@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCIACSource.h"
 #include <JString.h>
 #include <jAssert.h>

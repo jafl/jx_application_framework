@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JPhaseAngle.h>
 #include <jErrno.h>
 #include <jAssert.h>
@@ -86,7 +85,7 @@ JPhaseAngle::Evaluate
 	const
 {
 	JComplex value;
-	if ((GetArg())->Evaluate(&value))
+	if (GetArg()->Evaluate(&value))
 		{
 		jclear_errno();
 		*result = arg(value);
@@ -106,7 +105,7 @@ JPhaseAngle::Evaluate
 	const
 {
 	JComplex value;
-	if ((GetArg())->Evaluate(&value))
+	if (GetArg()->Evaluate(&value))
 		{
 		jclear_errno();
 		*result = arg(value);

@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <JXStdInc.h>
 #include <GCLAlarmManager.h>
 #include "GCLAlarm.h"
 #include "GCLAlarmDialog.h"

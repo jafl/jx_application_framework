@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GloveHistoryDir.h"
 #include "GloveHistory.h"
 
@@ -182,7 +181,7 @@ GloveHistoryDir::HandleFileMenu
 		}
 	else if (index == kCloseCmd)
 		{
-//		(GetWindow())->Iconify();
+//		GetWindow()->Iconify();
 		Deactivate();
 		}
 	else if (index == kQuitCmd)

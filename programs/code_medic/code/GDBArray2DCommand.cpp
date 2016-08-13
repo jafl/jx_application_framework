@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBArray2DCommand.h"
 #include "CMArray2DDir.h"
 #include "CMVarNode.h"
@@ -62,13 +61,13 @@ GDBArray2DCommand::PrepareToSend
 				  "set print repeats 0\nset width 0\n";
 
 	const JIndex max =
-		(GetType() == kRow ? (GetData())->GetColCount() : (GetData())->GetRowCount());
+		(GetType() == kRow ? GetData()->GetColCount() : GetData()->GetRowCount());
 	assert( max > 0 );
 
 	for (JIndex i=1; i<=max; i++)
 		{
 		cmd += "print ";
-		cmd += (GetDirector())->GetExpression(GetCell(i));
+		cmd += GetDirector()->GetExpression(GetCell(i));
 		cmd.AppendCharacter('\n');
 		}
 
@@ -89,10 +88,10 @@ GDBArray2DCommand::HandleSuccess
 	)
 {
 	const JIndex max =
-		(GetType() == kRow ? (GetData())->GetColCount() : (GetData())->GetRowCount());
+		(GetType() == kRow ? GetData()->GetColCount() : GetData()->GetRowCount());
 	if (max == 0 || !ItsIndexValid())
 		{
-		(GetDirector())->UpdateNext();
+		GetDirector()->UpdateNext();
 		return;
 		}
 
@@ -107,12 +106,12 @@ GDBArray2DCommand::HandleSuccess
 		value.TrimWhitespace();
 
 		const JPoint cell        = GetCell(i);
-		const JString& origValue = (GetData())->GetString(cell);
+		const JString& origValue = GetData()->GetString(cell);
 		const JBoolean isNew     = JI2B(!origValue.IsEmpty() && origValue != value);
 
-		(GetData())->SetString(cell, value);
-		(GetTable())->SetCellStyle(cell,
-			CMVarNode::GetFontStyle(kJTrue, isNew, (GetTable())->GetColormap()));
+		GetData()->SetString(cell, value);
+		GetTable()->SetCellStyle(cell,
+			CMVarNode::GetFontStyle(kJTrue, isNew, GetTable()->GetColormap()));
 
 		i++;
 		r = matchRange.GetElement(1);
@@ -134,5 +133,5 @@ GDBArray2DCommand::HandleSuccess
 		HandleFailure(i, "");
 		}
 
-	(GetDirector())->UpdateNext();
+	GetDirector()->UpdateNext();
 }

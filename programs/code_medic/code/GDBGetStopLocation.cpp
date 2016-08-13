@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBGetStopLocation.h"
 #include "GDBLink.h"
 #include "cmGlobals.h"

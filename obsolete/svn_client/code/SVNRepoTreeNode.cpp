@@ -5,7 +5,6 @@
 
  *****************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNRepoTreeNode.h"
 #include "SVNRepoTree.h"
 #include <jXGlobals.h>
@@ -142,7 +141,7 @@ SVNRepoTreeNode::Rename
 
 		if (sort)
 			{
-			(GetParent())->SortChildren();		// this method maintains the selection
+			GetParent()->SortChildren();		// this method maintains the selection
 			}
 		}
 

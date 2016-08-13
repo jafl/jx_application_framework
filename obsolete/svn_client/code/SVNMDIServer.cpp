@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNMDIServer.h"
 #include "SVNMainDirector.h"
 #include "SVNRepoView.h"

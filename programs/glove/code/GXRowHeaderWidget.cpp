@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GXRowHeaderWidget.h"
 #include "GXRaggedFloatTable.h"
 #include <JXWindow.h>

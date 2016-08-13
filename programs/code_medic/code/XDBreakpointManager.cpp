@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "XDBreakpointManager.h"
 #include "XDGetBreakpoints.h"
 #include "XDLink.h"

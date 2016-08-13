@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JTEUndoDrop.h>
 #include <JTextEditor.h>
 #include <jAssert.h>

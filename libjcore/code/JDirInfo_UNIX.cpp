@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JDirInfo.h>
 #include <JProgressDisplay.h>
 #include <JStdError.h>

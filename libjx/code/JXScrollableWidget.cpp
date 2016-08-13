@@ -19,7 +19,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXScrollableWidget.h>
 #include <JXAdjustScrollbarTask.h>
 #include <JXScrollbarSet.h>
@@ -509,7 +508,7 @@ JFloat
 JXScrollableWidget::GetSingleStepFraction()
 	const
 {
-	return ((GetDisplay())->IsOSX() ? kOSXSingleStepFraction : kSingleStepFraction);
+	return (GetDisplay()->IsOSX() ? kOSXSingleStepFraction : kSingleStepFraction);
 }
 
 /******************************************************************************
@@ -605,7 +604,7 @@ JXScrollableWidget::ScrollForWheel
 		return kJTrue;
 		}
 
-	const JBoolean osx = (GetDisplay())->IsOSX();
+	const JBoolean osx = GetDisplay()->IsOSX();
 
 	if (osx && modifiers.control())
 		{

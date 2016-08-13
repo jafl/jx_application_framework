@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jCommandLine.h>
 #include <stdlib.h>
 #include <string.h>

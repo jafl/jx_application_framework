@@ -22,7 +22,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXWindowDirector.h>
 #include <JXDisplay.h>
 #include <JXWindow.h>
@@ -58,7 +57,7 @@ JXWindowDirector::~JXWindowDirector()
 		// call GetDisplay() before deleting window!
 
 		JXWDManager* mgr;
-		if ((GetDisplay())->GetWDManager(&mgr))
+		if (GetDisplay()->GetWDManager(&mgr))
 			{
 			mgr->DirectorDeleted(this);
 			}
@@ -231,7 +230,7 @@ const JString&
 JXWindowDirector::GetName()
 	const
 {
-	return (GetWindow())->GetTitle();
+	return GetWindow()->GetTitle();
 }
 
 /******************************************************************************

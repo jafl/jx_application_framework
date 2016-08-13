@@ -29,7 +29,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXScrollbar.h>
 #include <JXScrolltab.h>
 #include <JXDisplay.h>
@@ -115,7 +114,7 @@ JXScrollbar::JXScrollbar
 	itsDecrPagePushedFlag = itsIncrPagePushedFlag = kJFalse;
 
 	SetBorderWidth(kJXDefaultBorderWidth);
-	SetBackColor((GetColormap())->GetDefaultSliderBackColor());
+	SetBackColor(GetColormap()->GetDefaultSliderBackColor());
 
 	itsSpeedScrollCursor = GetSpeedScrollCursor();
 }
@@ -779,7 +778,7 @@ JXScrollbar::ScrollWait
 	)
 	const
 {
-	(GetWindow())->Update();
+	GetWindow()->Update();
 	JWait(delta);
 }
 
@@ -1273,6 +1272,6 @@ static const JXCursor kSpeedScrollCursor =
 JCursorIndex
 JXScrollbar::GetSpeedScrollCursor()
 {
-	return (GetDisplay())->CreateCustomCursor(kSpeedScrollCursorName,
+	return GetDisplay()->CreateCustomCursor(kSpeedScrollCursorName,
 											  kSpeedScrollCursor);
 }

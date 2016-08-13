@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "JVMPlot2DCommand.h"
 #include <jAssert.h>
 

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBProjectTree.h"
 #include "CBProjectNode.h"
 #include <jAssert.h>
@@ -60,7 +59,7 @@ CBProjectTree::StreamOut
 	)
 	const
 {
-	(GetProjectRoot())->StreamOut(output);
+	GetProjectRoot()->StreamOut(output);
 }
 
 /******************************************************************************
@@ -97,7 +96,7 @@ CBProjectTree::BuildMakeFiles
 {
 	text->Clear();
 	invalidList->RemoveAll();
-	(GetProjectRoot())->BuildMakeFiles(text, invalidList, libFileList, libProjPathList);
+	GetProjectRoot()->BuildMakeFiles(text, invalidList, libFileList, libProjPathList);
 	return invalidList->IsEmpty();
 }
 
@@ -120,7 +119,7 @@ CBProjectTree::BuildCMakeData
 	src->Clear();
 	hdr->Clear();
 	invalidList->RemoveAll();
-	(GetProjectRoot())->BuildCMakeData(src, hdr, invalidList);
+	GetProjectRoot()->BuildCMakeData(src, hdr, invalidList);
 	return invalidList->IsEmpty();
 }
 
@@ -143,7 +142,7 @@ CBProjectTree::BuildQMakeData
 	src->Clear();
 	hdr->Clear();
 	invalidList->RemoveAll();
-	(GetProjectRoot())->BuildQMakeData(src, hdr, invalidList);
+	GetProjectRoot()->BuildQMakeData(src, hdr, invalidList);
 	return invalidList->IsEmpty();
 }
 
@@ -165,7 +164,7 @@ CBProjectTree::ParseFiles
 	)
 	const
 {
-	(GetProjectRoot())->ParseFiles(parser, allSuffixList, symbolList, cTree, javaTree, phpTree, pg);
+	GetProjectRoot()->ParseFiles(parser, allSuffixList, symbolList, cTree, javaTree, phpTree, pg);
 }
 
 /******************************************************************************
@@ -180,7 +179,7 @@ CBProjectTree::Print
 	)
 	const
 {
-	(GetProjectRoot())->Print(text);
+	GetProjectRoot()->Print(text);
 }
 
 /******************************************************************************
@@ -196,7 +195,7 @@ CBProjectTree::CreateFilesForTemplate
 	)
 	const
 {
-	(GetProjectRoot())->CreateFilesForTemplate(input, vers);
+	GetProjectRoot()->CreateFilesForTemplate(input, vers);
 }
 
 /******************************************************************************
@@ -211,5 +210,5 @@ CBProjectTree::SaveFilesInTemplate
 	)
 	const
 {
-	(GetProjectRoot())->SaveFilesInTemplate(output);
+	GetProjectRoot()->SaveFilesInTemplate(output);
 }

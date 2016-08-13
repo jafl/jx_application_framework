@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JSummation.h>
 #include <JNegation.h>
 #include <JExprRenderer.h>

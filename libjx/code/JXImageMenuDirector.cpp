@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXImageMenuDirector.h>
 #include <JXWindow.h>
 #include <JXImageMenuTable.h>

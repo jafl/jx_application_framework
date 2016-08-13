@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <mdStdInc.h>
 #include "MDPrefsDialog.h"
 #include "mdGlobals.h"
 #include <JXWindow.h>

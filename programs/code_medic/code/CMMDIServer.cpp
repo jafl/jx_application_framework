@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMMDIServer.h"
 #include "CMCommandDirector.h"
 #include "cmGlobals.h"

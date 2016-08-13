@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "DragWidgetDir.h"
 #include <JXApplication.h>
 #include "../TutorialStringData.h"

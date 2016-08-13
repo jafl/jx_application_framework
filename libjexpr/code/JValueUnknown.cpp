@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JValueUnknown.h>
 #include <JVariableList.h>
 #include <JFunction.h>
@@ -85,7 +84,7 @@ JValueUnknown::Evaluate()
 	JIndex arrayIndex;
 	if (EvaluateArrayIndex(&arrayIndex))
 		{
-		return (GetVariableList())->ValueIsUnknown(GetVariableIndex(), arrayIndex);
+		return GetVariableList()->ValueIsUnknown(GetVariableIndex(), arrayIndex);
 		}
 	else
 		{

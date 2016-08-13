@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GXCreatePlotDialog.h"
 #include "GXDataDocument.h"
 #include "GRaggedFloatTableData.h"

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBPHPClass.h"
 #include "CBTree.h"
 #include "CBTextDocument.h"

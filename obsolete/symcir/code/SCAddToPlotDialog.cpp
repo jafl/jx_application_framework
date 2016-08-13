@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCAddToPlotDialog.h"
 #include "SCCircuitDocument.h"
 #include <JXWindow.h>

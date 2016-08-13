@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBDelaySymbolUpdateTask.h"
 #include "CBProjectDocument.h"
 #include <jAssert.h>

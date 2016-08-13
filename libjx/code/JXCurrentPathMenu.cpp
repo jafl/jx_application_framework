@@ -14,7 +14,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "JXCurrentPathMenu.h"
 #include <JXImage.h>
 #include <jDirUtil.h>

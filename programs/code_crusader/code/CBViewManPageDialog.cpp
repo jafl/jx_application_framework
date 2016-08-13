@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBViewManPageDialog.h"
 #include "CBManPageDocument.h"
 #include "cbGlobals.h"
@@ -377,7 +376,7 @@ CBViewManPageDialog::WritePrefs
 	output << kCurrentSetupVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ';
 	itsFnHistoryMenu->WriteSetup(output);

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "wizGlobals.h"
 #include "Wiz2War.h"
 #include "wizHelpText.h"

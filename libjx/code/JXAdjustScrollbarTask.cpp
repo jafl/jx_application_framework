@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXAdjustScrollbarTask.h>
 #include <JXScrollableWidget.h>
 

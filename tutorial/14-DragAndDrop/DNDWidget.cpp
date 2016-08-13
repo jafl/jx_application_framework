@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "DNDWidget.h"
 #include "DNDData.h"
 
@@ -92,7 +91,7 @@ DNDWidget::Draw
 	p.String(10,10,"Shift-drag to initiate Drag-And-Drop.");
 
 	// Set pen color
-	p.SetPenColor((GetColormap())->GetBlackColor());
+	p.SetPenColor(GetColormap()->GetBlackColor());
 	
 	// Find out how many points there are
 	// There are count/2 lines
@@ -460,7 +459,7 @@ DNDWidget::HandleDNDDrop
 	JXSelectionManager::DeleteMethod delMethod;
 	
 	JXSelectionManager* selManager 	= GetSelectionManager();
-	const Atom dndName 				= (GetDNDManager())->GetDNDSelectionName();	
+	const Atom dndName 				= GetDNDManager()->GetDNDSelectionName();	
 
 	// Request the appropriate data from the selection manager.
 	if (selManager->GetData(dndName, time, itsLinesXAtom,

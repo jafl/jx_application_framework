@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBREXXCompleter.h"
 #include <ctype.h>
 #include <jAssert.h>

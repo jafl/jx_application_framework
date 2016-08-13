@@ -23,7 +23,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JSubset.h>
 #include <JOrderedSetUtil.h>
 #include <JKLRand.h>

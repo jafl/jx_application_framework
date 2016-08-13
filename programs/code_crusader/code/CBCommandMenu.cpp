@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBCommandMenu.h"
 #include "CBCommandManager.h"
 #include "CBEditCommandsDialog.h"

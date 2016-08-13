@@ -42,7 +42,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDisplay.h>
 #include <JXGC.h>
 #include <JXColormap.h>

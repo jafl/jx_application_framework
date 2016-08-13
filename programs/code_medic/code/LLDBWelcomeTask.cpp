@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "LLDBWelcomeTask.h"
 #include "LLDBLink.h"
 #include "cmGlobals.h"

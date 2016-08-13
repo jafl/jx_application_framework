@@ -12,7 +12,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestVarList.h"
 #include <jParseFunction.h>
 #include <jStreamUtil.h>

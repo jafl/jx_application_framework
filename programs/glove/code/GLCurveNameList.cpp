@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <glStdInc.h>
 #include <GLCurveNameList.h>
 #include "PlotDir.h"
 #include <J2DPlotWidget.h>

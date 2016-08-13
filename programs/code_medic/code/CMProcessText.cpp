@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMProcessText.h"
 #include "CMChooseProcessDialog.h"
 #include <jAssert.h>

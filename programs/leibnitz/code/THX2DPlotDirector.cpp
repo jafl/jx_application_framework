@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <thxStdInc.h>
 #include "THX2DPlotDirector.h"
 #include "THX2DPlotFunctionDialog.h"
 #include "THXVarList.h"
@@ -87,7 +86,7 @@ THX2DPlotDirector::THX2DPlotDirector
 	THX2DPlotDirectorX();
 
 	BuildWindow();
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 
 	JSize fnCount;
 	input >> fnCount;
@@ -145,7 +144,7 @@ THX2DPlotDirector::WriteState
 	)
 	const
 {
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	const JSize fnCount = itsPlotWidget->GetCurveCount();
 	output << ' ' << fnCount;
@@ -326,7 +325,7 @@ THX2DPlotDirector::Receive
 {
 	if (sender == itsPlotWidget && message.Is(J2DPlotWidget::kTitleChanged))
 		{
-		(GetWindow())->SetTitle(itsPlotWidget->GetTitle());
+		GetWindow()->SetTitle(itsPlotWidget->GetTitle());
 		}
 
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kNeedsUpdate))
@@ -461,7 +460,7 @@ THX2DPlotDirector::HandleActionsMenu
 
 	else if (index == kCloseWindowCmd)
 		{
-		(GetWindow())->Close();
+		GetWindow()->Close();
 		}
 	else if (index == kQuitCmd)
 		{

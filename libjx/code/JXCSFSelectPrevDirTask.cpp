@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXCSFSelectPrevDirTask.h>
 #include <JXDirTable.h>
 #include <JDirInfo.h>

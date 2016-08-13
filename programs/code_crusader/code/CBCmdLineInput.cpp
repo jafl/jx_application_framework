@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBCmdLineInput.h"
 #include "CBExecOutputDocument.h"
 #include <jASCIIConstants.h>

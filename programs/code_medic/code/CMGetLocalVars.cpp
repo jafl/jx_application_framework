@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMGetLocalVars.h"
 #include <jAssert.h>
 

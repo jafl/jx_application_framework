@@ -7,7 +7,6 @@
 
  ********************************************************************************/
 
-#include <glStdInc.h>
 #include "JFitBase.h"
 #include "jAssert.h"
 

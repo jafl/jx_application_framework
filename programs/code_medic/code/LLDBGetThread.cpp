@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "LLDBGetThread.h"
 #include "lldb/API/SBTarget.h"
 #include "lldb/API/SBProcess.h"
@@ -64,5 +63,5 @@ LLDBGetThread::HandleSuccess
 		return;
 		}
 
-	(GetWidget())->FinishedLoading(p.GetSelectedThread().GetThreadID());
+	GetWidget()->FinishedLoading(p.GetSelectedThread().GetThreadID());
 }

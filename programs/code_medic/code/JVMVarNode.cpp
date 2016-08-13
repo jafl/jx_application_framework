@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "JVMVarNode.h"
 #include "CMVarCommand.h"
 #include "cmGlobals.h"

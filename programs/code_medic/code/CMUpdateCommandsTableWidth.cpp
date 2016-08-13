@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMUpdateCommandsTableWidth.h"
 #include "CMEditCommandsTable.h"
 #include <jAssert.h>

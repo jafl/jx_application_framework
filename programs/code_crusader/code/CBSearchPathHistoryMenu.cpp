@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBSearchPathHistoryMenu.h"
 #include <JXImage.h>
 #include <jDirUtil.h>

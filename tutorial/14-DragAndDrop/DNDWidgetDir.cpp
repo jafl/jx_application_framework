@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "DNDWidgetDir.h"
 #include "DNDWidget.h"
 #include <JXWindow.h>

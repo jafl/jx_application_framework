@@ -15,7 +15,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <FFNetwork.h>
 #include <JVector.h>
 #include <JMatrix.h>

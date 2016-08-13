@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBSymbolUpdatePG.h"
 #include "CBProjectDocument.h"
 #include <jAssert.h>

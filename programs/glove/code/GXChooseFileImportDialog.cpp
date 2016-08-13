@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GXChooseFileImportDialog.h"
 #include "GLPlotApp.h"
 #include "GXDataDocument.h"

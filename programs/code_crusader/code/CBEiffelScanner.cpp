@@ -10,7 +10,6 @@
 
  *****************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBEiffelScanner.h"
 #include <JString.h>
 #include <jStreamUtil.h>

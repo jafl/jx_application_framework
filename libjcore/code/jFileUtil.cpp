@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jFileUtil.h>
 #include <jStreamUtil.h>
 #include <jFStreamUtil.h>

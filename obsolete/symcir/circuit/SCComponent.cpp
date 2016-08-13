@@ -45,7 +45,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCComponent.h"
 
 #include "SCResistor.h"

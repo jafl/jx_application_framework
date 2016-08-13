@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGMDIServer.h"
 #include "SyGGlobals.h"
 #include <JXFSBindingManager.h>

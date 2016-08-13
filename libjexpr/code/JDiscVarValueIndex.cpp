@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JDiscVarValueIndex.h>
 #include <JVariableList.h>
 #include <jParserData.h>
@@ -93,7 +92,7 @@ JDiscVarValueIndex::Evaluate
 	JIndex arrayIndex;
 	if (EvaluateArrayIndex(&arrayIndex))
 		{
-		*result = (GetVariableList())->GetDiscreteValue(GetVariableIndex(), arrayIndex);
+		*result = GetVariableList()->GetDiscreteValue(GetVariableIndex(), arrayIndex);
 		return kJTrue;
 		}
 	else
@@ -164,6 +163,6 @@ JDiscVarValueIndex::SetVariableIndex
 	const JIndex variableIndex
 	)
 {
-	assert( (GetVariableList())->IsDiscrete(variableIndex) );
+	assert( GetVariableList()->IsDiscrete(variableIndex) );
 	JFunctionWithVar::SetVariableIndex(variableIndex);
 }

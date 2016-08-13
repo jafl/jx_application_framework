@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNPrefsManager.h"
 #include "SVNPrefsDialog.h"
 #include "svnGlobals.h"

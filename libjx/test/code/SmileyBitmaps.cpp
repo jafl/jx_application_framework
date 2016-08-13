@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "SmileyBitmaps.h"
 
 unsigned char kHappySmileyData[] =

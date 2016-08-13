@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JSine.h>
 #include <jErrno.h>
 #include <jAssert.h>
@@ -88,7 +87,7 @@ JSine::Evaluate
 	const
 {
 	JFloat argValue;
-	if (!(GetArg())->Evaluate(&argValue))
+	if (!GetArg()->Evaluate(&argValue))
 		{
 		return kJFalse;
 		}
@@ -105,7 +104,7 @@ JSine::Evaluate
 	const
 {
 	JComplex argValue;
-	if (!(GetArg())->Evaluate(&argValue))
+	if (!GetArg()->Evaluate(&argValue))
 		{
 		return kJFalse;
 		}

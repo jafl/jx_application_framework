@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMRegistersDir.h"
 #include "CMGetRegisters.h"
 #include "CMCommandDirector.h"
@@ -220,7 +219,7 @@ CMRegistersDir::UpdateWindowTitle
 {
 	JString title = binaryName;
 	title        += JGetString("WindowTitleSuffix::CMRegistersDir");
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 }
 
 /******************************************************************************
@@ -379,7 +378,7 @@ CMRegistersDir::Update
 void
 CMRegistersDir::UpdateFileMenu()
 {
-	itsFileMenu->SetItemEnable(kCloseWindowCmd, !(GetWindow())->IsDocked());
+	itsFileMenu->SetItemEnable(kCloseWindowCmd, !GetWindow()->IsDocked());
 }
 
 /******************************************************************************

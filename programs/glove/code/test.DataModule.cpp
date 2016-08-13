@@ -1,4 +1,3 @@
-#include <glStdInc.h>
 #include <unistd.h>
 #include <jFStreamUtil.h>
 #include "GloveModule.h"

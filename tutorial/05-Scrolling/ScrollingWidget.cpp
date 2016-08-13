@@ -21,7 +21,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "ScrollingWidget.h"
 #include <JXWidget.h>
 #include <JXWindowPainter.h>

@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GHelpText.h"
 
 const JCharacter* kOverviewHelpName  = "GOverviewHelp";

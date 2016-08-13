@@ -35,7 +35,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JPrefsFile.h>
 #include <JFileArrayIndex.h>
 #include <JString.h>
@@ -164,7 +163,7 @@ JPrefsFile::SetData
 	else
 		{
 		AppendElement(data);
-		(GetFileArrayIndex())->SetElementID(GetElementCount(), id);
+		GetFileArrayIndex()->SetElementID(GetElementCount(), id);
 		}
 }
 
@@ -182,7 +181,7 @@ JPrefsFile::SetData
 	else
 		{
 		AppendElement(data.c_str());
-		(GetFileArrayIndex())->SetElementID(GetElementCount(), id);
+		GetFileArrayIndex()->SetElementID(GetElementCount(), id);
 		}
 }
 
@@ -200,6 +199,6 @@ JPrefsFile::SetData
 	else
 		{
 		AppendElement(data);
-		(GetFileArrayIndex())->SetElementID(GetElementCount(), id);
+		GetFileArrayIndex()->SetElementID(GetElementCount(), id);
 		}
 }

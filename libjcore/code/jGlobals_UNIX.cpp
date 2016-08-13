@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jGlobals.h>
 #include <jDirUtil.h>
 #include <jFileUtil.h>

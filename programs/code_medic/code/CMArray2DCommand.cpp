@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMArray2DCommand.h"
 #include "CMArray2DDir.h"
 #include "CMVarNode.h"

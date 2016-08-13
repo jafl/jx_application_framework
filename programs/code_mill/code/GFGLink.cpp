@@ -7,7 +7,6 @@
 	
  *****************************************************************************/
 
-#include <gfgStdInc.h>
 #include <GFGLink.h>
 #include <GFGMemberFunction.h>
 #include <GFGClass.h>

@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JPTPrinter.h>
 #include <JLatentPG.h>
 #include <JString.h>

@@ -12,7 +12,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JTextChooseSaveFile.h>
 #include <jCommandLine.h>
 

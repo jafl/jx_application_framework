@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GLNonLinearFitDialog.h"
 #include "GVarList.h"
 #include "GLVarTable.h"

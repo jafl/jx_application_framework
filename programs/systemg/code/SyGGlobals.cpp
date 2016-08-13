@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGGlobals.h"
 #include "SyGPrefsMgr.h"
 #include "SyGMDIServer.h"

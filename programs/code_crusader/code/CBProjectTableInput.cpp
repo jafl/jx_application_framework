@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBProjectTableInput.h"
 #include "CBProjectTable.h"
 #include <jAssert.h>

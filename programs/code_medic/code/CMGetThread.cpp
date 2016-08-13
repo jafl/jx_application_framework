@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMGetThread.h"
 #include "CMThreadsWidget.h"
 #include <jAssert.h>

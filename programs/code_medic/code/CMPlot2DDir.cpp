@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMPlot2DDir.h"
 #include "CMPlot2DExprTable.h"
 #include "CMPlot2DCommand.h"
@@ -159,7 +158,7 @@ CMPlot2DDir::CMPlot2DDir
 		}
 
 	itsPlotWidget->PWXReadSetup(input);
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 }
 
 // private
@@ -251,7 +250,7 @@ CMPlot2DDir::StreamOut
 		}
 
 	itsPlotWidget->PWXWriteSetup(output);
-	(GetWindow())->WriteGeometry(output);	// must be last
+	GetWindow()->WriteGeometry(output);	// must be last
 }
 
 /******************************************************************************
@@ -392,7 +391,7 @@ CMPlot2DDir::BuildWindow()
 	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
 	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
 
-	((GetDisplay())->GetWDManager())->DirectorCreated(this);
+	(GetDisplay()->GetWDManager())->DirectorCreated(this);
 }
 
 /******************************************************************************
@@ -405,7 +404,7 @@ CMPlot2DDir::UpdateWindowTitle()
 {
 	JString title = itsPlotWidget->GetTitle();
 	title += JGetString("WindowTitleSuffix::CMPlot2DDir");
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 }
 
 /******************************************************************************

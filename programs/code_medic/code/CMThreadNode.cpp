@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMThreadNode.h"
 #include <jAssert.h>
 

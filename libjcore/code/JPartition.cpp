@@ -38,7 +38,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JPartition.h>
 #include <jStreamUtil.h>
 #include <jAssert.h>

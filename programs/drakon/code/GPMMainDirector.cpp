@@ -682,8 +682,8 @@ GPMMainDirector::ReadPrefs
 
 	if (vers >= 2)
 		{
-		(GetWindow())->ReadGeometry(input);
-		(GetWindow())->Deiconify();
+		GetWindow()->ReadGeometry(input);
+		GetWindow()->Deiconify();
 		}
 
 	if (3 <= vers && vers < 6)

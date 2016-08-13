@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "XDPlot2DCommand.h"
 #include <jAssert.h>
 

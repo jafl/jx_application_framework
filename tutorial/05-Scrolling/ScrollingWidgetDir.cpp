@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "ScrollingWidgetDir.h"
 #include "ScrollingWidget.h"
 #include <JXWindow.h>

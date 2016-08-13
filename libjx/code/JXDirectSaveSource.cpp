@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDirectSaveSource.h>
 #include <JXDSSSelection.h>
 #include <JXDSSFinishSaveTask.h>
@@ -142,7 +141,7 @@ JXDirectSaveSource::GetDNDAction
 	const JXKeyModifiers&	modifiers
 	)
 {
-	return (GetDNDManager())->GetDNDActionDirectSaveXAtom();
+	return GetDNDManager()->GetDNDActionDirectSaveXAtom();
 }
 
 /******************************************************************************
@@ -158,5 +157,5 @@ JXDirectSaveSource::HandleDNDResponse
 	const Atom			action
 	)
 {
-	DisplayCursor((GetDNDManager())->GetDNDFileCursor(dropAccepted, action));
+	DisplayCursor(GetDNDManager()->GetDNDFileCursor(dropAccepted, action));
 }

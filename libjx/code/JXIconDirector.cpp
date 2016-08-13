@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXIconDirector.h>
 #include <JXDisplay.h>
 #include <JXWindow.h>

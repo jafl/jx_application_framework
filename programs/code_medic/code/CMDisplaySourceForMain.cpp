@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMDisplaySourceForMain.h"
 #include <jAssert.h>
 

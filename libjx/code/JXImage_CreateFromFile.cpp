@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXImage.h>
 #include <JXColormap.h>
 #include <jAssert.h>

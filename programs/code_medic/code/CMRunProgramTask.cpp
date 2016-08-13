@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMRunProgramTask.h"
 #include "CMCommandDirector.h"
 #include "cmGlobals.h"

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <thxStdInc.h>
 #include "THX2DPlotFunctionDialog.h"
 #include "THXVarList.h"
 #include "thxGlobals.h"

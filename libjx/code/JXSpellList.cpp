@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXSpellList.h>
 #include <JXColormap.h>
 #include <jXGlobals.h>

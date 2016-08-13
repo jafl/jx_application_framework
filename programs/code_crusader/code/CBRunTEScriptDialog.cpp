@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBRunTEScriptDialog.h"
 #include "CBTextDocument.h"
 #include "CBTextEditor.h"
@@ -447,7 +446,7 @@ CBRunTEScriptDialog::WritePrefs
 	output << kCurrentSetupVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ';
 	itsHistoryMenu->WriteSetup(output);

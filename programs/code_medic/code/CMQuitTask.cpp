@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMQuitTask.h"
 #include <jXGlobals.h>
 #include <jAssert.h>

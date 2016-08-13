@@ -7,7 +7,6 @@
 
  ********************************************************************************/
 
-#include <glStdInc.h>
 #include "JPlotExpFit.h"
 #include "J2DPlotWidget.h"
 #include "JPlotDataBase.h"
@@ -272,9 +271,9 @@ JPlotExpFit::AdjustDiffData()
 	for (JSize i = 1; i <= count; i++)
 		{
 		pwd->GetElement(i, &dataD);
-		(GetData())->GetElement(i, &data);
+		GetData()->GetElement(i, &data);
 		JFloat yerr;
-		if ((GetData())->HasYErrors() || itsHasXErrors)
+		if (GetData()->HasYErrors() || itsHasXErrors)
 			{
 			yerr = sqrt(data.yerr*data.yerr + B*B*data.y*data.y*data.xerr*data.xerr);
 			AdjustDiffDataValue(i, yerr);

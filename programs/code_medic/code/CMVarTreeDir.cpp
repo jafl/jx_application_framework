@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMVarTreeDir.h"
 #include "CMVarTreeWidget.h"
 #include "CMVarNode.h"
@@ -261,7 +260,7 @@ CMVarTreeDir::UpdateWindowTitle
 {
 	JString title = binaryName;
 	title += kWindowTitleSuffix;
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 }
 
 /******************************************************************************
@@ -386,7 +385,7 @@ CMVarTreeDir::ReceiveGoingAway
 void
 CMVarTreeDir::UpdateFileMenu()
 {
-	itsFileMenu->SetItemEnable(kCloseWindowCmd, !(GetWindow())->IsDocked());
+	itsFileMenu->SetItemEnable(kCloseWindowCmd, !GetWindow()->IsDocked());
 }
 
 /******************************************************************************

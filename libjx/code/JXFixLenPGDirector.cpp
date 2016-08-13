@@ -8,7 +8,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXFixLenPGDirector.h>
 #include <JXProgressDisplay.h>
 #include <JXProgressIndicator.h>

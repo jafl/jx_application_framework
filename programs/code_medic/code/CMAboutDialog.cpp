@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMAboutDialog.h"
 #include "cmHelpText.h"
 #include "cmGlobals.h"

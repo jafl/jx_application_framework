@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <jxwStdInc.h>
 #include "JXWApp.h"
 #include "JXWMainDialog.h"
 #include "jxwGlobals.h"

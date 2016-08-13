@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include <GloveCursorTable.h>
 #include <GloveHistoryDir.h>
 

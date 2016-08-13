@@ -16,7 +16,6 @@
  *****************************************************************************/
 
 //Class Header
-#include <JCoreStdInc.h>
 #include <JMMErrorPrinter.h>
 #include <JMMRecord.h>
 #include <JString.h>

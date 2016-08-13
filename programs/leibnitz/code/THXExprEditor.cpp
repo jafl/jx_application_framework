@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <thxStdInc.h>
 #include "THXExprEditor.h"
 #include "THXVarList.h"
 #include <JXTEBase.h>

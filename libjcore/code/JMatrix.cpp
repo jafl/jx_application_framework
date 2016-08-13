@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JMatrix.h>
 #include <JVector.h>
 #include <jStreamUtil.h>

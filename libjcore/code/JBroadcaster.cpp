@@ -26,7 +26,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JBroadcaster.h>
 #include <JPtrArray.h>
 #include <JTaskIterator.h>

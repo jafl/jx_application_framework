@@ -24,7 +24,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JString.h>
 #include <jStreamUtil.h>
 #include <jMath.h>

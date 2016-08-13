@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXColormap.h>
 #include <JXDisplay.h>
 #include <stdlib.h>

@@ -1,4 +1,3 @@
-#include <glStdInc.h>
 #include <math.h>
 #include "linfit.h"
 #include <stdio.h>

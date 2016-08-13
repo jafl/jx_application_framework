@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "cbmUtil.h"
 #include "CBFnMenuUpdater.h"
 #include "CBCStyler.h"

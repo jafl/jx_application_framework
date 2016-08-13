@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "LLDBGetStack.h"
 #include "lldb/API/SBTarget.h"
 #include "lldb/API/SBProcess.h"
@@ -78,7 +77,7 @@ LLDBGetStack::HandleSuccess
 		return;
 		}
 
-	JTreeNode* root       = (GetTree())->GetRoot();
+	JTreeNode* root       = GetTree()->GetRoot();
 	JIndex initFrameIndex = 0;
 
 	const JSize frameCount = t.GetNumFrames();
@@ -139,10 +138,13 @@ LLDBGetStack::HandleSuccess
 			{
 			lldb::SBValue v = args.GetValueAtIndex(i);
 
-			CMStackArgNode* argNode = new CMStackArgNode(node, v.GetName(), v.GetValue());
-			assert( argNode != NULL );
+			if (v.GetName() != NULL && v.GetValue() != NULL)
+				{
+				CMStackArgNode* argNode = new CMStackArgNode(node, v.GetName(), v.GetValue());
+				assert( argNode != NULL );
+				}
 			}
 		}
 
-	(GetWidget())->FinishedLoading(initFrameIndex);
+	GetWidget()->FinishedLoading(initFrameIndex);
 }

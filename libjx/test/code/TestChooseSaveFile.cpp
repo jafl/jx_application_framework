@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestChooseSaveFile.h"
 #include "TestSaveFileDialog.h"
 #include <JDirInfo.h>

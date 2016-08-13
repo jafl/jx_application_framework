@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBCTreeDirector.h"
 #include "CBCTree.h"
 #include "CBEditCPPMacroDialog.h"
@@ -141,7 +140,7 @@ CBCTreeDirector::Receive
 			itsEditCPPDialog->UpdateMacros(itsCTree->GetCPreprocessor()))
 			{
 			itsCTree->NextUpdateMustReparseAll();
-			(GetProjectDoc())->UpdateSymbolDatabase();
+			GetProjectDoc()->UpdateSymbolDatabase();
 			}
 		itsEditCPPDialog = NULL;
 		}
@@ -245,11 +244,11 @@ CBCTreeDirector::HandleTreeMenu
 		}
 	else if (index == kEditSearchPathsCmd)
 		{
-		(GetProjectDoc())->EditSearchPaths(this);
+		GetProjectDoc()->EditSearchPaths(this);
 		}
 	else if (index == kUpdateCurrentCmd)
 		{
-		(GetProjectDoc())->UpdateSymbolDatabase();
+		GetProjectDoc()->UpdateSymbolDatabase();
 		}
 	else if (index == kForceMinMILinksCmd)
 		{

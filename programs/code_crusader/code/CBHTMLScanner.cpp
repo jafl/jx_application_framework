@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBHTMLScanner.h"
 #include <JRegex.h>
 #include <jStreamUtil.h>

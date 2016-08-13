@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBDiffFileDialog.h"
 #include "CBDiffDocument.h"
 #include "CBDiffStyleMenu.h"
@@ -774,7 +773,7 @@ CBDiffFileDialog::Receive
 
 	else if (sender == itsCVSChooseButton && message.Is(JXButton::kPushed))
 		{
-		if (((GetDisplay())->GetLatestKeyModifiers()).meta())
+		if ((GetDisplay()->GetLatestKeyModifiers()).meta())
 			{
 			ChoosePath(itsCVSFileInput);
 			}
@@ -786,7 +785,7 @@ CBDiffFileDialog::Receive
 
 	else if (sender == itsSVNChooseButton && message.Is(JXButton::kPushed))
 		{
-		if (((GetDisplay())->GetLatestKeyModifiers()).meta())
+		if ((GetDisplay()->GetLatestKeyModifiers()).meta())
 			{
 			ChoosePath(itsSVNFileInput);
 			}
@@ -798,7 +797,7 @@ CBDiffFileDialog::Receive
 
 	else if (sender == itsGitChooseButton && message.Is(JXButton::kPushed))
 		{
-		if (((GetDisplay())->GetLatestKeyModifiers()).meta())
+		if ((GetDisplay()->GetLatestKeyModifiers()).meta())
 			{
 			ChoosePath(itsGitFileInput);
 			}
@@ -2670,7 +2669,7 @@ CBDiffFileDialog::WritePrefs
 	output << kCurrentSetupVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ';
 	itsCommonStyleMenu->WriteStyle(output);

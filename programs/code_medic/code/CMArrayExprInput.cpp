@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMArrayExprInput.h"
 #include "CMTextDisplayBase.h"
 #include <jASCIIConstants.h>

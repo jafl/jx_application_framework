@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBCRMRuleTable.h"
 #include "CBEditCRMDialog.h"
 #include "CBListCSF.h"
@@ -182,7 +181,7 @@ CBCRMRuleTable::SetData
 void
 CBCRMRuleTable::ClearData()
 {
-	(GetStringData())->RemoveAllRows();
+	GetStringData()->RemoveAllRows();
 	Deactivate();
 }
 
@@ -290,7 +289,7 @@ CBCRMRuleTable::Receive
 void
 CBCRMRuleTable::AddRow()
 {
-	if ((GetWindow())->OKToUnfocusCurrentWidget())
+	if (GetWindow()->OKToUnfocusCurrentWidget())
 		{
 		JStringTableData* data = GetStringData();
 		data->AppendRows(1);
@@ -316,7 +315,7 @@ CBCRMRuleTable::RemoveRow()
 	if (GetEditedCell(&editCell))
 		{
 		CancelEditing();
-		(GetStringData())->RemoveRow(editCell.y);
+		GetStringData()->RemoveRow(editCell.y);
 		}
 }
 
@@ -382,7 +381,7 @@ void
 CBCRMRuleTable::LoadRules()
 {
 	JString fileName;
-	if ((GetWindow())->OKToUnfocusCurrentWidget() &&
+	if (GetWindow()->OKToUnfocusCurrentWidget() &&
 		itsCSF->ChooseFile("", NULL, &fileName))
 		{
 		ReadData(fileName, itsCSF->ReplaceExisting());
@@ -468,7 +467,7 @@ CBCRMRuleTable::SaveRules()
 	const
 {
 	JString origName;
-	if ((GetWindow())->OKToUnfocusCurrentWidget() &&
+	if (GetWindow()->OKToUnfocusCurrentWidget() &&
 		itsDialog->GetCurrentCRMRuleSetName(&origName))
 		{
 		JString newName;

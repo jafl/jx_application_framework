@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXImageRadioButton.h>
 #include <JXImage.h>
 #include <JXWindowPainter.h>
@@ -68,11 +67,11 @@ JXImageRadioButton::SetBitmap
 {
 	const JColorIndex foreColor =
 		(origForeColor == kJXTransparentColor ?
-		 (GetColormap())->GetBlackColor() : origForeColor);
+		 GetColormap()->GetBlackColor() : origForeColor);
 
 	const JColorIndex backColor =
 		(origBackColor == kJXTransparentColor ?
-		 (GetColormap())->GetDefaultBackColor() : origBackColor);
+		 GetColormap()->GetDefaultBackColor() : origBackColor);
 
 	if (itsOwnsImageFlag)
 		{
@@ -120,7 +119,7 @@ JXImageRadioButton::SetImage
 {
 	const JColorIndex backColor =
 		(origBackColor == kJXTransparentColor ?
-		 (GetColormap())->GetDefaultBackColor() : origBackColor);
+		 GetColormap()->GetDefaultBackColor() : origBackColor);
 
 	if (image != itsImage)
 		{
@@ -184,11 +183,11 @@ JXImageRadioButton::DrawBorder
 		p.SetLineWidth(borderWidth);
 		if (drawChecked)
 			{
-			p.SetPenColor((GetColormap())->GetWhiteColor());
+			p.SetPenColor(GetColormap()->GetWhiteColor());
 			}
 		else
 			{
-			p.SetPenColor((GetColormap())->GetInactiveLabelColor());
+			p.SetPenColor(GetColormap()->GetInactiveLabelColor());
 			}
 		p.RectInside(frame);
 		}

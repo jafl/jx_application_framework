@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GXPlotFunctionDialog.h"
 #include "GVarList.h"
 #include "ExprDirector.h"

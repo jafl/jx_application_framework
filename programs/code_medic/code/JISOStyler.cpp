@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include <JISOStyler.h>
 #include <JTextEditor.h>
 #include <JColormap.h>

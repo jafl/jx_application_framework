@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <gfgStdInc.h>
 #include "GFGMDIServer.h"
 #include "GFGMainDirector.h"
 #include "GFGApp.h"

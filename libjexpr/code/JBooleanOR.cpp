@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JBooleanOR.h>
 #include <jParserData.h>
 #include <jAssert.h>

@@ -28,7 +28,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXHelpManager.h>
 #include <JXHelpDirector.h>
 #include <JXDisplay.h>

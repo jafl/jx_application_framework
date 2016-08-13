@@ -12,7 +12,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JDecisionWithVar.h>
 #include <JVariableList.h>
 #include <JExprNodeList.h>

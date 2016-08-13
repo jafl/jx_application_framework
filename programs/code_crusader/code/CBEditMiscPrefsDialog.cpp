@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBEditMiscPrefsDialog.h"
 #include "CBProjectDocument.h"
 #include "CBMDIServer.h"

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXImageCheckbox.h>
 #include <JXImage.h>
 #include <JXWindowPainter.h>
@@ -67,11 +66,11 @@ JXImageCheckbox::SetBitmap
 {
 	const JColorIndex foreColor =
 		(origForeColor == kJXTransparentColor ?
-		 (GetColormap())->GetBlackColor() : origForeColor);
+		 GetColormap()->GetBlackColor() : origForeColor);
 
 	const JColorIndex backColor =
 		(origBackColor == kJXTransparentColor ?
-		 (GetColormap())->GetDefaultBackColor() : origBackColor);
+		 GetColormap()->GetDefaultBackColor() : origBackColor);
 
 	if (itsOwnsImageFlag)
 		{
@@ -119,7 +118,7 @@ JXImageCheckbox::SetImage
 {
 	const JColorIndex backColor =
 		(origBackColor == kJXTransparentColor ?
-		 (GetColormap())->GetDefaultBackColor() : origBackColor);
+		 GetColormap()->GetDefaultBackColor() : origBackColor);
 
 	if (image != itsImage)
 		{
@@ -183,11 +182,11 @@ JXImageCheckbox::DrawBorder
 		p.SetLineWidth(borderWidth);
 		if (drawChecked)
 			{
-			p.SetPenColor((GetColormap())->GetWhiteColor());
+			p.SetPenColor(GetColormap()->GetWhiteColor());
 			}
 		else
 			{
-			p.SetPenColor((GetColormap())->GetInactiveLabelColor());
+			p.SetPenColor(GetColormap()->GetInactiveLabelColor());
 			}
 		p.RectInside(frame);
 		}

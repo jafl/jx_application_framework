@@ -9,7 +9,6 @@
 	
  *****************************************************************************/
 
-#include <gfgStdInc.h>
 #include <GFGClass.h>
 #include "GFGLink.h"
 #include "gfgGlobals.h"

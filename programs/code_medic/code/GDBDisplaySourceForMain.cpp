@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBDisplaySourceForMain.h"
 #include "CMSourceDirector.h"
 #include "GDBLink.h"
@@ -85,7 +84,7 @@ GDBDisplaySourceForMain::Receive
 			}
 		else if (!itsHasCoreFlag)
 			{
-			(GetSourceDir())->ClearDisplay();
+			GetSourceDir()->ClearDisplay();
 			}
 		}
 	else
@@ -126,7 +125,7 @@ GDBDisplaySourceForMain::HandleSuccess
 
 			if (!itsHasCoreFlag)
 				{
-				(GetSourceDir())->DisplayFile(fileName, lineIndex, kJFalse);
+				GetSourceDir()->DisplayFile(fileName, lineIndex, kJFalse);
 				}
 			}
 
@@ -149,7 +148,7 @@ GDBDisplaySourceForMain::HandleSuccess
 
 		if (!itsHasCoreFlag)
 			{
-			(GetSourceDir())->ClearDisplay();
+			GetSourceDir()->ClearDisplay();
 			}
 
 		dynamic_cast<GDBLink*>(CMGetLink())->FirstBreakImpossible();

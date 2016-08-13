@@ -7,7 +7,6 @@
 
  ********************************************************************************/
 
-#include <glStdInc.h>
 #include "JPlotQuadFit.h"
 #include "J2DPlotWidget.h"
 #include "JPlotDataBase.h"

@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <gfgStdInc.h>
 #include "GFGApp.h"
 #include "GFGMDIServer.h"
 #include "GFGMainDirector.h"

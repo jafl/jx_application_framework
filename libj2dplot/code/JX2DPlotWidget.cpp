@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JX2DPlotWidget.h>
 #include <JX2DPlotLabelDialog.h>
 #include <JX2DPlotScaleDialog.h>
@@ -708,7 +707,7 @@ JX2DPlotWidget::ChangeLabels
 {
 	assert (itsPlotLabelDialog == NULL);
 	itsPlotLabelDialog =
-		new JX2DPlotLabelDialog((GetWindow())->GetDirector(),
+		new JX2DPlotLabelDialog(GetWindow()->GetDirector(),
 								GetTitle(), GetXLabel(), GetYLabel(),
 								GetFontName(), GetFontSize(), selection);
 	assert (itsPlotLabelDialog != NULL);
@@ -754,7 +753,7 @@ JX2DPlotWidget::ChangeScale
 	GetYScale(&ymin, &ymax, &yinc);
 
 	itsPlotScaleDialog =
-		new JX2DPlotScaleDialog((GetWindow())->GetDirector(),
+		new JX2DPlotScaleDialog(GetWindow()->GetDirector(),
 								xmin, xmax, xinc, XAxisIsLinear(),
 								ymin, ymax, yinc, YAxisIsLinear());
 	assert (itsPlotScaleDialog != NULL);
@@ -809,7 +808,7 @@ JX2DPlotWidget::ChangeRange()
 		GetYScale(&ymin, &ymax, &yinc);
 		}
 	itsPlotRangeDialog =
-		new JX2DPlotRangeDialog((GetWindow())->GetDirector(),
+		new JX2DPlotRangeDialog(GetWindow()->GetDirector(),
 								xmax, xmin, ymax, ymin);
 	assert (itsPlotRangeDialog != NULL);
 	ListenTo(itsPlotRangeDialog);
@@ -961,7 +960,7 @@ JX2DPlotWidget::ChangeCurveOptions
 		}
 
 	itsCurveOptionsDialog =
-		new JX2DCurveOptionsDialog((GetWindow())->GetDirector(), GetCurveInfoArray(),
+		new JX2DCurveOptionsDialog(GetWindow()->GetDirector(), GetCurveInfoArray(),
 									hasXErrors, hasYErrors, isFunction, isScatter, index);
 	assert (itsCurveOptionsDialog != NULL);
 	ListenTo(itsCurveOptionsDialog);

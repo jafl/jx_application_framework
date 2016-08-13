@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "JVMStackFrameNode.h"
 #include "JVMLink.h"
 #include "cmGlobals.h"

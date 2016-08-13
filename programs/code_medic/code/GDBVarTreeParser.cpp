@@ -5,7 +5,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBVarTreeParser.h"
 #include "CMVarNode.h"
 #include "cmGlobals.h"

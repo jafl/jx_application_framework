@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCPlotDirector.h"
 #include "SCCircuitDocument.h"
 #include "SCCircuitVarList.h"
@@ -52,7 +51,7 @@ SCPlotDirector::SCPlotDirector
 	itsDoc->PlotCreated(this);
 
 	BuildWindow();
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 
 	JSize fnCount;
 	input >> fnCount;
@@ -168,7 +167,7 @@ SCPlotDirector::Receive
 {
 	if (sender == itsPlot && message.Is(J2DPlotWidget::kTitleChanged))
 		{
-		(GetWindow())->SetTitle(itsPlot->GetTitle());
+		GetWindow()->SetTitle(itsPlot->GetTitle());
 		}
 	else
 		{
@@ -189,7 +188,7 @@ SCPlotDirector::StreamOut
 	const
 {
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	const JSize fnCount = itsPlot->GetCurveCount();
 	output << ' ' << fnCount;

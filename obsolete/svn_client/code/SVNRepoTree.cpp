@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNRepoTree.h"
 #include "SVNRepoTreeNode.h"
 #include "SVNRepoTreeList.h"
@@ -51,7 +50,7 @@ const JString&
 SVNRepoTree::GetRepoPath()
 	const
 {
-	return (GetRepoRoot())->GetRepoPath();
+	return GetRepoRoot()->GetRepoPath();
 }
 
 /******************************************************************************
@@ -74,7 +73,7 @@ SVNRepoTree::Update
 	itsView = view;
 	SaveOpenNodes();
 
-	(GetRepoRoot())->Update();
+	GetRepoRoot()->Update();
 }
 
 /******************************************************************************
@@ -117,7 +116,7 @@ SVNRepoTree::SavePathToOpen
 	JString url = origUrl;
 	JStripTrailingDirSeparator(&url);
 
-	JString baseUrl = (GetRepoRoot())->GetRepoPath();
+	JString baseUrl = GetRepoRoot()->GetRepoPath();
 	JAppendDirSeparator(&baseUrl);
 	if (!url.BeginsWith(baseUrl))
 		{

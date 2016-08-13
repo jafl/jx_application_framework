@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBPlot2DCommand.h"
 #include "CMPlot2DDir.h"
 #include <JRegex.h>
@@ -59,11 +58,11 @@ GDBPlot2DCommand::UpdateRange
 	for (JInteger i=min; i<=max; i++)
 		{
 		cmd += "print ";
-		cmd += (GetDirector())->GetXExpression(curveIndex, i);
+		cmd += GetDirector()->GetXExpression(curveIndex, i);
 		cmd.AppendCharacter('\n');
 
 		cmd += "print ";
-		cmd += (GetDirector())->GetYExpression(curveIndex, i);
+		cmd += GetDirector()->GetYExpression(curveIndex, i);
 		cmd.AppendCharacter('\n');
 		}
 

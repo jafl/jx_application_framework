@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "WizApp.h"
 #include "wwMessages.h"
 #include "wizGlobals.h"

@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JImage.h>
 #include <JImageMask.h>
 #include <JColormap.h>

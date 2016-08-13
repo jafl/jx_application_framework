@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNTabBase.h"
 #include "SVNMainDirector.h"
 #include "svnGlobals.h"

@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <mdStdInc.h>
 #include "MDApp.h"
 #include "MDStatsDirector.h"
 #include "mdGlobals.h"

@@ -16,7 +16,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXSelectionManager.h>
 #include <JXDNDManager.h>
 #include <JXDisplay.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBMacroTable.h"
 #include "CBMacroManager.h"
 #include "CBEditMacroDialog.h"
@@ -128,7 +127,7 @@ CBMacroTable::SetData
 void
 CBMacroTable::ClearData()
 {
-	(GetStringData())->RemoveAllRows();
+	GetStringData()->RemoveAllRows();
 	Deactivate();
 }
 
@@ -168,7 +167,7 @@ void
 CBMacroTable::LoadMacros()
 {
 	JString fileName;
-	if ((GetDialog())->ContentsValid() &&
+	if (GetDialog()->ContentsValid() &&
 		itsCSF->ChooseFile("", NULL, &fileName))
 		{
 		ReadData(fileName, itsCSF->ReplaceExisting());
@@ -245,8 +244,8 @@ CBMacroTable::SaveMacros()
 	const
 {
 	JString origName;
-	if ((GetDialog())->ContentsValid() &&
-		(GetDialog())->GetCurrentMacroSetName(&origName))
+	if (GetDialog()->ContentsValid() &&
+		GetDialog()->GetCurrentMacroSetName(&origName))
 		{
 		JString newName;
 		if (itsCSF->SaveFile(JGetString("SaveMacroListPrompt::CBMacroTable"), NULL, origName, &newName))

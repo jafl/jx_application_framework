@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBGroupNode.h"
 #include "CBProjectTree.h"
 #include <jAssert.h>

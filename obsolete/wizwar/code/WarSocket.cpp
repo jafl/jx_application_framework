@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "WarSocket.h"
 #include "warGlobals.h"
 #include <jTime.h>

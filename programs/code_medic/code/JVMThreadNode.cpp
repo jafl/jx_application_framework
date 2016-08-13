@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "JVMThreadNode.h"
 #include "JVMGetThreadName.h"
 #include "JVMGetThreadParent.h"

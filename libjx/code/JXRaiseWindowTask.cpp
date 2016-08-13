@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXRaiseWindowTask.h>
 #include <JXWindow.h>
 

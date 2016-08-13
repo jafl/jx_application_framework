@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNAboutDialog.h"
 #include "svnGlobals.h"
 #include "svnHelpText.h"

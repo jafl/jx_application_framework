@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestExprDirector.h"
 #include "TestFEditDirector.h"
 #include "TestVarList.h"

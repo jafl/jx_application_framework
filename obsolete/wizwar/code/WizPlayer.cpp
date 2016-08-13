@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "WizPlayer.h"
 #include <JColormap.h>
 #include <jGlobals.h>

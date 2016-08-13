@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCEETDirector.h"
 #include "SCCircuitDocument.h"
 #include "SCCircuit.h"
@@ -63,7 +62,7 @@ SCEETDirector::SCEETDirector
 {
 	BuildWindow(supervisor);
 
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 	itsMainPartition->ReadGeometry(input);
 	itsHPartition->ReadGeometry(input);
 	itsZPartition->ReadGeometry(input);
@@ -308,7 +307,7 @@ SCEETDirector::EvaluateEETParameters()
 		return;
 		}
 
-	(GetCircuitDocument())->DataModified();
+	GetCircuitDocument()->DataModified();
 
 	itsH0->ClearFunction();
 	itsHinf->ClearFunction();
@@ -407,7 +406,7 @@ SCEETDirector::HandleExtraMenu
 		}
 
 	const SCPassiveLinearComp* comp =
-		((GetCircuit())->GetComponent(eeIndex))->CastToSCPassiveLinearComp();
+		(GetCircuit()->GetComponent(eeIndex))->CastToSCPassiveLinearComp();
 	assert( comp != NULL );
 
 	JString s;
@@ -468,7 +467,7 @@ SCEETDirector::StreamOut
 	output << ' ' << kEETType;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 	output << ' ';
 	itsMainPartition->WriteGeometry(output);
 	output << ' ';

@@ -13,7 +13,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDragPainter.h>
 #include <JXDisplay.h>
 #include <JXWindow.h>

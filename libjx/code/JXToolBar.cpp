@@ -26,7 +26,6 @@
 
  *****************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXToolBar.h>
 #include <JXToolBarEditDir.h>
 #include <JXToolBarNode.h>
@@ -271,7 +270,7 @@ JXToolBar::Receive
 						{
 						JXDisplay* display = GetDisplay();	// need local copy, since we might be deleted
 						Display* xDisplay  = *display;
-						Window xWindow     = (GetWindow())->GetXWindow();
+						Window xWindow     = GetWindow()->GetXWindow();
 
 						menu->BroadcastSelection(itemIndex, kJFalse);
 
@@ -953,7 +952,7 @@ JXToolBar::ShowToolBar
 		itsToolBarEnclosure->Place(0,itsToolBarSet->GetBoundsHeight());
 		itsToolBarEnclosure->SetSize(GetBoundsWidth(), GetBoundsHeight() - itsToolBarSet->GetBoundsHeight());
 
-		if (!(GetWindow())->IsIconified())
+		if (!GetWindow()->IsIconified())
 			{
 			itsTimerTask->Start();
 			}

@@ -13,7 +13,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "SelectionTable.h"
 #include <JXMenuBar.h>
 #include <JXWindowPainter.h>

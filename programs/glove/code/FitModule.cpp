@@ -7,7 +7,6 @@
 
  ******************************************************************************/
  
-#include <glStdInc.h>
 #include "FitModule.h"
 #include "PlotDir.h"
 #include "JPlotDataBase.h"

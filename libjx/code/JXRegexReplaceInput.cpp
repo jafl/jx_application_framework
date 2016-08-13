@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXRegexReplaceInput.h>
 #include <JRegex.h>
 #include <jAssert.h>

@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "JVMSocket.h"
 #include "JVMLink.h"
 #include "cmGlobals.h"

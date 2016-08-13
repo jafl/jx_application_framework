@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBSymbolDirector.h"
 #include "CBSymbolSRDirector.h"
 #include "CBSymbolTable.h"
@@ -176,7 +175,7 @@ CBSymbolDirector::CBSymbolDirector
 	const JBoolean useProjData = JI2B( setInput == NULL || setVers < 71 );
 	if (!useProjData)
 		{
-		(GetWindow())->ReadGeometry(*setInput);
+		GetWindow()->ReadGeometry(*setInput);
 
 		// put SR windows on top of main window
 
@@ -194,7 +193,7 @@ CBSymbolDirector::CBSymbolDirector
 		{
 		if (projVers < 71 && useProjData)
 			{
-			(GetWindow())->ReadGeometry(projInput);
+			GetWindow()->ReadGeometry(projInput);
 			}
 		else if (projVers < 71)
 			{
@@ -289,7 +288,7 @@ CBSymbolDirector::StreamOut
 	if (setOutput != NULL)
 		{
 		*setOutput << ' ';
-		(GetWindow())->WriteGeometry(*setOutput);
+		GetWindow()->WriteGeometry(*setOutput);
 		*setOutput << ' ' << IsActive() << ' ';
 		}
 
@@ -707,7 +706,7 @@ void
 CBSymbolDirector::AdjustWindowTitle()
 {
 	const JString title = itsProjDoc->GetName() + kWindowTitleSuffix;
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 }
 
 /******************************************************************************
@@ -802,7 +801,7 @@ CBSymbolDirector::Receive
 void
 CBSymbolDirector::UpdateFileMenu()
 {
-	itsFileMenu->SetItemEnable(kCloseCmd, !(GetWindow())->IsDocked());
+	itsFileMenu->SetItemEnable(kCloseCmd, !GetWindow()->IsDocked());
 }
 
 /******************************************************************************
@@ -841,7 +840,7 @@ CBSymbolDirector::HandleFileMenu
 
 	else if (index == kCloseCmd)
 		{
-		(GetWindow())->Close();
+		GetWindow()->Close();
 		}
 	else if (index == kQuitCmd)
 		{

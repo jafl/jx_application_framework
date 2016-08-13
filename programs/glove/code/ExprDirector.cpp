@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "ExprDirector.h"
 #include "GVarList.h"
 #include <JXTextButton.h>

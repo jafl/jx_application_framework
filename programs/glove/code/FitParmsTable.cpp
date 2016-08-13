@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include <FitParmsTable.h>
 #include <JXColormap.h>
 #include <JPainter.h>

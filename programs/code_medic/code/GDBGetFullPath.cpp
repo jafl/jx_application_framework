@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBGetFullPath.h"
 #include "cmGlobals.h"
 #include <JRegex.h>

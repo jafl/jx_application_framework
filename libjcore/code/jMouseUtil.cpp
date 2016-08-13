@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jMouseUtil.h>
 #include <jAssert.h>
 

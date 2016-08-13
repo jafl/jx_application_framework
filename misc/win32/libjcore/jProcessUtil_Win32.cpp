@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jProcessUtil.h>
 #include <jAssert.h>
 

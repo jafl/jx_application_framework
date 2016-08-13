@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGMoveToTrashProcess.h"
 #include "SyGFileTreeTable.h"
 #include "SyGGlobals.h"

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "AnimateWindowIconTask.h"
 #include "WindowIconBitmaps.h"
 #include <JXDisplay.h>

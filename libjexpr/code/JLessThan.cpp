@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JLessThan.h>
 #include <JGreaterThan.h>
 #include <JFunction.h>

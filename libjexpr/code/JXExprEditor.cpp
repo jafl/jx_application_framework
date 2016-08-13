@@ -22,7 +22,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXExprEditor.h>
 #include <JXExprEvalDirector.h>
 #include <JFunction.h>
@@ -316,7 +315,7 @@ void
 JXExprEditor::JXExprEditorX()
 {
 	// required by JXGetCurrColormap
-	assert( (GetWindow())->GetColormap() == (GetDisplay())->GetColormap() );
+	assert( GetWindow()->GetColormap() == GetDisplay()->GetColormap() );
 
 	itsEPSPrinter = new JXEPSPrinter(GetDisplay());
 	assert( itsEPSPrinter != NULL );
@@ -457,7 +456,7 @@ JXExprEditor::EIPRedraw()
 void
 JXExprEditor::EIPBoundsChanged()
 {
-	const JRect newBounds = (GetRectList())->GetBoundsRect();
+	const JRect newBounds = GetRectList()->GetBoundsRect();
 	const JRect apG       = GetApertureGlobal();
 	const JCoordinate w   = JMax(newBounds.width(),  apG.width());
 	const JCoordinate h   = JMax(newBounds.height(), apG.height());
@@ -957,7 +956,7 @@ JXExprEditor::EvaluateSelection()
 		}
 
 	JXExprEvalDirector* newDir =
-		new JXExprEvalDirector((GetWindow())->GetDirector(),
+		new JXExprEvalDirector(GetWindow()->GetDirector(),
 							   GetVariableList(), *f);
 	assert( newDir != NULL );
 	newDir->Activate();
@@ -1130,7 +1129,7 @@ JXExprEditor::EIPClipboardChanged()
 		JXTextSelection* data = new JXTextSelection(GetDisplay(), text);
 		assert( data != NULL );
 
-		(GetSelectionManager())->SetData(kJXClipboardName, data);
+		GetSelectionManager()->SetData(kJXClipboardName, data);
 		}
 }
 

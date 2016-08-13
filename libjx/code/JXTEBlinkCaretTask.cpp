@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXTEBlinkCaretTask.h>
 #include <JXTEBase.h>
 #include <JXWindow.h>

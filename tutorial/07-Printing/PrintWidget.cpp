@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "PrintWidget.h"
 #include <JXApplication.h>
 #include <JXWidget.h>
@@ -134,7 +133,7 @@ PrintWidget::DrawStuff
 	)
 {
 	// Set pen color
-	p.SetPenColor((GetColormap())->GetBlackColor());
+	p.SetPenColor(GetColormap()->GetBlackColor());
 
 	// Find out how many points there are
 	// There are count/2 lines

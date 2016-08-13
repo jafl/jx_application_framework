@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <thxStdInc.h>
 #include "THXTapeText.h"
 #include <jXConstants.h>
 #include <jAssert.h>

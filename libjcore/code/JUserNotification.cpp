@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JUserNotification.h>
 
 JBoolean JUserNotification::theBreakCROnlyFlag = kJFalse;

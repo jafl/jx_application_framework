@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JLogE.h>
 #include <jMath.h>
 #include <jErrno.h>
@@ -89,7 +88,7 @@ JLogE::Evaluate
 	const
 {
 	JFloat argValue;
-	if (!(GetArg())->Evaluate(&argValue))
+	if (!GetArg()->Evaluate(&argValue))
 		{
 		return kJFalse;
 		}
@@ -106,7 +105,7 @@ JLogE::Evaluate
 	const
 {
 	JComplex argValue;
-	if (!(GetArg())->Evaluate(&argValue))
+	if (!GetArg()->Evaluate(&argValue))
 		{
 		return kJFalse;
 		}

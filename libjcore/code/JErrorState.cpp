@@ -33,7 +33,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JErrorState.h>
 #include <jAssert.h>
 

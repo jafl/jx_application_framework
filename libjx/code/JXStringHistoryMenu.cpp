@@ -13,7 +13,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXStringHistoryMenu.h>
 #include <JString.h>
 #include <jAssert.h>

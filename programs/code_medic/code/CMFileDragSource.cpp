@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMFileDragSource.h"
 #include "CMSourceDirector.h"
 #include <JXFileSelection.h>
@@ -130,7 +129,7 @@ CMFileDragSource::GetDNDAction
 	const JXKeyModifiers&	modifiers
 	)
 {
-	return (GetDNDManager())->GetDNDActionPrivateXAtom();
+	return GetDNDManager()->GetDNDActionPrivateXAtom();
 }
 
 /******************************************************************************
@@ -146,5 +145,5 @@ CMFileDragSource::HandleDNDResponse
 	const Atom			action
 	)
 {
-	DisplayCursor((GetDNDManager())->GetDNDFileCursor(dropAccepted, action));
+	DisplayCursor(GetDNDManager()->GetDNDFileCursor(dropAccepted, action));
 }

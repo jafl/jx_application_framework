@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNRefreshStatusTask.h"
 #include "SVNMainDirector.h"
 #include <jAssert.h>

@@ -9,7 +9,6 @@
 	
  *****************************************************************************/
 
-#include <glStdInc.h>
 #include <JPlotFitNonLinear.h>
 #include "GVarList.h"
 

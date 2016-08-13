@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXStyleTableMenu.h>
 #include <JXStyleTable.h>
 #include <jAssert.h>

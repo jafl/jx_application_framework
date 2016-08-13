@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "ClipboardDir.h"
 #include "CBStringInputDialog.h"
 #include "ClipboardWidget.h"

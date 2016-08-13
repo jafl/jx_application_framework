@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <thxStdInc.h>
 #include "THXPrefsManager.h"
 #include "thxGlobals.h"
 #include <jAssert.h>

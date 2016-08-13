@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDockDirector.h>
 #include <JXDockManager.h>
 #include <JXWindow.h>
@@ -52,7 +51,7 @@ JXDockDirector::JXDockDirector
 	input >> splitHoriz;
 
 	BuildWindow(title, splitHoriz);
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 
 	if (itsHorizPartition != NULL)
 		{
@@ -87,7 +86,7 @@ JXDockDirector::StreamOut
 {
 	output << ' ' << JI2B(itsHorizPartition != NULL);
 
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	if (itsHorizPartition != NULL)
 		{
@@ -258,7 +257,7 @@ JXDockDirector::UpdateMinSize()
 		{
 		minSize = itsVertPartition->UpdateMinSize();
 		}
-	(GetWindow())->SetMinSize(minSize.x, minSize.y);
+	GetWindow()->SetMinSize(minSize.x, minSize.y);
 }
 
 /******************************************************************************

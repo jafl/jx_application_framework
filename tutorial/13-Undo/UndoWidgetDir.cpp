@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "UndoWidgetDir.h"
 #include "UndoWidget.h"
 #include <JXWindow.h>

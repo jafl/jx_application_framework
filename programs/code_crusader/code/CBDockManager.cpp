@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBDockManager.h"
 #include "CBProjectDocument.h"
 #include "CBSymbolDirector.h"
@@ -61,7 +60,7 @@ JBoolean
 CBDockManager::CanDockAll()
 	const
 {
-	return (GetDockList())->IsEmpty();
+	return GetDockList()->IsEmpty();
 }
 
 /******************************************************************************
@@ -74,7 +73,7 @@ CBDockManager::CanDockAll()
 void
 CBDockManager::DockAll()
 {
-	if (!(GetDockList())->IsEmpty())
+	if (!GetDockList()->IsEmpty())
 		{
 		return;
 		}

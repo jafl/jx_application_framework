@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBSearchFilterHistoryMenu.h"
 #include <jAssert.h>
 

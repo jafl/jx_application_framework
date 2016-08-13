@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCExprEditorSet.h"
 #include "SCExprEditor.h"
 #include <JXMenuBar.h>

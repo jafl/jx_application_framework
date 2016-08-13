@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMApp.h"
 #include "CMCommandDirector.h"
 #include "CMMDIServer.h"

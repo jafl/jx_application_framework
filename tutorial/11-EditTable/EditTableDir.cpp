@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "EditTableDir.h"
 #include "EditTable.h"
 #include <JXMenuBar.h>

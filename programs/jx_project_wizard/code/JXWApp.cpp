@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <jxwStdInc.h>
 #include "JXWApp.h"
 #include "jxwStringData.h"
 #include "jxwGlobals.h"

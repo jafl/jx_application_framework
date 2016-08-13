@@ -16,7 +16,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "JXFSCommandHistoryMenu.h"
 #include <JXImage.h>
 #include <JString.h>

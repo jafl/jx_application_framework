@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JTableData.h>
 #include <JOrderedSetUtil.h>
 #include <jAssert.h>

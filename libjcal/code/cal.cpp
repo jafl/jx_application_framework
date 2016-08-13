@@ -45,7 +45,6 @@ static char sccsid[] = "@(#)cal.c	8.4 (Berkeley) 4/2/94";
    so we specify fill path.  Were we got /usr/i586-unknown-linux from?
    Dunno. */
 
-#include <JXStdInc.h>
 #include "cal.h"
 #include <sys/types.h>
 

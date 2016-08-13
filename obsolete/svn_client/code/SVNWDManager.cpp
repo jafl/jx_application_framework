@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNWDManager.h"
 #include "SVNMainDirector.h"
 #include <JXChooseSaveFile.h>

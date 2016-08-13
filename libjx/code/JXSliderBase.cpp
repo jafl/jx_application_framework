@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXSliderBase.h>
 #include <JXWindowPainter.h>
 #include <jXPainterUtil.h>

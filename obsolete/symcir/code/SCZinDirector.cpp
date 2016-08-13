@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCZinDirector.h"
 #include "SCCircuitDocument.h"
 #include "SCCircuit.h"
@@ -51,7 +50,7 @@ SCZinDirector::SCZinDirector
 	SCDirectorBase(input, vers, supervisor)
 {
 	BuildWindow(supervisor);
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 
 	JIndex i;
 	input >> i;
@@ -167,7 +166,7 @@ SCZinDirector::EvaluateInputImpedance()
 		return;
 		}
 
-	(GetCircuitDocument())->DataModified();
+	GetCircuitDocument()->DataModified();
 
 	const SCCircuitVarList* varList = GetVarList();
 
@@ -195,7 +194,7 @@ SCZinDirector::StreamOut
 	output << ' ' << kZinType;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ' << itsPosNode->GetNodeIndex();
 	output << ' ' << itsNegNode->GetNodeIndex();

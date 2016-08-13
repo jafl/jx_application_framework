@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNListBase.h"
 #include "SVNMainDirector.h"
 #include "svnMenus.h"
@@ -155,7 +154,7 @@ SVNListBase::RefreshContent()
 
 	int outFD, errFD;
 	JError err = JNoError();
-	if ((GetDirector())->HasPath())
+	if (GetDirector()->HasPath())
 		{
 		err = JProcess::Create(&itsProcess, GetPath(), itsCmd,
 							   kJIgnoreConnection, NULL,
@@ -174,7 +173,7 @@ SVNListBase::RefreshContent()
 		{
 		itsProcess->ShouldDeleteWhenFinished();
 		ListenTo(itsProcess);
-		(GetDirector())->RegisterActionProcess(this, itsProcess, itsRefreshRepoFlag,
+		GetDirector()->RegisterActionProcess(this, itsProcess, itsRefreshRepoFlag,
 											   itsRefreshStatusFlag, itsReloadOpenFilesFlag);
 
 		SetConnection(outFD, errFD);
@@ -289,8 +288,8 @@ SVNListBase::ReceiveMessageLine()
 		return;
 		}
 
-	const JFontStyle red(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetRedColor());
-	const JFontStyle blue = (GetColormap())->GetBlueColor();
+	const JFontStyle red(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetRedColor());
+	const JFontStyle blue = GetColormap()->GetBlueColor();
 	const JFontStyle strike(kJFalse, kJFalse, 0, kJTrue);
 
 	JString* temp = new JString(line);
@@ -350,7 +349,7 @@ SVNListBase::ReceiveErrorLine()
 void
 SVNListBase::DisplayErrors()
 {
-	const JFontStyle red(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetRedColor());
+	const JFontStyle red(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetRedColor());
 
 	const JSize count = itsErrorList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
@@ -448,7 +447,7 @@ SVNListBase::CopySelectedItems
 	JXTextSelection* data = new JXTextSelection(GetDisplay(), list);
 	assert( data != NULL );
 
-	(GetSelectionManager())->SetData(kJXClipboardName, data);
+	GetSelectionManager()->SetData(kJXClipboardName, data);
 }
 
 /******************************************************************************
@@ -690,11 +689,11 @@ SVNListBase::HandleContextMenu
 
 	else if (index == kInfoLogSelectedFilesCtxCmd)
 		{
-		(GetDirector())->ShowInfoLog(this);
+		GetDirector()->ShowInfoLog(this);
 		}
 	else if (index == kPropSelectedFilesCtxCmd)
 		{
-		(GetDirector())->ShowProperties(this);
+		GetDirector()->ShowProperties(this);
 		}
 
 	else if (index == kIgnoreSelectionCtxCmd)

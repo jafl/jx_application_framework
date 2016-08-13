@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMThreadsWidget.h"
 #include "CMThreadNode.h"
 #include "CMCommandDirector.h"
@@ -197,7 +196,7 @@ CMThreadsWidget::HandleMouseDown
 		{
 		if (modifiers.meta())
 			{
-			const JTreeNode* node = (GetTreeList())->GetNode(cell.y);
+			const JTreeNode* node = GetTreeList()->GetNode(cell.y);
 			const CMThreadNode* threadNode =
 				dynamic_cast<const CMThreadNode*>(node);
 			assert( threadNode != NULL );
@@ -418,7 +417,7 @@ CMThreadsWidget::Receive
 			sender == &s && message.Is(JTableData::kRectChanged) &&
 			s.GetFirstSelectedCell(&cell))
 			{
-			const JTreeNode* node = (GetTreeList())->GetNode(cell.y);
+			const JTreeNode* node = GetTreeList()->GetNode(cell.y);
 			const CMThreadNode* threadNode =
 				dynamic_cast<const CMThreadNode*>(node);
 			assert( threadNode != NULL );
@@ -490,7 +489,7 @@ CMThreadsWidget::ShouldRebuild()
 	const
 {
 	return JI2B(itsThreadDir->IsActive() &&
-				!(GetWindow())->IsIconified());
+				!GetWindow()->IsIconified());
 }
 
 /******************************************************************************

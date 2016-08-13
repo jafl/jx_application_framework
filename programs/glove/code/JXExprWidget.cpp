@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include <JXExprWidget.h>
 #include <JXExprEvalDirector.h>
 #include <JFunction.h>
@@ -71,7 +70,7 @@ void
 JXExprWidget::JXExprEditorX()
 {
 	// required by JXGetCurrColormap
-	assert( (GetWindow())->GetColormap() == (GetDisplay())->GetColormap() );
+	assert( GetWindow()->GetColormap() == GetDisplay()->GetColormap() );
 
 	// insure that we have a JFunction to display
 	// (also calls EIPBoundsChanged and EIPAdjustNeedTab)
@@ -133,7 +132,7 @@ JXExprWidget::EIPRedraw()
 void
 JXExprWidget::EIPBoundsChanged()
 {
-	const JRect newBounds = (GetRectList())->GetBoundsRect();
+	const JRect newBounds = GetRectList()->GetBoundsRect();
 	const JRect apG       = GetApertureGlobal();
 	const JCoordinate w   = JMax(newBounds.width(),  apG.width());
 	const JCoordinate h   = JMax(newBounds.height(), apG.height());
@@ -384,7 +383,7 @@ JXExprWidget::EIPClipboardChanged()
 		JXTextSelection* data = new JXTextSelection(GetDisplay(), text);
 		assert( data != NULL );
 
-		(GetSelectionManager())->SetData(kJXClipboardName, data);
+		GetSelectionManager()->SetData(kJXClipboardName, data);
 		}
 }
 

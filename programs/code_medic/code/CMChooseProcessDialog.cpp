@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMChooseProcessDialog.h"
 #include "CMProcessText.h"
 #include "GDBLink.h"

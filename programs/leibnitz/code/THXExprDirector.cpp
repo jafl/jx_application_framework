@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <thxStdInc.h>
 #include "THXExprDirector.h"
 #include "THXExprEditor.h"
 #include "THXTapeText.h"
@@ -126,7 +125,7 @@ THXExprDirector::THXExprDirector
 		itsTapeWidget->SetPTPrintFileName(printName);
 		}
 
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 	itsPartition->ReadGeometry(input);
 	itsExprWidget->ReadScrollSetup(input);
 	itsTapeWidget->ReadScrollSetup(input);
@@ -161,7 +160,7 @@ THXExprDirector::WriteState
 	output << ' ' << itsTapeWidget->GetPTPrintFileName();
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ';
 	itsPartition->WriteGeometry(output);
@@ -224,7 +223,7 @@ THXExprDirector::UseDefaultGeometry()
 			{
 			JCoordinate w,h;
 			input >> w >> h;
-			(GetWindow())->SetSize(w,h);
+			GetWindow()->SetSize(w,h);
 
 			itsPartition->ReadGeometry(input);
 			}
@@ -241,8 +240,8 @@ THXExprDirector::SetDefaultGeometry()
 {
 	std::ostringstream data;
 	data << kCurrentDefGeomVersion;
-	data << ' ' << (GetWindow())->GetFrameWidth();
-	data << ' ' << (GetWindow())->GetFrameHeight();
+	data << ' ' << GetWindow()->GetFrameWidth();
+	data << ' ' << GetWindow()->GetFrameHeight();
 	data << ' ';
 	itsPartition->WriteGeometry(data);
 
@@ -513,7 +512,7 @@ THXExprDirector::HandleActionsMenu
 
 	else if (index == kCloseWindowCmd)
 		{
-		(GetWindow())->Close();
+		GetWindow()->Close();
 		}
 	else if (index == kQuitCmd)
 		{

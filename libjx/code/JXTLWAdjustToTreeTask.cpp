@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXTLWAdjustToTreeTask.h>
 #include <JXTreeListWidget.h>
 

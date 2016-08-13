@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <thxStdInc.h>
 #include "THXMDIServer.h"
 #include "THXPrefsManager.h"
 #include "thxGlobals.h"

@@ -195,10 +195,10 @@ GAddressBookTreeWidget::GAddressBookTreeWidget
 	itsAddressBookMenu->SetItemImage(kNewBookCmd, itsBookIcon, kJFalse);
 	itsAddressBookMenu->SetItemImage(kShowCommentCmd, itsCommentIcon, kJFalse);
 
-/*	if (!(GetDisplay())->GetCursor(kEnvelopesCursorName, &itsDNDCursor))
+/*	if (!GetDisplay()->GetCursor(kEnvelopesCursorName, &itsDNDCursor))
 		{
 		itsDNDCursor =
-			(GetDisplay())->CreateCustomCursor(kEnvelopesCursorName, kEnvelopesCursor);
+			GetDisplay()->CreateCustomCursor(kEnvelopesCursorName, kEnvelopesCursor);
 		}*/
 
 	SetDrawOrder(JTable::kDrawByRow);
@@ -474,7 +474,7 @@ GAddressBookTreeWidget::HandleKeyPress
 						s.ExtendSelection(JPoint(2, oldBoat.y - 1));
 						TableScrollToCell(JPoint(1, oldBoat.y - 1));
 						TableRefresh();
-//						(GetWindow())->Update();
+//						GetWindow()->Update();
 						}
 					}
 				}
@@ -491,7 +491,7 @@ GAddressBookTreeWidget::HandleKeyPress
 				s.SetAnchor(JPoint(2, index));
 				TableScrollToCell(JPoint(1, index));
 				TableRefresh();
-//				(GetWindow())->Update();
+//				GetWindow()->Update();
 				}
 			}
 		else
@@ -517,7 +517,7 @@ GAddressBookTreeWidget::HandleKeyPress
 					if (oldBoat.y < (JCoordinate)GetRowCount())
 						{
 						s.ExtendSelection(JPoint(2, oldBoat.y + 1));
-//						(GetWindow())->Update();
+//						GetWindow()->Update();
 						TableScrollToCell(JPoint(1, oldBoat.y + 1));
 						TableRefresh();
 						}
@@ -536,7 +536,7 @@ GAddressBookTreeWidget::HandleKeyPress
 				s.SetAnchor(JPoint(2, index));
 				TableScrollToCell(JPoint(1, index));
 				TableRefresh();
-//				(GetWindow())->Update();
+//				GetWindow()->Update();
 				}
 			}
 		else
@@ -1196,7 +1196,7 @@ GAddressBookTreeWidget::HandleMouseDown
 					{
 					s.ExtendSelection(newBoat);
 					TableRefresh();
-//					(GetWindow())->Update();
+//					GetWindow()->Update();
 					}
 				}
 			else if (button == kJXLeftButton)
@@ -1209,7 +1209,7 @@ GAddressBookTreeWidget::HandleMouseDown
 						s.ClearBoat();
 						s.ClearAnchor();
 						TableRefreshRow(index);
-//						(GetWindow())->Update();
+//						GetWindow()->Update();
 						}
 					else
 						{
@@ -1217,7 +1217,7 @@ GAddressBookTreeWidget::HandleMouseDown
 						s.SetBoat(newBoat);
 						s.SetAnchor(newAnchor);
 						TableRefreshRow(index);
-//						(GetWindow())->Update();
+//						GetWindow()->Update();
 						}
 					}
 				else if (!s.IsSelected(index, 2))
@@ -1227,7 +1227,7 @@ GAddressBookTreeWidget::HandleMouseDown
 					s.SetBoat(newBoat);
 					s.SetAnchor(newAnchor);
 					TableRefresh();
-//					(GetWindow())->Update();
+//					GetWindow()->Update();
 					}
 				}
 			}
@@ -1726,7 +1726,7 @@ GAddressBookTreeWidget::HandleDNDDrop
 		JSize dataLength;
 		Atom returnType;
 		JXSelectionManager::DeleteMethod delMethod;
-		const Atom dndName = (GetDNDManager())->GetDNDSelectionName();
+		const Atom dndName = GetDNDManager()->GetDNDSelectionName();
 		if (selManager->GetData(dndName, time, textAtom,
 										 &returnType, &data, &dataLength, &delMethod))
 			{
@@ -2816,15 +2816,15 @@ GAddressBookTreeWidget::GetDNDAction
 {
 	if (modifiers.control())
 		{
-		return (GetDNDManager())->GetDNDActionAskXAtom();
+		return GetDNDManager()->GetDNDActionAskXAtom();
 		}
 	else if (modifiers.meta())
 		{
-		return (GetDNDManager())->GetDNDActionCopyXAtom();
+		return GetDNDManager()->GetDNDActionCopyXAtom();
 		}
 	else
 		{
-		return (GetDNDManager())->GetDNDActionMoveXAtom();
+		return GetDNDManager()->GetDNDActionMoveXAtom();
 		}
 }
 

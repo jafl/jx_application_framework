@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNUpdateList.h"
 #include "svnGlobals.h"
 #include <JProcess.h>

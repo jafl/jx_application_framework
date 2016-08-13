@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXButton.h>
 #include <JXWindow.h>
 #include <JXWindowPainter.h>
@@ -106,7 +105,7 @@ JXButton::DrawBorder
 	else if (borderWidth > 0)
 		{
 		p.SetLineWidth(borderWidth);
-		p.SetPenColor((GetColormap())->GetInactiveLabelColor());
+		p.SetPenColor(GetColormap()->GetInactiveLabelColor());
 		p.RectInside(origFrame);
 		}
 }

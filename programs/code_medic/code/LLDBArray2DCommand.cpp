@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "LLDBArray2DCommand.h"
 #include "CMArray2DDir.h"
 #include "CMVarNode.h"
@@ -64,15 +63,15 @@ LLDBArray2DCommand::HandleSuccess
 			GetSelectedTarget().GetProcess().GetSelectedThread().GetSelectedFrame();
 	if (!f.IsValid())
 		{
-		(GetDirector())->UpdateNext();
+		GetDirector()->UpdateNext();
 		return;
 		}
 
 	const JIndex max =
-		(GetType() == kRow ? (GetData())->GetColCount() : (GetData())->GetRowCount());
+		(GetType() == kRow ? GetData()->GetColCount() : GetData()->GetRowCount());
 	if (max == 0 || !ItsIndexValid())
 		{
-		(GetDirector())->UpdateNext();
+		GetDirector()->UpdateNext();
 		return;
 		}
 
@@ -80,7 +79,7 @@ LLDBArray2DCommand::HandleSuccess
 	for (JIndex i=1; i<=max; i++)
 		{
 		const JPoint cell = GetCell(i);
-		expr              = (GetDirector())->GetExpression(cell);
+		expr              = GetDirector()->GetExpression(cell);
 		lldb::SBValue v   = f.EvaluateExpression(expr);
 		if (!v.IsValid())
 			{
@@ -90,13 +89,13 @@ LLDBArray2DCommand::HandleSuccess
 
 		const JCharacter* value = v.GetValue();
 
-		const JString& origValue = (GetData())->GetString(cell);
+		const JString& origValue = GetData()->GetString(cell);
 		const JBoolean isNew     = JI2B(!origValue.IsEmpty() && origValue != value);
 
-		(GetData())->SetString(cell, value);
-		(GetTable())->SetCellStyle(cell,
-			CMVarNode::GetFontStyle(kJTrue, isNew, (GetTable())->GetColormap()));
+		GetData()->SetString(cell, value);
+		GetTable()->SetCellStyle(cell,
+			CMVarNode::GetFontStyle(kJTrue, isNew, GetTable()->GetColormap()));
 		}
 
-	(GetDirector())->UpdateNext();
+	GetDirector()->UpdateNext();
 }

@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBFileDragSource.h"
 #include "CBTextDocument.h"
 #include "CBDSSFinishSaveTask.h"
@@ -190,11 +189,11 @@ CBFileDragSource::GetDNDAction
 {
 	if (itsNameInput != NULL)
 		{
-		return (GetDNDManager())->GetDNDActionDirectSaveXAtom();
+		return GetDNDManager()->GetDNDActionDirectSaveXAtom();
 		}
 	else
 		{
-		return (GetDNDManager())->GetDNDActionCopyXAtom();
+		return GetDNDManager()->GetDNDActionCopyXAtom();
 		}
 }
 
@@ -211,5 +210,5 @@ CBFileDragSource::HandleDNDResponse
 	const Atom			action
 	)
 {
-	DisplayCursor((GetDNDManager())->GetDNDFileCursor(dropAccepted, action));
+	DisplayCursor(GetDNDManager()->GetDNDFileCursor(dropAccepted, action));
 }

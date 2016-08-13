@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <mdStdInc.h>
 #include "MDAboutDialog.h"
 #include "mdGlobals.h"
 #include "mdHelpText.h"

@@ -7,7 +7,6 @@
 	
  *****************************************************************************/
 
-#include <glStdInc.h>
 #include <GXTextSelection.h>
 
 #include <jAssert.h>

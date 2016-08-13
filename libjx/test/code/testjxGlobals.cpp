@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "testjxGlobals.h"
 #include "testjxHelpText.h"
 #include "TestDockManager.h"

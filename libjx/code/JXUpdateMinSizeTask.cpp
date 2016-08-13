@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXUpdateMinSizeTask.h>
 #include <JXDockWidget.h>
 

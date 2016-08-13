@@ -40,7 +40,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JKLRand.h>
 #include <jMath.h>
 #include <jAssert.h>

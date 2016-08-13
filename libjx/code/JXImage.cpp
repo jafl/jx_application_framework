@@ -19,7 +19,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXImage.h>
 #include <JXImageMask.h>
 #include <JXImagePainter.h>
@@ -176,7 +175,7 @@ JXImage::JXImageFromDrawable
 		assert( itsGC != NULL );
 		}
 
-	(GetGC())->CopyPixels(source, rect.left, rect.top,
+	GetGC()->CopyPixels(source, rect.left, rect.top,
 						  rect.width(), rect.height(), itsPixmap, 0,0);
 }
 
@@ -381,7 +380,7 @@ JXImage::JXImage
 							  GetWidth(), GetHeight(), itsDepth);
 	assert( itsPixmap != None );
 
-	(GetGC())->CopyPixels(sourcePixmap, rect.left, rect.top,
+	GetGC()->CopyPixels(sourcePixmap, rect.left, rect.top,
 						  GetWidth(), GetHeight(), itsPixmap, 0,0);
 
 	if (source.itsPixmap == None)
@@ -928,12 +927,12 @@ JXImage::CreatePixmap()
 
 	if (itsPixmap != None)
 		{
-		(GetGC())->CopyPixels(itsPixmap, 0,0, GetWidth(), GetHeight(),
+		GetGC()->CopyPixels(itsPixmap, 0,0, GetWidth(), GetHeight(),
 							  newPixmap, 0,0);
 		}
 	else if (itsImage != NULL)
 		{
-		(GetGC())->CopyImage(itsImage, 0,0, GetWidth(), GetHeight(),
+		GetGC()->CopyImage(itsImage, 0,0, GetWidth(), GetHeight(),
 							 newPixmap, 0,0);
 		}
 

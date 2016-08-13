@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXImageMask.h>
 #include <JXDisplay.h>
 #include <JXColormap.h>
@@ -289,7 +288,7 @@ JXImageMask::ContainsPixel
 	)
 	const
 {
-	return JConvertToBoolean( GetColor(x,y) == (GetColormap())->GetBlackColor() );
+	return JConvertToBoolean( GetColor(x,y) == GetColormap()->GetBlackColor() );
 }
 
 /******************************************************************************
@@ -304,7 +303,7 @@ JXImageMask::AddPixel
 	const JCoordinate y
 	)
 {
-	SetColor(x,y, (GetColormap())->GetBlackColor());
+	SetColor(x,y, GetColormap()->GetBlackColor());
 }
 
 /******************************************************************************

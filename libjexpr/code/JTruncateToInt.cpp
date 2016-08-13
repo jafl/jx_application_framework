@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JTruncateToInt.h>
 #include <jMath.h>
 #include <jErrno.h>
@@ -87,7 +86,7 @@ JTruncateToInt::Evaluate
 	const
 {
 	JFloat value;
-	if (!(GetArg())->Evaluate(&value))
+	if (!GetArg()->Evaluate(&value))
 		{
 		return kJFalse;
 		}
@@ -104,7 +103,7 @@ JTruncateToInt::Evaluate
 	const
 {
 	JComplex value;
-	if (!(GetArg())->Evaluate(&value))
+	if (!GetArg()->Evaluate(&value))
 		{
 		return kJFalse;
 		}

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestPartitionDirector.h"
 #include "TestCompartment.h"
 #include "SetElasticDialog.h"
@@ -260,7 +259,7 @@ TestPartitionDirector::CreateTestWidget
 void
 TestPartitionDirector::AdjustMinWindowSize()
 {
-	(GetWindow())->SetMinSize(itsHorizPartition->GetMinTotalSize(),
+	GetWindow()->SetMinSize(itsHorizPartition->GetMinTotalSize(),
 							  kMenuBarHeight + itsVertPartition->GetMinTotalSize());
 }
 

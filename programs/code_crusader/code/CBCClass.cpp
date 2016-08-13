@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBCClass.h"
 #include "CBTree.h"
 #include "CBTextDocument.h"
@@ -76,7 +75,7 @@ CBCClass::ViewSource()
 	else
 		{
 		docMgr->OpenComplementFile(headerName, kCBCHeaderFT,
-								   (GetTree())->GetProjectDoc());
+								   GetTree()->GetProjectDoc());
 		}
 }
 
@@ -222,7 +221,7 @@ CBCClass::FindDefinition
 	JString sourceName;
 	JIndex lineIndex;
 	if (docMgr->GetComplementFile(headerName, kCBCHeaderFT, &sourceName,
-								  (GetTree())->GetProjectDoc()) &&
+								  GetTree()->GetProjectDoc()) &&
 		docMgr->SearchFile(sourceName, searchStr, caseSensitive, &lineIndex))
 		{
 		docMgr->OpenTextDocument(sourceName, lineIndex, &doc);

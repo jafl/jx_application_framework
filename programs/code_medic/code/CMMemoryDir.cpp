@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMMemoryDir.h"
 #include "CMGetMemory.h"
 #include "CMArrayExprInput.h"
@@ -135,7 +134,7 @@ CMMemoryDir::CMMemoryDir
 
 	CMMemoryDirX(supervisor);
 
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 }
 
 // private
@@ -186,7 +185,7 @@ CMMemoryDir::StreamOut
 	output << ' ' << itsExpr;
 	output << ' ' << (long) itsDisplayType;
 	output << ' ' << itsItemCount;
-	(GetWindow())->WriteGeometry(output);	// must be last
+	GetWindow()->WriteGeometry(output);	// must be last
 }
 
 /******************************************************************************
@@ -342,7 +341,7 @@ CMMemoryDir::BuildWindow()
 	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
 	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
 
-	((GetDisplay())->GetWDManager())->DirectorCreated(this);
+	(GetDisplay()->GetWDManager())->DirectorCreated(this);
 }
 
 /******************************************************************************
@@ -355,7 +354,7 @@ CMMemoryDir::UpdateWindowTitle()
 {
 	JString title = itsExpr;
 	title += kWindowTitleSuffix;
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 }
 
 /******************************************************************************

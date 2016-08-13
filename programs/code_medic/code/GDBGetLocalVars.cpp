@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBGetLocalVars.h"
 #include "CMVarNode.h"
 #include "GDBVarTreeParser.h"

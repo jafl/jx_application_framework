@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <RedoLine.h>
 #include <UndoWidget.h>
 #include <jAssert.h>

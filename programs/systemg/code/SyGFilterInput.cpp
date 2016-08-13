@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include <SyGFilterInput.h>
 #include <JString.h>
 #include <JXWindow.h>

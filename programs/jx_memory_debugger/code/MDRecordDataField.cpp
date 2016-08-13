@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <mdStdInc.h>
 #include "MDRecordDataField.h"
 #include <jAssert.h>
 

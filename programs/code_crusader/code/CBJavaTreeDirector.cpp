@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBJavaTreeDirector.h"
 #include "CBJavaTree.h"
 #include "CBProjectDocument.h"
@@ -181,11 +180,11 @@ CBJavaTreeDirector::HandleTreeMenu
 
 	if (index == kEditSearchPathsCmd)
 		{
-		(GetProjectDoc())->EditSearchPaths(this);
+		GetProjectDoc()->EditSearchPaths(this);
 		}
 	else if (index == kUpdateCurrentCmd)
 		{
-		(GetProjectDoc())->UpdateSymbolDatabase();
+		GetProjectDoc()->UpdateSymbolDatabase();
 		}
 	else if (index == kForceMinMILinksCmd)
 		{

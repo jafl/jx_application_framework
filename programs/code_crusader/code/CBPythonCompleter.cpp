@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBPythonCompleter.h"
 #include <ctype.h>
 #include <jAssert.h>

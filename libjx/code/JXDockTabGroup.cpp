@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDockTabGroup.h>
 #include <JXDockManager.h>
 #include <JXDockDirector.h>
@@ -292,7 +291,7 @@ JXDockTabGroup::HandleDockContextMenu
 		}
 	else if (index == kUndockAllCmd)
 		{
-		(GetDisplay())->UndockAllWindows();
+		GetDisplay()->UndockAllWindows();
 		}
 
 	else if (index == kUpdateWindowTypeMapCmd)

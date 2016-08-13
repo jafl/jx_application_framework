@@ -12,7 +12,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JVector.h>
 #include <JMatrix.h>
 #include <jMath.h>

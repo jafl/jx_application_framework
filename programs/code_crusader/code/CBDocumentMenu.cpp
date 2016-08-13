@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBDocumentMenu.h"
 #include "CBProjectDocument.h"
 #include "CBSearchDocument.h"
@@ -75,7 +74,7 @@ CBDocumentMenu::Receive
 	)
 {
 	if (sender == this && message.Is(JXMenu::kItemSelected) &&
-		((GetDisplay())->GetLatestKeyModifiers()).GetState(JXMenu::AdjustNMShortcutModifier(kJXMetaKeyIndex)))
+		(GetDisplay()->GetLatestKeyModifiers()).GetState(JXMenu::AdjustNMShortcutModifier(kJXMetaKeyIndex)))
 		{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);

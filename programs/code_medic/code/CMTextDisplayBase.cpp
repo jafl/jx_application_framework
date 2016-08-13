@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMTextDisplayBase.h"
 #include "cmGlobals.h"
 #include "cbmUtil.h"

@@ -14,7 +14,6 @@
  *****************************************************************************/
 
 //Library Header
-#include <JCoreStdInc.h>
 #include <jHashFunctions.h>
 
 #include <jAssert.h>

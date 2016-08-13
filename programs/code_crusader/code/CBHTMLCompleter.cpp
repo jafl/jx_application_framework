@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBHTMLCompleter.h"
 #include <ctype.h>
 #include <jAssert.h>

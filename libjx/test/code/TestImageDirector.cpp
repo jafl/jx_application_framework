@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestImageDirector.h"
 #include <JXImageMask.h>
 #include <JXDisplay.h>
@@ -432,7 +431,7 @@ TestImageDirector::CopyImage()
 		{
 		JXImageSelection* data = new JXImageSelection(*image);
 		assert( data != NULL );
-		((GetDisplay())->GetSelectionManager())->SetData(kJXClipboardName, data);
+		(GetDisplay()->GetSelectionManager())->SetData(kJXClipboardName, data);
 		}
 }
 

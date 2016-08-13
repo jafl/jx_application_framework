@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMEditCommandsTable.h"
 #include "CMEditCommandsDialog.h"
 #include "CMUpdateCommandsTableWidth.h"
@@ -79,7 +78,7 @@ CMEditCommandsTable::SyncWithData()
 	AppendRows(count, kDefRowHeight);
 
 	const JSize fontHeight =
-		(GetFontManager())->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle());
+		GetFontManager()->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle());
 	const JCoordinate rowHeight = fontHeight + 2*kVMarginWidth;
 	SetDefaultRowHeight(rowHeight);
 	SetAllRowHeights(rowHeight);

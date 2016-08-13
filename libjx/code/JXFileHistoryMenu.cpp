@@ -18,7 +18,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXFileHistoryMenu.h>
 #include <JXImage.h>
 #include <JString.h>

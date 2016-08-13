@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GLPolyFitDialog.h"
 #include "GVarList.h"
 

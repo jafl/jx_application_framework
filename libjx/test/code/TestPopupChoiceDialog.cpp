@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestPopupChoiceDialog.h"
 #include "SmileyBitmaps.h"
 #include <JXWindow.h>

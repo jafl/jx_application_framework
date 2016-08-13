@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "LLDBDisplaySourceForMain.h"
 #include "CMSourceDirector.h"
 #include "LLDBLink.h"
@@ -114,7 +113,7 @@ LLDBDisplaySourceForMain::HandleSuccess
 					}
 
 				JString fullName = JCombinePathAndName(file.GetDirectory(), file.GetFilename());
-				(GetSourceDir())->DisplayFile(fullName, line, kJFalse);
+				GetSourceDir()->DisplayFile(fullName, line, kJFalse);
 				found = kJTrue;
 				}
 			}
@@ -125,6 +124,6 @@ LLDBDisplaySourceForMain::HandleSuccess
 		{
 		(CMGetLink())->Log("LLDBDisplaySourceForMain failed to find 'main'");
 
-		(GetSourceDir())->ClearDisplay();
+		GetSourceDir()->ClearDisplay();
 		}
 }

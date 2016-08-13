@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GLAboutDialog.h"
 #include <GLHelpText.h>
 

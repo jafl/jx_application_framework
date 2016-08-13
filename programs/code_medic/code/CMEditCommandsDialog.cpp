@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include <CMEditCommandsDialog.h>
 #include <CMEditCommandsTable.h>
 #include <CMPrefsManager.h>

@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXImageCache.h>
 #include <JXDisplay.h>
 #include <JXImage.h>

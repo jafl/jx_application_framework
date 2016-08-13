@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include <CMLocation.h>
 #include <jDirUtil.h>
 #include <jAssert.h>

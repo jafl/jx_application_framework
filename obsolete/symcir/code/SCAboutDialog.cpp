@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCAboutDialog.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>

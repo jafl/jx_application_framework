@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "JXProgressTask.h"
 #include <JLatentPG.h>
 #include <JString.h>

@@ -8,7 +8,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jFStreamUtil.h>
 #include <fcntl.h>
 #include <unistd.h>

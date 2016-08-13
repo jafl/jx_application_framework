@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JOrderedSet.h>
 #include <JOrderedSetUtil.h>
 

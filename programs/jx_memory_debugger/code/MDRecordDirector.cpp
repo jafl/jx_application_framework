@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <mdStdInc.h>
 #include "MDRecordDirector.h"
 #include "MDRecordTable.h"
 #include "MDHeaderWidget.h"
@@ -244,7 +243,7 @@ MDRecordDirector::BuildWindow
 		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
 		}
 
-	((GetDisplay())->GetWDManager())->DirectorCreated(this);
+	(GetDisplay()->GetWDManager())->DirectorCreated(this);
 }
 
 /******************************************************************************

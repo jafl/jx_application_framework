@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCEditScratchTitleDialog.h"
 
 #include <JXWindow.h>

@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <askStdInc.h>
 #include "ASKApp.h"
 #include "askStringData.h"
 #include "askGlobals.h"

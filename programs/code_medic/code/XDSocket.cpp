@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "XDSocket.h"
 #include "XDLink.h"
 #include "cmGlobals.h"

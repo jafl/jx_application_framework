@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include "util.h"
 #include <j_prep_ace.h>
 #include <ace/SOCK_Acceptor.h>

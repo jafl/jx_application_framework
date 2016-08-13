@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JFunction.h>
 #include <jParseFunction.h>
 #include <JExprRenderer.h>

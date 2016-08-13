@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "scNetlistUtil.h"
 #include <string.h>
 

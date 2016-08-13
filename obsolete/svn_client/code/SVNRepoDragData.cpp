@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNRepoDragData.h"
 #include <JXDisplay.h>
 #include <jAssert.h>

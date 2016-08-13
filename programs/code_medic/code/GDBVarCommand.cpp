@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBVarCommand.h"
 #include "GDBVarTreeParser.h"
 #include "cmGlobals.h"

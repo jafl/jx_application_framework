@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GRaggedFloatTableData.h"
 #include <jAssert.h>
 

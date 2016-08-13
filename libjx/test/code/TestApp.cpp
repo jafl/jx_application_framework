@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestApp.h"
 #include "TestDirector.h"
 #include "AboutDialog.h"

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXPGMessageDirector.h>
 #include <JXDisplay.h>
 #include <JXWindow.h>
@@ -99,7 +98,7 @@ JXPGMessageDirector::BuildWindow()
 						 0,0, 10,10);
 	itsMessageText->FitToEnclosure();
 
-	itsMessageText->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize);
+	itsMessageText->SetDefaultFont(window->GetFontManager()->GetDefaultMonospaceFont());
 }
 
 /******************************************************************************
@@ -123,7 +122,7 @@ JXPGMessageDirector::AddMessageLine
 		}
 
 	itsMessageText->Paste(text);
-	(GetWindow())->Update();
+	GetWindow()->Update();
 }
 
 /******************************************************************************
@@ -141,7 +140,7 @@ JXPGMessageDirector::AddMessageString
 {
 	itsMessageText->SetCaretLocation(itsMessageText->GetTextLength() + 1);
 	itsMessageText->Paste(text);
-	(GetWindow())->Update();
+	GetWindow()->Update();
 }
 
 /******************************************************************************
@@ -152,8 +151,8 @@ JXPGMessageDirector::AddMessageString
 void
 JXPGMessageDirector::ProcessFinished()
 {
-	(GetWindow())->SetCloseAction(JXWindow::kCloseDirector);
-	(GetWindow())->Show();
+	GetWindow()->SetCloseAction(JXWindow::kCloseDirector);
+	GetWindow()->Show();
 
 	itsPrintButton->Show();
 	itsSaveButton->Show();

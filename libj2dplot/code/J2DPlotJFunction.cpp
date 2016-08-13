@@ -5,7 +5,6 @@
 
  ********************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <J2DPlotJFunction.h>
 #include <jParseFunction.h>
 #include <JVariableList.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMClearSourceDisplayTask.h"
 #include "CMSourceDirector.h"
 #include <jAssert.h>

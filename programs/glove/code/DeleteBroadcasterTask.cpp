@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include <DeleteBroadcasterTask.h>
 
 #include <JXApplication.h>

@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXAssert.h>
 #include <JXApplication.h>
 #include <JXDisplay.h>

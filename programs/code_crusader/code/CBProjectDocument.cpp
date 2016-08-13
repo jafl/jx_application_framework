@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBProjectDocument.h"
 #include "CBProjectTable.h"
 #include "CBProjectTree.h"
@@ -608,17 +607,17 @@ CBProjectDocument::CBProjectDocument
 
 	if (!useProjSetData)
 		{
-		(GetWindow())->ReadGeometry(*setInput);
+		GetWindow()->ReadGeometry(*setInput);
 		}
 	if (33 <= projVers && projVers < 71 && useProjSetData)
 		{
-		(GetWindow())->ReadGeometry(projInput);
+		GetWindow()->ReadGeometry(projInput);
 		}
 	else if (33 <= projVers && projVers < 71)
 		{
 		JXWindow::SkipGeometry(projInput);
 		}
-	(GetWindow())->Deiconify();
+	GetWindow()->Deiconify();
 
 	itsFileTable->ReadSetup(projInput, projVers, setInput, setVers);
 
@@ -928,7 +927,7 @@ CBProjectDocument::WriteFiles
 	if (setOutput != NULL)
 		{
 		*setOutput << ' ';
-		(GetWindow())->WriteGeometry(*setOutput);
+		GetWindow()->WriteGeometry(*setOutput);
 		}
 
 	cbWriteSpace(projOutput, setOutput, symOutput);
@@ -2504,7 +2503,7 @@ CBProjectDocument::SymbolUpdateProgress()
 		itsUpdateCounter->Hide();
 		itsUpdateCleanUpIndicator->Hide();
 		itsUpdateLabel->SetText(JGetString("ReloadingSymbols::CBProjectDocument"));
-		(GetWindow())->Redraw();
+		GetWindow()->Redraw();
 
 		std::ostringstream pgOutput;
 		itsAllFileDirector->GetFileListTable()->Update(
@@ -2526,7 +2525,7 @@ CBProjectDocument::SymbolUpdateProgress()
 		itsUpdateCounter->Hide();
 		itsUpdateCleanUpIndicator->Hide();
 		itsUpdateLabel->SetText(JGetString("ReloadingSymbols::CBProjectDocument"));
-		(GetWindow())->Redraw();
+		GetWindow()->Redraw();
 
 		*itsUpdateStream << kSymbolTableLocked << endl;
 

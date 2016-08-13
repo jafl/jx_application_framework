@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMAdjustLineTableToTextTask.h"
 #include "CMLineIndexTable.h"
 #include <jAssert.h>

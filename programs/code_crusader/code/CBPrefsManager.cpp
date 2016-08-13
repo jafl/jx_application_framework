@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBPrefsManager.h"
 #include "CBEditFileTypesDialog.h"
 #include "CBEditMacroDialog.h"

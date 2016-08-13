@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JX3DWidget.h>
 #include <J3DCamera.h>
 #include <JXWindow.h>
@@ -52,11 +51,11 @@ JX3DWidget::JX3DWidget
 	itsCamera = NULL;
 
 	SetBorderWidth(kJXDefaultBorderWidth);
-	SetBackColor((GetColormap())->GetBlackColor());
-	SetFocusColor((GetColormap())->GetBlackColor());
+	SetBackColor(GetColormap()->GetBlackColor());
+	SetFocusColor(GetColormap()->GetBlackColor());
 
 // can't do this until JXMesaCamera can give the buffer pixmap to Mesa
-//	(GetWindow())->UsePixmapAsBackground(kJTrue);
+//	GetWindow()->UsePixmapAsBackground(kJTrue);
 }
 
 /******************************************************************************
@@ -253,14 +252,14 @@ JX3DWidget::ContinueDrag
 		r1.SetElements(
 			cos(lon), -sin(lon), 0.0,
 			sin(lon),  cos(lon), 0.0,
-			     0.0,       0.0, 1.0);
+				 0.0,       0.0, 1.0);
 
 		// inverse: rotate around y-axis for complete alignment of x-axis towards viewer
 
 		JMatrix r2(3, 3);
 		r2.SetElements(
 			cos(lat), 0.0, -sin(lat),
-			     0.0, 1.0,       0.0,
+				 0.0, 1.0,       0.0,
 			sin(lat), 0.0,  cos(lat));
 
 		// inverse: rotate around x-axis to align y-axis with drag direction

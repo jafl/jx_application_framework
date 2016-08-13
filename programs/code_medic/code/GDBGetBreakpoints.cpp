@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBGetBreakpoints.h"
 #include "CMBreakpointManager.h"
 #include "GDBLink.h"

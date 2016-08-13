@@ -37,7 +37,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMCommand.h"
 #include "cmGlobals.h"
 #include <jAssert.h>

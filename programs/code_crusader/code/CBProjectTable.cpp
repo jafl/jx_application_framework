@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBProjectTable.h"
 #include "CBProjectTree.h"
 #include "CBGroupNode.h"
@@ -113,7 +112,7 @@ CBProjectTable::CBProjectTable
 
 	itsLockedSelDepthFlag = kJFalse;
 
-	itsEditMenu = (GetEditMenuHandler())->AppendEditMenu(menuBar);
+	itsEditMenu = GetEditMenuHandler()->AppendEditMenu(menuBar);
 	ListenTo(itsEditMenu);
 
 	itsContextMenu          = NULL;
@@ -150,7 +149,7 @@ CBProjectTable::GetProjectNode
 	const JIndex index
 	)
 {
-	CBProjectNode* node = dynamic_cast<CBProjectNode*>((GetTreeList())->GetNode(index));
+	CBProjectNode* node = dynamic_cast<CBProjectNode*>(GetTreeList()->GetNode(index));
 	assert( node != NULL );
 	return node;
 }
@@ -162,7 +161,7 @@ CBProjectTable::GetProjectNode
 	)
 	const
 {
-	const CBProjectNode* node = dynamic_cast<const CBProjectNode*>((GetTreeList())->GetNode(index));
+	const CBProjectNode* node = dynamic_cast<const CBProjectNode*>(GetTreeList()->GetNode(index));
 	assert( node != NULL );
 	return node;
 }
@@ -202,7 +201,7 @@ CBProjectTable::NewGroup
 	JPoint cell;
 	if ((GetTableSelection()).GetLastSelectedCell(&cell))
 		{
-		const JTreeNode* node = (GetTreeList())->GetNode(cell.y);
+		const JTreeNode* node = GetTreeList()->GetNode(cell.y);
 		if (node->GetDepth() == kFileDepth)
 			{
 			node = node->GetParent();
@@ -216,7 +215,7 @@ CBProjectTable::NewGroup
 		}
 
 	JIndex index;
-	const JBoolean found = (GetTreeList())->FindNode(newNode, &index);
+	const JBoolean found = GetTreeList()->FindNode(newNode, &index);
 	assert( found );
 	BeginEditing(JPoint(GetNodeColIndex(), index));
 	return kJTrue;
@@ -256,7 +255,7 @@ CBProjectTable::AddDirectoryTree
 
 	assert( itsAddFilesFilterDialog == NULL );
 	itsAddFilesFilterDialog =
-		new JXGetStringDialog((GetWindow())->GetDirector(),
+		new JXGetStringDialog(GetWindow()->GetDirector(),
 							  JGetString("AddFilesTitle::CBProjectTable"),
 							  JGetString("AddFilesPrompt::CBProjectTable"),
 							  CBProjectDocument::GetAddFilesFilter());
@@ -538,7 +537,7 @@ CBProjectTable::GetDepth
 	)
 	const
 {
-	return ((GetTreeList())->GetNode(index))->GetDepth();
+	return (GetTreeList()->GetNode(index))->GetDepth();
 }
 
 /******************************************************************************
@@ -944,12 +943,12 @@ CBProjectTable::Receive
 
 		// JXTreeListWidget preserves the current, valid selection
 
-		else if (sender == (GetTreeList())->GetTree() &&
+		else if (sender == GetTreeList()->GetTree() &&
 				 message.Is(JTree::kPrepareForNodeMove))
 			{
 			itsIgnoreSelChangesFlag = kJTrue;
 			}
-		else if (sender == (GetTreeList())->GetTree() &&
+		else if (sender == GetTreeList()->GetTree() &&
 				 message.Is(JTree::kNodeMoveFinished))
 			{
 			itsIgnoreSelChangesFlag = kJFalse;
@@ -1038,7 +1037,7 @@ CBProjectTable::UpdateSelDepth()
 	const JTableSelection& s = GetTableSelection();
 
 	JPoint cell1, cell2;
-	if (s.GetAnchor(&cell1) && (GetTreeList())->IndexValid(cell1.y))
+	if (s.GetAnchor(&cell1) && GetTreeList()->IndexValid(cell1.y))
 		{
 		// maintain depth during JTableSelection::UndoSelection()
 
@@ -1050,7 +1049,7 @@ CBProjectTable::UpdateSelDepth()
 		}
 	else if (s.GetFirstSelectedCell(&cell1) &&
 			 s.GetLastSelectedCell(&cell2) &&
-			 ((cell1.y == cell2.y && (GetTreeList())->IndexValid(cell1.y)) ||
+			 ((cell1.y == cell2.y && GetTreeList()->IndexValid(cell1.y)) ||
 			  itsSelDepth == kEitherDepth))
 		{
 		itsSelDepth = GetDepth(cell1.y);
@@ -1531,7 +1530,7 @@ CBProjectTable::GetDNDAction
 	const JXKeyModifiers&	modifiers
 	)
 {
-	return (GetDNDManager())->GetDNDActionPrivateXAtom();
+	return GetDNDManager()->GetDNDActionPrivateXAtom();
 }
 
 /******************************************************************************
@@ -1549,7 +1548,7 @@ CBProjectTable::HandleDNDResponse
 {
 	if (itsSelDepth == kFileDepth)
 		{
-		DisplayCursor((GetDNDManager())->GetDNDFileCursor(dropAccepted, action));
+		DisplayCursor(GetDNDManager()->GetDNDFileCursor(dropAccepted, action));
 		}
 	else
 		{
@@ -1579,14 +1578,14 @@ CBProjectTable::WillAcceptDrop
 		return kJTrue;
 		}
 
-	const Atom urlXAtom = (GetSelectionManager())->GetURLXAtom();
+	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
 
 	const JSize typeCount = typeList.GetElementCount();
 	for (JIndex i=1; i<=typeCount; i++)
 		{
 		if (typeList.GetElement(i) == urlXAtom)
 			{
-			*action = (GetDNDManager())->GetDNDActionPrivateXAtom();
+			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			return kJTrue;
 			}
 		}
@@ -1766,12 +1765,12 @@ CBProjectTable::HandleDNDDrop
 {
 	if (source == this && itsSelDepth == kFileDepth && itsDNDAction == kDNDFileBombsight)
 		{
-		JTreeNode* node = (GetTreeList())->GetNode(itsDNDCell.y);
+		JTreeNode* node = GetTreeList()->GetNode(itsDNDCell.y);
 		InsertFileSelectionAfter(node);
 		}
 	else if (source == this && itsSelDepth == kFileDepth && itsDNDAction == kDNDAppendToGroup)
 		{
-		JTreeNode* groupNode = (GetTreeList())->GetNode(itsDNDCell.y);
+		JTreeNode* groupNode = GetTreeList()->GetNode(itsDNDCell.y);
 		AppendFileSelectionToGroup(groupNode);
 		}
 	else if (source == this && itsSelDepth == kFileDepth && itsDNDAction == kDNDNewGroup)
@@ -1783,7 +1782,7 @@ CBProjectTable::HandleDNDDrop
 	else if (source == this && itsSelDepth == kGroupDepth && itsDNDAction == kDNDGroupBombsight)
 		{
 		JTreeNode* groupNode = (CellValid(itsDNDCell) ?
-								(GetTreeList())->GetNode(itsDNDCell.y) :
+								GetTreeList()->GetNode(itsDNDCell.y) :
 								(JTreeNode*) NULL);
 		InsertGroupSelectionBefore(groupNode);
 		}
@@ -1947,7 +1946,7 @@ CBProjectTable::InsertGroupSelectionBefore
 	JPtrArray<JTreeNode> list(JPtrArrayT::kForgetAll);
 	GetSelectedNodes(&list);
 
-	JTreeNode* root   = ((GetTreeList())->GetTree())->GetRoot();
+	JTreeNode* root   = (GetTreeList()->GetTree())->GetRoot();
 	const JSize count = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
@@ -2000,7 +1999,7 @@ CBProjectTable::InsertExtDroppedFiles
 	if (added && itsDNDAction == kDNDFileBombsight &&
 		GetDepth(itsDNDCell.y) == kGroupDepth)
 		{
-		JTreeNode* node = (GetTreeList())->GetNode(itsDNDCell.y);
+		JTreeNode* node = GetTreeList()->GetNode(itsDNDCell.y);
 		InsertFileSelectionAfter(node);
 		}
 }
@@ -2102,7 +2101,7 @@ CBProjectTable::CopySelectedNames()
 		JXTextSelection* data = new JXTextSelection(GetDisplay(), list);
 		assert( data != NULL );
 
-		(GetSelectionManager())->SetData(kJXClipboardName, data);
+		GetSelectionManager()->SetData(kJXClipboardName, data);
 		}
 }
 

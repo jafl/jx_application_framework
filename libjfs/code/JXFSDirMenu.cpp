@@ -15,7 +15,6 @@
 
  *****************************************************************************/
 
-#include <JXStdInc.h>
 #include "JXFSDirMenu.h"
 #include <JXApplication.h>
 #include <JXMenuManager.h>
@@ -392,7 +391,7 @@ JXFSDirMenu::UpdateSelf()
 
 		if (!ok)
 			{
-			(GetMenuManager())->CloseCurrentMenus();
+			GetMenuManager()->CloseCurrentMenus();
 			return;
 			}
 		}
@@ -426,7 +425,7 @@ JXFSDirMenu::UpdateSelf()
 				}
 			}
 
-		(GetDisplay())->DispatchCursor();	// manual because we are dragging
+		GetDisplay()->DispatchCursor();	// manual because we are dragging
 		}
 }
 

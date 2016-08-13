@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBSearchColormap.h"
 #include <jAssert.h>
 

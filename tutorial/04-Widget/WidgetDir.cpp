@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "WidgetDir.h"
 #include "Widget.h"
 #include <JXWindow.h>

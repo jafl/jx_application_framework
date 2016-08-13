@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "JVMArray2DCommand.h"
 #include <jAssert.h>
 

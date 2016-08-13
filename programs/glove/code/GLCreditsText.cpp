@@ -5,7 +5,6 @@ GLCreditsText.cc
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GLHelpText.h"
 
 const JCharacter* kGLCreditsName  = "GLCredits";

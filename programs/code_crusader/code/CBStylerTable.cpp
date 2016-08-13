@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBStylerTable.h"
 #include "CBStylerTableInput.h"
 #include "CBStylerTableMenu.h"
@@ -386,7 +385,7 @@ CBStylerTable::AddRow()
 {
 	if (EndEditing() && itsAllowEditFlag)
 		{
-		(GetStringData())->AppendRows(1);
+		GetStringData()->AppendRows(1);
 		BeginEditing(JPoint(1, GetRowCount()));
 		}
 }

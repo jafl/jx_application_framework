@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include "JFSBinding.h"
 #include <JRegex.h>
 #include <JSubstitute.h>

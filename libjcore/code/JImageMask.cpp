@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JImageMask.h>
 #include <JImage.h>
 #include <jAssert.h>

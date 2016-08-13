@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMDebuggerProgramInput.h"
 #include <JXColormap.h>
 #include <jProcessUtil.h>
@@ -102,7 +101,7 @@ void
 CMDebuggerProgramInput::AdjustStylesBeforeRecalc
 	(
 	const JString&		buffer,
-	JRunArray<Font>*	styles,
+	JRunArray<JFont>*	styles,
 	JIndexRange*		recalcRange,
 	JIndexRange*		redrawRange,
 	const JBoolean		deletion
@@ -116,7 +115,7 @@ CMDebuggerProgramInput::AdjustStylesBeforeRecalc
 		Font f = styles->GetFirstElement();
 		styles->RemoveAll();
 
-		f.style.color = (GetColormap())->GetBlackColor();
+		f.style.color = GetColormap()->GetBlackColor();
 		styles->AppendElements(f, totalLength);
 
 		*redrawRange += JIndexRange(1, totalLength);

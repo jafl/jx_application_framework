@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "XDGetCompletions.h"
 #include "CMCommandInput.h"
 #include <jAssert.h>

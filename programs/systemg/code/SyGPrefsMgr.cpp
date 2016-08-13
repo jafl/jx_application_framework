@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGPrefsMgr.h"
 #include "SyGEditPrefsDialog.h"
 #include "SyGViewManPageDialog.h"

@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBVarNode.h"
 #include "CMVarCommand.h"
 #include "cmGlobals.h"

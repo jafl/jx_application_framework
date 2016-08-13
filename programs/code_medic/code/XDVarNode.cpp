@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "XDVarNode.h"
 #include "CMVarCommand.h"
 #include "cmGlobals.h"

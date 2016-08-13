@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JVariableValue.h>
 #include <JVariableList.h>
 #include <jAssert.h>
@@ -93,7 +92,7 @@ JVariableValue::Evaluate
 	JIndex arrayIndex;
 	if (EvaluateArrayIndex(&arrayIndex))
 		{
-		return (GetVariableList())->
+		return GetVariableList()->
 			GetNumericValue(GetVariableIndex(), arrayIndex, result);
 		}
 	else
@@ -112,7 +111,7 @@ JVariableValue::Evaluate
 	JIndex arrayIndex;
 	if (EvaluateArrayIndex(&arrayIndex))
 		{
-		return (GetVariableList())->
+		return GetVariableList()->
 			GetNumericValue(GetVariableIndex(), arrayIndex, result);
 		}
 	else
@@ -147,6 +146,6 @@ JVariableValue::SetVariableIndex
 	const JIndex variableIndex
 	)
 {
-	assert( (GetVariableList())->IsNumeric(variableIndex) );
+	assert( GetVariableList()->IsNumeric(variableIndex) );
 	JFunctionWithVar::SetVariableIndex(variableIndex);
 }

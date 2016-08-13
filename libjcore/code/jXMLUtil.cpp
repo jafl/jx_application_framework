@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include "jXMLUtil.h"
 #include <jAssert.h>
 

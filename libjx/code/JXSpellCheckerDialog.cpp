@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXSpellCheckerDialog.h>
 #include <JXSpellChecker.h>
 #include <JXWindow.h>
@@ -236,7 +235,7 @@ JXSpellCheckerDialog::BuildWindow()
 	const JCoordinate ww = wFrame.width();
 	const JCoordinate wh = wFrame.height();
 
-	const JRect rootBounds = (GetDisplay())->GetBounds();
+	const JRect rootBounds = GetDisplay()->GetBounds();
 
 	JXWindow* w        = itsEditor->GetWindow();
 	const JRect eFrame = w->GlobalToRoot(w->GetFrameGlobal());

@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCComponentMenu.h"
 #include "SCCircuit.h"
 #include "SCComponent.h"

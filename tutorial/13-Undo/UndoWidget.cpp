@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "UndoWidget.h"
 #include "UndoLine.h"
 #include "RedoLine.h"
@@ -88,7 +87,7 @@ UndoWidget::Draw
 	)
 {
 	// Set pen color
-	p.SetPenColor((GetColormap())->GetBlackColor());
+	p.SetPenColor(GetColormap()->GetBlackColor());
 
 	// Find out how many points there are
 	// There are count/2 lines

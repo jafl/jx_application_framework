@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMArray1DDir.h"
 #include "CMArrayExprInput.h"
 #include "CMArrayIndexInput.h"
@@ -135,7 +134,7 @@ CMArray1DDir::CMArray1DDir
 {
 	input >> itsExpr >> itsRequestRange;
 	CMArray1DDirX(supervisor);
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 }
 
 // private
@@ -183,7 +182,7 @@ CMArray1DDir::StreamOut
 {
 	output << ' ' << itsExpr;
 	output << ' ' << itsRequestRange;
-	(GetWindow())->WriteGeometry(output);	// must be last
+	GetWindow()->WriteGeometry(output);	// must be last
 }
 
 /******************************************************************************
@@ -362,7 +361,7 @@ CMArray1DDir::BuildWindow()
 	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
 	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
 
-	((GetDisplay())->GetWDManager())->DirectorCreated(this);
+	(GetDisplay()->GetWDManager())->DirectorCreated(this);
 }
 
 /******************************************************************************
@@ -375,7 +374,7 @@ CMArray1DDir::UpdateWindowTitle()
 {
 	JString title = itsExpr;
 	title += kWindowTitleSuffix;
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 }
 
 /******************************************************************************

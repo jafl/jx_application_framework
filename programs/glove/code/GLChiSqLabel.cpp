@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include <GLChiSqLabel.h>
 
 #include <JXColormap.h>

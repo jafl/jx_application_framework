@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GLPlotApp.h"
 #include "GXDataDocument.h"
 #include "GLGlobals.h"
@@ -76,7 +75,7 @@ GLPlotApp::GLPlotApp
 
 	if (!*displayAbout)
 		{
-		*prevVersStr = (GetPrefsMgr())->GetGloveVersionStr();
+		*prevVersStr = GetPrefsMgr()->GetGloveVersionStr();
 		if (*prevVersStr == JGetString("VERSION"))
 			{
 			prevVersStr->Clear();

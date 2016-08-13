@@ -15,7 +15,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXStandAlonePG.h>
 #include <JXFixLenPGDirector.h>
 #include <JXVarLenPGDirector.h>

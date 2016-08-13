@@ -16,7 +16,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "Widget.h"
 #include <JXWidget.h>
 #include <JXWindowPainter.h>

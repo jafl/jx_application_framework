@@ -8,7 +8,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include <GLPlotApp.h>
 #include "GLMDIServer.h"
 #include "GLPrefsMgr.h"

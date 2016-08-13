@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <mdStdInc.h>
 #include "MDMDIServer.h"
 #include "mdGlobals.h"
 #include <jAssert.h>

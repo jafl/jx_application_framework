@@ -12,7 +12,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBLink.h"
 #include "GDBScanner.h"
 #include "GDBPingTask.h"

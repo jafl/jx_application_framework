@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "LLDBGetRegisters.h"
 #include "lldb/API/SBCommandInterpreter.h"
 #include "lldb/API/SBCommandReturnObject.h"
@@ -68,6 +67,6 @@ LLDBGetRegisters::HandleSuccess
 	// https://llvm.org/bugs/show_bug.cgi?id=26421
 	if (result.IsValid() && result.Succeeded() /* && result.HasResult() */)
 		{
-		(GetDirector())->Update(result.GetOutput());
+		GetDirector()->Update(result.GetOutput());
 		}
 }

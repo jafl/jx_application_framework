@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include <SyGPathInput.h>
 #include <JString.h>
 #include <JXWindow.h>

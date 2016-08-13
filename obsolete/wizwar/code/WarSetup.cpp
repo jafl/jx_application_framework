@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "WarSetup.h"
 #include "warFileVersions.h"
 #include "wwUtil.h"

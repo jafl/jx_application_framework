@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXImageButton.h>
 #include <JXWindowPainter.h>
 #include <JXImage.h>
@@ -66,11 +65,11 @@ JXImageButton::SetBitmap
 {
 	const JColorIndex foreColor =
 		(origForeColor == kJXTransparentColor ?
-		 (GetColormap())->GetBlackColor() : origForeColor);
+		 GetColormap()->GetBlackColor() : origForeColor);
 
 	const JColorIndex backColor =
 		(origBackColor == kJXTransparentColor ?
-		 (GetColormap())->GetDefaultBackColor() : origBackColor);
+		 GetColormap()->GetDefaultBackColor() : origBackColor);
 
 	if (itsOwnsImageFlag)
 		{
@@ -118,7 +117,7 @@ JXImageButton::SetImage
 {
 	const JColorIndex backColor =
 		(origBackColor == kJXTransparentColor ?
-		 (GetColormap())->GetDefaultBackColor() : origBackColor);
+		 GetColormap()->GetDefaultBackColor() : origBackColor);
 
 	if (image != itsImage)
 		{

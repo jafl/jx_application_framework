@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "DataTableDir.h"
 #include "DataTable.h"
 #include <JXWindow.h>

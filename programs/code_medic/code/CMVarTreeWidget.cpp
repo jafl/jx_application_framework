@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMVarTreeWidget.h"
 #include "CMVarNode.h"
 #include "CMCommandDirector.h"
@@ -130,7 +129,7 @@ CMVarTreeWidget::CMVarTreeWidget
 	SetFont(name, size);
 
 	SetIndentWidth(kIndentWidth *
-		(GetFontManager())->GetCharWidth(name, size, JFontStyle(), '0'));
+		GetFontManager()->GetCharWidth(name, size, JFontStyle(), '0'));
 
 	ListenTo(CMGetLink());
 	ListenTo(&(GetTableSelection()));
@@ -165,7 +164,7 @@ CMVarTreeWidget::NewExpression
 	const JCharacter* expr1 = JStringEmpty(expr) ? "" : expr;
 
 	CMVarNode* node =
-		(CMGetLink())->CreateVarNode(((GetTreeList())->GetTree())->GetRoot(),
+		(CMGetLink())->CreateVarNode((GetTreeList()->GetTree())->GetRoot(),
 									 expr1, expr1, "");
 	assert( node != NULL );
 	if (JStringEmpty(expr))
@@ -214,7 +213,7 @@ CMVarTreeWidget::ShowNode
 	)
 {
 	JIndex i;
-	if ((GetTreeList())->FindNode(node, &i))
+	if (GetTreeList()->FindNode(node, &i))
 		{
 		SelectSingleCell(JPoint(GetNodeColIndex(), i));
 		ClearIncrementalSearchBuffer();
@@ -235,7 +234,7 @@ CMVarTreeWidget::WatchExpression()
 	while (iter.Next(&cell))
 		{
 		CMVarNode* node =
-			dynamic_cast<CMVarNode*>((GetTreeList())->GetNode(cell.y));
+			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
 		assert( node != NULL );
 
 		expr = node->GetFullName();
@@ -259,7 +258,7 @@ CMVarTreeWidget::WatchLocation()
 	while (iter.Next(&cell))
 		{
 		CMVarNode* node =
-			dynamic_cast<CMVarNode*>((GetTreeList())->GetNode(cell.y));
+			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
 		assert( node != NULL );
 
 		expr = node->GetFullName();
@@ -283,7 +282,7 @@ CMVarTreeWidget::Display1DArray()
 	while (iter.Next(&cell))
 		{
 		CMVarNode* node =
-			dynamic_cast<CMVarNode*>((GetTreeList())->GetNode(cell.y));
+			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
 		assert( node != NULL );
 
 		expr = node->GetFullName();
@@ -307,7 +306,7 @@ CMVarTreeWidget::Plot1DArray()
 	while (iter.Next(&cell))
 		{
 		CMVarNode* node =
-			dynamic_cast<CMVarNode*>((GetTreeList())->GetNode(cell.y));
+			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
 		assert( node != NULL );
 
 		expr = node->GetFullName();
@@ -331,7 +330,7 @@ CMVarTreeWidget::Display2DArray()
 	while (iter.Next(&cell))
 		{
 		CMVarNode* node =
-			dynamic_cast<CMVarNode*>((GetTreeList())->GetNode(cell.y));
+			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
 		assert( node != NULL );
 
 		expr = node->GetFullName();
@@ -359,7 +358,7 @@ CMVarTreeWidget::ExamineMemory
 	while (iter.Next(&cell))
 		{
 		CMVarNode* node =
-			dynamic_cast<CMVarNode*>((GetTreeList())->GetNode(cell.y));
+			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
 		assert( node != NULL );
 
 		expr = node->GetFullName();
@@ -462,7 +461,7 @@ CMVarTreeWidget::RemoveSelection()
 	JPoint cell;
 	while (iter.Next(&cell))
 		{
-		JTreeNode* node = (GetTreeList())->GetNode(cell.y);
+		JTreeNode* node = GetTreeList()->GetNode(cell.y);
 		if (node->GetDepth() == 1)
 			{
 			delete node;
@@ -488,7 +487,7 @@ CMVarTreeWidget::IsEditable
 	const
 {
 	const CMVarNode* node =
-		dynamic_cast<const CMVarNode*>((GetTreeList())->GetNode(cell.y));
+		dynamic_cast<const CMVarNode*>(GetTreeList()->GetNode(cell.y));
 	assert( node != NULL );
 
 	return JI2B(JXTreeListWidget::IsEditable(cell) &&
@@ -517,7 +516,7 @@ CMVarTreeWidget::TableDrawCell
 		HilightIfSelected(p, fakeCell, rect);
 
 		CMVarNode* node =
-			dynamic_cast<CMVarNode*>((GetTreeList())->GetNode(cell.y));
+			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
 		assert( node != NULL );
 
 		JSize size;
@@ -546,13 +545,13 @@ CMVarTreeWidget::GetMinCellWidth
 	if (JIndex(cell.x) > GetNodeColIndex())
 		{
 		const CMVarNode* node =
-			dynamic_cast<const CMVarNode*>((GetTreeList())->GetNode(cell.y));
+			dynamic_cast<const CMVarNode*>(GetTreeList()->GetNode(cell.y));
 		assert( node != NULL );
 
 		JSize size;
 		const JString& name = GetFont(&size);
 		return kHMargin +
-			(GetFontManager())->GetStringWidth(name, size, JFontStyle(),
+			GetFontManager()->GetStringWidth(name, size, JFontStyle(),
 											   node->GetValue());
 		}
 	else
@@ -612,7 +611,7 @@ CMVarTreeWidget::HandleMouseDown
 		}
 	else if (clickCount == 2 && JIndex(cell.x) == GetNodeColIndex())
 		{
-		const JTreeNode* node = (GetTreeList())->GetNode(cell.y);
+		const JTreeNode* node = GetTreeList()->GetNode(cell.y);
 		if (itsIsMainDisplayFlag && node->GetDepth() == 1)
 			{
 			BeginEditing(cell);
@@ -725,7 +724,7 @@ CMVarTreeWidget::HandleKeyPress
 		if (GetEditedCell(&cell))
 			{
 			CancelEditing();
-			JTreeNode* node = (GetTreeList())->GetNode(cell.y);
+			JTreeNode* node = GetTreeList()->GetNode(cell.y);
 			if (itsEditingNewNodeFlag &&
 				JIndex(cell.x) == GetNodeColIndex() && node->GetDepth() == 1)
 				{
@@ -780,7 +779,7 @@ CMVarTreeWidget::CreateXInputField
 	if (JIndex(cell.x) == kValueColIndex)
 		{
 		CMVarNode* node =
-			dynamic_cast<CMVarNode*>((GetTreeList())->GetNode(cell.y));
+			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
 		assert( node != NULL );
 		input->SetText(node->GetValue());
 		}
@@ -809,7 +808,7 @@ CMVarTreeWidget::ExtractInputData
 	const JString& text = input->GetText();
 
 	CMVarNode* node =
-		dynamic_cast<CMVarNode*>((GetTreeList())->GetNode(cell.y));
+		dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
 	assert( node != NULL );
 
 	if (JIndex(cell.x) == GetNodeColIndex() &&
@@ -1034,7 +1033,7 @@ CMVarTreeWidget::HandleEditMenu
 	ClearIncrementalSearchBuffer();
 
 	JTextEditor::CmdIndex cmd;
-	if (!(GetEditMenuHandler())->EditMenuIndexToCmd(index, &cmd))
+	if (!GetEditMenuHandler()->EditMenuIndexToCmd(index, &cmd))
 		{
 		cmd = JTextEditor::kSeparatorCmd;
 		}
@@ -1082,7 +1081,7 @@ CMVarTreeWidget::CopySelectedItems
 		while (iter.Next(&cell))
 			{
 			const CMVarNode* node =
-				dynamic_cast<const CMVarNode*>((GetTreeList())->GetNode(cell.y));
+				dynamic_cast<const CMVarNode*>(GetTreeList()->GetNode(cell.y));
 			assert( node != NULL );
 			if (copyValue)
 				{
@@ -1101,7 +1100,7 @@ CMVarTreeWidget::CopySelectedItems
 		JXTextSelection* data = new JXTextSelection(GetDisplay(), list);
 		assert( data != NULL );
 
-		(GetSelectionManager())->SetData(kJXClipboardName, data);
+		GetSelectionManager()->SetData(kJXClipboardName, data);
 		}
 }
 
@@ -1123,7 +1122,7 @@ CMVarTreeWidget::UpdateBaseMenu
 	while (iter.Next(&cell))
 		{
 		const CMVarNode* node =
-			dynamic_cast<const CMVarNode*>((GetTreeList())->GetNode(cell.y));
+			dynamic_cast<const CMVarNode*>(GetTreeList()->GetNode(cell.y));
 		assert( node != NULL );
 		const JInteger b = node->GetBase();
 
@@ -1175,7 +1174,7 @@ CMVarTreeWidget::HandleBaseMenu
 	while (iter.Next(&cell))
 		{
 		CMVarNode* node =
-			dynamic_cast<CMVarNode*>((GetTreeList())->GetNode(cell.y));
+			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
 		assert( node != NULL );
 		node->SetBase(base);
 		}

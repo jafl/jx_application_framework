@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXPGDirectorBase.h>
 #include <JXWindow.h>
 #include <JXStaticText.h>
@@ -58,7 +57,7 @@ JXPGDirectorBase::ProcessContinuing
 	JString s = value;
 	s        += " - ";
 	s        += kWindowTitle;
-	(GetWindow())->SetTitle(s);
+	GetWindow()->SetTitle(s);
 }
 
 /******************************************************************************

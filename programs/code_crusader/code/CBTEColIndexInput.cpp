@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBTEColIndexInput.h"
 #include "CBTELineIndexInput.h"
 #include <jAssert.h>

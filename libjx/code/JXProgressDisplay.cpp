@@ -22,7 +22,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXProgressDisplay.h>
 #include <JXPGMessageDirector.h>
 #include <JXWindow.h>

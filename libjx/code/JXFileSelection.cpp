@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXFileSelection.h>
 #include <JXDisplay.h>
 #include <jXUtil.h>
@@ -87,7 +86,7 @@ JXFileSelection::AddTypes
 	const Atom selectionName
 	)
 {
-	AddType((GetSelectionManager())->GetURLXAtom());
+	AddType(GetSelectionManager()->GetURLXAtom());
 }
 
 /******************************************************************************
@@ -158,7 +157,7 @@ JXFileSelection::ConvertData
 {
 	*bitsPerBlock = 8;
 
-	const Atom urlAtom = (GetSelectionManager())->GetURLXAtom();
+	const Atom urlAtom = GetSelectionManager()->GetURLXAtom();
 
 	if (requestType == urlAtom && itsList != NULL && !itsList->IsEmpty())
 		{

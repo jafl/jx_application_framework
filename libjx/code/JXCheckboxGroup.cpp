@@ -17,7 +17,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXCheckboxGroup.h>
 #include <JXCheckbox.h>
 #include <jAssert.h>

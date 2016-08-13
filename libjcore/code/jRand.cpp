@@ -11,7 +11,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jRand.h>
 #include <jAssert.h>
 

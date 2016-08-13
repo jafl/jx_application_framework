@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGTreeDir.h"
 #include "SyGTreeSet.h"
 #include "SyGFileTreeTable.h"
@@ -199,7 +198,7 @@ const JString&
 SyGTreeDir::GetDirectory()
 	const
 {
-	return ((GetTable())->GetFileTree())->GetDirectory();
+	return GetTable()->GetFileTree()->GetDirectory();
 }
 
 /******************************************************************************
@@ -366,14 +365,14 @@ SyGTreeDir::BuildWindow
 	itsToolBar->LoadPrefs();
 	if (itsToolBar->IsEmpty())
 		{
-		(GetTable())->LoadToolBarDefaults(itsToolBar);
+		GetTable()->LoadToolBarDefaults(itsToolBar);
 		}
 
 	// clean up
 
 	delete input;
 
-	((GetDisplay())->GetWDManager())->DirectorCreated(this);
+	GetDisplay()->GetWDManager()->DirectorCreated(this);
 }
 
 /******************************************************************************
@@ -433,7 +432,7 @@ SyGTreeDir::WriteState
 	output << kSyGCurrentDirSetupVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ';
 	itsTreeSet->SavePreferences(output);
@@ -469,7 +468,7 @@ SyGTreeDir::Receive
 
 	else if (sender == itsUpButton && message.Is(JXButton::kPushed))
 		{
-		(GetTable())->GoUp(((GetDisplay())->GetLatestKeyModifiers()).meta());
+		GetTable()->GoUp((GetDisplay()->GetLatestKeyModifiers()).meta());
 		}
 
 	else
@@ -508,7 +507,7 @@ SyGTreeDir::HandlePrefsMenu
 
 	else if (index == kSaveWindSizeCmd)
 		{
-		(GetTable())->SavePrefsAsDefault();
+		GetTable()->SavePrefsAsDefault();
 		}
 }
 

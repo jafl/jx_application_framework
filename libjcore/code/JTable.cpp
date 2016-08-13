@@ -109,7 +109,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JTable.h>
 #include <JTableSelection.h>
 #include <JPagePrinter.h>

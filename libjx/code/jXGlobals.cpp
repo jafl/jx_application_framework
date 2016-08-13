@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <jXGlobals.h>
 #include <JXUserNotification.h>
 #include <JXChooseSaveFile.h>

@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GVarList.h"
 
 #include <JUserNotification.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "GCLUtil.h"
 #include "GCLAppointment.h"
 

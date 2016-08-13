@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <glStdInc.h>
 #include <GLFitParameterTable.h>
 #include "GLFitDescription.h"
 #include <GLParmColHeaderWidget.h>

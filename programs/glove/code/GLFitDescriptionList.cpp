@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <glStdInc.h>
 #include <GLFitDescriptionList.h>
 
 #include "GLFitManager.h"

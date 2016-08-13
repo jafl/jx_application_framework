@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "Wiz2War.h"
 #include "WizPlayer.h"
 #include "wwUtil.h"

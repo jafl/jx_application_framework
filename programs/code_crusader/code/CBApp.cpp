@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBApp.h"
 #include "CBAboutDialog.h"
 #include "CBProjectDocument.h"

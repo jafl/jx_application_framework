@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBLibraryNode.h"
 #include "CBSubprojectConfigDialog.h"
 #include "CBProjectDocument.h"
@@ -128,7 +127,7 @@ CBLibraryNode::IncludedInMakefile()
 	const
 {
 	return JI2B(itsIncludeInDepListFlag &&
-				((GetProjectDoc())->GetBuildManager())->GetMakefileMethod() ==
+				(GetProjectDoc()->GetBuildManager())->GetMakefileMethod() ==
 					CBBuildManager::kMakemake);
 }
 
@@ -151,7 +150,7 @@ CBLibraryNode::BuildMakeFiles
 	const JBoolean projExists = GetFullName(itsProjFileName, &projFullName);
 
 	if (itsShouldBuildFlag && projExists &&
-		((GetProjectDoc())->GetBuildManager())->GetMakefileMethod() ==
+		(GetProjectDoc()->GetBuildManager())->GetMakefileMethod() ==
 			CBBuildManager::kMakemake)
 		{
 		libFileList->Append(GetFileName());

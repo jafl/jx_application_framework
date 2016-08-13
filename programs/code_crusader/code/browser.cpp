@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBMDIServer.h"
 #include "CBTextDocument.h"
 #include "cbGlobals.h"

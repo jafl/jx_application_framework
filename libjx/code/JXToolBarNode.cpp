@@ -5,7 +5,6 @@
 
  *****************************************************************************/
 
-#include <JXStdInc.h>
 #include "JXToolBarNode.h"
 #include <JXTextMenu.h>
 #include <JTree.h>

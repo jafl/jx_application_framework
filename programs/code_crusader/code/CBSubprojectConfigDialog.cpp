@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBSubprojectConfigDialog.h"
 #include "CBProjectFileInput.h"
 #include "CBRelPathCSF.h"

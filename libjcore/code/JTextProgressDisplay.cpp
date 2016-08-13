@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JTextProgressDisplay.h>
 #include <jMath.h>
 #include <jAssert.h>

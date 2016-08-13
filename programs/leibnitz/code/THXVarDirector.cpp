@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <thxStdInc.h>
 #include "THXVarDirector.h"
 #include "THXVarList.h"
 #include "THXVarTable.h"
@@ -120,13 +119,13 @@ THXVarDirector::WriteState
 	)
 	const
 {
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ';
 	itsVarTable->WriteScrollSetup(output);
 
 	output << ' ' << itsVarTable->GetColWidth(THXVarTable::kNameColumn);
-	output << ' ' << JI2B(IsActive() && !(GetWindow())->IsIconified());
+	output << ' ' << JI2B(IsActive() && !GetWindow()->IsIconified());
 }
 
 /******************************************************************************
@@ -289,7 +288,7 @@ THXVarDirector::HandleActionsMenu
 
 	else if (index == kCloseWindowCmd)
 		{
-		(GetWindow())->Close();
+		GetWindow()->Close();
 		}
 	else if (index == kQuitCmd)
 		{

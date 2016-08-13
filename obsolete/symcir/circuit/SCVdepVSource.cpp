@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCVdepVSource.h"
 #include "SCCircuit.h"
 #include <JString.h>

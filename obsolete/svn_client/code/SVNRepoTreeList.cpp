@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNRepoTreeList.h"
 #include "SVNRepoTree.h"
 #include "SVNRepoTreeNode.h"

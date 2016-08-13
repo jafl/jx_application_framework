@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXStaticText.h>
 #include <jXConstants.h>
 #include <strstream>

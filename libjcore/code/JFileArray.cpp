@@ -84,7 +84,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JFileArray.h>
 #include <JFileArrayIndex.h>
 #include <JString.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBExecOutputDocument.h"
 #include "CBTextEditor.h"
 #include "CBCmdLineInput.h"
@@ -147,7 +146,7 @@ CBExecOutputDocument::CBExecOutputDocument
 	ListenTo(itsEOFButton);
 
 	UpdateButtons();
-	(GetTextEditor())->SetWritable(kJFalse);
+	GetTextEditor()->SetWritable(kJFalse);
 	(JXGetDocumentManager())->DocumentMustStayOpen(this, kJTrue);
 
 	window->SetWMClass(CBGetWMClassInstance(), CBGetExecOutputWindowClass());
@@ -349,10 +348,10 @@ CBExecOutputDocument::ReceiveRecord()
 		}
 	itsLastPrompt.Clear();
 
-	const JXTEBase::DisplayState state = (GetTextEditor())->SaveDisplayState();
+	const JXTEBase::DisplayState state = GetTextEditor()->SaveDisplayState();
 
 	AppendText(text);
-	(GetTextEditor())->ClearUndo();
+	GetTextEditor()->ClearUndo();
 
 	if (!itsReceivedDataFlag)
 		{
@@ -363,7 +362,7 @@ CBExecOutputDocument::ReceiveRecord()
 			}
 		}
 
-	(GetTextEditor())->RestoreDisplayState(state);
+	GetTextEditor()->RestoreDisplayState(state);
 }
 
 /******************************************************************************
@@ -604,11 +603,11 @@ CBExecOutputDocument::ProcessFinished
 
 		DataReverted();
 		te->ClearUndo();
-		if (!IsActive() || (GetWindow())->IsIconified())	// don't raise if active
+		if (!IsActive() || GetWindow()->IsIconified())	// don't raise if active
 			{
 			Activate();
 			}
-		(GetDisplay())->Beep();
+		GetDisplay()->Beep();
 		}
 
 	if (state.hadSelection)
@@ -663,13 +662,13 @@ CBExecOutputDocument::UpdateButtons()
 			itsCmdPrompt->Hide();
 			itsCmdInput->Hide();
 			itsEOFButton->Hide();
-			(GetTextEditor())->Focus();
+			GetTextEditor()->Focus();
 			}
 		else
 			{
 			itsCmdInput->Deactivate();
 			itsEOFButton->Deactivate();
-			(GetTextEditor())->Focus();
+			GetTextEditor()->Focus();
 			}
 		}
 	else
@@ -684,7 +683,7 @@ CBExecOutputDocument::UpdateButtons()
 		itsCmdInput->Hide();
 		itsEOFButton->Hide();
 		SetFileDisplayVisible(kJTrue);
-		(GetTextEditor())->Focus();
+		GetTextEditor()->Focus();
 
 		itsPauseButton->SetLabel(JGetString("PauseLabel::CBExecOutputDocument"));
 		}

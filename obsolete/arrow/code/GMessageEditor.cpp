@@ -138,7 +138,7 @@ GMessageEditor::GetPasteText
 	JString* text
 	)
 {
-	JRunArray<Font> style;
+	JRunArray<JFont> style;
 	if (TEOwnsClipboard())
 		{
 		GetClipboard(text);
@@ -430,7 +430,7 @@ GMessageEditor::HandleDNDDrop
 	Atom returnType;
 	JXSelectionManager* selManager = GetSelectionManager();
 	JXSelectionManager::DeleteMethod delMethod;
-	const Atom dndName = (GetDNDManager())->GetDNDSelectionName();
+	const Atom dndName = GetDNDManager()->GetDNDSelectionName();
 	if (selManager->GetData(dndName, time, selManager->GetURLXAtom(),
 									 &returnType, &data, &dataLength, &delMethod))
 		{

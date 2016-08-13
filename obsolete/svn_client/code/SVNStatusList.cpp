@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNStatusList.h"
 #include "svnMenus.h"
 #include <JXTextMenu.h>
@@ -79,7 +78,7 @@ SVNStatusList::StyleLine
 		}
 	else if (c1 == '?' || c1 == 'I')
 		{
-		SetStyle(index, (GetColormap())->GetGrayColor(50));
+		SetStyle(index, GetColormap()->GetGrayColor(50));
 		}
 	else if (c1 == 'A')
 		{
@@ -178,7 +177,7 @@ SVNStatusList::Ignore()
 		JXTextSelection* data = new JXTextSelection(GetDisplay(), name);
 		assert( data != NULL );
 
-		(GetSelectionManager())->SetData(kJXClipboardName, data);
+		GetSelectionManager()->SetData(kJXClipboardName, data);
 
 		JString cmd = kIgnoreCmd;
 		path        = JPrepArgForExec(path);

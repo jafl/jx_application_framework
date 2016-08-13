@@ -13,7 +13,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXFontNameMenu.h>
 #include <jXGlobals.h>
 #include <JFontManager.h>
@@ -112,7 +111,7 @@ JXFontNameMenu::BuildMenu()
 	RemoveAllItems();
 
 	JPtrArray<JString> fontNames(JPtrArrayT::kDeleteAll);
-	(GetFontManager())->GetFontNames(&fontNames);
+	GetFontManager()->GetFontNames(&fontNames);
 
 	const JSize count = fontNames.GetElementCount();
 	assert( count > 0 );

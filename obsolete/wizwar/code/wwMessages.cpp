@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "wwMessages.h"
 #include <jAssert.h>
 

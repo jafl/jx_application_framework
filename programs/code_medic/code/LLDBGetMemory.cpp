@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "LLDBGetMemory.h"
 #include "lldb/API/SBCommandInterpreter.h"
 #include "lldb/API/SBCommandReturnObject.h"
@@ -69,7 +68,7 @@ LLDBGetMemory::HandleSuccess
 
 	CMMemoryDir::DisplayType type;
 	JSize count;
-	const JString& expr = (GetDirector())->GetExpression(&type, &count);
+	const JString& expr = GetDirector()->GetExpression(&type, &count);
 
 	JString cmd = "memory read -g ";
 	cmd        += JString(count, JString::kBase10);
@@ -82,6 +81,6 @@ LLDBGetMemory::HandleSuccess
 
 	if (result.IsValid() && result.Succeeded() && result.HasResult())
 		{
-		(GetDirector())->Update(result.GetOutput());
+		GetDirector()->Update(result.GetOutput());
 		}
 }

@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXToolBarEditDir.h>
 #include <JTree.h>
 #include <JXToolBarNode.h>

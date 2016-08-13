@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JRoundToInt.h>
 #include <jMath.h>
 #include <jErrno.h>
@@ -87,7 +86,7 @@ JRoundToInt::Evaluate
 	const
 {
 	JFloat value;
-	if ((GetArg())->Evaluate(&value))
+	if (GetArg()->Evaluate(&value))
 		{
 		jclear_errno();
 		*result = JRound(value);
@@ -107,7 +106,7 @@ JRoundToInt::Evaluate
 	const
 {
 	JComplex value;
-	if ((GetArg())->Evaluate(&value))
+	if (GetArg()->Evaluate(&value))
 		{
 		jclear_errno();
 		*result = JComplex(JRound(real(value)), JRound(imag(value)));

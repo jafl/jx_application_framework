@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCDirectorBase.h"
 #include "SCCircuitDocument.h"
 #include "SCXferFnDirector.h"

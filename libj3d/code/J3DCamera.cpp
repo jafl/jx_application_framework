@@ -29,7 +29,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <J3DCamera.h>
 #include <J3DUniverse.h>
 #include <jAssert.h>

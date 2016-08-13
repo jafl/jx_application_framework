@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGTaskBarUtil.h"
 
 #if defined SYSTEM_G

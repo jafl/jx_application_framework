@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JTextUserNotification.h>
 #include <jCommandLine.h>
 #include <jGlobals.h>

@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBTextFileType.h"
 
 #include "CBCStyler.h"

@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGFileTreeNode.h"
 #include "SyGFileTree.h"
 #include <JDirInfo.h>

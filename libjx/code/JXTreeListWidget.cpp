@@ -24,7 +24,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXTreeListWidget.h>
 #include <JXTLWAdjustToTreeTask.h>
 #include <jXGlobals.h>

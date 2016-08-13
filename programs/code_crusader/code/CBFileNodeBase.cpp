@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBFileNodeBase.h"
 #include "CBProjectDocument.h"
 #include "CBProjectTree.h"
@@ -272,12 +271,12 @@ CBFileNodeBase::BuildCMakeData
 				if ((CBGetDocumentManager())->
 						GetComplementFile(fullName, type, &complName,
 										  GetProjectDoc(), kJFalse) &&
-					!((GetProjectTree())->GetProjectRoot())->Includes(complName))
+					!(GetProjectTree()->GetProjectRoot())->Includes(complName))
 					{
 					const CBRelPathCSF::PathType pathType =
 						CBRelPathCSF::CalcPathType(itsFileName);
 					complName = CBRelPathCSF::ConvertToRelativePath(
-									complName, (GetProjectDoc())->GetFilePath(), pathType);
+									complName, GetProjectDoc()->GetFilePath(), pathType);
 
 					hdr->AppendCharacter(' ');
 					*hdr += complName;
@@ -342,12 +341,12 @@ CBFileNodeBase::BuildQMakeData
 				if ((CBGetDocumentManager())->
 						GetComplementFile(fullName, type, &complName,
 										  GetProjectDoc(), kJFalse) &&
-					!((GetProjectTree())->GetProjectRoot())->Includes(complName))
+					!(GetProjectTree()->GetProjectRoot())->Includes(complName))
 					{
 					const CBRelPathCSF::PathType pathType =
 						CBRelPathCSF::CalcPathType(itsFileName);
 					complName = CBRelPathCSF::ConvertToRelativePath(
-									complName, (GetProjectDoc())->GetFilePath(), pathType);
+									complName, GetProjectDoc()->GetFilePath(), pathType);
 
 					hdr->AppendCharacter(' ');
 					*hdr += complName;

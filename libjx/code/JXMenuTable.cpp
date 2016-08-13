@@ -32,7 +32,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXMenuTable.h>
 #include <JXMenuData.h>
 #include <JXMenuManager.h>
@@ -96,8 +95,8 @@ JXMenuTable::JXMenuTable
 	WantInput(kJTrue, kJTrue, kJTrue);		// we don't have a scrollbar set
 
 	SetDrawOrder(kDrawByRow);
-	SetRowBorderInfo(0, (GetColormap())->GetBlackColor());
-	SetColBorderInfo(0, (GetColormap())->GetBlackColor());
+	SetRowBorderInfo(0, GetColormap()->GetBlackColor());
+	SetColBorderInfo(0, GetColormap()->GetBlackColor());
 
 	SetDefaultCursor(itsMenu->GetDefaultCursor());
 }
@@ -295,7 +294,7 @@ JXMenuTable::HandleMouseDown
 {
 	itsSwitchingDragFlag = kJFalse;
 
-	const JBoolean ok = (GetWindow())->GrabPointer(this);
+	const JBoolean ok = GetWindow()->GrabPointer(this);
 //	assert( ok );
 
 	itsMouseDownPt = pt;
@@ -369,7 +368,7 @@ JXMenuTable::HandleMouseUp
 		}
 	else if (!itsSwitchingDragFlag && CloseMenuOnMouseUp(pt))
 		{
-		(GetMenuManager())->CloseCurrentMenus();	// destroys us
+		GetMenuManager()->CloseCurrentMenus();	// destroys us
 		}
 	else
 		{
@@ -403,7 +402,7 @@ JXMenuTable::CloseMenuOnMouseUp
 //		for debugging:
 //		XUngrabKeyboard(*(GetDisplay()), CurrentTime);
 //		XUngrabPointer(*(GetDisplay()), CurrentTime);
-//		(GetDisplay())->Flush();
+//		GetDisplay()->Flush();
 
 		return kJTrue;
 		}
@@ -473,9 +472,9 @@ JXMenuTable::MenuHandleMouseAction
 		{
 		JXDisplay* display = GetDisplay();	// need local copy, since we might be deleted
 		Display* xDisplay  = *display;
-		Window xWindow     = (GetWindow())->GetXWindow();
+		Window xWindow     = GetWindow()->GetXWindow();
 
-		(GetWindow())->UngrabPointer(this);
+		GetWindow()->UngrabPointer(this);
 		itsSwitchingDragFlag = kJTrue;
 		display->SwitchDrag(this, pt, buttonStates, modifiers, widget);	// can destroy us
 		if (JXDisplay::WindowExists(display, xDisplay, xWindow))
@@ -569,7 +568,7 @@ JXMenuTable::MouseOutsideTable
 		}
 	else if (shouldClose && trueMouseContainer != itsMenu && trueMouseContainer != this)
 		{
-		(GetMenuManager())->CloseCurrentMenus();	// destroys us
+		GetMenuManager()->CloseCurrentMenus();	// destroys us
 		}
 	else
 		{
@@ -592,7 +591,7 @@ JXMenuTable::GetMenuWidgetToActivate
 	JXContainer**	widget
 	)
 {
-	if (!(GetDisplay())->FindMouseContainer(this, pt, widget))
+	if (!GetDisplay()->FindMouseContainer(this, pt, widget))
 		{
 		*widget = NULL;
 		return kJFalse;
@@ -688,7 +687,7 @@ JXMenuTable::MenuSelectItem
 	if (newItemIndex != 0)
 		{
 		MenuHilightItem(newItemIndex);
-		(GetWindow())->Update();
+		GetWindow()->Update();
 
 		if (submenu != NULL &&
 			(!checkMovement ||
@@ -735,7 +734,7 @@ JXMenuTable::HandleKeyPress
 
 	if (JIsASCII(key) && (isspace(key) || key == kJEscapeKey))
 		{
-		(GetMenuManager())->CloseCurrentMenus();		// destroys us
+		GetMenuManager()->CloseCurrentMenus();		// destroys us
 		return;
 		}
 
@@ -763,11 +762,11 @@ JXMenuTable::GrabKeyboard()
 	XUngrabKeyboard(*(GetDisplay()), CurrentTime);
 
 	const int status =
-		XGrabKeyboard(*(GetDisplay()), (GetWindow())->GetXWindow(), False,
+		XGrabKeyboard(*(GetDisplay()), GetWindow()->GetXWindow(), False,
 					  GrabModeAsync, GrabModeAsync, CurrentTime);
 //	assert( status == GrabSuccess );
 
-	(GetDisplay())->SetKeyboardGrabber(GetWindow());
+	GetDisplay()->SetKeyboardGrabber(GetWindow());
 }
 
 /******************************************************************************

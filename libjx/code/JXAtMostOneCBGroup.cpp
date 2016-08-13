@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXAtMostOneCBGroup.h>
 #include <JXCheckbox.h>
 #include <JMinMax.h>

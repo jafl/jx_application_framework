@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include <SyGChoosePathDialog.h>
 #include <JXWindow.h>
 #include <JXStaticText.h>

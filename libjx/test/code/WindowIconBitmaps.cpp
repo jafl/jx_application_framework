@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "WindowIconBitmaps.h"
 
 // normal window icon

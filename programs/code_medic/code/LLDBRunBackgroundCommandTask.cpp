@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "LLDBRunBackgroundCommandTask.h"
 #include "LLDBLink.h"
 #include "cmGlobals.h"

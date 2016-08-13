@@ -39,7 +39,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JError.h>
 #include <jGlobals.h>
 #include <jAssert.h>

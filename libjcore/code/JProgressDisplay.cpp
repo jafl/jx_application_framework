@@ -62,7 +62,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JProgressDisplay.h>
 #include <jAssert.h>
 

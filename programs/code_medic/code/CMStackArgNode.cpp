@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMStackArgNode.h"
 #include "CMStackFrameNode.h"
 #include <jAssert.h>

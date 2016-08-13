@@ -16,7 +16,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JHTMLScanner.h>
 #include <jStreamUtil.h>
 #include <jGlobals.h>

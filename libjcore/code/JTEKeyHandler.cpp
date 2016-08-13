@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JTEKeyHandler.h>
 #include <jAssert.h>
 

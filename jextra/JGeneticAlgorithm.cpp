@@ -53,7 +53,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JGeneticAlgorithm.h>
 #include <JString.h>
 #include <jMath.h>

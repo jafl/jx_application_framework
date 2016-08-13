@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMCommandDirector.h"
 #include "CMSourceDirector.h"
 #include "CMThreadsDir.h"
@@ -275,7 +274,7 @@ CMCommandDirector::CMCommandDirector
 	itsDebugDir = new CMDebugDir(this);
 	assert(itsDebugDir!=NULL);
 
-	JXWDManager* wdMgr = (GetDisplay())->GetWDManager();
+	JXWDManager* wdMgr = GetDisplay()->GetWDManager();
 	wdMgr->PermanentDirectorCreated(this,                NULL,           kCMShowCommandLineAction);
 	wdMgr->PermanentDirectorCreated(itsCurrentSourceDir, NULL,           kCMShowCurrentSourceAction);
 	wdMgr->PermanentDirectorCreated(itsThreadsDir,       "Meta-Shift-T", kCMShowThreadsAction);
@@ -457,7 +456,7 @@ CMCommandDirector::PrepareCommand
 	itsCommandInput->Focus();
 	itsCommandInput->SetCaretLocation(itsCommandInput->GetTextLength()+1);
 	Activate();
-	(GetWindow())->RequestFocus();
+	GetWindow()->RequestFocus();
 }
 
 /******************************************************************************
@@ -674,7 +673,7 @@ CMCommandDirector::UpdateWindowTitle
 {
 	JString title = programName;
 	title += kWindowTitleSuffix;
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 
 	if (!JStringEmpty(programName))
 		{
@@ -956,7 +955,7 @@ CMCommandDirector::Receive
 		// can't do it here because, when core file loaded, hook-run is
 		// defined after stack window is opened
 //		Activate();
-//		(GetWindow())->RequestFocus();
+//		GetWindow()->RequestFocus();
 		}
 
 	else if (sender == itsLink && message.Is(CMLink::kProgramFinished))
@@ -1267,7 +1266,7 @@ CMCommandDirector::ShowHistoryCommand
 void
 CMCommandDirector::UpdateFileMenu()
 {
-	itsFileMenu->SetItemEnable(kCloseCmd, !(GetWindow())->IsDocked());
+	itsFileMenu->SetItemEnable(kCloseCmd, !GetWindow()->IsDocked());
 	itsFileMenu->SetItemEnable(kLoadConfigCmd, itsLink->HasProgram());
 }
 
@@ -1807,7 +1806,7 @@ CMCommandDirector::HandleDebugMenu
 	else if (index == kSetArgsCmd)
 		{
 		Activate();
-		(GetWindow())->RequestFocus();
+		GetWindow()->RequestFocus();
 		if (itsArgInput->Focus())
 			{
 			itsArgInput->SelectAll();

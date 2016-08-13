@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDockWindowTask.h>
 #include <JXDockWidget.h>
 #include <JXTabGroup.h>

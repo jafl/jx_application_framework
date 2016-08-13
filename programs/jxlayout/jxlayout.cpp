@@ -125,23 +125,23 @@ struct ColorConversion
 
 static const ColorConversion kColorTable[] =
 {
-	{"FL_BLACK",        "(GetColormap())->GetBlackColor()"},
-	{"FL_RED",          "(GetColormap())->GetRedColor()"},
-	{"FL_GREEN",        "(GetColormap())->GetGreenColor()"},
-	{"FL_YELLOW",       "(GetColormap())->GetYellowColor()"},
-	{"FL_BLUE",         "(GetColormap())->GetBlueColor()"},
-	{"FL_MAGENTA",      "(GetColormap())->GetMagentaColor()"},
-	{"FL_CYAN",         "(GetColormap())->GetCyanColor()"},
-	{"FL_WHITE",        "(GetColormap())->GetWhiteColor()"},
-	{"FL_LCOL",         "(GetColormap())->GetBlackColor()"},
-	{"FL_COL1",         "(GetColormap())->GetDefaultBackColor()"},
-	{"FL_MCOL",         "(GetColormap())->GetDefaultFocusColor()"},
-	{"FL_RIGHT_BCOL",   "(GetColormap())->Get3DShadeColor()"},
-	{"FL_BOTTOM_BCOL",  "(GetColormap())->Get3DShadeColor()"},
-	{"FL_TOP_BCOL",     "(GetColormap())->Get3DLightColor()"},
-	{"FL_LEFT_BCOL",    "(GetColormap())->Get3DLightColor()"},
-	{"FL_INACTIVE",     "(GetColormap())->GetInactiveLabelColor()"},
-	{"FL_INACTIVE_COL", "(GetColormap())->GetInactiveLabelColor()"}
+	{"FL_BLACK",        "GetColormap()->GetBlackColor()"},
+	{"FL_RED",          "GetColormap()->GetRedColor()"},
+	{"FL_GREEN",        "GetColormap()->GetGreenColor()"},
+	{"FL_YELLOW",       "GetColormap()->GetYellowColor()"},
+	{"FL_BLUE",         "GetColormap()->GetBlueColor()"},
+	{"FL_MAGENTA",      "GetColormap()->GetMagentaColor()"},
+	{"FL_CYAN",         "GetColormap()->GetCyanColor()"},
+	{"FL_WHITE",        "GetColormap()->GetWhiteColor()"},
+	{"FL_LCOL",         "GetColormap()->GetBlackColor()"},
+	{"FL_COL1",         "GetColormap()->GetDefaultBackColor()"},
+	{"FL_MCOL",         "GetColormap()->GetDefaultFocusColor()"},
+	{"FL_RIGHT_BCOL",   "GetColormap()->Get3DShadeColor()"},
+	{"FL_BOTTOM_BCOL",  "GetColormap()->Get3DShadeColor()"},
+	{"FL_TOP_BCOL",     "GetColormap()->Get3DLightColor()"},
+	{"FL_LEFT_BCOL",    "GetColormap()->Get3DLightColor()"},
+	{"FL_INACTIVE",     "GetColormap()->GetInactiveLabelColor()"},
+	{"FL_INACTIVE_COL", "GetColormap()->GetInactiveLabelColor()"}
 };
 
 const JSize kColorTableSize = sizeof(kColorTable)/sizeof(ColorConversion);

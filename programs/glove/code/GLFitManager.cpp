@@ -7,7 +7,6 @@
 	
  *****************************************************************************/
 
-#include <glStdInc.h>
 #include <GLFitManager.h>
 #include "GLPolyFitDescription.h"
 #include "GLBuiltinFitDescription.h"

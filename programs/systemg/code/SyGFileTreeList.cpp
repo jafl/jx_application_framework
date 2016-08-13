@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGFileTreeList.h"
 #include "SyGFileTree.h"
 #include "SyGFileTreeNode.h"

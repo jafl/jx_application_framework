@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JArcTangent2.h>
 #include <jErrno.h>
 #include <jAssert.h>

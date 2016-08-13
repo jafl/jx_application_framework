@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBFunctionMenu.h"
 #include "CBFnMenuUpdater.h"
 #include "cbmUtil.h"
@@ -171,7 +170,7 @@ void
 CBFunctionMenu::UpdateMenu()
 {
 	CBFnMenuUpdater* updater        = CBMGetFnMenuUpdater();
-	const JXKeyModifiers& modifiers = (GetDisplay())->GetLatestKeyModifiers();
+	const JXKeyModifiers& modifiers = GetDisplay()->GetLatestKeyModifiers();
 
 	JBoolean sort = updater->WillSortFnNames();
 	if (modifiers.meta())

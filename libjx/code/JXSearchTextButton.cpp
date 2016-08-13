@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXSearchTextButton.h>
 #include <JXWindowPainter.h>
 #include <jXPainterUtil.h>

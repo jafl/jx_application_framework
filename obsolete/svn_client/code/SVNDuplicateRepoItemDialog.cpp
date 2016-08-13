@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "SVNDuplicateRepoItemDialog.h"
 #include "SVNRepoTreeNode.h"
 #include <JXInputField.h>
@@ -35,7 +34,7 @@ SVNDuplicateRepoItemDialog::SVNDuplicateRepoItemDialog
 {
 	assert( itsSrcNode != NULL );
 
-	(GetInputField())->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	GetInputField()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 }
 
 /******************************************************************************

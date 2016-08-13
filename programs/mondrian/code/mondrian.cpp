@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <mdStdInc.h>
 #include "MDApp.h"
 #include "MDMDIServer.h"
 #include "MDMainDirector.h"

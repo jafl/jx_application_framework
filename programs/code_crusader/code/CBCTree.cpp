@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBCTree.h"
 #include "CBCClass.h"
 #include "CBCTreeDirector.h"

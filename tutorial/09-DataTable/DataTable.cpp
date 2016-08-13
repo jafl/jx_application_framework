@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "DataTable.h"
 #include <JXWindowPainter.h>
 #include <JXColormap.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBProjectConfigDialog.h"
 #include "cbmUtil.h"
 #include "cbHelpText.h"

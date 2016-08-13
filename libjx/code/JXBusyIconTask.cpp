@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXBusyIconTask.h>
 #include <JXImageWidget.h>
 #include <JXImage.h>

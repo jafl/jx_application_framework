@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBFnListDirector.h"
 #include "CBFnListWidget.h"
 #include "CBTreeDirector.h"
@@ -90,7 +89,7 @@ CBFnListDirector::CBFnListDirector
 	JXWindowDirector(supervisor)
 {
 	JXScrollbarSet* scrollbarSet = BuildWindow();
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 
 	itsFnListWidget =
 		new CBFnListWidget(input, vers, keep, treeWidget, scrollbarSet,
@@ -123,7 +122,7 @@ CBFnListDirector::CBFnListDirectorX
 	itsFnListWidget->FitToEnclosure();
 	if (willBeKept)
 		{
-		(GetWindow())->SetTitle((itsFnListWidget->GetClass())->GetFullName());
+		GetWindow()->SetTitle((itsFnListWidget->GetClass())->GetFullName());
 		}
 
 	itsDirector = director;
@@ -172,7 +171,7 @@ CBFnListDirector::StreamOut
 	const
 {
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 	output << ' ';
 	itsFnListWidget->StreamOut(output);
 	output << ' ';

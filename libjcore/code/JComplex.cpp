@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JComplex.h>
 #include <JString.h>
 #include <jMath.h>

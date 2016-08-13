@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBMDIServer.h"
 #include "CBProjectDocument.h"
 #include "CBManPageDocument.h"

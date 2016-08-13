@@ -29,7 +29,6 @@
  *****************************************************************************/
 
 //Class Header
-#include <JCoreStdInc.h>
 #include <JMMRecord.h>
 
 #include <JMemoryManager.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "JVMVarCommand.h"
 #include <jAssert.h>
 

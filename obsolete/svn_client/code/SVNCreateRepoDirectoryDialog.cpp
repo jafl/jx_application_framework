@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "SVNCreateRepoDirectoryDialog.h"
 #include "SVNRepoTreeNode.h"
 #include <JXInputField.h>
@@ -35,7 +34,7 @@ SVNCreateRepoDirectoryDialog::SVNCreateRepoDirectoryDialog
 {
 	assert( itsParentNode != NULL );
 
-	(GetInputField())->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
+	GetInputField()->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 }
 
 /******************************************************************************

@@ -13,7 +13,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include "evt_handlers.h"
 #include "util.h"
 #include <j_prep_ace.h>

@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JExtractHTMLTitle.h>
 #include <JString.h>
 #include <jAssert.h>

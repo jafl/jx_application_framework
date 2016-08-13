@@ -22,7 +22,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JRTTIBase.h>
 #include <string.h>
 #include <jAssert.h>

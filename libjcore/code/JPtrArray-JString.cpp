@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JPtrArray-JString.h>
 #include <jAssert.h>
 

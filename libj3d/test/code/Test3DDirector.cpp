@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "Test3DDirector.h"
 #include "Test3DWidget.h"
 #include <J3DUniverse.h>

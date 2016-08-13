@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JTableSelection.h>
 #include <JTable.h>
 #include <JMinMax.h>

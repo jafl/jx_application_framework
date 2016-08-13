@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNApp.h"
 #include "SVNAboutDialog.h"
 #include "svnStringData.h"

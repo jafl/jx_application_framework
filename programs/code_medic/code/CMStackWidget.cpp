@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMStackWidget.h"
 #include "CMStackFrameNode.h"
 #include "CMStackArgNode.h"
@@ -80,7 +79,7 @@ CMStackWidget::CMStackWidget
 	SetFont(name, size);
 
 	SetIndentWidth(kIndentWidth *
-		(GetFontManager())->GetCharWidth(name, size, JFontStyle(), '0'));
+		GetFontManager()->GetCharWidth(name, size, JFontStyle(), '0'));
 
 	ListenTo(&(GetTableSelection()));
 	ListenTo(GetWindow());
@@ -188,7 +187,7 @@ CMStackWidget::TableDrawCell
 		const JPoint fakeCell(GetNodeColIndex(), cell.y);
 		HilightIfSelected(p, fakeCell, rect);
 
-		const JTreeNode* node = (GetTreeList())->GetNode(cell.y);
+		const JTreeNode* node = GetTreeList()->GetNode(cell.y);
 		if (node->GetDepth() > 1)
 			{
 			JSize fontSize;
@@ -217,7 +216,7 @@ CMStackWidget::GetMinCellWidth
 {
 	if (JIndex(cell.x) > GetNodeColIndex())
 		{
-		const JTreeNode* node = (GetTreeList())->GetNode(cell.y);
+		const JTreeNode* node = GetTreeList()->GetNode(cell.y);
 		if (node->GetDepth() > 1)
 			{
 			const CMStackArgNode* argNode =
@@ -226,7 +225,7 @@ CMStackWidget::GetMinCellWidth
 
 			JSize fontSize;
 			const JString& fontName = GetFont(&fontSize);
-			return (GetFontManager())->GetStringWidth(fontName, fontSize, JFontStyle(),
+			return GetFontManager()->GetStringWidth(fontName, fontSize, JFontStyle(),
 													  argNode->GetValue());
 			}
 		else
@@ -290,7 +289,7 @@ CMStackWidget::HandleMouseDown
 		{
 		if (modifiers.meta())
 			{
-			const JTreeNode* node = (GetTreeList())->GetNode(cell.y);
+			const JTreeNode* node = GetTreeList()->GetNode(cell.y);
 			while (node->GetDepth() > 1)
 				{
 				node = node->GetParent();
@@ -508,11 +507,11 @@ CMStackWidget::Receive
 			sender == &s && message.Is(JTableData::kRectChanged) &&
 			s.GetFirstSelectedCell(&cell))
 			{
-			const JTreeNode* node = (GetTreeList())->GetNode(cell.y);
+			const JTreeNode* node = GetTreeList()->GetNode(cell.y);
 			if (node->GetDepth() > 1)
 				{
 				itsCommandDir->DisplayExpression(
-					((GetNamedTreeList())->GetNamedNode(cell.y))->GetName());
+					(GetNamedTreeList()->GetNamedNode(cell.y))->GetName());
 				node = node->GetParent();
 				}
 
@@ -597,7 +596,7 @@ CMStackWidget::ShouldRebuild()
 	const
 {
 	return JI2B(itsStackDir->IsActive() &&
-				!(GetWindow())->IsIconified());
+				!GetWindow()->IsIconified());
 }
 
 /******************************************************************************

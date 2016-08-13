@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JTEHTMLScanner.h>
 #include <JTextEditor.h>
 #include <jAssert.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMLineAddressTable.h"
 #include "CMSourceDirector.h"
 #include "CMBreakpointManager.h"
@@ -141,7 +140,7 @@ JColorIndex
 CMLineAddressTable::GetCurrentLineMarkerColor()
 	const
 {
-	return (GetColormap())->GetMagentaColor();
+	return GetColormap()->GetMagentaColor();
 }
 
 /******************************************************************************
@@ -207,7 +206,7 @@ CMLineAddressTable::GetFirstBreakpointOnLine
 {
 	const JString addr = BuildAddress(*(itsLineTextList->GetElement(lineIndex)));
 	CMBreakpoint bp(addr);
-	return (GetBreakpointList())->SearchSorted(&bp, JOrderedSetT::kFirstMatch, bpIndex);
+	return GetBreakpointList()->SearchSorted(&bp, JOrderedSetT::kFirstMatch, bpIndex);
 }
 
 /******************************************************************************
@@ -240,7 +239,7 @@ CMLineAddressTable::GetBreakpoints
 	itsVisualBPIndexList->RemoveAll();
 
 	const JString* fnName;
-	if (!(GetDirector())->GetFunctionName(&fnName))
+	if (!GetDirector()->GetFunctionName(&fnName))
 		{
 		list->CleanOut();
 		return;
@@ -248,7 +247,7 @@ CMLineAddressTable::GetBreakpoints
 
 	CMLocation loc;
 	loc.SetFunctionName(*fnName);
-	((GetLink())->GetBreakpointManager())->GetBreakpoints(loc, list);
+	(GetLink()->GetBreakpointManager())->GetBreakpoints(loc, list);
 	list->Sort();
 
 	const JSize count = list->GetElementCount();
@@ -278,7 +277,7 @@ CMLineAddressTable::SetBreakpoint
 	)
 {
 	const JString addr = BuildAddress(*(itsLineTextList->GetElement(lineIndex)));
-	(GetLink())->SetBreakpoint(addr, temporary);
+	GetLink()->SetBreakpoint(addr, temporary);
 }
 
 /******************************************************************************
@@ -293,7 +292,7 @@ CMLineAddressTable::RemoveAllBreakpointsOnLine
 	)
 {
 	const JString addr = BuildAddress(*(itsLineTextList->GetElement(lineIndex)));
-	(GetLink())->RemoveAllBreakpointsAtAddress(addr);
+	GetLink()->RemoveAllBreakpointsAtAddress(addr);
 }
 
 /******************************************************************************
@@ -308,7 +307,7 @@ CMLineAddressTable::RunUntil
 	)
 {
 	const JString addr = BuildAddress(*(itsLineTextList->GetElement(lineIndex)));
-	(GetLink())->RunUntil(addr);
+	GetLink()->RunUntil(addr);
 }
 
 /******************************************************************************
@@ -323,7 +322,7 @@ CMLineAddressTable::SetExecutionPoint
 	)
 {
 	const JString addr = BuildAddress(*(itsLineTextList->GetElement(lineIndex)));
-	(GetLink())->SetExecutionPoint(addr);
+	GetLink()->SetExecutionPoint(addr);
 }
 
 /******************************************************************************

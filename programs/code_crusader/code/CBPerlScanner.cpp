@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBPerlScanner.h"
 #include <JString.h>
 #include <jStreamUtil.h>

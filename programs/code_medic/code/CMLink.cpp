@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMLink.h"
 #include "CMCommand.h"
 #include "CMBreakpoint.h"

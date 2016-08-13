@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBEditProjPrefsDialog.h"
 #include "CBProjectDocument.h"
 #include "cbGlobals.h"

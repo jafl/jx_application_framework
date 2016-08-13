@@ -13,7 +13,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCShortCircuit.h"
 #include "SCCircuit.h"
 #include <JString.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBFindFileDialog.h"
 #include "cbGlobals.h"
 #include <JXWindow.h>
@@ -295,7 +294,7 @@ CBFindFileDialog::WritePrefs
 	output << kCurrentSetupVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ';
 	itsFileHistoryMenu->WriteSetup(output);

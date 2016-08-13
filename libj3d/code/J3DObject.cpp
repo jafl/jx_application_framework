@@ -19,7 +19,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <J3DObject.h>
 #include <JColormap.h>
 #include <GL/gl.h>

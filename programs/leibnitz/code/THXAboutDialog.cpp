@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <thxStdInc.h>
 #include "THXAboutDialog.h"
 #include "thxHelpText.h"
 #include "thxGlobals.h"

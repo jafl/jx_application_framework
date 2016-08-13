@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNGetRepoDialog.h"
 #include "svnGlobals.h"
 #include <JXWindow.h>
@@ -163,11 +162,11 @@ SVNGetRepoDialog::ReadPrefs
 
 	if (vers >= 1)
 		{
-		(GetWindow())->ReadGeometry(input);
+		GetWindow()->ReadGeometry(input);
 		}
 	else
 		{
-		(GetWindow())->PlaceAsDialogWindow();
+		GetWindow()->PlaceAsDialogWindow();
 		}
 
 	itsRepoHistoryMenu->ReadSetup(input);
@@ -187,7 +186,7 @@ SVNGetRepoDialog::WritePrefs
 {
 	output << kCurrentPrefsVersion;
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 	output << ' ';
 	itsRepoHistoryMenu->WriteSetup(output);
 }

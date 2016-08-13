@@ -90,10 +90,10 @@ GMAttachmentTable::GMAttachmentTable
 	assert(itsBinaryIcon != NULL);
 	itsBinaryIcon->ConvertToRemoteStorage();
 
-	if (!(GetDisplay())->GetCursor(kGMAttachDNDCopyCursorName, &itsDNDCursor))
+	if (!GetDisplay()->GetCursor(kGMAttachDNDCopyCursorName, &itsDNDCursor))
 		{
 		itsDNDCursor =
-			(GetDisplay())->CreateCustomCursor(kGMAttachDNDCopyCursorName, kGMAttachDNDCopyCursor);
+			GetDisplay()->CreateCustomCursor(kGMAttachDNDCopyCursorName, kGMAttachDNDCopyCursor);
 		}
 
 	SetRowBorderInfo(0, GetColormap()->GetBlackColor());
@@ -229,7 +229,7 @@ GMAttachmentTable::HandleKeyPress
 		}
 
 	TableRefresh();
-	(GetWindow())->Update();
+	GetWindow()->Update();
 }
 
 /******************************************************************************
@@ -285,7 +285,7 @@ GMAttachmentTable::HandleMouseDown
 		}
 
 	TableRefresh();
-	(GetWindow())->Update();
+	GetWindow()->Update();
 }
 
 /******************************************************************************
@@ -580,7 +580,7 @@ GMAttachmentTable::HandleDNDDrop
 	Atom returnType;
 	JXSelectionManager* selManager = GetSelectionManager();
 	JXSelectionManager::DeleteMethod delMethod;
-	const Atom dndName = (GetDNDManager())->GetDNDSelectionName();
+	const Atom dndName = GetDNDManager()->GetDNDSelectionName();
 	if (selManager->GetData(dndName, time, selManager->GetURLXAtom(),
 									 &returnType, &data, &dataLength, &delMethod))
 		{

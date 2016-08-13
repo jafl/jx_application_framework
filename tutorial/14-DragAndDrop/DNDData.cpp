@@ -7,7 +7,6 @@
 	
  *****************************************************************************/
 
-#include <JXStdInc.h>
 #include <DNDData.h>
 #include <sstream>
 #include <jAssert.h>

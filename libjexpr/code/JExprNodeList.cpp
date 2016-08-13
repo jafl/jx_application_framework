@@ -18,7 +18,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JExprNodeList.h>
 
 #include <JDecision.h>

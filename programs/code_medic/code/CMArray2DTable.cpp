@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMArray2DTable.h"
 #include "CMArray2DDir.h"
 #include "CMCommandDirector.h"
@@ -297,14 +296,14 @@ CMArray2DTable::HandleEditMenu
 {
 	JTextEditor::CmdIndex cmd;
 	JPoint cell;
-	if ((GetEditMenuHandler())->EditMenuIndexToCmd(index, &cmd) &&
+	if (GetEditMenuHandler()->EditMenuIndexToCmd(index, &cmd) &&
 		cmd == JTextEditor::kCopyCmd &&
 		(GetTableSelection()).GetSingleSelectedCell(&cell))
 		{
 		JXTextSelection* data =
-			new JXTextSelection(GetDisplay(), (GetStringData())->GetString(cell));
+			new JXTextSelection(GetDisplay(), GetStringData()->GetString(cell));
 		assert( data != NULL );
 
-		(GetSelectionManager())->SetData(kJXClipboardName, data);
+		GetSelectionManager()->SetData(kJXClipboardName, data);
 		}
 }

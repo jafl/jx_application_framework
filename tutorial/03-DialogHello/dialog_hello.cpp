@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "DialogHelloDir.h"
 #include <JXApplication.h>
 #include "../TutorialStringData.h"

@@ -13,7 +13,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JTableSelectionIterator.h>
 #include <JTableSelection.h>
 #include <JMinMax.h>

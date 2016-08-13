@@ -9,7 +9,6 @@
 	
  *****************************************************************************/
 
-#include <glStdInc.h>
 #include <GLBuiltinFitDescription.h>
 
 #include <jAssert.h>

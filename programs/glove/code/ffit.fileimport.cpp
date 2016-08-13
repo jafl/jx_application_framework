@@ -1,4 +1,3 @@
-#include <glStdInc.h>
 #include <jFStreamUtil.h>
 #include <JString.h>
 #include <JArray.h>

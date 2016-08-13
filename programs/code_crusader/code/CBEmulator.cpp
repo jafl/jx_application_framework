@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBEmulator.h"
 #include "CBVIKeyHandler.h"
 #include "CBTextEditor.h"

@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCVarListDirector.h"
 #include "SCAddFnDialog.h"
 #include "SCVarTable.h"
@@ -222,7 +221,7 @@ SCVarListDirector::ReadSetup
 	const JFileVersion	vers
 	)
 {
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 
 	JBoolean active;
 	input >> active;
@@ -252,7 +251,7 @@ SCVarListDirector::WriteSetup
 	const
 {
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 	output << ' ' << IsActive();
 	output << ' ';
 	itsVarTable->WriteSetup(output);

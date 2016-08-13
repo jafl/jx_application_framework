@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "XDCloseSocketTask.h"
 #include "XDSocket.h"
 

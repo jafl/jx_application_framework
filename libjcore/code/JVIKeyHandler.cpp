@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JVIKeyHandler.h>
 #include <JRegex.h>
 #include <jASCIIConstants.h>
@@ -45,7 +44,7 @@ JVIKeyHandler::JVIKeyHandler
 
 JVIKeyHandler::~JVIKeyHandler()
 {
-	(GetTE())->SetCaretMode(JTextEditor::kLineCaret);
+	GetTE()->SetCaretMode(JTextEditor::kLineCaret);
 }
 
 /******************************************************************************

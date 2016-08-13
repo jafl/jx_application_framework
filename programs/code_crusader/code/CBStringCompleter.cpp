@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBStringCompleter.h"
 #include "CBStylerBase.h"
 #include "CBProjectDocument.h"

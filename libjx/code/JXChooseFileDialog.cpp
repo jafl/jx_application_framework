@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXChooseFileDialog.h>
 #include <JXDirTable.h>
 #include <JXCurrentPathMenu.h>
@@ -92,7 +91,7 @@ JXChooseFileDialog::GetFullName
 	const
 {
 	const JDirEntry* entry;
-	if ((GetFileBrowser())->GetFirstSelection(&entry))
+	if (GetFileBrowser()->GetFirstSelection(&entry))
 		{
 		*fullName = entry->GetFullName();
 		return kJTrue;
@@ -118,7 +117,7 @@ JXChooseFileDialog::GetFullNames
 	fullNameList->CleanOut();
 
 	JPtrArray<JDirEntry> entryList(JPtrArrayT::kDeleteAll);
-	if ((GetFileBrowser())->GetSelection(&entryList))
+	if (GetFileBrowser()->GetSelection(&entryList))
 		{
 		const JSize count = entryList.GetElementCount();
 		for (JIndex i=1; i<=count; i++)
@@ -307,7 +306,7 @@ JXChooseFileDialog::SetObjects
 	if (!JStringEmpty(origName) &&
 		fileBrowser->ClosestMatch(origName, &index))
 		{
-		const JDirEntry& entry = (GetDirInfo())->GetEntry(index);
+		const JDirEntry& entry = GetDirInfo()->GetEntry(index);
 		if (entry.GetName() == origName)
 			{
 			fileBrowser->UpdateScrollbars();
@@ -449,7 +448,7 @@ JXChooseFileDialog::OKToDeactivate()
 			entry->ForceUpdate();	// check that link hasn't been broken behind our back
 			if (!entry->IsFile())
 				{
-				(GetDirInfo())->ForceUpdate();
+				GetDirInfo()->ForceUpdate();
 				return kJFalse;
 				}
 			}

@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "JVMLink.h"
 #include "JVMWelcomeTask.h"
 #include "JVMSetProgramTask.h"

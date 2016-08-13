@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBGetAssembly.h"
 #include "CMSourceDirector.h"
 #include "GDBLink.h"
@@ -51,7 +50,7 @@ GDBGetAssembly::Starting()
 {
 	CMGetAssembly::Starting();
 
-	const CMLocation& loc = (GetDirector())->GetDisassemblyLocation();
+	const CMLocation& loc = GetDirector()->GetDisassemblyLocation();
 
 	JString cmd = "-data-disassemble";
 	if (loc.GetFileName().IsEmpty())
@@ -160,5 +159,5 @@ GDBGetAssembly::HandleSuccess
 			}
 		}
 
-	(GetDirector())->DisplayDisassembly(&addrList, instText);
+	GetDirector()->DisplayDisassembly(&addrList, instText);
 }

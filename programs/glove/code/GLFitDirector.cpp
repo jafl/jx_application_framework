@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <glStdInc.h>
 #include <GLFitDirector.h>
 #include "GLCurveNameList.h"
 #include "GLFitDescriptionList.h"

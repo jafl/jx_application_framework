@@ -26,7 +26,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDNDManager.h>
 #include <JXDNDChooseDropActionDialog.h>
 #include <JXDisplay.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "LLDBGetCompletions.h"
 #include "lldb/API/SBCommandInterpreter.h"
 #include "lldb/API/SBStringList.h"

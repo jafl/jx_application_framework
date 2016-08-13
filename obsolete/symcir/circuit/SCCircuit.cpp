@@ -15,7 +15,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCCircuit.h"
 #include "SCCircuitVarList.h"
 

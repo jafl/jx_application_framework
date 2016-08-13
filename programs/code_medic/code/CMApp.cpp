@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMApp.h"
 #include "CMMDIServer.h"
 #include "CMAboutDialog.h"

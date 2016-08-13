@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "HelpMenuBitmaps.h"
 
 unsigned char frame1_bits[] = {

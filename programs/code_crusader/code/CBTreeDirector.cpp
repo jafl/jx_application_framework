@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBTreeDirector.h"
 #include "CBTreeWidget.h"
 #include "CBTree.h"
@@ -202,11 +201,11 @@ CBTreeDirector::CBTreeDirector
 
 	if (!useSetProjData)
 		{
-		(GetWindow())->ReadGeometry(*setInput);
+		GetWindow()->ReadGeometry(*setInput);
 		}
 	if (24 <= projVers && projVers < 71 && useSetProjData)
 		{
-		(GetWindow())->ReadGeometry(projInput);
+		GetWindow()->ReadGeometry(projInput);
 		}
 	else if (24 <= projVers && projVers < 71)
 		{
@@ -423,7 +422,7 @@ CBTreeDirector::StreamOut
 	if (setOutput != NULL)
 		{
 		*setOutput << ' ';
-		(GetWindow())->WriteGeometry(*setOutput);
+		GetWindow()->WriteGeometry(*setOutput);
 
 		*setOutput << ' ';
 		itsTreeWidget->WriteSetup(*setOutput);
@@ -735,7 +734,7 @@ void
 CBTreeDirector::AdjustWindowTitle()
 {
 	const JString title = itsProjDoc->GetName() + itsWindowTitleSuffix;
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 }
 
 /******************************************************************************
@@ -871,7 +870,7 @@ CBTreeDirector::UpdateFileMenu()
 	itsFileMenu->SetItemEnable(kPrintPSCmd,  canPrint);
 	itsFileMenu->SetItemEnable(kPrintEPSCmd, canPrint);
 
-	itsFileMenu->SetItemEnable(kCloseCmd, !(GetWindow())->IsDocked());
+	itsFileMenu->SetItemEnable(kCloseCmd, !GetWindow()->IsDocked());
 }
 
 /******************************************************************************
@@ -923,7 +922,7 @@ CBTreeDirector::HandleFileMenu
 
 	else if (index == kCloseCmd)
 		{
-		(GetWindow())->Close();
+		GetWindow()->Close();
 		}
 	else if (index == kQuitCmd)
 		{

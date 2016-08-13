@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JX2DPlotRangeDialog.h>
 #include <JXWindow.h>
 #include <JXTextButton.h>

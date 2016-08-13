@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <thxStdInc.h>
 #include "THXVarList.h"
 #include <jParseFunction.h>
 #include <JConstantValue.h>

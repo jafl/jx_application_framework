@@ -12,7 +12,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JDiscreteVarEquality.h>
 #include <JVariableList.h>
 #include <JExprNodeList.h>

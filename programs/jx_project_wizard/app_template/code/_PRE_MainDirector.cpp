@@ -398,7 +398,7 @@ void
 		return;
 		}
 
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 }
 
 /******************************************************************************
@@ -416,5 +416,5 @@ void
 	output << kCurrentPrefsVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 }

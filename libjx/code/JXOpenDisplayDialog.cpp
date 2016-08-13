@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXOpenDisplayDialog.h>
 #include <jXGlobals.h>
 #include <jAssert.h>

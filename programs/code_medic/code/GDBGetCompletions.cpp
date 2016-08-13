@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBGetCompletions.h"
 #include "CMCommandInput.h"
 #include "CMCommandOutputDisplay.h"

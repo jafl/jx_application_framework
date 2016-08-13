@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDocumentMenu.h>
 #include <JXDocumentManager.h>
 #include <JXDocument.h>

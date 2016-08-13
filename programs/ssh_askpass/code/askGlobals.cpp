@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <askStdInc.h>
 #include "askGlobals.h"
 #include "ASKApp.h"
 #include <jAssert.h>

@@ -19,7 +19,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JStopWatch.h>
 #include <JString.h>
 #include <jAssert.h>

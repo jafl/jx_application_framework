@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JMathematicaSM.h>
 #include <jParseFunction.h>
 #include <JFunction.h>

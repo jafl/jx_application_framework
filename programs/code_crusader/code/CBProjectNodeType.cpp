@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBProjectNodeType.h"
 #include <jAssert.h>
 

@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JTreeList.h>
 #include <JTree.h>
 #include <JTreeNode.h>

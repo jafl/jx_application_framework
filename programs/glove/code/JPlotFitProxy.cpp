@@ -7,7 +7,6 @@
 	
  *****************************************************************************/
 
-#include <glStdInc.h>
 #include <JPlotFitProxy.h>
 
 #include "GVarList.h"

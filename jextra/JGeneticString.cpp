@@ -28,7 +28,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JGeneticString.h>
 #include <JString.h>
 #include <math.h>

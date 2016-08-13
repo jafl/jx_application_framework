@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBProjectNode.h"
 #include "CBProjectTree.h"
 #include "CBGroupNode.h"

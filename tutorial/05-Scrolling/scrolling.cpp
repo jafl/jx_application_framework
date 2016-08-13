@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "ScrollingWidgetDir.h"
 #include <JXApplication.h>
 #include "../TutorialStringData.h"

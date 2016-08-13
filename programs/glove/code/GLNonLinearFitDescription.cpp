@@ -9,7 +9,6 @@
 	
  *****************************************************************************/
 
-#include <glStdInc.h>
 #include <GLNonLinearFitDescription.h>
 #include <jAssert.h>
 

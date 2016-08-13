@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMDebugDir.h"
 #include "CMTextDisplayBase.h"
 #include "cmGlobals.h"
@@ -129,13 +128,13 @@ CMDebugDir::Receive
 			const CMLink::DebugType type = msg->GetType();
 			if (type == CMLink::kCommandType)
 				{
-				itsText->SetCurrentFontColor((GetColormap())->GetLightBlueColor());
+				itsText->SetCurrentFontColor(GetColormap()->GetLightBlueColor());
 				itsText->Paste(itsLink->GetPrompt() + " ");
 				itsFile << itsLink->GetPrompt() << " ";
 				}
 			else if (type == CMLink::kOutputType)
 				{
-				itsText->SetCurrentFontColor((GetColormap())->GetBlueColor());
+				itsText->SetCurrentFontColor(GetColormap()->GetBlueColor());
 				}
 			else if (type == CMLink::kLogType)
 				{
@@ -144,7 +143,7 @@ CMDebugDir::Receive
 				}
 
 			itsText->Paste(msg->GetText());
-			itsText->SetCurrentFontColor((GetColormap())->GetBlackColor());
+			itsText->SetCurrentFontColor(GetColormap()->GetBlackColor());
 			itsText->Paste("\n");
 
 			itsFile << msg->GetText();

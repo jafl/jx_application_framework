@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMGetMemory.h"
 #include "CMMemoryDir.h"
 #include <jAssert.h>

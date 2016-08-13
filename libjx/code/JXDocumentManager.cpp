@@ -48,7 +48,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDocumentManager.h>
 #include <JXFileDocument.h>
 #include <JXDocumentMenu.h>

@@ -7,7 +7,6 @@
 
  ********************************************************************************/
 
-#include <glStdInc.h>
 #include "JPlotFitBase.h"
 
 #include <J2DPlotData.h>

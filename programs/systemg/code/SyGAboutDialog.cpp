@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGAboutDialog.h"
 #include "SyGHelpText.h"
 #include "SyGGlobals.h"

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCFeedbackDirector.h"
 #include "SCCircuitDocument.h"
 #include "SCCircuit.h"
@@ -62,7 +61,7 @@ SCFeedbackDirector::SCFeedbackDirector
 {
 	BuildWindow(supervisor);
 
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 	itsMainPartition->ReadGeometry(input);
 	itsHPartition->ReadGeometry(input);
 	itsTPartition->ReadGeometry(input);
@@ -307,7 +306,7 @@ SCFeedbackDirector::EvaluateFeedbackParameters()
 		return;
 		}
 
-	(GetCircuitDocument())->DataModified();
+	GetCircuitDocument()->DataModified();
 
 	itsH0->ClearFunction();
 	itsHinf->ClearFunction();
@@ -443,7 +442,7 @@ SCFeedbackDirector::StreamOut
 	output << ' ' << kFeedbackType;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 	output << ' ';
 	itsMainPartition->WriteGeometry(output);
 	output << ' ';

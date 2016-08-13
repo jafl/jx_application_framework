@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMCommandOutputDisplay.h"
 #include <jAssert.h>
 

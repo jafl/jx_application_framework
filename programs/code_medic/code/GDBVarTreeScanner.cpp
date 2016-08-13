@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include <GDBVarTreeScanner.h>
 
 #include <jAssert.h>

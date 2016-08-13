@@ -65,7 +65,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JExprEditor.h>
 #include <JExprNodeList.h>
 #include <JExprRectList.h>

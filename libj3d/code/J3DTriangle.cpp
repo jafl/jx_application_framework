@@ -14,7 +14,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <J3DTriangle.h>
 #include <GL/gl.h>
 #include <jAssert.h>

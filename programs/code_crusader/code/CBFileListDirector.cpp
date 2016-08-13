@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBFileListDirector.h"
 #include "CBFileListTable.h"
 #include "CBProjectDocument.h"
@@ -163,7 +162,7 @@ CBFileListDirector::CBFileListDirector
 			{
 			if (useProjData)
 				{
-				(GetWindow())->ReadGeometry(projInput);
+				GetWindow()->ReadGeometry(projInput);
 				}
 			else
 				{
@@ -185,7 +184,7 @@ CBFileListDirector::CBFileListDirector
 
 		if (!useProjData)
 			{
-			(GetWindow())->ReadGeometry(*setInput);
+			GetWindow()->ReadGeometry(*setInput);
 
 			JBoolean active;
 			*setInput >> active;
@@ -241,7 +240,7 @@ CBFileListDirector::StreamOut
 	if (setOutput != NULL)
 		{
 		*setOutput << ' ';
-		(GetWindow())->WriteGeometry(*setOutput);
+		GetWindow()->WriteGeometry(*setOutput);
 		*setOutput << ' ' << IsActive();
 		*setOutput << ' ';
 		itsFLSet->WriteSetup(*setOutput);
@@ -412,7 +411,7 @@ void
 CBFileListDirector::AdjustWindowTitle()
 {
 	const JString title = itsProjDoc->GetName() + kWindowTitleSuffix;
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 }
 
 /******************************************************************************
@@ -528,7 +527,7 @@ CBFileListDirector::OpenSelectedFiles()
 void
 CBFileListDirector::UpdateFileMenu()
 {
-	itsFileMenu->SetItemEnable(kCloseCmd, !(GetWindow())->IsDocked());
+	itsFileMenu->SetItemEnable(kCloseCmd, !GetWindow()->IsDocked());
 }
 
 /******************************************************************************
@@ -567,7 +566,7 @@ CBFileListDirector::HandleFileMenu
 
 	else if (index == kCloseCmd)
 		{
-		(GetWindow())->Close();
+		GetWindow()->Close();
 		}
 	else if (index == kQuitCmd)
 		{

@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBJavaScriptScanner.h"
 #include <jStreamUtil.h>
 #include <jAssert.h>

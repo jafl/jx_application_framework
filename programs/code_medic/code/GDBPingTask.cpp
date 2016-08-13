@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBPingTask.h"
 #include "GDBLink.h"
 #include "cmGlobals.h"

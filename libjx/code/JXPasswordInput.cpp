@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXPasswordInput.h>
 #include <JXWindowPainter.h>
 #include <JXDisplay.h>
@@ -157,9 +156,9 @@ JXPasswordInput::Draw
 
 	// warn if Caps Lock is on
 
-	if (((GetDisplay())->GetLatestKeyModifiers()).shiftLock())
+	if ((GetDisplay()->GetLatestKeyModifiers()).shiftLock())
 		{
-		JXImage* img = ((GetDisplay())->GetImageCache())->GetImage(jx_caps_lock_on);
+		JXImage* img = (GetDisplay()->GetImageCache())->GetImage(jx_caps_lock_on);
 		p.JPainter::Image(*img, img->GetBounds(), b.right - img->GetWidth(), b.top);
 		}
 }

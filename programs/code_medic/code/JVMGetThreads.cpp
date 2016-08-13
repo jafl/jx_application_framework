@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "JVMGetThreads.h"
 #include "CMThreadsWidget.h"
 #include "JVMThreadNode.h"
@@ -55,7 +54,7 @@ JVMGetThreads::HandleSuccess
 	JVMLink* link = dynamic_cast<JVMLink*>(CMGetLink());
 	CopyTree(link->GetThreadRoot(), itsTree->GetRoot());
 
-	(GetWidget())->FinishedLoading(link->GetCurrentThreadID());
+	GetWidget()->FinishedLoading(link->GetCurrentThreadID());
 }
 
 /******************************************************************************

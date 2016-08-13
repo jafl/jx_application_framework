@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXButtonStates.h>
 #include <jAssert.h>
 

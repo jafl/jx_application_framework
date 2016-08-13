@@ -9,7 +9,6 @@
 	
  *****************************************************************************/
 
-#include <glStdInc.h>
 #include <GLPolyFitDescription.h>
 
 #include <jAssert.h>

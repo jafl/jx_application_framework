@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNTextBase.h"
 #include "svnMenus.h"
 #include <JXWindow.h>

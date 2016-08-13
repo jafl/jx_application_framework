@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBMacroSubstitute.h"
 #include <jProcessUtil.h>
 #include <jStreamUtil.h>

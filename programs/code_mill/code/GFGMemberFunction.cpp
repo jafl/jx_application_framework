@@ -7,7 +7,6 @@
 	
  *****************************************************************************/
 
-#include <gfgStdInc.h>
 #include <GFGMemberFunction.h>
 #include <JPtrArray-JString.h>
 #include <JRegex.h>

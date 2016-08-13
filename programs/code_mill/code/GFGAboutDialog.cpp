@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <gfgStdInc.h>
 #include "GFGAboutDialog.h"
 #include "gfgGlobals.h"
 #include "gfgHelpText.h"

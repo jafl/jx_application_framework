@@ -7,7 +7,6 @@
 
  ******************************************************************************/
  
-#include <glStdInc.h>
 #include "GloveCursorMonitor.h"
 #include "GlovePlotter.h"
 #include <JXWindowPainter.h>

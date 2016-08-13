@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "JVMGetSourceFileList.h"
 #include "CMFileListDir.h"
 #include "JVMLink.h"
@@ -51,7 +50,7 @@ JVMGetSourceFileList::Starting()
 
 	dynamic_cast<JVMLink*>(CMGetLink())->FlushClassList();
 
-	JXFileListTable* table = (GetFileList())->GetTable();
+	JXFileListTable* table = GetFileList()->GetTable();
 	table->RemoveAllFiles();
 
 	const JPtrArray<JString>& list = dynamic_cast<JVMLink*>(CMGetLink())->GetSourcePathList();
@@ -79,7 +78,7 @@ JVMGetSourceFileList::ScanDirectory
 		return;
 		}
 
-	JXFileListTable* table = (GetFileList())->GetTable();
+	JXFileListTable* table = GetFileList()->GetTable();
 
 	const JSize count = info->GetEntryCount();
 	for (JIndex i=1; i<=count; i++)

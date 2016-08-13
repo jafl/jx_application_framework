@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jTime.h>
 #include <windows.h>
 #include <jAssert.h>

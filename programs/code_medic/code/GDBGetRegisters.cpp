@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBGetRegisters.h"
 #include "CMRegistersDir.h"
 #include <jAssert.h>
@@ -46,5 +45,5 @@ GDBGetRegisters::HandleSuccess
 	const JString& data
 	)
 {
-	(GetDirector())->Update(data);
+	GetDirector()->Update(data);
 }

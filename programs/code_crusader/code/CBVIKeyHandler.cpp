@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBVIKeyHandler.h"
 #include "CBTextDocument.h"
 #include "CBTextEditor.h"

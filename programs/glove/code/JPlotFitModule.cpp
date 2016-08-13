@@ -9,7 +9,6 @@
 	
  *****************************************************************************/
 
-#include <glStdInc.h>
 #include <JPlotFitModule.h>
 #include "GLDLFitModule.h"
 

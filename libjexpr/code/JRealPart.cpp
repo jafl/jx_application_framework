@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JRealPart.h>
 #include <jMath.h>
 #include <jAssert.h>
@@ -86,7 +85,7 @@ JRealPart::Evaluate
 	const
 {
 	JComplex value;
-	if ((GetArg())->Evaluate(&value))
+	if (GetArg()->Evaluate(&value))
 		{
 		*result = real(value);
 		return kJTrue;
@@ -105,7 +104,7 @@ JRealPart::Evaluate
 	const
 {
 	JComplex value;
-	if ((GetArg())->Evaluate(&value))
+	if (GetArg()->Evaluate(&value))
 		{
 		*result = real(value);
 		return kJTrue;

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "XDVarCommand.h"
 #include "XDGetContextVars.h"
 #include "XDLink.h"

@@ -11,7 +11,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JMMRecord.h>
 
 //Class Header

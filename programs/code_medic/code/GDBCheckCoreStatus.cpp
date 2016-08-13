@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBCheckCoreStatus.h"
 #include "GDBLink.h"
 #include "cmGlobals.h"

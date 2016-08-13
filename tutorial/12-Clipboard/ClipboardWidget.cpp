@@ -15,7 +15,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "ClipboardWidget.h"
 
 #include <JXColormap.h>
@@ -234,7 +233,7 @@ ClipboardWidget::HandleEditMenu
 		assert(data != NULL);
 
 		// The selection data is then given to the selection manager.
-		if (!(GetSelectionManager())->SetData(kJXClipboardName, data))
+		if (!GetSelectionManager()->SetData(kJXClipboardName, data))
 			{
 			(JGetUserNotification())->ReportError("Unable to copy to the X Clipboard.");
 			}

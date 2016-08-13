@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBAboutDialogIconTask.h"
 #include <JXImageWidget.h>
 #include <JXImage.h>

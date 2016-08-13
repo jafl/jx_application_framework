@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXCheckModTimeTask.h>
 #include <jDirUtil.h>
 #include <jAssert.h>

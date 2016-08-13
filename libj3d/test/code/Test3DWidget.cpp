@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "Test3DWidget.h"
 #include <JXMesaCamera.h>
 #include <jXGlobals.h>
@@ -43,7 +42,7 @@ Test3DWidget::Test3DWidget
 	const JFloat lat = 45.0 * kJDegToRad;
 	const JFloat lon = 45.0 * kJDegToRad;
 
-	(GetCamera())->SetPosition(JVector(3,
+	GetCamera()->SetPosition(JVector(3,
 		r * cos(lat) * cos(lon),
 		r * cos(lat) * sin(lon),
 		r * sin(lat)));

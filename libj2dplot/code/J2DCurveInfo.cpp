@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <J2DCurveInfo.h>
 #include <JString.h>
 #include <jAssert.h>

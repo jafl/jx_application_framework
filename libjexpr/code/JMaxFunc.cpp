@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JMaxFunc.h>
 #include <jAssert.h>
 

@@ -20,7 +20,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXCursorAnimator.h>
 #include <JXDisplay.h>
 #include <JXWindow.h>

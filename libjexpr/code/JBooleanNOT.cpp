@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JBooleanNOT.h>
 #include <JExprNodeList.h>
 #include <jParserData.h>

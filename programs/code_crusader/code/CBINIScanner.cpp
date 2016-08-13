@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBINIScanner.h"
 #include <JString.h>
 #include <jStreamUtil.h>

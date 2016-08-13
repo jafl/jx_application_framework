@@ -29,7 +29,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JMDIServer.h>
 #include <j_prep_ace.h>
 #include <ace/LSOCK_Acceptor.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBAnalyzeCore.h"
 #include "cmGlobals.h"
 #include <JRegex.h>

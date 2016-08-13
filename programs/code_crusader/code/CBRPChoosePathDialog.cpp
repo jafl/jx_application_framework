@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBRPChoosePathDialog.h"
 #include <JXWindow.h>
 #include <JXStaticText.h>

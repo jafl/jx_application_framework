@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBNewProjectSaveFileDialog.h"
 #include "CBProjectDocument.h"
 #include "CBBuildManager.h"

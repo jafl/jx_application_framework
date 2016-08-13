@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXScrollTabsTask.h>
 #include <JXTabGroup.h>
 

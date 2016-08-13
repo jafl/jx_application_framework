@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBGetThreads.h"
 #include "CMThreadsWidget.h"
 #include "CMThreadNode.h"
@@ -126,7 +125,7 @@ GDBGetThreads::HandleSuccess
 			}
 		}
 
-	(GetWidget())->FinishedLoading(currentThreadIndex);
+	GetWidget()->FinishedLoading(currentThreadIndex);
 }
 
 /******************************************************************************

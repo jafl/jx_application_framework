@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "MenuHelloDir.h"
 #include <JXWindow.h>
 #include <JXStaticText.h>

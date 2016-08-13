@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXChooseMonoFont.h>
 #include <JXXFontMenu.h>
 #include <JXFontSizeMenu.h>
@@ -176,7 +175,7 @@ JXChooseMonoFont::PrependOtherMonospaceFonts
 	)
 {
 	JPtrArray<JString> fontNames(JPtrArrayT::kDeleteAll);
-	(GetFontManager())->GetMonospaceFontNames(&fontNames);
+	GetFontManager()->GetMonospaceFontNames(&fontNames);
 
 	const JSize count = fontNames.GetElementCount();
 	if (count > 0)

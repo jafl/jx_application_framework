@@ -22,7 +22,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBStylerBase.h"
 #include "CBEditStylerDialog.h"
 #include "cbmUtil.h"

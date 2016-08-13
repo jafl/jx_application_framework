@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "scGlobals.h"
 #include "scHelpText.h"
 #include <JMathematicaSM.h>

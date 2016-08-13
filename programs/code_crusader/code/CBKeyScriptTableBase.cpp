@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBKeyScriptTableBase.h"
 #include "CBKeyScriptInput.h"
 #include "CBEditMacroDialog.h"
@@ -211,7 +210,7 @@ CBKeyScriptTableBase::AddRow()
 {
 	if (itsDialog->ContentsValid())
 		{
-		(GetStringData())->AppendRows(1);
+		GetStringData()->AppendRows(1);
 		BeginEditing(JPoint(1, GetRowCount()));
 		}
 }
@@ -228,7 +227,7 @@ CBKeyScriptTableBase::RemoveRow()
 	if (GetEditedCell(&editCell))
 		{
 		CancelEditing();
-		(GetStringData())->RemoveRow(editCell.y);
+		GetStringData()->RemoveRow(editCell.y);
 		}
 }
 

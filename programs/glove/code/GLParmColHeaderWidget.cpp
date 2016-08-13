@@ -7,7 +7,6 @@
 	
  *****************************************************************************/
 
-#include <glStdInc.h>
 #include <GLParmColHeaderWidget.h>
 #include <JPagePrinter.h>
 #include <jAssert.h>

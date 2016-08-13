@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBEditSearchPathsDialog.h"
 #include "CBPathTable.h"
 #include "cbGlobals.h"
@@ -200,5 +199,5 @@ CBEditSearchPathsDialog::WritePrefs
 	output << kCurrentSetupVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 }

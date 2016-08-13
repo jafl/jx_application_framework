@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBDocumentManager.h"
 #include "cbUtil.h"
 #include "cbGlobals.h"

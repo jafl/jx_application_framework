@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCNodeMenu.h"
 #include "SCCircuit.h"
 #include <JXWindow.h>

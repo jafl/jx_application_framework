@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <SyGNewGitRemoteDialog.h>
 #include <JXWindow.h>
 #include <JXStaticText.h>

@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JNegation.h>
 #include <JExprRenderer.h>
 #include <JExprRectList.h>
@@ -90,7 +89,7 @@ JNegation::Evaluate
 	const
 {
 	JFloat value;
-	if ((GetArg())->Evaluate(&value))
+	if (GetArg()->Evaluate(&value))
 		{
 		*result = -value;
 		return kJTrue;
@@ -109,7 +108,7 @@ JNegation::Evaluate
 	const
 {
 	JComplex value;
-	if ((GetArg())->Evaluate(&value))
+	if (GetArg()->Evaluate(&value))
 		{
 		*result = -value;
 		return kJTrue;

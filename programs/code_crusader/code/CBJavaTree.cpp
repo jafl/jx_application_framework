@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBJavaTree.h"
 #include "CBJavaClass.h"
 #include "CBJavaTreeDirector.h"

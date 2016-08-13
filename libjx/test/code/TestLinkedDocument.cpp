@@ -13,7 +13,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestLinkedDocument.h"
 #include <JXDocumentManager.h>
 #include <jXGlobals.h>

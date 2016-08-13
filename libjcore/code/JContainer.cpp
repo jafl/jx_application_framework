@@ -22,7 +22,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JContainer.h>
 #include <JOrderedSet.h>
 #include <jAssert.h>

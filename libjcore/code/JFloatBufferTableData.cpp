@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JFloatBufferTableData.h>
 #include <JFloatTableData.h>
 #include <JString.h>

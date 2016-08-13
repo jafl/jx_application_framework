@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GlovePlotter.h"
 #include "GloveHistoryDir.h"
 #include "GloveModule.h"

@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JFileArrayIndex.h>
 #include <JFileArray.h>
 #include <jAssert.h>

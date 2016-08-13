@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXWarningDialog.h>
 #include <JXWindow.h>
 #include <JXTextButton.h>

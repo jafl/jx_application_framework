@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXWidgetSet.h>
 #include <jAssert.h>
 

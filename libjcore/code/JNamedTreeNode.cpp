@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JNamedTreeNode.h>
 #include <JTree.h>
 #include <JPtrArray-JString.h>

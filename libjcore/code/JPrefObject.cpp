@@ -24,7 +24,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JPrefObject.h>
 #include <sstream>
 #include <jAssert.h>

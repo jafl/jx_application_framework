@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXWindow.h>
 #include <JXWindowDirector.h>
 #include <JXMenuManager.h>
@@ -207,7 +206,7 @@ JXWindow::JXWindow
 
 	// create JXDNDAware property for Drag-And-Drop
 
-	(GetDNDManager())->EnableDND(itsXWindow);
+	GetDNDManager()->EnableDND(itsXWindow);
 
 	// trap window manager's delete message
 
@@ -3361,9 +3360,9 @@ JXWindow::HandleKeyPress
 	// ESC cancels Drag-And-Drop
 
 	if (charCount == 1 && buffer[0] == kJEscapeKey &&
-		(GetDNDManager())->IsDragging())
+		GetDNDManager()->IsDragging())
 		{
-		if ((GetDNDManager())->CancelDND())
+		if (GetDNDManager()->CancelDND())
 			{
 			EndDrag(itsMouseContainer, JPoint(0,0), JXButtonStates(state), modifiers);
 			}

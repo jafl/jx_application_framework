@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JDirEntry.h>
 #include <jDirUtil.h>
 #include <jSysUtil.h>

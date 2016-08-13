@@ -39,7 +39,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDialogDirector.h>
 #include <JXWindow.h>
 #include <JXButton.h>
@@ -191,7 +190,7 @@ JXDialogDirector::Deactivate()
 
 	if (itsCancelFlag)
 		{
-		(GetWindow())->KillFocus();
+		GetWindow()->KillFocus();
 		}
 
 	if (JXWindowDirector::Deactivate())
@@ -200,7 +199,7 @@ JXDialogDirector::Deactivate()
 		Broadcast(JXDialogDirector::Deactivated(success));
 		if (itsModalFlag)
 			{
-			(GetSupervisor())->Resume();
+			GetSupervisor()->Resume();
 			}
 		const JBoolean ok = Close();
 		assert( ok );

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMPlot2DExprTable.h"
 #include "cmGlobals.h"
 #include <JXIntegerInput.h>

@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <JXStdInc.h>
 #include <GCLAppointment.h>
 
 #include <jAssert.h>

@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JDivision.h>
 #include <JExprRenderer.h>
 #include <JExprRectList.h>

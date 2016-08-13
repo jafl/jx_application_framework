@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jTime.h>
 #include <jMath.h>
 #include <unistd.h>

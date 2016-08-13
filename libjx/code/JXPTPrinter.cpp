@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXPTPrinter.h>
 #include <JXPTPageSetupDialog.h>
 #include <JXPTPrintSetupDialog.h>

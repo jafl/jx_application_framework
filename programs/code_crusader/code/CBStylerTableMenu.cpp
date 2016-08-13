@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBStylerTableMenu.h"
 #include <JXStyleTable.h>
 #include <JTableSelection.h>

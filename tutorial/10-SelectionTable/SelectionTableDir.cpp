@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "SelectionTableDir.h"
 #include "SelectionTable.h"
 #include <JXMenuBar.h>

@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXToolBarEditWidget.h>
 #include <JXToolBarNode.h>
 #include <JXDirector.h>

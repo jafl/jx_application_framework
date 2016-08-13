@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GXDataDocument.h"
 #include "GXRaggedFloatTable.h"
 #include "GloveModule.h"

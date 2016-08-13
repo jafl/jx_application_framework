@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXVertPartition.h>
 #include <JXDragPainter.h>
 #include <JXColormap.h>

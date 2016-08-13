@@ -5,7 +5,6 @@
 
  *****************************************************************************/
 
-#include <JXStdInc.h>
 #include <GCLRecurrence.h>
 
 #include <JArray.h>

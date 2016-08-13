@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXCursorAnimationTask.h>
 #include <JXCursorAnimator.h>
 

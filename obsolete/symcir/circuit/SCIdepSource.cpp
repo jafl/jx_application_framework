@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCIdepSource.h"
 #include "SCCircuit.h"
 #include "scNetlistUtil.h"
@@ -100,7 +99,7 @@ SCIdepSource::SCIdepSource
 void
 SCIdepSource::SCIdepSourceX()
 {
-	ListenTo((GetCircuit())->GetComponentList());
+	ListenTo(GetCircuit()->GetComponentList());
 }
 
 /******************************************************************************
@@ -130,7 +129,7 @@ SCIdepSource::SCIdepSource
 	itsDepCompIndex = source.itsDepCompIndex;
 	assert( (theCircuit->GetComponent(itsDepCompIndex))->GetType() == kShortCircuit );
 
-	ListenTo((GetCircuit())->GetComponentList());
+	ListenTo(GetCircuit()->GetComponentList());
 }
 
 /******************************************************************************
@@ -166,7 +165,7 @@ SCIdepSource::SetDepCompIndex
 
 	if (compIndex > 0)
 		{
-		SCComponent* depComp = (GetCircuit())->GetComponent(compIndex);
+		SCComponent* depComp = GetCircuit()->GetComponent(compIndex);
 		assert( depComp->GetType() == kShortCircuit );
 		}
 
@@ -204,7 +203,7 @@ SCIdepSource::PrintToNetlist
 	const
 {
 	SCDepSource::PrintToNetlist(output);
-	output << '\t' << ((GetCircuit())->GetComponent(itsDepCompIndex))->GetName();
+	output << '\t' << (GetCircuit()->GetComponent(itsDepCompIndex))->GetName();
 	output << '\t' << GetCoeffValue();
 }
 
@@ -285,7 +284,7 @@ SCIdepSource::Receive
 	const Message&	message
 	)
 {
-	JBroadcaster* compList = (GetCircuit())->GetComponentList();
+	JBroadcaster* compList = GetCircuit()->GetComponentList();
 
 	if (sender == compList && message.Is(JOrderedSetT::kElementsInserted))
 		{

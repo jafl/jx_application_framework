@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "JVMDisplaySourceForMain.h"
 #include <jAssert.h>
 

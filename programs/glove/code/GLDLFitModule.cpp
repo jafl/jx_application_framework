@@ -7,7 +7,6 @@
 	
  *****************************************************************************/
 
-#include <glStdInc.h>
 #include <GLDLFitModule.h>
 
 #include <JVector.h>

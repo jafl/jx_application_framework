@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GLHelpText.h"
 
 const JCharacter* kHelpSectionName[] =

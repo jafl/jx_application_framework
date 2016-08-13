@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JAbsValue.h>
 #include <JExprRenderer.h>
 #include <JExprRectList.h>
@@ -92,7 +91,7 @@ JAbsValue::Evaluate
 	const
 {
 	JComplex value;
-	if ((GetArg())->Evaluate(&value))
+	if (GetArg()->Evaluate(&value))
 		{
 		jclear_errno();
 		*result = abs(value);
@@ -112,7 +111,7 @@ JAbsValue::Evaluate
 	const
 {
 	JComplex value;
-	if ((GetArg())->Evaluate(&value))
+	if (GetArg()->Evaluate(&value))
 		{
 		jclear_errno();
 		*result = abs(value);
@@ -185,7 +184,7 @@ JAbsValue::Render
 	// draw ourselves
 
 	renderer.DrawVertBar(ourRect.left, ourRect.top, ourRect.height());
-	(GetArg())->Render(renderer, rectList);
+	GetArg()->Render(renderer, rectList);
 	renderer.DrawVertBar(ourRect.right - renderer.GetVertBarWidth(),
 						 ourRect.top, ourRect.height());
 }

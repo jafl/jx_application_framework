@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <mdStdInc.h>
 #include "MDMainDirector.h"
 #include "mdHelpText.h"
 #include "mdGlobals.h"
@@ -404,7 +403,7 @@ MDMainDirector::ReadPrefs
 		return;
 		}
 
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 }
 
 /******************************************************************************
@@ -422,5 +421,5 @@ MDMainDirector::WritePrefs
 	output << kCurrentPrefsVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 }

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GXColByIncDialog.h"
 
 #include <JXWindow.h>

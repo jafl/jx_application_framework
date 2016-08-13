@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXSaveFileDialog.h>
 #include <JXDirTable.h>
 #include <JXCurrentPathMenu.h>
@@ -492,7 +491,7 @@ JXSaveFileDialog::UpdateDisplay()
 
 	if ((itsFileNameInput->HasFocus() || saveWoutFocus) &&
 		((itsFileNameInput->GetText()).IsEmpty() ||
-		 !(GetDirInfo())->IsWritable()))
+		 !GetDirInfo()->IsWritable()))
 		{
 		itsSaveButton->Deactivate();
 		}

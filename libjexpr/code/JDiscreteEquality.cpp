@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JDiscreteEquality.h>
 #include <JVariableList.h>
 #include <JFunction.h>
@@ -95,7 +94,7 @@ JDiscreteEquality::Evaluate()
 	if (EvaluateArrayIndex(&arrayIndex))
 		{
 		return JConvertToBoolean(
-			(GetVariableList())->GetDiscreteValue(GetVariableIndex(), arrayIndex) == itsValue );
+			GetVariableList()->GetDiscreteValue(GetVariableIndex(), arrayIndex) == itsValue );
 		}
 	else
 		{
@@ -118,7 +117,7 @@ JDiscreteEquality::Print
 	PrintVariable(output);
 	output << ' ' << JPGetEqualityString() << ' ';
 	const JString& valueName =
-		(GetVariableList())->GetDiscreteValueName(GetVariableIndex(), itsValue);
+		GetVariableList()->GetDiscreteValueName(GetVariableIndex(), itsValue);
 	valueName.Print(output);
 }
 
@@ -159,7 +158,7 @@ JDiscreteEquality::SetVariableIndex
 	const JIndex variableIndex
 	)
 {
-	assert( (GetVariableList())->IsDiscrete(variableIndex) );
+	assert( GetVariableList()->IsDiscrete(variableIndex) );
 	JDecisionWithVar::SetVariableIndex(variableIndex);
 }
 
@@ -191,5 +190,5 @@ JDiscreteEquality::ValueValid
 	const
 {
 	return JConvertToBoolean( 1 <= value &&
-				value <= (GetVariableList())->GetDiscreteValueCount(GetVariableIndex()) );
+				value <= GetVariableList()->GetDiscreteValueCount(GetVariableIndex()) );
 }

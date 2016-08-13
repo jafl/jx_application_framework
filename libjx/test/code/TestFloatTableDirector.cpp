@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestFloatTableDirector.h"
 #include "TestFloatTable.h"
 

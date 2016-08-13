@@ -11,7 +11,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JIntRange.h>
 #include <JMinMax.h>
 #include <jAssert.h>

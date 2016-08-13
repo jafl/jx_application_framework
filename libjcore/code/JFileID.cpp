@@ -10,7 +10,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JFileID.h>
 #include <sys/stat.h>
 #include <j_prep_ace.h>

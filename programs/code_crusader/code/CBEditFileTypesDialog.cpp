@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBEditFileTypesDialog.h"
 #include "CBFileTypeTable.h"
 #include "cbGlobals.h"
@@ -244,7 +243,7 @@ CBEditFileTypesDialog::WritePrefs
 	output << kCurrentSetupVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ';
 	itsTable->WriteGeometry(output);

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXAdjustIWBoundsTask.h>
 #include <JXImageWidget.h>
 

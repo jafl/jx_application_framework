@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMArray2DDir.h"
 #include "CMArray2DTable.h"
 #include "CMArray2DCommand.h"
@@ -149,7 +148,7 @@ CMArray2DDir::CMArray2DDir
 {
 	input >> itsExpr >> itsRowRequestRange >> itsColRequestRange;
 	CMArray2DDirX(supervisor);
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 }
 
 // private
@@ -220,7 +219,7 @@ CMArray2DDir::StreamOut
 	output << ' ' << itsExpr;
 	output << ' ' << itsRowRequestRange;
 	output << ' ' << itsColRequestRange;
-	(GetWindow())->WriteGeometry(output);	// must be last
+	GetWindow()->WriteGeometry(output);	// must be last
 }
 
 /******************************************************************************
@@ -449,7 +448,7 @@ CMArray2DDir::BuildWindow()
 	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
 	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
 
-	((GetDisplay())->GetWDManager())->DirectorCreated(this);
+	(GetDisplay()->GetWDManager())->DirectorCreated(this);
 }
 
 /******************************************************************************
@@ -462,7 +461,7 @@ CMArray2DDir::UpdateWindowTitle()
 {
 	JString title = itsExpr;
 	title += kWindowTitleSuffix;
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 }
 
 /******************************************************************************

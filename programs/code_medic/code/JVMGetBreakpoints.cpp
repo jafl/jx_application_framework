@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "JVMGetBreakpoints.h"
 #include "JVMLink.h"
 #include <jAssert.h>

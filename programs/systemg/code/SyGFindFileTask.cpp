@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGFindFileTask.h"
 #include "SyGTreeDir.h"
 #include "SyGFileTreeTable.h"

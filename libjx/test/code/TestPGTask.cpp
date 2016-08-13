@@ -13,7 +13,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestPGTask.h"
 #include <jXGlobals.h>
 #include <jTime.h>

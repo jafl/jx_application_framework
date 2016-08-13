@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <J3DLine.h>
 #include <GL/gl.h>
 #include <jAssert.h>

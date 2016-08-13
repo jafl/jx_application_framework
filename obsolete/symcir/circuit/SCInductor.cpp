@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCInductor.h"
 #include "SCCircuit.h"
 #include <JString.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCEditVarValueDialog.h"
 #include "SCCircuitVarList.h"
 

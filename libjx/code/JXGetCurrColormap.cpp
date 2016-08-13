@@ -16,7 +16,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXGetCurrColormap.h>
 #include <JXDisplay.h>
 #include <JXColormap.h>

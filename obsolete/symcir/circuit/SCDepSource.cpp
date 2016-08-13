@@ -12,7 +12,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCDepSource.h"
 #include "SCCircuit.h"
 #include "SCCircuitVarList.h"

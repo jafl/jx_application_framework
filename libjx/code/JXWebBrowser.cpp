@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXWebBrowser.h>
 #include <JXEditWWWPrefsDialog.h>
 #include <JXSharedPrefsManager.h>

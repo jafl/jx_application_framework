@@ -22,7 +22,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include "JFSFileTreeNode.h"
 #include "JFSFileTree.h"
 #include <JPtrArray-JString.h>
@@ -168,12 +167,12 @@ JFSFileTreeNode::Rename
 
 		if (sort)
 			{
-			(GetParent())->SortChildren();		// this method maintains the selection
+			GetParent()->SortChildren();		// this method maintains the selection
 			}
 
 		if (itsDirEntry->IsDirectory())
 			{
-			(GetFSFileTree())->BroadcastDirectoryRenamed(oldFullName, newFullName);
+			GetFSFileTree()->BroadcastDirectoryRenamed(oldFullName, newFullName);
 			}
 		}
 
@@ -476,7 +475,7 @@ JFSFileTreeNode::Update
 	JBoolean changed = itsDirEntry->Update(force);
 	if (changed)
 		{
-		(GetTree())->BroadcastChange(this);
+		GetTree()->BroadcastChange(this);
 		}
 
 	const JBoolean canHaveChildren = CanHaveChildren();
@@ -546,7 +545,7 @@ JFSFileTreeNode::Update
 		if (parent == NULL)
 			{
 			*updateNode =
-				dynamic_cast<JFSFileTreeNodeBase*>((GetTree())->GetRoot());
+				dynamic_cast<JFSFileTreeNodeBase*>(GetTree()->GetRoot());
 			}
 		}
 	else

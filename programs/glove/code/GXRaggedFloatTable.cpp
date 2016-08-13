@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "GXRaggedFloatTable.h"
 #include "GRaggedFloatTableData.h"
 #include "GXColByIncDialog.h"
@@ -445,7 +444,7 @@ GXRaggedFloatTable::HandleMouseDrag
 
 	s.ExtendSelection(newBoat);
 
-	(GetWindow())->Update();
+	GetWindow()->Update();
 }
 
 /******************************************************************************
@@ -1276,7 +1275,7 @@ GXRaggedFloatTable::HandleCopyCmd()
 
 	data->SetGloveData(os2.str());
 
-	if (!(GetSelectionManager())->SetData(kJXClipboardName, data))
+	if (!GetSelectionManager()->SetData(kJXClipboardName, data))
 		{
 		(JGetUserNotification())->ReportError("Unable to copy to the X Clipboard.");
 		}
@@ -2261,7 +2260,7 @@ GXRaggedFloatTable::GetNewColByRange()
 {
 	assert (itsColByRangeDialog == NULL);
 	itsColByRangeDialog =
-		new GXColByRangeDialog((GetWindow())->GetDirector(), itsFloatData->GetDataColCount() + 1);
+		new GXColByRangeDialog(GetWindow()->GetDirector(), itsFloatData->GetDataColCount() + 1);
 	assert (itsColByRangeDialog != NULL);
 	ListenTo(itsColByRangeDialog);
 	itsColByRangeDialog->BeginDialog();
@@ -2333,7 +2332,7 @@ GXRaggedFloatTable::GetNewColByInc()
 {
 	assert (itsColByIncDialog == NULL);
 	itsColByIncDialog =
-		new GXColByIncDialog((GetWindow())->GetDirector(), itsFloatData->GetDataColCount() + 1);
+		new GXColByIncDialog(GetWindow()->GetDirector(), itsFloatData->GetDataColCount() + 1);
 	assert (itsColByIncDialog != NULL);
 	ListenTo(itsColByIncDialog);
 	itsColByIncDialog->BeginDialog();
@@ -2487,7 +2486,7 @@ GXRaggedFloatTable::ChooseNewTransformFunction()
 	itsVarList->AddArray("col",*ar);
 
 	itsTransDialog =
-		new GXTransformFunctionDialog((GetWindow())->GetDirector(), itsVarList, count);
+		new GXTransformFunctionDialog(GetWindow()->GetDirector(), itsVarList, count);
 	assert (itsTransDialog != NULL);
 	ListenTo(itsTransDialog);
 	itsTransDialog->BeginDialog();
@@ -2769,7 +2768,7 @@ GXRaggedFloatTable::PrintRealTable
 		RemoveRow(GetRowCount());
 		}
 
-	const JColorIndex gray50Color = (GetColormap())->GetGrayColor(50);
+	const JColorIndex gray50Color = GetColormap()->GetGrayColor(50);
 	SetRowBorderInfo(0, gray50Color);
 	SetColBorderInfo(0, gray50Color);
 

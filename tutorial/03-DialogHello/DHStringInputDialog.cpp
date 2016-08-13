@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "DHStringInputDialog.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>

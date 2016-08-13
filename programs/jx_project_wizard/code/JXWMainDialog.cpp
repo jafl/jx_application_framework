@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <jxwStdInc.h>
 #include "JXWMainDialog.h"
 #include "jxwGlobals.h"
 #include "jxwHelpText.h"
@@ -636,7 +635,7 @@ JXWMainDialog::ReadPrefs
 	input >> vers;
 	if (vers <= kCurrentPrefsVersion)
 		{
-		(GetWindow())->ReadGeometry(input);
+		GetWindow()->ReadGeometry(input);
 
 		JString s;
 		input >> s;
@@ -722,7 +721,7 @@ JXWMainDialog::WritePrefs
 	output << ' ' << kCurrentPrefsVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ' << itsProgramVersion->GetText();
 	output << ' ' << itsDevName->GetText();

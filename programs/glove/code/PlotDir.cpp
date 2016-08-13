@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "PlotDir.h"
 #include "GVarList.h"
 #include "GXPlotFunctionDialog.h"
@@ -272,7 +271,7 @@ PlotDir::Receive
 	if (sender == itsPlot && message.Is(J2DPlotWidget::kTitleChanged))
 		{
 		JString title = itsFileName + ":  " + itsPlot->GetTitle();
-		(GetWindow())->SetTitle(title);
+		GetWindow()->SetTitle(title);
 		JString sessiontitle = "Glove session  -  " + title;
 		(itsSessionDir->GetWindow())->SetTitle(sessiontitle);
 		}
@@ -453,7 +452,7 @@ PlotDir::NewFileName
 {
 	itsFileName = filename;
 	JString title = itsFileName + ":  " + itsPlot->GetTitle();
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 	JString sessiontitle = "Glove session  -  " + title;
 	(itsSessionDir->GetWindow())->SetTitle(sessiontitle);
 }

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXMesaCamera.h>
 #include <JX3DWidget.h>
 #include <J3DUniverse.h>
@@ -85,7 +84,7 @@ JXMesaCamera::Render()
 
 	// render the scene
 
-	(GetUniverse())->RenderAll(*this);
+	GetUniverse()->RenderAll(*this);
 
 	// display the scene
 

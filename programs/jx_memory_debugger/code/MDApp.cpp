@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <mdStdInc.h>
 #include "MDApp.h"
 #include "MDAboutDialog.h"
 #include "mdStringData.h"

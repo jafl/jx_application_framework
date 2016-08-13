@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "XDGetFrame.h"
 #include "CMStackWidget.h"
 #include <jAssert.h>

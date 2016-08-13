@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDockDragData.h>
 #include <JXDockManager.h>
 #include <JXWindow.h>

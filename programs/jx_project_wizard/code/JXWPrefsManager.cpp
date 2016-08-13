@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <jxwStdInc.h>
 #include "JXWPrefsManager.h"
 #include "jxwGlobals.h"
 #include <JXChooseSaveFile.h>

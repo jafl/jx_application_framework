@@ -12,7 +12,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JDiscVarValue.h>
 #include <JVariableList.h>
 #include <jParserData.h>
@@ -168,6 +167,6 @@ JDiscVarValue::SetVariableIndex
 	const JIndex variableIndex
 	)
 {
-	assert( (GetVariableList())->IsDiscrete(variableIndex) );
+	assert( GetVariableList()->IsDiscrete(variableIndex) );
 	JFunctionWithVar::SetVariableIndex(variableIndex);
 }

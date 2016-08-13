@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <mdStdInc.h>
 #include "MDFilterRecordsDialog.h"
 #include "mdGlobals.h"
 #include <JXWindow.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <thxStdInc.h>
 #include "THXKeyPad.h"
 #include "THXExprEditor.h"
 #include <JXTextButton.h>

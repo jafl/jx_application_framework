@@ -98,7 +98,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JRegex.h>
 #include <JSubstitute.h>
 #include <JInterpolate.h>
@@ -1316,7 +1315,7 @@ JRegex::SetReplacePattern
 		{
 		errRange = &r;
 		}
-	return (GetMatchInterpolator())->ContainsError(*itsReplacePattern, errRange);
+	return GetMatchInterpolator()->ContainsError(*itsReplacePattern, errRange);
 }
 
 /******************************************************************************

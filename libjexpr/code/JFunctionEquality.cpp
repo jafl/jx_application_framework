@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JFunctionEquality.h>
 #include <JFunction.h>
 #include <jParserData.h>

@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "cmGlobals.h"
 #include "cmHelpText.h"
 #include "CMDockManager.h"

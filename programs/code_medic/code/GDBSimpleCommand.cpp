@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBSimpleCommand.h"
 #include <jAssert.h>
 

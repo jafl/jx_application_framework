@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "WizConnectDialog.h"
 #include "wizHelpText.h"
 #include <JXWindow.h>

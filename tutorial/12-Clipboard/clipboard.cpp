@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "ClipboardDir.h"
 #include <JXApplication.h>
 #include "../TutorialStringData.h"

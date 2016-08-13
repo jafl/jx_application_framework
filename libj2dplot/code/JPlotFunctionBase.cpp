@@ -7,7 +7,6 @@
 
  ********************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JPlotFunctionBase.h>
 #include <J2DPlotWidget.h>
 #include <JMinMax.h>

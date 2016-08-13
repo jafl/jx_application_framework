@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXScrollbarSet.h>
 #include <JXScrollableWidget.h>
 #include <JXScrollbar.h>

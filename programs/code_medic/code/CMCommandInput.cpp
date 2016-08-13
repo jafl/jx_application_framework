@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMCommandInput.h"
 #include "CMTextDisplayBase.h"
 #include "cbmUtil.h"

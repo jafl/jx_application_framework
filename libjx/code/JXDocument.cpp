@@ -56,7 +56,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDocument.h>
 #include <JXDocumentManager.h>
 #include <JXWDManager.h>

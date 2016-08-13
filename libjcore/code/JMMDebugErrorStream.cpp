@@ -13,7 +13,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JMMDebugErrorStream.h>
 #include <JMemoryManager.h>
 #include <jAssert.h>

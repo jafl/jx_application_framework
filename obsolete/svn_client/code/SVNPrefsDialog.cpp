@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNPrefsDialog.h"
 #include "svnGlobals.h"
 #include <JXWindow.h>
@@ -222,7 +221,7 @@ SVNPrefsDialog::UpdateDisplay()
 		}
 	else
 		{
-		(GetWindow())->KillFocus();
+		GetWindow()->KillFocus();
 		}
 }
 

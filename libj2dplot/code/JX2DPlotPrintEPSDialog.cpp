@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JX2DPlotPrintEPSDialog.h>
 #include <J2DPlotWidget.h>
 #include <JPSPrinter.h>

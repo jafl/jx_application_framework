@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jWebUtil.h>
 #include <JVersionSocket.h>
 #include <JRegex.h>

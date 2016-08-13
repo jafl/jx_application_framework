@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXWDMenu.h>
 #include <JXWDManager.h>
 #include <JXDisplay.h>
@@ -56,7 +55,7 @@ JXWDMenu::JXWDMenu
 void
 JXWDMenu::JXWDMenuX()
 {
-	itsWDMgr = (GetDisplay())->GetWDManager();
+	itsWDMgr = GetDisplay()->GetWDManager();
 	itsWDMgr->UpdateWDMenu(this);	// so permanent windows can go on toolbar
 
 	ListenTo(this);

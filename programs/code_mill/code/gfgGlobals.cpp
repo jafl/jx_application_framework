@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <gfgStdInc.h>
 #include "gfgGlobals.h"
 #include "GFGApp.h"
 #include "GFGPrefsManager.h"

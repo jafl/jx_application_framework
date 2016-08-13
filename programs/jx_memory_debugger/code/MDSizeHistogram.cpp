@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <mdStdInc.h>
 #include "MDSizeHistogram.h"
 #include <JXWindowPainter.h>
 #include <JXColormap.h>

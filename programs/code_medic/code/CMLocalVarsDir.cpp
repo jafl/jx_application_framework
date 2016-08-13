@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMLocalVarsDir.h"
 #include "CMGetLocalVars.h"
 #include "CMVarTreeWidget.h"
@@ -252,7 +251,7 @@ CMLocalVarsDir::UpdateWindowTitle
 {
 	JString title = binaryName;
 	title += kWindowTitleSuffix;
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 }
 
 /******************************************************************************
@@ -433,7 +432,7 @@ CMLocalVarsDir::Update()
 void
 CMLocalVarsDir::Rebuild()
 {
-	if (IsActive() && !(GetWindow())->IsIconified())
+	if (IsActive() && !GetWindow()->IsIconified())
 		{
 		itsNeedsUpdateFlag = kJFalse;	// can't call FlushOldData() since must *update* tree
 		itsGetLocalsCmd->Send();
@@ -468,7 +467,7 @@ CMLocalVarsDir::FlushOldData()
 void
 CMLocalVarsDir::UpdateFileMenu()
 {
-	itsFileMenu->SetItemEnable(kCloseWindowCmd, !(GetWindow())->IsDocked());
+	itsFileMenu->SetItemEnable(kCloseWindowCmd, !GetWindow()->IsDocked());
 }
 
 /******************************************************************************

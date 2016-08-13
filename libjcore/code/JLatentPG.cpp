@@ -19,7 +19,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JLatentPG.h>
 #include <JString.h>
 #include <jGlobals.h>

@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMThreadsDir.h"
 #include "CMThreadsWidget.h"
 #include "CMCommandDirector.h"
@@ -207,7 +206,7 @@ CMThreadsDir::UpdateWindowTitle
 {
 	JString title = binaryName;
 	title += kWindowTitleSuffix;
-	(GetWindow())->SetTitle(title);
+	GetWindow()->SetTitle(title);
 }
 
 /******************************************************************************
@@ -311,7 +310,7 @@ CMThreadsDir::ReceiveGoingAway
 void
 CMThreadsDir::UpdateFileMenu()
 {
-	itsFileMenu->SetItemEnable(kCloseWindowCmd, !(GetWindow())->IsDocked());
+	itsFileMenu->SetItemEnable(kCloseWindowCmd, !GetWindow()->IsDocked());
 }
 
 /******************************************************************************

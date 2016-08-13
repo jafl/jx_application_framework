@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMDeselectLineTask.h"
 #include "CMLineIndexTable.h"
 #include <JXTextMenu.h>

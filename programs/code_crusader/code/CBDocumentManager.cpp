@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBDocumentManager.h"
 #include "CBProjectDocument.h"
 #include "CBProjectTree.h"

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMGetAssembly.h"
 #include "CMSourceDirector.h"
 #include <jAssert.h>

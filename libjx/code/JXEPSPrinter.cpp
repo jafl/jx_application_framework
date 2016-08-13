@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXEPSPrinter.h>
 #include <JXEPSPrintSetupDialog.h>
 #include <JXDisplay.h>

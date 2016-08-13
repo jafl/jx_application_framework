@@ -15,7 +15,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXApplication.h>
 #include <JXDisplay.h>
 #include <JXWindow.h>

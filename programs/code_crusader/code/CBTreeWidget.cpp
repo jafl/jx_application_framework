@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBTreeWidget.h"
 #include "CBTree.h"
 #include "CBClass.h"
@@ -68,7 +67,7 @@ CBTreeWidget::CBTreeWidget
 	:
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h)
 {
-	CBClass::SetGhostNameColor((GetColormap())->GetBlackColor());
+	CBClass::SetGhostNameColor(GetColormap()->GetBlackColor());
 
 	itsDirector = director;
 	itsTree     = tree;
@@ -89,7 +88,7 @@ CBTreeWidget::CBTreeWidget
 
 	WantInput(kJTrue, kJFalse, kJTrue);	// need Meta-Tab
 
-	const JColorIndex gray75Color = (GetColormap())->GetGrayColor(75);
+	const JColorIndex gray75Color = GetColormap()->GetGrayColor(75);
 	SetBackColor(gray75Color);
 	SetFocusColor(gray75Color);
 
@@ -153,7 +152,7 @@ CBTreeWidget::FindClass
 			(selCount > 1 || button == kJXRightButton ||
 			 itsRaiseWhenSingleMatchFlag))
 			{
-			((GetWindow())->GetDirector())->Activate();
+			(GetWindow()->GetDirector())->Activate();
 			}
 
 		if (openFileIfSingleMatch && button != kJXRightButton)
@@ -229,7 +228,7 @@ CBTreeWidget::FindFunction
 			(selCount > 1 || button == kJXRightButton ||
 			 itsRaiseWhenSingleMatchFlag))
 			{
-			((GetWindow())->GetDirector())->Activate();
+			(GetWindow()->GetDirector())->Activate();
 			}
 
 		if (openFileIfSingleMatch && button != kJXRightButton)
@@ -331,9 +330,9 @@ CBTreeWidget::Print
 					 footerHeight, JPainter::kVAlignBottom);
 			p.LockFooter(pageRect.height() - drawHeight);
 
-			p.SetPenColor((GetColormap())->GetYellowColor());
+			p.SetPenColor(GetColormap()->GetYellowColor());
 			p.JPainter::Rect(p.GetPageRect());
-			p.SetPenColor((GetColormap())->GetBlackColor());
+			p.SetPenColor(GetColormap()->GetBlackColor());
 
 			const JCoordinate top = (i-1)*drawHeight;
 			p.ShiftOrigin(0, 1-kBorderWidth-top);
@@ -610,7 +609,7 @@ CBTreeWidget::GetDNDAction
 	const JXKeyModifiers&	modifiers
 	)
 {
-	return (GetDNDManager())->GetDNDActionPrivateXAtom();
+	return GetDNDManager()->GetDNDActionPrivateXAtom();
 }
 
 /******************************************************************************
@@ -626,7 +625,7 @@ CBTreeWidget::HandleDNDResponse
 	const Atom			action
 	)
 {
-	DisplayCursor((GetDNDManager())->GetDNDFileCursor(dropAccepted, action));
+	DisplayCursor(GetDNDManager()->GetDNDFileCursor(dropAccepted, action));
 }
 
 /******************************************************************************
@@ -655,14 +654,14 @@ CBTreeWidget::WillAcceptDrop
 
 	// we accept drops of type text/uri-list
 
-	const Atom urlXAtom = (GetSelectionManager())->GetURLXAtom();
+	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
 
 	const JSize typeCount = typeList.GetElementCount();
 	for (JIndex i=1; i<=typeCount; i++)
 		{
 		if (typeList.GetElement(i) == urlXAtom)
 			{
-			*action = (GetDNDManager())->GetDNDActionPrivateXAtom();
+			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			return kJTrue;
 			}
 		}
@@ -696,7 +695,7 @@ CBTreeWidget::HandleDNDDrop
 	unsigned char* data;
 	JSize dataLength;
 	JXSelectionManager::DeleteMethod delMethod;
-	if (selMgr->GetData((GetDNDManager())->GetDNDSelectionName(),
+	if (selMgr->GetData(GetDNDManager()->GetDNDSelectionName(),
 						time, selMgr->GetURLXAtom(),
 						&returnType, &data, &dataLength, &delMethod))
 		{

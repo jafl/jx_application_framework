@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBTELineIndexInput.h"
 #include <JXMenu.h>
 #include <jAssert.h>
@@ -117,7 +116,7 @@ CBTELineIndexInput::HandleKeyPress
 			}
 		if (s == "$")
 			{
-			SetText(JString((GetTE())->GetLineCount()+1, JString::kBase10));
+			SetText(JString(GetTE()->GetLineCount()+1, JString::kBase10));
 			GoToEndOfLine();
 			}
 		}

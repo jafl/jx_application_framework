@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "JVMGetClassInfo.h"
 #include "JVMLink.h"
 #include "cmGlobals.h"

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBEditCPPMacroDialog.h"
 #include "CBCPPMacroTable.h"
 #include "cbGlobals.h"
@@ -237,7 +236,7 @@ CBEditCPPMacroDialog::WritePrefs
 	output << kCurrentSetupVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ';
 	itsTable->WriteSetup(output);

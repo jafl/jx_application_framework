@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JWebBrowser.h>
 #include <JSimpleProcess.h>
 #include <jFileUtil.h>

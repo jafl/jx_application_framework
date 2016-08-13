@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBFileHistoryMenu.h"
 #include "CBProjectDocument.h"
 #include "cbGlobals.h"
@@ -125,13 +124,13 @@ CBFileHistoryMenu::Receive
 		const JString fileName = GetFile(selection->GetIndex());
 
 		JBoolean saveReopen = CBProjectDocument::WillReopenTextFiles();
-		if (((GetDisplay())->GetLatestKeyModifiers()).GetState(kJXShiftKeyIndex))
+		if ((GetDisplay()->GetLatestKeyModifiers()).GetState(kJXShiftKeyIndex))
 			{
 			CBProjectDocument::ShouldReopenTextFiles(!saveReopen);
 			}
 
 		CBDocumentManager* docMgr = CBGetDocumentManager();
-		if (!((GetDisplay())->GetLatestKeyModifiers()).meta() ||
+		if (!(GetDisplay()->GetLatestKeyModifiers()).meta() ||
 			(docMgr->CloseProjectDocuments() &&
 			 docMgr->CloseTextDocuments()))
 			{

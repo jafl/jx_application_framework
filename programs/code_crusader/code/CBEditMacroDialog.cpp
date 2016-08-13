@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBEditMacroDialog.h"
 #include "CBMacroSetTable.h"
 #include "CBCharActionTable.h"
@@ -416,7 +415,7 @@ CBEditMacroDialog::WritePrefs
 	output << kCurrentSetupVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ';
 	itsPartition->WriteGeometry(output);

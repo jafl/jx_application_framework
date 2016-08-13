@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXSpellChecker.h>
 #include <JXSpellCheckerDialog.h>
 #include <JXSharedPrefsManager.h>

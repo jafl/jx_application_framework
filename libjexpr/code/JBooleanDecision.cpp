@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JBooleanDecision.h>
 #include <JExprNodeList.h>
 #include <jAssert.h>

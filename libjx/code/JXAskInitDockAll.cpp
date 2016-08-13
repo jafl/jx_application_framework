@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXAskInitDockAll.h>
 #include <JXDockManager.h>
 #include <JXDirector.h>

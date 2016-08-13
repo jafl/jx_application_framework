@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBExtEditorDialog.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>

@@ -13,7 +13,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXXFontMenu.h>
 #include <JXFontManager.h>
 #include <jAssert.h>

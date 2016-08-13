@@ -12,7 +12,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JThisProcess.h>
 #include <jAssert.h>
 

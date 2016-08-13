@@ -13,7 +13,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXFontSizeMenu.h>
 #include <JXFontNameMenu.h>
 #include <JXChooseFontSizeDialog.h>
@@ -199,7 +198,7 @@ JXFontSizeMenu::BuildMenu
 
 	JSize minSize, maxSize;
 	JArray<JSize> sizeList;
-	(GetFontManager())->GetFontSizes(fontName, &minSize, &maxSize, &sizeList);
+	GetFontManager()->GetFontSizes(fontName, &minSize, &maxSize, &sizeList);
 
 	const JSize count = sizeList.GetElementCount();
 	JString id;
@@ -350,7 +349,7 @@ JXFontSizeMenu::ChooseFontSize
 	else
 		{
 		assert( itsChooseSizeDialog == NULL );
-		JXWindowDirector* supervisor = (GetWindow())->GetDirector();
+		JXWindowDirector* supervisor = GetWindow()->GetDirector();
 		itsChooseSizeDialog = new JXChooseFontSizeDialog(supervisor, itsFontSize);
 		assert( itsChooseSizeDialog != NULL );
 		ListenTo(itsChooseSizeDialog);

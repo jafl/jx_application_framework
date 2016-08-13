@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMDockManager.h"
 #include "CMCommandDirector.h"
 #include "cmGlobals.h"
@@ -54,7 +53,7 @@ JBoolean
 CMDockManager::CanDockAll()
 	const
 {
-	return (GetDockList())->IsEmpty();
+	return GetDockList()->IsEmpty();
 }
 
 /******************************************************************************
@@ -67,7 +66,7 @@ CMDockManager::CanDockAll()
 void
 CMDockManager::DockAll()
 {
-	if (!(GetDockList())->IsEmpty())
+	if (!GetDockList()->IsEmpty())
 		{
 		return;
 		}

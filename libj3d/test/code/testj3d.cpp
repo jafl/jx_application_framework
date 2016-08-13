@@ -8,7 +8,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "Test3DDirector.h"
 #include "testj3dStringData.h"
 #include <JXApplication.h>

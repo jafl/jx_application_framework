@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JAlgSign.h>
 #include <jMath.h>
 #include <jErrno.h>
@@ -87,7 +86,7 @@ JAlgSign::Evaluate
 	const
 {
 	JFloat value;
-	if (!(GetArg())->Evaluate(&value))
+	if (!GetArg()->Evaluate(&value))
 		{
 		return kJFalse;
 		}
@@ -105,7 +104,7 @@ JAlgSign::Evaluate
 	const
 {
 	JComplex value;
-	if (!(GetArg())->Evaluate(&value))
+	if (!GetArg()->Evaluate(&value))
 		{
 		return kJFalse;
 		}

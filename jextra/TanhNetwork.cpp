@@ -8,7 +8,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <TanhNetwork.h>
 #include <JVector.h>
 #include <jMath.h>

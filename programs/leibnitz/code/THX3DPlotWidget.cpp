@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <thxStdInc.h>
 #include "THX3DPlotWidget.h"
 #include <JXMesaCamera.h>
 #include <JXColormap.h>
@@ -64,7 +63,7 @@ THX3DPlotWidget::THX3DPlotWidget
 	const JFloat lat = 45.0 * kJDegToRad;
 	const JFloat lon = 45.0 * kJDegToRad;
 
-	(GetCamera())->SetPosition(JVector(3,
+	GetCamera()->SetPosition(JVector(3,
 		r * cos(lat) * cos(lon),
 		r * cos(lat) * sin(lon),
 		r * sin(lat)));

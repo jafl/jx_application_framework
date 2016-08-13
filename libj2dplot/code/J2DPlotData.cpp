@@ -7,7 +7,6 @@
 
  ********************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <J2DPlotData.h>
 #include <jAssert.h>
 

@@ -13,7 +13,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JCollection.h>
 #include <jAssert.h>
 

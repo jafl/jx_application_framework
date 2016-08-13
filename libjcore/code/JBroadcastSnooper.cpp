@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JBroadcastSnooper.h>
 #include <jAssert.h>
 

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBJavaClass.h"
 #include "CBTree.h"
 #include "CBTextDocument.h"

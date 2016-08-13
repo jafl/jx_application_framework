@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBShellDocument.h"
 #include "CBShellEditor.h"
 #include "cbGlobals.h"

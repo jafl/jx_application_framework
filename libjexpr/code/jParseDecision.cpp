@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jParseDecision.h>
 #include <jParseDecision.ph>
 #include <jParseFunction.ph>

@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include <GloveHistory.h>
 #include <GLGlobals.h>
 

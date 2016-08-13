@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXOKToCloseDialog.h>
 #include <JXWindow.h>
 #include <JXTextButton.h>

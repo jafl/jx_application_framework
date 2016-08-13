@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "LLDBGetAssembly.h"
 #include "lldb/API/SBCommandInterpreter.h"
 #include "lldb/API/SBCommandReturnObject.h"
@@ -71,7 +70,7 @@ LLDBGetAssembly::HandleSuccess
 		return;
 		}
 
-	const CMLocation& loc = (GetDirector())->GetDisassemblyLocation();
+	const CMLocation& loc = GetDirector()->GetDisassemblyLocation();
 
 	const JString cmd = "disassemble -n " + JPrepArgForExec(loc.GetFunctionName());
 	lldb::SBCommandReturnObject result;
@@ -132,5 +131,5 @@ LLDBGetAssembly::HandleSuccess
 			}
 		}
 
-	(GetDirector())->DisplayDisassembly(&addrList, instText);
+	GetDirector()->DisplayDisassembly(&addrList, instText);
 }

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jQuadrature.h>
 #include <JIndex.h>
 

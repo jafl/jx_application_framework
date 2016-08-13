@@ -13,7 +13,6 @@
 
  ******************************************************************************/
 
-#include <thxStdInc.h>
 #include "THXBaseConvMenu.h"
 #include <JString.h>
 #include <jAssert.h>

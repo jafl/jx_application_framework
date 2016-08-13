@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXColorWheel.h>
 #include <JXWindow.h>
 #include <JXSlider.h>

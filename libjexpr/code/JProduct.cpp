@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JProduct.h>
 #include <JExprRenderer.h>
 #include <JExprRectList.h>

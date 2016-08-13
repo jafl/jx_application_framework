@@ -8,7 +8,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXVarLenPGDirector.h>
 #include <JXProgressDisplay.h>
 #include <JXWindow.h>

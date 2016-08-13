@@ -41,7 +41,7 @@ public:
 
 protected:
 
-	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<Font>* styles,
+	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
 											 JIndexRange* recalcRange, JIndexRange* redrawRange,
 											 const JBoolean deletion);
 	virtual void	BoundsResized(const JCoordinate dw, const JCoordinate dh);

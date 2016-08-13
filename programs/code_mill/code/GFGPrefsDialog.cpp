@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <gfgStdInc.h>
 #include "GFGPrefsDialog.h"
 
 #include <JXChooseSaveFile.h>

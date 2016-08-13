@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNCommandLog.h"
 #include "SVNMainDirector.h"
 #include <JProcess.h>
@@ -82,13 +81,13 @@ SVNCommandLog::StartProcess
 	int*		outFD
 	)
 {
-	if (!(GetDirector())->OKToStartActionProcess())
+	if (!GetDirector()->OKToStartActionProcess())
 		{
 		return JWouldHaveBlocked();
 		}
 
 	JError err = JNoError();
-	if ((GetDirector())->HasPath())
+	if (GetDirector()->HasPath())
 		{
 		err = JProcess::Create(p, GetPath(), itsCmd,
 							   kJIgnoreConnection, NULL,
@@ -105,7 +104,7 @@ SVNCommandLog::StartProcess
 
 	if (err.OK())
 		{
-		(GetDirector())->RegisterActionProcess(this, *p, itsRefreshRepoFlag,
+		GetDirector()->RegisterActionProcess(this, *p, itsRefreshRepoFlag,
 											   itsRefreshStatusFlag, itsReloadOpenFilesFlag);
 		}
 

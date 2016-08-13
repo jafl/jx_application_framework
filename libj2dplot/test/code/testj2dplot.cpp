@@ -8,7 +8,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "Test2DPlotDirector.h"
 #include "testj2dplotStringData.h"
 #include <JXApplication.h>

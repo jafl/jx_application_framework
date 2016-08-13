@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNBusyTabTask.h"
 #include "SVNTabGroup.h"
 #include <jAssert.h>

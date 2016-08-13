@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <jAssert.h>
 #include <jGlobals.h>
 

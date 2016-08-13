@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JSquareRoot.h>
 #include <JExprRenderer.h>
 #include <JExprRectList.h>
@@ -92,7 +91,7 @@ JSquareRoot::Evaluate
 	const
 {
 	JFloat argValue;
-	if ((GetArg())->Evaluate(&argValue))
+	if (GetArg()->Evaluate(&argValue))
 		{
 		jclear_errno();
 		*result = sqrt(argValue);
@@ -112,7 +111,7 @@ JSquareRoot::Evaluate
 	const
 {
 	JComplex argValue;
-	if ((GetArg())->Evaluate(&argValue))
+	if (GetArg()->Evaluate(&argValue))
 		{
 		jclear_errno();
 		*result = sqrt(argValue);
@@ -189,5 +188,5 @@ JSquareRoot::Render
 	// draw ourselves
 
 	renderer.DrawSquareRoot(ourRect);
-	(GetArg())->Render(renderer, rectList);
+	GetArg()->Render(renderer, rectList);
 }

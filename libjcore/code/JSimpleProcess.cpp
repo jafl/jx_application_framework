@@ -15,7 +15,6 @@
 
  *****************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JSimpleProcess.h>
 #include <JThisProcess.h>
 #include <jGlobals.h>

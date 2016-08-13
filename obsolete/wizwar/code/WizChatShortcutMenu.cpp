@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "WizChatShortcutMenu.h"
 #include "wizGlobals.h"
 #include "wwUtil.h"

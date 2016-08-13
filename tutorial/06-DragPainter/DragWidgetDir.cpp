@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "DragWidgetDir.h"
 #include "DragWidget.h"
 #include <JXWindow.h>

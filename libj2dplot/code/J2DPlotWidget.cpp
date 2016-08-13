@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <J2DPlotWidget.h>
 #include <JPlotDataBase.h>
 #include <J2DPlotData.h>

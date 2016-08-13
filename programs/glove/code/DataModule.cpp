@@ -7,7 +7,6 @@
 
  ******************************************************************************/
  
-#include <glStdInc.h>
 #include "DataModule.h"
 #include "GXRaggedFloatTable.h"
 #include "GRaggedFloatTableData.h"

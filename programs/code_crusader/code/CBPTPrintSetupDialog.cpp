@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBPTPrintSetupDialog.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>

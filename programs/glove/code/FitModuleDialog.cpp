@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include "FitModuleDialog.h"
 #include "GLPlotApp.h"
 #include "GLGlobals.h"

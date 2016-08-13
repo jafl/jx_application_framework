@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "WizApp.h"
 #include "WizChatDirector.h"
 #include "WizConnectDialog.h"

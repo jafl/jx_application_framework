@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "PrintWidgetDir.h"
 #include "PrintWidget.h"
 #include <JXWindow.h>

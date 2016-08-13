@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <J3DAxes.h>
 #include <J3DLine.h>
 #include <J3DCone.h>

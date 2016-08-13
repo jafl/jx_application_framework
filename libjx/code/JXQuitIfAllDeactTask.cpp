@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXQuitIfAllDeactTask.h>
 #include <jXGlobals.h>
 #include <jAssert.h>

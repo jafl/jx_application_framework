@@ -16,7 +16,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JParallel.h>
 #include <JExprRenderer.h>
 #include <JExprRectList.h>

@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDSSSelection.h>
 #include <JXDirectSaveAction.h>
 #include <JXDNDManager.h>
@@ -57,7 +56,7 @@ JXDSSSelection::AddTypes
 	const Atom selectionName
 	)
 {
-	AddType((GetDNDManager())->GetDNDDirectSave0XAtom());
+	AddType(GetDNDManager()->GetDNDDirectSave0XAtom());
 }
 
 /******************************************************************************

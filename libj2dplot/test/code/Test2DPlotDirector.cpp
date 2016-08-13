@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "Test2DPlotDirector.h"
 #include <JXWindow.h>
 #include <JXMenuBar.h>
@@ -122,7 +121,7 @@ Test2DPlotDirector::Receive
 {
 	if (sender == itsPlotWidget && message.Is(J2DPlotWidget::kTitleChanged))
 		{
-		(GetWindow())->SetTitle(itsPlotWidget->GetTitle());
+		GetWindow()->SetTitle(itsPlotWidget->GetTitle());
 		}
 
 	else if (sender == itsActionsMenu && message.Is(JXMenu::kNeedsUpdate))

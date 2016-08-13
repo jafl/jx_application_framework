@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "CMLineIndexTable.h"
 #include "CMSourceDirector.h"
 #include "CMSourceText.h"
@@ -233,7 +232,7 @@ CMLineIndexTable::TableDrawCell
 		p.SetFilling(kJTrue);
 		p.Polygon(poly);
 
-		p.SetPenColor((GetColormap())->GetBlackColor());
+		p.SetPenColor(GetColormap()->GetBlackColor());
 		p.SetFilling(kJFalse);
 		p.Polygon(poly);
 		}

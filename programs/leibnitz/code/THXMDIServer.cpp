@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <thxStdInc.h>
 #include "THXMDIServer.h"
 #include "thxGlobals.h"
 #include <JXDisplay.h>

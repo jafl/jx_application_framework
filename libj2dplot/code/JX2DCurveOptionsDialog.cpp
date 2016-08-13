@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JX2DCurveOptionsDialog.h>
 #include <JX2DCurveNameList.h>
 #include <JXWindow.h>

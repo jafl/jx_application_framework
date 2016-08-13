@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCACSource.h"
 #include "SCCircuitVarList.h"
 #include "scNetlistUtil.h"

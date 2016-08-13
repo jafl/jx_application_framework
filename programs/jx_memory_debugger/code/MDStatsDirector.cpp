@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <mdStdInc.h>
 #include "MDStatsDirector.h"
 #include "MDSizeHistogram.h"
 #include "MDFilterRecordsDialog.h"
@@ -425,7 +424,7 @@ MDStatsDirector::BuildWindow()
 		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
 		}
 
-	((GetDisplay())->GetWDManager())->DirectorCreated(this);
+	(GetDisplay()->GetWDManager())->DirectorCreated(this);
 	UpdateDisplay();
 }
 
@@ -832,7 +831,7 @@ MDStatsDirector::ReadExitStats()
 		else if (type == JMemoryManager::kRecordsMessage)
 			{
 			ReceiveRecords(input, JGetString("ExitRecordsWindowTitle::MDStatsDirector"));
-			(GetWindow())->SetTitle(JGetString("ExitWindowTitle::MDStatsDirector"));
+			GetWindow()->SetTitle(JGetString("ExitWindowTitle::MDStatsDirector"));
 			}
 		else
 			{
@@ -1072,7 +1071,7 @@ MDStatsDirector::ReadPrefs
 		return;
 		}
 
-	(GetWindow())->ReadGeometry(input);
+	GetWindow()->ReadGeometry(input);
 
 	JString s;
 	input >> s;
@@ -1097,7 +1096,7 @@ MDStatsDirector::WritePrefs
 	output << kCurrentPrefsVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ' << itsProgramInput->GetText();
 	output << ' ' << itsArgsInput->GetText();

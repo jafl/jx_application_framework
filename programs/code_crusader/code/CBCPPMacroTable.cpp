@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBCPPMacroTable.h"
 #include "CBCPreprocessor.h"
 #include "CBListCSF.h"
@@ -322,7 +321,7 @@ CBCPPMacroTable::RemoveRow()
 	if (GetEditedCell(&editCell))
 		{
 		CancelEditing();
-		(GetStringData())->RemoveRow(editCell.y);
+		GetStringData()->RemoveRow(editCell.y);
 		}
 }
 

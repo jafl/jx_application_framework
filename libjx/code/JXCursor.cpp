@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXCursor.h>
 #include <JXDisplay.h>
 

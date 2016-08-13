@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cmStdInc.h>
 #include "GDBGetStack.h"
 #include "GDBGetStackArguments.h"
 #include "CMStackFrameNode.h"
@@ -60,7 +59,7 @@ GDBGetStack::HandleSuccess
 	const JString& cmdData
 	)
 {
-	JTreeNode* root       = (GetTree())->GetRoot();
+	JTreeNode* root       = GetTree()->GetRoot();
 	JIndex initFrameIndex = 0;
 
 	const JString& data = GetLastResult();
@@ -140,5 +139,5 @@ GDBGetStack::HandleSuccess
 
 	itsArgsCmd->Send();
 
-	(GetWidget())->FinishedLoading(initFrameIndex);
+	GetWidget()->FinishedLoading(initFrameIndex);
 }

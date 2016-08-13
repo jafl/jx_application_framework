@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <JXStdInc.h>
 #include <GCLAlarm.h>
 #include "GCLAppointment.h"
 #include "GCLUtil.h"

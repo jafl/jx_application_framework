@@ -13,7 +13,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JDiagBandMatrix.h>
 #include <JVector.h>
 #include <JMinMax.h>

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestExprDirector.h"
 #include "testjexprStringData.h"
 #include <JXApplication.h>

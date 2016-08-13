@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDownRect.h>
 #include <JXWindowPainter.h>
 #include <jXPainterUtil.h>

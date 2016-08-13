@@ -27,7 +27,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXFileDocument.h>
 #include <JXWindow.h>
 #include <jXGlobals.h>

@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXPrefsManager.h>
 #include <JXChooseSaveFile.h>
 #include <JXTimerTask.h>

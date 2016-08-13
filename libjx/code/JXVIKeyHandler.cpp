@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXVIKeyHandler.h>
 #include <JXTEBase.h>
 #include <JXSearchTextDialog.h>

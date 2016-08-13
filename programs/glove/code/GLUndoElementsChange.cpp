@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <glStdInc.h>
 #include <GLUndoElementsChange.h>
 #include <GXRaggedFloatTable.h>
 #include <GRaggedFloatTableData.h>

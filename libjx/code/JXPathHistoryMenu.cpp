@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXPathHistoryMenu.h>
 #include <JXImage.h>
 #include <jDirUtil.h>

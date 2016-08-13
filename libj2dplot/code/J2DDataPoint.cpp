@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <J2DDataPoint.h>
 #include <jAssert.h>
 

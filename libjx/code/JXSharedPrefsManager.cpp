@@ -24,7 +24,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXSharedPrefsManager.h>
 #include <JXSharedPrefObject.h>
 #include <JPrefsFile.h>

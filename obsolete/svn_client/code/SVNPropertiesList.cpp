@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNPropertiesList.h"
 #include "SVNMainDirector.h"
 #include "svnMenus.h"
@@ -208,7 +207,7 @@ SVNPropertiesList::CopySelectedItems
 	JXTextSelection* data = new JXTextSelection(GetDisplay(), list);
 	assert( data != NULL );
 
-	(GetSelectionManager())->SetData(kJXClipboardName, data);
+	GetSelectionManager()->SetData(kJXClipboardName, data);
 }
 
 /******************************************************************************
@@ -423,12 +422,12 @@ SVNPropertiesList::RemoveNextProperty()
 		}
 	else
 		{
-		if ((GetDirector())->OKToStartActionProcess())
+		if (GetDirector()->OKToStartActionProcess())
 			{
 			RefreshContent();
 			}
 
-		(GetDirector())->ScheduleStatusRefresh();
+		GetDirector()->ScheduleStatusRefresh();
 		return kJTrue;
 		}
 }

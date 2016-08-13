@@ -12,7 +12,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <J3DTetrahedron.h>
 #include <GL/gl.h>
 #include <jMath.h>

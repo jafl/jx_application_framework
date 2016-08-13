@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <scStdInc.h>
 #include "SCPassiveLinearComp.h"
 #include "SCCircuit.h"
 #include "SCCircuitVarList.h"

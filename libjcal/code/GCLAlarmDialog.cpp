@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <JXStdInc.h>
 #include <GCLAlarmDialog.h>
 #include "GCLAlarm.h"
 #include "GCLAlarmManager.h"
@@ -135,7 +134,7 @@ GCLAlarmDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,40, 70,20);
 	assert( obj4_JXLayout != NULL );
 	obj4_JXLayout->SetFontSize(14);
-	const JFontStyle obj4_JXLayout_style(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetBlackColor());
+	const JFontStyle obj4_JXLayout_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor());
 	obj4_JXLayout->SetFontStyle(obj4_JXLayout_style);
 
 	itsSubjectText =
@@ -143,7 +142,7 @@ GCLAlarmDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 90,40, 280,20);
 	assert( itsSubjectText != NULL );
 	itsSubjectText->SetFontSize(14);
-	const JFontStyle itsSubjectText_style(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetBlackColor());
+	const JFontStyle itsSubjectText_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor());
 	itsSubjectText->SetFontStyle(itsSubjectText_style);
 
 	JXStaticText* obj5_JXLayout =
@@ -151,7 +150,7 @@ GCLAlarmDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,70, 70,20);
 	assert( obj5_JXLayout != NULL );
 	obj5_JXLayout->SetFontSize(14);
-	const JFontStyle obj5_JXLayout_style(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetBlackColor());
+	const JFontStyle obj5_JXLayout_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor());
 	obj5_JXLayout->SetFontStyle(obj5_JXLayout_style);
 
 	itsTimeText =
@@ -159,7 +158,7 @@ GCLAlarmDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 90,70, 280,20);
 	assert( itsTimeText != NULL );
 	itsTimeText->SetFontSize(14);
-	const JFontStyle itsTimeText_style(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetBlackColor());
+	const JFontStyle itsTimeText_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor());
 	itsTimeText->SetFontStyle(itsTimeText_style);
 
 	itsDateText =
@@ -167,7 +166,7 @@ GCLAlarmDialog::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kVElastic, 90,100, 280,20);
 	assert( itsDateText != NULL );
 	itsDateText->SetFontSize(14);
-	const JFontStyle itsDateText_style(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetBlackColor());
+	const JFontStyle itsDateText_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor());
 	itsDateText->SetFontStyle(itsDateText_style);
 
 // end JXLayout

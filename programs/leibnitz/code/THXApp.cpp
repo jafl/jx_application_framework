@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <thxStdInc.h>
 #include "THXApp.h"
 #include "THXVarList.h"
 #include "THXVarDirector.h"

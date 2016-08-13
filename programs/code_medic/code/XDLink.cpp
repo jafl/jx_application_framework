@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <cmStdInc.h>
 #include "XDLink.h"
 #include "XDSocket.h"
 #include "XDWelcomeTask.h"

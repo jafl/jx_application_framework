@@ -12,7 +12,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXMenuData.h>
 #include <JString.h>
 #include <ctype.h>

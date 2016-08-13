@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JUnaryFunction.h>
 #include <jAssert.h>
 

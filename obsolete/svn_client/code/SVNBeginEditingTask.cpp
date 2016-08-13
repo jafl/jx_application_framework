@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <svnStdInc.h>
 #include "SVNBeginEditingTask.h"
 #include "SVNRepoView.h"
 #include "SVNRepoTreeList.h"

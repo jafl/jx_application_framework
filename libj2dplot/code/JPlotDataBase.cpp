@@ -7,7 +7,6 @@
 
  ********************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JPlotDataBase.h>
 #include <jAssert.h>
 
