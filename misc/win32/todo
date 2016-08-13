@@ -1,0 +1,10 @@
+Replace S_ISLNK with check for .lnk
+Test usage of R/W/X_OK
+Replace X_OK and S_IXUSR with check for .exe/.com?
+Build source distr
+	generate *L.cpp & *Y.cpp before taring source
+	update misc/win32/regex.h
+Test JStringMapDelete & JPtrArrayCopy
+JMDIServer:
+	use TCP socket instead of UNIX socket
+	write file in /tmp with pid and local port
