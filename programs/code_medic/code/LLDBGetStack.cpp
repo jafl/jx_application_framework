@@ -138,9 +138,9 @@ LLDBGetStack::HandleSuccess
 			{
 			lldb::SBValue v = args.GetValueAtIndex(i);
 
-			if (v.GetName() != NULL && v.GetValue() != NULL)
+			if (v.GetName() != NULL)
 				{
-				CMStackArgNode* argNode = new CMStackArgNode(node, v.GetName(), v.GetValue());
+				CMStackArgNode* argNode = new CMStackArgNode(node, v.GetName(), v.GetValue() == NULL ? "null" : v.GetValue());
 				assert( argNode != NULL );
 				}
 			}
