@@ -32,7 +32,7 @@ CMEditCommandsDialog::CMEditCommandsDialog()
 	itsCommands	= new JPtrArray<JString>(JPtrArrayT::kForgetAll);
 	assert(itsCommands != NULL);
 
-	(CMGetPrefsManager())->GetCmdList(itsCommands);
+	CMGetPrefsManager()->GetCmdList(itsCommands);
 
 	BuildWindow();
 
@@ -214,7 +214,7 @@ CMEditCommandsDialog::OKToDeactivate()
 		return kJFalse;
 		}
 
-	(CMGetPrefsManager())->SetCmdList(*itsCommands);
+	CMGetPrefsManager()->SetCmdList(*itsCommands);
 	return kJTrue;
 }
 

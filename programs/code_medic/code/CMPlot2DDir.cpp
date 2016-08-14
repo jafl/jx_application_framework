@@ -350,7 +350,7 @@ CMPlot2DDir::BuildWindow()
 	itsPlotWidget->SetPSPrinter(CMGetPSPrinter());
 	itsPlotWidget->SetEPSPrinter(CMGetPlotEPSPrinter());
 
-	(CMGetPrefsManager())->GetWindowSize(kPlot2DWindSizeID, window, kJTrue);	// after all widgets
+	CMGetPrefsManager()->GetWindowSize(kPlot2DWindSizeID, window, kJTrue);	// after all widgets
 
 	UpdateButtons();
 	ListenTo(itsAddPlotButton);
@@ -857,7 +857,7 @@ CMPlot2DDir::HandleActionMenu
 {
 	if (index == kSavePrefsCmd)
 		{
-		(CMGetPrefsManager())->SaveWindowSize(kPlot2DWindSizeID, GetWindow());
+		CMGetPrefsManager()->SaveWindowSize(kPlot2DWindSizeID, GetWindow());
 		}
 }
 

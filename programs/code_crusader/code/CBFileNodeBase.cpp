@@ -186,7 +186,7 @@ JBoolean
 CBFileNodeBase::IncludedInMakefile()
 	const
 {
-	const CBTextFileType type = (CBGetPrefsManager())->GetFileType(itsFileName);
+	const CBTextFileType type = CBGetPrefsManager()->GetFileType(itsFileName);
 	return CBIncludeInMakeFiles(type);
 }
 
@@ -238,7 +238,7 @@ JBoolean
 CBFileNodeBase::IncludedInCMakeData()
 	const
 {
-	const CBTextFileType type = (CBGetPrefsManager())->GetFileType(itsFileName);
+	const CBTextFileType type = CBGetPrefsManager()->GetFileType(itsFileName);
 	return JI2B(CBIncludeInCMakeSource(type) || CBIncludeInCMakeHeader(type));
 }
 
@@ -261,7 +261,7 @@ CBFileNodeBase::BuildCMakeData
 		JString fullName;
 		if (GetFullName(&fullName))
 			{
-			const CBTextFileType type = (CBGetPrefsManager())->GetFileType(itsFileName);
+			const CBTextFileType type = CBGetPrefsManager()->GetFileType(itsFileName);
 			if (CBIncludeInCMakeSource(type))
 				{
 				src->AppendCharacter(' ');
@@ -308,7 +308,7 @@ JBoolean
 CBFileNodeBase::IncludedInQMakeData()
 	const
 {
-	const CBTextFileType type = (CBGetPrefsManager())->GetFileType(itsFileName);
+	const CBTextFileType type = CBGetPrefsManager()->GetFileType(itsFileName);
 	return JI2B(CBIncludeInQMakeSource(type) || CBIncludeInQMakeHeader(type));
 }
 
@@ -331,7 +331,7 @@ CBFileNodeBase::BuildQMakeData
 		JString fullName;
 		if (GetFullName(&fullName))
 			{
-			const CBTextFileType type = (CBGetPrefsManager())->GetFileType(itsFileName);
+			const CBTextFileType type = CBGetPrefsManager()->GetFileType(itsFileName);
 			if (CBIncludeInQMakeSource(type))
 				{
 				src->AppendCharacter(' ');
@@ -486,7 +486,7 @@ CBFileNodeBase::New
 {
 	CBFileNodeBase* node = NULL;
 
-	const CBTextFileType type = (CBGetPrefsManager())->GetFileType(fileName);
+	const CBTextFileType type = CBGetPrefsManager()->GetFileType(fileName);
 	if (CBIsLibrary(type))
 		{
 		node = new CBLibraryNode(tree, fileName);

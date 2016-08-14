@@ -101,7 +101,7 @@ CBFileNode::ParseFiles
 			return kJFalse;
 			}
 
-		const CBTextFileType type = (CBGetPrefsManager())->GetFileType(trueName);
+		const CBTextFileType type = CBGetPrefsManager()->GetFileType(trueName);
 		if ((CBGetDocumentManager())->GetComplementFile(trueName, type, &fullName,
 														GetProjectDoc(), kJFalse) &&
 			JGetTrueName(fullName, &trueName) &&
@@ -151,7 +151,7 @@ CBFileNode::OpenComplementFile()
 	JString fullName;
 	if (GetFullName(&fullName))
 		{
-		const CBTextFileType type = (CBGetPrefsManager())->GetFileType(fullName);
+		const CBTextFileType type = CBGetPrefsManager()->GetFileType(fullName);
 		if (type == kCBHTMLFT || type == kCBXMLFT)
 			{
 			(JXGetWebBrowser())->ShowFileContent(fullName);

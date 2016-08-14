@@ -294,7 +294,7 @@ CMArray1DDir::BuildWindow()
 	assert( icon != NULL );
 	window->SetIcon(icon);
 
-	(CMGetPrefsManager())->GetWindowSize(kArray1DWindSizeID, window, kJTrue);
+	CMGetPrefsManager()->GetWindowSize(kArray1DWindSizeID, window, kJTrue);
 
 	CMVarNode* root = itsLink->CreateVarNode();
 	assert( root != NULL );
@@ -745,7 +745,7 @@ CMArray1DDir::HandleActionMenu
 
 	else if (index == kSavePrefsCmd)
 		{
-		(CMGetPrefsManager())->SaveWindowSize(kArray1DWindSizeID, GetWindow());
+		CMGetPrefsManager()->SaveWindowSize(kArray1DWindSizeID, GetWindow());
 		}
 }
 

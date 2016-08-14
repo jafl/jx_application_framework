@@ -1828,15 +1828,15 @@ CBTextDocument::HandlePrefsMenu
 
 	else if (index == kEditFileTypesCmd)
 		{
-		(CBGetPrefsManager())->EditFileTypes();
+		CBGetPrefsManager()->EditFileTypes();
 		}
 	else if (index == kEditMacrosCmd)
 		{
-		(CBGetPrefsManager())->EditMacros(itsMacroMgr);
+		CBGetPrefsManager()->EditMacros(itsMacroMgr);
 		}
 	else if (index == kEditCRMRuleListsCmd)
 		{
-		(CBGetPrefsManager())->EditCRMRuleLists(itsCRMRuleList);
+		CBGetPrefsManager()->EditCRMRuleLists(itsCRMRuleList);
 		}
 
 	else if (index == kSaveWindSizeCmd)
@@ -2093,7 +2093,7 @@ CBTextDocument::UpdateFileType
 	JString scriptPath;
 	JBoolean wordWrap;
 	itsFileType =
-		(CBGetPrefsManager())->GetFileType(*this, &itsActionMgr, &itsMacroMgr,
+		CBGetPrefsManager()->GetFileType(*this, &itsActionMgr, &itsMacroMgr,
 										   &itsCRMRuleList, &scriptPath, &wordWrap);
 
 	if ((!init && itsFileType != origType) || !itsOverrideFlag[ kWordWrapIndex ])

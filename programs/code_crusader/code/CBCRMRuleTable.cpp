@@ -102,7 +102,7 @@ CBCRMRuleTable::CBCRMRuleTable
 
 	JString fontName;
 	JSize fontSize;
-	(CBGetPrefsManager())->GetDefaultFont(&fontName, &fontSize);
+	CBGetPrefsManager()->GetDefaultFont(&fontName, &fontSize);
 	SetFont(fontName, fontSize);
 }
 

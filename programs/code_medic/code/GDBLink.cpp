@@ -2534,7 +2534,7 @@ GDBLink::StartDebugger()
 
 	itsScanner->Reset();
 
-	itsDebuggerCmd    = (CMGetPrefsManager())->GetGDBCommand();
+	itsDebuggerCmd    = CMGetPrefsManager()->GetGDBCommand();
 	const JString cmd = itsDebuggerCmd + " --fullname --interpreter=mi2";
 
 	int toFD, fromFD;

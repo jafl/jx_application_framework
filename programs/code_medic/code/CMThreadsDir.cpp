@@ -96,7 +96,7 @@ CMThreadsDir::CMThreadsDir
 
 CMThreadsDir::~CMThreadsDir()
 {
-	(CMGetPrefsManager())->SaveWindowSize(kCMThreadWindowSizeID, GetWindow());
+	CMGetPrefsManager()->SaveWindowSize(kCMThreadWindowSizeID, GetWindow());
 }
 
 /******************************************************************************
@@ -148,7 +148,7 @@ CMThreadsDir::BuildWindow
 	window->SetMinSize(150, 150);
 	window->ShouldFocusWhenShow(kJTrue);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetThreadWindowClass());
-	(CMGetPrefsManager())->GetWindowSize(kCMThreadWindowSizeID, window);
+	CMGetPrefsManager()->GetWindowSize(kCMThreadWindowSizeID, window);
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = new JXImage(display, medic_threads_window);

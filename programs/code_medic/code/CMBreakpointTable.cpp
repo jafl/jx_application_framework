@@ -96,7 +96,7 @@ CMBreakpointTable::CMBreakpointTable
 
 	// font
 
-	(CMGetPrefsManager())->GetDefaultFont(&itsFontName, &itsFontSize);
+	CMGetPrefsManager()->GetDefaultFont(&itsFontName, &itsFontSize);
 
 	const JSize rowHeight = 2*kVMarginWidth + JMax(
 		GetFontManager()->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle()),

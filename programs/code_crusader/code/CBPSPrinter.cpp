@@ -77,7 +77,7 @@ CBPSPrinter::CreatePrintSetupDialog
 	if (itsFontSize == kUnsetFontSize)
 		{
 		JString fontName;
-		(CBGetPrefsManager())->GetDefaultFont(&fontName, &itsFontSize);
+		CBGetPrefsManager()->GetDefaultFont(&fontName, &itsFontSize);
 
 		JArray<JIndexRange> matchList;
 		if (nxmRegex.Match(fontName, &matchList))

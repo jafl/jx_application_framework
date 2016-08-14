@@ -85,7 +85,7 @@ XDGetSourceFileList::ScanDirectory
 		if (e.GetType() == JDirEntry::kFile)
 			{
 			const CBTextFileType fileType =
-				(CMGetPrefsManager())->GetFileType(e.GetName());
+				CMGetPrefsManager()->GetFileType(e.GetName());
 			if (fileType == kCBPHPFT)
 				{
 				table->AddFile(e.GetFullName());

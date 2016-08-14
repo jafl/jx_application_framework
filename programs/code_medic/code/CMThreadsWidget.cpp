@@ -68,7 +68,7 @@ CMThreadsWidget::CMThreadsWidget
 
 	JString name;
 	JSize size;
-	(CMGetPrefsManager())->GetDefaultFont(&name, &size);
+	CMGetPrefsManager()->GetDefaultFont(&name, &size);
 	SetFont(name, size);
 
 	ListenTo(&(GetTableSelection()));

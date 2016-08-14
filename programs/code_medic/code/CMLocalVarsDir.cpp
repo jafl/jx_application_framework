@@ -124,7 +124,7 @@ CMLocalVarsDir::CMLocalVarsDir
 
 CMLocalVarsDir::~CMLocalVarsDir()
 {
-	(CMGetPrefsManager())->SaveWindowSize(kLocalVarWindSizeID, GetWindow());
+	CMGetPrefsManager()->SaveWindowSize(kLocalVarWindSizeID, GetWindow());
 
 	delete itsGetLocalsCmd;
 }
@@ -181,7 +181,7 @@ CMLocalVarsDir::BuildWindow()
 	window->SetMinSize(150, 150);
 	window->ShouldFocusWhenShow(kJTrue);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetVariableWindowClass());
-	(CMGetPrefsManager())->GetWindowSize(kLocalVarWindSizeID, window);
+	CMGetPrefsManager()->GetWindowSize(kLocalVarWindSizeID, window);
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = new JXImage(display, medic_local_variables_window);

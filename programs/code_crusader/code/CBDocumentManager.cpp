@@ -816,11 +816,11 @@ CBDocumentManager::PrivateOpenSomething
 		JXFileDocument::kNotMyFile)
 		{
 		JString cmd;
-		if ((CBGetPrefsManager())->EditWithOtherProgram(fileName, &cmd))
+		if (CBGetPrefsManager()->EditWithOtherProgram(fileName, &cmd))
 			{
 			JSimpleProcess::Create(cmd, kJTrue);
 			}
-		else if ((CBGetPrefsManager())->GetFileType(fileName) == kCBBinaryFT ||
+		else if (CBGetPrefsManager()->GetFileType(fileName) == kCBBinaryFT ||
 				 CBTextDocument::OpenAsBinaryFile(fileName))
 			{
 			PrivateOpenBinaryDocument(fileName, iconify, forceReload);
@@ -1221,7 +1221,7 @@ CBDocumentManager::PrivateOpenBinaryDocument
 	assert( !JStringEmpty(fullName) );
 
 	JString cmd;
-	if ((CBGetPrefsManager())->EditWithOtherProgram(fullName, &cmd))
+	if (CBGetPrefsManager()->EditWithOtherProgram(fullName, &cmd))
 		{
 		JSimpleProcess::Create(cmd, kJTrue);
 //		return kJFalse;
@@ -1432,7 +1432,7 @@ JIndex i;
 		}
 
 	JPtrArray<JString> suffixList(JPtrArrayT::kDeleteAll);
-	(CBGetPrefsManager())->GetFileSuffixes(outputType, &suffixList);
+	CBGetPrefsManager()->GetFileSuffixes(outputType, &suffixList);
 	const JSize suffixCount = suffixList.GetElementCount();
 
 	// check full name of each document
@@ -1522,7 +1522,7 @@ CBDocumentManager::FindComplementFile
 		}
 
 	JPtrArray<JString> suffixList(JPtrArrayT::kDeleteAll);
-	(CBGetPrefsManager())->GetFileSuffixes(outputType, &suffixList);
+	CBGetPrefsManager()->GetFileSuffixes(outputType, &suffixList);
 	const JSize suffixCount = suffixList.GetElementCount();
 
 	JBoolean found = kJFalse;

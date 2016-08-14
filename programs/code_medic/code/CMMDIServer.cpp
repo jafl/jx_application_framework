@@ -82,25 +82,25 @@ CMMDIServer::HandleMDIRequest
 		if (*arg == "--gdb")
 			{
 			forcedType = kJTrue;
-			(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kGDBType);
+			CMGetPrefsManager()->SetDebuggerType(CMPrefsManager::kGDBType);
 			continue;
 			}
 		else if (*arg == "--lldb")
 			{
 			forcedType = kJTrue;
-			(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kLLDBType);
+			CMGetPrefsManager()->SetDebuggerType(CMPrefsManager::kLLDBType);
 			continue;
 			}
 		else if (*arg == "--xdebug")
 			{
 			forcedType = kJTrue;
-			(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kXdebugType);
+			CMGetPrefsManager()->SetDebuggerType(CMPrefsManager::kXdebugType);
 			continue;
 			}
 		else if (*arg == "--java")
 			{
 			forcedType = kJTrue;
-			(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kJavaType);
+			CMGetPrefsManager()->SetDebuggerType(CMPrefsManager::kJavaType);
 			continue;
 			}
 		else if (*arg == "-f")
@@ -237,11 +237,11 @@ CMMDIServer::UpdateDebuggerType
 	JString language;
 	if (IsBinary(program))
 		{
-		const CMPrefsManager::DebuggerType type = (CMGetPrefsManager())->GetDebuggerType();
+		const CMPrefsManager::DebuggerType type = CMGetPrefsManager()->GetDebuggerType();
 		if (type != CMPrefsManager::kGDBType &&
 			type != CMPrefsManager::kLLDBType)
 			{
-			(CMGetPrefsManager())->SetDebuggerType(
+			CMGetPrefsManager()->SetDebuggerType(
 #ifdef _J_OSX
 				CMPrefsManager::kLLDBType
 #else
@@ -256,11 +256,11 @@ CMMDIServer::UpdateDebuggerType
 		}
 	else if (language == "java")
 		{
-		(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kJavaType);
+		CMGetPrefsManager()->SetDebuggerType(CMPrefsManager::kJavaType);
 		}
 	else if (language == "php")
 		{
-		(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kXdebugType);
+		CMGetPrefsManager()->SetDebuggerType(CMPrefsManager::kXdebugType);
 		}
 }
 

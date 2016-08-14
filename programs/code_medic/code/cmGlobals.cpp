@@ -233,7 +233,7 @@ CMStartDebugger()
 	CMLink* origLink = theLink;
 	theLink          = NULL;
 
-	CMPrefsManager::DebuggerType type = (CMGetPrefsManager())->GetDebuggerType();
+	CMPrefsManager::DebuggerType type = CMGetPrefsManager()->GetDebuggerType();
 	if (type == CMPrefsManager::kGDBType)
 		{
 		theLink = new GDBLink;

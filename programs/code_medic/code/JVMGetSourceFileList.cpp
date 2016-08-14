@@ -87,7 +87,7 @@ JVMGetSourceFileList::ScanDirectory
 		if (e.GetType() == JDirEntry::kFile)
 			{
 			const CBTextFileType fileType =
-				(CMGetPrefsManager())->GetFileType(e.GetName());
+				CMGetPrefsManager()->GetFileType(e.GetName());
 			if (fileType == kCBJavaSourceFT)
 				{
 				table->AddFile(e.GetFullName());

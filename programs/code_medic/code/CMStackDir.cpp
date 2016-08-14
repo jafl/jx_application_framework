@@ -90,7 +90,7 @@ CMStackDir::CMStackDir
 
 CMStackDir::~CMStackDir()
 {
-	(CMGetPrefsManager())->SaveWindowSize(kStackWindowSizeID, GetWindow());
+	CMGetPrefsManager()->SaveWindowSize(kStackWindowSizeID, GetWindow());
 }
 
 /******************************************************************************
@@ -144,7 +144,7 @@ CMStackDir::BuildWindow
 	window->SetMinSize(150, 150);
 	window->ShouldFocusWhenShow(kJTrue);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetStackWindowClass());
-	(CMGetPrefsManager())->GetWindowSize(kStackWindowSizeID, window);
+	CMGetPrefsManager()->GetWindowSize(kStackWindowSizeID, window);
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = new JXImage(display, medic_stack_trace_window);

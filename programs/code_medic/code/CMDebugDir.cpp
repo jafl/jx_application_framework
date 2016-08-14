@@ -44,7 +44,7 @@ CMDebugDir::CMDebugDir
 
 CMDebugDir::~CMDebugDir()
 {
-	(CMGetPrefsManager())->SaveWindowSize(kDebugWindSizeID, GetWindow());
+	CMGetPrefsManager()->SaveWindowSize(kDebugWindSizeID, GetWindow());
 }
 
 /******************************************************************************
@@ -76,7 +76,7 @@ CMDebugDir::BuildWindow()
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->SetMinSize(150, 150);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetDebugWindowClass());
-	(CMGetPrefsManager())->GetWindowSize(kDebugWindSizeID, window);
+	CMGetPrefsManager()->GetWindowSize(kDebugWindSizeID, window);
 
 	itsText =
 		new JXStaticText("", kJFalse, kJTrue,

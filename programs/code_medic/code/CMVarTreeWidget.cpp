@@ -125,7 +125,7 @@ CMVarTreeWidget::CMVarTreeWidget
 
 	JString name;
 	JSize size;
-	(CMGetPrefsManager())->GetDefaultFont(&name, &size);
+	CMGetPrefsManager()->GetDefaultFont(&name, &size);
 	SetFont(name, size);
 
 	SetIndentWidth(kIndentWidth *

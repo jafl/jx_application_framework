@@ -125,7 +125,7 @@ CMVarTreeDir::CMVarTreeDir
 
 CMVarTreeDir::~CMVarTreeDir()
 {
-	(CMGetPrefsManager())->SaveWindowSize(kVarTreeWindSizeID, GetWindow());
+	CMGetPrefsManager()->SaveWindowSize(kVarTreeWindSizeID, GetWindow());
 }
 
 /******************************************************************************
@@ -192,7 +192,7 @@ CMVarTreeDir::BuildWindow()
 	window->SetMinSize(150, 150);
 	window->ShouldFocusWhenShow(kJTrue);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetVariableWindowClass());
-	(CMGetPrefsManager())->GetWindowSize(kVarTreeWindSizeID, window);
+	CMGetPrefsManager()->GetWindowSize(kVarTreeWindSizeID, window);
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = new JXImage(display, medic_variables_window);

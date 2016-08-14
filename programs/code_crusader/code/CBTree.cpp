@@ -306,7 +306,7 @@ CBTree::CBTreeX
 
 	itsSuffixList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsSuffixList != NULL );
-	(CBGetPrefsManager())->GetFileSuffixes(itsFileType, itsSuffixList);
+	CBGetPrefsManager()->GetFileSuffixes(itsFileType, itsSuffixList);
 
 	itsCollapsedList = NULL;
 
@@ -527,7 +527,7 @@ CBTree::FileTypesChanged
 {
 	if (info.Changed(itsFileType))
 		{
-		(CBGetPrefsManager())->GetFileSuffixes(itsFileType, itsSuffixList);
+		CBGetPrefsManager()->GetFileSuffixes(itsFileType, itsSuffixList);
 		NextUpdateMustReparseAll();
 		}
 }

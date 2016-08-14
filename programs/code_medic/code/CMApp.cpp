@@ -45,7 +45,7 @@ CMApp::CMApp
 	*displayAbout = CMCreateGlobals(this);
 	if (!*displayAbout)
 		{
-		*prevVersStr = (CMGetPrefsManager())->GetMedicVersionStr();
+		*prevVersStr = CMGetPrefsManager()->GetMedicVersionStr();
 		if (*prevVersStr == CMGetVersionNumberStr())
 			{
 			prevVersStr->Clear();
@@ -95,7 +95,7 @@ CMApp::EditFile
 	const
 {
 	JString editFileCmd, editFileLineCmd;
-	(CMGetPrefsManager())->GetEditFileCmds(&editFileCmd, &editFileLineCmd);
+	CMGetPrefsManager()->GetEditFileCmds(&editFileCmd, &editFileLineCmd);
 
 	JString cmd;
 	if (lineIndex > 0)

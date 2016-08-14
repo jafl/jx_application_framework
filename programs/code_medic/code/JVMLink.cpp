@@ -1327,7 +1327,7 @@ JVMLink::RunProgram
 {
 	DetachOrKill();
 
-	itsJVMCmd         = (CMGetPrefsManager())->GetJVMCommand();
+	itsJVMCmd         = CMGetPrefsManager()->GetJVMCommand();
 	itsJVMProcessArgs = args;
 
 	JString cmd = itsJVMCmd;

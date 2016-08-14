@@ -106,7 +106,7 @@ CMBreakpointsDir::CMBreakpointsDir
 
 CMBreakpointsDir::~CMBreakpointsDir()
 {
-	(CMGetPrefsManager())->SaveWindowSize(kBreakpointsWindowSizeID, GetWindow());
+	CMGetPrefsManager()->SaveWindowSize(kBreakpointsWindowSizeID, GetWindow());
 }
 
 /******************************************************************************
@@ -146,7 +146,7 @@ CMBreakpointsDir::BuildWindow
 	window->SetMinSize(150, 150);
 	window->ShouldFocusWhenShow(kJTrue);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetStackWindowClass());
-	(CMGetPrefsManager())->GetWindowSize(kBreakpointsWindowSizeID, window);
+	CMGetPrefsManager()->GetWindowSize(kBreakpointsWindowSizeID, window);
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = new JXImage(display, medic_breakpoints_window);

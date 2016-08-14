@@ -388,7 +388,7 @@ CMArray2DDir::BuildWindow()
 	itsTable->SetDefaultColWidth(kDefaultColWidth);
 	itsColHeader->TurnOnColResizing(kMinColWidth);
 
-	(CMGetPrefsManager())->GetWindowSize(kArray2DWindSizeID, window, kJTrue);	// after all widgets
+	CMGetPrefsManager()->GetWindowSize(kArray2DWindSizeID, window, kJTrue);	// after all widgets
 
 	itsExprInput->SetText(itsExpr);
 	itsExprInput->SetIsRequired();
@@ -1095,7 +1095,7 @@ CMArray2DDir::HandleActionMenu
 
 	else if (index == kSavePrefsCmd)
 		{
-		(CMGetPrefsManager())->SaveWindowSize(kArray2DWindSizeID, GetWindow());
+		CMGetPrefsManager()->SaveWindowSize(kArray2DWindSizeID, GetWindow());
 		}
 }
 

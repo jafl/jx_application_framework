@@ -132,7 +132,7 @@ CMLineIndexTable::CMLineIndexTable
 	itsBPList->SetSortOrder(JOrderedSetT::kSortAscending);
 
 	WantInput(kJFalse);
-	SetBackColor((CMGetPrefsManager())->GetColor(CMPrefsManager::kBackColorIndex));
+	SetBackColor(CMGetPrefsManager()->GetColor(CMPrefsManager::kBackColorIndex));
 	SetFocusColor(GetBackColor());
 	SetRowBorderInfo(0, GetBackColor());
 	SetColBorderInfo(0, GetBackColor());

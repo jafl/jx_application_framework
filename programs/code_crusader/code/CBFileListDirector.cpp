@@ -302,7 +302,7 @@ CBFileListDirector::BuildWindow()
 
 	JPoint desktopLoc;
 	JCoordinate w,h;
-	if ((CBGetPrefsManager())->GetWindowSize(kCBFileListWindSizeID, &desktopLoc, &w, &h))
+	if (CBGetPrefsManager()->GetWindowSize(kCBFileListWindSizeID, &desktopLoc, &w, &h))
 		{
 		window->Place(desktopLoc.x, desktopLoc.y);
 		window->SetSize(w,h);
@@ -730,7 +730,7 @@ CBFileListDirector::HandlePrefsMenu
 		}
 	else if (index == kEditFileTypesCmd)
 		{
-		(CBGetPrefsManager())->EditFileTypes();
+		CBGetPrefsManager()->EditFileTypes();
 		}
 	else if (index == kChooseExtEditorsCmd)
 		{
@@ -747,7 +747,7 @@ CBFileListDirector::HandlePrefsMenu
 
 	else if (index == kSaveWindSizeCmd)
 		{
-		(CBGetPrefsManager())->SaveWindowSize(kCBFileListWindSizeID, GetWindow());
+		CBGetPrefsManager()->SaveWindowSize(kCBFileListWindSizeID, GetWindow());
 		}
 }
 

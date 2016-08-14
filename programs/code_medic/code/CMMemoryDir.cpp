@@ -282,7 +282,7 @@ CMMemoryDir::BuildWindow()
 	assert( icon != NULL );
 	window->SetIcon(icon);
 
-	(CMGetPrefsManager())->GetWindowSize(kMemoryWindSizeID, window, kJTrue);
+	CMGetPrefsManager()->GetWindowSize(kMemoryWindSizeID, window, kJTrue);
 
 	itsWidget =
 		new JXStaticText("", kJFalse, kJTrue,
@@ -293,7 +293,7 @@ CMMemoryDir::BuildWindow()
 
 	JString name;
 	JSize size;
-	(CMGetPrefsManager())->GetDefaultFont(&name, &size);
+	CMGetPrefsManager()->GetDefaultFont(&name, &size);
 	itsWidget->SetFont(name, size);
 
 	itsExprInput->SetText(itsExpr);
@@ -640,7 +640,7 @@ CMMemoryDir::HandleActionMenu
 {
 	if (index == kSavePrefsCmd)
 		{
-		(CMGetPrefsManager())->SaveWindowSize(kMemoryWindSizeID, GetWindow());
+		CMGetPrefsManager()->SaveWindowSize(kMemoryWindSizeID, GetWindow());
 		}
 }
 

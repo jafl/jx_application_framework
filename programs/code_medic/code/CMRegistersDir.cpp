@@ -97,7 +97,7 @@ CMRegistersDir::CMRegistersDir
 
 CMRegistersDir::~CMRegistersDir()
 {
-	(CMGetPrefsManager())->SaveWindowSize(kRegistersWindowSizeID, GetWindow());
+	CMGetPrefsManager()->SaveWindowSize(kRegistersWindowSizeID, GetWindow());
 }
 
 /******************************************************************************
@@ -161,7 +161,7 @@ CMRegistersDir::BuildWindow()
 	window->SetMinSize(150, 150);
 	window->ShouldFocusWhenShow(kJTrue);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetRegistersWindowClass());
-	(CMGetPrefsManager())->GetWindowSize(kRegistersWindowSizeID, window);
+	CMGetPrefsManager()->GetWindowSize(kRegistersWindowSizeID, window);
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = new JXImage(display, medic_registers_window);
@@ -177,7 +177,7 @@ CMRegistersDir::BuildWindow()
 
 	JString name;
 	JSize size;
-	(CMGetPrefsManager())->GetDefaultFont(&name, &size);
+	CMGetPrefsManager()->GetDefaultFont(&name, &size);
 	itsWidget->SetFont(name, size);
 
 	// menus

@@ -86,7 +86,7 @@ CBApp::CBApp
 
 	if (!*displayAbout)
 		{
-		*prevVersStr = (CBGetPrefsManager())->GetJCCVersionStr();
+		*prevVersStr = CBGetPrefsManager()->GetJCCVersionStr();
 		if (*prevVersStr == CBGetVersionNumberStr())
 			{
 			prevVersStr->Clear();
@@ -133,7 +133,7 @@ CBApp::Close()
 		return kJFalse;
 		}
 
-	(CBGetPrefsManager())->SaveProgramState();
+	CBGetPrefsManager()->SaveProgramState();
 
 	// close these first so they remember all open text documents
 
@@ -147,7 +147,7 @@ CBApp::Close()
 	const JBoolean success = JXApplication::Close();	// deletes us if successful
 	if (!success)
 		{
-		(CBGetPrefsManager())->ForgetProgramState();
+		CBGetPrefsManager()->ForgetProgramState();
 		}
 
 	return success;
@@ -570,7 +570,7 @@ CBApp::CleanUpBeforeSuddenDeath
 	if (reason != JXDocumentManager::kAssertFired)
 		{
 		JPrefObject::WritePrefs();
-		(CBGetPrefsManager())->SaveProgramState();
+		CBGetPrefsManager()->SaveProgramState();
 //		(CBGetDocumentManager())->Save
 		}
 

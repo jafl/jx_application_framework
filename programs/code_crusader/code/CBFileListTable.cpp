@@ -203,7 +203,7 @@ CBFileListTable::ScanAll
 		pg.VariableLengthProcessBeginning(JGetString(kParsingFilesID), kJFalse, kJTrue);
 
 		JPtrArray<JString> allSuffixList(JPtrArrayT::kDeleteAll);
-		(CBGetPrefsManager())->GetAllFileSuffixes(&allSuffixList);
+		CBGetPrefsManager()->GetAllFileSuffixes(&allSuffixList);
 
 		JString fullPath;
 		JBoolean recurse;
@@ -316,7 +316,7 @@ CBFileListTable::ParseFile
 {
 	if (CBPrefsManager::FileMatchesSuffix(fullName, allSuffixList))
 		{
-		const CBTextFileType fileType = (CBGetPrefsManager())->GetFileType(fullName);
+		const CBTextFileType fileType = CBGetPrefsManager()->GetFileType(fullName);
 		JFAID_t id;
 		if (AddFile(fullName, fileType, modTime, &id))
 			{

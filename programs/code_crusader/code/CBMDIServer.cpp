@@ -302,9 +302,9 @@ CBMDIServer::HandleMDIRequest
 	JBoolean projectCreated = kJFalse;
 	if (restore && itsReopenLastFlag)
 		{
-		stateRestored = (CBGetPrefsManager())->RestoreProgramState();
+		stateRestored = CBGetPrefsManager()->RestoreProgramState();
 		}
-	(CBGetPrefsManager())->ForgetProgramState();	// toss it so we don't do it next time
+	CBGetPrefsManager()->ForgetProgramState();	// toss it so we don't do it next time
 
 	if (restore || argCount == 1)
 		{

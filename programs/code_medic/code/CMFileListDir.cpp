@@ -117,7 +117,7 @@ CMFileListDir::CMFileListDir
 CMFileListDir::~CMFileListDir()
 {
 	JPrefObject::WritePrefs();
-	(CMGetPrefsManager())->SaveWindowSize(kFileWindSizeID, GetWindow());
+	CMGetPrefsManager()->SaveWindowSize(kFileWindSizeID, GetWindow());
 
 	delete itsCmd;
 }
@@ -171,7 +171,7 @@ CMFileListDir::BuildWindow()
 	window->SetMinSize(150, 150);
 	window->ShouldFocusWhenShow(kJTrue);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetFileListWindowClass());
-	(CMGetPrefsManager())->GetWindowSize(kFileWindSizeID, window);
+	CMGetPrefsManager()->GetWindowSize(kFileWindSizeID, window);
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = new JXImage(display, medic_file_list_window);
