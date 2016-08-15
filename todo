@@ -6,20 +6,7 @@ document SB*.h
 
 -----
 
-systemg - allow merging from any remote branch
-
-	itsGitRemoteBranchMenu->RemoveAllItems();
-	if (hasRemote)
-		{
-+		itsGitMergeBranchMenu->ShowSeparatorAfter(itsGitMergeBranchMenu->GetItemCount());
-
-		const JSize remoteCount = remoteList.GetElementCount();
-		for (JIndex i=1; i<=remoteCount; i++)
-			{
-			itsGitRemoteBranchMenu->AppendItem(*(remoteList.NthElement(i)));
-+			itsGitMergeBranchMenu->AppendItem(*(remoteList.NthElement(i)));
-			}
-		}
++ systemg - allow merging from any remote branch
 
 jcc:
 	why is "replace all" so much slower than "find all"?

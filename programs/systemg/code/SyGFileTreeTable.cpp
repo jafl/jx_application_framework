@@ -196,7 +196,7 @@ static const JCharacter* kGitMenuStr =
 	"  | Revert all changes            %i" kSGGitRevertAllAction
 	"%l| Fetch & merge from remote "
 	"  | Push current branch to remote"
-	"%l| Merge from local branch"
+	"%l| Merge from branch"
 	"%l| Fetch remote branch"
 	"  | Create local branch...        %i" kSGGitCreateBranchAction
 	"  | Remove local branch"
@@ -3904,10 +3904,13 @@ SyGFileTreeTable::UpdateGitMenus
 	itsGitRemoteBranchMenu->RemoveAllItems();
 	if (hasRemote)
 		{
+		itsGitMergeBranchMenu->ShowSeparatorAfter(itsGitMergeBranchMenu->GetItemCount());
+
 		const JSize remoteCount = remoteList.GetElementCount();
 		for (JIndex i=1; i<=remoteCount; i++)
 			{
 			itsGitRemoteBranchMenu->AppendItem(*(remoteList.NthElement(i)));
+			itsGitMergeBranchMenu->AppendItem(*(remoteList.NthElement(i)));
 			}
 		}
 	else
