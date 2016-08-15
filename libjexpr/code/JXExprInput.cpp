@@ -100,8 +100,8 @@ JXExprInput::HandleKeyPress
 {
 	if (key == JPGetGreekCharPrefixChar())
 		{
-		const JCharacter* currFontName = GetCurrentFontName();
-		if (strcmp(currFontName, JGetDefaultFontName()) == 0)
+		const JFont font = GetCurrentFont();
+		if (strcmp(font.GetName(), JGetDefaultFontName()) == 0)
 			{
 			SetCurrentFontName(JGetGreekFontName());
 			}
@@ -207,7 +207,8 @@ JXExprInput::UpdateFontMenu()
 {
 	itsFontMenu->EnableAll();
 
-	if (JStringCompare(GetCurrentFontName(), JGetGreekFontName()) == 0)
+	JFont font = GetCurrentFont();
+	if (JStringCompare(font.GetName(), JGetGreekFontName()) == 0)
 		{
 		itsFontMenu->CheckItem(kGreekFontCmd);
 		}

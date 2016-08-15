@@ -14,7 +14,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBMacroManager.h"
 #include "CBMacroSubstitute.h"
 #include "CBTextDocument.h"
@@ -202,17 +201,22 @@ CBMacroManager::Perform
 void
 CBMacroManager::HighlightErrors
 	(
-	const JString&					script,
-	const JColormap*				colormap,
-	JRunArray<JTextEditor::Font>*	styles
+	const JString&		script,
+	const JColormap*	colormap,
+	JRunArray<JFont>*	styles
 	)
 {
-	const JTextEditor::Font f = styles->GetFirstElement();
+	const JFont f = styles->GetFirstElement();
 	styles->RemoveAll();
 
-	const JTextEditor::Font black(f.id, f.size, colormap->GetBlackColor());
-	const JTextEditor::Font blue(f.id, f.size, colormap->GetBlueColor());
-	const JTextEditor::Font red(f.id, f.size, colormap->GetRedColor());
+	JFont black = f;
+	black.SetColor(colormap->GetBlackColor());
+
+	JFont blue = f;
+	blue.SetColor(colormap->GetBlueColor());
+
+	JFont red = f;
+	red.SetColor(colormap->GetRedColor());
 
 	const JIndex length = script.GetLength();
 	styles->AppendElements(black, length);

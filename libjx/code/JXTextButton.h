@@ -16,7 +16,7 @@
 
 #include <JXButton.h>
 #include <JString.h>
-#include <JFontStyle.h>
+#include <JFont.h>
 
 class JXTextButton : public JXButton
 {
@@ -32,24 +32,17 @@ public:
 	const JString&	GetLabel() const;
 	void			SetLabel(const JCharacter* label);
 
-	const JString&	GetFontName() const;
-	JSize			GetFontSize() const;
-	JFontStyle		GetFontStyle() const;
+	const JFont&	GetFont() const;
 
 	void	SetFontName(const JCharacter* fontName);
 	void	SetFontSize(const JSize size);
 	void	SetFontStyle(const JFontStyle& style);
+	void	SetFont(const JFont& f);
 
 	void	SetNormalColor(const JColorIndex color);
 	void	SetPushedColor(const JColorIndex color);
 
 	virtual void	SetShortcuts(const JCharacter* list);
-
-	virtual void	Activate();
-	virtual void	Deactivate();
-
-	virtual void	Suspend();
-	virtual void	Resume();
 
 protected:
 
@@ -61,14 +54,8 @@ private:
 	JString		itsLabel;
 	JString*	itsShortcuts;	// can be NULL
 	JIndex		itsULIndex;
-	JString		itsFontName;
-	JSize		itsFontSize;
-	JFontStyle	itsFontStyle;
+	JFont		itsFont;
 	JColorIndex	itsPushedColor;
-
-	// saves label color while deactivated
-
-	JColorIndex	itsTrueLabelColor;
 
 private:
 
@@ -93,18 +80,21 @@ JXTextButton::GetLabel()
 	return itsLabel;
 }
 
-inline const JString&
-JXTextButton::GetFontName()
+inline const JFont&
+JXTextButton::GetFont()
 	const
 {
-	return itsFontName;
+	return itsFont;
 }
 
-inline JSize
-JXTextButton::GetFontSize()
-	const
+inline void
+JXTextButton::SetFontName
+	(
+	const JCharacter* fontName
+	)
 {
-	return itsFontSize;
+	itsFont.SetName(fontName);
+	Refresh();
 }
 
 inline void
@@ -113,7 +103,27 @@ JXTextButton::SetFontSize
 	const JSize size
 	)
 {
-	itsFontSize = size;
+	itsFont.SetSize(size);
+	Refresh();
+}
+
+inline void
+JXTextButton::SetFontStyle
+	(
+	const JFontStyle& style
+	)
+{
+	itsFont.SetStyle(style);
+	Refresh();
+}
+
+inline void
+JXTextButton::SetFont
+	(
+	const JFont& font
+	)
+{
+	itsFont = font;
 	Refresh();
 }
 

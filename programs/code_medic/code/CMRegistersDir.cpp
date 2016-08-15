@@ -26,6 +26,7 @@
 #include <JXWDManager.h>
 #include <JXWDMenu.h>
 #include <JXImage.h>
+#include <JXFontManager.h>
 
 #include <jAssert.h>
 
@@ -178,7 +179,7 @@ CMRegistersDir::BuildWindow()
 	JString name;
 	JSize size;
 	CMGetPrefsManager()->GetDefaultFont(&name, &size);
-	itsWidget->SetFont(name, size);
+	itsWidget->SetFont(window->GetFontManager()->GetFont(name, size));
 
 	// menus
 

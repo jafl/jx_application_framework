@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBProjectFileInput.h"
 #include "CBProjectDocument.h"
 #include <JXColormap.h>
@@ -55,7 +54,7 @@ void
 CBProjectFileInput::AdjustStylesBeforeRecalc
 	(
 	const JString&		buffer,
-	JRunArray<Font>*	styles,
+	JRunArray<JFont>*	styles,
 	JIndexRange*		recalcRange,
 	JIndexRange*		redrawRange,
 	const JBoolean		deletion
@@ -73,17 +72,17 @@ CBProjectFileInput::AdjustStylesBeforeRecalc
 
 		const JColormap* colormap = GetColormap();
 		const JSize totalLength   = buffer.GetLength();
-		Font f                    = styles->GetFirstElement();
+		JFont f                   = styles->GetFirstElement();
 
 		styles->RemoveAll();
 		if (okLength > 0)
 			{
-			f.style.color = colormap->GetBlackColor();
+			f.SetColor(colormap->GetBlackColor());
 			styles->AppendElements(f, okLength);
 			}
 		if (okLength < totalLength)
 			{
-			f.style.color = colormap->GetRedColor();
+			f.SetColor(colormap->GetRedColor());
 			styles->AppendElements(f, totalLength - okLength);
 			}
 

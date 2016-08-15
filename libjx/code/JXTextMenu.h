@@ -15,7 +15,7 @@
 #endif
 
 #include <JXMenu.h>
-#include <JFontStyle.h>
+#include <JFont.h>
 #include <JXPM.h>
 
 class JXTextMenuData;
@@ -68,37 +68,19 @@ public:
 	const JString&	GetItemText(const JIndex index) const;
 	void			SetItemText(const JIndex index, const JCharacter* str);
 
-	const JCharacter*	GetItemFontName(const JIndex index) const;
-	JSize				GetItemFontSize(const JIndex index) const;
-	JFontStyle			GetItemFontStyle(const JIndex index) const;
-	void				GetItemFont(const JIndex index, JString* name,
-									JSize* size, JFontStyle* style) const;
-	void				GetItemFont(const JIndex index, JFontID* id,
-									JSize* size, JFontStyle* style) const;
+	JFont	GetItemFont(const JIndex index) const;
 
 	void	SetItemFontName(const JIndex index, const JCharacter* name);
 	void	SetItemFontSize(const JIndex index, const JSize size);
 	void	SetItemFontStyle(const JIndex index, const JFontStyle& style);
-	void	SetItemFont(const JIndex index, const JCharacter* name,
-						const JSize size, const JFontStyle& style = JFontStyle());
-	void	SetItemFont(const JIndex index, const JFontID id,
-						const JSize size, const JFontStyle& style = JFontStyle());
+	void	SetItemFont(const JIndex index, const JFont& font);
 
-	const JCharacter*	GetDefaultFontName() const;
-	JSize				GetDefaultFontSize() const;
-	const JFontStyle&	GetDefaultFontStyle() const;
-	void				GetDefaultFont(JString* name, JSize* size,
-									   JFontStyle* style) const;
-	void				GetDefaultFont(JFontID* id, JSize* size,
-									   JFontStyle* style) const;
+	const JFont&	GetDefaultFont() const;
 
 	void	SetDefaultFontName(const JCharacter* name, const JBoolean updateExisting);
 	void	SetDefaultFontSize(const JSize size, const JBoolean updateExisting);
 	void	SetDefaultFontStyle(const JFontStyle& style, const JBoolean updateExisting);
-	void	SetDefaultFont(const JCharacter* name, const JSize size,
-						   const JFontStyle& style, const JBoolean updateExisting);
-	void	SetDefaultFont(const JFontID id, const JSize size,
-						   const JFontStyle& style, const JBoolean updateExisting);
+	void	SetDefaultFont(const JFont& font, const JBoolean updateExisting);
 
 	JBoolean	GetItemImage(const JIndex index, const JXImage** image) const;
 	void		SetItemImage(const JIndex index, JXImage* image,

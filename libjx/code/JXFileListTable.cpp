@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXFileListTable.h>
 #include <JXWindow.h>
 #include <JXWindowPainter.h>
@@ -93,13 +92,12 @@ JXFileListTable::JXFileListTable
 	assert( itsFileIcon != NULL );
 	itsFileIcon->ConvertToRemoteStorage();
 
-	const JIndex blackColor = (GetColormap())->GetBlackColor();
+	const JIndex blackColor = GetColormap()->GetBlackColor();
 	SetRowBorderInfo(0, blackColor);
 	SetColBorderInfo(0, blackColor);
 
 	AppendCols(1);
-	SetDefaultRowHeight((GetFontManager())->
-							GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle()) +
+	SetDefaultRowHeight((GetFontManager()->GetDefaultFont()).GetLineHeight() +
 						2*kVMarginWidth);
 
 	SetSelectionBehavior(kJTrue, kJTrue);
@@ -451,8 +449,7 @@ JXFileListTable::FilterFile
 			info = itsVisibleList->GetElement(i);
 			const JCharacter* drawStr =
 				(itsFileList->NthElement(info.fileIndex))->GetCString() + info.drawIndex-1;
-			const JSize w = (GetFontManager())->GetStringWidth(
-				JGetDefaultFontName(), kJDefaultFontSize, JFontStyle(), drawStr);
+			const JSize w = (GetFontManager()->GetDefaultFont()).GetStringWidth(drawStr);
 			if (w > itsMaxStringWidth)
 				{
 				itsMaxStringWidth = w;
@@ -1344,7 +1341,7 @@ JXFileListTable::CopySelectedFileNames()
 		JXTextSelection* data = new JXTextSelection(GetDisplay(), list);
 		assert( data != NULL );
 
-		(GetSelectionManager())->SetData(kJXClipboardName, data);
+		GetSelectionManager()->SetData(kJXClipboardName, data);
 		}
 }
 
@@ -1407,7 +1404,7 @@ JXFileListTable::GetDNDAction
 	const JXKeyModifiers&	modifiers
 	)
 {
-	return (GetDNDManager())->GetDNDActionPrivateXAtom();
+	return GetDNDManager()->GetDNDActionPrivateXAtom();
 }
 
 /******************************************************************************
@@ -1423,7 +1420,7 @@ JXFileListTable::HandleDNDResponse
 	const Atom			action
 	)
 {
-	DisplayCursor((GetDNDManager())->GetDNDFileCursor(dropAccepted, action));
+	DisplayCursor(GetDNDManager()->GetDNDFileCursor(dropAccepted, action));
 }
 
 /******************************************************************************
@@ -1452,14 +1449,14 @@ JXFileListTable::WillAcceptDrop
 
 	// we accept drops of type text/uri-list
 
-	const Atom urlXAtom = (GetSelectionManager())->GetURLXAtom();
+	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
 
 	const JSize typeCount = typeList.GetElementCount();
 	for (JIndex i=1; i<=typeCount; i++)
 		{
 		if (typeList.GetElement(i) == urlXAtom)
 			{
-			*action = (GetDNDManager())->GetDNDActionPrivateXAtom();
+			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			return kJTrue;
 			}
 		}
@@ -1489,7 +1486,7 @@ JXFileListTable::HandleDNDDrop
 {
 	JPtrArray<JString> fileNameList(JPtrArrayT::kDeleteAll),
 					   urlList(JPtrArrayT::kDeleteAll);
-	if (JXFileSelection::GetFileList((GetDNDManager())->GetDNDSelectionName(), time,
+	if (JXFileSelection::GetFileList(GetDNDManager()->GetDNDSelectionName(), time,
 									 GetDisplay(), &fileNameList, &urlList))
 		{
 		const JSize fileCount = fileNameList.GetElementCount();

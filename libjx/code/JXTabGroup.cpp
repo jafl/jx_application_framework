@@ -15,7 +15,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXTabGroup.h>
 #include <JXCardFile.h>
 #include <JXScrollTabsTask.h>
@@ -93,8 +92,7 @@ JXTabGroup::JXTabGroup
 	:
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsEdge(kTop),
-	itsFontName(JGetDefaultFontName()),
-	itsFontSize(kJDefaultFontSize),
+	itsFont(GetFontManager()->GetDefaultFont()),
 	itsCanScrollUpFlag(kJFalse),
 	itsCanScrollDownFlag(kJFalse),
 	itsFirstDrawIndex(1),
@@ -438,7 +436,7 @@ void
 JXTabGroup::PlaceCardFile()
 {
 	const JSize h = kSelMargin + kBorderWidth + 2*kTextMargin +
-					(GetFontManager())->GetLineHeight(itsFontName, itsFontSize, itsFontStyle);
+					itsFont.GetLineHeight();
 
 	JRect r = GetAperture();
 	if (itsEdge == kTop)
@@ -481,9 +479,6 @@ JXTabGroup::ScrollUpToTab
 	assert( itsTitles->IndexValid(index) );
 	assert( index > itsFirstDrawIndex );
 
-	const JFontManager* fontMgr = GetFontManager();
-	const JFontID fontID        = fontMgr->GetFontID(itsFontName, itsFontSize, itsFontStyle);
-
 	const JCoordinate scrollArrowWidth = 2*(kArrowWidth + kBorderWidth);
 
 	const JRect ap        = GetAperture();
@@ -500,8 +495,7 @@ JXTabGroup::ScrollUpToTab
 		const TabInfo info = itsTabInfoList->GetElement(index);
 
 		right += 2*kBorderWidth + info.preMargin + info.postMargin +
-				 fontMgr->GetStringWidth(fontID, itsFontSize, itsFontStyle,
-										 *(itsTitles->NthElement(i)));
+				 itsFont.GetStringWidth(*(itsTitles->NthElement(i)));
 		if (info.closable)
 			{
 			right += kCloseMarginWidth + itsCloseImage->GetWidth();
@@ -544,7 +538,7 @@ JXTabGroup::Draw
 {
 	const JRect ap = GetAperture();
 
-	p.SetFont(itsFontName, itsFontSize, itsFontStyle);
+	p.SetFont(itsFont);
 	const JSize lineHeight = p.GetLineHeight();
 	const JSize tabHeight  = 2*(kBorderWidth + kTextMargin) + lineHeight;
 
@@ -1567,7 +1561,7 @@ JXTabGroup::ScrollWait
 	)
 	const
 {
-	(GetWindow())->Update();
+	GetWindow()->Update();
 	JWait(delta);
 }
 
@@ -1588,7 +1582,7 @@ JXTabGroup::WillAcceptDrop
 	const JXWidget*		source
 	)
 {
-	*action = (GetDNDManager())->GetDNDActionPrivateXAtom();
+	*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 	return kJTrue;
 }
 
@@ -1684,64 +1678,6 @@ JXTabGroup::Activate()
 		{
 		ShowTab(1);
 		}
-}
-
-/******************************************************************************
- Set font info
-
- ******************************************************************************/
-
-void
-JXTabGroup::SetFontName
-	(
-	const JCharacter* name
-	)
-{
-	if (name != itsFontName)
-		{
-		itsFontName = name;
-		UpdateAppearance();
-		}
-}
-
-void
-JXTabGroup::SetFontSize
-	(
-	const JSize size
-	)
-{
-	if (size != itsFontSize)
-		{
-		itsFontSize = size;
-		UpdateAppearance();
-		}
-}
-
-void
-JXTabGroup::SetFontStyle
-	(
-	const JFontStyle& style
-	)
-{
-	if (style != itsFontStyle)
-		{
-		itsFontStyle = style;
-		UpdateAppearance();
-		}
-}
-
-void
-JXTabGroup::SetFont
-	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style
-	)
-{
-	itsFontName  = name;
-	itsFontSize  = size;
-	itsFontStyle = style;
-	UpdateAppearance();
 }
 
 /******************************************************************************

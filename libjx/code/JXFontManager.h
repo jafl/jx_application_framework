@@ -28,6 +28,8 @@ typedef JOrderedSetT::CompareResult
 
 class JXFontManager : public JFontManager
 {
+	friend class JXGC;
+
 public:
 
 	enum FontType
@@ -61,6 +63,16 @@ public:
 	virtual JBoolean	GetFontSizes(const JCharacter* name, JSize* minSize,
 									 JSize* maxSize, JArray<JSize>* sizeList) const;
 
+	// for X Window System only
+
+	void		GetXFontNames(const JRegex& regex,
+							  JPtrArray<JString>* fontNames,
+							  JSortXFontNamesFn compare = NULL) const;
+	JBoolean	GetFontID(const JCharacter* xFontStr, JFontID* fontID) const;
+	XFont		GetXFontInfo(const JFontID id) const;
+
+protected:
+
 	virtual JFontID				GetFontID(const JCharacter* name, const JSize size,
 										  const JFontStyle& style) const;
 	virtual const JCharacter*	GetFontName(const JFontID id) const;
@@ -70,20 +82,10 @@ public:
 								  const JFontStyle& style,
 								  JCoordinate* ascent, JCoordinate* descent) const;
 
-	virtual JSize	GetCharWidth(const JFontID fontID, const JSize size,
-								 const JFontStyle& style, const JCharacter c) const;
+	virtual JSize	GetCharWidth(const JFontID fontID, const JCharacter c) const;
 
-	virtual JSize	GetStringWidth(const JFontID fontID, const JSize size,
-								   const JFontStyle& style,
+	virtual JSize	GetStringWidth(const JFontID fontID,
 								   const JCharacter* str, const JSize charCount) const;
-
-	// for X Windows only
-
-	void		GetXFontNames(const JRegex& regex,
-							  JPtrArray<JString>* fontNames,
-							  JSortXFontNamesFn compare = NULL) const;
-	JBoolean	GetFontID(const JCharacter* xFontStr, JFontID* fontID) const;
-	XFont		GetXFontInfo(const JFontID id) const;
 
 private:
 

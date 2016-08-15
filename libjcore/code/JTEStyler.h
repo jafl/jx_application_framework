@@ -55,7 +55,7 @@ public:
 	static JArray<TokenData>*	NewTokenStartList();
 
 	void	UpdateStyles(const JTextEditor* te,
-						 const JString& text, JRunArray<JTextEditor::Font>* styles,
+						 const JString& text, JRunArray<JFont>* styles,
 						 JIndexRange* recalcRange, JIndexRange* redrawRange,
 						 const JBoolean deletion, JArray<TokenData>* tokenStartList);
 
@@ -67,17 +67,17 @@ protected:
 	virtual void		Scan(istream& input, const TokenExtra& initData) = 0;
 	virtual TokenExtra	GetFirstTokenExtraData() const;
 	virtual void		PreexpandCheckRange(const JString& text,
-											const JRunArray<JTextEditor::Font>& styles,
+											const JRunArray<JFont>& styles,
 											const JIndexRange& modifiedRange,
 											const JBoolean deletion,
 											JIndexRange* checkRange);
 	void				ExtendCheckRange(const JIndex newEndIndex);
 
-	const JTextEditor*					GetTextEditor() const;
-	const JFontManager*					GetFontManager() const;
-	const JFontStyle&					GetDefaultFontStyle() const;
-	const JString&						GetText() const;
-	const JRunArray<JTextEditor::Font>&	GetStyles() const;
+	const JTextEditor*		GetTextEditor() const;
+	const JFontManager*		GetFontManager() const;
+	const JFont&			GetDefaultFont() const;
+	const JString&			GetText() const;
+	const JRunArray<JFont>&	GetStyles() const;
 
 	JBoolean	SetStyle(const JIndexRange& range, const JFontStyle& style);
 	void		SaveTokenStart(const TokenExtra& data);
@@ -88,16 +88,13 @@ private:
 
 	JBoolean	itsActiveFlag;
 
-	const JTextEditor*				itsTE;			// not owned; NULL unless lexing
-	const JFontManager*				itsFontMgr;		// not owned; NULL unless lexing
-	const JString*					itsText;		// not owned; NULL unless lexing
-	JRunArray<JTextEditor::Font>*	itsStyles;		// not owned; NULL unless lexing
+	const JTextEditor*	itsTE;			// not owned; NULL unless lexing
+	const JFontManager*	itsFontMgr;		// not owned; NULL unless lexing
+	const JString*		itsText;		// not owned; NULL unless lexing
+	JRunArray<JFont>*	itsStyles;		// not owned; NULL unless lexing
 
 	JBoolean	itsRedoAllFlag;						// kJTrue => itsStyles is *not* full
-	JString		itsFontName;
-	JSize		itsFontSize;
-	JFontStyle	itsDefFontStyle;
-	JFontID		itsDefFontID;
+	JFont*		itsDefFont;							// NULL unless processing
 
 	JIndexRange*	itsRecalcRange;					// not owned; NULL unless lexing
 	JIndexRange*	itsRedrawRange;					// not owned; NULL unless lexing
@@ -173,15 +170,15 @@ JTEStyler::GetFontManager()
 }
 
 /******************************************************************************
- GetDefaultFontStyle (protected)
+ GetDefaultFont (protected)
 
  ******************************************************************************/
 
-inline const JFontStyle&
-JTEStyler::GetDefaultFontStyle()
+inline const JFont&
+JTEStyler::GetDefaultFont()
 	const
 {
-	return itsDefFontStyle;
+	return *itsDefFont;
 }
 
 /******************************************************************************
@@ -201,7 +198,7 @@ JTEStyler::GetText()
 
  ******************************************************************************/
 
-inline const JRunArray<JTextEditor::Font>&
+inline const JRunArray<JFont>&
 JTEStyler::GetStyles()
 	const
 {

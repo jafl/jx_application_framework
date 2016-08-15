@@ -77,20 +77,21 @@ CMTextDisplayBase::AdjustFont
 
 	JString name;
 	JSize size;
-	(CMGetPrefsManager())->GetDefaultFont(&name, &size);
-	te->SetDefaultFont(name, size, (CMGetPrefsManager())->GetColor(CMPrefsManager::kTextColorIndex));
+	CMGetPrefsManager()->GetDefaultFont(&name, &size);
+	te->SetDefaultFont(
+		fontMgr->GetFont(name, size, CMGetPrefsManager()->GetColor(CMPrefsManager::kTextColorIndex)));
 
 	// colors
 
-	te->SetFocusColor((CMGetPrefsManager())->GetColor(CMPrefsManager::kBackColorIndex));
-	te->SetCaretColor((CMGetPrefsManager())->GetColor(CMPrefsManager::kCaretColorIndex));
-	te->SetSelectionColor((CMGetPrefsManager())->GetColor(CMPrefsManager::kSelColorIndex));
-	te->SetSelectionOutlineColor((CMGetPrefsManager())->GetColor(CMPrefsManager::kSelLineColorIndex));
+	te->SetFocusColor(CMGetPrefsManager()->GetColor(CMPrefsManager::kBackColorIndex));
+	te->SetCaretColor(CMGetPrefsManager()->GetColor(CMPrefsManager::kCaretColorIndex));
+	te->SetSelectionColor(CMGetPrefsManager()->GetColor(CMPrefsManager::kSelColorIndex));
+	te->SetSelectionOutlineColor(CMGetPrefsManager()->GetColor(CMPrefsManager::kSelLineColorIndex));
 
 	// tab width
 
-	const JSize tabCharCount    = (CMGetPrefsManager())->GetTabCharCount();
-	const JCoordinate charWidth = fontMgr->GetCharWidth(name, size, JFontStyle(), ' ');
+	const JSize tabCharCount    = CMGetPrefsManager()->GetTabCharCount();
+	const JCoordinate charWidth = te->GetDefaultFont().GetCharWidth(' ');
 	te->SetDefaultTabWidth(tabCharCount * charWidth);
 	te->SetCRMTabCharCount(tabCharCount);
 }

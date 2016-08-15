@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JStyleTableData.h>
 #include <JTable.h>
 #include <JFontManager.h>
@@ -39,9 +38,10 @@ JStyleTableData::JStyleTableData
 	:
 	JAuxTableData<JFontStyle>(table, JFontStyle()),
 	itsFontManager(fontManager),
-	itsColormap(colormap)
+	itsColormap(colormap),
+	itsFont(fontManager->GetDefaultFont())
 {
-	SetFont(JGetDefaultFontName(), kJDefaultFontSize);
+	AdjustToFont();
 }
 
 /******************************************************************************
@@ -61,19 +61,35 @@ JStyleTableData::~JStyleTableData()
 void
 JStyleTableData::SetFont
 	(
+	const JFont& font
+	)
+{
+	itsFont = font;
+	AdjustToFont();
+	Broadcast(FontChanged());
+}
+
+void
+JStyleTableData::SetFont
+	(
 	const JCharacter*	name,
 	const JSize			size
 	)
 {
-	itsFontName = name;
-	itsFontSize = size;
+	SetFont(itsFontManager->GetFont(name, size));
+}
 
-	const JSize rowHeight = 2*kVMarginWidth +
-		itsFontManager->GetLineHeight(itsFontName, itsFontSize, JFontStyle());
-	(GetTable())->SetDefaultRowHeight(rowHeight);
-	(GetTable())->SetAllRowHeights(rowHeight);
+/******************************************************************************
+ AdjustToFont (private)
 
-	Broadcast(FontChanged());
+ ******************************************************************************/
+
+void
+JStyleTableData::AdjustToFont()
+{
+	const JSize rowHeight = 2*kVMarginWidth + itsFont.GetLineHeight();
+	GetTable()->SetDefaultRowHeight(rowHeight);
+	GetTable()->SetAllRowHeights(rowHeight);
 }
 
 /******************************************************************************

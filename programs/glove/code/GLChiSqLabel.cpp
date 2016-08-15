@@ -13,12 +13,11 @@
 
 #include <JXColormap.h>
 #include <JXWindowPainter.h>
-
+#include <JXFontManager.h>
 #include <jXPainterUtil.h>
 #include <jXConstants.h>
 
 #include <jGlobals.h>
-
 #include <jAssert.h>
 
 const JCharacter* kLabel	= "Normalized Chi-squared:";
@@ -83,7 +82,9 @@ GLChiSqLabel::Draw
 	)
 {
 	JXDrawUpFrame(p, GetBounds(), GetBorderWidth());
-	p.SetFont(JGetDefaultFontName(), kFontSize,
-			  JFontStyle(kJTrue, kJFalse, 0, kJFalse, (p.GetColormap())->GetBlackColor()));
+	const JFont& font = GetFontManager()->GetFont(
+		JGetDefaultFontName(), kFontSize,
+		JFontStyle(kJTrue, kJFalse, 0, kJFalse, (p.GetColormap())->GetBlackColor()));
+	p.SetFont(font);
 	p.String(0, 0, kLabel, GetBoundsWidth(), JPainter::kHAlignCenter, GetBoundsHeight(), JPainter::kVAlignCenter);
 }

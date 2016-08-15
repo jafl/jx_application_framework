@@ -11,7 +11,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXDirTable.h>
 #include <JDirInfo.h>
 
@@ -116,12 +115,11 @@ JXDirTable::JXDirTable
 	itsIgnoreSelChangesFlag = kJFalse;
 	SetSelectionBehavior(itsAllowSelectMultipleFlag, kJTrue);
 
-	const JIndex blackColor = (GetColormap())->GetBlackColor();
+	const JIndex blackColor = GetColormap()->GetBlackColor();
 	SetRowBorderInfo(0, blackColor);
 	SetColBorderInfo(0, blackColor);
 	AppendCols(1);
-	SetDefaultRowHeight((GetFontManager())->
-							GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle()) +
+	SetDefaultRowHeight(GetFontManager()->GetDefaultFont().GetLineHeight() +
 						2*kVMarginWidth);
 	AdjustTableContents();
 	ListenTo(itsDirInfo);
@@ -501,14 +499,15 @@ JXDirTable::TableDrawCell
 
 	const JBoolean italic = entry.IsLink();
 
-	JColorIndex color = (GetColormap())->GetBlackColor();
+	JColorIndex color = GetColormap()->GetBlackColor();
 	if (!ItemIsActive(cell.y))
 		{
-		color = (GetColormap())->GetGrayColor(40);
+		color = GetColormap()->GetGrayColor(40);
 		}
 
-	p.SetFont(JGetDefaultFontName(), kJDefaultFontSize,
-			  JFontStyle(kJFalse, italic, 0, kJFalse, color));
+	JFont font = GetWindow()->GetFontManager()->GetDefaultFont();
+	font.SetStyle(JFontStyle(kJFalse, italic, 0, kJFalse, color));
+	p.SetFont(font);
 
 	JRect r = rect;
 	r.left += kIconWidth + kHMarginWidth;
@@ -805,14 +804,14 @@ JXDirTable::WillAcceptDrop
 
 	// we accept drops of type text/uri-list
 
-	const Atom urlXAtom = (GetSelectionManager())->GetURLXAtom();
+	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
 
 	const JSize typeCount = typeList.GetElementCount();
 	for (JIndex i=1; i<=typeCount; i++)
 		{
 		if (typeList.GetElement(i) == urlXAtom)
 			{
-			*action = (GetDNDManager())->GetDNDActionPrivateXAtom();
+			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			return kJTrue;
 			}
 		}
@@ -846,7 +845,7 @@ JXDirTable::HandleDNDDrop
 	unsigned char* data;
 	JSize dataLength;
 	JXSelectionManager::DeleteMethod delMethod;
-	if (selMgr->GetData((GetDNDManager())->GetDNDSelectionName(),
+	if (selMgr->GetData(GetDNDManager()->GetDNDSelectionName(),
 						time, selMgr->GetURLXAtom(),
 						&returnType, &data, &dataLength, &delMethod))
 		{
@@ -886,7 +885,7 @@ JXDirTable::HandleDNDDrop
 							if (itsDirInfo->FindEntry(name, &index) &&
 								ItemIsActive(index))
 								{
-								(GetWindow())->Raise();
+								GetWindow()->Raise();
 								if (!s.HasSelection())
 									{
 									const JBoolean ok = SelectSingleEntry(index);
@@ -926,7 +925,6 @@ JXDirTable::AdjustTableContents()
 	// adjust the number of rows and the width of the text column
 
 	const JFontManager* fontMgr = GetFontManager();
-	const JFontStyle style;
 
 	RemoveAllRows();
 	itsMaxStringWidth = 0;
@@ -934,11 +932,11 @@ JXDirTable::AdjustTableContents()
 	const JSize count = itsDirInfo->GetElementCount();
 	AppendRows(count);
 
+	const JFont& font = fontMgr->GetDefaultFont();
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JDirEntry& entry = itsDirInfo->GetEntry(i);
-		const JSize w = fontMgr->GetStringWidth(
-			JGetDefaultFontName(), kJDefaultFontSize, style, entry.GetName());
+		const JSize w          = font.GetStringWidth(entry.GetName());
 		if (w > itsMaxStringWidth)
 			{
 			itsMaxStringWidth = w;

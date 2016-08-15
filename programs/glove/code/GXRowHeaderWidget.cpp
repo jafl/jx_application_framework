@@ -18,7 +18,7 @@
 #include <JXDragPainter.h>
 #include <jXPainterUtil.h>
 #include <jXConstants.h>
-#include <JString.h>
+#include <JFontManager.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -74,8 +74,10 @@ GXRowHeaderWidget::TableDrawCell
 {
 	JXDrawUpFrame(p, rect, kCellFrameWidth);
 
-	p.SetFont(JGetDefaultFontName(), 10,
-			  JFontStyle(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor()));
+	const JFont font = GetFontManager()->GetFont(
+		JGetDefaultFontName(), 10,
+		JFontStyle(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor()));
+	p.SetFont(font);
 	JString str(cell.y, 0);
 	p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 }

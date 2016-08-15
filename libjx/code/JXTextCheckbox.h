@@ -16,7 +16,7 @@
 
 #include <JXCheckbox.h>
 #include <JString.h>
-#include <JFontStyle.h>
+#include <JFont.h>
 
 class JXTextCheckbox : public JXCheckbox
 {
@@ -32,24 +32,17 @@ public:
 	const JString&	GetLabel() const;
 	void			SetLabel(const JCharacter* label);
 
-	const JString&	GetFontName() const;
-	JSize			GetFontSize() const;
-	JFontStyle		GetFontStyle() const;
+	const JFont&	GetFont() const;
 
 	void	SetFontName(const JCharacter* fontName);
 	void	SetFontSize(const JSize size);
 	void	SetFontStyle(const JFontStyle& style);
+	void	SetFont(const JFont& f);
 
 	void	SetNormalColor(const JColorIndex color);
 	void	SetPushedColor(const JColorIndex color);
 
 	virtual void	SetShortcuts(const JCharacter* list);
-
-	virtual void	Activate();
-	virtual void	Deactivate();
-
-	virtual void	Suspend();
-	virtual void	Resume();
 
 protected:
 
@@ -61,16 +54,10 @@ private:
 	JString		itsLabel;
 	JString*	itsShortcuts;	// can be NULL
 	JIndex		itsULIndex;
-	JString		itsFontName;
-	JSize		itsFontSize;
-	JFontStyle	itsFontStyle;
+	JFont		itsFont;
 
 	JColorIndex	itsNormalColor;
 	JColorIndex	itsPushedColor;
-
-	// saves label color while deactivated
-
-	JColorIndex	itsTrueLabelColor;
 
 private:
 
@@ -93,18 +80,21 @@ JXTextCheckbox::GetLabel()
 	return itsLabel;
 }
 
-inline const JString&
-JXTextCheckbox::GetFontName()
+inline const JFont&
+JXTextCheckbox::GetFont()
 	const
 {
-	return itsFontName;
+	return itsFont;
 }
 
-inline JSize
-JXTextCheckbox::GetFontSize()
-	const
+inline void
+JXTextCheckbox::SetFontName
+	(
+	const JCharacter* fontName
+	)
 {
-	return itsFontSize;
+	itsFont.SetName(fontName);
+	Refresh();
 }
 
 inline void
@@ -113,7 +103,27 @@ JXTextCheckbox::SetFontSize
 	const JSize size
 	)
 {
-	itsFontSize = size;
+	itsFont.SetSize(size);
+	Refresh();
+}
+
+inline void
+JXTextCheckbox::SetFontStyle
+	(
+	const JFontStyle& style
+	)
+{
+	itsFont.SetStyle(style);
+	Refresh();
+}
+
+inline void
+JXTextCheckbox::SetFont
+	(
+	const JFont& font
+	)
+{
+	itsFont = font;
 	Refresh();
 }
 

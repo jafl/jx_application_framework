@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBCommandTable.h"
 #include "CBCommandSelection.h"
 #include "CBCommandPathInput.h"
@@ -115,21 +114,25 @@ CBCommandTable::CBCommandTable
 	const JCoordinate	h
 	)
 	:
-	JXEditTable(1,1, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
+	JXEditTable(1,1, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
+	itsFont(GetFontManager()->GetDefaultFont())
 {
 	itsTextInput   = NULL;
 	itsDNDRowIndex = 0;
 
 	itsCommandXAtom =
-		(GetDisplay())->RegisterXAtom(CBCommandSelection::GetCommandXAtomName());
+		GetDisplay()->RegisterXAtom(CBCommandSelection::GetCommandXAtomName());
 
 	// font
 
-	(CBGetPrefsManager())->GetDefaultFont(&itsFontName, &itsFontSize);
+	JString fontName;
+	JSize fontSize;
+	CBGetPrefsManager()->GetDefaultFont(&fontName, &fontSize);
+	itsFont.Set(fontName, fontSize);
 
 	const JSize rowHeight = 2*kVMarginWidth + JMax(
-		(GetFontManager())->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle()),
-		(GetFontManager())->GetLineHeight(itsFontName, itsFontSize, JFontStyle()));
+		GetFontManager()->GetDefaultFont().GetLineHeight(),
+		itsFont.GetLineHeight());
 	SetDefaultRowHeight(rowHeight);
 
 	// buttons
@@ -371,7 +374,9 @@ CBCommandTable::TableDrawCell
 			}
 		assert( s != NULL );
 
-		p.SetFont(itsFontName, itsFontSize, style);
+		JFont font = itsFont;
+		font.SetStyle(style);
+		p.SetFont(font);
 
 		JRect r = rect;
 		r.left += kHMarginWidth;
@@ -465,11 +470,11 @@ CBCommandTable::GetDNDAction
 	if ((target == this && !meta) ||
 		(target != this &&  meta))
 		{
-		return (GetDNDManager())->GetDNDActionMoveXAtom();
+		return GetDNDManager()->GetDNDActionMoveXAtom();
 		}
 	else
 		{
-		return (GetDNDManager())->GetDNDActionCopyXAtom();
+		return GetDNDManager()->GetDNDActionCopyXAtom();
 		}
 }
 
@@ -794,7 +799,7 @@ CBCommandTable::CreateXInputField
 	assert( text != NULL );
 
 	itsTextInput->SetText(*text);
-	itsTextInput->SetFont(itsFontName, itsFontSize);
+	itsTextInput->SetFont(itsFont);
 	return itsTextInput;
 }
 

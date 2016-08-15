@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXHintDirector.h>
 #include <JXDisplay.h>
 #include <JXWindow.h>
@@ -82,9 +81,9 @@ JXHintDirector::BuildWindow
 	// create window and contents
 
 	JXWindow* window = new JXWindow(this, 10,10, "", kJTrue);
-    assert( window != NULL );
+	assert( window != NULL );
 
-    window->SetWMWindowType(JXWindow::kWMTooltipType);
+	window->SetWMWindowType(JXWindow::kWMTooltipType);
 
 	JXBorderRect* border =
 		new JXBorderRect(window, JXWidget::kHElastic, JXWidget::kVElastic,
@@ -101,13 +100,7 @@ JXHintDirector::BuildWindow
 	JCoordinate ascent = 0, descent = 0;
 	if (!JStringEmpty(text))
 		{
-		JString fontName;
-		JSize fontSize;
-		JFontStyle fontStyle;
-		textWidget->GetFont(1, &fontName, &fontSize, &fontStyle);
-
-		(textWidget->GetFontManager())->GetLineHeight(fontName, fontSize, fontStyle,
-													  &ascent, &descent);
+		(textWidget->GetFont(1)).GetLineHeight(&ascent, &descent);
 		}
 
 	const JCoordinate w = 2*kHMargin + textWidget->GetFrameWidth();
@@ -116,7 +109,7 @@ JXHintDirector::BuildWindow
 
 	// place window
 
-	const JRect rootBounds = (GetDisplay())->GetBounds();
+	const JRect rootBounds = GetDisplay()->GetBounds();
 
 	JCoordinate x = frameR.left + 1;
 	JCoordinate y = frameR.bottom + 1;
@@ -139,7 +132,7 @@ JXHintDirector::BuildWindow
 
 	// use standard background color
 
-	JColorIndex backColorIndex = (GetColormap())->JColormap::GetColor(kBackColor);
+	JColorIndex backColorIndex = GetColormap()->JColormap::GetColor(kBackColor);
 	window->SetBackColor(backColorIndex);
 	border->SetBackColor(backColorIndex);
 	textWidget->SetBackgroundColor(backColorIndex);

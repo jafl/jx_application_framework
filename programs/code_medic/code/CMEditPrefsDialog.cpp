@@ -13,6 +13,7 @@
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXStaticText.h>
+#include <JXFontManager.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -137,7 +138,7 @@ CMEditPrefsDialog::BuildWindow
 		new JXStaticText(JGetString("obj3_JXLayout::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,200, 270,20);
 	assert( obj3_JXLayout != NULL );
-    obj3_JXLayout->SetFontSize(8);
+	obj3_JXLayout->SetFontSize(8);
 	obj3_JXLayout->SetToLabel();
 
 	JXStaticText* obj4_JXLayout =
@@ -179,7 +180,7 @@ CMEditPrefsDialog::BuildWindow
 		new JXStaticText(JGetString("obj9_JXLayout::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 410,20);
 	assert( obj9_JXLayout != NULL );
-    obj9_JXLayout->SetFontSize(8);
+	obj9_JXLayout->SetFontSize(8);
 	obj9_JXLayout->SetToLabel();
 
 	JXStaticText* obj10_JXLayout =
@@ -197,7 +198,7 @@ CMEditPrefsDialog::BuildWindow
 		new JXStaticText(JGetString("obj11_JXLayout::CMEditPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,130, 410,20);
 	assert( obj11_JXLayout != NULL );
-    obj11_JXLayout->SetFontSize(8);
+	obj11_JXLayout->SetFontSize(8);
 	obj11_JXLayout->SetToLabel();
 
 	itsPHPSuffixInput =
@@ -229,33 +230,35 @@ CMEditPrefsDialog::BuildWindow
 	itsJDBCmd->SetIsRequired();
 	itsJDBCmd->ShouldRequireExecutable();
 
+	const JFont& font = window->GetFontManager()->GetDefaultMonospaceFont();
+
 	itsEditFileCmdInput->SetText(editFileCmd);
 	itsEditFileCmdInput->SetIsRequired();
-	itsEditFileCmdInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsEditFileCmdInput->SetFont(font);
 
 	itsEditFileLineCmdInput->SetText(editFileLineCmd);
 	itsEditFileLineCmdInput->SetIsRequired();
-	itsEditFileLineCmdInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsEditFileLineCmdInput->SetFont(font);
 
 	CBMSetStringList(itsCSourceSuffixInput, cSourceSuffixes);
 	itsCSourceSuffixInput->SetIsRequired();
-	itsCSourceSuffixInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsCSourceSuffixInput->SetFont(font);
 
 	CBMSetStringList(itsCHeaderSuffixInput, cHeaderSuffixes);
 	itsCHeaderSuffixInput->SetIsRequired();
-	itsCHeaderSuffixInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsCHeaderSuffixInput->SetFont(font);
 
 	CBMSetStringList(itsJavaSuffixInput, javaSuffixes);
 	itsJavaSuffixInput->SetIsRequired();
-	itsJavaSuffixInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsJavaSuffixInput->SetFont(font);
 
 	CBMSetStringList(itsPHPSuffixInput, phpSuffixes);
 	itsPHPSuffixInput->SetIsRequired();
-	itsPHPSuffixInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsPHPSuffixInput->SetFont(font);
 
 	CBMSetStringList(itsFortranSuffixInput, fortranSuffixes);
 	itsFortranSuffixInput->SetIsRequired();
-	itsFortranSuffixInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsFortranSuffixInput->SetFont(font);
 
 	ListenTo(itsChooseGDBButton);
 	ListenTo(itsChooseJDBButton);

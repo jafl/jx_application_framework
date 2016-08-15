@@ -4,15 +4,58 @@ document SB*.h
 	How to provide class-level info?
 	explain section, module, block, etc
 
-	Submit SBAddress.h patch for feedback.
-
 -----
 
-load tasks directly from project file
+systemg - allow merging from any remote branch
 
-extract JTextEditor::Font to JFont
-	store JFontManager*
-	UpdateID(), Get/SetFontName()
+	itsGitRemoteBranchMenu->RemoveAllItems();
+	if (hasRemote)
+		{
++		itsGitMergeBranchMenu->ShowSeparatorAfter(itsGitMergeBranchMenu->GetItemCount());
+
+		const JSize remoteCount = remoteList.GetElementCount();
+		for (JIndex i=1; i<=remoteCount; i++)
+			{
+			itsGitRemoteBranchMenu->AppendItem(*(remoteList.NthElement(i)));
++			itsGitMergeBranchMenu->AppendItem(*(remoteList.NthElement(i)));
+			}
+		}
+
+jcc:
+	why is "replace all" so much slower than "find all"?
+
+	load tasks directly from project file
+
+JFont
+	need setters for individual font components?  (name, size style)
+	need info functions in JFontManager?  enough to expose from JFont?
+
+	replace JXXFontMenu::GetFontID()
+
+	build each project with JFont() marked private
+		medic
+		mill
+		drakon
+		glove
+		jx_memory_debugger
+		jx_project_wizard
+		leibnitz
+		mondrian
+		ssh_askpass
+		systemg
+
+	update JCoreLibVersion.h with all changes
+
+multi-pane editing
+	split off itsBuffer,itsStyles,itsUndo/RedoList into JTextBuffer
+	split out reading HTML, unix man page (to jcc), etc.
+	leave recalc engine, cursor location, and other display stuff in JTextEditor
+	JTextEditor can be constructed from string or JTextBuffer
+	CBTextEditor has handle to {JTextBuffer, refCount}
+	Edit menu has "New view..." which opens another CBTextEditor and incr refCount
+	When close, only require save if refCount == 1
+	Active undo needs to know which view it is for
+		since event from another view needs to deactivate it and create new one
 
 -----
 
@@ -163,71 +206,6 @@ memory analyzer
 
 JXMenu::PrepareToOpenMenu()
 	itsOwner may delete us!
-
------
-
-multi-pane editing
-	split off itsBuffer,itsStyles,itsUndo/RedoList into JTextBuffer
-	leave recalc engine, cursor location, and other display stuff in JTextEditor
-	JTextEditor can be constructed from string or JTextBuffer
-	CBTextEditor has handle to {JTextBuffer, refCount}
-	Edit menu has "New view..." which opens another CBTextEditor and incr refCount
-	When close, only require save if refCount == 1
-	Active undo needs to know which view it is for
-		since event from another view needs to deactivate it and create new one
-
-Mondrian
-	build
-		string list
-		main window with single, generic widget type
-			create by dragging from palette
-			class name
-				widget renders based on class name
-					button with ^M => return button
-				tab complete in class name input field
-				menu next to class name input field with known types
-			x,y,w,h
-			text (enabled for some types)
-			shortcuts
-			sizing
-			variable name
-			ctor arguments
-			validation (for input fields)
-		palette
-			just another layout window
-			save in prefs -- allows rearranging, resizing, custom objects, etc
-		import from .fd
-		load/save own format
-
-	main window is sorted JXStringList
-	hash table stores serialized layouts
-	open item from main window => look up and deserialize into layout
-		JXLayoutCanvas contains tree of JXLayoutObject
-		JXLayoutObject has option to accept drop to create child node
-	layout window options
-		show rulers/grid
-		snap to grid (5,10,other)
-		align selected: top,bottom,center; right,left,center
-		outline bounding rects
-	need option to control tab order
-		show index in each item
-		cmd-click to select item without re-ordering
-		click to make object the next in list
-	resize object:  only show corner handles if object very small
-	special object for JXTabGroup, to allow direct editing of all cards
-	sizing references
-		http://developer.apple.com/documentation/DeveloperTools/Conceptual/IB_UserGuide/Introduction/chapter_1_section_1.html
-		http://www.reportmill.com/ribs/support/layout-management/
-	localization
-		store separate copy of layout for each locale (en_US, en_GB, fr_FR, fr_CA, ...)
-		when create or delete, apply to all locales
-		generated code pulls strings *and* x,y,w,h
-		menu in editor window to choose locale
-			resizes and replaces contents with locale's layout
-	sizing
-		fixedLeft, fixedRight, elastic
-		floatingCenter, proportional
-		fixedLeftProportional, fixedRightProportional
 
 -----
 
@@ -419,18 +397,6 @@ JTextEditor::DrawInMargin
 	bookmarks -- easier to see which line was marked
 
 -----
-
-Windows
-	Replace S_ISLNK with check for .lnk
-	Test usage of R/W/X_OK
-	Replace X_OK and S_IXUSR with check for .exe/.com?
-	Build source distr
-		generate *L.cpp & *Y.cpp before taring source
-		update misc/win32/regex.h
-	Test JStringMapDelete & JPtrArrayCopy
-	JMDIServer:
-		use TCP socket instead of UNIX socket
-		write file in /tmp with pid and local port
 
 theme
 	each widget looks for its function in all loaded theme dlls

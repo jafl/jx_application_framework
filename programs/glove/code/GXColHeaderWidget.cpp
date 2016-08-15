@@ -15,10 +15,10 @@
 #include <JXScrollbarSet.h>
 #include <JXScrollbar.h>
 #include <JXDragPainter.h>
+#include <JXFontManager.h>
 #include <JXColormap.h>
 #include <jXPainterUtil.h>
 #include <jXConstants.h>
-#include <JString.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -74,8 +74,10 @@ GXColHeaderWidget::TableDrawCell
 {
 	JXDrawUpFrame(p, rect, kCellFrameWidth);
 
-	p.SetFont(JGetDefaultFontName(), 10,
-			  JFontStyle(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor()));
+	const JFont font = GetFontManager()->GetFont(
+		JGetDefaultFontName(), 10,
+		JFontStyle(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor()));
+	p.SetFont(font);
 	JString str(cell.x, 0);
 	p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 }

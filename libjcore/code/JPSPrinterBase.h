@@ -14,7 +14,7 @@
 #pragma once
 #endif
 
-#include <JFontStyle.h>
+#include <JFont.h>
 #include <JRect.h>
 #include <JPolygon.h>
 #include <jFStreamUtil.h>
@@ -36,7 +36,7 @@ public:
 
 public:
 
-	JPSPrinterBase(const JColormap* colormap);
+	JPSPrinterBase(const JFontManager* fontManager, const JColormap* colormap);
 
 	virtual ~JPSPrinterBase();
 
@@ -66,9 +66,7 @@ public:
 
 	void	PSSetDashList(const JArray<JSize>& dashList, const JSize dashOffset = 0);
 
-	void	PSString(const JFontManager* fontManager,
-					 const JFontID fontID, const JSize fontSize,
-					 const JFontStyle& fontStyle, const JCoordinate ascent,
+	void	PSString(const JFont& font, const JCoordinate ascent,
 					 const JCoordinate aligndx, const JCoordinate aligndy,
 					 const JFloat angle, const JCoordinate left,
 					 const JCoordinate top, const JCharacter* str);
@@ -138,9 +136,8 @@ private:
 
 	const JColormap*	itsColormap;
 
-	JFontID		itsLastFontID;
-	JSize		itsLastFontSize;
-	JFontStyle	itsLastFontStyle;
+	JBoolean	itsFontSetFlag;
+	JFont		itsLastFont;
 	JColorIndex itsLastColor;
 	JBoolean	itsLastLineWidthInit;	// not everybody guarantees default value of 1
 	JSize		itsLastLineWidth;
@@ -156,8 +153,7 @@ private:
 								 const JRect& srcRect, const JCoordinate destX,
 								 const JCoordinate destY);
 
-	void	PSSetFont(const JFontManager* fontManager, const JFontID id,
-					  const JSize size, const JFontStyle& style);
+	void	PSSetFont(const JFont& font);
 	void	PSSetColor(const JColorIndex color);
 	void	PSSetLineWidth(const JSize width);
 	void	PSSetLineDashes(const JBoolean drawDashedLines);

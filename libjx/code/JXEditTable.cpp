@@ -19,7 +19,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXEditTable.h>
 #include <JXWindow.h>
 #include <JXInputField.h>
@@ -350,12 +349,8 @@ JXEditTable::GetMin1DVisibleWidth
 			}
 		else
 			{
-			JFontID id;
-			JSize size;
-			JFontStyle style;
-			itsInputField->GetDefaultFont(&id, &size, &style);
 			return kMin1DVisCharCount *
-				(itsInputField->GetFontManager())->GetCharWidth(id, size, style, 'W');
+				(itsInputField->GetDefaultFont()).GetCharWidth('W');
 			}
 		}
 

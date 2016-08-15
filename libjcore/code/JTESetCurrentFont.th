@@ -5,13 +5,15 @@
 
 	To use this file:
 
-		#define LocalVarName      ____
-		#define StructElementName ____
+		#define LocalVarName   ____
+		#define GetElementName ____
+		#define SetElementName ____
 		#include <JTESetFont.th>
 		#undef LocalVarName
-		#undef StructElementName
+		#undef GetElementName
+		#undef SetElementName
 
-	Copyright © 1996 by John Lindal. All rights reserved.
+	Copyright © 1996-2016 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -20,19 +22,17 @@ if (!itsSelection.IsEmpty())
 	JBoolean isNew;
 	JTEUndoStyle* undo = GetStyleUndo(&isNew);
 
-	Font f;
+	JFont f = itsFontMgr->GetDefaultFont();
 	JBoolean changed = kJFalse;
-	JRunArrayIterator<Font> iter(itsStyles, kJIteratorStartBefore, itsSelection.first);
+	JRunArrayIterator<JFont> iter(itsStyles, kJIteratorStartBefore, itsSelection.first);
 	for (JIndex i=itsSelection.first; i<=itsSelection.last; i++)
 		{
 		const JBoolean ok = iter.Next(&f);
 		assert( ok );
 
-		if (LocalVarName != f.StructElementName)
+		if (LocalVarName != f.GetElementName)
 			{
-			f.StructElementName = LocalVarName;
-
-			f.id = itsFontMgr->UpdateFontID(f.id, f.size, f.style);
+			f.SetElementName(LocalVarName);
 			iter.SetPrev(f);
 			changed = kJTrue;
 			}
@@ -52,11 +52,7 @@ if (!itsSelection.IsEmpty())
 		delete undo;
 		}
 	}
-else if (LocalVarName != itsInsertionFont.StructElementName)
+else if (LocalVarName != itsInsertionFont.GetElementName)
 	{
-	itsInsertionFont.StructElementName = LocalVarName;
-
-	itsInsertionFont.id =
-		itsFontMgr->UpdateFontID(itsInsertionFont.id, itsInsertionFont.size,
-								 itsInsertionFont.style);
+	itsInsertionFont.SetElementName(LocalVarName);
 	}

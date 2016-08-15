@@ -13,7 +13,7 @@
 #endif
 
 #include <JAuxTableData.h>
-#include <JFontStyle.h>
+#include <JFont.h>
 #include <JString.h>
 
 class JFontManager;
@@ -27,8 +27,9 @@ public:
 
 	virtual ~JStyleTableData();
 
-	const JString&	GetFont(JSize* size) const;
+	const JFont&	GetFont() const;
 	void			SetFont(const JCharacter* name, const JSize size);
+	void			SetFont(const JFont& font);
 
 	JFontStyle	GetCellStyle(const JPoint& cell) const;
 	void		SetCellStyle(const JPoint& cell, const JFontStyle& style);
@@ -36,13 +37,14 @@ public:
 
 private:
 
-	JString		itsFontName;
-	JSize		itsFontSize;
-
 	const JFontManager*	itsFontManager;			// not owned
 	JColormap*			itsColormap;			// not owned
 
+	JFont	itsFont;
+
 private:
+
+	void	AdjustToFont();
 
 	// not allowed
 
@@ -68,19 +70,15 @@ public:
 
 
 /******************************************************************************
- GetFont
+ Font
 
  ******************************************************************************/
 
-inline const JString&
-JStyleTableData::GetFont
-	(
-	JSize* size
-	)
+inline const JFont&
+JStyleTableData::GetFont()
 	const
 {
-	*size = itsFontSize;
-	return itsFontName;
+	return itsFont;
 }
 
 /******************************************************************************

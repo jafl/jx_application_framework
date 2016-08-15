@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBRunCommandDialog.h"
 #include "CBProjectDocument.h"
 #include "CBCommandManager.h"
@@ -23,6 +22,7 @@
 #include <JXPathHistoryMenu.h>
 #include <JXChooseSaveFile.h>
 #include <JXFSRunFileDialog.h>
+#include <JXFontManager.h>
 #include <jStreamUtil.h>
 #include <jDirUtil.h>
 #include <jAssert.h>
@@ -272,7 +272,7 @@ CBRunCommandDialog::BuildWindow()
 	itsCmdInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	ListenTo(itsCmdInput);
 
-	itsCmdInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsCmdInput->SetFont(window->GetFontManager()->GetDefaultMonospaceFont());
 
 	itsSaveCmdMenu->SetMenuItems(kSaveCmdMenuStr, "CBRunCommandDialog");
 	ListenTo(itsSaveCmdMenu);
@@ -606,7 +606,7 @@ CBRunCommandDialog::WritePrefs
 	output << kCurrentSetupVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ' << itsPathInput->GetText();
 

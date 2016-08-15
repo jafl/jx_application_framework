@@ -27,6 +27,8 @@ public:
 	virtual JBoolean	GetFontSizes(const JCharacter* name, JSize* minSize,
 									 JSize* maxSize, JArray<JSize>* sizeList) const;
 
+protected:
+
 	virtual JFontID				GetFontID(const JCharacter* name, const JSize size,
 										  const JFontStyle& style) const;
 	virtual const JCharacter*	GetFontName(const JFontID id) const;
@@ -36,11 +38,9 @@ public:
 								  const JFontStyle& style,
 								  JCoordinate* ascent, JCoordinate* descent) const;
 
-	virtual JSize	GetCharWidth(const JFontID fontID, const JSize size,
-								 const JFontStyle& style, const JCharacter c) const;
+	virtual JSize	GetCharWidth(const JFontID fontID, const JCharacter c) const;
 
-	virtual JSize	GetStringWidth(const JFontID fontID, const JSize size,
-								   const JFontStyle& style,
+	virtual JSize	GetStringWidth(const JFontID fontID,
 								   const JCharacter* str, const JSize charCount) const;
 
 private:

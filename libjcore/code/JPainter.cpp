@@ -51,7 +51,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JPainter.h>
 #include <JFontManager.h>
 #include <JColormap.h>
@@ -81,21 +80,14 @@ JPainter::JPainter
 	itsDashOffset(0),
 	itsDashList(NULL),
 
-	itsFontManager(fontManager),
 	itsColormap(colormap),
 
-	itsFontSize(kJDefaultFontSize),
+	itsFont(fontManager->GetDefaultFont()),
 
 	itsDefClipRect(defaultClipRect),
 	itsDefaultColor(itsColormap->GetBlackColor())
 {
-	itsPenColor  = itsDefaultColor;
-	itsFontStyle = JFontStyle(itsDefaultColor);
-
-	itsFontName = new JString(JGetDefaultFontName());
-	assert( itsFontName != NULL );
-
-	itsFontID = itsFontManager->GetFontID(*itsFontName, itsFontSize, itsFontStyle);
+	itsPenColor = itsDefaultColor;
 }
 
 /******************************************************************************
@@ -106,7 +98,6 @@ JPainter::JPainter
 JPainter::~JPainter()
 {
 	delete itsDashList;
-	delete itsFontName;
 }
 
 /******************************************************************************
@@ -145,11 +136,7 @@ JPainter::ResetAllButClipping()
 	itsFillFlag            = kJFalse;
 	itsDrawDashedLinesFlag = kJFalse;
 
-	*itsFontName = JGetDefaultFontName();
-	itsFontSize  = kJDefaultFontSize;
-	itsFontStyle = JFontStyle(itsDefaultColor);
-
-	itsFontID = itsFontManager->GetFontID(*itsFontName, itsFontSize, itsFontStyle);
+	itsFont.Set(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle(itsDefaultColor));
 }
 
 /******************************************************************************
@@ -240,121 +227,9 @@ JPainter::SetDashList
 }
 
 /******************************************************************************
- Set font info
-
- ******************************************************************************/
-
-void
-JPainter::SetFontName
-	(
-	const JCharacter* name
-	)
-{
-	if (name != *itsFontName)
-		{
-		*itsFontName = name;
-		itsFontID    = itsFontManager->GetFontID(*itsFontName, itsFontSize, itsFontStyle);
-		}
-}
-
-void
-JPainter::SetFontID
-	(
-	const JFontID id
-	)
-{
-	if (id != itsFontID)
-		{
-		itsFontID    = id;
-		*itsFontName = itsFontManager->GetFontName(itsFontID);
-		}
-}
-
-void
-JPainter::SetFontSize
-	(
-	const JSize size
-	)
-{
-	if (size != itsFontSize)
-		{
-		itsFontSize = size;
-		itsFontID   = itsFontManager->GetFontID(*itsFontName, itsFontSize, itsFontStyle);
-		}
-}
-
-void
-JPainter::SetFontStyle
-	(
-	const JFontStyle& style
-	)
-{
-	if (style != itsFontStyle)
-		{
-		itsFontStyle = style;
-		itsFontID    = itsFontManager->GetFontID(*itsFontName, itsFontSize, itsFontStyle);
-		}
-}
-
-void
-JPainter::SetFont
-	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style
-	)
-{
-	*itsFontName = name;
-	itsFontSize  = size;
-	itsFontStyle = style;
-	itsFontID    = itsFontManager->GetFontID(*itsFontName, itsFontSize, itsFontStyle);
-}
-
-void
-JPainter::SetFont
-	(
-	const JFontID		id,
-	const JSize			size,
-	const JFontStyle&	style
-	)
-{
-	itsFontID    = id;
-	itsFontSize  = size;
-	itsFontStyle = style;
-	*itsFontName = itsFontManager->GetFontName(itsFontID);
-}
-
-/******************************************************************************
  GetLineHeight
 
  ******************************************************************************/
-
-JSize
-JPainter::GetLineHeight
-	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style,
-
-	JCoordinate*		ascent,
-	JCoordinate*		descent
-	)
-	const
-{
-	return itsFontManager->GetLineHeight(name, size, style, ascent, descent);
-}
-
-JSize
-JPainter::GetLineHeight
-	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style
-	)
-	const
-{
-	return itsFontManager->GetLineHeight(name, size, style);
-}
 
 JSize
 JPainter::GetLineHeight
@@ -364,14 +239,14 @@ JPainter::GetLineHeight
 	)
 	const
 {
-	return itsFontManager->GetLineHeight(itsFontID, itsFontSize, itsFontStyle, ascent, descent);
+	return itsFont.GetLineHeight(ascent, descent);
 }
 
 JSize
 JPainter::GetLineHeight()
 	const
 {
-	return itsFontManager->GetLineHeight(itsFontID, itsFontSize, itsFontStyle);
+	return itsFont.GetLineHeight();
 }
 
 /******************************************************************************
@@ -382,24 +257,11 @@ JPainter::GetLineHeight()
 JSize
 JPainter::GetStringWidth
 	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style,
-	const JCharacter*	str
-	)
-	const
-{
-	return itsFontManager->GetStringWidth(name, size, style, str);
-}
-
-JSize
-JPainter::GetStringWidth
-	(
 	const JCharacter* str
 	)
 	const
 {
-	return itsFontManager->GetStringWidth(itsFontID, itsFontSize, itsFontStyle, str);
+	return itsFont.GetStringWidth(str);
 }
 
 /******************************************************************************

@@ -15,8 +15,6 @@
 #include <JXWindowDirector.h>
 #include <JPtrArray-JString.h>
 
-class JISOStyler;
-
 class JXMenuBar;
 class JXTextMenu;
 class JXTextButton;
@@ -165,7 +163,6 @@ private:
 	JXTextMenu*		itsPrefsMenu;
 	JXTextMenu*		itsHelpMenu;
 
-//	JISOStyler*	itsISOStyler;
 	JIndex		itsHistoryIndex;
 	JString		itsCurrentHistoryFile;
 	JString		itsCurrentCommand;

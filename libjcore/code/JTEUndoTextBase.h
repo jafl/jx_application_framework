@@ -37,8 +37,8 @@ protected:
 
 private:
 
-	JString*						itsOrigBuffer;
-	JRunArray<JTextEditor::Font>*	itsOrigStyles;
+	JString*			itsOrigBuffer;
+	JRunArray<JFont>*	itsOrigStyles;
 
 private:
 

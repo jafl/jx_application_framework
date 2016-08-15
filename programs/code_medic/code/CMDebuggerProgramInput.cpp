@@ -112,10 +112,10 @@ CMDebuggerProgramInput::AdjustStylesBeforeRecalc
 		{
 		const JSize totalLength = buffer.GetLength();
 
-		Font f = styles->GetFirstElement();
+		JFont f = styles->GetFirstElement();
 		styles->RemoveAll();
 
-		f.style.color = GetColormap()->GetBlackColor();
+		f.SetColor(GetColormap()->GetBlackColor());
 		styles->AppendElements(f, totalLength);
 
 		*redrawRange += JIndexRange(1, totalLength);

@@ -10,12 +10,12 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestDNDTextDirector.h"
 #include <JXWindow.h>
 #include <JXHorizPartition.h>
 #include <JXTextEditorSet.h>
 #include <JXTextEditor.h>
+#include <JXFontManager.h>
 #include <JXColormap.h>
 #include <jXGlobals.h>
 #include <jAssert.h>
@@ -81,6 +81,10 @@ JIndex i;
 	window->SetWMClass("testjx", "TestDNDTextDirector");
 	window->SetMinSize(partition->GetMinTotalSize(), kWindowHeight);
 
+	JFont greekFont =
+		GetWindow()->GetFontManager()->
+			GetFont(JGetGreekFontName(), 18, JFontStyle(kJFalse, kJTrue, 0, kJFalse));
+
 	JXTextEditor* te;
 	for (i=1; i<=2; i++)
 		{
@@ -100,8 +104,7 @@ JIndex i;
 		te->SetFontStyle(31, 45, JFontStyle(kJFalse, kJFalse, 3, kJFalse), kJTrue);
 		te->SetFontStyle(46, 53, JFontStyle(kJFalse, kJFalse, 0, kJTrue), kJTrue);
 		te->SetFontStyle(54, 62, JFontStyle(kJTrue, kJFalse, 0, kJFalse,
-											(GetColormap())->GetRedColor()), kJTrue);
-		te->SetFont(63, 69, JGetGreekFontName(), 18,
-					JFontStyle(kJFalse, kJTrue, 0, kJFalse), kJTrue);
+											GetColormap()->GetRedColor()), kJTrue);
+		te->SetFont(63, 69, greekFont, kJTrue);
 		}
 }

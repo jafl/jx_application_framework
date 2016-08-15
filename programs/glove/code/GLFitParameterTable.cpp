@@ -69,8 +69,7 @@ GLFitParameterTable::GLFitParameterTable
 	itsMinColWidth = 1;
 
 	const JFontManager* fontMgr = GetFontManager();
-	const JSize rowHeight = 2*kVMarginWidth +
-		fontMgr->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle());
+	const JSize rowHeight = 2*kVMarginWidth + fontMgr->GetDefaultFont().GetLineHeight();
 	SetDefaultRowHeight(rowHeight);
 
 	itsNameList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);

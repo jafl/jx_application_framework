@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXTextMenu.h>
 #include <JXTextMenuData.h>
 #include <JXTextMenuDirector.h>
@@ -214,60 +213,14 @@ JXTextMenu::AppendMenuItems
 
  ******************************************************************************/
 
-const JCharacter*
-JXTextMenu::GetItemFontName
-	(
-	const JIndex index
-	)
-	const
-{
-	return itsTextMenuData->GetFontName(index);
-}
-
-JSize
-JXTextMenu::GetItemFontSize
-	(
-	const JIndex index
-	)
-	const
-{
-	return itsTextMenuData->GetFontSize(index);
-}
-
-JFontStyle
-JXTextMenu::GetItemFontStyle
-	(
-	const JIndex index
-	)
-	const
-{
-	return itsTextMenuData->GetFontStyle(index);
-}
-
-void
+JFont
 JXTextMenu::GetItemFont
 	(
-	const JIndex	index,
-	JString*		name,
-	JSize*			size,
-	JFontStyle*		style
+	const JIndex index
 	)
 	const
 {
-	itsTextMenuData->GetFont(index, name, size, style);
-}
-
-void
-JXTextMenu::GetItemFont
-	(
-	const JIndex	index,
-	JFontID*		id,
-	JSize*			size,
-	JFontStyle*		style
-	)
-	const
-{
-	itsTextMenuData->GetFont(index, id, size, style);
+	return itsTextMenuData->GetFont(index);
 }
 
 /******************************************************************************
@@ -308,25 +261,11 @@ JXTextMenu::SetItemFontStyle
 void
 JXTextMenu::SetItemFont
 	(
-	const JIndex		index,
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style
+	const JIndex	index,
+	const JFont&	font
 	)
 {
-	itsTextMenuData->SetFont(index, name, size, style);
-}
-
-void
-JXTextMenu::SetItemFont
-	(
-	const JIndex		index,
-	const JFontID		id,
-	const JSize			size,
-	const JFontStyle&	style
-	)
-{
-	itsTextMenuData->SetFont(index, id, size, style);
+	itsTextMenuData->SetFont(index, font);
 }
 
 /******************************************************************************
@@ -334,49 +273,11 @@ JXTextMenu::SetItemFont
 
  ******************************************************************************/
 
-const JCharacter*
-JXTextMenu::GetDefaultFontName()
+const JFont&
+JXTextMenu::GetDefaultFont()
 	const
 {
-	return itsTextMenuData->GetDefaultFontName();
-}
-
-JSize
-JXTextMenu::GetDefaultFontSize()
-	const
-{
-	return itsTextMenuData->GetDefaultFontSize();
-}
-
-const JFontStyle&
-JXTextMenu::GetDefaultFontStyle()
-	const
-{
-	return itsTextMenuData->GetDefaultFontStyle();
-}
-
-void
-JXTextMenu::GetDefaultFont
-	(
-	JString*	name,
-	JSize*		size,
-	JFontStyle*	style
-	)
-	const
-{
-	itsTextMenuData->GetDefaultFont(name, size, style);
-}
-
-void
-JXTextMenu::GetDefaultFont
-	(
-	JFontID*	id,
-	JSize*		size,
-	JFontStyle*	style
-	)
-	const
-{
-	itsTextMenuData->GetDefaultFont(id, size, style);
+	return itsTextMenuData->GetDefaultFont();
 }
 
 /******************************************************************************
@@ -417,25 +318,11 @@ JXTextMenu::SetDefaultFontStyle
 void
 JXTextMenu::SetDefaultFont
 	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style,
-	const JBoolean		updateExisting
+	const JFont&	font,
+	const JBoolean	updateExisting
 	)
 {
-	itsTextMenuData->SetDefaultFont(name, size, style, updateExisting);
-}
-
-void
-JXTextMenu::SetDefaultFont
-	(
-	const JFontID		id,
-	const JSize			size,
-	const JFontStyle&	style,
-	const JBoolean		updateExisting
-	)
-{
-	itsTextMenuData->SetDefaultFont(id, size, style, updateExisting);
+	itsTextMenuData->SetDefaultFont(font, updateExisting);
 }
 
 /******************************************************************************

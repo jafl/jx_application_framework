@@ -14,6 +14,7 @@
 
 #include <JXEditTable.h>
 #include <JPrefObject.h>
+#include <JFont.h>
 
 class JXTextMenu;
 class JXInputField;
@@ -68,8 +69,7 @@ private:
 	JPoint						itsSelectedCell;	// x=col, y=bpIndex
 
 	JXInputField*	itsTextInput;			// NULL unless editing
-	JString			itsFontName;
-	JSize			itsFontSize;
+	JFont			itsFont;
 
 private:
 

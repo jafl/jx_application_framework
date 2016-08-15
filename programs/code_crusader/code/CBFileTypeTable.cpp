@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBFileTypeTable.h"
 #include "cbGlobals.h"
 #include <JXTextButton.h>
@@ -365,18 +364,22 @@ CBFileTypeTable::CBFileTypeTable
 	:
 	JXEditTable(1,1, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
 	itsMacroList(macroList),
-	itsCRMList(crmList)
+	itsCRMList(crmList),
+	itsFont(GetFontManager()->GetDefaultFont())
 {
 	itsTextInput    = NULL;
 	itsNewDirDialog = NULL;
 
 	// font
 
-	(CBGetPrefsManager())->GetDefaultFont(&itsFontName, &itsFontSize);
+	JString fontName;
+	JSize fontSize;
+	CBGetPrefsManager()->GetDefaultFont(&fontName, &fontSize);
+	itsFont.Set(fontName, fontSize);
 
 	const JSize rowHeight = 2*kVMarginWidth + JMax(
-		(GetFontManager())->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle()),
-		(GetFontManager())->GetLineHeight(itsFontName, itsFontSize, JFontStyle()));
+		GetFontManager()->GetDefaultFont().GetLineHeight(),
+		itsFont.GetLineHeight());
 	SetDefaultRowHeight(rowHeight);
 
 	// buttons
@@ -568,13 +571,13 @@ CBFileTypeTable::TableDrawCell
 	const CBPrefsManager::FileTypeInfo info = itsFileTypeList->GetElement(cell.y);
 	if (cell.x == kSuffixColumn)
 		{
-		p.SetFont(itsFontName, itsFontSize, JFontStyle());
+		p.SetFont(itsFont);
 
 		JRect r = rect;
 		r.left += kHMarginWidth;
 		p.String(r, *(info.suffix), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 
-		p.SetFont(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle());
+		p.SetFont(GetFontManager()->GetDefaultFont());
 		}
 	else if (cell.x == kTypeColumn)
 		{
@@ -613,13 +616,13 @@ CBFileTypeTable::TableDrawCell
 		}
 	else if (cell.x == kEditCmdColumn && info.editCmd != NULL)
 		{
-		p.SetFont(itsFontName, itsFontSize, JFontStyle());
+		p.SetFont(itsFont);
 
 		JRect r = rect;
 		r.left += kHMarginWidth;
 		p.String(r, *(info.editCmd), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 
-		p.SetFont(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle());
+		p.SetFont(GetFontManager()->GetDefaultFont());
 		}
 }
 
@@ -757,7 +760,7 @@ CBFileTypeTable::CreateXInputField
 		assert( info.editCmd != NULL );
 		itsTextInput->SetText(*(info.editCmd));
 		}
-	itsTextInput->SetFont(itsFontName, itsFontSize);
+	itsTextInput->SetFont(itsFont);
 	return itsTextInput;
 }
 

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestTabDirector.h"
 #include <JXWindow.h>
 #include <JXTabGroup.h>
@@ -18,6 +17,7 @@
 #include <JXChooseMonoFont.h>
 #include <JXRadioGroup.h>
 #include <JXTextRadioButton.h>
+#include <JXFontManager.h>
 #include <jXGlobals.h>
 #include <jAssert.h>
 
@@ -76,7 +76,7 @@ TestTabDirector::BuildWindow()
 		new JXFontNameMenu("Font:", card1,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 50,30);
 	assert( itsFontMenu != NULL );
-	itsFontMenu->SetFontName(itsTabGroup->GetFontName());
+	itsFontMenu->SetFontName(itsTabGroup->GetFont().GetName());
 	itsFontMenu->SetToPopupChoice();
 	ListenTo(itsFontMenu);
 
@@ -228,5 +228,5 @@ TestTabDirector::UpdateFontSample()
 	JString name;
 	JSize size;
 	itsMonoFont->GetFont(&name, &size);
-	itsMonoFontSample->SetFont(name, size);
+	itsMonoFontSample->SetFont(GetWindow()->GetFontManager()->GetFont(name, size));
 }

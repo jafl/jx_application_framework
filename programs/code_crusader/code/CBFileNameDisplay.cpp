@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBFileNameDisplay.h"
 #include "CBFileDragSource.h"
 #include "CBTextDocument.h"
@@ -117,11 +116,11 @@ CBFileNameDisplay::UpdateDisplay
 	itsCBHasFocusFlag = hasFocus;
 	if (!hasFocus && itsDiskModFlag)
 		{
-		SetFontStyle((GetColormap())->GetDarkRedColor());
+		SetFontStyle(GetColormap()->GetDarkRedColor());
 		}
 	else if (!hasFocus)
 		{
-		SetFontStyle((GetColormap())->GetBlackColor());
+		SetFontStyle(GetColormap()->GetBlackColor());
 		}
 }
 
@@ -330,7 +329,7 @@ void
 CBFileNameDisplay::AdjustStylesBeforeRecalc
 	(
 	const JString&		buffer,
-	JRunArray<Font>*	styles,
+	JRunArray<JFont>*	styles,
 	JIndexRange*		recalcRange,
 	JIndexRange*		redrawRange,
 	const JBoolean		deletion

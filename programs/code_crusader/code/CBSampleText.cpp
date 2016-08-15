@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBSampleText.h"
 #include <JXWindowPainter.h>
 #include <JXColormap.h>
@@ -38,7 +37,7 @@ CBSampleText::CBSampleText
 	SetText(kSampleText);
 
 	itsDrawRightMarginFlag = kJFalse;
-	itsRightMarginColor    = (GetColormap())->GetBlackColor();
+	itsRightMarginColor    = GetColormap()->GetBlackColor();
 }
 
 /******************************************************************************
@@ -64,14 +63,9 @@ CBSampleText::Draw
 {
 	if (itsDrawRightMarginFlag)
 		{
-		JFontID id;
-		JSize size;
-		JFontStyle style;
-		GetDefaultFont(&id, &size, &style);
 		const JCoordinate x =
 			TEGetLeftMarginWidth() +
-			(kRightMarginWidth *
-				(TEGetFontManager())->GetCharWidth(id, size, style, ' '));
+			(kRightMarginWidth * GetDefaultFont().GetCharWidth(' '));
 
 		const JColorIndex saveColor = p.GetPenColor();
 		p.SetPenColor(itsRightMarginColor);

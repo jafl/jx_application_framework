@@ -49,7 +49,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JTEStyler.h>
 #include <JFontManager.h>
 #include <JOrderedSetUtil.h>
@@ -95,6 +94,7 @@ JTEStyler::JTEStyler()
 	itsFontMgr     = NULL;
 	itsText        = NULL;
 	itsStyles      = NULL;
+	itsDefFont     = NULL;
 	itsRecalcRange = NULL;
 	itsRedrawRange = NULL;
 
@@ -121,13 +121,13 @@ JTEStyler::~JTEStyler()
 void
 JTEStyler::UpdateStyles
 	(
-	const JTextEditor*				te,
-	const JString&					text,
-	JRunArray<JTextEditor::Font>*	styles,
-	JIndexRange*					recalcRange,
-	JIndexRange*					redrawRange,
-	const JBoolean					deletion,
-	JArray<TokenData>*				tokenStartList
+	const JTextEditor*	te,
+	const JString&		text,
+	JRunArray<JFont>*	styles,
+	JIndexRange*		recalcRange,
+	JIndexRange*		redrawRange,
+	const JBoolean		deletion,
+	JArray<TokenData>*	tokenStartList
 	)
 {
 	if (!itsActiveFlag)
@@ -142,9 +142,6 @@ JTEStyler::UpdateStyles
 		tokenStartList->RemoveAll();
 		return;
 		}
-
-	te->GetDefaultFont(&itsDefFontID, &itsFontSize, &itsDefFontStyle);
-	itsFontName = te->GetDefaultFontName();
 
 	TokenData tokenData;
 	if (recalcRange->first == 1 && recalcRange->last >= text.GetLength())
@@ -255,6 +252,7 @@ JTEStyler::UpdateStyles
 
 	itsTE          = te;
 	itsFontMgr     = te->TEGetFontManager();
+	itsDefFont     = new JFont(te->GetDefaultFont());
 	itsText        = &text;
 	itsStyles      = styles;
 	itsRecalcRange = recalcRange;
@@ -279,6 +277,9 @@ JTEStyler::UpdateStyles
 	itsRecalcRange    = NULL;
 	itsRedrawRange    = NULL;
 	itsTokenStartList = NULL;
+
+	delete itsDefFont;
+	itsDefFont = NULL;
 }
 
 /******************************************************************************
@@ -294,11 +295,11 @@ JTEStyler::UpdateStyles
 void
 JTEStyler::PreexpandCheckRange
 	(
-	const JString&						text,
-	const JRunArray<JTextEditor::Font>&	styles,
-	const JIndexRange&					modifiedRange,
-	const JBoolean						deletion,
-	JIndexRange*						checkRange
+	const JString&			text,
+	const JRunArray<JFont>&	styles,
+	const JIndexRange&		modifiedRange,
+	const JBoolean			deletion,
+	JIndexRange*			checkRange
 	)
 {
 }
@@ -349,13 +350,9 @@ JTEStyler::SetStyle
 
 	if (itsRedoAllFlag)
 		{
-		JFontID fid = itsDefFontID;
-		if (!OnlyColorChanged(style, itsDefFontStyle))
-			{
-			fid = itsFontMgr->GetFontID(itsFontName, itsFontSize, style);
-			}
-		itsStyles->AppendElements(JTextEditor::Font(fid, itsFontSize, style),
-								  range.GetLength());
+		JFont f = *itsDefFont;
+		f.SetStyle(style);
+		itsStyles->AppendElements(f, range.GetLength());
 		}
 	else if (range.last >= itsCheckRange.first)
 		{
@@ -363,8 +360,8 @@ JTEStyler::SetStyle
 		fontRange.SetFirstAndLength(itsTokenFirstInRun, itsStyles->GetRunLength(itsTokenRunIndex));
 		const JBoolean beyondCurrentRun = !fontRange.Contains(range);
 
-		JTextEditor::Font f = itsStyles->GetRunData(itsTokenRunIndex);
-		if (beyondCurrentRun || style != f.style)
+		JFont f = itsStyles->GetRunData(itsTokenRunIndex);
+		if (beyondCurrentRun || style != f.GetStyle())
 			{
 			// extend the check range if we slop over into another style run
 			// (HTML: type '<' after 'x' in "x<!--<br><h3>text</h3>-->")
@@ -392,7 +389,7 @@ JTEStyler::SetStyle
 
 			// update the styles
 
-			if (!beyondCurrentRun && OnlyColorChanged(style, f.style))
+			if (!beyondCurrentRun && OnlyColorChanged(style, f.GetStyle()))
 				{
 				*itsRedrawRange += range;
 				}
@@ -401,16 +398,8 @@ JTEStyler::SetStyle
 				*itsRecalcRange += range;
 				}
 
-			f.size  = itsFontSize;
-			f.style = style;
-			if (OnlyColorChanged(style, itsDefFontStyle))
-				{
-				f.id = itsDefFontID;
-				}
-			else
-				{
-				f.id = itsFontMgr->GetFontID(itsFontName, itsFontSize, style);
-				}
+			f = *itsDefFont;
+			f.SetStyle(style);
 
 			itsStyles->RemoveNextElements(range.first, range.GetLength(),
 										  &itsTokenRunIndex, &itsTokenFirstInRun);
@@ -526,17 +515,8 @@ JTEStyler::AdjustStyle
 
 	// adjust the styles
 
-	JTextEditor::Font f = itsStyles->GetElement(range.first);
-	f.size  = itsFontSize;
-	f.style = style;
-	if (OnlyColorChanged(style, itsDefFontStyle))
-		{
-		f.id = itsDefFontID;
-		}
-	else
-		{
-		f.id = itsFontMgr->GetFontID(itsFontName, itsFontSize, style);
-		}
+	JFont f = itsStyles->GetElement(range.first);
+	f.SetStyle(style);
 
 	itsStyles->SetNextElements(range.first, range.GetLength(), f);
 

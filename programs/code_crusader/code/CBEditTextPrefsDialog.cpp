@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBEditTextPrefsDialog.h"
 #include "CBTextDocument.h"
 #include "CBTextEditor.h"
@@ -76,7 +75,7 @@ CBEditTextPrefsDialog::CBEditTextPrefsDialog
 
 	itsOrigEmulatorIndex =
 		itsEmulatorIndex = kEmulatorToMenuIndex[
-			(CBGetPrefsManager())->GetEmulator() ];
+			CBGetPrefsManager()->GetEmulator() ];
 
 	BuildWindow(doc);
 	ListenTo(this);
@@ -363,7 +362,7 @@ CBEditTextPrefsDialog::BuildWindow
 		new JXStaticText(JGetString("obj12_JXLayout::CBEditTextPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 40,460, 250,20);
 	assert( obj12_JXLayout != NULL );
-    obj12_JXLayout->SetFontSize(8);
+	obj12_JXLayout->SetFontSize(8);
 	obj12_JXLayout->SetToLabel();
 
 	itsMiddleButtonPasteCB =
@@ -408,7 +407,8 @@ CBEditTextPrefsDialog::BuildWindow
 	itsCopyWhenSelectCB->SetState(te->WillCopyWhenSelect());
 	itsMiddleButtonPasteCB->SetState(te->MiddleButtonWillPaste());
 
-	itsFontMenu->SetFont(te->GetDefaultFontName(), te->GetDefaultFontSize());
+	const JFont& font = te->GetDefaultFont();
+	itsFontMenu->SetFont(font.GetName(), font.GetSize());
 
 	itsTabCharCountInput->SetValue(te->GetTabCharCount());
 	itsTabCharCountInput->SetLowerLimit(1);
@@ -547,17 +547,16 @@ CBEditTextPrefsDialog::UpdateSettings()
 	JString fontName;
 	JSize fontSize;
 	itsFontMenu->GetFont(&fontName, &fontSize);
-	const JBoolean fontChanged = JConvertToBoolean(
-		fontName != te->GetDefaultFontName() ||
-		fontSize != te->GetDefaultFontSize() );
+	const JBoolean fontChanged = JI2B(
+		fontName != te->GetDefaultFont().GetName() ||
+		fontSize != te->GetDefaultFont().GetSize() );
 
 	JFloat vScrollScale = 1.0;
 	if (fontChanged)
 		{
 		const JFontManager* fontMgr = te->GetFontManager();
-		const JFloat h1 = fontMgr->GetLineHeight(te->GetDefaultFontName(),
-												 te->GetDefaultFontSize(), JFontStyle());
-		const JFloat h2 = fontMgr->GetLineHeight(fontName, fontSize, JFontStyle());
+		const JFloat h1 = te->GetDefaultFont().GetLineHeight();
+		const JFloat h2 = fontMgr->GetFont(fontName, fontSize).GetLineHeight();
 		vScrollScale    = h2 / h1;
 		}
 
@@ -798,8 +797,9 @@ CBEditTextPrefsDialog::UpdateSampleText()
 	JString name;
 	JSize size;
 	itsFontMenu->GetFont(&name, &size);
-	itsSampleText->SetFont(name, size,
-		JFontStyle(itsColor [ CBPrefsManager::kTextColorIndex-1 ]));
+	itsSampleText->SetFont(
+		GetWindow()->GetFontManager()->GetFont(name, size,
+			JFontStyle(itsColor [ CBPrefsManager::kTextColorIndex-1 ])));
 
 	itsSampleText->SetBackColor(itsColor [ CBPrefsManager::kBackColorIndex-1 ] );
 	itsSampleText->SetFocusColor(itsColor [ CBPrefsManager::kBackColorIndex-1 ] );

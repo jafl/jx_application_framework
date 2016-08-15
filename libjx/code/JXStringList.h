@@ -17,7 +17,7 @@
 #include <JXTable.h>
 #include <JRunArray.h>
 #include <JAliasArray.h>
-#include <JFontStyle.h>
+#include <JFont.h>
 
 class JString;
 class JStyleTableData;
@@ -36,7 +36,7 @@ public:
 	const JPtrArray<JString>&	GetStringList() const;
 	void						SetStringList(const JPtrArray<JString>* list);
 
-	const JString&	GetFont(JSize* size) const;
+	const JFont&	GetFont() const;
 	void			SetFont(const JCharacter* name, const JSize size);
 
 	JFontStyle	GetStyle(const JIndex index) const;

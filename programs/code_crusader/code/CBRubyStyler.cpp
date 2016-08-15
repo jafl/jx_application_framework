@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBRubyStyler.h"
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
@@ -196,7 +195,7 @@ CBRubyStyler::Scan
 		const JIndex typeIndex = token.type - kWhitespace;
 		if (token.type == kWhitespace)
 			{
-			style = GetDefaultFontStyle();
+			style = GetDefaultFont().GetStyle();
 			}
 		else if (token.type == kSingleQuoteString  ||
 				 token.type == kDoubleQuoteString  ||
@@ -216,7 +215,7 @@ CBRubyStyler::Scan
 			{
 			if (!GetWordStyle(text.GetSubstring(token.range), &style))
 				{
-				style = GetDefaultFontStyle();
+				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else

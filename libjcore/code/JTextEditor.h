@@ -13,7 +13,7 @@
 #endif
 
 #include <JBroadcaster.h>
-#include <JFontStyle.h>
+#include <JFont.h>
 #include <JRect.h>
 #include <JRunArray.h>
 #include <JPtrArray-JString.h>
@@ -103,24 +103,6 @@ public:
 		kCmdCount = kReplaceAllInSelectionCmd
 	};
 
-	struct Font
-	{
-		JFontID		id;
-		JSize		size;
-		JFontStyle	style;
-
-		Font()
-			:
-			id(0), size(kJDefaultFontSize), style()
-		{ };
-
-		Font(const JFontID anID, const JSize aSize,
-			 const JFontStyle& aStyle)
-			:
-			id(anID), size(aSize), style(aStyle)
-		{ };
-	};
-
 	enum CaretMode
 	{
 		kLineCaret,
@@ -196,7 +178,7 @@ public:
 
 		virtual ~FontMatch();
 
-		virtual JBoolean	Match(const JCharacter*, const JSize, const JFontStyle&) const = 0;
+		virtual JBoolean	Match(const JFont&) const = 0;
 	};
 
 public:
@@ -222,11 +204,11 @@ public:
 	JBoolean				EndsWithNewline() const;
 	JSize					GetTextLength() const;
 	const JString&			GetText() const;
-	const JRunArray<Font>&	GetStyles() const;
+	const JRunArray<JFont>&	GetStyles() const;
 	JBoolean				SetText(const JString& text,
-									const JRunArray<Font>* style = NULL);
+									const JRunArray<JFont>* style = NULL);
 	JBoolean				SetText(const JCharacter* text,
-									const JRunArray<Font>* style = NULL);
+									const JRunArray<JFont>* style = NULL);
 
 	JBoolean	ReadPlainText(const JCharacter* fileName, PlainTextFormat* format,
 							  const JBoolean acceptBinaryFile = kJTrue);
@@ -243,9 +225,9 @@ public:
 	JBoolean	ReadPrivateFormat(istream& input);
 	void		WritePrivateFormat(ostream& output) const;
 
-	static void	WritePrivateFormat(ostream& output, const JFontManager* fontMgr,
+	static void	WritePrivateFormat(ostream& output,
 								   const JColormap* colormap, const JFileVersion vers,
-								   const JString& text, const JRunArray<Font>& style,
+								   const JString& text, const JRunArray<JFont>& style,
 								   const JIndex startIndex, const JIndex endIndex);
 
 	JBoolean	SearchForward(const JCharacter* searchStr,
@@ -288,11 +270,7 @@ public:
 	const JFontManager*	TEGetFontManager() const;
 	JColormap*			TEGetColormap() const;
 
-	const JCharacter*	GetFontName(const JIndex charIndex) const;
-	JSize				GetFontSize(const JIndex charIndex) const;
-	JFontStyle			GetFontStyle(const JIndex charIndex) const;
-	void				GetFont(const JIndex charIndex, JString* name,
-								JSize* size, JFontStyle* style) const;
+	JFont		GetFont(const JIndex charIndex) const;
 
 	JBoolean	SetFontName(const JIndex startIndex, const JIndex endIndex,
 							const JCharacter* name, const JBoolean clearUndo);
@@ -310,9 +288,8 @@ public:
 							 const JColorIndex color, const JBoolean clearUndo);
 	JBoolean	SetFontStyle(const JIndex startIndex, const JIndex endIndex,
 							 const JFontStyle& style, const JBoolean clearUndo);
-	void		SetFont(const JIndex startIndex,const JIndex endIndex,
-						const JCharacter* name, const JSize size,
-						const JFontStyle& style, const JBoolean clearUndo);
+	void		SetFont(const JIndex startIndex, const JIndex endIndex,
+						const JFont& font, const JBoolean clearUndo);
 
 	JBoolean	GetCaretLocation(JIndex* charIndex) const;
 	void		SetCaretLocation(const JIndex charIndex);
@@ -321,7 +298,7 @@ public:
 	JBoolean	GetSelection(JIndex* startIndex, JIndex* endIndex) const;
 	JBoolean	GetSelection(JIndexRange* range) const;
 	JBoolean	GetSelection(JString* text) const;
-	JBoolean	GetSelection(JString* text, JRunArray<Font>* style) const;
+	JBoolean	GetSelection(JString* text, JRunArray<JFont>* style) const;
 	void		SetSelection(const JIndex startIndex, const JIndex endIndex,
 							 const JBoolean needCaretBcast = kJTrue);
 	void		SetSelection(const JIndexRange& range,
@@ -343,13 +320,7 @@ public:
 	void		GoToBeginningOfLine();
 	void		GoToEndOfLine();
 
-	const JCharacter*	GetCurrentFontName() const;
-	JSize				GetCurrentFontSize() const;
-	JFontStyle			GetCurrentFontStyle() const;
-	void				GetCurrentFont(JString* name, JSize* size,
-									   JFontStyle* style) const;
-	void				GetCurrentFont(JFontID* id, JSize* size,
-									   JFontStyle* style) const;
+	JFont	GetCurrentFont() const;
 
 	void	SetCurrentFontName(const JCharacter* name);
 	void	SetCurrentFontSize(const JSize size);
@@ -359,26 +330,14 @@ public:
 	void	SetCurrentFontStrike(const JBoolean strike);
 	void	SetCurrentFontColor(const JColorIndex color);
 	void	SetCurrentFontStyle(const JFontStyle& style);
-	void	SetCurrentFont(const JCharacter* name, const JSize size,
-						   const JFontStyle& style = JFontStyle());
-	void	SetCurrentFont(const JFontID id, const JSize size,
-						   const JFontStyle& style = JFontStyle());
+	void	SetCurrentFont(const JFont& font);
 
-	const JCharacter*	GetDefaultFontName() const;
-	JSize				GetDefaultFontSize() const;
-	const JFontStyle&	GetDefaultFontStyle() const;
-	void				GetDefaultFont(JString* name, JSize* size,
-									   JFontStyle* style) const;
-	void				GetDefaultFont(JFontID* id, JSize* size,
-									   JFontStyle* style) const;
+	const JFont&	GetDefaultFont() const;
 
 	void	SetDefaultFontName(const JCharacter* name);
 	void	SetDefaultFontSize(const JSize size);
 	void	SetDefaultFontStyle(const JFontStyle& style);
-	void	SetDefaultFont(const JCharacter* name, const JSize size,
-						   const JFontStyle& style = JFontStyle());
-	void	SetDefaultFont(const JFontID id, const JSize size,
-						   const JFontStyle& style = JFontStyle());
+	void	SetDefaultFont(const JFont& f);
 
 	JCoordinate	GetDefaultTabWidth() const;
 	void		SetDefaultTabWidth(const JCoordinate width);
@@ -454,15 +413,15 @@ public:
 
 	// other source
 
-	JBoolean	Cut(JString* text, JRunArray<Font>* style = NULL);
-	JBoolean	Copy(JString* text, JRunArray<Font>* style = NULL) const;
-	void		Paste(const JCharacter* text, const JRunArray<Font>* style = NULL);
+	JBoolean	Cut(JString* text, JRunArray<JFont>* style = NULL);
+	JBoolean	Copy(JString* text, JRunArray<JFont>* style = NULL) const;
+	void		Paste(const JCharacter* text, const JRunArray<JFont>* style = NULL);
 
-	JBoolean	GetClipboard(JString* text, JRunArray<Font>* style = NULL) const;
+	JBoolean	GetClipboard(JString* text, JRunArray<JFont>* style = NULL) const;
 
 	static JBoolean	ContainsIllegalChars(const JString& text);
 	static JBoolean	ContainsIllegalChars(const JCharacter* text, const JSize length);
-	static JBoolean	RemoveIllegalChars(JString* text, JRunArray<Font>* style = NULL);
+	static JBoolean	RemoveIllegalChars(JString* text, JRunArray<JFont>* style = NULL);
 
 	void	Paginate(const JCoordinate pageHeight,
 					 JArray<JCoordinate>* breakpts) const;
@@ -546,14 +505,12 @@ public:		// ought to be protected
 	struct HTMLLexerState
 	{
 		JString*			buffer;
-		JRunArray<Font>*	styles;
+		JRunArray<JFont>*	styles;
 
-		JTextEditor*							te;
-		Font									font;
-		JString									fontName;
-		JStack<Font, JArray<Font> >				fontStack;
-		JPtrStack<JString, JArray<JString*> >	fontNameStack;
-		const Font								blankLineFont;
+		JTextEditor*					te;
+		JFont							font;
+		JStack<JFont, JArray<JFont> >	fontStack;
+		const JFont						blankLineFont;
 
 		HTMLListType								listType;
 		JIndex										listIndex;
@@ -567,16 +524,15 @@ public:		// ought to be protected
 		JBoolean	inDocHeader;		// kJTrue if inside <head>
 		JBoolean	inStyleBlock;		// kJTrue if inside <style>
 
-		HTMLLexerState(JTextEditor* editor, JString* b, JRunArray<Font>* s);
+		HTMLLexerState(JTextEditor* editor, JString* b, JRunArray<JFont>* s);
 
-		void		PushCurrentFont();
+		JFont		PushCurrentFont();
 		JBoolean	PopFont();
-		void		UpdateFontID();
-		Font		GetWSFont();
+		JFont		GetWSFont();
 
 		void		NewList(const HTMLListType type);
 		void		NewListItem();
-		void		IndentForListItem(const Font& wsFont);
+		void		IndentForListItem(const JFont& wsFont);
 		JBoolean	EndList();
 
 		void		ReportError(const JCharacter* errStr);
@@ -671,7 +627,7 @@ protected:
 	virtual void		TESetVertScrollStep(const JCoordinate vStep) = 0;
 	virtual void		TEClipboardChanged() = 0;
 	virtual JBoolean	TEOwnsClipboard() const = 0;
-	virtual JBoolean	TEGetExternalClipboard(JString* text, JRunArray<Font>* style) const = 0;
+	virtual JBoolean	TEGetExternalClipboard(JString* text, JRunArray<JFont>* style) const = 0;
 	virtual void		TECaretShouldBlink(const JBoolean blink) = 0;
 
 	void				TEClearClipboard();
@@ -688,14 +644,14 @@ protected:
 	virtual JSize	CRMGetTabWidth(const JIndex textColumn) const;
 
 	virtual JBoolean	NeedsToFilterText(const JCharacter* text) const;
-	virtual JBoolean	FilterText(JString* text, JRunArray<Font>* style);
+	virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style);
 
-	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<Font>* styles,
+	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
 											 JIndexRange* recalcRange, JIndexRange* redrawRange,
 											 const JBoolean deletion);
 
 	JBoolean	GetInternalClipboard(const JString** text,
-									 const JRunArray<Font>** style = NULL) const;
+									 const JRunArray<JFont>** style = NULL) const;
 
 	JBoolean	IsCharacterInWord(const JString& text,
 								  const JIndex charIndex) const;
@@ -710,19 +666,12 @@ protected:
 	void			MoveCaretVert(const JInteger deltaLines);
 	JIndex			GetColumnForChar(const CaretLocation& caretLoc) const;
 
-	Font		GetFont(const JIndex charIndex) const;
-	void		SetFont(const JIndex startIndex,const JIndex endIndex,
-						const Font& f, const JBoolean clearUndo);
-	void		SetFont(const JIndex startIndex, const JRunArray<Font>& f,
-						const JBoolean clearUndo);
-	Font		GetCurrentFont() const;
-	void		SetCurrentFont(const Font& f);
-	const Font&	GetDefaultFont() const;
-	void		SetDefaultFont(const Font& f);
-	void		SetAllFontNameAndSize(const JCharacter* name, const JSize size,
-									  const JCoordinate tabWidth,
-									  const JBoolean breakCROnly,
-									  const JBoolean clearUndo);
+	void	SetFont(const JIndex startIndex, const JRunArray<JFont>& f,
+					const JBoolean clearUndo);
+	void	SetAllFontNameAndSize(const JCharacter* name, const JSize size,
+								  const JCoordinate tabWidth,
+								  const JBoolean breakCROnly,
+								  const JBoolean clearUndo);
 
 	void	ReplaceSelection(const JCharacter* replaceStr,
 							 const JBoolean preserveCase,
@@ -731,12 +680,12 @@ protected:
 							 const JArray<JIndexRange>& submatchList);
 
 	static JBoolean	ReadPrivateFormat(istream& input, const JTextEditor* te,
-									  JString* text, JRunArray<Font>* style);
+									  JString* text, JRunArray<JFont>* style);
 
 	void		WritePrivateFormat(ostream& output, const JFileVersion vers,
 								   const JIndex startIndex, const JIndex endIndex) const;
 	void		WritePrivateFormat(ostream& output, const JFileVersion vers,
-								   const JString& text, const JRunArray<Font>& style) const;
+								   const JString& text, const JRunArray<JFont>& style) const;
 	JBoolean	WriteClipboardPrivateFormat(ostream& output, const JFileVersion vers) const;
 
 	virtual void	PrepareToReadHTML();
@@ -779,7 +728,7 @@ private:
 
 	Type				itsType;
 	JString*			itsBuffer;
-	JRunArray<Font>*	itsStyles;
+	JRunArray<JFont>*	itsStyles;
 	JBoolean			itsActiveFlag;
 	JBoolean			itsPasteStyledTextFlag;		// kJTrue => paste styled text
 	JBoolean			itsPerformDNDFlag;			// kJTrue => drag-and-drop enabled
@@ -794,7 +743,7 @@ private:
 	static JBoolean		theCopyWhenSelectFlag;		// kJTrue => SetSelection() calls Copy()
 
 	const JFontManager*	itsFontMgr;
-	Font				itsDefFont;
+	JFont				itsDefFont;
 
 	JColormap*			itsColormap;			// not owned
 	JColorIndex			itsCaretColor;
@@ -835,14 +784,14 @@ private:
 	JBoolean		itsCaretVisibleFlag;	// kJTrue => draw caret
 	CaretLocation	itsCaretLoc;			// insertion point is -at- this character
 	JCoordinate		itsCaretX;				// horizontal location used by MoveCaretVert()
-	Font			itsInsertionFont;		// style for characters that user types
+	JFont			itsInsertionFont;		// style for characters that user types
 	JIndexRange		itsSelection;			// caret is visible if this is empty
 
 	// clipboard
 
 	const JBoolean		itsStoreClipFlag;	// kJTrue => use itsClipText and itsClipStyle
 	JString*			itsClipText;		// can be NULL
-	JRunArray<Font>*	itsClipStyle;		// can be NULL
+	JRunArray<JFont>*	itsClipStyle;		// can be NULL
 
 	// used during drag
 
@@ -904,8 +853,8 @@ private:
 
 	void	AdjustRangesForReplace(JArray<JIndexRange>* list);
 
-	Font	CalcInsertionFont(const JIndex charIndex) const;
-	Font	CalcInsertionFont(const JString& buffer, const JRunArray<Font>& styles,
+	JFont	CalcInsertionFont(const JIndex charIndex) const;
+	JFont	CalcInsertionFont(const JString& buffer, const JRunArray<JFont>& styles,
 							  const JIndex charIndex) const;
 	void	DropSelection(const JIndex dropLoc, const JBoolean dropCopy);
 
@@ -919,12 +868,12 @@ private:
 	JTEUndoStyle*		GetStyleUndo(JBoolean* isNew);
 	JTEUndoTabShift*	GetTabShiftUndo(JBoolean* isNew);
 
-	JSize	PrivatePaste(const JCharacter* text, const JRunArray<Font>* style);
+	JSize	PrivatePaste(const JCharacter* text, const JRunArray<JFont>* style);
 	JSize	InsertText(const JIndex charIndex, const JCharacter* text,
-					   const JRunArray<Font>* style = NULL);
-	JSize	InsertText(JString* targetText, JRunArray<Font>* targetStyle,
+					   const JRunArray<JFont>* style = NULL);
+	JSize	InsertText(JString* targetText, JRunArray<JFont>* targetStyle,
 					   const JIndex charIndex, const JCharacter* text,
-					   const JRunArray<Font>* style, const Font* defaultStyle);
+					   const JRunArray<JFont>* style, const JFont* defaultStyle);
 	void	DeleteText(const JIndex startIndex, const JIndex endIndex);
 	void	DeleteText(const JIndexRange& range);
 
@@ -949,21 +898,21 @@ private:
 
 	JCoordinate	GetEWNHeight() const;
 
-	JBoolean	SetText1(const JRunArray<Font>* style);
+	JBoolean	SetText1(const JRunArray<JFont>* style);
 	JRect		CalcLocalDNDRect(const JPoint& pt) const;
 
 	void	InsertKeyPress(const JCharacter key);
 	void	BackwardDelete(const JBoolean deleteToTabStop,
-						   JString* returnText = NULL, JRunArray<Font>* returnStyle = NULL);
+						   JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL);
 	void	ForwardDelete(const JBoolean deleteToTabStop,
-						  JString* returnText = NULL, JRunArray<Font>* returnStyle = NULL);
+						  JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL);
 
 	void	AutoIndent(JTEUndoTyping* typingUndo);
 	void	InsertSpacesForTab();
 
 	JBoolean	PrivateCleanRightMargin(const JBoolean coerce,
 										JIndexRange* textRange,
-										JString* newText, JRunArray<Font>* newStyles,
+										JString* newText, JRunArray<JFont>* newStyles,
 										JIndex* newCaretIndex) const;
 	JBoolean	CRMGetRange(const JIndex caretChar, const JBoolean coerce,
 							JIndexRange* range, JIndex* textStartIndex,
@@ -982,15 +931,15 @@ private:
 								  const JIndex ruleIndex) const;
 	CRMStatus	CRMReadNextWord(JIndex* charIndex, const JIndex endIndex,
 								JString* spaceBuffer, JSize* spaceCount,
-								JString* wordBuffer, JRunArray<Font>* wordStyles,
+								JString* wordBuffer, JRunArray<JFont>* wordStyles,
 								const JSize currentLineWidth,
 								const JIndex origCaretIndex, JIndex* newCaretIndex,
 								const JString& newText, const JBoolean requireSpace) const;
 	int			CRMIsEOS(const JCharacter c) const;
-	void		CRMAppendWord(JString* newText, JRunArray<Font>* newStyles,
+	void		CRMAppendWord(JString* newText, JRunArray<JFont>* newStyles,
 							  JSize* currentLineWidth, JIndex* newCaretIndex,
 							  const JString& spaceBuffer, const JSize spaceCount,
-							  const JString& wordBuffer, const JRunArray<Font>& wordStyles,
+							  const JString& wordBuffer, const JRunArray<JFont>& wordStyles,
 							  const JString& linePrefix, const JSize prefixLength) const;
 
 	JBoolean	LocateTab(const JIndex startIndex, const JIndex endIndex,
@@ -1012,7 +961,7 @@ private:
 							   const JRegex& regex, const JBoolean entireWord,
 							   const JBoolean wrapSearch, JBoolean* wrapped,
 							   JArray<JIndexRange>* submatchList);
-	JSize		ReplaceRange(JString* buffer, JRunArray<Font>* styles,
+	JSize		ReplaceRange(JString* buffer, JRunArray<JFont>* styles,
 							 const JIndexRange& range, const JCharacter* replaceStr,
 							 const JBoolean preserveCase, const JBoolean replaceIsRegex,
 							 const JRegex& regex, const JArray<JIndexRange>& submatchList);
@@ -1025,11 +974,11 @@ private:
 
 	void	AppendTextForHTML(const JString& text);
 	void	AppendTextForHTML1(const JString& text);
-	void 	AppendCharsForHTML(const JCharacter* text, const JTextEditor::Font& f);
-	void 	AppendCharsForHTML(const JString& text, const JTextEditor::Font& f);
+	void 	AppendCharsForHTML(const JCharacter* text, const JFont& f);
+	void 	AppendCharsForHTML(const JString& text, const JFont& f);
 	void 	AppendNewlinesForHTML(const JSize count);
 
-	Font	CalcWSFont(const Font& prevFont, const Font& nextFont) const;
+	JFont	CalcWSFont(const JFont& prevFont, const JFont& nextFont) const;
 
 	JColorIndex	ColorNameToColorIndex(const JCharacter* name) const;
 	JColorIndex	RGBToColorIndex(const JRGB& color) const;
@@ -1352,7 +1301,7 @@ JTextEditor::IndexValid
 
  ******************************************************************************/
 
-inline const JRunArray<JTextEditor::Font>&
+inline const JRunArray<JFont>&
 JTextEditor::GetStyles()
 	const
 {
@@ -1533,37 +1482,7 @@ JTextEditor::ShouldPasteStyledText
 
  ******************************************************************************/
 
-inline JSize
-JTextEditor::GetDefaultFontSize()
-	const
-{
-	return itsDefFont.size;
-}
-
-inline const JFontStyle&
-JTextEditor::GetDefaultFontStyle()
-	const
-{
-	return itsDefFont.style;
-}
-
-inline void
-JTextEditor::GetDefaultFont
-	(
-	JFontID*	id,
-	JSize*		size,
-	JFontStyle*	style
-	)
-	const
-{
-	*id    = itsDefFont.id;
-	*size  = itsDefFont.size;
-	*style = itsDefFont.style;
-}
-
-// protected
-
-inline const JTextEditor::Font&
+inline const JFont&
 JTextEditor::GetDefaultFont()
 	const
 {
@@ -1578,25 +1497,10 @@ JTextEditor::GetDefaultFont()
 inline void
 JTextEditor::SetDefaultFont
 	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style
+	const JFont& f
 	)
 {
-	itsDefFont.size  = size;
-	itsDefFont.style = style;
-	SetDefaultFontName(name);	// last, so itsDefFont.id gets set correctly
-}
-
-// protected
-
-inline void
-JTextEditor::SetDefaultFont
-	(
-	const Font& f
-	)
-{
-	SetDefaultFont(f.id, f.size, f.style);
+	itsDefFont = f;
 }
 
 /******************************************************************************
@@ -2139,7 +2043,7 @@ JTextEditor::Recalc
 
  ******************************************************************************/
 
-inline JTextEditor::Font
+inline JFont
 JTextEditor::GetFont
 	(
 	const JIndex charIndex
@@ -2325,31 +2229,6 @@ operator!=
 	)
 {
 	return (l1.charIndex != l2.charIndex);
-}
-
-/******************************************************************************
- Font operators
-
- ******************************************************************************/
-
-inline int
-operator==
-	(
-	const JTextEditor::Font& f1,
-	const JTextEditor::Font& f2
-	)
-{
-	return (f1.id == f2.id && f1.size == f2.size && f1.style == f2.style);
-}
-
-inline int
-operator!=
-	(
-	const JTextEditor::Font& f1,
-	const JTextEditor::Font& f2
-	)
-{
-	return !(f1 == f2);
 }
 
 /******************************************************************************

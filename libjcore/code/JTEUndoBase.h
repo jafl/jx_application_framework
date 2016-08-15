@@ -40,7 +40,7 @@ protected:
 
 	JTextEditor*	GetTE() const;
 
-	void	SetFont(JRunArray<JTextEditor::Font>* styles,
+	void	SetFont(JRunArray<JFont>* styles,
 					const JCharacter* name, const JSize size);
 
 private:

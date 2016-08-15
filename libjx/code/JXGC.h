@@ -16,7 +16,7 @@
 
 #include <JRect.h>
 #include <jColor.h>
-#include <JFontStyle.h>
+#include <JFont.h>
 #include <JArray.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -111,7 +111,7 @@ private:
 	int			itsLastFunction;
 	JSize		itsLastLineWidth;
 	JBoolean	itsDashedLinesFlag;
-	JFontID		itsLastFont;
+	JFontID		itsLastFontID;
 	int			itsLastSubwindowMode;
 
 private:

@@ -37,8 +37,7 @@ public:
 	void	SetFontName(const JCharacter* name);
 	void	SetFontSize(const JSize size);
 	void	SetFontStyle(const JFontStyle& style);
-	void	SetFont(const JCharacter* name, const JSize size,
-					const JFontStyle& style = JFontStyle());
+	void	SetFont(const JFont& f);
 
 	void	SetBackgroundColor(const JColorIndex color);
 
@@ -107,14 +106,12 @@ JXStaticText::SetFontStyle
 inline void
 JXStaticText::SetFont
 	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style
+	const JFont& f
 	)
 {
 	SelectAll();
-	SetCurrentFont(name, size, style);
-	SetDefaultFont(name, size, style);
+	SetCurrentFont(f);
+	SetDefaultFont(f);
 }
 
 /******************************************************************************

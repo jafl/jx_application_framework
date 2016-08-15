@@ -30,8 +30,8 @@ public:
 
 private:
 
-	JIndex							itsStartIndex;
-	JRunArray<JTextEditor::Font>*	itsOrigStyles;
+	JIndex				itsStartIndex;
+	JRunArray<JFont>*	itsOrigStyles;
 
 private:
 

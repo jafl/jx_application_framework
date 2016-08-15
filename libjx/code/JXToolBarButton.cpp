@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXToolBar.h>
 #include <JXToolBarButton.h>
 #include <JXHintDirector.h>
@@ -51,10 +50,11 @@ JXToolBarButton::JXToolBarButton
 	itsMenuItemID(itemID),
 	itsIsCheckedFlag(kJFalse),
 	itsType(type),
+	itsFont(GetFontManager()->GetDefaultFont()),
 	itsImage(NULL)
 {
 	JBoolean invalid;
-	NeedsGeometryAdjustment(&invalid);
+	NeedsGeometryAdjustment(&invalid);	// gets actual font to use
 	assert( !invalid );
 }
 
@@ -82,68 +82,16 @@ JXToolBarButton::GetMenuItemIndex
 	return itsMenu->ItemIDToIndex(itsMenuItemID, itemIndex);
 }
 
-/******************************************************************************
- Activate (virtual)
-
- ******************************************************************************/
-
-void
-JXToolBarButton::Activate()
+JFont
+JXToolBarButton::GetLabelFont()
+	const
 {
-	const JBoolean wasActive = IsActive();
-	JXButton::Activate();
-	if (!wasActive && IsActive())
+	JFont font = itsFont;
+	if (!IsActive())
 		{
-		itsFontStyle.color = itsTrueLabelColor;
+		font.SetColor(GetColormap()->GetInactiveLabelColor());
 		}
-}
-
-/******************************************************************************
- Deactivate (virtual)
-
- ******************************************************************************/
-
-void
-JXToolBarButton::Deactivate()
-{
-	const JBoolean wasActive = IsActive();
-	JXButton::Deactivate();
-	if (wasActive && !IsActive())
-		{
-		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
-		}
-}
-
-/******************************************************************************
- Suspend (virtual)
-
- ******************************************************************************/
-
-void
-JXToolBarButton::Suspend()
-{
-	const JBoolean wasActive = IsActive();
-	JXButton::Suspend();
-	if (wasActive && !IsActive())
-		{
-		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
-		}
-}
-
-/******************************************************************************
- Resume (virtual)
-
- ******************************************************************************/
-
-void
-JXToolBarButton::Resume()
-{
-	const JBoolean wasActive = IsActive();
-	JXButton::Resume();
-	if (!wasActive && IsActive())
-		{
-		itsFontStyle.color = itsTrueLabelColor;
-		}
+	return font;
 }
 
 /******************************************************************************
@@ -166,7 +114,7 @@ JXToolBarButton::Draw
 		}
 	else if (itsType == kText || itsImage == NULL)
 		{
-		p.SetFont(itsFontName, itsFontSize, itsFontStyle);
+		p.SetFont(GetLabelFont());
 		p.JPainter::String(bounds, itsLabel,
 						   JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 		}
@@ -181,7 +129,7 @@ JXToolBarButton::Draw
 		JRect rt = bounds;
 		rt.left  = ri.right;
 		rt.right = bounds.right - kDualBuffer;
-		p.SetFont(itsFontName, itsFontSize, itsFontStyle);
+		p.SetFont(GetLabelFont());
 		p.JPainter::String(rt, itsLabel,
 						   JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 		}
@@ -217,11 +165,11 @@ JXToolBarButton::DrawBorder
 		p.SetLineWidth(borderWidth);
 		if (itsIsCheckedFlag)
 			{
-			p.SetPenColor((GetColormap())->GetWhiteColor());
+			p.SetPenColor(GetColormap()->GetWhiteColor());
 			}
 		else
 			{
-			p.SetPenColor((GetColormap())->GetInactiveLabelColor());
+			p.SetPenColor(GetColormap()->GetInactiveLabelColor());
 			}
 		p.RectInside(frame);
 		}
@@ -285,20 +233,12 @@ JXToolBarButton::NeedsGeometryAdjustment
 		}
 	else
 		{
-		itsMenu->GetItemFont(itemIndex, &itsFontName, &itsFontSize, &itsFontStyle);
-		const JFontManager* fm  = GetFontManager();
-		const JCoordinate width = fm->GetStringWidth(itsFontName, itsFontSize,
-													 itsFontStyle, itsLabel);
+		itsFont                 = itsMenu->GetItemFont(itemIndex);
+		const JCoordinate width = itsFont.GetStringWidth(itsLabel);
 		const JCoordinate newWidth =
 			(itsType == kText || itsImage == NULL) ?
 				width + 2*kLabelBuffer :
 				width + 2*kDualBuffer + GetFrameHeight();
-
-		itsTrueLabelColor = itsFontStyle.color;
-		if (!IsActive())
-			{
-			itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
-			}
 
 		const JCoordinate delta = newWidth - GetFrameWidth();
 		if (delta != 0)

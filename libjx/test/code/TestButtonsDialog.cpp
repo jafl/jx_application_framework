@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestButtonsDialog.h"
 #include "SmileyBitmaps.h"
 #include <JXWindow.h>
@@ -110,7 +109,7 @@ TestButtonsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,290, 70,30);
 	assert( cancelButton != NULL );
     cancelButton->SetFontName("Times");
-    const JFontStyle cancelButton_style(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetRedColor());
+    const JFontStyle cancelButton_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetRedColor());
     cancelButton->SetFontStyle(cancelButton_style);
 
 	JXImageButton* okButton =
@@ -123,8 +122,8 @@ TestButtonsDialog::BuildWindow()
 		new JXTextCheckbox(JGetString("tcb::TestButtonsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,25, 120,20);
 	assert( tcb != NULL );
-    tcb->SetNormalColor((GetColormap())->GetRedColor());
-    tcb->SetPushedColor((GetColormap())->GetBlueColor());
+    tcb->SetNormalColor(GetColormap()->GetRedColor());
+    tcb->SetPushedColor(GetColormap()->GetBlueColor());
 
 	JXImageCheckbox* bcb =
 		new JXImageCheckbox(window,
@@ -181,7 +180,7 @@ TestButtonsDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,115, 90,20);
 	assert( obj3_JXLayout != NULL );
     obj3_JXLayout->SetFontSize(8);
-    const JFontStyle obj3_JXLayout_style(kJFalse, kJFalse, 0, kJFalse, (GetColormap())->GetGreenColor());
+    const JFontStyle obj3_JXLayout_style(kJFalse, kJFalse, 0, kJFalse, GetColormap()->GetGreenColor());
     obj3_JXLayout->SetFontStyle(obj3_JXLayout_style);
 	obj3_JXLayout->SetToLabel();
 
@@ -189,8 +188,8 @@ TestButtonsDialog::BuildWindow()
 		new JXTextCheckbox(JGetString("dtcb::TestButtonsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 120,20);
 	assert( dtcb != NULL );
-    dtcb->SetNormalColor((GetColormap())->GetRedColor());
-    dtcb->SetPushedColor((GetColormap())->GetBlueColor());
+    dtcb->SetNormalColor(GetColormap()->GetRedColor());
+    dtcb->SetPushedColor(GetColormap()->GetBlueColor());
 
 	JXTextRadioButton* dtrb =
 		new JXTextRadioButton(4, JGetString("dtrb::TestButtonsDialog::JXLayout"), itsRG1,

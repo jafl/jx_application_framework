@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestStringTable.h"
 
 #include <JXWindow.h>
@@ -83,7 +82,7 @@ JIndex i,j;
 	itsMouseAction = kInsertCol;
 	itsRowHeader   = NULL;
 
-	(GetEditMenuHandler())->AppendEditMenu(menuBar);
+	GetEditMenuHandler()->AppendEditMenu(menuBar);
 
 	itsTableMenu = menuBar->AppendTextMenu(kTableMenuTitleStr);
 	itsTableMenu->SetMenuItems(kTableMenuStr);
@@ -119,10 +118,9 @@ JIndex i,j;
 	assert( itsStyleMenu != NULL );
 	menuBar->AppendMenu(itsStyleMenu);
 
-	JSize fontSize;
-	const JString& fontName = GetFont(&fontSize);
-	itsFontMenu->SetFontName(fontName);
-	itsSizeMenu->SetFontSize(fontSize);
+	const JFont& font = GetFont();
+	itsFontMenu->SetFontName(font.GetName());
+	itsSizeMenu->SetFontSize(font.GetSize());
 
 	data->AppendRows(kInitRowCount);
 	data->AppendCols(kInitColCount);

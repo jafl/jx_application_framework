@@ -78,8 +78,7 @@ CMStackWidget::CMStackWidget
 	CMGetPrefsManager()->GetDefaultFont(&name, &size);
 	SetFont(name, size);
 
-	SetIndentWidth(kIndentWidth *
-		GetFontManager()->GetCharWidth(name, size, JFontStyle(), '0'));
+	SetIndentWidth(kIndentWidth * GetFont().GetCharWidth('0'));
 
 	ListenTo(&(GetTableSelection()));
 	ListenTo(GetWindow());
@@ -190,9 +189,9 @@ CMStackWidget::TableDrawCell
 		const JTreeNode* node = GetTreeList()->GetNode(cell.y);
 		if (node->GetDepth() > 1)
 			{
-			JSize fontSize;
-			const JString& fontName = GetFont(&fontSize);
-			p.SetFont(fontName, fontSize, GetCellStyle(cell));
+			JFont font = GetFont();
+			font.SetStyle(GetCellStyle(cell));
+			p.SetFont(font);
 
 			const CMStackArgNode* argNode =
 				dynamic_cast<const CMStackArgNode*>(node);
@@ -223,10 +222,7 @@ CMStackWidget::GetMinCellWidth
 				dynamic_cast<const CMStackArgNode*>(node);
 			assert( argNode != NULL );
 
-			JSize fontSize;
-			const JString& fontName = GetFont(&fontSize);
-			return GetFontManager()->GetStringWidth(fontName, fontSize, JFontStyle(),
-													  argNode->GetValue());
+			return GetFont().GetStringWidth(argNode->GetValue());
 			}
 		else
 			{

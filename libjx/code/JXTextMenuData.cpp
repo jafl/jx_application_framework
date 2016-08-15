@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXTextMenuData.h>
 #include <JXTextMenu.h>
 #include <JXTextMenuTable.h>
@@ -39,15 +38,11 @@ JXTextMenuData::JXTextMenuData
 	:
 	JXMenuData(),
 	itsMenu( menu ),
-	itsFontMgr( menu->GetFontManager() )
+	itsFontMgr( menu->GetFontManager() ),
+	itsDefFont( itsFontMgr->GetDefaultFont() )
 {
 	itsTextItemData = new JArray<TextItemData>;
 	assert( itsTextItemData != NULL );
-
-	const JCharacter* defFontName = JXMenu::GetDefaultFont(&itsDefFontSize);
-	// itsDefFontStyle automatically initialized to empty
-	itsDefFontID = itsFontMgr->GetFontID(defFontName, itsDefFontSize,
-										 itsDefFontStyle);
 
 	itsNeedGeomRecalcFlag = kJTrue;
 	itsMaxImageWidth      = 1;
@@ -92,7 +87,7 @@ JXTextMenuData::InsertItem
 	JString* text = new JString(str);
 	assert( text != NULL );
 
-	TextItemData itemData(text, itsDefFontID, itsDefFontSize, itsDefFontStyle);
+	TextItemData itemData(text, itsDefFont);
 	itsTextItemData->InsertElementAtIndex(index, itemData);
 
 	JXMenuData::InsertItem(index, type, shortcuts, id);
@@ -185,17 +180,12 @@ JXTextMenuData::GetText
 	(
 	const JIndex	index,
 	JIndex*			ulIndex,
-	JFontID*		id,
-	JSize*			size,
-	JFontStyle*		style
+	JFont*			font
 	)
 	const
 {
 	const TextItemData itemData = itsTextItemData->GetElement(index);
-	*id    = itemData.fontID;
-	*size  = itemData.fontSize;
-	*style = itemData.fontStyle;
-
+	*font    = itemData.font;
 	*ulIndex = itemData.ulIndex;
 	return *(itemData.text);
 }
@@ -423,38 +413,6 @@ JXTextMenuData::ParseMenuItemStr
 }
 
 /******************************************************************************
- Get font
-
- ******************************************************************************/
-
-const JCharacter*
-JXTextMenuData::GetFontName
-	(
-	const JIndex index
-	)
-	const
-{
-	const TextItemData itemData = itsTextItemData->GetElement(index);
-	return itsFontMgr->GetFontName(itemData.fontID);
-}
-
-void
-JXTextMenuData::GetFont
-	(
-	const JIndex	index,
-	JString*		name,
-	JSize*			size,
-	JFontStyle*		style
-	)
-	const
-{
-	const TextItemData itemData = itsTextItemData->GetElement(index);
-	*name  = itsFontMgr->GetFontName(itemData.fontID);
-	*size  = itemData.fontSize;
-	*style = itemData.fontStyle;
-}
-
-/******************************************************************************
  Set font
 
  ******************************************************************************/
@@ -467,15 +425,10 @@ JXTextMenuData::SetFontName
 	)
 {
 	TextItemData itemData = itsTextItemData->GetElement(index);
-	const JFontID newID   = itsFontMgr->GetFontID(name, itemData.fontSize,
-												  itemData.fontStyle);
-	if (newID != itemData.fontID)
-		{
-		itemData.fontID = newID;
-		itsTextItemData->SetElement(index, itemData);
+	itemData.font.SetName(name);
+	itsTextItemData->SetElement(index, itemData);
 
-		itsNeedGeomRecalcFlag = kJTrue;
-		}
+	itsNeedGeomRecalcFlag = kJTrue;
 }
 
 void
@@ -486,12 +439,9 @@ JXTextMenuData::SetFontSize
 	)
 {
 	TextItemData itemData = itsTextItemData->GetElement(index);
-	if (size != itemData.fontSize)
+	if (size != itemData.font.GetSize())
 		{
-		itemData.fontSize = size;
-
-		itemData.fontID = itsFontMgr->UpdateFontID(itemData.fontID, itemData.fontSize,
-												   itemData.fontStyle);
+		itemData.font.SetSize(size);
 		itsTextItemData->SetElement(index, itemData);
 
 		itsNeedGeomRecalcFlag = kJTrue;
@@ -506,12 +456,9 @@ JXTextMenuData::SetFontStyle
 	)
 {
 	TextItemData itemData = itsTextItemData->GetElement(index);
-	if (style != itemData.fontStyle)
+	if (style != itemData.font.GetStyle())
 		{
-		itemData.fontStyle = style;
-
-		itemData.fontID = itsFontMgr->UpdateFontID(itemData.fontID, itemData.fontSize,
-												   itemData.fontStyle);
+		itemData.font.SetStyle(style);
 		itsTextItemData->SetElement(index, itemData);
 
 		itsNeedGeomRecalcFlag = kJTrue;
@@ -521,63 +468,15 @@ JXTextMenuData::SetFontStyle
 void
 JXTextMenuData::SetFont
 	(
-	const JIndex		index,
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style
+	const JIndex	index,
+	const JFont&	font
 	)
 {
 	TextItemData itemData = itsTextItemData->GetElement(index);
-	itemData.fontID    = itsFontMgr->GetFontID(name, size, style);
-	itemData.fontSize  = size;
-	itemData.fontStyle = style;
+	itemData.font = font;
 	itsTextItemData->SetElement(index, itemData);
 
 	itsNeedGeomRecalcFlag = kJTrue;
-}
-
-void
-JXTextMenuData::SetFont
-	(
-	const JIndex		index,
-	const JFontID		id,
-	const JSize			size,
-	const JFontStyle&	style
-	)
-{
-	TextItemData itemData = itsTextItemData->GetElement(index);
-	itemData.fontID    = id;
-	itemData.fontSize  = size;
-	itemData.fontStyle = style;
-	itsTextItemData->SetElement(index, itemData);
-
-	itsNeedGeomRecalcFlag = kJTrue;
-}
-
-/******************************************************************************
- Get default font
-
- ******************************************************************************/
-
-const JCharacter*
-JXTextMenuData::GetDefaultFontName()
-	const
-{
-	return itsFontMgr->GetFontName(itsDefFontID);
-}
-
-void
-JXTextMenuData::GetDefaultFont
-	(
-	JString*	name,
-	JSize*		size,
-	JFontStyle*	style
-	)
-	const
-{
-	*name  = itsFontMgr->GetFontName(itsDefFontID);
-	*size  = itsDefFontSize;
-	*style = itsDefFontStyle;
 }
 
 /******************************************************************************
@@ -592,15 +491,14 @@ JXTextMenuData::SetDefaultFontName
 	const JBoolean		updateExisting
 	)
 {
-	const JFontID id = itsFontMgr->GetFontID(name, itsDefFontSize,
-											 itsDefFontStyle);
 	if (updateExisting)
 		{
-		UpdateItemFonts(itsDefFontID, itsDefFontSize, itsDefFontStyle,
-						id,           itsDefFontSize, itsDefFontStyle);
+		JFont f = itsDefFont;
+		f.SetName(name);
+		UpdateItemFonts(itsDefFont, f);
 		}
 
-	itsDefFontID = id;
+	itsDefFont.SetName(name);
 }
 
 void
@@ -610,16 +508,14 @@ JXTextMenuData::SetDefaultFontSize
 	const JBoolean	updateExisting
 	)
 {
-	const JFontID id = itsFontMgr->UpdateFontID(itsDefFontID, size,
-												itsDefFontStyle);
 	if (updateExisting)
 		{
-		UpdateItemFonts(itsDefFontID, itsDefFontSize, itsDefFontStyle,
-						id,           size,           itsDefFontStyle);
+		JFont f = itsDefFont;
+		f.SetSize(size);
+		UpdateItemFonts(itsDefFont, f);
 		}
 
-	itsDefFontID   = id;
-	itsDefFontSize = size;
+	itsDefFont.SetSize(size);
 }
 
 void
@@ -629,57 +525,29 @@ JXTextMenuData::SetDefaultFontStyle
 	const JBoolean		updateExisting
 	)
 {
-	const JFontID id = itsFontMgr->UpdateFontID(itsDefFontID, itsDefFontSize,
-												style);
 	if (updateExisting)
 		{
-		UpdateItemFonts(itsDefFontID, itsDefFontSize, itsDefFontStyle,
-						id,           itsDefFontSize, style);
+		JFont f = itsDefFont;
+		f.SetStyle(style);
+		UpdateItemFonts(itsDefFont, f);
 		}
 
-	itsDefFontID   = id;
-	itsDefFontStyle = style;
+	itsDefFont.SetStyle(style);
 }
 
 void
 JXTextMenuData::SetDefaultFont
 	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style,
-	const JBoolean		updateExisting
-	)
-{
-	const JFontID id = itsFontMgr->GetFontID(name, size, style);
-	if (updateExisting)
-		{
-		UpdateItemFonts(itsDefFontID, itsDefFontSize, itsDefFontStyle,
-						id,           size,           style);
-		}
-
-	itsDefFontID    = id;
-	itsDefFontSize  = size;
-	itsDefFontStyle = style;
-}
-
-void
-JXTextMenuData::SetDefaultFont
-	(
-	const JFontID		id,
-	const JSize			size,
-	const JFontStyle&	style,
-	const JBoolean		updateExisting
+	const JFont&	font,
+	const JBoolean	updateExisting
 	)
 {
 	if (updateExisting)
 		{
-		UpdateItemFonts(itsDefFontID, itsDefFontSize, itsDefFontStyle,
-						id,           size,           style);
+		UpdateItemFonts(itsDefFont, font);
 		}
 
-	itsDefFontID    = id;
-	itsDefFontSize  = size;
-	itsDefFontStyle = style;
+	itsDefFont = font;
 }
 
 /******************************************************************************
@@ -690,26 +558,17 @@ JXTextMenuData::SetDefaultFont
 void
 JXTextMenuData::UpdateItemFonts
 	(
-	const JFontID		oldID,
-	const JSize			oldSize,
-	const JFontStyle&	oldStyle,
-
-	const JFontID		newID,
-	const JSize			newSize,
-	const JFontStyle&	newStyle
+	const JFont& oldFont,
+	const JFont& newFont
 	)
 {
 	const JSize count = GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
 		TextItemData itemData = itsTextItemData->GetElement(i);
-		if (itemData.fontID    == oldID &&
-			itemData.fontSize  == oldSize &&
-			itemData.fontStyle == oldStyle)
+		if (itemData.font == oldFont)
 			{
-			itemData.fontID    = newID;
-			itemData.fontSize  = newSize;
-			itemData.fontStyle = newStyle;
+			itemData.font = newFont;
 			itsTextItemData->SetElement(i, itemData);
 
 			itsNeedGeomRecalcFlag = kJTrue;
@@ -843,9 +702,7 @@ JXTextMenuData::GetNMShortcut
 	(
 	const JIndex	index,
 	const JString**	str,
-	JFontID*		id,
-	JSize*			size,
-	JFontStyle*		style
+	JFont*			font
 	)
 	const
 {
@@ -853,17 +710,14 @@ JXTextMenuData::GetNMShortcut
 
 	if (itemData.nmShortcut != NULL)
 		{
-		*str = itemData.nmShortcut;
-
-		*size  = itemData.fontSize;
-		*style = JFontStyle();
-		*id    = itsFontMgr->UpdateFontID(itemData.fontID, *size, *style);
-
+		*str  = itemData.nmShortcut;
+		*font = itemData.font;
 		return kJTrue;
 		}
 	else
 		{
 		*str = NULL;
+		*font = itsFontMgr->GetDefaultFont();
 		return kJFalse;
 		}
 }
@@ -1211,13 +1065,10 @@ JXTextMenuData::ConfigureTable
 
 			if (itemData.text != NULL)
 				{
-				const JCoordinate th =
-					itsFontMgr->GetLineHeight(itemData.fontID, itemData.fontSize,
-											  itemData.fontStyle);
-				h = JMax(h, th);
+				const JCoordinate th = itemData.font.GetLineHeight();
+				h                    = JMax(h, th);
 				const JCoordinate tw = 2*JXTextMenuTable::kHMarginWidth +
-					itsFontMgr->GetStringWidth(itemData.fontID, itemData.fontSize,
-											   itemData.fontStyle, *(itemData.text));
+					itemData.font.GetStringWidth(*(itemData.text));
 				itsMaxTextWidth = JMax(itsMaxTextWidth, tw);
 				}
 
@@ -1229,15 +1080,14 @@ JXTextMenuData::ConfigureTable
 
 			if (itemData.nmShortcut != NULL)
 				{
-				JFontStyle style;
 				itsHasNMShortcutsFlag = kJTrue;
-				const JCoordinate th =
-					itsFontMgr->GetLineHeight(itemData.fontID, itemData.fontSize, style);
+				JFont f = itemData.font;
+				f.ClearStyle();
+				const JCoordinate th = f.GetLineHeight();
 				h = JMax(h, th);
 				const JCoordinate tw = JXTextMenuTable::kHNMSMarginWidth +
 					JXTextMenuTable::kHMarginWidth +
-					itsFontMgr->GetStringWidth(itemData.fontID, itemData.fontSize,
-											   style, *(itemData.nmShortcut));
+					itemData.font.GetStringWidth(*(itemData.nmShortcut));
 				itsMaxShortcutWidth = JMax(itsMaxShortcutWidth, tw);
 				}
 
@@ -1291,7 +1141,6 @@ JXTextMenuData::ConfigureTable
 	// set a sensible scroll step
 
 	const JCoordinate scrollStep =
-		(itsFontMgr->GetLineHeight(itsDefFontID, itsDefFontSize, itsDefFontStyle)
-		+ 2*(JXTextMenuTable::kHilightBorderWidth + 1));
+		itsDefFont.GetLineHeight() + 2*(JXTextMenuTable::kHilightBorderWidth + 1);
 	table->SetDefaultRowHeight(scrollStep);
 }

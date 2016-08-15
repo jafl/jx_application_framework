@@ -68,8 +68,7 @@ private:
 	const JArray<CBPrefsManager::CRMRuleListInfo>&	itsCRMList;
 
 	JXInputField*	itsTextInput;			// NULL unless editing
-	JString			itsFontName;
-	JSize			itsFontSize;
+	JFont			itsFont;
 	JRegex*			itsTestRegex;
 
 	JXTextMenu*		itsTypeMenu;

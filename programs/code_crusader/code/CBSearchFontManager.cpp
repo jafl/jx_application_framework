@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBSearchFontManager.h"
 #include <JString.h>
 #include <jAssert.h>
@@ -160,8 +159,6 @@ JSize
 CBSearchFontManager::GetCharWidth
 	(
 	const JFontID		fontID,
-	const JSize			size,
-	const JFontStyle&	style,
 	const JCharacter	c
 	)
 	const
@@ -178,8 +175,6 @@ JSize
 CBSearchFontManager::GetStringWidth
 	(
 	const JFontID		fontID,
-	const JSize			size,
-	const JFontStyle&	style,
 	const JCharacter*	str,
 	const JSize			charCount
 	)

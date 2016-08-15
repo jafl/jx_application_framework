@@ -223,7 +223,7 @@ protected:
 										  const JXWidget* source);
 	virtual JBoolean	TEXConvertDropData(const JArray<Atom>& typeList,
 										   const Atom action, const Time time,
-										   JString* text, JRunArray<Font>* style);
+										   JString* text, JRunArray<JFont>* style);
 
 	virtual void	HandleFocusEvent();
 	virtual void	HandleUnfocusEvent();
@@ -251,7 +251,7 @@ protected:
 
 	virtual void		TEClipboardChanged();
 	virtual JBoolean	TEOwnsClipboard() const;
-	virtual JBoolean	TEGetExternalClipboard(JString* text, JRunArray<Font>* style) const;
+	virtual JBoolean	TEGetExternalClipboard(JString* text, JRunArray<JFont>* style) const;
 
 	virtual JCoordinate	GetPrintFooterHeight(JPagePrinter& p) const;
 	virtual void		DrawPrintFooter(JPagePrinter& p, const JCoordinate footerHeight);
@@ -346,10 +346,10 @@ private:
 								  JBoolean* canGetStyledText,
 								  JBoolean* canGetText, Atom* textType) const;
 	JError		GetSelectionData(const Atom selectionName, const Time time,
-								 JString* text, JRunArray<Font>* style) const;
+								 JString* text, JRunArray<JFont>* style) const;
 	JError		GetSelectionData(const Atom selectionName,
 								 const JArray<Atom>& typeList, const Time time,
-								 JString* text, JRunArray<Font>* style) const;
+								 JString* text, JRunArray<JFont>* style) const;
 
 	JBoolean	OKToPassToJTE(const int key, char* c) const;
 	void		RemapWindowsHomeEnd(int* key, JXKeyModifiers* modifiers) const;

@@ -228,11 +228,11 @@ CMSourceDirector::~CMSourceDirector()
 {
 	if (itsType == kMainSourceType)
 		{
-		(CMGetPrefsManager())->SaveWindowSize(kMainCodeWindSizeID, GetWindow());
+		CMGetPrefsManager()->SaveWindowSize(kMainCodeWindSizeID, GetWindow());
 		}
 	else if (itsType == kMainAsmType)
 		{
-		(CMGetPrefsManager())->SaveWindowSize(kMainAsmWindSizeID, GetWindow());
+		CMGetPrefsManager()->SaveWindowSize(kMainAsmWindSizeID, GetWindow());
 		}
 	else
 		{
@@ -311,7 +311,7 @@ CMSourceDirector::BuildWindow()
 		window->SetCloseAction(JXWindow::kDeactivateDirector);
 
 		window->SetWMClass(CMGetWMClassInstance(), CMGetMainSourceWindowClass());
-		(CMGetPrefsManager())->GetWindowSize(kMainCodeWindSizeID, window);
+		CMGetPrefsManager()->GetWindowSize(kMainCodeWindSizeID, window);
 
 		JXDisplay* display = GetDisplay();
 		JXImage* icon      = new JXImage(display, medic_current_source_window);
@@ -323,7 +323,7 @@ CMSourceDirector::BuildWindow()
 		window->SetCloseAction(JXWindow::kDeactivateDirector);
 
 		window->SetWMClass(CMGetWMClassInstance(), CMGetMainAsmWindowClass());
-		(CMGetPrefsManager())->GetWindowSize(kMainAsmWindSizeID, window);
+		CMGetPrefsManager()->GetWindowSize(kMainAsmWindSizeID, window);
 
 		JXDisplay* display = GetDisplay();
 		JXImage* icon      = new JXImage(display, medic_current_asm_window);
@@ -333,12 +333,12 @@ CMSourceDirector::BuildWindow()
 	else if (itsType == kAsmType)
 		{
 		window->SetWMClass(CMGetWMClassInstance(), CMGetAsmViewWindowClass());
-		(CMGetPrefsManager())->GetWindowSize(kAsmWindSizeID, window, kJTrue);
+		CMGetPrefsManager()->GetWindowSize(kAsmWindSizeID, window, kJTrue);
 		}
 	else
 		{
 		window->SetWMClass(CMGetWMClassInstance(), CMGetSourceViewWindowClass());
-		(CMGetPrefsManager())->GetWindowSize(kCodeWindSizeID, window, kJTrue);
+		CMGetPrefsManager()->GetWindowSize(kCodeWindSizeID, window, kJTrue);
 		}
 
 	JCoordinate w = window->GetFrameWidth();
@@ -887,7 +887,7 @@ CMSourceDirector::UpdateFileType()
 	const CBTextFileType fileType =
 		itsType == kMainAsmType || itsType == kAsmType ? kCBAssemblyFT :
 		itsCurrentFile.IsEmpty() ? kCBUnknownFT :
-			(CMGetPrefsManager())->GetFileType(itsCurrentFile);
+			CMGetPrefsManager()->GetFileType(itsCurrentFile);
 
 	itsText->SetFileType(fileType);
 
@@ -911,11 +911,7 @@ CMSourceDirector::UpdateFileType()
 			{
 			itsText->SetCRMTabCharCount(tabWidth);
 			itsText->SetDefaultTabWidth(
-				tabWidth *
-				(itsText->GetFontManager())->
-					GetCharWidth(itsText->GetDefaultFontName(),
-								 itsText->GetDefaultFontSize(),
-								 JFontStyle(), ' '));
+				tabWidth * itsText->GetDefaultFont().GetCharWidth(' '));
 			}
 		}
 }
@@ -1059,7 +1055,7 @@ CMSourceDirector::HandleFileMenu
 void
 CMSourceDirector::UpdatePrefsMenu()
 {
-	CMPrefsManager::DebuggerType type = (CMGetPrefsManager())->GetDebuggerType();
+	CMPrefsManager::DebuggerType type = CMGetPrefsManager()->GetDebuggerType();
 	itsPrefsMenu->CheckItem(kDebuggerTypeToMenuIndex[ type ]);
 
 	itsPrefsMenu->DisableItem(kUseJavaCmd);
@@ -1078,24 +1074,24 @@ CMSourceDirector::HandlePrefsMenu
 {
 	if (index == kUseGDBCmd)
 		{
-		(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kGDBType);
+		CMGetPrefsManager()->SetDebuggerType(CMPrefsManager::kGDBType);
 		}
 	else if (index == kUseLLDBCmd)
 		{
-		(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kLLDBType);
+		CMGetPrefsManager()->SetDebuggerType(CMPrefsManager::kLLDBType);
 		}
 	else if (index == kUseJavaCmd)
 		{
-		(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kJavaType);
+		CMGetPrefsManager()->SetDebuggerType(CMPrefsManager::kJavaType);
 		}
 	else if (index == kUseXdebugCmd)
 		{
-		(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kXdebugType);
+		CMGetPrefsManager()->SetDebuggerType(CMPrefsManager::kXdebugType);
 		}
 
 	else if (index == kEditPrefsCmd)
 		{
-		(CMGetPrefsManager())->EditPrefs();
+		CMGetPrefsManager()->EditPrefs();
 		}
 	else if (index == kEditToolBarCmd)
 		{
@@ -1116,11 +1112,11 @@ CMSourceDirector::HandlePrefsMenu
 		{
 		if (itsType == kSourceType)
 			{
-			(CMGetPrefsManager())->SaveWindowSize(kCodeWindSizeID, GetWindow());
+			CMGetPrefsManager()->SaveWindowSize(kCodeWindSizeID, GetWindow());
 			}
 		else if (itsType == kAsmType)
 			{
-			(CMGetPrefsManager())->SaveWindowSize(kAsmWindSizeID, GetWindow());
+			CMGetPrefsManager()->SaveWindowSize(kAsmWindSizeID, GetWindow());
 			}
 		}
 }

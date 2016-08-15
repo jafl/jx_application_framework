@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBPathTable.h"
 #include "CBDirList.h"
 #include "CBRelPathCSF.h"
@@ -65,7 +64,7 @@ CBPathTable::CBPathTable
 	itsBasePath(pathList.GetBasePath())
 {
 	const JSize rowHeight = 2*kVMarginWidth +
-		(GetFontManager())->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle());
+		GetFontManager()->GetDefaultFont().GetLineHeight();
 	SetDefaultRowHeight(rowHeight);
 
 	itsFolderIcon = new JXImage(GetDisplay(), jx_folder_small);
@@ -103,10 +102,9 @@ CBPathTable::CBPathTable
 	SetTableData(itsData);
 
 	const JSize flagColWidth = 2*kHMarginWidth +
-		(GetFontManager())->GetStringWidth(JGetDefaultFontName(), kJDefaultFontSize,
-										   JFontStyle(), kFlagOnStr);
+		GetFontManager()->GetDefaultFont().GetStringWidth(kFlagOnStr);
 
-	SetColBorderInfo(0, (GetColormap())->GetBlackColor());
+	SetColBorderInfo(0, GetColormap()->GetBlackColor());
 	SetColWidth(kRecurseColumn, flagColWidth);
 	SetColWidth(kIconColumn,    itsFolderIcon->GetWidth() + 2*kHMarginWidth);
 	FitToEnclosure();
@@ -227,7 +225,9 @@ CBPathTable::TableDrawCell
 
 		JSize size;
 		const JCharacter* name = JXPathInput::GetFont(&size);
-		p.SetFont(name, size, JXPathInput::GetTextColor(str, itsBasePath, kJFalse, p.GetColormap()));
+		JFont font = GetFontManager()->GetFont(name, size);
+		font.SetColor(JXPathInput::GetTextColor(str, itsBasePath, kJFalse, p.GetColormap()));
+		p.SetFont(font);
 
 		JRect r = rect;
 		r.left += kHMarginWidth;
@@ -479,14 +479,14 @@ CBPathTable::WillAcceptDrop
 	const JXWidget*		source
 	)
 {
-	const Atom urlXAtom = (GetSelectionManager())->GetURLXAtom();
+	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
 
 	const JSize typeCount = typeList.GetElementCount();
 	for (JIndex i=1; i<=typeCount; i++)
 		{
 		if (typeList.GetElement(i) == urlXAtom)
 			{
-			*action = (GetDNDManager())->GetDNDActionPrivateXAtom();
+			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			return kJTrue;
 			}
 		}
@@ -520,7 +520,7 @@ CBPathTable::HandleDNDDrop
 	unsigned char* data;
 	JSize dataLength;
 	JXSelectionManager::DeleteMethod delMethod;
-	if (selMgr->GetData((GetDNDManager())->GetDNDSelectionName(),
+	if (selMgr->GetData(GetDNDManager()->GetDNDSelectionName(),
 						time, selMgr->GetURLXAtom(),
 						&returnType, &data, &dataLength, &delMethod))
 		{

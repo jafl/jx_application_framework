@@ -60,37 +60,19 @@ public:
 	void			AppendMenuItems(const JCharacter* menuStr,
 									const JCharacter* idNamespace = NULL);
 
-	const JCharacter*	GetFontName(const JIndex index) const;
-	JSize				GetFontSize(const JIndex index) const;
-	const JFontStyle	GetFontStyle(const JIndex index) const;
-	void				GetFont(const JIndex index, JString* name,
-								JSize* size, JFontStyle* style) const;
-	void				GetFont(const JIndex index, JFontID* id,
-								JSize* size, JFontStyle* style) const;
+	JFont	GetFont(const JIndex index) const;
 
 	void	SetFontName(const JIndex index, const JCharacter* name);
 	void	SetFontSize(const JIndex index, const JSize size);
 	void	SetFontStyle(const JIndex index, const JFontStyle& style);
-	void	SetFont(const JIndex index, const JCharacter* name,
-					const JSize size, const JFontStyle& style = JFontStyle());
-	void	SetFont(const JIndex index, const JFontID id,
-					const JSize size, const JFontStyle& style = JFontStyle());
+	void	SetFont(const JIndex index, const JFont& font);
 
-	const JCharacter*	GetDefaultFontName() const;
-	JSize				GetDefaultFontSize() const;
-	const JFontStyle&	GetDefaultFontStyle() const;
-	void				GetDefaultFont(JString* name, JSize* size,
-									   JFontStyle* style) const;
-	void				GetDefaultFont(JFontID* id, JSize* size,
-									   JFontStyle* style) const;
+	const JFont&	GetDefaultFont() const;
 
 	void	SetDefaultFontName(const JCharacter* name, const JBoolean updateExisting);
 	void	SetDefaultFontSize(const JSize size, const JBoolean updateExisting);
 	void	SetDefaultFontStyle(const JFontStyle& style, const JBoolean updateExisting);
-	void	SetDefaultFont(const JCharacter* name, const JSize size,
-						   const JFontStyle& style, const JBoolean updateExisting);
-	void	SetDefaultFont(const JFontID id, const JSize size,
-						   const JFontStyle& style, const JBoolean updateExisting);
+	void	SetDefaultFont(const JFont& font, const JBoolean updateExisting);
 
 	JBoolean	GetImage(const JIndex index, const JXImage** image) const;
 	void		SetImage(const JIndex index, JXImage* image,
@@ -110,10 +92,9 @@ public:
 
 	void	ConfigureTable(JXTextMenuTable* table);
 
-	const JString&	GetText(const JIndex index, JIndex* ulIndex,
-							JFontID* id, JSize* size, JFontStyle* style) const;
+	const JString&	GetText(const JIndex index, JIndex* ulIndex, JFont* font) const;
 	JBoolean		GetNMShortcut(const JIndex index, const JString** str,
-								  JFontID* id, JSize* size, JFontStyle* style) const;
+								  JFont* font) const;
 
 protected:
 
@@ -126,9 +107,7 @@ private:
 		JString*	text;
 		JIndex		ulIndex;
 		JString*	nmShortcut;			// can be NULL
-		JFontID		fontID;
-		JSize		fontSize;
-		JFontStyle	fontStyle;
+		JFont		font;
 		JXImage*	image;				// can be NULL
 		JBoolean	ownsImage;			// kJTrue if we should delete image
 		JBoolean	separator;			// kJTrue if item is followed by separator
@@ -136,15 +115,12 @@ private:
 		TextItemData()
 			:
 			text( NULL ), ulIndex( 0 ), nmShortcut( NULL ),
-			fontID( 0 ), fontSize( 0 ), fontStyle(),
 			image( NULL ), ownsImage( kJTrue ), separator( kJFalse )
 		{ };
 
-		TextItemData(JString* str, const JFontID id, const JSize size,
-					 const JFontStyle& style)
+		TextItemData(JString* str, const JFont& f)
 			:
-			text( str ), ulIndex( 0 ), nmShortcut( NULL ),
-			fontID( id ), fontSize( size ), fontStyle( style ),
+			text( str ), ulIndex( 0 ), nmShortcut( NULL ), font( f ),
 			image( NULL ), ownsImage( kJTrue ), separator( kJFalse )
 		{ };
 	};
@@ -155,9 +131,7 @@ private:
 	const JFontManager*		itsFontMgr;
 	JArray<TextItemData>*	itsTextItemData;
 
-	JFontID		itsDefFontID;
-	JSize		itsDefFontSize;
-	JFontStyle	itsDefFontStyle;
+	JFont	itsDefFont;
 
 	JBoolean				itsNeedGeomRecalcFlag;
 	JCoordinate				itsMaxImageWidth;
@@ -180,8 +154,7 @@ private:
 	void		AdjustNMShortcutString(JString* str, const JIndex origKeyIndex,
 									   const JXModifierKey newKey);
 
-	void	UpdateItemFonts(const JFontID oldID, const JSize oldSize, const JFontStyle& oldStyle,
-							const JFontID newID, const JSize newSize, const JFontStyle& newStyle);
+	void	UpdateItemFonts(const JFont& oldFont, const JFont& newFont);
 
 	// not allowed
 
@@ -294,42 +267,15 @@ JXTextMenuData::GetText
 
  ******************************************************************************/
 
-inline JSize
-JXTextMenuData::GetFontSize
-	(
-	const JIndex index
-	)
-	const
-{
-	const TextItemData itemData = itsTextItemData->GetElement(index);
-	return itemData.fontSize;
-}
-
-inline const JFontStyle
-JXTextMenuData::GetFontStyle
-	(
-	const JIndex index
-	)
-	const
-{
-	const TextItemData itemData = itsTextItemData->GetElement(index);
-	return itemData.fontStyle;
-}
-
-inline void
+inline JFont
 JXTextMenuData::GetFont
 	(
-	const JIndex	index,
-	JFontID*		id,
-	JSize*			size,
-	JFontStyle*		style
+	const JIndex index
 	)
 	const
 {
 	const TextItemData itemData = itsTextItemData->GetElement(index);
-	*id    = itemData.fontID;
-	*size  = itemData.fontSize;
-	*style = itemData.fontStyle;
+	return itemData.font;
 }
 
 /******************************************************************************
@@ -337,32 +283,11 @@ JXTextMenuData::GetFont
 
  ******************************************************************************/
 
-inline JSize
-JXTextMenuData::GetDefaultFontSize()
+inline const JFont&
+JXTextMenuData::GetDefaultFont()
 	const
 {
-	return itsDefFontSize;
-}
-
-inline const JFontStyle&
-JXTextMenuData::GetDefaultFontStyle()
-	const
-{
-	return itsDefFontStyle;
-}
-
-inline void
-JXTextMenuData::GetDefaultFont
-	(
-	JFontID*	id,
-	JSize*		size,
-	JFontStyle*	style
-	)
-	const
-{
-	*id    = itsDefFontID;
-	*size  = itsDefFontSize;
-	*style = itsDefFontStyle;
+	return itsDefFont;
 }
 
 /******************************************************************************

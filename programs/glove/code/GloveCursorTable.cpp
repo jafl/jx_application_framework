@@ -60,7 +60,7 @@ GloveCursorTable::GloveCursorTable
 	SetRowBorderInfo(1, GetColormap()->GetGrayColor(80));
 	
 	const JFontManager* fm = GetFontManager();
-	JSize lineHeight = fm->GetLineHeight(JGetDefaultFontName(), kDefaultSize, JFontStyle());
+	JSize lineHeight = fm->GetDefaultFont().GetLineHeight();
 	AppendRows(1, lineHeight + 2);
 	
 	itsShowX = kJFalse;
@@ -93,7 +93,7 @@ GloveCursorTable::TableDrawCell
 	const JRect&	rect
 	)
 {
-	p.SetFont(JGetDefaultFontName(), kDefaultSize, JFontStyle());
+	p.SetFont(GetFontManager()->GetDefaultFont());
 	JRect r = rect;
 	r.left += kHMarginWidth;
 	r.right -= kHMarginWidth;
@@ -187,8 +187,7 @@ GloveCursorTable::AdjustTable()
 		if (GetRowCount() < count)
 			{
 			const JFontManager* fm = GetFontManager();
-			JSize lineHeight = 
-				fm->GetLineHeight(JGetDefaultFontName(), kDefaultSize, JFontStyle());
+			JSize lineHeight = fm->GetDefaultFont().GetLineHeight();
 			
 			for (JSize i = GetRowCount(); i < count; i++)
 				{

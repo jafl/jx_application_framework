@@ -16,7 +16,7 @@
 
 #include <JXButton.h>
 #include <JString.h>
-#include <JFontStyle.h>
+#include <JFont.h>
 
 class JXToolBar;
 class JXTextMenu;
@@ -47,12 +47,6 @@ public:
 	const JString&	GetMenuItemID() const;
 	JBoolean		GetMenuItemIndex(JIndex* itemIndex) const;
 
-	virtual void	Activate();
-	virtual void	Deactivate();
-
-	virtual void	Suspend();
-	virtual void	Resume();
-
 	JBoolean		NeedsGeometryAdjustment(JBoolean* invalid);
 
 protected:
@@ -77,15 +71,13 @@ private:
 	Type		itsType;
 
 	JString		itsLabel;
-	JColorIndex	itsTrueLabelColor;
-	JString		itsFontName;
-	JSize		itsFontSize;
-	JFontStyle	itsFontStyle;
+	JFont		itsFont;
 
 	const JXImage*	itsImage;
 
 private:
 
+	JFont	GetLabelFont() const;
 	void	CloseHints();
 
 	// not allowed

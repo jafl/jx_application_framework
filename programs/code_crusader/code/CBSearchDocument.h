@@ -82,7 +82,7 @@ private:
 	public:
 
 		virtual ~MatchFileNameStyle();
-		virtual JBoolean	Match(const JCharacter*, const JSize, const JFontStyle&) const;
+		virtual JBoolean	Match(const JFont&) const;
 	};
 
 	// not allowed

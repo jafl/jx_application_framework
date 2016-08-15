@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JTEUndoBase.h>
 #include <JFontManager.h>
 #include <jAssert.h>
@@ -64,9 +63,9 @@ JTEUndoBase::SetFont
 void
 JTEUndoBase::SetFont
 	(
-	JRunArray<JTextEditor::Font>*	styles,
-	const JCharacter*				name,
-	const JSize						size
+	JRunArray<JFont>*	styles,
+	const JCharacter*	name,
+	const JSize			size
 	)
 {
 	const JFontManager* fontMgr = itsTE->TEGetFontManager();
@@ -74,9 +73,8 @@ JTEUndoBase::SetFont
 	const JSize runCount = styles->GetRunCount();
 	for (JIndex i=1; i<=runCount; i++)
 		{
-		JTextEditor::Font f = styles->GetRunData(i);
-		f.size = size;
-		f.id   = fontMgr->GetFontID(name, f.size, f.style);
+		JFont f = styles->GetRunData(i);
+		f.Set(name, size, f.GetStyle());
 		styles->SetRunData(i, f);
 		}
 }

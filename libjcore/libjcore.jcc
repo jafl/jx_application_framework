@@ -1,4 +1,4 @@
-jx_browser_data 85
+jx_browser_data 86
 # project tree
 0 "root"
 T
@@ -480,6 +480,10 @@ F
 F
 T
 1 "font"
+T
+2 "JFont.cpp"
+F
+"./code/JFont.cpp"
 T
 2 "JFontStyle.cpp"
 F

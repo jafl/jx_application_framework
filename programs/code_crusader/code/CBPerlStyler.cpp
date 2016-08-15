@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBPerlStyler.h"
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
@@ -208,7 +207,7 @@ CBPerlStyler::Scan
 		const JIndex typeIndex = token.type - kWhitespace;
 		if (token.type == kWhitespace)
 			{
-			style = GetDefaultFontStyle();
+			style = GetDefaultFont().GetStyle();
 			}
 		else if (token.type == kSingleQuoteString  ||
 				 token.type == kDoubleQuoteString  ||
@@ -239,7 +238,7 @@ CBPerlStyler::Scan
 			{
 			if (!GetWordStyle(text.GetSubstring(token.range), &style))
 				{
-				style = GetDefaultFontStyle();
+				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else
@@ -265,11 +264,11 @@ CBPerlStyler::Scan
 void
 CBPerlStyler::PreexpandCheckRange
 	(
-	const JString&						text,
-	const JRunArray<JTextEditor::Font>&	styles,
-	const JIndexRange&					modifiedRange,
-	const JBoolean						deletion,
-	JIndexRange*						checkRange
+	const JString&			text,
+	const JRunArray<JFont>&	styles,
+	const JIndexRange&		modifiedRange,
+	const JBoolean			deletion,
+	JIndexRange*			checkRange
 	)
 {
 	JIndex i = checkRange->first - 1;

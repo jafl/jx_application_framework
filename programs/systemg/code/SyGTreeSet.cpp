@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGTreeSet.h"
 
 #include "SyGHeaderWidget.h"
@@ -33,6 +32,7 @@
 #include <JXStringHistoryMenu.h>
 #include <JXCurrentPathMenu.h>
 #include <JXCloseDirectorTask.h>
+#include <JXFontManager.h>
 
 #include <JDirInfo.h>
 #include <jDirUtil.h>
@@ -152,7 +152,7 @@ void SyGTreeSet::SyGTreeSetX
 	if (!JFSFileTreeNode::CanHaveChildren(path))
 		{
 		path = JGetRootDirectory();
-		JXCloseDirectorTask::Close((GetWindow())->GetDirector());
+		JXCloseDirectorTask::Close(GetWindow()->GetDirector());
 		}
 
 	JDirEntry* entry = new JDirEntry(path);
@@ -184,6 +184,8 @@ void SyGTreeSet::SyGTreeSetX
 
 	// header:  filter
 
+	const JFont& font = GetFontManager()->GetDefaultMonospaceFont();
+
 	itsFilterLabel =
 		new JXStaticText("Filter:", this, kFixedLeft, kFixedTop,
 						 5,3, 40, kHeaderHeight-3);
@@ -195,14 +197,14 @@ void SyGTreeSet::SyGTreeSetX
 	assert( itsFilterHistory != NULL );
 	ListenTo(itsFilterHistory);
 	itsFilterHistory->Place(w - itsFilterHistory->GetFrameWidth(), 0);
-	itsFilterHistory->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle(), kJTrue);
+	itsFilterHistory->SetDefaultFont(font, kJTrue);
 
 	itsFilterInput =
 		new SyGFilterInput(itsTable, this, kHElastic, kFixedTop,
 						   45,0, w - 45 - itsFilterHistory->GetFrameWidth(), kHeaderHeight);
 	assert( itsFilterInput != NULL );
 	ListenTo(itsFilterInput);
-	itsFilterInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsFilterInput->SetFont(font);
 
 	// footer:  path input, drag source
 
@@ -263,7 +265,7 @@ SyGTreeSet::Receive
 	else if (sender == itsPathMenu && message.Is(JXMenu::kItemSelected))
 		{
 		itsTable->GoTo(itsPathMenu->GetPath(message),
-					   ((GetDisplay())->GetLatestKeyModifiers()).meta());
+					   (GetDisplay()->GetLatestKeyModifiers()).meta());
 		}
 
 	else if (sender == itsFilterInput && message.Is(JXWidget::kLostFocus))
@@ -323,7 +325,7 @@ SyGTreeSet::UpdateDisplay
 		JString p;
 		JSplitPathAndName(s, &p, &name);
 		}
-	(GetWindow())->SetTitle(name);
+	GetWindow()->SetTitle(name);
 
 	// path input
 

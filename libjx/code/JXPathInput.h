@@ -82,7 +82,7 @@ protected:
 									  const Atom action, const Time time,
 									  const JXWidget* source);
 
-	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<Font>* styles,
+	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
 											 JIndexRange* recalcRange, JIndexRange* redrawRange,
 											 const JBoolean deletion);
 

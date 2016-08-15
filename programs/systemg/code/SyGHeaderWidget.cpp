@@ -9,13 +9,12 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGHeaderWidget.h"
 #include "SyGFileTreeTable.h"
 #include <JXWindow.h>
+#include <JFontManager.h>
 #include <JXColormap.h>
 #include <jXPainterUtil.h>
-#include <jXConstants.h>
 #include <jXGlobals.h>
 #include <jAssert.h>
 
@@ -40,11 +39,11 @@ SyGHeaderWidget::SyGHeaderWidget
 	JXColHeaderWidget(table, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
 	itsTable(table)
 {
-	SetRowBorderInfo(0, (GetColormap())->GetBlackColor());
-	SetColBorderInfo(0, (GetColormap())->GetBlackColor());
+	SetRowBorderInfo(0, GetColormap()->GetBlackColor());
+	SetColBorderInfo(0, GetColormap()->GetBlackColor());
 
 	WantInput(kJFalse,kJFalse);	// we don't want focus
-	SetBackColor((GetColormap())->GetWhiteColor());
+	SetBackColor(GetColormap()->GetWhiteColor());
 }
 
 /******************************************************************************
@@ -59,8 +58,6 @@ SyGHeaderWidget::~SyGHeaderWidget()
 /******************************************************************************
  TableDrawCell (virtual protected)
 
-	We provide a default implementation, for convenience.
-
  ******************************************************************************/
 
 void
@@ -71,40 +68,26 @@ SyGHeaderWidget::TableDrawCell
 	const JRect&	rect
 	)
 {
-	if ((cell.x == 1) && itsTable->HasFocus())
+	JFont font = GetFontManager()->GetDefaultFont();
+	if (itsTable->IsCurrentCol(cell.x))
 		{
-		p.SetPenColor((GetColormap())->GetBlueColor());
-		JCoordinate xc = rect.xcenter();
-		JCoordinate yc = rect.ycenter();
-		JRect eRect(yc - 2, xc - 2, yc + 2, xc + 2);
-//		p.JPainter::Ellipse(eRect);
+		font.SetUnderlineCount(1);
 		}
+	p.SetFont(font);
 
+	const JString str				= itsTable->GetColTitle(cell.x);
+	const JCoordinate bufferWidth	= itsTable->GetBufferWidth(cell.x);
+
+	JRect sRect = rect;
+	if (bufferWidth < 0)
+		{
+		sRect.right += bufferWidth;
+		p.String(sRect, str, JPainter::kHAlignRight, JPainter::kVAlignCenter);
+		}
 	else
 		{
-		JSize ul = 0;
-		if (itsTable->IsCurrentCol(cell.x))
-			{
-			ul = 1;
-			}
-		p.SetFont(JGetDefaultFontName(), kJDefaultFontSize,
-			JFontStyle(kJFalse, kJFalse, ul, kJFalse, (GetColormap())->GetBlackColor()));
-		JRect sRect = rect;
-
-		JString str					= itsTable->GetColTitle(cell.x);
-		const JCoordinate bufferWidth	= itsTable->GetBufferWidth(cell.x);
-
-		if (bufferWidth < 0)
-			{
-			sRect.right += bufferWidth;
-			p.String(sRect, str, JPainter::kHAlignRight, JPainter::kVAlignCenter);
-			}
-
-		else
-			{
-			sRect.left += bufferWidth;
-			p.String(sRect, str, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
-			}
+		sRect.left += bufferWidth;
+		p.String(sRect, str, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 		}
 }
 

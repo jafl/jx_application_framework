@@ -56,8 +56,6 @@ main
 
 	(GFGGetMDIServer())->HandleCmdLineOptions(argc, argv);
 
-	// You may want to create all directors inside HandleCmdLineOptions()
-
 	if (displayAbout)
 		{
 		app->DisplayAbout(prevVersStr);

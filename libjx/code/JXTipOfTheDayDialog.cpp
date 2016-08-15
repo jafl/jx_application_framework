@@ -14,7 +14,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "JXTipOfTheDayDialog.h"
 #include "JXDisplay.h"
 #include "JXWindow.h"
@@ -26,6 +25,7 @@
 #include "JXFlatRect.h"
 #include "JXImage.h"
 #include "JXColormap.h"
+#include "JXFontManager.h"
 #include "jXGlobals.h"
 #include <JKLRand.h>
 #include <sstream>
@@ -93,7 +93,7 @@ JXTipOfTheDayDialog::BuildWindow
 		new JXFlatRect(window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 10,10, 50,200);
 	assert( sideBar != NULL );
-    sideBar->SetColor((GetColormap())->GetInactiveLabelColor());
+	sideBar->SetColor(GetColormap()->GetInactiveLabelColor());
 
 	itsCloseButton =
 		new JXTextButton(JGetString("itsCloseButton::JXTipOfTheDayDialog::JXLayout"), window,
@@ -137,14 +137,16 @@ JXTipOfTheDayDialog::BuildWindow
 	assert( wIcon != NULL );
 	window->SetIcon(wIcon);
 
-	sideBar->SetColor((GetColormap())->GetGrayColor(50));
-	icon->SetXPM(jx_tip_of_the_day, (GetColormap())->GetGrayColor(50));
+	sideBar->SetColor(GetColormap()->GetGrayColor(50));
+	icon->SetXPM(jx_tip_of_the_day, GetColormap()->GetGrayColor(50));
 
 	title->SetBorderWidth(kJXDefaultBorderWidth);
 	title->TESetLeftMarginWidth(5);
 	title->SetBackColor(title->GetFocusColor());
-	title->JTextEditor::SetFont(1, title->GetTextLength(), "Times", 18,
-								JFontStyle(kJTrue, kJFalse, 0, kJFalse), kJTrue);
+	title->JTextEditor::SetFont(1, title->GetTextLength(),
+		(window->GetFontManager())->GetFont(
+			"Times", 18, JFontStyle(kJTrue, kJFalse, 0, kJFalse)),
+		kJTrue);
 	title->SetCaretLocation(1);
 	title->Paste("\n");
 

@@ -67,14 +67,14 @@ private:
 	JBoolean	ShowPrevError();
 	JBoolean	ShowNextError();
 
-	JFontStyle	GetErrorStyle() const;
+	JFont	GetErrorFont() const;
 
 	class MatchErrorStyle : public JTextEditor::FontMatch
 	{
 	public:
 
 		virtual ~MatchErrorStyle();
-		virtual JBoolean	Match(const JCharacter*, const JSize, const JFontStyle&) const;
+		virtual JBoolean	Match(const JFont&) const;
 	};
 
 	// not allowed

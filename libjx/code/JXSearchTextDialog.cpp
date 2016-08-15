@@ -20,7 +20,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXSearchTextDialog.h>
 #include <JXSearchTextButton.h>
 #include <JXDisplay.h>
@@ -36,6 +35,7 @@
 #include <JXTimerTask.h>
 #include <JXMenu.h>
 #include <JXDownRect.h>
+#include <JXFontManager.h>
 #include <JXColormap.h>
 #include <jXGlobals.h>
 #include <JRegex.h>
@@ -774,14 +774,14 @@ JXSearchTextDialog::Receive
 
 	else if (sender == GetWindow() && message.Is(JXWindow::kIconified))
 		{
-		if ((GetWindow())->IsVisible())
+		if (GetWindow()->IsVisible())
 			{
 			itsUpdateTask->Stop();
 			}
 		}
 	else if (sender == GetWindow() && message.Is(JXWindow::kDeiconified))
 		{
-		if ((GetWindow())->IsVisible())
+		if (GetWindow()->IsVisible())
 			{
 			itsUpdateTask->Start();
 			}
@@ -1008,11 +1008,13 @@ JXSearchTextDialog::SetFont
 	const JSize			size
 	)
 {
-	itsSearchInput->SetFont(name, size);
-	itsPrevSearchMenu->SetDefaultFont(name, size, JFontStyle(), kJTrue);
+	JFont font = (GetWindow()->GetFontManager())->GetFont(name, size);
 
-	itsReplaceInput->SetFont(name, size);
-	itsPrevReplaceMenu->SetDefaultFont(name, size, JFontStyle(), kJTrue);
+	itsSearchInput->SetFont(font);
+	itsPrevSearchMenu->SetDefaultFont(font, kJTrue);
+
+	itsReplaceInput->SetFont(font);
+	itsPrevReplaceMenu->SetDefaultFont(font, kJTrue);
 }
 
 /******************************************************************************
@@ -1098,7 +1100,7 @@ JXSearchTextDialog::WriteSetup
 	output << kCurrentSetupVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ' << itsWrapSearchCB->IsChecked();
 	output << ' ' << itsIgnoreCaseCB->IsChecked();
@@ -1176,7 +1178,7 @@ JXSearchTextDialog::InitXSearch()
 	XSetWindowAttributes attr;
 	attr.override_redirect = kJTrue;
 
-	Visual* visual   = (GetColormap())->GetVisual();
+	Visual* visual   = GetColormap()->GetVisual();
 	itsVersionWindow = XCreateWindow(d2, rootWindow, 0,0, 10,10,
 									 0, CopyFromParent, InputOutput, visual,
 									 CWOverrideRedirect, &attr);
@@ -1388,7 +1390,7 @@ JXSearchTextDialog::ReadXSearch
 	if (!input.fail())
 		{
 		JXWidget* fw;
-		const JBoolean hadFocus = (GetWindow())->GetFocusWidget(&fw);
+		const JBoolean hadFocus = GetWindow()->GetFocusWidget(&fw);
 
 		SetSearchText(searchText);
 		SetReplaceText(replaceText);
@@ -1491,7 +1493,7 @@ JXSearchTextDialog::ReceiveWithFeedback
 			event.xproperty.atom   == itsAtoms[ kXSearchVersionAtomIndex ] &&
 			event.xproperty.state  == PropertyNewValue)
 			{
-			if (!((GetDisplay())->GetSelectionManager())->
+			if (!(GetDisplay()->GetSelectionManager())->
 					OwnsSelection(itsAtoms[ kXSearchSelectionAtomIndex ]))
 				{
 				GetXSearch();

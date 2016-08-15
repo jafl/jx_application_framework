@@ -31,6 +31,7 @@
 #include <JXWDManager.h>
 #include <JXWDMenu.h>
 #include <JXImage.h>
+#include <JXFontManager.h>
 #include <JXColormap.h>
 #include <JXCloseDirectorTask.h>
 #include <JXPSPrinter.h>
@@ -348,14 +349,16 @@ CMArray2DDir::BuildWindow()
 	assert( icon != NULL );
 	window->SetIcon(icon);
 
+	const JFont& font = window->GetFontManager()->GetDefaultMonospaceFont();
+
 	JIndex i;
 	if ((rowIndexLabel->GetText()).LocateSubstring("$i", &i))
 		{
-		rowIndexLabel->JTextEditor::SetFont(i,i+1, JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle(), kJTrue);
+		rowIndexLabel->JTextEditor::SetFont(i,i+1, font, kJTrue);
 		}
 	if ((colIndexLabel->GetText()).LocateSubstring("$j", &i))
 		{
-		colIndexLabel->JTextEditor::SetFont(i,i+1, JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle(), kJTrue);
+		colIndexLabel->JTextEditor::SetFont(i,i+1, font, kJTrue);
 		}
 
 	JXContainer* encl = scrollbarSet->GetScrollEnclosure();

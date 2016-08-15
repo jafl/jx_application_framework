@@ -7,13 +7,13 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "JXFSRunScriptDialog.h"
 #include <JXWindow.h>
 #include <JXStaticText.h>
 #include <JXTextButton.h>
 #include <JXTextCheckbox.h>
 #include <JXInputField.h>
+#include <JXFontManager.h>
 #include <jXGlobals.h>
 #include <jAssert.h>
 
@@ -133,5 +133,5 @@ JXFSRunScriptDialog::BuildWindow
 	s.AppendCharacter(' ');
 	itsCmdInput->SetText(s);
 	itsCmdInput->SetIsRequired();
-	itsCmdInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsCmdInput->SetFont(window->GetFontManager()->GetDefaultMonospaceFont());
 }

@@ -17,7 +17,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXFontManager.h>
 #include <JXDisplay.h>
 #include <JXColormap.h>
@@ -1084,8 +1083,6 @@ JSize
 JXFontManager::GetCharWidth
 	(
 	const JFontID		fontID,
-	const JSize			size,
-	const JFontStyle&	style,
 	const JCharacter	c
 	)
 	const
@@ -1110,7 +1107,7 @@ JXFontManager::GetCharWidth
 }
 
 /******************************************************************************
- GetStringWidth (virtual)
+ GetStringWidth (virtual protected)
 
  ******************************************************************************/
 
@@ -1118,8 +1115,6 @@ JSize
 JXFontManager::GetStringWidth
 	(
 	const JFontID		fontID,
-	const JSize			size,
-	const JFontStyle&	style,
 	const JCharacter*	str,
 	const JSize			charCount
 	)

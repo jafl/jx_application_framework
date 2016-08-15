@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "JXFSBindingTable.h"
 #include "JFSBindingList.h"
 #include <JXWindow.h>
@@ -119,8 +118,8 @@ JXFSBindingTable::JXFSBindingTable
 	// row height
 
 	const JSize rowHeight = 2*kVMarginWidth + JMax(
-		(GetFontManager())->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle()),
-		(GetFontManager())->GetLineHeight(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle()));
+		GetFontManager()->GetDefaultFont().GetLineHeight(),
+		GetFontManager()->GetDefaultMonospaceFont().GetLineHeight());
 	SetDefaultRowHeight(rowHeight);
 
 	// buttons
@@ -197,23 +196,23 @@ JXFSBindingTable::TableDrawCell
 
 	if (cell.x == kPatternColumn)
 		{
-		p.SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+		p.SetFont(GetFontManager()->GetDefaultMonospaceFont());
 
 		JRect r = rect;
 		r.left += kHMarginWidth;
 		p.String(r, b->GetPattern(), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 
-		p.SetFont(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle());
+		p.SetFont(GetFontManager()->GetDefaultFont());
 		}
 	else if (cell.x == kCommandColumn)
 		{
-		p.SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+		p.SetFont(GetFontManager()->GetDefaultMonospaceFont());
 
 		JRect r = rect;
 		r.left += kHMarginWidth;
 		p.String(r, cmd, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 
-		p.SetFont(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle());
+		p.SetFont(GetFontManager()->GetDefaultFont());
 		}
 	else if (cell.x == kTypeColumn)
 		{
@@ -362,7 +361,7 @@ JXFSBindingTable::CreateXInputField
 		itsTextInput->SetText(cmd);
 		}
 
-	itsTextInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsTextInput->SetFont(GetFontManager()->GetDefaultMonospaceFont());
 	itsTextInput->SetIsRequired();
 	ListenTo(itsTextInput);
 	return itsTextInput;
@@ -552,7 +551,7 @@ JXFSBindingTable::RemovePattern()
 			else
 				{
 				TableRefreshRow(cell.y);
-				(GetWindow())->Update();
+				GetWindow()->Update();
 				(JGetUserNotification())->DisplayMessage(JGetString(kReplacedBySystemID));
 				}
 			UpdateButtons();

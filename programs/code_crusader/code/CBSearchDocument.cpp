@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBSearchDocument.h"
 #include "CBTextEditor.h"
 #include "CBSearchTE.h"
@@ -179,9 +178,9 @@ CBSearchDocument::CBSearchDocument
 
 	JXKeyModifiers modifiers(GetDisplay());
 	modifiers.SetState(kJXMetaKeyIndex, kJTrue);
-	(GetWindow())->InstallMenuShortcut(itsMatchMenu, kPrevMatchCmd, '_', modifiers);
+	GetWindow()->InstallMenuShortcut(itsMatchMenu, kPrevMatchCmd, '_', modifiers);
 
-	(GetWindow())->SetWMClass(CBGetWMClassInstance(), CBGetSearchOutputWindowClass());
+	GetWindow()->SetWMClass(CBGetWMClassInstance(), CBGetSearchOutputWindowClass());
 
 	SetConnection(p, fd, ACE_INVALID_HANDLE,
 				  windowTitle, dontCloseMsg, execDir, execCmd, kJFalse);
@@ -235,9 +234,9 @@ CBSearchDocument::ProcessFinished
 		{
 		CBExecOutputDocument::AppendText("\n\nNothing matched");
 		DataReverted();
-		(GetTextEditor())->ClearUndo();
+		GetTextEditor()->ClearUndo();
 		}
-	else if (!(GetTextEditor())->HasSelection())
+	else if (!GetTextEditor()->HasSelection())
 		{
 		ShowFirstMatch();
 		}
@@ -364,7 +363,7 @@ CBSearchDocument::OpenPrevListItem()
 {
 	if (ShowPrevMatch())
 		{
-		(GetTextEditor())->OpenSelection();
+		GetTextEditor()->OpenSelection();
 		}
 }
 
@@ -380,7 +379,7 @@ CBSearchDocument::OpenNextListItem()
 {
 	if (ShowNextMatch())
 		{
-		(GetTextEditor())->OpenSelection();
+		GetTextEditor()->OpenSelection();
 		}
 }
 
@@ -442,7 +441,7 @@ CBSearchDocument::Receive
 void
 CBSearchDocument::UpdateMatchMenu()
 {
-	itsMatchMenu->SetItemEnable(kOpenFileCmd, (GetTextEditor())->HasSelection());
+	itsMatchMenu->SetItemEnable(kOpenFileCmd, GetTextEditor()->HasSelection());
 }
 
 /******************************************************************************
@@ -474,7 +473,7 @@ CBSearchDocument::HandleMatchMenu
 
 	else if (index == kOpenFileCmd)
 		{
-		(GetTextEditor())->OpenSelection();
+		GetTextEditor()->OpenSelection();
 		}
 }
 
@@ -486,7 +485,7 @@ CBSearchDocument::HandleMatchMenu
 void
 CBSearchDocument::ShowFirstMatch()
 {
-	(GetTextEditor())->SetCaretLocation(1);
+	GetTextEditor()->SetCaretLocation(1);
 	ShowNextMatch();
 }
 
@@ -509,7 +508,7 @@ CBSearchDocument::ShowPrevMatch()
 		}
 	else
 		{
-		(GetDisplay())->Beep();
+		GetDisplay()->Beep();
 		return kJFalse;
 		}
 }
@@ -533,7 +532,7 @@ CBSearchDocument::ShowNextMatch()
 		}
 	else
 		{
-		(GetDisplay())->Beep();
+		GetDisplay()->Beep();
 		return kJFalse;
 		}
 }
@@ -547,9 +546,9 @@ JFontStyle
 CBSearchDocument::GetFileNameStyle()
 	const
 {
-	JFontStyle style = (GetTextEditor())->GetDefaultFontStyle();
-	style.bold       = kJTrue;
-	return style;
+	JFont font = GetTextEditor()->GetDefaultFont();
+	font.SetBold(kJTrue);
+	return font.GetStyle();
 }
 
 /******************************************************************************
@@ -561,9 +560,9 @@ JFontStyle
 CBSearchDocument::GetMatchStyle()
 	const
 {
-	JFontStyle style     = (GetTextEditor())->GetDefaultFontStyle();
-	style.underlineCount = 1;
-	return style;
+	JFont font = GetTextEditor()->GetDefaultFont();
+	font.SetUnderlineCount(1);
+	return font.GetStyle();
 }
 
 /******************************************************************************
@@ -578,10 +577,10 @@ JFontStyle
 CBSearchDocument::GetErrorStyle()
 	const
 {
-	JFontStyle style = (GetTextEditor())->GetDefaultFontStyle();
-//	style.bold       = !itsOnlyListFilesFlag;
-	style.color      = (GetColormap())->GetDarkRedColor();
-	return style;
+	JFont font = GetTextEditor()->GetDefaultFont();
+//	font.SetBold(!itsOnlyListFilesFlag);
+	font.SetColor(GetColormap()->GetDarkRedColor());
+	return font.GetStyle();
 }
 
 /******************************************************************************
@@ -596,13 +595,11 @@ CBSearchDocument::MatchFileNameStyle::~MatchFileNameStyle()
 JBoolean
 CBSearchDocument::MatchFileNameStyle::Match
 	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style
+	const JFont& font
 	)
 	const
 {
-	return style.bold;
+	return font.GetStyle().bold;
 }
 
 /******************************************************************************

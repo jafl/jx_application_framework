@@ -29,7 +29,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXMenu.h>
 #include <JXMenuData.h>
 #include <JXMenuDirector.h>
@@ -94,7 +93,8 @@ JXMenu::JXMenu
 	const JCoordinate	h
 	)
 	:
-	JXWidget(enclosure, hSizing, vSizing, x,y, w,h)
+	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
+	itsTitleFont(GetFontManager()->GetDefaultFont())
 {
 	JXMenuX(title, NULL, kJTrue);
 }
@@ -112,7 +112,8 @@ JXMenu::JXMenu
 	const JCoordinate	h
 	)
 	:
-	JXWidget(enclosure, hSizing, vSizing, x,y, w,h)
+	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
+	itsTitleFont(GetFontManager()->GetDefaultFont())
 {
 	JXMenuX("", image, menuOwnsImage);
 }
@@ -131,7 +132,8 @@ JXMenu::JXMenu
 	const JCoordinate	h
 	)
 	:
-	JXWidget(enclosure, hSizing, vSizing, x,y, w,h)
+	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
+	itsTitleFont(GetFontManager()->GetDefaultFont())
 {
 	JXMenuX(title, image, menuOwnsImage);
 }
@@ -143,7 +145,8 @@ JXMenu::JXMenu
 	JXContainer*	enclosure
 	)
 	:
-	JXWidget(enclosure, kFixedLeft, kFixedTop, 0,0, 10,10)
+	JXWidget(enclosure, kFixedLeft, kFixedTop, 0,0, 10,10),
+	itsTitleFont(GetFontManager()->GetDefaultFont())
 {
 	JXMenuX("", NULL, kJTrue);
 	owner->AttachSubmenu(itemIndex, this);
@@ -163,14 +166,6 @@ JXMenu::JXMenuX
 	itsOwnsTitleImageFlag = kJFalse;
 	itsShortcuts          = NULL;
 	itsULIndex            = 0;
-
-	itsTitleFontName  = GetDefaultFont(&itsTitleSize);
-	itsTitleStyle     = (GetColormap())->GetBlackColor();
-	itsTrueTitleColor = itsTitleStyle.color;
-	if (!IsActive())
-		{
-		itsTitleStyle.color = (GetColormap())->GetInactiveLabelColor();
-		}
 
 	itsBaseItemData = NULL;
 	itsMenuBar      = NULL;
@@ -389,8 +384,7 @@ JXMenu::UpdateTitleGeometry()
 	JCoordinate w = 0;
 	if (!itsTitle.IsEmpty())
 		{
-		w += (GetFontManager())->GetStringWidth(itsTitleFontName, itsTitleSize,
-												itsTitleStyle, itsTitle);
+		w += itsTitleFont.GetStringWidth(itsTitle);
 		}
 	if (itsTitleImage != NULL)
 		{
@@ -441,7 +435,7 @@ JXMenu::SetTitleFontName
 	const JCharacter* fontName
 	)
 {
-	itsTitleFontName = fontName;
+	itsTitleFont.SetName(fontName);
 
 	if (!itsTitle.IsEmpty())
 		{
@@ -460,7 +454,7 @@ JXMenu::SetTitleFontSize
 	const JSize size
 	)
 {
-	itsTitleSize = size;
+	itsTitleFont.SetSize(size);
 
 	if (!itsTitle.IsEmpty())
 		{
@@ -479,12 +473,7 @@ JXMenu::SetTitleFontStyle
 	const JFontStyle& style
 	)
 {
-	itsTitleStyle     = style;
-	itsTrueTitleColor = itsTitleStyle.color;
-	if (!IsActive())
-		{
-		itsTitleStyle.color = (GetColormap())->GetInactiveLabelColor();
-		}
+	itsTitleFont.SetStyle(style);
 
 	if (!itsTitle.IsEmpty())
 		{
@@ -1100,7 +1089,7 @@ JXMenu::Open
 		rightPtR = userRightPtR;
 		}
 
-	itsMenuDirector = CreateMenuWindow((GetWindow())->GetDirector());
+	itsMenuDirector = CreateMenuWindow(GetWindow()->GetDirector());
 	itsMenuDirector->BuildWindow(leftPtR, rightPtR, frameHeight);
 
 	if (itsIsHiddenPopupMenuFlag)
@@ -1125,7 +1114,7 @@ JXMenu::Close()
 {
 	assert( itsMenuDirector != NULL );
 
-	(GetMenuManager())->MenuClosed(this);
+	GetMenuManager()->MenuClosed(this);
 
 	const JBoolean ok = itsMenuDirector->Close();
 	assert( ok );
@@ -1135,7 +1124,7 @@ JXMenu::Close()
 
 	if (itsOwner == NULL)
 		{
-		(GetWindow())->RequestFocus();
+		GetWindow()->RequestFocus();
 		}
 }
 
@@ -1153,7 +1142,7 @@ JXMenu::BroadcastSelection
 {
 	// close all menus
 
-	(GetMenuManager())->CloseCurrentMenus();
+	GetMenuManager()->CloseCurrentMenus();
 
 	// update the menu title to show the new selection
 
@@ -1234,9 +1223,20 @@ JXMenu::Draw
 		p.Image(*itsTitleImage, itsTitleImage->GetBounds(), ir);
 		r.left = ir.right + kImageTextBufferWidth;
 		}
+
 	if (!itsTitle.IsEmpty())
 		{
-		p.SetFont(itsTitleFontName, itsTitleSize, itsTitleStyle);
+		if (IsActive())
+			{
+			p.SetFont(itsTitleFont);
+			}
+		else
+			{
+			JFont f = itsTitleFont;
+			f.SetColor(GetColormap()->GetInactiveLabelColor());
+			p.SetFont(f);
+			}
+
 		p.String(r.left, r.top, itsTitle, itsULIndex,
 				 r.width(), JPainter::kHAlignLeft,
 				 r.height(), JPainter::kVAlignCenter);
@@ -1265,7 +1265,7 @@ JXMenu::DrawBorder
 	else if (borderWidth > 0)
 		{
 		p.SetLineWidth(borderWidth);
-		p.SetPenColor((GetColormap())->GetInactiveLabelColor());
+		p.SetPenColor(GetColormap()->GetInactiveLabelColor());
 		p.RectInside(frame);
 		}
 }
@@ -1306,7 +1306,7 @@ JXMenu::PopUp
 		Place(pt.x, pt.y - GetFrameHeight());
 		if (Open())
 			{
-			return (GetDisplay())->SwitchDrag(mouseOwner, pt, buttonStates, modifiers,
+			return GetDisplay()->SwitchDrag(mouseOwner, pt, buttonStates, modifiers,
 											  itsMenuDirector->GetMenuTable());
 			}
 		}
@@ -1332,7 +1332,7 @@ JXMenu::HandleMouseDown
 	if (button == kJXLeftButton && itsMenuDirector == NULL && Open())
 		{
 		const JBoolean ok =
-			(GetDisplay())->SwitchDrag(this, pt, buttonStates, modifiers,
+			GetDisplay()->SwitchDrag(this, pt, buttonStates, modifiers,
 									   itsMenuDirector->GetMenuTable());
 		if (!ok && IsOpen())	// SwitchDrag() can trigger Close()
 			{
@@ -1451,8 +1451,6 @@ JXMenu::Resume()
 void
 JXMenu::PrivateActivate()
 {
-	itsTitleStyle.color = itsTrueTitleColor;
-
 	JIndex ownerItemIndex;
 	if (itsOwner != NULL &&
 		!(itsBaseItemData->GetOrderedSet())->IsEmpty() &&
@@ -1470,8 +1468,6 @@ JXMenu::PrivateActivate()
 void
 JXMenu::PrivateDeactivate()
 {
-	itsTitleStyle.color = (GetColormap())->GetInactiveLabelColor();
-
 	JIndex ownerItemIndex;
 	if (itsOwner != NULL &&
 		itsOwner->itsBaseItemData->FindSubmenu(this, &ownerItemIndex))

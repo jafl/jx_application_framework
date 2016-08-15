@@ -19,7 +19,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXStringList.h>
 #include <JXWindow.h>
 #include <JXColormap.h>
@@ -94,9 +93,9 @@ JXStringList::TableDrawCell
 {
 	HilightIfSelected(p, cell, rect);
 
-	JSize fontSize;
-	const JString& fontName = GetFont(&fontSize);
-	p.SetFont(fontName, fontSize, itsStyles->GetCellStyle(cell));
+	JFont font = GetFont();
+	font.SetStyle(itsStyles->GetCellStyle(cell));
+	p.SetFont(font);
 
 	const JString* str = itsList->NthElement(cell.y);
 
@@ -171,14 +170,11 @@ JXStringList::SetStringList
 
  ******************************************************************************/
 
-const JString&
-JXStringList::GetFont
-	(
-	JSize* size
-	)
+const JFont&
+JXStringList::GetFont()
 	const
 {
-	return itsStyles->GetFont(size);
+	return itsStyles->GetFont();
 }
 
 /******************************************************************************

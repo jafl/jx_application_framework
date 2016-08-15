@@ -9,13 +9,12 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXTextButton.h>
 #include <JXWindow.h>
 #include <JXWindowPainter.h>
+#include <JXFontManager.h>
 #include <JXColormap.h>
 #include <jXGlobals.h>
-#include <JString.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -37,21 +36,12 @@ JXTextButton::JXTextButton
 	:
 	JXButton(enclosure, hSizing, vSizing, x,y, w,h),
 	itsLabel(label),
-	itsFontName(JGetDefaultFontName())
+	itsFont(GetFontManager()->GetDefaultFont())
 {
 	itsShortcuts = NULL;
 	itsULIndex   = 0;
 
-	itsFontSize = kJDefaultFontSize;
-	// itsFontStyle already initialized to correct default
-
-	itsPushedColor    = (GetColormap())->GetDefaultBackColor();
-	itsTrueLabelColor = itsFontStyle.color;
-
-	if (!IsActive())
-		{
-		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
-		}
+	itsPushedColor = GetColormap()->GetDefaultBackColor();
 }
 
 /******************************************************************************
@@ -77,43 +67,6 @@ JXTextButton::SetLabel
 {
 	itsLabel = label;
 	CalcULIndex();
-	Refresh();
-}
-
-void
-JXTextButton::SetFontName
-	(
-	const JCharacter* fontName
-	)
-{
-	itsFontName = fontName;
-	Refresh();
-}
-
-JFontStyle
-JXTextButton::GetFontStyle()
-	const
-{
-	JFontStyle style = itsFontStyle;
-	if (!IsActive())
-		{
-		style.color = itsTrueLabelColor;
-		}
-	return style;
-}
-
-void
-JXTextButton::SetFontStyle
-	(
-	const JFontStyle& style
-	)
-{
-	itsFontStyle      = style;
-	itsTrueLabelColor = itsFontStyle.color;
-	if (!IsActive())
-		{
-		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
-		}
 	Refresh();
 }
 
@@ -177,70 +130,6 @@ JXTextButton::CalcULIndex()
 }
 
 /******************************************************************************
- Activate (virtual)
-
- ******************************************************************************/
-
-void
-JXTextButton::Activate()
-{
-	const JBoolean wasActive = IsActive();
-	JXButton::Activate();
-	if (!wasActive && IsActive())
-		{
-		itsFontStyle.color = itsTrueLabelColor;
-		}
-}
-
-/******************************************************************************
- Deactivate (virtual)
-
- ******************************************************************************/
-
-void
-JXTextButton::Deactivate()
-{
-	const JBoolean wasActive = IsActive();
-	JXButton::Deactivate();
-	if (wasActive && !IsActive())
-		{
-		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
-		}
-}
-
-/******************************************************************************
- Suspend (virtual)
-
- ******************************************************************************/
-
-void
-JXTextButton::Suspend()
-{
-	const JBoolean wasActive = IsActive();
-	JXButton::Suspend();
-	if (wasActive && !IsActive())
-		{
-		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
-		}
-}
-
-/******************************************************************************
- Resume (virtual)
-
- ******************************************************************************/
-
-void
-JXTextButton::Resume()
-{
-	const JBoolean wasActive = IsActive();
-	JXButton::Resume();
-	if (!wasActive && IsActive())
-		{
-		itsFontStyle.color = itsTrueLabelColor;
-		}
-}
-
-/******************************************************************************
  Draw (virtual protected)
 
  ******************************************************************************/
@@ -253,7 +142,18 @@ JXTextButton::Draw
 	)
 {
 	const JRect bounds = GetBounds();
-	p.SetFont(itsFontName, itsFontSize, itsFontStyle);
+
+	if (IsActive())
+		{
+		p.SetFont(itsFont);
+		}
+	else
+		{
+		JFont f = itsFont;
+		f.SetColor(GetColormap()->GetInactiveLabelColor());
+		p.SetFont(f);
+		}
+
 	p.String(bounds.left, bounds.top, itsLabel, itsULIndex,
 			 bounds.width(), JPainter::kHAlignCenter,
 			 bounds.height(), JPainter::kVAlignCenter);
@@ -276,7 +176,7 @@ JXTextButton::DrawBackground
 		p.SetPenColor(itsPushedColor);
 		p.SetFilling(kJTrue);
 		p.JPainter::Rect(frame);
-		p.SetPenColor((GetColormap())->GetBlackColor());
+		p.SetPenColor(GetColormap()->GetBlackColor());
 		p.SetFilling(kJFalse);
 		}
 	else

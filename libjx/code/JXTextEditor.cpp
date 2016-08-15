@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXTextEditor.h>
 #include <JXWindow.h>
 #include <JXMenuBar.h>
@@ -108,7 +107,7 @@ JXTextEditor::Receive
 {
 	if (sender == itsFontMenu && message.Is(JXFontNameMenu::kNameNeedsUpdate))
 		{
-		itsFontMenu->SetFontName(GetCurrentFontName());
+		itsFontMenu->SetFontName(GetCurrentFont().GetName());
 		}
 	else if (sender == itsFontMenu && message.Is(JXFontNameMenu::kNameChanged))
 		{
@@ -118,7 +117,7 @@ JXTextEditor::Receive
 
 	else if (sender == itsSizeMenu && message.Is(JXFontSizeMenu::kSizeNeedsUpdate))
 		{
-		itsSizeMenu->SetFontSize(GetCurrentFontSize());
+		itsSizeMenu->SetFontSize(GetCurrentFont().GetSize());
 		}
 	else if (sender == itsSizeMenu && message.Is(JXFontSizeMenu::kSizeChanged))
 		{

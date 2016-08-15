@@ -55,10 +55,7 @@ public:
 							const JSize tabCharCount, const JBoolean breakCROnly);
 	void			SetWritable(const JBoolean writable);
 
-	static JCoordinate	CalcTabWidth(const JFontManager* fontMgr,
-									 const JCharacter* fontName,
-									 const JSize fontSize,
-									 const JSize tabCharCount);
+	static JCoordinate	CalcTabWidth(const JFont& font, const JSize tabCharCount);
 
 	JBoolean	WillBalanceWhileTyping() const;
 	void		ShouldBalanceWhileTyping(const JBoolean balance);
@@ -116,7 +113,7 @@ protected:
 								  const JXButtonStates& buttonStates,
 								  const JXKeyModifiers& modifiers);
 
-	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<Font>* styles,
+	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
 											 JIndexRange* recalcRange, JIndexRange* redrawRange,
 											 const JBoolean deletion);
 
@@ -241,19 +238,19 @@ CBTextEditor::GetTabCharCount()
 	return itsTabCharCount;
 }
 
-inline void
-CBTextEditor::SetTabCharCount
+/******************************************************************************
+ CalcTabWidth (static)
+
+ ******************************************************************************/
+
+inline JCoordinate
+CBTextEditor::CalcTabWidth
 	(
-	const JSize charCount
+	const JFont&	font,
+	const JSize		tabCharCount
 	)
 {
-	if (charCount != itsTabCharCount)
-		{
-		PrivateSetTabCharCount(charCount);
-		SetDefaultTabWidth(
-			CalcTabWidth(TEGetFontManager(), GetDefaultFontName(),
-						 GetDefaultFontSize(), charCount));
-		}
+	return tabCharCount * font.GetCharWidth(' ');
 }
 
 /******************************************************************************

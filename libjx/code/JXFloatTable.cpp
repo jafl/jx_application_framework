@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXFloatTable.h>
 #include <JXFloatInput.h>
 #include <JFloatTableData.h>
@@ -81,9 +80,9 @@ JXFloatTable::TableDrawCell
 		{
 		HilightIfSelected(p, cell, rect);
 
-		JSize fontSize;
-		const JString& fontName = GetFont(&fontSize);
-		p.SetFont(fontName, fontSize, GetCellStyle(cell));
+		JFont font = GetFont();
+		font.SetStyle(GetCellStyle(cell));
+		p.SetFont(font);
 
 		const JString& str = itsFloatBufferData->GetString(cell);
 
@@ -114,10 +113,10 @@ JXFloatTable::CreateXInputField
 		CreateFloatTableInput(cell, this, kFixedLeft, kFixedTop, x,y, w,h);
 	assert( itsFloatInputField != NULL );
 
-	JSize fontSize;
-	const JString& fontName = GetFont(&fontSize);
+	JFont font = GetFont();
+	font.SetStyle(GetCellStyle(cell));
+	itsFloatInputField->SetFont(font);
 
-	itsFloatInputField->SetFont(fontName, fontSize, GetCellStyle(cell));
 	itsFloatInputField->SetValue(itsFloatData->GetElement(cell));
 	return itsFloatInputField;
 }

@@ -22,24 +22,24 @@ class JXTextSelection : public JXSelectionData
 public:
 
 	JXTextSelection(JXDisplay* display, const JCharacter* text,
-					const JRunArray<JTextEditor::Font>* style = NULL);
+					const JRunArray<JFont>* style = NULL);
 	JXTextSelection(JXDisplay* display, JString* text,
-					JRunArray<JTextEditor::Font>* style = NULL);
+					JRunArray<JFont>* style = NULL);
 	JXTextSelection(JXDisplay* display, const JPtrArray<JString>& list);
 	JXTextSelection(JXWidget* widget, const JCharacter* id);
 
 	virtual	~JXTextSelection();
 
 	JBoolean	GetText(const JString** text) const;
-	JBoolean	GetStyle(const JRunArray<JTextEditor::Font>** style) const;
+	JBoolean	GetStyle(const JRunArray<JFont>** style) const;
 	JBoolean	GetColormap(const JXColormap** colormap) const;
 	JBoolean	GetTextEditor(JTextEditor** te) const;
 
 	void	SetData(const JCharacter* text,
 					const JXColormap* colormap = NULL,
-					const JRunArray<JTextEditor::Font>* style = NULL);
+					const JRunArray<JFont>* style = NULL);
 	void	SetData(JString* text, const JXColormap* colormap,
-					JRunArray<JTextEditor::Font>* style);
+					JRunArray<JFont>* style);
 	void	SetData(const JPtrArray<JString>& list);
 
 	void	SetTextEditor(JTextEditor* te, const JIndexRange& selection);
@@ -55,11 +55,11 @@ protected:
 
 private:
 
-	JString*						itsText;		// NULL until Resolve()
-	JRunArray<JTextEditor::Font>*	itsStyle;		// can be NULL
-	const JXColormap*				itsColormap;	// not owned; can be NULL
-	JTextEditor*					itsTE;			// not owned; can be NULL
-	JIndexRange						itsSelection;
+	JString*			itsText;		// NULL until Resolve()
+	JRunArray<JFont>*	itsStyle;		// can be NULL
+	const JXColormap*	itsColormap;	// not owned; can be NULL
+	JTextEditor*		itsTE;			// not owned; can be NULL
+	JIndexRange			itsSelection;
 
 	Atom	itsStyledText0XAtom;
 
@@ -99,7 +99,7 @@ JXTextSelection::GetText
 inline JBoolean
 JXTextSelection::GetStyle
 	(
-	const JRunArray<JTextEditor::Font>** style
+	const JRunArray<JFont>** style
 	)
 	const
 {

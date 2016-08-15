@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXStyleTable.h>
 #include <JXInputField.h>
 #include <JXColormap.h>
@@ -59,14 +58,11 @@ JXStyleTable::~JXStyleTable()
 
  ******************************************************************************/
 
-const JString&
-JXStyleTable::GetFont
-	(
-	JSize* size
-	)
+const JFont&
+JXStyleTable::GetFont()
 	const
 {
-	return itsStyleData->GetFont(size);
+	return itsStyleData->GetFont();
 }
 
 /******************************************************************************
@@ -169,9 +165,6 @@ JXStyleTable::GetMin1DVisibleWidth
 		}
 	else
 		{
-		JSize size;
-		const JString& name = GetFont(&size);
-		return kMin1DVisCharCount *
-			(GetFontManager())->GetCharWidth(name, size, JFontStyle(), 'W');
+		return kMin1DVisCharCount *	(GetFont()).GetCharWidth('W');
 		}
 }

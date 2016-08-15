@@ -30,7 +30,7 @@ protected:
 
 	virtual void	Scan(istream& input, const TokenExtra& initData);
 	virtual void	PreexpandCheckRange(const JString& text,
-										const JRunArray<JTextEditor::Font>& styles,
+										const JRunArray<JFont>& styles,
 										const JIndexRange& modifiedRange,
 										const JBoolean deletion,
 										JIndexRange* checkRange);

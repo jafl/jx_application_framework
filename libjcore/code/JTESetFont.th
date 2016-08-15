@@ -5,42 +5,42 @@
 
 	To use this file:
 
-		#define LocalVarName      ____
-		#define StructElementName ____
+		#define LocalVarName   ____
+		#define GetElementName ____
+		#define SetElementName ____
 		#include <JTESetFont.th>
 		#undef LocalVarName
-		#undef StructElementName
+		#undef GetElementName
+		#undef SetElementName
 
-	Copyright © 2000 by John Lindal. All rights reserved.
+	Copyright © 2000-16 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
-	if (clearUndo)
+if (clearUndo)
+	{
+	ClearUndo();
+	}
+
+JFont f = itsFontMgr->GetDefaultFont();
+JBoolean changed = kJFalse;
+JRunArrayIterator<JFont> iter(itsStyles, kJIteratorStartBefore, startIndex);
+for (JIndex i=startIndex; i<=endIndex; i++)
+	{
+	const JBoolean ok = iter.Next(&f);
+	assert( ok );
+
+	if (LocalVarName != f.GetElementName)
 		{
-		ClearUndo();
+		f.SetElementName(LocalVarName);
+		iter.SetPrev(f);
+		changed = kJTrue;
 		}
+	}
 
-	Font f;
-	JBoolean changed = kJFalse;
-	JRunArrayIterator<Font> iter(itsStyles, kJIteratorStartBefore, startIndex);
-	for (JIndex i=startIndex; i<=endIndex; i++)
-		{
-		const JBoolean ok = iter.Next(&f);
-		assert( ok );
+if (changed)
+	{
+	Recalc(startIndex, endIndex - startIndex + 1, kJFalse);
+	}
 
-		if (LocalVarName != f.StructElementName)
-			{
-			f.StructElementName = LocalVarName;
-
-			f.id = itsFontMgr->UpdateFontID(f.id, f.size, f.style);
-			iter.SetPrev(f);
-			changed = kJTrue;
-			}
-		}
-
-	if (changed)
-		{
-		Recalc(startIndex, endIndex - startIndex + 1, kJFalse);
-		}
-
-	return changed;
+return changed;

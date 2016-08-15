@@ -40,7 +40,7 @@ protected:
 	virtual void	HandleFocusEvent();
 	virtual void	HandleUnfocusEvent();
 
-	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<Font>* styles,
+	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
 											 JIndexRange* recalcRange, JIndexRange* redrawRange,
 											 const JBoolean deletion);
 

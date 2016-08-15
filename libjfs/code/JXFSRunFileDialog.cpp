@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "JXFSRunFileDialog.h"
 #include "JXFSCommandHistoryMenu.h"
 #include <JXHelpManager.h>
@@ -17,6 +16,7 @@
 #include <JXTextButton.h>
 #include <JXTextCheckbox.h>
 #include <JXChooseSaveFile.h>
+#include <JXFontManager.h>
 #include <jXGlobals.h>
 #include <jStreamUtil.h>
 #include <jFileUtil.h>
@@ -194,7 +194,7 @@ JXFSRunFileDialog::BuildWindow
 		new JXStaticText(JGetString("obj1_JXLayout::JXFSRunFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 20,60, 350,20);
 	assert( obj1_JXLayout != NULL );
-    obj1_JXLayout->SetFontSize(8);
+	obj1_JXLayout->SetFontSize(8);
 	obj1_JXLayout->SetToLabel();
 
 	itsSingleFileCB =
@@ -219,8 +219,8 @@ JXFSRunFileDialog::BuildWindow
 	itsCmdInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	ListenTo(itsCmdInput);
 
-	itsCmdInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
-	itsCmdHistoryMenu->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle(), kJTrue);
+	itsCmdInput->SetFont(window->GetFontManager()->GetDefaultMonospaceFont());
+	itsCmdHistoryMenu->SetDefaultFont(window->GetFontManager()->GetDefaultMonospaceFont(), kJTrue);
 
 	// check for suffix
 
@@ -264,7 +264,7 @@ JXFSRunFileDialog::BuildWindow
 	const JSize apw   = prompt->GetApertureWidth();
 	if (prefw > apw)
 		{
-		(GetWindow())->AdjustSize(prefw - apw, 0);
+		GetWindow()->AdjustSize(prefw - apw, 0);
 		}
 }
 
@@ -495,7 +495,7 @@ JXFSRunFileDialog::WriteSetup
 	)
 	const
 {
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ' << itsCmdInput->GetText();
 

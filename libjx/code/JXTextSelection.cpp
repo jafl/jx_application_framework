@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXTextSelection.h>
 #include <JXDisplay.h>
 #include <JXColormap.h>
@@ -26,9 +25,9 @@ static const JCharacter* kStyledText0XAtomName = "text/x-jxstyled0";
 
 JXTextSelection::JXTextSelection
 	(
-	JXDisplay*							display,
-	const JCharacter*					text,
-	const JRunArray<JTextEditor::Font>*	style
+	JXDisplay*				display,
+	const JCharacter*		text,
+	const JRunArray<JFont>*	style
 	)
 	:
 	JXSelectionData(display)
@@ -39,9 +38,9 @@ JXTextSelection::JXTextSelection
 
 JXTextSelection::JXTextSelection
 	(
-	JXDisplay*						display,
-	JString*						text,
-	JRunArray<JTextEditor::Font>*	style
+	JXDisplay*			display,
+	JString*			text,
+	JRunArray<JFont>*	style
 	)
 	:
 	JXSelectionData(display)
@@ -133,9 +132,9 @@ JXTextSelection::AddTypes
 void
 JXTextSelection::SetData
 	(
-	const JCharacter*					text,
-	const JXColormap*					colormap,
-	const JRunArray<JTextEditor::Font>*	style
+	const JCharacter*		text,
+	const JXColormap*		colormap,
+	const JRunArray<JFont>*	style
 	)
 {
 	assert( style == NULL || colormap != NULL );
@@ -158,7 +157,7 @@ JXTextSelection::SetData
 		}
 	else if (style != NULL && itsStyle == NULL)
 		{
-		itsStyle = new JRunArray<JTextEditor::Font>(*style);
+		itsStyle = new JRunArray<JFont>(*style);
 		assert( itsStyle != NULL );
 		}
 	else
@@ -183,9 +182,9 @@ JXTextSelection::SetData
 void
 JXTextSelection::SetData
 	(
-	JString*						text,
-	const JXColormap*				colormap,
-	JRunArray<JTextEditor::Font>*	style
+	JString*			text,
+	const JXColormap*	colormap,
+	JRunArray<JFont>*	style
 	)
 {
 	assert( style == NULL || colormap != NULL );
@@ -343,7 +342,7 @@ JXTextSelection::ConvertData
 		{
 		const JFileVersion vers = 1;
 		std::ostringstream dataStream;
-		JTextEditor::WritePrivateFormat(dataStream, (GetDisplay())->GetFontManager(),
+		JTextEditor::WritePrivateFormat(dataStream,
 										itsColormap, vers, *itsText, *itsStyle,
 										1, itsText->GetLength());
 

@@ -14,7 +14,7 @@
 
 #include <JXCardFile.h>
 #include <JPtrArray-JString.h>
-#include <JFontStyle.h>
+#include <JFont.h>
 
 class JXTextMenu;
 class JXImage;
@@ -76,17 +76,12 @@ public:
 	Edge	GetTabEdge() const;
 	void	SetTabEdge(const Edge edge);
 
-	const JString&		GetFontName() const;
+	const JFont&	GetFont() const;
+
 	void				SetFontName(const JCharacter* name);
-
-	JSize				GetFontSize() const;
 	void				SetFontSize(const JSize size);
-
-	const JFontStyle&	GetFontStyle() const;
 	void				SetFontStyle(const JFontStyle& style);
-
-	void				SetFont(const JCharacter* name, const JSize size,
-								const JFontStyle& style);
+	void				SetFont(const JFont& font);
 
 	JCoordinate	GetTabTitlePreMargin(const JIndex index) const;
 	void		SetTabTitlePreMargin(const JIndex index, const JCoordinate margin);
@@ -164,9 +159,7 @@ private:
 private:
 
 	Edge				itsEdge;
-	JString				itsFontName;
-	JSize				itsFontSize;
-	JFontStyle			itsFontStyle;
+	JFont				itsFont;
 	JPtrArray<JString>*	itsTitles;
 	JArray<TabInfo>*	itsTabInfoList;
 	JBoolean			itsCanScrollUpFlag;
@@ -439,29 +432,55 @@ JXTabGroup::SetTabCanClose
 }
 
 /******************************************************************************
- Get font info
+ Font info
 
  ******************************************************************************/
 
-inline const JString&
-JXTabGroup::GetFontName()
+inline const JFont&
+JXTabGroup::GetFont()
 	const
 {
-	return itsFontName;
+	return itsFont;
 }
 
-inline JSize
-JXTabGroup::GetFontSize()
-	const
+inline void
+JXTabGroup::SetFontName
+	(
+	const JCharacter* name
+	)
 {
-	return itsFontSize;
+	itsFont.SetName(name);
+	UpdateAppearance();
 }
 
-inline const JFontStyle&
-JXTabGroup::GetFontStyle()
-	const
+inline void
+JXTabGroup::SetFontSize
+	(
+	const JSize size
+	)
 {
-	return itsFontStyle;
+	itsFont.SetSize(size);
+	UpdateAppearance();
+}
+
+inline void
+JXTabGroup::SetFontStyle
+	(
+	const JFontStyle& style
+	)
+{
+	itsFont.SetStyle(style);
+	UpdateAppearance();
+}
+
+inline void
+JXTabGroup::SetFont
+	(
+	const JFont& font
+	)
+{
+	itsFont = font;
+	UpdateAppearance();
 }
 
 /******************************************************************************

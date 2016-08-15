@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBPropertiesStyler.h"
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
@@ -147,7 +146,7 @@ CBPropertiesStyler::Scan
 		const JIndex typeIndex = token.type - kWhitespace;
 		if (token.type == kWhitespace)
 			{
-			style = GetDefaultFontStyle();
+			style = GetDefaultFont().GetStyle();
 			}
 		else if (token.type == kComment)
 			{
@@ -161,7 +160,7 @@ CBPropertiesStyler::Scan
 			{
 			if (!GetWordStyle(text.GetSubstring(token.range), &style))
 				{
-				style = GetDefaultFontStyle();
+				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else

@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXTextEditorSet.h>
 #include <JXTextEditor.h>
 #include <JXMenuBar.h>

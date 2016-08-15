@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGFileTreeTable.h"
 #include "SyGHeaderWidget.h"
 #include "SyGFileTreeList.h"
@@ -336,11 +335,10 @@ SyGFileTreeTable::SyGFileTreeTable
 	ShouldHilightTextOnly(kJTrue);
 	WantInput(kJTrue);
 
-	itsAltRowColor = (GetColormap())->GetGrayColor(95);
+	itsAltRowColor = GetColormap()->GetGrayColor(95);
 
 	itsPermCharWidth =
-		GetFontManager()->GetCharWidth( JGetDefaultFontName(), kJDefaultFontSize,
-										JFontStyle(), kPermTestChar);
+		GetFontManager()->GetDefaultFont().GetCharWidth(kPermTestChar);
 
 	// menus
 
@@ -360,7 +358,7 @@ SyGFileTreeTable::SyGFileTreeTable
 	JXKeyModifiers homeModifiers(GetDisplay());
 	homeModifiers.SetState(kJXMetaKeyIndex, kJTrue);
 	homeModifiers.SetState(kJXShiftKeyIndex, kJTrue);
-	(GetWindow())->InstallMenuShortcut(itsFileMenu, kHomeWindowCmd, 'h', homeModifiers);
+	GetWindow()->InstallMenuShortcut(itsFileMenu, kHomeWindowCmd, 'h', homeModifiers);
 
 	JString recentDir;
 	if (SyGGetRecentFileDirectory(&recentDir))
@@ -595,9 +593,7 @@ SyGFileTreeTable::TableDrawCell
 	const JString str     = GetCellString(cell);
 	if (type == kGFMMode && !str.IsEmpty())
 		{
-		JSize fontSize;
-		const JString& fontName = GetFont(&fontSize);
-		p.SetFont(fontName, fontSize, JFontStyle());
+		p.SetFont(GetFont());
 
 		JRect pRect = rect;
 		pRect.right = pRect.left + itsPermCharWidth;
@@ -614,9 +610,7 @@ SyGFileTreeTable::TableDrawCell
 		}
 	else if (!str.IsEmpty())
 		{
-		JSize fontSize;
-		const JString& fontName = GetFont(&fontSize);
-		p.SetFont(fontName, fontSize, JFontStyle());
+		p.SetFont(GetFont());
 
 		JRect sRect = rect;
 		const JCoordinate theBuffer = GetFMBufferWidth(itsVisibleCols, GetNodeColIndex(), cell.x);
@@ -1238,7 +1232,7 @@ SyGFileTreeTable::HandleKeyPress
 	const JXKeyModifiers&	modifiers
 	)
 {
-	if (!((GetDisplay())->GetLatestButtonStates()).AllOff())
+	if (!(GetDisplay()->GetLatestButtonStates()).AllOff())
 		{
 		return;		// don't let selection change during DND
 		}
@@ -1481,8 +1475,8 @@ SyGFileTreeTable::WillAcceptDrop
 		return kJFalse;
 		}
 
-	const Atom urlXAtom = (GetSelectionManager())->GetURLXAtom();
-	const Atom xdsXAtom = (GetDNDManager())->GetDNDDirectSave0XAtom();
+	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
+	const Atom xdsXAtom = GetDNDManager()->GetDNDDirectSave0XAtom();
 
 	const JSize typeCount = typeList.GetElementCount();
 	for (JIndex i=1; i<=typeCount; i++)
@@ -1492,7 +1486,7 @@ SyGFileTreeTable::WillAcceptDrop
 			{
 			if (SyGIsTrashDirectory(itsFileTree->GetDirectory()))
 				{
-				*action = (GetDNDManager())->GetDNDActionPrivateXAtom();
+				*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 				}
 
 			HandleDNDHere(pt, source);
@@ -1619,7 +1613,7 @@ SyGFileTreeTable::HandleDNDDrop
 			JString url  = JFileNameToURL(path);
 			XChangeProperty(*(GetDisplay()), dragWindow,
 							dndMgr->GetDNDDirectSave0XAtom(),
-							(GetSelectionManager())->GetMimePlainTextXAtom(), 8,
+							GetSelectionManager()->GetMimePlainTextXAtom(), 8,
 							PropModeReplace,
 							(unsigned char*) url.GetCString(), url.GetLength());
 
@@ -1634,7 +1628,7 @@ SyGFileTreeTable::HandleDNDDrop
 					{
 					XChangeProperty(*(GetDisplay()), dragWindow,
 									dndMgr->GetDNDDirectSave0XAtom(),
-									(GetSelectionManager())->GetMimePlainTextXAtom(), 8,
+									GetSelectionManager()->GetMimePlainTextXAtom(), 8,
 									PropModeReplace,
 									(unsigned char*) "", 0);
 					(JGetUserNotification())->ReportError(
@@ -2021,7 +2015,7 @@ SyGFileTreeTable::Receive
 			SyGAddRecentFile(*link);
 			}
 
-		const JBoolean alternateOpen = ((GetDisplay())->GetLatestKeyModifiers()).meta();
+		const JBoolean alternateOpen = (GetDisplay()->GetLatestKeyModifiers()).meta();
 
 		JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
 		fileList.Append(info->GetFileName());
@@ -2408,7 +2402,7 @@ SyGFileTreeTable::UpdateDisplay
 			}
 		else
 			{
-			JXCloseDirectorTask::Close((GetWindow())->GetDirector());
+			JXCloseDirectorTask::Close(GetWindow()->GetDirector());
 			}
 		}
 	else
@@ -2477,13 +2471,13 @@ SyGFileTreeTable::SetWindowIcon()
 		JXImage* icon2 = new JXImage(display, selected);
 		assert(icon2 != NULL);
 
-		itsIconWidget = (GetWindow())->SetIcon(icon1, icon2);
+		itsIconWidget = GetWindow()->SetIcon(icon1, icon2);
 		ListenTo(itsIconWidget);
 */
 		JXImage* icon3 = new JXImage(display, plain);
 		assert(icon3 != NULL);
 
-		(GetWindow())->SetIcon(icon3);
+		GetWindow()->SetIcon(icon3);
 		}
 }
 
@@ -2589,7 +2583,7 @@ SyGFileTreeTable::HandleFileMenu
 	else if (index == kFindCmd)
 		{
 		const JString path = GetCommandPath();
-		(GetWindow())->Deiconify();
+		GetWindow()->Deiconify();
 		(SyGGetFindFileDialog())->Search(path);
 		}
 
@@ -2639,7 +2633,7 @@ SyGFileTreeTable::HandleFileMenu
 		JString homeDir;
 		if (JGetHomeDirectory(&homeDir))
 			{
-			GoTo(homeDir, ((GetDisplay())->GetLatestKeyModifiers()).shift());
+			GoTo(homeDir, (GetDisplay()->GetLatestKeyModifiers()).shift());
 			}
 		}
 
@@ -2658,7 +2652,7 @@ SyGFileTreeTable::HandleFileMenu
 
 	else if (index == kCloseCmd)
 		{
-		(GetWindow())->Close();
+		GetWindow()->Close();
 		}
 	else if (index == kQuitCmd)
 		{
@@ -2694,7 +2688,7 @@ SyGFileTreeTable::CreateNewDirectory()
 		else
 			{
 			node = itsFileTreeList->GetSyGNode(index);
-			(GetTreeList())->Open(node);
+			GetTreeList()->Open(node);
 			}
 		}
 	else
@@ -2750,7 +2744,7 @@ SyGFileTreeTable::CreateNewTextFile()
 		else
 			{
 			node = itsFileTreeList->GetSyGNode(index);
-			(GetTreeList())->Open(node);
+			GetTreeList()->Open(node);
 			}
 		}
 	else
@@ -2900,7 +2894,7 @@ SyGFileTreeTable::OpenSelection
 		GoTo(path, sameWindow);
 		if (sameWindow)
 			{
-			((GetWindow())->GetDirector())->Activate();
+			(GetWindow()->GetDirector())->Activate();
 			return;
 			}
 		}
@@ -2909,13 +2903,13 @@ SyGFileTreeTable::OpenSelection
 
 	if (iconifyAfter)	// takes precedence because more modifiers than closeAfter
 		{
-		(GetWindow())->Iconify();
+		GetWindow()->Iconify();
 		}
 	else if (closeAfter)
 		{
 		// wait until safe to commit suicide
 
-		JXCloseDirectorTask::Close((GetWindow())->GetDirector());
+		JXCloseDirectorTask::Close(GetWindow()->GetDirector());
 		}
 }
 
@@ -3191,7 +3185,7 @@ SyGFileTreeTable::GetCommandPath()
 	JString path;
 
 	JPoint cell1, cell2;
-	if ((GetWindow())->IsIconified())
+	if (GetWindow()->IsIconified())
 		{
 		path = itsFileTree->GetDirectory();
 		}
@@ -3293,7 +3287,7 @@ SyGFileTreeTable::HandleEditMenu
 	ClearIncrementalSearchBuffer();
 
 	JTextEditor::CmdIndex cmd;
-	if (!(GetEditMenuHandler())->EditMenuIndexToCmd(index, &cmd))
+	if (!GetEditMenuHandler()->EditMenuIndexToCmd(index, &cmd))
 		{
 		cmd = JTextEditor::kSeparatorCmd;
 		}
@@ -3347,7 +3341,7 @@ SyGFileTreeTable::CopySelectedFileNames
 		JXTextSelection* data = new JXTextSelection(GetDisplay(), list);
 		assert( data != NULL );
 
-		(GetSelectionManager())->SetData(kJXClipboardName, data);
+		GetSelectionManager()->SetData(kJXClipboardName, data);
 		}
 }
 
@@ -3984,7 +3978,7 @@ SyGFileTreeTable::HandleGitMenu
 		if (getenv("GIT_EDITOR") == NULL)
 			{
 			itsCommitGitBranchDialog =
-				new JXGetStringDialog((GetWindow())->GetDirector(), JGetString("CommitBranchTitle::SyGFileTreeTable"),
+				new JXGetStringDialog(GetWindow()->GetDirector(), JGetString("CommitBranchTitle::SyGFileTreeTable"),
 									  JGetString("CommitBranchPrompt::SyGFileTreeTable"));
 			assert( itsCommitGitBranchDialog != NULL );
 			itsCommitGitBranchDialog->Activate();
@@ -4003,7 +3997,7 @@ SyGFileTreeTable::HandleGitMenu
 	else if (index == kGitCreateBranchCmd)
 		{
 		itsCreateGitBranchDialog =
-			new JXGetStringDialog((GetWindow())->GetDirector(), JGetString("CreateBranchTitle::SyGFileTreeTable"),
+			new JXGetStringDialog(GetWindow()->GetDirector(), JGetString("CreateBranchTitle::SyGFileTreeTable"),
 								  JGetString("CreateBranchPrompt::SyGFileTreeTable"));
 		assert( itsCreateGitBranchDialog != NULL );
 		itsCreateGitBranchDialog->Activate();
@@ -4013,7 +4007,7 @@ SyGFileTreeTable::HandleGitMenu
 	else if (index == kGitAddRemoteCmd)
 		{
 		itsAddGitRemoteDialog =
-			new SyGNewGitRemoteDialog((GetWindow())->GetDirector());
+			new SyGNewGitRemoteDialog(GetWindow()->GetDirector());
 		assert( itsAddGitRemoteDialog != NULL );
 		itsAddGitRemoteDialog->Activate();
 		ListenTo(itsAddGitRemoteDialog);
@@ -4274,7 +4268,7 @@ SyGFileTreeTable::FetchRemoteGitBranch1
 	itsFetchGitBranch = branch;
 
 	itsFetchGitBranchDialog =
-		new JXGetStringDialog((GetWindow())->GetDirector(), JGetString("FetchBranchTitle::SyGFileTreeTable"),
+		new JXGetStringDialog(GetWindow()->GetDirector(), JGetString("FetchBranchTitle::SyGFileTreeTable"),
 							  JGetString("FetchBranchPrompt::SyGFileTreeTable"), name);
 	assert( itsFetchGitBranchDialog != NULL );
 	itsFetchGitBranchDialog->Activate();
@@ -4670,7 +4664,7 @@ SyGFileTreeTable::ExtractInputData
 
 	SyGFileTreeNode* node = itsFileTreeList->GetSyGNode(cell.y);
 	const JString newName = input->GetText();	// copy since need after input field gone
-	const JBoolean sort   = ((GetDisplay())->GetLatestButtonStates()).AllOff();
+	const JBoolean sort   = (GetDisplay()->GetLatestButtonStates()).AllOff();
 	const JError err      = node->Rename(newName, sort);
 	input                 = NULL;				// nodes sorted => CancelEditing()
 	if (!err.OK())
@@ -4698,7 +4692,7 @@ void
 SyGFileTreeTable::AdjustToTree()
 {
 	const JFontStyle workingLink(kJFalse, kJTrue, 0, kJFalse);
-	const JFontStyle brokenLink(kJFalse, kJTrue, 0, kJFalse, (GetColormap())->GetGrayColor(60));
+	const JFontStyle brokenLink(kJFalse, kJTrue, 0, kJFalse, GetColormap()->GetGrayColor(60));
 
 	const JSize count = GetRowCount();
 	for (JIndex i=1; i<=count; i++)
@@ -4733,9 +4727,6 @@ SyGFileTreeTable::GetMinCellWidth
 		{
 		const JString str = GetCellString(cell);
 
-		JSize fontSize;
-		const JString& fontName = GetFont(&fontSize);
-
 		const GFMColType type       = GetFMColType(cell.x, GetNodeColIndex(), itsVisibleCols);
 		const JCoordinate theBuffer = JLAbs(GetFMBufferWidth(itsVisibleCols, GetNodeColIndex(), cell.x));
 		JSize w;
@@ -4745,12 +4736,10 @@ SyGFileTreeTable::GetMinCellWidth
 			}
 		else
 			{
-			w = 2 * theBuffer +
-				(GetFontManager())->GetStringWidth(fontName, fontSize, JFontStyle(), str);
+			w = 2 * theBuffer + GetFont().GetStringWidth(str);
 			}
 
-		const JSize wT = 2 * theBuffer + (GetFontManager())->
-			GetStringWidth(fontName, fontSize, JFontStyle(), GetColTitle(cell.x));
+		const JSize wT = 2 * theBuffer + GetFont().GetStringWidth(GetColTitle(cell.x));
 		return JMax(wT, w);
 		}
 	else

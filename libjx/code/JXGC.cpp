@@ -16,7 +16,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXGC.h>
 #include <JXDisplay.h>
 #include <JXColormap.h>
@@ -69,7 +68,7 @@ JXGC::JXGC
 	itsLastFunction      = GXcopy;
 	itsLastLineWidth     = 0;
 	itsDashedLinesFlag   = kJFalse;
-	itsLastFont          = 0;
+	itsLastFontID        = 0;
 	itsLastSubwindowMode = ClipByChildren;
 }
 
@@ -573,9 +572,9 @@ JXGC::SetFont
 	const JFontID id
 	)
 {
-	if (id != itsLastFont)
+	if (id != itsLastFontID)
 		{
-		itsLastFont = id;
+		itsLastFontID = id;
 
 		JXFontManager::XFont xfont = (itsDisplay->GetXFontManager())->GetXFontInfo(id);
 		if (xfont.type == JXFontManager::kStdType)
@@ -604,7 +603,7 @@ JXGC::DrawString
 	)
 	const
 {
-	JXFontManager::XFont xfont = (itsDisplay->GetXFontManager())->GetXFontInfo(itsLastFont);
+	JXFontManager::XFont xfont = itsDisplay->GetXFontManager()->GetXFontInfo(itsLastFontID);
 
 	XftColor color;
 	if (xfont.type == JXFontManager::kTrueType)
@@ -645,8 +644,7 @@ JXGC::DrawString
 
 		if (offset + count < length)
 			{
-			x += fontMgr->GetStringWidth(itsLastFont, 0, JFontStyle(),
-										 str + offset, count);
+			x += itsDisplay->GetXFontManager()->GetStringWidth(itsLastFontID, str + offset, count);
 			}
 		offset += count;
 		}

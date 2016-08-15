@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "JXFSEditBindingsDialog.h"
 #include "JXFSBindingTable.h"
 #include "JFSBindingList.h"
@@ -19,6 +18,7 @@
 #include <JXScrollbarSet.h>
 #include <JXColHeaderWidget.h>
 #include <JXHelpManager.h>
+#include <JXFontManager.h>
 #include <jXGlobals.h>
 #include <JPrefsFile.h>
 #include <sstream>
@@ -293,15 +293,17 @@ JXFSEditBindingsDialog::BuildWindow()
 
 	// other information
 
-	itsDefCmd->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	const JFont& font = window->GetFontManager()->GetDefaultMonospaceFont();
+
+	itsDefCmd->SetFont(font);
 	itsDefCmd->SetIsRequired();
 	itsDefCmd->ShouldBroadcastAllTextChanged(kJTrue);
 
-	itsShellCmd->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsShellCmd->SetFont(font);
 	itsShellCmd->SetIsRequired();
 	itsShellCmd->ShouldBroadcastAllTextChanged(kJTrue);
 
-	itsWindowCmd->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsWindowCmd->SetFont(font);
 	itsWindowCmd->SetIsRequired();
 	itsWindowCmd->ShouldBroadcastAllTextChanged(kJTrue);
 
@@ -603,5 +605,5 @@ JXFSEditBindingsDialog::WriteSetup
 	ostream& output
 	)
 {
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 }

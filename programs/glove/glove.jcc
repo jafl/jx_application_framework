@@ -1,4 +1,4 @@
-jx_browser_data 84
+jx_browser_data 86
 # project tree
 0 "root"
 T
@@ -307,45 +307,6 @@ F
 "./code/GLClosePlotDirTask.cpp"
 F
 T
-1 "strings"
-T
-2 "glove_strings"
-F
-"./strings/glove_strings"
-T
-2 "glove_beta_strings"
-F
-"./strings/glove_beta_strings"
-T
-2 "GLChangeLogText"
-F
-"./strings/GLChangeLogText"
-T
-2 "GLCreditsText"
-F
-"./strings/GLCreditsText"
-T
-2 "GLModuleHelpText"
-F
-"./strings/GLModuleHelpText"
-T
-2 "GLPlotHelpText"
-F
-"./strings/GLPlotHelpText"
-T
-2 "GLFitHelpText"
-F
-"./strings/GLFitHelpText"
-T
-2 "GLTableHelpText"
-F
-"./strings/GLTableHelpText"
-T
-2 "GLTOCHelpText"
-F
-"./strings/GLTOCHelpText"
-F
-T
 1 "undo classes"
 T
 2 "GLUndoBase.cpp"
@@ -383,6 +344,45 @@ T
 2 "GLUndoElementsInsert.cpp"
 F
 "./code/GLUndoElementsInsert.cpp"
+F
+T
+1 "strings"
+T
+2 "glove_strings"
+F
+"./strings/glove_strings"
+T
+2 "glove_beta_strings"
+F
+"./strings/glove_beta_strings"
+T
+2 "GLChangeLogText"
+F
+"./strings/GLChangeLogText"
+T
+2 "GLCreditsText"
+F
+"./strings/GLCreditsText"
+T
+2 "GLModuleHelpText"
+F
+"./strings/GLModuleHelpText"
+T
+2 "GLPlotHelpText"
+F
+"./strings/GLPlotHelpText"
+T
+2 "GLFitHelpText"
+F
+"./strings/GLFitHelpText"
+T
+2 "GLTableHelpText"
+F
+"./strings/GLTableHelpText"
+T
+2 "GLTOCHelpText"
+F
+"./strings/GLTOCHelpText"
 F
 T
 1 "other"

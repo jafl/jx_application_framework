@@ -128,8 +128,7 @@ CMVarTreeWidget::CMVarTreeWidget
 	CMGetPrefsManager()->GetDefaultFont(&name, &size);
 	SetFont(name, size);
 
-	SetIndentWidth(kIndentWidth *
-		GetFontManager()->GetCharWidth(name, size, JFontStyle(), '0'));
+	SetIndentWidth(kIndentWidth * GetFont().GetCharWidth('0'));
 
 	ListenTo(CMGetLink());
 	ListenTo(&(GetTableSelection()));
@@ -519,9 +518,9 @@ CMVarTreeWidget::TableDrawCell
 			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
 		assert( node != NULL );
 
-		JSize size;
-		const JString& name = GetFont(&size);
-		p.SetFont(name, size, node->GetFontStyle(GetColormap()));
+		JFont font = GetFont();
+		font.SetStyle(node->GetFontStyle(GetColormap()));
+		p.SetFont(font);
 		p.String(rect, node->GetValue(), JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 		}
 	else
@@ -548,11 +547,7 @@ CMVarTreeWidget::GetMinCellWidth
 			dynamic_cast<const CMVarNode*>(GetTreeList()->GetNode(cell.y));
 		assert( node != NULL );
 
-		JSize size;
-		const JString& name = GetFont(&size);
-		return kHMargin +
-			GetFontManager()->GetStringWidth(name, size, JFontStyle(),
-											   node->GetValue());
+		return kHMargin + GetFont().GetStringWidth(node->GetValue());
 		}
 	else
 		{

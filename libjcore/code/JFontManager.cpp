@@ -51,10 +51,8 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JFontManager.h>
-#include <JRegex.h>
-#include <JString.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -63,6 +61,9 @@
  ******************************************************************************/
 
 JFontManager::JFontManager()
+	:
+	itsDefaultFont(NULL),
+	itsDefaultMonospaceFont(NULL)
 {
 }
 
@@ -73,75 +74,44 @@ JFontManager::JFontManager()
 
 JFontManager::~JFontManager()
 {
+	delete itsDefaultFont;
+	delete itsDefaultMonospaceFont;
 }
 
 /******************************************************************************
- GetStringWidth
+ GetDefaultFont
 
  ******************************************************************************/
 
-JSize
-JFontManager::GetStringWidth
-	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style,
-	const JCharacter*	str
-	)
+const JFont&
+JFontManager::GetDefaultFont()
 	const
 {
-	return GetStringWidth(GetFontID(name, size, style), size, style, str, strlen(str));
+	if (itsDefaultFont == NULL)
+		{
+		const_cast<JFontManager*>(this)->itsDefaultFont =
+			new JFont(GetFont(JGetDefaultFontName()));
+		assert( itsDefaultFont != NULL );
+		}
+
+	return *itsDefaultFont;
 }
 
-JSize
-JFontManager::GetStringWidth
-	(
-	const JFontID		fontID,
-	const JSize			size,
-	const JFontStyle&	style,
-	const JCharacter*	str
-	)
-	const
-{
-	return GetStringWidth(fontID, size, style, str, strlen(str));
-}
+/******************************************************************************
+ GetDefaultMonospaceFont
 
-JSize
-JFontManager::GetStringWidth
-	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style,
-	const JString&		str
-	)
-	const
-{
-	return GetStringWidth(GetFontID(name, size, style), size, style, str, str.GetLength());
-}
+ ******************************************************************************/
 
-JSize
-JFontManager::GetStringWidth
-	(
-	const JFontID		fontID,
-	const JSize			size,
-	const JFontStyle&	style,
-	const JString&		str
-	)
+const JFont&
+JFontManager::GetDefaultMonospaceFont()
 	const
 {
-	return GetStringWidth(fontID, size, style, str, str.GetLength());
-}
+	if (itsDefaultMonospaceFont == NULL)
+		{
+		const_cast<JFontManager*>(this)->itsDefaultMonospaceFont =
+			new JFont(GetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize));
+		assert( itsDefaultMonospaceFont != NULL );
+		}
 
-JSize
-JFontManager::GetStringWidth
-	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style,
-	const JCharacter*	str,
-	const JSize			charCount
-	)
-	const
-{
-	return GetStringWidth(GetFontID(name, size, style), size, style, str, charCount);
+	return *itsDefaultMonospaceFont;
 }

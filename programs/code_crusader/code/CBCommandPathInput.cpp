@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include <CBCommandPathInput.h>
 #include <JXColormap.h>
 #include <jDirUtil.h>
@@ -102,7 +101,7 @@ void
 CBCommandPathInput::AdjustStylesBeforeRecalc
 	(
 	const JString&		buffer,
-	JRunArray<Font>*	styles,
+	JRunArray<JFont>*	styles,
 	JIndexRange*		recalcRange,
 	JIndexRange*		redrawRange,
 	const JBoolean		deletion
@@ -112,9 +111,9 @@ CBCommandPathInput::AdjustStylesBeforeRecalc
 		{
 		const JColormap* colormap = GetColormap();
 		const JSize totalLength   = buffer.GetLength();
-		Font f                    = styles->GetFirstElement();
+		JFont f                   = styles->GetFirstElement();
 		styles->RemoveAll();
-		f.style.color = colormap->GetBlackColor();
+		f.SetColor(colormap->GetBlackColor());
 		styles->AppendElements(f, totalLength);
 		*redrawRange += JIndexRange(1, totalLength);
 		}

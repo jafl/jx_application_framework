@@ -10,11 +10,11 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXPathInput.h>
 #include <JXSelectionManager.h>
 #include <JXDNDManager.h>
 #include <JXStringCompletionMenu.h>
+#include <JXFontManager.h>
 #include <JXColormap.h>
 #include <jXGlobals.h>
 #include <jXUtil.h>
@@ -60,7 +60,7 @@ JXPathInput::JXPathInput
 	itsExpectURLDropFlag    = kJFalse;
 	SetIsRequired();
 	SetCharacterInWordFunction(IsCharacterInWord);
-	SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	SetDefaultFont(GetFontManager()->GetDefaultMonospaceFont());
 	ShouldBroadcastCaretLocationChanged(kJTrue);
 	SetHint(JGetString(kHintID));
 	ListenTo(this);
@@ -329,7 +329,7 @@ void
 JXPathInput::AdjustStylesBeforeRecalc
 	(
 	const JString&		buffer,
-	JRunArray<Font>*	styles,
+	JRunArray<JFont>*	styles,
 	JIndexRange*		recalcRange,
 	JIndexRange*		redrawRange,
 	const JBoolean		deletion
@@ -384,22 +384,22 @@ JXPathInput::AdjustStylesBeforeRecalc
 		errLength++;	// trailing . is trimmed
 		}
 
-	Font f = styles->GetFirstElement();
+	JFont f = styles->GetFirstElement();
 
 	styles->RemoveAll();
 	if (errLength >= totalLength)
 		{
-		f.style.color = colormap->GetRedColor();
+		f.SetColor(colormap->GetRedColor());
 		styles->AppendElements(f, totalLength);
 		}
 	else
 		{
-		f.style.color = colormap->GetBlackColor();
+		f.SetColor(colormap->GetBlackColor());
 		styles->AppendElements(f, totalLength - errLength);
 
 		if (errLength > 0)
 			{
-			f.style.color = colormap->GetRedColor();
+			f.SetColor(colormap->GetRedColor());
 			styles->AppendElements(f, errLength);
 			}
 		}
@@ -466,7 +466,7 @@ JXPathInput::WillAcceptDrop
 {
 	itsExpectURLDropFlag = kJFalse;
 
-	const Atom urlXAtom = (GetSelectionManager())->GetURLXAtom();
+	const Atom urlXAtom = GetSelectionManager()->GetURLXAtom();
 
 	JString dirName;
 	const JSize typeCount = typeList.GetElementCount();
@@ -475,7 +475,7 @@ JXPathInput::WillAcceptDrop
 		if (typeList.GetElement(i) == urlXAtom &&
 			GetDroppedDirectory(time, kJFalse, &dirName))
 			{
-			*action = (GetDNDManager())->GetDNDActionPrivateXAtom();
+			*action = GetDNDManager()->GetDNDActionPrivateXAtom();
 			itsExpectURLDropFlag = kJTrue;
 			return kJTrue;
 			}
@@ -588,7 +588,7 @@ JXPathInput::GetDroppedDirectory
 	unsigned char* data;
 	JSize dataLength;
 	JXSelectionManager::DeleteMethod delMethod;
-	if (selMgr->GetData((GetDNDManager())->GetDNDSelectionName(),
+	if (selMgr->GetData(GetDNDManager()->GetDNDSelectionName(),
 						time, selMgr->GetURLXAtom(),
 						&returnType, &data, &dataLength, &delMethod))
 		{

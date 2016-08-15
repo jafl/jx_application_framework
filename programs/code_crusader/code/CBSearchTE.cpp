@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBSearchTE.h"
 #include "CBSearchFontManager.h"
 #include "CBSearchColormap.h"
@@ -288,7 +287,7 @@ CBSearchTE::IsKnownBinaryFile
 	)
 	const
 {
-	if ((CBGetPrefsManager())->GetFileType(fileName) == kCBBinaryFT)
+	if (CBGetPrefsManager()->GetFileType(fileName) == kCBBinaryFT)
 		{
 		return kJTrue;
 		}
@@ -454,7 +453,7 @@ JBoolean
 CBSearchTE::TEGetExternalClipboard
 	(
 	JString*			text,
-	JRunArray<Font>*	style
+	JRunArray<JFont>*	style
 	)
 	const
 {

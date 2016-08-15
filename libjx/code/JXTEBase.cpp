@@ -24,7 +24,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXTEBase.h>
 #include <JXSearchTextDialog.h>
 #include <JXTEBlinkCaretTask.h>
@@ -342,11 +341,11 @@ JXTEBase::JXTEBase
 	JXScrollableWidget(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
 	JTextEditor(type, breakCROnly, pasteStyledText, kJFalse,
 				GetFontManager(), GetColormap(),
-				(GetColormap())->GetRedColor(),					// caret
-				(GetColormap())->GetDefaultSelectionColor(),	// selection filled
-				(GetColormap())->GetBlueColor(),				// selection outline
-				(GetColormap())->GetBlackColor(),				// drag
-				(GetColormap())->GetGrayColor(70),				// whitespace
+				GetColormap()->GetRedColor(),					// caret
+				GetColormap()->GetDefaultSelectionColor(),	// selection filled
+				GetColormap()->GetBlueColor(),				// selection outline
+				GetColormap()->GetBlackColor(),				// drag
+				GetColormap()->GetGrayColor(70),				// whitespace
 				GetApertureWidth()),
 
 	itsWillPasteCustomFlag( kJFalse )
@@ -378,7 +377,7 @@ JXTEBase::JXTEBase
 	RecalcAll(kJTrue);
 
 	itsStyledText0XAtom =
-		(GetDisplay())->RegisterXAtom(JXTextSelection::GetStyledText0XAtomName());
+		GetDisplay()->RegisterXAtom(JXTextSelection::GetStyledText0XAtomName());
 
 	if (type == kStaticText)
 		{
@@ -637,17 +636,17 @@ JXTEBase::GetDNDAction
 	const Type type = GetType();
 	if (type == kFullEditor && modifiers.control())
 		{
-		return (GetDNDManager())->GetDNDActionAskXAtom();
+		return GetDNDManager()->GetDNDActionAskXAtom();
 		}
 	else if (type == kFullEditor &&
 			 ((target == this && !modifiers.meta()) ||
 			  (target != this &&  modifiers.meta())))
 		{
-		return (GetDNDManager())->GetDNDActionMoveXAtom();
+		return GetDNDManager()->GetDNDActionMoveXAtom();
 		}
 	else
 		{
-		return (GetDNDManager())->GetDNDActionCopyXAtom();
+		return GetDNDManager()->GetDNDActionCopyXAtom();
 		}
 }
 
@@ -716,7 +715,7 @@ JXTEBase::GetSelectionData
 		JString* text = new JString;
 		assert( text != NULL );
 
-		JRunArray<Font>* style = new JRunArray<Font>;
+		JRunArray<JFont>* style = new JRunArray<JFont>;
 		assert( style != NULL );
 
 		const JBoolean ok = GetSelection(text, style);
@@ -917,24 +916,24 @@ JXTEBase::TEPasteDropData()
 	const Atom selectionName = dndMgr->GetDNDSelectionName();
 
 	JString text;
-	JRunArray<Font> style;
+	JRunArray<JFont> style;
 	if (itsWillPasteCustomFlag &&
 		TEXConvertDropData(*(itsDNDDropInfo->typeList), itsDNDDropInfo->action,
 						   itsDNDDropInfo->time, &text, &style))
 		{
-		JRunArray<Font>* s = (style.IsEmpty() ? NULL : &style);
+		JRunArray<JFont>* s = (style.IsEmpty() ? NULL : &style);
 		Paste(text, s);
 		}
 	else if (!itsWillPasteCustomFlag &&
 			 GetSelectionData(selectionName, *(itsDNDDropInfo->typeList),
 							  itsDNDDropInfo->time, &text, &style) == kJNoError)
 		{
-		JRunArray<Font>* s = (style.IsEmpty() ? NULL : &style);
+		JRunArray<JFont>* s = (style.IsEmpty() ? NULL : &style);
 		Paste(text, s);
 
 		if (itsDNDDropInfo->action == dndMgr->GetDNDActionMoveXAtom())
 			{
-			(GetSelectionManager())->
+			GetSelectionManager()->
 				SendDeleteRequest(selectionName, itsDNDDropInfo->time);
 			}
 		}
@@ -959,7 +958,7 @@ JXTEBase::TEXConvertDropData
 	const Atom			action,
 	const Time			time,
 	JString*			text,
-	JRunArray<Font>*	style
+	JRunArray<JFont>*	style
 	)
 {
 	return kJFalse;
@@ -1024,7 +1023,7 @@ JXTEBase::PrivateActivate()
 	if (IsActive() && HasFocus())
 		{
 		TEActivate();
-		if ((GetWindow())->HasFocus())
+		if (GetWindow()->HasFocus())
 			{
 			itsBlinkTask->Reset();
 			itsBlinkTask->Start();
@@ -1059,7 +1058,7 @@ JXTEBase::HandleFocusEvent()
 {
 	JXScrollableWidget::HandleFocusEvent();
 	TEActivate();
-	if (IsActive() && (GetWindow())->HasFocus())
+	if (IsActive() && GetWindow()->HasFocus())
 		{
 		itsBlinkTask->Reset();
 		itsBlinkTask->Start();
@@ -1169,7 +1168,7 @@ JXTEBase::HandleKeyPress
 
 	const Type type = GetType();
 	if (type == kFullEditor && !controlOn && !metaOn &&
-		((GetDisplay())->GetLatestButtonStates()).AllOff())
+		(GetDisplay()->GetLatestButtonStates()).AllOff())
 		{
 		HideCursor();
 		}
@@ -1371,11 +1370,7 @@ JXTEBase::MoveCaretToEdge
 	const int key
 	)
 {
-	JFontID id;
-	JSize size;
-	JFontStyle style;
-	GetDefaultFont(&id, &size, &style);
-	const JSize h = (3 * (GetFontManager())->GetLineHeight(id, size, style)) / 4;
+	const JSize h = (3 * (GetDefaultFont()).GetLineHeight()) / 4;
 
 	JPoint pt;
 	if (key == kJUpArrow)
@@ -1677,7 +1672,7 @@ JXTEBase::TEClipboardChanged()
 		JString* text = new JString;
 		assert( text != NULL );
 
-		JRunArray<Font>* style = new JRunArray<Font>;
+		JRunArray<JFont>* style = new JRunArray<JFont>;
 		assert( style != NULL );
 
 		const JBoolean ok = GetSelection(text, style);
@@ -1686,7 +1681,7 @@ JXTEBase::TEClipboardChanged()
 		JXTextSelection* data = new JXTextSelection(GetDisplay(), text, style);
 		assert( data != NULL );
 
-		if (!(GetSelectionManager())->SetData(kJXClipboardName, data))
+		if (!GetSelectionManager()->SetData(kJXClipboardName, data))
 			{
 			(JGetUserNotification())->ReportError("Unable to copy to the X Clipboard.");
 			}
@@ -1718,7 +1713,7 @@ JBoolean
 JXTEBase::TEGetExternalClipboard
 	(
 	JString*			text,
-	JRunArray<Font>*	style
+	JRunArray<JFont>*	style
 	)
 	const
 {
@@ -1797,12 +1792,12 @@ JXTEBase::GetSelectionData
 	const Atom			selectionName,
 	const Time			time,
 	JString*			text,
-	JRunArray<Font>*	style
+	JRunArray<JFont>*	style
 	)
 	const
 {
 	JArray<Atom> typeList;
-	if ((GetSelectionManager())->
+	if (GetSelectionManager()->
 			GetAvailableTypes(selectionName, time, &typeList))
 		{
 		return GetSelectionData(selectionName, typeList, time, text, style);
@@ -1827,7 +1822,7 @@ JXTEBase::GetSelectionData
 	const JArray<Atom>&	typeList,
 	const Time			time,
 	JString*			text,
-	JRunArray<Font>*	style
+	JRunArray<JFont>*	style
 	)
 	const
 {
@@ -2919,7 +2914,7 @@ JXTEBase::SearchForward
 
 	if ((!found && reportNotFound) || wrapped)
 		{
-		(GetDisplay())->Beep();
+		GetDisplay()->Beep();
 		}
 
 	return found;
@@ -2975,7 +2970,7 @@ JXTEBase::SearchBackward()
 
 	if (!found || wrapped)
 		{
-		(GetDisplay())->Beep();
+		GetDisplay()->Beep();
 		}
 
 	return found;
@@ -2990,7 +2985,7 @@ JBoolean
 JXTEBase::SearchClipboardForward()
 {
 	JString text;
-	JRunArray<Font> style;
+	JRunArray<JFont> style;
 	if (TEGetExternalClipboard(&text, &style))
 		{
 		(JXGetSearchTextDialog())->SetSearchText(text);
@@ -3006,7 +3001,7 @@ JBoolean
 JXTEBase::SearchClipboardBackward()
 {
 	JString text;
-	JRunArray<Font> style;
+	JRunArray<JFont> style;
 	if (TEGetExternalClipboard(&text, &style))
 		{
 		(JXGetSearchTextDialog())->SetSearchText(text);
@@ -3106,7 +3101,7 @@ JXTEBase::ReplaceSelection()
 		return kJTrue;
 		}
 
-	(GetDisplay())->Beep();
+	GetDisplay()->Beep();
 	return kJFalse;
 }
 
@@ -3445,7 +3440,7 @@ JXTEBase::AskForLine()
 	const JIndex lineIndex = GetLineForChar(charIndex);
 	const JSize lineCount  = GetLineCount();
 
-	JXDirector* sup = (GetWindow())->GetDirector();
+	JXDirector* sup = GetWindow()->GetDirector();
 	itsGoToLineDialog = new JXGoToLineDialog(sup, lineIndex, lineCount);
 	assert( itsGoToLineDialog != NULL );
 	itsGoToLineDialog->BeginDialog();

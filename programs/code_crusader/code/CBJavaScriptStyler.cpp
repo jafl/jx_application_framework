@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBJavaScriptStyler.h"
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
@@ -183,7 +182,7 @@ CBJavaScriptStyler::Scan
 		const JIndex typeIndex = token.type - kWhitespace;
 		if (token.type == kWhitespace)
 			{
-			style = GetDefaultFontStyle();
+			style = GetDefaultFont().GetStyle();
 			}
 		else if (token.type == kComment ||
 				 token.type == kString  ||

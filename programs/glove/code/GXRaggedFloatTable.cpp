@@ -80,8 +80,6 @@
 
 const JFileVersion	kCurrentTableVersion = 0;
 
-const JSize kDefaultSize 		= kJDefaultFontSize;
-
 const JCoordinate kDefColWidth  = 100;
 const JCoordinate kDefRowWidth 	= 20;
 const JCoordinate kHMarginWidth = 2;
@@ -334,8 +332,7 @@ GXRaggedFloatTable::TableDrawCell
 	JPoint editCell;
 	if (!GetEditedCell(&editCell) || cell != editCell)
 		{
-		p.SetFont(JGetDefaultFontName(), kDefaultSize, JFontStyle());
-
+		p.SetFont(GetFontManager()->GetDefaultFont());
 
 /* Original code that used the string buffer */
 //		if (itsFloatBufferData->GetElement(cell, &str))

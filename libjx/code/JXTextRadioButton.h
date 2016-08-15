@@ -16,7 +16,7 @@
 
 #include <JXRadioButton.h>
 #include <JString.h>
-#include <JFontStyle.h>
+#include <JFont.h>
 
 class JXTextRadioButton : public JXRadioButton
 {
@@ -33,13 +33,12 @@ public:
 	const JString&	GetLabel() const;
 	void			SetLabel(const JCharacter* label);
 
-	const JString&	GetFontName() const;
-	JSize			GetFontSize() const;
-	JFontStyle		GetFontStyle() const;
+	const JFont&	GetFont() const;
 
 	void	SetFontName(const JCharacter* fontName);
 	void	SetFontSize(const JSize size);
 	void	SetFontStyle(const JFontStyle& style);
+	void	SetFont(const JFont& f);
 
 	void	SetNormalColor(const JColorIndex color);
 	void	SetPushedColor(const JColorIndex color);
@@ -47,12 +46,6 @@ public:
 	virtual void	SetShortcuts(const JCharacter* list);
 
 	JCoordinate		GetPreferredWidth() const;
-
-	virtual void	Activate();
-	virtual void	Deactivate();
-
-	virtual void	Suspend();
-	virtual void	Resume();
 
 protected:
 
@@ -64,16 +57,10 @@ private:
 	JString		itsLabel;
 	JString*	itsShortcuts;	// can be NULL
 	JIndex		itsULIndex;
-	JString		itsFontName;
-	JSize		itsFontSize;
-	JFontStyle	itsFontStyle;
+	JFont		itsFont;
 
 	JColorIndex	itsNormalColor;
 	JColorIndex	itsPushedColor;
-
-	// saves label color while deactivated
-
-	JColorIndex	itsTrueLabelColor;
 
 private:
 
@@ -96,18 +83,22 @@ JXTextRadioButton::GetLabel()
 	return itsLabel;
 }
 
-inline const JString&
-JXTextRadioButton::GetFontName()
+
+inline const JFont&
+JXTextRadioButton::GetFont()
 	const
 {
-	return itsFontName;
+	return itsFont;
 }
 
-inline JSize
-JXTextRadioButton::GetFontSize()
-	const
+inline void
+JXTextRadioButton::SetFontName
+	(
+	const JCharacter* fontName
+	)
 {
-	return itsFontSize;
+	itsFont.SetName(fontName);
+	Refresh();
 }
 
 inline void
@@ -116,7 +107,27 @@ JXTextRadioButton::SetFontSize
 	const JSize size
 	)
 {
-	itsFontSize = size;
+	itsFont.SetSize(size);
+	Refresh();
+}
+
+inline void
+JXTextRadioButton::SetFontStyle
+	(
+	const JFontStyle& style
+	)
+{
+	itsFont.SetStyle(style);
+	Refresh();
+}
+
+inline void
+JXTextRadioButton::SetFont
+	(
+	const JFont& font
+	)
+{
+	itsFont = font;
 	Refresh();
 }
 

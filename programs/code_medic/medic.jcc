@@ -90,10 +90,6 @@ T
 F
 "./code/CMGetInitArgs.cpp"
 T
-2 "JISOStyler.cpp"
-F
-"./code/JISOStyler.cpp"
-T
 2 "CMChooseProcessDialog.cpp"
 F
 "./code/CMChooseProcessDialog.cpp"

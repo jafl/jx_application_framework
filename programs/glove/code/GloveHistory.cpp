@@ -38,8 +38,7 @@
 #include <stdio.h>
 #include <jAssert.h>
 
-const JSize kDefTabCharCount    = 4;
-const JSize kIrrelevantFontSize = kJDefaultFontSize;
+const JSize kDefTabCharCount = 4;
 
 const JCoordinate kHeaderStartX	= 30;		
 
@@ -97,14 +96,14 @@ GloveHistory::GloveHistory
 		{
 		itsSizeMenu = NULL;
 		itsFontMenu->SetFontName(kDefaultFontName);
-		SetDefaultFont(itsFontMenu->GetFontID(), kIrrelevantFontSize);
+		SetDefaultFont(GetFontManager()->GetFont(kDefaultFontName));
 		menuBar->AppendMenu(itsFontMenu);
 		ListenTo(itsFontMenu);
 		}
 	else
 		{
 		itsFontMenu = NULL;
-		SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize);
+		SetDefaultFont(GetFontManager()->GetDefaultMonospaceFont());
 
 		itsSizeMenu = new JXFontSizeMenu(JGetMonospaceFontName(), kSizeMenuTitleStr, menuBar,
 										 kFixedLeft, kFixedTop, 0,0, 10,10);
@@ -183,9 +182,9 @@ GloveHistory::AdjustFont()
 
 	if (itsFontMenu != NULL)
 		{
-		Font f(itsFontMenu->GetFontID(), kIrrelevantFontSize, JFontStyle());
-		SetCurrentFont(f);
-		SetDefaultFont(f);
+		JFont font = GetFontManager()->GetFont(itsFontMenu->GetFontName());
+		SetCurrentFont(font);
+		SetDefaultFont(font);
 		}
 	else
 		{
@@ -224,14 +223,14 @@ GloveHistory::AdjustTabWidth()
 	const JFontManager* fontMgr = JTextEditor::TEGetFontManager();
 	if (itsFontMenu != NULL)
 		{
-		const JFontID id = itsFontMenu->GetFontID();
-		charWidth = fontMgr->GetCharWidth(id, kIrrelevantFontSize, JFontStyle(), ' ');
+		const JFont font = fontMgr->GetFont(itsFontMenu->GetFontName());
+		charWidth = font.GetCharWidth(' ');
 		}
 	else
 		{
 		assert( itsSizeMenu != NULL );
-		const JSize size = itsSizeMenu->GetFontSize();
-		charWidth = fontMgr->GetCharWidth(JGetMonospaceFontName(), size, JFontStyle(), ' ');
+		const JFont font = fontMgr->GetFont(JGetMonospaceFontName(), itsSizeMenu->GetFontSize());
+		charWidth = font.GetCharWidth(' ');
 		}
 
 	SetDefaultTabWidth(itsTabCharCount * charWidth);

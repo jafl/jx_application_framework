@@ -39,8 +39,7 @@ public:
 	void	SetFontName(const JCharacter* name);
 	void	SetFontSize(const JSize size);
 	void	SetFontStyle(const JFontStyle& style);
-	void	SetFont(const JCharacter* name, const JSize size,
-					const JFontStyle& style = JFontStyle());
+	void	SetFont(const JFont& font);
 
 	JBoolean	IsRequired() const;
 	void		SetIsRequired(const JBoolean isRequired = kJTrue);
@@ -80,7 +79,7 @@ protected:
 	virtual void	DrawBorder(JXWindowPainter& p, const JRect& frame);
 
 	virtual JBoolean	NeedsToFilterText(const JCharacter* text) const;
-	virtual JBoolean	FilterText(JString* text, JRunArray<Font>* style);
+	virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 

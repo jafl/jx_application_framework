@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXTextMenuTable.h>
 #include <JXTextMenuData.h>
 #include <JXWindowPainter.h>
@@ -133,17 +132,15 @@ JXTextMenuTable::TableDrawCell
 	else if (cell.x == kTextColumnIndex)
 		{
 		JIndex ulIndex;
-		JFontID id;
-		JSize size;
-		JFontStyle style;
+		JFont font;
 		const JString& text =
-			itsTextMenuData->GetText(cell.y, &ulIndex, &id, &size, &style);
+			itsTextMenuData->GetText(cell.y, &ulIndex, &font);
 
 		if (!itsTextMenuData->IsEnabled(cell.y))
 			{
-			style.color = (GetColormap())->GetInactiveLabelColor();
+			font.SetColor(GetColormap()->GetInactiveLabelColor());
 			}
-		p.SetFont(id, size, style);
+		p.SetFont(font);
 
 		rect.left += kHMarginWidth;
 
@@ -165,16 +162,14 @@ JXTextMenuTable::TableDrawCell
 	else if (cell.x == kSubmenuColumnIndex)
 		{
 		const JString* nmShortcut;
-		JFontID id;
-		JSize size;
-		JFontStyle style;
-		if (itsTextMenuData->GetNMShortcut(cell.y, &nmShortcut, &id, &size, &style))
+		JFont font;
+		if (itsTextMenuData->GetNMShortcut(cell.y, &nmShortcut, &font))
 			{
 			if (!itsTextMenuData->IsEnabled(cell.y))
 				{
-				style.color = (GetColormap())->GetInactiveLabelColor();
+				font.SetColor(GetColormap()->GetInactiveLabelColor());
 				}
-			p.SetFont(id, size, style);
+			p.SetFont(font);
 
 			rect.left  += kHNMSMarginWidth;
 			rect.right -= kHilightBorderWidth;

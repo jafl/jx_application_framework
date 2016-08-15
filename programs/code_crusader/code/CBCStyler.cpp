@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBCStyler.h"
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
@@ -190,7 +189,7 @@ CBCStyler::Scan
 		const JIndex typeIndex = token.type - kWhitespace;
 		if (token.type == kWhitespace)
 			{
-			style = GetDefaultFontStyle();
+			style = GetDefaultFont().GetStyle();
 			}
 		else if (token.type == kComment ||
 				 token.type == kString)
@@ -214,7 +213,7 @@ CBCStyler::Scan
 			{
 			if (!GetWordStyle(text.GetSubstring(token.range), &style))
 				{
-				style = GetDefaultFontStyle();
+				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else
@@ -240,11 +239,11 @@ CBCStyler::Scan
 void
 CBCStyler::PreexpandCheckRange
 	(
-	const JString&						text,
-	const JRunArray<JTextEditor::Font>&	styles,
-	const JIndexRange&					modifiedRange,
-	const JBoolean						deletion,
-	JIndexRange*						checkRange
+	const JString&			text,
+	const JRunArray<JFont>&	styles,
+	const JIndexRange&		modifiedRange,
+	const JBoolean			deletion,
+	JIndexRange*			checkRange
 	)
 {
 	JIndex i = checkRange->first - 1;

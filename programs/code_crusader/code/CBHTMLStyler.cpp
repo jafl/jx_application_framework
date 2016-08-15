@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBHTMLStyler.h"
 #include "cbmUtil.h"
 #include <JRegex.h>
@@ -376,7 +375,7 @@ CBHTMLStyler::Scan
 		const JIndex typeIndex = token.type - kWhitespace;
 		if (token.type == kWhitespace)
 			{
-			style = GetDefaultFontStyle();
+			style = GetDefaultFont().GetStyle();
 			}
 		else if ((token.type == kHTMLNamedCharacter ||
 				  token.type == kHTMLInvalidNamedCharacter) &&
@@ -510,8 +509,8 @@ CBHTMLStyler::ExtendCheckRangeForPHPStartEnd
 {
 	const JFontStyle& style = GetTypeStyle(kPHPStartEnd - kWhitespace);
 	if ((GetStyles()).IndexValid(tokenRange.last) &&	// avoid crash if redoing all
-		(style != (GetStyles()).GetElement(tokenRange.first).style ||
-		 style != (GetStyles()).GetElement(tokenRange.last).style))
+		(style != (GetStyles()).GetElement(tokenRange.first).GetStyle() ||
+		 style != (GetStyles()).GetElement(tokenRange.last).GetStyle()))
 		{
 		ExtendCheckRange((GetText()).GetLength());
 		}
@@ -533,8 +532,8 @@ CBHTMLStyler::ExtendCheckRangeForJSPStartEnd
 {
 	const JFontStyle& style = GetTypeStyle(kJSPStartEnd - kWhitespace);
 	if ((GetStyles()).IndexValid(tokenRange.last) &&	// avoid crash if redoing all
-		(style != (GetStyles()).GetElement(tokenRange.first).style ||
-		 style != (GetStyles()).GetElement(tokenRange.last).style))
+		(style != (GetStyles()).GetElement(tokenRange.first).GetStyle() ||
+		 style != (GetStyles()).GetElement(tokenRange.last).GetStyle()))
 		{
 		ExtendCheckRange((GetText()).GetLength());
 		}

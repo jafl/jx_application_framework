@@ -56,7 +56,7 @@ JX2DCursorMarkTable::JX2DCursorMarkTable
 	SetRowBorderInfo(1, GetColormap()->GetGrayColor(80));
 
 	const JFontManager* fm = GetFontManager();
-	const JSize lineHeight = fm->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle());
+	const JSize lineHeight = fm->GetDefaultFont().GetLineHeight();
 	SetDefaultRowHeight(lineHeight + 2);
 	AppendRows(1);
 

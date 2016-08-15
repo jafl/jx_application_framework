@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBSVNFileInput.h"
 #include <JXColormap.h>
 #include <jWebUtil.h>
@@ -55,7 +54,7 @@ void
 CBSVNFileInput::AdjustStylesBeforeRecalc
 	(
 	const JString&		buffer,
-	JRunArray<Font>*	styles,
+	JRunArray<JFont>*	styles,
 	JIndexRange*		recalcRange,
 	JIndexRange*		redrawRange,
 	const JBoolean		deletion
@@ -63,9 +62,9 @@ CBSVNFileInput::AdjustStylesBeforeRecalc
 {
 	if (JIsURL(buffer))
 		{
-		Font f = styles->GetFirstElement();
+		JFont f = styles->GetFirstElement();
 		styles->RemoveAll();
-		f.style.color = GetColormap()->GetBlackColor();
+		f.SetColor(GetColormap()->GetBlackColor());
 		styles->AppendElements(f, buffer.GetLength());
 		}
 	else

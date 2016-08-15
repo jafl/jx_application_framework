@@ -11,6 +11,7 @@
 #include "MDRecordList.h"
 #include <jXPainterUtil.h>
 #include <jXConstants.h>
+#include <JFontManager.h>
 #include <JColormap.h>
 #include <jGlobals.h>
 #include <jAssert.h>
@@ -82,8 +83,10 @@ MDHeaderWidget::TableDrawCell
 		underLines = 1;
 		}
 
-	p.SetFont(JGetDefaultFontName(), kFontSize,
-			  JFontStyle(kJTrue, kJFalse, underLines, kJFalse, (p.GetColormap())->GetBlackColor()));
+	const JFont font = GetFontManager()->GetFont(
+		JGetDefaultFontName(), kFontSize,
+		JFontStyle(kJTrue, kJFalse, underLines, kJFalse, (p.GetColormap())->GetBlackColor()));
+	p.SetFont(font);
 	p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 }
 

@@ -17,7 +17,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBTextEditor.h"
 #include "CBTextDocument.h"
 #include "CBSearchTextDialog.h"
@@ -291,7 +290,7 @@ CBTextEditor::CBTextEditor
 	SetCharacterInWordFunction(CBMIsCharacterInWord);
 
 	JTEKeyHandler* handler;
-	CBInstallEmulator((CBGetPrefsManager())->GetEmulator(), this, &handler);
+	CBInstallEmulator(CBGetPrefsManager()->GetEmulator(), this, &handler);
 }
 
 /******************************************************************************
@@ -929,14 +928,9 @@ CBTextEditor::Draw
 {
 	if (itsDrawRightMarginFlag && CBDrawRightMargin(itsDoc->GetFileType()))
 		{
-		JFontID id;
-		JSize size;
-		JFontStyle style;
-		GetDefaultFont(&id, &size, &style);
 		const JCoordinate x =
 			TEGetLeftMarginWidth() +
-			(itsRightMarginWidth *
-				(TEGetFontManager())->GetCharWidth(id, size, style, ' '));
+			(itsRightMarginWidth * GetDefaultFont().GetCharWidth(' '));
 
 		const JColorIndex saveColor = p.GetPenColor();
 		p.SetPenColor(itsRightMarginColor);
@@ -1375,25 +1369,6 @@ CBTextEditor::UpdateTabHandling()
 }
 
 /******************************************************************************
- CalcTabWidth (static)
-
- ******************************************************************************/
-
-JCoordinate
-CBTextEditor::CalcTabWidth
-	(
-	const JFontManager*	fontMgr,
-	const JCharacter*	fontName,
-	const JSize			fontSize,
-	const JSize			tabCharCount
-	)
-{
-	const JCoordinate charWidth =
-		fontMgr->GetCharWidth(fontName, fontSize, JFontStyle(), ' ');
-	return tabCharCount * charWidth;
-}
-
-/******************************************************************************
  VIsCharacterInWord (virtual protected)
 
  ******************************************************************************/
@@ -1570,7 +1545,7 @@ CBTextEditor::OpenSelection()
 		}
 
 	SetSelection(startIndex, endIndex);
-	(GetWindow())->Update();				// show selection while we work
+	GetWindow()->Update();				// show selection while we work
 
 	JString str = (GetText()).GetSubstring(startIndex, endIndex);
 	if (str.Contains("\n"))
@@ -1741,8 +1716,27 @@ CBTextEditor::SetFont
 {
 	PrivateSetTabCharCount(tabCharCount);
 	SetAllFontNameAndSize(name, size,
-		CalcTabWidth(TEGetFontManager(), name, size, tabCharCount),
+		CalcTabWidth(TEGetFontManager()->GetFont(name, size), tabCharCount),
 		breakCROnly, kJFalse);
+}
+
+/******************************************************************************
+ SetTabCharCount
+
+ ******************************************************************************/
+
+void
+CBTextEditor::SetTabCharCount
+	(
+	const JSize charCount
+	)
+{
+	if (charCount != itsTabCharCount)
+		{
+		PrivateSetTabCharCount(charCount);
+		SetDefaultTabWidth(
+			CalcTabWidth(TEGetFontManager()->GetDefaultFont(), charCount));
+		}
 }
 
 /******************************************************************************
@@ -1754,7 +1748,7 @@ void
 CBTextEditor::AdjustStylesBeforeRecalc
 	(
 	const JString&		buffer,
-	JRunArray<Font>*	styles,
+	JRunArray<JFont>*	styles,
 	JIndexRange*		recalcRange,
 	JIndexRange*		redrawRange,
 	const JBoolean		deletion
@@ -1798,9 +1792,9 @@ CBTextEditor::RecalcStyles()
 		}
 	else
 		{
-		JTextEditor::SetFont(1, GetTextLength(),
-							 GetFontName(1), GetFontSize(1),
-							 GetDefaultFontStyle(), kJFalse);
+		JFont font = GetFont(1);
+		font.ClearStyle();
+		JTextEditor::SetFont(1, GetTextLength(), font, kJFalse);
 		}
 }
 
@@ -1830,7 +1824,7 @@ CBTextEditor::ShowBalancingOpenGroup()
 				SetSelection(openIndex, openIndex);
 				if (!TEScrollToSelection(kJFalse) || itsScrollToBalanceFlag)
 					{
-					(GetWindow())->Update();
+					GetWindow()->Update();
 					JWait(kBalanceWhileTypingDelay);
 					}
 				SetCaretLocation(origCaretIndex);
@@ -1838,7 +1832,7 @@ CBTextEditor::ShowBalancingOpenGroup()
 				}
 			else if (itsBeepWhenTypeUnbalancedFlag)
 				{
-				(GetDisplay())->Beep();
+				GetDisplay()->Beep();
 				}
 			}
 		}
@@ -1873,7 +1867,7 @@ CBTextEditor::SetFontBeforePrintPS
 {
 	JString fontName;
 	JSize size;
-	(CBGetPrefsManager())->GetDefaultFont(&fontName, &size);
+	CBGetPrefsManager()->GetDefaultFont(&fontName, &size);
 	if (fontName != "Courier")
 		{
 		itsSavedBreakCROnlyFlag = WillBreakCROnly();
@@ -1886,7 +1880,7 @@ CBTextEditor::ResetFontAfterPrintPS()
 {
 	JString fontName;
 	JSize fontSize;
-	(CBGetPrefsManager())->GetDefaultFont(&fontName, &fontSize);
+	CBGetPrefsManager()->GetDefaultFont(&fontName, &fontSize);
 	if (fontName != "Courier")
 		{
 		SetFont(fontName, fontSize, itsTabCharCount, itsSavedBreakCROnlyFlag);

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGEditPrefsDialog.h"
 #include <JXWindow.h>
 #include <JXTextButton.h>
@@ -17,6 +16,7 @@
 #include <JXRadioGroup.h>
 #include <JXTextRadioButton.h>
 #include <JXSaveFileInput.h>
+#include <JXFontManager.h>
 #include <jXGlobals.h>
 #include <jAssert.h>
 
@@ -195,25 +195,27 @@ SyGEditPrefsDialog::BuildWindow
 	window->SetTitle("Edit preferences");
 	SetButtons(okButton, cancelButton);
 
+	const JFont& font = window->GetFontManager()->GetDefaultMonospaceFont();
+
 	itsManInput->SetText(manViewCmd);
 	itsManInput->SetIsRequired();
-	itsManInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsManInput->SetFont(font);
 
 	itsTerminalInput->SetText(terminalCmd);
 	itsTerminalInput->SetIsRequired();
-	itsTerminalInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsTerminalInput->SetFont(font);
 
 	itsGitStatusInput->SetText(gitStatusCmd);
 	itsGitStatusInput->SetIsRequired();
-	itsGitStatusInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsGitStatusInput->SetFont(font);
 
 	itsGitHistoryInput->SetText(gitHistoryCmd);
 	itsGitHistoryInput->SetIsRequired();
-	itsGitHistoryInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsGitHistoryInput->SetFont(font);
 
 	itsPostCheckoutInput->SetText(postCheckoutCmd);
 	itsPostCheckoutInput->SetIsRequired();
-	itsPostCheckoutInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsPostCheckoutInput->SetFont(font);
 
 	itsOpenNewWindowsCB->SetState(newWindows);
 	itsDelCB->SetState(del);

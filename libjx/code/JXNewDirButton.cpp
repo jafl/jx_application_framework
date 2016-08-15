@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXNewDirButton.h>
 #include <JXFontManager.h>
 #include <JXWindowPainter.h>
@@ -42,9 +41,7 @@ JXNewDirButton::JXNewDirButton
 	assert( itsFolderIcon != NULL );
 	itsFolderIcon->ConvertToRemoteStorage();
 
-	const JSize spaceWidth =
-		(GetFontManager())->GetCharWidth(GetFontName(), GetFontSize(),
-										 GetFontStyle(), ' ');
+	const JSize spaceWidth = GetFont().GetCharWidth(' ');
 	const JSize spaceCount = JRound(itsFolderIcon->GetWidth() / (JFloat) spaceWidth);
 	JString s = kLabel;
 	for (JIndex i=1; i<=spaceCount; i++)
@@ -52,9 +49,7 @@ JXNewDirButton::JXNewDirButton
 		s.AppendCharacter(' ');
 		}
 	SetLabel(s);
-	itsLabelWidth =
-		(GetFontManager())->GetStringWidth(GetFontName(), GetFontSize(),
-										   GetFontStyle(), s);
+	itsLabelWidth = GetFont().GetStringWidth(s);
 }
 
 /******************************************************************************

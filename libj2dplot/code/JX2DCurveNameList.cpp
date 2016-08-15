@@ -54,7 +54,7 @@ JX2DCurveNameList::JX2DCurveNameList
 
 	const JFontManager* fontMgr = GetFontManager();
 	const JSize rowHeight = 2*kVMarginWidth +
-		fontMgr->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle());
+		fontMgr->GetDefaultFont().GetLineHeight();
 	SetDefaultRowHeight(rowHeight);
 
 	const JSize count = curveInfo.GetElementCount();
@@ -69,8 +69,7 @@ JX2DCurveNameList::JX2DCurveNameList
 		itsNameList->Append(info.name);
 
 		const JCoordinate width = 2*kHMarginWidth +
-			fontMgr->GetStringWidth(JGetDefaultFontName(), kJDefaultFontSize,
-									JFontStyle(), *(info.name));
+			fontMgr->GetDefaultFont().GetStringWidth(*(info.name));
 		if (width > itsMinColWidth)
 			{
 			itsMinColWidth = width;

@@ -13,6 +13,7 @@
 #include <jXPainterUtil.h>
 #include <jXConstants.h>
 #include <JPainter.h>
+#include <JFontManager.h>
 #include <JColormap.h>
 #include <jAssert.h>
 
@@ -88,8 +89,10 @@ GPMTreeHeaderWidget::TableDrawCell
 		underLines = 1;
 		}
 
-	p.SetFont(JGetDefaultFontName(), kJDefaultRowColHeaderFontSize,
-			  JFontStyle(kJTrue, kJFalse, underLines, kJFalse, (p.GetColormap())->GetBlackColor()));
+	const JFont font = GetFontManager()->GetFont(
+		JGetDefaultFontName(), kJDefaultRowColHeaderFontSize,
+		JFontStyle(kJTrue, kJFalse, underLines, kJFalse, (p.GetColormap())->GetBlackColor()));
+	p.SetFont(font);
 	p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 }
 

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBShellEditor.h"
 #include "CBShellDocument.h"
 #include <JFontManager.h>
@@ -44,9 +43,8 @@ CBShellEditor::CBShellEditor
 
 	SetDefaultFontStyle(JFontStyle(kJTrue, kJFalse, 0, kJFalse));
 
-	itsInsertFont            = GetDefaultFont();
-	itsInsertFont.style.bold = kJFalse;
-	itsInsertFont.id         = (GetFontManager())->UpdateFontID(itsInsertFont.id, itsInsertFont.size, itsInsertFont.style);
+	itsInsertFont = GetDefaultFont();
+	itsInsertFont.SetBold(kJFalse);
 }
 
 /******************************************************************************
@@ -86,7 +84,7 @@ CBShellEditor::InsertText
 		}
 
 	const JIndex i = itsInsertIndex-1;
-	if (GetFontStyle(i).bold)
+	if (GetFont(i).GetStyle().bold)
 		{
 		SetFontBold(i, i, kJFalse, kJTrue);
 		}
@@ -111,7 +109,7 @@ CBShellEditor::HandleKeyPress
 		(key == JXCtrl('A') && controlOn && !metaOn && !shiftOn))
 		{
 		const JIndex index            = GetInsertionIndex();
-		const JRunArray<Font>& styles = GetStyles();
+		const JRunArray<JFont>& styles = GetStyles();
 		if (index > 1 && styles.GetElement(index-1) == GetDefaultFont())
 			{
 			JIndex runIndex, firstIndexInRun;
@@ -138,7 +136,7 @@ CBShellEditor::HandleKeyPress
 		assert( ok );
 
 		JString cmd;
-		const JRunArray<Font>& styles = GetStyles();
+		const JRunArray<JFont>& styles = GetStyles();
 		if (index > 1 && styles.GetElement(index-1) == GetDefaultFont())
 			{
 			JIndex runIndex, firstIndexInRun;

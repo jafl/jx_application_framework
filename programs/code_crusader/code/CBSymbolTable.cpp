@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBSymbolTable.h"
 #include "CBSymbolDirector.h"
 #include "CBSymbolList.h"
@@ -75,13 +74,12 @@ CBSymbolTable::CBSymbolTable
 	itsNameFilter            = NULL;
 	itsNameLiteral           = NULL;
 
-	const JIndex blackColor = (GetColormap())->GetBlackColor();
+	const JIndex blackColor = GetColormap()->GetBlackColor();
 	SetRowBorderInfo(0, blackColor);
 	SetColBorderInfo(0, blackColor);
 
 	AppendCols(1);
-	SetDefaultRowHeight((GetFontManager())->
-							GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle()) +
+	SetDefaultRowHeight(GetFontManager()->GetDefaultFont().GetLineHeight() +
 						2*kVMarginWidth);
 
 	SetSelectionBehavior(kJTrue, kJTrue);
@@ -257,7 +255,7 @@ CBSymbolTable::CopySelectedSymbolNames()
 		JXTextSelection* data = new JXTextSelection(GetDisplay(), list);
 		assert( data != NULL );
 
-		(GetSelectionManager())->SetData(kJXClipboardName, data);
+		GetSelectionManager()->SetData(kJXClipboardName, data);
 		}
 }
 
@@ -428,8 +426,7 @@ CBSymbolTable::TableDrawCell
 
 	if (signature != NULL)
 		{
-		r.left += (GetFontManager())->GetStringWidth(
-			JGetDefaultFontName(), kJDefaultFontSize, JFontStyle(), symbolName);
+		r.left += GetFontManager()->GetDefaultFont().GetStringWidth(symbolName);
 		p.String(r, *signature, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
 		}
 }
@@ -466,7 +463,7 @@ CBSymbolTable::HandleMouseDown
 		{
 		SelectSingleCell(cell, kJFalse);
 		DisplaySelectedSymbols();
-		(GetWindow())->Close();
+		GetWindow()->Close();
 		return;
 		}
 	else if (clickCount == 2 && modifiers.meta())
@@ -557,7 +554,7 @@ CBSymbolTable::HandleKeyPress
 		DisplaySelectedSymbols();
 		if (modifiers.meta() && modifiers.control())
 			{
-			(GetWindow())->Close();
+			GetWindow()->Close();
 			return;
 			}
 		}
@@ -730,13 +727,11 @@ CBSymbolTable::CalcColWidths
 	const JString* signature
 	)
 {
-	JSize w = (GetFontManager())->GetStringWidth(
-		JGetDefaultFontName(), kJDefaultFontSize, JFontStyle(), symbolName);
+	JSize w = GetFontManager()->GetDefaultFont().GetStringWidth(symbolName);
 
 	if (signature != NULL)
 		{
-		w += (GetFontManager())->GetStringWidth(
-			JGetDefaultFontName(), kJDefaultFontSize, JFontStyle(), *signature);
+		w += GetFontManager()->GetDefaultFont().GetStringWidth(*signature);
 		}
 
 	if (w > itsMaxStringWidth)

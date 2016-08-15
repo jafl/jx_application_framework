@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBEiffelStyler.h"
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
@@ -170,7 +169,7 @@ CBEiffelStyler::Scan
 		const JIndex typeIndex = token.type - kWhitespace;
 		if (token.type == kWhitespace)
 			{
-			style = GetDefaultFontStyle();
+			style = GetDefaultFont().GetStyle();
 			}
 		else if (token.type == kComment ||
 				 token.type == kString)
@@ -185,7 +184,7 @@ CBEiffelStyler::Scan
 			{
 			if (!GetWordStyle(text.GetSubstring(token.range), &style))
 				{
-				style = GetDefaultFontStyle();
+				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else

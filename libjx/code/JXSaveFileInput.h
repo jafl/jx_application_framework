@@ -35,7 +35,7 @@ protected:
 	virtual void	HandleFocusEvent();
 
 	virtual JBoolean	NeedsToFilterText(const JCharacter* text) const;
-	virtual JBoolean	FilterText(JString* text, JRunArray<Font>* style);
+	virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style);
 
 private:
 

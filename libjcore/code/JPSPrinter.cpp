@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JPSPrinter.h>
 #include <JString.h>
 #include <JLatentPG.h>
@@ -60,7 +59,7 @@ JPSPrinter::JPSPrinter
 	)
 	:
 	JPagePrinter(fontManager, colormap, JRect()),
-	JPSPrinterBase(colormap)
+	JPSPrinterBase(fontManager, colormap)
 {
 	itsPaperType = kUSLetter;
 
@@ -550,8 +549,7 @@ JPSPrinter::String
 	JCoordinate dx = 0, dy = 0;
 	AlignString(&dx,&dy, str, width, hAlign, height, vAlign);
 
-	PSString(GetFontManager(), GetFontID(), GetFontSize(), GetFontStyle(),
-			 ascent, dx,dy, 0, left,top, str);
+	PSString(GetFont(), ascent, dx,dy, 0, left,top, str);
 }
 
 void
@@ -573,8 +571,7 @@ JPSPrinter::String
 	JCoordinate dx = 0, dy = 0;
 	AlignString(&dx,&dy, str, width, hAlign, height, vAlign);
 
-	PSString(GetFontManager(), GetFontID(), GetFontSize(), GetFontStyle(),
-			 ascent, dx,dy, userAngle, left,top, str);
+	PSString(GetFont(), ascent, dx,dy, userAngle, left,top, str);
 }
 
 /******************************************************************************

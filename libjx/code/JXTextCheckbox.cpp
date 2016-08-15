@@ -7,14 +7,13 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXTextCheckbox.h>
 #include <JXWindow.h>
 #include <JXWindowPainter.h>
+#include <JXFontManager.h>
 #include <JXColormap.h>
 #include <jXPainterUtil.h>
 #include <jXGlobals.h>
-#include <JString.h>
 #include <jAssert.h>
 
 const JCoordinate kMarginWidth   = 5;
@@ -40,24 +39,14 @@ JXTextCheckbox::JXTextCheckbox
 	:
 	JXCheckbox(enclosure, hSizing, vSizing, x,y, w,h),
 	itsLabel(label),
-	itsFontName(JGetDefaultFontName())
+	itsFont(GetFontManager()->GetDefaultFont())
 {
 	itsShortcuts = NULL;
 	itsULIndex   = 0;
 
-	itsFontSize = kJDefaultFontSize;
-	// itsFontStyle already initialized to correct default
-
 	JXColormap* colormap = GetColormap();
 	itsNormalColor = colormap->GetDefaultBackColor();
 	itsPushedColor = colormap->GetDefaultSelButtonColor();
-
-	itsTrueLabelColor = itsFontStyle.color;
-
-	if (!IsActive())
-		{
-		itsFontStyle.color = colormap->GetInactiveLabelColor();
-		}
 }
 
 /******************************************************************************
@@ -86,43 +75,6 @@ JXTextCheckbox::SetLabel
 	Refresh();
 }
 
-void
-JXTextCheckbox::SetFontName
-	(
-	const JCharacter* fontName
-	)
-{
-	itsFontName = fontName;
-	Refresh();
-}
-
-JFontStyle
-JXTextCheckbox::GetFontStyle()
-	const
-{
-	JFontStyle style = itsFontStyle;
-	if (!IsActive())
-		{
-		style.color = itsTrueLabelColor;
-		}
-	return style;
-}
-
-void
-JXTextCheckbox::SetFontStyle
-	(
-	const JFontStyle& style
-	)
-{
-	itsFontStyle      = style;
-	itsTrueLabelColor = itsFontStyle.color;
-	if (!IsActive())
-		{
-		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
-		}
-	Refresh();
-}
-
 /******************************************************************************
  SetShortcuts (virtual)
 
@@ -139,70 +91,6 @@ JXTextCheckbox::SetShortcuts
 	#define LabelVarName	itsLabel
 	#include <JXUpdateShortcutIndex.th>
 	#undef LabelVarName
-}
-
-/******************************************************************************
- Activate (virtual)
-
- ******************************************************************************/
-
-void
-JXTextCheckbox::Activate()
-{
-	const JBoolean wasActive = IsActive();
-	JXCheckbox::Activate();
-	if (!wasActive && IsActive())
-		{
-		itsFontStyle.color = itsTrueLabelColor;
-		}
-}
-
-/******************************************************************************
- Deactivate (virtual)
-
- ******************************************************************************/
-
-void
-JXTextCheckbox::Deactivate()
-{
-	const JBoolean wasActive = IsActive();
-	JXCheckbox::Deactivate();
-	if (wasActive && !IsActive())
-		{
-		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
-		}
-}
-
-/******************************************************************************
- Suspend (virtual)
-
- ******************************************************************************/
-
-void
-JXTextCheckbox::Suspend()
-{
-	const JBoolean wasActive = IsActive();
-	JXCheckbox::Suspend();
-	if (wasActive && !IsActive())
-		{
-		itsFontStyle.color = (GetColormap())->GetInactiveLabelColor();
-		}
-}
-
-/******************************************************************************
- Resume (virtual)
-
- ******************************************************************************/
-
-void
-JXTextCheckbox::Resume()
-{
-	const JBoolean wasActive = IsActive();
-	JXCheckbox::Resume();
-	if (!wasActive && IsActive())
-		{
-		itsFontStyle.color = itsTrueLabelColor;
-		}
 }
 
 /******************************************************************************
@@ -249,15 +137,25 @@ JXTextCheckbox::Draw
 		p.SetFilling(kJFalse);
 
 		p.SetLineWidth(kJXDefaultBorderWidth);
-		p.SetPenColor((GetColormap())->GetInactiveLabelColor());
+		p.SetPenColor(GetColormap()->GetInactiveLabelColor());
 		p.RectInside(boxRect);
 		}
 
 	// draw text
 
+	if (IsActive())
+		{
+		p.SetFont(itsFont);
+		}
+	else
+		{
+		JFont f = itsFont;
+		f.SetColor(GetColormap()->GetInactiveLabelColor());
+		p.SetFont(f);
+		}
+
 	JRect textRect  = bounds;
 	textRect.left  += 2*kMarginWidth + kBoxHeight;
-	p.SetFont(itsFontName, itsFontSize, itsFontStyle);
 	p.String(textRect.left, textRect.top, itsLabel, itsULIndex,
 			 textRect.width(), JPainter::kHAlignLeft,
 			 textRect.height(), JPainter::kVAlignCenter);

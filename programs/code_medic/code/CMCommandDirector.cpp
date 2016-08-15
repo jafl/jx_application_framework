@@ -59,7 +59,6 @@
 #include <JXColormap.h>
 #include <JXMacWinPrefsDialog.h>
 
-#include "JISOStyler.h"
 #include <jFileUtil.h>
 #include <jDirUtil.h>
 #include <jAssert.h>
@@ -240,9 +239,6 @@ CMCommandDirector::CMCommandDirector
 
 	JXMenuBar* menuBar = BuildWindow();
 
-//	itsISOStyler = new JISOStyler(itsCommandOutput);
-//	assert( itsISOStyler != NULL );
-
 	itsCurrentSourceDir = new CMSourceDirector(this, CMSourceDirector::kMainSourceType);
 	assert( itsCurrentSourceDir != NULL );
 	itsCurrentSourceDir->Activate();
@@ -322,7 +318,7 @@ CMCommandDirector::CMCommandDirector
 
 	itsFakePrompt->SetText(itsLink->GetPrompt());
 	itsFakePrompt->SetFontStyle(
-		(CMGetPrefsManager())->GetColor(CMPrefsManager::kRightMarginColorIndex));
+		CMGetPrefsManager()->GetColor(CMPrefsManager::kRightMarginColorIndex));
 }
 
 /******************************************************************************
@@ -334,7 +330,7 @@ CMCommandDirector::~CMCommandDirector()
 {
 	CloseDynamicDirectors();
 
-	(CMGetPrefsManager())->SaveWindowSize(kCmdWindSizeID, GetWindow());
+	CMGetPrefsManager()->SaveWindowSize(kCmdWindSizeID, GetWindow());
 
 	delete itsSourceDirs;
 	delete itsAsmDirs;
@@ -356,7 +352,7 @@ CMCommandDirector::Close()
 {
 	CloseDynamicDirectors();
 
-	(CMGetPrefsManager())->WriteHistoryMenuSetup(itsHistoryMenu);
+	CMGetPrefsManager()->WriteHistoryMenuSetup(itsHistoryMenu);
 	return JXWindowDirector::Close();		// deletes us if successful
 }
 
@@ -526,7 +522,7 @@ CMCommandDirector::BuildWindow()
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->ShouldFocusWhenShow(kJTrue);
 	window->SetWMClass(CMGetWMClassInstance(), CMGetCommandWindowClass());
-	(CMGetPrefsManager())->GetWindowSize(kCmdWindSizeID, window);
+	CMGetPrefsManager()->GetWindowSize(kCmdWindSizeID, window);
 
 	JXDisplay* display = GetDisplay();
 	JXImage* icon      = new JXImage(display, medic_command_window);
@@ -538,7 +534,7 @@ CMCommandDirector::BuildWindow()
 	CMTextDisplayBase::AdjustFont(itsFakePrompt);
 	ListenTo(itsCommandInput);
 
-	(CMGetPrefsManager())->ReadHistoryMenuSetup(itsHistoryMenu);
+	CMGetPrefsManager()->ReadHistoryMenuSetup(itsHistoryMenu);
 	ListenTo(itsHistoryMenu);
 
 	itsProgramButton->SetFontName(JGetMonospaceFontName());
@@ -827,7 +823,7 @@ CMCommandDirector::AdjustDebugMenu
 		}
 
 	JPtrArray<JString> cmds(JPtrArrayT::kDeleteAll);
-	(CMGetPrefsManager())->GetCmdList(&cmds);
+	CMGetPrefsManager()->GetCmdList(&cmds);
 
 	const JSize count = cmds.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
@@ -926,12 +922,12 @@ CMCommandDirector::Receive
 		itsCommandOutput->SetCaretLocation(itsCommandOutput->GetTextLength() + 1);
 //		itsISOStyler->FilterISO(output->GetText());
 
-		JFontStyle s = itsCommandOutput->GetDefaultFontStyle();
-		s.bold       = output->IsFromTarget();
-		s.color      = output->IsError() ?
-						(itsCommandOutput->GetColormap())->GetDarkRedColor() :
-						(itsCommandOutput->GetColormap())->GetBlackColor();
-		itsCommandOutput->SetCurrentFontStyle(s);
+		JFont font = itsCommandOutput->GetDefaultFont();
+		font.SetBold(output->IsFromTarget());
+		font.SetColor(output->IsError() ?
+			(itsCommandOutput->GetColormap())->GetDarkRedColor() :
+			(itsCommandOutput->GetColormap())->GetBlackColor());
+		itsCommandOutput->SetCurrentFont(font);
 		itsCommandOutput->Paste(output->GetText());
 		itsCommandOutput->ClearUndo();
 		}
@@ -939,19 +935,19 @@ CMCommandDirector::Receive
 	else if (sender == itsLink && message.Is(CMLink::kDebuggerBusy))
 		{
 		itsFakePrompt->SetFontStyle(
-			(CMGetPrefsManager())->GetColor(CMPrefsManager::kRightMarginColorIndex));
+			CMGetPrefsManager()->GetColor(CMPrefsManager::kRightMarginColorIndex));
 		}
 	else if (sender == itsLink && message.Is(CMLink::kDebuggerReadyForInput))
 		{
 		itsFakePrompt->SetText(itsLink->GetPrompt());
 		itsFakePrompt->SetFontStyle(
-			(CMGetPrefsManager())->GetColor(CMPrefsManager::kTextColorIndex));
+			CMGetPrefsManager()->GetColor(CMPrefsManager::kTextColorIndex));
 		}
 	else if (sender == itsLink && message.Is(CMLink::kDebuggerDefiningScript))
 		{
 		itsFakePrompt->SetText(itsLink->GetScriptPrompt());
 		itsFakePrompt->SetFontStyle(
-			(CMGetPrefsManager())->GetColor(CMPrefsManager::kTextColorIndex));
+			CMGetPrefsManager()->GetColor(CMPrefsManager::kTextColorIndex));
 		// can't do it here because, when core file loaded, hook-run is
 		// defined after stack window is opened
 //		Activate();
@@ -1151,7 +1147,7 @@ CMCommandDirector::ReceiveGoingAway
 		UpdateWindowTitle("");
 		itsFakePrompt->SetText(itsLink->GetPrompt());
 		itsFakePrompt->SetFontStyle(
-			(CMGetPrefsManager())->GetColor(CMPrefsManager::kRightMarginColorIndex));
+			CMGetPrefsManager()->GetColor(CMPrefsManager::kRightMarginColorIndex));
 
 		itsProgramButton->SetActive(itsLink->GetFeature(CMLink::kSetProgram));
 		itsArgInput->SetText("");
@@ -1181,7 +1177,7 @@ CMCommandDirector::HandleUserInput()
 		{
 		itsCommandOutput->PlaceCursorAtEnd();
 //		itsISOStyler->FilterISO("\n" + itsLink->GetPrompt() + " ");
-		itsCommandOutput->SetCurrentFontStyle(itsCommandOutput->GetDefaultFontStyle());
+		itsCommandOutput->SetCurrentFontStyle(itsCommandOutput->GetDefaultFont().GetStyle());
 		itsCommandOutput->Paste("\n" + itsLink->GetPrompt() + " ");
 		}
 	else
@@ -1189,7 +1185,7 @@ CMCommandDirector::HandleUserInput()
 		itsCommandOutput->SetCaretLocation(itsCommandOutput->GetTextLength() + 1);
 		}
 //	itsISOStyler->FilterISO(input);
-	itsCommandOutput->SetCurrentFontStyle(itsCommandOutput->GetDefaultFontStyle());
+	itsCommandOutput->SetCurrentFontStyle(itsCommandOutput->GetDefaultFont().GetStyle());
 	itsCommandOutput->Paste(input);
 
 	itsCommandOutput->Paste("\n");
@@ -2166,7 +2162,7 @@ CMCommandDirector::Plot1DArray
 void
 CMCommandDirector::UpdatePrefsMenu()
 {
-	CMPrefsManager::DebuggerType type = (CMGetPrefsManager())->GetDebuggerType();
+	CMPrefsManager::DebuggerType type = CMGetPrefsManager()->GetDebuggerType();
 	itsPrefsMenu->CheckItem(kDebuggerTypeToMenuIndex[ type ]);
 
 //	itsPrefsMenu->DisableItem(kUseJavaCmd);
@@ -2185,24 +2181,24 @@ CMCommandDirector::HandlePrefsMenu
 {
 	if (index == kUseGDBCmd)
 		{
-		(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kGDBType);
+		CMGetPrefsManager()->SetDebuggerType(CMPrefsManager::kGDBType);
 		}
 	else if (index == kUseLLDBCmd)
 		{
-		(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kLLDBType);
+		CMGetPrefsManager()->SetDebuggerType(CMPrefsManager::kLLDBType);
 		}
 	else if (index == kUseJavaCmd)
 		{
-		(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kJavaType);
+		CMGetPrefsManager()->SetDebuggerType(CMPrefsManager::kJavaType);
 		}
 	else if (index == kUseXdebugCmd)
 		{
-		(CMGetPrefsManager())->SetDebuggerType(CMPrefsManager::kXdebugType);
+		CMGetPrefsManager()->SetDebuggerType(CMPrefsManager::kXdebugType);
 		}
 
 	else if (index == kEditPrefsCmd)
 		{
-		(CMGetPrefsManager())->EditPrefs();
+		CMGetPrefsManager()->EditPrefs();
 		}
 	else if (index == kEditToolBarCmd)
 		{

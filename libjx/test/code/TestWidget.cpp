@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestWidget.h"
 #include "ResizeWidgetDialog.h"
 
@@ -213,7 +212,7 @@ JIndex i;
 	// menus
 
 	itsActionsMenu = menuBar->AppendTextMenu(kActionsMenuTitleStr);
-	itsActionsMenu->SetTitleFontStyle((GetColormap())->GetWhiteColor());
+	itsActionsMenu->SetTitleFontStyle(GetColormap()->GetWhiteColor());
 	itsActionsMenu->SetShortcuts(kActionsMenuShortcutStr);
 	itsActionsMenu->SetMenuItems(kActionsMenuStr);
 	itsActionsMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -241,7 +240,7 @@ JIndex i;
 		if (i == kAdviceBoldMenuIndex)
 			{
 			adviceMenu->SetItemFontStyle(2,
-				JFontStyle(kJTrue, kJFalse, 0, kJFalse, (GetColormap())->GetBlackColor()));
+				JFontStyle(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor()));
 			}
 
 		prevMenu      = adviceMenu;
@@ -328,7 +327,7 @@ JIndex i;
 	// drops on iconfied window
 
 	JXWindowIcon* windowIcon;
-	const JBoolean hasIconWindow = (GetWindow())->GetIconWidget(&windowIcon);
+	const JBoolean hasIconWindow = GetWindow()->GetIconWidget(&windowIcon);
 	assert( hasIconWindow );
 	ListenTo(windowIcon);
 }
@@ -500,7 +499,7 @@ JIndex i;
 			 its3Rect.height(), JPainter::kVAlignCenter);
 
 	p.SetLineWidth(1);
-	p.SetFont(JGetDefaultFontName(), kJDefaultFontSize, colormap->GetBlackColor());
+	p.SetFont(GetFontManager()->GetDefaultFont());
 
 	p.ShiftOrigin(10,10);
 
@@ -975,7 +974,7 @@ TestWidget::GetDNDAction
 	const JXKeyModifiers&	modifiers
 	)
 {
-	return (GetDNDManager())->GetDNDActionPrivateXAtom();
+	return GetDNDManager()->GetDNDActionPrivateXAtom();
 }
 
 /******************************************************************************
@@ -1010,7 +1009,7 @@ TestWidget::WillAcceptDrop
 		const Atom type = typeList.GetElement(i);
 		cout << XGetAtomName(*display, type) << endl;
 
-		if (type == (GetSelectionManager())->GetURLXAtom())
+		if (type == GetSelectionManager()->GetURLXAtom())
 			{
 			hasURIList = kJTrue;
 			}
@@ -1039,7 +1038,7 @@ TestWidget::WillAcceptDrop
 		cout << endl;
 
 		PrintSelectionText(dndMgr->GetDNDSelectionName(), time,
-						   (GetSelectionManager())->GetMimePlainTextXAtom());
+						   GetSelectionManager()->GetMimePlainTextXAtom());
 		return kJTrue;
 		}
 	else
@@ -1050,7 +1049,7 @@ TestWidget::WillAcceptDrop
 		cout << endl;
 
 		PrintSelectionText(dndMgr->GetDNDSelectionName(), time,
-						   (GetSelectionManager())->GetMimePlainTextXAtom());
+						   GetSelectionManager()->GetMimePlainTextXAtom());
 
 		return kJFalse;
 		}
@@ -1103,12 +1102,12 @@ TestWidget::HandleDNDDrop
 
 	if (textType != None)
 		{
-		PrintSelectionText((GetDNDManager())->GetDNDSelectionName(), time, textType);
+		PrintSelectionText(GetDNDManager()->GetDNDSelectionName(), time, textType);
 		}
 
 	if (url)
 		{
-		PrintFileNames((GetDNDManager())->GetDNDSelectionName(), time);
+		PrintFileNames(GetDNDManager()->GetDNDSelectionName(), time);
 		}
 }
 
@@ -1427,7 +1426,7 @@ TestWidget::HandleActionsMenu
 		}
 	else if (index == kPrintOldSelectionTargetsCmd)
 		{
-		PrintSelectionTargets((GetDisplay())->GetLastEventTime() - 10000);
+		PrintSelectionTargets(GetDisplay()->GetLastEventTime() - 10000);
 		}
 }
 
@@ -1467,7 +1466,7 @@ TestWidget::GetNewSize()
 {
 	assert( itsResizeDialog == NULL );
 
-	itsResizeDialog = new ResizeWidgetDialog((GetWindow())->GetDirector(), this);
+	itsResizeDialog = new ResizeWidgetDialog(GetWindow()->GetDirector(), this);
 	assert( itsResizeDialog != NULL );
 	ListenTo(itsResizeDialog);
 	itsResizeDialog->BeginDialog();
@@ -1603,7 +1602,7 @@ TestWidget::ReceiveWithFeedback
 {
 	JXWindowIcon* windowIcon = NULL;
 
-	if ((GetWindow())->GetIconWidget(&windowIcon) &&
+	if (GetWindow()->GetIconWidget(&windowIcon) &&
 		sender == windowIcon && message->Is(JXWindowIcon::kAcceptDrop))
 		{
 		JXWindowIcon::AcceptDrop* data =
@@ -1640,7 +1639,7 @@ TestWidget::BuildXlsfontsMenu
 	menu->SetUpdateAction(JXMenu::kDisableNone);
 
 	JPtrArray<JString> fontList(JPtrArrayT::kDeleteAll);
-	(GetXFontManager())->GetXFontNames(JRegex("^-.*-(courier|helvetica)-.*$"),
+	GetXFontManager()->GetXFontNames(JRegex("^-.*-(courier|helvetica)-.*$"),
 									   &fontList);
 	const JSize fontCount = fontList.GetElementCount();
 	for (JIndex i=1; i<=fontCount; i++)
@@ -1652,7 +1651,7 @@ TestWidget::BuildXlsfontsMenu
 	menu->AppendItem("I wish Netscape's bookmark list would scroll like this!!!");
 	const JSize count = menu->GetItemCount();
 	menu->SetItemFontStyle(count, JFontStyle(kJTrue, kJFalse, 0, kJFalse,
-											 (GetColormap())->GetBlackColor()));
+											 GetColormap()->GetBlackColor()));
 	if (count > 1)
 		{
 		menu->ShowSeparatorAfter(count-1);

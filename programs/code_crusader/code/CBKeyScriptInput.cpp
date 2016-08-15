@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBKeyScriptInput.h"
 #include "CBMacroManager.h"
 #include <JXColormap.h>
@@ -55,7 +54,7 @@ void
 CBKeyScriptInput::AdjustStylesBeforeRecalc
 	(
 	const JString&		buffer,
-	JRunArray<Font>*	styles,
+	JRunArray<JFont>*	styles,
 	JIndexRange*		recalcRange,
 	JIndexRange*		redrawRange,
 	const JBoolean		deletion

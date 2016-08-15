@@ -79,7 +79,7 @@ FitParmsTable::TableDrawCell
 	)
 {
 	JString* str;
-	p.SetFont(JGetDefaultFontName(), kDefaultSize, JFontStyle());
+	p.SetFont(GetFontManager()->GetDefaultFont());
 	JRect r = rect;
 	if (cell.x == 1)
 		{
@@ -128,13 +128,12 @@ FitParmsTable::Append
 {
 	
 	const JFontManager* fm = GetFontManager();
-	JSize lineHeight = fm->GetLineHeight(JGetDefaultFontName(), kDefaultSize, JFontStyle());
+	JSize lineHeight = fm->GetDefaultFont().GetLineHeight();
 	AppendRows(1, lineHeight + 2);
 	JString* str = new JString(col1);
 	itsCol1->Append(str);
 	JSize col1Width = GetColWidth(1);
-	JSize strWidth = 
-		fm->GetStringWidth(JGetDefaultFontName(), kDefaultSize, JFontStyle(), *str);
+	JSize strWidth = fm->GetDefaultFont().GetStringWidth(*str);
 	if (strWidth + 10 > col1Width)
 		{
 		SetColWidth(1, strWidth + 10);
@@ -142,8 +141,7 @@ FitParmsTable::Append
 	str = new JString(col2);
 	itsCol2->Append(str);
 	JSize col2Width = GetColWidth(2);
-	strWidth = 
-		fm->GetStringWidth(JGetDefaultFontName(), kDefaultSize, JFontStyle(), *str);
+	strWidth = fm->GetDefaultFont().GetStringWidth(*str);
 	if (strWidth + 10 > col2Width)
 		{
 		SetColWidth(2, strWidth + 10);

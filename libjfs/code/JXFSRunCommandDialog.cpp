@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "JXFSRunCommandDialog.h"
 #include "JXFSCommandHistoryMenu.h"
 #include "JXFSBindingManager.h"
@@ -21,6 +20,7 @@
 #include <JXPathHistoryMenu.h>
 #include <JXChooseSaveFile.h>
 #include <JXCheckModTimeTask.h>
+#include <JXFontManager.h>
 #include <jXGlobals.h>
 #include <JSimpleProcess.h>
 #include <jStreamUtil.h>
@@ -216,14 +216,15 @@ JXFSRunCommandDialog::BuildWindow()
 	itsPathInput->ShouldBroadcastAllTextChanged(kJTrue);
 	ListenTo(itsPathInput);
 
-	itsPathHistoryMenu->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle(), kJTrue);
+	const JFont& font = window->GetFontManager()->GetDefaultMonospaceFont();
+	itsPathHistoryMenu->SetDefaultFont(font, kJTrue);
 
 	itsCmdInput->ShouldBroadcastAllTextChanged(kJTrue);
 	itsCmdInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
 	ListenTo(itsCmdInput);
 
-	itsCmdInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
-	itsCmdHistoryMenu->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle(), kJTrue);
+	itsCmdInput->SetFont(font);
+	itsCmdHistoryMenu->SetDefaultFont(font, kJTrue);
 
 	itsStayOpenCB->SetState(kJTrue);
 
@@ -515,7 +516,7 @@ JXFSRunCommandDialog::WriteSetup
 	)
 	const
 {
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ' << itsPathInput->GetText();
 

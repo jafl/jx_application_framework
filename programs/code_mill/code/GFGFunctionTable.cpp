@@ -244,8 +244,9 @@ GFGFunctionTable::TableDrawCell
 	r.left  += kHMarginWidth;
 	r.right -= kHMarginWidth;
 
-	p.SetFontStyle(style);
-	p.SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	JFont font = GetFontManager()->GetDefaultMonospaceFont();
+	font.SetStyle(style);
+	p.SetFont(font);
 	p.JPainter::String(r, str, halign, JPainter::kVAlignCenter);
 }
 
@@ -283,34 +284,30 @@ GFGFunctionTable::AdjustColumnWidths()
 		{
 		return;
 		}
-	itsNeedsAdjustment	= kJFalse;
+	itsNeedsAdjustment = kJFalse;
+
+	const JFont& font = GetFontManager()->GetDefaultMonospaceFont();
 
 	const JSize count	= itsList->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
 		const GFGMemberFunction* fn	= itsList->NthElement(i);
-		JSize width	= 
-			GetFontManager()->GetStringWidth(JGetMonospaceFontName(), 
-				kJDefaultMonoFontSize, JFontStyle(), fn->GetReturnType());
-		JCoordinate adjWidth	= width + 2 * kHMarginWidth;
+		JSize width	= font.GetStringWidth(fn->GetReturnType());
+		JCoordinate adjWidth = width + 2 * kHMarginWidth;
 		if (adjWidth > GetColWidth(kFReturnType))
 			{
 			SetColWidth(kFReturnType, adjWidth);
 			}
 			
-		width	= 
-			GetFontManager()->GetStringWidth(JGetMonospaceFontName(), 
-				kJDefaultMonoFontSize, JFontStyle(), fn->GetFnName());
-		adjWidth	= width + 2 * kHMarginWidth;
+		width    = font.GetStringWidth(fn->GetFnName());
+		adjWidth = width + 2 * kHMarginWidth;
 		if (adjWidth > GetColWidth(kFFunctionName))
 			{
 			SetColWidth(kFFunctionName, adjWidth);
 			}
 
-		width	= 
-			GetFontManager()->GetStringWidth(JGetMonospaceFontName(), 
-				kJDefaultMonoFontSize, JFontStyle(), fn->GetArgString());
-		adjWidth	= width + 2 * kHMarginWidth;
+		width    = font.GetStringWidth(fn->GetArgString());
+		adjWidth = width + 2 * kHMarginWidth;
 		if (adjWidth > GetColWidth(kFArgs))
 			{
 			SetColWidth(kFArgs, adjWidth);

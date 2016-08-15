@@ -12,7 +12,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXWindowPainter.h>
 #include <JXDisplay.h>
 #include <JXGC.h>
@@ -20,7 +19,6 @@
 #include <JXImage.h>
 #include <JXImagePainter.h>
 #include <jXUtil.h>
-#include <JFontManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -388,12 +386,9 @@ JXWindowPainter::String
 		return;
 		}
 
-	const JFontID fontID        = GetFontID();
-	const JSize fontSize        = GetFontSize();
-	const JFontStyle& fontStyle = GetFontStyle();
-
-	itsGC->SetFont(fontID);
-	itsGC->SetDrawingColor(fontStyle.color);
+	const JFont& font = GetFont();
+	itsGC->SetFont(font.GetID());
+	itsGC->SetDrawingColor(font.GetStyle().color);
 
 	JCoordinate ascent, descent;
 	GetLineHeight(&ascent, &descent);
@@ -406,19 +401,15 @@ JXWindowPainter::String
 	itsGC->DrawString(itsDrawable, GetFontDrawable(), x,y, str);
 	if (uIndex > 0)
 		{
-		const JFontManager* fontMgr = GetFontManager();
-
 		JCoordinate xu = x;
 		if (uIndex > 1)
 			{
-			xu += fontMgr->GetStringWidth(fontID, fontSize, fontStyle,
-										  str, uIndex-1);
+			xu += font.GetStringWidth(str, uIndex-1);
 			}
 
-		const JCoordinate w =
-			fontMgr->GetCharWidth(fontID, fontSize, fontStyle, str[uIndex-1]);
+		const JCoordinate w = font.GetCharWidth(str[uIndex-1]);
 
-		const JCoordinate lineWidth = fontMgr->GetUnderlineThickness(fontSize);
+		const JCoordinate lineWidth = font.GetUnderlineThickness();
 		const JCoordinate yu        = y + JLFloor(1.5 * lineWidth);
 
 		itsGC->SetLineWidth(lineWidth);
@@ -426,7 +417,7 @@ JXWindowPainter::String
 		itsGC->DrawLine(itsDrawable, xu, yu, xu+w-1, yu);
 		}
 
-	StyleString(str, x-o.x, y-o.y, ascent, descent, fontStyle.color);
+	StyleString(str, x-o.x, y-o.y, ascent, descent, font.GetStyle().color);
 }
 
 void
@@ -535,7 +526,7 @@ JXWindowPainter::String
 	// draw the string
 	{
 	JXImagePainter* p = tempImage->CreatePainter();
-	p->SetFont(GetFontID(), GetFontSize(), GetFontStyle());
+	p->SetFont(GetFont());
 	p->String(0,0, str);
 	delete p;
 	}
@@ -574,7 +565,7 @@ JXWindowPainter::String
 	delete tempImage;
 	delete srcImage;
 
-	itsGC->SetDrawingColor(GetFontStyle().color);	// expected pen color
+	itsGC->SetDrawingColor(GetFont().GetStyle().color);	// expected pen color
 }
 
 /******************************************************************************
@@ -595,12 +586,10 @@ JXWindowPainter::StyleString
 	const JColorIndex color
 	)
 {
-	const JFontStyle& fontStyle = GetFontStyle();
+	const JFontStyle& fontStyle = GetFont().GetStyle();
 
 	if (fontStyle.underlineCount > 0 || fontStyle.strike)
 		{
-		const JFontManager* fontManager = GetFontManager();
-
 		const JPoint origPenLoc        = GetPenLocation();
 		const JColorIndex origPenColor = GetPenColor();
 		const JSize origLW             = GetLineWidth();
@@ -609,12 +598,11 @@ JXWindowPainter::StyleString
 		SetPenColor(color);
 		DrawDashedLines(kJFalse);
 
-		const JSize fontSize = GetFontSize();
 		const JSize strWidth = GetStringWidth(str);
 
 		if (fontStyle.underlineCount > 0)
 			{
-			const JSize ulWidth = fontManager->GetUnderlineThickness(fontSize);
+			const JSize ulWidth = GetFont().GetUnderlineThickness();
 			SetLineWidth(ulWidth);
 
 			JCoordinate yu = JLFloor(y + 1.5 * ulWidth);	// thick line is centered on path
@@ -627,7 +615,7 @@ JXWindowPainter::StyleString
 
 		if (fontStyle.strike)
 			{
-			const JSize strikeWidth = fontManager->GetStrikeThickness(fontSize);
+			const JSize strikeWidth = GetFont().GetStrikeThickness();
 			const JCoordinate ys    = y - ascent/2;		// thick line is centered on path
 			SetLineWidth(strikeWidth);
 			Line(x,ys, x+strWidth,ys);

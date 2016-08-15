@@ -12,7 +12,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JUserInputFunction.h>
 #include <jExprUIUtil.h>
 #include <JExprEditor.h>
@@ -224,7 +223,7 @@ JUserInputFunction::PrepareToRender
 {
 	itsNeedRenderFlag = kJFalse;
 
-	if (fontSize != GetDefaultFontSize())
+	if (fontSize != GetDefaultFont().GetSize())
 		{
 		JIndex selStart, selEnd, caretLoc;
 		const JBoolean hasSelection = GetSelection(&selStart, &selEnd);
@@ -449,8 +448,8 @@ JUserInputFunction::HandleKeyPress
 
 	if (key == JPGetGreekCharPrefixChar())
 		{
-		const JCharacter* currFontName = GetCurrentFontName();
-		if (strcmp(currFontName, JGetDefaultFontName()) == 0)
+		const JFont currFont = GetCurrentFont();
+		if (strcmp(currFont.GetName(), JGetDefaultFontName()) == 0)
 			{
 			SetCurrentFontName(JGetGreekFontName());
 			}
@@ -468,9 +467,9 @@ JUserInputFunction::HandleKeyPress
 		}
 	else if (isEmpty)
 		{
-		const JCharacter* fontName = GetCurrentFontName();
+		const JFont font = GetCurrentFont();
 		SelectAll();
-		SetCurrentFontName(fontName);
+		SetCurrentFontName(font.GetName());
 		}
 	else if (key == '(' || key == '[')
 		{
@@ -671,7 +670,7 @@ JUserInputFunction::GetParseableText
 	const JSize length = text.GetLength();
 	for (JIndex i=length; i>=1; i--)
 		{
-		if (strcmp(te.GetFontName(i), greekFontName) == 0)
+		if (strcmp(te.GetFont(i).GetName(), greekFontName) == 0)
 			{
 			text.InsertSubstring(greekPrefixString, i);
 			}
@@ -888,7 +887,7 @@ JBoolean
 JUserInputFunction::TEGetExternalClipboard
 	(
 	JString*			text,
-	JRunArray<Font>*	style
+	JRunArray<JFont>*	style
 	)
 	const
 {

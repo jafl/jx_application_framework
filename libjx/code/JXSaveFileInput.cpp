@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXSaveFileInput.h>
 #include <jFileUtil.h>
 #include <jAssert.h>
@@ -110,7 +109,7 @@ JBoolean
 JXSaveFileInput::FilterText
 	(
 	JString*			text,
-	JRunArray<Font>*	style
+	JRunArray<JFont>*	style
 	)
 {
 	if (!JXInputField::FilterText(text, style))

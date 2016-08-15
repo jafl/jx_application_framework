@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JTEUndoStyle.h>
 #include <JString.h>
 #include <jAssert.h>
@@ -28,7 +27,7 @@ JTEUndoStyle::JTEUndoStyle
 {
 	itsStartIndex = te->GetInsertionIndex();
 
-	itsOrigStyles = new JRunArray<JTextEditor::Font>;
+	itsOrigStyles = new JRunArray<JFont>;
 	assert( itsOrigStyles != NULL );
 
 	JString selText;

@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include "TestFloatTable.h"
 
 #include <JXWindow.h>
@@ -68,7 +67,7 @@ JIndex i,j;
 
 	itsMouseAction = kInsertCol;
 
-	(GetEditMenuHandler())->AppendEditMenu(menuBar);
+	GetEditMenuHandler()->AppendEditMenu(menuBar);
 
 	itsTableMenu = menuBar->AppendTextMenu(kTableMenuTitleStr);
 	itsTableMenu->SetMenuItems(kTableMenuStr);
@@ -87,10 +86,9 @@ JIndex i,j;
 	assert( itsStyleMenu != NULL );
 	menuBar->AppendMenu(itsStyleMenu);
 
-	JSize fontSize;
-	const JString& fontName = GetFont(&fontSize);
-	itsSizeMenu->SetFontName(fontName);
-	itsSizeMenu->SetFontSize(fontSize);
+	const JFont& font = GetFont();
+	itsSizeMenu->SetFontName(font.GetName());
+	itsSizeMenu->SetFontSize(font.GetSize());
 
 	data->AppendRows(kInitRowCount);
 	data->AppendCols(kInitColCount);

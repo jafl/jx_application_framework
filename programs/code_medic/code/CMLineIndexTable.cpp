@@ -239,11 +239,7 @@ CMLineIndexTable::TableDrawCell
 
 	else if (JIndex(cell.x) == kLineNumberColumn)
 		{
-		JFontID id;
-		JSize size;
-		JFontStyle style;
-		itsText->GetDefaultFont(&id, &size, &style);
-		p.SetFont(id, size, style);
+		p.SetFont(itsText->GetDefaultFont());
 
 		JRect r  = rect;
 		r.right -= kMarginWidth;
@@ -810,15 +806,12 @@ CMLineIndexTable::AdjustToText()
 {
 	const JFontManager* fontMgr = GetFontManager();
 
-	JFontID fontID;
-	JSize fontSize;
-	JFontStyle fontStyle;
-	itsText->GetCurrentFont(&fontID, &fontSize, &fontStyle);
+	JFont font = itsText->GetCurrentFont();
 
 	const JSize lineCount       = itsText->IsEmpty() ? 0 : itsText->GetLineCount();
 	const JString lineCountStr  = GetLongestLineText(lineCount);
-	const JSize lineHeight      = fontMgr->GetLineHeight(fontID, fontSize, fontStyle);
-	const JSize lineNumberWidth = fontMgr->GetStringWidth(fontID, fontSize, fontStyle, lineCountStr);
+	const JSize lineHeight      = font.GetLineHeight();
+	const JSize lineNumberWidth = font.GetStringWidth(lineCountStr);
 
 	SetColWidth(kBreakpointColumn, lineHeight);
 	SetColWidth(kExecPointColumn,  lineHeight);

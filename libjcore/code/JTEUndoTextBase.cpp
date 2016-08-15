@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JTEUndoTextBase.h>
 #include <JTEUndoPaste.h>
 #include <JString.h>
@@ -31,7 +30,7 @@ JTEUndoTextBase::JTEUndoTextBase
 	itsOrigBuffer = new JString;
 	assert( itsOrigBuffer != NULL );
 
-	itsOrigStyles = new JRunArray<JTextEditor::Font>;
+	itsOrigStyles = new JRunArray<JFont>;
 	assert( itsOrigStyles != NULL );
 
 	te->GetSelection(itsOrigBuffer, itsOrigStyles);
@@ -124,7 +123,7 @@ JTEUndoTextBase::PrependToSave
 	const JString& text = te->GetText();
 	const JCharacter c  = text.GetCharacter(index-1);
 
-	const JTextEditor::Font f = te->GetFont(index-1);
+	const JFont f = te->GetFont(index-1);
 
 	itsOrigBuffer->PrependCharacter(c);
 	itsOrigStyles->PrependElement(f);
@@ -148,7 +147,7 @@ JTEUndoTextBase::AppendToSave
 	const JString& text = te->GetText();
 	const JCharacter c  = text.GetCharacter(index);
 
-	const JTextEditor::Font f = te->GetFont(index);
+	const JFont f = te->GetFont(index);
 
 	itsOrigBuffer->AppendCharacter(c);
 	itsOrigStyles->AppendElement(f);

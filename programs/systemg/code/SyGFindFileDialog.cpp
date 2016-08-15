@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <SyGStdInc.h>
 #include "SyGFindFileDialog.h"
 #include "SyGFindFileTask.h"
 #include "SyGViewManPageDialog.h"
@@ -22,6 +21,7 @@
 #include <JXTextRadioButton.h>
 #include <JXPathInput.h>
 #include <JXChooseSaveFile.h>
+#include <JXFontManager.h>
 
 #include <jProcessUtil.h>
 #include <jVCSUtil.h>
@@ -183,14 +183,16 @@ SyGFindFileDialog::BuildWindow()
 
 	itsPathInput->ShouldAllowInvalidPath();
 
+	const JFont& font = window->GetFontManager()->GetDefaultMonospaceFont();
+
 	itsFileInput->ShouldBroadcastAllTextChanged(kJTrue);
 	itsFileInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	itsFileInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsFileInput->SetFont(font);
 	ListenTo(itsFileInput);
 
 	itsExprInput->ShouldBroadcastAllTextChanged(kJTrue);
 	itsExprInput->SetCharacterInWordFunction(JXChooseSaveFile::IsCharacterInWord);
-	itsExprInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsExprInput->SetFont(font);
 	ListenTo(itsExprInput);
 
 	itsStayOpenCB->SetState(kJTrue);
@@ -277,7 +279,7 @@ SyGFindFileDialog::Receive
 		}
 	else if (sender == itsCloseButton && message.Is(JXButton::kPushed))
 		{
-		(GetWindow())->KillFocus();
+		GetWindow()->KillFocus();
 		Deactivate();
 		}
 	else if (sender == itsHelpButton && message.Is(JXButton::kPushed))
@@ -450,7 +452,7 @@ SyGFindFileDialog::WritePrefs
 	output << kCurrentSetupVersion;
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	output << ' ' << itsStayOpenCB->IsChecked();
 }

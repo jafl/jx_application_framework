@@ -87,7 +87,8 @@ CMBreakpointTable::CMBreakpointTable
 	JXEditTable(1,1, scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
 	JPrefObject(CMGetPrefsManager(), kBreakpointTableID),
 	itsDir(dir),
-	itsTextInput(NULL)
+	itsTextInput(NULL),
+	itsFont(GetFontManager()->GetDefaultFont())
 {
 	itsBPList = new JPtrArray<CMBreakpoint>(JPtrArrayT::kForgetAll);
 	assert(itsBPList != NULL);
@@ -96,11 +97,14 @@ CMBreakpointTable::CMBreakpointTable
 
 	// font
 
-	CMGetPrefsManager()->GetDefaultFont(&itsFontName, &itsFontSize);
+	JString fontName;
+	JSize fontSize;
+	CMGetPrefsManager()->GetDefaultFont(&fontName, &fontSize);
+	itsFont = GetFontManager()->GetFont(fontName, fontSize);
 
 	const JSize rowHeight = 2*kVMarginWidth + JMax(
-		GetFontManager()->GetLineHeight(JGetDefaultFontName(), kJDefaultFontSize, JFontStyle()),
-		GetFontManager()->GetLineHeight(itsFontName, itsFontSize, JFontStyle()));
+		GetFontManager()->GetDefaultFont().GetLineHeight(),
+		itsFont.GetLineHeight());
 	SetDefaultRowHeight(rowHeight);
 
 	// data
@@ -344,7 +348,6 @@ CMBreakpointTable::TableDrawCell
 	HilightIfSelected(p, cell, rect);
 
 	const CMBreakpoint* bp = itsBPList->NthElement(cell.y);
-	JFontStyle style;
 	if (cell.x == kStatusColumn)
 		{
 		JRect r = rect;
@@ -411,7 +414,7 @@ CMBreakpointTable::TableDrawCell
 			bp->GetCondition(&s);
 			}
 
-		p.SetFont(itsFontName, itsFontSize, style);
+		p.SetFont(itsFont);
 
 		JRect r = rect;
 		r.left += kHMarginWidth;
@@ -604,7 +607,7 @@ CMBreakpointTable::CreateXInputField
 		itsTextInput->SetText(text);
 		}
 
-	itsTextInput->SetFont(itsFontName, itsFontSize);
+	itsTextInput->SetFont(itsFont);
 	return itsTextInput;
 }
 

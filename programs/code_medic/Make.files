@@ -24,7 +24,6 @@
 .cpp ./code/CMCommandInput
 .cpp ./code/CMGetCompletions
 .cpp ./code/CMGetInitArgs
-.cpp ./code/JISOStyler
 .cpp ./code/CMChooseProcessDialog
 .cpp ./code/CMProcessText
 .cpp ./code/CMEditCommandsDialog

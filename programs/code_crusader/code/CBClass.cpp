@@ -51,7 +51,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBClass.h"
 #include "CBTree.h"
 #include "CBProjectDocument.h"
@@ -1287,8 +1286,9 @@ CBClass::CalcFrameHeight
 	const JSize			fontSize
 	)
 {
-	return 2*kVMarginWidth +
-		fontManager->GetLineHeight(JGetDefaultFontName(), fontSize, kConcreteLabelStyle);
+	JFont font = fontManager->GetDefaultFont();
+	font.SetStyle(kConcreteLabelStyle);
+	return 2*kVMarginWidth + font.GetLineHeight();
 }
 
 /******************************************************************************
@@ -1346,7 +1346,7 @@ CBClass::CalcFrame()
 		x += kLinkWidth;
 		}
 
-	const JFontManager* fontManager = (GetTree())->GetFontManager();
+	const JFontManager* fontManager = GetTree()->GetFontManager();
 	const JSize fontSize            = itsTree->GetFontSize();
 
 	JCoordinate w = 10;
@@ -1357,10 +1357,11 @@ CBClass::CalcFrame()
 		JFontStyle style = kConcreteLabelStyle;
 		style.bold       = kJTrue;	// if not bold, extra space doesn't hurt
 
-		w = JMax(kMinFrameWidth,
-				 2*kHMarginWidth +
-					fontManager->GetStringWidth(JGetDefaultFontName(), fontSize,
-												style, name));
+		JFont font = fontManager->GetDefaultFont();
+		font.SetSize(fontSize);
+		font.SetStyle(style);
+
+		w = JMax(kMinFrameWidth, 2*kHMarginWidth + font.GetStringWidth(name));
 		}
 
 	const JCoordinate h = CalcFrameHeight(fontManager, fontSize);

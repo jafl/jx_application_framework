@@ -38,7 +38,7 @@ private:
 
 	CBShellDocument*	itsShellDoc;
 	JIndex				itsInsertIndex;
-	Font				itsInsertFont;
+	JFont				itsInsertFont;
 
 private:
 

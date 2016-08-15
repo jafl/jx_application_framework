@@ -14,12 +14,12 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXRowHeaderWidget.h>
 #include <JXWindow.h>
 #include <JXScrollbarSet.h>
 #include <JXScrollbar.h>
 #include <JXDragPainter.h>
+#include <JXFontManager.h>
 #include <JXColormap.h>
 #include <jXPainterUtil.h>
 #include <jXGlobals.h>
@@ -75,12 +75,12 @@ JXRowHeaderWidget::JXRowHeaderWidget
 	itsDragLineCursor    = JXGetDragHorizLineCursor(GetDisplay());
 	itsDragAllLineCursor = JXGetDragAllHorizLineCursor(GetDisplay());
 
-	SetColBorderInfo(0, (GetColormap())->GetBlackColor());
+	SetColBorderInfo(0, GetColormap()->GetBlackColor());
 
 	// override JXEditTable
 
 	WantInput(kJFalse);
-	SetBackColor((GetColormap())->GetDefaultBackColor());
+	SetBackColor(GetColormap()->GetDefaultBackColor());
 
 	AppendCols(1, GetApertureWidth());
 	AdjustToTable();
@@ -218,8 +218,10 @@ JXRowHeaderWidget::TableDrawCell
 		str = JString(cell.y, JString::kBase10);
 		}
 
-	p.SetFont(JGetDefaultFontName(), kJDefaultRowColHeaderFontSize,
-			  JFontStyle(kJTrue, kJFalse, 0, kJFalse, (p.GetColormap())->GetBlackColor()));
+	const JFont font = GetFontManager()->GetFont(
+			JGetDefaultFontName(), kJDefaultRowColHeaderFontSize,
+			JFontStyle(kJTrue, kJFalse, 0, kJFalse));
+	p.SetFont(font);
 	p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
 
 	const JCoordinate wmin = p.GetStringWidth(str) + 2*itsHMarginWidth;
@@ -291,7 +293,7 @@ JXRowHeaderWidget::HandleMouseDown
 		defClipRect.bottom = apG.bottom;
 		p->SetDefaultClipRect(defClipRect);
 
-		const JRect enclAp = JXContainer::GlobalToLocal((GetEnclosure())->GetApertureGlobal());
+		const JRect enclAp = JXContainer::GlobalToLocal(GetEnclosure()->GetApertureGlobal());
 		p->Line(enclAp.left, pt.y, enclAp.right, pt.y);
 		itsPrevPt = pt;
 		}
@@ -329,7 +331,7 @@ JXRowHeaderWidget::HandleMouseDrag
 			const JBoolean ok = GetDragPainter(&p);
 			assert( ok );
 
-			const JRect enclApG = (GetEnclosure())->GetApertureGlobal();
+			const JRect enclApG = GetEnclosure()->GetApertureGlobal();
 			JRect enclAp = JXContainer::GlobalToLocal(enclApG);
 
 			// scroll, if necessary
@@ -342,7 +344,7 @@ JXRowHeaderWidget::HandleMouseDrag
 			const JRect tableRect(ptT.y-1, x-1, ptT.y+1, x+1);
 			if (itsTable->ScrollToRect(tableRect))
 				{
-				(GetWindow())->Update();
+				GetWindow()->Update();
 				enclAp = JXContainer::GlobalToLocal(enclApG);	// local coords changed
 				}
 			else
@@ -387,7 +389,7 @@ JXRowHeaderWidget::HandleMouseUp
 		const JBoolean ok = GetDragPainter(&p);
 		assert( ok );
 
-		const JRect enclAp = JXContainer::GlobalToLocal((GetEnclosure())->GetApertureGlobal());
+		const JRect enclAp = JXContainer::GlobalToLocal(GetEnclosure()->GetApertureGlobal());
 		p->Line(enclAp.left, itsPrevPt.y, enclAp.right, itsPrevPt.y);
 
 		DeleteDragPainter();
@@ -575,7 +577,7 @@ JXRowHeaderWidget::Receive
 		const JTable::RowBorderWidthChanged* info =
 			dynamic_cast<const JTable::RowBorderWidthChanged*>(&message);
 		assert( info != NULL );
-		SetRowBorderInfo(info->GetNewBorderWidth(), (GetColormap())->GetDefaultBackColor());
+		SetRowBorderInfo(info->GetNewBorderWidth(), GetColormap()->GetDefaultBackColor());
 		}
 
 	// something else
@@ -599,7 +601,7 @@ JXRowHeaderWidget::AdjustToTable()
 	JCoordinate width;
 	JColorIndex color;
 	itsTable->GetRowBorderInfo(&width, &color);
-	SetRowBorderInfo(width, (GetColormap())->GetDefaultBackColor());
+	SetRowBorderInfo(width, GetColormap()->GetDefaultBackColor());
 
 	RemoveAllRows();
 

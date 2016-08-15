@@ -1409,8 +1409,8 @@ JExprEditor::GetCmdStatus
 		flags.SetElement(kNegateSelCmd, kJTrue);
 		flags.SetElement(kApplyFnToSelCmd, kJTrue);
 
-		const JCharacter* fontName = itsActiveUIF->GetCurrentFontName();
-		if (strcmp(fontName, JGetDefaultFontName()) == 0)
+		const JFont font = itsActiveUIF->GetCurrentFont();
+		if (strcmp(font.GetName(), JGetDefaultFontName()) == 0)
 			{
 			flags.SetElement(kSetGreekFontCmd, kJTrue);
 			}
@@ -2501,7 +2501,8 @@ JExprEditor::GetLineHeight
 	)
 	const
 {
-	return itsFontManager->GetLineHeight(JGetDefaultFontName(), fontSize, itsDefaultStyle);
+	const JFont font = itsFontManager->GetFont(JGetDefaultFontName(), fontSize, itsDefaultStyle);
+	return font.GetLineHeight();
 }
 
 /******************************************************************************
@@ -2517,7 +2518,8 @@ JExprEditor::GetStringWidth
 	)
 	const
 {
-	return itsFontManager->GetStringWidth(JGetDefaultFontName(), fontSize, itsDefaultStyle, str);
+	const JFont font = itsFontManager->GetFont(JGetDefaultFontName(), fontSize, itsDefaultStyle);
+	return font.GetStringWidth(str);
 }
 
 void
@@ -2532,7 +2534,7 @@ JExprEditor::DrawString
 {
 	const JCoordinate h = GetLineHeight(fontSize);
 	JCoordinate y = midline - h/2;
-	itsPainter->SetFont(JGetDefaultFontName(), fontSize, itsDefaultStyle);
+	itsPainter->SetFont(itsFontManager->GetFont(JGetDefaultFontName(), fontSize, itsDefaultStyle));
 	itsPainter->String(left,y, str);
 }
 
@@ -2550,7 +2552,9 @@ JExprEditor::GetGreekCharWidth
 	const
 {
 	const JCharacter str[2] = {c, 0};
-	return itsFontManager->GetStringWidth(JGetGreekFontName(), fontSize, itsDefaultStyle, str);
+
+	const JFont font = itsFontManager->GetFont(JGetGreekFontName(), fontSize, itsDefaultStyle);
+	return font.GetStringWidth(str);
 }
 
 void
@@ -2565,7 +2569,7 @@ JExprEditor::DrawGreekCharacter
 {
 	const JCoordinate h = GetLineHeight(fontSize);
 	JCoordinate y = midline - h/2;
-	itsPainter->SetFont(JGetGreekFontName(), fontSize, itsDefaultStyle);
+	itsPainter->SetFont(itsFontManager->GetFont(JGetGreekFontName(), fontSize, itsDefaultStyle));
 
 	const JCharacter str[2] = {c, 0};
 	itsPainter->String(left,y, str);

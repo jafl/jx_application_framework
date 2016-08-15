@@ -40,7 +40,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JPSPrinterBase.h>
 #include <JImage.h>
 #include <JImageMask.h>
@@ -61,10 +60,13 @@
 
 JPSPrinterBase::JPSPrinterBase
 	(
-	const JColormap* colormap
+	const JFontManager*	fontManager,
+	const JColormap*	colormap
 	)
 	:
-	itsColormap(colormap)
+	itsColormap(colormap),
+	itsFontSetFlag(kJFalse),
+	itsLastFont(fontManager->GetDefaultFont())
 {
 	itsDocOpenFlag = kJFalse;
 	itsBWFlag      = kJFalse;
@@ -344,10 +346,7 @@ JPSPrinterBase::PSSetDashList
 void
 JPSPrinterBase::PSString
 	(
-	const JFontManager*	fontManager,
-	const JFontID		fontID,
-	const JSize			fontSize,
-	const JFontStyle&	fontStyle,
+	const JFont&		font,
 
 	const JCoordinate	ascent,
 	const JCoordinate	aligndx,
@@ -364,7 +363,7 @@ JPSPrinterBase::PSString
 		return;
 		}
 
-	PSSetFont(fontManager, fontID, fontSize, fontStyle);
+	PSSetFont(font);
 
 	*itsFile << "gsave\n";
 
@@ -429,14 +428,15 @@ JPSPrinterBase::PSString
 
 	// add the rest of the styles
 
-	const JSize strWidth = fontManager->GetStringWidth(fontID, fontSize, fontStyle, str);
+	const JSize strWidth = font.GetStringWidth(str);
 
-	if (fontStyle.underlineCount > 0)
+	const JSize underlineCount = font.GetStyle().underlineCount;
+	if (underlineCount > 0)
 		{
-		const JSize ulWidth = fontManager->GetUnderlineThickness(fontSize);
+		const JSize ulWidth = font.GetUnderlineThickness();
 
 		JCoordinate yu = JLCeil(y - 1.5 * ulWidth);			// thick line is centered on path
-		for (JIndex i=1; i<=fontStyle.underlineCount; i++)
+		for (JIndex i=1; i<=underlineCount; i++)
 			{
 			*itsFile << "newpath\n";
 			*itsFile << x << ' ' << yu << " moveto\n";
@@ -449,9 +449,9 @@ JPSPrinterBase::PSString
 			}
 		}
 
-	if (fontStyle.strike)
+	if (font.GetStyle().strike)
 		{
-		const JSize strikeWidth = fontManager->GetStrikeThickness(fontSize);
+		const JSize strikeWidth = font.GetStrikeThickness();
 		const JCoordinate ys    = y + ascent/2;			// thick line is centered on path
 
 		*itsFile << "newpath\n";
@@ -839,10 +839,8 @@ JPSPrinterBase::PSRestoreGraphicsState()
 void
 JPSPrinterBase::ResetBufferedValues()
 {
-	itsLastFontID    = 0;
-	itsLastFontSize  = 0;
-	itsLastFontStyle = JFontStyle();
-	itsLastColor     = itsColormap->GetBlackColor();
+	itsFontSetFlag = kJFalse;
+	itsLastColor   = itsColormap->GetBlackColor();
 
 	itsLastLineWidthInit = kJFalse;
 	itsLastLineWidth     = 1;
@@ -866,23 +864,20 @@ static const JCharacter* kCurrFontName = "/JPSPrinterBase_CurrFont";
 void
 JPSPrinterBase::PSSetFont
 	(
-	const JFontManager*	fontManager,
-	const JFontID		id,
-	const JSize			size,
-	const JFontStyle&	style
+	const JFont& font
 	)
 {
-	if (id           != itsLastFontID ||
-		size         != itsLastFontSize ||
-		style.bold   != itsLastFontStyle.bold ||
-		style.italic != itsLastFontStyle.italic)
+	if (!itsFontSetFlag ||
+		font.GetID()           != itsLastFont.GetID() ||
+		font.GetSize()         != itsLastFont.GetSize() ||
+		font.GetStyle().bold   != itsLastFont.GetStyle().bold ||
+		font.GetStyle().italic != itsLastFont.GetStyle().italic)
 		{
-		itsLastFontID    = id;
-		itsLastFontSize  = size;
-		itsLastFontStyle = style;
+		itsFontSetFlag = kJTrue;
+		itsLastFont    = font;
 
-		JString fontName = fontManager->GetFontName(id);
-		AdjustFontName(&fontName, style);
+		JString fontName = font.GetName();
+		AdjustFontName(&fontName, font.GetStyle());
 		*itsFile << '/';
 		fontName.Print(*itsFile);
 
@@ -894,10 +889,10 @@ JPSPrinterBase::PSSetFont
 		*itsFile << "end\n";
 		*itsFile << kCurrFontName << " exch definefont\n";
 
-		*itsFile << size << " scalefont setfont\n";
+		*itsFile << font.GetSize() << " scalefont setfont\n";
 		}
 
-	PSSetColor(style.color);
+	PSSetColor(font.GetStyle().color);
 }
 
 /******************************************************************************

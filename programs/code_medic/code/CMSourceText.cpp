@@ -73,7 +73,7 @@ CMSourceText::CMSourceText
 {
 	itsTokenStartList = JTEStyler::NewTokenStartList();
 
-	SetBackColor((CMGetPrefsManager())->GetColor(CMPrefsManager::kBackColorIndex));
+	SetBackColor(CMGetPrefsManager()->GetColor(CMPrefsManager::kBackColorIndex));
 	SetSingleFocusWidget();
 
 	JXTextMenu* searchMenu = AppendSearchMenu(menuBar);
@@ -140,9 +140,9 @@ CMSourceText::SetFileType
 			}
 		else
 			{
-			JTextEditor::SetFont(1, GetTextLength(),
-								 GetFontName(1), GetFontSize(1),
-								 GetDefaultFontStyle(), kJFalse);
+			JFont font = GetFont(1);
+			font.ClearStyle();
+			JTextEditor::SetFont(1, GetTextLength(), font, kJFalse);
 			}
 		}
 }

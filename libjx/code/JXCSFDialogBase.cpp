@@ -12,7 +12,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXCSFDialogBase.h>
 #include <JXDirTable.h>
 #include <JXCurrentPathMenu.h>
@@ -30,9 +29,9 @@
 #include <JXScrollbarSet.h>
 #include <JXScrollbar.h>
 #include <JXChooseSaveFile.h>
+#include <JXFontManager.h>
 #include <jXGlobals.h>
 
-#include <JString.h>
 #include <jDirUtil.h>
 #include <jStreamUtil.h>
 #include <jAssert.h>
@@ -264,7 +263,7 @@ JXCSFDialogBase::WriteBaseSetup
 	itsFilterHistory->WriteSetup(output);
 
 	output << ' ';
-	(GetWindow())->WriteGeometry(output);
+	GetWindow()->WriteGeometry(output);
 
 	JXScrollbar *hScrollbar, *vScrollbar;
 	itsFileBrowser->GetScrollbars(&hScrollbar, &vScrollbar);
@@ -328,8 +327,9 @@ JXCSFDialogBase::SetObjects
 	itsPathHistory->SetHistoryLength(kHistoryLength);
 	itsFilterHistory->SetHistoryLength(kHistoryLength);
 
-	itsFilterInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
-	itsFilterHistory->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle(), kJTrue);
+	const JFont& font = (GetWindow()->GetFontManager())->GetDefaultMonospaceFont();
+	itsFilterInput->SetFont(font);
+	itsFilterHistory->SetDefaultFont(font, kJTrue);
 
 	itsShowHiddenCB->SetState(itsDirInfo->HiddenVisible());
 	itsCurrPathMenu->SetPath(itsDirInfo->GetDirectory());

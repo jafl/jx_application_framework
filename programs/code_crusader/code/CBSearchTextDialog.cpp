@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBSearchTextDialog.h"
 #include "CBTextDocument.h"
 #include "CBTextEditor.h"
@@ -34,6 +33,7 @@
 #include <JXDownRect.h>
 #include <JXStandAlonePG.h>
 #include <JXChooseSaveFile.h>
+#include <JXFontManager.h>
 #include <JDirInfo.h>
 #include <JRegex.h>
 #include <jVCSUtil.h>
@@ -423,12 +423,14 @@ CBSearchTextDialog::BuildWindow()
 	ListenTo(itsFileFilterHistory);
 	ListenTo(itsPathFilterHistory);
 
+	const JFont& font = window->GetFontManager()->GetDefaultMonospaceFont();
+
 	itsDirInput->ShouldAllowInvalidPath();
-	itsDirHistory->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle(), kJTrue);
-	itsFileFilterInput->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
-	itsFileFilterHistory->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle(), kJTrue);
-	itsPathFilterInput->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
-	itsPathFilterHistory->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle(), kJTrue);
+	itsDirHistory->SetDefaultFont(font, kJTrue);
+	itsFileFilterInput->SetDefaultFont(font);
+	itsFileFilterHistory->SetDefaultFont(font, kJTrue);
+	itsPathFilterInput->SetDefaultFont(font);
+	itsPathFilterHistory->SetDefaultFont(font, kJTrue);
 	itsRecurseDirCB->SetState(kJTrue);
 
 	UpdateBasePath();
@@ -482,22 +484,22 @@ CBSearchTextDialog::UpdateDisplay()
 
 	if (itsMultifileCB->IsChecked() || itsSearchDirCB->IsChecked())
 		{
-		(GetFindBackButton())->Deactivate();
-		(GetReplaceButton())->Deactivate();
-		(GetReplaceFindFwdButton())->Deactivate();
-		(GetReplaceFindBackButton())->Deactivate();
-		(GetReplaceAllBackButton())->Deactivate();
-		(GetReplaceAllInSelButton())->Deactivate();
+		GetFindBackButton()->Deactivate();
+		GetReplaceButton()->Deactivate();
+		GetReplaceFindFwdButton()->Deactivate();
+		GetReplaceFindBackButton()->Deactivate();
+		GetReplaceAllBackButton()->Deactivate();
+		GetReplaceAllInSelButton()->Deactivate();
 
 		// These two buttons will already be deactivated if !HasSearchText().
 
 		if (HasSearchText())
 			{
-			(GetFindFwdButton())->Activate();
+			GetFindFwdButton()->Activate();
 
 			if ((CBGetDocumentManager())->WillEditTextFilesLocally())
 				{
-				(GetReplaceAllFwdButton())->Activate();
+				GetReplaceAllFwdButton()->Activate();
 				}
 			}
 		}
@@ -969,7 +971,7 @@ CBSearchTextDialog::SearchDirectory
 
 			if (match &&
 				!SearchDirectory(entry.GetFullName(), fileRegex, pathRegex,
-				 				 fileList, nameList, pg))
+								 fileList, nameList, pg))
 				{
 				keepGoing = kJFalse;
 				break;

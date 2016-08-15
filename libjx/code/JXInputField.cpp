@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXInputField.h>
 #include <JXTextMenu.h>
 #include <JXEditTable.h>
@@ -201,17 +200,15 @@ JXInputField::SetFontStyle
 void
 JXInputField::SetFont
 	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style
+	const JFont& font
 	)
 {
 	if (!IsEmpty())
 		{
-		JXTEBase::SetFont(1, GetTextLength(), name, size, style, kJTrue);
+		JXTEBase::SetFont(1, GetTextLength(), font, kJTrue);
 		}
 
-	SetDefaultFont(name, size, style);
+	SetDefaultFont(font);
 }
 
 /******************************************************************************
@@ -328,7 +325,7 @@ JXInputField::DrawBorder
 			}
 		else
 			{
-			p.SetPenColor((GetColormap())->GetBlackColor());
+			p.SetPenColor(GetColormap()->GetBlackColor());
 			}
 		p.JPainter::Rect(frame);
 		}
@@ -552,7 +549,7 @@ JBoolean
 JXInputField::FilterText
 	(
 	JString*			text,
-	JRunArray<Font>*	style
+	JRunArray<JFont>*	style
 	)
 {
 	if (!JXTEBase::FilterText(text, style))

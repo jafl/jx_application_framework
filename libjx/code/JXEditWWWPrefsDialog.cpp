@@ -7,12 +7,12 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXEditWWWPrefsDialog.h>
 #include <JXWindow.h>
 #include <JXTextButton.h>
 #include <JXStaticText.h>
 #include <JXInputField.h>
+#include <JXFontManager.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -147,21 +147,23 @@ JXEditWWWPrefsDialog::BuildWindow
 	window->SetTitle("Web Browser Preferences");
 	SetButtons(okButton, cancelButton);
 
+	const JFont& font = (window->GetFontManager())->GetDefaultMonospaceFont();
+
 	itsShowURLCmdInput->SetText(showURLCmd);
 	itsShowURLCmdInput->SetIsRequired();
-	itsShowURLCmdInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsShowURLCmdInput->SetFont(font);
 
 	itsShowFileContentCmdInput->SetText(showFileContentCmd);
 	itsShowFileContentCmdInput->SetIsRequired();
-	itsShowFileContentCmdInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsShowFileContentCmdInput->SetFont(font);
 
 	itsShowFileLocationCmdInput->SetText(showFileLocationCmd);
 	itsShowFileLocationCmdInput->SetIsRequired();
-	itsShowFileLocationCmdInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsShowFileLocationCmdInput->SetFont(font);
 
 	itsComposeMailCmdInput->SetText(composeMailCmd);
 	itsComposeMailCmdInput->SetIsRequired();
-	itsComposeMailCmdInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsComposeMailCmdInput->SetFont(font);
 }
 
 /******************************************************************************

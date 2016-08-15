@@ -122,7 +122,7 @@ private:
 
 		MatchStyle(const JFontStyle& style);
 		virtual ~MatchStyle();
-		virtual JBoolean	Match(const JCharacter*, const JSize, const JFontStyle&) const;
+		virtual JBoolean	Match(const JFont&) const;
 
 	private:
 

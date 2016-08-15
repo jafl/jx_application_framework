@@ -29,7 +29,6 @@
 
  ******************************************************************************/
 
-#include <JCoreStdInc.h>
 #include <JEPSPrinter.h>
 #include <JImage.h>
 #include <JString.h>
@@ -58,7 +57,7 @@ JEPSPrinter::JEPSPrinter
 	:
 	JPainter(fontManager, colormap, JRect(0,0,0,0)),
 	JPrinter(),
-	JPSPrinterBase(colormap),
+	JPSPrinterBase(fontManager, colormap),
 	itsBounds(0,0,0,0)
 {
 	itsIncludePreviewFlag = kJFalse;
@@ -392,8 +391,7 @@ JEPSPrinter::String
 	JCoordinate dx = 0, dy = 0;
 	AlignString(&dx,&dy, str, width, hAlign, height, vAlign);
 
-	PSString(GetFontManager(), GetFontID(), GetFontSize(), GetFontStyle(),
-			 ascent, dx,dy, 0, left,top, str);
+	PSString(GetFont(), ascent, dx,dy, 0, left,top, str);
 }
 
 void
@@ -415,8 +413,7 @@ JEPSPrinter::String
 	JCoordinate dx = 0, dy = 0;
 	AlignString(&dx,&dy, str, width, hAlign, height, vAlign);
 
-	PSString(GetFontManager(), GetFontID(), GetFontSize(), GetFontStyle(),
-			 ascent, dx,dy, userAngle, left,top, str);
+	PSString(GetFont(), ascent, dx,dy, userAngle, left,top, str);
 }
 
 /******************************************************************************

@@ -13,6 +13,7 @@
 #include <JXTextButton.h>
 #include <JXStaticText.h>
 #include <JXInputField.h>
+#include <JFontManager.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -78,7 +79,7 @@ MDPrefsDialog::BuildWindow
 		new JXStaticText(JGetString("obj2_JXLayout::MDPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 130,40, 270,20);
 	assert( obj2_JXLayout != NULL );
-    obj2_JXLayout->SetFontSize(8);
+	obj2_JXLayout->SetFontSize(8);
 	obj2_JXLayout->SetToLabel();
 
 	itsOpenFileInput =
@@ -93,7 +94,7 @@ MDPrefsDialog::BuildWindow
 
 	itsOpenFileInput->SetText(openCmd);
 	itsOpenFileInput->SetIsRequired();
-	itsOpenFileInput->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
+	itsOpenFileInput->SetFont(window->GetFontManager()->GetDefaultMonospaceFont());
 }
 
 /******************************************************************************

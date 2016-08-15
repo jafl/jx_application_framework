@@ -9,11 +9,11 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXHelpText.h>
 #include <JXHelpDirector.h>
 #include <JXHelpManager.h>
 #include <JXWindow.h>
+#include <JXFontManager.h>
 #include <JXColormap.h>
 #include <jXGlobals.h>
 #include <jXKeysym.h>
@@ -187,7 +187,7 @@ JXHelpText::LinkClicked
 	)
 {
 	JXHelpDirector* helpDir =
-		dynamic_cast<JXHelpDirector*>((GetWindow())->GetDirector());
+		dynamic_cast<JXHelpDirector*>(GetWindow()->GetDirector());
 	assert( helpDir != NULL );
 
 	const LinkInfo info = itsLinks->GetElement(index);
@@ -255,7 +255,7 @@ JIndex i,j;
 
 	// highlight each link and display URLs for non-local links
 
-	const JColorIndex blueColor = (GetColormap())->GetBlueColor();
+	const JColorIndex blueColor = GetColormap()->GetBlueColor();
 
 	const JSize linkCount = itsLinks->GetElementCount();
 	for (i=1; i<=linkCount; i++)
@@ -287,7 +287,7 @@ JIndex i,j;
 				const JString s = " (" + url + ")";
 				Paste(s);
 				JIndexRange r(pasteIndex, pasteIndex + s.GetLength()-1);
-				SetFont(r.first, r.last, JGetMonospaceFontName(), kJDefaultMonoFontSize, GetDefaultFontStyle(), kJFalse);
+				SetFont(r.first, r.last, GetFontManager()->GetDefaultMonospaceFont(), kJFalse);
 
 				const JSize delta = s.GetLength();
 

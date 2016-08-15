@@ -9,13 +9,12 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXFLInputBase.h>
 #include <JXFileListTable.h>
 #include <JXFileListSet.h>
 #include <JXWindow.h>
 #include <JXStringHistoryMenu.h>
-#include <JString.h>
+#include <JXFontManager.h>
 #include <jASCIIConstants.h>
 #include <jGlobals.h>
 #include <jAssert.h>
@@ -42,8 +41,9 @@ JXFLInputBase::JXFLInputBase
 	itsFLSet(flSet),
 	itsHistoryMenu(historyMenu)
 {
-	SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());
-	itsHistoryMenu->SetDefaultFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle(), kJTrue);
+	const JFont& font = GetFontManager()->GetDefaultMonospaceFont();
+	SetFont(font);
+	itsHistoryMenu->SetDefaultFont(font, kJTrue);
 	ListenTo(itsHistoryMenu);
 }
 

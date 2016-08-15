@@ -65,6 +65,7 @@
 .cpp ./code/JPrefsManager
 .cpp ./code/JPrefObject
 .cpp ./code/JPrefsFile
+.cpp ./code/JFont
 .cpp ./code/JFontStyle
 .cpp ./code/JFontManager
 .cpp ./code/JGetCurrentFontManager

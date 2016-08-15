@@ -12,9 +12,11 @@
 #pragma once
 #endif
 
-#include <JTextEditor.h>	// need definition of Font
+#include <JArray.h>
+#include <JFont.h>
 
 class JString;
+class JColormap;
 class CBMacroList;
 class CBTextDocument;
 
@@ -54,7 +56,7 @@ public:
 
 	static void	Perform(const JString& script, CBTextDocument* doc);
 	static void	HighlightErrors(const JString& script, const JColormap* colormap,
-								JRunArray<JTextEditor::Font>* styles);
+								JRunArray<JFont>* styles);
 
 	// called by CBMacroTable
 

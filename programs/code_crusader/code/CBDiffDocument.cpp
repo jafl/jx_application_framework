@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBDiffDocument.h"
 #include "CBTextEditor.h"
 #include "cbGlobals.h"
@@ -852,7 +851,7 @@ CBDiffDocument::CBDiffDocument
 
 	JXKeyModifiers modifiers(GetDisplay());
 	modifiers.SetState(kJXMetaKeyIndex, kJTrue);
-	(GetWindow())->InstallMenuShortcut(itsDiffMenu, kPrevDiffCmd, '_', modifiers);
+	GetWindow()->InstallMenuShortcut(itsDiffMenu, kPrevDiffCmd, '_', modifiers);
 
 	// button in upper right
 
@@ -1246,7 +1245,7 @@ CBDiffDocument::HandleDiffMenu
 void
 CBDiffDocument::ShowFirstDiff()
 {
-	(GetTextEditor())->SetCaretLocation(1);
+	GetTextEditor()->SetCaretLocation(1);
 	ShowNextDiff();
 }
 
@@ -1357,7 +1356,7 @@ CBDiffDocument::SelectDiff
 	else if (hadSelection)
 		{
 		te->SetSelection(origRange);
-		(GetDisplay())->Beep();
+		GetDisplay()->Beep();
 		}
 	else
 		{
@@ -1370,7 +1369,7 @@ CBDiffDocument::SelectDiff
 		}
 	else
 		{
-		(GetDisplay())->Beep();
+		GetDisplay()->Beep();
 		}
 }
 
@@ -1395,11 +1394,9 @@ CBDiffDocument::MatchStyle::~MatchStyle()
 JBoolean
 CBDiffDocument::MatchStyle::Match
 	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style
+	const JFont& font
 	)
 	const
 {
-	return JI2B( style == itsStyle );
+	return JI2B( font.GetStyle() == itsStyle );
 }

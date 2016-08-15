@@ -16,7 +16,7 @@
 
 #include <JRect.h>
 #include <JPolygon.h>
-#include <JFontStyle.h>
+#include <JFont.h>
 
 class JString;
 class JFontManager;
@@ -95,33 +95,16 @@ public:
 
 	// text
 
-	const JString&		GetFontName() const;
-	void				SetFontName(const JCharacter* name);
+	const JFont&	GetFont() const;
 
-	JSize				GetFontSize() const;
-	void				SetFontSize(const JSize size);
+	void	SetFontName(const JCharacter* name);
+	void	SetFontSize(const JSize size);
+	void	SetFontStyle(const JFontStyle& style);
+	void	SetFont(const JFont& f);
 
-	const JFontStyle&	GetFontStyle() const;
-	void				SetFontStyle(const JFontStyle& style);
-
-	void				SetFont(const JCharacter* name, const JSize size,
-								const JFontStyle& style);
-
-	JFontID	GetFontID() const;
-	void	SetFontID(const JFontID id);
-	void	SetFont(const JFontID id, const JSize size, const JFontStyle& style);
-
-	JSize	GetLineHeight(const JCharacter* name, const JSize size,
-						  const JFontStyle& style,
-						  JCoordinate* ascent, JCoordinate* descent) const;
-	JSize	GetLineHeight(const JCharacter* name, const JSize size,
-						  const JFontStyle& style) const;
 	JSize	GetLineHeight(JCoordinate* ascent, JCoordinate* descent) const;
 	JSize	GetLineHeight() const;
 
-	JSize	GetStringWidth(const JCharacter* name, const JSize size,
-						   const JFontStyle& style,
-						   const JCharacter* str) const;
 	JSize	GetStringWidth(const JCharacter* str) const;
 
 	virtual void	String(const JCoordinate left, const JCoordinate top,
@@ -220,13 +203,9 @@ private:
 	JSize			itsDashOffset;
 	JArray<JSize>*	itsDashList;			// can be NULL
 
-	const JFontManager*	itsFontManager;
 	const JColormap*	itsColormap;
 
-	JString*	itsFontName;
-	JSize		itsFontSize;
-	JFontStyle	itsFontStyle;
-	JFontID		itsFontID;
+	JFont	itsFont;
 
 	JRect				itsDefClipRect;		// global coords, so origin can change
 	const JColorIndex	itsDefaultColor;
@@ -450,29 +429,56 @@ JPainter::SetFilling
 }
 
 /******************************************************************************
- Get font info
+ GetFont
 
  ******************************************************************************/
 
-inline const JString&
-JPainter::GetFontName()
+inline const JFont&
+JPainter::GetFont()
 	const
 {
-	return *itsFontName;
+	return itsFont;
 }
 
-inline JSize
-JPainter::GetFontSize()
-	const
+/******************************************************************************
+ Set font info
+
+ ******************************************************************************/
+
+inline void
+JPainter::SetFontName
+	(
+	const JCharacter* name
+	)
 {
-	return itsFontSize;
+	itsFont.SetName(name);
 }
 
-inline const JFontStyle&
-JPainter::GetFontStyle()
-	const
+inline void
+JPainter::SetFontSize
+	(
+	const JSize size
+	)
 {
-	return itsFontStyle;
+	itsFont.SetSize(size);
+}
+
+inline void
+JPainter::SetFontStyle
+	(
+	const JFontStyle& style
+	)
+{
+	itsFont.SetStyle(style);
+}
+
+inline void
+JPainter::SetFont
+	(
+	const JFont& font
+	)
+{
+	itsFont = font;
 }
 
 /******************************************************************************
@@ -743,19 +749,7 @@ inline const JFontManager*
 JPainter::GetFontManager()
 	const
 {
-	return itsFontManager;
-}
-
-/******************************************************************************
- GetFontID
-
- ******************************************************************************/
-
-inline JFontID
-JPainter::GetFontID()
-	const
-{
-	return itsFontID;
+	return itsFont.GetFontManager();
 }
 
 /******************************************************************************

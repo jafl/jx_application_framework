@@ -10,9 +10,9 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXStringCompletionMenu.h>
 #include <JXTEBase.h>
+#include <JXFontManager.h>
 #include <jXConstants.h>
 #include <jGlobals.h>
 #include <jAssert.h>
@@ -80,11 +80,7 @@ JXStringCompletionMenu::AddString
 		{
 		if (IsEmpty())
 			{
-			JFontID id;
-			JSize size;
-			JFontStyle style;
-			itsTE->GetDefaultFont(&id, &size, &style);
-			SetDefaultFont(id, size, style, kJFalse);
+			SetDefaultFont(itsTE->GetDefaultFont(), kJFalse);
 			}
 
 		JString shortcut;
@@ -112,8 +108,10 @@ JXStringCompletionMenu::AddString
 	else if (i == kMaxItemCount+1)
 		{
 		AppendItem(kTruncationStr);
-		SetItemFont(i, JGetDefaultFontName(), kJDefaultFontSize,
-					JFontStyle(kJFalse, kJTrue, 0, kJFalse));
+
+		JFont font = GetFontManager()->GetDefaultFont();
+		font.SetItalic(kJTrue);
+		SetItemFont(i, font);
 		return kJFalse;
 		}
 	else

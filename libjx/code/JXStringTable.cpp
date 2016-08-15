@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXStringTable.h>
 #include <JXInputField.h>
+#include <JXFontManager.h>
 #include <JStringTableData.h>
 #include <JPainter.h>
 #include <JString.h>
@@ -74,9 +74,9 @@ JXStringTable::TableDrawCell
 		{
 		HilightIfSelected(p, cell, rect);
 
-		JSize fontSize;
-		const JString& fontName = GetFont(&fontSize);
-		p.SetFont(fontName, fontSize, GetCellStyle(cell));
+		JFont font = GetFont();
+		font.SetStyle(GetCellStyle(cell));
+		p.SetFont(font);
 
 		const JString& str = itsStringData->GetString(cell);
 
@@ -107,10 +107,10 @@ JXStringTable::CreateXInputField
 		CreateStringTableInput(cell, this, kFixedLeft, kFixedTop, x,y, w,h);
 	assert( itsStringInputField != NULL );
 
-	JSize fontSize;
-	const JString& fontName = GetFont(&fontSize);
+	JFont font = GetFont();
+	font.SetStyle(GetCellStyle(cell));
+	itsStringInputField->SetFont(font);
 
-	itsStringInputField->SetFont(fontName, fontSize, GetCellStyle(cell));
 	itsStringInputField->SetText(itsStringData->GetString(cell));
 	return itsStringInputField;
 }

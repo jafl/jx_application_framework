@@ -9,7 +9,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBFnListWidget.h"
 #include "CBTree.h"
 #include "CBClass.h"
@@ -568,7 +567,7 @@ CBFnListWidget::CopySelectedFunctionNames()
 		JXTextSelection* data = new JXTextSelection(GetDisplay(), list);
 		assert( data != NULL );
 
-		(GetSelectionManager())->SetData(kJXClipboardName, data);
+		GetSelectionManager()->SetData(kJXClipboardName, data);
 		}
 }
 
@@ -695,15 +694,15 @@ CBFnListWidget::BuildFnList1
 		JFontStyle style(bold, !isImplemented, 0, kJFalse);
 		if (CBClass::IsProtected(fnAccess))
 			{
-			style.color = (GetColormap())->GetBrownColor();
+			style.color = GetColormap()->GetBrownColor();
 			}
 		else if (CBClass::IsPrivate(fnAccess))
 			{
-			style.color = (GetColormap())->GetRedColor();
+			style.color = GetColormap()->GetRedColor();
 			}
 		else if (fnAccess == CBClass::kJavaDefaultAccess)
 			{
-			style.color = (GetColormap())->GetDarkGreenColor();
+			style.color = GetColormap()->GetDarkGreenColor();
 			}
 
 		styles->InsertElementAtIndex(insertionIndex, style);
@@ -791,10 +790,7 @@ CBFnListWidget::PrepareFunctionMenu
 	menu->RemoveAllItems();
 	menu->SetUpdateAction(JXMenu::kDisableNone);
 
-	JSize fontSize;
-	const JString& fontName = GetFont(&fontSize);
-
-	menu->SetDefaultFont(fontName, fontSize, JFontStyle(), kJFalse);
+	menu->SetDefaultFont(GetFont(), kJFalse);
 
 	const JSize count = GetRowCount();
 	for (JIndex i=1; i<=count; i++)

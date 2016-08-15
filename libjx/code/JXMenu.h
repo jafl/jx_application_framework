@@ -16,7 +16,7 @@
 
 #include <JXWidget.h>
 #include <JString.h>
-#include <JFontStyle.h>
+#include <JFont.h>
 
 class JXMenuData;
 class JXMenuBar;
@@ -110,6 +110,7 @@ public:
 	void	SetTitleFontName(const JCharacter* fontName);
 	void	SetTitleFontSize(const JSize size);
 	void	SetTitleFontStyle(const JFontStyle& style);
+	void	SetTitleFont(const JFont& font);
 
 	void	SetShortcuts(const JCharacter* list);
 
@@ -217,10 +218,7 @@ private:
 	JXMenuBar*	itsMenuBar;				// can be NULL; if there is one, it owns us
 	JXMenu*		itsOwner;				// NULL if top level menu
 
-	JString		itsTitleFontName;
-	JSize		itsTitleSize;
-	JFontStyle	itsTitleStyle;
-	JColorIndex	itsTrueTitleColor;		// saves title color while deactivated
+	JFont		itsTitleFont;
 	JBoolean	itsShouldBeActiveFlag;	// kJTrue  => last client call was Activate()
 	JBoolean	itsUpdateSBAFlag;		// kJFalse => don't change itsShouldBeActiveFlag
 	JSize		itsMinWidth;

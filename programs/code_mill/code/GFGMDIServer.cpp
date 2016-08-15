@@ -56,7 +56,7 @@ GFGMDIServer::HandleMDIRequest
 	const JPtrArray<JString>&	argList
 	)
 {
-	const JSize count	= argList.GetElementCount();
+	const JSize count = argList.GetElementCount();
 	if (count <= 1)
 		{
 		JGetUserNotification()->ReportError("Please specify the template file to load.");

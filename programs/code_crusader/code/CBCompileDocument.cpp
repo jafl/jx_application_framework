@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBCompileDocument.h"
 #include "CBTextEditor.h"
 #include "CBCommandMenu.h"
@@ -68,15 +67,15 @@ CBCompileDocument::CBCompileDocument
 	itsErrorMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsErrorMenu);
 
-	(GetCommandMenu())->SetProjectDocument(projDoc);
+	GetCommandMenu()->SetProjectDocument(projDoc);
 
 	// allow Meta-_ to parallel Shift key required for Meta-plus
 
 	JXKeyModifiers modifiers(GetDisplay());
 	modifiers.SetState(kJXMetaKeyIndex, kJTrue);
-	(GetWindow())->InstallMenuShortcut(itsErrorMenu, kPrevErrorCmd, '_', modifiers);
+	GetWindow()->InstallMenuShortcut(itsErrorMenu, kPrevErrorCmd, '_', modifiers);
 
-	(GetWindow())->SetWMClass(CBGetWMClassInstance(), CBGetCompileOutputWindowClass());
+	GetWindow()->SetWMClass(CBGetWMClassInstance(), CBGetCompileOutputWindowClass());
 
 	Activate();
 }
@@ -165,7 +164,7 @@ CBCompileDocument::ProcessFinished
 		return kJFalse;
 		}
 
-	if (!(GetTextEditor())->HasSelection())
+	if (!GetTextEditor()->HasSelection())
 		{
 		ShowFirstError();
 		}
@@ -356,7 +355,7 @@ CBCompileDocument::AppendText
 
 		if (!boldRange.IsEmpty())
 			{
-			te->SetFontStyle(boldRange.first, boldRange.last, GetErrorStyle(), kJTrue);
+			te->JTextEditor::SetFont(boldRange.first, boldRange.last, GetErrorFont(), kJTrue);
 
 			if (!itsHasErrorsFlag)
 				{
@@ -403,7 +402,7 @@ CBCompileDocument::OpenPrevListItem()
 			continue;
 			}
 
-		(GetTextEditor())->OpenSelection();
+		GetTextEditor()->OpenSelection();
 		break;
 		}
 }
@@ -432,7 +431,7 @@ CBCompileDocument::OpenNextListItem()
 			continue;
 			}
 
-		(GetTextEditor())->OpenSelection();
+		GetTextEditor()->OpenSelection();
 		break;
 		}
 }
@@ -546,7 +545,7 @@ CBCompileDocument::Receive
 void
 CBCompileDocument::UpdateErrorMenu()
 {
-	itsErrorMenu->SetItemEnable(kOpenFileCmd, (GetTextEditor())->HasSelection());
+	itsErrorMenu->SetItemEnable(kOpenFileCmd, GetTextEditor()->HasSelection());
 }
 
 /******************************************************************************
@@ -578,7 +577,7 @@ CBCompileDocument::HandleErrorMenu
 
 	else if (index == kOpenFileCmd)
 		{
-		(GetTextEditor())->OpenSelection();
+		GetTextEditor()->OpenSelection();
 		}
 }
 
@@ -592,7 +591,7 @@ CBCompileDocument::ShowFirstError()
 {
 	if (itsHasErrorsFlag)
 		{
-		(GetTextEditor())->SetCaretLocation(1);
+		GetTextEditor()->SetCaretLocation(1);
 		ShowNextError();
 		}
 }
@@ -616,7 +615,7 @@ CBCompileDocument::ShowPrevError()
 		}
 	else
 		{
-		(GetDisplay())->Beep();
+		GetDisplay()->Beep();
 		return kJFalse;
 		}
 }
@@ -640,23 +639,23 @@ CBCompileDocument::ShowNextError()
 		}
 	else
 		{
-		(GetDisplay())->Beep();
+		GetDisplay()->Beep();
 		return kJFalse;
 		}
 }
 
 /******************************************************************************
- GetErrorStyle (private)
+ GetErrorFont (private)
 
  ******************************************************************************/
 
-JFontStyle
-CBCompileDocument::GetErrorStyle()
+JFont
+CBCompileDocument::GetErrorFont()
 	const
 {
-	JFontStyle style = (GetTextEditor())->GetDefaultFontStyle();
-	style.bold       = kJTrue;
-	return style;
+	JFont font = GetTextEditor()->GetDefaultFont();
+	font.SetBold(kJTrue);
+	return font;
 }
 
 /******************************************************************************
@@ -671,11 +670,9 @@ CBCompileDocument::MatchErrorStyle::~MatchErrorStyle()
 JBoolean
 CBCompileDocument::MatchErrorStyle::Match
 	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style
+	const JFont& font
 	)
 	const
 {
-	return style.bold;
+	return font.GetStyle().bold;
 }

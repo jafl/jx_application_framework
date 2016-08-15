@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBINIStyler.h"
 #include "cbmUtil.h"
 #include <JXDialogDirector.h>
@@ -167,7 +166,7 @@ CBINIStyler::Scan
 		const JIndex typeIndex = token.type - kWhitespace;
 		if (token.type == kWhitespace)
 			{
-			style = GetDefaultFontStyle();
+			style = GetDefaultFont().GetStyle();
 			}
 		else if (token.type == kSingleQuoteString ||
 				 token.type == kDoubleQuoteString ||
@@ -183,7 +182,7 @@ CBINIStyler::Scan
 			{
 			if (!GetWordStyle(text.GetSubstring(token.range), &style))
 				{
-				style = GetDefaultFontStyle();
+				style = GetDefaultFont().GetStyle();
 				}
 			}
 		else

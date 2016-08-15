@@ -10,7 +10,6 @@
 
  ******************************************************************************/
 
-#include <cbStdInc.h>
 #include "CBTCLStyler.h"
 #include "cbmUtil.h"
 #include <JRegex.h>
@@ -168,7 +167,7 @@ CBTCLStyler::Scan
 		const JIndex typeIndex = token.type - kWhitespace;
 		if (token.type == kWhitespace)
 			{
-			style = GetDefaultFontStyle();
+			style = GetDefaultFont().GetStyle();
 			}
 		else if (token.type == kComment       ||
 				 token.type == kString        ||

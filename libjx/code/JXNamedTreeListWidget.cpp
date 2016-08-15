@@ -23,7 +23,6 @@
 
  ******************************************************************************/
 
-#include <JXStdInc.h>
 #include <JXNamedTreeListWidget.h>
 #include <JXInputField.h>
 #include <JXFontManager.h>
@@ -49,7 +48,7 @@ const JCoordinate kEmptyTextWidth   = 100;
 JXNamedTreeListWidget::JXNamedTreeListWidget
 	(
 	JNamedTreeList*		treeList,
-	JXScrollbarSet*	scrollbarSet,
+	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -128,9 +127,9 @@ JXNamedTreeListWidget::TLWDrawNode
 	JPoint editCell;
 	if (!GetEditedCell(&editCell) || cell != editCell)
 		{
-		JSize fontSize;
-		const JString& fontName = GetFont(&fontSize);
-		p.SetFont(fontName, fontSize, GetCellStyle(cell));
+		JFont font = GetFont();
+		font.SetStyle(GetCellStyle(cell));
+		p.SetFont(font);
 
 		const JString& text = itsNamedTreeList->GetNodeName(cell.y);
 
@@ -232,11 +231,9 @@ JXNamedTreeListWidget::GetTextWidth
 	)
 	const
 {
-	JSize fontSize;
-	const JString& fontName = GetFont(&fontSize);
-	return (GetFontManager())->GetStringWidth(fontName, fontSize,
-											  GetCellStyle(JPoint(GetNodeColIndex(), index)),
-											  itsNamedTreeList->GetNodeName(index));
+	JFont font = GetFont();
+	font.SetStyle(GetCellStyle(JPoint(GetNodeColIndex(), index)));
+	return font.GetStringWidth(itsNamedTreeList->GetNodeName(index));
 }
 
 /******************************************************************************
@@ -320,9 +317,7 @@ JXNamedTreeListWidget::GetMinCellWidth
 {
 	if (JIndex(cell.x) == GetNodeColIndex())
 		{
-		JSize fontSize;
-		const JString& fontName = GetFont(&fontSize);
-		const JString& text     = itsNamedTreeList->GetNodeName(cell.y);
+		const JString& text = itsNamedTreeList->GetNodeName(cell.y);
 
 		JSize textWidth = kEmptyTextWidth;
 		JPoint editCell;
@@ -334,8 +329,9 @@ JXNamedTreeListWidget::GetMinCellWidth
 			}
 		else if (!text.IsEmpty())
 			{
-			textWidth = (GetFontManager())->GetStringWidth(fontName, fontSize,
-														   GetCellStyle(cell), text);
+			JFont font = GetFont();
+			font.SetStyle(GetCellStyle(cell));
+			textWidth = font.GetStringWidth(text);
 			}
 
 		return GetNodeIndent(cell.y) +
@@ -474,10 +470,10 @@ JXNamedTreeListWidget::CreateXInputField
 		CreateTreeListInput(cell, this, kFixedLeft, kFixedTop, x+dx,y, w-dx,h);
 	assert( itsNameInputField != NULL );
 
-	JSize fontSize;
-	const JString& fontName = GetFont(&fontSize);
+	JFont font = GetFont();
+	font.SetStyle(GetCellStyle(cell));
 
-	itsNameInputField->SetFont(fontName, fontSize, GetCellStyle(cell));
+	itsNameInputField->SetFont(font);
 	itsNameInputField->SetText(itsNamedTreeList->GetNodeName(cell.y));
 	return itsNameInputField;
 }

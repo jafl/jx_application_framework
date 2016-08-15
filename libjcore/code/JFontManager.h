@@ -14,13 +14,15 @@
 #pragma once
 #endif
 
-#include <JPtrArray.h>
-#include <JFontStyle.h>
+#include <JPtrArray-JString.h>
+#include <JFont.h>
 
 class JString;
 
 class JFontManager
 {
+	friend class JFont;
+
 public:
 
 	JFontManager();
@@ -32,50 +34,38 @@ public:
 	virtual JBoolean	GetFontSizes(const JCharacter* name, JSize* minSize,
 									 JSize* maxSize, JArray<JSize>* sizeList) const = 0;
 
+	const JFont&	GetDefaultFont() const;
+	const JFont&	GetDefaultMonospaceFont() const;
+	JFont			GetFont(const JCharacter* name,
+							const JSize size = kJDefaultFontSize,
+							const JFontStyle style = JFontStyle()) const;
+	JFont			GetFont(const JString& name,
+							const JSize size = kJDefaultFontSize,
+							const JFontStyle style = JFontStyle()) const;
+
+protected:
+
 	virtual JFontID				GetFontID(const JCharacter* name, const JSize size,
 										  const JFontStyle& style) const = 0;
 	virtual const JCharacter*	GetFontName(const JFontID id) const = 0;
 	virtual JBoolean			IsExact(const JFontID id) const = 0;
 
-	JFontID	UpdateFontID(const JFontID fontID, const JSize size,
-						 const JFontStyle& style) const;
-
 	JSize	GetStrikeThickness(const JSize fontSize) const;
 	JSize	GetUnderlineThickness(const JSize fontSize) const;
 
-	JSize			GetLineHeight(const JCharacter* name, const JSize size,
-								  const JFontStyle& style,
-								  JCoordinate* ascent, JCoordinate* descent) const;
 	virtual JSize	GetLineHeight(const JFontID fontID, const JSize size,
 								  const JFontStyle& style,
 								  JCoordinate* ascent, JCoordinate* descent) const = 0;
 
-	JSize			GetLineHeight(const JCharacter* name, const JSize size,
-								  const JFontStyle& style) const;
-	JSize			GetLineHeight(const JFontID fontID, const JSize size,
-								  const JFontStyle& style) const;
+	virtual JSize	GetCharWidth(const JFontID fontID, const JCharacter c) const = 0;
 
-	JSize			GetCharWidth(const JCharacter* name, const JSize size,
-								 const JFontStyle& style, const JCharacter c) const;
-	virtual JSize	GetCharWidth(const JFontID fontID, const JSize size,
-								 const JFontStyle& style, const JCharacter c) const = 0;
-
-	JSize			GetStringWidth(const JCharacter* name, const JSize size,
-								   const JFontStyle& style, const JCharacter* str) const;
-	JSize			GetStringWidth(const JFontID fontID, const JSize size,
-								   const JFontStyle& style, const JCharacter* str) const;
-
-	JSize			GetStringWidth(const JCharacter* name, const JSize size,
-								   const JFontStyle& style, const JString& str) const;
-	JSize			GetStringWidth(const JFontID fontID, const JSize size,
-								   const JFontStyle& style, const JString& str) const;
-
-	JSize			GetStringWidth(const JCharacter* name, const JSize size,
-								   const JFontStyle& style, const JCharacter* str,
-								   const JSize charCount) const;
-	virtual JSize	GetStringWidth(const JFontID fontID, const JSize size,
-								   const JFontStyle& style, const JCharacter* str,
+	virtual JSize	GetStringWidth(const JFontID fontID, const JCharacter* str,
 								   const JSize charCount) const = 0;
+
+private:
+
+	JFont*	itsDefaultFont;
+	JFont*	itsDefaultMonospaceFont;
 
 private:
 
@@ -87,23 +77,32 @@ private:
 
 
 /******************************************************************************
- UpdateFontID
-
-	Convenience function to recalculate the font ID after changing the size
-	or style.
+ GetFont
 
  ******************************************************************************/
 
-inline JFontID
-JFontManager::UpdateFontID
+inline JFont
+JFontManager::GetFont
 	(
-	const JFontID		fontID,
+	const JCharacter*	name,
 	const JSize			size,
-	const JFontStyle&	style
+	const JFontStyle	style
 	)
 	const
 {
-	return GetFontID(GetFontName(fontID), size, style);
+	return JFont(this, GetFontID(name, size, style), size, style);
+}
+
+inline JFont
+JFontManager::GetFont
+	(
+	const JString&		name,
+	const JSize			size,
+	const JFontStyle	style
+	)
+	const
+{
+	return JFont(this, GetFontID(name, size, style), size, style);
 }
 
 /******************************************************************************
@@ -129,70 +128,6 @@ JFontManager::GetUnderlineThickness
 	const
 {
 	return (1 + fontSize/32);
-}
-
-/******************************************************************************
- GetLineHeight
-
- ******************************************************************************/
-
-inline JSize
-JFontManager::GetLineHeight
-	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style,
-
-	JCoordinate*		ascent,
-	JCoordinate*		descent
-	)
-	const
-{
-	return GetLineHeight(GetFontID(name, size, style), size, style, ascent, descent);
-}
-
-inline JSize
-JFontManager::GetLineHeight
-	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style
-	)
-	const
-{
-	JCoordinate ascent, descent;
-	return GetLineHeight(GetFontID(name, size, style), size, style, &ascent, &descent);
-}
-
-inline JSize
-JFontManager::GetLineHeight
-	(
-	const JFontID		fontID,
-	const JSize			size,
-	const JFontStyle&	style
-	)
-	const
-{
-	JCoordinate ascent, descent;
-	return GetLineHeight(fontID, size, style, &ascent, &descent);
-}
-
-/******************************************************************************
- GetCharWidth
-
- ******************************************************************************/
-
-inline JSize
-JFontManager::GetCharWidth
-	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle&	style,
-	const JCharacter	c
-	)
-	const
-{
-	return GetCharWidth(GetFontID(name, size, style), size, style, c);
 }
 
 #endif

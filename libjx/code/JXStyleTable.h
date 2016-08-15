@@ -13,7 +13,7 @@
 #endif
 
 #include <JXEditTable.h>
-#include <JFontStyle.h>
+#include <JFont.h>
 
 class JString;
 class JStyleTableData;
@@ -29,7 +29,7 @@ public:
 
 	virtual ~JXStyleTable();
 
-	const JString&	GetFont(JSize* size) const;
+	const JFont&	GetFont() const;
 	void			SetFont(const JCharacter* name, const JSize size);
 
 	JFontStyle	GetCellStyle(const JPoint& cell) const;

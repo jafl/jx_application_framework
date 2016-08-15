@@ -13,6 +13,7 @@
 #endif
 
 #include <JXEditTable.h>
+#include <JFont.h>
 #include "CBCommandManager.h"	// need defn of CmdInfo
 
 class JXTextButton;
@@ -89,8 +90,7 @@ private:
 	JString						itsBasePath;
 
 	JXInputField*	itsTextInput;			// NULL unless editing
-	JString			itsFontName;
-	JSize			itsFontSize;
+	JFont			itsFont;
 
 	JXTextMenu*		itsOptionsMenu;
 
