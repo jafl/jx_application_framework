@@ -6,8 +6,6 @@ document SB*.h
 
 -----
 
-+ systemg - allow merging from any remote branch
-
 jcc:
 	why is "replace all" so much slower than "find all"?
 
@@ -25,12 +23,13 @@ multi-pane editing
 	split off itsBuffer,itsStyles,itsUndo/RedoList into JTextBuffer
 	split out reading HTML, unix man page (to jcc), etc.
 	leave recalc engine, cursor location, and other display stuff in JTextEditor
+
 	JTextEditor can be constructed from string or JTextBuffer
-	CBTextEditor has handle to {JTextBuffer, refCount}
-	Edit menu has "New view..." which opens another CBTextEditor and incr refCount
-	When close, only require save if refCount == 1
-	Active undo needs to know which view it is for
-		since event from another view needs to deactivate it and create new one
+	CBTextDocument has handle to JTextBuffer
+	use partitions to show multiple views
+		double appropriate window dimension, if screen has space
+	each partition needs small [x] to close
+	small [+] buttons to split either horiz or vert
 
 -----
 

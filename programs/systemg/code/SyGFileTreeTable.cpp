@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "SyGFileTreeTable.h"
-#include "SyGHeaderWidget.h"
 #include "SyGFileTreeList.h"
 #include "SyGFileTree.h"
 #include "SyGTreeDir.h"

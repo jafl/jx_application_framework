@@ -88,6 +88,7 @@ JPainter::JPainter
 	itsDefaultColor(itsColormap->GetBlackColor())
 {
 	itsPenColor = itsDefaultColor;
+	itsFont.SetColor(itsDefaultColor);
 }
 
 /******************************************************************************
@@ -286,23 +287,23 @@ JPainter::AlignString
 {
 	if (hAlign == kHAlignCenter)
 		{
-		const JSize strWidth = GetStringWidth(str);
+		const JCoordinate strWidth = GetStringWidth(str);
 		*left += (width-strWidth)/2;
 		}
 	else if (hAlign == kHAlignRight)
 		{
-		const JSize strWidth = GetStringWidth(str);
+		const JCoordinate strWidth = GetStringWidth(str);
 		*left += width-strWidth;
 		}
 
 	if (vAlign == kVAlignCenter)
 		{
-		const JSize lineHeight = GetLineHeight();
+		const JCoordinate lineHeight = GetLineHeight();
 		*top += (height-lineHeight)/2;
 		}
 	else if (vAlign == kVAlignBottom)
 		{
-		const JSize lineHeight = GetLineHeight();
+		const JCoordinate lineHeight = GetLineHeight();
 		*top += height-lineHeight;
 		}
 }
