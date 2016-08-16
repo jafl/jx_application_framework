@@ -77,7 +77,6 @@ JXStaticText::JXStaticTextX
 {
 	itsIsLabelFlag = kJFalse;
 
-	SetDefaultFontSize(kJDefaultFontSize);
 	TESetLeftMarginWidth(kMinLeftMarginWidth);
 
 	if (JCompareMaxN(text, "<html>", 6, kJFalse))

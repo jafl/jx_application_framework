@@ -124,25 +124,6 @@ JXXFontMenu::~JXXFontMenu()
 }
 
 /******************************************************************************
- GetFontID
-
- ******************************************************************************/
-
-JFontID
-JXXFontMenu::GetFontID()
-	const
-{
-	const JXFontManager* fontMgr = GetXFontManager();
-	const JString fontName       = GetFontName();
-
-	JFontID id;
-	const JBoolean ok = fontMgr->GetFontID(fontName, &id);
-	assert( ok );
-
-	return id;
-}
-
-/******************************************************************************
  BuildMenu (private)
 
  ******************************************************************************/

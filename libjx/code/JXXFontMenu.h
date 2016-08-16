@@ -34,8 +34,6 @@ public:
 
 	virtual ~JXXFontMenu();
 
-	JFontID	GetFontID() const;
-
 protected:
 
 	JXXFontMenu(const JPtrArray<JString>& fontNames,

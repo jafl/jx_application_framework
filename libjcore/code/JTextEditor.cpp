@@ -4202,6 +4202,19 @@ JTextEditor::SetDefaultFontStyle
 		}
 }
 
+void
+JTextEditor::SetDefaultFont
+	(
+	const JFont& font
+	)
+{
+	itsDefFont = font;
+	if (itsBuffer->IsEmpty())
+		{
+		itsInsertionFont = CalcInsertionFont(1);
+		}
+}
+
 /******************************************************************************
  Cut
 

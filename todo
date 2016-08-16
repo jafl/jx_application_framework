@@ -11,14 +11,6 @@ jcc:
 
 	load tasks directly from project file
 
-JFont
-	need setters for individual font components?  (name, size style)
-	need info functions in JFontManager?  enough to expose from JFont?
-
-	replace JXXFontMenu::GetFontID()
-
-	update JCoreLibVersion.h with all changes
-
 multi-pane editing
 	split off itsBuffer,itsStyles,itsUndo/RedoList into JTextBuffer
 	split out reading HTML, unix man page (to jcc), etc.

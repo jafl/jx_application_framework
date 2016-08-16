@@ -49,12 +49,14 @@ public:
 	const JFontManager*	GetFontManager() const;
 
 	void	Set(const JCharacter* name, const JSize size = kJDefaultFontSize, const JFontStyle style = JFontStyle());
+	void	Set(const JString& name, const JSize size = kJDefaultFontSize, const JFontStyle style = JFontStyle());
 	void	Set(const JFont& f);
 
 	JFontID	GetID() const;
 
 	const JCharacter*	GetName() const;
 	void				SetName(const JCharacter* name);
+	void				SetName(const JString& name);
 
 	JSize	GetSize() const;
 	void	SetSize(const JSize size);
@@ -69,14 +71,14 @@ public:
 	void				SetStrike(const JBoolean strike);
 	void				SetColor(const JColorIndex color);
 
-	// mirror JFontManager
-
 	JSize	GetLineHeight() const;
 	JSize	GetLineHeight(JCoordinate* ascent, JCoordinate* descent) const;
+
 	JSize	GetCharWidth(const JCharacter c) const;
 	JSize	GetStringWidth(const JCharacter* str) const;
 	JSize	GetStringWidth(const JString& str) const;
 	JSize	GetStringWidth(const JCharacter* str, const JSize charCount) const;
+
 	JSize	GetStrikeThickness() const;
 	JSize	GetUnderlineThickness() const;
 
@@ -127,7 +129,7 @@ JFont::GetFontManager()
 }
 
 /******************************************************************************
- GetFontID
+ GetID
 
  ******************************************************************************/
 

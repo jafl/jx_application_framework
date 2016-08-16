@@ -12,13 +12,20 @@
 
 // These have to be #defined so they can be used for conditional compilation.
 
-#define CURRENT_JCORE_MAJOR_VERSION	3
-#define CURRENT_JCORE_MINOR_VERSION	1
+#define CURRENT_JCORE_MAJOR_VERSION	4
+#define CURRENT_JCORE_MINOR_VERSION	0
 #define CURRENT_JCORE_PATCH_VERSION	0
 
 // This is mainly provided so programmers can see the official version number.
 
-static const char* kCurrentJCoreLibVersionStr = "3.1.0";
+static const char* kCurrentJCoreLibVersionStr = "4.0.0";
+
+// version 4.0.0:
+//	*** Created JFont.  Instances can only be obtained from JFontManager.
+//		Converted most of JFontManager api to protected.
+//			Exposed equivalent api from JFont.
+//		Removed all api's using JFontID.
+//		Switched JTextEditor::Font to JFont.
 
 // version 3.2.0:
 //	jMountUtil:

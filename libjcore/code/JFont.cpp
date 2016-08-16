@@ -33,6 +33,19 @@ JFont::Set
 void
 JFont::Set
 	(
+	const JString&		name,
+	const JSize			size,
+	const JFontStyle	style
+	)
+{
+	itsSize  = size;
+	itsStyle = style;
+	SetName(name);
+}
+
+void
+JFont::Set
+	(
 	const JFont& f
 	)
 {
@@ -72,6 +85,15 @@ void
 JFont::SetName
 	(
 	const JCharacter* name
+	)
+{
+	itsID = itsFontMgr->GetFontID(name, itsSize, itsStyle);
+}
+
+void
+JFont::SetName
+	(
+	const JString& name
 	)
 {
 	itsID = itsFontMgr->GetFontID(name, itsSize, itsStyle);
