@@ -191,7 +191,7 @@ CBCompileDocument::ProcessFinished
 
  ******************************************************************************/
 
-static const JRegex gccErrorRegex    = ".:[0-9]+(:[0-9]+)?: error:";
+static const JRegex gccErrorRegex    = ".:[0-9]+(:[0-9]+)?: ";
 static const JRegex flexErrorRegex   = "..\", line [0-9]+: ";
 static const JRegex bisonErrorRegex  = "...\", line [0-9]+\\) error: ";
 static const JRegex makeErrorRegex   = ".(\\[[0-9]+\\])?: \\*\\*\\*";

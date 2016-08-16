@@ -16,8 +16,6 @@ Please send all bug reports and suggestions for features to
 
 Added \"Export\" and \"Import\" buttons in the Edit Tasks Menu dialog, to simplify transfering tasks between projects.
 <p>
-Updated Compiler Output window to ignore warnings and notes from gcc.  This makes it easier to find the errors.
-<p>
 Improved parsing of Java source files to detect inner classes and be smarter about finding parent classes.
 <p>
 Added support for Perl operators // and //= and ~~.
