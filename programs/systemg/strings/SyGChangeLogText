@@ -12,6 +12,10 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
+<h3> 2.5.1 </h3>
+
+Added remote tracking branches to \"Merge from branch\" on Git menu.
+
 <h3> 2.5 </h3>
 
 Added \"Add remote...\", \"Remove remote\", and \"Clean list of remote branches\" to help manage connections to remote git repositories.
