@@ -1237,8 +1237,11 @@ PlotDir::NewFit
 		itsFits->Append(lf);
 		df = lf;
 		}
+	else
+		{
+		assert( kJFalse );
+		}
 	AddFit(df, plotindex, type);
-
 }
 
 /******************************************************************************

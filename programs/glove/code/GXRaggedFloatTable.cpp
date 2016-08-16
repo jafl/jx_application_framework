@@ -2203,8 +2203,9 @@ GXRaggedFloatTable::PlotData
 		{
 		itsCreatePlotDialog->GetColumns(&xCol, &x2Col, &yCol, &y2Col);
 		}
-	else if (type == kVectorPlot)
+	else
 		{
+		assert( type == kVectorPlot );
 		itsCreateVectorPlotDialog->GetColumns(&xCol, &yCol, &x2Col, &y2Col);
 		}
 
@@ -2231,8 +2232,9 @@ GXRaggedFloatTable::PlotData
 		label = itsCreatePlotDialog->GetLabel();
 		oldPlot = itsCreatePlotDialog->GetPlotIndex(&index);
 		}
-	else if (type == kVectorPlot)
+	else
 		{
+		assert( type == kVectorPlot );
 		label = itsCreateVectorPlotDialog->GetLabel();
 		oldPlot = itsCreateVectorPlotDialog->GetPlotIndex(&index);
 		}

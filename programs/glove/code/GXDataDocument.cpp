@@ -64,7 +64,7 @@
 
 static const JCharacter* kFileMenuTitleStr  = "File";
 static const JCharacter* kFileMenuStr =
-	"    New %k Meta-N %i New::GXDataDocument" 
+	"    New %k Meta-N %i New::GXDataDocument"
 	"  | Open... %k Meta-O %i Open::GXDataDocument"
 	"  | Save %k Meta-S %i Save::GXDataDocument"
 	"  | Save as..."
@@ -213,22 +213,22 @@ GXDataDocument::BuildWindow()
 	JSize w = 453;
 	JSize h = 360;
 
-    JXWindow* window = new JXWindow(this, w,h, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, w,h, "");
+	assert( window != NULL );
 
-    JXMenuBar* menuBar =
-        new JXMenuBar(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop,
-                    0,0, w, kJXDefaultMenuBarHeight);
-    assert( menuBar != NULL );
+	JXMenuBar* menuBar =
+		new JXMenuBar(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop,
+					0,0, w, kJXDefaultMenuBarHeight);
+	assert( menuBar != NULL );
 
-    JXToolBar* toolBar =
-    	new JXToolBar(GetPrefsMgr(), kDataToolBarID, menuBar,
-    				150, 150, window,
-                    JXWidget::kHElastic, JXWidget::kVElastic,
-                    0,kJXDefaultMenuBarHeight,
-                    w,h - kJXDefaultMenuBarHeight);
-    assert( toolBar != NULL );
+	JXToolBar* toolBar =
+		new JXToolBar(GetPrefsMgr(), kDataToolBarID, menuBar,
+					150, 150, window,
+					JXWidget::kHElastic, JXWidget::kVElastic,
+					0,kJXDefaultMenuBarHeight,
+					w,h - kJXDefaultMenuBarHeight);
+	assert( toolBar != NULL );
 
 	itsFileMenu = menuBar->AppendTextMenu(kFileMenuTitleStr);
 	itsFileMenu->SetMenuItems(kFileMenuStr);
@@ -250,15 +250,15 @@ GXDataDocument::BuildWindow()
 	assert(image != NULL);
 	itsFileMenu->SetItemImage(kPrintCmd, image, kJTrue);
 
-	const JCoordinate scrollheight = 
+	const JCoordinate scrollheight =
 		toolBar->GetWidgetEnclosure()->GetBoundsHeight();
-	
-    itsScrollbarSet =
-        new JXScrollbarSet(toolBar->GetWidgetEnclosure(), 
-                    JXWidget::kHElastic, JXWidget::kVElastic,
-                    0,0,
-                    w, scrollheight);
-    assert( itsScrollbarSet != NULL );
+
+	itsScrollbarSet =
+		new JXScrollbarSet(toolBar->GetWidgetEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic,
+					0,0,
+					w, scrollheight);
+	assert( itsScrollbarSet != NULL );
 
 	AdjustWindowTitle();
 
@@ -279,10 +279,10 @@ GXDataDocument::BuildWindow()
 	itsTable =
 		new GXRaggedFloatTable(this, okButton, itsData, 6,
 							menuBar, itsScrollbarSet, encl,
-						   	JXWidget::kHElastic, JXWidget::kVElastic,
-						   	kRowHeaderWidth,kColHeaderHeight,
-						   	enclApG.width()  - kRowHeaderWidth,
-						   	enclApG.height() - kColHeaderHeight);
+							JXWidget::kHElastic, JXWidget::kVElastic,
+							kRowHeaderWidth,kColHeaderHeight,
+							enclApG.width()  - kRowHeaderWidth,
+							enclApG.height() - kColHeaderHeight);
 	assert( itsTable != NULL );
 
 	enclApG = encl->GetApertureGlobal();	// JXScrollableWidget forces a change in this

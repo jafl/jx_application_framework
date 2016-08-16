@@ -19,18 +19,6 @@ JFont
 
 	replace JXXFontMenu::GetFontID()
 
-	build each project with JFont() marked private
-		medic
-		mill
-		drakon
-		glove
-		jx_memory_debugger
-		jx_project_wizard
-		leibnitz
-		mondrian
-		ssh_askpass
-		systemg
-
 	update JCoreLibVersion.h with all changes
 
 multi-pane editing
