@@ -65,6 +65,7 @@ JFont::SetID
 	const JFontID id
 	)
 {
+	assert( itsFontMgr != NULL );
 	assert( itsFontMgr->GetFontName(id) != NULL );
 	itsID = id;
 }
@@ -78,6 +79,7 @@ const JCharacter*
 JFont::GetName()
 	const
 {
+	assert( itsFontMgr != NULL );
 	return itsFontMgr->GetFontName(itsID);
 }
 
@@ -87,6 +89,7 @@ JFont::SetName
 	const JCharacter* name
 	)
 {
+	assert( itsFontMgr != NULL );
 	itsID = itsFontMgr->GetFontID(name, itsSize, itsStyle);
 }
 
@@ -96,6 +99,7 @@ JFont::SetName
 	const JString& name
 	)
 {
+	assert( itsFontMgr != NULL );
 	itsID = itsFontMgr->GetFontID(name, itsSize, itsStyle);
 }
 
@@ -197,6 +201,8 @@ JSize
 JFont::GetLineHeight()
 	const
 {
+	assert( itsFontMgr != NULL );
+
 	JCoordinate ascent, descent;
 	return itsFontMgr->GetLineHeight(itsID, itsSize, itsStyle, &ascent, &descent);
 }
@@ -209,6 +215,7 @@ JFont::GetLineHeight
 	)
 	const
 {
+	assert( itsFontMgr != NULL );
 	return itsFontMgr->GetLineHeight(itsID, itsSize, itsStyle, ascent, descent);
 }
 
@@ -219,6 +226,7 @@ JFont::GetCharWidth
 	)
 	const
 {
+	assert( itsFontMgr != NULL );
 	return itsFontMgr->GetCharWidth(itsID, c);
 }
 
@@ -229,6 +237,7 @@ JFont::GetStringWidth
 	)
 	const
 {
+	assert( itsFontMgr != NULL );
 	return itsFontMgr->GetStringWidth(itsID, str, strlen(str));
 }
 
@@ -239,6 +248,7 @@ JFont::GetStringWidth
 	)
 	const
 {
+	assert( itsFontMgr != NULL );
 	return itsFontMgr->GetStringWidth(itsID, str, str.GetLength());
 }
 
@@ -250,6 +260,7 @@ JFont::GetStringWidth
 	)
 	const
 {
+	assert( itsFontMgr != NULL );
 	return itsFontMgr->GetStringWidth(itsID, str, charCount);
 }
 
@@ -257,6 +268,7 @@ JSize
 JFont::GetStrikeThickness()
 	const
 {
+	assert( itsFontMgr != NULL );
 	return itsFontMgr->GetStrikeThickness(itsSize);
 }
 
@@ -264,6 +276,7 @@ JSize
 JFont::GetUnderlineThickness()
 	const
 {
+	assert( itsFontMgr != NULL );
 	return itsFontMgr->GetUnderlineThickness(itsSize);
 }
 
@@ -275,6 +288,7 @@ JFont::GetUnderlineThickness()
 void
 JFont::UpdateID()
 {
+	assert( itsFontMgr != NULL );
 	itsID = itsFontMgr->GetFontID(itsFontMgr->GetFontName(itsID), itsSize, itsStyle);
 }
 
