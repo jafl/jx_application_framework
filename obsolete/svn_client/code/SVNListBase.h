@@ -8,10 +8,6 @@
 #ifndef _H_SVNListBase
 #define _H_SVNListBase
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXStringList.h>
 #include "SVNTabBase.h"
 #include <j_prep_ace.h>

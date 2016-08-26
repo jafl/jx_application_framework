@@ -8,10 +8,6 @@
 #ifndef _H_CMEditPrefsDialog
 #define _H_CMEditPrefsDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 #include <JPtrArray-JString.h>
 

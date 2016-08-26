@@ -10,10 +10,6 @@
 #ifndef _H_CBProjectDocument
 #define _H_CBProjectDocument
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXFileDocument.h>
 #include "CBDirList.h"
 #include "CBTextFileType.h"

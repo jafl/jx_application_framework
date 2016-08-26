@@ -8,10 +8,6 @@
 #ifndef _H_CBPTPrintSetupDialog
 #define _H_CBPTPrintSetupDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXPTPrintSetupDialog.h>
 
 class CBPTPrintSetupDialog : public JXPTPrintSetupDialog

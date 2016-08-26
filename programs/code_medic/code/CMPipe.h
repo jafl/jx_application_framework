@@ -8,10 +8,6 @@
 #ifndef _H_CMPipe
 #define _H_CMPipe
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBroadcaster.h>
 #include <JString.h>
 #include <j_prep_ace.h>

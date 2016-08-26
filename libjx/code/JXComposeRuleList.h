@@ -10,10 +10,6 @@
 #ifndef _H_JXComposeRuleList
 #define _H_JXComposeRuleList
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JArray.h>
 #include <jXKeysym.h>
 #include <X11/X.h>

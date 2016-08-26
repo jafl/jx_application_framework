@@ -10,10 +10,6 @@
 #ifndef _H_JXTextCheckbox
 #define _H_JXTextCheckbox
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXCheckbox.h>
 #include <JString.h>
 #include <JFont.h>

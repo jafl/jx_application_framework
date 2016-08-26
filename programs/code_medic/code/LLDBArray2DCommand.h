@@ -8,10 +8,6 @@
 #ifndef _H_LLDBArray2DCommand
 #define _H_LLDBArray2DCommand
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMArray2DCommand.h"
 
 class LLDBArray2DCommand : public CMArray2DCommand

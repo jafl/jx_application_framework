@@ -10,10 +10,6 @@
 #ifndef _H_JXMenuBar
 #define _H_JXMenuBar
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWidget.h>
 #include <JPtrArray.h>
 

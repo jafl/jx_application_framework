@@ -10,10 +10,6 @@
 #ifndef _H_JXImageRadioButton
 #define _H_JXImageRadioButton
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXRadioButton.h>
 #include <jXConstants.h>
 #include <JConstBitmap.h>

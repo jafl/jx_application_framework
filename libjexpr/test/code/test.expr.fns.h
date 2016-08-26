@@ -8,10 +8,6 @@
 #ifndef _H_test_expr_fns
 #define _H_test_expr_fns
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jTypes.h>
 
 class JFunction;

@@ -10,10 +10,6 @@
 #ifndef _H_SimpleTable
 #define _H_SimpleTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTable.h>
 
 class SimpleTable : public JXTable

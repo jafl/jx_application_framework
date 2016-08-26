@@ -8,10 +8,6 @@
 #ifndef _H_GDBDisplaySourceForMain
 #define _H_GDBDisplaySourceForMain
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMDisplaySourceForMain.h"
 
 class GDBDisplaySourceForMain : public CMDisplaySourceForMain

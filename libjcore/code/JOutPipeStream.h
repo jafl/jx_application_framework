@@ -10,10 +10,6 @@
 #ifndef _H_JOutPipeStream
 #define _H_JOutPipeStream
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JOutPipeStreambuf.h>
 
 class JOutPipeStream : public ostream

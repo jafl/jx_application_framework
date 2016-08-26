@@ -8,10 +8,6 @@
 #ifndef _H_JVMStackFrameNode
 #define _H_JVMStackFrameNode
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMStackFrameNode.h"
 
 class JVMStackFrameNode : public CMStackFrameNode

@@ -8,10 +8,6 @@
 #ifndef _H_JXDirectSaveSource
 #define _H_JXDirectSaveSource
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXImageWidget.h>
 
 class JXSaveFileDialog;

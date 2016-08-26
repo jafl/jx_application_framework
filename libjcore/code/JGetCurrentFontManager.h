@@ -10,10 +10,6 @@
 #ifndef _H_JGetCurrentFontManager
 #define _H_JGetCurrentFontManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 class JFontManager;
 
 class JGetCurrentFontManager

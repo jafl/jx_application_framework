@@ -10,10 +10,6 @@
 #ifndef _H_TestCompartment
 #define _H_TestCompartment
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDownRect.h>
 
 class TestPartitionDirector;

@@ -8,10 +8,6 @@
 #ifndef _H_JFileID
 #define _H_JFileID
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JOrderedSet.h>
 #include <sys/types.h>
 

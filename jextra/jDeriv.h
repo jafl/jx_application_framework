@@ -8,10 +8,6 @@
 #ifndef _H_jDeriv
 #define _H_jDeriv
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JFloat.h>
 
 JFloat JCenterDiff2(const JFloat x, const JFloat dx, JFloat (fn)(const JFloat));

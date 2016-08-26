@@ -10,10 +10,6 @@
 #ifndef _H_JXEngravedRect
 #define _H_JXEngravedRect
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDecorRect.h>
 
 class JXEngravedRect : public JXDecorRect

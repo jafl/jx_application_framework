@@ -10,10 +10,6 @@
 #ifndef _H_CBExecOutputDocument
 #define _H_CBExecOutputDocument
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBTextDocument.h"
 #include <JProcess.h>			// need definition of JProcess::Finished
 #include <j_prep_ace.h>

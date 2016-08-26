@@ -8,10 +8,6 @@
 #ifndef _H_XDVarNode
 #define _H_XDVarNode
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMVarNode.h"
 
 class XDVarNode : public CMVarNode

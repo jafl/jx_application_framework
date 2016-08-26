@@ -10,10 +10,6 @@
 #ifndef _H_JXColorWheel
 #define _H_JXColorWheel
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWidget.h>
 #include <jColor.h>
 

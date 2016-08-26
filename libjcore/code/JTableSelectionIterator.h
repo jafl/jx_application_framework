@@ -10,10 +10,6 @@
 #ifndef _H_JTableSelectionIterator
 #define _H_JTableSelectionIterator
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JOrderedSetIterator.h>
 #include <JBroadcaster.h>
 #include <JRect.h>

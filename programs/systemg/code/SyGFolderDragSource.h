@@ -8,10 +8,6 @@
 #ifndef _H_SyGFolderDragSource
 #define _H_SyGFolderDragSource
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXImageWidget.h>
 
 class JXPathInput;

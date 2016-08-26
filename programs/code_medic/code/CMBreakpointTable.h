@@ -8,10 +8,6 @@
 #ifndef _H_CMBreakpointTable
 #define _H_CMBreakpointTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXEditTable.h>
 #include <JPrefObject.h>
 #include <JFont.h>

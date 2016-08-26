@@ -10,10 +10,6 @@
 #ifndef _H_SCVACSource
 #define _H_SCVACSource
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "SCACSource.h"
 
 class SCVACSource : public SCACSource

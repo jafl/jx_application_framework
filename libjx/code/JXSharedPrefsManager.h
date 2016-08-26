@@ -8,10 +8,6 @@
 #ifndef _H_JXSharedPrefsManager
 #define _H_JXSharedPrefsManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTEBase.h>	// need defn of PartialWordModifier
 #include <JXMenu.h>		// need defn of Style
 #include <jTime.h>

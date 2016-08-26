@@ -10,10 +10,6 @@
 #ifndef _H_THXBaseConvMenu
 #define _H_THXBaseConvMenu
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTextMenu.h>
 
 class THXBaseConvMenu : public JXTextMenu

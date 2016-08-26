@@ -8,10 +8,6 @@
 #ifndef _H_WarSocket
 #define _H_WarSocket
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "WWSocket.h"
 
 class WarSocket : public WWSocket

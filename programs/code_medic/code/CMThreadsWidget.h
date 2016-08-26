@@ -8,10 +8,6 @@
 #ifndef _H_CMThreadsWidget
 #define _H_CMThreadsWidget
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXNamedTreeListWidget.h>
 
 class JTree;

@@ -8,10 +8,6 @@
 #ifndef _H_CBCommand
 #define _H_CBCommand
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBCommandManager.h"	// need defn of CmdInfo
 #include <JPtrArray-JString.h>
 

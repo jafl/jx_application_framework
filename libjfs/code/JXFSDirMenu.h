@@ -8,10 +8,6 @@
 #ifndef _H_JXFSDirMenu
 #define _H_JXFSDirMenu
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTextMenu.h>
 
 class JDirInfo;

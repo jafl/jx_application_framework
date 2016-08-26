@@ -8,10 +8,6 @@
 #ifndef _H_GDBVarCommand
 #define _H_GDBVarCommand
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMVarCommand.h"
 
 class GDBVarCommand : public CMVarCommand

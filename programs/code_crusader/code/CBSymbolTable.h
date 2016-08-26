@@ -10,10 +10,6 @@
 #ifndef _H_CBSymbolTable
 #define _H_CBSymbolTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTable.h>
 
 class JError;

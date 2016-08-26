@@ -8,10 +8,6 @@
 #ifndef _H_JTEUndoPaste
 #define _H_JTEUndoPaste
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JTEUndoTextBase.h>
 
 class JTEUndoPaste : public JTEUndoTextBase

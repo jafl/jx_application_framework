@@ -8,10 +8,6 @@
 #ifndef _H_JXCurrentPathMenu
 #define _H_JXCurrentPathMenu
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTextMenu.h>
 
 class JXCurrentPathMenu : public JXTextMenu

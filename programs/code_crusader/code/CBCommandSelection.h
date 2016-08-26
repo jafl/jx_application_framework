@@ -8,10 +8,6 @@
 #ifndef _H_CBCommandSelection
 #define _H_CBCommandSelection
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXSelectionManager.h>
 #include "CBCommandManager.h"
 

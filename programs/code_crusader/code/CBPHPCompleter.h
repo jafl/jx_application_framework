@@ -8,10 +8,6 @@
 #ifndef _H_CBPHPCompleter
 #define _H_CBPHPCompleter
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBStringCompleter.h"
 
 class CBPHPCompleter : public CBStringCompleter

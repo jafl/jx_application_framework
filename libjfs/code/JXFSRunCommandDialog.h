@@ -8,10 +8,6 @@
 #ifndef _H_JXFSRunCommandDialog
 #define _H_JXFSRunCommandDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 #include <jTime.h>
 

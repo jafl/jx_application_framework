@@ -10,10 +10,6 @@
 #ifndef _H_JGreaterThan
 #define _H_JGreaterThan
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JFunctionComparison.h>
 
 class JGreaterThan : public JFunctionComparison

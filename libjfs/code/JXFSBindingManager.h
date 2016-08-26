@@ -8,10 +8,6 @@
 #ifndef _H_JXFSBindingManager
 #define _H_JXFSBindingManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPtrArray-JString.h>
 #include "JFSBinding.h"		// need defn of CommandType
 #include <JError.h>

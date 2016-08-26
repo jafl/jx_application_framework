@@ -8,10 +8,6 @@
 #ifndef _H_CMLocation
 #define _H_CMLocation
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JString.h>
 #include <JFileID.h>
 

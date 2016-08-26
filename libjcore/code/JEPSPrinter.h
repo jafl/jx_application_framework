@@ -10,10 +10,6 @@
 #ifndef _H_JEPSPrinter
 #define _H_JEPSPrinter
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPainter.h>
 #include <JPrinter.h>
 #include <JPSPrinterBase.h>

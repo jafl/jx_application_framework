@@ -8,10 +8,6 @@
 #ifndef _H_CBVIKeyHandler
 #define _H_CBVIKeyHandler
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXVIKeyHandler.h>
 
 class CBTextEditor;

@@ -10,10 +10,6 @@
 #ifndef _H_SCEditScratchTitleDialog
 #define _H_SCEditScratchTitleDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 
 class JXInputField;

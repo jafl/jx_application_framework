@@ -10,10 +10,6 @@
 #ifndef _H_JImagPart
 #define _H_JImagPart
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JUnaryFunction.h>
 
 class JImagPart : public JUnaryFunction

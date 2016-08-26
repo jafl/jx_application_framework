@@ -8,10 +8,6 @@
 #ifndef _H_CBMacroSubstitute
 #define _H_CBMacroSubstitute
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JSubstitute.h>
 
 class CBMacroSubstitute : public JSubstitute

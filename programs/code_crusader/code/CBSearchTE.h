@@ -8,10 +8,6 @@
 #ifndef _H_CBSearchTE
 #define _H_CBSearchTE
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JTextEditor.h>
 #include "CBSearchDocument.h"	// need definition of RecordLink
 

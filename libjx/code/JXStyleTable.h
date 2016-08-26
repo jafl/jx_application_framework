@@ -8,10 +8,6 @@
 #ifndef _H_JXStyleTable
 #define _H_JXStyleTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXEditTable.h>
 #include <JFont.h>
 

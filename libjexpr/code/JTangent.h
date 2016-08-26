@@ -10,10 +10,6 @@
 #ifndef _H_JTangent
 #define _H_JTangent
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JUnaryFunction.h>
 
 class JTangent : public JUnaryFunction

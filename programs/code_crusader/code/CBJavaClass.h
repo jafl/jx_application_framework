@@ -8,10 +8,6 @@
 #ifndef _H_CBJavaClass
 #define _H_CBJavaClass
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBClass.h"
 
 class CBJavaClass : public CBClass

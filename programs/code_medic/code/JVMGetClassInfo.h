@@ -8,10 +8,6 @@
 #ifndef _H_JVMGetClassInfo
 #define _H_JVMGetClassInfo
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMCommand.h"
 
 class JVMGetClassInfo : public CMCommand

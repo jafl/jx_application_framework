@@ -8,10 +8,6 @@
 #ifndef _H_JTEStyler
 #define _H_JTEStyler
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JTextEditor.h>	// need def of Font
 
 class JTEStyler

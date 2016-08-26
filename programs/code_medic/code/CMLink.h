@@ -8,10 +8,6 @@
 #ifndef _H_CMLink
 #define _H_CMLink
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBroadcaster.h>
 #include <JStringPtrMap.h>
 #include <JPtrArray-JString.h>

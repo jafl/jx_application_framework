@@ -8,10 +8,6 @@
 #ifndef _H_XDGetCompletions
 #define _H_XDGetCompletions
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMGetCompletions.h"
 
 class CMCommandInput;

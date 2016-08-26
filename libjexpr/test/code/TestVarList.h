@@ -10,10 +10,6 @@
 #ifndef _H_TestVarList
 #define _H_TestVarList
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JVariableList.h>
 #include <JPtrArray.h>
 

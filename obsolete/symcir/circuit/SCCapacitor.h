@@ -10,10 +10,6 @@
 #ifndef _H_SCCapacitor
 #define _H_SCCapacitor
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "SCPassiveLinearComp.h"
 
 class SCCapacitor : public SCPassiveLinearComp

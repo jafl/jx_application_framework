@@ -10,10 +10,6 @@
 #ifndef _H_JXAnimationTask
 #define _H_JXAnimationTask
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXIdleTask.h>
 #include <JKLRand.h>
 

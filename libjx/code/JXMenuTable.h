@@ -10,10 +10,6 @@
 #ifndef _H_JXMenuTable
 #define _H_JXMenuTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTable.h>
 
 class JXMenu;

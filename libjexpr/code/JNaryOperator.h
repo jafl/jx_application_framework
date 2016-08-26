@@ -10,10 +10,6 @@
 #ifndef _H_JNaryOperator
 #define _H_JNaryOperator
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JNaryFunction.h>
 
 class JNaryOperator : public JNaryFunction

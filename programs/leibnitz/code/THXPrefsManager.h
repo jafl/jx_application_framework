@@ -8,10 +8,6 @@
 #ifndef _H_THXPrefsManager
 #define _H_THXPrefsManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXPrefsManager.h>
 
 // Preferences -- do not change ID's once they are assigned

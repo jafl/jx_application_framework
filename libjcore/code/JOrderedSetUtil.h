@@ -10,10 +10,6 @@
 #ifndef _H_JOrderedSetUtil
 #define _H_JOrderedSetUtil
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JOrderedSet.h>
 
 JOrderedSetT::CompareResult JCompareIndices(const JIndex& i, const JIndex& j);

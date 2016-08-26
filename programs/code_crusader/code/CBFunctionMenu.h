@@ -10,10 +10,6 @@
 #ifndef _H_CBFunctionMenu
 #define _H_CBFunctionMenu
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTextMenu.h>
 #include "CBCtagsUser.h"
 #include <JString.h>

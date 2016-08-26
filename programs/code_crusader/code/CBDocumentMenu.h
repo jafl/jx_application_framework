@@ -8,10 +8,6 @@
 #ifndef _H_CBDocumentMenu
 #define _H_CBDocumentMenu
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDocumentMenu.h>
 
 class CBDocumentMenu : public JXDocumentMenu

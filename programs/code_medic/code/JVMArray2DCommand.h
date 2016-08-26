@@ -8,10 +8,6 @@
 #ifndef _H_JVMArray2DCommand
 #define _H_JVMArray2DCommand
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMArray2DCommand.h"
 
 class JVMArray2DCommand : public CMArray2DCommand

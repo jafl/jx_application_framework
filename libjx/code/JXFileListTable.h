@@ -10,10 +10,6 @@
 #ifndef _H_JXFileListTable
 #define _H_JXFileListTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTable.h>
 
 class JError;

@@ -10,10 +10,6 @@
 #ifndef _H_JAuxTableData
 #define _H_JAuxTableData
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPackedTableData.h>
 
 class JTable;

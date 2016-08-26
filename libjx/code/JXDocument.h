@@ -10,10 +10,6 @@
 #ifndef _H_JXDocument
 #define _H_JXDocument
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 #include <JXDocumentManager.h>	// need definition of SafetySaveReason
 

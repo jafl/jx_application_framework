@@ -10,10 +10,6 @@
 #ifndef _H_JXApplication
 #define _H_JXApplication
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDirector.h>
 #include <JXDocumentManager.h>	// need definition of SafetySaveReason
 #include <JPtrArray-JString.h>

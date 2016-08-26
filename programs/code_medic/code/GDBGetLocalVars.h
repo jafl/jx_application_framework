@@ -8,10 +8,6 @@
 #ifndef _H_GDBGetLocalVars
 #define _H_GDBGetLocalVars
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMGetLocalVars.h"
 
 class CMVarNode;

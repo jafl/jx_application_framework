@@ -10,10 +10,6 @@
 #ifndef _H_Test3DWidget
 #define _H_Test3DWidget
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JX3DWidget.h>
 
 class J3DUniverse;

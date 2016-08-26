@@ -10,10 +10,6 @@
 #ifndef _H_GXDataDocument
 #define _H_GXDataDocument
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXFileDocument.h>
 #include <JString.h>
 #include <JPtrArray.h>

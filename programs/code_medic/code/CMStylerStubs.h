@@ -8,10 +8,6 @@
 #ifndef _H_CMStylerStubs
 #define _H_CMStylerStubs
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBStylerBase.h"
 
 class CBBourneShellStyler

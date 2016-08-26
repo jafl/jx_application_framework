@@ -9,10 +9,6 @@
 #ifndef _H_JInterpolate
 #define _H_JInterpolate
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JSubstitute.h>
 #include <JRegex.h>
 

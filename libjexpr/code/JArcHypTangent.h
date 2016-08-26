@@ -10,10 +10,6 @@
 #ifndef _H_JArcHypTangent
 #define _H_JArcHypTangent
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JUnaryFunction.h>
 
 class JArcHypTangent : public JUnaryFunction

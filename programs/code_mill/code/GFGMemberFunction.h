@@ -10,10 +10,6 @@
 #ifndef _H_GFGMemberFunction
 #define _H_GFGMemberFunction
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPtrArray-JString.h>
 
 class GFGMemberFunction

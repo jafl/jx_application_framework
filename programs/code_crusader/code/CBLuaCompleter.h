@@ -8,10 +8,6 @@
 #ifndef _H_CBLuaCompleter
 #define _H_CBLuaCompleter
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBStringCompleter.h"
 
 class CBLuaCompleter : public CBStringCompleter

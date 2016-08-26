@@ -10,10 +10,6 @@
 #ifndef _H_JArcCosine
 #define _H_JArcCosine
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JUnaryFunction.h>
 
 class JArcCosine : public JUnaryFunction

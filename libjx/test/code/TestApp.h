@@ -10,10 +10,6 @@
 #ifndef _H_TestApp
 #define _H_TestApp
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXApplication.h>
 
 class TestDirector;

@@ -10,10 +10,6 @@
 #ifndef _H_JPtrArray
 #define _H_JPtrArray
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JArray.h>
 
 struct JPtrArrayT

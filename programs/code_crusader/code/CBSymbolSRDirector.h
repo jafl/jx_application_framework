@@ -8,10 +8,6 @@
 #ifndef _H_CBSymbolSRDirector
 #define _H_CBSymbolSRDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 
 class JError;

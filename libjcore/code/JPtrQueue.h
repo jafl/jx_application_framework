@@ -10,10 +10,6 @@
 #ifndef _H_JPtrQueue
 #define _H_JPtrQueue
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JQueue.h>
 #include <JPtrArray.h>
 

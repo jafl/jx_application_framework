@@ -8,10 +8,6 @@
 #ifndef _H_JXImageMenu
 #define _H_JXImageMenu
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXMenu.h>
 #include <JXImageMenuData.h>	// need defn of ItemType
 #include <JXPM.h>

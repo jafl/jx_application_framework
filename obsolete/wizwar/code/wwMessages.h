@@ -10,10 +10,6 @@
 #ifndef _H_wwMessages
 #define _H_wwMessages
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jTypes.h>
 
 const JFileVersion kWWCurrentProtocolVersion = 0;

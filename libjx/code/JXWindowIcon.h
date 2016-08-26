@@ -10,10 +10,6 @@
 #ifndef _H_JXWindowIcon
 #define _H_JXWindowIcon
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWidget.h>
 
 class JXImage;

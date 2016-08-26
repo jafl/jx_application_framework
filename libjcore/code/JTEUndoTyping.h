@@ -10,10 +10,6 @@
 #ifndef _H_JTEUndoTyping
 #define _H_JTEUndoTyping
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JTEUndoTextBase.h>
 
 class JTEUndoTyping : public JTEUndoTextBase

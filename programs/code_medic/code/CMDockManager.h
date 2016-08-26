@@ -8,10 +8,6 @@
 #ifndef _H_CMDockManager
 #define _H_CMDockManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDockManager.h>
 
 class CMDockManager : public JXDockManager

@@ -10,10 +10,6 @@
 #ifndef _H_GCLAppointment
 #define _H_GCLAppointment
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <GCLAlarm.h>
 #include <GCLRecurrence.h>
 #include <GCLUtil.h>

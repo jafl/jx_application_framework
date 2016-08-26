@@ -13,10 +13,6 @@
  *****************************************************************************/
 
 // Superclass header
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JMMRecord.h>
 
 #include <j_prep_ace.h>

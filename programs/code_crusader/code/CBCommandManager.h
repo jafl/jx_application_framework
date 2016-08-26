@@ -8,10 +8,6 @@
 #ifndef _H_CBCommandManager
 #define _H_CBCommandManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPrefObject.h>
 #include <JBroadcaster.h>
 #include <JString.h>

@@ -8,10 +8,6 @@
 #ifndef _H_JX2DPlotPrintEPSDialog
 #define _H_JX2DPlotPrintEPSDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXEPSPrintSetupDialog.h>
 
 class JXTextMenu;

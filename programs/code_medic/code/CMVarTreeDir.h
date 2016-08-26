@@ -8,10 +8,6 @@
 #ifndef _H_CMVarTreeDir
 #define _H_CMVarTreeDir
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 
 class JTree;

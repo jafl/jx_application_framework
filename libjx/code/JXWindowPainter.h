@@ -10,10 +10,6 @@
 #ifndef _H_JXWindowPainter
 #define _H_JXWindowPainter
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPainter.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>

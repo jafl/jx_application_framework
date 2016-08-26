@@ -10,10 +10,6 @@
 #ifndef _H_evt_handlers
 #define _H_evt_handlers
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jTypes.h>
 #include <j_prep_ace.h>
 #include <ace/Svc_Handler.h>

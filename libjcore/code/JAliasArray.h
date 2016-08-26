@@ -8,10 +8,6 @@
 #ifndef _H_JAliasArray
 #define _H_JAliasArray
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JArray.h>
 
 template <class T>

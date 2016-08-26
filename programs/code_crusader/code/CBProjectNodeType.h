@@ -8,10 +8,6 @@
 #ifndef _H_CBProjectNodeType
 #define _H_CBProjectNodeType
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jTypes.h>
 
 // Do not change the file type values once they are assigned because

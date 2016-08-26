@@ -8,10 +8,6 @@
 #ifndef _H_CBSampleText
 #define _H_CBSampleText
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXInputField.h>
 
 class CBSampleText : public JXInputField

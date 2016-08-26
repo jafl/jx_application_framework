@@ -8,10 +8,6 @@
 #ifndef _H_CBListChooseSaveFile
 #define _H_CBListChooseSaveFile
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXChooseSaveFile.h>
 
 class CBListChooseFileDialog;

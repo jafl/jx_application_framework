@@ -8,10 +8,6 @@
 #ifndef _H_JXDNDManager
 #define _H_JXDNDManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXSelectionManager.h>
 #include <JXButtonStates.h>
 #include <JXKeyModifiers.h>

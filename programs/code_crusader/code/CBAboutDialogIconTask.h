@@ -10,10 +10,6 @@
 #ifndef _H_CBAboutDialogIconTask
 #define _H_CBAboutDialogIconTask
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXAnimationTask.h>
 #include <JPtrArray.h>
 

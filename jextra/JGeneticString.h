@@ -10,10 +10,6 @@
 #ifndef _H_JGeneticString
 #define _H_JGeneticString
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JGeneticAlgorithm.h>
 
 class JGeneticString : public JGeneticAlgorithm

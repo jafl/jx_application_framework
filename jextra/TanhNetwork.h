@@ -10,10 +10,6 @@
 #ifndef _H_TanhNetwork
 #define _H_TanhNetwork
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <FFNetwork.h>
 
 class TanhNetwork : public FFNetwork

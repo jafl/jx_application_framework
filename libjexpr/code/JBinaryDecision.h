@@ -10,10 +10,6 @@
 #ifndef _H_JBinaryDecision
 #define _H_JBinaryDecision
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JDecision.h>
 
 template <class T>

@@ -10,10 +10,6 @@
 #ifndef _H_JXChooseFileDialog
 #define _H_JXChooseFileDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXCSFDialogBase.h>
 
 class JXChooseFileDialog : public JXCSFDialogBase

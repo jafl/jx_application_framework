@@ -11,10 +11,6 @@
 #ifndef _H_JXFixLenPGDirector
 #define _H_JXFixLenPGDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXPGDirectorBase.h>
 
 class JXProgressDisplay;

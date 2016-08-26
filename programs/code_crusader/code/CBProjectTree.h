@@ -8,10 +8,6 @@
 #ifndef _H_CBProjectTree
 #define _H_CBProjectTree
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JTree.h>
 #include <JPtrArray.h>
 

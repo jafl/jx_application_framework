@@ -8,10 +8,6 @@
 #ifndef _H_CMArray2DTable
 #define _H_CMArray2DTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXStringTable.h>
 
 class JXMenuBar;

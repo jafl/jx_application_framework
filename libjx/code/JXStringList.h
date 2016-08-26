@@ -10,10 +10,6 @@
 #ifndef _H_JXStringList
 #define _H_JXStringList
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTable.h>
 #include <JRunArray.h>
 #include <JAliasArray.h>

@@ -10,10 +10,6 @@
 #ifndef _H_JXToolBarButton
 #define _H_JXToolBarButton
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXButton.h>
 #include <JString.h>
 #include <JFont.h>

@@ -10,10 +10,6 @@
 #ifndef _H_CMArrayExprInput
 #define _H_CMArrayExprInput
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXInputField.h>
 
 class CMArrayExprInput : public JXInputField

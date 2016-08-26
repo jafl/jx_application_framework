@@ -10,10 +10,6 @@
 #ifndef _H_GLUndoBase
 #define _H_GLUndoBase
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JUndo.h>
 #include <JPoint.h>
 

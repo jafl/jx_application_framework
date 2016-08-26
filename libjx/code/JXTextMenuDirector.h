@@ -10,10 +10,6 @@
 #ifndef _H_JXTextMenuDirector
 #define _H_JXTextMenuDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXMenuDirector.h>
 
 class JXMenu;

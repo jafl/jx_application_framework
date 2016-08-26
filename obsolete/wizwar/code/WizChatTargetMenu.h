@@ -8,10 +8,6 @@
 #ifndef _H_WizChatTargetMenu
 #define _H_WizChatTargetMenu
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTextMenu.h>
 
 class JXInputField;

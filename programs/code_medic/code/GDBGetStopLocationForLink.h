@@ -8,10 +8,6 @@
 #ifndef _H_GDBGetStopLocationForLink
 #define _H_GDBGetStopLocationForLink
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "GDBGetStopLocation.h"
 
 class GDBGetStopLocationForLink : public GDBGetStopLocation

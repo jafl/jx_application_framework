@@ -8,10 +8,6 @@
 #ifndef _H_JVMGetThreads
 #define _H_JVMGetThreads
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMGetThreads.h"
 
 class JTree;

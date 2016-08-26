@@ -10,10 +10,6 @@
 #ifndef _H_TestDNDTextDirector
 #define _H_TestDNDTextDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 
 class JXHorizPartition;

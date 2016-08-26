@@ -8,10 +8,6 @@
 #ifndef _H_CMQuitTask
 #define _H_CMQuitTask
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXIdleTask.h>
 
 class CMQuitTask : public JXIdleTask

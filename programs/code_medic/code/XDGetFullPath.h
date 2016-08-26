@@ -8,10 +8,6 @@
 #ifndef _H_XDGetFullPath
 #define _H_XDGetFullPath
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMGetFullPath.h"
 
 class XDGetFullPath : public CMGetFullPath

@@ -10,10 +10,6 @@
 #ifndef _H_JXExprEditorSet
 #define _H_JXExprEditorSet
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWidgetSet.h>
 
 class JVariableList;

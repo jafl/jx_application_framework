@@ -10,10 +10,6 @@
 #ifndef _H_GLPlotApp
 #define _H_GLPlotApp
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXApplication.h>
 
 class GLPlotApp : public JXApplication

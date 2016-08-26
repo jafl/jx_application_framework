@@ -10,10 +10,6 @@
 #ifndef _H_JXHelpText
 #define _H_JXHelpText
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXLinkText.h>
 
 class JXHelpText : public JXLinkText

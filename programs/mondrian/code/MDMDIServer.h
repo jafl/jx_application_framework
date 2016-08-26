@@ -8,10 +8,6 @@
 #ifndef _H_MDMDIServer
 #define _H_MDMDIServer
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXMDIServer.h>
 
 class MDMDIServer : public JXMDIServer

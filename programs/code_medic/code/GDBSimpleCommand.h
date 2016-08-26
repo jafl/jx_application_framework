@@ -8,10 +8,6 @@
 #ifndef _H_GDBSimpleCommand
 #define _H_GDBSimpleCommand
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMCommand.h"
 
 class GDBSimpleCommand : public CMCommand

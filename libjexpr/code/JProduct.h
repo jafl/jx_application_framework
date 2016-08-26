@@ -10,10 +10,6 @@
 #ifndef _H_JProduct
 #define _H_JProduct
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JNaryOperator.h>
 
 class JProduct : public JNaryOperator

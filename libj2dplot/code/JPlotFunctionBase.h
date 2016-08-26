@@ -10,10 +10,6 @@
 #ifndef _H_JPlotFunctionBase
 #define _H_JPlotFunctionBase
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPlotDataBase.h>
 #include <JArray.h>
 

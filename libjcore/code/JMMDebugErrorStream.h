@@ -8,10 +8,6 @@
 #ifndef _H_JMMDebugErrorStream
 #define _H_JMMDebugErrorStream
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JMMMonitor.h>
 
 class JMMDebugErrorStream : public JMMMonitor

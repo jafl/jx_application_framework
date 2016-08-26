@@ -10,10 +10,6 @@
 #ifndef _H_SCScratchDirector
 #define _H_SCScratchDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "SCDirectorBase.h"
 
 class SCExprEditor;

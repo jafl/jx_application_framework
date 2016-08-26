@@ -8,10 +8,6 @@
 #ifndef _H_SyGFilterInput
 #define _H_SyGFilterInput
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXInputField.h>
 #include <JString.h>
 

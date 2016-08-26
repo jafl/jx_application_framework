@@ -10,10 +10,6 @@
 #ifndef _H_CBApp
 #define _H_CBApp
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXApplication.h>
 #include <JPrefObject.h>
 

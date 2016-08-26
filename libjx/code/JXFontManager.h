@@ -10,10 +10,6 @@
 #ifndef _H_JXFontManager
 #define _H_JXFontManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JFontManager.h>
 #include <JArray.h>
 #include <X11/Xlib.h>

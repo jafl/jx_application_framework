@@ -10,10 +10,6 @@
 #ifndef _H_JXRadioButton
 #define _H_JXRadioButton
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWidget.h>
 
 class JXRadioGroup;

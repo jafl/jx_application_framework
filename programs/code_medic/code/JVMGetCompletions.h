@@ -8,10 +8,6 @@
 #ifndef _H_JVMGetCompletions
 #define _H_JVMGetCompletions
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMGetCompletions.h"
 
 class CMCommandInput;

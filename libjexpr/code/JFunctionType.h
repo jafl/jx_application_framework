@@ -10,10 +10,6 @@
 #ifndef _H_FunctionType
 #define _H_FunctionType
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jTypes.h>
 
 // Do not change these values once they are assigned

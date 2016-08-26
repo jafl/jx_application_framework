@@ -8,10 +8,6 @@
 #ifndef _H_CBEditCommandsDialog
 #define _H_CBEditCommandsDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 #include <JPrefObject.h>
 #include "CBCommandManager.h"	// need defn of CmdInfo

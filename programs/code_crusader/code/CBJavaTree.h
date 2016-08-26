@@ -8,10 +8,6 @@
 #ifndef _H_CBJavaTree
 #define _H_CBJavaTree
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBTree.h"
 #include "CBClass.h"		// need definition of FnAccessLevel
 #include "CBCtagsUser.h"

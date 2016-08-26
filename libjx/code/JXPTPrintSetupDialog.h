@@ -10,10 +10,6 @@
 #ifndef _H_JXPTPrintSetupDialog
 #define _H_JXPTPrintSetupDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 #include <JXPTPrinter.h>		// need definition of enums
 

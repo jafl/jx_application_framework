@@ -10,10 +10,6 @@
 #ifndef _H_GloveCursorTable
 #define _H_GloveCursorTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTable.h>
 
 class J2DPlotWidget;

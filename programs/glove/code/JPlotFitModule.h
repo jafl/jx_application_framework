@@ -11,10 +11,6 @@
 #define _H_JPlotFitModule
 
 // Superclass Header
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPlotFitBase.h>
 #include <JString.h>
 

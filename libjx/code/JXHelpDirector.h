@@ -10,10 +10,6 @@
 #ifndef _H_JXHelpDirector
 #define _H_JXHelpDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 #include <JXHelpManager.h>		// need definition of Format
 

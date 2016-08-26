@@ -8,10 +8,6 @@
 #ifndef _H_JXColormap
 #define _H_JXColormap
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JColormap.h>
 #include <JBroadcaster.h>
 #include <jXConstants.h>

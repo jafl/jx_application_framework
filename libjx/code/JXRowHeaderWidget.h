@@ -10,10 +10,6 @@
 #ifndef _H_JXRowHeaderWidget
 #define _H_JXRowHeaderWidget
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXEditTable.h>
 
 class JXScrollbar;

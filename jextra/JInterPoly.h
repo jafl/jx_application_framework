@@ -10,10 +10,6 @@
 #ifndef _H_JInterPoly
 #define _H_JInterPoly
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JArray.h>
 #include <JFloat.h>
 

@@ -8,10 +8,6 @@
 #ifndef _H_CBFileNameDisplay
 #define _H_CBFileNameDisplay
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXFileInput.h>
 
 class CBTextDocument;

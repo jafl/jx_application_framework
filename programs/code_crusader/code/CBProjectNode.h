@@ -8,10 +8,6 @@
 #ifndef _H_CBProjectNode
 #define _H_CBProjectNode
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JNamedTreeNode.h>
 #include "CBProjectNodeType.h"
 

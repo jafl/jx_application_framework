@@ -10,10 +10,6 @@
 #ifndef _H_JTextChooseSaveFile
 #define _H_JTextChooseSaveFile
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JChooseSaveFile.h>
 
 class JTextChooseSaveFile : public JChooseSaveFile

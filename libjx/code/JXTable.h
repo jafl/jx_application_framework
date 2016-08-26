@@ -8,10 +8,6 @@
 #ifndef _H_JXTable
 #define _H_JXTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXScrollableWidget.h>
 #include <JTable.h>
 

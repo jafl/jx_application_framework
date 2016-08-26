@@ -10,10 +10,6 @@
 #ifndef _H_JLinkedList
 #define _H_JLinkedList
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JOrderedSet.h>
 #include <JLinkedListIterator.h>
 

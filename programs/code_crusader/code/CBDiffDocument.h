@@ -8,10 +8,6 @@
 #ifndef _H_CBDiffDocument
 #define _H_CBDiffDocument
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBTextDocument.h"
 #include "CBDiffFileDialog.h"	// need defn of DiffType
 #include <JError.h>

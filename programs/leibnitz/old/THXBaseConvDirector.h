@@ -10,10 +10,6 @@
 #ifndef _H_THXBaseConvDirector
 #define _H_THXBaseConvDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 
 class JXStaticText;

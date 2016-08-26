@@ -8,10 +8,6 @@
 #ifndef _H_JVMVarNode
 #define _H_JVMVarNode
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMVarNode.h"
 
 class JVMVarNode : public CMVarNode

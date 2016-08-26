@@ -10,10 +10,6 @@
 #ifndef _H_JSubset
 #define _H_JSubset
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JCollection.h>
 #include <JPtrArray.h>
 

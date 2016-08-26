@@ -10,10 +10,6 @@
 #ifndef _H_JSimpleProcess
 #define _H_JSimpleProcess
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JProcess.h>
 #include <j_prep_ace.h>
 #include <ace/LSOCK_Stream.h>

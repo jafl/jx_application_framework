@@ -10,10 +10,6 @@
 #ifndef _H_jXPainterUtil
 #define _H_jXPainterUtil
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPainter.h>
 #include <JFontStyle.h>		// for convenience
 #include <jXConstants.h>

@@ -10,10 +10,6 @@
 #ifndef _H_JFAID
 #define _H_JFAID
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jTypes.h>
 
 // Since ID's are permanent, using only 32 bits guarantees that files can be

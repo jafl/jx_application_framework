@@ -8,10 +8,6 @@
 #ifndef _H_XDGetContextVars
 #define _H_XDGetContextVars
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMCommand.h"
 #include <jXMLUtil.h>	// need defn of xmlNode
 

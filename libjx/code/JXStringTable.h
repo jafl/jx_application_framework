@@ -10,10 +10,6 @@
 #ifndef _H_JXStringTable
 #define _H_JXStringTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXStyleTable.h>
 #include <JAuxTableData.h>
 #include <JFontStyle.h>

@@ -10,10 +10,6 @@
 #ifndef _H_FFNetwork
 #define _H_FFNetwork
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPtrArray.h>	// template
 
 class JVector;

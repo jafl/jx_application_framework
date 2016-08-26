@@ -8,10 +8,6 @@
 #ifndef _H_CBFileTypeTable
 #define _H_CBFileTypeTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXEditTable.h>
 #include "CBPrefsManager.h"		// need definition of FileTypeInfo
 

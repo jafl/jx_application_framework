@@ -8,10 +8,6 @@
 #ifndef _H_CBCharActionTable
 #define _H_CBCharActionTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBKeyScriptTableBase.h"
 
 class CBCharActionManager;

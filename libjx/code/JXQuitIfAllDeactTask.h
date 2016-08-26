@@ -8,10 +8,6 @@
 #ifndef _H_JXQuitIfAllDeactTask
 #define _H_JXQuitIfAllDeactTask
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXIdleTask.h>
 
 class JXQuitIfAllDeactTask : public JXIdleTask

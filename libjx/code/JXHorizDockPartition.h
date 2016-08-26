@@ -8,10 +8,6 @@
 #ifndef _H_JXHorizDockPartition
 #define _H_JXHorizDockPartition
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXHorizPartition.h>
 
 class JXTextMenu;

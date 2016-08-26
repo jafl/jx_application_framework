@@ -10,10 +10,6 @@
 #ifndef _H_JImage
 #define _H_JImage
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JRect.h>
 #include <jColor.h>
 #include <JError.h>

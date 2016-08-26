@@ -10,10 +10,6 @@
 #ifndef _H_JDynamicHistogram
 #define _H_JDynamicHistogram
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JHistogram.h>
 
 template <class T>

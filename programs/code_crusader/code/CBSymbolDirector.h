@@ -10,10 +10,6 @@
 #ifndef _H_CBSymbolDirector
 #define _H_CBSymbolDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 #include <JPrefObject.h>
 #include "CBPrefsManager.h"		// need definition of FileTypesChanged

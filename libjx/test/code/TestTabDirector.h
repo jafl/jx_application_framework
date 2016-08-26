@@ -8,10 +8,6 @@
 #ifndef _H_TestTabDirector
 #define _H_TestTabDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 
 class JXTabGroup;

@@ -10,10 +10,6 @@
 #ifndef _H_JXImagePainter
 #define _H_JXImagePainter
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowPainter.h>
 #include <JBroadcaster.h>
 

@@ -8,10 +8,6 @@
 #ifndef _H_LLDBVarNode
 #define _H_LLDBVarNode
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMVarNode.h"
 #include "lldb/API/SBFrame.h"
 #include "lldb/API/SBValue.h"

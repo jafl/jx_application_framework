@@ -8,10 +8,6 @@
 #ifndef _H_MDPrefsManager
 #define _H_MDPrefsManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXPrefsManager.h>
 
 class JPoint;

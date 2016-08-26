@@ -10,10 +10,6 @@
 #ifndef _H_CBDiffStyleMenu
 #define _H_CBDiffStyleMenu
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXStyleMenu.h>
 
 class CBDiffStyleMenu : public JXStyleMenu

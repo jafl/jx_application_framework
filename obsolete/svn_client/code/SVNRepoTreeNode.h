@@ -8,10 +8,6 @@
 #ifndef _H_SVNRepoTreeNode
 #define _H_SVNRepoTreeNode
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "JNamedTreeNode.h"
 #include <JError.h>
 #include <j_prep_ace.h>

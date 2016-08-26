@@ -8,10 +8,6 @@
 #ifndef _H_CBPTPrinter
 #define _H_CBPTPrinter
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXPTPrinter.h>
 #include <JPrefObject.h>
 #include <JString.h>

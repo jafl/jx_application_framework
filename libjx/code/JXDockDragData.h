@@ -8,10 +8,6 @@
 #ifndef _H_JXDockDragData
 #define _H_JXDockDragData
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXSelectionManager.h>
 
 class JXWindow;

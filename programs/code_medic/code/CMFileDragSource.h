@@ -8,10 +8,6 @@
 #ifndef _H_CMFileDragSource
 #define _H_CMFileDragSource
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXImageWidget.h>
 
 class CMSourceDirector;

@@ -8,10 +8,6 @@
 #ifndef _H_JXNewDirButton
 #define _H_JXNewDirButton
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTextButton.h>
 
 class JXImage;

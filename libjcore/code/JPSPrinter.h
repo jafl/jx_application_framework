@@ -10,10 +10,6 @@
 #ifndef _H_JPSPrinter
 #define _H_JPSPrinter
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPagePrinter.h>
 #include <JPSPrinterBase.h>
 

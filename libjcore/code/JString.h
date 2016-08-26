@@ -10,10 +10,6 @@
 #ifndef _H_JString
 #define _H_JString
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPtrArray.h>
 #include <JIndexRange.h>
 #include <string.h>

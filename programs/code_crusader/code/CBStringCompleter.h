@@ -10,10 +10,6 @@
 #ifndef _H_CBStringCompleter
 #define _H_CBStringCompleter
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBTextFileType.h"
 #include <JPtrArray-JString.h>
 

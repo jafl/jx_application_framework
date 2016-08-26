@@ -8,10 +8,6 @@
 #ifndef _H_JX2DPlotWidget
 #define _H_JX2DPlotWidget
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWidget.h>
 #include <J2DPlotWidget.h>
 

@@ -10,10 +10,6 @@
 #ifndef _H_JVariableValue
 #define _H_JVariableValue
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JFunctionWithVar.h>
 
 class JVariableValue : public JFunctionWithVar

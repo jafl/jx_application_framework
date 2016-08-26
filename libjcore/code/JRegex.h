@@ -12,10 +12,6 @@
 #ifndef _H_JRegex
 #define _H_JRegex
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "JString.h"
 #include "JArray.h"
 #include "JError.h"

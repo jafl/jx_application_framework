@@ -10,10 +10,6 @@
 #ifndef _H_JPainter
 #define _H_JPainter
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JRect.h>
 #include <JPolygon.h>
 #include <JFont.h>

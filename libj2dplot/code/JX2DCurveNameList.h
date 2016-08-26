@@ -8,10 +8,6 @@
 #ifndef _H_JX2DCurveNameList
 #define _H_JX2DCurveNameList
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXEditTable.h>
 #include <J2DCurveInfo.h>
 

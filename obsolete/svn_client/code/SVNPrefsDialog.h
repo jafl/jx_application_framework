@@ -8,10 +8,6 @@
 #ifndef _H_SVNPrefsDialog
 #define _H_SVNPrefsDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 #include "SVNPrefsManager.h"	// need defn of Integration
 

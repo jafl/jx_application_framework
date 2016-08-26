@@ -10,10 +10,6 @@
 #ifndef _H_jParserData
 #define _H_jParserData
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JDecisionType.h>
 #include <JFunctionType.h>
 

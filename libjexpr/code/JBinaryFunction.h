@@ -10,10 +10,6 @@
 #ifndef _H_JBinaryFunction
 #define _H_JBinaryFunction
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JFunctionWithArgs.h>
 
 class JBinaryFunction : public JFunctionWithArgs

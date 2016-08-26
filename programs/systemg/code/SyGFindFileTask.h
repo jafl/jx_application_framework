@@ -8,10 +8,6 @@
 #ifndef _H_SyGFindFileTask
 #define _H_SyGFindFileTask
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <j_prep_ace.h>
 #include <ace/LSOCK_Stream.h>
 #include <ace/UNIX_Addr.h>

@@ -10,10 +10,6 @@
 #ifndef _H_JXFLRegexInput
 #define _H_JXFLRegexInput
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXFLInputBase.h>
 
 class JXFLRegexInput : public JXFLInputBase

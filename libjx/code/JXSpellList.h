@@ -8,10 +8,6 @@
 #ifndef _H_JXSpellList
 #define _H_JXSpellList
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXStringList.h>
 
 class JXSpellList : public JXStringList

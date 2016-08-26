@@ -8,10 +8,6 @@
 #ifndef _H_SVNInfoLog
 #define _H_SVNInfoLog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "SVNTextBase.h"
 
 class JXTextMenu;

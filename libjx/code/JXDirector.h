@@ -10,10 +10,6 @@
 #ifndef _H_JXDirector
 #define _H_JXDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBroadcaster.h>
 #include <JPtrArray.h>
 

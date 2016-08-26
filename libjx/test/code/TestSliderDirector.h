@@ -10,10 +10,6 @@
 #ifndef _H_TestSliderDirector
 #define _H_TestSliderDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 
 class JXSlider;

@@ -8,10 +8,6 @@
 #ifndef _H_LLDBLink
 #define _H_LLDBLink
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMLink.h"
 #include "lldb/API/SBDebugger.h"
 #include "lldb/API/SBListener.h"

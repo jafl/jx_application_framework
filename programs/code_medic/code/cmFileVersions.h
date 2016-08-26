@@ -10,10 +10,6 @@
 #ifndef _H_cmFileVersions
 #define _H_cmFileVersions
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jTypes.h>
 
 const JFileVersion kCurrentPrefsFileVersion	= 10;

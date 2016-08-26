@@ -8,10 +8,6 @@
 #ifndef _H_LLDBGetThread
 #define _H_LLDBGetThread
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMGetThread.h"
 
 class LLDBGetThread : public CMGetThread

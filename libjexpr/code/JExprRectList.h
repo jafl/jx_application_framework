@@ -10,10 +10,6 @@
 #ifndef _H_JExprRectList
 #define _H_JExprRectList
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JContainer.h>
 #include <JPtrArray.h>
 #include <JRect.h>

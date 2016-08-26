@@ -8,10 +8,6 @@
 #ifndef _H_LLDBGetFrame
 #define _H_LLDBGetFrame
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMGetFrame.h"
 
 class CMStackWidget;

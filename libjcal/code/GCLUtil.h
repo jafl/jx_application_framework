@@ -10,10 +10,6 @@
 #ifndef _H_GCLUtil
 #define _H_GCLUtil
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JString.h>
 #include <JOrderedSet.h>
 #include <time.h>

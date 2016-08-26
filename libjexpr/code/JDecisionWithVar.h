@@ -10,10 +10,6 @@
 #ifndef _H_JDecisionWithVar
 #define _H_JDecisionWithVar
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JDecision.h>
 
 class JFunction;

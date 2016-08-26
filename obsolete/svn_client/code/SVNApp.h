@@ -8,10 +8,6 @@
 #ifndef _H_SVNApp
 #define _H_SVNApp
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXApplication.h>
 
 class SVNApp : public JXApplication

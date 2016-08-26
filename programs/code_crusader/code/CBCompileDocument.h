@@ -10,10 +10,6 @@
 #ifndef _H_CBCompileDocument
 #define _H_CBCompileDocument
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBExecOutputDocument.h"
 
 class CBProjectDocument;

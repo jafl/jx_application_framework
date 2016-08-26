@@ -8,10 +8,6 @@
 #ifndef _H_SyGFileTree
 #define _H_SyGFileTree
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JFSFileTree.h>
 #include "SyGColUtils.h"	// need defn of GFMColType
 

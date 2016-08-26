@@ -10,10 +10,6 @@
 #ifndef _H_JXTEBase
 #define _H_JXTEBase
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXScrollableWidget.h>
 #include <JTextEditor.h>
 #include <JError.h>

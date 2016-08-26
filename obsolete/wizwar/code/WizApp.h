@@ -8,10 +8,6 @@
 #ifndef _H_WizApp
 #define _H_WizApp
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXApplication.h>
 #include "Wiz2War.h"
 #include <JString.h>

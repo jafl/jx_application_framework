@@ -10,10 +10,6 @@
 #ifndef _H_JPrefsManager
 #define _H_JPrefsManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JContainer.h>
 #include <JPrefsFile.h>		// need definition of JPrefID
 #include <JArray.h>

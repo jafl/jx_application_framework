@@ -10,10 +10,6 @@
 #ifndef _H_JXFileListSet
 #define _H_JXFileListSet
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWidgetSet.h>
 
 class JXMenuBar;

@@ -8,10 +8,6 @@
 #ifndef _H_CBDSSFinishSaveTask
 #define _H_CBDSSFinishSaveTask
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDirectSaveAction.h>
 
 class CBTextDocument;

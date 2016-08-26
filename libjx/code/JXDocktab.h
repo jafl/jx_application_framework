@@ -8,10 +8,6 @@
 #ifndef _H_JXDocktab
 #define _H_JXDocktab
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWidget.h>
 #include <JXDNDManager.h>
 #include <JPartition.h>		// need defn of kDragRegionSize

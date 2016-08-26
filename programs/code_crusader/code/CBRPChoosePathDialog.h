@@ -8,10 +8,6 @@
 #ifndef _H_CBRPChoosePathDialog
 #define _H_CBRPChoosePathDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXChoosePathDialog.h>
 #include "CBRelPathCSF.h"		// need definition of PathType
 

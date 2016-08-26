@@ -10,10 +10,6 @@
 #ifndef _H_SCVarTable
 #define _H_SCVarTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTable.h>
 
 class SCCircuitVarList;

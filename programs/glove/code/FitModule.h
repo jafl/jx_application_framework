@@ -10,10 +10,6 @@
 #ifndef _H_FitModule
 #define _H_FitModule
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPtrArray.h>
 
 #include <j_prep_ace.h>

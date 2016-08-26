@@ -8,10 +8,6 @@
 #ifndef _H_JVMVarCommand
 #define _H_JVMVarCommand
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMVarCommand.h"
 
 class JVMVarCommand : public CMVarCommand

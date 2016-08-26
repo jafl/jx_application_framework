@@ -10,10 +10,6 @@
 #ifndef _H_GLUndoElementCut
 #define _H_GLUndoElementCut
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <GLUndoElementBase.h>
 #include <JPoint.h>
 

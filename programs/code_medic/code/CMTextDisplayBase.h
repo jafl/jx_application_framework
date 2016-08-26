@@ -10,10 +10,6 @@
 #ifndef _H_CMTextDisplayBase
 #define _H_CMTextDisplayBase
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTEBase.h>
 
 class CMTextDisplayBase : public JXTEBase

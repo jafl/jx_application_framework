@@ -10,10 +10,6 @@
 #ifndef _H_SCComponentType
 #define _H_SCComponentType
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jTypes.h>
 
 // Do not change these values once they are assigned

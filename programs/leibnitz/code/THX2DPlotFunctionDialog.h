@@ -10,10 +10,6 @@
 #ifndef _H_THX2DPlotFunctionDialog
 #define _H_THX2DPlotFunctionDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 
 class JFunction;

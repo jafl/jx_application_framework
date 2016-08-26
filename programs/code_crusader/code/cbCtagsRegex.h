@@ -8,10 +8,6 @@
 #ifndef _H_cbCtagsRegex
 #define _H_cbCtagsRegex
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #define CBCtagsBisonDef " --langdef=jbison "
 #define CBCtagsBisonNonterminalDef \
 	" \"--regex-jbison=/^[ \t]*([[:alpha:]_.][[:alnum:]_.]*)[ \t\n]*:/" \

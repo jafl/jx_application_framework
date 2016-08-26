@@ -10,10 +10,6 @@
 #ifndef _H_JLogB
 #define _H_JLogB
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBinaryFunction.h>
 
 class JLogB : public JBinaryFunction

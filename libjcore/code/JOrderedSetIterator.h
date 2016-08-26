@@ -10,10 +10,6 @@
 #ifndef _H_JOrderedSetIterator
 #define _H_JOrderedSetIterator
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JCollection.h>
 
 // must forward declare to avoid #include loop

@@ -10,10 +10,6 @@
 #ifndef _H_ScrollingWidget
 #define _H_ScrollingWidget
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXScrollableWidget.h>
 
 class ScrollingWidget : public JXScrollableWidget

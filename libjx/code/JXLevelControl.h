@@ -10,10 +10,6 @@
 #ifndef _H_JXLevelControl
 #define _H_JXLevelControl
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXSliderBase.h>
 
 class JXLevelControl : public JXSliderBase

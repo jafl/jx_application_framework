@@ -8,10 +8,6 @@
 #ifndef _H_JVMGetThreadGroups
 #define _H_JVMGetThreadGroups
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMCommand.h"
 #include <JBroadcaster.h>
 

@@ -8,10 +8,6 @@
 #ifndef _H_JXDockWidget
 #define _H_JXDockWidget
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWidgetSet.h>
 
 class JXWindowDirector;

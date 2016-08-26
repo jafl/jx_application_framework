@@ -10,10 +10,6 @@
 #ifndef _H_JBooleanDecision
 #define _H_JBooleanDecision
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBinaryDecision.h>
 
 class JBooleanDecision : public JBinaryDecision<JDecision>

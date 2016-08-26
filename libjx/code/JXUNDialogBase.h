@@ -10,10 +10,6 @@
 #ifndef _H_JXUNDialogBase
 #define _H_JXUNDialogBase
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 #include <JXPM.h>
 

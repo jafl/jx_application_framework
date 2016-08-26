@@ -10,10 +10,6 @@
 #ifndef _H_JGetCurrentColormap
 #define _H_JGetCurrentColormap
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 class JColormap;
 
 class JGetCurrentColormap

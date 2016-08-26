@@ -10,10 +10,6 @@
 #ifndef _H_TestChooseSaveFile
 #define _H_TestChooseSaveFile
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXChooseSaveFile.h>
 
 class TestSaveFileDialog;

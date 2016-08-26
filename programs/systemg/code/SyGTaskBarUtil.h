@@ -8,10 +8,6 @@
 #ifndef _H_SyGTaskBarUtil
 #define _H_SyGTaskBarUtil
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jMountUtil.h>
 #include <JPtrArray-JString.h>
 

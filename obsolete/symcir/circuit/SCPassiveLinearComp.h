@@ -10,10 +10,6 @@
 #ifndef _H_SCPassiveLinearComp
 #define _H_SCPassiveLinearComp
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "SCLinearComp.h"
 
 class SCPassiveLinearComp : public SCLinearComp

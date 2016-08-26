@@ -10,10 +10,6 @@
 #ifndef _H_JXAtLeastOneCBGroup
 #define _H_JXAtLeastOneCBGroup
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXCheckboxGroup.h>
 
 class JXCheckbox;

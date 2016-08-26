@@ -8,10 +8,6 @@
 #ifndef _H_SVNDuplicateRepoItemDialog
 #define _H_SVNDuplicateRepoItemDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXGetStringDialog.h>
 
 class SVNRepoTreeNode;

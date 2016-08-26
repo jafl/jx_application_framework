@@ -8,10 +8,6 @@
 #ifndef _H_JXPrefsManager
 #define _H_JXPrefsManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPrefsManager.h>
 #include <JXDocumentManager.h>	// need definition of SafetySaveReason
 

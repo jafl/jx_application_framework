@@ -10,10 +10,6 @@
 #ifndef _H_JXEmbossedRect
 #define _H_JXEmbossedRect
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDecorRect.h>
 
 class JXEmbossedRect : public JXDecorRect

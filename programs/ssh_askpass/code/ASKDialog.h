@@ -8,10 +8,6 @@
 #ifndef _H_ASKDialog
 #define _H_ASKDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXGetStringDialog.h>
 
 class JXPasswordInput;

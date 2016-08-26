@@ -10,10 +10,6 @@
 #ifndef _H_FitParmsTable
 #define _H_FitParmsTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTable.h>
 #include <JPtrArray.h>
 

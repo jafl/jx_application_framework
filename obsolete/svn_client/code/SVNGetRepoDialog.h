@@ -8,10 +8,6 @@
 #ifndef _H_SVNGetRepoDialog
 #define _H_SVNGetRepoDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 #include <JPrefObject.h>
 

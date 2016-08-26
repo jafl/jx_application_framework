@@ -10,10 +10,6 @@
 #ifndef _H_JXInputField
 #define _H_JXInputField
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTEBase.h>
 
 class JXTextMenu;

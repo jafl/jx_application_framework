@@ -10,10 +10,6 @@
 #ifndef _H_JXEPSPrinter
 #define _H_JXEPSPrinter
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JEPSPrinter.h>
 
 class JXDisplay;

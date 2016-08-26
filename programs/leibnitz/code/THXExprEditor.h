@@ -10,10 +10,6 @@
 #ifndef _H_THXExprEditor
 #define _H_THXExprEditor
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXExprEditor.h>
 
 class JXTEBase;

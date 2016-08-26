@@ -10,10 +10,6 @@
 #ifndef _H_JError
 #define _H_JError
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBroadcaster.h>
 
 #if defined WIN32 && !defined GetMessage

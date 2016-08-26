@@ -8,10 +8,6 @@
 #ifndef _H_JTable
 #define _H_JTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JRunArray.h>
 #include <JPtrArray.h>
 #include <JRect.h>

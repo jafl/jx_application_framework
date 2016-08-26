@@ -10,10 +10,6 @@
 #ifndef _H_JXChoosePathDialog
 #define _H_JXChoosePathDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXCSFDialogBase.h>
 
 class JXChoosePathDialog : public JXCSFDialogBase

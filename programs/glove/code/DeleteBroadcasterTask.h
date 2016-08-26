@@ -10,10 +10,6 @@
 #ifndef _H_DeleteBroadcasterTask
 #define _H_DeleteBroadcasterTask
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXUrgentTask.h>
 
 class JBroadcaster;

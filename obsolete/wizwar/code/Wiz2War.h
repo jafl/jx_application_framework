@@ -8,10 +8,6 @@
 #ifndef _H_Wiz2War
 #define _H_Wiz2War
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "WWSocket.h"			// typedef
 #include "wwMessages.h"			// need defintion of WWConnectionErrorType
 #include <JXDocumentManager.h>	// need definition of SafetySaveReason

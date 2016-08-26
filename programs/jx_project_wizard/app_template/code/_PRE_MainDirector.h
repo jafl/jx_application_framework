@@ -8,10 +8,6 @@
 #ifndef _H_<PRE>MainDirector
 #define _H_<PRE>MainDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 #include <JPrefObject.h>
 

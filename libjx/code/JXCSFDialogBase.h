@@ -10,10 +10,6 @@
 #ifndef _H_JXCSFDialogBase
 #define _H_JXCSFDialogBase
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 
 class JString;

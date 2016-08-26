@@ -10,10 +10,6 @@
 #ifndef _H_JXTextMenu
 #define _H_JXTextMenu
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXMenu.h>
 #include <JFont.h>
 #include <JXPM.h>

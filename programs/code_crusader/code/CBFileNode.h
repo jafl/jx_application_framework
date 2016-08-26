@@ -8,10 +8,6 @@
 #ifndef _H_CBFileNode
 #define _H_CBFileNode
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBFileNodeBase.h"
 
 class CBFileNode : public CBFileNodeBase

@@ -10,10 +10,6 @@
 #ifndef _H_JFunction
 #define _H_JFunction
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JFunctionType.h>
 #include <JComplex.h>
 #include <JRect.h>

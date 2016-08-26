@@ -8,10 +8,6 @@
 #ifndef _H_JXDockManager
 #define _H_JXDockManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDirector.h>
 #include <JPrefObject.h>
 #include <JStringMap.h>

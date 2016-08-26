@@ -8,10 +8,6 @@
 #ifndef _H_JVMGetSourceFileList
 #define _H_JVMGetSourceFileList
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMGetSourceFileList.h"
 
 class CMFileListDir;

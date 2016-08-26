@@ -10,10 +10,6 @@
 #ifndef _H_JParallel
 #define _H_JParallel
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JNaryOperator.h>
 
 class JParallel : public JNaryOperator

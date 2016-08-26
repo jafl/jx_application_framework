@@ -10,10 +10,6 @@
 #ifndef _H_JXDecorRect
 #define _H_JXDecorRect
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWidget.h>
 
 class JXDecorRect : public JXWidget

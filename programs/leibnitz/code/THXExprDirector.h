@@ -10,10 +10,6 @@
 #ifndef _H_THXExprDirector
 #define _H_THXExprDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 #include <JString.h>
 

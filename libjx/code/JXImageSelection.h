@@ -8,10 +8,6 @@
 #ifndef _H_JXImageSelection
 #define _H_JXImageSelection
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXSelectionData.h>
 
 class JXImage;

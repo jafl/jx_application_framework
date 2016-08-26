@@ -8,10 +8,6 @@
 #ifndef _H_SVNRepoTree
 #define _H_SVNRepoTree
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JTree.h>
 #include <JPtrArray-JString.h>
 

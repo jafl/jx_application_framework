@@ -8,10 +8,6 @@
 #ifndef _H_LLDBPlot2DCommand
 #define _H_LLDBPlot2DCommand
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMPlot2DCommand.h"
 
 class LLDBPlot2DCommand : public CMPlot2DCommand

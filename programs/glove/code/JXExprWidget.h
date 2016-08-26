@@ -10,10 +10,6 @@
 #ifndef _H_JXExprEditor
 #define _H_JXExprEditor
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXScrollableWidget.h>
 #include <JExprEditor.h>
 

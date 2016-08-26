@@ -10,10 +10,6 @@
 #ifndef _H_CBFileHistoryMenu
 #define _H_CBFileHistoryMenu
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXFileHistoryMenu.h>
 #include "CBDocumentManager.h"	// need definition of FileHistoryType
 

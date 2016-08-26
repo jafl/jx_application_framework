@@ -8,10 +8,6 @@
 #ifndef _H_JPrefObject
 #define _H_JPrefObject
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPrefsManager.h>	// need definition of JPrefID
 
 class JPrefObject

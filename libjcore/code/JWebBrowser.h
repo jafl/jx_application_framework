@@ -8,10 +8,6 @@
 #ifndef _H_JWebBrowser
 #define _H_JWebBrowser
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JString.h>
 
 class JWebBrowser

@@ -8,10 +8,6 @@
 #ifndef _H_JXFSRunFileDialog
 #define _H_JXFSRunFileDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 #include "JFSBinding.h"		// need defn of CommandType
 

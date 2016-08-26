@@ -8,10 +8,6 @@
 #ifndef _H_JTextEditor
 #define _H_JTextEditor
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBroadcaster.h>
 #include <JFont.h>
 #include <JRect.h>

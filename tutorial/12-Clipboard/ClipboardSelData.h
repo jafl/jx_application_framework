@@ -11,10 +11,6 @@
 #define _H_GFilterDragData
 
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXSelectionManager.h>
 
 class GFilterDragData : public JXSelectionData

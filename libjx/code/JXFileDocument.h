@@ -10,10 +10,6 @@
 #ifndef _H_JXFileDocument
 #define _H_JXFileDocument
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDocument.h>
 #include <JString.h>
 #include <JError.h>

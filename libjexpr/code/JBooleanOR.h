@@ -10,10 +10,6 @@
 #ifndef _H_JBooleanOR
 #define _H_JBooleanOR
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBooleanDecision.h>
 
 class JBooleanOR : public JBooleanDecision

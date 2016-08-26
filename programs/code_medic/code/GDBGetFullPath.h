@@ -8,10 +8,6 @@
 #ifndef _H_GDBGetFullPath
 #define _H_GDBGetFullPath
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMGetFullPath.h"
 
 class GDBGetFullPath : public CMGetFullPath

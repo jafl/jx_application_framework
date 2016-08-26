@@ -8,10 +8,6 @@
 #ifndef _H_SyGTrashButton
 #define _H_SyGTrashButton
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXImageButton.h>
 
 class SyGTrashButton : public JXImageButton

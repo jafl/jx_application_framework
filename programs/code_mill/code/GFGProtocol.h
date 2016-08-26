@@ -8,10 +8,6 @@
 #ifndef _H_GFGProtocol
 #define _H_GFGProtocol
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBroadcaster.h>
 #include <JString.h>
 #include <j_prep_ace.h>

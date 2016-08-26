@@ -8,10 +8,6 @@
 #ifndef _H_JVMGetLocalVars
 #define _H_JVMGetLocalVars
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMGetLocalVars.h"
 
 class CMVarNode;

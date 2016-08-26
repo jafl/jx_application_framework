@@ -8,10 +8,6 @@
 #ifndef _H_j3DConstants
 #define _H_j3DConstants
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JVector.h>
 
 extern const JVector kJ3DOrigin;

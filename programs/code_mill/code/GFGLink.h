@@ -11,10 +11,6 @@
 #define _H_GFGLink
 
 // Superclass Header
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <j_prep_ace.h>
 #include <ace/LSOCK_Stream.h>
 #include <ace/UNIX_Addr.h>

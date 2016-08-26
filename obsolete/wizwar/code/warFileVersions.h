@@ -10,10 +10,6 @@
 #ifndef _H_warFileVersions
 #define _H_warFileVersions
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jTypes.h>
 
 const JFileVersion kCurrentWarSetupFileVersion = 0;

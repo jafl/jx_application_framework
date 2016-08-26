@@ -8,10 +8,6 @@
 #ifndef _H_jXMLUtils
 #define _H_jXMLUtils
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "JString.h"
 #include <libxml/tree.h>
 

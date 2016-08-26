@@ -8,10 +8,6 @@
 #ifndef _H_XDGetStack
 #define _H_XDGetStack
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMGetStack.h"
 
 class XDGetStack : public CMGetStack

@@ -8,10 +8,6 @@
 #ifndef _H_gfgHelpText
 #define _H_gfgHelpText
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jTypes.h>
 
 static const JCharacter* kGFGTOCHelpName		= "GFGTOCHelp";

@@ -10,10 +10,6 @@
 #ifndef _H_JXImage
 #define _H_JXImage
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JImage.h>
 #include <JConstBitmap.h>
 #include <JBroadcaster.h>

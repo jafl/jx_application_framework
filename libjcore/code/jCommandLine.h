@@ -10,10 +10,6 @@
 #ifndef _H_jCommandLine
 #define _H_jCommandLine
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jTypes.h>
 
 void JWaitForReturn();

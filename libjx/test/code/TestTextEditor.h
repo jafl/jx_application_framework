@@ -10,10 +10,6 @@
 #ifndef _H_TestTextEditor
 #define _H_TestTextEditor
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTextEditor.h>
 
 class JXPSPrinter;

@@ -10,10 +10,6 @@
 #ifndef _H_Test3DDirector
 #define _H_Test3DDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 
 class Test3DWidget;

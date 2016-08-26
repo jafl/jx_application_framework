@@ -10,10 +10,6 @@
 #ifndef _H_DNDData
 #define _H_DNDData
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXSelectionManager.h>
 
 #include <JArray.h>

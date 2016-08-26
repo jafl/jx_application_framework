@@ -8,10 +8,6 @@
 #ifndef _H_JXPTPrinter
 #define _H_JXPTPrinter
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPTPrinter.h>
 
 class JString;

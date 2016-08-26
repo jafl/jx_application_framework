@@ -8,10 +8,6 @@
 #ifndef _H_JXTreeListWidget
 #define _H_JXTreeListWidget
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXStyleTable.h>
 
 class JTreeNode;

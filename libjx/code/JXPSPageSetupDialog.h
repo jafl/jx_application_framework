@@ -10,10 +10,6 @@
 #ifndef _H_JXPSPageSetupDialog
 #define _H_JXPSPageSetupDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 #include <JPSPrinter.h>		// need definition of enums
 

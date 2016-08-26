@@ -8,10 +8,6 @@
 #ifndef _H_CBCommandMenu
 #define _H_CBCommandMenu
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTextMenu.h>
 
 class CBProjectDocument;

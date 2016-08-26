@@ -8,10 +8,6 @@
 #ifndef _H_CBTEScriptMenu
 #define _H_CBTEScriptMenu
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXFSDirMenu.h>
 
 class CBTextEditor;

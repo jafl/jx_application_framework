@@ -10,10 +10,6 @@
 #ifndef _H_JXImageButton
 #define _H_JXImageButton
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXButton.h>
 #include <jXConstants.h>		// need definition of kJXTransparentColor
 #include <JConstBitmap.h>

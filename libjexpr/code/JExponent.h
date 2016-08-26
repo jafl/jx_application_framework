@@ -10,10 +10,6 @@
 #ifndef _H_JExponent
 #define _H_JExponent
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBinaryOperator.h>
 
 class JExponent : public JBinaryOperator

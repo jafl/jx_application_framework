@@ -8,10 +8,6 @@
 #ifndef _H_JPtrArray_JString
 #define _H_JPtrArray_JString
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPtrArray.h>
 #include <JStringPtrMap.h>
 #include <JString.h>

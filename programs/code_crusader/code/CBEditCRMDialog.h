@@ -10,10 +10,6 @@
 #ifndef _H_CBEditCRMDialog
 #define _H_CBEditCRMDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 #include <JPrefObject.h>
 #include "CBPrefsManager.h"		// need definition of CRMRuleListInfo

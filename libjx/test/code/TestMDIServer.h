@@ -10,10 +10,6 @@
 #ifndef _H_TestMDIServer
 #define _H_TestMDIServer
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXMDIServer.h>
 
 class TestMDIServer : public JXMDIServer

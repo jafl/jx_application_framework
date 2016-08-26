@@ -10,10 +10,6 @@
 #ifndef _H_CMApp
 #define _H_CMApp
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXApplication.h>
 
 class CMApp : public JXApplication

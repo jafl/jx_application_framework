@@ -8,10 +8,6 @@
 #ifndef _H_CMLineNumberTable
 #define _H_CMLineNumberTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMLineIndexTable.h"
 
 class CMLineNumberTable : public CMLineIndexTable

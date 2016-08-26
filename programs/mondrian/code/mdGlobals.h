@@ -8,10 +8,6 @@
 #ifndef _H_mdGlobals
 #define _H_mdGlobals
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jXGlobals.h>
 
 // we include these for convenience

@@ -8,10 +8,6 @@
 #ifndef _H_CBNewProjectSaveFileDialog
 #define _H_CBNewProjectSaveFileDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXSaveFileDialog.h>
 #include "CBBuildManager.h"		// need defn of MakefileMethod
 

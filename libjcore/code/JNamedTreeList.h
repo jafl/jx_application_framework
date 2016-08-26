@@ -8,10 +8,6 @@
 #ifndef _H_JNamedTreeList
 #define _H_JNamedTreeList
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JTreeList.h>
 
 class JString;

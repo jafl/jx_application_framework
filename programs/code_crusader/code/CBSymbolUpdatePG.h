@@ -8,10 +8,6 @@
 #ifndef _H_CBSymbolUpdatePG
 #define _H_CBSymbolUpdatePG
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JProgressDisplay.h>
 
 class CBSymbolUpdatePG : public JProgressDisplay

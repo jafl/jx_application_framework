@@ -8,10 +8,6 @@
 #ifndef _H_CBBuildManager
 #define _H_CBBuildManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBroadcaster.h>
 #include <JString.h>
 #include <jTime.h>

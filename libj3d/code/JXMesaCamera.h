@@ -10,10 +10,6 @@
 #ifndef _H_JXMesaCamera
 #define _H_JXMesaCamera
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <J3DCamera.h>
 #include <J3DPainter.h>
 #include <GL/xmesa.h>

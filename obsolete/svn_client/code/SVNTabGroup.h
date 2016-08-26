@@ -8,10 +8,6 @@
 #ifndef _H_SVNTabGroup
 #define _H_SVNTabGroup
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTabGroup.h>
 
 class JXImage;

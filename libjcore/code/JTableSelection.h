@@ -10,10 +10,6 @@
 #ifndef _H_JTableSelection
 #define _H_JTableSelection
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JAuxTableData.h>
 #include <JTableSelectionIterator.h>	// need definition of Direction
 

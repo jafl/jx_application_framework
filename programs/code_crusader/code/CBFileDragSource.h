@@ -8,10 +8,6 @@
 #ifndef _H_CBFileDragSource
 #define _H_CBFileDragSource
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXImageWidget.h>
 
 class JXInputField;

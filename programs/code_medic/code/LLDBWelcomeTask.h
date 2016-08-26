@@ -8,10 +8,6 @@
 #ifndef _H_LLDBWelcomeTask
 #define _H_LLDBWelcomeTask
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXUrgentTask.h>
 #include <JString.h>
 

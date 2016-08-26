@@ -10,10 +10,6 @@
 #ifndef _H_JXFloatInput
 #define _H_JXFloatInput
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXInputField.h>
 
 class JXFloatInput : public JXInputField

@@ -10,10 +10,6 @@
 #ifndef _H_J3DComposite
 #define _H_J3DComposite
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <J3DObject.h>
 
 class J3DComposite : public J3DObject

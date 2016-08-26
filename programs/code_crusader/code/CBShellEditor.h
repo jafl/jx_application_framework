@@ -8,10 +8,6 @@
 #ifndef _H_CBShellEditor
 #define _H_CBShellEditor
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBTextEditor.h"
 
 class CBShellDocument;

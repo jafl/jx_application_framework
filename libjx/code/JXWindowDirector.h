@@ -10,10 +10,6 @@
 #ifndef _H_JXWindowDirector
 #define _H_JXWindowDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDirector.h>
 
 class JString;

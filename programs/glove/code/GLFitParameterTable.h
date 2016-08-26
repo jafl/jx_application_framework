@@ -8,10 +8,6 @@
 #ifndef _H_GLFitParameterTable
 #define _H_GLFitParameterTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXEditTable.h>
 #include <J2DPlotWidget.h>
 

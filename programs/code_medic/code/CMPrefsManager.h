@@ -12,10 +12,6 @@
 #ifndef _H_CMPrefsManager
 #define _H_CMPrefsManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXPrefsManager.h>
 #include "CBTextFileType.h"
 #include <JPtrArray-JString.h>

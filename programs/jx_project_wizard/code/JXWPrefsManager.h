@@ -8,10 +8,6 @@
 #ifndef _H_JXWPrefsManager
 #define _H_JXWPrefsManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXPrefsManager.h>
 
 class JString;

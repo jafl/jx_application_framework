@@ -8,10 +8,6 @@
 #ifndef _H_MDStatsDirector
 #define _H_MDStatsDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 #include <JPrefObject.h>
 #include <JMemoryManager.h>

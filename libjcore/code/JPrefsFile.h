@@ -8,10 +8,6 @@
 #ifndef _H_JPrefsFile
 #define _H_JPrefsFile
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JFileArray.h>
 
 typedef JFAID	JPrefID;

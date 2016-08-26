@@ -10,10 +10,6 @@
 #ifndef _H_JPlotFitFunction
 #define _H_JPlotFitFunction
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPlotFunctionBase.h>
 #include <JFitBase.h>
 #include <JArray.h>

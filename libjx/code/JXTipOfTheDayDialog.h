@@ -8,10 +8,6 @@
 #ifndef _H_JXTipOfTheDayDialog
 #define _H_JXTipOfTheDayDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 
 class JXStaticText;

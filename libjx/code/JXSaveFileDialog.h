@@ -10,10 +10,6 @@
 #ifndef _H_JXSaveFileDialog
 #define _H_JXSaveFileDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXCSFDialogBase.h>
 
 class JXSaveFileInput;

@@ -10,10 +10,6 @@
 #ifndef _H_CMSourceText
 #define _H_CMSourceText
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMTextDisplayBase.h"
 #include "CBTextFileType.h"
 #include <JTEStyler.h>

@@ -8,10 +8,6 @@
 #ifndef _H_LLDBBreakpointManager
 #define _H_LLDBBreakpointManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMBreakpointManager.h"
 
 class LLDBLink;

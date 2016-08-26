@@ -8,10 +8,6 @@
 #ifndef _H_JVMLink
 #define _H_JVMLink
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMLink.h"
 #include "JVMSocket.h"
 #include <JProcess.h>

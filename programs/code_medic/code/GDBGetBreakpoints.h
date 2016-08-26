@@ -8,10 +8,6 @@
 #ifndef _H_GDBGetBreakpoints
 #define _H_GDBGetBreakpoints
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMGetBreakpoints.h"
 #include "CMBreakpoint.h"	// need defn of Action
 #include <JStringPtrMap.h>

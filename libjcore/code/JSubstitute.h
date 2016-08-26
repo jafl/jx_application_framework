@@ -8,10 +8,6 @@
 #ifndef _H_JSubstitute
 #define _H_JSubstitute
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JArray.h>
 #include <JError.h>
 

@@ -10,10 +10,6 @@
 #ifndef _H_JXHorizPartition
 #define _H_JXHorizPartition
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXPartition.h>
 
 class JXHorizPartition : public JXPartition

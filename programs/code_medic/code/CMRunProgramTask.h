@@ -8,10 +8,6 @@
 #ifndef _H_CMRunProgramTask
 #define _H_CMRunProgramTask
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXIdleTask.h>
 
 class CMRunProgramTask : public JXIdleTask

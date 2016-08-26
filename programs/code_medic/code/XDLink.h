@@ -8,10 +8,6 @@
 #ifndef _H_XDLink
 #define _H_XDLink
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMLink.h"
 #include <jXMLUtil.h>	// need defn of xmlNode
 

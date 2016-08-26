@@ -8,10 +8,6 @@
 #ifndef _H_<PRE>AboutDialog
 #define _H_<PRE>AboutDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 
 class JXTextButton;

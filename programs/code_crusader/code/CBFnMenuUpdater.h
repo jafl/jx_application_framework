@@ -8,10 +8,6 @@
 #ifndef _H_CBFnMenuUpdater
 #define _H_CBFnMenuUpdater
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPrefObject.h>
 #include "CBCtagsUser.h"
 

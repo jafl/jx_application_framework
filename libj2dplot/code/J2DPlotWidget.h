@@ -8,10 +8,6 @@
 #ifndef _H_J2DPlotWidget
 #define _H_J2DPlotWidget
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBroadcaster.h>
 #include <jColor.h>
 #include <JRect.h>

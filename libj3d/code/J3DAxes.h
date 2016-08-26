@@ -10,10 +10,6 @@
 #ifndef _H_J3DAxes
 #define _H_J3DAxes
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <J3DComposite.h>
 
 class J3DAxes : public J3DComposite

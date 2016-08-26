@@ -10,10 +10,6 @@
 #ifndef _H_JXGC
 #define _H_JXGC
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JRect.h>
 #include <jColor.h>
 #include <JFont.h>

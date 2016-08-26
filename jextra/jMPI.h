@@ -12,10 +12,6 @@
 #ifndef _H_jMPI
 #define _H_jMPI
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <mpi.h>
 
 typedef int	MPIProcessID;

@@ -8,10 +8,6 @@
 #ifndef _H_CBSearchPathHistoryMenu
 #define _H_CBSearchPathHistoryMenu
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXHistoryMenuBase.h>
 
 class CBSearchPathHistoryMenu : public JXHistoryMenuBase

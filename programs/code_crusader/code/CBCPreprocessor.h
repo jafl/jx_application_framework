@@ -8,10 +8,6 @@
 #ifndef _H_CBCPreprocessor
 #define _H_CBCPreprocessor
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JArray.h>
 #include <ctype.h>		// need isalnum()
 

@@ -8,10 +8,6 @@
 #ifndef _H_CMVarTreeWidget
 #define _H_CMVarTreeWidget
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXNamedTreeListWidget.h>
 #include "CMMemoryDir.h"	// need defn of DisplayType
 

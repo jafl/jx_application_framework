@@ -8,10 +8,6 @@
 #ifndef _H_SyGApplication
 #define _H_SyGApplication
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXApplication.h>
 #include <JPrefObject.h>
 #include <JStringPtrMap.h>

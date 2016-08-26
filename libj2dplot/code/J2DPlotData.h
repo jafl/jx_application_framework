@@ -10,10 +10,6 @@
 #ifndef _H_J2DPlotData
 #define _H_J2DPlotData
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPlotDataBase.h>
 #include <JArray.h>
 

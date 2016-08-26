@@ -10,10 +10,6 @@
 #ifndef _H_JXProgressDisplay
 #define _H_JXProgressDisplay
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JProgressDisplay.h>
 #include <JBroadcaster.h>
 

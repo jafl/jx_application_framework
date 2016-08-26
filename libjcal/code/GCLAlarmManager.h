@@ -10,10 +10,6 @@
 #ifndef _H_GCLAlarmManager
 #define _H_GCLAlarmManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBroadcaster.h>
 #include <JPtrArray.h>
 

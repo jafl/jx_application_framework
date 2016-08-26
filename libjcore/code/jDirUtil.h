@@ -10,10 +10,6 @@
 #ifndef _H_jDirUtil
 #define _H_jDirUtil
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JStdError.h>
 #include <time.h>
 

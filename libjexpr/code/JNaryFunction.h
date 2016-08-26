@@ -10,10 +10,6 @@
 #ifndef _H_JNaryFunction
 #define _H_JNaryFunction
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JFunctionWithArgs.h>
 #include <JPtrArray.h>
 

@@ -10,10 +10,6 @@
 #ifndef _H_TestPGTask
 #define _H_TestPGTask
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXIdleTask.h>
 
 class JProgressDisplay;

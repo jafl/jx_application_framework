@@ -8,10 +8,6 @@
 #ifndef _H_CMGetFullPath
 #define _H_CMGetFullPath
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMCommand.h"
 #include <JBroadcaster.h>
 

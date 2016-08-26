@@ -8,10 +8,6 @@
 #ifndef _H_GDBGetThread
 #define _H_GDBGetThread
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMGetThread.h"
 
 class GDBGetThread : public CMGetThread

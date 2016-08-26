@@ -8,10 +8,6 @@
 #ifndef _H_CMBreakpointsDir
 #define _H_CMBreakpointsDir
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 
 class JXTextMenu;

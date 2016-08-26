@@ -10,10 +10,6 @@
 #ifndef _H_JTEUndoStyle
 #define _H_JTEUndoStyle
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JTEUndoBase.h>
 
 class JTEUndoStyle : public JTEUndoBase

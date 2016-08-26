@@ -8,10 +8,6 @@
 #ifndef _H_JTEKeyHandler
 #define _H_JTEKeyHandler
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JTextEditor.h>
 
 class JTEKeyHandler

@@ -8,10 +8,6 @@
 #ifndef _H_JStringManager
 #define _H_JStringManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JStringPtrMap.h>
 
 class JError;

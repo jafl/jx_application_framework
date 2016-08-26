@@ -10,10 +10,6 @@
 #ifndef _H_ResizeWidgetDialog
 #define _H_ResizeWidgetDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 
 class JXWidget;

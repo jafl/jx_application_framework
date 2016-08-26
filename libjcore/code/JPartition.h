@@ -10,10 +10,6 @@
 #ifndef _H_JPartition
 #define _H_JPartition
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JArray.h>
 
 class JPartition

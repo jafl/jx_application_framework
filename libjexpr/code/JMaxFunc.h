@@ -10,10 +10,6 @@
 #ifndef _H_JMaxFunc
 #define _H_JMaxFunc
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JNaryFunction.h>
 
 class JMaxFunc : public JNaryFunction

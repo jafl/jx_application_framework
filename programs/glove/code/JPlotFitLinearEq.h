@@ -10,10 +10,6 @@
 #ifndef _H_JPlotFitLinearEq
 #define _H_JPlotFitLinearEq
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPlotFitBase.h>
 #include <JArray.h>
 #include <JString.h>

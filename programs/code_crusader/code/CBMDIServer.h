@@ -10,10 +10,6 @@
 #ifndef _H_CBMDIServer
 #define _H_CBMDIServer
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXMDIServer.h>
 #include <JPrefObject.h>
 

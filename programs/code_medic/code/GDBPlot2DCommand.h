@@ -8,10 +8,6 @@
 #ifndef _H_GDBPlot2DCommand
 #define _H_GDBPlot2DCommand
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMPlot2DCommand.h"
 
 class GDBPlot2DCommand : public CMPlot2DCommand

@@ -10,10 +10,6 @@
 #ifndef _H_JMathematicaSM
 #define _H_JMathematicaSM
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JSymbolicMath.h>
 
 #if __MWERKS__

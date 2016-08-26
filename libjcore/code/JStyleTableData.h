@@ -8,10 +8,6 @@
 #ifndef _H_JStyleTableData
 #define _H_JStyleTableData
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JAuxTableData.h>
 #include <JFont.h>
 #include <JString.h>

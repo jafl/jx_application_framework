@@ -8,10 +8,6 @@
 #ifndef _H_SVNAboutDialog
 #define _H_SVNAboutDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 
 class JXTextButton;

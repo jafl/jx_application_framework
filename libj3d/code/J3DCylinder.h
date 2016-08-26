@@ -10,10 +10,6 @@
 #ifndef _H_J3DCylinder
 #define _H_J3DCylinder
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <J3DObject.h>
 #include <GL/glu.h>
 

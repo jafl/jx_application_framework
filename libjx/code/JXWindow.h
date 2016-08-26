@@ -10,10 +10,6 @@
 #ifndef _H_JXWindow
 #define _H_JXWindow
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXContainer.h>
 #include <JXCursor.h>
 #include <X11/Xlib.h>

@@ -10,10 +10,6 @@
 #ifndef _H_JUnaryFunction
 #define _H_JUnaryFunction
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JFunctionWithArgs.h>
 
 class JUnaryFunction : public JFunctionWithArgs

@@ -10,10 +10,6 @@
 #ifndef _H_JXCharInput
 #define _H_JXCharInput
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXInputField.h>
 
 class JXCharInput : public JXInputField

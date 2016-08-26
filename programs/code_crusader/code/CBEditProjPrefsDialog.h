@@ -10,10 +10,6 @@
 #ifndef _H_CBEditProjPrefsDialog
 #define _H_CBEditProjPrefsDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 #include "CBProjectTable.h"		// need definition of DropFileAction
 

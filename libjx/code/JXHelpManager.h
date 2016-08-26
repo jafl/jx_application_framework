@@ -8,10 +8,6 @@
 #ifndef _H_JXHelpManager
 #define _H_JXHelpManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDirector.h>
 #include <JXSharedPrefObject.h>
 

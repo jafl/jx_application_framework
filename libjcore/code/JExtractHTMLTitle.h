@@ -8,10 +8,6 @@
 #ifndef _H_JExtractHTMLTitle
 #define _H_JExtractHTMLTitle
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JHTMLScanner.h>
 
 class JString;

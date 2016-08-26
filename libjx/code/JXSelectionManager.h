@@ -8,10 +8,6 @@
 #ifndef _H_JXSelectionManager
 #define _H_JXSelectionManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXSelectionData.h>
 
 const Atom kJXClipboardName = XA_PRIMARY;

@@ -8,10 +8,6 @@
 #ifndef _H_CMGetInitArgs
 #define _H_CMGetInitArgs
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMCommand.h"
 
 class CMGetInitArgs : public CMCommand

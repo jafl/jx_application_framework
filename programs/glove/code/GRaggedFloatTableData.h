@@ -10,10 +10,6 @@
 #ifndef _H_GRaggedFloatTableData
 #define _H_GRaggedFloatTableData
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JTableData.h>
 #include <JPtrArray.h>
 

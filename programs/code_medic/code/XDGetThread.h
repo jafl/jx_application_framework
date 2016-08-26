@@ -8,10 +8,6 @@
 #ifndef _H_XDGetThread
 #define _H_XDGetThread
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMGetThread.h"
 
 class XDGetThread : public CMGetThread

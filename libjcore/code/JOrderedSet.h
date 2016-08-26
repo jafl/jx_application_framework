@@ -10,10 +10,6 @@
 #ifndef _H_JOrderedSet
 #define _H_JOrderedSet
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JCollection.h>
 #include <JOrderedSetIterator.h>
 

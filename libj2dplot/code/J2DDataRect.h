@@ -8,10 +8,6 @@
 #ifndef _H_J2DDataRect
 #define _H_J2DDataRect
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jTypes.h>
 
 struct J2DDataRect

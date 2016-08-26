@@ -42,10 +42,6 @@ int JAssert(const char*, const char*, const int);
 
 // transparent memory manager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #endif
 
 // 2016/01/05: This breaks in the latest C++ standard,

@@ -8,10 +8,6 @@
 #ifndef _H_SyGFileTreeList
 #define _H_SyGFileTreeList
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JNamedTreeList.h>
 
 class JDirEntry;

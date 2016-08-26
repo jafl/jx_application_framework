@@ -10,10 +10,6 @@
 #ifndef _H_JXImageCheckbox
 #define _H_JXImageCheckbox
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXCheckbox.h>
 #include <jXConstants.h>
 #include <JConstBitmap.h>

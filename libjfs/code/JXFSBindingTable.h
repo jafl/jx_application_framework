@@ -8,10 +8,6 @@
 #ifndef _H_JXFSBindingTable
 #define _H_JXFSBindingTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXEditTable.h>
 
 class JRegex;

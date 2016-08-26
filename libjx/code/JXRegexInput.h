@@ -10,10 +10,6 @@
 #ifndef _H_JXRegexInput
 #define _H_JXRegexInput
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXInputField.h>
 
 class JRegex;

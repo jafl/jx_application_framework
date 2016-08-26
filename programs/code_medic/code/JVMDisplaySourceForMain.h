@@ -8,10 +8,6 @@
 #ifndef _H_JVMDisplaySourceForMain
 #define _H_JVMDisplaySourceForMain
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMDisplaySourceForMain.h"
 
 class JVMDisplaySourceForMain : public CMDisplaySourceForMain

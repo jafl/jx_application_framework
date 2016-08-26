@@ -10,10 +10,6 @@
 #ifndef _H_JBooleanConstant
 #define _H_JBooleanConstant
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JDecision.h>
 
 class JBooleanConstant : public JDecision

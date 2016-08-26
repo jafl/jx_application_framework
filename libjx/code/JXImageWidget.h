@@ -10,10 +10,6 @@
 #ifndef _H_JXImageWidget
 #define _H_JXImageWidget
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXScrollableWidget.h>
 #include <jXConstants.h>
 #include <JConstBitmap.h>

@@ -8,10 +8,6 @@
 #ifndef _H_JXGetNewDirDialog
 #define _H_JXGetNewDirDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXGetStringDialog.h>
 #include <JString.h>
 

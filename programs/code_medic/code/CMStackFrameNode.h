@@ -8,10 +8,6 @@
 #ifndef _H_CMStackFrameNode
 #define _H_CMStackFrameNode
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JNamedTreeNode.h>
 
 class CMStackFrameNode : public JNamedTreeNode

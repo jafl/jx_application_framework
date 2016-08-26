@@ -10,10 +10,6 @@
 #ifndef _H_SyGChoosePathDialog
 #define _H_SyGChoosePathDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXChoosePathDialog.h>
 
 class SyGChoosePathDialog : public JXChoosePathDialog

@@ -10,10 +10,6 @@
 #ifndef _H_SCVdepVSource
 #define _H_SCVdepVSource
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "SCVdepSource.h"
 
 class SCVdepVSource : public SCVdepSource

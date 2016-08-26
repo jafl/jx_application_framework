@@ -10,10 +10,6 @@
 #ifndef _H_CBEditStylerDialog
 #define _H_CBEditStylerDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 #include "CBStylerBase.h"		// need definition of WordStyle
 

@@ -10,10 +10,6 @@
 #ifndef _H_JRealPart
 #define _H_JRealPart
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JUnaryFunction.h>
 
 class JRealPart : public JUnaryFunction

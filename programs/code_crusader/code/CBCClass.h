@@ -8,10 +8,6 @@
 #ifndef _H_CBCClass
 #define _H_CBCClass
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBClass.h"
 
 class CBCClass : public CBClass

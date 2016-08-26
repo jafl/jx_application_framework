@@ -8,10 +8,6 @@
 #ifndef _H_JXScrollTabsTask
 #define _H_JXScrollTabsTask
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "JXUrgentTask.h"
 #include <JBroadcaster.h>
 

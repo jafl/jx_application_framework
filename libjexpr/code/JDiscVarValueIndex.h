@@ -10,10 +10,6 @@
 #ifndef _H_JDiscVarValueIndex
 #define _H_JDiscVarValueIndex
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JFunctionWithVar.h>
 
 class JDiscVarValueIndex : public JFunctionWithVar

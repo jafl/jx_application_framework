@@ -8,10 +8,6 @@
 #ifndef _H_CBCTreeDirector
 #define _H_CBCTreeDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBTreeDirector.h"
 
 class CBCTree;

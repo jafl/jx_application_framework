@@ -10,10 +10,6 @@
 #ifndef _H_JExprEditor
 #define _H_JExprEditor
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JExprRenderer.h>
 #include <JArray.h>
 #include <JFontStyle.h>

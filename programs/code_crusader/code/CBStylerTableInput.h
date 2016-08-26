@@ -10,10 +10,6 @@
 #ifndef _H_CBStylerTableInput
 #define _H_CBStylerTableInput
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXInputField.h>
 #include "CBTextFileType.h"
 

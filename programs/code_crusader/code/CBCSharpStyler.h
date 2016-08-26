@@ -8,10 +8,6 @@
 #ifndef _H_CBCSharpStyler
 #define _H_CBCSharpStyler
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBStylerBase.h"
 #include "CBCSharpScanner.h"
 

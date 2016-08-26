@@ -8,10 +8,6 @@
 #ifndef _H_SVNRepoTreeList
 #define _H_SVNRepoTreeList
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JNamedTreeList.h>
 
 class SVNRepoTree;

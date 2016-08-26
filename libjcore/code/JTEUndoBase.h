@@ -8,10 +8,6 @@
 #ifndef _H_JTEUndoBase
 #define _H_JTEUndoBase
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JUndo.h>
 #include <JTextEditor.h>	// need defintion of JTextEditor::Font
 

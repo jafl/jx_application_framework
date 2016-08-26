@@ -10,10 +10,6 @@
 #ifndef _H_jParseUtil
 #define _H_jParseUtil
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jTypes.h>
 
 JBoolean JFindLastOperator(const JCharacter* sourceStart, const JSize sourceLength,

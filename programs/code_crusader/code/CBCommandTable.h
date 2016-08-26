@@ -8,10 +8,6 @@
 #ifndef _H_CBCommandTable
 #define _H_CBCommandTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXEditTable.h>
 #include <JFont.h>
 #include "CBCommandManager.h"	// need defn of CmdInfo

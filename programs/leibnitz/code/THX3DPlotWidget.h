@@ -8,10 +8,6 @@
 #ifndef _H_THX3DPlotWidget
 #define _H_THX3DPlotWidget
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JX3DWidget.h>
 
 class J3DUniverse;

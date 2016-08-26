@@ -10,10 +10,6 @@
 #ifndef _H_JXWarningDialog
 #define _H_JXWarningDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXUNDialogBase.h>
 
 class JXWarningDialog : public JXUNDialogBase

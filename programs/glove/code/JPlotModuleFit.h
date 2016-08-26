@@ -10,10 +10,6 @@
 #ifndef _H_JPlotModuleFit
 #define _H_JPlotModuleFit
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPlotFitFunction.h>
 #include <JArray.h>
 #include <JPtrArray.h>

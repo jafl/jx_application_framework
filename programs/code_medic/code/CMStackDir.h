@@ -8,10 +8,6 @@
 #ifndef _H_CMStackDir
 #define _H_CMStackDir
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 
 class JXTextMenu;

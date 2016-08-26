@@ -10,10 +10,6 @@
 #ifndef _H_JPSPrinterBase
 #define _H_JPSPrinterBase
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JFont.h>
 #include <JRect.h>
 #include <JPolygon.h>

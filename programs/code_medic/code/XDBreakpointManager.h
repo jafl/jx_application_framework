@@ -8,10 +8,6 @@
 #ifndef _H_XDBreakpointManager
 #define _H_XDBreakpointManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMBreakpointManager.h"
 
 class XDLink;

@@ -10,10 +10,6 @@
 #ifndef _H_JXRadioGroupDialog
 #define _H_JXRadioGroupDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 #include <JPtrArray-JString.h>
 

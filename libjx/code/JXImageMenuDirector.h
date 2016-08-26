@@ -8,10 +8,6 @@
 #ifndef _H_JXImageMenuDirector
 #define _H_JXImageMenuDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXMenuDirector.h>
 
 class JXMenu;

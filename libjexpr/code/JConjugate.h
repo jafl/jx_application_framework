@@ -10,10 +10,6 @@
 #ifndef _H_JConjugate
 #define _H_JConjugate
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JUnaryFunction.h>
 
 class JConjugate : public JUnaryFunction

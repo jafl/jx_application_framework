@@ -8,10 +8,6 @@
 #ifndef _H_CBSearchColormap
 #define _H_CBSearchColormap
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JColormap.h>
 
 class CBSearchColormap : public JColormap

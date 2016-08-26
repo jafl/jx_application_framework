@@ -8,10 +8,6 @@
 #ifndef _H_cmGlobals
 #define _H_cmGlobals
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jXGlobals.h>
 #include "CMApp.h"
 #include "CMPrefsManager.h"

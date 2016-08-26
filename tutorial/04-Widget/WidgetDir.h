@@ -10,10 +10,6 @@
 #ifndef _H_WidgetDir
 #define _H_WidgetDir
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 
 class WidgetDir : public JXWindowDirector

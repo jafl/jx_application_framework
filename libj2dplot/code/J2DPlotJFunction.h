@@ -8,10 +8,6 @@
 #ifndef _H_J2DPlotJFunction
 #define _H_J2DPlotJFunction
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPlotFunctionBase.h>
 
 class JVariableList;

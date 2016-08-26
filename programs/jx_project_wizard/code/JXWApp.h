@@ -8,10 +8,6 @@
 #ifndef _H_JXWApp
 #define _H_JXWApp
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXApplication.h>
 
 class JXWApp : public JXApplication

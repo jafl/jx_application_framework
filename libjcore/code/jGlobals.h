@@ -8,10 +8,6 @@
 #ifndef _H_jGlobals
 #define _H_jGlobals
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 // we include these for convenience
 
 #include <JAssertBase.h>

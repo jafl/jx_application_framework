@@ -10,10 +10,6 @@
 #ifndef _H_JTreeNode
 #define _H_JTreeNode
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPtrArray.h>
 
 class JTree;

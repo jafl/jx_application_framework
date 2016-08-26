@@ -10,10 +10,6 @@
 #ifndef _H_JDiscreteEquality
 #define _H_JDiscreteEquality
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "JDecisionWithVar.h"
 
 class JDiscreteEquality : public JDecisionWithVar

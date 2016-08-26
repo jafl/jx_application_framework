@@ -12,10 +12,6 @@
 #ifndef _H_cbActionDefs
 #define _H_cbActionDefs
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jXActionDefs.h>	// for convenience
 
 // File menu

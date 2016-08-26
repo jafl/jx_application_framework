@@ -10,10 +10,6 @@
 #ifndef _H_UndoLine
 #define _H_UndoLine
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JUndo.h>
 
 class UndoWidget;

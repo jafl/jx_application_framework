@@ -8,10 +8,6 @@
 #ifndef _H_MDRecordDataField
 #define _H_MDRecordDataField
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXInputField.h>
 
 class MDRecordDataField : public JXInputField

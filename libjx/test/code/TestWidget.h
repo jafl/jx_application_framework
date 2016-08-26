@@ -10,10 +10,6 @@
 #ifndef _H_TestWidget
 #define _H_TestWidget
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXScrollableWidget.h>
 #include <JKLRand.h>
 

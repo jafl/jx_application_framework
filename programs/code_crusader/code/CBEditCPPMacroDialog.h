@@ -10,10 +10,6 @@
 #ifndef _H_CBEditCPPMacroDialog
 #define _H_CBEditCPPMacroDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 #include <JPrefObject.h>
 

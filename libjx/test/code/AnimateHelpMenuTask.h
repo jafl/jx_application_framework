@@ -10,10 +10,6 @@
 #ifndef _H_AnimateHelpMenuTask
 #define _H_AnimateHelpMenuTask
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXIdleTask.h>
 #include <JPtrArray.h>
 

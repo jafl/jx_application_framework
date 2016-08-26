@@ -8,10 +8,6 @@
 #ifndef _H_SyGCopyProcess
 #define _H_SyGCopyProcess
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPtrArray-JString.h>
 #include <jVCSUtil.h>
 

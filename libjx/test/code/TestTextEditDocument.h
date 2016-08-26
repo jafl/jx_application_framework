@@ -10,10 +10,6 @@
 #ifndef _H_TestTextEditDocument
 #define _H_TestTextEditDocument
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXFileDocument.h>
 
 class JXTextMenu;

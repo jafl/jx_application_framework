@@ -8,10 +8,6 @@
 #ifndef _H_CMArray2DCommand
 #define _H_CMArray2DCommand
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMCommand.h"
 #include <JPoint.h>
 #include <JIntRange.h>

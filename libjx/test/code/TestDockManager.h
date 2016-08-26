@@ -8,10 +8,6 @@
 #ifndef _H_TestDockManager
 #define _H_TestDockManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDockManager.h>
 
 class TestDockManager : public JXDockManager

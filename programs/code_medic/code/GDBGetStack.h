@@ -8,10 +8,6 @@
 #ifndef _H_GDBGetStack
 #define _H_GDBGetStack
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMGetStack.h"
 
 class GDBGetStackArguments;

@@ -8,10 +8,6 @@
 #ifndef _H_jSysUtil
 #define _H_jSysUtil
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JError.h>
 #include <unistd.h>
 #include <sys/types.h>

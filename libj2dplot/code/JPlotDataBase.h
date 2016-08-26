@@ -10,10 +10,6 @@
 #ifndef _H_JPlotDataBase
 #define _H_JPlotDataBase
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JCollection.h>
 #include <J2DDataPoint.h>
 #include <J2DVectorPoint.h>

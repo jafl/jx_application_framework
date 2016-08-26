@@ -8,10 +8,6 @@
 #ifndef _H_SVNRepoView
 #define _H_SVNRepoView
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXNamedTreeListWidget.h>
 #include "SVNTabBase.h"
 

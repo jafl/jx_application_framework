@@ -10,10 +10,6 @@
 #ifndef _H_GXColHeaderWidget
 #define _H_GXColHeaderWidget
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "JXColHeaderWidget.h"
 
 class GXRaggedFloatTable;

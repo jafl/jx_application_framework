@@ -10,10 +10,6 @@
 #ifndef _H_JXScrollableWidget
 #define _H_JXScrollableWidget
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWidget.h>
 
 class JXScrollbar;

@@ -8,10 +8,6 @@
 #ifndef _H_jQuadrature
 #define _H_jQuadrature
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JFloat.h>
 #include <JSize.h>
 

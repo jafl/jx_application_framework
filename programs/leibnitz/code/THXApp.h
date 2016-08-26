@@ -10,10 +10,6 @@
 #ifndef _H_THXApp
 #define _H_THXApp
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXApplication.h>
 
 class JString;

@@ -10,10 +10,6 @@
 #ifndef _H_JXXFontMenu
 #define _H_JXXFontMenu
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXFontNameMenu.h>
 #include <JXFontManager.h>		// need definition of JSortXFontNamesFn
 

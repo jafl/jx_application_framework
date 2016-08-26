@@ -10,10 +10,6 @@
 #ifndef _H_J3DCone
 #define _H_J3DCone
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <J3DCylinder.h>
 
 class J3DCone : public J3DCylinder

@@ -8,10 +8,6 @@
 #ifndef _H_GDBGetProgramName
 #define _H_GDBGetProgramName
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMCommand.h"
 
 class GDBGetProgramName : public CMCommand

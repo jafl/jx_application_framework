@@ -10,10 +10,6 @@
 #ifndef _H_CBClass
 #define _H_CBClass
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBroadcaster.h>
 #include <JPtrArray-JString.h>
 #include <JFontStyle.h>

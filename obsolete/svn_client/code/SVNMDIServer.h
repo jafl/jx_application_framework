@@ -8,10 +8,6 @@
 #ifndef _H_SVNMDIServer
 #define _H_SVNMDIServer
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXMDIServer.h>
 
 class SVNMDIServer : public JXMDIServer

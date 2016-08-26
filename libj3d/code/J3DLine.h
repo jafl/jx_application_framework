@@ -10,10 +10,6 @@
 #ifndef _H_J3DLine
 #define _H_J3DLine
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <J3DObject.h>
 
 class J3DLine : public J3DObject

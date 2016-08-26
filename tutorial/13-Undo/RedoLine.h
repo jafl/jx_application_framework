@@ -10,10 +10,6 @@
 #ifndef _H_RedoLine
 #define _H_RedoLine
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JUndo.h>
 #include <JPoint.h>
 

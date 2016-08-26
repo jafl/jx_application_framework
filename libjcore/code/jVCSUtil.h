@@ -8,10 +8,6 @@
 #ifndef _H_jVCSUtil
 #define _H_jVCSUtil
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JError.h>
 
 class JString;

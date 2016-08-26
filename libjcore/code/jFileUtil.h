@@ -10,10 +10,6 @@
 #ifndef _H_jFileUtil
 #define _H_jFileUtil
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JError.h>
 #include <jTime.h>
 #include <stdio.h>

@@ -10,10 +10,6 @@
 #ifndef _H_JTextProgressDisplay
 #define _H_JTextProgressDisplay
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JProgressDisplay.h>
 #include <jSignal.h>
 

@@ -8,10 +8,6 @@
 #ifndef _H_JXWebBrowser
 #define _H_JXWebBrowser
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JWebBrowser.h>
 #include <JXSharedPrefObject.h>
 

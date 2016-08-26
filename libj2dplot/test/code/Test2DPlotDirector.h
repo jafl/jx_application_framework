@@ -8,10 +8,6 @@
 #ifndef _H_Test2DPlotDirector
 #define _H_Test2DPlotDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 
 class JXTextMenu;

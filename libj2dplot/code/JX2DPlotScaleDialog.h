@@ -8,10 +8,6 @@
 #ifndef _H_JX2DPlotScaleDialog
 #define _H_JX2DPlotScaleDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 
 class JXFloatInput;

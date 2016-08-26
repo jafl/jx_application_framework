@@ -8,10 +8,6 @@
 #ifndef _H_JVMThreadNode
 #define _H_JVMThreadNode
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMThreadNode.h"
 
 class JVMThreadNode : public CMThreadNode

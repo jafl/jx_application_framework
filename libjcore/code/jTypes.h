@@ -10,10 +10,6 @@
 #ifndef _H_jTypes
 #define _H_jTypes
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <iostream>	// templates
 using std::ios;
 using std::istream;

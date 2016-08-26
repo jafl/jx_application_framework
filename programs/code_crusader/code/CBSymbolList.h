@@ -8,10 +8,6 @@
 #ifndef _H_CBSymbolList
 #define _H_CBSymbolList
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JContainer.h>
 #include "CBCtagsUser.h"
 #include "CBPrefsManager.h"		// need definition of FileTypesChanged

@@ -10,10 +10,6 @@
 #ifndef _H_jParseDecision
 #define _H_jParseDecision
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jTypes.h>
 
 class JVariableList;

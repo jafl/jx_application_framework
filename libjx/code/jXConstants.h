@@ -10,10 +10,6 @@
 #ifndef _H_jXConstants
 #define _H_jXConstants
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JFontStyle.h>
 #include <X11/X.h>
 

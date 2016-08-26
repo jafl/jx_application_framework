@@ -12,10 +12,6 @@
 #ifndef _H_GLPrefsMgr
 #define _H_GLPrefsMgr
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXPrefsManager.h>
 #include <JPtrArray.h>
 #include <JString.h>

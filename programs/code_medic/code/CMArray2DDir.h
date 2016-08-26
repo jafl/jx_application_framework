@@ -8,10 +8,6 @@
 #ifndef _H_CMArray2DDir
 #define _H_CMArray2DDir
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 #include "CMMemoryDir.h"	// need defn of DisplayType
 #include <JString.h>

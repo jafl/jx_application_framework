@@ -10,10 +10,6 @@
 #ifndef _H_JXImageMask
 #define _H_JXImageMask
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXImage.h>
 #include <JImageMask.h>
 #include <jXConstants.h>		// need definition of kJXTransparentColor

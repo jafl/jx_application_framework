@@ -8,10 +8,6 @@
 #ifndef _H_JFSFileTreeNodeBase
 #define _H_JFSFileTreeNodeBase
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JNamedTreeNode.h>
 
 class JDirInfo;

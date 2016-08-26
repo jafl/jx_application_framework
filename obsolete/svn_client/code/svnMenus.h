@@ -8,10 +8,6 @@
 #ifndef _H_svnMenus
 #define _H_svnMenus
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "svnActionDefs.h"
 
 enum ActionMenu

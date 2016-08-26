@@ -10,10 +10,6 @@
 #ifndef _H_JXMenuData
 #define _H_JXMenuData
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JContainer.h>
 #include <JXMenu.h>		// need defn of ItemType, UpdateAction
 #include <JArray.h>

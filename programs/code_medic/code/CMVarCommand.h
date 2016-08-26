@@ -8,10 +8,6 @@
 #ifndef _H_CMVarCommand
 #define _H_CMVarCommand
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMCommand.h"
 #include <JBroadcaster.h>
 

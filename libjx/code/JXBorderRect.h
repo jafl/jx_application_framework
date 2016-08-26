@@ -8,10 +8,6 @@
 #ifndef _H_JXBorderRect
 #define _H_JXBorderRect
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDecorRect.h>
 
 class JXBorderRect : public JXDecorRect

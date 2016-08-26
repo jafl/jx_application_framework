@@ -10,10 +10,6 @@
 #ifndef _H_GloveHistoryDir
 #define _H_GloveHistoryDir
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDocument.h>
 #include <JXPM.h>
 

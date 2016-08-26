@@ -10,10 +10,6 @@
 #ifndef _H_SCDepSource
 #define _H_SCDepSource
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "SCLinearComp.h"
 
 class SCDepSource : public SCLinearComp

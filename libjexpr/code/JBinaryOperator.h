@@ -10,10 +10,6 @@
 #ifndef _H_JBinaryOperator
 #define _H_JBinaryOperator
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBinaryFunction.h>
 
 class JBinaryOperator : public JBinaryFunction

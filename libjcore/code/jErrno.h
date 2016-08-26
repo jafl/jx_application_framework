@@ -11,10 +11,6 @@
 #ifndef _H_jErrno
 #define _H_jErrno
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <errno.h>
 #include <jTypes.h>
 

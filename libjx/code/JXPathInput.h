@@ -11,10 +11,6 @@
 #ifndef _H_JXPathInput
 #define _H_JXPathInput
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXInputField.h>
 
 class JDirInfo;

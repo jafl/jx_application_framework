@@ -8,10 +8,6 @@
 #ifndef _H_<PRE>App
 #define _H_<PRE>App
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXApplication.h>
 
 class <PRE>App : public JXApplication

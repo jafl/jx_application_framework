@@ -8,10 +8,6 @@
 #ifndef _H_JXWDMenu
 #define _H_JXWDMenu
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTextMenu.h>
 
 class JXWDManager;

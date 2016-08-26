@@ -8,10 +8,6 @@
 #ifndef _H_<PRE>PrefsDialog
 #define _H_<PRE>PrefsDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 
 class <PRE>PrefsDialog : public JXDialogDirector

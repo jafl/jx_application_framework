@@ -8,10 +8,6 @@
 #ifndef _H_CBMacroManager
 #define _H_CBMacroManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JArray.h>
 #include <JFont.h>
 

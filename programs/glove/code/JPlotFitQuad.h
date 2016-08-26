@@ -10,10 +10,6 @@
 #ifndef _H_JPlotFitQuad
 #define _H_JPlotFitQuad
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPlotFitLinearEq.h>
 
 class J2DPlotWidget;

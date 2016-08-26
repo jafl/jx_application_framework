@@ -8,10 +8,6 @@
 #ifndef _H_XDGetFrame
 #define _H_XDGetFrame
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMGetFrame.h"
 
 class CMStackWidget;

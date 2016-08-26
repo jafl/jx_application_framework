@@ -8,10 +8,6 @@
 #ifndef _H_CBProjectTable
 #define _H_CBProjectTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXNamedTreeListWidget.h>
 #include "CBRelPathCSF.h"		// need definition of PathType
 

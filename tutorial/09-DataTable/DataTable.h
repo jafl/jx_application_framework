@@ -10,10 +10,6 @@
 #ifndef _H_DataTable
 #define _H_DataTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTable.h>
 #include <JArray.h>
 

@@ -10,10 +10,6 @@
 #ifndef _H_CMArrayIndexInput
 #define _H_CMArrayIndexInput
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXIntegerInput.h>
 
 class CMArrayIndexInput : public JXIntegerInput

@@ -10,10 +10,6 @@
 #ifndef _H_JXDisplay
 #define _H_JXDisplay
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXCursor.h>
 #include <JArray.h>
 #include <jXEventUtil.h>

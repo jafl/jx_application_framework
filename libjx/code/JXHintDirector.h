@@ -8,10 +8,6 @@
 #ifndef _H_JXHintDirector
 #define _H_JXHintDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 #include <JRect.h>
 

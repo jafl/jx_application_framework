@@ -10,10 +10,6 @@
 #ifndef _H_JMinMax
 #define _H_JMinMax
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 template <class T>
 T JMin(const T v1, const T v2);
 

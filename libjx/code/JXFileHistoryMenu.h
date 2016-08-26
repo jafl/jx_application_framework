@@ -10,10 +10,6 @@
 #ifndef _H_JXFileHistoryMenu
 #define _H_JXFileHistoryMenu
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXHistoryMenuBase.h>
 
 class JXFileHistoryMenu : public JXHistoryMenuBase

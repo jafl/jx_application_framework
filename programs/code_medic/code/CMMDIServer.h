@@ -10,10 +10,6 @@
 #ifndef _H_CMMDIServer
 #define _H_CMMDIServer
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXMDIServer.h>
 
 class CMMDIServer : public JXMDIServer, virtual public JBroadcaster

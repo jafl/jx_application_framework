@@ -10,10 +10,6 @@
 #ifndef _H_CBEditTextPrefsDialog
 #define _H_CBEditTextPrefsDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 #include "CBPrefsManager.h"		// need definition of kColorCount
 

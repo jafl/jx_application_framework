@@ -10,10 +10,6 @@
 #ifndef _H_JPtrStack
 #define _H_JPtrStack
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JStack.h>
 #include <JPtrArray.h>
 

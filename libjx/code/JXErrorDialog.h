@@ -10,10 +10,6 @@
 #ifndef _H_JXErrorDialog
 #define _H_JXErrorDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXUNDialogBase.h>
 
 class JXErrorDialog : public JXUNDialogBase

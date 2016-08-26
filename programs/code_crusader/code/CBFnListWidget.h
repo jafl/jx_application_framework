@@ -10,10 +10,6 @@
 #ifndef _H_CBFnListWidget
 #define _H_CBFnListWidget
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXStringList.h>
 #include "CBClass.h"		// need definition of InheritType
 #include <JString.h>

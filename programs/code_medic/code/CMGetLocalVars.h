@@ -8,10 +8,6 @@
 #ifndef _H_CMGetLocalVars
 #define _H_CMGetLocalVars
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMCommand.h"
 
 class CMGetLocalVars : public CMCommand

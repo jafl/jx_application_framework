@@ -10,10 +10,6 @@
 #ifndef _H_JXOKToCloseDialog
 #define _H_JXOKToCloseDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXUNDialogBase.h>
 #include <JUserNotification.h>	// need definition of CloseAction
 

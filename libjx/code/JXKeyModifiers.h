@@ -10,10 +10,6 @@
 #ifndef _H_JXKeyModifiers
 #define _H_JXKeyModifiers
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <X11/Xlib.h>
 #include <jTypes.h>
 

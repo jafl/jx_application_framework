@@ -10,10 +10,6 @@
 #ifndef _H_jSignal
 #define _H_jSignal
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <signal.h>
 #include <jMissingProto.h>
 

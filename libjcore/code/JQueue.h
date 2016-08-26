@@ -10,10 +10,6 @@
 #ifndef _H_JQueue
 #define _H_JQueue
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JContainer.h>
 #include <JOrderedSetIterator.h>	// template
 

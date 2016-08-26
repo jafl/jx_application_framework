@@ -10,10 +10,6 @@
 #ifndef _H_CBCTree
 #define _H_CBCTree
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBTree.h"
 #include "CBClass.h"	// need definition of FnAccessLevel
 

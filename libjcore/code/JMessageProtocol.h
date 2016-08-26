@@ -8,10 +8,6 @@
 #ifndef _H_JMessageProtocol
 #define _H_JMessageProtocol
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JNetworkProtocolBase.h>
 #include <JPtrArray-JString.h>
 

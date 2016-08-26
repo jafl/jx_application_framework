@@ -10,10 +10,6 @@
 #ifndef _H_SCCircuitVarList
 #define _H_SCCircuitVarList
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JVariableList.h>
 #include <JArray.h>
 

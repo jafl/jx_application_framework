@@ -10,10 +10,6 @@
 #ifndef _H_JComplex
 #define _H_JComplex
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <complex>
 #include <jTypes.h>
 

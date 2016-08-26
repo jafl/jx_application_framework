@@ -10,10 +10,6 @@
 #ifndef _H_DataTableDir
 #define _H_DataTableDir
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 #include <JArray.h>
 

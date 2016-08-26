@@ -10,10 +10,6 @@
 #ifndef _H_GCLAlarm
 #define _H_GCLAlarm
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <GCLUtil.h>
 
 class GCLAppointment;

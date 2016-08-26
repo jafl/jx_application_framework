@@ -8,10 +8,6 @@
 #ifndef _H_JXSelectionData
 #define _H_JXSelectionData
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPtrArray-JString.h>
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>

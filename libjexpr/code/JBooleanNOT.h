@@ -10,10 +10,6 @@
 #ifndef _H_JBooleanNOT
 #define _H_JBooleanNOT
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JDecision.h>
 
 class JBooleanNOT : public JDecision

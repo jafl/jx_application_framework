@@ -10,10 +10,6 @@
 #ifndef _H_JHypSine
 #define _H_JHypSine
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JUnaryFunction.h>
 
 class JHypSine : public JUnaryFunction

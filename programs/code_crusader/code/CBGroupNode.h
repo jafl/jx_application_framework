@@ -8,10 +8,6 @@
 #ifndef _H_CBGroupNode
 #define _H_CBGroupNode
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBProjectNode.h"
 
 class CBGroupNode : public CBProjectNode

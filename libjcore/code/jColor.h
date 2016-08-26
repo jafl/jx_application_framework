@@ -8,10 +8,6 @@
 #ifndef _H_JColor
 #define _H_JColor
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JOrderedSet.h>
 #include <jMath.h>
 

@@ -10,10 +10,6 @@
 #ifndef _H_SCAboutDialog
 #define _H_SCAboutDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 
 class SCAboutDialog : public JXDialogDirector

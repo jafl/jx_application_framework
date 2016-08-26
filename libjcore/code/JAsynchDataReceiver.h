@@ -8,10 +8,6 @@
 #ifndef _H_JAsynchDataReceiver
 #define _H_JAsynchDataReceiver
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPtrArray-JString.h>
 #include <j_prep_ace.h>
 #include <ace/Svc_Handler.h>

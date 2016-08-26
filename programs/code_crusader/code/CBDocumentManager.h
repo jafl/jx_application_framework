@@ -10,10 +10,6 @@
 #ifndef _H_CBDocumentManager
 #define _H_CBDocumentManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDocumentManager.h>
 #include "CBTextFileType.h"
 #include <JPrefObject.h>

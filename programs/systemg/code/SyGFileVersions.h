@@ -10,10 +10,6 @@
 #ifndef _H_SyGFileVersions
 #define _H_SyGFileVersions
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jTypes.h>
 
 const JFileVersion kSyGCurrentDirSetupVersion = 4;

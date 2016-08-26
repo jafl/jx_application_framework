@@ -10,10 +10,6 @@
 #ifndef _H_Division
 #define _H_Division
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBinaryOperator.h>
 
 class JDivision : public JBinaryOperator

@@ -10,10 +10,6 @@
 #ifndef _H_Decision
 #define _H_Decision
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JDecisionType.h>
 
 class JString;

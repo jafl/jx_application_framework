@@ -8,10 +8,6 @@
 #ifndef _H_JXToolBarEditWidget
 #define _H_JXToolBarEditWidget
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXNamedTreeListWidget.h>
 
 class JNamedTreeList;

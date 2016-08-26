@@ -10,10 +10,6 @@
 #ifndef _H_JProbDistr
 #define _H_JProbDistr
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JArray.h>
 
 class JProbDistr

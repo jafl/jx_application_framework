@@ -8,10 +8,6 @@
 #ifndef _H_CBSQLCompleter
 #define _H_CBSQLCompleter
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBStringCompleter.h"
 
 class CBSQLCompleter : public CBStringCompleter

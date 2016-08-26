@@ -8,10 +8,6 @@
 #ifndef _H_JCollection
 #define _H_JCollection
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBroadcaster.h>
 
 class JCollection : virtual public JBroadcaster

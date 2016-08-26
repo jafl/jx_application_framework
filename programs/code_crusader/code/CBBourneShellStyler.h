@@ -8,10 +8,6 @@
 #ifndef _H_CBBourneShellStyler
 #define _H_CBBourneShellStyler
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBStylerBase.h"
 #include "CBBourneShellScanner.h"
 

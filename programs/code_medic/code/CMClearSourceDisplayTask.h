@@ -8,10 +8,6 @@
 #ifndef _H_CMClearSourceDisplayTask
 #define _H_CMClearSourceDisplayTask
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXUrgentTask.h>
 
 class CMSourceDirector;

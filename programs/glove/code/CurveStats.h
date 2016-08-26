@@ -10,10 +10,6 @@
 #ifndef _H_CurveStats
 #define _H_CurveStats
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jTypes.h>
 
 enum GCurveType

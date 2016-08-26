@@ -10,10 +10,6 @@
 #ifndef _H_JXStaticText
 #define _H_JXStaticText
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTEBase.h>
 
 class JXStaticText : public JXTEBase

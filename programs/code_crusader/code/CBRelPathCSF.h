@@ -8,10 +8,6 @@
 #ifndef _H_CBRelPathCSF
 #define _H_CBRelPathCSF
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXChooseSaveFile.h>
 
 class CBProjectDocument;

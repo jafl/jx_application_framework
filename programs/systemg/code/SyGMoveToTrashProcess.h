@@ -8,10 +8,6 @@
 #ifndef _H_SyGMoveToTrashProcess
 #define _H_SyGMoveToTrashProcess
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPtrArray-JString.h>
 
 class JSimpleProcess;

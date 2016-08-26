@@ -8,10 +8,6 @@
 #ifndef _H_CMThreadNode
 #define _H_CMThreadNode
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JNamedTreeNode.h>
 
 class CMThreadNode : public JNamedTreeNode

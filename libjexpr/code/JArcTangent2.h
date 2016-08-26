@@ -10,10 +10,6 @@
 #ifndef _H_JArcTangent2
 #define _H_JArcTangent2
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBinaryFunction.h>
 
 class JArcTangent2 : public JBinaryFunction

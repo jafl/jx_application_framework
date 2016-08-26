@@ -10,10 +10,6 @@
 #ifndef _H_GXRowHeaderWidget
 #define _H_GXRowHeaderWidget
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "JXRowHeaderWidget.h"
 
 class GXRaggedFloatTable;

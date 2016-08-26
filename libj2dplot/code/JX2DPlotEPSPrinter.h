@@ -10,10 +10,6 @@
 #ifndef _H_JX2DPlotEPSPrinter
 #define _H_JX2DPlotEPSPrinter
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXEPSPrinter.h>
 #include <JX2DPlotPrintEPSDialog.h>		// need def of Unit
 

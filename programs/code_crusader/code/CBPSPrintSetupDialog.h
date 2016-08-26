@@ -8,10 +8,6 @@
 #ifndef _H_CBPSPrintSetupDialog
 #define _H_CBPSPrintSetupDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXPSPrintSetupDialog.h>
 
 class JXFontSizeMenu;

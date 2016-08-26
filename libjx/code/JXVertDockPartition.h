@@ -8,10 +8,6 @@
 #ifndef _H_JXVertDockPartition
 #define _H_JXVertDockPartition
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXVertPartition.h>
 
 class JXTextMenu;

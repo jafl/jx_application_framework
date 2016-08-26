@@ -8,10 +8,6 @@
 #ifndef _H_War2Wiz
 #define _H_War2Wiz
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPtrArray.h>
 #include <strstream.h>		// template
 

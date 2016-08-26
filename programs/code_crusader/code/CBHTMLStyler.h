@@ -8,10 +8,6 @@
 #ifndef _H_CBHTMLStyler
 #define _H_CBHTMLStyler
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBStylerBase.h"
 #include "CBHTMLScanner.h"
 

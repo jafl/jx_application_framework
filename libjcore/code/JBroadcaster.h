@@ -10,10 +10,6 @@
 #ifndef _H_JBroadcaster
 #define _H_JBroadcaster
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JRTTIBase.h>
 
 class JBroadcasterList;

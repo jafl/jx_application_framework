@@ -10,10 +10,6 @@
 #ifndef _H_JDiscreteVarEquality
 #define _H_JDiscreteVarEquality
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JDecision.h>
 
 class JFunction;

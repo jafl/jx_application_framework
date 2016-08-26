@@ -8,10 +8,6 @@
 #ifndef _H_CMCommandDirector
 #define _H_CMCommandDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 #include <JPtrArray-JString.h>
 

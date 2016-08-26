@@ -10,10 +10,6 @@
 #ifndef _H_JXCreatePG
 #define _H_JXCreatePG
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JCreateProgressDisplay.h>
 
 class JXCreatePG : public JCreateProgressDisplay

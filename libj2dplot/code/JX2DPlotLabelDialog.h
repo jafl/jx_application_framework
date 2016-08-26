@@ -8,10 +8,6 @@
 #ifndef _H_JX2DPlotLabelDialog
 #define _H_JX2DPlotLabelDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 #include <J2DPlotWidget.h>
 

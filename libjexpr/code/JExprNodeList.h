@@ -10,10 +10,6 @@
 #ifndef _H_JExprNodeList
 #define _H_JExprNodeList
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JContainer.h>
 #include <JDecisionType.h>
 #include <JFunctionType.h>

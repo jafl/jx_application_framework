@@ -11,10 +11,6 @@
 #ifndef _H_JXStandAlonePG
 #define _H_JXStandAlonePG
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXProgressDisplay.h>
 
 class JXPGDirectorBase;

@@ -8,10 +8,6 @@
 #ifndef _H_CBCtagsUser
 #define _H_CBCtagsUser
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBroadcaster.h>
 #include "CBTextFileType.h"
 #include <JStringPtrMap.h>	// template

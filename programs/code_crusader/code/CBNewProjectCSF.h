@@ -8,10 +8,6 @@
 #ifndef _H_CBNewProjectCSF
 #define _H_CBNewProjectCSF
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXChooseSaveFile.h>
 #include <JPrefObject.h>
 #include "CBBuildManager.h"		// need defn of MakefileMethod

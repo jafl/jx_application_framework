@@ -10,10 +10,6 @@
 #ifndef _H_JXEditTable
 #define _H_JXEditTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTable.h>
 
 class JXTEBase;

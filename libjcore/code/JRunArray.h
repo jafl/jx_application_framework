@@ -10,10 +10,6 @@
 #ifndef _H_JRunArray
 #define _H_JRunArray
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JArray.h>
 #include <JRunArrayIterator.h>
 #include <JIndexRange.h>

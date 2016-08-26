@@ -10,10 +10,6 @@
 #ifndef _H_GLFitDescription
 #define _H_GLFitDescription
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "JFitBase.h"
 
 #include <GVarList.h>

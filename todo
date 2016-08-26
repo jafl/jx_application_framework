@@ -11,17 +11,22 @@ jcc:
 
 	load tasks directly from project file
 
-multi-pane editing
+split JTextEditor
 	split off itsBuffer,itsStyles,itsUndo/RedoList into JTextBuffer
 	split out reading HTML, unix man page (to jcc), etc.
 	leave recalc engine, cursor location, and other display stuff in JTextEditor
 
 	JTextEditor can be constructed from string or JTextBuffer
+
+multi-pane editing
 	CBTextDocument has handle to JTextBuffer
 	use partitions to show multiple views
 		double appropriate window dimension, if screen has space
 	each partition needs small [x] to close
 	small [+] buttons to split either horiz or vert
+
+OSX window placement
+	wmReshowOffset pushes window up instead of maintaining vertical position
 
 -----
 

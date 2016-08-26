@@ -8,10 +8,6 @@
 #ifndef _H_JXToolBarNode
 #define _H_JXToolBarNode
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "JNamedTreeNode.h"
 
 class JXTextMenu;

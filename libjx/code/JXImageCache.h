@@ -8,10 +8,6 @@
 #ifndef _H_JXImageCache
 #define _H_JXImageCache
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JStringPtrMap.h>
 #include <JXPM.h>
 

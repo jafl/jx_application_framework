@@ -10,10 +10,6 @@
 #ifndef _H_ClipboardDir
 #define _H_ClipboardDir
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 
 class ClipboardWidget;

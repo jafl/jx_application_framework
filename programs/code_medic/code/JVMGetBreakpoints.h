@@ -8,10 +8,6 @@
 #ifndef _H_JVMGetBreakpoints
 #define _H_JVMGetBreakpoints
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMGetBreakpoints.h"
 
 class JVMGetBreakpoints : public CMGetBreakpoints

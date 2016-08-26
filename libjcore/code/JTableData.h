@@ -10,10 +10,6 @@
 #ifndef _H_JTableData
 #define _H_JTableData
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBroadcaster.h>
 #include <JRect.h>
 

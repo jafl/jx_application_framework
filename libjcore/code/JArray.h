@@ -10,10 +10,6 @@
 #ifndef _H_JArray
 #define _H_JArray
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JOrderedSet.h>
 
 template <class T>

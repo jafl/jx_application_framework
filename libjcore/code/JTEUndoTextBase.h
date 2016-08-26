@@ -10,10 +10,6 @@
 #ifndef _H_JTEUndoTextBase
 #define _H_JTEUndoTextBase
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JTEUndoBase.h>
 
 class JTEUndoTextBase : public JTEUndoBase

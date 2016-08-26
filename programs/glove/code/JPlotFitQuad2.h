@@ -10,10 +10,6 @@
 #ifndef _H_JPlotFitQuad2
 #define _H_JPlotFitQuad2
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPlotFitBase.h>
 #include <JArray.h>
 #include <JString.h>

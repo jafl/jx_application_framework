@@ -10,10 +10,6 @@
 #ifndef _H_J3DObject
 #define _H_J3DObject
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPtrArray.h>
 #include <j3DConstants.h>	// for convenience
 #include <J3DPainter.h>		// for convenience

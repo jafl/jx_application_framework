@@ -10,10 +10,6 @@
 #ifndef _H_DataModule
 #define _H_DataModule
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JArray.h>
 
 #include <j_prep_ace.h>

@@ -8,10 +8,6 @@
 #ifndef _H_CBSearchTextDialog
 #define _H_CBSearchTextDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXSearchTextDialog.h>
 #include <JPrefObject.h>
 #include "CBSearchDocument.h"	// need definition of ProcessLink

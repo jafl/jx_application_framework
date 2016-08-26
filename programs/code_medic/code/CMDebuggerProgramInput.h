@@ -8,10 +8,6 @@
 #ifndef _H_CMDebuggerProgramInput
 #define _H_CMDebuggerProgramInput
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXFileInput.h>
 
 class CMDebuggerProgramInput : public JXFileInput

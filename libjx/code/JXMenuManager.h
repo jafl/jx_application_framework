@@ -10,10 +10,6 @@
 #ifndef _H_JXMenuManager
 #define _H_JXMenuManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPtrArray.h>
 
 class JXWindow;

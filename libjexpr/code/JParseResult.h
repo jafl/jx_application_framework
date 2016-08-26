@@ -10,10 +10,6 @@
 #ifndef _H_JParseResult
 #define _H_JParseResult
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 enum JParseResult
 {
 	kJParsedOK,			// function parsed it successfully

@@ -12,10 +12,6 @@
 #ifndef _H_SyGMDIServer
 #define _H_SyGMDIServer
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXMDIServer.h>
 
 class SyGMDIServer : public JXMDIServer

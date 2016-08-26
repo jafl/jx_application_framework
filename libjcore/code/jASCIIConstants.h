@@ -10,10 +10,6 @@
 #ifndef _H_jASCIIConstants
 #define _H_jASCIIConstants
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jTypes.h>
 #include <ctype.h>	// for convenience
 

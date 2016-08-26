@@ -10,10 +10,6 @@
 #ifndef _H_JPlotFitPowerLaw
 #define _H_JPlotFitPowerLaw
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPlotFitBase.h>
 #include <JString.h>
 

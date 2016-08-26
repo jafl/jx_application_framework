@@ -11,10 +11,6 @@
 #ifndef _H_JDirInfo
 #define _H_JDirInfo
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JContainer.h>
 #include <JDirEntry.h>	// for convenience
 #include <JPtrArray.h>

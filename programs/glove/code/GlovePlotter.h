@@ -10,10 +10,6 @@
 #ifndef _H_GlovePlotter
 #define _H_GlovePlotter
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JX2DPlotWidget.h>
 #include <JArray.h>
 

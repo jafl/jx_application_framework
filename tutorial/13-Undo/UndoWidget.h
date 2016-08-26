@@ -10,10 +10,6 @@
 #ifndef _H_UndoWidget
 #define _H_UndoWidget
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXScrollableWidget.h>
 #include <JPtrArray.h>
 

@@ -10,10 +10,6 @@
 #ifndef _H_JObjTableData
 #define _H_JObjTableData
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JTableData.h>
 #include <JPtrArray.h>
 

@@ -10,10 +10,6 @@
 #ifndef _H_SCComponentMenu
 #define _H_SCComponentMenu
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTextMenu.h>
 
 class SCCircuit;

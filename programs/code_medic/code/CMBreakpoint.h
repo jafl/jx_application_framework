@@ -8,10 +8,6 @@
 #ifndef _H_CMBreakpoint
 #define _H_CMBreakpoint
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMLocation.h"
 
 class CMLink;

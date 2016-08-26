@@ -10,10 +10,6 @@
 #ifndef _H_TestImageDirector
 #define _H_TestImageDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 #include <JString.h>
 #include <JImage.h>		// need definition of FileType

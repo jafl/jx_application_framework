@@ -10,10 +10,6 @@
 #ifndef _H_CBFnListDirector
 #define _H_CBFnListDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 
 class CBClass;

@@ -10,10 +10,6 @@
 #ifndef _H_JNamedConstant
 #define _H_JNamedConstant
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JFunction.h>
 
 class JNamedConstant : public JFunction

@@ -8,10 +8,6 @@
 #ifndef _H_MDPrefsDialog
 #define _H_MDPrefsDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXDialogDirector.h>
 
 class MDPrefsDialog : public JXDialogDirector

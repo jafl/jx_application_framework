@@ -10,10 +10,6 @@
 #ifndef _H_JXWidget
 #define _H_JXWidget
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXContainer.h>
 #include <JXSelectionManager.h>		// need defn of Data
 #include <JXDNDManager.h>			// need defn of TargetFinder

@@ -10,10 +10,6 @@
 #ifndef _H_CMCommandOutputDisplay
 #define _H_CMCommandOutputDisplay
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMTextDisplayBase.h"
 
 class CMCommandOutputDisplay : public CMTextDisplayBase

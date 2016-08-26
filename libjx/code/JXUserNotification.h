@@ -10,10 +10,6 @@
 #ifndef _H_JXUserNotification
 #define _H_JXUserNotification
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JUserNotification.h>
 #include <JBroadcaster.h>
 

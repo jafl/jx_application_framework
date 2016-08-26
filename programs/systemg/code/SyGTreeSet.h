@@ -10,10 +10,6 @@
 #ifndef _H_SyGTreeSet
 #define _H_SyGTreeSet
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWidgetSet.h>
 
 class JString;

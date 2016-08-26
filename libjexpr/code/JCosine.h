@@ -10,10 +10,6 @@
 #ifndef _H_JCosine
 #define _H_JCosine
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JUnaryFunction.h>
 
 class JCosine : public JUnaryFunction

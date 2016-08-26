@@ -8,10 +8,6 @@
 #ifndef _H_JXFSCommandHistoryMenu
 #define _H_JXFSCommandHistoryMenu
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXHistoryMenuBase.h>
 #include "JFSBinding.h"		// need defn of CommandType
 

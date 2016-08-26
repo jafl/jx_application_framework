@@ -10,10 +10,6 @@
 #ifndef _H_GCLRecurrence
 #define _H_GCLRecurrence
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "GCLUtil.h"
 
 class GCLRecurrence

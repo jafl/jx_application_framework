@@ -10,10 +10,6 @@
 #ifndef _H_JXAssert
 #define _H_JXAssert
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JAssertBase.h>
 #include <JPtrArray.h>
 #include <JXDisplay.h>	// for Windows template compile

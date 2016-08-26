@@ -10,10 +10,6 @@
 #ifndef _H_CBTree
 #define _H_CBTree
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JContainer.h>
 #include "CBTextFileType.h"
 #include "CBPrefsManager.h"		// need definition of FileTypesChanged

@@ -8,10 +8,6 @@
 #ifndef _H_CBPythonStyler
 #define _H_CBPythonStyler
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CBStylerBase.h"
 #include "CBPythonScanner.h"
 

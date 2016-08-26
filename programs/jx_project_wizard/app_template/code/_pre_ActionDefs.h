@@ -12,10 +12,6 @@
 #ifndef _H_<pre>ActionDefs
 #define _H_<pre>ActionDefs
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jXActionDefs.h>	// for convenience
 
 #endif

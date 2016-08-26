@@ -8,10 +8,6 @@
 #ifndef _H_SyGDuplicateProcess
 #define _H_SyGDuplicateProcess
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPtrArray-JString.h>
 
 class JSimpleProcess;

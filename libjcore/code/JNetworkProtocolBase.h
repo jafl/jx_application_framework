@@ -8,10 +8,6 @@
 #ifndef _H_JNetworkProtocolBase
 #define _H_JNetworkProtocolBase
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <j_prep_ace.h>
 #include <ace/Svc_Handler.h>
 #include <ace/Synch_Traits.h>

@@ -10,10 +10,6 @@
 #ifndef _H_CBMacroSetTable
 #define _H_CBMacroSetTable
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXStringTable.h>
 #include "CBPrefsManager.h"		// need definition of MacroSetInfo
 

@@ -10,10 +10,6 @@
 #ifndef _H_JXContainer
 #define _H_JXContainer
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBroadcaster.h>
 #include <jXEventUtil.h>
 #include <JXCursor.h>

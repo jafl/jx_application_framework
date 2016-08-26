@@ -8,10 +8,6 @@
 #ifndef _H_JXSearchTextDialog
 #define _H_JXSearchTextDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 #include <X11/X.h>
 

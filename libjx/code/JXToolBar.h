@@ -8,10 +8,6 @@
 #ifndef _H_JXToolBar
 #define _H_JXToolBar
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWidgetSet.h>
 #include <JPrefObject.h>
 #include <JXToolBarButton.h>	// need defn of Type

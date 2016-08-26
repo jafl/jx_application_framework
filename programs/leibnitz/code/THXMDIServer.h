@@ -10,10 +10,6 @@
 #ifndef _H_THXMDIServer
 #define _H_THXMDIServer
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXMDIServer.h>
 
 class THXMDIServer : public JXMDIServer

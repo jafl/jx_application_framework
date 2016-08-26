@@ -8,10 +8,6 @@
 #ifndef _H_CBDirList
 #define _H_CBDirList
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JContainer.h>
 #include <JPtrArray-JString.h>
 

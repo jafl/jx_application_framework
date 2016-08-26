@@ -8,10 +8,6 @@
 #ifndef _H_JXBusyIconTask
 #define _H_JXBusyIconTask
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXAnimationTask.h>
 #include <JPtrArray.h>
 

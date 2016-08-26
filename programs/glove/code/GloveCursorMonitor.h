@@ -10,10 +10,6 @@
 #ifndef _H_GloveCursorMonitor
 #define _H_GloveCursorMonitor
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "JXWidget.h"
 
 class GlovePlotter;

@@ -10,10 +10,6 @@
 #ifndef _H_SCIdepSource
 #define _H_SCIdepSource
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "SCDepSource.h"
 
 class SCIdepSource : public SCDepSource

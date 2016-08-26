@@ -10,10 +10,6 @@
 #ifndef _H_SCCircuitDocument
 #define _H_SCCircuitDocument
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXFileDocument.h>
 
 class SCCircuit;

@@ -8,10 +8,6 @@
 #ifndef _H_CMBreakpointManager
 #define _H_CMBreakpointManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMBreakpoint.h"
 
 class CMGetBreakpoints;

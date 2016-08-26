@@ -10,10 +10,6 @@
 #ifndef _H_SyGPrefsMgr
 #define _H_SyGPrefsMgr
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXPrefsManager.h>
 #include <JPtrArray-JString.h>
 #include <JFontStyle.h>

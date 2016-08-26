@@ -10,10 +10,6 @@
 #ifndef _H_J3DCamera
 #define _H_J3DCamera
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JVector.h>
 
 class J3DUniverse;

@@ -8,10 +8,6 @@
 #ifndef _H_GDBGetAssembly
 #define _H_GDBGetAssembly
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMGetAssembly.h"
 
 class CMSourceDirector;

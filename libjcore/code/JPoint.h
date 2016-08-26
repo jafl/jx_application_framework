@@ -10,10 +10,6 @@
 #ifndef _H_JPoint
 #define _H_JPoint
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <jMath.h>
 
 class JRect;

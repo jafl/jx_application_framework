@@ -8,10 +8,6 @@
 #ifndef _H_JVMGetIDSizes
 #define _H_JVMGetIDSizes
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMCommand.h"
 
 class JVMGetIDSizes : public CMCommand

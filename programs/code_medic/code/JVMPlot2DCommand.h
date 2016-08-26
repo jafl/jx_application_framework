@@ -8,10 +8,6 @@
 #ifndef _H_JVMPlot2DCommand
 #define _H_JVMPlot2DCommand
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMPlot2DCommand.h"
 
 class JVMPlot2DCommand : public CMPlot2DCommand

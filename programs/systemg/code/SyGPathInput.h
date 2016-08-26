@@ -8,10 +8,6 @@
 #ifndef _H_SyGPathInput
 #define _H_SyGPathInput
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXPathInput.h>
 #include <JString.h>
 

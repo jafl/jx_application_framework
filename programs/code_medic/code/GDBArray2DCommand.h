@@ -8,10 +8,6 @@
 #ifndef _H_GDBArray2DCommand
 #define _H_GDBArray2DCommand
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "CMArray2DCommand.h"
 
 class GDBArray2DCommand : public CMArray2DCommand

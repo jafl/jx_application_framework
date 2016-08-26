@@ -8,10 +8,6 @@
 #ifndef _H_CBListChooseFileDialog
 #define _H_CBListChooseFileDialog
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXChooseFileDialog.h>
 
 class JXRadioGroup;

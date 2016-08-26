@@ -10,10 +10,6 @@
 #ifndef _H_CBExecHistoryMenu
 #define _H_CBExecHistoryMenu
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXStringHistoryMenu.h>
 
 class CBExecHistoryMenu : public JXStringHistoryMenu

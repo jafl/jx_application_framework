@@ -8,10 +8,6 @@
 #ifndef _H_SVNStatusList
 #define _H_SVNStatusList
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include "SVNListBase.h"
 
 class SVNStatusList : public SVNListBase

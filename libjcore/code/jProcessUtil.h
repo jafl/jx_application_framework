@@ -10,10 +10,6 @@
 #ifndef _H_jProcessUtil
 #define _H_jProcessUtil
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JPtrArray.h>
 #include <JProcessError.h>
 #include <unistd.h>

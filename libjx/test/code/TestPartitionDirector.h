@@ -10,10 +10,6 @@
 #ifndef _H_TestPartitionDirector
 #define _H_TestPartitionDirector
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXWindowDirector.h>
 
 class SetElasticDialog;

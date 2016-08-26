@@ -8,10 +8,6 @@
 #ifndef _H_THXTapeText
 #define _H_THXTapeText
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXTEBase.h>
 
 class THXTapeText : public JXTEBase

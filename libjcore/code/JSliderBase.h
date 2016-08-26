@@ -10,10 +10,6 @@
 #ifndef _H_JSliderBase
 #define _H_JSliderBase
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JBroadcaster.h>
 #include <JRect.h>
 

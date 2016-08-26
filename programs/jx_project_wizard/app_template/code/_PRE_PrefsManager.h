@@ -8,10 +8,6 @@
 #ifndef _H_<PRE>PrefsManager
 #define _H_<PRE>PrefsManager
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXPrefsManager.h>
 
 class JPoint;

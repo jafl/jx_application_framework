@@ -10,10 +10,6 @@
 #ifndef _H_JStack
 #define _H_JStack
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JContainer.h>
 #include <JOrderedSetIterator.h>	// template
 

@@ -10,10 +10,6 @@
 #ifndef _H_JXAdjustIWBoundsTask
 #define _H_JXAdjustIWBoundsTask
 
-#if !defined _J_UNIX && !defined ACE_LACKS_PRAGMA_ONCE
-#pragma once
-#endif
-
 #include <JXUrgentTask.h>
 
 class JXImageWidget;
