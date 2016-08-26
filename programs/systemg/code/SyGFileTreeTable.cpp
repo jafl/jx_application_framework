@@ -3903,7 +3903,10 @@ SyGFileTreeTable::UpdateGitMenus
 	itsGitRemoteBranchMenu->RemoveAllItems();
 	if (hasRemote)
 		{
-		itsGitMergeBranchMenu->ShowSeparatorAfter(itsGitMergeBranchMenu->GetItemCount());
+		if (!itsGitMergeBranchMenu->IsEmpty())
+			{
+			itsGitMergeBranchMenu->ShowSeparatorAfter(itsGitMergeBranchMenu->GetItemCount());
+			}
 
 		const JSize remoteCount = remoteList.GetElementCount();
 		for (JIndex i=1; i<=remoteCount; i++)
