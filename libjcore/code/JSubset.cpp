@@ -1090,7 +1090,7 @@ operator<<
 	// write out the data
 
 	output.write(data, setSize);
-	delete data;
+	delete[] data;
 
 	// allow chaining
 
