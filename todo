@@ -7,11 +7,9 @@ document SB*.h
 -----
 
 jcc:
-	why is "replace all" so much slower than "find all"?
-		change default to read file, change, write out - with no window
-		option to leave files open
-
 	load tasks directly from project file
+
+	don't start DnD when click outside rows in Edit Tasks table
 
 split JTextEditor
 	split off itsBuffer,itsStyles,itsUndo/RedoList into JTextBuffer

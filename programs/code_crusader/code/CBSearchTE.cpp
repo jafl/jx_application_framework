@@ -304,6 +304,36 @@ CBSearchTE::IsKnownBinaryFile
 }
 
 /******************************************************************************
+ ReplaceAllForward
+
+	Replace every occurrence of the search string with the replace string,
+	starting from the current location.  Returns kJTrue if it replaced anything.
+
+ ******************************************************************************/
+
+JBoolean
+CBSearchTE::ReplaceAllForward()
+{
+	JString searchStr, replaceStr;
+	JBoolean searchIsRegex, caseSensitive, entireWord, wrapSearch;
+	JBoolean replaceIsRegex, preserveCase;
+	JRegex* regex;
+	if ((JXGetSearchTextDialog())->GetSearchParameters(
+			&searchStr, &searchIsRegex, &caseSensitive, &entireWord, &wrapSearch,
+			&replaceStr, &replaceIsRegex, &preserveCase,
+			&regex))
+		{
+		return JTextEditor::ReplaceAllForward(
+					searchStr, searchIsRegex, caseSensitive, entireWord, wrapSearch,
+					replaceStr, replaceIsRegex, preserveCase, *regex);
+		}
+	else
+		{
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
  TERefresh (virtual protected)
 
  ******************************************************************************/

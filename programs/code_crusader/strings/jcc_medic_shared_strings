@@ -48,7 +48,11 @@ StopButtonHint::CBExecOutputDocument	"Ctrl-C or Meta-period"
 
 # CBSearchDocument
 
-CountLabel::CBSearchDocument	"Files searched:"
+SearchTitle::CBSearchDocument	"Search: $s"
+ReplaceTitle::CBSearchDocument	"Replace: $s --> $r"
+
+NoCloseWhileSearching::CBSearchDocument
+"You cannot close the Search Output window until the search is finished."
 
 # CBProjectDocument
 

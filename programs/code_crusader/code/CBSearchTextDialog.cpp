@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include "CBSearchTextDialog.h"
-#include "CBTextDocument.h"
+#include "CBSearchDocument.h"
 #include "CBTextEditor.h"
 #include "CBSearchPathHistoryMenu.h"
 #include "CBSearchFilterHistoryMenu.h"
@@ -31,7 +31,6 @@
 #include <JXStringHistoryMenu.h>
 #include <JXDocumentMenu.h>
 #include <JXDownRect.h>
-#include <JXStandAlonePG.h>
 #include <JXChooseSaveFile.h>
 #include <JXFontManager.h>
 #include <JDirInfo.h>
@@ -111,10 +110,6 @@ CBSearchTextDialog::CBSearchTextDialog()
 
 	itsOnlyListFilesFlag         = kJFalse;
 	itsListFilesWithoutMatchFlag = kJFalse;
-
-	itsReplaceProcess = NULL;
-	itsReplaceLink    = NULL;
-	itsReplacePG      = NULL;
 }
 
 /******************************************************************************
@@ -124,9 +119,6 @@ CBSearchTextDialog::CBSearchTextDialog()
 
 CBSearchTextDialog::~CBSearchTextDialog()
 {
-	assert( itsReplaceProcess == NULL && itsReplacePG == NULL );
-	CBSearchDocument::DeleteReplaceLink(&itsReplaceLink);
-
 	// prefs written by CBDeleteGlobals()
 
 	delete itsCSF;
@@ -503,15 +495,6 @@ CBSearchTextDialog::UpdateDisplay()
 				}
 			}
 		}
-
-	// We can't delete the link immediately if the process is cancelled
-	// because there may be more messages to be broadcast.  Deleting it here
-	// is safe because the stack doesn't pass through JMessageProtocol code.
-
-	if (itsReplaceProcess == NULL && itsReplaceLink != NULL)
-		{
-		CBSearchDocument::DeleteReplaceLink(&itsReplaceLink);
-		}
 }
 
 /******************************************************************************
@@ -610,15 +593,6 @@ CBSearchTextDialog::Receive
 		JBoolean invert;
 		itsPathFilterInput->SetText(itsPathFilterHistory->GetFilter(message, &invert));
 		itsSearchDirCB->SetState(kJTrue);
-		}
-
-	else if (sender == itsReplaceLink && message.Is(JMessageProtocolT::kMessageReady))
-		{
-		MultifileReplaceAll();
-		}
-	else if (sender == itsReplaceLink && message.Is(JMessageProtocolT::kReceivedDisconnect))
-		{
-		MultifileReplaceFinished();
 		}
 
 	else
@@ -747,9 +721,6 @@ CBSearchTextDialog::SearchFiles()
 void
 CBSearchTextDialog::SearchFilesAndReplace()
 {
-	assert( itsReplaceProcess == NULL && itsReplacePG == NULL );
-	CBSearchDocument::DeleteReplaceLink(&itsReplaceLink);
-
 	JString searchStr, replaceStr;
 	JBoolean searchIsRegex, caseSensitive, entireWord, wrapSearch;
 	JBoolean replaceIsRegex, preserveCase;
@@ -765,89 +736,10 @@ CBSearchTextDialog::SearchFilesAndReplace()
 		BuildSearchFileList(&fileList, &nameList))
 		{
 		const JError err =
-			CBSearchDocument::GetFileListForReplace(fileList, nameList,
-													&itsReplaceProcess, &itsReplaceLink);
-		if (err.OK())
-			{
-			ListenTo(itsReplaceLink);
-
-			// We background the pg so the main event loop runs and checks our link,
-			// but we have to disable everything so the user can't edit files while
-			// ReplaceAll is running.
-
-			(JXGetApplication())->Suspend();	// do this first so pg window is active
-
-			itsReplacePG = new JXStandAlonePG;
-			assert( itsReplacePG != NULL );
-			itsReplacePG->RaiseWhenUpdate();
-			itsReplacePG->VariableLengthProcessBeginning("Searching files...", kJTrue, kJTrue);
-			}
-		else
-			{
-			err.ReportIfError();
-			}
+			CBSearchDocument::Create(fileList, nameList,
+									 searchStr, replaceStr);
+		err.ReportIfError();
 		}
-}
-
-/******************************************************************************
- MultifileReplaceAll (private)
-
- ******************************************************************************/
-
-void
-CBSearchTextDialog::MultifileReplaceAll()
-{
-	JString msg, fileName;
-	JBoolean ok = itsReplaceLink->GetNextMessage(&msg);
-	assert( ok );
-	const std::string s(msg.GetCString(), msg.GetLength());
-	std::istringstream input(s);
-	input >> fileName;
-
-	JBoolean keepGoing = kJTrue;
-
-	CBTextDocument* doc;
-	if ((CBGetDocumentManager())->OpenTextDocument(fileName, 0, &doc))
-		{
-		(doc->GetWindow())->Update();
-
-		keepGoing = itsReplacePG->IncrementProgress();
-
-		CBTextEditor* te = doc->GetTextEditor();
-		te->SetCaretLocation(1);
-		te->ReplaceAllForward();
-		}
-	else
-		{
-		keepGoing = itsReplacePG->IncrementProgress();
-		}
-
-	if (!keepGoing)
-		{
-		itsReplaceProcess->Kill();
-		MultifileReplaceFinished();
-		}
-}
-
-/******************************************************************************
- MultifileReplaceFinished (private)
-
- ******************************************************************************/
-
-void
-CBSearchTextDialog::MultifileReplaceFinished()
-{
-	delete itsReplaceProcess;
-	itsReplaceProcess = NULL;
-
-	StopListening(itsReplaceLink);
-	// delete itsReplaceLink in idle task
-
-	itsReplacePG->ProcessFinished();
-	delete itsReplacePG;
-	itsReplacePG = NULL;
-
-	(JXGetApplication())->Resume();
 }
 
 /******************************************************************************

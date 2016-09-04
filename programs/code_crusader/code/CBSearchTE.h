@@ -35,6 +35,8 @@ public:
 						const JBoolean listFilesWithoutMatch,
 						ostream& output);
 
+	JBoolean	ReplaceAllForward();
+
 	static void	SetProtocol(CBSearchDocument::RecordLink* link);
 
 	virtual JBoolean	TEHasSearchText() const;

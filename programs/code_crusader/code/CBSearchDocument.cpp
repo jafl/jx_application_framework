@@ -19,6 +19,7 @@
 #include <JXColormap.h>
 #include <JThisProcess.h>
 #include <JOutPipeStream.h>
+#include <jFileUtil.h>
 #include <jStreamUtil.h>
 #include <jSysUtil.h>
 #include <sstream>
@@ -26,9 +27,6 @@
 #include <jAssert.h>
 
 const JCoordinate kIndicatorHeight = 10;
-
-static const JCharacter* kDontCloseMsg =
-	"You cannot close the Search Output window until the search is finished.";
 
 // Match menu
 
@@ -46,14 +44,10 @@ enum
 	kOpenFileCmd
 };
 
-// string ID's
-
-static const JCharacter* kCountLabelID = "CountLabel::CBSearchDocument";
-
 /******************************************************************************
  Constructor function (static)
 
-	fileList and path can each be empty.
+	Search results.
 
  ******************************************************************************/
 
@@ -112,15 +106,100 @@ CBSearchDocument::Create
 		JProcess* process = new JProcess(pid);
 		assert( process != NULL );
 
-		JString windowTitle = "Search:  ";
-		windowTitle += searchStr;
+		const JCharacter* map[] =
+			{
+			"s", searchStr
+			};
+		const JString windowTitle = JGetString("SearchTitle::CBSearchDocument", map, sizeof(map));
 
 		CBSearchDocument* doc =
-			new CBSearchDocument(JI2B(onlyListFiles || listFilesWithoutMatch),
+			new CBSearchDocument(kJFalse, JI2B(onlyListFiles || listFilesWithoutMatch),
 								 fileList.GetElementCount(),
-								 process, fd[0], windowTitle,
-								 kDontCloseMsg, "/", windowTitle);
+								 process, fd[0], windowTitle);
 		assert( doc != NULL );
+		doc->Activate();
+
+		RecordLink* link;
+		const JBoolean ok = doc->GetRecordLink(&link);
+		assert( ok );
+		CBSearchTE::SetProtocol(link);
+		}
+
+	return JNoError();
+}
+
+/******************************************************************************
+ Constructor function (static)
+
+	Replace All results.
+
+ ******************************************************************************/
+
+JError
+CBSearchDocument::Create
+	(
+	const JPtrArray<JString>&	fileList,
+	const JPtrArray<JString>&	nameList,
+	const JCharacter*			searchStr,
+	const JCharacter*			replaceStr
+	)
+{
+	assert( !fileList.IsEmpty() );
+	assert( fileList.GetElementCount() == nameList.GetElementCount() );
+
+	int fd[2];
+	JError err = JCreatePipe(fd);
+	if (!err.OK())
+		{
+		return err;
+		}
+
+	pid_t pid;
+	err = JThisProcess::Fork(&pid);
+	if (!err.OK())
+		{
+		return err;
+		}
+
+	// child
+
+	else if (pid == 0)
+		{
+		close(fd[0]);
+
+		// get rid of JXCreatePG, since we must not use X connection
+		// (binary files may trigger it)
+		JInitCore();
+
+		CBSearchTE te;
+		JOutPipeStream output(fd[1], kJTrue);
+		te.SearchFiles(fileList, nameList, kJTrue, kJFalse, output);
+		output.close();
+		exit(0);
+		}
+
+	// parent
+
+	else
+		{
+		close(fd[1]);
+
+		JProcess* process = new JProcess(pid);
+		assert( process != NULL );
+
+		const JCharacter* map[] =
+			{
+			"s", searchStr,
+			"r", replaceStr
+			};
+		const JString windowTitle = JGetString("ReplaceTitle::CBSearchDocument", map, sizeof(map));
+
+		CBSearchDocument* doc =
+			new CBSearchDocument(kJTrue, kJTrue, fileList.GetElementCount(),
+								 process, fd[0], windowTitle);
+		assert( doc != NULL );
+
+		(JXGetApplication())->Suspend();	// do this first so result window is active
 		doc->Activate();
 
 		RecordLink* link;
@@ -139,18 +218,18 @@ CBSearchDocument::Create
 
 CBSearchDocument::CBSearchDocument
 	(
+	const JBoolean		isReplace,
 	const JBoolean		onlyListFiles,
 	const JSize			fileCount,
 	JProcess*			p,
 	const int			fd,
-	const JCharacter*	windowTitle,
-	const JCharacter*	dontCloseMsg,
-	const JCharacter*	execDir,
-	const JCharacter*	execCmd
+	const JCharacter*	windowTitle
 	)
 	:
 	CBExecOutputDocument(kCBSearchOutputFT, kCBSearchFilesHelpName, kJFalse, kJFalse),
-	itsOnlyListFilesFlag(onlyListFiles)
+	itsIsReplaceFlag(isReplace),
+	itsOnlyListFilesFlag(onlyListFiles),
+	itsReplaceTE(NULL)
 {
 	itsFoundFlag       = kJFalse;
 	itsPrevQuoteOffset = 0;
@@ -183,9 +262,16 @@ CBSearchDocument::CBSearchDocument
 	GetWindow()->SetWMClass(CBGetWMClassInstance(), CBGetSearchOutputWindowClass());
 
 	SetConnection(p, fd, ACE_INVALID_HANDLE,
-				  windowTitle, dontCloseMsg, execDir, execCmd, kJFalse);
+				  windowTitle, JGetString("NoCloseWhileSearching::CBSearchDocument"),
+				  "/", windowTitle, kJFalse);
 
 	(CBGetDocumentManager())->SetActiveListDocument(this);
+
+	if (itsIsReplaceFlag)
+		{
+		itsReplaceTE = new CBSearchTE;
+		assert( itsReplaceTE != NULL );
+		}
 }
 
 /******************************************************************************
@@ -195,6 +281,7 @@ CBSearchDocument::CBSearchDocument
 
 CBSearchDocument::~CBSearchDocument()
 {
+	delete itsReplaceTE;
 }
 
 /******************************************************************************
@@ -223,6 +310,14 @@ CBSearchDocument::ProcessFinished
 	if (!CBExecOutputDocument::ProcessFinished(info))
 		{
 		return kJFalse;
+		}
+
+	if (itsIsReplaceFlag)
+		{
+		delete itsReplaceTE;
+		itsReplaceTE = NULL;
+
+		(JXGetApplication())->Resume();
 		}
 
 	delete itsIndicator;
@@ -290,6 +385,11 @@ CBSearchDocument::AppendText
 		JString fileName;
 		input >> fileName;
 		CBExecOutputDocument::AppendText(fileName);
+
+		if (itsIsReplaceFlag)
+			{
+			ReplaceAll(fileName);
+			}
 		}
 	else
 		{
@@ -348,6 +448,43 @@ CBSearchDocument::AppendText
 			}
 
 		itsMatchMenu->Activate();
+		}
+}
+
+/******************************************************************************
+ ReplaceAll (private)
+
+ ******************************************************************************/
+
+void
+CBSearchDocument::ReplaceAll
+	(
+	const JCharacter* fileName
+	)
+{
+	JTextEditor::PlainTextFormat format;
+
+	JXFileDocument* doc;
+	if ((CBGetDocumentManager())->FileDocumentIsOpen(fileName, &doc))
+		{
+		CBTextDocument* textDoc = dynamic_cast<CBTextDocument*>(doc);
+		if (textDoc != NULL)
+			{
+			(textDoc->GetWindow())->Update();
+
+			CBTextEditor* te = textDoc->GetTextEditor();
+			te->SetCaretLocation(1);
+			te->ReplaceAllForward();
+			}
+		}
+	else if (JFileReadable(fileName) &&
+			 itsReplaceTE->ReadPlainText(fileName, &format, kJFalse))
+		{
+		itsReplaceTE->SetCaretLocation(1);
+		if (itsReplaceTE->ReplaceAllForward())
+			{
+			itsReplaceTE->WritePlainText(fileName, format);
+			}
 		}
 }
 
@@ -600,92 +737,4 @@ CBSearchDocument::MatchFileNameStyle::Match
 	const
 {
 	return font.GetStyle().bold;
-}
-
-/******************************************************************************
- GetFileListForReplace (static)
-
- ******************************************************************************/
-
-// This function has to be last so JCore::new works for everything else.
-
-JError
-CBSearchDocument::GetFileListForReplace
-	(
-	const JPtrArray<JString>&	fileList,
-	const JPtrArray<JString>&	nameList,
-	JProcess**					process,
-	RecordLink**				link
-	)
-{
-	*link    = NULL;
-	*process = NULL;
-
-	int fd[2];
-	JError err = JCreatePipe(fd);
-	if (!err.OK())
-		{
-		return err;
-		}
-
-	pid_t pid;
-	err = JThisProcess::Fork(&pid);
-	if (!err.OK())
-		{
-		return err;
-		}
-
-	// child
-
-	else if (pid == 0)
-		{
-		close(fd[0]);
-
-		// get rid of JXCreatePG, since we must not use X connection
-		// (binary files may trigger it)
-		JInitCore();
-
-		CBSearchTE te;
-		JOutPipeStream output(fd[1], kJTrue);
-		te.SearchFiles(fileList, nameList, kJTrue, kJFalse, output);
-		output.close();
-		exit(0);
-		}
-
-	// parent
-
-	else
-		{
-		close(fd[1]);
-
-		*process = new JProcess(pid);
-		assert( *process != NULL );
-
-		#undef new
-
-		*link = new RecordLink(fd[0]);
-		assert( *link != NULL );
-		CBSearchTE::SetProtocol(*link);
-		}
-
-	return JNoError();
-}
-
-/******************************************************************************
- DeleteReplaceLink (static)
-
- ******************************************************************************/
-
-// This function has to be last so JCore::delete works for everything else.
-
-#undef delete
-
-void
-CBSearchDocument::DeleteReplaceLink
-	(
-	RecordLink** link
-	)
-{
-	delete *link;
-	*link = NULL;
 }

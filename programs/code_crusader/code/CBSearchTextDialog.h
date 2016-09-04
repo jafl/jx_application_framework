@@ -10,12 +10,10 @@
 
 #include <JXSearchTextDialog.h>
 #include <JPrefObject.h>
-#include "CBSearchDocument.h"	// need definition of ProcessLink
+#include <JString.h>
 
-class JProcess;
 class JProgressDisplay;
 class JXFileListTable;
-class JXStandAlonePG;
 class JXPathInput;
 class CBSearchPathHistoryMenu;
 class CBSearchFilterHistoryMenu;
@@ -55,10 +53,6 @@ private:
 	JBoolean			itsOnlyListFilesFlag;
 	JBoolean			itsListFilesWithoutMatchFlag;
 
-	JProcess*						itsReplaceProcess;
-	CBSearchDocument::RecordLink*	itsReplaceLink;
-	JXStandAlonePG*					itsReplacePG;
-
 // begin JXLayout
 
 	JXTextCheckbox*            itsMultifileCB;
@@ -85,8 +79,6 @@ private:
 
 	void		SearchFiles() const;
 	void		SearchFilesAndReplace();
-	void		MultifileReplaceAll();
-	void		MultifileReplaceFinished();
 	JBoolean	BuildSearchFileList(JPtrArray<JString>* fileList,
 									JPtrArray<JString>* nameList) const;
 	JBoolean	SearchDirectory(const JString& path, const JRegex* fileRegex,

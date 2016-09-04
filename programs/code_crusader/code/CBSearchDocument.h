@@ -12,6 +12,7 @@
 
 class JXTextMenu;
 class JXProgressIndicator;
+class CBSearchTE;
 
 class CBSearchDocument : public CBExecOutputDocument
 {
@@ -23,6 +24,11 @@ public:
 						   const JBoolean onlyListFiles,
 						   const JBoolean listFilesWithoutMatch);
 
+	static JError	Create(const JPtrArray<JString>& fileList,
+						   const JPtrArray<JString>& nameList,
+						   const JCharacter* searchStr,
+						   const JCharacter* replaceStr);
+
 	virtual ~CBSearchDocument();
 
 	virtual void	OpenPrevListItem();
@@ -30,20 +36,12 @@ public:
 
 	virtual void	ConvertSelectionToFullPath(JString* fileName) const;
 
-	static JError	GetFileListForReplace(const JPtrArray<JString>& fileList,
-										  const JPtrArray<JString>& nameList,
-										  JProcess** process,
-										  RecordLink** link);
-	static void		DeleteReplaceLink(RecordLink** link);
-
 protected:
 
-	CBSearchDocument(const JBoolean onlyListFiles, const JSize fileCount,
+	CBSearchDocument(const JBoolean isReplace, const JBoolean onlyListFiles,
+					 const JSize fileCount,
 					 JProcess* p, const int fd,
-					 const JCharacter* windowTitle,
-					 const JCharacter* dontCloseMsg,
-					 const JCharacter* execDir,
-					 const JCharacter* execCmd);
+					 const JCharacter* windowTitle);
 
 	virtual void		AppendText(const JString& text);
 	virtual JBoolean	ProcessFinished(const JProcess::Finished& info);
@@ -53,14 +51,18 @@ protected:
 
 private:
 
+	const JBoolean	itsIsReplaceFlag;
 	const JBoolean	itsOnlyListFilesFlag;
 	JBoolean		itsFoundFlag;			// kJTrue => something matched
 	JSize			itsPrevQuoteOffset;		// start of previous quote from file
 
 	JXTextMenu*				itsMatchMenu;
 	JXProgressIndicator*	itsIndicator;	// NULL after ProcessFinished()
+	CBSearchTE*				itsReplaceTE;	// NULL unless replacing
 
 private:
+
+	void	ReplaceAll(const JCharacter* fileName);
 
 	void	UpdateMatchMenu();
 	void	HandleMatchMenu(const JIndex index);
