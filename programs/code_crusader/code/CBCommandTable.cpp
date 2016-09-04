@@ -399,6 +399,8 @@ CBCommandTable::HandleMouseDown
 	const JXKeyModifiers&	modifiers
 	)
 {
+	itsStartPt = pt;
+
 	JPoint cell;
 	if (ScrollForWheel(button, modifiers) ||
 		!GetCell(pt, &cell))
@@ -406,7 +408,6 @@ CBCommandTable::HandleMouseDown
 		return;
 		}
 
-	itsStartPt = pt;
 	if (cell.x == kOptionsColumn)
 		{
 		SelectSingleCell(cell);
@@ -439,7 +440,7 @@ CBCommandTable::HandleMouseDrag
 		{
 		JTableSelection& s = GetTableSelection();
 		JPoint cell;
-		if (s.GetSingleSelectedCell(&cell))
+		if (s.GetSingleSelectedCell(&cell) && GetCellRect(cell).Contains(itsStartPt))
 			{
 			CBCommandSelection* data =
 				new CBCommandSelection(GetDisplay(), this,
