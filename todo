@@ -7,7 +7,7 @@ document SB*.h
 -----
 
 jcc:
-	load tasks directly from project file
+	search only pom.xml in ~/projects/ takes too long
 
 split JTextEditor
 	split off itsBuffer,itsStyles,itsUndo/RedoList into JTextBuffer

@@ -933,7 +933,7 @@ CBProjectDocument::WriteFiles
 	cbWriteSpace(projOutput, setOutput, symOutput);
 	itsFileTable->WriteSetup(projOutput, setOutput);
 
-	projOutput << "# tasks\n";
+	projOutput << "# tasks\n";		// expected by ReadTasksFromProjectFile()
 	itsCmdMgr->WriteSetup(projOutput);
 
 	cbWriteSpace(projOutput, setOutput, symOutput);
@@ -987,6 +987,51 @@ CBProjectDocument::WriteFiles
 			{
 			JRemoveFile(symName);
 			}
+		}
+}
+
+/******************************************************************************
+ ReadTasksFromProjectFile (static)
+
+	Returns kJTrue if the file is a project file.
+
+ ******************************************************************************/
+
+JBoolean
+CBProjectDocument::ReadTasksFromProjectFile
+	(
+	istream&					input,
+	CBCommandManager::CmdList*	cmdList
+	)
+{
+	JFileVersion vers;
+	const FileStatus status = CanReadFile(input, &vers);
+	if (status == kFileReadable && vers < 71)
+		{
+		(JGetUserNotification())->ReportError(JGetString("FileTooOld::CBProjectDocument"));
+		return kJTrue;
+		}
+	else if (status == kFileReadable)
+		{
+		JBoolean foundDelimiter;
+		JString makeDependCmd;
+
+		JIgnoreUntil(input, "\n# tasks\n", &foundDelimiter);
+		if (!foundDelimiter ||
+			!CBCommandManager::ReadCommands(input, &makeDependCmd, 	cmdList))
+			{
+			(JGetUserNotification())->ReportError(JGetString("InvalidProjectFile::CBProjectDocument"));
+			}
+		return kJTrue;
+		}
+	else if (status == kNeedNewerVersion)
+		{
+		(JGetUserNotification())->ReportError(JGetString("NeedNewerVersion::CBProjectDocument"));
+		return kJTrue;
+		}
+	else
+		{
+		return kJFalse;
 		}
 }
 

@@ -17,6 +17,7 @@
 #include "CBRelPathCSF.h"			// need defn of PathType
 #include "CBBuildManager.h"			// need defn of MakefileMethod
 #include "CBExecOutputDocument.h"	// need defn of RecordLink
+#include "CBCommandManager.h"		// need defn of CmdList
 
 class JProcess;
 class JPTPrinter;
@@ -34,7 +35,6 @@ class CBTreeDirector;
 class CBCTreeDirector;
 class CBJavaTreeDirector;
 class CBPHPTreeDirector;
-class CBCommandManager;
 class CBCommandMenu;
 class CBFileListDirector;
 class CBFileListTable;
@@ -133,6 +133,10 @@ public:
 	void	SetTreePrefs(const JSize fontSize, const JBoolean showInheritedFns,
 						 const JBoolean autoMinMILinks, const JBoolean drawMILinksOnTop,
 						 const JBoolean raiseWhenSingleMatch, const JBoolean writePrefs);
+
+	// called by CBCommandTable
+
+	static JBoolean	ReadTasksFromProjectFile(istream& input, CBCommandManager::CmdList* cmdList);
 
 protected:
 

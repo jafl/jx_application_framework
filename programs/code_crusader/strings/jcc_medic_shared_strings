@@ -56,7 +56,8 @@ NoCloseWhileSearching::CBSearchDocument
 
 # CBProjectDocument
 
-NeedNewerVersion::CBProjectDocument		"This project file was created by a newer version of Code Crusader.  You need the newest version in order to open it."
+NeedNewerVersion::CBProjectDocument
+"This project file was created by a newer version of Code Crusader.  You need the newest version in order to open it."
 
 WarnOldVersion::CBProjectDocument
 "This project file was created by an older version of Code Crusader.
@@ -65,7 +66,17 @@ Opening this project file will automatically upgrade it.  Older versions of Code
 
 Are you sure you want to proceed?"
 
-VCSConflict::CBProjectDocument	"This project file cannot be opened because it appears to contain unresolved Version Control conflicts.  Please edit it as a text file to resolve the conflicts and then try again."
+VCSConflict::CBProjectDocument
+"This project file cannot be opened because it appears to contain unresolved Version Control conflicts.  Please edit it as a text file to resolve the conflicts and then try again."
+
+InvalidProjectFile::CBProjectDocument
+"That file appears to be a Code Crusader project file, but it has been corrupted."
+
+FileNotReadable::CBProjectDocument
+"That file is not readable."
+
+FileTooOld::CBProjectDocument
+"This project file is too old.  Please open it to automatically upgrade it."
 
 WizardExecError::CBProjectDocument
 "Unable to run the project wizard because:
@@ -309,13 +320,13 @@ NoSpacesInCmdName::CBCommandTable
 "The name of a command cannot contain spaces or tabs."
 
 ReplaceCommandList::CBCommandTable	"Replace existing tasks"
-AppendToCommandList::CBCommandTable	"Merge with existing tasks"
+AppendToCommandList::CBCommandTable	"Append to existing tasks"
 ImportNotTaskFile::CBCommandTable	"That is not a task file."
 ImportNewerVersion::CBCommandTable	"This task file was created by a newer version of Code Crusader.  You need the newest version in order to open it."
 
 ExportPrompt::CBCommandTable		"Save tasks as:"
 ExportFileName::CBCommandTable		"export.tsk"
-ImportFilter::CBCommandTable		"*.tsk"
+ImportFilter::CBCommandTable		"*.tsk *.jcc"
 
 # CBRunCommandDialog
 

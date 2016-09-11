@@ -774,15 +774,36 @@ CBCommandManager::ReadSetup
 	)
 {
 	JFileVersion vers;
+	if (ReadCommands(input, &itsMakeDependCmd, itsCmdList, &vers) && vers < 2)
+		{
+		UpdateMenuIDs();
+		}
+}
+
+/******************************************************************************
+ ReadCommands (static)
+
+ ******************************************************************************/
+
+JBoolean
+CBCommandManager::ReadCommands
+	(
+	istream&		input,
+	JString*		makeDependCmd,
+	CmdList*		cmdList,
+	JFileVersion*	returnVers
+	)
+{
+	JFileVersion vers;
 	input >> vers;
 	if (input.fail() || vers > kCurrentSetupVersion)
 		{
-		return;
+		return kJFalse;
 		}
 
-	input >> itsMakeDependCmd;
+	input >> *makeDependCmd;
 
-	itsCmdList->DeleteAll();
+	cmdList->DeleteAll();
 
 	if (vers <= 3)
 		{
@@ -793,7 +814,7 @@ CBCommandManager::ReadSetup
 			{
 			CmdInfo info = ReadCmdInfo(input, vers);
 			UpgradeCommand(&info);
-			itsCmdList->AppendElement(info);
+			cmdList->AppendElement(info);
 
 			if (input.fail())
 				{
@@ -814,14 +835,15 @@ CBCommandManager::ReadSetup
 
 			CmdInfo info = ReadCmdInfo(input, vers);
 			UpgradeCommand(&info);
-			itsCmdList->AppendElement(info);
+			cmdList->AppendElement(info);
 			}
 		}
 
-	if (vers < 2)
+	if (returnVers != NULL)
 		{
-		UpdateMenuIDs();
+		*returnVers = vers;
 		}
+	return kJTrue;
 }
 
 /******************************************************************************
@@ -972,7 +994,7 @@ CBCommandManager::WritePrefs
 }
 
 /******************************************************************************
- UpgradeCommand (private)
+ UpgradeCommand (private static)
 
  ******************************************************************************/
 

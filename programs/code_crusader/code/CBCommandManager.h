@@ -144,6 +144,10 @@ public:
 	void	ReadSetup(istream& input);
 	void	WriteSetup(ostream& output) const;
 
+	static JBoolean	ReadCommands(istream& input,
+								 JString* makeDependCmd, CmdList* cmdList,
+								 JFileVersion* returnVers = NULL);
+
 	void	ConvertCompileDialog(istream& input, const JFileVersion vers,
 								 CBBuildManager* buildMgr,
 								 const JBoolean readWindGeom);
@@ -215,7 +219,7 @@ private:
 
 	JBoolean	DocumentDeleted(JBroadcaster* sender);
 
-	void	UpgradeCommand(CmdInfo* info);
+	static void	UpgradeCommand(CmdInfo* info);
 
 	// not allowed
 

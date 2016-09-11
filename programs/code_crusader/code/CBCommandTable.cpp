@@ -1038,37 +1038,54 @@ CBCommandTable::ImportCommands()
 
 	ifstream input(fileName);
 
-	const JString signature = JRead(input, strlen(kCommandFileSignature));
-	if (input.fail() || signature != kCommandFileSignature)
+	CBCommandManager::CmdList cmdList;
+	if (CBProjectDocument::ReadTasksFromProjectFile(input, &cmdList))
 		{
-		(JGetUserNotification())->ReportError(JGetString("ImportNotTaskFile::CBCommandTable"));
-		return;
-		}
-
-	JFileVersion vers;
-	input >> vers;
-	if (input.fail() || vers > CBCommandManager::GetCurrentCmdInfoFileVersion())
-		{
-		(JGetUserNotification())->ReportError(JGetString("ImportNewerVersion::CBCommandTable"));
-		return;
-		}
-
-	if (itsCSF->ReplaceExisting())
-		{
-		itsCmdList->DeleteAll();
-		}
-
-	while (1)
-		{
-		JBoolean keepGoing;
-		input >> keepGoing;
-		if (input.fail() || !keepGoing)
+		if (itsCSF->ReplaceExisting())
 			{
-			break;
+			itsCmdList->DeleteAll();
 			}
 
-		CBCommandManager::CmdInfo info = CBCommandManager::ReadCmdInfo(input, vers);
-		itsCmdList->AppendElement(info);
+		const JSize count = cmdList.GetElementCount();
+		for (JIndex i=1; i<=count; i++)
+			{
+			itsCmdList->AppendElement(cmdList.GetElement(i));
+			}
+		}
+	else
+		{
+		const JString signature = JRead(input, strlen(kCommandFileSignature));
+		if (input.fail() || signature != kCommandFileSignature)
+			{
+			(JGetUserNotification())->ReportError(JGetString("ImportNotTaskFile::CBCommandTable"));
+			return;
+			}
+
+		JFileVersion vers;
+		input >> vers;
+		if (input.fail() || vers > CBCommandManager::GetCurrentCmdInfoFileVersion())
+			{
+			(JGetUserNotification())->ReportError(JGetString("ImportNewerVersion::CBCommandTable"));
+			return;
+			}
+
+		if (itsCSF->ReplaceExisting())
+			{
+			itsCmdList->DeleteAll();
+			}
+
+		while (1)
+			{
+			JBoolean keepGoing;
+			input >> keepGoing;
+			if (input.fail() || !keepGoing)
+				{
+				break;
+				}
+
+			CBCommandManager::CmdInfo info = CBCommandManager::ReadCmdInfo(input, vers);
+			itsCmdList->AppendElement(info);
+			}
 		}
 
 	// adjust table
