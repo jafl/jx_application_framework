@@ -238,6 +238,9 @@ ChooseProgramInstr::LLDBLink	"Choose the program binary to debug."
 WarnKillProgram::LLDBLink		"Are you sure you want to kill the current program?"
 WarnDetachProgram::LLDBLink		"Are you sure you want to detach from the current program?"
 
+CannotFindMain::LLDBDisplaySourceForMain
+"Unable to find function main().  Does the binary contain debugging information?"
+
 # GDBLink
 
 Prompt::GDBLink			"(gdb)"

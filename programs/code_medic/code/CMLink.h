@@ -170,6 +170,7 @@ public:
 						 JBoolean* exists, JString* fullName) const;
 	void		ClearFileNameMap();
 
+	static void	NotifyUser(const JCharacter* msg, const JBoolean error);
 	static void	Log(const JCharacter* log);
 	static void	Log(std::ostringstream& log);
 

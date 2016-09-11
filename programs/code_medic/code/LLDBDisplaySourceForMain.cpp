@@ -122,6 +122,7 @@ LLDBDisplaySourceForMain::HandleSuccess
 
 	if (!found)
 		{
+		(CMGetLink())->NotifyUser(JGetString("CannotFindMain::LLDBDisplaySourceForMain"), kJTrue);
 		(CMGetLink())->Log("LLDBDisplaySourceForMain failed to find 'main'");
 
 		GetSourceDir()->ClearDisplay();

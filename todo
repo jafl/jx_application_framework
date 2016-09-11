@@ -6,8 +6,12 @@ document SB*.h
 
 -----
 
-jcc:
-	search only pom.xml in ~/projects/ takes too long
+medic:
+	only trim enclosing parens if it doesn't leave any unbalanced parens
+
+	lldb:
+		JArray elements in Array window have too much junk
+		JString.itsString not interpreted as char*
 
 split JTextEditor
 	split off itsBuffer,itsStyles,itsUndo/RedoList into JTextBuffer
