@@ -11,6 +11,7 @@
 #include "CMVarCommand.h"
 #include "CMInitVarNodeTask.h"
 #include "cmGlobals.h"
+#include "cbmUtil.h"
 #include <JTree.h>
 #include <JRegex.h>
 #include <JColormap.h>
@@ -517,6 +518,12 @@ CMVarNode::TrimExpression
 		   s->GetFirstCharacter() == '(' &&
 		   s->GetLastCharacter()  == ')')
 		{
+		JIndex i = 2;
+		if (!CBMBalanceForward(kCBCLang, *s, &i) || i < s->GetLength())
+			{
+			break;
+			}
+
 		s->RemoveSubstring(1, 1);
 		s->RemoveSubstring(s->GetLength(), s->GetLength());
 		s->TrimWhitespace();
