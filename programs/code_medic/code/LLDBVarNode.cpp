@@ -90,6 +90,12 @@ LLDBVarNode::BuildTree
 	JBoolean isPointer = kJFalse;
 	JBoolean isSpecial = kJFalse;
 
+	JString name;
+	if (v.GetName() != NULL)
+		{
+		name = v.GetName();
+		}
+
 	if (v.TypeIsPointerType())
 		{
 		lldb::BasicType type = v.GetType().GetPointeeType().GetBasicType();
@@ -129,8 +135,15 @@ LLDBVarNode::BuildTree
 			isSpecial = kJTrue;
 			}
 		}
+	else if (v.GetType().GetTypeClass() == lldb::eTypeClassClass &&
+			 !name.IsEmpty() && isupper(name.GetCharacter(1)))
+		{
+		// mark as "fake"
+		name.PrependCharacter('<');
+		name.AppendCharacter('>');
+		}
 
-	CMVarNode* node = (CMGetLink())->CreateVarNode(NULL, v.GetName(), NULL, value);
+	CMVarNode* node = (CMGetLink())->CreateVarNode(NULL, name, NULL, value);
 	assert( node != NULL );
 
 	if (isPointer)

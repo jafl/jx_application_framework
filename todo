@@ -8,7 +8,6 @@ document SB*.h
 
 medic:
 	lldb:
-		JArray elements in Array window have too much junk
 		JString.itsString not interpreted as char*
 
 split JTextEditor
