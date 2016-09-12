@@ -6,10 +6,6 @@ document SB*.h
 
 -----
 
-medic:
-	lldb:
-		JString.itsString not interpreted as char*
-
 split JTextEditor
 	split off itsBuffer,itsStyles,itsUndo/RedoList into JTextBuffer
 	split out reading HTML, unix man page (to jcc), etc.

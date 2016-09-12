@@ -268,6 +268,42 @@ CMVarTreeWidget::WatchLocation()
 }
 
 /******************************************************************************
+ DisplayAsCString
+
+ ******************************************************************************/
+
+void
+CMVarTreeWidget::DisplayAsCString()
+{
+	JPtrArray<JString> exprList(JPtrArrayT::kDeleteAll);
+
+	JTableSelectionIterator iter(&(GetTableSelection()));
+	JPoint cell;
+	JString expr;
+	while (iter.Next(&cell))
+		{
+		CMVarNode* node =
+			dynamic_cast<CMVarNode*>(GetTreeList()->GetNode(cell.y));
+		assert( node != NULL );
+
+		expr = node->GetFullName();
+		expr.Prepend("(char*)(");
+		expr.AppendCharacter(')');
+		exprList.Append(expr);
+		}
+
+	// DisplayExpression() messes with selection
+
+	const JSize count = exprList.GetElementCount();
+	for (JIndex i=1; i<=count; i++)
+		{
+		itsDir->DisplayExpression(*(exprList.NthElement(i)));
+		}
+
+	ClearIncrementalSearchBuffer();
+}
+
+/******************************************************************************
  Display1DArray
 
  ******************************************************************************/

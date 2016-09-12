@@ -53,6 +53,7 @@ static const JCharacter* kActionMenuTitleStr = "Actions";
 static const JCharacter* kActionMenuStr =
 	"    New expression      %k Meta-N       %i" kCMNewExpressionAction
 	"  | Remove expression   %k Backspace.   %i" kCMRemoveExpressionAction
+	"%l| Display as C string %k Meta-S       %i" kCMDisplayAsCStringAction
 	"%l| Display as 1D array %k Meta-Shift-A %i" kCMDisplay1DArrayAction
 	"  | Plot as 1D array                    %i" kCMPlot1DArrayAction
 	"  | Display as 2D array                 %i" kCMDisplay2DArrayAction
@@ -65,6 +66,7 @@ enum
 {
 	kAddVarCmd = 1,
 	kDelVarCmd,
+	kDisplayAsCStringCmd,
 	kDisplay1DArrayCmd,
 	kPlot1DArrayCmd,
 	kDisplay2DArrayCmd,
@@ -427,6 +429,7 @@ CMVarTreeDir::UpdateActionMenu()
 	if (itsWidget->HasSelection())
 		{
 		itsActionMenu->EnableItem(kDelVarCmd);
+		itsActionMenu->EnableItem(kDisplayAsCStringCmd);
 		itsActionMenu->EnableItem(kDisplay1DArrayCmd);
 		itsActionMenu->EnableItem(kPlot1DArrayCmd);
 		itsActionMenu->EnableItem(kDisplay2DArrayCmd);
@@ -462,6 +465,11 @@ CMVarTreeDir::HandleActionMenu
 	else if (index == kDelVarCmd)
 		{
 		itsWidget->RemoveSelection();
+		}
+
+	else if (index == kDisplayAsCStringCmd)
+		{
+		itsWidget->DisplayAsCString();
 		}
 
 	else if (index == kDisplay1DArrayCmd)

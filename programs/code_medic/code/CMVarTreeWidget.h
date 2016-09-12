@@ -41,6 +41,7 @@ public:
 
 	void	WatchExpression();
 	void	WatchLocation();
+	void	DisplayAsCString();
 	void	Display1DArray();
 	void	Plot1DArray();
 	void	Display2DArray();

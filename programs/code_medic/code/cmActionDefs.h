@@ -35,6 +35,7 @@
 #define kCMSetArgumentsAction        "GDBSetArguments"
 #define kCMClearAllBreakpointsAction "GDBClearAllBreakpoints"
 #define kCMDisplayVariableAction     "GDBDisplayVariable"
+#define kCMDisplayAsCStringAction    "GDBDisplayAsCStringAction"
 #define kCMDisplay1DArrayAction      "GDBDisplay1DArray"
 #define kCMPlot1DArrayAction         "GDBPlot1DArray"
 #define kCMDisplay2DArrayAction      "GDBDisplay2DArray"
