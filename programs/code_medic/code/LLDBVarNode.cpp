@@ -136,7 +136,8 @@ LLDBVarNode::BuildTree
 			}
 		}
 	else if (v.GetType().GetTypeClass() == lldb::eTypeClassClass &&
-			 !name.IsEmpty() && isupper(name.GetCharacter(1)))
+			 !JStringEmpty(v.GetTypeName()) &&
+			 name == v.GetTypeName())
 		{
 		// mark as "fake"
 		name.PrependCharacter('<');
