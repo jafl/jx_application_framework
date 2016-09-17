@@ -55,7 +55,8 @@ enum
 
 static const JCharacter* kActionMenuTitleStr = "Actions";
 static const JCharacter* kActionMenuStr =
-	"    Display as 1D array %k Meta-Shift-A %i" kCMDisplay1DArrayAction
+	"    Display as C string %k Meta-S       %i" kCMDisplayAsCStringAction
+	"%l| Display as 1D array %k Meta-Shift-A %i" kCMDisplay1DArrayAction
 	"  | Plot as 1D array                    %i" kCMPlot1DArrayAction
 	"  | Display as 2D array                 %i" kCMDisplay2DArrayAction
 	"%l| Watch expression                    %i" kCMWatchVarValueAction
@@ -66,7 +67,8 @@ static const JCharacter* kActionMenuStr =
 
 enum
 {
-	kDisplay1DArrayCmd = 1,
+	kDisplayAsCStringCmd = 1,
+	kDisplay1DArrayCmd,
 	kPlot1DArrayCmd,
 	kDisplay2DArrayCmd,
 	kWatchVarCmd,
@@ -682,6 +684,7 @@ CMArray1DDir::UpdateActionMenu()
 {
 	if (itsWidget->HasSelection())
 		{
+		itsActionMenu->EnableItem(kDisplayAsCStringCmd);
 		itsActionMenu->EnableItem(kDisplay1DArrayCmd);
 		itsActionMenu->EnableItem(kPlot1DArrayCmd);
 		itsActionMenu->EnableItem(kDisplay2DArrayCmd);
@@ -712,7 +715,11 @@ CMArray1DDir::HandleActionMenu
 	const JIndex index
 	)
 {
-	if (index == kDisplay1DArrayCmd)
+	if (index == kDisplayAsCStringCmd)
+		{
+		itsWidget->DisplayAsCString();
+		}
+	else if (index == kDisplay1DArrayCmd)
 		{
 		itsWidget->Display1DArray();
 		}

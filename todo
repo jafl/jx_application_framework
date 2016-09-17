@@ -9,8 +9,6 @@ document SB*.h
 systemg:
 	option to pop afterwards, if want it on new branch
 
-+ medic: Cmd-S (to string) in array windows
-
 split JTextEditor
 	split off itsBuffer,itsStyles,itsUndo/RedoList into JTextBuffer
 	split out reading HTML, unix man page (to jcc), etc.
