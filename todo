@@ -6,6 +6,11 @@ document SB*.h
 
 -----
 
+systemg:
+	option to pop afterwards, if want it on new branch
+
++ medic: Cmd-S (to string) in array windows
+
 split JTextEditor
 	split off itsBuffer,itsStyles,itsUndo/RedoList into JTextBuffer
 	split out reading HTML, unix man page (to jcc), etc.
@@ -28,6 +33,9 @@ OSX window placement
 replace rendering engine inside JXWindowPainter with UTF-8 version
 	http://cairographics.org/
 	is YUI yogi output correct with check mark?
+
+	after this, safe to replace strlen with utf-8 version
+
 libXft
 	printing
 		gs -dNOPAUSE -dBATCH -sDEVICE=pswrite -sOutputFile=junk2.ps junk.ps
@@ -303,13 +311,6 @@ jcc
 		Same with /, because both are regex constructs
 		Need to restyle further?
 
-	When search for something in CVS output window, doesn't hilight selection
-	until wheel-mouse scroll.
-
-	When cvs diff is run in directory with .jcc file, loses data from middle of
-	.jcc contents to some later point -- only seen on work machine, and only
-	with old single, line format
-
 	CBTreeDirector:
 		ReceiveWithFeedback:  include src file for C++
 	Editor for regex's so compiler support is not hard-coded
@@ -320,10 +321,6 @@ jcc
 	JXChooseMonoFont: allow "Other..."
 
 	Class trees need to search symbol database for function location.
-
-	takes a long time to figure out that a 251MB file is large enough to
-	warn about -- is the underlying code somehow reading the file to figure out
-	how big it is?
 
 memory analyzer
 	option to print MDStatsDirector

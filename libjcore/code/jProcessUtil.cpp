@@ -38,8 +38,8 @@ JBoolean	JProgramAvailable(const JCharacter* programName, JString* fixedName);
 /******************************************************************************
  JPrepArgForExec
 
-	Inserts backslashes in front of double quotes and backslashes and then
-	puts double quotes around the entire string.
+	Inserts backslashes in front of metacharacters and then puts double
+	quotes around the entire string if it contains spaces.
 
  ******************************************************************************/
 
@@ -152,66 +152,6 @@ JParseArgsForExec
 		JCleanArg(s);	// clean out backslashes and quotes
 		argList->Append(s);
 		}
-/*
-	JSize length = str.GetLength();
-	while (length > 0)
-		{
-		JString* arg = NULL;
-
-		JIndex i;
-		if (str.GetFirstCharacter() == '"')
-			{
-			i = 2;
-			while (i <= length && str.GetCharacter(i) != '"')
-				{
-				if (str.GetCharacter(i) == '\\')
-					{
-					i++;
-					}
-				i++;
-				}
-
-			if (i <= length)
-				{
-				// use JIndexRange to allow empty string: ""
-				arg = new JString(str.GetSubstring(JIndexRange(2, i-1)));
-				assert( arg != NULL );
-				str.RemoveSubstring(1,i);
-				}
-			else if (length > 1)
-				{
-				arg = new JString(str.GetSubstring(2, length));
-				assert( arg != NULL );
-				str.Clear();
-				}
-			else
-				{
-				str.Clear();
-				}
-			}
-		else if (str.LocateSubstring(" ", &i))
-			{
-			arg = new JString(str.GetSubstring(1, i-1));
-			assert( arg != NULL );
-			str.RemoveSubstring(1,i);
-			}
-		else
-			{
-			arg = new JString(str);
-			assert( arg != NULL );
-			str.Clear();
-			}
-
-		if (arg != NULL)
-			{
-			JCleanArg(arg);
-			argList->Append(arg);
-			}
-
-		str.TrimWhitespace();
-		length = str.GetLength();
-		}
-*/
 }
 
 /******************************************************************************

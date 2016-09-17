@@ -56,6 +56,7 @@
 #include <JFontManager.h>
 #include <JTableSelection.h>
 #include <JSimpleProcess.h>
+#include <JRegex.h>
 #include <JSubstitute.h>
 #include <JDirInfo.h>
 #include <jMountUtil.h>
@@ -4190,21 +4191,74 @@ SyGFileTreeTable::SwitchToGitBranch
 	const JString& branch
 	)
 {
+	const JString& dir = itsFileTree->GetDirectory();
+
+	// check for changes needing to be stashed
+
+	int fromFD;
+	JError err = JExecute(dir, "git statuz -z", NULL,
+						  kJIgnoreConnection, NULL,
+						  kJCreatePipe, &fromFD,
+						  kJAttachToFromFD);
+	if (err.OK())
+		{
+		JString msg;
+		JReadAll(fromFD, &msg);
+		if (!msg.IsEmpty())
+			{
+			err = JExecute(dir, "git stash save systemg-temp", NULL);
+			}
+		}
+
+	// switch branches
+
 	JString cmd = "git checkout ";
 	cmd        += JPrepArgForExec(branch);
 
-	int fromFD;
-	const JError err = JExecute(itsFileTree->GetDirectory(), cmd, NULL,
-								kJIgnoreConnection, NULL,
-								kJCreatePipe, &fromFD,
-								kJAttachToFromFD);
+	err = JExecute(dir, cmd, NULL,
+				   kJIgnoreConnection, NULL,
+				   kJCreatePipe, &fromFD,
+				   kJAttachToFromFD);
 	if (err.OK())
 		{
 		JString msg;
 		JReadAll(fromFD, &msg);
 		(JGetUserNotification())->DisplayMessage(msg);
 
-		JExecute(itsFileTree->GetDirectory(), (SyGGetApplication())->GetPostCheckoutCommand(), NULL);
+		// check for stashed changes
+
+		err = JExecute(dir, "git stash list --pretty=format:'%gd;%s'", NULL,
+					   kJIgnoreConnection, NULL,
+					   kJCreatePipe, &fromFD,
+					   kJAttachToFromFD);
+		if (err.OK())
+			{
+			JString msg;
+			JReadAll(fromFD, &msg);
+
+			JString stashPattern =
+				"^(stash@\\{[0-9]+\\});On " +
+				JRegex::BackslashForLiteral(branch) + ": systemg-temp$";
+
+			JRegex stashRegex(stashPattern);
+			JArray<JIndexRange> subMatchList;
+			if (stashRegex.Match(msg, &subMatchList))
+				{
+				cmd =
+					"xterm -T 'Apply stashed changes' "
+						"-e '( git stash pop \\\\'$ref\\\\' ) | less'";
+
+				const JString refArg = JPrepArgForExec(msg.GetSubstring(subMatchList.GetElement(2)));
+
+				JSubstitute subst;
+				subst.DefineVariable("ref", refArg);
+				subst.Substitute(&cmd);
+
+				JSimpleProcess::Create(dir, cmd, kJTrue);
+				}
+			}
+
+		JExecute(dir, (SyGGetApplication())->GetPostCheckoutCommand(), NULL);
 		}
 	else
 		{
