@@ -60,6 +60,7 @@
 #define kSGGitHistoryAction      "SGGitHistory"
 #define kSGGitCommitAllAction    "SGGitCommitAll"
 #define kSGGitRevertAllAction    "SGGitRevertAll"
+#define kSGGitStashChangesAction "SGGitStashChanges"
 #define kSGGitCreateBranchAction "SGGitCreateBranch"
 #define kSGGitAddRemoteAction    "SGGitAddRemote"
 #define kSGGitPruneRemoteAction  "SGGitPruneRemote"

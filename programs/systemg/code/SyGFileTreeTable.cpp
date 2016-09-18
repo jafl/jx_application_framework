@@ -194,9 +194,12 @@ static const JCharacter* kGitMenuStr =
 	"  | History...                    %i" kSGGitHistoryAction
 	"  | Commit all changes...         %i" kSGGitCommitAllAction
 	"  | Revert all changes            %i" kSGGitRevertAllAction
-	"%l| Fetch & merge from remote "
+	"%l| Pull from remote "
 	"  | Push current branch to remote"
 	"%l| Merge from branch"
+	"%l| Stash current changes...      %i" kSGGitStashChangesAction
+	"  | Pop"
+	"  | Apply"
 	"%l| Fetch remote branch"
 	"  | Create local branch...        %i" kSGGitCreateBranchAction
 	"  | Remove local branch"
@@ -214,6 +217,9 @@ enum
 	kGitPullItemIndex,
 	kGitPushItemIndex,
 	kGitMergeFromBranchItemIndex,
+	kGitStashChangesCmd,
+	kGitStashPopItemIndex,
+	kGitStashApplyItemIndex,
 	kGitFetchBranchItemIndex,
 	kGitCreateBranchCmd,
 	kGitRemoveBranchItemIndex,
@@ -321,6 +327,7 @@ SyGFileTreeTable::SyGFileTreeTable
 	itsCreateGitBranchDialog	= NULL;
 	itsFetchGitBranchDialog     = NULL;
 	itsCommitGitBranchDialog	= NULL;
+	itsGitStashDialog           = NULL;
 	itsGitProcess				= NULL;
 	itsAddGitRemoteDialog		= NULL;
 	itsIconWidget				= NULL;
@@ -440,6 +447,20 @@ SyGFileTreeTable::SyGFileTreeTable
 	assert( itsGitMergeBranchMenu != NULL );
 	itsGitMergeBranchMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsGitMergeBranchMenu);
+
+	itsGitStashPopMenu =
+		new JXTextMenu(itsGitMenu, kGitStashPopItemIndex,
+					   itsGitMenu->GetEnclosure());
+	assert( itsGitStashPopMenu != NULL );
+	itsGitStashPopMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ListenTo(itsGitStashPopMenu);
+
+	itsGitStashApplyMenu =
+		new JXTextMenu(itsGitMenu, kGitStashApplyItemIndex,
+					   itsGitMenu->GetEnclosure());
+	assert( itsGitStashApplyMenu != NULL );
+	itsGitStashApplyMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ListenTo(itsGitStashApplyMenu);
 
 	itsGitRemoteBranchMenu =
 		new JXTextMenu(itsGitMenu, kGitFetchBranchItemIndex,
@@ -2088,6 +2109,20 @@ SyGFileTreeTable::Receive
 		assert( selection != NULL );
 		MergeFromGitBranch(itsGitMergeBranchMenu->GetItemText(selection->GetIndex()));
 		}
+	else if (sender == itsGitStashPopMenu && message.Is(JXMenu::kItemSelected))
+		{
+		const JXMenu::ItemSelected* selection =
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		assert( selection != NULL );
+		Unstash("pop", itsGitStashPopMenu->GetItemText(selection->GetIndex()));
+		}
+	else if (sender == itsGitStashApplyMenu && message.Is(JXMenu::kItemSelected))
+		{
+		const JXMenu::ItemSelected* selection =
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		assert( selection != NULL );
+		Unstash("apply", itsGitStashApplyMenu->GetItemText(selection->GetIndex()));
+		}
 	else if (sender == itsGitRemoteBranchMenu && message.Is(JXMenu::kItemSelected))
 		{
 		const JXMenu::ItemSelected* selection =
@@ -2235,6 +2270,19 @@ SyGFileTreeTable::Receive
 			JExecute(itsFileTree->GetDirectory(), (SyGGetApplication())->GetPostCheckoutCommand(), NULL);
 			}
 		itsGitProcess = NULL;
+		}
+
+	else if (sender == itsGitStashDialog &&
+			 message.Is(JXDialogDirector::kDeactivated))
+		{
+		const JXDialogDirector::Deactivated* info =
+			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+		assert(info != NULL);
+		if (info->Successful())
+			{
+			Stash(itsGitStashDialog->GetString());
+			}
+		itsGitStashDialog = NULL;
 		}
 
 	else if (sender == itsAddGitRemoteDialog &&
@@ -3922,6 +3970,26 @@ SyGFileTreeTable::UpdateGitMenus
 		itsGitRemoteBranchMenu->DisableItem(1);
 		}
 
+	JPtrArray<JString> stashList(JPtrArrayT::kDeleteAll);
+	JPtrArray<JString> nameList(JPtrArrayT::kDeleteAll);
+
+	GetGitStashList(&stashList, &nameList);
+
+	itsGitStashPopMenu->RemoveAllItems();
+	itsGitStashApplyMenu->RemoveAllItems();
+
+	const JSize stashCount = stashList.GetElementCount();
+	for (JIndex i=1; i<=stashCount; i++)
+		{
+		itsGitStashPopMenu->AppendItem(
+			*(stashList.NthElement(i)), JXMenu::kPlainType, NULL,
+			*(nameList.NthElement(i)));
+
+		itsGitStashApplyMenu->AppendItem(
+			*(stashList.NthElement(i)), JXMenu::kPlainType, NULL,
+			*(nameList.NthElement(i)));
+		}
+
 	if (!itsCurrentGitBranch.IsEmpty())
 		{
 		const JCharacter* map[] =
@@ -3998,6 +4066,16 @@ SyGFileTreeTable::HandleGitMenu
 	else if (index == kGitRevertAllCmd)
 		{
 		RevertGitBranch();
+		}
+
+	else if (index == kGitStashChangesCmd)
+		{
+		itsGitStashDialog =
+			new JXGetStringDialog(GetWindow()->GetDirector(), JGetString("StashTitle::SyGFileTreeTable"),
+								  JGetString("StashPrompt::SyGFileTreeTable"));
+		assert( itsGitStashDialog != NULL );
+		itsGitStashDialog->Activate();
+		ListenTo(itsGitStashDialog);
 		}
 
 	else if (index == kGitCreateBranchCmd)
@@ -4129,9 +4207,8 @@ SyGFileTreeTable::GetGitBranches
 	JPtrArray<JString>*	repoList
 	)
 {
-	pid_t pid;
 	int fromFD;
-	const JError err = JExecute(itsFileTree->GetDirectory(), cmd, &pid,
+	const JError err = JExecute(itsFileTree->GetDirectory(), cmd, NULL,
 								kJIgnoreConnection, NULL,
 								kJCreatePipe, &fromFD);
 	if (!err.OK())
@@ -4227,34 +4304,20 @@ SyGFileTreeTable::SwitchToGitBranch
 
 		// check for stashed changes
 
-		err = JExecute(dir, "git stash list --pretty=format:'%gd;%s'", NULL,
-					   kJIgnoreConnection, NULL,
-					   kJCreatePipe, &fromFD,
-					   kJAttachToFromFD);
-		if (err.OK())
+		JPtrArray<JString> stashList(JPtrArrayT::kDeleteAll);
+		JPtrArray<JString> nameList(JPtrArrayT::kDeleteAll);
+		if (GetGitStashList(&stashList, &nameList))
 			{
-			JString msg;
-			JReadAll(fromFD, &msg);
+			const JString name = "On " + branch + ": systemg-temp";
 
-			JString stashPattern =
-				"^(stash@\\{[0-9]+\\});On " +
-				JRegex::BackslashForLiteral(branch) + ": systemg-temp$";
-
-			JRegex stashRegex(stashPattern);
-			JArray<JIndexRange> subMatchList;
-			if (stashRegex.Match(msg, &subMatchList))
+			const JSize count = nameList.GetElementCount();
+			for (JIndex i=1; i<=count; i++)
 				{
-				cmd =
-					"xterm -T 'Apply stashed changes' "
-						"-e '( git stash pop \\\\'$ref\\\\' ) | less'";
-
-				const JString refArg = JPrepArgForExec(msg.GetSubstring(subMatchList.GetElement(2)));
-
-				JSubstitute subst;
-				subst.DefineVariable("ref", refArg);
-				subst.Substitute(&cmd);
-
-				JSimpleProcess::Create(dir, cmd, kJTrue);
+				if (name == *(nameList.NthElement(i)))
+					{
+					Unstash("pop", *(stashList.NthElement(i)));
+					break;
+					}
 				}
 			}
 
@@ -4459,6 +4522,111 @@ SyGFileTreeTable::RemoveGitBranch
 	cmd        += JPrepArgForExec(branch);
 
 	JSimpleProcess::Create(itsFileTree->GetDirectory(), cmd, kJTrue);
+}
+
+/******************************************************************************
+ GetGitStashList (private)
+
+ ******************************************************************************/
+
+JBoolean
+SyGFileTreeTable::GetGitStashList
+	(
+	JPtrArray<JString>* stashList,
+	JPtrArray<JString>* nameList
+	)
+{
+	int fromFD;
+	const JError err = JExecute(itsFileTree->GetDirectory(),
+								"git stash list --pretty=format:'%gd;%s'", NULL,
+								kJIgnoreConnection, NULL,
+								kJCreatePipe, &fromFD);
+	if (!err.OK())
+		{
+		nameList->Append(JGetString("NoStashes::SyGFileTreeTable"));
+		stashList->Append("");
+		return kJFalse;
+		}
+
+	JString line;
+	JIndex i;
+	while (1)
+		{
+		line = JReadUntil(fromFD, '\n');
+		if (line.IsEmpty())
+			{
+			break;
+			}
+
+		if (line.LocateSubstring(";", &i) && 1 < i && i < line.GetLength())
+			{
+			stashList->Append(line.GetSubstring(1, i-1));
+			nameList->Append(line.GetSubstring(i+1, line.GetLength()));
+			}
+		}
+
+	return !stashList->IsEmpty();
+}
+
+/******************************************************************************
+ Stash (private)
+
+ ******************************************************************************/
+
+void
+SyGFileTreeTable::Stash
+	(
+	const JString& name
+	)
+{
+	const JString cmd = "git stash save " + JPrepArgForExec(name);
+
+	JSimpleProcess* p;
+	const JError err = JSimpleProcess::Create(&p, itsFileTree->GetDirectory(), cmd, kJTrue);
+	if (err.OK())
+		{
+		itsGitProcess = p;
+		ListenTo(itsGitProcess);
+		}
+	else
+		{
+		err.ReportIfError();
+		}
+}
+
+/******************************************************************************
+ Unstash (private)
+
+ ******************************************************************************/
+
+void
+SyGFileTreeTable::Unstash
+	(
+	const JCharacter*	action,
+	const JString&		stashId
+	)
+{
+	JString cmd = "xterm -T 'Pop stashed changes' "
+				  "-e '( git stash $action \\\\'$ref\\\\' ) | less'";
+
+	const JString refArg = JPrepArgForExec(stashId);
+
+	JSubstitute subst;
+	subst.DefineVariable("action", action);
+	subst.DefineVariable("ref", refArg);
+	subst.Substitute(&cmd);
+
+	JSimpleProcess* p;
+	const JError err = JSimpleProcess::Create(&p, itsFileTree->GetDirectory(), cmd, kJTrue);
+	if (err.OK())
+		{
+		itsGitProcess = p;
+		ListenTo(itsGitProcess);
+		}
+	else
+		{
+		err.ReportIfError();
+		}
 }
 
 /******************************************************************************

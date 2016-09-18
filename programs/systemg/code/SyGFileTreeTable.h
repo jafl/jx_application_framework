@@ -173,6 +173,8 @@ private:
 	JXTextMenu*			itsGitPullSourceMenu;
 	JXTextMenu*			itsGitPushDestMenu;
 	JXTextMenu*			itsGitMergeBranchMenu;
+	JXTextMenu*			itsGitStashPopMenu;
+	JXTextMenu*			itsGitStashApplyMenu;
 	JXTextMenu*			itsGitRemoteBranchMenu;
 	JXTextMenu*			itsGitRemoveBranchMenu;
 	JXTextMenu*			itsGitRemoveRemoteMenu;
@@ -189,6 +191,7 @@ private:
 	JXGetStringDialog*	itsFetchGitBranchDialog;	// NULL unless creating branch
 	JString				itsFetchGitBranch;
 	JXGetStringDialog*	itsCommitGitBranchDialog;	// NULL unless committing branch
+	JXGetStringDialog*	itsGitStashDialog;			// NULL unless stashing
 	JProcess*			itsGitProcess;				// NULL unless waiting for git
 
 	SyGNewGitRemoteDialog*	itsAddGitRemoteDialog;
@@ -271,6 +274,11 @@ private:
 	void	PullBranch(const JString& repo);
 	void	PushBranch(const JString& repo);
 	void	RemoveGitBranch(const JString& branch);
+
+	JBoolean	GetGitStashList(JPtrArray<JString>* stashList, JPtrArray<JString>* nameList);
+	void		Stash(const JString& name);
+	void		Unstash(const JCharacter* action, const JString& stashId);
+
 	void	AddGitRemote(const JString& repoURL, const JString& name);
 	void	RemoveGitRemote(const JString& repo);
 	void	PruneRemoteGitBranches(const JString& name);
