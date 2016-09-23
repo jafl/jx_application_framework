@@ -175,6 +175,7 @@ private:
 	JXTextMenu*			itsGitMergeBranchMenu;
 	JXTextMenu*			itsGitStashPopMenu;
 	JXTextMenu*			itsGitStashApplyMenu;
+	JXTextMenu*			itsGitStashDropMenu;
 	JXTextMenu*			itsGitRemoteBranchMenu;
 	JXTextMenu*			itsGitRemoveBranchMenu;
 	JXTextMenu*			itsGitRemoveRemoteMenu;

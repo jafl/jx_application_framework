@@ -194,12 +194,13 @@ static const JCharacter* kGitMenuStr =
 	"  | History...                    %i" kSGGitHistoryAction
 	"  | Commit all changes...         %i" kSGGitCommitAllAction
 	"  | Revert all changes            %i" kSGGitRevertAllAction
+	"  | Stash all changes...          %i" kSGGitStashChangesAction
+	"  | Pop"
+	"  | Apply"
+	"  | Drop"
 	"%l| Pull from remote "
 	"  | Push current branch to remote"
 	"%l| Merge from branch"
-	"%l| Stash current changes...      %i" kSGGitStashChangesAction
-	"  | Pop"
-	"  | Apply"
 	"%l| Fetch remote branch"
 	"  | Create local branch...        %i" kSGGitCreateBranchAction
 	"  | Remove local branch"
@@ -214,12 +215,13 @@ enum
 	kGitHistoryCmd,
 	kGitCommitAllCmd,
 	kGitRevertAllCmd,
-	kGitPullItemIndex,
-	kGitPushItemIndex,
-	kGitMergeFromBranchItemIndex,
 	kGitStashChangesCmd,
 	kGitStashPopItemIndex,
 	kGitStashApplyItemIndex,
+	kGitStashDropItemIndex,
+	kGitPullItemIndex,
+	kGitPushItemIndex,
+	kGitMergeFromBranchItemIndex,
 	kGitFetchBranchItemIndex,
 	kGitCreateBranchCmd,
 	kGitRemoveBranchItemIndex,
@@ -461,6 +463,13 @@ SyGFileTreeTable::SyGFileTreeTable
 	assert( itsGitStashApplyMenu != NULL );
 	itsGitStashApplyMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsGitStashApplyMenu);
+
+	itsGitStashDropMenu =
+		new JXTextMenu(itsGitMenu, kGitStashDropItemIndex,
+					   itsGitMenu->GetEnclosure());
+	assert( itsGitStashDropMenu != NULL );
+	itsGitStashDropMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ListenTo(itsGitStashDropMenu);
 
 	itsGitRemoteBranchMenu =
 		new JXTextMenu(itsGitMenu, kGitFetchBranchItemIndex,
@@ -2122,6 +2131,13 @@ SyGFileTreeTable::Receive
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != NULL );
 		Unstash("apply", itsGitStashApplyMenu->GetItemText(selection->GetIndex()));
+		}
+	else if (sender == itsGitStashDropMenu && message.Is(JXMenu::kItemSelected))
+		{
+		const JXMenu::ItemSelected* selection =
+			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		assert( selection != NULL );
+		Unstash("drop", itsGitStashDropMenu->GetItemText(selection->GetIndex()));
 		}
 	else if (sender == itsGitRemoteBranchMenu && message.Is(JXMenu::kItemSelected))
 		{
@@ -3977,6 +3993,7 @@ SyGFileTreeTable::UpdateGitMenus
 
 	itsGitStashPopMenu->RemoveAllItems();
 	itsGitStashApplyMenu->RemoveAllItems();
+	itsGitStashDropMenu->RemoveAllItems();
 
 	const JSize stashCount = stashList.GetElementCount();
 	for (JIndex i=1; i<=stashCount; i++)
@@ -3986,6 +4003,10 @@ SyGFileTreeTable::UpdateGitMenus
 			*(nameList.NthElement(i)));
 
 		itsGitStashApplyMenu->AppendItem(
+			*(stashList.NthElement(i)), JXMenu::kPlainType, NULL,
+			*(nameList.NthElement(i)));
+
+		itsGitStashDropMenu->AppendItem(
 			*(stashList.NthElement(i)), JXMenu::kPlainType, NULL,
 			*(nameList.NthElement(i)));
 		}

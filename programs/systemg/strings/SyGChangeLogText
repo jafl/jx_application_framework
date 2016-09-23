@@ -12,9 +12,13 @@ Please send all bug reports and suggestions for features to
 <p>
 <hr>
 
-<h3> 2.5.1 </h3>
+<h3> 2.6 </h3>
 
 Added remote tracking branches to \"Merge from branch\" on Git menu.
+<p>
+Added menu items for stashing and unstashing changes.
+<p>
+Automatically stashes changes when switching to another branch.
 
 <h3> 2.5 </h3>
 
