@@ -3,7 +3,7 @@
 
 	Creates a JProgressDisplay object appropriate for the environment.
 
-	Copyright © 1995-96 by John Lindal. All rights reserved.
+	Copyright (C) 1995-96 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

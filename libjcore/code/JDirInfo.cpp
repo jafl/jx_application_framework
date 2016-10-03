@@ -20,8 +20,8 @@
 
 	BASE CLASS = JContainer
 
-	Copyright © 1996 by Glenn W. Bach. All rights reserved.
-	Copyright © 1997-98 by John Lindal. All rights reserved.
+	Copyright (C) 1996 by Glenn W. Bach. All rights reserved.
+	Copyright (C) 1997-98 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

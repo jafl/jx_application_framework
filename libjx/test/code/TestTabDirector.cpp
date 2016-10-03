@@ -143,7 +143,7 @@ TestTabDirector::BuildWindow()
 		new JXInputField(card3, JXWidget::kHElastic, JXWidget::kFixedTop,
 						 20, 20, 250, 20);
 	assert( itsMonoFontSample != NULL );
-	itsMonoFontSample->SetText("I code, therefore I am. ©≈Â");
+	itsMonoFontSample->SetText("I code, therefore I am. (C)≈Â");
 
 	itsMonoFont =
 		new JXChooseMonoFont(card3, JXWidget::kHElastic, JXWidget::kFixedTop,

@@ -3,7 +3,7 @@
 
 	Interface for the GMMailboxData class
 
-	Copyright © 2003 by Glenn W. Bach.  All rights reserved.
+	Copyright (C) 2003 by Glenn W. Bach.  All rights reserved.
 	
  *****************************************************************************/
 

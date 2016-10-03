@@ -4,7 +4,7 @@
 	UNIX System routines to do what streams ought to be able to do
 	in the first place.
 
-	Copyright © 1995 by John Lindal. All rights reserved.
+	Copyright (C) 1995 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	BASE CLASS = JXWidget
 
-	Copyright © 1997-98 by John Lindal. All rights reserved.
+	Copyright (C) 1997-98 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

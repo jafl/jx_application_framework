@@ -1,6 +1,6 @@
 %{
 /*
-Copyright © 2004 by John Lindal. All rights reserved.
+Copyright (C) 2004 by John Lindal. All rights reserved.
 
 This scanner reads an Eiffle file and returns CBEiffelScanner::Tokens.
 */

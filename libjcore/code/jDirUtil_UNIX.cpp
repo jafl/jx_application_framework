@@ -3,7 +3,7 @@
 
 	Directory utilities implemented for the UNIX System.
 
-	Copyright © 1996 by Glenn W. Bach. All rights reserved.
+	Copyright (C) 1996 by Glenn W. Bach. All rights reserved.
 
  ******************************************************************************/
 

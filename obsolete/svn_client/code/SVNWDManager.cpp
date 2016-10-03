@@ -3,7 +3,7 @@
 
 	BASE CLASS = JXWDManager
 
-	Copyright © 1997-2008 by John Lindal. All rights reserved.
+	Copyright (C) 1997-2008 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

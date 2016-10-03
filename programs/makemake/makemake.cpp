@@ -4,7 +4,7 @@
 	Program to create a Makefile given the source file names and a
 	Makefile header.
 
-	Copyright © 1994-99 by John Lindal. All rights reserved.
+	Copyright (C) 1994-99 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

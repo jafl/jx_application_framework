@@ -3,7 +3,7 @@
 
 	BASE CLASS = CMGetFullPath
 
-	Copyright © 2007 by John Lindal. All rights reserved.
+	Copyright (C) 2007 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

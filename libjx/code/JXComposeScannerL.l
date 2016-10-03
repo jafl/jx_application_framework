@@ -1,6 +1,6 @@
 %{
 /*
-Copyright © 1999 by John Lindal. All rights reserved.
+Copyright (C) 1999 by John Lindal. All rights reserved.
 
 This scanner reads an X11 Compose rule file and returns JXComposeScanner::Rules.
 */

@@ -1,7 +1,7 @@
 /******************************************************************************
  jMouseUtil.h
 
-	Copyright © 2003 by John Lindal. All rights reserved.
+	Copyright (C) 2003 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

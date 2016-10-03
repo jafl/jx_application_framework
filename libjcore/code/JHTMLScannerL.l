@@ -1,6 +1,6 @@
 %{
 /*
-Copyright © 1998 by John Lindal. All rights reserved.
+Copyright (C) 1998 by John Lindal. All rights reserved.
 
 This scanner reads an HTML file and calls the
 following virtual functions:

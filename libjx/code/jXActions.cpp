@@ -3,7 +3,7 @@
 
 	Shared actions for use as menu item ID's and in keybinding tables.
 
-	Copyright © 1999 John Lindal. All rights reserved.
+	Copyright (C) 1999 John Lindal. All rights reserved.
 
  ******************************************************************************/
 

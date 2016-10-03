@@ -3,7 +3,7 @@
 
 	Program to generate JX code from an fdesign .fd file.
 
-	Copyright © 1996-2011 by John Lindal. All rights reserved.
+	Copyright (C) 1996-2011 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

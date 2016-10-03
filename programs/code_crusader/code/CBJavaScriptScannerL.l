@@ -1,6 +1,6 @@
 %{
 /*
-Copyright © 2006 by John Lindal. All rights reserved.
+Copyright (C) 2006 by John Lindal. All rights reserved.
 
 This scanner reads a JavaScript file and returns CBJavaScriptScanner::Tokens.
 

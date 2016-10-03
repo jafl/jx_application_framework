@@ -3,7 +3,7 @@
 
 	This module provides utility functions for the JDecision and JFunction parsers.
 
-	Copyright © 1995 by John Lindal. All rights reserved.
+	Copyright (C) 1995 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	Interface for JOrderedSetIterator class template
 
-	Copyright © 1994-97 by John Lindal. All rights reserved.
+	Copyright (C) 1994-97 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

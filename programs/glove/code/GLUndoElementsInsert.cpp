@@ -5,7 +5,7 @@
 
 	BASE CLASS = GLUndoElementsBase
 
-	Copyright © 1998 by Glenn W. Bach.
+	Copyright (C) 1998 by Glenn W. Bach.
 
  ******************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	Class for notifying the user of something via the console.
 
-	Copyright © 1994-97 by John Lindal. All rights reserved.
+	Copyright (C) 1994-97 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

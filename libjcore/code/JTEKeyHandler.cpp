@@ -3,7 +3,7 @@
 
 	Base class to support overriding key presses sent to JTextEditor.
 
-	Copyright © 2010 by John Lindal. All rights reserved.
+	Copyright (C) 2010 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

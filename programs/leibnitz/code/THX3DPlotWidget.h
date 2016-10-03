@@ -1,7 +1,7 @@
 /******************************************************************************
  THX3DPlotWidget.h
 
-	Copyright © 2005 by John Lindal. All rights reserved.
+	Copyright (C) 2005 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

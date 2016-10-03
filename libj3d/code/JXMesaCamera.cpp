@@ -3,7 +3,7 @@
 
 	BASE CLASS = J3DCamera, J3DPainter
 
-	Copyright © 1998 by John Lindal. All rights reserved.
+	Copyright (C) 1998 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

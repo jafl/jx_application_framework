@@ -5,7 +5,7 @@
 
 		red_scale.gif, green_scale.gif, blue_scale.gif, gray_scale.gif
 
-	Copyright © 1998 by John Lindal. All rights reserved.
+	Copyright (C) 1998 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

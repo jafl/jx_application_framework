@@ -6,7 +6,7 @@
 
 	BASE CLASS = JXStyleMenu
 
-	Copyright © 1996-97 by John Lindal. All rights reserved.
+	Copyright (C) 1996-97 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

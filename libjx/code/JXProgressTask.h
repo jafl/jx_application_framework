@@ -1,7 +1,7 @@
 /******************************************************************************
  JXProgressTask.h
 
-	Copyright © 2000 John Lindal. All rights reserved.
+	Copyright (C) 2000 John Lindal. All rights reserved.
 
  ******************************************************************************/
 

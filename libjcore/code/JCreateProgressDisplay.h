@@ -3,7 +3,7 @@
 
 	Interface for JCreateProgressDisplay class.
 
-	Copyright © 1995-96 by John Lindal. All rights reserved.
+	Copyright (C) 1995-96 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

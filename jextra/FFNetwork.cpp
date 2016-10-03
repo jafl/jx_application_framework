@@ -11,7 +11,7 @@
 	Training is done via back propagation and momentum is used to speed
 	convergence.  To turn off momentum, simply use a value of zero.
 
-	Copyright © 1996-99 by John Lindal. All rights reserved.
+	Copyright (C) 1996-99 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

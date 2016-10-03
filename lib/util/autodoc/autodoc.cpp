@@ -4,8 +4,8 @@
 	Autodoc is the JX documentation builder which creates *.doc files
 	from the corresponding source and header files.
 
-	Copyright © 1996 by Dustin Laurence.
-	Copyright © 1999 by John Lindal.  All rights reserved.
+	Copyright (C) 1996 by Dustin Laurence.
+	Copyright (C) 1999 by John Lindal.  All rights reserved.
 
  *****************************************************************************/
 

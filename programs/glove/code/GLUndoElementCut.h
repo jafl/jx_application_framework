@@ -3,7 +3,7 @@
 
 	Interface for the GLUndoElementCut class.
 
-	Copyright © 1998 by Glenn W. Bach.
+	Copyright (C) 1998 by Glenn W. Bach.
 
  ******************************************************************************/
 

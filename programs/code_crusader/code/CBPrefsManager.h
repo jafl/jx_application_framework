@@ -1,7 +1,7 @@
 /******************************************************************************
  CBPrefsManager.h
 
-	Copyright © 1997-2001 John Lindal. All rights reserved.
+	Copyright (C) 1997-2001 John Lindal. All rights reserved.
 
  ******************************************************************************/
 

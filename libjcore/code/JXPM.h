@@ -3,7 +3,7 @@
 
 	Defines struct for passing XPM format data to JImage.
 
-	Copyright © 1997 by John Lindal. All rights reserved.
+	Copyright (C) 1997 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

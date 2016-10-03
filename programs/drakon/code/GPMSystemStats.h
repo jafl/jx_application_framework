@@ -3,7 +3,7 @@
 
 	Interface for the GPMSystemStats class
 
-	Copyright © 2011 by John Lindal. All rights reserved.
+	Copyright (C) 2011 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

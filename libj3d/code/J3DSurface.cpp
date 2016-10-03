@@ -15,7 +15,7 @@
 
 	BASE CLASS = J3DObject
 
-	Copyright © 2005 by John Lindal. All rights reserved.
+	Copyright (C) 2005 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

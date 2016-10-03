@@ -3,7 +3,7 @@
 
 	BASE CLASS = public JXWindowDirector
 
-	Copyright © 2001-04 by John Lindal.  All rights reserved.
+	Copyright (C) 2001-04 by John Lindal.  All rights reserved.
 
  *****************************************************************************/
 

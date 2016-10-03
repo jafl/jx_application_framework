@@ -1,6 +1,6 @@
 %{
 /*
-Copyright © 1998 by Dustin Laurence. All rights reserved.
+Copyright (C) 1998 by Dustin Laurence. All rights reserved.
 
 This scanner reads a C/C++ file and returns CBCScanner::Tokens.
 */

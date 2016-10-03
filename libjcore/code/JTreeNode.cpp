@@ -6,7 +6,7 @@
 	BASE CLASS = JBroadcaster
 	(not virtual since this is root class, and it needs to be lightweight)
 
-	Copyright © 1997 by Glenn W. Bach. All rights reserved.
+	Copyright (C) 1997 by Glenn W. Bach. All rights reserved.
 
  *****************************************************************************/
 

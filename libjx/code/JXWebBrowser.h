@@ -1,7 +1,7 @@
 /******************************************************************************
  JXWebBrowser.h
 
-	Copyright © 2000-2010 by John Lindal. All rights reserved.
+	Copyright (C) 2000-2010 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

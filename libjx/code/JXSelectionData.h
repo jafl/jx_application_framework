@@ -1,7 +1,7 @@
 /******************************************************************************
  JXSelectionData.h
 
-	Copyright © 1996-2005 by John Lindal. All rights reserved.
+	Copyright (C) 1996-2005 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

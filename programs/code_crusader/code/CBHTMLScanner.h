@@ -4,7 +4,7 @@
 /******************************************************************************
  CBHTMLScanner.h
 
-	Copyright © 2001-2007 by John Lindal.  All rights reserved.
+	Copyright (C) 2001-2007 by John Lindal.  All rights reserved.
 
  *****************************************************************************/
 

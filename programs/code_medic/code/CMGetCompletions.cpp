@@ -3,7 +3,7 @@
 
 	BASE CLASS = CMCommand
 
-	Copyright © 1998 by Glenn Bach. All rights reserved.
+	Copyright (C) 1998 by Glenn Bach. All rights reserved.
 
  ******************************************************************************/
 

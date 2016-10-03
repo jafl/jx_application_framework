@@ -3,7 +3,7 @@
 
 	Interface for the GLPolyFitDialog class
 
-	Copyright © 2000 by Glenn Bach. 
+	Copyright (C) 2000 by Glenn Bach. 
 
  ******************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	BASE CLASS = public JPtrArray <GMessageHeader>
 
-	Copyright © 2001 by Glenn W. Bach.  All rights reserved.
+	Copyright (C) 2001 by Glenn W. Bach.  All rights reserved.
 
  *****************************************************************************/
 

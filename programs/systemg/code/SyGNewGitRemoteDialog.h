@@ -1,7 +1,7 @@
 /******************************************************************************
  SyGNewGitRemoteDialog.h
 
-	Copyright © 2014 by John Lindal. All rights reserved.
+	Copyright (C) 2014 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

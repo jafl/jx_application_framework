@@ -1,7 +1,7 @@
 /******************************************************************************
  cmGlobals.h
 
-	Copyright © 1997-02 by Glenn W. Bach. All rights reserved.
+	Copyright (C) 1997-02 by Glenn W. Bach. All rights reserved.
 
  ******************************************************************************/
 

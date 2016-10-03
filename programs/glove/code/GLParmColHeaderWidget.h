@@ -3,7 +3,7 @@
 
 	Interface for the GLParmColHeaderWidget class
 
-	Copyright © 2000 by Glenn W. Bach.  All rights reserved.
+	Copyright (C) 2000 by Glenn W. Bach.  All rights reserved.
 	
  *****************************************************************************/
 

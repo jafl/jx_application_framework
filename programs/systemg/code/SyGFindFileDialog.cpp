@@ -3,7 +3,7 @@
 
 	BASE CLASS = JXWindowDirector, JPrefObject
 
-	Copyright © 1996-2009 by John Lindal. All rights reserved.
+	Copyright (C) 1996-2009 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

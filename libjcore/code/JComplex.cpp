@@ -3,7 +3,7 @@
 
 	Assembled complex number routines.
 
-	Copyright © 1997-99 John Lindal. All rights reserved.
+	Copyright (C) 1997-99 John Lindal. All rights reserved.
 
  ******************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	Access to global objects and factories.
 
-	Copyright © <Year> by <Company>. All rights reserved.
+	Copyright (C) <Year> by <Company>. All rights reserved.
 
  ******************************************************************************/
 

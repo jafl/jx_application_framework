@@ -3,7 +3,7 @@
 
 	This provides a way to test the parsing system and JTextExprRenderer.
 
-	Copyright © 1996 by John Lindal. All rights reserved.
+	Copyright (C) 1996 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

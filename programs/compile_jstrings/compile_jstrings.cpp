@@ -3,7 +3,7 @@
 
 	Program to create a source file from a set of JStringManager data files.
 
-	Copyright © 2000 by John Lindal. All rights reserved.
+	Copyright (C) 2000 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

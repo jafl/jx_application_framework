@@ -3,7 +3,7 @@
 
 	Routines to augment time.c
 
-	Copyright © 2005 John Lindal. All rights reserved.
+	Copyright (C) 2005 John Lindal. All rights reserved.
 
  ******************************************************************************/
 

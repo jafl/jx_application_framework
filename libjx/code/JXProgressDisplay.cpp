@@ -18,7 +18,7 @@
 
 	BASE CLASS = JProgressDisplay, virtual JBroadcaster
 
-	Copyright © 1995 by Glenn W. Bach. All rights reserved.
+	Copyright (C) 1995 by Glenn W. Bach. All rights reserved.
 
  ******************************************************************************/
 

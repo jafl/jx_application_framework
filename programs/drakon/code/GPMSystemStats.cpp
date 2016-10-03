@@ -5,7 +5,7 @@
 
 	BASE CLASS = JXWidget
 
-	Copyright © 2011 by John Lindal. All rights reserved.
+	Copyright (C) 2011 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

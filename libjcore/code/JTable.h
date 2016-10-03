@@ -1,7 +1,7 @@
 /******************************************************************************
  JTable.h
 
-	Copyright © 1996-99 by John Lindal. All rights reserved.
+	Copyright (C) 1996-99 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

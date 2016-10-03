@@ -5,7 +5,7 @@
 	These preprocessor definitions allow them to be included in static
 	menu definitions.
 
-	Copyright © <Year> by <Company>. All rights reserved.
+	Copyright (C) <Year> by <Company>. All rights reserved.
 
  ******************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	PNG functions separated out to allow smarter linking.
 
-	Copyright © 1996-2009 by John Lindal. All rights reserved.
+	Copyright (C) 1996-2009 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

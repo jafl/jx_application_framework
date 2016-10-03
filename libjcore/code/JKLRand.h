@@ -6,7 +6,7 @@
 
     Interface for the JKLRand class.
 
-	Copyright © 1997 Dustin Laurence. All rights reserved.
+	Copyright (C) 1997 Dustin Laurence. All rights reserved.
 
  ******************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	BASE CLASS = public JXNamedTreeListWidget
 
-	Copyright © 2001-11 by John Lindal.  All rights reserved.
+	Copyright (C) 2001-11 by John Lindal.  All rights reserved.
 
  *****************************************************************************/
 

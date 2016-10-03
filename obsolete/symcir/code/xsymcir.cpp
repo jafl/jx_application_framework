@@ -3,7 +3,7 @@
 
 	X Windows interface to the SCCircuit class.
 
-	Copyright © 1996 by John Lindal. All rights reserved.
+	Copyright (C) 1996 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -24,7 +24,7 @@ const JCharacter* kSymcirVersionStr =
 	"\n"
 	"A program for symbolic analysis of linear circuits\n"
 	"\n"
-	"Copyright © 1996-99 California Institute of Technology.\n"
+	"Copyright (C) 1996-99 California Institute of Technology.\n"
 	"Written by John Lindal.\n"
 	"\n"
 	"DO NOT DISTRIBUTE\n"

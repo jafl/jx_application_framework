@@ -1,6 +1,6 @@
 %{
 /*
-Copyright © 2004 by John Lindal. All rights reserved.
+Copyright (C) 2004 by John Lindal. All rights reserved.
 
 This scanner reads a Python file and returns CBPythonScanner::Tokens.
 */

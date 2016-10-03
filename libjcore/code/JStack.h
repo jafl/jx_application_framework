@@ -3,7 +3,7 @@
 
 	Interface for JStack class
 
-	Copyright © 1993-97 John Lindal. All rights reserved.
+	Copyright (C) 1993-97 John Lindal. All rights reserved.
 
  ******************************************************************************/
 

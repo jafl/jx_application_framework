@@ -11,7 +11,7 @@
 
 	BASE CLASS = JProcess
 
-	Copyright © 1999 by John Lindal. All rights reserved.
+	Copyright (C) 1999 by John Lindal. All rights reserved.
 
  *****************************************************************************/
 

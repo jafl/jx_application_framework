@@ -6,7 +6,7 @@
 	IsSilent() indicates whether or not DisplayMessage and ReportError
 	should actually display the message.
 
-	Copyright © 1994-96 by John Lindal. All rights reserved.
+	Copyright (C) 1994-96 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

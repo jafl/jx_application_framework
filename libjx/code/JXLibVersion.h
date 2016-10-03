@@ -3,7 +3,7 @@
 
 	Defines current version of JX library
 
-	Copyright © 1996-2011 by John Lindal. All rights reserved.
+	Copyright (C) 1996-2011 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

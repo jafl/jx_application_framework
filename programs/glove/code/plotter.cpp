@@ -4,7 +4,7 @@
 	This provides a way to test the JX library and provides sample source
 	code for everyone to study.
 
-	Copyright © 1996 by John Lindal. All rights reserved.
+	Copyright (C) 1996 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

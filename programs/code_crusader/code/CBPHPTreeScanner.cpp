@@ -5,7 +5,7 @@
 
 	BASE CLASS = CBPHPTreeFlexLexer
 
-	Copyright © 2014 John Lindal. All rights reserved.
+	Copyright (C) 2014 John Lindal. All rights reserved.
 
  ******************************************************************************/
 

@@ -1,7 +1,7 @@
 /******************************************************************************
  GNBChangeLogText.cc
 
-	Copyright © 1999 by Glenn Bach. All rights reserved.
+	Copyright (C) 1999 by Glenn Bach. All rights reserved.
 
  ******************************************************************************/
 

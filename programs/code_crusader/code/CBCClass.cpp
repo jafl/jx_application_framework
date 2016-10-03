@@ -3,7 +3,7 @@
 
 	BASE CLASS = CBClass
 
-	Copyright © 1996-99 John Lindal. All rights reserved.
+	Copyright (C) 1996-99 John Lindal. All rights reserved.
 
  ******************************************************************************/
 

@@ -5,7 +5,7 @@
 
 	BASE CLASS = CMDisplaySourceForMain
 
-	Copyright © 2016 by John Lindal. All rights reserved.
+	Copyright (C) 2016 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

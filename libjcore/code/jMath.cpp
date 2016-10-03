@@ -3,7 +3,7 @@
 
 	Assembled floating point routines.
 
-	Copyright © 1992-99 John Lindal. All rights reserved.
+	Copyright (C) 1992-99 John Lindal. All rights reserved.
 
  ******************************************************************************/
 

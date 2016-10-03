@@ -1,7 +1,7 @@
 /******************************************************************************
  GDBPlot2DCommand.h
 
-	Copyright © 2009 by John Lindal. All rights reserved.
+	Copyright (C) 2009 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

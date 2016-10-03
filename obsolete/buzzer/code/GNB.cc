@@ -1,7 +1,7 @@
 /******************************************************************************
  GNB.cc
  
-	Copyright © 1999 by Glenn W. Bach.  All rights reserved.
+	Copyright (C) 1999 by Glenn W. Bach.  All rights reserved.
 
  ******************************************************************************/
 
@@ -26,7 +26,7 @@ const JCharacter* kNotebookVersionStr =
 	"\n"
 	"An electronic notebook and to-do list program.\n"
 	"\n"
-	"Copyright © 2000-2003 by Glenn Bach.\n"
+	"Copyright (C) 2000-2003 by Glenn Bach.\n"
 	"\n"
 	"http://www.newplanetsoftware.com/notebook/\n";
 

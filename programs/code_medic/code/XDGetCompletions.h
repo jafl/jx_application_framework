@@ -1,7 +1,7 @@
 /******************************************************************************
  XDGetCompletions.h
 
-	Copyright © 2007 by Glenn Bach. All rights reserved.
+	Copyright (C) 2007 by Glenn Bach. All rights reserved.
 
  ******************************************************************************/
 

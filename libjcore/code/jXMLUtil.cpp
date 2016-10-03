@@ -3,7 +3,7 @@
 
 	Utilities built on top of libxml2.
 
-	Copyright © 2009 by John Lindal. All rights reserved.
+	Copyright (C) 2009 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

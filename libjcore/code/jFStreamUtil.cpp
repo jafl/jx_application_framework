@@ -3,7 +3,7 @@
 
 	Useful functions for dealing with fstreams.
 
-	Copyright © 1994 by John Lindal. All rights reserved.
+	Copyright (C) 1994 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

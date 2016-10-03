@@ -3,7 +3,7 @@
 
 	Interface for JArcTangent class.
 
-	Copyright © 1995 by John Lindal. All rights reserved.
+	Copyright (C) 1995 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

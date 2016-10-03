@@ -5,7 +5,7 @@
 
 	BASE CLASS = JNamedTreeNode
 
-	Copyright © 2001 by John Lindal. All rights reserved.
+	Copyright (C) 2001 by John Lindal. All rights reserved.
 
  *****************************************************************************/
 

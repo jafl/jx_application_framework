@@ -3,7 +3,7 @@
 
 	Stream operators and utilities for SCComponentType type.
 
-	Copyright © 1995 by John Lindal. All rights reserved.
+	Copyright (C) 1995 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

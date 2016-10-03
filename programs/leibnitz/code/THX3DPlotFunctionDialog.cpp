@@ -3,7 +3,7 @@
 
 	BASE CLASS = JXDialogDirector
 
-	Copyright © 1998-2005 by John Lindal. All rights reserved.
+	Copyright (C) 1998-2005 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

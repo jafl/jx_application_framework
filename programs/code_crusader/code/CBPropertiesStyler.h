@@ -1,7 +1,7 @@
 /******************************************************************************
  CBPropertiesStyler.h
 
-	Copyright © 2015 by John Lindal. All rights reserved.
+	Copyright (C) 2015 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

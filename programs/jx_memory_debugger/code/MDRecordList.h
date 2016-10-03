@@ -1,7 +1,7 @@
 /******************************************************************************
  MDRecordList.h
 
-	Copyright © 2010 by John Lindal.  All rights reserved.
+	Copyright (C) 2010 by John Lindal.  All rights reserved.
 
  *****************************************************************************/
 

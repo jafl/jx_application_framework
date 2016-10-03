@@ -3,7 +3,7 @@
 
 	Interface for the JXComposeScanner class.
 
-	Copyright © 1999 by John Lindal.  All rights reserved.
+	Copyright (C) 1999 by John Lindal.  All rights reserved.
 
  *****************************************************************************/
 

@@ -3,7 +3,7 @@
 
 	Interface for the GNetDebugDir class
 
-	Copyright © 1997 by Glenn Bach.
+	Copyright (C) 1997 by Glenn Bach.
 	This code may be freely distributed, used, and modified without restriction.
 
  ******************************************************************************/

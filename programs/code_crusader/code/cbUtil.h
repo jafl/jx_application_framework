@@ -1,7 +1,7 @@
 /******************************************************************************
  cbUtil.h
 
-	Copyright © 2006 by John Lindal. All rights reserved.
+	Copyright (C) 2006 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

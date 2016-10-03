@@ -72,7 +72,7 @@
 
 	BASE CLASS = JProcess, ACE_Event_Handler
 
-	Copyright © 1997 by John Lindal. All rights reserved.
+	Copyright (C) 1997 by John Lindal. All rights reserved.
 
  *****************************************************************************/
 

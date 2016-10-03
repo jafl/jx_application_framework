@@ -3,7 +3,7 @@
 
 	BASE CLASS = CMGetStack
 
-	Copyright © 2001-09 by John Lindal. All rights reserved.
+	Copyright (C) 2001-09 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

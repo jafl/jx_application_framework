@@ -80,7 +80,7 @@
 
 	BASE CLASS = JCollection
 
-	Copyright © 1993-98 John Lindal. All rights reserved.
+	Copyright (C) 1993-98 John Lindal. All rights reserved.
 
  ******************************************************************************/
 

@@ -5,7 +5,7 @@
 
 	BASE CLASS = JValueTableData<JArray<JFloat>,JFloat>
 
-	Copyright © 1996 John Lindal. All rights reserved.
+	Copyright (C) 1996 John Lindal. All rights reserved.
 
  ******************************************************************************/
 

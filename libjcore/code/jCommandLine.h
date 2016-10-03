@@ -3,7 +3,7 @@
 
 	Interface for jCommandLine.cc
 
-	Copyright © 1994-99 by John Lindal. All rights reserved.
+	Copyright (C) 1994-99 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

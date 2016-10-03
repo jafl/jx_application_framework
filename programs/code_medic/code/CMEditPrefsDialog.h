@@ -1,7 +1,7 @@
 /******************************************************************************
  CMEditPrefsDialog.h
 
-	Copyright © 2001-10 by John Lindal. All rights reserved.
+	Copyright (C) 2001-10 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

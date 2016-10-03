@@ -3,7 +3,7 @@
 
 	BASE CLASS = public JXApplication
 
-	Copyright © <Year> by <Company>. All rights reserved.
+	Copyright (C) <Year> by <Company>. All rights reserved.
 
  *****************************************************************************/
 

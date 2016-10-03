@@ -3,7 +3,7 @@
 
 	Interface for the CBKeyScriptTableBase class
 
-	Copyright © 1998 by John Lindal. All rights reserved.
+	Copyright (C) 1998 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

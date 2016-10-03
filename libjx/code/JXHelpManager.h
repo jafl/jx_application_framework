@@ -1,7 +1,7 @@
 /******************************************************************************
  JXHelpManager.h
 
-	Copyright © 1997-2007 by John Lindal. All rights reserved.
+	Copyright (C) 1997-2007 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

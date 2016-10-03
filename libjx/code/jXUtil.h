@@ -1,7 +1,7 @@
 /******************************************************************************
  jXUtil.h
 
-	Copyright © 1996-98 by John Lindal. All rights reserved.
+	Copyright (C) 1996-98 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

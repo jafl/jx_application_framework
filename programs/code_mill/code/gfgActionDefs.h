@@ -5,7 +5,7 @@
 	These preprocessor definitions allow them to be included in static
 	menu definitions.
 
-	Copyright © 2002 by New Planet Software. All rights reserved.
+	Copyright (C) 2002 by New Planet Software. All rights reserved.
 
  ******************************************************************************/
 

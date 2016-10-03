@@ -3,7 +3,7 @@
 
 	Routines for creating child processes.
 
-	Copyright © 1997-2005 John Lindal. All rights reserved.
+	Copyright (C) 1997-2005 John Lindal. All rights reserved.
 
  ******************************************************************************/
 

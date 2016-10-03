@@ -3,7 +3,7 @@
 
 	Defines current version of J2DPlot library
 
-	Copyright © 1999-2010 by John Lindal. All rights reserved.
+	Copyright (C) 1999-2010 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

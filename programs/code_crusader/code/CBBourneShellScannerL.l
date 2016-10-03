@@ -1,6 +1,6 @@
 %{
 /*
-Copyright © 2001 by John Lindal. All rights reserved.
+Copyright (C) 2001 by John Lindal. All rights reserved.
 
 This scanner reads a bash file and returns CBBourneShellScanner::Tokens.
 */

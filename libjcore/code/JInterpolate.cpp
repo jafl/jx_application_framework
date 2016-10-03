@@ -19,8 +19,8 @@
 
 	BASE CLASS = public JSubstitute
 
-	Copyright © 1998 by Dustin Laurence.  All rights reserved.
-	Copyright © 2005 by John Lindal.  All rights reserved.
+	Copyright (C) 1998 by Dustin Laurence.  All rights reserved.
+	Copyright (C) 2005 by John Lindal.  All rights reserved.
 
  *****************************************************************************/
 

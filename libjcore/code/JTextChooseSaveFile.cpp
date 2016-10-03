@@ -8,7 +8,7 @@
 		the line with an exclamation point.  Never call JTextChooseSaveFile
 		objects while in suid root mode.
 
-	Copyright © 1994-98 by John Lindal. All rights reserved.
+	Copyright (C) 1994-98 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

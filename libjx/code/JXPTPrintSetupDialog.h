@@ -3,7 +3,7 @@
 
 	Interface for the JXPTPrintSetupDialog class
 
-	Copyright © 1999 by John Lindal. All rights reserved.
+	Copyright (C) 1999 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

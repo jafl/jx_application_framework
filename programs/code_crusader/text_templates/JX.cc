@@ -5,7 +5,7 @@
 
 	BASE CLASS = _BASE_
 
-	Copyright © _YEAR_ by _AUTHOR_.  All rights reserved.
+	Copyright (C) _YEAR_ by _AUTHOR_.  All rights reserved.
 
  *****************************************************************************/
 

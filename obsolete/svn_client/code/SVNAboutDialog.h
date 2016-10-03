@@ -1,7 +1,7 @@
 /******************************************************************************
  SVNAboutDialog.h
 
-	Copyright © 2008 by John Lindal. All rights reserved.
+	Copyright (C) 2008 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

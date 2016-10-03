@@ -5,7 +5,7 @@
 
 	BASE CLASS = JAuxTableData<JBoolean>
 
-	Copyright © 1997 by John Lindal & Glenn Bach. All rights reserved.
+	Copyright (C) 1997 by John Lindal & Glenn Bach. All rights reserved.
 
  ******************************************************************************/
 

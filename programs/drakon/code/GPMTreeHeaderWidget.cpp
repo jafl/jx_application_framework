@@ -3,7 +3,7 @@
 
 	BASE CLASS = JXColHeaderWidget
 
-	Copyright © 2006 by John Lindal.  All rights reserved.
+	Copyright (C) 2006 by John Lindal.  All rights reserved.
 
  *****************************************************************************/
 

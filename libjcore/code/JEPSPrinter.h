@@ -3,7 +3,7 @@
 
 	Interface for the JEPSPrinter class
 
-	Copyright © 1997-99 by John Lindal. All rights reserved.
+	Copyright (C) 1997-99 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

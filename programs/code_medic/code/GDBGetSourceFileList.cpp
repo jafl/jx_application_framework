@@ -6,7 +6,7 @@
 	We do not use -file-list-exec-source-files because it generates much
 	more data and the output takes too long to parse.
 
-	Copyright © 2001-10 by John Lindal.  All rights reserved.
+	Copyright (C) 2001-10 by John Lindal.  All rights reserved.
 
  ******************************************************************************/
 

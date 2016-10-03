@@ -3,7 +3,7 @@
 
 	Interface for the JDirEntry class
 
-	Copyright © 1996 by Glenn W. Bach. All rights reserved.
+	Copyright (C) 1996 by Glenn W. Bach. All rights reserved.
 
  ******************************************************************************/
 

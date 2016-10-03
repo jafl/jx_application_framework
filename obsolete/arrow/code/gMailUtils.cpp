@@ -1,7 +1,7 @@
 /******************************************************************************
  gMailUtils.cc
 
-	Copyright © 1997 by Glenn W. Bach.  All rights reserved.
+	Copyright (C) 1997 by Glenn W. Bach.  All rights reserved.
 
  *****************************************************************************/
 

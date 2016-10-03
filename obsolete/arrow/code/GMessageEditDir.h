@@ -3,7 +3,7 @@
 
 	Interface for the GMessageEditDir class
 
-	Copyright © 1997 by Glenn Bach.
+	Copyright (C) 1997 by Glenn Bach.
 
  ******************************************************************************/
 

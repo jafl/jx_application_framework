@@ -3,7 +3,7 @@
 
 	Provides unique point of definition of messages for JOrderedSet<T>.
 
-	Copyright © 1996 by John Lindal. All rights reserved.
+	Copyright (C) 1996 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

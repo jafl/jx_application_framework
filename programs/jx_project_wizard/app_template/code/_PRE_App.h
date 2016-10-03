@@ -1,7 +1,7 @@
 /******************************************************************************
  <PRE>App.h
 
-	Copyright © <Year> by <Company>. All rights reserved.
+	Copyright (C) <Year> by <Company>. All rights reserved.
 
  *****************************************************************************/
 

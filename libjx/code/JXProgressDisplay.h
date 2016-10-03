@@ -3,7 +3,7 @@
 
   Interface for the JXProgressDisplay class.
 
-  Copyright © 1995 by Glenn W. Bach. All rights reserved.
+  Copyright (C) 1995 by Glenn W. Bach. All rights reserved.
 
  ******************************************************************************/
 

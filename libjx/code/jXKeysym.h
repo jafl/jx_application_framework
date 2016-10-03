@@ -3,7 +3,7 @@
 
 	Defines X keysym's that are not in X11R5
 
-	Copyright © 1997 by John Lindal. All rights reserved.
+	Copyright (C) 1997 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

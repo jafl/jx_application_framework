@@ -4,7 +4,7 @@
 	Windows System routines to do what fstreams ought to be able to do
 	in the first place.
 
-	Copyright © 2005 by John Lindal. All rights reserved.
+	Copyright (C) 2005 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 

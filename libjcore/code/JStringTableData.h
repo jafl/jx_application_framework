@@ -3,7 +3,7 @@
 
 	Interface for the JStringTableData class
 
-	Copyright © 1996 John Lindal. All rights reserved.
+	Copyright (C) 1996 John Lindal. All rights reserved.
 
  ******************************************************************************/
 
