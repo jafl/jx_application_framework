@@ -72,21 +72,6 @@ JAuxTableData<T>::JAuxTableData
 	JAuxTableDataX(table);
 }
 
-#ifdef _MSC_VER
-
-template <class T>
-JAuxTableData<T>::JAuxTableData
-	(
-	const JAuxTableData<T>& source
-	)
-	:
-	JPackedTableData<T>(source)
-{
-	assert( 0 /* only exists to keep Visual C++ happy */ );
-}
-
-#endif
-
 /******************************************************************************
  Destructor
 

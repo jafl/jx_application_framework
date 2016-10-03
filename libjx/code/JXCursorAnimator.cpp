@@ -99,10 +99,6 @@ JXCursorAnimator::NextFrame()
 
  ******************************************************************************/
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4305 4309 )
-#endif
-
 static const JCharacter* kBeachballFrameName[] =
 {
 	"JXBeachballFrame1", "JXBeachballFrame2",

@@ -39,10 +39,6 @@ JXGetInvisibleCursor
 
  ******************************************************************************/
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4305 4309 )
-#endif
-
 static const JCharacter* kHandCursorName = "JXHand";
 
 #include <jx_hand_cursor.xbm>

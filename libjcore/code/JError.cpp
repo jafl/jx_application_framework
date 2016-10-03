@@ -131,11 +131,7 @@ JError::operator=
 		return *this;
 		}
 
-	#ifdef _MSC_VER
-	Message::operator=(source);
-	#else
 	JBroadcaster::Message::operator=(source);
-	#endif
 
 	if (source.itsDMessage != NULL && itsDMessage != NULL)
 		{

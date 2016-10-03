@@ -1254,10 +1254,6 @@ JXScrollbar::HandleActionMenu
 
  ******************************************************************************/
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4305 4309 )
-#endif
-
 static const JCharacter* kSpeedScrollCursorName = "JXScrollbar::SpeedScroll";
 
 #include <jx_speed_scroll_cursor.xbm>

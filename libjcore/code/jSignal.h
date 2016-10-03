@@ -13,23 +13,6 @@
 #include <signal.h>
 #include <jMissingProto.h>
 
-#ifdef _MSC_VER
-#define SIGHUP  0
-#define SIGQUIT 0
-#define SIGKILL 0
-#define SIGPIPE	0
-#define SIGALRM	0
-#define SIGSTOP	0
-#define SIGCONT 0
-#define SIGBUS  0
-#define SIGUSR1	0
-#define SIGUSR2	0
-#define SIGCHLD	0
-#define SIGTSTP	0
-#define SIGTTIN	0
-#define SIGTTOU	0
-#endif
-
 #ifdef __cplusplus
 extern "C" {
 #endif

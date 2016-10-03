@@ -12,13 +12,7 @@
 
 #include <JStdError.h>
 #include <time.h>
-
-#if defined _MSC_VER
-	#include <unistd.h>
-#else
-	#include <sys/types.h>
-#endif
-
+#include <sys/types.h>
 #include <sys/stat.h>
 #include <ace/Default_Constants.h>
 #include <jFileUtil.h>	// for convenience

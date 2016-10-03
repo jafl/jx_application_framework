@@ -17,7 +17,7 @@
 inline int
 jerrno()
 {
-	#if defined __GNUG__ || defined _MSC_VER
+	#if defined __GNUG__
 		return errno;
 	#else
 		figure out what to do!
@@ -30,7 +30,7 @@ jset_errno
 	const int err
 	)
 {
-	#if defined __GNUG__ || defined _MSC_VER
+	#if defined __GNUG__
 		errno = err;
 	#else
 		figure out what to do!
@@ -40,7 +40,7 @@ jset_errno
 inline void
 jclear_errno()
 {
-	#if defined __GNUG__ || defined _MSC_VER
+	#if defined __GNUG__
 		errno = 0;
 	#else
 		figure out what to do!

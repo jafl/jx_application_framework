@@ -28,10 +28,6 @@ using std::ws;
 #define NULL	0L
 #endif
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4786 4660 4661 )
-#endif
-
 	// general types
 
 typedef char								JCharacter;
@@ -328,17 +324,6 @@ typedef  JWord JDualHashValue;
  ******************************************************************************/
 
 #if defined __GNUG__
-
-	using std::ios_base;
-	using std::streampos;
-	using std::streamoff;
-
-	typedef ios_base::openmode JFStreamOpenMode;
-	typedef ios_base::seekdir  JIOStreamSeekDir;
-
-	const JFStreamOpenMode kJBinaryModifier = ios_base::binary;
-
-#elif defined _MSC_VER
 
 	using std::ios_base;
 	using std::streampos;

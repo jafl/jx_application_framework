@@ -145,10 +145,6 @@ JXDisplay::Create
 
  ******************************************************************************/
 
-#ifdef _MSC_VER
-#pragma warning ( disable : 4355 )
-#endif
-
 JXDisplay::JXDisplay
 	(
 	const JCharacter*	displayName,

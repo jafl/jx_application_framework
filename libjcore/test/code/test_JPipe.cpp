@@ -32,11 +32,8 @@ main
 	cout << "current dir: " << dir << endl;
 
 	// test input pipe
-#ifdef _MSC_VER
-	JString cmd = "c:\\windows\\system32\\cmd.exe /c dir " + JPrepArgForExec(dir);
-#else
+
 	JString cmd = "ls -l " + JPrepArgForExec(dir);
-#endif
 
 	cout << endl;
 	cout << "Here is what is in your current directory:" << endl;
@@ -97,11 +94,8 @@ main
 	cout << "Contents of " << kFileName << ':' << endl;
 	cout << endl;
 
-#ifdef _MSC_VER
-	cmd = "c:\\windows\\system32\\cmd.exe /c type " + JPrepArgForExec(kFileName);
-#else
 	cmd = "cat " + JPrepArgForExec(kFileName);
-#endif
+
 	err = JExecute(cmd, NULL);
 	if (!err.OK())
 		{

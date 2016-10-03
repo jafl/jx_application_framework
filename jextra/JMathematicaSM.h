@@ -12,11 +12,7 @@
 
 #include <JSymbolicMath.h>
 
-#if __MWERKS__
-	#define MACINTOSH_MATHLINK 1
-#elif defined _MSC_VER
-	#define WINDOWS_MATHLINK 1
-#elif defined _J_UNIX
+#if defined _J_UNIX
 	#define UNIX_MATHLINK 1
 #else
 	figure out what to do!

@@ -65,17 +65,6 @@ JMathematicaSM::Create
 		argv[1] = "-linkname";
 		argv[2] = "math -mathlink";
 
-	#elif defined _MSC_VER
-
-		// Having to hard-code the path is evil!
-
-		const int argc = 3;
-		char* argv[argc];
-		argv[0] = "dummy";
-		argv[1] = "-linkname";
-		argv[2] = "C:/Program Files/Wolfram Research/Mathematica/3.0/MathKernel";
-//		argv[2] = "math -mathlink";
-
 	#else
 
 		figure out what to do!

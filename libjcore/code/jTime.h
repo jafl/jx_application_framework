@@ -17,8 +17,6 @@
 	#define J_TIME_T_MAX LONG_MAX
 #elif defined _J_UNIX && SIZEOF_INT == 4
 	#define J_TIME_T_MAX INT_MAX
-#elif defined _MSC_VER && SIZEOF_LONG == 4
-	#define J_TIME_T_MAX LONG_MAX
 #else
 	figure out what to do!
 #endif
