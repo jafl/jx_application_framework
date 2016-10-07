@@ -9,7 +9,6 @@
 
  *****************************************************************************/
 
-#include <<pre>StdInc.h>
 #include "<PRE>MDIServer.h"
 #include "<pre>Globals.h"
 #include <jAssert.h>

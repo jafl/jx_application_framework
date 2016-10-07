@@ -34,7 +34,6 @@ LDFLAGS   := ${J_SHARED_LIB_LINK_OPTION}
 #####
 
 LIB_NAME_ROOT := libjfs-${JFS_LIB_VERSION}
-OTHER_DEPS    := 
 include ${JX_ROOT}/include/make/default_lib_target
 
 .PHONY : Makefiles

@@ -51,11 +51,7 @@ TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR} ${JFSLIBDIR}
 
 # library dependencies
 
-ifdef J_BUILD_SHARED_LIB
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
-              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
-              ${JLIBDIR}/libjfs-${JFS_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} 
-else
+ifndef J_BUILD_SHARED_LIB
   LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
               ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a \
               ${JLIBDIR}/libjfs-${JFS_LIB_VERSION}.a 
@@ -102,7 +98,7 @@ systemg:: strings
 
 .PHONY : menu_strings
 menu_strings:
-	@${JX_ROOT}/lib/util/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
+	@${JX_ROOT}/bin/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
      -a ${CODEDIR}/SyGActionDefs.h ${JXDIR}/jXActionDefs.h ${JXDIR}/JXTEBase.cpp \
      -m ${CODEDIR}/*.cpp ${JXDIR}/*.cpp ${JFSDIR}/*.cpp
 

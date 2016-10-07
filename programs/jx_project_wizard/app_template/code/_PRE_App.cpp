@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <<pre>StdInc.h>
 #include "<PRE>App.h"
 #include "<PRE>AboutDialog.h"
 #include "<pre>StringData.h"

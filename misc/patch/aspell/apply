@@ -1,3 +1,0 @@
-#!/bin/sh
-
-cp ./patch/aspell/aspell.h ./aspell-0.60.6.1/interfaces/cc;

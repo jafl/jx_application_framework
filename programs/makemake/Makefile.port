@@ -36,7 +36,7 @@ LDFLAGS   :=
 #
 
 .PHONY : jxinstall
-jxinstall: regex makemake
+jxinstall: makemake
 	@strip ${call EXE, makemake}
 	@cp makemake ${JX_INSTALL_ROOT}/
 
@@ -57,21 +57,11 @@ jxinstall: regex makemake
          } \
      fi
 
-#
-# libraries we have eaten
-#
-
-.PHONY : regex
-regex:
-	@cd ${PCREDIR}; \
-     if ! test -e Makefile; then ${CONFIGURE_PCRE}; fi; \
-     ${BUILD_PCRE}
-
 
 # This is what makemake added
 
 
 # makemake
 
-makemake : ${CODEDIR}/makemake.o ${JCOREDIR}/JBroadcaster.o ${JCOREDIR}/JCollection.o ${JCOREDIR}/JContainer.o ${JCOREDIR}/JProbDistr.o ${JCOREDIR}/JOrderedSetT.o ${JCOREDIR}/JOrderedSetUtil.o ${JCOREDIR}/JString.o ${JCOREDIR}/JIndexRange.o ${JCOREDIR}/JSubstitute.o ${JCOREDIR}/jCommandLine.o ${JCOREDIR}/JBooleanIO.o ${JCOREDIR}/jStreamUtil.o ${JCOREDIR}/jStreamUtil_UNIX.o ${JCOREDIR}/jFStreamUtil.o ${JCOREDIR}/jFStreamUtil_UNIX.o ${JCOREDIR}/jFileUtil.o ${JCOREDIR}/jFileUtil_UNIX.o ${JCOREDIR}/jDirUtil.o ${JCOREDIR}/jDirUtil_UNIX.o ${JCOREDIR}/jMountUtil_UNIX.o ${JCOREDIR}/jSysUtil_UNIX.o ${JCOREDIR}/jVCSUtil.o ${JCOREDIR}/jXMLUtil.o ${JCOREDIR}/JKLRand.o ${JCOREDIR}/JError.o ${JCOREDIR}/JStdError.o ${JCOREDIR}/JRTTIBase.o ${JCOREDIR}/JProgressDisplay.o ${JCOREDIR}/jMemory.o ${JCOREDIR}/jMath.o ${JCOREDIR}/jTime.o ${JCOREDIR}/jTime_UNIX.o ${JCOREDIR}/jAssert.o ${JCOREDIR}/JAssertBase.o ${JCOREDIR}/jGlobals.o ${JCOREDIR}/jGlobals_UNIX.o ${JCOREDIR}/JUserNotification.o ${JCOREDIR}/JTextUserNotification.o ${JCOREDIR}/JChooseSaveFile.o ${JCOREDIR}/JTextChooseSaveFile.o ${JCOREDIR}/JCreateProgressDisplay.o ${JCOREDIR}/JCreateTextPG.o ${JCOREDIR}/JProgressDisplay.o ${JCOREDIR}/JTextProgressDisplay.o ${JCOREDIR}/JLatentPG.o ${JCOREDIR}/JProcess.o ${JCOREDIR}/JProcessError.o ${JCOREDIR}/JThisProcess.o ${JCOREDIR}/JSimpleProcess.o ${JCOREDIR}/jProcessUtil.o ${JCOREDIR}/jProcessUtil_UNIX.o ${JCOREDIR}/jSignal.o ${JCOREDIR}/JDirInfo.o ${JCOREDIR}/JDirInfo_UNIX.o ${JCOREDIR}/JDirEntry.o ${JCOREDIR}/JStringManager.o ${JCOREDIR}/JPtrArray-JString.o ${JCOREDIR}/JACETemplates.o ${JCOREDIR}/JRegex.o ${JCOREDIR}/JInterpolate.o ${JCOREDIR}/jHashFunctions.o ${JCOREDIR}/jNew.o ${JCOREDIR}/JMemoryManager.o ${JCOREDIR}/JMMTable.o ${JCOREDIR}/JMMArrayTable.o ${JCOREDIR}/JMMHashTable.o ${JCOREDIR}/JMMMonitor.o ${JCOREDIR}/JMMErrorPrinter.o ${JCOREDIR}/JMMDebugErrorStream.o ${JCOREDIR}/JMMRecord.o ${PCREDIR}/pcre_byte_order.o ${PCREDIR}/pcre_chartables.o ${PCREDIR}/pcre_compile.o ${PCREDIR}/pcre_config.o ${PCREDIR}/pcre_dfa_exec.o ${PCREDIR}/pcre_exec.o ${PCREDIR}/pcre_fullinfo.o ${PCREDIR}/pcre_get.o ${PCREDIR}/pcre_globals.o ${PCREDIR}/pcre_jit_compile.o ${PCREDIR}/pcre_maketables.o ${PCREDIR}/pcre_newline.o ${PCREDIR}/pcre_ord2utf8.o ${PCREDIR}/pcre_refcount.o ${PCREDIR}/pcre_study.o ${PCREDIR}/pcre_tables.o ${PCREDIR}/pcre_ucd.o ${PCREDIR}/pcre_valid_utf8.o ${PCREDIR}/pcre_version.o ${PCREDIR}/pcre_xclass.o
+makemake : ${CODEDIR}/makemake.o ${JCOREDIR}/JBroadcaster.o ${JCOREDIR}/JCollection.o ${JCOREDIR}/JContainer.o ${JCOREDIR}/JProbDistr.o ${JCOREDIR}/JOrderedSetT.o ${JCOREDIR}/JOrderedSetUtil.o ${JCOREDIR}/JString.o ${JCOREDIR}/JIndexRange.o ${JCOREDIR}/JSubstitute.o ${JCOREDIR}/jCommandLine.o ${JCOREDIR}/JBooleanIO.o ${JCOREDIR}/jStreamUtil.o ${JCOREDIR}/jStreamUtil_UNIX.o ${JCOREDIR}/jFStreamUtil.o ${JCOREDIR}/jFStreamUtil_UNIX.o ${JCOREDIR}/jFileUtil.o ${JCOREDIR}/jFileUtil_UNIX.o ${JCOREDIR}/jDirUtil.o ${JCOREDIR}/jDirUtil_UNIX.o ${JCOREDIR}/jMountUtil_UNIX.o ${JCOREDIR}/jSysUtil_UNIX.o ${JCOREDIR}/jVCSUtil.o ${JCOREDIR}/jXMLUtil.o ${JCOREDIR}/JKLRand.o ${JCOREDIR}/JError.o ${JCOREDIR}/JStdError.o ${JCOREDIR}/JRTTIBase.o ${JCOREDIR}/JProgressDisplay.o ${JCOREDIR}/jMemory.o ${JCOREDIR}/jMath.o ${JCOREDIR}/jTime.o ${JCOREDIR}/jTime_UNIX.o ${JCOREDIR}/jAssert.o ${JCOREDIR}/JAssertBase.o ${JCOREDIR}/jGlobals.o ${JCOREDIR}/jGlobals_UNIX.o ${JCOREDIR}/JUserNotification.o ${JCOREDIR}/JTextUserNotification.o ${JCOREDIR}/JChooseSaveFile.o ${JCOREDIR}/JTextChooseSaveFile.o ${JCOREDIR}/JCreateProgressDisplay.o ${JCOREDIR}/JCreateTextPG.o ${JCOREDIR}/JProgressDisplay.o ${JCOREDIR}/JTextProgressDisplay.o ${JCOREDIR}/JLatentPG.o ${JCOREDIR}/JProcess.o ${JCOREDIR}/JProcessError.o ${JCOREDIR}/JThisProcess.o ${JCOREDIR}/JSimpleProcess.o ${JCOREDIR}/jProcessUtil.o ${JCOREDIR}/jProcessUtil_UNIX.o ${JCOREDIR}/jSignal.o ${JCOREDIR}/JDirInfo.o ${JCOREDIR}/JDirInfo_UNIX.o ${JCOREDIR}/JDirEntry.o ${JCOREDIR}/JStringManager.o ${JCOREDIR}/JPtrArray-JString.o ${JCOREDIR}/JACETemplates.o ${JCOREDIR}/JRegex.o ${JCOREDIR}/JInterpolate.o ${JCOREDIR}/jHashFunctions.o ${JCOREDIR}/jNew.o ${JCOREDIR}/JMemoryManager.o ${JCOREDIR}/JMMTable.o ${JCOREDIR}/JMMArrayTable.o ${JCOREDIR}/JMMHashTable.o ${JCOREDIR}/JMMMonitor.o ${JCOREDIR}/JMMErrorPrinter.o ${JCOREDIR}/JMMDebugErrorStream.o ${JCOREDIR}/JMMRecord.o
 	${LINKER} ${LDFLAGS} -o $@ ${filter-out %.a %.so, $^} ${LOADLIBES}

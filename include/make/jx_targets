@@ -46,7 +46,7 @@ ifdef MENU_STRINGS_FILE
 endif
 
 ifdef DOC_NAME
-	@${JX_ROOT}/lib/util/jxhelp2html \
+	@${JX_ROOT}/bin/jxhelp2html \
          "${DOC_NAME}" strings ${DOC_HEADER} ${PKG_PATH}/docs_HTML; \
      cp ${PKG_PATH}/docs_HTML/ChangeLog.html ./; \
      ${JX_ROOT}/lib/util/fix_change_log ChangeLog.html

@@ -1,0 +1,58 @@
+#!/bin/bash
+
+if [[ `uname` == Darwin ]]; then
+
+	# MacOS - must be first, becase apt exists
+
+	if ! which brew; then
+		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)";
+	fi
+
+	brew install coreutils ace icu4c pcre;
+
+	if test ! -L ACE/ACE_wrappers; then
+		ln -s /usr/local/include ACE/ACE_wrappers;
+	fi
+
+else if which apt; then
+
+	# debian
+
+	sudo apt-get update
+	sudo apt-get install curl \
+		git g++ flex bison make lldb \
+		libx11-dev libxinerama-dev libxpm-dev libxft-dev \
+			libxmu-dev libxi-dev \
+		libxml2-dev libjpeg-dev libpng-dev \
+		libace-dev libicu-dev libpcre3-dev \
+		llvm automake xutils-dev libx11-xcb-dev \
+		libxcb-dri2-0-dev libxcb-xfixes0-dev \
+		x11proto-gl-dev libdrm-dev \
+		aspell libforms-bin
+
+	if test ! -L ACE/ACE_wrappers; then
+		ln -s /usr/include ACE/ACE_wrappers;
+	fi
+
+else if which dnf; then
+
+	# redhat
+
+	sudo dnf install which sudo perl python-libxml2 \
+		git gcc-c++ flex bison lldb rpm-build \
+		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
+			libXmu-devel libXi-devel \
+		libxml2-devel libjpeg-devel libpng-devel \
+		libicu-devel pcre-devel \
+		llvm-devel imake libtool  xorg-x11-proto-devel libdrm-devel \
+		xorg-x11-server-devel libXdamage-devel expat-devel \
+		aspell aspell-en xforms-devel
+
+else
+
+	echo "Unrecognized system!  Please refer to the INSTALL file";
+	exit 1;
+
+fi
+fi
+fi

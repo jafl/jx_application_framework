@@ -135,31 +135,11 @@ public:
 			FileIsNotGIF(const JCharacter* fileName);
 		};
 
-	class GIFNotAvailable : public JError
-		{
-		public:
-
-			GIFNotAvailable()
-				:
-				JError(kGIFNotAvailable)
-			{ };
-		};
-
 	class FileIsNotPNG : public JError
 		{
 		public:
 
 			FileIsNotPNG(const JCharacter* fileName);
-		};
-
-	class PNGNotAvailable : public JError
-		{
-		public:
-
-			PNGNotAvailable()
-				:
-				JError(kPNGNotAvailable)
-			{ };
 		};
 
 	class FileIsNotJPEG : public JError
@@ -169,31 +149,11 @@ public:
 			FileIsNotJPEG(const JCharacter* fileName);
 		};
 
-	class JPEGNotAvailable : public JError
-		{
-		public:
-
-			JPEGNotAvailable()
-				:
-				JError(kJPEGNotAvailable)
-			{ };
-		};
-
 	class FileIsNotXPM : public JError
 		{
 		public:
 
 			FileIsNotXPM(const JCharacter* fileName);
-		};
-
-	class XPMNotAvailable : public JError
-		{
-		public:
-
-			XPMNotAvailable()
-				:
-				JError(kXPMNotAvailable)
-			{ };
 		};
 
 	class FileIsNotXBM : public JError

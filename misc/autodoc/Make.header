@@ -5,7 +5,7 @@
 
 JX_ROOT := ../..
 
-CODEDIR  := ./code
+CODEDIR  := .
 JCOREDIR := ${JX_ROOT}/include/jcore
 
 JLIBDIR     := ${JX_ROOT}/lib
@@ -16,48 +16,41 @@ JCORELIBDIR := ${JX_ROOT}/libjcore
 SEARCHDIRS := -I${CODEDIR} \
               -I${JCOREDIR}
 
-# other constants
-
-PROG_LIST := client server evt_client evt_server
-
 # makemake variables
 
 include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
-               -g ${SEARCHDIRS}
+               ${SEARCHDIRS}
 
 # library dependencies
 
 ifdef J_BUILD_SHARED_LIB
-  LOADLIBES := -L${JLIBDIR} ${ljcore} ${J_ACE_LIBS} ${J_IMG_LIBS} ${J_GCC_LIBS}
-  LIB_DEPS  :=
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX}
 else
-  LOADLIBES := ${J_ACE_LIBS} ${J_IMG_LIBS} ${J_GCC_LIBS}
-  LIB_DEPS  := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 endif
 
 # make variables
 
-LDFLAGS :=
+LOADLIBES := ${ljcore} ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
+LDFLAGS   := 
 
 #####
 
 .PHONY : default
-default: libs all
+default: libs autodoc
 
 .PHONY : Makefiles
 Makefiles:
-
-include ${JX_ROOT}/include/make/jx_targets
 
 #
 # required libraries
 #
 
 .PHONY : libs
-libs::
+libs:
 	@cd ${JCORELIBDIR}; ${MAKE}
 
 .PHONY : touch
@@ -65,16 +58,12 @@ touch::
 	@cd ${JCORELIBDIR}; ${MAKE} TOUCHSTRING=${TOUCHSTRING} touch
 
 #
-# debugging version
+# install binaries
 #
 
-DEBUG_LOADLIBES := -L${JLIBDIR} \
-                   ${J_BEGIN_LINK_STATIC} \
-                   ${ljcore} ${J_ACE_LIBS} \
-                   ${J_END_LINK_STATIC} \
-                   ${J_GCC_LIBS}
+.PHONY : jxinstall
+jxinstall: autodoc
+	@strip ${call EXE, autodoc}
 
-.PHONY : debug
-debug: staticACE
-	@${RM} ${PROG_LIST}
-	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}"
+.PHONY : jxuninstall
+jxuninstall:

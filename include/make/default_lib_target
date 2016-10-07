@@ -2,7 +2,6 @@
 #
 # requires the variables:
 #   LIB_NAME_ROOT -- root of library's name (e.g. "libjcore-${JX_LIB_VERSION}")
-#   OTHER_DEPS    -- other dependencies of target (e.g. "regex gif")
 
 #
 # default target
@@ -11,13 +10,13 @@
 .PHONY : default
 ifdef J_BUILD_SHARED_LIB
  ifdef J_NEED_SEPARATE_O_FILES
-  default: ${OTHER_DEPS} ${LIB_NAME_ROOT}.so
+  default: ${LIB_NAME_ROOT}.so
  else
-  default: ${OTHER_DEPS} all
+  default: all
 #	@-${J_STRIP_DEBUG} *.so
  endif
 else
-  default: ${OTHER_DEPS} ${LIB_NAME_ROOT}.a
+  default: ${LIB_NAME_ROOT}.a
 endif
   ifneq (${J_WANT_INSTALL},0)
   ifeq (${shell whoami},root)

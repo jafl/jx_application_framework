@@ -15,7 +15,7 @@
 #include "JString.h"
 #include "JArray.h"
 #include "JError.h"
-#include "regex.h"
+#include <pcre.h>
 
 class JInterpolate;
 

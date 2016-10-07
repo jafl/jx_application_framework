@@ -10,6 +10,12 @@ http://www.newplanetsoftware.com/
 
 Changes to the build system:
 
+4.0.0:
+
+	Removed source for all embedded libraries.  Switched to (now reliably
+	available) pre-compiled libraries, installed by the native package
+	manager.  The new ./configure script handles this for known systems.
+
 2.6.0:
 
 	Removed obsolete build targets and build config.

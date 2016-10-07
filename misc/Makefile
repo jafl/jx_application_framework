@@ -1,8 +1,11 @@
 JX_ROOT  := ..
-MAKE_DIR := ${shell pwd}
 
 include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/jx_config
+
+.PHONY : Makefiles
+Makefiles:
+	@cd autodoc; makemake
 
 #
 # remove object files
@@ -14,7 +17,5 @@ tidy:: clean
 .PHONY : clean
 clean::
 	@${foreach dir, \
-               ${wildcard ./*/.}, \
-               cd ${dir}; ${MAKE} clean > /dev/null; cd ${MAKE_DIR};}
-	@rm -f pcre-8.10/Makefile pcre-8.10/libtool gd/*.o
-	@cd ctags; ${MAKE} distclean > /dev/null
+               autodoc ctags, \
+               pushd ${dir}; ${MAKE} clean > /dev/null; popd;}

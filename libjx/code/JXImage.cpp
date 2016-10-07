@@ -30,11 +30,7 @@
 #include <jStreamUtil.h>
 #include <jFileUtil.h>
 #include <JOrderedSetUtil.h>
-
-#ifdef _J_HAS_XPM
 #include <X11/xpm.h>
-#endif
-
 #include <jAssert.h>
 
 /******************************************************************************
@@ -484,8 +480,6 @@ JXImage::CreateFromXPM
 	JXImage**			image
 	)
 {
-#ifdef _J_HAS_XPM
-
 	JXColormap* colormap = display->GetColormap();
 
 	Pixmap image_pixmap = None;
@@ -568,12 +562,6 @@ JXImage::CreateFromXPM
 
 	XpmFreeAttributes(&attr);
 	return JNoError();
-
-#else
-
-	return XPMNotAvailable();
-
-#endif
 }
 
 /******************************************************************************
@@ -590,8 +578,6 @@ JXImage::WriteXPM
 	)
 	const
 {
-#ifdef _J_HAS_XPM
-
 	XpmAttributes attr;
 	attr.valuemask = XpmColormap;
 	attr.colormap  = itsXColormap->GetXColormap();
@@ -636,12 +622,6 @@ JXImage::WriteXPM
 		{
 		return JNoError();
 		}
-
-#else
-
-	return XPMNotAvailable();
-
-#endif
 }
 
 /******************************************************************************

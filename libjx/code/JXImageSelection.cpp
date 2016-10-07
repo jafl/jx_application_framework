@@ -92,20 +92,14 @@ JXImageSelection::AddTypes
 	itsXPMAtom = itsAtoms[ kXPMAtomIndex ];
 	AddType(itsXPMAtom);
 
-	#ifdef _J_HAS_GIF
 	itsGIFAtom = itsAtoms[ kGIFAtomIndex ];
 	AddType(itsGIFAtom);
-	#endif
 
-	#ifdef _J_HAS_PNG
 	itsPNGAtom = itsAtoms[ kPNGAtomIndex ];
 	AddType(itsPNGAtom);
-	#endif
 
-	#ifdef _J_HAS_JPEG
 	itsJPEGAtom = itsAtoms[ kJPEGAtomIndex ];
 	AddType(itsJPEGAtom);
-	#endif
 }
 
 /******************************************************************************

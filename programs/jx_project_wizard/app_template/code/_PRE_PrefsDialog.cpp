@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <<pre>StdInc.h>
 #include "<PRE>PrefsDialog.h"
 #include "<pre>Globals.h"
 #include <JXWindow.h>
@@ -52,20 +51,20 @@ void
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 400,290, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 400,290, "");
+	assert( window != NULL );
 
-    JXTextButton* cancelButton =
-        new JXTextButton(JGetString("cancelButton::<PRE>PrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kVElastic, 90,250, 70,20);
-    assert( cancelButton != NULL );
-    cancelButton->SetShortcuts(JGetString("cancelButton::<PRE>PrefsDialog::shortcuts::JXLayout"));
+	JXTextButton* cancelButton =
+		new JXTextButton(JGetString("cancelButton::<PRE>PrefsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 90,250, 70,20);
+	assert( cancelButton != NULL );
+	cancelButton->SetShortcuts(JGetString("cancelButton::<PRE>PrefsDialog::shortcuts::JXLayout"));
 
-    JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::<PRE>PrefsDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kVElastic, 240,250, 70,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::<PRE>PrefsDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		new JXTextButton(JGetString("okButton::<PRE>PrefsDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 240,250, 70,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::<PRE>PrefsDialog::shortcuts::JXLayout"));
 
 // end JXLayout
 

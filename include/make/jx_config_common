@@ -16,7 +16,6 @@ ACELIBDIR = ${JX_ROOT}/ACE
 
 J_RAW_SYSTEM_STUFF += \
   -D_J_UNIX ${J_USE_READDIR_R} \
-  ${J_HAS_JPEG} -D_J_HAS_GIF -D_J_HAS_PNG -D_J_HAS_XPM \
   ${J_HAS_XINERAMA}
 
 ifneq (${J_USE_THREADS},yes)
@@ -66,9 +65,7 @@ J_COMPILER_DEPEND_FLAGS := \
   ${J_COMPILER_DEPEND_FLAGS_FOR_BISON} ${J_DIE_ON_WARNING}
 
 SEARCHDIRS += -I${JX_ROOT}/include/jximage \
-              -I${JX_ROOT}/misc/gd \
-              ${J_X11_INCLUDE_DIR} \
-              -I/usr/include/freetype2
+              ${J_X11_INCLUDE_DIR}
 
 ifdef ACE_ROOT
   SEARCHDIRS += -I${ACE_ROOT}
@@ -83,13 +80,8 @@ endif
 # We add libpng and libjpeg to J_STD_LIBS to satisfy the shared library linker.
 # We don't include them in J_GCC_LIBS because we don't want to bloat static binaries.
 
-ifdef J_HAS_JPEG
-  J_IMG_LIBS := -lpng -ljpeg
-else
-  J_IMG_LIBS := -lpng
-endif
-
-J_SYS_LIBS :=  ${J_ACE_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
+J_IMG_LIBS := -lgd -lpng -ljpeg
+J_SYS_LIBS := ${J_ACE_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
 J_STD_LIBS := -L${JX_ROOT}/lib ${ljx} ${ljcore} ${J_IMG_LIBS} ${J_SYS_LIBS}
 
 #
@@ -100,16 +92,4 @@ ifdef J_CYGWIN
   EXE=${1}.exe
 else
   EXE=${1}
-endif
-
-#
-# PCRE
-#
-
-CONFIGURE_PCRE := ./configure --enable-utf8 --with-match-limit-recursion=10000
-
-ifeq (${J_CYGWIN},1)
-  BUILD_PCRE := ${MAKE} pcre.dll
-else
-  BUILD_PCRE := ${MAKE}; find . -path './libpcre_la-*.o' -exec ./jx_rename_output_files '{}' +
 endif

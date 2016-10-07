@@ -4,14 +4,9 @@
 # version numbers
 #
 
-JX_VERSION   := 4.0.0
-ACE_VERSION  := 6.3.0
-MESA_VERSION := 8.0.5
-
-JX_LIB_VERSION  := 4_0_0
-ACE_LIB_VERSION := 6_3_0
-
-JX := JX-${JX_VERSION}
+JX_VERSION     := 4.0.0
+JX_LIB_VERSION := 4_0_0
+JX             := JX-${JX_VERSION}
 
 #
 # useful directories
@@ -92,13 +87,13 @@ YFLAGS := -d
      elif test -e $*.cpp.h; then mv $*.cpp.h $*.hpp; fi
 	@if test -e $*.hpp_old -a -z "`diff $*.hpp $*.hpp_old 2> /dev/null`"; \
      then mv $*.hpp_old $*.hpp; fi
-	@${JX_ROOT}/lib/util/fix_bison.pl $*.cpp
+	@${JX_ROOT}/bin/fix_bison.pl $*.cpp
 
 #
 # tar
 #
 
-TAR := tar --exclude '*/CVS*' --exclude '*/.svn*' --exclude '*/.xvpics*'
+TAR := tar --exclude '*/.xvpics*'
 
 #
 # RPM -- root is overridable

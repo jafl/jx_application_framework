@@ -1,58 +1,30 @@
 
 *** Step 1:  Preparation
 
-You need g++ 4.4 or clang and GNU's version of make.
-
-You should find a computer where you can compile to the local disk.
-Compiling to a remote disk over NFS is usually very slow.
-
 Decide where you want the JX directory to reside.  Absolute paths are
 compiled into some of the utility programs, so you will have to rebuild
 everything if you move JX to a different location after building it.
 
-On Fedora, you need to install development packages:
+Run ./configure in the JX directory.  This will try to install all the
+reqired packages on your system.
 
-    sudo dnf-2 install which sudo perl python-libxml2 \
-        git gcc-c++ flex bison lldb rpm-build \
-        libX11-devel libXinerama-devel libXpm-devel libXft-devel \
-        libXmu-devel libXi-devel \
-        libxml2-devel libjpeg-devel libpng-devel \
-        llvm-devel imake libtool  xorg-x11-proto-devel libdrm-devel \
-        xorg-x11-server-devel libXdamage-devel expat-devel
+If your system is unrecognized, you will need to figure out how to install
+the required tools and libraries.  Start with g++, make, flex, bison, and
+the basic X11 libraries and headers.
 
-On Ubuntu, you need to install development packages:
+If it is not possible to install ACE from a package, the build will
+download ACE automatically.  If you download and unpack ACE yourself
+(http://www.cs.wustl.edu/~schmidt/ACE.html), then the source may need to be
+patched.  In the ACE directory, run patch_ace.
 
-    sudo apt-get update
-    sudo apt-get install curl \
-        git g++ flex bison make lldb \
-        libX11-dev libXinerama-dev libXpm-dev libxft-dev \
-        libxmu-dev libxi-dev \
-        libxml2-dev libjpeg-dev libpng-dev \
-        llvm automake xutils-dev libx11-xcb-dev \
-        libxcb-dri2-0-dev libxcb-xfixes0-dev \
-        x11proto-gl-dev libdrm-dev
+If fdesign (the graphical layout tool) is not installed, you can download
+the source from http://xforms-toolkit.org.
 
-On OS X, it helps to install GNU coreutils.
+To keep the Makefiles smaller, it is recommended to set the following
+environment variable:
 
-To keep the Makefiles smaller:
-
-    setenv J_MAKEMAKE_IGNORE_PATTERN '^ace/|StdInc.h$'
-    export J_MAKEMAKE_IGNORE_PATTERN='^ace/|StdInc.h$'
-
-The build can download ACE automatically.  If you download and unpack ACE
-yourself (http://www.cs.wustl.edu/~schmidt/ACE.html), then the source needs
-to be patched.  In the ACE directory, run patch_ace.
-
-The build can download Mesa automatically.  If not, and you have
-mesa-libGL-devel installed, run this in the JX directory:
-
-    ln -s /usr Mesa
-
-Otherwise, if you built from Mesa-7.5.2 source, run this in the Mesa
-directory:
-
-    ln -s ../../src/mesa/drivers/x11/xmesa.h include/GL
-    ln -s ../../src/mesa/drivers/x11/xmesa_x.h include/GL
+    setenv J_MAKEMAKE_IGNORE_PATTERN '^ace/$'
+    export J_MAKEMAKE_IGNORE_PATTERN='^ace/$'
 
 
 *** Step 2:  Compiling
@@ -84,9 +56,10 @@ and install the programs.  You can ignore any errors that make ignores.
   Everything in JX will be built, including any 3rd party libraries and
   programs that you unpack after the main distribution.
 
-Since ACE is huge, only one version of the library is built.  If you want
-the other version as well, go to the ACE directory and type "make shared"
-or "make static" after you have built everything else.
+Since ACE is huge, only one version of the library is built, if it has to
+be done from source.  If you want the other version as well, go to the ACE
+directory and type "make shared" or "make static" after you have built
+everything else.
 
 If your system is not already supported, create another entry in the
 Makefile by copying one of the existing ones and modifying it as follows:
@@ -106,14 +79,7 @@ Makefile by copying one of the existing ones and modifying it as follows:
 
 *** Step 3:  Additional configuration
 
-Get the xforms distribution from
-
-    http://world.std.com/~xforms/
-
-and extract the fdesign binary.  This should be placed in ~/bin. (or
-$JX_INSTALL_ROOT, if you set it)  fdesign is the graphical layout tool.
-
-It is also a good idea to set the following environment variables:
+It is a good idea to set the following environment variables:
 
     setenv JMM_INITIALIZE   "default"
     setenv JMM_SHRED        "default"

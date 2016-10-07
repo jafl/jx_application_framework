@@ -7,7 +7,6 @@
 
  *****************************************************************************/
 
-#include <<pre>StdInc.h>
 #include "<PRE>MainDirector.h"
 #include "<pre>HelpText.h"
 #include "<pre>Globals.h"
@@ -133,18 +132,18 @@ void
 
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 500,300, "");
-    assert( window != NULL );
+	JXWindow* window = new JXWindow(this, 500,300, "");
+	assert( window != NULL );
 
-    JXMenuBar* menuBar =
-        new JXMenuBar(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
-    assert( menuBar != NULL );
+	JXMenuBar* menuBar =
+		new JXMenuBar(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
+	assert( menuBar != NULL );
 
-    itsToolBar =
-        new JXToolBar(<PRE>GetPrefsManager(), k<PRE>MainToolBarID, menuBar, minWidth, minHeight, window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
-    assert( itsToolBar != NULL );
+	itsToolBar =
+		new JXToolBar(<PRE>GetPrefsManager(), k<PRE>MainToolBarID, menuBar, minWidth, minHeight, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
+	assert( itsToolBar != NULL );
 
 // end JXLayout
 
@@ -162,15 +161,15 @@ void
 	assert( scrollbarSet != NULL );
 	scrollbarSet->FitToEnclosure();
 
-    JXStaticText* widget =
+	JXStaticText* widget =
 		new JXStaticText("This should be replaced by your widget.",
 						 scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic,
 						 0,0, 100,100);
-    assert( widget != NULL );
+	assert( widget != NULL );
 	widget->FitToEnclosure();
-    widget->SetBackColor(GetColormap()->GetWhiteColor());
-    widget->SetBorderWidth(2);
+	widget->SetBackColor(GetColormap()->GetWhiteColor());
+	widget->SetBorderWidth(2);
 
 	// menus
 

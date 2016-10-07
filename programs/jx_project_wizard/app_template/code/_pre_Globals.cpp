@@ -7,7 +7,6 @@
 
  ******************************************************************************/
 
-#include <<pre>StdInc.h>
 #include "<pre>Globals.h"
 #include "<PRE>App.h"
 #include "<PRE>PrefsManager.h"

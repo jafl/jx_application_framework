@@ -10,8 +10,6 @@ JCOREDIR   := ${JX_ROOT}/include/jcore
 JXDIR      := ${JX_ROOT}/include/jx
 JEXPRDIR   := ${JX_ROOT}/include/jexpr
 J2DPLOTDIR := ${JX_ROOT}/include/j2dplot
-MESADIR    := ${JX_ROOT}/include/Mesa
-MESAGLDIR  := ${JX_ROOT}/include/Mesa/GL
 
 JLIBDIR       := ${JX_ROOT}/lib
 JCORELIBDIR   := ${JX_ROOT}/libjcore
@@ -25,9 +23,7 @@ SEARCHDIRS := -I${CODEDIR} \
               -I${JCOREDIR} \
               -I${JXDIR} \
               -I${JEXPRDIR} \
-              -I${J2DPLOTDIR} \
-              -I${MESADIR} \
-              -I${MESAGLDIR}
+              -I${J2DPLOTDIR}
 
 # other constants
 
@@ -57,12 +53,7 @@ TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR} ${JEXPRLIBDIR} ${J2DPLOTLIBDIR}
 
 # library dependencies
 
-ifdef J_BUILD_SHARED_LIB
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
-              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
-              ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
-              ${JLIBDIR}/libj2dplot-${J2DPLOT_LIB_VERSION}.${J_SHARED_LIB_SUFFIX}
-else
+ifndef J_BUILD_SHARED_LIB
   LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
               ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a \
               ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.a \
@@ -71,7 +62,7 @@ endif
 
 # make variables
 
-LOADLIBES := -L${JLIBDIR} ${lj2dplot} ${ljexpr} ${J_MESA_LIBS} ${J_STD_LIBS}
+LOADLIBES := -L${JLIBDIR} ${lj2dplot} ${ljexpr} ${J_STD_LIBS}
 ifdef J_BUILD_SHARED_LIB
   LDFLAGS := -Xlinker -R${RPM_LIB_PATH}
 endif
@@ -81,7 +72,7 @@ DEBUG_LOADLIBES := -L${JLIBDIR} \
                    ${lj2dplot} ${ljexpr} \
                    ${ljx} ${ljcore} ${J_ACE_LIBS} \
                    ${J_END_LINK_STATIC} \
-                   ${J_MESA_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
+                   ${J_X11_LIBS} ${J_GCC_LIBS}
 
 #####
 
@@ -111,7 +102,7 @@ leibnitz:: strings
 
 .PHONY : menu_strings
 menu_strings:
-	@${JX_ROOT}/lib/util/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
+	@${JX_ROOT}/bin/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
      -a ${JXDIR}/jXActionDefs.h ${JXDIR}/JXTEBase.cpp \
      -m ${CODEDIR}/*.cpp ${JXDIR}/*.cpp ${JEXPRDIR}/*.cpp ${J2DPLOTDIR}/*.cpp
 

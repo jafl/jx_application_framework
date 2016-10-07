@@ -102,7 +102,7 @@ ${PROG_NAME}:: strings
 
 .PHONY : menu_strings
 menu_strings:
-	@${JX_ROOT}/lib/util/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
+	@${JX_ROOT}/bin/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
      -a ${CODEDIR}/svnActionDefs.h ${JXDIR}/jXActionDefs.h ${JXDIR}/JXTEBase.cpp \
      -m */*.cpp ${JXDIR}/*.cpp ${JFSDIR}/*.cpp
 

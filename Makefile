@@ -61,11 +61,7 @@ default:
 	@echo "Then run one of the following or check the README file:"
 	@echo
 	@echo "  ${MAKE_CMD} cygwin32      for Cygwin on Windows"
-	@echo "  ${MAKE_CMD} darwin_5      for Macintosh OS X 10.5"
-	@echo "  ${MAKE_CMD} darwin_6      for Macintosh OS X 10.6"
-	@echo "  ${MAKE_CMD} darwin_7      for Macintosh OS X 10.7"
-	@echo "  ${MAKE_CMD} darwin_9      for Macintosh OS X 10.9"
-	@echo "  ${MAKE_CMD} darwin_10     for Macintosh OS X 10.10"
+	@echo "  ${MAKE_CMD} darwin        for Macintosh OS X"
 	@echo "  ${MAKE_CMD} linux_x86_64  for 32-bit Linux systems"
 	@echo "  ${MAKE_CMD} linux_x86_32  for 64-bit Linux systems"
 	@echo
@@ -129,7 +125,7 @@ CREATE_ACE_MACROS = \
     fi
 
 #
-# glibc 2.8
+# 32-bit Linux
 #
 
 .PHONY : linux_x86_32
@@ -138,7 +134,7 @@ linux_x86_32: linux_common
 	@${INSTALL_CMD}
 
 #
-# 64-bit RedHat 5.x
+# 64-bit Linux
 #
 
 .PHONY : linux_x86_64
@@ -175,54 +171,12 @@ cygwin32: prep
 # OS X
 #
 
-.PHONY: darwin_5 
-darwin_5: prep
-	@ln -sf sys/OSX_5_g++ \
+.PHONY: darwin
+darwin: prep
+	@ln -sf sys/OSX_g++ \
             include/make/jx_config
 	@ln -sf ../../include/missing_proto/jMissingProto_empty.h \
             include/jcore/jMissingProto.h
-	@${TEST_ACE_CONFIG} config-macosx-leopard.h ${CREATE_ACE_CONFIG}
-	@${TEST_ACE_MACROS} platform_macosx_leopard.GNU ${CREATE_ACE_MACROS}
-	@${INSTALL_CMD}
-
-.PHONY: darwin_6
-darwin_6: prep
-	@ln -sf sys/OSX_6_g++ \
-            include/make/jx_config
-	@ln -sf ../../include/missing_proto/jMissingProto_empty.h \
-            include/jcore/jMissingProto.h
-	@${TEST_ACE_CONFIG} config-macosx-snowleopard.h ${CREATE_ACE_CONFIG}
-	@${TEST_ACE_MACROS} platform_macosx_snowleopard.GNU ${CREATE_ACE_MACROS}
-	@${INSTALL_CMD}
-
-.PHONY: darwin_7
-darwin_7: prep
-	@ln -sf sys/OSX_6_g++ \
-            include/make/jx_config
-	@ln -sf ../../include/missing_proto/jMissingProto_empty.h \
-            include/jcore/jMissingProto.h
-	@${TEST_ACE_CONFIG} config-macosx-lion.h ${CREATE_ACE_CONFIG}
-	@${TEST_ACE_MACROS} platform_macosx_lion.GNU ${CREATE_ACE_MACROS}
-	@${INSTALL_CMD}
-
-.PHONY: darwin_9
-darwin_9: prep
-	@ln -sf sys/OSX_9_g++ \
-            include/make/jx_config
-	@ln -sf ../../include/missing_proto/jMissingProto_empty.h \
-            include/jcore/jMissingProto.h
-	@${TEST_ACE_CONFIG} config-macosx-mountainlion.h ${CREATE_ACE_CONFIG}
-	@${TEST_ACE_MACROS} platform_macosx_mountainlion.GNU ${CREATE_ACE_MACROS}
-	@${INSTALL_CMD}
-
-.PHONY: darwin_10
-darwin_10: prep
-	@ln -sf sys/OSX_10_g++ \
-            include/make/jx_config
-	@ln -sf ../../include/missing_proto/jMissingProto_empty.h \
-            include/jcore/jMissingProto.h
-	@${TEST_ACE_CONFIG} config-macosx-yosemite.h ${CREATE_ACE_CONFIG}
-	@${TEST_ACE_MACROS} platform_macosx_yosemite.GNU ${CREATE_ACE_MACROS}
 	@${INSTALL_CMD}
 
 #
@@ -230,7 +184,7 @@ darwin_10: prep
 #
 
 .PHONY : prep
-prep: check_install_dir get_ace get_aspell clean_links
+prep: check_install_dir get_ace clean_links
 	@if { test ! -e libjcore/code/jStringData.h; } then \
          { \
          cp -f libjcore/jStringData_init.h libjcore/code/jStringData.h; \
@@ -275,13 +229,6 @@ get_ace:
          ${RM} -r ACE/ACE_wrappers; \
          ln -sf ${ACE_ROOT} ACE/ACE_wrappers; \
      fi;
-	@if { test ! '(' -f ${ACE_ROOT}/ace/Makefile -o -f ${ACE_ROOT}/ace/GNUmakefile ')'; } then \
-         ${RM} lib/libACE-${ACE_LIB_VERSION}.a; \
-         ln -sf /usr/lib/libACE.a lib/libACE-${ACE_LIB_VERSION}.a; \
-         ${RM} lib/libACE-${ACE_LIB_VERSION}.so; \
-         ln -sf /usr/lib/libACE.so lib/libACE-${ACE_LIB_VERSION}.so; \
-         ${RM} lib/libACE.so.${ACE_VERSION}; \
-     fi
   else
 	@if { test ! -e ${DEFAULT_ACE_ROOT}; } then \
          cd ACE; \
@@ -297,64 +244,7 @@ get_ace:
          fi; \
          tar -xzf ACE.tgz; touch ACE_wrappers/${ACE_VERSION}; ./patch_ace; \
      fi
-	@if { test ! '(' -f ${DEFAULT_ACE_ROOT}/ace/Makefile -o -f ${DEFAULT_ACE_ROOT}/ace/GNUmakefile ')'; } then \
-         ${RM} lib/libACE-${ACE_LIB_VERSION}.a; \
-         ln -sf /usr/lib/libACE.a lib/libACE-${ACE_LIB_VERSION}.a; \
-         ${RM} lib/libACE-${ACE_LIB_VERSION}.so; \
-         ln -sf /usr/lib/libACE.so lib/libACE-${ACE_LIB_VERSION}.so; \
-         ${RM} lib/libACE.so.${ACE_VERSION}; \
-     fi
   endif
-
-.PHONY : get_aspell
-get_aspell:
-	@if { ! which aspell 2> /dev/null; } then \
-         cd misc; \
-         if { ! test -f aspell.tgz ; } then \
-             if { which wget; } then \
-                 wget -O aspell.tgz http://libjx.sourceforge.net/data/aspell-0.60.6.1.tar.gz; \
-             elif { which curl; } then \
-                 curl -o aspell.tgz http://libjx.sourceforge.net/data/aspell-0.60.6.1.tar.gz; \
-             else \
-                 echo "Please install either curl or wget"; \
-                 exit 1; \
-             fi; \
-         fi; \
-         if { ! test -d aspell-* ; } then \
-             tar -xzf aspell.tgz; \
-             ./patch/aspell/apply; \
-         fi; \
-         cd aspell-*; \
-         if { ! test -f Makefile ; } then \
-             ./configure; \
-         fi; \
-         make; \
-         echo please enter sudo password to install aspell; \
-         sudo make install; \
-     fi
-	@if { ! test -d misc/aspell6-* ; } then \
-         cd misc; \
-         if { ! test -f aspell_en.tgz ; } then \
-             if { which wget; } then \
-                 wget -O aspell_en.tgz http://libjx.sourceforge.net/data/aspell6-en-7.1-0.tar.gz; \
-             elif { which curl; } then \
-                 curl -o aspell_en.tgz http://libjx.sourceforge.net/data/aspell6-en-7.1-0.tar.gz; \
-             else \
-                 echo "Please install either curl or wget"; \
-                 exit 1; \
-             fi; \
-         fi; \
-         if { ! test -d aspell6-* ; } then \
-             tar -xzf aspell_en.tgz; \
-         fi; \
-         cd aspell6-*; \
-         if { ! test -f Makefile ; } then \
-             ./configure; \
-         fi; \
-         make; \
-         echo please enter sudo password to install aspell-en; \
-         sudo make install; \
-     fi
 
 .PHONY : clean_links
 clean_links:

@@ -144,8 +144,6 @@ JImage::ReadGIF
 	const JCharacter* fileName
 	)
 {
-#ifdef _J_HAS_GIF
-
 	const JError err = ReadGD(fileName, gdImageCreateFromGif);
 	if (err.Is(kUnknownFileType))
 		{
@@ -155,12 +153,6 @@ JImage::ReadGIF
 		{
 		return err;
 		}
-
-#else
-
-	return GIFNotAvailable();
-
-#endif
 }
 
 /******************************************************************************
@@ -177,15 +169,103 @@ JImage::WriteGIF
 	)
 	const
 {
-#ifdef _J_HAS_GIF
-
 	return WriteGD(fileName, kJFalse, compressColorsToFit, interlace, gdImageGif);
+}
 
-#else
+/******************************************************************************
+ ReadPNG (protected)
 
-	return GIFNotAvailable();
+ ******************************************************************************/
 
-#endif
+JError
+JImage::ReadPNG
+	(
+	const JCharacter* fileName
+	)
+{
+	const JError err = ReadGD(fileName, gdImageCreateFromPng);
+	if (err.Is(kUnknownFileType))
+		{
+		return FileIsNotPNG(fileName);
+		}
+	else
+		{
+		return err;
+		}
+}
+
+/******************************************************************************
+ WritePNG
+
+ ******************************************************************************/
+
+JError
+JImage::WritePNG
+	(
+	const JCharacter*	fileName,
+	const JBoolean		useTrueColor,
+	const JBoolean		compressColorsToFit,
+	const JBoolean		interlace
+	)
+	const
+{
+	return WriteGD(fileName, useTrueColor, compressColorsToFit, interlace, gdImagePng);
+}
+
+/******************************************************************************
+ ReadJPEG (protected)
+
+ ******************************************************************************/
+
+JError
+JImage::ReadJPEG
+	(
+	const JCharacter* fileName
+	)
+{
+	const JError err = ReadGD(fileName, gdImageCreateFromJpeg);
+	if (err.Is(kUnknownFileType))
+		{
+		return FileIsNotJPEG(fileName);
+		}
+	else
+		{
+		return err;
+		}
+}
+
+/******************************************************************************
+ WriteJPEG
+
+	If quality is negative, you get the default tradeoff.  Otherwise,
+	quality must lie in the range [0,95].
+
+ ******************************************************************************/
+
+static int jQuality = -1;
+static void imageJpeg(gdImagePtr im, FILE *out);
+
+void
+imageJpeg
+	(
+	gdImagePtr	im,
+	FILE*		out
+	)
+{
+	gdImageJpeg(im, out, jQuality);
+}
+
+JError
+JImage::WriteJPEG
+	(
+	const JCharacter*	fileName,
+	const JBoolean		interlace,
+	const int			quality
+	)
+	const
+{
+	jQuality = quality;
+	return WriteGD(fileName, kJTrue, kJTrue, interlace, imageJpeg);
 }
 
 /******************************************************************************

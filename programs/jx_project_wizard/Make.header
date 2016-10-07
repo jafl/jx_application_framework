@@ -40,10 +40,7 @@ TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR}
 
 # library dependencies
 
-ifdef J_BUILD_SHARED_LIB
-  LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
-              ${JLIBDIR}/libjx-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX}
-else
+ifndef J_BUILD_SHARED_LIB
   LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
               ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a
 endif

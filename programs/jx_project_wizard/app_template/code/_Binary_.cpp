@@ -5,7 +5,6 @@
 
  ******************************************************************************/
 
-#include <<pre>StdInc.h>
 #include "<PRE>App.h"
 #include "<PRE>MDIServer.h"
 #include "<PRE>MainDirector.h"

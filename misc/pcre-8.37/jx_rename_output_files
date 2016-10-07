@@ -1,5 +1,0 @@
-#!/bin/sh
-
-for f in $*; do
-	mv $f ${f#./libpcre_la-};
-done

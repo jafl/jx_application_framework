@@ -35,9 +35,10 @@ Makefiles:
          ${MAKE} -f Make.header update_jcc; \
      fi
 	@${foreach dir, \
-          ${wildcard ../lib?*/. ./util/*/. ../programs/*/.} \
+          ${wildcard ../lib?*/. ../programs/*/.} \
           ../ACE/test/ ../tutorial/, \
        ${BEGIN_DIR}; makemake; ${MAKE} Makefiles; ${END_DIR};}
+	@cd ../misc; ${MAKE} Makefiles
 
 #
 # install binaries
@@ -67,7 +68,7 @@ install2:
           ${wildcard ../lib?*/.}, \
        ${BEGIN_DIR}; ${MAKE} default; ${END_DIR};}
 	@${foreach dir, \
-          ${wildcard ./util/*/. ../programs/*/.}, \
+          ${wildcard ../programs/*/.}, \
        ${BEGIN_DIR}; ${MAKE} jxinstall; ${END_DIR};}
 
 #
@@ -128,20 +129,20 @@ release:
 .PHONY : tidy
 tidy:
 	@${foreach dir, \
-          ${wildcard ../lib?*/. ../programs/*/. ./util/*/.} \
+          ${wildcard ../lib?*/. ../programs/*/.} \
           ../ACE/ ../misc/ ../tutorial/, \
        ${BEGIN_DIR}; ${MAKE} tidy; ${END_DIR};}
 
 .PHONY : clean
 clean:
 	@${foreach dir, \
-          ${wildcard ../lib?*/. ../programs/*/. ./util/*/.} \
+          ${wildcard ../lib?*/. ../programs/*/.} \
           ../ACE/ ../misc/ ../tutorial/, \
        ${BEGIN_DIR}; ${MAKE} clean; ${END_DIR};}
 
 .PHONY : uninstall
 uninstall:
 	@${foreach dir, \
-          ${wildcard ../lib?*/. ../programs/*/. ./util/*/.} \
+          ${wildcard ../lib?*/. ../programs/*/.} \
           ../ACE/, \
        ${BEGIN_DIR}; ${MAKE} jxuninstall; ${END_DIR};}

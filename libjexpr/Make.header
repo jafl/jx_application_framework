@@ -33,7 +33,6 @@ LDFLAGS   :=
 #####
 
 LIB_NAME_ROOT := libjexpr-${JEXPR_LIB_VERSION}
-OTHER_DEPS    := 
 include ${JX_ROOT}/include/make/default_lib_target
 
 .PHONY : Makefiles

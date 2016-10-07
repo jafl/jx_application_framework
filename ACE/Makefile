@@ -48,12 +48,12 @@ endif
   ifeq ($(shell whoami),root)
 	@if { test -f ACE_wrappers/ace/libACE.a; } then \
          { \
-         cp ACE_wrappers/ace/libACE.a ${JX_LIB_ROOT}/libACE-${ACE_LIB_VERSION}.a; \
+         cp ACE_wrappers/ace/libACE.a ${JX_LIB_ROOT}/libACE.a; \
          } \
      fi
 	@if { test -f ACE_wrappers/ace/libACE.so; } then \
          { \
-         cp ACE_wrappers/ace/libACE.so ${JX_LIB_ROOT}/libACE-${ACE_LIB_VERSION}.so; \
+         cp ACE_wrappers/ace/libACE.so ${JX_LIB_ROOT}/libACE.so; \
          } \
      fi
   endif
@@ -72,7 +72,7 @@ static:
 
 ACE_TIDY      := ${BEGIN_ACE_MAKE} clean shared_libs=1 static_libs=1 ${END_ACE_MAKE}
 ACE_CLEAN     := ${BEGIN_ACE_MAKE} realclean shared_libs=1 static_libs=1 ${END_ACE_MAKE}
-ACE_UNINSTALL := ${RM} ${JX_LIB_ROOT}/libACE-${ACE_LIB_VERSION}.*
+ACE_UNINSTALL := ${RM} ${JX_LIB_ROOT}/libACE.*
 
 .PHONY : tidy
 tidy::
