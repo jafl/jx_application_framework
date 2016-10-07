@@ -15,7 +15,6 @@ static const JCharacter* kTHXOverviewHelpName  = "THXOverviewHelp";
 static const JCharacter* kTHXConstantsHelpName = "THXConstantsHelp";
 static const JCharacter* kTHXExprHelpName      = "THXExprHelp";
 static const JCharacter* kTHX2DPlotHelpName    = "THX2DPlotHelp";
-static const JCharacter* kTHX3DPlotHelpName    = "THX3DPlotHelp";
 static const JCharacter* kTHXBaseConvHelpName  = "THXBaseConvHelp";
 static const JCharacter* kTHXChangeLogName     = "THXChangeLog";
 static const JCharacter* kTHXCreditsName       = "THXCredits";
@@ -27,7 +26,6 @@ static const JCharacter* kTHXHelpSectionName[] =
 	kTHXConstantsHelpName,
 	kTHXExprHelpName,
 	kTHX2DPlotHelpName,
-	kTHX3DPlotHelpName,
 	kTHXBaseConvHelpName,
 	kTHXChangeLogName,
 	kTHXCreditsName,

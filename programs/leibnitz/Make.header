@@ -10,7 +10,6 @@ JCOREDIR   := ${JX_ROOT}/include/jcore
 JXDIR      := ${JX_ROOT}/include/jx
 JEXPRDIR   := ${JX_ROOT}/include/jexpr
 J2DPLOTDIR := ${JX_ROOT}/include/j2dplot
-J3DDIR     := ${JX_ROOT}/include/j3d
 MESADIR    := ${JX_ROOT}/include/Mesa
 MESAGLDIR  := ${JX_ROOT}/include/Mesa/GL
 
@@ -19,7 +18,6 @@ JCORELIBDIR   := ${JX_ROOT}/libjcore
 JXLIBDIR      := ${JX_ROOT}/libjx
 JEXPRLIBDIR   := ${JX_ROOT}/libjexpr
 J2DPLOTLIBDIR := ${JX_ROOT}/libj2dplot
-J3DLIBDIR     := ${JX_ROOT}/libj3d
 
 # Directories to search for header files
 
@@ -28,7 +26,6 @@ SEARCHDIRS := -I${CODEDIR} \
               -I${JXDIR} \
               -I${JEXPRDIR} \
               -I${J2DPLOTDIR} \
-              -I${J3DDIR} \
               -I${MESADIR} \
               -I${MESAGLDIR}
 
@@ -50,15 +47,13 @@ J_STRING_FILES := ${LN_STRING_FILES}
 
 include ${JX_ROOT}/include/make/jx_constants
 include ${JX_ROOT}/include/make/j2dplot_constants
-include ${JX_ROOT}/include/make/j3d_constants
 include ${JX_ROOT}/include/make/jexpr_constants
 include ${JX_ROOT}/include/make/jx_config
 
 DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
                ${J_COMPILE_DEBUG} ${SEARCHDIRS}
 
-TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR} ${JEXPRLIBDIR} \
-              ${J2DPLOTLIBDIR} ${J3DLIBDIR}
+TOUCHPATHS := ${JCORELIBDIR} ${JXLIBDIR} ${JEXPRLIBDIR} ${J2DPLOTLIBDIR}
 
 # library dependencies
 
@@ -66,26 +61,24 @@ ifdef J_BUILD_SHARED_LIB
   LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
               ${JLIBDIR}/libjx-${JX_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
               ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
-              ${JLIBDIR}/libj2dplot-${J2DPLOT_LIB_VERSION}.${J_SHARED_LIB_SUFFIX} \
-              ${JLIBDIR}/libj3d-${J3D_LIB_VERSION}.${J_SHARED_LIB_SUFFIX}
+              ${JLIBDIR}/libj2dplot-${J2DPLOT_LIB_VERSION}.${J_SHARED_LIB_SUFFIX}
 else
   LIB_DEPS := ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a \
               ${JLIBDIR}/libjx-${JX_LIB_VERSION}.a \
               ${JLIBDIR}/libjexpr-${JEXPR_LIB_VERSION}.a \
-              ${JLIBDIR}/libj2dplot-${J2DPLOT_LIB_VERSION}.a \
-              ${JLIBDIR}/libj3d-${J3D_LIB_VERSION}.a
+              ${JLIBDIR}/libj2dplot-${J2DPLOT_LIB_VERSION}.a
 endif
 
 # make variables
 
-LOADLIBES := -L${JLIBDIR} ${lj3d} ${lj2dplot} ${ljexpr} ${J_MESA_LIBS} ${J_STD_LIBS}
+LOADLIBES := -L${JLIBDIR} ${lj2dplot} ${ljexpr} ${J_MESA_LIBS} ${J_STD_LIBS}
 ifdef J_BUILD_SHARED_LIB
   LDFLAGS := -Xlinker -R${RPM_LIB_PATH}
 endif
 
 DEBUG_LOADLIBES := -L${JLIBDIR} \
                    ${J_BEGIN_LINK_STATIC} \
-                   ${lj3d} ${lj2dplot} ${ljexpr} \
+                   ${lj2dplot} ${ljexpr} \
                    ${ljx} ${ljcore} ${J_ACE_LIBS} \
                    ${J_END_LINK_STATIC} \
                    ${J_MESA_LIBS} ${J_X11_LIBS} ${J_GCC_LIBS}
@@ -120,8 +113,7 @@ leibnitz:: strings
 menu_strings:
 	@${JX_ROOT}/lib/util/extract_menu_strings ${MENU_STRINGS_FILE} ${SIGNATURE} \
      -a ${JXDIR}/jXActionDefs.h ${JXDIR}/JXTEBase.cpp \
-     -m ${CODEDIR}/*.cpp ${JXDIR}/*.cpp ${JEXPRDIR}/*.cpp \
-        ${J2DPLOTDIR}/*.cpp ${J3DDIR}/*.cpp
+     -m ${CODEDIR}/*.cpp ${JXDIR}/*.cpp ${JEXPRDIR}/*.cpp ${J2DPLOTDIR}/*.cpp
 
 #
 # install binaries

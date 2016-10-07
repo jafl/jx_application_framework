@@ -12,8 +12,10 @@
 
 #include <jTypes.h>
 
-const JFileVersion kCurrentStateVersion = 10;
+const JFileVersion kCurrentStateVersion = 11;
 
+// version 11:
+//	Discarded THX3DPlotDirector state.
 // version 10:
 //	Stores THX3DPlotDirector state.
 // version 9:

@@ -9,7 +9,7 @@ THXConstantsHelp
 
 <h3> Defining constants </h3>
 
-The Constants window lets you define named constants for use in <a href=jxhelp:THXExprHelp>expressions</a> and <a href=jxhelp:THX2DPlotHelp>plots</a>.  The names x and y are reserved as the independent variables when plotting <a href=jxhelp:THX2DPlotHelp>2D</a> and <a href=jxhelp:THX3DPlotHelp>3D</a> functions.  The name t is reserved as the independent variable for the future, when parametric plots are implemented.  pi, Pi, <font face=Symbol>p</font>, e, E, i, <tt>I</tt>, and j are also reserved to represent the standard mathematical constants 3.14..., 2.718..., and sqrt(-1).
+The Constants window lets you define named constants for use in <a href=jxhelp:THXExprHelp>expressions</a> and <a href=jxhelp:THX2DPlotHelp>plots</a>.  The names x and y are reserved as the independent variables when plotting <a href=jxhelp:THX2DPlotHelp>2D</a> functions.  The name t is reserved as the independent variable for the future, when parametric plots are implemented.  pi, Pi, <font face=Symbol>p</font>, e, E, i, <tt>I</tt>, and j are also reserved to represent the standard mathematical constants 3.14..., 2.718..., and sqrt(-1).
 <p>
 To include a Greek character in a name, either use the Font menu or type a back quote ( ` ).  The back quote toggles between Normal and Greek fonts.
 <p>

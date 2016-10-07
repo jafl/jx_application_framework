@@ -51,11 +51,6 @@ install1:
 	@if { ! test -e ./libACE-*.so -o -e ./libACE-*.a; } then \
          cd ../ACE; ${MAKE} jxinstall; \
      fi
-	@if { test -d ../Mesa -a ! -e ../Mesa/lib/libGL.a; } then \
-         cd ../Mesa; \
-         ./configure --enable-xlib-glx --enable-dri=no --disable-egl --with-gallium-drivers= --enable-static; \
-         make; \
-     fi
 	@if { ! test -x ../programs/makemake/makemake; } then \
          cd ../programs/makemake; \
          ${MAKE} -f Makefile.port jxinstall; \

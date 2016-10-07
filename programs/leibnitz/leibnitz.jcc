@@ -59,21 +59,6 @@ F
 "./code/THX2DPlotFunctionDialog.cpp"
 F
 T
-1 "3D plot"
-T
-2 "THX3DPlotDirector.cpp"
-F
-"./code/THX3DPlotDirector.cpp"
-T
-2 "THX3DPlotWidget.cpp"
-F
-"./code/THX3DPlotWidget.cpp"
-T
-2 "THX3DPlotFunctionDialog.cpp"
-F
-"./code/THX3DPlotFunctionDialog.cpp"
-F
-T
 1 "var"
 T
 2 "THXVarDirector.cpp"

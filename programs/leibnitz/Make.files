@@ -16,9 +16,6 @@
 .cpp ./code/THXKeyPad
 .cpp ./code/THX2DPlotDirector
 .cpp ./code/THX2DPlotFunctionDialog
-.cpp ./code/THX3DPlotDirector
-.cpp ./code/THX3DPlotWidget
-.cpp ./code/THX3DPlotFunctionDialog
 .cpp ./code/THXVarDirector
 .cpp ./code/THXVarTable
 .cpp ./code/THXVarList

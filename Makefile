@@ -31,11 +31,6 @@ default:
 	@echo
   endif
 
-	@echo "If you have compiled a compatible version of Mesa on your computer, then"
-	@echo "create a symbolic link ${shell pwd}/Mesa"
-	@echo "which points to the directory in which you built Mesa."
-	@echo
-
  ifeq ($(shell whoami),root)
 
   ifndef JX_INSTALL_ROOT
@@ -235,7 +230,7 @@ darwin_10: prep
 #
 
 .PHONY : prep
-prep: check_install_dir get_ace get_mesa get_aspell clean_links
+prep: check_install_dir get_ace get_aspell clean_links
 	@if { test ! -e libjcore/code/jStringData.h; } then \
          { \
          cp -f libjcore/jStringData_init.h libjcore/code/jStringData.h; \
@@ -310,27 +305,6 @@ get_ace:
          ${RM} lib/libACE.so.${ACE_VERSION}; \
      fi
   endif
-
-.PHONY : get_mesa
-get_mesa:
-	@-if { test ! -e Mesa ; } then \
-         cd misc; \
-         if { ! test -f Mesa.tgz ; } then \
-           if { which wget; } then \
-               wget -O Mesa.tgz http://libjx.sourceforge.net/data/MesaLib-${MESA_VERSION}.tar.gz; \
-           elif { which curl; } then \
-               curl -o Mesa.tgz http://libjx.sourceforge.net/data/MesaLib-${MESA_VERSION}.tar.gz; \
-           else \
-               echo "Please install either curl or wget"; \
-               exit 1; \
-           fi; \
-         fi; \
-         tar -xzf Mesa.tgz; mv Mesa-${MESA_VERSION} ../Mesa; \
-     fi
-	@if { test -d Mesa/. ; } then \
-         ln -sf ../../src/mesa/drivers/x11/xmesa.h   Mesa/include/GL/xmesa.h; \
-         ln -sf ../../src/mesa/drivers/x11/xmesa_x.h Mesa/include/GL/xmesa_x.h; \
-     fi
 
 .PHONY : get_aspell
 get_aspell:

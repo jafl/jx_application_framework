@@ -15,8 +15,6 @@ recognition.  The major features that it provides are:
 <p>
 <li> <a href=jxhelp:THX2DPlotHelp>plot 2D functions</a>
 <p>
-<li> <a href=jxhelp:THX3DPlotHelp>plot 3D functions</a>
-<p>
 <li> <a href=jxhelp:THXBaseConvHelp>convert between different bases</a>
      (e.g. hex <-> decimal)
 </ul>

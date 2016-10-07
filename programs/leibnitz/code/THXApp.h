@@ -20,8 +20,6 @@ class THXVarDirector;
 class THXExprDirector;
 class THX2DPlotDirector;
 class THX2DPlotFunctionDialog;
-class THX3DPlotDirector;
-class THX3DPlotFunctionDialog;
 class THXBaseConvDirector;
 
 class THXApp : public JXApplication
@@ -37,7 +35,6 @@ public:
 	THXVarList*			GetVariableList() const;
 	THXExprDirector*	NewExpression(const JBoolean centerOnScreen = kJFalse);
 	void				New2DPlot(const THX2DPlotDirector* prevPlot = NULL);
-	void				New3DPlot(const THX3DPlotDirector* prevPlot = NULL);
 	void				ShowConstants() const;
 	void				ShowBaseConversion() const;
 
@@ -74,8 +71,6 @@ private:
 	JBoolean						itsKeyPadVisibleFlag;
 	JPtrArray<THX2DPlotDirector>*	its2DPlotList;
 	THX2DPlotFunctionDialog*		its2DPlotFnDialog;	// NULL unless asking user
-	JPtrArray<THX3DPlotDirector>*	its3DPlotList;
-	THX3DPlotFunctionDialog*		its3DPlotFnDialog;	// NULL unless asking user
 	THXBaseConvDirector*			itsBCDirector;
 
 private:
@@ -85,12 +80,9 @@ private:
 	void	SaveProgramState();
 
 	void	Create2DPlot();
-	void	Create3DPlot();
 
 	static JOrderedSetT::CompareResult
 		Compare2DPlotTitles(THX2DPlotDirector* const & p1, THX2DPlotDirector* const & p2);
-	static JOrderedSetT::CompareResult
-		Compare3DPlotTitles(THX3DPlotDirector* const & p1, THX3DPlotDirector* const & p2);
 
 	// not allowed
 

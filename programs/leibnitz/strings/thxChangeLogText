@@ -13,6 +13,10 @@ Please send all bug reports and suggestions for features to
 <hr>
 <p>
 
+<h3> 2.1 </h3>
+
+Removed 3D plotting, since I have no time to support it.
+
 <h3> 2.0.2 </h3>
 
 Updated URL for version check.

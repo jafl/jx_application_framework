@@ -13,8 +13,6 @@
 #include "THXExprDirector.h"
 #include "THX2DPlotDirector.h"
 #include "THX2DPlotFunctionDialog.h"
-#include "THX3DPlotDirector.h"
-#include "THX3DPlotFunctionDialog.h"
 #include "THXBaseConvDirector.h"
 #include "THXAboutDialog.h"
 #include "thxGlobals.h"
@@ -93,13 +91,7 @@ THXApp::THXApp
 	its2DPlotList->SetCompareFunction(Compare2DPlotTitles);
 	its2DPlotList->SetSortOrder(JOrderedSetT::kSortAscending);
 
-	its3DPlotList = new JPtrArray<THX3DPlotDirector>(JPtrArrayT::kForgetAll);
-	assert( its3DPlotList != NULL );
-	its3DPlotList->SetCompareFunction(Compare3DPlotTitles);
-	its3DPlotList->SetSortOrder(JOrderedSetT::kSortAscending);
-
 	its2DPlotFnDialog = NULL;
-	its3DPlotFnDialog = NULL;
 
 	THXCreateGlobals(this);
 	RestoreProgramState();
@@ -119,7 +111,6 @@ THXApp::~THXApp()
 	delete itsVarList;
 	delete itsExprList;		// objects deleted by JXDirector
 	delete its2DPlotList;	// objects deleted by JXDirector
-	delete its3DPlotList;	// objects deleted by JXDirector
 
 	THXDeleteGlobals();
 }
@@ -249,54 +240,6 @@ THXApp::Create2DPlot()
 
 	THX2DPlotDirector* plot = its2DPlotList->NthElement(plotIndex);
 	plot->AddFunction(itsVarList, *f, curveName, xMin, xMax);
-	plot->Activate();
-}
-
-/******************************************************************************
- New3DPlot
-
-	prevPlot should be the THX3DPlotDirector that originated the request,
-	NULL otherwise.
-
- ******************************************************************************/
-
-void
-THXApp::New3DPlot
-	(
-	const THX3DPlotDirector* prevPlot
-	)
-{
-	assert( its3DPlotFnDialog == NULL );
-
-	its3DPlotFnDialog = new THX3DPlotFunctionDialog(this, itsVarList, prevPlot);
-	assert( its3DPlotFnDialog != NULL );
-	its3DPlotFnDialog->BeginDialog();
-	ListenTo(its3DPlotFnDialog);
-}
-
-/******************************************************************************
- Create3DPlot (private)
-
- ******************************************************************************/
-
-void
-THXApp::Create3DPlot()
-{
-	assert( its3DPlotFnDialog != NULL );
-
-	const JFunction* f;
-	JString surfaceName;
-	JFloat xMin, xMax, yMin, yMax;
-	JSize xCount, yCount;
-	its3DPlotFnDialog->GetSettings(&f, &surfaceName, &xMin, &xMax, &xCount,
-								   &yMin, &yMax, &yCount);
-
-	THX3DPlotDirector* plot = new THX3DPlotDirector(this);
-	assert( plot != NULL );
-	its3DPlotList->Append(plot);
-
-	plot->SetFunction(itsVarList, *f, surfaceName,
-					  xMin, xMax, xCount, yMin, yMax, yCount);
 	plot->Activate();
 }
 
@@ -469,20 +412,6 @@ JIndex i;
 		its2DPlotList->Append(plot);
 		}
 
-	if (vers >= 10)
-		{
-		plotCount;
-		input >> plotCount;
-
-		for (i=1; i<=plotCount; i++)
-			{
-			THX3DPlotDirector* plot = new THX3DPlotDirector(input, vers, this, itsVarList);
-			assert( plot != NULL );
-			plot->Activate();
-			its3DPlotList->Append(plot);
-			}
-		}
-
 	if (displayAbout)
 		{
 		DisplayAbout(prevProgramVers);
@@ -577,15 +506,6 @@ JIndex i;
 		output << ' ';
 		(its2DPlotList->NthElement(i))->WriteState(output);
 		}
-
-	plotCount = its3DPlotList->GetElementCount();
-	output << ' ' << plotCount;
-
-	for (i=1; i<=plotCount; i++)
-		{
-		output << ' ';
-		(its3DPlotList->NthElement(i))->WriteState(output);
-		}
 }
 
 /******************************************************************************
@@ -610,18 +530,6 @@ THXApp::Receive
 			Create2DPlot();
 			}
 		its2DPlotFnDialog = NULL;
-		}
-
-	else if (sender == its3DPlotFnDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
-		const JXDialogDirector::Deactivated* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
-		assert( info != NULL );
-		if (info->Successful())
-			{
-			Create3DPlot();
-			}
-		its3DPlotFnDialog = NULL;
 		}
 
 	else
@@ -656,11 +564,6 @@ THXApp::DirectorClosed
 	if (plot2DDir != NULL && its2DPlotList->Find(plot2DDir, &dirIndex))
 		{
 		its2DPlotList->RemoveElement(dirIndex);
-		}
-	THX3DPlotDirector* plot3DDir = (THX3DPlotDirector*) theDirector;
-	if (plot3DDir != NULL && its3DPlotList->Find(plot3DDir, &dirIndex))
-		{
-		its3DPlotList->RemoveElement(dirIndex);
 		}
 
 	JXApplication::DirectorClosed(theDirector);
@@ -729,23 +632,6 @@ THXApp::Compare2DPlotTitles
 	(
 	THX2DPlotDirector* const & p1,
 	THX2DPlotDirector* const & p2
-	)
-{
-	return JCompareStringsCaseInsensitive(
-			const_cast<JString*>(&((p1->GetWindow())->GetTitle())),
-			const_cast<JString*>(&((p2->GetWindow())->GetTitle())));
-}
-
-/******************************************************************************
- Compare3DPlotTitles (static private)
-
- ******************************************************************************/
-
-JOrderedSetT::CompareResult
-THXApp::Compare3DPlotTitles
-	(
-	THX3DPlotDirector* const & p1,
-	THX3DPlotDirector* const & p2
 	)
 {
 	return JCompareStringsCaseInsensitive(
