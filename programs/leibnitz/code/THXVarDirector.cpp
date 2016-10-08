@@ -35,7 +35,6 @@ static const JCharacter* kActionsMenuStr =
 	"  | Remove constant     %k Meta-R"
 	"%l| New expression      %k Meta-N"
 	"  | Plot 2D function... %k Meta-Shift-P"
-//	"  | Plot 3D function... %k Meta-Shift-O"
 	"  | Base conversion...  %k Meta-B"
 	"%l| Close window        %k Meta-W"
 	"  | Quit                %k Meta-Q";
@@ -46,7 +45,6 @@ enum
 	kRemoveConstCmd,
 	kNewExprCmd,
 	kNew2DPlotCmd,
-//	kNew3DPlotCmd,
 	kConvBaseCmd,
 	kCloseWindowCmd,
 	kQuitCmd
@@ -277,11 +275,7 @@ THXVarDirector::HandleActionsMenu
 		{
 		(THXGetApplication())->New2DPlot();
 		}
-/*	else if (index == kNew3DPlotCmd)
-		{
-		(THXGetApplication())->New3DPlot();
-		}
-*/	else if (index == kConvBaseCmd)
+	else if (index == kConvBaseCmd)
 		{
 		(THXGetApplication())->ShowBaseConversion();
 		}
