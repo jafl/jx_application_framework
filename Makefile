@@ -115,7 +115,7 @@ CREATE_ACE_CONFIG = \
     fi
 
 TEST_ACE_MACROS = \
-    if { test ! -f ACE/ACE_wrappers/include/makeinclude/platform_macros.GNU; } then \
+    if { test -d ACE/ACE_wrappers/include/makeinclude -a ! -f ACE/ACE_wrappers/include/makeinclude/platform_macros.GNU; } then \
         { \
         ln -sf
 

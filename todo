@@ -354,6 +354,10 @@ JTextEditor::DrawInMargin
 	line #'s
 	bookmarks -- easier to see which line was marked
 
+cygwin
+	systemg:  dragging files doesn't work
+	jcc:  dragging files from systemg to diff dialog doesn't work
+
 -----
 
 theme
