@@ -77,7 +77,9 @@ else if which zypper; then
 		libicu-devel pcre-devel \
 		llvm-devel imake libtool  xorg-x11-proto-devel libdrm-devel \
 		xorg-x11-server-devel libXdamage-devel expat-devel \
-		aspell aspell-en xforms-devel;
+		aspell aspell-en;
+
+	# xforms-devel
 
 else
 
