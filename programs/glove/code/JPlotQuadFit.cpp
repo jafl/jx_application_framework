@@ -1,8 +1,8 @@
 /*********************************************************************************
  JPlotQuadFit.cpp
- 
+
 	JPlotQuadFit class.
- 
+
 	Copyright @ 1997 by Glenn W. Bach. All rights reserved.
 
  ********************************************************************************/
@@ -31,7 +31,7 @@ const JFloat 	GOLD 	= 1.618034;
 const JFloat 	GLIMIT 	= 100.0;
 const JFloat 	TINY 	= 1.0e-20;
 
-enum 
+enum
 {
 	MOVE_AWAY=1,
 	MOVE_BACK
@@ -67,14 +67,14 @@ enum
 };
 
 /*********************************************************************************
- Constructor 
- 
+ Constructor
+
 
  ********************************************************************************/
 
 JPlotQuadFit::JPlotQuadFit
 	(
-	J2DPlotWidget* 	plot, 
+	J2DPlotWidget* 	plot,
 	JPlotDataBase* 	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
@@ -90,11 +90,11 @@ JPlotQuadFit::JPlotQuadFit
 
 JPlotQuadFit::JPlotQuadFit
 	(
-	J2DPlotWidget* plot, 
+	J2DPlotWidget* plot,
 	JPlotDataBase* fitData,
-	const JFloat xmin, 
+	const JFloat xmin,
 	const JFloat xmax,
-	const JFloat ymin, 
+	const JFloat ymin,
 	const JFloat ymax
 	)
 	:
@@ -127,13 +127,13 @@ JPlotQuadFit::JPlotQuadFit
 void
 JPlotQuadFit::JPlotQuadFitX
 	(
-	J2DPlotWidget* plot, 
+	J2DPlotWidget* plot,
 	JPlotDataBase* fitData
 	)
 {
 	itsP 	= NULL;
 	itsXi	= NULL;
-	
+
 	SetHasParameterErrors(kJTrue);
 	if (fitData->HasXErrors() || fitData->HasYErrors())
 		{
@@ -168,17 +168,17 @@ JPlotQuadFit::JPlotQuadFitX
 
 /*********************************************************************************
  Destructor
- 
+
 
  ********************************************************************************/
- 
+
 JPlotQuadFit::~JPlotQuadFit()
 {
 }
 
 /*********************************************************************************
  GetYValue
- 
+
 
  ********************************************************************************/
 
@@ -203,16 +203,16 @@ JPlotQuadFit::GetYValue
 
 /*********************************************************************************
  GetYRange
- 
+
 
  ********************************************************************************/
 
 JBoolean
 JPlotQuadFit::GetYRange
 	(
-	JFloat* min, 
+	JFloat* min,
 	JFloat* max,
-	JFloat	xMin, 
+	JFloat	xMin,
 	JFloat	xMax
 	)
 {
@@ -220,7 +220,7 @@ JPlotQuadFit::GetYRange
 	GetYValue(xMin, &tempMin);
 	JFloat tempMax;
 	GetYValue(xMax, &tempMax);
-	
+
 	if (tempMin <= tempMax)
 		{
 		*min = tempMin;
@@ -236,14 +236,14 @@ JPlotQuadFit::GetYRange
 
 /*********************************************************************************
  GetParameterName
- 
+
 
  ********************************************************************************/
 
 JBoolean
 JPlotQuadFit::GetParameterName
 	(
-	const JIndex index, 
+	const JIndex index,
 	JString* name
 	)
 	const
@@ -269,14 +269,14 @@ JPlotQuadFit::GetParameterName
 
 /*********************************************************************************
  GetParameter
- 
+
 
  ********************************************************************************/
 
 JBoolean
 JPlotQuadFit::GetParameter
 	(
-	const JIndex index, 
+	const JIndex index,
 	JFloat* value
 	)
 	const
@@ -297,19 +297,19 @@ JPlotQuadFit::GetParameter
 		{
 		*value = itsCParameter;
 		}
-	return kJTrue;		
+	return kJTrue;
 }
 
 /*********************************************************************************
  GetParameterError
- 
+
 
  ********************************************************************************/
 
 JBoolean
 JPlotQuadFit::GetParameterError
 	(
-	const JIndex index, 
+	const JIndex index,
 	JFloat* value
 	)
 	const
@@ -336,7 +336,7 @@ JPlotQuadFit::GetParameterError
 
 /*********************************************************************************
  GetGoodnessOfFitName
- 
+
 
  ********************************************************************************/
 
@@ -361,7 +361,7 @@ JPlotQuadFit::GetGoodnessOfFitName
 
 /*********************************************************************************
  GetGoodnessOfFit
- 
+
 
  ********************************************************************************/
 
@@ -382,13 +382,13 @@ JPlotQuadFit::GetGoodnessOfFit
 		{
 		*value = GetStdDev();
 		}
-	
+
 	return kJTrue;
 }
 
 /*********************************************************************************
  GetFunctionString
- 
+
 
  ********************************************************************************/
 
@@ -401,7 +401,7 @@ JPlotQuadFit::GetFunctionString()
 
 /*********************************************************************************
  GetFitFunctionString
- 
+
 
  ********************************************************************************/
 
@@ -415,7 +415,7 @@ JPlotQuadFit::GetFitFunctionString()
 
 /*********************************************************************************
  GenerateFit
- 
+
 
  ********************************************************************************/
 
@@ -432,7 +432,7 @@ JPlotQuadFit::GenerateFit()
 
 /*********************************************************************************
  QuadFirstPass
- 
+
 
  ********************************************************************************/
 
@@ -443,7 +443,7 @@ JPlotQuadFit::QuadFirstPass()
 	JFloat tempa, tempb, tempc, det;
 	JSize i,j, k;
 	JArray<JFloat> yAdjError;
-	
+
 	const JPlotDataBase* data = GetDataToFit();
 	J2DDataPoint point;
 	const JSize count = data->GetElementCount();
@@ -532,7 +532,7 @@ JPlotQuadFit::QuadFirstPass()
 			{
 			if (GetDataElement(i, &point))
 				{
-				JFloat newVal = 
+				JFloat newVal =
 					sqrt(point.yerr*point.yerr + (tempb+2*tempc*point.x)*(tempb+2*tempc*point.x)*point.xerr*point.xerr);
 				if (newVal == 0)
 					{
@@ -567,15 +567,15 @@ JPlotQuadFit::QuadFirstPass()
 
 /*********************************************************************************
  QuadMinFit
- 
+
 
  ********************************************************************************/
 
 void
 JPlotQuadFit::QuadMinFit()
 {
-	itsAParameterT = itsAParameter; 
-	itsBParameterT = itsBParameter; 
+	itsAParameterT = itsAParameter;
+	itsBParameterT = itsBParameter;
 	itsCParameterT = itsCParameter;
 
 	JVector p(3);
@@ -592,9 +592,9 @@ JPlotQuadFit::QuadMinFit()
 	MinimizeN(p, xi, &iter, kMinimizeAll);
 
 //	MinimizeChiSqr(itsChi2, kMinimizeAll);
-			
+
 	itsChi2 = ChiSqr(0, kDefaultType);
-	
+
 	itsCParameter = p.GetElement(3);
 	itsAParameter = p.GetElement(1);
 	itsBParameter = p.GetElement(2);
@@ -623,7 +623,7 @@ JPlotQuadFit::QuadMinFit()
 JFloat
 JPlotQuadFit::MinimizeChiSqr
 	(
-	const JFloat chi2, 
+	const JFloat chi2,
 	const JIndex type
 	)
 {
@@ -635,7 +635,7 @@ JPlotQuadFit::MinimizeChiSqr
 	JFloat oldC = itsCParameterT;
 
 	while ((i < ITMAX) &&
-		((i == 1) || 
+		((i == 1) ||
 		(fabs((oldA-itsAParameterT)/oldA) > 0.000001) ||
 		(fabs((oldC-itsCParameterT)/oldC) > 0.000001) ||
 		(fabs((oldB-itsBParameterT)/oldB) > 0.000001)))
@@ -663,11 +663,11 @@ JPlotQuadFit::MinimizeChiSqr
 
 /*********************************************************************************
  CalcError
- 
+
 
  ********************************************************************************/
 
-JFloat 
+JFloat
 JPlotQuadFit::CalcError
 	(
 	const JIndex type
@@ -677,14 +677,14 @@ JPlotQuadFit::CalcError
 	itsBParameterT = itsBParameter;
 	itsCParameterT = itsCParameter;
 
-	JFloat parameter;
-	JFloat *sigParameter;
-	JIndex fitType;
+	JFloat parameter = 0;
+	JFloat *sigParameter = NULL;
+	JIndex fitType = 0;
 	JVector p(2);
 	JMatrix xi(2,2);
 	xi.SetElement(1,1,1.0);
 	xi.SetElement(2,2,1.0);
-	
+
 	if (type == kAError)
 		{
 		sigParameter = &itsAParameterT;
@@ -719,7 +719,7 @@ JPlotQuadFit::CalcError
 	JSize iter;
 	JFloat chitemp = MinimizeN(p, xi, &iter, fitType);
 	JFloat lastchi;
-	
+
 	do
 		{
 		if (chitemp > chiplus)
@@ -880,10 +880,10 @@ JPlotQuadFit::CalcError
 
 /*********************************************************************************
  ChiSqr
- 
+
  ********************************************************************************/
 
-JFloat 
+JFloat
 JPlotQuadFit::ChiSqr
 	(
 	JFloat 			Bt,
@@ -894,8 +894,8 @@ JPlotQuadFit::ChiSqr
 	J2DDataPoint point;
 	JSize rcount = itsRealData->GetElementCount();
 	JFloat c = 0;
-	
-	for (JSize i = 1; i <= rcount; i++) 
+
+	for (JSize i = 1; i <= rcount; i++)
 		{
 		point = itsRealData->GetElement(i);
 		JFloat sy = point.yerr;
@@ -931,10 +931,10 @@ JPlotQuadFit::ChiSqr
 
 /*********************************************************************************
  Function
- 
+
  ********************************************************************************/
 
-JFloat 
+JFloat
 JPlotQuadFit::Function
 	(
 	JFloat	 		Bt,
@@ -950,10 +950,10 @@ JPlotQuadFit::Function
 
 /*********************************************************************************
  FunctionN
- 
+
  ********************************************************************************/
 
-JFloat 
+JFloat
 JPlotQuadFit::FunctionN
 	(
 	JVector& 		parameters,
@@ -993,8 +993,8 @@ JPlotQuadFit::FunctionN
 		B = parameters.GetElement(2);
 		C = parameters.GetElement(3);
 		}
-	
-	for (JSize i = 1; i <= rcount; i++) 
+
+	for (JSize i = 1; i <= rcount; i++)
 		{
 		point = itsRealData->GetElement(i);
 		JFloat sy = point.yerr;
@@ -1012,21 +1012,21 @@ JPlotQuadFit::FunctionN
 
 /*********************************************************************************
  BracketAndMinimize
- 
+
 
  ********************************************************************************/
 
-JFloat 
+JFloat
 JPlotQuadFit::BracketAndMinimize
 	(
-	JFloat* 		parameter, 
+	JFloat* 		parameter,
 	const JFloat 	chitemp,
 	const JIndex 	type
 	)
 {
 	JFloat factor=0.01, small=TOLL, bmin, bmax;
 	JFloat cbmax, cbmin, btemp;
-	int i, iter;	
+	int i, iter;
 
 	btemp = *parameter;
 
@@ -1035,9 +1035,9 @@ JPlotQuadFit::BracketAndMinimize
 
 	cbmax = Function(bmax, type);
 	cbmin = Function(bmin, type);
-	
+
 	iter = 1;
-	while (iter < 100) 
+	while (iter < 100)
 		{
 		cbmax = Function(bmax, type);
 		cbmin = Function(bmin, type);
@@ -1045,14 +1045,14 @@ JPlotQuadFit::BracketAndMinimize
 			{
 			break;
 			}
-		else 
+		else
 			{
-			if (cbmin <= cbmax) 
+			if (cbmin <= cbmax)
 				{
 				btemp = bmin;
 				bmin = btemp*(1-factor);
-				} 
-			else 
+				}
+			else
 				{
 				btemp = bmax;
 				bmax = btemp*(1+factor);
@@ -1071,16 +1071,16 @@ JPlotQuadFit::BracketAndMinimize
 
 /*********************************************************************************
  Minimize
- 
+
 
  ********************************************************************************/
 
-JFloat 
+JFloat
 JPlotQuadFit::Minimize
 	(
 	JFloat 			ax,
 	JFloat 			bx,
-	JFloat 			cx, 
+	JFloat 			cx,
 	JFloat* 		xmin,
 	const JIndex	type
 	)
@@ -1093,47 +1093,47 @@ JPlotQuadFit::Minimize
 	x = bx;
 	w = bx;
 	v = bx;
-	
-	
+
+
 	fx = Function(bx, type);
 	fw = fx;
 	fw = fx;
-	if (ax<cx) 
+	if (ax<cx)
 		{
 		low = ax;
 		high = cx;
 		}
-	else 
+	else
 		{
 		low = cx;
 		high = ax;
 		}
 	iter = 1;
-	while (iter<= ITMAX) 
-		{	
+	while (iter<= ITMAX)
+		{
 		middle=0.5*(low+high);
 		tol1=TOLL*fabs(x)+ZEPS;
 		tol2 = 2.0*(tol1);
-		if (fabs(x-middle) <= (tol2-0.5*(high-low))) 
+		if (fabs(x-middle) <= (tol2-0.5*(high-low)))
 			{
 			*xmin= x;
 			ymin= fx;
 			return fx;
 			}
-		if (fabs(oldstep) > tol1) 
+		if (fabs(oldstep) > tol1)
 			{
 			r=(x - w) * (fx - fv);
 			q=(x - v) * (fx - fw);
 			p=(x - v) * q + (w - x)* r;
 			q= 2.0 * (q - r);
-			if (q > 0.0) 
+			if (q > 0.0)
 				{
 				p = -p;
 				}
 			q = fabs(q);
 			steptemp = oldstep;
 			oldstep = step;
-			if ((fabs(p) >= fabs(0.5*q*steptemp)) || (p <= q*(low-x)) || (p >= q*(high-x))) 
+			if ((fabs(p) >= fabs(0.5*q*steptemp)) || (p <= q*(low-x)) || (p >= q*(high-x)))
 				{
 				if (x >= middle)
 					{
@@ -1144,12 +1144,12 @@ JPlotQuadFit::Minimize
 					oldstep = high - x;
 					}
 				step = CGOLD*oldstep;
-				} 
-			else 
+				}
+			else
 				{
 				step = p/q;
 				u = x + step;
-				if ((u-low < tol2) || (high-u < tol2)) 
+				if ((u-low < tol2) || (high-u < tol2))
 					{
 					if ((middle - x) > 0.0)
 						{
@@ -1174,7 +1174,7 @@ JPlotQuadFit::Minimize
 				}
 			step = CGOLD*oldstep;
 			}
-			
+
 		if (fabs(step) >= tol1)
 			{
 			u = x + step;
@@ -1182,7 +1182,7 @@ JPlotQuadFit::Minimize
 		else
 			{
 			if (step > 0.0)
-			 	{
+				{
 				u = x + fabs(tol1);
 				}
 			else
@@ -1191,11 +1191,11 @@ JPlotQuadFit::Minimize
 				}
 			}
 		fu = Function(u, type);
-		if (fu <= fx) 
+		if (fu <= fx)
 			{
-			if (u >= x) 
+			if (u >= x)
 				{
-				low=x; 
+				low=x;
 				}
 			else
 				{
@@ -1207,27 +1207,27 @@ JPlotQuadFit::Minimize
 			fv = fw;
 			fw = fx;
 			fx = fu;
-			} 
-		else 
+			}
+		else
 			{
-			if (u < x) 
+			if (u < x)
 				{
 				low = u;
 				}
-			else 
+			else
 				{
 				high = u;
 				}
-			if ((fu <= fw) || (w == x)) 
+			if ((fu <= fw) || (w == x))
 				{
 				v = w;
 				w = u;
 				fv = fw;
 				fw = fu;
-				} 
-			else 
+				}
+			else
 				{
-				if ((fu <= fv) || (v == x) || (v == w)) 
+				if ((fu <= fv) || (v == x) || (v == w))
 					{
 					v = u;
 					fv = fu;
@@ -1237,7 +1237,7 @@ JPlotQuadFit::Minimize
 
 		iter++;
 		}
-	if (iter > ITMAX) 
+	if (iter > ITMAX)
 		{
 		*xmin = x;
 		ymin = fx;
@@ -1247,16 +1247,16 @@ JPlotQuadFit::Minimize
 
 /*********************************************************************************
  MinimizeN
- 
+
 
  ********************************************************************************/
 
-JFloat 
+JFloat
 JPlotQuadFit::MinimizeN
 	(
-	JVector& 		p, 
-	JMatrix& 		xi, 
-	JSize 			*iter, 
+	JVector& 		p,
+	JMatrix& 		xi,
+	JSize 			*iter,
 	const JIndex	type
 	)
 {
@@ -1267,21 +1267,21 @@ JPlotQuadFit::MinimizeN
 	JVector pt(n);
 	JVector ptt(n);
 	JVector xit(n);
-	
+
 	fret = FunctionN(p, type);
 	pt = p;
 
-	for (*iter = 1; *iter <= ITMAX; ++(*iter)) 
+	for (*iter = 1; *iter <= ITMAX; ++(*iter))
 		{
 		fp = fret;
 		ibig=0;
 		del=0.0;
-		for (i = 1; i <= n; i++) 
+		for (i = 1; i <= n; i++)
 			{
 			xit = xi.GetColVector(i);
 			fptt = fret;
 			fret = LinearMinimization(p, xit, type);
-			if (fabs(fptt-fret) > del) 
+			if (fabs(fptt-fret) > del)
 				{
 				del=fabs(fptt-fret);
 				ibig=i;
@@ -1295,10 +1295,10 @@ JPlotQuadFit::MinimizeN
 		xit = p - pt;
 		pt = p;
 		fptt = FunctionN(ptt, type);
-		if (fptt < fp) 
+		if (fptt < fp)
 			{
 			t = 2.0*(fp - 2.0*fret+fptt) * (fp-fret-del)*(fp-fret-del) -del*(fp-fptt)*(fp-fptt);
-			if (t < 0.0) 
+			if (t < 0.0)
 				{
 				fret = LinearMinimization(p, xit, type);
 				xi.SetColVector(ibig, xi.GetColVector(n));
@@ -1311,15 +1311,15 @@ JPlotQuadFit::MinimizeN
 
 /*********************************************************************************
  LinearMinimization
- 
+
 
  ********************************************************************************/
 
-JFloat 
+JFloat
 JPlotQuadFit::LinearMinimization
 	(
-	JVector& 		p, 
-	JVector& 		xi, 
+	JVector& 		p,
+	JVector& 		xi,
 	const JIndex	type
 	)
 {
@@ -1334,7 +1334,7 @@ JPlotQuadFit::LinearMinimization
 	assert(itsXi != NULL);
 
 	itsCurrentType = type;
-	
+
 	ax=0.0;
 	xx=1.0;
 	Bracket(&ax,&xx,&bx,&fa,&fx,&fb,k1DimType);
@@ -1352,18 +1352,18 @@ JPlotQuadFit::LinearMinimization
 
 /*********************************************************************************
  Bracket
- 
+
 
  ********************************************************************************/
 
-void 
+void
 JPlotQuadFit::Bracket
 	(
-	JFloat 			*ax, 
-	JFloat 			*bx, 
-	JFloat 			*cx, 
-	JFloat 			*fa, 
-	JFloat 			*fb, 
+	JFloat 			*ax,
+	JFloat 			*bx,
+	JFloat 			*cx,
+	JFloat 			*fa,
+	JFloat 			*fb,
 	JFloat 			*fc,
 	const JIndex	type
 	)
@@ -1372,16 +1372,16 @@ JPlotQuadFit::Bracket
 
 	*fa = Function(*ax, type);
 	*fb = Function(*bx, type);
-	
-	if (*fb > *fa) 
+
+	if (*fb > *fa)
 		{
 		Shift(dum,*ax,*bx,dum);
 		Shift(dum,*fb,*fa,dum);
 		}
 	*cx = (*bx)+GOLD*(*bx-*ax);
 	*fc = Function(*cx, type);
-	
-	while (*fb > *fc) 
+
+	while (*fb > *fc)
 		{
 		r = (*bx-*ax)*(*fb-*fc);
 		q = (*bx-*cx)*(*fb-*fa);
@@ -1397,18 +1397,18 @@ JPlotQuadFit::Bracket
 		u = (*bx)-((*bx-*cx)*q-(*bx-*ax)*r)/
 			(2.0*sign*JMax(fabs(q-r),TINY));
 		ulim = (*bx)+GLIMIT*(*cx-*bx);
-		if ((*bx-u)*(u-*cx) > 0.0) 
+		if ((*bx-u)*(u-*cx) > 0.0)
 			{
 			fu = Function(u, type);
-			if (fu < *fc) 
+			if (fu < *fc)
 				{
 				*ax = (*bx);
 				*bx = u;
 				*fa = (*fb);
 				*fb = fu;
 				return;
-				} 
-			else if (fu > *fb) 
+				}
+			else if (fu > *fb)
 				{
 				*cx = u;
 				*fc = fu;
@@ -1416,24 +1416,24 @@ JPlotQuadFit::Bracket
 				}
 			u = (*cx)+GOLD*(*cx-*bx);
 			fu = Function(u, type);
-			} 
-		else if ((*cx-u)*(u-ulim) > 0.0) 
+			}
+		else if ((*cx-u)*(u-ulim) > 0.0)
 			{
 			fu = Function(u, type);
-			if (fu < *fc) 
+			if (fu < *fc)
 				{
 				JFloat temp = *cx+GOLD*(*cx-*bx);
 				Shift(*bx,*cx,u,temp);
 				temp = Function(u, type);
 				Shift(*fb,*fc,fu,temp);
 				}
-			} 
-		else if ((u-ulim)*(ulim-*cx) >= 0.0) 
+			}
+		else if ((u-ulim)*(ulim-*cx) >= 0.0)
 			{
 			u = ulim;
 			fu = Function(u, type);
-			} 
-		else 
+			}
+		else
 			{
 			u = (*cx)+GOLD*(*cx-*bx);
 			fu = Function(u, type);
@@ -1443,7 +1443,7 @@ JPlotQuadFit::Bracket
 		}
 }
 
-void 
+void
 JPlotQuadFit::Shift
 	(
 	JFloat& a,
@@ -1459,7 +1459,7 @@ JPlotQuadFit::Shift
 
 /*********************************************************************************
  SetFunctionName
- 
+
 
  ********************************************************************************/
 
@@ -1474,7 +1474,7 @@ JPlotQuadFit::SetFunctionName
 
 /*********************************************************************************
  DataElementValid
- 
+
 
  ********************************************************************************/
 
@@ -1487,9 +1487,9 @@ JPlotQuadFit::DataElementValid
 	const JPlotDataBase* data = GetDataToFit();
 	J2DDataPoint point;
 	data->GetElement(index, &point);
-	
+
 	if (itsUsingRange)
-		{		
+		{
 		if ((point.x >= itsRangeXMin) &&
 			(point.x <= itsRangeXMax) &&
 			(point.y >= itsRangeYMin) &&
@@ -1507,7 +1507,7 @@ JPlotQuadFit::DataElementValid
 
 /******************************************************************************
  GetDataElement
- 
+
 
  *****************************************************************************/
 
@@ -1530,7 +1530,7 @@ JPlotQuadFit::GetDataElement
 
 /*****************************************************************************
  AdjustDiffData
- 
+
 
  *****************************************************************************/
 

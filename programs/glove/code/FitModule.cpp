@@ -87,9 +87,9 @@ FitModule::FitModule
 	itsProcess = process;
 	ListenTo(itsProcess);
 	
-	itsLink = jnew ProcessLink(fd);
-//	itsLink->set_hanle(input);
+	itsLink = new ProcessLink(fd);
 	assert(itsLink != NULL);
+//	itsLink->set_hanle(input);
 	ListenTo(itsLink);
 //	itsProcessInput = jnew JIPCLine(input, kJTrue);
 //	assert(itsProcessInput != NULL);
@@ -198,7 +198,7 @@ FitModule::FitModule
 FitModule::~FitModule()
 {
 	jdelete itsProcess;
-	jdelete itsLink;
+	delete itsLink;
 	if (itsPG != NULL)
 		{
 		itsPG->ProcessFinished();

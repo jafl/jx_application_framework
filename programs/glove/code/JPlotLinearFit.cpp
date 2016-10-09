@@ -1,8 +1,8 @@
 /*********************************************************************************
  JPlotLinearFit.cpp
- 
+
 	JPlotLinearFit class.
- 
+
 	Copyright @ 1997 by Glenn W. Bach. All rights reserved.
 
  ********************************************************************************/
@@ -23,14 +23,14 @@ const JFloat 	ZEPS   = 1.0e-10;
 const JFloat 	TOLL   = 1.0e-10;
 
 /*********************************************************************************
- Constructor 
- 
+ Constructor
+
 
  ********************************************************************************/
 
 JPlotLinearFit::JPlotLinearFit
 	(
-	J2DPlotWidget* 	plot, 
+	J2DPlotWidget* 	plot,
 	JPlotDataBase* 	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax,
@@ -46,11 +46,11 @@ JPlotLinearFit::JPlotLinearFit
 
 JPlotLinearFit::JPlotLinearFit
 	(
-	J2DPlotWidget* plot, 
+	J2DPlotWidget* plot,
 	JPlotDataBase* fitData,
-	const JFloat xmin, 
+	const JFloat xmin,
 	const JFloat xmax,
-	const JFloat ymin, 
+	const JFloat ymin,
 	const JFloat ymax,
 	const JBoolean xlog,
 	const JBoolean ylog
@@ -85,7 +85,7 @@ JPlotLinearFit::JPlotLinearFit
 void
 JPlotLinearFit::JPlotLinearFitX
 	(
-	J2DPlotWidget* plot, 
+	J2DPlotWidget* plot,
 	JPlotDataBase* fitData,
 	const JBoolean xlog,
 	const JBoolean ylog
@@ -116,24 +116,24 @@ JPlotLinearFit::JPlotLinearFitX
 
 /*********************************************************************************
  Destructor
- 
+
 
  ********************************************************************************/
- 
+
 JPlotLinearFit::~JPlotLinearFit()
 {
 }
 
 /*********************************************************************************
  GetElement
- 
+
 
  ********************************************************************************/
 /*
 void
 JPlotLinearFit::GetElement
 	(
-	const JIndex index, 
+	const JIndex index,
 	J2DDataPoint* data
 	)
 	const
@@ -146,7 +146,7 @@ JPlotLinearFit::GetElement
 	JFloat x;
 	if (itsXIsLog)
 		{
-		
+
 		}
 	else
 		{
@@ -167,7 +167,7 @@ JPlotLinearFit::GetElement
 
 /*********************************************************************************
  GetYValue
- 
+
 
  ********************************************************************************/
 
@@ -192,23 +192,23 @@ JPlotLinearFit::GetYValue
 		{
 		*y = a + b*x;
 		}
-	
+
 	return kJTrue;
 }
 
 
 /*********************************************************************************
  GetYRange
- 
+
 
  ********************************************************************************/
 
 JBoolean
 JPlotLinearFit::GetYRange
 	(
-	JFloat* min, 
+	JFloat* min,
 	JFloat* max,
-	JFloat  xMin, 
+	JFloat  xMin,
 	JFloat  xMax
 	)
 {
@@ -216,7 +216,7 @@ JPlotLinearFit::GetYRange
 	GetYValue(xMin, &tempMin);
 	JFloat tempMax;
 	GetYValue(xMax, &tempMax);
-	
+
 	if (tempMin <= tempMax)
 		{
 		*min = tempMin;
@@ -232,15 +232,15 @@ JPlotLinearFit::GetYRange
 
 /*********************************************************************************
  UpdateFunction
- 
+
 
  ********************************************************************************/
 /*
 void
 JPlotLinearFit::UpdateFunction
 	(
-	const JFloat xmin, 
-	const JFloat xmax, 
+	const JFloat xmin,
+	const JFloat xmax,
 	const JSize steps
 	)
 {
@@ -252,14 +252,14 @@ JPlotLinearFit::UpdateFunction
 
 /*********************************************************************************
  GetParameterName
- 
+
 
  ********************************************************************************/
 
 JBoolean
 JPlotLinearFit::GetParameterName
 	(
-	const JIndex index, 
+	const JIndex index,
 	JString* name
 	)
 	const
@@ -281,14 +281,14 @@ JPlotLinearFit::GetParameterName
 
 /*********************************************************************************
  GetParameter
- 
+
 
  ********************************************************************************/
 
 JBoolean
 JPlotLinearFit::GetParameter
 	(
-	const JIndex index, 
+	const JIndex index,
 	JFloat* value
 	)
 	const
@@ -315,19 +315,19 @@ JPlotLinearFit::GetParameter
 		{
 		*value = itsBParameter;
 		}
-	return kJTrue;		
+	return kJTrue;
 }
 
 /*********************************************************************************
  GetParameterError
- 
+
 
  ********************************************************************************/
 
 JBoolean
 JPlotLinearFit::GetParameterError
 	(
-	const JIndex index, 
+	const JIndex index,
 	JFloat* value
 	)
 	const
@@ -360,7 +360,7 @@ JPlotLinearFit::GetParameterError
 
 /*********************************************************************************
  GetGoodnessOfFitName
- 
+
 
  ********************************************************************************/
 
@@ -385,7 +385,7 @@ JPlotLinearFit::GetGoodnessOfFitName
 
 /*********************************************************************************
  GetGoodnessOfFit
- 
+
 
  ********************************************************************************/
 
@@ -406,13 +406,13 @@ JPlotLinearFit::GetGoodnessOfFit
 		{
 		*value = GetStdDev();
 		}
-	
+
 	return kJTrue;
 }
 
 /*********************************************************************************
  GetFunctionString
- 
+
 
  ********************************************************************************/
 
@@ -425,7 +425,7 @@ JPlotLinearFit::GetFunctionString()
 
 /*********************************************************************************
  GetFitFunctionString
- 
+
 
  ********************************************************************************/
 
@@ -439,7 +439,7 @@ JPlotLinearFit::GetFitFunctionString()
 
 /*********************************************************************************
  GenerateFit
- 
+
 
  ********************************************************************************/
 
@@ -456,7 +456,7 @@ JPlotLinearFit::GenerateFit()
 
 /*********************************************************************************
  LinearLSQ1
- 
+
 
  ********************************************************************************/
 
@@ -469,13 +469,13 @@ JPlotLinearFit::LinearLSQ1()
 	JArray<JFloat> weight;
 	JArray<JFloat> sigma;
 	JSize i;
-	
+
 	JFloat vx, vy;
 	Variance(&vx,&vy);
 	JFloat resize = vy/vx;
 	JFloat num = 0;
 	JFloat avgx = 0;
-	
+
 	for (i = 1; i <= count; i++)
 		{
 		if (GetDataElement(i, &point))
@@ -486,7 +486,7 @@ JPlotLinearFit::LinearLSQ1()
 				{
 				sy = 1;
 				}
-			JFloat s;
+			JFloat s = 0;
 			if (!itsXIsLog)
 				{
 				if (!itsYIsLog)
@@ -512,7 +512,7 @@ JPlotLinearFit::LinearLSQ1()
 		}
 
 	avgx /= num;
-	
+
 	JArray<JFloat> t;
 	JFloat stt = 0;
 	JFloat b = 0;
@@ -529,7 +529,7 @@ JPlotLinearFit::LinearLSQ1()
 			}
 		}
 	b /= stt;
-	
+
 	JFloat a = 0;
 	JFloat aerr = 0;
 	counter = 1;
@@ -548,9 +548,9 @@ JPlotLinearFit::LinearLSQ1()
 	aerr += 1;
 	aerr /= num;
 	aerr = sqrt(aerr);
-	
+
 	JFloat berr = sqrt(1.0/stt);
-	
+
 	JFloat c = 0;
 	JBoolean sytest = kJTrue;
 	counter = 1;
@@ -567,14 +567,14 @@ JPlotLinearFit::LinearLSQ1()
 			counter++;
 			}
 		}
-	
+
 	if (sytest)
 		{
 		JFloat sig = sqrt(c/count);
 		aerr = aerr * sig;
 		berr = berr * sig;
 		}
-		
+
 	itsAParameter = a;
 	itsAErrParameter = aerr;
 	itsBParameter = b;
@@ -584,19 +584,19 @@ JPlotLinearFit::LinearLSQ1()
 
 /*********************************************************************************
  variance
- 
+
 
  ********************************************************************************/
 
-void 
+void
 JPlotLinearFit::Variance
 	(
 	JFloat* vx,
 	JFloat* vy
 	)
 {
-	JSize j; 
- 	const JPlotDataBase* data = GetDataToFit();
+	JSize j;
+	const JPlotDataBase* data = GetDataToFit();
 	J2DDataPoint point;
 	const JSize count = data->GetElementCount();
 	JFloat sy, sx;
@@ -604,7 +604,7 @@ JPlotLinearFit::Variance
 	JFloat avey = 0, avex = 0;
 	JFloat vary = 0, varx = 0;
 
-	for (j = 1; j <= count; j++) 
+	for (j = 1; j <= count; j++)
 		{
 		if (GetDataElement(j, &point))
 			{
@@ -633,14 +633,14 @@ JPlotLinearFit::Variance
 
 /*********************************************************************************
  LinearLSQ2
- 
+
 
  ********************************************************************************/
 
 void
 JPlotLinearFit::LinearLSQ2()
 {
- 	const JPlotDataBase* data = GetDataToFit();
+	const JPlotDataBase* data = GetDataToFit();
 	J2DDataPoint point;
 	const JSize count = data->GetElementCount();
 
@@ -651,25 +651,25 @@ JPlotLinearFit::LinearLSQ2()
 	JFloat btemp = itsBParameter;
 	JFloat ctemp = itsChi2;
 	JSize iter = 1;
-	
+
 	for (i = 1; i <= 3; i++)
 		{
 		btemp = itsBParameter;
 		ctemp = itsChi2;
 		iter = 1;
 
-		 if (fabs(btemp)<small) 
-		 	{
-		 	btemp = small;
-		 	}
+		 if (fabs(btemp)<small)
+			{
+			btemp = small;
+			}
 
-	    JFloat bmax = btemp*(1+factor);
-	    JFloat bmin = btemp*(1-factor);
+		JFloat bmax = btemp*(1+factor);
+		JFloat bmin = btemp*(1-factor);
 
 		JFloat cbmax = ChiSqr(bmax);
 		JFloat cbmin = ChiSqr(bmin);
 
-		while (iter < 100) 
+		while (iter < 100)
 			{
 			cbmax = ChiSqr(bmax);
 			cbmin = ChiSqr(bmin);
@@ -677,14 +677,14 @@ JPlotLinearFit::LinearLSQ2()
 				{
 				break;
 				}
-			else 
+			else
 				{
-				if (cbmin <= cbmax) 
+				if (cbmin <= cbmax)
 					{
 					btemp = bmin;
 					bmin = btemp*(1-factor);
-					} 
-				else 
+					}
+				else
 					{
 					btemp = bmax;
 					bmax = btemp*(1+factor);
@@ -697,7 +697,7 @@ JPlotLinearFit::LinearLSQ2()
 			factor = factor*1.2;
 			iter++;
 			}
-		
+
 		JFloat Bt;
 		Paramin(bmin, btemp, bmax, &Bt);
 		itsBParameter = Bt;
@@ -718,7 +718,7 @@ JPlotLinearFit::LinearLSQ2()
 				{
 				sy = 1;
 				}
-			W += 1/(sx * sx * (itsBParameter + itsBErrParameter) * 
+			W += 1/(sx * sx * (itsBParameter + itsBErrParameter) *
 					(itsBParameter + itsBErrParameter) + sy * sy);
 			}
 		}
@@ -728,11 +728,11 @@ JPlotLinearFit::LinearLSQ2()
 
 /*********************************************************************************
  ChiSqr
- 
+
 
  ********************************************************************************/
 
-JFloat 
+JFloat
 JPlotLinearFit::ChiSqr
 	(
 	JFloat Bt
@@ -746,10 +746,10 @@ JPlotLinearFit::ChiSqr
 	JFloat temp1;
 	JFloat temp2;
 	JSize i;
-	
+
 	temp1 = 0;
 	temp2 = 0;
-	for ( i = 1; i <= count; i++) 
+	for ( i = 1; i <= count; i++)
 		{
 		if (GetDataElement(i, &point))
 			{
@@ -771,7 +771,7 @@ JPlotLinearFit::ChiSqr
 
 	JFloat c = 0;
 	JSize counter = 1;
-	for ( i = 1; i <= count; i++) 
+	for ( i = 1; i <= count; i++)
 		{
 		if (GetDataElement(i, &point))
 			{
@@ -786,16 +786,16 @@ JPlotLinearFit::ChiSqr
 
 /*********************************************************************************
  Paramin
- 
+
 
  ********************************************************************************/
 
-void 
+void
 JPlotLinearFit::Paramin
 	(
 	JFloat ax,
 	JFloat bx,
-	JFloat cx, 
+	JFloat cx,
 	JFloat* xmin
 	)
 {
@@ -807,47 +807,47 @@ JPlotLinearFit::Paramin
 	x = bx;
 	w = bx;
 	v = bx;
-	
-	
+
+
 	fx = ChiSqr(bx);
 	fw = fx;
 	fw = fx;
-	if (ax<cx) 
+	if (ax<cx)
 		{
 		low = ax;
 		high = cx;
 		}
-	else 
+	else
 		{
 		low = cx;
 		high = ax;
 		}
 	iter = 1;
-	while (iter<= ITMAX) 
-		{	
+	while (iter<= ITMAX)
+		{
 		middle=0.5*(low+high);
 		tol1=TOLL*fabs(x)+ZEPS;
 		tol2 = 2.0*(tol1);
-		if (fabs(x-middle) <= (tol2-0.5*(high-low))) 
+		if (fabs(x-middle) <= (tol2-0.5*(high-low)))
 			{
 			*xmin= x;
 			ymin= fx;
 			return;
 			}
-		if (fabs(oldstep) > tol1) 
+		if (fabs(oldstep) > tol1)
 			{
 			r=(x - w) * (fx - fv);
 			q=(x - v) * (fx - fw);
 			p=(x - v) * q + (w - x)* r;
 			q= 2.0 * (q - r);
-			if (q > 0.0) 
+			if (q > 0.0)
 				{
 				p = -p;
 				}
 			q = fabs(q);
 			steptemp = oldstep;
 			oldstep = step;
-			if ((fabs(p) >= fabs(0.5*q*steptemp)) || (p <= q*(low-x)) || (p >= q*(high-x))) 
+			if ((fabs(p) >= fabs(0.5*q*steptemp)) || (p <= q*(low-x)) || (p >= q*(high-x)))
 				{
 				if (x >= middle)
 					{
@@ -858,12 +858,12 @@ JPlotLinearFit::Paramin
 					oldstep = high - x;
 					}
 				step = CGOLD*oldstep;
-				} 
-			else 
+				}
+			else
 				{
 				step = p/q;
 				u = x + step;
-				if ((u-low < tol2) || (high-u < tol2)) 
+				if ((u-low < tol2) || (high-u < tol2))
 					{
 					if ((middle - x) > 0.0)
 						{
@@ -888,7 +888,7 @@ JPlotLinearFit::Paramin
 				}
 			step = CGOLD*oldstep;
 			}
-			
+
 		if (fabs(step) >= tol1)
 			{
 			u = x + step;
@@ -896,7 +896,7 @@ JPlotLinearFit::Paramin
 		else
 			{
 			if (step > 0.0)
-			 	{
+				{
 				u = x + fabs(tol1);
 				}
 			else
@@ -905,11 +905,11 @@ JPlotLinearFit::Paramin
 				}
 			}
 		fu = ChiSqr(u);
-		if (fu <= fx) 
+		if (fu <= fx)
 			{
-			if (u >= x) 
+			if (u >= x)
 				{
-				low=x; 
+				low=x;
 				}
 			else
 				{
@@ -921,27 +921,27 @@ JPlotLinearFit::Paramin
 			fv = fw;
 			fw = fx;
 			fx = fu;
-			} 
-		else 
+			}
+		else
 			{
-			if (u < x) 
+			if (u < x)
 				{
 				low = u;
 				}
-			else 
+			else
 				{
 				high = u;
 				}
-			if ((fu <= fw) || (w == x)) 
+			if ((fu <= fw) || (w == x))
 				{
 				v = w;
 				w = u;
 				fv = fw;
 				fw = fu;
-				} 
-			else 
+				}
+			else
 				{
-				if ((fu <= fv) || (v == x) || (v == w)) 
+				if ((fu <= fv) || (v == x) || (v == w))
 					{
 					v = u;
 					fv = fu;
@@ -951,7 +951,7 @@ JPlotLinearFit::Paramin
 
 		iter++;
 		}
-	if (iter > ITMAX) 
+	if (iter > ITMAX)
 		{
 		*xmin = x;
 		ymin = fx;
@@ -960,11 +960,11 @@ JPlotLinearFit::Paramin
 
 /*********************************************************************************
  Root
- 
+
 
  ********************************************************************************/
 
-JFloat 
+JFloat
 JPlotLinearFit::Root
 	(
 	JFloat xtemp
@@ -977,32 +977,32 @@ JPlotLinearFit::Root
 
 	iter = 1;
 
-	if (fabs(xtemp) < small) 
+	if (fabs(xtemp) < small)
 		{
 		xtemp = small;
 		xmin = small;
 		xmax = small;
-		} 
-	else 
+		}
+	else
 		{
 		xmin = xtemp;
 		xmax = xtemp;
 	}
 
-	while (iter < 100) 
+	while (iter < 100)
 		{
-	
+
 		xmin = xmin - xtemp*factor;
 		xmax = xmax + xtemp*factor;
 
 		ymin = ChiSqrErr(xmin);
 
-		if (ymin < 0 && (ymin > yneg || yneg==0)) 
+		if (ymin < 0 && (ymin > yneg || yneg==0))
 			{
 			yneg = ymin;
 			xneg = xmin;
-			} 
-		else 
+			}
+		else
 			{
 			if(ymin > 0 && (ymin < ypos || ypos==0)) {
 			ypos = ymin;
@@ -1010,14 +1010,14 @@ JPlotLinearFit::Root
 			}
 		}
 		ymax = ChiSqrErr(xmax);
-		if(ymax < 0 && (ymax > yneg || yneg==0)) 
+		if(ymax < 0 && (ymax > yneg || yneg==0))
 			{
 			yneg = ymax;
 			xneg = xmax;
-			} 
-		else 
+			}
+		else
 			{
-			if(ymax > 0 && (ymax < ypos || ypos==0)) 
+			if(ymax > 0 && (ymax < ypos || ypos==0))
 				{
 				ypos = ymax;
 				xpos = xmax;
@@ -1039,17 +1039,17 @@ JPlotLinearFit::Root
 	y3 = yneg;
 	iter = 1;
 
-	while (iter < 100) 
+	while (iter < 100)
 		{
 
-		if ((y2 > 0 && y3 > 0) || (y2 < 0 && y3 < 0)) 
+		if ((y2 > 0 && y3 > 0) || (y2 < 0 && y3 < 0))
 			{
 			x3 = x1;
-			y3 = y1; 
+			y3 = y1;
 			step1 = x2 - x3;
 			step2 = x2 - x3;
 			}
-		if (fabs(y2) > fabs(y3)) 
+		if (fabs(y2) > fabs(y3))
 			{
 			x1 = x2;
 			x2 = x3;
@@ -1060,21 +1060,21 @@ JPlotLinearFit::Root
 			}
 		tol1 = 2*fabs(x2)*(3e-8)+0.5*TOLL;
 		middle=0.5*(x3-x2);
-		if ((fabs(middle) <= tol1) || (x2 == 0.0)) 
+		if ((fabs(middle) <= tol1) || (x2 == 0.0))
 			{
 			x = x2;
 			break;
 			}
 
-		if ((fabs(step1) >= tol1) && (fabs(x1) > fabs(x2))) 
+		if ((fabs(step1) >= tol1) && (fabs(x1) > fabs(x2)))
 			{
 			s = y2/y1;
-			if(x1 == x3) 
+			if(x1 == x3)
 				{
 				p = 2*middle*s;
 				q = 1 - s;
-				} 
-			else 
+				}
+			else
 				{
 				q = y1/y3;
 				r = y2/y3;
@@ -1090,18 +1090,18 @@ JPlotLinearFit::Root
 			min2 = fabs(step1*q);
 			if (min1 <min2)
 			min2 = min1;
-			if (2*p < min2) 
+			if (2*p < min2)
 				{
 				step1 = step2;
 				step2 = p/q;
-				} 
-			else 
+				}
+			else
 				{
 				step2 = middle;
 				step1 = step2;
 				}
-			} 
-		else 
+			}
+		else
 			{
 			step2 = middle;
 			step1 = step2;
@@ -1113,7 +1113,7 @@ JPlotLinearFit::Root
 			{
 			x2 = x2 + step2;
 			}
-		else 
+		else
 			{
 			if (middle > 0)
 				{
@@ -1137,17 +1137,17 @@ JPlotLinearFit::Root
 
 /*********************************************************************************
  ChiSqrErr
- 
+
 
  ********************************************************************************/
 
-JFloat 
+JFloat
 JPlotLinearFit::ChiSqrErr
 	(
 	JFloat Bt
 	)
 {
-	JFloat globalB = itsBParameter + Bt;	
+	JFloat globalB = itsBParameter + Bt;
 	JFloat cnew = ChiSqr(globalB);
 	JFloat cdif = 1 - (cnew - itsChi2);
 	return cdif;
@@ -1155,7 +1155,7 @@ JPlotLinearFit::ChiSqrErr
 
 /*********************************************************************************
  SetFunctionName
- 
+
 
  ********************************************************************************/
 
@@ -1170,7 +1170,7 @@ JPlotLinearFit::SetFunctionName
 
 /*********************************************************************************
  DataElementValid
- 
+
 
  ********************************************************************************/
 
@@ -1183,7 +1183,7 @@ JPlotLinearFit::DataElementValid
 	const JPlotDataBase* data = GetDataToFit();
 	J2DDataPoint point;
 	data->GetElement(index, &point);
-	
+
 	if (itsYIsLog)
 		{
 		if (point.y <= 0)
@@ -1199,7 +1199,7 @@ JPlotLinearFit::DataElementValid
 			}
 		}
 	if (itsUsingRange)
-		{		
+		{
 		if ((point.x >= itsRangeXMin) &&
 			(point.x <= itsRangeXMax) &&
 			(point.y >= itsRangeYMin) &&
@@ -1217,7 +1217,7 @@ JPlotLinearFit::DataElementValid
 
 /******************************************************************************
  GetDataElement
- 
+
 
  *****************************************************************************/
 
@@ -1251,7 +1251,7 @@ JPlotLinearFit::GetDataElement
 
 /*****************************************************************************
  AdjustDiffData
- 
+
 
  *****************************************************************************/
 

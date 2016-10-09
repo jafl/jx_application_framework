@@ -85,7 +85,7 @@ DataModule::DataModule
 	itsProcess = process;
 	ListenTo(itsProcess);
 
-	itsLink = jnew ProcessLink(fd);
+	itsLink = new ProcessLink(fd);
 	assert(itsLink != NULL);
 	ListenTo(itsLink);
 
@@ -106,7 +106,7 @@ DataModule::DataModule
 DataModule::~DataModule()
 {
 	jdelete itsProcess;
-	jdelete itsLink;
+	delete itsLink;
 	if (itsPG != NULL)
 		{
 		itsPG->ProcessFinished();

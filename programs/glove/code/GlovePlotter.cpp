@@ -83,7 +83,7 @@ GlovePlotter::~GlovePlotter()
 	if (itsIsProcessingCursor)
 		{
 		jdelete itsCursorProcess;
-		jdelete itsLink;
+		delete itsLink;
 		}
 }
 
@@ -110,7 +110,7 @@ GlovePlotter::Receive
 	else if (message.Is(JProcess::kFinished))
 		{
 		jdelete itsCursorProcess;
-		jdelete itsLink;
+		delete itsLink;
 		itsLink = NULL;
 		itsIsProcessingCursor = kJFalse;
 		}
@@ -209,7 +209,7 @@ GlovePlotter::HandleModuleMenu
 		assert( op != NULL );
 		assert( op->good() );
 
-		itsLink = jnew ProcessLink(inFD);
+		itsLink = new ProcessLink(inFD);
 		assert(itsLink != NULL);
 		ListenTo(itsLink);
 		ListenTo(itsCursorProcess);
