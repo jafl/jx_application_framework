@@ -42,7 +42,7 @@ else if which dnf; then
 	# redhat
 
 	sudo dnf -y install which sudo perl python-libxml2 \
-		gcc-c++ flex bison lldb rpm-build \
+		gcc-c++ flex bison make lldb rpm-build \
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
 		libxml2-devel gd-devel libjpeg-devel libpng-devel \

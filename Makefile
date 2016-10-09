@@ -62,8 +62,8 @@ default:
 	@echo
 	@echo "  ${MAKE_CMD} cygwin32      for Cygwin on Windows"
 	@echo "  ${MAKE_CMD} darwin        for Macintosh OS X"
-	@echo "  ${MAKE_CMD} linux_x86_64  for 32-bit Linux systems"
-	@echo "  ${MAKE_CMD} linux_x86_32  for 64-bit Linux systems"
+	@echo "  ${MAKE_CMD} linux_x86_32  for 32-bit Linux systems"
+	@echo "  ${MAKE_CMD} linux_x86_64  for 64-bit Linux systems"
 	@echo
 	@echo "If you are not sure which system you have, run \"uname -a\"."
 	@echo
