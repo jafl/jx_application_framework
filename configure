@@ -18,8 +18,8 @@ else if which apt; then
 
 	# debian
 
-	sudo apt-get update
-	sudo apt-get install curl \
+	sudo apt update
+	sudo apt install curl \
 		git g++ flex bison make lldb \
 		libx11-dev libxinerama-dev libxpm-dev libxft-dev \
 			libxmu-dev libxi-dev \
