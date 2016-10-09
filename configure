@@ -20,7 +20,7 @@ else if which apt; then
 
 	sudo apt update
 	sudo apt install curl \
-		git g++ flex bison make lldb \
+		g++ flex bison make lldb \
 		libx11-dev libxinerama-dev libxpm-dev libxft-dev \
 			libxmu-dev libxi-dev \
 		libxml2-dev libjpeg-dev libpng-dev \
@@ -39,7 +39,7 @@ else if which dnf; then
 	# redhat
 
 	sudo dnf install which sudo perl python-libxml2 \
-		git gcc-c++ flex bison lldb rpm-build \
+		gcc-c++ flex bison lldb rpm-build \
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
 		libxml2-devel libjpeg-devel libpng-devel \
