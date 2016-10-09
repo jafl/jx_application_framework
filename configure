@@ -17,11 +17,9 @@ if [[ `uname` == Darwin ]]; then
 else if which apt; then
 
 	# debian
-	#
-	# libace-dev : https://bugs.launchpad.net/ubuntu/+source/ace/+bug/1631521
 
 	sudo apt update;
-	sudo apt install curl \
+	sudo apt install -y curl \
 		g++ flex bison make lldb \
 		libx11-dev libxinerama-dev libxpm-dev libxft-dev \
 			libxmu-dev libxi-dev \
@@ -32,16 +30,18 @@ else if which apt; then
 		x11proto-gl-dev libdrm-dev \
 		aspell libforms-bin;
 
-	if test ! -L ACE/ACE_wrappers; then
-		ln -s /usr/include ACE/ACE_wrappers;
-	fi
-	./bin/patch_ace.pl ACE/ACE_wrappers/ace;
+# libace-dev : https://bugs.launchpad.net/ubuntu/+source/ace/+bug/1631521
+#
+#	if test ! -L ACE/ACE_wrappers; then
+#		ln -s /usr/include ACE/ACE_wrappers;
+#	fi
+#	./bin/patch_ace.pl ACE/ACE_wrappers/ace;
 
 else if which dnf; then
 
 	# redhat
 
-	sudo dnf install which sudo perl python-libxml2 \
+	sudo dnf install -y which sudo perl python-libxml2 \
 		gcc-c++ flex bison lldb rpm-build \
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
