@@ -18,9 +18,9 @@ public:
 
 	virtual	~JRTTIBase();
 
-	JBoolean	Is(const JCharacter* type) const;
+	JBoolean	Is(const JUtf8Byte* type) const;
 
-	const JCharacter*
+	const JUtf8Byte*
 	GetType() const
 	{
 		return itsType;
@@ -28,14 +28,14 @@ public:
 
 protected:
 
-	JRTTIBase(const JCharacter* type)
+	JRTTIBase(const JUtf8Byte* type)
 		:
 		itsType(type)
 	{ };
 
 private:
 
-	const JCharacter* itsType;
+	const JUtf8Byte* itsType;
 };
 
 /******************************************************************************
@@ -57,7 +57,7 @@ inline int
 operator==
 	(
 	const JRTTIBase&	obj,
-	const JCharacter*	type
+	const JUtf8Byte*	type
 	)
 {
 	return obj.Is(type);
@@ -66,7 +66,7 @@ operator==
 inline int
 operator==
 	(
-	const JCharacter*	type,
+	const JUtf8Byte*	type,
 	const JRTTIBase&	obj
 	)
 {
@@ -87,7 +87,7 @@ inline int
 operator!=
 	(
 	const JRTTIBase&	obj,
-	const JCharacter*	type
+	const JUtf8Byte*	type
 	)
 {
 	return ! obj.Is(type);
@@ -96,7 +96,7 @@ operator!=
 inline int
 operator!=
 	(
-	const JCharacter*	type,
+	const JUtf8Byte*	type,
 	const JRTTIBase&	obj
 	)
 {

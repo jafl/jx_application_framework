@@ -3,14 +3,14 @@
 
 	Interface for the JString class
 
-	Copyright (C) 1994-98 by John Lindal. All rights reserved.
+	Copyright (C) 1994-2016 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
 #ifndef _H_JString
 #define _H_JString
 
-#include <JPtrArray.h>
+#include <JStringIterator.h>
 #include <JIndexRange.h>
 #include <string.h>
 
@@ -47,9 +47,9 @@ public:
 
 	JString();
 	JString(const JString& source);
-	JString(const JCharacter* str);
-	JString(const JCharacter* str, const JSize length);
-	JString(const JCharacter* str, const JIndexRange& range);
+	JString(const JUtf8Byte* str);
+	JString(const JUtf8Byte* str, const JSize length);
+	JString(const JUtf8Byte* str, const JIndexRange& range);
 	JString(const JFloat number, const JInteger precision = kPrecisionAsNeeded,
 			const ExponentDisplay expDisplay = kStandardExponent,
 			const JInteger exponent = 0, const JInteger sigDigitCount = 0);
@@ -59,44 +59,42 @@ public:
 	~JString();
 
 	const JString& operator=(const JString& str);
-	const JString& operator=(const JCharacter* str);
+	const JString& operator=(const JUtf8Byte* str);
 	const JString& operator=(const std::string& str);
 
 	JString& operator+=(const JString& str);
-	JString& operator+=(const JCharacter* str);
+	JString& operator+=(const JUtf8Byte* str);
 	JString& operator+=(const std::string& str);
 
-	operator const JCharacter*() const;
-
 	void	Set(const JString& str);
-	void	Set(const JCharacter* str);
-	void	Set(const JCharacter* str, const JSize length);
-	void	Set(const JCharacter* str, const JIndexRange& range);
+	void	Set(const JUtf8Byte* str);
+	void	Set(const JUtf8Byte* str, const JSize length);
+	void	Set(const JUtf8Byte* str, const JIndexRange& range);
 	void	Set(const std::string& str);
 	void	Set(const std::string& str, const JIndexRange& range);
 
 	JBoolean			ContainsNULL() const;
-	const JCharacter*	GetCString() const;
-	JCharacter*			AllocateCString() const;	// client must call jdelete [] when finished with it
+	const JUtf8Byte*	GetBytes() const;
+	JUtf8Byte*			AllocateBytes() const;	// client must call jdelete [] when finished with it
 
 	void	InsertSubstring(const JString& str, const JIndex insertionIndex);
-	void	InsertSubstring(const JCharacter* str, const JIndex insertionIndex);
-	void	InsertSubstring(const JCharacter* str, const JSize length,
+	void	InsertSubstring(const JUtf8Byte* str, const JIndex insertionIndex);
+	void	InsertSubstring(const JUtf8Byte* str, const JSize length,
 							const JIndex insertionIndex);
 	void	InsertSubstring(const std::string& str, const JIndex insertionIndex);
-	void	InsertCharacter(const JCharacter c, const JIndex insertionIndex);
+	void	InsertCharacter(const JUtf8Character& c, const JIndex insertionIndex);
 
 	void	Prepend(const JString& str);
-	void	Prepend(const JCharacter* str);
-	void	Prepend(const JCharacter* str, const JSize length);
+	void	Prepend(const JUtf8Byte* str);
+	void	Prepend(const JUtf8Byte* str, const JSize length);
 	void	Prepend(const std::string& str);
-	void	PrependCharacter(const JCharacter c);
+	void	PrependCharacter(const JUtf8Character& c);
 
 	void	Append(const JString& str);
-	void	Append(const JCharacter* str);
-	void	Append(const JCharacter* str, const JSize length);
+	void	Append(const JUtf8Byte* str);
+	void	Append(const JUtf8Byte* str, const JSize length);
 	void	Append(const std::string& str);
-	void	AppendCharacter(const JCharacter c);
+	void	AppendCharacter(const JUtf8Character& c);
 
 	JBoolean	IsEmpty() const;
 	JSize		GetLength() const;
@@ -194,9 +192,6 @@ public:
 	JString		GetSubstring(const JIndex firstCharIndex, const JIndex lastCharIndex) const;
 	JString		GetSubstring(const JIndexRange& range) const;	// allows empty range
 
-	void		Extract(const JArray<JIndexRange>& rangeList,
-						JPtrArray<JString>* substringList) const;
-
 	void		ReplaceSubstring(const JIndex firstCharIndex,
 								 const JIndex lastCharIndex,
 								 const JString& str);
@@ -271,6 +266,8 @@ private:
 	JSize		itsAllocLength;		// number of characters we have space for
 	JSize		itsBlockSize;		// size by which to shrink and grow allocation
 
+	JStringIterator*	itsFirstIterator;	// linked list of active iterators
+
 private:
 
 	void		CopyToPrivateString(const JCharacter* str);
@@ -278,6 +275,8 @@ private:
 
 	JCharacter	PrivateGetCharacter(const JIndex index) const;
 	JCharacter*	GetCharacterPtr(const JIndex index) const;
+
+	void	NotifyIterators(const JBroadcaster::Message& message);
 
 	static JBoolean	ConvertToFloat(const JCharacter* str, const JSize length,
 								   JFloat* value);

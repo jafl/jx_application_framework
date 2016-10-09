@@ -16,16 +16,6 @@
 // (We do it here so JOrderedSet includes JOrderedSetIterator for convenience.)
 template <class T> class JOrderedSet;
 
-typedef unsigned long	JCursorPosition;
-
-enum JIteratorPosition
-{
-	kJIteratorStartAtBeginning,	// absolute
-	kJIteratorStartAtEnd,		// absolute
-	kJIteratorStartBefore,		// relative to given index
-	kJIteratorStartAfter		// relative to given index
-};
-
 template <class T>
 class JOrderedSetIterator
 {

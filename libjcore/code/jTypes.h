@@ -3,7 +3,7 @@
 
 	Defines portable types
 
-	Copyright (C) 1994-97 by John Lindal. All rights reserved.
+	Copyright (C) 1994-2016 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -97,6 +97,30 @@ typedef JIndex								JBinIndex;
 const JBinIndex kJBinIndexMin				= kJIndexMin;
 const JBinIndex kJBinIndexMax				= kJIndexMax;
 
+	// utf-8 characters
+
+typedef char								JUtf8Byte;
+
+const JUtf8Byte kJUtf8ByteMin				= CHAR_MIN;
+const JUtf8Byte kJUtf8ByteMax				= CHAR_MAX;
+
+	// iterators
+
+typedef unsigned long	JCursorPosition;
+
+enum JIteratorPosition
+{
+	kJIteratorStartAtBeginning,	// absolute
+	kJIteratorStartAtEnd,		// absolute
+	kJIteratorStartBefore,		// relative to given index
+	kJIteratorStartAfter,		// relative to given index
+
+	// strings only - use with caution - must be character aligned!
+
+	kJIteratorStartBeforeByte,	// relative to given byte offset
+	kJIteratorStartAfterByte	// relative to given byte offset
+};
+
 	// boolean type
 
 enum JBoolean
@@ -105,7 +129,7 @@ enum JBoolean
 	kJTrue  = 1
 };
 
-const JSize kJBooleanDataStreamLength = sizeof(JCharacter);
+const JSize kJBooleanDataStreamLength = sizeof(JUtf8Byte);
 
 istream& operator>>(istream& input, JBoolean& jbool);
 ostream& operator<<(ostream& output, const JBoolean jbool);

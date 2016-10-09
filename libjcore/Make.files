@@ -16,7 +16,9 @@
 .cpp ./code/jGlobals_UNIX
 .cpp ./code/jAssert
 .cpp ./code/JAssertBase
+.cpp ./code/JUtf8Character
 .cpp ./code/JString
+.cpp ./code/JStringIterator
 .cpp ./code/JIndexRange
 .cpp ./code/JRegex
 .cpp ./code/JSubstitute

@@ -20,7 +20,7 @@
 
 	BASE CLASS = none
 
-	Copyright (C) 1994-98 by John Lindal. All rights reserved.
+	Copyright (C) 1994-2016 by John Lindal. All rights reserved.
 
  ******************************************************************************/
 
@@ -56,7 +56,8 @@ static void	double2str(double doubleVal, int afterDec, int sigDigitCount,
 
 JString::JString()
 	:
-	itsBlockSize( kDefaultBlockSize )
+	itsBlockSize( kDefaultBlockSize ),
+	itsFirstIterator( NULL )
 {
 	itsStringLength = 0;
 	itsAllocLength  = itsBlockSize;
@@ -71,7 +72,8 @@ JString::JString
 	const JCharacter* str
 	)
 	:
-	itsBlockSize( kDefaultBlockSize )
+	itsBlockSize( kDefaultBlockSize ),
+	itsFirstIterator( NULL )
 {
 	itsAllocLength = 0;
 	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
@@ -84,7 +86,8 @@ JString::JString
 	const JSize			length
 	)
 	:
-	itsBlockSize( kDefaultBlockSize )
+	itsBlockSize( kDefaultBlockSize ),
+	itsFirstIterator( NULL )
 {
 	itsAllocLength = 0;
 	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
@@ -97,7 +100,8 @@ JString::JString
 	const JIndexRange&	range
 	)
 	:
-	itsBlockSize( kDefaultBlockSize )
+	itsBlockSize( kDefaultBlockSize ),
+	itsFirstIterator( NULL )
 {
 	itsAllocLength = 0;
 	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
@@ -113,7 +117,8 @@ JString::JString
 	const JInteger			sigDigitCount
 	)
 	:
-	itsBlockSize( kDefaultBlockSize )
+	itsBlockSize( kDefaultBlockSize ),
+	itsFirstIterator( NULL )
 {
 	assert( precision >= -1 );
 
@@ -135,7 +140,8 @@ JString::JString
 	const JBoolean	pad
 	)
 	:
-	itsBlockSize( kDefaultBlockSize )
+	itsBlockSize( kDefaultBlockSize ),
+	itsFirstIterator( NULL )
 {
 	itsAllocLength = 0;
 	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
@@ -193,7 +199,8 @@ JString::JString
 	const std::string& s
 	)
 	:
-	itsBlockSize( kDefaultBlockSize )
+	itsBlockSize( kDefaultBlockSize ),
+	itsFirstIterator( NULL )
 {
 	itsAllocLength = 0;
 	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
@@ -213,7 +220,8 @@ JString::JString
 	const JString& source
 	)
 	:
-	itsBlockSize( source.itsBlockSize )
+	itsBlockSize( source.itsBlockSize ),
+	itsFirstIterator( NULL )
 {
 	itsAllocLength = 0;
 	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
@@ -367,6 +375,23 @@ JString::AllocateCString()
 	memcpy(str, itsString, itsStringLength+1);
 
 	return str;
+}
+
+/******************************************************************************
+ NotifyIterators (private)
+
+ ******************************************************************************/
+
+void
+JString::NotifyIterators
+	(
+	const JBroadcaster::Message& message
+	)
+{
+	if (itsFirstIterator != NULL)
+		{
+		itsFirstIterator->OrderedSetChanged(message);
+		}
 }
 
 /******************************************************************************

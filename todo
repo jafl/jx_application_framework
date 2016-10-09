@@ -25,19 +25,33 @@ OSX window placement
 
 -----
 
-replace rendering engine inside JXWindowPainter with UTF-8 version
-	http://cairographics.org/
-	is YUI yogi output correct with check mark?
+utf-8
+	need JXComposeRuleList?
+		use for help, diacritical list, word characters
+	does setlocale(LC_ALL, ""); make isalpha(), isupper(), etc. work correctly?
 
+	JCharacter -> JUtf8Byte
+	JUtf8Character
+	GetCharacter(i) -> iterator
+
+	is*() -> JUtf8Character
+	JIndexRange -> JUtf8Range
+	kJIteratorStart(Before|After)Byte
+
++	replace rendering engine inside JXWindowPainter with UTF-8 version
+	is YUI yogi output correct with check mark? - NO
 	after this, safe to replace strlen with utf-8 version
 
-libXft
-	printing
-		gs -dNOPAUSE -dBATCH -sDEVICE=pswrite -sOutputFile=junk2.ps junk.ps
-		http://www.stat.auckland.ac.nz/~paul/R/CM/CMR.html
-		http://pages.cs.wisc.edu/~ghost/doc/gnu/7.05/Fonts.htm
-	Symbol
-		Figure out how to use tt version -- this will also fix printing
+	leibnitz - symbol font
+		transform to unicode and use X11 utf8 string width/drawing functions
+
+	ASC     [\x00-\x7f]
+	U       [\x80-\xbf]
+	U2      [\xc2-\xdf]
+	U3      [\xe0-\xef]
+	U4      [\xf0-\xf4]
+	UANY    {ASC}|{U2}{U}|{U3}{U}{U}|{U4}{U}{U}{U}
+	UONLY   {U2}{U}|{U3}{U}{U}|{U4}{U}{U}{U}
 
 java
 	selected stack frame

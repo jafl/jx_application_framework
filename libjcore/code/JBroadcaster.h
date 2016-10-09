@@ -27,7 +27,7 @@ public:
 
 		protected:
 
-			Message(const JCharacter* type)
+			Message(const JUtf8Byte* type)
 				:
 				JRTTIBase(type)
 			{ };
