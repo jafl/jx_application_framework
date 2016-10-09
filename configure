@@ -51,6 +51,20 @@ else if which dnf; then
 		xorg-x11-server-devel libXdamage-devel expat-devel \
 		aspell aspell-en xforms-devel;
 
+else if which yum; then
+
+	# redhat
+
+	sudo yum -y install which sudo perl python-libxml2 \
+		gcc-c++ flex bison make lldb rpm-build \
+		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
+			libXmu-devel libXi-devel \
+		libxml2-devel gd-devel libjpeg-devel libpng-devel \
+		libicu-devel pcre-devel \
+		llvm-devel imake libtool  xorg-x11-proto-devel libdrm-devel \
+		xorg-x11-server-devel libXdamage-devel expat-devel \
+		aspell aspell-en xforms-devel;
+
 else
 
 	echo "Unrecognized system!  Please refer to the INSTALL file";
