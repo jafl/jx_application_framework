@@ -26,7 +26,7 @@ JXCloseDirectorTask::Close
 	JXDirector* director
 	)
 {
-	JXCloseDirectorTask* task = new JXCloseDirectorTask(director);
+	JXCloseDirectorTask* task = jnew JXCloseDirectorTask(director);
 	assert( task != NULL );
 	task->Start();
 }
@@ -69,5 +69,5 @@ JXCloseDirectorTask::Perform
 {
 	itsDirector->Close();
 	itsDirector = NULL;
-	delete this;
+	jdelete this;
 }

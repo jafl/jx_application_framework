@@ -57,7 +57,7 @@ JSP_COMMENT   "<%--"
 DOCTAG       (attribute|author|chainable|class|code|config|constructor|default|deprecated|description|docRoot|event|exception|extends|final|for|inheritDoc|link|linkplain|literal|method|module|namespace|param|private|property|protected|public|requires|return|see|serial|serialData|serialField|since|static|throws|type|uses|value|version|writeonce)
 
 
-PHPKEYWORD    (__CLASS__|__DIR__|__FILE__|__FUNCTION__|__LINE__|__METHOD__|__NAMESPACE__|__TRAIT__|abstract|and|array|as|break|callable|case|catch|class|clone|const|continue|declare|default|do|echo|else|elseif|enddeclare|endfor|endforeach|endif|endswitch|endwhile|extends|final(ly)?|for|foreach|function|global|goto|if|implements|include|include_once|instanceof|insteadof|interface|list|namespace|new|or|parent|print|private|protected|public|require|require_once|return|static|switch|throw|trait|try|use|var|while|xor|yield)
+PHPKEYWORD    (__CLASS__|__DIR__|__FILE__|__FUNCTION__|__LINE__|__METHOD__|__NAMESPACE__|__TRAIT__|abstract|and|array|as|break|callable|case|catch|class|clone|const|continue|declare|default|do|echo|else|elseif|enddeclare|endfor|endforeach|endif|endswitch|endwhile|extends|final(ly)?|for|foreach|function|global|goto|if|implements|include|include_once|instanceof|insteadof|interface|list|namespace|jnew|or|parent|print|private|protected|public|require|require_once|return|static|switch|throw|trait|try|use|var|while|xor|yield)
 
 PHPDATATYPE   (array|bool|boolean|double|float|int|integer|object|real|string|null|NULL|true|TRUE|false|FALSE)
 
@@ -80,7 +80,7 @@ DOTDIGITS     ({DIGITSEQ}\.|{DIGITSEQ}\.{DIGITSEQ}|\.{DIGITSEQ})
 FLOAT         ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 
-JAVA_KEYWORD  (abstract|attribute|autoFlush|break|buffer|byvalue|case|cast|catch|class|ClassLoader|clone|Cloneable|Compiler|const|contentType|continue|default|do|else|errorPage|extends|equals|false|final(ly)?|finalize|for|future|generic|getClass|goto|hashCode|if|include|implements|import|info|inner|instanceof|interface|isErrorPage|isThreadSafe|language|Math|NaN|native|NEGATIVE_INFINITY|new|notify(All)?|null|operator|outer|package|page|POSITIVE_INFINITY|private|Process|protected|public|Random|rest|return|Runnable|Runtime|SecurityManager|session|static|StringTokenizer|super|switch|synchronized|System|tag|taglib|this|Thread(Group)?|throws?|Throwable|toString|transient|true|try|var|void|volatile|wait|while)
+JAVA_KEYWORD  (abstract|attribute|autoFlush|break|buffer|byvalue|case|cast|catch|class|ClassLoader|clone|Cloneable|Compiler|const|contentType|continue|default|do|else|errorPage|extends|equals|false|final(ly)?|finalize|for|future|generic|getClass|goto|hashCode|if|include|implements|import|info|inner|instanceof|interface|isErrorPage|isThreadSafe|language|Math|NaN|native|NEGATIVE_INFINITY|jnew|notify(All)?|null|operator|outer|package|page|POSITIVE_INFINITY|private|Process|protected|public|Random|rest|return|Runnable|Runtime|SecurityManager|session|static|StringTokenizer|super|switch|synchronized|System|tag|taglib|this|Thread(Group)?|throws?|Throwable|toString|transient|true|try|var|void|volatile|wait|while)
 
 JAVA_DATATYPE (BitSet|[bB]oolean|byte|char|Character|Class|Date|Dictionary|[dD]ouble|Enumeration|[fF]loat|Hashtable|int|Integer|[lL]ong|Number|Object|Observable|Observer|Properties|short|Stack|String(Buffer)?|Vector)
 
@@ -110,7 +110,7 @@ JAVA_CCONST      (\'{JAVA_CHAR}\')
 JAVA_BADCCONST   (\'(\\|{JAVA_BADESCCHAR}|({JAVA_BADESCCHAR}|{JAVA_CHAR}){2,})\')
 
 
-JS_KEYWORD    (as|break|case|catch|class|const|continue|default|delete|do|else|export|extends|false|finally|for|function|if|import|in|instanceof|is|namespace|new|null|package|private|public|return|super|switch|this|throw|true|try|typeof|use|var|void|while|with|abstract|debugger|enum|goto|implements|interface|native|protected|synchronized|throws|transient|volatile)
+JS_KEYWORD    (as|break|case|catch|class|const|continue|default|jdelete|do|else|export|extends|false|finally|for|function|if|import|in|instanceof|is|namespace|jnew|null|package|private|public|return|super|switch|this|throw|true|try|typeof|use|var|void|while|with|abstract|debugger|enum|goto|implements|interface|native|protected|synchronized|throws|transient|volatile)
 
 
 JS_IDCAR      ([_[:alpha:]])

@@ -33,7 +33,7 @@ JXDragPainter::JXDragPainter
 	const JRect&	defaultClipRect
 	)
 	:
-	JXWindowPainter(new JXGC(display, window->GetXWindow()),
+	JXWindowPainter(jnew JXGC(display, window->GetXWindow()),
 					window->GetXWindow(), defaultClipRect, NULL)
 {
 	JXGC* gc = GetGC();
@@ -51,5 +51,5 @@ JXDragPainter::JXDragPainter
 JXDragPainter::~JXDragPainter()
 {
 	JXGC* gc = GetGC();
-	delete gc;
+	jdelete gc;
 }

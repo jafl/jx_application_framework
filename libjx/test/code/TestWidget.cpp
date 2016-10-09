@@ -218,21 +218,21 @@ JIndex i;
 	itsActionsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsActionsMenu);
 
-	itsPointMenu = new JXTextMenu(itsActionsMenu, kPointMenuCmd, menuBar);
+	itsPointMenu = jnew JXTextMenu(itsActionsMenu, kPointMenuCmd, menuBar);
 	assert( itsPointMenu != NULL );
 	itsPointMenu->SetMenuItems(kPointMenuStr);
 	itsPointMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPointMenu);
 
 	// This tests the JX response to an empty menu.
-	JXTextMenu* emptyMenu = new JXTextMenu(itsActionsMenu, kEmptyMenuCmd, menuBar);
+	JXTextMenu* emptyMenu = jnew JXTextMenu(itsActionsMenu, kEmptyMenuCmd, menuBar);
 	assert( emptyMenu != NULL );
 
 	JXMenu* prevMenu     = itsActionsMenu;
 	JIndex prevMenuIndex = kAdviceMenuCmd;
 	for (i=1; i<=kAdviceMenuCount; i++)
 		{
-		JXTextMenu* adviceMenu = new JXTextMenu(prevMenu, prevMenuIndex, menuBar);
+		JXTextMenu* adviceMenu = jnew JXTextMenu(prevMenu, prevMenuIndex, menuBar);
 		assert( adviceMenu != NULL );
 		adviceMenu->SetMenuItems(kAdviceMenuStr[i-1]);
 		adviceMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -251,7 +251,7 @@ JIndex i;
 
 	// secret menus are a bad idea because the user can't find them!
 
-	itsSecretMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsSecretMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsSecretMenu != NULL );
 	itsSecretMenu->SetMenuItems(kSecretMenuStr);
 	itsSecretMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -259,7 +259,7 @@ JIndex i;
 	itsSecretMenu->Hide();
 	ListenTo(itsSecretMenu);
 
-	itsSecretSubmenu = new JXTextMenu(itsSecretMenu, kSecretSubmenuIndex, this);
+	itsSecretSubmenu = jnew JXTextMenu(itsSecretMenu, kSecretSubmenuIndex, this);
 	assert( itsSecretSubmenu != NULL );
 	itsSecretSubmenu->SetMenuItems(kSecretSubmenuStr);
 	itsSecretSubmenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -267,17 +267,17 @@ JIndex i;
 
 	// image from xpm
 
-	itsXPMImage = new JXImage(GetDisplay(), JXPM(macapp_xpm));
+	itsXPMImage = jnew JXImage(GetDisplay(), JXPM(macapp_xpm));
 	assert( itsXPMImage != NULL );
 
 	// partial image from image
 
-	itsPartialXPMImage = new JXImage(*itsXPMImage, JRect(5,5,14,16));
+	itsPartialXPMImage = jnew JXImage(*itsXPMImage, JRect(5,5,14,16));
 	assert( itsPartialXPMImage != NULL );
 
 	// home symbol
 
-	itsHomeImage = new JXImage(GetDisplay(), JXPM(home_xpm));
+	itsHomeImage = jnew JXImage(GetDisplay(), JXPM(home_xpm));
 	assert( itsHomeImage != NULL );
 
 	itsHomeRect = itsHomeImage->GetBounds();
@@ -298,7 +298,7 @@ JIndex i;
 	// enclosed objects
 
 	itsAnimButton = 
-		new JXTextButton("Start", this, JXWidget::kFixedLeft, JXWidget::kFixedTop,
+		jnew JXTextButton("Start", this, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 37,175, 50,30);
 	assert( itsAnimButton != NULL );
 	itsAnimButton->SetShortcuts("#A");
@@ -307,7 +307,7 @@ JIndex i;
 	if (isMaster)
 		{
 		itsQuitButton = 
-			new JXTextButton("Quit", this, JXWidget::kFixedRight, JXWidget::kFixedBottom,
+			jnew JXTextButton("Quit", this, JXWidget::kFixedRight, JXWidget::kFixedBottom,
 							 x,y, 50,30);
 		assert( itsQuitButton != NULL );
 
@@ -339,10 +339,10 @@ JIndex i;
 
 TestWidget::~TestWidget()
 {
-	delete itsXPMImage;
-	delete itsPartialXPMImage;
-	delete itsHomeImage;
-	delete itsImageBuffer;
+	jdelete itsXPMImage;
+	jdelete itsPartialXPMImage;
+	jdelete itsHomeImage;
+	jdelete itsImageBuffer;
 }
 
 /*****************************************************************************
@@ -712,7 +712,7 @@ JIndex i;
 /******************************************************************************
  BoundsResized (virtual protected)
 
-	Redo itsImageBuffer to match our new size.
+	Redo itsImageBuffer to match our jnew size.
 
  ******************************************************************************/
 
@@ -751,14 +751,14 @@ TestWidget::CreateImageBuffer()
 {
 	// clear itsImageBuffer so Draw() will work correctly
 
-	delete itsImageBuffer;
+	jdelete itsImageBuffer;
 	itsImageBuffer = NULL;
 
 	// create image
 
 	const JRect bounds = GetBounds();
 	JXImage* imageBuffer =
-		new JXImage(GetDisplay(), bounds.width(), bounds.height());
+		jnew JXImage(GetDisplay(), bounds.width(), bounds.height());
 	assert( imageBuffer != NULL );
 	imageBuffer->SetDefaultState(JXImage::kRemoteStorage);
 
@@ -766,7 +766,7 @@ TestWidget::CreateImageBuffer()
 
 	JXImagePainter* p = imageBuffer->CreatePainter();
 	Draw(*p, GetBounds());
-	delete p;
+	jdelete p;
 
 	// save object
 
@@ -833,7 +833,7 @@ TestWidget::HandleMouseDown
 			// Normally, you should use the other constructor and then
 			// override JXWidget::GetSelectionData().
 
-			JXFileSelection* data = new JXFileSelection(GetDisplay(), list);
+			JXFileSelection* data = jnew JXFileSelection(GetDisplay(), list);
 			assert( data != NULL );
 
 			BeginDND(pt, buttonStates, modifiers, data);
@@ -1466,7 +1466,7 @@ TestWidget::GetNewSize()
 {
 	assert( itsResizeDialog == NULL );
 
-	itsResizeDialog = new ResizeWidgetDialog(GetWindow()->GetDirector(), this);
+	itsResizeDialog = jnew ResizeWidgetDialog(GetWindow()->GetDirector(), this);
 	assert( itsResizeDialog != NULL );
 	ListenTo(itsResizeDialog);
 	itsResizeDialog->BeginDialog();
@@ -1634,7 +1634,7 @@ TestWidget::BuildXlsfontsMenu
 	JXContainer*	enclosure
 	)
 {
-	JXTextMenu* menu = new JXTextMenu(owner, kXlsfontsMenuCmd, enclosure);
+	JXTextMenu* menu = jnew JXTextMenu(owner, kXlsfontsMenuCmd, enclosure);
 	assert( menu != NULL );
 	menu->SetUpdateAction(JXMenu::kDisableNone);
 

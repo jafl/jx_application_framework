@@ -105,7 +105,7 @@ private:
 		JString*	nmShortcut;			// can be NULL
 		JFont		font;
 		JXImage*	image;				// can be NULL
-		JBoolean	ownsImage;			// kJTrue if we should delete image
+		JBoolean	ownsImage;			// kJTrue if we should jdelete image
 		JBoolean	separator;			// kJTrue if item is followed by separator
 
 		TextItemData()

@@ -43,7 +43,7 @@ main
 
 	JBoolean displayAbout;
 	JString prevVersStr;
-	SyGApplication* app = new SyGApplication(&argc, argv, &displayAbout, &prevVersStr);
+	SyGApplication* app = jnew SyGApplication(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != NULL );
 
 	if (displayAbout &&
@@ -63,7 +63,7 @@ main
 #ifdef DISPLAY_SPLASH
 	else
 		{
-		JXSplashWindow* w = new JXSplashWindow(new_planet_software, SyGGetVersionStr(),
+		JXSplashWindow* w = jnew JXSplashWindow(new_planet_software, SyGGetVersionStr(),
 											   SPLASH_DISPLAY_TIME);
 		assert( w != NULL );
 		w->Activate();

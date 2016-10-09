@@ -63,7 +63,7 @@ JXFileInput::JXFileInput
 
 JXFileInput::~JXFileInput()
 {
-	delete itsCompleter;
+	jdelete itsCompleter;
 }
 
 /******************************************************************************

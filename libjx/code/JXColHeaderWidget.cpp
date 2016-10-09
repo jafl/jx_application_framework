@@ -82,7 +82,7 @@ JXColHeaderWidget::JXColHeaderWidget
 
 JXColHeaderWidget::~JXColHeaderWidget()
 {
-	delete itsTitles;
+	jdelete itsTitles;
 }
 
 /******************************************************************************
@@ -128,7 +128,7 @@ JXColHeaderWidget::SetColTitle
 {
 	if (itsTitles == NULL)
 		{
-		itsTitles = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		itsTitles = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert( itsTitles != NULL );
 
 		const JSize colCount = GetColCount();
@@ -320,7 +320,7 @@ JXColHeaderWidget::HandleMouseDrag
 				p->Line(itsPrevPt.x, enclAp.top, itsPrevPt.x, enclAp.bottom);
 				}
 
-			// draw the new line
+			// draw the jnew line
 
 			p->Line(pt.x, enclAp.top, pt.x, enclAp.bottom);
 

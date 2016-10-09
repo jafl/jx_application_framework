@@ -95,7 +95,7 @@ clearPointer
 int
 main()
 {
-	A* obj = new D();
+	A* obj = jnew D();
 	obj->foo();
 	B* b = dynamic_cast<B*>(obj);
 	b->foo();

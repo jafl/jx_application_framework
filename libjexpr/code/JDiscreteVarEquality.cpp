@@ -59,8 +59,8 @@ JDiscreteVarEquality::JDiscreteVarEquality
 
 JDiscreteVarEquality::~JDiscreteVarEquality()
 {
-	delete itsArrayIndex[0];
-	delete itsArrayIndex[1];
+	jdelete itsArrayIndex[0];
+	jdelete itsArrayIndex[1];
 }
 
 /******************************************************************************
@@ -102,7 +102,7 @@ JDecision*
 JDiscreteVarEquality::Copy()
 	const
 {
-	JDiscreteVarEquality* newDecision = new JDiscreteVarEquality(*this);
+	JDiscreteVarEquality* newDecision = jnew JDiscreteVarEquality(*this);
 	assert( newDecision != NULL );
 	return newDecision;
 }
@@ -327,7 +327,7 @@ JDiscreteVarEquality::SetArrayIndex
 	)
 {
 	assert( VarIndexValid(index) );
-	delete itsArrayIndex[ index-1 ];
+	jdelete itsArrayIndex[ index-1 ];
 	itsArrayIndex[ index-1 ] = theArrayIndex;
 }
 

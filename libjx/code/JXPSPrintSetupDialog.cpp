@@ -54,7 +54,7 @@ JXPSPrintSetupDialog::Create
 	const JBoolean					bw
 	)
 {
-	JXPSPrintSetupDialog* dlog = new JXPSPrintSetupDialog;
+	JXPSPrintSetupDialog* dlog = jnew JXPSPrintSetupDialog;
 	assert( dlog != NULL );
 	dlog->BuildWindow(dest, printCmd, fileName, collate, bw);
 	return dlog;
@@ -97,107 +97,107 @@ JXPSPrintSetupDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 370,250, "");
+	JXWindow* window = jnew JXWindow(this, 370,250, "");
 	assert( window != NULL );
 
 	itsPrintCmdLabel =
-		new JXStaticText(JGetString("itsPrintCmdLabel::JXPSPrintSetupDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("itsPrintCmdLabel::JXPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 100,19);
 	assert( itsPrintCmdLabel != NULL );
 	itsPrintCmdLabel->SetToLabel();
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::JXPSPrintSetupDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::JXPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 220,220, 70,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::JXPSPrintSetupDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::JXPSPrintSetupDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::JXPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 70,220, 70,20);
 	assert( cancelButton != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::JXPSPrintSetupDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::JXPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 50,30, 80,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	itsDestination =
-		new JXRadioGroup(window,
+		jnew JXRadioGroup(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 135,20, 139,39);
 	assert( itsDestination != NULL );
 
 	JXTextRadioButton* obj2_JXLayout =
-		new JXTextRadioButton(1, JGetString("obj2_JXLayout::JXPSPrintSetupDialog::JXLayout"), itsDestination,
+		jnew JXTextRadioButton(1, JGetString("obj2_JXLayout::JXPSPrintSetupDialog::JXLayout"), itsDestination,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 5,8, 70,20);
 	assert( obj2_JXLayout != NULL );
 	obj2_JXLayout->SetShortcuts(JGetString("obj2_JXLayout::JXPSPrintSetupDialog::shortcuts::JXLayout"));
 
 	JXTextRadioButton* obj3_JXLayout =
-		new JXTextRadioButton(2, JGetString("obj3_JXLayout::JXPSPrintSetupDialog::JXLayout"), itsDestination,
+		jnew JXTextRadioButton(2, JGetString("obj3_JXLayout::JXPSPrintSetupDialog::JXLayout"), itsDestination,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 75,8, 50,20);
 	assert( obj3_JXLayout != NULL );
 	obj3_JXLayout->SetShortcuts(JGetString("obj3_JXLayout::JXPSPrintSetupDialog::shortcuts::JXLayout"));
 
 	itsPrintCmd =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,70, 240,20);
 	assert( itsPrintCmd != NULL );
 
 	itsChooseFileButton =
-		new JXTextButton(JGetString("itsChooseFileButton::JXPSPrintSetupDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsChooseFileButton::JXPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,70, 80,20);
 	assert( itsChooseFileButton != NULL );
 	itsChooseFileButton->SetShortcuts(JGetString("itsChooseFileButton::JXPSPrintSetupDialog::shortcuts::JXLayout"));
 
 	itsCopyCount =
-		new JXIntegerInput(window,
+		jnew JXIntegerInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 170,110, 40,20);
 	assert( itsCopyCount != NULL );
 
 	itsBWCheckbox =
-		new JXTextCheckbox(JGetString("itsBWCheckbox::JXPSPrintSetupDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsBWCheckbox::JXPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,190, 150,20);
 	assert( itsBWCheckbox != NULL );
 	itsBWCheckbox->SetShortcuts(JGetString("itsBWCheckbox::JXPSPrintSetupDialog::shortcuts::JXLayout"));
 
 	itsFirstPageIndex =
-		new JXIntegerInput(window,
+		jnew JXIntegerInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 230,150, 40,20);
 	assert( itsFirstPageIndex != NULL );
 
 	itsLastPageIndex =
-		new JXIntegerInput(window,
+		jnew JXIntegerInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 290,150, 40,20);
 	assert( itsLastPageIndex != NULL );
 
 	itsPrintAllCB =
-		new JXTextCheckbox(JGetString("itsPrintAllCB::JXPSPrintSetupDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsPrintAllCB::JXPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,150, 120,20);
 	assert( itsPrintAllCB != NULL );
 	itsPrintAllCB->SetShortcuts(JGetString("itsPrintAllCB::JXPSPrintSetupDialog::shortcuts::JXLayout"));
 
 	itsFirstPageIndexLabel =
-		new JXStaticText(JGetString("itsFirstPageIndexLabel::JXPSPrintSetupDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("itsFirstPageIndexLabel::JXPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 160,150, 70,20);
 	assert( itsFirstPageIndexLabel != NULL );
 	itsFirstPageIndexLabel->SetToLabel();
 
 	itsLastPageIndexLabel =
-		new JXStaticText(JGetString("itsLastPageIndexLabel::JXPSPrintSetupDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("itsLastPageIndexLabel::JXPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 270,150, 20,20);
 	assert( itsLastPageIndexLabel != NULL );
 	itsLastPageIndexLabel->SetToLabel();
 
 	JXStaticText* obj4_JXLayout =
-		new JXStaticText(JGetString("obj4_JXLayout::JXPSPrintSetupDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj4_JXLayout::JXPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 55,110, 115,20);
 	assert( obj4_JXLayout != NULL );
 	obj4_JXLayout->SetToLabel();
 
 	itsCollateCB =
-		new JXTextCheckbox(JGetString("itsCollateCB::JXPSPrintSetupDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsCollateCB::JXPSPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 240,110, 70,20);
 	assert( itsCollateCB != NULL );
 	itsCollateCB->SetShortcuts(JGetString("itsCollateCB::JXPSPrintSetupDialog::shortcuts::JXLayout"));
@@ -261,7 +261,7 @@ JXPSPrintSetupDialog::SetObjects
 
 	const JRect r = itsPrintCmd->GetFrame();
 	itsFileInput =
-		new JXFileInput(window,
+		jnew JXFileInput(window,
 						JXWidget::kHElastic, JXWidget::kVElastic,
 						r.left, r.top, r.width(), r.height());
 	assert( itsFileInput != NULL );

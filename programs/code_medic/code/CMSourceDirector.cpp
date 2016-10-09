@@ -139,7 +139,7 @@ CMSourceDirector::Create
 	const Type			type
 	)
 {
-	CMSourceDirector* dir = new CMSourceDirector(commandDir, fileOrFn, type);
+	CMSourceDirector* dir = jnew CMSourceDirector(commandDir, fileOrFn, type);
 	assert( dir != NULL );
 	dir->CreateWindowsMenu();
 	return dir;
@@ -239,7 +239,7 @@ CMSourceDirector::~CMSourceDirector()
 		itsCommandDir->SourceWindowClosed(this);
 		}
 
-	delete itsSrcMainCmd;
+	jdelete itsSrcMainCmd;
 }
 
 /******************************************************************************
@@ -277,26 +277,26 @@ CMSourceDirector::BuildWindow()
 
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 600,550, "");
+	JXWindow* window = jnew JXWindow(this, 600,550, "");
 	assert( window != NULL );
 
 	itsMenuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 600,30);
 	assert( itsMenuBar != NULL );
 
 	itsToolBar =
-		new JXToolBar(CMGetPrefsManager(), prefID, itsMenuBar, 300, 200, window,
+		jnew JXToolBar(CMGetPrefsManager(), prefID, itsMenuBar, 300, 200, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,500);
 	assert( itsToolBar != NULL );
 
 	itsFileDisplay =
-		new JXFileNameDisplay("", window,
+		jnew JXFileNameDisplay("", window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,530, 580,20);
 	assert( itsFileDisplay != NULL );
 
 	CMFileDragSource* obj1_JXLayout =
-		new CMFileDragSource(this, window,
+		jnew CMFileDragSource(this, window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,530, 20,20);
 	assert( obj1_JXLayout != NULL );
 
@@ -314,7 +314,7 @@ CMSourceDirector::BuildWindow()
 		CMGetPrefsManager()->GetWindowSize(kMainCodeWindSizeID, window);
 
 		JXDisplay* display = GetDisplay();
-		JXImage* icon      = new JXImage(display, medic_current_source_window);
+		JXImage* icon      = jnew JXImage(display, medic_current_source_window);
 		assert( icon != NULL );
 		window->SetIcon(icon);
 		}
@@ -326,7 +326,7 @@ CMSourceDirector::BuildWindow()
 		CMGetPrefsManager()->GetWindowSize(kMainAsmWindSizeID, window);
 
 		JXDisplay* display = GetDisplay();
-		JXImage* icon      = new JXImage(display, medic_current_asm_window);
+		JXImage* icon      = jnew JXImage(display, medic_current_asm_window);
 		assert( icon != NULL );
 		window->SetIcon(icon);
 		}
@@ -356,7 +356,7 @@ CMSourceDirector::BuildWindow()
 	const JCoordinate kInitTableWidth = 50;
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
+		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( scrollbarSet != NULL );
 	scrollbarSet->FitToEnclosure();
@@ -364,7 +364,7 @@ CMSourceDirector::BuildWindow()
 	JXContainer* encl = scrollbarSet->GetScrollEnclosure();
 
 	itsText =
-		new CMSourceText(this, itsCommandDir, itsMenuBar, scrollbarSet, encl,
+		jnew CMSourceText(this, itsCommandDir, itsMenuBar, scrollbarSet, encl,
 						 JXWidget::kHElastic, JXWidget::kVElastic,
 						 kInitTableWidth, 0,
 						 encl->GetApertureWidth()-kInitTableWidth, 100);
@@ -375,14 +375,14 @@ CMSourceDirector::BuildWindow()
 	if (itsType == kMainAsmType || itsType == kAsmType)
 		{
 		itsTable =
-			new CMLineAddressTable(this, itsText, scrollbarSet, encl,
+			jnew CMLineAddressTable(this, itsText, scrollbarSet, encl,
 								   JXWidget::kFixedLeft, JXWidget::kVElastic,
 								   0, 0, kInitTableWidth, 100);
 		}
 	else
 		{
 		itsTable =
-			new CMLineNumberTable(this, itsText, scrollbarSet, encl,
+			jnew CMLineNumberTable(this, itsText, scrollbarSet, encl,
 								  JXWidget::kFixedLeft, JXWidget::kVElastic,
 								  0, 0, kInitTableWidth, 100);
 		}
@@ -395,7 +395,7 @@ CMSourceDirector::BuildWindow()
 	ListenTo(itsDebugMenu);
 
 	itsFnMenu =
-		new CBFunctionMenu(NULL, kCBUnknownFT, itsText, itsMenuBar,
+		jnew CBFunctionMenu(NULL, kCBUnknownFT, itsText, itsMenuBar,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						   0,0, 10,10);
 	assert( itsFnMenu != NULL );
@@ -675,16 +675,16 @@ CMSourceDirector::ReceiveGoingAway
 
 		if (itsType == kMainSourceType)
 			{
-			delete itsSrcMainCmd;
+			jdelete itsSrcMainCmd;
 			itsSrcMainCmd = itsLink->CreateDisplaySourceForMain(this);
 			}
 		else if (itsType == kMainAsmType)
 			{
-			delete itsGetAssemblyCmd;
+			jdelete itsGetAssemblyCmd;
 			itsGetAssemblyCmd = NULL;
 			}
 
-		CMClearSourceDisplayTask* task = new CMClearSourceDisplayTask(this);
+		CMClearSourceDisplayTask* task = jnew CMClearSourceDisplayTask(this);
 		assert( task != NULL );
 		task->Go();
 		}
@@ -1099,7 +1099,7 @@ CMSourceDirector::HandlePrefsMenu
 		}
 	else if (index == kEditCmdsCmd)
 		{
-		CMEditCommandsDialog* dlog = new CMEditCommandsDialog;
+		CMEditCommandsDialog* dlog = jnew CMEditCommandsDialog;
 		assert(dlog != NULL);
 		dlog->BeginDialog();
 		}

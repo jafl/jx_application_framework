@@ -48,7 +48,7 @@ CBEiffelCompleter::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBEiffelCompleter;
+		itsSelf = jnew CBEiffelCompleter;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -65,7 +65,7 @@ CBEiffelCompleter::Instance()
 void
 CBEiffelCompleter::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

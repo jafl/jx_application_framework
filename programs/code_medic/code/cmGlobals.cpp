@@ -106,31 +106,31 @@ CMCreateGlobals
 		}
 
 	JBoolean isNew;
-	thePrefsManager = new CMPrefsManager(&isNew);
+	thePrefsManager = jnew CMPrefsManager(&isNew);
 	assert(thePrefsManager != NULL);
 
 	JXInitHelp(kCMTOCHelpName, kCMHelpSectionCount, kCMHelpSectionName);
 
-	JXWDManager* wdMgr = new JXWDManager(display, kJTrue);
+	JXWDManager* wdMgr = jnew JXWDManager(display, kJTrue);
 	assert( wdMgr != NULL );
 
-	CMDockManager* dockManager = new CMDockManager;
+	CMDockManager* dockManager = jnew CMDockManager;
 	assert( dockManager != NULL );
 	dockManager->JPrefObject::ReadPrefs();
 
-	theTextPrinter = new JXPTPrinter;
+	theTextPrinter = jnew JXPTPrinter;
 	assert( theTextPrinter != NULL );
 	thePrefsManager->ReadPrinterSetup(theTextPrinter);
 
-	thePSPrinter = new JXPSPrinter(display);
+	thePSPrinter = jnew JXPSPrinter(display);
 	assert( thePSPrinter != NULL );
 	thePrefsManager->ReadPrinterSetup(thePSPrinter);
 
-	thePlotEPSPrinter = new JX2DPlotEPSPrinter(display);
+	thePlotEPSPrinter = jnew JX2DPlotEPSPrinter(display);
 	assert( thePlotEPSPrinter != NULL );
 	thePrefsManager->ReadPrinterSetup(thePlotEPSPrinter);
 
-	theFnMenuUpdater = new CBFnMenuUpdater;
+	theFnMenuUpdater = jnew CBFnMenuUpdater;
 	assert( theFnMenuUpdater != NULL );
 
 	thePrefsManager->SyncWithCodeCrusader();
@@ -149,7 +149,7 @@ CMCreateGlobals
 void
 CMCreateCommandDirector()
 {
-	theCmdDir = new CMCommandDirector(theApplication);
+	theCmdDir = jnew CMCommandDirector(theApplication);
 	assert( theCmdDir != NULL );
 	theCmdDir->Activate();
 }
@@ -167,21 +167,21 @@ CMDeleteGlobals()
 	(JXGetDockManager())->JPrefObject::WritePrefs();
 
 	thePrefsManager->WritePrinterSetup(theTextPrinter);
-	delete theTextPrinter;
+	jdelete theTextPrinter;
 	theTextPrinter = NULL;
 
 	thePrefsManager->WritePrinterSetup(thePSPrinter);
-	delete thePSPrinter;
+	jdelete thePSPrinter;
 	thePSPrinter = NULL;
 
 	thePrefsManager->WritePrinterSetup(thePlotEPSPrinter);
-	delete thePlotEPSPrinter;
+	jdelete thePlotEPSPrinter;
 	thePlotEPSPrinter = NULL;
 
-	delete theFnMenuUpdater;
+	jdelete theFnMenuUpdater;
 	theFnMenuUpdater = NULL;
 
-	delete theLink;
+	jdelete theLink;
 	theLink = NULL;
 	lldb::SBDebugger::Terminate();
 
@@ -192,7 +192,7 @@ CMDeleteGlobals()
 
 	// this must be last so everybody else can use it to save their setup
 
-	delete thePrefsManager;
+	jdelete thePrefsManager;
 	thePrefsManager = NULL;
 }
 
@@ -236,26 +236,26 @@ CMStartDebugger()
 	CMPrefsManager::DebuggerType type = CMGetPrefsManager()->GetDebuggerType();
 	if (type == CMPrefsManager::kGDBType)
 		{
-		theLink = new GDBLink;
+		theLink = jnew GDBLink;
 		}
 	else if (type == CMPrefsManager::kLLDBType)
 		{
-		theLink = new LLDBLink;
+		theLink = jnew LLDBLink;
 		}
 	else if (type == CMPrefsManager::kJavaType)
 		{
-		theLink = new JVMLink;
+		theLink = jnew JVMLink;
 		}
 	else if (type == CMPrefsManager::kXdebugType)
 		{
-		theLink = new XDLink;
+		theLink = jnew XDLink;
 		}
 	assert (theLink != NULL);
 
 	// original must be deleted *last* so listeners can call CMGetLink() to
-	// get the new one
+	// get the jnew one
 
-	delete origLink;
+	jdelete origLink;
 
 	if (theCmdDir != NULL)
 		{

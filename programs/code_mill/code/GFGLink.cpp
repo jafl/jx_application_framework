@@ -115,10 +115,10 @@ GFGLink::ParseClass
 void
 GFGLink::StopCTags()
 {
-	delete itsCTagsProcess;
+	jdelete itsCTagsProcess;
 	itsCTagsProcess = NULL;
 
-	delete itsOutputLink;
+	jdelete itsOutputLink;
 	itsOutputLink	= NULL;
 	
 	close(itsInputFD);
@@ -157,7 +157,7 @@ GFGLink::ParseLine
 			return;
 			}
 
-		GFGMemberFunction* fn	= new GFGMemberFunction();
+		GFGMemberFunction* fn	= jnew GFGMemberFunction();
 		assert(fn != NULL);
 
 		fn->SetFnName(name);
@@ -172,7 +172,7 @@ GFGLink::ParseLine
 		JString base		= data.GetSubstring(sRange);
 		if (base != itsCurrentClass)
 			{
-			delete fn;
+			jdelete fn;
 			return;
 			}
 
@@ -317,7 +317,7 @@ GFGLink::StartCTags()
 										kJAttachToFromFD, NULL);
 	if (err.OK())
 		{
-		itsOutputLink = new JOutPipeStream(toFD, kJTrue);
+		itsOutputLink = jnew JOutPipeStream(toFD, kJTrue);
 		assert( itsOutputLink != NULL );
 
 		itsInputFD = fromFD;

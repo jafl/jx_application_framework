@@ -98,13 +98,13 @@ JPlotModuleFit::JPlotModuleFit
 	:
 	JPlotFitFunction(plot, fitData, 0, 10)
 {
-	JPtrArray<JString>* names = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	JArray<JFloat>* values = new JArray<JFloat>;
+	JPtrArray<JString>* names = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	JArray<JFloat>* values = jnew JArray<JFloat>;
 	int count;
 	is >> count;
 	for (int i = 1; i <= count; i++)
 		{
-		JString* name = new JString();
+		JString* name = jnew JString();
 		JFloat value;
 		is >> *name;
 		names->Append(name);
@@ -119,7 +119,7 @@ JPlotModuleFit::JPlotModuleFit
 	is >> gof;
 	JString fstring;
 	is >> fstring;
-	GVarList* list = new GVarList;
+	GVarList* list = jnew GVarList;
 	list->AddVariable("x", 0);
 	for (int i = 1; i <= parmscount; i++)
 		{
@@ -158,7 +158,7 @@ JPlotModuleFit::JPlotModuleFitX
 	itsValues = values;
 	itsFunction = function;
 	itsList = list;
-	itsFunctionName = new JString(function->Print());
+	itsFunctionName = jnew JString(function->Print());
 	GenerateDiffData();
 }
 
@@ -172,11 +172,11 @@ JPlotModuleFit::JPlotModuleFitX
 JPlotModuleFit::~JPlotModuleFit()
 {
 	itsNames->DeleteAll();
-	delete itsNames;
-	delete itsValues;
-	delete itsFunction;
-	delete itsFunctionName;
-	delete itsList;
+	jdelete itsNames;
+	jdelete itsValues;
+	jdelete itsFunction;
+	jdelete itsFunctionName;
+	jdelete itsList;
 }
 
 /*********************************************************************************

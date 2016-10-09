@@ -21,7 +21,7 @@ CBProjectTree::CBProjectTree
 	CBProjectDocument* doc
 	)
 	:
-	JTree(new CBProjectNode(NULL, kCBRootNT, "root", kJTrue))
+	JTree(jnew CBProjectNode(NULL, kCBRootNT, "root", kJTrue))
 {
 	itsDoc = doc;
 }

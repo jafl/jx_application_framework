@@ -146,15 +146,15 @@ JTable::JTable
 	itsDefRowHeight = defRowHeight;
 	itsDefColWidth  = defColWidth;
 
-	itsRowHeights = new JRunArray<JCoordinate>;
+	itsRowHeights = jnew JRunArray<JCoordinate>;
 	assert( itsRowHeights != NULL );
 
-	itsColWidths = new JRunArray<JCoordinate>;
+	itsColWidths = jnew JRunArray<JCoordinate>;
 	assert( itsColWidths != NULL );
 
 	itsTableData = NULL;
 
-	itsAuxDataList = new JPtrArray<JBroadcaster>(JPtrArrayT::kForgetAll);
+	itsAuxDataList = jnew JPtrArray<JBroadcaster>(JPtrArrayT::kForgetAll);
 	assert( itsAuxDataList != NULL );
 
 	itsIsEditingFlag = kJFalse;
@@ -166,7 +166,7 @@ JTable::JTable
 	itsRowHdrTable = NULL;
 	itsColHdrTable = NULL;
 
-	itsTableSelection = new JTableSelection(this);		// calls RegisterAuxData()
+	itsTableSelection = jnew JTableSelection(this);		// calls RegisterAuxData()
 	assert( itsTableSelection != NULL );
 }
 
@@ -177,11 +177,11 @@ JTable::JTable
 
 JTable::~JTable()
 {
-	delete itsTableSelection;	// calls RemoveAuxData()
+	jdelete itsTableSelection;	// calls RemoveAuxData()
 
-	delete itsRowHeights;
-	delete itsColWidths;
-	delete itsAuxDataList;
+	jdelete itsRowHeights;
+	jdelete itsColWidths;
+	jdelete itsAuxDataList;
 }
 
 /******************************************************************************
@@ -2156,7 +2156,7 @@ JTable::CreateInputField
  ExtractInputData (virtual protected)
 
 	Derived class must override to extract the information from its active
-	input field, check it, and delete the input field if successful.
+	input field, check it, and jdelete the input field if successful.
 
 	Should return kJTrue if the data is valid and the process succeeded.
 

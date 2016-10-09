@@ -39,24 +39,24 @@ FitParmsDir::FitParmsDir
 	itsFits = fits;
 	ListenTo(itsFits);
 	
-	JXWindow* window = new JXWindow(this, 260,240, "Fit Parameters");
+	JXWindow* window = jnew JXWindow(this, 260,240, "Fit Parameters");
     assert( window != NULL );
     
     window->LockCurrentSize();
 	
 	JXScrollbarSet* scrollbarSet = 
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic, 
 			0,0,260,190);
 	
 	itsTable = 
-		new FitParmsTable(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+		jnew FitParmsTable(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic, 
 			0,0,260,190);
 	assert (itsTable != NULL);
 	
 	itsFitMenu = 
-		new JXTextMenu(kFitMenuTitleStr, window, 
+		jnew JXTextMenu(kFitMenuTitleStr, window, 
 			JXWidget::kHElastic, JXWidget::kVElastic, 
 			10, 210, 90, 20);
 	assert( itsFitMenu != NULL );
@@ -65,7 +65,7 @@ FitParmsDir::FitParmsDir
 	UpdateFitMenu();
 	
 	itsCloseButton = 
-		new JXTextButton("Close", window,
+		jnew JXTextButton("Close", window,
 			JXWidget::kHElastic, JXWidget::kVElastic, 
 			90, 210, 70, 20);
 	assert( itsCloseButton != NULL );
@@ -73,7 +73,7 @@ FitParmsDir::FitParmsDir
 	ListenTo(itsCloseButton);
 	
 	itsSessionButton = 
-		new JXTextButton("Session", window,
+		jnew JXTextButton("Session", window,
 			JXWidget::kHElastic, JXWidget::kVElastic, 
 			180, 210, 70, 20);
 	assert( itsSessionButton != NULL );

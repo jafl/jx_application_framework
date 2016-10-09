@@ -51,7 +51,7 @@ JRunProgram
 
 		p->WaitUntilFinished();
 		const JBoolean success = p->SuccessfulFinish();
-		delete p;
+		jdelete p;
 
 		errOutput->TrimWhitespace();
 		if (success)

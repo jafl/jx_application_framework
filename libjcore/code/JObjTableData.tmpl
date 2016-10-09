@@ -29,7 +29,7 @@ JObjTableData<T>::JObjTableData()
 	:
 	JTableData()
 {
-	itsCols = new JPtrArray< JPtrArray<T> >(JPtrArrayT::kDeleteAll);
+	itsCols = jnew JPtrArray< JPtrArray<T> >(JPtrArrayT::kDeleteAll);
 	assert( itsCols != NULL );
 }
 
@@ -46,7 +46,7 @@ JObjTableData<T>::JObjTableData
 	:
 	JTableData(source)
 {
-	itsCols = new JPtrArray< JPtrArray<T> >(JPtrArrayT::kDeleteAll);
+	itsCols = jnew JPtrArray< JPtrArray<T> >(JPtrArrayT::kDeleteAll);
 	assert( itsCols != NULL );
 
 	const JSize colCount = (source.itsCols)->GetElementCount();
@@ -54,7 +54,7 @@ JObjTableData<T>::JObjTableData
 		{
 		const JPtrArray<T>* origColData = (source.itsCols)->NthElement(j);
 
-		JPtrArray<T>* newColData = new JDCCPtrArray<T>(*origColData, JPtrArrayT::kDeleteAll);
+		JPtrArray<T>* newColData = jnew JDCCPtrArray<T>(*origColData, JPtrArrayT::kDeleteAll);
 		assert( newColData != NULL );
 		itsCols->InsertAtIndex(j, newColData);
 		}
@@ -68,7 +68,7 @@ JObjTableData<T>::JObjTableData
 template <class T>
 JObjTableData<T>::~JObjTableData()
 {
-	delete itsCols;
+	jdelete itsCols;
 }
 
 /******************************************************************************
@@ -263,11 +263,11 @@ JObjTableData<T>::InsertRows
 				T* element = NULL;
 				if (initData != NULL)
 					{
-					element = new T(*(initData->NthElement(i)));
+					element = jnew T(*(initData->NthElement(i)));
 					}
 				else
 					{
-					element = new T;
+					element = jnew T;
 					}
 				assert( element != NULL );
 
@@ -468,7 +468,7 @@ JObjTableData<T>::InsertCols
 
 		for (JIndex j=1; j<=count; j++)
 			{
-			JPtrArray<T>* colData = new JPtrArray<T>(JPtrArrayT::kDeleteAll);
+			JPtrArray<T>* colData = jnew JPtrArray<T>(JPtrArrayT::kDeleteAll);
 			assert( colData != NULL );
 			itsCols->InsertAtIndex(trueIndex, colData);
 
@@ -478,11 +478,11 @@ JObjTableData<T>::InsertCols
 				T* element = NULL;
 				if (initData != NULL)
 					{
-					element = new T(*(initData->NthElement(i)));
+					element = jnew T(*(initData->NthElement(i)));
 					}
 				else
 					{
-					element = new T;
+					element = jnew T;
 					}
 				assert( element != NULL );
 
@@ -539,7 +539,7 @@ JObjTableData<T>::DuplicateCol
 
 	JPtrArray<T>* origColData = itsCols->NthElement(origIndex);
 
-	JPtrArray<T>* newColData = new JDCCPtrArray<T>(*origColData, JPtrArrayT::kDeleteAll);
+	JPtrArray<T>* newColData = jnew JDCCPtrArray<T>(*origColData, JPtrArrayT::kDeleteAll);
 	assert( newColData != NULL );
 	itsCols->InsertAtIndex(trueIndex, newColData);
 

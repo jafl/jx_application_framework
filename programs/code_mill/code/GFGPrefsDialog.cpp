@@ -69,77 +69,77 @@ GFGPrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 510,530, "");
+	JXWindow* window = jnew JXWindow(this, 510,530, "");
 	assert( window != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::GFGPrefsDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::GFGPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 470,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	itsHeaderInput =
-		new JXInputField(kJFalse, kJTrue, window,
+		jnew JXInputField(kJFalse, kJTrue, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,40, 470,60);
 	assert( itsHeaderInput != NULL );
 
 	JXStaticText* obj2_JXLayout =
-		new JXStaticText(JGetString("obj2_JXLayout::GFGPrefsDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj2_JXLayout::GFGPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,115, 470,20);
 	assert( obj2_JXLayout != NULL );
 	obj2_JXLayout->SetToLabel();
 
 	itsSourceInput =
-		new JXInputField(kJFalse, kJTrue, window,
+		jnew JXInputField(kJFalse, kJTrue, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,135, 470,60);
 	assert( itsSourceInput != NULL );
 
 	JXStaticText* obj3_JXLayout =
-		new JXStaticText(JGetString("obj3_JXLayout::GFGPrefsDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj3_JXLayout::GFGPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,210, 470,20);
 	assert( obj3_JXLayout != NULL );
 	obj3_JXLayout->SetToLabel();
 
 	itsConstructorInput =
-		new JXInputField(kJFalse, kJTrue, window,
+		jnew JXInputField(kJFalse, kJTrue, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,230, 470,60);
 	assert( itsConstructorInput != NULL );
 
 	JXStaticText* obj4_JXLayout =
-		new JXStaticText(JGetString("obj4_JXLayout::GFGPrefsDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj4_JXLayout::GFGPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,305, 470,20);
 	assert( obj4_JXLayout != NULL );
 	obj4_JXLayout->SetToLabel();
 
 	itsDestructorInput =
-		new JXInputField(kJFalse, kJTrue, window,
+		jnew JXInputField(kJFalse, kJTrue, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,325, 470,60);
 	assert( itsDestructorInput != NULL );
 
 	JXStaticText* obj5_JXLayout =
-		new JXStaticText(JGetString("obj5_JXLayout::GFGPrefsDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj5_JXLayout::GFGPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,400, 470,20);
 	assert( obj5_JXLayout != NULL );
 	obj5_JXLayout->SetToLabel();
 
 	itsFunctionInput =
-		new JXInputField(kJFalse, kJTrue, window,
+		jnew JXInputField(kJFalse, kJTrue, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,420, 470,60);
 	assert( itsFunctionInput != NULL );
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::GFGPrefsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::GFGPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 110,500, 70,20);
 	assert( cancelButton != NULL );
 	cancelButton->SetShortcuts(JGetString("cancelButton::GFGPrefsDialog::shortcuts::JXLayout"));
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::GFGPrefsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::GFGPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 330,500, 70,20);
 	assert( okButton != NULL );
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::GFGPrefsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::GFGPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 220,500, 70,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::GFGPrefsDialog::shortcuts::JXLayout"));

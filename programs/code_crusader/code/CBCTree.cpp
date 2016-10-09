@@ -71,7 +71,7 @@ CBCTree::CBCTree
 void
 CBCTree::CBCTreeX()
 {
-	itsCPP = new CBCPreprocessor;
+	itsCPP = jnew CBCPreprocessor;
 	assert( itsCPP != NULL );
 }
 
@@ -82,7 +82,7 @@ CBCTree::CBCTreeX()
 
 CBCTree::~CBCTree()
 {
-	delete itsCPP;
+	jdelete itsCPP;
 }
 
 /******************************************************************************
@@ -108,7 +108,7 @@ CBCTree::StreamOut
 /******************************************************************************
  StreamInCClass (static private)
 
-	Creates a new CBCClass from the data in the given stream.
+	Creates a jnew CBCClass from the data in the given stream.
 
  ******************************************************************************/
 
@@ -120,7 +120,7 @@ CBCTree::StreamInCClass
 	CBTree*				tree
 	)
 {
-	CBCClass* newClass = new CBCClass(input, vers, tree);
+	CBCClass* newClass = jnew CBCClass(input, vers, tree);
 	assert( newClass != NULL );
 	return newClass;
 }
@@ -372,7 +372,7 @@ CBCTree::ParseClasses
 			JString className = buffer->GetSubstring(1, endNameIndex);
 			className.Prepend(classNamePrefix);
 
-			CBCClass* newClass = new CBCClass(className, declType, fileID, this);
+			CBCClass* newClass = jnew CBCClass(className, declType, fileID, this);
 			assert( newClass != NULL );
 
 			newClass->SetTemplate(isTemplate);

@@ -45,7 +45,7 @@ GPMSystemStats::GPMSystemStats
 	itsProcessList(processList),
 	itsMaxCPU(100)
 {
-	itsCPUHistory = new JArray<CPU>();
+	itsCPUHistory = jnew JArray<CPU>();
 	assert( itsCPUHistory != NULL );
 
 	ListenTo(itsProcessList);
@@ -61,7 +61,7 @@ GPMSystemStats::GPMSystemStats
 
 GPMSystemStats::~GPMSystemStats()
 {
-	delete itsCPUHistory;
+	jdelete itsCPUHistory;
 }
 
 /******************************************************************************

@@ -26,7 +26,7 @@ J2DPlotData::Create
 {
 	if (OKToCreate(x,y))
 		{
-		*plotData = new J2DPlotData(x,y,listen);
+		*plotData = jnew J2DPlotData(x,y,listen);
 		assert( *plotData != NULL );
 		return kJTrue;
 		}
@@ -83,9 +83,9 @@ J2DPlotData::J2DPlotData
 		}
 	else
 		{
-		itsXData = new JArray<JFloat>(x);
+		itsXData = jnew JArray<JFloat>(x);
 		assert( itsXData != NULL );
-		itsYData = new JArray<JFloat>(y);
+		itsYData = jnew JArray<JFloat>(y);
 		assert( itsYData != NULL );
 		}
 
@@ -112,12 +112,12 @@ J2DPlotData::~J2DPlotData()
 {
 	if (!itsIsListeningFlag)
 		{
-		delete itsXData;
-		delete itsXPErrorData;
-		delete itsXMErrorData;
-		delete itsYData;
-		delete itsYPErrorData;
-		delete itsYMErrorData;
+		jdelete itsXData;
+		jdelete itsXPErrorData;
+		jdelete itsXMErrorData;
+		jdelete itsYData;
+		jdelete itsYPErrorData;
+		jdelete itsYMErrorData;
 		}
 }
 
@@ -277,36 +277,36 @@ J2DPlotData::IgnoreDataChanges()
 	if (itsIsListeningFlag)
 		{
 		StopListening(itsXData);
-		itsXData = new JArray<JFloat>(*itsXData);
+		itsXData = jnew JArray<JFloat>(*itsXData);
 		assert( itsXData != NULL );
 
 		if (itsXPErrorData != NULL)
 			{
 			StopListening(itsXPErrorData);
-			itsXPErrorData = new JArray<JFloat>(*itsXPErrorData);
+			itsXPErrorData = jnew JArray<JFloat>(*itsXPErrorData);
 			assert( itsXPErrorData != NULL );
 			}
 		if (itsXMErrorData != NULL)
 			{
 			StopListening(itsXMErrorData);
-			itsXMErrorData = new JArray<JFloat>(*itsXMErrorData);
+			itsXMErrorData = jnew JArray<JFloat>(*itsXMErrorData);
 			assert( itsXMErrorData != NULL );
 			}
 
 		StopListening(itsYData);
-		itsYData = new JArray<JFloat>(*itsYData);
+		itsYData = jnew JArray<JFloat>(*itsYData);
 		assert( itsYData != NULL );
 
 		if (itsYPErrorData != NULL)
 			{
 			StopListening(itsYPErrorData);
-			itsYPErrorData = new JArray<JFloat>(*itsYPErrorData);
+			itsYPErrorData = jnew JArray<JFloat>(*itsYPErrorData);
 			assert( itsYPErrorData != NULL );
 			}
 		if (itsYMErrorData != NULL)
 			{
 			StopListening(itsYMErrorData);
-			itsYMErrorData = new JArray<JFloat>(*itsYMErrorData);
+			itsYMErrorData = jnew JArray<JFloat>(*itsYMErrorData);
 			assert( itsYMErrorData != NULL );
 			}
 
@@ -346,11 +346,11 @@ J2DPlotData::SetXErrors
 		}
 	else
 		{
-		delete itsXMErrorData;
+		jdelete itsXMErrorData;
 		itsXMErrorData = NULL;
 
-		delete itsXPErrorData;
-		itsXPErrorData = new JArray<JFloat>(xErr);
+		jdelete itsXPErrorData;
+		itsXPErrorData = jnew JArray<JFloat>(xErr);
 		assert( itsXPErrorData != NULL );
 		}
 
@@ -393,12 +393,12 @@ J2DPlotData::SetXErrors
 		}
 	else
 		{
-		delete itsXPErrorData;
-		itsXPErrorData = new JArray<JFloat>(xPErr);
+		jdelete itsXPErrorData;
+		itsXPErrorData = jnew JArray<JFloat>(xPErr);
 		assert( itsXPErrorData != NULL );
 
-		delete itsXMErrorData;
-		itsXMErrorData = new JArray<JFloat>(xMErr);
+		jdelete itsXMErrorData;
+		itsXMErrorData = jnew JArray<JFloat>(xMErr);
 		assert( itsXMErrorData != NULL );
 		}
 
@@ -438,11 +438,11 @@ J2DPlotData::SetYErrors
 		}
 	else
 		{
-		delete itsYMErrorData;
+		jdelete itsYMErrorData;
 		itsYMErrorData = NULL;
 
-		delete itsYPErrorData;
-		itsYPErrorData = new JArray<JFloat>(yErr);
+		jdelete itsYPErrorData;
+		itsYPErrorData = jnew JArray<JFloat>(yErr);
 		assert( itsYPErrorData != NULL );
 		}
 
@@ -485,12 +485,12 @@ J2DPlotData::SetYErrors
 		}
 	else
 		{
-		delete itsYPErrorData;
-		itsYPErrorData = new JArray<JFloat>(yPErr);
+		jdelete itsYPErrorData;
+		itsYPErrorData = jnew JArray<JFloat>(yPErr);
 		assert( itsYPErrorData != NULL );
 
-		delete itsYMErrorData;
-		itsYMErrorData = new JArray<JFloat>(yMErr);
+		jdelete itsYMErrorData;
+		itsYMErrorData = jnew JArray<JFloat>(yMErr);
 		assert( itsYMErrorData != NULL );
 		}
 

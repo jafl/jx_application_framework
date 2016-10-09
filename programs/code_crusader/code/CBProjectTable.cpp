@@ -132,7 +132,7 @@ CBProjectTable::CBProjectTable
 
 CBProjectTable::~CBProjectTable()
 {
-	delete itsDNDBuffer;
+	jdelete itsDNDBuffer;
 }
 
 /******************************************************************************
@@ -190,7 +190,7 @@ CBProjectTable::NewGroup
 
 	CBProjectTree* tree = itsDoc->GetFileTree();
 
-	CBGroupNode* newNode = new CBGroupNode(tree, kJFalse);
+	CBGroupNode* newNode = jnew CBGroupNode(tree, kJFalse);
 	assert( newNode != NULL );
 
 	if (returnNode != NULL)
@@ -255,7 +255,7 @@ CBProjectTable::AddDirectoryTree
 
 	assert( itsAddFilesFilterDialog == NULL );
 	itsAddFilesFilterDialog =
-		new JXGetStringDialog(GetWindow()->GetDirector(),
+		jnew JXGetStringDialog(GetWindow()->GetDirector(),
 							  JGetString("AddFilesTitle::CBProjectTable"),
 							  JGetString("AddFilesPrompt::CBProjectTable"),
 							  CBProjectDocument::GetAddFilesFilter());
@@ -337,7 +337,7 @@ CBProjectTable::AddDirectoryTree
 
 			if (node->GetChildCount() == 0)
 				{
-				delete node;
+				jdelete node;
 				}
 			else
 				{
@@ -355,7 +355,7 @@ CBProjectTable::AddDirectoryTree
 				}
 			}
 
-		delete info;
+		jdelete info;
 		}
 }
 
@@ -425,7 +425,7 @@ CBProjectTable::AddFiles
 		}
 	else
 		{
-		parent      = new CBGroupNode(tree);
+		parent      = jnew CBGroupNode(tree);
 		parentIsNew = kJTrue;
 		}
 	assert( parent != NULL );
@@ -501,7 +501,7 @@ CBProjectTable::AddFiles
 		{
 		if (parentIsNew)
 			{
-			delete parent;
+			jdelete parent;
 			}
 
 		if (!silent && fullNameList.GetElementCount() == 1)
@@ -736,7 +736,7 @@ CBProjectTable::RemoveSelection()
 		JPoint cell;
 		while (iter.Next(&cell))
 			{
-			delete treeList->GetNode(cell.y);
+			jdelete treeList->GetNode(cell.y);
 			}
 
 		itsLockedSelDepthFlag = kJFalse;
@@ -1273,7 +1273,7 @@ CBProjectTable::HandleMouseDrag
 		}
 	else if (itsDragType == kWaitForDNDDrag && JMouseMoved(itsStartPt, pt))
 		{
-		JXFileSelection* data = new JXFileSelection(this, kSelectionDataID);
+		JXFileSelection* data = jnew JXFileSelection(this, kSelectionDataID);
 		assert( data != NULL );
 
 		if (BeginDND(pt, buttonStates, modifiers, data))
@@ -1439,7 +1439,7 @@ CBProjectTable::GetSelectionData
 		{
 		assert( HasSelection() );
 
-		JPtrArray<JString>* list = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		JPtrArray<JString>* list = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert( list != NULL );
 
 		GetSelectedFileNames(list);
@@ -1505,7 +1505,7 @@ CBProjectTable::CopyFileToDNDList
 	const CBFileNodeBase* fNode = dynamic_cast<const CBFileNodeBase*>(node);
 	assert( fNode != NULL );
 
-	JString* s = new JString;
+	JString* s = jnew JString;
 	assert( s != NULL );
 	if (fNode->GetFullName(s))
 		{
@@ -1513,7 +1513,7 @@ CBProjectTable::CopyFileToDNDList
 		}
 	else
 		{
-		delete s;
+		jdelete s;
 		}
 }
 
@@ -1775,7 +1775,7 @@ CBProjectTable::HandleDNDDrop
 		}
 	else if (source == this && itsSelDepth == kFileDepth && itsDNDAction == kDNDNewGroup)
 		{
-		CBGroupNode* groupNode = new CBGroupNode(itsDoc->GetFileTree());
+		CBGroupNode* groupNode = jnew CBGroupNode(itsDoc->GetFileTree());
 		assert( groupNode != NULL );
 		AppendFileSelectionToGroup(groupNode);
 		}
@@ -2098,7 +2098,7 @@ CBProjectTable::CopySelectedNames()
 			list.Append(const_cast<JString*>(&name));
 			}
 
-		JXTextSelection* data = new JXTextSelection(GetDisplay(), list);
+		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
 		assert( data != NULL );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);
@@ -2118,7 +2118,7 @@ CBProjectTable::CreateContextMenu()
 {
 	if (itsContextMenu == NULL)
 		{
-		itsContextMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsContextMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsContextMenu != NULL );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "CBProjectTable");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -2286,7 +2286,7 @@ CBProjectTable::CreateXInputField
 		JBoolean ok = GetImageRect(cell.y, &r);
 		assert( ok );
 		r.Expand(kJXDefaultBorderWidth, kJXDefaultBorderWidth);
-		itsCSFButton = new JXImageButton(this, kFixedLeft, kFixedTop,
+		itsCSFButton = jnew JXImageButton(this, kFixedLeft, kFixedTop,
 										 r.left, r.top, r.width(), r.height());
 		assert( itsCSFButton != NULL );
 
@@ -2323,7 +2323,7 @@ CBProjectTable::CreateTreeListInput
 	if (GetDepth(cell.y) == kFileDepth)
 		{
 		CBProjectTableInput* obj =
-			new CBProjectTableInput(this, enclosure, hSizing, vSizing, x,y, w,h);
+			jnew CBProjectTableInput(this, enclosure, hSizing, vSizing, x,y, w,h);
 		assert( obj != NULL );
 		obj->SetBasePath(itsDoc->GetFilePath());
 		return obj;
@@ -2338,7 +2338,7 @@ CBProjectTable::CreateTreeListInput
  ExtractInputData (virtual protected)
 
 	Derived class must override to extract the information from its active
-	input field, check it, and delete the input field if successful.
+	input field, check it, and jdelete the input field if successful.
 
 	Should return kJTrue if the data is valid and the process succeeded.
 

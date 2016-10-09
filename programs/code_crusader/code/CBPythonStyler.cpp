@@ -59,7 +59,7 @@ CBPythonStyler::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBPythonStyler;
+		itsSelf = jnew CBPythonStyler;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -76,7 +76,7 @@ CBPythonStyler::Instance()
 void
 CBPythonStyler::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************
@@ -197,5 +197,5 @@ CBPythonStyler::UpgradeTypeList
 	JArray<JFontStyle>*	typeStyles
 	)
 {
-	// set new values after all new slots have been created
+	// set jnew values after all jnew slots have been created
 }

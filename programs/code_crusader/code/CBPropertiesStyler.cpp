@@ -50,7 +50,7 @@ CBPropertiesStyler::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBPropertiesStyler;
+		itsSelf = jnew CBPropertiesStyler;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -67,7 +67,7 @@ CBPropertiesStyler::Instance()
 void
 CBPropertiesStyler::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

@@ -26,14 +26,14 @@ JXImage::CreateFromJPEG
 	JXImage**			image
 	)
 {
-	*image = new JXImage(display);
+	*image = jnew JXImage(display);
 	assert( *image != NULL );
 
 	const JError err = (**image).ReadJPEG(fileName);
 
 	if (!err.OK())
 		{
-		delete *image;
+		jdelete *image;
 		*image = NULL;
 		}
 	return err;

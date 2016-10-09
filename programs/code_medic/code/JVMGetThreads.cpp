@@ -74,7 +74,7 @@ JVMGetThreads::CopyTree
 		{
 		JVMThreadNode* child1 = dynamic_cast<JVMThreadNode*>(src->GetChild(i));
 
-		JVMThreadNode* child2 = new JVMThreadNode(*child1);
+		JVMThreadNode* child2 = jnew JVMThreadNode(*child1);
 		assert( child2 != NULL );
 
 		if (dest->IsRoot())

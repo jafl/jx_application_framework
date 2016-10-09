@@ -342,7 +342,7 @@ JXProgressDisplay::AppendToMessageWindow
 {
 	if (itsMessageDirector == NULL)
 		{
-		itsMessageDirector = new JXPGMessageDirector(JXGetApplication());
+		itsMessageDirector = jnew JXPGMessageDirector(JXGetApplication());
 		assert(itsMessageDirector != NULL);
 
 		if (messageWindowLocInit)
@@ -376,7 +376,7 @@ JXProgressDisplay::Receive
 		assert( info != NULL );
 		itsCancelFlag = kJTrue;
 
-		// must be last since it could delete us
+		// must be last since it could jdelete us
 
 		if (AllowBackground())
 			{

@@ -137,7 +137,7 @@ as{WS} {
 	}
 
 {NSID} {
-	JString* s = new JString(yytext, yyleng);
+	JString* s = jnew JString(yytext, yyleng);
 	assert( s != NULL );
 	useMap.SetElement(*s, s, JPtrArrayT::kDelete);
 	useName = *s;
@@ -167,7 +167,7 @@ as{WS} {
 <USE_AS_STATE>{
 
 {ID} {
-	JString* s = new JString(yytext, yyleng);
+	JString* s = jnew JString(yytext, yyleng);
 	assert( s != NULL );
 	useMap.SetElement(useName, s, JPtrArrayT::kDelete);
 	BEGIN(INITIAL);
@@ -203,7 +203,7 @@ as{WS} {
 		fullName.Prepend(phpNamespace);
 		}
 
-	*theClass = new CBPHPClass(fullName, CBClass::kClassType, fileID, tree, isFinal);
+	*theClass = jnew CBPHPClass(fullName, CBClass::kClassType, fileID, tree, isFinal);
 	assert( *theClass != NULL );
 
 	if (isAbstract)

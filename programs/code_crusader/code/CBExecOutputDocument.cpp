@@ -66,7 +66,7 @@ CBExecOutputDocument::CBExecOutputDocument
 	const JCoordinate x = (allowStop ? 3 : 2) * kMenuButtonWidth;
 
 	itsPauseButton =
-		new JXTextButton(JGetString("PauseLabel::CBExecOutputDocument"), window,
+		jnew JXTextButton(JGetString("PauseLabel::CBExecOutputDocument"), window,
 						 JXWidget::kFixedRight, JXWidget::kFixedTop,
 						 rect.right - x,0, kMenuButtonWidth,h);
 	assert( itsPauseButton != NULL );
@@ -77,7 +77,7 @@ CBExecOutputDocument::CBExecOutputDocument
 	if (allowStop)
 		{
 		itsStopButton =
-			new JXTextButton(JGetString("StopLabel::CBExecOutputDocument"), window,
+			jnew JXTextButton(JGetString("StopLabel::CBExecOutputDocument"), window,
 							 JXWidget::kFixedRight, JXWidget::kFixedTop,
 							 rect.right - 2*kMenuButtonWidth,0, kMenuButtonWidth,h);
 		assert( itsStopButton != NULL );
@@ -91,7 +91,7 @@ CBExecOutputDocument::CBExecOutputDocument
 		}
 
 	itsKillButton =
-		new JXTextButton(JGetString("KillLabel::CBExecOutputDocument"), window,
+		jnew JXTextButton(JGetString("KillLabel::CBExecOutputDocument"), window,
 						 JXWidget::kFixedRight, JXWidget::kFixedTop,
 						 rect.right - kMenuButtonWidth,0, kMenuButtonWidth,h);
 	assert( itsKillButton != NULL );
@@ -112,7 +112,7 @@ CBExecOutputDocument::CBExecOutputDocument
 	const JRect fileRect = GetFileDisplayInfo(&hSizing, &vSizing);
 
 	itsCmdPrompt =
-		new JXStaticText(JGetString("CmdPrompt::CBExecOutputDocument"), window,
+		jnew JXStaticText(JGetString("CmdPrompt::CBExecOutputDocument"), window,
 						 JXWidget::kFixedLeft, vSizing,
 						 fileRect.left, fileRect.top+3, 0, fileRect.height()-3);
 	assert( itsCmdPrompt != NULL );
@@ -127,7 +127,7 @@ CBExecOutputDocument::CBExecOutputDocument
 	toolBar->SetWindowMinSize(minWidth, minHeight);
 
 	itsCmdInput =
-		new CBCmdLineInput(this, window, hSizing, vSizing,
+		jnew CBCmdLineInput(this, window, hSizing, vSizing,
 						   fileRect.left + promptWidth, fileRect.top,
 						   fileRect.width() - promptWidth - kEOFButtonWidth,
 						   fileRect.height());
@@ -136,7 +136,7 @@ CBExecOutputDocument::CBExecOutputDocument
 	itsCmdInput->Hide();
 
 	itsEOFButton =
-		new JXTextButton(JGetString("EOFButtonTitle::CBExecOutputDocument"), window,
+		jnew JXTextButton(JGetString("EOFButtonTitle::CBExecOutputDocument"), window,
 						 JXWidget::kFixedRight, vSizing,
 						 fileRect.right - kEOFButtonWidth, fileRect.top,
 						 kEOFButtonWidth, fileRect.height());
@@ -159,10 +159,15 @@ CBExecOutputDocument::CBExecOutputDocument
 
 CBExecOutputDocument::~CBExecOutputDocument()
 {
-	DeleteLinks();
+	delete itsRecordLink;
+	itsRecordLink = NULL;
+
+	delete itsDataLink;
+	itsDataLink = NULL;
+
 	CloseOutFD();
 
-	delete itsProcess;
+	jdelete itsProcess;
 }
 
 /******************************************************************************
@@ -227,6 +232,105 @@ CBExecOutputDocument::DecrementUseCount()
 }
 
 /******************************************************************************
+ SetConnection (virtual)
+
+	execCmd can be NULL.  If it is, the header (timestamp + path + cmd)
+	is not printed.
+
+ ******************************************************************************/
+
+void
+CBExecOutputDocument::SetConnection
+	(
+	JProcess*			p,
+	const int			inFD,
+	const int			outFD,
+	const JCharacter*	windowTitle,
+	const JCharacter*	dontCloseMsg,
+	const JCharacter*	execDir,
+	const JCharacter*	execCmd,
+	const JBoolean		showPID
+	)
+{
+	assert( !ProcessRunning() && itsRecordLink == NULL && itsDataLink == NULL );
+
+	itsProcess = p;
+	ListenTo(itsProcess);
+
+	if (NeedsFormattedData())
+		{
+		itsRecordLink = new RecordLink(inFD);
+		assert( itsRecordLink != NULL );
+		ListenTo(itsRecordLink);
+		}
+	else
+		{
+		itsDataLink = new DataLink(inFD);
+		assert( itsDataLink != NULL );
+		ListenTo(itsDataLink);
+		}
+
+	if (outFD != ACE_INVALID_HANDLE)
+		{
+		itsCmdStream = jnew JOutPipeStream(outFD, kJTrue);
+		assert( itsCmdStream != NULL );
+		}
+
+	CBTextEditor* te = GetTextEditor();
+	if (itsClearWhenStartFlag)
+		{
+		te->SetText("");
+		}
+	else if (!te->IsEmpty())
+		{
+		const JString& text = te->GetText();
+		JIndex i            = text.GetLength()+1;
+		while (i > 1 && text.GetCharacter(i-1) == '\n')
+			{
+			i--;
+			}
+		if (text.IndexValid(i))
+			{
+			te->SetSelection(i, text.GetLength());
+			}
+
+		te->Paste("\n\n----------\n\n");
+		te->ClearUndo();
+		}
+
+	if (execCmd != NULL)
+		{
+		const JString timeStamp = JGetTimeStamp();
+
+		te->Paste(timeStamp);
+		te->Paste("\n");
+		te->Paste(execDir);
+		te->Paste("\n");
+		te->Paste(execCmd);
+
+		if (showPID)
+			{
+			te->Paste("\n");
+			te->Paste(JGetString("ProcessID::CBExecOutputDocument"));
+			te->Paste(JString(p->GetPID(), JString::kBase10));
+			}
+
+		te->Paste("\n\n");
+		te->ClearUndo();
+		}
+
+	itsPath              = execDir;
+	itsReceivedDataFlag  = kJFalse;
+	itsProcessPausedFlag = kJFalse;
+	itsDontCloseMsg      = dontCloseMsg;
+	FileChanged(windowTitle, kJFalse);
+
+	UpdateButtons();
+	te->SetWritable(kJFalse);
+	itsCmdInput->SetText("");
+}
+
+/******************************************************************************
  SendText
 
  ******************************************************************************/
@@ -284,7 +388,7 @@ CBExecOutputDocument::Receive
 		assert( info != NULL );
 		const JBoolean stayOpen = ProcessFinished(*info);
 
-		// let somebody else start a new process
+		// let somebody else start a jnew process
 
 		itsClearWhenStartFlag = kJFalse;	// in case they call SetConnection() in ReceiveWithFeedback()
 		Finished msg(info->Successful(), JI2B(info->GetReason() != kJChildFinished));
@@ -490,7 +594,7 @@ CBExecOutputDocument::CloseOutFD()
 {
 	if (itsCmdStream != NULL)
 		{
-		delete itsCmdStream;
+		jdelete itsCmdStream;
 		itsCmdStream = NULL;
 		}
 }
@@ -522,7 +626,7 @@ CBExecOutputDocument::ProcessFinished
 	const pid_t pid = itsProcess->GetPID();
 	JProcess* p = itsProcess;
 	itsProcess = NULL;
-	delete p;
+	jdelete p;
 
 	delete itsRecordLink;
 	itsRecordLink = NULL;
@@ -758,126 +862,4 @@ CBExecOutputDocument::NeedsFormattedData()
 	const
 {
 	return kJFalse;
-}
-
-/******************************************************************************
- SetConnection (virtual)
-
-	execCmd can be NULL.  If it is, the header (timestamp + path + cmd)
-	is not printed.
-
- ******************************************************************************/
-
-// This function has to be last so JCore::new works for everything else.
-
-#undef new
-
-void
-CBExecOutputDocument::SetConnection
-	(
-	JProcess*			p,
-	const int			inFD,
-	const int			outFD,
-	const JCharacter*	windowTitle,
-	const JCharacter*	dontCloseMsg,
-	const JCharacter*	execDir,
-	const JCharacter*	execCmd,
-	const JBoolean		showPID
-	)
-{
-	assert( !ProcessRunning() && itsRecordLink == NULL && itsDataLink == NULL );
-
-	itsProcess = p;
-	ListenTo(itsProcess);
-
-	if (NeedsFormattedData())
-		{
-		itsRecordLink = new RecordLink(inFD);
-		assert( itsRecordLink != NULL );
-		ListenTo(itsRecordLink);
-		}
-	else
-		{
-		itsDataLink = new DataLink(inFD);
-		assert( itsDataLink != NULL );
-		ListenTo(itsDataLink);
-		}
-
-	if (outFD != ACE_INVALID_HANDLE)
-		{
-		itsCmdStream = new JOutPipeStream(outFD, kJTrue);
-		assert( itsCmdStream != NULL );
-		}
-
-	CBTextEditor* te = GetTextEditor();
-	if (itsClearWhenStartFlag)
-		{
-		te->SetText("");
-		}
-	else if (!te->IsEmpty())
-		{
-		const JString& text = te->GetText();
-		JIndex i            = text.GetLength()+1;
-		while (i > 1 && text.GetCharacter(i-1) == '\n')
-			{
-			i--;
-			}
-		if (text.IndexValid(i))
-			{
-			te->SetSelection(i, text.GetLength());
-			}
-
-		te->Paste("\n\n----------\n\n");
-		te->ClearUndo();
-		}
-
-	if (execCmd != NULL)
-		{
-		const JString timeStamp = JGetTimeStamp();
-
-		te->Paste(timeStamp);
-		te->Paste("\n");
-		te->Paste(execDir);
-		te->Paste("\n");
-		te->Paste(execCmd);
-
-		if (showPID)
-			{
-			te->Paste("\n");
-			te->Paste(JGetString("ProcessID::CBExecOutputDocument"));
-			te->Paste(JString(p->GetPID(), JString::kBase10));
-			}
-
-		te->Paste("\n\n");
-		te->ClearUndo();
-		}
-
-	itsPath              = execDir;
-	itsReceivedDataFlag  = kJFalse;
-	itsProcessPausedFlag = kJFalse;
-	itsDontCloseMsg      = dontCloseMsg;
-	FileChanged(windowTitle, kJFalse);
-
-	UpdateButtons();
-	te->SetWritable(kJFalse);
-	itsCmdInput->SetText("");
-}
-
-/******************************************************************************
- DeleteLinks (private)
-
- ******************************************************************************/
-
-// This function has to be last so JCore::delete works for everything else.
-
-#undef delete
-
-void
-CBExecOutputDocument::DeleteLinks()
-{
-	delete itsRecordLink;
-	itsRecordLink = NULL;
-
-	delete itsDataLink;
-	itsDataLink = NULL;
 }

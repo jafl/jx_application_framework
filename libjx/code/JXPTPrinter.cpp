@@ -38,10 +38,10 @@ JXPTPrinter::JXPTPrinter()
 {
 	itsDestination = kPrintToPrinter;
 
-	itsPrintCmd = new JString("lpr");
+	itsPrintCmd = jnew JString("lpr");
 	assert( itsPrintCmd != NULL );
 
-	itsFileName = new JString;
+	itsFileName = jnew JString;
 	assert( itsFileName != NULL );
 
 	itsPageSetupDialog  = NULL;
@@ -55,8 +55,8 @@ JXPTPrinter::JXPTPrinter()
 
 JXPTPrinter::~JXPTPrinter()
 {
-	delete itsPrintCmd;
-	delete itsFileName;
+	jdelete itsPrintCmd;
+	jdelete itsFileName;
 }
 
 /******************************************************************************

@@ -669,7 +669,7 @@ rsaquo;?   HANDLE_CHAR('>');	/* ? */
 	tag.PrependCharacter('^');
 	tag += ";?\n";
 	assert( phpHereDocPattern == NULL );
-	phpHereDocPattern = new JRegex(tag);
+	phpHereDocPattern = jnew JRegex(tag);
 	assert( phpHereDocPattern != NULL );
 
 	(itsTagInfo->valueBuffer).Append(yytext, yyleng);
@@ -740,7 +740,7 @@ rsaquo;?   HANDLE_CHAR('>');	/* ? */
 	(itsTagInfo->valueBuffer).Append(yytext, yyleng);
 	if (phpHereDocPattern->Match(yytext))
 		{
-		delete phpHereDocPattern;
+		jdelete phpHereDocPattern;
 		phpHereDocPattern = NULL;
 		BEGIN(PHP_STATE);
 		}

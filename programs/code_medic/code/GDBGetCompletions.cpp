@@ -78,12 +78,12 @@ GDBGetCompletions::HandleSuccess
 		{
 		if (j > i)
 			{
-			JString* s = new JString(data, JIndexRange(i, j-1));
+			JString* s = jnew JString(data, JIndexRange(i, j-1));
 			assert( s != NULL );
 			s->TrimWhitespace();
 			if (s->IsEmpty() || !lines.InsertSorted(s, kJFalse))
 				{
-				delete s;
+				jdelete s;
 				}
 			}
 		i = j+1;
@@ -92,12 +92,12 @@ GDBGetCompletions::HandleSuccess
 
 	if (i <= data.GetLength())
 		{
-		JString* s = new JString(data, JIndexRange(i, data.GetLength()));
+		JString* s = jnew JString(data, JIndexRange(i, data.GetLength()));
 		assert( s != NULL );
 		s->TrimWhitespace();
 		if (s->IsEmpty() || !lines.InsertSorted(s, kJFalse))
 			{
-			delete s;
+			jdelete s;
 			}
 		}
 

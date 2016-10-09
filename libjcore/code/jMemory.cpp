@@ -28,7 +28,7 @@ JCreateBuffer
 	JCharacter* buffer = NULL;
 	while (buffer == NULL)
 		{
-		buffer = new JCharacter[ *bufferSize ];
+		buffer = jnew JCharacter[ *bufferSize ];
 		if (buffer == NULL && *bufferSize > 10)
 			{
 			*bufferSize /= 10;

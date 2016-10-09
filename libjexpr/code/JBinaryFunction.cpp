@@ -52,8 +52,8 @@ JBinaryFunction::JBinaryFunction
 
 JBinaryFunction::~JBinaryFunction()
 {
-	delete itsArg1;
-	delete itsArg2;
+	jdelete itsArg1;
+	jdelete itsArg2;
 }
 
 /******************************************************************************
@@ -226,12 +226,12 @@ JBinaryFunction::SetArg
 
 	if (index == 1)
 		{
-		delete itsArg1;
+		jdelete itsArg1;
 		itsArg1 = arg;
 		}
 	else	// index = 2
 		{
-		delete itsArg2;
+		jdelete itsArg2;
 		itsArg2 = arg;
 		}
 }

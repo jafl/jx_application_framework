@@ -62,7 +62,7 @@ CBCSharpStyler::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBCSharpStyler;
+		itsSelf = jnew CBCSharpStyler;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -79,7 +79,7 @@ CBCSharpStyler::Instance()
 void
 CBCSharpStyler::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************
@@ -334,5 +334,5 @@ CBCSharpStyler::UpgradeTypeList
 	JArray<JFontStyle>*	typeStyles
 	)
 {
-	// set new values after all new slots have been created
+	// set jnew values after all jnew slots have been created
 }

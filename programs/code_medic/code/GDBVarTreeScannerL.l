@@ -14,7 +14,7 @@ This scanner reads output from gdb's print command.
 #define YY_DECL int GDBVarTreeScanner::yylex(YYSTYPE* lvalp)
 
 #define NEW_TOKEN(s) \
-	lvalp->pString = new JString(s); \
+	lvalp->pString = jnew JString(s); \
 	assert( lvalp->pString != NULL );
 %}
 

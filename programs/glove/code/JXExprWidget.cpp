@@ -380,7 +380,7 @@ JXExprWidget::EIPClipboardChanged()
 		{
 		const JString text = f->Print();
 
-		JXTextSelection* data = new JXTextSelection(GetDisplay(), text);
+		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), text);
 		assert( data != NULL );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);

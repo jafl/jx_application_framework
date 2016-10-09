@@ -47,14 +47,14 @@ TestStrTableDirector::TestStrTableDirector
 	:
 	JXWindowDirector(supervisor)
 {
-	itsData = new JStringTableData;
+	itsData = jnew JStringTableData;
 	assert( itsData != NULL );
 
 	itsPrinter = NULL;
 
 	BuildWindow();
 
-	itsPrinter = new JXPSPrinter(GetDisplay());
+	itsPrinter = jnew JXPSPrinter(GetDisplay());
 	assert( itsPrinter != NULL );
 	ListenTo(itsPrinter);
 }
@@ -66,8 +66,8 @@ TestStrTableDirector::TestStrTableDirector
 
 TestStrTableDirector::~TestStrTableDirector()
 {
-	delete itsData;
-	delete itsPrinter;
+	jdelete itsData;
+	jdelete itsPrinter;
 }
 
 /******************************************************************************
@@ -80,16 +80,16 @@ TestStrTableDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 400,330, "");
+	JXWindow* window = jnew JXWindow(this, 400,330, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
 	assert( menuBar != NULL );
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
 	assert( scrollbarSet != NULL );
 
@@ -115,17 +115,17 @@ TestStrTableDirector::BuildWindow()
 	encl->AdjustSize(400 - tablelayout_Aperture.width(), 300 - tablelayout_Aperture.height());
 
 	itsTable =
-		new TestStringTable(itsData, menuBar, scrollbarSet, encl,
+		jnew TestStringTable(itsData, menuBar, scrollbarSet, encl,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,20, 390,280);
 	assert( itsTable != NULL );
 
 	itsColHeader =
-		new JXColHeaderWidget(itsTable, scrollbarSet, encl,
+		jnew JXColHeaderWidget(itsTable, scrollbarSet, encl,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,0, 390,20);
 	assert( itsColHeader != NULL );
 
 	itsRowHeader =
-		new JXRowHeaderWidget(itsTable, scrollbarSet, encl,
+		jnew JXRowHeaderWidget(itsTable, scrollbarSet, encl,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 0,20, 10,280);
 	assert( itsRowHeader != NULL );
 

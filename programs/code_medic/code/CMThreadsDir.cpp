@@ -128,16 +128,16 @@ CMThreadsDir::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 450,500, "");
+	JXWindow* window = jnew JXWindow(this, 450,500, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 450,30);
 	assert( menuBar != NULL );
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 450,470);
 	assert( scrollbarSet != NULL );
 
@@ -151,19 +151,19 @@ CMThreadsDir::BuildWindow
 	CMGetPrefsManager()->GetWindowSize(kCMThreadWindowSizeID, window);
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = new JXImage(display, medic_threads_window);
+	JXImage* icon      = jnew JXImage(display, medic_threads_window);
 	assert( icon != NULL );
 	window->SetIcon(icon);
 
-	JNamedTreeNode* root = new JNamedTreeNode(NULL, "");
+	JNamedTreeNode* root = jnew JNamedTreeNode(NULL, "");
 	assert( root != NULL );
-	JTree* tree = new JTree(root);
+	JTree* tree = jnew JTree(root);
 	assert( tree != NULL );
-	JNamedTreeList* treeList = new JNamedTreeList(tree);
+	JNamedTreeList* treeList = jnew JNamedTreeList(tree);
 	assert( treeList != NULL );
 
 	itsWidget =
-		new CMThreadsWidget(dir, this, tree, treeList,
+		jnew CMThreadsWidget(dir, this, tree, treeList,
 				scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 				JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( itsWidget != NULL );
@@ -179,7 +179,7 @@ CMThreadsDir::BuildWindow
 	itsFileMenu->SetItemImage(kOpenCmd, jx_file_open);
 
 	JXWDMenu* wdMenu =
-		new JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != NULL );
 	menuBar->AppendMenu(wdMenu);

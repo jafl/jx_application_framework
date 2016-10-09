@@ -41,7 +41,7 @@ JXPTPageSetupDialog::Create
 	const JBoolean		printReverseOrder
 	)
 {
-	JXPTPageSetupDialog* dlog = new JXPTPageSetupDialog;
+	JXPTPageSetupDialog* dlog = jnew JXPTPageSetupDialog;
 	assert( dlog != NULL );
 	dlog->BuildWindow(printCmd, pageWidth, pageHeight, minPageHeight,
 					  printReverseOrder);
@@ -85,72 +85,72 @@ JXPTPageSetupDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 370,190, "");
+	JXWindow* window = jnew JXWindow(this, 370,190, "");
 	assert( window != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 100,19);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::JXPTPageSetupDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 220,160, 70,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::JXPTPageSetupDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::JXPTPageSetupDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 70,160, 70,20);
 	assert( cancelButton != NULL );
 
 	itsPrintCmd =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,20, 240,20);
 	assert( itsPrintCmd != NULL );
 
 	itsWidth =
-		new JXIntegerInput(window,
+		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 90,60, 40,20);
 	assert( itsWidth != NULL );
 
 	JXStaticText* obj2_JXLayout =
-		new JXStaticText(JGetString("obj2_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj2_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 80,20);
 	assert( obj2_JXLayout != NULL );
 	obj2_JXLayout->SetToLabel();
 
 	JXStaticText* obj3_JXLayout =
-		new JXStaticText(JGetString("obj3_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj3_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 80,20);
 	assert( obj3_JXLayout != NULL );
 	obj3_JXLayout->SetToLabel();
 
 	itsHeight =
-		new JXIntegerInput(window,
+		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 90,80, 40,20);
 	assert( itsHeight != NULL );
 
 	JXStaticText* obj4_JXLayout =
-		new JXStaticText(JGetString("obj4_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj4_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,60, 70,20);
 	assert( obj4_JXLayout != NULL );
 	obj4_JXLayout->SetToLabel();
 
 	JXStaticText* obj5_JXLayout =
-		new JXStaticText(JGetString("obj5_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj5_JXLayout::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,80, 70,20);
 	assert( obj5_JXLayout != NULL );
 	obj5_JXLayout->SetToLabel();
 
 	itsPrintTestButton =
-		new JXTextButton(JGetString("itsPrintTestButton::JXPTPageSetupDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsPrintTestButton::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 220,70, 110,20);
 	assert( itsPrintTestButton != NULL );
 
 	itsPrintReverseOrderCB =
-		new JXTextCheckbox(JGetString("itsPrintReverseOrderCB::JXPTPageSetupDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsPrintReverseOrderCB::JXPTPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,120, 190,20);
 	assert( itsPrintReverseOrderCB != NULL );
 	itsPrintReverseOrderCB->SetShortcuts(JGetString("itsPrintReverseOrderCB::JXPTPageSetupDialog::shortcuts::JXLayout"));

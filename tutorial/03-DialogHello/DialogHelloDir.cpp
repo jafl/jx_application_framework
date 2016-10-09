@@ -54,8 +54,8 @@ DialogHelloDir::DialogHelloDir
 
 DialogHelloDir::~DialogHelloDir()
 {
-	// We don't need to delete anything here, since the director deletes the
-	// window automatically, and the window will delete anything within it.
+	// We don't need to jdelete anything here, since the director deletes the
+	// window automatically, and the window will jdelete anything within it.
 }
 
 /******************************************************************************
@@ -67,7 +67,7 @@ void
 DialogHelloDir::BuildWindow()
 {
 	// Create the window and give it to the director.
-	JXWindow* window = new JXWindow(this, 200,100, "Hello World Program");
+	JXWindow* window = jnew JXWindow(this, 200,100, "Hello World Program");
 	assert( window != NULL );
 
 	// This sets the minimum and maximum size to be the
@@ -76,7 +76,7 @@ DialogHelloDir::BuildWindow()
 
 	// Create the menu bar and make it expand horizontally as the window expands.
 	JXMenuBar* menuBar =
-		new JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
+		jnew JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
 						0,0, 200,kJXDefaultMenuBarHeight);
 	assert( menuBar != NULL );
 
@@ -94,7 +94,7 @@ DialogHelloDir::BuildWindow()
 
 	// Create the object to hold the text.
 	itsText =
-		new JXStaticText("Hello world!", window,
+		jnew JXStaticText("Hello world!", window,
 			JXWidget::kFixedLeft, JXWidget::kFixedTop,
 			20, 40, 160, 20);
 	assert ( itsText != NULL );
@@ -201,7 +201,7 @@ DialogHelloDir::SetupInputDialog()
 	assert ( itsDialog == NULL );
 
 	// Create the dialog with text from our static text object.
-	itsDialog = new DHStringInputDialog(this, itsText->GetText());
+	itsDialog = jnew DHStringInputDialog(this, itsText->GetText());
 	assert ( itsDialog != NULL );
 
 	// We need to listen for the dialog's deactivation message.
@@ -214,7 +214,7 @@ DialogHelloDir::SetupInputDialog()
 /******************************************************************************
  GetNewTextFromDialog
 
-	Pull the new text out of the dialog.
+	Pull the jnew text out of the dialog.
 
  ******************************************************************************/
 

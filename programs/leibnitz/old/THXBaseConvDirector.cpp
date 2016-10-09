@@ -114,48 +114,48 @@ THXBaseConvDirector::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 300,130, "");
+    JXWindow* window = jnew JXWindow(this, 300,130, "");
     assert( window != NULL );
     SetWindow(window);
 
     itsCloseButton =
-        new JXTextButton("Close", window,
+        jnew JXTextButton("Close", window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 180,100, 60,20);
     assert( itsCloseButton != NULL );
     itsCloseButton->SetShortcuts("#W^[");
 
     itsFromValue =
-        new JXInputField(window,
+        jnew JXInputField(window,
                     JXWidget::kHElastic, JXWidget::kFixedTop, 110,20, 70,20);
     assert( itsFromValue != NULL );
 
     JXStaticText* obj1 =
-        new JXStaticText("Convert from:", window,
+        jnew JXStaticText("Convert from:", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 90,20);
     assert( obj1 != NULL );
 
     itsHelpButton =
-        new JXTextButton("Help", window,
+        jnew JXTextButton("Help", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,100, 60,20);
     assert( itsHelpButton != NULL );
 
     itsFromBase =
-        new THXBaseConvMenu(window,
+        jnew THXBaseConvMenu(window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 190,15, 90,30);
     assert( itsFromBase != NULL );
 
     JXStaticText* obj2 =
-        new JXStaticText("Result:", window,
+        jnew JXStaticText("Result:", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 90,20);
     assert( obj2 != NULL );
 
     itsToBase =
-        new THXBaseConvMenu(window,
+        jnew THXBaseConvMenu(window,
                     JXWidget::kFixedRight, JXWidget::kFixedTop, 190,55, 90,30);
     assert( itsToBase != NULL );
 
     itsToValue =
-        new JXStaticText("", kJFalse, kJTrue, NULL, window,
+        jnew JXStaticText("", kJFalse, kJTrue, NULL, window,
                     JXWidget::kHElastic, JXWidget::kFixedTop, 110,60, 70,20);
     assert( itsToValue != NULL );
 
@@ -169,7 +169,7 @@ THXBaseConvDirector::BuildWindow()
 	window->PlaceAsDialogWindow();
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = new JXImage(display, display->GetColormap(), thx_base_conv_window);
+	JXImage* icon      = jnew JXImage(display, display->GetColormap(), thx_base_conv_window);
 	assert( icon != NULL );
 	window->SetIcon(icon);
 

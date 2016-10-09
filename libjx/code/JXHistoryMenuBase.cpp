@@ -101,7 +101,7 @@ JXHistoryMenuBase::~JXHistoryMenuBase()
 {
 	if (itsOwnsDefIconFlag)
 		{
-		delete itsDefaultIcon;
+		jdelete itsDefaultIcon;
 		}
 }
 
@@ -399,7 +399,7 @@ JXHistoryMenuBase::SetDefaultIcon
 {
 	if (itsOwnsDefIconFlag)
 		{
-		delete itsDefaultIcon;
+		jdelete itsDefaultIcon;
 		}
 
 	itsDefaultIcon     = icon;

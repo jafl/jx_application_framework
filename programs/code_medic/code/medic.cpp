@@ -48,7 +48,7 @@ main
 
 	JBoolean displayAbout;
 	JString prevVersStr;
-	CMApp* app = new CMApp(&argc, argv, &displayAbout, &prevVersStr);
+	CMApp* app = jnew CMApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != NULL );
 
 	if (displayAbout &&
@@ -74,7 +74,7 @@ main
 #ifdef DISPLAY_SPLASH
 	else
 		{
-		JXSplashWindow* w = new JXSplashWindow(new_planet_software, CMGetVersionStr(),
+		JXSplashWindow* w = jnew JXSplashWindow(new_planet_software, CMGetVersionStr(),
 											   SPLASH_DISPLAY_TIME);
 		assert( w != NULL );
 		w->Activate();

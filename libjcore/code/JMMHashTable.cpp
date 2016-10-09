@@ -36,12 +36,12 @@ JMMHashTable::JMMHashTable
 	itsDeletedTable(NULL),
 	itsDeletedCount(0)
 {
-	itsAllocatedTable = new JHashTable<JMMRecord>(kInitialSize);
+	itsAllocatedTable = jnew JHashTable<JMMRecord>(kInitialSize);
 	assert(itsAllocatedTable != NULL);
 
 	if (recordDelete)
 		{
-		itsDeletedTable = new JHashTable<JMMRecord>(kInitialSize);
+		itsDeletedTable = jnew JHashTable<JMMRecord>(kInitialSize);
 		assert(itsDeletedTable != NULL);
 		}
 }
@@ -53,10 +53,10 @@ JMMHashTable::JMMHashTable
 
 JMMHashTable::~JMMHashTable()
 {
-	delete itsAllocatedTable;
+	jdelete itsAllocatedTable;
 	itsAllocatedTable = NULL;
 
-	delete itsDeletedTable;
+	jdelete itsDeletedTable;
 	itsDeletedTable = NULL;
 }
 
@@ -226,7 +226,7 @@ JMMHashTable::_CancelRecordDeallocated()
 		{
 		itsDeletedCount = itsDeletedTable->GetElementCount();
 
-		delete itsDeletedTable;
+		jdelete itsDeletedTable;
 		itsDeletedTable = NULL;
 		}
 }

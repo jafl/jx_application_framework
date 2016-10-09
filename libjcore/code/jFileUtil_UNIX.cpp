@@ -14,7 +14,6 @@
 #include <JProcess.h>
 #include <unistd.h>
 #include <sys/stat.h>
-#include <j_prep_ace.h>
 #include <ace/OS_NS_sys_stat.h>
 #include <stdio.h>
 #include <jErrno.h>
@@ -203,7 +202,7 @@ JRemoveFile
 /******************************************************************************
  JKillFile
 
-	Tries as hard as it can to delete the file.
+	Tries as hard as it can to jdelete the file.
 	Returns kJTrue if successful.
 
  ******************************************************************************/
@@ -274,12 +273,12 @@ JCreateTempFile
 		{
 		close(fd);
 		*fullName = s;
-		delete [] s;
+		jdelete [] s;
 		return JNoError();
 		}
 
 	fullName->Clear();
-	delete [] s;
+	jdelete [] s;
 
 	// EINVAL counts as unexpected
 
@@ -320,7 +319,7 @@ JStripTrailingDirSeparator
 	Uncompresses the file named origFileName.
 
 	If newFileName is empty, we generate a unique name and return it.
-	If dirName is not empty, we place the new file there.
+	If dirName is not empty, we place the jnew file there.
 	If process is not NULL,  we return the one we create without blocking.
 		Otherwise, we block until the process finishes.
 

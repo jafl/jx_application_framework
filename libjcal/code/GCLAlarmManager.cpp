@@ -30,12 +30,12 @@ GCLAlarmManager::GCLAlarmManager()
 	:
 	JBroadcaster()
 {
-	itsAlarms	= new JPtrArray<GCLAlarm>(JPtrArrayT::kDeleteAll);
+	itsAlarms	= jnew JPtrArray<GCLAlarm>(JPtrArrayT::kDeleteAll);
 	assert(itsAlarms != NULL);
 
 	itsAlarms->SetCompareFunction(GCLAlarm::CompareTimes);
 
-	itsMinuteTask	= new JXTimerTask(kMinutePeriod);
+	itsMinuteTask	= jnew JXTimerTask(kMinutePeriod);
 	assert(itsMinuteTask != NULL);
 	itsMinuteTask->Start();
 	ListenTo(itsMinuteTask);
@@ -50,8 +50,8 @@ GCLAlarmManager::GCLAlarmManager()
 
 GCLAlarmManager::~GCLAlarmManager()
 {
-	delete itsAlarms;
-	delete itsMinuteTask;
+	jdelete itsAlarms;
+	jdelete itsMinuteTask;
 }
 
 /******************************************************************************
@@ -131,7 +131,7 @@ GCLAlarmManager::AlarmTriggered
 	GCLAlarm* alarm
 	)
 {
-	GCLAlarmDialog* dialog	= new GCLAlarmDialog(JXGetApplication(), alarm);
+	GCLAlarmDialog* dialog	= jnew GCLAlarmDialog(JXGetApplication(), alarm);
 	assert(dialog != NULL);
 	dialog->BeginDialog();
 	ListenTo(dialog);

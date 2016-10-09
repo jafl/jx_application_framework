@@ -70,7 +70,7 @@ JDecision*
 JBooleanOR::Copy()
 	const
 {
-	JBooleanOR* newDecision = new JBooleanOR(*this);
+	JBooleanOR* newDecision = jnew JBooleanOR(*this);
 	assert( newDecision != NULL );
 	return newDecision;
 }

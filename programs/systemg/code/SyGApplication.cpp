@@ -75,7 +75,7 @@ SyGApplication::SyGApplication
 	// Create itsWindowList first so DirectorClosed() won't crash when
 	// warn that prefs are unreadable.
 
-	itsWindowList = new JPtrArray<SyGTreeDir>(JPtrArrayT::kForgetAll);
+	itsWindowList = jnew JPtrArray<SyGTreeDir>(JPtrArrayT::kForgetAll);
 	assert( itsWindowList != NULL );
 
 	*displayAbout = SyGCreateGlobals(this);
@@ -97,16 +97,16 @@ SyGApplication::SyGApplication
 		prevVersStr->Clear();
 		}
 
-	itsMountPointList = new JMountPointList(JPtrArrayT::kDeleteAll);
+	itsMountPointList = jnew JMountPointList(JPtrArrayT::kDeleteAll);
 	assert( itsMountPointList != NULL );
 	JGetUserMountPointList(itsMountPointList, &itsMountPointState);
 
-	itsShortcutList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsShortcutList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsShortcutList != NULL );
 	itsShortcutList->SetCompareFunction(CompareShortcuts);
 	itsShortcutList->SetSortOrder(JOrderedSetT::kSortAscending);
 
-	itsMountPointPrefs = new JStringPtrMap<JString>(JPtrArrayT::kDeleteAll);
+	itsMountPointPrefs = jnew JStringPtrMap<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsMountPointPrefs != NULL );
 
 	SetPrefInfo(SyGGetPrefsMgr(), kSAppID);
@@ -126,10 +126,10 @@ SyGApplication::~SyGApplication()
 
 	JPrefObject::WritePrefs();
 
-	delete itsWindowList;
-	delete itsShortcutList;
-	delete itsMountPointPrefs;
-	delete itsMountPointList;
+	jdelete itsWindowList;
+	jdelete itsShortcutList;
+	jdelete itsMountPointPrefs;
+	jdelete itsMountPointList;
 
 	SyGDeleteGlobals();
 }
@@ -278,12 +278,12 @@ SyGApplication::OpenDirectory
 		pathList.Prepend(n);
 		}
 
-	// create new window
+	// create jnew window
 
 	fixedName = trueName;
 	JGetTrueName(fixedName, &trueName);
 
-	SyGTreeDir* childDir = new SyGTreeDir(trueName);
+	SyGTreeDir* childDir = jnew SyGTreeDir(trueName);
 	assert( childDir != NULL );
 
 	if (deiconify)
@@ -544,11 +544,11 @@ SyGApplication::AddShortcut
 	const JString& shortcut
 	)
 {
-	JString* s = new JString(JConvertToHomeDirShortcut(shortcut));
+	JString* s = jnew JString(JConvertToHomeDirShortcut(shortcut));
 	assert( s != NULL );
 	if (!itsShortcutList->InsertSorted(s, kJFalse))
 		{
-		delete s;
+		jdelete s;
 		}
 }
 
@@ -842,7 +842,7 @@ SyGApplication::DisplayAbout
 	const JCharacter* prevVersStr
 	)
 {
-	SyGAboutDialog* dlog = new SyGAboutDialog(this, prevVersStr);
+	SyGAboutDialog* dlog = jnew SyGAboutDialog(this, prevVersStr);
 	assert( dlog != NULL );
 	dlog->BeginDialog();
 }

@@ -43,7 +43,7 @@ JBooleanNOT::JBooleanNOT
 
 JBooleanNOT::~JBooleanNOT()
 {
-	delete itsArg;
+	jdelete itsArg;
 }
 
 /******************************************************************************
@@ -72,7 +72,7 @@ JDecision*
 JBooleanNOT::Copy()
 	const
 {
-	JBooleanNOT* newDecision = new JBooleanNOT(*this);
+	JBooleanNOT* newDecision = jnew JBooleanNOT(*this);
 	assert( newDecision != NULL );
 	return newDecision;
 }

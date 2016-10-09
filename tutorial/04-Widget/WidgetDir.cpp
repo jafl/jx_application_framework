@@ -34,7 +34,7 @@ WidgetDir::WidgetDir
 
 WidgetDir::~WidgetDir()
 {
-	// Nothing to delete
+	// Nothing to jdelete
 	// Window is deleted automatically by its director
 	// Widget is deleted automatically by its enclosure
 }
@@ -51,7 +51,7 @@ void
 WidgetDir::BuildWindow()
 {
 	// Create the window
-	JXWindow* window = new JXWindow(this, 300,200, "Test Widget Program");
+	JXWindow* window = jnew JXWindow(this, 300,200, "Test Widget Program");
 	assert( window != NULL );
 
 	// Set sizing
@@ -60,7 +60,7 @@ WidgetDir::BuildWindow()
 
 	// Create our custom widget
 	Widget* widget =
-		new Widget(window, JXWidget::kHElastic, JXWidget::kVElastic,
+		jnew Widget(window, JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 300, 200);
 	assert( widget != NULL );
 }

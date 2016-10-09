@@ -74,7 +74,7 @@ JXWebBrowser::EditPrefs()
 {
 	assert( itsPrefsDialog == NULL );
 
-	itsPrefsDialog = new JXEditWWWPrefsDialog(JXGetApplication(), GetShowURLCmd(),
+	itsPrefsDialog = jnew JXEditWWWPrefsDialog(JXGetApplication(), GetShowURLCmd(),
 											  GetShowFileContentCmd(),
 											  GetShowFileLocationCmd(),
 											  GetComposeMailCmd());

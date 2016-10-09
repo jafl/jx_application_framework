@@ -51,7 +51,7 @@ MenuHelloDir::MenuHelloDir
 
 MenuHelloDir::~MenuHelloDir()
 {
-	// We must not delete the widgets because the framework does this
+	// We must not jdelete the widgets because the framework does this
 	// automatically.
 }
 
@@ -67,7 +67,7 @@ void
 MenuHelloDir::BuildWindow()
 {
 	// Create the window and give it to the director.
-	JXWindow* window = new JXWindow(this, 200,100, "Hello World Program");
+	JXWindow* window = jnew JXWindow(this, 200,100, "Hello World Program");
 	assert( window != NULL );
 
 	// This sets the minimum and maximum size to be the
@@ -77,7 +77,7 @@ MenuHelloDir::BuildWindow()
 	// Create the menu bar so that it stays on top, but expands as the window
 	// expands.
 	JXMenuBar* menuBar =
-		new JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
+		jnew JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
 						0,0, 200,kJXDefaultMenuBarHeight);
 	assert( menuBar != NULL );
 
@@ -97,7 +97,7 @@ MenuHelloDir::BuildWindow()
 	// Create the object to display the text. This time, we need to keep a
 	// pointer to it so we can change the text later.
 	itsText =
-		new JXStaticText("Hello world!", window,
+		jnew JXStaticText("Hello world!", window,
 			JXWidget::kFixedLeft, JXWidget::kFixedTop,
 			20, 40, 160, 20);
 	assert( itsText != NULL );

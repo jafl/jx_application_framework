@@ -77,7 +77,7 @@ public:
 
 	JBoolean			ContainsNULL() const;
 	const JCharacter*	GetCString() const;
-	JCharacter*			AllocateCString() const;	// client must call delete [] when finished with it
+	JCharacter*			AllocateCString() const;	// client must call jdelete [] when finished with it
 
 	void	InsertSubstring(const JString& str, const JIndex insertionIndex);
 	void	InsertSubstring(const JCharacter* str, const JIndex insertionIndex);

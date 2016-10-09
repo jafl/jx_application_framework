@@ -75,7 +75,7 @@ JXDockWidget::JXDockWidget
 	ListenTo(itsTabGroup);
 	ListenTo(itsTabGroup->GetCardEnclosure());
 
-	JXUpdateMinSizeTask* task = new JXUpdateMinSizeTask(this);
+	JXUpdateMinSizeTask* task = jnew JXUpdateMinSizeTask(this);
 	assert( task != NULL );
 	task->Go();
 }
@@ -100,7 +100,7 @@ JXDockWidget::~JXDockWidget()
 			w->Undock();
 			}
 
-		delete itsWindowList;
+		jdelete itsWindowList;
 		}
 	else if (itsWindowList != NULL)
 		{
@@ -114,11 +114,11 @@ JXDockWidget::~JXDockWidget()
 			w->Close();
 			}
 
-		delete itsWindowList;
+		jdelete itsWindowList;
 		}
 
-	delete itsHintDirector;
-	delete itsDeleteHintTask;
+	jdelete itsHintDirector;
+	jdelete itsDeleteHintTask;
 }
 
 /******************************************************************************
@@ -185,7 +185,7 @@ JXDockWidget::Dock
 		{
 		if (itsWindowList == NULL)
 			{
-			itsWindowList = new JPtrArray<JXWindow>(JPtrArrayT::kForgetAll);
+			itsWindowList = jnew JPtrArray<JXWindow>(JPtrArrayT::kForgetAll);
 			assert( itsWindowList != NULL );
 			}
 
@@ -305,7 +305,7 @@ JXDockWidget::UndockAll()
 			}
 
 		itsWindowList->RemoveAll();
-		delete itsWindowList;
+		jdelete itsWindowList;
 		itsWindowList = NULL;
 
 		UpdateMinSize();
@@ -355,7 +355,7 @@ JXDockWidget::CloseAll()
 				}
 			}
 
-		delete itsWindowList;
+		jdelete itsWindowList;
 		itsWindowList = NULL;
 
 		UpdateMinSize();
@@ -535,12 +535,12 @@ JXDockWidget::WillAcceptDrop
 		r.Shrink(r.width()/2 - 5, r.height()/2 - 5);
 
 		itsHintDirector =
-			new JXHintDirector((JXContainer::GetWindow())->GetDirector(), this,
+			jnew JXHintDirector((JXContainer::GetWindow())->GetDirector(), this,
 							   r, JGetString("WindowWillNotFit::JXDockWidget"));
 		assert( itsHintDirector != NULL );
 		itsHintDirector->Activate();
 
-		itsDeleteHintTask = new JXTimerTask(kDeleteHintDelay, kJTrue);
+		itsDeleteHintTask = jnew JXTimerTask(kDeleteHintDelay, kJTrue);
 		assert( itsDeleteHintTask != NULL );
 		itsDeleteHintTask->Start();
 		ListenTo(itsDeleteHintTask);
@@ -859,7 +859,7 @@ JXDockWidget::RemoveWindow
 				itsWindowList->RemoveElement(i);
 				if (itsWindowList->IsEmpty())
 					{
-					delete itsWindowList;
+					jdelete itsWindowList;
 					itsWindowList = NULL;
 					}
 

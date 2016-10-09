@@ -67,7 +67,7 @@ JXSelectionManager::JXSelectionManager
 {
 	itsDisplay = display;
 
-	itsDataList = new JPtrArray<JXSelectionData>(JPtrArrayT::kDeleteAll);
+	itsDataList = jnew JPtrArray<JXSelectionData>(JPtrArrayT::kDeleteAll);
 	assert( itsDataList != NULL );
 
 	itsMaxDataChunkSize = XMaxRequestSize(*display) * 4/5;
@@ -112,7 +112,7 @@ JXSelectionManager::JXSelectionManager
 
 JXSelectionManager::~JXSelectionManager()
 {
-	delete itsDataList;
+	jdelete itsDataList;
 
 	XDestroyWindow(*itsDisplay, itsDataWindow);
 }
@@ -339,7 +339,7 @@ JXSelectionManager::DeleteData
 	else
 		{
 		assert( delMethod == kArrayDelete );
-		delete [] *data;
+		jdelete [] *data;
 		}
 
 	*data = NULL;
@@ -502,7 +502,7 @@ JXSelectionManager::HandleSelectionRequest
 
 			SendData(selReqEvent.requestor, returnEvent.property, returnType,
 					 data, dataLength, bitsPerBlock, &xEvent);
-			delete [] data;
+			jdelete [] data;
 
 			#if JXSEL_MICRO_TRANSFER
 			itsMaxDataChunkSize = savedMaxSize;
@@ -724,7 +724,7 @@ JXSelectionManager::SendData1
 /******************************************************************************
  WaitForPropertyDeleted (private)
 
-	Wait for the receiver to delete the window property.
+	Wait for the receiver to jdelete the window property.
 	Returns kJFalse if we time out or the window is deleted (receiver crash).
 
  ******************************************************************************/
@@ -855,7 +855,7 @@ JXSelectionManager::ReceiveDataIncr
 	// The transfer has already been initiated by deleting the
 	// INCR property when it was retrieved.
 
-	// wait for a chunk, retrieve it, and delete it
+	// wait for a chunk, retrieve it, and jdelete it
 
 	#if JXSEL_DEBUG_MSGS
 	JIndex chunkIndex = 0;
@@ -1139,7 +1139,7 @@ JXSelectionManager::SetData
 		}
 	else
 		{
-		delete data;
+		jdelete data;
 		return kJFalse;
 		}
 }

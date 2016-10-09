@@ -147,27 +147,27 @@ JXHelpDirector::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 600,550, "");
+	JXWindow* window = jnew JXWindow(this, 600,550, "");
 	assert( window != NULL );
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,520);
 	assert( scrollbarSet != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
 	assert( menuBar != NULL );
 
 	itsCloseButton =
-		new JXTextButton(JGetString("itsCloseButton::JXHelpDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsCloseButton::JXHelpDirector::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 550,0, 50,30);
 	assert( itsCloseButton != NULL );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXHelpDirector::shortcuts::JXLayout"));
 
 	itsTOCButton =
-		new JXImageButton(window,
+		jnew JXImageButton(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 500,0, 50,30);
 	assert( itsTOCButton != NULL );
 
@@ -208,7 +208,7 @@ JXHelpDirector::BuildWindow
 	itsFileMenu->SetItemImage(kPrintCmd,    jx_file_print);
 
 	itsText =
-		new JXHelpText(title, text, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+		jnew JXHelpText(title, text, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 					   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsText != NULL );
 	itsText->FitToEnclosure();

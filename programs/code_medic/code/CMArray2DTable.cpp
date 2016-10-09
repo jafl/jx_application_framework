@@ -301,7 +301,7 @@ CMArray2DTable::HandleEditMenu
 		(GetTableSelection()).GetSingleSelectedCell(&cell))
 		{
 		JXTextSelection* data =
-			new JXTextSelection(GetDisplay(), GetStringData()->GetString(cell));
+			jnew JXTextSelection(GetDisplay(), GetStringData()->GetString(cell));
 		assert( data != NULL );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);

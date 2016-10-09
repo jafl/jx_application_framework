@@ -48,7 +48,7 @@ JXFSBindingManager::Instance()
 		initSelf = kJTrue;
 
 		const JCharacter* needUserCheck;
-		itsSelf = new JXFSBindingManager(&needUserCheck);
+		itsSelf = jnew JXFSBindingManager(&needUserCheck);
 		assert( itsSelf != NULL );
 
 		initSelf = kJFalse;
@@ -72,7 +72,7 @@ JXFSBindingManager::Instance()
 void
 JXFSBindingManager::Destroy()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 	itsSelf = NULL;
 
 	initSelf = kJFalse;
@@ -95,12 +95,12 @@ JXFSBindingManager::JXFSBindingManager
 
 	itsBindingList = JFSBindingList::Create(needUserCheck);
 
-	itsUpdateBindingListTask = new JXTimerTask(kUpdateInterval);
+	itsUpdateBindingListTask = jnew JXTimerTask(kUpdateInterval);
 	assert( itsUpdateBindingListTask != NULL );
 	itsUpdateBindingListTask->Start();
 	ListenTo(itsUpdateBindingListTask);
 
-	itsRunCmdDialog = new JXFSRunCommandDialog;
+	itsRunCmdDialog = jnew JXFSRunCommandDialog;
 	assert( itsRunCmdDialog != NULL );
 
 	(JXGetHelpManager())->RegisterSection(kJFSBindingEditorHelpName);
@@ -117,9 +117,9 @@ JXFSBindingManager::JXFSBindingManager
 
 JXFSBindingManager::~JXFSBindingManager()
 {
-	delete itsBindingList;
-	delete itsUpdateBindingListTask;
-	delete itsFileList;
+	jdelete itsBindingList;
+	jdelete itsUpdateBindingListTask;
+	jdelete itsFileList;
 }
 
 /******************************************************************************
@@ -134,7 +134,7 @@ JXFSBindingManager::EditBindings()
 
 	if (me->itsEditDialog == NULL)
 		{
-		me->itsEditDialog = new JXFSEditBindingsDialog(me->itsBindingList);
+		me->itsEditDialog = jnew JXFSEditBindingsDialog(me->itsBindingList);
 		assert( me->itsEditDialog != NULL );
 		me->ListenTo(me->itsEditDialog);
 		}
@@ -187,7 +187,7 @@ JXFSBindingManager::Exec
 
 	if (askForArgs && me->itsRunScriptDialog == NULL)
 		{
-		me->itsRunScriptDialog = new JXFSRunScriptDialog(cmd);
+		me->itsRunScriptDialog = jnew JXFSRunScriptDialog(cmd);
 		assert( me->itsRunScriptDialog != NULL );
 		me->ListenTo(me->itsRunScriptDialog);
 		me->itsRunScriptDialog->BeginDialog();
@@ -222,7 +222,7 @@ JXFSBindingManager::Exec
 
 	if (me->itsFileList == NULL)
 		{
-		me->itsFileList = new JPtrArray<JFSBinding>(JPtrArrayT::kDeleteAll);
+		me->itsFileList = jnew JPtrArray<JFSBinding>(JPtrArrayT::kDeleteAll);
 		assert( me->itsFileList != NULL );
 		me->itsFileList->SetCompareFunction(ComparePatterns);
 		}
@@ -232,11 +232,11 @@ JXFSBindingManager::Exec
 		{
 		const JString* fileName = fileList.NthElement(i);
 
-		JFSBinding* f = new JFSBinding(*fileName, "", JFSBinding::kRunPlain, kJTrue, kJFalse);
+		JFSBinding* f = jnew JFSBinding(*fileName, "", JFSBinding::kRunPlain, kJTrue, kJFalse);
 		assert( f != NULL );
 		if (!me->itsFileList->InsertSorted(f, kJFalse))
 			{
-			delete f;
+			jdelete f;
 			}
 		}
 
@@ -280,7 +280,7 @@ JXFSBindingManager::ProcessFiles()
 			{
 			assert( itsRunFileDialog == NULL );
 			itsRunFileDialog =
-				new JXFSRunFileDialog(fileName, JNegate(count > 1 && itsIgnoreBindingsFlag));
+				jnew JXFSRunFileDialog(fileName, JNegate(count > 1 && itsIgnoreBindingsFlag));
 			assert( itsRunFileDialog != NULL );
 			ListenTo(itsRunFileDialog);
 			itsRunFileDialog->BeginDialog();
@@ -347,7 +347,7 @@ JXFSBindingManager::ProcessFiles()
 		Exec(startIndex, count);
 		}
 
-	delete itsFileList;
+	jdelete itsFileList;
 	itsFileList = NULL;
 }
 
@@ -567,7 +567,7 @@ JXFSBindingManager::Receive
 			}
 		else
 			{
-			delete itsFileList;
+			jdelete itsFileList;
 			itsFileList      = NULL;
 			itsRunFileDialog = NULL;
 			}

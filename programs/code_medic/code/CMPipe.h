@@ -10,7 +10,6 @@
 
 #include <JBroadcaster.h>
 #include <JString.h>
-#include <j_prep_ace.h>
 #include <ace/Svc_Handler.h>
 #include <ace/Synch_Traits.h>
 

@@ -55,8 +55,8 @@ ClipboardDir::ClipboardDir
 
 ClipboardDir::~ClipboardDir()
 {
-	// We don't need to delete anything here, since the director deletes the
-	// window automatically, and the window will delete anything within it.
+	// We don't need to jdelete anything here, since the director deletes the
+	// window automatically, and the window will jdelete anything within it.
 }
 
 /******************************************************************************
@@ -68,7 +68,7 @@ void
 ClipboardDir::BuildWindow()
 {
 	// Create the window and give it to the director.
-	JXWindow* window = new JXWindow(this, 200,100, "Hello World Program");
+	JXWindow* window = jnew JXWindow(this, 200,100, "Hello World Program");
 	assert( window != NULL );
 
 	// This sets the minimum and maximum size to be the
@@ -77,7 +77,7 @@ ClipboardDir::BuildWindow()
 
 	// Create the menu bar and make it expand horizontally as the window expands.
 	JXMenuBar* menuBar =
-		new JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
+		jnew JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
 						0,0, 200,kJXDefaultMenuBarHeight);
 	assert( menuBar != NULL );
 
@@ -95,7 +95,7 @@ ClipboardDir::BuildWindow()
 
 	// Create the object to hold the text.
 	itsText =
-		new ClipboardWidget("Hello world!", menuBar, window,
+		jnew ClipboardWidget("Hello world!", menuBar, window,
 			JXWidget::kFixedLeft, JXWidget::kFixedTop,
 			0, kJXDefaultMenuBarHeight, 200, 100-kJXDefaultMenuBarHeight);
 	assert ( itsText != NULL );
@@ -202,7 +202,7 @@ ClipboardDir::SetupInputDialog()
 	assert ( itsDialog == NULL );
 
 	// Create the dialog with text from our text widget object.
-	itsDialog = new CBStringInputDialog(this, itsText->GetText());
+	itsDialog = jnew CBStringInputDialog(this, itsText->GetText());
 	assert ( itsDialog != NULL );
 
 	// We need to listen for the dialog's deactivation message.
@@ -215,7 +215,7 @@ ClipboardDir::SetupInputDialog()
 /******************************************************************************
  GetNewTextFromDialog
 
-	Pull the new text out of the dialog.
+	Pull the jnew text out of the dialog.
 
  ******************************************************************************/
 

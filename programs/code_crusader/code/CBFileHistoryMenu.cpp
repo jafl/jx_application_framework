@@ -73,7 +73,7 @@ CBFileHistoryMenu::CBFileHistoryMenuX
 {
 	if (type == CBDocumentManager::kProjectFileHistory)
 		{
-		JXImage* icon = new JXImage(GetDisplay(), jcc_project_file);
+		JXImage* icon = jnew JXImage(GetDisplay(), jcc_project_file);
 		assert( icon != NULL );
 		SetDefaultIcon(icon, kJTrue);
 		}

@@ -275,16 +275,16 @@ CBFileListDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 340,450, "");
+	JXWindow* window = jnew JXWindow(this, 340,450, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 340,30);
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		new JXToolBar(CBGetPrefsManager(), kCBFileListToolBarID, menuBar, 150,150, window,
+		jnew JXToolBar(CBGetPrefsManager(), kCBFileListToolBarID, menuBar, 150,150, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 340,420);
 	assert( itsToolBar != NULL );
 
@@ -296,7 +296,7 @@ CBFileListDirector::BuildWindow()
 	window->SetWMClass(CBGetWMClassInstance(), CBGetFileListWindowClass());
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = new JXImage(display, jcc_file_list_window);
+	JXImage* icon      = jnew JXImage(display, jcc_file_list_window);
 	assert( icon != NULL );
 	window->SetIcon(icon);
 
@@ -309,14 +309,14 @@ CBFileListDirector::BuildWindow()
 		}
 
 	itsFLSet =
-		new JXFileListSet(itsToolBar->GetWidgetEnclosure(),
+		jnew JXFileListSet(itsToolBar->GetWidgetEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( itsFLSet != NULL );
 	itsFLSet->FitToEnclosure();
 
 	JXScrollbarSet* scrollbarSet = itsFLSet->GetScrollbarSet();
 	itsFLTable =
-		new CBFileListTable(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+		jnew CBFileListTable(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsFLTable != NULL );
 	itsFLSet->SetTable(itsFLTable);
@@ -331,12 +331,12 @@ CBFileListDirector::BuildWindow()
 	itsFileMenu->SetItemImage(kOpenSomethingCmd, jx_file_open);
 
 	CBFileHistoryMenu* recentProjectMenu =
-		new CBFileHistoryMenu(CBDocumentManager::kProjectFileHistory,
+		jnew CBFileHistoryMenu(CBDocumentManager::kProjectFileHistory,
 							  itsFileMenu, kRecentProjectMenuCmd, menuBar);
 	assert( recentProjectMenu != NULL );
 
 	CBFileHistoryMenu* recentTextMenu =
-		new CBFileHistoryMenu(CBDocumentManager::kTextFileHistory,
+		jnew CBFileHistoryMenu(CBDocumentManager::kTextFileHistory,
 							  itsFileMenu, kRecentTextMenuCmd, menuBar);
 	assert( recentTextMenu != NULL );
 
@@ -365,14 +365,14 @@ CBFileListDirector::BuildWindow()
 	itsProjectMenu->SetItemImage(kSaveAllTextCmd,       jx_file_save_all);
 
 	itsCmdMenu =
-		new CBCommandMenu(itsProjDoc, NULL, menuBar,
+		jnew CBCommandMenu(itsProjDoc, NULL, menuBar,
 						  JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsCmdMenu != NULL );
 	menuBar->AppendMenu(itsCmdMenu);
 	ListenTo(itsCmdMenu);
 
 	CBDocumentMenu* fileListMenu =
-		new CBDocumentMenu(kFileListMenuTitleStr, menuBar,
+		jnew CBDocumentMenu(kFileListMenuTitleStr, menuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( fileListMenu != NULL );
 	menuBar->AppendMenu(fileListMenu);

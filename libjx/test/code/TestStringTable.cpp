@@ -89,31 +89,31 @@ JIndex i,j;
 	itsTableMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsTableMenu);
 
-	itsRowBorderMenu = new JXTextMenu(itsTableMenu, kChangeRowBorderWidthCmd, menuBar);
+	itsRowBorderMenu = jnew JXTextMenu(itsTableMenu, kChangeRowBorderWidthCmd, menuBar);
 	assert( itsRowBorderMenu != NULL );
 	itsRowBorderMenu->SetMenuItems(kBorderWidthMenuStr);
 	itsRowBorderMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsRowBorderMenu);
 
-	itsColBorderMenu = new JXTextMenu(itsTableMenu, kChangeColBorderWidthCmd, menuBar);
+	itsColBorderMenu = jnew JXTextMenu(itsTableMenu, kChangeColBorderWidthCmd, menuBar);
 	assert( itsColBorderMenu != NULL );
 	itsColBorderMenu->SetMenuItems(kBorderWidthMenuStr);
 	itsColBorderMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsColBorderMenu);
 
-	itsFontMenu = new JXFontNameMenu("Font", menuBar, kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsFontMenu = jnew JXFontNameMenu("Font", menuBar, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsFontMenu != NULL );
 	menuBar->AppendMenu(itsFontMenu);
 	ListenTo(itsFontMenu);
 
-	itsSizeMenu = new JXFontSizeMenu(itsFontMenu, "Size", menuBar,
+	itsSizeMenu = jnew JXFontSizeMenu(itsFontMenu, "Size", menuBar,
 									 kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsSizeMenu != NULL );
 	menuBar->AppendMenu(itsSizeMenu);
 	ListenTo(itsSizeMenu);
 
 	itsStyleMenu =
-		new JXStyleTableMenu(this, menuBar,
+		jnew JXStyleTableMenu(this, menuBar,
 							 kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsStyleMenu != NULL );
 	menuBar->AppendMenu(itsStyleMenu);
@@ -498,7 +498,7 @@ TestStringTable::HandleTableMenu
 			}
 
 		pg->ProcessFinished();
-		delete pg;
+		jdelete pg;
 		}
 }
 

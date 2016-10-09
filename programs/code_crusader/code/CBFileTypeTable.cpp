@@ -394,7 +394,7 @@ CBFileTypeTable::CBFileTypeTable
 
 	// type menu
 
-	itsTypeMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsTypeMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsTypeMenu != NULL );
 	itsTypeMenu->SetToHiddenPopupMenu();
 	itsTypeMenu->SetMenuItems(kTypeMenuStr);
@@ -408,7 +408,7 @@ CBFileTypeTable::CBFileTypeTable
 
 	// script menu
 
-	itsScriptMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsScriptMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsScriptMenu != NULL );
 	itsScriptMenu->SetToHiddenPopupMenu();
 	itsScriptMenu->SetMenuItems(kScriptMenuStr);	// ensure non-empty
@@ -422,12 +422,12 @@ CBFileTypeTable::CBFileTypeTable
 
 	// regex for testing
 
-	itsTestRegex = new JRegex(".");
+	itsTestRegex = jnew JRegex(".");
 	assert( itsTestRegex != NULL );
 
 	// data
 
-	itsFileTypeList = new JArray<CBPrefsManager::FileTypeInfo>(fileTypeList);
+	itsFileTypeList = jnew JArray<CBPrefsManager::FileTypeInfo>(fileTypeList);
 	assert( itsFileTypeList != NULL );
 	FinishFileTypeListCopy(itsFileTypeList);
 	itsFileTypeList->SetCompareFunction(CBPrefsManager::CompareFileTypeSpec);
@@ -452,9 +452,9 @@ CBFileTypeTable::CBFileTypeTable
 CBFileTypeTable::~CBFileTypeTable()
 {
 	CleanOutFileTypeList(itsFileTypeList);
-	delete itsFileTypeList;
+	jdelete itsFileTypeList;
 
-	delete itsTestRegex;
+	jdelete itsTestRegex;
 }
 
 /******************************************************************************
@@ -513,21 +513,21 @@ CBFileTypeTable::FinishFileTypeListCopy
 		{
 		CBPrefsManager::FileTypeInfo info = fileTypeList->GetElement(i);
 
-		info.suffix = new JString(*(info.suffix));
+		info.suffix = jnew JString(*(info.suffix));
 		assert( info.suffix != NULL );
 
-		info.complSuffix = new JString(*(info.complSuffix));
+		info.complSuffix = jnew JString(*(info.complSuffix));
 		assert( info.complSuffix != NULL );
 
 		if (info.scriptPath != NULL)
 			{
-			info.scriptPath = new JString(*(info.scriptPath));
+			info.scriptPath = jnew JString(*(info.scriptPath));
 			assert( info.scriptPath != NULL );
 			}
 
 		if (info.editCmd != NULL)
 			{
-			info.editCmd = new JString(*(info.editCmd));
+			info.editCmd = jnew JString(*(info.editCmd));
 			assert( info.editCmd != NULL );
 			}
 
@@ -746,7 +746,7 @@ CBFileTypeTable::CreateXInputField
 	s.ClearSelection();
 	s.SelectCell(cell);
 
-	itsTextInput = new JXInputField(this, kFixedLeft, kFixedTop, x,y, w,h);
+	itsTextInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x,y, w,h);
 	assert( itsTextInput != NULL );
 
 	const CBPrefsManager::FileTypeInfo info = itsFileTypeList->GetElement(cell.y);
@@ -929,9 +929,9 @@ CBFileTypeTable::AddType()
 {
 	if (EndEditing())
 		{
-		CBPrefsManager::FileTypeInfo info(new JString, NULL, NULL, kCBUnknownFT,
+		CBPrefsManager::FileTypeInfo info(jnew JString, NULL, NULL, kCBUnknownFT,
 										  kCBEmptyMacroID, kCBEmptyCRMRuleListID,
-										  kJTrue, NULL, kJTrue, new JString, NULL);
+										  kJTrue, NULL, kJTrue, jnew JString, NULL);
 		assert( info.suffix != NULL && info.complSuffix != NULL );
 		itsFileTypeList->AppendElement(info);
 		AppendRows(1);
@@ -973,24 +973,24 @@ CBFileTypeTable::DuplicateType()
 		{
 		CBPrefsManager::FileTypeInfo info = itsFileTypeList->GetElement(cell.y);
 
-		info.suffix = new JString(*(info.suffix));
+		info.suffix = jnew JString(*(info.suffix));
 		assert( info.suffix != NULL );
 
 		info.nameRegex    = NULL;
 		info.contentRegex = NULL;
 
-		info.complSuffix = new JString(*(info.complSuffix));
+		info.complSuffix = jnew JString(*(info.complSuffix));
 		assert( info.complSuffix != NULL );
 
 		if (info.scriptPath != NULL)
 			{
-			info.scriptPath = new JString(*(info.scriptPath));
+			info.scriptPath = jnew JString(*(info.scriptPath));
 			assert( info.scriptPath != NULL );
 			}
 
 		if (info.editCmd != NULL)
 			{
-			info.editCmd = new JString(*(info.editCmd));
+			info.editCmd = jnew JString(*(info.editCmd));
 			assert( info.editCmd != NULL );
 			}
 
@@ -1039,13 +1039,13 @@ CBFileTypeTable::HandleTypeMenu
 		info.type = newType;
 		if (info.type == kCBExternalFT)
 			{
-			info.editCmd = new JString;
+			info.editCmd = jnew JString;
 			assert( info.editCmd != NULL );
 			BeginEditing(JPoint(kEditCmdColumn, cell.y));
 			}
 		else
 			{
-			delete info.editCmd;
+			jdelete info.editCmd;
 			info.editCmd = NULL;
 			}
 		itsFileTypeList->SetElement(cell.y, info);
@@ -1151,7 +1151,7 @@ CBFileTypeTable::BuildScriptMenuItems
 		const JSize count = info->GetEntryCount();
 		for (JIndex i=1; i<=count; i++)
 			{
-			JString* s = new JString((info->GetEntry(i)).GetName());
+			JString* s = jnew JString((info->GetEntry(i)).GetName());
 			assert( s != NULL );
 
 			if (isUserPath)
@@ -1188,7 +1188,7 @@ CBFileTypeTable::HandleScriptMenu
 	const JSize itemCount = itsScriptMenu->GetItemCount();
 	if (index == kNoScriptPathCmd)
 		{
-		delete info.scriptPath;
+		jdelete info.scriptPath;
 		info.scriptPath = NULL;
 		}
 	else if (index == itemCount - kNewScriptPathCmd)
@@ -1199,7 +1199,7 @@ CBFileTypeTable::HandleScriptMenu
 		{
 		if (info.scriptPath == NULL)
 			{
-			info.scriptPath = new JString(itsScriptMenu->GetItemText(index));
+			info.scriptPath = jnew JString(itsScriptMenu->GetItemText(index));
 			assert( info.scriptPath != NULL );
 			}
 		else
@@ -1240,7 +1240,7 @@ CBFileTypeTable::GetNewScriptDirectory()
 		}
 
 	itsNewDirDialog =
-		new JXGetNewDirDialog(JXGetApplication(), JGetString(kNewDirTitleID),
+		jnew JXGetNewDirDialog(JXGetApplication(), JGetString(kNewDirTitleID),
 							  JGetString(kNewDirPromptID), "", userDir);
 	assert( itsNewDirDialog != NULL );
 	itsNewDirDialog->BeginDialog();
@@ -1270,7 +1270,7 @@ CBFileTypeTable::CreateNewScriptDirectory()
 	JSplitPathAndName(fullName, &path, &name);
 	if (info.scriptPath == NULL)
 		{
-		info.scriptPath = new JString(name);
+		info.scriptPath = jnew JString(name);
 		assert( info.scriptPath != NULL );
 		}
 	else

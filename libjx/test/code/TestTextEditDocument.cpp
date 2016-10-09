@@ -108,16 +108,16 @@ TestTextEditDocument::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 400,330, "");
+	JXWindow* window = jnew JXWindow(this, 400,330, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
 	assert( menuBar != NULL );
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
 	assert( scrollbarSet != NULL );
 
@@ -128,7 +128,7 @@ TestTextEditDocument::BuildWindow
 	window->SetMinSize(20,50);
 
 	itsTextEditor =
-		new TestTextEditor(fileWritable, menuBar, scrollbarSet,
+		jnew TestTextEditor(fileWritable, menuBar, scrollbarSet,
 						   scrollbarSet->GetScrollEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsTextEditor != NULL );
@@ -142,7 +142,7 @@ TestTextEditDocument::BuildWindow
 	ListenTo(itsFileMenu);
 
 	JXDocumentMenu* fileListMenu =
-		new JXDocumentMenu(kFileListMenuTitleStr, menuBar,
+		jnew JXDocumentMenu(kFileListMenuTitleStr, menuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( fileListMenu != NULL );
 	menuBar->PrependMenu(fileListMenu);
@@ -217,7 +217,7 @@ TestTextEditDocument::HandleFileMenu
 {
 	if (index == kNewFileCmd)
 		{
-		TestTextEditDocument* doc = new TestTextEditDocument(GetSupervisor());
+		TestTextEditDocument* doc = jnew TestTextEditDocument(GetSupervisor());
 		assert( doc != NULL );
 		doc->Activate();
 		}
@@ -279,7 +279,7 @@ TestTextEditDocument::OpenFiles()
 			JXFileDocument* doc;
 			if (!(JXGetDocumentManager())->FileDocumentIsOpen(fileName, &doc))
 				{
-				doc = new TestTextEditDocument(GetSupervisor(), fileName);
+				doc = jnew TestTextEditDocument(GetSupervisor(), fileName);
 				}
 			assert( doc != NULL );
 			doc->Activate();
@@ -389,7 +389,7 @@ TestTextEditDocument::ReadFile
  WriteTextFile (virtual protected)
 
 	JTextEditor only broadcasts TextChanged when the user begins typing
-	at a new position.  If the user saves and then keeps typing at the same
+	at a jnew position.  If the user saves and then keeps typing at the same
 	position, the document will not know that more changes need to be saved.
 	By calling DeactivateCurrentUndo(), we get another TextChanged message
 	in this case, at the cost of interrupting the undo mechanism.  We have

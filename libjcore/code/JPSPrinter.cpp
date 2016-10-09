@@ -83,7 +83,7 @@ JPSPrinter::~JPSPrinter()
 	if (itsPG != NULL)
 		{
 		itsPG->ProcessFinished();
-		delete itsPG;
+		jdelete itsPG;
 		}
 }
 
@@ -190,7 +190,7 @@ JPSPrinter::OpenDocument()
 		}
 
 	assert( itsPG == NULL );
-	itsPG = new JLatentPG;
+	itsPG = jnew JLatentPG;
 	itsPG->VariableLengthProcessBeginning("Printing page...", kJTrue, kJFalse);
 
 	return kJTrue;
@@ -378,7 +378,7 @@ JPSPrinter::CloseDocument()
 	PSCloseDocument();
 
 	itsPG->ProcessFinished();
-	delete itsPG;
+	jdelete itsPG;
 	itsPG = NULL;
 }
 
@@ -393,7 +393,7 @@ JPSPrinter::CancelDocument()
 	PSCancelDocument();
 
 	itsPG->ProcessFinished();
-	delete itsPG;
+	jdelete itsPG;
 	itsPG = NULL;
 }
 

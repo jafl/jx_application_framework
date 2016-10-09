@@ -53,7 +53,7 @@ GFGFunctionTable::Create
 	)
 {
 	GFGFunctionTable* table =
-		new GFGFunctionTable(list, scrollbarSet, enclosure,
+		jnew GFGFunctionTable(list, scrollbarSet, enclosure,
 			hSizing, vSizing, x,y, w,h);
 	assert(table != NULL);
 

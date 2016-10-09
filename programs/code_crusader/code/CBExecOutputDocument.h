@@ -12,7 +12,6 @@
 
 #include "CBTextDocument.h"
 #include <JProcess.h>			// need definition of JProcess::Finished
-#include <j_prep_ace.h>
 #include <ace/LSOCK_Stream.h>
 #include <ace/UNIX_Addr.h>
 #include <JMessageProtocol.h>	// template; requires ace includes
@@ -78,7 +77,7 @@ protected:
 
 private:
 
-	JProcess*		itsProcess;				// deleted when we get a new one
+	JProcess*		itsProcess;				// deleted when we get a jnew one
 	JString			itsPath;
 	JBoolean		itsReceivedDataFlag;
 	JBoolean		itsProcessPausedFlag;
@@ -104,7 +103,6 @@ private:
 	void	ReceiveRecord();
 	void	ReceiveData(const Message& message);
 	void	UpdateButtons();
-	void	DeleteLinks();
 	void	CloseOutFD();
 
 	// not allowed

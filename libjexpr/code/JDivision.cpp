@@ -72,7 +72,7 @@ JFunction*
 JDivision::Copy()
 	const
 {
-	JDivision* newFunction = new JDivision(*this);
+	JDivision* newFunction = jnew JDivision(*this);
 	assert( newFunction != NULL );
 	return newFunction;
 }

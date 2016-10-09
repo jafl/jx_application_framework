@@ -76,10 +76,10 @@ JXWDManager::JXWDManager
 	itsWantShortcutFlag(wantShortcuts),
 	itsUpdateWDMenuTask(NULL)
 {
-	itsPermWindowList = new JArray<WindowInfo>;
+	itsPermWindowList = jnew JArray<WindowInfo>;
 	assert( itsPermWindowList != NULL );
 
-	itsWindowList = new JArray<WindowInfo>;
+	itsWindowList = jnew JArray<WindowInfo>;
 	assert( itsWindowList != NULL );
 	itsWindowList->SetCompareFunction(CompareWindowNames);
 	itsWindowList->SetSortOrder(JOrderedSetT::kSortAscending);
@@ -95,12 +95,12 @@ JXWDManager::JXWDManager
 JXWDManager::~JXWDManager()
 {
 	assert( itsPermWindowList->IsEmpty() );
-	delete itsPermWindowList;
+	jdelete itsPermWindowList;
 
 	assert( itsWindowList->IsEmpty() );
-	delete itsWindowList;
+	jdelete itsWindowList;
 
-	delete itsUpdateWDMenuTask;
+	jdelete itsUpdateWDMenuTask;
 }
 
 /******************************************************************************
@@ -155,7 +155,7 @@ JXWDManager::DirectorCreated
 	JIndex insertionIndex = 0;
 	if (shortcut != NULL)
 		{
-		info.shortcutStr = new JString(shortcut);
+		info.shortcutStr = jnew JString(shortcut);
 		assert( info.shortcutStr != NULL );
 		}
 	else
@@ -175,11 +175,11 @@ JXWDManager::DirectorCreated
 
 	if (!JStringEmpty(id))
 		{
-		info.itemID = new JString(id);
+		info.itemID = jnew JString(id);
 		assert( info.itemID != NULL );
 		}
 
-	// insert the new window -- can't sort until later
+	// insert the jnew window -- can't sort until later
 
 	windowList->AppendElement(info);
 
@@ -248,8 +248,8 @@ JXWDManager::DirectorDeleted1
 		WindowInfo info = windowList->GetElement(i);
 		if (info.dir == dir)
 			{
-			delete info.shortcutStr;
-			delete info.itemID;
+			jdelete info.shortcutStr;
+			jdelete info.itemID;
 			windowList->RemoveElement(i);
 
 			// assign the shortcut to the first item that doesn't have a shortcut
@@ -318,7 +318,7 @@ JXWDManager::WDMenusNeedUpdate()
 {
 	if (itsUpdateWDMenuTask == NULL)
 		{
-		itsUpdateWDMenuTask = new JXUpdateWDMenuTask(this);
+		itsUpdateWDMenuTask = jnew JXUpdateWDMenuTask(this);
 		assert( itsUpdateWDMenuTask != NULL );
 		itsUpdateWDMenuTask->Go();
 		}
@@ -328,7 +328,7 @@ JXWDManager::WDMenusNeedUpdate()
  UpdateAllWDMenus (private)
 
 	This must be called via an UrgentTask because we can't call GetName()
-	for a new JXDocument until long after DirectorCreated() is called.
+	for a jnew JXDocument until long after DirectorCreated() is called.
 
  ******************************************************************************/
 

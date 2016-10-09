@@ -50,14 +50,14 @@ TestFloatTableDirector::TestFloatTableDirector
 	:
 	JXWindowDirector(supervisor)
 {
-	itsData = new JFloatTableData(0.0);
+	itsData = jnew JFloatTableData(0.0);
 	assert( itsData != NULL );
 
 	itsPrinter = NULL;
 
 	BuildWindow();
 
-	itsPrinter = new JXPSPrinter(GetDisplay());
+	itsPrinter = jnew JXPSPrinter(GetDisplay());
 	assert( itsPrinter != NULL );
 	ListenTo(itsPrinter);
 }
@@ -69,8 +69,8 @@ TestFloatTableDirector::TestFloatTableDirector
 
 TestFloatTableDirector::~TestFloatTableDirector()
 {
-	delete itsData;
-	delete itsPrinter;
+	jdelete itsData;
+	jdelete itsPrinter;
 }
 
 /******************************************************************************
@@ -83,26 +83,26 @@ TestFloatTableDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 400,330, "");
+	JXWindow* window = jnew JXWindow(this, 400,330, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 320,30);
 	assert( menuBar != NULL );
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
 	assert( scrollbarSet != NULL );
 
 	JXFloatInput* extraInput =
-		new JXFloatInput(window,
+		jnew JXFloatInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 370,10, 30,20);
 	assert( extraInput != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::TestFloatTableDirector::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::TestFloatTableDirector::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 320,10, 50,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
@@ -131,17 +131,17 @@ TestFloatTableDirector::BuildWindow()
 	encl->AdjustSize(400 - tablelayout_Aperture.width(), 300 - tablelayout_Aperture.height());
 
 	itsTable =
-		new TestFloatTable(itsData, menuBar, scrollbarSet, encl,
+		jnew TestFloatTable(itsData, menuBar, scrollbarSet, encl,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,20, 390,280);
 	assert( itsTable != NULL );
 
 	itsColHeader =
-		new JXColHeaderWidget(itsTable, scrollbarSet, encl,
+		jnew JXColHeaderWidget(itsTable, scrollbarSet, encl,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,0, 390,20);
 	assert( itsColHeader != NULL );
 
 	itsRowHeader =
-		new JXRowHeaderWidget(itsTable, scrollbarSet, encl,
+		jnew JXRowHeaderWidget(itsTable, scrollbarSet, encl,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 0,20, 10,280);
 	assert( itsRowHeader != NULL );
 

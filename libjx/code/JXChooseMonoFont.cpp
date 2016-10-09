@@ -55,7 +55,7 @@ JXChooseMonoFont::JXChooseMonoFont
 	itsFontMenu->SetToPopupChoice();
 	ListenTo(itsFontMenu);
 
-	itsSizeMenu = new JXFontSizeMenu(JGetMonospaceFontName(), kSizeMenuTitleStr, this,
+	itsSizeMenu = jnew JXFontSizeMenu(JGetMonospaceFontName(), kSizeMenuTitleStr, this,
 									 kFixedLeft, kFixedTop, 0,30, w,25);
 	assert( itsSizeMenu != NULL );
 	itsSizeMenu->SetFontSize(kJDefaultMonoFontSize);

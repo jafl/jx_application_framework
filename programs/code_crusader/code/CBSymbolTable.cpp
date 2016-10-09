@@ -67,7 +67,7 @@ CBSymbolTable::CBSymbolTable
 	itsSymbolList     = symbolList;
 	itsMaxStringWidth = 0;
 
-	itsVisibleList = new JArray<JIndex>(CBSymbolList::kBlockSize);
+	itsVisibleList = jnew JArray<JIndex>(CBSymbolList::kBlockSize);
 	assert( itsVisibleList != NULL );
 
 	itsVisibleListLockedFlag = kJFalse;
@@ -95,9 +95,9 @@ CBSymbolTable::CBSymbolTable
 
 CBSymbolTable::~CBSymbolTable()
 {
-	delete itsVisibleList;
-	delete itsNameFilter;
-	delete itsNameLiteral;
+	jdelete itsVisibleList;
+	jdelete itsNameFilter;
+	jdelete itsNameLiteral;
 }
 
 /******************************************************************************
@@ -252,7 +252,7 @@ CBSymbolTable::CopySelectedSymbolNames()
 			list.Append(const_cast<JString*>(&name));
 			}
 
-		JXTextSelection* data = new JXTextSelection(GetDisplay(), list);
+		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
 		assert( data != NULL );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);
@@ -303,10 +303,10 @@ CBSymbolTable::ShowAll()
 	itsVisibleListLockedFlag = kJFalse;
 	itsVisibleList->RemoveAll();	// force rebuild of entire list
 
-	delete itsNameFilter;
+	jdelete itsNameFilter;
 	itsNameFilter = NULL;
 
-	delete itsNameLiteral;
+	jdelete itsNameLiteral;
 	itsNameLiteral = NULL;
 
 	ScrollTo(0,0);
@@ -325,27 +325,27 @@ CBSymbolTable::SetNameFilter
 	const JBoolean		isRegex
 	)
 {
-	delete itsNameFilter;
+	jdelete itsNameFilter;
 	itsNameFilter = NULL;
 
-	delete itsNameLiteral;
+	jdelete itsNameLiteral;
 	itsNameLiteral = NULL;
 
 	JError result = JNoError();
 	if (isRegex)
 		{
-		itsNameFilter = new JRegex;
+		itsNameFilter = jnew JRegex;
 		assert( itsNameFilter != NULL );
 		result = itsNameFilter->SetPattern(filterStr);
 		if (!result.OK())
 			{
-			delete itsNameFilter;
+			jdelete itsNameFilter;
 			itsNameFilter = NULL;
 			}
 		}
 	else
 		{
-		itsNameLiteral = new JString(filterStr);
+		itsNameLiteral = jnew JString(filterStr);
 		assert( itsNameLiteral != NULL );
 		}
 

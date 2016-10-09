@@ -45,18 +45,18 @@ main
 {
 	ParseTextOptions(&argc, argv);
 
-	JXApplication* app = new JXApplication(&argc, argv, "testj2dplot", kDefaultStringData);
+	JXApplication* app = jnew JXApplication(&argc, argv, "testj2dplot", kDefaultStringData);
 	assert( app != NULL );
 
-	Test2DPlotDirector* dataDir = new Test2DPlotDirector(app);
+	Test2DPlotDirector* dataDir = jnew Test2DPlotDirector(app);
 	assert( dataDir != NULL );
 	TestData(dataDir);
 
-	Test2DPlotDirector* logDataDir = new Test2DPlotDirector(app);
+	Test2DPlotDirector* logDataDir = jnew Test2DPlotDirector(app);
 	assert( logDataDir != NULL );
 	TestLogData(logDataDir);
 
-	Test2DPlotDirector* vectorDir = new Test2DPlotDirector(app);
+	Test2DPlotDirector* vectorDir = jnew Test2DPlotDirector(app);
 	assert( vectorDir != NULL );
 	TestVector(vectorDir);
 
@@ -185,7 +185,7 @@ TestVector
 	JX2DPlotWidget* plot = dir->GetPlotWidget();
 	plot->ShowLegend();
 
-	J2DVectorData* data = new J2DVectorData;
+	J2DVectorData* data = jnew J2DVectorData;
 	assert( data != NULL );
 
 	const JFloat delta = kJPi/4.0;

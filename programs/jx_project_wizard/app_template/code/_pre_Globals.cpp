@@ -38,12 +38,12 @@ JBoolean
 	theApplication = app;
 
 	JBoolean isNew;
-	thePrefsManager	= new <PRE>PrefsManager(&isNew);
+	thePrefsManager	= jnew <PRE>PrefsManager(&isNew);
 	assert( thePrefsManager != NULL );
 
 	JXInitHelp(k<PRE>TOCHelpName, k<PRE>HelpSectionCount, k<PRE>HelpSectionName);
 
-	theMDIServer = new <PRE>MDIServer;
+	theMDIServer = jnew <PRE>MDIServer;
 	assert( theMDIServer != NULL );
 
 	return isNew;
@@ -62,7 +62,7 @@ void
 
 	// this must be last so everybody else can use it to save their setup
 
-	delete thePrefsManager;
+	jdelete thePrefsManager;
 	thePrefsManager = NULL;
 }
 

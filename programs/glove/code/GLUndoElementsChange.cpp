@@ -32,7 +32,7 @@ GLUndoElementsChange::GLUndoElementsChange
 	:
 	GLUndoElementsBase(table, start, end, type)
 {
-	itsValues = new JPtrArray<JArray<JFloat> >(JPtrArrayT::kDeleteAll);
+	itsValues = jnew JPtrArray<JArray<JFloat> >(JPtrArrayT::kDeleteAll);
 	assert(itsValues != NULL);
 
 	GRaggedFloatTableData* data = GetData();
@@ -52,7 +52,7 @@ GLUndoElementsChange::GLUndoElementsChange
 
 	for (JSize i = colstart; i <= colend; i++)
 		{
-		JArray<JFloat>* col = new JArray<JFloat>;
+		JArray<JFloat>* col = jnew JArray<JFloat>;
 		assert(col != NULL);
 		itsValues->Append(col);
 		
@@ -87,7 +87,7 @@ GLUndoElementsChange::GLUndoElementsChange
 
 GLUndoElementsChange::~GLUndoElementsChange()
 {
-	delete itsValues;
+	jdelete itsValues;
 }
 
 /******************************************************************************
@@ -101,10 +101,10 @@ GLUndoElementsChange::Undo()
 
 	// we need to create this before we change the data, because
 	// it needs to read the old data first. We can't yet call NewUndo, 
-	// though, because that will delete us.
+	// though, because that will jdelete us.
 
 	GLUndoElementsChange* undo =
-		new GLUndoElementsChange(GetTable(), GetStartCell(), GetEndCell(), GetType());
+		jnew GLUndoElementsChange(GetTable(), GetStartCell(), GetEndCell(), GetType());
 	assert(undo != NULL);
 	
 	GRaggedFloatTableData* data 		= GetData();

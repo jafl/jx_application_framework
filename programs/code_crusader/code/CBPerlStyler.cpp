@@ -87,7 +87,7 @@ CBPerlStyler::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBPerlStyler;
+		itsSelf = jnew CBPerlStyler;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -104,7 +104,7 @@ CBPerlStyler::Instance()
 void
 CBPerlStyler::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************
@@ -311,5 +311,5 @@ CBPerlStyler::UpgradeTypeList
 		typeStyles->InsertElementAtIndex(27, JFontStyle(colormap->GetDarkGreenColor()));
 		}
 
-	// set new values after all new slots have been created
+	// set jnew values after all jnew slots have been created
 }

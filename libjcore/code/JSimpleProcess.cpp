@@ -63,7 +63,7 @@ JSimpleProcess::Create
 								kJCreatePipe, &errFD);
 	if (err.OK())
 		{
-		*process = new JSimpleProcess(childPID, errFD, deleteWhenFinished);
+		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
 		assert( *process != NULL );
 		}
 	else
@@ -109,7 +109,7 @@ JSimpleProcess::Create
 								kJCreatePipe, &errFD);
 	if (err.OK())
 		{
-		*process = new JSimpleProcess(childPID, errFD, deleteWhenFinished);
+		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
 		assert( *process != NULL );
 		}
 	else
@@ -153,7 +153,7 @@ JSimpleProcess::Create
 								kJCreatePipe, &errFD);
 	if (err.OK())
 		{
-		*process = new JSimpleProcess(childPID, errFD, deleteWhenFinished);
+		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
 		assert( *process != NULL );
 		}
 	else
@@ -199,7 +199,7 @@ JSimpleProcess::Create
 								kJCreatePipe, &errFD);
 	if (err.OK())
 		{
-		*process = new JSimpleProcess(childPID, errFD, deleteWhenFinished);
+		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
 		assert( *process != NULL );
 		}
 	else
@@ -245,7 +245,7 @@ JSimpleProcess::Create
 								kJCreatePipe, &errFD);
 	if (err.OK())
 		{
-		*process = new JSimpleProcess(childPID, errFD, deleteWhenFinished);
+		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
 		assert( *process != NULL );
 		}
 	else
@@ -293,7 +293,7 @@ JSimpleProcess::Create
 								kJCreatePipe, &errFD);
 	if (err.OK())
 		{
-		*process = new JSimpleProcess(childPID, errFD, deleteWhenFinished);
+		*process = jnew JSimpleProcess(childPID, errFD, deleteWhenFinished);
 		assert( *process != NULL );
 		}
 	else
@@ -305,13 +305,37 @@ JSimpleProcess::Create
 }
 
 /******************************************************************************
+ Constructor
+
+ ******************************************************************************/
+
+JSimpleProcess::JSimpleProcess
+	(
+	const pid_t		pid,
+	const int		fd,
+	const JBoolean	deleteWhenFinished
+	)
+	:
+	JProcess(pid),
+	itsStartTime(time(NULL))
+{
+	itsLink = new ProcessLink(fd);
+	assert( itsLink != NULL );
+
+	ListenTo(this);
+
+	ShouldDeleteWhenFinished(deleteWhenFinished);
+}
+
+/******************************************************************************
  Destructor
 
  ******************************************************************************/
 
 JSimpleProcess::~JSimpleProcess()
 {
-	DeleteLink();
+	delete itsLink;
+	itsLink = NULL;
 }
 
 /******************************************************************************
@@ -392,47 +416,4 @@ JSimpleProcess::ReportError
 			(JGetUserNotification())->ReportError(text);
 			}
 		}
-}
-
-/******************************************************************************
- Constructor
-
- ******************************************************************************/
-
-// This function has to be last so JCore::new works for everything else.
-
-#undef new
-
-JSimpleProcess::JSimpleProcess
-	(
-	const pid_t		pid,
-	const int		fd,
-	const JBoolean	deleteWhenFinished
-	)
-	:
-	JProcess(pid),
-	itsStartTime(time(NULL))
-{
-	itsLink = new ProcessLink(fd);
-	assert( itsLink != NULL );
-
-	ListenTo(this);
-
-	ShouldDeleteWhenFinished(deleteWhenFinished);
-}
-
-/******************************************************************************
- DeleteLink (private)
-
- ******************************************************************************/
-
-// This function has to be last so JCore::delete works for everything else.
-
-#undef delete
-
-void
-JSimpleProcess::DeleteLink()
-{
-	delete itsLink;
-	itsLink = NULL;
 }

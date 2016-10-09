@@ -46,7 +46,7 @@ CBCShellCompleter::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBCShellCompleter;
+		itsSelf = jnew CBCShellCompleter;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -63,7 +63,7 @@ CBCShellCompleter::Instance()
 void
 CBCShellCompleter::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

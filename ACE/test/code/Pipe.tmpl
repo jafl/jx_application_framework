@@ -53,7 +53,7 @@ Pipe<ACE_PEER_STREAM_2>::PipeX()
 {
 	itsBufferSize = kDefaultBufferSize;
 
-	itsBuffer = new JCharacter [ itsBufferSize ];
+	itsBuffer = jnew JCharacter [ itsBufferSize ];
 	assert( itsBuffer != NULL );
 }
 
@@ -65,7 +65,7 @@ Pipe<ACE_PEER_STREAM_2>::PipeX()
 template <ACE_PEER_STREAM_1>
 Pipe<ACE_PEER_STREAM_2>::~Pipe()
 {
-	delete [] itsBuffer;
+	jdelete [] itsBuffer;
 }
 
 /******************************************************************************

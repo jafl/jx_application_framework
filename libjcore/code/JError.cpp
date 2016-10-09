@@ -17,7 +17,7 @@
 		why this compiles, you grok C++.  What happens is that an object of
 		type JUnknownError is created and then the JError copy constructor
 		is called to construct a JError object from the JUnknownError object.
-		This new JError object is returned and the JUnknownError object is
+		This jnew JError object is returned and the JUnknownError object is
 		deleted.  (Just another reason why most JCore objects don't have
 		copy constructors.)
 
@@ -71,7 +71,7 @@ JError::JError
 
 	if (copyMsg)
 		{
-		itsDMessage = new JString(msg);
+		itsDMessage = jnew JString(msg);
 		assert( itsDMessage != NULL );
 		}
 	else
@@ -96,7 +96,7 @@ JError::JError
 {
 	if (source.itsDMessage != NULL)
 		{
-		itsDMessage = new JString(*(source.itsDMessage));
+		itsDMessage = jnew JString(*(source.itsDMessage));
 		assert( itsDMessage != NULL );
 		}
 	else
@@ -112,7 +112,7 @@ JError::JError
 
 JError::~JError()
 {
-	delete itsDMessage;
+	jdelete itsDMessage;
 }
 
 /******************************************************************************
@@ -139,7 +139,7 @@ JError::operator=
 		}
 	else if (source.itsDMessage != NULL)
 		{
-		itsDMessage = new JString(*(source.itsDMessage));
+		itsDMessage = jnew JString(*(source.itsDMessage));
 		assert( itsDMessage != NULL );
 
 		itsSMessage = NULL;
@@ -148,7 +148,7 @@ JError::operator=
 		{
 		itsSMessage = source.itsSMessage;
 
-		delete itsDMessage;
+		jdelete itsDMessage;
 		itsDMessage = NULL;
 		}
 
@@ -190,12 +190,12 @@ JError::SetMessage
 		{
 		itsSMessage = NULL;
 
-		itsDMessage = new JString(msg);
+		itsDMessage = jnew JString(msg);
 		assert( itsDMessage != NULL );
 		}
 	else
 		{
-		delete itsDMessage;
+		jdelete itsDMessage;
 		itsDMessage = NULL;
 
 		itsSMessage = msg;

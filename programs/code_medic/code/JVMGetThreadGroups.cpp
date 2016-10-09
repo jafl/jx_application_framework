@@ -121,7 +121,7 @@ JVMGetThreadGroups::HandleSuccess
 			JVMThreadNode* node;
 			if (!link->FindThread(id, &node))	// might be created by ThreadStartEvent
 				{
-				node = new JVMThreadNode(JVMThreadNode::kThreadType, id);
+				node = jnew JVMThreadNode(JVMThreadNode::kThreadType, id);
 				assert( node != NULL );
 
 				itsParent->AppendThread(node);
@@ -140,7 +140,7 @@ JVMGetThreadGroups::HandleSuccess
 		JVMThreadNode* node;
 		if (!link->FindThread(id, &node))	// might be created by ThreadStartEvent
 			{
-			node = new JVMThreadNode(JVMThreadNode::kGroupType, id);
+			node = jnew JVMThreadNode(JVMThreadNode::kGroupType, id);
 			assert( node != NULL );
 
 			if (itsParent != NULL)

@@ -39,7 +39,7 @@ JFileArrayIndex::JFileArrayIndex()
 	assert( sizeof(JUnsignedOffset) >= JFileArray::kUnsignedLongLength &&
 			sizeof(JFAID_t)         >= JFileArray::kUnsignedLongLength );
 
-	itsArray = new JArray<ElementInfo>;
+	itsArray = jnew JArray<ElementInfo>;
 	assert( itsArray != NULL );
 
 	InstallOrderedSet(itsArray);
@@ -52,13 +52,13 @@ JFileArrayIndex::JFileArrayIndex()
 
 JFileArrayIndex::~JFileArrayIndex()
 {
-	delete itsArray;
+	jdelete itsArray;
 }
 
 /******************************************************************************
  InsertElementAtIndex
 
-	Insert a new element into the index.  Since the storage is appended to the
+	Insert a jnew element into the index.  Since the storage is appended to the
 	file, we don't have to adjust any element offsets.
 
 	If the element will be an embedded file, the caller must set it separately.
@@ -190,7 +190,7 @@ JFileArrayIndex::SetElementID
 		const JBoolean ok = GetElementIndexFromID(newID, &origIndex);
 		assert( !ok );
 
-		// store the new ID
+		// store the jnew ID
 
 		elementInfo.id = newID;
 		itsArray->SetElement(index.GetIndex(), elementInfo);
@@ -452,7 +452,7 @@ JFileArrayIndex::AllEmbeddedFilesAreClosed()
 /******************************************************************************
  ReplaceEmbeddedFileStreams
 
-	Notify all embedded files that their enclosing file has a new fstream.
+	Notify all embedded files that their enclosing file has a jnew fstream.
 
  ******************************************************************************/
 

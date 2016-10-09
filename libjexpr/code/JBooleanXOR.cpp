@@ -70,7 +70,7 @@ JDecision*
 JBooleanXOR::Copy()
 	const
 {
-	JBooleanXOR* newDecision = new JBooleanXOR(*this);
+	JBooleanXOR* newDecision = jnew JBooleanXOR(*this);
 	assert( newDecision != NULL );
 	return newDecision;
 }

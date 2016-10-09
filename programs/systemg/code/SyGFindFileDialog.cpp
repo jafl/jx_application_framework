@@ -96,72 +96,72 @@ SyGFindFileDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 360,220, "");
+	JXWindow* window = jnew JXWindow(this, 360,220, "");
 	assert( window != NULL );
 
 	itsActionRG =
-		new JXRadioGroup(window,
+		jnew JXRadioGroup(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,50, 340,120);
 	assert( itsActionRG != NULL );
 
 	itsCloseButton =
-		new JXTextButton(JGetString("itsCloseButton::SyGFindFileDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsCloseButton::SyGFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,190, 60,20);
 	assert( itsCloseButton != NULL );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::SyGFindFileDialog::shortcuts::JXLayout"));
 
 	itsSearchButton =
-		new JXTextButton(JGetString("itsSearchButton::SyGFindFileDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsSearchButton::SyGFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 280,190, 60,20);
 	assert( itsSearchButton != NULL );
 	itsSearchButton->SetShortcuts(JGetString("itsSearchButton::SyGFindFileDialog::shortcuts::JXLayout"));
 
 	itsFileInput =
-		new JXInputField(itsActionRG,
+		jnew JXInputField(itsActionRG,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 35,30, 295,20);
 	assert( itsFileInput != NULL );
 
 	JXTextRadioButton* obj1_JXLayout =
-		new JXTextRadioButton(kFindFileAction, JGetString("obj1_JXLayout::SyGFindFileDialog::JXLayout"), itsActionRG,
+		jnew JXTextRadioButton(kFindFileAction, JGetString("obj1_JXLayout::SyGFindFileDialog::JXLayout"), itsActionRG,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,10, 320,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetShortcuts(JGetString("obj1_JXLayout::SyGFindFileDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::SyGFindFileDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::SyGFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 200,190, 60,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::SyGFindFileDialog::shortcuts::JXLayout"));
 
 	itsStayOpenCB =
-		new JXTextCheckbox(JGetString("itsStayOpenCB::SyGFindFileDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsStayOpenCB::SyGFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,190, 90,20);
 	assert( itsStayOpenCB != NULL );
 
 	itsExprInput =
-		new JXInputField(itsActionRG,
+		jnew JXInputField(itsActionRG,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 35,90, 295,20);
 	assert( itsExprInput != NULL );
 
 	JXTextRadioButton* obj2_JXLayout =
-		new JXTextRadioButton(kFindExprAction, JGetString("obj2_JXLayout::SyGFindFileDialog::JXLayout"), itsActionRG,
+		jnew JXTextRadioButton(kFindExprAction, JGetString("obj2_JXLayout::SyGFindFileDialog::JXLayout"), itsActionRG,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,70, 320,20);
 	assert( obj2_JXLayout != NULL );
 	obj2_JXLayout->SetShortcuts(JGetString("obj2_JXLayout::SyGFindFileDialog::shortcuts::JXLayout"));
 
 	JXStaticText* obj3_JXLayout =
-		new JXStaticText(JGetString("obj3_JXLayout::SyGFindFileDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj3_JXLayout::SyGFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 50,20);
 	assert( obj3_JXLayout != NULL );
 	obj3_JXLayout->SetToLabel();
 
 	itsPathInput =
-		new JXPathInput(window,
+		jnew JXPathInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 70,20, 210,20);
 	assert( itsPathInput != NULL );
 
 	itsChoosePathButton =
-		new JXTextButton(JGetString("itsChoosePathButton::SyGFindFileDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsChoosePathButton::SyGFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 280,20, 60,20);
 	assert( itsChoosePathButton != NULL );
 

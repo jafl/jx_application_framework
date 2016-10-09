@@ -55,7 +55,7 @@ JXFSRunCommandDialog::JXFSRunCommandDialog()
 	JString signalFileName;
 	if (JExpandHomeDirShortcut(kSignalFileName, &signalFileName))
 		{
-		itsSignalTask = new JXCheckModTimeTask(kUpdateInterval, signalFileName);
+		itsSignalTask = jnew JXCheckModTimeTask(kUpdateInterval, signalFileName);
 		assert( itsSignalTask != NULL );
 		itsSignalTask->Start();
 		ListenTo(itsSignalTask);
@@ -73,7 +73,7 @@ JXFSRunCommandDialog::~JXFSRunCommandDialog()
 {
 	WriteSetup();	// save "stay open" state
 
-	delete itsSignalTask;
+	jdelete itsSignalTask;
 }
 
 /******************************************************************************
@@ -117,83 +117,83 @@ JXFSRunCommandDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 440,180, "");
+	JXWindow* window = jnew JXWindow(this, 440,180, "");
 	assert( window != NULL );
 
 	itsCmdInput =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,90, 290,20);
 	assert( itsCmdInput != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::JXFSRunCommandDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::JXFSRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 110,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	itsCloseButton =
-		new JXTextButton(JGetString("itsCloseButton::JXFSRunCommandDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsCloseButton::JXFSRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 160,150, 60,20);
 	assert( itsCloseButton != NULL );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXFSRunCommandDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::JXFSRunCommandDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::JXFSRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 260,150, 60,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::JXFSRunCommandDialog::shortcuts::JXLayout"));
 
 	itsRunButton =
-		new JXTextButton(JGetString("itsRunButton::JXFSRunCommandDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsRunButton::JXFSRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 360,150, 60,20);
 	assert( itsRunButton != NULL );
 	itsRunButton->SetShortcuts(JGetString("itsRunButton::JXFSRunCommandDialog::shortcuts::JXLayout"));
 
 	itsCmdHistoryMenu =
-		new JXFSCommandHistoryMenu(kHistoryLength, "", window,
+		jnew JXFSCommandHistoryMenu(kHistoryLength, "", window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 310,90, 30,20);
 	assert( itsCmdHistoryMenu != NULL );
 
 	itsChooseCmdButton =
-		new JXTextButton(JGetString("itsChooseCmdButton::JXFSRunCommandDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsChooseCmdButton::JXFSRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 360,90, 60,20);
 	assert( itsChooseCmdButton != NULL );
 
 	itsUseShellCB =
-		new JXTextCheckbox(JGetString("itsUseShellCB::JXFSRunCommandDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsUseShellCB::JXFSRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,130, 120,20);
 	assert( itsUseShellCB != NULL );
 	itsUseShellCB->SetShortcuts(JGetString("itsUseShellCB::JXFSRunCommandDialog::shortcuts::JXLayout"));
 
 	itsUseWindowCB =
-		new JXTextCheckbox(JGetString("itsUseWindowCB::JXFSRunCommandDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsUseWindowCB::JXFSRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,150, 120,20);
 	assert( itsUseWindowCB != NULL );
 	itsUseWindowCB->SetShortcuts(JGetString("itsUseWindowCB::JXFSRunCommandDialog::shortcuts::JXLayout"));
 
 	itsStayOpenCB =
-		new JXTextCheckbox(JGetString("itsStayOpenCB::JXFSRunCommandDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsStayOpenCB::JXFSRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 340,120, 90,20);
 	assert( itsStayOpenCB != NULL );
 
 	JXStaticText* obj2_JXLayout =
-		new JXStaticText(JGetString("obj2_JXLayout::JXFSRunCommandDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj2_JXLayout::JXFSRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 210,20);
 	assert( obj2_JXLayout != NULL );
 	obj2_JXLayout->SetToLabel();
 
 	itsChoosePathButton =
-		new JXTextButton(JGetString("itsChoosePathButton::JXFSRunCommandDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsChoosePathButton::JXFSRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 360,40, 60,20);
 	assert( itsChoosePathButton != NULL );
 
 	itsPathInput =
-		new JXPathInput(window,
+		jnew JXPathInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 290,20);
 	assert( itsPathInput != NULL );
 
 	itsPathHistoryMenu =
-		new JXPathHistoryMenu(kHistoryLength, "", window,
+		jnew JXPathHistoryMenu(kHistoryLength, "", window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 310,40, 30,20);
 	assert( itsPathHistoryMenu != NULL );
 
@@ -397,7 +397,7 @@ JXFSRunCommandDialog::ReadSetup
 				}
 			}
 
-		delete file;
+		jdelete file;
 		}
 
 	return found;
@@ -418,7 +418,7 @@ JXFSRunCommandDialog::WriteSetup()
 		std::ostringstream data;
 		WriteSetup(data);
 		file->SetData(kCurrentPrefsVersion, data);
-		delete file;
+		jdelete file;
 
 		ofstream touch(itsSignalTask->GetFileName());
 		touch.close();

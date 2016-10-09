@@ -140,7 +140,7 @@ JPlotFitFunction::SetDiffData
 {
 	if (itsDiffData != NULL)
 		{
-		delete itsDiffData;
+		jdelete itsDiffData;
 		}
 	itsDiffData	= data;
 }

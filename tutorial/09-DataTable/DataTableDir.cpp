@@ -26,7 +26,7 @@ DataTableDir::DataTableDir
 	JXWindowDirector(supervisor)
 {
 	// Create the array that will hold the table's data
-	itsData = new JArray<JIndex>;
+	itsData = jnew JArray<JIndex>;
 	assert(itsData != NULL);
 
 	// Append 3 elements to the array.
@@ -53,7 +53,7 @@ DataTableDir::DataTableDir
 
 DataTableDir::~DataTableDir()
 {
-	delete itsData;
+	jdelete itsData;
 
 	// Window is deleted automatically by its director
 	// DataTable is deleted automatically by its enclosure
@@ -71,7 +71,7 @@ void
 DataTableDir::BuildWindow()
 {
 	// Create the window
-	JXWindow* window = new JXWindow(this, 300,200, "Test DataTable Program");
+	JXWindow* window = jnew JXWindow(this, 300,200, "Test DataTable Program");
 	assert( window != NULL );
 
 	// Set sizing
@@ -80,7 +80,7 @@ DataTableDir::BuildWindow()
 
 	// Create the scrollbar set to hold the table
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 300,200);
 	assert( scrollbarSet != NULL );
 
@@ -88,7 +88,7 @@ DataTableDir::BuildWindow()
 	// special widget that JXScrollbarSet creates.  We get a
 	// pointer to this special widget by calling GetScrollEnclosure().
 	DataTable* table =
-		new DataTable(itsData, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+		jnew DataTable(itsData, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 10, 10);
 	assert( table != NULL );

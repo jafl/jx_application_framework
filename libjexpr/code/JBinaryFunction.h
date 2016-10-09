@@ -11,6 +11,7 @@
 #define _H_JBinaryFunction
 
 #include <JFunctionWithArgs.h>
+#include <jNew.h>
 
 class JBinaryFunction : public JFunctionWithArgs
 {
@@ -101,7 +102,7 @@ JBinaryFunction::SetArg1
 	JFunction* arg
 	)
 {
-	delete itsArg1;
+	jdelete itsArg1;
 	itsArg1 = arg;
 }
 
@@ -111,7 +112,7 @@ JBinaryFunction::SetArg2
 	JFunction* arg
 	)
 {
-	delete itsArg2;
+	jdelete itsArg2;
 	itsArg2 = arg;
 }
 

@@ -31,7 +31,7 @@ JXPrefsManager::JXPrefsManager
 	JPrefsManager((JXGetApplication())->GetSignature(),
 				  currentVersion, eraseFileIfOpen)
 {
-	itsSafetySaveTask = new JXTimerTask(kSafetySaveInterval);
+	itsSafetySaveTask = jnew JXTimerTask(kSafetySaveInterval);
 	assert( itsSafetySaveTask != NULL );
 	itsSafetySaveTask->Start();
 	ListenTo(itsSafetySaveTask);
@@ -44,7 +44,7 @@ JXPrefsManager::JXPrefsManager
 
 JXPrefsManager::~JXPrefsManager()
 {
-	delete itsSafetySaveTask;
+	jdelete itsSafetySaveTask;
 }
 
 /******************************************************************************

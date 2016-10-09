@@ -79,7 +79,7 @@ JPlotFitLinearEq::InitializePolynomial
 	const JArray<JIndex>& powers
 	)
 {
-	itsPowers			= new JArray<JIndex>(powers);
+	itsPowers			= jnew JArray<JIndex>(powers);
 	assert(itsPowers != NULL);
 	const JSize count	= itsPowers->GetElementCount();
 	SetParameterCount(count);
@@ -106,9 +106,9 @@ JPlotFitLinearEq::InitializePolynomial
 		}
 	SetFunctionString(name);
 
-	itsParameters	= new JVector(count);
+	itsParameters	= jnew JVector(count);
 	assert(itsParameters != NULL);
-	itsErrors		= new JVector(count);
+	itsErrors		= jnew JVector(count);
 	assert(itsErrors != NULL);
 }
 
@@ -121,9 +121,9 @@ JPlotFitLinearEq::InitializePolynomial
  
 JPlotFitLinearEq::~JPlotFitLinearEq()
 {
-	delete itsPowers;
-	delete itsParameters;
-	delete itsErrors;
+	jdelete itsPowers;
+	jdelete itsParameters;
+	jdelete itsErrors;
 }
 
 /******************************************************************************

@@ -42,7 +42,7 @@ JXPGMessageDirector::JXPGMessageDirector
 
 JXPGMessageDirector::~JXPGMessageDirector()
 {
-	delete itsPrinter;
+	jdelete itsPrinter;
 }
 
 /******************************************************************************
@@ -55,27 +55,27 @@ JXPGMessageDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 500,210, "");
+	JXWindow* window = jnew JXWindow(this, 500,210, "");
 	assert( window != NULL );
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 500,170);
 	assert( scrollbarSet != NULL );
 
 	itsSaveButton =
-		new JXTextButton(JGetString("itsSaveButton::JXPGMessageDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsSaveButton::JXPGMessageDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 100,180, 60,20);
 	assert( itsSaveButton != NULL );
 
 	itsCloseButton =
-		new JXTextButton(JGetString("itsCloseButton::JXPGMessageDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsCloseButton::JXPGMessageDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 180,180, 60,20);
 	assert( itsCloseButton != NULL );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXPGMessageDirector::shortcuts::JXLayout"));
 
 	itsPrintButton =
-		new JXTextButton(JGetString("itsPrintButton::JXPGMessageDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsPrintButton::JXPGMessageDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,180, 60,20);
 	assert( itsPrintButton != NULL );
 
@@ -92,7 +92,7 @@ JXPGMessageDirector::BuildWindow()
 	itsCloseButton->Hide();
 
 	itsMessageText =
-		new JXStaticText("",kJFalse,kJTrue, scrollbarSet,
+		jnew JXStaticText("",kJFalse,kJTrue, scrollbarSet,
 						 scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic,
 						 0,0, 10,10);
@@ -179,7 +179,7 @@ JXPGMessageDirector::Receive
 		{
 		if (itsPrinter == NULL)
 			{
-			itsPrinter = new JXPTPrinter;
+			itsPrinter = jnew JXPTPrinter;
 			assert( itsPrinter != NULL );
 			itsMessageText->SetPTPrinter(itsPrinter);
 			}

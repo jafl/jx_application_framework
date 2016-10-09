@@ -57,8 +57,8 @@ JXWindowIcon::JXWindowIcon
 
 JXWindowIcon::~JXWindowIcon()
 {
-	delete itsNormalImage;
-	delete itsDropImage;
+	jdelete itsNormalImage;
+	jdelete itsDropImage;
 }
 
 /******************************************************************************
@@ -73,11 +73,11 @@ JXWindowIcon::SetIcons
 	JXImage* dropImage
 	)
 {
-	delete itsNormalImage;
+	jdelete itsNormalImage;
 	itsNormalImage = normalImage;
 	itsNormalImage->ConvertToRemoteStorage();
 
-	delete itsDropImage;
+	jdelete itsDropImage;
 	itsDropImage = dropImage;
 	itsDropImage->ConvertToRemoteStorage();
 

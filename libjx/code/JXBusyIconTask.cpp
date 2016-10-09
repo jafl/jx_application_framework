@@ -43,14 +43,14 @@ JXBusyIconTask::JXBusyIconTask
 	:
 	JXAnimationTask(widget)
 {
-	itsImageList = new JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kBusyIconCount);
+	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kBusyIconCount);
 	assert( itsImageList != NULL );
 
 	JXDisplay* display   = widget->GetDisplay();
 	JXColormap* colormap = widget->GetColormap();
 	for (JIndex i=1; i<=kBusyIconCount; i++)
 		{
-		JXImage* icon = new JXImage(display, kBusyIcon[i-1]);
+		JXImage* icon = jnew JXImage(display, kBusyIcon[i-1]);
 		assert( icon != NULL );
 		itsImageList->Append(icon);
 		}
@@ -63,7 +63,7 @@ JXBusyIconTask::JXBusyIconTask
 
 JXBusyIconTask::~JXBusyIconTask()
 {
-	delete itsImageList;
+	jdelete itsImageList;
 }
 
 /******************************************************************************

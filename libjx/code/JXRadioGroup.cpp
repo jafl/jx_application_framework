@@ -43,7 +43,7 @@ JXRadioGroup::JXRadioGroup
 	:
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsButtons = new JPtrArray<JXRadioButton>(JPtrArrayT::kForgetAll);
+	itsButtons = jnew JPtrArray<JXRadioButton>(JPtrArrayT::kForgetAll);
 	assert( itsButtons != NULL );
 
 	itsSelection = NULL;
@@ -58,7 +58,7 @@ JXRadioGroup::JXRadioGroup
 
 JXRadioGroup::~JXRadioGroup()
 {
-	delete itsButtons;		// JXEnclosure deletes objects
+	jdelete itsButtons;		// JXEnclosure deletes objects
 }
 
 /******************************************************************************
@@ -164,7 +164,7 @@ JXRadioGroup::GetRadioButton
 /******************************************************************************
  NewButton (private)
 
-	Called when a new JXRadioButton is created.
+	Called when a jnew JXRadioButton is created.
 
  ******************************************************************************/
 

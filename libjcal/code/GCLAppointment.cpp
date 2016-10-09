@@ -50,7 +50,7 @@ GCLAppointment::GCLAppointment
 	is >> hasRecur;
 	if (hasRecur)
 		{
-		itsRecurrence	= new GCLRecurrence(is);
+		itsRecurrence	= jnew GCLRecurrence(is);
 		assert(itsRecurrence != NULL);
 		}
 
@@ -252,7 +252,7 @@ GCLAppointment::SetRecurrence
 {
 	if (itsRecurrence == NULL)
 		{
-		itsRecurrence	= new GCLRecurrence;
+		itsRecurrence	= jnew GCLRecurrence;
 		assert(itsRecurrence != NULL);
 		}
 	*itsRecurrence	= recurrence;

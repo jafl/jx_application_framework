@@ -92,9 +92,9 @@ JVariableList::JVariableList
 
 JVariableList::~JVariableList()
 {
-	delete itsDVarUserList;		// objects deleted by owners
-	delete itsFVarUserList;		// objects deleted by owners
-	delete itsEvalStack;
+	jdelete itsDVarUserList;		// objects deleted by owners
+	jdelete itsFVarUserList;		// objects deleted by owners
+	jdelete itsEvalStack;
 }
 
 /******************************************************************************
@@ -105,13 +105,13 @@ JVariableList::~JVariableList()
 void
 JVariableList::JVariableListX()
 {
-	itsDVarUserList = new JPtrArray<JDecision>(JPtrArrayT::kForgetAll);
+	itsDVarUserList = jnew JPtrArray<JDecision>(JPtrArrayT::kForgetAll);
 	assert( itsDVarUserList != NULL );
 
-	itsFVarUserList = new JPtrArray<JFunction>(JPtrArrayT::kForgetAll);
+	itsFVarUserList = jnew JPtrArray<JFunction>(JPtrArrayT::kForgetAll);
 	assert( itsFVarUserList != NULL );
 
-	itsEvalStack = new JArray<JBoolean>(10);
+	itsEvalStack = jnew JArray<JBoolean>(10);
 	assert( itsEvalStack != NULL );
 }
 
@@ -329,7 +329,7 @@ JVariableList::PopOffEvalStack
 /******************************************************************************
  OKToRemoveVariable
 
-	Never delete a variable from the list without checking this!
+	Never jdelete a variable from the list without checking this!
 
  ******************************************************************************/
 

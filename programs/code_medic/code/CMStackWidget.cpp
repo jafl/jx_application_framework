@@ -91,9 +91,9 @@ CMStackWidget::CMStackWidget
 
 CMStackWidget::~CMStackWidget()
 {
-	delete itsTree;
-	delete itsGetStackCmd;
-	delete itsGetFrameCmd;
+	jdelete itsTree;
+	jdelete itsGetStackCmd;
+	jdelete itsGetFrameCmd;
 }
 
 /******************************************************************************
@@ -540,10 +540,10 @@ CMStackWidget::ReceiveGoingAway
 
 		FlushOldData();
 
-		delete itsGetStackCmd;
+		jdelete itsGetStackCmd;
 		itsGetStackCmd = itsLink->CreateGetStack(itsTree, this);
 
-		delete itsGetFrameCmd;
+		jdelete itsGetFrameCmd;
 		itsGetFrameCmd = itsLink->CreateGetFrame(this);
 		}
 	else

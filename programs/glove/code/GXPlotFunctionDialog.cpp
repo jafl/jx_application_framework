@@ -63,44 +63,44 @@ GXPlotFunctionDialog::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 500,80, "");
+    JXWindow* window = jnew JXWindow(this, 500,80, "");
     assert( window != NULL );
 
     itsFunctionString =
-        new JXInputField(window,
+        jnew JXInputField(window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 80,10, 220,20);
     assert( itsFunctionString != NULL );
 
     JXStaticText* obj1 =
-        new JXStaticText("Function:", window,
+        jnew JXStaticText("Function:", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 10,13, 60,20);
     assert( obj1 != NULL );
 
     itsEditButton =
-        new JXTextButton("Edit", window,
+        jnew JXTextButton("Edit", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 310,10, 60,20);
     assert( itsEditButton != NULL );
     itsEditButton->SetShortcuts("#E");
 
     itsVarMenu =
-        new JXTextMenu("Constants", window,
+        jnew JXTextMenu("Constants", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 380,10, 110,20);
     assert( itsVarMenu != NULL );
 
     JXTextButton* okButton =
-        new JXTextButton("OK", window,
+        jnew JXTextButton("OK", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 115,50, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts("^M");
 
     JXTextButton* cancelButton =
-        new JXTextButton("Cancel", window,
+        jnew JXTextButton("Cancel", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 315,50, 70,20);
     assert( cancelButton != NULL );
     cancelButton->SetShortcuts("^[");
 
     itsClearButton =
-        new JXTextButton("Clear", window,
+        jnew JXTextButton("Clear", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 215,50, 70,20);
     assert( itsClearButton != NULL );
 
@@ -129,7 +129,7 @@ GXPlotFunctionDialog::Receive
 	if (sender == itsEditButton && message.Is(JXButton::kPushed))
 		{
 		assert (itsEditor == NULL);
-		itsEditor = new ExprDirector(this, itsList, itsFunctionString->GetText());
+		itsEditor = jnew ExprDirector(this, itsList, itsFunctionString->GetText());
 		assert(itsEditor != NULL);
 		ListenTo(itsEditor);
 		itsEditor->BeginDialog();

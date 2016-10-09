@@ -59,7 +59,7 @@ CBBourneShellStyler::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBBourneShellStyler;
+		itsSelf = jnew CBBourneShellStyler;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -76,7 +76,7 @@ CBBourneShellStyler::Instance()
 void
 CBBourneShellStyler::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************
@@ -313,5 +313,5 @@ CBBourneShellStyler::UpgradeTypeList
 	JArray<JFontStyle>*	typeStyles
 	)
 {
-	// set new values after all new slots have been created
+	// set jnew values after all jnew slots have been created
 }

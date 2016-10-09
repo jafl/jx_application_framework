@@ -34,7 +34,7 @@ main()
 	cout << "Beginning JStringMap test.  No news is good news." << endl;
 
 	const JCharacter* keyConst = "testkey";
-	JCharacter* const key = new JCharacter[strlen(keyConst)+1];
+	JCharacter* const key = jnew JCharacter[strlen(keyConst)+1];
 	strcpy(key, keyConst);
 
 	{
@@ -442,7 +442,7 @@ cout << "   Map still contains " << map.GetElementCount() << " keys!" << endl;
 	//	     << "/" << map.GetLoadFactor()<< endl;
 	}
 
-	delete[] key;
+	jdelete[] key;
 
 	cout << "Finished JStringMap test.  If nothing printed out, it passed." << endl;
 

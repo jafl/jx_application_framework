@@ -132,16 +132,16 @@ void
 
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 500,300, "");
+	JXWindow* window = jnew JXWindow(this, 500,300, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		new JXToolBar(<PRE>GetPrefsManager(), k<PRE>MainToolBarID, menuBar, minWidth, minHeight, window,
+		jnew JXToolBar(<PRE>GetPrefsManager(), k<PRE>MainToolBarID, menuBar, minWidth, minHeight, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
 	assert( itsToolBar != NULL );
 
@@ -150,19 +150,19 @@ void
 	window->SetTitle(JGetString("WindowTitle::<PRE>MainDirector"));
 	window->SetWMClass(<PRE>GetWMClassInstance(), <PRE>GetMainWindowClass());
 
-	JXImage* image = new JXImage(GetDisplay(), <pre>_main_window_icon);
+	JXImage* image = jnew JXImage(GetDisplay(), <pre>_main_window_icon);
 	assert( image != NULL );
 	window->SetIcon(image);
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
+		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic,JXWidget::kVElastic,
 						   0,0, 100,100);
 	assert( scrollbarSet != NULL );
 	scrollbarSet->FitToEnclosure();
 
 	JXStaticText* widget =
-		new JXStaticText("This should be replaced by your widget.",
+		jnew JXStaticText("This should be replaced by your widget.",
 						 scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic,
 						 0,0, 100,100);

@@ -86,19 +86,19 @@ GDBLink::GDBLink()
 {
 	InitFlags();
 
-	itsScanner = new GDBScanner;
+	itsScanner = jnew GDBScanner;
 	assert( itsScanner != NULL );
 
-	itsBPMgr = new GDBBreakpointManager(this);
+	itsBPMgr = jnew GDBBreakpointManager(this);
 	assert( itsBPMgr != NULL );
 
-	itsGetStopLocation = new GDBGetStopLocationForLink();
+	itsGetStopLocation = jnew GDBGetStopLocationForLink();
 	assert( itsGetStopLocation != NULL );
 
-	itsGetStopLocation2 = new GDBGetStopLocationForAsm();
+	itsGetStopLocation2 = jnew GDBGetStopLocationForAsm();
 	assert( itsGetStopLocation2 != NULL );
 
-	itsPingTask = new GDBPingTask();
+	itsPingTask = jnew GDBPingTask();
 	assert( itsPingTask != NULL );
 
 	StartDebugger();
@@ -113,11 +113,11 @@ GDBLink::~GDBLink()
 {
 	StopDebugger();
 
-	delete itsScanner;
-	delete itsBPMgr;
-	delete itsGetStopLocation;
-	delete itsGetStopLocation2;
-	delete itsPingTask;
+	jdelete itsScanner;
+	jdelete itsBPMgr;
+	jdelete itsGetStopLocation;
+	jdelete itsGetStopLocation2;
+	jdelete itsPingTask;
 
 	DeleteOneShotCommands();
 }
@@ -547,7 +547,7 @@ GDBLink::ReadFromDebugger()
 			CMCommand* cmd;
 			if (GetRunningCommand(&cmd))
 				{
-				cmd->Finished(kJTrue);	// may delete object
+				cmd->Finished(kJTrue);	// may jdelete object
 				SetRunningCommand(NULL);
 
 				#ifdef _J_OLD_OSX
@@ -599,7 +599,7 @@ GDBLink::ReadFromDebugger()
 			// output because the pattern "Reading symbols from [^\n]+..."
 			// will slurp up "(no debugging symbols found)..." as well.
 
-			GDBGetProgramName* cmd = new GDBGetProgramName;
+			GDBGetProgramName* cmd = jnew GDBGetProgramName;
 			assert( cmd != NULL );
 
 			Broadcast(UserOutput(*(token.data.pString), kJFalse));
@@ -627,7 +627,7 @@ GDBLink::ReadFromDebugger()
 			{
 			// We have to check whether a core was loaded or cleared.
 
-			GDBCheckCoreStatus* cmd = new GDBCheckCoreStatus;
+			GDBCheckCoreStatus* cmd = jnew GDBCheckCoreStatus;
 			assert( cmd != NULL );
 			}
 
@@ -663,7 +663,7 @@ GDBLink::ReadFromDebugger()
 			if (itsChildProcess == NULL)	// ask user for PID
 				{
 				CMChooseProcessDialog* dialog =
-					new CMChooseProcessDialog(JXGetApplication(), kJFalse);
+					jnew CMChooseProcessDialog(JXGetApplication(), kJFalse);
 				assert( dialog != NULL );
 				dialog->BeginDialog();
 				}
@@ -890,7 +890,7 @@ GDBLink::SetProgram
 		{
 		if (itsInitFinishedFlag && !JSameDirEntry(fullName, itsProgramName))
 			{
-			Send("delete");
+			Send("jdelete");
 			}
 		DetachOrKill();
 		Send("core-file");
@@ -938,7 +938,7 @@ GDBLink::SetCore
 		cmdStr        += fullName;
 		if (itsProgramName.IsEmpty())
 			{
-			GDBAnalyzeCore* cmd = new GDBAnalyzeCore(cmdStr);
+			GDBAnalyzeCore* cmd = jnew GDBAnalyzeCore(cmdStr);
 			assert( cmd != NULL );
 			cmd->Send();
 			}
@@ -1097,7 +1097,7 @@ GDBLink::RemoveBreakpoint
 		itsContinueCount = 2;
 		}
 
-	const JString cmd = "delete " + JString(debuggerIndex, JString::kBase10);
+	const JString cmd = "jdelete " + JString(debuggerIndex, JString::kBase10);
 	SendWhenStopped(cmd);
 }
 
@@ -1158,7 +1158,7 @@ GDBLink::RemoveAllBreakpoints()
 		itsContinueCount = 2;
 		}
 
-	SendWhenStopped("delete");
+	SendWhenStopped("jdelete");
 }
 
 /******************************************************************************
@@ -1576,7 +1576,7 @@ GDBLink::CreateArray2DCommand
 	JStringTableData*	data
 	)
 {
-	CMArray2DCommand* cmd = new GDBArray2DCommand(dir, table, data);
+	CMArray2DCommand* cmd = jnew GDBArray2DCommand(dir, table, data);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1594,7 +1594,7 @@ GDBLink::CreatePlot2DCommand
 	JArray<JFloat>*	y
 	)
 {
-	CMPlot2DCommand* cmd = new GDBPlot2DCommand(dir, x, y);
+	CMPlot2DCommand* cmd = jnew GDBPlot2DCommand(dir, x, y);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1610,7 +1610,7 @@ GDBLink::CreateDisplaySourceForMain
 	CMSourceDirector* sourceDir
 	)
 {
-	CMDisplaySourceForMain* cmd = new GDBDisplaySourceForMain(sourceDir);
+	CMDisplaySourceForMain* cmd = jnew GDBDisplaySourceForMain(sourceDir);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1627,7 +1627,7 @@ GDBLink::CreateGetCompletions
 	CMCommandOutputDisplay*	history
 	)
 {
-	CMGetCompletions* cmd = new GDBGetCompletions(input, history);
+	CMGetCompletions* cmd = jnew GDBGetCompletions(input, history);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1643,7 +1643,7 @@ GDBLink::CreateGetFrame
 	CMStackWidget* widget
 	)
 {
-	CMGetFrame* cmd = new GDBGetFrame(widget);
+	CMGetFrame* cmd = jnew GDBGetFrame(widget);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1660,7 +1660,7 @@ GDBLink::CreateGetStack
 	CMStackWidget*	widget
 	)
 {
-	CMGetStack* cmd = new GDBGetStack(tree, widget);
+	CMGetStack* cmd = jnew GDBGetStack(tree, widget);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1676,7 +1676,7 @@ GDBLink::CreateGetThread
 	CMThreadsWidget* widget
 	)
 {
-	CMGetThread* cmd = new GDBGetThread(widget);
+	CMGetThread* cmd = jnew GDBGetThread(widget);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1693,7 +1693,7 @@ GDBLink::CreateGetThreads
 	CMThreadsWidget*	widget
 	)
 {
-	CMGetThreads* cmd = new GDBGetThreads(tree, widget);
+	CMGetThreads* cmd = jnew GDBGetThreads(tree, widget);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1721,7 +1721,7 @@ GDBLink::CreateGetFullPath
 		}
 	#endif
 
-	CMGetFullPath* cmd = new GDBGetFullPath(fileName, lineIndex);
+	CMGetFullPath* cmd = jnew GDBGetFullPath(fileName, lineIndex);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1737,7 +1737,7 @@ GDBLink::CreateGetInitArgs
 	JXInputField* argInput
 	)
 {
-	CMGetInitArgs* cmd = new GDBGetInitArgs(argInput);
+	CMGetInitArgs* cmd = jnew GDBGetInitArgs(argInput);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1753,7 +1753,7 @@ GDBLink::CreateGetLocalVars
 	CMVarNode* rootNode
 	)
 {
-	CMGetLocalVars* cmd = new GDBGetLocalVars(rootNode);
+	CMGetLocalVars* cmd = jnew GDBGetLocalVars(rootNode);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1769,7 +1769,7 @@ GDBLink::CreateGetSourceFileList
 	CMFileListDir* fileList
 	)
 {
-	CMGetSourceFileList* cmd = new GDBGetSourceFileList(fileList);
+	CMGetSourceFileList* cmd = jnew GDBGetSourceFileList(fileList);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1788,7 +1788,7 @@ GDBLink::CreateVarValueCommand
 	JString s = "print ";
 	s        += expr;
 
-	CMVarCommand* cmd = new GDBVarCommand(s);
+	CMVarCommand* cmd = jnew GDBVarCommand(s);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1808,7 +1808,7 @@ GDBLink::CreateVarContentCommand
 	s        += expr;
 	s        += ")";
 
-	CMVarCommand* cmd = new GDBVarCommand(s);
+	CMVarCommand* cmd = jnew GDBVarCommand(s);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1824,7 +1824,7 @@ GDBLink::CreateVarNode
 	const JBoolean shouldUpdate		// kJFalse for Local Variables
 	)
 {
-	CMVarNode* node = new GDBVarNode(shouldUpdate);
+	CMVarNode* node = jnew GDBVarNode(shouldUpdate);
 	assert( node != NULL );
 	return node;
 }
@@ -1838,7 +1838,7 @@ GDBLink::CreateVarNode
 	const JCharacter*	value
 	)
 {
-	CMVarNode* node = new GDBVarNode(parent, name, value);
+	CMVarNode* node = jnew GDBVarNode(parent, name, value);
 	assert( node != NULL );
 	return node;
 }
@@ -1885,7 +1885,7 @@ GDBLink::CreateGetMemory
 	CMMemoryDir* dir
 	)
 {
-	CMGetMemory* cmd = new GDBGetMemory(dir);
+	CMGetMemory* cmd = jnew GDBGetMemory(dir);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1901,7 +1901,7 @@ GDBLink::CreateGetAssembly
 	CMSourceDirector* dir
 	)
 {
-	CMGetAssembly* cmd = new GDBGetAssembly(dir);
+	CMGetAssembly* cmd = jnew GDBGetAssembly(dir);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1917,7 +1917,7 @@ GDBLink::CreateGetRegisters
 	CMRegistersDir* dir
 	)
 {
-	CMGetRegisters* cmd = new GDBGetRegisters(dir);
+	CMGetRegisters* cmd = jnew GDBGetRegisters(dir);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -2074,7 +2074,7 @@ GDBLink::ParseMapArray
 			}
 		stream.ignore();
 
-		JStringPtrMap<JString>* map = new JStringPtrMap<JString>(JPtrArrayT::kDeleteAll);
+		JStringPtrMap<JString>* map = jnew JStringPtrMap<JString>(JPtrArrayT::kDeleteAll);
 		assert( map != NULL );
 		if (ParseMap(stream, map))
 			{
@@ -2082,7 +2082,7 @@ GDBLink::ParseMapArray
 			}
 		else
 			{
-			delete map;
+			jdelete map;
 			return kJFalse;
 			}
 		stream.ignore();
@@ -2163,7 +2163,7 @@ GDBLink::SendWhenStopped
 			s.RemoveSubstring(length - strlen(kFakeCommandSuffix) + 1, length);
 			}
 
-		CMCommand* cmd = new GDBSimpleCommand(s);
+		CMCommand* cmd = jnew GDBSimpleCommand(s);
 		assert( cmd != NULL );
 		cmd->Send();
 		}
@@ -2300,12 +2300,12 @@ GDBLink::ProgramStarted
 	const pid_t pid
 	)
 {
-	delete itsChildProcess;
+	jdelete itsChildProcess;
 	itsChildProcess = NULL;
 
 	if (pid != 0)
 		{
-		itsChildProcess = new JProcess(pid);
+		itsChildProcess = jnew JProcess(pid);
 		assert( itsChildProcess != NULL );
 		ListenTo(itsChildProcess);
 
@@ -2326,7 +2326,7 @@ GDBLink::ProgramStarted
 void
 GDBLink::ProgramFinished1()
 {
-	delete itsChildProcess;
+	jdelete itsChildProcess;
 	itsChildProcess = NULL;
 
 	if (itsIsAttachedFlag)
@@ -2366,7 +2366,7 @@ GDBLink::StopProgram()
 	else
 		{
 		CMChooseProcessDialog* dlog =
-			new CMChooseProcessDialog(JXGetApplication(), kJFalse, kJTrue);
+			jnew CMChooseProcessDialog(JXGetApplication(), kJFalse, kJTrue);
 		assert( dlog != NULL );
 		dlog->BeginDialog();
 		}
@@ -2421,6 +2421,49 @@ GDBLink::OKToDetachOrKill()
 	else
 		{
 		return kJTrue;
+		}
+}
+
+/******************************************************************************
+ StartDebugger (private)
+
+	We cannot send anything to gdb until it has successfully started.
+
+ *****************************************************************************/
+
+JBoolean
+GDBLink::StartDebugger()
+{
+	assert( itsDebuggerProcess == NULL && itsChildProcess == NULL );
+
+	itsScanner->Reset();
+
+	itsDebuggerCmd    = CMGetPrefsManager()->GetGDBCommand();
+	const JString cmd = itsDebuggerCmd + " --fullname --interpreter=mi2";
+
+	int toFD, fromFD;
+	const JError err = JProcess::Create(&itsDebuggerProcess, cmd,
+										kJCreatePipe, &toFD,
+										kJCreatePipe, &fromFD,
+										kJAttachToFromFD, NULL);
+	if (err.OK())
+		{
+		itsOutputLink = new ProcessLink(toFD);
+		assert( itsOutputLink != NULL );
+
+		itsInputLink = new ProcessLink(fromFD);
+		assert( itsInputLink != NULL );
+		ListenTo(itsInputLink);
+
+		ListenTo(itsDebuggerProcess);
+
+		itsWaitingToQuitFlag = kJFalse;
+		return kJTrue;
+		}
+	else
+		{
+		(JGetStringManager())->ReportError("UnableToStartDebugger::GDBLink", err);
+		return kJFalse;
 		}
 }
 
@@ -2503,81 +2546,19 @@ GDBLink::StopDebugger()
 	DetachOrKill();
 	Send("quit");
 
-	delete itsDebuggerProcess;
+	jdelete itsDebuggerProcess;
 	itsDebuggerProcess = NULL;
 
-	delete itsChildProcess;
+	jdelete itsChildProcess;
 	itsChildProcess = NULL;
 
-	DeleteLinks();
-
-	CancelAllCommands();
-
-	InitFlags();
-}
-
-/******************************************************************************
- StartDebugger (private)
-
-	We cannot send anything to gdb until it has successfully started.
-
- *****************************************************************************/
-
-// This function has to be last so JCore::new works for everything else.
-
-#undef new
-
-JBoolean
-GDBLink::StartDebugger()
-{
-	assert( itsDebuggerProcess == NULL && itsChildProcess == NULL );
-
-	itsScanner->Reset();
-
-	itsDebuggerCmd    = CMGetPrefsManager()->GetGDBCommand();
-	const JString cmd = itsDebuggerCmd + " --fullname --interpreter=mi2";
-
-	int toFD, fromFD;
-	const JError err = JProcess::Create(&itsDebuggerProcess, cmd,
-										kJCreatePipe, &toFD,
-										kJCreatePipe, &fromFD,
-										kJAttachToFromFD, NULL);
-	if (err.OK())
-		{
-		itsOutputLink = new ProcessLink(toFD);
-		assert( itsOutputLink != NULL );
-
-		itsInputLink = new ProcessLink(fromFD);
-		assert( itsInputLink != NULL );
-		ListenTo(itsInputLink);
-
-		ListenTo(itsDebuggerProcess);
-
-		itsWaitingToQuitFlag = kJFalse;
-		return kJTrue;
-		}
-	else
-		{
-		(JGetStringManager())->ReportError("UnableToStartDebugger::GDBLink", err);
-		return kJFalse;
-		}
-}
-
-/******************************************************************************
- DeleteLinks (private)
-
- ******************************************************************************/
-
-// This function has to be last so JCore::delete works for everything else.
-
-#undef delete
-
-void
-GDBLink::DeleteLinks()
-{
 	delete itsOutputLink;
 	itsOutputLink = NULL;
 
 	delete itsInputLink;
 	itsInputLink = NULL;
+
+	CancelAllCommands();
+
+	InitFlags();
 }

@@ -26,11 +26,11 @@ main
 {
 	// Create the application object - one per program
 	JXApplication* app = 
-		new JXApplication(&argc, argv, kAppSignature, kTutorialStringData);
+		jnew JXApplication(&argc, argv, kAppSignature, kTutorialStringData);
 	assert( app != NULL );
 
 	// Create the window director
-	ScrollingWidgetDir* mainDir = new ScrollingWidgetDir(app);
+	ScrollingWidgetDir* mainDir = jnew ScrollingWidgetDir(app);
 	assert( mainDir != NULL );
 
 	// Activate the director

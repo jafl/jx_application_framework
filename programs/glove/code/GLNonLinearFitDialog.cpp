@@ -48,14 +48,14 @@ GLNonLinearFitDialog::GLNonLinearFitDialog
 	:
 	JXDialogDirector(supervisor, kJTrue)
 {
-	itsVarList	= new GVarList();
+	itsVarList	= jnew GVarList();
 	assert(itsVarList != NULL);
 
 	itsVarList->AddVariable("x", 0);
 
 	BuildWindow();
 
-	itsDelButtonTask	= new JXTimerTask(kDeleteButtonUpdateDelay);
+	itsDelButtonTask	= jnew JXTimerTask(kDeleteButtonUpdateDelay);
 	assert(itsDelButtonTask != NULL);
 	itsDelButtonTask->Start();
 	ListenTo(itsDelButtonTask);
@@ -68,8 +68,8 @@ GLNonLinearFitDialog::GLNonLinearFitDialog
 
 GLNonLinearFitDialog::~GLNonLinearFitDialog()
 {
-	// delete	itsVarList;	
-	// I need to find a way to safely delete this.
+	// jdelete	itsVarList;	
+	// I need to find a way to safely jdelete this.
 }
 
 /******************************************************************************
@@ -99,32 +99,32 @@ GLNonLinearFitDialog::BuildWindow()
 	
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 400,430, "");
+    JXWindow* window = jnew JXWindow(this, 400,430, "");
     assert( window != NULL );
 
     JXMenuBar* menuBar =
-        new JXMenuBar(window,
+        jnew JXMenuBar(window,
                     JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
     assert( menuBar != NULL );
 
     itsPartition =
-        new JXVertPartition(heights, elasticIndex, minHeights, window,
+        jnew JXVertPartition(heights, elasticIndex, minHeights, window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 10,40, 380,345);
     assert( itsPartition != NULL );
 
     JXTextButton* cancelButton =
-        new JXTextButton("Cancel", window,
+        jnew JXTextButton("Cancel", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,400, 70,20);
     assert( cancelButton != NULL );
     cancelButton->SetShortcuts("^[");
 
     itsHelpButton =
-        new JXTextButton("Help", window,
+        jnew JXTextButton("Help", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 165,400, 70,20);
     assert( itsHelpButton != NULL );
 
     JXTextButton* okButton =
-        new JXTextButton("OK", window,
+        jnew JXTextButton("OK", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 310,400, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts("^M");
@@ -136,29 +136,29 @@ GLNonLinearFitDialog::BuildWindow()
 // begin functionLayout
 
     itsNameInput =
-        new JXInputField(container,
+        jnew JXInputField(container,
                     JXWidget::kHElastic, JXWidget::kFixedTop, 120,0, 260,20);
     assert( itsNameInput != NULL );
 
     JXScrollbarSet* scrollbarSet =
-        new JXScrollbarSet(container,
+        jnew JXScrollbarSet(container,
                     JXWidget::kHElastic, JXWidget::kVElastic, 120,20, 260,100);
     assert( scrollbarSet != NULL );
 
     JXStaticText* obj1 =
-        new JXStaticText("Fit Name:", container,
+        jnew JXStaticText("Fit Name:", container,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 110,20);
     assert( obj1 != NULL );
 
     JXStaticText* obj2 =
-        new JXStaticText("Fit function:", container,
+        jnew JXStaticText("Fit function:", container,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 110,20);
     assert( obj2 != NULL );
 
 // end functionLayout
 
 	itsFnEditor	= 
-		new JXExprEditor(itsVarList, menuBar,
+		jnew JXExprEditor(itsVarList, menuBar,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 100, 100);
@@ -170,17 +170,17 @@ GLNonLinearFitDialog::BuildWindow()
 // begin derivativeLayout
 
     JXStaticText* derivativeLabel =
-        new JXStaticText("Fit derivative:", container,
+        jnew JXStaticText("Fit derivative:", container,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 100,20);
     assert( derivativeLabel != NULL );
 
     scrollbarSet =
-        new JXScrollbarSet(container,
+        jnew JXScrollbarSet(container,
                     JXWidget::kHElastic, JXWidget::kVElastic, 120,0, 260,100);
     assert( scrollbarSet != NULL );
 
     JXStaticText* warningText =
-        new JXStaticText("(This may be left\nblank. Glove will\nthen calculate the\nderivative.)", container,
+        jnew JXStaticText("(This may be left\nblank. Glove will\nthen calculate the\nderivative.)", container,
                     JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 90,60);
     assert( warningText != NULL );
     warningText->SetFontSize(10);
@@ -188,7 +188,7 @@ GLNonLinearFitDialog::BuildWindow()
 // end derivativeLayout
 
 	itsDerivativeEditor	= 
-		new JXExprEditor(itsVarList, itsFnEditor,
+		jnew JXExprEditor(itsVarList, itsFnEditor,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 100, 100);
@@ -200,30 +200,30 @@ GLNonLinearFitDialog::BuildWindow()
 // begin variableLayout
 
     scrollbarSet =
-        new JXScrollbarSet(container,
+        jnew JXScrollbarSet(container,
                     JXWidget::kHElastic, JXWidget::kVElastic, 120,0, 260,100);
     assert( scrollbarSet != NULL );
 
     JXStaticText* parmLabel =
-        new JXStaticText("Parameters:", container,
+        jnew JXStaticText("Parameters:", container,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 100,20);
     assert( parmLabel != NULL );
 
     itsNewButton =
-        new JXTextButton("New", container,
+        jnew JXTextButton("New", container,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,30, 65,20);
     assert( itsNewButton != NULL );
     itsNewButton->SetShortcuts("#N");
 
     itsDeleteButton =
-        new JXTextButton("Delete", container,
+        jnew JXTextButton("Delete", container,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,60, 65,20);
     assert( itsDeleteButton != NULL );
 
 // end variableLayout
 
 	itsVarTable	= 
-		new GLVarTable(itsVarList, 
+		jnew GLVarTable(itsVarList, 
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 100, 100);

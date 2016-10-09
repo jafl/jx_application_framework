@@ -32,7 +32,7 @@ JHistogram<T>::JHistogram
 	// Create an JArray to contain the counts.  We don't use binCount
 	// because JDynamicHistogram may change the number of bins.
 
-	itsBins = new JArray<T>(10);
+	itsBins = jnew JArray<T>(10);
 	assert( itsBins != NULL );
 
 	// initialize all counts to zero
@@ -54,7 +54,7 @@ JHistogram<T>::JHistogram
 	const JHistogram<T>& source
 	)
 {
-	itsBins = new JArray<T>(*(source.itsBins));
+	itsBins = jnew JArray<T>(*(source.itsBins));
 	assert( itsBins != NULL );
 }
 
@@ -66,7 +66,7 @@ JHistogram<T>::JHistogram
 template <class T>
 JHistogram<T>::~JHistogram()
 {
-	delete itsBins;
+	jdelete itsBins;
 }
 
 /******************************************************************************

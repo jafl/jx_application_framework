@@ -49,5 +49,5 @@ DeleteBroadcasterTask::~DeleteBroadcasterTask()
 void
 DeleteBroadcasterTask::Perform()
 {
-	delete itsObject;
+	jdelete itsObject;
 }

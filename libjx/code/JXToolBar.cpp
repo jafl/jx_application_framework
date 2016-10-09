@@ -102,35 +102,35 @@ JXToolBar::JXToolBar
 {
 	assert(h >= 40);
 
-	itsButtons = new JPtrArray<JXToolBarButton>(JPtrArrayT::kForgetAll);
+	itsButtons = jnew JPtrArray<JXToolBarButton>(JPtrArrayT::kForgetAll);
 	assert(itsButtons != NULL);
 
-	itsMenus = new JPtrArray<JXMenu>(JPtrArrayT::kForgetAll);
+	itsMenus = jnew JPtrArray<JXMenu>(JPtrArrayT::kForgetAll);
 	assert(itsMenus != NULL);
 
 	JCoordinate barHeight = itsCurrentButtonHeight + 2* kButConBuffer;
 
 	itsToolBarSet =
-		new JXWidgetSet(this,
+		jnew JXWidgetSet(this,
 			JXWidget::kHElastic, JXWidget::kFixedTop,
 			0,0,w, barHeight);
 	assert(itsToolBarSet != NULL);
 
 	itsToolBarEnclosure =
-		new JXWidgetSet(this,
+		jnew JXWidgetSet(this,
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,barHeight,w,h - barHeight);
 	assert(itsToolBarEnclosure != NULL);
 
-	itsGroupStarts = new JArray<JBoolean>;
+	itsGroupStarts = jnew JArray<JBoolean>;
 	assert(itsGroupStarts != NULL);
 
-	itsTimerTask = new JXTimerTask(kTimerDelay);
+	itsTimerTask = jnew JXTimerTask(kTimerDelay);
 	assert(itsTimerTask != NULL);
 	itsTimerTask->Start();
 	ListenTo(itsTimerTask);
 
-	itsAdjustTask = new JXAdjustToolBarGeometryTask(this);
+	itsAdjustTask = jnew JXAdjustToolBarGeometryTask(this);
 	assert( itsAdjustTask != NULL );
 	itsAdjustTask->Go();
 
@@ -145,12 +145,12 @@ JXToolBar::JXToolBar
 
 JXToolBar::~JXToolBar()
 {
-	delete itsGroupStarts;
-	delete itsMenuTree;
-	delete itsTimerTask;
-	delete itsAdjustTask;
-	delete itsButtons;
-	delete itsMenus;
+	jdelete itsGroupStarts;
+	jdelete itsMenuTree;
+	jdelete itsTimerTask;
+	jdelete itsAdjustTask;
+	jdelete itsButtons;
+	jdelete itsMenus;
 }
 
 /******************************************************************************
@@ -187,7 +187,7 @@ JXToolBar::AppendButton
 		itsInNewGroupMode = kJFalse;
 
 		JXToolBarButton* butcon =
-			new JXToolBarButton(this, menu, *itemID, itsButtonType, itsToolBarSet,
+			jnew JXToolBarButton(this, menu, *itemID, itsButtonType, itsToolBarSet,
 								kFixedLeft, kFixedTop,
 								itsNextButtonPosition, kButConBuffer,
 								itsCurrentButtonHeight);
@@ -304,7 +304,7 @@ JXToolBar::Receive
 			{
 			ExtractChanges();
 			}
-		delete itsMenuTree;
+		jdelete itsMenuTree;
 		itsMenuTree = NULL;
 		itsEditDialog = NULL;
 		propagate = kJFalse;
@@ -355,7 +355,7 @@ JXToolBar::Edit()
 	JBoolean small = JI2B(itsCurrentButtonHeight == kSmallButtonHeight);
 
 	itsEditDialog =
-		new JXToolBarEditDir(itsMenuTree, itsIsShowingButtons,
+		jnew JXToolBarEditDir(itsMenuTree, itsIsShowingButtons,
 							 small, itsButtonType,
 							 this->GetWindow()->GetDirector());
 	assert(itsEditDialog != NULL);
@@ -451,9 +451,9 @@ void
 JXToolBar::BuildTree()
 {
 	assert(itsMenuTree == NULL);
-	JNamedTreeNode* base = new JNamedTreeNode(NULL, "BASE");
+	JNamedTreeNode* base = jnew JNamedTreeNode(NULL, "BASE");
 	assert(base != NULL);
-	itsMenuTree = new JTree(base);
+	itsMenuTree = jnew JTree(base);
 	assert(itsMenuTree != NULL);
 
 	const JSize count = itsMenuBar->GetMenuCount();
@@ -479,7 +479,7 @@ JXToolBar::AddMenuToTree
 	const JCharacter*	name
 	)
 {
-	JNamedTreeNode* mnode = new JNamedTreeNode(parent->GetTree(), name);
+	JNamedTreeNode* mnode = jnew JNamedTreeNode(parent->GetTree(), name);
 	assert(mnode != NULL);
 	parent->Append(mnode);
 	JSize itemCount = menu->GetItemCount();
@@ -502,7 +502,7 @@ JXToolBar::AddMenuToTree
 			if (menu->GetItemID(i, &id))
 				{
 				JXToolBarNode* tbnode =
-					new JXToolBarNode(menu, i, separator, checked,
+					jnew JXToolBarNode(menu, i, separator, checked,
 									  itsMenuTree, mnode, name);
 				assert(tbnode != NULL);
 				}
@@ -511,7 +511,7 @@ JXToolBar::AddMenuToTree
 
 	if (mnode->GetChildCount() == 0)
 		{
-		delete mnode;
+		jdelete mnode;
 		}
 }
 

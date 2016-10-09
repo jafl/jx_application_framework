@@ -132,61 +132,61 @@ THXBaseConvDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 180,160, "");
+	JXWindow* window = jnew JXWindow(this, 180,160, "");
 	assert( window != NULL );
 
 	itsCloseButton =
-		new JXTextButton(JGetString("itsCloseButton::THXBaseConvDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsCloseButton::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 100,130, 60,20);
 	assert( itsCloseButton != NULL );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::THXBaseConvDirector::shortcuts::JXLayout"));
 
 	its10Input =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 80,20, 80,20);
 	assert( its10Input != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::THXBaseConvDirector::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 60,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::THXBaseConvDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,130, 60,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::THXBaseConvDirector::shortcuts::JXLayout"));
 
 	its2Input =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 80,50, 80,20);
 	assert( its2Input != NULL );
 
 	JXStaticText* obj2_JXLayout =
-		new JXStaticText(JGetString("obj2_JXLayout::THXBaseConvDirector::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj2_JXLayout::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 60,20);
 	assert( obj2_JXLayout != NULL );
 	obj2_JXLayout->SetToLabel();
 
 	its8Input =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 80,70, 80,20);
 	assert( its8Input != NULL );
 
 	JXStaticText* obj3_JXLayout =
-		new JXStaticText(JGetString("obj3_JXLayout::THXBaseConvDirector::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj3_JXLayout::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 60,20);
 	assert( obj3_JXLayout != NULL );
 	obj3_JXLayout->SetToLabel();
 
 	its16Input =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 80,90, 80,20);
 	assert( its16Input != NULL );
 
 	JXStaticText* obj4_JXLayout =
-		new JXStaticText(JGetString("obj4_JXLayout::THXBaseConvDirector::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj4_JXLayout::THXBaseConvDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 60,20);
 	assert( obj4_JXLayout != NULL );
 	obj4_JXLayout->SetToLabel();
@@ -201,7 +201,7 @@ THXBaseConvDirector::BuildWindow()
 	window->PlaceAsDialogWindow();
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = new JXImage(display, thx_base_conv_window);
+	JXImage* icon      = jnew JXImage(display, thx_base_conv_window);
 	assert( icon != NULL );
 	window->SetIcon(icon);
 

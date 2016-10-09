@@ -221,7 +221,7 @@ main
 
 		// get the name of the target for make
 
-		JString* mainTargetName = new JString(JReadUntil(input,'\n'));
+		JString* mainTargetName = jnew JString(JReadUntil(input,'\n'));
 		assert( mainTargetName != NULL );
 
 		// If we aren't supposed to include this target, and
@@ -233,7 +233,7 @@ main
 			ShouldMakeTarget(*mainTargetName, userTargetList);
 		if (!shouldMakeTarget && prevEmptyTargets == 0)
 			{
-			delete mainTargetName;
+			jdelete mainTargetName;
 			JIgnoreUntil(input, '@');
 			input.putback('@');
 			continue;
@@ -251,7 +251,7 @@ main
 				}
 			}
 
-		JString* mainTargetObjs = new JString;
+		JString* mainTargetObjs = jnew JString;
 		assert( mainTargetObjs != NULL );
 
 		// get the names of the files that the main target depends on
@@ -319,20 +319,20 @@ main
 					JString* outSuffixName = NULL;
 					if (fileSuffix.Match(fullName, &matchList))
 						{
-						targetName = new JString(fullName, matchList.GetElement(5));
+						targetName = jnew JString(fullName, matchList.GetElement(5));
 						assert( targetName != NULL );
 						targetName->TrimWhitespace();
-						suffixName = new JString(fullName, matchList.GetElement(2));
+						suffixName = jnew JString(fullName, matchList.GetElement(2));
 						assert( suffixName != NULL );
 
 						JIndexRange r = matchList.GetElement(4);
 						if (!r.IsEmpty())
 							{
-							outSuffixName = new JString(fullName, r);
+							outSuffixName = jnew JString(fullName, r);
 							}
 						else
 							{
-							outSuffixName = new JString(
+							outSuffixName = jnew JString(
 								GetOutputSuffix(*suffixName, suffixMapIn, suffixMapOut));
 							}
 						assert( outSuffixName != NULL );
@@ -345,16 +345,16 @@ main
 						}
 					else
 						{
-						targetName = new JString(fullName);
+						targetName = jnew JString(fullName);
 						assert( targetName != NULL );
-						suffixName = new JString(defSuffix);
+						suffixName = jnew JString(defSuffix);
 						assert( suffixName != NULL );
-						outSuffixName = new JString(
+						outSuffixName = jnew JString(
 							GetOutputSuffix(*suffixName, suffixMapIn, suffixMapOut));
 						assert( outSuffixName != NULL );
 						}
 
-					JString* prefixName = new JString(prefix);
+					JString* prefixName = jnew JString(prefix);
 					assert( prefixName != NULL );
 
 					usesJava1 = JI2B(javaObjFileSuffix.Match(*suffixName) ||
@@ -371,7 +371,7 @@ main
 						*targetName  = targetSuffix;
 						}
 
-					JString* outPrefixName = new JString;
+					JString* outPrefixName = jnew JString;
 					assert( outPrefixName != NULL );
 
 					*mainTargetObjs += " ";
@@ -387,7 +387,7 @@ main
 					*mainTargetObjs += *targetName;
 					*mainTargetObjs += *outSuffixName;
 
-					// may delete *Name objects
+					// may jdelete *Name objects
 
 					AddSubTarget(targetList, prefixList, suffixList, outPrefixList, outSuffixList,
 								 targetName, prefixName, suffixName, outPrefixName, outSuffixName);
@@ -430,8 +430,8 @@ main
 			}
 		else
 			{
-			delete mainTargetName;
-			delete mainTargetObjs;
+			jdelete mainTargetName;
+			jdelete mainTargetObjs;
 			}
 		}
 
@@ -803,13 +803,13 @@ main
 
 	if (p->SuccessfulFinish())
 		{
-		delete p;
+		jdelete p;
 		return 0;
 		}
 	else
 		{
 		cerr << argv[0] << ": error while calculating dependencies" << endl;
-		delete p;
+		jdelete p;
 		return 1;
 		}
 }
@@ -848,7 +848,7 @@ ShouldMakeTarget
 /******************************************************************************
  AddSubTarget
 
-	Add the given target name to the targetList if it is new.
+	Add the given target name to the targetList if it is jnew.
 	Returns kJTrue if the target was added.
 
 	*** If it returns kJFalse, the JStrings were deleted.
@@ -876,11 +876,11 @@ AddSubTarget
 
 	if (found)
 		{
-		delete targetName;
-		delete prefixName;
-		delete suffixName;
-		delete outPrefixName;
-		delete outSuffixName;
+		jdelete targetName;
+		jdelete prefixName;
+		jdelete suffixName;
+		jdelete outPrefixName;
+		jdelete outSuffixName;
 		return kJFalse;
 		}
 	else
@@ -990,10 +990,10 @@ GetOptions
 	*assumeAutoGen = kJFalse;
 
 	{
-	JString* s = new JString(".java");
+	JString* s = jnew JString(".java");
 	assert( s != NULL );
 	suffixMapIn->Append(s);
-	s = new JString(".java");
+	s = jnew JString(".java");
 	assert( s != NULL );
 	suffixMapOut->Append(s);
 	}
@@ -1034,7 +1034,7 @@ GetOptions
 		else if (strcmp(argv[index], "--search-path") == 0)
 			{
 			JCheckForValues(1, &index, argc, argv);
-			JString* s = new JString(argv[index]);
+			JString* s = jnew JString(argv[index]);
 			assert( s != NULL );
 			searchPaths.Append(s);
 			}
@@ -1067,10 +1067,10 @@ GetOptions
 
 			if (suffixMapPattern.Match(argv[index], &matchList))
 				{
-				JString* s = new JString(argv[index], matchList.GetElement(2));
+				JString* s = jnew JString(argv[index], matchList.GetElement(2));
 				assert( s != NULL );
 				suffixMapIn->Append(s);
-				s = new JString(argv[index], matchList.GetElement(3));
+				s = jnew JString(argv[index], matchList.GetElement(3));
 				assert( s != NULL );
 				suffixMapOut->Append(s);
 				}
@@ -1132,7 +1132,7 @@ GetOptions
 
 		else
 			{
-			JString* userTarget = new JString(argv[index]);
+			JString* userTarget = jnew JString(argv[index]);
 			assert( userTarget != NULL );
 			userTargetList->Append(userTarget);
 			}
@@ -1242,7 +1242,7 @@ PickTargets
 	JIgnoreUntil(input, '@');
 	while (!input.eof() && !input.fail())
 		{
-		JString* targetName = new JString(JReadUntil(input, '\n'));
+		JString* targetName = jnew JString(JReadUntil(input, '\n'));
 		assert( targetName != NULL );
 
 		all.Append(targetName);
@@ -1276,7 +1276,7 @@ PickTargets
 			}
 		else
 			{
-			JString* targetName = new JString(*(all.NthElement(choice)));
+			JString* targetName = jnew JString(*(all.NthElement(choice)));
 			assert( targetName != NULL );
 
 			list->Append(targetName);
@@ -1440,7 +1440,7 @@ CalcDepend
 	const JCharacter* env = getenv("J_MAKEMAKE_IGNORE_PATTERN");
 	if (!JStringEmpty(env))
 		{
-		globalIgnorePattern = new JRegex(env);
+		globalIgnorePattern = jnew JRegex(env);
 		assert( globalIgnorePattern != NULL );
 		}
 
@@ -1507,7 +1507,7 @@ CalcDepend
 			{
 			if (JDirectoryReadable(argv[i]+2))
 				{
-				path = new JString(argv[i]+2);		// strip off "-I"
+				path = jnew JString(argv[i]+2);		// strip off "-I"
 				assert( path != NULL );
 				if (searchCurrDir)
 					{
@@ -1784,10 +1784,10 @@ ParseHeaderFile
 
 	// add it to headerList
 
-	info.fileName = new JString(fileName);
+	info.fileName = jnew JString(fileName);
 	assert( info.fileName != NULL );
 
-	info.depList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	info.depList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( info.depList != NULL );
 	(info.depList)->SetCompareFunction(JCompareStringsCaseSensitive);
 
@@ -1979,7 +1979,7 @@ TruncateMakefile
 	if (!f.eof() && !f.fail())
 		{
 		fstream* newF = JSetFStreamLength(fileName, f, JTellg(f), kJTextFile);
-		delete newF;
+		jdelete newF;
 		}
 }
 

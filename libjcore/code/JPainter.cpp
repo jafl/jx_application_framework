@@ -98,7 +98,7 @@ JPainter::JPainter
 
 JPainter::~JPainter()
 {
-	delete itsDashList;
+	jdelete itsDashList;
 }
 
 /******************************************************************************
@@ -216,7 +216,7 @@ JPainter::SetDashList
 {
 	if (itsDashList == NULL)
 		{
-		itsDashList = new JArray<JSize>(dashList);
+		itsDashList = jnew JArray<JSize>(dashList);
 		assert( itsDashList != NULL );
 		}
 	else

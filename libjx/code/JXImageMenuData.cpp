@@ -33,7 +33,7 @@ JXImageMenuData::JXImageMenuData
 	:
 	JXMenuData()
 {
-	itsIconData = new JArray<IconData>;
+	itsIconData = jnew JArray<IconData>;
 	assert( itsIconData != NULL );
 
 	itsColumnCount = columnCount;
@@ -51,7 +51,7 @@ JXImageMenuData::JXImageMenuData
 JXImageMenuData::~JXImageMenuData()
 {
 	DeleteAll();
-	delete itsIconData;
+	jdelete itsIconData;
 }
 
 /******************************************************************************
@@ -133,7 +133,7 @@ JXImageMenuData::CleanOutIconItem
 {
 	if (itemData->ownsImage)
 		{
-		delete (itemData->image);
+		jdelete (itemData->image);
 		}
 	itemData->image = NULL;
 }
@@ -163,7 +163,7 @@ JXImageMenuData::SetImage
 
 	if (itemData.ownsImage)
 		{
-		delete itemData.image;
+		jdelete itemData.image;
 		}
 
 	itemData.image     = image;

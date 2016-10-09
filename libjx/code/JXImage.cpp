@@ -67,7 +67,7 @@ JXImage::JXImage
 
 		// We need a private GC so we can draw.
 
-		itsGC = new JXGC(itsDisplay, itsPixmap);
+		itsGC = jnew JXGC(itsDisplay, itsPixmap);
 		assert( itsGC != NULL );
 
 		itsGC->SetDrawingColor(initColor);
@@ -167,7 +167,7 @@ JXImage::JXImageFromDrawable
 
 	if (itsDepth != itsDisplay->GetDepth())
 		{
-		itsGC = new JXGC(itsDisplay, itsPixmap);
+		itsGC = jnew JXGC(itsDisplay, itsPixmap);
 		assert( itsGC != NULL );
 		}
 
@@ -221,7 +221,7 @@ JXImage::JXImage
 
 	if (itsDepth != itsDisplay->GetDepth())
 		{
-		itsGC = new JXGC(itsDisplay, itsPixmap);
+		itsGC = jnew JXGC(itsDisplay, itsPixmap);
 		assert( itsGC != NULL );
 		}
 }
@@ -277,7 +277,7 @@ JXImage::JXImage
 
 	itsPixmap = bitmap;
 
-	itsGC = new JXGC(itsDisplay, itsPixmap);
+	itsGC = jnew JXGC(itsDisplay, itsPixmap);
 	assert( itsGC != NULL );
 }
 
@@ -336,7 +336,7 @@ JXImage::JXImage
 
 	if (source.itsMask != NULL)
 		{
-		itsMask = new JXImageMask(*(source.itsMask));
+		itsMask = jnew JXImageMask(*(source.itsMask));
 		assert( itsMask != NULL );
 		}
 }
@@ -386,7 +386,7 @@ JXImage::JXImage
 
 	if (source.itsMask != NULL)
 		{
-		itsMask = new JXImageMask(*(source.itsMask), rect);
+		itsMask = jnew JXImageMask(*(source.itsMask), rect);
 		assert( itsMask != NULL );
 		}
 }
@@ -433,8 +433,8 @@ JXImage::~JXImage()
 		XDestroyImage(itsImage);
 		}
 
-	delete itsMask;
-	delete itsGC;
+	jdelete itsMask;
+	jdelete itsGC;
 }
 
 /******************************************************************************
@@ -452,14 +452,14 @@ JXImage::CreateFromGIF
 	JXImage**			image
 	)
 {
-	*image = new JXImage(display);
+	*image = jnew JXImage(display);
 	assert( *image != NULL );
 
 	const JError err = (**image).ReadGIF(fileName);
 
 	if (!err.OK())
 		{
-		delete *image;
+		jdelete *image;
 		*image = NULL;
 		}
 	return err;
@@ -540,14 +540,14 @@ JXImage::CreateFromXPM
 
 	// create image and mask
 
-	*image = new JXImage(display, image_pixmap);
+	*image = jnew JXImage(display, image_pixmap);
 	assert( *image != NULL );
 
 	XFreePixmap(*display, image_pixmap);
 
 	if (mask_pixmap != None)
 		{
-		JXImageMask* mask = new JXImageMask(display, mask_pixmap);
+		JXImageMask* mask = jnew JXImageMask(display, mask_pixmap);
 		assert( mask != NULL );
 		(**image).SetMask(mask);
 
@@ -635,7 +635,7 @@ JXImage*
 JXImage::Copy()
 	const
 {
-	JXImage* obj = new JXImage(*this);
+	JXImage* obj = jnew JXImage(*this);
 	assert( obj != NULL );
 	return obj;
 }
@@ -665,14 +665,14 @@ JXImage::SetMask
 	assert( ((JXImage*) mask)->itsDisplay == itsDisplay );
 	assert( mask->GetWidth() == GetWidth() && mask->GetHeight() == GetHeight() );
 
-	delete itsMask;
+	jdelete itsMask;
 	itsMask = mask;
 }
 
 void
 JXImage::ClearMask()
 {
-	delete itsMask;
+	jdelete itsMask;
 	itsMask = NULL;
 }
 
@@ -735,7 +735,7 @@ JXImage::Draw
 			r.Shift(tempClipOffset);
 			if (!JIntersection(r, imageBounds, &r))
 				{
-				delete origClipPixmap;
+				jdelete origClipPixmap;
 				return;
 				}
 
@@ -774,7 +774,7 @@ JXImage::Draw
 	else if (itsMask != NULL && origClipPixmap != NULL)
 		{
 		gc->SetClipPixmap(origClipOffset, *origClipPixmap);
-		delete origClipPixmap;
+		jdelete origClipPixmap;
 		}
 	else if (itsMask != NULL)
 		{
@@ -791,7 +791,7 @@ JXImagePainter*
 JXImage::CreatePainter()
 {
 	ConvertToPixmap();
-	JXImagePainter* p = new JXImagePainter(this, itsPixmap, GetBounds(), NULL);
+	JXImagePainter* p = jnew JXImagePainter(this, itsPixmap, GetBounds(), NULL);
 	assert( p != NULL );
 	return p;
 }
@@ -979,14 +979,14 @@ JXImage::ForcePrivateGC()
 						  1,1, itsDepth);
 		assert( tempPixmap != None );
 
-		itsGC = new JXGC(itsDisplay, tempPixmap);
+		itsGC = jnew JXGC(itsDisplay, tempPixmap);
 		assert( itsGC != NULL );
 
 		XFreePixmap(*itsDisplay, tempPixmap);
 		}
 	else if (itsGC == NULL)
 		{
-		itsGC = new JXGC(itsDisplay, itsDisplay->GetRootWindow());
+		itsGC = jnew JXGC(itsDisplay, itsDisplay->GetRootWindow());
 		assert( itsGC != NULL );
 		}
 }
@@ -1098,7 +1098,7 @@ JXImage::SetImageData
 
 	// convert color table to X pixel values
 
-	unsigned long* xColorTable = new unsigned long [ colorCount ];
+	unsigned long* xColorTable = jnew unsigned long [ colorCount ];
 	assert( xColorTable != NULL );
 
 	for (JIndex i=0; i<colorCount; i++)
@@ -1121,7 +1121,7 @@ JXImage::SetImageData
 				{
 				if (itsMask == NULL)
 					{
-					itsMask = new JXImageMask(itsDisplay, w,h, kJTrue);
+					itsMask = jnew JXImageMask(itsDisplay, w,h, kJTrue);
 					assert( itsMask != NULL );
 					}
 				itsMask->RemovePixel(x,y);
@@ -1136,7 +1136,7 @@ JXImage::SetImageData
 
 	// clean up
 
-	delete [] xColorTable;
+	jdelete [] xColorTable;
 
 	ImageDataFinished();
 }

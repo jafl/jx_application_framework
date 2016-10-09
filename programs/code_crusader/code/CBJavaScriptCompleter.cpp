@@ -18,10 +18,10 @@ static const JCharacter* kKeywordList[] =
 	// keywords
 
 	"abstract", "boolean", "break", "byte", "case", "catch", "char", "class",
-	"continue", "const", "debugger", "default", "delete", "do", "double",
+	"continue", "const", "debugger", "default", "jdelete", "do", "double",
 	"else", "extends","enum", "export", "false", "final", "finally", "float",
 	"for", "function", "goto", "if", "implements", "import", "in",
-	"instanceof", "int", "interface", "label", "long", "native", "new",
+	"instanceof", "int", "interface", "label", "long", "native", "jnew",
 	"null", "package", "private", "protected", "public", "return", "short",
 	"static", "super", "switch", "synchronized", "this", "throw", "throws",
 	"transient", "true", "try", "typeof", "var", "void", "volatile",
@@ -71,7 +71,7 @@ CBJavaScriptCompleter::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBJavaScriptCompleter;
+		itsSelf = jnew CBJavaScriptCompleter;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -88,7 +88,7 @@ CBJavaScriptCompleter::Instance()
 void
 CBJavaScriptCompleter::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

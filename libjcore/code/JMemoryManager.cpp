@@ -2,41 +2,36 @@
  JMemoryManager.cpp
 
 	JMemoryManager controls all memory allocation in a JCore/JX program,
-	normally through the JCore operator new and delete replacements.  It is
+	normally through the JCore operator jnew and jdelete replacements.  It is
 	a singleton class (it can only be instantiated once) so that memory
 	allocation is consistent throughout a single program.  The unique
 	instance is accessed through the static member function Instance.
 
-	JMemoryManager and the JCore operator new present a paradox: like all
-	JX objects created at run time, the JMemoryManager instance is
-	allocated with the global operator new.  However, operator new uses
+	JMemoryManager and the JCore operator jnew present a paradox: like all
+	JX objects created at run time, JMemoryManager components are allocated
+	with the global operator jnew.  However, operator jnew uses
 	JMemoryManager to determine what its behavior should be; thus
 	JMemoryManager must exist before it is allocated!  It is not necessary
-	for JMemoryManager to have its own class operator new and delete to
+	for JMemoryManager to have its own class operator jnew and jdelete to
 	solve this problem; JMemoryManager uses static buffering to allow
-	recursive calls to new and delete, and this also works when the manager
-	itself is created.
+	recursive calls to jnew and jdelete, and this also works when the
+	manager itself is created.
 
 	Most programs will interact with the memory manager indirectly through
-	operator new and delete and will not be aware of its existence.
+	operator jnew and jdelete and will not be aware of its existence.
 	However, JMemoryManager can supply a number of services for programs
 	which take the trouble to interact with it directly.  Currently this
 	ability is limited to requesting simple statistics reporting, but the
 	capabilities will expand in the future.
 
 	JMemoryManager cannot be used in conjunction with objects that define
-	their own versions of new and delete.  In these special cases, you must
-	#undef new before creating the object and #undef delete before deleting
-	it.  Since one usually wants to use JMemoryManager for everything else
-	in the source file, it is best to place the construction and
-	destruction code for the errant objects at the end of the source file,
-	as demonstrated in JSimpleProcess.cc.
+	their own versions of new and delete.
 
-	JMemoryManager's consistency checks depend on it controlling every new
-	and delete, so that if it is to record information it must begin doing
+	JMemoryManager's consistency checks depend on it controlling every jnew
+	and jdelete, so that if it is to record information it must begin doing
 	so at the moment of construction.  Because the memory manager is almost
 	certain to be created before execution of main even begins (any static
-	object whose constructor calls operator new will guarantee this on any
+	object whose constructor calls operator jnew will guarantee this on any
 	system, for example), the memory manager uses lots of environment
 	variables to control its operation (for all variables case is
 	irrelevant):
@@ -55,7 +50,7 @@
 #		                       implementation.
 
 #		JMM_INITIALIZE         If this environment variable is set but given no
-#		                       value the manager will initialize new memory blocks
+#		                       value the manager will initialize jnew memory blocks
 #		                       to the default AllocateGarbage value.  If it is
 #		                       given a numerical value, that will be the value
 #		                       used for initialization.  If the manager cannot
@@ -81,7 +76,7 @@
 #		                       manager cannot know the size of the block being
 #		                       freed.
 
-#		                       Keep in mind that delete (via free()) generally
+#		                       Keep in mind that jdelete (via free()) generally
 #		                       will store information at the beginning of each
 #		                       deallocated block.  This information will overwrite
 #		                       the JMM garbage values at those locations, so
@@ -135,7 +130,7 @@
 
 #		JMM_DISALLOW_DELETE_NULL If this environment variable is set to "yes" the
 #		                       manager will consider deletion of a null pointer to
-#		                       be an error, in spite of ANSI.  Most people delete
+#		                       be an error, in spite of ANSI.  Most people jdelete
 #		                       NULL frequently, so the default is to allow it, but
 #		                       those with a particularly clean (not to say
 #		                       obsessive) style may find this useful.  Overridden
@@ -171,7 +166,7 @@
 	well as a handy summary of all the variables and their effects.
 
 	To get file/line information you must include <jNew.h>, because it must
-	redefine new and delete.  The recommended way to do this is to #include
+	define jnew and jdelete.  The recommended way to do this is to #include
 	jAssert.h, since it #include's jNew.h.
 
 	Performance:
@@ -216,7 +211,6 @@
 #include <JMMHashTable.h>
 #include <JMMErrorPrinter.h>
 
-#include <j_prep_ace.h>
 #include <ace/Connector.h>
 #include <ace/LSOCK_Connector.h>
 #include <JMMDebugErrorStream.h>
@@ -226,8 +220,6 @@
 #include <jErrno.h>
 #include <jAssert.h>
 #include <jNew.h>
-#undef new
-#undef delete
 
 typedef ACE_Connector<JMemoryManager::DebugLink, ACE_LSOCK_CONNECTOR>	DebugLinkConnector;
 
@@ -354,13 +346,11 @@ JMemoryManager::JMemoryManager()
 
 		if (tableType != NULL && JStringCompare(tableType, "array", kJFalse) == 0)
 			{
-			itsMemoryTable = new(__FILE__, __LINE__) JMMArrayTable(this,
-								 recordDeallocatedFlag);
+			itsMemoryTable = new JMMArrayTable(this, recordDeallocatedFlag);
 			}
 		else
 			{
-			itsMemoryTable = new(__FILE__, __LINE__) JMMHashTable(this,
-								 recordDeallocatedFlag);
+			itsMemoryTable = new JMMHashTable(this, recordDeallocatedFlag);
 			}
 
 		assert(itsMemoryTable != NULL);
@@ -409,20 +399,20 @@ JMemoryManager::Instance()
 	if (manager == NULL)
 		{
 		theConstructingFlag = kJTrue;
-		manager = new(__FILE__, __LINE__) JMemoryManager;
+		manager = new JMemoryManager;
 		assert(manager != NULL);
 
 		// Create the error printer proxy to do the printing work.
 		// Construction of the error printer must take place here, after
 		// the manager is fully constructed; the recursive call to Instance
 		// is harmless.
-		manager->itsErrorPrinter = new(__FILE__, __LINE__) JMMErrorPrinter;
+		manager->itsErrorPrinter = new JMMErrorPrinter;
 		assert(manager->itsErrorPrinter != NULL);
 
 		const JCharacter* pipeName = getenv("JMM_PIPE");
 		if (!JStringEmpty(pipeName))
 			{
-			manager->itsErrorStream = new(__FILE__, __LINE__) JMMDebugErrorStream;
+			manager->itsErrorStream = new JMMDebugErrorStream;
 			assert(manager->itsErrorStream != NULL);
 			}
 
@@ -909,6 +899,39 @@ JMemoryManager::Receive
 	else
 		{
 		JBroadcaster::Receive(sender, message);
+		}
+}
+
+/******************************************************************************
+ ConnectToDebugger (private)
+
+	Connects to the specified named UNIX socket.
+
+ ******************************************************************************/
+
+void
+JMemoryManager::ConnectToDebugger
+	(
+	const JCharacter* socketName
+	)
+{
+	itsLink = new DebugLink;
+	assert( itsLink != NULL );
+
+	DebugLinkConnector* connector = new DebugLinkConnector;
+	assert( connector != NULL );
+
+	ACE_UNIX_Addr addr(socketName);
+	if (connector->connect(itsLink, addr, ACE_Synch_Options::asynch) == -1 &&
+		jerrno() != EAGAIN)
+		{
+		cerr << "error trying to connect JMemoryManager::DebugLink: " << jerrno() << endl;
+		}
+	else
+		{
+		SetProtocol(itsLink);
+		ListenTo(itsLink);
+		ClearWhenGoingAway(itsLink, &itsLink);
 		}
 }
 
@@ -1400,42 +1423,5 @@ JMemoryManager::RecordFilter::Write
 	if (hasFile)
 		{
 		output << ' ' << *fileName;
-		}
-}
-
-/******************************************************************************
- ConnectToDebugger (private)
-
-	Connects to the specified named UNIX socket.
-
- ******************************************************************************/
-
-// This function has to be last so JCore::new works for everything else.
-
-#undef new
-
-void
-JMemoryManager::ConnectToDebugger
-	(
-	const JCharacter* socketName
-	)
-{
-	itsLink = new DebugLink;
-	assert( itsLink != NULL );
-
-	DebugLinkConnector* connector = new DebugLinkConnector;
-	assert( connector != NULL );
-
-	ACE_UNIX_Addr addr(socketName);
-	if (connector->connect(itsLink, addr, ACE_Synch_Options::asynch) == -1 &&
-		jerrno() != EAGAIN)
-		{
-		cerr << "error trying to connect JMemoryManager::DebugLink: " << jerrno() << endl;
-		}
-	else
-		{
-		SetProtocol(itsLink);
-		ListenTo(itsLink);
-		ClearWhenGoingAway(itsLink, &itsLink);
 		}
 }

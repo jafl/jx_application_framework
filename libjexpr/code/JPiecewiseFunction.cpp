@@ -30,10 +30,10 @@ JPiecewiseFunction::JPiecewiseFunction
 	JFunction* defaultFunction
 	)
 {
-	itsCases = new JPtrArray<JDecision>(JPtrArrayT::kDeleteAll);
+	itsCases = jnew JPtrArray<JDecision>(JPtrArrayT::kDeleteAll);
 	assert( itsCases != NULL );
 
-	itsFunctions = new JPtrArray<JFunction>(JPtrArrayT::kDeleteAll);
+	itsFunctions = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll);
 	assert( itsFunctions != NULL );
 
 	itsDefaultFunction = defaultFunction;
@@ -45,10 +45,10 @@ JPiecewiseFunction::JPiecewiseFunction
 	JVariableList*	theVariableList
 	)
 {
-	itsCases = new JPtrArray<JDecision>(JPtrArrayT::kDeleteAll);
+	itsCases = jnew JPtrArray<JDecision>(JPtrArrayT::kDeleteAll);
 	assert( itsCases != NULL );
 
-	itsFunctions = new JPtrArray<JFunction>(JPtrArrayT::kDeleteAll);
+	itsFunctions = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll);
 	assert( itsFunctions != NULL );
 
 	JSize caseCount;
@@ -73,9 +73,9 @@ JPiecewiseFunction::JPiecewiseFunction
 
 JPiecewiseFunction::~JPiecewiseFunction()
 {
-	delete itsCases;
-	delete itsFunctions;
-	delete itsDefaultFunction;
+	jdelete itsCases;
+	jdelete itsFunctions;
+	jdelete itsDefaultFunction;
 }
 
 /******************************************************************************
@@ -88,10 +88,10 @@ JPiecewiseFunction::JPiecewiseFunction
 	const JPiecewiseFunction& source
 	)
 {
-	itsCases = new JPtrArray<JDecision>(JPtrArrayT::kDeleteAll);
+	itsCases = jnew JPtrArray<JDecision>(JPtrArrayT::kDeleteAll);
 	assert( itsCases != NULL );
 
-	itsFunctions = new JPtrArray<JFunction>(JPtrArrayT::kDeleteAll);
+	itsFunctions = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll);
 	assert( itsFunctions != NULL );
 
 	const JSize caseCount = (source.itsCases)->GetElementCount();
@@ -179,7 +179,7 @@ JPiecewiseFunction::SameAs
 /******************************************************************************
  AddCase
 
-	Appends a new case to the list of cases.  This new case becomes the case
+	Appends a jnew case to the list of cases.  This jnew case becomes the case
 	just before the default case.
 
  ******************************************************************************/
@@ -208,7 +208,7 @@ JPiecewiseFunction::SetDefaultFunction
 	JFunction* theFunction
 	)
 {
-	delete itsDefaultFunction;
+	jdelete itsDefaultFunction;
 	itsDefaultFunction = theFunction;
 }
 

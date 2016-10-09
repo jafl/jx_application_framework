@@ -69,7 +69,7 @@ JFunction*
 JCosine::Copy()
 	const
 {
-	JCosine* newFunction = new JCosine(*this);
+	JCosine* newFunction = jnew JCosine(*this);
 	assert( newFunction != NULL );
 	return newFunction;
 }

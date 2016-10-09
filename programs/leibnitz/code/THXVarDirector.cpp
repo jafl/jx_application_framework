@@ -141,21 +141,21 @@ THXVarDirector::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 260,250, "");
+	JXWindow* window = jnew JXWindow(this, 260,250, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 260,30);
 	assert( menuBar != NULL );
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,50, 260,200);
 	assert( scrollbarSet != NULL );
 
 	JXWidgetSet* colHdrContainer =
-		new JXWidgetSet(window,
+		jnew JXWidgetSet(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,30, 260,20);
 	assert( colHdrContainer != NULL );
 
@@ -179,14 +179,14 @@ THXVarDirector::BuildWindow
 	ListenTo(itsHelpMenu);
 
 	itsVarTable =
-		new THXVarTable(varList, fontMenu, scrollbarSet,
+		jnew THXVarTable(varList, fontMenu, scrollbarSet,
 						scrollbarSet->GetScrollEnclosure(),
 						JXWidget::kHElastic, JXWidget::kVElastic,
 						0,0, 10,10);
 	assert( itsVarTable != NULL );
 
 	JXColHeaderWidget* colHeader =
-		new JXColHeaderWidget(itsVarTable, scrollbarSet, colHdrContainer,
+		jnew JXColHeaderWidget(itsVarTable, scrollbarSet, colHdrContainer,
 							  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( colHeader != NULL );
 	colHeader->FitToEnclosure();

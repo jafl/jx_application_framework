@@ -11,7 +11,6 @@
 
 #include <JVector.h>
 
-#include <j_prep_ace.h>
 #include <ace/DLL.h>
 #include <jAssert.h>
 
@@ -39,7 +38,7 @@ GLDLFitModule::Create
 	GLDLFitModule**		fit
 	)
 {
-	ACE_DLL* module = new ACE_DLL(moduleName);
+	ACE_DLL* module = jnew ACE_DLL(moduleName);
 	assert(module != NULL);
 
 	JBoolean ok	= kJTrue;
@@ -73,10 +72,10 @@ GLDLFitModule::Create
 	InitialValFn* ifn	= (InitialValFn*)module->symbol(kInitValName);
 	if (!ok)
 		{
-		delete module;
+		jdelete module;
 		return kJFalse;
 		}
-	*fit	= new GLDLFitModule(module, fn, fnprimed, ifn, pc(), pf(), ff(), fname());
+	*fit	= jnew GLDLFitModule(module, fn, fnprimed, ifn, pc(), pf(), ff(), fname());
 	assert(*fit != NULL);
 	return kJTrue;
 }
@@ -101,15 +100,15 @@ GLDLFitModule::GLDLFitModule
 	itsGetStartValFn(initFn),
 	itsModule(module)
 {
-	itsParmNames	= new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsParmNames	= jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert(itsParmNames != NULL);
 	for (JIndex i = 1; i <= count; i++)
 		{
-		JString* str	= new JString(parms[i - 1]);
+		JString* str	= jnew JString(parms[i - 1]);
 		assert(str != NULL);
 		itsParmNames->Append(str);
 		}
-	itsParameters	= new JVector(count);
+	itsParameters	= jnew JVector(count);
 	assert(itsParameters != NULL);
 }
 
@@ -122,9 +121,9 @@ GLDLFitModule::GLDLFitModule
 GLDLFitModule::~GLDLFitModule()
 {
 	itsParmNames->DeleteAll();
-	delete itsParmNames;
-	delete itsModule;
-	delete itsParameters;
+	jdelete itsParmNames;
+	jdelete itsModule;
+	jdelete itsParameters;
 }
 
 /******************************************************************************

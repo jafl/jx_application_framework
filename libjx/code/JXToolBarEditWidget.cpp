@@ -50,13 +50,13 @@ JXToolBarEditWidget::JXToolBarEditWidget
 	:
 	JXNamedTreeListWidget(treeList, scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsMenuImage = new JXImage(GetDisplay(), jx_toolbar_menu_node);
+	itsMenuImage = jnew JXImage(GetDisplay(), jx_toolbar_menu_node);
 	assert(itsMenuImage != NULL);
 
-	itsCheckedItemImage = new JXImage(GetDisplay(), jx_toolbar_checked);
+	itsCheckedItemImage = jnew JXImage(GetDisplay(), jx_toolbar_checked);
 	assert(itsCheckedItemImage != NULL);
 
-	itsUncheckedItemImage = new JXImage(GetDisplay(), jx_toolbar_unchecked);
+	itsUncheckedItemImage = jnew JXImage(GetDisplay(), jx_toolbar_unchecked);
 	assert(itsUncheckedItemImage != NULL);
 }
 
@@ -67,9 +67,9 @@ JXToolBarEditWidget::JXToolBarEditWidget
 
 JXToolBarEditWidget::~JXToolBarEditWidget()
 {
-	delete itsMenuImage;
-	delete itsCheckedItemImage;
-	delete itsUncheckedItemImage;
+	jdelete itsMenuImage;
+	jdelete itsCheckedItemImage;
+	jdelete itsUncheckedItemImage;
 }
 
 /******************************************************************************

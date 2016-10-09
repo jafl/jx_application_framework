@@ -48,26 +48,26 @@ TestSliderDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 230,240, "");
+	JXWindow* window = jnew JXWindow(this, 230,240, "");
 	assert( window != NULL );
 
 	itsMaxSlider =
-		new JXSlider(window,
+		jnew JXSlider(window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 60,20, 30,110);
 	assert( itsMaxSlider != NULL );
 
 	itsMaxLevel =
-		new JXLevelControl(window,
+		jnew JXLevelControl(window,
 					JXWidget::kFixedRight, JXWidget::kVElastic, 150,20, 20,110);
 	assert( itsMaxLevel != NULL );
 
 	itsSlider =
-		new JXSlider(window,
+		jnew JXSlider(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,150, 190,30);
 	assert( itsSlider != NULL );
 
 	itsLevel =
-		new JXLevelControl(window,
+		jnew JXLevelControl(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,200, 190,20);
 	assert( itsLevel != NULL );
 

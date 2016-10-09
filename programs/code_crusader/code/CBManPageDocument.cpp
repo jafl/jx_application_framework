@@ -25,7 +25,7 @@ JPtrArray<CBTextDocument>	CBManPageDocument::theManDocList(JPtrArrayT::kForgetAl
  Constructor function (static)
 
 	First searches the open man pages to see if the requested one already
-	exists.  If not, creates a new one and activates it.
+	exists.  If not, creates a jnew one and activates it.
 
 	returnDoc can be NULL.
 
@@ -83,11 +83,11 @@ CBManPageDocument::Create
 
 	// If !apropos, we can't check cmd #2 until cmd #1 fails.
 
-	// create a new one
+	// create a jnew one
 
 	CBManPageDocument* trueDoc;
 	CBManPageDocument* doc =
-		new CBManPageDocument(pageName, pageIndex, apropos, &trueDoc);
+		jnew CBManPageDocument(pageName, pageIndex, apropos, &trueDoc);
 	assert( doc != NULL );
 
 	if (doc != trueDoc)
@@ -135,7 +135,7 @@ CBManPageDocument::CBManPageDocument
 
 	*trueDoc = NULL;
 
-	JString* cmd = new JString;
+	JString* cmd = jnew JString;
 	assert( cmd != NULL );
 
 	JBoolean success = kJFalse;
@@ -178,7 +178,7 @@ CBManPageDocument::CBManPageDocument
 				JRemoveFile(tempName);
 				}
 
-			delete p;
+			jdelete p;
 			}
 		}
 
@@ -234,7 +234,7 @@ CBManPageDocument::CBManPageDocument
 
 //			p->WaitUntilFinished();
 //			success = p->SuccessfulFinish();
-			delete p;
+			jdelete p;
 //			if (success)
 //				{
 				GetTextEditor()->SetText(text);

@@ -41,7 +41,7 @@ JXTextMenuData::JXTextMenuData
 	itsFontMgr( menu->GetFontManager() ),
 	itsDefFont( itsFontMgr->GetDefaultFont() )
 {
-	itsTextItemData = new JArray<TextItemData>;
+	itsTextItemData = jnew JArray<TextItemData>;
 	assert( itsTextItemData != NULL );
 
 	itsNeedGeomRecalcFlag = kJTrue;
@@ -51,7 +51,7 @@ JXTextMenuData::JXTextMenuData
 	itsHasNMShortcutsFlag = kJFalse;
 	itsCompressHeightFlag = kJFalse;
 
-	itsItemHeights = new JRunArray<JCoordinate>;
+	itsItemHeights = jnew JRunArray<JCoordinate>;
 	assert( itsItemHeights != NULL );
 }
 
@@ -63,9 +63,9 @@ JXTextMenuData::JXTextMenuData
 JXTextMenuData::~JXTextMenuData()
 {
 	DeleteAll();
-	delete itsTextItemData;
+	jdelete itsTextItemData;
 
-	delete itsItemHeights;
+	jdelete itsItemHeights;
 }
 
 /******************************************************************************
@@ -84,7 +84,7 @@ JXTextMenuData::InsertItem
 	const JCharacter*		id
 	)
 {
-	JString* text = new JString(str);
+	JString* text = jnew JString(str);
 	assert( text != NULL );
 
 	TextItemData itemData(text, itsDefFont);
@@ -157,15 +157,15 @@ JXTextMenuData::CleanOutTextItem
 	TextItemData* itemData
 	)
 {
-	delete (itemData->text);
+	jdelete (itemData->text);
 	itemData->text = NULL;
 
-	delete (itemData->nmShortcut);
+	jdelete (itemData->nmShortcut);
 	itemData->nmShortcut = NULL;
 
 	if (itemData->ownsImage)
 		{
-		delete (itemData->image);
+		jdelete (itemData->image);
 		}
 	itemData->image = NULL;
 }
@@ -631,7 +631,7 @@ JXTextMenuData::SetImage
 
 	if (itemData.ownsImage && image != itemData.image)
 		{
-		delete itemData.image;
+		jdelete itemData.image;
 		}
 
 	itemData.image     = image;
@@ -657,7 +657,7 @@ JXTextMenuData::ClearImage
 		{
 		if (itemData.ownsImage)
 			{
-			delete itemData.image;
+			jdelete itemData.image;
 			}
 		itemData.image = NULL;
 		itsTextItemData->SetElement(index, itemData);
@@ -741,7 +741,7 @@ JXTextMenuData::SetNMShortcut
 	JBoolean changed = kJFalse;
 	if (!strEmpty && itemData.nmShortcut == NULL)
 		{
-		itemData.nmShortcut = new JString(str);
+		itemData.nmShortcut = jnew JString(str);
 		assert( itemData.nmShortcut != NULL );
 		itsTextItemData->SetElement(index, itemData);
 		changed = kJTrue;
@@ -753,7 +753,7 @@ JXTextMenuData::SetNMShortcut
 		}
 	else if (itemData.nmShortcut != NULL)
 		{
-		delete itemData.nmShortcut;
+		jdelete itemData.nmShortcut;
 		itemData.nmShortcut = NULL;
 		itsTextItemData->SetElement(index, itemData);
 		changed = kJTrue;
@@ -795,7 +795,7 @@ JXTextMenuData::SetNMShortcut
 
 	Note that it is a bad idea to use "return" as a shortcut if the window
 	contains a multi-line text editor.  It is also a bad idea to use
-	"backspace" and "delete" if the window contains a text input field.
+	"backspace" and "jdelete" if the window contains a text input field.
 	"Meta-tab" is not available, because JXWindow catches it.
 
  ******************************************************************************/
@@ -840,7 +840,7 @@ static const JXTMKeySymConversion kNMKeyConv[] =
 	{"return",    '\r'},
 	{"tab",       '\t'},
 	{"backspace", '\b'},
-	{"delete",    kJForwardDeleteKey},
+	{"jdelete",    kJForwardDeleteKey},
 	{"insert",    XK_Insert},
 	{"home",      XK_Home},
 	{"end",       XK_End},

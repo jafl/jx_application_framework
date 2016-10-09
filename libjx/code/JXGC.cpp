@@ -113,7 +113,7 @@ JXGC::GetClipping
 
 	if (itsClipPixmap != None)
 		{
-		*pixmap = new JXImageMask(itsDisplay, itsClipPixmap);
+		*pixmap = jnew JXImageMask(itsDisplay, itsClipPixmap);
 		assert( *pixmap != NULL );
 		}
 	else
@@ -353,7 +353,7 @@ JXGC::SetDashList
 {
 	const JSize dashCount = dashList.GetElementCount();
 
-	char* xDashList = new char [ dashCount ];
+	char* xDashList = jnew char [ dashCount ];
 	assert( xDashList != NULL );
 
 	for (JIndex i=1; i<=dashCount; i++)
@@ -363,7 +363,7 @@ JXGC::SetDashList
 
 	XSetDashes(*itsDisplay, itsXGC, offset, xDashList, dashCount);
 
-	delete [] xDashList;
+	jdelete [] xDashList;
 }
 
 /******************************************************************************

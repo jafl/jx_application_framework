@@ -35,7 +35,7 @@ JXDeleteObjectTask<T>::Delete
 	T* obj
 	)
 {
-	JXDeleteObjectTask<T>* task = new JXDeleteObjectTask<T>(obj);
+	JXDeleteObjectTask<T>* task = jnew JXDeleteObjectTask<T>(obj);
 	assert( task != NULL );
 	task->Start();
 }
@@ -70,7 +70,7 @@ JXDeleteObjectTask<T>::JXDeleteObjectTask
 template <class T>
 JXDeleteObjectTask<T>::~JXDeleteObjectTask()
 {
-	delete itsObject;
+	jdelete itsObject;
 }
 
 /******************************************************************************
@@ -86,9 +86,9 @@ JXDeleteObjectTask<T>::Perform
 	Time*		maxSleepTime
 	)
 {
-	delete itsObject;
+	jdelete itsObject;
 	itsObject = NULL;
-	delete this;
+	jdelete this;
 }
 
 /******************************************************************************

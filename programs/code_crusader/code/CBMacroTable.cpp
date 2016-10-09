@@ -49,7 +49,7 @@ CBMacroTable::CBMacroTable
 	itsSaveButton = saveButton;
 	ListenTo(itsSaveButton);
 
-	itsCSF = new CBListCSF(JGetString("ReplaceMacroList::CBMacroTable"),
+	itsCSF = jnew CBListCSF(JGetString("ReplaceMacroList::CBMacroTable"),
 						   JGetString("AppendToMacroList::CBMacroTable"));
 	assert( itsCSF != NULL );
 
@@ -64,7 +64,7 @@ CBMacroTable::CBMacroTable
 
 CBMacroTable::~CBMacroTable()
 {
-	delete itsCSF;
+	jdelete itsCSF;
 }
 
 /******************************************************************************

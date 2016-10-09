@@ -28,7 +28,7 @@ WS      ([ \v\t\f\r]*)
 
 CKEYWORD     (auto|break|case|const|continue|default|do|else|enum|extern|for|goto|if|register|return|sizeof|static|struct|switch|typedef|union|volatile|while)
 
-CPPKEYWORD   (and|and_eq|asm|bitand|bitor|catch|class|compl|const_cast|delete|dynamic_cast|explicit|export|false|final|friend|inline|mutable|namespace|new|not|not_eq|operator|or|or_eq|overload|override|private|protected|public|reinterpret_cast|static_cast|template|this|throw|true|try|typeid|typename|using|virtual|wchar_t|xor|xor_eq)
+CPPKEYWORD   (and|and_eq|asm|bitand|bitor|catch|class|compl|const_cast|jdelete|dynamic_cast|explicit|export|false|final|friend|inline|mutable|namespace|jnew|not|not_eq|operator|or|or_eq|overload|override|private|protected|public|reinterpret_cast|static_cast|template|this|throw|true|try|typeid|typename|using|virtual|wchar_t|xor|xor_eq)
 
 PPKEYWORD    (include|include_next|define|undef|if|ifdef|ifndef|else|elif|endif|line|pragma|error)
 

@@ -36,7 +36,7 @@ CBKeyScriptTableBase::CBKeyScriptTableBase
 	const JCoordinate	h
 	)
 	:
-	JXStringTable(new JStringTableData,
+	JXStringTable(jnew JStringTableData,
 				  scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
 	itsDialog = dialog;
@@ -66,7 +66,7 @@ CBKeyScriptTableBase::CBKeyScriptTableBase
 
 CBKeyScriptTableBase::~CBKeyScriptTableBase()
 {
-	delete GetStringData();
+	jdelete GetStringData();
 }
 
 /******************************************************************************
@@ -297,7 +297,7 @@ CBKeyScriptTableBase::CreateStringTableInput
 	if (cell.x == kScriptColumn)
 		{
 		CBKeyScriptInput* obj =
-			new CBKeyScriptInput(enclosure, hSizing, vSizing, x,y, w,h);
+			jnew CBKeyScriptInput(enclosure, hSizing, vSizing, x,y, w,h);
 		assert( obj != NULL );
 		return obj;
 		}

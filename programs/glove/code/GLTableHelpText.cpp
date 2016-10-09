@@ -46,7 +46,7 @@ const JCharacter* kTableHelpText =
 "<p>"
 
 "<b>Inserting, deleting, and duplicating</b> "
-"You can insert, delete or duplicate rows, columns, or ranges of cells "
+"You can insert, jdelete or duplicate rows, columns, or ranges of cells "
 "by selecting the appropriate cells by click-dragging the mouse and "
 "choosing <i>Insert</i>, <i>Delete</i>, or <i>Duplicate</i> from the "
 "<i>Edit</i> menu. Rows or columns can be selected by clicking on the "
@@ -63,7 +63,7 @@ const JCharacter* kTableHelpText =
 "<i>Cut</i> or <i>Copy</i> from the <i>Edit</i> menu. "
 "After cutting or copying the desired cells, you can paste them in "
 "in a few ways. If you have no cells selected when you paste, the pasted "
-"cells will be placed in a new column appended to the table. "
+"cells will be placed in a jnew column appended to the table. "
 "If you have a group of columns selected, the pasted cells will be placed "
 "in columns inserted before the selected columns. "
 "If you copied a single cell, you can select the destination cell and paste "
@@ -92,7 +92,7 @@ const JCharacter* kTableHelpText =
 "<p>"
 
 "<b>Loading files</b> "
-"To start a new file, select <i>New</i> from the <i>File</i> menu. "
+"To start a jnew file, select <i>New</i> from the <i>File</i> menu. "
 "To open an existing file, select <i>Open</i> from the <i>File</i> menu. "
 "If the file is a Glove file, it will open immediately. If not, a dialog "
 "box will pop up asking which <a href=jxhelp:GLModuleHelp>module</a> to use "
@@ -130,7 +130,7 @@ const JCharacter* kTableHelpText =
 "<i>Data</i> menu. The plot dialog will ask which columns "
 "represent x, y and the errors in x and y if desired. Use the "
 "<i>Plot</i> menu in the dialog to specify which plot to add this "
-"curve to. By default, a new plot is created. If you have columns selected, "
+"curve to. By default, a jnew plot is created. If you have columns selected, "
 "they will by default specify the x and y axis and the errors in the y and x "
 "axis respectively. "
 

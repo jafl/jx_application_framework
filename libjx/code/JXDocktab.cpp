@@ -32,8 +32,8 @@ static const JCharacter* kActionMenuStr =
 	"  | Undock all windows in this dock"
 	"  | Undock all windows"
 	"%l| UpdateWindowTypeMap"
-	"%l| Create new dock (split horizontally)"
-	"  | Create new dock (split vertically)"
+	"%l| Create jnew dock (split horizontally)"
+	"  | Create jnew dock (split vertically)"
 	"%l| Dock all windows in default configuration"
 	"%l";
 
@@ -89,7 +89,7 @@ JXDocktab::JXDocktab
 
 JXDocktab::~JXDocktab()
 {
-	delete itsDockFinder;
+	jdelete itsDockFinder;
 }
 
 /******************************************************************************
@@ -170,11 +170,11 @@ JXDocktab::HandleMouseDown
 		{
 		if (itsDockFinder == NULL)
 			{
-			itsDockFinder = new DockFinder(GetDisplay());
+			itsDockFinder = jnew DockFinder(GetDisplay());
 			assert( itsDockFinder != NULL );
 			}
 
-		JXDockDragData* data = new JXDockDragData(GetWindow());
+		JXDockDragData* data = jnew JXDockDragData(GetWindow());
 		assert( data != NULL );
 
 		BeginDND(pt, buttonStates, modifiers, data, itsDockFinder);
@@ -216,7 +216,7 @@ JXDocktab::OpenActionMenu
 {
 	if (itsActionMenu == NULL)
 		{
-		itsActionMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsActionMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsActionMenu != NULL );
 		itsActionMenu->SetToHiddenPopupMenu();
 		itsActionMenu->SetMenuItems(kActionMenuStr);

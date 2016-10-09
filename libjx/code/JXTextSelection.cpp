@@ -92,8 +92,8 @@ JXTextSelection::JXTextSelectionX()
 
 JXTextSelection::~JXTextSelection()
 {
-	delete itsText;
-	delete itsStyle;
+	jdelete itsText;
+	jdelete itsStyle;
 }
 
 /******************************************************************************
@@ -145,7 +145,7 @@ JXTextSelection::SetData
 		}
 	else
 		{
-		itsText = new JString(text);
+		itsText = jnew JString(text);
 		assert( itsText != NULL );
 		}
 
@@ -157,12 +157,12 @@ JXTextSelection::SetData
 		}
 	else if (style != NULL && itsStyle == NULL)
 		{
-		itsStyle = new JRunArray<JFont>(*style);
+		itsStyle = jnew JRunArray<JFont>(*style);
 		assert( itsStyle != NULL );
 		}
 	else
 		{
-		delete itsStyle;
+		jdelete itsStyle;
 		itsStyle = NULL;
 		}
 
@@ -189,12 +189,12 @@ JXTextSelection::SetData
 {
 	assert( style == NULL || colormap != NULL );
 
-	delete itsText;
+	jdelete itsText;
 	itsText = text;
 
 	SetColormap(colormap);
 
-	delete itsStyle;
+	jdelete itsStyle;
 	itsStyle = style;
 
 	SetTextEditor(NULL, JIndexRange());
@@ -216,7 +216,7 @@ JXTextSelection::SetData
 {
 	if (itsText == NULL)
 		{
-		itsText = new JString;
+		itsText = jnew JString;
 		assert( itsText != NULL );
 		}
 	else
@@ -226,7 +226,7 @@ JXTextSelection::SetData
 
 	SetColormap(NULL);
 
-	delete itsStyle;
+	jdelete itsStyle;
 	itsStyle = NULL;
 
 	SetTextEditor(NULL, JIndexRange());
@@ -329,7 +329,7 @@ JXTextSelection::ConvertData
 		{
 		*returnType = (requestType == mimeText) ? mimeText : XA_STRING;
 		*dataLength = itsText->GetLength();
-		*data       = new unsigned char[ *dataLength ];
+		*data       = jnew unsigned char[ *dataLength ];
 		if (*data != NULL)
 			{
 			memcpy(*data, itsText->GetCString(), *dataLength);
@@ -349,7 +349,7 @@ JXTextSelection::ConvertData
 		const std::string s = dataStream.str();
 		*returnType         = itsStyledText0XAtom;
 		*dataLength         = s.length();
-		*data               = new unsigned char[ *dataLength ];
+		*data               = jnew unsigned char[ *dataLength ];
 		if (*data != NULL)
 			{
 			memcpy(*data, s.data(), *dataLength);
@@ -363,7 +363,7 @@ JXTextSelection::ConvertData
 		{
 		itsTE->DeleteSelection();
 
-		*data       = new unsigned char[1];
+		*data       = jnew unsigned char[1];
 		*dataLength = 0;
 		*returnType = selMgr->GetNULLXAtom();
 		return kJTrue;

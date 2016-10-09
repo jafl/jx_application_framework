@@ -33,7 +33,7 @@ AnimateHelpMenuTask::AnimateHelpMenuTask
 {
 	itsMenu = menu;
 
-	itsImageList = new JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kHelpIconCount);
+	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kHelpIconCount);
 	assert( itsImageList != NULL );
 
 	JXDisplay* display   = itsMenu->GetDisplay();
@@ -50,7 +50,7 @@ AnimateHelpMenuTask::AnimateHelpMenuTask
 			fgColor = colormap->GetGrayColor(75);
 			}
 		JXImage* icon =
-			new JXImage(display, kHelpIcon[i-1], fgColor, colormap->GetWhiteColor());
+			jnew JXImage(display, kHelpIcon[i-1], fgColor, colormap->GetWhiteColor());
 		assert( icon != NULL );
 		icon->SetDefaultState(JXImage::kRemoteStorage);
 		icon->ConvertToDefaultState();
@@ -68,7 +68,7 @@ AnimateHelpMenuTask::AnimateHelpMenuTask
 
 AnimateHelpMenuTask::~AnimateHelpMenuTask()
 {
-	delete itsImageList;
+	jdelete itsImageList;
 }
 
 /******************************************************************************

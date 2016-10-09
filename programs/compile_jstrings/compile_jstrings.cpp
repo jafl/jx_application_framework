@@ -279,13 +279,13 @@ GetOptions
 
 		else
 			{
-			JString* inputFileName = new JString(argv[index]);
+			JString* inputFileName = jnew JString(argv[index]);
 			assert( inputFileName != NULL );
 
 			if (inputFileName->EndsWith("~") ||
 				inputFileName->BeginsWith("#"))
 				{
-				delete inputFileName;
+				jdelete inputFileName;
 				}
 			else
 				{

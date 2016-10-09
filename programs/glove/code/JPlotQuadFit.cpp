@@ -145,11 +145,11 @@ JPlotQuadFit::JPlotQuadFitX
 		}
 	SetParameterCount(3);
 	SetHasGoodnessOfFit(kJTrue);
-	itsFunctionName = new JString("y = a + bx + cx^2");
+	itsFunctionName = jnew JString("y = a + bx + cx^2");
 
 	itsRealCount = 0;
 
-	itsRealData = new JArray<J2DDataPoint>;
+	itsRealData = jnew JArray<J2DDataPoint>;
 	assert(itsRealData != NULL);
 	const JSize count = fitData->GetElementCount();
 	for (JSize i=1; i<= count; i++)
@@ -1326,11 +1326,11 @@ JPlotQuadFit::LinearMinimization
 	JFloat xx,xmin,fx,fb,fa,bx,ax, fret;
 
 	assert (itsP == NULL);
-	itsP = new JVector(p);
+	itsP = jnew JVector(p);
 	assert(itsP != NULL);
 
 	assert (itsXi == NULL);
-	itsXi = new JVector(xi);
+	itsXi = jnew JVector(xi);
 	assert(itsXi != NULL);
 
 	itsCurrentType = type;
@@ -1342,9 +1342,9 @@ JPlotQuadFit::LinearMinimization
 	xi *= xmin;
 	p += xi;
 
-	delete itsP;
+	jdelete itsP;
 	itsP = NULL;
-	delete itsXi;
+	jdelete itsXi;
 	itsXi = NULL;
 
 	return fret;

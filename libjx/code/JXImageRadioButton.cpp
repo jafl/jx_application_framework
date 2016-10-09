@@ -48,7 +48,7 @@ JXImageRadioButton::~JXImageRadioButton()
 {
 	if (itsOwnsImageFlag)
 		{
-		delete itsImage;
+		jdelete itsImage;
 		}
 }
 
@@ -75,10 +75,10 @@ JXImageRadioButton::SetBitmap
 
 	if (itsOwnsImageFlag)
 		{
-		delete itsImage;
+		jdelete itsImage;
 		}
 
-	itsImage = new JXImage(GetDisplay(), bitmap, foreColor, backColor);
+	itsImage = jnew JXImage(GetDisplay(), bitmap, foreColor, backColor);
 	assert( itsImage != NULL );
 
 	itsOwnsImageFlag = kJTrue;
@@ -99,7 +99,7 @@ JXImageRadioButton::SetImage
 	const JColorIndex	backColor
 	)
 {
-	JXImage* image = new JXImage(GetDisplay(), xpm);
+	JXImage* image = jnew JXImage(GetDisplay(), xpm);
 	assert( image != NULL );
 	SetImage(image, kJTrue, backColor);
 }
@@ -125,7 +125,7 @@ JXImageRadioButton::SetImage
 		{
 		if (itsOwnsImageFlag)
 			{
-			delete itsImage;
+			jdelete itsImage;
 			}
 
 		itsImage = image;

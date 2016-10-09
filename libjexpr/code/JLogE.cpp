@@ -70,7 +70,7 @@ JFunction*
 JLogE::Copy()
 	const
 {
-	JLogE* newFunction = new JLogE(*this);
+	JLogE* newFunction = jnew JLogE(*this);
 	assert( newFunction != NULL );
 	return newFunction;
 }

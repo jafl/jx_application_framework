@@ -72,7 +72,7 @@ CBPHPTree::CBPHPTree
 
 CBPHPTree::~CBPHPTree()
 {
-	delete itsClassNameLexer;
+	jdelete itsClassNameLexer;
 }
 
 /******************************************************************************
@@ -97,7 +97,7 @@ CBPHPTree::StreamOut
 /******************************************************************************
  StreamInPHPClass (static private)
 
-	Creates a new CBPHPClass from the data in the given stream.
+	Creates a jnew CBPHPClass from the data in the given stream.
 
  ******************************************************************************/
 
@@ -109,7 +109,7 @@ CBPHPTree::StreamInPHPClass
 	CBTree*				tree
 	)
 {
-	CBPHPClass* newClass = new CBPHPClass(input, vers, tree);
+	CBPHPClass* newClass = jnew CBPHPClass(input, vers, tree);
 	assert( newClass != NULL );
 	return newClass;
 }
@@ -127,7 +127,7 @@ CBPHPTree::UpdateFinished
 	const JArray<JFAID_t>& deadFileList
 	)
 {
-	delete itsClassNameLexer;
+	jdelete itsClassNameLexer;
 	itsClassNameLexer = NULL;
 
 	DeleteProcess();
@@ -151,7 +151,7 @@ CBPHPTree::ParseFile
 {
 	if (itsClassNameLexer == NULL)
 		{
-		itsClassNameLexer = new CBPHPTreeScanner;
+		itsClassNameLexer = jnew CBPHPTreeScanner;
 		assert( itsClassNameLexer != NULL );
 		}
 

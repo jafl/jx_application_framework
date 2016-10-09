@@ -25,12 +25,12 @@ MDRecordList::MDRecordList()
 	:
 	itsSortColumn(kRecordState)
 {
-	itsRecords = new JPtrArray<MDRecord>(JPtrArrayT::kDeleteAll);
+	itsRecords = jnew JPtrArray<MDRecord>(JPtrArrayT::kDeleteAll);
 	assert(itsRecords != NULL);
 	itsRecords->SetCompareFunction(MDRecord::CompareState);
 	InstallOrderedSet(itsRecords);
 
-	itsAlphaRecords = new JPtrArray<MDRecord>(JPtrArrayT::kForgetAll);
+	itsAlphaRecords = jnew JPtrArray<MDRecord>(JPtrArrayT::kForgetAll);
 	assert( itsAlphaRecords != NULL );
 	itsAlphaRecords->SetCompareFunction(MDRecord::CompareFileName);
 }
@@ -42,8 +42,8 @@ MDRecordList::MDRecordList()
 
 MDRecordList::~MDRecordList()
 {
-	delete itsRecords;
-	delete itsAlphaRecords;
+	jdelete itsRecords;
+	jdelete itsAlphaRecords;
 }
 
 /******************************************************************************

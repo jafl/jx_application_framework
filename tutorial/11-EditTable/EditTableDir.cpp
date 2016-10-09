@@ -27,7 +27,7 @@ EditTableDir::EditTableDir
 	JXWindowDirector(supervisor)
 {
 	// Create the array that will hold the table's data
-	itsData = new JArray<JIndex>;
+	itsData = jnew JArray<JIndex>;
 	assert(itsData != NULL);
 
 	// Append 3 elements to the array.
@@ -54,7 +54,7 @@ EditTableDir::EditTableDir
 
 EditTableDir::~EditTableDir()
 {
-	delete itsData;
+	jdelete itsData;
 
 	// Window is deleted automatically by its director
 	// EditTable is deleted automatically by its enclosure
@@ -72,7 +72,7 @@ void
 EditTableDir::BuildWindow()
 {
 	// Create the window
-	JXWindow* window = new JXWindow(this, 300,200, "Test EditTable Program");
+	JXWindow* window = jnew JXWindow(this, 300,200, "Test EditTable Program");
 	assert( window != NULL );
 
 	// Set sizing
@@ -82,13 +82,13 @@ EditTableDir::BuildWindow()
 	// Create the menu bar so that it stays on top, but expands as the window
 	// expands.
 	JXMenuBar* menuBar =
-		new JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
+		jnew JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
 						0,0, 300,kJXDefaultMenuBarHeight);
 	assert( menuBar != NULL );
 
 	// Create the scrollbar set to hold the table
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kJXDefaultMenuBarHeight, 300,200-kJXDefaultMenuBarHeight);
 	assert( scrollbarSet != NULL );
@@ -97,7 +97,7 @@ EditTableDir::BuildWindow()
 	// special widget that JXScrollbarSet creates.  We get a
 	// pointer to this special widget by calling GetScrollEnclosure().
 	EditTable* table =
-		new EditTable(menuBar, itsData,
+		jnew EditTable(menuBar, itsData,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 10, 10);

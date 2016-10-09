@@ -24,7 +24,7 @@
 
 	Apply the specified function to the given JFunction.  Returns the
 	resulting function, the copy of the argument that was passed in,
-	and the first new UIF, if successful.
+	and the first jnew UIF, if successful.
 
  ******************************************************************************/
 
@@ -112,7 +112,7 @@ JApplyFunction
 			else if (newType != kJLogBType || origArgCount > 1)
 				{
 				JUserInputFunction* uif =
-					new JUserInputFunction(varList, fontMgr, colormap);
+					jnew JUserInputFunction(varList, fontMgr, colormap);
 				assert( uif != NULL );
 				fwa->SetArg(i, uif);
 				if (*newUIF == NULL)

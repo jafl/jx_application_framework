@@ -75,7 +75,7 @@ MDRecordTable::MDRecordTable
 
 MDRecordTable::~MDRecordTable()
 {
-	delete itsRecordList;
+	jdelete itsRecordList;
 }
 
 /******************************************************************************
@@ -448,7 +448,7 @@ MDRecordTable::CreateXInputField
 	const JString& text    = record->GetData();
 
 	JXInputField* field =
-		new MDRecordDataField(text, this, JXWidget::kFixedLeft, JXWidget::kFixedTop,
+		jnew MDRecordDataField(text, this, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							  x,y, w,h);
 	assert( field != NULL );
 

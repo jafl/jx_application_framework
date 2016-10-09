@@ -49,10 +49,10 @@ UndoWidget::UndoWidget
 
 	// See JCollection.h, JOrderedSet.h, and JArray.h for functionality
 
-	itsPoints = new JArray<JPoint>;
+	itsPoints = jnew JArray<JPoint>;
 	assert( itsPoints != NULL );
 
-	itsUndoList = new JPtrArray<JUndo>(JPtrArrayT::kDeleteAll);
+	itsUndoList = jnew JPtrArray<JUndo>(JPtrArrayT::kDeleteAll);
 	assert(itsUndoList != NULL);
 }
 
@@ -64,11 +64,11 @@ UndoWidget::UndoWidget
 UndoWidget::~UndoWidget()
 {
 	// Unlike widgets, which are automatically deleted by the framework,
-	// we must delete this JArray since it is a private instance variable.
-	delete itsPoints;
+	// we must jdelete this JArray since it is a private instance variable.
+	jdelete itsPoints;
 
 	// This JPtrArray must also be deleted.
-	delete itsUndoList;
+	jdelete itsUndoList;
 }
 
 /******************************************************************************
@@ -246,7 +246,7 @@ UndoWidget::HandleMouseUp
 
 		// Create the undo object to undo the addition of this line
 
-		UndoLine* undo = new UndoLine(this);
+		UndoLine* undo = jnew UndoLine(this);
 		assert(undo != NULL);
 		NewUndo(undo);
 
@@ -400,7 +400,7 @@ UndoWidget::NewUndo
 			itsUndoList->DeleteElement(i);
 			}
 
-		// save the new object
+		// save the jnew object
 
 		itsUndoList->Append(undo);
 		itsFirstRedoIndex++;
@@ -453,7 +453,7 @@ UndoWidget::AddLine
 	// Tell the widget to redraw itself
 	Refresh();
 
-	UndoLine* undo = new UndoLine(this);
+	UndoLine* undo = jnew UndoLine(this);
 	assert(undo != NULL);
 
 	NewUndo(undo);
@@ -477,7 +477,7 @@ UndoWidget::RemoveLastLine()
 	itsPoints->RemoveElement(count - 1);
 	Refresh();
 
-	RedoLine* redo = new RedoLine(this, start, end);
+	RedoLine* redo = jnew RedoLine(this, start, end);
 	assert(redo != NULL);
 
 	NewUndo(redo);

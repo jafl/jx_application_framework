@@ -70,7 +70,7 @@ int main
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
 	for (JIndex i=1; i<=200; i++)
 		{
-		JString* fileName = new JString();
+		JString* fileName = jnew JString();
 		assert( fileName != NULL );
 
 		err = JCreateTempFile(path, NULL, fileName);

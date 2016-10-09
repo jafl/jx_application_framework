@@ -141,7 +141,7 @@ TestDecisionParser
 			cout << "Expected: " << expectedResult << endl;
 			cout << "Result:   " << theDecision->Evaluate() << endl;
 			JWaitForReturn();
-			delete theDecision;
+			jdelete theDecision;
 			}
 
 		input >> ws;
@@ -187,7 +187,7 @@ TestFunctionParser
 			cout << "Result:   " << ok << ' ' << result << endl;
 			JWaitForReturn();
 
-			delete theFunction;
+			jdelete theFunction;
 			}
 
 		input >> ws;
@@ -233,7 +233,7 @@ TestComplexFunctionParser
 			cout << "Result:   " << ok << ' ' << result << endl;
 			JWaitForReturn();
 
-			delete theFunction;
+			jdelete theFunction;
 			}
 
 		input >> ws;

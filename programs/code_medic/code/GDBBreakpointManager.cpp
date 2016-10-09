@@ -22,7 +22,7 @@ GDBBreakpointManager::GDBBreakpointManager
 	GDBLink* link
 	)
 	:
-	CMBreakpointManager(link, new GDBGetBreakpoints())
+	CMBreakpointManager(link, jnew GDBGetBreakpoints())
 {
 }
 

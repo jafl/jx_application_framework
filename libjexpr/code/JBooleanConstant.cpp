@@ -65,7 +65,7 @@ JDecision*
 JBooleanConstant::Copy()
 	const
 {
-	JBooleanConstant* newDecision = new JBooleanConstant(*this);
+	JBooleanConstant* newDecision = jnew JBooleanConstant(*this);
 	assert( newDecision != NULL );
 	return newDecision;
 }

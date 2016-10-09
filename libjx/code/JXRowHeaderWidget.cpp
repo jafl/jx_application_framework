@@ -93,7 +93,7 @@ JXRowHeaderWidget::JXRowHeaderWidget
 
 JXRowHeaderWidget::~JXRowHeaderWidget()
 {
-	delete itsTitles;
+	jdelete itsTitles;
 }
 
 /******************************************************************************
@@ -139,7 +139,7 @@ JXRowHeaderWidget::SetRowTitle
 {
 	if (itsTitles == NULL)
 		{
-		itsTitles = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		itsTitles = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert( itsTitles != NULL );
 
 		const JSize rowCount = GetRowCount();
@@ -354,7 +354,7 @@ JXRowHeaderWidget::HandleMouseDrag
 				p->Line(enclAp.left, itsPrevPt.y, enclAp.right, itsPrevPt.y);
 				}
 
-			// draw the new line
+			// draw the jnew line
 
 			p->Line(enclAp.left, pt.y, enclAp.right, pt.y);
 

@@ -71,7 +71,7 @@ TestLinkedDocument::TestLinkedDocument
 			}
 		else
 			{
-			itsDoc = new TestTextEditDocument(supervisor, newName);
+			itsDoc = jnew TestTextEditDocument(supervisor, newName);
 			assert( itsDoc != NULL );
 			}
 
@@ -82,7 +82,7 @@ TestLinkedDocument::TestLinkedDocument
 		{
 		JString msg = "Unable to open ";
 		msg += kRequiredFile;
-		msg += ".\n\nI hope you didn't delete it!";
+		msg += ".\n\nI hope you didn't jdelete it!";
 		(JGetUserNotification())->ReportError(msg);
 		}
 

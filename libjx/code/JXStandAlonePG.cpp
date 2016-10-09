@@ -84,13 +84,13 @@ JXStandAlonePG::ProcessBeginning
 	if (processType == kFixedLengthProcess)
 		{
 		itsProgressDirector = 
-			new JXFixLenPGDirector(JXGetApplication(), this, message, allowCancel);
+			jnew JXFixLenPGDirector(JXGetApplication(), this, message, allowCancel);
 		itsStepCount = stepCount;
 		}
 	else if (processType == kVariableLengthProcess)
 		{
 		itsProgressDirector = 
-			new JXVarLenPGDirector(JXGetApplication(), this, message, allowCancel);
+			jnew JXVarLenPGDirector(JXGetApplication(), this, message, allowCancel);
 		itsStepCount = 0;
 		}
 	assert( itsProgressDirector != NULL );

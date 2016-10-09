@@ -46,12 +46,12 @@ GPMCreateGlobals
 	theApplication = app;
 
 	JBoolean isNew;
-	thePrefsManager	= new GPMPrefsManager(&isNew);
+	thePrefsManager	= jnew GPMPrefsManager(&isNew);
 	assert( thePrefsManager != NULL );
 
 	JXInitHelp(kGPMTOCHelpName, kGPMHelpSectionCount, kGPMHelpSectionName);
 
-	theMDIServer = new GPMMDIServer;
+	theMDIServer = jnew GPMMDIServer;
 	assert( theMDIServer != NULL );
 
 #ifdef _J_HAS_PROC
@@ -97,7 +97,7 @@ GPMDeleteGlobals()
 
 	// this must be last so everybody else can use it to save their setup
 
-	delete thePrefsManager;
+	jdelete thePrefsManager;
 	thePrefsManager = NULL;
 }
 

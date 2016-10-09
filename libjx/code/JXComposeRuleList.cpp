@@ -33,14 +33,14 @@ JXComposeRuleList::JXComposeRuleList
 	JIndex*		diacriticalMarkType
 	)
 {
-	itsRuleList = new JArray<Rule>(100);
+	itsRuleList = jnew JArray<Rule>(100);
 	assert( itsRuleList != NULL );
 	itsRuleList->SetCompareFunction(CompareRules);
 
-	itsInitialKeySymList = new JArray<KeySym>(10);
+	itsInitialKeySymList = jnew JArray<KeySym>(10);
 	assert( itsInitialKeySymList != NULL );
 
-	itsInputSeq = new JArray<KeySym>;
+	itsInputSeq = jnew JArray<KeySym>;
 	assert( itsInputSeq != NULL );
 
 	ClearState();
@@ -61,12 +61,12 @@ JXComposeRuleList::~JXComposeRuleList()
 	for (JIndex i=1; i<=ruleCount; i++)
 		{
 		Rule r = itsRuleList->GetElement(i);
-		delete r.inputSeq;
+		jdelete r.inputSeq;
 		}
-	delete itsRuleList;
+	jdelete itsRuleList;
 
-	delete itsInitialKeySymList;
-	delete itsInputSeq;
+	jdelete itsInitialKeySymList;
+	jdelete itsInputSeq;
 }
 
 /******************************************************************************
@@ -88,7 +88,7 @@ JXComposeRuleList::AddRule
 		itsInitialKeySymList->AppendElement(inputSeq.GetFirstElement());
 		}
 
-	Rule r(new JArray<KeySym>(inputSeq), outputKeySym);
+	Rule r(jnew JArray<KeySym>(inputSeq), outputKeySym);
 	assert( r.inputSeq != NULL );
 	itsRuleList->InsertSorted(r);
 }

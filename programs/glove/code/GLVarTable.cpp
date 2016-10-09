@@ -48,7 +48,7 @@ GLVarTable::GLVarTable
 	itsVarList   = varList;
 	itsTextInput = NULL;
 
-	itsOrigText = new JString;
+	itsOrigText = jnew JString;
 	assert( itsOrigText != NULL );
 
 	AppendCols(1);
@@ -69,7 +69,7 @@ GLVarTable::GLVarTable
 
 GLVarTable::~GLVarTable()
 {
-	delete itsOrigText;
+	jdelete itsOrigText;
 }
 
 /******************************************************************************
@@ -188,7 +188,7 @@ GLVarTable::CreateXInputField
 {
 	assert( itsTextInput == NULL );
 
-	itsTextInput = new JXExprInput(this, kFixedLeft, kFixedTop, x,y, w,h);
+	itsTextInput = jnew JXExprInput(this, kFixedLeft, kFixedTop, x,y, w,h);
 	assert( itsTextInput != NULL );
 
 	const JIndex varIndex = cell.y + kUserParmsOffset;

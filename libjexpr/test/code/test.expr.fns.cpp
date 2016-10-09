@@ -53,12 +53,12 @@ TestDecisionEquality
 
 		if (!GetDecision(input, &theVarList, &d2))
 			{
-			delete d1;
+			jdelete d1;
 			break;
 			}
 		else if (d2 == NULL)
 			{
-			delete d1;
+			jdelete d1;
 			continue;
 			}
 		d2->Print(cout);
@@ -73,8 +73,8 @@ TestDecisionEquality
 			(JGetUserNotification())->DisplayMessage("These decisions are not the same");
 			}
 
-		delete d1;
-		delete d2;
+		jdelete d1;
+		jdelete d2;
 		}
 }
 
@@ -108,12 +108,12 @@ TestFunctionEquality
 
 		if (!GetFunction(input, &theVarList, &f2))
 			{
-			delete f1;
+			jdelete f1;
 			break;
 			}
 		else if (f2 == NULL)
 			{
-			delete f1;
+			jdelete f1;
 			continue;
 			}
 
@@ -126,8 +126,8 @@ TestFunctionEquality
 			(JGetUserNotification())->DisplayMessage("These functions are not the same");
 			}
 
-		delete f1;
-		delete f2;
+		jdelete f1;
+		jdelete f2;
 		}
 }
 

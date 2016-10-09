@@ -29,7 +29,7 @@ CMEditCommandsDialog::CMEditCommandsDialog()
 	JXDialogDirector(JXGetApplication(), kJTrue),
 	JPrefObject(CMGetPrefsManager(), kEditCommandsDialogID)
 {
-	itsCommands	= new JPtrArray<JString>(JPtrArrayT::kForgetAll);
+	itsCommands	= jnew JPtrArray<JString>(JPtrArrayT::kForgetAll);
 	assert(itsCommands != NULL);
 
 	CMGetPrefsManager()->GetCmdList(itsCommands);
@@ -49,7 +49,7 @@ CMEditCommandsDialog::~CMEditCommandsDialog()
 	JPrefObject::WritePrefs();
 
 	itsCommands->DeleteAll();
-	delete itsCommands;
+	jdelete itsCommands;
 }
 
 /******************************************************************************
@@ -62,44 +62,44 @@ CMEditCommandsDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 350,370, "");
+	JXWindow* window = jnew JXWindow(this, 350,370, "");
 	assert( window != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::CMEditCommandsDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 150,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,50, 230,280);
 	assert( scrollbarSet != NULL );
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::CMEditCommandsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 80,340, 60,20);
 	assert( cancelButton != NULL );
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::CMEditCommandsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 210,340, 60,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::CMEditCommandsDialog::shortcuts::JXLayout"));
 
 	itsNewButton =
-		new JXTextButton(JGetString("itsNewButton::CMEditCommandsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsNewButton::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 260,70, 70,20);
 	assert( itsNewButton != NULL );
 	itsNewButton->SetShortcuts(JGetString("itsNewButton::CMEditCommandsDialog::shortcuts::JXLayout"));
 
 	itsRemoveButton =
-		new JXTextButton(JGetString("itsRemoveButton::CMEditCommandsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsRemoveButton::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 260,110, 70,20);
 	assert( itsRemoveButton != NULL );
 
 	JXStaticText* obj2_JXLayout =
-		new JXStaticText(JGetString("obj2_JXLayout::CMEditCommandsDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj2_JXLayout::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 270,20);
 	assert( obj2_JXLayout != NULL );
     obj2_JXLayout->SetFontSize(8);
@@ -117,7 +117,7 @@ CMEditCommandsDialog::BuildWindow()
 	ListenTo(itsRemoveButton);
 
 	itsWidget =
-		new CMEditCommandsTable(this, itsRemoveButton, scrollbarSet,
+		jnew CMEditCommandsTable(this, itsRemoveButton, scrollbarSet,
 								scrollbarSet->GetScrollEnclosure(),
 								JXWidget::kHElastic, JXWidget::kVElastic,
 								0,0, 10,10);

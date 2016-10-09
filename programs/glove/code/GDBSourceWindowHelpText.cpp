@@ -251,15 +251,15 @@ const JCharacter* kSourceWindowHelpText =
 "<dl>"
 
 " <dt>Select binary..."
-"	<dd>Selects a new program binary to debug."
+"	<dd>Selects a jnew program binary to debug."
 
 "<p>"
 " <dt>Select core..."
-"	<dd>Selects a new core file to debug."
+"	<dd>Selects a jnew core file to debug."
 
 "<p>"
 " <dt>Select process..."
-"	<dd>Selects a new process to debug."
+"	<dd>Selects a jnew process to debug."
 
 "<p>"
 " <dt>Clear all breakpoints"

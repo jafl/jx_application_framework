@@ -96,7 +96,7 @@ CBCommandSelection::ConvertData
 		{
 		*returnType = itsCBCommandXAtom;
 		*dataLength = itsData.GetLength();
-		*data       = new unsigned char[ *dataLength ];
+		*data       = jnew unsigned char[ *dataLength ];
 		if (*data != NULL)
 			{
 			memcpy(*data, itsData.GetCString(), *dataLength);
@@ -111,7 +111,7 @@ CBCommandSelection::ConvertData
 		{
 		itsTable->RemoveCommand();
 
-		*data       = new unsigned char[1];
+		*data       = jnew unsigned char[1];
 		*dataLength = 0;
 		*returnType = selMgr->GetNULLXAtom();
 		return kJTrue;

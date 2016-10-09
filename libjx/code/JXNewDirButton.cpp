@@ -37,7 +37,7 @@ JXNewDirButton::JXNewDirButton
 	:
 	JXTextButton("", enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsFolderIcon = new JXImage(GetDisplay(), jx_folder_small);
+	itsFolderIcon = jnew JXImage(GetDisplay(), jx_folder_small);
 	assert( itsFolderIcon != NULL );
 	itsFolderIcon->ConvertToRemoteStorage();
 
@@ -59,7 +59,7 @@ JXNewDirButton::JXNewDirButton
 
 JXNewDirButton::~JXNewDirButton()
 {
-	delete itsFolderIcon;
+	jdelete itsFolderIcon;
 }
 
 /******************************************************************************

@@ -43,7 +43,7 @@ JXCardFile::JXCardFile
 	:
 	JXWidgetSet(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsCards = new JPtrArray<JXContainer>(JPtrArrayT::kForgetAll);
+	itsCards = jnew JPtrArray<JXContainer>(JPtrArrayT::kForgetAll);
 	assert( itsCards != NULL );
 
 	itsCurrCardIndex = 0;
@@ -56,13 +56,13 @@ JXCardFile::JXCardFile
 
 JXCardFile::~JXCardFile()
 {
-	delete itsCards;	// objects owned by JXContainer
+	jdelete itsCards;	// objects owned by JXContainer
 }
 
 /******************************************************************************
  InsertCard
 
-	The first version creates a new card, inserts it at the specified index,
+	The first version creates a jnew card, inserts it at the specified index,
 	and returns it.
 
 	The second version lets you provide the card, so that you can use
@@ -77,7 +77,7 @@ JXCardFile::InsertCard
 	const JIndex index
 	)
 {
-	JXWidgetSet* card = new JXWidgetSet(this, kHElastic, kVElastic, 0,0, 10,10);
+	JXWidgetSet* card = jnew JXWidgetSet(this, kHElastic, kVElastic, 0,0, 10,10);
 	assert( card != NULL );
 	InsertCard(index, card);
 	return card;

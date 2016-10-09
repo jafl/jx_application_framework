@@ -76,15 +76,15 @@ LLDBGetLocalVars::HandleSuccess
 		return;
 		}
 
-	// delete existing nodes beyond the first one that doesn't match the
-	// new variable names
+	// jdelete existing nodes beyond the first one that doesn't match the
+	// jnew variable names
 
 	const JSize newCount = vars.GetSize();
 	JSize origCount      = itsRootNode->GetChildCount();
 
 	while (origCount > newCount)
 		{
-		delete itsRootNode->GetChild(origCount);
+		jdelete itsRootNode->GetChild(origCount);
 		origCount--;
 		}
 
@@ -104,7 +104,7 @@ LLDBGetLocalVars::HandleSuccess
 				{
 				while (origCount >= i)
 					{
-					delete itsRootNode->GetChild(origCount);
+					jdelete itsRootNode->GetChild(origCount);
 					origCount--;
 					}
 				}

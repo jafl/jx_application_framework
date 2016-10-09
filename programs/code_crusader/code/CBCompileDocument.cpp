@@ -216,7 +216,7 @@ CBCompileDocument::AppendText
 	JBoolean deleteText = kJFalse;
 	if (strchr(*text, kMultibyteMarker) != NULL)
 		{
-		JString* s = new JString(origText);
+		JString* s = jnew JString(origText);
 		assert( s != NULL );
 		text       = s;
 		deleteText = kJTrue;
@@ -374,7 +374,7 @@ CBCompileDocument::AppendText
 
 	if (deleteText)
 		{
-		delete text;
+		jdelete text;
 		}
 }
 

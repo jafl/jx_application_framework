@@ -71,7 +71,7 @@ JDecision*
 JFunctionEquality::Copy()
 	const
 {
-	JFunctionEquality* newDecision = new JFunctionEquality(*this);
+	JFunctionEquality* newDecision = jnew JFunctionEquality(*this);
 	assert( newDecision != NULL );
 	return newDecision;
 }

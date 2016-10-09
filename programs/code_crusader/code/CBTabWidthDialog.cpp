@@ -67,27 +67,27 @@ CBTabWidthDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 180,90, "");
+	JXWindow* window = jnew JXWindow(this, 180,90, "");
 	assert( window != NULL );
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::CBTabWidthDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::CBTabWidthDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,60, 60,20);
 	assert( cancelButton != NULL );
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::CBTabWidthDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::CBTabWidthDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 100,60, 60,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::CBTabWidthDialog::shortcuts::JXLayout"));
 
 	itsTabWidthInput =
-		new JXIntegerInput(window,
+		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 120,20, 40,20);
 	assert( itsTabWidthInput != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::CBTabWidthDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::CBTabWidthDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 100,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();

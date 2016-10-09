@@ -22,7 +22,7 @@ LLDBBreakpointManager::LLDBBreakpointManager
 	LLDBLink* link
 	)
 	:
-	CMBreakpointManager(link, new LLDBGetBreakpoints())
+	CMBreakpointManager(link, jnew LLDBGetBreakpoints())
 {
 }
 

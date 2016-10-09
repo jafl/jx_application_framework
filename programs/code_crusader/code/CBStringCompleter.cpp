@@ -35,7 +35,7 @@ CBStringCompleter::CBStringCompleter
 	itsPrefefKeywordList(keywordList),
 	itsCaseSensitiveFlag(caseSensitive)
 {
-	itsStringList = new JPtrArray<JString>(JPtrArrayT::kForgetAll, 1000);
+	itsStringList = jnew JPtrArray<JString>(JPtrArrayT::kForgetAll, 1000);
 	assert( itsStringList != NULL );
 	itsStringList->SetSortOrder(JOrderedSetT::kSortAscending);
 
@@ -48,7 +48,7 @@ CBStringCompleter::CBStringCompleter
 		itsStringList->SetCompareFunction(JCompareStringsCaseInsensitive);
 		}
 
-	itsOwnedList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsOwnedList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsOwnedList != NULL );
 
 	if (itsLanguage != kCBOtherLang)
@@ -83,8 +83,8 @@ CBStringCompleter::CBStringCompleter
 
 CBStringCompleter::~CBStringCompleter()
 {
-	delete itsStringList;
-	delete itsOwnedList;
+	jdelete itsStringList;
+	jdelete itsOwnedList;
 }
 
 /******************************************************************************
@@ -114,7 +114,7 @@ CBStringCompleter::Add
 	const JCharacter* str
 	)
 {
-	JString* s = new JString(str);
+	JString* s = jnew JString(str);
 	assert( s != NULL );
 	if (itsStringList->InsertSorted(s, kJFalse))
 		{
@@ -122,7 +122,7 @@ CBStringCompleter::Add
 		}
 	else
 		{
-		delete s;
+		jdelete s;
 		}
 }
 

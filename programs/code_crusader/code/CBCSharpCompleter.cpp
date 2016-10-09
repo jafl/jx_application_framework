@@ -21,7 +21,7 @@ static const JCharacter* kKeywordList[] =
 	"else", "enum", "event", "explicit", "extern",
 	"false", "finally", "fixed", "float", "for", "foreach", "goto",
 	"if", "implicit", "in", "int", "interface", "internal", "is",
-	"lock", "long", "namespace", "new", "null",
+	"lock", "long", "namespace", "jnew", "null",
 	"object", "operator", "out", "override",
 	"params", "private", "protected", "public",
 	"readonly", "ref", "return", "sbyte", "sealed", "short",
@@ -52,7 +52,7 @@ CBCSharpCompleter::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBCSharpCompleter;
+		itsSelf = jnew CBCSharpCompleter;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -69,7 +69,7 @@ CBCSharpCompleter::Instance()
 void
 CBCSharpCompleter::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

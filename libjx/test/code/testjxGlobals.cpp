@@ -41,7 +41,7 @@ TestjxCreateGlobals
 	JXCreateDefaultDocumentManager();
 
 	TestDockManager* theDockManager =
-		new TestDockManager((JXGetApplication())->GetCurrentDisplay());
+		jnew TestDockManager((JXGetApplication())->GetCurrentDisplay());
 	assert( theDockManager != NULL );
 
 	if (JFileExists(kDockSetupFileName))
@@ -52,7 +52,7 @@ TestjxCreateGlobals
 
 	if (wantMDI)
 		{
-		theMDIServer = new TestMDIServer;
+		theMDIServer = jnew TestMDIServer;
 		assert( theMDIServer != NULL );
 		}
 

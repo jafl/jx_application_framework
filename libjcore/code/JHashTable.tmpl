@@ -92,7 +92,7 @@
 	efficient bit-wise wrap for pointers rather than the slower modulus function
 	(the HashToIndex function) and makes it easy to support dynamic resizing by
 	doubling and halving the table as necessary.  Powers of two also tend to
-	interact well with memory managers.  Malloc, operator new, and their kin often
+	interact well with memory managers.  Malloc, operator jnew, and their kin often
 	allocate a block of memory of the next even power-of-two larger than the size
 	requested, so asking for power-of-two sizes allows efficient use of memory.
 	(Of course it doesn't guarantee it, since the size of the data stored may not
@@ -106,7 +106,7 @@
 	with 1.  (I've seen good textbooks go haywire and suggest that the table size
 	be prime number!  I believe the rationale for this trick is suspect even for
 	fixed tablesize student code.  It is not much easier to calculate, makes it
-	much harder to find arbitrary new table sizes when dynamically resizing, and
+	much harder to find arbitrary jnew table sizes when dynamically resizing, and
 	comes with none of the other advantages.)
 
 	Finally, for clarity and maintainability the algorithms for traversing the
@@ -167,10 +167,10 @@ JHashTable<V>::JHashTable
 {
 	assert(CHAR_BIT == 8);
 
-	itsArray = new JHashRecord<V>[itsMaxIndex+1];
+	itsArray = jnew JHashRecord<V>[itsMaxIndex+1];
 	assert(itsArray != NULL);
 
-	itsCursor = new JHashCursor<V>(this);
+	itsCursor = jnew JHashCursor<V>(this);
 	assert(itsCursor != NULL);
 }
 
@@ -182,11 +182,11 @@ JHashTable<V>::JHashTable
 template <class V>
 JHashTable<V>::~JHashTable()
 {
-	delete[] itsArray;
+	jdelete[] itsArray;
 	itsArray = NULL;
 	itsMaxIndex = 0;
 
-	delete itsCursor;
+	jdelete itsCursor;
 	itsCursor = NULL;
 }
 
@@ -276,7 +276,7 @@ JHashTable<V>::SetMinTableSize
 	itsLgMinTableSize = 0;
 
 
-	// Find new min size
+	// Find jnew min size
 	// Cast to ul instead of JSize so it works even if JSize is not a long
 	while ( static_cast<unsigned long>(1L << itsLgMinTableSize) < newMin)
 		{
@@ -667,13 +667,13 @@ JHashTable<V>::TryResizeTable
 			{
 //cout << "Shortcut: just realloc'ing list" << endl;
 			// This must be replaced with a true realloc as soon as JMM can do it
-			delete[] itsArray;
+			jdelete[] itsArray;
 			itsArray = NULL;
 
 			itsLgSize = lgSize;
 			itsMaxIndex = (1UL << itsLgSize) - 1;
 
-			itsArray = new JHashRecord<V>[itsMaxIndex+1];
+			itsArray = jnew JHashRecord<V>[itsMaxIndex+1];
 			assert(itsArray != NULL);
 
 			itsLoadCount = 0;
@@ -684,7 +684,7 @@ JHashTable<V>::TryResizeTable
 	// Guess not, do it the hard way.
 
 	// The 'Frankenstein' resize algorithm: create a temporary object which is like
-	// we wish we were, then swap guts and let the temporary delete our old table.
+	// we wish we were, then swap guts and let the temporary jdelete our old table.
 	// Or is that the 'Dracula' resize algorithm?
 
 	JHashTable<V> newTable(lgSize);
@@ -708,7 +708,7 @@ JHashTable<V>::TryResizeTable
 
 	// Steal the temporary table's data and give it our old
 
-	// We have to swap the tables so newTable.~JHashTable will delete the old one
+	// We have to swap the tables so newTable.~JHashTable will jdelete the old one
 	// Heere is the braain, masster!
 	JHashRecord<V>* swapArray = itsArray;
 	itsArray = newTable.itsArray;
@@ -767,7 +767,7 @@ JHashTable<V>::ResizeTable
 	FitToLimits encapsulates as much as possible of the resizing behavior of
 	JHashTable in one place.  It attempts to be as efficient as possible (that
 	is, perform as few resizes as possible) for a wide range of insert, search,
-	and delete behaviors.
+	and jdelete behaviors.
 
 	If 'force' is kJTrue, a resize is always done (and thus the load factor is
 	reduced to the fill factor), unless resizing is disabled.  If 'force is

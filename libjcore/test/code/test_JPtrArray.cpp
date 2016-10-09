@@ -30,7 +30,7 @@ JBroadcastSnooper snoop1(&a1);
 	long i;
 	for (i=1;i<=5;i++)
 		{
-		stringPtr = new JString("0");
+		stringPtr = jnew JString("0");
 		assert( stringPtr != NULL );
 		stringPtr->SetCharacter(1, '0' + i);
 		a1.Append(stringPtr);
@@ -44,7 +44,7 @@ JBroadcastSnooper snoop1(&a1);
 
 	a1.SwapElements(2,5);
 
-	stringPtr = new JString("1");
+	stringPtr = jnew JString("1");
 	assert( stringPtr != NULL );
 	a1.InsertAtIndex(3, stringPtr);
 
@@ -62,7 +62,7 @@ JPtrArrayIterator<JString> iter(&a1,kJIteratorStartAtBeginning);
 			{
 			stringPtr = a1.NthElement(4);
 			a1.Remove(stringPtr);
-			delete stringPtr;
+			jdelete stringPtr;
 			stringPtr = NULL;
 			}
 		}

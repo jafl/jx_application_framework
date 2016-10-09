@@ -158,7 +158,7 @@ JSubset::Contains
 /******************************************************************************
  NewIterator
 
-	Returns a new iterator for use with this subset.
+	Returns a jnew iterator for use with this subset.
 
  ******************************************************************************/
 

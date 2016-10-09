@@ -97,7 +97,7 @@ XDGetSourceFileList::ScanDirectory
 			}
 		}
 
-	delete info;
+	jdelete info;
 }
 
 /******************************************************************************

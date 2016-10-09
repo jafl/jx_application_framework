@@ -4,9 +4,9 @@
 	This class encapsulates everything the class browser needs to know about
 	each class.
 
-	Note that only CBTree can delete CBClass.  Since extra generality is
+	Note that only CBTree can jdelete CBClass.  Since extra generality is
 	pointless in this case, it is too much trouble to allow others to
-	delete us.  (Among other actions, one would have to call
+	jdelete us.  (Among other actions, one would have to call
 	CBTree::UpdatePlacement(), which is -very- expensive.)
 
 	Derived classes must implement:
@@ -213,7 +213,7 @@ JIndex i;
 	for (i=1; i<=parentCount; i++)
 		{
 		ParentInfo pInfo;
-		pInfo.name = new JString;
+		pInfo.name = jnew JString;
 		assert( pInfo.name != NULL );
 
 		input >> *(pInfo.name) >> pInfo.indexFromFile >> pInfo.inheritance;
@@ -228,7 +228,7 @@ JIndex i;
 	for (i=1; i<=fnCount; i++)
 		{
 		FunctionInfo fInfo;
-		fInfo.name = new JString;
+		fInfo.name = jnew JString;
 		assert( fInfo.name != NULL );
 		JBoolean pureVirtual;
 		input >> *(fInfo.name) >> fInfo.access >> pureVirtual;
@@ -262,13 +262,13 @@ CBClass::CBClassX
 {
 	itsTree = tree;
 
-	itsParentInfo = new JArray<ParentInfo>;
+	itsParentInfo = jnew JArray<ParentInfo>;
 	assert( itsParentInfo != NULL );
 
 	itsHasPrimaryChildrenFlag   = kJFalse;
 	itsHasSecondaryChildrenFlag = kJFalse;
 
-	itsFunctionInfo = new JArray<FunctionInfo>;
+	itsFunctionInfo = jnew JArray<FunctionInfo>;
 	assert( itsFunctionInfo != NULL );
 	itsFunctionInfo->SetCompareFunction(CompareFunctionNames);
 	itsFunctionInfo->SetSortOrder(JOrderedSetT::kSortAscending);
@@ -296,9 +296,9 @@ CBClass::~CBClass()
 		for (JIndex i=1; i<=pCount; i++)
 			{
 			ParentInfo pInfo = itsParentInfo->GetElement(i);
-			delete pInfo.name;
+			jdelete pInfo.name;
 			}
-		delete itsParentInfo;
+		jdelete itsParentInfo;
 		}
 
 	if (itsFunctionInfo != NULL)
@@ -307,9 +307,9 @@ CBClass::~CBClass()
 		for (JIndex i=1; i<=fCount; i++)
 			{
 			FunctionInfo fInfo = itsFunctionInfo->GetElement(i);
-			delete fInfo.name;
+			jdelete fInfo.name;
 			}
-		delete itsFunctionInfo;
+		jdelete itsFunctionInfo;
 		}
 }
 
@@ -461,7 +461,7 @@ CBClass::AddParent
 	const JCharacter* name
 	)
 {
-	ParentInfo pInfo(new JString(name), NULL, type);
+	ParentInfo pInfo(jnew JString(name), NULL, type);
 	assert( pInfo.name != NULL );
 	itsParentInfo->AppendElement(pInfo);
 }
@@ -602,7 +602,7 @@ CBClass::FindParent
 /******************************************************************************
  NewGhost (virtual protected)
 
-	Creates a new ghost using the appropriate derived class.  The file name
+	Creates a jnew ghost using the appropriate derived class.  The file name
 	is not passed in because it can be empty.
 
  ******************************************************************************/
@@ -762,7 +762,7 @@ CBClass::AddFunction
 	const JBoolean		implemented
 	)
 {
-	FunctionInfo fInfo(new JString(name), access, implemented);
+	FunctionInfo fInfo(jnew JString(name), access, implemented);
 	assert( fInfo.name != NULL );
 
 	itsFunctionInfo->InsertSorted(fInfo);

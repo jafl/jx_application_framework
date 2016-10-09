@@ -1,7 +1,7 @@
 /******************************************************************************
  jNew.cpp
 
-	JNew.cc defines the JCore operator new, JNew.  JNew provides many memory
+	JNew.cc defines the JCore operator jnew, JNew.  JNew provides many memory
 	management features that the built-in allocator does not, principally for
 	detection of memory leaks.
 
@@ -15,8 +15,6 @@
 
 // Module header
 #include <jNew.h>
-#undef new
-#undef delete
 
 /******************************************************************************
  operator new
@@ -28,6 +26,7 @@ operator new
 	(
 	size_t size
 	)
+	noexcept
 {
 	return operator new(size, "<UNKNOWN>", 0);
 }
@@ -44,6 +43,7 @@ operator new
 	const  JCharacter* file,
 	const  JUInt32     line
 	)
+	noexcept
 {
 	return JMemoryManager::New(size, file, line, kJFalse);
 }
@@ -58,6 +58,7 @@ operator new[]
 	(
 	size_t size
 	)
+	noexcept
 {
 	return operator new[](size, "<UNKNOWN>", 0);
 }
@@ -74,6 +75,7 @@ operator new[]
 	const  JCharacter* file,
 	const  JUInt32     line
 	)
+	noexcept
 {
 	return JMemoryManager::New(size, file, line, kJTrue);
 }
@@ -88,6 +90,7 @@ operator delete
 	(
 	void* memory
 	)
+	noexcept
 {
 	JMemoryManager::Instance()->Delete(memory, kJFalse);
 }
@@ -102,6 +105,7 @@ operator delete[]
 	(
 	void* memory
 	)
+	noexcept
 {
 	JMemoryManager::Instance()->Delete(memory, kJTrue);
 }

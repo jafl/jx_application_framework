@@ -66,13 +66,13 @@ GFGMDIServer::HandleMDIRequest
 	for (JIndex i = 2; i <= count; i++)
 		{
 		JString arg	= *(argList.NthElement(i));
-		if (arg == "--delete")
+		if (arg == "--jdelete")
 			{
 			GFGGetApplication()->ShouldBeDeletingTemplate(kJTrue);
 			}
 		}
 
-	GFGMainDirector* dialog = new GFGMainDirector(JXGetApplication(), argList);
+	GFGMainDirector* dialog = jnew GFGMainDirector(JXGetApplication(), argList);
 	assert( dialog != NULL );
 	dialog->Activate();
 

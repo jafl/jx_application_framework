@@ -92,7 +92,7 @@ LLDBLink::LLDBLink()
 {
 	InitFlags();
 
-	itsBPMgr = new LLDBBreakpointManager(this);
+	itsBPMgr = jnew LLDBBreakpointManager(this);
 	assert( itsBPMgr != NULL );
 
 	StartDebugger(kJFalse);
@@ -107,8 +107,8 @@ LLDBLink::~LLDBLink()
 {
 	StopDebugger();
 
-	delete itsBPMgr;
-	delete itsPrompt;
+	jdelete itsBPMgr;
+	jdelete itsPrompt;
 
 	DeleteOneShotCommands();
 }
@@ -133,8 +133,8 @@ const JString&
 LLDBLink::GetPrompt()
 	const
 {
-	delete itsPrompt;
-	const_cast<LLDBLink*>(this)->itsPrompt = new JString(itsDebugger->GetPrompt());
+	jdelete itsPrompt;
+	const_cast<LLDBLink*>(this)->itsPrompt = jnew JString(itsDebugger->GetPrompt());
 	assert( itsPrompt != NULL );
 
 	return *itsPrompt;
@@ -585,7 +585,7 @@ LLDBLink::SetProgram
 		{
 		StartListeningForEvents(t.GetBroadcaster(), kLLDBEventMask);
 
-		LLDBSymbolsLoadedTask* task = new LLDBSymbolsLoadedTask(fullName);
+		LLDBSymbolsLoadedTask* task = jnew LLDBSymbolsLoadedTask(fullName);
 		assert( task != NULL );
 		task->Go();
 		}
@@ -681,7 +681,7 @@ LLDBLink::AttachToProcess
 			lldb::SBFileSpec f     = t.GetExecutable();
 			const JString fullName = JCombinePathAndName(f.GetDirectory(), f.GetFilename());
 
-			LLDBSymbolsLoadedTask* task = new LLDBSymbolsLoadedTask(fullName);
+			LLDBSymbolsLoadedTask* task = jnew LLDBSymbolsLoadedTask(fullName);
 			assert( task != NULL );
 			task->Go();
 
@@ -713,7 +713,7 @@ LLDBLink::RunProgram
 			{
 			JParseArgsForExec(args, &argList);
 
-			lldbArgs = new JCharacter*[ argList.GetElementCount()+1 ];
+			lldbArgs = jnew JCharacter*[ argList.GetElementCount()+1 ];
 			assert( lldbArgs != NULL );
 
 			for (JIndex i=1; i<=argList.GetElementCount(); i++)
@@ -728,7 +728,7 @@ LLDBLink::RunProgram
 		t.Launch(*this, (const char**) lldbArgs, (const char**) environ,
 				 NULL, NULL, NULL, ".", 0, false, error);
 
-		delete lldbArgs;
+		jdelete lldbArgs;
 		}
 }
 
@@ -1333,7 +1333,7 @@ LLDBLink::CreateArray2DCommand
 	JStringTableData*	data
 	)
 {
-	CMArray2DCommand* cmd = new LLDBArray2DCommand(dir, table, data);
+	CMArray2DCommand* cmd = jnew LLDBArray2DCommand(dir, table, data);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1351,7 +1351,7 @@ LLDBLink::CreatePlot2DCommand
 	JArray<JFloat>*	y
 	)
 {
-	CMPlot2DCommand* cmd = new LLDBPlot2DCommand(dir, x, y);
+	CMPlot2DCommand* cmd = jnew LLDBPlot2DCommand(dir, x, y);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1367,7 +1367,7 @@ LLDBLink::CreateDisplaySourceForMain
 	CMSourceDirector* sourceDir
 	)
 {
-	CMDisplaySourceForMain* cmd = new LLDBDisplaySourceForMain(sourceDir);
+	CMDisplaySourceForMain* cmd = jnew LLDBDisplaySourceForMain(sourceDir);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1384,7 +1384,7 @@ LLDBLink::CreateGetCompletions
 	CMCommandOutputDisplay*	history
 	)
 {
-	CMGetCompletions* cmd = new LLDBGetCompletions(input, history);
+	CMGetCompletions* cmd = jnew LLDBGetCompletions(input, history);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1400,7 +1400,7 @@ LLDBLink::CreateGetFrame
 	CMStackWidget* widget
 	)
 {
-	CMGetFrame* cmd = new LLDBGetFrame(widget);
+	CMGetFrame* cmd = jnew LLDBGetFrame(widget);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1417,7 +1417,7 @@ LLDBLink::CreateGetStack
 	CMStackWidget*	widget
 	)
 {
-	CMGetStack* cmd = new LLDBGetStack(tree, widget);
+	CMGetStack* cmd = jnew LLDBGetStack(tree, widget);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1433,7 +1433,7 @@ LLDBLink::CreateGetThread
 	CMThreadsWidget* widget
 	)
 {
-	CMGetThread* cmd = new LLDBGetThread(widget);
+	CMGetThread* cmd = jnew LLDBGetThread(widget);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1450,7 +1450,7 @@ LLDBLink::CreateGetThreads
 	CMThreadsWidget*	widget
 	)
 {
-	CMGetThreads* cmd = new LLDBGetThreads(tree, widget);
+	CMGetThreads* cmd = jnew LLDBGetThreads(tree, widget);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1467,7 +1467,7 @@ LLDBLink::CreateGetFullPath
 	const JIndex		lineIndex
 	)
 {
-	CMGetFullPath* cmd = new LLDBGetFullPath(fileName, lineIndex);
+	CMGetFullPath* cmd = jnew LLDBGetFullPath(fileName, lineIndex);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1483,7 +1483,7 @@ LLDBLink::CreateGetInitArgs
 	JXInputField* argInput
 	)
 {
-	CMGetInitArgs* cmd = new LLDBGetInitArgs(argInput);
+	CMGetInitArgs* cmd = jnew LLDBGetInitArgs(argInput);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1499,7 +1499,7 @@ LLDBLink::CreateGetLocalVars
 	CMVarNode* rootNode
 	)
 {
-	CMGetLocalVars* cmd = new LLDBGetLocalVars(rootNode);
+	CMGetLocalVars* cmd = jnew LLDBGetLocalVars(rootNode);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1515,7 +1515,7 @@ LLDBLink::CreateGetSourceFileList
 	CMFileListDir* fileList
 	)
 {
-	CMGetSourceFileList* cmd = new LLDBGetSourceFileList(fileList);
+	CMGetSourceFileList* cmd = jnew LLDBGetSourceFileList(fileList);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1531,7 +1531,7 @@ LLDBLink::CreateVarValueCommand
 	const JCharacter* expr
 	)
 {
-	CMVarCommand* cmd = new LLDBVarCommand(expr);
+	CMVarCommand* cmd = jnew LLDBVarCommand(expr);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1551,7 +1551,7 @@ LLDBLink::CreateVarContentCommand
 	s        += expr;
 	s        += ")";
 
-	CMVarCommand* cmd = new LLDBVarCommand(s);
+	CMVarCommand* cmd = jnew LLDBVarCommand(s);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1567,7 +1567,7 @@ LLDBLink::CreateVarNode
 	const JBoolean shouldUpdate		// kJFalse for Local Variables
 	)
 {
-	CMVarNode* node = new LLDBVarNode(shouldUpdate);
+	CMVarNode* node = jnew LLDBVarNode(shouldUpdate);
 	assert( node != NULL );
 	return node;
 }
@@ -1581,7 +1581,7 @@ LLDBLink::CreateVarNode
 	const JCharacter*	value
 	)
 {
-	CMVarNode* node = new LLDBVarNode(parent, name, value);
+	CMVarNode* node = jnew LLDBVarNode(parent, name, value);
 	assert( node != NULL );
 	return node;
 }
@@ -1628,7 +1628,7 @@ LLDBLink::CreateGetMemory
 	CMMemoryDir* dir
 	)
 {
-	CMGetMemory* cmd = new LLDBGetMemory(dir);
+	CMGetMemory* cmd = jnew LLDBGetMemory(dir);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1644,7 +1644,7 @@ LLDBLink::CreateGetAssembly
 	CMSourceDirector* dir
 	)
 {
-	CMGetAssembly* cmd = new LLDBGetAssembly(dir);
+	CMGetAssembly* cmd = jnew LLDBGetAssembly(dir);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1660,7 +1660,7 @@ LLDBLink::CreateGetRegisters
 	CMRegistersDir* dir
 	)
 {
-	CMGetRegisters* cmd = new LLDBGetRegisters(dir);
+	CMGetRegisters* cmd = jnew LLDBGetRegisters(dir);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1705,7 +1705,7 @@ LLDBLink::SendMedicCommand
 {
 	command->Starting();
 
-	JXUrgentTask* task = new LLDBRunBackgroundCommandTask(command);
+	JXUrgentTask* task = jnew LLDBRunBackgroundCommandTask(command);
 	assert( task != NULL );
 	(JXGetApplication())->InstallUrgentTask(task);
 }
@@ -1722,7 +1722,7 @@ LLDBLink::SendMedicCommandSync
 	)
 {
 	HandleCommandRunning(command->GetTransactionID());
-	command->Finished(kJTrue);	// may delete object
+	command->Finished(kJTrue);	// may jdelete object
 	SetRunningCommand(NULL);
 
 	if (!HasForegroundCommands())
@@ -1936,7 +1936,7 @@ LLDBLink::StartDebugger
 {
 	assert( itsDebugger == NULL );
 
-	itsDebugger = new lldb::SBDebugger(lldb::SBDebugger::Create(true, LogLLDBMessage, this));
+	itsDebugger = jnew lldb::SBDebugger(lldb::SBDebugger::Create(true, LogLLDBMessage, this));
 	if (itsDebugger->IsValid())
 		{
 		StartListeningForEvents(itsDebugger->GetCommandInterpreter().GetBroadcaster(), kLLDBEventMask);
@@ -1974,7 +1974,7 @@ LLDBLink::StartDebugger
 			};
 		JString msg = JGetString("Welcome::LLDBLink", map, sizeof(map));
 
-		LLDBWelcomeTask* task = new LLDBWelcomeTask(msg, restart);
+		LLDBWelcomeTask* task = jnew LLDBWelcomeTask(msg, restart);
 		assert( task != NULL );
 		task->Go();
 
@@ -2004,7 +2004,7 @@ LLDBLink::StopDebugger()
 	itsStderrStream = NULL;
 
 	lldb::SBDebugger::Destroy(*itsDebugger);
-	delete itsDebugger;
+	jdelete itsDebugger;
 	itsDebugger = NULL;
 
 	InitFlags();

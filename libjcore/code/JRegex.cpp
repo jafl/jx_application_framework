@@ -216,7 +216,7 @@ JRegex::JRegex
 void
 JRegex::Allocate()
 {
-	itsReplacePattern = new JString;
+	itsReplacePattern = jnew JString;
 	assert(itsReplacePattern != NULL);
 
 	#ifdef	JRE_ALLOC_CHECK
@@ -233,10 +233,10 @@ JRegex::~JRegex()
 {
 	RegFree();
 
-	delete itsReplacePattern;
+	jdelete itsReplacePattern;
 	itsReplacePattern = NULL;
 
-	delete itsInterpolator;
+	jdelete itsInterpolator;
 }
 
 /******************************************************************************
@@ -1117,7 +1117,7 @@ JRegex::GetMatchInterpolator()
 		// This function is conceptually const
 
 		JRegex* mutableThis = const_cast<JRegex*>(this);
-		mutableThis->itsInterpolator = new JInterpolate;
+		mutableThis->itsInterpolator = jnew JInterpolate;
 		assert(itsInterpolator != NULL);
 		}
 
@@ -1591,7 +1591,7 @@ JRegex::RegExec
 
 	nmatch = (subCount+1)*3;
 
-	pmatch = new regmatch_t[ nmatch ];
+	pmatch = jnew regmatch_t[ nmatch ];
 	assert( pmatch != NULL );
 
 	int returnCode = pcre_exec(itsRegex, NULL, str, length, offset,
@@ -1631,7 +1631,7 @@ JRegex::RegExec
 		cerr << "unexpected error from PCRE: " << returnCode << endl;
 		}
 
-	delete [] pmatch;
+	jdelete [] pmatch;
 	return success;
 }
 

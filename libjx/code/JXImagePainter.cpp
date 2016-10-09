@@ -34,7 +34,7 @@ JXImagePainter::JXImagePainter
 	const Region	defaultClipRegion
 	)
 	:
-	JXWindowPainter(new JXGC(image->GetDisplay(), drawable),
+	JXWindowPainter(jnew JXGC(image->GetDisplay(), drawable),
 					drawable, defaultClipRect, defaultClipRegion)
 {
 	assert( image != NULL );
@@ -61,7 +61,7 @@ JXImagePainter::JXImagePainter
 JXImagePainter::~JXImagePainter()
 {
 	JXGC* gc = GetGC();
-	delete gc;
+	jdelete gc;
 
 	if (itsImage != NULL)
 		{

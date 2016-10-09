@@ -71,7 +71,7 @@ JXProgressTask::JXProgressTaskX
 	const JBoolean		allowCancel
 	)
 {
-	itsPG = new JLatentPG;
+	itsPG = jnew JLatentPG;
 	assert( itsPG != NULL );
 	itsPG->VariableLengthProcessBeginning(message, allowCancel, kJTrue);
 
@@ -88,7 +88,7 @@ JXProgressTask::~JXProgressTask()
 	if (itsOwnsPGFlag)
 		{
 		itsPG->ProcessFinished();
-		delete itsPG;
+		jdelete itsPG;
 		}
 }
 
@@ -109,6 +109,6 @@ JXProgressTask::Perform
 		 (!itsOwnsPGFlag && !itsPG->ProcessContinuing())))
 		{
 		Broadcast(Cancelled());
-		delete this;	// safe to commit suicide as last action
+		jdelete this;	// safe to commit suicide as last action
 		}
 }

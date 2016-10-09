@@ -110,25 +110,25 @@ SyGCreateGlobals
 		}
 
 	JBoolean isNew;
-	thePrefsMgr = new SyGPrefsMgr(&isNew);
+	thePrefsMgr = jnew SyGPrefsMgr(&isNew);
 	assert(thePrefsMgr != NULL);
 
 	JXInitHelp(kSyGTOCHelpName, kSyGHelpSectionCount, kSyGHelpSectionName);
 
-	JXWDManager* wdMgr = new JXWDManager(app->GetCurrentDisplay(), kJTrue);
+	JXWDManager* wdMgr = jnew JXWDManager(app->GetCurrentDisplay(), kJTrue);
 	assert( wdMgr != NULL );
 	// registers itself
 
-	theMDIServer = new SyGMDIServer;
+	theMDIServer = jnew SyGMDIServer;
 	assert( theMDIServer != NULL );
 
-	theManPageDialog = new SyGViewManPageDialog(JXGetPersistentWindowOwner());
+	theManPageDialog = jnew SyGViewManPageDialog(JXGetPersistentWindowOwner());
 	assert( theManPageDialog != NULL );
 
-	theFindFileDialog = new SyGFindFileDialog(JXGetPersistentWindowOwner());
+	theFindFileDialog = jnew SyGFindFileDialog(JXGetPersistentWindowOwner());
 	assert( theFindFileDialog != NULL );
 
-	theAltChooseSaveFile = new SyGChooseSaveFile(thePrefsMgr, kSAltCSSetupID);
+	theAltChooseSaveFile = jnew SyGChooseSaveFile(thePrefsMgr, kSAltCSSetupID);
 	assert( theAltChooseSaveFile != NULL );
 
 	JString trashDir;
@@ -155,10 +155,10 @@ SyGDeleteGlobals()
 	theFindFileDialog->JPrefObject::WritePrefs();
 	theFindFileDialog = NULL;
 
-	delete theAltChooseSaveFile;
+	jdelete theAltChooseSaveFile;
 	theAltChooseSaveFile = NULL;
 
-	delete theTrashDirInfo;
+	jdelete theTrashDirInfo;
 	theTrashDirInfo = NULL;
 
 	SyGDeleteIcons();
@@ -171,7 +171,7 @@ SyGDeleteGlobals()
 
 	// this must be last so everybody else can use it to save their setup
 
-	delete thePrefsMgr;
+	jdelete thePrefsMgr;
 	thePrefsMgr = NULL;
 }
 
@@ -537,15 +537,15 @@ SyGGetDNDAskActions
 	actionList->AppendElement(dndMgr->GetDNDActionMoveXAtom());
 	actionList->AppendElement(dndMgr->GetDNDActionLinkXAtom());
 
-	JString* s = new JString(JGetString(kDNDCopyDescriptionID));
+	JString* s = jnew JString(JGetString(kDNDCopyDescriptionID));
 	assert( s != NULL );
 	descriptionList->Append(s);
 
-	s = new JString(JGetString(kDNDMoveDescriptionID));
+	s = jnew JString(JGetString(kDNDMoveDescriptionID));
 	assert( s != NULL );
 	descriptionList->Append(s);
 
-	s = new JString(JGetString(kDNDLinkDescriptionID));
+	s = jnew JString(JGetString(kDNDLinkDescriptionID));
 	assert( s != NULL );
 	descriptionList->Append(s);
 }
@@ -976,7 +976,7 @@ SyGAddRecentFile
 					}
 				}
 
-			// add new entry
+			// add jnew entry
 
 			JCreateSymbolicLink(fullname, recentFile);
 			}

@@ -133,7 +133,7 @@ JDirEntry::JDirEntry
 
 	if (source.itsLinkName != NULL)
 		{
-		itsLinkName = new JString(*(source.itsLinkName));
+		itsLinkName = jnew JString(*(source.itsLinkName));
 		assert( itsLinkName != NULL );
 		}
 }
@@ -145,9 +145,9 @@ JDirEntry::JDirEntry
 
 JDirEntry::~JDirEntry()
 {
-	delete itsLinkName;
-	delete itsUserName;
-	delete itsGroupName;
+	jdelete itsLinkName;
+	jdelete itsUserName;
+	jdelete itsGroupName;
 }
 
 /******************************************************************************
@@ -176,12 +176,12 @@ JDirEntry::operator=
 		}
 	else if (source.itsLinkName != NULL)
 		{
-		itsLinkName = new JString(*(source.itsLinkName));
+		itsLinkName = jnew JString(*(source.itsLinkName));
 		assert( itsLinkName != NULL );
 		}
 	else
 		{
-		delete itsLinkName;
+		jdelete itsLinkName;
 		itsLinkName = NULL;
 		}
 
@@ -202,7 +202,7 @@ JDirEntry::operator=
 		}
 	else if (itsUserName != NULL)
 		{
-		delete itsUserName;
+		jdelete itsUserName;
 		itsUserName = NULL;
 		}
 
@@ -212,7 +212,7 @@ JDirEntry::operator=
 		}
 	else if (itsGroupName != NULL)
 		{
-		delete itsGroupName;
+		jdelete itsGroupName;
 		itsGroupName = NULL;
 		}
 
@@ -226,7 +226,7 @@ JDirEntry::operator=
 /******************************************************************************
  FollowLink
 
-	Returns a new object that describes what we point to.  If we are not
+	Returns a jnew object that describes what we point to.  If we are not
 	a link, we return a copy of ourselves.
 
  ******************************************************************************/
@@ -256,7 +256,7 @@ JDirEntry::GetUserName()
 {
 	if (itsUserName == NULL)
 		{
-		const_cast<JDirEntry*>(this)->itsUserName = new JString(JGetUserName(itsUserID));
+		const_cast<JDirEntry*>(this)->itsUserName = jnew JString(JGetUserName(itsUserID));
 		assert( itsUserName != NULL );
 		}
 
@@ -274,7 +274,7 @@ JDirEntry::GetGroupName()
 {
 	if (itsGroupName == NULL)
 		{
-		const_cast<JDirEntry*>(this)->itsGroupName = new JString(JGetGroupName(itsGroupID));
+		const_cast<JDirEntry*>(this)->itsGroupName = jnew JString(JGetGroupName(itsGroupID));
 		assert( itsGroupName != NULL );
 		}
 
@@ -417,13 +417,13 @@ JDirEntry::ForceUpdate()
 
 	itsIsReadableFlag = itsIsWritableFlag = itsIsExecutableFlag = kJFalse;
 
-	delete itsLinkName;
+	jdelete itsLinkName;
 	itsLinkName = NULL;
 
-	delete itsUserName;
+	jdelete itsUserName;
 	itsUserName = NULL;
 
-	delete itsGroupName;
+	jdelete itsGroupName;
 	itsGroupName = NULL;
 
 	// get info from system
@@ -475,11 +475,11 @@ JDirEntry::ForceUpdate()
 			itsType = kUnknownLink;
 			}
 
-		itsLinkName = new JString;
+		itsLinkName = jnew JString;
 		assert( itsLinkName != NULL );
 		if (!(JGetSymbolicLinkTarget(itsFullName, itsLinkName)).OK())
 			{
-			delete itsLinkName;
+			jdelete itsLinkName;
 			itsLinkName = NULL;
 			}
 		}
@@ -541,7 +541,7 @@ JDirEntry::MatchesContentFilter
 			return kJFalse;
 			}
 
-		JCharacter* data = new JCharacter [ kBlockSize ];
+		JCharacter* data = jnew JCharacter [ kBlockSize ];
 		const ssize_t count = read(fd, data, kBlockSize);
 		close(fd);
 		if (count < 0)
@@ -556,7 +556,7 @@ JDirEntry::MatchesContentFilter
 
 		const JBoolean match = regex.MatchWithin(data, JIndexRange(1, count));
 
-		delete [] data;
+		jdelete [] data;
 		return match;
 		}
 	else

@@ -60,10 +60,10 @@ JPrefsManager::JPrefsManager
 	itsCurrentFileVersion(currentVersion),
 	itsEraseFileIfOpenFlag(eraseFileIfOpen)
 {
-	itsFileName = new JString(fileName);
+	itsFileName = jnew JString(fileName);
 	assert( itsFileName != NULL );
 
-	itsData = new JArray<PrefItem>;
+	itsData = jnew JArray<PrefItem>;
 	assert( itsData != NULL );
 	itsData->SetCompareFunction(ComparePrefIDs);
 
@@ -79,15 +79,15 @@ JPrefsManager::JPrefsManager
 
 JPrefsManager::~JPrefsManager()
 {
-	delete itsFileName;
+	jdelete itsFileName;
 
 	const JSize count = itsData->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
 		PrefItem item = itsData->GetElement(i);
-		delete item.data;
+		jdelete item.data;
 		}
-	delete itsData;
+	jdelete itsData;
 }
 
 /******************************************************************************
@@ -142,7 +142,7 @@ JPrefsManager::SetData
 		}
 	else
 		{
-		item.data = new JString(data);
+		item.data = jnew JString(data);
 		assert( item.data != NULL );
 		itsData->InsertElementAtIndex(index, item);
 		}
@@ -167,7 +167,7 @@ JPrefsManager::RemoveData
 	if (itsData->SearchSorted(item, JOrderedSetT::kAnyMatch, &index))
 		{
 		item = itsData->GetElement(index);
-		delete item.data;
+		jdelete item.data;
 
 		itsData->RemoveElement(index);
 
@@ -190,7 +190,7 @@ JPrefsManager::SaveToDisk()
 	JError err = Open(&file, kJTrue);
 	if (err.OK())
 		{
-		delete file;
+		jdelete file;
 		file = NULL;
 		}
 	else
@@ -248,7 +248,7 @@ JPrefsManager::SaveToDisk()
 		file->SetData(item.id, *(item.data));
 		}
 
-	delete file;
+	jdelete file;
 
 	// restore owner -- too late to do anything if it fails
 
@@ -283,7 +283,7 @@ JPrefsManager::UpgradeData
 		itsPrevFileVersion = file->GetVersion();
 		LoadData(file);
 		UpgradeData(isNew, itsPrevFileVersion);
-		delete file;
+		jdelete file;
 		}
 	else
 		{
@@ -327,7 +327,7 @@ JPrefsManager::LoadData
 
 		std::string data;
 		file->GetElement(JFAIndex(i), &data);
-		JString* s = new JString(data);
+		JString* s = jnew JString(data);
 		assert( s != NULL );
 
 		PrefItem item(id.GetID(), s);
@@ -363,7 +363,7 @@ JPrefsManager::Open
 			}
 		else
 			{
-			delete *file;
+			jdelete *file;
 			*file = NULL;
 			return WrongVersion();
 			}
@@ -375,7 +375,7 @@ JPrefsManager::Open
 		return Open(file, allowPrevVers);		// now it will work
 		}
 
-	delete *file;
+	jdelete *file;
 	*file = NULL;
 	return err;
 }

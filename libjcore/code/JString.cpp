@@ -61,7 +61,7 @@ JString::JString()
 	itsStringLength = 0;
 	itsAllocLength  = itsBlockSize;
 
-	itsString = new JCharacter [ itsAllocLength+1 ];
+	itsString = jnew JCharacter [ itsAllocLength+1 ];
 	assert( itsString != NULL );
 	itsString [ 0 ] = '\0';
 }
@@ -74,7 +74,7 @@ JString::JString
 	itsBlockSize( kDefaultBlockSize )
 {
 	itsAllocLength = 0;
-	itsString      = NULL;		// makes delete [] safe inside CopyToPrivateString
+	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
 	CopyToPrivateString(str);
 }
 
@@ -87,7 +87,7 @@ JString::JString
 	itsBlockSize( kDefaultBlockSize )
 {
 	itsAllocLength = 0;
-	itsString      = NULL;		// makes delete [] safe inside CopyToPrivateString
+	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
 	CopyToPrivateString(length > 0 ? str : "", length);		// allow NULL,0
 }
 
@@ -100,7 +100,7 @@ JString::JString
 	itsBlockSize( kDefaultBlockSize )
 {
 	itsAllocLength = 0;
-	itsString      = NULL;		// makes delete [] safe inside CopyToPrivateString
+	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
 	CopyToPrivateString(str + range.first-1, range.GetLength());
 }
 
@@ -119,7 +119,7 @@ JString::JString
 
 	itsAllocLength = 50;
 
-	itsString = new JCharacter [ itsAllocLength+1 ];
+	itsString = jnew JCharacter [ itsAllocLength+1 ];
 	assert( itsString != NULL );
 	double2str(number, precision, sigDigitCount,
 			   (expDisplay == kUseGivenExponent ? exponent : expDisplay),
@@ -138,7 +138,7 @@ JString::JString
 	itsBlockSize( kDefaultBlockSize )
 {
 	itsAllocLength = 0;
-	itsString      = NULL;		// makes delete [] safe inside CopyToPrivateString
+	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
 
 	if (number == 0)
 		{
@@ -196,7 +196,7 @@ JString::JString
 	itsBlockSize( kDefaultBlockSize )
 {
 	itsAllocLength = 0;
-	itsString      = NULL;		// makes delete [] safe inside CopyToPrivateString
+	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
 	CopyToPrivateString(s.data(), s.length());
 }
 
@@ -216,7 +216,7 @@ JString::JString
 	itsBlockSize( source.itsBlockSize )
 {
 	itsAllocLength = 0;
-	itsString      = NULL;		// makes delete [] safe inside CopyToPrivateString
+	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
 
 	CopyToPrivateString(source.itsString, source.itsStringLength);
 }
@@ -228,7 +228,7 @@ JString::JString
 
 JString::~JString()
 {
-	delete [] itsString;
+	jdelete [] itsString;
 }
 
 /******************************************************************************
@@ -253,19 +253,19 @@ JString::CopyToPrivateString
 		{
 		itsAllocLength = length + itsBlockSize;
 
-		// We allocate the new memory first.
-		// If new fails, we still have the old string data.
+		// We allocate the jnew memory first.
+		// If jnew fails, we still have the old string data.
 
-		JCharacter* newString = new JCharacter [ itsAllocLength + 1 ];
+		JCharacter* newString = jnew JCharacter [ itsAllocLength + 1 ];
 		assert( newString != NULL );
 
 		// now it's safe to throw out the old data
 
-		delete [] itsString;
+		jdelete [] itsString;
 		itsString = newString;
 		}
 
-	// copy the characters to the new string
+	// copy the characters to the jnew string
 
 	memcpy(itsString, str, length);
 	itsString[ length ] = '\0';
@@ -308,7 +308,7 @@ JString::InsertSubstring
 
 		// allocate space for the combined string
 
-		JCharacter* newString = new JCharacter [ itsAllocLength + 1 ];
+		JCharacter* newString = jnew JCharacter [ itsAllocLength + 1 ];
 		assert( newString != NULL );
 
 		insertionPtr = newString + insertionOffset;
@@ -322,9 +322,9 @@ JString::InsertSubstring
 		memcpy(insertionPtr + insertLength, itsString + insertionOffset,
 			   itsStringLength - insertionOffset + 1);
 
-		// throw out our original string and save the new one
+		// throw out our original string and save the jnew one
 
-		delete [] itsString;
+		jdelete [] itsString;
 		itsString = newString;
 		}
 
@@ -352,8 +352,8 @@ JString::InsertSubstring
 /******************************************************************************
  AllocateCString
 
-	This allocates a new pointer, which the caller is responsible
-	for deleting via "delete []".
+	This allocates a jnew pointer, which the caller is responsible
+	for deleting via "jdelete []".
 
  ******************************************************************************/
 
@@ -361,7 +361,7 @@ JCharacter*
 JString::AllocateCString()
 	const
 {
-	JCharacter* str = new JCharacter [ itsStringLength + 1 ];
+	JCharacter* str = jnew JCharacter [ itsStringLength + 1 ];
 	assert( str != NULL );
 
 	memcpy(str, itsString, itsStringLength+1);
@@ -460,13 +460,13 @@ JString::Clear()
 
 		// throw out the old data
 
-		delete [] itsString;
+		jdelete [] itsString;
 
 		// Having just released a block of memory at least as large as the
 		// one we are requesting, the system must really be screwed if this
-		// call to new doesn't work.
+		// call to jnew doesn't work.
 
-		itsString = new JCharacter [ itsAllocLength + 1 ];
+		itsString = jnew JCharacter [ itsAllocLength + 1 ];
 		assert( itsString != NULL );
 		}
 
@@ -533,18 +533,18 @@ JString::TrimWhitespace()
 		{
 		itsAllocLength = newLength + itsBlockSize;
 
-		// allocate space for the new string + termination
+		// allocate space for the jnew string + termination
 
-		JCharacter* newString = new JCharacter[ itsAllocLength+1 ];
+		JCharacter* newString = jnew JCharacter[ itsAllocLength+1 ];
 		assert( newString != NULL );
 
-		// copy the non-blank characters to the new string
+		// copy the non-blank characters to the jnew string
 
 		memcpy(newString, GetCharacterPtr(firstCharIndex), newLength);
 
-		// throw out our original string and save the new one
+		// throw out our original string and save the jnew one
 
-		delete [] itsString;
+		jdelete [] itsString;
 		itsString = newString;
 		}
 
@@ -883,7 +883,7 @@ JString::Extract
 		JString* s          = NULL;
 		if (!r.IsEmpty())
 			{
-			s = new JString(itsString, r);
+			s = jnew JString(itsString, r);
 			assert( s != NULL );
 			}
 		substringList->Append(s);
@@ -925,7 +925,7 @@ JString::ReplaceSubstring
 
 		// allocate space for the result
 
-		JCharacter* newString = new JCharacter[ itsAllocLength+1 ];
+		JCharacter* newString = jnew JCharacter[ itsAllocLength+1 ];
 		assert( newString != NULL );
 
 		// place the characters in front and behind
@@ -933,9 +933,9 @@ JString::ReplaceSubstring
 		memcpy(newString, itsString, len1);
 		memcpy(newString + len1 + len2, itsString + lastCharIndex, len3);
 
-		// throw out the original string and save the new one
+		// throw out the original string and save the jnew one
 
-		delete [] itsString;
+		jdelete [] itsString;
 		itsString = newString;
 		}
 
@@ -946,7 +946,7 @@ JString::ReplaceSubstring
 		memmove(itsString + len1 + len2, itsString + lastCharIndex, len3);
 		}
 
-	// insert the new characters
+	// insert the jnew characters
 
 	memcpy(itsString + len1, str, len2);
 
@@ -1244,15 +1244,15 @@ JString::Read
 		{
 		itsAllocLength = count + itsBlockSize;
 
-		// We allocate the new memory first.
-		// If new fails, we still have the old string data.
+		// We allocate the jnew memory first.
+		// If jnew fails, we still have the old string data.
 
-		JCharacter* newString = new JCharacter [ itsAllocLength + 1 ];
+		JCharacter* newString = jnew JCharacter [ itsAllocLength + 1 ];
 		assert( newString != NULL );
 
 		// now it's safe to throw out the old data
 
-		delete [] itsString;
+		jdelete [] itsString;
 		itsString = newString;
 		}
 
@@ -1389,18 +1389,18 @@ JSetDiacriticalMap
 	kDiacriticalMap      = map;
 	kDiacriticalMarkType = markType;
 /*
-	delete kToLowerMap;
+	jdelete kToLowerMap;
 	kToLowerMap = NULL;
 
-	delete kToUpperMap;
+	jdelete kToUpperMap;
 	kToUpperMap = NULL;
 
 	if (map != NULL && markType != NULL)
 		{
-		kToLowerMap = new JCharacter [ UCHAR_MAX+1 ];
+		kToLowerMap = jnew JCharacter [ UCHAR_MAX+1 ];
 		assert( kToLowerMap != NULL );
 
-		kToUpperMap = new JCharacter [ UCHAR_MAX+1 ];
+		kToUpperMap = jnew JCharacter [ UCHAR_MAX+1 ];
 		assert( kToUpperMap != NULL );
 
 		for (int i=0; i<=UCHAR_MAX; i++)

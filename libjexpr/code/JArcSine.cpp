@@ -69,7 +69,7 @@ JFunction*
 JArcSine::Copy()
 	const
 {
-	JArcSine* newFunction = new JArcSine(*this);
+	JArcSine* newFunction = jnew JArcSine(*this);
 	assert( newFunction != NULL );
 	return newFunction;
 }

@@ -30,7 +30,7 @@ SyGDuplicateProcess::Duplicate
 	const JPtrArray<SyGFileTreeNode>&	nodeList
 	)
 {
-	SyGDuplicateProcess* p = new SyGDuplicateProcess(table, nodeList);
+	SyGDuplicateProcess* p = jnew SyGDuplicateProcess(table, nodeList);
 	assert( p != NULL );
 }
 

@@ -40,7 +40,7 @@ GLPolyFitDialog::GLPolyFitDialog
 	:
 	JXDialogDirector(supervisor, kJTrue)
 {
-	itsVarList	= new GVarList();
+	itsVarList	= jnew GVarList();
 	assert(itsVarList != NULL);
 
 	itsVarList->AddVariable("x", 0);
@@ -62,8 +62,8 @@ GLPolyFitDialog::GLPolyFitDialog
 
 GLPolyFitDialog::~GLPolyFitDialog()
 {
-	// delete	itsVarList;	
-	// I need to find a way to safely delete this.
+	// jdelete	itsVarList;	
+	// I need to find a way to safely jdelete this.
 }
 
 /******************************************************************************
@@ -76,93 +76,93 @@ GLPolyFitDialog::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 380,450, "");
+    JXWindow* window = jnew JXWindow(this, 380,450, "");
     assert( window != NULL );
 
     JXScrollbarSet* scrollbarSet =
-        new JXScrollbarSet(window,
+        jnew JXScrollbarSet(window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 20,40, 340,100);
     assert( scrollbarSet != NULL );
 
     itsCB[0] =
-        new JXTextCheckbox("0 (Constant)", window,
+        jnew JXTextCheckbox("0 (Constant)", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,155, 110,20);
     assert( itsCB[0] != NULL );
 
     itsCB[1] =
-        new JXTextCheckbox("1", window,
+        jnew JXTextCheckbox("1", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,180, 110,20);
     assert( itsCB[1] != NULL );
 
     itsCB[2] =
-        new JXTextCheckbox("2", window,
+        jnew JXTextCheckbox("2", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,205, 110,20);
     assert( itsCB[2] != NULL );
 
     itsCB[3] =
-        new JXTextCheckbox("3", window,
+        jnew JXTextCheckbox("3", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,230, 110,20);
     assert( itsCB[3] != NULL );
 
     itsCB[4] =
-        new JXTextCheckbox("4", window,
+        jnew JXTextCheckbox("4", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,255, 110,20);
     assert( itsCB[4] != NULL );
 
     itsCB[5] =
-        new JXTextCheckbox("5", window,
+        jnew JXTextCheckbox("5", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,280, 110,20);
     assert( itsCB[5] != NULL );
 
     itsCB[6] =
-        new JXTextCheckbox("6", window,
+        jnew JXTextCheckbox("6", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,305, 110,20);
     assert( itsCB[6] != NULL );
 
     itsCB[7] =
-        new JXTextCheckbox("7", window,
+        jnew JXTextCheckbox("7", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,330, 110,20);
     assert( itsCB[7] != NULL );
 
     itsCB[8] =
-        new JXTextCheckbox("8", window,
+        jnew JXTextCheckbox("8", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,355, 110,20);
     assert( itsCB[8] != NULL );
 
     itsCB[9] =
-        new JXTextCheckbox("9", window,
+        jnew JXTextCheckbox("9", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,380, 110,20);
     assert( itsCB[9] != NULL );
 
     JXStaticText* obj1 =
-        new JXStaticText("Powers:", window,
+        jnew JXStaticText("Powers:", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 90,158, 65,20);
     assert( obj1 != NULL );
 
     JXTextButton* cancelButton =
-        new JXTextButton("Cancel", window,
+        jnew JXTextButton("Cancel", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 25,415, 70,20);
     assert( cancelButton != NULL );
     cancelButton->SetShortcuts("^[");
 
     itsHelpButton =
-        new JXTextButton("Help", window,
+        jnew JXTextButton("Help", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 155,415, 70,20);
     assert( itsHelpButton != NULL );
 
     JXTextButton* okButton =
-        new JXTextButton("OK", window,
+        jnew JXTextButton("OK", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 285,415, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts("^M");
 
     itsNameInput =
-        new JXInputField(window,
+        jnew JXInputField(window,
                     JXWidget::kHElastic, JXWidget::kFixedTop, 90,15, 270,20);
     assert( itsNameInput != NULL );
 
     JXStaticText* obj2 =
-        new JXStaticText("Fit name:", window,
+        jnew JXStaticText("Fit name:", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 20,15, 65,20);
     assert( obj2 != NULL );
 
@@ -170,7 +170,7 @@ GLPolyFitDialog::BuildWindow()
 
 
 	itsFn	= 
-		new JXExprWidget(itsVarList, 
+		jnew JXExprWidget(itsVarList, 
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 100, 100);

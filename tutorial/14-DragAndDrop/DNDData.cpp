@@ -36,14 +36,14 @@ DNDData::DNDData
 /******************************************************************************
  Destructor
 
-  We delete our data and buffer.
+  We jdelete our data and buffer.
 
  *****************************************************************************/
 
 DNDData::~DNDData()
 {
-	delete itsPoints;
-	delete itsBuffer;
+	jdelete itsPoints;
+	jdelete itsBuffer;
 }
 
 /******************************************************************************
@@ -63,7 +63,7 @@ DNDData::SetData
 	// create the data array if it doesn't already exist
 	if (itsPoints == NULL)
 		{
-		itsPoints = new JArray<JPoint>;
+		itsPoints = jnew JArray<JPoint>;
 		assert(itsPoints != NULL);
 		}
 
@@ -82,8 +82,8 @@ DNDData::SetData
 		}
 
 	// since the data has changed, the data buffer is no longer valid. It
-	// is safe to delete it if it is still NULL.
-	delete itsBuffer;
+	// is safe to jdelete it if it is still NULL.
+	jdelete itsBuffer;
 	itsBuffer = NULL;
 }
 
@@ -132,7 +132,7 @@ DNDData::ConvertData
 		// The following code gives X the data in the form that it needs.
 		*returnType = itsLinesXAtom;
 		*dataLength = itsBuffer->GetLength();
-		*data = new unsigned char[ *dataLength ];
+		*data = jnew unsigned char[ *dataLength ];
 		if (*data != NULL)
 			{
 			memcpy(*data, *itsBuffer, *dataLength);
@@ -197,7 +197,7 @@ DNDData::CreateBuffer()
 			}
 
 		// Create our buffer with the character pointer.
-		th->itsBuffer  = new JString(os.str());
+		th->itsBuffer  = jnew JString(os.str());
 		assert( th->itsBuffer != NULL );
 		}
 }

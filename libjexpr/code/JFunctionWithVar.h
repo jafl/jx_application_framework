@@ -11,6 +11,7 @@
 #define _H_JFunctionWithVar
 
 #include <JFunction.h>
+#include <jNew.h>
 
 class JFunctionWithVar : public JFunction
 {
@@ -121,7 +122,7 @@ JFunctionWithVar::SetArrayIndex
 	JFunction* theArrayIndex
 	)
 {
-	delete itsArrayIndex;
+	jdelete itsArrayIndex;
 	itsArrayIndex = theArrayIndex;
 }
 

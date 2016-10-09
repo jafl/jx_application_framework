@@ -114,7 +114,7 @@ private:
 	pid_t		itsPID;
 	JBoolean	itsIsFinishedFlag;
 	int			itsFinishedStatus;
-	JBoolean	itsAutoDeleteFlag;	// kJTrue => delete when process is finished
+	JBoolean	itsAutoDeleteFlag;	// kJTrue => jdelete when process is finished
 
 	static JPtrArray<JProcess>	theProcessList;		// sorted by pid
 

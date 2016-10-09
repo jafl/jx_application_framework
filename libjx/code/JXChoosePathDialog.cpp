@@ -47,7 +47,7 @@ JXChoosePathDialog::Create
 	)
 {
 	JXChoosePathDialog* dlog =
-		new JXChoosePathDialog(supervisor, dirInfo, fileFilter, selectOnlyWritable);
+		jnew JXChoosePathDialog(supervisor, dirInfo, fileFilter, selectOnlyWritable);
 	assert( dlog != NULL );
 	dlog->BuildWindow(message);
 	return dlog;
@@ -93,95 +93,95 @@ JXChoosePathDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 310,370, "");
+	JXWindow* window = jnew JXWindow(this, 310,370, "");
 	assert( window != NULL );
 
 	JXTextButton* openButton =
-		new JXTextButton(JGetString("openButton::JXChoosePathDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("openButton::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,280, 70,20);
 	assert( openButton != NULL );
 	openButton->SetShortcuts(JGetString("openButton::JXChoosePathDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::JXChoosePathDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,310, 70,20);
 	assert( cancelButton != NULL );
 
 	JXTextButton* homeButton =
-		new JXTextButton(JGetString("homeButton::JXChoosePathDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("homeButton::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 250,140, 40,20);
 	assert( homeButton != NULL );
 
 	JXStaticText* pathLabel =
-		new JXStaticText(JGetString("pathLabel::JXChoosePathDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("pathLabel::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,20, 40,20);
 	assert( pathLabel != NULL );
 	pathLabel->SetToLabel();
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,140, 180,190);
 	assert( scrollbarSet != NULL );
 
 	JXTextButton* selectButton =
-		new JXTextButton(JGetString("selectButton::JXChoosePathDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("selectButton::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,250, 70,20);
 	assert( selectButton != NULL );
 
 	JXPathInput* pathInput =
-		new JXPathInput(window,
+		jnew JXPathInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,20, 200,20);
 	assert( pathInput != NULL );
 
 	JXTextCheckbox* showHiddenCB =
-		new JXTextCheckbox(JGetString("showHiddenCB::JXChoosePathDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("showHiddenCB::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 60,80, 130,20);
 	assert( showHiddenCB != NULL );
 
 	JXStaticText* filterLabel =
-		new JXStaticText(JGetString("filterLabel::JXChoosePathDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("filterLabel::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,50, 40,20);
 	assert( filterLabel != NULL );
 	filterLabel->SetToLabel();
 
 	JXInputField* filterInput =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 60,50, 200,20);
 	assert( filterInput != NULL );
 
 	JXStaticText* explanText =
-		new JXStaticText(JGetString("explanText::JXChoosePathDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("explanText::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,340, 270,20);
 	assert( explanText != NULL );
 	explanText->SetToLabel();
 
 	JXPathHistoryMenu* pathHistory =
-		new JXPathHistoryMenu(1, "", window,
+		jnew JXPathHistoryMenu(1, "", window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,20, 30,20);
 	assert( pathHistory != NULL );
 
 	JXStringHistoryMenu* filterHistory =
-		new JXStringHistoryMenu(1, "", window,
+		jnew JXStringHistoryMenu(1, "", window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,50, 30,20);
 	assert( filterHistory != NULL );
 
 	JXTextButton* upButton =
-		new JXTextButton(JGetString("upButton::JXChoosePathDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("upButton::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,140, 30,20);
 	assert( upButton != NULL );
 
 	JXNewDirButton* newDirButton =
-		new JXNewDirButton(window,
+		jnew JXNewDirButton(window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,190, 70,20);
 	assert( newDirButton != NULL );
 
 	JXCurrentPathMenu* currPathMenu =
-		new JXCurrentPathMenu("/", window,
+		jnew JXCurrentPathMenu("/", window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,110, 180,20);
 	assert( currPathMenu != NULL );
 
 	JXTextButton* desktopButton =
-		new JXTextButton(JGetString("desktopButton::JXChoosePathDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("desktopButton::JXChoosePathDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 220,160, 70,20);
 	assert( desktopButton != NULL );
 

@@ -37,7 +37,7 @@ GLFitDescription::GLFitDescription
 	itsRequiresStartValues(kJFalse),
 	itsCanUseStartValues(kJTrue)
 {
-	itsVarList	= new GVarList();
+	itsVarList	= jnew GVarList();
 	assert(itsVarList != NULL);
 
 	itsVarList->AddVariable("x", 0);
@@ -68,7 +68,7 @@ GLFitDescription::Create
 	JPtrArray<JString> vars(JPtrArrayT::kDeleteAll);
 	for (JIndex i = 1; i <= count; i++)
 		{
-		JString* var = new JString();
+		JString* var = jnew JString();
 		assert(var != NULL);
 		is >> *var;
 		vars.Append(var);
@@ -76,13 +76,13 @@ GLFitDescription::Create
 	
 	if (type == kPolynomial)
 		{
-		GLPolyFitDescription* pfd	= new GLPolyFitDescription(is);
+		GLPolyFitDescription* pfd	= jnew GLPolyFitDescription(is);
 		assert(pfd != NULL);
 		*fd	= pfd;
 		}
 	else if (type == kNonLinear)
 		{
-		GLNonLinearFitDescription* nfd	= new GLNonLinearFitDescription(is);
+		GLNonLinearFitDescription* nfd	= jnew GLNonLinearFitDescription(is);
 		assert(nfd != NULL);
 		*fd	= nfd;
 		for (JIndex i = 1; i <= count; i++)
@@ -110,7 +110,7 @@ GLFitDescription::Create
 
 GLFitDescription::~GLFitDescription()
 {
-	delete itsVarList;
+	jdelete itsVarList;
 }
 
 /******************************************************************************

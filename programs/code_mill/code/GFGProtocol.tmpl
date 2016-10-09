@@ -50,7 +50,7 @@ GFGProtocol<ACE_PEER_STREAM_2>::GFGProtocolX()
 {
 	itsBufferSize = GFGProtocolT::kDefaultBufferSize;
 
-	itsBuffer = new JCharacter [ itsBufferSize ];
+	itsBuffer = jnew JCharacter [ itsBufferSize ];
 	assert( itsBuffer != NULL );
 
 	itsInHandleInputFlag = kJFalse;
@@ -64,7 +64,7 @@ GFGProtocol<ACE_PEER_STREAM_2>::GFGProtocolX()
 template <ACE_PEER_STREAM_1>
 GFGProtocol<ACE_PEER_STREAM_2>::~GFGProtocol()
 {
-	delete [] itsBuffer;
+	jdelete [] itsBuffer;
 }
 
 /******************************************************************************

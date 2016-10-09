@@ -64,74 +64,74 @@ CBExtEditorDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 450,220, "");
+	JXWindow* window = jnew JXWindow(this, 450,220, "");
 	assert( window != NULL );
 
 	itsEditTextFileCmdInput =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 200,40, 230,20);
 	assert( itsEditTextFileCmdInput != NULL );
 
 	itsEditTextFileLineCmdInput =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 200,60, 230,20);
 	assert( itsEditTextFileLineCmdInput != NULL );
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::CBExtEditorDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 100,190, 70,20);
 	assert( cancelButton != NULL );
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::CBExtEditorDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 270,190, 70,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::CBExtEditorDialog::shortcuts::JXLayout"));
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::CBExtEditorDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 160,80, 270,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetFontSize(8);
 	obj1_JXLayout->SetToLabel();
 
 	JXStaticText* obj2_JXLayout =
-		new JXStaticText(JGetString("obj2_JXLayout::CBExtEditorDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj2_JXLayout::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 30,40, 170,20);
 	assert( obj2_JXLayout != NULL );
 	obj2_JXLayout->SetToLabel();
 
 	JXStaticText* obj3_JXLayout =
-		new JXStaticText(JGetString("obj3_JXLayout::CBExtEditorDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj3_JXLayout::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 30,60, 170,20);
 	assert( obj3_JXLayout != NULL );
 	obj3_JXLayout->SetToLabel();
 
 	itsExtTextEditorCB =
-		new JXTextCheckbox(JGetString("itsExtTextEditorCB::CBExtEditorDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsExtTextEditorCB::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 160,20);
 	assert( itsExtTextEditorCB != NULL );
 
 	itsEditBinaryFileCmdInput =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 200,130, 230,20);
 	assert( itsEditBinaryFileCmdInput != NULL );
 
 	JXStaticText* obj4_JXLayout =
-		new JXStaticText(JGetString("obj4_JXLayout::CBExtEditorDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj4_JXLayout::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 200,150, 230,20);
 	assert( obj4_JXLayout != NULL );
 	obj4_JXLayout->SetFontSize(8);
 	obj4_JXLayout->SetToLabel();
 
 	JXStaticText* obj5_JXLayout =
-		new JXStaticText(JGetString("obj5_JXLayout::CBExtEditorDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj5_JXLayout::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 30,130, 170,20);
 	assert( obj5_JXLayout != NULL );
 	obj5_JXLayout->SetToLabel();
 
 	itsExtBinaryEditorCB =
-		new JXTextCheckbox(JGetString("itsExtBinaryEditorCB::CBExtEditorDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsExtBinaryEditorCB::CBExtEditorDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,110, 180,20);
 	assert( itsExtBinaryEditorCB != NULL );
 

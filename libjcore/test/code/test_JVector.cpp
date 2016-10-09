@@ -57,7 +57,7 @@ JVector v2(3, 1.0,0.0,1.0);										// constructor
 
 	JWaitForReturn();
 
-	cout << "Enter new v1: ";
+	cout << "Enter jnew v1: ";
 	cin >> v1;
 	JInputFinished();
 

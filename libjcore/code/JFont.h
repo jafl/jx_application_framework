@@ -91,7 +91,7 @@ private:
 
 private:
 
-	// can only get new JFont instances from JFontManager
+	// can only get jnew JFont instances from JFontManager
 
 	friend class JFontManager;
 
@@ -103,7 +103,7 @@ private:
 
 	void	SetID(const JFontID id);
 
-public:		// collections must be able to use new[]  :(
+public:		// collections must be able to use jnew[]  :(
 
 	JFont()
 		:

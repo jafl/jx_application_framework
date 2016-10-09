@@ -39,7 +39,7 @@ JXStyleTable::JXStyleTable
 	JXEditTable(1,kDefColWidth, scrollbarSet, enclosure,
 				hSizing,vSizing, x,y, w,h)
 {
-	itsStyleData = new JStyleTableData(this, GetFontManager(), GetColormap());
+	itsStyleData = jnew JStyleTableData(this, GetFontManager(), GetColormap());
 	assert( itsStyleData != NULL );
 }
 
@@ -50,7 +50,7 @@ JXStyleTable::JXStyleTable
 
 JXStyleTable::~JXStyleTable()
 {
-	delete itsStyleData;
+	jdelete itsStyleData;
 }
 
 /******************************************************************************

@@ -114,7 +114,7 @@ JXWidget::~JXWidget()
 		window->RefreshRect(itsFrameG);
 		}
 
-	delete itsDragPainter;
+	jdelete itsDragPainter;
 }
 
 /******************************************************************************
@@ -505,7 +505,7 @@ JXWidget::Move
 		itsFrameG.Shift(dx,dy);
 		NotifyBoundsMoved(dx,dy);
 
-		Refresh();		// refresh new location
+		Refresh();		// refresh jnew location
 		}
 }
 
@@ -546,7 +546,7 @@ JXWidget::AdjustSize
 		itsFrameG.right  += dw;
 		ApertureResized(dw,dh);
 
-		Refresh();		// refresh new size
+		Refresh();		// refresh jnew size
 		}
 }
 
@@ -1186,11 +1186,11 @@ JXWidget::CreateDragPainter
 		widget->GetVisibleRectGlobal(widget->GetApertureGlobal(), &clipRect);
 	assert( visible );
 
-	itsDragPainter = new JXDragPainter(GetDisplay(), GetWindow(), clipRect);
+	itsDragPainter = jnew JXDragPainter(GetDisplay(), GetWindow(), clipRect);
 	assert( itsDragPainter != NULL );
 
 	itsDragPainter->SetOrigin(itsBoundsG.left, itsBoundsG.top);
-	itsDragPainter->ResetClipRect();	// do this last so clipRect matches with new origin
+	itsDragPainter->ResetClipRect();	// do this last so clipRect matches with jnew origin
 	return itsDragPainter;
 }
 
@@ -1220,7 +1220,7 @@ JXWidget::GetDragPainter
 void
 JXWidget::DeleteDragPainter()
 {
-	delete itsDragPainter;
+	jdelete itsDragPainter;
 	itsDragPainter = NULL;
 }
 
@@ -1235,7 +1235,7 @@ JXWidget::DeleteDragPainter()
 	unless the copying is always very fast because one should never make
 	the user wait when the drag begins.
 
-	*** The caller should not delete data even if this function returns kJFalse.
+	*** The caller should not jdelete data even if this function returns kJFalse.
 
 	*** The caller retains ownership of targetFinder.
 

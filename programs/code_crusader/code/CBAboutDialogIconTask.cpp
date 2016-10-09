@@ -41,14 +41,14 @@ CBAboutDialogIconTask::CBAboutDialogIconTask
 	:
 	JXAnimationTask(widget)
 {
-	itsImageList = new JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kAboutIconCount);
+	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kDeleteAll, kAboutIconCount);
 	assert( itsImageList != NULL );
 
 	JXDisplay* display   = widget->GetDisplay();
 	JXColormap* colormap = widget->GetColormap();
 	for (JIndex i=1; i<=kAboutIconCount; i++)
 		{
-		JXImage* icon = new JXImage(display, kAboutIcon[i-1]);
+		JXImage* icon = jnew JXImage(display, kAboutIcon[i-1]);
 		assert( icon != NULL );
 		itsImageList->Append(icon);
 		}
@@ -61,7 +61,7 @@ CBAboutDialogIconTask::CBAboutDialogIconTask
 
 CBAboutDialogIconTask::~CBAboutDialogIconTask()
 {
-	delete itsImageList;
+	jdelete itsImageList;
 }
 
 /******************************************************************************

@@ -512,7 +512,7 @@ JVIKeyHandler::CutBuffer::Set
 {
 	if (buf == NULL)
 	{
-		buf = new JString;
+		buf = jnew JString;
 		assert( buf != NULL );
 	}
 

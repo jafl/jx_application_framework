@@ -56,7 +56,7 @@ JXTextCheckbox::JXTextCheckbox
 
 JXTextCheckbox::~JXTextCheckbox()
 {
-	delete itsShortcuts;
+	jdelete itsShortcuts;
 }
 
 /******************************************************************************

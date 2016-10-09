@@ -8,7 +8,6 @@
 #ifndef _H_SyGFindFileTask
 #define _H_SyGFindFileTask
 
-#include <j_prep_ace.h>
 #include <ace/LSOCK_Stream.h>
 #include <ace/UNIX_Addr.h>
 #include <JMessageProtocol.h>	// template; requires ace includes
@@ -49,8 +48,6 @@ private:
 
 private:
 
-	void	SetConnection(const int outFD, const int errFD);
-	void	DeleteLinks();
 	void	ReceiveMessageLine();
 	void	ReceiveErrorLine();
 	void	DisplayErrors();

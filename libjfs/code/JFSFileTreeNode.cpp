@@ -57,8 +57,8 @@ JFSFileTreeNode::JFSFileTreeNode
 
 JFSFileTreeNode::~JFSFileTreeNode()
 {
-	delete itsDirEntry;
-	delete itsDirInfo;
+	jdelete itsDirEntry;
+	jdelete itsDirInfo;
 }
 
 /******************************************************************************
@@ -111,8 +111,8 @@ JFSFileTreeNode::UpdateAfterGo()
 	assert( itsDirInfo != NULL );
 
 	const JString fullName = itsDirInfo->GetDirectory();
-	delete itsDirEntry;
-	itsDirEntry = new JDirEntry(fullName);
+	jdelete itsDirEntry;
+	itsDirEntry = jnew JDirEntry(fullName);
 	assert( itsDirEntry != NULL );
 
 	const JString name = itsDirEntry->GetName();
@@ -244,8 +244,8 @@ JFSFileTreeNode::UpdatePath
 	const JString&		newPath
 	)
 {
-	delete itsDirEntry;
-	itsDirEntry = new JDirEntry(fullName);
+	jdelete itsDirEntry;
+	itsDirEntry = jnew JDirEntry(fullName);
 	assert( itsDirEntry != NULL );
 
 	if (itsDirInfo != NULL)
@@ -336,7 +336,7 @@ JFSFileTreeNode::BuildChildList()
 		const JSize childCount = itsDirInfo->GetElementCount();
 		for (JIndex i=1; i<=childCount; i++)
 			{
-			JDirEntry* entry = new JDirEntry(itsDirInfo->GetEntry(i));
+			JDirEntry* entry = jnew JDirEntry(itsDirInfo->GetEntry(i));
 			assert( entry != NULL );
 			InsertSorted(CreateChild(entry));
 			}
@@ -450,7 +450,7 @@ JFSFileTreeNode::CreateChild
 	JDirEntry* entry
 	)
 {
-	JFSFileTreeNode* node = new JFSFileTreeNode(entry);
+	JFSFileTreeNode* node = jnew JFSFileTreeNode(entry);
 	assert( node != NULL );
 	return node;
 }
@@ -506,7 +506,7 @@ JFSFileTreeNode::Update
 			changed = kJTrue;
 			}
 
-		delete itsDirInfo;
+		jdelete itsDirInfo;
 		itsDirInfo = NULL;
 		}
 
@@ -576,12 +576,12 @@ JFSFileTreeNode::UpdateChildren()
 	const JSize childCount = itsDirInfo->GetElementCount();
 	for (JIndex i=1; i<=childCount; i++)
 		{
-		JDirEntry* entry = new JDirEntry(itsDirInfo->GetEntry(i));
+		JDirEntry* entry = jnew JDirEntry(itsDirInfo->GetEntry(i));
 		assert( entry != NULL );
 		newChildren.InsertSorted(CreateChild(entry));
 		}
 
-	// toss new entries that already exist
+	// toss jnew entries that already exist
 	// remove old entries that no longer exist
 
 	for (JIndex i=GetChildCount(); i>=1; i--)
@@ -594,11 +594,11 @@ JFSFileTreeNode::UpdateChildren()
 			}
 		else
 			{
-			delete node;
+			jdelete node;
 			}
 		}
 
-	// save remaining new entries
+	// save remaining jnew entries
 
 	const JSize leftOverCount = newChildren.GetElementCount();
 	for (JIndex i=1; i<=leftOverCount; i++)

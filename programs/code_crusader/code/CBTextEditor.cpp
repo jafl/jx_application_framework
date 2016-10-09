@@ -281,7 +281,7 @@ CBTextEditor::CBTextEditor
 	UseMultipleUndo();
 	SetLastSaveLocation();
 	ShouldAutoIndent(kJTrue);
-	CBShouldAllowDragAndDrop(kJTrue);	// new users expect it
+	CBShouldAllowDragAndDrop(kJTrue);	// jnew users expect it
 	ShouldMoveToFrontOfText(kJTrue);
 
 	itsLineInput->ShareEditMenu(this);
@@ -300,7 +300,7 @@ CBTextEditor::CBTextEditor
 
 CBTextEditor::~CBTextEditor()
 {
-	delete itsTokenStartList;
+	jdelete itsTokenStartList;
 }
 
 /******************************************************************************
@@ -1071,7 +1071,7 @@ CBTextEditor::CreateContextMenu()
 {
 	if (itsContextMenu == NULL)
 		{
-		itsContextMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsContextMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsContextMenu != NULL );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "CBTextEditor");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -1104,7 +1104,7 @@ CBTextEditor::CreateScriptMenu
 	)
 {
 	CBTEScriptMenu* menu =
-		new CBTEScriptMenu(this, itsScriptPath, parent, index, parent->GetEnclosure());
+		jnew CBTEScriptMenu(this, itsScriptPath, parent, index, parent->GetEnclosure());
 	assert( menu != NULL );
 	ListenTo(menu);
 
@@ -1284,7 +1284,7 @@ CBTextEditor::FileTypeChanged
 			{
 			JXMenuBar* menuBar = itsDoc->GetMenuBar();
 
-			itsFnMenu = new CBFunctionMenu(itsDoc, type, this, menuBar,
+			itsFnMenu = jnew CBFunctionMenu(itsDoc, type, this, menuBar,
 										   kFixedLeft, kFixedTop, 0,0, 10,10);
 			assert( itsFnMenu != NULL );
 
@@ -1301,19 +1301,19 @@ CBTextEditor::FileTypeChanged
 		}
 	else
 		{
-		delete itsFnMenu;
+		jdelete itsFnMenu;
 		itsFnMenu = NULL;
 		}
 
 	CBStringCompleter* completer = NULL;
 	if (itsDoc->GetStringCompleter(&completer))
 		{
-		itsCompletionMenu = new JXStringCompletionMenu(this, kJTrue);
+		itsCompletionMenu = jnew JXStringCompletionMenu(this, kJTrue);
 		assert( itsCompletionMenu != NULL );
 		}
 	else
 		{
-		delete itsCompletionMenu;
+		jdelete itsCompletionMenu;
 		itsCompletionMenu = NULL;
 		}
 }

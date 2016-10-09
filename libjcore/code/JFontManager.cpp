@@ -74,8 +74,8 @@ JFontManager::JFontManager()
 
 JFontManager::~JFontManager()
 {
-	delete itsDefaultFont;
-	delete itsDefaultMonospaceFont;
+	jdelete itsDefaultFont;
+	jdelete itsDefaultMonospaceFont;
 }
 
 /******************************************************************************
@@ -90,7 +90,7 @@ JFontManager::GetDefaultFont()
 	if (itsDefaultFont == NULL)
 		{
 		const_cast<JFontManager*>(this)->itsDefaultFont =
-			new JFont(GetFont(JGetDefaultFontName()));
+			jnew JFont(GetFont(JGetDefaultFontName()));
 		assert( itsDefaultFont != NULL );
 		}
 
@@ -109,7 +109,7 @@ JFontManager::GetDefaultMonospaceFont()
 	if (itsDefaultMonospaceFont == NULL)
 		{
 		const_cast<JFontManager*>(this)->itsDefaultMonospaceFont =
-			new JFont(GetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize));
+			jnew JFont(GetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize));
 		assert( itsDefaultMonospaceFont != NULL );
 		}
 

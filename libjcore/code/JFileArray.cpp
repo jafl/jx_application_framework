@@ -52,7 +52,7 @@
 	***	This means that one should never rely on the position of
 		the read or write mark unless the previous statement explicitly set it.
 
-	***	Embedded files should not delete itsStream.
+	***	Embedded files should not jdelete itsStream.
 
 	The file's header and index are read in when the file is opened and is
 	maintained in memory.  However, the header and index are also written
@@ -193,7 +193,7 @@ JFileArray::Create
 	const JError err = OKToCreateBase(fileName, fileSignature, action);
 	if (err.OK())
 		{
-		*obj = new JFileArray(fileName, fileSignature, action);
+		*obj = jnew JFileArray(fileName, fileSignature, action);
 		assert( *obj != NULL );
 		}
 	else
@@ -315,13 +315,13 @@ JFileArray::JFileArray
 		ofstream temp(fileName);
 		}
 
-	itsStream = new fstream;
+	itsStream = jnew fstream;
 	assert( itsStream != NULL );
 
 	itsStream->open(fileName, kFileOpenMode);
 	assert( itsStream->good() );
 
-	itsFileName = new JString;
+	itsFileName = jnew JString;
 	assert( itsFileName != NULL );
 	const JBoolean ok = JGetTrueName(fileName, itsFileName);
 	assert( ok );
@@ -354,7 +354,7 @@ JFileArray::Create
 		OKToCreateEmbedded(theEnclosingFile, enclosureElementID);
 	if (err.OK())
 		{
-		*obj = new JFileArray(theEnclosingFile, enclosureElementID);
+		*obj = jnew JFileArray(theEnclosingFile, enclosureElementID);
 		assert( *obj != NULL );
 		}
 	else
@@ -405,7 +405,7 @@ JFileArray::JFileArray
 	itsEnclosingFile( theEnclosingFile ),
 	itsEnclosureElementID( enclosureElementID )
 {
-	// get the fstream and whether we are new from our enclosing file
+	// get the fstream and whether we are jnew from our enclosing file
 
 	JBoolean isNew;
 	itsFileName = NULL;
@@ -431,7 +431,7 @@ JFileArray::FileArrayX
 	const JCharacter*	fileSignature
 	)
 {
-	itsFileIndex = new JFileArrayIndex;
+	itsFileIndex = jnew JFileArrayIndex;
 	assert( itsFileIndex != NULL);
 
 	itsFileSignatureLength = strlen(fileSignature);
@@ -496,7 +496,7 @@ JFileArray::~JFileArray()
 	itsFlushChangesFlag = kJTrue;
 	FlushChanges();
 
-	delete itsFileIndex;
+	jdelete itsFileIndex;
 	itsFileIndex = NULL;
 
 	// base file deletes fstream
@@ -510,8 +510,8 @@ JFileArray::~JFileArray()
 	else
 		{
 		itsStream->close();
-		delete itsStream;
-		delete itsFileName;
+		jdelete itsStream;
+		jdelete itsFileName;
 		}
 
 	itsStream   = NULL;
@@ -521,7 +521,7 @@ JFileArray::~JFileArray()
 /******************************************************************************
  OpenEmbeddedFile (private)
 
-	Receive notification of a new embedded file.
+	Receive notification of a jnew embedded file.
 
 	Returns a copy of itsStream so embedded file can use it.
 	isNew is set to TRUE if the given id was not already in the file.
@@ -627,7 +627,7 @@ JFileArray::GetElement
 
 	// allocate temporary space to hold the element's data
 
-	JCharacter* data = new JCharacter [ length ];
+	JCharacter* data = jnew JCharacter [ length ];
 	assert( data != NULL );
 
 	// stuff the element's data into elementData
@@ -637,7 +637,7 @@ JFileArray::GetElement
 
 	// clean up
 
-	delete [] data;
+	jdelete [] data;
 }
 
 /******************************************************************************
@@ -778,12 +778,12 @@ JFileArray::InsertElementAtIndex
 		trueIndex.SetIndex(elementCount + 1);
 		}
 
-	// get information about the new element
+	// get information about the jnew element
 
 	const JUnsignedOffset newElementOffset = itsIndexOffset;		// end of data section
 	const JFAID           newElementID     = itsFileIndex->GetUniqueID();
 
-	// update the index first so its new length will be included when we
+	// update the index first so its jnew length will be included when we
 	// expand the allocation for the file
 
 	itsFileIndex->InsertElementAtIndex(trueIndex, newElementOffset, newElementID);
@@ -795,7 +795,7 @@ JFileArray::InsertElementAtIndex
 	itsIndexOffset += kElementSizeLength + newElementSize;
 	SetFileLength(itsIndexOffset + itsFileIndex->GetIndexLength());
 
-	// write new element's length + data
+	// write jnew element's length + data
 
 	SetReadWriteMark(newElementOffset, kFromFileStart);
 	WriteElementSize(newElementSize);
@@ -1059,7 +1059,7 @@ JFileArray::SetElementSize
 		return;
 		}
 
-	// write new element size
+	// write jnew element size
 
 	SetReadWriteMark(elementOffset, kFromFileStart);
 	WriteElementSize(newSize);
@@ -1114,7 +1114,7 @@ JFileArray::ExpandData
 	// allocate temporary memory for transfer of data
 
 	JSize       dataSize = JMin(maxTempMem, totalLength - offset);
-	JCharacter* data     = new JCharacter [ dataSize ];
+	JCharacter* data     = jnew JCharacter [ dataSize ];
 	assert( data != NULL );
 
 	// start at end of data and work towards front of file
@@ -1154,7 +1154,7 @@ JFileArray::ExpandData
 
 	// throw out temporary allocation
 
-	delete [] data;
+	jdelete [] data;
 }
 
 /******************************************************************************
@@ -1205,7 +1205,7 @@ JFileArray::CompactData
 	// allocate temporary memory for transfer of data
 
 	JSize       dataSize = JMin(maxTempMem, totalLength - offset - blankSize);
-	JCharacter* data     = new JCharacter [ dataSize ];
+	JCharacter* data     = jnew JCharacter [ dataSize ];
 	assert( data != NULL );
 
 	// start in front of unneeded space and work towards end of file
@@ -1236,7 +1236,7 @@ JFileArray::CompactData
 
 	// throw out temporary allocation
 
-	delete [] data;
+	jdelete [] data;
 }
 
 /******************************************************************************
@@ -1587,12 +1587,12 @@ JFileArray::SetFileLength
 		}
 	else
 		{
-		// closes old fstream, changes file length, returns new fstream
+		// closes old fstream, changes file length, returns jnew fstream
 
 		fstream* newStream = JSetFStreamLength(*itsFileName, *itsStream,
 											   newLength, kFileOpenMode);
 
-		// deletes the old fstream and notifies embedded files of new one
+		// deletes the old fstream and notifies embedded files of jnew one
 
 		ReplaceStream(newStream);
 		}
@@ -1601,7 +1601,7 @@ JFileArray::SetFileLength
 /******************************************************************************
  ReplaceStream (private)
 
-	Delete our current fstream, replace it with the given new one, and
+	Delete our current fstream, replace it with the given jnew one, and
 	notify all the embedded files (recursive).
 
 	This is used by SetFileLength because the old stream has to be
@@ -1615,11 +1615,11 @@ JFileArray::ReplaceStream
 	fstream* newStream
 	)
 {
-	// replace our stream with the new stream
+	// replace our stream with the jnew stream
 
 	if (itsEnclosingFile == NULL)
 		{
-		delete itsStream;
+		jdelete itsStream;
 		}
 	itsStream = newStream;
 

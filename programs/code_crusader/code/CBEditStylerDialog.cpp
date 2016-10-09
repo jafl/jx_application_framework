@@ -75,53 +75,53 @@ CBEditStylerDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 370,390, "");
+	JXWindow* window = jnew JXWindow(this, 370,390, "");
 	assert( window != NULL );
 
 	JXScrollbarSet* scrollbarSet1 =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,110, 240,110);
 	assert( scrollbarSet1 != NULL );
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::CBEditStylerDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::CBEditStylerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,360, 70,20);
 	assert( cancelButton != NULL );
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::CBEditStylerDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::CBEditStylerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 250,360, 70,20);
 	assert( okButton != NULL );
 
 	JXStaticText* instrText =
-		new JXStaticText(JGetString("instrText::CBEditStylerDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("instrText::CBEditStylerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 330,50);
 	assert( instrText != NULL );
 
 	JXTextButton* newWordButton =
-		new JXTextButton(JGetString("newWordButton::CBEditStylerDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("newWordButton::CBEditStylerDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 280,240, 70,20);
 	assert( newWordButton != NULL );
 	newWordButton->SetShortcuts(JGetString("newWordButton::CBEditStylerDialog::shortcuts::JXLayout"));
 
 	JXTextButton* removeButton =
-		new JXTextButton(JGetString("removeButton::CBEditStylerDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("removeButton::CBEditStylerDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 280,270, 70,20);
 	assert( removeButton != NULL );
 	removeButton->SetShortcuts(JGetString("removeButton::CBEditStylerDialog::shortcuts::JXLayout"));
 
 	JXScrollbarSet* scrollbarSet2 =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,230, 240,110);
 	assert( scrollbarSet2 != NULL );
 
 	itsActiveCB =
-		new JXTextCheckbox(JGetString("itsActiveCB::CBEditStylerDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsActiveCB::CBEditStylerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,15, 220,20);
 	assert( itsActiveCB != NULL );
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::CBEditStylerDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::CBEditStylerDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 145,360, 70,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBEditStylerDialog::shortcuts::JXLayout"));
@@ -138,14 +138,14 @@ CBEditStylerDialog::BuildWindow
 	// create tables
 
 	itsTypeTable =
-		new CBStylerTable(typeNames, typeStyles, scrollbarSet1,
+		jnew CBStylerTable(typeNames, typeStyles, scrollbarSet1,
 						  scrollbarSet1->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsTypeTable != NULL );
 	itsTypeTable->FitToEnclosure();
 
 	itsWordTable =
-		new CBStylerTable(fileType, wordList, newWordButton, removeButton,
+		jnew CBStylerTable(fileType, wordList, newWordButton, removeButton,
 						  scrollbarSet2, scrollbarSet2->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsWordTable != NULL );

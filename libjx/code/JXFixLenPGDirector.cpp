@@ -59,23 +59,23 @@ JXFixLenPGDirector::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 270,80, "");
+	JXWindow* window = jnew JXWindow(this, 270,80, "");
 	assert( window != NULL );
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::JXFixLenPGDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::JXFixLenPGDirector::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 190,10, 60,20);
 	assert( cancelButton != NULL );
 	cancelButton->SetShortcuts(JGetString("cancelButton::JXFixLenPGDirector::shortcuts::JXLayout"));
 
 	JXStaticText* text =
-		new JXStaticText(JGetString("text::JXFixLenPGDirector::JXLayout"), window,
+		jnew JXStaticText(JGetString("text::JXFixLenPGDirector::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,10, 160,20);
 	assert( text != NULL );
 	text->SetToLabel();
 
 	JXProgressIndicator* indicator =
-		new JXProgressIndicator(window,
+		jnew JXProgressIndicator(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,50, 230,10);
 	assert( indicator != NULL );
 

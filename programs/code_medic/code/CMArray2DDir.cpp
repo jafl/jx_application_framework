@@ -167,13 +167,13 @@ CMArray2DDir::CMArray2DDirX
 	itsShouldUpdateFlag     = kJFalse;		// window is always initially hidden
 	itsWaitingForReloadFlag = kJFalse;
 
-	itsData = new JStringTableData;
+	itsData = jnew JStringTableData;
 	assert( itsData != NULL );
 
-	itsRowUpdateList = new JArray<JIntRange>;
+	itsRowUpdateList = jnew JArray<JIntRange>;
 	assert( itsRowUpdateList != NULL );
 
-	itsColUpdateList = new JArray<JIntRange>;
+	itsColUpdateList = jnew JArray<JIntRange>;
 	assert( itsColUpdateList != NULL );
 
 	itsRowDisplayRange.SetToEmptyAt(0);
@@ -200,10 +200,10 @@ CMArray2DDir::~CMArray2DDir()
 {
 	itsCommandDir->DirectorDeleted(this);
 
-	delete itsData;
-	delete itsRowUpdateList;
-	delete itsColUpdateList;
-	delete itsUpdateCmd;
+	jdelete itsData;
+	jdelete itsRowUpdateList;
+	jdelete itsColUpdateList;
+	jdelete itsUpdateCmd;
 }
 
 /******************************************************************************
@@ -256,82 +256,82 @@ CMArray2DDir::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 370,500, "");
+	JXWindow* window = jnew JXWindow(this, 370,500, "");
 	assert( window != NULL );
 
 	itsExprInput =
-		new CMArrayExprInput(window,
+		jnew CMArrayExprInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,40, 240,20);
 	assert( itsExprInput != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::CMArray2DDir::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::CMArray2DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,95, 40,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	JXStaticText* obj2_JXLayout =
-		new JXStaticText(JGetString("obj2_JXLayout::CMArray2DDir::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj2_JXLayout::CMArray2DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,125, 40,20);
 	assert( obj2_JXLayout != NULL );
 	obj2_JXLayout->SetToLabel();
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 370,30);
 	assert( menuBar != NULL );
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,170, 370,330);
 	assert( scrollbarSet != NULL );
 
 	itsRowStartIndex =
-		new CMArrayIndexInput(window,
+		jnew CMArrayIndexInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,95, 60,20);
 	assert( itsRowStartIndex != NULL );
 
 	itsRowEndIndex =
-		new CMArrayIndexInput(window,
+		jnew CMArrayIndexInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,125, 60,20);
 	assert( itsRowEndIndex != NULL );
 
 	JXStaticText* obj3_JXLayout =
-		new JXStaticText(JGetString("obj3_JXLayout::CMArray2DDir::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj3_JXLayout::CMArray2DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 90,20);
 	assert( obj3_JXLayout != NULL );
 	obj3_JXLayout->SetToLabel();
 
 	JXStaticText* rowIndexLabel =
-		new JXStaticText(JGetString("rowIndexLabel::CMArray2DDir::JXLayout"), window,
+		jnew JXStaticText(JGetString("rowIndexLabel::CMArray2DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 100,20);
 	assert( rowIndexLabel != NULL );
 	rowIndexLabel->SetToLabel();
 
 	JXStaticText* obj4_JXLayout =
-		new JXStaticText(JGetString("obj4_JXLayout::CMArray2DDir::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj4_JXLayout::CMArray2DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,95, 40,20);
 	assert( obj4_JXLayout != NULL );
 	obj4_JXLayout->SetToLabel();
 
 	JXStaticText* obj5_JXLayout =
-		new JXStaticText(JGetString("obj5_JXLayout::CMArray2DDir::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj5_JXLayout::CMArray2DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,125, 40,20);
 	assert( obj5_JXLayout != NULL );
 	obj5_JXLayout->SetToLabel();
 
 	itsColStartIndex =
-		new CMArrayIndexInput(window,
+		jnew CMArrayIndexInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 200,95, 60,20);
 	assert( itsColStartIndex != NULL );
 
 	itsColEndIndex =
-		new CMArrayIndexInput(window,
+		jnew CMArrayIndexInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 200,125, 60,20);
 	assert( itsColEndIndex != NULL );
 
 	JXStaticText* colIndexLabel =
-		new JXStaticText(JGetString("colIndexLabel::CMArray2DDir::JXLayout"), window,
+		jnew JXStaticText(JGetString("colIndexLabel::CMArray2DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,70, 120,20);
 	assert( colIndexLabel != NULL );
 	colIndexLabel->SetToLabel();
@@ -345,7 +345,7 @@ CMArray2DDir::BuildWindow()
 	UpdateWindowTitle();
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = new JXImage(display, medic_2d_array_window);
+	JXImage* icon      = jnew JXImage(display, medic_2d_array_window);
 	assert( icon != NULL );
 	window->SetIcon(icon);
 
@@ -370,17 +370,17 @@ CMArray2DDir::BuildWindow()
 	encl->AdjustSize(370 - tableLayout_Aperture.width(), 330 - tableLayout_Aperture.height());
 
 	itsTable =
-		new CMArray2DTable(itsCommandDir, this, menuBar, itsData, scrollbarSet, encl,
+		jnew CMArray2DTable(itsCommandDir, this, menuBar, itsData, scrollbarSet, encl,
 					JXWidget::kHElastic, JXWidget::kVElastic, 30,20, 340,310);
 	assert( itsTable != NULL );
 
 	itsColHeader =
-		new JXColHeaderWidget(itsTable, scrollbarSet, encl,
+		jnew JXColHeaderWidget(itsTable, scrollbarSet, encl,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 30,0, 340,20);
 	assert( itsColHeader != NULL );
 
 	itsRowHeader =
-		new JXRowHeaderWidget(itsTable, scrollbarSet, encl,
+		jnew JXRowHeaderWidget(itsTable, scrollbarSet, encl,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 0,20, 30,310);
 	assert( itsRowHeader != NULL );
 
@@ -438,7 +438,7 @@ CMArray2DDir::BuildWindow()
 	itsActionMenu->SetItemImage(kExamineMemCmd,     medic_show_memory);
 
 	JXWDMenu* wdMenu =
-		new JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != NULL );
 	menuBar->AppendMenu(wdMenu);
@@ -1211,7 +1211,7 @@ CMArray2DDir::ExamineMemory
 		{
 		expr = GetExpression(cell);
 
-		dir = new CMMemoryDir(itsCommandDir, expr);
+		dir = jnew CMMemoryDir(itsCommandDir, expr);
 		assert(dir != NULL);
 		dir->SetDisplayType(type);
 		dir->Activate();
@@ -1219,7 +1219,7 @@ CMArray2DDir::ExamineMemory
 
 	if (dir == NULL)
 		{
-		dir = new CMMemoryDir(itsCommandDir, "");
+		dir = jnew CMMemoryDir(itsCommandDir, "");
 		assert(dir != NULL);
 		dir->SetDisplayType(type);
 		dir->Activate();

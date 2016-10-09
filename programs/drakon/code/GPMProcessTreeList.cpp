@@ -63,7 +63,7 @@ GPMProcessTreeList::GPMProcessTreeList
 	SetColWidth(GPMProcessList::kTreeMemory, 60);
 	SetColWidth(GPMProcessList::kTreeTime,   60);
 
-	itsZombieImage = new JXImage(GetDisplay(), jx_edit_clear);
+	itsZombieImage = jnew JXImage(GetDisplay(), jx_edit_clear);
 	assert( itsZombieImage != NULL );
 
 	itsContextMenu = GPMProcessTable::CreateContextMenu(this);
@@ -79,7 +79,7 @@ GPMProcessTreeList::GPMProcessTreeList
 
 GPMProcessTreeList::~GPMProcessTreeList()
 {
-	delete itsZombieImage;
+	jdelete itsZombieImage;
 }
 
 /******************************************************************************

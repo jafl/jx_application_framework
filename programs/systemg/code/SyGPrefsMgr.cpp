@@ -211,7 +211,7 @@ SyGPrefsMgr::EditPrefs()
 	const JString gitHistoryCmd = (SyGGetApplication())->GetGitHistoryCommand();
 	const JString coCmd         = (SyGGetApplication())->GetPostCheckoutCommand();
 
-	itsDialog = new SyGEditPrefsDialog(termCmd, manCmd, gitStatusCmd, gitHistoryCmd,
+	itsDialog = jnew SyGEditPrefsDialog(termCmd, manCmd, gitStatusCmd, gitHistoryCmd,
 									   coCmd, DelWillDelete(), WillOpenNewWindows(),
 									   WillSaveFolderPrefs());
 	assert(itsDialog != NULL);
@@ -394,7 +394,7 @@ SyGPrefsMgr::SaveProgramState
 }
 
 /******************************************************************************
- Delete key should delete files
+ Delete key should jdelete files
 
  ******************************************************************************/
 
@@ -422,7 +422,7 @@ SyGPrefsMgr::DelShouldDelete
 }
 
 /******************************************************************************
- Open new windows
+ Open jnew windows
 
  ******************************************************************************/
 

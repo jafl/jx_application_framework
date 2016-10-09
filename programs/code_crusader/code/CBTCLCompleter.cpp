@@ -114,7 +114,7 @@ CBTCLCompleter::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBTCLCompleter;
+		itsSelf = jnew CBTCLCompleter;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -131,7 +131,7 @@ CBTCLCompleter::Instance()
 void
 CBTCLCompleter::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

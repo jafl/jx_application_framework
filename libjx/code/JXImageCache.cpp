@@ -26,7 +26,7 @@ JXImageCache::JXImageCache
 	:
 	itsDisplay(display)
 {
-	itsMap = new JStringPtrMap<JXImage>(JPtrArrayT::kDeleteAll);
+	itsMap = jnew JStringPtrMap<JXImage>(JPtrArrayT::kDeleteAll);
 	assert( itsMap != NULL );
 }
 
@@ -37,7 +37,7 @@ JXImageCache::JXImageCache
 
 JXImageCache::~JXImageCache()
 {
-	delete itsMap;
+	jdelete itsMap;
 }
 
 /******************************************************************************
@@ -56,7 +56,7 @@ JXImageCache::GetImage
 	JXImage* image;
 	if (!itsMap->GetElement(s, &image))
 		{
-		image = new JXImage(itsDisplay, data);
+		image = jnew JXImage(itsDisplay, data);
 		assert( image != NULL );
 		const JBoolean ok = itsMap->SetNewElement(s, image);
 		assert( ok );

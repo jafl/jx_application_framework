@@ -72,16 +72,16 @@ GLFitParameterTable::GLFitParameterTable
 	const JSize rowHeight = 2*kVMarginWidth + fontMgr->GetDefaultFont().GetLineHeight();
 	SetDefaultRowHeight(rowHeight);
 
-	itsNameList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert(itsNameList != NULL);
 
-	itsStartValues	= new JArray<JFloat>;
+	itsStartValues	= jnew JArray<JFloat>;
 	assert(itsStartValues != NULL);
 
-	itsFitValues	= new JArray<JFloat>;
+	itsFitValues	= jnew JArray<JFloat>;
 	assert(itsFitValues != NULL);
 
-	itsErrorValues	= new JArray<JFloat>;
+	itsErrorValues	= jnew JArray<JFloat>;
 	assert(itsErrorValues != NULL);
 
 	AppendCols(4, kDefColWidth);
@@ -101,10 +101,10 @@ GLFitParameterTable::GLFitParameterTable
 GLFitParameterTable::~GLFitParameterTable()
 {
 	itsNameList->DeleteAll();
-	delete itsNameList;		
-	delete itsStartValues;
-	delete itsFitValues;
-	delete itsErrorValues;
+	jdelete itsNameList;		
+	jdelete itsStartValues;
+	jdelete itsFitValues;
+	jdelete itsErrorValues;
 }
 
 /******************************************************************************
@@ -269,7 +269,7 @@ GLFitParameterTable::CreateXInputField
 	)
 {
 	assert(itsInput == NULL);
-	itsInput = new JXFloatInput(this, kFixedLeft, kFixedTop, x, y, w, h);
+	itsInput = jnew JXFloatInput(this, kFixedLeft, kFixedTop, x, y, w, h);
 	assert(itsInput != NULL);
 
 	itsInput->SetValue(itsStartValues->GetElement(cell.y));
@@ -410,7 +410,7 @@ GLFitParameterTable::SetFitDescription
 	AppendRows(count);
 	for (JIndex i = 1; i <= count; i++)
 		{
-		JString* str = new JString("");
+		JString* str = jnew JString("");
 		fit.GetParameterName(i, str);
 		itsNameList->Append(str);
 		itsStartValues->AppendElement(0);

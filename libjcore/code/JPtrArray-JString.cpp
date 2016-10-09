@@ -33,13 +33,13 @@ operator>>
 
 	for (JIndex i=1; i<=count; i++)
 		{
-		JString* s = new JString;
+		JString* s = jnew JString;
 		assert( s != NULL );
 
 		input >> *s;
 		if (input.fail())
 			{
-			delete s;
+			jdelete s;
 			return input;
 			}
 

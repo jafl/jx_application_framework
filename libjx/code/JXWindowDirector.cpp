@@ -66,7 +66,7 @@ JXWindowDirector::~JXWindowDirector()
 			{
 			itsWindow->Hide();
 			}
-		delete itsWindow;
+		jdelete itsWindow;
 		}
 }
 

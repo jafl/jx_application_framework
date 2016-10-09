@@ -76,7 +76,7 @@ JDecision*
 JDiscreteEquality::Copy()
 	const
 {
-	JDiscreteEquality* newDecision = new JDiscreteEquality(*this);
+	JDiscreteEquality* newDecision = jnew JDiscreteEquality(*this);
 	assert( newDecision != NULL );
 	return newDecision;
 }

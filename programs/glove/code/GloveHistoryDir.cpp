@@ -79,7 +79,7 @@ GloveHistoryDir::BuildWindow()
 	JCoordinate h = 320;
 	JPoint dtl;
 //	JBoolean foundWindowPref = gjdbApp->GetCmdWindowSize(&dtl, &w, &h);
-	JXWindow* window = new JXWindow(this, w,h, "Glove session");
+	JXWindow* window = jnew JXWindow(this, w,h, "Glove session");
     assert( window != NULL );
     window->SetMinSize(300,200);
     window->SetCloseAction(JXWindow::kDeactivateDirector);
@@ -89,7 +89,7 @@ GloveHistoryDir::BuildWindow()
 //		}
 
     itsMenuBar = 
-    	new JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop, 
+    	jnew JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop, 
     					0,0, w,kJXDefaultMenuBarHeight);
     assert( itsMenuBar != NULL );
 
@@ -99,14 +99,14 @@ GloveHistoryDir::BuildWindow()
 	ListenTo(itsFileMenu);
     
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic, 
 			0,kJXDefaultMenuBarHeight, 
 			w,h - kJXDefaultMenuBarHeight);
 	assert( scrollbarSet != NULL );
 
 	itsHistory = 
-		new GloveHistory(itsMenuBar, 
+		jnew GloveHistory(itsMenuBar, 
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(), 
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 10, 10);

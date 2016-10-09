@@ -52,6 +52,6 @@ CMRunProgramTask::Perform
 	if (!(CMGetLink())->HasPendingCommands())
 		{
 		(CMGetCommandDirector())->RunProgram();
-		delete this;
+		jdelete this;
 		}
 }

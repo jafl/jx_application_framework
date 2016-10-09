@@ -45,7 +45,7 @@ CBAboutDialog::CBAboutDialog
 
 CBAboutDialog::~CBAboutDialog()
 {
-	delete itsAnimTask;
+	jdelete itsAnimTask;
 }
 
 /******************************************************************************
@@ -63,38 +63,38 @@ CBAboutDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 430,180, "");
+	JXWindow* window = jnew JXWindow(this, 430,180, "");
 	assert( window != NULL );
 
 	JXImageWidget* jccIcon =
-		new JXImageWidget(window,
+		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,20, 40,40);
 	assert( jccIcon != NULL );
 
 	JXStaticText* textWidget =
-		new JXStaticText(JGetString("textWidget::CBAboutDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("textWidget::CBAboutDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 90,20, 330,110);
 	assert( textWidget != NULL );
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::CBAboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::CBAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,150, 60,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::CBAboutDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::CBAboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::CBAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,150, 60,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBAboutDialog::shortcuts::JXLayout"));
 
 	itsCreditsButton =
-		new JXTextButton(JGetString("itsCreditsButton::CBAboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsCreditsButton::CBAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,150, 60,20);
 	assert( itsCreditsButton != NULL );
 
 	JXImageWidget* npsIcon =
-		new JXImageWidget(window,
+		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,75, 65,65);
 	assert( npsIcon != NULL );
 
@@ -124,13 +124,13 @@ CBAboutDialog::BuildWindow
 
 	// Code Crusader icon
 
-	itsAnimTask = new CBAboutDialogIconTask(jccIcon);
+	itsAnimTask = jnew CBAboutDialogIconTask(jccIcon);
 	assert( itsAnimTask != NULL );
 	itsAnimTask->Start();
 
 	// NPS icon
 
-	JXImage* image = new JXImage(GetDisplay(), new_planet_software);
+	JXImage* image = jnew JXImage(GetDisplay(), new_planet_software);
 	assert( image != NULL );
 	npsIcon->SetImage(image, kJTrue);
 

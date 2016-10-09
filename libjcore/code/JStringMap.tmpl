@@ -173,7 +173,7 @@ JStringMap<V>::SetElement
 
 		if (itsCopyKeysFlag)
 			{
-			JCharacter* myKey = new JCharacter[strlen(key)+1];
+			JCharacter* myKey = jnew JCharacter[strlen(key)+1];
 			assert(myKey != NULL);
 			strcpy(myKey, key);
 			hashEntry.key = myKey;
@@ -224,7 +224,7 @@ JStringMap<V>::RemoveElement
 		JHashCursor< JStrValue<V> >* cursor = JHashTable< JStrValue<V> >::GetCursor();
 		if (itsCopyKeysFlag)
 			{
-			delete[] const_cast<JCharacter*>(cursor->GetValue().key);
+			jdelete[] const_cast<JCharacter*>(cursor->GetValue().key);
 			}
 		cursor->Remove();
 		return kJTrue;
@@ -257,8 +257,8 @@ JStringMap<V>::RemoveAll
 			PrepareForSet(action);
 			if (itsCopyKeysFlag)
 				{
-				// delete, but don't mark empty to avoid multiple resizing
-				delete[] const_cast<JCharacter*>(cursor->GetValue().key);
+				// jdelete, but don't mark empty to avoid multiple resizing
+				jdelete[] const_cast<JCharacter*>(cursor->GetValue().key);
 				}
 			}
 		}

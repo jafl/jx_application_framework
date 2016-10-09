@@ -45,7 +45,7 @@ JXFloatTable::JXFloatTable
 
 	itsFloatData = data;
 
-	itsFloatBufferData = new JFloatBufferTableData(data, precision);
+	itsFloatBufferData = jnew JFloatBufferTableData(data, precision);
 	assert( itsFloatBufferData != NULL );
 	SetTableData(itsFloatBufferData);
 
@@ -59,7 +59,7 @@ JXFloatTable::JXFloatTable
 
 JXFloatTable::~JXFloatTable()
 {
-	delete itsFloatBufferData;
+	jdelete itsFloatBufferData;
 }
 
 /******************************************************************************
@@ -142,7 +142,7 @@ JXFloatTable::CreateFloatTableInput
 	const JCoordinate	h
 	)
 {
-	JXFloatInput* obj = new JXFloatInput(enclosure, hSizing, vSizing, x,y, w,h);
+	JXFloatInput* obj = jnew JXFloatInput(enclosure, hSizing, vSizing, x,y, w,h);
 	assert( obj != NULL );
 	return obj;
 }
@@ -151,7 +151,7 @@ JXFloatTable::CreateFloatTableInput
  ExtractInputData (virtual protected)
 
 	Extract the information from the active input field, check it,
-	and delete the input field if successful.
+	and jdelete the input field if successful.
 
 	Returns kJTrue if the data is valid and the process succeeded.
 

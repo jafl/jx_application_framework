@@ -144,16 +144,16 @@ JXFSDirMenu::JXFSDirMenuX()
 	itsEntries = NULL;
 	itsParent  = NULL;
 
-	itsFileIcon = new JXImage(GetDisplay(), jx_plain_file_small);
+	itsFileIcon = jnew JXImage(GetDisplay(), jx_plain_file_small);
 	assert( itsFileIcon != NULL );
 
-	itsFolderIcon = new JXImage(GetDisplay(), jx_folder_small);
+	itsFolderIcon = jnew JXImage(GetDisplay(), jx_folder_small);
 	assert( itsFolderIcon != NULL );
 
-	itsExecIcon = new JXImage(GetDisplay(), jx_executable_small);
+	itsExecIcon = jnew JXImage(GetDisplay(), jx_executable_small);
 	assert( itsExecIcon != NULL );
 
-	itsUnknownIcon = new JXImage(GetDisplay(), jx_unknown_file_small);
+	itsUnknownIcon = jnew JXImage(GetDisplay(), jx_unknown_file_small);
 	assert( itsUnknownIcon != NULL );
 
 	JXFSDirMenuX1();
@@ -179,15 +179,15 @@ JXFSDirMenu::JXFSDirMenuX1()
 
 JXFSDirMenu::~JXFSDirMenu()
 {
-	delete itsDirInfo;
-	delete itsEntries;
+	jdelete itsDirInfo;
+	jdelete itsEntries;
 
 	if (itsParent == NULL)
 		{
-		delete itsFileIcon;
-		delete itsFolderIcon;
-		delete itsExecIcon;
-		delete itsUnknownIcon;
+		jdelete itsFileIcon;
+		jdelete itsFolderIcon;
+		jdelete itsExecIcon;
+		jdelete itsUnknownIcon;
 		}
 }
 
@@ -237,7 +237,7 @@ JXFSDirMenu::SetFileList
 
 	if (itsEntries == NULL)
 		{
-		itsEntries = new JPtrArray<JDirEntry>(JPtrArrayT::kDeleteAll);
+		itsEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kDeleteAll);
 		assert( itsEntries != NULL );
 		}
 	else
@@ -250,7 +250,7 @@ JXFSDirMenu::SetFileList
 	JString fullName;
 	for (JIndex i = 1; i <= count; i++)
 		{
-		JDirEntry* entry = new JDirEntry(*(fileNameList.NthElement(i)));
+		JDirEntry* entry = jnew JDirEntry(*(fileNameList.NthElement(i)));
 		assert( entry != NULL );
 		itsEntries->Append(entry);
 		AppendEntry(*entry);
@@ -268,8 +268,8 @@ JXFSDirMenu::SetFileIcon
 	const JXImage& image
 	)
 {
-	delete itsFileIcon;
-	itsFileIcon = new JXImage(image);
+	jdelete itsFileIcon;
+	itsFileIcon = jnew JXImage(image);
 	assert( itsFileIcon != NULL );
 }
 
@@ -279,8 +279,8 @@ JXFSDirMenu::SetFileIcon
 	const JXPM& data
 	)
 {
-	delete itsFileIcon;
-	itsFileIcon = new JXImage(GetDisplay(), data);
+	jdelete itsFileIcon;
+	itsFileIcon = jnew JXImage(GetDisplay(), data);
 	assert( itsFileIcon != NULL );
 }
 
@@ -295,8 +295,8 @@ JXFSDirMenu::SetExecIcon
 	const JXImage& image
 	)
 {
-	delete itsExecIcon;
-	itsExecIcon = new JXImage(image);
+	jdelete itsExecIcon;
+	itsExecIcon = jnew JXImage(image);
 	assert( itsExecIcon != NULL );
 }
 
@@ -306,8 +306,8 @@ JXFSDirMenu::SetExecIcon
 	const JXPM& data
 	)
 {
-	delete itsExecIcon;
-	itsExecIcon = new JXImage(GetDisplay(), data);
+	jdelete itsExecIcon;
+	itsExecIcon = jnew JXImage(GetDisplay(), data);
 	assert( itsExecIcon != NULL );
 }
 
@@ -465,7 +465,7 @@ JXFSDirMenu::AppendEntry
 		{
 		if (entry.IsReadable())
 			{
-			JXFSDirMenu* menu = new JXFSDirMenu(entry.GetFullName(), this, i);
+			JXFSDirMenu* menu = jnew JXFSDirMenu(entry.GetFullName(), this, i);
 			assert( menu != NULL );
 			}
 		else

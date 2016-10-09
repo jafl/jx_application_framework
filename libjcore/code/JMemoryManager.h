@@ -15,7 +15,6 @@
 // Superclass header
 #include <JMMRecord.h>
 
-#include <j_prep_ace.h>
 #include <ace/UNIX_Addr.h>
 #include <ace/LSOCK_Stream.h>
 #include <JMessageProtocol.h>	// template; requires ace includes
@@ -66,7 +65,7 @@ public:
 
 		~RecordFilter()
 		{
-			delete fileName;
+			jdelete fileName;
 		};
 
 		JBoolean	Match(const JMMRecord& record) const;

@@ -78,7 +78,7 @@ JXImageMenu::JXImageMenuX
 	const JSize columnCount
 	)
 {
-	itsIconMenuData = new JXImageMenuData(columnCount);
+	itsIconMenuData = jnew JXImageMenuData(columnCount);
 	assert( itsIconMenuData != NULL );
 
 	SetBaseItemData(itsIconMenuData);
@@ -92,7 +92,7 @@ JXImageMenu::JXImageMenuX
 JXImageMenu::~JXImageMenu()
 {
 	ClearBaseItemData();
-	delete itsIconMenuData;
+	jdelete itsIconMenuData;
 }
 
 /******************************************************************************
@@ -159,7 +159,7 @@ JXImageMenu::SetItemImage
 	const JXPM&		data
 	)
 {
-	JXImage* image = new JXImage(GetDisplay(), data);
+	JXImage* image = jnew JXImage(GetDisplay(), data);
 	assert( image != NULL );
 	SetItemImage(index, image, kJTrue);
 }
@@ -187,7 +187,7 @@ JXImageMenu::CreateMenuWindow
 	)
 {
 	JXImageMenuDirector* dir =
-		new JXImageMenuDirector(supervisor, this, itsIconMenuData);
+		jnew JXImageMenuDirector(supervisor, this, itsIconMenuData);
 	assert( dir != NULL );
 	return dir;
 }

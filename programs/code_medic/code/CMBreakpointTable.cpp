@@ -90,7 +90,7 @@ CMBreakpointTable::CMBreakpointTable
 	itsTextInput(NULL),
 	itsFont(GetFontManager()->GetDefaultFont())
 {
-	itsBPList = new JPtrArray<CMBreakpoint>(JPtrArrayT::kForgetAll);
+	itsBPList = jnew JPtrArray<CMBreakpoint>(JPtrArrayT::kForgetAll);
 	assert(itsBPList != NULL);
 	itsBPList->SetCompareFunction(CompareBreakpointLocations);
 	itsBPList->SetSortOrder(JOrderedSetT::kSortAscending);
@@ -130,7 +130,7 @@ CMBreakpointTable::~CMBreakpointTable()
 {
 	JPrefObject::WritePrefs();
 
-	delete itsBPList;
+	jdelete itsBPList;
 }
 
 /******************************************************************************
@@ -588,7 +588,7 @@ CMBreakpointTable::CreateXInputField
 	JString text;
 	if (cell.x == kIgnoreCountColumn)
 		{
-		JXIntegerInput* input = new JXIntegerInput(this, kFixedLeft, kFixedTop, x,y, w,h);
+		JXIntegerInput* input = jnew JXIntegerInput(this, kFixedLeft, kFixedTop, x,y, w,h);
 		assert( input != NULL );
 		input->SetLowerLimit(0);
 		input->SetValue(bp->GetIgnoreCount());
@@ -602,7 +602,7 @@ CMBreakpointTable::CreateXInputField
 
 	if (itsTextInput == NULL)
 		{
-		itsTextInput = new JXInputField(this, kFixedLeft, kFixedTop, x,y, w,h);
+		itsTextInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x,y, w,h);
 		assert( itsTextInput != NULL );
 		itsTextInput->SetText(text);
 		}

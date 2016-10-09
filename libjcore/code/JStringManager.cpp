@@ -67,7 +67,7 @@ JStringManager::JStringManager()
 	// does kDeleteAll make quitting too slow?
 	JStringPtrMap<JString>(JPtrArrayT::kDeleteAll)
 {
-	itsReplaceEngine = new JSubstitute;
+	itsReplaceEngine = jnew JSubstitute;
 	assert( itsReplaceEngine != NULL );
 }
 
@@ -78,7 +78,7 @@ JStringManager::JStringManager()
 
 JStringManager::~JStringManager()
 {
-	delete itsReplaceEngine;
+	jdelete itsReplaceEngine;
 }
 
 /******************************************************************************
@@ -357,13 +357,13 @@ JStringManager::MergeFile
 			break;
 			}
 
-		JString* s = new JString;
+		JString* s = jnew JString;
 		assert( s != NULL );
 
 		input >> *s;
 		if (input.eof() || input.fail())
 			{
-			delete s;
+			jdelete s;
 			break;
 			}
 
@@ -373,7 +373,7 @@ JStringManager::MergeFile
 			}
 		else if (!SetNewElement(id, s))
 			{
-			delete s;
+			jdelete s;
 			}
 		}
 }

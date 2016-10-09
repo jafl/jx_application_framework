@@ -103,54 +103,54 @@ JXFileListSet::JXFileListSetX
 
 	// table
 
-	itsTableScroll = new JXScrollbarSet(this, kHElastic, kVElastic, 0,0, w,h);
+	itsTableScroll = jnew JXScrollbarSet(this, kHElastic, kVElastic, 0,0, w,h);
 	assert( itsTableScroll != NULL );
 
 	itsTable =
-		new JXFileListTable(itsTableScroll, itsTableScroll->GetScrollEnclosure(),
+		jnew JXFileListTable(itsTableScroll, itsTableScroll->GetScrollEnclosure(),
 							kHElastic, kVElastic, 0,0, 10,10);
 	assert( itsTable != NULL );
 	itsTable->FitToEnclosure();
 
 	// wildcard input
 
-	itsWildcardSet = new JXWidgetSet(this, kHElastic, kFixedTop, 0,0, w,kInputHeight);
+	itsWildcardSet = jnew JXWidgetSet(this, kHElastic, kFixedTop, 0,0, w,kInputHeight);
 	assert( itsWildcardSet != NULL );
 
 	JXStaticText* filterLabel =
-		new JXStaticText("Filter:", itsWildcardSet, kFixedLeft, kFixedTop,
+		jnew JXStaticText("Filter:", itsWildcardSet, kFixedLeft, kFixedTop,
 						 kLabelLeft,kLabelTop,
 						 kLabelWidth-kLabelLeft,kInputHeight-kLabelTop);
 	assert( filterLabel != NULL );
 
 	itsWildcardMenu =
-		new JXStringHistoryMenu(kHistoryLength, "", itsWildcardSet, kFixedRight, kFixedTop,
+		jnew JXStringHistoryMenu(kHistoryLength, "", itsWildcardSet, kFixedRight, kFixedTop,
 								w - kHistoryMenuWidth,0, kHistoryMenuWidth,kInputHeight);
 	assert( itsWildcardMenu != NULL );
 
 	itsWildcardInput =
-		new JXFLWildcardInput(this, itsWildcardMenu, itsWildcardSet, kHElastic, kFixedTop,
+		jnew JXFLWildcardInput(this, itsWildcardMenu, itsWildcardSet, kHElastic, kFixedTop,
 							  kLabelWidth,0, inputWidth,kInputHeight);
 	assert( itsWildcardInput != NULL );
 
 	// regex input
 
-	itsRegexSet = new JXWidgetSet(this, kHElastic, kFixedTop, 0,0, w,kInputHeight);
+	itsRegexSet = jnew JXWidgetSet(this, kHElastic, kFixedTop, 0,0, w,kInputHeight);
 	assert( itsRegexSet != NULL );
 
 	JXStaticText* regexLabel =
-		new JXStaticText("Regex:", itsRegexSet, kFixedLeft, kFixedTop,
+		jnew JXStaticText("Regex:", itsRegexSet, kFixedLeft, kFixedTop,
 						 kLabelLeft,kLabelTop,
 						 kLabelWidth-kLabelLeft,kInputHeight-kLabelTop);
 	assert( regexLabel != NULL );
 
 	itsRegexMenu =
-		new JXStringHistoryMenu(kHistoryLength, "", itsRegexSet, kFixedRight, kFixedTop,
+		jnew JXStringHistoryMenu(kHistoryLength, "", itsRegexSet, kFixedRight, kFixedTop,
 								w - kHistoryMenuWidth,0, kHistoryMenuWidth,kInputHeight);
 	assert( itsRegexMenu != NULL );
 
 	itsRegexInput =
-		new JXFLRegexInput(this, itsRegexMenu, itsRegexSet, kHElastic, kFixedTop,
+		jnew JXFLRegexInput(this, itsRegexMenu, itsRegexSet, kHElastic, kFixedTop,
 						   kLabelWidth,0, inputWidth,kInputHeight);
 	assert( itsRegexInput != NULL );
 
@@ -184,7 +184,7 @@ JXFileListSet::SetTable
 	JXTEBase* te;
 	const JBoolean hadEditMenu = itsTable->GetEditMenuProvider(&te);
 
-	delete itsTable;
+	jdelete itsTable;
 	itsTable = table;
 	itsTable->SetSizing(kHElastic, kVElastic);
 	itsTable->FitToEnclosure();

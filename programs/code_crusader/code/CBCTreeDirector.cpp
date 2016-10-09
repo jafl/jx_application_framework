@@ -237,7 +237,7 @@ CBCTreeDirector::HandleTreeMenu
 		{
 		assert( itsEditCPPDialog == NULL );
 		itsEditCPPDialog =
-			new CBEditCPPMacroDialog(this, *(itsCTree->GetCPreprocessor()));
+			jnew CBEditCPPMacroDialog(this, *(itsCTree->GetCPreprocessor()));
 		assert( itsEditCPPDialog != NULL );
 		itsEditCPPDialog->BeginDialog();
 		ListenTo(itsEditCPPDialog);
@@ -338,7 +338,7 @@ CBCTreeDirector::NewCTree
 	CBCTreeDirector* cTreeDir = static_cast<CBCTreeDirector*>(director);
 	assert( cTreeDir != NULL );
 
-	CBCTree* tree = new CBCTree(cTreeDir, marginWidth);
+	CBCTree* tree = jnew CBCTree(cTreeDir, marginWidth);
 	assert( tree != NULL );
 	return tree;
 }
@@ -367,7 +367,7 @@ CBCTreeDirector::StreamInCTree
 	CBCTreeDirector* cTreeDir = static_cast<CBCTreeDirector*>(director);
 	assert( cTreeDir != NULL );
 
-	CBCTree* tree = new CBCTree(projInput, projVers,
+	CBCTree* tree = jnew CBCTree(projInput, projVers,
 								setInput, setVers, symInput, symVers,
 								cTreeDir, marginWidth, dirList);
 	assert( tree != NULL );

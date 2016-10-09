@@ -33,7 +33,7 @@ JVMThreadNode::JVMThreadNode
 		{
 		dynamic_cast<JVMLink*>(CMGetLink())->ThreadCreated(this);
 
-		CMCommand* cmd = new JVMGetThreadName(this);
+		CMCommand* cmd = jnew JVMGetThreadName(this);
 		assert( cmd != NULL );
 		}
 }
@@ -94,7 +94,7 @@ JVMThreadNode::NameChanged()
 
 	if (!HasParent())
 		{
-		CMCommand* cmd = new JVMGetThreadParent(this);
+		CMCommand* cmd = jnew JVMGetThreadParent(this);
 		assert( cmd != NULL );
 		}
 }
@@ -115,7 +115,7 @@ JVMThreadNode::FindParent
 	JVMThreadNode* parent;
 	if (!link->FindThread(id, &parent))
 		{
-		parent = new JVMThreadNode(kGroupType, id);
+		parent = jnew JVMThreadNode(kGroupType, id);
 		assert( parent != NULL );
 		}
 

@@ -77,7 +77,7 @@ static const char* kCurrentJExprLibVersionStr = "1.1.11";
 //		Added ability to create and use Font menu.
 //	JVariableList:
 //		Added support for moving and removing variables.  Derived classes that
-//			use this functionality must support the new JBroadcaster messages.
+//			use this functionality must support the jnew JBroadcaster messages.
 //		Added VariableUserCreated() and VariableUserDeleted().  These must be
 //			called in the constructors and destructors respectively of all
 //			JFunctions and JDecisions that store indicies into the JVariableList.
@@ -120,7 +120,7 @@ static const char* kCurrentJExprLibVersionStr = "1.1.11";
 //		jParseDecision, jParseFunction, jParserData, jParseUtil, jExprUIUtil
 //	Parser now recognizes i,j,I as sqrt(-1).
 //		*** You should increment all file version numbers so old versions of
-//			programs will not attempt to parse these new values.
+//			programs will not attempt to parse these jnew values.
 //	JVariableList:
 //		Added pure virtual function GetNumericValue(..., JComplex*).
 //	JFunction:

@@ -39,7 +39,7 @@ JXWCreateGlobals
 	theApplication = app;
 
 	JBoolean isNew;
-	thePrefsManager	= new JXWPrefsManager(&isNew);
+	thePrefsManager	= jnew JXWPrefsManager(&isNew);
 	assert(thePrefsManager != NULL);
 
 	JXInitHelp(kJXWTOCHelpName, kJXWHelpSectionCount, kJXWHelpSectionName);
@@ -60,7 +60,7 @@ JXWDeleteGlobals()
 
 	// this must be last so everybody else can use it to save their setup
 
-	delete thePrefsManager;
+	jdelete thePrefsManager;
 	thePrefsManager = NULL;
 }
 

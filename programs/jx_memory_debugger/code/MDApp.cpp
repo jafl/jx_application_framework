@@ -76,7 +76,7 @@ MDApp::DisplayAbout
 	const JCharacter* prevVersStr
 	)
 {
-	MDAboutDialog* dlog = new MDAboutDialog(this, prevVersStr);
+	MDAboutDialog* dlog = jnew MDAboutDialog(this, prevVersStr);
 	assert( dlog != NULL );
 	dlog->BeginDialog();
 }

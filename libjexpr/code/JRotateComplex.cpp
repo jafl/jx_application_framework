@@ -69,7 +69,7 @@ JFunction*
 JRotateComplex::Copy()
 	const
 {
-	JRotateComplex* newFunction = new JRotateComplex(*this);
+	JRotateComplex* newFunction = jnew JRotateComplex(*this);
 	assert( newFunction != NULL );
 	return newFunction;
 }

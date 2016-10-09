@@ -37,8 +37,8 @@ const JCharacter* kVarTreeHelpText =
 
 "<p>"
 
-"To delete a variable, select the variable or variables that you want to "
-"delete and either hit the <i>Backspace</i> key or select the "
+"To jdelete a variable, select the variable or variables that you want to "
+"jdelete and either hit the <i>Backspace</i> key or select the "
 "<i>Delete variable</i> from the <i>Action</i> menu."
 
 ;

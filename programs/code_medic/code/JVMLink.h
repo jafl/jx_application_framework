@@ -13,7 +13,6 @@
 #include <JProcess.h>
 #include <JAliasArray.h>
 
-#include <j_prep_ace.h>
 #include <ace/Acceptor.h>
 #include <ace/SOCK_Acceptor.h>
 #include <ace/INET_Addr.h>
@@ -347,7 +346,7 @@ public:
 
 		void Clean()
 		{
-			delete name;
+			jdelete name;
 			name = NULL;
 		}
 	};
@@ -364,10 +363,10 @@ public:
 
 		void Clean()
 		{
-			delete name;
+			jdelete name;
 			name = NULL;
 
-			delete path;
+			jdelete path;
 			path = NULL;
 
 			const JSize count = methods->GetElementCount();
@@ -376,7 +375,7 @@ public:
 				methods->GetElement(i).Clean();
 				}
 
-			delete methods;
+			jdelete methods;
 			methods = NULL;
 		}
 	};
@@ -437,13 +436,10 @@ private:
 
 	JBoolean	StartDebugger();
 	void		InitFlags();
-	void		SetProcessConnection(const int toFD, const int fromFD);
 	void		ReceiveMessageFromJVM(const JVMSocket::MessageReady& info);
 	void		DispatchEventsFromJVM(const unsigned char* data, const JSize length);
 	void		ReadFromProcess();
 	void		StopDebugger();
-	void		DeleteAcceptor();
-	void		DeleteDebugLink();
 	void		DeleteProcessLink();
 
 	void	DetachOrKill();

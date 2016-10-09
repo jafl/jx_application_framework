@@ -71,11 +71,11 @@ TestImageDirector::TestImageDirector
 
 	JXDisplay* display = GetDisplay();
 
-	itsPSPrinter = new JXPSPrinter(display);
+	itsPSPrinter = jnew JXPSPrinter(display);
 	assert( itsPSPrinter != NULL );
 	ListenTo(itsPSPrinter);
 
-	itsEPSPrinter = new JXEPSPrinter(display);
+	itsEPSPrinter = jnew JXEPSPrinter(display);
 	assert( itsEPSPrinter != NULL );
 	ListenTo(itsEPSPrinter);
 }
@@ -87,8 +87,8 @@ TestImageDirector::TestImageDirector
 
 TestImageDirector::~TestImageDirector()
 {
-	delete itsPSPrinter;
-	delete itsEPSPrinter;
+	jdelete itsPSPrinter;
+	jdelete itsEPSPrinter;
 }
 
 /******************************************************************************
@@ -101,16 +101,16 @@ TestImageDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 400,330, "");
+	JXWindow* window = jnew JXWindow(this, 400,330, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
 	assert( menuBar != NULL );
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,300);
 	assert( scrollbarSet != NULL );
 
@@ -126,7 +126,7 @@ TestImageDirector::BuildWindow()
 	ListenTo(itsFileMenu);
 
 	itsImageWidget =
-		new JXImageWidget(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+		jnew JXImageWidget(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsImageWidget != NULL );
 	itsImageWidget->FitToEnclosure();
@@ -286,7 +286,7 @@ TestImageDirector::HandleFileMenu
  LoadImage (private)
 
 	A real program would find a way to restore the existing image
-	if the new image couldn't be loaded.
+	if the jnew image couldn't be loaded.
 
  ******************************************************************************/
 
@@ -312,7 +312,7 @@ TestImageDirector::LoadImage()
 
 			if (err.OK())
 				{
-				image = new JXImage(display, mask->GetWidth(), mask->GetHeight(),
+				image = jnew JXImage(display, mask->GetWidth(), mask->GetHeight(),
 									cmap->GetRedColor());
 				assert( image != NULL );
 				image->SetMask(mask);
@@ -429,7 +429,7 @@ TestImageDirector::CopyImage()
 	JXImage* image;
 	if (itsImageWidget->GetImage(&image))
 		{
-		JXImageSelection* data = new JXImageSelection(*image);
+		JXImageSelection* data = jnew JXImageSelection(*image);
 		assert( data != NULL );
 		(GetDisplay()->GetSelectionManager())->SetData(kJXClipboardName, data);
 		}
@@ -439,7 +439,7 @@ TestImageDirector::CopyImage()
  PasteImage (private)
 
 	A real program would find a way to restore the existing image
-	if the new image couldn't be pasted.
+	if the jnew image couldn't be pasted.
 
  ******************************************************************************/
 

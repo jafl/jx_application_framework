@@ -67,38 +67,38 @@ MDAboutDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 430,200, "");
+	JXWindow* window = jnew JXWindow(this, 430,200, "");
 	assert( window != NULL );
 
 	JXStaticText* textWidget =
-		new JXStaticText(JGetString("textWidget::MDAboutDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("textWidget::MDAboutDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 90,20, 330,130);
 	assert( textWidget != NULL );
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::MDAboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::MDAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,170, 60,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::MDAboutDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::MDAboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::MDAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,170, 60,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::MDAboutDialog::shortcuts::JXLayout"));
 
 	JXImageWidget* imageWidget =
-		new JXImageWidget(window,
+		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,20, 40,40);
 	assert( imageWidget != NULL );
 
 	itsCreditsButton =
-		new JXTextButton(JGetString("itsCreditsButton::MDAboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsCreditsButton::MDAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,170, 60,20);
 	assert( itsCreditsButton != NULL );
 
 	JXImageWidget* npsIcon =
-		new JXImageWidget(window,
+		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,75, 65,65);
 	assert( npsIcon != NULL );
 
@@ -110,7 +110,7 @@ MDAboutDialog::BuildWindow
 	ListenTo(itsHelpButton);
 	ListenTo(itsCreditsButton);
 
-	JXImage* image = new JXImage(GetDisplay(), JXPM(md_about_icon));
+	JXImage* image = jnew JXImage(GetDisplay(), JXPM(md_about_icon));
 	assert( image != NULL );
 	imageWidget->SetImage(image, kJTrue);
 

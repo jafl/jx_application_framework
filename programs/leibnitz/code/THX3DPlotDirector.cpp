@@ -181,21 +181,21 @@ THX3DPlotDirector::BuildWindow()
 
 	JXDisplay* d = (JXGetApplication())->GetCurrentDisplay();
 
-	itsUniverse = new J3DUniverse(*(d->GetColormap()));
+	itsUniverse = jnew J3DUniverse(*(d->GetColormap()));
 	assert( itsUniverse != NULL );
 
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 450,480, "");
+	JXWindow* window = jnew JXWindow(this, 450,480, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 450,30);
 	assert( menuBar != NULL );
 
 	its3DPlot =
-		new THX3DPlotWidget(itsUniverse, window,
+		jnew THX3DPlotWidget(itsUniverse, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 450,450);
 	assert( its3DPlot != NULL );
 
@@ -205,7 +205,7 @@ THX3DPlotDirector::BuildWindow()
 	window->SetWMClass(THXGetWMClassInstance(), THXGetPlotWindowClass());
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = new JXImage(display, thx_3D_plot_window);
+	JXImage* icon      = jnew JXImage(display, thx_3D_plot_window);
 	assert( icon != NULL );
 	window->SetIcon(icon);
 
@@ -247,7 +247,7 @@ THX3DPlotDirector::SetFunction
 {
 	itsVarList = varList;
 
-	delete itsFunction;
+	jdelete itsFunction;
 	itsFunction = f.Copy();
 
 	itsXMin = xMin;
@@ -499,7 +499,7 @@ THX3DPlotDirector::EditFunction()
 	assert( itsEditFnDialog == NULL );
 
 	itsEditFnDialog =
-		new THX3DPlotFunctionDialog(this, itsVarList, *itsFunction,
+		jnew THX3DPlotFunctionDialog(this, itsVarList, *itsFunction,
 									GetWindow()->GetTitle(),
 									itsXMin, itsXMax, itsXCount,
 									itsYMin, itsYMax, itsYCount);
@@ -524,7 +524,7 @@ THX3DPlotDirector::UpdateFunction()
 								 &itsXMin, &itsXMax, &itsXCount,
 								 &itsYMin, &itsYMax, &itsYCount);
 
-	delete itsFunction;
+	jdelete itsFunction;
 	itsFunction = f->Copy();
 
 	GetWindow()->SetTitle(surfaceName);

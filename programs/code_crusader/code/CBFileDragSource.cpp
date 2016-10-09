@@ -51,7 +51,7 @@ CBFileDragSource::CBFileDragSource
 	JXImageWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsDoc(doc)
 {
-	JXImage* icon = new JXImage(GetDisplay(), jx_plain_file_small);
+	JXImage* icon = jnew JXImage(GetDisplay(), jx_plain_file_small);
 	assert( icon != NULL );
 	SetImage(icon, kJTrue);
 
@@ -131,7 +131,7 @@ CBFileDragSource::HandleMouseDown
 		JPtrArray<JString> list(JPtrArrayT::kForgetAll);
 		list.Append(&fileName);
 
-		JXFileSelection* data = new JXFileSelection(GetDisplay(), list);
+		JXFileSelection* data = jnew JXFileSelection(GetDisplay(), list);
 		assert( data != NULL );
 
 		BeginDND(pt, buttonStates, modifiers, data);
@@ -139,10 +139,10 @@ CBFileDragSource::HandleMouseDown
 	else if (itsNameInput != NULL &&
 			 !(itsNameInput->GetText()).EndsWith(ACE_DIRECTORY_SEPARATOR_STR))
 		{
-		CBDSSFinishSaveTask* task = new CBDSSFinishSaveTask(itsDoc);
+		CBDSSFinishSaveTask* task = jnew CBDSSFinishSaveTask(itsDoc);
 		assert( task != NULL );
 
-		JXDSSSelection* data = new JXDSSSelection(GetWindow(), task);
+		JXDSSSelection* data = jnew JXDSSSelection(GetWindow(), task);
 		assert( data != NULL );
 
 		BeginDND(pt, buttonStates, modifiers, data);

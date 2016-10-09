@@ -1,7 +1,7 @@
 /******************************************************************************
  THXBaseConvMenu.cpp
 
-	Since we have to update our index before anybody can request its new
+	Since we have to update our index before anybody can request its jnew
 	value, the correct way to use this object is to listen for the
 	BaseChanged message, not the ItemSelected message.  In addition, since
 	we are responsible for marking the menu item, clients should ignore

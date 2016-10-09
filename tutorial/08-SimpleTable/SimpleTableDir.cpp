@@ -36,7 +36,7 @@ SimpleTableDir::SimpleTableDir
 
 SimpleTableDir::~SimpleTableDir()
 {
-	// Nothing to delete
+	// Nothing to jdelete
 	// Window is deleted automatically by its director
 	// SimpleTable is deleted automatically by its enclosure
 }
@@ -53,7 +53,7 @@ void
 SimpleTableDir::BuildWindow()
 {
 	// Create the window
-	JXWindow* window = new JXWindow(this, 300,200, "Test SimpleTable Program");
+	JXWindow* window = jnew JXWindow(this, 300,200, "Test SimpleTable Program");
 	assert( window != NULL );
 
 	// Set sizing
@@ -62,7 +62,7 @@ SimpleTableDir::BuildWindow()
 
 	// Create the scrollbar set to hold the table
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 300,200);
 	assert( scrollbarSet != NULL );
 
@@ -70,7 +70,7 @@ SimpleTableDir::BuildWindow()
 	// special widget that JXScrollbarSet creates.  We get a
 	// pointer to this special widget by calling GetScrollEnclosure().
 	SimpleTable* table =
-		new SimpleTable(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+		jnew SimpleTable(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 10, 10);
 	assert( table != NULL );

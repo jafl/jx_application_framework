@@ -77,7 +77,7 @@ JAliasArray<T>::JAliasArrayX1
 {
 	assert( itsData != NULL );
 
-	itsIndexArray = new JArray<JIndex>(100);
+	itsIndexArray = jnew JArray<JIndex>(100);
 	assert( itsIndexArray != NULL );
 	itsIndexArray->SetSortOrder(order);
 }
@@ -104,8 +104,8 @@ JAliasArray<T>::JAliasArrayX2()
 template <class T>
 JAliasArray<T>::~JAliasArray()
 {
-	delete itsIndexArray;
-	delete itsCompareObj;
+	jdelete itsIndexArray;
+	jdelete itsCompareObj;
 }
 
 /******************************************************************************
@@ -317,7 +317,7 @@ public:
 	virtual JElementComparison<JIndex>*
 	Copy() const
 	{
-		JCompareAliasWrapper<T>* copy = new JCompareAliasWrapper<T>(itsData, itsCompareObj, itsSearchData);
+		JCompareAliasWrapper<T>* copy = jnew JCompareAliasWrapper<T>(itsData, itsCompareObj, itsSearchData);
 		assert( copy != NULL );
 		return copy;
 	}
@@ -358,8 +358,8 @@ JAliasArray<T>::SetCompareFunction
 
 	itsCompareFn = compareFn;
 
-	delete itsCompareObj;
-	itsCompareObj = new JCompareFnWrapper<T>(itsCompareFn);
+	jdelete itsCompareObj;
+	itsCompareObj = jnew JCompareFnWrapper<T>(itsCompareFn);
 	assert( itsCompareObj != NULL );
 
 	itsIndexArray->SetCompareObject(JCompareAliasWrapper<T>(*itsData, *itsCompareObj));
@@ -390,7 +390,7 @@ JAliasArray<T>::SetCompareObject
 
 	itsCompareFn = NULL;
 
-	delete itsCompareObj;
+	jdelete itsCompareObj;
 	itsCompareObj = compareObj.Copy();
 
 	itsIndexArray->SetCompareObject(JCompareAliasWrapper<T>(*itsData, *itsCompareObj));

@@ -40,12 +40,12 @@ CMBreakpointManager::CMBreakpointManager
 {
 	assert( itsCmd != NULL );
 
-	itsBPList = new JPtrArray<CMBreakpoint>(JPtrArrayT::kDeleteAll);
+	itsBPList = jnew JPtrArray<CMBreakpoint>(JPtrArrayT::kDeleteAll);
 	assert(itsBPList != NULL);
 	itsBPList->SetCompareFunction(CompareBreakpointLocations);
 	itsBPList->SetSortOrder(JOrderedSetT::kSortAscending);
 
-	itsOtherList = new JPtrArray<CMBreakpoint>(JPtrArrayT::kDeleteAll);
+	itsOtherList = jnew JPtrArray<CMBreakpoint>(JPtrArrayT::kDeleteAll);
 	assert(itsOtherList != NULL);
 
 	ListenTo(itsLink);
@@ -58,10 +58,10 @@ CMBreakpointManager::CMBreakpointManager
 
 CMBreakpointManager::~CMBreakpointManager()
 {
-	delete itsCmd;
-	delete itsBPList;
-	delete itsSavedBPList;
-	delete itsOtherList;
+	jdelete itsCmd;
+	jdelete itsBPList;
+	jdelete itsSavedBPList;
+	jdelete itsOtherList;
 }
 
 /******************************************************************************
@@ -198,8 +198,8 @@ CMBreakpointManager::ReadSetup
 
 	if (count > 0)
 		{
-		delete itsSavedBPList;
-		itsSavedBPList = new JPtrArray<CMBreakpoint>(JPtrArrayT::kDeleteAll);
+		jdelete itsSavedBPList;
+		itsSavedBPList = jnew JPtrArray<CMBreakpoint>(JPtrArrayT::kDeleteAll);
 		assert( itsSavedBPList != NULL );
 		}
 
@@ -226,7 +226,7 @@ CMBreakpointManager::ReadSetup
 			condition.Clear();
 			}
 
-		CMBreakpoint* bp = new CMBreakpoint(0, fileName, lineNumber, "", "",
+		CMBreakpoint* bp = jnew CMBreakpoint(0, fileName, lineNumber, "", "",
 											enabled, action, condition,
 											ignoreCount);
 		assert( bp != NULL );
@@ -293,8 +293,8 @@ CMBreakpointManager::Receive
 		const JSize count = itsBPList->GetElementCount();
 		if (info->Successful() && itsRestoreBreakpointsFlag && count > 0)
 			{
-			delete itsSavedBPList;
-			itsSavedBPList = new JPtrArray<CMBreakpoint>(JPtrArrayT::kDeleteAll);
+			jdelete itsSavedBPList;
+			itsSavedBPList = jnew JPtrArray<CMBreakpoint>(JPtrArrayT::kDeleteAll);
 			assert( itsSavedBPList != NULL );
 			itsSavedBPList->CopyObjects(*itsBPList, JPtrArrayT::kDeleteAll, kJFalse);
 
@@ -370,7 +370,7 @@ CMBreakpointManager::UpdateBreakpoints
 				}
 			}
 
-		delete itsSavedBPList;
+		jdelete itsSavedBPList;
 		itsSavedBPList = NULL;
 		}
 }

@@ -58,7 +58,7 @@ JCopyBinaryData
 		readCount += chunkSize;
 		}
 
-	delete [] data;
+	jdelete [] data;
 
 	assert( !input.bad() );
 
@@ -744,7 +744,7 @@ JRead
 	const JSize	count
 	)
 {
-	char* buf = new char[ count ];
+	char* buf = jnew char[ count ];
 	assert( buf != NULL );
 
 	size_t dataLength;
@@ -752,7 +752,7 @@ JRead
 
 	JString str(buf, dataLength);
 
-	delete [] buf;
+	jdelete [] buf;
 
 	return str;
 }
@@ -977,7 +977,7 @@ JIgnoreUntil
 		*foundDelimiter = kJFalse;
 		}
 
-	char* window = new char[ delimLength ];
+	char* window = jnew char[ delimLength ];
 	assert( window != NULL );
 
 	size_t dataLength;
@@ -994,7 +994,7 @@ JIgnoreUntil
 		*foundDelimiter = kJTrue;
 		}
 
-	delete [] window;
+	jdelete [] window;
 }
 
 /******************************************************************************

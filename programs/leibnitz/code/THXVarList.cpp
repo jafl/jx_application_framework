@@ -19,7 +19,7 @@ static const JCharacter* kXName = "x";
 static const JCharacter* kYName = "y";
 static const JCharacter* kTName = "t";
 
-static const JCharacter* kNewVarName     = "new";
+static const JCharacter* kNewVarName     = "jnew";
 static const JString kUnknownValueSymbol = "?";
 
 /******************************************************************************
@@ -56,18 +56,18 @@ JIndex i;
 
 	for (i=1; i<=varCount; i++)
 		{
-		JString* name = new JString;
+		JString* name = jnew JString;
 		assert( name != NULL );
 		input >> *name;
 		itsNames->Append(name);
 
-		JString* fStr = new JString;
+		JString* fStr = jnew JString;
 		assert( fStr != NULL );
 		input >> *fStr;
 		JFunction* f;
 		if (JParseFunction(*fStr, this, &f))
 			{
-			delete fStr;
+			jdelete fStr;
 			itsFunctions->Append(f);
 			}
 		else
@@ -98,10 +98,10 @@ JIndex i;
 void
 THXVarList::THXVarListX()
 {
-	itsNames = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsNames != NULL );
 
-	itsFunctions = new JPtrArray<JFunction>(JPtrArrayT::kDeleteAll);
+	itsFunctions = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll);
 	assert( itsFunctions != NULL );
 
 	InstallOrderedSet(itsNames);
@@ -110,19 +110,19 @@ THXVarList::THXVarListX()
 
 	itsNames->Append(kXName);
 
-	itsXValue = new JConstantValue(0.0);
+	itsXValue = jnew JConstantValue(0.0);
 	assert( itsXValue != NULL );
 	itsFunctions->Append(itsXValue);
 
 	itsNames->Append(kYName);
 
-	itsYValue = new JConstantValue(0.0);
+	itsYValue = jnew JConstantValue(0.0);
 	assert( itsYValue != NULL );
 	itsFunctions->Append(itsYValue);
 
 	itsNames->Append(kTName);
 
-	itsTValue = new JConstantValue(0.0);
+	itsTValue = jnew JConstantValue(0.0);
 	assert( itsTValue != NULL );
 	itsFunctions->Append(itsTValue);
 }
@@ -134,8 +134,8 @@ THXVarList::THXVarListX()
 
 THXVarList::~THXVarList()
 {
-	delete itsNames;
-	delete itsFunctions;
+	jdelete itsNames;
+	jdelete itsFunctions;
 }
 
 /******************************************************************************
@@ -146,7 +146,7 @@ THXVarList::~THXVarList()
 JIndex
 THXVarList::NewFunction()
 {
-	JString* name = new JString;
+	JString* name = jnew JString;
 	assert( name != NULL );
 
 	JIndex i = 1,j;
@@ -163,7 +163,7 @@ THXVarList::NewFunction()
 
 	itsNames->Append(name);
 
-	JFunction* f = new JConstantValue(0.0);
+	JFunction* f = jnew JConstantValue(0.0);
 	assert( f != NULL );
 	itsFunctions->Append(f);
 

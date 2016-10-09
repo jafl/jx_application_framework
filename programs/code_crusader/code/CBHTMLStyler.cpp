@@ -143,7 +143,7 @@ CBHTMLStyler::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBHTMLStyler;
+		itsSelf = jnew CBHTMLStyler;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -160,7 +160,7 @@ CBHTMLStyler::Instance()
 void
 CBHTMLStyler::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************
@@ -797,7 +797,7 @@ CBHTMLStyler::UpgradeTypeList
 		typeStyles->InsertElementAtIndex(6, JFontStyle());
 		}
 
-	// set new values after all new slots have been created
+	// set jnew values after all jnew slots have been created
 
 	if (vers < 2)
 		{

@@ -55,10 +55,10 @@ GLUndoElementsInsert::Undo()
 
 	// we need to create this before we change the data, because
 	// it needs to read the old data first. We can't yet call NewUndo, 
-	// though, because that will delete us.
+	// though, because that will jdelete us.
 
 	GLUndoElementsCut* undo =
-		new GLUndoElementsCut(GetTable(), GetStartCell(), GetEndCell(), GetType());
+		jnew GLUndoElementsCut(GetTable(), GetStartCell(), GetEndCell(), GetType());
 	assert(undo != NULL);
 	
 	GRaggedFloatTableData* data 		= GetData();

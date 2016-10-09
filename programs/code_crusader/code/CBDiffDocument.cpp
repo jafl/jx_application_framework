@@ -97,7 +97,7 @@ CBDiffDocument::CreatePlain
 		CBDiffDocument* doc = origDoc;
 		if (doc == NULL)
 			{
-			doc = new CBDiffDocument(kPlainType, fullName, "", cmd, defStyle,
+			doc = jnew CBDiffDocument(kPlainType, fullName, "", cmd, defStyle,
 									 name1, removeStyle, name2, insertStyle);
 			assert( doc != NULL );
 			}
@@ -161,7 +161,7 @@ CBDiffDocument::CreatePlain
 			err = DiffFailed(errFileName, kJTrue);
 			}
 
-		delete p;
+		jdelete p;
 		}
 	else
 		{
@@ -269,14 +269,14 @@ CBDiffDocument::CreateCVS
 				err = DiffFailed(errOutput, kJFalse);
 				}
 			}
-		delete p1;
+		jdelete p1;
 
 		const JString startFullName = JCombinePathAndName(tempPath, fileName);
 
 		CBDiffDocument* doc = origDoc;
 		if (doc == NULL)
 			{
-			doc = new CBDiffDocument(kCVSType, fullName, getCmd, diffCmd, defStyle,
+			doc = jnew CBDiffDocument(kCVSType, fullName, getCmd, diffCmd, defStyle,
 									 name1, removeStyle, name2, insertStyle);
 			assert( doc != NULL );
 			}
@@ -371,7 +371,7 @@ CBDiffDocument::CreateCVS
 				}
 			}
 
-		delete p;
+		jdelete p;
 		}
 	else
 		{
@@ -455,7 +455,7 @@ CBDiffDocument::CreateSVN
 		CBDiffDocument* doc = origDoc;
 		if (doc == NULL)
 			{
-			doc = new CBDiffDocument(kSVNType, fullName, getCmd, diffCmd, defStyle,
+			doc = jnew CBDiffDocument(kSVNType, fullName, getCmd, diffCmd, defStyle,
 									 name1, removeStyle, name2, insertStyle);
 			assert( doc != NULL );
 			}
@@ -555,7 +555,7 @@ CBDiffDocument::CreateSVN
 				}
 			}
 
-		delete p;
+		jdelete p;
 		}
 	else
 		{
@@ -632,7 +632,7 @@ CBDiffDocument::CreateGit
 		getCmd        += kGitCmdSeparator;
 		getCmd        += get2Cmd;
 
-		doc = new CBDiffDocument(kGitType, fullName, getCmd, diffCmd, defStyle,
+		doc = jnew CBDiffDocument(kGitType, fullName, getCmd, diffCmd, defStyle,
 								 name1, removeStyle, name2, insertStyle);
 		assert( doc != NULL );
 		}
@@ -791,7 +791,7 @@ CBDiffDocument::FillOutputFile
 				err = DiffFailed(errFileName, kJTrue);
 				}
 			}
-		delete p;
+		jdelete p;
 
 		close(tempFileFD);
 		close(errFileFD);
@@ -859,7 +859,7 @@ CBDiffDocument::CBDiffDocument
 	const JRect rect = window->GetBounds();
 
 	itsDiffButton =
-		new JXTextButton("Redo diff", window,
+		jnew JXTextButton("Redo diff", window,
 						 JXWidget::kFixedRight, JXWidget::kFixedTop,
 						 rect.right - kMenuButtonWidth,0,
 						 kMenuButtonWidth, menuBar->GetFrameHeight());
@@ -1004,14 +1004,14 @@ CBDiffDocument::ReadDiff
 
 	FcT
 		Replace the lines in range F of the first file with lines in range
-		T of the second file.  This is like a combined add and delete, but
+		T of the second file.  This is like a combined add and jdelete, but
 		more compact.  For example, `5,7c8,10' means change lines 5-7 of
 		file 1 to read as lines 8-10 of file 2.
 
 	RdL
 		Delete the lines in range R from the first file; line L is where
 		they would have appeared in the second file had they not been
-		deleted.  For example, `5,7d3' means delete lines 5-7 of file 1.
+		deleted.  For example, `5,7d3' means jdelete lines 5-7 of file 1.
 
  ******************************************************************************/
 

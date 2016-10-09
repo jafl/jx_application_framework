@@ -94,8 +94,8 @@ JFSBinding::JFSBinding
 
 JFSBinding::~JFSBinding()
 {
-	delete itsNameRegex;
-	delete itsContentRegex;
+	jdelete itsNameRegex;
+	jdelete itsContentRegex;
 }
 
 /******************************************************************************
@@ -141,12 +141,12 @@ JFSBinding::UpdateRegex()
 {
 	if (itsPattern.BeginsWith(kContentRegexMarker))
 		{
-		delete itsNameRegex;
+		jdelete itsNameRegex;
 		itsNameRegex = NULL;
 
 		if (itsContentRegex == NULL)
 			{
-			itsContentRegex = new JRegex;
+			itsContentRegex = jnew JRegex;
 			assert( itsContentRegex != NULL );
 			itsContentRegex->SetSingleLine(kJTrue);
 			}
@@ -157,18 +157,18 @@ JFSBinding::UpdateRegex()
 			}
 		else
 			{
-			delete itsContentRegex;
+			jdelete itsContentRegex;
 			itsContentRegex = NULL;
 			}
 		}
 	else if (itsPattern.Contains(kNameRegexMarker))
 		{
-		delete itsContentRegex;
+		jdelete itsContentRegex;
 		itsContentRegex = NULL;
 
 		if (itsNameRegex == NULL)
 			{
-			itsNameRegex = new JRegex;
+			itsNameRegex = jnew JRegex;
 			assert( itsNameRegex != NULL );
 			}
 
@@ -177,16 +177,16 @@ JFSBinding::UpdateRegex()
 		assert( ok );
 		if (!itsNameRegex->SetPattern(s).OK())
 			{
-			delete itsNameRegex;
+			jdelete itsNameRegex;
 			itsNameRegex = NULL;
 			}
 		}
 	else
 		{
-		delete itsNameRegex;
+		jdelete itsNameRegex;
 		itsNameRegex = NULL;
 
-		delete itsContentRegex;
+		jdelete itsContentRegex;
 		itsContentRegex = NULL;
 		}
 }

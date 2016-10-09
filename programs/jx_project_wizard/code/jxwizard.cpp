@@ -36,7 +36,7 @@ main
 	ParseTextOptions(argc, argv);
 
 	JBoolean displayLicense;
-	JXWApp* app = new JXWApp(&argc, argv, &displayLicense);
+	JXWApp* app = jnew JXWApp(&argc, argv, &displayLicense);
 	assert( app != NULL );
 
 	if (displayLicense &&
@@ -45,7 +45,7 @@ main
 		return 0;
 		}
 
-	JXWMainDialog* dlog = new JXWMainDialog(app, argc, argv);
+	JXWMainDialog* dlog = jnew JXWMainDialog(app, argc, argv);
 	assert( dlog != NULL );
 	dlog->Activate();
 

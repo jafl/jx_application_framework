@@ -29,7 +29,7 @@ J2DVectorData::Create
 {
 	if (OKToCreate(x,y, vx,vy))
 		{
-		*plotData = new J2DVectorData(x,y, vx,vy, listen);
+		*plotData = jnew J2DVectorData(x,y, vx,vy, listen);
 		assert( *plotData != NULL );
 		return kJTrue;
 		}
@@ -70,13 +70,13 @@ J2DVectorData::J2DVectorData()
 {
 	J2DVectorDataX();
 
-	itsXData = new JArray<JFloat>(100);
+	itsXData = jnew JArray<JFloat>(100);
 	assert( itsXData != NULL );
-	itsYData = new JArray<JFloat>(100);
+	itsYData = jnew JArray<JFloat>(100);
 	assert( itsYData != NULL );
-	itsVXData = new JArray<JFloat>(100);
+	itsVXData = jnew JArray<JFloat>(100);
 	assert( itsVXData != NULL );
-	itsVYData = new JArray<JFloat>(100);
+	itsVYData = jnew JArray<JFloat>(100);
 	assert( itsVYData != NULL );
 
 	itsIsListeningFlag = kJFalse;
@@ -123,13 +123,13 @@ J2DVectorData::J2DVectorData
 		}
 	else
 		{
-		itsXData = new JArray<JFloat>(x);
+		itsXData = jnew JArray<JFloat>(x);
 		assert( itsXData != NULL );
-		itsYData = new JArray<JFloat>(y);
+		itsYData = jnew JArray<JFloat>(y);
 		assert( itsYData != NULL );
-		itsVXData = new JArray<JFloat>(vx);
+		itsVXData = jnew JArray<JFloat>(vx);
 		assert( itsVXData != NULL );
-		itsVYData = new JArray<JFloat>(vy);
+		itsVYData = jnew JArray<JFloat>(vy);
 		assert( itsVYData != NULL );
 		}
 }
@@ -156,10 +156,10 @@ J2DVectorData::~J2DVectorData()
 {
 	if (!itsIsListeningFlag)
 		{
-		delete itsXData;
-		delete itsYData;
-		delete itsVXData;
-		delete itsVYData;
+		jdelete itsXData;
+		jdelete itsYData;
+		jdelete itsVXData;
+		jdelete itsVYData;
 		}
 }
 
@@ -377,19 +377,19 @@ J2DVectorData::IgnoreDataChanges()
 	if (itsIsListeningFlag)
 		{
 		StopListening(itsXData);
-		itsXData = new JArray<JFloat>(*itsXData);
+		itsXData = jnew JArray<JFloat>(*itsXData);
 		assert( itsXData != NULL );
 
 		StopListening(itsYData);
-		itsYData = new JArray<JFloat>(*itsYData);
+		itsYData = jnew JArray<JFloat>(*itsYData);
 		assert( itsYData != NULL );
 
 		StopListening(itsVXData);
-		itsVXData = new JArray<JFloat>(*itsVXData);
+		itsVXData = jnew JArray<JFloat>(*itsVXData);
 		assert( itsVXData != NULL );
 
 		StopListening(itsVYData);
-		itsVYData = new JArray<JFloat>(*itsVYData);
+		itsVYData = jnew JArray<JFloat>(*itsVYData);
 		assert( itsVYData != NULL );
 
 		itsIsListeningFlag = kJFalse;

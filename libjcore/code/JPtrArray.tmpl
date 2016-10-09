@@ -316,7 +316,7 @@ JPtrArray<T>::InsertAtIndex
 	const T&		data
 	)
 {
-	T* ptr = new T(data);
+	T* ptr = jnew T(data);
 	assert( ptr != NULL );
 	InsertAtIndex(index, ptr);
 }
@@ -343,7 +343,7 @@ JPtrArray<T>::Prepend
 	const T& data
 	)
 {
-	T* ptr = new T(data);
+	T* ptr = jnew T(data);
 	assert( ptr != NULL );
 	Prepend(ptr);
 }
@@ -370,7 +370,7 @@ JPtrArray<T>::Append
 	const T& data
 	)
 {
-	T* ptr = new T(data);
+	T* ptr = jnew T(data);
 	assert( ptr != NULL );
 	Append(ptr);
 }
@@ -411,7 +411,7 @@ JPtrArray<T>::InsertBefore
 	const T&	data
 	)
 {
-	T* ptr = new T(data);
+	T* ptr = jnew T(data);
 	assert( ptr != NULL );
 	InsertBefore(beforePtr, ptr);
 }
@@ -452,7 +452,7 @@ JPtrArray<T>::InsertAfter
 	const T&	data
 	)
 {
-	T* ptr = new T(data);
+	T* ptr = jnew T(data);
 	assert( ptr != NULL );
 	InsertAfter(afterPtr, ptr);
 }
@@ -475,11 +475,11 @@ JPtrArray<T>::SetElement
 {
 	if (action == JPtrArrayT::kDelete)
 		{
-		delete NthElement(index);
+		jdelete NthElement(index);
 		}
 	else if (action == JPtrArrayT::kDeleteAsArray)
 		{
-		delete [] NthElement(index);
+		jdelete [] NthElement(index);
 		}
 	else
 		{
@@ -498,7 +498,7 @@ JPtrArray<T>::SetElement
 	const JPtrArrayT::SetElementAction	action
 	)
 {
-	T* ptr = new T(data);
+	T* ptr = jnew T(data);
 	assert( ptr != NULL );
 	SetElement(index, ptr, action);
 }
@@ -554,7 +554,7 @@ JPtrArray<T>::DeleteElement
 	const JIndex index
 	)
 {
-	delete (NthElement(index));
+	jdelete (NthElement(index));
 	JOrderedSet<T*>::RemoveElement(index);
 }
 
@@ -570,7 +570,7 @@ JPtrArray<T>::DeleteAll()
 	const JSize elementCount = JCollection::GetElementCount();
 	for (JIndex i=1; i<=elementCount; i++)
 		{
-		delete (NthElement(i));
+		jdelete (NthElement(i));
 		}
 	JArray<T*>::RemoveAll();
 }
@@ -587,7 +587,7 @@ JPtrArray<T>::DeleteElementAsArray
 	const JIndex index
 	)
 {
-	delete [] (NthElement(index));
+	jdelete [] (NthElement(index));
 	JOrderedSet<T*>::RemoveElement(index);
 }
 
@@ -603,7 +603,7 @@ JPtrArray<T>::DeleteAllAsArrays()
 	const JSize elementCount = JCollection::GetElementCount();
 	for (JIndex i=1; i<=elementCount; i++)
 		{
-		delete [] (NthElement(i));
+		jdelete [] (NthElement(i));
 		}
 	JArray<T*>::RemoveAll();
 }

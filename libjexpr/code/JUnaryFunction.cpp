@@ -49,7 +49,7 @@ JUnaryFunction::JUnaryFunction
 
 JUnaryFunction::~JUnaryFunction()
 {
-	delete itsArg;
+	jdelete itsArg;
 }
 
 /******************************************************************************
@@ -147,7 +147,7 @@ JUnaryFunction::SetArg
 	)
 {
 	assert( index == 1);
-	delete itsArg;
+	jdelete itsArg;
 	itsArg = arg;
 }
 

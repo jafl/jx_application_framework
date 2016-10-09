@@ -41,7 +41,7 @@ CBStringInputDialog::CBStringInputDialog
 
 CBStringInputDialog::~CBStringInputDialog()
 {
-	// We don't have anything to delete.
+	// We don't have anything to jdelete.
 }
 
 /******************************************************************************
@@ -53,31 +53,31 @@ void
 CBStringInputDialog::BuildWindow()
 {
 	// Create the window and pass it to the director.
-	JXWindow* window = new JXWindow(this, 280,90, "Change Text");
+	JXWindow* window = jnew JXWindow(this, 280,90, "Change Text");
 	assert( window != NULL );
 
 	// Create the cancel button.
 	JXTextButton* cancelButton =
-		new JXTextButton("Cancel", window,
+		jnew JXTextButton("Cancel", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 70,60, 50,20);
 	assert( cancelButton != NULL );
 
 	// Create the OK button.
 	JXTextButton* okButton =
-		new JXTextButton("OK", window,
+		jnew JXTextButton("OK", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 150,60, 50,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts("^M");
 
 	// Create the string input field.
 	itsText =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 100,20, 150,20);
 	assert( itsText != NULL );
 
 	// Create a label for the input field.
 	JXStaticText* obj1 =
-		new JXStaticText("New Text:", window,
+		jnew JXStaticText("New Text:", window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 30,20, 65,20);
 	assert( obj1 != NULL );
 
@@ -99,6 +99,6 @@ CBStringInputDialog::GetString()
 	const
 {
 	// After the dialog has been deactivated, this is how the program will
-	// access the new string that was typed into the input field.
+	// access the jnew string that was typed into the input field.
 	return itsText->GetText();
 }

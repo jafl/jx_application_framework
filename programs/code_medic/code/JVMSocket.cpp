@@ -35,7 +35,7 @@ JVMSocket::JVMSocket()
 	itsTimerID(-1),
 	itsInHandleInputFlag(kJFalse)
 {
-	itsBuffer = new JCharacter [ kBufferSize ];
+	itsBuffer = jnew JCharacter [ kBufferSize ];
 	assert( itsBuffer != NULL );
 }
 
@@ -46,7 +46,7 @@ JVMSocket::JVMSocket()
 
 JVMSocket::~JVMSocket()
 {
-	delete [] itsBuffer;
+	jdelete [] itsBuffer;
 }
 
 /******************************************************************************

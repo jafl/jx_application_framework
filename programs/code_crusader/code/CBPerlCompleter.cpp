@@ -21,7 +21,7 @@ static const JCharacter* kKeywordList[] =
 	"abs", "accept", "alarm", "atan2", "bind", "binmode", "bless", "caller",
 	"chdir", "chmod", "chomp", "chop", "chown", "chr", "chroot", "close",
 	"closedir", "connect", "cos", "crypt", "dbmclose", "dbmopen", "defined",
-	"delete", "die", "dump", "each", "eof", "eval", "exec", "exists", "exit",
+	"jdelete", "die", "dump", "each", "eof", "eval", "exec", "exists", "exit",
 	"exp", "fcntl", "fileno", "flock", "fork", "format", "formline", "getc",
 	"getlogin", "getpeername", "getpgrp", "getppid", "getpriority", "getpwnam",
 	"getgrnam", "gethostbyname", "getnetbyname", "getprotobyname", "getpwuid",
@@ -65,7 +65,7 @@ CBPerlCompleter::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBPerlCompleter;
+		itsSelf = jnew CBPerlCompleter;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -82,7 +82,7 @@ CBPerlCompleter::Instance()
 void
 CBPerlCompleter::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

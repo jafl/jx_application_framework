@@ -48,7 +48,7 @@ main
 	JString prevVersStr;
 
 	GLPlotApp* app =
-		new GLPlotApp(&argc, argv, &displayAbout, &prevVersStr);
+		jnew GLPlotApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != NULL );
 
 	if (displayAbout &&

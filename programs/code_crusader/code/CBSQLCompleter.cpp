@@ -24,7 +24,7 @@ static const JCharacter* kKeywordList[] =
 	"column", "comment", "commit", "compress", "connect", "constant", "crash",
 	"create", "current", "currval", "cursor", "database", "data_base", "date",
 	"dba", "debugoff", "debugon", "declare", "decimal", "default", "definition",
-	"delay", "delete", "delta", "desc", "digits", "dispose", "distinct", "do",
+	"delay", "jdelete", "delta", "desc", "digits", "dispose", "distinct", "do",
 	"drop", "else", "elsif", "end", "entry", "exception", "exception_init",
 	"exclusive", "exists", "exit", "false", "fetch", "file", "float", "for",
 	"form", "from", "function", "generic", "goto", "grant", "group", "having",
@@ -32,7 +32,7 @@ static const JCharacter* kKeywordList[] =
 	"indicator", "initial", "insert", "integer", "interface", "intersect",
 	"into", "is", "level", "like", "limited", "lock", "long", "loop", "max",
 	"maxextents", "min", "minus", "mlslabel", "mod", "mode", "modify",
-	"natural", "naturaln", "new", "nextval", "noaudit", "nocompress", "not",
+	"natural", "naturaln", "jnew", "nextval", "noaudit", "nocompress", "not",
 	"nowait", "null", "number", "number_base", "of", "offline", "on", "online",
 	"open", "option", "or", "order", "others", "out", "package", "partition",
 	"pctfree", "pls_integer", "positive", "positiven", "pragma", "prior",
@@ -78,7 +78,7 @@ CBSQLCompleter::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBSQLCompleter;
+		itsSelf = jnew CBSQLCompleter;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -95,7 +95,7 @@ CBSQLCompleter::Instance()
 void
 CBSQLCompleter::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

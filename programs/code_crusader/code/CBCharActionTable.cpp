@@ -56,7 +56,7 @@ CBCharActionTable::CBCharActionTable
 	itsSaveButton = saveButton;
 	ListenTo(itsSaveButton);
 
-	itsCSF = new CBListCSF(JGetString(kReplaceListID), JGetString(kAppendToListID));
+	itsCSF = jnew CBListCSF(JGetString(kReplaceListID), JGetString(kAppendToListID));
 	assert( itsCSF != NULL );
 
 	SetColWidth(kMacroColumn, 40);
@@ -70,7 +70,7 @@ CBCharActionTable::CBCharActionTable
 
 CBCharActionTable::~CBCharActionTable()
 {
-	delete itsCSF;
+	jdelete itsCSF;
 }
 
 /******************************************************************************
@@ -168,8 +168,8 @@ CBCharActionTable::CreateStringTableInput
 
 	if (cell.x == kMacroColumn)
 		{
-		delete input;
-		input = new JXCharInput(enclosure, hSizing, vSizing, x,y, w,h);
+		jdelete input;
+		input = jnew JXCharInput(enclosure, hSizing, vSizing, x,y, w,h);
 		assert( input != NULL );
 		}
 

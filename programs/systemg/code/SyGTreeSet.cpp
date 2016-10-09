@@ -144,7 +144,7 @@ void SyGTreeSet::SyGTreeSetX
 	// file list -- created first so it gets focus by default
 
 	itsScrollbarSet =
-		new JXScrollbarSet(this, kHElastic, kVElastic,
+		jnew JXScrollbarSet(this, kHElastic, kVElastic,
 						   0, kHeaderHeight, w, h - kHeaderHeight);
 	assert( itsScrollbarSet != NULL );
 
@@ -155,19 +155,19 @@ void SyGTreeSet::SyGTreeSetX
 		JXCloseDirectorTask::Close(GetWindow()->GetDirector());
 		}
 
-	JDirEntry* entry = new JDirEntry(path);
+	JDirEntry* entry = jnew JDirEntry(path);
 	assert( entry != NULL && JFSFileTreeNode::CanHaveChildren(*entry) );
-	SyGFileTreeNode* root = new SyGFileTreeNode(entry);
+	SyGFileTreeNode* root = jnew SyGFileTreeNode(entry);
 	assert( root != NULL );
-	itsFileTree = new SyGFileTree(root);
+	itsFileTree = jnew SyGFileTree(root);
 	assert( itsFileTree != NULL );
-	SyGFileTreeList* treeList = new SyGFileTreeList(itsFileTree);
+	SyGFileTreeList* treeList = jnew SyGFileTreeList(itsFileTree);
 	assert( treeList != NULL );
 
 	JXContainer* encl = itsScrollbarSet->GetScrollEnclosure();
 	JRect enclApG     = encl->GetApertureGlobal();
 
-	itsTable = new SyGFileTreeTable(itsMenuBar, itsFileTree, treeList,
+	itsTable = jnew SyGFileTreeTable(itsMenuBar, itsFileTree, treeList,
 									this, trashButton,
 									itsScrollbarSet, encl, kHElastic, kVElastic,
 									0, kHeaderHeight,
@@ -176,7 +176,7 @@ void SyGTreeSet::SyGTreeSetX
 	ListenTo(itsFileTree->GetRootDirInfo());
 
 	SyGHeaderWidget* colHeader =
-		new SyGHeaderWidget(itsTable, itsScrollbarSet, encl,
+		jnew SyGHeaderWidget(itsTable, itsScrollbarSet, encl,
 							kHElastic, kFixedTop,
 							0,0, enclApG.width(),
 							kHeaderHeight);
@@ -187,12 +187,12 @@ void SyGTreeSet::SyGTreeSetX
 	const JFont& font = GetFontManager()->GetDefaultMonospaceFont();
 
 	itsFilterLabel =
-		new JXStaticText("Filter:", this, kFixedLeft, kFixedTop,
+		jnew JXStaticText("Filter:", this, kFixedLeft, kFixedTop,
 						 5,3, 40, kHeaderHeight-3);
 	assert( itsFilterLabel != NULL );
 
 	itsFilterHistory =
-		new JXStringHistoryMenu(10, "", this, kFixedRight, kFixedTop,
+		jnew JXStringHistoryMenu(10, "", this, kFixedRight, kFixedTop,
 								0,0, 30,20);
 	assert( itsFilterHistory != NULL );
 	ListenTo(itsFilterHistory);
@@ -200,7 +200,7 @@ void SyGTreeSet::SyGTreeSetX
 	itsFilterHistory->SetDefaultFont(font, kJTrue);
 
 	itsFilterInput =
-		new SyGFilterInput(itsTable, this, kHElastic, kFixedTop,
+		jnew SyGFilterInput(itsTable, this, kHElastic, kFixedTop,
 						   45,0, w - 45 - itsFilterHistory->GetFrameWidth(), kHeaderHeight);
 	assert( itsFilterInput != NULL );
 	ListenTo(itsFilterInput);
@@ -243,7 +243,7 @@ void SyGTreeSet::SyGTreeSetX
 
 SyGTreeSet::~SyGTreeSet()
 {
-	delete itsFileTree;
+	jdelete itsFileTree;
 }
 
 /******************************************************************************
@@ -341,7 +341,7 @@ SyGTreeSet::UpdateDisplay
 		itsMenuBar->SetSize(w - kEmptyButtonWidth, kJXDefaultMenuBarHeight);
 
 		itsEmptyButton =
-			new JXTextButton("Empty", encl, kFixedRight, kFixedTop,
+			jnew JXTextButton("Empty", encl, kFixedRight, kFixedTop,
 							 w - kEmptyButtonWidth, 0,
 							 kEmptyButtonWidth, kJXDefaultMenuBarHeight);
 		assert( itsEmptyButton != NULL );
@@ -351,7 +351,7 @@ SyGTreeSet::UpdateDisplay
 		{
 		itsMenuBar->SetSize(w, kJXDefaultMenuBarHeight);
 
-		delete itsEmptyButton;
+		jdelete itsEmptyButton;
 		itsEmptyButton = NULL;
 		}
 }

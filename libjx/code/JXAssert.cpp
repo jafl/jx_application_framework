@@ -27,7 +27,7 @@ JXAssert::JXAssert()
 {
 	itsIsOperatingFlag = kJTrue;
 
-	itsDisplayList = new JPtrArray<JXDisplay>(JPtrArrayT::kForgetAll);
+	itsDisplayList = jnew JPtrArray<JXDisplay>(JPtrArrayT::kForgetAll);
 	assert( itsDisplayList != NULL );
 
 	itsIsOperatingFlag = kJFalse;
@@ -44,7 +44,7 @@ JXAssert::~JXAssert()
 
 	JPtrArray<JXDisplay>* list = itsDisplayList;
 	itsDisplayList = NULL;
-	delete list;
+	jdelete list;
 
 	itsIsOperatingFlag = kJFalse;
 }

@@ -43,9 +43,9 @@ FitParmsTable::FitParmsTable
 				hSizing,vSizing, x,y, w,h)
 {
 	AppendCols(2, kDefColWidth);
-	itsCol1 = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsCol1 = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert(itsCol1 != NULL);
-	itsCol2 = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsCol2 = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert(itsCol2 != NULL);
 	SetColBorderInfo(0, GetColormap()->GetBlackColor());
 	SetRowBorderInfo(0, GetColormap()->GetBlackColor());
@@ -59,9 +59,9 @@ FitParmsTable::FitParmsTable
 FitParmsTable::~FitParmsTable()
 {
 	itsCol1->DeleteAll();
-	delete itsCol1;
+	jdelete itsCol1;
 	itsCol2->DeleteAll();
-	delete itsCol2;
+	jdelete itsCol2;
 }
 
 /******************************************************************************
@@ -130,7 +130,7 @@ FitParmsTable::Append
 	const JFontManager* fm = GetFontManager();
 	JSize lineHeight = fm->GetDefaultFont().GetLineHeight();
 	AppendRows(1, lineHeight + 2);
-	JString* str = new JString(col1);
+	JString* str = jnew JString(col1);
 	itsCol1->Append(str);
 	JSize col1Width = GetColWidth(1);
 	JSize strWidth = fm->GetDefaultFont().GetStringWidth(*str);
@@ -138,7 +138,7 @@ FitParmsTable::Append
 		{
 		SetColWidth(1, strWidth + 10);
 		}
-	str = new JString(col2);
+	str = jnew JString(col2);
 	itsCol2->Append(str);
 	JSize col2Width = GetColWidth(2);
 	strWidth = fm->GetDefaultFont().GetStringWidth(*str);

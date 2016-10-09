@@ -67,7 +67,7 @@ template <class T>
 JOrderedSet<T>::~JOrderedSet()
 {
 	NotifyIterators(JOrderedSetT::GoingAway());
-	delete itsCompareObj;
+	jdelete itsCompareObj;
 }
 
 /******************************************************************************
@@ -318,12 +318,12 @@ JOrderedSet<T>::SetCompareFunction
 {
 	itsCompareFn = compareFn;
 
-	delete itsCompareObj;
+	jdelete itsCompareObj;
 	itsCompareObj = NULL;
 
 	if (itsCompareFn != NULL)
 		{
-		itsCompareObj = new JCompareFnWrapper<T>(itsCompareFn);
+		itsCompareObj = jnew JCompareFnWrapper<T>(itsCompareFn);
 		assert( itsCompareObj != NULL );
 		}
 }
@@ -354,7 +354,7 @@ JOrderedSet<T>::SetCompareObject
 {
 	itsCompareFn = NULL;
 
-	delete itsCompareObj;
+	jdelete itsCompareObj;
 	itsCompareObj = compareObj.Copy();
 }
 
@@ -364,7 +364,7 @@ JOrderedSet<T>::ClearCompareObject()
 {
 	itsCompareFn = NULL;
 
-	delete itsCompareObj;
+	jdelete itsCompareObj;
 	itsCompareObj = NULL;
 }
 
@@ -436,7 +436,7 @@ JOrderedSet<T>::IsSorted()
 		obj1 = obj2;
 		}
 
-	delete iter;
+	jdelete iter;
 	return sorted;
 }
 
@@ -504,7 +504,7 @@ JOrderedSet<T>::Sort()
 		start++;
 		}
 
-	delete iter;
+	jdelete iter;
 }
 
 /******************************************************************************
@@ -550,7 +550,7 @@ JOrderedSet<T>::InsertSorted
 /******************************************************************************
  GetInsertionSortIndex
 
-	Returns index where new element should be inserted in order to keep
+	Returns index where jnew element should be inserted in order to keep
 	the list sorted.  If there is an element that matches the given one,
 	*isDuplicate is set to kJTrue.
 
@@ -672,7 +672,7 @@ JOrderedSet<T>::SearchSorted1
 				}
 			}
 
-		delete iter;
+		jdelete iter;
 
 		if (index == 0)
 			{
@@ -707,7 +707,7 @@ JOrderedSet<T>::SearchSorted1
 				}
 			}
 
-		delete iter;
+		jdelete iter;
 
 		if (index == 0)
 			{
@@ -733,7 +733,7 @@ JOrderedSet<T>::NewIterator
 	const JIndex			index
 	)
 {
-	JOrderedSetIterator<T>* iter = new JOrderedSetIterator<T>(this, start, index);
+	JOrderedSetIterator<T>* iter = jnew JOrderedSetIterator<T>(this, start, index);
 	assert( iter != NULL );
 	return iter;
 }
@@ -747,7 +747,7 @@ JOrderedSet<T>::NewIterator
 	)
 	const
 {
-	JOrderedSetIterator<T>* iter = new JOrderedSetIterator<T>(*this, start, index);
+	JOrderedSetIterator<T>* iter = jnew JOrderedSetIterator<T>(*this, start, index);
 	assert( iter != NULL );
 	return iter;
 }
@@ -799,7 +799,7 @@ JElementComparison<T>*
 JCompareFnWrapper<T>::Copy()
 	const
 {
-	JCompareFnWrapper<T>* copy = new JCompareFnWrapper<T>(itsCompareFn);
+	JCompareFnWrapper<T>* copy = jnew JCompareFnWrapper<T>(itsCompareFn);
 	assert( copy != NULL );
 	return copy;
 }

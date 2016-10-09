@@ -48,5 +48,5 @@ DeleteFitModTask::~DeleteFitModTask()
 void
 DeleteFitModTask::Perform()
 {
-	delete itsModule;
+	jdelete itsModule;
 }

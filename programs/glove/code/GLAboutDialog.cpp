@@ -75,37 +75,37 @@ GLAboutDialog::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 430,180, "");
+    JXWindow* window = jnew JXWindow(this, 430,180, "");
     assert( window != NULL );
 
     JXImageWidget* gloveIcon =
-        new JXImageWidget(window,
+        jnew JXImageWidget(window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,15, 50,50);
     assert( gloveIcon != NULL );
 
     JXStaticText* textWidget =
-        new JXStaticText(JGetString("textWidget::GLAboutDialog::JXLayout"), window,
+        jnew JXStaticText(JGetString("textWidget::GLAboutDialog::JXLayout"), window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 90,20, 330,110);
     assert( textWidget != NULL );
 
     JXImageWidget* npsIcon =
-        new JXImageWidget(window,
+        jnew JXImageWidget(window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,75, 65,65);
     assert( npsIcon != NULL );
 
     JXTextButton* okButton =
-        new JXTextButton(JGetString("okButton::GLAboutDialog::JXLayout"), window,
+        jnew JXTextButton(JGetString("okButton::GLAboutDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,150, 60,20);
     assert( okButton != NULL );
     okButton->SetShortcuts(JGetString("okButton::GLAboutDialog::shortcuts::JXLayout"));
 
     itsHelpButton =
-        new JXTextButton(JGetString("itsHelpButton::GLAboutDialog::JXLayout"), window,
+        jnew JXTextButton(JGetString("itsHelpButton::GLAboutDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,150, 60,20);
     assert( itsHelpButton != NULL );
 
     itsCreditsButton =
-        new JXTextButton(JGetString("itsCreditsButton::GLAboutDialog::JXLayout"), window,
+        jnew JXTextButton(JGetString("itsCreditsButton::GLAboutDialog::JXLayout"), window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,150, 60,20);
     assert( itsCreditsButton != NULL );
 
@@ -137,13 +137,13 @@ GLAboutDialog::BuildWindow
 		}
 	textWidget->SetText(text);
 
-	JXImage* image = new JXImage(GetDisplay(), JXPM(glove_icon));
+	JXImage* image = jnew JXImage(GetDisplay(), JXPM(glove_icon));
 	assert(image != NULL);
 	gloveIcon->SetImage(image, kJTrue);
 
 	// NPS icon
 
-	image = new JXImage(GetDisplay(), nps);
+	image = jnew JXImage(GetDisplay(), nps);
 	assert( image != NULL );
 	npsIcon->SetImage(image, kJTrue);
 

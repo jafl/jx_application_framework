@@ -82,10 +82,10 @@ CMThreadsWidget::CMThreadsWidget
 
 CMThreadsWidget::~CMThreadsWidget()
 {
-	delete itsTree;
+	jdelete itsTree;
 	JXDeleteObjectTask<CMGetThreads>::Delete(itsGetThreadsCmd);
-	delete itsGetCurrentThreadCmd;
-	delete itsOpenIDList;
+	jdelete itsGetCurrentThreadCmd;
+	jdelete itsOpenIDList;
 }
 
 /******************************************************************************
@@ -398,7 +398,7 @@ CMThreadsWidget::Receive
 //		We can't do this because gdb often reports threads when a core file
 //		is loaded, even if the program doesn't use threads.
 //
-//		CMCheckForThreads* cmd = new CMCheckForThreads(itsThreadDir);
+//		CMCheckForThreads* cmd = jnew CMCheckForThreads(itsThreadDir);
 //		assert( cmd != NULL );
 //		cmd->Send();
 		}
@@ -449,13 +449,13 @@ CMThreadsWidget::ReceiveGoingAway
 		itsFlushWhenRunFlag = kJTrue;
 		FlushOldData();
 
-		delete itsGetThreadsCmd;
+		jdelete itsGetThreadsCmd;
 		itsGetThreadsCmd = itsLink->CreateGetThreads(itsTree, this);
 
-		delete itsGetCurrentThreadCmd;
+		jdelete itsGetCurrentThreadCmd;
 		itsGetCurrentThreadCmd = itsLink->CreateGetThread(this);
 
-		delete itsOpenIDList;
+		jdelete itsOpenIDList;
 		itsOpenIDList = NULL;
 		}
 	else
@@ -539,7 +539,7 @@ CMThreadsWidget::SaveOpenNodes()
 {
 	if (itsOpenIDList == NULL)
 		{
-		itsOpenIDList = new JArray<JUInt64>();
+		itsOpenIDList = jnew JArray<JUInt64>();
 		assert( itsOpenIDList != NULL );
 		itsOpenIDList->SetCompareFunction(JCompareUInt64);
 		}

@@ -90,7 +90,7 @@ CMCommand::CMCommand
 
 CMCommand::~CMCommand()
 {
-	delete itsResultList;
+	jdelete itsResultList;
 
 	if (itsState != kUnassigned)
 		{
@@ -161,7 +161,7 @@ CMCommand::Finished
 
 	if (itsDeleteFlag)
 		{
-		delete this;
+		jdelete this;
 		}
 	else
 		{
@@ -197,7 +197,7 @@ CMCommand::GetResults()
 {
 	if (itsResultList == NULL)
 		{
-		const_cast<CMCommand*>(this)->itsResultList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		const_cast<CMCommand*>(this)->itsResultList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert( itsResultList != NULL );
 		}
 
@@ -219,7 +219,7 @@ CMCommand::SaveResult
 {
 	if (itsResultList == NULL)
 		{
-		itsResultList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		itsResultList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert( itsResultList != NULL );
 		}
 

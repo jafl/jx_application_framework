@@ -369,7 +369,7 @@ JXTEBase::JXTEBase
 	itsDNDDragInfo    = NULL;
 	itsDNDDropInfo    = NULL;
 
-	itsBlinkTask = new JXTEBlinkCaretTask(this);
+	itsBlinkTask = jnew JXTEBlinkCaretTask(this);
 	assert( itsBlinkTask != NULL );
 	TECaretShouldBlink(kJTrue);
 
@@ -403,9 +403,9 @@ JXTEBase::~JXTEBase()
 		dlog->TEDeactivated(this);
 		}
 
-	delete itsPSPrintName;
-	delete itsPTPrintName;
-	delete itsBlinkTask;
+	jdelete itsPSPrintName;
+	jdelete itsPTPrintName;
+	jdelete itsBlinkTask;
 }
 
 /******************************************************************************
@@ -595,7 +595,7 @@ JXTEBase::TEBeginDND()
 {
 	assert( itsDNDDragInfo != NULL );
 
-	JXTextSelection* data = new JXTextSelection(this, kSelectionDataID);
+	JXTextSelection* data = jnew JXTextSelection(this, kSelectionDataID);
 	assert( data != NULL );
 
 	return BeginDND(*(itsDNDDragInfo->pt), *(itsDNDDragInfo->buttonStates),
@@ -680,11 +680,11 @@ JXTEBase::GetDNDAskActions
 	askActionList->AppendElement(dndMgr->GetDNDActionCopyXAtom());
 	askActionList->AppendElement(dndMgr->GetDNDActionMoveXAtom());
 
-	JString* s = new JString(kDNDActionCopyDescriptionID);
+	JString* s = jnew JString(kDNDActionCopyDescriptionID);
 	assert( s != NULL );
 	askDescriptionList->Append(s);
 
-	s = new JString(kDNDActionMoveDescriptionID);
+	s = jnew JString(kDNDActionMoveDescriptionID);
 	assert( s != NULL );
 	askDescriptionList->Append(s);
 }
@@ -712,10 +712,10 @@ JXTEBase::GetSelectionData
 		JXTextSelection* textData = dynamic_cast<JXTextSelection*>(data);
 		assert( textData != NULL );
 
-		JString* text = new JString;
+		JString* text = jnew JString;
 		assert( text != NULL );
 
-		JRunArray<JFont>* style = new JRunArray<JFont>;
+		JRunArray<JFont>* style = jnew JRunArray<JFont>;
 		assert( style != NULL );
 
 		const JBoolean ok = GetSelection(text, style);
@@ -1669,16 +1669,16 @@ JXTEBase::TEClipboardChanged()
 {
 	if (HasSelection())
 		{
-		JString* text = new JString;
+		JString* text = jnew JString;
 		assert( text != NULL );
 
-		JRunArray<JFont>* style = new JRunArray<JFont>;
+		JRunArray<JFont>* style = jnew JRunArray<JFont>;
 		assert( style != NULL );
 
 		const JBoolean ok = GetSelection(text, style);
 		assert( ok );
 
-		JXTextSelection* data = new JXTextSelection(GetDisplay(), text, style);
+		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), text, style);
 		assert( data != NULL );
 
 		if (!GetSelectionManager()->SetData(kJXClipboardName, data))
@@ -3243,7 +3243,7 @@ JXTEBase::GetPSPrintFileName()
 	if (itsPSPrintName == NULL)
 		{
 		JXTEBase* me = const_cast<JXTEBase*>(this);
-		me->itsPSPrintName = new JString;
+		me->itsPSPrintName = jnew JString;
 		assert( itsPSPrintName != NULL );
 		}
 
@@ -3368,7 +3368,7 @@ JXTEBase::GetPTPrintFileName()
 	if (itsPTPrintName == NULL)
 		{
 		JXTEBase* me = const_cast<JXTEBase*>(this);
-		me->itsPTPrintName = new JString;
+		me->itsPTPrintName = jnew JString;
 		assert( itsPTPrintName != NULL );
 		}
 
@@ -3441,7 +3441,7 @@ JXTEBase::AskForLine()
 	const JSize lineCount  = GetLineCount();
 
 	JXDirector* sup = GetWindow()->GetDirector();
-	itsGoToLineDialog = new JXGoToLineDialog(sup, lineIndex, lineCount);
+	itsGoToLineDialog = jnew JXGoToLineDialog(sup, lineIndex, lineCount);
 	assert( itsGoToLineDialog != NULL );
 	itsGoToLineDialog->BeginDialog();
 	ListenTo(itsGoToLineDialog);

@@ -38,12 +38,12 @@ MDCreateGlobals
 	theApplication = app;
 
 	JBoolean isNew;
-	thePrefsManager	= new MDPrefsManager(&isNew);
+	thePrefsManager	= jnew MDPrefsManager(&isNew);
 	assert( thePrefsManager != NULL );
 
 	JXInitHelp(kMDTOCHelpName, kMDHelpSectionCount, kMDHelpSectionName);
 
-	theMDIServer = new MDMDIServer;
+	theMDIServer = jnew MDMDIServer;
 	assert( theMDIServer != NULL );
 
 	return isNew;
@@ -62,7 +62,7 @@ MDDeleteGlobals()
 
 	// this must be last so everybody else can use it to save their setup
 
-	delete thePrefsManager;
+	jdelete thePrefsManager;
 	thePrefsManager = NULL;
 }
 

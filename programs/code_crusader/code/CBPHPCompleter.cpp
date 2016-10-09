@@ -31,7 +31,7 @@ static const JCharacter* kKeywordList[] =
 	"if", "implements", "int", "integer", "interface",
 	"false", "FALSE", "final", "float", "for", "foreach", "function",
 	"global",
-	"new", "null", "NULL",
+	"jnew", "null", "NULL",
 	"object", "old_function", "or",
 	"parent", "php_user_filter", "print", "private", "protected", "public",
 	"real", "return",
@@ -59,7 +59,7 @@ CBPHPCompleter::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBPHPCompleter;
+		itsSelf = jnew CBPHPCompleter;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -76,7 +76,7 @@ CBPHPCompleter::Instance()
 void
 CBPHPCompleter::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

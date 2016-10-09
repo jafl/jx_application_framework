@@ -71,7 +71,7 @@ JFunction*
 JDiscVarValue::Copy()
 	const
 {
-	JDiscVarValue* newFunction = new JDiscVarValue(*this);
+	JDiscVarValue* newFunction = jnew JDiscVarValue(*this);
 	assert( newFunction != NULL );
 	return newFunction;
 }

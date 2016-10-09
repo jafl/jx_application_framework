@@ -11,7 +11,6 @@
 #define _H_JThisProcess
 
 #include <JProcess.h>
-#include <j_prep_ace.h>
 #include <ace/Event_Handler.h>
 #include <ace/Signal.h>
 

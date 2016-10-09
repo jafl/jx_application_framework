@@ -98,11 +98,11 @@ JPlotLinearFit::JPlotLinearFitX
 	itsYIsLog = ylog;
 	if (!xlog && !ylog)
 		{
-		itsFunctionName = new JString("y = a+bx");
+		itsFunctionName = jnew JString("y = a+bx");
 		}
 	else if (!xlog && ylog)
 		{
-		itsFunctionName = new JString("y = a Exp(bx)");
+		itsFunctionName = jnew JString("y = a Exp(bx)");
 		}
 	itsRealCount = 0;
 	GenerateFit();

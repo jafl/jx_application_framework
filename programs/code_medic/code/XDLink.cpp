@@ -81,10 +81,10 @@ XDLink::XDLink()
 {
 	InitFlags();
 
-	itsBPMgr = new XDBreakpointManager(this);
+	itsBPMgr = jnew XDBreakpointManager(this);
 	assert( itsBPMgr != NULL );
 
-	itsSourcePathList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsSourcePathList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsSourcePathList != NULL );
 
 	StartDebugger();
@@ -98,10 +98,10 @@ XDLink::XDLink()
 XDLink::~XDLink()
 {
 	StopDebugger();
-	DeleteAcceptor();
 
-	delete itsBPMgr;
-	delete itsSourcePathList;
+	jdelete itsAcceptor;
+	jdelete itsBPMgr;
+	jdelete itsSourcePathList;
 
 	DeleteOneShotCommands();
 }
@@ -432,7 +432,7 @@ XDLink::ReceiveMessageFromDebugger()
 				{
 				CancelAllCommands();
 
-				XDCloseSocketTask* task = new XDCloseSocketTask(itsLink);
+				XDCloseSocketTask* task = jnew XDCloseSocketTask(itsLink);
 				assert( task != NULL );
 				task->Go();
 				}
@@ -518,7 +518,7 @@ XDLink::SetProgram
 			}
 		}
 
-	XDSetProgramTask* task = new XDSetProgramTask();
+	XDSetProgramTask* task = jnew XDSetProgramTask();
 	assert( task != NULL );
 	task->Go();
 }
@@ -1004,7 +1004,7 @@ XDLink::CreateArray2DCommand
 	JStringTableData*	data
 	)
 {
-	CMArray2DCommand* cmd = new XDArray2DCommand(dir, table, data);
+	CMArray2DCommand* cmd = jnew XDArray2DCommand(dir, table, data);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1022,7 +1022,7 @@ XDLink::CreatePlot2DCommand
 	JArray<JFloat>*	y
 	)
 {
-	CMPlot2DCommand* cmd = new XDPlot2DCommand(dir, x, y);
+	CMPlot2DCommand* cmd = jnew XDPlot2DCommand(dir, x, y);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1038,7 +1038,7 @@ XDLink::CreateDisplaySourceForMain
 	CMSourceDirector* sourceDir
 	)
 {
-	CMDisplaySourceForMain* cmd = new XDDisplaySourceForMain(sourceDir);
+	CMDisplaySourceForMain* cmd = jnew XDDisplaySourceForMain(sourceDir);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1055,7 +1055,7 @@ XDLink::CreateGetCompletions
 	CMCommandOutputDisplay*	history
 	)
 {
-	CMGetCompletions* cmd = new XDGetCompletions(input, history);
+	CMGetCompletions* cmd = jnew XDGetCompletions(input, history);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1071,7 +1071,7 @@ XDLink::CreateGetFrame
 	CMStackWidget* widget
 	)
 {
-	CMGetFrame* cmd = new XDGetFrame(widget);
+	CMGetFrame* cmd = jnew XDGetFrame(widget);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1088,7 +1088,7 @@ XDLink::CreateGetStack
 	CMStackWidget*	widget
 	)
 {
-	CMGetStack* cmd = new XDGetStack(tree, widget);
+	CMGetStack* cmd = jnew XDGetStack(tree, widget);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1104,7 +1104,7 @@ XDLink::CreateGetThread
 	CMThreadsWidget* widget
 	)
 {
-	CMGetThread* cmd = new XDGetThread(widget);
+	CMGetThread* cmd = jnew XDGetThread(widget);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1121,7 +1121,7 @@ XDLink::CreateGetThreads
 	CMThreadsWidget*	widget
 	)
 {
-	CMGetThreads* cmd = new XDGetThreads(tree, widget);
+	CMGetThreads* cmd = jnew XDGetThreads(tree, widget);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1138,7 +1138,7 @@ XDLink::CreateGetFullPath
 	const JIndex		lineIndex
 	)
 {
-	CMGetFullPath* cmd = new XDGetFullPath(fileName, lineIndex);
+	CMGetFullPath* cmd = jnew XDGetFullPath(fileName, lineIndex);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1154,7 +1154,7 @@ XDLink::CreateGetInitArgs
 	JXInputField* argInput
 	)
 {
-	CMGetInitArgs* cmd = new XDGetInitArgs(argInput);
+	CMGetInitArgs* cmd = jnew XDGetInitArgs(argInput);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1170,7 +1170,7 @@ XDLink::CreateGetLocalVars
 	CMVarNode* rootNode
 	)
 {
-	CMGetLocalVars* cmd = new XDGetLocalVars(rootNode);
+	CMGetLocalVars* cmd = jnew XDGetLocalVars(rootNode);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1186,7 +1186,7 @@ XDLink::CreateGetSourceFileList
 	CMFileListDir* fileList
 	)
 {
-	CMGetSourceFileList* cmd = new XDGetSourceFileList(fileList);
+	CMGetSourceFileList* cmd = jnew XDGetSourceFileList(fileList);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1207,7 +1207,7 @@ XDLink::CreateVarValueCommand
 	s        += " -d ";
 	s        += itsStackFrameIndex;
 
-	CMVarCommand* cmd = new XDVarCommand(s);
+	CMVarCommand* cmd = jnew XDVarCommand(s);
 	assert( cmd != NULL );
 	return cmd;
 }
@@ -1237,7 +1237,7 @@ XDLink::CreateVarNode
 	const JBoolean shouldUpdate		// kJFalse for Local Variables
 	)
 {
-	CMVarNode* node = new XDVarNode(shouldUpdate);
+	CMVarNode* node = jnew XDVarNode(shouldUpdate);
 	assert( node != NULL );
 	return node;
 }
@@ -1251,7 +1251,7 @@ XDLink::CreateVarNode
 	const JCharacter*	value
 	)
 {
-	CMVarNode* node = new XDVarNode(parent, name, fullName, value);
+	CMVarNode* node = jnew XDVarNode(parent, name, fullName, value);
 	assert( node != NULL );
 	return node;
 }
@@ -1554,6 +1554,54 @@ XDLink::OKToDetachOrKill()
 }
 
 /******************************************************************************
+ StartDebugger (private)
+
+	We cannot send anything to xdebug until it has successfully started.
+
+ *****************************************************************************/
+
+JBoolean
+XDLink::StartDebugger()
+{
+	if (itsAcceptor == NULL)
+		{
+		itsAcceptor = jnew XDAcceptor;
+		assert( itsAcceptor != NULL );
+		}
+
+	const JString portStr(kXdebugPort, JString::kBase10);
+	if (itsAcceptor->open(ACE_INET_Addr(kXdebugPort)) == -1)
+		{
+		const JString errStr(jerrno(), JString::kBase10);
+
+		const JCharacter* map[] =
+			{
+			"port",  portStr,
+			"errno", errStr
+			};
+		JString msg = JGetString("ListenError::XDLink", map, sizeof(map));
+
+		XDWelcomeTask* task = jnew XDWelcomeTask(msg, kJTrue);
+		assert( task != NULL );
+		task->Go();
+		return kJFalse;
+		}
+	else
+		{
+		const JCharacter* map[] =
+			{
+			"port", portStr
+			};
+		JString msg = JGetString("Welcome::XDLink", map, sizeof(map));
+
+		XDWelcomeTask* task = jnew XDWelcomeTask(msg, kJFalse);
+		assert( task != NULL );
+		task->Go();
+		return kJTrue;
+		}
+}
+
+/******************************************************************************
  ChangeDebugger
 
  *****************************************************************************/
@@ -1593,7 +1641,9 @@ XDLink::StopDebugger()
 {
 	Send("detach");
 
-	DeleteLink();
+	jdelete itsLink;
+	itsLink = NULL;
+
 	CancelAllCommands();
 
 	InitFlags();
@@ -1640,86 +1690,4 @@ XDLink::ConnectionFinished
 	itsIDEKey.Clear();
 
 	RestartDebugger();
-}
-
-/******************************************************************************
- StartDebugger (private)
-
-	We cannot send anything to xdebug until it has successfully started.
-
- *****************************************************************************/
-
-// This function has to be last so JCore::new works for everything else.
-
-#undef new
-
-JBoolean
-XDLink::StartDebugger()
-{
-	if (itsAcceptor == NULL)
-		{
-		itsAcceptor = new XDAcceptor;
-		assert( itsAcceptor != NULL );
-		}
-
-	const JString portStr(kXdebugPort, JString::kBase10);
-	if (itsAcceptor->open(ACE_INET_Addr(kXdebugPort)) == -1)
-		{
-		const JString errStr(jerrno(), JString::kBase10);
-
-		const JCharacter* map[] =
-			{
-			"port",  portStr,
-			"errno", errStr
-			};
-		JString msg = JGetString("ListenError::XDLink", map, sizeof(map));
-
-		XDWelcomeTask* task = new XDWelcomeTask(msg, kJTrue);
-		assert( task != NULL );
-		task->Go();
-		return kJFalse;
-		}
-	else
-		{
-		const JCharacter* map[] =
-			{
-			"port", portStr
-			};
-		JString msg = JGetString("Welcome::XDLink", map, sizeof(map));
-
-		XDWelcomeTask* task = new XDWelcomeTask(msg, kJFalse);
-		assert( task != NULL );
-		task->Go();
-		return kJTrue;
-		}
-}
-
-/******************************************************************************
- DeleteLink (private)
-
- ******************************************************************************/
-
-// This function has to be last so JCore::delete works for everything else.
-
-#undef delete
-
-void
-XDLink::DeleteLink()
-{
-	delete itsLink;
-	itsLink = NULL;
-}
-
-/******************************************************************************
- DeleteAcceptor (private)
-
- ******************************************************************************/
-
-// This function has to be last so JCore::delete works for everything else.
-
-void
-XDLink::DeleteAcceptor()
-{
-	delete itsAcceptor;
-	itsAcceptor = NULL;
 }

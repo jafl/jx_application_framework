@@ -330,7 +330,7 @@ JXTabGroup::DeleteTab
 	)
 {
 	JXWidgetSet* card = RemoveTab(index);
-	delete card;
+	jdelete card;
 }
 
 /******************************************************************************

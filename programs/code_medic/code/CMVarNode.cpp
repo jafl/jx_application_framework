@@ -57,7 +57,7 @@ CMVarNode::CMVarNode
 		parent->Append(this);
 		if (parent->IsRoot() && !JStringEmpty(name))
 			{
-			CMInitVarNodeTask* task = new CMInitVarNodeTask(this);
+			CMInitVarNodeTask* task = jnew CMInitVarNodeTask(this);
 			assert( task != NULL );
 			task->Go();
 			}
@@ -91,9 +91,9 @@ CMVarNode::VarTreeNodeX()
 
 CMVarNode::~CMVarNode()
 {
-	delete itsValueCommand;
-	delete itsContentCommand;
-	delete itsOrigValue;
+	jdelete itsValueCommand;
+	jdelete itsContentCommand;
+	jdelete itsOrigValue;
 }
 
 /******************************************************************************
@@ -186,7 +186,7 @@ CMVarNode::ConvertToBase()
 			{
 			// save value for when base reset to "default"
 
-			itsOrigValue = new JString(itsValue);
+			itsOrigValue = jnew JString(itsValue);
 			assert( itsOrigValue != NULL );
 
 			// replace only the value, preserving whatever else is there
@@ -577,7 +577,7 @@ CMVarNode::UpdateValue()
 {
 	if (HasTree() && GetDepth() == 1 && !(GetName()).IsEmpty())
 		{
-		delete itsValueCommand;
+		jdelete itsValueCommand;
 
 		const JString expr = GetFullName();
 		itsValueCommand = (CMGetLink())->CreateVarValueCommand(expr);
@@ -731,7 +731,7 @@ CMVarNode::UpdateContent()
 {
 	assert( itsIsPointerFlag );
 
-	delete itsContentCommand;
+	jdelete itsContentCommand;
 
 	const JString expr = GetFullName();
 	itsContentCommand = (CMGetLink())->CreateVarContentCommand(expr);

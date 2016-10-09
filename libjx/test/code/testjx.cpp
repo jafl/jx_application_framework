@@ -48,7 +48,7 @@ main
 		return 0;
 		}
 
-	TestApp* app = new TestApp(&argc, argv, wantMDI);
+	TestApp* app = jnew TestApp(&argc, argv, wantMDI);
 	assert( app != NULL );
 
 	JBoolean startIconic, bufferTestWidget, testWidgetIsImage;
@@ -57,7 +57,7 @@ main
 				  &testWidgetIsImage, &snoopWindow);
 
 	TestDirector* mainDir =
-		new TestDirector(app, kJTrue, startIconic, bufferTestWidget,
+		jnew TestDirector(app, kJTrue, startIconic, bufferTestWidget,
 						 testWidgetIsImage, snoopWindow);
 	assert( mainDir != NULL );
 

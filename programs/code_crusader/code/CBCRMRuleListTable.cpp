@@ -39,7 +39,7 @@ CBCRMRuleListTable::CBCRMRuleListTable
 	const JCoordinate	h
 	)
 	:
-	JXStringTable(new JStringTableData,
+	JXStringTable(jnew JStringTableData,
 				  scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
 	itsFirstNewID(firstUnusedID)
 {
@@ -94,14 +94,14 @@ CBCRMRuleListTable::~CBCRMRuleListTable()
 		for (JIndex i=1; i<=count; i++)
 			{
 			CBPrefsManager::CRMRuleListInfo info = itsCRMList->GetElement(i);
-			delete info.name;
+			jdelete info.name;
 			(info.list)->DeleteAll();
-			delete info.list;
+			jdelete info.list;
 			}
-		delete itsCRMList;
+		jdelete itsCRMList;
 		}
 
-	delete GetStringData();
+	jdelete GetStringData();
 }
 
 /******************************************************************************
@@ -239,8 +239,8 @@ CBCRMRuleListTable::AddRow()
 	if (EndEditing() && itsRuleTable->EndEditing())
 		{
 		itsLastNewID++;
-		CBPrefsManager::CRMRuleListInfo info(itsLastNewID, new JString("New"),
-											 new JTextEditor::CRMRuleList);
+		CBPrefsManager::CRMRuleListInfo info(itsLastNewID, jnew JString("New"),
+											 jnew JTextEditor::CRMRuleList);
 		assert( info.name != NULL &&
 				info.list != NULL );
 		itsCRMList->AppendElement(info);
@@ -268,9 +268,9 @@ CBCRMRuleListTable::RemoveRow()
 	itsRuleTable->CancelEditing();
 
 	CBPrefsManager::CRMRuleListInfo info = itsCRMList->GetElement(itsCRMIndex);
-	delete info.name;
+	jdelete info.name;
 	(info.list)->DeleteAll();
-	delete info.list;
+	jdelete info.list;
 
 	if (itsFirstNewID <= info.id && info.id == itsLastNewID)
 		{

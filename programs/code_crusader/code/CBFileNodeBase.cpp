@@ -489,11 +489,11 @@ CBFileNodeBase::New
 	const CBTextFileType type = CBGetPrefsManager()->GetFileType(fileName);
 	if (CBIsLibrary(type))
 		{
-		node = new CBLibraryNode(tree, fileName);
+		node = jnew CBLibraryNode(tree, fileName);
 		}
 	else
 		{
-		node = new CBFileNode(tree, fileName);
+		node = jnew CBFileNode(tree, fileName);
 		}
 	assert( node != NULL );
 

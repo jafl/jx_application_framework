@@ -89,10 +89,10 @@ CBRunCommandDialog::CBRunCommandDialog
 	itsProjDoc(projDoc),
 	itsTextDoc(NULL)
 {
-	itsFullNameList = new JDCCPtrArray<JString>(fullNameList, JPtrArrayT::kDeleteAll);
+	itsFullNameList = jnew JDCCPtrArray<JString>(fullNameList, JPtrArrayT::kDeleteAll);
 	assert( itsFullNameList != NULL );
 
-	itsLineIndexList = new JArray<JIndex>(lineIndexList);
+	itsLineIndexList = jnew JArray<JIndex>(lineIndexList);
 	assert( itsLineIndexList != NULL );
 
 	BuildWindow();
@@ -107,8 +107,8 @@ CBRunCommandDialog::CBRunCommandDialog
 
 CBRunCommandDialog::~CBRunCommandDialog()
 {
-	delete itsFullNameList;
-	delete itsLineIndexList;
+	jdelete itsFullNameList;
+	jdelete itsLineIndexList;
 }
 
 /******************************************************************************
@@ -138,106 +138,106 @@ CBRunCommandDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 470,260, "");
+	JXWindow* window = jnew JXWindow(this, 470,260, "");
 	assert( window != NULL );
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::CBRunCommandDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 210,235, 60,20);
 	assert( cancelButton != NULL );
 
 	itsRunButton =
-		new JXTextButton(JGetString("itsRunButton::CBRunCommandDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsRunButton::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 389,234, 62,22);
 	assert( itsRunButton != NULL );
 	itsRunButton->SetShortcuts(JGetString("itsRunButton::CBRunCommandDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::CBRunCommandDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 300,235, 60,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBRunCommandDialog::shortcuts::JXLayout"));
 
 	itsPathInput =
-		new CBCommandPathInput(window,
+		jnew CBCommandPathInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 320,20);
 	assert( itsPathInput != NULL );
 
 	itsSaveAllCB =
-		new JXTextCheckbox(JGetString("itsSaveAllCB::CBRunCommandDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsSaveAllCB::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,180, 220,20);
 	assert( itsSaveAllCB != NULL );
 	itsSaveAllCB->SetShortcuts(JGetString("itsSaveAllCB::CBRunCommandDialog::shortcuts::JXLayout"));
 
 	itsOneAtATimeCB =
-		new JXTextCheckbox(JGetString("itsOneAtATimeCB::CBRunCommandDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsOneAtATimeCB::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,200, 220,20);
 	assert( itsOneAtATimeCB != NULL );
 	itsOneAtATimeCB->SetShortcuts(JGetString("itsOneAtATimeCB::CBRunCommandDialog::shortcuts::JXLayout"));
 
 	itsUseWindowCB =
-		new JXTextCheckbox(JGetString("itsUseWindowCB::CBRunCommandDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsUseWindowCB::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 240,130, 220,20);
 	assert( itsUseWindowCB != NULL );
 	itsUseWindowCB->SetShortcuts(JGetString("itsUseWindowCB::CBRunCommandDialog::shortcuts::JXLayout"));
 
 	itsIsMakeCB =
-		new JXTextCheckbox(JGetString("itsIsMakeCB::CBRunCommandDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsIsMakeCB::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,130, 220,20);
 	assert( itsIsMakeCB != NULL );
 	itsIsMakeCB->SetShortcuts(JGetString("itsIsMakeCB::CBRunCommandDialog::shortcuts::JXLayout"));
 
 	itsCmdInput =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,90, 370,20);
 	assert( itsCmdInput != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::CBRunCommandDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 130,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	JXStaticText* obj2_JXLayout =
-		new JXStaticText(JGetString("obj2_JXLayout::CBRunCommandDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj2_JXLayout::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 200,20);
 	assert( obj2_JXLayout != NULL );
 	obj2_JXLayout->SetToLabel();
 
 	itsPathHistoryMenu =
-		new JXPathHistoryMenu(kHistoryLength, "", window,
+		jnew JXPathHistoryMenu(kHistoryLength, "", window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 340,40, 30,20);
 	assert( itsPathHistoryMenu != NULL );
 
 	itsChoosePathButton =
-		new JXTextButton(JGetString("itsChoosePathButton::CBRunCommandDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsChoosePathButton::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 390,40, 60,20);
 	assert( itsChoosePathButton != NULL );
 
 	itsChooseCmdButton =
-		new JXTextButton(JGetString("itsChooseCmdButton::CBRunCommandDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsChooseCmdButton::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 390,90, 60,20);
 	assert( itsChooseCmdButton != NULL );
 
 	itsRaiseCB =
-		new JXTextCheckbox(JGetString("itsRaiseCB::CBRunCommandDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsRaiseCB::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 240,150, 220,20);
 	assert( itsRaiseCB != NULL );
 	itsRaiseCB->SetShortcuts(JGetString("itsRaiseCB::CBRunCommandDialog::shortcuts::JXLayout"));
 
 	itsBeepCB =
-		new JXTextCheckbox(JGetString("itsBeepCB::CBRunCommandDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsBeepCB::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 240,170, 220,20);
 	assert( itsBeepCB != NULL );
 	itsBeepCB->SetShortcuts(JGetString("itsBeepCB::CBRunCommandDialog::shortcuts::JXLayout"));
 
 	itsSaveCmdMenu =
-		new JXTextMenu(JGetString("itsSaveCmdMenu::CBRunCommandDialog::JXLayout"), window,
+		jnew JXTextMenu(JGetString("itsSaveCmdMenu::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,235, 90,20);
 	assert( itsSaveCmdMenu != NULL );
 
 	itsIsCVSCB =
-		new JXTextCheckbox(JGetString("itsIsCVSCB::CBRunCommandDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsIsCVSCB::CBRunCommandDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,150, 220,20);
 	assert( itsIsCVSCB != NULL );
 	itsIsCVSCB->SetShortcuts(JGetString("itsIsCVSCB::CBRunCommandDialog::shortcuts::JXLayout"));
@@ -280,7 +280,7 @@ CBRunCommandDialog::BuildWindow()
 	// create hidden JXDocument so Meta-# shortcuts work
 
 	JXDocumentMenu* fileListMenu =
-		new JXDocumentMenu("", window,
+		jnew JXDocumentMenu("", window,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,-20, 10,10);
 	assert( fileListMenu != NULL );
 
@@ -421,29 +421,29 @@ CBRunCommandDialog::Receive
 void
 CBRunCommandDialog::Exec()
 {
-	JString* path = new JString;
+	JString* path = jnew JString;
 	assert( path != NULL );
 
 	if (!itsPathInput->GetPath(path))
 		{
-		delete path;
+		jdelete path;
 		return;
 		}
 	itsPathHistoryMenu->AddString(itsPathInput->GetText());
 
-	JString* cmd = new JString(itsCmdInput->GetText());
+	JString* cmd = jnew JString(itsCmdInput->GetText());
 	assert( cmd != NULL );
 
-	JString* ss = new JString;
+	JString* ss = jnew JString;
 	assert( ss != NULL );
 
-	JString* mt = new JString;
+	JString* mt = jnew JString;
 	assert( mt != NULL );
 
-	JString* ms = new JString;
+	JString* ms = jnew JString;
 	assert( ms != NULL );
 
-	JString* mi = new JString;
+	JString* mi = jnew JString;
 	assert( mi != NULL );
 
 	CBCommandManager::CmdInfo info(path, cmd, ss,

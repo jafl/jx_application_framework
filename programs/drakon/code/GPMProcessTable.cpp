@@ -97,7 +97,7 @@ GPMProcessTable::GPMProcessTable
 	SetRowBorderInfo(0, GetColormap()->GetBlackColor());
 	SetColBorderInfo(0, GetColormap()->GetBlackColor());
 
-	itsZombieImage = new JXImage(GetDisplay(), jx_edit_clear);
+	itsZombieImage = jnew JXImage(GetDisplay(), jx_edit_clear);
 	assert( itsZombieImage != NULL );
 
 	itsContextMenu = CreateContextMenu(this);
@@ -113,7 +113,7 @@ GPMProcessTable::GPMProcessTable
 
 GPMProcessTable::~GPMProcessTable()
 {
-	delete itsZombieImage;
+	jdelete itsZombieImage;
 }
 
 /******************************************************************************
@@ -127,7 +127,7 @@ GPMProcessTable::CreateContextMenu
 	JXContainer* enclosure
 	)
 {
-	JXTextMenu* menu = new JXTextMenu("", enclosure, kFixedLeft, kFixedTop, 0,0, 10,10);
+	JXTextMenu* menu = jnew JXTextMenu("", enclosure, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( menu != NULL );
 	menu->SetMenuItems(kContextMenuStr);
 	menu->SetToHiddenPopupMenu(kJTrue);

@@ -77,49 +77,49 @@ GXTransformFunctionDialog::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 580,90, "");
+    JXWindow* window = jnew JXWindow(this, 580,90, "");
     assert( window != NULL );
 
     itsTransformButton =
-        new JXTextButton("Transform", window,
+        jnew JXTextButton("Transform", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 130,55, 80,20);
     assert( itsTransformButton != NULL );
     itsTransformButton->SetShortcuts("^M");
 
     itsCloseButton =
-        new JXTextButton("Close", window,
+        jnew JXTextButton("Close", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 370,55, 80,20);
     assert( itsCloseButton != NULL );
     itsCloseButton->SetShortcuts("^[");
 
     itsClearButton =
-        new JXTextButton("Clear", window,
+        jnew JXTextButton("Clear", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 250,55, 80,20);
     assert( itsClearButton != NULL );
 
     itsFunctionString =
-        new JXInputField(window,
+        jnew JXInputField(window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 200,20, 200,20);
     assert( itsFunctionString != NULL );
 
     itsEditButton =
-        new JXTextButton("Edit", window,
+        jnew JXTextButton("Edit", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 410,20, 50,20);
     assert( itsEditButton != NULL );
     itsEditButton->SetShortcuts("#E");
 
     itsDestMenu =
-        new JXTextMenu("Destination:", window,
+        jnew JXTextMenu("Destination:", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 10,20, 115,20);
     assert( itsDestMenu != NULL );
 
     itsVarMenu =
-        new JXTextMenu("Constants", window,
+        jnew JXTextMenu("Constants", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 470,20, 90,20);
     assert( itsVarMenu != NULL );
 
     itsColNumber =
-        new JXStaticText("", window,
+        jnew JXStaticText("", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 135,23, 55,20);
     assert( itsColNumber != NULL );
 
@@ -150,7 +150,7 @@ GXTransformFunctionDialog::Receive
 	if (sender == itsEditButton && message.Is(JXButton::kPushed))
 		{
 		assert (itsEditor == NULL);
-		itsEditor = new ExprDirector(this, itsList, itsFunctionString->GetText());
+		itsEditor = jnew ExprDirector(this, itsList, itsFunctionString->GetText());
 		assert(itsEditor != NULL);
 		ListenTo(itsEditor);
 		itsEditor->BeginDialog();

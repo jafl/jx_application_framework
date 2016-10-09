@@ -64,7 +64,7 @@ CBCPPMacroTable::CBCPPMacroTable
 	const JCoordinate		h
 	)
 	:
-	JXStringTable(new JStringTableData,
+	JXStringTable(jnew JStringTableData,
 				  scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
 	itsFileName(kDefaultFileName)
 {
@@ -81,7 +81,7 @@ CBCPPMacroTable::CBCPPMacroTable
 	itsSaveButton = saveButton;
 	ListenTo(itsSaveButton);
 
-	itsCSF = new CBListCSF(kReplaceListStr, kAppendToListStr);
+	itsCSF = jnew CBListCSF(kReplaceListStr, kAppendToListStr);
 	assert( itsCSF != NULL );
 
 	JString fontName;
@@ -115,8 +115,8 @@ CBCPPMacroTable::CBCPPMacroTable
 
 CBCPPMacroTable::~CBCPPMacroTable()
 {
-	delete GetStringData();
-	delete itsCSF;
+	jdelete GetStringData();
+	jdelete itsCSF;
 }
 
 /******************************************************************************

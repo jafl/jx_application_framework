@@ -27,7 +27,7 @@ GFGClass::GFGClass()
 	itsAncestors(NULL),
 	itsAncestorFiles(NULL)
 {
-	itsLink	= new GFGLink();
+	itsLink	= jnew GFGLink();
 	assert(itsLink != NULL);
 	ListenTo(itsLink);
 
@@ -41,10 +41,10 @@ GFGClass::GFGClass()
 
 GFGClass::~GFGClass()
 {
-	delete itsBaseClasses;
-	delete itsBaseClassFiles;
-	delete itsAncestors;
-	delete itsAncestorFiles;
+	jdelete itsBaseClasses;
+	jdelete itsBaseClassFiles;
+	jdelete itsAncestors;
+	jdelete itsAncestorFiles;
 }
 
 /******************************************************************************
@@ -101,19 +101,19 @@ GFGClass::AddBaseClass
 	const JCharacter* filename
 	)
 {
-	JString* cname	= new JString(classname);
+	JString* cname	= jnew JString(classname);
 	assert(cname != NULL);
-	JString* fname	= new JString(filename);
+	JString* fname	= jnew JString(filename);
 	assert(fname != NULL);
 	
 	if (itsBaseClasses == NULL)
 		{
-		itsBaseClasses		= new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		itsBaseClasses		= jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert(itsBaseClasses != NULL);
 		}
 	if (itsBaseClassFiles == NULL)
 		{
-		itsBaseClassFiles	= new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		itsBaseClassFiles	= jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert(itsBaseClassFiles != NULL);
 		}
 	itsBaseClasses->Append(cname);
@@ -174,19 +174,19 @@ GFGClass::AddAncestor
 	const JCharacter* filename
 	)
 {
-	JString* cname	= new JString(classname);
+	JString* cname	= jnew JString(classname);
 	assert(cname != NULL);
-	JString* fname	= new JString(filename);
+	JString* fname	= jnew JString(filename);
 	assert(fname != NULL);
 	
 	if (itsAncestors == NULL)
 		{
-		itsAncestors		= new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		itsAncestors		= jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert(itsAncestors != NULL);
 		}
 	if (itsAncestorFiles == NULL)
 		{
-		itsAncestorFiles	= new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		itsAncestorFiles	= jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert(itsAncestorFiles != NULL);
 		}
 	itsAncestors->Append(cname);

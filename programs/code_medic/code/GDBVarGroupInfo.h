@@ -24,8 +24,8 @@ struct GDBVarGroupInfo
 
 	~GDBVarGroupInfo()
 	{
-		delete name;
-		delete list;
+		jdelete name;
+		jdelete list;
 	};
 
 	const JCharacter* GetName()

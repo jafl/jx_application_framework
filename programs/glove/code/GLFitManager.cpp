@@ -36,7 +36,7 @@ GLFitManager::GLFitManager()
 	JPrefObject(GetPrefsMgr(), kFitManagerID),
 	itsIsInitialized(kJFalse)
 {
-	itsFitDescriptions	= new JPtrArray<GLFitDescription>(JPtrArrayT::kDeleteAll);
+	itsFitDescriptions	= jnew JPtrArray<GLFitDescription>(JPtrArrayT::kDeleteAll);
 	assert(itsFitDescriptions != NULL);
 
 	itsFitDescriptions->SetCompareFunction(GLFitDescription::CompareFits);
@@ -56,7 +56,7 @@ GLFitManager::~GLFitManager()
 	JPrefObject::WritePrefs();
 	
 	itsFitDescriptions->DeleteAll();
-	delete itsFitDescriptions;
+	jdelete itsFitDescriptions;
 }
 
 /******************************************************************************
@@ -108,7 +108,7 @@ GLFitManager::AddFitDescription
 	const GLFitDescription& fit
 	)
 {
-//	GLFitDescription* fd	= new GLFitDescription(fit);
+//	GLFitDescription* fd	= jnew GLFitDescription(fit);
 //	assert(fd != NULL);
 
 //	itsFitDescriptions->InsertSorted(fd);
@@ -135,7 +135,7 @@ GLFitManager::NewFitDescription
 	const GLFitDescription::FitType type
 	)
 {
-//	GLFitDescription* fd	= new GLFitDescription(type);
+//	GLFitDescription* fd	= jnew GLFitDescription(type);
 //	assert(fd != NULL);
 
 //	itsFitDescriptions->InsertSorted(fd);
@@ -241,17 +241,17 @@ void
 GLFitManager::InitializeList()
 {
 	GLBuiltinFitDescription* bd = 
-		new GLBuiltinFitDescription(GLFitDescription::kBLinear);
+		jnew GLBuiltinFitDescription(GLFitDescription::kBLinear);
 	assert(bd != NULL);
 	itsFitDescriptions->InsertSorted(bd);
 
 	bd = 
-		new GLBuiltinFitDescription(GLFitDescription::kBExp);
+		jnew GLBuiltinFitDescription(GLFitDescription::kBExp);
 	assert(bd != NULL);
 	itsFitDescriptions->InsertSorted(bd);
 
 	bd = 
-		new GLBuiltinFitDescription(GLFitDescription::kBPower);
+		jnew GLBuiltinFitDescription(GLFitDescription::kBPower);
 	assert(bd != NULL);
 	itsFitDescriptions->InsertSorted(bd);
 
@@ -273,12 +273,12 @@ GLFitManager::InitializeList()
 				if (!entry.IsDirectory() && GLDLFitModule::Create(entry.GetFullName(), &fit))
 					{
 					GLModuleFitDescription* md	= 
-						new GLModuleFitDescription(fit);
+						jnew GLModuleFitDescription(fit);
 					assert(md != NULL);
 					itsFitDescriptions->InsertSorted(md);
 					}
 				}
-			delete dir;
+			jdelete dir;
 			}
 		}
 }

@@ -307,7 +307,7 @@ CBCClass::ViewDeclaration
 /******************************************************************************
  NewGhost (virtual protected)
 
-	Creates a new ghost CBCClass.
+	Creates a jnew ghost CBCClass.
 
  ******************************************************************************/
 
@@ -318,7 +318,7 @@ CBCClass::NewGhost
 	CBTree*				tree
 	)
 {
-	CBCClass* newClass = new CBCClass(name, kGhostType, JFAID::kInvalidID, tree);
+	CBCClass* newClass = jnew CBCClass(name, kGhostType, JFAID::kInvalidID, tree);
 	assert( newClass != NULL );
 	return newClass;
 }

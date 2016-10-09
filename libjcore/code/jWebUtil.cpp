@@ -12,7 +12,6 @@
 #include <JRegex.h>
 #include <JWebBrowser.h>
 #include <jGlobals.h>
-#include <j_prep_ace.h>
 #include <ace/Connector.h>
 #include <ace/SOCK_Connector.h>
 #include <jErrno.h>
@@ -144,7 +143,7 @@ JGetDefaultPort
 /******************************************************************************
  JCheckForNewerVersion
 
-	If it is time to remind the user about a new version, display a message
+	If it is time to remind the user about a jnew version, display a message
 	offering to open DOWNLOAD_URL retrieved from JStringManager.
 
 	In the background, checks for a newer version of the program by
@@ -156,11 +155,6 @@ JGetDefaultPort
 	time the program is run, after 1,2,3 months and then every 6 months.
 
  ******************************************************************************/
-
-// This function has to be last so JCore::new/delete work for everything else.
-
-#undef new
-#undef delete
 
 typedef JVersionSocket<ACE_SOCK_STREAM>						VersionSocket;
 typedef ACE_Connector<VersionSocket, ACE_SOCK_CONNECTOR>	VersionConnector;

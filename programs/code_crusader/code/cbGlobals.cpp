@@ -102,38 +102,38 @@ CBCreateGlobals
 	// prefs must be created first so everybody can read from it
 
 	JBoolean isNew;
-	thePrefsManager = new CBPrefsManager(&isNew);
+	thePrefsManager = jnew CBPrefsManager(&isNew);
 	assert( thePrefsManager != NULL );
 
 	JXInitHelp(kCBTOCHelpName, kCBHelpSectionCount, kCBHelpSectionName);
 	thePrefsManager->UpgradeHelpPrefs();
 
-	theDocManager = new CBDocumentManager;
+	theDocManager = jnew CBDocumentManager;
 	assert( theDocManager != NULL );
 
 	if (useMDI)
 		{
-		CBDockManager* dockManager = new CBDockManager();
+		CBDockManager* dockManager = jnew CBDockManager();
 		assert( dockManager != NULL );
 		dockManager->JPrefObject::ReadPrefs();
 
-		theMDIServer = new CBMDIServer;
+		theMDIServer = jnew CBMDIServer;
 		assert( theMDIServer != NULL );
 		}
 
 	theSearchTextDialog = CBSearchTextDialog::Create();
 	assert( theSearchTextDialog != NULL );
 
-	theRunTEScriptDialog = new CBRunTEScriptDialog(JXGetPersistentWindowOwner());
+	theRunTEScriptDialog = jnew CBRunTEScriptDialog(JXGetPersistentWindowOwner());
 	assert( theRunTEScriptDialog != NULL );
 
-	theViewManPageDialog = new CBViewManPageDialog(JXGetPersistentWindowOwner());
+	theViewManPageDialog = jnew CBViewManPageDialog(JXGetPersistentWindowOwner());
 	assert( theViewManPageDialog != NULL );
 
-	theFindFileDialog = new CBFindFileDialog(JXGetPersistentWindowOwner());
+	theFindFileDialog = jnew CBFindFileDialog(JXGetPersistentWindowOwner());
 	assert( theFindFileDialog != NULL );
 
-	theDiffFileDialog = new CBDiffFileDialog(JXGetPersistentWindowOwner());
+	theDiffFileDialog = jnew CBDiffFileDialog(JXGetPersistentWindowOwner());
 	assert( theDiffFileDialog != NULL );
 
 	// widgets hidden in permanent window
@@ -144,26 +144,26 @@ CBCreateGlobals
 
 	// global commands
 
-	theCmdManager = new CBCommandManager(theDocManager);
+	theCmdManager = jnew CBCommandManager(theDocManager);
 	assert( theCmdManager != NULL );
 	theCmdManager->JPrefObject::ReadPrefs();
 
 	// fn menu updater
 
-	theFnMenuUpdater = new CBFnMenuUpdater;
+	theFnMenuUpdater = jnew CBFnMenuUpdater;
 	assert( theFnMenuUpdater != NULL );
 
 	// symbol type list
 
-	theSymbolTypeList = new CBSymbolTypeList(permWindow->GetColormap());
+	theSymbolTypeList = jnew CBSymbolTypeList(permWindow->GetColormap());
 	assert( theSymbolTypeList != NULL );
 
 	// printers
 
-	thePTTextPrinter = new CBPTPrinter;
+	thePTTextPrinter = jnew CBPTPrinter;
 	assert( thePTTextPrinter != NULL );
 
-	thePSTextPrinter = new CBPSPrinter(permWindow->GetDisplay());
+	thePSTextPrinter = jnew CBPSPrinter(permWindow->GetDisplay());
 	assert( thePSTextPrinter != NULL );
 
 	return isNew;
@@ -197,21 +197,21 @@ CBDeleteGlobals()
 	theMDIServer   = NULL;
 
 	theCmdManager->JPrefObject::WritePrefs();
-	delete theCmdManager;
+	jdelete theCmdManager;
 	theCmdManager = NULL;
 
-	delete theFnMenuUpdater;
+	jdelete theFnMenuUpdater;
 	theFnMenuUpdater = NULL;
 
-	delete theSymbolTypeList;
+	jdelete theSymbolTypeList;
 	theSymbolTypeList = NULL;
 
 	// printers
 
-	delete thePTTextPrinter;
+	jdelete thePTTextPrinter;
 	thePTTextPrinter = NULL;
 
-	delete thePSTextPrinter;
+	jdelete thePSTextPrinter;
 	thePSTextPrinter = NULL;
 
 	CBShutdownCompleters();
@@ -233,7 +233,7 @@ CBDeleteGlobals()
 
 	// this must be last so everybody else can use it to save their setup
 
-	delete thePrefsManager;
+	jdelete thePrefsManager;
 	thePrefsManager = NULL;
 }
 

@@ -59,7 +59,7 @@ JX2DCurveNameList::JX2DCurveNameList
 
 	const JSize count = curveInfo.GetElementCount();
 
-	itsNameList = new JPtrArray<JString>(JPtrArrayT::kForgetAll, count);
+	itsNameList = jnew JPtrArray<JString>(JPtrArrayT::kForgetAll, count);
 	assert(itsNameList != NULL);
 
 	AppendRows(count);
@@ -93,7 +93,7 @@ JX2DCurveNameList::JX2DCurveNameList
 
 JX2DCurveNameList::~JX2DCurveNameList()
 {
-	delete itsNameList;		// we don't own the strings
+	jdelete itsNameList;		// we don't own the strings
 }
 
 /******************************************************************************
@@ -193,7 +193,7 @@ JX2DCurveNameList::CreateXInputField
 	Broadcast(NameSelected(cell.y));
 
 	assert(itsInput == NULL);
-	itsInput = new JXInputField(this, kHElastic, kVElastic, x, y, w, h);
+	itsInput = jnew JXInputField(this, kHElastic, kVElastic, x, y, w, h);
 	assert(itsInput != NULL);
 
 	itsInput->SetText(*(itsNameList->NthElement(cell.y)));

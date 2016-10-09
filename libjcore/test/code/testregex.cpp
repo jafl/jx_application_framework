@@ -87,7 +87,7 @@
 int
 main()
 {
-	gMatchList = new JArray<JIndexRange>;
+	gMatchList = jnew JArray<JIndexRange>;
 	assert(gMatchList != NULL);
 
 	cout << "\nJRegex bug check: only errors will be reported, so no news is good news." << endl;
@@ -701,7 +701,7 @@ cout << "Point 3" << endl;
 
 	cout << "Feature check complete" << endl;
 
-	delete gMatchList;
+	jdelete gMatchList;
 
 	return 0;
 }

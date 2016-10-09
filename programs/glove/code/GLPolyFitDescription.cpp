@@ -28,7 +28,7 @@ GLPolyFitDescription::GLPolyFitDescription
 	:
 	GLFitDescription(kPolynomial, "", name)
 {
-	itsPowers	= new JArray<JIndex>(powers);
+	itsPowers	= jnew JArray<JIndex>(powers);
 	assert(itsPowers != NULL);
 
 	GLPolyFitDescriptionX();
@@ -41,7 +41,7 @@ GLPolyFitDescription::GLPolyFitDescription
 	:
 	GLFitDescription(kPolynomial, "", "")
 {
-	itsPowers	= new JArray<JIndex>;
+	itsPowers	= jnew JArray<JIndex>;
 	assert(itsPowers != NULL);
 
 	JFileVersion version;
@@ -101,7 +101,7 @@ GLPolyFitDescription::GLPolyFitDescriptionX()
 
 GLPolyFitDescription::~GLPolyFitDescription()
 {
-	delete itsPowers;
+	jdelete itsPowers;
 }
 
 /******************************************************************************

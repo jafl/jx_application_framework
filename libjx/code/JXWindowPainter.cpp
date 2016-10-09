@@ -149,7 +149,7 @@ JXWindowPainter::Reset()
 			}
 		}
 
-	// call this last so new clip region is used when ResetClipRect() is called
+	// call this last so jnew clip region is used when ResetClipRect() is called
 
 	JPainter::Reset();
 }
@@ -476,26 +476,26 @@ JXWindowPainter::String
 		{
 		quadrant = 2;
 		AlignString(&dx,&dy, str, height, hAlign, width, vAlign);
-		srcImage = new JXImage(itsDisplay, itsDrawable,
+		srcImage = jnew JXImage(itsDisplay, itsDrawable,
 							   JRect(y0-dx - stringWidth, x0+dy, y0-dx + 1, x0+dy + lineHeight + 1));
 		}
 	else if (135.0 < angle && angle <= 225.0)
 		{
 		quadrant = 3;
 		AlignString(&dx,&dy, str, width, hAlign, height, vAlign);
-		srcImage = new JXImage(itsDisplay, itsDrawable,
+		srcImage = jnew JXImage(itsDisplay, itsDrawable,
 							   JRect(y0-dy - lineHeight, x0-dx - stringWidth, y0-dy + 1, x0-dx + 1));
 		}
 	else	// 225.0 < angle && angle <= 315.0
 		{
 		quadrant = 4;
 		AlignString(&dx,&dy, str, height, hAlign, width, vAlign);
-		srcImage = new JXImage(itsDisplay, itsDrawable,
+		srcImage = jnew JXImage(itsDisplay, itsDrawable,
 							   JRect(y0+dx, x0-dy - lineHeight, y0+dx + stringWidth + 1, x0-dy + 1));
 		}
 	assert( srcImage != NULL );
 
-	JXImage* tempImage = new JXImage(itsDisplay, stringWidth, lineHeight, 0, 0,
+	JXImage* tempImage = jnew JXImage(itsDisplay, stringWidth, lineHeight, 0, 0,
 									 JXImage::kLocalStorage);
 	assert( tempImage != NULL );
 
@@ -528,7 +528,7 @@ JXWindowPainter::String
 	JXImagePainter* p = tempImage->CreatePainter();
 	p->SetFont(GetFont());
 	p->String(0,0, str);
-	delete p;
+	jdelete p;
 	}
 
 	// transfer the result
@@ -562,8 +562,8 @@ JXWindowPainter::String
 
 	// clean up
 
-	delete tempImage;
-	delete srcImage;
+	jdelete tempImage;
+	jdelete srcImage;
 
 	itsGC->SetDrawingColor(GetFont().GetStyle().color);	// expected pen color
 }
@@ -766,7 +766,7 @@ JXWindowPainter::Polygon
 	const JSize count = poly.GetElementCount();
 	const JPoint& o   = GetOrigin();
 
-	XPoint* xpt = new XPoint[ count+1 ];
+	XPoint* xpt = jnew XPoint[ count+1 ];
 	for (JSize i=0; i<count; i++)
 		{
 		const JPoint pt = poly.GetElement(i+1);
@@ -787,7 +787,7 @@ JXWindowPainter::Polygon
 		itsGC->FillPolygon(itsDrawable, count+1, xpt);
 		}
 
-	delete [] xpt;
+	jdelete [] xpt;
 }
 
 /******************************************************************************

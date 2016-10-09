@@ -231,7 +231,7 @@ JXCardFile::DeleteCard
 	)
 {
 	JXWidgetSet* card = RemoveCard(index);
-	delete card;
+	jdelete card;
 }
 
 #endif

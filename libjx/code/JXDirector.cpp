@@ -71,7 +71,7 @@ JXDirector::IsWindowDirector()
 /******************************************************************************
  Close (virtual)
 
-	Close all sub-directors and delete ourselves.
+	Close all sub-directors and jdelete ourselves.
 
  ******************************************************************************/
 
@@ -83,7 +83,7 @@ JXDirector::Close()
 
 	if (CloseAllSubdirectors())
 		{
-		delete this;
+		jdelete this;
 		return kJTrue;
 		}
 	else
@@ -218,7 +218,7 @@ JXDirector::AddDirector
 {
 	if (itsSubdirectors == NULL)
 		{
-		itsSubdirectors = new JPtrArray<JXDirector>(JPtrArrayT::kForgetAll);
+		itsSubdirectors = jnew JPtrArray<JXDirector>(JPtrArrayT::kForgetAll);
 		assert( itsSubdirectors != NULL );
 		}
 
@@ -244,7 +244,7 @@ JXDirector::RemoveDirector
 		itsSubdirectors->Remove(theDirector);
 		if (itsSubdirectors->IsEmpty())
 			{
-			delete itsSubdirectors;
+			jdelete itsSubdirectors;
 			itsSubdirectors = NULL;
 			}
 		DirectorClosed(theDirector);

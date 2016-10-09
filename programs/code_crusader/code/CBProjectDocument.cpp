@@ -267,7 +267,7 @@ CBProjectDocument::Create
 			}
 		temp.close();
 
-		*doc = new CBProjectDocument(fullName, csf.GetMakefileMethod(),
+		*doc = jnew CBProjectDocument(fullName, csf.GetMakefileMethod(),
 									 fromTemplate, tmplFile);
 		assert( *doc != NULL );
 		(**doc).SaveInCurrentFile();
@@ -384,7 +384,7 @@ CBProjectDocument::Create
 
 		(CBGetApplication())->DisplayBusyCursor();
 
-		*doc = new CBProjectDocument(input, projName, setName, symName, silent);
+		*doc = jnew CBProjectDocument(input, projName, setName, symName, silent);
 		assert( *doc != NULL );
 		}
 	else if (status == kNeedNewerVersion)
@@ -471,7 +471,7 @@ CBProjectDocument::CBProjectDocument
 	JFileVersion tmplVers, projVers;
 	if (fromTemplate)
 		{
-		input = new ifstream(tmplFile);
+		input = jnew ifstream(tmplFile);
 		input->ignore(kTmplFileSignatureLength);
 
 		*input >> tmplVers;
@@ -480,32 +480,32 @@ CBProjectDocument::CBProjectDocument
 		*input >> projVers;
 		assert( projVers <= kCurrentProjectFileVersion );
 
-		itsFileTree = new CBProjectTree(*input, projVers, this);
+		itsFileTree = jnew CBProjectTree(*input, projVers, this);
 		}
 	else
 		{
-		itsFileTree = new CBProjectTree(this);
+		itsFileTree = jnew CBProjectTree(this);
 		}
 	assert( itsFileTree != NULL );
 
 	CBProjectDocumentX(itsFileTree);
 
-	itsBuildMgr = new CBBuildManager(this);
+	itsBuildMgr = jnew CBBuildManager(this);
 	assert( itsBuildMgr != NULL );
 
-	itsAllFileDirector = new CBFileListDirector(this);
+	itsAllFileDirector = jnew CBFileListDirector(this);
 	assert( itsAllFileDirector != NULL );
 
-	itsSymbolDirector = new CBSymbolDirector(this);
+	itsSymbolDirector = jnew CBSymbolDirector(this);
 	assert( itsSymbolDirector != NULL );
 
-	itsCTreeDirector = new CBCTreeDirector(this);
+	itsCTreeDirector = jnew CBCTreeDirector(this);
 	assert( itsCTreeDirector != NULL );
 
-	itsJavaTreeDirector = new CBJavaTreeDirector(this);
+	itsJavaTreeDirector = jnew CBJavaTreeDirector(this);
 	assert( itsJavaTreeDirector != NULL );
 
-	itsPHPTreeDirector = new CBPHPTreeDirector(this);
+	itsPHPTreeDirector = jnew CBPHPTreeDirector(this);
 	assert( itsPHPTreeDirector != NULL );
 
 	if (fromTemplate)
@@ -527,7 +527,7 @@ CBProjectDocument::CBProjectDocument
 
 	(CBGetDocumentManager())->ProjDocCreated(this);
 
-	delete input;
+	jdelete input;
 }
 
 CBProjectDocument::CBProjectDocument
@@ -595,11 +595,11 @@ CBProjectDocument::CBProjectDocument
 			projInput >> ws;
 			JIgnoreLine(projInput);
 			}
-		itsFileTree = new CBProjectTree(projInput, projVers, this);
+		itsFileTree = jnew CBProjectTree(projInput, projVers, this);
 		}
 	else
 		{
-		itsFileTree = new CBProjectTree(this);
+		itsFileTree = jnew CBProjectTree(this);
 		}
 	assert( itsFileTree != NULL );
 
@@ -631,7 +631,7 @@ CBProjectDocument::CBProjectDocument
 		itsCmdMgr->ReadSetup(projInput);
 		}
 
-	itsBuildMgr = new CBBuildManager(projInput, projVers, setInput, setVers, this);
+	itsBuildMgr = jnew CBBuildManager(projInput, projVers, setInput, setVers, this);
 	assert( itsBuildMgr != NULL );
 
 	if (36 <= projVers && projVers < 71)
@@ -647,19 +647,19 @@ CBProjectDocument::CBProjectDocument
 
 	// create file list
 
-	itsAllFileDirector = new CBFileListDirector(projInput, projVers, setInput, setVers,
+	itsAllFileDirector = jnew CBFileListDirector(projInput, projVers, setInput, setVers,
 												symInput, symVers, this, silent);
 	assert( itsAllFileDirector != NULL );
 
 	// create symbol list
 
-	itsSymbolDirector = new CBSymbolDirector(projInput, projVers, setInput, setVers,
+	itsSymbolDirector = jnew CBSymbolDirector(projInput, projVers, setInput, setVers,
 											 symInput, symVers, this, silent);
 	assert( itsSymbolDirector != NULL );
 
 	// read C++ class tree
 
-	itsCTreeDirector = new CBCTreeDirector(projInput, projVers, setInput, setVers,
+	itsCTreeDirector = jnew CBCTreeDirector(projInput, projVers, setInput, setVers,
 										   symInput, symVers, this, silent, itsDirList);
 	assert( itsCTreeDirector != NULL );
 	// activates itself
@@ -668,14 +668,14 @@ CBProjectDocument::CBProjectDocument
 
 	if (projVers >= 48)
 		{
-		itsJavaTreeDirector = new CBJavaTreeDirector(projInput, projVers, setInput, setVers,
+		itsJavaTreeDirector = jnew CBJavaTreeDirector(projInput, projVers, setInput, setVers,
 													 symInput, symVers, this, silent);
 		assert( itsJavaTreeDirector != NULL );
 		// activates itself
 		}
 	else
 		{
-		itsJavaTreeDirector = new CBJavaTreeDirector(this);
+		itsJavaTreeDirector = jnew CBJavaTreeDirector(this);
 		assert( itsJavaTreeDirector != NULL );
 		(itsJavaTreeDirector->GetTree())->NextUpdateMustReparseAll();
 		}
@@ -684,14 +684,14 @@ CBProjectDocument::CBProjectDocument
 
 	if (projVers >= 85)
 		{
-		itsPHPTreeDirector = new CBPHPTreeDirector(projInput, projVers, setInput, setVers,
+		itsPHPTreeDirector = jnew CBPHPTreeDirector(projInput, projVers, setInput, setVers,
 												   symInput, symVers, this, silent);
 		assert( itsPHPTreeDirector != NULL );
 		// activates itself
 		}
 	else
 		{
-		itsPHPTreeDirector = new CBPHPTreeDirector(this);
+		itsPHPTreeDirector = jnew CBPHPTreeDirector(this);
 		assert( itsPHPTreeDirector != NULL );
 		(itsPHPTreeDirector->GetTree())->NextUpdateMustReparseAll();
 		}
@@ -742,19 +742,19 @@ CBProjectDocument::CBProjectDocumentX
 	itsProcessNodeMessageFlag = kJTrue;
 	itsLastSymbolLoadTime     = 0.0;
 
-	itsDirList = new CBDirList;
+	itsDirList = jnew CBDirList;
 	assert( itsDirList != NULL );
 	itsDirList->SetBasePath(GetFilePath());
 
-	itsCSF = new CBRelPathCSF(this);
+	itsCSF = jnew CBRelPathCSF(this);
 	assert( itsCSF != NULL );
 
-	itsCmdMgr = new CBCommandManager;
+	itsCmdMgr = jnew CBCommandManager;
 	assert( itsCmdMgr != NULL );
 
 	ListenTo(CBGetPrefsManager());
 
-	itsSaveTask = new JXTimerTask(kSafetySavePeriod);
+	itsSaveTask = jnew JXTimerTask(kSafetySavePeriod);
 	assert( itsSaveTask != NULL );
 	ListenTo(itsSaveTask);
 	itsSaveTask->Start();
@@ -784,23 +784,35 @@ CBProjectDocument::~CBProjectDocument()
 	(CBGetDocumentManager())->ProjDocDeleted(this);
 
 	DeleteUpdateLink();
-	delete itsUpdateStream;
-	delete itsUpdateProcess;
-	delete itsWaitForUpdateTask;
-	delete itsDelaySymbolUpdateTask;
+	jdelete itsUpdateStream;
+	jdelete itsUpdateProcess;
+	jdelete itsWaitForUpdateTask;
+	jdelete itsDelaySymbolUpdateTask;
 
 	if (itsUpdatePG->ProcessRunning())
 		{
 		itsUpdatePG->ProcessFinished();
 		}
-	delete itsUpdatePG;
+	jdelete itsUpdatePG;
 
-	delete itsCmdMgr;
-	delete itsBuildMgr;
-	delete itsFileTree;
-	delete itsDirList;
-	delete itsCSF;
-	delete itsSaveTask;
+	jdelete itsCmdMgr;
+	jdelete itsBuildMgr;
+	jdelete itsFileTree;
+	jdelete itsDirList;
+	jdelete itsCSF;
+	jdelete itsSaveTask;
+}
+
+/******************************************************************************
+ DeleteUpdateLink (private)
+
+ ******************************************************************************/
+
+void
+CBProjectDocument::DeleteUpdateLink()
+{
+	delete itsUpdateLink;
+	itsUpdateLink = NULL;
 }
 
 /******************************************************************************
@@ -874,12 +886,12 @@ CBProjectDocument::WriteTextFile
 		JBoolean onDisk;
 		setName = GetSettingFileName(GetFullName(&onDisk));
 
-		setOutput = new ofstream(setName);
+		setOutput = jnew ofstream(setName);
 		assert( setOutput != NULL );
 
 		symName = GetSymbolFileName(GetFullName(&onDisk));
 
-		symOutput = new ofstream(symName);
+		symOutput = jnew ofstream(symName);
 		assert( symOutput != NULL );
 		}
 
@@ -972,7 +984,7 @@ CBProjectDocument::WriteFiles
 	if (setOutput != NULL)
 		{
 		const JBoolean ok = JI2B( setOutput->good() );
-		delete setOutput;
+		jdelete setOutput;
 		if (!ok && setName != NULL)
 			{
 			JRemoveFile(setName);
@@ -982,7 +994,7 @@ CBProjectDocument::WriteFiles
 	if (symOutput != NULL)
 		{
 		const JBoolean ok = JI2B( symOutput->good() );
-		delete symOutput;
+		jdelete symOutput;
 		if (!ok && symName != NULL)
 			{
 			JRemoveFile(symName);
@@ -1441,42 +1453,42 @@ CBProjectDocument::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 510,430, "");
+	JXWindow* window = jnew JXWindow(this, 510,430, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 450,30);
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		new JXToolBar(CBGetPrefsManager(), kCBProjectToolBarID, menuBar, 150,150, window,
+		jnew JXToolBar(CBGetPrefsManager(), kCBProjectToolBarID, menuBar, 150,150, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 510,380);
 	assert( itsToolBar != NULL );
 
 	itsConfigButton =
-		new JXTextButton(JGetString("itsConfigButton::CBProjectDocument::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsConfigButton::CBProjectDocument::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 450,0, 60,30);
 	assert( itsConfigButton != NULL );
 
 	itsUpdateContainer =
-		new JXWidgetSet(window,
+		jnew JXWidgetSet(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 0,410, 510,20);
 	assert( itsUpdateContainer != NULL );
 
 	itsUpdateLabel =
-		new JXStaticText(JGetString("itsUpdateLabel::CBProjectDocument::JXLayout"), itsUpdateContainer,
+		jnew JXStaticText(JGetString("itsUpdateLabel::CBProjectDocument::JXLayout"), itsUpdateContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,2, 130,16);
 	assert( itsUpdateLabel != NULL );
 	itsUpdateLabel->SetToLabel();
 
 	itsUpdateCleanUpIndicator =
-		new JXProgressIndicator(itsUpdateContainer,
+		jnew JXProgressIndicator(itsUpdateContainer,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 130,5, 380,10);
 	assert( itsUpdateCleanUpIndicator != NULL );
 
 	itsUpdateCounter =
-		new JXStaticText(JGetString("itsUpdateCounter::CBProjectDocument::JXLayout"), itsUpdateContainer,
+		jnew JXStaticText(JGetString("itsUpdateCounter::CBProjectDocument::JXLayout"), itsUpdateContainer,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 130,2, 90,16);
 	assert( itsUpdateCounter != NULL );
 	itsUpdateCounter->SetToLabel();
@@ -1487,7 +1499,7 @@ CBProjectDocument::BuildWindow
 	window->SetWMClass(CBGetWMClassInstance(), CBGetProjectWindowClass());
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = new JXImage(display, jcc_project_window);
+	JXImage* icon      = jnew JXImage(display, jcc_project_window);
 	assert( icon != NULL );
 	window->SetIcon(icon);
 
@@ -1505,16 +1517,16 @@ CBProjectDocument::BuildWindow
 	// file list
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
+		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( scrollbarSet != NULL );
 	scrollbarSet->FitToEnclosure();
 
-	JNamedTreeList* treeList = new JNamedTreeList(fileList);
+	JNamedTreeList* treeList = jnew JNamedTreeList(fileList);
 	assert( treeList != NULL );
 
 	itsFileTable =
-		new CBProjectTable(this, menuBar, treeList,
+		jnew CBProjectTable(this, menuBar, treeList,
 						   scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic,
 						   0,0, 10,10);
@@ -1534,12 +1546,12 @@ CBProjectDocument::BuildWindow
 	itsFileMenu->SetItemImage(kPrintCmd,         jx_file_print);
 
 	CBFileHistoryMenu* recentProjectMenu =
-		new CBFileHistoryMenu(CBDocumentManager::kProjectFileHistory,
+		jnew CBFileHistoryMenu(CBDocumentManager::kProjectFileHistory,
 							  itsFileMenu, kRecentProjectMenuCmd, menuBar);
 	assert( recentProjectMenu != NULL );
 
 	CBFileHistoryMenu* recentTextMenu =
-		new CBFileHistoryMenu(CBDocumentManager::kTextFileHistory,
+		jnew CBFileHistoryMenu(CBDocumentManager::kTextFileHistory,
 							  itsFileMenu, kRecentTextMenuCmd, menuBar);
 	assert( recentTextMenu != NULL );
 
@@ -1567,14 +1579,14 @@ CBProjectDocument::BuildWindow
 	itsSourceMenu->SetItemImage(kDiffVCSCmd,     jcc_compare_vcs);
 
 	itsCmdMenu =
-		new CBCommandMenu(this, NULL, menuBar,
+		jnew CBCommandMenu(this, NULL, menuBar,
 						  JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsCmdMenu != NULL );
 	menuBar->AppendMenu(itsCmdMenu);
 	ListenTo(itsCmdMenu);
 
 	CBDocumentMenu* fileListMenu =
-		new CBDocumentMenu(kFileListMenuTitleStr, menuBar,
+		jnew CBDocumentMenu(kFileListMenuTitleStr, menuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( fileListMenu != NULL );
 	menuBar->AppendMenu(fileListMenu);
@@ -1604,7 +1616,7 @@ CBProjectDocument::BuildWindow
 
 	// update pg
 
-	itsUpdatePG = new JXProgressDisplay();
+	itsUpdatePG = jnew JXProgressDisplay();
 	assert( itsUpdatePG != NULL );
 	itsUpdatePG->SetItems(NULL, itsUpdateCounter, itsUpdateCleanUpIndicator, itsUpdateLabel);
 
@@ -2068,7 +2080,7 @@ CBProjectDocument::EditSearchPaths
 {
 	assert( itsEditPathsDialog == NULL );
 
-	itsEditPathsDialog = new CBEditSearchPathsDialog(owner, *itsDirList, itsCSF);
+	itsEditPathsDialog = jnew CBEditSearchPathsDialog(owner, *itsDirList, itsCSF);
 	assert( itsEditPathsDialog != NULL );
 	itsEditPathsDialog->BeginDialog();
 	ListenTo(itsEditPathsDialog);
@@ -2271,7 +2283,7 @@ void
 CBProjectDocument::EditProjectPrefs()
 {
 	CBEditProjPrefsDialog* dlog =
-		new CBEditProjPrefsDialog(theReopenTextFilesFlag,
+		jnew CBEditProjPrefsDialog(theReopenTextFilesFlag,
 								  CBCompileDocument::WillDoubleSpace(),
 								  CBBuildManager::WillRebuildMakefileDaily(),
 								  CBProjectTable::GetDropFileAction());
@@ -2574,8 +2586,8 @@ CBProjectDocument::SymbolUpdateProgress()
 
 		*itsUpdateStream << kSymbolTableLocked << endl;
 
-		delete itsWaitForUpdateTask;
-		itsWaitForUpdateTask = new CBWaitForSymbolUpdateTask(itsUpdateProcess);
+		jdelete itsWaitForUpdateTask;
+		itsWaitForUpdateTask = jnew CBWaitForSymbolUpdateTask(itsUpdateProcess);
 		assert( itsWaitForUpdateTask != NULL );
 		ClearWhenGoingAway(itsWaitForUpdateTask, &itsWaitForUpdateTask);
 		itsWaitForUpdateTask->Go();
@@ -2629,10 +2641,10 @@ CBProjectDocument::SymbolUpdateFinished()
 
 	DeleteUpdateLink();
 
-	delete itsUpdateStream;
+	jdelete itsUpdateStream;
 	itsUpdateStream = NULL;
 
-	delete itsUpdateProcess;
+	jdelete itsUpdateProcess;
 	itsUpdateProcess = NULL;
 
 	if (itsWaitForUpdateTask != NULL)
@@ -2680,8 +2692,8 @@ CBProjectDocument::ShowUpdatePG
 void
 CBProjectDocument::DelayUpdateSymbolDatabase()
 {
-	delete itsDelaySymbolUpdateTask;
-	itsDelaySymbolUpdateTask = new CBDelaySymbolUpdateTask(this);
+	jdelete itsDelaySymbolUpdateTask;
+	itsDelaySymbolUpdateTask = jnew CBDelaySymbolUpdateTask(this);
 	assert( itsDelaySymbolUpdateTask != NULL );
 	itsDelaySymbolUpdateTask->Start();
 }
@@ -2694,7 +2706,7 @@ CBProjectDocument::DelayUpdateSymbolDatabase()
 void
 CBProjectDocument::CancelUpdateSymbolDatabase()
 {
-	delete itsDelaySymbolUpdateTask;
+	jdelete itsDelaySymbolUpdateTask;
 	itsDelaySymbolUpdateTask = NULL;
 
 	if (itsUpdateLink != NULL)
@@ -2708,8 +2720,6 @@ CBProjectDocument::CancelUpdateSymbolDatabase()
  UpdateSymbolDatabase
 
  ******************************************************************************/
-
-// This function has to be last so JCore::new works for everything else.
 
 void
 CBProjectDocument::UpdateSymbolDatabase()
@@ -2751,7 +2761,7 @@ CBProjectDocument::UpdateSymbolDatabase()
 		JThisProcess::Instance()->SetPriority(19);
 
 		// get rid of JXCreatePG, since we must not use X connection
-		JInitCore(new ChildAssertHandler());
+		JInitCore(jnew ChildAssertHandler());
 		CBSetUpdateThread();
 
 		JOutPipeStream output(fd[0][1], kJTrue);
@@ -2802,7 +2812,7 @@ CBProjectDocument::UpdateSymbolDatabase()
 		JBoolean onDisk;
 		const JString symName = GetSymbolFileName(GetFullName(&onDisk));
 
-		ostream* symOutput = new ofstream(symName);
+		ostream* symOutput = jnew ofstream(symName);
 		assert( symOutput != NULL );
 
 		WriteFiles(projOutput, NULL, NULL, symName, symOutput);
@@ -2821,36 +2831,18 @@ CBProjectDocument::UpdateSymbolDatabase()
 		close(fd[0][1]);
 		close(fd[1][0]);
 
-		itsUpdateStream = new JOutPipeStream(fd[1][1], kJTrue);
+		itsUpdateStream = jnew JOutPipeStream(fd[1][1], kJTrue);
 		assert( itsUpdateStream != NULL );
 
 		ShowUpdatePG(kJTrue);
 
-		itsUpdateProcess = new JProcess(pid);
+		itsUpdateProcess = jnew JProcess(pid);
 		assert( itsUpdateProcess != NULL );
 		ListenTo(itsUpdateProcess);
 		itsUpdateProcess->KillAtExit();
-
-		#undef new
 
 		itsUpdateLink = new CBExecOutputDocument::RecordLink(fd[0][0]);
 		assert( itsUpdateLink != NULL );
 		ListenTo(itsUpdateLink);
 		}
-}
-
-/******************************************************************************
- DeleteUpdateLink (private)
-
- ******************************************************************************/
-
-// This function has to be last so JCore::delete works for everything else.
-
-#undef delete
-
-void
-CBProjectDocument::DeleteUpdateLink()
-{
-	delete itsUpdateLink;
-	itsUpdateLink = NULL;
 }

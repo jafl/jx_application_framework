@@ -231,54 +231,54 @@ CMArray1DDir::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 300,500, "");
+	JXWindow* window = jnew JXWindow(this, 300,500, "");
 	assert( window != NULL );
 
 	itsExprInput =
-		new CMArrayExprInput(window,
+		jnew CMArrayExprInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,40, 170,20);
 	assert( itsExprInput != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::CMArray1DDir::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::CMArray1DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 90,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	JXStaticText* obj2_JXLayout =
-		new JXStaticText(JGetString("obj2_JXLayout::CMArray1DDir::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj2_JXLayout::CMArray1DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 90,20);
 	assert( obj2_JXLayout != NULL );
 	obj2_JXLayout->SetToLabel();
 
 	itsStopButton =
-		new JXTextButton(JGetString("itsStopButton::CMArray1DDir::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsStopButton::CMArray1DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 200,85, 60,20);
 	assert( itsStopButton != NULL );
 	itsStopButton->SetShortcuts(JGetString("itsStopButton::CMArray1DDir::shortcuts::JXLayout"));
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 300,30);
 	assert( menuBar != NULL );
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,130, 300,370);
 	assert( scrollbarSet != NULL );
 
 	itsStartIndex =
-		new CMArrayIndexInput(window,
+		jnew CMArrayIndexInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,70, 60,20);
 	assert( itsStartIndex != NULL );
 
 	itsEndIndex =
-		new CMArrayIndexInput(window,
+		jnew CMArrayIndexInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,100, 60,20);
 	assert( itsEndIndex != NULL );
 
 	JXStaticText* obj3_JXLayout =
-		new JXStaticText(JGetString("obj3_JXLayout::CMArray1DDir::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj3_JXLayout::CMArray1DDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 90,20);
 	assert( obj3_JXLayout != NULL );
 	obj3_JXLayout->SetToLabel();
@@ -292,7 +292,7 @@ CMArray1DDir::BuildWindow()
 	UpdateWindowTitle();
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = new JXImage(display, medic_1d_array_window);
+	JXImage* icon      = jnew JXImage(display, medic_1d_array_window);
 	assert( icon != NULL );
 	window->SetIcon(icon);
 
@@ -300,13 +300,13 @@ CMArray1DDir::BuildWindow()
 
 	CMVarNode* root = itsLink->CreateVarNode();
 	assert( root != NULL );
-	itsTree = new JTree(root);
+	itsTree = jnew JTree(root);
 	assert( itsTree != NULL );
-	JNamedTreeList* treeList = new JNamedTreeList(itsTree);
+	JNamedTreeList* treeList = jnew JNamedTreeList(itsTree);
 	assert( treeList != NULL );
 
 	itsWidget =
-		new CMVarTreeWidget(itsCommandDir, kJFalse, menuBar, itsTree, treeList,
+		jnew CMVarTreeWidget(itsCommandDir, kJFalse, menuBar, itsTree, treeList,
 							scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert(itsWidget != NULL);
@@ -350,7 +350,7 @@ CMArray1DDir::BuildWindow()
 	itsActionMenu->SetItemImage(kExamineMemCmd,     medic_show_memory);
 
 	JXWDMenu* wdMenu =
-		new JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != NULL );
 	menuBar->AppendMenu(wdMenu);
@@ -549,7 +549,7 @@ CMArray1DDir::BeginCreateNodes()
 				{
 				itsCurrentNode = NULL;
 				}
-			delete node;
+			jdelete node;
 			itsDisplayRange.first++;
 			}
 		while (itsDisplayRange.last > itsRequestRange.last)
@@ -559,7 +559,7 @@ CMArray1DDir::BeginCreateNodes()
 				{
 				itsCurrentNode = NULL;
 				}
-			delete node;
+			jdelete node;
 			itsDisplayRange.last--;
 			}
 		}

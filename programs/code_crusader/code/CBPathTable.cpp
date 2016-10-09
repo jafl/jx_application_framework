@@ -67,7 +67,7 @@ CBPathTable::CBPathTable
 		GetFontManager()->GetDefaultFont().GetLineHeight();
 	SetDefaultRowHeight(rowHeight);
 
-	itsFolderIcon = new JXImage(GetDisplay(), jx_folder_small);
+	itsFolderIcon = jnew JXImage(GetDisplay(), jx_folder_small);
 	assert( itsFolderIcon != NULL );
 
 	itsPathInput        = NULL;
@@ -80,7 +80,7 @@ CBPathTable::CBPathTable
 	ListenTo(itsRemovePathButton);
 	ListenTo(itsChoosePathButton);
 
-	itsData = new JStringTableData;
+	itsData = jnew JStringTableData;
 	assert( itsData != NULL );
 
 	itsData->AppendCols(3);		// recurse flag, folder icon, path
@@ -119,8 +119,8 @@ CBPathTable::CBPathTable
 
 CBPathTable::~CBPathTable()
 {
-	delete itsData;
-	delete itsFolderIcon;
+	jdelete itsData;
+	jdelete itsFolderIcon;
 }
 
 /******************************************************************************
@@ -310,7 +310,7 @@ CBPathTable::CreateXInputField
 {
 	assert( itsPathInput == NULL && cell.x == kTextColumn );
 
-	itsPathInput = new JXPathInput(this, kFixedLeft, kFixedTop, x,y, w,h);
+	itsPathInput = jnew JXPathInput(this, kFixedLeft, kFixedTop, x,y, w,h);
 	assert( itsPathInput != NULL );
 
 	itsPathInput->SetText(itsData->GetString(cell));
@@ -324,7 +324,7 @@ CBPathTable::CreateXInputField
  ExtractInputData (virtual protected)
 
 	Extract the information from the active input field, check it,
-	and delete the input field if successful.
+	and jdelete the input field if successful.
 
 	Returns kJTrue if the data is valid and the process succeeded.
 

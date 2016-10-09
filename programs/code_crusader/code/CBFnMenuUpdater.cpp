@@ -181,14 +181,14 @@ CBFnMenuUpdater::ReadFunctionList
 	const JBoolean hasNS = CBHasNamespace(lang);
 	while (1)
 		{
-		JString* fnName = new JString;
+		JString* fnName = jnew JString;
 		assert( fnName != NULL );
 
 		input >> ws;
 		*fnName = JReadUntil(input, '\t');	// fn name
 		if (input.eof() || input.fail())
 			{
-			delete fnName;
+			jdelete fnName;
 			break;
 			}
 
@@ -199,7 +199,7 @@ CBFnMenuUpdater::ReadFunctionList
 
 		if (IgnoreSymbol(*fnName))
 			{
-			delete fnName;
+			jdelete fnName;
 			continue;
 			}
 
@@ -207,7 +207,7 @@ CBFnMenuUpdater::ReadFunctionList
 
 		if (hasNS && !includeNS && cbIsQualified(*fnName))
 			{
-			delete fnName;
+			jdelete fnName;
 			continue;
 			}
 

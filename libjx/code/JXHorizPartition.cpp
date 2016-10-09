@@ -115,7 +115,7 @@ JXHorizPartition::CreateCompartment
 	)
 {
 	JXWidgetSet* compartment =
-		new JXWidgetSet(this, kFixedLeft, kVElastic,
+		jnew JXWidgetSet(this, kFixedLeft, kVElastic,
 						position,0, size, GetApertureHeight());
 	assert( compartment != NULL );
 	return compartment;

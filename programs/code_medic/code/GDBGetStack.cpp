@@ -32,7 +32,7 @@ GDBGetStack::GDBGetStack
 	:
 	CMGetStack("-stack-list-frames", tree, widget)
 {
-	itsArgsCmd = new GDBGetStackArguments(tree);
+	itsArgsCmd = jnew GDBGetStackArguments(tree);
 }
 
 /******************************************************************************
@@ -42,7 +42,7 @@ GDBGetStack::GDBGetStack
 
 GDBGetStack::~GDBGetStack()
 {
-	delete itsArgsCmd;
+	jdelete itsArgsCmd;
 }
 
 /******************************************************************************
@@ -121,7 +121,7 @@ GDBGetStack::HandleSuccess
 			}
 
 		CMStackFrameNode* node =
-			new CMStackFrameNode(root, frameIndex, frameName,
+			jnew CMStackFrameNode(root, frameIndex, frameName,
 								 fileName, lineIndex);
 		assert( node != NULL );
 		root->Prepend(node);

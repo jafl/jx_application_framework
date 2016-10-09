@@ -27,7 +27,7 @@ JNamedTreeList::JNamedTreeList
 	:
 	JTreeList(tree)
 {
-	itsSortedNodeList = new JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
+	itsSortedNodeList = jnew JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
 	assert( itsSortedNodeList != NULL );
 	itsSortedNodeList->SetSortOrder(JOrderedSetT::kSortAscending);
 	itsSortedNodeList->SetCompareFunction(JNamedTreeNode::DynamicCastCompareNames);
@@ -43,7 +43,7 @@ JNamedTreeList::JNamedTreeList
 
 JNamedTreeList::~JNamedTreeList()
 {
-	delete itsSortedNodeList;
+	jdelete itsSortedNodeList;
 }
 
 /******************************************************************************

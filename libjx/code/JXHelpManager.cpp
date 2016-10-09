@@ -85,15 +85,15 @@ JXHelpManager::JXHelpManager()
 	itsTOCSectionName(NULL),
 	itsComposeHelpDir(NULL)
 {
-	itsSections = new JArray<SectionInfo>;
+	itsSections = jnew JArray<SectionInfo>;
 	assert( itsSections != NULL );
 	itsSections->SetCompareFunction(CompareSections);
 
-	itsDefWindowGeom = new JString;
+	itsDefWindowGeom = jnew JString;
 	assert( itsDefWindowGeom != NULL );
 
 	JXDisplay* display = (JXGetApplication())->GetCurrentDisplay();
-	itsPrinter = new JXPSPrinter(display);
+	itsPrinter = jnew JXPSPrinter(display);
 	assert( itsPrinter != NULL );
 
 	JXSharedPrefObject::ReadPrefs();
@@ -108,9 +108,9 @@ JXHelpManager::JXHelpManager()
 
 JXHelpManager::~JXHelpManager()
 {
-	delete itsSections;		// JXHelpDirectors deleted by JXDirector
-	delete itsDefWindowGeom;
-	delete itsPrinter;
+	jdelete itsSections;		// JXHelpDirectors deleted by JXDirector
+	jdelete itsDefWindowGeom;
+	jdelete itsPrinter;
 }
 
 /******************************************************************************
@@ -308,7 +308,7 @@ JXHelpManager::CreateHelpDirector
 	const JCharacter* text
 	)
 {
-	JXHelpDirector* dir = new JXHelpDirector(text, itsPrinter);
+	JXHelpDirector* dir = jnew JXHelpDirector(text, itsPrinter);
 	assert( dir != NULL );
 
 	if (!itsDefWindowGeom->IsEmpty())

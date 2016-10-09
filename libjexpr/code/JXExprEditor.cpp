@@ -317,7 +317,7 @@ JXExprEditor::JXExprEditorX()
 	// required by JXGetCurrColormap
 	assert( GetWindow()->GetColormap() == GetDisplay()->GetColormap() );
 
-	itsEPSPrinter = new JXEPSPrinter(GetDisplay());
+	itsEPSPrinter = jnew JXEPSPrinter(GetDisplay());
 	assert( itsEPSPrinter != NULL );
 	ListenTo(itsEPSPrinter);
 
@@ -334,7 +334,7 @@ JXExprEditor::JXExprEditorX()
 
 JXExprEditor::~JXExprEditor()
 {
-	delete itsEPSPrinter;
+	jdelete itsEPSPrinter;
 }
 
 /******************************************************************************
@@ -393,7 +393,7 @@ JXExprEditor::CreateMenus
 	itsMathMenu->SetUpdateAction(JXMenu::kDisableAll);
 	ListenTo(itsMathMenu);
 
-	itsFunctionMenu = new JXTextMenu(itsMathMenu, kApplyFnToSelIndex, menuBar);
+	itsFunctionMenu = jnew JXTextMenu(itsMathMenu, kApplyFnToSelIndex, menuBar);
 	assert( itsFunctionMenu != NULL );
 	itsFunctionMenu->SetMenuItems(kFunctionMenuStr);
 	itsFunctionMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -956,7 +956,7 @@ JXExprEditor::EvaluateSelection()
 		}
 
 	JXExprEvalDirector* newDir =
-		new JXExprEvalDirector(GetWindow()->GetDirector(),
+		jnew JXExprEvalDirector(GetWindow()->GetDirector(),
 							   GetVariableList(), *f);
 	assert( newDir != NULL );
 	newDir->Activate();
@@ -1126,7 +1126,7 @@ JXExprEditor::EIPClipboardChanged()
 		{
 		const JString text = f->Print();
 
-		JXTextSelection* data = new JXTextSelection(GetDisplay(), text);
+		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), text);
 		assert( data != NULL );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);

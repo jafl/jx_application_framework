@@ -69,38 +69,38 @@ CMAboutDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 430,180, "");
+	JXWindow* window = jnew JXWindow(this, 430,180, "");
 	assert( window != NULL );
 
 	JXImageWidget* medicIcon =
-		new JXImageWidget(window,
+		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,20, 40,40);
 	assert( medicIcon != NULL );
 
 	JXStaticText* textWidget =
-		new JXStaticText(JGetString("textWidget::CMAboutDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("textWidget::CMAboutDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 90,20, 330,110);
 	assert( textWidget != NULL );
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::CMAboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::CMAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,150, 60,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::CMAboutDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::CMAboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::CMAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,150, 60,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CMAboutDialog::shortcuts::JXLayout"));
 
 	itsCreditsButton =
-		new JXTextButton(JGetString("itsCreditsButton::CMAboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsCreditsButton::CMAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,150, 60,20);
 	assert( itsCreditsButton != NULL );
 
 	JXImageWidget* npsIcon =
-		new JXImageWidget(window,
+		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,75, 65,65);
 	assert( npsIcon != NULL );
 
@@ -130,13 +130,13 @@ CMAboutDialog::BuildWindow
 
 	// Code Medic icon
 
-	JXImage* image = new JXImage(GetDisplay(), medic_about);
+	JXImage* image = jnew JXImage(GetDisplay(), medic_about);
 	assert(image != NULL);
 	medicIcon->SetImage(image, kJTrue);
 
 	// NPS icon
 
-	image = new JXImage(GetDisplay(), new_planet_software);
+	image = jnew JXImage(GetDisplay(), new_planet_software);
 	assert( image != NULL );
 	npsIcon->SetImage(image, kJTrue);
 

@@ -48,7 +48,7 @@ JXRegexInput::~JXRegexInput()
 {
 	if (itsOwnsRegexFlag)
 		{
-		delete itsTestRegex;
+		jdelete itsTestRegex;
 		}
 }
 

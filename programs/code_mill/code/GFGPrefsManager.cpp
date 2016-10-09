@@ -108,7 +108,7 @@ GFGPrefsManager::EditPrefs()
 	JString data;
 
 	itsDialog = 
-		new GFGPrefsDialog(JXGetApplication(), 
+		jnew GFGPrefsDialog(JXGetApplication(), 
 			GetHeaderComment(),
 			GetSourceComment(),
 			GetConstructorComment(),

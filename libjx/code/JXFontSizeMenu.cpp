@@ -1,7 +1,7 @@
 /******************************************************************************
  JXFontSizeMenu.cpp
 
-	Since we have to update our index before anybody can request its new
+	Since we have to update our index before anybody can request its jnew
 	value, the correct way to use this object is to listen for the
 	SizeChanged message, not the ItemSelected message.  In addition, since
 	we are responsible for marking the menu item, clients should listen
@@ -350,7 +350,7 @@ JXFontSizeMenu::ChooseFontSize
 		{
 		assert( itsChooseSizeDialog == NULL );
 		JXWindowDirector* supervisor = GetWindow()->GetDirector();
-		itsChooseSizeDialog = new JXChooseFontSizeDialog(supervisor, itsFontSize);
+		itsChooseSizeDialog = jnew JXChooseFontSizeDialog(supervisor, itsFontSize);
 		assert( itsChooseSizeDialog != NULL );
 		ListenTo(itsChooseSizeDialog);
 		itsChooseSizeDialog->BeginDialog();

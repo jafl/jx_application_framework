@@ -68,64 +68,64 @@ CBEditTreePrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 320,290, "");
+	JXWindow* window = jnew JXWindow(this, 320,290, "");
 	assert( window != NULL );
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::CBEditTreePrefsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::CBEditTreePrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,260, 70,20);
 	assert( cancelButton != NULL );
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::CBEditTreePrefsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::CBEditTreePrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 230,260, 70,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::CBEditTreePrefsDialog::shortcuts::JXLayout"));
 
 	itsShowInheritedFnsCB =
-		new JXTextCheckbox(JGetString("itsShowInheritedFnsCB::CBEditTreePrefsDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsShowInheritedFnsCB::CBEditTreePrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 280,20);
 	assert( itsShowInheritedFnsCB != NULL );
 
 	itsFontSizeMenu =
-		new JXFontSizeMenu(JGetDefaultFontName(), "Font size:", window,
+		jnew JXFontSizeMenu(JGetDefaultFontName(), "Font size:", window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 280,30);
 	assert( itsFontSizeMenu != NULL );
 
 	itsAutoMinMILinkCB =
-		new JXTextCheckbox(JGetString("itsAutoMinMILinkCB::CBEditTreePrefsDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsAutoMinMILinkCB::CBEditTreePrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,130, 280,20);
 	assert( itsAutoMinMILinkCB != NULL );
 
 	itsMILinkStyleRG =
-		new JXRadioGroup(window,
+		jnew JXRadioGroup(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 140,160, 134,74);
 	assert( itsMILinkStyleRG != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::CBEditTreePrefsDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::CBEditTreePrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 45,190, 90,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	JXTextRadioButton* obj2_JXLayout =
-		new JXTextRadioButton(1, JGetString("obj2_JXLayout::CBEditTreePrefsDialog::JXLayout"), itsMILinkStyleRG,
+		jnew JXTextRadioButton(1, JGetString("obj2_JXLayout::CBEditTreePrefsDialog::JXLayout"), itsMILinkStyleRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 110,20);
 	assert( obj2_JXLayout != NULL );
 
 	JXTextRadioButton* obj3_JXLayout =
-		new JXTextRadioButton(2, JGetString("obj3_JXLayout::CBEditTreePrefsDialog::JXLayout"), itsMILinkStyleRG,
+		jnew JXTextRadioButton(2, JGetString("obj3_JXLayout::CBEditTreePrefsDialog::JXLayout"), itsMILinkStyleRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 110,20);
 	assert( obj3_JXLayout != NULL );
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::CBEditTreePrefsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::CBEditTreePrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 125,260, 70,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBEditTreePrefsDialog::shortcuts::JXLayout"));
 
 	itsRaiseSingleMatchCB =
-		new JXTextCheckbox(JGetString("itsRaiseSingleMatchCB::CBEditTreePrefsDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsRaiseSingleMatchCB::CBEditTreePrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,90, 280,20);
 	assert( itsRaiseSingleMatchCB != NULL );
 
@@ -219,5 +219,5 @@ CBEditTreePrefsDialog::UpdateSettings()
 		}
 
 	pg->ProcessFinished();
-	delete pg;
+	jdelete pg;
 }

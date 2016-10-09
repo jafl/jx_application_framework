@@ -71,38 +71,38 @@ GXChooseFileImportDialog::BuildWindow
 	
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 330,230, "");
+    JXWindow* window = jnew JXWindow(this, 330,230, "");
     assert( window != NULL );
 
     JXStaticText* obj1 =
-        new JXStaticText("This is not a Glove data file.\nPlease select the appropriate filter.", window,
+        jnew JXStaticText("This is not a Glove data file.\nPlease select the appropriate filter.", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 250,40);
     assert( obj1 != NULL );
 
     itsFilterMenu =
-        new JXTextMenu("Filter:", window,
+        jnew JXTextMenu("Filter:", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,160, 70,30);
     assert( itsFilterMenu != NULL );
 
     JXTextButton* okButton =
-        new JXTextButton("OK", window,
+        jnew JXTextButton("OK", window,
                     JXWidget::kFixedRight, JXWidget::kFixedBottom, 210,200, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts("^M");
 
     JXTextButton* cancelButton =
-        new JXTextButton("Cancel", window,
+        jnew JXTextButton("Cancel", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,200, 70,20);
     assert( cancelButton != NULL );
     cancelButton->SetShortcuts("^[");
 
     itsReloadButton =
-        new JXTextButton("Reload", window,
+        jnew JXTextButton("Reload", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 130,200, 70,20);
     assert( itsReloadButton != NULL );
 
     JXScrollbarSet* obj2 =
-        new JXScrollbarSet( window,
+        jnew JXScrollbarSet( window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 10,50, 310,100);
     assert( obj2 != NULL );
 
@@ -140,7 +140,7 @@ GXChooseFileImportDialog::BuildWindow
 	text.Read(is, kFileByteCount);
 
 	itsFileText = 
-		new JXStaticText(text, kJFalse, kJFalse, 
+		jnew JXStaticText(text, kJFalse, kJFalse, 
 			obj2, obj2->GetScrollEnclosure(), 
 			JXWidget::kHElastic, JXWidget::kVElastic, 10,60, 310,90);
 	assert(itsFileText != NULL);

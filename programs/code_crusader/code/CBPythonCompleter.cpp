@@ -37,7 +37,7 @@ CBPythonCompleter::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBPythonCompleter;
+		itsSelf = jnew CBPythonCompleter;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -54,7 +54,7 @@ CBPythonCompleter::Instance()
 void
 CBPythonCompleter::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

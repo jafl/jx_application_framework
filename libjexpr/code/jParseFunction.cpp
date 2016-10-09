@@ -255,7 +255,7 @@ JRecurseFunction
 
 	if (allowUIF && JStringsEqual(expr, length, JUserInputFunction::GetEmptyString()))
 		{
-		*theFunction = new JUserInputFunction(theVariableList,
+		*theFunction = jnew JUserInputFunction(theVariableList,
 											  JGetCurrFontManager(),
 											  JGetCurrColormap());
 		assert( *theFunction != NULL );
@@ -281,7 +281,7 @@ JRecurseFunction
 			value /= 100.0;
 			}
 
-		*theFunction = new JConstantValue(value);
+		*theFunction = jnew JConstantValue(value);
 		assert( *theFunction != NULL );
 		return kJTrue;
 		}
@@ -412,7 +412,7 @@ JParseAsSummation
 
 		if (opList.GetElement(1) == '-')
 			{
-			*theFunction = new JNegation(arg);
+			*theFunction = jnew JNegation(arg);
 			assert( *theFunction != NULL );
 			return kJParsedOK;
 			}
@@ -424,7 +424,7 @@ JParseAsSummation
 		}
 	else
 		{
-		JSummation* sum = new JSummation;
+		JSummation* sum = jnew JSummation;
 		assert( sum != NULL );
 
 		// No operand in front means implied +
@@ -456,7 +456,7 @@ JParseAsSummation
 			if (!JRecurseFunction(expr + startOffset, endOffset - startOffset,
 								  theVariableList, &arg, allowUIF))
 				{
-				delete sum;
+				jdelete sum;
 				return kJParseError;
 				}
 			else if (opType == '+')
@@ -465,7 +465,7 @@ JParseAsSummation
 				}
 			else	// opType == '-'
 				{
-				JNegation* negArg = new JNegation(arg);
+				JNegation* negArg = jnew JNegation(arg);
 				assert( negArg != NULL );
 				sum->SetArg(i, negArg);
 				}
@@ -536,7 +536,7 @@ JParseAsProduct
 				}
 			else
 				{
-				delete prod;
+				jdelete prod;
 				return kJParseError;
 				}
 			}
@@ -544,7 +544,7 @@ JParseAsProduct
 			{
 			if (prod == NULL)
 				{
-				prod = new JProduct;
+				prod = jnew JProduct;
 				assert( prod != NULL );
 				}
 
@@ -557,7 +557,7 @@ JParseAsProduct
 				}
 			else
 				{
-				delete prod;
+				jdelete prod;
 				return kJParseError;
 				}
 			}
@@ -611,15 +611,15 @@ JParseAsDivision
 		JRecurseFunction(expr + offset2, length - offset2, theVariableList,
 						 &denominator, allowUIF))
 		{
-		JDivision* div = new JDivision(numerator, denominator);
+		JDivision* div = jnew JDivision(numerator, denominator);
 		assert( div != NULL );
 		*theFunction = div;
 		return kJParsedOK;
 		}
 	else
 		{
-		delete numerator;
-		delete denominator;
+		jdelete numerator;
+		jdelete denominator;
 		return kJParseError;
 		}
 }
@@ -669,15 +669,15 @@ JParseAsExponentiation
 		JRecurseFunction(expr + offset2, length - offset2, theVariableList,
 						 &arg2, allowUIF))
 		{
-		JExponent* exponent = new JExponent(arg1, arg2);
+		JExponent* exponent = jnew JExponent(arg1, arg2);
 		assert( exponent != NULL );
 		*theFunction = exponent;
 		return kJParsedOK;
 		}
 	else
 		{
-		delete arg1;
-		delete arg2;
+		jdelete arg1;
+		jdelete arg2;
 		return kJParseError;
 		}
 }
@@ -751,129 +751,129 @@ JParseAsFunctionWithArgs
 	JFunctionWithArgs* stdFunction = NULL;
 	if (type == kJSquareRootType)
 		{
-		stdFunction = new JSquareRoot();
+		stdFunction = jnew JSquareRoot();
 		}
 	else if (type == kJAbsValueType)
 		{
-		stdFunction = new JAbsValue();
+		stdFunction = jnew JAbsValue();
 		}
 	else if (type == kJSignType)
 		{
-		stdFunction = new JAlgSign();
+		stdFunction = jnew JAlgSign();
 		}
 	else if (type == kJRoundType)
 		{
-		stdFunction = new JRoundToInt();
+		stdFunction = jnew JRoundToInt();
 		}
 	else if (type == kJTruncateType)
 		{
-		stdFunction = new JTruncateToInt();
+		stdFunction = jnew JTruncateToInt();
 		}
 
 	else if (type == kJLog10Type)
 		{
-		stdFunction = new JLogB();	// will set base later
+		stdFunction = jnew JLogB();	// will set base later
 		}
 	else if (type == kJLogEType)
 		{
-		stdFunction = new JLogE();
+		stdFunction = jnew JLogE();
 		}
 	else if (type == kJLog2Type)
 		{
-		stdFunction = new JLogB();	// will set base later
+		stdFunction = jnew JLogB();	// will set base later
 		}
 
 	else if (type == kJSineType)
 		{
-		stdFunction = new JSine();
+		stdFunction = jnew JSine();
 		}
 	else if (type == kJCosineType)
 		{
-		stdFunction = new JCosine();
+		stdFunction = jnew JCosine();
 		}
 	else if (type == kJTangentType)
 		{
-		stdFunction = new JTangent();
+		stdFunction = jnew JTangent();
 		}
 	else if (type == kJArcSineType)
 		{
-		stdFunction = new JArcSine();
+		stdFunction = jnew JArcSine();
 		}
 	else if (type == kJArcCosineType)
 		{
-		stdFunction = new JArcCosine();
+		stdFunction = jnew JArcCosine();
 		}
 	else if (type == kJArcTangentType)
 		{
-		stdFunction = new JArcTangent();
+		stdFunction = jnew JArcTangent();
 		}
 
 	else if (type == kJHypSineType)
 		{
-		stdFunction = new JHypSine();
+		stdFunction = jnew JHypSine();
 		}
 	else if (type == kJHypCosineType)
 		{
-		stdFunction = new JHypCosine();
+		stdFunction = jnew JHypCosine();
 		}
 	else if (type == kJHypTangentType)
 		{
-		stdFunction = new JHypTangent();
+		stdFunction = jnew JHypTangent();
 		}
 	else if (type == kJArcHypSineType)
 		{
-		stdFunction = new JArcHypSine();
+		stdFunction = jnew JArcHypSine();
 		}
 	else if (type == kJArcHypCosineType)
 		{
-		stdFunction = new JArcHypCosine();
+		stdFunction = jnew JArcHypCosine();
 		}
 	else if (type == kJArcHypTangentType)
 		{
-		stdFunction = new JArcHypTangent();
+		stdFunction = jnew JArcHypTangent();
 		}
 
 	else if (type == kJRealPartType)
 		{
-		stdFunction = new JRealPart();
+		stdFunction = jnew JRealPart();
 		}
 	else if (type == kJImagPartType)
 		{
-		stdFunction = new JImagPart();
+		stdFunction = jnew JImagPart();
 		}
 	else if (type == kJPhaseAngleType)
 		{
-		stdFunction = new JPhaseAngle();
+		stdFunction = jnew JPhaseAngle();
 		}
 	else if (type == kJConjugateType)
 		{
-		stdFunction = new JConjugate();
+		stdFunction = jnew JConjugate();
 		}
 
 	else if (type == kJLogBType)
 		{
-		stdFunction = new JLogB();
+		stdFunction = jnew JLogB();
 		}
 	else if (type == kJArcTangent2Type)
 		{
-		stdFunction = new JArcTangent2();
+		stdFunction = jnew JArcTangent2();
 		}
 	else if (type == kJRotateType)
 		{
-		stdFunction = new JRotateComplex();
+		stdFunction = jnew JRotateComplex();
 		}
 
 	else if (type == kJMaxFuncType)
 		{
-		stdFunction = new JMaxFunc();
+		stdFunction = jnew JMaxFunc();
 		}
 	else if (type == kJMinFuncType)
 		{
-		stdFunction = new JMinFunc();
+		stdFunction = jnew JMinFunc();
 		}
 	else if (type == kJParallelType)
 		{
-		stdFunction = new JParallel();
+		stdFunction = jnew JParallel();
 		}
 	else
 		{
@@ -899,11 +899,11 @@ JParseAsFunctionWithArgs
 			JConstantValue* base = NULL;
 			if (type == kJLog10Type)
 				{
-				base = new JConstantValue(10.0);
+				base = jnew JConstantValue(10.0);
 				}
 			else if (type == kJLog2Type)
 				{
-				base = new JConstantValue(2.0);
+				base = jnew JConstantValue(2.0);
 				}
 			assert( base != NULL );
 			stdFunction->SetArg(1, base);
@@ -919,7 +919,7 @@ JParseAsFunctionWithArgs
 			}
 		else
 			{
-			delete stdFunction;
+			jdelete stdFunction;
 			return kJParseError;
 			}
 		}
@@ -939,13 +939,13 @@ JParseAsFunctionWithArgs
 				errorStr.Prepend("\"");
 				errorStr += "\" has too few arguments";
 				(JGetUserNotification())->ReportError(errorStr);
-				delete stdFunction;
+				jdelete stdFunction;
 				return kJParseError;
 				}
 			JFunction* arg = NULL;
 			if (!JRecurseFunction(argStart, offset, theVariableList, &arg, allowUIF))
 				{
-				delete stdFunction;
+				jdelete stdFunction;
 				return kJParseError;
 				}
 			stdFunction->SetArg(i, arg);
@@ -962,7 +962,7 @@ JParseAsFunctionWithArgs
 			errorStr.Prepend("\"");
 			errorStr += "\" has too many arguments";
 			(JGetUserNotification())->ReportError(errorStr);
-			delete stdFunction;
+			jdelete stdFunction;
 			return kJParseError;
 			}
 
@@ -971,7 +971,7 @@ JParseAsFunctionWithArgs
 		JFunction* arg = NULL;
 		if (!JRecurseFunction(argStart, remainderLength, theVariableList, &arg, allowUIF))
 			{
-			delete stdFunction;
+			jdelete stdFunction;
 			return kJParseError;
 			}
 		stdFunction->SetArg(argCount, arg);
@@ -999,7 +999,7 @@ JParseAsFunctionWithArgs
 			JFunction* arg = NULL;
 			if (!JRecurseFunction(argStart, offset, theVariableList, &arg, allowUIF))
 				{
-				delete stdFunction;
+				jdelete stdFunction;
 				return kJParseError;
 				}
 			stdFunction->SetArg(i, arg);
@@ -1083,7 +1083,7 @@ JParseAsFunctionOfDiscrete
 											   &varIndex, &arrayIndex, allowUIF);
 	if (result != kJParsedOK || !theVariableList->IsDiscrete(varIndex))
 		{
-		delete arrayIndex;
+		jdelete arrayIndex;
 
 		JString errorStr(argStart, argLength);
 		errorStr.Prepend("\"");
@@ -1096,16 +1096,16 @@ JParseAsFunctionOfDiscrete
 
 	if (type == kJDiscVarValueIndexType)
 		{
-		*theFunction = new JDiscVarValueIndex(theVariableList, varIndex, arrayIndex);
+		*theFunction = jnew JDiscVarValueIndex(theVariableList, varIndex, arrayIndex);
 		}
 	else if (type == kJDiscVarValueType)
 		{
-		*theFunction = new JDiscVarValue(theVariableList, varIndex, arrayIndex);
+		*theFunction = jnew JDiscVarValue(theVariableList, varIndex, arrayIndex);
 		}
 	else
 		{
 		cerr << "JParseAsFunctionOfDiscrete:  unknown function type" << endl;
-		delete arrayIndex;
+		jdelete arrayIndex;
 		return kJParseError;
 		}
 	assert( *theFunction != NULL );
@@ -1144,7 +1144,7 @@ JIsNamedConstant
 		{
 		if (JStringsEqual(expr, length, nameInfo[i-1].name))
 			{
-			*theFunction = new JNamedConstant(nameInfo[i-1].index);
+			*theFunction = jnew JNamedConstant(nameInfo[i-1].index);
 			assert( *theFunction != NULL );
 			return kJTrue;
 			}
@@ -1188,7 +1188,7 @@ JParseAsNumericVariable
 
 	if (result == kJParsedOK && !theVariableList->IsNumeric(varIndex))
 		{
-		delete arrayIndex;
+		jdelete arrayIndex;
 
 		JString errorStr(expr, length);
 		errorStr.Prepend("\"");
@@ -1198,7 +1198,7 @@ JParseAsNumericVariable
 		}
 	else if (result == kJParsedOK)
 		{
-		*theFunction = new JVariableValue(theVariableList, varIndex, arrayIndex);
+		*theFunction = jnew JVariableValue(theVariableList, varIndex, arrayIndex);
 		assert( *theFunction != NULL );
 		return kJParsedOK;
 		}
@@ -1265,7 +1265,7 @@ JParseVariable
 			}
 		if (*arrayIndex != NULL && !isArray)
 			{
-			delete *arrayIndex;
+			jdelete *arrayIndex;
 			*arrayIndex = NULL;
 
 			JString errorStr(expr, length);
@@ -1278,7 +1278,7 @@ JParseVariable
 		}
 	else if (*arrayIndex != NULL)
 		{
-		delete *arrayIndex;
+		jdelete *arrayIndex;
 		*arrayIndex = NULL;
 
 		JString errorStr(expr, length);

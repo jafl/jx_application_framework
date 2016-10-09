@@ -119,7 +119,7 @@ CMFileListDir::~CMFileListDir()
 	JPrefObject::WritePrefs();
 	CMGetPrefsManager()->SaveWindowSize(kFileWindSizeID, GetWindow());
 
-	delete itsCmd;
+	jdelete itsCmd;
 }
 
 /******************************************************************************
@@ -151,16 +151,16 @@ CMFileListDir::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 250,500, "");
+	JXWindow* window = jnew JXWindow(this, 250,500, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 250,30);
 	assert( menuBar != NULL );
 
 	itsFileListSet =
-		new JXFileListSet(menuBar, window,
+		jnew JXFileListSet(menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 250,470);
 	assert( itsFileListSet != NULL );
 
@@ -174,7 +174,7 @@ CMFileListDir::BuildWindow()
 	CMGetPrefsManager()->GetWindowSize(kFileWindSizeID, window);
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = new JXImage(display, medic_file_list_window);
+	JXImage* icon      = jnew JXImage(display, medic_file_list_window);
 	assert( icon != NULL );
 	window->SetIcon(icon);
 
@@ -198,7 +198,7 @@ CMFileListDir::BuildWindow()
 	itsActionsMenu->SetItemImage(kShowRegexCmd,  jx_filter_regex);
 
 	JXWDMenu* wdMenu =
-		new JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != NULL );
 	menuBar->AppendMenu(wdMenu);
@@ -344,7 +344,7 @@ CMFileListDir::ReceiveGoingAway
 		itsLink = CMGetLink();
 		ListenTo(itsLink);
 
-		delete itsCmd;
+		jdelete itsCmd;
 		itsCmd = itsLink->CreateGetSourceFileList(this);
 		}
 	else

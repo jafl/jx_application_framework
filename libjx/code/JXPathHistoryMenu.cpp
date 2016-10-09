@@ -63,7 +63,7 @@ JXPathHistoryMenu::JXPathHistoryMenu
 void
 JXPathHistoryMenu::JXPathHistoryMenuX()
 {
-	JXImage* icon = new JXImage(GetDisplay(), jx_folder_small);
+	JXImage* icon = jnew JXImage(GetDisplay(), jx_folder_small);
 	assert( icon != NULL );
 	SetDefaultIcon(icon, kJTrue);
 }

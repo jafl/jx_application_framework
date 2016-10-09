@@ -39,7 +39,7 @@ JPlotFitProxy::JPlotFitProxy
 		fit->GetGoodnessOfFitName(&itsGOFName);
 		fit->GetGoodnessOfFit(&itsGOF);
 		}
-	itsParms	= new GVarList();
+	itsParms	= jnew GVarList();
 	assert(itsParms != NULL);
 	itsParms->AddVariable("x", 0);
 	const JSize count	= fit->GetParameterCount();
@@ -58,7 +58,7 @@ JPlotFitProxy::JPlotFitProxy
 	if (fit->HasParameterErrors())
 		{
 		SetHasParameterErrors(kJTrue);
-		itsErrors	= new JArray<JFloat>;
+		itsErrors	= jnew JArray<JFloat>;
 		assert(itsErrors != NULL);
 		for (JIndex i = 1; i <= count; i++)
 			{
@@ -111,7 +111,7 @@ JPlotFitProxy::JPlotFitProxy
 		is >> itsGOF;
 		}
 
-	itsParms	= new GVarList();
+	itsParms	= jnew GVarList();
 	assert(itsParms != NULL);
 	itsParms->AddVariable("x", 0);
 
@@ -134,7 +134,7 @@ JPlotFitProxy::JPlotFitProxy
 	if (hasParameterErrors)
 		{
 		SetHasParameterErrors(kJTrue);
-		itsErrors	= new JArray<JFloat>;
+		itsErrors	= jnew JArray<JFloat>;
 		assert(itsErrors != NULL);
 		for (JIndex i = 1; i <= count; i++)
 			{
@@ -168,8 +168,8 @@ JPlotFitProxy::JPlotFitProxy
 
 JPlotFitProxy::~JPlotFitProxy()
 {
-	delete itsParms;
-	delete itsErrors;
+	jdelete itsParms;
+	jdelete itsErrors;
 }
 
 /******************************************************************************

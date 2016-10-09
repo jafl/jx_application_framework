@@ -29,7 +29,7 @@ JNaryFunction::JNaryFunction
 	:
 	JFunctionWithArgs(nameIndex, type)
 {
-	itsArgList = new JPtrArray<JFunction>(JPtrArrayT::kDeleteAll, kMaxReasonableArgCount);
+	itsArgList = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll, kMaxReasonableArgCount);
 	assert( itsArgList != NULL );
 }
 
@@ -40,7 +40,7 @@ JNaryFunction::JNaryFunction
 
 JNaryFunction::~JNaryFunction()
 {
-	delete itsArgList;
+	jdelete itsArgList;
 }
 
 /******************************************************************************
@@ -55,7 +55,7 @@ JNaryFunction::JNaryFunction
 	:
 	JFunctionWithArgs(source)
 {
-	itsArgList = new JPtrArray<JFunction>(JPtrArrayT::kDeleteAll, kMaxReasonableArgCount);
+	itsArgList = jnew JPtrArray<JFunction>(JPtrArrayT::kDeleteAll, kMaxReasonableArgCount);
 	assert( itsArgList != NULL );
 
 	const JSize argCount = (source.itsArgList)->GetElementCount();

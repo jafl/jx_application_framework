@@ -52,7 +52,7 @@ public:
 
 		~CutBuffer()
 		{
-			delete buf;
+			jdelete buf;
 		};
 
 		void Set(const JString& s, const JBoolean l);

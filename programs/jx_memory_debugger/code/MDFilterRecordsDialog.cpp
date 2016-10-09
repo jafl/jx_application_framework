@@ -51,39 +51,39 @@ MDFilterRecordsDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 420,120, "");
+	JXWindow* window = jnew JXWindow(this, 420,120, "");
 	assert( window != NULL );
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::MDFilterRecordsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::MDFilterRecordsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 90,90, 70,20);
 	assert( cancelButton != NULL );
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::MDFilterRecordsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::MDFilterRecordsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 260,90, 70,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::MDFilterRecordsDialog::shortcuts::JXLayout"));
 
 	itsFileCB =
-		new JXTextCheckbox(JGetString("itsFileCB::MDFilterRecordsDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsFileCB::MDFilterRecordsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 130,20);
 	assert( itsFileCB != NULL );
 	itsFileCB->SetShortcuts(JGetString("itsFileCB::MDFilterRecordsDialog::shortcuts::JXLayout"));
 
 	itsSizeCB =
-		new JXTextCheckbox(JGetString("itsSizeCB::MDFilterRecordsDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsSizeCB::MDFilterRecordsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 130,20);
 	assert( itsSizeCB != NULL );
 	itsSizeCB->SetShortcuts(JGetString("itsSizeCB::MDFilterRecordsDialog::shortcuts::JXLayout"));
 
 	itsFileInput =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 150,20, 250,20);
 	assert( itsFileInput != NULL );
 
 	itsSizeInput =
-		new JXIntegerInput(window,
+		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 150,50, 250,20);
 	assert( itsSizeInput != NULL );
 
@@ -92,7 +92,7 @@ MDFilterRecordsDialog::BuildWindow()
 	window->SetTitle(JGetString("WindowTitle::MDFilterRecordsDialog"));
 	SetButtons(okButton, cancelButton);
 
-	JXAtLeastOneCBGroup* cbGroup = new JXAtLeastOneCBGroup(2, itsSizeCB, itsFileCB);
+	JXAtLeastOneCBGroup* cbGroup = jnew JXAtLeastOneCBGroup(2, itsSizeCB, itsFileCB);
 	assert( cbGroup != NULL );
 
 	ListenTo(itsFileCB);
@@ -167,8 +167,8 @@ MDFilterRecordsDialog::BuildFilter
 
 	if (itsFileCB->IsChecked())
 		{
-		delete filter->fileName;
-		filter->fileName = new JString(itsFileInput->GetText());
+		jdelete filter->fileName;
+		filter->fileName = jnew JString(itsFileInput->GetText());
 		assert( filter->fileName != NULL );
 		}
 }

@@ -74,53 +74,53 @@ GXCreatePlotDialog::BuildWindow
 	
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 380,160, "");
+    JXWindow* window = jnew JXWindow(this, 380,160, "");
     assert( window != NULL );
 
     itsXMenu =
-        new JXTextMenu("X Axis", window,
+        jnew JXTextMenu("X Axis", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 10,40, 160,30);
     assert( itsXMenu != NULL );
 
     itsYMenu =
-        new JXTextMenu("Y Axis", window,
+        jnew JXTextMenu("Y Axis", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 200,40, 170,30);
     assert( itsYMenu != NULL );
 
     itsXErrMenu =
-        new JXTextMenu("X Error", window,
+        jnew JXTextMenu("X Error", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 10,80, 160,30);
     assert( itsXErrMenu != NULL );
 
     itsYErrMenu =
-        new JXTextMenu("Y Error", window,
+        jnew JXTextMenu("Y Error", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 200,80, 170,30);
     assert( itsYErrMenu != NULL );
 
     JXTextButton* okButton =
-        new JXTextButton("OK", window,
+        jnew JXTextButton("OK", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 280,130, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts("^M");
 
     JXTextButton* cancelButton =
-        new JXTextButton("Cancel", window,
+        jnew JXTextButton("Cancel", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 190,130, 70,20);
     assert( cancelButton != NULL );
     cancelButton->SetShortcuts("^[");
 
     itsPlotsMenu =
-        new JXTextMenu("Plot:", window,
+        jnew JXTextMenu("Plot:", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 10,120, 130,30);
     assert( itsPlotsMenu != NULL );
 
     itsLabelInput =
-        new JXInputField(window,
+        jnew JXInputField(window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 115,10, 200,20);
     assert( itsLabelInput != NULL );
 
     JXStaticText* obj1 =
-        new JXStaticText("Label:", window,
+        jnew JXStaticText("Label:", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 65,13, 45,15);
     assert( obj1 != NULL );
 

@@ -66,7 +66,7 @@ XDGetLocalVars::HandleSuccess
 			{
 			id = JGetXMLNodeAttr(node, "id");
 
-			XDGetContextVars* cmd = new XDGetContextVars(itsRootNode, id);
+			XDGetContextVars* cmd = jnew XDGetContextVars(itsRootNode, id);
 			assert( cmd != NULL );
 			cmd->Send();
 			}

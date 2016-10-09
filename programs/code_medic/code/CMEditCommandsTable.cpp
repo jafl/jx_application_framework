@@ -135,7 +135,7 @@ CMEditCommandsTable::TableDrawCell
 	if (w > GetColWidth(1))
 		{
 		itsMinColWidth = w;
-		CMUpdateCommandsTableWidth* task = new CMUpdateCommandsTableWidth(this);
+		CMUpdateCommandsTableWidth* task = jnew CMUpdateCommandsTableWidth(this);
 		assert( task != NULL );
 		task->Go();
 		}
@@ -200,7 +200,7 @@ CMEditCommandsTable::CreateXInputField
 	)
 {
 	itsCmdInput =
-		new JXInputField(this, kFixedLeft, kFixedTop,
+		jnew JXInputField(this, kFixedLeft, kFixedTop,
 			x+kHMarginWidth, y,
 			w - kHMarginWidth, h);
 	assert(itsCmdInput != NULL);

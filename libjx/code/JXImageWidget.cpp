@@ -70,10 +70,10 @@ JXImageWidget::~JXImageWidget()
 {
 	if (itsOwnsImageFlag)
 		{
-		delete itsImage;
+		jdelete itsImage;
 		}
 
-	delete itsAdjustBoundsTask;
+	jdelete itsAdjustBoundsTask;
 }
 
 /******************************************************************************
@@ -99,10 +99,10 @@ JXImageWidget::SetBitmap
 
 	if (itsOwnsImageFlag)
 		{
-		delete itsImage;
+		jdelete itsImage;
 		}
 
-	itsImage = new JXImage(GetDisplay(), bitmap, foreColor, backColor);
+	itsImage = jnew JXImage(GetDisplay(), bitmap, foreColor, backColor);
 	assert( itsImage != NULL );
 
 	itsOwnsImageFlag = kJTrue;
@@ -131,10 +131,10 @@ JXImageWidget::SetXPM
 
 	if (itsOwnsImageFlag)
 		{
-		delete itsImage;
+		jdelete itsImage;
 		}
 
-	itsImage = new JXImage(GetDisplay(), data);
+	itsImage = jnew JXImage(GetDisplay(), data);
 	assert( itsImage != NULL );
 
 	itsOwnsImageFlag = kJTrue;
@@ -166,7 +166,7 @@ JXImageWidget::SetImage
 		{
 		if (itsOwnsImageFlag)
 			{
-			delete itsImage;
+			jdelete itsImage;
 			}
 
 		itsImage = image;
@@ -225,7 +225,7 @@ JXImageWidget::NeedAdjustBounds()
 {
 	if (itsAdjustBoundsTask == NULL)
 		{
-		itsAdjustBoundsTask = new JXAdjustIWBoundsTask(this);
+		itsAdjustBoundsTask = jnew JXAdjustIWBoundsTask(this);
 		assert( itsAdjustBoundsTask != NULL );
 		itsAdjustBoundsTask->Go();
 		}

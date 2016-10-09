@@ -187,7 +187,7 @@ CBLibraryNode::EditSubprojectConfig()
 	CBProjectDocument* doc = GetProjectDoc();
 
 	itsSubprojDialog =
-		new CBSubprojectConfigDialog(doc, itsIncludeInDepListFlag,
+		jnew CBSubprojectConfigDialog(doc, itsIncludeInDepListFlag,
 									 itsProjFileName, itsShouldBuildFlag,
 									 doc->GetRelPathCSF());
 	assert( itsSubprojDialog != NULL );

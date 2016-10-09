@@ -126,16 +126,16 @@ CMBreakpointsDir::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 450,500, "");
+	JXWindow* window = jnew JXWindow(this, 450,500, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 450,30);
 	assert( menuBar != NULL );
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 450,470);
 	assert( scrollbarSet != NULL );
 
@@ -149,7 +149,7 @@ CMBreakpointsDir::BuildWindow
 	CMGetPrefsManager()->GetWindowSize(kBreakpointsWindowSizeID, window);
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = new JXImage(display, medic_breakpoints_window);
+	JXImage* icon      = jnew JXImage(display, medic_breakpoints_window);
 	assert( icon != NULL );
 	window->SetIcon(icon);
 
@@ -164,12 +164,12 @@ CMBreakpointsDir::BuildWindow
 	encl->AdjustSize(400 - tablelayout_Aperture.width(), 300 - tablelayout_Aperture.height());
 
 	itsTable =
-		new CMBreakpointTable(this, scrollbarSet, encl,
+		jnew CMBreakpointTable(this, scrollbarSet, encl,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 400,280);
 	assert( itsTable != NULL );
 
 	itsColHeader =
-		new JXColHeaderWidget(itsTable, scrollbarSet, encl,
+		jnew JXColHeaderWidget(itsTable, scrollbarSet, encl,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,20);
 	assert( itsColHeader != NULL );
 
@@ -194,7 +194,7 @@ CMBreakpointsDir::BuildWindow
 	ListenTo(itsActionMenu);
 
 	JXWDMenu* wdMenu =
-		new JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != NULL );
 	menuBar->AppendMenu(wdMenu);

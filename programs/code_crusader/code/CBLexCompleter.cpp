@@ -35,7 +35,7 @@ CBLexCompleter::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBLexCompleter;
+		itsSelf = jnew CBLexCompleter;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -52,7 +52,7 @@ CBLexCompleter::Instance()
 void
 CBLexCompleter::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

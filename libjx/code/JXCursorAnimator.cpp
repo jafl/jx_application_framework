@@ -50,7 +50,7 @@ JXCursorAnimator::JXCursorAnimator
 
 JXCursorAnimator::~JXCursorAnimator()
 {
-	delete itsFrames;
+	jdelete itsFrames;
 }
 
 /******************************************************************************
@@ -127,7 +127,7 @@ JXCursorAnimator::InitFrames
 	JXDisplay* display
 	)
 {
-	itsFrames = new JArray<JCursorIndex>(kBeachBallFrameCount);
+	itsFrames = jnew JArray<JCursorIndex>(kBeachBallFrameCount);
 	assert( itsFrames != NULL );
 
 	for (JIndex i=0; i<kBeachBallFrameCount; i++)

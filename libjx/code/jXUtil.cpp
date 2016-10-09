@@ -346,7 +346,7 @@ JXUnpackStrings
 
 		if (origData[ prevIndex-1 ] != '\0')
 			{
-			JString* str = new JString(origData + prevIndex-1, i - prevIndex);
+			JString* str = jnew JString(origData + prevIndex-1, i - prevIndex);
 			assert( str != NULL );
 			strList->Append(str);
 			}
@@ -463,11 +463,11 @@ JXReportUnreachableHosts
 		const JString* url = urlList.NthElement(i);
 		if (urlPattern.Match(*url, &matchList))
 			{
-			JString* host = new JString(url->GetSubstring(matchList.GetElement(2)));
+			JString* host = jnew JString(url->GetSubstring(matchList.GetElement(2)));
 			assert( host != NULL );
 			if (!hostList.InsertSorted(host, kJFalse))
 				{
-				delete host;
+				jdelete host;
 				}
 			}
 		}

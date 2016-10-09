@@ -38,16 +38,16 @@ JXExprEditorSet::JXExprEditorSet
 	JXWidgetSet(enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JXMenuBar* menuBar =
-		new JXMenuBar(this, kHElastic, kFixedTop, 0,0, w,kJXDefaultMenuBarHeight);
+		jnew JXMenuBar(this, kHElastic, kFixedTop, 0,0, w,kJXDefaultMenuBarHeight);
 	assert( menuBar != NULL );
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(this, kHElastic, kVElastic,
+		jnew JXScrollbarSet(this, kHElastic, kVElastic,
 						   0,kJXDefaultMenuBarHeight, w,h-kJXDefaultMenuBarHeight);
 	assert( scrollbarSet != NULL );
 
 	*exprWidget =
-		new JXExprEditor(varList, menuBar, scrollbarSet,
+		jnew JXExprEditor(varList, menuBar, scrollbarSet,
 						 scrollbarSet->GetScrollEnclosure(),
 						 kHElastic, kVElastic, 0,0, 10,10);
 	assert( *exprWidget != NULL );
@@ -74,11 +74,11 @@ JXExprEditorSet::JXExprEditorSet
 	assert( menuBar != NULL );
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(this, kHElastic, kVElastic, 0,0, w,h);
+		jnew JXScrollbarSet(this, kHElastic, kVElastic, 0,0, w,h);
 	assert( scrollbarSet != NULL );
 
 	*exprWidget =
-		new JXExprEditor(varList, menuBar, scrollbarSet,
+		jnew JXExprEditor(varList, menuBar, scrollbarSet,
 						 scrollbarSet->GetScrollEnclosure(),
 						 kHElastic, kVElastic, 0,0, 10,10);
 	assert( *exprWidget != NULL );
@@ -103,11 +103,11 @@ JXExprEditorSet::JXExprEditorSet
 	JXWidgetSet(enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(this, kHElastic, kVElastic, 0,0, w,h);
+		jnew JXScrollbarSet(this, kHElastic, kVElastic, 0,0, w,h);
 	assert( scrollbarSet != NULL );
 
 	*exprWidget =
-		new JXExprEditor(varList, menuProvider, scrollbarSet,
+		jnew JXExprEditor(varList, menuProvider, scrollbarSet,
 						 scrollbarSet->GetScrollEnclosure(),
 						 kHElastic, kVElastic, 0,0, 10,10);
 	assert( *exprWidget != NULL );

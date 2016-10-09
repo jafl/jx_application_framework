@@ -74,13 +74,13 @@ JPSPrinterBase::JPSPrinterBase
 	itsDashList    = NULL;
 	itsFile        = NULL;
 
-	itsCreator = new JString;
+	itsCreator = jnew JString;
 	assert( itsCreator != NULL );
 
-	itsTitle = new JString;
+	itsTitle = jnew JString;
 	assert( itsTitle != NULL );
 
-	itsOutputFileName = new JString;
+	itsOutputFileName = jnew JString;
 	assert( itsOutputFileName != NULL );
 
 	ResetBufferedValues();
@@ -95,10 +95,10 @@ JPSPrinterBase::~JPSPrinterBase()
 {
 	assert( !itsDocOpenFlag && itsFile == NULL );
 
-	delete itsCreator;
-	delete itsTitle;
-	delete itsDashList;
-	delete itsOutputFileName;
+	jdelete itsCreator;
+	jdelete itsTitle;
+	jdelete itsDashList;
+	jdelete itsOutputFileName;
 }
 
 /******************************************************************************
@@ -153,12 +153,12 @@ JPSPrinterBase::PSOpenDocument()
 {
 	assert( !itsDocOpenFlag && !itsOutputFileName->IsEmpty() );
 
-	itsFile = new ofstream(*itsOutputFileName);
+	itsFile = jnew ofstream(*itsOutputFileName);
 	assert( itsFile != NULL );
 
 	if (itsFile->fail())
 		{
-		delete itsFile;
+		jdelete itsFile;
 		itsFile = NULL;
 		return kJFalse;
 		}
@@ -219,7 +219,7 @@ JPSPrinterBase::PSCloseDocument()
 
 	*itsFile << "%%EOF\n";
 
-	delete itsFile;
+	jdelete itsFile;
 	itsFile = NULL;
 
 	itsDocOpenFlag = kJFalse;
@@ -236,7 +236,7 @@ JPSPrinterBase::PSCancelDocument()
 {
 	assert( itsDocOpenFlag );
 
-	delete itsFile;
+	jdelete itsFile;
 	itsFile = NULL;
 	const JError err = JRemoveFile(*itsOutputFileName);
 	assert_ok( err );
@@ -308,7 +308,7 @@ JPSPrinterBase::PSSetDashList
 {
 	if (itsDashList == NULL)
 		{
-		itsDashList = new JArray<JSize>(dashList);
+		itsDashList = jnew JArray<JSize>(dashList);
 		assert( itsDashList != NULL );
 		}
 	else
@@ -855,7 +855,7 @@ JPSPrinterBase::ResetBufferedValues()
 	we use the code from page 275 of the PostScript Language Reference
 	Manual, 2nd edition.
 
-	The new font is stored in the key /JPSPrinterBase_CurrFont.
+	The jnew font is stored in the key /JPSPrinterBase_CurrFont.
 
  ******************************************************************************/
 

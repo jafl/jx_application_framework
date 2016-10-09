@@ -65,7 +65,7 @@ JFunction*
 JConstantValue::Copy()
 	const
 {
-	JConstantValue* newFunction = new JConstantValue(*this);
+	JConstantValue* newFunction = jnew JConstantValue(*this);
 	assert( newFunction != NULL );
 	return newFunction;
 }

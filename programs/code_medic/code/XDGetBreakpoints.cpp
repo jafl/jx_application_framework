@@ -92,7 +92,7 @@ XDGetBreakpoints::HandleSuccess
 			const JBoolean enabled = JI2B(state == "enabled");
 
 			CMBreakpoint* bp =
-				new CMBreakpoint(bpIndex, fileName, lineNumber, "", "",
+				jnew CMBreakpoint(bpIndex, fileName, lineNumber, "", "",
 								 enabled, CMBreakpoint::kKeepBreakpoint, "", 0);
 			assert( bp != NULL );
 			bpList.InsertSorted(bp);

@@ -373,7 +373,7 @@ SyGFileTreeTable::SyGFileTreeTable
 	if (SyGGetRecentFileDirectory(&recentDir))
 		{
 		itsRecentFilesMenu =
-			new JXFSDirMenu(recentDir, itsFileMenu, kOpenRecentItemIndex, menuBar);
+			jnew JXFSDirMenu(recentDir, itsFileMenu, kOpenRecentItemIndex, menuBar);
 		assert( itsRecentFilesMenu != NULL );
 		itsRecentFilesMenu->ShouldShowPath(kJTrue);
 		itsRecentFilesMenu->ShouldDereferenceLinks(kJTrue);
@@ -423,77 +423,77 @@ SyGFileTreeTable::SyGFileTreeTable
 	itsGitMenu->SetItemImage(kGitRevertAllCmd, git_revert_all);
 
 	itsGitLocalBranchMenu =
-		new JXTextMenu(itsGitMenu, kGitSwitchBranchItemIndex,
+		jnew JXTextMenu(itsGitMenu, kGitSwitchBranchItemIndex,
 					   itsGitMenu->GetEnclosure());
 	assert( itsGitLocalBranchMenu != NULL );
 	itsGitLocalBranchMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsGitLocalBranchMenu);
 
 	itsGitPullSourceMenu =
-		new JXTextMenu(itsGitMenu, kGitPullItemIndex,
+		jnew JXTextMenu(itsGitMenu, kGitPullItemIndex,
 					   itsGitMenu->GetEnclosure());
 	assert( itsGitPullSourceMenu != NULL );
 	itsGitPullSourceMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsGitPullSourceMenu);
 
 	itsGitPushDestMenu =
-		new JXTextMenu(itsGitMenu, kGitPushItemIndex,
+		jnew JXTextMenu(itsGitMenu, kGitPushItemIndex,
 					   itsGitMenu->GetEnclosure());
 	assert( itsGitPushDestMenu != NULL );
 	itsGitPushDestMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsGitPushDestMenu);
 
 	itsGitMergeBranchMenu =
-		new JXTextMenu(itsGitMenu, kGitMergeFromBranchItemIndex,
+		jnew JXTextMenu(itsGitMenu, kGitMergeFromBranchItemIndex,
 					   itsGitMenu->GetEnclosure());
 	assert( itsGitMergeBranchMenu != NULL );
 	itsGitMergeBranchMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsGitMergeBranchMenu);
 
 	itsGitStashPopMenu =
-		new JXTextMenu(itsGitMenu, kGitStashPopItemIndex,
+		jnew JXTextMenu(itsGitMenu, kGitStashPopItemIndex,
 					   itsGitMenu->GetEnclosure());
 	assert( itsGitStashPopMenu != NULL );
 	itsGitStashPopMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsGitStashPopMenu);
 
 	itsGitStashApplyMenu =
-		new JXTextMenu(itsGitMenu, kGitStashApplyItemIndex,
+		jnew JXTextMenu(itsGitMenu, kGitStashApplyItemIndex,
 					   itsGitMenu->GetEnclosure());
 	assert( itsGitStashApplyMenu != NULL );
 	itsGitStashApplyMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsGitStashApplyMenu);
 
 	itsGitStashDropMenu =
-		new JXTextMenu(itsGitMenu, kGitStashDropItemIndex,
+		jnew JXTextMenu(itsGitMenu, kGitStashDropItemIndex,
 					   itsGitMenu->GetEnclosure());
 	assert( itsGitStashDropMenu != NULL );
 	itsGitStashDropMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsGitStashDropMenu);
 
 	itsGitRemoteBranchMenu =
-		new JXTextMenu(itsGitMenu, kGitFetchBranchItemIndex,
+		jnew JXTextMenu(itsGitMenu, kGitFetchBranchItemIndex,
 					   itsGitMenu->GetEnclosure());
 	assert( itsGitRemoteBranchMenu != NULL );
 	itsGitRemoteBranchMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsGitRemoteBranchMenu);
 
 	itsGitRemoveBranchMenu =
-		new JXTextMenu(itsGitMenu, kGitRemoveBranchItemIndex,
+		jnew JXTextMenu(itsGitMenu, kGitRemoveBranchItemIndex,
 					   itsGitMenu->GetEnclosure());
 	assert( itsGitRemoveBranchMenu != NULL );
 	itsGitRemoveBranchMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsGitRemoveBranchMenu);
 
 	itsGitRemoveRemoteMenu =
-		new JXTextMenu(itsGitMenu, kGitRemoveRemoteItemIndex,
+		jnew JXTextMenu(itsGitMenu, kGitRemoveRemoteItemIndex,
 					   itsGitMenu->GetEnclosure());
 	assert( itsGitRemoveRemoteMenu != NULL );
 	itsGitRemoveRemoteMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsGitRemoveRemoteMenu);
 
 	itsGitPruneRemoteMenu =
-		new JXTextMenu(itsGitMenu, kGitPruneRemoteItemIndex,
+		jnew JXTextMenu(itsGitMenu, kGitPruneRemoteItemIndex,
 					   itsGitMenu->GetEnclosure());
 	assert( itsGitPruneRemoteMenu != NULL );
 	itsGitPruneRemoteMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -510,7 +510,7 @@ SyGFileTreeTable::SyGFileTreeTable
 
 	// updating
 
-	itsUpdateTask = new JXTimerTask(kDirUpdateInterval);
+	itsUpdateTask = jnew JXTimerTask(kDirUpdateInterval);
 	assert( itsUpdateTask != NULL );
 	ListenTo(itsUpdateTask);
 
@@ -551,8 +551,8 @@ SyGFileTreeTable::~SyGFileTreeTable()
 	SyGSetDNDSource(NULL);		// avoid dangling pointers
 	SyGSetDNDTarget(NULL);
 
-	delete itsEditTask;
-	delete itsUpdateTask;
+	jdelete itsEditTask;
+	jdelete itsUpdateTask;
 }
 
 /******************************************************************************
@@ -950,7 +950,7 @@ SyGFileTreeTable::HandleMouseDown
 	itsClearIfNotDNDFlag   = kJFalse;
 	itsWaitingToEditFlag   = kJFalse;
 
-	delete itsEditTask;
+	jdelete itsEditTask;
 	itsEditTask	= NULL;
 
 	JPoint cell;
@@ -1026,7 +1026,7 @@ SyGFileTreeTable::HandleMouseDown
 		{
 		if (itsContextMenu == NULL)
 			{
-			itsContextMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+			itsContextMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
 			assert( itsContextMenu != NULL );
 			itsContextMenu->SetToHiddenPopupMenu(kJTrue);
 			itsContextMenu->SetMenuItems(kContextMenuStr);
@@ -1136,7 +1136,7 @@ SyGFileTreeTable::HandleMouseDrag
 			itsClearIfNotDNDFlag  = kJFalse;
 			itsWaitingToEditFlag  = kJFalse;
 
-			JXFileSelection* data = new JXFileSelection(this, kDNDClassID);
+			JXFileSelection* data = jnew JXFileSelection(this, kDNDClassID);
 			assert(data != NULL);
 
 			ChooseDNDCursors();
@@ -1221,7 +1221,7 @@ SyGFileTreeTable::HandleMouseUp
 			s.SelectCell(itsEditCell);
 
 			assert( itsEditTask == NULL );
-			itsEditTask = new SyGBeginEditingTask(this, itsEditCell);
+			itsEditTask = jnew SyGBeginEditingTask(this, itsEditCell);
 			assert( itsEditTask != NULL );
 			itsEditTask->Start();
 			}
@@ -1344,7 +1344,7 @@ SyGFileTreeTable::DeleteSelected()
 /******************************************************************************
  WarnForDelete (private)
 
-	We check for JDirEntry::kDir because deleting a link doesn't delete
+	We check for JDirEntry::kDir because deleting a link doesn't jdelete
 	the directory's contents.
 
  ******************************************************************************/
@@ -1685,7 +1685,7 @@ SyGFileTreeTable::HandleDNDDrop
 			{
 			if (returnType == selManager->GetURLXAtom())
 				{
-				JPtrArray<JString>* fileNameList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+				JPtrArray<JString>* fileNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 				assert( fileNameList != NULL );
 				JPtrArray<JString> urlList(JPtrArrayT::kDeleteAll);
 				JXUnpackFileNames((char*) data, dataLength, fileNameList, &urlList);
@@ -1708,7 +1708,7 @@ SyGFileTreeTable::HandleDNDDrop
 						MakeLinkToFile(*(fileNameList->NthElement(i)), destNode, kJTrue);
 						}
 
-					delete fileNameList;
+					jdelete fileNameList;
 					}
 				else if (realAction == dndMgr->GetDNDActionMoveXAtom())
 					{
@@ -1804,7 +1804,7 @@ SyGFileTreeTable::GetSelectionData
 		JXFileSelection* fileData = dynamic_cast<JXFileSelection*>(data);
 		assert( fileData != NULL );
 
-		JPtrArray<JString>* fileList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		JPtrArray<JString>* fileList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert( fileList != NULL );
 
 		JTableSelectionIterator iter(&(GetTableSelection()));
@@ -2530,15 +2530,15 @@ SyGFileTreeTable::SetWindowIcon()
 		itsWindowIconType = type;
 
 		JXDisplay* display = GetDisplay();
-/*		JXImage* icon1 = new JXImage(display, plain);
+/*		JXImage* icon1 = jnew JXImage(display, plain);
 		assert(icon1 != NULL);
-		JXImage* icon2 = new JXImage(display, selected);
+		JXImage* icon2 = jnew JXImage(display, selected);
 		assert(icon2 != NULL);
 
 		itsIconWidget = GetWindow()->SetIcon(icon1, icon2);
 		ListenTo(itsIconWidget);
 */
-		JXImage* icon3 = new JXImage(display, plain);
+		JXImage* icon3 = jnew JXImage(display, plain);
 		assert(icon3 != NULL);
 
 		GetWindow()->SetIcon(icon3);
@@ -2925,11 +2925,11 @@ SyGFileTreeTable::OpenSelection
 			}
 		else
 			{
-			JString* s = new JString((node->GetDirEntry())->GetFullName());
+			JString* s = jnew JString((node->GetDirEntry())->GetFullName());
 			assert( s != NULL );
 			if (!fileList.InsertSorted(s, kJFalse))
 				{
-				delete s;
+				jdelete s;
 				}
 			}
 
@@ -2963,7 +2963,7 @@ SyGFileTreeTable::OpenSelection
 			}
 		}
 
-	// not done if display new directory in same window
+	// not done if display jnew directory in same window
 
 	if (iconifyAfter)	// takes precedence because more modifiers than closeAfter
 		{
@@ -3167,7 +3167,7 @@ SyGFileTreeTable::FormatDisk()
 			}
 
 		itsChooseDiskFormatDialog =
-			new JXRadioGroupDialog(JXGetApplication(), kFormatWindowTitle,
+			jnew JXRadioGroupDialog(JXGetApplication(), kFormatWindowTitle,
 								   kFormatPrompt, choiceList, NULL);
 		assert(itsChooseDiskFormatDialog != NULL);
 		itsChooseDiskFormatDialog->BeginDialog();
@@ -3402,7 +3402,7 @@ SyGFileTreeTable::CopySelectedFileNames
 				}
 			}
 
-		JXTextSelection* data = new JXTextSelection(GetDisplay(), list);
+		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
 		assert( data != NULL );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);
@@ -4073,7 +4073,7 @@ SyGFileTreeTable::HandleGitMenu
 		if (getenv("GIT_EDITOR") == NULL)
 			{
 			itsCommitGitBranchDialog =
-				new JXGetStringDialog(GetWindow()->GetDirector(), JGetString("CommitBranchTitle::SyGFileTreeTable"),
+				jnew JXGetStringDialog(GetWindow()->GetDirector(), JGetString("CommitBranchTitle::SyGFileTreeTable"),
 									  JGetString("CommitBranchPrompt::SyGFileTreeTable"));
 			assert( itsCommitGitBranchDialog != NULL );
 			itsCommitGitBranchDialog->Activate();
@@ -4092,7 +4092,7 @@ SyGFileTreeTable::HandleGitMenu
 	else if (index == kGitStashChangesCmd)
 		{
 		itsGitStashDialog =
-			new JXGetStringDialog(GetWindow()->GetDirector(), JGetString("StashTitle::SyGFileTreeTable"),
+			jnew JXGetStringDialog(GetWindow()->GetDirector(), JGetString("StashTitle::SyGFileTreeTable"),
 								  JGetString("StashPrompt::SyGFileTreeTable"));
 		assert( itsGitStashDialog != NULL );
 		itsGitStashDialog->Activate();
@@ -4102,7 +4102,7 @@ SyGFileTreeTable::HandleGitMenu
 	else if (index == kGitCreateBranchCmd)
 		{
 		itsCreateGitBranchDialog =
-			new JXGetStringDialog(GetWindow()->GetDirector(), JGetString("CreateBranchTitle::SyGFileTreeTable"),
+			jnew JXGetStringDialog(GetWindow()->GetDirector(), JGetString("CreateBranchTitle::SyGFileTreeTable"),
 								  JGetString("CreateBranchPrompt::SyGFileTreeTable"));
 		assert( itsCreateGitBranchDialog != NULL );
 		itsCreateGitBranchDialog->Activate();
@@ -4112,7 +4112,7 @@ SyGFileTreeTable::HandleGitMenu
 	else if (index == kGitAddRemoteCmd)
 		{
 		itsAddGitRemoteDialog =
-			new SyGNewGitRemoteDialog(GetWindow()->GetDirector());
+			jnew SyGNewGitRemoteDialog(GetWindow()->GetDirector());
 		assert( itsAddGitRemoteDialog != NULL );
 		itsAddGitRemoteDialog->Activate();
 		ListenTo(itsAddGitRemoteDialog);
@@ -4141,7 +4141,7 @@ SyGFileTreeTable::CreateGitBranch
 			{
 			JExecute(itsFileTree->GetDirectory(), (SyGGetApplication())->GetPostCheckoutCommand(), NULL);
 			}
-		delete p;
+		jdelete p;
 		}
 	else
 		{
@@ -4206,7 +4206,7 @@ SyGFileTreeTable::RevertGitBranch()
 			{
 			JExecute(itsFileTree->GetDirectory(), (SyGGetApplication())->GetPostCheckoutCommand(), NULL);
 			}
-		delete p;
+		jdelete p;
 		}
 	else
 		{
@@ -4266,11 +4266,11 @@ SyGFileTreeTable::GetGitBranches
 		JIndex i;
 		if (repoList != NULL && line.LocateSubstring("/", &i) && i > 1)
 			{
-			repo = new JString(line.GetSubstring(1, i-1));
+			repo = jnew JString(line.GetSubstring(1, i-1));
 			assert( repo != NULL );
 			if (!repoList->InsertSorted(repo, kJFalse))
 				{
-				delete repo;
+				jdelete repo;
 				}
 			}
 		}
@@ -4411,7 +4411,7 @@ SyGFileTreeTable::FetchRemoteGitBranch1
 	itsFetchGitBranch = branch;
 
 	itsFetchGitBranchDialog =
-		new JXGetStringDialog(GetWindow()->GetDirector(), JGetString("FetchBranchTitle::SyGFileTreeTable"),
+		jnew JXGetStringDialog(GetWindow()->GetDirector(), JGetString("FetchBranchTitle::SyGFileTreeTable"),
 							  JGetString("FetchBranchPrompt::SyGFileTreeTable"), name);
 	assert( itsFetchGitBranchDialog != NULL );
 	itsFetchGitBranchDialog->Activate();
@@ -4885,7 +4885,7 @@ SyGFileTreeTable::CreateTreeListInput
 	s.ClearSelection();
 	s.SelectCell(cell);
 
-	JXInputField* obj = new JXSaveFileInput(enclosure, hSizing, vSizing, x,y, w,h);
+	JXInputField* obj = jnew JXSaveFileInput(enclosure, hSizing, vSizing, x,y, w,h);
 	assert( obj != NULL );
 	return obj;
 }

@@ -113,7 +113,7 @@ GDBGetStackArguments::HandleSuccess
 				value->RemoveSubstring(refRange.last, value->GetLength());
 				}
 
-			CMStackArgNode* argNode = new CMStackArgNode(frameNode, *name, *value);
+			CMStackArgNode* argNode = jnew CMStackArgNode(frameNode, *name, *value);
 			assert( argNode != NULL );
 			}
 		}

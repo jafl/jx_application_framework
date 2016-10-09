@@ -36,10 +36,10 @@ CMLineAddressTable::CMLineAddressTable
 	:
 	CMLineIndexTable(CompareBreakpointAddresses, dir, text, scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h)
 {
-	itsVisualBPIndexList = new JArray<JIndex>;
+	itsVisualBPIndexList = jnew JArray<JIndex>;
 	assert( itsVisualBPIndexList != NULL );
 
-	itsLineTextList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsLineTextList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsLineTextList != NULL );
 	itsLineTextList->SetCompareFunction(JCompareStringsCaseInsensitive);
 	itsLineTextList->SetSortOrder(JOrderedSetT::kSortAscending);
@@ -52,8 +52,8 @@ CMLineAddressTable::CMLineAddressTable
 
 CMLineAddressTable::~CMLineAddressTable()
 {
-	delete itsVisualBPIndexList;
-	delete itsLineTextList;
+	jdelete itsVisualBPIndexList;
+	jdelete itsLineTextList;
 }
 
 /******************************************************************************

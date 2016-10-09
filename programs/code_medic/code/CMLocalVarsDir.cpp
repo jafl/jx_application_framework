@@ -128,7 +128,7 @@ CMLocalVarsDir::~CMLocalVarsDir()
 {
 	CMGetPrefsManager()->SaveWindowSize(kLocalVarWindSizeID, GetWindow());
 
-	delete itsGetLocalsCmd;
+	jdelete itsGetLocalsCmd;
 }
 
 /******************************************************************************
@@ -163,16 +163,16 @@ CMLocalVarsDir::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 450,500, "");
+	JXWindow* window = jnew JXWindow(this, 450,500, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 450,30);
 	assert( menuBar != NULL );
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 450,470);
 	assert( scrollbarSet != NULL );
 
@@ -186,19 +186,19 @@ CMLocalVarsDir::BuildWindow()
 	CMGetPrefsManager()->GetWindowSize(kLocalVarWindSizeID, window);
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = new JXImage(display, medic_local_variables_window);
+	JXImage* icon      = jnew JXImage(display, medic_local_variables_window);
 	assert( icon != NULL );
 	window->SetIcon(icon);
 
 	CMVarNode* root = itsLink->CreateVarNode(kJFalse);
 	assert( root != NULL );
-	itsTree = new JTree(root);
+	itsTree = jnew JTree(root);
 	assert( itsTree != NULL );
-	JNamedTreeList* treeList = new JNamedTreeList(itsTree);
+	JNamedTreeList* treeList = jnew JNamedTreeList(itsTree);
 	assert( treeList != NULL );
 
 	itsWidget =
-		new CMVarTreeWidget(itsCommandDir, kJFalse, menuBar, itsTree, treeList,
+		jnew CMVarTreeWidget(itsCommandDir, kJFalse, menuBar, itsTree, treeList,
 							scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert(itsWidget != NULL);
@@ -226,7 +226,7 @@ CMLocalVarsDir::BuildWindow()
 	itsActionMenu->SetItemImage(kExamineMemCmd,     medic_show_memory);
 
 	JXWDMenu* wdMenu =
-		new JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != NULL );
 	menuBar->AppendMenu(wdMenu);
@@ -400,7 +400,7 @@ CMLocalVarsDir::ReceiveGoingAway
 		assert( root != NULL );
 		itsTree->SetRoot(root);
 
-		delete itsGetLocalsCmd;
+		jdelete itsGetLocalsCmd;
 		itsGetLocalsCmd = itsLink->CreateGetLocalVars(root);
 
 		itsNeedsUpdateFlag = kJFalse;

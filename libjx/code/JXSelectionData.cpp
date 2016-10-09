@@ -55,7 +55,7 @@ JXSelectionData::JXSelectionData
 
 	ListenTo(itsDataSource);	// need to know if it is deleted
 
-	itsDataSourceID = new JString(id);
+	itsDataSourceID = jnew JString(id);
 	assert( itsDataSourceID != NULL );
 }
 
@@ -68,7 +68,7 @@ JXSelectionData::JXSelectionDataX()
 	itsStartTime     = CurrentTime;
 	itsEndTime       = CurrentTime;
 
-	itsTypeList = new JArray<Atom>;
+	itsTypeList = jnew JArray<Atom>;
 	assert( itsTypeList != NULL );
 	itsTypeList->SetCompareFunction(CompareAtoms);
 
@@ -82,8 +82,8 @@ JXSelectionData::JXSelectionDataX()
 
 JXSelectionData::~JXSelectionData()
 {
-	delete itsTypeList;
-	delete itsDataSourceID;
+	jdelete itsTypeList;
+	jdelete itsDataSourceID;
 }
 
 /******************************************************************************
@@ -209,7 +209,7 @@ JXSelectionData::Resolve()
 
 		itsDataSource->GetSelectionData(me, *itsDataSourceID);
 
-		delete me->itsDataSourceID;
+		jdelete me->itsDataSourceID;
 		me->itsDataSource   = NULL;
 		me->itsDataSourceID = NULL;
 		}
@@ -221,7 +221,7 @@ JXSelectionData::Resolve()
 	Handles certain types and passes everything else off to ConvertData().
 
 	When adding special types to this function, remember to update
-	SetSelectionInfo() to add the new types.
+	SetSelectionInfo() to add the jnew types.
 
  ******************************************************************************/
 
@@ -249,7 +249,7 @@ JXSelectionData::Convert
 		*bitsPerBlock = 32;	// sizeof(Atom)*8; -- fails on 64-bit systems
 		*dataLength   = sizeof(Atom)*atomCount;
 
-		*data = new unsigned char [ *dataLength ];
+		*data = jnew unsigned char [ *dataLength ];
 		if (*data == NULL)
 			{
 			return kJFalse;
@@ -272,7 +272,7 @@ JXSelectionData::Convert
 		*bitsPerBlock = 32;	// sizeof(Time)*8; -- fails on 64-bit systems
 		*dataLength   = sizeof(Time);
 
-		*data = new unsigned char [ *dataLength ];
+		*data = jnew unsigned char [ *dataLength ];
 		if (*data == NULL)
 			{
 			return kJFalse;
@@ -309,7 +309,7 @@ JXSelectionData::Convert
 	*returnType must be actual data type.  For example, when "TEXT" is
 	requested, one often returns XA_STRING.
 
-	*data must be allocated with "new unsigned char[]" and will be deleted
+	*data must be allocated with "jnew unsigned char[]" and will be deleted
 	by the caller.  *dataLength must be set to the length of *data.
 
 	*bitsPerBlock must be set to the number of bits per element of data.
@@ -336,7 +336,7 @@ JXSelectionData::ReceiveGoingAway
 {
 	if (sender == itsDataSource)
 		{
-		delete itsDataSourceID;
+		jdelete itsDataSourceID;
 		itsDataSource   = NULL;
 		itsDataSourceID = NULL;
 		}

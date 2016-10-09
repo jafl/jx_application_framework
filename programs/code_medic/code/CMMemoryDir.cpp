@@ -230,43 +230,43 @@ CMMemoryDir::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 500,500, "");
+	JXWindow* window = jnew JXWindow(this, 500,500, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
 	assert( menuBar != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::CMMemoryDir::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::CMMemoryDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 80,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	itsExprInput =
-		new CMArrayExprInput(window,
+		jnew CMArrayExprInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 100,40, 380,20);
 	assert( itsExprInput != NULL );
 
 	itsDisplayTypeMenu =
-		new JXTextMenu(JGetString("itsDisplayTypeMenu::CMMemoryDir::JXLayout"), window,
+		jnew JXTextMenu(JGetString("itsDisplayTypeMenu::CMMemoryDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 400,25);
 	assert( itsDisplayTypeMenu != NULL );
 
 	JXStaticText* obj2_JXLayout =
-		new JXStaticText(JGetString("obj2_JXLayout::CMMemoryDir::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj2_JXLayout::CMMemoryDir::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,105, 80,20);
 	assert( obj2_JXLayout != NULL );
 	obj2_JXLayout->SetToLabel();
 
 	itsItemCountInput =
-		new CMArrayIndexInput(window,
+		jnew CMArrayIndexInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,105, 60,20);
 	assert( itsItemCountInput != NULL );
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,135, 500,370);
 	assert( scrollbarSet != NULL );
 
@@ -279,14 +279,14 @@ CMMemoryDir::BuildWindow()
 	UpdateWindowTitle();
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = new JXImage(display, medic_memory_window);
+	JXImage* icon      = jnew JXImage(display, medic_memory_window);
 	assert( icon != NULL );
 	window->SetIcon(icon);
 
 	CMGetPrefsManager()->GetWindowSize(kMemoryWindSizeID, window, kJTrue);
 
 	itsWidget =
-		new JXStaticText("", kJFalse, kJTrue,
+		jnew JXStaticText("", kJFalse, kJTrue,
 						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert(itsWidget != NULL);
@@ -329,7 +329,7 @@ CMMemoryDir::BuildWindow()
 	ListenTo(itsActionMenu);
 
 	JXWDMenu* wdMenu =
-		new JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != NULL );
 	menuBar->AppendMenu(wdMenu);

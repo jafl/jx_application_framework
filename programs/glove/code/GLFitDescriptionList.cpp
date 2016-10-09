@@ -70,7 +70,7 @@ GLFitDescriptionList::GLFitDescriptionList
 
 	const JSize count = GetFitManager()->GetFitCount();
 
-	itsNameList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert(itsNameList != NULL);
 
 	AppendCols(1);
@@ -80,19 +80,19 @@ GLFitDescriptionList::GLFitDescriptionList
 	SetRowBorderInfo(0, colormap->GetBlackColor());
 	SetColBorderInfo(0, colormap->GetBlackColor());
 
-	itsBuiltInIcon	= new JXImage(GetDisplay(), JXPM(glBuiltInFit));
+	itsBuiltInIcon	= jnew JXImage(GetDisplay(), JXPM(glBuiltInFit));
 	assert(itsBuiltInIcon != NULL);
 	itsBuiltInIcon->ConvertToRemoteStorage();
 
-	itsNonLinearIcon	= new JXImage(GetDisplay(), JXPM(glNonLinearFit));
+	itsNonLinearIcon	= jnew JXImage(GetDisplay(), JXPM(glNonLinearFit));
 	assert(itsNonLinearIcon != NULL);
 	itsNonLinearIcon->ConvertToRemoteStorage();
 
-	itsPolyIcon	= new JXImage(GetDisplay(), JXPM(glPolyFit));
+	itsPolyIcon	= jnew JXImage(GetDisplay(), JXPM(glPolyFit));
 	assert(itsPolyIcon != NULL);
 	itsPolyIcon->ConvertToRemoteStorage();
 
-	itsExecutableIcon = new JXImage(GetDisplay(), JXPM(jx_executable_small));
+	itsExecutableIcon = jnew JXImage(GetDisplay(), JXPM(jx_executable_small));
 	assert( itsExecutableIcon != NULL );
 	itsExecutableIcon->ConvertToRemoteStorage();
 
@@ -107,11 +107,11 @@ GLFitDescriptionList::GLFitDescriptionList
 GLFitDescriptionList::~GLFitDescriptionList()
 {
 	itsNameList->DeleteAll();
-	delete itsNameList;		// we don't own the strings
-	delete itsBuiltInIcon;
-	delete itsNonLinearIcon;
-	delete itsPolyIcon;
-	delete itsExecutableIcon;
+	jdelete itsNameList;		// we don't own the strings
+	jdelete itsBuiltInIcon;
+	jdelete itsNonLinearIcon;
+	jdelete itsPolyIcon;
+	jdelete itsExecutableIcon;
 }
 
 /******************************************************************************
@@ -239,7 +239,7 @@ GLFitDescriptionList::CreateXInputField
 	Broadcast(FitSelected(cell.y));
 
 	assert(itsInput == NULL);
-	itsInput = new JXInputField(this, kFixedLeft, kFixedTop, x, y, w, h);
+	itsInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x, y, w, h);
 	assert(itsInput != NULL);
 
 	itsInput->SetText(*(itsNameList->NthElement(cell.y)));
@@ -379,7 +379,7 @@ GLFitDescriptionList::SyncWithManager()
 	for (JIndex i=1; i<=count; i++)
 		{
 		const GLFitDescription& fd	= GetFitManager()->GetFitDescription(i);
-		JString* str	= new JString(fd.GetFnName());
+		JString* str	= jnew JString(fd.GetFnName());
 		assert(str != NULL);
 		itsNameList->Append(str);
 

@@ -105,22 +105,22 @@ JXTabGroup::JXTabGroup
 	itsMouseIndex(0),
 	itsClosePushedFlag(kJFalse)
 {
-	itsTitles = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsTitles = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsTitles != NULL );
 
-	itsTabInfoList = new JArray<TabInfo>;
+	itsTabInfoList = jnew JArray<TabInfo>;
 	assert( itsTabInfoList != NULL );
 
-	itsCloseImage = new JXImage(GetDisplay(), jx_tab_close);
+	itsCloseImage = jnew JXImage(GetDisplay(), jx_tab_close);
 	assert( itsCloseImage != NULL );
 
-	itsClosePushedImage = new JXImage(GetDisplay(), jx_tab_close_pushed);
+	itsClosePushedImage = jnew JXImage(GetDisplay(), jx_tab_close_pushed);
 	assert( itsClosePushedImage != NULL );
 
-	itsTabRects = new JArray<JRect>;
+	itsTabRects = jnew JArray<JRect>;
 	assert( itsTabRects != NULL );
 
-	itsCardFile = new JXCardFile(this, kHElastic, kVElastic, 0,0, 100,100);
+	itsCardFile = jnew JXCardFile(this, kHElastic, kVElastic, 0,0, 100,100);
 	assert( itsCardFile != NULL );
 	PlaceCardFile();
 }
@@ -132,12 +132,12 @@ JXTabGroup::JXTabGroup
 
 JXTabGroup::~JXTabGroup()
 {
-	delete itsTitles;
-	delete itsTabInfoList;
-	delete itsTabRects;
+	jdelete itsTitles;
+	jdelete itsTabInfoList;
+	jdelete itsTabRects;
 
-	delete itsCloseImage;
-	delete itsClosePushedImage;
+	jdelete itsCloseImage;
+	jdelete itsClosePushedImage;
 }
 
 /******************************************************************************
@@ -344,7 +344,7 @@ JXTabGroup::ScrollTabsIntoView()
 /******************************************************************************
  InsertTab
 
-	The first version creates a new card, inserts it at the specified index,
+	The first version creates a jnew card, inserts it at the specified index,
 	and returns it.
 
 	The second version lets you provide the card, so that you can use
@@ -416,7 +416,7 @@ JXTabGroup::RemoveTab
 
 	if (itsCanScrollUpFlag && !itsCanScrollDownFlag)
 		{
-		JXScrollTabsTask* task = new JXScrollTabsTask(this);
+		JXScrollTabsTask* task = jnew JXScrollTabsTask(this);
 		assert( task != NULL );
 		task->Go();
 		}
@@ -1302,7 +1302,7 @@ JXTabGroup::BoundsResized
 	if (((itsEdge == kTop || itsEdge == kBottom) && dw > 0) ||
 		((itsEdge == kLeft || itsEdge == kRight) && dh > 0))
 		{
-		JXScrollTabsTask* task = new JXScrollTabsTask(this);
+		JXScrollTabsTask* task = jnew JXScrollTabsTask(this);
 		assert( task != NULL );
 		task->Go();
 		}
@@ -1720,7 +1720,7 @@ JXTabGroup::CreateContextMenu()
 {
 	if (itsContextMenu == NULL)
 		{
-		itsContextMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsContextMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsContextMenu != NULL );
 		itsContextMenu->SetMenuItems(kContextMenuStr, "JXTabGroup");
 		itsContextMenu->SetUpdateAction(JXMenu::kDisableNone);

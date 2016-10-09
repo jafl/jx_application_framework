@@ -34,7 +34,7 @@ main(int argc, char **argv)
     LIBXML_TEST_VERSION;
 
     /* 
-     * Creates a new document, a node and set it as a root node
+     * Creates a jnew document, a node and set it as a root node
      */
     doc = xmlNewDoc(BAD_CAST "1.0");
     root_node = xmlNewNode(NULL, BAD_CAST "root");
@@ -46,13 +46,13 @@ main(int argc, char **argv)
     dtd = xmlCreateIntSubset(doc, BAD_CAST "root", NULL, BAD_CAST "tree2.dtd");
 
     /* 
-     * xmlNewChild() creates a new node, which is "attached" as child node
+     * xmlNewChild() creates a jnew node, which is "attached" as child node
      * of root_node node. 
      */
     xmlNewChild(root_node, NULL, BAD_CAST "node1",
                 BAD_CAST "content of node 1");
     /* 
-     * The same as above, but the new child node doesn't have a content 
+     * The same as above, but the jnew child node doesn't have a content 
      */
     xmlNewChild(root_node, NULL, BAD_CAST "node2", NULL);
 

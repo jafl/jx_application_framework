@@ -64,24 +64,24 @@ TrashName::SyGTreeSet	"Trash"
 # SyGFileTreeTable
 
 WarnDeleteSingleFile::SyGFileTreeTable
-"Are you sure you want to permanently delete \"$name\"?"
+"Are you sure you want to permanently jdelete \"$name\"?"
 
 WarnDeleteSingleDir::SyGFileTreeTable
-"Are you sure you want to permanently delete \"$name\" and its contents?"
+"Are you sure you want to permanently jdelete \"$name\" and its contents?"
 
 WarnDeleteMultipleFile::SyGFileTreeTable
-"Are you sure you want to permanently delete these $count selected items?"
+"Are you sure you want to permanently jdelete these $count selected items?"
 
 WarnDeleteMultipleDir::SyGFileTreeTable
-"Are you sure you want to permanently delete these $count selected items and their contents?"
+"Are you sure you want to permanently jdelete these $count selected items and their contents?"
 
 CreateFolderError::SyGFileTreeTable
-"A new folder could not created because:
+"A jnew folder could not created because:
 
 $err"
 
 CreateTextFileError::SyGFileTreeTable
-"A new text file could not be created.  Please check that you have write access to the folder and that the disk is not full."
+"A jnew text file could not be created.  Please check that you have write access to the folder and that the disk is not full."
 
 CreateAliasError::SyGFileTreeTable
 "An alias could not created because:
@@ -101,7 +101,7 @@ $err"
 CurrentGitBranch::SyGFileTreeTable		"Branch: $name"
 NoBranchInfo::SyGFileTreeTable			"No branch information"
 CreateBranchTitle::SyGFileTreeTable		"Create Branch"
-CreateBranchPrompt::SyGFileTreeTable	"Name of new branch:"
+CreateBranchPrompt::SyGFileTreeTable	"Name of jnew branch:"
 FetchBranchTitle::SyGFileTreeTable		"Fetch Remote Branch"
 FetchBranchPrompt::SyGFileTreeTable		"Local name of branch:"
 CommitBranchTitle::SyGFileTreeTable		"Commit Branch"
@@ -185,8 +185,8 @@ Usage:  systemg [--choose | --open | --run | (path|file) [...]]
 --choose        opens Choose Directory dialog
 --open          opens Choose Files dialog
 --run           opens Run Command dialog
---force-new     all following paths will open in new windows
---no-force-new  all following paths will open in existing windows, if possible"
+--force-jnew     all following paths will open in jnew windows
+--no-force-jnew  all following paths will open in existing windows, if possible"
 
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890
 

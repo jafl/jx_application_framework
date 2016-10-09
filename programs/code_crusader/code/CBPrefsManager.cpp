@@ -94,7 +94,7 @@ CBPrefsManager::~CBPrefsManager()
 		(itsFileTypeList->GetElement(i)).Free();
 		}
 
-	delete itsFileTypeList;
+	jdelete itsFileTypeList;
 
 	count = itsMacroList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
@@ -102,7 +102,7 @@ CBPrefsManager::~CBPrefsManager()
 		(itsMacroList->GetElement(i)).Free();
 		}
 
-	delete itsMacroList;
+	jdelete itsMacroList;
 
 	count = itsCRMList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
@@ -110,7 +110,7 @@ CBPrefsManager::~CBPrefsManager()
 		(itsCRMList->GetElement(i)).Free();
 		}
 
-	delete itsCRMList;
+	jdelete itsCRMList;
 }
 
 /******************************************************************************
@@ -206,7 +206,7 @@ CBPrefsManager::EditFileTypes()
 	assert( itsFileTypesDialog == NULL );
 
 	itsFileTypesDialog =
-		new CBEditFileTypesDialog(CBGetApplication(), *itsFileTypeList,
+		jnew CBEditFileTypesDialog(CBGetApplication(), *itsFileTypeList,
 								  *itsMacroList, *itsCRMList,
 								  itsExecOutputWordWrapFlag,
 								  itsUnknownTypeWordWrapFlag);
@@ -231,7 +231,7 @@ JIndex i;
 	JPtrArray< JPtrArray<JString> > origSuffixList(JPtrArrayT::kDeleteAll);
 	for (i=0; i<kCBFTCount; i++)
 		{
-		JPtrArray<JString>* list = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		JPtrArray<JString>* list = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert( list != NULL );
 		origSuffixList.Append(list);
 
@@ -364,7 +364,7 @@ JIndex i;
 			}
 		}
 
-	// install new suffixes
+	// install jnew suffixes
 
 	const JIndex macroID = CBPrefsManager::FindMacroName(macroName, macroList, kJTrue);
 
@@ -377,10 +377,10 @@ JIndex i;
 		{
 		if (!newInfo[i].found)
 			{
-			JString* suffix = new JString(newInfo[i].suffix);
+			JString* suffix = jnew JString(newInfo[i].suffix);
 			assert( suffix != NULL );
 
-			JString* complSuffix = new JString;
+			JString* complSuffix = jnew JString;
 			assert( complSuffix != NULL );
 
 			fileTypeList->InsertSorted(
@@ -431,13 +431,13 @@ JIndex i;
 		{
 		if (!newInfo[i].found)
 			{
-			JString* suffix = new JString(newInfo[i].suffix);
+			JString* suffix = jnew JString(newInfo[i].suffix);
 			assert( suffix != NULL );
 
-			JString* complSuffix = new JString;
+			JString* complSuffix = jnew JString;
 			assert( complSuffix != NULL );
 
-			JString* editCmd = new JString(newInfo[i].cmd);
+			JString* editCmd = jnew JString(newInfo[i].cmd);
 			assert( editCmd != NULL );
 
 			CBPrefsManager::FileTypeInfo info(
@@ -1283,7 +1283,7 @@ std::string data;
 
 	for (i=0; i<kOrigMacroCount; i++)
 		{
-		CBCharActionManager* actionMgr = new CBCharActionManager;
+		CBCharActionManager* actionMgr = jnew CBCharActionManager;
 		assert( actionMgr != NULL );
 		if (GetData(50000 + kCBOrigMacroID[i], &data))
 			{
@@ -1292,7 +1292,7 @@ std::string data;
 			actionMgr->ReadSetup(dataStream);
 			}
 
-		CBMacroManager* macroMgr = new CBMacroManager;
+		CBMacroManager* macroMgr = jnew CBMacroManager;
 		assert( macroMgr != NULL );
 		if (GetData(40000 + kCBOrigMacroID[i], &data))
 			{
@@ -1322,7 +1322,7 @@ std::string data;
 			AddDefaultJavaMacros(macroMgr);
 			}
 
-		JString* name = new JString(kOrigMacroName[i]);
+		JString* name = jnew JString(kOrigMacroName[i]);
 		assert( name != NULL );
 
 		itsMacroList->AppendElement(
@@ -1347,7 +1347,7 @@ std::string data;
 		const JSize count = suffixList.GetElementCount();
 		for (JIndex j=1; j<=count; j++)
 			{
-			JString* complSuffix = new JString;
+			JString* complSuffix = jnew JString;
 			assert( complSuffix != NULL );
 			InitComplementSuffix(*(suffixList.NthElement(j)), complSuffix);
 
@@ -1581,7 +1581,7 @@ CBPrefsManager::InitComplementSuffix
 /******************************************************************************
  FindMacroName (static private)
 
-	Returns the id of the macro set with the given name.  Can create a new
+	Returns the id of the macro set with the given name.  Can create a jnew
 	one if the name doesn't exist.
 
  ******************************************************************************/
@@ -1619,17 +1619,17 @@ CBPrefsManager::FindMacroName
 		return kCBEmptyMacroID;
 		}
 
-	// create a new macro set
+	// create a jnew macro set
 
 	const JIndex macroID = maxID+1;
 
-	JString* name = new JString(macroName);
+	JString* name = jnew JString(macroName);
 	assert( name != NULL );
 
-	CBCharActionManager* actionMgr = new CBCharActionManager;
+	CBCharActionManager* actionMgr = jnew CBCharActionManager;
 	assert( actionMgr != NULL );
 
-	CBMacroManager* macroMgr = new CBMacroManager;
+	CBMacroManager* macroMgr = jnew CBMacroManager;
 	assert( macroMgr != NULL );
 
 	macroList->InsertSorted(
@@ -1709,9 +1709,9 @@ CBPrefsManager::ConvertHTMLSuffixesToFileTypes
 			const JCharacter* cmd = "eog $f";
 			#endif
 
-			FileTypeInfo info(new JString(suffix), NULL, NULL, kCBExternalFT,
+			FileTypeInfo info(jnew JString(suffix), NULL, NULL, kCBExternalFT,
 							  kCBEmptyMacroID, kCBEmptyCRMRuleListID,
-							  kJTrue, NULL, kJTrue, new JString, new JString(cmd));
+							  kJTrue, NULL, kJTrue, jnew JString, jnew JString(cmd));
 			assert( info.suffix != NULL && info.complSuffix != NULL && info.editCmd != NULL );
 			itsFileTypeList->InsertSorted(info);
 			}
@@ -1726,7 +1726,7 @@ CBPrefsManager::ConvertHTMLSuffixesToFileTypes
 JArray<CBPrefsManager::FileTypeInfo>*
 CBPrefsManager::CreateFileTypeList()
 {
-	JArray<FileTypeInfo>* list = new JArray<FileTypeInfo>;
+	JArray<FileTypeInfo>* list = jnew JArray<FileTypeInfo>;
 	assert( list != NULL );
 	list->SetSortOrder(JOrderedSetT::kSortAscending);
 	list->SetCompareFunction(CompareFileTypeSpecAndLength);
@@ -1760,10 +1760,10 @@ CBPrefsManager::ReadFileTypeInfo
 		{
 		FileTypeInfo info;
 
-		info.suffix = new JString;
+		info.suffix = jnew JString;
 		assert( info.suffix != NULL );
 
-		info.complSuffix = new JString;
+		info.complSuffix = jnew JString;
 		assert( info.complSuffix != NULL );
 
 		listStream >> *(info.suffix) >> info.type;
@@ -1785,7 +1785,7 @@ CBPrefsManager::ReadFileTypeInfo
 			listStream >> hasEditCmd;
 			if (hasEditCmd)
 				{
-				info.editCmd = new JString;
+				info.editCmd = jnew JString;
 				assert( info.editCmd != NULL );
 				listStream >> *(info.editCmd);
 				}
@@ -1797,7 +1797,7 @@ CBPrefsManager::ReadFileTypeInfo
 			listStream >> hasScriptPath;
 			if (hasScriptPath)
 				{
-				info.scriptPath = new JString;
+				info.scriptPath = jnew JString;
 				assert( info.scriptPath != NULL );
 				listStream >> *(info.scriptPath);
 				}
@@ -1871,15 +1871,15 @@ CBPrefsManager::WriteFileTypeInfo()
 void
 CBPrefsManager::FileTypeInfo::CreateRegex()
 {
-	delete nameRegex;
+	jdelete nameRegex;
 	nameRegex = NULL;
 
-	delete contentRegex;
+	jdelete contentRegex;
 	contentRegex = NULL;
 
 	if (suffix->GetFirstCharacter() == kCBContentRegexMarker)
 		{
-		contentRegex = new JRegex(*suffix);
+		contentRegex = jnew JRegex(*suffix);
 		assert( contentRegex != NULL );
 		contentRegex->SetSingleLine(kJTrue);
 		}
@@ -1889,7 +1889,7 @@ CBPrefsManager::FileTypeInfo::CreateRegex()
 		const JBoolean ok = JDirInfo::BuildRegexFromWildcardFilter(*suffix, &s);
 		assert( ok );
 
-		nameRegex = new JRegex(s);
+		nameRegex = jnew JRegex(s);
 		assert( nameRegex != NULL );
 		}
 }
@@ -1914,22 +1914,22 @@ CBPrefsManager::FileTypeInfo::IsPlainSuffix()
 void
 CBPrefsManager::FileTypeInfo::Free()
 {
-	delete suffix;
+	jdelete suffix;
 	suffix = NULL;
 
-	delete nameRegex;
+	jdelete nameRegex;
 	nameRegex = NULL;
 
-	delete contentRegex;
+	jdelete contentRegex;
 	contentRegex = NULL;
 
-	delete scriptPath;
+	jdelete scriptPath;
 	scriptPath = NULL;
 
-	delete complSuffix;
+	jdelete complSuffix;
 	complSuffix = NULL;
 
-	delete editCmd;
+	jdelete editCmd;
 	editCmd = NULL;
 }
 
@@ -2025,12 +2025,12 @@ CBPrefsManager::CompareFileTypeSpecAndLength
 #define DialogClass   CBEditMacroDialog
 #define DialogVar     itsMacroDialog
 #define ExtractDataFn GetMacroList
-#define CopyConstr    new CBCharActionManager(*(origInfo.action)), \
-					  new CBMacroManager(*(origInfo.macro))
+#define CopyConstr    jnew CBCharActionManager(*(origInfo.action)), \
+					  jnew CBMacroManager(*(origInfo.macro))
 #define PtrCheck      newInfo.action != NULL && \
 					  newInfo.macro  != NULL
-#define Destr         delete info.action; \
-					  delete info.macro
+#define Destr         jdelete info.action; \
+					  jdelete info.macro
 #include "CBPrefsManagerData.th"
 #undef DataType
 #undef ListVar
@@ -2064,11 +2064,11 @@ CBPrefsManager::MacroSetInfo::CreateAndRead
 	const JFileVersion	vers
 	)
 {
-	action = new CBCharActionManager;
+	action = jnew CBCharActionManager;
 	assert( action != NULL );
 	action->ReadSetup(input);
 
-	macro = new CBMacroManager;
+	macro = jnew CBMacroManager;
 	assert( macro != NULL );
 	macro->ReadSetup(input);
 }
@@ -2097,9 +2097,9 @@ CBPrefsManager::MacroSetInfo::Write
 void
 CBPrefsManager::MacroSetInfo::Free()
 {
-	delete name;
-	delete action;
-	delete macro;
+	jdelete name;
+	jdelete action;
+	jdelete macro;
 }
 
 /******************************************************************************
@@ -2307,10 +2307,10 @@ JIndex i;
 
 	for (i=0; i<kInitCRMCount; i++)
 		{
-		JString* name = new JString(kInitCRM[i].name);
+		JString* name = jnew JString(kInitCRM[i].name);
 		assert( name != NULL );
 
-		JTextEditor::CRMRuleList* ruleList = new JTextEditor::CRMRuleList;
+		JTextEditor::CRMRuleList* ruleList = jnew JTextEditor::CRMRuleList;
 		assert( ruleList != NULL );
 
 		for (JIndex j=0; j<kInitCRM[i].count; j++)
@@ -2346,10 +2346,10 @@ JIndex i;
 
 	for (i=0; i<kFTRegexCount; i++)
 		{
-		JString* suffix = new JString(kFTRegexInfo[i].pattern);
+		JString* suffix = jnew JString(kFTRegexInfo[i].pattern);
 		assert( suffix != NULL );
 
-		JString* complSuffix = new JString;
+		JString* complSuffix = jnew JString;
 		assert( complSuffix != NULL );
 
 		const JIndex macroID = FindMacroName(kFTRegexInfo[i].macroName, itsMacroList, kJTrue);
@@ -2384,10 +2384,10 @@ JIndex i;
 #define DialogClass   CBEditCRMDialog
 #define DialogVar     itsCRMDialog
 #define ExtractDataFn GetCRMRuleLists
-#define CopyConstr    new JTextEditor::CRMRuleList(*(origInfo.list))
+#define CopyConstr    jnew JTextEditor::CRMRuleList(*(origInfo.list))
 #define PtrCheck      newInfo.list != NULL
 #define Destr         (info.list)->DeleteAll(); \
-					  delete info.list
+					  jdelete info.list
 #include "CBPrefsManagerData.th"
 #undef DataType
 #undef ListVar
@@ -2421,7 +2421,7 @@ CBPrefsManager::CRMRuleListInfo::CreateAndRead
 	const JFileVersion	vers
 	)
 {
-	list = new JTextEditor::CRMRuleList;
+	list = jnew JTextEditor::CRMRuleList;
 	assert( list != NULL );
 
 	JSize ruleCount;
@@ -2466,10 +2466,10 @@ CBPrefsManager::CRMRuleListInfo::Write
 void
 CBPrefsManager::CRMRuleListInfo::Free()
 {
-	delete name;
+	jdelete name;
 
 	list->DeleteAll();
-	delete list;
+	jdelete list;
 }
 
 /******************************************************************************

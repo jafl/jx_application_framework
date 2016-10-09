@@ -110,7 +110,7 @@ JXAtLeastOneCBGroup::EnforceConstraints
 		newIndex = GetNextActiveIndex(cbIndex);		// if newID == id, then there is only one enabled
 		}
 
-	// turn the new checkbox on
+	// turn the jnew checkbox on
 
 	itsIgnoreChangeFlag = kJTrue;
 	(GetCheckbox(newIndex))->SetState(kJTrue);

@@ -51,7 +51,7 @@ JXTextButton::JXTextButton
 
 JXTextButton::~JXTextButton()
 {
-	delete itsShortcuts;
+	jdelete itsShortcuts;
 }
 
 /******************************************************************************
@@ -85,7 +85,7 @@ JXTextButton::SetShortcuts
 
 	if (JStringEmpty(list))
 		{
-		delete itsShortcuts;
+		jdelete itsShortcuts;
 		itsShortcuts = NULL;
 		itsULIndex   = 0;
 		}
@@ -93,7 +93,7 @@ JXTextButton::SetShortcuts
 		{
 		if (itsShortcuts == NULL)
 			{
-			itsShortcuts = new JString(list);
+			itsShortcuts = jnew JString(list);
 			assert( itsShortcuts != NULL );
 			}
 		else

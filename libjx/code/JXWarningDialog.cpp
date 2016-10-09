@@ -56,28 +56,28 @@ JXWarningDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 330,110, "");
+	JXWindow* window = jnew JXWindow(this, 330,110, "");
 	assert( window != NULL );
 
 	JXTextButton* noButton =
-		new JXTextButton(JGetString("noButton::JXWarningDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("noButton::JXWarningDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 200,80, 60,20);
 	assert( noButton != NULL );
 	noButton->SetShortcuts(JGetString("noButton::JXWarningDialog::shortcuts::JXLayout"));
 
 	JXTextButton* yesButton =
-		new JXTextButton(JGetString("yesButton::JXWarningDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("yesButton::JXWarningDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 70,80, 60,20);
 	assert( yesButton != NULL );
 	yesButton->SetShortcuts(JGetString("yesButton::JXWarningDialog::shortcuts::JXLayout"));
 
 	JXStaticText* text =
-		new JXStaticText(JGetString("text::JXWarningDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("text::JXWarningDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 60,20, 250,50);
 	assert( text != NULL );
 
 	JXImageWidget* icon =
-		new JXImageWidget(window,
+		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
 	assert( icon != NULL );
 

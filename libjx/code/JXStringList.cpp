@@ -56,7 +56,7 @@ JXStringList::JXStringList
 	itsSortedList  = NULL;
 	itsMinColWidth = 1;
 
-	itsStyles = new JStyleTableData(this, GetFontManager(), GetColormap());
+	itsStyles = jnew JStyleTableData(this, GetFontManager(), GetColormap());
 	assert( itsStyles != NULL );
 
 	JXColormap* colormap         = GetColormap();
@@ -74,8 +74,8 @@ JXStringList::JXStringList
 
 JXStringList::~JXStringList()
 {
-	delete itsStyles;
-	delete itsSortedList;
+	jdelete itsStyles;
+	jdelete itsSortedList;
 }
 
 /******************************************************************************
@@ -132,7 +132,7 @@ JXStringList::SetStringList
 		{
 		StopListening(itsList);
 
-		delete itsSortedList;
+		jdelete itsSortedList;
 		itsSortedList = NULL;
 		}
 
@@ -154,7 +154,7 @@ JXStringList::SetStringList
 			}
 
 		itsSortedList =
-			new JAliasArray<JString*>(const_cast<JPtrArray<JString>*>(itsList),
+			jnew JAliasArray<JString*>(const_cast<JPtrArray<JString>*>(itsList),
 									  JCompareStringsCaseInsensitive,
 									  JOrderedSetT::kSortAscending);
 		assert( itsSortedList != NULL );

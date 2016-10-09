@@ -239,7 +239,7 @@ CBJavaClass::ViewDeclaration
 /******************************************************************************
  NewGhost (virtual protected)
 
-	Creates a new ghost CBJavaClass.
+	Creates a jnew ghost CBJavaClass.
 
  ******************************************************************************/
 
@@ -250,7 +250,7 @@ CBJavaClass::NewGhost
 	CBTree*				tree
 	)
 {
-	CBJavaClass* newClass = new CBJavaClass(name, kGhostType, JFAID::kInvalidID, tree,
+	CBJavaClass* newClass = jnew CBJavaClass(name, kGhostType, JFAID::kInvalidID, tree,
 											kJTrue, kJFalse);
 	assert( newClass != NULL );
 	return newClass;

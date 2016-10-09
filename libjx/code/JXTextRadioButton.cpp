@@ -57,7 +57,7 @@ JXTextRadioButton::JXTextRadioButton
 
 JXTextRadioButton::~JXTextRadioButton()
 {
-	delete itsShortcuts;
+	jdelete itsShortcuts;
 }
 
 /******************************************************************************

@@ -37,7 +37,7 @@ Usage:
 
 --help         prints this help
 --version      prints version information
---delete       input files will be deleted once they have been processed
+--jdelete       input files will be deleted once they have been processed
 --output_path  <path>:  sets initial value of output path"
 
 #2345678901234567890123456789012345678901234567890123456789012345678901234567890

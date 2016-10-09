@@ -38,12 +38,12 @@ GFGCreateGlobals
 	theApplication = app;
 
 	JBoolean isNew;
-	thePrefsManager	= new GFGPrefsManager(&isNew);
+	thePrefsManager	= jnew GFGPrefsManager(&isNew);
 	assert( thePrefsManager != NULL );
 
 	JXInitHelp(kGFGTOCHelpName, kGFGHelpSectionCount, kGFGHelpSectionName);
 
-	theMDIServer = new GFGMDIServer;
+	theMDIServer = jnew GFGMDIServer;
 	assert( theMDIServer != NULL );
 
 	return isNew;
@@ -62,7 +62,7 @@ GFGDeleteGlobals()
 
 	// this must be last so everybody else can use it to save their setup
 
-	delete thePrefsManager;
+	jdelete thePrefsManager;
 	thePrefsManager = NULL;
 }
 

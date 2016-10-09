@@ -157,13 +157,13 @@ CBCommandMenu::CBCommandMenuX
 
 	if (itsTextDoc != NULL)
 		{
-		itsAddToProjMenu = new JXTextMenu(this, kAddToProjIndex, GetEnclosure());
+		itsAddToProjMenu = jnew JXTextMenu(this, kAddToProjIndex, GetEnclosure());
 		assert( itsAddToProjMenu != NULL );
 		itsAddToProjMenu->SetMenuItems(kAddToProjMenuStr, "CBCommandMenu");
 		itsAddToProjMenu->SetUpdateAction(JXMenu::kDisableNone);
 		ListenTo(itsAddToProjMenu);
 
-		itsManageProjMenu = new JXTextMenu(this, kManageProjIndex, GetEnclosure());
+		itsManageProjMenu = jnew JXTextMenu(this, kManageProjIndex, GetEnclosure());
 		assert( itsManageProjMenu != NULL );
 		itsManageProjMenu->SetMenuItems(kManageProjMenuStr, "CBCommandMenu");
 		itsManageProjMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -370,18 +370,18 @@ CBCommandMenu::HandleSelection
 		CBRunCommandDialog* dlog;
 		if (itsTextDoc != NULL)
 			{
-			dlog = new CBRunCommandDialog(projDoc, itsTextDoc);
+			dlog = jnew CBRunCommandDialog(projDoc, itsTextDoc);
 			}
 		else
 			{
-			dlog = new CBRunCommandDialog(projDoc, info.GetFileList(), info.GetLineIndexList());
+			dlog = jnew CBRunCommandDialog(projDoc, info.GetFileList(), info.GetLineIndexList());
 			}
 		assert( dlog != NULL );
 		dlog->BeginDialog();
 		}
 	else if (index == kEditCmd)
 		{
-		CBEditCommandsDialog* dlog = new CBEditCommandsDialog(projDoc);
+		CBEditCommandsDialog* dlog = jnew CBEditCommandsDialog(projDoc);
 		assert( dlog != NULL );
 		dlog->BeginDialog();
 		}

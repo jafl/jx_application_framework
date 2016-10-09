@@ -193,7 +193,7 @@ GDBGetBreakpoints::ParseBreakpoint
 		}
 
 	CMBreakpoint* bp =
-		new CMBreakpoint(bpIndex, fileName, lineIndex, fn, addr,
+		jnew CMBreakpoint(bpIndex, fileName, lineIndex, fn, addr,
 						 enabled, action, condition, ignoreCount);
 	assert( bp != NULL );
 	list->InsertSorted(bp);
@@ -234,7 +234,7 @@ GDBGetBreakpoints::ParseOther
 		}
 
 	CMBreakpoint* bp =
-		new CMBreakpoint(bpIndex, CMLocation(), fn, "",
+		jnew CMBreakpoint(bpIndex, CMLocation(), fn, "",
 						 enabled, action, condition, ignoreCount);
 	assert( bp != NULL );
 	list->Append(bp);

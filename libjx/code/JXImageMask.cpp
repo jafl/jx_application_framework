@@ -217,7 +217,7 @@ JXImageMask::CreateFromXBM
 		return JNoProcessMemory();
 		}
 
-	*mask = new JXImageMask(bitmap, w,h, display);
+	*mask = jnew JXImageMask(bitmap, w,h, display);
 	assert( *mask != NULL );
 
 	return JNoError();
@@ -270,7 +270,7 @@ JXImage*
 JXImageMask::Copy()
 	const
 {
-	JXImageMask* obj = new JXImageMask(*this);
+	JXImageMask* obj = jnew JXImageMask(*this);
 	assert( obj != NULL );
 	return obj;
 }

@@ -62,13 +62,13 @@ GLCurveNameList::GLCurveNameList
 
 	const JSize count = plot->GetCurveCount();
 
-	itsNameList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll, count);
+	itsNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll, count);
 	assert(itsNameList != NULL);
 
 	AppendRows(count);
 	for (JIndex i=1; i<=count; i++)
 		{
-		JString* str	= new JString(plot->GetCurveName(i));
+		JString* str	= jnew JString(plot->GetCurveName(i));
 		assert(str != NULL);
 		itsNameList->Append(str);
 
@@ -98,7 +98,7 @@ GLCurveNameList::GLCurveNameList
 GLCurveNameList::~GLCurveNameList()
 {
 	itsNameList->DeleteAll();
-	delete itsNameList;		// we don't own the strings
+	jdelete itsNameList;		// we don't own the strings
 }
 
 /******************************************************************************
@@ -209,7 +209,7 @@ GLCurveNameList::CreateXInputField
 	Broadcast(CurveSelected(cell.y));
 
 	assert(itsInput == NULL);
-	itsInput = new JXInputField(this, kFixedLeft, kFixedTop, x, y, w, h);
+	itsInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x, y, w, h);
 	assert(itsInput != NULL);
 
 	itsInput->SetText(*(itsNameList->NthElement(cell.y)));
@@ -309,7 +309,7 @@ GLCurveNameList::Receive
 			dynamic_cast<const J2DPlotWidget::CurveAdded*>(&message);
 		assert(info != NULL);
 		AppendRows(1);
-		JString* str	= new JString(itsPlot->GetCurveName(info->GetIndex()));
+		JString* str	= jnew JString(itsPlot->GetCurveName(info->GetIndex()));
 		assert(str != NULL);
 		itsNameList->Append(str);
 

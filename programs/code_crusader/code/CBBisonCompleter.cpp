@@ -35,7 +35,7 @@ CBBisonCompleter::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBBisonCompleter;
+		itsSelf = jnew CBBisonCompleter;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -52,7 +52,7 @@ CBBisonCompleter::Instance()
 void
 CBBisonCompleter::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

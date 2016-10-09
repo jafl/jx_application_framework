@@ -244,7 +244,7 @@ CBPHPTreeDirector::NewPHPTree
 	CBPHPTreeDirector* phpTreeDir = static_cast<CBPHPTreeDirector*>(director);
 	assert( phpTreeDir != NULL );
 
-	CBPHPTree* tree = new CBPHPTree(phpTreeDir, marginWidth);
+	CBPHPTree* tree = jnew CBPHPTree(phpTreeDir, marginWidth);
 	assert( tree != NULL );
 	return tree;
 }
@@ -275,7 +275,7 @@ CBPHPTreeDirector::StreamInPHPTree
 	CBPHPTreeDirector* phpTreeDir = static_cast<CBPHPTreeDirector*>(director);
 	assert( phpTreeDir != NULL );
 
-	CBPHPTree* tree = new CBPHPTree(projInput, projVers,
+	CBPHPTree* tree = jnew CBPHPTree(projInput, projVers,
 									setInput, setVers, symInput, symVers,
 									phpTreeDir, marginWidth, dirList);
 	assert( tree != NULL );

@@ -59,7 +59,7 @@ JDirInfo::BuildInfo1
 			continue;
 			}
 
-		JDirEntry* newEntry = new JDirEntry(*itsCWD, direntry->d_name);
+		JDirEntry* newEntry = jnew JDirEntry(*itsCWD, direntry->d_name);
 		assert( newEntry != NULL );
 		if (MatchesContentFilter(*newEntry))
 			{
@@ -73,7 +73,7 @@ JDirInfo::BuildInfo1
 */			}
 		else
 			{
-			delete newEntry;
+			jdelete newEntry;
 			}
 
 		if (!pg.IncrementProgress())

@@ -67,33 +67,33 @@ GFGAboutDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 370,120, "");
+	JXWindow* window = jnew JXWindow(this, 370,120, "");
 	assert( window != NULL );
 
 	JXStaticText* textWidget =
-		new JXStaticText(JGetString("textWidget::GFGAboutDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("textWidget::GFGAboutDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 70,20, 280,50);
 	assert( textWidget != NULL );
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::GFGAboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::GFGAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 260,90, 60,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::GFGAboutDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::GFGAboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::GFGAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 155,90, 60,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::GFGAboutDialog::shortcuts::JXLayout"));
 
 	JXImageWidget* imageWidget =
-		new JXImageWidget(window,
+		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
 	assert( imageWidget != NULL );
 
 	itsCreditsButton =
-		new JXTextButton(JGetString("itsCreditsButton::GFGAboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsCreditsButton::GFGAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,90, 60,20);
 	assert( itsCreditsButton != NULL );
 
@@ -105,7 +105,7 @@ GFGAboutDialog::BuildWindow
 	ListenTo(itsHelpButton);
 	ListenTo(itsCreditsButton);
 
-	JXImage* image = new JXImage(GetDisplay(), gfg_about_icon);
+	JXImage* image = jnew JXImage(GetDisplay(), gfg_about_icon);
 	assert( image != NULL );
 	imageWidget->SetImage(image, kJTrue);
 

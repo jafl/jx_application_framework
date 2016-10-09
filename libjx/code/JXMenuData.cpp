@@ -26,7 +26,7 @@ JXMenuData::JXMenuData()
 	:
 	JContainer()
 {
-	itsBaseItemData = new JArray<BaseItemData>;
+	itsBaseItemData = jnew JArray<BaseItemData>;
 	assert( itsBaseItemData != NULL );
 
 	InstallOrderedSet(itsBaseItemData);
@@ -40,7 +40,7 @@ JXMenuData::JXMenuData()
 JXMenuData::~JXMenuData()
 {
 	DeleteAll();
-	delete itsBaseItemData;
+	jdelete itsBaseItemData;
 }
 
 /******************************************************************************
@@ -62,13 +62,13 @@ JXMenuData::InsertItem
 
 	if (!JStringEmpty(shortcuts))
 		{
-		itemData.shortcuts = new JString(shortcuts);
+		itemData.shortcuts = jnew JString(shortcuts);
 		assert( itemData.shortcuts != NULL );
 		}
 
 	if (!JStringEmpty(id))
 		{
-		itemData.id = new JString(id);
+		itemData.id = jnew JString(id);
 		assert( itemData.id != NULL );
 		}
 
@@ -119,17 +119,17 @@ JXMenuData::CleanOutBaseItem
 	BaseItemData* itemData
 	)
 {
-	delete (itemData->shortcuts);
+	jdelete (itemData->shortcuts);
 	itemData->shortcuts = NULL;
 
-	delete (itemData->id);
+	jdelete (itemData->id);
 	itemData->id = NULL;
 
 	if (itemData->submenu != NULL)
 		{
 		assert( (itemData->submenu)->itsMenuBar == NULL );
 		(itemData->submenu)->itsOwner = NULL;
-		delete (itemData->submenu);
+		jdelete (itemData->submenu);
 		itemData->submenu = NULL;
 		}
 }
@@ -197,7 +197,7 @@ JXMenuData::SetItemShortcuts
 		{
 		if (itemData.shortcuts == NULL)
 			{
-			itemData.shortcuts = new JString(shortcuts);
+			itemData.shortcuts = jnew JString(shortcuts);
 			assert( itemData.shortcuts != NULL );
 			itsBaseItemData->SetElement(index, itemData);
 			}
@@ -210,7 +210,7 @@ JXMenuData::SetItemShortcuts
 		}
 	else if (itemData.shortcuts != NULL)
 		{
-		delete (itemData.shortcuts);
+		jdelete (itemData.shortcuts);
 		itemData.shortcuts = NULL;
 		itsBaseItemData->SetElement(index, itemData);
 		changed = kJTrue;
@@ -292,7 +292,7 @@ JXMenuData::SetItemID
 		{
 		if (itemData.id == NULL)
 			{
-			itemData.id = new JString(id);
+			itemData.id = jnew JString(id);
 			assert( itemData.id != NULL );
 			itsBaseItemData->SetElement(index, itemData);
 			}
@@ -303,7 +303,7 @@ JXMenuData::SetItemID
 		}
 	else if (itemData.id != NULL)
 		{
-		delete (itemData.id);
+		jdelete (itemData.id);
 		itemData.id = NULL;
 		itsBaseItemData->SetElement(index, itemData);
 		}
@@ -395,7 +395,7 @@ JXMenuData::CheckItem
 /******************************************************************************
  AttachSubmenu (private)
 
-	Deletes any old menu that was attached and attaches the new one.
+	Deletes any old menu that was attached and attaches the jnew one.
 
  ******************************************************************************/
 
@@ -413,7 +413,7 @@ JXMenuData::AttachSubmenu
 		{
 		assert( (itemData.submenu)->itsMenuBar == NULL );
 		(itemData.submenu)->itsOwner = NULL;
-		delete (itemData.submenu);
+		jdelete (itemData.submenu);
 		}
 	itemData.submenu   = submenu;
 	itemData.enabled   = submenu->IsActive();
@@ -517,7 +517,7 @@ JXMenuData::DeleteSubmenu
 		{
 		assert( (itemData.submenu)->itsMenuBar == NULL );
 		(itemData.submenu)->itsOwner = NULL;
-		delete (itemData.submenu);
+		jdelete (itemData.submenu);
 
 		itemData.submenu = NULL;
 		itsBaseItemData->SetElement(index, itemData);

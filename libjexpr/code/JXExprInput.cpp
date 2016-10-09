@@ -131,7 +131,7 @@ JXExprInput::CreateFontMenu
 	JXContainer* enclosure
 	)
 {
-	JXTextMenu* menu = new JXTextMenu(kFontMenuTitleStr, enclosure,
+	JXTextMenu* menu = jnew JXTextMenu(kFontMenuTitleStr, enclosure,
 									  kFixedLeft, kVElastic, 0,0, 10,10);
 	assert( menu != NULL );
 

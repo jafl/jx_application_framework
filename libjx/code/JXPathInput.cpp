@@ -73,7 +73,7 @@ JXPathInput::JXPathInput
 
 JXPathInput::~JXPathInput()
 {
-	delete itsCompleter;
+	jdelete itsCompleter;
 }
 
 /******************************************************************************
@@ -910,7 +910,7 @@ JXPathInput::Complete
 		{
 		if (*menu == NULL)
 			{
-			*menu = new JXStringCompletionMenu(te, kJFalse);
+			*menu = jnew JXStringCompletionMenu(te, kJFalse);
 			assert( *menu != NULL );
 			}
 		else

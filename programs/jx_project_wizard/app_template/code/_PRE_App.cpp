@@ -73,7 +73,7 @@ void
 	const JCharacter* prevVersStr
 	)
 {
-	<PRE>AboutDialog* dlog = new <PRE>AboutDialog(this, prevVersStr);
+	<PRE>AboutDialog* dlog = jnew <PRE>AboutDialog(this, prevVersStr);
 	assert( dlog != NULL );
 	dlog->BeginDialog();
 }

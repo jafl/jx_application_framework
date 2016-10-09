@@ -105,7 +105,7 @@ MDPrefsManager::EditPrefs()
 	// replace with whatever is appropriate
 	JString data;
 
-	itsPrefsDialog = new MDPrefsDialog(JXGetApplication(), data);
+	itsPrefsDialog = jnew MDPrefsDialog(JXGetApplication(), data);
 	assert( itsPrefsDialog != NULL );
 	ListenTo(itsPrefsDialog);
 	itsPrefsDialog->BeginDialog();

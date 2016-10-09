@@ -150,7 +150,7 @@ JX2DPlotWidget::JX2DPlotWidget
 	itsOptionsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsOptionsMenu);
 
-	itsRemoveCurveMenu = new JXTextMenu(itsOptionsMenu, kRemoveCurveCmd, menuBar);
+	itsRemoveCurveMenu = jnew JXTextMenu(itsOptionsMenu, kRemoveCurveCmd, menuBar);
 	assert( itsRemoveCurveMenu != NULL );
 	itsRemoveCurveMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsRemoveCurveMenu);
@@ -160,12 +160,12 @@ JX2DPlotWidget::JX2DPlotWidget
 	itsCursorMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsCursorMenu);
 
-	itsMarkMenu = new JXTextMenu(itsCursorMenu, kRemoveMarkIndex, menuBar);
+	itsMarkMenu = jnew JXTextMenu(itsCursorMenu, kRemoveMarkIndex, menuBar);
 	assert( itsMarkMenu != NULL );
 	itsMarkMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsMarkMenu);
 
-	itsCurveOptionsMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsCurveOptionsMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsCurveOptionsMenu != NULL );
 	itsCurveOptionsMenu->SetToHiddenPopupMenu();
 	itsCurveOptionsMenu->SetMenuItems(kCurveOptionsMenuStr);
@@ -233,7 +233,7 @@ JX2DPlotWidget::JX2DPlotWidgetX()
 	itsPlotRangeDialog		= NULL;
 	itsCurveOptionsDialog	= NULL;
 
-	itsMarkDir = new JX2DCursorMarkTableDir(GetWindow()->GetDirector(), this);
+	itsMarkDir = jnew JX2DCursorMarkTableDir(GetWindow()->GetDirector(), this);
 	assert(itsMarkDir != NULL);
 
 	JXDisplay* display = GetDisplay();
@@ -707,7 +707,7 @@ JX2DPlotWidget::ChangeLabels
 {
 	assert (itsPlotLabelDialog == NULL);
 	itsPlotLabelDialog =
-		new JX2DPlotLabelDialog(GetWindow()->GetDirector(),
+		jnew JX2DPlotLabelDialog(GetWindow()->GetDirector(),
 								GetTitle(), GetXLabel(), GetYLabel(),
 								GetFontName(), GetFontSize(), selection);
 	assert (itsPlotLabelDialog != NULL);
@@ -753,7 +753,7 @@ JX2DPlotWidget::ChangeScale
 	GetYScale(&ymin, &ymax, &yinc);
 
 	itsPlotScaleDialog =
-		new JX2DPlotScaleDialog(GetWindow()->GetDirector(),
+		jnew JX2DPlotScaleDialog(GetWindow()->GetDirector(),
 								xmin, xmax, xinc, XAxisIsLinear(),
 								ymin, ymax, yinc, YAxisIsLinear());
 	assert (itsPlotScaleDialog != NULL);
@@ -808,7 +808,7 @@ JX2DPlotWidget::ChangeRange()
 		GetYScale(&ymin, &ymax, &yinc);
 		}
 	itsPlotRangeDialog =
-		new JX2DPlotRangeDialog(GetWindow()->GetDirector(),
+		jnew JX2DPlotRangeDialog(GetWindow()->GetDirector(),
 								xmax, xmin, ymax, ymin);
 	assert (itsPlotRangeDialog != NULL);
 	ListenTo(itsPlotRangeDialog);
@@ -960,7 +960,7 @@ JX2DPlotWidget::ChangeCurveOptions
 		}
 
 	itsCurveOptionsDialog =
-		new JX2DCurveOptionsDialog(GetWindow()->GetDirector(), GetCurveInfoArray(),
+		jnew JX2DCurveOptionsDialog(GetWindow()->GetDirector(), GetCurveInfoArray(),
 									hasXErrors, hasYErrors, isFunction, isScatter, index);
 	assert (itsCurveOptionsDialog != NULL);
 	ListenTo(itsCurveOptionsDialog);

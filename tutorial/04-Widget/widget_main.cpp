@@ -26,11 +26,11 @@ main
 {
 	// Create the application object - one per program
 	JXApplication* app = 
-		new JXApplication(&argc, argv, kAppSignature, kTutorialStringData);
+		jnew JXApplication(&argc, argv, kAppSignature, kTutorialStringData);
 	assert( app != NULL );
 
 	// Create our window director
-	WidgetDir* mainDir = new WidgetDir(app);
+	WidgetDir* mainDir = jnew WidgetDir(app);
 	assert( mainDir != NULL );
 
 	// Activate the director

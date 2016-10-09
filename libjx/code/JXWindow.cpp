@@ -142,11 +142,11 @@ JXWindow::JXWindow
 
 	AdjustTitle();
 
-	itsShortcuts = new JArray<Shortcut>;
+	itsShortcuts = jnew JArray<Shortcut>;
 	assert( itsShortcuts != NULL );
 	itsShortcuts->SetCompareFunction(CompareShortcuts);
 
-	itsFocusList = new JPtrArray<JXWidget>(JPtrArrayT::kForgetAll);
+	itsFocusList = jnew JPtrArray<JXWidget>(JPtrArrayT::kForgetAll);
 	assert( itsFocusList != NULL );
 
 	// get display/colormap for this window
@@ -208,7 +208,7 @@ JXWindow::JXWindow
 
 	GetDNDManager()->EnableDND(itsXWindow);
 
-	// trap window manager's delete message
+	// trap window manager's jdelete message
 
 	AcceptSaveYourself(kJFalse);
 
@@ -221,7 +221,7 @@ JXWindow::JXWindow
 
 	// create GC to use when drawing
 
-	itsGC = new JXGC(itsDisplay, itsXWindow);
+	itsGC = jnew JXGC(itsDisplay, itsXWindow);
 	assert( itsGC != NULL );
 
 	// notify the display that we exist
@@ -247,20 +247,20 @@ JXWindow::~JXWindow()
 		{
 		(itsDockWidget->GetDockDirector())->ClearFocusWindow(this);
 		}
-	delete itsDockingTask;
+	jdelete itsDockingTask;
 
-	delete itsIcon;
+	jdelete itsIcon;
 	// itsIconDir deleted by itsDirector
-	delete itsShortcuts;
-	delete itsFocusList;
-	delete itsChildWindowList;
+	jdelete itsShortcuts;
+	jdelete itsFocusList;
+	jdelete itsChildWindowList;
 
 	if (itsBufferPixmap != None)
 		{
 		XFreePixmap(*itsDisplay, itsBufferPixmap);
 		}
 
-	delete itsGC;
+	jdelete itsGC;
 	XDestroyRegion(itsUpdateRegion);
 	if (itsXWindow != None)				// plug-in: might be destroyed by Netscape
 		{
@@ -1332,10 +1332,10 @@ JXWindow::AnalyzeWindowManager
 
 	// create a test window
 
-	JXWindowDirector* dir = new JXWindowDirector(JXGetApplication());
+	JXWindowDirector* dir = jnew JXWindowDirector(JXGetApplication());
 	assert( dir != NULL );
 
-	JXWindow* w = new JXWindow(dir, 100, 100, "Testing Window Manager");
+	JXWindow* w = jnew JXWindow(dir, 100, 100, "Testing Window Manager");
 	assert( w != NULL );
 
 	// test placing visible window (fvwm2)
@@ -1725,7 +1725,7 @@ JXWindow::AdjustSize
 /******************************************************************************
  UpdateFrame (private)
 
-	We can't pass in the new frame information because ConfigureNotify
+	We can't pass in the jnew frame information because ConfigureNotify
 	caused by resize window gives x=0, y=0.
 
  ******************************************************************************/
@@ -2061,7 +2061,7 @@ JXWindow::SetIcon
 		XFree(origHints);
 		}
 
-	// set new icon
+	// set jnew icon
 
 	if (itsIconDir != NULL)
 		{
@@ -2070,7 +2070,7 @@ JXWindow::SetIcon
 		itsIconDir = NULL;
 		}
 
-	delete itsIcon;
+	jdelete itsIcon;
 	itsIcon = icon;
 
 	icon->ConvertToPixmap();
@@ -2125,14 +2125,14 @@ JXWindow::SetIcon
 		XFree(origHints);
 		}
 
-	// set new icon
+	// set jnew icon
 
-	delete itsIcon;
+	jdelete itsIcon;
 	itsIcon = NULL;
 
 	if (itsIconDir == NULL)
 		{
-		itsIconDir = new JXIconDirector(itsDirector, normalIcon, dropIcon);
+		itsIconDir = jnew JXIconDirector(itsDirector, normalIcon, dropIcon);
 		assert( itsIconDir != NULL );
 		(itsIconDir->GetWindow())->itsMainWindow = this;
 		}
@@ -2369,7 +2369,7 @@ JXWindow::ReadGeometry
 		}
 	else if (dockIt == 1 && dock != NULL && dock->WindowWillFit(this))
 		{
-		delete itsDockingTask;	// automatically cleared
+		jdelete itsDockingTask;	// automatically cleared
 		if (dock->Dock(this))
 			{
 			itsUndockedWMFrameLoc = desktopLoc;
@@ -2581,7 +2581,7 @@ JXWindow::HandleEvent
 
 	else if (IsDeleteWindowMessage(itsDisplay, xEvent))		// trap WM_DELETE_WINDOW first
 		{
-		Close();											// can delete us
+		Close();											// can jdelete us
 		}
 	else if (IsWMPingMessage(itsDisplay, xEvent))
 		{
@@ -2954,7 +2954,7 @@ JXWindow::HandleButtonRelease
 		Display* xDisplay  = *display;
 		Window xWindow     = itsXWindow;
 
-		// this could delete us
+		// this could jdelete us
 
 		const JPoint pt = itsMouseContainer->GlobalToLocal(xEvent.x, xEvent.y);
 		itsMouseContainer->DispatchMouseUp(pt, currButton,
@@ -4661,7 +4661,7 @@ JXWindow::Dock
 		itsUndockedWMFrameLoc = itsWMFrameLoc;
 		}
 
-	itsDockingTask = new JXDockWindowTask(this, parent, JPoint(geom.left, geom.top), dock);
+	itsDockingTask = jnew JXDockWindowTask(this, parent, JPoint(geom.left, geom.top), dock);
 	assert( itsDockingTask != NULL );
 	itsDockingTask->Start();
 	ClearWhenGoingAway(itsDockingTask, &itsDockingTask);
@@ -4706,7 +4706,7 @@ JXWindow::Undock()
 	itsDockXWindow  = None;
 	itsDockWidget   = NULL;
 	itsRootChild    = None;	// don't wait for ReparentNotify
-	delete itsDockingTask;	// automatically cleared
+	jdelete itsDockingTask;	// automatically cleared
 
 	Sync(itsDisplay);
 	Place(itsUndockedWMFrameLoc.x, itsUndockedWMFrameLoc.y);
@@ -4714,7 +4714,7 @@ JXWindow::Undock()
 
 	if (wasVisible)
 		{
-		JXRaiseWindowTask* task = new JXRaiseWindowTask(this);
+		JXRaiseWindowTask* task = jnew JXRaiseWindowTask(this);
 		assert( task != NULL );
 		task->Go();
 		}
@@ -4759,7 +4759,7 @@ JXWindow::UpdateChildWindowList
 {
 	if (add && itsChildWindowList == NULL)
 		{
-		itsChildWindowList = new JArray<ChildWindowInfo>;
+		itsChildWindowList = jnew JArray<ChildWindowInfo>;
 		assert( itsChildWindowList != NULL );
 		}
 
@@ -4800,7 +4800,7 @@ JXWindow::UpdateChildWindowList
 
 		if (itsChildWindowList->IsEmpty())
 			{
-			delete itsChildWindowList;
+			jdelete itsChildWindowList;
 			itsChildWindowList = NULL;
 			}
 		}

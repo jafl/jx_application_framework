@@ -22,7 +22,7 @@ JVMBreakpointManager::JVMBreakpointManager
 	JVMLink* link
 	)
 	:
-	CMBreakpointManager(link, new JVMGetBreakpoints())
+	CMBreakpointManager(link, jnew JVMGetBreakpoints())
 {
 }
 

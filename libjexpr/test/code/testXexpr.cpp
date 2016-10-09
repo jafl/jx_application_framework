@@ -24,10 +24,10 @@ main
 	char*	argv[]
 	)
 {
-	JXApplication* app = new JXApplication(&argc, argv, "testjexpr", kDefaultStringData);
+	JXApplication* app = jnew JXApplication(&argc, argv, "testjexpr", kDefaultStringData);
 	assert( app != NULL );
 
-	TestExprDirector* mainDir = new TestExprDirector(app);
+	TestExprDirector* mainDir = jnew TestExprDirector(app);
 	assert( mainDir != NULL );
 
 	mainDir->Activate();

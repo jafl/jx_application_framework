@@ -131,28 +131,28 @@ JRecurseDecision
 		if (!JRecurseDecision(expr, start, theVariableList, &arg1) ||
 			!JRecurseDecision(expr + end, length - end, theVariableList, &arg2))
 			{
-			delete arg1;
-			delete arg2;
+			jdelete arg1;
+			jdelete arg2;
 			return kJFalse;
 			}
 
 		if (type == kJBooleanANDType)
 			{
-			*theDecision = new JBooleanAND(arg1, arg2);
+			*theDecision = jnew JBooleanAND(arg1, arg2);
 			}
 		else if (type == kJBooleanORType)
 			{
-			*theDecision = new JBooleanOR(arg1, arg2);
+			*theDecision = jnew JBooleanOR(arg1, arg2);
 			}
 		else if (type == kJBooleanXORType)
 			{
-			*theDecision = new JBooleanXOR(arg1, arg2);
+			*theDecision = jnew JBooleanXOR(arg1, arg2);
 			}
 		else
 			{
 			cerr << "JRecurseDecision:  unknown boolean operator" << endl;
-			delete arg1;
-			delete arg2;
+			jdelete arg1;
+			jdelete arg2;
 			return kJFalse;
 			}
 		assert( *theDecision != NULL );
@@ -205,36 +205,36 @@ JRecurseDecision
 		if (!JRecurseFunction(expr, start, theVariableList, &arg1) ||
 			!JRecurseFunction(expr + end, length - end, theVariableList, &arg2))
 			{
-			delete arg1;
-			delete arg2;
+			jdelete arg1;
+			jdelete arg2;
 			return kJFalse;
 			}
 
 		if (type == kJFunctionEqualityType)
 			{
-			*theDecision = new JFunctionEquality(arg1, arg2);
+			*theDecision = jnew JFunctionEquality(arg1, arg2);
 			}
 		else if (type == kJLessThanType)
 			{
-			*theDecision = new JLessThan(arg1, arg2);
+			*theDecision = jnew JLessThan(arg1, arg2);
 			}
 		else if (type == kJLessEqualThanType)
 			{
-			*theDecision = new JLessEqualThan(arg1, arg2);
+			*theDecision = jnew JLessEqualThan(arg1, arg2);
 			}
 		else if (type == kJGreaterThanType)
 			{
-			*theDecision = new JGreaterThan(arg1, arg2);
+			*theDecision = jnew JGreaterThan(arg1, arg2);
 			}
 		else if (type == kJGreaterEqualThanType)
 			{
-			*theDecision = new JGreaterEqualThan(arg1, arg2);
+			*theDecision = jnew JGreaterEqualThan(arg1, arg2);
 			}
 		else
 			{
 			cerr << "JRecurseDecision:  unknown comparison operator" << endl;
-			delete arg1;
-			delete arg2;
+			jdelete arg1;
+			jdelete arg2;
 			return kJFalse;
 			}
 		assert( *theDecision != NULL );
@@ -281,7 +281,7 @@ JIsBoolConstant
 		{
 		if (JStringsEqual(expr, length, boolInfo[i-1].name))
 			{
-			*theDecision = new JBooleanConstant(boolInfo[i-1].value);
+			*theDecision = jnew JBooleanConstant(boolInfo[i-1].value);
 			assert( *theDecision != NULL );
 			return kJTrue;
 			}
@@ -332,7 +332,7 @@ JParseAsNegation
 
 	// return JBooleanNOT object
 
-	*theDecision = new JBooleanNOT(arg);
+	*theDecision = jnew JBooleanNOT(arg);
 	assert( *theDecision != NULL );
 	return kJParsedOK;
 }
@@ -387,7 +387,7 @@ JParseAsUnknown
 
 	// return JValueUnknown object
 
-	*theDecision = new JValueUnknown(theVariableList, varIndex, arrayIndex);
+	*theDecision = jnew JValueUnknown(theVariableList, varIndex, arrayIndex);
 	assert( *theDecision != NULL );
 	return kJParsedOK;
 }
@@ -462,13 +462,13 @@ JParseAsDiscreteComparison
 			{
 			// return JValueUnknown object
 
-			*theDecision = new JValueUnknown(theVariableList, varIndex, arrayIndex);
+			*theDecision = jnew JValueUnknown(theVariableList, varIndex, arrayIndex);
 			assert( *theDecision != NULL );
 			return kJParsedOK;
 			}
 		else
 			{
-			delete arrayIndex;
+			jdelete arrayIndex;
 			return kJNotMyProblem;
 			}
 		}
@@ -476,7 +476,7 @@ JParseAsDiscreteComparison
 		{
 		// return JDiscreteEquality object
 
-		*theDecision = new JDiscreteEquality(theVariableList, varIndex, arrayIndex, value);
+		*theDecision = jnew JDiscreteEquality(theVariableList, varIndex, arrayIndex, value);
 		assert( *theDecision != NULL );
 		return kJParsedOK;
 		}
@@ -493,14 +493,14 @@ JParseAsDiscreteComparison
 		{
 		// return JDiscreteVarEquality object
 
-		*theDecision = new JDiscreteVarEquality(theVariableList, varIndex, arrayIndex,
+		*theDecision = jnew JDiscreteVarEquality(theVariableList, varIndex, arrayIndex,
 												varIndex2, arrayIndex2);
 		assert( *theDecision != NULL );
 		return kJParsedOK;
 		}
 
-	delete arrayIndex;
-	delete arrayIndex2;
+	jdelete arrayIndex;
+	jdelete arrayIndex2;
 
 	if (result2 == kJParsedOK)
 		{

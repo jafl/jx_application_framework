@@ -73,10 +73,10 @@ JPartition::JPartition
 	assert( compartmentCount == minSizes.GetElementCount() );
 	assert( elasticIndex <= compartmentCount );
 
-	itsSizes = new JArray<JCoordinate>(sizes);
+	itsSizes = jnew JArray<JCoordinate>(sizes);
 	assert( itsSizes != NULL );
 
-	itsMinSizes = new JArray<JCoordinate>(minSizes);
+	itsMinSizes = jnew JArray<JCoordinate>(minSizes);
 	assert( itsMinSizes != NULL );
 
 	itsElasticIndex = elasticIndex;
@@ -90,8 +90,8 @@ JPartition::JPartition
 
 JPartition::~JPartition()
 {
-	delete itsSizes;
-	delete itsMinSizes;
+	jdelete itsSizes;
+	jdelete itsMinSizes;
 }
 
 /******************************************************************************

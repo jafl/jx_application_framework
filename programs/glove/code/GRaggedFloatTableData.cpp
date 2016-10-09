@@ -29,7 +29,7 @@ GRaggedFloatTableData::GRaggedFloatTableData
 	JTableData(),
 	itsDefValue(defValue)
 {
-	itsCols = new JPtrArray< JArray<JFloat> >(JPtrArrayT::kDeleteAll);
+	itsCols = jnew JPtrArray< JArray<JFloat> >(JPtrArrayT::kDeleteAll);
 	assert( itsCols != NULL );
 
 	const JSize kInitialColCount = 20;
@@ -57,14 +57,14 @@ GRaggedFloatTableData::GRaggedFloatTableData
 	itsDefValue(source.itsDefValue),
 	itsBroadcast(source.itsBroadcast)
 {
-	itsCols = new JPtrArray< JArray<JFloat> >(JPtrArrayT::kDeleteAll);
+	itsCols = jnew JPtrArray< JArray<JFloat> >(JPtrArrayT::kDeleteAll);
 	assert( itsCols != NULL );
 
 	const JSize count = (source.itsCols)->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JArray<JFloat>* origColData = (source.itsCols)->NthElement(i);
-		JArray<JFloat>* newColData = new JArray<JFloat>(*origColData);
+		JArray<JFloat>* newColData = jnew JArray<JFloat>(*origColData);
 		assert( newColData != NULL );
 		itsCols->Append(newColData);
 		}
@@ -78,7 +78,7 @@ GRaggedFloatTableData::GRaggedFloatTableData
 GRaggedFloatTableData::~GRaggedFloatTableData()
 {
 	itsCols->DeleteAll();
-	delete itsCols;
+	jdelete itsCols;
 }
 
 /******************************************************************************
@@ -445,7 +445,7 @@ GRaggedFloatTableData::InsertCol
 		trueIndex = maxIndex;
 		}
 
-	JArray<JFloat>* colData = new JArray<JFloat>;
+	JArray<JFloat>* colData = jnew JArray<JFloat>;
 	assert( colData != NULL );
 	itsCols->InsertAtIndex(trueIndex, colData);
 
@@ -504,7 +504,7 @@ GRaggedFloatTableData::DuplicateCol
 		}
 
 	JArray<JFloat>* origColData = itsCols->NthElement(origIndex);
-	JArray<JFloat>* newColData = new JArray<JFloat>(*origColData);
+	JArray<JFloat>* newColData = jnew JArray<JFloat>(*origColData);
 	assert( newColData != NULL );
 	itsCols->InsertAtIndex(trueIndex, newColData);
 

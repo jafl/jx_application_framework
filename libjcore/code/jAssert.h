@@ -40,11 +40,8 @@ int JAssert(const char*, const char*, const int);
 
 #endif
 
-// transparent memory manager
-
 #endif
 
-// 2016/01/05: This breaks in the latest C++ standard,
-// because "= delete" can be appended to a function declaration
-//
-// #include <jNew.h>
+// memory manager
+
+#include <jNew.h>

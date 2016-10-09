@@ -78,17 +78,17 @@ JXFileListTable::JXFileListTable
 	itsEditMenuProvider   = NULL;
 	itsEditMenu           = NULL;
 
-	itsFileList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll, 100);
+	itsFileList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll, 100);
 	assert( itsFileList != NULL );
 	// UNIX file system is case-sensitive.
 	itsFileList->SetCompareFunction(JCompareStringsCaseSensitive);
 	ListenTo(itsFileList);
 
-	itsVisibleList = new JArray<VisInfo>(100);
+	itsVisibleList = jnew JArray<VisInfo>(100);
 	assert( itsVisibleList != NULL );
 	itsVisibleList->SetSortOrder(JOrderedSetT::kSortAscending);
 
-	itsFileIcon = new JXImage(GetDisplay(), jx_plain_file_small);
+	itsFileIcon = jnew JXImage(GetDisplay(), jx_plain_file_small);
 	assert( itsFileIcon != NULL );
 	itsFileIcon->ConvertToRemoteStorage();
 
@@ -111,11 +111,11 @@ JXFileListTable::JXFileListTable
 JXFileListTable::~JXFileListTable()
 {
 	StopListening(itsFileList);		// avoid calling JXScrollbarSet in Receive()
-	delete itsFileList;
-	delete itsVisibleList;
+	jdelete itsFileList;
+	jdelete itsVisibleList;
 
-	delete itsRegex;
-	delete itsFileIcon;
+	jdelete itsRegex;
+	jdelete itsFileIcon;
 }
 
 /******************************************************************************
@@ -163,7 +163,7 @@ JXFileListTable::AddFile
 
 	ClearSelection();
 
-	JString* s = new JString(fullName);
+	JString* s = jnew JString(fullName);
 	assert( s != NULL );
 
 	JBoolean found;
@@ -182,7 +182,7 @@ JXFileListTable::AddFile
 		}
 	else
 		{
-		delete s;
+		jdelete s;
 		return kJFalse;
 		}
 }
@@ -308,7 +308,7 @@ JXFileListTable::SetFilterRegex
 		}
 	else if (itsRegex == NULL)
 		{
-		itsRegex = new JRegex;
+		itsRegex = jnew JRegex;
 		assert( itsRegex != NULL );
 		const JError err = itsRegex->SetPattern(regexStr);
 		itsRegex->SetCaseSensitive(kJFalse);
@@ -318,7 +318,7 @@ JXFileListTable::SetFilterRegex
 			}
 		else
 			{
-			delete itsRegex;
+			jdelete itsRegex;
 			itsRegex = NULL;
 			}
 		return err;
@@ -357,7 +357,7 @@ JXFileListTable::ClearFilterRegex()
 {
 	if (itsRegex != NULL)
 		{
-		delete itsRegex;
+		jdelete itsRegex;
 		itsRegex = NULL;
 
 		RebuildTable();
@@ -914,7 +914,7 @@ JXFileListTable::HandleMouseDrag
 {
 	if (itsDragType == kWaitForDND && JMouseMoved(itsMouseDownPt, pt))
 		{
-		JXFileSelection* data = new JXFileSelection(this, kSelectionDataID);
+		JXFileSelection* data = jnew JXFileSelection(this, kSelectionDataID);
 		assert( data != NULL );
 
 		BeginDND(pt, buttonStates, modifiers, data);
@@ -1146,7 +1146,7 @@ JElementComparison<JXFileListTable::VisInfo>*
 JXFileListTable::PrefixMatch::Copy()
 	const
 {
-	PrefixMatch* copy = new PrefixMatch(itsPrefix, itsFileList);
+	PrefixMatch* copy = jnew PrefixMatch(itsPrefix, itsFileList);
 	assert( copy != NULL );
 	return copy;
 }
@@ -1338,7 +1338,7 @@ JXFileListTable::CopySelectedFileNames()
 			list.Append(GetFileName(cell.y));
 			}
 
-		JXTextSelection* data = new JXTextSelection(GetDisplay(), list);
+		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
 		assert( data != NULL );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);

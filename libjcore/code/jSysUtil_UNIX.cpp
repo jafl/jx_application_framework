@@ -75,10 +75,10 @@ struct jUIDInfo
 
 	void Free()
 	{
-		delete userName;
-		delete realName;
-		delete homeDirectory;
-		delete shell;
+		jdelete userName;
+		jdelete realName;
+		jdelete homeDirectory;
+		jdelete shell;
 	};
 };
 
@@ -130,16 +130,16 @@ jGetUserInfo
 		passwd* pwbuf = getpwuid(uid);
 		if (pwbuf != NULL)
 			{
-			info->userName = new JString(pwbuf->pw_name);
+			info->userName = jnew JString(pwbuf->pw_name);
 			assert( info->userName != NULL );
 
-			info->realName = new JString(pwbuf->pw_gecos);
+			info->realName = jnew JString(pwbuf->pw_gecos);
 			assert( info->realName != NULL );
 
-			info->homeDirectory = new JString(pwbuf->pw_dir);
+			info->homeDirectory = jnew JString(pwbuf->pw_dir);
 			assert( info->homeDirectory != NULL );
 
-			info->shell = new JString(pwbuf->pw_shell);
+			info->shell = jnew JString(pwbuf->pw_shell);
 			assert( info->shell != NULL );
 
 			info->id = uid;
@@ -325,7 +325,7 @@ jGetGroupInfo
 		group* grpbuf = getgrgid(gid);
 		if (grpbuf != NULL)
 			{
-			info->groupName = new JString(grpbuf->gr_name);
+			info->groupName = jnew JString(grpbuf->gr_name);
 			assert( info->groupName != NULL );
 
 			info->id = gid;

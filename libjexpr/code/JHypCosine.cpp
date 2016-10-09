@@ -68,7 +68,7 @@ JFunction*
 JHypCosine::Copy()
 	const
 {
-	JHypCosine* newFunction = new JHypCosine(*this);
+	JHypCosine* newFunction = jnew JHypCosine(*this);
 	assert( newFunction != NULL );
 	return newFunction;
 }

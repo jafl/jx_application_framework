@@ -62,18 +62,18 @@ CMLink::CMLink
 	:
 	itsFeatures(features)
 {
-	// commands are often owned by other objects, who can delete them more reliably
-	itsForegroundQ = new JPtrArray<CMCommand>(JPtrArrayT::kForgetAll);
+	// commands are often owned by other objects, who can jdelete them more reliably
+	itsForegroundQ = jnew JPtrArray<CMCommand>(JPtrArrayT::kForgetAll);
 	assert( itsForegroundQ != NULL );
 
-	// commands are often owned by other objects, who can delete them more reliably
-	itsBackgroundQ = new JPtrArray<CMCommand>(JPtrArrayT::kForgetAll);
+	// commands are often owned by other objects, who can jdelete them more reliably
+	itsBackgroundQ = jnew JPtrArray<CMCommand>(JPtrArrayT::kForgetAll);
 	assert( itsBackgroundQ != NULL );
 
 	itsRunningCommand = NULL;
 	itsLastCommandID  = 0;
 
-	itsFileNameMap = new JStringPtrMap<JString>(JPtrArrayT::kDeleteAll);
+	itsFileNameMap = jnew JStringPtrMap<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsFileNameMap != NULL );
 }
 
@@ -84,10 +84,10 @@ CMLink::CMLink
 
 CMLink::~CMLink()
 {
-	delete itsForegroundQ;	// must be last, after objects have deleted their commands
-	delete itsBackgroundQ;
+	jdelete itsForegroundQ;	// must be last, after objects have deleted their commands
+	jdelete itsBackgroundQ;
 
-	delete itsFileNameMap;
+	jdelete itsFileNameMap;
 }
 
 /******************************************************************************
@@ -116,7 +116,7 @@ CMLink::DeleteOneShotCommands
 		CMCommand* cmd = list->NthElement(i);
 		if (cmd->IsOneShot())
 			{
-			delete cmd;		// automatically removed from list
+			jdelete cmd;		// automatically removed from list
 			}
 		}
 }
@@ -331,7 +331,7 @@ CMLink::CancelAllCommands()
 	for (JIndex i=itsForegroundQ->GetElementCount(); i>=1; i--)
 		{
 		CMCommand* cmd = itsForegroundQ->NthElement(i);
-		itsForegroundQ->RemoveElement(i);	// remove first, in case auto-delete
+		itsForegroundQ->RemoveElement(i);	// remove first, in case auto-jdelete
 		cmd->Finished(kJFalse);
 
 		if (itsRunningCommand == cmd)
@@ -354,7 +354,7 @@ CMLink::CancelBackgroundCommands()
 	for (JIndex i=itsBackgroundQ->GetElementCount(); i>=1; i--)
 		{
 		CMCommand* cmd = itsBackgroundQ->NthElement(i);
-		itsBackgroundQ->RemoveElement(i);	// remove first, in case auto-delete
+		itsBackgroundQ->RemoveElement(i);	// remove first, in case auto-jdelete
 		cmd->Finished(kJFalse);
 
 		if (itsRunningCommand == cmd)

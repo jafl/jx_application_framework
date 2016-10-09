@@ -163,10 +163,10 @@ GXDataDocument::GXDataDocument
 	:
 	JXFileDocument(supervisor, fileName, onDisk, kJFalse, ".glv")
 {
-	itsData = new GRaggedFloatTableData(0.0);
+	itsData = jnew GRaggedFloatTableData(0.0);
 	assert( itsData != NULL );
 
-	itsPlotWindows = new JPtrArray<PlotDir>(JPtrArrayT::kForgetAll);
+	itsPlotWindows = jnew JPtrArray<PlotDir>(JPtrArrayT::kForgetAll);
 	assert( itsPlotWindows != NULL );
 
 	itsPrinter          = NULL;
@@ -175,7 +175,7 @@ GXDataDocument::GXDataDocument
 
 	BuildWindow();
 
-	itsPrinter = new JXPSPrinter(GetDisplay());
+	itsPrinter = jnew JXPSPrinter(GetDisplay());
 	assert( itsPrinter != NULL );
 	ListenTo(itsPrinter);
 
@@ -197,9 +197,9 @@ GXDataDocument::GXDataDocument
 
 GXDataDocument::~GXDataDocument()
 {
-	delete itsData;
-	delete itsPrinter;
-	delete itsPlotWindows;
+	jdelete itsData;
+	jdelete itsPrinter;
+	jdelete itsPlotWindows;
 }
 
 /******************************************************************************
@@ -213,17 +213,17 @@ GXDataDocument::BuildWindow()
 	JSize w = 453;
 	JSize h = 360;
 
-	JXWindow* window = new JXWindow(this, w,h, "");
+	JXWindow* window = jnew JXWindow(this, w,h, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop,
 					0,0, w, kJXDefaultMenuBarHeight);
 	assert( menuBar != NULL );
 
 	JXToolBar* toolBar =
-		new JXToolBar(GetPrefsMgr(), kDataToolBarID, menuBar,
+		jnew JXToolBar(GetPrefsMgr(), kDataToolBarID, menuBar,
 					150, 150, window,
 					JXWidget::kHElastic, JXWidget::kVElastic,
 					0,kJXDefaultMenuBarHeight,
@@ -234,19 +234,19 @@ GXDataDocument::BuildWindow()
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	ListenTo(itsFileMenu);
 
-	JXImage* image = new JXImage(GetDisplay(), JXPM(filenew));
+	JXImage* image = jnew JXImage(GetDisplay(), JXPM(filenew));
 	assert(image != NULL);
 	itsFileMenu->SetItemImage(kNewCmd, image, kJTrue);
 
-	image = new JXImage(GetDisplay(), JXPM(fileopen));
+	image = jnew JXImage(GetDisplay(), JXPM(fileopen));
 	assert(image != NULL);
 	itsFileMenu->SetItemImage(kOpenCmd, image, kJTrue);
 
-	image = new JXImage(GetDisplay(), JXPM(filefloppy));
+	image = jnew JXImage(GetDisplay(), JXPM(filefloppy));
 	assert(image != NULL);
 	itsFileMenu->SetItemImage(kSaveCmd, image, kJTrue);
 
-	image = new JXImage(GetDisplay(), JXPM(fileprint));
+	image = jnew JXImage(GetDisplay(), JXPM(fileprint));
 	assert(image != NULL);
 	itsFileMenu->SetItemImage(kPrintCmd, image, kJTrue);
 
@@ -254,7 +254,7 @@ GXDataDocument::BuildWindow()
 		toolBar->GetWidgetEnclosure()->GetBoundsHeight();
 
 	itsScrollbarSet =
-		new JXScrollbarSet(toolBar->GetWidgetEnclosure(),
+		jnew JXScrollbarSet(toolBar->GetWidgetEnclosure(),
 					JXWidget::kHElastic, JXWidget::kVElastic,
 					0,0,
 					w, scrollheight);
@@ -271,13 +271,13 @@ GXDataDocument::BuildWindow()
 	JRect enclApG     = encl->GetApertureGlobal();
 
 	JXTextButton* okButton =
-		new JXTextButton("OK", encl,
+		jnew JXTextButton("OK", encl,
 						JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						0, 0, kRowHeaderWidth-2, kColHeaderHeight-2);
 	assert(okButton != NULL);
 
 	itsTable =
-		new GXRaggedFloatTable(this, okButton, itsData, 6,
+		jnew GXRaggedFloatTable(this, okButton, itsData, 6,
 							menuBar, itsScrollbarSet, encl,
 							JXWidget::kHElastic, JXWidget::kVElastic,
 							kRowHeaderWidth,kColHeaderHeight,
@@ -288,14 +288,14 @@ GXDataDocument::BuildWindow()
 	enclApG = encl->GetApertureGlobal();	// JXScrollableWidget forces a change in this
 
 	GXRowHeaderWidget* rowHeader =
-		new GXRowHeaderWidget(itsTable, itsScrollbarSet, encl,
+		jnew GXRowHeaderWidget(itsTable, itsScrollbarSet, encl,
 							  JXWidget::kFixedLeft, JXWidget::kVElastic,
 							  0,kColHeaderHeight, kRowHeaderWidth,
 							  enclApG.height() - kColHeaderHeight);
 	assert( rowHeader != NULL );
 
 	GXColHeaderWidget* colHeader =
-		new GXColHeaderWidget(itsTable, itsScrollbarSet, encl,
+		jnew GXColHeaderWidget(itsTable, itsScrollbarSet, encl,
 							  JXWidget::kHElastic, JXWidget::kFixedTop,
 							  kRowHeaderWidth,0, enclApG.width() - kRowHeaderWidth,
 							  kColHeaderHeight);
@@ -303,12 +303,12 @@ GXDataDocument::BuildWindow()
 	assert( colHeader != NULL );
 
 	JXDocumentMenu* windowListMenu =
-		new JXDocumentMenu(kWindowListMenuTitleStr, menuBar,
+		jnew JXDocumentMenu(kWindowListMenuTitleStr, menuBar,
 			JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( windowListMenu != NULL );
 	menuBar->AppendMenu(windowListMenu);
 
-	itsExportMenu = new JXTextMenu(itsFileMenu, kExportCmd, menuBar);
+	itsExportMenu = jnew JXTextMenu(itsFileMenu, kExportCmd, menuBar);
 	assert( itsExportMenu != NULL );
 	itsExportMenu->SetMenuItems(kExportMenuStr);
 	itsExportMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -319,7 +319,7 @@ GXDataDocument::BuildWindow()
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
 
-	image = new JXImage(GetDisplay(), JXPM(manual));
+	image = jnew JXImage(GetDisplay(), JXPM(manual));
 	assert(image != NULL);
 	itsHelpMenu->SetItemImage(kTOCCmd, image, kJTrue);
 
@@ -591,7 +591,7 @@ void
 GXDataDocument::ChooseFileFilter()
 {
 	assert (itsFileImportDialog == NULL);
-	itsFileImportDialog = new GXChooseFileImportDialog(this, itsCurrentFileName);
+	itsFileImportDialog = jnew GXChooseFileImportDialog(this, itsCurrentFileName);
 	assert (itsFileImportDialog != NULL);
 	ListenTo(itsFileImportDialog);
 	itsFileImportDialog->BeginDialog();
@@ -739,7 +739,7 @@ GXDataDocument::CreateNewPlot
 	JString str = "Plot " + JString(itsPlotNumber);
 	itsPlotNumber++;
 
-	PlotDir* plotDir = new PlotDir(this, this, GetFileName());
+	PlotDir* plotDir = jnew PlotDir(this, this, GetFileName());
 	assert (plotDir != NULL);
 	itsPlotWindows->Append(plotDir);
 
@@ -840,7 +840,7 @@ GXDataDocument::GetPlotNames
 
 		JX2DPlotWidget* plot = plotDir->GetPlot();
 		assert( plot != NULL );
-		name = new JString(plot->GetTitle());
+		name = jnew JString(plot->GetTitle());
 		if (name->GetLength() > kMaxPlotTitleSize)
 			{
 			name->RemoveSubstring(kMaxPlotTitleSize, name->GetLength());
@@ -920,7 +920,7 @@ GXDataDocument::ReadPlotData
 	is >> count;
 	for (JSize i = 1; i <= count; i++)
 		{
-		PlotDir* plotDir = new PlotDir(this, this, GetFileName());
+		PlotDir* plotDir = jnew PlotDir(this, this, GetFileName());
 		assert (plotDir != NULL);
 
 		plotDir->ReadSetup(is, gloveVersion);
@@ -1107,7 +1107,7 @@ GXDataDocument::LoadInternalFile
 		{
 		assert(itsDelimiterDialog == NULL);
 		itsDelimiterDialog =
-			new GXGetDelimiterDialog(this, itsFileImportDialog->GetFileText());
+			jnew GXGetDelimiterDialog(this, itsFileImportDialog->GetFileText());
 		assert(itsDelimiterDialog != NULL);
 		ListenTo(itsDelimiterDialog);
 		itsDelimiterDialog->BeginDialog();

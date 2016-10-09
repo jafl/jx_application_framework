@@ -58,7 +58,7 @@ CBINIStyler::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBINIStyler;
+		itsSelf = jnew CBINIStyler;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -75,7 +75,7 @@ CBINIStyler::Instance()
 void
 CBINIStyler::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

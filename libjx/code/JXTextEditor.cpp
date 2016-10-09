@@ -60,19 +60,19 @@ JXTextEditor::JXTextEditor
 	AppendEditMenu(menuBar, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue, kJTrue);
 	AppendSearchReplaceMenu(menuBar);
 
-	itsFontMenu = new JXFontNameMenu(kFontMenuTitleStr, menuBar,
+	itsFontMenu = jnew JXFontNameMenu(kFontMenuTitleStr, menuBar,
 									 kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsFontMenu != NULL );
 	menuBar->AppendMenu(itsFontMenu);
 	ListenTo(itsFontMenu);
 
-	itsSizeMenu = new JXFontSizeMenu(itsFontMenu, kSizeMenuTitleStr, menuBar,
+	itsSizeMenu = jnew JXFontSizeMenu(itsFontMenu, kSizeMenuTitleStr, menuBar,
 									 kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsSizeMenu != NULL );
 	menuBar->AppendMenu(itsSizeMenu);
 	ListenTo(itsSizeMenu);
 
-	itsStyleMenu = new JXTEStyleMenu(this, menuBar,
+	itsStyleMenu = jnew JXTEStyleMenu(this, menuBar,
 									 kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsStyleMenu != NULL );
 	menuBar->AppendMenu(itsStyleMenu);

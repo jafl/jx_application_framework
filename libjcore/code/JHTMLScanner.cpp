@@ -142,7 +142,7 @@ JHTMLScanner::TagFinished()
 void
 JHTMLScanner::SaveAttributeValue()
 {
-	JString* value = new JString(itsTagInfo->valueBuffer);
+	JString* value = jnew JString(itsTagInfo->valueBuffer);
 	assert( value != NULL );
 	const JBoolean ok = (itsTagInfo->attr).SetOldElement(itsTagInfo->lastAttr, value,
 														 JPtrArrayT::kDelete);
@@ -201,7 +201,7 @@ JHTMLScanner::PHPFinished
 
 	(itsTagInfo->name).Set("?php");
 
-	JString* value = new JString(itsTagInfo->valueBuffer);
+	JString* value = jnew JString(itsTagInfo->valueBuffer);
 	assert( value != NULL );
 	value->TrimWhitespace();
 	(itsTagInfo->attr).SetElement("code", value, JPtrArrayT::kDelete);
@@ -310,7 +310,7 @@ JHTMLScanner::HandleGreekChar
 		{
 		itsTagInfo->name = "font";
 		(itsTagInfo->attr).CleanOut();
-		JString* value = new JString(JGetGreekFontName());
+		JString* value = jnew JString(JGetGreekFontName());
 		assert( value != NULL );
 		(itsTagInfo->attr).SetNewElement("face", value);
 		result = HandleHTMLTag(itsTagInfo->name, itsTagInfo->attr,

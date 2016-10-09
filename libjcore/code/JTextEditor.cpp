@@ -246,10 +246,10 @@ JTextEditor::JTextEditor
 
 	itsStoreClipFlag(useInternalClipboard)
 {
-	itsBuffer = new JString;
+	itsBuffer = jnew JString;
 	assert( itsBuffer != NULL );
 
-	itsStyles = new JRunArray<JFont>;
+	itsStyles = jnew JRunArray<JFont>;
 	assert( itsStyles != NULL );
 
 	itsUndo                    = NULL;
@@ -279,12 +279,12 @@ JTextEditor::JTextEditor
 	itsDefTabWidth     = 36;	// 1/2 inch
 	itsMaxWordWidth    = 0;
 
-	itsLineStarts = new JArray<JIndex>;
+	itsLineStarts = jnew JArray<JIndex>;
 	assert( itsLineStarts != NULL );
 	itsLineStarts->SetCompareFunction(JCompareIndices);
 	itsLineStarts->SetSortOrder(JOrderedSetT::kSortAscending);
 
-	itsLineGeom = new JRunArray<LineGeometry>;
+	itsLineGeom = jnew JRunArray<LineGeometry>;
 	assert( itsLineGeom != NULL );
 
 	itsCaretLoc         = CaretLocation(1,1);
@@ -343,10 +343,10 @@ JTextEditor::JTextEditor
 
 	itsStoreClipFlag( source.itsStoreClipFlag )
 {
-	itsBuffer = new JString(*(source.itsBuffer));
+	itsBuffer = jnew JString(*(source.itsBuffer));
 	assert( itsBuffer != NULL );
 
-	itsStyles = new JRunArray<JFont>(*(source.itsStyles));
+	itsStyles = jnew JRunArray<JFont>(*(source.itsStyles));
 	assert( itsStyles != NULL );
 
 	itsUndo                    = NULL;
@@ -374,10 +374,10 @@ JTextEditor::JTextEditor
 	itsDefTabWidth     = source.itsDefTabWidth;
 	itsMaxWordWidth    = source.itsMaxWordWidth;
 
-	itsLineStarts = new JArray<JIndex>(*(source.itsLineStarts));
+	itsLineStarts = jnew JArray<JIndex>(*(source.itsLineStarts));
 	assert( itsLineStarts != NULL );
 
-	itsLineGeom = new JRunArray<LineGeometry>(*(source.itsLineGeom));
+	itsLineGeom = jnew JRunArray<LineGeometry>(*(source.itsLineGeom));
 	assert( itsLineGeom != NULL );
 
 	itsPrevBufLength = source.itsPrevBufLength;
@@ -414,16 +414,16 @@ JTextEditor::JTextEditor
 
 JTextEditor::~JTextEditor()
 {
-	delete itsBuffer;
-	delete itsStyles;
-	delete itsUndo;
-	delete itsLineStarts;
-	delete itsLineGeom;
-	delete itsUndoList;
-	delete itsKeyHandler;
+	jdelete itsBuffer;
+	jdelete itsStyles;
+	jdelete itsUndo;
+	jdelete itsLineStarts;
+	jdelete itsLineGeom;
+	jdelete itsUndoList;
+	jdelete itsKeyHandler;
 
-	delete itsClipText;
-	delete itsClipStyle;
+	jdelete itsClipText;
+	jdelete itsClipStyle;
 
 	ClearCRMRuleList();
 }
@@ -979,7 +979,7 @@ JIndex i;
 	JPtrArray<JString> fontList(JPtrArrayT::kDeleteAll);
 	for (i=1; i<=fontCount; i++)
 		{
-		JString* name = new JString;
+		JString* name = jnew JString;
 		assert( name != NULL );
 		input >> *name;
 		fontList.Append(name);
@@ -1524,7 +1524,7 @@ JTextEditor::HandleHTMLOnCmd
 	const JStringPtrMap<JString>&	attr
 	)
 {
-	// new paragraph
+	// jnew paragraph
 
 	if (cmd == "p")
 		{
@@ -1725,7 +1725,7 @@ JTextEditor::HandleHTMLOnCmd
 		(itsHTMLLexerState->indentCount)++;
 		}
 
-	// new table
+	// jnew table
 
 	else if (cmd == "table")
 		{
@@ -3731,7 +3731,7 @@ JTextEditor::SetCurrentFontName
 			}
 		else if (isNew)
 			{
-			delete undo;
+			jdelete undo;
 			}
 		}
 	else
@@ -4401,7 +4401,7 @@ JTextEditor::Paste
 	JSize pasteLength =
 		(style != NULL ? style->GetElementCount() : strlen(text));
 
-	JTEUndoPaste* newUndo = new JTEUndoPaste(this, pasteLength);
+	JTEUndoPaste* newUndo = jnew JTEUndoPaste(this, pasteLength);
 	assert( newUndo != NULL );
 
 	pasteLength = PrivatePaste(text, style);
@@ -4503,10 +4503,10 @@ JTextEditor::TECreateClipboard()
 
 	if (itsClipText == NULL)
 		{
-		itsClipText = new JString;
+		itsClipText = jnew JString;
 		assert( itsClipText != NULL );
 
-		itsClipStyle = new JRunArray<JFont>;
+		itsClipStyle = jnew JRunArray<JFont>;
 		assert( itsClipStyle != NULL );
 		}
 }
@@ -4521,17 +4521,17 @@ JTextEditor::TECreateClipboard()
 void
 JTextEditor::TEClearClipboard()
 {
-	delete itsClipText;
+	jdelete itsClipText;
 	itsClipText = NULL;
 
-	delete itsClipStyle;
+	jdelete itsClipStyle;
 	itsClipStyle = NULL;
 }
 
 /******************************************************************************
  GetInsertionIndex
 
-	Return the index where new text will be typed or pasted.
+	Return the index where jnew text will be typed or pasted.
 
  ******************************************************************************/
 
@@ -4695,7 +4695,7 @@ JTextEditor::SelectAll()
 /******************************************************************************
  DeleteSelection
 
-	We create JTEUndoTyping so keys pressed after the delete key count
+	We create JTEUndoTyping so keys pressed after the jdelete key count
 	as part of the undo task.
 
  ******************************************************************************/
@@ -4705,7 +4705,7 @@ JTextEditor::DeleteSelection()
 {
 	if (!itsIsDragSourceFlag && !itsSelection.IsEmpty())
 		{
-		JTEUndoTyping* newUndo = new JTEUndoTyping(this);
+		JTEUndoTyping* newUndo = jnew JTEUndoTyping(this);
 		assert( newUndo != NULL );
 
 		DeleteText(itsSelection);
@@ -6118,7 +6118,7 @@ JTextEditor::CRMReadNextWord
 /*******************************************************************************
  CRMAppendWord (private)
 
-	Add the spaces and word to new text, maintaining the required line width.
+	Add the spaces and word to jnew text, maintaining the required line width.
 
 	If *newCaretIndex>0, we convert it from an index in spaceBuffer+wordBuffer
 	to an index in newText.
@@ -6255,7 +6255,7 @@ JTextEditor::ClearCRMRuleList()
 	if (itsOwnsCRMRulesFlag && itsCRMRuleList != NULL)
 		{
 		itsCRMRuleList->DeleteAll();
-		delete itsCRMRuleList;
+		jdelete itsCRMRuleList;
 		}
 
 	itsCRMRuleList      = NULL;
@@ -6274,7 +6274,7 @@ JTextEditor::CRMRule::CreateFirst
 	const JCharacter* replacePattern
 	)
 {
-	JRegex* r = new JRegex(pattern);
+	JRegex* r = jnew JRegex(pattern);
 	assert( r != NULL );
 	const JError err = r->SetReplacePattern(replacePattern);
 	assert_ok( err );
@@ -6287,7 +6287,7 @@ JTextEditor::CRMRule::CreateRest
 	const JCharacter* pattern
 	)
 {
-	JRegex* r = new JRegex(pattern);
+	JRegex* r = jnew JRegex(pattern);
 	assert( r != NULL );
 	return r;
 }
@@ -6321,8 +6321,8 @@ JTextEditor::CRMRuleList::DeleteAll()
 	for (JIndex i=1; i<=count; i++)
 		{
 		CRMRule r = GetElement(i);
-		delete r.first;
-		delete r.rest;
+		jdelete r.first;
+		jdelete r.rest;
 		}
 
 	RemoveAll();
@@ -6444,7 +6444,7 @@ JTextEditor::DeactivateCurrentUndo()
 void
 JTextEditor::ClearUndo()
 {
-	delete itsUndo;
+	jdelete itsUndo;
 	itsUndo = NULL;
 
 	if (itsUndoList != NULL)
@@ -6476,7 +6476,7 @@ JTextEditor::UseMultipleUndo
 		{
 		ClearUndo();
 
-		itsUndoList = new JPtrArray<JTEUndoBase>(JPtrArrayT::kDeleteAll,
+		itsUndoList = jnew JPtrArray<JTEUndoBase>(JPtrArrayT::kDeleteAll,
 												 itsMaxUndoCount+1);
 		assert( itsUndoList != NULL );
 		}
@@ -6484,7 +6484,7 @@ JTextEditor::UseMultipleUndo
 		{
 		ClearUndo();
 
-		delete itsUndoList;
+		jdelete itsUndoList;
 		itsUndoList = NULL;
 		}
 }
@@ -6565,7 +6565,7 @@ JTextEditor::GetCurrentRedo
 /******************************************************************************
  NewUndo (private)
 
-	Register a new Undo object.
+	Register a jnew Undo object.
 
 	itsFirstRedoIndex points to the first redo object in itsUndoList.
 	1 <= itsFirstRedoIndex <= itsUndoList->GetElementCount()+1
@@ -6606,7 +6606,7 @@ JTextEditor::NewUndo
 			ClearLastSaveLocation();
 			}
 
-		// save the new object
+		// save the jnew object
 
 		itsUndoList->Append(undo);
 		itsFirstRedoIndex++;
@@ -6639,7 +6639,7 @@ JTextEditor::NewUndo
 
 	else
 		{
-		delete itsUndo;
+		jdelete itsUndo;
 		itsUndo = undo;
 		}
 
@@ -6761,9 +6761,9 @@ JTextEditor::ClearOutdatedUndo()
  GetTypingUndo (private)
 
 	Return the active JTEUndoTyping object.  If the current undo object is
-	not an active JTEUndoTyping object, we create a new one that is active.
+	not an active JTEUndoTyping object, we create a jnew one that is active.
 
-	If we create a new object, *isNew = kJTrue, and the caller is required
+	If we create a jnew object, *isNew = kJTrue, and the caller is required
 	to call NewUndo() after changing the text.
 
  ******************************************************************************/
@@ -6787,7 +6787,7 @@ JTextEditor::GetTypingUndo
 		}
 	else
 		{
-		typingUndo = new JTEUndoTyping(this);
+		typingUndo = jnew JTEUndoTyping(this);
 		assert( typingUndo != NULL );
 
 		*isNew = kJTrue;
@@ -6799,9 +6799,9 @@ JTextEditor::GetTypingUndo
  GetStyleUndo (private)
 
 	Return the active JTEUndoStyle object.  If the current undo object is
-	not an active JTEUndoStyle object, we create a new one that is active.
+	not an active JTEUndoStyle object, we create a jnew one that is active.
 
-	If we create a new object, *isNew = kJTrue, and the caller is required
+	If we create a jnew object, *isNew = kJTrue, and the caller is required
 	to call NewUndo() after changing the text.
 
  ******************************************************************************/
@@ -6825,7 +6825,7 @@ JTextEditor::GetStyleUndo
 		}
 	else
 		{
-		styleUndo = new JTEUndoStyle(this);
+		styleUndo = jnew JTEUndoStyle(this);
 		assert( styleUndo != NULL );
 
 		*isNew = kJTrue;
@@ -6837,9 +6837,9 @@ JTextEditor::GetStyleUndo
  GetTabShiftUndo (private)
 
 	Return the active JTEUndoTabShift object.  If the current undo object is
-	not an active JTEUndoTabShift object, we create a new one that is active.
+	not an active JTEUndoTabShift object, we create a jnew one that is active.
 
-	If we create a new object, *isNew = kJTrue, and the caller is required
+	If we create a jnew object, *isNew = kJTrue, and the caller is required
 	to call NewUndo() after changing the text.
 
  ******************************************************************************/
@@ -6862,7 +6862,7 @@ JTextEditor::GetTabShiftUndo
 		}
 	else
 		{
-		tabShiftUndo = new JTEUndoTabShift(this);
+		tabShiftUndo = jnew JTEUndoTabShift(this);
 		assert( tabShiftUndo != NULL );
 
 		*isNew = kJTrue;
@@ -6897,11 +6897,11 @@ JTextEditor::InsertText
 #define COPY_FOR_INSERT_TEXT \
 	if (newText == NULL) \
 		{ \
-		newText = new JString(text, textLen); \
+		newText = jnew JString(text, textLen); \
 		assert( newText != NULL ); \
 		if (style != NULL) \
 			{ \
-			newStyle = new JRunArray<JFont>(*style); \
+			newStyle = jnew JRunArray<JFont>(*style); \
 			assert( newStyle != NULL ); \
 			} \
 		}
@@ -7044,8 +7044,8 @@ JTextEditor::InsertText
 			insertedLength = (newText != NULL ? newText->GetLength() : textLen);
 			}
 
-		delete newText;
-		delete newStyle;
+		jdelete newText;
+		jdelete newStyle;
 		}
 
 	return insertedLength;
@@ -8525,7 +8525,7 @@ JTextEditor::DropSelection
 	if (dropCopy)
 		{
 		SetCaretLocation(dropLoc);
-		newUndo = new JTEUndoPaste(this, textLen);
+		newUndo = jnew JTEUndoPaste(this, textLen);
 		}
 	else
 		{
@@ -8540,7 +8540,7 @@ JTextEditor::DropSelection
 			origIndex += textLen;
 			}
 
-		newUndo = new JTEUndoDrop(this, origIndex, dropLoc, textLen);
+		newUndo = jnew JTEUndoDrop(this, origIndex, dropLoc, textLen);
 
 		DeleteText(itsSelection);
 		Recalc(itsSelection.first, 1, kJTrue, kJFalse);
@@ -8645,7 +8645,7 @@ JTextEditor::SetKeyHandler
 	JTEKeyHandler* handler
 	)
 {
-	delete itsKeyHandler;
+	jdelete itsKeyHandler;
 	itsKeyHandler = handler;
 	if (itsKeyHandler != NULL)
 		{
@@ -8894,7 +8894,7 @@ JTextEditor::TEHandleKeyPress
 		SetCaretLocation(bufLength+1);
 		}
 
-	// delete
+	// jdelete
 
 	else if (key == kJDeleteKey && !itsSelection.IsEmpty())
 		{
@@ -8905,7 +8905,7 @@ JTextEditor::TEHandleKeyPress
 		BackwardDelete(deleteToTabStop);
 		}
 
-	// forward delete
+	// forward jdelete
 
 	else if (key == kJForwardDeleteKey && !itsSelection.IsEmpty())
 		{
@@ -9048,7 +9048,7 @@ JTextEditor::BackwardDelete
 					textColumn    -= tabWidth;
 					deleteLength  -= (tabWidth-1);
 					}
-				else	// normal delete when close to text
+				else	// normal jdelete when close to text
 					{
 					startIndex   = origStartIndex;
 					deleteLength = 1;
@@ -9056,7 +9056,7 @@ JTextEditor::BackwardDelete
 					}
 				}
 			}
-		else			// normal delete when close to text
+		else			// normal jdelete when close to text
 			{
 			deleteLength = 1;
 			}
@@ -9129,14 +9129,14 @@ JTextEditor::ForwardDelete
 					deleteLength = i;
 					break;
 					}
-				else if (c != ' ')	// normal delete when close to text
+				else if (c != ' ')	// normal jdelete when close to text
 					{
 					deleteLength = 1;
 					break;
 					}
 				}
 			}
-		else						// normal delete when close to text
+		else						// normal jdelete when close to text
 			{
 			deleteLength = 1;
 			}
@@ -10937,7 +10937,7 @@ JTextEditor::Recalc
 
 	itsHeight = newHeight;
 
-	// notify the derived class of our new size
+	// notify the derived class of our jnew size
 
 	if (!itsIsPrintingFlag)
 		{
@@ -11029,7 +11029,7 @@ JTextEditor::Recalc1
 		const JIndex endChar = firstChar + charCount-1;
 		assert( endChar <= bufLength );
 
-		// remove line starts that are further from the end than the new one
+		// remove line starts that are further from the end than the jnew one
 		// (we use (bufLength - endChar) so subtraction won't produce negative numbers)
 
 		while (lineIndex < GetLineCount() &&
@@ -11069,7 +11069,7 @@ JTextEditor::Recalc1
 			break;
 			}
 
-		// insert the new line start
+		// insert the jnew line start
 
 		lineIndex++;
 		firstChar += charCount;
@@ -11077,7 +11077,7 @@ JTextEditor::Recalc1
 		itsLineStarts->InsertElementAtIndex(lineIndex, firstChar);
 		itsLineGeom->InsertElementAtIndex(lineIndex, LineGeometry());
 
-		// This catches the case when the new and old line starts
+		// This catches the case when the jnew and old line starts
 		// are equally far from the end, but we haven't recalculated
 		// far enough yet, so the above breakout code didn't trigger.
 
@@ -11100,7 +11100,7 @@ JTextEditor::Recalc1
 	of characters on the line.  Sets the appropriate values in itsLineGeom.
 	Sets *lineWidth to the width of the line in pixels.
 
-	If insertLine is kJTrue, then this line is new, so we insert a new
+	If insertLine is kJTrue, then this line is jnew, so we insert a jnew
 	element into itsLineGeom.
 
 	Updates *runIndex,*firstInRun so that they are correct for the character

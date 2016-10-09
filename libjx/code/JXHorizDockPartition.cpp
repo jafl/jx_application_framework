@@ -78,7 +78,7 @@ JXHorizDockPartition::JXHorizDockPartition
 	itsDockMenu(NULL),
 	itsParentDock(parent)
 {
-	itsDockList = new JPtrArray<JXDockWidget>(JPtrArrayT::kForgetAll);
+	itsDockList = jnew JPtrArray<JXDockWidget>(JPtrArrayT::kForgetAll);
 	assert( itsDockList != NULL );
 
 	CreateInitialCompartments();
@@ -91,7 +91,7 @@ JXHorizDockPartition::JXHorizDockPartition
 
 JXHorizDockPartition::~JXHorizDockPartition()
 {
-	delete itsDockList;
+	jdelete itsDockList;
 }
 
 /******************************************************************************
@@ -111,12 +111,12 @@ JXHorizDockPartition::CreateCompartment
 		JXHorizPartition::CreateCompartment(index, position, size);
 
 	JXDockTabGroup* tabGroup =
-		new JXDockTabGroup(compartment, kHElastic, kVElastic, 0,0, 100,100);
+		jnew JXDockTabGroup(compartment, kHElastic, kVElastic, 0,0, 100,100);
 	assert( tabGroup != NULL );
 	tabGroup->FitToEnclosure();
 
 	JXDockWidget* dock =
-		new JXDockWidget(itsDirector, this, kJTrue, tabGroup,
+		jnew JXDockWidget(itsDirector, this, kJTrue, tabGroup,
 						 tabGroup->GetCardEnclosure(), kHElastic, kVElastic,
 						 0,0, 100,100);
 	assert( dock != NULL );
@@ -343,7 +343,7 @@ JXHorizDockPartition::HandleMouseDown
 
 		if (itsDockMenu == NULL)
 			{
-			itsDockMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+			itsDockMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
 			assert( itsDockMenu != NULL );
 			itsDockMenu->SetToHiddenPopupMenu();
 			itsDockMenu->SetMenuItems(kDockMenuStr);
@@ -444,7 +444,7 @@ JXHorizDockPartition::HandleDockMenu
 		}
 	else if (index == kRemoveLeftCmd)
 		{
-		DeleteCompartment(itsCompartmentIndex);		// may delete us
+		DeleteCompartment(itsCompartmentIndex);		// may jdelete us
 		}
 
 	else if (index == kSplitRightHorizCmd)
@@ -457,7 +457,7 @@ JXHorizDockPartition::HandleDockMenu
 		}
 	else if (index == kRemoveRightCmd)
 		{
-		DeleteCompartment(itsCompartmentIndex+1);	// may delete us
+		DeleteCompartment(itsCompartmentIndex+1);	// may jdelete us
 		}
 
 	else if (index == kSetLeftElasticCmd)
@@ -543,7 +543,7 @@ JXHorizDockPartition::SplitVert
 		minHeights.AppendElement(JXDockWidget::kDefaultMinSize);
 		minHeights.AppendElement(JXDockWidget::kDefaultMinSize);
 
-		p = new JXVertDockPartition(itsDirector, parent, heights, 0, minHeights, encl,
+		p = jnew JXVertDockPartition(itsDirector, parent, heights, 0, minHeights, encl,
 									kHElastic, kVElastic, 0,0,
 									encl->GetApertureWidth(), encl->GetApertureHeight());
 		assert( p != NULL );
@@ -558,7 +558,7 @@ JXHorizDockPartition::SplitVert
 		else
 			{
 			d1->TransferAll(parent);
-			delete p;
+			jdelete p;
 			p = NULL;
 
 			if (reportError)
@@ -578,7 +578,7 @@ JXHorizDockPartition::SplitVert
 /******************************************************************************
  DeleteCompartment
 
-	*** This function can delete us!
+	*** This function can jdelete us!
 
  ******************************************************************************/
 
@@ -605,7 +605,7 @@ JXHorizDockPartition::DeleteCompartment
 
 		itsParentDock->SetChildPartition(NULL);		// so docking will be allowed
 		child->TransferAll(itsParentDock);
-		delete this;
+		jdelete this;
 		}
 }
 

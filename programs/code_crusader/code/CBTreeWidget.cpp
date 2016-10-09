@@ -72,7 +72,7 @@ CBTreeWidget::CBTreeWidget
 	itsDirector = director;
 	itsTree     = tree;
 
-	itsFnMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsFnMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsFnMenu != NULL );
 	itsFnMenu->Hide();
 	itsFnMenu->SetToHiddenPopupMenu(kJTrue);
@@ -80,10 +80,10 @@ CBTreeWidget::CBTreeWidget
 
 	itsFnMenuDir = NULL;
 
-	itsQtSignalImage = new JXImage(GetDisplay(), jcc_qt_signal);
+	itsQtSignalImage = jnew JXImage(GetDisplay(), jcc_qt_signal);
 	assert( itsQtSignalImage != NULL );
 
-	itsQtSlotImage = new JXImage(GetDisplay(), jcc_qt_slot);
+	itsQtSlotImage = jnew JXImage(GetDisplay(), jcc_qt_slot);
 	assert( itsQtSlotImage != NULL );
 
 	WantInput(kJTrue, kJFalse, kJTrue);	// need Meta-Tab
@@ -108,8 +108,8 @@ CBTreeWidget::CBTreeWidget
 
 CBTreeWidget::~CBTreeWidget()
 {
-	delete itsQtSignalImage;
-	delete itsQtSlotImage;
+	jdelete itsQtSignalImage;
+	jdelete itsQtSlotImage;
 }
 
 /******************************************************************************
@@ -477,7 +477,7 @@ CBTreeWidget::HandleMouseDrag
 			{
 			itsFnMenuDir->Close();
 			}
-		itsFnMenuDir = new CBFnListDirector(itsDirector, NULL, itsFnMenuClass, this,
+		itsFnMenuDir = jnew CBFnListDirector(itsDirector, NULL, itsFnMenuClass, this,
 											itsDirector->ShowInheritedFns(), kJTrue);
 		assert( itsFnMenuDir != NULL );
 
@@ -490,7 +490,7 @@ CBTreeWidget::HandleMouseDrag
 		}
 	else if (itsDragType == kWaitForPopupFnMenuDrag && JMouseMoved(itsStartPt, pt))
 		{
-		JXFileSelection* data = new JXFileSelection(this, kSelectionDataID);
+		JXFileSelection* data = jnew JXFileSelection(this, kSelectionDataID);
 		assert( data != NULL );
 
 		BeginDND(pt, buttonStates, modifiers, data);
@@ -560,7 +560,7 @@ CBTreeWidget::GetSelectionData
 
 		CBDocumentManager* docMgr = CBGetDocumentManager();
 
-		JPtrArray<JString>* list = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		JPtrArray<JString>* list = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert( list != NULL );
 
 		JPtrArray<CBClass> classList(JPtrArrayT::kForgetAll);
@@ -574,14 +574,14 @@ CBTreeWidget::GetSelectionData
 			CBClass* c = classList.NthElement(i);
 			if (c->GetFileName(&headerName))
 				{
-				JString* s = new JString(headerName);
+				JString* s = jnew JString(headerName);
 				assert( s != NULL );
 				list->Append(s);
 
 				if (docMgr->GetComplementFile(headerName, itsTree->GetFileType(),
 											  &sourceName, itsDirector->GetProjectDoc()))
 					{
-					s = new JString(sourceName);
+					s = jnew JString(sourceName);
 					assert( s != NULL );
 					list->Append(s);
 					}

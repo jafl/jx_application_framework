@@ -146,7 +146,7 @@ CBTreeDirector::CBTreeDirector
 	itsTree = createTreeFn(this, CBTreeWidget::kBorderWidth);
 
 	itsTreeWidget =
-		new CBTreeWidget(this, itsTree, scrollbarSet,
+		jnew CBTreeWidget(this, itsTree, scrollbarSet,
 						 scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic,
 						 0,0, 100,100);
@@ -213,7 +213,7 @@ CBTreeDirector::CBTreeDirector
 		}
 
 	itsTreeWidget =
-		new CBTreeWidget(this, itsTree, scrollbarSet,
+		jnew CBTreeWidget(this, itsTree, scrollbarSet,
 						 scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic,
 						 0,0, 100,100);
@@ -276,7 +276,7 @@ CBTreeDirector::CBTreeDirector
 			{
 			JBoolean keep;
 			CBFnListDirector* dir =
-				new CBFnListDirector(projInput, projVers, &keep,
+				jnew CBFnListDirector(projInput, projVers, &keep,
 									 this, itsFnListPrinter, itsTreeWidget);
 			assert( dir != NULL );
 			if (useSymProjData && keep && !subProject)
@@ -299,7 +299,7 @@ CBTreeDirector::CBTreeDirector
 			{
 			JBoolean keep;
 			CBFnListDirector* dir =
-				new CBFnListDirector(*symInput, symVers, &keep,
+				jnew CBFnListDirector(*symInput, symVers, &keep,
 									 this, itsFnListPrinter, itsTreeWidget);
 			assert( dir != NULL );
 			if (keep && !subProject)
@@ -331,7 +331,7 @@ CBTreeDirector::CBTreeDirectorX
 	itsProjDoc = doc;
 	ListenTo(itsProjDoc);
 
-	itsFnBrowsers = new JPtrArray<CBFnListDirector>(JPtrArrayT::kForgetAll);
+	itsFnBrowsers = jnew JPtrArray<CBFnListDirector>(JPtrArrayT::kForgetAll);
 	assert( itsFnBrowsers != NULL );
 
 	itsShowInheritedFnsFlag = kJTrue;
@@ -343,15 +343,15 @@ CBTreeDirector::CBTreeDirectorX
 
 	// can't call GetWindow() until window is created
 
-	itsPSPrinter = new JXPSPrinter(GetDisplay());
+	itsPSPrinter = jnew JXPSPrinter(GetDisplay());
 	assert( itsPSPrinter != NULL );
 	ListenTo(itsPSPrinter);
 
-	itsEPSPrinter = new JXEPSPrinter(GetDisplay());
+	itsEPSPrinter = jnew JXEPSPrinter(GetDisplay());
 	assert( itsEPSPrinter != NULL );
 	ListenTo(itsEPSPrinter);
 
-	itsFnListPrinter = new JXPSPrinter(GetDisplay());
+	itsFnListPrinter = jnew JXPSPrinter(GetDisplay());
 	assert( itsFnListPrinter != NULL );
 
 	return sbarSet;
@@ -364,11 +364,11 @@ CBTreeDirector::CBTreeDirectorX
 
 CBTreeDirector::~CBTreeDirector()
 {
-	delete itsTree;
-	delete itsPSPrinter;
-	delete itsEPSPrinter;
-	delete itsFnListPrinter;
-	delete itsFnBrowsers;	// objects deleted by JXDirector
+	jdelete itsTree;
+	jdelete itsPSPrinter;
+	jdelete itsEPSPrinter;
+	jdelete itsFnListPrinter;
+	jdelete itsFnBrowsers;	// objects deleted by JXDirector
 }
 
 /******************************************************************************
@@ -516,7 +516,7 @@ CBTreeDirector::AskForFunctionToFind()
 	assert( itsFindFnDialog == NULL );
 
 	itsFindFnDialog =
-		new JXGetStringDialog(this, JGetString("FindFunctionTitle::CBTreeDirector"),
+		jnew JXGetStringDialog(this, JGetString("FindFunctionTitle::CBTreeDirector"),
 							  JGetString("FindFunctionPrompt::CBTreeDirector"));
 	assert( itsFindFnDialog != NULL );
 
@@ -576,7 +576,7 @@ CBTreeDirector::ViewFunctionList
 			}
 		}
 
-	CBFnListDirector* dir = new CBFnListDirector(this, itsFnListPrinter,
+	CBFnListDirector* dir = jnew CBFnListDirector(this, itsFnListPrinter,
 												 theClass, itsTreeWidget,
 												 itsShowInheritedFnsFlag);
 	assert( dir != NULL );
@@ -611,16 +611,16 @@ CBTreeDirector::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 400,430, "");
+	JXWindow* window = jnew JXWindow(this, 400,430, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		new JXToolBar(CBGetPrefsManager(), toolBarPrefID, menuBar, 150,150, window,
+		jnew JXToolBar(CBGetPrefsManager(), toolBarPrefID, menuBar, 150,150, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,400);
 	assert( itsToolBar != NULL );
 
@@ -631,13 +631,13 @@ CBTreeDirector::BuildWindow
 	window->SetWMClass(CBGetWMClassInstance(), CBGetTreeWindowClass());
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
+		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( scrollbarSet != NULL );
 	scrollbarSet->FitToEnclosure();
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = new JXImage(display, windowIcon);
+	JXImage* icon      = jnew JXImage(display, windowIcon);
 	assert( icon != NULL );
 	window->SetIcon(icon);
 
@@ -659,12 +659,12 @@ CBTreeDirector::BuildWindow
 	itsFileMenu->SetItemImage(kPrintPSCmd,       jx_file_print);
 
 	CBFileHistoryMenu* recentProjectMenu =
-		new CBFileHistoryMenu(CBDocumentManager::kProjectFileHistory,
+		jnew CBFileHistoryMenu(CBDocumentManager::kProjectFileHistory,
 							  itsFileMenu, kRecentProjectMenuCmd, menuBar);
 	assert( recentProjectMenu != NULL );
 
 	CBFileHistoryMenu* recentTextMenu =
-		new CBFileHistoryMenu(CBDocumentManager::kTextFileHistory,
+		jnew CBFileHistoryMenu(CBDocumentManager::kTextFileHistory,
 							  itsFileMenu, kRecentTextMenuCmd, menuBar);
 	assert( recentTextMenu != NULL );
 
@@ -686,14 +686,14 @@ CBTreeDirector::BuildWindow
 	itsProjectMenu->SetItemImage(kSaveAllTextCmd,       jx_file_save_all);
 
 	itsCmdMenu =
-		new CBCommandMenu(itsProjDoc, NULL, menuBar,
+		jnew CBCommandMenu(itsProjDoc, NULL, menuBar,
 						  JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsCmdMenu != NULL );
 	menuBar->AppendMenu(itsCmdMenu);
 	ListenTo(itsCmdMenu);
 
 	CBDocumentMenu* fileListMenu =
-		new CBDocumentMenu(kFileListMenuTitleStr, menuBar,
+		jnew CBDocumentMenu(kFileListMenuTitleStr, menuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( fileListMenu != NULL );
 	menuBar->AppendMenu(fileListMenu);
@@ -1050,7 +1050,7 @@ void
 CBTreeDirector::EditTreePrefs()
 {
 	CBEditTreePrefsDialog* dlog =
-		new CBEditTreePrefsDialog(itsTree->GetFontSize(), itsShowInheritedFnsFlag,
+		jnew CBEditTreePrefsDialog(itsTree->GetFontSize(), itsShowInheritedFnsFlag,
 								  itsTree->WillAutoMinimizeMILinks(),
 								  itsTree->WillDrawMILinksOnTop(),
 								  itsTreeWidget->WillRaiseWindowWhenSingleMatch());

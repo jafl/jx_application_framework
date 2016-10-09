@@ -73,7 +73,7 @@ JXImageSelection::JXImageSelection
 
 JXImageSelection::~JXImageSelection()
 {
-	delete itsImage;
+	jdelete itsImage;
 }
 
 /******************************************************************************
@@ -115,7 +115,7 @@ JXImageSelection::SetData
 	const JXImage& image
 	)
 {
-	JXImage* copy = new JXImage(image);
+	JXImage* copy = jnew JXImage(image);
 	assert( copy != NULL );
 	SetData(copy);
 }
@@ -136,7 +136,7 @@ JXImageSelection::SetData
 	if (itsImage != NULL)
 		{
 		StopListening(itsImage->GetXColormap());
-		delete itsImage;
+		jdelete itsImage;
 		}
 
 	itsImage = image;
@@ -201,7 +201,7 @@ JXImageSelection::ConvertData
 
 		*returnType = requestType;
 		*dataLength = imageData.GetLength();
-		*data       = new unsigned char[ *dataLength ];
+		*data       = jnew unsigned char[ *dataLength ];
 		if (*data != NULL)
 			{
 			memcpy(*data, imageData.GetCString(), *dataLength);
@@ -228,7 +228,7 @@ JXImageSelection::ReceiveGoingAway
 {
 	if (sender == itsImage->GetXColormap())
 		{
-		delete itsImage;
+		jdelete itsImage;
 		itsImage = NULL;
 		}
 	else

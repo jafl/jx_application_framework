@@ -43,7 +43,7 @@ CBBourneShellCompleter::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBBourneShellCompleter;
+		itsSelf = jnew CBBourneShellCompleter;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -60,7 +60,7 @@ CBBourneShellCompleter::Instance()
 void
 CBBourneShellCompleter::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

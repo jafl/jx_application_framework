@@ -72,7 +72,7 @@ JDecision*
 JGreaterThan::Copy()
 	const
 {
-	JGreaterThan* newDecision = new JGreaterThan(*this);
+	JGreaterThan* newDecision = jnew JGreaterThan(*this);
 	assert( newDecision != NULL );
 	return newDecision;
 }

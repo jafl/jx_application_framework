@@ -27,7 +27,7 @@ JProbDistr::JProbDistr
 {
 	// create array to hold the probabilities
 
-	itsProbs = new JArray<JFloat>(elementCount);
+	itsProbs = jnew JArray<JFloat>(elementCount);
 	assert( itsProbs != NULL );
 
 	// initialize the values
@@ -50,7 +50,7 @@ JProbDistr::JProbDistr
 
 	// create array to hold the probabilities
 
-	itsProbs = new JArray<JFloat>(elementCount);
+	itsProbs = jnew JArray<JFloat>(elementCount);
 	assert( itsProbs != NULL );
 
 	// get the probabilities
@@ -73,7 +73,7 @@ JProbDistr::JProbDistr
 	const JProbDistr& source
 	)
 {
-	itsProbs = new JArray<JFloat>(*(source.itsProbs));
+	itsProbs = jnew JArray<JFloat>(*(source.itsProbs));
 	assert( itsProbs != NULL );
 }
 
@@ -84,7 +84,7 @@ JProbDistr::JProbDistr
 
 JProbDistr::~JProbDistr()
 {
-	delete itsProbs;
+	jdelete itsProbs;
 }
 
 /******************************************************************************
@@ -153,7 +153,7 @@ JProbDistr::operator+=
 	const JSize elementCount = GetElementCount();
 	assert( elementCount == theProbDistr.GetElementCount() );
 
-	// add the new values to our values
+	// add the jnew values to our values
 
 	for (JIndex i=1; i<=elementCount; i++)
 		{

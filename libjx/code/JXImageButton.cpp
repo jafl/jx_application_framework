@@ -46,7 +46,7 @@ JXImageButton::~JXImageButton()
 {
 	if (itsOwnsImageFlag)
 		{
-		delete itsImage;
+		jdelete itsImage;
 		}
 }
 
@@ -73,10 +73,10 @@ JXImageButton::SetBitmap
 
 	if (itsOwnsImageFlag)
 		{
-		delete itsImage;
+		jdelete itsImage;
 		}
 
-	itsImage = new JXImage(GetDisplay(), bitmap, foreColor, backColor);
+	itsImage = jnew JXImage(GetDisplay(), bitmap, foreColor, backColor);
 	assert( itsImage != NULL );
 
 	itsOwnsImageFlag = kJTrue;
@@ -97,7 +97,7 @@ JXImageButton::SetImage
 	const JColorIndex	backColor
 	)
 {
-	JXImage* image = new JXImage(GetDisplay(), xpm);
+	JXImage* image = jnew JXImage(GetDisplay(), xpm);
 	assert( image != NULL );
 	SetImage(image, kJTrue, backColor);
 }
@@ -123,7 +123,7 @@ JXImageButton::SetImage
 		{
 		if (itsOwnsImageFlag)
 			{
-			delete itsImage;
+			jdelete itsImage;
 			}
 
 		itsImage = image;

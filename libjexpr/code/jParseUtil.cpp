@@ -219,7 +219,7 @@ JFindFirstOperator
 			}
 		else
 			{
-			assert( 0 );	// in case a new result is added
+			assert( 0 );	// in case a jnew result is added
 			}
 		}
 

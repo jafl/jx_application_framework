@@ -322,7 +322,7 @@ JTreeNode::InsertAtIndex
 	JTreeNode*		child
 	)
 {
-	const JBoolean isMove = child->SetParent(this);		// may delete *our* itsChildren list
+	const JBoolean isMove = child->SetParent(this);		// may jdelete *our* itsChildren list
 
 	CreateChildList();
 	itsChildren->InsertAtIndex(index, child);
@@ -341,7 +341,7 @@ JTreeNode::InsertBefore
 	JTreeNode*			child
 	)
 {
-	const JBoolean isMove = child->SetParent(this);		// may delete *our* itsChildren list
+	const JBoolean isMove = child->SetParent(this);		// may jdelete *our* itsChildren list
 
 	CreateChildList();
 	itsChildren->InsertBefore(before, child);
@@ -360,7 +360,7 @@ JTreeNode::InsertAfter
 	JTreeNode*			child
 	)
 {
-	const JBoolean isMove = child->SetParent(this);		// may delete *our* itsChildren list
+	const JBoolean isMove = child->SetParent(this);		// may jdelete *our* itsChildren list
 
 	CreateChildList();
 	itsChildren->InsertAfter(after, child);
@@ -378,7 +378,7 @@ JTreeNode::InsertSorted
 	JTreeNode* child
 	)
 {
-	const JBoolean isMove = child->SetParent(this);		// may delete *our* itsChildren list
+	const JBoolean isMove = child->SetParent(this);		// may jdelete *our* itsChildren list
 
 	CreateChildList();
 	if (!itsChildren->Includes(child))
@@ -551,7 +551,7 @@ JTreeNode::CreateChildList()
 {
 	if (itsChildren == NULL)
 		{
-		itsChildren = new JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
+		itsChildren = jnew JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
 		assert( itsChildren != NULL );
 		itsChildren->SetCompareFunction(itsCompareFn);
 		itsChildren->SetSortOrder(itsSortOrder);
@@ -612,7 +612,7 @@ JTreeNode::Remove
 
 		if (itsChildren->IsEmpty())
 			{
-			delete itsChildren;
+			jdelete itsChildren;
 			itsChildren = NULL;
 			}
 		}
@@ -631,10 +631,10 @@ JTreeNode::DeleteAllChildren()
 		const JSize count = itsChildren->GetElementCount();
 		for (JIndex i=count; i>=1; i--)
 			{
-			delete itsChildren->NthElement(i);
+			jdelete itsChildren->NthElement(i);
 			}
 
-		delete itsChildren;
+		jdelete itsChildren;
 		itsChildren = NULL;
 		}
 }

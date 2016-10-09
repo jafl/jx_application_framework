@@ -430,7 +430,7 @@ JSearchSubdirs_private
 			}
 		}
 
-	delete info;
+	jdelete info;
 	return found;
 }
 

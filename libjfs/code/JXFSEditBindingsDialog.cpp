@@ -65,7 +65,7 @@ JXFSEditBindingsDialog::~JXFSEditBindingsDialog()
 {
 	WriteSetup();
 
-	delete itsBindingList;
+	jdelete itsBindingList;
 }
 
 /******************************************************************************
@@ -148,118 +148,118 @@ JXFSEditBindingsDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 580,430, "");
+	JXWindow* window = jnew JXWindow(this, 580,430, "");
 	assert( window != NULL );
 
 	itsSaveButton =
-		new JXTextButton(JGetString("itsSaveButton::JXFSEditBindingsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsSaveButton::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 510,360, 50,20);
 	assert( itsSaveButton != NULL );
 	itsSaveButton->SetShortcuts(JGetString("itsSaveButton::JXFSEditBindingsDialog::shortcuts::JXLayout"));
 
 	itsCloseButton =
-		new JXTextButton(JGetString("itsCloseButton::JXFSEditBindingsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsCloseButton::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 510,400, 50,20);
 	assert( itsCloseButton != NULL );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::JXFSEditBindingsDialog::shortcuts::JXLayout"));
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 490,230);
 	assert( scrollbarSet != NULL );
 
 	JXTextButton* addButton =
-		new JXTextButton(JGetString("addButton::JXFSEditBindingsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("addButton::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 500,30, 70,20);
 	assert( addButton != NULL );
 	addButton->SetShortcuts(JGetString("addButton::JXFSEditBindingsDialog::shortcuts::JXLayout"));
 
 	JXTextButton* removeButton =
-		new JXTextButton(JGetString("removeButton::JXFSEditBindingsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("removeButton::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 500,90, 70,20);
 	assert( removeButton != NULL );
 
 	itsRevertButton =
-		new JXTextButton(JGetString("itsRevertButton::JXFSEditBindingsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsRevertButton::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 510,320, 50,20);
 	assert( itsRevertButton != NULL );
 	itsRevertButton->SetShortcuts(JGetString("itsRevertButton::JXFSEditBindingsDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::JXFSEditBindingsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 510,260, 50,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::JXFSEditBindingsDialog::shortcuts::JXLayout"));
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::JXFSEditBindingsDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 130,370, 360,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetFontSize(8);
 	obj1_JXLayout->SetToLabel();
 
 	itsDefCmd =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 200,250, 290,20);
 	assert( itsDefCmd != NULL );
 
 	JXStaticText* obj2_JXLayout =
-		new JXStaticText(JGetString("obj2_JXLayout::JXFSEditBindingsDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj2_JXLayout::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 70,330, 120,20);
 	assert( obj2_JXLayout != NULL );
 	obj2_JXLayout->SetToLabel();
 
 	itsUseDefaultCB =
-		new JXTextCheckbox(JGetString("itsUseDefaultCB::JXFSEditBindingsDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsUseDefaultCB::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,250, 190,20);
 	assert( itsUseDefaultCB != NULL );
 
 	JXStaticText* obj3_JXLayout =
-		new JXStaticText(JGetString("obj3_JXLayout::JXFSEditBindingsDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj3_JXLayout::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 140,270, 350,20);
 	assert( obj3_JXLayout != NULL );
 	obj3_JXLayout->SetFontSize(8);
 	obj3_JXLayout->SetToLabel();
 
 	JXStaticText* obj4_JXLayout =
-		new JXStaticText(JGetString("obj4_JXLayout::JXFSEditBindingsDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj4_JXLayout::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 70,350, 120,20);
 	assert( obj4_JXLayout != NULL );
 	obj4_JXLayout->SetToLabel();
 
 	itsShellCmd =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 190,330, 300,20);
 	assert( itsShellCmd != NULL );
 
 	itsWindowCmd =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 190,350, 300,20);
 	assert( itsWindowCmd != NULL );
 
 	itsDefShellCB =
-		new JXTextCheckbox(JGetString("itsDefShellCB::JXFSEditBindingsDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsDefShellCB::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 140,290, 90,20);
 	assert( itsDefShellCB != NULL );
 
 	itsDefWindowCB =
-		new JXTextCheckbox(JGetString("itsDefWindowCB::JXFSEditBindingsDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsDefWindowCB::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 240,290, 110,20);
 	assert( itsDefWindowCB != NULL );
 
 	itsDefSingleCB =
-		new JXTextCheckbox(JGetString("itsDefSingleCB::JXFSEditBindingsDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsDefSingleCB::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 370,290, 120,20);
 	assert( itsDefSingleCB != NULL );
 
 	JXTextButton* duplicateButton =
-		new JXTextButton(JGetString("duplicateButton::JXFSEditBindingsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("duplicateButton::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 500,60, 70,20);
 	assert( duplicateButton != NULL );
 	duplicateButton->SetShortcuts(JGetString("duplicateButton::JXFSEditBindingsDialog::shortcuts::JXLayout"));
 
 	itsAutoShellCB =
-		new JXTextCheckbox(JGetString("itsAutoShellCB::JXFSEditBindingsDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsAutoShellCB::JXFSEditBindingsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 140,400, 320,20);
 	assert( itsAutoShellCB != NULL );
 
@@ -271,7 +271,7 @@ JXFSEditBindingsDialog::BuildWindow()
 	// table
 
 	itsTable =
-		new JXFSBindingTable(itsBindingList, addButton, removeButton, duplicateButton,
+		jnew JXFSBindingTable(itsBindingList, addButton, removeButton, duplicateButton,
 							 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							 JXWidget::kHElastic, JXWidget::kVElastic,
 							 0,0, 100,100);
@@ -281,7 +281,7 @@ JXFSEditBindingsDialog::BuildWindow()
 	itsTable->AdjustSize(0, -kHeaderHeight);
 
 	JXColHeaderWidget* header =
-		new JXColHeaderWidget(itsTable,
+		jnew JXColHeaderWidget(itsTable,
 							  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							  JXWidget::kHElastic, JXWidget::kFixedTop,
 							  0,0, 100,kHeaderHeight);
@@ -551,7 +551,7 @@ JXFSEditBindingsDialog::ReadSetup()
 				}
 			}
 
-		delete file;
+		jdelete file;
 		}
 
 	return found;
@@ -572,7 +572,7 @@ JXFSEditBindingsDialog::WriteSetup()
 		std::ostringstream data;
 		WriteSetup(data);
 		file->SetData(kCurrentPrefsVersion, data);
-		delete file;
+		jdelete file;
 		}
 }
 

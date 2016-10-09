@@ -182,14 +182,14 @@ apqueue<itemType>::DoubleQueue()
     // this could be made more efficient by doing the copy
     // in place (without the temporary vector temp)
     
-    apvector<itemType> temp(myElements.length()*2);   // new storage
+    apvector<itemType> temp(myElements.length()*2);   // jnew storage
     int j,k=myFront;                                  // copy to 0..
     for(j=0; j < mySize; j++)
     {
         temp[j] = myElements[k];
         Increment(k);
     }
-    myElements = temp;     // reset private vars to mirror new storage
+    myElements = temp;     // reset private vars to mirror jnew storage
     myFront = 0;
     myBack = mySize-1;
 }

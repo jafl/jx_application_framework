@@ -68,7 +68,7 @@ JFunction*
 JRoundToInt::Copy()
 	const
 {
-	JRoundToInt* newFunction = new JRoundToInt(*this);
+	JRoundToInt* newFunction = jnew JRoundToInt(*this);
 	assert( newFunction != NULL );
 	return newFunction;
 }

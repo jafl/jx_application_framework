@@ -11,6 +11,7 @@
 #define _H_JUnaryFunction
 
 #include <JFunctionWithArgs.h>
+#include <jNew.h>
 
 class JUnaryFunction : public JFunctionWithArgs
 {
@@ -78,7 +79,7 @@ JUnaryFunction::SetArg
 	JFunction* arg
 	)
 {
-	delete itsArg;
+	jdelete itsArg;
 	itsArg = arg;
 }
 

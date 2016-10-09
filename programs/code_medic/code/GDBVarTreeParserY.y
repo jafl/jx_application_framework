@@ -95,7 +95,7 @@ top_group :
 			}
 		itsIsPointerFlag = kJFalse;
 
-		delete $1;
+		jdelete $1;
 
 		YYACCEPT;
 		}
@@ -109,8 +109,8 @@ top_group :
 			}
 		itsIsPointerFlag = kJFalse;
 
-		delete $1;
-		delete $2;
+		jdelete $1;
+		jdelete $2;
 
 		YYACCEPT;
 		}
@@ -123,7 +123,7 @@ top_group :
 		itsCurrentNode->MakePointer(itsIsPointerFlag);
 		itsIsPointerFlag = kJFalse;
 
-		delete $1;
+		jdelete $1;
 
 		YYACCEPT;
 		}
@@ -135,8 +135,8 @@ top_group :
 		child->MakePointer(itsIsPointerFlag);
 		itsIsPointerFlag = kJFalse;
 
-		delete $1;
-		delete $2;
+		jdelete $1;
+		jdelete $2;
 
 		YYACCEPT;
 		}
@@ -146,48 +146,48 @@ group :
 
 	P_GROUP_OPEN node_list P_GROUP_CLOSE
 		{
-		$$ = new GDBVarGroupInfo(NULL, $2);
+		$$ = jnew GDBVarGroupInfo(NULL, $2);
 		assert( $$ != NULL );
 		}
 
 	| P_GROUP_OPEN value_list P_GROUP_CLOSE
 		{
-		$$ = new GDBVarGroupInfo(NULL, $2);
+		$$ = jnew GDBVarGroupInfo(NULL, $2);
 		assert( $$ != NULL );
 		}
 
 	| P_GROUP_OPEN group P_GROUP_CLOSE
 		{
-		JPtrArray<CMVarNode>* list = new JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
+		JPtrArray<CMVarNode>* list = jnew JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
 		assert( list != NULL );
 		AppendAsArrayElement("", *($2->list), list);
-		$$ = new GDBVarGroupInfo(NULL, list);
+		$$ = jnew GDBVarGroupInfo(NULL, list);
 		assert( $$ != NULL );
 
-		delete $2;
+		jdelete $2;
 		}
 
 	| P_SUMMARY P_GROUP_OPEN node_list P_GROUP_CLOSE
 		{
-		$$ = new GDBVarGroupInfo($1, $3);
+		$$ = jnew GDBVarGroupInfo($1, $3);
 		assert( $$ != NULL );
 		}
 
 	| P_SUMMARY P_GROUP_OPEN value_list P_GROUP_CLOSE
 		{
-		$$ = new GDBVarGroupInfo($1, $3);
+		$$ = jnew GDBVarGroupInfo($1, $3);
 		assert( $$ != NULL );
 		}
 
 	| P_SUMMARY P_GROUP_OPEN group P_GROUP_CLOSE
 		{
-		JPtrArray<CMVarNode>* list = new JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
+		JPtrArray<CMVarNode>* list = jnew JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
 		assert( list != NULL );
 		AppendAsArrayElement($3->GetName(), *($3->list), list);
-		$$ = new GDBVarGroupInfo($1, list);
+		$$ = jnew GDBVarGroupInfo($1, list);
 		assert( $$ != NULL );
 
-		delete $3;
+		jdelete $3;
 		}
 	;
 
@@ -195,7 +195,7 @@ node_list :
 
 	node
 		{
-		JPtrArray<CMVarNode>* list = $$ = new JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
+		JPtrArray<CMVarNode>* list = $$ = jnew JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
 		assert( list != NULL );
 		list->Append($1);
 		}
@@ -220,18 +220,18 @@ node_list :
 			$$->Append(node);
 			}
 
-		delete $3;
+		jdelete $3;
 		}
 
 	| group ',' group
 		{
-		JPtrArray<CMVarNode>* list = $$ = new JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
+		JPtrArray<CMVarNode>* list = $$ = jnew JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
 		assert( list != NULL );
 		AppendAsArrayElement($1->GetName(), *($1->list), list);
 		AppendAsArrayElement($3->GetName(), *($3->list), list);
 
-		delete $1;
-		delete $3;
+		jdelete $1;
+		jdelete $3;
 		}
 
 	| node_list ',' group
@@ -242,16 +242,16 @@ node_list :
 			}
 		else
 			{
-			JPtrArray<CMVarNode>* list = $$ = new JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
+			JPtrArray<CMVarNode>* list = $$ = jnew JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
 			assert( list != NULL );
 			AppendAsArrayElement("", *$1, list);
 
-			delete $1;
+			jdelete $1;
 			}
 
 		AppendAsArrayElement($3->GetName(), *($3->list), $$);
 
-		delete $3;
+		jdelete $3;
 		}
 
 	| node_list '.' '.' '.'
@@ -278,8 +278,8 @@ node :
 			}
 		itsIsPointerFlag = kJFalse;
 
-		delete $1;
-		delete $2;
+		jdelete $1;
+		jdelete $2;
 		}
 
 	| name_eq group
@@ -296,8 +296,8 @@ node :
 			itsCurrentNode->Append($2->list->NthElement(i));
 			}
 
-		delete $1;
-		delete $2;
+		jdelete $1;
+		jdelete $2;
 		}
 
 	| P_NO_DATA_FIELDS
@@ -305,7 +305,7 @@ node :
 		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(NULL, *$1, NULL, "");
 		itsIsPointerFlag = kJFalse;
 
-		delete $1;
+		jdelete $1;
 		}
 
 	| name_eq
@@ -318,7 +318,7 @@ node :
 		itsCurrentNode = $$ = (CMGetLink())->CreateVarNode(NULL, *$1, NULL, "<nothing>");
 		itsIsPointerFlag = kJFalse;
 
-		delete $1;
+		jdelete $1;
 		}
 	;
 
@@ -332,7 +332,7 @@ name_eq :
 		$$->Append(" ");
 		$$->Append(*$2);
 
-		delete $2;
+		jdelete $2;
 		}
 
 	| P_BRACKET_EQ
@@ -343,7 +343,7 @@ name_eq :
 		$$->Append(" ");
 		$$->Append(*$2);
 
-		delete $2;
+		jdelete $2;
 		}
 
 	| P_NAME P_BRACKET_EQ
@@ -351,7 +351,7 @@ name_eq :
 		$$ = $1;
 		$$->Append(*$2);
 
-		delete $2;
+		jdelete $2;
 		}
 
 	| P_STATIC P_NAME P_BRACKET_EQ
@@ -361,8 +361,8 @@ name_eq :
 		$$->Append(*$2);
 		$$->Append(*$3);
 
-		delete $2;
-		delete $3;
+		jdelete $2;
+		jdelete $3;
 		}
 
 	| P_EMPTY_BRACKET_EQ
@@ -372,7 +372,7 @@ value_list :
 
 	value_node
 		{
-		JPtrArray<CMVarNode>* list = $$ = new JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
+		JPtrArray<CMVarNode>* list = $$ = jnew JPtrArray<CMVarNode>(JPtrArrayT::kForgetAll);
 		assert( list != NULL );
 		AppendAsArrayElement($1, $$);
 		}
@@ -401,7 +401,7 @@ value_node :
 		itsCurrentNode->MakePointer(itsIsPointerFlag);
 		itsIsPointerFlag = kJFalse;
 
-		delete $1;
+		jdelete $1;
 		}
 	;
 
@@ -435,7 +435,7 @@ value :
 		$$->AppendCharacter(' ');
 		$$->Append(*$2);
 
-		delete $2;
+		jdelete $2;
 		}
 
 	| P_EMPTY_SUMMARY
@@ -448,7 +448,7 @@ value :
 		$$->AppendCharacter(' ');
 		$$->Append(*$2);
 
-		delete $2;
+		jdelete $2;
 		}
 
 	| P_PAREN_EXPR P_HEX P_STRING
@@ -459,8 +459,8 @@ value :
 		$$->AppendCharacter(' ');
 		$$->Append(*$3);
 
-		delete $2;
-		delete $3;
+		jdelete $2;
+		jdelete $3;
 		}
 
 	| P_HEX P_BRACKET
@@ -470,7 +470,7 @@ value :
 		$$->AppendCharacter(' ');
 		$$->Append(*$2);
 
-		delete $2;
+		jdelete $2;
 		}
 
 	| P_NAME P_BRACKET
@@ -479,7 +479,7 @@ value :
 		$$->AppendCharacter(' ');
 		$$->Append(*$2);
 
-		delete $2;
+		jdelete $2;
 		}
 
 	| P_INTEGER P_BRACKET
@@ -488,7 +488,7 @@ value :
 		$$->AppendCharacter(' ');
 		$$->Append(*$2);
 
-		delete $2;
+		jdelete $2;
 		}
 
 	| P_FLOAT P_BRACKET
@@ -497,7 +497,7 @@ value :
 		$$->AppendCharacter(' ');
 		$$->Append(*$2);
 
-		delete $2;
+		jdelete $2;
 		}
 
 	| P_CHAR P_BRACKET
@@ -506,7 +506,7 @@ value :
 		$$->AppendCharacter(' ');
 		$$->Append(*$2);
 
-		delete $2;
+		jdelete $2;
 		}
 
 	| P_BRACKET
@@ -518,8 +518,8 @@ value :
 		$$->Append(*$2);
 		$$->Append(*$3);
 
-		delete $2;
-		delete $3;
+		jdelete $2;
+		jdelete $3;
 		}
 
 	| P_NAME P_PAREN_EXPR
@@ -528,7 +528,7 @@ value :
 		$$->AppendCharacter(' ');
 		$$->Append(*$2);
 
-		delete $2;
+		jdelete $2;
 		}
 
 	| P_INTEGER P_CHAR
@@ -537,12 +537,12 @@ value :
 		$$->AppendCharacter(' ');
 		$$->Append(*$2);
 
-		delete $2;
+		jdelete $2;
 		}
 
 	| P_GROUP_OPEN P_GROUP_CLOSE
 		{
-		$$ = new JString("{}");
+		$$ = jnew JString("{}");
 		assert( $$ != NULL );
 		}
 	;
@@ -557,7 +557,7 @@ name :
 		$$->Append(" ");
 		$$->Append(*$2);
 
-		delete $2;
+		jdelete $2;
 		}
 
 	| P_BRACKET
@@ -568,7 +568,7 @@ name :
 		$$->Append(" ");
 		$$->Append(*$2);
 
-		delete $2;
+		jdelete $2;
 		}
 
 	| P_EMPTY_BRACKET
@@ -583,7 +583,7 @@ reference_value :
 		$$->AppendCharacter('@');
 		$$->Append(*$3);
 
-		delete $3;
+		jdelete $3;
 		}
 	;
 

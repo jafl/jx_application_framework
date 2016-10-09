@@ -32,7 +32,7 @@ J2DPlotJFunction::Create
 	JFunction* f;
 	if (JParseFunction(function, varList, &f))
 		{
-		*plotfunction = new J2DPlotJFunction(plot, varList, f, kJTrue, xIndex, xMin, xMax);
+		*plotfunction = jnew J2DPlotJFunction(plot, varList, f, kJTrue, xIndex, xMin, xMax);
 		return kJTrue;
 		}
 	else
@@ -77,7 +77,7 @@ J2DPlotJFunction::~J2DPlotJFunction()
 {
 	if (itsOwnsFnFlag)
 		{
-		delete itsFunction;
+		jdelete itsFunction;
 		}
 }
 
@@ -135,7 +135,7 @@ J2DPlotJFunction::SetFunction
 
 	if (itsOwnsFnFlag)
 		{
-		delete itsFunction;
+		jdelete itsFunction;
 		}
 
 	itsFunction   = f;

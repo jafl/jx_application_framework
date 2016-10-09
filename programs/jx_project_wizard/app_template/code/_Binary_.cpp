@@ -44,7 +44,7 @@ main
 
 	JBoolean displayAbout;
 	JString prevVersStr;
-	<PRE>App* app = new <PRE>App(&argc, argv, &displayAbout, &prevVersStr);
+	<PRE>App* app = jnew <PRE>App(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != NULL );
 
 	if (displayAbout &&
@@ -59,7 +59,7 @@ main
 
 	// You may want to create all directors inside HandleCmdLineOptions()
 
-	<PRE>MainDirector* dir = new <PRE>MainDirector(app);
+	<PRE>MainDirector* dir = jnew <PRE>MainDirector(app);
 	assert( dir != NULL );
 	dir->Activate();
 

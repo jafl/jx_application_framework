@@ -44,7 +44,7 @@ JRunArray<T>::JRunArray()
 	:
 	JOrderedSet<T>()
 {
-	itsRuns = new JArray< JRunArrayElement<T> >;
+	itsRuns = jnew JArray< JRunArrayElement<T> >;
 	assert( itsRuns != NULL );
 }
 
@@ -61,7 +61,7 @@ JRunArray<T>::JRunArray
 	:
 	JOrderedSet<T>(source)
 {
-	itsRuns = new JArray< JRunArrayElement<T> >(*(source.itsRuns));
+	itsRuns = jnew JArray< JRunArrayElement<T> >(*(source.itsRuns));
 	assert( itsRuns != NULL );
 }
 
@@ -74,7 +74,7 @@ JRunArray<T>::JRunArray
 	:
 	JOrderedSet<T>(source)
 {
-	itsRuns = new JArray< JRunArrayElement<T> >;
+	itsRuns = jnew JArray< JRunArrayElement<T> >;
 	assert( itsRuns != NULL );
 
 	InsertSlice(1, source, range);
@@ -90,7 +90,7 @@ JRunArray<T>::JRunArray
 	:
 	JOrderedSet<T>(source)
 {
-	itsRuns = new JArray< JRunArrayElement<T> >;
+	itsRuns = jnew JArray< JRunArrayElement<T> >;
 	assert( itsRuns != NULL );
 
 	InsertSlice(1, source, startIndex, endIndex);
@@ -104,7 +104,7 @@ JRunArray<T>::JRunArray
 template <class T>
 JRunArray<T>::~JRunArray()
 {
-	delete itsRuns;
+	jdelete itsRuns;
 }
 
 /******************************************************************************
@@ -705,8 +705,8 @@ JRunArray<T>::PrivateSetElement
 		// At this point we know the run size is greater than
 		// one and if the item is at the start or end of the
 		// run, we can't merge it with the previous or next run.
-		// Therefore the item itself starts a new run, and there
-		// may be a new run preceeding or following the item.
+		// Therefore the item itself starts a jnew run, and there
+		// may be a jnew run preceeding or following the item.
 
 		if (elementIndex > *firstIndexInRun)
 			{
@@ -1302,7 +1302,7 @@ JRunArray<T>::NewIterator
 	const JIndex			index
 	)
 {
-	JRunArrayIterator<T>* iter = new JRunArrayIterator<T>(this, start, index);
+	JRunArrayIterator<T>* iter = jnew JRunArrayIterator<T>(this, start, index);
 	assert( iter != NULL );
 	return iter;
 }
@@ -1316,7 +1316,7 @@ JRunArray<T>::NewIterator
 	)
 	const
 {
-	JRunArrayIterator<T>* iter = new JRunArrayIterator<T>(*this, start, index);
+	JRunArrayIterator<T>* iter = jnew JRunArrayIterator<T>(*this, start, index);
 	assert( iter != NULL );
 	return iter;
 }

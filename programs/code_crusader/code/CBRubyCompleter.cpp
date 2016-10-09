@@ -68,7 +68,7 @@ CBRubyCompleter::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBRubyCompleter;
+		itsSelf = jnew CBRubyCompleter;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -85,7 +85,7 @@ CBRubyCompleter::Instance()
 void
 CBRubyCompleter::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

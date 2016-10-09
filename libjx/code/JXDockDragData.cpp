@@ -75,7 +75,7 @@ JXDockDragData::ConvertData
 		*returnType   = XA_POINT;
 		*bitsPerBlock = 16;
 		*dataLength   = sizeof(XPoint);
-		*data         = new unsigned char[ *dataLength ];
+		*data         = jnew unsigned char[ *dataLength ];
 		if (*data != NULL)
 			{
 			const JPoint minSize = itsWindow->GetMinSize();
@@ -91,7 +91,7 @@ JXDockDragData::ConvertData
 		*returnType   = XA_WINDOW;
 		*bitsPerBlock = 32;
 		*dataLength   = sizeof(Window);
-		*data         = new unsigned char[ *dataLength ];
+		*data         = jnew unsigned char[ *dataLength ];
 		if (*data != NULL)
 			{
 			*((Window*) *data) = itsWindow->GetXWindow();

@@ -11,7 +11,6 @@
 #define _H_GFGLink
 
 // Superclass Header
-#include <j_prep_ace.h>
 #include <ace/LSOCK_Stream.h>
 #include <ace/UNIX_Addr.h>
 #include <JMessageProtocol.h>

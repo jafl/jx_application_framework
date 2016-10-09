@@ -139,16 +139,16 @@ CBSymbolSRDirector::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 400,230, "");
+	JXWindow* window = jnew JXWindow(this, 400,230, "");
 	assert( window != NULL );
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,200);
 	assert( scrollbarSet != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
 	assert( menuBar != NULL );
 
@@ -162,7 +162,7 @@ CBSymbolSRDirector::BuildWindow
 		}
 
 	itsSymbolTable =
-		new CBSymbolTable(itsMainSymDir, symbolList,
+		jnew CBSymbolTable(itsMainSymDir, symbolList,
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsSymbolTable != NULL );
@@ -178,7 +178,7 @@ CBSymbolSRDirector::BuildWindow
 	itsActionsMenu->SetItemImage(kShowPHPTreeCmd,  jcc_show_php_tree);
 
 	itsCmdMenu =
-		new CBCommandMenu(itsProjDoc, NULL, menuBar,
+		jnew CBCommandMenu(itsProjDoc, NULL, menuBar,
 						  JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsCmdMenu != NULL );
 	menuBar->AppendMenu(itsCmdMenu);
@@ -270,7 +270,7 @@ CBSymbolSRDirector::HandleActionsMenu
 
 	else if (index == kUpdateCmd)
 		{
-		itsProjDoc->UpdateSymbolDatabase();	// can delete us
+		itsProjDoc->UpdateSymbolDatabase();	// can jdelete us
 		}
 	else if (index == kShowCTreeCmd)
 		{

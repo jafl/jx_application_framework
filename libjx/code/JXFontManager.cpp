@@ -59,7 +59,7 @@ JXFontManager::JXFontManager
 {
 	itsDisplay = display;
 
-	itsFontList = new JArray<FontInfo>;
+	itsFontList = jnew JArray<FontInfo>;
 	assert( itsFontList != NULL );
 
 	itsAllFontNames  = NULL;
@@ -79,13 +79,13 @@ JXFontManager::~JXFontManager()
 	for (JIndex i=1; i<=count; i++)
 		{
 		FontInfo info = itsFontList->GetElement(i);
-		delete info.name;
+		jdelete info.name;
 		info.xfont.Free(itsDisplay);
 		}
-	delete itsFontList;
+	jdelete itsFontList;
 
-	delete itsAllFontNames;
-	delete itsMonoFontNames;
+	jdelete itsAllFontNames;
+	jdelete itsMonoFontNames;
 }
 
 /******************************************************************************
@@ -269,7 +269,7 @@ JXFontManager::GetFontNames
 
 		// save names for next time
 
-		itsAllFontNames = new JDCCPtrArray<JString>(*fontNames, JPtrArrayT::kDeleteAll);
+		itsAllFontNames = jnew JDCCPtrArray<JString>(*fontNames, JPtrArrayT::kDeleteAll);
 		assert( itsAllFontNames != NULL );
 		}
 }
@@ -351,7 +351,7 @@ JXFontManager::GetMonospaceFontNames
 				{
 				allFontNames.InsertAtIndex(index, name);
 
-				JString* n = new JString(name);
+				JString* n = jnew JString(name);
 				assert( n != NULL );
 				const JBoolean ok = fontNames->InsertSorted(n, kJFalse);
 				assert( ok );
@@ -417,7 +417,7 @@ JXFontManager::GetMonospaceFontNames
 						{
 						if (xfont->min_bounds.width == xfont->max_bounds.width)
 							{
-							JString* n = new JString(name);
+							JString* n = jnew JString(name);
 							assert( n != NULL );
 							const JBoolean ok = fontNames->InsertSorted(n, kJFalse);
 							assert( ok );
@@ -434,7 +434,7 @@ JXFontManager::GetMonospaceFontNames
 
 		// save names for next time
 
-		itsMonoFontNames = new JDCCPtrArray<JString>(*fontNames, JPtrArrayT::kDeleteAll);
+		itsMonoFontNames = jnew JDCCPtrArray<JString>(*fontNames, JPtrArrayT::kDeleteAll);
 		assert( itsMonoFontNames != NULL );
 		}
 }
@@ -480,7 +480,7 @@ JXFontManager::GetXFontNames
 				fontNames->GetInsertionSortIndex(&name, &isDuplicate);
 			if (!isDuplicate)
 				{
-				JString* n = new JString(name);
+				JString* n = jnew JString(name);
 				assert( n != NULL );
 				fontNames->InsertAtIndex(index, n);
 				}
@@ -627,7 +627,7 @@ JXFontManager::GetFontID
 			}
 		}
 
-	// falling through means we need to create a new entry
+	// falling through means we need to create a jnew entry
 
 	const JString xFontName = ConvertToXFontName(name);
 
@@ -642,7 +642,7 @@ JXFontManager::GetFontID
 		ApproximateFont(xFontName, size, style, &(info.xfont));
 		}
 
-	info.name = new JString(name);
+	info.name = jnew JString(name);
 	assert( info.name != NULL );
 
 	info.size      = size;
@@ -679,7 +679,7 @@ JXFontManager::GetFontID
 			}
 		}
 
-	// falling through means we need to create a new entry
+	// falling through means we need to create a jnew entry
 
 	FontInfo info;
 
@@ -709,7 +709,7 @@ JXFontManager::GetFontID
 			}
 		}
 
-	info.name = new JString(xFontStr);
+	info.name = jnew JString(xFontStr);
 	assert( info.name != NULL );
 
 	info.size      = 0;

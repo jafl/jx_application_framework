@@ -49,7 +49,7 @@ JXRegexReplaceInput::~JXRegexReplaceInput()
 {
 	if (itsOwnsRegexFlag)
 		{
-		delete itsTestRegex;
+		jdelete itsTestRegex;
 		}
 }
 

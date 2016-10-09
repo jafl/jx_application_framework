@@ -81,7 +81,7 @@ JFunction*
 JNamedConstant::Copy()
 	const
 {
-	JNamedConstant* newFunction = new JNamedConstant(*this);
+	JNamedConstant* newFunction = jnew JNamedConstant(*this);
 	assert( newFunction != NULL );
 	return newFunction;
 }

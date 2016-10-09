@@ -18,7 +18,7 @@
 	item is created, and -must- be unique.  The id is the only guaranteed way
 	to get at the data after it is created.
 
-	For convenience, SetData() automatically creates a new item if the
+	For convenience, SetData() automatically creates a jnew item if the
 	given id doesn't already exist.
 
 	We ignore the issue of the file signature because preferences files
@@ -65,7 +65,7 @@ JPrefsFile::Create
 	const JError err = OKToCreate(fileNameStem, &fullName, action);
 	if (err.OK())
 		{
-		*obj = new JPrefsFile(fullName, action);
+		*obj = jnew JPrefsFile(fullName, action);
 		assert( *obj != NULL );
 		}
 	else

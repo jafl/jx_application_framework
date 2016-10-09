@@ -71,7 +71,7 @@ CBCommand::CBCommand
 {
 	assert( JIsAbsolutePath(path) );
 
-	itsCmdList = new JArray<CmdInfo>;
+	itsCmdList = jnew JArray<CmdInfo>;
 	assert( itsCmdList != NULL );
 
 	if (itsProjDoc != NULL)
@@ -124,7 +124,7 @@ CBCommand::~CBCommand()
 		CmdInfo info = itsCmdList->GetElement(i);
 		info.Free(kJTrue);
 		}
-	delete itsCmdList;
+	jdelete itsCmdList;
 
 	if (itsParent == NULL)
 		{
@@ -208,7 +208,7 @@ CBCommand::Add
 			cmd.TrimWhitespace();
 			if (!cmd.IsEmpty())
 				{
-				JString* s = new JString(cmd);
+				JString* s = jnew JString(cmd);
 				assert( s != NULL );
 				itsCmdList->AppendElement(CmdInfo(s, NULL, NULL, kJFalse));
 				cmd.Clear();
@@ -292,7 +292,7 @@ CBCommand::Add
 {
 	subCmd->SetParent(this);
 
-	CBCommandManager::CmdInfo* info = new CBCommandManager::CmdInfo;
+	CBCommandManager::CmdInfo* info = jnew CBCommandManager::CmdInfo;
 	assert( info != NULL );
 	*info = cmdInfo.Copy();
 
@@ -639,15 +639,15 @@ CBCommand::ProcessFinished
 			{
 			assert( !itsInQueueFlag );
 			CmdInfo info = itsCmdList->GetElement(1);
-			info.Free(kJFalse);			// don't delete CBCommand because it is deleting itself
+			info.Free(kJFalse);			// don't jdelete CBCommand because it is deleting itself
 			itsCmdList->RemoveElement(1);
 			}
-		StartProcess();		// may delete us
+		StartProcess();		// may jdelete us
 		}
 	else if (!itsCmdList->IsEmpty() && (itsCmdList->GetElement(1)).isMakeDepend)
 		{
 		CmdInfo info = itsCmdList->GetElement(1);
-		info.Free(kJFalse);				// don't delete CBCommand because it is deleting itself
+		info.Free(kJFalse);				// don't jdelete CBCommand because it is deleting itself
 		itsCmdList->RemoveElement(1);
 
 		DeleteThis();
@@ -661,7 +661,7 @@ CBCommand::ProcessFinished
 			info.Free(kJTrue);
 			itsCmdList->RemoveElement(1);
 			}
-		StartProcess();		// may delete us
+		StartProcess();		// may jdelete us
 		}
 	else
 		{
@@ -769,20 +769,20 @@ CBCommand::CmdInfo::Free
 	const JBoolean deleteCmdObj
 	)
 {
-	delete cmd;
+	jdelete cmd;
 	cmd = NULL;
 
 	if (deleteCmdObj && cmdObj != NULL)
 		{
 		cmdObj->itsCallParentProcessFinishedFlag = kJFalse;
-		delete cmdObj;
+		jdelete cmdObj;
 		cmdObj = NULL;
 		}
 
 	if (cmdInfo != NULL)
 		{
 		cmdInfo->Free();
-		delete cmdInfo;
+		jdelete cmdInfo;
 		cmdInfo = NULL;
 		}
 }

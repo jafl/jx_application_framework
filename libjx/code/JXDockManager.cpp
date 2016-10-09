@@ -62,10 +62,10 @@ JXDockManager::JXDockManager
 	itsIsReadingSetupFlag(kJFalse),
 	itsCloseDockMode(kUndockWindows)
 {
-	itsDockList = new JPtrArray<JXDockDirector>(JPtrArrayT::kForgetAll);
+	itsDockList = jnew JPtrArray<JXDockDirector>(JPtrArrayT::kForgetAll);
 	assert( itsDockList != NULL );
 
-	itsWindowTypeMap = new JStringMap<JIndex>;
+	itsWindowTypeMap = jnew JStringMap<JIndex>;
 	assert( itsWindowTypeMap != NULL );
 
 	display->RegisterXAtoms(kAtomCount, kAtomNames, itsAtoms);
@@ -80,9 +80,9 @@ JXDockManager::JXDockManager
 
 JXDockManager::~JXDockManager()
 {
-	delete itsWindowIcon;
-	delete itsDockList;		// JXDockDirectors deleted by JXDirector
-	delete itsWindowTypeMap;
+	jdelete itsWindowIcon;
+	jdelete itsDockList;		// JXDockDirectors deleted by JXDirector
+	jdelete itsWindowTypeMap;
 }
 
 /******************************************************************************
@@ -101,7 +101,7 @@ JXDockManager::CreateDock
 	(JXGetApplication())->SetCurrentDisplay(itsDisplay);
 	JXDockWindowTask::PrepareForDockAll();
 
-	JXDockDirector* dock = new JXDockDirector(title, splitHoriz);
+	JXDockDirector* dock = jnew JXDockDirector(title, splitHoriz);
 	assert( dock != NULL );
 	itsDockList->Append(dock);
 	dock->Activate();
@@ -138,7 +138,7 @@ JXDockManager::SetIcon
 	JXImage* icon
 	)
 {
-	delete itsWindowIcon;
+	jdelete itsWindowIcon;
 	itsWindowIcon = icon;
 }
 
@@ -156,7 +156,7 @@ JXDockManager::CreateIcon
 {
 	if (itsWindowIcon != NULL)
 		{
-		*icon = new JXImage(*itsWindowIcon);
+		*icon = jnew JXImage(*itsWindowIcon);
 		assert( *icon != NULL );
 		return kJTrue;
 		}
@@ -357,7 +357,7 @@ JXDockManager::ReadSetup
 		{
 		title = GetNewDockTitle();
 
-		JXDockDirector* dock = new JXDockDirector(input, vers, title);
+		JXDockDirector* dock = jnew JXDockDirector(input, vers, title);
 		assert( dock != NULL );
 		itsDockList->Append(dock);
 		dock->Activate();

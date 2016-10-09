@@ -46,7 +46,7 @@ SyGFileTreeNode::CreateChild
 	JDirEntry* entry
 	)
 {
-	JFSFileTreeNode* node = new SyGFileTreeNode(entry);
+	JFSFileTreeNode* node = jnew SyGFileTreeNode(entry);
 	assert( node != NULL);
 	return node;
 }

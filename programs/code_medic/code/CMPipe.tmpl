@@ -50,7 +50,7 @@ CMPipe<ACE_PEER_STREAM_2>::CMPipeX()
 {
 	itsBufferSize = CMPipeT::kDefaultBufferSize;
 
-	itsBuffer = new JCharacter [ itsBufferSize ];
+	itsBuffer = jnew JCharacter [ itsBufferSize ];
 	assert( itsBuffer != NULL );
 
 	itsInHandleInputFlag = kJFalse;
@@ -64,7 +64,7 @@ CMPipe<ACE_PEER_STREAM_2>::CMPipeX()
 template <ACE_PEER_STREAM_1>
 CMPipe<ACE_PEER_STREAM_2>::~CMPipe()
 {
-	delete [] itsBuffer;
+	jdelete [] itsBuffer;
 }
 
 /******************************************************************************

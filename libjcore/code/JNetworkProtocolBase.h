@@ -8,7 +8,6 @@
 #ifndef _H_JNetworkProtocolBase
 #define _H_JNetworkProtocolBase
 
-#include <j_prep_ace.h>
 #include <ace/Svc_Handler.h>
 #include <ace/Synch_Traits.h>
 #include <JString.h>

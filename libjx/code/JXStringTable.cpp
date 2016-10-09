@@ -136,7 +136,7 @@ JXStringTable::CreateStringTableInput
 	const JCoordinate	h
 	)
 {
-	JXInputField* obj = new JXInputField(enclosure, hSizing, vSizing, x,y, w,h);
+	JXInputField* obj = jnew JXInputField(enclosure, hSizing, vSizing, x,y, w,h);
 	assert( obj != NULL );
 	return obj;
 }
@@ -145,7 +145,7 @@ JXStringTable::CreateStringTableInput
  ExtractInputData (virtual protected)
 
 	Extract the information from the active input field, check it,
-	and delete the input field if successful.
+	and jdelete the input field if successful.
 
 	Returns kJTrue if the data is valid and the process succeeded.
 

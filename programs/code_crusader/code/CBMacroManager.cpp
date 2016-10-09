@@ -48,7 +48,7 @@ CBMacroManager::CBMacroManager()
 void
 CBMacroManager::CBMacroManagerX()
 {
-	itsMacroList = new CBMacroList;
+	itsMacroList = jnew CBMacroList;
 	assert( itsMacroList != NULL );
 	itsMacroList->SetSortOrder(JOrderedSetT::kSortAscending);
 	itsMacroList->SetCompareFunction(CompareMacros);
@@ -71,8 +71,8 @@ CBMacroManager::CBMacroManager
 		{
 		const MacroInfo oldInfo = (source.itsMacroList)->GetElement(i);
 
-		MacroInfo newInfo(new JString(*(oldInfo.macro)),
-						  new JString(*(oldInfo.script)));
+		MacroInfo newInfo(jnew JString(*(oldInfo.macro)),
+						  jnew JString(*(oldInfo.script)));
 		assert( newInfo.macro != NULL && newInfo.script != NULL );
 		itsMacroList->AppendElement(newInfo);
 		}
@@ -86,7 +86,7 @@ CBMacroManager::CBMacroManager
 CBMacroManager::~CBMacroManager()
 {
 	itsMacroList->DeleteAll();
-	delete itsMacroList;
+	jdelete itsMacroList;
 }
 
 /******************************************************************************
@@ -256,7 +256,7 @@ CBMacroManager::AddMacro
 {
 	assert( !JStringEmpty(macro) && script != NULL );
 
-	MacroInfo info(new JString(macro), new JString(script));
+	MacroInfo info(jnew JString(macro), jnew JString(script));
 	assert( info.macro != NULL && info.script != NULL );
 	itsMacroList->InsertSorted(info);
 }
@@ -301,7 +301,7 @@ CBMacroManager::ReadSetup
 
 	for (JIndex i=1; i<=count; i++)
 		{
-		MacroInfo info(new JString, new JString);
+		MacroInfo info(jnew JString, jnew JString);
 		assert( info.macro != NULL && info.script != NULL );
 		input >> *(info.macro) >> *(info.script);
 		itsMacroList->AppendElement(info);
@@ -358,8 +358,8 @@ CBMacroList::DeleteAll()
 	for (JIndex i=1; i<=count; i++)
 		{
 		CBMacroManager::MacroInfo info = GetElement(i);
-		delete info.macro;
-		delete info.script;
+		jdelete info.macro;
+		jdelete info.script;
 		}
 	RemoveAll();
 }

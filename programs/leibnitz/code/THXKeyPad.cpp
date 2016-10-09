@@ -67,97 +67,97 @@ THXKeyPad::CreateButtons()
 	this->AdjustSize(60 - kpLayout_Aperture.width(), 160 - kpLayout_Aperture.height());
 
 	itsDigitButton[7] =
-		new JXTextButton(JGetString("itsDigitButton[7]::THXKeyPad::kpLayout"), this,
+		jnew JXTextButton(JGetString("itsDigitButton[7]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 20,20);
 	assert( itsDigitButton[7] != NULL );
 
 	itsDigitButton[8] =
-		new JXTextButton(JGetString("itsDigitButton[8]::THXKeyPad::kpLayout"), this,
+		jnew JXTextButton(JGetString("itsDigitButton[8]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,0, 20,20);
 	assert( itsDigitButton[8] != NULL );
 
 	itsDigitButton[9] =
-		new JXTextButton(JGetString("itsDigitButton[9]::THXKeyPad::kpLayout"), this,
+		jnew JXTextButton(JGetString("itsDigitButton[9]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,0, 20,20);
 	assert( itsDigitButton[9] != NULL );
 
 	itsDigitButton[4] =
-		new JXTextButton(JGetString("itsDigitButton[4]::THXKeyPad::kpLayout"), this,
+		jnew JXTextButton(JGetString("itsDigitButton[4]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,20, 20,20);
 	assert( itsDigitButton[4] != NULL );
 
 	itsDigitButton[5] =
-		new JXTextButton(JGetString("itsDigitButton[5]::THXKeyPad::kpLayout"), this,
+		jnew JXTextButton(JGetString("itsDigitButton[5]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 20,20);
 	assert( itsDigitButton[5] != NULL );
 
 	itsDigitButton[6] =
-		new JXTextButton(JGetString("itsDigitButton[6]::THXKeyPad::kpLayout"), this,
+		jnew JXTextButton(JGetString("itsDigitButton[6]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,20, 20,20);
 	assert( itsDigitButton[6] != NULL );
 
 	itsDigitButton[1] =
-		new JXTextButton(JGetString("itsDigitButton[1]::THXKeyPad::kpLayout"), this,
+		jnew JXTextButton(JGetString("itsDigitButton[1]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,40, 20,20);
 	assert( itsDigitButton[1] != NULL );
 
 	itsDigitButton[2] =
-		new JXTextButton(JGetString("itsDigitButton[2]::THXKeyPad::kpLayout"), this,
+		jnew JXTextButton(JGetString("itsDigitButton[2]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 20,20);
 	assert( itsDigitButton[2] != NULL );
 
 	itsDigitButton[3] =
-		new JXTextButton(JGetString("itsDigitButton[3]::THXKeyPad::kpLayout"), this,
+		jnew JXTextButton(JGetString("itsDigitButton[3]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,40, 20,20);
 	assert( itsDigitButton[3] != NULL );
 
 	itsDigitButton[0] =
-		new JXTextButton(JGetString("itsDigitButton[0]::THXKeyPad::kpLayout"), this,
+		jnew JXTextButton(JGetString("itsDigitButton[0]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,60, 20,20);
 	assert( itsDigitButton[0] != NULL );
 
 	itsOpButton[kPtOpIndex] =
-		new JXTextButton(JGetString("itsOpButton[kPtOpIndex]::THXKeyPad::kpLayout"), this,
+		jnew JXTextButton(JGetString("itsOpButton[kPtOpIndex]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 20,20);
 	assert( itsOpButton[kPtOpIndex] != NULL );
 
 	itsOpButton[kExpOpIndex] =
-		new JXTextButton(JGetString("itsOpButton[kExpOpIndex]::THXKeyPad::kpLayout"), this,
+		jnew JXTextButton(JGetString("itsOpButton[kExpOpIndex]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,60, 20,20);
 	assert( itsOpButton[kExpOpIndex] != NULL );
 
 	itsClearAllButton =
-		new JXTextButton(JGetString("itsClearAllButton::THXKeyPad::kpLayout"), this,
+		jnew JXTextButton(JGetString("itsClearAllButton::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,140, 60,20);
 	assert( itsClearAllButton != NULL );
 
 	itsOpButton[kClearOpIndex] =
-		new JXTextButton(JGetString("itsOpButton[kClearOpIndex]::THXKeyPad::kpLayout"), this,
+		jnew JXTextButton(JGetString("itsOpButton[kClearOpIndex]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,120, 60,20);
 	assert( itsOpButton[kClearOpIndex] != NULL );
 
 	itsOpButton[kEvalOpIndex] =
-		new JXTextButton(JGetString("itsOpButton[kEvalOpIndex]::THXKeyPad::kpLayout"), this,
+		jnew JXTextButton(JGetString("itsOpButton[kEvalOpIndex]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,80, 20,40);
 	assert( itsOpButton[kEvalOpIndex] != NULL );
 
 	itsOpButton[kMultiplyOpIndex] =
-		new JXTextButton(JGetString("itsOpButton[kMultiplyOpIndex]::THXKeyPad::kpLayout"), this,
+		jnew JXTextButton(JGetString("itsOpButton[kMultiplyOpIndex]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,100, 20,20);
 	assert( itsOpButton[kMultiplyOpIndex] != NULL );
 
 	itsOpButton[kDivideOpIndex] =
-		new JXTextButton(JGetString("itsOpButton[kDivideOpIndex]::THXKeyPad::kpLayout"), this,
+		jnew JXTextButton(JGetString("itsOpButton[kDivideOpIndex]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,100, 20,20);
 	assert( itsOpButton[kDivideOpIndex] != NULL );
 
 	itsOpButton[kAddOpIndex] =
-		new JXTextButton(JGetString("itsOpButton[kAddOpIndex]::THXKeyPad::kpLayout"), this,
+		jnew JXTextButton(JGetString("itsOpButton[kAddOpIndex]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,80, 20,20);
 	assert( itsOpButton[kAddOpIndex] != NULL );
 
 	itsOpButton[kSubtractOpIndex] =
-		new JXTextButton(JGetString("itsOpButton[kSubtractOpIndex]::THXKeyPad::kpLayout"), this,
+		jnew JXTextButton(JGetString("itsOpButton[kSubtractOpIndex]::THXKeyPad::kpLayout"), this,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 20,20);
 	assert( itsOpButton[kSubtractOpIndex] != NULL );
 

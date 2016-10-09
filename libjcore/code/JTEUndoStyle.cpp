@@ -27,7 +27,7 @@ JTEUndoStyle::JTEUndoStyle
 {
 	itsStartIndex = te->GetInsertionIndex();
 
-	itsOrigStyles = new JRunArray<JFont>;
+	itsOrigStyles = jnew JRunArray<JFont>;
 	assert( itsOrigStyles != NULL );
 
 	JString selText;
@@ -42,7 +42,7 @@ JTEUndoStyle::JTEUndoStyle
 
 JTEUndoStyle::~JTEUndoStyle()
 {
-	delete itsOrigStyles;
+	jdelete itsOrigStyles;
 }
 
 /******************************************************************************
@@ -56,7 +56,7 @@ JTEUndoStyle::Undo()
 	JTextEditor* te = GetTE();
 	te->SetSelection(itsStartIndex, itsStartIndex + itsOrigStyles->GetElementCount() - 1);
 
-	JTEUndoStyle* newUndo = new JTEUndoStyle(te);
+	JTEUndoStyle* newUndo = jnew JTEUndoStyle(te);
 	assert( newUndo != NULL );
 
 	te->SetFont(itsStartIndex, *itsOrigStyles, kJFalse);

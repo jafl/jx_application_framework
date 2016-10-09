@@ -60,10 +60,10 @@ CMApp::CMApp
 		prevVersStr->Clear();
 		}
 
-	CMMDIServer* mdi = new CMMDIServer;		// deleted by jXGlobals
+	CMMDIServer* mdi = jnew CMMDIServer;		// deleted by jXGlobals
 	assert( mdi != NULL );
 
-	CMQuitTask* task = new CMQuitTask();
+	CMQuitTask* task = jnew CMQuitTask();
 	assert( task != NULL );
 	task->Start();
 }
@@ -133,13 +133,13 @@ CMApp::DisplayAbout
 	const JBoolean		init
 	)
 {
-	CMAboutDialog* dlog = new CMAboutDialog(this, prevVersStr);
+	CMAboutDialog* dlog = jnew CMAboutDialog(this, prevVersStr);
 	assert( dlog != NULL );
 	dlog->BeginDialog();
 
 	if (init && JStringEmpty(prevVersStr))
 		{
-		JXAskInitDockAll* task = new JXAskInitDockAll(dlog);
+		JXAskInitDockAll* task = jnew JXAskInitDockAll(dlog);
 		assert( task != NULL );
 		task->Start();
 		}

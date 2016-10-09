@@ -11,7 +11,6 @@
 #include "CMLink.h"
 #include <jXMLUtil.h>	// need defn of xmlNode
 
-#include <j_prep_ace.h>
 #include <ace/Acceptor.h>
 #include <ace/SOCK_Acceptor.h>
 #include <ace/INET_Addr.h>
@@ -184,8 +183,6 @@ private:
 	JBoolean	StartDebugger();
 	void		InitFlags();
 	void		StopDebugger();
-	void		DeleteAcceptor();
-	void		DeleteLink();
 	void		ReceiveMessageFromDebugger();
 
 	void	SendProgramStopped(const CMLocation& location);

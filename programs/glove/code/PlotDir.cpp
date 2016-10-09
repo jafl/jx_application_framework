@@ -145,7 +145,7 @@ PlotDir::PlotDir
 	JCoordinate minW	= 400;
 	JCoordinate minH    = 300;
 
-	JXWindow* window = new JXWindow(this, w,h, filename);
+	JXWindow* window = jnew JXWindow(this, w,h, filename);
 	assert( window != NULL );
 
 	window->SetMinSize(minW,minH);
@@ -155,7 +155,7 @@ PlotDir::PlotDir
 		}
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 			JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, w, kJXDefaultMenuBarHeight);
 	assert( menuBar != NULL );
 
@@ -169,26 +169,26 @@ PlotDir::PlotDir
 	itsAnalysisMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsAnalysisMenu);
 
-	itsFitParmsMenu = new JXTextMenu(itsAnalysisMenu, kFitParmsCmd, menuBar);
+	itsFitParmsMenu = jnew JXTextMenu(itsAnalysisMenu, kFitParmsCmd, menuBar);
 	assert( itsFitParmsMenu != NULL );
 	itsFitParmsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFitParmsMenu);
 	itsAnalysisMenu->DisableItem(kFitParmsCmd);
 
-	itsDiffMenu = new JXTextMenu(itsAnalysisMenu, kDiffPlotCmd, menuBar);
+	itsDiffMenu = jnew JXTextMenu(itsAnalysisMenu, kDiffPlotCmd, menuBar);
 	assert( itsDiffMenu != NULL );
 	itsDiffMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsDiffMenu);
 	itsAnalysisMenu->DisableItem(kDiffPlotCmd);
 
 	itsSessionDir =
-		new GloveHistoryDir(JXGetApplication());
+		jnew GloveHistoryDir(JXGetApplication());
 	assert(itsSessionDir != NULL);
 	JXGetDocumentManager()->DocumentMustStayOpen(itsSessionDir, kJTrue);
 	ListenTo(itsSessionDir);
 
 	itsPlot =
-		new GlovePlotter(itsSessionDir, menuBar, window,
+		jnew GlovePlotter(itsSessionDir, menuBar, window,
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 30, w, h - kJXDefaultMenuBarHeight);
 	assert( itsPlot != NULL );
@@ -196,7 +196,7 @@ PlotDir::PlotDir
 	ListenTo(itsPlot);
 
 	JXDocumentMenu* windowListMenu =
-		new JXDocumentMenu(kWindowListMenuTitleStr, menuBar,
+		jnew JXDocumentMenu(kWindowListMenuTitleStr, menuBar,
 			JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( windowListMenu != NULL );
 	menuBar->AppendMenu(windowListMenu);
@@ -206,30 +206,30 @@ PlotDir::PlotDir
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
 
-	itsVarList	 = new GVarList();
+	itsVarList	 = jnew GVarList();
 	itsVarList->AddVariable("x",0);
 	itsXVarIndex = 1;
 	itsFunctionDialog = NULL;
 	itsFitModuleDialog = NULL;
 
-	itsFits = new JPtrArray<JFitBase>(JPtrArrayT::kForgetAll);
+	itsFits = jnew JPtrArray<JFitBase>(JPtrArrayT::kForgetAll);
 	assert( itsFits != NULL );
 	ListenTo(itsFits);
-	itsFitParmsDir = new FitParmsDir(this, itsFits);
+	itsFitParmsDir = jnew FitParmsDir(this, itsFits);
 	assert( itsFitParmsDir != NULL );
-	itsCurveStats = new JArray<CurveStats>;
+	itsCurveStats = jnew JArray<CurveStats>;
 	assert( itsCurveStats != NULL );
 	itsCurrentCurveType = kGDataCurve;
 
-	itsDiffDirs = new JPtrArray<PlotDir>(JPtrArrayT::kForgetAll);
+	itsDiffDirs = jnew JPtrArray<PlotDir>(JPtrArrayT::kForgetAll);
 	assert( itsDiffDirs != NULL );
 	ListenTo(itsDiffDirs);
 
-	itsPrinter = new JXPSPrinter(GetDisplay());
+	itsPrinter = jnew JXPSPrinter(GetDisplay());
 	assert( itsPrinter != NULL );
 	itsPrinter->SetOrientation(JPSPrinter::kLandscape);
 
-	itsEPSPrinter	= new JX2DPlotEPSPrinter(GetDisplay());
+	itsEPSPrinter	= jnew JX2DPlotEPSPrinter(GetDisplay());
 	assert(itsEPSPrinter != NULL);
 	itsPlot->SetEPSPrinter(itsEPSPrinter);
 
@@ -243,17 +243,17 @@ PlotDir::PlotDir
 
 PlotDir::~PlotDir()
 {
-	delete itsFits;
-	delete itsCurveStats;
+	jdelete itsFits;
+	jdelete itsCurveStats;
 //	for (JSize i = itsDiffDirs->GetElementCount(); i >= 1; i++)
 //		{
 //		itsDiffDirs->NthElement(i)->Close();
 //		}
-	delete itsDiffDirs;
+	jdelete itsDiffDirs;
 	itsSessionDir->Close();
-	delete itsVarList;
-	delete itsPrinter;
-	delete itsEPSPrinter;
+	jdelete itsVarList;
+	jdelete itsPrinter;
+	jdelete itsEPSPrinter;
 }
 
 /******************************************************************************
@@ -290,7 +290,7 @@ PlotDir::Receive
 		{
 		if (!itsPlotIsClosing)
 			{
-			GLClosePlotDirTask* task = new GLClosePlotDirTask(this);
+			GLClosePlotDirTask* task = jnew GLClosePlotDirTask(this);
 			assert(task != NULL);
 			task->Go();
 			}
@@ -413,7 +413,7 @@ PlotDir::Receive
 		if (info->Changed())
 			{
 			itsSupervisor->DataModified();
-			// for WYSISYG: adjust display to match new paper size
+			// for WYSISYG: adjust display to match jnew paper size
 			}
 		}
 
@@ -806,17 +806,17 @@ PlotDir::ReadCurves
 			if (ftype == kGModFit)
 				{
 				JPlotDataBase* pdata = &(itsPlot->GetCurve(provider));
-				JPlotModuleFit* mf = new JPlotModuleFit(itsPlot, pdata, is);
+				JPlotModuleFit* mf = jnew JPlotModuleFit(itsPlot, pdata, is);
 				assert(mf != NULL);
 				if (!AddFitModule(mf, pdata))
 					{
-					delete mf;
+					jdelete mf;
 					}
 				}
 			else if (ftype == kGProxyFit)
 				{
 				JPlotDataBase* pdata = &(itsPlot->GetCurve(provider));
-				JPlotFitProxy* pf	= new JPlotFitProxy(itsPlot, pdata, is);
+				JPlotFitProxy* pf	= jnew JPlotFitProxy(itsPlot, pdata, is);
 				assert(pf != NULL);
 
 				itsFits->Append(pf);
@@ -954,7 +954,7 @@ PlotDir::HandleAnalysisMenu
 		}
 	else if (index == kFitWindowCmd)
 		{
-		GLFitDirector* dir = new GLFitDirector(this, itsPlot, itsFileName);
+		GLFitDirector* dir = jnew GLFitDirector(this, itsPlot, itsFileName);
 		assert(dir != NULL);
 		dir->Activate();
 		}
@@ -970,7 +970,7 @@ PlotDir::CreateFunction()
 {
 	assert(itsFunctionDialog == NULL);
 	itsFunctionDialog =
-		new GXPlotFunctionDialog(this, itsVarList);
+		jnew GXPlotFunctionDialog(this, itsVarList);
 	assert( itsFunctionDialog != NULL);
 	ListenTo(itsFunctionDialog);
 	itsFunctionDialog->BeginDialog();
@@ -989,7 +989,7 @@ PlotDir::PlotFunction
 {
 	JFloat min, max, inc;
 	itsPlot->GetXScale(&min, &max, &inc);
-	J2DPlotJFunction* pf = new J2DPlotJFunction(itsPlot, itsVarList, f, kJTrue, itsXVarIndex, min, max);
+	J2DPlotJFunction* pf = jnew J2DPlotJFunction(itsPlot, itsVarList, f, kJTrue, itsXVarIndex, min, max);
 	itsCurrentCurveType = kGFunctionCurve;
 	itsPlot->AddCurve(pf, kJTrue, f->Print(), kJTrue, kJFalse);
 	itsCurrentCurveType = kGDataCurve;
@@ -1053,7 +1053,7 @@ PlotDir::SelectFitModule()
 {
 	assert(itsFitModuleDialog == NULL);
 	itsFitModuleDialog =
-		new FitModuleDialog(this);
+		jnew FitModuleDialog(this);
 	assert( itsFitModuleDialog != NULL);
 	ListenTo(itsFitModuleDialog);
 	itsFitModuleDialog->BeginDialog();
@@ -1185,12 +1185,12 @@ PlotDir::NewFit
 		if (itsPlot->IsUsingRange())
 			{
 			itsPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
-			lf = new JPlotLinearFit(itsPlot, data, xmin, xmax, ymin, ymax);
+			lf = jnew JPlotLinearFit(itsPlot, data, xmin, xmax, ymin, ymax);
 			}
 		else
 			{
 			data->GetXRange(&xmin, &xmax);
-			lf = new JPlotLinearFit(itsPlot, data, xmin, xmax);
+			lf = jnew JPlotLinearFit(itsPlot, data, xmin, xmax);
 			}
 		assert(lf != NULL);
 		itsFits->Append(lf);
@@ -1204,17 +1204,17 @@ PlotDir::NewFit
 		if (itsPlot->IsUsingRange())
 			{
 			itsPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
-			lf = new JPlotLinearFit(itsPlot, data, xmin, xmax, ymin, ymax, kJFalse, kJTrue);
+			lf = jnew JPlotLinearFit(itsPlot, data, xmin, xmax, ymin, ymax, kJFalse, kJTrue);
 			}
 		else
 			{
 			data->GetXRange(&xmin, &xmax);
-			lf = new JPlotLinearFit(itsPlot, data, xmin, xmax, kJFalse, kJTrue);
+			lf = jnew JPlotLinearFit(itsPlot, data, xmin, xmax, kJFalse, kJTrue);
 			}
 		assert(lf != NULL);
 		itsFits->Append(lf);
 		df = lf;
-//		JPlotExpFit* ef = new JPlotExpFit(itsPlot, data);
+//		JPlotExpFit* ef = jnew JPlotExpFit(itsPlot, data);
 //		assert(ef != NULL);
 //		itsFits->Append(ef);
 //		df = ef;
@@ -1226,12 +1226,12 @@ PlotDir::NewFit
 		if (itsPlot->IsUsingRange())
 			{
 			itsPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
-			lf = new JPlotQuadFit(itsPlot, data, xmin, xmax, ymin, ymax);
+			lf = jnew JPlotQuadFit(itsPlot, data, xmin, xmax, ymin, ymax);
 			}
 		else
 			{
 			data->GetXRange(&xmin, &xmax);
-			lf = new JPlotQuadFit(itsPlot, data, xmin, xmax);
+			lf = jnew JPlotQuadFit(itsPlot, data, xmin, xmax);
 			}
 		assert(lf != NULL);
 		itsFits->Append(lf);
@@ -1308,7 +1308,7 @@ PlotDir::AddFit
 	itsAnalysisMenu->EnableItem(kFitParmsCmd);
 	itsAnalysisMenu->EnableItem(kDiffPlotCmd);
 
-	PlotDir* dir = new PlotDir(this, itsSupervisor, itsFileName, kJTrue);
+	PlotDir* dir = jnew PlotDir(this, itsSupervisor, itsFileName, kJTrue);
 	assert( dir != NULL );
 	JXGetDocumentManager()->DocumentMustStayOpen(dir, kJTrue);
 	JPlotDataBase* ddata = fit->GetDiffData();

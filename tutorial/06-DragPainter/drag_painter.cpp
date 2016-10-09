@@ -26,11 +26,11 @@ main
 {
 	// Create the application object - one per program
 	JXApplication* app = 
-		new JXApplication(&argc, argv, kAppSignature, kTutorialStringData);
+		jnew JXApplication(&argc, argv, kAppSignature, kTutorialStringData);
 	assert( app != NULL );
 
 	// Create the window director
-	DragWidgetDir* mainDir = new DragWidgetDir(app);
+	DragWidgetDir* mainDir = jnew DragWidgetDir(app);
 	assert( mainDir != NULL );
 
 	// Activate the window director

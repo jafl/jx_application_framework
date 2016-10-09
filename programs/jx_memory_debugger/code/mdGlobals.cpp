@@ -37,12 +37,12 @@ MDCreateGlobals
 	theApplication = app;
 
 	JBoolean isNew;
-	thePrefsManager	= new MDPrefsManager(&isNew);
+	thePrefsManager	= jnew MDPrefsManager(&isNew);
 	assert( thePrefsManager != NULL );
 
 	JXInitHelp(kMDTOCHelpName, kMDHelpSectionCount, kMDHelpSectionName);
 
-	JXWDManager* wdMgr = new JXWDManager(app->GetCurrentDisplay(), kJTrue);
+	JXWDManager* wdMgr = jnew JXWDManager(app->GetCurrentDisplay(), kJTrue);
 	assert( wdMgr != NULL );
 	// registers itself
 
@@ -61,7 +61,7 @@ MDDeleteGlobals()
 
 	// this must be last so everybody else can use it to save their setup
 
-	delete thePrefsManager;
+	jdelete thePrefsManager;
 	thePrefsManager = NULL;
 }
 

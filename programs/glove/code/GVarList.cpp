@@ -57,7 +57,7 @@ GVarList::GVarList
 	const JSize ncount	= list.itsNames->GetElementCount();
 	for (JIndex i = 1; i <= ncount; i++)
 		{
-		JString* str	= new JString(*(list.itsNames->NthElement(i)));
+		JString* str	= jnew JString(*(list.itsNames->NthElement(i)));
 		assert(str != NULL);
 		itsNames->Append(str);
 		}
@@ -68,7 +68,7 @@ GVarList::GVarList
 		JArray<JFloat>* array	= list.itsArrays->NthElement(i);
 		if (array != NULL)
 			{
-			array	= new JArray<JFloat>(*(array));
+			array	= jnew JArray<JFloat>(*(array));
 			assert(array != NULL);
 			}
 		itsArrays->Append(array);
@@ -137,13 +137,13 @@ GVarList::GVarList
 void
 GVarList::GVarListX()
 {
-	itsNames = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsNames != NULL );
 
-	itsValues = new JArray<JFloat>;
+	itsValues = jnew JArray<JFloat>;
 	assert( itsValues != NULL );
 
-	itsArrays = new JPtrArray<GNArray>(JPtrArrayT::kDeleteAll);
+	itsArrays = jnew JPtrArray<GNArray>(JPtrArrayT::kDeleteAll);
 	assert( itsArrays != NULL );
 
 	InstallOrderedSet(itsNames);
@@ -156,9 +156,9 @@ GVarList::GVarListX()
 
 GVarList::~GVarList()
 {
-	delete itsNames;
-	delete itsValues;
-	delete itsArrays;
+	jdelete itsNames;
+	jdelete itsValues;
+	jdelete itsArrays;
 }
 
 /******************************************************************************
@@ -176,7 +176,7 @@ GVarList::AddVariable
 	JIndex index;
 	if (JNameValid(name) && !ParseVariableName(name, strlen(name), &index))
 		{
-		JString* varName = new JString(name);
+		JString* varName = jnew JString(name);
 		assert( varName != NULL );
 		itsNames->Append(varName);
 		itsValues->AppendElement(value);
@@ -222,11 +222,11 @@ GVarList::AddArray
 {
 	if (JNameValid(name))
 		{
-		JString* varName = new JString(name);
+		JString* varName = jnew JString(name);
 		assert( varName != NULL );
 		itsNames->Append(varName);
 		itsValues->AppendElement(0.0);
-		GNArray* newArray = new GNArray(values);
+		GNArray* newArray = jnew GNArray(values);
 		assert( newArray != NULL );
 		itsArrays->AppendElement(newArray);
 		return kJTrue;

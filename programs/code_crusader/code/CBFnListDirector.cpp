@@ -68,7 +68,7 @@ CBFnListDirector::CBFnListDirector
 	JXScrollbarSet* scrollbarSet = BuildWindow();
 
 	itsFnListWidget =
-		new CBFnListWidget(treeWidget, theClass, showInheritedFns, scrollbarSet,
+		jnew CBFnListWidget(treeWidget, theClass, showInheritedFns, scrollbarSet,
 							scrollbarSet->GetScrollEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic,
 							0,0, 10,10);
@@ -92,7 +92,7 @@ CBFnListDirector::CBFnListDirector
 	GetWindow()->ReadGeometry(input);
 
 	itsFnListWidget =
-		new CBFnListWidget(input, vers, keep, treeWidget, scrollbarSet,
+		jnew CBFnListWidget(input, vers, keep, treeWidget, scrollbarSet,
 							scrollbarSet->GetScrollEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic,
 							0,0, 10,10);
@@ -219,16 +219,16 @@ CBFnListDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 170,250, "");
+	JXWindow* window = jnew JXWindow(this, 170,250, "");
 	assert( window != NULL );
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 170,220);
 	assert( scrollbarSet != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 170,30);
 	assert( menuBar != NULL );
 

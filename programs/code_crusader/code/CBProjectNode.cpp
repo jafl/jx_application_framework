@@ -127,19 +127,19 @@ CBProjectNode::StreamIn
 	if (type == kCBRootNT)
 		{
 		assert( parent == NULL );
-		node = new CBProjectNode(input, vers, parent, kCBRootNT, kJTrue);
+		node = jnew CBProjectNode(input, vers, parent, kCBRootNT, kJTrue);
 		}
 	else if (type == kCBGroupNT)
 		{
-		node = new CBGroupNode(input, vers, parent);
+		node = jnew CBGroupNode(input, vers, parent);
 		}
 	else if (type == kCBFileNT)
 		{
-		node = new CBFileNode(input, vers, parent);
+		node = jnew CBFileNode(input, vers, parent);
 		}
 	else if (type == kCBLibraryNT)
 		{
-		node = new CBLibraryNode(input, vers, parent);
+		node = jnew CBLibraryNode(input, vers, parent);
 		}
 	assert( node != NULL );
 

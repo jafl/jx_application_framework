@@ -57,7 +57,7 @@ CBCommandManager::CBCommandManager
 	itsMakeDependCmd(kDefaultMakeDependCmd),
 	itsCompileDoc(NULL)
 {
-	itsCmdList = new CmdList;
+	itsCmdList = jnew CmdList;
 	assert( itsCmdList != NULL );
 
 	if (docMgr != NULL)
@@ -75,7 +75,7 @@ CBCommandManager::CBCommandManager
 CBCommandManager::~CBCommandManager()
 {
 	itsCmdList->DeleteAll();
-	delete itsCmdList;
+	jdelete itsCmdList;
 }
 
 /******************************************************************************
@@ -135,12 +135,12 @@ CBCommandManager::MakeDepend
 	JString cmdStr  = itsMakeDependCmd;
 	if (Substitute(&cmdPath, &cmdStr, projDoc, NULL, 0, kJFalse))
 		{
-		CBCommand* cmd = new CBCommand(cmdPath, kJFalse, kJFalse, projDoc);
+		CBCommand* cmd = jnew CBCommand(cmdPath, kJFalse, kJFalse, projDoc);
 		assert( cmd != NULL );
 
 		if (!cmd->Add(cmdStr, NULL, NULL, NULL, NULL))	// subroutines not allowed
 			{
-			delete cmd;
+			jdelete cmd;
 			}
 		else if (cmd->StartMakeProcess(compileDoc))
 			{
@@ -222,7 +222,7 @@ CBCommandManager::Prepare
 		{
 		if (Prepare(info, projDoc, textDoc, cmd, cmdList))
 			{
-			*returnInfo = new CmdInfo;
+			*returnInfo = jnew CmdInfo;
 			assert( *returnInfo != NULL );
 			**returnInfo = info.Copy();
 			}
@@ -337,7 +337,7 @@ CBCommandManager::Prepare
 		{
 		if (Prepare(info, projDoc, fullNameList, lineIndexList, cmd, cmdList))
 			{
-			*returnInfo = new CmdInfo;
+			*returnInfo = jnew CmdInfo;
 			assert( *returnInfo != NULL );
 			**returnInfo = info.Copy();
 			}
@@ -404,7 +404,7 @@ CBCommandManager::Prepare
 				}
 			else
 				{
-				delete *cmd;
+				jdelete *cmd;
 				*cmd = NULL;
 				break;
 				}
@@ -446,13 +446,13 @@ CBCommandManager::Add
 {
 	if (*cmd == NULL)
 		{
-		*cmd = new CBCommand(path, info.isVCS, info.beepWhenFinished, projDoc);
+		*cmd = jnew CBCommand(path, info.isVCS, info.beepWhenFinished, projDoc);
 		assert( *cmd != NULL );
 		}
 
 	if (path != (**cmd).GetPath())
 		{
-		CBCommand* subCmd = new CBCommand(path, info.isVCS, kJFalse, projDoc);
+		CBCommand* subCmd = jnew CBCommand(path, info.isVCS, kJFalse, projDoc);
 		if (subCmd->Add(cmdStr, textDoc, fullNameList, lineIndexList, cmdList))
 			{
 			(**cmd).Add(subCmd, info);
@@ -460,8 +460,8 @@ CBCommandManager::Add
 			}
 		else
 			{
-			delete subCmd;
-			delete *cmd;
+			jdelete subCmd;
+			jdelete *cmd;
 			*cmd = NULL;
 			return kJFalse;
 			}
@@ -472,7 +472,7 @@ CBCommandManager::Add
 		}
 	else
 		{
-		delete *cmd;
+		jdelete *cmd;
 		*cmd = NULL;
 		return kJFalse;
 		}
@@ -692,22 +692,22 @@ CBCommandManager::AppendCommand
 	const JBoolean		separator
 	)
 {
-	JString* p = new JString(path);
+	JString* p = jnew JString(path);
 	assert( p != NULL );
 
-	JString* c = new JString(cmd);
+	JString* c = jnew JString(cmd);
 	assert( c != NULL );
 
-	JString* cn = new JString(cmdName);
+	JString* cn = jnew JString(cmdName);
 	assert( cn != NULL );
 
-	JString* mt = new JString(menuText);
+	JString* mt = jnew JString(menuText);
 	assert( mt != NULL );
 
-	JString* ms = new JString(menuShortcut);
+	JString* ms = jnew JString(menuShortcut);
 	assert( ms != NULL );
 
-	JString* mi = new JString;
+	JString* mi = jnew JString;
 	assert( mi != NULL );
 
 	CmdInfo info(p, c, cn,
@@ -858,15 +858,15 @@ CBCommandManager::ReadCmdInfo
 	const JFileVersion	vers
 	)
 {
-	JString* path = new JString;
+	JString* path = jnew JString;
 	assert( path != NULL );
 	input >> *path;
 
-	JString* cmd = new JString;
+	JString* cmd = jnew JString;
 	assert( cmd != NULL );
 	input >> *cmd;
 
-	JString* cmdName = new JString;
+	JString* cmdName = jnew JString;
 	assert( cmdName != NULL );
 	input >> *cmdName;
 
@@ -884,15 +884,15 @@ CBCommandManager::ReadCmdInfo
 		}
 	input >> saveAll >> oneAtATime >> useWindow >> raise >> beep;
 
-	JString* menuText = new JString;
+	JString* menuText = jnew JString;
 	assert( menuText != NULL );
 	input >> *menuText;
 
-	JString* menuShortcut = new JString;
+	JString* menuShortcut = jnew JString;
 	assert( menuShortcut != NULL );
 	input >> *menuShortcut;
 
-	JString* menuID = new JString;
+	JString* menuID = jnew JString;
 	assert( menuID != NULL );
 	if (vers >= 2)
 		{
@@ -1649,7 +1649,7 @@ CBCommandManager::GetCompileDoc
 {
 	if (itsCompileDoc == NULL)
 		{
-		itsCompileDoc = new CBCompileDocument(projDoc);
+		itsCompileDoc = jnew CBCompileDocument(projDoc);
 		assert( itsCompileDoc != NULL );
 		ListenTo(itsCompileDoc);
 		}
@@ -1677,7 +1677,7 @@ CBCommandManager::GetOutputDoc()
 			}
 		}
 
-	CBExecOutputDocument* doc = new CBExecOutputDocument();
+	CBExecOutputDocument* doc = jnew CBExecOutputDocument();
 	assert( doc != NULL );
 	theExecDocList.Append(doc);
 	(CBGetCommandManager())->ListenTo(doc);
@@ -1687,7 +1687,7 @@ CBCommandManager::GetOutputDoc()
 /******************************************************************************
  Receive (virtual protected)
 
-	Listen for new active project document.
+	Listen for jnew active project document.
 
  ******************************************************************************/
 
@@ -1799,22 +1799,22 @@ CBCommandManager::CmdInfo::Copy()
 {
 	CmdInfo info = *this;
 
-	info.path = new JString(*(this->path));
+	info.path = jnew JString(*(this->path));
 	assert( info.path != NULL );
 
-	info.cmd = new JString(*(this->cmd));
+	info.cmd = jnew JString(*(this->cmd));
 	assert( info.cmd != NULL );
 
-	info.name = new JString(*(this->name));
+	info.name = jnew JString(*(this->name));
 	assert( info.name != NULL );
 
-	info.menuText = new JString(*(this->menuText));
+	info.menuText = jnew JString(*(this->menuText));
 	assert( info.menuText != NULL );
 
-	info.menuShortcut = new JString(*(this->menuShortcut));
+	info.menuShortcut = jnew JString(*(this->menuShortcut));
 	assert( info.menuShortcut != NULL );
 
-	info.menuID = new JString(*(this->menuID));
+	info.menuID = jnew JString(*(this->menuID));
 	assert( info.menuID != NULL );
 
 	return info;
@@ -1828,21 +1828,21 @@ CBCommandManager::CmdInfo::Copy()
 void
 CBCommandManager::CmdInfo::Free()
 {
-	delete path;
+	jdelete path;
 	path = NULL;
 
-	delete cmd;
+	jdelete cmd;
 	cmd = NULL;
 
-	delete name;
+	jdelete name;
 	name = NULL;
 
-	delete menuText;
+	jdelete menuText;
 	menuText = NULL;
 
-	delete menuShortcut;
+	jdelete menuShortcut;
 	menuShortcut = NULL;
 
-	delete menuID;
+	jdelete menuID;
 	menuID = NULL;
 }

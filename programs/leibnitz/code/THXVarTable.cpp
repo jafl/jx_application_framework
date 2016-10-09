@@ -192,7 +192,7 @@ THXVarTable::CreateXInputField
 {
 	assert( itsTextInput == NULL );
 
-	itsTextInput = new JXExprInput(this, kFixedLeft, kFixedTop, x,y, w,h);
+	itsTextInput = jnew JXExprInput(this, kFixedLeft, kFixedTop, x,y, w,h);
 	assert( itsTextInput != NULL );
 
 	const JIndex varIndex = cell.y + THXVarList::kUserFnOffset;

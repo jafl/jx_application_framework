@@ -122,7 +122,7 @@ JFunction::StreamOut
 	Create a copy of ourselves that uses a different JVariableList.
 
 	The easiest way to do this is to print and then reparse ourselves
-	using the new JVariableList.
+	using the jnew JVariableList.
 
  ******************************************************************************/
 

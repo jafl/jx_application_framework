@@ -151,7 +151,7 @@ JXDockDirector::BuildWindow
 	const JCoordinate w = 2*kSize + (splitHoriz ? JPartition::kDragRegionSize : 0);
 	const JCoordinate h = 2*kSize + (splitHoriz ? 0 : JPartition::kDragRegionSize);
 
-	JXWindow* window = new JXWindow(this, w, h, title);
+	JXWindow* window = jnew JXWindow(this, w, h, title);
 	assert( window != NULL );
 
 	JXImage* icon;
@@ -163,7 +163,7 @@ JXDockDirector::BuildWindow
 	if (splitHoriz)
 		{
 		itsHorizPartition =
-			new JXHorizDockPartition(this, NULL, sizes, 0, minSizes,
+			jnew JXHorizDockPartition(this, NULL, sizes, 0, minSizes,
 									 window, JXWidget::kHElastic, JXWidget::kVElastic,
 									 0,0, w,h);
 		assert( itsHorizPartition != NULL );
@@ -171,7 +171,7 @@ JXDockDirector::BuildWindow
 	else
 		{
 		itsVertPartition =
-			new JXVertDockPartition(this, NULL, sizes, 0, minSizes,
+			jnew JXVertDockPartition(this, NULL, sizes, 0, minSizes,
 									window, JXWidget::kHElastic, JXWidget::kVElastic,
 									0,0, w,h);
 		assert( itsVertPartition != NULL );

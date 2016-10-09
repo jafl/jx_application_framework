@@ -23,7 +23,7 @@
 	descriptor.  Since we can't get this from the stream, we require
 	the file name.  Once we operate on the descriptor, the stream will
 	be hopelessly confused, so we have to close it first.  This is why
-	we return a new one afterwards.
+	we return a jnew one afterwards.
 
 	The caller is responsible for deleting originalStream.
 
@@ -49,9 +49,9 @@ JSetFStreamLength
 	err = close(fd);
 	assert( err == 0 );
 
-	// open a new stream for the file and return a pointer to it
+	// open a jnew stream for the file and return a pointer to it
 
-	fstream* newStream = new fstream(fileName, io_mode);
+	fstream* newStream = jnew fstream(fileName, io_mode);
 	assert( newStream != NULL );
 
 	return newStream;

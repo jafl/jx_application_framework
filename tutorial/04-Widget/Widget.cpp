@@ -4,7 +4,7 @@
 	Each area inside a window that displays a particular piece of
 	information is an object derived from JXWidget.  To display
 	something that is specialized for your particular application,
-	you must create a new class derived from JXWidget.
+	you must create a jnew class derived from JXWidget.
 
 	The minimum requirement for classes derived from JXWidget is that
 	they must implement the Draw() and DrawBorder() functions, as

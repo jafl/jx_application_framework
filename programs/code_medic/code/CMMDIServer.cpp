@@ -152,7 +152,7 @@ CMMDIServer::HandleMDIRequest
 				}
 			else
 				{
-				JString* str = new JString(*arg);
+				JString* str = jnew JString(*arg);
 				assert(str != NULL);
 				JIndex findex;
 				JInteger value = 0;

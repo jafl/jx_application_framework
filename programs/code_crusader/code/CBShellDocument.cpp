@@ -45,7 +45,7 @@ CBShellDocument::Create
 										kJCreatePipe, &inFD, kJAttachToFromFD);
 	if (err.OK())
 		{
-		*doc = new CBShellDocument(p, inFD, outFD);
+		*doc = jnew CBShellDocument(p, inFD, outFD);
 		assert( *doc != NULL );
 
 		(**doc).Activate();
@@ -89,7 +89,7 @@ CBShellDocument::CBShellDocument
 	const JCoordinate x = 2 * kMenuButtonWidth;
 
 	itsKillButton =
-		new JXTextButton(JGetString(kKillLabelID), window,
+		jnew JXTextButton(JGetString(kKillLabelID), window,
 						 JXWidget::kFixedRight, JXWidget::kFixedTop,
 						 rect.right - kMenuButtonWidth,0, kMenuButtonWidth,h);
 	assert( itsKillButton != NULL );
@@ -119,7 +119,7 @@ CBShellDocument::ConstructShellEditor
 	)
 {
 	CBShellEditor* te =
-		new CBShellEditor(document, fileName, menuBar, lineInput, colInput,
+		jnew CBShellEditor(document, fileName, menuBar, lineInput, colInput,
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( te != NULL );
@@ -137,7 +137,47 @@ CBShellDocument::~CBShellDocument()
 	DeleteLinks();
 	CloseOutFD();
 
-	delete itsProcess;
+	jdelete itsProcess;
+}
+
+/******************************************************************************
+ SetConnection (private)
+
+ ******************************************************************************/
+
+void
+CBShellDocument::SetConnection
+	(
+	JProcess*	p,
+	const int	inFD,
+	const int	outFD
+	)
+{
+	assert( !ProcessRunning() && itsDataLink == NULL );
+
+	itsProcess = p;
+	ListenTo(itsProcess);
+
+	itsDataLink = new DataLink(inFD);
+	assert( itsDataLink != NULL );
+	ListenTo(itsDataLink);
+
+	itsCmdStream = jnew JOutPipeStream(outFD, kJTrue);
+	assert( itsCmdStream != NULL );
+
+	UpdateButtons();
+}
+
+/******************************************************************************
+ DeleteLinks (private)
+
+ ******************************************************************************/
+
+void
+CBShellDocument::DeleteLinks()
+{
+	delete itsDataLink;
+	itsDataLink = NULL;
 }
 
 /******************************************************************************
@@ -235,7 +275,7 @@ CBShellDocument::KillProcess()
 void
 CBShellDocument::CloseOutFD()
 {
-	delete itsCmdStream;
+	jdelete itsCmdStream;
 	itsCmdStream = NULL;
 }
 
@@ -255,52 +295,4 @@ CBShellDocument::UpdateButtons()
 		{
 		itsKillButton->Deactivate();
 		}
-}
-
-/******************************************************************************
- SetConnection (private)
-
- ******************************************************************************/
-
-// This function has to be last so JCore::new works for everything else.
-
-#undef new
-
-void
-CBShellDocument::SetConnection
-	(
-	JProcess*	p,
-	const int	inFD,
-	const int	outFD
-	)
-{
-	assert( !ProcessRunning() && itsDataLink == NULL );
-
-	itsProcess = p;
-	ListenTo(itsProcess);
-
-	itsDataLink = new DataLink(inFD);
-	assert( itsDataLink != NULL );
-	ListenTo(itsDataLink);
-
-	itsCmdStream = new JOutPipeStream(outFD, kJTrue);
-	assert( itsCmdStream != NULL );
-
-	UpdateButtons();
-}
-
-/******************************************************************************
- DeleteLinks (private)
-
- ******************************************************************************/
-
-// This function has to be last so JCore::delete works for everything else.
-
-#undef delete
-
-void
-CBShellDocument::DeleteLinks()
-{
-	delete itsDataLink;
-	itsDataLink = NULL;
 }

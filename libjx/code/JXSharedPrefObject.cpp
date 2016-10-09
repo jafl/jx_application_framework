@@ -38,7 +38,7 @@ JXSharedPrefObject::JXSharedPrefObject
 	itsCurrentPrefsVersion(currVers),
 	itsLatestVersionID(latestVersID)
 {
-	itsVersionList = new JArray<VersionInfo>(versCount);
+	itsVersionList = jnew JArray<VersionInfo>(versCount);
 	assert( itsVersionList != NULL );
 
 	for (JIndex i=0; i<versCount; i++)
@@ -62,7 +62,7 @@ JXSharedPrefObject::JXSharedPrefObject
 
 JXSharedPrefObject::~JXSharedPrefObject()
 {
-	delete itsVersionList;
+	jdelete itsVersionList;
 }
 
 /******************************************************************************

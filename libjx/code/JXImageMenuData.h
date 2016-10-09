@@ -52,7 +52,7 @@ private:
 	struct IconData
 	{
 		JXImage*	image;
-		JBoolean	ownsImage;	// kJTrue if we should delete image
+		JBoolean	ownsImage;	// kJTrue if we should jdelete image
 
 		IconData()
 			:

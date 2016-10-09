@@ -43,7 +43,7 @@ main
 
 	JBoolean displayAbout;
 	JString prevVersStr;
-	GFGApp* app = new GFGApp(&argc, argv, &displayAbout, &prevVersStr);
+	GFGApp* app = jnew GFGApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != NULL );
 
 	if (displayAbout &&

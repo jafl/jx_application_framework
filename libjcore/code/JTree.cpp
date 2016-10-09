@@ -44,7 +44,7 @@ JTree::~JTree()
 	assert( !itsIsDestructingFlag );
 
 	itsIsDestructingFlag = kJTrue;
-	delete itsRoot;
+	jdelete itsRoot;
 }
 
 /******************************************************************************

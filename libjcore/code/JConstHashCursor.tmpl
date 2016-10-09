@@ -23,7 +23,7 @@
 	possibly (4) modify a record and then exit the loop.
 
 	For example, to examine all records with a given hash value to find one
-	to delete:
+	to jdelete:
 
 		JHashTable<V> table;
 			...
@@ -168,7 +168,7 @@ JConstHashCursor<V>::~JConstHashCursor()
 		cursor2 = cursor1;
 		cursor1.NextFull();
 
-	cursor2 still points to the original record, not the new one that cursor1
+	cursor2 still points to the original record, not the jnew one that cursor1
 	stepped to.  After a subsequent
 
 		cursor2.NextFull();
@@ -832,7 +832,7 @@ JConstHashCursor<V>::NextMapInsertKey()
 
 	With a boolean argument, kJTrue makes the cursor ready for an iteration
 	starting at index zero, stepping by one.  If the argument is kJFalse (the
-	default) makes ready for a new iteration using the previous parameters
+	default) makes ready for a jnew iteration using the previous parameters
 	(either the same hash value or single-stepping with no hash value).
 
 	With a hash value, makes the cursor ready for an iteration starting from

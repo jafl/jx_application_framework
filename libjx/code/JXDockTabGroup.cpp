@@ -27,8 +27,8 @@ static const JCharacter* kContextMenuStr =
 	"  | Undock all windows in this dock"
 	"  | Undock all windows"
 	"%l| UpdateWindowTypeMap"
-	"%l| Create new dock (split horizontally)"
-	"  | Create new dock (split vertically)"
+	"%l| Create jnew dock (split horizontally)"
+	"  | Create jnew dock (split vertically)"
 	"%l| Dock all windows in default configuration"
 	"%l| Show tabs on top"
 	"  | Show tabs on bottom"
@@ -203,7 +203,7 @@ JXDockTabGroup::CreateDockContextMenu()
 {
 	if (itsDockContextMenu == NULL)
 		{
-		itsDockContextMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsDockContextMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsDockContextMenu != NULL );
 		itsDockContextMenu->SetMenuItems(kContextMenuStr, "JXDockTabGroup");
 		itsDockContextMenu->SetUpdateAction(JXMenu::kDisableNone);

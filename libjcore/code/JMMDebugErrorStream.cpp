@@ -156,7 +156,7 @@ JMMDebugErrorStream::HandleNULLDeleted
 	)
 {
 	JMemoryManager::SendError(
-		"Attempt to delete NULL as " +
+		"Attempt to jdelete NULL as " +
 		JString(JMMRecord::TypeName(isArray)) + " at " +
 		JString(file) + ":" + JString(line, JString::kBase10));
 }

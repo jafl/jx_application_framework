@@ -98,7 +98,7 @@ const JCharacter* kCommandDirHelpText =
 "<p>"
 " <dt>Save history as..."
 "	<dd>Saves the current contents of the <a href=jxhelp:#History>"
-	"command history</a> in a new file."
+	"command history</a> in a jnew file."
 
 "<p>"
 " <dt>Restart gdb"
@@ -239,15 +239,15 @@ const JCharacter* kCommandDirHelpText =
 "<dl>"
 
 " <dt>Select binary..."
-"	<dd>Selects a new program binary to debug."
+"	<dd>Selects a jnew program binary to debug."
 
 "<p>"
 " <dt>Select core..."
-"	<dd>Selects a new core file to debug."
+"	<dd>Selects a jnew core file to debug."
 
 "<p>"
 " <dt>Select process..."
-"	<dd>Selects a new process to debug."
+"	<dd>Selects a jnew process to debug."
 
 "<p>"
 " <dt>Clear all breakpoints"

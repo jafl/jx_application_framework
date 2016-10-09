@@ -58,6 +58,6 @@ CMDeselectLineTask::Perform
 		{
 		(itsTable->GetTableSelection()).ClearSelection();
 		itsTable->itsDeselectTask = NULL;
-		delete this;
+		jdelete this;
 		}
 }

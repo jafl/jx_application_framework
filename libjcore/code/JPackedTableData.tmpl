@@ -35,7 +35,7 @@ JPackedTableData<T>::JPackedTableData
 	JTableData(),
 	itsDefValue(defValue)
 {
-	itsData = new JRunArray< T >;
+	itsData = jnew JRunArray< T >;
 	assert( itsData != NULL );
 }
 
@@ -53,7 +53,7 @@ JPackedTableData<T>::JPackedTableData
 	JTableData(source),
 	itsDefValue(source.itsDefValue)
 {
-	itsData = new JRunArray< T >(*(source.itsData));
+	itsData = jnew JRunArray< T >(*(source.itsData));
 	assert( itsData != NULL );
 }
 
@@ -65,7 +65,7 @@ JPackedTableData<T>::JPackedTableData
 template <class T>
 JPackedTableData<T>::~JPackedTableData()
 {
-	delete itsData;
+	jdelete itsData;
 }
 
 /******************************************************************************

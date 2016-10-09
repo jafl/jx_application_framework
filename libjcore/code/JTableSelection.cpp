@@ -55,7 +55,7 @@ JTableSelection::~JTableSelection()
 /******************************************************************************
  ExtendSelection
 
-	Undoes the latest extend operation, sets the new boat cell, and
+	Undoes the latest extend operation, sets the jnew boat cell, and
 	selects the cells between boat and anchor.
 
  ******************************************************************************/
@@ -109,7 +109,7 @@ JTableSelection::UndoSelection()
 	Update our boat and anchor cells.
 
 	When a row or column is moved, there is nothing to do but reselect
-	the same area in the new arrangement.
+	the same area in the jnew arrangement.
 
  ******************************************************************************/
 
@@ -220,7 +220,7 @@ JTableSelection::Receive
 		ClearSelection();
 		}
 
-	// select new area
+	// select jnew area
 
 	if (reselect && itsReselectAfterChangeFlag && OKToExtendSelection())
 		{

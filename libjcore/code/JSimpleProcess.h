@@ -11,7 +11,6 @@
 #define _H_JSimpleProcess
 
 #include <JProcess.h>
-#include <j_prep_ace.h>
 #include <ace/LSOCK_Stream.h>
 #include <ace/UNIX_Addr.h>
 #include <JMessageProtocol.h>	// template; requires ace includes
@@ -75,8 +74,6 @@ private:
 	const time_t	itsStartTime;		// time when process was created
 
 private:
-
-	void	DeleteLink();
 
 	// not allowed
 

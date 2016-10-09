@@ -216,36 +216,36 @@ SyGTreeDir::BuildWindow
 
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 420,500, "");
+	JXWindow* window = jnew JXWindow(this, 420,500, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 420,30);
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		new JXToolBar(SyGGetPrefsMgr(), kSMainToolBarID, menuBar, 200,200, window,
+		jnew JXToolBar(SyGGetPrefsMgr(), kSMainToolBarID, menuBar, 200,200, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 420,450);
 	assert( itsToolBar != NULL );
 
 	itsPathInput =
-		new SyGPathInput(window,
+		jnew SyGPathInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 20,480, 340,20);
 	assert( itsPathInput != NULL );
 
 	SyGTrashButton* trashButton =
-		new SyGTrashButton(window,
+		jnew SyGTrashButton(window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 390,480, 30,20);
 	assert( trashButton != NULL );
 
 	itsDragSrc =
-		new SyGFolderDragSource(itsPathInput, &pathMenu, window,
+		jnew SyGFolderDragSource(itsPathInput, &pathMenu, window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,480, 20,20);
 	assert( itsDragSrc != NULL );
 
 	itsUpButton =
-		new JXTextButton(JGetString("itsUpButton::SyGTreeDir::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsUpButton::SyGTreeDir::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 360,480, 30,20);
 	assert( itsUpButton != NULL );
 
@@ -268,11 +268,11 @@ SyGTreeDir::BuildWindow
 		(SyGGetApplication())->GetMountPointPrefs(startPath, &prefs))
 		{
 		s.assign(prefs->GetCString(), prefs->GetLength());
-		input = new std::istringstream(s);
+		input = jnew std::istringstream(s);
 		}
 	else
 		{
-		input = new ifstream(prefsFile);
+		input = jnew ifstream(prefsFile);
 		}
 	assert( input != NULL );
 
@@ -288,7 +288,7 @@ SyGTreeDir::BuildWindow
 			}
 		else
 			{
-			delete input;
+			jdelete input;
 			input = NULL;
 			}
 		}
@@ -296,7 +296,7 @@ SyGTreeDir::BuildWindow
 		{
 		window->SetSize(w,h);
 
-		delete input;
+		jdelete input;
 		input = NULL;
 		}
 	window->SetCloseAction(JXWindow::kCloseDirector);
@@ -323,7 +323,7 @@ SyGTreeDir::BuildWindow
 			}
 
 		itsTreeSet =
-			new SyGTreeSet(*input, vers, menuBar, startPath,
+			jnew SyGTreeSet(*input, vers, menuBar, startPath,
 							itsPathInput, pathMenu, trashButton,
 							itsToolBar->GetWidgetEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic,
@@ -332,7 +332,7 @@ SyGTreeDir::BuildWindow
 	else
 		{
 		itsTreeSet =
-			new SyGTreeSet(menuBar, startPath, itsPathInput, pathMenu,
+			jnew SyGTreeSet(menuBar, startPath, itsPathInput, pathMenu,
 							trashButton, itsToolBar->GetWidgetEnclosure(),
 							JXWidget::kHElastic, JXWidget::kVElastic,
 							0,0, 1000,1000);
@@ -344,7 +344,7 @@ SyGTreeDir::BuildWindow
 	// menus
 
 	JXWDMenu* windowsMenu =
-		new JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( windowsMenu != NULL );
 	menuBar->AppendMenu(windowsMenu);
@@ -370,7 +370,7 @@ SyGTreeDir::BuildWindow
 
 	// clean up
 
-	delete input;
+	jdelete input;
 
 	GetDisplay()->GetWDManager()->DirectorCreated(this);
 }

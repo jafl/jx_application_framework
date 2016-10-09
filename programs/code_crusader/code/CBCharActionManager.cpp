@@ -30,7 +30,7 @@ const unsigned char kEndOfSetupListMarker = '\1';
 
 CBCharActionManager::CBCharActionManager()
 {
-	itsActionList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll, kActionCount);
+	itsActionList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll, kActionCount);
 	assert( itsActionList != NULL );
 
 	ClearAllActions();
@@ -46,7 +46,7 @@ CBCharActionManager::CBCharActionManager
 	const CBCharActionManager& source
 	)
 {
-	itsActionList = new JDCCPtrArray<JString>(*(source.itsActionList), JPtrArrayT::kDeleteAll);
+	itsActionList = jnew JDCCPtrArray<JString>(*(source.itsActionList), JPtrArrayT::kDeleteAll);
 	assert( itsActionList != NULL );
 }
 
@@ -57,7 +57,7 @@ CBCharActionManager::CBCharActionManager
 
 CBCharActionManager::~CBCharActionManager()
 {
-	delete itsActionList;
+	jdelete itsActionList;
 }
 
 /******************************************************************************

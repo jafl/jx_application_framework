@@ -54,33 +54,33 @@ FitModuleDialog::BuildWindow()
 	
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 270,100, "");
+    JXWindow* window = jnew JXWindow(this, 270,100, "");
     assert( window != NULL );
 
     JXStaticText* obj1 =
-        new JXStaticText("Please select the appropriate module.", window,
+        jnew JXStaticText("Please select the appropriate module.", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 30,10, 230,20);
     assert( obj1 != NULL );
 
     itsFilterMenu =
-        new JXTextMenu("Filter:", window,
+        jnew JXTextMenu("Filter:", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 70,40, 70,20);
     assert( itsFilterMenu != NULL );
 	
     itsOKButton =
-        new JXTextButton("OK", window,
+        jnew JXTextButton("OK", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 20,70, 70,20);
     assert( itsOKButton != NULL );
     itsOKButton->SetShortcuts("^M");
 
     JXTextButton* cancelButton =
-        new JXTextButton("Cancel", window,
+        jnew JXTextButton("Cancel", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 180,70, 70,20);
     assert( cancelButton != NULL );
     cancelButton->SetShortcuts("^[");
 
 	itsReloadButton =
-        new JXTextButton("Reload", window,
+        jnew JXTextButton("Reload", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 100,70, 70,20);
     assert( itsReloadButton != NULL );
 

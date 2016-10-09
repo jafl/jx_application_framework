@@ -44,7 +44,7 @@ DragWidget::DragWidget
 
 	// See JCollection.h, JOrderedSet.h, and JArray.h for functionality
 
-	itsPoints = new JArray<JPoint>;
+	itsPoints = jnew JArray<JPoint>;
 	assert( itsPoints != NULL );
 }
 
@@ -56,8 +56,8 @@ DragWidget::DragWidget
 DragWidget::~DragWidget()
 {
 	// Unlike widgets, which are automatically deleted by the framework,
-	// we must delete this JArray since it is a private instance variable.
-	delete itsPoints;
+	// we must jdelete this JArray since it is a private instance variable.
+	jdelete itsPoints;
 }
 
 /******************************************************************************

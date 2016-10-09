@@ -69,7 +69,7 @@ JFunction*
 JArcCosine::Copy()
 	const
 {
-	JArcCosine* newFunction = new JArcCosine(*this);
+	JArcCosine* newFunction = jnew JArcCosine(*this);
 	assert( newFunction != NULL );
 	return newFunction;
 }

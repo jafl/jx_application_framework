@@ -67,10 +67,10 @@ JSubstitute::JSubstitute
 JSubstitute::~JSubstitute()
 {
 	ClearAllEscapes();
-	delete [] itsEscapeTable;
+	jdelete [] itsEscapeTable;
 
 	UndefineAllVariables();
-	delete itsVarList;
+	jdelete itsVarList;
 }
 
 /******************************************************************************
@@ -103,10 +103,10 @@ JSubstitute::operator=
 void
 JSubstitute::AllocateInternals()
 {
-	itsEscapeTable = new JString* [ kEscapeCount ];
+	itsEscapeTable = jnew JString* [ kEscapeCount ];
 	assert(itsEscapeTable != NULL);
 
-	itsVarList = new JArray<VarInfo>;
+	itsVarList = jnew JArray<VarInfo>;
 	assert( itsVarList != NULL );
 }
 
@@ -129,7 +129,7 @@ JIndex i;
 		{
 		if (source.itsEscapeTable[i] != NULL)
 			{
-			itsEscapeTable[i] = new JString(*(source.itsEscapeTable[i]));
+			itsEscapeTable[i] = jnew JString(*(source.itsEscapeTable[i]));
 			assert( itsEscapeTable[i] != NULL );
 			}
 		else
@@ -144,18 +144,18 @@ JIndex i;
 		{
 		const VarInfo origInfo = (source.itsVarList)->GetElement(i);
 
-		newInfo.name = new JString(*(origInfo.name));
+		newInfo.name = jnew JString(*(origInfo.name));
 		assert( newInfo.name != NULL );
 
 		if (origInfo.regex != NULL)
 			{
-			newInfo.regex = new JRegex(*(origInfo.regex));
+			newInfo.regex = jnew JRegex(*(origInfo.regex));
 			assert( newInfo.regex != NULL );
 			}
 
 		if (origInfo.value != NULL)
 			{
-			newInfo.value = new JString(*(origInfo.value));
+			newInfo.value = jnew JString(*(origInfo.value));
 			assert( newInfo.value != NULL );
 			}
 
@@ -210,7 +210,7 @@ JSubstitute::SetEscape
 		}
 	else
 		{
-		itsEscapeTable[c] = new JString(value, length);
+		itsEscapeTable[c] = jnew JString(value, length);
 		assert( itsEscapeTable[c] != NULL );
 		return kJFalse;
 		}
@@ -232,7 +232,7 @@ JSubstitute::ClearEscape
 {
 	if (itsEscapeTable[c] != NULL)
 		{
-		delete itsEscapeTable[c];
+		jdelete itsEscapeTable[c];
 		itsEscapeTable[c] = NULL;
 		return kJTrue;
 		}
@@ -254,7 +254,7 @@ JSubstitute::ClearAllEscapes()
 {
 	for (JIndex i=0; i<kEscapeCount; i++)
 		{
-		delete itsEscapeTable[i];
+		jdelete itsEscapeTable[i];
 		itsEscapeTable[i] = NULL;
 		}
 }
@@ -448,10 +448,10 @@ JSubstitute::DefineVariable
 {
 	if (!SetVariableValue(name, value))
 		{
-		JString* n = new JString(name);
+		JString* n = jnew JString(name);
 		assert( n != NULL );
 
-		JString* v = new JString(value);
+		JString* v = jnew JString(value);
 		assert( v != NULL );
 
 		itsVarList->AppendElement(VarInfo(n, v));
@@ -499,10 +499,10 @@ JSubstitute::DefineVariables
 	const JCharacter* regexPattern
 	)
 {
-	JString* name = new JString(regexPattern);
+	JString* name = jnew JString(regexPattern);
 	assert( name != NULL );
 
-	JRegex* regex = new JRegex(regexPattern);
+	JRegex* regex = jnew JRegex(regexPattern);
 	assert( regex != NULL );
 
 	itsVarList->AppendElement(VarInfo(name, regex));
@@ -528,9 +528,9 @@ JSubstitute::UndefineVariable
 		VarInfo info = itsVarList->GetElement(i);
 		if (*(info.name) == name)
 			{
-			delete info.name;
-			delete info.regex;
-			delete info.value;
+			jdelete info.name;
+			jdelete info.regex;
+			jdelete info.value;
 			itsVarList->RemoveElement(i);
 			}
 		}
@@ -548,9 +548,9 @@ JSubstitute::UndefineAllVariables()
 	for (JIndex i=1; i<=count; i++)
 		{
 		VarInfo info = itsVarList->GetElement(i);
-		delete info.name;
-		delete info.regex;
-		delete info.value;
+		jdelete info.name;
+		jdelete info.regex;
+		jdelete info.value;
 		}
 
 	itsVarList->RemoveAll();
@@ -788,7 +788,7 @@ JSubstitute::Substitute
 			i = range.last;
 			}
 
-		// move past new text
+		// move past jnew text
 
 		i++;
 		}

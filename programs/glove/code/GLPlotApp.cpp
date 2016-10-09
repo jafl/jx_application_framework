@@ -50,7 +50,7 @@ GLPlotApp::GLPlotApp
 {
 // Assumption - person has home dir, or no fileimpprogs
 
-	itsModulePath = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsModulePath = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert(itsModulePath != NULL);
 
 	JString homeDir;
@@ -63,10 +63,10 @@ GLPlotApp::GLPlotApp
 	JAppendDirSeparator(&homeDir);
 
 	JString dmhome = homeDir + ".glove";
-	JString* str = new JString(dmhome);
+	JString* str = jnew JString(dmhome);
 	assert(str != NULL);
 	itsModulePath->Append(str);
-	str = new JString("/usr/local/lib/glove");
+	str = jnew JString("/usr/local/lib/glove");
 	itsModulePath->Append(str);
 	
 
@@ -90,7 +90,7 @@ GLPlotApp::GLPlotApp
 		prevVersStr->Clear();
 		}
 
-//	itsFileImpProgs = new JPtrArray<JString>();
+//	itsFileImpProgs = jnew JPtrArray<JString>();
 
 
 	JXCreateDefaultDocumentManager(kJTrue);
@@ -107,17 +107,17 @@ GLPlotApp::GLPlotApp
 	itsDirNumber = 1;
 	
 	
-	itsDataModules = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	itsCursorModules = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	itsImportModules = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	itsExportModules = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	itsFitModules = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsDataModules = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsCursorModules = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsImportModules = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsExportModules = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsFitModules = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 
-	itsDataPathIndex = new JArray<JIndex>;
-	itsCursorPathIndex = new JArray<JIndex>;
-	itsImportPathIndex = new JArray<JIndex>;
-	itsExportPathIndex = new JArray<JIndex>;
-	itsFitPathIndex = new JArray<JIndex>;
+	itsDataPathIndex = jnew JArray<JIndex>;
+	itsCursorPathIndex = jnew JArray<JIndex>;
+	itsImportPathIndex = jnew JArray<JIndex>;
+	itsExportPathIndex = jnew JArray<JIndex>;
+	itsFitPathIndex = jnew JArray<JIndex>;
 
 	ReloadDataModules();
 	ReloadExportModules();
@@ -135,31 +135,31 @@ GLPlotApp::~GLPlotApp()
 {
 /*
 	itsFileImpProgs->DeleteAll();
-	delete itsFileImpProgs;
+	jdelete itsFileImpProgs;
 	
 	if (foundFileImpDir)
 		{
-		delete itsFileImpDir;
+		jdelete itsFileImpDir;
 		}
 */
 	itsModulePath->DeleteAll();
-	delete itsModulePath;
+	jdelete itsModulePath;
 
 	itsDataModules->DeleteAll();
-	delete itsDataModules;
+	jdelete itsDataModules;
 	itsCursorModules->DeleteAll();
-	delete itsCursorModules;
+	jdelete itsCursorModules;
 	itsImportModules->DeleteAll();
-	delete itsImportModules;
+	jdelete itsImportModules;
 	itsExportModules->DeleteAll();
-	delete itsExportModules;
+	jdelete itsExportModules;
 	itsFitModules->DeleteAll();
-	delete itsFitModules;
-	delete itsDataPathIndex;
-	delete itsCursorPathIndex;
-	delete itsImportPathIndex;
-	delete itsExportPathIndex;
-	delete itsFitPathIndex;
+	jdelete itsFitModules;
+	jdelete itsDataPathIndex;
+	jdelete itsCursorPathIndex;
+	jdelete itsImportPathIndex;
+	jdelete itsExportPathIndex;
+	jdelete itsFitPathIndex;
 	DeleteGLGlobals();
 }
 
@@ -186,12 +186,12 @@ GLPlotApp::ReloadImportModules()
 				const JDirEntry& entry = info->GetEntry(j);
 				if ( entry.IsExecutable() && !(entry.IsDirectory()) )
 					{
-					JString* str = new JString(entry.GetName());
+					JString* str = jnew JString(entry.GetName());
 					itsImportModules->Append(str);
 					itsImportPathIndex->AppendElement(i);
 					}
 				}					
-			delete info;
+			jdelete info;
 			}
 		}
 }
@@ -294,7 +294,7 @@ GLPlotApp::UpdateFileImpProgs()
 		const JDirEntry& entry = itsFileImpDir->GetEntry(i);
 		if ( entry.IsExecutable() && !(entry.IsDirectory()) )
 			{
-			JString* str = new JString(entry.GetName());
+			JString* str = jnew JString(entry.GetName());
 			itsFileImpProgs->Append(str);
 			}
 		}
@@ -311,7 +311,7 @@ GLPlotApp::NewFile()
 {
 	JString str = "Untitled " + JString(itsDirNumber);
 	itsDirNumber++;
-	GXDataDocument* tableDir = new GXDataDocument(this, str, kJFalse);
+	GXDataDocument* tableDir = jnew GXDataDocument(this, str, kJFalse);
 	assert( tableDir != NULL);
 	tableDir->Activate();
 }
@@ -346,7 +346,7 @@ GLPlotApp::OpenFile
 		}
 	else
 		{
-		GXDataDocument* tableDir = new GXDataDocument(this, fileName, kJTrue);
+		GXDataDocument* tableDir = jnew GXDataDocument(this, fileName, kJTrue);
 		assert( tableDir != NULL);
 		tableDir->Activate();
 		}
@@ -375,12 +375,12 @@ GLPlotApp::ReloadDataModules()
 				const JDirEntry& entry = info->GetEntry(j);
 				if ( entry.IsExecutable() && !(entry.IsDirectory()) )
 					{
-					JString* str = new JString(entry.GetName());
+					JString* str = jnew JString(entry.GetName());
 					itsDataModules->Append(str);
 					itsDataPathIndex->AppendElement(i);
 					}
 				}					
-			delete info;
+			jdelete info;
 			}
 		}
 }
@@ -440,12 +440,12 @@ GLPlotApp::ReloadCursorModules()
 				const JDirEntry& entry = info->GetEntry(j);
 				if ( entry.IsExecutable() && !(entry.IsDirectory()) )
 					{
-					JString* str = new JString(entry.GetName());
+					JString* str = jnew JString(entry.GetName());
 					itsCursorModules->Append(str);
 					itsCursorPathIndex->AppendElement(i);
 					}
 				}					
-			delete info;
+			jdelete info;
 			}
 		}
 }
@@ -505,12 +505,12 @@ GLPlotApp::ReloadExportModules()
 				const JDirEntry& entry = info->GetEntry(j);
 				if ( entry.IsExecutable() && !(entry.IsDirectory()) )
 					{
-					JString* str = new JString(entry.GetName());
+					JString* str = jnew JString(entry.GetName());
 					itsExportModules->Append(str);
 					itsExportPathIndex->AppendElement(i);
 					}
 				}					
-			delete info;
+			jdelete info;
 			}
 		}
 }
@@ -570,12 +570,12 @@ GLPlotApp::ReloadFitModules()
 				const JDirEntry& entry = info->GetEntry(j);
 				if ( entry.IsExecutable() && !(entry.IsDirectory()) )
 					{
-					JString* str = new JString(entry.GetName());
+					JString* str = jnew JString(entry.GetName());
 					itsFitModules->Append(str);
 					itsFitPathIndex->AppendElement(i);
 					}
 				}					
-			delete info;
+			jdelete info;
 			}
 		}
 }
@@ -625,7 +625,7 @@ GLPlotApp::DisplayAbout
 	const JCharacter* prevVersStr
 	)
 {
-	GLAboutDialog* dlog = new GLAboutDialog(this, prevVersStr);
+	GLAboutDialog* dlog = jnew GLAboutDialog(this, prevVersStr);
 	assert( dlog != NULL );
 	dlog->BeginDialog();
 }

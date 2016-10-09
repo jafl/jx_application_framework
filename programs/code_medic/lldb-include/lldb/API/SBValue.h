@@ -230,7 +230,7 @@ public:
     ///     be allowed.
     ///
     /// @return
-    ///     A new SBValue object that represents the child member value.
+    ///     A jnew SBValue object that represents the child member value.
     //------------------------------------------------------------------
     lldb::SBValue
     GetChildAtIndex (uint32_t idx, 

@@ -351,7 +351,7 @@ JImage::ReadGD
 
 		const JSize colorCount = gdImageColorsTotal(image);
 
-		JColorIndex* colorTable = new JColorIndex [ colorCount ];
+		JColorIndex* colorTable = jnew JColorIndex [ colorCount ];
 		assert( colorTable != NULL );
 
 		const JColorIndex blackColor = itsColormap->GetBlackColor();
@@ -384,9 +384,9 @@ JImage::ReadGD
 
 		// clean up
 
-		delete [] colorTable;
-		delete [] data;
-		delete [] cols;
+		jdelete [] colorTable;
+		jdelete [] data;
+		jdelete [] cols;
 
 		return JNoError();
 		}
@@ -592,7 +592,7 @@ JIndex i;
 		charToCTIndex[i] = 0;
 		}
 
-	JColorIndex* colorTable = new JColorIndex [ colorCount ];
+	JColorIndex* colorTable = jnew JColorIndex [ colorCount ];
 	assert( colorTable != NULL );
 
 	// decode color table
@@ -653,16 +653,16 @@ JIndex i;
 
 	// clean up
 
-	delete [] colorTable;
-	delete [] data;
-	delete [] cols;
+	jdelete [] colorTable;
+	jdelete [] data;
+	jdelete [] cols;
 }
 
 /******************************************************************************
  AllocateImageData (protected)
 
 	Allocate space for image data of the given width and height.
-	Delete both arrays with "delete []".  This data can be passed to
+	Delete both arrays with "jdelete []".  This data can be passed to
 	SetImageData().
 
 	We return an error because it is not unreasonable that the user might
@@ -679,13 +679,13 @@ JImage::AllocateImageData
 	unsigned short***	cols
 	)
 {
-	*data = new unsigned short [ w * h ];
+	*data = jnew unsigned short [ w * h ];
 	if (*data == NULL)
 		{
 		return JNoProcessMemory();
 		}
 
-	*cols = new unsigned short* [ w ];
+	*cols = jnew unsigned short* [ w ];
 	if (*cols == NULL)
 		{
 		return JNoProcessMemory();

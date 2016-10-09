@@ -44,20 +44,20 @@ InitGLGlobals
 	itsApplication = app;
 
 	JBoolean isNew;
-	itsPrefsMgr = new GLPrefsMgr(&isNew);
+	itsPrefsMgr = jnew GLPrefsMgr(&isNew);
 	assert(itsPrefsMgr != NULL);
 	
 	JXInitHelp(kGLTOCHelpName, kHelpSectionCount, kHelpSectionName);
 
-	itsPrinter = new JXPTPrinter();
+	itsPrinter = jnew JXPTPrinter();
 	assert(itsPrinter != NULL);
 
 	itsPrefsMgr->ReadPrinterSetup(itsPrinter);
 
-	itsFitManager = new GLFitManager();
+	itsFitManager = jnew GLFitManager();
 	assert(itsFitManager != NULL);
 
-	itsMDIServer	= new GLMDIServer(app);
+	itsMDIServer	= jnew GLMDIServer(app);
 	assert(itsMDIServer != NULL);
 
 	return isNew;
@@ -73,9 +73,9 @@ void
 DeleteGLGlobals()
 {
 	itsPrefsMgr->WritePrinterSetup(itsPrinter);
-	delete itsPrinter;
-	delete itsFitManager;
-	delete itsPrefsMgr;
+	jdelete itsPrinter;
+	jdelete itsFitManager;
+	jdelete itsPrefsMgr;
 }
 
 /******************************************************************************

@@ -67,7 +67,7 @@ JDecision*
 JValueUnknown::Copy()
 	const
 {
-	JValueUnknown* newDecision = new JValueUnknown(*this);
+	JValueUnknown* newDecision = jnew JValueUnknown(*this);
 	assert( newDecision != NULL );
 	return newDecision;
 }

@@ -22,7 +22,6 @@
 #include <jFileUtil.h>
 #include <jDirUtil.h>
 #include <jSysUtil.h>
-#include <j_prep_ace.h>
 #include <ace/OS_NS_sys_wait.h>
 #include <jErrno.h>
 #include <jMissingProto.h>
@@ -102,7 +101,7 @@ JParseArgsForExec
 			{
 			if (j < i)
 				{
-				JString* s = new JString(cmd+j, i-j);
+				JString* s = jnew JString(cmd+j, i-j);
 				assert( s != NULL );
 				JCleanArg(s);	// clean out backslashes and quotes
 				argList->Append(s);
@@ -147,7 +146,7 @@ JParseArgsForExec
 
 	if (j < i)
 		{
-		JString* s = new JString(cmd+j, i-j);
+		JString* s = jnew JString(cmd+j, i-j);
 		assert( s != NULL );
 		JCleanArg(s);	// clean out backslashes and quotes
 		argList->Append(s);
@@ -348,7 +347,7 @@ JExecute
 {
 	const JSize argc = argList.GetElementCount();
 
-	const JCharacter** argv = new const JCharacter* [ argc+1 ];
+	const JCharacter** argv = jnew const JCharacter* [ argc+1 ];
 	assert( argv != NULL );
 
 	for (JIndex i=1; i<=argc; i++)
@@ -361,7 +360,7 @@ JExecute
 								toAction, toFD, fromAction, fromFD,
 								errAction, errFD);
 
-	delete [] argv;
+	jdelete [] argv;
 	return err;
 }
 
@@ -618,7 +617,7 @@ JExecute
 				return JNoError();
 				}
 
-			JProcess* p = new JProcess(pid2);
+			JProcess* p = jnew JProcess(pid2);
 			p->KillAtExit(kJTrue);
 			}
 

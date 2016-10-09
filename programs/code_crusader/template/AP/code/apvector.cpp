@@ -31,7 +31,7 @@ apvector<itemType>::apvector(int size)
 // precondition: size >= 0
 // postcondition: vector has a capacity of size items
    : mySize(size),
-     myList(new itemType[size])
+     myList(jnew itemType[size])
 {
 
 }
@@ -42,7 +42,7 @@ apvector<itemType>::apvector(int size, const itemType & fillValue)
 // postcondition: vector has a capacity of size items, all of which are set
 //                by assignment to fillValue after default construction
     : mySize(size),
-      myList(new itemType[size])
+      myList(jnew itemType[size])
 {
     int k;
     for(k = 0; k < size; k++)
@@ -55,7 +55,7 @@ template <class itemType>
 apvector<itemType>::apvector(const apvector<itemType> & vec)
 // postcondition: vector is a copy of vec
     : mySize(vec.length()),
-      myList(new itemType[mySize])
+      myList(jnew itemType[mySize])
 {
     int k;
         // copy elements
@@ -68,7 +68,7 @@ template <class itemType>
 apvector<itemType>::~apvector ()
 // postcondition: vector is destroyed
 {
-    delete [] myList;
+    jdelete [] myList;
 }
 
 template <class itemType>
@@ -80,9 +80,9 @@ apvector<itemType>::operator = (const apvector<itemType> & rhs)
 {
     if (this != &rhs)                           // don't assign to self!
     {
-        delete [] myList;                       // get rid of old storage
+        jdelete [] myList;                       // get rid of old storage
         mySize = rhs.length();
-        myList = new itemType [mySize];         // allocate new storage
+        myList = jnew itemType [mySize];         // allocate jnew storage
 
             // copy rhs
         int k;
@@ -147,14 +147,14 @@ void apvector<itemType>::resize(int newSize)
     int k;
     int numToCopy = newSize < mySize ? newSize : mySize;
 
-         // allocate new storage and copy element into new storage
+         // allocate jnew storage and copy element into jnew storage
 
-    itemType * newList = new itemType[newSize];
+    itemType * newList = jnew itemType[newSize];
     for(k=0; k < numToCopy; k++)
     {
         newList[k] = myList[k];
     }
-    delete [] myList;                      // de-allocate old storage
-    mySize = newSize;                      // assign new storage/size
+    jdelete [] myList;                      // de-allocate old storage
+    mySize = newSize;                      // assign jnew storage/size
     myList = newList;
 }

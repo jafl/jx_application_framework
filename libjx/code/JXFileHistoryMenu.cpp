@@ -68,7 +68,7 @@ JXFileHistoryMenu::JXFileHistoryMenu
 void
 JXFileHistoryMenu::JXFileHistoryMenuX()
 {
-	JXImage* icon = new JXImage(GetDisplay(), jx_plain_file_small);
+	JXImage* icon = jnew JXImage(GetDisplay(), jx_plain_file_small);
 	assert( icon != NULL );
 	SetDefaultIcon(icon, kJTrue);
 }

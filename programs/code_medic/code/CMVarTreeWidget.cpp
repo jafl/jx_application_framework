@@ -113,7 +113,7 @@ CMVarTreeWidget::CMVarTreeWidget
 	ListenTo(itsBaseMenu);
 
 	itsBasePopupMenu =
-		new JXTextMenu(kBaseMenuTitleStr, this, kFixedLeft, kFixedTop, 0,0, 10, 10);
+		jnew JXTextMenu(kBaseMenuTitleStr, this, kFixedLeft, kFixedTop, 0,0, 10, 10);
 	assert( itsBasePopupMenu != NULL );
 	itsBasePopupMenu->SetMenuItems(kBaseMenuStr, "CMVarTreeWidget");
 	itsBasePopupMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -146,7 +146,7 @@ CMVarTreeWidget::CMVarTreeWidget
 
 CMVarTreeWidget::~CMVarTreeWidget()
 {
-	delete itsTree;
+	jdelete itsTree;
 }
 
 /******************************************************************************
@@ -398,7 +398,7 @@ CMVarTreeWidget::ExamineMemory
 
 		expr = node->GetFullName();
 
-		dir = new CMMemoryDir(itsDir, expr);
+		dir = jnew CMMemoryDir(itsDir, expr);
 		assert(dir != NULL);
 		dir->SetDisplayType(type);
 		dir->Activate();
@@ -406,7 +406,7 @@ CMVarTreeWidget::ExamineMemory
 
 	if (dir == NULL)
 		{
-		dir = new CMMemoryDir(itsDir, "");
+		dir = jnew CMMemoryDir(itsDir, "");
 		assert(dir != NULL);
 		dir->SetDisplayType(type);
 		dir->Activate();
@@ -499,7 +499,7 @@ CMVarTreeWidget::RemoveSelection()
 		JTreeNode* node = GetTreeList()->GetNode(cell.y);
 		if (node->GetDepth() == 1)
 			{
-			delete node;
+			jdelete node;
 			}
 		}
 
@@ -759,7 +759,7 @@ CMVarTreeWidget::HandleKeyPress
 			if (itsEditingNewNodeFlag &&
 				JIndex(cell.x) == GetNodeColIndex() && node->GetDepth() == 1)
 				{
-				delete node;
+				jdelete node;
 				}
 			}
 		}
@@ -1128,7 +1128,7 @@ CMVarTreeWidget::CopySelectedItems
 				}
 			}
 
-		JXTextSelection* data = new JXTextSelection(GetDisplay(), list);
+		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
 		assert( data != NULL );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);

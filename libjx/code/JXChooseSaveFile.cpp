@@ -36,7 +36,7 @@ JXChooseSaveFile::JXChooseSaveFile
 	JChooseSaveFile(),
 	JPrefObject(prefsMgr, id)
 {
-	itsUserFilter = new JString;
+	itsUserFilter = jnew JString;
 	assert( itsUserFilter != NULL );
 
 	itsDirInfo           = NULL;	// constructed in GetDirInfo()
@@ -48,7 +48,7 @@ JXChooseSaveFile::JXChooseSaveFile
 	itsResultStr  = NULL;
 	itsResultList = NULL;
 
-	itsDialogState = new JString;
+	itsDialogState = jnew JString;
 	assert( itsDialogState != NULL );
 }
 
@@ -59,9 +59,9 @@ JXChooseSaveFile::JXChooseSaveFile
 
 JXChooseSaveFile::~JXChooseSaveFile()
 {
-	delete itsDirInfo;
-	delete itsUserFilter;
-	delete itsDialogState;
+	jdelete itsDirInfo;
+	jdelete itsUserFilter;
+	jdelete itsDialogState;
 }
 
 /******************************************************************************
@@ -518,7 +518,7 @@ JXChooseSaveFile::WaitForResponse
 /******************************************************************************
  RestoreState (private)
 
-	Let the new dialog read its state from our saved data.
+	Let the jnew dialog read its state from our saved data.
 
  ******************************************************************************/
 

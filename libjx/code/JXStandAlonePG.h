@@ -56,7 +56,7 @@ private:
  RaiseWhenUpdate
 
 	This controls whether or not the progress window is raised every time
-	it is updated.  This is mainly useful if a process creates new windows,
+	it is updated.  This is mainly useful if a process creates jnew windows,
 	because it can then be very hard for the user to find the progress
 	window and cancel the process.
 

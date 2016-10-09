@@ -68,10 +68,10 @@ JXCurrentPathMenu::JXCurrentPathMenuX
 	JXDisplay*  d = GetDisplay();
 	JXColormap* c = GetColormap();
 
-	itsFolderIcon = new JXImage(d, jx_folder_small);
+	itsFolderIcon = jnew JXImage(d, jx_folder_small);
 	assert( itsFolderIcon != NULL );
 
-	itsReadOnlyFolderIcon = new JXImage(d, jx_folder_read_only_small);
+	itsReadOnlyFolderIcon = jnew JXImage(d, jx_folder_read_only_small);
 	assert( itsReadOnlyFolderIcon != NULL );
 
 	// after creating icons
@@ -86,8 +86,8 @@ JXCurrentPathMenu::JXCurrentPathMenuX
 
 JXCurrentPathMenu::~JXCurrentPathMenu()
 {
-	delete itsFolderIcon;
-	delete itsReadOnlyFolderIcon;
+	jdelete itsFolderIcon;
+	jdelete itsReadOnlyFolderIcon;
 }
 
 /******************************************************************************

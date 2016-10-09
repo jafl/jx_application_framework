@@ -119,11 +119,11 @@ JPTPrinter::Print
 			return kJFalse;
 			}
 
-		tempOutput = new ofstream(tempName);
+		tempOutput = jnew ofstream(tempName);
 		assert( tempOutput != NULL );
 		if (tempOutput->bad())
 			{
-			delete tempOutput;
+			jdelete tempOutput;
 			JRemoveFile(tempName);
 			return kJFalse;
 			}
@@ -251,7 +251,7 @@ JPTPrinter::Print
 
 	if (itsPrintReverseOrderFlag)
 		{
-		delete tempOutput;
+		jdelete tempOutput;
 		if (keepGoing)
 			{
 			JString text;

@@ -44,7 +44,7 @@ private:
 
 	JVariableList*	itsVarList;		// not owned
 	JFunction*		itsFunction;
-	JBoolean		itsOwnsFnFlag;	// kJTrue => delete itsFunction when destructed
+	JBoolean		itsOwnsFnFlag;	// kJTrue => jdelete itsFunction when destructed
 	JIndex			itsXIndex;
 };
 

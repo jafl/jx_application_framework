@@ -398,7 +398,7 @@ define hook-condition
 echo \\032\\032:Medic breakpoints changed:
 end
 
-define hook-delete
+define hook-jdelete
 echo \\032\\032:Medic breakpoints changed:
 end
 

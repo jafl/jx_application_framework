@@ -45,11 +45,11 @@ JXHelpText::JXHelpText
 	JXLinkText(scrollbarSet, enclosure, hSizing, vSizing, x,y, w,h),
 	itsTitle(title)
 {
-	itsMarks = new JArray<MarkInfo>;
+	itsMarks = jnew JArray<MarkInfo>;
 	assert( itsMarks != NULL );
 	itsMarks->SetCompareFunction(CompareMarkNames);
 
-	itsLinks = new JArray<LinkInfo>;
+	itsLinks = jnew JArray<LinkInfo>;
 	assert( itsLinks != NULL );
 
 	itsAnchorText = NULL;
@@ -75,19 +75,19 @@ JIndex i;
 	for (i=1; i<=markCount; i++)
 		{
 		MarkInfo info = itsMarks->GetElement(i);
-		delete info.name;
+		jdelete info.name;
 		}
-	delete itsMarks;
+	jdelete itsMarks;
 
 	const JSize linkCount = itsLinks->GetElementCount();
 	for (i=1; i<=linkCount; i++)
 		{
 		LinkInfo info = itsLinks->GetElement(i);
-		delete info.url;
+		jdelete info.url;
 		}
-	delete itsLinks;
+	jdelete itsLinks;
 
-	delete itsAnchorText;
+	jdelete itsAnchorText;
 }
 
 /******************************************************************************
@@ -215,7 +215,7 @@ JXHelpText::PrepareToReadHTML()
 {
 	JXLinkText::PrepareToReadHTML();
 
-	itsAnchorText = new JString;
+	itsAnchorText = jnew JString;
 	assert( itsAnchorText != NULL );
 
 	ClearAnchorInfo();
@@ -233,7 +233,7 @@ JIndex i,j;
 
 	JXLinkText::ReadHTMLFinished();
 
-	delete itsAnchorText;
+	jdelete itsAnchorText;
 	itsAnchorText = NULL;
 
 	// shift each mark to nearest non-blank line
@@ -365,12 +365,12 @@ JXHelpText::BeginAnchor
 		}
 	else if (attr.GetElement("name", &valueStr) && valueStr != NULL)
 		{
-		MarkInfo info(new JString(*valueStr), GetHTMLBufferLength()+1);
+		MarkInfo info(jnew JString(*valueStr), GetHTMLBufferLength()+1);
 		assert( info.name != NULL );
 
 		if (!itsMarks->InsertSorted(info, kJFalse))
 			{
-			delete info.name;
+			jdelete info.name;
 			}
 		}
 }
@@ -401,7 +401,7 @@ JXHelpText::EndAnchor()
 
 	if (!itsAnchorRange.IsEmpty() && !itsAnchorText->IsEmpty())
 		{
-		LinkInfo info(itsAnchorRange, new JString(*itsAnchorText));
+		LinkInfo info(itsAnchorRange, jnew JString(*itsAnchorText));
 		assert( info.url != NULL );
 		itsLinks->AppendElement(info);
 		}

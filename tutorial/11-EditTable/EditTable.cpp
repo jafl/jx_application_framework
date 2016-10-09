@@ -78,7 +78,7 @@ EditTable::EditTable
 	:
 	JXEditTable(kDefRowHeight, kDefColWidth, scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h)
 {
-	// This will be our data, but we don't own it so we can't delete it.
+	// This will be our data, but we don't own it so we can't jdelete it.
 	itsData = data;
 
 	// We need to set this to NULL in case we receive a message before
@@ -120,7 +120,7 @@ EditTable::EditTable
 
 EditTable::~EditTable()
 {
-	// we don't own itsData, so we don't delete it.
+	// we don't own itsData, so we don't jdelete it.
 	// itsTableMenu is deleted automatically by its enclosure.
 	// itsIntegerInputField is deleted automatically by its enclosure.
 }
@@ -445,7 +445,7 @@ EditTable::CreateXInputField
 	assert( itsIntegerInputField == NULL );
 
 	// Create the input field
-	itsIntegerInputField = new JXIntegerInput(this, kFixedLeft, kFixedTop, x,y,w,h);
+	itsIntegerInputField = jnew JXIntegerInput(this, kFixedLeft, kFixedTop, x,y,w,h);
 	assert( itsIntegerInputField != NULL );
 
 	// Set the input field's value to that of the cell.
@@ -462,7 +462,7 @@ EditTable::CreateXInputField
  ExtractInputData (virtual protected)
 
 	Extract the information from the active input field, check it, and
-	delete the input field if successful.
+	jdelete the input field if successful.
 
 	Returns kJTrue if the data is valid and the process succeeded.
 

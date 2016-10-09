@@ -38,7 +38,7 @@ JArray<T>::JArray
 {
 	assert( aBlockSize > 0 );
 
-	itsElements = new T [ aBlockSize ];
+	itsElements = jnew T [ aBlockSize ];
 	assert( itsElements != NULL );
 
 	itsSlotCount = aBlockSize;
@@ -58,7 +58,7 @@ JArray<T>::JArray
 	:
 	JOrderedSet<T>(source)
 {
-	itsElements = NULL;		// makes delete [] safe inside CopyArray
+	itsElements = NULL;		// makes jdelete [] safe inside CopyArray
 
 	CopyArray(source);
 }
@@ -71,7 +71,7 @@ JArray<T>::JArray
 template <class T>
 JArray<T>::~JArray()
 {
-	delete [] itsElements;
+	jdelete [] itsElements;
 }
 
 /******************************************************************************
@@ -116,8 +116,8 @@ JArray<T>::CopyArray
 	itsSlotCount = source.itsSlotCount;
 	itsBlockSize = source.itsBlockSize;
 
-	delete [] itsElements;
-	itsElements = new T [ itsSlotCount ];
+	jdelete [] itsElements;
+	itsElements = jnew T [ itsSlotCount ];
 	assert( itsElements != NULL );
 
 	memcpy(itsElements, source.itsElements, itsSlotCount * sizeof(T));
@@ -160,7 +160,7 @@ JArray<T>::AllocateCArray()
 {
 	const JSize count = JCollection::GetElementCount();
 
-	T* data = new T [ count ];
+	T* data = jnew T [ count ];
 	assert( data != NULL );
 
 	memcpy(data, itsElements, count * sizeof(T));
@@ -202,7 +202,7 @@ JArray<T>::InsertElementAtIndex
 	than the current size, then the element is appended to the end
 	of the array.
 
-	The correct index of the new element is returned.
+	The correct index of the jnew element is returned.
 
  ******************************************************************************/
 
@@ -765,12 +765,12 @@ JArray<T>::ResizeMemoryAllocation
 
 	if (newSlotCount != itsSlotCount)
 		{
-		T* newElements = new T [newSlotCount];
+		T* newElements = jnew T [newSlotCount];
 		assert( newElements != NULL );
 
 		memcpy(newElements, itsElements, JCollection::GetElementCount() * sizeof(T));
 
-		delete [] itsElements;
+		jdelete [] itsElements;
 		itsElements = newElements;
 		itsSlotCount = newSlotCount;
 		}

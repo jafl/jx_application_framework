@@ -103,7 +103,7 @@ CBSearchDocument::Create
 		{
 		close(fd[1]);
 
-		JProcess* process = new JProcess(pid);
+		JProcess* process = jnew JProcess(pid);
 		assert( process != NULL );
 
 		const JCharacter* map[] =
@@ -113,7 +113,7 @@ CBSearchDocument::Create
 		const JString windowTitle = JGetString("SearchTitle::CBSearchDocument", map, sizeof(map));
 
 		CBSearchDocument* doc =
-			new CBSearchDocument(kJFalse, JI2B(onlyListFiles || listFilesWithoutMatch),
+			jnew CBSearchDocument(kJFalse, JI2B(onlyListFiles || listFilesWithoutMatch),
 								 fileList.GetElementCount(),
 								 process, fd[0], windowTitle);
 		assert( doc != NULL );
@@ -184,7 +184,7 @@ CBSearchDocument::Create
 		{
 		close(fd[1]);
 
-		JProcess* process = new JProcess(pid);
+		JProcess* process = jnew JProcess(pid);
 		assert( process != NULL );
 
 		const JCharacter* map[] =
@@ -195,7 +195,7 @@ CBSearchDocument::Create
 		const JString windowTitle = JGetString("ReplaceTitle::CBSearchDocument", map, sizeof(map));
 
 		CBSearchDocument* doc =
-			new CBSearchDocument(kJTrue, kJTrue, fileList.GetElementCount(),
+			jnew CBSearchDocument(kJTrue, kJTrue, fileList.GetElementCount(),
 								 process, fd[0], windowTitle);
 		assert( doc != NULL );
 
@@ -240,7 +240,7 @@ CBSearchDocument::CBSearchDocument
 	SetFileDisplayVisible(kJFalse);
 
 	itsIndicator =
-		new JXProgressIndicator(GetWindow(), hSizing, vSizing,
+		jnew JXProgressIndicator(GetWindow(), hSizing, vSizing,
 								frame.left, frame.ycenter() - kIndicatorHeight/2,
 								frame.width(), kIndicatorHeight);
 	assert( itsIndicator != NULL );
@@ -269,7 +269,7 @@ CBSearchDocument::CBSearchDocument
 
 	if (itsIsReplaceFlag)
 		{
-		itsReplaceTE = new CBSearchTE;
+		itsReplaceTE = jnew CBSearchTE;
 		assert( itsReplaceTE != NULL );
 		}
 }
@@ -281,7 +281,7 @@ CBSearchDocument::CBSearchDocument
 
 CBSearchDocument::~CBSearchDocument()
 {
-	delete itsReplaceTE;
+	jdelete itsReplaceTE;
 }
 
 /******************************************************************************
@@ -314,13 +314,13 @@ CBSearchDocument::ProcessFinished
 
 	if (itsIsReplaceFlag)
 		{
-		delete itsReplaceTE;
+		jdelete itsReplaceTE;
 		itsReplaceTE = NULL;
 
 		(JXGetApplication())->Resume();
 		}
 
-	delete itsIndicator;
+	jdelete itsIndicator;
 	itsIndicator = NULL;
 
 	SetFileDisplayVisible(kJTrue);

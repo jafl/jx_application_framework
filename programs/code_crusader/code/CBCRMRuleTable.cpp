@@ -67,7 +67,7 @@ CBCRMRuleTable::CBCRMRuleTable
 	const JCoordinate	h
 	)
 	:
-	JXStringTable(new JStringTableData,
+	JXStringTable(jnew JStringTableData,
 				  scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
 	itsDialog = dialog;
@@ -85,7 +85,7 @@ CBCRMRuleTable::CBCRMRuleTable
 	itsSaveButton = saveButton;
 	ListenTo(itsSaveButton);
 
-	itsCSF = new CBListCSF(kReplaceListStr, kAppendToListStr);
+	itsCSF = jnew CBListCSF(kReplaceListStr, kAppendToListStr);
 	assert( itsCSF != NULL );
 
 	itsFirstRegex = JTextEditor::CRMRule::CreateFirst(".", "$0");
@@ -113,10 +113,10 @@ CBCRMRuleTable::CBCRMRuleTable
 
 CBCRMRuleTable::~CBCRMRuleTable()
 {
-	delete GetStringData();
-	delete itsCSF;
-	delete itsFirstRegex;
-	delete itsRestRegex;
+	jdelete GetStringData();
+	jdelete itsCSF;
+	jdelete itsFirstRegex;
+	jdelete itsRestRegex;
 }
 
 /******************************************************************************
@@ -342,17 +342,17 @@ CBCRMRuleTable::CreateStringTableInput
 	JXInputField* input = NULL;
 	if (cell.x == kFirstColumn)
 		{
-		input = new JXRegexInput(itsFirstRegex, kJFalse,
+		input = jnew JXRegexInput(itsFirstRegex, kJFalse,
 								 enclosure, hSizing, vSizing, x,y, w,h);
 		}
 	else if (cell.x == kRestColumn)
 		{
-		input = new JXRegexInput(itsRestRegex, kJFalse,
+		input = jnew JXRegexInput(itsRestRegex, kJFalse,
 								 enclosure, hSizing, vSizing, x,y, w,h);
 		}
 	else if (cell.x == kReplaceColumn)
 		{
-		input = new JXRegexReplaceInput(itsFirstRegex, kJFalse,
+		input = jnew JXRegexReplaceInput(itsFirstRegex, kJFalse,
 										enclosure, hSizing, vSizing, x,y, w,h);
 		}
 

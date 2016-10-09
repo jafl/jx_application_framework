@@ -152,7 +152,7 @@ JOpenScratchFile()
 	int fd = fileno(tempFile);
 	assert( fd != EOF );
 
-	fstream* theFile = new fstream(fd);
+	fstream* theFile = jnew fstream(fd);
 	assert( theFile != NULL );
 	assert( theFile->good() );
 
@@ -173,7 +173,7 @@ JCloseScratchFile
 	)
 {
 	(**theFile).close();
-	delete *theFile;
+	jdelete *theFile;
 	*theFile = NULL;
 }
 

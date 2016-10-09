@@ -38,7 +38,7 @@ static const JCharacter* kKeywordList[] =
 
 	"read", "readln", "write", "writeln",
 	"rewrite", "reset", "put", "get", "page",
-	"new", "dispose",
+	"jnew", "dispose",
 	"pack", "unpack"
 };
 
@@ -58,7 +58,7 @@ CBPascalCompleter::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBPascalCompleter;
+		itsSelf = jnew CBPascalCompleter;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -75,7 +75,7 @@ CBPascalCompleter::Instance()
 void
 CBPascalCompleter::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

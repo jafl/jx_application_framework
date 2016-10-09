@@ -23,7 +23,7 @@ static GCLAlarmManager*		itsAlarmMgr			= NULL;
 void
 GCLCreateGlobals()
 {
-	itsAlarmMgr	= new GCLAlarmManager();
+	itsAlarmMgr	= jnew GCLAlarmManager();
 	assert(itsAlarmMgr != NULL);
 
 }
@@ -36,7 +36,7 @@ GCLCreateGlobals()
 void
 GCLDeleteGlobals()
 {
-	delete itsAlarmMgr;
+	jdelete itsAlarmMgr;
 }
 /******************************************************************************
  GCLGetAlarmMgr

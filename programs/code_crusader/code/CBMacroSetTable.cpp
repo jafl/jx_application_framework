@@ -43,7 +43,7 @@ CBMacroSetTable::CBMacroSetTable
 	const JCoordinate	h
 	)
 	:
-	JXStringTable(new JStringTableData,
+	JXStringTable(jnew JStringTableData,
 				  scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h),
 	itsFirstNewID(firstUnusedID)
 {
@@ -99,14 +99,14 @@ CBMacroSetTable::~CBMacroSetTable()
 		for (JIndex i=1; i<=count; i++)
 			{
 			CBPrefsManager::MacroSetInfo info = itsMacroList->GetElement(i);
-			delete info.name;
-			delete info.action;
-			delete info.macro;
+			jdelete info.name;
+			jdelete info.action;
+			jdelete info.macro;
 			}
-		delete itsMacroList;
+		jdelete itsMacroList;
 		}
 
-	delete GetStringData();
+	jdelete GetStringData();
 }
 
 /******************************************************************************
@@ -262,9 +262,9 @@ CBMacroSetTable::AddRow()
 	if (ContentsValid())
 		{
 		itsLastNewID++;
-		CBPrefsManager::MacroSetInfo info(itsLastNewID, new JString("New"),
-										  new CBCharActionManager,
-										  new CBMacroManager);
+		CBPrefsManager::MacroSetInfo info(itsLastNewID, jnew JString("New"),
+										  jnew CBCharActionManager,
+										  jnew CBMacroManager);
 		assert( info.name   != NULL &&
 				info.action != NULL &&
 				info.macro  != NULL );
@@ -294,9 +294,9 @@ CBMacroSetTable::RemoveRow()
 	itsMacroTable->CancelEditing();
 
 	CBPrefsManager::MacroSetInfo info = itsMacroList->GetElement(itsMacroIndex);
-	delete info.name;
-	delete info.action;
-	delete info.macro;
+	jdelete info.name;
+	jdelete info.action;
+	jdelete info.macro;
 
 	if (itsFirstNewID <= info.id && info.id == itsLastNewID)
 		{

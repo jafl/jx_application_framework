@@ -144,7 +144,7 @@ static const JCharacter* kKeywordList[] =
 "default",
 "define",
 "defined",
-"delete",
+"jdelete",
 "descr",
 "dexp",
 "dfloat",
@@ -594,7 +594,7 @@ CBFortranCompleter::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBFortranCompleter;
+		itsSelf = jnew CBFortranCompleter;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -611,7 +611,7 @@ CBFortranCompleter::Instance()
 void
 CBFortranCompleter::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

@@ -22,7 +22,7 @@ XDBreakpointManager::XDBreakpointManager
 	XDLink* link
 	)
 	:
-	CMBreakpointManager(link, new XDGetBreakpoints())
+	CMBreakpointManager(link, jnew XDGetBreakpoints())
 {
 }
 

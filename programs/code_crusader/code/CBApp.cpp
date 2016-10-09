@@ -182,13 +182,13 @@ CBApp::DisplayAbout
 	const JBoolean		init
 	)
 {
-	CBAboutDialog* dlog = new CBAboutDialog(this, prevVersStr);
+	CBAboutDialog* dlog = jnew CBAboutDialog(this, prevVersStr);
 	assert( dlog != NULL );
 	dlog->BeginDialog();
 
 	if (init && JStringEmpty(prevVersStr))
 		{
-		JXAskInitDockAll* task = new JXAskInitDockAll(dlog);
+		JXAskInitDockAll* task = jnew JXAskInitDockAll(dlog);
 		assert( task != NULL );
 		task->Start();
 		}
@@ -202,7 +202,7 @@ CBApp::DisplayAbout
 void
 CBApp::EditMiscPrefs()
 {
-	CBEditMiscPrefsDialog* dlog = new CBEditMiscPrefsDialog();
+	CBEditMiscPrefsDialog* dlog = jnew CBEditMiscPrefsDialog();
 	assert( dlog != NULL );
 	dlog->BeginDialog();
 }
@@ -299,7 +299,7 @@ CBApp::HandleHelpMenu
 
 	else if (index == kTipCmd)
 		{
-		JXTipOfTheDayDialog* dlog = new JXTipOfTheDayDialog;
+		JXTipOfTheDayDialog* dlog = jnew JXTipOfTheDayDialog;
 		assert( dlog != NULL );
 		dlog->BeginDialog();
 		}
@@ -454,7 +454,7 @@ CBApp::CollectSearchPaths
 			{
 			if (dirList.GetTruePath(i, &truePath, &recurse))
 				{
-				CBDirInfo newInfo(new JString(truePath), recurse);
+				CBDirInfo newInfo(jnew JString(truePath), recurse);
 				assert( newInfo.path != NULL );
 				newInfo.projIndex = j;
 
@@ -471,7 +471,7 @@ CBApp::CollectSearchPaths
 						existingInfo.recurse = kJTrue;
 						searchPaths->SetElement(index, existingInfo);
 						}
-					delete newInfo.path;
+					jdelete newInfo.path;
 					}
 				else
 					{

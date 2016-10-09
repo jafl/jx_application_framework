@@ -64,7 +64,7 @@ TestApp::DisplayAbout
 	JXDisplay* display
 	)
 {
-	AboutDialog* dlog = new AboutDialog(this);
+	AboutDialog* dlog = jnew AboutDialog(this);
 	assert( dlog != NULL );
 	dlog->BeginDialog();
 }

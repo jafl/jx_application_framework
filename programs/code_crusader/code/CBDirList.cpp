@@ -29,7 +29,7 @@ CBDirList::CBDirList()
 void
 CBDirList::CBDirListX()
 {
-	itsDirList = new CBDirInfoList;
+	itsDirList = jnew CBDirInfoList;
 	assert( itsDirList != NULL );
 	itsDirList->SetSortOrder(JOrderedSetT::kSortAscending);
 	itsDirList->SetCompareFunction(CBDirInfo::ComparePathNames);
@@ -62,7 +62,7 @@ CBDirList::CBDirList
 CBDirList::~CBDirList()
 {
 	itsDirList->DeleteAll();
-	delete itsDirList;
+	jdelete itsDirList;
 }
 
 /******************************************************************************
@@ -178,7 +178,7 @@ CBDirList::AddPath
 	const JBoolean		recurse
 	)
 {
-	CBDirInfo info(new JString(path), recurse);
+	CBDirInfo info(jnew JString(path), recurse);
 	assert( info.path != NULL );
 	itsDirList->InsertSorted(info);
 }
@@ -388,7 +388,7 @@ CBDirInfoList::DeleteAll()
 	const JSize count = GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		delete (GetElement(i)).path;
+		jdelete (GetElement(i)).path;
 		}
 	RemoveAll();
 }

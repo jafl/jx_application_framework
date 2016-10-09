@@ -47,7 +47,7 @@ CBMakeCompleter::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBMakeCompleter;
+		itsSelf = jnew CBMakeCompleter;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -64,7 +64,7 @@ CBMakeCompleter::Instance()
 void
 CBMakeCompleter::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

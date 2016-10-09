@@ -73,7 +73,7 @@ JFunction*
 JSquareRoot::Copy()
 	const
 {
-	JSquareRoot* newFunction = new JSquareRoot(*this);
+	JSquareRoot* newFunction = jnew JSquareRoot(*this);
 	assert( newFunction != NULL );
 	return newFunction;
 }

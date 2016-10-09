@@ -187,7 +187,7 @@ JKLRand::SetSeed
 /******************************************************************************
  SetSeedByAbsoluteTime
 
-	Sets the generator seed to time(NULL), returning the new seed for
+	Sets the generator seed to time(NULL), returning the jnew seed for
 	convenience in testing for failure (see below).
 
 	According to ANSI it is possible for time() to fail, which sets the seed to

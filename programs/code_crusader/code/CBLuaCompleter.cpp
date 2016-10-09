@@ -57,7 +57,7 @@ CBLuaCompleter::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBLuaCompleter;
+		itsSelf = jnew CBLuaCompleter;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -74,7 +74,7 @@ CBLuaCompleter::Instance()
 void
 CBLuaCompleter::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

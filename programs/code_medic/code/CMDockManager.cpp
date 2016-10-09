@@ -30,7 +30,7 @@ CMDockManager::CMDockManager()
 				  CMGetPrefsManager(), kCMDockPrefID)
 {
 	JXDisplay* display = (JXGetApplication())->GetCurrentDisplay();
-	JXImage* icon      = new JXImage(display, medic_command_window);
+	JXImage* icon      = jnew JXImage(display, medic_command_window);
 	assert( icon != NULL );
 	SetIcon(icon);
 }

@@ -133,7 +133,7 @@ JFunction*
 JUserInputFunction::Copy()
 	const
 {
-	JUserInputFunction* newFunction = new JUserInputFunction(*this);
+	JUserInputFunction* newFunction = jnew JUserInputFunction(*this);
 	assert( newFunction != NULL );
 	return newFunction;
 }
@@ -549,12 +549,12 @@ JUserInputFunction::Parse
 		JFunction* newArg;
 		JUserInputFunction* extraUIF;
 		JUserInputFunction* tempUIF =
-			new JUserInputFunction(itsVarList, TEGetFontManager(), TEGetColormap());
+			jnew JUserInputFunction(itsVarList, TEGetFontManager(), TEGetColormap());
 		assert( tempUIF != NULL );
 		const JBoolean ok =
 			JApplyFunction(buffer, itsVarList, *tempUIF, TEGetFontManager(), TEGetColormap(),
 						   f, &newArg, &extraUIF);
-		delete tempUIF;
+		jdelete tempUIF;
 		if (ok)
 			{
 			*newUIF = dynamic_cast<JUserInputFunction*>(newArg);
@@ -593,7 +593,7 @@ JUserInputFunction::Parse
 			{
 			JFunctionWithVar* fwv = (**f).CastToJFunctionWithVar();
 			assert( fwv != NULL );
-			*newUIF = new JUserInputFunction(itsVarList, TEGetFontManager(), TEGetColormap());
+			*newUIF = jnew JUserInputFunction(itsVarList, TEGetFontManager(), TEGetColormap());
 			assert( *newUIF != NULL );
 			fwv->SetArrayIndex(*newUIF);
 			}
@@ -607,11 +607,11 @@ JUserInputFunction::Parse
 	else if (tolower(lastChar) == 'e' && length>1 && !buffer.IsHexValue() &&
 			 (buffer.GetSubstring(1,length-1)).ConvertToFloat(&x))
 		{
-		JConstantValue* expBase = new JConstantValue(10.0);
+		JConstantValue* expBase = jnew JConstantValue(10.0);
 		assert( expBase != NULL );
-		*newUIF = new JUserInputFunction(itsVarList, TEGetFontManager(), TEGetColormap());
+		*newUIF = jnew JUserInputFunction(itsVarList, TEGetFontManager(), TEGetColormap());
 		assert( *newUIF != NULL );
-		JExponent* exponent = new JExponent(expBase, *newUIF);
+		JExponent* exponent = jnew JExponent(expBase, *newUIF);
 		assert( exponent != NULL );
 		if (x == 1.0)
 			{
@@ -619,9 +619,9 @@ JUserInputFunction::Parse
 			}
 		else
 			{
-			JConstantValue* mantissa = new JConstantValue(x);
+			JConstantValue* mantissa = jnew JConstantValue(x);
 			assert( mantissa != NULL );
-			JProduct* product = new JProduct;
+			JProduct* product = jnew JProduct;
 			assert( product != NULL );
 			product->SetArg(1, mantissa);
 			product->SetArg(2, exponent);

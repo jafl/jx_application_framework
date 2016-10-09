@@ -39,7 +39,7 @@ SyGCopyProcess::Copy
 	if (CleanSrcList(srcNameList, destNode))
 		{
 		SyGCopyProcess* p =
-			new SyGCopyProcess(srcTable, srcNameList, destTable, destNode, kJTrue);
+			jnew SyGCopyProcess(srcTable, srcNameList, destTable, destNode, kJTrue);
 		assert( p != NULL );
 		}
 }
@@ -56,7 +56,7 @@ SyGCopyProcess::Move
 	if (CleanSrcList(srcNameList, destNode))
 		{
 		SyGCopyProcess* p =
-			new SyGCopyProcess(srcTable, srcNameList, destTable, destNode, kJFalse);
+			jnew SyGCopyProcess(srcTable, srcNameList, destTable, destNode, kJFalse);
 		assert( p != NULL );
 		}
 }
@@ -96,7 +96,7 @@ SyGCopyProcess::CleanSrcList
 
 	if (srcNameList->IsEmpty())
 		{
-		delete srcNameList;
+		jdelete srcNameList;
 		return kJFalse;
 		}
 	else
@@ -418,7 +418,7 @@ SyGCopyProcess::SyGCopyProcess
 SyGCopyProcess::~SyGCopyProcess()
 {
 	assert( itsProcess == NULL );
-	delete itsSrcNameList;
+	jdelete itsSrcNameList;
 }
 
 /******************************************************************************
@@ -547,7 +547,7 @@ SyGCopyProcess::Receive
 		if (done)
 			{
 			JXDeleteObjectTask<JBroadcaster>::Delete(this);
-			delete destPath;
+			jdelete destPath;
 			}
 		}
 	else
@@ -592,6 +592,6 @@ SyGCopyProcess::RemoveExecutePermissions
 			const JDirEntry& entry = info->GetEntry(i);
 			RemoveExecutePermissions(entry.GetFullName(), path);
 			}
-		delete info;
+		jdelete info;
 		}
 }

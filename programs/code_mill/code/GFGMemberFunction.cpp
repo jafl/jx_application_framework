@@ -36,7 +36,7 @@ GFGMemberFunction::GFGMemberFunction()
 
 GFGMemberFunction::~GFGMemberFunction()
 {
-	delete itsArgs;
+	jdelete itsArgs;
 }
 
 /******************************************************************************
@@ -89,7 +89,7 @@ GFGMemberFunction::AddArg
 {
 	if (itsArgs == NULL)
 		{
-		itsArgs = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+		itsArgs = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 		assert(itsArgs != NULL);
 		}
 

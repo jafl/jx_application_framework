@@ -72,7 +72,7 @@ JDecision*
 JLessEqualThan::Copy()
 	const
 {
-	JLessEqualThan* newDecision = new JLessEqualThan(*this);
+	JLessEqualThan* newDecision = jnew JLessEqualThan(*this);
 	assert( newDecision != NULL );
 	return newDecision;
 }

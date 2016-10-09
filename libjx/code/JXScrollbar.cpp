@@ -128,7 +128,7 @@ JXScrollbar::~JXScrollbar()
 {
 	itsIgnoreScrolltabDeletedFlag = kJTrue;
 	DeleteEnclosedObjects();				// tabs talk to us when deleted
-	delete itsScrolltabList;
+	jdelete itsScrolltabList;
 }
 
 /******************************************************************************
@@ -739,7 +739,7 @@ JXScrollbar::SetMaxValue
 {
 	if (maxValue != itsMaxValue && maxValue >= kMinValue)
 		{
-		// remove scrolltabs that are beyond the new maximum
+		// remove scrolltabs that are beyond the jnew maximum
 
 		if (itsScrolltabList != NULL && maxValue < itsMaxValue)
 			{
@@ -749,12 +749,12 @@ JXScrollbar::SetMaxValue
 				JXScrolltab* tab = itsScrolltabList->NthElement(i);
 				if (tab->GetValue() > maxValue)
 					{
-					delete tab;
+					jdelete tab;
 					}
 				}
 			}
 
-		// set new maximum value
+		// set jnew maximum value
 
 		itsMaxValue = maxValue;
 		if (itsValue > itsMaxValue)
@@ -790,7 +790,7 @@ JXScrollbar::ScrollWait
 void
 JXScrollbar::PlaceScrolltab()
 {
-	JXScrolltab* tab = new JXScrolltab(this, itsValue);
+	JXScrolltab* tab = jnew JXScrolltab(this, itsValue);
 	assert( tab != NULL );
 	// tab registers itself
 }
@@ -804,7 +804,7 @@ JXScrollbar::RemoveAllScrolltabs()
 		itsScrolltabList->DeleteAll();
 		itsIgnoreScrolltabDeletedFlag = kJFalse;
 
-		delete itsScrolltabList;
+		jdelete itsScrolltabList;
 		itsScrolltabList = NULL;
 		}
 }
@@ -817,7 +817,7 @@ JXScrollbar::ScrolltabCreated
 {
 	if (itsScrolltabList == NULL)
 		{
-		itsScrolltabList = new JPtrArray<JXScrolltab>(JPtrArrayT::kForgetAll);
+		itsScrolltabList = jnew JPtrArray<JXScrolltab>(JPtrArrayT::kForgetAll);
 		assert( itsScrolltabList != NULL );
 		itsScrolltabList->SetCompareFunction(CompareScrolltabValues);
 		itsScrolltabList->SetSortOrder(JOrderedSetT::kSortAscending);
@@ -837,7 +837,7 @@ JXScrollbar::ScrolltabDeleted
 		itsScrolltabList->Remove(tab);
 		if (itsScrolltabList->IsEmpty())
 			{
-			delete itsScrolltabList;
+			jdelete itsScrolltabList;
 			itsScrolltabList = NULL;
 			}
 		}
@@ -894,7 +894,7 @@ JXScrollbar::PrepareForLowerMaxValue
 				}
 			else if (tab->GetValue() >= start)
 				{
-				delete tab;
+				jdelete tab;
 				}
 			}
 		}
@@ -1106,7 +1106,7 @@ JXScrollbar::ReadSetup
 			JCoordinate value;
 			input >> value;
 
-			JXScrolltab* tab = new JXScrolltab(this, value);
+			JXScrolltab* tab = jnew JXScrolltab(this, value);
 			assert( tab != NULL );
 			// tab registers itself
 			}
@@ -1177,7 +1177,7 @@ JXScrollbar::OpenActionMenu
 {
 	if (itsActionMenu == NULL)
 		{
-		itsActionMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsActionMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsActionMenu != NULL );
 		itsActionMenu->Hide();
 		itsActionMenu->SetToHiddenPopupMenu(kJTrue);

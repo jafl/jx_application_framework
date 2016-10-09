@@ -67,10 +67,10 @@ JPlotFitNonLinear::JPlotFitNonLinear
 
 JPlotFitNonLinear::~JPlotFitNonLinear()
 {
-//	delete itsVarList; 		we don't own it
-	delete itsFunction;
-	delete itsFPrimed;
-	delete itsErrors;
+//	jdelete itsVarList; 		we don't own it
+	jdelete itsFunction;
+	jdelete itsFPrimed;
+	jdelete itsErrors;
 }
 
 /******************************************************************************
@@ -163,7 +163,7 @@ JPlotFitNonLinear::SetVarList
 	itsVarList	= list;
 	const JSize count	= list->GetVariableCount() - 1;
 	SetParameterCount(count);
-	itsErrors	= new JVector(count);
+	itsErrors	= jnew JVector(count);
 	assert(itsErrors != NULL);
 }
 

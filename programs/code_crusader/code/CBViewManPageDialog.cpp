@@ -85,62 +85,62 @@ CBViewManPageDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 360,150, "");
+	JXWindow* window = jnew JXWindow(this, 360,150, "");
 	assert( window != NULL );
 
 	itsCloseButton =
-		new JXTextButton(JGetString("itsCloseButton::CBViewManPageDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsCloseButton::CBViewManPageDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 120,120, 60,20);
 	assert( itsCloseButton != NULL );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::CBViewManPageDialog::shortcuts::JXLayout"));
 
 	itsViewButton =
-		new JXTextButton(JGetString("itsViewButton::CBViewManPageDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsViewButton::CBViewManPageDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 280,120, 60,20);
 	assert( itsViewButton != NULL );
 	itsViewButton->SetShortcuts(JGetString("itsViewButton::CBViewManPageDialog::shortcuts::JXLayout"));
 
 	itsFnName =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 290,20);
 	assert( itsFnName != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::CBViewManPageDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::CBViewManPageDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 100,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	JXStaticText* obj2_JXLayout =
-		new JXStaticText(JGetString("obj2_JXLayout::CBViewManPageDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj2_JXLayout::CBViewManPageDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 90,20);
 	assert( obj2_JXLayout != NULL );
 	obj2_JXLayout->SetToLabel();
 
 	itsAproposCheckbox =
-		new JXTextCheckbox(JGetString("itsAproposCheckbox::CBViewManPageDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsAproposCheckbox::CBViewManPageDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,80, 80,20);
 	assert( itsAproposCheckbox != NULL );
 	itsAproposCheckbox->SetShortcuts(JGetString("itsAproposCheckbox::CBViewManPageDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::CBViewManPageDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::CBViewManPageDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 200,120, 60,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBViewManPageDialog::shortcuts::JXLayout"));
 
 	itsFnHistoryMenu =
-		new JXStringHistoryMenu(kHistoryLength, "", window,
+		jnew JXStringHistoryMenu(kHistoryLength, "", window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 310,40, 30,20);
 	assert( itsFnHistoryMenu != NULL );
 
 	itsManIndex =
-		new JXCharInput(window,
+		jnew JXCharInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,80, 30,20);
 	assert( itsManIndex != NULL );
 
 	itsStayOpenCB =
-		new JXTextCheckbox(JGetString("itsStayOpenCB::CBViewManPageDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsStayOpenCB::CBViewManPageDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,120, 90,20);
 	assert( itsStayOpenCB != NULL );
 
@@ -167,7 +167,7 @@ CBViewManPageDialog::BuildWindow()
 	// create hidden JXDocument so Meta-# shortcuts work
 
 	JXDocumentMenu* fileListMenu =
-		new JXDocumentMenu("", window,
+		jnew JXDocumentMenu("", window,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,-20, 10,10);
 	assert( fileListMenu != NULL );
 

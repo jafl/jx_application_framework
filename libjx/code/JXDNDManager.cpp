@@ -162,13 +162,13 @@ JXDNDManager::JXDNDManager
 	itsMouseContainer     = NULL;
 	itsMsgWindow          = None;
 
-	itsDraggerTypeList = new JArray<Atom>;
+	itsDraggerTypeList = jnew JArray<Atom>;
 	assert( itsDraggerTypeList != NULL );
 
-	itsDraggerAskActionList = new JArray<Atom>;
+	itsDraggerAskActionList = jnew JArray<Atom>;
 	assert( itsDraggerAskActionList != NULL );
 
-	itsDraggerAskDescripList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsDraggerAskDescripList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsDraggerAskDescripList != NULL );
 
 	itsChooseDropActionDialog = NULL;
@@ -188,9 +188,9 @@ JXDNDManager::JXDNDManager
 
 JXDNDManager::~JXDNDManager()
 {
-	delete itsDraggerTypeList;
-	delete itsDraggerAskActionList;
-	delete itsDraggerAskDescripList;
+	jdelete itsDraggerTypeList;
+	jdelete itsDraggerAskActionList;
+	jdelete itsDraggerAskDescripList;
 }
 
 /******************************************************************************
@@ -829,7 +829,7 @@ JXDNDManager::ChooseDropAction
 	app->PrepareForBlockingWindow();
 
 	itsChooseDropActionDialog =
-		new JXDNDChooseDropActionDialog(actionList, descriptionList, *action);
+		jnew JXDNDChooseDropActionDialog(actionList, descriptionList, *action);
 	assert( itsChooseDropActionDialog != NULL );
 
 	ListenTo(itsChooseDropActionDialog);

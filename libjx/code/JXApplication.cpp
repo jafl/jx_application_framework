@@ -6,7 +6,7 @@
 	Urgent tasks are performed after the current event and are then deleted.
 
 	Idle tasks are performed whenever the event loop is idle.  It is safe
-	to delete a JXIdleTask object because it will automatically remove itself
+	to jdelete a JXIdleTask object because it will automatically remove itself
 	from the task list.
 
 	BASE CLASS = JXDirector
@@ -30,7 +30,6 @@
 #include <jXGlobals.h>
 
 #include <JThisProcess.h>
-#include <j_prep_ace.h>
 #include <ace/Reactor.h>
 #include <ace/Service_Config.h>
 #include <sys/time.h>
@@ -72,15 +71,15 @@ JXApplication::JXApplication
 {
 	// initialize object
 
-	itsDisplayList = new JPtrArray<JXDisplay>(JPtrArrayT::kDeleteAll);
+	itsDisplayList = jnew JPtrArray<JXDisplay>(JPtrArrayT::kDeleteAll);
 	assert( itsDisplayList != NULL );
 
 	itsCurrDisplayIndex = 1;
 
-	itsIdleTaskStack = new IdleTaskStack(JPtrArrayT::kDeleteAll);
+	itsIdleTaskStack = jnew IdleTaskStack(JPtrArrayT::kDeleteAll);
 	assert( itsIdleTaskStack != NULL );
 
-	itsIdleTasks = new JPtrArray<JXIdleTask>(JPtrArrayT::kDeleteAll);
+	itsIdleTasks = jnew JPtrArray<JXIdleTask>(JPtrArrayT::kDeleteAll);
 	assert( itsIdleTasks != NULL );
 
 	itsCurrentTime         = 0;
@@ -89,7 +88,7 @@ JXApplication::JXApplication
 	itsLastIdleTaskTime    = 0;
 	itsWaitForChildCounter = 0;
 
-	itsUrgentTasks = new JPtrArray<JXUrgentTask>(JPtrArrayT::kDeleteAll);
+	itsUrgentTasks = jnew JPtrArray<JXUrgentTask>(JPtrArrayT::kDeleteAll);
 	assert( itsUrgentTasks != NULL );
 
 	itsHasBlockingWindowFlag = kJFalse;
@@ -146,7 +145,7 @@ JXApplication::JXApplication
 
 	// idle task to quit if add directors deactivated
 
-	JXQuitIfAllDeactTask* task = new JXQuitIfAllDeactTask;
+	JXQuitIfAllDeactTask* task = jnew JXQuitIfAllDeactTask;
 	assert( task != NULL );
 	task->Start();
 }
@@ -162,14 +161,14 @@ JXApplication::~JXApplication()
 
 	itsIgnoreDisplayDeletedFlag = kJTrue;
 
-	delete itsDisplayList;
+	jdelete itsDisplayList;
 	JXDeleteGlobals1();
 
 	itsIgnoreTaskDeletedFlag = kJTrue;
 
-	delete itsIdleTaskStack;
-	delete itsIdleTasks;
-	delete itsUrgentTasks;
+	jdelete itsIdleTaskStack;
+	jdelete itsIdleTasks;
+	jdelete itsUrgentTasks;
 
 	JXDeleteGlobals2();
 }
@@ -221,7 +220,7 @@ JXApplication::OpenDisplay
 	JXDisplay* display;
 	if (JXDisplay::Create(displayName, &display))
 		{
-		// DisplayOpened() appends new JXDisplay* to our list
+		// DisplayOpened() appends jnew JXDisplay* to our list
 		*displayIndex = itsDisplayList->GetElementCount();
 		return kJTrue;
 		}
@@ -914,14 +913,14 @@ JXApplication::PushIdleTaskStack()
 {
 	itsIdleTaskStack->Append(itsIdleTasks);
 
-	itsIdleTasks = new JPtrArray<JXIdleTask>(JPtrArrayT::kDeleteAll);
+	itsIdleTasks = jnew JPtrArray<JXIdleTask>(JPtrArrayT::kDeleteAll);
 	assert( itsIdleTasks != NULL );
 }
 
 /******************************************************************************
  PopIdleTaskStack (private)
 
-	Since every object is required to delete its idle tasks, any
+	Since every object is required to jdelete its idle tasks, any
 	remaining tasks should stay active.  (e.g. tasks installed by
 	documents while a progress display is active)
 
@@ -938,7 +937,7 @@ JXApplication::PopIdleTaskStack()
 
 		itsIdleTasks->CopyPointers(*list, JPtrArrayT::kDeleteAll, kJTrue);
 		list->SetCleanUpAction(JPtrArrayT::kForgetAll);
-		delete list;
+		jdelete list;
 		}
 }
 
@@ -1077,7 +1076,7 @@ JXApplication::PerformUrgentTasks()
 {
 	if (!itsUrgentTasks->IsEmpty())
 		{
-		// clear out itsUrgentTasks so new ones can safely be added
+		// clear out itsUrgentTasks so jnew ones can safely be added
 
 		JPtrArray<JXUrgentTask> taskList(*itsUrgentTasks, JPtrArrayT::kDeleteAll);
 		itsUrgentTasks->RemoveAll();

@@ -39,7 +39,7 @@ XDVarCommand::XDVarCommand
 
 XDVarCommand::~XDVarCommand()
 {
-	delete itsRootNode;
+	jdelete itsRootNode;
 }
 
 /******************************************************************************

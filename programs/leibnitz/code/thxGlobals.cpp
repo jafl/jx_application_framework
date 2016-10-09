@@ -49,23 +49,23 @@ THXCreateGlobals
 	theApplication = app;
 
 	JBoolean isNew;
-	thePrefsManager	= new THXPrefsManager(&isNew);
+	thePrefsManager	= jnew THXPrefsManager(&isNew);
 	assert( thePrefsManager != NULL );
 
 	JXInitHelp(kTHXTOCHelpName, kTHXHelpSectionCount, kTHXHelpSectionName);
 
-	theMDIServer = new THXMDIServer;
+	theMDIServer = jnew THXMDIServer;
 	assert( theMDIServer != NULL );
 
-	theTapePrinter = new JXPTPrinter;
+	theTapePrinter = jnew JXPTPrinter;
 	assert( theTapePrinter != NULL );
 
 	JXDisplay* display = app->GetDisplay(1);
 
-	thePSGraphPrinter = new JXPSPrinter(display);
+	thePSGraphPrinter = jnew JXPSPrinter(display);
 	assert( thePSGraphPrinter != NULL );
 
-	theEPSGraphPrinter = new JX2DPlotEPSPrinter(display);
+	theEPSGraphPrinter = jnew JX2DPlotEPSPrinter(display);
 	assert( theEPSGraphPrinter != NULL );
 }
 
@@ -77,13 +77,13 @@ THXCreateGlobals
 void
 THXDeleteGlobals()
 {
-	delete theTapePrinter;
+	jdelete theTapePrinter;
 	theTapePrinter = NULL;
 
-	delete thePSGraphPrinter;
+	jdelete thePSGraphPrinter;
 	thePSGraphPrinter = NULL;
 
-	delete theEPSGraphPrinter;
+	jdelete theEPSGraphPrinter;
 	theEPSGraphPrinter = NULL;
 
 	theApplication = NULL;
@@ -91,7 +91,7 @@ THXDeleteGlobals()
 
 	// this must be last so everybody else can use it to save their setup
 
-	delete thePrefsManager;
+	jdelete thePrefsManager;
 	thePrefsManager = NULL;
 }
 

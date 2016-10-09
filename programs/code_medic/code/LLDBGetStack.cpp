@@ -111,7 +111,7 @@ LLDBGetStack::HandleSuccess
 			}
 
 		CMStackFrameNode* node =
-			new CMStackFrameNode(root, f.GetFrameID(), frameName,
+			jnew CMStackFrameNode(root, f.GetFrameID(), frameName,
 								 fileName, lineIndex);
 		assert( node != NULL );
 		root->Prepend(node);
@@ -140,7 +140,7 @@ LLDBGetStack::HandleSuccess
 
 			if (v.GetName() != NULL)
 				{
-				CMStackArgNode* argNode = new CMStackArgNode(node, v.GetName(), v.GetValue() == NULL ? "null" : v.GetValue());
+				CMStackArgNode* argNode = jnew CMStackArgNode(node, v.GetName(), v.GetValue() == NULL ? "null" : v.GetValue());
 				assert( argNode != NULL );
 				}
 			}

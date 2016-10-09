@@ -115,7 +115,7 @@ JXVertPartition::CreateCompartment
 	)
 {
 	JXWidgetSet* compartment =
-		new JXWidgetSet(this, kHElastic, kFixedTop,
+		jnew JXWidgetSet(this, kHElastic, kFixedTop,
 						0,position, GetApertureWidth(), size);
 	assert( compartment != NULL );
 	return compartment;

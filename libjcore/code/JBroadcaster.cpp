@@ -106,7 +106,7 @@ JBroadcaster::~JBroadcaster()
 			aRecipient->ReceiveGoingAway(this);		// do this last in case they die
 			}
 
-		delete itsRecipients;
+		jdelete itsRecipients;
 		}
 
 	if (itsSenders != NULL)
@@ -118,10 +118,10 @@ JBroadcaster::~JBroadcaster()
 			aSender->RemoveRecipient(this);
 			}
 
-		delete itsSenders;
+		jdelete itsSenders;
 		}
 
-	delete itsClearPointers;
+	jdelete itsClearPointers;
 }
 
 /******************************************************************************
@@ -277,7 +277,7 @@ JBroadcaster::AddRecipient
 {
 	if (itsRecipients == NULL)
 		{
-		itsRecipients = new JBroadcasterList;
+		itsRecipients = jnew JBroadcasterList;
 		assert( itsRecipients != NULL );
 		}
 
@@ -303,7 +303,7 @@ JBroadcaster::RemoveRecipient
 		itsRecipients->Remove(recipient);
 		if (itsRecipients->IsEmpty())
 			{
-			delete itsRecipients;
+			jdelete itsRecipients;
 			itsRecipients = NULL;
 			}
 		}
@@ -324,7 +324,7 @@ JBroadcaster::AddSender
 {
 	if (itsSenders == NULL)
 		{
-		itsSenders = new JBroadcasterList;
+		itsSenders = jnew JBroadcasterList;
 		assert( itsSenders != NULL );
 		}
 
@@ -349,7 +349,7 @@ JBroadcaster::RemoveSender
 		itsSenders->Remove(sender);
 		if (itsSenders->IsEmpty())
 			{
-			delete itsSenders;
+			jdelete itsSenders;
 			itsSenders = NULL;
 			}
 		}
@@ -525,7 +525,7 @@ JBroadcaster::ClearWhenGoingAway
 
 	if (itsClearPointers == NULL)
 		{
-		itsClearPointers = new JPointerClearList;
+		itsClearPointers = jnew JPointerClearList;
 		assert( itsClearPointers != NULL );
 		}
 

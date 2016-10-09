@@ -129,13 +129,13 @@ JXHintManager::CreateHintWindow()
 {
 	if (itsDirOwner == NULL)
 		{
-		itsDirOwner = new JXDirector(NULL);
+		itsDirOwner = jnew JXDirector(NULL);
 		assert( itsDirOwner != NULL );
 		}
 
 	if (itsDirector == NULL)
 		{
-		itsDirector = new JXHintDirector(itsDirOwner, itsWidget, itsText);
+		itsDirector = jnew JXHintDirector(itsDirOwner, itsWidget, itsText);
 		assert( itsDirector != NULL );
 		itsDirector->Activate();
 		}
@@ -151,13 +151,13 @@ JXHintManager::CreateHintWindow
 {
 	if (itsDirOwner == NULL)
 		{
-		itsDirOwner = new JXDirector(NULL);
+		itsDirOwner = jnew JXDirector(NULL);
 		assert( itsDirOwner != NULL );
 		}
 
 	if (itsDirector == NULL)
 		{
-		itsDirector = new JXHintDirector(itsDirOwner, itsWidget, rect, itsText);
+		itsDirector = jnew JXHintDirector(itsDirOwner, itsWidget, rect, itsText);
 		assert( itsDirector != NULL );
 		itsDirector->Activate();
 		}

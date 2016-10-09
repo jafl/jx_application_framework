@@ -63,7 +63,7 @@ JFunction*
 JSummation::Copy()
 	const
 {
-	JSummation* newFunction = new JSummation(*this);
+	JSummation* newFunction = jnew JSummation(*this);
 	assert( newFunction != NULL );
 	return newFunction;
 }

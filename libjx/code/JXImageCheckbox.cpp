@@ -47,7 +47,7 @@ JXImageCheckbox::~JXImageCheckbox()
 {
 	if (itsOwnsImageFlag)
 		{
-		delete itsImage;
+		jdelete itsImage;
 		}
 }
 
@@ -74,10 +74,10 @@ JXImageCheckbox::SetBitmap
 
 	if (itsOwnsImageFlag)
 		{
-		delete itsImage;
+		jdelete itsImage;
 		}
 
-	itsImage = new JXImage(GetDisplay(), bitmap, foreColor, backColor);
+	itsImage = jnew JXImage(GetDisplay(), bitmap, foreColor, backColor);
 	assert( itsImage != NULL );
 
 	itsOwnsImageFlag = kJTrue;
@@ -98,7 +98,7 @@ JXImageCheckbox::SetImage
 	const JColorIndex	backColor
 	)
 {
-	JXImage* image = new JXImage(GetDisplay(), xpm);
+	JXImage* image = jnew JXImage(GetDisplay(), xpm);
 	assert( image != NULL );
 	SetImage(image, kJTrue, backColor);
 }
@@ -124,7 +124,7 @@ JXImageCheckbox::SetImage
 		{
 		if (itsOwnsImageFlag)
 			{
-			delete itsImage;
+			jdelete itsImage;
 			}
 
 		itsImage = image;

@@ -91,7 +91,7 @@ CBFnListWidget::CBFnListWidgetX
 
 	itsTreeWidget = treeWidget;
 
-	itsFnNames = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsFnNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsFnNames != NULL );
 	itsFnNames->SetCompareFunction(JCompareStringsCaseInsensitive);
 	itsFnNames->SetSortOrder(JOrderedSetT::kSortAscending);
@@ -100,7 +100,7 @@ CBFnListWidget::CBFnListWidgetX
 
 	itsHasImagesFlag = kJFalse;
 
-	itsImageList = new JPtrArray<JXImage>(JPtrArrayT::kForgetAll);
+	itsImageList = jnew JPtrArray<JXImage>(JPtrArrayT::kForgetAll);
 	assert( itsImageList != NULL );
 
 	itsFnMenu     = NULL;
@@ -120,8 +120,8 @@ CBFnListWidget::CBFnListWidgetX
 
 CBFnListWidget::~CBFnListWidget()
 {
-	delete itsFnNames;
-	delete itsImageList;	// contents owned by CBTreeWidget
+	jdelete itsFnNames;
+	jdelete itsImageList;	// contents owned by CBTreeWidget
 }
 
 /******************************************************************************
@@ -564,7 +564,7 @@ CBFnListWidget::CopySelectedFunctionNames()
 			list.Append(itsFnNames->NthElement(cell.y));
 			}
 
-		JXTextSelection* data = new JXTextSelection(GetDisplay(), list);
+		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), list);
 		assert( data != NULL );
 
 		GetSelectionManager()->SetData(kJXClipboardName, data);
@@ -660,13 +660,13 @@ CBFnListWidget::BuildFnList1
 			continue;
 			}
 
-		JString* s = new JString(theClass->GetFunctionName(i));
+		JString* s = jnew JString(theClass->GetFunctionName(i));
 		assert( s != NULL );
 		JIndex insertionIndex;
 		if (!names->InsertSorted(s, kJFalse, &insertionIndex))
 			{
 			// no point in including duplicate names without name mangling
-			delete s;
+			jdelete s;
 			continue;
 			}
 

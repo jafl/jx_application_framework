@@ -31,24 +31,24 @@ GloveCursorTableDir::GloveCursorTableDir
 {
 	itsPlotDir = supervisor;
 	
-	JXWindow* window = new JXWindow(this, 250,300, "Cursor Values");
+	JXWindow* window = jnew JXWindow(this, 250,300, "Cursor Values");
     assert( window != NULL );
     window->SetMinSize(250,300);
     
 	JXScrollbarSet* scrollbarSet = 
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic, 
 			0,0,250,260);
 	
 	itsTable = 
-		new GloveCursorTable(itsPlotDir->GetSessionDir(), plot, 
+		jnew GloveCursorTable(itsPlotDir->GetSessionDir(), plot, 
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic, 
 			0,0,250,260);
 	assert (itsTable != NULL);
 	
 	itsCloseButton = 
-		new JXTextButton("Close", window,
+		jnew JXTextButton("Close", window,
 			JXWidget::kHElastic, JXWidget::kVElastic, 
 			10, 270, 70, 20);
 	assert( itsCloseButton != NULL );
@@ -56,7 +56,7 @@ GloveCursorTableDir::GloveCursorTableDir
 	ListenTo(itsCloseButton);
 	
 	itsSessionButton = 
-		new JXTextButton("Session", window,
+		jnew JXTextButton("Session", window,
 			JXWidget::kHElastic, JXWidget::kVElastic, 
 			100, 270, 70, 20);
 	assert( itsSessionButton != NULL );

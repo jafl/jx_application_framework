@@ -22,7 +22,7 @@
 
 CBCPreprocessor::CBCPreprocessor()
 {
-	itsMacroList = new CBPPMacroList;
+	itsMacroList = jnew CBPPMacroList;
 	assert( itsMacroList != NULL );
 	itsMacroList->SetSortOrder(JOrderedSetT::kSortAscending);
 	itsMacroList->SetCompareFunction(CompareMacros);
@@ -36,7 +36,7 @@ CBCPreprocessor::CBCPreprocessor()
 CBCPreprocessor::~CBCPreprocessor()
 {
 	itsMacroList->DeleteAll();
-	delete itsMacroList;
+	jdelete itsMacroList;
 }
 
 /******************************************************************************
@@ -161,7 +161,7 @@ CBCPreprocessor::DefineMacro
 {
 	assert( !JStringEmpty(name) && value != NULL );
 
-	MacroInfo info(new JString(name), new JString(value));
+	MacroInfo info(jnew JString(name), jnew JString(value));
 	assert( info.name != NULL && info.value != NULL );
 	itsMacroList->InsertSorted(info);
 }
@@ -241,7 +241,7 @@ CBCPreprocessor::ReadMacro
 	const JFileVersion	vers
 	)
 {
-	MacroInfo info(new JString, new JString);
+	MacroInfo info(jnew JString, jnew JString);
 	assert( info.name != NULL && info.value != NULL );
 	input >> *(info.name) >> *(info.value);
 	itsMacroList->AppendElement(info);
@@ -292,8 +292,8 @@ CBPPMacroList::DeleteAll()
 	for (JIndex i=1; i<=count; i++)
 		{
 		CBCPreprocessor::MacroInfo info = GetElement(i);
-		delete info.name;
-		delete info.value;
+		jdelete info.name;
+		jdelete info.value;
 		}
 
 	RemoveAll();

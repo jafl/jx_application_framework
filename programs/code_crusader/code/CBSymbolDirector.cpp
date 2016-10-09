@@ -230,10 +230,10 @@ CBSymbolDirector::CBSymbolDirectorX
 	itsProjDoc = projDoc;
 	ListenTo(itsProjDoc);
 
-	itsSymbolList = new CBSymbolList(projDoc);
+	itsSymbolList = jnew CBSymbolList(projDoc);
 	assert( itsSymbolList != NULL );
 
-	itsSRList = new JPtrArray<CBSymbolSRDirector>(JPtrArrayT::kForgetAll);
+	itsSRList = jnew JPtrArray<CBSymbolSRDirector>(JPtrArrayT::kForgetAll);
 	assert( itsSRList != NULL );
 
 	itsRaiseTreeOnRightClickFlag = kJFalse;
@@ -251,8 +251,8 @@ CBSymbolDirector::~CBSymbolDirector()
 {
 	CloseSymbolBrowsers();
 
-	delete itsSymbolList;
-	delete itsSRList;			// objects deleted by JXDirector
+	jdelete itsSymbolList;
+	jdelete itsSRList;			// objects deleted by JXDirector
 }
 
 /******************************************************************************
@@ -516,7 +516,7 @@ CBSymbolDirector::FindSymbol
 	else if (foundSymbol)
 		{
 		CBSymbolSRDirector* dir =
-			new CBSymbolSRDirector(this, itsProjDoc, itsSymbolList,
+			jnew CBSymbolSRDirector(this, itsProjDoc, itsSymbolList,
 								   symbolList, name);
 		assert( dir != NULL );
 		dir->Activate();
@@ -581,16 +581,16 @@ CBSymbolDirector::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 400,430, "");
+	JXWindow* window = jnew JXWindow(this, 400,430, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		new JXToolBar(CBGetPrefsManager(), kCBSymbolToolBarID, menuBar, 150,150, window,
+		jnew JXToolBar(CBGetPrefsManager(), kCBSymbolToolBarID, menuBar, 150,150, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,400);
 	assert( itsToolBar != NULL );
 
@@ -601,20 +601,20 @@ CBSymbolDirector::BuildWindow
 	window->SetWMClass(CBGetWMClassInstance(), CBGetSymbolWindowClass());
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
+		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( scrollbarSet != NULL );
 	scrollbarSet->FitToEnclosure();
 
 	itsSymbolTable =
-		new CBSymbolTable(this, symbolList,
+		jnew CBSymbolTable(this, symbolList,
 						  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsSymbolTable != NULL );
 	itsSymbolTable->FitToEnclosure();
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = new JXImage(display, jcc_symbol_window);
+	JXImage* icon      = jnew JXImage(display, jcc_symbol_window);
 	assert( icon != NULL );
 	window->SetIcon(icon);
 
@@ -635,12 +635,12 @@ CBSymbolDirector::BuildWindow
 	itsFileMenu->SetItemImage(kOpenSomethingCmd, jx_file_open);
 
 	CBFileHistoryMenu* recentProjectMenu =
-		new CBFileHistoryMenu(CBDocumentManager::kProjectFileHistory,
+		jnew CBFileHistoryMenu(CBDocumentManager::kProjectFileHistory,
 							  itsFileMenu, kRecentProjectMenuCmd, menuBar);
 	assert( recentProjectMenu != NULL );
 
 	CBFileHistoryMenu* recentTextMenu =
-		new CBFileHistoryMenu(CBDocumentManager::kTextFileHistory,
+		jnew CBFileHistoryMenu(CBDocumentManager::kTextFileHistory,
 							  itsFileMenu, kRecentTextMenuCmd, menuBar);
 	assert( recentTextMenu != NULL );
 
@@ -663,14 +663,14 @@ CBSymbolDirector::BuildWindow
 	itsProjectMenu->SetItemImage(kSaveAllTextCmd,  jx_file_save_all);
 
 	itsCmdMenu =
-		new CBCommandMenu(itsProjDoc, NULL, menuBar,
+		jnew CBCommandMenu(itsProjDoc, NULL, menuBar,
 						  JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsCmdMenu != NULL );
 	menuBar->AppendMenu(itsCmdMenu);
 	ListenTo(itsCmdMenu);
 
 	CBDocumentMenu* fileListMenu =
-		new CBDocumentMenu(kFileListMenuTitleStr, menuBar,
+		jnew CBDocumentMenu(kFileListMenuTitleStr, menuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( fileListMenu != NULL );
 	menuBar->AppendMenu(fileListMenu);
@@ -1049,7 +1049,7 @@ void
 CBSymbolDirector::EditPrefs()
 {
 	CBEditSymbolPrefsDialog* dlog =
-		new CBEditSymbolPrefsDialog(itsRaiseTreeOnRightClickFlag);
+		jnew CBEditSymbolPrefsDialog(itsRaiseTreeOnRightClickFlag);
 	assert( dlog != NULL );
 	dlog->BeginDialog();
 }

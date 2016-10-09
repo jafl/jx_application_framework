@@ -92,7 +92,7 @@ ClipboardWidget::ClipboardWidget
 
 ClipboardWidget::~ClipboardWidget()
 {
-	// There is nothing to delete.
+	// There is nothing to jdelete.
 	// itsEditMenu is deleted by the menu bar
 }
 
@@ -229,7 +229,7 @@ ClipboardWidget::HandleEditMenu
 		{
 		// We instantiate a selection object that is appropriate for
 		// our data. 
-		JXTextSelection* data = new JXTextSelection(GetDisplay(), itsText);
+		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), itsText);
 		assert(data != NULL);
 
 		// The selection data is then given to the selection manager.
@@ -294,7 +294,7 @@ ClipboardWidget::Paste()
 						Refresh();
 						}
 
-					// This is required to delete the allocated data.
+					// This is required to jdelete the allocated data.
 					// Forgetting to do this will cause a memory leak!
 					selMgr->DeleteData(&data, dMethod);
 

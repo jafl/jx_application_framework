@@ -23,7 +23,7 @@ GDBVarTreeParser::GDBVarTreeParser
 	itsCurrentNode(NULL),
 	itsIsPointerFlag(kJFalse)
 {
-	itsScanner = new GDBVarTreeScanner(text);
+	itsScanner = jnew GDBVarTreeScanner(text);
 	assert(itsScanner != NULL);
 }
 
@@ -34,8 +34,8 @@ GDBVarTreeParser::GDBVarTreeParser
 
 GDBVarTreeParser::~GDBVarTreeParser()
 {
-	delete itsScanner;
-	delete itsCurrentNode;
+	jdelete itsScanner;
+	jdelete itsCurrentNode;
 }
 
 /******************************************************************************
@@ -65,7 +65,7 @@ GDBVarTreeParser::yylex
 		itsGDBErrorFlag = kJTrue;
 
 		token          = P_GROUP_CLOSE;
-		lvalp->pString = new JString("}");
+		lvalp->pString = jnew JString("}");
 		assert( lvalp->pString != NULL );
 
 		itsGroupDepth--;

@@ -73,7 +73,7 @@ CBCStyler::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBCStyler;
+		itsSelf = jnew CBCStyler;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -90,7 +90,7 @@ CBCStyler::Instance()
 void
 CBCStyler::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************
@@ -369,7 +369,7 @@ CBCStyler::UpgradeTypeList
 		typeStyles->InsertElementAtIndex(6, style);
 		}
 
-	// set new values after all new slots have been created
+	// set jnew values after all jnew slots have been created
 }
 
 /******************************************************************************

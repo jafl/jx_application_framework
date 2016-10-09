@@ -462,7 +462,7 @@ CBProjectDocument::ShouldAskOKToOpenOldVersion
 }
 
 /******************************************************************************
- Filter for adding new files (static)
+ Filter for adding jnew files (static)
 
  ******************************************************************************/
 

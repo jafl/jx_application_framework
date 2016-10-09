@@ -58,7 +58,7 @@ JMatrix::JMatrixX
 	itsRowCount = rowCount;
 	itsColCount = colCount;
 
-	itsElements = new JFloat [ itsRowCount * itsColCount ];
+	itsElements = jnew JFloat [ itsRowCount * itsColCount ];
 	assert( itsElements != NULL );
 }
 
@@ -84,7 +84,7 @@ JMatrix::JMatrix
 
 JMatrix::~JMatrix()
 {
-	delete [] itsElements;
+	jdelete [] itsElements;
 }
 
 /******************************************************************************

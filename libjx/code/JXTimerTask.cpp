@@ -56,7 +56,7 @@ JXTimerTask::Perform
 		Broadcast(TimerWentOff());
 		if (itsIsOneShotFlag)
 			{
-			delete this;
+			jdelete this;
 			}
 		}
 }

@@ -72,7 +72,7 @@ JDecision*
 JLessThan::Copy()
 	const
 {
-	JLessThan* newDecision = new JLessThan(*this);
+	JLessThan* newDecision = jnew JLessThan(*this);
 	assert( newDecision != NULL );
 	return newDecision;
 }

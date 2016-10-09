@@ -114,7 +114,7 @@ LLDBGetThreads::HandleSuccess
 			name.Prepend(indexStr);
 			}
 
-		CMThreadNode* node = new CMThreadNode(t.GetThreadID(), name, fileName, lineIndex);
+		CMThreadNode* node = jnew CMThreadNode(t.GetThreadID(), name, fileName, lineIndex);
 		assert( node != NULL );
 
 		root->Append(node);

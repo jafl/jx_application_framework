@@ -11,6 +11,7 @@
 #define _H_JBooleanNOT
 
 #include <JDecision.h>
+#include <jNew.h>
 
 class JBooleanNOT : public JDecision
 {
@@ -72,7 +73,7 @@ JBooleanNOT::SetArg
 	JDecision* arg
 	)
 {
-	delete itsArg;
+	jdelete itsArg;
 	itsArg = arg;
 }
 

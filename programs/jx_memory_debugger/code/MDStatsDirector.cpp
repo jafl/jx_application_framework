@@ -34,7 +34,6 @@
 #include <JXTimerTask.h>
 #include <JXPGMessageDirector.h>
 #include <JMemoryManager.h>
-#include <j_prep_ace.h>
 #include <ace/Acceptor.h>
 #include <ace/LSOCK_Acceptor.h>
 #include <JProcess.h>
@@ -206,7 +205,7 @@ MDStatsDirector::SetLink
 
 	DeleteDebugAcceptor();
 
-	itsPingTask = new JXTimerTask(kRefreshInterval * 1000);
+	itsPingTask = jnew JXTimerTask(kRefreshInterval * 1000);
 	assert( itsPingTask != NULL );
 	itsPingTask->Start();
 	ListenTo(itsPingTask);
@@ -223,16 +222,54 @@ MDStatsDirector::CloseLink
 	const JBoolean deleteProcess
 	)
 {
-	DeleteDebugLink();
+	jdelete itsLink;
+	itsLink = NULL;
 
 	if (deleteProcess)
 		{
-		delete itsProcess;
+		jdelete itsProcess;
 		itsProcess = NULL;
 		}
 
-	delete itsPingTask;
+	jdelete itsPingTask;
 	itsPingTask = NULL;
+}
+
+/******************************************************************************
+ OpenDebugAcceptor
+
+ ******************************************************************************/
+
+void
+MDStatsDirector::OpenDebugAcceptor()
+{
+	const JError err = JCreateTempFile(&itsSocketName);
+
+	itsAcceptor = jnew MDLinkAcceptor(this);
+	assert( itsAcceptor != NULL );
+
+	JRemoveFile(itsSocketName);
+	ACE_UNIX_Addr addr(itsSocketName);
+	if (itsAcceptor->open(addr) == -1)
+		{
+		cerr << "error trying to create socket: " << jerrno() << endl;
+		exit(1);
+		}
+}
+
+/******************************************************************************
+ DeleteDebugAcceptor (private)
+
+ ******************************************************************************/
+
+void
+MDStatsDirector::DeleteDebugAcceptor()
+{
+	if (itsAcceptor != NULL)
+		{
+		jdelete itsAcceptor;
+		itsAcceptor = NULL;
+		}
 }
 
 /******************************************************************************
@@ -252,16 +289,16 @@ MDStatsDirector::BuildWindow()
 
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 500,300, "");
+	JXWindow* window = jnew JXWindow(this, 500,300, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		new JXToolBar(MDGetPrefsManager(), kMDStatsToolBarID, menuBar, minWidth, minHeight, window,
+		jnew JXToolBar(MDGetPrefsManager(), kMDStatsToolBarID, menuBar, minWidth, minHeight, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,270);
 	assert( itsToolBar != NULL );
 
@@ -270,7 +307,7 @@ MDStatsDirector::BuildWindow()
 	window->SetTitle(JGetString("WindowTitle::MDStatsDirector"));
 	window->SetWMClass(MDGetWMClassInstance(), MDGetMainWindowClass());
 
-	JXImage* image = new JXImage(GetDisplay(), md_main_window_icon);
+	JXImage* image = jnew JXImage(GetDisplay(), md_main_window_icon);
 	assert( image != NULL );
 	window->SetIcon(image);
 
@@ -283,69 +320,69 @@ MDStatsDirector::BuildWindow()
 	statsEncl->AdjustSize(500 - statsLayout_Aperture.width(), 90 - statsLayout_Aperture.height());
 
 	JXStaticText* obj1_statsLayout =
-		new JXStaticText(JGetString("obj1_statsLayout::MDStatsDirector::statsLayout"), statsEncl,
+		jnew JXStaticText(JGetString("obj1_statsLayout::MDStatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 50,20);
 	assert( obj1_statsLayout != NULL );
 	obj1_statsLayout->SetToLabel();
 
 	itsProgramInput =
-		new JXFileInput(statsEncl,
+		jnew JXFileInput(statsEncl,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 60,10, 370,20);
 	assert( itsProgramInput != NULL );
 
 	itsChooseProgramButton =
-		new JXTextButton(JGetString("itsChooseProgramButton::MDStatsDirector::statsLayout"), statsEncl,
+		jnew JXTextButton(JGetString("itsChooseProgramButton::MDStatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 430,10, 60,20);
 	assert( itsChooseProgramButton != NULL );
 	itsChooseProgramButton->SetShortcuts(JGetString("itsChooseProgramButton::MDStatsDirector::shortcuts::statsLayout"));
 
 	JXStaticText* obj2_statsLayout =
-		new JXStaticText(JGetString("obj2_statsLayout::MDStatsDirector::statsLayout"), statsEncl,
+		jnew JXStaticText(JGetString("obj2_statsLayout::MDStatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 50,20);
 	assert( obj2_statsLayout != NULL );
 	obj2_statsLayout->SetToLabel();
 
 	itsArgsInput =
-		new JXInputField(statsEncl,
+		jnew JXInputField(statsEncl,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 60,30, 370,20);
 	assert( itsArgsInput != NULL );
 
 	itsRunProgramButton =
-		new JXTextButton(JGetString("itsRunProgramButton::MDStatsDirector::statsLayout"), statsEncl,
+		jnew JXTextButton(JGetString("itsRunProgramButton::MDStatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 430,30, 60,20);
 	assert( itsRunProgramButton != NULL );
 	itsRunProgramButton->SetShortcuts(JGetString("itsRunProgramButton::MDStatsDirector::shortcuts::statsLayout"));
 
 	JXStaticText* obj3_statsLayout =
-		new JXStaticText(JGetString("obj3_statsLayout::MDStatsDirector::statsLayout"), statsEncl,
+		jnew JXStaticText(JGetString("obj3_statsLayout::MDStatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 50,20);
 	assert( obj3_statsLayout != NULL );
 	obj3_statsLayout->SetToLabel();
 
 	itsAllocatedBlocksDisplay =
-		new JXStaticText("", kJFalse, kJTrue, NULL, statsEncl,
+		jnew JXStaticText("", kJFalse, kJTrue, NULL, statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,60, 90,20);
 	assert( itsAllocatedBlocksDisplay != NULL );
 
 	JXStaticText* obj4_statsLayout =
-		new JXStaticText(JGetString("obj4_statsLayout::MDStatsDirector::statsLayout"), statsEncl,
+		jnew JXStaticText(JGetString("obj4_statsLayout::MDStatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 160,60, 50,20);
 	assert( obj4_statsLayout != NULL );
 	obj4_statsLayout->SetToLabel();
 
 	itsAllocatedBytesDisplay =
-		new JXStaticText("", kJFalse, kJTrue, NULL, statsEncl,
+		jnew JXStaticText("", kJFalse, kJTrue, NULL, statsEncl,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 210,60, 90,20);
 	assert( itsAllocatedBytesDisplay != NULL );
 
 	JXStaticText* obj5_statsLayout =
-		new JXStaticText(JGetString("obj5_statsLayout::MDStatsDirector::statsLayout"), statsEncl,
+		jnew JXStaticText(JGetString("obj5_statsLayout::MDStatsDirector::statsLayout"), statsEncl,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 310,60, 80,20);
 	assert( obj5_statsLayout != NULL );
 	obj5_statsLayout->SetToLabel();
 
 	itsDeallocatedBlocksDisplay =
-		new JXStaticText("", kJFalse, kJTrue, NULL, statsEncl,
+		jnew JXStaticText("", kJFalse, kJTrue, NULL, statsEncl,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 390,60, 90,20);
 	assert( itsDeallocatedBlocksDisplay != NULL );
 
@@ -361,14 +398,14 @@ MDStatsDirector::BuildWindow()
 	const JCoordinate histoHeight  = statsEncl->GetBoundsHeight() - headerHeight;
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
+		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic,JXWidget::kVElastic,
 						   0,headerHeight, 100,histoHeight);
 	assert( scrollbarSet != NULL );
 	scrollbarSet->FitToEnclosure(kJTrue, kJFalse);
 
 	itsAllocatedHisto =
-		new MDSizeHistogram(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+		jnew MDSizeHistogram(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						   JXWidget::kHElastic,JXWidget::kVElastic, 0,0, 100,100);
 	assert( itsAllocatedHisto != NULL );
 	itsAllocatedHisto->FitToEnclosure();
@@ -393,7 +430,7 @@ MDStatsDirector::BuildWindow()
 	itsDeallocatedBlocksDisplay->ShareEditMenu(itsProgramInput);
 
 	JXWDMenu* windowsMenu =
-		new JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( windowsMenu != NULL );
 	menuBar->AppendMenu(windowsMenu);
@@ -881,7 +918,7 @@ MDStatsDirector::ReceiveRecords
 	const JCharacter*	windowTitle
 	)
 {
-	MDRecordList* list = new MDRecordList;
+	MDRecordList* list = jnew MDRecordList;
 	assert( list != NULL );
 
 	while (1)
@@ -893,12 +930,12 @@ MDStatsDirector::ReceiveRecords
 			break;
 			}
 
-		MDRecord* record = new MDRecord(input);
+		MDRecord* record = jnew MDRecord(input);
 		assert( record != NULL );
 		list->AddRecord(record);
 		}
 
-	MDRecordDirector* dir = new MDRecordDirector(this, list, windowTitle);
+	MDRecordDirector* dir = jnew MDRecordDirector(this, list, windowTitle);
 	assert( dir != NULL );
 	dir->Activate();
 }
@@ -919,7 +956,7 @@ MDStatsDirector::ReceiveErrorMessage
 
 	if (itsMessageDir == NULL)
 		{
-		itsMessageDir = new JXPGMessageDirector(this);
+		itsMessageDir = jnew JXPGMessageDirector(this);
 		assert( itsMessageDir != NULL );
 		itsMessageDir->Activate();
 		}
@@ -952,7 +989,7 @@ MDStatsDirector::HandleFileMenu
 	if (index == kGetRecordsCmd)
 		{
 		assert( itsRequestRecordsDialog == NULL );
-		itsRequestRecordsDialog = new MDFilterRecordsDialog(this);
+		itsRequestRecordsDialog = jnew MDFilterRecordsDialog(this);
 		assert( itsRequestRecordsDialog != NULL );
 		itsRequestRecordsDialog->BeginDialog();
 		ListenTo(itsRequestRecordsDialog);
@@ -1100,56 +1137,4 @@ MDStatsDirector::WritePrefs
 
 	output << ' ' << itsProgramInput->GetText();
 	output << ' ' << itsArgsInput->GetText();
-}
-
-/******************************************************************************
- OpenDebugAcceptor
-
- ******************************************************************************/
-
-// This function has to be last so JCore::new works for everything else.
-
-#undef new
-
-void
-MDStatsDirector::OpenDebugAcceptor()
-{
-	const JError err = JCreateTempFile(&itsSocketName);
-
-	itsAcceptor = new MDLinkAcceptor(this);
-	assert( itsAcceptor != NULL );
-
-	JRemoveFile(itsSocketName);
-	ACE_UNIX_Addr addr(itsSocketName);
-	if (itsAcceptor->open(addr) == -1)
-		{
-		cerr << "error trying to create socket: " << jerrno() << endl;
-		exit(1);
-		}
-}
-
-/******************************************************************************
- DeleteDebugLink (private)
-
- ******************************************************************************/
-
-// This function has to be last so JCore::delete works for everything else.
-
-#undef delete
-
-void
-MDStatsDirector::DeleteDebugLink()
-{
-	delete itsLink;
-	itsLink = NULL;
-}
-
-void
-MDStatsDirector::DeleteDebugAcceptor()
-{
-	if (itsAcceptor != NULL)
-		{
-		delete itsAcceptor;
-		itsAcceptor = NULL;
-		}
 }

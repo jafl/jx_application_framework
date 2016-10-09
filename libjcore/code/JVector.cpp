@@ -98,7 +98,7 @@ JVector::JVectorX
 {
 	itsDimCount = dimCount;
 
-	itsElements = new JFloat [ itsDimCount ];
+	itsElements = jnew JFloat [ itsDimCount ];
 	assert( itsElements != NULL );
 }
 
@@ -124,7 +124,7 @@ JVector::JVector
 
 JVector::~JVector()
 {
-	delete [] itsElements;
+	jdelete [] itsElements;
 }
 
 /******************************************************************************

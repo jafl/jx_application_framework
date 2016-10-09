@@ -52,7 +52,7 @@ DNDWidget::DNDWidget
 
 	// See JCollection.h, JOrderedSet.h, and JArray.h for functionality
 
-	itsPoints = new JArray<JPoint>;
+	itsPoints = jnew JArray<JPoint>;
 	assert( itsPoints != NULL );
 
 	// We need to register the drag X Atom with the display. We will need
@@ -68,8 +68,8 @@ DNDWidget::DNDWidget
 DNDWidget::~DNDWidget()
 {
 	// Unlike widgets, which are automatically deleted by the framework,
-	// we must delete this JArray since it is a private instance variable.
-	delete itsPoints;
+	// we must jdelete this JArray since it is a private instance variable.
+	jdelete itsPoints;
 }
 
 /******************************************************************************
@@ -195,7 +195,7 @@ DNDWidget::HandleMouseDrag
 	if (modifiers.shift())
 		{
 		// Create the drag data object
-		DNDData* data = new DNDData(this, kSelectionID);
+		DNDData* data = jnew DNDData(this, kSelectionID);
 		assert(data != NULL);
 
 		// Initiate drag-and-drop with the data object. If this succeeds,
@@ -483,7 +483,7 @@ DNDWidget::HandleDNDDrop
 		// Tell the widget to redraw itself
 		Refresh();
 
-		// Tell the selection manager to delete the data.
+		// Tell the selection manager to jdelete the data.
 		selManager->DeleteData(&data, delMethod);
 		}
 }

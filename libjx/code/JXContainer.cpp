@@ -151,9 +151,9 @@ JXContainer::~JXContainer()
 		itsWindow->SetMouseContainer(NULL, JPoint(0,0), 0);
 		}
 
-	delete itsCursorAnimTask;
-	delete itsCursorAnim;
-	delete itsHintMgr;
+	jdelete itsCursorAnimTask;
+	jdelete itsCursorAnim;
+	jdelete itsHintMgr;
 
 	DeleteEnclosedObjects();
 }
@@ -492,7 +492,7 @@ JXContainer::DispatchNewMouseEvent
 			itsWindow->SetWantDrag(kJTrue);
 			const JSize clickCount = itsWindow->CountClicks(this, pt);
 			MouseDown(pt, button, clickCount,
-					  JXButtonStates(state), modifiers);	// can delete us
+					  JXButtonStates(state), modifiers);	// can jdelete us
 			}
 		}
 
@@ -551,7 +551,7 @@ JXContainer::DispatchMouseUp
 		}
 	else if (!itsIsDNDSourceFlag)
 		{
-		// can delete us
+		// can jdelete us
 
 		HandleMouseUp(pt, button, buttonStates, modifiers);
 		}
@@ -602,7 +602,7 @@ JXContainer::SetHint
 		}
 	else if (itsHintMgr == NULL)
 		{
-		itsHintMgr = new JXHintManager(this, text);
+		itsHintMgr = jnew JXHintManager(this, text);
 		assert( itsHintMgr != NULL );
 		}
 	else
@@ -621,7 +621,7 @@ JXContainer::SetHint
 void
 JXContainer::ClearHint()
 {
-	delete itsHintMgr;
+	jdelete itsHintMgr;
 	itsHintMgr = NULL;
 }
 
@@ -754,7 +754,7 @@ JXContainer::MouseDown
 		}
 	else if (!itsIsDNDSourceFlag)
 		{
-		// can delete us
+		// can jdelete us
 
 		HandleMouseDown(pt, button, clickCount, buttonStates, modifiers);
 		}
@@ -1564,12 +1564,12 @@ JXContainer::DisplayCursor
 JXCursorAnimator*
 JXContainer::CreateCursorAnimator()
 {
-	delete itsCursorAnim;
-	itsCursorAnim = new JXCursorAnimator(itsWindow);
+	jdelete itsCursorAnim;
+	itsCursorAnim = jnew JXCursorAnimator(itsWindow);
 	assert( itsCursorAnim != NULL );
 
-	delete itsCursorAnimTask;
-	itsCursorAnimTask = new JXCursorAnimationTask(itsCursorAnim);
+	jdelete itsCursorAnimTask;
+	itsCursorAnimTask = jnew JXCursorAnimationTask(itsCursorAnim);
 	assert( itsCursorAnimTask != NULL );
 
 	if (IsVisible())
@@ -1605,10 +1605,10 @@ JXContainer::AnimateCursor()
 void
 JXContainer::RemoveCursorAnimator()
 {
-	delete itsCursorAnim;
+	jdelete itsCursorAnim;
 	itsCursorAnim = NULL;
 
-	delete itsCursorAnimTask;
+	jdelete itsCursorAnimTask;
 	itsCursorAnimTask = NULL;
 
 	if (IsVisible())
@@ -1806,7 +1806,7 @@ JXContainer::DeleteEnclosedObjects()
 		itsGoingAwayFlag = kJTrue;		// ignore RemoveEnclosedObject messages
 		itsEnclosedObjs->DeleteAll();
 		itsGoingAwayFlag = kJFalse;
-		delete itsEnclosedObjs;
+		jdelete itsEnclosedObjs;
 		itsEnclosedObjs = NULL;
 		}
 }
@@ -1814,7 +1814,7 @@ JXContainer::DeleteEnclosedObjects()
 /******************************************************************************
  AddEnclosedObject (private)
 
-	By prepending the new object to the list, it is drawn last, and all
+	By prepending the jnew object to the list, it is drawn last, and all
 	other dispatchers consider it first.
 
  ******************************************************************************/
@@ -1827,7 +1827,7 @@ JXContainer::AddEnclosedObject
 {
 	if (itsEnclosedObjs == NULL)
 		{
-		itsEnclosedObjs = new JPtrArray<JXContainer>(JPtrArrayT::kForgetAll);
+		itsEnclosedObjs = jnew JPtrArray<JXContainer>(JPtrArrayT::kForgetAll);
 		assert( itsEnclosedObjs != NULL );
 		}
 
@@ -1855,7 +1855,7 @@ JXContainer::RemoveEnclosedObject
 		itsEnclosedObjs->Remove(theObject);
 		if (itsEnclosedObjs->IsEmpty())
 			{
-			delete itsEnclosedObjs;
+			jdelete itsEnclosedObjs;
 			itsEnclosedObjs = NULL;
 			}
 		}

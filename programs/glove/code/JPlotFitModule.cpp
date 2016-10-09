@@ -59,8 +59,8 @@ JPlotFitModule::JPlotFitModule
 
 JPlotFitModule::~JPlotFitModule()
 {
-//	delete itsModule; 		we don't own it
-	delete itsErrors;
+//	jdelete itsModule; 		we don't own it
+	jdelete itsErrors;
 }
 
 /******************************************************************************
@@ -141,10 +141,10 @@ JPlotFitModule::SetFitModule
 {
 	itsModule	= fit;
 	const JSize count	= itsModule->GetParameterCount();
-	itsParameters		= new JVector(count);
+	itsParameters		= jnew JVector(count);
 	assert(itsParameters != NULL);
 	SetParameterCount(count);
-	itsErrors	= new JVector(count);
+	itsErrors	= jnew JVector(count);
 	assert(itsErrors != NULL);
 	SetFunctionString(itsModule->GetFunctionalForm());
 }

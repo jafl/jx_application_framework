@@ -74,54 +74,54 @@ CBEditFileTypesDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 700,400, "");
+	JXWindow* window = jnew JXWindow(this, 700,400, "");
 	assert( window != NULL );
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::CBEditFileTypesDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::CBEditFileTypesDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 120,370, 70,20);
 	assert( cancelButton != NULL );
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::CBEditFileTypesDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::CBEditFileTypesDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 510,370, 70,20);
 	assert( okButton != NULL );
 
 	itsExecOutputWrapCB =
-		new JXTextCheckbox(JGetString("itsExecOutputWrapCB::CBEditFileTypesDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsExecOutputWrapCB::CBEditFileTypesDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 80,300, 310,20);
 	assert( itsExecOutputWrapCB != NULL );
 
 	itsUnknownTypeWrapCB =
-		new JXTextCheckbox(JGetString("itsUnknownTypeWrapCB::CBEditFileTypesDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsUnknownTypeWrapCB::CBEditFileTypesDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 80,330, 310,20);
 	assert( itsUnknownTypeWrapCB != NULL );
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::CBEditFileTypesDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::CBEditFileTypesDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 315,370, 70,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBEditFileTypesDialog::shortcuts::JXLayout"));
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 570,260);
 	assert( scrollbarSet != NULL );
 
 	JXTextButton* addTypeButton =
-		new JXTextButton(JGetString("addTypeButton::CBEditFileTypesDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("addTypeButton::CBEditFileTypesDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 610,50, 70,20);
 	assert( addTypeButton != NULL );
 	addTypeButton->SetShortcuts(JGetString("addTypeButton::CBEditFileTypesDialog::shortcuts::JXLayout"));
 
 	JXTextButton* duplicateTypeButton =
-		new JXTextButton(JGetString("duplicateTypeButton::CBEditFileTypesDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("duplicateTypeButton::CBEditFileTypesDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 610,80, 70,20);
 	assert( duplicateTypeButton != NULL );
 	duplicateTypeButton->SetShortcuts(JGetString("duplicateTypeButton::CBEditFileTypesDialog::shortcuts::JXLayout"));
 
 	JXTextButton* removeTypeButton =
-		new JXTextButton(JGetString("removeTypeButton::CBEditFileTypesDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("removeTypeButton::CBEditFileTypesDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 610,110, 70,20);
 	assert( removeTypeButton != NULL );
 	removeTypeButton->SetShortcuts(JGetString("removeTypeButton::CBEditFileTypesDialog::shortcuts::JXLayout"));
@@ -141,7 +141,7 @@ CBEditFileTypesDialog::BuildWindow
 	const JCoordinate w = encl->GetApertureWidth();
 
 	itsTable =
-		new CBFileTypeTable(fileTypeList, macroList, crmList,
+		jnew CBFileTypeTable(fileTypeList, macroList, crmList,
 							addTypeButton, removeTypeButton,
 							duplicateTypeButton, scrollbarSet, encl,
 							JXWidget::kHElastic, JXWidget::kVElastic,
@@ -150,7 +150,7 @@ CBEditFileTypesDialog::BuildWindow
 	assert( itsTable != NULL );
 
 	JXColHeaderWidget* colHeader =
-		new JXColHeaderWidget(itsTable, scrollbarSet, encl,
+		jnew JXColHeaderWidget(itsTable, scrollbarSet, encl,
 							  JXWidget::kHElastic, JXWidget::kFixedTop,
 							  0,0, w, kColHeaderHeight);
 	assert( colHeader != NULL );

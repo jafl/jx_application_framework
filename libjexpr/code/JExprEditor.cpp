@@ -155,11 +155,11 @@ JExprEditor::~JExprEditor()
 {
 	assert( itsPainter == NULL );
 
-	delete itsFunction;
-	delete itsRectList;
+	jdelete itsFunction;
+	jdelete itsRectList;
 
-	delete itsUndoFunction;
-	delete itsFunctionClip;
+	jdelete itsUndoFunction;
+	jdelete itsFunctionClip;
 }
 
 /******************************************************************************
@@ -178,7 +178,7 @@ JExprEditor::SetFunction
 {
 	assert( f != NULL );
 
-	delete itsUndoFunction;
+	jdelete itsUndoFunction;
 	itsUndoFunction  = NULL;
 	itsUndoSelection = 0;
 
@@ -189,7 +189,7 @@ JExprEditor::SetFunction
 		ListenTo(itsVarList);
 		}
 
-	delete itsFunction;
+	jdelete itsFunction;
 	itsFunction  = f;
 	itsActiveUIF = NULL;
 	Render();
@@ -203,7 +203,7 @@ JExprEditor::SetFunction
 void
 JExprEditor::ClearFunction()
 {
-	delete itsUndoFunction;
+	jdelete itsUndoFunction;
 	itsUndoFunction  = NULL;
 	itsUndoSelection = 0;
 
@@ -219,9 +219,9 @@ JExprEditor::ClearFunction()
 JUserInputFunction*
 JExprEditor::PrivateClearFunction()
 {
-	delete itsFunction;
+	jdelete itsFunction;
 	JUserInputFunction* newUIF =
-		new JUserInputFunction(itsVarList, itsFontManager, itsColormap);
+		jnew JUserInputFunction(itsVarList, itsFontManager, itsColormap);
 	assert( newUIF != NULL );
 	itsFunction = newUIF;
 
@@ -408,7 +408,7 @@ JExprEditor::SaveStateForUndo()
 {
 	assert( itsFunction != NULL );
 
-	delete itsUndoFunction;
+	jdelete itsUndoFunction;
 	itsUndoFunction  = itsFunction->Copy();
 	itsUndoSelection = itsSelection;
 
@@ -438,7 +438,7 @@ JExprEditor::Cut()
 	JFunction* f;
 	if (Cut(&f))
 		{
-		delete itsFunctionClip;
+		jdelete itsFunctionClip;
 		itsFunctionClip = f;
 		EIPClipboardChanged();
 		}
@@ -480,7 +480,7 @@ JExprEditor::Copy()
 	JFunction* f;
 	if (Copy(&f))
 		{
-		delete itsFunctionClip;
+		jdelete itsFunctionClip;
 		itsFunctionClip = f;
 		EIPClipboardChanged();
 		}
@@ -706,7 +706,7 @@ JExprEditor::NegateSelection()
 		{
 		SaveStateForUndo();
 		JFunction* arg = f->Copy();
-		JNegation* neg = new JNegation(arg);
+		JNegation* neg = jnew JNegation(arg);
 		assert( neg != NULL );
 		itsActiveUIF = NULL;
 		ReplaceFunction(f, neg);
@@ -767,7 +767,7 @@ JExprEditor::AddArgument()
 			{
 			SaveStateForUndo();
 			JUserInputFunction* uif =
-				new JUserInputFunction(itsVarList, itsFontManager, itsColormap);
+				jnew JUserInputFunction(itsVarList, itsFontManager, itsColormap);
 			assert( uif != NULL );
 			naryF->AppendArg(uif);
 			Render();
@@ -893,14 +893,14 @@ JExprEditor::GroupArguments
 				SelectFunction(f);
 				}
 
-			// create a new JNaryOperator to contain the group
+			// create a jnew JNaryOperator to contain the group
 
 			else if (!sameType && argsInRange && !groupAll)
 				{
 				JIndex i;
 				SaveStateForUndo();
 
-				// Copy the parent function and delete the args that
+				// Copy the parent function and jdelete the args that
 				// will not be in the group.
 
 				JFunction* newF      = parentF->Copy();
@@ -916,7 +916,7 @@ JExprEditor::GroupArguments
 					}
 
 				// Replace the original args from the parent function
-				// with the new group.
+				// with the jnew group.
 
 				for (i=1; i<=lastArg-firstArg+1; i++)
 					{
@@ -1061,7 +1061,7 @@ JExprEditor::Negate
 		}
 	else
 		{
-		JFunction* neg = new JNegation(f.Copy());
+		JFunction* neg = jnew JNegation(f.Copy());
 		assert( neg != NULL );
 		return neg;
 		}
@@ -1714,7 +1714,7 @@ JExprEditor::EIPHandleMouseUp()
 				s = itsVarList->GetVariableName(varVal->GetVariableIndex());
 				}
 			JUserInputFunction* newUIF =
-				new JUserInputFunction(itsVarList, itsFontManager, itsColormap, s);
+				jnew JUserInputFunction(itsVarList, itsFontManager, itsColormap, s);
 			assert( newUIF != NULL );
 			ReplaceFunction(selectedF, newUIF);
 			Render();
@@ -1804,7 +1804,7 @@ JExprEditor::EIPHandleKeyPress
 		// replace selection with JUserInputFunction
 
 		JUserInputFunction* newUIF =
-			new JUserInputFunction(itsVarList, itsFontManager, itsColormap);
+			jnew JUserInputFunction(itsVarList, itsFontManager, itsColormap);
 		assert( newUIF != NULL );
 		JFunction* selectedF = itsRectList->GetFunction(itsSelection);
 		ReplaceFunction(selectedF, newUIF);
@@ -1826,7 +1826,7 @@ JExprEditor::EIPHandleKeyPress
 			// replace selection with JUserInputFunction
 
 			JUserInputFunction* newUIF =
-				new JUserInputFunction(itsVarList, itsFontManager, itsColormap);
+				jnew JUserInputFunction(itsVarList, itsFontManager, itsColormap);
 			assert( newUIF != NULL );
 			newUIF->Activate();
 			JBoolean needParse, needRender;
@@ -1873,7 +1873,7 @@ JExprEditor::EIPHandleKeyPress
 				{
 				assert( key == '\n' || key == '\r' || key == ' ' || key == ')' );
 
-				// select the new function
+				// select the jnew function
 
 				Render();
 				SelectFunction(arg1);
@@ -1930,13 +1930,13 @@ JExprEditor::ApplyOperatorKey
 		}
 
 	JUserInputFunction* newUIF =
-		new JUserInputFunction(itsVarList, itsFontManager, itsColormap);
+		jnew JUserInputFunction(itsVarList, itsFontManager, itsColormap);
 	assert( newUIF != NULL );
 
 	JFunction* newArg = newUIF;
 	if (key == '-')
 		{
-		newArg = new JNegation(newUIF);
+		newArg = jnew JNegation(newUIF);
 		assert( newArg != NULL );
 		}
 
@@ -1967,16 +1967,16 @@ JExprEditor::ApplyOperatorKey
 		JNaryOperator* newOp = NULL;
 		if (key == '+' || key == '-')
 			{
-			newOp = new JSummation;
+			newOp = jnew JSummation;
 			}
 		else if (key == '*')
 			{
-			newOp = new JProduct;
+			newOp = jnew JProduct;
 			}
 		else
 			{
 			assert( key == '|' );
-			newOp = new JParallel;
+			newOp = jnew JParallel;
 			}
 		assert( newOp != NULL );
 		newOp->SetArg(1, targetF->Copy());
@@ -1986,13 +1986,13 @@ JExprEditor::ApplyOperatorKey
 
 	else if (key == '/')
 		{
-		newF = new JDivision(targetF->Copy(), newArg);
+		newF = jnew JDivision(targetF->Copy(), newArg);
 		assert( newF != NULL );
 		}
 
 	else if (key == '^')
 		{
-		newF = new JExponent(targetF->Copy(), newArg);
+		newF = jnew JExponent(targetF->Copy(), newArg);
 		assert( newF != NULL );
 		}
 
@@ -2271,7 +2271,7 @@ JExprEditor::ReplaceFunction
 {
 	if (origF == itsFunction)
 		{
-		delete itsFunction;
+		jdelete itsFunction;
 		itsFunction = newF;
 		}
 	else
@@ -2400,8 +2400,8 @@ JExprEditor::Render()
 
 	itsSelection = 0;
 
-	delete itsRectList;
-	itsRectList = new JExprRectList;
+	jdelete itsRectList;
+	itsRectList = jnew JExprRectList;
 	assert( itsRectList != NULL );
 
 	// calculate the locations of everything

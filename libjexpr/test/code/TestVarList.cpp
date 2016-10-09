@@ -101,13 +101,13 @@ TestVarList::TestVarList
 void
 TestVarList::TestVarListX()
 {
-	itsNumericNames = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsNumericNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsNumericNames != NULL );
 
-	itsNumericValues = new JArray<JFloat>;
+	itsNumericValues = jnew JArray<JFloat>;
 	assert( itsNumericValues != NULL );
 
-	itsNumericArrays = new JPtrArray<TVLNArray>(JPtrArrayT::kDeleteAll);
+	itsNumericArrays = jnew JPtrArray<TVLNArray>(JPtrArrayT::kDeleteAll);
 	assert( itsNumericArrays != NULL );
 
 	InstallOrderedSet(itsNumericNames);
@@ -120,9 +120,9 @@ TestVarList::TestVarListX()
 
 TestVarList::~TestVarList()
 {
-	delete itsNumericNames;
-	delete itsNumericValues;
-	delete itsNumericArrays;
+	jdelete itsNumericNames;
+	jdelete itsNumericValues;
+	jdelete itsNumericArrays;
 }
 
 /******************************************************************************

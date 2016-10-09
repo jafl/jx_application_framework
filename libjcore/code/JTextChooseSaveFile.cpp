@@ -157,7 +157,7 @@ JTextChooseSaveFile::ChooseFiles
 
 		if (JFileExists(fullName))
 			{
-			JString* s = new JString(fullName);
+			JString* s = jnew JString(fullName);
 			assert( s != NULL );
 			fullNameList->Append(s);
 			}

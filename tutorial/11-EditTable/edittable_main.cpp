@@ -26,11 +26,11 @@ main
 {
 	// Create the application
 	JXApplication* app = 
-		new JXApplication(&argc, argv, kAppSignature, kTutorialStringData);
+		jnew JXApplication(&argc, argv, kAppSignature, kTutorialStringData);
 	assert( app != NULL );
 
 	// Create our window director
-	EditTableDir* mainDir = new EditTableDir(app);
+	EditTableDir* mainDir = jnew EditTableDir(app);
 	assert( mainDir != NULL );
 
 	// Activate the director

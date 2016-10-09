@@ -59,7 +59,7 @@ CBREXXCompleter::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBREXXCompleter;
+		itsSelf = jnew CBREXXCompleter;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -76,7 +76,7 @@ CBREXXCompleter::Instance()
 void
 CBREXXCompleter::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

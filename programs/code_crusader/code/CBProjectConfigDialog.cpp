@@ -67,98 +67,98 @@ CBProjectConfigDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 410,380, "");
+	JXWindow* window = jnew JXWindow(this, 410,380, "");
 	assert( window != NULL );
 
 	itsMethodRG =
-		new JXRadioGroup(window,
+		jnew JXRadioGroup(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,10, 292,106);
 	assert( itsMethodRG != NULL );
 
 	itsTargetName =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,130, 280,20);
 	assert( itsTargetName != NULL );
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::CBProjectConfigDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::CBProjectConfigDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,350, 70,20);
 	assert( cancelButton != NULL );
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::CBProjectConfigDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::CBProjectConfigDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 280,350, 70,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::CBProjectConfigDialog::shortcuts::JXLayout"));
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::CBProjectConfigDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::CBProjectConfigDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,130, 90,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	JXTextRadioButton* obj2_JXLayout =
-		new JXTextRadioButton(CBBuildManager::kMakemake, JGetString("obj2_JXLayout::CBProjectConfigDialog::JXLayout"), itsMethodRG,
+		jnew JXTextRadioButton(CBBuildManager::kMakemake, JGetString("obj2_JXLayout::CBProjectConfigDialog::JXLayout"), itsMethodRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 270,20);
 	assert( obj2_JXLayout != NULL );
 
 	itsDepListExpr =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,180, 370,20);
 	assert( itsDepListExpr != NULL );
 
 	JXStaticText* obj3_JXLayout =
-		new JXStaticText(JGetString("obj3_JXLayout::CBProjectConfigDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj3_JXLayout::CBProjectConfigDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,160, 370,20);
 	assert( obj3_JXLayout != NULL );
 	obj3_JXLayout->SetToLabel();
 
 	JXTextRadioButton* obj4_JXLayout =
-		new JXTextRadioButton(CBBuildManager::kQMake, JGetString("obj4_JXLayout::CBProjectConfigDialog::JXLayout"), itsMethodRG,
+		jnew JXTextRadioButton(CBBuildManager::kQMake, JGetString("obj4_JXLayout::CBProjectConfigDialog::JXLayout"), itsMethodRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 270,20);
 	assert( obj4_JXLayout != NULL );
 
 	JXTextRadioButton* obj5_JXLayout =
-		new JXTextRadioButton(CBBuildManager::kManual, JGetString("obj5_JXLayout::CBProjectConfigDialog::JXLayout"), itsMethodRG,
+		jnew JXTextRadioButton(CBBuildManager::kManual, JGetString("obj5_JXLayout::CBProjectConfigDialog::JXLayout"), itsMethodRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 270,20);
 	assert( obj5_JXLayout != NULL );
 
 	itsUpdateMakefileCmd =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,230, 370,20);
 	assert( itsUpdateMakefileCmd != NULL );
 
 	JXStaticText* obj6_JXLayout =
-		new JXStaticText(JGetString("obj6_JXLayout::CBProjectConfigDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj6_JXLayout::CBProjectConfigDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,210, 370,20);
 	assert( obj6_JXLayout != NULL );
 	obj6_JXLayout->SetToLabel();
 
 	itsSubProjectBuildCmd =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,280, 370,20);
 	assert( itsSubProjectBuildCmd != NULL );
 
 	JXStaticText* obj7_JXLayout =
-		new JXStaticText(JGetString("obj7_JXLayout::CBProjectConfigDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj7_JXLayout::CBProjectConfigDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,260, 370,20);
 	assert( obj7_JXLayout != NULL );
 	obj7_JXLayout->SetToLabel();
 
 	JXStaticText* configInstrText =
-		new JXStaticText(JGetString("configInstrText::CBProjectConfigDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("configInstrText::CBProjectConfigDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 20,315, 370,25);
 	assert( configInstrText != NULL );
     configInstrText->SetFontSize(8);
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::CBProjectConfigDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::CBProjectConfigDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 165,350, 70,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBProjectConfigDialog::shortcuts::JXLayout"));
 
 	JXTextRadioButton* obj8_JXLayout =
-		new JXTextRadioButton(CBBuildManager::kCMake, JGetString("obj8_JXLayout::CBProjectConfigDialog::JXLayout"), itsMethodRG,
+		jnew JXTextRadioButton(CBBuildManager::kCMake, JGetString("obj8_JXLayout::CBProjectConfigDialog::JXLayout"), itsMethodRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,50, 270,20);
 	assert( obj8_JXLayout != NULL );
 

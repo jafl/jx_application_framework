@@ -107,7 +107,7 @@ JXDSSSelection::ConvertData
 				}
 			else if (itsAction != NULL)
 				{
-				delete itsAction;
+				jdelete itsAction;
 				(JGetUserNotification())->ReportError(
 					"You cannot save the file on a different computer.");
 				}
@@ -120,7 +120,7 @@ JXDSSSelection::ConvertData
 
 		*returnType = XA_STRING;
 		*dataLength = 1;
-		*data = new unsigned char[ *dataLength ];
+		*data = jnew unsigned char[ *dataLength ];
 		if (*data != NULL)
 			{
 			**data = 0x45;	// E

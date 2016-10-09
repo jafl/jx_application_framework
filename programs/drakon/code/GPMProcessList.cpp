@@ -44,27 +44,27 @@ GPMProcessList::GPMProcessList()
 	,itsDirInfo(NULL)
 #endif
 {
-	itsVisibleEntries = new JPtrArray<GPMProcessEntry>(JPtrArrayT::kForgetAll);
+	itsVisibleEntries = jnew JPtrArray<GPMProcessEntry>(JPtrArrayT::kForgetAll);
 	assert(itsVisibleEntries != NULL);
 	itsVisibleEntries->SetCompareFunction(GPMProcessEntry::CompareListPID);
 	InstallOrderedSet(itsVisibleEntries);
 	itsListColType = kListPID;
 	itsTreeColType = kTreeCommand;
 
-	itsAlphaEntries = new JPtrArray<GPMProcessEntry>(JPtrArrayT::kForgetAll);
+	itsAlphaEntries = jnew JPtrArray<GPMProcessEntry>(JPtrArrayT::kForgetAll);
 	assert( itsAlphaEntries != NULL );
 	itsAlphaEntries->SetCompareFunction(GPMProcessEntry::CompareListCommandForIncrSearch);
 
-	itsHiddenEntries = new JPtrArray<GPMProcessEntry>(JPtrArrayT::kDeleteAll);
+	itsHiddenEntries = jnew JPtrArray<GPMProcessEntry>(JPtrArrayT::kDeleteAll);
 	assert(itsHiddenEntries != NULL);
 	itsHiddenEntries->SetCompareFunction(GPMProcessEntry::CompareListPID);
 
-	itsRootNode = new JTreeNode(NULL);
+	itsRootNode = jnew JTreeNode(NULL);
 	assert( itsRootNode != NULL );
 	itsRootNode->SetChildCompareFunction(GPMProcessEntry::CompareTreeCommand,
 										 JOrderedSetT::kSortAscending, kJTrue);
 
-	itsTree = new JTree(itsRootNode);
+	itsTree = jnew JTree(itsRootNode);
 	assert( itsTree != NULL );
 
 	Update();
@@ -77,13 +77,13 @@ GPMProcessList::GPMProcessList()
 
 GPMProcessList::~GPMProcessList()
 {
-	delete itsHiddenEntries;
-	delete itsVisibleEntries;
-	delete itsAlphaEntries;
-	delete itsTree;
+	jdelete itsHiddenEntries;
+	jdelete itsVisibleEntries;
+	jdelete itsAlphaEntries;
+	jdelete itsTree;
 
 	#ifdef _J_HAS_PROC
-	delete itsDirInfo;
+	jdelete itsDirInfo;
 	#endif
 }
 
@@ -144,7 +144,7 @@ GPMProcessList::Update()
 		const JDirEntry& entry = itsDirInfo->GetEntry(i);
 		if (entry.GetName().IsInteger())
 			{
-			GPMProcessEntry* pentry = new GPMProcessEntry(itsTree, entry);
+			GPMProcessEntry* pentry = jnew GPMProcessEntry(itsTree, entry);
 			assert(pentry != NULL);
 			newEntries.InsertSorted(pentry);
 			}
@@ -181,7 +181,7 @@ GPMProcessList::Update()
 			const JSize count = len / sizeof(kinfo_proc);
 			for (JIndex i=0; i<count; i++)
 				{
-				GPMProcessEntry* pentry = new GPMProcessEntry(itsTree, list[i]);
+				GPMProcessEntry* pentry = jnew GPMProcessEntry(itsTree, list[i]);
 				assert( pentry != NULL );
 				newEntries.InsertSorted(pentry);
 				}
@@ -225,7 +225,7 @@ GPMProcessList::Update()
 				JIndex findex;
 				if (itsHiddenEntries->SearchSorted(pentry, JOrderedSetT::kAnyMatch, &findex))
 					{
-					delete pentry;
+					jdelete pentry;
 					}
 				else
 					{
@@ -275,7 +275,7 @@ GPMProcessList::Update()
 	itsVisibleEntries->Sort();
 	itsRootNode->SortChildren(kJTrue);
 
-	// add new processes to the list
+	// add jnew processes to the list
 
 	JOrderedSetT::CompareResult (*treeCompareFn)(JTreeNode * const &,
 												 JTreeNode * const &);

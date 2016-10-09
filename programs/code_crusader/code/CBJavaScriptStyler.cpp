@@ -72,7 +72,7 @@ CBJavaScriptStyler::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBJavaScriptStyler;
+		itsSelf = jnew CBJavaScriptStyler;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -89,7 +89,7 @@ CBJavaScriptStyler::Instance()
 void
 CBJavaScriptStyler::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************
@@ -231,5 +231,5 @@ CBJavaScriptStyler::UpgradeTypeList
 		typeStyles->InsertElementAtIndex(9, JFontStyle(colormap->GetDarkGreenColor()));
 		}
 
-	// set new values after all new slots have been created
+	// set jnew values after all jnew slots have been created
 }

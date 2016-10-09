@@ -113,7 +113,7 @@ JXScrollableWidget::JXScrollableWidget
 
 JXScrollableWidget::~JXScrollableWidget()
 {
-	delete itsAdjustScrollbarTask;
+	jdelete itsAdjustScrollbarTask;
 }
 
 /******************************************************************************
@@ -370,7 +370,7 @@ JXScrollableWidget::NeedAdjustScrollbars()
 {
 	if (itsScrollbarSet != NULL && itsAdjustScrollbarTask == NULL)
 		{
-		itsAdjustScrollbarTask = new JXAdjustScrollbarTask(this);
+		itsAdjustScrollbarTask = jnew JXAdjustScrollbarTask(this);
 		assert( itsAdjustScrollbarTask != NULL );
 		itsAdjustScrollbarTask->Go();
 		}
@@ -399,7 +399,7 @@ JXScrollableWidget::UpdateScrollbars()
 {
 	while (itsAdjustScrollbarTask != NULL)
 		{
-		delete itsAdjustScrollbarTask;
+		jdelete itsAdjustScrollbarTask;
 		itsAdjustScrollbarTask = NULL;
 		AdjustScrollbars();
 		}

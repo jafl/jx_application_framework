@@ -53,7 +53,7 @@ CBSymbolTypeList::~CBSymbolTypeList()
 	JPrefObject::WritePrefs();
 
 	DeleteIcons();
-	delete itsSymbolTypeList;
+	jdelete itsSymbolTypeList;
 }
 
 /******************************************************************************
@@ -256,7 +256,7 @@ CBSymbolTypeList::CreateSymTypeList()
 					 italic(kJFalse, kJTrue, 0, kJFalse),
 					 bold_gray(kJTrue, kJFalse, 0, kJFalse, itsColormap->GetGrayColor(50));
 
-	itsSymbolTypeList = new JArray<SymbolTypeInfo>(50);
+	itsSymbolTypeList = jnew JArray<SymbolTypeInfo>(50);
 	assert( itsSymbolTypeList != NULL );
 
 	ADD_S (kUnknownST, kCBOtherLang, JFontStyle(itsColormap->GetGrayColor(50)))

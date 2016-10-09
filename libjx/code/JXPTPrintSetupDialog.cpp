@@ -53,7 +53,7 @@ JXPTPrintSetupDialog::Create
 	const JBoolean					printLineNumbers
 	)
 {
-	JXPTPrintSetupDialog* dlog = new JXPTPrintSetupDialog;
+	JXPTPrintSetupDialog* dlog = jnew JXPTPrintSetupDialog;
 	assert( dlog != NULL );
 	dlog->BuildWindow(dest, printCmd, fileName, printLineNumbers);
 	return dlog;
@@ -95,101 +95,101 @@ JXPTPrintSetupDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 370,220, "");
+	JXWindow* window = jnew JXWindow(this, 370,220, "");
 	assert( window != NULL );
 
 	itsPrintCmdLabel =
-		new JXStaticText(JGetString("itsPrintCmdLabel::JXPTPrintSetupDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("itsPrintCmdLabel::JXPTPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 100,19);
 	assert( itsPrintCmdLabel != NULL );
 	itsPrintCmdLabel->SetToLabel();
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::JXPTPrintSetupDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::JXPTPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 220,190, 70,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::JXPTPrintSetupDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::JXPTPrintSetupDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::JXPTPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 70,190, 70,20);
 	assert( cancelButton != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::JXPTPrintSetupDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::JXPTPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 50,30, 80,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	itsDestination =
-		new JXRadioGroup(window,
+		jnew JXRadioGroup(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 135,20, 139,39);
 	assert( itsDestination != NULL );
 
 	JXTextRadioButton* obj2_JXLayout =
-		new JXTextRadioButton(1, JGetString("obj2_JXLayout::JXPTPrintSetupDialog::JXLayout"), itsDestination,
+		jnew JXTextRadioButton(1, JGetString("obj2_JXLayout::JXPTPrintSetupDialog::JXLayout"), itsDestination,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 5,8, 70,20);
 	assert( obj2_JXLayout != NULL );
 	obj2_JXLayout->SetShortcuts(JGetString("obj2_JXLayout::JXPTPrintSetupDialog::shortcuts::JXLayout"));
 
 	JXTextRadioButton* obj3_JXLayout =
-		new JXTextRadioButton(2, JGetString("obj3_JXLayout::JXPTPrintSetupDialog::JXLayout"), itsDestination,
+		jnew JXTextRadioButton(2, JGetString("obj3_JXLayout::JXPTPrintSetupDialog::JXLayout"), itsDestination,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 75,8, 50,20);
 	assert( obj3_JXLayout != NULL );
 	obj3_JXLayout->SetShortcuts(JGetString("obj3_JXLayout::JXPTPrintSetupDialog::shortcuts::JXLayout"));
 
 	itsPrintCmd =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 110,70, 240,20);
 	assert( itsPrintCmd != NULL );
 
 	itsChooseFileButton =
-		new JXTextButton(JGetString("itsChooseFileButton::JXPTPrintSetupDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsChooseFileButton::JXPTPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,70, 80,20);
 	assert( itsChooseFileButton != NULL );
 	itsChooseFileButton->SetShortcuts(JGetString("itsChooseFileButton::JXPTPrintSetupDialog::shortcuts::JXLayout"));
 
 	itsCopyCount =
-		new JXIntegerInput(window,
+		jnew JXIntegerInput(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 140,110, 40,20);
 	assert( itsCopyCount != NULL );
 
 	itsFirstPageIndex =
-		new JXIntegerInput(window,
+		jnew JXIntegerInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 230,150, 40,20);
 	assert( itsFirstPageIndex != NULL );
 
 	itsLastPageIndex =
-		new JXIntegerInput(window,
+		jnew JXIntegerInput(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 290,150, 40,20);
 	assert( itsLastPageIndex != NULL );
 
 	itsPrintAllCB =
-		new JXTextCheckbox(JGetString("itsPrintAllCB::JXPTPrintSetupDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsPrintAllCB::JXPTPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,150, 120,20);
 	assert( itsPrintAllCB != NULL );
 	itsPrintAllCB->SetShortcuts(JGetString("itsPrintAllCB::JXPTPrintSetupDialog::shortcuts::JXLayout"));
 
 	itsFirstPageIndexLabel =
-		new JXStaticText(JGetString("itsFirstPageIndexLabel::JXPTPrintSetupDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("itsFirstPageIndexLabel::JXPTPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 160,150, 70,20);
 	assert( itsFirstPageIndexLabel != NULL );
 	itsFirstPageIndexLabel->SetToLabel();
 
 	itsLastPageIndexLabel =
-		new JXStaticText(JGetString("itsLastPageIndexLabel::JXPTPrintSetupDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("itsLastPageIndexLabel::JXPTPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 270,150, 20,20);
 	assert( itsLastPageIndexLabel != NULL );
 	itsLastPageIndexLabel->SetToLabel();
 
 	JXStaticText* obj4_JXLayout =
-		new JXStaticText(JGetString("obj4_JXLayout::JXPTPrintSetupDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj4_JXLayout::JXPTPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 25,110, 115,20);
 	assert( obj4_JXLayout != NULL );
 	obj4_JXLayout->SetToLabel();
 
 	itsPrintLineNumbersCB =
-		new JXTextCheckbox(JGetString("itsPrintLineNumbersCB::JXPTPrintSetupDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsPrintLineNumbersCB::JXPTPrintSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 220,110, 130,20);
 	assert( itsPrintLineNumbersCB != NULL );
 	itsPrintLineNumbersCB->SetShortcuts(JGetString("itsPrintLineNumbersCB::JXPTPrintSetupDialog::shortcuts::JXLayout"));
@@ -250,7 +250,7 @@ JXPTPrintSetupDialog::SetObjects
 
 	const JRect r = itsPrintCmd->GetFrame();
 	itsFileInput =
-		new JXFileInput(window,
+		jnew JXFileInput(window,
 						JXWidget::kHElastic, JXWidget::kVElastic,
 						r.left, r.top, r.width(), r.height());
 	assert( itsFileInput != NULL );

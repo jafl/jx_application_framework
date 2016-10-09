@@ -139,11 +139,11 @@ JString& s5 = s2;
 
 	cout << "s5 = s2& = " << s5 << endl;
 
-JString* sptr = new JString("This string is on the stack!");	// create on stack
+JString* sptr = jnew JString("This string is on the stack!");	// create on stack
 
 	cout << *sptr << endl;		// you can inspect sptr with Inspector!
 
-	delete sptr;
+	jdelete sptr;
 	sptr = NULL;
 
 	if (!sptr) cout << "It -was- on the stack" << endl;			// operator!

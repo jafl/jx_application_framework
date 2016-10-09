@@ -46,7 +46,7 @@ const JSize kBlockSize = 100;
 
 const JFileVersion kCodeMillDataVersion                  = 0;
 static const JCharacter* kCodeMillProgramName            = "code_mill";
-static const JCharacter* kCodeMillDeleteInputFilesOption = "--delete";
+static const JCharacter* kCodeMillDeleteInputFilesOption = "--jdelete";
 static const JCharacter* kCodeMillOutputPathOption       = "--output_path";
 
 // JBroadcaster message types
@@ -291,20 +291,20 @@ CBTree::CBTreeX
 	itsDirector = director;
 	itsFontSize = kJDefaultFontSize;
 
-	itsClassesByFull = new JPtrArray<CBClass>(JPtrArrayT::kDeleteAll, kBlockSize);
+	itsClassesByFull = jnew JPtrArray<CBClass>(JPtrArrayT::kDeleteAll, kBlockSize);
 	assert( itsClassesByFull != NULL );
 	itsClassesByFull->SetCompareFunction(CompareClassFullNames);
 	itsClassesByFull->SetSortOrder(JOrderedSetT::kSortAscending);
 
-	itsVisibleByGeom = new JPtrArray<CBClass>(JPtrArrayT::kForgetAll, kBlockSize);
+	itsVisibleByGeom = jnew JPtrArray<CBClass>(JPtrArrayT::kForgetAll, kBlockSize);
 	assert( itsVisibleByGeom != NULL );
 
-	itsVisibleByName = new JPtrArray<CBClass>(JPtrArrayT::kForgetAll, kBlockSize);
+	itsVisibleByName = jnew JPtrArray<CBClass>(JPtrArrayT::kForgetAll, kBlockSize);
 	assert( itsVisibleByName != NULL );
 	itsVisibleByName->SetCompareFunction(CompareClassNames);
 	itsVisibleByName->SetSortOrder(JOrderedSetT::kSortAscending);
 
-	itsSuffixList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsSuffixList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsSuffixList != NULL );
 	CBGetPrefsManager()->GetFileSuffixes(itsFileType, itsSuffixList);
 
@@ -337,11 +337,11 @@ CBTree::CBTreeX
 
 CBTree::~CBTree()
 {
-	delete itsClassesByFull;
-	delete itsVisibleByGeom;
-	delete itsVisibleByName;
-	delete itsCollapsedList;
-	delete itsSuffixList;
+	jdelete itsClassesByFull;
+	jdelete itsVisibleByGeom;
+	jdelete itsVisibleByName;
+	jdelete itsCollapsedList;
+	jdelete itsSuffixList;
 }
 
 /******************************************************************************
@@ -559,7 +559,7 @@ CBTree::PrepareForUpdate
 
 	// save collapsed classes
 
-	itsCollapsedList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsCollapsedList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsCollapsedList != NULL );
 	SaveCollapsedClasses(itsCollapsedList);
 
@@ -602,7 +602,7 @@ CBTree::UpdateFinished
 	// restore collapsed classes
 
 	const JBoolean forceRecalcVisible = RestoreCollapsedClasses(*itsCollapsedList);
-	delete itsCollapsedList;
+	jdelete itsCollapsedList;
 	itsCollapsedList = NULL;
 
 	// rebuild tree
@@ -794,7 +794,7 @@ CBTree::RebuildTree()
 {
 JIndex i;
 
-	// delete ghost classes and clear all parent-child connections
+	// jdelete ghost classes and clear all parent-child connections
 
 	JSize classCount = itsClassesByFull->GetElementCount();
 	for (i=classCount; i>=1; i--)
@@ -1027,7 +1027,7 @@ CBTree::PlaceAll
  PlaceClass (private, recursive)
 
 	Build the class tree whose root is the given class.
-	Updates y to include the height of the new subtree.
+	Updates y to include the height of the jnew subtree.
 
  ******************************************************************************/
 
@@ -1175,7 +1175,7 @@ JIndex i,j;
 					{
 					for (j=1; j<=rootCount; j++)
 						{
-						delete (rootList.GetElement(j)).connList;
+						jdelete (rootList.GetElement(j)).connList;
 						}
 					itsNeedsMinimizeMILinksFlag = kJTrue;
 					break;
@@ -1196,7 +1196,7 @@ JIndex i,j;
 
 			for (j=1; j<=rootCount; j++)
 				{
-				delete (rootList.GetElement(j)).connList;
+				jdelete (rootList.GetElement(j)).connList;
 				}
 			}
 		}
@@ -1233,14 +1233,14 @@ CBTree::ArrangeRoots
 	l1.SetCompareFunction(CompareRSContent);
 	l2.SetCompareFunction(CompareRSContent);
 
-	JArray<JBoolean>* content = new JArray<JBoolean>(rootCount);
+	JArray<JBoolean>* content = jnew JArray<JBoolean>(rootCount);
 	assert( content != NULL );
 	for (JIndex i=1; i<=rootCount; i++)
 		{
 		content->AppendElement(kJFalse);
 		}
 
-	JArray<JIndex>* order = new JArray<JIndex>(rootCount);
+	JArray<JIndex>* order = jnew JArray<JIndex>(rootCount);
 	assert( order != NULL );
 
 	list1->AppendElement(RootSubset(content, order, 0));
@@ -1261,7 +1261,7 @@ CBTree::ArrangeRoots
 					JIndex i;
 					JSize newLinkLength = subset->linkLength;
 
-					// add length of links from new root
+					// add length of links from jnew root
 
 					const RootMIInfo* rootPtr   = rootList.GetCArray();
 					const RootMIInfo* rootInfo  = rootPtr + newRootIndex-1;
@@ -1280,7 +1280,7 @@ CBTree::ArrangeRoots
 							}
 						}
 
-					// add length of links continuing past new root
+					// add length of links continuing past jnew root
 
 					for (i=1; i<=subsetSize; i++)
 						{
@@ -1317,10 +1317,10 @@ CBTree::ArrangeRoots
 						}
 					else if (!found)
 						{
-						JArray<JBoolean>* newContent = new JArray<JBoolean>(*(subset->content));
+						JArray<JBoolean>* newContent = jnew JArray<JBoolean>(*(subset->content));
 						assert( newContent != NULL );
 
-						JArray<JIndex>* newOrder = new JArray<JIndex>(*(subset->order));
+						JArray<JIndex>* newOrder = jnew JArray<JIndex>(*(subset->order));
 						assert( newOrder != NULL );
 						newOrder->AppendElement(newRootIndex);
 
@@ -1353,8 +1353,8 @@ CBTree::ArrangeRoots
 
 	RootSubset completeSet = list1->GetFirstElement();
 	*rootOrder = *(completeSet.order);
-	delete completeSet.content;
-	delete completeSet.order;
+	jdelete completeSet.content;
+	jdelete completeSet.order;
 
 	return kJTrue;
 }
@@ -1377,8 +1377,8 @@ CBTree::CleanList
 	for (JIndex i=1; i<=count; i++)
 		{
 		RootSubset subset = list->GetElement(i);
-		delete subset.content;
-		delete subset.order;
+		jdelete subset.content;
+		jdelete subset.order;
 		}
 
 	list->RemoveAll();
@@ -1478,7 +1478,7 @@ CBTree::FindRoots
 		JIndex rootIndex;
 		if (!FindRoot(root, *rootList, &rootIndex))
 			{
-			const RootMIInfo info(root, geom.h, new JArray<RootConn>);
+			const RootMIInfo info(root, geom.h, jnew JArray<RootConn>);
 			assert( info.connList != NULL );
 			rootList->AppendElement(info);
 			rootIndex = rootList->GetElementCount();
@@ -2127,7 +2127,7 @@ CBTree::CopySelectedClassNames()
 
 	if (!nameList.IsEmpty())
 		{
-		JXTextSelection* data = new JXTextSelection(itsDirector->GetDisplay(), nameList);
+		JXTextSelection* data = jnew JXTextSelection(itsDirector->GetDisplay(), nameList);
 		assert( data != NULL );
 
 		((itsDirector->GetDisplay())->GetSelectionManager())->SetData(kJXClipboardName, data);

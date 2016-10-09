@@ -119,11 +119,11 @@ AnimateWindowIconTask::CreateIcon
 	JXDisplay* display   = itsWindow->GetDisplay();
 	JXColormap* colormap = display->GetColormap();
 
-	JXImage* icon = new JXImage(display, bitmap,
+	JXImage* icon = jnew JXImage(display, bitmap,
 								(drop ? colormap->GetRedColor() : colormap->GetBlueColor()));
 	assert( icon != NULL );
 
-	JXImageMask* mask = new JXImageMask(display, maskBitmap);
+	JXImageMask* mask = jnew JXImageMask(display, maskBitmap);
 	assert( mask != NULL );
 	icon->SetMask(mask);
 

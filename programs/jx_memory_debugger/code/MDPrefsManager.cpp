@@ -107,7 +107,7 @@ MDPrefsManager::EditPrefs()
 
 	const JString openCmd = GetOpenFileCommand();
 
-	itsPrefsDialog = new MDPrefsDialog(JXGetApplication(), openCmd);
+	itsPrefsDialog = jnew MDPrefsDialog(JXGetApplication(), openCmd);
 	assert( itsPrefsDialog != NULL );
 	ListenTo(itsPrefsDialog);
 	itsPrefsDialog->BeginDialog();

@@ -60,7 +60,7 @@ SyGChooseSaveFile::CreateSaveFileDialog
 	)
 {
 	itsSaveDialog =
-		new GMSaveFileDialog(supervisor, dirInfo, fileFilter, origName, prompt, message);
+		jnew GMSaveFileDialog(supervisor, dirInfo, fileFilter, origName, prompt, message);
 	assert( itsSaveDialog != NULL );
 	itsSaveDialog->ShouldSaveHeaders(itsSaveHeaders);
 	return itsSaveDialog;
@@ -83,7 +83,7 @@ SyGChooseSaveFile::CreateChooseFileDialog
 	)
 {
 	itsChooseDialog =
-		new GMChooseFileDialog(supervisor, dirInfo, fileFilter, allowSelectMultiple);
+		jnew GMChooseFileDialog(supervisor, dirInfo, fileFilter, allowSelectMultiple);
 	assert( itsChooseDialog != NULL );
 	itsChooseDialog->BuildWindow(origName, message);
 	itsChooseDialog->ShouldSaveHeaders(itsSaveHeaders);
@@ -106,7 +106,7 @@ SyGChooseSaveFile::CreateChoosePathDialog
 	)
 {
 	itsPathDialog =
-		new SyGChoosePathDialog(supervisor, dirInfo, fileFilter, selectOnlyWritable);
+		jnew SyGChoosePathDialog(supervisor, dirInfo, fileFilter, selectOnlyWritable);
 	assert( itsPathDialog != NULL );
 	itsPathDialog->BuildWindow(itsOpenInNewWindow, message);
 	return itsPathDialog;

@@ -27,7 +27,7 @@ JXDSSFinishSaveTask::JXDSSFinishSaveTask
 {
 	itsDialog = dialog;
 
-	itsDirName = new JString;
+	itsDirName = jnew JString;
 	assert( itsDirName != NULL );
 }
 
@@ -38,7 +38,7 @@ JXDSSFinishSaveTask::JXDSSFinishSaveTask
 
 JXDSSFinishSaveTask::~JXDSSFinishSaveTask()
 {
-	delete itsDirName;
+	jdelete itsDirName;
 }
 
 /******************************************************************************

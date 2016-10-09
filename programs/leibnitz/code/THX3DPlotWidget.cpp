@@ -38,18 +38,18 @@ THX3DPlotWidget::THX3DPlotWidget
 	:
 	JX3DWidget(enclosure, hSizing, vSizing, x,y, w,h)
 {
-	itsMesaCamera = new JXMesaCamera(this, universe);
+	itsMesaCamera = jnew JXMesaCamera(this, universe);
 	assert( itsMesaCamera != NULL );
 	SetCamera(itsMesaCamera);
 
 	// create the axes
 
-	itsAxes = new J3DAxes(*(GetColormap()), universe, 5.0);
+	itsAxes = jnew J3DAxes(*(GetColormap()), universe, 5.0);
 	assert( itsAxes != NULL );
 
 	// create an empty surface
 
-	itsSurface = new J3DSurface(universe);
+	itsSurface = jnew J3DSurface(universe);
 	assert( itsSurface != NULL );
 
 	itsSurface->SetColors(
@@ -82,8 +82,8 @@ THX3DPlotWidget::THX3DPlotWidget
 
 THX3DPlotWidget::~THX3DPlotWidget()
 {
-	delete itsAxes;
-	delete itsSurface;
+	jdelete itsAxes;
+	jdelete itsSurface;
 }
 
 /******************************************************************************

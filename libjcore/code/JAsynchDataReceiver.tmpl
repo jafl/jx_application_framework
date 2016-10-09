@@ -50,7 +50,7 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::JAsynchDataReceiverX()
 {
 	itsBufferSize = JAsynchDataReceiverT::kDefaultBufferSize;
 
-	itsBuffer = new JCharacter [ itsBufferSize ];
+	itsBuffer = jnew JCharacter [ itsBufferSize ];
 	assert( itsBuffer != NULL );
 
 	itsInHandleInputFlag = kJFalse;
@@ -64,7 +64,7 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::JAsynchDataReceiverX()
 template <ACE_PEER_STREAM_1>
 JAsynchDataReceiver<ACE_PEER_STREAM_2>::~JAsynchDataReceiver()
 {
-	delete [] itsBuffer;
+	jdelete [] itsBuffer;
 }
 
 /******************************************************************************
@@ -93,8 +93,8 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::SetBufferSize
 
 	itsBufferSize = bufferSize;
 
-	delete [] itsBuffer;
-	itsBuffer = new JCharacter [ itsBufferSize ];
+	jdelete [] itsBuffer;
+	itsBuffer = jnew JCharacter [ itsBufferSize ];
 	assert( itsBuffer != NULL );
 }
 

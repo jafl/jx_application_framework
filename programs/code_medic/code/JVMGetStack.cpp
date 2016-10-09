@@ -118,7 +118,7 @@ JVMGetStack::HandleSuccess
 		data                += 8;
 
 		JVMStackFrameNode* node =
-			new JVMStackFrameNode(root, id, classID, methodID, offset);
+			jnew JVMStackFrameNode(root, id, classID, methodID, offset);
 		assert( node != NULL );
 		root->Prepend(node);
 

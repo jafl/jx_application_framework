@@ -55,7 +55,7 @@ GCLRecurrence::GCLRecurrence
 		{
 		if (itsSkipDays == NULL)
 			{
-			itsSkipDays	= new JArray<CLDay>;
+			itsSkipDays	= jnew JArray<CLDay>;
 			assert(itsSkipDays != NULL);
 			itsSkipDays->SetCompareFunction(CLCompareDays);
 			}
@@ -84,7 +84,7 @@ GCLRecurrence::GCLRecurrence
 
 GCLRecurrence::~GCLRecurrence()
 {
-	delete itsSkipDays;
+	jdelete itsSkipDays;
 }
 
 /******************************************************************************
@@ -133,7 +133,7 @@ GCLRecurrence::Set
 		}
 	else
 		{
-		itsSkipDays	= new JArray<CLDay>(*(source.itsSkipDays));
+		itsSkipDays	= jnew JArray<CLDay>(*(source.itsSkipDays));
 		assert(itsSkipDays != NULL);
 		}
 }
@@ -191,7 +191,7 @@ GCLRecurrence::ShouldSkipDay
 {
 	if (itsSkipDays	== NULL)
 		{
-		itsSkipDays	= new JArray<CLDay>;
+		itsSkipDays	= jnew JArray<CLDay>;
 		assert(itsSkipDays != NULL);
 		itsSkipDays->SetCompareFunction(CLCompareDays);
 		}

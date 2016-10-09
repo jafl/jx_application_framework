@@ -70,7 +70,7 @@ JDecision*
 JBooleanAND::Copy()
 	const
 {
-	JBooleanAND* newDecision = new JBooleanAND(*this);
+	JBooleanAND* newDecision = jnew JBooleanAND(*this);
 	assert( newDecision != NULL );
 	return newDecision;
 }

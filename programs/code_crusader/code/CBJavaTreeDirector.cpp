@@ -257,7 +257,7 @@ CBJavaTreeDirector::NewJavaTree
 	CBJavaTreeDirector* javaTreeDir = static_cast<CBJavaTreeDirector*>(director);
 	assert( javaTreeDir != NULL );
 
-	CBJavaTree* tree = new CBJavaTree(javaTreeDir, marginWidth);
+	CBJavaTree* tree = jnew CBJavaTree(javaTreeDir, marginWidth);
 	assert( tree != NULL );
 	return tree;
 }
@@ -288,7 +288,7 @@ CBJavaTreeDirector::StreamInJavaTree
 	CBJavaTreeDirector* javaTreeDir = static_cast<CBJavaTreeDirector*>(director);
 	assert( javaTreeDir != NULL );
 
-	CBJavaTree* tree = new CBJavaTree(projInput, projVers,
+	CBJavaTree* tree = jnew CBJavaTree(projInput, projVers,
 									  setInput, setVers, symInput, symVers,
 									  javaTreeDir, marginWidth, dirList);
 	assert( tree != NULL );

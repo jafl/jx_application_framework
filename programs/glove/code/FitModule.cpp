@@ -30,9 +30,6 @@
 #include <sstream>
 #include <jAssert.h>
 
-#undef new
-#undef delete
-
 const int kASCIIZero = 48;
 
 /*********************************************************************************
@@ -60,10 +57,10 @@ FitModule::Create
 							kJIgnoreConnection, NULL);						
 	if (err.OK())
 		{
-		JOutPipeStream* op = new JOutPipeStream(outFD, kJTrue);
+		JOutPipeStream* op = jnew JOutPipeStream(outFD, kJTrue);
 		assert( op != NULL );
 		assert( op->good() );
-		*module = new FitModule(dir, fitData, process, inFD, op);
+		*module = jnew FitModule(dir, fitData, process, inFD, op);
 		return kJTrue;
 		}
 		
@@ -90,18 +87,18 @@ FitModule::FitModule
 	itsProcess = process;
 	ListenTo(itsProcess);
 	
-	itsLink = new ProcessLink(fd);
+	itsLink = jnew ProcessLink(fd);
 //	itsLink->set_hanle(input);
 	assert(itsLink != NULL);
 	ListenTo(itsLink);
-//	itsProcessInput = new JIPCLine(input, kJTrue);
+//	itsProcessInput = jnew JIPCLine(input, kJTrue);
 //	assert(itsProcessInput != NULL);
 //	ListenTo(itsProcessInput);
-	itsNames = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert(itsNames != NULL);
-	itsValues = new JArray<JFloat>;
+	itsValues = jnew JArray<JFloat>;
 	assert(itsValues != NULL);
-	itsFunction = new JString();
+	itsFunction = jnew JString();
 	assert (itsFunction != NULL);
 	itsStatusRead = kJFalse;
 	itsHeaderRead = kJFalse;
@@ -189,7 +186,7 @@ FitModule::FitModule
 			cout << endl;
 			}
 		}
-	delete output;
+	jdelete output;
 }
 
 /*******************************************************************************
@@ -200,12 +197,12 @@ FitModule::FitModule
 
 FitModule::~FitModule()
 {
-	delete itsProcess;
-	delete itsLink;
+	jdelete itsProcess;
+	jdelete itsLink;
 	if (itsPG != NULL)
 		{
 		itsPG->ProcessFinished();
-		delete itsPG;
+		jdelete itsPG;
 		}
 }
 
@@ -286,7 +283,7 @@ FitModule::HandleInput
 			str.RemoveSubstring(1,2);
 			str.Prepend("Module error: ");
 			JGetUserNotification()->ReportError(str);
-			DeleteFitModTask* dft = new DeleteFitModTask(this);
+			DeleteFitModTask* dft = jnew DeleteFitModTask(this);
 			assert(dft != NULL);
 			dft->Go();
 			}
@@ -297,7 +294,7 @@ FitModule::HandleInput
 		else
 			{
 			JGetUserNotification()->ReportError("Unknown module error");
-			DeleteFitModTask* dft = new DeleteFitModTask(this);
+			DeleteFitModTask* dft = jnew DeleteFitModTask(this);
 			assert(dft != NULL);
 			dft->Go();
 			}
@@ -324,7 +321,7 @@ FitModule::HandleDataRead
 		}
 	std::string s(str);
 	std::istringstream iss(s);
-	JString* instr = new JString();
+	JString* instr = jnew JString();
 	iss >> *instr;
 	JFloat value;
 	iss >> value;
@@ -333,7 +330,7 @@ FitModule::HandleDataRead
 	const JBoolean keepGoing = itsPG->IncrementProgress();
 	if (!keepGoing)
 		{
-		DeleteFitModTask* dft = new DeleteFitModTask(this);
+		DeleteFitModTask* dft = jnew DeleteFitModTask(this);
 		assert(dft != NULL);
 		dft->Go();
 		return;
@@ -362,14 +359,14 @@ FitModule::HandleFit()
 	if (realcount != count)
 		{
 		JGetUserNotification()->ReportError("Unknown module error.");
-		DeleteFitModTask* dft = new DeleteFitModTask(this);
+		DeleteFitModTask* dft = jnew DeleteFitModTask(this);
 		assert(dft != NULL);
 		dft->Go();
 		return;;
 		}
 	else
 		{
-		GVarList* list = new GVarList;
+		GVarList* list = jnew GVarList;
 		list->AddVariable("x", 0);
 		for (JSize i = 1; i <= itsParmsCount; i++)
 			{
@@ -389,13 +386,13 @@ FitModule::HandleFit()
 			JFloat xmax, xmin, ymax, ymin;
 			itsDir->GetPlot()->GetRange(&xmin, &xmax, &ymin, &ymax);
 			JPlotModuleFit* fit = 
-				new JPlotModuleFit(itsDir->GetPlot(), itsData, xmin, xmax, 
+				jnew JPlotModuleFit(itsDir->GetPlot(), itsData, xmin, xmax, 
 					itsNames, itsValues, f, list, itsParmsCount, 
 					itsHasErrors, itsHasGOF);
 			assert(fit != NULL);
 			if (!(itsDir->AddFitModule(fit, itsData)))
 				{
-				delete fit;
+				jdelete fit;
 				JGetUserNotification()->ReportError("Fit could not be added.");
 				}
 			}
@@ -404,7 +401,7 @@ FitModule::HandleFit()
 			JGetUserNotification()->ReportError("Function could not be parsed.");
 			}
 		}
-	DeleteFitModTask* dft = new DeleteFitModTask(this);
+	DeleteFitModTask* dft = jnew DeleteFitModTask(this);
 	assert(dft != NULL);
 	dft->Go();
 	return;

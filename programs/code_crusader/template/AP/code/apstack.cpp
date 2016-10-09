@@ -79,7 +79,7 @@ apstack<itemType>::push(const itemType & item)
     {
         myElements.resize(myElements.length() * 2);
     }
-    myTop++;                           // new top most element
+    myTop++;                           // jnew top most element
     myElements[myTop ] = item;
 }
 

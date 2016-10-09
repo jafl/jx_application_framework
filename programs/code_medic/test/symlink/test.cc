@@ -404,7 +404,7 @@ void main()
 	tab->_default_callback_data.obj = (Widget) 0x819c7d8;
 
 	Pt3<double> v1;
-	Pt3<double>* v2 = new Pt3<double>;
+	Pt3<double>* v2 = jnew Pt3<double>;
 
 	aircraft a;
 	a.int_id = 0;

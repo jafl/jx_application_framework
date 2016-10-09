@@ -57,27 +57,27 @@ CBEditSymbolPrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 470,90, "");
+	JXWindow* window = jnew JXWindow(this, 470,90, "");
 	assert( window != NULL );
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::CBEditSymbolPrefsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::CBEditSymbolPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 60,60, 70,20);
 	assert( cancelButton != NULL );
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::CBEditSymbolPrefsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::CBEditSymbolPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 340,60, 70,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::CBEditSymbolPrefsDialog::shortcuts::JXLayout"));
 
 	itsRaiseTreeOnRightClickCB =
-		new JXTextCheckbox(JGetString("itsRaiseTreeOnRightClickCB::CBEditSymbolPrefsDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsRaiseTreeOnRightClickCB::CBEditSymbolPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 430,20);
 	assert( itsRaiseTreeOnRightClickCB != NULL );
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::CBEditSymbolPrefsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::CBEditSymbolPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 195,60, 70,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBEditSymbolPrefsDialog::shortcuts::JXLayout"));
@@ -154,5 +154,5 @@ CBEditSymbolPrefsDialog::UpdateSettings()
 		}
 
 //	pg->ProcessFinished();
-//	delete pg;
+//	jdelete pg;
 }

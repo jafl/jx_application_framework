@@ -87,7 +87,7 @@ CBFunctionMenu::CBFunctionMenuX
 	itsTE             = te;
 	itsCaretItemIndex = 0;
 
-	itsLineIndexList = new JArray<JIndex>(100);
+	itsLineIndexList = jnew JArray<JIndex>(100);
 	assert( itsLineIndexList != NULL );
 
 	SetEmptyMenuItems();
@@ -104,7 +104,7 @@ CBFunctionMenu::CBFunctionMenuX
 
 CBFunctionMenu::~CBFunctionMenu()
 {
-	delete itsLineIndexList;
+	jdelete itsLineIndexList;
 }
 
 /******************************************************************************

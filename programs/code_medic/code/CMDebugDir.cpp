@@ -57,16 +57,16 @@ CMDebugDir::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 450,500, "");
+	JXWindow* window = jnew JXWindow(this, 450,500, "");
 	assert( window != NULL );
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 450,480);
 	assert( scrollbarSet != NULL );
 
 	itsCopyButton =
-		new JXTextButton(JGetString("itsCopyButton::CMDebugDir::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsCopyButton::CMDebugDir::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 450,20);
 	assert( itsCopyButton != NULL );
 
@@ -79,7 +79,7 @@ CMDebugDir::BuildWindow()
 	CMGetPrefsManager()->GetWindowSize(kDebugWindSizeID, window);
 
 	itsText =
-		new JXStaticText("", kJFalse, kJTrue,
+		jnew JXStaticText("", kJFalse, kJTrue,
 						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( itsText != NULL );

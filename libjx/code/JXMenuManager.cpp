@@ -19,10 +19,10 @@
 
 JXMenuManager::JXMenuManager()
 {
-	itsOpenMenuList = new JPtrArray<JXMenu>(JPtrArrayT::kForgetAll);
+	itsOpenMenuList = jnew JPtrArray<JXMenu>(JPtrArrayT::kForgetAll);
 	assert( itsOpenMenuList != NULL );
 
-	itsOpenWindowList = new JPtrArray<JXWindow>(JPtrArrayT::kForgetAll);
+	itsOpenWindowList = jnew JPtrArray<JXWindow>(JPtrArrayT::kForgetAll);
 	assert( itsOpenWindowList != NULL );
 }
 
@@ -37,8 +37,8 @@ JXMenuManager::~JXMenuManager()
 {
 	assert( itsOpenMenuList->IsEmpty() && itsOpenWindowList->IsEmpty() );
 
-	delete itsOpenMenuList;
-	delete itsOpenWindowList;
+	jdelete itsOpenMenuList;
+	jdelete itsOpenWindowList;
 }
 
 /******************************************************************************

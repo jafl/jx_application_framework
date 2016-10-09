@@ -253,7 +253,7 @@ CBCtagsUser::StartProcess
 			{
 			ListenTo(itsProcess);
 
-			itsCmdPipe = new JOutPipeStream(toFD, kJTrue);
+			itsCmdPipe = jnew JOutPipeStream(toFD, kJTrue);
 			assert( itsCmdPipe != NULL );
 
 			itsResultFD = fromFD;
@@ -304,10 +304,10 @@ CBCtagsUser::InitCtags
 void
 CBCtagsUser::DeleteProcess()
 {
-	delete itsProcess;
+	jdelete itsProcess;
 	itsProcess = NULL;
 
-	delete itsCmdPipe;
+	jdelete itsCmdPipe;
 	itsCmdPipe = NULL;
 
 	close(itsResultFD);
@@ -342,7 +342,7 @@ CBCtagsUser::ReadExtensionFlags
 			delimiter = '\n';
 			}
 
-		JString* value = new JString;
+		JString* value = jnew JString;
 		assert( value != NULL );
 
 		JIndex colonIndex;
@@ -1099,7 +1099,7 @@ CBCtagsUser::IgnoreSymbol
 /******************************************************************************
  Receive (virtual protected)
 
-	If the process dies, we delete the object so the process will
+	If the process dies, we jdelete the object so the process will
 	be restarted next time.
 
  ******************************************************************************/

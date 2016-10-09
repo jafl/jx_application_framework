@@ -69,6 +69,6 @@ CMQuitTask::Perform
 	if (quit)
 		{
 		(JXGetApplication())->Quit();
-		delete this;
+		jdelete this;
 		}
 }

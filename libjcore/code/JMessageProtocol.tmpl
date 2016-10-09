@@ -62,14 +62,14 @@ template <ACE_PEER_STREAM_1>
 void
 JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocolX()
 {
-	itsMessageList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsMessageList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsMessageList != NULL );
 
 	NewMessage();
 
 	itsBufferSize = JMessageProtocolT::kDefaultBufferSize;
 
-	itsBuffer = new JCharacter [ itsBufferSize ];
+	itsBuffer = jnew JCharacter [ itsBufferSize ];
 	assert( itsBuffer != NULL );
 
 	itsSeparatorStr.Set(JMessageProtocolT::kUNIXSeparatorStr,
@@ -94,8 +94,8 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocolX()
 template <ACE_PEER_STREAM_1>
 JMessageProtocol<ACE_PEER_STREAM_2>::~JMessageProtocol()
 {
-	delete [] itsBuffer;
-	delete itsMessageList;
+	jdelete [] itsBuffer;
+	jdelete itsMessageList;
 }
 
 /******************************************************************************
@@ -196,8 +196,8 @@ JMessageProtocol<ACE_PEER_STREAM_2>::SetBufferSize
 
 	itsBufferSize = bufferSize;
 
-	delete [] itsBuffer;
-	itsBuffer = new JCharacter [ itsBufferSize ];
+	jdelete [] itsBuffer;
+	itsBuffer = jnew JCharacter [ itsBufferSize ];
 	assert( itsBuffer != NULL );
 }
 
@@ -809,7 +809,7 @@ template <ACE_PEER_STREAM_1>
 JString*
 JMessageProtocol<ACE_PEER_STREAM_2>::NewMessage()
 {
-	JString* msg = new JString;
+	JString* msg = jnew JString;
 	assert( msg != NULL );
 	itsMessageList->Append(msg);
 	return msg;

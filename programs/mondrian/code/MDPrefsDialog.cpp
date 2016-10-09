@@ -51,17 +51,17 @@ MDPrefsDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 400,290, "");
+	JXWindow* window = jnew JXWindow(this, 400,290, "");
 	assert( window != NULL );
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::MDPrefsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::MDPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 90,250, 70,20);
 	assert( cancelButton != NULL );
 	cancelButton->SetShortcuts(JGetString("cancelButton::MDPrefsDialog::shortcuts::JXLayout"));
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::MDPrefsDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::MDPrefsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kVElastic, 240,250, 70,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::MDPrefsDialog::shortcuts::JXLayout"));

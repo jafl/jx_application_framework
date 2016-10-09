@@ -39,7 +39,7 @@ main
 
 	JBoolean displayAbout;
 	JString prevVersStr;
-	GPMApp* app = new GPMApp(&argc, argv, &displayAbout, &prevVersStr);
+	GPMApp* app = jnew GPMApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != NULL );
 
 	if (displayAbout &&
@@ -52,7 +52,7 @@ main
 
 	(GPMGetMDIServer())->HandleCmdLineOptions(argc, argv);
 
-	GPMMainDirector* dir = new GPMMainDirector(app);
+	GPMMainDirector* dir = jnew GPMMainDirector(app);
 	assert( dir != NULL );
 	dir->Activate();
 	(GPMGetMDIServer())->SetMainDirector(dir);

@@ -38,10 +38,10 @@ TestFEditDirector::TestFEditDirector
 	:
 	JXWindowDirector(supervisor)
 {
-	itsInput = new ifstream(fileName);
+	itsInput = jnew ifstream(fileName);
 	assert( itsInput != NULL );
 
-	itsVarList = new TestVarList(*itsInput);
+	itsVarList = jnew TestVarList(*itsInput);
 	assert( itsVarList != NULL );
 
 	itsUseComplexFlag = useComplex;
@@ -58,7 +58,7 @@ TestFEditDirector::~TestFEditDirector()
 {
 	JXDeleteObjectTask<JBroadcaster>::Delete(itsVarList);
 
-	delete itsInput;
+	jdelete itsInput;
 }
 
 /******************************************************************************
@@ -74,31 +74,31 @@ TestFEditDirector::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 500,290, "");
+	JXWindow* window = jnew JXWindow(this, 500,290, "");
 	assert( window != NULL );
 
 	JXExprEditorSet* obj1_JXLayout =
-		new JXExprEditorSet(varList, &itsExprWidget, window,
+		jnew JXExprEditorSet(varList, &itsExprWidget, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,260);
 	assert( obj1_JXLayout != NULL );
 
 	itsDoneButton =
-		new JXTextButton(JGetString("itsDoneButton::TestFEditDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsDoneButton::TestFEditDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 50,30);
 	assert( itsDoneButton != NULL );
 
 	itsNextButton =
-		new JXTextButton(JGetString("itsNextButton::TestFEditDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsNextButton::TestFEditDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,0, 50,30);
 	assert( itsNextButton != NULL );
 
 	itsEvalButton =
-		new JXTextButton(JGetString("itsEvalButton::TestFEditDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsEvalButton::TestFEditDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,0, 70,30);
 	assert( itsEvalButton != NULL );
 
 	JXInputField* obj2_JXLayout =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 240,0, 260,20);
 	assert( obj2_JXLayout != NULL );
 

@@ -77,7 +77,6 @@
  *****************************************************************************/
 
 #include <JThisProcess.h>
-#include <j_prep_ace.h>
 #include <ace/Reactor.h>
 #include <JString.h>
 #include <JMinMax.h>
@@ -149,7 +148,7 @@ JThisProcess::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new JThisProcess;
+		itsSelf = jnew JThisProcess;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;

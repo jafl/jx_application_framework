@@ -27,7 +27,7 @@ const JCharacter* kOverviewHelpText =
 "<p>"
 "Like some other mail programs, Arrow stores a list of you inboxes. I use "
 "procmail to filter my mail into several different mail files. Whenever one "
-"of Arrow's inboxes receives new mail, Arrow will open the mail file in the "
+"of Arrow's inboxes receives jnew mail, Arrow will open the mail file in the "
 "form of an inbox icon on the desktop. This performs the same function then "
 "that xbiff has in the past, except all you need to do if double-click on "
 "the icon, and you'll be able to view the mail in that inbox."

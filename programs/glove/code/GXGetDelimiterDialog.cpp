@@ -95,83 +95,83 @@ GXGetDelimiterDialog::BuildWindow()
 	
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 330,360, "");
+    JXWindow* window = jnew JXWindow(this, 330,360, "");
     assert( window != NULL );
 
     JXScrollbarSet* scollbarSet =
-        new JXScrollbarSet( window,
+        jnew JXScrollbarSet( window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 10,220, 310,100);
     assert( scollbarSet != NULL );
 
     JXTextButton* okButton =
-        new JXTextButton("OK", window,
+        jnew JXTextButton("OK", window,
                     JXWidget::kFixedRight, JXWidget::kFixedBottom, 210,330, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts("^M");
 
     JXTextButton* cancelButton =
-        new JXTextButton("Cancel", window,
+        jnew JXTextButton("Cancel", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,330, 70,20);
     assert( cancelButton != NULL );
     cancelButton->SetShortcuts("^[");
 
     itsRG =
-        new JXRadioGroup(window,
+        jnew JXRadioGroup(window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 215,110);
     assert( itsRG != NULL );
 
     rb[0] =
-        new JXTextRadioButton(1, "White space", itsRG,
+        jnew JXTextRadioButton(1, "White space", itsRG,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 120,20);
     assert( rb[0] != NULL );
 
     rb[1] =
-        new JXTextRadioButton(2, "Space", itsRG,
+        jnew JXTextRadioButton(2, "Space", itsRG,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,30, 120,20);
     assert( rb[1] != NULL );
 
     rb[2] =
-        new JXTextRadioButton(3, "Tab", itsRG,
+        jnew JXTextRadioButton(3, "Tab", itsRG,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 120,20);
     assert( rb[2] != NULL );
 
     rb[3] =
-        new JXTextRadioButton(4, "Character", itsRG,
+        jnew JXTextRadioButton(4, "Character", itsRG,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 100,20);
     assert( rb[3] != NULL );
 
     itsCharInput =
-        new JXInputField(itsRG,
+        jnew JXInputField(itsRG,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 125,70, 40,20);
     assert( itsCharInput != NULL );
 
     JXStaticText* helplabel =
-        new JXStaticText("", window,
+        jnew JXStaticText("", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,200, 310,20);
     assert( helplabel != NULL );
 
     itsSkipCB =
-        new JXTextCheckbox("Skip first", window,
+        jnew JXTextCheckbox("Skip first", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,140, 80,20);
     assert( itsSkipCB != NULL );
 
     itsCommentCB =
-        new JXTextCheckbox("Skip lines beginning with", window,
+        jnew JXTextCheckbox("Skip lines beginning with", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,160, 170,20);
     assert( itsCommentCB != NULL );
 
     itsSkipCountInput =
-        new JXIntegerInput(window,
+        jnew JXIntegerInput(window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,140, 40,20);
     assert( itsSkipCountInput != NULL );
 
     JXStaticText* obj1 =
-        new JXStaticText("lines.", window,
+        jnew JXStaticText("lines.", window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 135,143, 60,20);
     assert( obj1 != NULL );
 
     itsCommentInput =
-        new JXInputField(window,
+        jnew JXInputField(window,
                     JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,160, 50,20);
     assert( itsCommentInput != NULL );
     itsCommentInput->SetFontSize(10);
@@ -184,7 +184,7 @@ GXGetDelimiterDialog::BuildWindow()
 	SetButtons(okButton, cancelButton);
 
 	itsFileText = 
-		new JXStaticText("", kJFalse, kJFalse, 
+		jnew JXStaticText("", kJFalse, kJFalse, 
 			scollbarSet, scollbarSet->GetScrollEnclosure(), 
 			JXWidget::kHElastic, JXWidget::kVElastic, 10,60, 310,90);
 	assert(itsFileText != NULL);

@@ -47,7 +47,7 @@ JXColorWheel::JXColorWheel
 	itsImage(NULL)
 {
 	itsBrightnessSlider =
-		new JXSlider(this, kFixedRight, kVElastic, w-kSliderWidth,0, kSliderWidth,h);
+		jnew JXSlider(this, kFixedRight, kVElastic, w-kSliderWidth,0, kSliderWidth,h);
 	assert( itsBrightnessSlider != NULL );
 	itsBrightnessSlider->SetMinValue(0);
 	itsBrightnessSlider->SetMaxValue(kJMaxHSBValue);
@@ -131,8 +131,8 @@ JXColorWheel::Draw
 		r.bottom = r.top  + max;
 		r.right  = r.left + max;
 
-		delete itsImage;
-		itsImage = new JXImage(GetDisplay(), p.GetDrawable(), r);
+		jdelete itsImage;
+		itsImage = jnew JXImage(GetDisplay(), p.GetDrawable(), r);
 		assert( itsImage != NULL );
 
 		itsLastDrawBrightness = itsColor.brightness;

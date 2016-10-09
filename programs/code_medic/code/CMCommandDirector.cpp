@@ -239,35 +239,35 @@ CMCommandDirector::CMCommandDirector
 
 	JXMenuBar* menuBar = BuildWindow();
 
-	itsCurrentSourceDir = new CMSourceDirector(this, CMSourceDirector::kMainSourceType);
+	itsCurrentSourceDir = jnew CMSourceDirector(this, CMSourceDirector::kMainSourceType);
 	assert( itsCurrentSourceDir != NULL );
 	itsCurrentSourceDir->Activate();
 
-	itsCurrentAsmDir = new CMSourceDirector(this, CMSourceDirector::kMainAsmType);
+	itsCurrentAsmDir = jnew CMSourceDirector(this, CMSourceDirector::kMainAsmType);
 	assert( itsCurrentAsmDir != NULL );
 
-	itsThreadsDir = new CMThreadsDir(this);
+	itsThreadsDir = jnew CMThreadsDir(this);
 	assert( itsThreadsDir != NULL );
 
-	itsStackDir = new CMStackDir(this);
+	itsStackDir = jnew CMStackDir(this);
 	assert(itsStackDir != NULL);
 
-	itsBreakpointsDir = new CMBreakpointsDir(this);
+	itsBreakpointsDir = jnew CMBreakpointsDir(this);
 	assert(itsBreakpointsDir != NULL);
 
-	itsVarTreeDir = new CMVarTreeDir(this);
+	itsVarTreeDir = jnew CMVarTreeDir(this);
 	assert(itsVarTreeDir != NULL);
 
-	itsLocalVarsDir = new CMLocalVarsDir(this);
+	itsLocalVarsDir = jnew CMLocalVarsDir(this);
 	assert(itsLocalVarsDir != NULL);
 
-	itsRegistersDir = new CMRegistersDir(this);
+	itsRegistersDir = jnew CMRegistersDir(this);
 	assert(itsRegistersDir != NULL);
 
-	itsFileListDir = new CMFileListDir(this);
+	itsFileListDir = jnew CMFileListDir(this);
 	assert(itsFileListDir != NULL);
 
-	itsDebugDir = new CMDebugDir(this);
+	itsDebugDir = jnew CMDebugDir(this);
 	assert(itsDebugDir!=NULL);
 
 	JXWDManager* wdMgr = GetDisplay()->GetWDManager();
@@ -289,22 +289,22 @@ CMCommandDirector::CMCommandDirector
 	itsCurrentSourceDir->CreateWindowsMenu();
 	itsCurrentAsmDir->CreateWindowsMenu();
 
-	itsSourceDirs = new JPtrArray<CMSourceDirector>(JPtrArrayT::kForgetAll);
+	itsSourceDirs = jnew JPtrArray<CMSourceDirector>(JPtrArrayT::kForgetAll);
 	assert( itsSourceDirs != NULL );
 
-	itsAsmDirs = new JPtrArray<CMSourceDirector>(JPtrArrayT::kForgetAll);
+	itsAsmDirs = jnew JPtrArray<CMSourceDirector>(JPtrArrayT::kForgetAll);
 	assert( itsAsmDirs != NULL );
 
-	itsArray1DDirs = new JPtrArray<CMArray1DDir>(JPtrArrayT::kForgetAll);
+	itsArray1DDirs = jnew JPtrArray<CMArray1DDir>(JPtrArrayT::kForgetAll);
 	assert( itsArray1DDirs != NULL );
 
-	itsArray2DDirs = new JPtrArray<CMArray2DDir>(JPtrArrayT::kForgetAll);
+	itsArray2DDirs = jnew JPtrArray<CMArray2DDir>(JPtrArrayT::kForgetAll);
 	assert( itsArray2DDirs != NULL );
 
-	itsPlot2DDirs = new JPtrArray<CMPlot2DDir>(JPtrArrayT::kForgetAll);
+	itsPlot2DDirs = jnew JPtrArray<CMPlot2DDir>(JPtrArrayT::kForgetAll);
 	assert( itsPlot2DDirs != NULL );
 
-	itsMemoryDirs = new JPtrArray<CMMemoryDir>(JPtrArrayT::kForgetAll);
+	itsMemoryDirs = jnew JPtrArray<CMMemoryDir>(JPtrArrayT::kForgetAll);
 	assert( itsMemoryDirs != NULL );
 
 	itsHistoryIndex     = 0;
@@ -332,14 +332,14 @@ CMCommandDirector::~CMCommandDirector()
 
 	CMGetPrefsManager()->SaveWindowSize(kCmdWindSizeID, GetWindow());
 
-	delete itsSourceDirs;
-	delete itsAsmDirs;
-	delete itsArray1DDirs;
-	delete itsArray2DDirs;
-	delete itsPlot2DDirs;
-	delete itsMemoryDirs;
-//	delete itsISOStyler;
-	delete itsGetArgsCmd;
+	jdelete itsSourceDirs;
+	jdelete itsAsmDirs;
+	jdelete itsArray1DDirs;
+	jdelete itsArray2DDirs;
+	jdelete itsPlot2DDirs;
+	jdelete itsMemoryDirs;
+//	jdelete itsISOStyler;
+	jdelete itsGetArgsCmd;
 }
 
 /******************************************************************************
@@ -472,47 +472,47 @@ CMCommandDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 500,550, "");
+	JXWindow* window = jnew JXWindow(this, 500,550, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		new JXToolBar(CMGetPrefsManager(), kCmdWindowToolBarID, menuBar, 300, 200, window,
+		jnew JXToolBar(CMGetPrefsManager(), kCmdWindowToolBarID, menuBar, 300, 200, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,440);
 	assert( itsToolBar != NULL );
 
 	itsProgramButton =
-		new JXTextButton(JGetString("itsProgramButton::CMCommandDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsProgramButton::CMCommandDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,530, 150,20);
 	assert( itsProgramButton != NULL );
 
 	itsDownRect =
-		new JXDownRect(window,
+		jnew JXDownRect(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 0,470, 500,60);
 	assert( itsDownRect != NULL );
 
 	itsFakePrompt =
-		new JXStaticText(JGetString("itsFakePrompt::CMCommandDirector::JXLayout"), itsDownRect,
+		jnew JXStaticText(JGetString("itsFakePrompt::CMCommandDirector::JXLayout"), itsDownRect,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 38,20);
 	assert( itsFakePrompt != NULL );
 	itsFakePrompt->SetToLabel();
 
 	itsCommandInput =
-		new CMCommandInput(itsDownRect,
+		jnew CMCommandInput(itsDownRect,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 53,0, 445,56);
 	assert( itsCommandInput != NULL );
 
 	itsHistoryMenu =
-		new JXStringHistoryMenu(kCmdHistoryLength, "", itsDownRect,
+		jnew JXStringHistoryMenu(kCmdHistoryLength, "", itsDownRect,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 30,20);
 	assert( itsHistoryMenu != NULL );
 
 	itsArgInput =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 150,530, 350,20);
 	assert( itsArgInput != NULL );
 
@@ -525,7 +525,7 @@ CMCommandDirector::BuildWindow()
 	CMGetPrefsManager()->GetWindowSize(kCmdWindSizeID, window);
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = new JXImage(display, medic_command_window);
+	JXImage* icon      = jnew JXImage(display, medic_command_window);
 	assert( icon != NULL );
 	window->SetIcon(icon);
 
@@ -556,7 +556,7 @@ CMCommandDirector::BuildWindow()
 	itsFileMenu->SetItemImage(kPrintCmd, jx_file_print);
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
+		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( scrollbarSet != NULL );
 	scrollbarSet->FitToEnclosure();
@@ -564,7 +564,7 @@ CMCommandDirector::BuildWindow()
 	// appends Edit & Search menus
 
 	itsCommandOutput =
-		new CMCommandOutputDisplay(menuBar,
+		jnew CMCommandOutputDisplay(menuBar,
 							 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( itsCommandOutput != NULL );
@@ -854,7 +854,7 @@ CMCommandDirector::CreateWindowsMenuAndToolBar
 	)
 {
 	JXWDMenu* wdMenu =
-		new JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( wdMenu != NULL );
 	menuBar->InsertMenuBefore(prefsMenu, wdMenu);
@@ -968,7 +968,7 @@ CMCommandDirector::Receive
 
 		if (itsWaitingToRunFlag)
 			{
-			CMRunProgramTask* task = new CMRunProgramTask();
+			CMRunProgramTask* task = jnew CMRunProgramTask();
 			assert( task != NULL );
 			task->Start();
 			itsWaitingToRunFlag = kJFalse;
@@ -1152,7 +1152,7 @@ CMCommandDirector::ReceiveGoingAway
 		itsProgramButton->SetActive(itsLink->GetFeature(CMLink::kSetProgram));
 		itsArgInput->SetText("");
 
-		delete itsGetArgsCmd;
+		jdelete itsGetArgsCmd;
 		itsGetArgsCmd = itsLink->CreateGetInitArgs(itsArgInput);
 		}
 	else
@@ -1498,7 +1498,7 @@ CMCommandDirector::LoadConfig()
 
 			for (JIndex i=1; i<=count; i++)
 				{
-				CMArray1DDir* dir = new CMArray1DDir(input, vers, this);
+				CMArray1DDir* dir = jnew CMArray1DDir(input, vers, this);
 				assert( dir != NULL );
 				// adds itself to list automatically
 				dir->Activate();
@@ -1508,7 +1508,7 @@ CMCommandDirector::LoadConfig()
 
 			for (JIndex i=1; i<=count; i++)
 				{
-				CMArray2DDir* dir = new CMArray2DDir(input, vers, this);
+				CMArray2DDir* dir = jnew CMArray2DDir(input, vers, this);
 				assert( dir != NULL );
 				// adds itself to list automatically
 				dir->Activate();
@@ -1518,7 +1518,7 @@ CMCommandDirector::LoadConfig()
 
 			for (JIndex i=1; i<=count; i++)
 				{
-				CMPlot2DDir* dir = new CMPlot2DDir(input, vers, this);
+				CMPlot2DDir* dir = jnew CMPlot2DDir(input, vers, this);
 				assert( dir != NULL );
 				// adds itself to list automatically
 				dir->Activate();
@@ -1530,7 +1530,7 @@ CMCommandDirector::LoadConfig()
 
 				for (JIndex i=1; i<=count; i++)
 					{
-					CMMemoryDir* dir = new CMMemoryDir(input, vers, this);
+					CMMemoryDir* dir = jnew CMMemoryDir(input, vers, this);
 					assert( dir != NULL );
 					// adds itself to list automatically
 					dir->Activate();
@@ -1879,7 +1879,7 @@ CMCommandDirector::HandleDebugMenu
 			s2 = s1;
 			}
 
-		CMMemoryDir* dir = new CMMemoryDir(this, s2);
+		CMMemoryDir* dir = jnew CMMemoryDir(this, s2);
 		assert(dir != NULL);
 		dir->Activate();
 		}
@@ -1892,7 +1892,7 @@ CMCommandDirector::HandleDebugMenu
 			s2 = s1;
 			}
 
-		CMMemoryDir* dir = new CMMemoryDir(this, s2);
+		CMMemoryDir* dir = jnew CMMemoryDir(this, s2);
 		assert(dir != NULL);
 		dir->SetDisplayType(CMMemoryDir::kAsm);
 		dir->Activate();
@@ -2010,7 +2010,7 @@ CMCommandDirector::RunProgram()
 		}
 	else if ((CMGetLink())->HasPendingCommands())
 		{
-		CMRunProgramTask* task = new CMRunProgramTask();
+		CMRunProgramTask* task = jnew CMRunProgramTask();
 		assert( task != NULL );
 		task->Start();
 		}
@@ -2085,7 +2085,7 @@ CMCommandDirector::ChooseProcess()
 {
 	if (itsLink->OKToDetachOrKill())
 		{
-		CMChooseProcessDialog* dialog = new CMChooseProcessDialog(this);
+		CMChooseProcessDialog* dialog = jnew CMChooseProcessDialog(this);
 		assert( dialog != NULL );
 		dialog->BeginDialog();
 		}
@@ -2117,7 +2117,7 @@ CMCommandDirector::Display1DArray
 	const JCharacter* expr
 	)
 {
-	CMArray1DDir* dir = new CMArray1DDir(this, expr);
+	CMArray1DDir* dir = jnew CMArray1DDir(this, expr);
 	assert( dir != NULL );
 	dir->Activate();
 }
@@ -2133,7 +2133,7 @@ CMCommandDirector::Display2DArray
 	const JCharacter* expr
 	)
 {
-	CMArray2DDir* dir = new CMArray2DDir(this, expr);
+	CMArray2DDir* dir = jnew CMArray2DDir(this, expr);
 	assert( dir != NULL );
 	dir->Activate();
 }
@@ -2149,7 +2149,7 @@ CMCommandDirector::Plot1DArray
 	const JCharacter* expr
 	)
 {
-	CMPlot2DDir* dir = new CMPlot2DDir(this, expr);
+	CMPlot2DDir* dir = jnew CMPlot2DDir(this, expr);
 	assert( dir != NULL );
 	dir->Activate();
 }
@@ -2206,7 +2206,7 @@ CMCommandDirector::HandlePrefsMenu
 		}
 	else if (index == kEditCmdsCmd)
 		{
-		CMEditCommandsDialog* dlog = new CMEditCommandsDialog;
+		CMEditCommandsDialog* dlog = jnew CMEditCommandsDialog;
 		assert( dlog != NULL );
 		dlog->BeginDialog();
 		}

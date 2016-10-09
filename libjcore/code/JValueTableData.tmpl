@@ -34,7 +34,7 @@ JValueTableData<S,T>::JValueTableData
 	JTableData(),
 	itsDefValue(defValue)
 {
-	itsCols = new JPtrArray< S >(JPtrArrayT::kDeleteAll);
+	itsCols = jnew JPtrArray< S >(JPtrArrayT::kDeleteAll);
 	assert( itsCols != NULL );
 }
 
@@ -52,7 +52,7 @@ JValueTableData<S,T>::JValueTableData
 	JTableData(source),
 	itsDefValue(source.itsDefValue)
 {
-	itsCols = new JPtrArray< S >(JPtrArrayT::kDeleteAll);
+	itsCols = jnew JPtrArray< S >(JPtrArrayT::kDeleteAll);
 	assert( itsCols != NULL );
 
 	const JSize count = (source.itsCols)->GetElementCount();
@@ -70,7 +70,7 @@ JValueTableData<S,T>::JValueTableData
 template <class S, class T>
 JValueTableData<S,T>::~JValueTableData()
 {
-	delete itsCols;
+	jdelete itsCols;
 }
 
 /******************************************************************************
@@ -498,7 +498,7 @@ JValueTableData<S,T>::InsertCols
 
 		for (JIndex j=1; j<=count; j++)
 			{
-			S* colData = new S;
+			S* colData = jnew S;
 			assert( colData != NULL );
 			itsCols->InsertAtIndex(trueIndex, colData);
 

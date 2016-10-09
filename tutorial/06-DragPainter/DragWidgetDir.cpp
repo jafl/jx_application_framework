@@ -48,7 +48,7 @@ void
 DragWidgetDir::BuildWindow()
 {
 		// Create the window
-	JXWindow* window = new JXWindow(this, 300,200, "Drag Painter Program");
+	JXWindow* window = jnew JXWindow(this, 300,200, "Drag Painter Program");
 	assert( window != NULL );
 
 	// Set the window sizing
@@ -57,13 +57,13 @@ DragWidgetDir::BuildWindow()
 
 	// Create the scrollbar set
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 300,200);
 	assert( scrollbarSet != NULL );
 
 	// Create the custom widget with the scrollbarset as its enclosure
 	DragWidget* widget =
-		new DragWidget(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+		jnew DragWidget(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 10, 10);
 	assert( widget != NULL );

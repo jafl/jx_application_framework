@@ -65,7 +65,7 @@ CBStylerBase::CBStylerBase
 	itsDialogTitle(editDialogTitle),
 	itsEditDialog(NULL)
 {
-	itsTypeStyles = new JArray<JFontStyle>;
+	itsTypeStyles = jnew JArray<JFontStyle>;
 	assert( itsTypeStyles != NULL );
 
 	itsDefColor = (CBMGetPrefsManager())->GetColor(CBMPrefsManager::kTextColorIndex);
@@ -76,7 +76,7 @@ CBStylerBase::CBStylerBase
 		itsTypeStyles->AppendElement(style);
 		}
 
-	itsWordStyles = new JStringMap<JFontStyle>;
+	itsWordStyles = jnew JStringMap<JFontStyle>;
 	assert( itsWordStyles != NULL );
 
 	ListenTo(CBMGetPrefsManager());
@@ -89,8 +89,8 @@ CBStylerBase::CBStylerBase
 
 CBStylerBase::~CBStylerBase()
 {
-	delete itsTypeStyles;
-	delete itsWordStyles;
+	jdelete itsTypeStyles;
+	jdelete itsWordStyles;
 }
 
 /******************************************************************************
@@ -441,7 +441,7 @@ CBStylerBase::EditStyles()
 	JArray<WordStyle> wordList;
 	GetWordList(*itsWordStyles, &wordList, kJTrue);
 
-	itsEditDialog = new CBEditStylerDialog(itsDialogTitle, IsActive(),
+	itsEditDialog = jnew CBEditStylerDialog(itsDialogTitle, IsActive(),
 										   itsTypeNames, *itsTypeStyles,
 										   wordList, itsFileType);
 	assert( itsEditDialog != NULL );

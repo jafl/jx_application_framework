@@ -52,7 +52,7 @@ TestTextEditor::TestTextEditor
 		SetType(kSelectableText);
 		}
 
-	itsPrinter = new JXPSPrinter(GetDisplay());
+	itsPrinter = jnew JXPSPrinter(GetDisplay());
 	assert( itsPrinter != NULL );
 	SetPSPrinter(itsPrinter);
 
@@ -76,7 +76,7 @@ TestTextEditor::TestTextEditor
 
 TestTextEditor::~TestTextEditor()
 {
-	delete itsPrinter;
+	jdelete itsPrinter;
 }
 
 /******************************************************************************

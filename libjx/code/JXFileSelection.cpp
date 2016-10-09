@@ -71,8 +71,8 @@ JXFileSelection::JXFileSelectionX()
 
 JXFileSelection::~JXFileSelection()
 {
-	delete itsList;
-	delete itsBuffer;
+	jdelete itsList;
+	jdelete itsBuffer;
 }
 
 /******************************************************************************
@@ -105,7 +105,7 @@ JXFileSelection::SetData
 	const JSize count = list.GetElementCount();
 	if (itsList == NULL)
 		{
-		itsList = new JDCCPtrArray<JString>(list, JPtrArrayT::kDeleteAll);
+		itsList = jnew JDCCPtrArray<JString>(list, JPtrArrayT::kDeleteAll);
 		assert( itsList != NULL );
 		}
 	else
@@ -113,7 +113,7 @@ JXFileSelection::SetData
 		itsList->CopyObjects(list, JPtrArrayT::kDeleteAll, kJFalse);
 		}
 
-	delete itsBuffer;
+	jdelete itsBuffer;
 	itsBuffer = NULL;
 }
 
@@ -130,12 +130,12 @@ JXFileSelection::SetData
 	JPtrArray<JString>* list
 	)
 {
-	delete itsList;
+	jdelete itsList;
 
 	itsList = list;
 	itsList->SetCleanUpAction(JPtrArrayT::kDeleteAll);
 
-	delete itsBuffer;
+	jdelete itsBuffer;
 	itsBuffer = NULL;
 }
 
@@ -165,7 +165,7 @@ JXFileSelection::ConvertData
 
 		*returnType = urlAtom;
 		*dataLength = itsBuffer->GetLength();
-		*data = new unsigned char[ *dataLength ];
+		*data = jnew unsigned char[ *dataLength ];
 		if (*data != NULL)
 			{
 			memcpy(*data, *itsBuffer, *dataLength);
@@ -191,7 +191,7 @@ JXFileSelection::CreateBuffer()
 	if (itsBuffer == NULL)
 		{
 		(const_cast<JXFileSelection*>(this))->itsBuffer =
-			new JString(JXPackFileNames(*itsList));
+			jnew JString(JXPackFileNames(*itsList));
 		assert( itsBuffer != NULL );
 		}
 }

@@ -30,7 +30,7 @@ JXCSFSelectPrevDirTask::JXCSFSelectPrevDirTask
 	itsDirTable = dirTable;
 	ClearWhenGoingAway(itsDirTable, &itsDirTable);
 
-	itsDirName = new JString(dirName);
+	itsDirName = jnew JString(dirName);
 	assert( itsDirName != NULL );
 }
 
@@ -41,7 +41,7 @@ JXCSFSelectPrevDirTask::JXCSFSelectPrevDirTask
 
 JXCSFSelectPrevDirTask::~JXCSFSelectPrevDirTask()
 {
-	delete itsDirName;
+	jdelete itsDirName;
 }
 
 /******************************************************************************

@@ -72,7 +72,7 @@ CBJavaTree::CBJavaTree
 
 CBJavaTree::~CBJavaTree()
 {
-	delete itsClassNameLexer;
+	jdelete itsClassNameLexer;
 }
 
 /******************************************************************************
@@ -97,7 +97,7 @@ CBJavaTree::StreamOut
 /******************************************************************************
  StreamInJavaClass (static private)
 
-	Creates a new CBJavaClass from the data in the given stream.
+	Creates a jnew CBJavaClass from the data in the given stream.
 
  ******************************************************************************/
 
@@ -109,7 +109,7 @@ CBJavaTree::StreamInJavaClass
 	CBTree*				tree
 	)
 {
-	CBJavaClass* newClass = new CBJavaClass(input, vers, tree);
+	CBJavaClass* newClass = jnew CBJavaClass(input, vers, tree);
 	assert( newClass != NULL );
 	return newClass;
 }
@@ -127,7 +127,7 @@ CBJavaTree::UpdateFinished
 	const JArray<JFAID_t>& deadFileList
 	)
 {
-	delete itsClassNameLexer;
+	jdelete itsClassNameLexer;
 	itsClassNameLexer = NULL;
 
 	DeleteProcess();
@@ -151,7 +151,7 @@ CBJavaTree::ParseFile
 {
 	if (itsClassNameLexer == NULL)
 		{
-		itsClassNameLexer = new CBJavaTreeScanner;
+		itsClassNameLexer = jnew CBJavaTreeScanner;
 		assert( itsClassNameLexer != NULL );
 		}
 

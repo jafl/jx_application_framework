@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "util.h"
-#include <j_prep_ace.h>
 #include <ace/SOCK_Acceptor.h>
 #include <ace/LSOCK_Acceptor.h>
 #include <JString.h>
@@ -146,7 +145,7 @@ RunUNIXServer
 	)
 {
 	// unlink() insures that any existing socket will keep its current
-	// connections, but we want to get any new ones.
+	// connections, but we want to get any jnew ones.
 
 	ACE_OS::unlink(socketName);
 

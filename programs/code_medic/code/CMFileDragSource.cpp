@@ -44,7 +44,7 @@ CMFileDragSource::CMFileDragSource
 	JXImageWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsDoc(doc)
 {
-	JXImage* icon = new JXImage(GetDisplay(), jx_plain_file_small);
+	JXImage* icon = jnew JXImage(GetDisplay(), jx_plain_file_small);
 	assert( icon != NULL );
 	SetImage(icon, kJTrue);
 
@@ -109,7 +109,7 @@ CMFileDragSource::HandleMouseDown
 		JPtrArray<JString> list(JPtrArrayT::kForgetAll);
 		list.Append(const_cast<JString*>(fileName));
 
-		JXFileSelection* data = new JXFileSelection(GetDisplay(), list);
+		JXFileSelection* data = jnew JXFileSelection(GetDisplay(), list);
 		assert( data != NULL );
 
 		BeginDND(pt, buttonStates, modifiers, data);

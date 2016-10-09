@@ -106,11 +106,11 @@ JStringPtrMap<V>::PrepareForSet
 {
 	if (action == JPtrArrayT::kDelete)
 		{
-		delete JHashTable< JStrValue<V*> >::GetCursor()->GetValue().value;
+		jdelete JHashTable< JStrValue<V*> >::GetCursor()->GetValue().value;
 		}
 	else if (action == JPtrArrayT::kDeleteAsArray)
 		{
-		delete [] JHashTable< JStrValue<V*> >::GetCursor()->GetValue().value;
+		jdelete [] JHashTable< JStrValue<V*> >::GetCursor()->GetValue().value;
 		}
 	else
 		{
@@ -136,7 +136,7 @@ JStringPtrMap<V>::SetElement
 	const JStringMapT::SetType         type // = kAlways
 	)
 {
-	V* ptr = new V(data);
+	V* ptr = jnew V(data);
 	assert( ptr != NULL );
 	return SetElement(key, ptr, action, type);
 }
@@ -149,7 +149,7 @@ JStringPtrMap<V>::SetNewElement
 	const V&                data
 	)
 {
-	V* ptr = new V(data);
+	V* ptr = jnew V(data);
 	assert( ptr != NULL );
 	return SetNewElement(key, ptr);
 }
@@ -163,7 +163,7 @@ JStringPtrMap<V>::SetOldElement
 	const JPtrArrayT::SetElementAction action
 	)
 {
-	V* ptr = new V(data);
+	V* ptr = jnew V(data);
 	assert( ptr != NULL );
 	return SetOldElement(key, ptr, action);
 }
@@ -177,7 +177,7 @@ JStringPtrMap<V>::SetContains
 	const JPtrArrayT::SetElementAction action
 	)
 {
-	V* ptr = new V(data);
+	V* ptr = jnew V(data);
 	assert( ptr != NULL );
 	return SetContains(key, ptr, action);
 }

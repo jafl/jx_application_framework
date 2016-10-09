@@ -67,32 +67,32 @@ void
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 370,120, "");
+	JXWindow* window = jnew JXWindow(this, 370,120, "");
 	assert( window != NULL );
 
 	JXStaticText* textWidget =
-		new JXStaticText(JGetString("textWidget::<PRE>AboutDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("textWidget::<PRE>AboutDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 70,20, 280,50);
 	assert( textWidget != NULL );
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::<PRE>AboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::<PRE>AboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 259,89, 62,22);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::<PRE>AboutDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::<PRE>AboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::<PRE>AboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 155,90, 60,20);
 	assert( itsHelpButton != NULL );
 
 	JXImageWidget* imageWidget =
-		new JXImageWidget(window,
+		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
 	assert( imageWidget != NULL );
 
 	itsCreditsButton =
-		new JXTextButton(JGetString("itsCreditsButton::<PRE>AboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsCreditsButton::<PRE>AboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,90, 60,20);
 	assert( itsCreditsButton != NULL );
 
@@ -104,7 +104,7 @@ void
 	ListenTo(itsHelpButton);
 	ListenTo(itsCreditsButton);
 
-	JXImage* image = new JXImage(GetDisplay(), <pre>_about_icon);
+	JXImage* image = jnew JXImage(GetDisplay(), <pre>_about_icon);
 	assert( image != NULL );
 	imageWidget->SetImage(image, kJTrue);
 

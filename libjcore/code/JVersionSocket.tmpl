@@ -47,7 +47,7 @@ JVersionSocket<ACE_PEER_STREAM_2>::JVersionSocket
 	itsPath(path),
 	itsNextServerTime(0)
 {
-	itsReminderList = new JArray<time_t>;
+	itsReminderList = jnew JArray<time_t>;
 	assert( itsReminderList != NULL );
 
 	JPrefObject::ReadPrefs();
@@ -81,7 +81,7 @@ JVersionSocket<ACE_PEER_STREAM_2>::JVersionSocket()
 template <ACE_PEER_STREAM_1>
 JVersionSocket<ACE_PEER_STREAM_2>::~JVersionSocket()
 {
-	delete itsReminderList;
+	jdelete itsReminderList;
 }
 
 /******************************************************************************

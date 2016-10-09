@@ -52,8 +52,8 @@ JXEPSPrinter::JXEPSPrinter
 
 JXEPSPrinter::~JXEPSPrinter()
 {
-	delete itsPreviewPainter;
-	delete itsPreviewImage;
+	jdelete itsPreviewPainter;
+	jdelete itsPreviewImage;
 }
 
 /******************************************************************************
@@ -111,7 +111,7 @@ JXEPSPrinter::GetPreviewPainter
 	)
 {
 	itsPreviewImage =
-		new JXImage(itsDisplay, bounds.width(), bounds.height(),
+		jnew JXImage(itsDisplay, bounds.width(), bounds.height(),
 					(itsDisplay->GetColormap())->GetWhiteColor());
 	assert( itsPreviewImage != NULL );
 
@@ -153,10 +153,10 @@ JXEPSPrinter::GetPreviewImage
 void
 JXEPSPrinter::DeletePreviewData()
 {
-	delete itsPreviewPainter;
+	jdelete itsPreviewPainter;
 	itsPreviewPainter = NULL;
 
-	delete itsPreviewImage;
+	jdelete itsPreviewImage;
 	itsPreviewImage = NULL;
 }
 

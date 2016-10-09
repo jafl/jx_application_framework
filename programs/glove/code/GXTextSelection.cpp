@@ -86,7 +86,7 @@ GXTextSelection::ConvertData
 	if (requestType == itsGloveTextXAtom)
 		{
 		*bitsPerBlock = 8;
-		*data = new unsigned char[ itsGloveData.GetLength()];
+		*data = jnew unsigned char[ itsGloveData.GetLength()];
 		assert( *data != NULL );
 		memcpy(*data, itsGloveData, itsGloveData.GetLength());
 		*dataLength = itsGloveData.GetLength();

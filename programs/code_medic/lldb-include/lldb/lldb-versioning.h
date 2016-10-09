@@ -27,7 +27,7 @@
  (i.e. when we change the API major number, there is no promise of compatibility with the previous major version
   and we are free to remove and/or change any APIs)
  Minor numbers are a work-in-progress evolution of the API. APIs will not be removed or changed across minor versions
- (minors do not break compatibility). However, we can deprecate APIs in minor versions or add new APIs in minor versions
+ (minors do not break compatibility). However, we can deprecate APIs in minor versions or add jnew APIs in minor versions
  A deprecated API is supposedly going to be removed in the next major version and will generate a warning if used
  APIs we add in minor versions will not be removed (at least until the following major) but they might theoretically be deprecated
  in a following minor version
@@ -50,10 +50,10 @@
  
  If the major version test passes, you have signed up for a specific minor version of the API
  Whenever we add or deprecate an API in a minor version, we will mark it with either
- LLDB_API_NEW_IN_DOT_x - this API is new in LLDB .x
+ LLDB_API_NEW_IN_DOT_x - this API is jnew in LLDB .x
  LLDB_API_DEPRECATED_IN_DOT_x - this API is deprecated as of .x
  
- If you are using an API new in DOT_x
+ If you are using an API jnew in DOT_x
   if LLDB_API_MINOR_VERSION_WANTED >= x then all is well, else you will get a compilation error
    This is meant to prevent you from using APIs that are newer than whatever LLDB you want to target
 

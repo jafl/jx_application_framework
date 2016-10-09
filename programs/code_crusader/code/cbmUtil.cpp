@@ -114,7 +114,7 @@ JIndex i;
 
 	// editor settings
 
-	CBTextDocument* doc = new CBTextDocument;
+	CBTextDocument* doc = jnew CBTextDocument;
 	assert( doc != NULL );
 
 	CBTextEditor* te         = doc->GetTextEditor();
@@ -904,7 +904,7 @@ CBMGetStringList
 		const JBoolean found = text.LocateSubstring(" ", &endIndex);
 		assert( found );
 
-		JString* str = new JString(text.GetSubstring(1, endIndex-1));
+		JString* str = jnew JString(text.GetSubstring(1, endIndex-1));
 		assert( str != NULL );
 		list->Append(str);
 

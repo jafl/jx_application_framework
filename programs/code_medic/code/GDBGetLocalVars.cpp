@@ -88,12 +88,12 @@ GDBGetLocalVars::HandleSuccess
 	JArray<JIndexRange> matchList;
 	while (varPattern.MatchAfter(argData, matchedRange, &matchList))
 		{
-		JString* name = new JString(argData.GetSubstring(matchList.GetElement(2)));
+		JString* name = jnew JString(argData.GetSubstring(matchList.GetElement(2)));
 		assert( name != NULL );
 		name->TrimWhitespace();
 		nameList.Append(name);
 
-		JString* value = new JString(argData.GetSubstring(matchList.GetElement(3)));
+		JString* value = jnew JString(argData.GetSubstring(matchList.GetElement(3)));
 		assert( value != NULL );
 		value->TrimWhitespace();
 		valueList.Append(value);
@@ -109,12 +109,12 @@ GDBGetLocalVars::HandleSuccess
 	const JIndex insertionIndex = nameList.GetElementCount()+1;
 	while (varPattern.MatchAfter(varData, matchedRange, &matchList))
 		{
-		JString* name = new JString(varData.GetSubstring(matchList.GetElement(2)));
+		JString* name = jnew JString(varData.GetSubstring(matchList.GetElement(2)));
 		assert( name != NULL );
 		name->TrimWhitespace();
 		nameList.InsertAtIndex(insertionIndex, name);
 
-		JString* value = new JString(varData.GetSubstring(matchList.GetElement(3)));
+		JString* value = jnew JString(varData.GetSubstring(matchList.GetElement(3)));
 		assert( value != NULL );
 		value->TrimWhitespace();
 		valueList.InsertAtIndex(insertionIndex, value);
@@ -122,15 +122,15 @@ GDBGetLocalVars::HandleSuccess
 		matchedRange = matchList.GetFirstElement();
 		}
 
-	// delete existing nodes beyond the first one that doesn't match the
-	// new variable names
+	// jdelete existing nodes beyond the first one that doesn't match the
+	// jnew variable names
 
 	const JSize newCount = nameList.GetElementCount();
 	JSize origCount      = itsRootNode->GetChildCount();
 
 	while (origCount > newCount)
 		{
-		delete itsRootNode->GetChild(origCount);
+		jdelete itsRootNode->GetChild(origCount);
 		origCount--;
 		}
 
@@ -150,7 +150,7 @@ GDBGetLocalVars::HandleSuccess
 				{
 				while (origCount >= i)
 					{
-					delete itsRootNode->GetChild(origCount);
+					jdelete itsRootNode->GetChild(origCount);
 					origCount--;
 					}
 				}

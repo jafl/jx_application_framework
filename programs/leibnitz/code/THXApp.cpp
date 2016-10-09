@@ -81,12 +81,12 @@ THXApp::THXApp
 {
 	itsStartupFlag = kJTrue;
 
-	itsExprList = new JPtrArray<THXExprDirector>(JPtrArrayT::kForgetAll);
+	itsExprList = jnew JPtrArray<THXExprDirector>(JPtrArrayT::kForgetAll);
 	assert( itsExprList != NULL );
 
 	itsKeyPadVisibleFlag = kJTrue;
 
-	its2DPlotList = new JPtrArray<THX2DPlotDirector>(JPtrArrayT::kForgetAll);
+	its2DPlotList = jnew JPtrArray<THX2DPlotDirector>(JPtrArrayT::kForgetAll);
 	assert( its2DPlotList != NULL );
 	its2DPlotList->SetCompareFunction(Compare2DPlotTitles);
 	its2DPlotList->SetSortOrder(JOrderedSetT::kSortAscending);
@@ -108,9 +108,9 @@ THXApp::THXApp
 
 THXApp::~THXApp()
 {
-	delete itsVarList;
-	delete itsExprList;		// objects deleted by JXDirector
-	delete its2DPlotList;	// objects deleted by JXDirector
+	jdelete itsVarList;
+	jdelete itsExprList;		// objects deleted by JXDirector
+	jdelete its2DPlotList;	// objects deleted by JXDirector
 
 	THXDeleteGlobals();
 }
@@ -143,7 +143,7 @@ THXApp::DisplayAbout
 	const JCharacter* prevVersStr
 	)
 {
-	THXAboutDialog* dlog = new THXAboutDialog(this, prevVersStr);
+	THXAboutDialog* dlog = jnew THXAboutDialog(this, prevVersStr);
 	assert( dlog != NULL );
 	dlog->BeginDialog();
 }
@@ -159,7 +159,7 @@ THXApp::NewExpression
 	const JBoolean centerOnScreen
 	)
 {
-	THXExprDirector* expr = new THXExprDirector(this, itsVarList);
+	THXExprDirector* expr = jnew THXExprDirector(this, itsVarList);
 	assert( expr != NULL );
 	if (centerOnScreen)
 		{
@@ -209,7 +209,7 @@ THXApp::New2DPlot
 {
 	assert( its2DPlotFnDialog == NULL );
 
-	its2DPlotFnDialog = new THX2DPlotFunctionDialog(this, itsVarList, prevPlot);
+	its2DPlotFnDialog = jnew THX2DPlotFunctionDialog(this, itsVarList, prevPlot);
 	assert( its2DPlotFnDialog != NULL );
 	its2DPlotFnDialog->BeginDialog();
 	ListenTo(its2DPlotFnDialog);
@@ -233,7 +233,7 @@ THXApp::Create2DPlot()
 
 	if (plotIndex > its2DPlotList->GetElementCount())
 		{
-		THX2DPlotDirector* plot = new THX2DPlotDirector(this);
+		THX2DPlotDirector* plot = jnew THX2DPlotDirector(this);
 		assert( plot != NULL );
 		its2DPlotList->Append(plot);
 		}
@@ -328,13 +328,13 @@ JIndex i;
 		displayAbout = kJTrue;
 		}
 
-	itsVarList = new THXVarList(input, vers);
+	itsVarList = jnew THXVarList(input, vers);
 	assert( itsVarList != NULL );
 
-	itsVarDirector = new THXVarDirector(input, vers, this, itsVarList);
+	itsVarDirector = jnew THXVarDirector(input, vers, this, itsVarList);
 	assert( itsVarDirector != NULL );
 
-	itsBCDirector = new THXBaseConvDirector(input, vers, this);
+	itsBCDirector = jnew THXBaseConvDirector(input, vers, this);
 	assert( itsBCDirector != NULL );
 
 	if (vers >= 1)
@@ -389,7 +389,7 @@ JIndex i;
 		{
 		for (i=1; i<=exprCount; i++)
 			{
-			THXExprDirector* expr = new THXExprDirector(input, vers, this, itsVarList);
+			THXExprDirector* expr = jnew THXExprDirector(input, vers, this, itsVarList);
 			assert( expr != NULL );
 			expr->Activate();
 			itsExprList->Append(expr);
@@ -406,7 +406,7 @@ JIndex i;
 
 	for (i=1; i<=plotCount; i++)
 		{
-		THX2DPlotDirector* plot = new THX2DPlotDirector(input, vers, this, itsVarList);
+		THX2DPlotDirector* plot = jnew THX2DPlotDirector(input, vers, this, itsVarList);
 		assert( plot != NULL );
 		plot->Activate();
 		its2DPlotList->Append(plot);
@@ -419,7 +419,7 @@ JIndex i;
 #ifdef DISPLAY_SPLASH
 	else
 		{
-		JXSplashWindow* w = new JXSplashWindow(new_planet_software, THXGetVersionStr(),
+		JXSplashWindow* w = jnew JXSplashWindow(new_planet_software, THXGetVersionStr(),
 											   SPLASH_DISPLAY_TIME);
 		assert( w != NULL );
 		w->Activate();
@@ -440,13 +440,13 @@ THXApp::InitProgramState()
 		JThisProcess::Exit(0);
 		}
 
-	itsVarList = new THXVarList;
+	itsVarList = jnew THXVarList;
 	assert( itsVarList != NULL );
 
-	itsVarDirector = new THXVarDirector(this, itsVarList);
+	itsVarDirector = jnew THXVarDirector(this, itsVarList);
 	assert( itsVarDirector != NULL );
 
-	itsBCDirector = new THXBaseConvDirector(this);
+	itsBCDirector = jnew THXBaseConvDirector(this);
 	assert( itsBCDirector != NULL );
 
 	NewExpression(kJTrue);

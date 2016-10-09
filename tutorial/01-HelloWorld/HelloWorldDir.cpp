@@ -31,9 +31,9 @@ HelloWorldDir::HelloWorldDir
 	// Create the Hello World window. The function JGetString, retrieves
 	// the appropriate title string from the strings database. This allows
 	// for translations into other languages.
-	JXWindow* window = new JXWindow(this, 200,100, JGetString(kWindowTitleID));
+	JXWindow* window = jnew JXWindow(this, 200,100, JGetString(kWindowTitleID));
 
-	// Make sure that new succeeded
+	// Make sure that jnew succeeded
 	assert( window != NULL );
 
 	// Set the min and max size of the window.
@@ -44,10 +44,10 @@ HelloWorldDir::HelloWorldDir
 
 	// Create the object to hold our "Hello World" message.
 	// We do not need to keep a pointer to it because the
-	// framework will delete it automatically when the window
+	// framework will jdelete it automatically when the window
 	// is closed.
 	JXStaticText* text =
-		new JXStaticText(JGetString(kWindowTextID), window,
+		jnew JXStaticText(JGetString(kWindowTextID), window,
 			JXWidget::kFixedLeft, JXWidget::kFixedTop,
 			20, 40, 160, 20);
 	assert( text != NULL );

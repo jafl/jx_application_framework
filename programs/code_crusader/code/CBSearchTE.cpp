@@ -40,8 +40,8 @@ const JCharacter CBSearchTE::kError             = '\5';
 CBSearchTE::CBSearchTE()
 	:
 	JTextEditor(kFullEditor, kJTrue, kJFalse, kJTrue,
-				new CBSearchFontManager,
-				new CBSearchColormap,
+				jnew CBSearchFontManager,
+				jnew CBSearchColormap,
 				1,1,1,1,1, 1000000)
 {
 	assert( TEGetFontManager() != NULL );

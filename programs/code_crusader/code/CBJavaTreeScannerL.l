@@ -36,7 +36,7 @@ IDCDR        ([_[:alnum:]]|{UESCCODE})
 ID           ({IDCAR}{IDCDR}*)
 NSID         ({ID}(\.{ID})*)
 
-OTHER_KEYWORD (break|byvalue|case|cast|catch|ClassLoader|clone|Cloneable|Compiler|const|continue|default|do|else|equals|false|finally|finalize|for|future|generic|getClass|goto|hashCode|if|inner|instanceof|Math|NaN|native|NEGATIVE_INFINITY|new|notify(All)?|null|operator|outer|POSITIVE_INFINITY|Process|Random|rest|return|Runnable|Runtime|SecurityManager|static|StringTokenizer|super|switch|synchronized|System|this|Thread(Group)?|throws?|Throwable|toString|transient|true|try|var|void|volatile|wait|while)
+OTHER_KEYWORD (break|byvalue|case|cast|catch|ClassLoader|clone|Cloneable|Compiler|const|continue|default|do|else|equals|false|finally|finalize|for|future|generic|getClass|goto|hashCode|if|inner|instanceof|Math|NaN|native|NEGATIVE_INFINITY|jnew|notify(All)?|null|operator|outer|POSITIVE_INFINITY|Process|Random|rest|return|Runnable|Runtime|SecurityManager|static|StringTokenizer|super|switch|synchronized|System|this|Thread(Group)?|throws?|Throwable|toString|transient|true|try|var|void|volatile|wait|while)
 
 %%
 
@@ -199,7 +199,7 @@ implements{WS} {
 		fullName.RemoveSubstring(fullName.GetLength(), fullName.GetLength());
 		}
 
-	CBJavaClass* c = new CBJavaClass(fullName, CBClass::kClassType, fileID, tree,
+	CBJavaClass* c = jnew CBJavaClass(fullName, CBClass::kClassType, fileID, tree,
 									  itsPublicFlag, itsFinalFlag);
 	assert( c != NULL );
 

@@ -115,7 +115,7 @@ JLinkedList<T>::CopyList
 
 	while (sourceElement != NULL)
 		{
-		newElement = new JLinkedListElement<T>;		// create new element
+		newElement = jnew JLinkedListElement<T>;		// create jnew element
 		assert( newElement != NULL );
 
 		newElement->prevElement = prevElement;		// link to previous element
@@ -173,7 +173,7 @@ JLinkedList<T>::InsertElementAtIndex
 	If index is any value greater than the current size, then the
 	element is appended to the end of the array.
 
-	The correct index of the new element and a pointer to the new element are returned.
+	The correct index of the jnew element and a pointer to the jnew element are returned.
 
  ******************************************************************************/
 
@@ -195,7 +195,7 @@ JLinkedList<T>::CreateElement
 		*trueIndex = elementCount + 1;
 		}
 
-	JLinkedListElement<T>* newElement = new JLinkedListElement<T>;
+	JLinkedListElement<T>* newElement = jnew JLinkedListElement<T>;
 	assert( newElement != NULL );
 
 	LinkInElement(*trueIndex, newElement);
@@ -282,7 +282,7 @@ JLinkedList<T>::RemoveAll()
 
 	The public member RemoveElement handles broadcasting the change.
 
-	If origElement != NULL, it is assumed to be the first element to delete.
+	If origElement != NULL, it is assumed to be the first element to jdelete.
 
  ******************************************************************************/
 
@@ -338,7 +338,7 @@ JLinkedList<T>::DeleteChain
 	while (firstElement != NULL)
 		{
 		JLinkedListElement<T>* nextElement = firstElement->nextElement;
-		delete firstElement;
+		jdelete firstElement;
 		firstElement = nextElement;
 		}
 }
@@ -467,7 +467,7 @@ JLinkedList<T>::NewIterator
 	const JIndex			index
 	)
 {
-	JLinkedListIterator<T>* iter = new JLinkedListIterator<T>(this, start, index);
+	JLinkedListIterator<T>* iter = jnew JLinkedListIterator<T>(this, start, index);
 	assert( iter != NULL );
 	return iter;
 }
@@ -481,7 +481,7 @@ JLinkedList<T>::NewIterator
 	)
 	const
 {
-	JLinkedListIterator<T>* iter = new JLinkedListIterator<T>(*this, start, index);
+	JLinkedListIterator<T>* iter = jnew JLinkedListIterator<T>(*this, start, index);
 	assert( iter != NULL );
 	return iter;
 }

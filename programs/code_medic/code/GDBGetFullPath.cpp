@@ -88,7 +88,7 @@ GDBGetFullPath::HandleSuccess
 			}
 		else
 			{
-			GDBGetFullPath* cmd = new GDBGetFullPath(fullName, GetLineIndex());
+			GDBGetFullPath* cmd = jnew GDBGetFullPath(fullName, GetLineIndex());
 			assert( cmd != NULL );
 			Broadcast(NewCommand(cmd));
 			}

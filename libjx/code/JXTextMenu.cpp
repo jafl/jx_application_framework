@@ -75,7 +75,7 @@ JXTextMenu::JXTextMenu
 void
 JXTextMenu::JXTextMenuX()
 {
-	itsTextMenuData = new JXTextMenuData(this);
+	itsTextMenuData = jnew JXTextMenuData(this);
 	assert( itsTextMenuData != NULL );
 
 	SetBaseItemData(itsTextMenuData);
@@ -89,7 +89,7 @@ JXTextMenu::JXTextMenuX()
 JXTextMenu::~JXTextMenu()
 {
 	ClearBaseItemData();
-	delete itsTextMenuData;
+	jdelete itsTextMenuData;
 }
 
 /******************************************************************************
@@ -366,7 +366,7 @@ JXTextMenu::SetItemImage
 		}
 	else
 		{
-		JXImage* image = new JXImage(GetDisplay(), data);
+		JXImage* image = jnew JXImage(GetDisplay(), data);
 		assert( image != NULL );
 		SetItemImage(index, image, kJTrue);
 		}
@@ -497,7 +497,7 @@ JXTextMenu::CreateMenuWindow
 	)
 {
 	JXTextMenuDirector* dir =
-		new JXTextMenuDirector(supervisor, this, itsTextMenuData);
+		jnew JXTextMenuDirector(supervisor, this, itsTextMenuData);
 	assert( dir != NULL );
 	return dir;
 }

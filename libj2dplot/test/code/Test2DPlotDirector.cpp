@@ -56,8 +56,8 @@ Test2DPlotDirector::Test2DPlotDirector
 
 Test2DPlotDirector::~Test2DPlotDirector()
 {
-	delete itsPSPrinter;
-	delete itsEPSPrinter;
+	jdelete itsPSPrinter;
+	jdelete itsEPSPrinter;
 }
 
 /******************************************************************************
@@ -70,16 +70,16 @@ Test2DPlotDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 600,400, "");
+	JXWindow* window = jnew JXWindow(this, 600,400, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 600,30);
 	assert( menuBar != NULL );
 
 	itsPlotWidget =
-		new JX2DPlotWidget(menuBar, window,
+		jnew JX2DPlotWidget(menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,370);
 	assert( itsPlotWidget != NULL );
 
@@ -87,11 +87,11 @@ Test2DPlotDirector::BuildWindow()
 
 	window->SetMinSize(300, 200);
 
-	itsPSPrinter = new JXPSPrinter(GetDisplay());
+	itsPSPrinter = jnew JXPSPrinter(GetDisplay());
 	assert( itsPSPrinter != NULL );
 	itsPlotWidget->SetPSPrinter(itsPSPrinter);
 
-	itsEPSPrinter = new JX2DPlotEPSPrinter(GetDisplay());
+	itsEPSPrinter = jnew JX2DPlotEPSPrinter(GetDisplay());
 	assert( itsEPSPrinter != NULL );
 	itsPlotWidget->SetEPSPrinter(itsEPSPrinter);
 

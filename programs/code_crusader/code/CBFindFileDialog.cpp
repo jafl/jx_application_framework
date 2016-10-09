@@ -83,45 +83,45 @@ CBFindFileDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 290,140, "");
+	JXWindow* window = jnew JXWindow(this, 290,140, "");
 	assert( window != NULL );
 
 	itsCloseButton =
-		new JXTextButton(JGetString("itsCloseButton::CBFindFileDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsCloseButton::CBFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,110, 60,20);
 	assert( itsCloseButton != NULL );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::CBFindFileDialog::shortcuts::JXLayout"));
 
 	itsFindButton =
-		new JXTextButton(JGetString("itsFindButton::CBFindFileDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsFindButton::CBFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 210,110, 60,20);
 	assert( itsFindButton != NULL );
 	itsFindButton->SetShortcuts(JGetString("itsFindButton::CBFindFileDialog::shortcuts::JXLayout"));
 
 	itsFileName =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 220,20);
 	assert( itsFileName != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::CBFindFileDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::CBFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 80,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	itsFileHistoryMenu =
-		new JXStringHistoryMenu(kHistoryLength, "", window,
+		jnew JXStringHistoryMenu(kHistoryLength, "", window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 240,40, 30,20);
 	assert( itsFileHistoryMenu != NULL );
 
 	itsIgnoreCaseCB =
-		new JXTextCheckbox(JGetString("itsIgnoreCaseCB::CBFindFileDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsIgnoreCaseCB::CBFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 230,20);
 	assert( itsIgnoreCaseCB != NULL );
 	itsIgnoreCaseCB->SetShortcuts(JGetString("itsIgnoreCaseCB::CBFindFileDialog::shortcuts::JXLayout"));
 
 	itsStayOpenCB =
-		new JXTextCheckbox(JGetString("itsStayOpenCB::CBFindFileDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsStayOpenCB::CBFindFileDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,110, 90,20);
 	assert( itsStayOpenCB != NULL );
 
@@ -147,7 +147,7 @@ CBFindFileDialog::BuildWindow()
 	// create hidden JXDocument so Meta-# shortcuts work
 
 	JXDocumentMenu* fileListMenu =
-		new JXDocumentMenu("", window,
+		jnew JXDocumentMenu("", window,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,-20, 10,10);
 	assert( fileListMenu != NULL );
 

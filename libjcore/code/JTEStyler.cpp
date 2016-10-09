@@ -239,7 +239,7 @@ JTEStyler::UpdateStyles
 		run_assert(styles, tokenData.startIndex, itsTokenRunIndex, itsTokenFirstInRun);
 		}
 
-	// prepare to accumulate new token starts
+	// prepare to accumulate jnew token starts
 
 	itsTokenStartList  = tokenStartList;
 	itsTokenStartCount = 0;
@@ -252,7 +252,7 @@ JTEStyler::UpdateStyles
 
 	itsTE          = te;
 	itsFontMgr     = te->TEGetFontManager();
-	itsDefFont     = new JFont(te->GetDefaultFont());
+	itsDefFont     = jnew JFont(te->GetDefaultFont());
 	itsText        = &text;
 	itsStyles      = styles;
 	itsRecalcRange = recalcRange;
@@ -278,7 +278,7 @@ JTEStyler::UpdateStyles
 	itsRedrawRange    = NULL;
 	itsTokenStartList = NULL;
 
-	delete itsDefFont;
+	jdelete itsDefFont;
 	itsDefFont = NULL;
 }
 
@@ -436,7 +436,7 @@ JTEStyler::SetStyle
 JArray<JTEStyler::TokenData>*
 JTEStyler::NewTokenStartList()
 {
-	JArray<TokenData>* list = new JArray<TokenData>(kListBlockSize);
+	JArray<TokenData>* list = jnew JArray<TokenData>(kListBlockSize);
 	assert( list != NULL );
 	list->SetSortOrder(JOrderedSetT::kSortAscending);
 	list->SetCompareFunction(CompareTokenStarts);

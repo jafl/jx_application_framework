@@ -31,12 +31,12 @@ JXIconDirector::JXIconDirector
 	:
 	JXWindowDirector(supervisor)
 {
-	JXWindow* window = new JXWindow(this, normalIcon->GetWidth(),
+	JXWindow* window = jnew JXWindow(this, normalIcon->GetWidth(),
 									normalIcon->GetHeight(), "");
 	assert( window != NULL );
 
 	itsIconWidget =
-		new JXWindowIcon(normalIcon, dropIcon, supervisor->GetWindow(), window,
+		jnew JXWindowIcon(normalIcon, dropIcon, supervisor->GetWindow(), window,
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsIconWidget != NULL );
 	itsIconWidget->FitToEnclosure();

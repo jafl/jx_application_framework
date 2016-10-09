@@ -69,7 +69,7 @@ JFunction*
 JArcTangent::Copy()
 	const
 {
-	JArcTangent* newFunction = new JArcTangent(*this);
+	JArcTangent* newFunction = jnew JArcTangent(*this);
 	assert( newFunction != NULL );
 	return newFunction;
 }

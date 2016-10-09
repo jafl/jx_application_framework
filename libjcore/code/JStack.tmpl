@@ -32,7 +32,7 @@ JStack<T,S>::JStack()
 	:
 	JContainer()
 {
-	itsElements = new S;
+	itsElements = jnew S;
 	assert( itsElements != NULL );
 
 	InstallOrderedSet(itsElements);
@@ -51,7 +51,7 @@ JStack<T,S>::JStack
 	:
 	JContainer(source)
 {
-	itsElements = new S(*(source.itsElements));
+	itsElements = jnew S(*(source.itsElements));
 	assert( itsElements != NULL );
 
 	InstallOrderedSet(itsElements);
@@ -65,7 +65,7 @@ JStack<T,S>::JStack
 template <class T, class S>
 JStack<T,S>::~JStack()
 {
-	delete itsElements;
+	jdelete itsElements;
 }
 
 /******************************************************************************
@@ -94,7 +94,7 @@ JStack<T,S>::operator=
 /******************************************************************************
  Push
 
-	Add a new element on top of the stack.
+	Add a jnew element on top of the stack.
 
  ******************************************************************************/
 
@@ -268,7 +268,7 @@ JStack<T,S>::GetElements()
  NewIterator
 
 	This provides an iterator for looking at all the elements in the Stack.
-	The caller must delete the iterator.
+	The caller must jdelete the iterator.
 
 	Because of the order in which the elements are stored,
 	use Prev() instead of Next().

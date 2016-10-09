@@ -99,7 +99,7 @@ JVMGetSourceFileList::ScanDirectory
 			}
 		}
 
-	delete info;
+	jdelete info;
 }
 
 /******************************************************************************

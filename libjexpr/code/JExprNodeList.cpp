@@ -62,7 +62,7 @@ JExprNodeList::JExprNodeList
 void
 JExprNodeList::ExprNodeListX()
 {
-	itsNodes = new JArray<Node>(10);
+	itsNodes = jnew JArray<Node>(10);
 	assert( itsNodes != NULL );
 
 	InstallOrderedSet(itsNodes);
@@ -75,7 +75,7 @@ JExprNodeList::ExprNodeListX()
 
 JExprNodeList::~JExprNodeList()
 {
-	delete itsNodes;
+	jdelete itsNodes;
 }
 
 /******************************************************************************

@@ -115,7 +115,7 @@ LLDBGetBreakpoints::HandleSuccess
 		if (file.IsValid())
 			{
 			const JString fullName = JCombinePathAndName(file.GetDirectory(), file.GetFilename());
-			bp = new CMBreakpoint(b.GetID(), fullName, e.GetLine(), func, addr,
+			bp = jnew CMBreakpoint(b.GetID(), fullName, e.GetLine(), func, addr,
 								  JI2B(b.IsEnabled()), action,
 								  cond, b.GetIgnoreCount());
 			assert( bp != NULL );
@@ -123,7 +123,7 @@ LLDBGetBreakpoints::HandleSuccess
 		else if (fn.IsValid())
 			{
 			CMLocation loc;
-			bp = new CMBreakpoint(b.GetID(), loc, func, addr,
+			bp = jnew CMBreakpoint(b.GetID(), loc, func, addr,
 								  JI2B(b.IsEnabled()), action,
 								  cond, b.GetIgnoreCount());
 			assert( bp != NULL );
@@ -164,7 +164,7 @@ LLDBGetBreakpoints::HandleSuccess
 			cond.Clear();
 			}
 
-		CMBreakpoint* bp = new CMBreakpoint(w.GetID(), loc, "", addr,
+		CMBreakpoint* bp = jnew CMBreakpoint(w.GetID(), loc, "", addr,
 											JI2B(w.IsEnabled()), CMBreakpoint::kKeepBreakpoint,
 											cond, w.GetIgnoreCount());
 		assert( bp != NULL );

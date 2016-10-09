@@ -35,12 +35,12 @@ JMMArrayTable::JMMArrayTable
 	itsDeletedTable(NULL),
 	itsDeletedCount(0)
 {
-	itsAllocatedTable = new JArray<JMMRecord>(blockSize);
+	itsAllocatedTable = jnew JArray<JMMRecord>(blockSize);
 	assert(itsAllocatedTable != NULL);
 
 	if (recordDelete)
 		{
-		itsDeletedTable = new JArray<JMMRecord>(blockSize);
+		itsDeletedTable = jnew JArray<JMMRecord>(blockSize);
 		assert(itsDeletedTable != NULL);
 		}
 }
@@ -52,10 +52,10 @@ JMMArrayTable::JMMArrayTable
 
 JMMArrayTable::~JMMArrayTable()
 {
-	delete itsAllocatedTable;
+	jdelete itsAllocatedTable;
 	itsAllocatedTable = NULL;
 
-	delete itsDeletedTable;
+	jdelete itsDeletedTable;
 	itsDeletedTable = NULL;
 }
 
@@ -219,7 +219,7 @@ JMMArrayTable::_CancelRecordDeallocated()
 		{
 		itsDeletedCount = itsDeletedTable->GetElementCount();
 
-		delete itsDeletedTable;
+		jdelete itsDeletedTable;
 		itsDeletedTable = NULL;
 		}
 }
@@ -245,7 +245,7 @@ JMMArrayTable::_AddNewRecord
 
 	if (index == 0)
 		{
-		// Append because new allocations tend to be free'd the fastest
+		// Append because jnew allocations tend to be free'd the fastest
 		itsAllocatedTable->AppendElement(record);
 		}
 	else

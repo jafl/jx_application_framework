@@ -66,7 +66,7 @@ JPtrStack<T,S>::ClearDelete()
 	for (JIndex i=1; i<=count; i++)
 		{
 		T* elementPtr = list->GetElement(i);
-		delete elementPtr;
+		jdelete elementPtr;
 		}
 
 	JStack<T*,S>::Clear();
@@ -88,7 +88,7 @@ JPtrStack<T,S>::ClearDeleteAsArrays()
 	for (JIndex i=1; i<=count; i++)
 		{
 		T* elementPtr = list->GetElement(i);
-		delete [] elementPtr;
+		jdelete [] elementPtr;
 		}
 
 	JStack<T*,S>::Clear();
@@ -113,7 +113,7 @@ JPtrStack<T,S>::UnwindDelete
 	for (JIndex i=1; i<=numToUnwind && i<=count; i++)
 		{
 		T* elementPtr = list->GetElement(count -i+1);
-		delete elementPtr;
+		jdelete elementPtr;
 		}
 
 	JStack<T*,S>::Unwind(numToUnwind);
@@ -138,7 +138,7 @@ JPtrStack<T,S>::UnwindDeleteAsArrays
 	for (JIndex i=1; i<=numToUnwind && i<=count; i++)
 		{
 		T* elementPtr = list->GetElement(count -i+1);
-		delete [] elementPtr;
+		jdelete [] elementPtr;
 		}
 
 	JStack<T*,S>::Unwind(numToUnwind);
@@ -158,7 +158,7 @@ JPtrStack<T,S>::PushCopy
 	const T& data
 	)
 {
-	T* ptr = new T(data);
+	T* ptr = jnew T(data);
 	assert( ptr != NULL );
 	JPtrStack<T,S>::Push(ptr);
 }

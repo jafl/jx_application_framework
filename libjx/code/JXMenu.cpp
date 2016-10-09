@@ -206,11 +206,11 @@ JXMenu::~JXMenu()
 		itsOwner->RemoveSubmenu(this);
 		}
 
-	delete itsShortcuts;
+	jdelete itsShortcuts;
 
 	if (itsOwnsTitleImageFlag)
 		{
-		delete itsTitleImage;
+		jdelete itsTitleImage;
 		}
 }
 
@@ -336,7 +336,7 @@ JXMenu::SetTitle
 
 	if (itsOwnsTitleImageFlag)
 		{
-		delete itsTitleImage;
+		jdelete itsTitleImage;
 		}
 	itsTitleImage         = image;
 	itsOwnsTitleImageFlag = menuOwnsImage;
@@ -763,7 +763,7 @@ JXMenu::CheckItem
 /******************************************************************************
  AttachSubmenu
 
-	Deletes any old menu that was attached and attaches the new one.
+	Deletes any old menu that was attached and attaches the jnew one.
 
  ******************************************************************************/
 
@@ -1144,7 +1144,7 @@ JXMenu::BroadcastSelection
 
 	GetMenuManager()->CloseCurrentMenus();
 
-	// update the menu title to show the new selection
+	// update the menu title to show the jnew selection
 
 	if (itsIsPopupChoiceFlag)
 		{
@@ -1153,7 +1153,7 @@ JXMenu::BroadcastSelection
 
 	// broadcast the message
 
-	Broadcast(ItemSelected(itemIndex, fromShortcut));		// can delete us
+	Broadcast(ItemSelected(itemIndex, fromShortcut));		// can jdelete us
 }
 
 /******************************************************************************

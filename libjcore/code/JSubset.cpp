@@ -60,7 +60,7 @@ JSubset::JSubset
 
 	itsOriginalSetSize = setSize;
 
-	itsIndices = new JArray<JIndex>(kBlockSize);
+	itsIndices = jnew JArray<JIndex>(kBlockSize);
 	assert( itsIndices != NULL );
 	itsIndices->SetCompareFunction(JCompareIndices);
 	itsIndices->SetSortOrder(JOrderedSetT::kSortAscending);
@@ -80,7 +80,7 @@ JSubset::JSubset
 {
 	itsOriginalSetSize = source.itsOriginalSetSize;
 
-	itsIndices = new JArray<JIndex>(*(source.itsIndices));
+	itsIndices = jnew JArray<JIndex>(*(source.itsIndices));
 	assert( itsIndices != NULL );
 }
 
@@ -91,7 +91,7 @@ JSubset::JSubset
 
 JSubset::~JSubset()
 {
-	delete itsIndices;
+	jdelete itsIndices;
 }
 
 /******************************************************************************
@@ -257,7 +257,7 @@ JSubset::operator+=
 			}
 		else if (indexToAdd < ourIndex)
 			{
-			// add the new index to ourselves and get the
+			// add the jnew index to ourselves and get the
 			// next index to add
 
 			itsIndices->InsertElementAtIndex(i, indexToAdd);
@@ -482,7 +482,7 @@ JSubset::AddRange
 			}
 		else if (indexToAdd < ourIndex)
 			{
-			// add the new index to ourselves and get the
+			// add the jnew index to ourselves and get the
 			// next index to add
 
 			itsIndices->InsertElementAtIndex(i, indexToAdd);
@@ -691,7 +691,7 @@ JIndex i;
 		{
 		for (i=1; i<=sampleCount; i++)
 			{
-			JSubset* sample = new JSubset(itsOriginalSetSize);
+			JSubset* sample = jnew JSubset(itsOriginalSetSize);
 			assert( sample != NULL );
 			sampleList->Append(sample);
 			}
@@ -1020,7 +1020,7 @@ operator>>
 
 	// allocate space for the data
 
-	JCharacter* data = new JCharacter [ aSubset.itsOriginalSetSize ];
+	JCharacter* data = jnew JCharacter [ aSubset.itsOriginalSetSize ];
 	assert( data != NULL );
 
 	// read the data all at once
@@ -1042,7 +1042,7 @@ operator>>
 
 	// clean up
 
-	delete [] data;
+	jdelete [] data;
 
 	// allow chaining
 
@@ -1065,7 +1065,7 @@ operator<<
 
 	// allocate space for the data
 
-	JCharacter* data = new JCharacter[ setSize ];
+	JCharacter* data = jnew JCharacter[ setSize ];
 	assert( data != NULL );
 
 	// mark all elements as not in set
@@ -1090,7 +1090,7 @@ operator<<
 	// write out the data
 
 	output.write(data, setSize);
-	delete[] data;
+	jdelete[] data;
 
 	// allow chaining
 

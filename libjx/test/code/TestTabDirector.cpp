@@ -55,14 +55,14 @@ TestTabDirector::~TestTabDirector()
 void
 TestTabDirector::BuildWindow()
 {
-	JXWindow* window = new JXWindow(this, 300,300, "");
+	JXWindow* window = jnew JXWindow(this, 300,300, "");
 	assert( window != NULL );
 
 	window->SetTitle("Test Tab Group");
 	window->SetWMClass("testjx", "TestTabDirector");
 	window->LockCurrentMinSize();
 
-	itsTabGroup = new JXTabGroup(window, JXWidget::kHElastic, JXWidget::kVElastic,
+	itsTabGroup = jnew JXTabGroup(window, JXWidget::kHElastic, JXWidget::kVElastic,
 								 5, 5, 290, 290);
 	assert( itsTabGroup != NULL );
 
@@ -73,7 +73,7 @@ TestTabDirector::BuildWindow()
 	// card 1
 
 	itsFontMenu =
-		new JXFontNameMenu("Font:", card1,
+		jnew JXFontNameMenu("Font:", card1,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 50,30);
 	assert( itsFontMenu != NULL );
 	itsFontMenu->SetFontName(itsTabGroup->GetFont().GetName());
@@ -83,36 +83,36 @@ TestTabDirector::BuildWindow()
 	const JString fontName = itsFontMenu->GetFontName();
 
 	itsSizeMenu =
-		new JXFontSizeMenu(fontName, "Size:", card1,
+		jnew JXFontSizeMenu(fontName, "Size:", card1,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,60, 50,30);
 	assert( itsSizeMenu != NULL );
 	itsSizeMenu->SetToPopupChoice();
 	ListenTo(itsSizeMenu);
 
-	itsEdgeRG = new JXRadioGroup(card1, JXWidget::kFixedLeft, JXWidget::kFixedTop,
+	itsEdgeRG = jnew JXRadioGroup(card1, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 								 20,100, 100,140);
 	assert( itsEdgeRG != NULL );
 
 	JXTextRadioButton* rb1 =
-		new JXTextRadioButton(JXTabGroup::kTop, "Top", itsEdgeRG,
+		jnew JXTextRadioButton(JXTabGroup::kTop, "Top", itsEdgeRG,
 							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							  10,10, 80,20);
 	assert( rb1 != NULL );
 
 	JXTextRadioButton* rb2 =
-		new JXTextRadioButton(JXTabGroup::kLeft, "Left", itsEdgeRG,
+		jnew JXTextRadioButton(JXTabGroup::kLeft, "Left", itsEdgeRG,
 							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							  10,40, 80,20);
 	assert( rb2 != NULL );
 
 	JXTextRadioButton* rb3 =
-		new JXTextRadioButton(JXTabGroup::kBottom, "Bottom", itsEdgeRG,
+		jnew JXTextRadioButton(JXTabGroup::kBottom, "Bottom", itsEdgeRG,
 							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							  10,70, 80,20);
 	assert( rb3 != NULL );
 
 	JXTextRadioButton* rb4 =
-		new JXTextRadioButton(JXTabGroup::kRight, "Right", itsEdgeRG,
+		jnew JXTextRadioButton(JXTabGroup::kRight, "Right", itsEdgeRG,
 							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							  10,100, 80,20);
 	assert( rb4 != NULL );
@@ -123,7 +123,7 @@ TestTabDirector::BuildWindow()
 	// card 2
 
 	itsAddTabButton =
-		new JXTextButton("Add new tab", card2,
+		jnew JXTextButton("Add jnew tab", card2,
 						 JXWidget::kFixedLeft, JXWidget::kFixedBottom,
 						 20, 20, 200, 30);
 	assert( itsAddTabButton != NULL );
@@ -131,7 +131,7 @@ TestTabDirector::BuildWindow()
 
 
 	JXIntegerInput* input =
-		new JXIntegerInput(card2, JXWidget::kHElastic, JXWidget::kFixedTop,
+		jnew JXIntegerInput(card2, JXWidget::kHElastic, JXWidget::kFixedTop,
 						   20, 60, 250, 20);
 	assert( input != NULL );
 	input->SetLimits(-10, 10);
@@ -140,13 +140,13 @@ TestTabDirector::BuildWindow()
 	// card 3
 
 	itsMonoFontSample =
-		new JXInputField(card3, JXWidget::kHElastic, JXWidget::kFixedTop,
+		jnew JXInputField(card3, JXWidget::kHElastic, JXWidget::kFixedTop,
 						 20, 20, 250, 20);
 	assert( itsMonoFontSample != NULL );
 	itsMonoFontSample->SetText("I code, therefore I am. (C)≈Â");
 
 	itsMonoFont =
-		new JXChooseMonoFont(card3, JXWidget::kHElastic, JXWidget::kFixedTop,
+		jnew JXChooseMonoFont(card3, JXWidget::kHElastic, JXWidget::kFixedTop,
 							 20, 50, 300, 100);
 	assert( itsMonoFont != NULL );
 	ListenTo(itsMonoFont);
@@ -174,7 +174,7 @@ TestTabDirector::Receive
 		itsNextTabIndex++;
 
 		JXTextButton* removeButton =
-			new JXTextButton("Remove this tab", card,
+			jnew JXTextButton("Remove this tab", card,
 							 JXWidget::kFixedRight, JXWidget::kFixedTop,
 							 20,20, 200, 30);
 		assert( removeButton != NULL );

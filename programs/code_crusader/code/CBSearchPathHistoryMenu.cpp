@@ -61,7 +61,7 @@ CBSearchPathHistoryMenu::CBSearchPathHistoryMenu
 void
 CBSearchPathHistoryMenu::CBSearchPathHistoryMenuX()
 {
-	JXImage* icon = new JXImage(GetDisplay(), jx_folder_small);
+	JXImage* icon = jnew JXImage(GetDisplay(), jx_folder_small);
 	assert( icon != NULL );
 	SetDefaultIcon(icon, kJTrue);
 }

@@ -105,7 +105,7 @@ GloveHistory::GloveHistory
 		itsFontMenu = NULL;
 		SetDefaultFont(GetFontManager()->GetDefaultMonospaceFont());
 
-		itsSizeMenu = new JXFontSizeMenu(JGetMonospaceFontName(), kSizeMenuTitleStr, menuBar,
+		itsSizeMenu = jnew JXFontSizeMenu(JGetMonospaceFontName(), kSizeMenuTitleStr, menuBar,
 										 kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsSizeMenu != NULL );
 		menuBar->AppendMenu(itsSizeMenu);

@@ -31,7 +31,7 @@ JQueue<T,S>::JQueue()
 	:
 	JContainer()
 {
-	itsElements = new S;
+	itsElements = jnew S;
 	assert( itsElements != NULL );
 
 	InstallOrderedSet(itsElements);
@@ -50,7 +50,7 @@ JQueue<T,S>::JQueue
 	:
 	JContainer(source)
 {
-	itsElements = new S(*(source.itsElements));
+	itsElements = jnew S(*(source.itsElements));
 	assert( itsElements != NULL );
 
 	InstallOrderedSet(itsElements);
@@ -64,7 +64,7 @@ JQueue<T,S>::JQueue
 template <class T, class S>
 JQueue<T,S>::~JQueue()
 {
-	delete itsElements;
+	jdelete itsElements;
 }
 
 /******************************************************************************
@@ -93,7 +93,7 @@ JQueue<T,S>::operator=
 /******************************************************************************
  Append
 
-	Add a new element to the end of the queue.
+	Add a jnew element to the end of the queue.
 
  ******************************************************************************/
 
@@ -262,7 +262,7 @@ JQueue<T,S>::GetElements()
  NewIterator
 
 	This provides an iterator for looking at all the elements in the Queue.
-	The caller must delete the iterator.
+	The caller must jdelete the iterator.
 
  ******************************************************************************/
 

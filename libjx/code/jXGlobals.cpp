@@ -86,18 +86,18 @@ JXCreateGlobals
 
 	theApplication = app;
 
-	theAssertHandler = new JXAssert;
+	theAssertHandler = jnew JXAssert;
 	assert( theAssertHandler != NULL );
 
-	JXUserNotification* un = new JXUserNotification;
+	JXUserNotification* un = jnew JXUserNotification;
 	assert( un != NULL );
 
-	theChooseSaveFile = new JXChooseSaveFile;
+	theChooseSaveFile = jnew JXChooseSaveFile;
 	assert( theChooseSaveFile != NULL );
 
 	JInitCore(theAssertHandler, appSignature, defaultStringData,
-			  un, theChooseSaveFile, new JXCreatePG,
-			  new JXGetCurrFontMgr, new JXGetCurrColormap,
+			  un, theChooseSaveFile, jnew JXCreatePG,
+			  jnew JXGetCurrFontMgr, jnew JXGetCurrColormap,
 			  kDefaultFontName, kGreekFontName, kMonospaceFontName);
 
 	XSetErrorHandler(JXDisplay::JXErrorHandler);
@@ -107,10 +107,10 @@ JXCreateGlobals
 
 	// create last so it can access as much as possible
 
-	theSharedPrefsMgr = new JXSharedPrefsManager();
+	theSharedPrefsMgr = jnew JXSharedPrefsManager();
 	assert( theSharedPrefsMgr != NULL );
 
-	theWebBrowser = new JXWebBrowser;
+	theWebBrowser = jnew JXWebBrowser;
 	assert( theWebBrowser != NULL );
 	JSetWebBrowser(theWebBrowser);
 }
@@ -161,13 +161,13 @@ JXCloseDirectors()
 void
 JXDeleteGlobals1()
 {
-	delete theDocManager;
+	jdelete theDocManager;
 	theDocManager = NULL;
 
-	delete theMDIServer;
+	jdelete theMDIServer;
 	theMDIServer = NULL;
 
-	delete theSpellChecker;
+	jdelete theSpellChecker;
 	theSpellChecker = NULL;
 }
 
@@ -181,10 +181,10 @@ JXDeleteGlobals1()
 void
 JXDeleteGlobals2()
 {
-	delete theComposeRuleList;
+	jdelete theComposeRuleList;
 	theComposeRuleList = NULL;
 
-	delete theSharedPrefsMgr;
+	jdelete theSharedPrefsMgr;
 	theSharedPrefsMgr = NULL;
 
 	theChooseSaveFile = NULL;
@@ -276,7 +276,7 @@ JXGetDocumentManager
 	We don't create JXDocumentManager automatically because one may need
 	a derived class.
 
-	After calling this function, we own the object and will delete it when
+	After calling this function, we own the object and will jdelete it when
 	the program terminates.
 
  ******************************************************************************/
@@ -306,7 +306,7 @@ JXCreateDefaultDocumentManager
 	)
 {
 	assert( theDocManager == NULL );
-	JXDocumentManager* docManager = new JXDocumentManager(wantShortcuts);
+	JXDocumentManager* docManager = jnew JXDocumentManager(wantShortcuts);
 	assert( docManager != NULL );
 	// constructor calls JXSetDocumentManager()
 }
@@ -365,7 +365,7 @@ JXInitHelp
 	assert( theHelpManager == NULL );
 	assert( sectionCount > 0 );
 
-	theHelpManager = new JXHelpManager;
+	theHelpManager = jnew JXHelpManager;
 	assert( theHelpManager != NULL );
 
 	theHelpManager->SetTOCSectionName(tocSectionName);
@@ -412,7 +412,7 @@ JXGetDockManager
 
 	Automatically called by JXMDIServer.
 
-	After calling this function, we own the object and will delete it when
+	After calling this function, we own the object and will jdelete it when
 	the program terminates.
 
  ******************************************************************************/
@@ -447,7 +447,7 @@ JXGetMDIServer
 
 	Automatically called by JXMDIServer.
 
-	After calling this function, we own the object and will delete it when
+	After calling this function, we own the object and will jdelete it when
 	the program terminates.
 
  ******************************************************************************/
@@ -500,7 +500,7 @@ JXGetPersistentWindowOwner()
 {
 	if (thePersistentWindowOwner == NULL)
 		{
-		thePersistentWindowOwner = new JXDirector(NULL);
+		thePersistentWindowOwner = jnew JXDirector(NULL);
 		assert( thePersistentWindowOwner != NULL );
 		}
 
@@ -569,7 +569,7 @@ JXGetSearchTextDialog
 
 	Automatically called by JXSearchTextDialog.
 
-	After calling this function, we own the object and will delete it when
+	After calling this function, we own the object and will jdelete it when
 	the program terminates.
 
  ******************************************************************************/
@@ -594,7 +594,7 @@ JXGetSpellChecker()
 {
 	if (theSpellChecker == NULL)
 		{
-		theSpellChecker = new JXSpellChecker();
+		theSpellChecker = jnew JXSpellChecker();
 		}
 
 	assert( theSpellChecker != NULL );
@@ -813,7 +813,7 @@ JXInitLocale()
 	ifstream composeInput;
 	if (found && JXOpenLocaleFile(composeFile, composeInput))
 		{
-		theComposeRuleList = new JXComposeRuleList(composeInput, kCharacterCount,
+		theComposeRuleList = jnew JXComposeRuleList(composeInput, kCharacterCount,
 												   kIsCharacterInWord,
 												   kDiacriticalMap,
 												   kDiacriticalMarkType);

@@ -84,7 +84,7 @@ template <class T>
 void
 shared_ptr_pointer<T>::on_zero_shared()
 {
-    delete data_;
+    jdelete data_;
 }
 
 template <class T>
@@ -216,7 +216,7 @@ SharingPtr<T>::SharingPtr(Y* p)
 {
     std::unique_ptr<Y> hold(p);
     typedef imp::shared_ptr_pointer<Y*> _CntrlBlk;
-    cntrl_ = new _CntrlBlk(p);
+    cntrl_ = jnew _CntrlBlk(p);
     hold.release();
 }
 
@@ -325,7 +325,7 @@ SharingPtr<T>::make_shared()
 {
     typedef imp::shared_ptr_emplace<T> CntrlBlk;
     SharingPtr<T> r;
-    r.cntrl_ = new CntrlBlk();
+    r.cntrl_ = jnew CntrlBlk();
     r.ptr_ = static_cast<CntrlBlk*>(r.cntrl_)->get();
     return r;
 }
@@ -337,7 +337,7 @@ SharingPtr<T>::make_shared(A0& a0)
 {
     typedef imp::shared_ptr_emplace<T> CntrlBlk;
     SharingPtr<T> r;
-    r.cntrl_ = new CntrlBlk(a0);
+    r.cntrl_ = jnew CntrlBlk(a0);
     r.ptr_ = static_cast<CntrlBlk*>(r.cntrl_)->get();
     return r;
 }
@@ -349,7 +349,7 @@ SharingPtr<T>::make_shared(A0& a0, A1& a1)
 {
     typedef imp::shared_ptr_emplace<T> CntrlBlk;
     SharingPtr<T> r;
-    r.cntrl_ = new CntrlBlk(a0, a1);
+    r.cntrl_ = jnew CntrlBlk(a0, a1);
     r.ptr_ = static_cast<CntrlBlk*>(r.cntrl_)->get();
     return r;
 }
@@ -361,7 +361,7 @@ SharingPtr<T>::make_shared(A0& a0, A1& a1, A2& a2)
 {
     typedef imp::shared_ptr_emplace<T> CntrlBlk;
     SharingPtr<T> r;
-    r.cntrl_ = new CntrlBlk(a0, a1, a2);
+    r.cntrl_ = jnew CntrlBlk(a0, a1, a2);
     r.ptr_ = static_cast<CntrlBlk*>(r.cntrl_)->get();
     return r;
 }
@@ -373,7 +373,7 @@ SharingPtr<T>::make_shared(A0& a0, A1& a1, A2& a2, A3& a3)
 {
     typedef imp::shared_ptr_emplace<T> CntrlBlk;
     SharingPtr<T> r;
-    r.cntrl_ = new CntrlBlk(a0, a1, a2, a3);
+    r.cntrl_ = jnew CntrlBlk(a0, a1, a2, a3);
     r.ptr_ = static_cast<CntrlBlk*>(r.cntrl_)->get();
     return r;
 }
@@ -385,7 +385,7 @@ SharingPtr<T>::make_shared(A0& a0, A1& a1, A2& a2, A3& a3, A4& a4)
 {
     typedef imp::shared_ptr_emplace<T> CntrlBlk;
     SharingPtr<T> r;
-    r.cntrl_ = new CntrlBlk(a0, a1, a2, a3, a4);
+    r.cntrl_ = jnew CntrlBlk(a0, a1, a2, a3, a4);
     r.ptr_ = static_cast<CntrlBlk*>(r.cntrl_)->get();
     return r;
 }
@@ -630,7 +630,7 @@ private:
 #else
         if (--shared_owners_ == -1)
 #endif
-            delete static_cast<T*>(this);
+            jdelete static_cast<T*>(this);
     }
 
     

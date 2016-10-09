@@ -194,7 +194,7 @@ JXStyleMenu::CreateMenuWindow
 	)
 {
 	JXStyleMenuDirector* dir =
-		new JXStyleMenuDirector(supervisor, this, GetTextMenuData());
+		jnew JXStyleMenuDirector(supervisor, this, GetTextMenuData());
 	assert( dir != NULL );
 	return dir;
 }
@@ -389,7 +389,7 @@ JXStyleMenu::ChooseColor()
 
 	JXWindowDirector* supervisor = GetWindow()->GetDirector();
 	itsChooseColorDialog =
-		new JXChooseColorDialog(supervisor, IndexToColor(kCustomColorCmd));
+		jnew JXChooseColorDialog(supervisor, IndexToColor(kCustomColorCmd));
 	assert( itsChooseColorDialog != NULL );
 
 	ListenTo(itsChooseColorDialog);

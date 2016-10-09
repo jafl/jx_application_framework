@@ -91,11 +91,11 @@ CBDocumentManager::CBDocumentManager()
 	itsEditTextFileLineCmd(kDefEditTextFileLineCmd),
 	itsEditBinaryFileCmd(kDefEditBinaryFileCmd)
 {
-	itsProjectDocuments = new JPtrArray<CBProjectDocument>(JPtrArrayT::kForgetAll);
+	itsProjectDocuments = jnew JPtrArray<CBProjectDocument>(JPtrArrayT::kForgetAll);
 	assert( itsProjectDocuments != NULL );
 	ListenTo(itsProjectDocuments);
 
-	itsTextDocuments = new JPtrArray<CBTextDocument>(JPtrArrayT::kForgetAll);
+	itsTextDocuments = jnew JPtrArray<CBTextDocument>(JPtrArrayT::kForgetAll);
 	assert( itsTextDocuments != NULL );
 
 	itsListDocument = NULL;
@@ -126,8 +126,8 @@ CBDocumentManager::~CBDocumentManager()
 {
 	// CBDeleteGlobals() calls WritePrefs()
 
-	delete itsProjectDocuments;		// objects deleted by JXDirector
-	delete itsTextDocuments;		// objects deleted by JXDirector
+	jdelete itsProjectDocuments;		// objects deleted by JXDirector
+	jdelete itsTextDocuments;		// objects deleted by JXDirector
 }
 
 /******************************************************************************
@@ -149,14 +149,14 @@ CBDocumentManager::CreateFileHistoryMenus
 			itsRecentTextMenu    == NULL );
 
 	itsRecentProjectMenu =
-		new CBFileHistoryMenu(kProjectFileHistory, "", window,
+		jnew CBFileHistoryMenu(kProjectFileHistory, "", window,
 							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							  0,0, 10,10);
 	assert( itsRecentProjectMenu != NULL );
 	itsRecentProjectMenu->Hide();
 
 	itsRecentTextMenu =
-		new CBFileHistoryMenu(kTextFileHistory, "", window,
+		jnew CBFileHistoryMenu(kTextFileHistory, "", window,
 							  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 							  0,0, 10,10);
 	assert( itsRecentTextMenu != NULL );
@@ -230,7 +230,7 @@ CBDocumentManager::RefreshCVSStatus()
 /******************************************************************************
  NewProjectDocument
 
-	If doc != NULL, *doc is the new document, if one is successfully created.
+	If doc != NULL, *doc is the jnew document, if one is successfully created.
 
  ******************************************************************************/
 
@@ -430,12 +430,12 @@ CBDocumentManager::NewTextDocument()
 	JString newName;
 	if (itsEditTextLocalFlag)
 		{
-		CBTextDocument* doc = new CBTextDocument;
+		CBTextDocument* doc = jnew CBTextDocument;
 		assert( doc != NULL );
 		doc->Activate();
 		}
 	else if ((JXGetChooseSaveFile())->SaveFile(
-				"Name of new file:", NULL, "", &newName))
+				"Name of jnew file:", NULL, "", &newName))
 		{
 		ofstream output(newName);
 		output.close();
@@ -470,11 +470,11 @@ CBDocumentManager::NewTextDocumentFromTemplate()
 		JString newName;
 		if (itsEditTextLocalFlag)
 			{
-			CBTextDocument* doc = new CBTextDocument(tmplName, kCBUnknownFT, kJTrue);
+			CBTextDocument* doc = jnew CBTextDocument(tmplName, kCBUnknownFT, kJTrue);
 			assert( doc != NULL );
 			doc->Activate();
 			}
-		else if (csf->SaveFile("Name of new file:", NULL, "", &newName))
+		else if (csf->SaveFile("Name of jnew file:", NULL, "", &newName))
 			{
 			JString tmplText;
 			JReadFile(tmplName, &tmplText);
@@ -952,7 +952,7 @@ CBDocumentManager::PrivateOpenTextDocument
 				{
 				return kJFalse;
 				}
-			doc = new CBTextDocument(fullName);
+			doc = jnew CBTextDocument(fullName);
 			}
 		assert( doc != NULL );
 		if (iconify && !doc->IsActive())
@@ -1598,7 +1598,7 @@ JIndex i;
 	DirMatchInfo info;
 	for (i=1; i<=dirCount; i++)
 		{
-		info.path = new JString;
+		info.path = jnew JString;
 		assert( info.path != NULL );
 
 		if (origDirList.GetTruePath(i, info.path, &(info.recurse)))
@@ -1608,7 +1608,7 @@ JIndex i;
 			}
 		else
 			{
-			delete info.path;
+			jdelete info.path;
 			}
 		}
 
@@ -1677,7 +1677,7 @@ JIndex i;
 
 	for (i=1; i<=dirCount; i++)
 		{
-		delete (dirList.GetElement(i)).path;
+		jdelete (dirList.GetElement(i)).path;
 		}
 
 	return found;
@@ -1732,7 +1732,7 @@ CBDocumentManager::ReadFromProject
 		for (JIndex i=1; i<=textCount; i++)
 			{
 			JBoolean keep;
-			CBTextDocument* doc = new CBTextDocument(input, vers, &keep);
+			CBTextDocument* doc = jnew CBTextDocument(input, vers, &keep);
 			assert( doc != NULL );
 			if (!keep)
 				{
@@ -2120,7 +2120,7 @@ CBDocumentManager::ChooseEditors()
 	assert( itsExtEditorDialog == NULL );
 
 	itsExtEditorDialog =
-		new CBExtEditorDialog(CBGetApplication(), itsEditTextLocalFlag,
+		jnew CBExtEditorDialog(CBGetApplication(), itsEditTextLocalFlag,
 							  itsEditTextFileCmd, itsEditTextFileLineCmd,
 							  itsEditBinaryLocalFlag, itsEditBinaryFileCmd);
 	assert( itsExtEditorDialog != NULL );

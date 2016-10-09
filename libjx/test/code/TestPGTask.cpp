@@ -58,7 +58,7 @@ TestPGTask::~TestPGTask()
 		{
 		itsPG->ProcessFinished();
 		}
-	delete itsPG;
+	jdelete itsPG;
 }
 
 /******************************************************************************
@@ -88,6 +88,6 @@ TestPGTask::Perform
 	if (!keepGoing || itsCounter >= kStepCount)
 		{
 		itsPG->ProcessFinished();
-		delete this;				// safe to commit suicide as last action
+		jdelete this;				// safe to commit suicide as last action
 		}
 }

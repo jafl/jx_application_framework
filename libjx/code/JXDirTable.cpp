@@ -71,10 +71,10 @@ JXDirTable::JXDirTable
 	assert( data != NULL );
 	itsDirInfo = data;
 
-	itsActiveCells = new JRunArray<JBoolean>;
+	itsActiveCells = jnew JRunArray<JBoolean>;
 	assert( itsActiveCells != NULL );
 
-	itsDirUpdateTask = new JXTimerTask(kDirUpdatePeriod);
+	itsDirUpdateTask = jnew JXTimerTask(kDirUpdatePeriod);
 	assert( itsDirUpdateTask != NULL );
 	itsDirUpdateTask->Start();
 	ListenTo(itsDirUpdateTask);
@@ -86,30 +86,30 @@ JXDirTable::JXDirTable
 	itsMaxStringWidth            = 0;
 	itsReselectFlag              = kJFalse;
 
-	itsKeyBuffer = new JString;
+	itsKeyBuffer = jnew JString;
 	assert( itsKeyBuffer != NULL );
 
-	itsReselectNameList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsReselectNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsReselectNameList != NULL );
 
 	JXDisplay* d = GetDisplay();
 
-	itsFileIcon = new JXImage(d, jx_plain_file_small);
+	itsFileIcon = jnew JXImage(d, jx_plain_file_small);
 	assert( itsFileIcon != NULL );
 
-	itsFolderIcon = new JXImage(d, jx_folder_small);
+	itsFolderIcon = jnew JXImage(d, jx_folder_small);
 	assert( itsFolderIcon != NULL );
 
-	itsReadOnlyFolderIcon = new JXImage(d, jx_folder_read_only_small);
+	itsReadOnlyFolderIcon = jnew JXImage(d, jx_folder_read_only_small);
 	assert( itsReadOnlyFolderIcon != NULL );
 
-	itsLockedFolderIcon = new JXImage(d, jx_folder_locked_small);
+	itsLockedFolderIcon = jnew JXImage(d, jx_folder_locked_small);
 	assert( itsLockedFolderIcon != NULL );
 
-	itsExecIcon = new JXImage(d, jx_executable_small);
+	itsExecIcon = jnew JXImage(d, jx_executable_small);
 	assert( itsExecIcon != NULL );
 
-	itsUnknownIcon = new JXImage(d, jx_unknown_file_small);
+	itsUnknownIcon = jnew JXImage(d, jx_unknown_file_small);
 	assert( itsUnknownIcon != NULL );
 
 	itsIgnoreSelChangesFlag = kJFalse;
@@ -133,16 +133,16 @@ JXDirTable::JXDirTable
 
 JXDirTable::~JXDirTable()
 {
-	delete itsActiveCells;
-	delete itsDirUpdateTask;
-	delete itsKeyBuffer;
-	delete itsReselectNameList;
-	delete itsFileIcon;
-	delete itsFolderIcon;
-	delete itsReadOnlyFolderIcon;
-	delete itsLockedFolderIcon;
-	delete itsExecIcon;
-	delete itsUnknownIcon;
+	jdelete itsActiveCells;
+	jdelete itsDirUpdateTask;
+	jdelete itsKeyBuffer;
+	jdelete itsReselectNameList;
+	jdelete itsFileIcon;
+	jdelete itsFolderIcon;
+	jdelete itsReadOnlyFolderIcon;
+	jdelete itsLockedFolderIcon;
+	jdelete itsExecIcon;
+	jdelete itsUnknownIcon;
 }
 
 /******************************************************************************
@@ -545,7 +545,7 @@ JXDirTable::HandleMouseDown
 		{
 		s.SetBoat(cell);
 		s.SetAnchor(cell);
-		HandleDoubleClick(cell.y);		// can delete us
+		HandleDoubleClick(cell.y);		// can jdelete us
 		return;
 		}
 	else
@@ -657,7 +657,7 @@ JXDirTable::HandleKeyPress
 		{
 		if (hadSelection)
 			{
-			HandleDoubleClick(topSelCell.y);	// can delete us
+			HandleDoubleClick(topSelCell.y);	// can jdelete us
 			return;
 			}
 		}

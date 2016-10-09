@@ -92,7 +92,7 @@ CMSourceText::CMSourceText
 
 CMSourceText::~CMSourceText()
 {
-	delete itsTokenStartList;
+	jdelete itsTokenStartList;
 }
 
 /******************************************************************************

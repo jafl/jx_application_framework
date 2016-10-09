@@ -58,7 +58,7 @@ JFunctionWithVar::~JFunctionWithVar()
 {
 	itsVariableList->VariableUserDeleted(this);
 
-	delete itsArrayIndex;
+	jdelete itsArrayIndex;
 }
 
 /******************************************************************************

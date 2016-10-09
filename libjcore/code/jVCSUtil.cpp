@@ -126,7 +126,7 @@ JGetVCSType
 		return kJSCCSType;
 		}
 
-	// check git & new svc last, since they need to search directory tree up to root
+	// check git & jnew svc last, since they need to search directory tree up to root
 
 	if (JSearchGitRoot(p, &n))
 	{
@@ -317,7 +317,7 @@ JRenameVCS
 		err = JRenameDirEntry(oldFullName, newFullName);
 		}
 
-	delete p;
+	jdelete p;
 	JChangeDirectory(origPath);
 	return err;
 }
@@ -405,7 +405,7 @@ JRemoveVCS
 		err = JAccessDenied(fullName);
 		}
 
-	delete p;
+	jdelete p;
 	JChangeDirectory(origPath);
 	return err;
 }

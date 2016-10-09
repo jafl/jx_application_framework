@@ -59,7 +59,7 @@ JFunction*
 JMaxFunc::Copy()
 	const
 {
-	JMaxFunc* newFunction = new JMaxFunc(*this);
+	JMaxFunc* newFunction = jnew JMaxFunc(*this);
 	assert( newFunction != NULL );
 	return newFunction;
 }

@@ -61,53 +61,53 @@ GXColByRangeDialog::BuildWindow()
 		
 // begin JXLayout
 
-    JXWindow* window = new JXWindow(this, 210,190, "");
+    JXWindow* window = jnew JXWindow(this, 210,190, "");
     assert( window != NULL );
 
     itsDestMenu =
-        new JXTextMenu("Destination:", window,
+        jnew JXTextMenu("Destination:", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 15,15, 160,30);
     assert( itsDestMenu != NULL );
 
     itsBeginning =
-        new JXFloatInput(window,
+        jnew JXFloatInput(window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 95,55, 100,20);
     assert( itsBeginning != NULL );
 
     JXTextButton* okButton =
-        new JXTextButton("OK", window,
+        jnew JXTextButton("OK", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 15,165, 70,20);
     assert( okButton != NULL );
     okButton->SetShortcuts("^M");
 
     JXTextButton* cancelButton =
-        new JXTextButton("Cancel", window,
+        jnew JXTextButton("Cancel", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 125,165, 70,20);
     assert( cancelButton != NULL );
     cancelButton->SetShortcuts("^[");
 
     itsEnd =
-        new JXFloatInput(window,
+        jnew JXFloatInput(window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 95,90, 100,20);
     assert( itsEnd != NULL );
 
     JXStaticText* obj1 =
-        new JXStaticText("End:", window,
+        jnew JXStaticText("End:", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 50,95, 35,20);
     assert( obj1 != NULL );
 
     JXStaticText* obj2 =
-        new JXStaticText("Start:", window,
+        jnew JXStaticText("Start:", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 47,60, 40,20);
     assert( obj2 != NULL );
 
     itsCount =
-        new JXIntegerInput(window,
+        jnew JXIntegerInput(window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 95,125, 100,20);
     assert( itsCount != NULL );
 
     JXStaticText* obj3 =
-        new JXStaticText("Count:", window,
+        jnew JXStaticText("Count:", window,
                     JXWidget::kHElastic, JXWidget::kVElastic, 39,130, 45,20);
     assert( obj3 != NULL );
 

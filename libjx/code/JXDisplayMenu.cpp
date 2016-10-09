@@ -3,7 +3,7 @@
 
 	Instant menu of all open X Displays.
 
-	Since we have to update our index before anybody can request its new
+	Since we have to update our index before anybody can request its jnew
 	value, the correct way to use this object is to listen for the
 	DisplayChanged message, not the ItemSelected message.  In addition, since
 	we are responsible for marking the menu item, clients should listen
@@ -23,7 +23,7 @@
 #include <JString.h>
 #include <jAssert.h>
 
-static const JCharacter* kNewDisplayStr = "Open new display...";
+static const JCharacter* kNewDisplayStr = "Open jnew display...";
 
 // JBroadcaster message types
 
@@ -206,7 +206,7 @@ JXDisplayMenu::ChooseDisplay
 		{
 		assert( itsNewDisplayDialog == NULL );
 		JXWindowDirector* supervisor = GetWindow()->GetDirector();
-		itsNewDisplayDialog = new JXOpenDisplayDialog(supervisor);
+		itsNewDisplayDialog = jnew JXOpenDisplayDialog(supervisor);
 		assert( itsNewDisplayDialog != NULL );
 		ListenTo(itsNewDisplayDialog);
 		itsNewDisplayDialog->BeginDialog();

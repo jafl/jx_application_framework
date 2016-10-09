@@ -526,7 +526,7 @@ ShouldBackupForm
 
 	// falling through means that the form hasn't been backed up yet
 
-	JString* newForm = new JString(form);
+	JString* newForm = jnew JString(form);
 	assert( newForm != NULL );
 	list->Append(newForm);
 	return kJTrue;
@@ -587,7 +587,7 @@ JIndex i;
 		{
 		topEnclVarName = kDefTopEnclVarName;
 
-		output << indent << "JXWindow* window = new JXWindow(this, ";
+		output << indent << "JXWindow* window = jnew JXWindow(this, ";
 		output << formWidth << ',' << formHeight;
 		output << ", \"\");" << endl;
 		output << indent << "assert( window != NULL );" << endl;
@@ -719,7 +719,7 @@ JIndex i;
 		// variable name
 
 		JBoolean isLocal = kJFalse;
-		JString* varName = new JString(JReadLine(input));
+		JString* varName = jnew JString(JReadLine(input));
 		assert( varName != NULL );
 		RemoveIdentifier(kObjNameMarker, varName);
 		if (varName->IsEmpty())
@@ -816,7 +816,7 @@ JIndex i;
 
 		// get the class name and additional arguments
 
-		JString* className = new JString;
+		JString* className = jnew JString;
 		assert( className != NULL );
 		objTypes->Append(className);
 
@@ -846,7 +846,7 @@ JIndex i;
 		output << indent << indent;
 		if (!needCreate)
 			{
-			output << "new ";
+			output << "jnew ";
 			}
 		className->Print(output);
 		if (needCreate)
@@ -1347,7 +1347,7 @@ ApplyOptions
 						id.Print(output);
 						output << "\"));" << endl;
 
-						JString* s = new JString(*value);
+						JString* s = jnew JString(*value);
 						assert( s != NULL );
 						stringMgr->SetElement(id, s, JPtrArrayT::kDelete);
 						}
@@ -1844,7 +1844,7 @@ GetOptions
 
 		else
 			{
-			JString* userForm = new JString(argv[index]);
+			JString* userForm = jnew JString(argv[index]);
 			assert( userForm != NULL );
 			userFormList->Append(userForm);
 			}
@@ -1907,7 +1907,7 @@ PickForms
 		const JString line = JReadLine(input);
 		if (line == kBeginFormLine)
 			{
-			JString* formName = new JString(JReadLine(input));
+			JString* formName = jnew JString(JReadLine(input));
 			assert( formName != NULL );
 			RemoveIdentifier(kFormNameMarker, formName);
 			all.Append(formName);
@@ -1940,7 +1940,7 @@ PickForms
 			}
 		else
 			{
-			JString* formName = new JString(*(all.NthElement(choice)));
+			JString* formName = jnew JString(*(all.NthElement(choice)));
 			assert( formName != NULL );
 
 			JIndex tagIndex;

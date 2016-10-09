@@ -30,7 +30,7 @@ PrintWidgetDir::PrintWidgetDir
 	BuildWindow();
 
 	// Create the printer object
-	itsPrinter = new JXPSPrinter(GetDisplay());
+	itsPrinter = jnew JXPSPrinter(GetDisplay());
 	assert( itsPrinter != NULL );
 
 	// We need to know when a dialog is closed
@@ -44,8 +44,8 @@ PrintWidgetDir::PrintWidgetDir
 
 PrintWidgetDir::~PrintWidgetDir()
 {
-	// We need to delete this, the window will delete everything else
-	delete itsPrinter;
+	// We need to jdelete this, the window will jdelete everything else
+	jdelete itsPrinter;
 }
 
 /******************************************************************************
@@ -100,7 +100,7 @@ void
 PrintWidgetDir::BuildWindow()
 {
 	// Create the window
-	JXWindow* window = new JXWindow(this, 300,200, "Printing Test Program");
+	JXWindow* window = jnew JXWindow(this, 300,200, "Printing Test Program");
 	assert( window != NULL );
 
 	// Set the window sizing
@@ -109,7 +109,7 @@ PrintWidgetDir::BuildWindow()
 
 	// Create the print button
 	itsPrintButton =
-		new JXTextButton("Print", window,
+		jnew JXTextButton("Print", window,
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 300, 20);
 
@@ -118,13 +118,13 @@ PrintWidgetDir::BuildWindow()
 
 	// Create the scrollbar set
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 			JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 300,180);
 	assert( scrollbarSet != NULL );
 
 	// Create the custom widget with the scrollbarset as its enclosure
 	PrintWidget* widget =
-		new PrintWidget(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+		jnew PrintWidget(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 10, 10);
 	assert( widget != NULL );

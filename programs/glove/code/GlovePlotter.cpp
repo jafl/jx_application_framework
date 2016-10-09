@@ -26,9 +26,6 @@
 #include <jStreamUtil.h>
 #include <jAssert.h>
 
-#undef new
-#undef delete
-
 static const JCharacter* kModuleMenuTitleStr = "Cursor modules";
 static const JCharacter* kModuleMenuStr = "Reload modules %l";
 
@@ -64,7 +61,7 @@ GlovePlotter::GlovePlotter
 	cursorMenu->ShowSeparatorAfter(cursorMenu->GetItemCount());
 	cursorMenu->AppendItem(kModuleMenuTitleStr);
 	
-	itsModuleMenu = new JXTextMenu(cursorMenu, cursorMenu->GetItemCount(), menuBar);
+	itsModuleMenu = jnew JXTextMenu(cursorMenu, cursorMenu->GetItemCount(), menuBar);
 	assert( itsModuleMenu != NULL );
 	itsModuleMenu->SetMenuItems(kModuleMenuStr);
 	itsModuleMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -85,8 +82,8 @@ GlovePlotter::~GlovePlotter()
 {
 	if (itsIsProcessingCursor)
 		{
-		delete itsCursorProcess;
-		delete itsLink;
+		jdelete itsCursorProcess;
+		jdelete itsLink;
 		}
 }
 
@@ -112,8 +109,8 @@ GlovePlotter::Receive
 		
 	else if (message.Is(JProcess::kFinished))
 		{
-		delete itsCursorProcess;
-		delete itsLink;
+		jdelete itsCursorProcess;
+		jdelete itsLink;
 		itsLink = NULL;
 		itsIsProcessingCursor = kJFalse;
 		}
@@ -208,11 +205,11 @@ GlovePlotter::HandleModuleMenu
 							kJCreatePipe, &inFD,
 							kJIgnoreConnection, NULL);
 		assert(err.OK());
-		JOutPipeStream* op = new JOutPipeStream(outFD, kJTrue);
+		JOutPipeStream* op = jnew JOutPipeStream(outFD, kJTrue);
 		assert( op != NULL );
 		assert( op->good() );
 
-		itsLink = new ProcessLink(inFD);
+		itsLink = jnew ProcessLink(inFD);
 		assert(itsLink != NULL);
 		ListenTo(itsLink);
 		ListenTo(itsCursorProcess);
@@ -237,7 +234,7 @@ GlovePlotter::HandleModuleMenu
 //				*op << itsYCursorVal2 << " ";
 				}
 			}
-		delete op;
+		jdelete op;
 		itsCursorFirstPass = kJTrue;
 		}
 }

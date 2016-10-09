@@ -149,13 +149,13 @@ CBCommandTable::CBCommandTable
 	ListenTo(itsExportButton);
 	ListenTo(itsImportButton);
 
-	itsCSF = new CBListCSF(JGetString("ReplaceCommandList::CBCommandTable"),
+	itsCSF = jnew CBListCSF(JGetString("ReplaceCommandList::CBCommandTable"),
 						   JGetString("AppendToCommandList::CBCommandTable"));
 	assert( itsCSF != NULL );
 
 	// type menu
 
-	itsOptionsMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsOptionsMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsOptionsMenu != NULL );
 	itsOptionsMenu->SetToHiddenPopupMenu();
 	itsOptionsMenu->SetMenuItems(kOptionsMenuStr);
@@ -172,7 +172,7 @@ CBCommandTable::CBCommandTable
 
 	// data
 
-	itsCmdList = new CBCommandManager::CmdList(cmdList);
+	itsCmdList = jnew CBCommandManager::CmdList(cmdList);
 	assert( itsCmdList != NULL );
 	FinishCmdListCopy(itsCmdList);
 
@@ -195,9 +195,9 @@ CBCommandTable::CBCommandTable
 CBCommandTable::~CBCommandTable()
 {
 	itsCmdList->DeleteAll();
-	delete itsCmdList;
+	jdelete itsCmdList;
 
-	delete itsCSF;
+	jdelete itsCSF;
 }
 
 /******************************************************************************
@@ -443,7 +443,7 @@ CBCommandTable::HandleMouseDrag
 		if (s.GetSingleSelectedCell(&cell) && GetCellRect(cell).Contains(itsStartPt))
 			{
 			CBCommandSelection* data =
-				new CBCommandSelection(GetDisplay(), this,
+				jnew CBCommandSelection(GetDisplay(), this,
 									   itsCmdList->GetElement(cell.y));
 			assert( data != NULL );
 
@@ -764,14 +764,14 @@ CBCommandTable::CreateXInputField
 	if (cell.x == kPathColumn)
 		{
 		CBCommandPathInput* pathInput =
-			new CBCommandPathInput(this, kFixedLeft, kFixedTop, x,y, w,h);
+			jnew CBCommandPathInput(this, kFixedLeft, kFixedTop, x,y, w,h);
 		pathInput->SetBasePath(itsBasePath);
 		pathInput->ShouldAllowInvalidPath();
 		itsTextInput = pathInput;
 		}
 	else
 		{
-		itsTextInput = new JXInputField(this, kFixedLeft, kFixedTop, x,y, w,h);
+		itsTextInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x,y, w,h);
 		}
 	assert( itsTextInput != NULL );
 
@@ -942,8 +942,8 @@ CBCommandTable::AddCommand()
 {
 	if (EndEditing())
 		{
-		CBCommandManager::CmdInfo info(new JString("./"), new JString, new JString,
-									   new JString, new JString, new JString);
+		CBCommandManager::CmdInfo info(jnew JString("./"), jnew JString, jnew JString,
+									   jnew JString, jnew JString, jnew JString);
 		assert( info.path != NULL && info.cmd != NULL && info.name != NULL &&
 				info.menuText != NULL && info.menuShortcut != NULL );
 		itsCmdList->AppendElement(info);

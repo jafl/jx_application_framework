@@ -58,31 +58,31 @@ TestExprDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 150,150, "");
+	JXWindow* window = jnew JXWindow(this, 150,150, "");
 	assert( window != NULL );
 
 	itsTestFEditButton =
-		new JXTextButton(JGetString("itsTestFEditButton::TestExprDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsTestFEditButton::TestExprDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 150,30);
 	assert( itsTestFEditButton != NULL );
 
 	itsTestDParseButton =
-		new JXTextButton(JGetString("itsTestDParseButton::TestExprDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsTestDParseButton::TestExprDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,60, 150,30);
 	assert( itsTestDParseButton != NULL );
 
 	itsTestFEqButton =
-		new JXTextButton(JGetString("itsTestFEqButton::TestExprDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsTestFEqButton::TestExprDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,90, 150,30);
 	assert( itsTestFEqButton != NULL );
 
 	itsTestDEqButton =
-		new JXTextButton(JGetString("itsTestDEqButton::TestExprDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsTestDEqButton::TestExprDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,120, 150,30);
 	assert( itsTestDEqButton != NULL );
 
 	itsTestCFEditButton =
-		new JXTextButton(JGetString("itsTestCFEditButton::TestExprDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsTestCFEditButton::TestExprDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,30, 150,30);
 	assert( itsTestCFEditButton != NULL );
 
@@ -146,7 +146,7 @@ TestExprDirector::TestFunctionEditor
 	if ((JGetChooseSaveFile())->ChooseFile("Input file:", NULL, &fileName))
 		{
 		TestFEditDirector* dir =
-			new TestFEditDirector(this, fileName, useComplex);
+			jnew TestFEditDirector(this, fileName, useComplex);
 		assert( dir != NULL );
 		dir->Activate();
 		}
@@ -189,7 +189,7 @@ TestExprDirector::TestDecisionParser()
 			cout << "Expected: " << expectedResult << endl;
 			cout << "Result:   " << theDecision->Evaluate() << endl;
 			JWaitForReturn();
-			delete theDecision;
+			jdelete theDecision;
 			}
 
 		input >> ws;

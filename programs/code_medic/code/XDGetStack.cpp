@@ -93,7 +93,7 @@ XDGetStack::HandleSuccess
 		frameName += name;
 
 		CMStackFrameNode* node =
-			new CMStackFrameNode(stackRoot, frameIndex, frameName,
+			jnew CMStackFrameNode(stackRoot, frameIndex, frameName,
 								 fileName, lineIndex);
 		assert( node != NULL );
 		stackRoot->Prepend(node);

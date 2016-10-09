@@ -116,7 +116,7 @@ THX2DPlotDirector::THX2DPlotDirector
 void
 THX2DPlotDirector::THX2DPlotDirectorX()
 {
-	itsFnList = new JPtrArray<J2DPlotJFunction>(JPtrArrayT::kForgetAll);
+	itsFnList = jnew JPtrArray<J2DPlotJFunction>(JPtrArrayT::kForgetAll);
 	assert( itsFnList != NULL );
 
 	itsEditFnDialog = NULL;
@@ -129,7 +129,7 @@ THX2DPlotDirector::THX2DPlotDirectorX()
 
 THX2DPlotDirector::~THX2DPlotDirector()
 {
-	delete itsFnList;	// contents not owned
+	jdelete itsFnList;	// contents not owned
 }
 
 /******************************************************************************
@@ -182,16 +182,16 @@ THX2DPlotDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 600,400, "");
+	JXWindow* window = jnew JXWindow(this, 600,400, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 600,30);
 	assert( menuBar != NULL );
 
 	itsPlotWidget =
-		new JX2DPlotWidget(menuBar, window,
+		jnew JX2DPlotWidget(menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,370);
 	assert( itsPlotWidget != NULL );
 
@@ -201,7 +201,7 @@ THX2DPlotDirector::BuildWindow()
 	window->SetWMClass(THXGetWMClassInstance(), THXGetPlotWindowClass());
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = new JXImage(display, thx_2D_plot_window);
+	JXImage* icon      = jnew JXImage(display, thx_2D_plot_window);
 	assert( icon != NULL );
 	window->SetIcon(icon);
 
@@ -219,7 +219,7 @@ THX2DPlotDirector::BuildWindow()
 	const JIndex editFunctionSubmenuIndex = optionsMenu->GetItemCount()+1;
 	optionsMenu->AppendItem(kEditFunctionItemStr);
 
-	itsEditFnMenu = new JXTextMenu(optionsMenu, editFunctionSubmenuIndex, menuBar);
+	itsEditFnMenu = jnew JXTextMenu(optionsMenu, editFunctionSubmenuIndex, menuBar);
 	assert( itsEditFnMenu != NULL );
 	itsEditFnMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsEditFnMenu);
@@ -274,7 +274,7 @@ THX2DPlotDirector::AddFunction
 	)
 {
 	J2DPlotJFunction* data =
-		new J2DPlotJFunction(itsPlotWidget, varList, f, kJTrue,
+		jnew J2DPlotJFunction(itsPlotWidget, varList, f, kJTrue,
 							 THXVarList::kXIndex, xMin, xMax);
 	assert( data != NULL );
 
@@ -518,7 +518,7 @@ THX2DPlotDirector::EditFunction
 	curve->GetXRange(&min, &max);
 
 	itsEditFnDialog =
-		new THX2DPlotFunctionDialog(this, (THXGetApplication())->GetVariableList(),
+		jnew THX2DPlotFunctionDialog(this, (THXGetApplication())->GetVariableList(),
 									curve->GetFunction(),
 									itsPlotWidget->GetCurveName(index), min, max);
 	assert( itsEditFnDialog != NULL );

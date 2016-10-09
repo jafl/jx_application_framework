@@ -59,7 +59,7 @@ enum
 const JSize kLineMenuItemCount = kSetExecPtCmd;
 
 static const JCharacter* kAllBreakpointsMenuStr =
-	"    Set new breakpoint on this line       %k Click (if none)"
+	"    Set jnew breakpoint on this line       %k Click (if none)"
 	"  | Set temporary breakpoint on this line %k Meta-Shift-click (if none)"
 	"  | Remove all breakpoints from this line %k Click (if only one)"
 	"%l";
@@ -126,7 +126,7 @@ CMLineIndexTable::CMLineIndexTable
 	itsLink = CMGetLink();
 	ListenTo(itsLink);
 
-	itsBPList = new JPtrArray<CMBreakpoint>(JPtrArrayT::kForgetAll);
+	itsBPList = jnew JPtrArray<CMBreakpoint>(JPtrArrayT::kForgetAll);
 	assert(itsBPList != NULL);
 	itsBPList->SetCompareFunction(bpCcompareFn);
 	itsBPList->SetSortOrder(JOrderedSetT::kSortAscending);
@@ -140,7 +140,7 @@ CMLineIndexTable::CMLineIndexTable
 
 	AppendCols(3);
 
-	CMAdjustLineTableToTextTask* task = new CMAdjustLineTableToTextTask(this);
+	CMAdjustLineTableToTextTask* task = jnew CMAdjustLineTableToTextTask(this);
 	assert( task != NULL );
 	task->Go();
 
@@ -156,8 +156,8 @@ CMLineIndexTable::CMLineIndexTable
 
 CMLineIndexTable::~CMLineIndexTable()
 {
-	delete itsBPList;
-	delete itsDeselectTask;
+	jdelete itsBPList;
+	jdelete itsDeselectTask;
 }
 
 /******************************************************************************
@@ -497,7 +497,7 @@ CMLineIndexTable::OpenLineMenu
 {
 	if (itsLineMenu == NULL)
 		{
-		itsLineMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsLineMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsLineMenu != NULL );
 		itsLineMenu->SetToHiddenPopupMenu(kJTrue);
 		itsLineMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -556,7 +556,7 @@ CMLineIndexTable::OpenLineMenu
 	s.SelectRow(lineIndex);
 	if (itsDeselectTask == NULL)
 		{
-		itsDeselectTask = new CMDeselectLineTask(this);
+		itsDeselectTask = jnew CMDeselectLineTask(this);
 		assert( itsDeselectTask != NULL );
 		itsDeselectTask->Start();
 		}

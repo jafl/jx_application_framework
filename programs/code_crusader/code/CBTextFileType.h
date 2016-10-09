@@ -82,7 +82,7 @@ enum CBTextFileType
 	kCBINIFT,
 	kCBPropertiesFT,		// = kCBLastFT	// special
 
-	// When you add new types, be sure to increment the prefs version!
+	// When you add jnew types, be sure to increment the prefs version!
 
 	kCBFirstFT = kCBUnknownFT,
 	kCBLastFT  = kCBPropertiesFT
@@ -330,7 +330,7 @@ enum CBLanguage
 	kCBINILang,
 	kCBPropertiesLang,	// = kCBLastLang
 
-	// When you add new types, be sure to increment the prefs version!
+	// When you add jnew types, be sure to increment the prefs version!
 
 	kCBFirstLang = kCBOtherLang,
 	kCBLastLang  = kCBPropertiesLang

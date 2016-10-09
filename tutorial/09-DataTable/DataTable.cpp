@@ -43,7 +43,7 @@ DataTable::DataTable
 	:
 	JXTable(kDefRowHeight, kDefColWidth, scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h)
 {
-	// This will be our data, but we don't own it so we can't delete it.
+	// This will be our data, but we don't own it so we can't jdelete it.
 	itsData = data;
 
 	// This data needs only one column
@@ -65,7 +65,7 @@ DataTable::DataTable
 
 DataTable::~DataTable()
 {
-	// We don't own itsData, so we don't delete it.
+	// We don't own itsData, so we don't jdelete it.
 }
 
 /******************************************************************************

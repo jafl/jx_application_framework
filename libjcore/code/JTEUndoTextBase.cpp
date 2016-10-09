@@ -27,10 +27,10 @@ JTEUndoTextBase::JTEUndoTextBase
 	:
 	JTEUndoBase(te)
 {
-	itsOrigBuffer = new JString;
+	itsOrigBuffer = jnew JString;
 	assert( itsOrigBuffer != NULL );
 
-	itsOrigStyles = new JRunArray<JFont>;
+	itsOrigStyles = jnew JRunArray<JFont>;
 	assert( itsOrigStyles != NULL );
 
 	te->GetSelection(itsOrigBuffer, itsOrigStyles);
@@ -43,8 +43,8 @@ JTEUndoTextBase::JTEUndoTextBase
 
 JTEUndoTextBase::~JTEUndoTextBase()
 {
-	delete itsOrigBuffer;
-	delete itsOrigStyles;
+	jdelete itsOrigBuffer;
+	jdelete itsOrigStyles;
 }
 
 /******************************************************************************
@@ -75,7 +75,7 @@ JTEUndoTextBase::PrepareForUndo
 /******************************************************************************
  Undo (virtual)
 
-	Call this to put back the original text after selecting the new text.
+	Call this to put back the original text after selecting the jnew text.
 
  ******************************************************************************/
 
@@ -84,7 +84,7 @@ JTEUndoTextBase::Undo()
 {
 	JTextEditor* te = GetTE();
 
-	JTEUndoPaste* newUndo = new JTEUndoPaste(te, itsOrigBuffer->GetLength());
+	JTEUndoPaste* newUndo = jnew JTEUndoPaste(te, itsOrigBuffer->GetLength());
 	assert( newUndo != NULL );
 
 	const JIndex selStart   = te->GetInsertionIndex();

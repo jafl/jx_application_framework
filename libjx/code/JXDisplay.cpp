@@ -20,7 +20,7 @@
 	the associated XC_* constant as the cursor name.
 
 	We cannot sort the cursor array because the indices that we give out must
-	remain valid.  Appending new items is the only option.  This is not much
+	remain valid.  Appending jnew items is the only option.  This is not much
 	of a problem, however, both because the most common cursors have predefined
 	indices, and because looking up cursors only has to be done once in each
 	constructor.
@@ -32,7 +32,7 @@
 	releases the mouse so soon after we switch the grab that the server hasn't
 	received our message and therefore thinks that the original window is still
 	grabbing.  We therefore get the ButtonRelease for the original window
-	instead of for the new window.)  Our solution is to tell JXDisplay about
+	instead of for the jnew window.)  Our solution is to tell JXDisplay about
 	who has grabbed what so JXDisplay can re-route the message to the current
 	grabber.  This is what itsMouseGrabber and itsKeyboardGrabber are used for.
 
@@ -130,7 +130,7 @@ JXDisplay::Create
 	Display* xDisplay = XOpenDisplay(name);
 	if (xDisplay != NULL)
 		{
-		*display = new JXDisplay(XDisplayName(name), xDisplay);
+		*display = jnew JXDisplay(XDisplayName(name), xDisplay);
 		return JConvertToBoolean( *display != NULL );
 		}
 	else
@@ -167,14 +167,14 @@ JXDisplay::JXDisplay
 	itsModifierKeymap = NULL;
 	UpdateModifierMapping();
 
-	itsCursorList = new JArray<CursorInfo>;
+	itsCursorList = jnew JArray<CursorInfo>;
 	assert( itsCursorList != NULL );
 
-	itsWindowList = new JArray<WindowInfo>(10);
+	itsWindowList = jnew JArray<WindowInfo>(10);
 	assert( itsWindowList != NULL );
 	itsWindowList->SetCompareFunction(CompareXWindows);
 
-	itsDefaultGC = new JXGC(this, GetRootWindow());
+	itsDefaultGC = jnew JXGC(this, GetRootWindow());
 	assert( itsDefaultGC != NULL );
 
 	itsNeedsUpdateFlag = kJFalse;
@@ -191,21 +191,21 @@ JXDisplay::JXDisplay
 	CreateBuiltInCursor("XC_watch",    XC_watch);
 	CreateBuiltInCursor("XC_X_cursor", XC_X_cursor);
 
-	itsFontManager = new JXFontManager(this);
+	itsFontManager = jnew JXFontManager(this);
 	assert( itsFontManager != NULL );
 
-	itsSelectionManager = new JXSelectionManager(this);
+	itsSelectionManager = jnew JXSelectionManager(this);
 	assert( itsSelectionManager != NULL );
 
-	itsDNDManager = new JXDNDManager(this);
+	itsDNDManager = jnew JXDNDManager(this);
 	assert( itsDNDManager != NULL );
 
-	itsMenuManager = new JXMenuManager;
+	itsMenuManager = jnew JXMenuManager;
 	assert( itsMenuManager != NULL );
 
 	itsWDManager = NULL;
 
-	itsImageCache = new JXImageCache(this);
+	itsImageCache = jnew JXImageCache(this);
 	assert( itsImageCache != NULL );
 
 	int major_opcode, first_event, first_error;
@@ -239,26 +239,26 @@ JXDisplay::~JXDisplay()
 
 	(JXGetApplication())->DisplayClosed(this);
 
-	delete itsWDManager;
-	delete itsMenuManager;
-	delete itsSelectionManager;
-	delete itsDNDManager;
-	delete itsFontManager;
-	delete itsImageCache;
+	jdelete itsWDManager;
+	jdelete itsMenuManager;
+	jdelete itsSelectionManager;
+	jdelete itsDNDManager;
+	jdelete itsFontManager;
+	jdelete itsImageCache;
 
-	delete itsWindowList;
-	delete itsDefaultGC;
-	delete itsColormap;
-	delete itsBounds;
+	jdelete itsWindowList;
+	jdelete itsDefaultGC;
+	jdelete itsColormap;
+	jdelete itsBounds;
 
 	const JSize count = itsCursorList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
 		const CursorInfo info = itsCursorList->GetElement(i);
-		delete (info.name);
+		jdelete (info.name);
 		XFreeCursor(itsXDisplay, info.xid);
 		}
-	delete itsCursorList;
+	jdelete itsCursorList;
 
 	XFreeModifiermap(itsModifierKeymap);
 
@@ -268,7 +268,7 @@ JXDisplay::~JXDisplay()
 /******************************************************************************
  Close
 
-	This is the safe way to delete a JXDisplay.
+	This is the safe way to jdelete a JXDisplay.
 
  ******************************************************************************/
 
@@ -284,7 +284,7 @@ JXDisplay::Close()
 			}
 		}
 
-	delete this;
+	jdelete this;
 	return kJTrue;
 }
 
@@ -522,7 +522,7 @@ JXDisplay::GetBounds()
 			int count;
 			XineramaScreenInfo* info = XineramaQueryScreens(itsXDisplay, &count);
 
-			itsBounds = new JArray<JRect>(count);
+			itsBounds = jnew JArray<JRect>(count);
 			assert( itsBounds != NULL );
 
 			for (int i=0; i<count; i++)
@@ -558,7 +558,7 @@ JXDisplay::GetBounds()
 						 &width, &height, &borderWidth, &depth);
 		assert( ok );
 
-		itsBounds = new JArray<JRect>(1);
+		itsBounds = jnew JArray<JRect>(1);
 		assert( itsBounds != NULL );
 		itsBounds->AppendElement(JRect(y, x, y+height, x+width));
 		}
@@ -589,7 +589,7 @@ void
 JXDisplay::ShrinkDisplayBoundsToActiveScreen()
 {
 	itsShrinkDisplayToScreenRefCount++;
-	delete itsBounds;
+	jdelete itsBounds;
 	itsBounds = NULL;
 }
 
@@ -601,7 +601,7 @@ JXDisplay::RestoreDisplayBounds()
 	itsShrinkDisplayToScreenRefCount--;
 	if (itsShrinkDisplayToScreenRefCount == 0)
 		{
-		delete itsBounds;
+		jdelete itsBounds;
 		itsBounds = NULL;
 		}
 }
@@ -783,7 +783,7 @@ JXDisplay::CreateBuiltInCursor
 
 	CursorInfo info;
 
-	info.name = new JString(name);
+	info.name = jnew JString(name);
 	assert( info.name != NULL );
 
 	info.xid = XCreateFontCursor(itsXDisplay, shape);
@@ -812,7 +812,7 @@ JXDisplay::CreateCustomCursor
 
 	CursorInfo info;
 
-	info.name = new JString(name);
+	info.name = jnew JString(name);
 	assert( info.name != NULL );
 
 	info.xid = CreateCustomXCursor(cursor);
@@ -1357,7 +1357,7 @@ JXDisplay::SwitchDrag
 /******************************************************************************
  WindowCreated
 
-	Insert the new window so that the list remains sorted by xWindow values.
+	Insert the jnew window so that the list remains sorted by xWindow values.
 
  ******************************************************************************/
 

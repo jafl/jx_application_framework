@@ -68,7 +68,7 @@ JFunction*
 JTruncateToInt::Copy()
 	const
 {
-	JTruncateToInt* newFunction = new JTruncateToInt(*this);
+	JTruncateToInt* newFunction = jnew JTruncateToInt(*this);
 	assert( newFunction != NULL );
 	return newFunction;
 }

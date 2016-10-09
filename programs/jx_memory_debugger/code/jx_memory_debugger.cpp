@@ -33,7 +33,7 @@ main
 
 	JBoolean displayAbout;
 	JString prevVersStr;
-	MDApp* app = new MDApp(&argc, argv, &displayAbout, &prevVersStr);
+	MDApp* app = jnew MDApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != NULL );
 
 	if (displayAbout &&
@@ -42,7 +42,7 @@ main
 		return 0;
 		}
 
-	MDStatsDirector* dir = new MDStatsDirector(app);
+	MDStatsDirector* dir = jnew MDStatsDirector(app);
 	assert( dir != NULL );
 	dir->Activate();
 

@@ -119,7 +119,7 @@ MDRecordDirector::MDRecordDirector
 		window->SetSize(w,h);
 		}
 
-	itsPrinter = new JXPSPrinter(GetDisplay());
+	itsPrinter = jnew JXPSPrinter(GetDisplay());
 	assert( itsPrinter != NULL );
 	ListenTo(itsPrinter);
 }
@@ -131,7 +131,7 @@ MDRecordDirector::MDRecordDirector
 
 MDRecordDirector::~MDRecordDirector()
 {
-	delete itsPrinter;
+	jdelete itsPrinter;
 }
 
 /******************************************************************************
@@ -155,16 +155,16 @@ MDRecordDirector::BuildWindow
 
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 500,400, "");
+	JXWindow* window = jnew JXWindow(this, 500,400, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 500,30);
 	assert( menuBar != NULL );
 
 	itsToolBar =
-		new JXToolBar(MDGetPrefsManager(), kMDRecordToolBarID, menuBar, minWidth, minHeight, window,
+		jnew JXToolBar(MDGetPrefsManager(), kMDRecordToolBarID, menuBar, minWidth, minHeight, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 500,370);
 	assert( itsToolBar != NULL );
 
@@ -173,12 +173,12 @@ MDRecordDirector::BuildWindow
 	window->SetTitle(windowTitle);
 	window->SetWMClass(MDGetWMClassInstance(), MDGetMainWindowClass());
 
-	JXImage* image = new JXImage(GetDisplay(), md_main_window_icon);
+	JXImage* image = jnew JXImage(GetDisplay(), md_main_window_icon);
 	assert( image != NULL );
 	window->SetIcon(image);
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
+		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic,JXWidget::kVElastic,
 						   0,0, 100,100);
 	assert( scrollbarSet != NULL );
@@ -188,7 +188,7 @@ MDRecordDirector::BuildWindow
 	const JCoordinate tableHeight   = scrollbarSet->GetScrollEnclosure()->GetBoundsHeight() - kHeaderHeight;
 
 	itsRecordTable =
-		new MDRecordTable(recordList,
+		jnew MDRecordTable(recordList,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kHeaderHeight, 100,tableHeight);
@@ -196,7 +196,7 @@ MDRecordDirector::BuildWindow
 	itsRecordTable->FitToEnclosure(kJTrue, kJFalse);
 
 	MDHeaderWidget* tableHeader =
-		new MDHeaderWidget(itsRecordTable, recordList,
+		jnew MDHeaderWidget(itsRecordTable, recordList,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kFixedTop,
 			0,0, 100,kHeaderHeight);
@@ -213,7 +213,7 @@ MDRecordDirector::BuildWindow
 	(itsRecordTable->GetEditMenuHandler())->AppendEditMenu(menuBar);
 
 	JXWDMenu* windowsMenu =
-		new JXWDMenu(kWindowsMenuTitleStr, menuBar,
+		jnew JXWDMenu(kWindowsMenuTitleStr, menuBar,
 					 JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( windowsMenu != NULL );
 	menuBar->AppendMenu(windowsMenu);

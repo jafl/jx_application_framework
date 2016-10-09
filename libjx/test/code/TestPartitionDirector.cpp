@@ -99,23 +99,23 @@ JIndex i;
 
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 310,340, "");
+	JXWindow* window = jnew JXWindow(this, 310,340, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 315,30);
 	assert( menuBar != NULL );
 
 	itsHorizPartition =
-		new JXHorizPartition(sizes, kInitElasticIndex, minSizes, window,
+		jnew JXHorizPartition(sizes, kInitElasticIndex, minSizes, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 315,315);
 	assert( itsHorizPartition != NULL );
 
 // end JXLayout
 
 	itsVertPartition =
-		new JXVertPartition(sizes, kInitElasticIndex, minSizes,
+		jnew JXVertPartition(sizes, kInitElasticIndex, minSizes,
 					itsHorizPartition->GetCompartment(kInitElasticIndex),
 					JXWidget::kHElastic, JXWidget::kVElastic,
 					0,0, 10,315);
@@ -244,7 +244,7 @@ TestPartitionDirector::CreateTestWidget
 	)
 {
 	TestCompartment* obj =
-		new TestCompartment(this, partition->GetCompartment(index),
+		jnew TestCompartment(this, partition->GetCompartment(index),
 							JXWidget::kHElastic, JXWidget::kVElastic,
 							0,0, 10,10);
 	assert( obj != NULL );
@@ -361,7 +361,7 @@ TestPartitionDirector::HandleHorizMenu
 		itsHorizPartition->GetElasticIndex(&elasticIndex);
 		const JSize count = itsHorizPartition->GetCompartmentCount();
 
-		itsSetElasticDialog = new SetElasticDialog(this, elasticIndex, count);
+		itsSetElasticDialog = jnew SetElasticDialog(this, elasticIndex, count);
 		assert( itsSetElasticDialog != NULL );
 		ListenTo(itsSetElasticDialog);
 		itsSetElasticDialog->BeginDialog();
@@ -399,7 +399,7 @@ TestPartitionDirector::HandleVertMenu
 		itsVertPartition->GetElasticIndex(&elasticIndex);
 		const JSize count = itsVertPartition->GetCompartmentCount();
 
-		itsSetElasticDialog = new SetElasticDialog(this, elasticIndex, count);
+		itsSetElasticDialog = jnew SetElasticDialog(this, elasticIndex, count);
 		assert( itsSetElasticDialog != NULL );
 		ListenTo(itsSetElasticDialog);
 		itsSetElasticDialog->BeginDialog();

@@ -59,7 +59,7 @@ TestDNDTextDirector::BuildWindow()
 {
 JIndex i;
 
-	JXWindow* window = new JXWindow(this, kWindowWidth,kWindowHeight, "");
+	JXWindow* window = jnew JXWindow(this, kWindowWidth,kWindowHeight, "");
 	assert( window != NULL );
 
 	window->SetTitle("Test Drag-And-Drop (text)");
@@ -73,7 +73,7 @@ JIndex i;
 		}
 
 	JXHorizPartition* partition =
-		new JXHorizPartition(sizes, 0, minSizes, window,
+		jnew JXHorizPartition(sizes, 0, minSizes, window,
 							 JXWidget::kHElastic, JXWidget::kVElastic,
 							 0,0, kWindowWidth, kWindowHeight);
 	assert( partition != NULL );
@@ -89,7 +89,7 @@ JIndex i;
 	for (i=1; i<=2; i++)
 		{
 		JXTextEditorSet* teSet =
-			new JXTextEditorSet(&te, partition->GetCompartment(i),
+			jnew JXTextEditorSet(&te, partition->GetCompartment(i),
 								JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 		assert( teSet != NULL );
 		teSet->FitToEnclosure();

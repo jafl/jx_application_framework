@@ -34,7 +34,7 @@ SyGMoveToTrashProcess::Move
 	JString trashDir;
 	if (SyGGetTrashDirectory(&trashDir, kJFalse))
 		{
-		SyGMoveToTrashProcess* p = new SyGMoveToTrashProcess(table, fullNameList, trashDir);
+		SyGMoveToTrashProcess* p = jnew SyGMoveToTrashProcess(table, fullNameList, trashDir);
 		assert( p != NULL );
 		}
 }
@@ -80,7 +80,7 @@ SyGMoveToTrashProcess::~SyGMoveToTrashProcess()
 	SyGUpdateTrash();
 
 	assert( itsProcess == NULL );
-	delete itsFullNameList;
+	jdelete itsFullNameList;
 }
 
 /******************************************************************************

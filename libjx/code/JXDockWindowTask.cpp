@@ -33,7 +33,7 @@ const Time kReparentDelay       = 500;	// ms
 const Time kCheckParentInterval = 100;	//ms
 const Time kShowDelay           = 1;	// ms
 
-static JPtrArray<JXTabGroup>* theUpdateList = new JPtrArray<JXTabGroup>(JPtrArrayT::kForgetAll);
+static JPtrArray<JXTabGroup>* theUpdateList = jnew JPtrArray<JXTabGroup>(JPtrArrayT::kForgetAll);
 static JSize theTaskCount                   = 0;
 
 /******************************************************************************
@@ -96,7 +96,7 @@ JXDockWindowTask::~JXDockWindowTask()
 			(theUpdateList->NthElement(i))->ShowTab(1);
 			}
 
-		delete theUpdateList;
+		jdelete theUpdateList;
 		theUpdateList = NULL;
 		}
 }
@@ -111,7 +111,7 @@ JXDockWindowTask::PrepareForDockAll()
 {
 	if (theUpdateList == NULL)
 		{
-		theUpdateList = new JPtrArray<JXTabGroup>(JPtrArrayT::kForgetAll);
+		theUpdateList = jnew JPtrArray<JXTabGroup>(JPtrArrayT::kForgetAll);
 		assert( theUpdateList != NULL );
 		}
 }
@@ -130,7 +130,7 @@ JXDockWindowTask::Perform
 {
 	if (itsWindow == NULL)
 		{
-		delete this;
+		jdelete this;
 		return;
 		}
 
@@ -156,7 +156,7 @@ JXDockWindowTask::Perform
 		if (!XQueryTree(*(itsWindow->GetDisplay()), itsWindow->GetXWindow(),
 						&root, &parent, &childList, &childCount))
 			{
-			delete this;
+			jdelete this;
 			return;
 			}
 		XFree(childList);
@@ -178,7 +178,7 @@ JXDockWindowTask::Perform
 	else	// itsState == kShowWindow
 		{
 		(itsWindow->GetDirector())->Activate();
-		delete this;
+		jdelete this;
 		}
 }
 

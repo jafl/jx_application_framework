@@ -27,7 +27,7 @@ CBInstallEmulator
 
 	if (type == kCBVIEmulator)
 		{
-		*handler = new CBVIKeyHandler(editor);
+		*handler = jnew CBVIKeyHandler(editor);
 		assert( *handler != NULL );
 		}
 

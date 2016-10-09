@@ -203,7 +203,7 @@ CBPHPClass::ViewDeclaration
 /******************************************************************************
  NewGhost (virtual protected)
 
-	Creates a new ghost CBPHPClass.
+	Creates a jnew ghost CBPHPClass.
 
  ******************************************************************************/
 
@@ -214,7 +214,7 @@ CBPHPClass::NewGhost
 	CBTree*				tree
 	)
 {
-	CBPHPClass* newClass = new CBPHPClass(name, kGhostType, JFAID::kInvalidID, tree,
+	CBPHPClass* newClass = jnew CBPHPClass(name, kGhostType, JFAID::kInvalidID, tree,
 										  kJFalse);
 	assert( newClass != NULL );
 	return newClass;

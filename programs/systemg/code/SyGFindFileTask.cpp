@@ -44,7 +44,7 @@ SyGFindFileTask::Create
 		JString relPath = path;
 		relPath.RemoveSubstring(1, dir->GetDirectory().GetLength());
 
-		*task = new SyGFindFileTask(dir, relPath, p, outFD, errFD);
+		*task = jnew SyGFindFileTask(dir, relPath, p, outFD, errFD);
 		assert( *task != NULL );
 		return kJTrue;
 		}
@@ -74,13 +74,19 @@ SyGFindFileTask::SyGFindFileTask
 	itsProcess(process),
 	itsFoundFilesFlag(kJFalse)
 {
-	SetConnection(outFD, errFD);
+	itsMessageLink = new RecordLink(outFD);
+	assert( itsMessageLink != NULL );
+	ListenTo(itsMessageLink);
+
+	itsErrorLink = new RecordLink(errFD);
+	assert( itsErrorLink != NULL );
+	ListenTo(itsErrorLink);
 
 	itsProcess->ShouldDeleteWhenFinished();
 	ListenTo(itsProcess);
 	ListenTo(itsDirector);
 
-	itsPathList = new JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsPathList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert( itsPathList != NULL );
 
 	SplitPath(relPath, itsPathList);
@@ -100,10 +106,11 @@ SyGFindFileTask::~SyGFindFileTask()
 		StopListening(itsProcess);
 		itsProcess->Kill();
 		}
-	delete itsProcess;
+	jdelete itsProcess;
 
-	delete itsPathList;
-	DeleteLinks();
+	jdelete itsPathList;
+	delete itsMessageLink;
+	delete itsErrorLink;
 }
 
 /******************************************************************************
@@ -145,13 +152,13 @@ SyGFindFileTask::ReceiveGoingAway
 {
 	if (sender == itsDirector)
 		{
-		delete this;
+		jdelete this;
 		}
 	else if (sender == itsProcess)
 		{
 		itsProcess = NULL;
 		DisplayErrors();
-		delete this;
+		jdelete this;
 		}
 	else
 		{
@@ -193,7 +200,7 @@ SyGFindFileTask::ReceiveMessageLine()
 	JPoint cell;
 	(itsDirector->GetTable())->SelectName(pathList, *name, &cell, kJFalse, kJFalse);
 
-	delete name;
+	jdelete name;
 	itsFoundFilesFlag = kJTrue;
 }
 
@@ -272,48 +279,4 @@ SyGFindFileTask::SplitPath
 		}
 
 	pathList->Prepend(relPath);
-}
-
-/******************************************************************************
- SetConnection (private)
-
- ******************************************************************************/
-
-// This function has to be last so JCore::new works for everything else.
-
-#undef new
-
-void
-SyGFindFileTask::SetConnection
-	(
-	const int outFD,
-	const int errFD
-	)
-{
-	itsMessageLink = new RecordLink(outFD);
-	assert( itsMessageLink != NULL );
-	ListenTo(itsMessageLink);
-
-	itsErrorLink = new RecordLink(errFD);
-	assert( itsErrorLink != NULL );
-	ListenTo(itsErrorLink);
-}
-
-/******************************************************************************
- DeleteLinks (private)
-
- ******************************************************************************/
-
-// This function has to be last so JCore::delete works for everything else.
-
-#undef delete
-
-void
-SyGFindFileTask::DeleteLinks()
-{
-	delete itsMessageLink;
-	itsMessageLink = NULL;
-
-	delete itsErrorLink;
-	itsErrorLink = NULL;
 }

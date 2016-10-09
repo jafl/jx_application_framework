@@ -47,7 +47,7 @@ JXPartition::JXPartition
 	JXWidgetSet(enclosure, hSizing, vSizing, x,y, w,h),
 	JPartition(sizes, elasticIndex, minSizes)
 {
-	itsCompartments = new JPtrArray<JXContainer>(JPtrArrayT::kForgetAll);
+	itsCompartments = jnew JPtrArray<JXContainer>(JPtrArrayT::kForgetAll);
 	assert( itsCompartments != NULL );
 }
 
@@ -58,7 +58,7 @@ JXPartition::JXPartition
 
 JXPartition::~JXPartition()
 {
-	delete itsCompartments;		// objects deleted by JXContainer
+	jdelete itsCompartments;		// objects deleted by JXContainer
 }
 
 /******************************************************************************
@@ -199,7 +199,7 @@ JXPartition::CreateInitialCompartments()
 /******************************************************************************
  InsertCompartment
 
-	Adjusts the adjacent compartments to make space and then creates a new
+	Adjusts the adjacent compartments to make space and then creates a jnew
 	compartment.  Returns kJFalse if there isn't enough space available for
 	at least minSize.
 

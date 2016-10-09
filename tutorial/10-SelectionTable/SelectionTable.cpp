@@ -68,7 +68,7 @@ SelectionTable::SelectionTable
 	:
 	JXTable(kDefRowHeight, kDefColWidth, scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h)
 {
-	// This will be our data, but we don't own it so we can't delete it.
+	// This will be our data, but we don't own it so we can't jdelete it.
 	itsData = data;
 
 	// We need to set this to NULL in case we receive a message before
@@ -106,7 +106,7 @@ SelectionTable::SelectionTable
 
 SelectionTable::~SelectionTable()
 {
-	// we don't own itsData, so we don't delete it.
+	// we don't own itsData, so we don't jdelete it.
 	// itsTableMenu is deleted automatically by its enclosure.
 }
 

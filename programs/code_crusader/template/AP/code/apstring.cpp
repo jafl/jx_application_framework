@@ -28,7 +28,7 @@ apstring::apstring()
 {
     myLength = 0;
     myCapacity = 1;
-    myCstring = new char[myCapacity];
+    myCstring = jnew char[myCapacity];
     myCstring[0] = '\0';           // make c-style string zero length
 }
 
@@ -43,7 +43,7 @@ apstring::apstring(const char * s)
 
     myLength = strlen(s);
     myCapacity = myLength + 1;      // make room for '\0'
-    myCstring = new char[myCapacity];
+    myCstring = jnew char[myCapacity];
     strcpy(myCstring,s);
 }
 
@@ -53,7 +53,7 @@ apstring::apstring(const apstring & str)
 {
     myLength = str.length();
     myCapacity = myLength + 1;
-    myCstring = new char[myCapacity];
+    myCstring = jnew char[myCapacity];
     strcpy(myCstring,str.myCstring);
 }
 
@@ -61,7 +61,7 @@ apstring::~apstring()
 //description:   destructor
 //postcondition: string is destroyed
 {
-    delete[] myCstring;                // free memory
+    jdelete[] myCstring;                // free memory
 }
 
 const apstring& apstring::operator =(const apstring & rhs)
@@ -71,9 +71,9 @@ const apstring& apstring::operator =(const apstring & rhs)
     {
         if (myCapacity < rhs.length() + 1)        // more memory needed?
         {
-            delete[] myCstring;                   // delete old string
+            jdelete[] myCstring;                   // jdelete old string
             myCapacity = rhs.length() + 1;        // add 1 for '\0'
-            myCstring = new char[myCapacity];
+            myCstring = jnew char[myCapacity];
         }
         myLength = rhs.length();
         strcpy(myCstring,rhs.myCstring);
@@ -96,9 +96,9 @@ const apstring& apstring::operator = (const char * s)
 
     if (myCapacity < len + 1)
     {
-   delete[] myCstring;  // delete old string
+   jdelete[] myCstring;  // jdelete old string
    myCapacity = len + 1;   // add 1 for '\0'
-   myCstring = new char[myCapacity];
+   myCstring = jnew char[myCapacity];
     }
     myLength = len;
     strcpy(myCstring,s);
@@ -111,9 +111,9 @@ const apstring& apstring::operator = (char ch)
 {
     if (myCapacity < 2)
     {
-        delete [] myCstring;
+        jdelete [] myCstring;
         myCapacity = 2;
-        myCstring = new char[myCapacity];
+        myCstring = jnew char[myCapacity];
     }
     myLength = 1;
     myCstring[0] = ch;  // make string one character long
@@ -231,9 +231,9 @@ const apstring& apstring::operator +=(const apstring & str)
    {                       // make room for future catenations
        myCapacity *= 2;
    }
-        char * newBuffer = new char[myCapacity];
-        strcpy(newBuffer,myCstring); // copy into new buffer
-        delete [] myCstring;       // delete old string
+        char * newBuffer = jnew char[myCapacity];
+        strcpy(newBuffer,myCstring); // copy into jnew buffer
+        jdelete [] myCstring;       // jdelete old string
         myCstring = newBuffer;
     }
 

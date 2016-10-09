@@ -85,21 +85,21 @@ JXSpellList::HandleMouseDown
 		JBroadcaster::Message* msg = NULL;
 		if (clickCount == 1)
 			{
-			msg = new WordSelected(word);
+			msg = jnew WordSelected(word);
 			}
 		else if (clickCount == 2 && modifiers.meta())
 			{
-			msg = new ReplaceWordAll(word);
+			msg = jnew ReplaceWordAll(word);
 			}
 		else if (clickCount == 2)
 			{
-			msg = new ReplaceWord(word);
+			msg = jnew ReplaceWord(word);
 			}
 
 		if (msg != NULL)
 			{
 			Broadcast(*msg);
-			delete msg;
+			jdelete msg;
 			}
 		}
 }

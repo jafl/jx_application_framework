@@ -51,7 +51,7 @@ JDecisionWithVar::JDecisionWithVar
 
 JDecisionWithVar::~JDecisionWithVar()
 {
-	delete itsArrayIndex;
+	jdelete itsArrayIndex;
 }
 
 /******************************************************************************
@@ -190,7 +190,7 @@ JDecisionWithVar::SetArrayIndex
 	JFunction* theArrayIndex
 	)
 {
-	delete itsArrayIndex;
+	jdelete itsArrayIndex;
 	itsArrayIndex = theArrayIndex;
 }
 

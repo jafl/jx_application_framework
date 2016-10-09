@@ -76,18 +76,18 @@ J2DPlotWidget::J2DPlotWidget
 	itsShowGridFlag		= kJFalse;
 	itsShowFrameFlag	= kJTrue;
 
-	itsCurveInfo = new JArray<J2DCurveInfo>;
+	itsCurveInfo = jnew JArray<J2DCurveInfo>;
 	assert(itsCurveInfo != NULL);
 
-	itsColors = new JArray<JColorIndex>;
+	itsColors = jnew JArray<JColorIndex>;
 	assert(itsColors != NULL);
 
-	itsColorUsage = new JArray<JSize>;
+	itsColorUsage = jnew JArray<JSize>;
 	assert(itsColorUsage != NULL);
 
 	AddColor(itsBlackColor);
 
-	itsCurves = new JPtrArray<JPlotDataBase>(JPtrArrayT::kForgetAll);
+	itsCurves = jnew JPtrArray<JPlotDataBase>(JPtrArrayT::kForgetAll);
 	assert(itsCurves != NULL);
 
 	for (JIndex i=0; i<kSymbolCount; i++)
@@ -124,10 +124,10 @@ J2DPlotWidget::J2DPlotWidget
 
 	// Cursors
 
-	itsXMarks = new JArray<JFloat>;
+	itsXMarks = jnew JArray<JFloat>;
 	assert(itsXMarks != NULL);
 
-	itsYMarks = new JArray<JFloat>;
+	itsYMarks = jnew JArray<JFloat>;
 	assert(itsYMarks != NULL);
 
 	itsXCursorVisible	= kJFalse;
@@ -153,8 +153,8 @@ J2DPlotWidget::J2DPlotWidget
 
 J2DPlotWidget::~J2DPlotWidget()
 {
-	delete itsColors;
-	delete itsColorUsage;
+	jdelete itsColors;
+	jdelete itsColorUsage;
 
 	const JSize count = itsCurves->GetElementCount();
 	for (JIndex i=count; i>=1; i--)
@@ -165,15 +165,15 @@ J2DPlotWidget::~J2DPlotWidget()
 			StopListening(itsCurves->NthElement(i));
 			itsCurves->DeleteElement(i);
 			}
-		delete info.name;
+		jdelete info.name;
 		}
-	delete itsCurves;
-	delete itsCurveInfo;
+	jdelete itsCurves;
+	jdelete itsCurveInfo;
 
 	// Cursors
 
-	delete itsXMarks;
-	delete itsYMarks;
+	jdelete itsXMarks;
+	jdelete itsYMarks;
 }
 
 /*******************************************************************************
@@ -448,7 +448,7 @@ J2DPlotWidget::SetCurveInfoArray
 	for (JSize i = 1; i <= count; i++)
 		{
 		J2DCurveInfo info = infoArray.GetElement(i);
-		info.name = new JString(*info.name);
+		info.name = jnew JString(*info.name);
 		assert(info.name != NULL);
 		itsCurveInfo->SetElement(i, info);
 		}
@@ -484,7 +484,7 @@ J2DPlotWidget::AddCurve
 {
 	itsCurves->Append(data);
 
-	JString* str = new JString(name);
+	JString* str = jnew JString(name);
 	assert(str != NULL);
 
 	J2DCurveInfo info(kJTrue, line, symbol,
@@ -570,7 +570,7 @@ J2DPlotWidget::RemoveCurve
 			itsSymbolUsage [ symbolIndex ] > 0 );
 	itsSymbolUsage [ symbolIndex ]--;
 
-	delete info.name;
+	jdelete info.name;
 	itsCurveInfo->RemoveElement(index);
 
 	if (!itsCurves->IsEmpty())
@@ -582,7 +582,7 @@ J2DPlotWidget::RemoveCurve
 		{
 		PWRefresh();
 		Broadcast(CurveRemoved(index));
-		Broadcast(IsEmpty());		// might delete us
+		Broadcast(IsEmpty());		// might jdelete us
 		}
 }
 
@@ -3747,7 +3747,7 @@ JIndex i;
 	for (i=1; i<=curveCount; i++)
 		{
 		J2DCurveInfo info;
-		info.name = new JString;
+		info.name = jnew JString;
 		assert(info.name != NULL);
 		input >> info;
 

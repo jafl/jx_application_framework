@@ -285,21 +285,21 @@ THXExprDirector::BuildWindow
 
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 360,240, "");
+	JXWindow* window = jnew JXWindow(this, 360,240, "");
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 360,30);
 	assert( menuBar != NULL );
 
 	itsPartition =
-		new JXVertPartition(heights, elasticIndex, minHeights, window,
+		jnew JXVertPartition(heights, elasticIndex, minHeights, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 300,210);
 	assert( itsPartition != NULL );
 
 	itsKeyPad =
-		new THXKeyPad(window,
+		jnew THXKeyPad(window,
 					JXWidget::kFixedRight, JXWidget::kVElastic, 300,30, 60,210);
 	assert( itsKeyPad != NULL );
 
@@ -311,21 +311,21 @@ THXExprDirector::BuildWindow
 	window->SetWMClass(THXGetWMClassInstance(), THXGetExprWindowClass());
 
 	JXDisplay* display = GetDisplay();
-	JXImage* icon      = new JXImage(display, thx_expr_window);
+	JXImage* icon      = jnew JXImage(display, thx_expr_window);
 	assert( icon != NULL );
 	window->SetIcon(icon);
 
 	// create tape
 
 	JXScrollbarSet* scrollbarSet2 =
-		new JXScrollbarSet(itsPartition->GetCompartment(2),
+		jnew JXScrollbarSet(itsPartition->GetCompartment(2),
 						   JXWidget::kHElastic, JXWidget::kVElastic,
 						   0,0, 100,100);
 	assert( scrollbarSet2 != NULL );
 	scrollbarSet2->FitToEnclosure();
 
 	itsTapeWidget =
-		new THXTapeText(scrollbarSet2, scrollbarSet2->GetScrollEnclosure(),
+		jnew THXTapeText(scrollbarSet2, scrollbarSet2->GetScrollEnclosure(),
 						JXWidget::kHElastic, JXWidget::kVElastic,
 						0,0, 10,10);
 	assert( itsTapeWidget != NULL );
@@ -335,14 +335,14 @@ THXExprDirector::BuildWindow
 	// create expr editor -- requires tape
 
 	JXScrollbarSet* scrollbarSet1 =
-		new JXScrollbarSet(itsPartition->GetCompartment(1),
+		jnew JXScrollbarSet(itsPartition->GetCompartment(1),
 						   JXWidget::kHElastic, JXWidget::kVElastic,
 						   0,0, 100,100);
 	assert( scrollbarSet1 != NULL );
 	scrollbarSet1->FitToEnclosure();
 
 	itsExprWidget =
-		new THXExprEditor(varList, menuBar, itsTapeWidget, scrollbarSet1,
+		jnew THXExprEditor(varList, menuBar, itsTapeWidget, scrollbarSet1,
 						  scrollbarSet1->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic,
 						  0,0, 10,10);

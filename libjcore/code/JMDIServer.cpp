@@ -2,7 +2,7 @@
  JMDIServer.cpp
 
 	Base class for handling Multiple Document Interface (MDI) requests.
-	It creates a UNIX domain socket so all new invocations of the application
+	It creates a UNIX domain socket so all jnew invocations of the application
 	will be passed to us (via WillBeMDIServer()).
 
 	If the application supports MDI, it must create a derived class and
@@ -30,7 +30,6 @@
  ******************************************************************************/
 
 #include <JMDIServer.h>
-#include <j_prep_ace.h>
 #include <ace/LSOCK_Acceptor.h>
 #include <ace/LSOCK_Connector.h>
 #include <ace/LSOCK_Stream.h>
@@ -70,10 +69,10 @@ JMDIServer::JMDIServer
 	ACE_OS::unlink(socketName);
 
 	ACE_UNIX_Addr addr(socketName);
-	itsAcceptor = new ACE_LSOCK_Acceptor(addr, 0, PF_UNIX, kMDIServerQSize);
+	itsAcceptor = jnew ACE_LSOCK_Acceptor(addr, 0, PF_UNIX, kMDIServerQSize);
 	assert( itsAcceptor != NULL );
 
-	itsSocket = new ACE_LSOCK_Stream;
+	itsSocket = jnew ACE_LSOCK_Stream;
 	assert( itsSocket != NULL );
 }
 
@@ -85,10 +84,10 @@ JMDIServer::JMDIServer
 JMDIServer::~JMDIServer()
 {
 	itsSocket->close();
-	delete itsSocket;
+	jdelete itsSocket;
 
 	itsAcceptor->remove();
-	delete itsAcceptor;
+	jdelete itsAcceptor;
 }
 
 /******************************************************************************
@@ -159,7 +158,7 @@ JMDIServer::WillBeMDIServer
 		{
 		cerr << "Unable to transmit MDI request." << endl;
 		cerr << socketName << "appears to be dead," << endl;
-		cerr << "but an error ocurred while trying to delete it." << endl;
+		cerr << "but an error ocurred while trying to jdelete it." << endl;
 		exit(1);
 		}
 	else if (!serverOK)

@@ -4,8 +4,8 @@
 	Maintains a menu bar of pull-down menus.
 
 	*** RemoveMenu() only removes the specified menu from the menu bar.
-		It does -not- delete the JXMenu object.  It returns a pointer to
-		it so the caller can delete it.  This is useful if one wants to
+		It does -not- jdelete the JXMenu object.  It returns a pointer to
+		it so the caller can jdelete it.  This is useful if one wants to
 		dynamically add and remove menus from a menu bar without rebuilding
 		the menu each time it is added.  (i.e. Use InsertMenu() to put the
 		JXMenu back into the menu bar later.)  To remove a menu from the
@@ -52,7 +52,7 @@ JXMenuBar::JXMenuBar
 	itsOverflowMenu(NULL),
 	itsIgnoreWidthChangedCount(0)
 {
-	itsMenus = new JPtrArray<JXMenu>(JPtrArrayT::kForgetAll);
+	itsMenus = jnew JPtrArray<JXMenu>(JPtrArrayT::kForgetAll);
 	assert( itsMenus != NULL );
 
 	SetBorderWidth(kJXDefaultBorderWidth);
@@ -64,7 +64,7 @@ JXMenuBar::JXMenuBar
 		AdjustSize(-JXDocktab::kWidth, 0);
 
 		JXDocktab* tab =
-			new JXDocktab(enclosure,
+			jnew JXDocktab(enclosure,
 						  hSizing == kFixedRight ? kFixedRight : kFixedLeft,
 						  vSizing, x, y, JXDocktab::kWidth, h);
 		assert( tab != NULL );
@@ -89,11 +89,11 @@ JXMenuBar::~JXMenuBar()
 
 		assert( theMenu->itsOwner == NULL );
 		theMenu->itsMenuBar = NULL;		// so they won't talk to us
-		delete theMenu;
+		jdelete theMenu;
 		}
 
-	delete itsOverflowMenu;
-	delete itsMenus;
+	jdelete itsOverflowMenu;
+	jdelete itsMenus;
 }
 
 /******************************************************************************
@@ -172,7 +172,7 @@ JXMenuBar::InsertTextMenu
 	)
 {
 	const JRect bounds = GetBounds();
-	JXTextMenu* theMenu = new JXTextMenu(title, this, kFixedLeft, kVElastic,
+	JXTextMenu* theMenu = jnew JXTextMenu(title, this, kFixedLeft, kVElastic,
 										 bounds.left,bounds.top, 10,bounds.height());
 	assert( theMenu != NULL );
 
@@ -190,7 +190,7 @@ JXMenuBar::InsertTextMenu
 {
 	const JRect bounds = GetBounds();
 	JXTextMenu* theMenu =
-		new JXTextMenu(image, menuOwnsImage, this, kFixedLeft, kVElastic,
+		jnew JXTextMenu(image, menuOwnsImage, this, kFixedLeft, kVElastic,
 					   bounds.left,bounds.top, 10,bounds.height());
 	assert( theMenu != NULL );
 
@@ -369,7 +369,7 @@ JXMenuBar::DeleteMenu
 	JXMenu* theMenu = RemoveMenu(index);
 	assert( theMenu->itsOwner == NULL );
 	theMenu->itsMenuBar = NULL;
-	delete theMenu;
+	jdelete theMenu;
 }
 
 /******************************************************************************
@@ -489,7 +489,7 @@ JXMenuBar::ClearOverflowMenu()
 			AppendMenu(const_cast<JXMenu*>(m));
 			}
 
-		delete overflowMenu;
+		jdelete overflowMenu;
 
 		assert( itsIgnoreWidthChangedCount > 0 );
 		itsIgnoreWidthChangedCount--;
@@ -530,11 +530,11 @@ JXMenuBar::WidthChanged()
 
 	// create menu to hold overflow
 
-	JXImage* image = new JXImage(GetDisplay(), jx_down_chevron);
+	JXImage* image = jnew JXImage(GetDisplay(), jx_down_chevron);
 	assert( image != NULL );
 
 	JXTextMenu* overflowMenu =
-		new JXTextMenu(image, kJTrue, this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		jnew JXTextMenu(image, kJTrue, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( overflowMenu != NULL );
 	overflowMenu->SetUpdateAction(JXMenu::kDisableNone);
 
@@ -565,7 +565,7 @@ JXMenuBar::WidthChanged()
 
 	if (overflowMenu->IsEmpty())
 		{
-		delete overflowMenu;
+		jdelete overflowMenu;
 		overflowMenu = NULL;
 		}
 	else

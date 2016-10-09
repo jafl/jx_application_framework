@@ -26,13 +26,13 @@ JExprRectList::JExprRectList()
 	:
 	JContainer()
 {
-	itsRects = new JArray<JRect>(10);
+	itsRects = jnew JArray<JRect>(10);
 	assert( itsRects != NULL );
 
-	itsExtraInfo = new JArray<ExtraInfo>(10);
+	itsExtraInfo = jnew JArray<ExtraInfo>(10);
 	assert( itsExtraInfo != NULL );
 
-	itsFunctions = new JPtrArray<JFunction>(JPtrArrayT::kForgetAll, 10);
+	itsFunctions = jnew JPtrArray<JFunction>(JPtrArrayT::kForgetAll, 10);
 	assert( itsFunctions != NULL );
 
 	InstallOrderedSet(itsRects);
@@ -45,9 +45,9 @@ JExprRectList::JExprRectList()
 
 JExprRectList::~JExprRectList()
 {
-	delete itsRects;
-	delete itsExtraInfo;
-	delete itsFunctions;
+	jdelete itsRects;
+	jdelete itsExtraInfo;
+	jdelete itsFunctions;
 }
 
 /******************************************************************************

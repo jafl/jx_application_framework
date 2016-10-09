@@ -76,7 +76,7 @@ CBHTMLCompleter::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBHTMLCompleter;
+		itsSelf = jnew CBHTMLCompleter;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -93,7 +93,7 @@ CBHTMLCompleter::Instance()
 void
 CBHTMLCompleter::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************

@@ -59,13 +59,13 @@ JFSBindingList::Create
 		JSplitPathAndName(signalFileName, &path, &name);
 		if ((JCreateDirectory(path, 0700)).OK() && JDirectoryWritable(path))
 			{
-			JFSBindingList* list = new JFSBindingList(signalFileName, needUserCheck);
+			JFSBindingList* list = jnew JFSBindingList(signalFileName, needUserCheck);
 			assert( list != NULL );
 			return list;
 			}
 		}
 
-	JFSBindingList* list = new JFSBindingList("", needUserCheck);
+	JFSBindingList* list = jnew JFSBindingList("", needUserCheck);
 	assert( list != NULL );
 	return list;
 }
@@ -90,11 +90,11 @@ JFSBindingList::JFSBindingList
 	itsAutoShellFlag(kJFalse),
 	itsSignalFileName(signalFileName)
 {
-	itsBindingList = new JPtrArray<JFSBinding>(JPtrArrayT::kDeleteAll);
+	itsBindingList = jnew JPtrArray<JFSBinding>(JPtrArrayT::kDeleteAll);
 	assert( itsBindingList != NULL );
 	itsBindingList->SetCompareFunction(JFSBinding::ComparePatterns);
 
-	itsOverriddenList = new JPtrArray<JFSBinding>(JPtrArrayT::kDeleteAll);
+	itsOverriddenList = jnew JPtrArray<JFSBinding>(JPtrArrayT::kDeleteAll);
 	assert( itsOverriddenList != NULL );
 	itsOverriddenList->SetCompareFunction(JFSBinding::ComparePatterns);
 
@@ -110,10 +110,10 @@ JFSBindingList::JFSBindingList
 
 JFSBindingList::~JFSBindingList()
 {
-	delete itsBindingList;
-	delete itsOverriddenList;
-	delete itsUserDefault;
-	delete itsSystemDefault;
+	jdelete itsBindingList;
+	jdelete itsOverriddenList;
+	jdelete itsUserDefault;
+	jdelete itsSystemDefault;
 }
 
 /******************************************************************************
@@ -134,7 +134,7 @@ JFSBindingList::AddBinding
 	const JBoolean					isSystem
 	)
 {
-	JFSBinding* b = new JFSBinding(pattern, cmd, type, singleFile, isSystem);
+	JFSBinding* b = jnew JFSBinding(pattern, cmd, type, singleFile, isSystem);
 	assert( b != NULL );
 	return AddBinding(b);
 }
@@ -157,7 +157,7 @@ JFSBindingList::AddBinding
 			{
 			if (!itsOverriddenList->InsertSorted(b, kJFalse))
 				{
-				delete b;
+				jdelete b;
 				return 0;
 				}
 			}
@@ -224,7 +224,7 @@ JFSBindingList::DeleteBinding
  SetPattern
 
 	Returns kJFalse if the pattern is already used by a different binding.
-	*newIndex is always set to the new location of the element that was at
+	*newIndex is always set to the jnew location of the element that was at
 	index.
 
  ******************************************************************************/
@@ -384,7 +384,7 @@ JFSBindingList::SetSingleFile
 /******************************************************************************
  SetCommand
 
-	Creates a new element if pattern isn't already registered.
+	Creates a jnew element if pattern isn't already registered.
 
  ******************************************************************************/
 
@@ -397,14 +397,14 @@ JFSBindingList::SetCommand
 	const JBoolean					singleFile
 	)
 {
-	JFSBinding* b = new JFSBinding(pattern, cmd, type, singleFile, kJFalse);
+	JFSBinding* b = jnew JFSBinding(pattern, cmd, type, singleFile, kJFalse);
 	assert( b != NULL );
 
 	JIndex index;
 	if (itsBindingList->SearchSorted(b, JOrderedSetT::kLastMatch, &index) &&
 		!(itsBindingList->NthElement(index))->IsSystemBinding())
 		{
-		delete b;
+		jdelete b;
 		b = itsBindingList->NthElement(index);
 		b->SetCommand(cmd, type, singleFile);
 		}
@@ -449,7 +449,7 @@ JFSBindingList::SetDefaultCommand
 {
 	if (itsUserDefault == NULL)
 		{
-		itsUserDefault = new JFSBinding("", cmd, type, singleFile, kJFalse);
+		itsUserDefault = jnew JFSBinding("", cmd, type, singleFile, kJFalse);
 		assert( itsUserDefault != NULL );
 		}
 	else
@@ -546,7 +546,7 @@ JFSBindingList::StoreDefault
 	JFSBinding**	slot
 	)
 {
-	delete *slot;
+	jdelete *slot;
 	*slot = b;
 }
 
@@ -596,10 +596,10 @@ JFSBindingList::Revert()
 	itsBindingList->CleanOut();
 	itsOverriddenList->CleanOut();
 
-	delete itsUserDefault;
+	jdelete itsUserDefault;
 	itsUserDefault = NULL;
 
-	delete itsSystemDefault;
+	jdelete itsSystemDefault;
 	itsSystemDefault = NULL;
 
 	// read system bindings
@@ -652,7 +652,7 @@ JFSBindingList::Revert()
 				}
 			}
 
-		delete file;
+		jdelete file;
 		}
 
 	if (IsEmpty())		// nothing loaded
@@ -728,18 +728,18 @@ JFSBindingList::Load
 	while (1)
 		{
 		JBoolean isDefault, del;
-		JFSBinding* b = new JFSBinding(input, vers, isSystem, &isDefault, &del);
+		JFSBinding* b = jnew JFSBinding(input, vers, isSystem, &isDefault, &del);
 		assert( b != NULL );
 
 		if (input.eof() || input.fail())
 			{
-			delete b;
+			jdelete b;
 			break;
 			}
 
 		if (del)
 			{
-			delete b;
+			jdelete b;
 			}
 		else if (isDefault)
 			{
@@ -789,7 +789,7 @@ JFSBindingList::Save()
 			}
 
 		file->SetData(kCurrentBindingVersion, data);
-		delete file;
+		jdelete file;
 
 		ofstream touch(itsSignalFileName);
 		touch.close();

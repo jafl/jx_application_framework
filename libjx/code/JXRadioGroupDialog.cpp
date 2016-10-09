@@ -105,7 +105,7 @@ JIndex i;
 
 	const JSize actionCount = choiceList.GetElementCount();
 
-	JXWindow* window = new JXWindow(this, 10,10, windowTitle);
+	JXWindow* window = jnew JXWindow(this, 10,10, windowTitle);
 	assert( window != NULL );
 
 	JCoordinate y = kFirstItemTop;
@@ -113,7 +113,7 @@ JIndex i;
 	// instructions
 
 	JXStaticText* instrText =
-		new JXStaticText(prompt, window,
+		jnew JXStaticText(prompt, window,
 						 JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 kHMarginWidth,y, 0,0);
 	assert( instrText != NULL );
@@ -125,7 +125,7 @@ JIndex i;
 	const JCoordinate kInitRGWidth = 10;	// arbitrary, >0
 
 	itsRG =
-		new JXRadioGroup(window, JXWidget::kFixedLeft, JXWidget::kFixedTop,
+		jnew JXRadioGroup(window, JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 kHMarginWidth,y,
 						 kInitRGWidth, kItemVDelta + actionCount * kItemVSeparation);
 	assert( itsRG != NULL );
@@ -137,7 +137,7 @@ JIndex i;
 	for (i=1; i<=actionCount; i++)
 		{
 		JXTextRadioButton* button =
-			new JXTextRadioButton(i, *(choiceList.NthElement(i)), itsRG,
+			jnew JXTextRadioButton(i, *(choiceList.NthElement(i)), itsRG,
 								  JXWidget::kFixedLeft, JXWidget::kFixedTop,
 								  kRGHLMarginWidth, kItemVDelta + (i-1) * kItemVSeparation,
 								  10,kTextHeight);
@@ -187,13 +187,13 @@ JIndex i;
 	const JCoordinate buttonX = (wmin - 2*kButtonWidth)/3;
 
 	JXTextButton* cancelButton =
-		new JXTextButton("Cancel", window,
+		jnew JXTextButton("Cancel", window,
 						 JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 buttonX,y, kButtonWidth,kTextHeight);
 	assert( cancelButton != NULL );
 
 	JXTextButton* okButton =
-		new JXTextButton("OK", window,
+		jnew JXTextButton("OK", window,
 						 JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						 wmin - buttonX - (kButtonWidth+2), y-1,
 						 kButtonWidth+2, kTextHeight+2);

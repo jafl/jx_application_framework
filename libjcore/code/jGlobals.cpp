@@ -19,7 +19,6 @@
 #include <jDirUtil.h>
 #include <jFileUtil.h>
 #include <stdlib.h>
-#include <j_prep_ace.h>
 #include <ace/OS_NS_sys_socket.h>
 #include <jAssert.h>
 
@@ -125,7 +124,7 @@ JInitCore
 		}
 	else
 		{
-		theUserNotification = new JTextUserNotification;
+		theUserNotification = jnew JTextUserNotification;
 		assert( theUserNotification != NULL );
 		}
 
@@ -137,7 +136,7 @@ JInitCore
 		}
 	else
 		{
-		theChooseSaveFile = new JTextChooseSaveFile;
+		theChooseSaveFile = jnew JTextChooseSaveFile;
 		assert( theChooseSaveFile != NULL );
 		}
 
@@ -149,7 +148,7 @@ JInitCore
 		}
 	else
 		{
-		theCreatePG = new JCreateTextPG;
+		theCreatePG = jnew JCreateTextPG;
 		assert( theCreatePG != NULL );
 		}
 
@@ -171,7 +170,7 @@ JInitCore
 
 	if (!JStringEmpty(defaultFontName))
 		{
-		theDefaultFontName = new JString(defaultFontName);
+		theDefaultFontName = jnew JString(defaultFontName);
 		assert( theDefaultFontName != NULL );
 		}
 
@@ -179,7 +178,7 @@ JInitCore
 
 	if (!JStringEmpty(greekFontName))
 		{
-		theGreekFontName = new JString(greekFontName);
+		theGreekFontName = jnew JString(greekFontName);
 		assert( theGreekFontName != NULL );
 		}
 
@@ -187,7 +186,7 @@ JInitCore
 
 	if (!JStringEmpty(monospaceFontName))
 		{
-		theMonospaceFontName = new JString(monospaceFontName);
+		theMonospaceFontName = jnew JString(monospaceFontName);
 		assert( theMonospaceFontName != NULL );
 		}
 
@@ -206,37 +205,37 @@ JInitCore
 void
 JDeleteGlobals()
 {
-	delete theDefaultFontName;
+	jdelete theDefaultFontName;
 	theDefaultFontName = NULL;
 
-	delete theGreekFontName;
+	jdelete theGreekFontName;
 	theGreekFontName = NULL;
 
-	delete theMonospaceFontName;
+	jdelete theMonospaceFontName;
 	theMonospaceFontName = NULL;
 
-	delete theGetCurrColormap;
+	jdelete theGetCurrColormap;
 	theGetCurrColormap = NULL;
 
-	delete theGetCurrFontMgr;
+	jdelete theGetCurrFontMgr;
 	theGetCurrFontMgr = NULL;
 
-	delete theCreatePG;
+	jdelete theCreatePG;
 	theCreatePG = NULL;
 
-	delete theChooseSaveFile;
+	jdelete theChooseSaveFile;
 	theChooseSaveFile = NULL;
 
-	delete theUserNotification;
+	jdelete theUserNotification;
 	theUserNotification = NULL;
 
-	delete theStringManager;
+	jdelete theStringManager;
 	theStringManager = NULL;
 
-	delete theWebBrowser;
+	jdelete theWebBrowser;
 	theWebBrowser = NULL;
 
-	delete theAssertHandler;
+	jdelete theAssertHandler;
 	theAssertHandler = NULL;
 
 	ACE_OS::socket_fini();
@@ -273,7 +272,7 @@ JGetStringManager()
 {
 	if (theStringManager == NULL)
 		{
-		theStringManager = new JStringManager;
+		theStringManager = jnew JStringManager;
 		assert( theStringManager != NULL );
 		theStringManager->Register(NULL, kJCoreDefaultStringData);
 		}
@@ -320,7 +319,7 @@ JGetUserNotification()
 		{
 		cerr << "Forgot to initialize UserNotification: using text version" << endl;
 
-		theUserNotification = new JTextUserNotification;
+		theUserNotification = jnew JTextUserNotification;
 		assert( theUserNotification != NULL );
 		}
 
@@ -339,7 +338,7 @@ JGetChooseSaveFile()
 		{
 		cerr << "Forgot to initialize ChooseSaveFile: using default version" << endl;
 
-		theChooseSaveFile = new JTextChooseSaveFile;
+		theChooseSaveFile = jnew JTextChooseSaveFile;
 		assert( theChooseSaveFile != NULL );
 		}
 
@@ -358,7 +357,7 @@ JGetCreatePG()
 		{
 		cerr << "Forgot to initialize CreateProgressDisplay: using text version" << endl;
 
-		theCreatePG = new JCreateTextPG;
+		theCreatePG = jnew JCreateTextPG;
 		assert( theCreatePG != NULL );
 		}
 

@@ -109,5 +109,5 @@ JVMGetThreadParent::HandleSuccess
 void
 JVMGetThreadParent::HandleFailure()
 {
-	delete itsNode;
+	jdelete itsNode;
 }

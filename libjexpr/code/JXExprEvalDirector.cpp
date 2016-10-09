@@ -51,7 +51,7 @@ JXExprEvalDirector::JXExprEvalDirector
 
 JXExprEvalDirector::~JXExprEvalDirector()
 {
-	delete itsFunction;
+	jdelete itsFunction;
 }
 
 /******************************************************************************
@@ -65,17 +65,17 @@ JXExprEvalDirector::BuildWindow
 	JXWindowDirector* supervisor
 	)
 {
-	JXWindow* window = new JXWindow(this, 200,40, "");
+	JXWindow* window = jnew JXWindow(this, 200,40, "");
 	assert( window != NULL );
 
 	itsTextDisplay =
-		new JXStaticText("", kJFalse, kJTrue, NULL, window,
+		jnew JXStaticText("", kJFalse, kJTrue, NULL, window,
 						 JXWidget::kHElastic, JXWidget::kVElastic,
 						 10,10, 140,20);
 	assert( itsTextDisplay != NULL );
 
 	itsCloseButton =
-		new JXTextButton("Close", window,
+		jnew JXTextButton("Close", window,
 						 JXWidget::kFixedRight, JXWidget::kFixedTop,
 						 150,10, 40,20);
 	assert( itsCloseButton != NULL );

@@ -368,7 +368,7 @@ CBTextDocument::ConstructTextEditor
 	)
 {
 	CBTextEditor* te =
-		new CBTextEditor(document, fileName, menuBar, lineInput, colInput,
+		jnew CBTextEditor(document, fileName, menuBar, lineInput, colInput,
 						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( te != NULL );
@@ -490,66 +490,66 @@ CBTextDocument::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 550,550, "");
+	JXWindow* window = jnew JXWindow(this, 550,550, "");
 	assert( window != NULL );
 
 	itsFileDragSource =
-		new CBFileDragSource(this, window,
+		jnew CBFileDragSource(this, window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 150,530, 20,20);
 	assert( itsFileDragSource != NULL );
 
 	itsMenuBar =
-		new JXMenuBar(window,
+		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 480,30);
 	assert( itsMenuBar != NULL );
 
 	itsActionButton =
-		new JXTextButton(JGetString("itsActionButton::CBTextDocument::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsActionButton::CBTextDocument::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 480,0, 70,30);
 	assert( itsActionButton != NULL );
 
 	itsToolBar =
-		new JXToolBar(CBGetPrefsManager(), kCBTEToolBarID, itsMenuBar, 300,100, window,
+		jnew JXToolBar(CBGetPrefsManager(), kCBTEToolBarID, itsMenuBar, 300,100, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 550,500);
 	assert( itsToolBar != NULL );
 
 	JXDownRect* obj1_JXLayout =
-		new JXDownRect(window,
+		jnew JXDownRect(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,530, 80,20);
 	assert( obj1_JXLayout != NULL );
 
 	JXStaticText* lineLabel =
-		new JXStaticText(JGetString("lineLabel::CBTextDocument::JXLayout"), obj1_JXLayout,
+		jnew JXStaticText(JGetString("lineLabel::CBTextDocument::JXLayout"), obj1_JXLayout,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 28,16);
 	assert( lineLabel != NULL );
 
 	CBTELineIndexInput* lineInput =
-		new CBTELineIndexInput(lineLabel, obj1_JXLayout,
+		jnew CBTELineIndexInput(lineLabel, obj1_JXLayout,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 28,0, 48,16);
 	assert( lineInput != NULL );
 
 	JXDownRect* obj2_JXLayout =
-		new JXDownRect(window,
+		jnew JXDownRect(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 80,530, 70,20);
 	assert( obj2_JXLayout != NULL );
 
 	JXStaticText* colLabel =
-		new JXStaticText(JGetString("colLabel::CBTextDocument::JXLayout"), obj2_JXLayout,
+		jnew JXStaticText(JGetString("colLabel::CBTextDocument::JXLayout"), obj2_JXLayout,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 28,16);
 	assert( colLabel != NULL );
 
 	CBTEColIndexInput* colInput =
-		new CBTEColIndexInput(lineInput, colLabel, obj2_JXLayout,
+		jnew CBTEColIndexInput(lineInput, colLabel, obj2_JXLayout,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 28,0, 38,16);
 	assert( colInput != NULL );
 
 	itsFileDisplay =
-		new CBFileNameDisplay(this, itsFileDragSource, window,
+		jnew CBFileNameDisplay(this, itsFileDragSource, window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 170,530, 295,20);
 	assert( itsFileDisplay != NULL );
 
 	itsSettingsMenu =
-		new JXTextMenu(JGetString("itsSettingsMenu::CBTextDocument::JXLayout"), window,
+		jnew JXTextMenu(JGetString("itsSettingsMenu::CBTextDocument::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 465,530, 85,20);
 	assert( itsSettingsMenu != NULL );
 
@@ -563,7 +563,7 @@ CBTextDocument::BuildWindow
 	window->ShouldFocusWhenShow(kJTrue);	// necessary for click-to-focus
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
+		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( scrollbarSet != NULL );
 	scrollbarSet->FitToEnclosure();
@@ -615,16 +615,16 @@ CBTextDocument::BuildWindow
 	itsFileMenu->SetItemImage(kPrintPSCmd,       jcc_file_print_with_styles);
 
 	CBFileHistoryMenu* recentProjectMenu =
-		new CBFileHistoryMenu(CBDocumentManager::kProjectFileHistory,
+		jnew CBFileHistoryMenu(CBDocumentManager::kProjectFileHistory,
 							  itsFileMenu, kRecentProjectMenuCmd, itsMenuBar);
 	assert( recentProjectMenu != NULL );
 
 	CBFileHistoryMenu* recentTextMenu =
-		new CBFileHistoryMenu(CBDocumentManager::kTextFileHistory,
+		jnew CBFileHistoryMenu(CBDocumentManager::kTextFileHistory,
 							  itsFileMenu, kRecentTextMenuCmd, itsMenuBar);
 	assert( recentTextMenu != NULL );
 
-	itsFileFormatMenu = new JXTextMenu(itsFileMenu, kFileFormatIndex, itsMenuBar);
+	itsFileFormatMenu = jnew JXTextMenu(itsFileMenu, kFileFormatIndex, itsMenuBar);
 	assert( itsFileFormatMenu != NULL );
 	itsFileFormatMenu->SetMenuItems(kFileFormatMenuStr, "CBTextDocument");
 	itsFileFormatMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -634,7 +634,7 @@ CBTextDocument::BuildWindow
 	itsFileFormatMenu->SetItemImage(kMacFmtCmd,  jcc_mac_format);
 	itsFileFormatMenu->SetItemImage(kDOSFmtCmd,  jcc_dos_format);
 
-	itsDiffMenu = new JXTextMenu(itsFileMenu, kDiffMenuIndex, itsMenuBar);
+	itsDiffMenu = jnew JXTextMenu(itsFileMenu, kDiffMenuIndex, itsMenuBar);
 	assert( itsDiffMenu != NULL );
 	itsDiffMenu->SetMenuItems(kDiffMenuStr, "CBTextDocument");
 	ListenTo(itsDiffMenu);
@@ -644,13 +644,13 @@ CBTextDocument::BuildWindow
 	itsDiffMenu->SetItemImage(kDiffAsVCSCmd, jcc_compare_vcs_as);
 
 	itsCmdMenu =
-		new CBCommandMenu(NULL, this, itsMenuBar,
+		jnew CBCommandMenu(NULL, this, itsMenuBar,
 						  JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsCmdMenu != NULL );
 	itsMenuBar->AppendMenu(itsCmdMenu);
 
 	itsWindowMenu =
-		new CBDocumentMenu(kFileListMenuTitleStr, itsMenuBar,
+		jnew CBDocumentMenu(kFileListMenuTitleStr, itsMenuBar,
 						   JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsWindowMenu != NULL );
 	itsMenuBar->AppendMenu(itsWindowMenu);
@@ -660,7 +660,7 @@ CBTextDocument::BuildWindow
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPrefsMenu);
 
-	itsPrefsStylesMenu = new JXTextMenu(itsPrefsMenu, kEditStylesSubmenuIndex, itsMenuBar);
+	itsPrefsStylesMenu = jnew JXTextMenu(itsPrefsMenu, kEditStylesSubmenuIndex, itsMenuBar);
 	assert( itsPrefsStylesMenu != NULL );
 	itsPrefsStylesMenu->SetMenuItems(kPrefsStylesMenuStr, "CBTextDocument");
 	itsPrefsStylesMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -1921,7 +1921,7 @@ CBTextDocument::HandleSettingsMenu
 	if (index == kTabWidthCmd)
 		{
 		assert( itsTabWidthDialog == NULL );
-		itsTabWidthDialog = new CBTabWidthDialog(this, itsTextEditor->GetTabCharCount());
+		itsTabWidthDialog = jnew CBTabWidthDialog(this, itsTextEditor->GetTabCharCount());
 		assert( itsTabWidthDialog != NULL );
 		itsTabWidthDialog->BeginDialog();
 		ListenTo(itsTabWidthDialog);
@@ -2316,7 +2316,7 @@ CBTextDocument::SaveWindowSize()
 void
 CBTextDocument::EditPrefs()
 {
-	CBEditTextPrefsDialog* dlog = new CBEditTextPrefsDialog(this);
+	CBEditTextPrefsDialog* dlog = jnew CBEditTextPrefsDialog(this);
 	assert( dlog != NULL );
 	dlog->BeginDialog();
 }

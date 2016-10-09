@@ -119,7 +119,7 @@ JGetUserMountPointList
 		{
 		if (state != NULL)
 			{
-			delete state->mountCmdOutput;
+			jdelete state->mountCmdOutput;
 			state->mountCmdOutput = NULL;
 			}
 		return kJFalse;
@@ -130,14 +130,14 @@ JGetUserMountPointList
 
 	p->WaitUntilFinished();
 	const JBoolean success = p->SuccessfulFinish();
-	delete p;
+	jdelete p;
 	p = NULL;
 
 	if (!success)
 		{
 		if (state != NULL)
 			{
-			delete state->mountCmdOutput;
+			jdelete state->mountCmdOutput;
 			state->mountCmdOutput = NULL;
 			}
 		return kJFalse;
@@ -152,7 +152,7 @@ JGetUserMountPointList
 	list->CleanOut();
 	if (state != NULL && state->mountCmdOutput == NULL)
 		{
-		state->mountCmdOutput = new JString(mountData);
+		state->mountCmdOutput = jnew JString(mountData);
 		assert( state->mountCmdOutput != NULL );
 		}
 	else if (state != NULL)
@@ -174,9 +174,9 @@ JGetUserMountPointList
 			continue;
 			}
 
-		JString* path = new JString(mountData.GetSubstring(matchList.GetElement(3)));
+		JString* path = jnew JString(mountData.GetSubstring(matchList.GetElement(3)));
 		assert( path != NULL );
-		JString* devicePath = new JString(mountData.GetSubstring(matchList.GetElement(2)));
+		JString* devicePath = jnew JString(mountData.GetSubstring(matchList.GetElement(2)));
 		assert( devicePath != NULL );
 
 		const JMountType type =
@@ -184,8 +184,8 @@ JGetUserMountPointList
 		if (type == kJUnknownMountType ||
 			ACE_OS::stat(*path, &stbuf) != 0)
 			{
-			delete path;
-			delete devicePath;
+			jdelete path;
+			jdelete devicePath;
 			continue;
 			}
 
@@ -259,9 +259,9 @@ JGetUserMountPointList
 				fsType = kVFATType;
 				}
 
-			JString* path = new JString(info->fs_file);
+			JString* path = jnew JString(info->fs_file);
 			assert( path != NULL );
-			JString* devicePath = new JString(info->fs_spec);
+			JString* devicePath = jnew JString(info->fs_spec);
 			assert( devicePath != NULL );
 			list->AppendElement(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
 			}
@@ -328,9 +328,9 @@ JGetUserMountPointList
 				fsType = kVFATType;
 				}
 
-			JString* path = new JString(info.vfs_mountp);
+			JString* path = jnew JString(info.vfs_mountp);
 			assert( path != NULL );
-			JString* devicePath = new JString(info.vfs_special);
+			JString* devicePath = jnew JString(info.vfs_special);
 			assert( devicePath != NULL );
 			list->AppendElement(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
 			}
@@ -423,9 +423,9 @@ JGetUserMountPointList
 			fsType = kVFATType;
 			}
 
-		JString* path = new JString(info->mnt_dir);
+		JString* path = jnew JString(info->mnt_dir);
 		assert( path != NULL );
-		JString* devicePath = new JString(info->mnt_fsname);
+		JString* devicePath = jnew JString(info->mnt_fsname);
 		assert( devicePath != NULL );
 		list->AppendElement(JMountPoint(path, type, stbuf.st_dev, devicePath, fsType));
 		}
@@ -1379,8 +1379,8 @@ JMountPointList::DeleteAll()
 	for (JIndex i=1; i<=count; i++)
 		{
 		JMountPoint info = GetElement(i);
-		delete info.path;
-		delete info.devicePath;
+		jdelete info.path;
+		jdelete info.devicePath;
 		}
 
 	RemoveAll();
@@ -1410,6 +1410,6 @@ JMountPointList::SetCleanUpAction
 JMountState::~JMountState()
 {
 #if defined JMOUNT_OSX
-	delete mountCmdOutput;
+	jdelete mountCmdOutput;
 #endif
 }

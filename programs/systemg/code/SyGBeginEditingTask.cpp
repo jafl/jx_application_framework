@@ -61,7 +61,7 @@ SyGBeginEditingTask::Perform()
 		itsTable->TableScrollToCell(JPoint(itsTable->GetToggleOpenColIndex(), cell.y));
 		}
 
-	delete this;
+	jdelete this;
 }
 
 /******************************************************************************

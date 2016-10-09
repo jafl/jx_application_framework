@@ -32,7 +32,7 @@ main()
 	cout << "Beginning JStringPtrMap test.  No news is good news." << endl;
 
 	const JCharacter* keyConst = "testkey";
-	JCharacter* const key = new JCharacter[strlen(keyConst)+1];
+	JCharacter* const key = jnew JCharacter[strlen(keyConst)+1];
 	strcpy(key, keyConst);
 
 // Mostly just test PtrMap specific things like DeleteAll
@@ -45,7 +45,7 @@ main()
 		for (i=0;i<gNumStrings;i++)
 			{
 			key[0] = 'A' + i;
-			JCharacter* newValue = new JCharacter[strlen(key)+1];
+			JCharacter* newValue = jnew JCharacter[strlen(key)+1];
 			strcpy(newValue, key);
 			if ( !ptrMap.SetNewElement(key, newValue) )
 				{
@@ -101,7 +101,7 @@ main()
 		}
 	}
 
-	delete[] key;
+	jdelete[] key;
 
 	cout << "Finished JStringPtrMap test.  If nothing printed out, it passed." << endl;
 

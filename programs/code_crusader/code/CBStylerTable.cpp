@@ -38,7 +38,7 @@ CBStylerTable::CBStylerTable
 	const JCoordinate			h
 	)
 	:
-	JXStringTable(new JStringTableData,
+	JXStringTable(jnew JStringTableData,
 				  scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
 	CBStylerTableX(kCBUnknownFT, kJFalse, NULL, NULL);
@@ -74,7 +74,7 @@ CBStylerTable::CBStylerTable
 	const JCoordinate						h
 	)
 	:
-	JXStringTable(new JStringTableData,
+	JXStringTable(jnew JStringTableData,
 				  scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
 	CBStylerTableX(fileType, kJTrue, addRowButton, removeButton);
@@ -137,7 +137,7 @@ CBStylerTable::CBStylerTableX
 	SetFocusColor(backColor);
 	SetSelectionColor(prefsMgr->GetColor(CBMPrefsManager::kSelColorIndex));
 
-	itsStyleMenu = new CBStylerTableMenu(this, kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsStyleMenu = jnew CBStylerTableMenu(this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsStyleMenu != NULL );
 }
 
@@ -148,7 +148,7 @@ CBStylerTable::CBStylerTableX
 
 CBStylerTable::~CBStylerTable()
 {
-	delete GetStringData();
+	jdelete GetStringData();
 }
 
 /******************************************************************************
@@ -475,7 +475,7 @@ CBStylerTable::CreateStringTableInput
 	SelectSingleCell(cell, kJFalse);
 
 	CBStylerTableInput* obj =
-		new CBStylerTableInput(itsFileType, this, hSizing, vSizing, x,y, w,h);
+		jnew CBStylerTableInput(itsFileType, this, hSizing, vSizing, x,y, w,h);
 	assert( obj != NULL );
 	return obj;
 }

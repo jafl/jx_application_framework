@@ -15,7 +15,7 @@
 	Derived classes can also override:
 
 		AdjustToTree
-			Adjust the table to match the new state of the tree list.
+			Adjust the table to match the jnew state of the tree list.
 			(The base class adjusts the width of the table.)
 
 	BASE CLASS = JXStyleTable
@@ -73,10 +73,10 @@ JXTreeListWidget::JXTreeListWidget
 	itsTreeList = treeList;
 	ListenTo(itsTreeList);
 
-	itsMinColWidths = new JArray<JSize>;
+	itsMinColWidths = jnew JArray<JSize>;
 	assert( itsMinColWidths != NULL );
 
-	itsReselectNodeList = new JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
+	itsReselectNodeList = jnew JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
 	assert( itsReselectNodeList != NULL );
 	ListenTo(itsTreeList->GetTree());
 
@@ -111,11 +111,11 @@ JXTreeListWidget::JXTreeListWidget
 
 JXTreeListWidget::~JXTreeListWidget()
 {
-	delete itsTreeList;
-	delete itsMinColWidths;
-	delete itsReselectNodeList;
-	delete itsAdjustToTreeTask;
-	delete itsSavedScrollSetup;
+	jdelete itsTreeList;
+	jdelete itsMinColWidths;
+	jdelete itsReselectNodeList;
+	jdelete itsAdjustToTreeTask;
+	jdelete itsSavedScrollSetup;
 }
 
 /******************************************************************************
@@ -742,7 +742,7 @@ JXTreeListWidget::HandlePrepareForNodeMove()
 	WriteScrollSetup(data);
 
 	assert( itsSavedScrollSetup == NULL );
-	itsSavedScrollSetup = new JString(data.str());
+	itsSavedScrollSetup = jnew JString(data.str());
 	assert( itsSavedScrollSetup != NULL );
 }
 
@@ -767,7 +767,7 @@ JXTreeListWidget::HandleNodeMoveFinished()
 	std::istringstream input(s);
 	ReadScrollSetup(input);
 
-	delete itsSavedScrollSetup;
+	jdelete itsSavedScrollSetup;
 	itsSavedScrollSetup = NULL;
 }
 
@@ -781,7 +781,7 @@ JXTreeListWidget::NeedsAdjustToTree()
 {
 	if (itsAdjustToTreeTask == NULL)
 		{
-		itsAdjustToTreeTask = new JXTLWAdjustToTreeTask(this);
+		itsAdjustToTreeTask = jnew JXTLWAdjustToTreeTask(this);
 		assert( itsAdjustToTreeTask != NULL );
 		itsAdjustToTreeTask->Go();
 		}
@@ -803,7 +803,7 @@ JXTreeListWidget::ForceAdjustToTree()
 {
 	while (itsAdjustToTreeTask != NULL)
 		{
-		delete itsAdjustToTreeTask;
+		jdelete itsAdjustToTreeTask;
 		itsAdjustToTreeTask = NULL;
 		AdjustToTree();
 		}

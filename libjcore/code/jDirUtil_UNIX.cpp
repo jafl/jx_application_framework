@@ -1099,12 +1099,12 @@ JCreateTempDirectory
 		{
 		*fullName = s;
 		JAppendDirSeparator(fullName);
-		delete [] s;
+		jdelete [] s;
 		return JNoError();
 		}
 
 	fullName->Clear();
-	delete [] s;
+	jdelete [] s;
 
 	// EINVAL counts as unexpected
 

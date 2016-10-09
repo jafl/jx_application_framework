@@ -62,6 +62,6 @@ JXAskInitDockAll::Perform
 			(JXGetDockManager())->DockAll();
 			}
 
-		delete this;
+		jdelete this;
 		}
 }

@@ -61,8 +61,8 @@ JBinaryDecision<T>::JBinaryDecision
 template <class T>
 JBinaryDecision<T>::~JBinaryDecision()
 {
-	delete itsArg1;
-	delete itsArg2;
+	jdelete itsArg1;
+	jdelete itsArg2;
 }
 
 /******************************************************************************
@@ -247,7 +247,7 @@ JBinaryDecision<T>::SetArg1
 	T* arg
 	)
 {
-	delete itsArg1;
+	jdelete itsArg1;
 	itsArg1 = arg;
 }
 
@@ -258,7 +258,7 @@ JBinaryDecision<T>::SetArg2
 	T* arg
 	)
 {
-	delete itsArg2;
+	jdelete itsArg2;
 	itsArg2 = arg;
 }
 

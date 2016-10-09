@@ -51,7 +51,7 @@ CBFileListTable::CBFileListTable
 	:
 	JXFileListTable(scrollbarSet, enclosure, hSizing,vSizing, x,y, w,h)
 {
-	itsFileInfo = new JArray<FileInfo>(100);
+	itsFileInfo = jnew JArray<FileInfo>(100);
 	assert( itsFileInfo != NULL );
 
 	itsFileUsage              = NULL;
@@ -69,7 +69,7 @@ CBFileListTable::CBFileListTable
 
 CBFileListTable::~CBFileListTable()
 {
-	delete itsFileInfo;
+	jdelete itsFileInfo;
 }
 
 /******************************************************************************
@@ -290,7 +290,7 @@ CBFileListTable::ScanDirectory
 		pg.IncrementProgress();
 		}
 
-	delete info;
+	jdelete info;
 }
 
 /******************************************************************************
@@ -333,7 +333,7 @@ CBFileListTable::ParseFile
 /******************************************************************************
  AddFile (private)
 
-	Returns kJTrue if the file is new or changed.  *id is always set to
+	Returns kJTrue if the file is jnew or changed.  *id is always set to
 	the id of the file.
 
 	*** This often runs in the update thread.
@@ -645,7 +645,7 @@ CBFileListTable::FilesAdded
 /******************************************************************************
  UpdateFileInfo (private)
 
-	The file name changed, so we generate a new ID.
+	The file name changed, so we generate a jnew ID.
 
  ******************************************************************************/
 

@@ -26,7 +26,7 @@ WS      ([ \v\t\f\r]*)
 
 
 
-CKEYWORD     (abstract|as|base|break|case|catch|checked|class|const|continue|default|delegate|do|else|enum|explicit|extern|false|finally|for|foreach|goto|if|implicit|in|interface|internal|is|lock|namespace|new|null|operator|out|override|params|private|protected|public|readonly|ref|return|sealed|sizeof|stackalloc|static|struct|switch|this|throw|true|try|typeof|unchecked|unsafe|using|virtual|volatile|while)
+CKEYWORD     (abstract|as|base|break|case|catch|checked|class|const|continue|default|delegate|do|else|enum|explicit|extern|false|finally|for|foreach|goto|if|implicit|in|interface|internal|is|lock|namespace|jnew|null|operator|out|override|params|private|protected|public|readonly|ref|return|sealed|sizeof|stackalloc|static|struct|switch|this|throw|true|try|typeof|unchecked|unsafe|using|virtual|volatile|while)
 
 PPKEYWORD    (if|else|elif|endif|define|undef|warning|error|line|region|endregion)
 

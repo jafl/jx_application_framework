@@ -517,7 +517,7 @@ JXFileDocument::DataReverted
 /******************************************************************************
  SaveCopyInNewFile
 
-	Save a copy of the data in a new file.  Our file is not changed.
+	Save a copy of the data in a jnew file.  Our file is not changed.
 	Returns kJTrue if a file is successfully written.
 
 	If origName is not empty, it is passed to JChooseSaveFile::SaveFile().
@@ -574,7 +574,7 @@ JXFileDocument::SaveCopyInNewFile
 /******************************************************************************
  SaveInNewFile
 
-	Save the data in a new file and update ourselves to refer to this new file.
+	Save the data in a jnew file and update ourselves to refer to this jnew file.
 
  ******************************************************************************/
 
@@ -947,7 +947,7 @@ JXFileDocument::SafetySave
 				itsNeedSafetySaveFlag = kJFalse;
 				if (itsSafetySaveFileName == NULL)
 					{
-					itsSafetySaveFileName = new JString(fullName);
+					itsSafetySaveFileName = jnew JString(fullName);
 					assert( itsSafetySaveFileName != NULL );
 					}
 				else
@@ -978,7 +978,7 @@ JXFileDocument::RemoveSafetySaveFile()
 		{
 		JRemoveFile(*itsSafetySaveFileName);
 
-		delete itsSafetySaveFileName;
+		jdelete itsSafetySaveFileName;
 		itsSafetySaveFileName = NULL;
 		}
 
@@ -1075,13 +1075,13 @@ JXFileDocument::CheckForSafetySaveFiles
 			{
 			if (safetyExists)
 				{
-				JString* s = new JString(safetyName);
+				JString* s = jnew JString(safetyName);
 				assert( s != NULL );
 				filesToOpen->Append(s);
 				}
 			if (assertExists)
 				{
-				JString* s = new JString(assertName);
+				JString* s = jnew JString(assertName);
 				assert( s != NULL );
 				filesToOpen->Append(s);
 				}

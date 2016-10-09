@@ -67,33 +67,33 @@ MDAboutDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 370,120, "");
+	JXWindow* window = jnew JXWindow(this, 370,120, "");
 	assert( window != NULL );
 
 	JXStaticText* textWidget =
-		new JXStaticText(JGetString("textWidget::MDAboutDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("textWidget::MDAboutDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 70,20, 280,50);
 	assert( textWidget != NULL );
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::MDAboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::MDAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 260,90, 60,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::MDAboutDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::MDAboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::MDAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 155,90, 60,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::MDAboutDialog::shortcuts::JXLayout"));
 
 	JXImageWidget* imageWidget =
-		new JXImageWidget(window,
+		jnew JXImageWidget(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 40,40);
 	assert( imageWidget != NULL );
 
 	itsCreditsButton =
-		new JXTextButton(JGetString("itsCreditsButton::MDAboutDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsCreditsButton::MDAboutDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,90, 60,20);
 	assert( itsCreditsButton != NULL );
 
@@ -105,7 +105,7 @@ MDAboutDialog::BuildWindow
 	ListenTo(itsHelpButton);
 	ListenTo(itsCreditsButton);
 
-	JXImage* image = new JXImage(GetDisplay(), md_about_icon);
+	JXImage* image = jnew JXImage(GetDisplay(), md_about_icon);
 	assert( image != NULL );
 	imageWidget->SetImage(image, kJTrue);
 

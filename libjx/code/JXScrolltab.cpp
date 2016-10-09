@@ -175,7 +175,7 @@ JXScrolltab::HandleMouseDown
 		}
 	else if (button == kJXLeftButton && metaOn)
 		{
-		delete this;
+		jdelete this;
 		}
 	else if (button == kJXLeftButton)
 		{
@@ -202,7 +202,7 @@ JXScrolltab::OpenActionMenu
 {
 	if (itsActionMenu == NULL)
 		{
-		itsActionMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsActionMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsActionMenu != NULL );
 		itsActionMenu->SetToHiddenPopupMenu();
 		itsActionMenu->SetMenuItems(kActionMenuStr);
@@ -256,7 +256,7 @@ JXScrolltab::HandleActionMenu
 		}
 	else if (index == kRemoveCmd)
 		{
-		delete this;							// destroys us
+		jdelete this;							// destroys us
 		}
 	else if (index == kRemoveAllTabsCmd)
 		{

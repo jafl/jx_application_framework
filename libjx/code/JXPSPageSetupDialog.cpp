@@ -92,7 +92,7 @@ JXPSPageSetupDialog::Create
 	const JPSPrinter::ImageOrientation	orient
 	)
 {
-	JXPSPageSetupDialog* dlog = new JXPSPageSetupDialog;
+	JXPSPageSetupDialog* dlog = jnew JXPSPageSetupDialog;
 	assert( dlog != NULL );
 	dlog->BuildWindow(paper, orient);
 	return dlog;
@@ -132,43 +132,43 @@ JXPSPageSetupDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 240,160, "");
+	JXWindow* window = jnew JXWindow(this, 240,160, "");
 	assert( window != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::JXPSPageSetupDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::JXPSPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,85, 75,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::JXPSPageSetupDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::JXPSPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 140,130, 70,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::JXPSPageSetupDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::JXPSPageSetupDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::JXPSPageSetupDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,130, 70,20);
 	assert( cancelButton != NULL );
 
 	itsOrientation =
-		new JXRadioGroup(window,
+		jnew JXRadioGroup(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 95,65, 94,54);
 	assert( itsOrientation != NULL );
 
 	JXImageRadioButton* portraitRB =
-		new JXImageRadioButton(1, itsOrientation,
+		jnew JXImageRadioButton(1, itsOrientation,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 5,5, 40,40);
 	assert( portraitRB != NULL );
 
 	JXImageRadioButton* landscapeRB =
-		new JXImageRadioButton(2, itsOrientation,
+		jnew JXImageRadioButton(2, itsOrientation,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 45,5, 40,40);
 	assert( landscapeRB != NULL );
 
 	itsPaperTypeMenu =
-		new JXTextMenu(JGetString("itsPaperTypeMenu::JXPSPageSetupDialog::JXLayout"), window,
+		jnew JXTextMenu(JGetString("itsPaperTypeMenu::JXPSPageSetupDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 30,20, 180,30);
 	assert( itsPaperTypeMenu != NULL );
 

@@ -73,7 +73,7 @@ JXSpellChecker::JXSpellChecker()
 		itsInFD = fromFD;
 		assert(itsInFD != ACE_INVALID_HANDLE);
 
-		itsOutPipe = new JOutPipeStream(toFD, kJTrue);
+		itsOutPipe = jnew JOutPipeStream(toFD, kJTrue);
 		assert(itsOutPipe != NULL);
 
 		JIgnoreUntil(itsInFD, '\n');
@@ -91,9 +91,9 @@ JXSpellChecker::JXSpellChecker()
 
 JXSpellChecker::~JXSpellChecker()
 {
-	delete itsOutPipe;
+	jdelete itsOutPipe;
 	close(itsInFD);
-	delete itsProcess;
+	jdelete itsProcess;
 }
 
 /******************************************************************************
@@ -114,7 +114,7 @@ JXSpellChecker::Check
 
 	JIndexRange range(1, editor->GetTextLength());
 
-	JXSpellCheckerDialog* dlog = new JXSpellCheckerDialog(this, editor, range);
+	JXSpellCheckerDialog* dlog = jnew JXSpellCheckerDialog(this, editor, range);
 	assert( dlog != NULL );
 	dlog->Check();
 }
@@ -137,7 +137,7 @@ JXSpellChecker::CheckSelection
 		return;
 		}
 
-	JXSpellCheckerDialog* dlog = new JXSpellCheckerDialog(this, editor, range);
+	JXSpellCheckerDialog* dlog = jnew JXSpellCheckerDialog(this, editor, range);
 	assert( dlog != NULL );
 	dlog->Check();
 }
@@ -198,7 +198,7 @@ JXSpellChecker::CheckWord
 
 		while (test.LocateSubstring(",", &findex))
 			{
-			JString* str = new JString(test.GetSubstring(1, findex - 1));
+			JString* str = jnew JString(test.GetSubstring(1, findex - 1));
 			assert(str != NULL);
 			str->TrimWhitespace();
 			suggestionList->Append(str);

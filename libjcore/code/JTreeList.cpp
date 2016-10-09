@@ -37,10 +37,10 @@ JTreeList::JTreeList
 
 	itsWasOpenBeforeMoveFlag = kJFalse;
 
-	itsVisibleNodeList = new JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
+	itsVisibleNodeList = jnew JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
 	assert( itsVisibleNodeList != NULL );
 
-	itsOpenNodeList = new JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
+	itsOpenNodeList = jnew JPtrArray<JTreeNode>(JPtrArrayT::kForgetAll);
 	assert( itsOpenNodeList != NULL );
 
 	InstallOrderedSet(itsVisibleNodeList);
@@ -57,8 +57,8 @@ JTreeList::JTreeList
 
 JTreeList::~JTreeList()
 {
-	delete itsVisibleNodeList;
-	delete itsOpenNodeList;
+	jdelete itsVisibleNodeList;
+	jdelete itsOpenNodeList;
 }
 
 /******************************************************************************
@@ -415,7 +415,7 @@ JTreeList::Receive
 		JTreeNode* parent  = info->GetParent();
 		JTreeNode* node    = info->GetNode();
 
-		// Since every node may have children, we have to insert the new
+		// Since every node may have children, we have to insert the jnew
 		// node just above the node it displaced.
 
 		JIndex parentIndex;

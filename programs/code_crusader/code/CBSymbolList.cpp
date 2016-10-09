@@ -62,7 +62,7 @@ CBSymbolList::CBSymbolList
 	itsChangedDuringParseFlag = kJFalse;
 	itsBeganEmptyFlag         = kJFalse;
 
-	itsSymbolList = new JArray<SymbolInfo>(kBlockSize);
+	itsSymbolList = jnew JArray<SymbolInfo>(kBlockSize);
 	assert( itsSymbolList != NULL );
 	itsSymbolList->SetSortOrder(JOrderedSetT::kSortAscending);
 	itsSymbolList->SetCompareFunction(CompareSymbols);
@@ -78,7 +78,7 @@ CBSymbolList::CBSymbolList
 CBSymbolList::~CBSymbolList()
 {
 	RemoveAllSymbols();
-	delete itsSymbolList;
+	jdelete itsSymbolList;
 }
 
 /******************************************************************************
@@ -200,7 +200,7 @@ public:
 	virtual JElementComparison<JIndex>*
 	Copy() const
 	{
-		FindSymbolCompare* copy = new FindSymbolCompare(itsData);
+		FindSymbolCompare* copy = jnew FindSymbolCompare(itsData);
 		assert( copy != NULL );
 		return copy;
 	}
@@ -491,7 +491,7 @@ CBSymbolList::PrepareContextNamespaceList
 			JString* cns1 = contextNamespace->NthElement(i);	// name::
 			*cns1 += namespaceOp;
 
-			JString* cns2 = new JString(*cns1);					// ::name::
+			JString* cns2 = jnew JString(*cns1);					// ::name::
 			assert( cns2 != NULL );
 			cns2->Prepend(namespaceOp);
 			contextNamespace->InsertAtIndex(i+1, cns2);
@@ -575,7 +575,7 @@ public:
 	virtual JElementComparison<JIndex>*
 	Copy() const
 	{
-		ClosestMatchCompare* copy = new ClosestMatchCompare(itsPrefix, itsData);
+		ClosestMatchCompare* copy = jnew ClosestMatchCompare(itsPrefix, itsData);
 		assert( copy != NULL );
 		return copy;
 	}
@@ -844,14 +844,14 @@ CBSymbolList::ReadSymbolList
 	JStringPtrMap<JString> flags(JPtrArrayT::kDeleteAll);
 	while (1)
 		{
-		JString* name = new JString;
+		JString* name = jnew JString;
 		assert( name != NULL );
 
 		input >> ws;
 		*name = JReadUntil(input, '\t');		// symbol name
 		if (input.eof() || input.fail())
 			{
-			delete name;
+			jdelete name;
 			break;
 			}
 
@@ -872,14 +872,14 @@ CBSymbolList::ReadSymbolList
 		JString* signature = NULL;
 		if (flags.GetElement("signature", &value) && !value->IsEmpty())
 			{
-			signature = new JString(*value);
+			signature = jnew JString(*value);
 			assert( signature != NULL );
 			signature->PrependCharacter(' ');
 			}
 
 		if (IgnoreSymbol(*name))
 			{
-			delete name;
+			jdelete name;
 			}
 		else
 			{
@@ -887,7 +887,7 @@ CBSymbolList::ReadSymbolList
 			if (signature == NULL &&
 				(IsFunction(type) || IsPrototype(type)))
 				{
-				signature = new JString(" ( )");
+				signature = jnew JString(" ( )");
 				assert( signature != NULL );
 				}
 
@@ -899,7 +899,7 @@ CBSymbolList::ReadSymbolList
 
 			if (IsFileScope(type))
 				{
-				JString* name1 = new JString(fileName);
+				JString* name1 = jnew JString(fileName);
 				assert( name1 != NULL );
 				*name1 += ":";
 				*name1 += *name;
@@ -907,7 +907,7 @@ CBSymbolList::ReadSymbolList
 				JString* sig1 = NULL;
 				if (signature != NULL)
 					{
-					sig1 = new JString(*signature);
+					sig1 = jnew JString(*signature);
 					assert( sig1 != NULL );
 					}
 
@@ -966,7 +966,7 @@ CBSymbolList::ReadSetup
 
 	for (JIndex i=1; i<=symbolCount; i++)
 		{
-		JString* name = new JString;
+		JString* name = jnew JString;
 		assert( name != NULL );
 		input >> *name;
 
@@ -991,7 +991,7 @@ CBSymbolList::ReadSetup
 
 			if (hasSignature)
 				{
-				signature = new JString;
+				signature = jnew JString;
 				assert( signature != NULL );
 				input >> *signature;
 				}
@@ -1134,6 +1134,6 @@ CBSymbolList::CompareSymbolsAndTypes
 void
 CBSymbolList::SymbolInfo::Free()
 {
-	delete name;
+	jdelete name;
 	name = NULL;
 }

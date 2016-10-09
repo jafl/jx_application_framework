@@ -91,45 +91,45 @@ CBRunTEScriptDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 390,110, "");
+	JXWindow* window = jnew JXWindow(this, 390,110, "");
 	assert( window != NULL );
 
 	itsCloseButton =
-		new JXTextButton(JGetString("itsCloseButton::CBRunTEScriptDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsCloseButton::CBRunTEScriptDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 130,80, 60,20);
 	assert( itsCloseButton != NULL );
 	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::CBRunTEScriptDialog::shortcuts::JXLayout"));
 
 	itsRunButton =
-		new JXTextButton(JGetString("itsRunButton::CBRunTEScriptDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsRunButton::CBRunTEScriptDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 310,80, 60,20);
 	assert( itsRunButton != NULL );
 	itsRunButton->SetShortcuts(JGetString("itsRunButton::CBRunTEScriptDialog::shortcuts::JXLayout"));
 
 	itsCmdInput =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,40, 320,20);
 	assert( itsCmdInput != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::CBRunTEScriptDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::CBRunTEScriptDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 20,20, 350,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	itsHistoryMenu =
-		new JXStringHistoryMenu(kHistoryLength, "", window,
+		jnew JXStringHistoryMenu(kHistoryLength, "", window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 340,40, 30,20);
 	assert( itsHistoryMenu != NULL );
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::CBRunTEScriptDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::CBRunTEScriptDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 220,80, 60,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::CBRunTEScriptDialog::shortcuts::JXLayout"));
 
 	itsStayOpenCB =
-		new JXTextCheckbox(JGetString("itsStayOpenCB::CBRunTEScriptDialog::JXLayout"), window,
+		jnew JXTextCheckbox(JGetString("itsStayOpenCB::CBRunTEScriptDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,80, 90,20);
 	assert( itsStayOpenCB != NULL );
 
@@ -155,7 +155,7 @@ CBRunTEScriptDialog::BuildWindow()
 	// create hidden JXDocument so Meta-# shortcuts work
 
 	JXDocumentMenu* fileListMenu =
-		new JXDocumentMenu("", window,
+		jnew JXDocumentMenu("", window,
 						   JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,-20, 10,10);
 	assert( fileListMenu != NULL );
 

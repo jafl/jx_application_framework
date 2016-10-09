@@ -37,7 +37,6 @@
 #include <jVCSUtil.h>
 #include <jTime.h>
 #include <jGlobals.h>
-#include <j_prep_ace.h>
 #include <ace/OS_NS_sys_stat.h>
 #include <jAssert.h>
 
@@ -69,7 +68,7 @@ JDirInfo::Create
 {
 	if (OKToCreate(dirName))
 		{
-		*obj = new JDirInfo(dirName);
+		*obj = jnew JDirInfo(dirName);
 		assert( *obj != NULL );
 		return kJTrue;
 		}
@@ -90,7 +89,7 @@ JDirInfo::Create
 {
 	if (OKToCreate(dirName))
 		{
-		*obj = new JDirInfo(source, dirName);
+		*obj = jnew JDirInfo(source, dirName);
 		assert( *obj != NULL );
 		return kJTrue;
 		}
@@ -146,15 +145,15 @@ JDirInfo::JDirInfo
 	itsContentRegex        = NULL;
 	itsPG                  = NULL;
 
-	itsDirEntries = new JPtrArray<JDirEntry>(JPtrArrayT::kDeleteAll);
+	itsDirEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kDeleteAll);
 	assert( itsDirEntries != NULL);
 	itsDirEntries->SetCompareFunction(JDirEntry::CompareNames);
 	itsDirEntries->SetSortOrder(JOrderedSetT::kSortAscending);
 
-	itsVisEntries = new JPtrArray<JDirEntry>(JPtrArrayT::kForgetAll);
+	itsVisEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kForgetAll);
 	assert( itsVisEntries != NULL);
 
-	itsAlphaEntries = new JPtrArray<JDirEntry>(JPtrArrayT::kForgetAll);
+	itsAlphaEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kForgetAll);
 	assert( itsAlphaEntries != NULL);
 	itsAlphaEntries->SetCompareFunction(JDirEntry::CompareNames);
 	itsAlphaEntries->SetSortOrder(JOrderedSetT::kSortAscending);
@@ -173,7 +172,7 @@ JDirInfo::AllocateCWD
 	const JCharacter* dirName
 	)
 {
-	itsCWD = new JString;
+	itsCWD = jnew JString;
 	assert( itsCWD != NULL );
 	const JBoolean ok = JConvertToAbsolutePath(dirName, NULL, itsCWD);
 	assert( ok );
@@ -192,7 +191,7 @@ JDirInfo::JDirInfo
 	:
 	JContainer(source)
 {
-	itsCWD = new JString(*(source.itsCWD));
+	itsCWD = jnew JString(*(source.itsCWD));
 	assert( itsCWD != NULL );
 
 	itsIsValidFlag         = source.itsIsValidFlag;
@@ -247,13 +246,13 @@ JDirInfo::JDirInfoX
 	itsContentRegex        = NULL;
 	itsPG                  = NULL;
 
-	itsDirEntries = new JPtrArray<JDirEntry>(JPtrArrayT::kDeleteAll);
+	itsDirEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kDeleteAll);
 	assert( itsDirEntries != NULL);
 
-	itsVisEntries = new JPtrArray<JDirEntry>(JPtrArrayT::kForgetAll);
+	itsVisEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kForgetAll);
 	assert( itsVisEntries != NULL);
 
-	itsAlphaEntries = new JPtrArray<JDirEntry>(JPtrArrayT::kForgetAll);
+	itsAlphaEntries = jnew JPtrArray<JDirEntry>(JPtrArrayT::kForgetAll);
 	assert( itsAlphaEntries != NULL);
 	itsAlphaEntries->SetCompareFunction(JDirEntry::CompareNames);
 	itsAlphaEntries->SetSortOrder(JOrderedSetT::kSortAscending);
@@ -266,19 +265,19 @@ JDirInfo::JDirInfoX
 
 JDirInfo::~JDirInfo()
 {
-	delete itsDirEntries;
-	delete itsVisEntries;
-	delete itsAlphaEntries;
+	jdelete itsDirEntries;
+	jdelete itsVisEntries;
+	jdelete itsAlphaEntries;
 
-	delete itsCWD;
+	jdelete itsCWD;
 
 	if (itsOwnsNameRegexFlag)
 		{
-		delete itsNameRegex;
+		jdelete itsNameRegex;
 		}
 
-	delete itsContentRegex;
-	delete itsPG;
+	jdelete itsContentRegex;
+	jdelete itsPG;
 }
 
 /******************************************************************************
@@ -367,7 +366,7 @@ JDirInfo::PrivateCopySettings
 
 	if (itsOwnsNameRegexFlag)
 		{
-		delete itsNameRegex;
+		jdelete itsNameRegex;
 		}
 	itsNameRegex = NULL;
 
@@ -378,7 +377,7 @@ JDirInfo::PrivateCopySettings
 		}
 	else if (source.itsNameRegex != NULL)
 		{
-		itsNameRegex = new JRegex(*(source.itsNameRegex));
+		itsNameRegex = jnew JRegex(*(source.itsNameRegex));
 		assert( itsNameRegex != NULL );
 		itsOwnsNameRegexFlag = kJTrue;
 		}
@@ -388,12 +387,12 @@ JDirInfo::PrivateCopySettings
 
 	// copy content filter
 
-	delete itsContentRegex;
+	jdelete itsContentRegex;
 	itsContentRegex = NULL;
 
 	if (source.itsContentRegex != NULL)
 		{
-		itsContentRegex = new JRegex(*(source.itsContentRegex));
+		itsContentRegex = jnew JRegex(*(source.itsContentRegex));
 		assert( itsContentRegex != NULL );
 		}
 
@@ -425,7 +424,7 @@ JDirInfo::CopyDirEntries
 	for (JIndex i=1; i<=entryCount; i++)
 		{
 		JDirEntry* origEntry = (source.itsDirEntries)->NthElement(i);
-		JDirEntry* entry     = new JDirEntry(*origEntry);
+		JDirEntry* entry     = jnew JDirEntry(*origEntry);
 		assert( entry != NULL );
 		itsDirEntries->Append(entry);
 		}
@@ -580,7 +579,7 @@ JDirInfo::ChangeSort
 /******************************************************************************
  ChangeProgressDisplay
 
-	We take ownership of the object and will delete it when appropriate.
+	We take ownership of the object and will jdelete it when appropriate.
 
  ******************************************************************************/
 
@@ -592,7 +591,7 @@ JDirInfo::ChangeProgressDisplay
 {
 	assert( pg != NULL );
 
-	delete itsPG;
+	jdelete itsPG;
 	itsPG = pg;
 }
 
@@ -604,7 +603,7 @@ JDirInfo::ChangeProgressDisplay
 void
 JDirInfo::UseDefaultProgressDisplay()
 {
-	delete itsPG;
+	jdelete itsPG;
 	itsPG = NULL;
 }
 
@@ -1015,7 +1014,7 @@ JDirInfo::SetWildcardFilter
 		return;
 		}
 
-	JRegex* r = new JRegex(regexStr);
+	JRegex* r = jnew JRegex(regexStr);
 	assert( r != NULL );
 	r->SetCaseSensitive(caseSensitive);
 
@@ -1043,7 +1042,7 @@ JDirInfo::SetWildcardFilter
 
 	if (itsOwnsNameRegexFlag)
 		{
-		delete itsNameRegex;
+		jdelete itsNameRegex;
 		}
 
 	itsNameRegex = filter;
@@ -1068,7 +1067,7 @@ JDirInfo::ClearWildcardFilter()
 		{
 		if (itsOwnsNameRegexFlag)
 			{
-			delete itsNameRegex;
+			jdelete itsNameRegex;
 			}
 		itsNameRegex         = NULL;
 		itsOwnsNameRegexFlag = kJFalse;
@@ -1275,7 +1274,7 @@ JDirInfo::SetContentFilter
 	if (itsContentRegex == NULL)
 		{
 		hadFilter       = kJFalse;
-		itsContentRegex = new JRegex;
+		itsContentRegex = jnew JRegex;
 		assert( itsContentRegex != NULL );
 		itsContentRegex->SetSingleLine();
 		}
@@ -1297,7 +1296,7 @@ JDirInfo::SetContentFilter
 		}
 	else
 		{
-		delete itsContentRegex;
+		jdelete itsContentRegex;
 		itsContentRegex = NULL;
 		}
 	return err;
@@ -1313,7 +1312,7 @@ JDirInfo::ClearContentFilter()
 {
 	if (itsContentRegex != NULL)
 		{
-		delete itsContentRegex;
+		jdelete itsContentRegex;
 		itsContentRegex = NULL;
 		ForceUpdate();
 		Broadcast(SettingsChanged());
@@ -1388,7 +1387,7 @@ JDirInfo::ResetCSFFilters()
 		}
 	if (itsContentRegex != NULL)
 		{
-		delete itsContentRegex;
+		jdelete itsContentRegex;
 		itsContentRegex = NULL;
 		rebuild         = kJTrue;
 		}
@@ -1424,6 +1423,6 @@ JDirInfo::Empty
 		return kJTrue;
 		}
 	const JBoolean empty = info->IsEmpty();
-	delete info;
+	jdelete info;
 	return empty;
 }

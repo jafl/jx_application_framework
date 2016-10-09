@@ -33,7 +33,7 @@ JPlotFunctionBase::JPlotFunctionBase
 	itsXMin = JMin(xMin, xMax);
 	itsXMax = JMax(xMin, xMax);
 
-	itsValues = new JArray<Point>(kDefSampleCount);
+	itsValues = jnew JArray<Point>(kDefSampleCount);
 	assert( itsValues != NULL );
 
 	ListenTo(itsPlot);
@@ -46,7 +46,7 @@ JPlotFunctionBase::JPlotFunctionBase
 
 JPlotFunctionBase::~JPlotFunctionBase()
 {
-	delete itsValues;
+	jdelete itsValues;
 }
 
 /*********************************************************************************

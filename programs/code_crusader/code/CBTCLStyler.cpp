@@ -57,7 +57,7 @@ CBTCLStyler::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBTCLStyler;
+		itsSelf = jnew CBTCLStyler;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -74,7 +74,7 @@ CBTCLStyler::Instance()
 void
 CBTCLStyler::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************
@@ -293,5 +293,5 @@ CBTCLStyler::UpgradeTypeList
 	JArray<JFontStyle>*	typeStyles
 	)
 {
-	// set new values after all new slots have been created
+	// set jnew values after all jnew slots have been created
 }

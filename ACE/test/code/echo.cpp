@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include "Pipe.h"
-#include <j_prep_ace.h>
 #include <ace/LSOCK_Stream.h>
 #include <JProcess.h>
 #include <jGlobals.h>
@@ -25,9 +24,6 @@ ACE_SOCK_Stream*	OpenConnection(int argc, char* argv[]);
 ACE_SOCK_Stream*	INETConnect(const JCharacter* inetAddr);
 ACE_SOCK_Stream*	UNIXConnect(const JCharacter* socketName);
 void				ReportConnectError();
-
-#undef new
-#undef delete
 
 /******************************************************************************
  main
@@ -100,7 +96,7 @@ main
 		ACE_Reactor::instance()->run_reactor_event_loop(delta);
 
 		link->Dump();
-		delete link;
+		jdelete link;
 */
 		return 0;
 		}

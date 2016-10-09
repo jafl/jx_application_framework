@@ -130,7 +130,7 @@ JXFSBindingTable::JXFSBindingTable
 
 	// type menu
 
-	itsTypeMenu = new JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsTypeMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsTypeMenu != NULL );
 	itsTypeMenu->Hide();
 	itsTypeMenu->SetToHiddenPopupMenu(kJTrue);
@@ -140,7 +140,7 @@ JXFSBindingTable::JXFSBindingTable
 
 	// regex for testing
 
-	itsTestRegex = new JRegex;
+	itsTestRegex = jnew JRegex;
 	assert( itsTestRegex != NULL );
 
 	// data
@@ -165,7 +165,7 @@ JXFSBindingTable::JXFSBindingTable
 
 JXFSBindingTable::~JXFSBindingTable()
 {
-	delete itsTestRegex;
+	jdelete itsTestRegex;
 }
 
 /******************************************************************************
@@ -345,7 +345,7 @@ JXFSBindingTable::CreateXInputField
 	s.ClearSelection();
 	s.SelectCell(cell);
 
-	itsTextInput = new JXInputField(this, kFixedLeft, kFixedTop, x,y, w,h);
+	itsTextInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x,y, w,h);
 	assert( itsTextInput != NULL );
 
 	const JFSBinding* b = itsBindingList->GetBinding(cell.y);

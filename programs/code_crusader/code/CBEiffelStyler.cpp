@@ -67,7 +67,7 @@ CBEiffelStyler::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBEiffelStyler;
+		itsSelf = jnew CBEiffelStyler;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -84,7 +84,7 @@ CBEiffelStyler::Instance()
 void
 CBEiffelStyler::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************
@@ -207,5 +207,5 @@ CBEiffelStyler::UpgradeTypeList
 	JArray<JFontStyle>*	typeStyles
 	)
 {
-	// set new values after all new slots have been created
+	// set jnew values after all jnew slots have been created
 }

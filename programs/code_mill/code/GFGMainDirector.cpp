@@ -103,7 +103,7 @@ GFGMainDirector::GFGMainDirector
 	JXWindowDirector(supervisor),
 	JPrefObject(GFGGetPrefsManager(), kGFGMainDirectorID)
 {
-	itsClass	= new GFGClass();
+	itsClass	= jnew GFGClass();
 	assert(itsClass != NULL);
 
 	JString outputPath;
@@ -184,68 +184,68 @@ GFGMainDirector::BuildWindow
 
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 650,460, "");
+	JXWindow* window = jnew JXWindow(this, 650,460, "");
 	assert( window != NULL );
 
 	itsClassInput =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 95,10, 140,20);
 	assert( itsClassInput != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::GFGMainDirector::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,10, 80,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	JXStaticText* obj2_JXLayout =
-		new JXStaticText(JGetString("obj2_JXLayout::GFGMainDirector::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj2_JXLayout::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 240,10, 110,20);
 	assert( obj2_JXLayout != NULL );
 	obj2_JXLayout->SetToLabel();
 
 	itsChooseButton =
-		new JXTextButton(JGetString("itsChooseButton::GFGMainDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsChooseButton::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 550,10, 80,20);
 	assert( itsChooseButton != NULL );
 	itsChooseButton->SetShortcuts(JGetString("itsChooseButton::GFGMainDirector::shortcuts::JXLayout"));
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,75, 610,300);
 	assert( scrollbarSet != NULL );
 
 	itsGenerateButton =
-		new JXTextButton(JGetString("itsGenerateButton::GFGMainDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsGenerateButton::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 440,425, 70,20);
 	assert( itsGenerateButton != NULL );
 	itsGenerateButton->SetShortcuts(JGetString("itsGenerateButton::GFGMainDirector::shortcuts::JXLayout"));
 
 	itsHelpButton =
-		new JXTextButton(JGetString("itsHelpButton::GFGMainDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsHelpButton::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 285,425, 70,20);
 	assert( itsHelpButton != NULL );
 	itsHelpButton->SetShortcuts(JGetString("itsHelpButton::GFGMainDirector::shortcuts::JXLayout"));
 
 	itsCancelButton =
-		new JXTextButton(JGetString("itsCancelButton::GFGMainDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsCancelButton::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 130,425, 70,20);
 	assert( itsCancelButton != NULL );
 	itsCancelButton->SetShortcuts(JGetString("itsCancelButton::GFGMainDirector::shortcuts::JXLayout"));
 
 	itsDirInput =
-		new JXPathInput(window,
+		jnew JXPathInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 350,10, 200,20);
 	assert( itsDirInput != NULL );
 
 	JXStaticText* obj3_JXLayout =
-		new JXStaticText(JGetString("obj3_JXLayout::GFGMainDirector::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj3_JXLayout::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,45, 90,20);
 	assert( obj3_JXLayout != NULL );
 	obj3_JXLayout->SetToLabel();
 
 	itsBaseClassTxt =
-		new JXStaticText(JGetString("itsBaseClassTxt::GFGMainDirector::JXLayout"), window,
+		jnew JXStaticText(JGetString("itsBaseClassTxt::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,45, 530,20);
 	assert( itsBaseClassTxt != NULL );
     const JFontStyle itsBaseClassTxt_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor());
@@ -253,30 +253,30 @@ GFGMainDirector::BuildWindow
 	itsBaseClassTxt->SetToLabel();
 
 	JXStaticText* obj4_JXLayout =
-		new JXStaticText(JGetString("obj4_JXLayout::GFGMainDirector::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj4_JXLayout::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 15,390, 60,20);
 	assert( obj4_JXLayout != NULL );
 	obj4_JXLayout->SetToLabel();
 
 	itsAuthorInput =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 75,390, 160,20);
 	assert( itsAuthorInput != NULL );
 
 	itsStringsButton =
-		new JXTextButton(JGetString("itsStringsButton::GFGMainDirector::JXLayout"), window,
+		jnew JXTextButton(JGetString("itsStringsButton::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 550,390, 80,20);
 	assert( itsStringsButton != NULL );
 	itsStringsButton->SetShortcuts(JGetString("itsStringsButton::GFGMainDirector::shortcuts::JXLayout"));
 
 	JXStaticText* obj5_JXLayout =
-		new JXStaticText(JGetString("obj5_JXLayout::GFGMainDirector::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj5_JXLayout::GFGMainDirector::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 250,390, 70,20);
 	assert( obj5_JXLayout != NULL );
 	obj5_JXLayout->SetToLabel();
 
 	itsCopyrightInput =
-		new JXInputField(window,
+		jnew JXInputField(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 320,390, 230,20);
 	assert( itsCopyrightInput != NULL );
 
@@ -306,7 +306,7 @@ GFGMainDirector::BuildWindow
 	
 	itsBaseClassTxt->SetText(bases);
 
-	JXImage* image = new JXImage(GetDisplay(), gfg_main_window_icon);
+	JXImage* image = jnew JXImage(GetDisplay(), gfg_main_window_icon);
 	assert( image != NULL );
 	window->SetIcon(image);
 
@@ -321,7 +321,7 @@ GFGMainDirector::BuildWindow
 	itsTable->FitToEnclosure(kJTrue, kJFalse);
 
 	JXColHeaderWidget* widget =
-		new JXColHeaderWidget(itsTable, 
+		jnew JXColHeaderWidget(itsTable, 
 							  scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 							  JXWidget::kHElastic, JXWidget::kFixedTop,
 							  0,0, 100,kColHeaderHeight);

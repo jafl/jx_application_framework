@@ -73,7 +73,7 @@ CBRubyStyler::Instance()
 		{
 		recursiveInstance = kJTrue;
 
-		itsSelf = new CBRubyStyler;
+		itsSelf = jnew CBRubyStyler;
 		assert( itsSelf != NULL );
 
 		recursiveInstance = kJFalse;
@@ -90,7 +90,7 @@ CBRubyStyler::Instance()
 void
 CBRubyStyler::Shutdown()
 {
-	delete itsSelf;
+	jdelete itsSelf;
 }
 
 /******************************************************************************
@@ -328,5 +328,5 @@ CBRubyStyler::UpgradeTypeList
 		typeStyles->InsertElementAtIndex(12, typeStyles->GetElement(9));
 		}
 
-	// set new values after all new slots have been created
+	// set jnew values after all jnew slots have been created
 }

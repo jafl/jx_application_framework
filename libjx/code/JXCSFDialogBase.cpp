@@ -83,10 +83,10 @@ JXCSFDialogBase::JXCSFDialogBase
 	itsDirInfo = dirInfo;
 	ListenTo(itsDirInfo);
 
-	itsPrevPath = new JString(itsDirInfo->GetDirectory());
+	itsPrevPath = jnew JString(itsDirInfo->GetDirectory());
 	assert( itsPrevPath != NULL );
 
-	itsPrevFilterString = new JString(fileFilter);
+	itsPrevFilterString = jnew JString(fileFilter);
 	assert( itsPrevFilterString != NULL );
 
 	itsDeactCancelFlag = kJFalse;
@@ -104,8 +104,8 @@ JXCSFDialogBase::JXCSFDialogBase
 
 JXCSFDialogBase::~JXCSFDialogBase()
 {
-	delete itsPrevPath;
-	delete itsPrevFilterString;
+	jdelete itsPrevPath;
+	jdelete itsPrevFilterString;
 }
 
 /******************************************************************************
@@ -300,7 +300,7 @@ JXCSFDialogBase::SetObjects
 {
 	JXContainer* encl = scrollbarSet->GetScrollEnclosure();
 	itsFileBrowser =
-		new JXDirTable(itsDirInfo, scrollbarSet, encl,
+		jnew JXDirTable(itsDirInfo, scrollbarSet, encl,
 					   JXWidget::kHElastic, JXWidget::kVElastic,
 					   0,0, encl->GetBoundsWidth(), encl->GetBoundsHeight());
 	assert( itsFileBrowser != NULL );
@@ -385,7 +385,7 @@ JXCSFDialogBase::DisplayMessage
 	if (!JStringEmpty(message))
 		{
 		JXStaticText* messageObj =
-			new JXStaticText(message, window,
+			jnew JXStaticText(message, window,
 					JXWidget::kHElastic, JXWidget::kFixedTop,
 					20,20, window->GetBoundsWidth()-40,20);
 		assert( messageObj != NULL );
@@ -662,7 +662,7 @@ JXCSFDialogBase::AdjustFilter()
 /******************************************************************************
  GetNewDirectory (private)
 
-	Display a blocking dialog window to get the name of the new directory.
+	Display a blocking dialog window to get the name of the jnew directory.
 
  ******************************************************************************/
 
@@ -675,7 +675,7 @@ JXCSFDialogBase::GetNewDirectory()
 	app->PrepareForBlockingWindow();
 
 	itsNewDirDialog =
-		new JXGetNewDirDialog(JXGetApplication(), JGetString(kNewDirWindowTitleID),
+		jnew JXGetNewDirDialog(JXGetApplication(), JGetString(kNewDirWindowTitleID),
 							  JGetString(kNewDirPromptID), "",
 							  itsDirInfo->GetDirectory(), kJFalse);
 	assert( itsNewDirDialog != NULL );
@@ -700,8 +700,8 @@ JXCSFDialogBase::GetNewDirectory()
 /******************************************************************************
  CreateNewDirectory (private)
 
-	Get the name of the new directory from itsNewDirDialog and create it.
-	If successful, we switch to the new directory for convenience.
+	Get the name of the jnew directory from itsNewDirDialog and create it.
+	If successful, we switch to the jnew directory for convenience.
 
  ******************************************************************************/
 
@@ -735,7 +735,7 @@ JXCSFDialogBase::CreateNewDirectory()
 /******************************************************************************
  SelectPrevDirectory (private)
 
-	If the new path is up a directory from the original path, we select
+	If the jnew path is up a directory from the original path, we select
 	the directory that leads to the original path.
 
  ******************************************************************************/
@@ -776,7 +776,7 @@ JXCSFDialogBase::SelectPrevDirectory()
 		if (!dirName.IsEmpty())
 			{
 			JXCSFSelectPrevDirTask* task =
-				new JXCSFSelectPrevDirTask(itsDirInfo, itsFileBrowser, dirName);
+				jnew JXCSFSelectPrevDirTask(itsDirInfo, itsFileBrowser, dirName);
 			assert( task != NULL );
 			task->Go();
 			}

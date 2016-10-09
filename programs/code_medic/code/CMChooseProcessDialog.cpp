@@ -96,38 +96,38 @@ CMChooseProcessDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = new JXWindow(this, 390,500, "");
+	JXWindow* window = jnew JXWindow(this, 390,500, "");
 	assert( window != NULL );
 
 	JXScrollbarSet* scrollbarSet =
-		new JXScrollbarSet(window,
+		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 20,50, 350,400);
 	assert( scrollbarSet != NULL );
 
 	itsProcessIDInput =
-		new JXIntegerInput(window,
+		jnew JXIntegerInput(window,
 					JXWidget::kHElastic, JXWidget::kFixedBottom, 90,470, 80,20);
 	assert( itsProcessIDInput != NULL );
 
 	JXStaticText* obj1_JXLayout =
-		new JXStaticText(JGetString("obj1_JXLayout::CMChooseProcessDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj1_JXLayout::CMChooseProcessDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,470, 70,20);
 	assert( obj1_JXLayout != NULL );
 	obj1_JXLayout->SetToLabel();
 
 	JXTextButton* cancelButton =
-		new JXTextButton(JGetString("cancelButton::CMChooseProcessDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("cancelButton::CMChooseProcessDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 215,470, 60,20);
 	assert( cancelButton != NULL );
 
 	JXTextButton* okButton =
-		new JXTextButton(JGetString("okButton::CMChooseProcessDialog::JXLayout"), window,
+		jnew JXTextButton(JGetString("okButton::CMChooseProcessDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 310,470, 60,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::CMChooseProcessDialog::shortcuts::JXLayout"));
 
 	JXStaticText* obj2_JXLayout =
-		new JXStaticText(JGetString("obj2_JXLayout::CMChooseProcessDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("obj2_JXLayout::CMChooseProcessDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 360,20);
 	assert( obj2_JXLayout != NULL );
 	obj2_JXLayout->SetToLabel();
@@ -138,7 +138,7 @@ CMChooseProcessDialog::BuildWindow()
 	SetButtons(okButton, cancelButton);
 
 	itsText =
-		new CMProcessText(this, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+		jnew CMProcessText(this, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						   JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsText != NULL );
 	itsText->FitToEnclosure();

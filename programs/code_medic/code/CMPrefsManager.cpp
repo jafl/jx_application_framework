@@ -181,7 +181,7 @@ CMPrefsManager::EditPrefs()
 	GetSuffixes(kFortranSuffixID, &fortranSuffixes);
 
 	itsEditPrefsDialog =
-		new CMEditPrefsDialog(JXGetApplication(),
+		jnew CMEditPrefsDialog(JXGetApplication(),
 							  gdbCmd, jvmCmd, editFileCmd, editFileLineCmd,
 							  cSourceSuffixes, cHeaderSuffixes,
 							  javaSuffixes, phpSuffixes, fortranSuffixes);

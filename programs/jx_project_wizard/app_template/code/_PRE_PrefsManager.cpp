@@ -105,7 +105,7 @@ void
 	// replace with whatever is appropriate
 	JString data;
 
-	itsPrefsDialog = new <PRE>PrefsDialog(JXGetApplication(), data);
+	itsPrefsDialog = jnew <PRE>PrefsDialog(JXGetApplication(), data);
 	assert( itsPrefsDialog != NULL );
 	ListenTo(itsPrefsDialog);
 	itsPrefsDialog->BeginDialog();

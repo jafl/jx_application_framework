@@ -39,7 +39,7 @@ JLatentPG::JLatentPG
 	itsPG         = JNewPG();
 	itsOwnsPGFlag = kJTrue;
 
-	itsMessage = new JString;
+	itsMessage = jnew JString;
 	assert( itsMessage != NULL );
 
 	itsMaxSilentTime = kDefMaxSilentTime;
@@ -56,7 +56,7 @@ JLatentPG::JLatentPG
 	itsPG         = pg;
 	itsOwnsPGFlag = ownIt;
 
-	itsMessage = new JString;
+	itsMessage = jnew JString;
 	assert( itsMessage != NULL );
 
 	itsMaxSilentTime = kDefMaxSilentTime;
@@ -72,10 +72,10 @@ JLatentPG::~JLatentPG()
 {
 	if (itsOwnsPGFlag)
 		{
-		delete itsPG;
+		jdelete itsPG;
 		}
 
-	delete itsMessage;
+	jdelete itsMessage;
 }
 
 /******************************************************************************
@@ -96,7 +96,7 @@ JLatentPG::UseDefaultPG()
 /******************************************************************************
  SetPG
 
-	If ownIt == kJTrue, we delete the progress display when we no longer
+	If ownIt == kJTrue, we jdelete the progress display when we no longer
 	need it.
 
 	This can only be called when a process is not running.
@@ -115,7 +115,7 @@ JLatentPG::SetPG
 
 	if (itsOwnsPGFlag)
 		{
-		delete itsPG;
+		jdelete itsPG;
 		}
 
 	itsPG         = pg;

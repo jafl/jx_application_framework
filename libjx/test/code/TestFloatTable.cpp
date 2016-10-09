@@ -74,14 +74,14 @@ JIndex i,j;
 	itsTableMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsTableMenu);
 
-	itsSizeMenu = new JXFontSizeMenu(JGetDefaultFontName(), "Size", menuBar,
+	itsSizeMenu = jnew JXFontSizeMenu(JGetDefaultFontName(), "Size", menuBar,
 									 kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsSizeMenu != NULL );
 	menuBar->AppendMenu(itsSizeMenu);
 	ListenTo(itsSizeMenu);
 
 	itsStyleMenu =
-		new JXStyleTableMenu(this, menuBar,
+		jnew JXStyleTableMenu(this, menuBar,
 							 kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsStyleMenu != NULL );
 	menuBar->AppendMenu(itsStyleMenu);

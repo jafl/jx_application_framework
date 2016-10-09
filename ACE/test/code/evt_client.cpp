@@ -11,7 +11,6 @@
 
 #include "evt_handlers.h"
 #include "util.h"
-#include <j_prep_ace.h>
 #include <ace/Connector.h>
 #include <ace/SOCK_Connector.h>
 #include <ace/LSOCK_Connector.h>
@@ -20,10 +19,7 @@
 #include <jAssert.h>
 
 // jAssert.h includes jNew.h, which redefines these as macros.
-// These macros conflict with ACE::operator new().
-
-#undef new
-#undef delete
+// These macros conflict with ACE::operator jnew().
 
 // notation
 

@@ -92,26 +92,26 @@ JXDocumentManager::JXDocumentManager
 	:
 	itsWantShortcutFlag( wantShortcuts )
 {
-	itsDocList = new JArray<DocInfo>;
+	itsDocList = jnew JArray<DocInfo>;
 	assert( itsDocList != NULL );
 	itsDocList->SetCompareFunction(CompareDocNames);
 	itsDocList->SetSortOrder(JOrderedSetT::kSortAscending);
 
 	itsNewDocCount = 0;
 
-	itsFileMap = new JArray<FileMap>;
+	itsFileMap = jnew JArray<FileMap>;
 	assert( itsFileMap != NULL );
 
 	itsPerformSafetySaveFlag = kJTrue;
 
-	itsSafetySaveTask = new JXTimerTask(kDefaultSafetySavePeriod);
+	itsSafetySaveTask = jnew JXTimerTask(kDefaultSafetySavePeriod);
 	assert( itsSafetySaveTask != NULL );
 	ListenTo(itsSafetySaveTask);
 
 	itsUpdateDocMenuTask = NULL;
 
 	JXDisplay* d = (JXGetApplication())->GetCurrentDisplay();
-	itsDefaultMenuIcon = new JXImage(d, jx_plain_file_small);
+	itsDefaultMenuIcon = jnew JXImage(d, jx_plain_file_small);
 	assert( itsDefaultMenuIcon != NULL );
 
 	JXSetDocumentManager(this);
@@ -125,20 +125,20 @@ JXDocumentManager::JXDocumentManager
 JXDocumentManager::~JXDocumentManager()
 {
 	assert( itsDocList->IsEmpty() );
-	delete itsDocList;
+	jdelete itsDocList;
 
 	const JSize count = itsFileMap->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
 		FileMap file = itsFileMap->GetElement(i);
-		delete file.oldName;
-		delete file.newName;
+		jdelete file.oldName;
+		jdelete file.newName;
 		}
-	delete itsFileMap;
+	jdelete itsFileMap;
 
-	delete itsSafetySaveTask;
-	delete itsUpdateDocMenuTask;
-//	delete itsDefaultMenuIcon;	// can't because JXDisplay already deleted
+	jdelete itsSafetySaveTask;
+	jdelete itsUpdateDocMenuTask;
+//	jdelete itsDefaultMenuIcon;	// can't because JXDisplay already deleted
 }
 
 /******************************************************************************
@@ -176,7 +176,7 @@ JXDocumentManager::DocumentCreated
 			}
 		}
 
-	// insert the new document -- can't sort until later
+	// insert the jnew document -- can't sort until later
 
 	itsDocList->AppendElement(info);
 	if (itsPerformSafetySaveFlag)
@@ -258,7 +258,7 @@ JXDocumentManager::DocumentMenusNeedUpdate()
 {
 	if (itsUpdateDocMenuTask == NULL)
 		{
-		itsUpdateDocMenuTask = new JXUpdateDocMenuTask(this);
+		itsUpdateDocMenuTask = jnew JXUpdateDocMenuTask(this);
 		assert( itsUpdateDocMenuTask != NULL );
 		itsUpdateDocMenuTask->Go();
 		}
@@ -268,7 +268,7 @@ JXDocumentManager::DocumentMenusNeedUpdate()
  UpdateAllDocumentMenus (private)
 
 	This must be called via an UrgentTask because we can't call GetName()
-	for the new document until long after DocumentCreated() is called.
+	for the jnew document until long after DocumentCreated() is called.
 
  ******************************************************************************/
 
@@ -500,9 +500,9 @@ JXDocumentManager::FindFile
 			assert( ok );
 
 			FileMap map;
-			map.oldName = new JString(fileName);
+			map.oldName = jnew JString(fileName);
 			assert( map.oldName != NULL );
-			map.newName = new JString(trueName);
+			map.newName = jnew JString(trueName);
 			assert( map.newName != NULL );
 			itsFileMap->AppendElement(map);
 
@@ -540,8 +540,8 @@ JXDocumentManager::SearchFileMap
 			}
 		else if (match)		// newName no longer exists (lazy checking)
 			{
-			delete map.oldName;
-			delete map.newName;
+			jdelete map.oldName;
+			jdelete map.newName;
 			itsFileMap->RemoveElement(i);
 			}
 		}
@@ -552,7 +552,7 @@ JXDocumentManager::SearchFileMap
 /******************************************************************************
  GetNewFileName
 
-	Return a suitable name for a new document.  Since this is often
+	Return a suitable name for a jnew document.  Since this is often
 	called in the constructor for JXFileDocument, we return a JString&
 
  ******************************************************************************/
