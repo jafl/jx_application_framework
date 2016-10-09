@@ -45,7 +45,7 @@ else if which dnf; then
 		gcc-c++ flex bison lldb rpm-build \
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
-		libxml2-devel libgd-devel libjpeg-devel libpng-devel \
+		libxml2-devel gd-devel libjpeg-devel libpng-devel \
 		libicu-devel pcre-devel \
 		llvm-devel imake libtool  xorg-x11-proto-devel libdrm-devel \
 		xorg-x11-server-devel libXdamage-devel expat-devel \
