@@ -18,7 +18,7 @@ else if which apt; then
 
 	# debian
 
-	sudo apt update
+	sudo apt update;
 	sudo apt install curl \
 		g++ flex bison make lldb \
 		libx11-dev libxinerama-dev libxpm-dev libxft-dev \
@@ -28,11 +28,12 @@ else if which apt; then
 		llvm automake xutils-dev libx11-xcb-dev \
 		libxcb-dri2-0-dev libxcb-xfixes0-dev \
 		x11proto-gl-dev libdrm-dev \
-		aspell libforms-bin
+		aspell libforms-bin;
 
 	if test ! -L ACE/ACE_wrappers; then
 		ln -s /usr/include ACE/ACE_wrappers;
 	fi
+	./bin/patch_ace.pl ACE/ACE_wrappers/ace;
 
 else if which dnf; then
 
@@ -46,7 +47,7 @@ else if which dnf; then
 		libicu-devel pcre-devel \
 		llvm-devel imake libtool  xorg-x11-proto-devel libdrm-devel \
 		xorg-x11-server-devel libXdamage-devel expat-devel \
-		aspell aspell-en xforms-devel
+		aspell aspell-en xforms-devel;
 
 else
 
