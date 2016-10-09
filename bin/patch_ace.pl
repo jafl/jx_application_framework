@@ -23,7 +23,7 @@ $text = <F>;
 }
 close(F);
 
-if ($text =~ s|\n\n#define ACE_NEW_THROWS_EXCEPTIONS\n|\n#if defined (__EXCEPTIONS)\n#define ACE_NEW_THROWS_EXCEPTIONS\n#endif /\* __EXCEPTIONS \*/\n|s)
+if ($text =~ s|\n\n#define ACE_NEW_THROWS_EXCEPTIONS\n(.+?)\n\n|\n\n#if defined (__EXCEPTIONS)\n#define ACE_NEW_THROWS_EXCEPTIONS\n$1\n#endif /\* __EXCEPTIONS \*/\n|s)
 	{
 	open(F, '> '.$file);
 	print F $text;
