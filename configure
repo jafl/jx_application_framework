@@ -69,7 +69,7 @@ else if which zypper; then
 
 	# openSUSE
 
-	sudo zypper -n install which sudo perl python-libxml2 \
+	sudo zypper -in install which sudo perl python-libxml2 \
 		gcc-c++ flex bison make lldb rpm-build \
 		libX11-devel libXinerama-devel libXpm-devel libXft-devel \
 			libXmu-devel libXi-devel \
@@ -77,9 +77,7 @@ else if which zypper; then
 		libicu-devel pcre-devel \
 		llvm-devel imake libtool  xorg-x11-proto-devel libdrm-devel \
 		xorg-x11-server-devel libXdamage-devel expat-devel \
-		aspell aspell-en;
-
-	# xforms-devel
+		aspell aspell-en xforms-devel;
 
 else
 
