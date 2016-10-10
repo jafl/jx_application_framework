@@ -25,34 +25,6 @@ OSX window placement
 
 -----
 
-utf-8
-	need JXComposeRuleList?
-		use for help, diacritical list, word characters
-	does setlocale(LC_ALL, ""); make isalpha(), isupper(), etc. work correctly?
-
-	JCharacter -> JUtf8Byte
-	JUtf8Character
-	GetCharacter(i) -> iterator
-
-	is*() -> JUtf8Character
-	JIndexRange -> JUtf8Range
-	kJIteratorStart(Before|After)Byte
-
-+	replace rendering engine inside JXWindowPainter with UTF-8 version
-	is YUI yogi output correct with check mark? - NO
-	after this, safe to replace strlen with utf-8 version
-
-	leibnitz - symbol font
-		transform to unicode and use X11 utf8 string width/drawing functions
-
-	ASC     [\x00-\x7f]
-	U       [\x80-\xbf]
-	U2      [\xc2-\xdf]
-	U3      [\xe0-\xef]
-	U4      [\xf0-\xf4]
-	UANY    {ASC}|{U2}{U}|{U3}{U}{U}|{U4}{U}{U}{U}
-	UONLY   {U2}{U}|{U3}{U}{U}|{U4}{U}{U}{U}
-
 java
 	selected stack frame
 		select source line
@@ -91,39 +63,6 @@ xdebug
 
 lldb
 	LLDBLink::RunUntil() does not stop at specified address
-
------
-
-UTF-8
-	todo-utf8.c
-		http://utfcpp.sourceforge.net/
-		http://stackoverflow.com/questions/313555/light-c-unicode-library
-		http://stackoverflow.com/questions/4861965/is-there-an-stl-string-class-that-properly-handles-unicode
-		http://www.utf8everywhere.org/
-		http://www.nubaria.com/en/blog/?p=289
-		http://www.cprogramming.com/tutorial/unicode.html
-		http://userguide.icu-project.org/strings/utf-8
-		https://code.google.com/p/easl/
-
-	JString
-		if input not valid UTF-8, convert from ISO8859-1 (configurable?)
-		store character count separate from byte count
-		static functions: utf8_strlen, utf8_prev(&i), utf8_next(&i)
-		optimize GetCharacter(), etc - if not utf-8, use array index
-
-	JRegex::defaultCFlags: add PCRE_UTF8
-
-	convert one file at a time
-		intermediate should be safe, except maybe confusion in JTextEditor/rendering
-		JTextEditor needs to store glyph offset and byte offset
-
-	for loops must use utf8_next/prev instead of i++/--
-
-	UTF8_STRING for X selection
-	use real X compose mechanism
-
-leibnitz
-	symbol font: transform to unicode and use X11 utf8 string width/drawing functions
 
 -----
 
@@ -251,6 +190,12 @@ libjexpr write to mathml
 	http://www.w3.org/TR/MathML2/
 libj3d write scene to canvas 3d
 	http://www.graphycalc.com/
+
+printing
+	embed fonts into .ps file
+	gs -dNOPAUSE -dBATCH -sDEVICE=pswrite -sOutputFile=junk2.ps junk.ps
+	http://www.stat.auckland.ac.nz/~paul/R/CM/CMR.html
+	http://pages.cs.wisc.edu/~ghost/doc/gnu/7.05/Fonts.htm
 
 -----
 
