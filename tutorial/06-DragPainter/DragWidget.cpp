@@ -56,7 +56,7 @@ DragWidget::DragWidget
 DragWidget::~DragWidget()
 {
 	// Unlike widgets, which are automatically deleted by the framework,
-	// we must jdelete this JArray since it is a private instance variable.
+	// we must delete this JArray since it is a private instance variable.
 	jdelete itsPoints;
 }
 

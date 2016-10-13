@@ -656,7 +656,7 @@
 "define",
 "defined",
 "deg2rad",
-"jdelete",
+"delete",
 "dgettext",
 "die",
 "dio_close",

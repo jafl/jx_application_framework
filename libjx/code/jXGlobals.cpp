@@ -276,7 +276,7 @@ JXGetDocumentManager
 	We don't create JXDocumentManager automatically because one may need
 	a derived class.
 
-	After calling this function, we own the object and will jdelete it when
+	After calling this function, we own the object and will delete it when
 	the program terminates.
 
  ******************************************************************************/
@@ -412,7 +412,7 @@ JXGetDockManager
 
 	Automatically called by JXMDIServer.
 
-	After calling this function, we own the object and will jdelete it when
+	After calling this function, we own the object and will delete it when
 	the program terminates.
 
  ******************************************************************************/
@@ -447,7 +447,7 @@ JXGetMDIServer
 
 	Automatically called by JXMDIServer.
 
-	After calling this function, we own the object and will jdelete it when
+	After calling this function, we own the object and will delete it when
 	the program terminates.
 
  ******************************************************************************/
@@ -569,7 +569,7 @@ JXGetSearchTextDialog
 
 	Automatically called by JXSearchTextDialog.
 
-	After calling this function, we own the object and will jdelete it when
+	After calling this function, we own the object and will delete it when
 	the program terminates.
 
  ******************************************************************************/
@@ -654,12 +654,6 @@ JXGetDockWindowClass()
 
  ******************************************************************************/
 
-static const JCharacter* kISO8859Prefix = "ISO8859-";
-const JSize kISO8859PrefixLength        = strlen(kISO8859Prefix);
-
-static const JCharacter* kUTF8Suffix = ".UTF-8";
-const JSize kUTF8SuffixLength        = strlen(kUTF8Suffix);
-
 const JSize kCharacterCount = 256;
 static JBoolean kIsCharacterInWord [ kCharacterCount ];
 static JCharacter kDiacriticalMap  [ kCharacterCount ];
@@ -680,30 +674,21 @@ JXInitLocale()
 		}
 
 	JTextEditor::SetI18NCharacterInWordFunction(I18NIsCharacterInWord);
-/*
+
 	// get language name
 
-	const JCharacter* langAliasPtr = getenv("LC_ALL");
-	if (langAliasPtr == NULL)
+	const JCharacter* langAlias = getenv("LC_ALL");
+	if (langAlias == NULL)
 		{
-		langAliasPtr = getenv("LANG");
-		if (langAliasPtr == NULL)
+		langAlias = getenv("LANG");
+		if (langAlias == NULL)
 			{
-			langAliasPtr = "POSIX";
+			langAlias = "POSIX";
 			}
 		}
 
-	// We don't understand UTF-8, so ask for the plain language instead
+	setlocale(LC_ALL, "");	// use native locale
 
-	JString langAlias = langAliasPtr;
-	if (langAlias.EndsWith(kUTF8Suffix))
-		{
-		langAlias.RemoveSubstring(langAlias.GetLength() - kUTF8SuffixLength + 1, langAlias.GetLength());
-		setenv("LC_ALL", langAlias, kJTrue);
-		}
-*/
-	setlocale(LC_ALL, "");	// for Xkb support (e.g. Russian)
-/*
 	// resolve alias to complete language name
 
 	ifstream langInput;
@@ -739,43 +724,6 @@ JXInitLocale()
 		{
 		langName = langAlias;
 		}
-*/
-	JString langName = "en_US.ISO8859-1";
-
-	// extract Latin charset index
-
-	JIndex langIndex;
-	if (langName.LocateLastSubstring(".", &langIndex))
-		{
-		theCharacterSetName = langName.GetSubstring(langIndex+1, langName.GetLength());
-		}
-	else
-		{
-		theCharacterSetName.Clear();
-		}
-
-	JIndex isoIndex;
-	if (langName.LocateLastSubstring(kISO8859Prefix, kISO8859PrefixLength, kJFalse, &isoIndex) &&
-		isoIndex + kISO8859PrefixLength <= langName.GetLength())
-		{
-		isoIndex             += kISO8859PrefixLength;
-		const JString csiStr = langName.GetSubstring(isoIndex, langName.GetLength());
-		if (!csiStr.ConvertToUInt(&theLatinCharacterSetIndex) ||
-			theLatinCharacterSetIndex == 0)
-			{
-			theLatinCharacterSetIndex = 0;
-			return;
-			}
-		}
-	else if (langName == "C")
-		{
-		theLatinCharacterSetIndex = 1;
-		}
-	else
-		{
-		theLatinCharacterSetIndex = 0;
-		return;
-		}
 
 	// extract file name from Compose.dir
 
@@ -785,7 +733,7 @@ JXInitLocale()
 		return;
 		}
 
-	JBoolean found = kJFalse;
+	found = kJFalse;
 	JString composeFile, name;
 	while (!composeDirInput.eof() && !composeDirInput.fail())
 		{

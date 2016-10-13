@@ -331,7 +331,7 @@ JProcess::WaitUntilFinished()
 		itsIsFinishedFlag = kJTrue;
 		itsFinishedStatus = status;
 
-		const JBoolean autoDelete = itsAutoDeleteFlag;	// save since Broadcast() might jdelete it -- in which case, the flag must be kJFalse!
+		const JBoolean autoDelete = itsAutoDeleteFlag;	// save since Broadcast() might delete it -- in which case, the flag must be kJFalse!
 		Broadcast(Finished(status));
 		if (autoDelete)
 			{
@@ -390,7 +390,7 @@ JProcess::CheckForFinishedChild
 			for (i=1; i<=bcastCount; i++)
 				{
 				JProcess* p               = list.NthElement(i);
-				const JBoolean autoDelete = p->itsAutoDeleteFlag;	// save since Broadcast() might jdelete it -- in which case, the flag must be kJFalse!
+				const JBoolean autoDelete = p->itsAutoDeleteFlag;	// save since Broadcast() might delete it -- in which case, the flag must be kJFalse!
 				p->itsIsFinishedFlag      = kJTrue;
 				p->itsFinishedStatus      = status;
 				p->Broadcast(Finished(status));

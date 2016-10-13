@@ -4,9 +4,9 @@
 	This class encapsulates everything the class browser needs to know about
 	each class.
 
-	Note that only CBTree can jdelete CBClass.  Since extra generality is
+	Note that only CBTree can delete CBClass.  Since extra generality is
 	pointless in this case, it is too much trouble to allow others to
-	jdelete us.  (Among other actions, one would have to call
+	delete us.  (Among other actions, one would have to call
 	CBTree::UpdatePlacement(), which is -very- expensive.)
 
 	Derived classes must implement:

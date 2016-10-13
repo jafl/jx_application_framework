@@ -207,7 +207,7 @@ private:
 
 	JString		itsTitle;
 	JXImage*	itsTitleImage;			// can be NULL
-	JBoolean	itsOwnsTitleImageFlag;	// kJTrue => we jdelete it
+	JBoolean	itsOwnsTitleImageFlag;	// kJTrue => we delete it
 	JString*	itsShortcuts;			// can be NULL
 	JIndex		itsULIndex;
 	JXMenuData*	itsBaseItemData;		// derived class owns this

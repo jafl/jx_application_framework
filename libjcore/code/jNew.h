@@ -7,8 +7,8 @@
 	The JCore replacement for operator jnew.  These functions are simply an
 	interface to the appropriate JMemoryManager functions.
 
-	2016/01/05: The latest C++ standard, allows "= jdelete" to be appended
-	to a function declaration.  This broke the original "jdelete" macro.
+	2016/01/05: The latest C++ standard, allows "= delete" to be appended
+	to a function declaration.  This broke the original "delete" macro.
 
 	Copyright (C) 1997 by Dustin Laurence.  All rights reserved.
 	

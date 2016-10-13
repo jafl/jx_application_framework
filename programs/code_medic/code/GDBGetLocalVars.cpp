@@ -122,8 +122,8 @@ GDBGetLocalVars::HandleSuccess
 		matchedRange = matchList.GetFirstElement();
 		}
 
-	// jdelete existing nodes beyond the first one that doesn't match the
-	// jnew variable names
+	// delete existing nodes beyond the first one that doesn't match the
+	// new variable names
 
 	const JSize newCount = nameList.GetElementCount();
 	JSize origCount      = itsRootNode->GetChildCount();

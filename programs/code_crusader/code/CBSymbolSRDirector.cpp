@@ -270,7 +270,7 @@ CBSymbolSRDirector::HandleActionsMenu
 
 	else if (index == kUpdateCmd)
 		{
-		itsProjDoc->UpdateSymbolDatabase();	// can jdelete us
+		itsProjDoc->UpdateSymbolDatabase();	// can delete us
 		}
 	else if (index == kShowCTreeCmd)
 		{

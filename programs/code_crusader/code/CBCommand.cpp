@@ -639,15 +639,15 @@ CBCommand::ProcessFinished
 			{
 			assert( !itsInQueueFlag );
 			CmdInfo info = itsCmdList->GetElement(1);
-			info.Free(kJFalse);			// don't jdelete CBCommand because it is deleting itself
+			info.Free(kJFalse);			// don't delete CBCommand because it is deleting itself
 			itsCmdList->RemoveElement(1);
 			}
-		StartProcess();		// may jdelete us
+		StartProcess();		// may delete us
 		}
 	else if (!itsCmdList->IsEmpty() && (itsCmdList->GetElement(1)).isMakeDepend)
 		{
 		CmdInfo info = itsCmdList->GetElement(1);
-		info.Free(kJFalse);				// don't jdelete CBCommand because it is deleting itself
+		info.Free(kJFalse);				// don't delete CBCommand because it is deleting itself
 		itsCmdList->RemoveElement(1);
 
 		DeleteThis();
@@ -661,7 +661,7 @@ CBCommand::ProcessFinished
 			info.Free(kJTrue);
 			itsCmdList->RemoveElement(1);
 			}
-		StartProcess();		// may jdelete us
+		StartProcess();		// may delete us
 		}
 	else
 		{

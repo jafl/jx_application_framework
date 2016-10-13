@@ -329,7 +329,7 @@ JVariableList::PopOffEvalStack
 /******************************************************************************
  OKToRemoveVariable
 
-	Never jdelete a variable from the list without checking this!
+	Never delete a variable from the list without checking this!
 
  ******************************************************************************/
 

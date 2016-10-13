@@ -61,7 +61,7 @@ apstring::~apstring()
 //description:   destructor
 //postcondition: string is destroyed
 {
-    jdelete[] myCstring;                // free memory
+    delete[] myCstring;                // free memory
 }
 
 const apstring& apstring::operator =(const apstring & rhs)
@@ -71,7 +71,7 @@ const apstring& apstring::operator =(const apstring & rhs)
     {
         if (myCapacity < rhs.length() + 1)        // more memory needed?
         {
-            jdelete[] myCstring;                   // jdelete old string
+            delete[] myCstring;                   // delete old string
             myCapacity = rhs.length() + 1;        // add 1 for '\0'
             myCstring = jnew char[myCapacity];
         }
@@ -96,7 +96,7 @@ const apstring& apstring::operator = (const char * s)
 
     if (myCapacity < len + 1)
     {
-   jdelete[] myCstring;  // jdelete old string
+   delete[] myCstring;  // delete old string
    myCapacity = len + 1;   // add 1 for '\0'
    myCstring = jnew char[myCapacity];
     }
@@ -111,7 +111,7 @@ const apstring& apstring::operator = (char ch)
 {
     if (myCapacity < 2)
     {
-        jdelete [] myCstring;
+        delete [] myCstring;
         myCapacity = 2;
         myCstring = jnew char[myCapacity];
     }
@@ -233,7 +233,7 @@ const apstring& apstring::operator +=(const apstring & str)
    }
         char * newBuffer = jnew char[myCapacity];
         strcpy(newBuffer,myCstring); // copy into jnew buffer
-        jdelete [] myCstring;       // jdelete old string
+        delete [] myCstring;       // delete old string
         myCstring = newBuffer;
     }
 

@@ -268,7 +268,7 @@ JXDisplay::~JXDisplay()
 /******************************************************************************
  Close
 
-	This is the safe way to jdelete a JXDisplay.
+	This is the safe way to delete a JXDisplay.
 
  ******************************************************************************/
 

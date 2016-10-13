@@ -1153,7 +1153,7 @@ JXMenu::BroadcastSelection
 
 	// broadcast the message
 
-	Broadcast(ItemSelected(itemIndex, fromShortcut));		// can jdelete us
+	Broadcast(ItemSelected(itemIndex, fromShortcut));		// can delete us
 }
 
 /******************************************************************************

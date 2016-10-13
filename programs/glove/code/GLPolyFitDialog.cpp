@@ -63,7 +63,7 @@ GLPolyFitDialog::GLPolyFitDialog
 GLPolyFitDialog::~GLPolyFitDialog()
 {
 	// jdelete	itsVarList;	
-	// I need to find a way to safely jdelete this.
+	// I need to find a way to safely delete this.
 }
 
 /******************************************************************************

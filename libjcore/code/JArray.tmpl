@@ -58,7 +58,7 @@ JArray<T>::JArray
 	:
 	JOrderedSet<T>(source)
 {
-	itsElements = NULL;		// makes jdelete [] safe inside CopyArray
+	itsElements = NULL;		// makes delete [] safe inside CopyArray
 
 	CopyArray(source);
 }

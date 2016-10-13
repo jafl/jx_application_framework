@@ -55,7 +55,7 @@ GLUndoElementsInsert::Undo()
 
 	// we need to create this before we change the data, because
 	// it needs to read the old data first. We can't yet call NewUndo, 
-	// though, because that will jdelete us.
+	// though, because that will delete us.
 
 	GLUndoElementsCut* undo =
 		jnew GLUndoElementsCut(GetTable(), GetStartCell(), GetEndCell(), GetType());

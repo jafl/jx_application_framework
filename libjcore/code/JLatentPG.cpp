@@ -96,7 +96,7 @@ JLatentPG::UseDefaultPG()
 /******************************************************************************
  SetPG
 
-	If ownIt == kJTrue, we jdelete the progress display when we no longer
+	If ownIt == kJTrue, we delete the progress display when we no longer
 	need it.
 
 	This can only be called when a process is not running.

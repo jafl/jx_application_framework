@@ -144,7 +144,7 @@ static const JCharacter* kKeywordList[] =
 "default",
 "define",
 "defined",
-"jdelete",
+"delete",
 "descr",
 "dexp",
 "dfloat",

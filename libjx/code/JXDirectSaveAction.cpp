@@ -3,7 +3,7 @@
 
 	Base class for object that completes a Direct Save transaction.
 
-	JXDSSSelection will jdelete the object if it does *not* call Save().
+	JXDSSSelection will delete the object if it does *not* call Save().
 	If Save() is called, the object must dispose of itself.
 
 	BASE CLASS = none

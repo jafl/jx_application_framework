@@ -1099,7 +1099,7 @@ CBCtagsUser::IgnoreSymbol
 /******************************************************************************
  Receive (virtual protected)
 
-	If the process dies, we jdelete the object so the process will
+	If the process dies, we delete the object so the process will
 	be restarted next time.
 
  ******************************************************************************/

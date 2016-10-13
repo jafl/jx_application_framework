@@ -394,7 +394,7 @@ SyGPrefsMgr::SaveProgramState
 }
 
 /******************************************************************************
- Delete key should jdelete files
+ Delete key should delete files
 
  ******************************************************************************/
 

@@ -795,7 +795,7 @@ JXTextMenuData::SetNMShortcut
 
 	Note that it is a bad idea to use "return" as a shortcut if the window
 	contains a multi-line text editor.  It is also a bad idea to use
-	"backspace" and "jdelete" if the window contains a text input field.
+	"backspace" and "delete" if the window contains a text input field.
 	"Meta-tab" is not available, because JXWindow catches it.
 
  ******************************************************************************/
@@ -840,7 +840,7 @@ static const JXTMKeySymConversion kNMKeyConv[] =
 	{"return",    '\r'},
 	{"tab",       '\t'},
 	{"backspace", '\b'},
-	{"jdelete",    kJForwardDeleteKey},
+	{"delete",    kJForwardDeleteKey},
 	{"insert",    XK_Insert},
 	{"home",      XK_Home},
 	{"end",       XK_End},

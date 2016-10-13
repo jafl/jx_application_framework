@@ -176,7 +176,7 @@ JMMErrorPrinter::HandleNULLDeleted
 {
 	if (itsPrintErrorsFlag)
 		{
-		cout << "*** memory error: Attempt to jdelete NULL as "
+		cout << "*** memory error: Attempt to delete NULL as "
 		     << JMMRecord::TypeName(isArray) << " at\n                     "
 		     << file << ":" << line << endl;
 		}

@@ -151,7 +151,7 @@ JXFloatTable::CreateFloatTableInput
  ExtractInputData (virtual protected)
 
 	Extract the information from the active input field, check it,
-	and jdelete the input field if successful.
+	and delete the input field if successful.
 
 	Returns kJTrue if the data is valid and the process succeeded.
 

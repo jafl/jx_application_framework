@@ -51,7 +51,7 @@ MenuHelloDir::MenuHelloDir
 
 MenuHelloDir::~MenuHelloDir()
 {
-	// We must not jdelete the widgets because the framework does this
+	// We must not delete the widgets because the framework does this
 	// automatically.
 }
 

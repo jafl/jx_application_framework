@@ -70,7 +70,7 @@ private:
 
 	JString*			itsFileName;
 	const JFileVersion	itsCurrentFileVersion;
-	const JBoolean		itsEraseFileIfOpenFlag;		// kJTrue => jdelete file if somebody left it open
+	const JBoolean		itsEraseFileIfOpenFlag;		// kJTrue => delete file if somebody left it open
 	JFileVersion		itsPrevFileVersion;
 
 	JArray<PrefItem>*	itsData;

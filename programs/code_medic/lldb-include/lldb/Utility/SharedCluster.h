@@ -56,7 +56,7 @@ public:
         for (typename llvm::SmallPtrSet<T *, 16>::iterator pos = m_objects.begin(), end = m_objects.end(); pos != end; ++pos)
         {
             T *object = *pos;
-            jdelete object;
+            delete object;
         }
 
         // Decrement refcount should have been called on this ClusterManager,
@@ -88,7 +88,7 @@ private:
         m_mutex.Lock();
         m_external_ref--;
         if (m_external_ref == 0)
-            jdelete this;
+            delete this;
         else
             m_mutex.Unlock();
     }

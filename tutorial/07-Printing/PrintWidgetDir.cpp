@@ -44,7 +44,7 @@ PrintWidgetDir::PrintWidgetDir
 
 PrintWidgetDir::~PrintWidgetDir()
 {
-	// We need to jdelete this, the window will jdelete everything else
+	// We need to delete this, the window will jdelete everything else
 	jdelete itsPrinter;
 }
 

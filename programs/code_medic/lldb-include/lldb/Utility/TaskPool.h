@@ -57,7 +57,7 @@ public:
     RunTasks(T&&... tasks);
 
 private:
-    TaskPool() = jdelete;
+    TaskPool() = delete;
 
     template<typename... T>
     struct RunTaskImpl;

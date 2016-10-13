@@ -5,7 +5,7 @@
 	that cell is selected and hilighted. If the user clicks outside of all
 	the cells but still within the table, all of the cells are unselected.
 	A menu bar is added, so insertions can be made before the selected cell,
-	and removals can be made of selected cells. 
+	and removals can be made of selected cells.
 
 	BASE CLASS = JXTable
 
@@ -29,7 +29,7 @@
 // The default row height, column width, and insertion value.
 const JCoordinate	kDefRowHeight	= 20;
 const JCoordinate	kDefColWidth	= 80;
-const JIndex 		kDefInsertValue	= 12;	
+const JIndex 		kDefInsertValue	= 12;
 
 // These define the menu title and the menu items.
 // The '|' separates menu items.  The complete syntax
@@ -37,9 +37,9 @@ const JIndex 		kDefInsertValue	= 12;
 // and ParseMenuItemStr().
 
 static const JCharacter* kTableMenuTitleStr = "Table";
-static const JCharacter* kTableMenuStr = 
+static const JCharacter* kTableMenuStr =
 	"Insert %k Meta-I | Remove | Quit %k Meta-Q";
-	
+
 enum
 {
 	kInsertCmd = 1,
@@ -56,19 +56,19 @@ SelectionTable::SelectionTable
 	(
 	JXMenuBar* 			menuBar,
 	JArray<JIndex>* 	data,
-	JXScrollbarSet* 	scrollbarSet, 
+	JXScrollbarSet* 	scrollbarSet,
 	JXContainer* 		enclosure,
-	const HSizingOption hSizing, 
+	const HSizingOption hSizing,
 	const VSizingOption vSizing,
-	const JCoordinate 	x, 
+	const JCoordinate 	x,
 	const JCoordinate 	y,
-	const JCoordinate 	w, 
+	const JCoordinate 	w,
 	const JCoordinate 	h
 	)
 	:
 	JXTable(kDefRowHeight, kDefColWidth, scrollbarSet, enclosure, hSizing, vSizing, x, y, w, h)
 {
-	// This will be our data, but we don't own it so we can't jdelete it.
+	// This will be our data, but we don't own it so we can't delete it.
 	itsData = data;
 
 	// We need to set this to NULL in case we receive a message before
@@ -81,21 +81,21 @@ SelectionTable::SelectionTable
 	// We need to add a row for each element in the data array
 	AppendRows(itsData->GetElementCount(), kDefRowHeight);
 
-	// The table is now in sync with the data array, but in 
+	// The table is now in sync with the data array, but in
 	// order to hear about changes in the data, we have to listen
 	// for messages from the data.
 	ListenTo(itsData);
 
-    // Attach our menu to the menu bar.
-    itsTableMenu = menuBar->AppendTextMenu(kTableMenuTitleStr);
-    
-    // Set the menu items in our menu.
-    itsTableMenu->SetMenuItems(kTableMenuStr);
-    
-    // Set the menu to never disable the menu items.
-    itsTableMenu->SetUpdateAction(JXMenu::kDisableNone);
-    
-    // The table needs to listen to the menu for messages. 
+	// Attach our menu to the menu bar.
+	itsTableMenu = menuBar->AppendTextMenu(kTableMenuTitleStr);
+
+	// Set the menu items in our menu.
+	itsTableMenu->SetMenuItems(kTableMenuStr);
+
+	// Set the menu to never disable the menu items.
+	itsTableMenu->SetUpdateAction(JXMenu::kDisableNone);
+
+	// The table needs to listen to the menu for messages.
 	ListenTo(itsTableMenu);
 }
 
@@ -106,7 +106,7 @@ SelectionTable::SelectionTable
 
 SelectionTable::~SelectionTable()
 {
-	// we don't own itsData, so we don't jdelete it.
+	// we don't own itsData, so we don't delete it.
 	// itsTableMenu is deleted automatically by its enclosure.
 }
 
@@ -126,7 +126,7 @@ SelectionTable::~SelectionTable()
 	be displayed.
 
 	cell gives the row and column of the cell that needs to be redrawn.
-	
+
 	cell.x = column
 	cell.y = row
 
@@ -135,20 +135,20 @@ SelectionTable::~SelectionTable()
 void
 SelectionTable::TableDrawCell
 	(
-	JPainter& 		p, 
-	const JPoint& 	cell, 
+	JPainter& 		p,
+	const JPoint& 	cell,
 	const JRect& 	rect
 	)
 {
 	// JTable keeps track of what's selected. If we want just
-	// basic hilighting of the selected cells, we can have JTable 
+	// basic hilighting of the selected cells, we can have JTable
 	// do it with this call:
 	HilightIfSelected(p, cell, rect);
 
 	// Convert the array's current element into a JString.
 	JString cellNumber(itsData->GetElement(cell.y));
 
-	// Draw the JString that holds the value. 
+	// Draw the JString that holds the value.
 	p.String(rect, cellNumber, JPainter::kHAlignLeft, JPainter::kVAlignTop);
 }
 
@@ -162,7 +162,7 @@ SelectionTable::TableDrawCell
 void
 SelectionTable::Receive
 	(
-	JBroadcaster* 	sender, 
+	JBroadcaster* 	sender,
 	const Message& 	message
 	)
 {
@@ -177,7 +177,7 @@ SelectionTable::Receive
 		if (message.Is(JOrderedSetT::kElementsInserted))
 			{
 			// cast the message to an ElementsInserted object
-			const JOrderedSetT::ElementsInserted* info = 
+			const JOrderedSetT::ElementsInserted* info =
 				dynamic_cast<const JOrderedSetT::ElementsInserted*>(&message);
 			assert(info != NULL);
 
@@ -189,7 +189,7 @@ SelectionTable::Receive
 		else if (message.Is(JOrderedSetT::kElementsRemoved))
 			{
 			// cast the message to an ElementsRemoved object
-			const JOrderedSetT::ElementsRemoved* info = 
+			const JOrderedSetT::ElementsRemoved* info =
 				dynamic_cast<const JOrderedSetT::ElementsRemoved*>(&message);
 			assert(info != NULL);
 
@@ -204,7 +204,7 @@ SelectionTable::Receive
 		else if (message.Is(JOrderedSetT::kElementChanged))
 			{
 			// cast the message to an ElementsRemoved object
-			const JOrderedSetT::ElementChanged* info = 
+			const JOrderedSetT::ElementChanged* info =
 				dynamic_cast<const JOrderedSetT::ElementChanged*>(&message);
 			assert(info != NULL);
 
@@ -229,7 +229,7 @@ SelectionTable::Receive
 			{
 			// cast the message to an ItemSelecte object.
 			// This will tell us which item was selected.
-			const JXMenu::ItemSelected* info = 
+			const JXMenu::ItemSelected* info =
 				dynamic_cast<const JXMenu::ItemSelected*>(&message);
 			assert(info != NULL);
 
@@ -255,7 +255,7 @@ SelectionTable::Receive
 void
 SelectionTable::HandleMouseDown
 	(
-	const JPoint& 			pt, 
+	const JPoint& 			pt,
 	const JXMouseButton 	button,
 	const JSize 			clickCount,
 	const JXButtonStates& 	buttonStates,
@@ -381,7 +381,7 @@ SelectionTable::HandleTableMenu
 	// Was it the Quit command?
 	else if (index == kQuitCmd)
 		{
-		// Get the application object (from jXGlobals.h) and call Quit 
+		// Get the application object (from jXGlobals.h) and call Quit
 		// to exit the program.
 		JXGetApplication()->Quit();
 		}

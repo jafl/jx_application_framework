@@ -257,7 +257,7 @@ JStringMap<V>::RemoveAll
 			PrepareForSet(action);
 			if (itsCopyKeysFlag)
 				{
-				// jdelete, but don't mark empty to avoid multiple resizing
+				// delete, but don't mark empty to avoid multiple resizing
 				jdelete[] const_cast<JCharacter*>(cursor->GetValue().key);
 				}
 			}

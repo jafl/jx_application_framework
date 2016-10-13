@@ -41,7 +41,7 @@ CBStringInputDialog::CBStringInputDialog
 
 CBStringInputDialog::~CBStringInputDialog()
 {
-	// We don't have anything to jdelete.
+	// We don't have anything to delete.
 }
 
 /******************************************************************************

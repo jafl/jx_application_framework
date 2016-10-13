@@ -52,7 +52,7 @@
 	***	This means that one should never rely on the position of
 		the read or write mark unless the previous statement explicitly set it.
 
-	***	Embedded files should not jdelete itsStream.
+	***	Embedded files should not delete itsStream.
 
 	The file's header and index are read in when the file is opened and is
 	maintained in memory.  However, the header and index are also written

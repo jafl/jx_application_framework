@@ -158,7 +158,7 @@ JMDIServer::WillBeMDIServer
 		{
 		cerr << "Unable to transmit MDI request." << endl;
 		cerr << socketName << "appears to be dead," << endl;
-		cerr << "but an error ocurred while trying to jdelete it." << endl;
+		cerr << "but an error ocurred while trying to delete it." << endl;
 		exit(1);
 		}
 	else if (!serverOK)

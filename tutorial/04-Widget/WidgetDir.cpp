@@ -34,7 +34,7 @@ WidgetDir::WidgetDir
 
 WidgetDir::~WidgetDir()
 {
-	// Nothing to jdelete
+	// Nothing to delete
 	// Window is deleted automatically by its director
 	// Widget is deleted automatically by its enclosure
 }

@@ -67,16 +67,16 @@ ClipboardWidget::ClipboardWidget
 	JXColormap* cmap = GetColormap();
 	SetBackColor(cmap->GetWhiteColor());
 
-    // Create the menu and attach it to the menu bar.
-    itsEditMenu = menuBar->AppendTextMenu(kEditMenuTitleStr);
+	// Create the menu and attach it to the menu bar.
+	itsEditMenu = menuBar->AppendTextMenu(kEditMenuTitleStr);
 
-    // Set the menu items.
-    itsEditMenu->SetMenuItems(kEditMenuStr);
+	// Set the menu items.
+	itsEditMenu->SetMenuItems(kEditMenuStr);
 
-    // The menu items don't need to be disabled
-    itsEditMenu->SetUpdateAction(JXMenu::kDisableNone);
+	// The menu items don't need to be disabled
+	itsEditMenu->SetUpdateAction(JXMenu::kDisableNone);
 
-    // Listen for messages from the menu.
+	// Listen for messages from the menu.
 	ListenTo(itsEditMenu);
 
 	// Register the data types that we support.  The atoms that we need
@@ -92,7 +92,7 @@ ClipboardWidget::ClipboardWidget
 
 ClipboardWidget::~ClipboardWidget()
 {
-	// There is nothing to jdelete.
+	// There is nothing to delete.
 	// itsEditMenu is deleted by the menu bar
 }
 
@@ -228,7 +228,7 @@ ClipboardWidget::HandleEditMenu
 	if (index == kCopyCmd)
 		{
 		// We instantiate a selection object that is appropriate for
-		// our data. 
+		// our data.
 		JXTextSelection* data = jnew JXTextSelection(GetDisplay(), itsText);
 		assert(data != NULL);
 
@@ -294,7 +294,7 @@ ClipboardWidget::Paste()
 						Refresh();
 						}
 
-					// This is required to jdelete the allocated data.
+					// This is required to delete the allocated data.
 					// Forgetting to do this will cause a memory leak!
 					selMgr->DeleteData(&data, dMethod);
 

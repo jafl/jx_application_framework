@@ -36,7 +36,7 @@ DNDData::DNDData
 /******************************************************************************
  Destructor
 
-  We jdelete our data and buffer.
+  We delete our data and buffer.
 
  *****************************************************************************/
 
@@ -82,7 +82,7 @@ DNDData::SetData
 		}
 
 	// since the data has changed, the data buffer is no longer valid. It
-	// is safe to jdelete it if it is still NULL.
+	// is safe to delete it if it is still NULL.
 	jdelete itsBuffer;
 	itsBuffer = NULL;
 }

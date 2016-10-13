@@ -547,7 +547,7 @@ GDBLink::ReadFromDebugger()
 			CMCommand* cmd;
 			if (GetRunningCommand(&cmd))
 				{
-				cmd->Finished(kJTrue);	// may jdelete object
+				cmd->Finished(kJTrue);	// may delete object
 				SetRunningCommand(NULL);
 
 				#ifdef _J_OLD_OSX
@@ -890,7 +890,7 @@ GDBLink::SetProgram
 		{
 		if (itsInitFinishedFlag && !JSameDirEntry(fullName, itsProgramName))
 			{
-			Send("jdelete");
+			Send("delete");
 			}
 		DetachOrKill();
 		Send("core-file");
@@ -1097,7 +1097,7 @@ GDBLink::RemoveBreakpoint
 		itsContinueCount = 2;
 		}
 
-	const JString cmd = "jdelete " + JString(debuggerIndex, JString::kBase10);
+	const JString cmd = "delete " + JString(debuggerIndex, JString::kBase10);
 	SendWhenStopped(cmd);
 }
 
@@ -1158,7 +1158,7 @@ GDBLink::RemoveAllBreakpoints()
 		itsContinueCount = 2;
 		}
 
-	SendWhenStopped("jdelete");
+	SendWhenStopped("delete");
 }
 
 /******************************************************************************

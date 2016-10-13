@@ -4,8 +4,8 @@
 	Maintains a menu bar of pull-down menus.
 
 	*** RemoveMenu() only removes the specified menu from the menu bar.
-		It does -not- jdelete the JXMenu object.  It returns a pointer to
-		it so the caller can jdelete it.  This is useful if one wants to
+		It does -not- delete the JXMenu object.  It returns a pointer to
+		it so the caller can delete it.  This is useful if one wants to
 		dynamically add and remove menus from a menu bar without rebuilding
 		the menu each time it is added.  (i.e. Use InsertMenu() to put the
 		JXMenu back into the menu bar later.)  To remove a menu from the

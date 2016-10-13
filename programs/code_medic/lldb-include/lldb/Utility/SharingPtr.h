@@ -84,7 +84,7 @@ template <class T>
 void
 shared_ptr_pointer<T>::on_zero_shared()
 {
-    jdelete data_;
+    delete data_;
 }
 
 template <class T>
@@ -630,7 +630,7 @@ private:
 #else
         if (--shared_owners_ == -1)
 #endif
-            jdelete static_cast<T*>(this);
+            delete static_cast<T*>(this);
     }
 
     

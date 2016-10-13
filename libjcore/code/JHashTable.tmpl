@@ -684,7 +684,7 @@ JHashTable<V>::TryResizeTable
 	// Guess not, do it the hard way.
 
 	// The 'Frankenstein' resize algorithm: create a temporary object which is like
-	// we wish we were, then swap guts and let the temporary jdelete our old table.
+	// we wish we were, then swap guts and let the temporary delete our old table.
 	// Or is that the 'Dracula' resize algorithm?
 
 	JHashTable<V> newTable(lgSize);
@@ -708,7 +708,7 @@ JHashTable<V>::TryResizeTable
 
 	// Steal the temporary table's data and give it our old
 
-	// We have to swap the tables so newTable.~JHashTable will jdelete the old one
+	// We have to swap the tables so newTable.~JHashTable will delete the old one
 	// Heere is the braain, masster!
 	JHashRecord<V>* swapArray = itsArray;
 	itsArray = newTable.itsArray;
@@ -767,7 +767,7 @@ JHashTable<V>::ResizeTable
 	FitToLimits encapsulates as much as possible of the resizing behavior of
 	JHashTable in one place.  It attempts to be as efficient as possible (that
 	is, perform as few resizes as possible) for a wide range of insert, search,
-	and jdelete behaviors.
+	and delete behaviors.
 
 	If 'force' is kJTrue, a resize is always done (and thus the load factor is
 	reduced to the fill factor), unless resizing is disabled.  If 'force is

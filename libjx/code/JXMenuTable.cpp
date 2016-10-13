@@ -372,7 +372,7 @@ JXMenuTable::HandleMouseUp
 		}
 	else
 		{
-		// We need a separate clause because the other clauses may jdelete
+		// We need a separate clause because the other clauses may delete
 		// the object.  We can't modify instance variables after that.
 
 		itsIsFirstDragFlag = kJFalse;

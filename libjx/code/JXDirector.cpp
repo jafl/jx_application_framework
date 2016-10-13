@@ -71,7 +71,7 @@ JXDirector::IsWindowDirector()
 /******************************************************************************
  Close (virtual)
 
-	Close all sub-directors and jdelete ourselves.
+	Close all sub-directors and delete ourselves.
 
  ******************************************************************************/
 

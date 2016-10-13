@@ -54,8 +54,8 @@ DialogHelloDir::DialogHelloDir
 
 DialogHelloDir::~DialogHelloDir()
 {
-	// We don't need to jdelete anything here, since the director deletes the
-	// window automatically, and the window will jdelete anything within it.
+	// We don't need to delete anything here, since the director deletes the
+	// window automatically, and the window will delete anything within it.
 }
 
 /******************************************************************************

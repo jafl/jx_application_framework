@@ -41,7 +41,7 @@ DHStringInputDialog::DHStringInputDialog
 
 DHStringInputDialog::~DHStringInputDialog()
 {
-	// We don't have anything to jdelete.
+	// We don't have anything to delete.
 }
 
 /******************************************************************************

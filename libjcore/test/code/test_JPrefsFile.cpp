@@ -73,8 +73,8 @@ void NewFileTest()
 
 	if (vers == kVersionOfExistingFile)
 		{
-		cout << "You asked to test a jnew file." << endl;
-		cout << "Please jdelete the existing file first." << endl;
+		cout << "You asked to test a new file." << endl;
+		cout << "Please delete the existing file first." << endl;
 		return;
 		}
 

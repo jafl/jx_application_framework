@@ -110,7 +110,7 @@ JAVA_CCONST      (\'{JAVA_CHAR}\')
 JAVA_BADCCONST   (\'(\\|{JAVA_BADESCCHAR}|({JAVA_BADESCCHAR}|{JAVA_CHAR}){2,})\')
 
 
-JS_KEYWORD    (as|break|case|catch|class|const|continue|default|jdelete|do|else|export|extends|false|finally|for|function|if|import|in|instanceof|is|namespace|jnew|null|package|private|public|return|super|switch|this|throw|true|try|typeof|use|var|void|while|with|abstract|debugger|enum|goto|implements|interface|native|protected|synchronized|throws|transient|volatile)
+JS_KEYWORD    (as|break|case|catch|class|const|continue|default|delete|do|else|export|extends|false|finally|for|function|if|import|in|instanceof|is|namespace|jnew|null|package|private|public|return|super|switch|this|throw|true|try|typeof|use|var|void|while|with|abstract|debugger|enum|goto|implements|interface|native|protected|synchronized|throws|transient|volatile)
 
 
 JS_IDCAR      ([_[:alpha:]])

@@ -46,7 +46,7 @@ const JCharacter* kTableHelpText =
 "<p>"
 
 "<b>Inserting, deleting, and duplicating</b> "
-"You can insert, jdelete or duplicate rows, columns, or ranges of cells "
+"You can insert, delete or duplicate rows, columns, or ranges of cells "
 "by selecting the appropriate cells by click-dragging the mouse and "
 "choosing <i>Insert</i>, <i>Delete</i>, or <i>Duplicate</i> from the "
 "<i>Edit</i> menu. Rows or columns can be selected by clicking on the "

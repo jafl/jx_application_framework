@@ -117,7 +117,7 @@ TestCompartment::Draw
 	p.String(ap.left, top, "Left click to insert in front of",
 			 ap.width(), JPainter::kHAlignCenter);
 	top += lineHeight;
-	p.String(ap.left, top, "Middle click to jdelete",
+	p.String(ap.left, top, "Middle click to delete",
 			 ap.width(), JPainter::kHAlignCenter);
 	top += lineHeight;
 	p.String(ap.left, top, "Right click to insert after",

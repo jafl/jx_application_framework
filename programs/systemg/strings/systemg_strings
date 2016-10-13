@@ -64,16 +64,16 @@ TrashName::SyGTreeSet	"Trash"
 # SyGFileTreeTable
 
 WarnDeleteSingleFile::SyGFileTreeTable
-"Are you sure you want to permanently jdelete \"$name\"?"
+"Are you sure you want to permanently delete \"$name\"?"
 
 WarnDeleteSingleDir::SyGFileTreeTable
-"Are you sure you want to permanently jdelete \"$name\" and its contents?"
+"Are you sure you want to permanently delete \"$name\" and its contents?"
 
 WarnDeleteMultipleFile::SyGFileTreeTable
-"Are you sure you want to permanently jdelete these $count selected items?"
+"Are you sure you want to permanently delete these $count selected items?"
 
 WarnDeleteMultipleDir::SyGFileTreeTable
-"Are you sure you want to permanently jdelete these $count selected items and their contents?"
+"Are you sure you want to permanently delete these $count selected items and their contents?"
 
 CreateFolderError::SyGFileTreeTable
 "A jnew folder could not created because:

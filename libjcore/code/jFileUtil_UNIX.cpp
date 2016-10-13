@@ -202,7 +202,7 @@ JRemoveFile
 /******************************************************************************
  JKillFile
 
-	Tries as hard as it can to jdelete the file.
+	Tries as hard as it can to delete the file.
 	Returns kJTrue if successful.
 
  ******************************************************************************/

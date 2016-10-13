@@ -662,7 +662,7 @@ JIndex i;
  AllocateImageData (protected)
 
 	Allocate space for image data of the given width and height.
-	Delete both arrays with "jdelete []".  This data can be passed to
+	Delete both arrays with "delete []".  This data can be passed to
 	SetImageData().
 
 	We return an error because it is not unreasonable that the user might

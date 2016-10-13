@@ -724,7 +724,7 @@ JXSelectionManager::SendData1
 /******************************************************************************
  WaitForPropertyDeleted (private)
 
-	Wait for the receiver to jdelete the window property.
+	Wait for the receiver to delete the window property.
 	Returns kJFalse if we time out or the window is deleted (receiver crash).
 
  ******************************************************************************/
@@ -855,7 +855,7 @@ JXSelectionManager::ReceiveDataIncr
 	// The transfer has already been initiated by deleting the
 	// INCR property when it was retrieved.
 
-	// wait for a chunk, retrieve it, and jdelete it
+	// wait for a chunk, retrieve it, and delete it
 
 	#if JXSEL_DEBUG_MSGS
 	JIndex chunkIndex = 0;
