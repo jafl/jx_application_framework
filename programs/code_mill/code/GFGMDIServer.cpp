@@ -66,7 +66,7 @@ GFGMDIServer::HandleMDIRequest
 	for (JIndex i = 2; i <= count; i++)
 		{
 		JString arg	= *(argList.NthElement(i));
-		if (arg == "--jdelete")
+		if (arg == "--delete")
 			{
 			GFGGetApplication()->ShouldBeDeletingTemplate(kJTrue);
 			}

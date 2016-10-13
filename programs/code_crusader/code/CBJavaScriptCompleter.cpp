@@ -18,7 +18,7 @@ static const JCharacter* kKeywordList[] =
 	// keywords
 
 	"abstract", "boolean", "break", "byte", "case", "catch", "char", "class",
-	"continue", "const", "debugger", "default", "jdelete", "do", "double",
+	"continue", "const", "debugger", "default", "delete", "do", "double",
 	"else", "extends","enum", "export", "false", "final", "finally", "float",
 	"for", "function", "goto", "if", "implements", "import", "in",
 	"instanceof", "int", "interface", "label", "long", "native", "jnew",

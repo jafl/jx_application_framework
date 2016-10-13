@@ -234,7 +234,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Added version of Append/ShareEditMenu() with no JBoolean arguments.
 //			This covers the most common case where only
 //			Undo/Cut/Copy/Paste/Clear/SelectAll is needed.
-//		Implements "hungry jdelete" if tab inserts spaces.  The shift key
+//		Implements "hungry delete" if tab inserts spaces.  The shift key
 //			toggles the behavior, regardless of the mode.
 //		Added Save/RestoreDisplayState().
 //	Created JXImageCache to store mapping between JXPM and JXImage*.
@@ -365,7 +365,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Now accepts drop of directory, since user might want to type file name.
 //		GetFile() and GetTextForChooseFile() are now virtual.
 //	JXPathInput:
-//		Now accepts drop of file, since user might want to jdelete file name.
+//		Now accepts drop of file, since user might want to delete file name.
 //		GetPath() is now virtual.
 //		Added GetTextForChoosePath().
 //	Renamed JXSelectionManager::Data to JXSelectionData to make Visual C++ happy.
@@ -375,7 +375,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			FileModifiedByOthers().
 //	JXEditTable:
 //		*** Replaced DeleteXInputField() with PrepareDeleteXInputField()
-//			because it is safer to jdelete the input field after the event
+//			because it is safer to delete the input field after the event
 //			processing finishes.
 //	JXDeleteObjectTask:
 //		Fixed bug to avoid double-deletion in case somebody else deletes the
@@ -1893,7 +1893,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	JXApplication:
 //		Added InitHelp() to support JXHelpManager system.
 //	JXImagePainter:
-//		It is now safe to jdelete the JXImage before the JXImagePainter.
+//		It is now safe to delete the JXImage before the JXImagePainter.
 
 // version 1.1.5:
 //	Created JXStringHistoryMenu.

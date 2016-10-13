@@ -545,7 +545,7 @@ JXDirTable::HandleMouseDown
 		{
 		s.SetBoat(cell);
 		s.SetAnchor(cell);
-		HandleDoubleClick(cell.y);		// can jdelete us
+		HandleDoubleClick(cell.y);		// can delete us
 		return;
 		}
 	else
@@ -657,7 +657,7 @@ JXDirTable::HandleKeyPress
 		{
 		if (hadSelection)
 			{
-			HandleDoubleClick(topSelCell.y);	// can jdelete us
+			HandleDoubleClick(topSelCell.y);	// can delete us
 			return;
 			}
 		}

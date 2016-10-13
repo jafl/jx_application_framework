@@ -444,7 +444,7 @@ JXVertDockPartition::HandleDockMenu
 		}
 	else if (index == kRemoveTopCmd)
 		{
-		DeleteCompartment(itsCompartmentIndex);		// may jdelete us
+		DeleteCompartment(itsCompartmentIndex);		// may delete us
 		}
 
 	else if (index == kSplitBottomHorizCmd)
@@ -457,7 +457,7 @@ JXVertDockPartition::HandleDockMenu
 		}
 	else if (index == kRemoveBottomCmd)
 		{
-		DeleteCompartment(itsCompartmentIndex+1);	// may jdelete us
+		DeleteCompartment(itsCompartmentIndex+1);	// may delete us
 		}
 
 	else if (index == kSetTopElasticCmd)
@@ -578,7 +578,7 @@ JXVertDockPartition::SplitHoriz
 /******************************************************************************
  DeleteCompartment
 
-	*** This function can jdelete us!
+	*** This function can delete us!
 
  ******************************************************************************/
 

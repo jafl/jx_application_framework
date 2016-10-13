@@ -2156,7 +2156,7 @@ JTable::CreateInputField
  ExtractInputData (virtual protected)
 
 	Derived class must override to extract the information from its active
-	input field, check it, and jdelete the input field if successful.
+	input field, check it, and delete the input field if successful.
 
 	Should return kJTrue if the data is valid and the process succeeded.
 

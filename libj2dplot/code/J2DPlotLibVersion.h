@@ -36,10 +36,10 @@ static const char* kCurrentJ2DPlotLibVersionStr = "1.1.1";
 //	JX2DCursorMarkTableDir:
 //		Removed Close button.
 //	J2DPlotData:
-//		It is now safe to jdelete the data arrays, as long as you don't try to access
+//		It is now safe to delete the data arrays, as long as you don't try to access
 //			the plot data afterwards.
 //	J2DVectorData:
-//		It is now safe to jdelete the data arrays, as long as you don't try to access
+//		It is now safe to delete the data arrays, as long as you don't try to access
 //			the plot data afterwards.
 
 // version 1.0.0:

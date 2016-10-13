@@ -6,7 +6,7 @@
 	Urgent tasks are performed after the current event and are then deleted.
 
 	Idle tasks are performed whenever the event loop is idle.  It is safe
-	to jdelete a JXIdleTask object because it will automatically remove itself
+	to delete a JXIdleTask object because it will automatically remove itself
 	from the task list.
 
 	BASE CLASS = JXDirector
@@ -920,7 +920,7 @@ JXApplication::PushIdleTaskStack()
 /******************************************************************************
  PopIdleTaskStack (private)
 
-	Since every object is required to jdelete its idle tasks, any
+	Since every object is required to delete its idle tasks, any
 	remaining tasks should stay active.  (e.g. tasks installed by
 	documents while a progress display is active)
 

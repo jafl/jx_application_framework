@@ -69,7 +69,7 @@ GLNonLinearFitDialog::GLNonLinearFitDialog
 GLNonLinearFitDialog::~GLNonLinearFitDialog()
 {
 	// jdelete	itsVarList;	
-	// I need to find a way to safely jdelete this.
+	// I need to find a way to safely delete this.
 }
 
 /******************************************************************************

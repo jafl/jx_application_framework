@@ -67,9 +67,9 @@ namespace lldb_private {
         JSONString (const char* s);
         JSONString (const std::string& s);
 
-        JSONString (const JSONString& s) = jdelete;
+        JSONString (const JSONString& s) = delete;
         JSONString&
-        operator = (const JSONString& s) = jdelete;
+        operator = (const JSONString& s) = delete;
         
         void
         Write(Stream& s) override;
@@ -135,9 +135,9 @@ namespace lldb_private {
 
         ~JSONNumber() override = default;
 
-        JSONNumber (const JSONNumber& s) = jdelete;
+        JSONNumber (const JSONNumber& s) = delete;
         JSONNumber&
-        operator = (const JSONNumber& s) = jdelete;
+        operator = (const JSONNumber& s) = delete;
 
         void
         Write(Stream& s) override;
@@ -177,9 +177,9 @@ namespace lldb_private {
     public:
         JSONTrue ();
 
-        JSONTrue (const JSONTrue& s) = jdelete;
+        JSONTrue (const JSONTrue& s) = delete;
         JSONTrue&
-        operator = (const JSONTrue& s) = jdelete;
+        operator = (const JSONTrue& s) = delete;
         
         void
         Write(Stream& s) override;
@@ -199,9 +199,9 @@ namespace lldb_private {
     public:
         JSONFalse ();
 
-        JSONFalse (const JSONFalse& s) = jdelete;
+        JSONFalse (const JSONFalse& s) = delete;
         JSONFalse&
-        operator = (const JSONFalse& s) = jdelete;
+        operator = (const JSONFalse& s) = delete;
         
         void
         Write(Stream& s) override;
@@ -221,9 +221,9 @@ namespace lldb_private {
     public:
         JSONNull ();
 
-        JSONNull (const JSONNull& s) = jdelete;
+        JSONNull (const JSONNull& s) = delete;
         JSONNull&
-        operator = (const JSONNull& s) = jdelete;
+        operator = (const JSONNull& s) = delete;
         
         void
         Write(Stream& s) override;
@@ -243,9 +243,9 @@ namespace lldb_private {
     public:
         JSONObject ();
         
-        JSONObject (const JSONObject& s) = jdelete;
+        JSONObject (const JSONObject& s) = delete;
         JSONObject&
-        operator = (const JSONObject& s) = jdelete;
+        operator = (const JSONObject& s) = delete;
 
         void
         Write(Stream& s) override;
@@ -277,9 +277,9 @@ namespace lldb_private {
     public:
         JSONArray ();
         
-        JSONArray (const JSONArray& s) = jdelete;
+        JSONArray (const JSONArray& s) = delete;
         JSONArray&
-        operator = (const JSONArray& s) = jdelete;
+        operator = (const JSONArray& s) = delete;
         
         void
         Write(Stream& s) override;

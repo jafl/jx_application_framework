@@ -36,7 +36,7 @@ SimpleTableDir::SimpleTableDir
 
 SimpleTableDir::~SimpleTableDir()
 {
-	// Nothing to jdelete
+	// Nothing to delete
 	// Window is deleted automatically by its director
 	// SimpleTable is deleted automatically by its enclosure
 }

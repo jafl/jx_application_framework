@@ -1235,7 +1235,7 @@ JXWidget::DeleteDragPainter()
 	unless the copying is always very fast because one should never make
 	the user wait when the drag begins.
 
-	*** The caller should not jdelete data even if this function returns kJFalse.
+	*** The caller should not delete data even if this function returns kJFalse.
 
 	*** The caller retains ownership of targetFinder.
 

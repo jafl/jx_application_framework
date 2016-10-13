@@ -90,7 +90,7 @@ JBroadcastSnooper snoop2(a2);
 		cout << "arf!";
 		}
 
-	jdelete a2;	// jdelete embedded first
+	jdelete a2;	// delete embedded first
 	jdelete a1;
 
 	return 0;
@@ -113,7 +113,7 @@ void NewFileTest
 	if (vers == kVersionOfExistingFile)
 		{
 		cout << "You asked to test a jnew file." << endl;
-		cout << "Please jdelete the existing file first." << endl;
+		cout << "Please delete the existing file first." << endl;
 		return;
 		}
 

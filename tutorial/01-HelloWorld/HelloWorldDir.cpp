@@ -44,7 +44,7 @@ HelloWorldDir::HelloWorldDir
 
 	// Create the object to hold our "Hello World" message.
 	// We do not need to keep a pointer to it because the
-	// framework will jdelete it automatically when the window
+	// framework will delete it automatically when the window
 	// is closed.
 	JXStaticText* text =
 		jnew JXStaticText(JGetString(kWindowTextID), window,

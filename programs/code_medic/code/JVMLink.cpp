@@ -1168,7 +1168,7 @@ JVMLink::SetProgram
 	itsJVMExecArgs.Clear();
 	itsSourcePathList->DeleteAll();
 
-	// jdelete all directories in itsJarPathList
+	// delete all directories in itsJarPathList
 
 	JString fullName;
 	if (!JConvertToAbsolutePath(fileName, NULL, &fullName) ||

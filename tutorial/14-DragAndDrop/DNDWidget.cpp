@@ -68,7 +68,7 @@ DNDWidget::DNDWidget
 DNDWidget::~DNDWidget()
 {
 	// Unlike widgets, which are automatically deleted by the framework,
-	// we must jdelete this JArray since it is a private instance variable.
+	// we must delete this JArray since it is a private instance variable.
 	jdelete itsPoints;
 }
 
@@ -483,7 +483,7 @@ DNDWidget::HandleDNDDrop
 		// Tell the widget to redraw itself
 		Refresh();
 
-		// Tell the selection manager to jdelete the data.
+		// Tell the selection manager to delete the data.
 		selManager->DeleteData(&data, delMethod);
 		}
 }

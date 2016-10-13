@@ -1004,14 +1004,14 @@ CBDiffDocument::ReadDiff
 
 	FcT
 		Replace the lines in range F of the first file with lines in range
-		T of the second file.  This is like a combined add and jdelete, but
+		T of the second file.  This is like a combined add and delete, but
 		more compact.  For example, `5,7c8,10' means change lines 5-7 of
 		file 1 to read as lines 8-10 of file 2.
 
 	RdL
 		Delete the lines in range R from the first file; line L is where
 		they would have appeared in the second file had they not been
-		deleted.  For example, `5,7d3' means jdelete lines 5-7 of file 1.
+		deleted.  For example, `5,7d3' means delete lines 5-7 of file 1.
 
  ******************************************************************************/
 

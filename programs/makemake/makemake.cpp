@@ -387,7 +387,7 @@ main
 					*mainTargetObjs += *targetName;
 					*mainTargetObjs += *outSuffixName;
 
-					// may jdelete *Name objects
+					// may delete *Name objects
 
 					AddSubTarget(targetList, prefixList, suffixList, outPrefixList, outSuffixList,
 								 targetName, prefixName, suffixName, outPrefixName, outSuffixName);

@@ -56,7 +56,7 @@ private:
 
 	JArray<CBPrefsManager::CRMRuleListInfo>*	itsCRMList;
 
-	mutable JBoolean	itsOwnsCRMListFlag;		// kJTrue => jdelete contents of itsMacroList
+	mutable JBoolean	itsOwnsCRMListFlag;		// kJTrue => delete contents of itsMacroList
 	const JIndex		itsFirstNewID;			// first index to use for jnew sets
 	JIndex				itsLastNewID;			// index of last jnew set created
 	JIndex				itsCRMIndex;			// index of currently displayed macro set

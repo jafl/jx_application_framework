@@ -128,7 +128,7 @@ JMMMonitor::HandleArrayDeletedAsObject
 
 	Called when a block is deleted which was never allocated (more precisely,
 	which has no allocation record; this includes multiple deletions if
-	jdelete records are not being kept).
+	delete records are not being kept).
 
  *****************************************************************************/
 
@@ -148,7 +148,7 @@ JMMMonitor::HandleUnallocatedDeletion
 	Called when an already-deleted memory block is deleted again.  originalRecord
 	is the JMMRecord for the block including its first deletion, file and line
 	are the location of the multiple deletion that triggered the message.  This
-	message cannot be generated unless jdelete records are being kept; otherwise,
+	message cannot be generated unless delete records are being kept; otherwise,
 	the message is UnallocatedDeletion rather than MultipleDeletion.
 
  *****************************************************************************/

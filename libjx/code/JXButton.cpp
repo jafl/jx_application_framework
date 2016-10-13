@@ -67,7 +67,7 @@ JXButton::Push()
 	Redraw();
 	itsIsPushedFlag = kJFalse;
 	Refresh();
-	Broadcast(Pushed());	// must be last since it could jdelete us
+	Broadcast(Pushed());	// must be last since it could delete us
 }
 
 /******************************************************************************
@@ -180,7 +180,7 @@ JXButton::HandleMouseUp
 		{
 		itsIsPushedFlag = kJFalse;
 		Refresh();
-		Broadcast(Pushed());	// must be last since it could jdelete us
+		Broadcast(Pushed());	// must be last since it could delete us
 		}
 }
 

@@ -579,7 +579,7 @@ JDirInfo::ChangeSort
 /******************************************************************************
  ChangeProgressDisplay
 
-	We take ownership of the object and will jdelete it when appropriate.
+	We take ownership of the object and will delete it when appropriate.
 
  ******************************************************************************/
 

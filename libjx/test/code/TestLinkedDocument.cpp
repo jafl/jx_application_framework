@@ -82,7 +82,7 @@ TestLinkedDocument::TestLinkedDocument
 		{
 		JString msg = "Unable to open ";
 		msg += kRequiredFile;
-		msg += ".\n\nI hope you didn't jdelete it!";
+		msg += ".\n\nI hope you didn't delete it!";
 		(JGetUserNotification())->ReportError(msg);
 		}
 

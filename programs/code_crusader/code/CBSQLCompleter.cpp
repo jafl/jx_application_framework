@@ -24,7 +24,7 @@ static const JCharacter* kKeywordList[] =
 	"column", "comment", "commit", "compress", "connect", "constant", "crash",
 	"create", "current", "currval", "cursor", "database", "data_base", "date",
 	"dba", "debugoff", "debugon", "declare", "decimal", "default", "definition",
-	"delay", "jdelete", "delta", "desc", "digits", "dispose", "distinct", "do",
+	"delay", "delete", "delta", "desc", "digits", "dispose", "distinct", "do",
 	"drop", "else", "elsif", "end", "entry", "exception", "exception_init",
 	"exclusive", "exists", "exit", "false", "fetch", "file", "float", "for",
 	"form", "from", "function", "generic", "goto", "grant", "group", "having",

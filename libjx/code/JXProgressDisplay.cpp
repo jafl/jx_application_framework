@@ -376,7 +376,7 @@ JXProgressDisplay::Receive
 		assert( info != NULL );
 		itsCancelFlag = kJTrue;
 
-		// must be last since it could jdelete us
+		// must be last since it could delete us
 
 		if (AllowBackground())
 			{

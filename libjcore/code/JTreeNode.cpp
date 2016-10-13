@@ -322,7 +322,7 @@ JTreeNode::InsertAtIndex
 	JTreeNode*		child
 	)
 {
-	const JBoolean isMove = child->SetParent(this);		// may jdelete *our* itsChildren list
+	const JBoolean isMove = child->SetParent(this);		// may delete *our* itsChildren list
 
 	CreateChildList();
 	itsChildren->InsertAtIndex(index, child);
@@ -341,7 +341,7 @@ JTreeNode::InsertBefore
 	JTreeNode*			child
 	)
 {
-	const JBoolean isMove = child->SetParent(this);		// may jdelete *our* itsChildren list
+	const JBoolean isMove = child->SetParent(this);		// may delete *our* itsChildren list
 
 	CreateChildList();
 	itsChildren->InsertBefore(before, child);
@@ -360,7 +360,7 @@ JTreeNode::InsertAfter
 	JTreeNode*			child
 	)
 {
-	const JBoolean isMove = child->SetParent(this);		// may jdelete *our* itsChildren list
+	const JBoolean isMove = child->SetParent(this);		// may delete *our* itsChildren list
 
 	CreateChildList();
 	itsChildren->InsertAfter(after, child);
@@ -378,7 +378,7 @@ JTreeNode::InsertSorted
 	JTreeNode* child
 	)
 {
-	const JBoolean isMove = child->SetParent(this);		// may jdelete *our* itsChildren list
+	const JBoolean isMove = child->SetParent(this);		// may delete *our* itsChildren list
 
 	CreateChildList();
 	if (!itsChildren->Includes(child))

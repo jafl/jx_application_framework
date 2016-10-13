@@ -582,7 +582,7 @@ J2DPlotWidget::RemoveCurve
 		{
 		PWRefresh();
 		Broadcast(CurveRemoved(index));
-		Broadcast(IsEmpty());		// might jdelete us
+		Broadcast(IsEmpty());		// might delete us
 		}
 }
 

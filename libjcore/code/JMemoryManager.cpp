@@ -130,7 +130,7 @@
 
 #		JMM_DISALLOW_DELETE_NULL If this environment variable is set to "yes" the
 #		                       manager will consider deletion of a null pointer to
-#		                       be an error, in spite of ANSI.  Most people jdelete
+#		                       be an error, in spite of ANSI.  Most people delete
 #		                       NULL frequently, so the default is to allow it, but
 #		                       those with a particularly clean (not to say
 #		                       obsessive) style may find this useful.  Overridden

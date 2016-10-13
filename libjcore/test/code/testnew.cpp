@@ -71,7 +71,7 @@ main()
 
 //	JMemoryManager::Instance()->CancelRecordAllocated();
 
-	cout << "\n   Multiple deleting object.  Should fail as 'jdelete unallocated'"
+	cout << "\n   Multiple deleting object.  Should fail as 'delete unallocated'"
 	     << "\n   but *not* dump core if allocations are being recorded, or should fail"
 	     << "\n   as double deletion if deallocations are being recorded.  Otherwise,"
 	     << "\n   will succeed with system-dependent results" << endl;
@@ -87,7 +87,7 @@ main()
 
 	jdelete[] aFloat;
 
-	cout << "\n   Multiple deleting array.  Should fail as 'jdelete unallocated'"
+	cout << "\n   Multiple deleting array.  Should fail as 'delete unallocated'"
 	     << "\n   but *not* dump core if allocations are being recorded, or should fail"
 	     << "\n   as double deletion if deallocations are being recorded.  Otherwise,"
 	     << "\n   will succeed with system-dependent results" << endl;

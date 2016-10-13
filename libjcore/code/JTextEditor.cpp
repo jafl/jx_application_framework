@@ -4695,7 +4695,7 @@ JTextEditor::SelectAll()
 /******************************************************************************
  DeleteSelection
 
-	We create JTEUndoTyping so keys pressed after the jdelete key count
+	We create JTEUndoTyping so keys pressed after the delete key count
 	as part of the undo task.
 
  ******************************************************************************/
@@ -8894,7 +8894,7 @@ JTextEditor::TEHandleKeyPress
 		SetCaretLocation(bufLength+1);
 		}
 
-	// jdelete
+	// delete
 
 	else if (key == kJDeleteKey && !itsSelection.IsEmpty())
 		{
@@ -8905,7 +8905,7 @@ JTextEditor::TEHandleKeyPress
 		BackwardDelete(deleteToTabStop);
 		}
 
-	// forward jdelete
+	// forward delete
 
 	else if (key == kJForwardDeleteKey && !itsSelection.IsEmpty())
 		{
@@ -9048,7 +9048,7 @@ JTextEditor::BackwardDelete
 					textColumn    -= tabWidth;
 					deleteLength  -= (tabWidth-1);
 					}
-				else	// normal jdelete when close to text
+				else	// normal delete when close to text
 					{
 					startIndex   = origStartIndex;
 					deleteLength = 1;
@@ -9056,7 +9056,7 @@ JTextEditor::BackwardDelete
 					}
 				}
 			}
-		else			// normal jdelete when close to text
+		else			// normal delete when close to text
 			{
 			deleteLength = 1;
 			}
@@ -9129,14 +9129,14 @@ JTextEditor::ForwardDelete
 					deleteLength = i;
 					break;
 					}
-				else if (c != ' ')	// normal jdelete when close to text
+				else if (c != ' ')	// normal delete when close to text
 					{
 					deleteLength = 1;
 					break;
 					}
 				}
 			}
-		else						// normal jdelete when close to text
+		else						// normal delete when close to text
 			{
 			deleteLength = 1;
 			}

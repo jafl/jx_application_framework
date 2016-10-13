@@ -46,7 +46,7 @@ const JSize kBlockSize = 100;
 
 const JFileVersion kCodeMillDataVersion                  = 0;
 static const JCharacter* kCodeMillProgramName            = "code_mill";
-static const JCharacter* kCodeMillDeleteInputFilesOption = "--jdelete";
+static const JCharacter* kCodeMillDeleteInputFilesOption = "--delete";
 static const JCharacter* kCodeMillOutputPathOption       = "--output_path";
 
 // JBroadcaster message types
@@ -794,7 +794,7 @@ CBTree::RebuildTree()
 {
 JIndex i;
 
-	// jdelete ghost classes and clear all parent-child connections
+	// delete ghost classes and clear all parent-child connections
 
 	JSize classCount = itsClassesByFull->GetElementCount();
 	for (i=classCount; i>=1; i--)

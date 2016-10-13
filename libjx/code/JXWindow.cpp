@@ -208,7 +208,7 @@ JXWindow::JXWindow
 
 	GetDNDManager()->EnableDND(itsXWindow);
 
-	// trap window manager's jdelete message
+	// trap window manager's delete message
 
 	AcceptSaveYourself(kJFalse);
 
@@ -2581,7 +2581,7 @@ JXWindow::HandleEvent
 
 	else if (IsDeleteWindowMessage(itsDisplay, xEvent))		// trap WM_DELETE_WINDOW first
 		{
-		Close();											// can jdelete us
+		Close();											// can delete us
 		}
 	else if (IsWMPingMessage(itsDisplay, xEvent))
 		{
@@ -2954,7 +2954,7 @@ JXWindow::HandleButtonRelease
 		Display* xDisplay  = *display;
 		Window xWindow     = itsXWindow;
 
-		// this could jdelete us
+		// this could delete us
 
 		const JPoint pt = itsMouseContainer->GlobalToLocal(xEvent.x, xEvent.y);
 		itsMouseContainer->DispatchMouseUp(pt, currButton,

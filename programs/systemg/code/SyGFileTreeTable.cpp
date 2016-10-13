@@ -1344,7 +1344,7 @@ SyGFileTreeTable::DeleteSelected()
 /******************************************************************************
  WarnForDelete (private)
 
-	We check for JDirEntry::kDir because deleting a link doesn't jdelete
+	We check for JDirEntry::kDir because deleting a link doesn't delete
 	the directory's contents.
 
  ******************************************************************************/

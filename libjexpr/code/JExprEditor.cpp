@@ -900,7 +900,7 @@ JExprEditor::GroupArguments
 				JIndex i;
 				SaveStateForUndo();
 
-				// Copy the parent function and jdelete the args that
+				// Copy the parent function and delete the args that
 				// will not be in the group.
 
 				JFunction* newF      = parentF->Copy();

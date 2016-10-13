@@ -68,7 +68,7 @@ template <class itemType>
 apvector<itemType>::~apvector ()
 // postcondition: vector is destroyed
 {
-    jdelete [] myList;
+    delete [] myList;
 }
 
 template <class itemType>
@@ -80,7 +80,7 @@ apvector<itemType>::operator = (const apvector<itemType> & rhs)
 {
     if (this != &rhs)                           // don't assign to self!
     {
-        jdelete [] myList;                       // get rid of old storage
+        delete [] myList;                       // get rid of old storage
         mySize = rhs.length();
         myList = jnew itemType [mySize];         // allocate jnew storage
 
@@ -154,7 +154,7 @@ void apvector<itemType>::resize(int newSize)
     {
         newList[k] = myList[k];
     }
-    jdelete [] myList;                      // de-allocate old storage
+    delete [] myList;                      // de-allocate old storage
     mySize = newSize;                      // assign jnew storage/size
     myList = newList;
 }

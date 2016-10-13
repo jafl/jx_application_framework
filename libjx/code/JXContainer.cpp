@@ -492,7 +492,7 @@ JXContainer::DispatchNewMouseEvent
 			itsWindow->SetWantDrag(kJTrue);
 			const JSize clickCount = itsWindow->CountClicks(this, pt);
 			MouseDown(pt, button, clickCount,
-					  JXButtonStates(state), modifiers);	// can jdelete us
+					  JXButtonStates(state), modifiers);	// can delete us
 			}
 		}
 
@@ -551,7 +551,7 @@ JXContainer::DispatchMouseUp
 		}
 	else if (!itsIsDNDSourceFlag)
 		{
-		// can jdelete us
+		// can delete us
 
 		HandleMouseUp(pt, button, buttonStates, modifiers);
 		}
@@ -754,7 +754,7 @@ JXContainer::MouseDown
 		}
 	else if (!itsIsDNDSourceFlag)
 		{
-		// can jdelete us
+		// can delete us
 
 		HandleMouseDown(pt, button, clickCount, buttonStates, modifiers);
 		}

@@ -27,7 +27,7 @@ public:
 	operator const T*() const;
 
 	const T*	GetCArray() const;
-	T*			AllocateCArray() const;		// client must call jdelete [] when finished with it
+	T*			AllocateCArray() const;		// client must call delete [] when finished with it
 
 	virtual void	InsertElementAtIndex(const JIndex index, const T& data);
 

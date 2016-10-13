@@ -1722,7 +1722,7 @@ LLDBLink::SendMedicCommandSync
 	)
 {
 	HandleCommandRunning(command->GetTransactionID());
-	command->Finished(kJTrue);	// may jdelete object
+	command->Finished(kJTrue);	// may delete object
 	SetRunningCommand(NULL);
 
 	if (!HasForegroundCommands())
