@@ -74,7 +74,7 @@ JString::JString
 	itsBlockSize( kDefaultBlockSize )
 {
 	itsAllocLength = 0;
-	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
+	itsString      = NULL;		// makes delete [] safe inside CopyToPrivateString
 	CopyToPrivateString(str);
 }
 
@@ -87,7 +87,7 @@ JString::JString
 	itsBlockSize( kDefaultBlockSize )
 {
 	itsAllocLength = 0;
-	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
+	itsString      = NULL;		// makes delete [] safe inside CopyToPrivateString
 	CopyToPrivateString(length > 0 ? str : "", length);		// allow NULL,0
 }
 
@@ -100,7 +100,7 @@ JString::JString
 	itsBlockSize( kDefaultBlockSize )
 {
 	itsAllocLength = 0;
-	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
+	itsString      = NULL;		// makes delete [] safe inside CopyToPrivateString
 	CopyToPrivateString(str + range.first-1, range.GetLength());
 }
 
@@ -138,7 +138,7 @@ JString::JString
 	itsBlockSize( kDefaultBlockSize )
 {
 	itsAllocLength = 0;
-	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
+	itsString      = NULL;		// makes delete [] safe inside CopyToPrivateString
 
 	if (number == 0)
 		{
@@ -196,7 +196,7 @@ JString::JString
 	itsBlockSize( kDefaultBlockSize )
 {
 	itsAllocLength = 0;
-	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
+	itsString      = NULL;		// makes delete [] safe inside CopyToPrivateString
 	CopyToPrivateString(s.data(), s.length());
 }
 
@@ -216,7 +216,7 @@ JString::JString
 	itsBlockSize( source.itsBlockSize )
 {
 	itsAllocLength = 0;
-	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
+	itsString      = NULL;		// makes delete [] safe inside CopyToPrivateString
 
 	CopyToPrivateString(source.itsString, source.itsStringLength);
 }
@@ -253,8 +253,8 @@ JString::CopyToPrivateString
 		{
 		itsAllocLength = length + itsBlockSize;
 
-		// We allocate the jnew memory first.
-		// If jnew fails, we still have the old string data.
+		// We allocate the new memory first.
+		// If new fails, we still have the old string data.
 
 		JCharacter* newString = jnew JCharacter [ itsAllocLength + 1 ];
 		assert( newString != NULL );
@@ -265,7 +265,7 @@ JString::CopyToPrivateString
 		itsString = newString;
 		}
 
-	// copy the characters to the jnew string
+	// copy the characters to the new string
 
 	memcpy(itsString, str, length);
 	itsString[ length ] = '\0';
@@ -322,7 +322,7 @@ JString::InsertSubstring
 		memcpy(insertionPtr + insertLength, itsString + insertionOffset,
 			   itsStringLength - insertionOffset + 1);
 
-		// throw out our original string and save the jnew one
+		// throw out our original string and save the new one
 
 		jdelete [] itsString;
 		itsString = newString;
@@ -352,8 +352,8 @@ JString::InsertSubstring
 /******************************************************************************
  AllocateCString
 
-	This allocates a jnew pointer, which the caller is responsible
-	for deleting via "jdelete []".
+	This allocates a new pointer, which the caller is responsible
+	for deleting via "delete []".
 
  ******************************************************************************/
 
@@ -464,7 +464,7 @@ JString::Clear()
 
 		// Having just released a block of memory at least as large as the
 		// one we are requesting, the system must really be screwed if this
-		// call to jnew doesn't work.
+		// call to new doesn't work.
 
 		itsString = jnew JCharacter [ itsAllocLength + 1 ];
 		assert( itsString != NULL );
@@ -533,16 +533,16 @@ JString::TrimWhitespace()
 		{
 		itsAllocLength = newLength + itsBlockSize;
 
-		// allocate space for the jnew string + termination
+		// allocate space for the new string + termination
 
 		JCharacter* newString = jnew JCharacter[ itsAllocLength+1 ];
 		assert( newString != NULL );
 
-		// copy the non-blank characters to the jnew string
+		// copy the non-blank characters to the new string
 
 		memcpy(newString, GetCharacterPtr(firstCharIndex), newLength);
 
-		// throw out our original string and save the jnew one
+		// throw out our original string and save the new one
 
 		jdelete [] itsString;
 		itsString = newString;
@@ -933,7 +933,7 @@ JString::ReplaceSubstring
 		memcpy(newString, itsString, len1);
 		memcpy(newString + len1 + len2, itsString + lastCharIndex, len3);
 
-		// throw out the original string and save the jnew one
+		// throw out the original string and save the new one
 
 		jdelete [] itsString;
 		itsString = newString;
@@ -946,7 +946,7 @@ JString::ReplaceSubstring
 		memmove(itsString + len1 + len2, itsString + lastCharIndex, len3);
 		}
 
-	// insert the jnew characters
+	// insert the new characters
 
 	memcpy(itsString + len1, str, len2);
 
@@ -1244,8 +1244,8 @@ JString::Read
 		{
 		itsAllocLength = count + itsBlockSize;
 
-		// We allocate the jnew memory first.
-		// If jnew fails, we still have the old string data.
+		// We allocate the new memory first.
+		// If new fails, we still have the old string data.
 
 		JCharacter* newString = jnew JCharacter [ itsAllocLength + 1 ];
 		assert( newString != NULL );
