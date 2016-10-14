@@ -893,7 +893,7 @@ JExprEditor::GroupArguments
 				SelectFunction(f);
 				}
 
-			// create a jnew JNaryOperator to contain the group
+			// create a new JNaryOperator to contain the group
 
 			else if (!sameType && argsInRange && !groupAll)
 				{
@@ -916,7 +916,7 @@ JExprEditor::GroupArguments
 					}
 
 				// Replace the original args from the parent function
-				// with the jnew group.
+				// with the new group.
 
 				for (i=1; i<=lastArg-firstArg+1; i++)
 					{
@@ -1873,7 +1873,7 @@ JExprEditor::EIPHandleKeyPress
 				{
 				assert( key == '\n' || key == '\r' || key == ' ' || key == ')' );
 
-				// select the jnew function
+				// select the new function
 
 				Render();
 				SelectFunction(arg1);

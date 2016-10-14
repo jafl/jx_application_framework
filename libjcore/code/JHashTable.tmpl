@@ -92,7 +92,7 @@
 	efficient bit-wise wrap for pointers rather than the slower modulus function
 	(the HashToIndex function) and makes it easy to support dynamic resizing by
 	doubling and halving the table as necessary.  Powers of two also tend to
-	interact well with memory managers.  Malloc, operator jnew, and their kin often
+	interact well with memory managers.  Malloc, operator new, and their kin often
 	allocate a block of memory of the next even power-of-two larger than the size
 	requested, so asking for power-of-two sizes allows efficient use of memory.
 	(Of course it doesn't guarantee it, since the size of the data stored may not
@@ -106,7 +106,7 @@
 	with 1.  (I've seen good textbooks go haywire and suggest that the table size
 	be prime number!  I believe the rationale for this trick is suspect even for
 	fixed tablesize student code.  It is not much easier to calculate, makes it
-	much harder to find arbitrary jnew table sizes when dynamically resizing, and
+	much harder to find arbitrary new table sizes when dynamically resizing, and
 	comes with none of the other advantages.)
 
 	Finally, for clarity and maintainability the algorithms for traversing the
@@ -276,7 +276,7 @@ JHashTable<V>::SetMinTableSize
 	itsLgMinTableSize = 0;
 
 
-	// Find jnew min size
+	// Find new min size
 	// Cast to ul instead of JSize so it works even if JSize is not a long
 	while ( static_cast<unsigned long>(1L << itsLgMinTableSize) < newMin)
 		{

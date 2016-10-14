@@ -739,7 +739,7 @@ JXScrollbar::SetMaxValue
 {
 	if (maxValue != itsMaxValue && maxValue >= kMinValue)
 		{
-		// remove scrolltabs that are beyond the jnew maximum
+		// remove scrolltabs that are beyond the new maximum
 
 		if (itsScrolltabList != NULL && maxValue < itsMaxValue)
 			{
@@ -754,7 +754,7 @@ JXScrollbar::SetMaxValue
 				}
 			}
 
-		// set jnew maximum value
+		// set new maximum value
 
 		itsMaxValue = maxValue;
 		if (itsValue > itsMaxValue)

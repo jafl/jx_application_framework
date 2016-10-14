@@ -214,7 +214,7 @@ DialogHelloDir::SetupInputDialog()
 /******************************************************************************
  GetNewTextFromDialog
 
-	Pull the jnew text out of the dialog.
+	Pull the new text out of the dialog.
 
  ******************************************************************************/
 

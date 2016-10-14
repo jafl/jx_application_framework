@@ -184,7 +184,7 @@ public:
     //------------------------------------------------------------------
     /// Gets the unique ID associated with this process object
     ///
-    /// Unique IDs start at 1 and increment up with each jnew process
+    /// Unique IDs start at 1 and increment up with each new process
     /// instance. Since starting a process on a system might always
     /// create a process with the same process ID, there needs to be a
     /// way to tell two process instances apart.

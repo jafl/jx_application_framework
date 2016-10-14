@@ -220,7 +220,7 @@ JXApplication::OpenDisplay
 	JXDisplay* display;
 	if (JXDisplay::Create(displayName, &display))
 		{
-		// DisplayOpened() appends jnew JXDisplay* to our list
+		// DisplayOpened() appends new JXDisplay* to our list
 		*displayIndex = itsDisplayList->GetElementCount();
 		return kJTrue;
 		}
@@ -1076,7 +1076,7 @@ JXApplication::PerformUrgentTasks()
 {
 	if (!itsUrgentTasks->IsEmpty())
 		{
-		// clear out itsUrgentTasks so jnew ones can safely be added
+		// clear out itsUrgentTasks so new ones can safely be added
 
 		JPtrArray<JXUrgentTask> taskList(*itsUrgentTasks, JPtrArrayT::kDeleteAll);
 		itsUrgentTasks->RemoveAll();

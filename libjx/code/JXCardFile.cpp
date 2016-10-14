@@ -62,7 +62,7 @@ JXCardFile::~JXCardFile()
 /******************************************************************************
  InsertCard
 
-	The first version creates a jnew card, inserts it at the specified index,
+	The first version creates a new card, inserts it at the specified index,
 	and returns it.
 
 	The second version lets you provide the card, so that you can use

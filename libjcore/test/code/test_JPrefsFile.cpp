@@ -38,7 +38,7 @@ int main()
 	assert( gPrefsFile != NULL );
 
 	long i;
-	cout << "Enter 0 for testing jnew file, 1 for testing existing file: ";
+	cout << "Enter 0 for testing new file, 1 for testing existing file: ";
 	cin >> i;
 	JInputFinished();
 
@@ -161,7 +161,7 @@ void OldFileTest()
 	if (vers != kVersionOfExistingFile)
 		{
 		cout << "You asked to test an existing file." << endl;
-		cout << "Please run the jnew file test first." << endl;
+		cout << "Please run the new file test first." << endl;
 		return;
 		}
 

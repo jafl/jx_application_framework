@@ -478,7 +478,7 @@ int main(int argc, char** argv)
 	tab->_default_callback_data.obj = (Widget) 0x819c7d8;
 
 	Pt3<double> v1;
-	Pt3<double>* v2 = jnew Pt3<double>;
+	Pt3<double>* v2 = new Pt3<double>;
 
 	std::vector<Pt3<double> > vec;
 	vec.assign(3, v1);

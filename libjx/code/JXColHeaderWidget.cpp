@@ -320,7 +320,7 @@ JXColHeaderWidget::HandleMouseDrag
 				p->Line(itsPrevPt.x, enclAp.top, itsPrevPt.x, enclAp.bottom);
 				}
 
-			// draw the jnew line
+			// draw the new line
 
 			p->Line(pt.x, enclAp.top, pt.x, enclAp.bottom);
 

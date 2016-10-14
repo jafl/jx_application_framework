@@ -77,7 +77,7 @@ protected:
 
 private:
 
-	JProcess*		itsProcess;				// deleted when we get a jnew one
+	JProcess*		itsProcess;				// deleted when we get a new one
 	JString			itsPath;
 	JBoolean		itsReceivedDataFlag;
 	JBoolean		itsProcessPausedFlag;

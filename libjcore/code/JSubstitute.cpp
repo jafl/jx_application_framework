@@ -788,7 +788,7 @@ JSubstitute::Substitute
 			i = range.last;
 			}
 
-		// move past jnew text
+		// move past new text
 
 		i++;
 		}

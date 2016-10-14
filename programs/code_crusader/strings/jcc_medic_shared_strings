@@ -142,7 +142,7 @@ CleaningUp::CBSymbolList	"Cleaning up:"
 # CBDiffFileDialog
 
 DiffBackupItemText::CBDiffFileDialog	"Compare with backup"
-DiffNewItemText::CBDiffFileDialog		"Compare with jnew version"
+DiffNewItemText::CBDiffFileDialog		"Compare with new version"
 DiffSavedItemText::CBDiffFileDialog		"Compare with saved version"
 
 VCSDiffTargetInvalid::CBDiffFileDialog
@@ -190,7 +190,7 @@ Instructions::CBEditStylerDialog
 # CBFileTypeTable
 
 NewDirTitle::CBFileTypeTable	"Create script directory"
-NewDirPrompt::CBFileTypeTable	"Name of jnew personal script directory:"
+NewDirPrompt::CBFileTypeTable	"Name of new personal script directory:"
 NewDirNoHome::CBFileTypeTable	"Unable to create a personal script directory because you do not have a home directory."
 
 UnableToCreateDir::CBFileTypeTable
@@ -200,7 +200,7 @@ $err"
 
 # CBTEScriptMenu
 
-SavePrompt::CBTEScriptMenu	"Save jnew script as:"
+SavePrompt::CBTEScriptMenu	"Save new script as:"
 
 # CBCommandManager
 
@@ -265,8 +265,8 @@ DefCmdSVNCheckInText::CBCommandManager			"SVN commit file"
 DefCmdGitCheckInText::CBCommandManager			"Git commit file"
 DefCmdVCSCheckInShortcut::CBCommandManager		"Meta-~"
 
-DefCmdCVSAddText::CBCommandManager				"CVS add jnew file"
-DefCmdSVNAddText::CBCommandManager				"SVN add jnew file"
+DefCmdCVSAddText::CBCommandManager				"CVS add new file"
+DefCmdSVNAddText::CBCommandManager				"SVN add new file"
 DefCmdGitAddText::CBCommandManager				"Git add file (to index)"
 DefCmdVCSAddShortcut::CBCommandManager			"Meta-!"
 
@@ -303,8 +303,8 @@ DefCmdCVSCheckInProjectText::CBCommandManager		"CVS check in project"
 DefCmdSVNCheckInProjectText::CBCommandManager		"SVN check in project"
 DefCmdVCSCheckInProjectShortcut::CBCommandManager	""
 
-DefCmdCVSAddProjectText::CBCommandManager			"CVS add jnew project"
-DefCmdSVNAddProjectText::CBCommandManager			"SVN add jnew project"
+DefCmdCVSAddProjectText::CBCommandManager			"CVS add new project"
+DefCmdSVNAddProjectText::CBCommandManager			"SVN add new project"
 DefCmdVCSAddProjectShortcut::CBCommandManager		""
 
 # CBEditCommandsDialog

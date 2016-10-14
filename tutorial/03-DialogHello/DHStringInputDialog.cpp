@@ -99,6 +99,6 @@ DHStringInputDialog::GetString()
 	const
 {
 	// After the dialog has been deactivated, this is how the program will
-	// access the jnew string that was typed into the input field.
+	// access the new string that was typed into the input field.
 	return itsText->GetText();
 }

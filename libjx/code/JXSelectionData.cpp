@@ -309,7 +309,7 @@ JXSelectionData::Convert
 	*returnType must be actual data type.  For example, when "TEXT" is
 	requested, one often returns XA_STRING.
 
-	*data must be allocated with "jnew unsigned char[]" and will be deleted
+	*data must be allocated with "new unsigned char[]" and will be deleted
 	by the caller.  *dataLength must be set to the length of *data.
 
 	*bitsPerBlock must be set to the number of bits per element of data.

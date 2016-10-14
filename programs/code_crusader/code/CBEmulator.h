@@ -21,7 +21,7 @@ enum CBEmulator
 	kCBNoEmulator = 0,
 	kCBVIEmulator,			// = kCBLastEmulator	// special
 
-	// When you add jnew types, be sure to increment the prefs version!
+	// When you add new types, be sure to increment the prefs version!
 
 	kCBFirstEmulator = kCBNoEmulator,
 	kCBLastEmulator  = kCBVIEmulator

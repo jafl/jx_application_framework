@@ -16,7 +16,7 @@
 	explicitly via access functions provided by the base classes or to call
 	subsidiary read/write functions in each base class.  This makes it
 	explicit that the leaf class knows what is stored and makes it much easier
-	to handle jnew information in base classes.
+	to handle new information in base classes.
 
 	BASE CLASS = none
 

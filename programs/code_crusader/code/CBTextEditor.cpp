@@ -281,7 +281,7 @@ CBTextEditor::CBTextEditor
 	UseMultipleUndo();
 	SetLastSaveLocation();
 	ShouldAutoIndent(kJTrue);
-	CBShouldAllowDragAndDrop(kJTrue);	// jnew users expect it
+	CBShouldAllowDragAndDrop(kJTrue);	// new users expect it
 	ShouldMoveToFrontOfText(kJTrue);
 
 	itsLineInput->ShareEditMenu(this);

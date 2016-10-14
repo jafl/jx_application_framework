@@ -68,7 +68,7 @@ namespace lldb_private {
                 m_fields[const_name] = FieldImpl{field_type, byte_index, static_cast<size_t>(size)};
             }
             size_t total_size = struct_type.GetByteSize(nullptr);
-            lldb::DataBufferSP buffer_sp(jnew DataBufferHeap(total_size,0));
+            lldb::DataBufferSP buffer_sp(new DataBufferHeap(total_size,0));
             Error error;
             process->ReadMemoryFromInferior(base_addr,
                                             buffer_sp->GetBytes(),

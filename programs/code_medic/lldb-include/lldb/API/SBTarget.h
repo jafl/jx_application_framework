@@ -113,9 +113,9 @@ public:
     Install();
     
     //------------------------------------------------------------------
-    /// Launch a jnew process.
+    /// Launch a new process.
     ///
-    /// Launch a jnew process by spawning a jnew process using the
+    /// Launch a new process by spawning a new process using the
     /// target object's executable module's file as the file to launch.
     /// Arguments are given in \a argv, and the environment variables
     /// are in \a envp. Standard input and output files can be
@@ -138,17 +138,17 @@ public:
     ///     Flags to modify the launch (@see lldb::LaunchFlags)
     ///
     /// @param[in] stdin_path
-    ///     The path to use when re-directing the STDIN of the jnew
+    ///     The path to use when re-directing the STDIN of the new
     ///     process. If all stdXX_path arguments are nullptr, a pseudo
     ///     terminal will be used.
     ///
     /// @param[in] stdout_path
-    ///     The path to use when re-directing the STDOUT of the jnew
+    ///     The path to use when re-directing the STDOUT of the new
     ///     process. If all stdXX_path arguments are nullptr, a pseudo
     ///     terminal will be used.
     ///
     /// @param[in] stderr_path
-    ///     The path to use when re-directing the STDERR of the jnew
+    ///     The path to use when re-directing the STDERR of the new
     ///     process. If all stdXX_path arguments are nullptr, a pseudo
     ///     terminal will be used.
     ///
@@ -184,7 +184,7 @@ public:
     LoadCore (const char *core_file);
 
     //------------------------------------------------------------------
-    /// Launch a jnew process with sensible defaults.
+    /// Launch a new process with sensible defaults.
     ///
     /// @param[in] argv
     ///     The argument array.
@@ -265,7 +265,7 @@ public:
     ///     Basename of process to attach to.
     ///
     /// @param[in] wait_for
-    ///     If true wait for a jnew instance of 'name' to be launched.
+    ///     If true wait for a new instance of 'name' to be launched.
     ///
     /// @param[out] error
     ///     An error explaining what went wrong if attach fails.

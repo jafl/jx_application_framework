@@ -712,7 +712,7 @@ JIndex i;
 /******************************************************************************
  BoundsResized (virtual protected)
 
-	Redo itsImageBuffer to match our jnew size.
+	Redo itsImageBuffer to match our new size.
 
  ******************************************************************************/
 

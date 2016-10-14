@@ -328,5 +328,5 @@ CBRubyStyler::UpgradeTypeList
 		typeStyles->InsertElementAtIndex(12, typeStyles->GetElement(9));
 		}
 
-	// set jnew values after all jnew slots have been created
+	// set new values after all new slots have been created
 }

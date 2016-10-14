@@ -24,7 +24,7 @@
 
 	Apply the specified function to the given JFunction.  Returns the
 	resulting function, the copy of the argument that was passed in,
-	and the first jnew UIF, if successful.
+	and the first new UIF, if successful.
 
  ******************************************************************************/
 

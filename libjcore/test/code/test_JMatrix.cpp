@@ -88,7 +88,7 @@ JVector v2 = mx4.GetRowVector(1);
 	cout << "(v1)t * mx4 should be 1 1" << endl;
 	cout << "(v1)t * mx4 = " << v1.Transpose() * mx4 << endl;
 
-	cout << "Enter jnew mx5: ";
+	cout << "Enter new mx5: ";
 	cin >> mx5;
 	JInputFinished();
 	cout << "mx5 = " << mx5 << endl;

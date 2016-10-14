@@ -70,7 +70,7 @@ OKToRevertPrompt::JXFileDocument		"Discard all changes to \"$name\"?"
 UnsavedFilePrefix::JXFileDocument		"#untitled#_"
 AssertUnsavedFilePrefix::JXFileDocument	"##untitled##_"
 
-OKToRevertSavedPrompt::JXFileDocument	"The copy of \"$name\" on disk has been modified by another program.  Do you want to display the jnew contents?"
+OKToRevertSavedPrompt::JXFileDocument	"The copy of \"$name\" on disk has been modified by another program.  Do you want to display the new contents?"
 
 OKToRevertUnsavedPrompt::JXFileDocument	"The copy of \"$name\" on disk has been modified by another program.  Are you sure that you want to discard your changes?"
 
@@ -164,7 +164,7 @@ ComposeHelpPrefix::JXComposeRuleList
 
 You can choose which keys on your keyboard should map to the Multi_key and
 the character modifier keys by using <tt>xmodmap</tt> in your <tt>~/.xinitrc</tt>
-file.  As an example, if you have a PC keyboard with the jnew Windows Menu key
+file.  As an example, if you have a PC keyboard with the new Windows Menu key
 near the lower right corner, you can make it the Multi_key:
 
 <blockquote><tt>
@@ -224,10 +224,10 @@ Hint::JXDocktab
 "Left-click and drag to a docking area.  Right-click for a menu of other options.  Click the X to close the window."
 
 AutoDockNewWindows::JXDocktab
-"Automatically dock jnew windows of this type in this pane"
+"Automatically dock new windows of this type in this pane"
 
 NoAutoDockNewWindows::JXDocktab
-"Do not automatically dock jnew windows of this type"
+"Do not automatically dock new windows of this type"
 
 # JXSpellCheckerDialog
 
@@ -235,7 +235,7 @@ NoErrors::JXSpellCheckerDialog	"No errors were found."
 
 # JXOpenDisplayDialog
 
-WindowTitle::JXOpenDisplayDialog	"Open jnew display"
+WindowTitle::JXOpenDisplayDialog	"Open new display"
 Prompt::JXOpenDisplayDialog			"Name of display:"
 
 # JXGetNewDirDialog
@@ -246,4 +246,4 @@ NameUsed::JXGetNewDirDialog			"This name is in use."
 # JXCSFDialogBase
 
 NewDirWindowTitle::JXCSFDialogBase	"Create Directory"
-NewDirPrompt::JXCSFDialogBase		"Name of jnew directory:"
+NewDirPrompt::JXCSFDialogBase		"Name of new directory:"

@@ -239,7 +239,7 @@ CBJavaClass::ViewDeclaration
 /******************************************************************************
  NewGhost (virtual protected)
 
-	Creates a jnew ghost CBJavaClass.
+	Creates a new ghost CBJavaClass.
 
  ******************************************************************************/
 

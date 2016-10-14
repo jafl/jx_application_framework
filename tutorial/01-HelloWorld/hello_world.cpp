@@ -28,7 +28,7 @@ main
 	JXApplication* app = 
 		jnew JXApplication(&argc, argv, kAppSignature, kTutorialStringData);
 		
-	// Make sure that jnew succeeded
+	// Make sure that new succeeded
 	assert( app != NULL );
 
 	// Create the window director to maintain the Hello World window

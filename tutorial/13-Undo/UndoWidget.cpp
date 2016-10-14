@@ -400,7 +400,7 @@ UndoWidget::NewUndo
 			itsUndoList->DeleteElement(i);
 			}
 
-		// save the jnew object
+		// save the new object
 
 		itsUndoList->Append(undo);
 		itsFirstRedoIndex++;

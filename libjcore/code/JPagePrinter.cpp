@@ -14,7 +14,7 @@
 			if an error occurs.
 
 		NewPage
-			Open a jnew page.  Return kJFalse if printing was cancelled.
+			Open a new page.  Return kJFalse if printing was cancelled.
 
 		CloseDocument
 			Send the result to the printer.

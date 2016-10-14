@@ -1304,7 +1304,7 @@ JXSearchTextDialog::SetXSearch
 		}
 
 	// grab ownership of the selection
-	// (We have to create a jnew object every time in case there is a
+	// (We have to create a new object every time in case there is a
 	//  SelectionClear event in the queue.)
 
 	JXSearchSelection* selData = jnew JXSearchSelection(GetDisplay());

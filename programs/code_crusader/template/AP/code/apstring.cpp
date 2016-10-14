@@ -28,7 +28,7 @@ apstring::apstring()
 {
     myLength = 0;
     myCapacity = 1;
-    myCstring = jnew char[myCapacity];
+    myCstring = new char[myCapacity];
     myCstring[0] = '\0';           // make c-style string zero length
 }
 
@@ -43,7 +43,7 @@ apstring::apstring(const char * s)
 
     myLength = strlen(s);
     myCapacity = myLength + 1;      // make room for '\0'
-    myCstring = jnew char[myCapacity];
+    myCstring = new char[myCapacity];
     strcpy(myCstring,s);
 }
 
@@ -53,7 +53,7 @@ apstring::apstring(const apstring & str)
 {
     myLength = str.length();
     myCapacity = myLength + 1;
-    myCstring = jnew char[myCapacity];
+    myCstring = new char[myCapacity];
     strcpy(myCstring,str.myCstring);
 }
 
@@ -73,7 +73,7 @@ const apstring& apstring::operator =(const apstring & rhs)
         {
             delete[] myCstring;                   // delete old string
             myCapacity = rhs.length() + 1;        // add 1 for '\0'
-            myCstring = jnew char[myCapacity];
+            myCstring = new char[myCapacity];
         }
         myLength = rhs.length();
         strcpy(myCstring,rhs.myCstring);
@@ -98,7 +98,7 @@ const apstring& apstring::operator = (const char * s)
     {
    delete[] myCstring;  // delete old string
    myCapacity = len + 1;   // add 1 for '\0'
-   myCstring = jnew char[myCapacity];
+   myCstring = new char[myCapacity];
     }
     myLength = len;
     strcpy(myCstring,s);
@@ -113,7 +113,7 @@ const apstring& apstring::operator = (char ch)
     {
         delete [] myCstring;
         myCapacity = 2;
-        myCstring = jnew char[myCapacity];
+        myCstring = new char[myCapacity];
     }
     myLength = 1;
     myCstring[0] = ch;  // make string one character long
@@ -231,8 +231,8 @@ const apstring& apstring::operator +=(const apstring & str)
    {                       // make room for future catenations
        myCapacity *= 2;
    }
-        char * newBuffer = jnew char[myCapacity];
-        strcpy(newBuffer,myCstring); // copy into jnew buffer
+        char * newBuffer = new char[myCapacity];
+        strcpy(newBuffer,myCstring); // copy into new buffer
         delete [] myCstring;       // delete old string
         myCstring = newBuffer;
     }

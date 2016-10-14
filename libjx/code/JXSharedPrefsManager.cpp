@@ -8,11 +8,11 @@
 	are unable to update all the relevant information.
 
 	For single items like PartialWordModifier, the best method is to create
-	another ID when values are added to the enum.  When the jnew version opens
+	another ID when values are added to the enum.  When the new version opens
 	the file for the first time, it reads the original ID and creates the
-	jnew one.  Old programs can still read and write the original ID, while
-	jnew programs read and write the jnew ID.  (Old programs cannot read the
-	jnew ID since it has illegal values.)
+	new one.  Old programs can still read and write the original ID, while
+	new programs read and write the new ID.  (Old programs cannot read the
+	new ID since it has illegal values.)
 
 	Since JFileArray modifies the file every time it is opened, we use
 	a separate signal file to notify other running programs when the settings

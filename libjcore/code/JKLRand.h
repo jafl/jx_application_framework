@@ -4,7 +4,7 @@
 /******************************************************************************
  JKLRand.h
 
-    Interface for the JKLRand class.
+	Interface for the JKLRand class.
 
 	Copyright (C) 1997 Dustin Laurence. All rights reserved.
 
@@ -187,7 +187,7 @@ JKLRand::SetSeed
 /******************************************************************************
  SetSeedByAbsoluteTime
 
-	Sets the generator seed to time(NULL), returning the jnew seed for
+	Sets the generator seed to time(NULL), returning the new seed for
 	convenience in testing for failure (see below).
 
 	According to ANSI it is possible for time() to fail, which sets the seed to

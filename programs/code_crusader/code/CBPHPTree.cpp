@@ -97,7 +97,7 @@ CBPHPTree::StreamOut
 /******************************************************************************
  StreamInPHPClass (static private)
 
-	Creates a jnew CBPHPClass from the data in the given stream.
+	Creates a new CBPHPClass from the data in the given stream.
 
  ******************************************************************************/
 

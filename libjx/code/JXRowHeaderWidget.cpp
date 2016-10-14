@@ -354,7 +354,7 @@ JXRowHeaderWidget::HandleMouseDrag
 				p->Line(enclAp.left, itsPrevPt.y, enclAp.right, itsPrevPt.y);
 				}
 
-			// draw the jnew line
+			// draw the new line
 
 			p->Line(enclAp.left, pt.y, enclAp.right, pt.y);
 

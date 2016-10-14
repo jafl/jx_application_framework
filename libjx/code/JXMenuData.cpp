@@ -395,7 +395,7 @@ JXMenuData::CheckItem
 /******************************************************************************
  AttachSubmenu (private)
 
-	Deletes any old menu that was attached and attaches the jnew one.
+	Deletes any old menu that was attached and attaches the new one.
 
  ******************************************************************************/
 

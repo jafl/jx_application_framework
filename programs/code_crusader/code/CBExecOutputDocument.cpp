@@ -388,7 +388,7 @@ CBExecOutputDocument::Receive
 		assert( info != NULL );
 		const JBoolean stayOpen = ProcessFinished(*info);
 
-		// let somebody else start a jnew process
+		// let somebody else start a new process
 
 		itsClearWhenStartFlag = kJFalse;	// in case they call SetConnection() in ReceiveWithFeedback()
 		Finished msg(info->Successful(), JI2B(info->GetReason() != kJChildFinished));

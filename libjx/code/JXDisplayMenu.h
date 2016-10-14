@@ -42,7 +42,7 @@ private:
 	JIndex	itsDisplayIndex;
 	JIndex	itsNewDisplayIndex;
 
-	// used when opening a jnew display
+	// used when opening a new display
 
 	JXOpenDisplayDialog*	itsNewDisplayDialog;
 

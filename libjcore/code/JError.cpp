@@ -17,7 +17,7 @@
 		why this compiles, you grok C++.  What happens is that an object of
 		type JUnknownError is created and then the JError copy constructor
 		is called to construct a JError object from the JUnknownError object.
-		This jnew JError object is returned and the JUnknownError object is
+		This new JError object is returned and the JUnknownError object is
 		deleted.  (Just another reason why most JCore objects don't have
 		copy constructors.)
 

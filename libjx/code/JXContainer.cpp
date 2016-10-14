@@ -1814,7 +1814,7 @@ JXContainer::DeleteEnclosedObjects()
 /******************************************************************************
  AddEnclosedObject (private)
 
-	By prepending the jnew object to the list, it is drawn last, and all
+	By prepending the new object to the list, it is drawn last, and all
 	other dispatchers consider it first.
 
  ******************************************************************************/

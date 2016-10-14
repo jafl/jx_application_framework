@@ -410,7 +410,7 @@ GLFitParameterTable::SetFitDescription
 	AppendRows(count);
 	for (JIndex i = 1; i <= count; i++)
 		{
-		JString* str = jnew JString("");
+		JString* str = jnew JString;
 		fit.GetParameterName(i, str);
 		itsNameList->Append(str);
 		itsStartValues->AppendElement(0);

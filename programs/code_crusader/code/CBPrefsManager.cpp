@@ -364,7 +364,7 @@ JIndex i;
 			}
 		}
 
-	// install jnew suffixes
+	// install new suffixes
 
 	const JIndex macroID = CBPrefsManager::FindMacroName(macroName, macroList, kJTrue);
 
@@ -1581,7 +1581,7 @@ CBPrefsManager::InitComplementSuffix
 /******************************************************************************
  FindMacroName (static private)
 
-	Returns the id of the macro set with the given name.  Can create a jnew
+	Returns the id of the macro set with the given name.  Can create a new
 	one if the name doesn't exist.
 
  ******************************************************************************/
@@ -1619,7 +1619,7 @@ CBPrefsManager::FindMacroName
 		return kCBEmptyMacroID;
 		}
 
-	// create a jnew macro set
+	// create a new macro set
 
 	const JIndex macroID = maxID+1;
 

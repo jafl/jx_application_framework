@@ -27,7 +27,7 @@ WS           ([ \v\t\f\r\n]+)
 
 
 
-KEYWORD      (abstract|break|byvalue|case|cast|catch|class|ClassLoader|clone|Cloneable|Compiler|const|continue|default|do|enum|else|extends|equals|false|final(ly)?|finalize|for|future|generic|getClass|goto|hashCode|if|implements|import|inner|instanceof|interface|Math|NaN|native|NEGATIVE_INFINITY|jnew|notify(All)?|null|operator|outer|package|POSITIVE_INFINITY|private|Process|protected|public|Random|rest|return|Runnable|Runtime|SecurityManager|static|StringTokenizer|super|switch|synchronized|System|this|Thread(Group)?|throws?|Throwable|toString|transient|true|try|var|void|volatile|wait|while)
+KEYWORD      (abstract|break|byvalue|case|cast|catch|class|ClassLoader|clone|Cloneable|Compiler|const|continue|default|do|enum|else|extends|equals|false|final(ly)?|finalize|for|future|generic|getClass|goto|hashCode|if|implements|import|inner|instanceof|interface|Math|NaN|native|NEGATIVE_INFINITY|new|notify(All)?|null|operator|outer|package|POSITIVE_INFINITY|private|Process|protected|public|Random|rest|return|Runnable|Runtime|SecurityManager|static|StringTokenizer|super|switch|synchronized|System|this|Thread(Group)?|throws?|Throwable|toString|transient|true|try|var|void|volatile|wait|while)
 
 DATATYPE     (BitSet|[bB]oolean|[bB]yte|char|Character|Class|Date|Dictionary|[dD]ouble|Enumeration|(Runtime)?Exception|[fF]loat|Hashtable|int|Integer|Locale|[lL]ong|Number|Object|Observable|Observer|Properties|[sS]hort|Stack|String(Buffer|Builder)?|Vector)
 

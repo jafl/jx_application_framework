@@ -278,7 +278,7 @@ SyGApplication::OpenDirectory
 		pathList.Prepend(n);
 		}
 
-	// create jnew window
+	// create new window
 
 	fixedName = trueName;
 	JGetTrueName(fixedName, &trueName);

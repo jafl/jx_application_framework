@@ -21,7 +21,7 @@ namespace lldb_utility {
 // following conditions:
 // - when the object goes out of scope
 // - when the user explicitly calls clean. 
-// - the current value will be cleaned up when a jnew value is set using
+// - the current value will be cleaned up when a new value is set using
 //   set(T value) as long as the current value hasn't already been cleaned.
 //
 // This class is designed to be used with simple types for type T (like
@@ -123,7 +123,7 @@ public:
     {
         // Cleanup the current value if needed
         clean ();
-        // Now set the jnew value and mark our callback as not called
+        // Now set the new value and mark our callback as not called
         m_callback_called = false;
         m_current_value = value;
     }
@@ -256,7 +256,7 @@ public:
     {
         // Cleanup the current value if needed
         clean ();
-        // Now set the jnew value and mark our callback as not called
+        // Now set the new value and mark our callback as not called
         m_callback_called = false;
         m_current_value = value;
     }

@@ -662,7 +662,7 @@ JXCSFDialogBase::AdjustFilter()
 /******************************************************************************
  GetNewDirectory (private)
 
-	Display a blocking dialog window to get the name of the jnew directory.
+	Display a blocking dialog window to get the name of the new directory.
 
  ******************************************************************************/
 
@@ -700,8 +700,8 @@ JXCSFDialogBase::GetNewDirectory()
 /******************************************************************************
  CreateNewDirectory (private)
 
-	Get the name of the jnew directory from itsNewDirDialog and create it.
-	If successful, we switch to the jnew directory for convenience.
+	Get the name of the new directory from itsNewDirDialog and create it.
+	If successful, we switch to the new directory for convenience.
 
  ******************************************************************************/
 
@@ -735,7 +735,7 @@ JXCSFDialogBase::CreateNewDirectory()
 /******************************************************************************
  SelectPrevDirectory (private)
 
-	If the jnew path is up a directory from the original path, we select
+	If the new path is up a directory from the original path, we select
 	the directory that leads to the original path.
 
  ******************************************************************************/

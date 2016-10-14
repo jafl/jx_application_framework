@@ -42,7 +42,7 @@
 class TaskPool
 {
 public:
-    // Add a jnew task to the task pool and return a std::future belonging to the newly created task.
+    // Add a new task to the task pool and return a std::future belonging to the newly created task.
     // The caller of this function has to wait on the future for this task to complete.
     template<typename F, typename... Args>
     static std::future<typename std::result_of<F(Args...)>::type>

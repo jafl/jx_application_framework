@@ -602,7 +602,7 @@ CBClass::FindParent
 /******************************************************************************
  NewGhost (virtual protected)
 
-	Creates a jnew ghost using the appropriate derived class.  The file name
+	Creates a new ghost using the appropriate derived class.  The file name
 	is not passed in because it can be empty.
 
  ******************************************************************************/

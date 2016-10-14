@@ -1687,7 +1687,7 @@ CBCommandManager::GetOutputDoc()
 /******************************************************************************
  Receive (virtual protected)
 
-	Listen for jnew active project document.
+	Listen for new active project document.
 
  ******************************************************************************/
 

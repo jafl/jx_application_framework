@@ -990,7 +990,7 @@ JXWindow::RootToGlobal
 	very temporary window.
 
 	Keeping the buffer pixmap means that redraws do not have to make a
-	server round-trip to create a jnew pixmap each time.
+	server round-trip to create a new pixmap each time.
 
 	Using the pixmap as the window background means that updates caused by
 	expose events are instantaneous because the server knows what to display.

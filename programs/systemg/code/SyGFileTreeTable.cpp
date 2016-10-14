@@ -2963,7 +2963,7 @@ SyGFileTreeTable::OpenSelection
 			}
 		}
 
-	// not done if display jnew directory in same window
+	// not done if display new directory in same window
 
 	if (iconifyAfter)	// takes precedence because more modifiers than closeAfter
 		{

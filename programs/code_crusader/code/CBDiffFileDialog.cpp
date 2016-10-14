@@ -1660,7 +1660,7 @@ CBDiffFileDialog::BuildSVNDiffCmd
 		{
 		*diffCmd += " --old=";
 		*diffCmd += JPrepArgForExec(file1);
-		*diffCmd += " --jnew=";
+		*diffCmd += " --new=";
 		*diffCmd += JPrepArgForExec(file2);
 		}
 

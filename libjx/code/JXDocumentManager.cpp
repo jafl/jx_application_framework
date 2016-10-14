@@ -176,7 +176,7 @@ JXDocumentManager::DocumentCreated
 			}
 		}
 
-	// insert the jnew document -- can't sort until later
+	// insert the new document -- can't sort until later
 
 	itsDocList->AppendElement(info);
 	if (itsPerformSafetySaveFlag)
@@ -268,7 +268,7 @@ JXDocumentManager::DocumentMenusNeedUpdate()
  UpdateAllDocumentMenus (private)
 
 	This must be called via an UrgentTask because we can't call GetName()
-	for the jnew document until long after DocumentCreated() is called.
+	for the new document until long after DocumentCreated() is called.
 
  ******************************************************************************/
 
@@ -552,7 +552,7 @@ JXDocumentManager::SearchFileMap
 /******************************************************************************
  GetNewFileName
 
-	Return a suitable name for a jnew document.  Since this is often
+	Return a suitable name for a new document.  Since this is often
 	called in the constructor for JXFileDocument, we return a JString&
 
  ******************************************************************************/

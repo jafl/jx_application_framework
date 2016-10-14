@@ -226,7 +226,7 @@ JDirEntry::operator=
 /******************************************************************************
  FollowLink
 
-	Returns a jnew object that describes what we point to.  If we are not
+	Returns a new object that describes what we point to.  If we are not
 	a link, we return a copy of ourselves.
 
  ******************************************************************************/

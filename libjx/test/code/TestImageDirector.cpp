@@ -286,7 +286,7 @@ TestImageDirector::HandleFileMenu
  LoadImage (private)
 
 	A real program would find a way to restore the existing image
-	if the jnew image couldn't be loaded.
+	if the new image couldn't be loaded.
 
  ******************************************************************************/
 
@@ -439,7 +439,7 @@ TestImageDirector::CopyImage()
  PasteImage (private)
 
 	A real program would find a way to restore the existing image
-	if the jnew image couldn't be pasted.
+	if the new image couldn't be pasted.
 
  ******************************************************************************/
 

@@ -179,7 +179,7 @@ JXWDManager::DirectorCreated
 		assert( info.itemID != NULL );
 		}
 
-	// insert the jnew window -- can't sort until later
+	// insert the new window -- can't sort until later
 
 	windowList->AppendElement(info);
 
@@ -328,7 +328,7 @@ JXWDManager::WDMenusNeedUpdate()
  UpdateAllWDMenus (private)
 
 	This must be called via an UrgentTask because we can't call GetName()
-	for a jnew JXDocument until long after DirectorCreated() is called.
+	for a new JXDocument until long after DirectorCreated() is called.
 
  ******************************************************************************/
 

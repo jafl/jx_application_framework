@@ -126,7 +126,7 @@ JGetVCSType
 		return kJSCCSType;
 		}
 
-	// check git & jnew svc last, since they need to search directory tree up to root
+	// check git & new svc last, since they need to search directory tree up to root
 
 	if (JSearchGitRoot(p, &n))
 	{

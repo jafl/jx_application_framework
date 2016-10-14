@@ -341,7 +341,7 @@ CBBuildManager::UpdateMakeHeader
 	JString text;
 	JReadFile(fileName, &text);
 
-	// build jnew Make.header data
+	// build new Make.header data
 
 	std::ostringstream output;
 
@@ -391,7 +391,7 @@ CBBuildManager::UpdateMakeHeader
 		output << '\n';
 		}
 
-	// if jnew Make.header data is different, update file
+	// if new Make.header data is different, update file
 
 	const std::string s = output.str();
 	if (s.c_str() != text)

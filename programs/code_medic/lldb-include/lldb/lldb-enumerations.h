@@ -61,12 +61,12 @@ namespace lldb {
     FLAGS_ENUM(LaunchFlags)
     {
         eLaunchFlagNone         = 0u,
-        eLaunchFlagExec         = (1u << 0),       ///< Exec when launching and turn the calling process into a jnew process
+        eLaunchFlagExec         = (1u << 0),       ///< Exec when launching and turn the calling process into a new process
         eLaunchFlagDebug        = (1u << 1),       ///< Stop as soon as the process launches to allow the process to be debugged
         eLaunchFlagStopAtEntry  = (1u << 2),       ///< Stop at the program entry point instead of auto-continuing when launching or attaching at entry point
         eLaunchFlagDisableASLR  = (1u << 3),       ///< Disable Address Space Layout Randomization
         eLaunchFlagDisableSTDIO = (1u << 4),       ///< Disable stdio for inferior process (e.g. for a GUI app)
-        eLaunchFlagLaunchInTTY  = (1u << 5),       ///< Launch the process in a jnew TTY if supported by the host
+        eLaunchFlagLaunchInTTY  = (1u << 5),       ///< Launch the process in a new TTY if supported by the host
         eLaunchFlagLaunchInShell= (1u << 6),       ///< Launch the process inside a shell to get shell expansion
         eLaunchFlagLaunchInSeparateProcessGroup = (1u << 7), ///< Launch the process in a separate process group
         eLaunchFlagDontSetExitStatus = (1u << 8), ///< If you are going to hand the process off (e.g. to debugserver)

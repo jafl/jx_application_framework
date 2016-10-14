@@ -413,7 +413,7 @@ PlotDir::Receive
 		if (info->Changed())
 			{
 			itsSupervisor->DataModified();
-			// for WYSISYG: adjust display to match jnew paper size
+			// for WYSISYG: adjust display to match new paper size
 			}
 		}
 

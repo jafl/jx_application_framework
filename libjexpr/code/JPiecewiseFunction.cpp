@@ -179,7 +179,7 @@ JPiecewiseFunction::SameAs
 /******************************************************************************
  AddCase
 
-	Appends a jnew case to the list of cases.  This jnew case becomes the case
+	Appends a new case to the list of cases.  This new case becomes the case
 	just before the default case.
 
  ******************************************************************************/

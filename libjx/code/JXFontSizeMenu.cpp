@@ -1,7 +1,7 @@
 /******************************************************************************
  JXFontSizeMenu.cpp
 
-	Since we have to update our index before anybody can request its jnew
+	Since we have to update our index before anybody can request its new
 	value, the correct way to use this object is to listen for the
 	SizeChanged message, not the ItemSelected message.  In addition, since
 	we are responsible for marking the menu item, clients should listen

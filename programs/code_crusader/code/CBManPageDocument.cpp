@@ -25,7 +25,7 @@ JPtrArray<CBTextDocument>	CBManPageDocument::theManDocList(JPtrArrayT::kForgetAl
  Constructor function (static)
 
 	First searches the open man pages to see if the requested one already
-	exists.  If not, creates a jnew one and activates it.
+	exists.  If not, creates a new one and activates it.
 
 	returnDoc can be NULL.
 
@@ -83,7 +83,7 @@ CBManPageDocument::Create
 
 	// If !apropos, we can't check cmd #2 until cmd #1 fails.
 
-	// create a jnew one
+	// create a new one
 
 	CBManPageDocument* trueDoc;
 	CBManPageDocument* doc =

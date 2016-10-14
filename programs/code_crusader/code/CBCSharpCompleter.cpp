@@ -21,7 +21,7 @@ static const JCharacter* kKeywordList[] =
 	"else", "enum", "event", "explicit", "extern",
 	"false", "finally", "fixed", "float", "for", "foreach", "goto",
 	"if", "implicit", "in", "int", "interface", "internal", "is",
-	"lock", "long", "namespace", "jnew", "null",
+	"lock", "long", "namespace", "new", "null",
 	"object", "operator", "out", "override",
 	"params", "private", "protected", "public",
 	"readonly", "ref", "return", "sbyte", "sealed", "short",
