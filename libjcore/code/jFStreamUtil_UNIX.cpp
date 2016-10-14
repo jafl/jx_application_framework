@@ -49,7 +49,7 @@ JSetFStreamLength
 	err = close(fd);
 	assert( err == 0 );
 
-	// open a jnew stream for the file and return a pointer to it
+	// open a new stream for the file and return a pointer to it
 
 	fstream* newStream = jnew fstream(fileName, io_mode);
 	assert( newStream != NULL );

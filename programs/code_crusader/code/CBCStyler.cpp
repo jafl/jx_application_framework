@@ -369,7 +369,7 @@ CBCStyler::UpgradeTypeList
 		typeStyles->InsertElementAtIndex(6, style);
 		}
 
-	// set jnew values after all jnew slots have been created
+	// set new values after all new slots have been created
 }
 
 /******************************************************************************

@@ -224,7 +224,7 @@ JFSBindingList::DeleteBinding
  SetPattern
 
 	Returns kJFalse if the pattern is already used by a different binding.
-	*newIndex is always set to the jnew location of the element that was at
+	*newIndex is always set to the new location of the element that was at
 	index.
 
  ******************************************************************************/
@@ -384,7 +384,7 @@ JFSBindingList::SetSingleFile
 /******************************************************************************
  SetCommand
 
-	Creates a jnew element if pattern isn't already registered.
+	Creates a new element if pattern isn't already registered.
 
  ******************************************************************************/
 

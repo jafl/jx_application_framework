@@ -59,7 +59,7 @@ enum
 const JSize kLineMenuItemCount = kSetExecPtCmd;
 
 static const JCharacter* kAllBreakpointsMenuStr =
-	"    Set jnew breakpoint on this line       %k Click (if none)"
+	"    Set new breakpoint on this line       %k Click (if none)"
 	"  | Set temporary breakpoint on this line %k Meta-Shift-click (if none)"
 	"  | Remove all breakpoints from this line %k Click (if only one)"
 	"%l";

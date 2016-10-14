@@ -199,7 +199,7 @@ JXPartition::CreateInitialCompartments()
 /******************************************************************************
  InsertCompartment
 
-	Adjusts the adjacent compartments to make space and then creates a jnew
+	Adjusts the adjacent compartments to make space and then creates a new
 	compartment.  Returns kJFalse if there isn't enough space available for
 	at least minSize.
 

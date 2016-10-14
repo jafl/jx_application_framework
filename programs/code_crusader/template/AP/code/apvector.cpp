@@ -31,7 +31,7 @@ apvector<itemType>::apvector(int size)
 // precondition: size >= 0
 // postcondition: vector has a capacity of size items
    : mySize(size),
-     myList(jnew itemType[size])
+     myList(new itemType[size])
 {
 
 }
@@ -42,7 +42,7 @@ apvector<itemType>::apvector(int size, const itemType & fillValue)
 // postcondition: vector has a capacity of size items, all of which are set
 //                by assignment to fillValue after default construction
     : mySize(size),
-      myList(jnew itemType[size])
+      myList(new itemType[size])
 {
     int k;
     for(k = 0; k < size; k++)
@@ -55,7 +55,7 @@ template <class itemType>
 apvector<itemType>::apvector(const apvector<itemType> & vec)
 // postcondition: vector is a copy of vec
     : mySize(vec.length()),
-      myList(jnew itemType[mySize])
+      myList(new itemType[mySize])
 {
     int k;
         // copy elements
@@ -82,7 +82,7 @@ apvector<itemType>::operator = (const apvector<itemType> & rhs)
     {
         delete [] myList;                       // get rid of old storage
         mySize = rhs.length();
-        myList = jnew itemType [mySize];         // allocate jnew storage
+        myList = new itemType [mySize];         // allocate new storage
 
             // copy rhs
         int k;
@@ -147,14 +147,14 @@ void apvector<itemType>::resize(int newSize)
     int k;
     int numToCopy = newSize < mySize ? newSize : mySize;
 
-         // allocate jnew storage and copy element into jnew storage
+         // allocate new storage and copy element into new storage
 
-    itemType * newList = jnew itemType[newSize];
+    itemType * newList = new itemType[newSize];
     for(k=0; k < numToCopy; k++)
     {
         newList[k] = myList[k];
     }
     delete [] myList;                      // de-allocate old storage
-    mySize = newSize;                      // assign jnew storage/size
+    mySize = newSize;                      // assign new storage/size
     myList = newList;
 }

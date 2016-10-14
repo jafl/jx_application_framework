@@ -415,7 +415,7 @@ JTreeList::Receive
 		JTreeNode* parent  = info->GetParent();
 		JTreeNode* node    = info->GetNode();
 
-		// Since every node may have children, we have to insert the jnew
+		// Since every node may have children, we have to insert the new
 		// node just above the node it displaced.
 
 		JIndex parentIndex;

@@ -1524,7 +1524,7 @@ JTextEditor::HandleHTMLOnCmd
 	const JStringPtrMap<JString>&	attr
 	)
 {
-	// jnew paragraph
+	// new paragraph
 
 	if (cmd == "p")
 		{
@@ -1725,7 +1725,7 @@ JTextEditor::HandleHTMLOnCmd
 		(itsHTMLLexerState->indentCount)++;
 		}
 
-	// jnew table
+	// new table
 
 	else if (cmd == "table")
 		{
@@ -4531,7 +4531,7 @@ JTextEditor::TEClearClipboard()
 /******************************************************************************
  GetInsertionIndex
 
-	Return the index where jnew text will be typed or pasted.
+	Return the index where new text will be typed or pasted.
 
  ******************************************************************************/
 
@@ -6118,7 +6118,7 @@ JTextEditor::CRMReadNextWord
 /*******************************************************************************
  CRMAppendWord (private)
 
-	Add the spaces and word to jnew text, maintaining the required line width.
+	Add the spaces and word to new text, maintaining the required line width.
 
 	If *newCaretIndex>0, we convert it from an index in spaceBuffer+wordBuffer
 	to an index in newText.
@@ -6606,7 +6606,7 @@ JTextEditor::NewUndo
 			ClearLastSaveLocation();
 			}
 
-		// save the jnew object
+		// save the new object
 
 		itsUndoList->Append(undo);
 		itsFirstRedoIndex++;
@@ -6761,9 +6761,9 @@ JTextEditor::ClearOutdatedUndo()
  GetTypingUndo (private)
 
 	Return the active JTEUndoTyping object.  If the current undo object is
-	not an active JTEUndoTyping object, we create a jnew one that is active.
+	not an active JTEUndoTyping object, we create a new one that is active.
 
-	If we create a jnew object, *isNew = kJTrue, and the caller is required
+	If we create a new object, *isNew = kJTrue, and the caller is required
 	to call NewUndo() after changing the text.
 
  ******************************************************************************/
@@ -6799,9 +6799,9 @@ JTextEditor::GetTypingUndo
  GetStyleUndo (private)
 
 	Return the active JTEUndoStyle object.  If the current undo object is
-	not an active JTEUndoStyle object, we create a jnew one that is active.
+	not an active JTEUndoStyle object, we create a new one that is active.
 
-	If we create a jnew object, *isNew = kJTrue, and the caller is required
+	If we create a new object, *isNew = kJTrue, and the caller is required
 	to call NewUndo() after changing the text.
 
  ******************************************************************************/
@@ -6837,9 +6837,9 @@ JTextEditor::GetStyleUndo
  GetTabShiftUndo (private)
 
 	Return the active JTEUndoTabShift object.  If the current undo object is
-	not an active JTEUndoTabShift object, we create a jnew one that is active.
+	not an active JTEUndoTabShift object, we create a new one that is active.
 
-	If we create a jnew object, *isNew = kJTrue, and the caller is required
+	If we create a new object, *isNew = kJTrue, and the caller is required
 	to call NewUndo() after changing the text.
 
  ******************************************************************************/
@@ -10937,7 +10937,7 @@ JTextEditor::Recalc
 
 	itsHeight = newHeight;
 
-	// notify the derived class of our jnew size
+	// notify the derived class of our new size
 
 	if (!itsIsPrintingFlag)
 		{
@@ -11029,7 +11029,7 @@ JTextEditor::Recalc1
 		const JIndex endChar = firstChar + charCount-1;
 		assert( endChar <= bufLength );
 
-		// remove line starts that are further from the end than the jnew one
+		// remove line starts that are further from the end than the new one
 		// (we use (bufLength - endChar) so subtraction won't produce negative numbers)
 
 		while (lineIndex < GetLineCount() &&
@@ -11069,7 +11069,7 @@ JTextEditor::Recalc1
 			break;
 			}
 
-		// insert the jnew line start
+		// insert the new line start
 
 		lineIndex++;
 		firstChar += charCount;
@@ -11077,7 +11077,7 @@ JTextEditor::Recalc1
 		itsLineStarts->InsertElementAtIndex(lineIndex, firstChar);
 		itsLineGeom->InsertElementAtIndex(lineIndex, LineGeometry());
 
-		// This catches the case when the jnew and old line starts
+		// This catches the case when the new and old line starts
 		// are equally far from the end, but we haven't recalculated
 		// far enough yet, so the above breakout code didn't trigger.
 
@@ -11100,7 +11100,7 @@ JTextEditor::Recalc1
 	of characters on the line.  Sets the appropriate values in itsLineGeom.
 	Sets *lineWidth to the width of the line in pixels.
 
-	If insertLine is kJTrue, then this line is jnew, so we insert a jnew
+	If insertLine is kJTrue, then this line is new, so we insert a new
 	element into itsLineGeom.
 
 	Updates *runIndex,*firstInRun so that they are correct for the character

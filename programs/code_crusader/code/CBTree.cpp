@@ -1027,7 +1027,7 @@ CBTree::PlaceAll
  PlaceClass (private, recursive)
 
 	Build the class tree whose root is the given class.
-	Updates y to include the height of the jnew subtree.
+	Updates y to include the height of the new subtree.
 
  ******************************************************************************/
 
@@ -1261,7 +1261,7 @@ CBTree::ArrangeRoots
 					JIndex i;
 					JSize newLinkLength = subset->linkLength;
 
-					// add length of links from jnew root
+					// add length of links from new root
 
 					const RootMIInfo* rootPtr   = rootList.GetCArray();
 					const RootMIInfo* rootInfo  = rootPtr + newRootIndex-1;
@@ -1280,7 +1280,7 @@ CBTree::ArrangeRoots
 							}
 						}
 
-					// add length of links continuing past jnew root
+					// add length of links continuing past new root
 
 					for (i=1; i<=subsetSize; i++)
 						{

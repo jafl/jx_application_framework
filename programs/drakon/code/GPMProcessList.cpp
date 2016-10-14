@@ -275,7 +275,7 @@ GPMProcessList::Update()
 	itsVisibleEntries->Sort();
 	itsRootNode->SortChildren(kJTrue);
 
-	// add jnew processes to the list
+	// add new processes to the list
 
 	JOrderedSetT::CompareResult (*treeCompareFn)(JTreeNode * const &,
 												 JTreeNode * const &);

@@ -207,5 +207,5 @@ CBEiffelStyler::UpgradeTypeList
 	JArray<JFontStyle>*	typeStyles
 	)
 {
-	// set jnew values after all jnew slots have been created
+	// set new values after all new slots have been created
 }

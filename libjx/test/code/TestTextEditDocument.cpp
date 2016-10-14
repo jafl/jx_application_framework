@@ -389,7 +389,7 @@ TestTextEditDocument::ReadFile
  WriteTextFile (virtual protected)
 
 	JTextEditor only broadcasts TextChanged when the user begins typing
-	at a jnew position.  If the user saves and then keeps typing at the same
+	at a new position.  If the user saves and then keeps typing at the same
 	position, the document will not know that more changes need to be saved.
 	By calling DeactivateCurrentUndo(), we get another TextChanged message
 	in this case, at the cost of interrupting the undo mechanism.  We have

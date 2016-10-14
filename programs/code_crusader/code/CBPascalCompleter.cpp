@@ -38,7 +38,7 @@ static const JCharacter* kKeywordList[] =
 
 	"read", "readln", "write", "writeln",
 	"rewrite", "reset", "put", "get", "page",
-	"jnew", "dispose",
+	"new", "dispose",
 	"pack", "unpack"
 };
 

@@ -239,7 +239,7 @@ JTEStyler::UpdateStyles
 		run_assert(styles, tokenData.startIndex, itsTokenRunIndex, itsTokenFirstInRun);
 		}
 
-	// prepare to accumulate jnew token starts
+	// prepare to accumulate new token starts
 
 	itsTokenStartList  = tokenStartList;
 	itsTokenStartCount = 0;

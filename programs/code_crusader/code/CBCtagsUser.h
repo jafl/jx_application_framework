@@ -23,7 +23,7 @@ public:
 	// Do not change these values once they are assigned because
 	// they are stored in the project file.
 
-	// When you add jnew types, be sure to increment the project version!
+	// When you add new types, be sure to increment the project version!
 	// Remember to update CBSymbolTypeList::CreateSymTypeList()!
 
 	enum Type
@@ -245,7 +245,7 @@ public:
 		kAdobeFlexGlobalVariableST,
 		kAdobeFlexMxTagST
 
-		// When you add jnew types, be sure to increment the project version!
+		// When you add new types, be sure to increment the project version!
 	};
 
 public:

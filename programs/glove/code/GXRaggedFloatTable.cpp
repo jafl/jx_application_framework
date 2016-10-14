@@ -627,7 +627,7 @@ GXRaggedFloatTable::ExtractInputData
 		JFloat oldvalue;
 		JBoolean exists = itsFloatData->GetElement(cell, &oldvalue);
 
-		// set to jnew value
+		// set to new value
 		itsFloatData->SetElement(cell, value);
 
 		// create and install undo object with old value
@@ -2930,7 +2930,7 @@ GXRaggedFloatTable::NewUndo
 			itsUndoList->DeleteElement(i);
 			}
 
-		// save the jnew object
+		// save the new object
 
 		itsUndoList->Append(undo);
 		itsFirstRedoIndex++;

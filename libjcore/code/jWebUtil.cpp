@@ -143,7 +143,7 @@ JGetDefaultPort
 /******************************************************************************
  JCheckForNewerVersion
 
-	If it is time to remind the user about a jnew version, display a message
+	If it is time to remind the user about a new version, display a message
 	offering to open DOWNLOAD_URL retrieved from JStringManager.
 
 	In the background, checks for a newer version of the program by

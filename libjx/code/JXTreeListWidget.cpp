@@ -15,7 +15,7 @@
 	Derived classes can also override:
 
 		AdjustToTree
-			Adjust the table to match the jnew state of the tree list.
+			Adjust the table to match the new state of the tree list.
 			(The base class adjusts the width of the table.)
 
 	BASE CLASS = JXStyleTable

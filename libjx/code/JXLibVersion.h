@@ -21,7 +21,7 @@
 static const char* kCurrentJXLibVersionStr = "4.0.0";
 
 // version 4.0.0:
-//	Upgraded to jnew api's using JFont.
+//	Upgraded to new api's using JFont.
 
 // version 3.1.0:
 //	JXGetStringDialog:
@@ -35,7 +35,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Periodically saves all data to disk to protected against crashes.
 
 // version 3.0.0:
-//	*** Run jnew jxlayout on all .fd files.
+//	*** Run new jxlayout on all .fd files.
 //	Created jx_memory_debugger.
 //	Switched all uses of "6x13" to JGetMonospaceFontName().
 //	JXFontManager:
@@ -409,7 +409,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			selected.  It acts as if the user had double clicked on the word
 //			containing the caret.
 //	JXMenu:
-//		Renamed Get/SetStyle() to Get/SetDefaultStyle() and added jnew functions
+//		Renamed Get/SetStyle() to Get/SetDefaultStyle() and added new functions
 //			Get/SetDisplayStyle() to control the style that is actually displayed
 //			when the user runs the program.
 //		Pop-up menus stay open if user clicks and then releases the mouse.
@@ -455,7 +455,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Added optional argument fullName to SaveInNewFile().
 //		Added RevertIfChangedByOthers().
 //	JXApplication:
-//		Fixed bug in urgent task processing so jnew task can safely be created
+//		Fixed bug in urgent task processing so new task can safely be created
 //			while others are being performed.
 //		Fixed secondary event loop to automatically close all menus when it is
 //			first invoked.  This prevents deadlock because the menu grabs the
@@ -490,7 +490,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	jXPainterUtil:
 //		Added betweenWidth to JXDrawEngravedFrame() and JXDrawEmbossedFrame().
 //	JXEmbossedRect, JXEngravedRect:
-//		Added functionality to support jnew jXPainterUtil functionality.
+//		Added functionality to support new jXPainterUtil functionality.
 //		Fixed bug so width border width is now updated correctly when setting widths.
 //	JXContainer:
 //		Fixed bug so sloppy DrawBorder() function won't interfere with aperture.
@@ -523,7 +523,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		All menu items now have ID's, so they can be in the toolbar.
 //	Eliminated jXActions.h because it was useless.
 //	jXConstants.h:
-//		Removed kJXDebounceWidth.  Use jnew function JMouseMoved() instead.
+//		Removed kJXDebounceWidth.  Use new function JMouseMoved() instead.
 //	JXFontManager:
 //		Added profontwindows to the list of known monospace fonts.
 
@@ -538,7 +538,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		This guarantees a persistent clipboard, removes restriction that only
 //		widgets can put data on the clipboard, and frees all widgets
 //		from buffering the data and performing data conversions.  DND
-//		also uses this jnew system.
+//		also uses this new system.
 //	JXSelectionManager:
 //		Renamed:
 //			GetSelectionData()           -> GetData()
@@ -556,7 +556,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			Add/RemoveSelectionTarget(), GetSelectionTargets(),
 //			GetSelectionTimestamp().
 //		Replaced BecomeSelectionOwner() with JXSelectionManager::SetData().
-//		DND requires overriding jnew virtual GetSelectionData().
+//		DND requires overriding new virtual GetSelectionData().
 //		Added AdjustBounds().  (what took me so long?)
 //		Fixed GetDragPainter() to return JBoolean.
 //		Added DNDCompletelyFinished() message.  Read the warnings!
@@ -571,7 +571,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Added stream in/out operators for PartialWordModifier.
 //		Added CaretShouldFollowScroll().
 //	Created JXSearchTextDialog.  This is global and extensible.
-//		It also supports the jnew XSearch protocol for sharing search settings
+//		It also supports the new XSearch protocol for sharing search settings
 //		between programs.  (http://www.newplanetsoftware.com/xsearch/)
 //	Created JXSharedPrefsManager to share JXHelpManager and other settings
 //		between all programs that use JX.
@@ -649,7 +649,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Renamed DeleteItem() to RemoveItem() for consistency with RemoveAllItems().
 //		SetTitle() allows %h to specify shortcuts.
 //		Merged SetTitleImage() into SetTitle() to allow text and image together
-//			in menu title.  Added jnew SetTitleText() and SetTitleImage() functions.
+//			in menu title.  Added new SetTitleText() and SetTitleImage() functions.
 //		Renamed GetTitle() to GetTitleText() for consistency.
 //		Fixed GetTitleImage() so it returns JBoolean.
 //		Added 2nd version of GetTitleText() that returns JBoolean.
@@ -683,7 +683,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	JXImageMenu:
 //		Added version of SetItemImage() that takes JXPM.
 //	JXDocumentManager:
-//		Added jnew safety save reason:  kKillSignal
+//		Added new safety save reason:  kKillSignal
 //			This is necessary because SIGTERM is sent when the system shuts down.
 //		Removed first ctor argument because style comes from JXMenu::GetStyle().
 //		Removed second ctor argument "useShortcutZero" because shortcuts are
@@ -710,7 +710,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	Created JXPrefsManager.  Always derive from this instead of JUNIXPrefsManager.
 //		#** This uses the application signature for the file name, so if you used
 //			to use something else, be sure to rename the file at startup if
-//			the old one exists and the jnew one doesn't.
+//			the old one exists and the new one doesn't.
 //	JXDisplay:
 //		Fixed GetMouseContainer() to return JBoolean.
 //		Broadcasts events for unknown X windows via BroadcastWithFeedback().
@@ -791,7 +791,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Promoted IsClosing() to public.
 //	JXFontManager:
 //		Fixed bug in GetFontID(xFontStr) so it now checks the existing fonts
-//			before allocating a jnew one.
+//			before allocating a new one.
 //	JXFontNameMenu:
 //		GetFontName() returns JString instead of JString&.
 //		Provides choice of available character sets.
@@ -968,7 +968,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Added ItemIDToIndex().  (what took me so long?)
 //	JXTextMenu:
 //		Added version of SetItemImage() that takes JXPM, for use with the
-//			jnew menu_image repository.
+//			new menu_image repository.
 //	JXPathInput:
 //		Added option to require a writable directory.
 //		Added requireWrite argument to GetTextColor().
@@ -980,7 +980,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	Added Create() or other work-arounds for the egcs thunks bug to:
 //		JXRow/ColHeaderWidget
 //	jXActions:
-//		Added actions to correspond to the jnew menu image repository.
+//		Added actions to correspond to the new menu image repository.
 //	JXDocumentManager:
 //		Promoted CloseDocuments() to public.
 //	JXChooseSaveFile:
@@ -990,7 +990,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			(Removed default value of BuildWindow() arguments to force
 //			 compiler to remind you.)
 //	JXSaveFileDialog:
-//		Added draggable icon to implement local saving via the jnew XDS protocol.
+//		Added draggable icon to implement local saving via the new XDS protocol.
 //			http://www.newplanetsoftware.com/xds/
 //	jXUtil.h:
 //		JXURLToFileName() now returns kJTrue as long as the URL is on the
@@ -1132,7 +1132,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		any input field can be used in a table.
 //	Removed JXStringInput since it was only wasting space.  jxlayout will
 //		correctly rewrite your window layout code to use JXInputField, and
-//		you can use Code Crusader's jnew multi-file replace to change all
+//		you can use Code Crusader's new multi-file replace to change all
 //		occurrences of "(Get|Set)String\(" to "$1Text\(".
 //	Created JXCharInput to accept only a single character.
 //	JXStringTable:
@@ -1231,8 +1231,8 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			type of file.
 //		Renamed WriteFile() to WriteTextFile().  This is no longer pure virtual
 //			because it won't always be needed.  It will be called only if
-//			the jnew WriteFile() is not overridden.
-//		Created jnew WriteFile() that must be overridden if the file is not
+//			the new WriteFile() is not overridden.
+//		Created new WriteFile() that must be overridden if the file is not
 //			a plain text file.
 //		Since there are no longer any pure virtual functions, the constructor
 //			is now protected.
@@ -1258,7 +1258,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	Created JXHistoryMenuBase
 //	JXStringHistoryMenu and JXFileHistoryMenu both inherit from JXHistoryMenuBase
 //		*** Increment the version number of all files that store history menus
-//			because the jnew data format cannot be read by older code.
+//			because the new data format cannot be read by older code.
 //	JXKeyModifiers:
 //		The enum for the key indices is now named JXModifierKey, and the
 //			values use the kJX prefix.  Multifile replace regex is
@@ -1373,7 +1373,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Added HeightCompressed(), CompressHeight() for use on special menus where
 //			packing in as many items as possible is important.
 //	JXFileDocument:
-//		SaveInNewFile() now correctly handles the error if the jnew file cannot be created.
+//		SaveInNewFile() now correctly handles the error if the new file cannot be created.
 //	JXSaveFileInput:
 //		Translates / into -, since / is the UNIX directory separator.
 //	JXWindow:
@@ -1390,7 +1390,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	JXScrollbar:
 //		Draws incr/decr arrow pair at each end if there is space.
 //		Shift-clicking on arrows scrolls 1/2 page at a time
-//		Supports bookmark tabs via jnew JXScrolltab class.
+//		Supports bookmark tabs via new JXScrolltab class.
 //		Added ScrollToTab() to jump to a particular tab.
 //		Added PrepareForLowerMaxValue(), PrepareForHigherMaxValue(), and
 //			PrepareForScaledMaxValue() so JXScrollableWidgets can keep the
@@ -1493,7 +1493,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Made Quit() virtual.
 //	JXImage:
 //		Added CreateFromFile(), CreateFromGIF(), CreateFromXPM(), WriteXPM().
-//		Renamed GetColormap() to GetXColormap() to make way for jnew
+//		Renamed GetColormap() to GetXColormap() to make way for new
 //			JImage::GetColormap().
 //		Added HasMask().
 //		Promoted ConvertToImage(), ConvertToPixmap() to protected.
@@ -1827,7 +1827,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			Signals are broadcast as an urgent task to avoid reentrancy problems.
 //		Calls Quit() when JThisProcess reports SIGTERM, SIGQUIT.
 //		Added mechanism to catch server crashes.  This calls SafetySave() on
-//			all open documents and then calls the jnew virtual function
+//			all open documents and then calls the new virtual function
 //			CleanUpBeforeSuddenDeath().  Derived classes can override this
 //			to save preferences, etc.
 //		Moved all document handling functions to JXDocumentManager.  Derived
@@ -2013,7 +2013,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		SetObjects() now requires object of type JXSaveFileInput*.
 //	JXWidget:
 //		Renamed Unfocus() to NotifyFocusLost().  Only JXWindow should call this.
-//		Created jnew Unfocus() that actually unfocuses the Widget.
+//		Created new Unfocus() that actually unfocuses the Widget.
 //	JXApplication:
 //		Idle loop calls JIPCLink::CheckAllStatus() so JIPC socket connections
 //			will broadcast "magically".
@@ -2024,7 +2024,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	jXPainterUtil:
 //		Optimized DrawUpFrame() and DrawDownFrame().
 //	JXCSFDialogBase:
-//		After creating a jnew directory, the user is placed there automatically.
+//		After creating a new directory, the user is placed there automatically.
 
 // version 1.1.1:
 //	Renamed all global functions to start with JX for consistency with JCore

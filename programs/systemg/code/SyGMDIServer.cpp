@@ -85,11 +85,11 @@ SyGMDIServer::HandleMDIRequest
 		for (JIndex i=2; i<=argCount; i++)
 			{
 			const JString& arg = *(argList.NthElement(i));
-			if (arg == "--no-force-jnew")
+			if (arg == "--no-force-new")
 				{
 				forceNew = kJFalse;
 				}
-			else if (arg == "--force-jnew")
+			else if (arg == "--force-new")
 				{
 				forceNew = kJTrue;
 				}

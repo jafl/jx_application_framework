@@ -157,21 +157,21 @@ struct AModeTab : public VkComponent
 {
 	static const char *const AModeTab::DisplayAMode;
 
-    Widget _AModeTab;
-    Widget _aModeTab;
+	Widget _AModeTab;
+	Widget _aModeTab;
 
 	ModeGraph *		_graph;
 	AModeList * 	_AModes;
 	AMode *			_curAMode;
 
-    Cardinal          ac;
-    Arg               args[256];
+	Cardinal          ac;
+	Arg               args[256];
 
-    static String         _defaultAModeTabResources[1];
-    static UIAppDefault   _appDefaults[1];
-    static Boolean        _initAppDefaults;
+	static String         _defaultAModeTabResources[1];
+	static UIAppDefault   _appDefaults[1];
+	static Boolean        _initAppDefaults;
 
-    VkCallbackStruct  _default_callback_data;
+	VkCallbackStruct  _default_callback_data;
 };
 
 const char *const AModeTab::DisplayAMode = "DisplayAMode";
@@ -234,11 +234,11 @@ struct aircraft {
 	 double  track_hdg;               /* updated track heading in degrees    */
 	 char    alt_type;                /* alt type from the most recent update.*/
 	 double  altitude_curr[MAX_AC_DATA]; /* Current altitude.  This reflects *
-					      * climb and descent, so it will vary; *
-					      * but it should always be less that   *
-					      * altitude_comm, which is the altitude*
-					      * that an aircraft is cleared to      *
-					      * cruise at.                          */
+						  * climb and descent, so it will vary; *
+						  * but it should always be less that   *
+						  * altitude_comm, which is the altitude*
+						  * that an aircraft is cleared to      *
+						  * cruise at.                          */
 	 double  altitude_comm;          /* Commanded altitude for cruising     */
 	 double  altitude_rate[MAX_AC_DATA];/* d(altitude)/dt in ft/min          */
 	 double  track_gnd_spd;           /* gnd speed from ETMS file (kts)      */
@@ -404,7 +404,7 @@ void main()
 	tab->_default_callback_data.obj = (Widget) 0x819c7d8;
 
 	Pt3<double> v1;
-	Pt3<double>* v2 = jnew Pt3<double>;
+	Pt3<double>* v2 = new Pt3<double>;
 
 	aircraft a;
 	a.int_id = 0;

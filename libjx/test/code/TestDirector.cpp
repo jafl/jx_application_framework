@@ -1043,14 +1043,14 @@ TestDirector::HandleCSFMenu
 		{
 		ok = csf->SaveFile("Save file as:",
 			"This is a test of the dialog window that allows the user to"
-			" save a file under a jnew name.", "Untitled", &resultStr);
+			" save a file under a new name.", "Untitled", &resultStr);
 		}
 	else if (index == kSaveFileCustomCmd)
 		{
 		csf = itsCSF;
 		ok  = csf->SaveFile("Save file as:",
 			"This is a test of a custom dialog window that allows the user to"
-			" save a file under a jnew name.", "Untitled", &resultStr);
+			" save a file under a new name.", "Untitled", &resultStr);
 
 		if (ok)
 			{

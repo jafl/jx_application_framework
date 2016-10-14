@@ -19,7 +19,7 @@
 #include <jAssert.h>
 
 // jAssert.h includes jNew.h, which redefines these as macros.
-// These macros conflict with ACE::operator jnew().
+// These macros conflict with ACE::operator new().
 
 // notation
 

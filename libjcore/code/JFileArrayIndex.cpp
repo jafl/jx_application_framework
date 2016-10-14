@@ -58,7 +58,7 @@ JFileArrayIndex::~JFileArrayIndex()
 /******************************************************************************
  InsertElementAtIndex
 
-	Insert a jnew element into the index.  Since the storage is appended to the
+	Insert a new element into the index.  Since the storage is appended to the
 	file, we don't have to adjust any element offsets.
 
 	If the element will be an embedded file, the caller must set it separately.
@@ -190,7 +190,7 @@ JFileArrayIndex::SetElementID
 		const JBoolean ok = GetElementIndexFromID(newID, &origIndex);
 		assert( !ok );
 
-		// store the jnew ID
+		// store the new ID
 
 		elementInfo.id = newID;
 		itsArray->SetElement(index.GetIndex(), elementInfo);
@@ -452,7 +452,7 @@ JFileArrayIndex::AllEmbeddedFilesAreClosed()
 /******************************************************************************
  ReplaceEmbeddedFileStreams
 
-	Notify all embedded files that their enclosing file has a jnew fstream.
+	Notify all embedded files that their enclosing file has a new fstream.
 
  ******************************************************************************/
 

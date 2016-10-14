@@ -253,7 +253,7 @@ CMStartDebugger()
 	assert (theLink != NULL);
 
 	// original must be deleted *last* so listeners can call CMGetLink() to
-	// get the jnew one
+	// get the new one
 
 	jdelete origLink;
 

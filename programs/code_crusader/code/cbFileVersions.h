@@ -32,7 +32,7 @@ const JFileVersion kCurrentPrefsFileVersion = 67;
 // version 60:
 //	CBTextDocument saves kTabInsertsSpacesIndex setting override.
 // version 59:
-//	Added jnew file types and symbols supported by ctags 5.7.
+//	Added new file types and symbols supported by ctags 5.7.
 // version 58:
 //	Added XML to CBTextFileType.
 // version 57:
@@ -93,7 +93,7 @@ const JFileVersion kCurrentPrefsFileVersion = 67;
 // version 32:
 //	Added Java Archive to CBTextFileType.
 // version 31:
-//	Added jnew file types supported by ctags 4.0.
+//	Added new file types supported by ctags 4.0.
 // version 30:
 //	Added Modula-2 and Modula-3 to CBTextFileType.
 // version 29:
@@ -143,7 +143,7 @@ const JFileVersion kCurrentPrefsFileVersion = 67;
 //	Converted from suffix lists.
 //		Check CBPrefsManager::ConvertFromSuffixLists() for details.
 // version 11:
-//	Incremented to keep jnew CBSearchTextDialog prefs from being
+//	Incremented to keep new CBSearchTextDialog prefs from being
 //		destroyed by older version of Code Crusader.
 // version 10:
 //	Incremented version to avoid incompatibility with Code Medic.
@@ -185,7 +185,7 @@ const JFileVersion kCurrentProjectFileVersion = 86;
 // version 82:
 //	CBTextDocument saves kTabInsertsSpacesIndex setting override.
 // version 81:
-//	Added jnew file types and symbols supported by ctags 5.7.
+//	Added new file types and symbols supported by ctags 5.7.
 // version 80:
 //	CBFileListTable stores itsLastUniqueID.
 // version 79:
@@ -246,7 +246,7 @@ const JFileVersion kCurrentProjectFileVersion = 86;
 // version 54:
 //	Added flag for marking fully qualified, file scoped symbols.
 // version 53:
-//	Added jnew file types and symbols supported by ctags 4.0.
+//	Added new file types and symbols supported by ctags 4.0.
 // version 52:
 //	Added Java and Qt inheritance and access types to CBClass.
 //	Added StreamOut() to CBJavaClass.

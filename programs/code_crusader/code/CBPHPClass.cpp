@@ -203,7 +203,7 @@ CBPHPClass::ViewDeclaration
 /******************************************************************************
  NewGhost (virtual protected)
 
-	Creates a jnew ghost CBPHPClass.
+	Creates a new ghost CBPHPClass.
 
  ******************************************************************************/
 

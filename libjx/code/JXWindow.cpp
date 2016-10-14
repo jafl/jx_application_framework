@@ -1725,7 +1725,7 @@ JXWindow::AdjustSize
 /******************************************************************************
  UpdateFrame (private)
 
-	We can't pass in the jnew frame information because ConfigureNotify
+	We can't pass in the new frame information because ConfigureNotify
 	caused by resize window gives x=0, y=0.
 
  ******************************************************************************/
@@ -2061,7 +2061,7 @@ JXWindow::SetIcon
 		XFree(origHints);
 		}
 
-	// set jnew icon
+	// set new icon
 
 	if (itsIconDir != NULL)
 		{
@@ -2125,7 +2125,7 @@ JXWindow::SetIcon
 		XFree(origHints);
 		}
 
-	// set jnew icon
+	// set new icon
 
 	jdelete itsIcon;
 	itsIcon = NULL;

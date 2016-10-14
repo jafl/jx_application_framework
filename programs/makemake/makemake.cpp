@@ -848,7 +848,7 @@ ShouldMakeTarget
 /******************************************************************************
  AddSubTarget
 
-	Add the given target name to the targetList if it is jnew.
+	Add the given target name to the targetList if it is new.
 	Returns kJTrue if the target was added.
 
 	*** If it returns kJFalse, the JStrings were deleted.

@@ -108,7 +108,7 @@ CBCTree::StreamOut
 /******************************************************************************
  StreamInCClass (static private)
 
-	Creates a jnew CBCClass from the data in the given stream.
+	Creates a new CBCClass from the data in the given stream.
 
  ******************************************************************************/
 

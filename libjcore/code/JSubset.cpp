@@ -257,7 +257,7 @@ JSubset::operator+=
 			}
 		else if (indexToAdd < ourIndex)
 			{
-			// add the jnew index to ourselves and get the
+			// add the new index to ourselves and get the
 			// next index to add
 
 			itsIndices->InsertElementAtIndex(i, indexToAdd);
@@ -482,7 +482,7 @@ JSubset::AddRange
 			}
 		else if (indexToAdd < ourIndex)
 			{
-			// add the jnew index to ourselves and get the
+			// add the new index to ourselves and get the
 			// next index to add
 
 			itsIndices->InsertElementAtIndex(i, indexToAdd);

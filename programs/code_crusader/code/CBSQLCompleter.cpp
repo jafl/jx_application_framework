@@ -32,7 +32,7 @@ static const JCharacter* kKeywordList[] =
 	"indicator", "initial", "insert", "integer", "interface", "intersect",
 	"into", "is", "level", "like", "limited", "lock", "long", "loop", "max",
 	"maxextents", "min", "minus", "mlslabel", "mod", "mode", "modify",
-	"natural", "naturaln", "jnew", "nextval", "noaudit", "nocompress", "not",
+	"natural", "naturaln", "new", "nextval", "noaudit", "nocompress", "not",
 	"nowait", "null", "number", "number_base", "of", "offline", "on", "online",
 	"open", "option", "or", "order", "others", "out", "package", "partition",
 	"pctfree", "pls_integer", "positive", "positiven", "pragma", "prior",

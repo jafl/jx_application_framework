@@ -230,7 +230,7 @@ CBDocumentManager::RefreshCVSStatus()
 /******************************************************************************
  NewProjectDocument
 
-	If doc != NULL, *doc is the jnew document, if one is successfully created.
+	If doc != NULL, *doc is the new document, if one is successfully created.
 
  ******************************************************************************/
 
@@ -435,7 +435,7 @@ CBDocumentManager::NewTextDocument()
 		doc->Activate();
 		}
 	else if ((JXGetChooseSaveFile())->SaveFile(
-				"Name of jnew file:", NULL, "", &newName))
+				"Name of new file:", NULL, "", &newName))
 		{
 		ofstream output(newName);
 		output.close();
@@ -474,7 +474,7 @@ CBDocumentManager::NewTextDocumentFromTemplate()
 			assert( doc != NULL );
 			doc->Activate();
 			}
-		else if (csf->SaveFile("Name of jnew file:", NULL, "", &newName))
+		else if (csf->SaveFile("Name of new file:", NULL, "", &newName))
 			{
 			JString tmplText;
 			JReadFile(tmplName, &tmplText);

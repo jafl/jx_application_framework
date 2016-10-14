@@ -33,7 +33,7 @@ HelloWorldDir::HelloWorldDir
 	// for translations into other languages.
 	JXWindow* window = jnew JXWindow(this, 200,100, JGetString(kWindowTitleID));
 
-	// Make sure that jnew succeeded
+	// Make sure that new succeeded
 	assert( window != NULL );
 
 	// Set the min and max size of the window.

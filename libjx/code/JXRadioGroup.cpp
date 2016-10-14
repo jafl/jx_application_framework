@@ -164,7 +164,7 @@ JXRadioGroup::GetRadioButton
 /******************************************************************************
  NewButton (private)
 
-	Called when a jnew JXRadioButton is created.
+	Called when a new JXRadioButton is created.
 
  ******************************************************************************/
 

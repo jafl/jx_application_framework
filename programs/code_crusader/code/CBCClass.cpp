@@ -307,7 +307,7 @@ CBCClass::ViewDeclaration
 /******************************************************************************
  NewGhost (virtual protected)
 
-	Creates a jnew ghost CBCClass.
+	Creates a new ghost CBCClass.
 
  ******************************************************************************/
 

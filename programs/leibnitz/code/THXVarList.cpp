@@ -19,7 +19,7 @@ static const JCharacter* kXName = "x";
 static const JCharacter* kYName = "y";
 static const JCharacter* kTName = "t";
 
-static const JCharacter* kNewVarName     = "jnew";
+static const JCharacter* kNewVarName     = "new";
 static const JString kUnknownValueSymbol = "?";
 
 /******************************************************************************

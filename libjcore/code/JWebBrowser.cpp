@@ -34,7 +34,7 @@ static const JCharacter* kDefShowFileContentCmd  = "open $f";
 #else
 static const JCharacter* kDefShowFileContentCmd  = "firefox file:'$f'";
 #endif
-static const JCharacter* kDefShowFileLocationCmd = "systemg --no-force-jnew";
+static const JCharacter* kDefShowFileLocationCmd = "systemg --no-force-new";
 static const JCharacter* kFileVarName            = "f";
 static const JCharacter* kPathVarName            = "p";
 

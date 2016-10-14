@@ -161,7 +161,7 @@ private:
 
 public:
 
-	// jnew variable inserted
+	// new variable inserted
 
 	class VarInserted : public VarMessage
 		{

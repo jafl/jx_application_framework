@@ -108,7 +108,7 @@ static const char* kCurrentJ2DPlotLibVersionStr = "1.1.1";
 //		Added ShouldIgnoreCurveChanged() so redrawing can be turned off temporarily.
 //		Fixed bug in ResetScaling() so axes are forced to be linear if all data <= 0.
 //		GetX/YScaling() and GetFrame*() are now const.
-//		Removed SetX/YAxisLinear() in favor of jnew SetX/YScaling() that takes additional
+//		Removed SetX/YAxisLinear() in favor of new SetX/YScaling() that takes additional
 //			"linear" argument.  Because of this additional argument, SetX/YScaling()
 //			requires absolute values, not exponents, when specifying log scale.
 //		Removed restrictions on how far you can zoom in.

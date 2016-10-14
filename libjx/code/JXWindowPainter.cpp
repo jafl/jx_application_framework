@@ -149,7 +149,7 @@ JXWindowPainter::Reset()
 			}
 		}
 
-	// call this last so jnew clip region is used when ResetClipRect() is called
+	// call this last so new clip region is used when ResetClipRect() is called
 
 	JPainter::Reset();
 }

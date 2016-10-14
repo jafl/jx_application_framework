@@ -518,7 +518,7 @@ JXChooseSaveFile::WaitForResponse
 /******************************************************************************
  RestoreState (private)
 
-	Let the jnew dialog read its state from our saved data.
+	Let the new dialog read its state from our saved data.
 
  ******************************************************************************/
 

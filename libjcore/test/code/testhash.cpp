@@ -56,7 +56,7 @@
 		"Cachalor",
 
 		"Fourscore and seven years ago, our forefathers brought forth on this "
-		"continent a jnew nation, dedicated to the proposition that all men are "
+		"continent a new nation, dedicated to the proposition that all men are "
 		"created equal.  We are now engaged in a great struggle to determine "
 		"whether government of the people, by the people, and for the people shall "
 		"long endure.",

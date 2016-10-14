@@ -976,7 +976,7 @@ SyGAddRecentFile
 					}
 				}
 
-			// add jnew entry
+			// add new entry
 
 			JCreateSymbolicLink(fullname, recentFile);
 			}

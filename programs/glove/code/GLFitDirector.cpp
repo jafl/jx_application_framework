@@ -80,7 +80,7 @@ const JCoordinate kCloseButtonWidth 	= 50;
 const JCoordinate kCurrentPrefsVersion	= 1;
 
 static const JCharacter* kFitMenuTitleStr = "Fit";
-static const JCharacter* kFitMenuStr = 
+static const JCharacter* kFitMenuStr =
 	"   New non-linear fit   %k Meta-N %i NewNonLinear::FitDirector"
 	"  |New polynomial fit   %k Meta-Shift-N %i NewPoly::FitDirector"
 	"  |Remove fit   %k Backspace. %i RemoveFit::FitDirector"
@@ -94,7 +94,7 @@ static const JCharacter* kFitMenuStr =
 	"%l|Close    %k Meta-W %i Close::FitDirector";
 
 enum
-{	
+{
 	kNonLinearCmd = 1,
 	kPolyCmd,
 	kRemoveFitCmd,
@@ -109,20 +109,20 @@ enum
 };
 
 static const JCharacter* kPrefsMenuTitleStr = "Preferences";
-static const JCharacter* kPrefsMenuStr = 
+static const JCharacter* kPrefsMenuStr =
 	"   Edit preferences %i Preferences::FitDirector"
 	"  |Edit tool bar... %i EditToolBar::FitDirector"
 	"%l|Save window size %i SaveWindowSize::FitDirector";
 
 enum
-{	
+{
 	kPrefsCmd = 1,
 	kEditToolBarCmd,
 	kSaveWindowSizeCmd
 };
 
 static const JCharacter* kHelpMenuTitleStr = "Help";
-static const JCharacter* kHelpMenuStr = 
+static const JCharacter* kHelpMenuStr =
 	"   About"
 	"%l|Table of Contents %i TOCHelp::FitDirector"
 	"  |This window       %i ThisWindowHelp::FitDirector"
@@ -130,7 +130,7 @@ static const JCharacter* kHelpMenuStr =
 	"  |Credits";
 
 enum
-{	
+{
 	kAboutCmd = 1,
 	kTOCCmd,
 	kThisWindowCmd,
@@ -204,7 +204,7 @@ GLFitDirector::~GLFitDirector()
 }
 
 /******************************************************************************
- BuildWindow 
+ BuildWindow
 
 
  ******************************************************************************/
@@ -215,18 +215,18 @@ GLFitDirector::BuildWindow()
 	JCoordinate w = 600;
 	JCoordinate h = 420;
 	JXWindow* window = jnew JXWindow(this, w,h, "Fit");
-    assert( window != NULL );
+	assert( window != NULL );
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
-    
+
 	JXMenuBar* menuBar =
-		jnew JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop, 
+		jnew JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
 			0,0, w,kJXDefaultMenuBarHeight);
 	assert( menuBar != NULL );
 
 	itsToolBar =
 		jnew JXToolBar(GetPrefsMgr(), kFitToolBarID,
 			menuBar, w, h,
-			window, JXWidget::kHElastic, JXWidget::kVElastic, 
+			window, JXWidget::kHElastic, JXWidget::kVElastic,
 			0,kJXDefaultMenuBarHeight, w,h - kJXDefaultMenuBarHeight);
 	assert( itsToolBar != NULL );
 
@@ -247,20 +247,20 @@ GLFitDirector::BuildWindow()
 
 	itsMainPartition =
 		jnew JXHorizPartition(widths, elasticIndex, minWidths,
-							 itsToolBar->GetWidgetEnclosure(), 
+							 itsToolBar->GetWidgetEnclosure(),
 							 JXWidget::kHElastic,JXWidget::kVElastic,
 							 0, 0, w, newHeight);
 	assert( itsMainPartition != NULL );
 
 	// This is the first column the contains the curve and fit lists.
-	
+
 	JXContainer* container = itsMainPartition->GetCompartment(1);
 
 	const JCoordinate kCurveListHeight	= 100;
 	const JCoordinate kColHeaderHeight	= 20;
 	const JCoordinate kExprHeight		= 50;
 	const JCoordinate kFitListHeight	= newHeight - kCurveListHeight - 2 * kPartitionHandleWidth - kExprHeight;
-	
+
 	JArray<JCoordinate> heights(3);
 	heights.AppendElement(kCurveListHeight);
 	heights.AppendElement(kFitListHeight);
@@ -269,19 +269,19 @@ GLFitDirector::BuildWindow()
 	elasticIndex = 2;
 
 	JArray<JCoordinate> minHeights(3);
-	minHeights.AppendElement(50);	
+	minHeights.AppendElement(50);
 	minHeights.AppendElement(100);
 	minHeights.AppendElement(40);
 
 	itsListPartition =
 		jnew JXVertPartition(heights, elasticIndex, minHeights, container,
 			JXWidget::kHElastic, JXWidget::kVElastic, 0, 0, kFitListWidth, newHeight);
-    assert( itsListPartition != NULL );
+	assert( itsListPartition != NULL );
 
 	container = itsListPartition->GetCompartment(1);
-	
+
 	JXScrollbarSet* scrollbarSet =
-		jnew JXScrollbarSet(container, 
+		jnew JXScrollbarSet(container,
 						   JXWidget::kHElastic,JXWidget::kVElastic,
 						   0, kColHeaderHeight,
 						   kFitListWidth, kCurveListHeight - kColHeaderHeight);
@@ -289,8 +289,8 @@ GLFitDirector::BuildWindow()
 
 	// This will be the curve list
 
-	itsCurveList	= 
-		jnew GLCurveNameList(itsDir, itsPlot, 
+	itsCurveList	=
+		jnew GLCurveNameList(itsDir, itsPlot,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0,  kFitListWidth, kCurveListHeight - kColHeaderHeight);
@@ -301,30 +301,30 @@ GLFitDirector::BuildWindow()
 		jnew JXColHeaderWidget(itsCurveList, scrollbarSet,
 			container,
 			JXWidget::kHElastic, JXWidget::kFixedTop,
-			0, 0,  
-			kFitListWidth, 
+			0, 0,
+			kFitListWidth,
 			kColHeaderHeight);
 	assert(header != NULL);
 
 	header->SetColTitle(1, "Curves");
-	
+
 	container = itsListPartition->GetCompartment(2);
-	
+
 	scrollbarSet =
-		jnew JXScrollbarSet(container, 
+		jnew JXScrollbarSet(container,
 						   JXWidget::kHElastic,JXWidget::kVElastic,
 						   0, kColHeaderHeight,
-						   kFitListWidth, 
+						   kFitListWidth,
 						   kFitListHeight - kColHeaderHeight);
 	assert( scrollbarSet != NULL );
 
 	// This will be the fit list
-	
-	itsFitList	= 
+
+	itsFitList	=
 		jnew GLFitDescriptionList(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
-			0, 0,  
-			kFitListWidth, 
+			0, 0,
+			kFitListWidth,
 			kFitListHeight - kColHeaderHeight);
 	assert(itsFitList != NULL);
 	ListenTo(itsFitList);
@@ -333,8 +333,8 @@ GLFitDirector::BuildWindow()
 		jnew JXColHeaderWidget(itsFitList, scrollbarSet,
 			container,
 			JXWidget::kHElastic, JXWidget::kFixedTop,
-			0, 0,  
-			kFitListWidth, 
+			0, 0,
+			kFitListWidth,
 			kColHeaderHeight);
 	assert(header != NULL);
 
@@ -343,24 +343,24 @@ GLFitDirector::BuildWindow()
 	// this is the expression widget that displays the current JFunction
 
 	container = itsListPartition->GetCompartment(3);
-	
+
 	scrollbarSet =
-		jnew JXScrollbarSet(container, 
+		jnew JXScrollbarSet(container,
 						   JXWidget::kHElastic,JXWidget::kVElastic,
 						   0, 0,
-						   kFitListWidth, 
+						   kFitListWidth,
 						   kExprHeight);
 	assert( scrollbarSet != NULL );
 
 	itsExprVarList	= jnew GVarList();
 	assert(itsExprVarList != NULL);
 
-	itsExprWidget	= 
+	itsExprWidget	=
 		jnew JXExprWidget(itsExprVarList,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
-			0, 0, 
-			kFitListWidth, 
+			0, 0,
+			kFitListWidth,
 			kExprHeight);
 	assert(itsExprWidget != NULL);
 	itsExprWidget->Hide();
@@ -387,20 +387,20 @@ GLFitDirector::BuildWindow()
 	minHeights.AppendElement(kTotalParmsHeight - 20);
 	minHeights.AppendElement(kMinPlotHeight);
 	minHeights.AppendElement(kMinPlotHeight);
-	
+
 	itsPlotPartition =
 		jnew JXVertPartition(heights, elasticIndex, minHeights, container,
-			JXWidget::kHElastic, JXWidget::kVElastic, 
+			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, w - kFitListWidth - kPartitionHandleWidth, newHeight);
-    assert( itsPlotPartition != NULL );
+	assert( itsPlotPartition != NULL );
 
 	container = itsPlotPartition->GetCompartment(1);
-	
+
 	scrollbarSet =
-		jnew JXScrollbarSet(container, 
+		jnew JXScrollbarSet(container,
 						   JXWidget::kHElastic,JXWidget::kVElastic,
 						   0, kColHeaderHeight,
-						   w - kFitListWidth - kPartitionHandleWidth, 
+						   w - kFitListWidth - kPartitionHandleWidth,
 						   kParmsTableHeight);
 	assert( scrollbarSet != NULL );
 
@@ -408,23 +408,23 @@ GLFitDirector::BuildWindow()
 	itsParameterTable =
 		jnew GLFitParameterTable(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
-			0, 0,  
-			w - kFitListWidth - kPartitionHandleWidth, 
+			0, 0,
+			w - kFitListWidth - kPartitionHandleWidth,
 			kParmsTableHeight);
 	assert(itsParameterTable != NULL);
 	ListenTo(itsParameterTable);
 
-	itsParameterColHeader = 
+	itsParameterColHeader =
 		jnew GLParmColHeaderWidget(itsParameterTable, scrollbarSet,
 			container,
 			JXWidget::kHElastic, JXWidget::kFixedTop,
-			0, 0,  
-			w - kFitListWidth - kPartitionHandleWidth, 
+			0, 0,
+			w - kFitListWidth - kPartitionHandleWidth,
 			kColHeaderHeight);
 	assert(itsParameterColHeader != NULL);
 
 	itsParameterTable->SetColHeaderWidget(itsParameterColHeader);
-	    
+
 	itsFitMenu = menuBar->AppendTextMenu(kFitMenuTitleStr);
 	itsFitMenu->SetMenuItems(kFitMenuStr);
 	itsFitMenu->SetUpdateAction(JXMenu::kDisableAll);
@@ -432,8 +432,8 @@ GLFitDirector::BuildWindow()
 
 	const JCoordinate kChiSqLabelWidth	= 170;
 
-	GLChiSqLabel* label = 
-		jnew GLChiSqLabel(container, 
+	GLChiSqLabel* label =
+		jnew GLChiSqLabel(container,
 			JXWidget::kFixedLeft, JXWidget::kFixedBottom,
 			0, kParmsTableHeight + kColHeaderHeight,
 			kChiSqLabelWidth, kChiSqHeight);
@@ -449,9 +449,9 @@ GLFitDirector::BuildWindow()
 	itsChiSq =
 		jnew JXStaticText("", container,
 			JXWidget::kHElastic, JXWidget::kFixedBottom,
-			kChiSqLabelWidth + kJXDefaultBorderWidth, 
+			kChiSqLabelWidth + kJXDefaultBorderWidth,
 			kParmsTableHeight + kColHeaderHeight + kJXDefaultBorderWidth,
-			w - kFitListWidth - kPartitionHandleWidth - 2 * kJXDefaultBorderWidth, 
+			w - kFitListWidth - kPartitionHandleWidth - 2 * kJXDefaultBorderWidth,
 			kChiSqHeight - 2 * kJXDefaultBorderWidth);
 	assert(itsChiSq != NULL);
 	itsChiSq->SetBackColor(GetColormap()->GetWhiteColor());
@@ -460,10 +460,10 @@ GLFitDirector::BuildWindow()
 
 	container = itsPlotPartition->GetCompartment(2);
 
-	itsFitPlot	= 
+	itsFitPlot	=
 		jnew JX2DPlotWidget(menuBar, container,
 			JXWidget::kHElastic, JXWidget::kVElastic,
-			0, 0, 
+			0, 0,
 			w - kFitListWidth - kPartitionHandleWidth,
 			container->GetApertureHeight());
 	assert(itsFitPlot != NULL);
@@ -473,10 +473,10 @@ GLFitDirector::BuildWindow()
 
 	container = itsPlotPartition->GetCompartment(3);
 
-	itsDiffPlot	= 
+	itsDiffPlot	=
 		jnew JX2DPlotWidget(itsFitPlot, container,
 			JXWidget::kHElastic, JXWidget::kVElastic,
-			0, 0, 
+			0, 0,
 			w - kFitListWidth - kPartitionHandleWidth,
 			newHeight - kFirstPlotHeight - kTotalParmsHeight - 2 * kPartitionHandleWidth);
 	assert(itsDiffPlot != NULL);
@@ -543,7 +543,7 @@ GLFitDirector::Receive
 		}
 	else if (sender == itsCurveList && message.Is(GLCurveNameList::kCurveSelected))
 		{
-		const GLCurveNameList::CurveSelected* info = 
+		const GLCurveNameList::CurveSelected* info =
 			dynamic_cast<const GLCurveNameList::CurveSelected*>(&message);
 		assert(info != NULL);
 		JPlotDataBase& curve = itsPlot->GetCurve(info->GetIndex());
@@ -554,13 +554,13 @@ GLFitDirector::Receive
 		itsParameterTable->ClearValues();
 		itsChiSq->SetText("");
 
-		// add jnew curve.
+		// add new curve.
 		itsFitPlot->AddCurve(&curve, kJFalse, itsPlot->GetCurveName(info->GetIndex()));
 		itsFitPlot->ProtectCurve(1, kJTrue);
 		}
 	else if (sender == itsFitList && message.Is(GLFitDescriptionList::kFitSelected))
 		{
-		const GLFitDescriptionList::FitSelected* info = 
+		const GLFitDescriptionList::FitSelected* info =
 			dynamic_cast<const GLFitDescriptionList::FitSelected*>(&message);
 		assert(info != NULL);
 		const GLFitDescription& fd	= GetFitManager()->GetFitDescription(info->GetIndex());
@@ -572,11 +572,11 @@ GLFitDirector::Receive
 			{
 			itsExprWidget->SetFunction(const_cast<GLFitDescription&>(fd).GetVarList(), f);
 			itsExprWidget->Show();
-			}		
+			}
 		}
 	else if (sender == itsFitList && message.Is(GLFitDescriptionList::kFitInitiated))
 		{
-		const GLFitDescriptionList::FitInitiated* info = 
+		const GLFitDescriptionList::FitInitiated* info =
 			dynamic_cast<const GLFitDescriptionList::FitInitiated*>(&message);
 		assert(info != NULL);
 		const GLFitDescription& fd	= GetFitManager()->GetFitDescription(info->GetIndex());
@@ -610,15 +610,15 @@ GLFitDirector::Receive
 		assert(info != NULL);
 		if (info->Successful())
 			{
-			GLNonLinearFitDescription* fit	= 
-				jnew GLNonLinearFitDescription(itsNLFitDialog->GetFitName(), 
-					itsNLFitDialog->GetFunctionString(), 
+			GLNonLinearFitDescription* fit	=
+				jnew GLNonLinearFitDescription(itsNLFitDialog->GetFitName(),
+					itsNLFitDialog->GetFunctionString(),
 					itsNLFitDialog->GetDerivativeString(),
 					itsNLFitDialog->GetVarList().GetVariables());
 			assert(fit != NULL);
 			GetFitManager()->AddFitDescription(fit);
 			}
-		itsNLFitDialog	= NULL;	
+		itsNLFitDialog	= NULL;
 		}
 	else if (sender == itsPolyFitDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
@@ -629,13 +629,13 @@ GLFitDirector::Receive
 			{
 			JArray<JIndex> powers;
 			itsPolyFitDialog->GetPowers(&powers);
-			GLPolyFitDescription* fit	= 
-				jnew GLPolyFitDescription(itsPolyFitDialog->GetFitName(), 
+			GLPolyFitDescription* fit	=
+				jnew GLPolyFitDescription(itsPolyFitDialog->GetFitName(),
 					powers);
 			assert(fit != NULL);
 			GetFitManager()->AddFitDescription(fit);
 			}
-		itsPolyFitDialog	= NULL;	
+		itsPolyFitDialog	= NULL;
 		}
 	else if (sender == itsPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
@@ -659,7 +659,7 @@ GLFitDirector::Receive
 
  ******************************************************************************/
 
-void  
+void
 GLFitDirector::HandleFitMenu
 	(
 	const JIndex index
@@ -710,14 +710,14 @@ GLFitDirector::HandleFitMenu
 	else if (index == kPlotCmd)
 		{
 //		JString fn	= itsCurrentFit->GetFitFunctionString();
-// 		need to check - via 
+// 		need to check - via
 // 		JFunction* f;
 //		if (JParseFunction(itsFunctionString->GetText(), itsList, &f))
 //			{
 //			return kJTrue;
 //			}
 //		whether or not the function is valid.
-		
+
 		JIndex index;
 		JBoolean ok	= itsCurveList->GetCurrentCurveIndex(&index);
 		JPlotDataBase* data	= &(itsPlot->GetCurve(index));
@@ -798,7 +798,7 @@ GLFitDirector::UpdateFitMenu()
 }
 
 /******************************************************************************
- HandlePrefsMenu 
+ HandlePrefsMenu
 
 
  ******************************************************************************/
@@ -828,7 +828,7 @@ GLFitDirector::HandlePrefsMenu
 
  ******************************************************************************/
 
-void  
+void
 GLFitDirector::HandleHelpMenu
 	(
 	const JIndex index
@@ -955,7 +955,7 @@ GLFitDirector::Fit()
 		}
 	else if (fd.GetType() == GLFitDescription::kNonLinear)
 		{
-		GLNonLinearFitDescription& nd	= 
+		GLNonLinearFitDescription& nd	=
 			dynamic_cast<GLNonLinearFitDescription&>(const_cast<GLFitDescription&>(fd));
 
 		JFloat xmax, xmin, ymax, ymin;
@@ -978,7 +978,7 @@ GLFitDirector::Fit()
 		if (!fp.IsEmpty())
 			{
 			fit->SetFPrimed(fp);
-			}		
+			}
 		JVector p(nd.GetVarList()->GetVariableCount() - 1);
 		const JArray<JFloat>& parms	= itsParameterTable->GetStartValues();
 		const JSize count	= p.GetDimensionCount();
@@ -1090,7 +1090,7 @@ GLFitDirector::Fit()
 		}
 	else if (fd.GetType() == GLFitDescription::kModule)
 		{
-		GLModuleFitDescription& md	= 
+		GLModuleFitDescription& md	=
 			dynamic_cast<GLModuleFitDescription&>(const_cast<GLFitDescription&>(fd));
 		JFloat xmax, xmin, ymax, ymin;
 		JPlotFitModule* fit;
@@ -1127,7 +1127,7 @@ GLFitDirector::Fit()
 		assert(ok);
 		JFloat error = 0;
 		itsCurrentFit->GetParameterError(i, &error);
-		itsParameterTable->SetValue(i, value, error);			
+		itsParameterTable->SetValue(i, value, error);
 		if (itsCurrentFit->GetGoodnessOfFit(&value))
 			{
 			itsChiSq->SetText(JString(value, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5));
@@ -1136,7 +1136,7 @@ GLFitDirector::Fit()
 			{
 			itsChiSq->SetText("");
 			}
-		
+
 		}
 }
 
@@ -1306,7 +1306,7 @@ GLFitDirector::Print()
 			JIndex index;
 			JBoolean ok	= itsCurveList->GetCurrentCurveIndex(&index);
 			assert(ok);
-			str	+= + itsPlot->GetCurveName(index);		
+			str	+= + itsPlot->GetCurveName(index);
 			itsPrinter->String(kLeftMargin, 0, str);
 
 			str	= "Fit: ";
@@ -1323,7 +1323,7 @@ GLFitDirector::Print()
 
 			// draw expression widget
 			JRect eRect	= itsExprWidget->GetPrintBounds();
-			itsExprWidget->DrawForPrint(*itsPrinter, JPoint(itsPrinter->GetPageWidth() - eRect.width(), 0)); 
+			itsExprWidget->DrawForPrint(*itsPrinter, JPoint(itsPrinter->GetPageWidth() - eRect.width(), 0));
 
 			if (eRect.height() > tableD)
 				{

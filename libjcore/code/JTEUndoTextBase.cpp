@@ -75,7 +75,7 @@ JTEUndoTextBase::PrepareForUndo
 /******************************************************************************
  Undo (virtual)
 
-	Call this to put back the original text after selecting the jnew text.
+	Call this to put back the original text after selecting the new text.
 
  ******************************************************************************/
 

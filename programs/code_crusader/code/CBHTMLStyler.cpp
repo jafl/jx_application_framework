@@ -797,7 +797,7 @@ CBHTMLStyler::UpgradeTypeList
 		typeStyles->InsertElementAtIndex(6, JFontStyle());
 		}
 
-	// set jnew values after all jnew slots have been created
+	// set new values after all new slots have been created
 
 	if (vers < 2)
 		{

@@ -115,7 +115,7 @@ JLinkedList<T>::CopyList
 
 	while (sourceElement != NULL)
 		{
-		newElement = jnew JLinkedListElement<T>;		// create jnew element
+		newElement = jnew JLinkedListElement<T>;		// create new element
 		assert( newElement != NULL );
 
 		newElement->prevElement = prevElement;		// link to previous element
@@ -173,7 +173,7 @@ JLinkedList<T>::InsertElementAtIndex
 	If index is any value greater than the current size, then the
 	element is appended to the end of the array.
 
-	The correct index of the jnew element and a pointer to the jnew element are returned.
+	The correct index of the new element and a pointer to the new element are returned.
 
  ******************************************************************************/
 

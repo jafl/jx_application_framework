@@ -763,7 +763,7 @@ JXMenu::CheckItem
 /******************************************************************************
  AttachSubmenu
 
-	Deletes any old menu that was attached and attaches the jnew one.
+	Deletes any old menu that was attached and attaches the new one.
 
  ******************************************************************************/
 
@@ -1144,7 +1144,7 @@ JXMenu::BroadcastSelection
 
 	GetMenuManager()->CloseCurrentMenus();
 
-	// update the menu title to show the jnew selection
+	// update the menu title to show the new selection
 
 	if (itsIsPopupChoiceFlag)
 		{

@@ -333,7 +333,7 @@ CBFileListTable::ParseFile
 /******************************************************************************
  AddFile (private)
 
-	Returns kJTrue if the file is jnew or changed.  *id is always set to
+	Returns kJTrue if the file is new or changed.  *id is always set to
 	the id of the file.
 
 	*** This often runs in the update thread.
@@ -645,7 +645,7 @@ CBFileListTable::FilesAdded
 /******************************************************************************
  UpdateFileInfo (private)
 
-	The file name changed, so we generate a jnew ID.
+	The file name changed, so we generate a new ID.
 
  ******************************************************************************/
 

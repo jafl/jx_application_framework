@@ -517,7 +517,7 @@ JXFileDocument::DataReverted
 /******************************************************************************
  SaveCopyInNewFile
 
-	Save a copy of the data in a jnew file.  Our file is not changed.
+	Save a copy of the data in a new file.  Our file is not changed.
 	Returns kJTrue if a file is successfully written.
 
 	If origName is not empty, it is passed to JChooseSaveFile::SaveFile().
@@ -574,7 +574,7 @@ JXFileDocument::SaveCopyInNewFile
 /******************************************************************************
  SaveInNewFile
 
-	Save the data in a jnew file and update ourselves to refer to this jnew file.
+	Save the data in a new file and update ourselves to refer to this new file.
 
  ******************************************************************************/
 

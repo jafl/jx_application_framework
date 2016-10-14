@@ -6,7 +6,7 @@
 #define ONEMASK ((size_t)(-1) / 0xFF)
 
 size_t
-utf8_strlen(const char * _s)
+cp_strlen_utf8(const char * _s)
 {
 	const char * s;
 	size_t count = 0;

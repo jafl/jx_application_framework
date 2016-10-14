@@ -78,7 +78,7 @@ public:
             m_external_ref++;
             assert (m_objects.count(desired_object));
         }
-        return typename lldb_private::SharingPtr<T> (desired_object, jnew imp::shared_ptr_refcount<ClusterManager> (this));
+        return typename lldb_private::SharingPtr<T> (desired_object, new imp::shared_ptr_refcount<ClusterManager> (this));
     }
     
 private:

@@ -162,7 +162,7 @@ CreateUNIXServer
 	)
 {
 	// unlink() insures that any existing socket will keep its current
-	// connections, but we want to get any jnew ones.
+	// connections, but we want to get any new ones.
 
 	ACE_OS::unlink(socketName);
 

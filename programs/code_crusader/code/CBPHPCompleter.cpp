@@ -31,7 +31,7 @@ static const JCharacter* kKeywordList[] =
 	"if", "implements", "int", "integer", "interface",
 	"false", "FALSE", "final", "float", "for", "foreach", "function",
 	"global",
-	"jnew", "null", "NULL",
+	"new", "null", "NULL",
 	"object", "old_function", "or",
 	"parent", "php_user_filter", "print", "private", "protected", "public",
 	"real", "return",

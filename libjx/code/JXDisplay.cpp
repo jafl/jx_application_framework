@@ -20,7 +20,7 @@
 	the associated XC_* constant as the cursor name.
 
 	We cannot sort the cursor array because the indices that we give out must
-	remain valid.  Appending jnew items is the only option.  This is not much
+	remain valid.  Appending new items is the only option.  This is not much
 	of a problem, however, both because the most common cursors have predefined
 	indices, and because looking up cursors only has to be done once in each
 	constructor.
@@ -32,7 +32,7 @@
 	releases the mouse so soon after we switch the grab that the server hasn't
 	received our message and therefore thinks that the original window is still
 	grabbing.  We therefore get the ButtonRelease for the original window
-	instead of for the jnew window.)  Our solution is to tell JXDisplay about
+	instead of for the new window.)  Our solution is to tell JXDisplay about
 	who has grabbed what so JXDisplay can re-route the message to the current
 	grabber.  This is what itsMouseGrabber and itsKeyboardGrabber are used for.
 
@@ -1357,7 +1357,7 @@ JXDisplay::SwitchDrag
 /******************************************************************************
  WindowCreated
 
-	Insert the jnew window so that the list remains sorted by xWindow values.
+	Insert the new window so that the list remains sorted by xWindow values.
 
  ******************************************************************************/
 

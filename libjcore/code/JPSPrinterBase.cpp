@@ -855,7 +855,7 @@ JPSPrinterBase::ResetBufferedValues()
 	we use the code from page 275 of the PostScript Language Reference
 	Manual, 2nd edition.
 
-	The jnew font is stored in the key /JPSPrinterBase_CurrFont.
+	The new font is stored in the key /JPSPrinterBase_CurrFont.
 
  ******************************************************************************/
 

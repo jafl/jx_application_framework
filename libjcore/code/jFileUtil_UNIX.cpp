@@ -319,7 +319,7 @@ JStripTrailingDirSeparator
 	Uncompresses the file named origFileName.
 
 	If newFileName is empty, we generate a unique name and return it.
-	If dirName is not empty, we place the jnew file there.
+	If dirName is not empty, we place the new file there.
 	If process is not NULL,  we return the one we create without blocking.
 		Otherwise, we block until the process finishes.
 

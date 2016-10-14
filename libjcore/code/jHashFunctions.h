@@ -31,7 +31,7 @@ JDualHash
 	const JHashValue hashValue
 	)
 {
-	// Generate jnew word-sized value
+	// Generate new word-sized value
 	JHashValue newHash = JRandWord(hashValue);
 
 	// Convert to a dual hash-value; see notes

@@ -50,7 +50,7 @@
 #		                       implementation.
 
 #		JMM_INITIALIZE         If this environment variable is set but given no
-#		                       value the manager will initialize jnew memory blocks
+#		                       value the manager will initialize new memory blocks
 #		                       to the default AllocateGarbage value.  If it is
 #		                       given a numerical value, that will be the value
 #		                       used for initialization.  If the manager cannot

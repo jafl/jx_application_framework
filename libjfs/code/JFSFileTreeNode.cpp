@@ -581,7 +581,7 @@ JFSFileTreeNode::UpdateChildren()
 		newChildren.InsertSorted(CreateChild(entry));
 		}
 
-	// toss jnew entries that already exist
+	// toss new entries that already exist
 	// remove old entries that no longer exist
 
 	for (JIndex i=GetChildCount(); i>=1; i--)
@@ -598,7 +598,7 @@ JFSFileTreeNode::UpdateChildren()
 			}
 		}
 
-	// save remaining jnew entries
+	// save remaining new entries
 
 	const JSize leftOverCount = newChildren.GetElementCount();
 	for (JIndex i=1; i<=leftOverCount; i++)

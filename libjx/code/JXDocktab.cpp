@@ -32,8 +32,8 @@ static const JCharacter* kActionMenuStr =
 	"  | Undock all windows in this dock"
 	"  | Undock all windows"
 	"%l| UpdateWindowTypeMap"
-	"%l| Create jnew dock (split horizontally)"
-	"  | Create jnew dock (split vertically)"
+	"%l| Create new dock (split horizontally)"
+	"  | Create new dock (split vertically)"
 	"%l| Dock all windows in default configuration"
 	"%l";
 

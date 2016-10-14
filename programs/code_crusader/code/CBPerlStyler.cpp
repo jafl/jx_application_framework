@@ -311,5 +311,5 @@ CBPerlStyler::UpgradeTypeList
 		typeStyles->InsertElementAtIndex(27, JFontStyle(colormap->GetDarkGreenColor()));
 		}
 
-	// set jnew values after all jnew slots have been created
+	// set new values after all new slots have been created
 }

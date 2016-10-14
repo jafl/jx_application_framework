@@ -59,8 +59,8 @@ private:
 	JArray<CBPrefsManager::MacroSetInfo>*	itsMacroList;
 
 	mutable JBoolean	itsOwnsMacroListFlag;	// kJTrue => delete contents of itsMacroList
-	const JIndex		itsFirstNewID;			// first index to use for jnew sets
-	JIndex				itsLastNewID;			// index of last jnew set created
+	const JIndex		itsFirstNewID;			// first index to use for new sets
+	JIndex				itsLastNewID;			// index of last new set created
 	JIndex				itsMacroIndex;			// index of currently displayed macro set
 
 	CBCharActionTable*	itsActionTable;

@@ -505,7 +505,7 @@ JXWidget::Move
 		itsFrameG.Shift(dx,dy);
 		NotifyBoundsMoved(dx,dy);
 
-		Refresh();		// refresh jnew location
+		Refresh();		// refresh new location
 		}
 }
 
@@ -546,7 +546,7 @@ JXWidget::AdjustSize
 		itsFrameG.right  += dw;
 		ApertureResized(dw,dh);
 
-		Refresh();		// refresh jnew size
+		Refresh();		// refresh new size
 		}
 }
 
@@ -1190,7 +1190,7 @@ JXWidget::CreateDragPainter
 	assert( itsDragPainter != NULL );
 
 	itsDragPainter->SetOrigin(itsBoundsG.left, itsBoundsG.top);
-	itsDragPainter->ResetClipRect();	// do this last so clipRect matches with jnew origin
+	itsDragPainter->ResetClipRect();	// do this last so clipRect matches with new origin
 	return itsDragPainter;
 }
 
