@@ -18,6 +18,7 @@
 #include <JXWindow.h>
 
 #include <jParseFunction.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 /******************************************************************************

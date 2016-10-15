@@ -22,10 +22,10 @@ class GXColByIncDialog : public JXDialogDirector
 public:
 
 	enum
-	{
-	kAscending = 1,
-	kDescending
-	};
+		{
+		kAscending = 1,
+		kDescending
+		};
 
 public:
 
@@ -53,6 +53,7 @@ private:
 	JXFloatInput*   itsBeginning;
 	JXFloatInput*   itsInc;
 	JXIntegerInput* itsCount;
+	JXTextMenu*     itsDestMenu;
 
 // end JXLayout
 

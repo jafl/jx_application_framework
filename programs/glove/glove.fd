@@ -194,14 +194,14 @@ argument:
 
 =============== FORM ===============
 Name: GXChooseFileImportDialog
-Width: 270
-Height: 130
-Number of Objects: 6
+Width: 330
+Height: 230
+Number of Objects: 7
 
 --------------------
 class: FL_BOX
 type: FL_FLAT_BOX
-box: 0 0 270 130
+box: 0 0 330 230
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -235,27 +235,9 @@ callback:
 argument: 
 
 --------------------
-class: FL_BOX
-type: FL_NO_BOX
-box: 70 60 70 30
-boxtype: FL_NO_BOX
-colors: FL_COL1 FL_COL1
-alignment: FL_ALIGN_CENTER
-style: FL_NORMAL_STYLE
-size: FL_NORMAL_SIZE
-lcol: FL_BLACK
-label: JXTextMenu("Filter:",
-shortcut: 
-resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: itsFilterMenu
-callback: 
-argument: 
-
---------------------
 class: FL_BUTTON
 type: FL_RETURN_BUTTON
-box: 180 100 70 20
+box: 210 200 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -273,7 +255,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 20 100 70 20
+box: 50 200 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -291,7 +273,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 100 100 70 20
+box: 130 200 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -303,6 +285,42 @@ shortcut:
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
 name: itsReloadButton
+callback: 
+argument: 
+
+--------------------
+class: FL_MENU
+type: FL_PULLDOWN_MENU
+box: 50 160 70 30
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Filter:
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NoGravity FL_NoGravity
+name: itsFilterMenu
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_NO_BOX
+box: 10 50 310 100
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: JXScrollbarSet
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NoGravity FL_NoGravity
+name: (textScrollbarSet)
 callback: 
 argument: 
 
@@ -1280,7 +1298,7 @@ label: Destination
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: 
+name: itsDestMenu
 callback: 
 argument: 
 

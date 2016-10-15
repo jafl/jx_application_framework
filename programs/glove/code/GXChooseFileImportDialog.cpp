@@ -71,7 +71,7 @@ GXChooseFileImportDialog::BuildWindow
 	
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 270,130, "");
+	JXWindow* window = jnew JXWindow(this, 330,230, "");
 	assert( window != NULL );
 
 	JXStaticText* obj1_JXLayout =
@@ -79,27 +79,32 @@ GXChooseFileImportDialog::BuildWindow
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 250,40);
 	assert( obj1_JXLayout != NULL );
 
-	itsFilterMenu =
-		jnew JXTextMenu("Filter:", JGetString("itsFilterMenu::GXChooseFileImportDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 70,60, 70,30);
-	assert( itsFilterMenu != NULL );
-
 	JXTextButton* okButton =
 		jnew JXTextButton(JGetString("okButton::GXChooseFileImportDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 180,100, 70,20);
+					JXWidget::kHElastic, JXWidget::kVElastic, 210,200, 70,20);
 	assert( okButton != NULL );
 	okButton->SetShortcuts(JGetString("okButton::GXChooseFileImportDialog::shortcuts::JXLayout"));
 
 	JXTextButton* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::GXChooseFileImportDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 20,100, 70,20);
+					JXWidget::kHElastic, JXWidget::kVElastic, 50,200, 70,20);
 	assert( cancelButton != NULL );
 	cancelButton->SetShortcuts(JGetString("cancelButton::GXChooseFileImportDialog::shortcuts::JXLayout"));
 
 	itsReloadButton =
 		jnew JXTextButton(JGetString("itsReloadButton::GXChooseFileImportDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 100,100, 70,20);
+					JXWidget::kHElastic, JXWidget::kVElastic, 130,200, 70,20);
 	assert( itsReloadButton != NULL );
+
+	itsFilterMenu =
+		jnew JXTextMenu(JGetString("itsFilterMenu::GXChooseFileImportDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 50,160, 70,30);
+	assert( itsFilterMenu != NULL );
+
+	JXScrollbarSet* textScrollbarSet =
+		jnew JXScrollbarSet(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,50, 310,100);
+	assert( textScrollbarSet != NULL );
 
 // end JXLayout
 
@@ -136,7 +141,7 @@ GXChooseFileImportDialog::BuildWindow
 
 	itsFileText = 
 		jnew JXStaticText(text, kJFalse, kJFalse, 
-			obj2, obj2->GetScrollEnclosure(), 
+			textScrollbarSet, textScrollbarSet->GetScrollEnclosure(), 
 			JXWidget::kHElastic, JXWidget::kVElastic, 10,60, 310,90);
 	assert(itsFileText != NULL);
 	itsFileText->FitToEnclosure();

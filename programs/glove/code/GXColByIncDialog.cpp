@@ -117,10 +117,10 @@ GXColByIncDialog::BuildWindow()
 	assert( obj3_JXLayout != NULL );
 	obj3_JXLayout->SetToLabel();
 
-	JXTextMenu* obj4_JXLayout =
-		jnew JXTextMenu(JGetString("obj4_JXLayout::GXColByIncDialog::JXLayout"), window,
+	itsDestMenu =
+		jnew JXTextMenu(JGetString("itsDestMenu::GXColByIncDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 15,15, 180,30);
-	assert( obj4_JXLayout != NULL );
+	assert( itsDestMenu != NULL );
 
 // end JXLayout
 
