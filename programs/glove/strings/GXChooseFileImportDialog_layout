@@ -1,0 +1,8 @@
+0
+itsFilterMenu::GXChooseFileImportDialog::JXLayout ""
+okButton::GXChooseFileImportDialog::JXLayout "OK"
+itsReloadButton::GXChooseFileImportDialog::JXLayout "Reload"
+obj1_JXLayout::GXChooseFileImportDialog::JXLayout "This is not a Glove data file.  Please select the appropriate filter."
+cancelButton::GXChooseFileImportDialog::JXLayout "Cancel"
+cancelButton::GXChooseFileImportDialog::shortcuts::JXLayout "^["
+okButton::GXChooseFileImportDialog::shortcuts::JXLayout "^M"

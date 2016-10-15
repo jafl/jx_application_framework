@@ -61,55 +61,58 @@ GXColByRangeDialog::BuildWindow()
 		
 // begin JXLayout
 
-    JXWindow* window = jnew JXWindow(this, 210,190, "");
-    assert( window != NULL );
+	JXWindow* window = jnew JXWindow(this, 210,190, "");
+	assert( window != NULL );
 
-    itsDestMenu =
-        jnew JXTextMenu("Destination:", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 15,15, 160,30);
-    assert( itsDestMenu != NULL );
+	itsBeginning =
+		jnew JXFloatInput(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 95,55, 100,20);
+	assert( itsBeginning != NULL );
 
-    itsBeginning =
-        jnew JXFloatInput(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 95,55, 100,20);
-    assert( itsBeginning != NULL );
+	JXTextButton* okButton =
+		jnew JXTextButton(JGetString("okButton::GXColByRangeDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 130,160, 70,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::GXColByRangeDialog::shortcuts::JXLayout"));
 
-    JXTextButton* okButton =
-        jnew JXTextButton("OK", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 15,165, 70,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts("^M");
+	JXTextButton* cancelButton =
+		jnew JXTextButton(JGetString("cancelButton::GXColByRangeDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,160, 70,20);
+	assert( cancelButton != NULL );
+	cancelButton->SetShortcuts(JGetString("cancelButton::GXColByRangeDialog::shortcuts::JXLayout"));
 
-    JXTextButton* cancelButton =
-        jnew JXTextButton("Cancel", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 125,165, 70,20);
-    assert( cancelButton != NULL );
-    cancelButton->SetShortcuts("^[");
+	itsEnd =
+		jnew JXFloatInput(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 95,90, 100,20);
+	assert( itsEnd != NULL );
 
-    itsEnd =
-        jnew JXFloatInput(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 95,90, 100,20);
-    assert( itsEnd != NULL );
+	JXStaticText* obj1_JXLayout =
+		jnew JXStaticText(JGetString("obj1_JXLayout::GXColByRangeDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 15,90, 70,20);
+	assert( obj1_JXLayout != NULL );
+	obj1_JXLayout->SetToLabel();
 
-    JXStaticText* obj1 =
-        jnew JXStaticText("End:", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 50,95, 35,20);
-    assert( obj1 != NULL );
+	JXStaticText* obj2_JXLayout =
+		jnew JXStaticText(JGetString("obj2_JXLayout::GXColByRangeDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 15,55, 70,20);
+	assert( obj2_JXLayout != NULL );
+	obj2_JXLayout->SetToLabel();
 
-    JXStaticText* obj2 =
-        jnew JXStaticText("Start:", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 47,60, 40,20);
-    assert( obj2 != NULL );
+	itsCount =
+		jnew JXIntegerInput(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 95,125, 100,20);
+	assert( itsCount != NULL );
 
-    itsCount =
-        jnew JXIntegerInput(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 95,125, 100,20);
-    assert( itsCount != NULL );
+	JXStaticText* obj3_JXLayout =
+		jnew JXStaticText(JGetString("obj3_JXLayout::GXColByRangeDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 15,125, 70,20);
+	assert( obj3_JXLayout != NULL );
+	obj3_JXLayout->SetToLabel();
 
-    JXStaticText* obj3 =
-        jnew JXStaticText("Count:", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 39,130, 45,20);
-    assert( obj3 != NULL );
+	itsDestMenu =
+		jnew JXTextMenu(JGetString("itsDestMenu::GXColByRangeDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 15,15, 180,30);
+	assert( itsDestMenu != NULL );
 
 // end JXLayout
 

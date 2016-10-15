@@ -1,0 +1,9 @@
+0
+obj2_JXLayout::GXColByIncDialog::JXLayout "Minimum:"
+cancelButton::GXColByIncDialog::shortcuts::JXLayout "^["
+obj4_JXLayout::GXColByIncDialog::JXLayout "Destination"
+okButton::GXColByIncDialog::shortcuts::JXLayout "^M"
+okButton::GXColByIncDialog::JXLayout "OK"
+obj1_JXLayout::GXColByIncDialog::JXLayout "Increment:"
+cancelButton::GXColByIncDialog::JXLayout "Cancel"
+obj3_JXLayout::GXColByIncDialog::JXLayout "Count:"

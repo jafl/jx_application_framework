@@ -44,8 +44,8 @@ private:
 
 // begin JXLayout
 
-    JXTextMenu*   itsFilterMenu;
-    JXTextButton* itsReloadButton;
+	JXTextMenu*   itsFilterMenu;
+	JXTextButton* itsReloadButton;
 
 // end JXLayout
 

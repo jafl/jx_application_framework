@@ -59,13 +59,29 @@ F
 T
 1 "text"
 T
+2 "JUtf8Character.cpp"
+F
+"./code/JUtf8Character.cpp"
+T
 2 "JString.cpp"
 F
 "./code/JString.cpp"
 T
+2 "JStringIterator.cpp"
+F
+"./code/JStringIterator.cpp"
+T
 2 "JIndexRange.cpp"
 F
 "./code/JIndexRange.cpp"
+T
+2 "JCharacterRange.h"
+F
+"./code/JCharacterRange.h"
+T
+2 "JUtf8ByteRange.h"
+F
+"./code/JUtf8ByteRange.h"
 T
 2 "JRegex.cpp"
 F
@@ -884,13 +900,14 @@ T "./" "medic -f +$line $full_name" "" F F F T F F F "" "" "" T
 F
 # build settings
 1
-F
+T
 "libjcore-${JX_LIB_VERSION}.a,libjcore-${JX_LIB_VERSION}.so"
 ""
 "make -k all"
 # search paths
 T "../ACE/ACE_wrappers/ace" T
 T "./code" T
+T "/usr/local/opt/icu4c/include" T
 F
 # C preprocessor
 T "ACE_UNIMPLEMENTED_FUNC()" ""

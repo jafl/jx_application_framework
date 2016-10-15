@@ -1,0 +1,3 @@
+0
+derivativeLabel::GLNonLinearFitDialog::derivativeLayout "Fit derivative:"
+warningText::GLNonLinearFitDialog::derivativeLayout "(This may be left blank. Glove will then calculate the derivative.)"

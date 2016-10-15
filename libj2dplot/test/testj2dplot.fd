@@ -1,4 +1,4 @@
-Magic: 13000
+Magic: 15000
 
 Internal Form Definition File
     (do not change)
@@ -14,7 +14,7 @@ Number of Objects: 3
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 600 400
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -32,7 +32,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 0 600 30
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -50,7 +50,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 30 600 370
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1

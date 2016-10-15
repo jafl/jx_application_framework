@@ -74,55 +74,56 @@ GXCreatePlotDialog::BuildWindow
 	
 // begin JXLayout
 
-    JXWindow* window = jnew JXWindow(this, 380,160, "");
-    assert( window != NULL );
+	JXWindow* window = jnew JXWindow(this, 370,160, "");
+	assert( window != NULL );
 
-    itsXMenu =
-        jnew JXTextMenu("X Axis", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 10,40, 160,30);
-    assert( itsXMenu != NULL );
+	JXTextButton* okButton =
+		jnew JXTextButton(JGetString("okButton::GXCreatePlotDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 280,130, 70,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::GXCreatePlotDialog::shortcuts::JXLayout"));
 
-    itsYMenu =
-        jnew JXTextMenu("Y Axis", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 200,40, 170,30);
-    assert( itsYMenu != NULL );
+	JXTextButton* cancelButton =
+		jnew JXTextButton(JGetString("cancelButton::GXCreatePlotDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 180,130, 70,20);
+	assert( cancelButton != NULL );
+	cancelButton->SetShortcuts(JGetString("cancelButton::GXCreatePlotDialog::shortcuts::JXLayout"));
 
-    itsXErrMenu =
-        jnew JXTextMenu("X Error", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 10,80, 160,30);
-    assert( itsXErrMenu != NULL );
+	itsLabelInput =
+		jnew JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 115,10, 200,20);
+	assert( itsLabelInput != NULL );
 
-    itsYErrMenu =
-        jnew JXTextMenu("Y Error", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 200,80, 170,30);
-    assert( itsYErrMenu != NULL );
+	JXStaticText* obj1_JXLayout =
+		jnew JXStaticText(JGetString("obj1_JXLayout::GXCreatePlotDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 65,10, 50,20);
+	assert( obj1_JXLayout != NULL );
+	obj1_JXLayout->SetToLabel();
 
-    JXTextButton* okButton =
-        jnew JXTextButton("OK", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 280,130, 70,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts("^M");
+	itsXMenu =
+		jnew JXTextMenu(JGetString("itsXMenu::GXCreatePlotDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,40, 160,30);
+	assert( itsXMenu != NULL );
 
-    JXTextButton* cancelButton =
-        jnew JXTextButton("Cancel", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 190,130, 70,20);
-    assert( cancelButton != NULL );
-    cancelButton->SetShortcuts("^[");
+	itsXErrMenu =
+		jnew JXTextMenu(JGetString("itsXErrMenu::GXCreatePlotDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,80, 160,30);
+	assert( itsXErrMenu != NULL );
 
-    itsPlotsMenu =
-        jnew JXTextMenu("Plot:", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 10,120, 130,30);
-    assert( itsPlotsMenu != NULL );
+	itsYErrMenu =
+		jnew JXTextMenu(JGetString("itsYErrMenu::GXCreatePlotDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 200,80, 160,30);
+	assert( itsYErrMenu != NULL );
 
-    itsLabelInput =
-        jnew JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 115,10, 200,20);
-    assert( itsLabelInput != NULL );
+	itsYMenu =
+		jnew JXTextMenu(JGetString("itsYMenu::GXCreatePlotDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 200,40, 160,30);
+	assert( itsYMenu != NULL );
 
-    JXStaticText* obj1 =
-        jnew JXStaticText("Label:", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 65,13, 45,15);
-    assert( obj1 != NULL );
+	itsPlotsMenu =
+		jnew JXTextMenu(JGetString("itsPlotsMenu::GXCreatePlotDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,120, 130,30);
+	assert( itsPlotsMenu != NULL );
 
 // end JXLayout
 

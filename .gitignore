@@ -8,6 +8,7 @@
 *.jst
 *.jup
 *Y.hpp
+*.bak
 libj*/Makefile
 */test/Makefile
 programs/*/code/*StringData.h

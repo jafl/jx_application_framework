@@ -517,6 +517,8 @@ ShouldBackupForm
 	JPtrArray<JString>*	list
 	)
 {
+	return kJFalse;		// version control makes this unnecessary
+/*
 	const JSize count = list->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
@@ -532,6 +534,7 @@ ShouldBackupForm
 	assert( newForm != NULL );
 	list->Append(newForm);
 	return kJTrue;
+*/
 }
 
 /******************************************************************************

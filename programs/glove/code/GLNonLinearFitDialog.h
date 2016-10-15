@@ -50,13 +50,13 @@ private:
 
 // begin JXLayout
 
-    JXVertPartition* itsPartition;
-    JXTextButton*    itsHelpButton;
+	JXVertPartition* itsPartition;
+	JXTextButton*    itsHelpButton;
 
 // end JXLayout
 // begin functionLayout
 
-    JXInputField* itsNameInput;
+	JXInputField* itsNameInput;
 
 // end functionLayout
 
@@ -67,8 +67,8 @@ private:
 
 // begin variableLayout
 
-    JXTextButton* itsNewButton;
-    JXTextButton* itsDeleteButton;
+	JXTextButton* itsNewButton;
+	JXTextButton* itsDeleteButton;
 
 // end variableLayout
 

@@ -136,28 +136,28 @@ TestInputFieldsDialog::BuildWindow()
 		jnew JXStaticText(JGetString("obj2_JXLayout::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 100,20);
 	assert( obj2_JXLayout != NULL );
-    obj2_JXLayout->SetFontName("Times");
-    obj2_JXLayout->SetFontSize(8);
+	obj2_JXLayout->SetFontName("Times");
+	obj2_JXLayout->SetFontSize(8);
     const JFontStyle obj2_JXLayout_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetGreenColor());
-    obj2_JXLayout->SetFontStyle(obj2_JXLayout_style);
+	obj2_JXLayout->SetFontStyle(obj2_JXLayout_style);
 	obj2_JXLayout->SetToLabel();
 
 	JXStaticText* obj3_JXLayout =
 		jnew JXStaticText(JGetString("obj3_JXLayout::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,60, 100,20);
 	assert( obj3_JXLayout != NULL );
-    obj3_JXLayout->SetFontName("Times");
+	obj3_JXLayout->SetFontName("Times");
     const JFontStyle obj3_JXLayout_style(kJTrue, kJTrue, 0, kJFalse, GetColormap()->GetBlackColor());
-    obj3_JXLayout->SetFontStyle(obj3_JXLayout_style);
+	obj3_JXLayout->SetFontStyle(obj3_JXLayout_style);
 	obj3_JXLayout->SetToLabel();
 
 	JXStaticText* obj4_JXLayout =
 		jnew JXStaticText(JGetString("obj4_JXLayout::TestInputFieldsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 100,20);
 	assert( obj4_JXLayout != NULL );
-    obj4_JXLayout->SetFontSize(8);
+	obj4_JXLayout->SetFontSize(8);
     const JFontStyle obj4_JXLayout_style(kJFalse, kJTrue, 0, kJFalse, GetColormap()->GetBlackColor());
-    obj4_JXLayout->SetFontStyle(obj4_JXLayout_style);
+	obj4_JXLayout->SetFontStyle(obj4_JXLayout_style);
 	obj4_JXLayout->SetToLabel();
 
 	JXStaticText* obj5_JXLayout =

@@ -71,40 +71,35 @@ GXChooseFileImportDialog::BuildWindow
 	
 // begin JXLayout
 
-    JXWindow* window = jnew JXWindow(this, 330,230, "");
-    assert( window != NULL );
+	JXWindow* window = jnew JXWindow(this, 270,130, "");
+	assert( window != NULL );
 
-    JXStaticText* obj1 =
-        jnew JXStaticText("This is not a Glove data file.\nPlease select the appropriate filter.", window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 250,40);
-    assert( obj1 != NULL );
+	JXStaticText* obj1_JXLayout =
+		jnew JXStaticText(JGetString("obj1_JXLayout::GXChooseFileImportDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 250,40);
+	assert( obj1_JXLayout != NULL );
 
-    itsFilterMenu =
-        jnew JXTextMenu("Filter:", window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,160, 70,30);
-    assert( itsFilterMenu != NULL );
+	itsFilterMenu =
+		jnew JXTextMenu("Filter:", JGetString("itsFilterMenu::GXChooseFileImportDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 70,60, 70,30);
+	assert( itsFilterMenu != NULL );
 
-    JXTextButton* okButton =
-        jnew JXTextButton("OK", window,
-                    JXWidget::kFixedRight, JXWidget::kFixedBottom, 210,200, 70,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts("^M");
+	JXTextButton* okButton =
+		jnew JXTextButton(JGetString("okButton::GXChooseFileImportDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 180,100, 70,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::GXChooseFileImportDialog::shortcuts::JXLayout"));
 
-    JXTextButton* cancelButton =
-        jnew JXTextButton("Cancel", window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,200, 70,20);
-    assert( cancelButton != NULL );
-    cancelButton->SetShortcuts("^[");
+	JXTextButton* cancelButton =
+		jnew JXTextButton(JGetString("cancelButton::GXChooseFileImportDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,100, 70,20);
+	assert( cancelButton != NULL );
+	cancelButton->SetShortcuts(JGetString("cancelButton::GXChooseFileImportDialog::shortcuts::JXLayout"));
 
-    itsReloadButton =
-        jnew JXTextButton("Reload", window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 130,200, 70,20);
-    assert( itsReloadButton != NULL );
-
-    JXScrollbarSet* obj2 =
-        jnew JXScrollbarSet( window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 10,50, 310,100);
-    assert( obj2 != NULL );
+	itsReloadButton =
+		jnew JXTextButton(JGetString("itsReloadButton::GXChooseFileImportDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 100,100, 70,20);
+	assert( itsReloadButton != NULL );
 
 // end JXLayout
 

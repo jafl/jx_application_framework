@@ -1,6 +1,6 @@
 0
+okButton::CMChooseProcessDialog::JXLayout "OK"
 obj2_JXLayout::CMChooseProcessDialog::JXLayout "Double click on the process id or type it into the input field."
 okButton::CMChooseProcessDialog::shortcuts::JXLayout "^M"
 cancelButton::CMChooseProcessDialog::JXLayout "Cancel"
 obj1_JXLayout::CMChooseProcessDialog::JXLayout "Process id:"
-okButton::CMChooseProcessDialog::JXLayout "OK"

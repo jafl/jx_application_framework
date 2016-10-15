@@ -1,0 +1,11 @@
+0
+itsYErrMenu::GXCreatePlotDialog::JXLayout "Y Error"
+itsYMenu::GXCreatePlotDialog::JXLayout "Y Axis"
+cancelButton::GXCreatePlotDialog::shortcuts::JXLayout "^["
+itsPlotsMenu::GXCreatePlotDialog::JXLayout "Plot"
+okButton::GXCreatePlotDialog::JXLayout "OK"
+okButton::GXCreatePlotDialog::shortcuts::JXLayout "^M"
+obj1_JXLayout::GXCreatePlotDialog::JXLayout "Label:"
+cancelButton::GXCreatePlotDialog::JXLayout "Cancel"
+itsXMenu::GXCreatePlotDialog::JXLayout "X Axis"
+itsXErrMenu::GXCreatePlotDialog::JXLayout "X Error"

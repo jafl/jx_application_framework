@@ -1,0 +1,9 @@
+0
+itsDestMenu::GXColByRangeDialog::JXLayout "Destination"
+okButton::GXColByRangeDialog::JXLayout "OK"
+obj1_JXLayout::GXColByRangeDialog::JXLayout "Maximum:"
+cancelButton::GXColByRangeDialog::JXLayout "Cancel"
+obj3_JXLayout::GXColByRangeDialog::JXLayout "Count:"
+cancelButton::GXColByRangeDialog::shortcuts::JXLayout "^["
+obj2_JXLayout::GXColByRangeDialog::JXLayout "Minimum:"
+okButton::GXColByRangeDialog::shortcuts::JXLayout "^M"

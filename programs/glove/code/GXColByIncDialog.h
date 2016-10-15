@@ -50,10 +50,9 @@ private:
 
 // begin JXLayout
 
-    JXTextMenu*     itsDestMenu;
-    JXFloatInput*   itsBeginning;
-    JXFloatInput*   itsInc;
-    JXIntegerInput* itsCount;
+	JXFloatInput*   itsBeginning;
+	JXFloatInput*   itsInc;
+	JXIntegerInput* itsCount;
 
 // end JXLayout
 

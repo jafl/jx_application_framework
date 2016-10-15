@@ -1,4 +1,4 @@
-Magic: 13000
+Magic: 15000
 
 Internal Form Definition File
     (do not change)
@@ -14,7 +14,7 @@ Number of Objects: 3
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 400 290
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -32,7 +32,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: NORMAL_BUTTON
+type: FL_NORMAL_BUTTON
 box: 90 250 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -50,7 +50,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: RETURN_BUTTON
+type: FL_RETURN_BUTTON
 box: 240 250 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -74,7 +74,7 @@ Number of Objects: 7
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 430 200
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -92,7 +92,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 90 20 330 130
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -110,7 +110,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: RETURN_BUTTON
+type: FL_RETURN_BUTTON
 box: 320 170 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -128,7 +128,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: NORMAL_BUTTON
+type: FL_NORMAL_BUTTON
 box: 185 170 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -146,7 +146,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 25 20 40 40
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -164,7 +164,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: NORMAL_BUTTON
+type: FL_NORMAL_BUTTON
 box: 50 170 60 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -182,7 +182,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 10 75 65 65
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -206,7 +206,7 @@ Number of Objects: 3
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 500 300
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -224,7 +224,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 0 500 30
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -242,7 +242,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 30 500 270
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1

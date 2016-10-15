@@ -1,4 +1,5 @@
 0
+okButton::CBEditTreePrefsDialog::JXLayout "OK"
 itsHelpButton::CBEditTreePrefsDialog::shortcuts::JXLayout "F1"
 itsShowInheritedFnsCB::CBEditTreePrefsDialog::JXLayout "Show inherited functions in lists"
 itsAutoMinMILinkCB::CBEditTreePrefsDialog::JXLayout "Automatically minimize MI link lengths"
@@ -9,4 +10,3 @@ cancelButton::CBEditTreePrefsDialog::JXLayout "Cancel"
 okButton::CBEditTreePrefsDialog::shortcuts::JXLayout "^M"
 obj1_JXLayout::CBEditTreePrefsDialog::JXLayout "Draw MI links:"
 itsRaiseSingleMatchCB::CBEditTreePrefsDialog::JXLayout "Raise window if search matches single class"
-okButton::CBEditTreePrefsDialog::JXLayout "OK"

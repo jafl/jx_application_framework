@@ -1,0 +1,10 @@
+0
+okButton::GXPlotFunctionDialog::shortcuts::JXLayout "^M"
+itsEditButton::GXPlotFunctionDialog::shortcuts::JXLayout "#E"
+itsVarMenu::GXPlotFunctionDialog::JXLayout "Constants"
+cancelButton::GXPlotFunctionDialog::shortcuts::JXLayout "^["
+itsClearButton::GXPlotFunctionDialog::JXLayout "Clear"
+itsEditButton::GXPlotFunctionDialog::JXLayout "Edit"
+okButton::GXPlotFunctionDialog::JXLayout "OK"
+obj1_JXLayout::GXPlotFunctionDialog::JXLayout "Function:"
+cancelButton::GXPlotFunctionDialog::JXLayout "Cancel"
