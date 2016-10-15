@@ -29,7 +29,7 @@
 
 static const JCharacter* kVersionStr =
 
-	"jxlayout 3.2.0\n"
+	"jxlayout 4.0.0\n"
 	"\n"
 	"Copyright (C) 1996-2016 John Lindal.  All rights reserved.";
 
