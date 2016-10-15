@@ -1,4 +1,4 @@
-Magic: 13000
+Magic: 15000
 
 Internal Form Definition File
     (do not change)
@@ -14,7 +14,7 @@ Number of Objects: 7
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 160 120
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -32,7 +32,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: NORMAL_BUTTON
+type: FL_NORMAL_BUTTON
 box: 20 90 50 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -50,7 +50,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: RETURN_BUTTON
+type: FL_RETURN_BUTTON
 box: 90 90 50 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -68,7 +68,7 @@ argument:
 
 --------------------
 class: FL_INPUT
-type: INT_INPUT
+type: FL_INT_INPUT
 box: 70 20 70 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
@@ -86,7 +86,7 @@ argument:
 
 --------------------
 class: FL_INPUT
-type: INT_INPUT
+type: FL_INT_INPUT
 box: 70 50 70 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
@@ -104,7 +104,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 20 20 50 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -122,7 +122,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 20 50 50 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -146,7 +146,7 @@ Number of Objects: 29
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 620 180
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -164,7 +164,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: NORMAL_BUTTON
+type: FL_NORMAL_BUTTON
 box: 180 150 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -182,7 +182,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: RETURN_BUTTON
+type: FL_RETURN_BUTTON
 box: 390 150 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -200,7 +200,7 @@ argument:
 
 --------------------
 class: FL_INPUT
-type: NORMAL_INPUT
+type: FL_NORMAL_INPUT
 box: 110 20 180 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
@@ -218,7 +218,7 @@ argument:
 
 --------------------
 class: FL_INPUT
-type: NORMAL_INPUT
+type: FL_NORMAL_INPUT
 box: 110 40 180 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
@@ -236,7 +236,7 @@ argument:
 
 --------------------
 class: FL_INPUT
-type: NORMAL_INPUT
+type: FL_NORMAL_INPUT
 box: 110 60 180 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
@@ -254,7 +254,7 @@ argument:
 
 --------------------
 class: FL_INPUT
-type: NORMAL_INPUT
+type: FL_NORMAL_INPUT
 box: 110 80 180 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
@@ -272,7 +272,7 @@ argument:
 
 --------------------
 class: FL_INPUT
-type: FLOAT_INPUT
+type: FL_FLOAT_INPUT
 box: 380 20 90 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
@@ -290,7 +290,7 @@ argument:
 
 --------------------
 class: FL_INPUT
-type: FLOAT_INPUT
+type: FL_FLOAT_INPUT
 box: 380 40 90 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
@@ -308,7 +308,7 @@ argument:
 
 --------------------
 class: FL_INPUT
-type: FLOAT_INPUT
+type: FL_FLOAT_INPUT
 box: 380 60 90 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
@@ -326,7 +326,7 @@ argument:
 
 --------------------
 class: FL_INPUT
-type: FLOAT_INPUT
+type: FL_FLOAT_INPUT
 box: 380 80 90 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
@@ -344,7 +344,7 @@ argument:
 
 --------------------
 class: FL_INPUT
-type: INT_INPUT
+type: FL_INT_INPUT
 box: 550 20 50 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
@@ -362,7 +362,7 @@ argument:
 
 --------------------
 class: FL_INPUT
-type: INT_INPUT
+type: FL_INT_INPUT
 box: 550 40 50 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
@@ -380,7 +380,7 @@ argument:
 
 --------------------
 class: FL_INPUT
-type: INT_INPUT
+type: FL_INT_INPUT
 box: 550 60 50 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
@@ -398,7 +398,7 @@ argument:
 
 --------------------
 class: FL_INPUT
-type: INT_INPUT
+type: FL_INT_INPUT
 box: 550 80 50 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
@@ -416,7 +416,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 10 20 100 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -434,7 +434,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 10 40 100 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_TOP_BCOL
@@ -452,7 +452,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 10 60 100 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -470,7 +470,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 10 80 100 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -488,7 +488,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 300 20 80 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -506,7 +506,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 300 40 80 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -524,7 +524,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 300 60 80 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -542,7 +542,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 300 80 80 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -560,7 +560,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 480 40 70 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -578,7 +578,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 480 60 70 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -596,7 +596,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 480 80 70 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -614,7 +614,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 480 20 70 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -632,7 +632,7 @@ argument:
 
 --------------------
 class: FL_INPUT
-type: SECRET_INPUT
+type: FL_SECRET_INPUT
 box: 110 110 180 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
@@ -650,7 +650,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 10 110 100 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -674,7 +674,7 @@ Number of Objects: 3
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 400 330
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -692,7 +692,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 0 400 30
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -710,7 +710,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 30 400 300
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -734,7 +734,7 @@ Number of Objects: 26
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 270 330
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -752,7 +752,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 150 20 85 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -770,7 +770,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 25 135 85 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -788,7 +788,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: NORMAL_BUTTON
+type: FL_NORMAL_BUTTON
 box: 40 290 70 30
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -806,7 +806,7 @@ argument:
 
 --------------------
 class: FL_BITMAPBUTTON
-type: RETURN_BUTTON
+type: FL_RETURN_BUTTON
 box: 160 290 70 30
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -824,7 +824,7 @@ argument:
 
 --------------------
 class: FL_CHECKBUTTON
-type: PUSH_BUTTON
+type: FL_PUSH_BUTTON
 box: 20 25 120 20
 boxtype: FL_NO_BOX
 colors: FL_RED FL_BLUE
@@ -842,7 +842,7 @@ argument:
 
 --------------------
 class: FL_BITMAPBUTTON
-type: PUSH_BUTTON
+type: FL_PUSH_BUTTON
 box: 60 90 22 22
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_BLUE
@@ -860,11 +860,11 @@ argument:
 
 --------------------
 class: FL_FRAME
-type: ENGRAVED_FRAME
+type: FL_ENGRAVED_FRAME
 box: 150 40 104 134
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
-alignment: FL_ALIGN_TOP
+alignment: FL_ALIGN_TOP|FL_ALIGN_INSIDE
 style: FL_NORMAL_STYLE
 size: FL_DEFAULT_SIZE
 lcol: FL_BLACK
@@ -878,11 +878,11 @@ argument:
 
 --------------------
 class: FL_FRAME
-type: ENGRAVED_FRAME
+type: FL_ENGRAVED_FRAME
 box: 25 155 102 36
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
-alignment: FL_ALIGN_TOP
+alignment: FL_ALIGN_TOP|FL_ALIGN_INSIDE
 style: FL_NORMAL_STYLE
 size: FL_DEFAULT_SIZE
 lcol: FL_BLACK
@@ -896,7 +896,7 @@ argument:
 
 --------------------
 class: FL_BITMAPBUTTON
-type: RADIO_BUTTON
+type: FL_RADIO_BUTTON
 box: 30 160 22 22
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_BLUE
@@ -914,7 +914,7 @@ argument: 1
 
 --------------------
 class: FL_BITMAPBUTTON
-type: RADIO_BUTTON
+type: FL_RADIO_BUTTON
 box: 52 160 22 22
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_BLUE
@@ -932,7 +932,7 @@ argument: 2
 
 --------------------
 class: FL_BITMAPBUTTON
-type: RADIO_BUTTON
+type: FL_RADIO_BUTTON
 box: 74 160 22 22
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_BLUE
@@ -950,7 +950,7 @@ argument: 3
 
 --------------------
 class: FL_BITMAPBUTTON
-type: RADIO_BUTTON
+type: FL_RADIO_BUTTON
 box: 96 160 22 22
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_BLUE
@@ -968,7 +968,7 @@ argument: 4
 
 --------------------
 class: FL_CHECKBUTTON
-type: RADIO_BUTTON
+type: FL_RADIO_BUTTON
 box: 160 50 80 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
@@ -986,7 +986,7 @@ argument: 1
 
 --------------------
 class: FL_CHECKBUTTON
-type: RADIO_BUTTON
+type: FL_RADIO_BUTTON
 box: 160 80 80 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
@@ -1004,7 +1004,7 @@ argument: 2
 
 --------------------
 class: FL_CHECKBUTTON
-type: RADIO_BUTTON
+type: FL_RADIO_BUTTON
 box: 160 110 80 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
@@ -1022,7 +1022,7 @@ argument: 3
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 25 115 90 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -1040,7 +1040,7 @@ argument:
 
 --------------------
 class: FL_CHECKBUTTON
-type: PUSH_BUTTON
+type: FL_PUSH_BUTTON
 box: 20 50 120 20
 boxtype: FL_NO_BOX
 colors: FL_RED FL_BLUE
@@ -1058,7 +1058,7 @@ argument:
 
 --------------------
 class: FL_CHECKBUTTON
-type: RADIO_BUTTON
+type: FL_RADIO_BUTTON
 box: 160 140 80 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
@@ -1076,7 +1076,7 @@ argument: 4
 
 --------------------
 class: FL_CHECKBUTTON
-type: PUSH_BUTTON
+type: FL_PUSH_BUTTON
 box: 20 230 80 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
@@ -1094,7 +1094,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 20 210 110 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -1112,7 +1112,7 @@ argument:
 
 --------------------
 class: FL_CHECKBUTTON
-type: PUSH_BUTTON
+type: FL_PUSH_BUTTON
 box: 20 250 80 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
@@ -1130,7 +1130,7 @@ argument:
 
 --------------------
 class: FL_CHECKBUTTON
-type: PUSH_BUTTON
+type: FL_PUSH_BUTTON
 box: 100 230 80 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
@@ -1148,7 +1148,7 @@ argument:
 
 --------------------
 class: FL_CHECKBUTTON
-type: PUSH_BUTTON
+type: FL_PUSH_BUTTON
 box: 100 250 80 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
@@ -1166,7 +1166,7 @@ argument:
 
 --------------------
 class: FL_CHECKBUTTON
-type: PUSH_BUTTON
+type: FL_PUSH_BUTTON
 box: 180 230 80 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
@@ -1184,7 +1184,7 @@ argument:
 
 --------------------
 class: FL_CHECKBUTTON
-type: PUSH_BUTTON
+type: FL_PUSH_BUTTON
 box: 180 250 80 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
@@ -1208,7 +1208,7 @@ Number of Objects: 3
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 400 330
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -1226,7 +1226,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 0 400 30
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -1244,7 +1244,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 30 400 300
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -1268,7 +1268,7 @@ Number of Objects: 5
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 400 330
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -1286,7 +1286,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 0 320 30
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -1304,7 +1304,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 30 400 300
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -1322,7 +1322,7 @@ argument:
 
 --------------------
 class: FL_INPUT
-type: FLOAT_INPUT
+type: FL_FLOAT_INPUT
 box: 370 10 30 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
@@ -1340,7 +1340,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 320 10 50 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -1364,7 +1364,7 @@ Number of Objects: 6
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 230 170
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -1382,7 +1382,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: NORMAL_BUTTON
+type: FL_NORMAL_BUTTON
 box: 30 140 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -1400,7 +1400,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: RETURN_BUTTON
+type: FL_RETURN_BUTTON
 box: 130 140 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -1418,7 +1418,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 20 20 190 30
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -1436,7 +1436,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 20 60 190 30
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -1454,7 +1454,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 20 100 190 30
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -1478,7 +1478,7 @@ Number of Objects: 3
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 400 330
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -1496,7 +1496,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 0 400 30
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -1514,7 +1514,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 30 400 300
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -1538,7 +1538,7 @@ Number of Objects: 3
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 310 340
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -1556,7 +1556,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 0 315 30
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -1574,7 +1574,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 30 315 315
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -1598,7 +1598,7 @@ Number of Objects: 5
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 200 90
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -1616,7 +1616,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: NORMAL_BUTTON
+type: FL_NORMAL_BUTTON
 box: 30 60 50 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -1634,7 +1634,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: RETURN_BUTTON
+type: FL_RETURN_BUTTON
 box: 120 60 50 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -1652,7 +1652,7 @@ argument:
 
 --------------------
 class: FL_INPUT
-type: INT_INPUT
+type: FL_INT_INPUT
 box: 140 20 40 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
@@ -1670,7 +1670,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 10 20 130 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -1694,7 +1694,7 @@ Number of Objects: 2
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 100 100
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -1712,7 +1712,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: NORMAL_BUTTON
+type: FL_NORMAL_BUTTON
 box: 10 35 80 30
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -1736,7 +1736,7 @@ Number of Objects: 23
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 310 390
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -1754,7 +1754,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 20 140 180 140
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -1772,7 +1772,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: RETURN_BUTTON
+type: FL_RETURN_BUTTON
 box: 220 280 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -1790,7 +1790,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: NORMAL_BUTTON
+type: FL_NORMAL_BUTTON
 box: 220 310 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -1808,7 +1808,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: NORMAL_BUTTON
+type: FL_NORMAL_BUTTON
 box: 250 140 40 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -1826,7 +1826,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 20 20 40 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -1844,7 +1844,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 20 310 180 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -1862,7 +1862,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 60 20 200 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -1880,7 +1880,7 @@ argument:
 
 --------------------
 class: FL_CHECKBUTTON
-type: PUSH_BUTTON
+type: FL_PUSH_BUTTON
 box: 60 80 130 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
@@ -1898,7 +1898,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 20 290 180 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -1916,7 +1916,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 20 50 40 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -1934,7 +1934,7 @@ argument:
 
 --------------------
 class: FL_INPUT
-type: NORMAL_INPUT
+type: FL_NORMAL_INPUT
 box: 60 50 200 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_MCOL
@@ -1952,7 +1952,7 @@ argument:
 
 --------------------
 class: FL_TEXT
-type: NORMAL_TEXT
+type: FL_NORMAL_TEXT
 box: 20 350 60 20
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
@@ -1970,11 +1970,11 @@ argument:
 
 --------------------
 class: FL_FRAME
-type: ENGRAVED_FRAME
+type: FL_ENGRAVED_FRAME
 box: 90 340 192 36
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
-alignment: FL_ALIGN_TOP
+alignment: FL_ALIGN_TOP|FL_ALIGN_INSIDE
 style: FL_NORMAL_STYLE
 size: FL_DEFAULT_SIZE
 lcol: FL_BLACK
@@ -1988,7 +1988,7 @@ argument:
 
 --------------------
 class: FL_CHECKBUTTON
-type: RADIO_BUTTON
+type: FL_RADIO_BUTTON
 box: 100 345 50 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
@@ -2006,7 +2006,7 @@ argument: TestChooseSaveFile::kGIFFormat
 
 --------------------
 class: FL_CHECKBUTTON
-type: RADIO_BUTTON
+type: FL_RADIO_BUTTON
 box: 210 345 60 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
@@ -2024,7 +2024,7 @@ argument: TestChooseSaveFile::kJPEGFormat
 
 --------------------
 class: FL_CHECKBUTTON
-type: RADIO_BUTTON
+type: FL_RADIO_BUTTON
 box: 150 345 50 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_YELLOW
@@ -2042,7 +2042,7 @@ argument: TestChooseSaveFile::kPNGFormat
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 260 20 30 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -2060,7 +2060,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 260 50 30 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -2078,7 +2078,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: NORMAL_BUTTON
+type: FL_NORMAL_BUTTON
 box: 220 140 30 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -2096,7 +2096,7 @@ argument:
 
 --------------------
 class: FL_BUTTON
-type: NORMAL_BUTTON
+type: FL_NORMAL_BUTTON
 box: 220 170 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
@@ -2114,7 +2114,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 220 190 70 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -2132,7 +2132,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 20 110 180 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -2149,14 +2149,14 @@ callback:
 argument: "/"
 
 =============== FORM ===============
-Name: TestStrTableDirector--tablelayout--encl
+Name: TestStrTableDirector__tablelayout__encl
 Width: 400
 Height: 300
 Number of Objects: 4
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 400 300
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -2174,7 +2174,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 10 20 390 280
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -2192,7 +2192,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 10 0 390 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -2210,7 +2210,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 20 10 280
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -2227,14 +2227,14 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: TestFloatTableDirector--tablelayout--encl
+Name: TestFloatTableDirector__tablelayout__encl
 Width: 400
 Height: 300
 Number of Objects: 4
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 400 300
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -2252,7 +2252,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 10 20 390 280
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -2270,7 +2270,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 10 0 390 20
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -2288,7 +2288,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 20 10 280
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -2312,7 +2312,7 @@ Number of Objects: 3
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 400 330
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -2330,7 +2330,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 0 400 30
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -2348,7 +2348,7 @@ argument:
 
 --------------------
 class: FL_BOX
-type: NO_BOX
+type: FL_NO_BOX
 box: 0 30 400 300
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
@@ -2372,7 +2372,7 @@ Number of Objects: 5
 
 --------------------
 class: FL_BOX
-type: FLAT_BOX
+type: FL_FLAT_BOX
 box: 0 0 230 240
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
@@ -2390,7 +2390,7 @@ argument:
 
 --------------------
 class: FL_SLIDER
-type: VERT_BROWSER_SLIDER
+type: FL_VERT_BROWSER_SLIDER
 box: 60 20 30 110
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_COL1
@@ -2405,10 +2405,11 @@ gravity: FL_West FL_NoGravity
 name: itsMaxSlider
 callback: 
 argument: 
+return: FL_RETURN_CHANGED
 
 --------------------
 class: FL_SLIDER
-type: VERT_FILL_SLIDER
+type: FL_VERT_FILL_SLIDER
 box: 150 20 20 110
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_COL1
@@ -2423,11 +2424,12 @@ gravity: FL_East FL_NoGravity
 name: itsMaxLevel
 callback: 
 argument: 
-	slsize: 0.15
+return: FL_RETURN_CHANGED
+    slsize: 0.15
 
 --------------------
 class: FL_SLIDER
-type: HOR_BROWSER_SLIDER
+type: FL_HOR_BROWSER_SLIDER
 box: 20 150 190 30
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_COL1
@@ -2442,10 +2444,11 @@ gravity: FL_South FL_NoGravity
 name: itsSlider
 callback: 
 argument: 
+return: FL_RETURN_CHANGED
 
 --------------------
 class: FL_SLIDER
-type: HOR_FILL_SLIDER
+type: FL_HOR_FILL_SLIDER
 box: 20 200 190 20
 boxtype: FL_DOWN_BOX
 colors: FL_COL1 FL_COL1
@@ -2460,7 +2463,8 @@ gravity: FL_South FL_NoGravity
 name: itsLevel
 callback: 
 argument: 
-	slsize: 0.15
+return: FL_RETURN_CHANGED
+    slsize: 0.15
 
 ==============================
 create_the_forms

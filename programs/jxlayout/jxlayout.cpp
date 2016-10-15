@@ -39,7 +39,7 @@ static const JCharacter* kBeginCodeDelimiterPrefix = "// begin ";
 static const JCharacter* kEndCodeDelimiterPrefix   = "// end ";
 
 static const JCharacter* kDefaultDelimTag = "JXLayout";
-static const JCharacter* kCustomTagMarker = "--";
+static const JCharacter* kCustomTagMarker = "__";
 const JSize kCustomTagMarkerLength        = strlen(kCustomTagMarker);
 
 static const JCharacter* kDefTopEnclVarName = "window";
@@ -239,62 +239,64 @@ main
 	while (!input.eof() && !input.fail())
 		{
 		const JString line = JReadLine(input);
-		if (line == kBeginFormLine)
+		if (line != kBeginFormLine)
 			{
-			// get form name
+			continue;
+			}
 
-			JString formName = JReadLine(input);
-			RemoveIdentifier(kFormNameMarker, &formName);
+		// get form name
 
-			// look for custom tag
+		JString formName = JReadLine(input);
+		RemoveIdentifier(kFormNameMarker, &formName);
 
-			const JSize formNameLength = formName.GetLength();
-			JString tagName            = kDefaultDelimTag;
-			JString enclName;
-			JIndex tagMarkerIndex;
-			if (formName.LocateSubstring(kCustomTagMarker, &tagMarkerIndex) &&
-				tagMarkerIndex <= formNameLength - kCustomTagMarkerLength)
+		// look for custom tag
+
+		const JSize formNameLength = formName.GetLength();
+		JString tagName            = kDefaultDelimTag;
+		JString enclName;
+		JIndex tagMarkerIndex;
+		if (formName.LocateSubstring(kCustomTagMarker, &tagMarkerIndex) &&
+			tagMarkerIndex <= formNameLength - kCustomTagMarkerLength)
+			{
+			tagName = formName.GetSubstring(
+				tagMarkerIndex + kCustomTagMarkerLength, formNameLength);
+			formName.RemoveSubstring(tagMarkerIndex, formNameLength);
+
+			// get enclosure name
+
+			const JSize tagNameLength = tagName.GetLength();
+			JIndex enclMarkerIndex;
+			if (tagName.LocateSubstring(kCustomTagMarker, &enclMarkerIndex) &&
+				enclMarkerIndex <= tagNameLength - kCustomTagMarkerLength)
 				{
-				tagName = formName.GetSubstring(
-					tagMarkerIndex + kCustomTagMarkerLength, formNameLength);
-				formName.RemoveSubstring(tagMarkerIndex, formNameLength);
+				enclName = tagName.GetSubstring(
+					enclMarkerIndex + kCustomTagMarkerLength, tagNameLength);
+				tagName.RemoveSubstring(enclMarkerIndex, tagNameLength);
+				}
 
-				// get enclosure name
+			// report errors
 
-				const JSize tagNameLength = tagName.GetLength();
-				JIndex enclMarkerIndex;
-				if (tagName.LocateSubstring(kCustomTagMarker, &enclMarkerIndex) &&
-					enclMarkerIndex <= tagNameLength - kCustomTagMarkerLength)
-					{
-					enclName = tagName.GetSubstring(
-						enclMarkerIndex + kCustomTagMarkerLength, tagNameLength);
-					tagName.RemoveSubstring(enclMarkerIndex, tagNameLength);
-					}
-
-				// report errors
-
-				if (tagName != kDefaultDelimTag)
-					{
-					if (enclName.IsEmpty())
-						{
-						cerr << formName << ", " << tagName;
-						cerr << ": no enclosure specified" << endl;
-						}
-					}
-				else if (!enclName.IsEmpty() && enclName != kDefTopEnclVarName)
+			if (tagName != kDefaultDelimTag)
+				{
+				if (enclName.IsEmpty())
 					{
 					cerr << formName << ", " << tagName;
-					cerr << ": not allowed to specify enclosure other than ";
-					cerr << kDefTopEnclVarName << endl;
+					cerr << ": no enclosure specified" << endl;
 					}
 				}
-
-			if (ShouldGenerateForm(formName, userFormList))
+			else if (!enclName.IsEmpty() && enclName != kDefTopEnclVarName)
 				{
-				GenerateForm(input, formName, tagName, enclName,
-							 codePath, stringPath, codeSuffix, headerSuffix, &backupList);
-				changed = kJTrue;
+				cerr << formName << ", " << tagName;
+				cerr << ": not allowed to specify enclosure other than ";
+				cerr << kDefTopEnclVarName << endl;
 				}
+			}
+
+		if (ShouldGenerateForm(formName, userFormList))
+			{
+			GenerateForm(input, formName, tagName, enclName,
+						 codePath, stringPath, codeSuffix, headerSuffix, &backupList);
+			changed = kJTrue;
 			}
 		}
 
@@ -765,9 +767,9 @@ JIndex i;
 			while (!cbArgExtra.IsEmpty());
 
 		// don't bother to generate code for initial box
-		// if it is FL_BOX, FLAT_BOX, FL_COL1
+		// if it is FL_BOX, FL_FLAT_BOX, FL_COL1
 
-		if (i==1 && flClass == "FL_BOX" && flType == "FLAT_BOX" && col1 == "FL_COL1")
+		if (i==1 && flClass == "FL_BOX" && flType == "FL_FLAT_BOX" && col1 == "FL_COL1")
 			{
 			rectList.RemoveElement(objCount);
 			isInstanceVar.RemoveElement(objCount);
@@ -1181,7 +1183,7 @@ GetConstructor
 	JString*		argList
 	)
 {
-	if (flClass == "FL_BOX" && flType == "NO_BOX" && !label->IsEmpty())
+	if (flClass == "FL_BOX" && flType == "FL_NO_BOX" && !label->IsEmpty())
 		{
 		const JBoolean ok = SplitClassNameAndArgs(*label, className, argList);
 		label->Clear();
