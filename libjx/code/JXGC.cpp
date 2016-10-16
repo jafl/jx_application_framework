@@ -639,7 +639,7 @@ JXGC::DrawString
 		else
 			{
 			assert( xfont.type == JXFontManager::kTrueType );
-			XftDrawString8(fdrawable, &color, xfont.xftrue, x,y, (FcChar8*) (str + offset), count);
+			XftDrawStringUtf8(fdrawable, &color, xfont.xftt, x,y, (FcChar8*) (str + offset), count);
 			}
 
 		if (offset + count < length)

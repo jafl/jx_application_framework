@@ -112,8 +112,8 @@ JXFontManager::IsMonospace
 		assert( xfont.type == kTrueType );
 
 		XGlyphInfo g1, g2;
-		XftTextExtents8(*itsDisplay, xfont.xftrue, (FcChar8*) "M", 1, &g1);
-		XftTextExtents8(*itsDisplay, xfont.xftrue, (FcChar8*) "|", 1, &g2);
+		XftTextExtentsUtf8(*itsDisplay, xfont.xftt, (FcChar8*) "M", 1, &g1);
+		XftTextExtentsUtf8(*itsDisplay, xfont.xftt, (FcChar8*) "|", 1, &g2);
 		return (g1.xOff == g2.xOff ? g1.xOff : 0);
 	}
 }
@@ -335,15 +335,13 @@ JXFontManager::GetMonospaceFontNames
 				FcStrFree(s);
 				continue;
 				}
-
-#endif
-
+#else
 			if (IsUseless(name))
 				{
 				FcStrFree(s);
 				continue;
 				}
-
+#endif
 			JBoolean isDuplicate;
 			const JIndex index =
 				allFontNames.GetInsertionSortIndex(&name, &isDuplicate);
@@ -397,14 +395,12 @@ JXFontManager::GetMonospaceFontNames
 					{
 					continue;
 					}
-
-#endif
-
+#else
 				if (IsUseless(name))
 					{
 					continue;
 					}
-
+#endif
 				JBoolean isDuplicate;
 				const JIndex index =
 					allFontNames.GetInsertionSortIndex(&name, &isDuplicate);
@@ -627,7 +623,7 @@ JXFontManager::GetFontID
 			}
 		}
 
-	// falling through means we need to create a jnew entry
+	// falling through means we need to create a new entry
 
 	const JString xFontName = ConvertToXFontName(name);
 
@@ -679,7 +675,7 @@ JXFontManager::GetFontID
 			}
 		}
 
-	// falling through means we need to create a jnew entry
+	// falling through means we need to create a new entry
 
 	FontInfo info;
 
@@ -689,7 +685,7 @@ JXFontManager::GetFontID
 	if (xft != NULL)
 		{
 		info.xfont.type   = kTrueType;
-		info.xfont.xftrue = xft;
+		info.xfont.xftt = xft;
 		}
 	else
 
@@ -747,7 +743,7 @@ JXFontManager::GetNewFont
 		if (xft != NULL)
 			{
 			xfont->type   = kTrueType;
-			xfont->xftrue = xft;
+			xfont->xftt = xft;
 			return kJTrue;
 			}
 		}
@@ -1055,7 +1051,7 @@ JXFontManager::GetLineHeight
 		if (info.ascent == 0)
 			{
 			XGlyphInfo g;
-			XftTextExtents8(*itsDisplay, info.xfont.xftrue, (FcChar8*) "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789|_", 64, &g);
+			XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789|_", 64, &g);
 			info.ascent  = g.y + 1 + size/10;
 			info.descent = g.height - g.y;
 			itsFontList->SetElement(fontID, info);
@@ -1101,7 +1097,7 @@ JXFontManager::GetCharWidth
 		assert( info.xfont.type == kTrueType );
 
 		XGlyphInfo g;
-		XftTextExtents8(*itsDisplay, info.xfont.xftrue, (FcChar8*) &c, 1, &g);
+		XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) &c, 1, &g);
 		return g.xOff;
 		}
 }
@@ -1143,7 +1139,7 @@ JXFontManager::GetStringWidth
 			else
 				{
 				assert( info.xfont.type == kTrueType );
-				XftTextExtents8(*itsDisplay, info.xfont.xftrue, (FcChar8*) (str + offset), count, &g);
+				XftTextExtentsUtf8(*itsDisplay, info.xfont.xftt, (FcChar8*) (str + offset), count, &g);
 				width += g.xOff;
 				}
 
@@ -1231,6 +1227,6 @@ JXFontManager::XFont::Free
 	else
 	{
 		assert( type == kTrueType );
-		XftFontClose(*display, xftrue);
+		XftFontClose(*display, xftt);
 	}
 }

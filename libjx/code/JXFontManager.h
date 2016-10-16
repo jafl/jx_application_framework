@@ -38,11 +38,11 @@ public:
 	{
 		FontType		type;
 		XFontStruct*	xfstd;
-		XftFont*		xftrue;
+		XftFont*		xftt;
 
 		XFont()
 			:
-			type(kStdType), xfstd(NULL), xftrue(NULL)
+			type(kStdType), xfstd(NULL), xftt(NULL)
 		{ };
 
 		void Free(JXDisplay* display);
