@@ -21,11 +21,11 @@ class JStrValue
 {
 public:
 
-	const JCharacter* key;
-	V                 value;
+	const JUtf8Byte* key;
+	V                value;
 
 	JStrValue();
-	JStrValue(const JCharacter* k, const V& v);
+	JStrValue(const JUtf8Byte* k, const V& v);
 };
 
 #include <JStrValue.tmpl>

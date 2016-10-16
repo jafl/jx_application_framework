@@ -28,32 +28,32 @@ public:
 				  const JBoolean copyKeys = kJTrue);
 	virtual ~JStringPtrMap();
 
-	JBoolean GetElement(const JCharacter* const key, V** ptr);
-	JBoolean GetElement(const JCharacter* const key, const V** ptr) const;
+	JBoolean GetElement(const JUtf8Byte* const key, V** ptr);
+	JBoolean GetElement(const JUtf8Byte* const key, const V** ptr) const;
 
-	JBoolean SetElement(const JCharacter* const key, V* ptr,
+	JBoolean SetElement(const JUtf8Byte* const key, V* ptr,
 						const JPtrArrayT::SetElementAction action,
 						const JStringMapT::SetType type = JStringMapT::kAlways);
-	JBoolean SetNewElement(const JCharacter* const key, V* ptr);	// avoid shadowing
-	JBoolean SetOldElement(const JCharacter* const key, V* ptr,
+	JBoolean SetNewElement(const JUtf8Byte* const key, V* ptr);	// avoid shadowing
+	JBoolean SetOldElement(const JUtf8Byte* const key, V* ptr,
 						   const JPtrArrayT::SetElementAction action);
-	JBoolean SetContains(const JCharacter* const key, V* ptr,
+	JBoolean SetContains(const JUtf8Byte* const key, V* ptr,
 						 const JPtrArrayT::SetElementAction action);
 
 	// these insert a *copy* of the object into the array
 	// (only available if template instantiated with #define JStringPtrMapCopy)
 
-	JBoolean SetElement(const JCharacter* const key, const V& data,
+	JBoolean SetElement(const JUtf8Byte* const key, const V& data,
 						const JPtrArrayT::SetElementAction action,
 						const JStringMapT::SetType type = JStringMapT::kAlways);
-	JBoolean SetNewElement(const JCharacter* const key, const V& data);
-	JBoolean SetOldElement(const JCharacter* const key, const V& data,
+	JBoolean SetNewElement(const JUtf8Byte* const key, const V& data);
+	JBoolean SetOldElement(const JUtf8Byte* const key, const V& data,
 						   const JPtrArrayT::SetElementAction action);
-	JBoolean SetContains(const JCharacter* const key, const V& data,
+	JBoolean SetContains(const JUtf8Byte* const key, const V& data,
 						 const JPtrArrayT::SetElementAction action);
 
-	JBoolean	DeleteElement(const JCharacter* const key);
-	JBoolean	DeleteElementAsArray(const JCharacter* const key);
+	JBoolean	DeleteElement(const JUtf8Byte* const key);
+	JBoolean	DeleteElementAsArray(const JUtf8Byte* const key);
 
 	void	CleanOut();		// safest
 	void	DeleteAll();
@@ -90,8 +90,8 @@ template <class V>
 inline JBoolean
 JStringPtrMap<V>::GetElement
 	(
-	const JCharacter* const key,
-	V**                     ptr
+	const JUtf8Byte* const key,
+	V**                    ptr
 	)
 {
 	return JStringMap<V*>::GetElement(key, ptr);
@@ -101,8 +101,8 @@ template <class V>
 inline JBoolean
 JStringPtrMap<V>::GetElement
 	(
-	const JCharacter* const key,
-	const V**               ptr
+	const JUtf8Byte* const key,
+	const V**              ptr
 	)
 	const
 {
@@ -121,7 +121,7 @@ template <class V>
 inline JBoolean
 JStringPtrMap<V>::SetElement
 	(
-	const JCharacter* const            key,
+	const JUtf8Byte* const             key,
 	V*                                 ptr,
 	const JPtrArrayT::SetElementAction action,
 	const JStringMapT::SetType         type // = kAlways
@@ -135,8 +135,8 @@ template <class V>
 inline JBoolean
 JStringPtrMap<V>::SetNewElement
 	(
-	const JCharacter* const key,
-	V*                      ptr
+	const JUtf8Byte* const key,
+	V*                     ptr
 	)
 {
 	return JStringMap<V*>::SetNewElement(key, ptr);
@@ -146,7 +146,7 @@ template <class V>
 inline JBoolean
 JStringPtrMap<V>::SetOldElement
 	(
-	const JCharacter* const            key,
+	const JUtf8Byte* const             key,
 	V*                                 ptr,
 	const JPtrArrayT::SetElementAction action
 	)
@@ -158,7 +158,7 @@ template <class V>
 inline JBoolean
 JStringPtrMap<V>::SetContains
 	(
-	const JCharacter* const            key,
+	const JUtf8Byte* const             key,
 	V*                                 ptr,
 	const JPtrArrayT::SetElementAction action
 	)
@@ -177,7 +177,7 @@ template <class V>
 inline JBoolean
 JStringPtrMap<V>::DeleteElement
 	(
-	const JCharacter* const key
+	const JUtf8Byte* const key
 	)
 {
 	return JStringMap<V*>::RemoveElement(key, JPtrArrayT::kDelete);
@@ -192,7 +192,7 @@ template <class V>
 inline JBoolean
 JStringPtrMap<V>::DeleteElementAsArray
 	(
-	const JCharacter* const key
+	const JUtf8Byte* const key
 	)
 {
 	return JStringMap<V*>::RemoveElement(key, JPtrArrayT::kDeleteAsArray);

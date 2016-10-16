@@ -80,7 +80,7 @@ template <class V>
 JBoolean
 JStringMap<V>::Contains
 	(
-	const JCharacter* const key
+	const JUtf8Byte* const key
 	)
 	const
 {
@@ -104,8 +104,8 @@ template <class V>
 JBoolean
 JStringMap<V>::GetElement
 	(
-	const JCharacter* const key,
-	V*                      value
+	const JUtf8Byte* const key,
+	V*                     value
 	)
 	const
 {
@@ -135,7 +135,7 @@ template <class V>
 JBoolean
 JStringMap<V>::SetElement
 	(
-	const JCharacter* const            key,
+	const JUtf8Byte* const             key,
 	const V&                           value,
 	const JPtrArrayT::SetElementAction action,
 	const JStringMapT::SetType         type,
@@ -173,7 +173,7 @@ JStringMap<V>::SetElement
 
 		if (itsCopyKeysFlag)
 			{
-			JCharacter* myKey = jnew JCharacter[strlen(key)+1];
+			JUtf8Byte* myKey = jnew JUtf8Byte[strlen(key)+1];
 			assert(myKey != NULL);
 			strcpy(myKey, key);
 			hashEntry.key = myKey;
@@ -213,7 +213,7 @@ template <class V>
 JBoolean
 JStringMap<V>::RemoveElement
 	(
-	const JCharacter* const            key,
+	const JUtf8Byte* const             key,
 	const JPtrArrayT::SetElementAction action
 	)
 {
@@ -224,7 +224,7 @@ JStringMap<V>::RemoveElement
 		JHashCursor< JStrValue<V> >* cursor = JHashTable< JStrValue<V> >::GetCursor();
 		if (itsCopyKeysFlag)
 			{
-			jdelete[] const_cast<JCharacter*>(cursor->GetValue().key);
+			jdelete[] const_cast<JUtf8Byte*>(cursor->GetValue().key);
 			}
 		cursor->Remove();
 		return kJTrue;
@@ -258,7 +258,7 @@ JStringMap<V>::RemoveAll
 			if (itsCopyKeysFlag)
 				{
 				// delete, but don't mark empty to avoid multiple resizing
-				jdelete[] const_cast<JCharacter*>(cursor->GetValue().key);
+				jdelete[] const_cast<JUtf8Byte*>(cursor->GetValue().key);
 				}
 			}
 		}

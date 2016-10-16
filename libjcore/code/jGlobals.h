@@ -22,14 +22,14 @@ class JGetCurrentColormap;
 class JColormap;
 class JWebBrowser;
 
-void JInitCore(JAssertBase* ah = NULL, const JCharacter* appSignature = NULL,
-			   const JCharacter** defaultStringData = NULL, JUserNotification* un = NULL,
+void JInitCore(JAssertBase* ah = NULL, const JUtf8Byte* appSignature = NULL,
+			   const JUtf8Byte** defaultStringData = NULL, JUserNotification* un = NULL,
 			   JChooseSaveFile* csf = NULL, JCreateProgressDisplay* cpg = NULL,
 			   JGetCurrentFontManager* gcfm = NULL,
 			   JGetCurrentColormap* gcc = NULL,
-			   const JCharacter* defaultFontName = NULL,
-			   const JCharacter* greekFontName = NULL,
-			   const JCharacter* monospaceFontName = NULL);
+			   const JUtf8Byte* defaultFontName = NULL,
+			   const JUtf8Byte* greekFontName = NULL,
+			   const JUtf8Byte* monospaceFontName = NULL);
 void JSetWebBrowser(JWebBrowser* webBrowser);
 
 void JDeleteGlobals();
@@ -45,13 +45,13 @@ JCreateProgressDisplay*	JGetCreatePG();
 const JFontManager*		JGetCurrFontManager();
 JColormap*				JGetCurrColormap();
 
-const JCharacter*		JGetDefaultFontName();
-const JCharacter*		JGetGreekFontName();
-const JCharacter*		JGetMonospaceFontName();
+const JUtf8Byte*		JGetDefaultFontName();
+const JUtf8Byte*		JGetGreekFontName();
+const JUtf8Byte*		JGetMonospaceFontName();
 
-JBoolean	JGetJDataDirectories(const JCharacter* dirName,
+JBoolean	JGetJDataDirectories(const JUtf8Byte* dirName,
 								 JString* sysDir, JString* userDir);
-JBoolean	JGetDataDirectories(const JCharacter* signature, const JCharacter* dirName,
+JBoolean	JGetDataDirectories(const JUtf8Byte* signature, const JUtf8Byte* dirName,
 								JString* sysDir, JString* userDir);
 
 /******************************************************************************
@@ -68,7 +68,7 @@ JNewPG()
 inline const JString&
 JGetString
 	(
-	const JCharacter* id
+	const JUtf8Byte* id
 	)
 {
 	return (JGetStringManager())->Get(id);
@@ -77,8 +77,8 @@ JGetString
 inline JString
 JGetString
 	(
-	const JCharacter*	id,
-	const JCharacter*	map[],
+	const JUtf8Byte*	id,
+	const JUtf8Byte*	map[],
 	const JSize			size
 	)
 {

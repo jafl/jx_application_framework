@@ -8,8 +8,10 @@
 #ifndef _H_JStringIterator
 #define _H_JStringIterator
 
-#include <JUtf8Character.h>
 #include <JBroadcaster.h>
+#include <JCharacterRange.h>
+#include <JUtf8ByteRange.h>
+#include <JUtf8Character.h>
 
 class JString;
 
@@ -39,13 +41,42 @@ public:
 	JBoolean	AtBeginning();
 	JBoolean	AtEnd();
 
+	JBoolean	LocateNext(const JString& str, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	LocateNext(const JUtf8Character* str, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	LocateNext(const JUtf8Character* str, const JSize length, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	LocateNext(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
+
+	JBoolean	LocatePrev(const JString& str, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	LocatePrev(const JUtf8Character* str, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	LocatePrev(const JUtf8Character* str, const JSize length, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	LocatePrev(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
+
+	JString		GetSubstring(const JIndex firstCharIndex, const JIndex lastCharIndex) const;
+	JString		GetSubstring(const JCharacterRange& range) const;	// allows empty range
+
 	// only allowed if constructed from non-const JString*
 
 	JBoolean	SetPrev(const JUtf8Character& data);
 	JBoolean	SetNext(const JUtf8Character& data);
 
-	JBoolean	RemovePrev();
-	JBoolean	RemoveNext();
+	JBoolean	RemovePrev(const JSize count = 1);
+	JBoolean	RemoveNext(const JSize count = 1);
+
+	void		ReplaceNext(const JSize count, const JString& str);
+	void		ReplaceNext(const JSize count, const JString& str, const JCharacterRange& range);
+	void		ReplaceNext(const JSize count, const JUtf8Byte* str);
+	void		ReplaceNext(const JSize count, const JUtf8Byte* str, const JSize length);
+	void		ReplaceNext(const JSize count, const JUtf8Byte* str, const JUtf8ByteRange& range);
+	void		ReplaceNext(const JSize count, const std::string& str);
+	void		ReplaceNext(const JSize count, const std::string& str, const JUtf8ByteRange& range);
+
+	void		ReplacePrev(const JSize count, const JString& str);
+	void		ReplacePrev(const JSize count, const JString& str, const JCharacterRange& range);
+	void		ReplacePrev(const JSize count, const JUtf8Byte* str);
+	void		ReplacePrev(const JSize count, const JUtf8Byte* str, const JSize length);
+	void		ReplacePrev(const JSize count, const JUtf8Byte* str, const JUtf8ByteRange& range);
+	void		ReplacePrev(const JSize count, const std::string& str);
+	void		ReplacePrev(const JSize count, const std::string& str, const JUtf8ByteRange& range);
 
 protected:
 
@@ -55,15 +86,15 @@ protected:
 	JCursorPosition	GetCursor() const;
 	void			SetCursor(const JCursorPosition pos);
 
-	void	JStringChanged(const JBroadcaster::Message& message);
+	void	StringChanged(const JBroadcaster::Message& message);
 
 private:
 
-	const JString*	itsConstOrderedSet;		// JString that is being iterated over
-	JString*		itsOrderedSet;			// NULL if we were passed a const object
-	JCursorPosition	itsCursorPosition;		// current iterator position
+	const JString*	itsConstString;			// JString that is being iterated over
+	JString*		itsString;				// NULL if we were passed a const object
+	JCursorPosition	itsCursorPosition;		// current iterator position - bytes!
 
-	JStringIterator*	itsNextIterator;		// next iterator in linked list
+	JStringIterator*	itsNextIterator;	// next iterator in linked list
 
 private:
 

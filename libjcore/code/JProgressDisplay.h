@@ -29,16 +29,16 @@ public:
 
 	virtual ~JProgressDisplay();
 
-	void	FixedLengthProcessBeginning(const JSize stepCount, const JCharacter* message,
+	void	FixedLengthProcessBeginning(const JSize stepCount, const JUtf8Byte* message,
 										const JBoolean allowCancel,
 										const JBoolean allowBackground);
-	void	VariableLengthProcessBeginning(const JCharacter* message,
+	void	VariableLengthProcessBeginning(const JUtf8Byte* message,
 										   const JBoolean allowCancel,
 										   const JBoolean allowBackground);
 
-	virtual JBoolean	IncrementProgress(const JCharacter* message = NULL) = 0;
+	virtual JBoolean	IncrementProgress(const JUtf8Byte* message = NULL) = 0;
 	virtual JBoolean	IncrementProgress(const JSize delta) = 0;
-	virtual JBoolean	IncrementProgress(const JCharacter* message,
+	virtual JBoolean	IncrementProgress(const JUtf8Byte* message,
 										  const JSize delta) = 0;
 	virtual JBoolean	ProcessContinuing();
 	virtual void		ProcessFinished();
@@ -54,7 +54,7 @@ public:
 protected:
 
 	virtual void	ProcessBeginning(const ProcessType processType, const JSize stepCount,
-									 const JCharacter* message, const JBoolean allowCancel,
+									 const JUtf8Byte* message, const JBoolean allowCancel,
 									 const JBoolean allowBackground);
 
 	virtual JBoolean	CheckForCancel() = 0;
@@ -91,7 +91,7 @@ inline void
 JProgressDisplay::FixedLengthProcessBeginning
 	(
 	const JSize			stepCount,
-	const JCharacter*	message,
+	const JUtf8Byte*	message,
 	const JBoolean		allowCancel,
 	const JBoolean		allowBackground
 	)
@@ -108,7 +108,7 @@ JProgressDisplay::FixedLengthProcessBeginning
 inline void
 JProgressDisplay::VariableLengthProcessBeginning
 	(
-	const JCharacter*	message,
+	const JUtf8Byte*	message,
 	const JBoolean		allowCancel,
 	const JBoolean		allowBackground
 	)

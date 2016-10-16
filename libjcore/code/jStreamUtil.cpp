@@ -36,8 +36,8 @@ JCopyBinaryData
 {
 	// allocate transfer space -- we want a big chunk but we don't want it to fail
 
-	JSize chunkSize  = 10000;
-	JCharacter* data = JCreateBuffer(&chunkSize);
+	JSize chunkSize = 10000;
+	JUtf8Byte* data = JCreateBuffer(&chunkSize);
 
 	// copy the data in chunks
 
@@ -105,7 +105,7 @@ JReadAll
 	JString*	str
 	)
 {
-	JCharacter c;
+	JUtf8Byte c;
 	JReadUntil(input, 0, NULL, str, &c);
 }
 
@@ -128,7 +128,7 @@ JReadLine
 	)
 {
 	JString line;
-	JCharacter c;
+	JUtf8Byte c;
 	const JBoolean foundDelimiter = JReadUntil(input, 2, "\r\n", &line, &c);
 	if (foundDelimiter && c == '\r' && !input.eof() && input.peek() == '\n')
 		{
@@ -155,13 +155,13 @@ JReadLine
 JString
 JReadUntil
 	(
-	istream&			input,
-	const JCharacter	delimiter,
-	JBoolean*			foundDelimiter
+	istream&		input,
+	const JUtf8Byte	delimiter,
+	JBoolean*		foundDelimiter
 	)
 {
 	JString str;
-	JCharacter c;
+	JUtf8Byte c;
 	const JBoolean found = JReadUntil(input, 1, &delimiter, &str, &c);
 	if (foundDelimiter != NULL)
 		{
@@ -191,21 +191,21 @@ JReadUntil
 	(
 	istream&			input,
 	const JSize			delimiterCount,
-	const JCharacter*	delimiters,
+	const JUtf8Byte*	delimiters,
 	JString*			str,
-	JCharacter*			delimiter
+	JUtf8Byte*			delimiter
 	)
 {
 	str->Clear();
 	JBoolean isDelimiter = kJFalse;
 
 	const JSize bufSize = 1024;
-	JCharacter buf[ bufSize ];
+	JUtf8Byte buf[ bufSize ];
 
 	JIndex i = 0;
 	while (1)
 		{
-		JCharacter c;
+		JUtf8Byte c;
 		input.get(c);
 		if (input.fail())
 			{
@@ -263,11 +263,11 @@ JReadUntilws
 	JBoolean*	foundws
 	)
 {
-	JCharacter delimiters[] = { ' ', '\t', '\n' };
-	const JSize delimiterCount = sizeof(delimiters)/sizeof(JCharacter);
+	JUtf8Byte delimiters[] = { ' ', '\t', '\n' };
+	const JSize delimiterCount = sizeof(delimiters)/sizeof(JUtf8Byte);
 
 	JString str;
-	JCharacter c;
+	JUtf8Byte c;
 	const JBoolean found = JReadUntil(input, delimiterCount, delimiters, &str, &c);
 	if (foundws != NULL)
 		{
@@ -295,7 +295,7 @@ JIgnoreLine
 	JBoolean*	foundNewLine
 	)
 {
-	JCharacter c;
+	JUtf8Byte c;
 	const JBoolean foundDelimiter = JIgnoreUntil(input, 2, "\r\n", &c);
 	if (foundDelimiter && c == '\r' && !input.eof() && input.peek() == '\n')
 		{
@@ -324,12 +324,12 @@ JIgnoreLine
 void
 JIgnoreUntil
 	(
-	istream&			input,
-	const JCharacter	delimiter,
-	JBoolean*			foundDelimiter
+	istream&		input,
+	const JUtf8Byte	delimiter,
+	JBoolean*		foundDelimiter
 	)
 {
-	JCharacter c;
+	JUtf8Byte c;
 	const JBoolean found = JIgnoreUntil(input, 1, &delimiter, &c);
 	if (foundDelimiter != NULL)
 		{
@@ -341,7 +341,7 @@ void
 JIgnoreUntil
 	(
 	istream&			input, 
-	const JCharacter*	delimiter,
+	const JUtf8Byte*	delimiter,
 	JBoolean*			foundDelimiter
 	)
 {
@@ -396,15 +396,15 @@ JIgnoreUntil
 	(
 	istream&			input,
 	const JSize			delimiterCount,
-	const JCharacter*	delimiters,
-	JCharacter*			delimiter
+	const JUtf8Byte*	delimiters,
+	JUtf8Byte*			delimiter
 	)
 {
 	JBoolean isDelimiter = kJFalse;
 
 	while (1)
 		{
-		JCharacter c;
+		JUtf8Byte c;
 		input.get(c);
 		if (input.fail())
 			{
@@ -442,7 +442,7 @@ JIgnoreUntil
 
  ******************************************************************************/
 
-static const JCharacter kBase64Encoding[] =
+static const JUtf8Byte kBase64Encoding[] =
 	{
 	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
 	'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
@@ -827,13 +827,13 @@ JReadAll
 JString
 JReadUntil
 	(
-	const int			input,
-	const JCharacter	delimiter,
-	JBoolean*			foundDelimiter
+	const int		input,
+	const JUtf8Byte	delimiter,
+	JBoolean*		foundDelimiter
 	)
 {
 	JString str;
-	JCharacter c;
+	JUtf8Byte c;
 	const JBoolean found = JReadUntil(input, 1, &delimiter, &str, &c);
 	if (foundDelimiter != NULL)
 		{
@@ -866,16 +866,16 @@ JReadUntil
 	(
 	const int			input,
 	const JSize			delimiterCount,
-	const JCharacter*	delimiters,
+	const JUtf8Byte*	delimiters,
 	JString*			str,
-	JCharacter*			delimiter
+	JUtf8Byte*			delimiter
 	)
 {
 	str->Clear();
 	JBoolean isDelimiter = kJFalse;
 
 	const JSize bufSize = 1024;
-	JCharacter buf[ bufSize ];
+	JUtf8Byte buf[ bufSize ];
 
 	JIndex i = 0;
 	while (1)
@@ -942,12 +942,12 @@ JReadUntil
 void
 JIgnoreUntil
 	(
-	const int			input,
-	const JCharacter	delimiter,
-	JBoolean*			foundDelimiter
+	const int		input,
+	const JUtf8Byte	delimiter,
+	JBoolean*		foundDelimiter
 	)
 {
-	JCharacter c;
+	JUtf8Byte c;
 	const JBoolean found = JIgnoreUntil(input, 1, &delimiter, &c);
 	if (foundDelimiter != NULL)
 		{
@@ -959,7 +959,7 @@ void
 JIgnoreUntil
 	(
 	const int			input, 
-	const JCharacter*	delimiter,
+	const JUtf8Byte*	delimiter,
 	JBoolean*			foundDelimiter
 	)
 {
@@ -1021,8 +1021,8 @@ JIgnoreUntil
 	(
 	const int			input,
 	const JSize			delimiterCount,
-	const JCharacter*	delimiters,
-	JCharacter*			delimiter
+	const JUtf8Byte*	delimiters,
+	JUtf8Byte*			delimiter
 	)
 {
 	JBoolean isDelimiter = kJFalse;

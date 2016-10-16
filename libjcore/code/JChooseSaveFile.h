@@ -20,29 +20,29 @@ public:
 
 	virtual ~JChooseSaveFile();
 
-	virtual JBoolean ChooseFile(const JCharacter* prompt,
-								const JCharacter* instructions,		// can be NULL
+	virtual JBoolean ChooseFile(const JUtf8Byte* prompt,
+								const JUtf8Byte* instructions,		// can be NULL
 								JString* fullName) = 0;
-	virtual JBoolean ChooseFile(const JCharacter* prompt,
-								const JCharacter* instructions,		// can be NULL
-								const JCharacter* origName,			// can be NULL
+	virtual JBoolean ChooseFile(const JUtf8Byte* prompt,
+								const JUtf8Byte* instructions,		// can be NULL
+								const JUtf8Byte* origName,			// can be NULL
 								JString* fullName) = 0;
-	virtual JBoolean ChooseFiles(const JCharacter* prompt,
-								 const JCharacter* instructions,	// can be NULL
+	virtual JBoolean ChooseFiles(const JUtf8Byte* prompt,
+								 const JUtf8Byte* instructions,		// can be NULL
 								 JPtrArray<JString>* fullNameList) = 0;
 
-	virtual JBoolean ChooseRPath(const JCharacter* prompt,
-								 const JCharacter* instructions,	// can be NULL
-								 const JCharacter* origPath,		// can be NULL
+	virtual JBoolean ChooseRPath(const JUtf8Byte* prompt,
+								 const JUtf8Byte* instructions,		// can be NULL
+								 const JUtf8Byte* origPath,			// can be NULL
 								 JString* newPath) = 0;
-	virtual JBoolean ChooseRWPath(const JCharacter* prompt,
-								  const JCharacter* instructions,	// can be NULL
-								  const JCharacter* origPath,		// can be NULL
+	virtual JBoolean ChooseRWPath(const JUtf8Byte* prompt,
+								  const JUtf8Byte* instructions,	// can be NULL
+								  const JUtf8Byte* origPath,		// can be NULL
 								  JString* newPath) = 0;
 
-	virtual JBoolean SaveFile(const JCharacter* prompt,
-							  const JCharacter* instructions,		// can be NULL
-							  const JCharacter* originalName,
+	virtual JBoolean SaveFile(const JUtf8Byte* prompt,
+							  const JUtf8Byte* instructions,		// can be NULL
+							  const JUtf8Byte* originalName,
 							  JString* newFullName) = 0;
 
 private:

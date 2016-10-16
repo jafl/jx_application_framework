@@ -130,7 +130,7 @@ template <class V>
 JBoolean
 JStringPtrMap<V>::SetElement
 	(
-	const JCharacter* const            key,
+	const JUtf8Byte* const             key,
 	const V&                           data,
 	const JPtrArrayT::SetElementAction action,
 	const JStringMapT::SetType         type // = kAlways
@@ -145,8 +145,8 @@ template <class V>
 JBoolean
 JStringPtrMap<V>::SetNewElement
 	(
-	const JCharacter* const key,
-	const V&                data
+	const JUtf8Byte* const key,
+	const V&               data
 	)
 {
 	V* ptr = jnew V(data);
@@ -158,7 +158,7 @@ template <class V>
 JBoolean
 JStringPtrMap<V>::SetOldElement
 	(
-	const JCharacter* const            key,
+	const JUtf8Byte* const             key,
 	const V&                           data,
 	const JPtrArrayT::SetElementAction action
 	)
@@ -172,7 +172,7 @@ template <class V>
 JBoolean
 JStringPtrMap<V>::SetContains
 	(
-	const JCharacter* const            key,
+	const JUtf8Byte* const             key,
 	const V&                           data,
 	const JPtrArrayT::SetElementAction action
 	)

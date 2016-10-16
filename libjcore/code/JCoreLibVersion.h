@@ -21,14 +21,18 @@
 static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 
 // version 4.0.0:
+//	*** UTF-8 support
+//		Completely redesigned JString API.  Introduced JStringIterator.
+//			Replaced JCharacter with JUtf8Byte & JUtf8Character.
+//			Introduced JCharacterRange & JUtf8ByteRange.
 //	*** Created JFont.  Instances can only be obtained from JFontManager.
 //		Converted most of JFontManager api to protected.
 //			Exposed equivalent api from JFont.
 //		Removed all api's using JFontID.
 //		Switched JTextEditor::Font to JFont.
 //	*** jNew:
-//		Replaced jnew & jdelete macros with jnew & jdelete, to avoid conflict
-//			with "= jdelete" notation for functions.
+//		Replaced new & delete macros with jnew & jdelete, to avoid conflict
+//			with "= delete" notation for functions.
 //		Removed j_prep_ace.h because it is no longer needed.
 
 // version 3.2.0:
@@ -53,7 +57,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Updated JGetVCSType() to ignore unsupportable, newer versions of Subversion.
 //	JTextEditor:
 //		Fixed TEHandleKeyPress() so deleteToTabStop only applies to complete tabstops.
-//			(Deleting space inside prose should always only jdelete one space at a time.)
+//			(Deleting space inside prose should always only delete one space at a time.)
 //		Added PasteUNIXTerminalOutput() to handle embedded style commands.
 //	jTime:
 //		*** JCheckExpirationDate() requires that you provide these strings:
@@ -141,7 +145,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Fixed bug so close() closes the file descriptor, when appropriate.
 //	JTree:
 //		*** Added SetRoot() and corresponding message NewRoot().
-//			Library components built on top of JTree must support this jnew message.
+//			Library components built on top of JTree must support this new message.
 //	JTreeList:
 //		Added MakeVisible().
 //	JTreeNode:
@@ -156,7 +160,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Added SetPriority().
 //		Added constructors which specify workingDirectory.
 //		*** WaitUntilFinished() now broadcasts and does cleanup.
-//			If you were relying on JSimpleProcess to not jdelete itself in
+//			If you were relying on JSimpleProcess to not delete itself in
 //			this situation, even with deleteWhenFinished==kJTrue, simply
 //			pass deleteWhenFinished=kJFalse to JSimpleProcess::Create().
 //	JSimpleProcess:
@@ -192,7 +196,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Optimized string version of SelectionMatches().
 //		Fixed bug in regex version of SelectionMatches() so it returns kJTrue
 //			if the pattern has look-behind or look-ahead assertions.
-//		*** Added jnew pure virtual function TEScrollForDND().
+//		*** Added new pure virtual function TEScrollForDND().
 //		Updated HandleHTMLOn/OffCmd() to understand <q>...</q>.
 //		Fixed HandleHTMLTag() to understand self-closed tag, e.g., <head/>.
 //		Optimized converting from DOS format.
@@ -309,7 +313,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Added versions of all JRead*() and JIgnore*() functions
 //			for use with file descriptors.
 //		Added JConvertToStream() for use with file descriptors.
-//	*** Eliminated JInPipeStream.  Use the jnew functions in jStreamUtil instead.
+//	*** Eliminated JInPipeStream.  Use the new functions in jStreamUtil instead.
 //	JMatrix:
 //		Added SetRow(), SetCol(), and SetElements().
 //	JSimpleProcess:
@@ -362,7 +366,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Updated JURLToFileName() to match the latest XDND file dragging spec.
 //		Added optional endLineIndex to JExtractFileAndLine().
 //	jNew:
-//		Fixed "bug" so "if (x) jdelete y;" works correctly.  But you should always
+//		Fixed "bug" so "if (x) delete y;" works correctly.  But you should always
 //			use braces, so you should never have this problem!
 //	JFileArray:
 //		Promoted FlushChanges() to public.
@@ -388,7 +392,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Added pure virtual function TableGetApertureWidth().
 //		Derived classes must now override protected TableScrollToCellRect()
 //			instead of public TableScrollToCell().
-//		Derived classes should override jnew virtual function GetMin1DVisibleWidth().
+//		Derived classes should override new virtual function GetMin1DVisibleWidth().
 //	JString:
 //		Added ctor for converting unsigned integer to base 10, 2, 8, 16.
 //	jStreamUtil:
@@ -452,7 +456,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Added search and replace commands to CmdIndex enum.
 //		Derived classes must implement TEHasSearchText().
 //		Promoted EndsWithNewline() to public.
-//		Added option to broadcast jnew message CaretPositionChanged instead of
+//		Added option to broadcast new message CaretPositionChanged instead of
 //			CaretLineChanged.  Broadcasting both is redundant, so generic classes
 //			should accept either message to avoid depending on the setting.
 //		Added option to always broadcast TextChanged instead of optimizing.
@@ -489,7 +493,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JTableData:
 //		*** Changed inserted and removed messages to plural form.
 //	All derived classes of JTableData:
-//		Modified interface to take advantage of jnew JTableData messages.
+//		Modified interface to take advantage of new JTableData messages.
 //		You should search for calls to RemoveRow() and optimize to use RemoveNextRows().
 //	JTable:
 //		*** Changed row and column manipulation functions to work with multiple
@@ -568,7 +572,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		from JXPrefsManager.
 //	JMDIServer:
 //		Fixed bug so multiple, simultaneous invocations don't time out and start
-//			jnew processes when a server is already running.  There is no way to
+//			new processes when a server is already running.  There is no way to
 //			avoid multiple processes if no server is running.
 //	Merged jNumericConstants.h into jMath.h.
 //		Added more digits to kJPi and kJE.
@@ -642,7 +646,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Added ResetCSFFilters().
 //		Understands ~ notation.
 //		Wildcard filter is now case-insensitive.
-//		Added copy ctor that accepts jnew path.
+//		Added copy ctor that accepts new path.
 //		Renamed OKToCreateUNIXDirInfo() to OKToCreate().
 //		Added SettingsChanged message.
 //		*** No longer changes to home directory if current directory becomes
@@ -667,13 +671,13 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Fixed bug in ShouldCatchSignal() so it works when catchIt argument is kJFalse.
 //	JHTMLScanner:
 //		Fixed handling of escaped characters.  Any number of digits is allowed
-//			and a jnew error kCharacterOutOfRange is used to indicate values that
+//			and a new error kCharacterOutOfRange is used to indicate values that
 //			are out of range.  Also updated list of character names to HTML 4.01.
-//		*** Because jnew escaped characters require switching fonts, HandleHTMLTag()
+//		*** Because new escaped characters require switching fonts, HandleHTMLTag()
 //			can now be passed an empty range.
-//		Added jnew pure virtual function SwitchCharSet() to handle escape sequences
+//		Added new pure virtual function SwitchCharSet() to handle escape sequences
 //			that are not covered by iso8859-1.
-//		Added jnew virtual function HandleHTMLScript() for JavaScript, etc.
+//		Added new virtual function HandleHTMLScript() for JavaScript, etc.
 //		Added GetScriptLanguage().
 //	JUserNotification:
 //		Added AcceptLicense().
@@ -762,7 +766,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		PNG can now be supported via the latest version of libgd.
 //	JMDIServer:
 //		Socket name now start with . so it is invisible.  "rm /tmp/*" won't
-//			accidentally jdelete it.
+//			accidentally delete it.
 
 // version 1.5.2:
 //	JMinMax.h:
@@ -896,7 +900,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		files to allow finer control over when templates are instantiated.
 //	Renamed original JPrinter to JPagePrinter.
 //		OpenDocument() now returns JBoolean.
-//	Created jnew JPrinter to define concepts of Page Setup and Print Setup.
+//	Created new JPrinter to define concepts of Page Setup and Print Setup.
 //	Moved enum ImageOrientation from JPSPrinter to JPagePrinter.
 //	Created JPTPrinter for printing plain text.
 //	JPSPrinterBase:
@@ -933,8 +937,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Added JExtractFileAndLine().
 //		JRenameFile():
 //			1) strips trailing slashes so rename() doesn't screw up.
-//			2) succeeds if the jnew name is the same as the old name.
-//			3) always fails if the jnew name is an existing directory,
+//			2) succeeds if the new name is the same as the old name.
+//			3) always fails if the new name is an existing directory,
 //			   instead of only almost always like rename().
 //	jDirUtil:
 //		Added JGetClosestDirectory().
@@ -1096,7 +1100,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Added virtual function IsEditable() so derived classes can specify which
 //			cells can be edited.
 //		Added message PrepareForTableDataChange.  This is broadcast before
-//			the table is adjusted to fit a jnew JTableData object.
+//			the table is adjusted to fit a new JTableData object.
 //	JRect:
 //		Added Expand().
 //	Created JPrefObject as a base class for all objects that own an ID in a
@@ -1164,7 +1168,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JChooseSaveFile:
 //		Removed GetChosen*() and added output argument to Choose*().
 //		Reordered arguments to SaveFile() so all functions have the format:
-//			prompt, instructions, old value, jnew value
+//			prompt, instructions, old value, new value
 //		Added pure virtual ChooseMultipleFiles().
 //	JTableSelection:
 //		Added Get/SetBoat(), Get/SetAnchor(), ExtendSelection().
@@ -1197,7 +1201,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Renamed JCoverage() to JCovering().
 //	JRunArray:
 //		Added SetNextElements().
-//		Added jnew versions of InsertElementsAtIndex(), RemoveNextElements(),
+//		Added new versions of InsertElementsAtIndex(), RemoveNextElements(),
 //			and FindRun() that require you to specify the run information.
 //			They are designed for situations requiring maximal optimization
 //			and must be used with extreme care.
@@ -1270,7 +1274,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Added WillPasteStyledText() and ShouldPasteStyledText().
 //		TEOwnsClipboard() and TEGetExternalClipboard() are now const.
 //		Renamed protected function GetClipboard() to GetInternalClipboard().
-//		Created jnew public function GetClipboard().
+//		Created new public function GetClipboard().
 //		Created message TextSet, which is broadcast from SetText(), ReadPlainText(),
 //			ReadHTML(), ReadUNIXManOutput(), and ReadPrivateFormat().
 //		RemoveIllegalChars() displays a cancellable progress display if it
@@ -1435,7 +1439,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Right-arrow with moveEOL no longer crashes if there is no text.
 //		PrintPlainText() no longer crashes if there is no text.
 //		ReadUNIXManOutput() now shows a progress display if it takes too long.
-//			The jnew second argument lets you decide whether the process should
+//			The new second argument lets you decide whether the process should
 //			be cancellable.
 //	JPrefsManager:
 //		Now inherits from JContainer.
@@ -1539,10 +1543,10 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		All derived classes of JOrderedSet must call OrderedSetAssigned()
 //			inside operator= -after- copying the data.
 //			See notes for JOrderedSet<T>::operator=.
-//		Added jnew message ElementsSwapped.  All derived classes must
+//		Added new message ElementsSwapped.  All derived classes must
 //			broadcast this in SwapElements(), instead of two ElementChanged
 //			messages.
-//		Added jnew message Sorted.  Derived classes can now implement fast
+//		Added new message Sorted.  Derived classes can now implement fast
 //			sorting functions and simply broadcast Sorted when done.
 //			(e.g. JArray provides QuickSort() which calls qsort() and can
 //				  therefore not broadcast ElementMoved.)
@@ -1563,7 +1567,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JStack, JQueue:
 //		Added NewIterator() so one can examine all the elements.
 //	JFileArray:
-//		Added jnew message ElementsSwapped.  SwapElements() now broadcasts this
+//		Added new message ElementsSwapped.  SwapElements() now broadcasts this
 //			instead of two ElementChanged messages.
 //		Added versions of SetElement(), InsertElementAtIndex() that take
 //			const JCharacter*.
@@ -1589,8 +1593,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Added functions to activate and deactivate the caret.
 //		TEHandleKeyPress() returns JBoolean.
 //	jProcessUtil:
-//		JExecute() now sets the process group id of the jnew process to
-//			the jnew process' id.
+//		JExecute() now sets the process group id of the new process to
+//			the new process' id.
 //		Added JGetPGID(), JSendSignalToGroup().
 //	JProcess:
 //		Added GetPGID(), SendSignalToGroup().
@@ -1711,7 +1715,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Removed kJStringPrefix and kJStringSuffix because they are too dangerous.
 //	JTextEditor:
 //		Added ReadHTML().
-//		Added jnew pure virtual function ColorNameToColorIndex().
+//		Added new pure virtual function ColorNameToColorIndex().
 //		Meta-left-arrow is smart enough to move the caret to the beginning of the
 //			*text* on the line.  Pressing it a second time moves the caret to the
 //			beginning of the line.
@@ -1771,7 +1775,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			of desired exponent.
 //	JFontManager:
 //		Added more versions of GetStringWidth().
-//		The single virtual version of GetStringWidth() has a jnew prototype.
+//		The single virtual version of GetStringWidth() has a new prototype.
 //	JTableData:
 //		Added message AllElementsChanged().
 //	Created JPackedTableData to store table data in a single JRunArray.
@@ -1865,7 +1869,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Constructor is now protected.  Use the Create() function instead.
 //	JTextEditor:
 //		Implemented reading and writing styled text in a private format.
-//		Two jnew pure virtual functions are required in order to read and write
+//		Two new pure virtual functions are required in order to read and write
 //			styled text:  RGBToColorIndex(), ColorIndexToRGB()
 //	JBoolean.h:
 //		Added JFloatToBoolean() to convert floating-point numbers to JBoolean.
@@ -1873,7 +1877,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		didn't bother to implement, and JPrintComplexNumber().
 //	JOrderedSet:
 //		Cleaned up sorting and searching functions.
-//		BinarySearch() renamed to SearchSorted().  This now has a jnew 3rd
+//		BinarySearch() renamed to SearchSorted().  This now has a new 3rd
 //			argument "which" that specifies what to return if more than one
 //			element matches the target.
 //		InsertSorted() now takes 3rd argument "insertIfDuplicate".
@@ -1902,7 +1906,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		By having the pg passed in, jdirUtil no longer requires gCreatePG.
 //	JTextEditor:
 //		Added functionality to Drag-And-Drop between objects.
-//		Added jnew pure virtual function TEBeginDND().
+//		Added new pure virtual function TEBeginDND().
 
 // version 1.0.10:
 //	Changes made to JX.

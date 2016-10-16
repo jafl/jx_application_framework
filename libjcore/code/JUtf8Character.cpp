@@ -17,7 +17,6 @@ JUtf8Character::JUtf8Character()
 	:
 	itsByteCount(0)
 {
-	memset(itsBytes, 0, kJMaxUtf8CharacterLength);
 }
 
 JUtf8Character::JUtf8Character
@@ -62,8 +61,6 @@ JUtf8Character::Set
 {
 	if (this != &source)
 		{
-		memset(itsBytes, 0, kJMaxUtf8CharacterLength);
-
 		itsByteCount = source.itsByteCount;
 		memcpy(itsBytes, source.itsBytes, itsByteCount);
 		}
@@ -75,7 +72,6 @@ JUtf8Character::Set
 	const JUtf8Byte asciiCharacter
 	)
 {
-	memset(itsBytes, 0, kJMaxUtf8CharacterLength);
 	itsBytes[0]  = asciiCharacter;
 	itsByteCount = 1;
 }
@@ -86,28 +82,192 @@ JUtf8Character::Set
 	const JUtf8Byte* utf8Character
 	)
 {
-	memset(itsBytes, 0, kJMaxUtf8CharacterLength);
-
-	if (utf8Character[0] <= '\x7F')
+	unsigned char* c = (unsigned char*) utf8Character;
+	if (c[0] <= '\x7F')
 		{
 		itsByteCount = 1;
+		itsBytes[0]  = utf8Character[0];
 		}
-	else if ('\xC2' <= utf8Character[0] && utf8Character[0] <= '\xDF')
+	else if ('\xC2' <= c[0] && c[0] <= '\xDF' &&
+			 '\x80' <= c[1] && c[1] <= '\xBF')
 		{
 		itsByteCount = 2;
+		itsBytes[0]  = utf8Character[0];
+		itsBytes[1]  = utf8Character[1];
 		}
-	else if ('\xE0' <= utf8Character[0] && utf8Character[0] <= '\xEF')
+	else if ('\xE0' <= c[0] && c[0] <= '\xEF' &&
+			 '\x80' <= c[1] && c[1] <= '\xBF' &&
+			 '\x80' <= c[2] && c[2] <= '\xBF')
 		{
 		itsByteCount = 3;
+		itsBytes[0]  = utf8Character[0];
+		itsBytes[1]  = utf8Character[1];
+		itsBytes[2]  = utf8Character[2];
 		}
-	else if ('\xF0' <= utf8Character[0] && utf8Character[0] <= '\xF4')
+	else if ('\xF0' <= c[0] && c[0] <= '\xF4' &&
+			 '\x80' <= c[1] && c[1] <= '\xBF' &&
+			 '\x80' <= c[2] && c[2] <= '\xBF' &&
+			 '\x80' <= c[3] && c[3] <= '\xBF')
 		{
 		itsByteCount = 4;
+		itsBytes[0]  = utf8Character[0];
+		itsBytes[1]  = utf8Character[1];
+		itsBytes[2]  = utf8Character[2];
+		itsBytes[3]  = utf8Character[3];
 		}
 	else
 		{
 		assert( 0 /* invalid UTF-8 byte sequence */ );
 		}
+}
 
-	memcpy(itsBytes, utf8Character, itsByteCount);
+/******************************************************************************
+ IsValid (static)
+
+ ******************************************************************************/
+
+JBoolean
+JUtf8Character::IsValid
+	(
+	const JUtf8Byte* utf8Character
+	)
+{
+	unsigned char* c = (unsigned char*) utf8Character;
+	if (c[0] <= '\x7F')
+		{
+		return kJTrue;
+		}
+	else if ('\xC2' <= c[0] && c[0] <= '\xDF' &&
+			 '\x80' <= c[1] && c[1] <= '\xBF')
+		{
+		return kJTrue;
+		}
+	else if ('\xE0' <= c[0] && c[0] <= '\xEF' &&
+			 '\x80' <= c[1] && c[1] <= '\xBF' &&
+			 '\x80' <= c[2] && c[2] <= '\xBF')
+		{
+		return kJTrue;
+		}
+	else if ('\xF0' <= c[0] && c[0] <= '\xF4' &&
+			 '\x80' <= c[1] && c[1] <= '\xBF' &&
+			 '\x80' <= c[2] && c[2] <= '\xBF' &&
+			 '\x80' <= c[3] && c[3] <= '\xBF')
+		{
+		return kJTrue;
+		}
+	else
+		{
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ GetCharacterByteCount (static)
+
+ ******************************************************************************/
+
+JSize
+JUtf8Character::GetCharacterByteCount
+	(
+	const JUtf8Byte* utf8Character
+	)
+{
+	unsigned char* c = (unsigned char*) utf8Character;
+	if (c[0] <= '\x7F')
+		{
+		return 1;
+		}
+	else if ('\xC2' <= c[0] && c[0] <= '\xDF' &&
+			 '\x80' <= c[1] && c[1] <= '\xBF')
+		{
+		return 2;
+		}
+	else if ('\xE0' <= c[0] && c[0] <= '\xEF' &&
+			 '\x80' <= c[1] && c[1] <= '\xBF' &&
+			 '\x80' <= c[2] && c[2] <= '\xBF')
+		{
+		return 3;
+		}
+	else if ('\xF0' <= c[0] && c[0] <= '\xF4' &&
+			 '\x80' <= c[1] && c[1] <= '\xBF' &&
+			 '\x80' <= c[2] && c[2] <= '\xBF' &&
+			 '\x80' <= c[3] && c[3] <= '\xBF')
+		{
+		return 4;
+		}
+	else
+		{
+		assert( 0 /* invalid UTF-8 byte sequence */ );
+		return 0;
+		}
+}
+
+/******************************************************************************
+ Character types
+
+	TODO: utf8
+
+ ******************************************************************************/
+
+JBoolean
+JUtf8Character::IsPrint()
+	const
+{
+	assert( itsByteCount == 1 );
+	return JI2B( isprint(itsBytes[0]) );
+}
+
+JBoolean
+JUtf8Character::IsAlnum()
+	const
+{
+	assert( itsByteCount == 1 );
+	return JI2B( IsAlpha() || isdigit(itsBytes[0]) );
+}
+
+JBoolean
+JUtf8Character::IsAlpha()
+	const
+{
+	assert( itsByteCount == 1 );
+	return JI2B( isalpha(itsBytes[0]) );
+}
+
+JBoolean
+JUtf8Character::IsUpper()
+	const
+{
+	assert( itsByteCount == 1 );
+	return JI2B( isupper(itsBytes[0]) );
+}
+
+JBoolean
+JUtf8Character::IsLower()
+	const
+{
+	assert( itsByteCount == 1 );
+	return JI2B( islower(itsBytes[0]) );
+}
+
+/******************************************************************************
+ Case conversion
+
+	TODO: utf8
+
+ ******************************************************************************/
+
+JUtf8Character
+JUtf8Character::ToUpper()
+	const
+{
+	assert( itsByteCount == 1 );
+	return JUtf8Character(toupper(itsBytes[0]));
+}
+
+JUtf8Character
+JUtf8Character::ToLower()
+	const
+{
+	assert( itsByteCount == 1 );
+	return JUtf8Character(tolower(itsBytes[0]));
 }

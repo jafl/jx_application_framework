@@ -45,10 +45,10 @@ JRTTIBase::~JRTTIBase()
 JBoolean
 JRTTIBase::Is
 	(
-	const JCharacter* type
+	const JUtf8Byte* type
 	)
 	const
 {
-	assert( type != NULL );	// make sure static constant was initialized
+	assert( type != NULL );
 	return JI2B( type == itsType || strcmp(type, itsType) == 0 );
 }

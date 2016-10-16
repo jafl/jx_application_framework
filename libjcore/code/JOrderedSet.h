@@ -43,20 +43,20 @@ public:
 
 	// for all objects
 
-	static const JCharacter* kElementsInserted;
-	static const JCharacter* kElementsRemoved;
+	static const JUtf8Byte* kElementsInserted;
+	static const JUtf8Byte* kElementsRemoved;
 
 	// for JBroadcasters
 
-	static const JCharacter* kElementMoved;
-	static const JCharacter* kElementsSwapped;
-	static const JCharacter* kElementChanged;
-	static const JCharacter* kSorted;
+	static const JUtf8Byte* kElementMoved;
+	static const JUtf8Byte* kElementsSwapped;
+	static const JUtf8Byte* kElementChanged;
+	static const JUtf8Byte* kSorted;
 
 	// for iterators
 
-	static const JCharacter* kGoingAway;
-	static const JCharacter* kCopied;
+	static const JUtf8Byte* kGoingAway;
+	static const JUtf8Byte* kCopied;
 
 private:
 
@@ -66,7 +66,7 @@ private:
 		{
 		public:
 
-			ElementMessage(const JCharacter* type,
+			ElementMessage(const JUtf8Byte* type,
 						   const JIndex firstIndex, const JSize count)
 				:
 				JBroadcaster::Message(type),

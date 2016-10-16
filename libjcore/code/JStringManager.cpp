@@ -44,18 +44,18 @@
 #include <strstream>
 #include <jAssert.h>
 
-static const JCharacter* kDataDirName = "string_data";
+static const JUtf8Byte* kDataDirName = "string_data";
 
 // non-overridable strings
 
-static const JCharacter* kNoOverrideID[] =
+static const JUtf8Byte* kNoOverrideID[] =
 {
 	"VERSION",
 	"COPYRIGHT",
 	"LICENSE"
 };
 
-const JSize kNoOverrideIDCount = sizeof(kNoOverrideID) / sizeof(JCharacter*);
+const JSize kNoOverrideIDCount = sizeof(kNoOverrideID) / sizeof(JUtf8Byte*);
 
 /******************************************************************************
  Constructor
@@ -94,7 +94,7 @@ static const JString theMissingString = "<string not found>";
 const JString&
 JStringManager::Get
 	(
-	const JCharacter* id
+	const JUtf8Byte* id
 	)
 	const
 {
@@ -124,7 +124,7 @@ JStringManager::Get
 void
 JStringManager::ReportError
 	(
-	const JCharacter*	id,
+	const JUtf8Byte*	id,
 	const JError&		err
 	)
 	const
@@ -138,12 +138,12 @@ JStringManager::ReportError
 void
 JStringManager::ReportError
 	(
-	const JCharacter*	id,
-	const JCharacter*	message
+	const JUtf8Byte*	id,
+	const JUtf8Byte*	message
 	)
 	const
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
 		"err", message
 		};
@@ -163,8 +163,8 @@ JStringManager::ReportError
 JString
 JStringManager::Get
 	(
-	const JCharacter*	id,
-	const JCharacter*	map[],
+	const JUtf8Byte*	id,
+	const JUtf8Byte*	map[],
 	const JSize			size
 	)
 	const
@@ -203,14 +203,14 @@ void
 JStringManager::Replace
 	(
 	JString*			str,
-	const JCharacter*	map[],
+	const JUtf8Byte*	map[],
 	const JSize			size
 	)
 	const
 {
 	JSubstitute* r = GetReplaceEngine();
 
-	const JSize count = size/(2*sizeof(JCharacter*));
+	const JSize count = size/(2*sizeof(JUtf8Byte*));
 	for (JIndex i=0; i<count; i++)
 		{
 		r->DefineVariable(map[2*i], map[2*i+1]);
@@ -232,8 +232,8 @@ JStringManager::Replace
 void
 JStringManager::Register
 	(
-	const JCharacter*	signature,
-	const JCharacter**	defaultData
+	const JUtf8Byte*	signature,
+	const JUtf8Byte**	defaultData
 	)
 {
 	JString tempFileName;
@@ -258,7 +258,7 @@ JStringManager::Register
 
 	if (!JStringEmpty(signature))
 		{
-		const JCharacter* lang = getenv("LANG");
+		const JUtf8Byte* lang = getenv("LANG");
 
 		JString path[2];
 		JGetJDataDirectories(kDataDirName, path, path+1);
@@ -303,7 +303,7 @@ JStringManager::Register
 JBoolean
 JStringManager::MergeFile
 	(
-	const JCharacter*	fileName,
+	const JUtf8Byte*	fileName,
 	const JBoolean		debug
 	)
 {
@@ -386,7 +386,7 @@ JStringManager::MergeFile
 JBoolean
 JStringManager::CanOverride
 	(
-	const JCharacter* id
+	const JUtf8Byte* id
 	)
 {
 	for (JIndex i=0; i<kNoOverrideIDCount; i++)

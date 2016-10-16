@@ -32,9 +32,9 @@
 #include <jMissingProto.h>
 #include <jAssert.h>
 
-static const JCharacter* kAssertActionEnvName = "J_ASSERT_ACTION";
-static const JCharacter* kAskUserAction       = "ask_user";
-static const JCharacter* kIgnoreFailureAction = "silent";
+static const JUtf8Byte* kAssertActionEnvName = "J_ASSERT_ACTION";
+static const JUtf8Byte* kAskUserAction       = "ask_user";
+static const JUtf8Byte* kIgnoreFailureAction = "silent";
 
 /******************************************************************************
  Constructor
@@ -75,8 +75,8 @@ JAssertBase::Abort()
 int
 JAssertBase::DefaultAssert
 	(
-	const JCharacter*	expr,
-	const JCharacter*	file,
+	const JUtf8Byte*	expr,
+	const JUtf8Byte*	file,
 	const int			line
 	)
 {

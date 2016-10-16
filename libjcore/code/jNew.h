@@ -20,15 +20,15 @@
 #include <jTypes.h>
 
 void* operator new(size_t size) noexcept;
-void* operator new(size_t size, const JCharacter* file, const JUInt32 line) noexcept;
+void* operator new(size_t size, const JUtf8Byte* file, const JUInt32 line) noexcept;
 
 void* operator new[](size_t size) noexcept;
-void* operator new[](size_t size, const JCharacter* file, const JUInt32 line) noexcept;
+void* operator new[](size_t size, const JUtf8Byte* file, const JUInt32 line) noexcept;
 
 void operator delete(void* memory) noexcept;
 void operator delete[](void* memory) noexcept;
 
-void JLocateDelete(const JCharacter* file, const JUInt32 line);
+void JLocateDelete(const JUtf8Byte* file, const JUInt32 line);
 
 #define jnew new(__FILE__, __LINE__)
 #define jdelete JLocateDelete(__FILE__, __LINE__), delete

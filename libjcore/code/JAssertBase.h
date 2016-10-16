@@ -29,11 +29,11 @@ public:
 
 	virtual	~JAssertBase();
 
-	virtual int		Assert(const JCharacter* expr, const JCharacter* file,
+	virtual int		Assert(const JUtf8Byte* expr, const JUtf8Byte* file,
 						   const int line) = 0;
 	virtual void	Abort();
 
-	static int	DefaultAssert(const JCharacter* expr, const JCharacter* file,
+	static int	DefaultAssert(const JUtf8Byte* expr, const JUtf8Byte* file,
 							  const int line);
 
 	static Action	GetAction();

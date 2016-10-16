@@ -5,8 +5,8 @@
 	be sure to make the destructor virtual.
 
 	JStrings can contain NULL's, if they are constructed with the
-	JString(const JCharacter* str, const JSize length) constructor.
-	You must remember not to call Clib functions on the const JCharacter* in
+	JString(const JUtf8Byte* str, const JSize length) constructor.
+	You must remember not to call Clib functions on the const JUtf8Byte* in
 	this case.
 
 	Note that operator== is case sensitive, as one would expect.  To avoid the
@@ -36,13 +36,7 @@
 #include <jErrno.h>
 #include <jAssert.h>
 
-const JSize kDefaultBlockSize = 10;
-
-static const JCharacter* kDiacriticalMap  = NULL;
-static const JIndex* kDiacriticalMarkType = NULL;
-
-//static JCharacter* kToLowerMap = NULL;
-//static JCharacter* kToUpperMap = NULL;
+const JSize kDefaultBlockSize = 256;
 
 // private routines
 
@@ -56,81 +50,79 @@ static void	double2str(double doubleVal, int afterDec, int sigDigitCount,
 
 JString::JString()
 	:
-	itsBlockSize( kDefaultBlockSize ),
-	itsFirstIterator( NULL )
+	itsByteCount(0),
+	itsCharacterCount(0),
+	itsAllocCount(kDefaultBlockSize),
+	itsBlockSize(kDefaultBlockSize),
+	itsFirstIterator(NULL)
 {
-	itsStringLength = 0;
-	itsAllocLength  = itsBlockSize;
-
-	itsString = jnew JCharacter [ itsAllocLength+1 ];
-	assert( itsString != NULL );
-	itsString [ 0 ] = '\0';
+	itsBytes = jnew JUtf8Byte [ itsAllocCount+1 ];
+	assert( itsBytes != NULL );
+	itsBytes[0] = '\0';
 }
 
 JString::JString
 	(
-	const JCharacter* str
+	const JString&			str,
+	const JCharacterRange&	charRange
 	)
 	:
-	itsBlockSize( kDefaultBlockSize ),
-	itsFirstIterator( NULL )
+	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
+	itsByteCount(0),
+	itsCharacterCount(0),
+	itsAllocCount(0),
+	itsBlockSize(kDefaultBlockSize),
+	itsFirstIterator(NULL)
 {
-	itsAllocLength = 0;
-	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
-	CopyToPrivateString(str);
+	JUtf8ByteRange byteRange = str.CharacterToUtf8ByteRange(JCharacterRange(1, str.GetCharacterCount()));
+	CopyToPrivateString(str.GetBytes() + byteRange.first-1, byteRange.GetLength());
 }
 
 JString::JString
 	(
-	const JCharacter*	str,
+	const JUtf8Byte* str
+	)
+	:
+	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
+	itsByteCount(0),
+	itsCharacterCount(0),
+	itsAllocCount(0),
+	itsBlockSize(kDefaultBlockSize),
+	itsFirstIterator(NULL)
+{
+	CopyToPrivateString(str, strlen(str));
+}
+
+JString::JString
+	(
+	const JUtf8Byte*	str,
 	const JSize			length
 	)
 	:
-	itsBlockSize( kDefaultBlockSize ),
-	itsFirstIterator( NULL )
+	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
+	itsByteCount(0),
+	itsCharacterCount(0),
+	itsAllocCount(0),
+	itsBlockSize(kDefaultBlockSize),
+	itsFirstIterator(NULL)
 {
-	itsAllocLength = 0;
-	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
-	CopyToPrivateString(length > 0 ? str : "", length);		// allow NULL,0
+	CopyToPrivateString(length > 0 ? str : "", length);		// allow (NULL,0)
 }
 
 JString::JString
 	(
-	const JCharacter*	str,
-	const JIndexRange&	range
+	const JUtf8Byte*		str,
+	const JUtf8ByteRange&	range
 	)
 	:
-	itsBlockSize( kDefaultBlockSize ),
-	itsFirstIterator( NULL )
+	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
+	itsByteCount(0),
+	itsCharacterCount(0),
+	itsAllocCount(0),
+	itsBlockSize(kDefaultBlockSize),
+	itsFirstIterator(NULL)
 {
-	itsAllocLength = 0;
-	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
 	CopyToPrivateString(str + range.first-1, range.GetLength());
-}
-
-JString::JString
-	(
-	const JFloat			number,
-	const JInteger			precision,
-	const ExponentDisplay	expDisplay,
-	const JInteger			exponent,
-	const JInteger			sigDigitCount
-	)
-	:
-	itsBlockSize( kDefaultBlockSize ),
-	itsFirstIterator( NULL )
-{
-	assert( precision >= -1 );
-
-	itsAllocLength = 50;
-
-	itsString = jnew JCharacter [ itsAllocLength+1 ];
-	assert( itsString != NULL );
-	double2str(number, precision, sigDigitCount,
-			   (expDisplay == kUseGivenExponent ? exponent : expDisplay),
-			   itsString);
-
-	itsStringLength = strlen(itsString);
 }
 
 JString::JString
@@ -140,38 +132,39 @@ JString::JString
 	const JBoolean	pad
 	)
 	:
-	itsBlockSize( kDefaultBlockSize ),
-	itsFirstIterator( NULL )
+	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
+	itsByteCount(0),
+	itsCharacterCount(0),
+	itsAllocCount(0),
+	itsBlockSize(kDefaultBlockSize),
+	itsFirstIterator(NULL)
 {
-	itsAllocLength = 0;
-	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
-
 	if (number == 0)
 		{
-		CopyToPrivateString("0");
+		CopyToPrivateString("0", 1);
 		}
 	else if (base == 2)
 		{
-		CopyToPrivateString("");
+		CopyToPrivateString("", 0);
 
 		JUInt64 v = number;
 		do
 			{
 			if (v & 0x01)
 				{
-				PrependCharacter('1');
+				Prepend("1");
 				}
 			else
 				{
-				PrependCharacter('0');
+				Prepend("0");
 				}
 			v >>= 1;
 			}
 			while (v != 0);
 
-		while (pad && itsStringLength % 8 > 0)
+		while (pad && itsByteCount % 8 > 0)
 			{
-			PrependCharacter('0');
+			Prepend("0");
 			}
 		}
 	else
@@ -184,9 +177,9 @@ JString::JString
 
 	if (base == 16)
 		{
-		if (pad && itsStringLength % 2 == 1)
+		if (pad && itsByteCount % 2 == 1)
 			{
-			PrependCharacter('0');
+			Prepend("0");
 			}
 
 		ToUpper();
@@ -196,21 +189,66 @@ JString::JString
 
 JString::JString
 	(
+	const JFloat			number,
+	const JInteger			precision,
+	const ExponentDisplay	expDisplay,
+	const JInteger			exponent,
+	const JInteger			sigDigitCount
+	)
+	:
+	itsByteCount(0),
+	itsCharacterCount(0),
+	itsAllocCount(kDefaultBlockSize),
+	itsBlockSize(kDefaultBlockSize),
+	itsFirstIterator(NULL)
+{
+	assert( precision >= -1 );
+
+	itsBytes = jnew JUtf8Byte [ itsAllocCount+1 ];
+	assert( itsBytes != NULL );
+	double2str(number, precision, sigDigitCount,
+			   (expDisplay == kUseGivenExponent ? exponent : expDisplay),
+			   itsBytes);
+
+	itsByteCount      = strlen(itsBytes);
+	itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
+}
+
+JString::JString
+	(
 	const std::string& s
 	)
 	:
-	itsBlockSize( kDefaultBlockSize ),
-	itsFirstIterator( NULL )
+	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
+	itsByteCount(0),
+	itsCharacterCount(0),
+	itsAllocCount(0),
+	itsBlockSize(kDefaultBlockSize),
+	itsFirstIterator(NULL)
 {
-	itsAllocLength = 0;
-	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
 	CopyToPrivateString(s.data(), s.length());
+}
+
+JString::JString
+	(
+	const std::string&		s,
+	const JUtf8ByteRange&	range
+	)
+	:
+	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
+	itsByteCount(0),
+	itsCharacterCount(0),
+	itsAllocCount(0),
+	itsBlockSize(kDefaultBlockSize),
+	itsFirstIterator(NULL)
+{
+	CopyToPrivateString(s.data() + range.first-1, range.GetLength());
 }
 
 /******************************************************************************
  Copy constructor
 
-	Even though JString(const JCharacter*) does the same job, we need to declare
+	Even though JString(const JUtf8Byte*) does the same job, we need to declare
 	this copy constructor to avoid having the compiler declare it incorrectly.
 
  ******************************************************************************/
@@ -220,13 +258,14 @@ JString::JString
 	const JString& source
 	)
 	:
-	itsBlockSize( source.itsBlockSize ),
-	itsFirstIterator( NULL )
+	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
+	itsByteCount(0),
+	itsCharacterCount(0),
+	itsAllocCount(0),
+	itsBlockSize(source.itsBlockSize),
+	itsFirstIterator(NULL)
 {
-	itsAllocLength = 0;
-	itsString      = NULL;		// makes jdelete [] safe inside CopyToPrivateString
-
-	CopyToPrivateString(source.itsString, source.itsStringLength);
+	CopyToPrivateString(source.itsBytes, source.itsByteCount);
 }
 
 /******************************************************************************
@@ -236,7 +275,9 @@ JString::JString
 
 JString::~JString()
 {
-	jdelete [] itsString;
+	jdelete [] itsBytes;
+
+	// TODO: invalidate iterators
 }
 
 /******************************************************************************
@@ -244,135 +285,89 @@ JString::~JString()
 
 	Copy the given string into our private string.
 
-	*** This function assumes that str != itsString
+	*** This function requires that str != itsBytes
 
  ******************************************************************************/
 
 void
 JString::CopyToPrivateString
 	(
-	const JCharacter*	str,
+	const JUtf8Byte*	str,
 	const JSize			length
 	)
 {
-	assert( str != itsString );
+	assert( !(itsBytes <= str && str < itsBytes + itsByteCount) );
 
-	if (itsAllocLength < length || itsAllocLength == 0)
+	// ensure sufficient space
+
+	if (itsAllocCount < length || itsAllocCount == 0)
 		{
-		itsAllocLength = length + itsBlockSize;
+		itsAllocCount = length + itsBlockSize;
 
-		// We allocate the jnew memory first.
-		// If jnew fails, we still have the old string data.
-
-		JCharacter* newString = jnew JCharacter [ itsAllocLength + 1 ];
+		JUtf8Byte* newString = jnew JUtf8Byte [ itsAllocCount + 1 ];
 		assert( newString != NULL );
 
-		// now it's safe to throw out the old data
-
-		jdelete [] itsString;
-		itsString = newString;
+		jdelete [] itsBytes;
+		itsBytes = newString;
 		}
 
-	// copy the characters to the jnew string
+	// copy the characters to the new string
 
-	memcpy(itsString, str, length);
-	itsString[ length ] = '\0';
+	memcpy(itsBytes, str, length);
+	itsBytes[ length ] = '\0';
 
-	itsStringLength = length;
+	itsByteCount      = length;
+	itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
+
+	// TODO: notify iterators
 }
 
 /******************************************************************************
- InsertSubstring
-
-	Insert the given string into ourselves starting at the specified index.
+ GetFirstCharacter
 
  ******************************************************************************/
 
-void
-JString::InsertSubstring
-	(
-	const JCharacter*	stringToInsert,
-	const JSize			insertLength,
-	const JIndex		insertionIndex
-	)
-{
-	assert( 0 < insertionIndex && insertionIndex <= itsStringLength + 1 );
-
-	// if the string to insert is empty, we don't need to do anything
-
-	if (insertLength == 0)
-		{
-		return;
-		}
-
-	// If we don't have space for the result, we have to reallocate.
-
-	JCharacter* insertionPtr = NULL;
-	const JUnsignedOffset insertionOffset = insertionIndex - 1;
-
-	if (itsAllocLength < itsStringLength + insertLength)
-		{
-		itsAllocLength = itsStringLength + insertLength + itsBlockSize;
-
-		// allocate space for the combined string
-
-		JCharacter* newString = jnew JCharacter [ itsAllocLength + 1 ];
-		assert( newString != NULL );
-
-		insertionPtr = newString + insertionOffset;
-
-		// copy our characters in front of the insertion point
-
-		memcpy(newString, itsString, insertionOffset);
-
-		// copy our characters after the insertion point, -including the termination-
-
-		memcpy(insertionPtr + insertLength, itsString + insertionOffset,
-			   itsStringLength - insertionOffset + 1);
-
-		// throw out our original string and save the jnew one
-
-		jdelete [] itsString;
-		itsString = newString;
-		}
-
-	// Otherwise, just shift characters to make space for the result.
-
-	else
-		{
-		insertionPtr = itsString + insertionOffset;
-
-		// shift characters after the insertion point, -including the termination-
-
-		memmove(insertionPtr + insertLength, insertionPtr,
-				itsStringLength - insertionOffset + 1);
-		}
-
-	// copy the characters from the string to insert
-
-	memcpy(insertionPtr, stringToInsert, insertLength);
-
-	// update our string length
-
-	itsStringLength += insertLength;
-}
-
-/******************************************************************************
- AllocateCString
-
-	This allocates a jnew pointer, which the caller is responsible
-	for deleting via "jdelete []".
-
- ******************************************************************************/
-
-JCharacter*
-JString::AllocateCString()
+JUtf8Character
+JString::GetFirstCharacter()
 	const
 {
-	JCharacter* str = jnew JCharacter [ itsStringLength + 1 ];
+	return JUtf8Character(itsBytes);
+}
+
+/******************************************************************************
+ GetLastCharacter
+
+ ******************************************************************************/
+
+JUtf8Character
+JString::GetLastCharacter()
+	const
+{
+	const unsigned char* s = (const unsigned char*) (itsBytes + itsByteCount - 1);
+	while ('\x80' <= *s && *s <= '\xBF')
+		{
+		s--;
+		}
+
+	return JUtf8Character((const JUtf8Byte*) s);
+}
+
+/******************************************************************************
+ AllocateBytes
+
+	This allocates a new pointer, which the caller is responsible
+	for deleting via "delete []".
+
+ ******************************************************************************/
+
+JUtf8Byte*
+JString::AllocateBytes()
+	const
+{
+	JUtf8Byte* str = jnew JUtf8Byte [ itsByteCount + 1 ];
 	assert( str != NULL );
 
-	memcpy(str, itsString, itsStringLength+1);
+	memcpy(str, itsBytes, itsByteCount+1);
 
 	return str;
 }
@@ -390,76 +385,188 @@ JString::NotifyIterators
 {
 	if (itsFirstIterator != NULL)
 		{
-		itsFirstIterator->OrderedSetChanged(message);
+		itsFirstIterator->StringChanged(message);
 		}
 }
 
 /******************************************************************************
- GetCharacter
-
- ******************************************************************************/
-
-JCharacter
-JString::GetCharacter
-	(
-	const JIndex index
-	)
-	const
-{
-	assert( IndexValid(index) );
-
-	return PrivateGetCharacter(index);
-}
-
-/******************************************************************************
- GetCharacterFromEnd
-
- ******************************************************************************/
-
-JCharacter
-JString::GetCharacterFromEnd
-	(
-	const JIndex index
-	)
-	const
-{
-	assert( IndexValid(index) );	// avoid wrap of unsigned value
-
-	return GetCharacter(itsStringLength - index + 1);
-}
-
-/******************************************************************************
- SetCharacterFromEnd
+ Prepend
 
  ******************************************************************************/
 
 void
-JString::SetCharacterFromEnd
+JString::Prepend
 	(
-	const JIndex		index,
-	const JCharacter	c
+	const JUtf8Byte*	str,
+	const JSize			length
 	)
 {
-	assert( IndexValid(index) );	// avoid wrap of unsigned value
-
-	SetCharacter(itsStringLength - index + 1, c);
+	InsertBytes(1, str, length);
 }
 
 /******************************************************************************
- SetCharacter
+ Append
 
  ******************************************************************************/
 
 void
-JString::SetCharacter
+JString::Append
 	(
-	const JIndex		index,
-	const JCharacter	c
+	const JUtf8Byte*	str,
+	const JSize			length
 	)
 {
-	assert( IndexValid(index) );
+	InsertBytes(itsByteCount+1, str, length);
+}
 
-	itsString [ index - 1 ] = c;
+/******************************************************************************
+ InsertBytes (private)
+
+	Insert the given bytes into ourselves starting at the specified index.
+
+ ******************************************************************************/
+
+void
+JString::InsertBytes
+	(
+	const JIndex		insertionIndex,
+	const JUtf8Byte*	stringToInsert,
+	const JSize			insertLength
+	)
+{
+	assert( 0 < insertionIndex && insertionIndex <= itsByteCount + 1 );
+
+	// if the string to insert is empty, we don't need to do anything
+
+	if (insertLength == 0)
+		{
+		return;
+		}
+
+	// If we don't have space for the result, we have to reallocate.
+
+	JUtf8Byte* insertionPtr               = NULL;
+	const JUnsignedOffset insertionOffset = insertionIndex - 1;
+
+	if (itsAllocCount < itsByteCount + insertLength)
+		{
+		itsAllocCount = itsByteCount + insertLength + itsBlockSize;
+
+		// allocate space for the combined string
+
+		JUtf8Byte* newString = jnew JUtf8Byte [ itsAllocCount + 1 ];
+		assert( newString != NULL );
+
+		insertionPtr = newString + insertionOffset;
+
+		// copy our characters in front of the insertion point
+
+		memcpy(newString, itsBytes, insertionOffset);
+
+		// copy our characters after the insertion point, -including the termination-
+
+		memcpy(insertionPtr + insertLength, itsBytes + insertionOffset,
+			   itsByteCount - insertionOffset + 1);
+
+		// throw out our original string and save the new one
+
+		jdelete [] itsBytes;
+		itsBytes = newString;
+		}
+
+	// Otherwise, just shift characters to make space for the result.
+
+	else if (insertionOffset < itsByteCount+1)
+		{
+		insertionPtr = itsBytes + insertionOffset;
+
+		// shift characters after the insertion point, *including the termination*
+
+		memmove(insertionPtr + insertLength, insertionPtr,
+				itsByteCount - insertionOffset + 1);
+		}
+
+	// copy the characters from the string to insert
+
+	memcpy(insertionPtr, stringToInsert, insertLength);
+
+	// update our string length
+
+	itsByteCount      += insertLength;
+	itsCharacterCount += CountCharacters(stringToInsert, insertLength);
+
+	// TODO: notify iterators
+}
+
+/******************************************************************************
+ ReplaceBytes (private)
+
+	Replace the specified range with the given bytes.
+
+ ******************************************************************************/
+
+void
+JString::ReplaceBytes
+	(
+	const JIndex		firstByteIndex,
+	const JIndex		lastByteIndex,
+	const JUtf8Byte*	stringToInsert,
+	const JSize			insertLength
+	)
+{
+	assert( firstByteIndex <= lastByteIndex );
+	assert( ByteIndexValid(firstByteIndex) );
+	assert( ByteIndexValid(lastByteIndex) );
+
+	const JSize replaceLength = lastByteIndex - firstByteIndex + 1;
+	const JSize newLength     = itsByteCount - replaceLength + insertLength;
+
+	const JSize len1 = firstByteIndex - 1;
+	const JSize len2 = insertLength;
+	const JSize len3 = itsByteCount - lastByteIndex;
+
+	itsCharacterCount -= CountCharacters(itsBytes + len1, replaceLength);
+
+	// If we don't have space, or would use too much space, reallocate.
+
+	if (itsAllocCount < newLength || itsAllocCount > newLength + itsBlockSize)
+		{
+		itsAllocCount = newLength + itsBlockSize;
+
+		// allocate space for the result
+
+		JUtf8Byte* newString = jnew JUtf8Byte[ itsAllocCount+1 ];
+		assert( newString != NULL );
+
+		// place the characters in front and behind
+
+		memcpy(newString, itsBytes, len1);
+		memcpy(newString + len1 + len2, itsBytes + lastByteIndex, len3);
+
+		// throw out the original string and save the new one
+
+		jdelete [] itsBytes;
+		itsBytes = newString;
+		}
+
+	// Otherwise, shift characters to make space.
+
+	else if (len3 > 0)
+		{
+		memmove(itsBytes + len1 + len2, itsBytes + lastByteIndex, len3);
+		}
+
+	// insert the new characters
+
+	memcpy(itsBytes + len1, stringToInsert, len2);
+
+	// terminate
+
+	itsBytes[ newLength ] = '\0';
+	itsByteCount          = newLength;
+	itsCharacterCount    += CountCharacters(stringToInsert, insertLength);
+
+	// TODO: notify iterators
 }
 
 /******************************************************************************
@@ -472,39 +579,44 @@ JString::Clear()
 {
 	// there is nothing to do if we are already empty
 
-	if (itsStringLength == 0)
+	if (itsByteCount == 0)
 		{
 		return;
 		}
 
 	// If we are using too much memory, reallocate.
 
-	if (itsAllocLength > itsBlockSize)
+	if (itsAllocCount > itsBlockSize)
 		{
-		itsAllocLength = itsBlockSize;
+		itsAllocCount = itsBlockSize;
 
 		// throw out the old data
 
-		jdelete [] itsString;
+		jdelete [] itsBytes;
 
 		// Having just released a block of memory at least as large as the
 		// one we are requesting, the system must really be screwed if this
-		// call to jnew doesn't work.
+		// call to new doesn't work.
 
-		itsString = jnew JCharacter [ itsAllocLength + 1 ];
-		assert( itsString != NULL );
+		itsBytes = jnew JUtf8Byte [ itsAllocCount + 1 ];
+		assert( itsBytes != NULL );
 		}
 
 	// clear the string
 
-	itsString [ 0 ] = '\0';
-	itsStringLength = 0;
+	itsBytes[0]       = '\0';
+	itsByteCount      = 0;
+	itsCharacterCount = 0;
+
+	// TODO: notify iterators
 }
 
 /******************************************************************************
  TrimWhitespace
 
 	Trim leading and trailing whitespace from ourselves.
+
+	We only consider ASCII whitespace characters.
 
  ******************************************************************************/
 
@@ -513,78 +625,84 @@ JString::TrimWhitespace()
 {
 	// there is nothing to do if we are already empty
 
-	if (itsStringLength == 0)
+	if (itsByteCount == 0)
 		{
 		return;
 		}
 
 	// if there is no blank space to trim, we can stop now
 
-	if (!isspace(PrivateGetCharacter(1)) &&
-		!isspace(PrivateGetCharacter(itsStringLength)))
+	if (!isspace(itsBytes[0]) &&
+		!isspace(itsBytes[ itsByteCount-1 ]))
 		{
 		return;
 		}
 
+	JSize wsCount = 0;
+
 	// find last non-blank character
 
-	JIndex lastCharIndex = itsStringLength;
-	while (lastCharIndex > 0 && isspace(PrivateGetCharacter(lastCharIndex)))
+	JIndex lastByteIndex = itsByteCount;
+	while (lastByteIndex > 0 && isspace(itsBytes[ lastByteIndex-1 ]))
 		{
-		lastCharIndex--;
+		lastByteIndex--;
+		wsCount++;
 		}
 
 	// if we are only blank space, we can just clear ourselves
 
-	if (lastCharIndex == 0)
+	if (lastByteIndex == 0)
 		{
 		Clear();
 		return;
 		}
 
-	// find first non-blank character (it does exist since lastCharIndex > 0)
+	// find first non-blank character (it does exist since lastByteIndex > 0)
 
-	JIndex firstCharIndex = 1;
-	while (isspace(PrivateGetCharacter(firstCharIndex)))
+	JIndex firstByteIndex = 1;
+	while (isspace(itsBytes[ firstByteIndex-1 ]))
 		{
-		firstCharIndex++;
+		firstByteIndex++;
+		wsCount++;
 		}
 
 	// If we are using too much memory, reallocate.
 
-	const JSize newLength = lastCharIndex - firstCharIndex + 1;
+	const JSize newLength = lastByteIndex - firstByteIndex + 1;
 
-	if (itsAllocLength > newLength + itsBlockSize)
+	if (itsAllocCount > newLength + itsBlockSize)
 		{
-		itsAllocLength = newLength + itsBlockSize;
+		itsAllocCount = newLength + itsBlockSize;
 
-		// allocate space for the jnew string + termination
+		// allocate space for the new string + termination
 
-		JCharacter* newString = jnew JCharacter[ itsAllocLength+1 ];
+		JUtf8Byte* newString = jnew JUtf8Byte[ itsAllocCount+1 ];
 		assert( newString != NULL );
 
-		// copy the non-blank characters to the jnew string
+		// copy the non-blank characters to the new string
 
-		memcpy(newString, GetCharacterPtr(firstCharIndex), newLength);
+		memcpy(newString, itsBytes + firstByteIndex-1, newLength);
 
-		// throw out our original string and save the jnew one
+		// throw out our original string and save the new one
 
-		jdelete [] itsString;
-		itsString = newString;
+		jdelete [] itsBytes;
+		itsBytes = newString;
 		}
 
 	// Otherwise, just shift the characters.
 
 	else
 		{
-		memmove(itsString, GetCharacterPtr(firstCharIndex), newLength);
+		memmove(itsBytes, itsBytes + firstByteIndex-1, newLength);
 		}
 
 	// terminate
 
-	itsString [ newLength ] = '\0';
+	itsBytes[ newLength ] = '\0';
+	itsByteCount          = newLength;
+	itsCharacterCount    -= wsCount;
 
-	itsStringLength = newLength;
+	// TODO: notify iterators
 }
 
 /******************************************************************************
@@ -597,10 +715,9 @@ JString::TrimWhitespace()
 void
 JString::ToLower()
 {
-	for (JIndex i=0; i<itsStringLength; i++)
-		{
-		itsString[i] = JToLower(itsString[i]);
-		}
+	// TODO: utf8 equivalent of u_strToLower()
+
+	// TODO: notify iterators
 }
 
 /******************************************************************************
@@ -613,174 +730,127 @@ JString::ToLower()
 void
 JString::ToUpper()
 {
-	for (JIndex i=0; i<itsStringLength; i++)
-		{
-		itsString[i] = JToUpper(itsString[i]);
-		}
+	// TODO: utf8 equivalent of u_strToUpper()
+
+	// TODO: notify iterators
 }
 
 /******************************************************************************
- LocateSubstring
+ SearchForward (private)
 
-	Return the index corresponding to the start of the first occurrence of
-	the given string in our string.
+	Return the byte index corresponding to the start of the next occurrence
+	of the given sequence in our string, starting at *byteIndex.
+
+	In:  *byteIndex is first character to consider
+	Out: If function returns kJTrue, *byteIndex is location of next occurrence.
+		 Otherwise, *byteIndex is beyond end of string.
 
  ******************************************************************************/
 
 JBoolean
-JString::LocateSubstring
+JString::SearchForward
 	(
-	const JCharacter*	str,
+	const JUtf8Byte*	str,
 	const JSize			strLength,
 	const JBoolean		caseSensitive,
-	JIndex*				startIndex
-	)
-	const
-{
-	*startIndex = 1;
-	return LocateNextSubstring(str, strLength, caseSensitive, startIndex);
-}
-
-/******************************************************************************
- LocateNextSubstring
-
-	Return the index corresponding to the start of the next occurrence of
-	the given string in our string, starting at *startIndex.
-
-	In:  *startIndex is first character to consider
-	Out: If function returns kJTrue, *startIndex is location of next occurrence.
-		 Otherwise, *startIndex is beyond end of string.
-
- ******************************************************************************/
-
-JBoolean
-JString::LocateNextSubstring
-	(
-	const JCharacter*	str,
-	const JSize			strLength,
-	const JBoolean		caseSensitive,
-	JIndex*				startIndex
+	JIndex*				byteIndex
 	)
 	const
 {
 	if (IsEmpty())
 		{
-		*startIndex = 1;
+		*byteIndex = 1;
 		return kJFalse;
 		}
-	else if (*startIndex > itsStringLength)
+	else if (*byteIndex > itsByteCount)
 		{
 		return kJFalse;
 		}
 
-	assert( *startIndex > 0 );
+	assert( *byteIndex != 0 );
 
 	// if the given string is longer than we are, we can't contain it
 
-	if (itsStringLength - *startIndex + 1 < strLength)
+	if (itsByteCount - *byteIndex + 1 < strLength)
 		{
-		*startIndex = itsStringLength+1;
+		*byteIndex = itsByteCount+1;
 		return kJFalse;
 		}
 
 	// search forward for a match
 
-	for (JIndex i=*startIndex; i<=itsStringLength - strLength + 1; i++)
+	for (JIndex i=*byteIndex; i<=itsByteCount - strLength + 1; i++)
 		{
-		if (JCompareMaxN(GetCharacterPtr(i), itsStringLength-i+1, str, strLength,
-						 strLength, caseSensitive))
+		if (CompareMaxN(itsBytes + i-1, str, strLength, caseSensitive))
 			{
-			*startIndex = i;
+			*byteIndex = i;
 			return kJTrue;
 			}
 		}
 
 	// if we fall through, there was no match
 
-	*startIndex = itsStringLength+1;
+	*byteIndex = itsByteCount+1;
 	return kJFalse;
 }
 
 /******************************************************************************
- LocateLastSubstring
+ SearchBackward (private)
 
-	Return the index corresponding to the start of the last occurrence of
-	the given string in our string.
+	Return the byte index corresponding to the start of the previous
+	occurrence of the given sequence in our string, starting at *byteIndex.
 
- ******************************************************************************/
-
-JBoolean
-JString::LocateLastSubstring
-	(
-	const JCharacter*	str,
-	const JSize			strLength,
-	const JBoolean		caseSensitive,
-	JIndex*				startIndex
-	)
-	const
-{
-	*startIndex = itsStringLength;
-	return LocatePrevSubstring(str, strLength, caseSensitive, startIndex);
-}
-
-/******************************************************************************
- LocatePrevSubstring
-
-	Return the index corresponding to the start of the previous occurrence of
-	the given string in our string, starting at *startIndex.
-
-	In:  *startIndex is first character to consider
-	Out: If function returns kJTrue, *startIndex is location of prev occurrence.
-		 Otherwise, *startIndex is zero.
+	In:  *byteIndex is first character to consider
+	Out: If function returns kJTrue, *byteIndex is location of prev occurrence.
+		 Otherwise, *byteIndex is zero.
 
  ******************************************************************************/
 
 JBoolean
-JString::LocatePrevSubstring
+JString::SearchBackward
 	(
-	const JCharacter*	str,
+	const JUtf8Byte*	str,
 	const JSize			strLength,
 	const JBoolean		caseSensitive,
-	JIndex*				startIndex
+	JIndex*				byteIndex
 	)
 	const
 {
-	if (IsEmpty() || *startIndex == 0)
+	if (IsEmpty() || *byteIndex == 0)
 		{
-		*startIndex = 0;
+		*byteIndex = 0;
 		return kJFalse;
 		}
 
-	assert( *startIndex <= itsStringLength );
+	assert( *byteIndex <= itsByteCount );
 
-	// if the given string runs past our end, back up *startIndex
+	// if the given string runs past our end, back up *byteIndex
 
-	const JSize spaceAtEnd = itsStringLength - *startIndex + 1;
-	if (spaceAtEnd < strLength && itsStringLength >= strLength)
+	const JSize spaceAtEnd = itsByteCount - *byteIndex + 1;
+	if (spaceAtEnd < strLength && itsByteCount >= strLength)
 		{
-		*startIndex = itsStringLength - strLength + 1;
+		*byteIndex = itsByteCount - strLength + 1;
 		}
 	else if (spaceAtEnd < strLength)
 		{
-		*startIndex = 0;
+		*byteIndex = 0;
 		return kJFalse;
 		}
 
 	// search backward for a match
 
-	for (JIndex i=*startIndex; i>=1; i--)
+	for (JIndex i=*byteIndex; i>=1; i--)
 		{
-		if (JCompareMaxN(GetCharacterPtr(i), itsStringLength-i+1, str, strLength,
-						 strLength, caseSensitive))
+		if (CompareMaxN(itsBytes + i-1, str, strLength, caseSensitive))
 			{
-			*startIndex = i;
+			*byteIndex = i;
 			return kJTrue;
 			}
 		}
 
 	// if we fall through, there was no match
 
-	*startIndex = 0;
+	*byteIndex = 0;
 	return kJFalse;
 }
 
@@ -792,20 +862,45 @@ JString::LocatePrevSubstring
 JBoolean
 JString::BeginsWith
 	(
-	const JCharacter*	str,
-	const JSize			length,
-	const JBoolean		caseSensitive
+	const JUtf8Byte*		str,
+	const JUtf8ByteRange&	range,
+	const JBoolean			caseSensitive
 	)
 	const
 {
-	if (length == 0)
+	if (range.GetLength() == 0)
 		{
 		return kJTrue;
 		}
 	else
 		{
 		JIndex i = 1;
-		return LocatePrevSubstring(str, length, caseSensitive, &i);
+		return SearchBackward(str + range.first-1, range.GetLength(), caseSensitive, &i);
+		}
+}
+
+/******************************************************************************
+ Contains
+
+ ******************************************************************************/
+
+JBoolean
+JString::Contains
+	(
+	const JUtf8Byte*		str,
+	const JUtf8ByteRange&	range,
+	const JBoolean			caseSensitive
+	)
+	const
+{
+	if (range.GetLength() == 0)
+		{
+		return kJTrue;
+		}
+	else
+		{
+		JIndex i = 1;
+		return SearchForward(str + range.first-1, range.GetLength(), caseSensitive, &i);
 		}
 }
 
@@ -817,196 +912,25 @@ JString::BeginsWith
 JBoolean
 JString::EndsWith
 	(
-	const JCharacter*	str,
-	const JSize			length,
-	const JBoolean		caseSensitive
+	const JUtf8Byte*		str,
+	const JUtf8ByteRange&	range,
+	const JBoolean			caseSensitive
 	)
 	const
 {
-	if (length == 0)
+	if (range.GetLength() == 0)
 		{
 		return kJTrue;
 		}
-	else if (itsStringLength >= length)
+	else if (itsByteCount >= range.GetLength())
 		{
-		JIndex i = itsStringLength - length + 1;
-		return LocateNextSubstring(str, length, caseSensitive, &i);
+		JIndex i = itsByteCount - range.GetLength() + 1;
+		return SearchForward(str + range.first-1, range.GetLength(), caseSensitive, &i);
 		}
 	else
 		{
 		return kJFalse;
 		}
-}
-
-/******************************************************************************
- GetSubstring
-
-	Return a string containing the specified substring of our string.
-
-	Not inline because it uses assert.
-
- ******************************************************************************/
-
-JString
-JString::GetSubstring
-	(
-	const JIndex firstCharIndex,
-	const JIndex lastCharIndex
-	)
-	const
-{
-	assert( IndexValid(firstCharIndex) );
-	assert( IndexValid(lastCharIndex) );
-	assert( firstCharIndex <= lastCharIndex );
-
-	return JString(GetCharacterPtr(firstCharIndex), lastCharIndex - firstCharIndex + 1);
-}
-
-JString
-JString::GetSubstring
-	(
-	const JIndexRange& range
-	)
-	const
-{
-	assert( !range.IsNothing() );
-
-	if (range.IsEmpty())
-		{
-		return JString();
-		}
-	else
-		{
-		return GetSubstring(range.first, range.last);
-		}
-}
-
-/******************************************************************************
- Extract
-
-	Fills substringList with the text of each range in rangeList.  Empty
-	ranges are converted to NULL.
-
- *****************************************************************************/
-
-void
-JString::Extract
-	(
-	const JArray<JIndexRange>&	rangeList,
-	JPtrArray<JString>*			substringList
-	)
-	const
-{
-	assert( substringList != NULL );
-
-	substringList->CleanOut();
-
-	const JSize count = rangeList.GetElementCount();
-	for (JIndex i=1; i<=count; i++)
-		{
-		const JIndexRange r = rangeList.GetElement(i);
-		JString* s          = NULL;
-		if (!r.IsEmpty())
-			{
-			s = jnew JString(itsString, r);
-			assert( s != NULL );
-			}
-		substringList->Append(s);
-		}
-}
-
-/******************************************************************************
- ReplaceSubstring
-
-	Replace the specified substring with the given string.
-
- ******************************************************************************/
-
-void
-JString::ReplaceSubstring
-	(
-	const JIndex		firstCharIndex,
-	const JIndex		lastCharIndex,
-	const JCharacter*	str,
-	const JSize			strLength
-	)
-{
-	assert( IndexValid(firstCharIndex) );
-	assert( IndexValid(lastCharIndex) );
-	assert( firstCharIndex <= lastCharIndex );
-
-	const JSize replaceLength = lastCharIndex - firstCharIndex + 1;
-	const JSize newLength     = itsStringLength - replaceLength + strLength;
-
-	const JSize len1 = firstCharIndex - 1;
-	const JSize len2 = strLength;
-	const JSize len3 = itsStringLength - lastCharIndex;
-
-	// If we don't have space, or would use too much space, reallocate.
-
-	if (itsAllocLength < newLength || itsAllocLength > newLength + itsBlockSize)
-		{
-		itsAllocLength = newLength + itsBlockSize;
-
-		// allocate space for the result
-
-		JCharacter* newString = jnew JCharacter[ itsAllocLength+1 ];
-		assert( newString != NULL );
-
-		// place the characters in front and behind
-
-		memcpy(newString, itsString, len1);
-		memcpy(newString + len1 + len2, itsString + lastCharIndex, len3);
-
-		// throw out the original string and save the jnew one
-
-		jdelete [] itsString;
-		itsString = newString;
-		}
-
-	// Otherwise, shift characters to make space.
-
-	else
-		{
-		memmove(itsString + len1 + len2, itsString + lastCharIndex, len3);
-		}
-
-	// insert the jnew characters
-
-	memcpy(itsString + len1, str, len2);
-
-	// terminate
-
-	itsString[ newLength ] = '\0';
-
-	itsStringLength = newLength;
-}
-
-/******************************************************************************
- MatchCase
-
-	Interface to JMatchCase().
-
- *****************************************************************************/
-
-JBoolean
-JString::MatchCase
-	(
-	const JCharacter*	source,
-	const JIndexRange&	sourceRange,
-	const JIndexRange&	destRange
-	)
-{
-	assert( source != NULL );
-
-	if (IsEmpty() || sourceRange.IsEmpty() || destRange.IsEmpty())
-		{
-		return kJFalse;
-		}
-
-	assert( RangeValid(destRange) );
-
-	return JMatchCase(source, sourceRange, itsString, destRange);
 }
 
 /******************************************************************************
@@ -1034,7 +958,7 @@ JString::MatchCase
 JBoolean
 JString::ConvertToFloat
 	(
-	const JCharacter*	str,
+	const JUtf8Byte*	str,
 	const JSize			length,
 	JFloat*				value
 	)
@@ -1074,7 +998,7 @@ JString::ConvertToFloat
 JBoolean
 JString::ConvertToInteger
 	(
-	const JCharacter*	str,
+	const JUtf8Byte*	str,
 	const JSize			length,
 	JInteger*			value,
 	const JSize			origBase
@@ -1113,7 +1037,7 @@ JString::ConvertToInteger
 JBoolean
 JString::ConvertToUInt
 	(
-	const JCharacter*	str,
+	const JUtf8Byte*	str,
 	const JSize			length,
 	JUInt*				value,
 	const JSize			origBase
@@ -1164,7 +1088,7 @@ JString::ConvertToUInt
 JBoolean
 JString::IsHexValue
 	(
-	const JCharacter*	str,
+	const JUtf8Byte*	str,
 	const JSize			length
 	)
 {
@@ -1189,9 +1113,9 @@ JString::IsHexValue
 JBoolean
 JString::CompleteConversion
 	(
-	const JCharacter*	startPtr,
+	const JUtf8Byte*	startPtr,
 	const JSize			length,
-	const JCharacter*	convEndPtr
+	const JUtf8Byte*	convEndPtr
 	)
 {
 	if (convEndPtr == startPtr)		// avoid behavior guaranteed by strto*()
@@ -1199,7 +1123,7 @@ JString::CompleteConversion
 		return kJFalse;
 		}
 
-	const JCharacter* endPtr = startPtr + length;
+	const JUtf8Byte* endPtr = startPtr + length;
 	while (convEndPtr < endPtr)
 		{
 		if (!isspace(*convEndPtr))
@@ -1218,8 +1142,9 @@ JString::CompleteConversion
 
 JString
 JString::EncodeBase64()
+	const
 {
-	std::istrstream input(itsString, itsStringLength);
+	std::istrstream input(itsBytes, itsByteCount);
 	std::ostrstream output;
 	JEncodeBase64(input, output);
 	return JString(output.str(), output.pcount());
@@ -1235,8 +1160,9 @@ JString::DecodeBase64
 	(
 	JString* str
 	)
+	const
 {
-	std::istrstream input(itsString, itsStringLength);
+	std::istrstream input(itsBytes, itsByteCount);
 	std::ostrstream output;
 	if (JDecodeBase64(input, output))
 		{
@@ -1265,25 +1191,28 @@ JString::Read
 	const JSize	count
 	)
 {
-	if (itsAllocLength < count || itsAllocLength == 0)
+	if (itsAllocCount < count || itsAllocCount == 0)
 		{
-		itsAllocLength = count + itsBlockSize;
+		itsAllocCount = count + itsBlockSize;
 
-		// We allocate the jnew memory first.
-		// If jnew fails, we still have the old string data.
+		// We allocate the new memory first.
+		// If new fails, we still have the old string data.
 
-		JCharacter* newString = jnew JCharacter [ itsAllocLength + 1 ];
+		JUtf8Byte* newString = jnew JUtf8Byte [ itsAllocCount + 1 ];
 		assert( newString != NULL );
 
 		// now it's safe to throw out the old data
 
-		jdelete [] itsString;
-		itsString = newString;
+		jdelete [] itsBytes;
+		itsBytes = newString;
 		}
 
-	input.read(itsString, count);
-	itsStringLength = input.gcount();
-	itsString[ itsStringLength ] = '\0';
+	input.read(itsBytes, count);
+	itsByteCount             = input.gcount();
+	itsBytes[ itsByteCount ] = '\0';
+	itsCharacterCount        = CountCharacters(itsBytes, itsByteCount);
+
+	// TODO: notify iterators
 }
 
 /******************************************************************************
@@ -1308,7 +1237,7 @@ JString::ReadDelimited
 
 	// the string must start with a double quote
 
-	JCharacter c;
+	JUtf8Byte c;
 	input.get(c);
 	if (c != '"')
 		{
@@ -1322,7 +1251,7 @@ JString::ReadDelimited
 	Clear();
 
 	const JSize bufSize = 100;
-	JCharacter buf[ bufSize ];
+	JUtf8Byte buf[ bufSize ];
 
 	JIndex i = 0;
 	while (1)
@@ -1355,7 +1284,7 @@ JString::ReadDelimited
 		if (i == bufSize)
 			{
 			Append(buf, bufSize);
-			i=0;
+			i = 0;
 			}
 		}
 
@@ -1377,213 +1306,92 @@ JString::Print
 	)
 	const
 {
-	output.write(itsString, itsStringLength);
+	output.write(itsBytes, itsByteCount);
 }
 
 /******************************************************************************
- Global functions for JString class
+ CountCharacters (static)
 
  ******************************************************************************/
 
-/******************************************************************************
- Diacritical map
-
-	Tells us how to remove diacritical marks.
-
- ******************************************************************************/
-
-JBoolean
-JGetDiacriticalMap
+JSize
+JString::CountCharacters
 	(
-	const JCharacter**	map,
-	const JIndex**		markType
+	const JUtf8Byte*		str,
+	const JUtf8ByteRange&	range
 	)
 {
-	*map      = kDiacriticalMap;
-	*markType = kDiacriticalMarkType;
-	return JI2B( kDiacriticalMap != NULL && kDiacriticalMarkType != NULL );
-}
-
-void
-JSetDiacriticalMap
-	(
-	const JCharacter*	map,
-	const JIndex*		markType
-	)
-{
-	kDiacriticalMap      = map;
-	kDiacriticalMarkType = markType;
-/*
-	jdelete kToLowerMap;
-	kToLowerMap = NULL;
-
-	jdelete kToUpperMap;
-	kToUpperMap = NULL;
-
-	if (map != NULL && markType != NULL)
+	JSize charCount = 0;
+	for (JIndex i = range.first-1; i < range.last; )
 		{
-		kToLowerMap = jnew JCharacter [ UCHAR_MAX+1 ];
-		assert( kToLowerMap != NULL );
+		charCount++;
+		i += JUtf8Character::GetCharacterByteCount(str + i);
+		}
 
-		kToUpperMap = jnew JCharacter [ UCHAR_MAX+1 ];
-		assert( kToUpperMap != NULL );
+	return charCount;
+}
 
-		for (int i=0; i<=UCHAR_MAX; i++)
+/******************************************************************************
+ CharacterToUtf8ByteRange (static)
+
+ ******************************************************************************/
+
+JUtf8ByteRange
+JString::CharacterToUtf8ByteRange
+	(
+	const JUtf8Byte*		str,
+	const JCharacterRange&	range
+	)
+{
+	JSize charCount = 0, startByte = 0;
+
+	JIndex i = 1;
+	while (str[ i-1 ] != 0)
+		{
+		if (charCount >= range.first-1)
 			{
-			JBoolean found = kJFalse;
-			if (kDiacriticalMarkType[i] == 0)
-				{
-				kToLowerMap[i] = tolower(i);
-				kToUpperMap[i] = toupper(i);
-				found          = kJTrue;
-				}
-			else if (JIsUpper(i))
-				{
-				kToLowerMap[i] = tolower(kDiacriticalMap[i]);
-				kToUpperMap[i] = i;
-
-				for (int j=0; j<=UCHAR_MAX; j++)
-					{
-					if (kDiacriticalMap[j]      == kToLowerMap[i] &&
-						kDiacriticalMarkType[j] == kDiacriticalMarkType[i])
-						{
-						kToLowerMap[i] = j;
-						found          = kJTrue;
-						}
-					}
-				}
-			else if (JIsLower(i))
-				{
-				kToLowerMap[i] = i;
-				kToUpperMap[i] = toupper(kDiacriticalMap[i]);
-
-				for (int j=0; j<=UCHAR_MAX; j++)
-					{
-					if (kDiacriticalMap[j]      == kToUpperMap[i] &&
-						kDiacriticalMarkType[j] == kDiacriticalMarkType[i])
-						{
-						kToUpperMap[i] = j;
-						found          = kJTrue;
-						}
-					}
-				}
-
-			if (!found)
-				{
-				kToLowerMap[i] = i;
-				kToUpperMap[i] = i;
-				}
+			startByte = i;
+			break;
 			}
+
+		charCount++;
+		i += JUtf8Character::GetCharacterByteCount(str + i-1);
 		}
-*/
+
+	if (startByte == 0)
+		{
+		return JUtf8ByteRange();
+		}
+
+	JUtf8ByteRange r(startByte, startByte);
+
+	charCount = range.GetLength();
+	for (JIndex i=1; i <= charCount; i++)
+		{
+		r.last += JUtf8Character::GetCharacterByteCount(str + r.last-1);
+		}
+
+	return r;
 }
 
 /******************************************************************************
- JStringCompare
+ Compare (static)
 
-	Returns the same as strcmp(): + if s1>s2, 0 if s1==s2, - if s1<s2
+	Replaces strcmp(): + if s1>s2, 0 if s1==s2, - if s1<s2
 
  ******************************************************************************/
-
-inline int
-jDiffChars
-	(
-	JCharacter		c1,
-	JCharacter		c2,
-	const JBoolean	caseSensitive
-	)
-{
-	if (kDiacriticalMap != NULL)	// remove diacritical marks
-		{
-//		if (c1 < 0 || c2 < 0)
-//			{
-//			cout << c1 << ' ' << kDiacriticalMap[ (unsigned char) c1 ];
-//			cout << c2 << ' ' << kDiacriticalMap[ (unsigned char) c2 ] << endl;
-//			}
-		c1 = kDiacriticalMap[ (unsigned char) c1 ];
-		c2 = kDiacriticalMap[ (unsigned char) c2 ];
-		}
-	return (caseSensitive ? (c1 - c2) : (tolower(c1) - tolower(c2)));
-}
 
 int
-JStringCompare
+JString::Compare
 	(
-	const JCharacter*	s1,
-	const JCharacter*	s2,
-	const JBoolean		caseSensitive
-	)
-{
-	while (*s1 != '\0' && *s2 != '\0')
-		{
-		int c = jDiffChars(*s1, *s2, caseSensitive);
-		if (c != 0)
-			{
-			return c;
-			}
-		s1++;
-		s2++;
-		}
-	return jDiffChars(*s1, *s2, caseSensitive);
-/*
-	if (caseSensitive)
-		{
-		return strcoll(s1, s2);
-		}
-	else
-		{
-		return strcasecmp(s1, s2);
-		}
-*/
-}
-
-int
-JStringCompare
-	(
-	const JCharacter*	s1,
+	const JUtf8Byte*	s1,
 	const JSize			length1,
-	const JCharacter*	s2,
+	const JUtf8Byte*	s2,
 	const JSize			length2,
 	const JBoolean		caseSensitive
 	)
 {
-	const JCharacter* end1 = s1 + length1;
-	const JCharacter* end2 = s2 + length2;
-
-	while (s1 < end1 && s2 < end2)
-		{
-		int c = jDiffChars(*s1, *s2, caseSensitive);
-		if (c != 0)
-			{
-			return c;
-			}
-		s1++;
-		s2++;
-		}
-
-	if (s1 == end1 && s2 == end2)
-		{
-		return 0;
-		}
-	else if (s1 == end1)
-		{
-		return -1;
-		}
-	else
-		{
-		assert( s2 == end2 );
-		return +1;
-		}
-/*
-	int r;
-	if (caseSensitive)
-		{
-		r = strncmp(s1, s2, JMin(length1, length2));
-		}
-	else
-		{
-		r = strncasecmp(s1, s2, JMin(length1, length2));
-		}
+	int r = JString::CompareMaxN(s1, s2, JMin(length2, length2), caseSensitive);
 
 	if (r == 0 && length1 < length2)
 		{
@@ -1594,83 +1402,74 @@ JStringCompare
 		r = +1;
 		}
 	return r;
-*/
 }
 
 /******************************************************************************
- JCompareMaxN
+ CompareMaxN (static)
 
-	Returns kJTrue if the first N characters of the two strings are equal.
-	(replaces strncmp())
+	Replaces strncmp(): + if s1>s2, 0 if s1==s2, - if s1<s2
 
  ******************************************************************************/
 
-JBoolean
-JCompareMaxN
+int
+JString::CompareMaxN
 	(
-	const JCharacter*	s1,
-	const JCharacter*	s2,
+	const JUtf8Byte*	s1,
+	const JUtf8Byte*	s2,
 	const JSize			N,
 	const JBoolean		caseSensitive
 	)
 {
-	for (JIndex i=0; i<N; i++)
+	// TODO: utf8
+	//	u_strCompare(, true)
+	//	u_memcasecmp(U_COMPARE_CODE_POINT_ORDER)
+
+	int r;
+	if (caseSensitive)
 		{
-		if (jDiffChars(s1[i], s2[i], caseSensitive) != 0)
-			{
-			return kJFalse;
-			}
-		else if (s1[i] == '\0' && s2[i] == '\0')	// same length, shorter than N
-			{
-			return kJTrue;
-			}
+		return strncmp(s1, s2, N);
 		}
-
-	return kJTrue;
-}
-
-JBoolean
-JCompareMaxN
-	(
-	const JCharacter*	s1,
-	const JSize			length1,
-	const JCharacter*	s2,
-	const JSize			length2,
-	const JSize			N,
-	const JBoolean		caseSensitive
-	)
-{
-	for (JIndex i=0; i<length1 && i<length2 && i<N; i++)
+	else
 		{
-		if (jDiffChars(s1[i], s2[i], caseSensitive) != 0)
-			{
-			return kJFalse;
-			}
+		return strncasecmp(s1, s2, N);
 		}
-
-	return kJTrue;
 }
 
 /******************************************************************************
- JCalcMatchLength
+ CalcMatchLength (static)
 
 	Calculates the number of characters that match from the beginning
 	of the given strings.
 
-	JCalcMatchLength("abc", "abd")          -> 2
+	CalcMatchLength("abc", "abd")          -> 2
 	JCalcMatchLength("abc", "xyz")          -> 0
 	JCalcMatchLength("abc", "aBd", kJFalse) -> 2
 
  *****************************************************************************/
 
-JSize
-JCalcMatchLength
+inline int
+jDiffChars
 	(
-	const JCharacter*	s1,
-	const JCharacter*	s2,
+	JUtf8Byte		c1,
+	JUtf8Byte		c2,
+	const JBoolean	caseSensitive
+	)
+{
+	// TODO: utf8
+
+	return (caseSensitive ? (c1 - c2) : (tolower(c1) - tolower(c2)));
+}
+
+JSize
+JString::CalcMatchLength
+	(
+	const JUtf8Byte*	s1,
+	const JUtf8Byte*	s2,
 	const JBoolean		caseSensitive
 	)
 {
+	// separate implementation to avoid unnecessary calls to strlen()
+
 	JSize i = 0;
 	while (jDiffChars(s1[i], s2[i], caseSensitive) == 0 &&
 		   s1[i] != '\0')	// kJTrue => s2[i] != '\0'
@@ -1680,8 +1479,28 @@ JCalcMatchLength
 	return i;
 }
 
+JSize
+JString::CalcMatchLength
+	(
+	const JUtf8Byte*	s1,
+	const JSize			length1,
+	const JUtf8Byte*	s2,
+	const JSize			length2,
+	const JBoolean		caseSensitive
+	)
+{
+	JSize i = 0;
+	while (i < length1 && i < length2 &&
+		   jDiffChars(s1[i], s2[i], caseSensitive) == 0 &&
+		   s1[i] != '\0')	// kJTrue => s2[i] != '\0'
+		{
+		i++;
+		}
+	return i;
+}
+
 /******************************************************************************
- JCopyMaxN
+ CopyMaxN (static)
 
 	A version of strncpy() without the horrible bug.  In addition, it returns
 	kJTrue if the entire string was copied or kJFalse if it wasn't, since the
@@ -1691,11 +1510,11 @@ JCalcMatchLength
  *****************************************************************************/
 
 JBoolean
-JCopyMaxN
+JString::CopyMaxN
 	(
-	const JCharacter*	source,
+	const JUtf8Byte*	source,
 	const JIndex		maxBytes,
-	JCharacter*			destination
+	JUtf8Byte*			destination
 	)
 {
 	JIndex i;
@@ -1713,13 +1532,13 @@ JCopyMaxN
 }
 
 /******************************************************************************
- JMatchCase
+ MatchCase (private)
 
-	Adjusts the case of destRange in dest to match the case of sourceRange
-	in source.  Returns kJTrue if any changes were made.
+	Adjusts the case of destRange to match the case of sourceRange in
+	source.  Returns kJTrue if any changes were made.
 
-	If sourceRange and destRange have the same length, we match the
-	case of each character individually.
+	If sourceRange and destRange have the same number of characters, we
+	match the case of each character individually.
 
 	Otherwise:
 
@@ -1733,37 +1552,40 @@ JCopyMaxN
  *****************************************************************************/
 
 JBoolean
-JMatchCase
+JString::MatchCase
 	(
-	const JCharacter*	source,
-	const JIndexRange&	sourceRange,
-	JCharacter*			dest,
-	const JIndexRange&	destRange
+	const JUtf8Byte*		source,
+	const JUtf8ByteRange&	sourceRange,
+	const JUtf8ByteRange&	destRange
 	)
 {
-	if (JStringEmpty(source) || sourceRange.IsEmpty() ||
-		JStringEmpty(dest)   || destRange.IsEmpty())
+	if (JString::IsEmpty(source) || sourceRange.IsEmpty() ||
+		IsEmpty()                || destRange.IsEmpty())
 		{
 		return kJFalse;
 		}
 
+	assert( RangeValid(destRange) );
+
 	JBoolean changed      = kJFalse;
-	const JSize sourceLen = sourceRange.GetLength();
-	const JSize destLen   = destRange.GetLength();
+	const JSize sourceLen = CountCharacters(source, sourceRange);
+	const JSize destLen   = CountCharacters(itsBytes, destRange);
 
 	// if not the same length, match all but first character
 
+	JUtf8Character c;
 	if (destLen > 1 && sourceLen != destLen)
 		{
 		JBoolean hasUpper = kJFalse;
 		JBoolean hasLower = kJFalse;
-		for (JIndex i = sourceRange.first-1; i < sourceRange.last; i++)
+		for (JIndex i = sourceRange.first-1; i < sourceRange.last; )
 			{
-			if (JIsLower(source[i]))
+			c.Set(source + i);
+			if (c.IsLower())
 				{
 				hasLower = kJTrue;
 				}
-			else if (JIsUpper(source[i]))
+			else if (c.IsUpper())
 				{
 				hasUpper = kJTrue;
 				}
@@ -1772,23 +1594,32 @@ JMatchCase
 				{
 				break;
 				}
+
+			i += c.GetByteCount();
 			}
 
 		// first character is fixed separately below
 
-		if (hasLower && !hasUpper)
+		if (hasLower != hasUpper)
 			{
-			for (JIndex i = destRange.first-1; i < destRange.last; i++)
+			JUtf8Character c1;
+			for (JIndex i = destRange.first-1; i < destRange.last; )
 				{
-				dest[i] = JToLower(dest[i]);
-				}
-			changed = kJTrue;
-			}
-		else if (hasUpper && !hasLower)
-			{
-			for (JIndex i = destRange.first-1; i < destRange.last; i++)
-				{
-				dest[i] = JToUpper(dest[i]);
+				c.Set(itsBytes + i);
+				if (hasLower && !hasUpper)
+					{
+					c1 = c.ToLower();
+					}
+				else
+					{
+					c1 = c.ToUpper();
+					}
+
+				if (c1 != c)
+					{
+					ReplaceBytes(i, i + c.GetByteCount() - 1, c1.GetBytes(), c1.GetByteCount());
+					}
+				i += c1.GetByteCount();
 				}
 			changed = kJTrue;
 			}
@@ -1798,141 +1629,34 @@ JMatchCase
 	// else, match all characters
 
 	const JIndex endIndex = (sourceLen == destLen ? sourceLen : 1);
+
+	JIndex j = sourceRange.first-1;
+	JIndex k = destRange.first-1;
+	JUtf8Character c1, c2, c3;
 	for (JIndex i=0; i<endIndex; i++)
 		{
-		const JIndex j = sourceRange.first-1+i;
-		const JIndex k = destRange.first  -1+i;
-		if (JIsLower(source[j]) && JIsUpper(dest[k]))
+		c1.Set(source + j);
+		c2.Set(itsBytes + k);
+		if (c1.IsLower() && c2.IsUpper())
 			{
-			dest[k] = JToLower(dest[k]);
+			c3 = c2.ToLower();
+			ReplaceBytes(k, k + c2.GetByteCount() - 1, c3.GetBytes(), c3.GetByteCount());
 			changed = kJTrue;
 			}
-		else if (JIsUpper(source[j]) && JIsLower(dest[k]))
+		else if (c1.IsUpper() && c2.IsLower())
 			{
-			dest[k] = JToUpper(dest[k]);
+			c3 = c2.ToUpper();
+			ReplaceBytes(k, k + c2.GetByteCount() - 1, c3.GetBytes(), c3.GetByteCount());
 			changed = kJTrue;
 			}
 		}
 
+	if (changed)
+		{
+		// TODO: notify iterators
+		}
+
 	return changed;
-}
-
-/******************************************************************************
- Character types
-
-	Replacements for isalpha(), etc. that understand European letters.
-	setlocale() makes most of the standard functions work correctly.
-
- ******************************************************************************/
-
-JBoolean
-JIsPrint
-	(
-	const JCharacter c
-	)
-{
-#ifdef _J_OSX
-	return JI2B( isprint(c) || 0xA1 <= (unsigned char) c );
-#else
-	return JI2B( isprint(c) /* || (c & 0x80) */ );
-#endif
-}
-
-JBoolean
-JIsAlnum
-	(
-	const JCharacter c
-	)
-{
-	return JI2B( JIsAlpha(c) || isdigit(c) );
-}
-
-JBoolean
-JIsAlpha
-	(
-	const JCharacter c
-	)
-{
-//	if (kDiacriticalMap != NULL)
-//		{
-//		return JI2B( isalpha(kDiacriticalMap[ (unsigned char) c ]) );
-//		}
-//	else
-//		{
-		return JI2B( isalpha(c) );
-//		}
-}
-
-JBoolean
-JIsUpper
-	(
-	const JCharacter c
-	)
-{
-//	if (kDiacriticalMap != NULL)
-//		{
-//		return JI2B( isupper(kDiacriticalMap[ (unsigned char) c ]) );
-//		}
-//	else
-//		{
-		return JI2B( isupper(c) );
-//		}
-}
-
-JBoolean
-JIsLower
-	(
-	const JCharacter c
-	)
-{
-//	if (kDiacriticalMap != NULL)
-//		{
-//		return JI2B( islower(kDiacriticalMap[ (unsigned char) c ]) );
-//		}
-//	else
-//		{
-		return JI2B( islower(c) );
-//		}
-}
-
-/******************************************************************************
- Case conversion
-
-	Replacements for toupper() and tolower() that understand European letters.
-	setlocale() makes the standard functions work correctly.
-
- ******************************************************************************/
-
-JCharacter
-JToUpper
-	(
-	const JCharacter c
-	)
-{
-//	if (kToUpperMap != NULL)
-//		{
-//		return kToUpperMap[ (unsigned char) c ];
-//		}
-//	else
-//		{
-		return toupper(c);
-//		}
-}
-
-JCharacter
-JToLower
-	(
-	const JCharacter c
-	)
-{
-//	if (kToLowerMap != NULL)
-//		{
-//		return kToLowerMap[ (unsigned char) c ];
-//		}
-//	else
-//		{
-		return tolower(c);
-//		}
 }
 
 /******************************************************************************
@@ -2001,19 +1725,19 @@ operator<<
 
 	// write the string data, substituting \" in place of "
 
-	const JSize length = aString.GetLength();
+	const JSize length = aString.itsByteCount;
 
 	for (JIndex i=1; i<=length; i++)
 		{
-		const JCharacter c = aString.PrivateGetCharacter(i);
+		const JUtf8Byte c = aString.itsBytes[ i-1 ];
 
 		if (c == '"')
 			{
-			output << '\\' << '"';
+			output << "\\\"";
 			}
 		else if (c == '\\')
 			{
-			output << '\\' << '\\';
+			output << "\\\\";
 			}
 		else
 			{
@@ -2032,7 +1756,6 @@ operator<<
 
 /*-----------------------------------------------------------------------------
  Routines required for number<->string conversion
-
  -----------------------------------------------------------------------------*/
 
 // private routines
@@ -2040,11 +1763,9 @@ operator<<
 static void  Round(int start, int B, int D[], int *exp, const int sigDigitCount);
 static void  Shift(int* start, int D[], int* exp, const int sigDigitCount);
 
-static void  JAssignString(char s1[], const char *s2);
 static void  JInsertSubstring(char s1[], short pos1, const char *s2, short pos2, short pos3);
 static void  JShiftSubstring(char s[], short pos1, short pos2, short shift);
 static short JLocateSubstring(const char *s1, const char *s2);
-//static void  JTrimSpaces(char* s);
 
 inline void
 JAppendChar(char s1[], char c)
@@ -2450,97 +2171,6 @@ int i;
 }
 
 /*-----------------------------------------------------------------------------
- str2double (from FSTR in FORTRAN)
-
-	Converts the C string numStr to doubleVal.  Returns kJFalse if an error occurs.
-
-	We use recursion to handle the exponent.
-
- -----------------------------------------------------------------------------*/
-/*
-JBoolean str2double(char *numStr1,double *doubleVal)
-{
-int			i,numlen,decPt,decEnd,expMrk,digit;
-char		numStr[256],expNumStr[100];
-double		exp0,exp1;
-JBoolean	neg,valid;
-
-	*doubleVal=0.0; JAssignString(numStr,numStr1);
-
-	JTrimSpaces(numStr);
-
-	numlen=strlen(numStr);
-	if (numlen==0) return kJFalse;	// empty string
-
-	decPt=-1; decEnd=-1; expMrk=-1; neg=kJFalse;
-	if (numStr[0]=='+' || numStr[0]=='-') {			// trim sign
-		if (numStr[0]=='-') neg=kJTrue;
-		JShiftSubstring(numStr,1,-1,-1); numlen--;
-		}
-
-	for (i=1;i<=numlen;i++)
-		{
-		const char c = numStr[i-1];
-		if (c == '.')									// found dp
-			decPt=i;
-//		else if (c == ' ') {							// end of digits
-//			if (decPt==-1 && expMrk==-1) decPt=i;		// forced dp
-//			if (decPt>-1 && decEnd==-1) decEnd=i;		// end of decimal string
-//			}
-		else if (c == 'E' || c == 'e' ||
-				 c == 'D' || c == 'd')					// found exponent
-			{
-			if (i==1 || i==numlen) return kJFalse;		// no digits, no exponent string
-			expMrk=i;
-			if (decEnd==-1)				// forced end of decimal string
-				decEnd=i;
-			if (decPt==-1) {			// forced dp
-				decPt=i; decEnd=i;
-				}
-			break;						// let recursion handle the exponent
-			}
-		else if (!isdigit(c))
-			return kJFalse;
-		}
-	if (decPt==-1) decPt=numlen+1;		// forced dp
-	if (decEnd==-1) decEnd=numlen+1;	// forced end of decimal string
-	if (expMrk==-1) expMrk=numlen+1;	// forced exponent (zero)
-
-	if (decPt==1 && decPt>=numlen) return kJFalse;	// no digits at all
-
-	if (decPt!=1) {						// decode digits preceding dp
-		for (i=1;i<=decPt-1;i++) {
-			digit=numStr[i-1]-'0';
-			if (digit<0 || digit>9) return kJFalse;		// not a number
-			*doubleVal+=(digit*pow(10.0,decPt-i-1));	// add in weighted values
-			}
-		}
-
-	if (decPt<numlen) {					// decode digits after dp
-		for (i=decPt+1;i<=decEnd-1;i++) {
-			digit=numStr[i-1]-'0';
-			if (digit<0 || digit>9) return kJFalse;	// not a number
-			*doubleVal+=(digit/pow(10.0,i-decPt));	// add in weighted values
-			}
-		}
-
-	if (expMrk<numlen && *doubleVal > 0.0) {	// decode exponent
-		exp0=log10(*doubleVal);
-		expNumStr[0] = '\0';
-		JInsertSubstring(expNumStr,0,numStr,expMrk,-1);
-		valid=str2double(expNumStr,&exp1);			// recursive
-		if (exp0+exp1>FLT_MAX_10_EXP) valid=kJFalse;	// exponent too big
-		if (!valid) return kJFalse;
-		i=JLFloor(exp1);
-		*doubleVal=(*doubleVal)*pow(10.0,i);		// adjust number
-		}
-
-	if (neg) *doubleVal=-(*doubleVal);	// adjust sign
-
-	return kJTrue;
-}
-*/
-/*-----------------------------------------------------------------------------
  JString.StrUtil.c (a stripped version required by NumConvert.c)
 
 	Assembled routines for dealing with string conversion.
@@ -2549,22 +2179,6 @@ JBoolean	neg,valid;
 	Copyright (C) 1992 John Lindal. All rights reserved.
 
  -----------------------------------------------------------------------------*/
-
-/*-----------------------------------------------------------------------------
- JAssignString
-
-	Clears the s1 array and dumps in s2 (including termination).
-	Assumes there are enough elements in s1 to hold s2.
-
- -----------------------------------------------------------------------------*/
-
-void JAssignString(char s1[],const char *s2)
-{
-short i,len2;
-
-	len2=strlen(s2);
-	for (i=0;i<=len2;i++) s1[i]=*(s2+i);
-}
 
 /*-----------------------------------------------------------------------------
  JInsertSubstring (augments strcat in string.h)
@@ -2638,27 +2252,3 @@ short i,len1,len2;
 
 	return -1;
 }
-
-/*-----------------------------------------------------------------------------
- JTrimSpaces
-
-	Trims off leading and trailing spaces from s.
-
- -----------------------------------------------------------------------------*/
-/*
-void JTrimSpaces(char* s)
-{
-short i,j,len;
-
-	len = strlen(s);
-	while (len>0 && s[len-1]==' ') {	// shift termination
-		s[len-1]=0; len--;
-		}
-
-	j=0;
-	while (j<len && s[j]==' ') j++;
-	for (i=0;i<len-j;i++) s[i]=s[i+j];
-
-	s[i]=0;			// terminate
-}
-*/

@@ -1,1 +1,25 @@
-jx_browser_data 53  0 "root" 0   0 792 0 362 430 T  0  0 T  1 0 0  1 0 0  F T "a.out" "/mnt/local/jafl/JX-2.0.0/libjcore/test/" "" ""   0 1066 436 202 451 F F  0 F 0 ""  10000 0  ""  10000 0      0 0 0 400 430 F  43 0 T F F 0 F 33825 33288 33825 100 T T F 0 F 0 0 0 101 T F F 0 F 0 0 65535 102 T F F 0 F 0 0 0 103 T F F 0 F 0 0 0 104 T F F 0 F 0 0 0 105 T F F 0 F 0 0 0 106 T T F 0 F 33825 33288 33825 107 T F T 0 F 0 0 0 108 T F F 0 F 0 0 0 109 T F F 0 F 0 0 0 110 T F T 0 F 0 0 0 111 T F F 0 F 0 0 0 200 T T F 0 F 0 0 0 201 T F F 0 F 0 0 0 300 T F F 0 F 0 0 0 301 T F F 0 F 0 0 0 302 T F F 0 F 0 0 0 303 T F F 0 F 0 0 0 304 T F F 0 F 0 0 0 305 T F F 0 F 0 0 0 306 T F F 0 F 0 0 0 307 T F F 0 F 0 0 0 308 T F F 0 F 0 0 0 309 T F F 0 F 0 0 0 400 T T F 0 F 0 0 0 401 T F F 0 F 0 0 0 402 T T F 0 F 33825 33288 33825 403 T F F 0 F 0 0 0 404 T F F 0 F 0 0 0 500 T F F 0 F 0 0 0 600 T F F 0 F 0 0 0 700 T F F 0 F 0 0 0 800 T F F 0 F 0 0 0 900 T F F 0 F 0 0 0 1500 T T F 0 F 0 0 0 1501 T F F 0 F 0 0 0 1000 T T F 0 F 0 0 0 1001 T F F 0 F 0 0 0 1100 T F F 0 F 0 0 0 1200 T F F 0 F 0 0 0 1300 T F F 0 F 0 0 0 1400 T F F 0 F 0 0 0   F   582 4710 T F F T 2 "../code" T "./code" T 6 ".h" ".H" ".i" ".ph" ".th" ".xpm"   0    0 0 0 779 692 T   0 T  1 0 0  1 0 0    0 792 342 350 350 F "./"  10000 1 "./" ""  "makemake"  10000 1 "makemake" ""  F "make -k"  10000 1 "make -k" ""  "make $r"  10000 2 "make $r" "" "make CHECKSTRING=$n checksyntax" ""  T T "/mnt/local/jafl/JX-2.0.0/libjcore/test/" 953252682 917901681    0 430 452 350 270 F "./"  10000 0  "a.out"  10000 1 "a.out" ""  "medic -f +$l $f"  10000 1 "medic -f +$l $f" ""  T T   3 0 "" "lpr" F 4 "" 0 0 F  0 0 "" F F   3 0 "" "lpr" F 4 "" 0 0 F T 0   5 10 T T T F 1 ".java"   0 0 0 779 692 F   0 T  1 0 0  1 0 0   3 0 "" "lpr" F 4 "" 0 0 F  0 0 "" F F   3 0 "" "lpr" F 4 "" 0 0 F F 0  1 F
+jx_browser_data 86
+# project tree
+0 "root"
+F
+# tasks
+4
+"makemake"
+T "./" "make -k" "" T F T F T F T "" "" "" T
+T "./" "make $file_name_root" "" T F T T T T F "" "" "" F
+T "./" "make CHECKSTRING=$file_name checksyntax" "" T F T T T T F "" "" "" T
+T "./" "a.out" "" F F F F T T F "" "" "" T
+T "./" "medic -f +$line $full_name" "" F F F T F F F "" "" "" T
+F
+# build settings
+0
+T
+"a.out"
+""
+"make -k all"
+# search paths
+T "../code" T
+T "./code" T
+F
+# C preprocessor
+F

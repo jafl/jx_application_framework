@@ -18,9 +18,9 @@
 
 class JString;
 
-extern const JCharacter* kJNoError;
-extern const JCharacter* kJUnknownError;
-extern const JCharacter* kJUnexpectedError;
+extern const JUtf8Byte* kJNoError;
+extern const JUtf8Byte* kJUnknownError;
+extern const JUtf8Byte* kJUnexpectedError;
 
 class JError : public JBroadcaster::Message
 {
@@ -32,7 +32,7 @@ public:
 
 	const JError& operator=(const JError& source);
 
-	const JCharacter*	GetMessage() const;
+	const JUtf8Byte*	GetMessage() const;
 	void				ReportIfError() const;
 
 	JBoolean
@@ -43,20 +43,20 @@ public:
 
 protected:
 
-	JError(const JCharacter* type, const JCharacter* msg = NULL,
+	JError(const JUtf8Byte* type, const JUtf8Byte* msg = NULL,
 		   const JBoolean copyMsg = kJFalse);
 
-	void	SetMessage(const JCharacter* msg, const JBoolean copyMsg);
+	void	SetMessage(const JUtf8Byte* msg, const JBoolean copyMsg);
 
 	// JStringManager -- id is object's type
 
-	void	SetMessage(const JCharacter* map[], const JSize size);
+	void	SetMessage(const JUtf8Byte* map[], const JSize size);
 
 private:
 
 	// exactly one of the following is not NULL
 
-	const JCharacter*	itsSMessage;
+	const JUtf8Byte*	itsSMessage;
 	JString*			itsDMessage;
 };
 

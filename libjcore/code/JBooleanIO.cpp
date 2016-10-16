@@ -11,8 +11,8 @@
 #include <jStreamUtil.h>
 #include <jAssert.h>
 
-const JCharacter kTrueMarker  = 'T';
-const JCharacter kFalseMarker = 'F';
+const JUtf8Byte kTrueMarker  = 'T';
+const JUtf8Byte kFalseMarker = 'F';
 
 istream&
 operator>>
@@ -23,7 +23,7 @@ operator>>
 {
 	input >> ws;
 
-	JCharacter c;
+	JUtf8Byte c;
 	input.get(c);
 
 	if (c == kTrueMarker)

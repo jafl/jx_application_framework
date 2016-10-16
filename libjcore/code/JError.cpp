@@ -55,8 +55,8 @@
 
 JError::JError
 	(
-	const JCharacter*	type,
-	const JCharacter*	msg,
+	const JUtf8Byte*	type,
+	const JUtf8Byte*	msg,
 	const JBoolean		copyMsg
 	)
 	:
@@ -160,7 +160,7 @@ JError::operator=
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 JError::GetMessage()
 	const
 {
@@ -178,7 +178,7 @@ JError::GetMessage()
 void
 JError::SetMessage
 	(
-	const JCharacter*	msg,
+	const JUtf8Byte*	msg,
 	const JBoolean		copyMsg
 	)
 {
@@ -205,7 +205,7 @@ JError::SetMessage
 void
 JError::SetMessage
 	(
-	const JCharacter*	map[],
+	const JUtf8Byte*	map[],
 	const JSize			size
 	)
 {
@@ -233,16 +233,16 @@ JError::ReportIfError()
 
  ******************************************************************************/
 
-const JCharacter* kJNoError         = "JNoError";
-const JCharacter* kJUnknownError    = "JUnknownError";
-const JCharacter* kJUnexpectedError = "JUnexpectedError";
+const JUtf8Byte* kJNoError         = "JNoError";
+const JUtf8Byte* kJUnknownError    = "JUnknownError";
+const JUtf8Byte* kJUnexpectedError = "JUnexpectedError";
 
 /******************************************************************************
  Derived classes
 
  ******************************************************************************/
 
-static const JCharacter* kJErrorMsgMap[] =
+static const JUtf8Byte* kJErrorMsgMap[] =
 	{
 	"err", NULL
 	};

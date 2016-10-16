@@ -29,23 +29,23 @@ public:
 
 	virtual ~JStringManager();
 
-	void		Register(const JCharacter* signature, const JCharacter** defaultData);
-	JBoolean	MergeFile(const JCharacter* fileName, const JBoolean debug = kJFalse);
+	void		Register(const JUtf8Byte* signature, const JUtf8Byte** defaultData);
+	JBoolean	MergeFile(const JUtf8Byte* fileName, const JBoolean debug = kJFalse);
 	void		MergeFile(istream& input, const JBoolean debug = kJFalse);
 	void		WriteFile(ostream& output) const;
 
-	const JString&	Get(const JCharacter* id) const;
+	const JString&	Get(const JUtf8Byte* id) const;
 
-	JString			Get(const JCharacter* id, const JCharacter* map[],
+	JString			Get(const JUtf8Byte* id, const JUtf8Byte* map[],
 						const JSize size) const;
 	JSubstitute*	GetReplaceEngine() const;
-	void			Replace(JString* str, const JCharacter* map[],
+	void			Replace(JString* str, const JUtf8Byte* map[],
 							const JSize size) const;
 
-	void	ReportError(const JCharacter* id, const JError& err) const;
-	void	ReportError(const JCharacter* id, const JCharacter* message) const;
+	void	ReportError(const JUtf8Byte* id, const JError& err) const;
+	void	ReportError(const JUtf8Byte* id, const JUtf8Byte* message) const;
 
-	static JBoolean	CanOverride(const JCharacter* id);
+	static JBoolean	CanOverride(const JUtf8Byte* id);
 
 private:
 

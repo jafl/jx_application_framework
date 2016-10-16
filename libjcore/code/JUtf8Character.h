@@ -32,6 +32,18 @@ public:
 	void	Set(const JUtf8Byte asciiCharacter);
 	void	Set(const JUtf8Byte* utf8Character);
 
+	JBoolean	IsPrint() const;
+	JBoolean	IsAlnum() const;
+	JBoolean	IsAlpha() const;
+	JBoolean	IsUpper() const;
+	JBoolean	IsLower() const;
+
+	JUtf8Character	ToUpper() const;
+	JUtf8Character	ToLower() const;
+
+	static JBoolean	IsValid(const JUtf8Byte* utf8Character);
+	static JSize	GetCharacterByteCount(const JUtf8Byte* utf8Character);
+
 private:
 
 	unsigned char	itsByteCount;
@@ -78,9 +90,6 @@ JUtf8Character::operator=
 	)
 {
 	Set(source);
-
-	// allow chaining
-
 	return *this;
 }
 

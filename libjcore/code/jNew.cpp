@@ -39,9 +39,9 @@ operator new
 void*
 operator new
 	(
-	size_t             size,
-	const  JCharacter* file,
-	const  JUInt32     line
+	size_t           size,
+	const JUtf8Byte* file,
+	const JUInt32    line
 	)
 	noexcept
 {
@@ -71,9 +71,9 @@ operator new[]
 void*
 operator new[]
 	(
-	size_t             size,
-	const  JCharacter* file,
-	const  JUInt32     line
+	size_t           size,
+	const JUtf8Byte* file,
+	const JUInt32    line
 	)
 	noexcept
 {
@@ -118,8 +118,8 @@ operator delete[]
 void
 JLocateDelete
 	(
-	const JCharacter* file,
-	const JUInt32     line
+	const JUtf8Byte* file,
+	const JUInt32    line
 	)
 {
 	JMemoryManager::Instance()->LocateDelete(file, line);

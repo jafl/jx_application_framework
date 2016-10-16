@@ -11,11 +11,12 @@
 #define _H_JString
 
 #include <JStringIterator.h>
-#include <JIndexRange.h>
 #include <string.h>
 
 class JString
 {
+	friend class JStringIterator;
+
 	friend istream& operator>>(istream&, JString&);
 	friend ostream& operator<<(ostream&, const JString&);
 
@@ -46,15 +47,18 @@ public:
 public:
 
 	JString();
-	JString(const JString& source);
+	JString(const JString& str);
+	JString(const JString& str, const JCharacterRange& range);
 	JString(const JUtf8Byte* str);
 	JString(const JUtf8Byte* str, const JSize length);
-	JString(const JUtf8Byte* str, const JIndexRange& range);
+	JString(const JUtf8Byte* str, const JUtf8ByteRange& range);
+	JString(const std::string& str);
+	JString(const std::string& str, const JUtf8ByteRange& range);
+
+	JString(const JUInt64 number, const Base base, const JBoolean pad = kJFalse);
 	JString(const JFloat number, const JInteger precision = kPrecisionAsNeeded,
 			const ExponentDisplay expDisplay = kStandardExponent,
 			const JInteger exponent = 0, const JInteger sigDigitCount = 0);
-	JString(const JUInt64 number, const Base base, const JBoolean pad = kJFalse);
-	JString(const std::string& s);
 
 	~JString();
 
@@ -65,167 +69,98 @@ public:
 	JString& operator+=(const JString& str);
 	JString& operator+=(const JUtf8Byte* str);
 	JString& operator+=(const std::string& str);
+	JString& operator+=(const JUtf8Character& c);
 
 	void	Set(const JString& str);
+	void	Set(const JString& str, const JCharacterRange& range);
 	void	Set(const JUtf8Byte* str);
 	void	Set(const JUtf8Byte* str, const JSize length);
-	void	Set(const JUtf8Byte* str, const JIndexRange& range);
+	void	Set(const JUtf8Byte* str, const JUtf8ByteRange& range);
 	void	Set(const std::string& str);
-	void	Set(const std::string& str, const JIndexRange& range);
+	void	Set(const std::string& str, const JUtf8ByteRange& range);
+
+	void	Clear();
+
+	// no cast operator, to force everybody to remember it is utf8, not char*
+
+	JBoolean	IsEmpty() const;
+	JSize		GetCharacterCount() const;
+	JSize		GetByteCount() const;
+	JBoolean	CharacterIndexValid(const JIndex index) const;
+	JBoolean	ByteIndexValid(const JIndex index) const;
+	JBoolean	RangeValid(const JCharacterRange& range) const;
+	JBoolean	RangeValid(const JUtf8ByteRange& range) const;
+
+	JUtf8Character	GetFirstCharacter() const;
+	JUtf8Character	GetLastCharacter() const;
 
 	JBoolean			ContainsNULL() const;
 	const JUtf8Byte*	GetBytes() const;
-	JUtf8Byte*			AllocateBytes() const;	// client must call jdelete [] when finished with it
+	JUtf8Byte*			AllocateBytes() const;	// client must call delete [] when finished with it
 
-	void	InsertSubstring(const JString& str, const JIndex insertionIndex);
-	void	InsertSubstring(const JUtf8Byte* str, const JIndex insertionIndex);
-	void	InsertSubstring(const JUtf8Byte* str, const JSize length,
-							const JIndex insertionIndex);
-	void	InsertSubstring(const std::string& str, const JIndex insertionIndex);
-	void	InsertCharacter(const JUtf8Character& c, const JIndex insertionIndex);
+	JBoolean	BeginsWith(const JString& str, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	BeginsWith(const JString& str, const JCharacterRange& range, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	BeginsWith(const JUtf8Byte* str, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	BeginsWith(const JUtf8Byte* str, const JSize length, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	BeginsWith(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	BeginsWith(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	BeginsWith(const std::string& str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
+
+	JBoolean	Contains(const JString& str, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	Contains(const JString& str, const JCharacterRange& range, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	Contains(const JUtf8Byte* str, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	Contains(const JUtf8Byte* str, const JSize length, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	Contains(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	Contains(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	Contains(const std::string& str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
+
+	JBoolean	EndsWith(const JString& str, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	EndsWith(const JString& str, const JCharacterRange& range, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	EndsWith(const JUtf8Byte* str, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	EndsWith(const JUtf8Byte* str, const JSize length, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	EndsWith(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	EndsWith(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	EndsWith(const std::string& str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
+
+	void	TrimWhitespace();
+	void	ToLower();
+	void	ToUpper();
+
+	JBoolean	MatchCase(const JString& source, const JCharacterRange& sourceRange);
+	JBoolean	MatchCase(const JUtf8Byte* source, const JUtf8ByteRange& sourceRange);
+	JBoolean	MatchCase(const std::string& source, const JUtf8ByteRange& sourceRange);
+	JBoolean	MatchCase(const JString& source, const JCharacterRange& sourceRange,
+						  const JCharacterRange& destRange);
+	JBoolean	MatchCase(const JUtf8Byte* source, const JUtf8ByteRange& sourceRange,
+						  const JCharacterRange& destRange);
+	JBoolean	MatchCase(const std::string& source, const JUtf8ByteRange& sourceRange,
+						  const JCharacterRange& destRange);
+
+	JString		EncodeBase64() const;
+	JBoolean	DecodeBase64(JString* str) const;
+
+	void		Read(istream& input, const JSize count);
+	void		ReadDelimited(istream& input);
+	void		Print(ostream& output) const;
+
+	JSize		GetBlockSize() const;
+	void		SetBlockSize(const JSize blockSize);
+
+	// shortcuts that do not require an iterator
 
 	void	Prepend(const JString& str);
 	void	Prepend(const JUtf8Byte* str);
 	void	Prepend(const JUtf8Byte* str, const JSize length);
 	void	Prepend(const std::string& str);
-	void	PrependCharacter(const JUtf8Character& c);
+	void	Prepend(const JUtf8Character& c);
 
 	void	Append(const JString& str);
 	void	Append(const JUtf8Byte* str);
 	void	Append(const JUtf8Byte* str, const JSize length);
 	void	Append(const std::string& str);
-	void	AppendCharacter(const JUtf8Character& c);
+	void	Append(const JUtf8Character& c);
 
-	JBoolean	IsEmpty() const;
-	JSize		GetLength() const;
-	JBoolean	IndexValid(const JIndex index) const;
-	JBoolean	RangeValid(const JIndexRange& range) const;
-
-	JCharacter	GetCharacter(const JIndex index) const;
-	void		SetCharacter(const JIndex index, const JCharacter c);
-
-	JCharacter	GetFirstCharacter() const;
-	JCharacter	GetLastCharacter() const;
-
-	JCharacter	GetCharacterFromEnd(const JIndex index) const;
-	void		SetCharacterFromEnd(const JIndex index, const JCharacter c);
-
-	void	Clear();
-	void	TrimWhitespace();
-	void	ToLower();
-	void	ToUpper();
-
-	JBoolean	Contains(const JString& str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	Contains(const JCharacter* str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	Contains(const JCharacter* str, const JSize length,
-						 const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	Contains(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
-
-	JBoolean	LocateSubstring(const JString& str, JIndex* startIndex) const;
-	JBoolean	LocateSubstring(const JCharacter* str, JIndex* startIndex) const;
-	JBoolean	LocateSubstring(const JCharacter* str, const JSize length,
-								JIndex* startIndex) const;
-	JBoolean	LocateSubstring(const std::string& str, JIndex* startIndex) const;
-	JBoolean	LocateSubstring(const JString& str, const JBoolean caseSensitive,
-								JIndex* startIndex) const;
-	JBoolean	LocateSubstring(const JCharacter* str, const JBoolean caseSensitive,
-								JIndex* startIndex) const;
-	JBoolean	LocateSubstring(const JCharacter* str, const JSize length,
-								const JBoolean caseSensitive, JIndex* startIndex) const;
-	JBoolean	LocateSubstring(const std::string& str, const JBoolean caseSensitive,
-								JIndex* startIndex) const;
-
-	JBoolean	LocateNextSubstring(const JString& str, JIndex* startIndex) const;
-	JBoolean	LocateNextSubstring(const JCharacter* str, JIndex* startIndex) const;
-	JBoolean	LocateNextSubstring(const JCharacter* str, const JSize length,
-									JIndex* startIndex) const;
-	JBoolean	LocateNextSubstring(const std::string& str, JIndex* startIndex) const;
-	JBoolean	LocateNextSubstring(const JString& str, const JBoolean caseSensitive,
-									JIndex* startIndex) const;
-	JBoolean	LocateNextSubstring(const JCharacter* str, const JBoolean caseSensitive,
-									JIndex* startIndex) const;
-	JBoolean	LocateNextSubstring(const JCharacter* str, const JSize length,
-									const JBoolean caseSensitive, JIndex* startIndex) const;
-	JBoolean	LocateNextSubstring(const std::string& str, const JBoolean caseSensitive,
-									JIndex* startIndex) const;
-
-	JBoolean	LocatePrevSubstring(const JString& str, JIndex* startIndex) const;
-	JBoolean	LocatePrevSubstring(const JCharacter* str, JIndex* startIndex) const;
-	JBoolean	LocatePrevSubstring(const JCharacter* str, const JSize length,
-									JIndex* startIndex) const;
-	JBoolean	LocatePrevSubstring(const std::string& str, JIndex* startIndex) const;
-	JBoolean	LocatePrevSubstring(const JString& str, const JBoolean caseSensitive,
-									JIndex* startIndex) const;
-	JBoolean	LocatePrevSubstring(const JCharacter* str, const JBoolean caseSensitive,
-									JIndex* startIndex) const;
-	JBoolean	LocatePrevSubstring(const JCharacter* str, const JSize length,
-									const JBoolean caseSensitive, JIndex* startIndex) const;
-	JBoolean	LocatePrevSubstring(const std::string& str, const JBoolean caseSensitive,
-									JIndex* startIndex) const;
-
-	JBoolean	LocateLastSubstring(const JString& str, JIndex* startIndex) const;
-	JBoolean	LocateLastSubstring(const JCharacter* str, JIndex* startIndex) const;
-	JBoolean	LocateLastSubstring(const JCharacter* str, const JSize length,
-									JIndex* startIndex) const;
-	JBoolean	LocateLastSubstring(const std::string& str, JIndex* startIndex) const;
-	JBoolean	LocateLastSubstring(const JString& str, const JBoolean caseSensitive,
-									JIndex* startIndex) const;
-	JBoolean	LocateLastSubstring(const JCharacter* str, const JBoolean caseSensitive,
-									JIndex* startIndex) const;
-	JBoolean	LocateLastSubstring(const JCharacter* str, const JSize length,
-									const JBoolean caseSensitive, JIndex* startIndex) const;
-	JBoolean	LocateLastSubstring(const std::string& str, const JBoolean caseSensitive,
-									JIndex* startIndex) const;
-
-	JBoolean	BeginsWith(const JString& str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	BeginsWith(const JCharacter* str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	BeginsWith(const JCharacter* str, const JSize length,
-						   const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	BeginsWith(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
-
-	JBoolean	EndsWith(const JString& str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	EndsWith(const JCharacter* str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	EndsWith(const JCharacter* str, const JSize length,
-						 const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	EndsWith(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
-
-	JString		GetSubstring(const JIndex firstCharIndex, const JIndex lastCharIndex) const;
-	JString		GetSubstring(const JIndexRange& range) const;	// allows empty range
-
-	void		ReplaceSubstring(const JIndex firstCharIndex,
-								 const JIndex lastCharIndex,
-								 const JString& str);
-	void		ReplaceSubstring(const JIndex firstCharIndex,
-								 const JIndex lastCharIndex,
-								 const JCharacter* str);
-	void		ReplaceSubstring(const JIndex firstCharIndex,
-								 const JIndex lastCharIndex,
-								 const JCharacter* str, const JSize length);
-	void		ReplaceSubstring(const JIndex firstCharIndex,
-								 const JIndex lastCharIndex,
-								 const std::string& str);
-	void		ReplaceSubstring(const JIndexRange& range,
-								 const JString& str, JIndexRange* newRange);
-	void		ReplaceSubstring(const JIndexRange& range,
-								 const JCharacter* str, JIndexRange* newRange);
-	void		ReplaceSubstring(const JIndexRange& range,
-								 const JCharacter* str, const JSize length,
-								 JIndexRange* newRange);
-	void		ReplaceSubstring(const JIndexRange& range,
-								 const std::string& str, JIndexRange* newRange);
-
-	void		RemoveSubstring(const JIndex firstCharIndex, const JIndex lastCharIndex);
-	void		RemoveSubstring(const JIndexRange& range);
-
-	JBoolean	MatchCase(const JString& source, const JIndexRange& sourceRange);
-	JBoolean	MatchCase(const JCharacter* source, const JIndexRange& sourceRange);
-	JBoolean	MatchCase(const std::string& source, const JIndexRange& sourceRange);
-	JBoolean	MatchCase(const JString& source, const JIndexRange& sourceRange,
-						  const JIndexRange& destRange);
-	JBoolean	MatchCase(const JCharacter* source, const JIndexRange& sourceRange,
-						  const JIndexRange& destRange);
-	JBoolean	MatchCase(const std::string& source, const JIndexRange& sourceRange,
-						  const JIndexRange& destRange);
+	// number <-> string
 
 	JBoolean	IsFloat() const;
 	JBoolean	ConvertToFloat(JFloat* value) const;
@@ -237,106 +172,94 @@ public:
 	JBoolean	IsHexValue() const;
 	JBoolean	ConvertToUInt(JUInt* value, const JSize base = 10) const;
 
-	JString		EncodeBase64();
-	JBoolean	DecodeBase64(JString* str);
+	static JBoolean	IsFloat(const JUtf8Byte* str);
+	static JBoolean	IsFloat(const JUtf8Byte* str, const JSize length);
+	static JBoolean	ConvertToFloat(const JUtf8Byte* str, JFloat* value);
+	static JBoolean	ConvertToFloat(const JUtf8Byte* str, const JSize length,
+								   JFloat* value);
 
-	void		Read(istream& input, const JSize count);
-	void		ReadDelimited(istream& input);
-	void		Print(ostream& output) const;
-
-	JSize		GetBlockSize() const;
-	void		SetBlockSize(const JSize blockSize);
-
-	static JBoolean	IsFloat(const JCharacter* str);
-	static JBoolean	ConvertToFloat(const JCharacter* str, JFloat* value);
-
-	static JBoolean	IsInteger(const JCharacter* str, const JSize base = 10);
-	static JBoolean	ConvertToInteger(const JCharacter* str,
+	static JBoolean	IsInteger(const JUtf8Byte* str, const JSize base = 10);
+	static JBoolean	IsInteger(const JUtf8Byte* str, const JSize length, const JSize base);
+	static JBoolean	ConvertToInteger(const JUtf8Byte* str,
+									 JInteger* value, const JSize base = 10);
+	static JBoolean	ConvertToInteger(const JUtf8Byte* str, const JSize length,
 									 JInteger* value, const JSize base = 10);
 
-	static JBoolean	IsUInt(const JCharacter* str, const JSize base = 10);
-	static JBoolean	IsHexValue(const JCharacter* str);
-	static JBoolean	ConvertToUInt(const JCharacter* str,
+	static JBoolean	IsUInt(const JUtf8Byte* str, const JSize base = 10);
+	static JBoolean	IsUInt(const JUtf8Byte* str, const JSize length, const JSize base);
+	static JBoolean	IsHexValue(const JUtf8Byte* str);
+	static JBoolean	IsHexValue(const JUtf8Byte* str, const JSize length);
+	static JBoolean	ConvertToUInt(const JUtf8Byte* str,
 								  JUInt* value, const JSize base = 10);
+	static JBoolean	ConvertToUInt(const JUtf8Byte* str, const JSize length,
+								  JUInt* value, const JSize base = 10);
+
+	// utility functions
+
+	static JBoolean	IsEmpty(const JUtf8Byte* s);
+
+	static JSize			CountCharacters(const JUtf8Byte* str);
+	static JSize			CountCharacters(const JUtf8Byte* str, const JSize length);
+	static JSize			CountCharacters(const JUtf8Byte* str, const JUtf8ByteRange& range);
+	static JUtf8ByteRange	CharacterToUtf8ByteRange(const JUtf8Byte* str, const JCharacterRange& range);
+
+	static int Compare(const JString& s1, const JString& s2, const JBoolean caseSensitive = kJTrue);
+	static int Compare(const JString& s1, const JUtf8Byte* s2, const JBoolean caseSensitive = kJTrue);
+	static int Compare(const JUtf8Byte* s1, const JString& s2, const JBoolean caseSensitive = kJTrue);
+	static int Compare(const JUtf8Byte* s1, const JUtf8Byte* s2, const JBoolean caseSensitive = kJTrue);
+	static int Compare(const JString& s1, const std::string& s2, const JBoolean caseSensitive = kJTrue);
+	static int Compare(const std::string& s1, const JString& s2, const JBoolean caseSensitive = kJTrue);
+	static int Compare(const JUtf8Byte* s1, const JSize length1,
+					   const JUtf8Byte* s2, const JSize length2,
+					   const JBoolean caseSensitive = kJTrue);
+
+	static int	CompareMaxN(const JUtf8Byte* s1, const JUtf8Byte* s2, const JSize N,
+								const JBoolean caseSensitive = kJTrue);
+
+	static JSize	CalcMatchLength(const JUtf8Byte* s1, const JUtf8Byte* s2,
+									const JBoolean caseSensitive = kJTrue);
+	static JSize	CalcMatchLength(const JUtf8Byte* s1, const JSize length1,
+									const JUtf8Byte* s2, const JSize length2,
+									const JBoolean caseSensitive = kJTrue);
+
+	static JBoolean	CopyMaxN(const JUtf8Byte* source, const JIndex maxBytes,
+							 JUtf8Byte* destination);
 
 private:
 
-	JCharacter* itsString;			// characters
-	JSize		itsStringLength;	// number of characters used
-	JSize		itsAllocLength;		// number of characters we have space for
+	JUtf8Byte*	itsBytes;			// characters
+	JSize		itsByteCount;		// number of bytes used
+	JSize		itsCharacterCount;	// number of characters
+	JSize		itsAllocCount;		// number of bytes we have space for
 	JSize		itsBlockSize;		// size by which to shrink and grow allocation
 
 	JStringIterator*	itsFirstIterator;	// linked list of active iterators
 
 private:
 
-	void		CopyToPrivateString(const JCharacter* str);
-	void		CopyToPrivateString(const JCharacter* str, const JSize length);
+	void	CopyToPrivateString(const JUtf8Byte* str, const JSize length);
 
-	JCharacter	PrivateGetCharacter(const JIndex index) const;
-	JCharacter*	GetCharacterPtr(const JIndex index) const;
+	JBoolean	SearchForward(const JUtf8Byte* str, const JSize strLength,
+							  const JBoolean caseSensitive, JIndex* startIndex) const;
+	JBoolean	SearchBackward(const JUtf8Byte* str, const JSize strLength,
+							   const JBoolean caseSensitive, JIndex* startIndex) const;
+
+	void	InsertBytes(const JIndex insertionIndex,
+						const JUtf8Byte* stringToInsert, const JSize insertLength);
+	void	ReplaceBytes(const JIndex firstByteIndex, const JIndex lastByteIndex,
+						 const JUtf8Byte* stringToInsert, const JSize insertLength);
+
+	JBoolean	MatchCase(const JUtf8Byte* source, const JUtf8ByteRange& sourceRange,
+						  const JUtf8ByteRange& destRange);
 
 	void	NotifyIterators(const JBroadcaster::Message& message);
 
-	static JBoolean	ConvertToFloat(const JCharacter* str, const JSize length,
-								   JFloat* value);
-	static JBoolean	ConvertToInteger(const JCharacter* str, const JSize length,
-									 JInteger* value, const JSize base = 10);
-	static JBoolean	ConvertToUInt(const JCharacter* str, const JSize length,
-								  JUInt* value, const JSize base = 10);
-	static JBoolean	IsHexValue(const JCharacter* str, const JSize length);
-	static JBoolean	CompleteConversion(const JCharacter* startPtr, const JSize length,
-									   const JCharacter* convEndPtr);
+	JUtf8ByteRange	CharacterToUtf8ByteRange(const JCharacterRange& range) const;
+
+	static JBoolean	CompleteConversion(const JUtf8Byte* startPtr, const JSize length,
+									   const JUtf8Byte* convEndPtr);
 };
 
-
-// declarations of global functions for dealing with strings
-
-int JStringCompare(const JCharacter* s1, const JCharacter* s2,
-				   const JBoolean caseSensitive = kJTrue);
-int JStringCompare(const JCharacter* s1, const JSize length1,
-				   const JCharacter* s2, const JSize length2,
-				   const JBoolean caseSensitive = kJTrue);
-
-JBoolean	JCompareMaxN(const JCharacter* s1, const JCharacter* s2, const JSize N,
-						 const JBoolean caseSensitive = kJTrue);
-JBoolean	JCompareMaxN(const JCharacter* s1, const JSize length1,
-						 const JCharacter* s2, const JSize length2,
-						 const JSize N, const JBoolean caseSensitive = kJTrue);
-
-JSize		JCalcMatchLength(const JCharacter* s1, const JCharacter* s2,
-							 const JBoolean caseSensitive = kJTrue);
-
-JBoolean	JCopyMaxN(const JCharacter* source, const JIndex maxBytes,
-					  JCharacter* destination);
-
-JBoolean	JMatchCase(const JCharacter* source, const JIndexRange& sourceRange,
-					   JCharacter* dest, const JIndexRange& destRange);
-
-JBoolean	JIsPrint(const JCharacter c);
-JBoolean	JIsAlnum(const JCharacter c);
-JBoolean	JIsAlpha(const JCharacter c);
-JBoolean	JIsUpper(const JCharacter c);
-JBoolean	JIsLower(const JCharacter c);
-
-JCharacter	JToUpper(const JCharacter c);
-JCharacter	JToLower(const JCharacter c);
-
-JBoolean	JGetDiacriticalMap(const JCharacter** map, const JIndex** markType);
-void		JSetDiacriticalMap(const JCharacter*  map, const JIndex*  markType);
-
-
-/******************************************************************************
- Cast to JCharacter*
-
- ******************************************************************************/
-
-inline
-JString::operator const JCharacter*()
-	const
-{
-	return itsString;
-}
 
 /******************************************************************************
  ContainsNULL
@@ -347,19 +270,19 @@ inline JBoolean
 JString::ContainsNULL()
 	const
 {
-	return JConvertToBoolean( itsStringLength != strlen(itsString) );
+	return JConvertToBoolean( itsByteCount != strlen(itsBytes) );
 }
 
 /******************************************************************************
- GetCString
+ GetBytes
 
  ******************************************************************************/
 
-inline const JCharacter*
-JString::GetCString()
+inline const JUtf8Byte*
+JString::GetBytes()
 	const
 {
-	return itsString;
+	return itsBytes;
 }
 
 /******************************************************************************
@@ -371,613 +294,141 @@ inline JBoolean
 JString::IsEmpty()
 	const
 {
-	return JConvertToBoolean( itsStringLength == 0 );
+	return JI2B( itsByteCount == 0 );
 }
 
 /******************************************************************************
- JStringEmpty
+ JString::IsEmpty
 
  ******************************************************************************/
 
 inline JBoolean
-JStringEmpty
+JString::IsEmpty
 	(
-	const JCharacter* s
+	const JUtf8Byte* s
 	)
 {
-	return JConvertToBoolean( s == NULL || s[0] == '\0' );
+	return JI2B( s == NULL || s[0] == '\0' );
 }
 
 /******************************************************************************
- GetLength
+ GetCharacterCount
 
  ******************************************************************************/
 
 inline JSize
-JString::GetLength()
+JString::GetCharacterCount()
 	const
 {
-	return itsStringLength;
+	return itsCharacterCount;
 }
 
 /******************************************************************************
- Convert to number
+ GetByteCount
+
+ ******************************************************************************/
+
+inline JSize
+JString::GetByteCount()
+	const
+{
+	return itsByteCount;
+}
+
+/******************************************************************************
+ CharacterIndexValid
 
  ******************************************************************************/
 
 inline JBoolean
-JString::ConvertToFloat
+JString::CharacterIndexValid
 	(
-	JFloat* value
+	const JIndex index
 	)
 	const
 {
-	return JString::ConvertToFloat(itsString, itsStringLength, value);
-}
-
-inline JBoolean
-JString::ConvertToInteger
-	(
-	JInteger*	value,
-	const JSize	origBase
-	)
-	const
-{
-	return JString::ConvertToInteger(itsString, itsStringLength, value, origBase);
-}
-
-inline JBoolean
-JString::ConvertToUInt
-	(
-	JUInt*		value,
-	const JSize	origBase
-	)
-	const
-{
-	return JString::ConvertToUInt(itsString, itsStringLength, value, origBase);
-}
-
-// static
-
-inline JBoolean
-JString::ConvertToFloat
-	(
-	const JCharacter*	str,
-	JFloat*				value
-	)
-{
-	return JString::ConvertToFloat(str, strlen(str), value);
-}
-
-inline JBoolean
-JString::ConvertToInteger
-	(
-	const JCharacter*	str,
-	JInteger*			value,
-	const JSize			origBase
-	)
-{
-	return JString::ConvertToInteger(str, strlen(str), value, origBase);
-}
-
-inline JBoolean
-JString::ConvertToUInt
-	(
-	const JCharacter*	str,
-	JUInt*				value,
-	const JSize			origBase
-	)
-{
-	return JString::ConvertToUInt(str, strlen(str), value, origBase);
+	return JI2B( 1 <= index && index <= itsCharacterCount );
 }
 
 /******************************************************************************
- Is number
-
-	Returns kJTrue if we can convert ourselves to a number.
+ ByteIndexValid
 
  ******************************************************************************/
 
 inline JBoolean
-JString::IsFloat()
-	const
-{
-	JFloat value;
-	return ConvertToFloat(&value);
-}
-
-inline JBoolean
-JString::IsInteger
+JString::ByteIndexValid
 	(
-	const JSize base
+	const JIndex index
 	)
 	const
 {
-	JInteger value;
-	return ConvertToInteger(&value, base);
-}
-
-inline JBoolean
-JString::IsUInt
-	(
-	const JSize base
-	)
-	const
-{
-	JUInt value;
-	return ConvertToUInt(&value, base);
-}
-
-inline JBoolean
-JString::IsHexValue()
-	const
-{
-	return IsHexValue(itsString, itsStringLength);
-}
-
-// static
-
-inline JBoolean
-JString::IsFloat
-	(
-	const JCharacter* str
-	)
-{
-	JFloat value;
-	return ConvertToFloat(str, &value);
-}
-
-inline JBoolean
-JString::IsInteger
-	(
-	const JCharacter*	str,
-	const JSize			base
-	)
-{
-	JInteger value;
-	return ConvertToInteger(str, &value, base);
-}
-
-inline JBoolean
-JString::IsUInt
-	(
-	const JCharacter*	str,
-	const JSize			base
-	)
-{
-	JUInt value;
-	return ConvertToUInt(str, &value, base);
-}
-
-inline JBoolean
-JString::IsHexValue
-	(
-	const JCharacter* str
-	)
-{
-	return JString::IsHexValue(str, strlen(str));
+	return JI2B( 1 <= index && index <= itsByteCount );
 }
 
 /******************************************************************************
- GetFirstCharacter
-
- ******************************************************************************/
-
-inline JCharacter
-JString::GetFirstCharacter()
-	const
-{
-	return GetCharacter(1);
-}
-
-/******************************************************************************
- GetLastCharacter
-
- ******************************************************************************/
-
-inline JCharacter
-JString::GetLastCharacter()
-	const
-{
-	return GetCharacter(itsStringLength);
-}
-
-/******************************************************************************
- LocateSubstring
+ RangeValid
 
  ******************************************************************************/
 
 inline JBoolean
-JString::LocateSubstring
+JString::RangeValid
 	(
-	const JString&	str,
-	JIndex*			startIndex
+	const JCharacterRange& range
 	)
 	const
 {
-	return LocateSubstring(str.itsString, str.itsStringLength, kJTrue, startIndex);
+	return JI2B(CharacterIndexValid(range.first) &&
+				(range.IsEmpty() || CharacterIndexValid(range.last)));
 }
 
 inline JBoolean
-JString::LocateSubstring
+JString::RangeValid
 	(
-	const JCharacter*	str,
-	JIndex*				startIndex
+	const JUtf8ByteRange& range
 	)
 	const
 {
-	return LocateSubstring(str, strlen(str), kJTrue, startIndex);
-}
-
-inline JBoolean
-JString::LocateSubstring
-	(
-	const JCharacter*	str,
-	const JSize			length,
-	JIndex*				startIndex
-	)
-	const
-{
-	return LocateSubstring(str, length, kJTrue, startIndex);
-}
-
-inline JBoolean
-JString::LocateSubstring
-	(
-	const std::string&	str,
-	JIndex*				startIndex
-	)
-	const
-{
-	return LocateSubstring(str.data(), str.length(), kJTrue, startIndex);
-}
-
-inline JBoolean
-JString::LocateSubstring
-	(
-	const JString&	str,
-	const JBoolean	caseSensitive,
-	JIndex*			startIndex
-	)
-	const
-{
-	return LocateSubstring(str.itsString, str.itsStringLength, caseSensitive, startIndex);
-}
-
-inline JBoolean
-JString::LocateSubstring
-	(
-	const JCharacter*	str,
-	const JBoolean		caseSensitive,
-	JIndex*				startIndex
-	)
-	const
-{
-	return LocateSubstring(str, strlen(str), caseSensitive, startIndex);
-}
-
-inline JBoolean
-JString::LocateSubstring
-	(
-	const std::string&	str,
-	const JBoolean		caseSensitive,
-	JIndex*				startIndex
-	)
-	const
-{
-	return LocateSubstring(str.data(), str.length(), caseSensitive, startIndex);
+	return JI2B(ByteIndexValid(range.first) &&
+				(range.IsEmpty() || ByteIndexValid(range.last)));
 }
 
 /******************************************************************************
- LocateNextSubstring
+ CharacterToUtf8ByteRange
 
  ******************************************************************************/
 
-inline JBoolean
-JString::LocateNextSubstring
+inline JUtf8ByteRange
+JString::CharacterToUtf8ByteRange
 	(
-	const JString&	str,
-	JIndex*			startIndex
+	const JCharacterRange& range
 	)
 	const
 {
-	return LocateNextSubstring(str.itsString, str.itsStringLength, kJTrue, startIndex);
-}
-
-inline JBoolean
-JString::LocateNextSubstring
-	(
-	const JCharacter*	str,
-	JIndex*				startIndex
-	)
-	const
-{
-	return LocateNextSubstring(str, strlen(str), kJTrue, startIndex);
-}
-
-inline JBoolean
-JString::LocateNextSubstring
-	(
-	const JCharacter*	str,
-	const JSize			length,
-	JIndex*				startIndex
-	)
-	const
-{
-	return LocateNextSubstring(str, length, kJTrue, startIndex);
-}
-
-inline JBoolean
-JString::LocateNextSubstring
-	(
-	const std::string&	str,
-	JIndex*				startIndex
-	)
-	const
-{
-	return LocateNextSubstring(str.data(), str.length(), kJTrue, startIndex);
-}
-
-inline JBoolean
-JString::LocateNextSubstring
-	(
-	const JString&	str,
-	const JBoolean	caseSensitive,
-	JIndex*			startIndex
-	)
-	const
-{
-	return LocateNextSubstring(str.itsString, str.itsStringLength, caseSensitive, startIndex);
-}
-
-inline JBoolean
-JString::LocateNextSubstring
-	(
-	const JCharacter*	str,
-	const JBoolean		caseSensitive,
-	JIndex*				startIndex
-	)
-	const
-{
-	return LocateNextSubstring(str, strlen(str), caseSensitive, startIndex);
-}
-
-inline JBoolean
-JString::LocateNextSubstring
-	(
-	const std::string&	str,
-	const JBoolean		caseSensitive,
-	JIndex*				startIndex
-	)
-	const
-{
-	return LocateNextSubstring(str.data(), str.length(), caseSensitive, startIndex);
+	return CharacterToUtf8ByteRange(itsBytes, range);
 }
 
 /******************************************************************************
- LocatePrevSubstring
+ CountCharacters
 
  ******************************************************************************/
 
-inline JBoolean
-JString::LocatePrevSubstring
+inline JSize
+JString::CountCharacters
 	(
-	const JString&	str,
-	JIndex*			startIndex
+	const JUtf8Byte* str
 	)
-	const
 {
-	return LocatePrevSubstring(str.itsString, str.itsStringLength, kJTrue, startIndex);
+	return CountCharacters(str, JUtf8ByteRange(1, strlen(str)));
 }
 
-inline JBoolean
-JString::LocatePrevSubstring
+inline JSize
+JString::CountCharacters
 	(
-	const JCharacter*	str,
-	JIndex*				startIndex
+	const JUtf8Byte*	str,
+	const JSize			length
 	)
-	const
 {
-	return LocatePrevSubstring(str, strlen(str), kJTrue, startIndex);
-}
-
-inline JBoolean
-JString::LocatePrevSubstring
-	(
-	const JCharacter*	str,
-	const JSize			length,
-	JIndex*				startIndex
-	)
-	const
-{
-	return LocatePrevSubstring(str, length, kJTrue, startIndex);
-}
-
-inline JBoolean
-JString::LocatePrevSubstring
-	(
-	const std::string&	str,
-	JIndex*				startIndex
-	)
-	const
-{
-	return LocatePrevSubstring(str.data(), str.length(), kJTrue, startIndex);
-}
-
-inline JBoolean
-JString::LocatePrevSubstring
-	(
-	const JString&	str,
-	const JBoolean	caseSensitive,
-	JIndex*			startIndex
-	)
-	const
-{
-	return LocatePrevSubstring(str.itsString, str.itsStringLength, caseSensitive, startIndex);
-}
-
-inline JBoolean
-JString::LocatePrevSubstring
-	(
-	const JCharacter*	str,
-	const JBoolean		caseSensitive,
-	JIndex*				startIndex
-	)
-	const
-{
-	return LocatePrevSubstring(str, strlen(str), caseSensitive, startIndex);
-}
-
-inline JBoolean
-JString::LocatePrevSubstring
-	(
-	const std::string&	str,
-	const JBoolean		caseSensitive,
-	JIndex*				startIndex
-	)
-	const
-{
-	return LocatePrevSubstring(str.data(), str.length(), caseSensitive, startIndex);
-}
-
-/******************************************************************************
- LocateLastSubstring
-
- ******************************************************************************/
-
-inline JBoolean
-JString::LocateLastSubstring
-	(
-	const JString&	str,
-	JIndex*			startIndex
-	)
-	const
-{
-	return LocateLastSubstring(str.itsString, str.itsStringLength, kJTrue, startIndex);
-}
-
-inline JBoolean
-JString::LocateLastSubstring
-	(
-	const JCharacter*	str,
-	JIndex*				startIndex
-	)
-	const
-{
-	return LocateLastSubstring(str, strlen(str), kJTrue, startIndex);
-}
-
-inline JBoolean
-JString::LocateLastSubstring
-	(
-	const JCharacter*	str,
-	const JSize			length,
-	JIndex*				startIndex
-	)
-	const
-{
-	return LocateLastSubstring(str, length, kJTrue, startIndex);
-}
-
-inline JBoolean
-JString::LocateLastSubstring
-	(
-	const std::string&	str,
-	JIndex*				startIndex
-	)
-	const
-{
-	return LocateLastSubstring(str.data(), str.length(), kJTrue, startIndex);
-}
-
-inline JBoolean
-JString::LocateLastSubstring
-	(
-	const JString&	str,
-	const JBoolean	caseSensitive,
-	JIndex*			startIndex
-	)
-	const
-{
-	return LocateLastSubstring(str.itsString, str.itsStringLength, caseSensitive, startIndex);
-}
-
-inline JBoolean
-JString::LocateLastSubstring
-	(
-	const JCharacter*	str,
-	const JBoolean		caseSensitive,
-	JIndex*				startIndex
-	)
-	const
-{
-	return LocateLastSubstring(str, strlen(str), caseSensitive, startIndex);
-}
-
-inline JBoolean
-JString::LocateLastSubstring
-	(
-	const std::string&	str,
-	const JBoolean		caseSensitive,
-	JIndex*				startIndex
-	)
-	const
-{
-	return LocateLastSubstring(str.data(), str.length(), caseSensitive, startIndex);
-}
-
-/******************************************************************************
- Contains
-
- ******************************************************************************/
-
-inline JBoolean
-JString::Contains
-	(
-	const JString&	str,
-	const JBoolean	caseSensitive
-	)
-	const
-{
-	JIndex i;
-	return LocateSubstring(str, caseSensitive, &i);
-}
-
-inline JBoolean
-JString::Contains
-	(
-	const JCharacter*	str,
-	const JBoolean		caseSensitive
-	)
-	const
-{
-	JIndex i;
-	return LocateSubstring(str, caseSensitive, &i);
-}
-
-inline JBoolean
-JString::Contains
-	(
-	const JCharacter*	str,
-	const JSize			length,
-	const JBoolean		caseSensitive
-	)
-	const
-{
-	JIndex i;
-	return LocateSubstring(str, length, caseSensitive, &i);
-}
-
-inline JBoolean
-JString::Contains
-	(
-	const std::string&	str,
-	const JBoolean		caseSensitive
-	)
-	const
-{
-	JIndex i;
-	return LocateSubstring(str, caseSensitive, &i);
+	return CountCharacters(str, JUtf8ByteRange(1, length));
 }
 
 /******************************************************************************
@@ -993,18 +444,42 @@ JString::BeginsWith
 	)
 	const
 {
-	return BeginsWith(str, str.itsStringLength, caseSensitive);
+	return BeginsWith(str.itsBytes, JUtf8ByteRange(1, str.itsByteCount), caseSensitive);
 }
 
 inline JBoolean
 JString::BeginsWith
 	(
-	const JCharacter*	str,
+	const JString&			str,
+	const JCharacterRange&	range,
+	const JBoolean			caseSensitive
+	)
+	const
+{
+	return BeginsWith(str.itsBytes + range.first-1, str.CharacterToUtf8ByteRange(range), caseSensitive);
+}
+
+inline JBoolean
+JString::BeginsWith
+	(
+	const JUtf8Byte*	str,
 	const JBoolean		caseSensitive
 	)
 	const
 {
-	return BeginsWith(str, strlen(str), caseSensitive);
+	return BeginsWith(str, JUtf8ByteRange(1, strlen(str)), caseSensitive);
+}
+
+inline JBoolean
+JString::BeginsWith
+	(
+	const JUtf8Byte*	str,
+	const JSize			length,
+	const JBoolean		caseSensitive
+	)
+	const
+{
+	return BeginsWith(str, JUtf8ByteRange(1, length), caseSensitive);
 }
 
 inline JBoolean
@@ -1015,7 +490,93 @@ JString::BeginsWith
 	)
 	const
 {
-	return BeginsWith(str.data(), str.length(), caseSensitive);
+	return BeginsWith(str.data(), JUtf8ByteRange(1, str.length()), caseSensitive);
+}
+
+inline JBoolean
+JString::BeginsWith
+	(
+	const std::string&		str,
+	const JUtf8ByteRange&	range,
+	const JBoolean			caseSensitive
+	)
+	const
+{
+	return BeginsWith(str.data(), range, caseSensitive);
+}
+
+/******************************************************************************
+ Contains
+
+ ******************************************************************************/
+
+inline JBoolean
+JString::Contains
+	(
+	const JString&	str,
+	const JBoolean	caseSensitive
+	)
+	const
+{
+	return Contains(str.itsBytes, JUtf8ByteRange(1, str.itsByteCount), caseSensitive);
+}
+
+inline JBoolean
+JString::Contains
+	(
+	const JString&			str,
+	const JCharacterRange&	range,
+	const JBoolean			caseSensitive
+	)
+	const
+{
+	return Contains(str.itsBytes + range.first-1, str.CharacterToUtf8ByteRange(range), caseSensitive);
+}
+
+inline JBoolean
+JString::Contains
+	(
+	const JUtf8Byte*	str,
+	const JBoolean		caseSensitive
+	)
+	const
+{
+	return Contains(str, JUtf8ByteRange(1, strlen(str)), caseSensitive);
+}
+
+inline JBoolean
+JString::Contains
+	(
+	const JUtf8Byte*	str,
+	const JSize			length,
+	const JBoolean		caseSensitive
+	)
+	const
+{
+	return Contains(str, JUtf8ByteRange(1, length), caseSensitive);
+}
+
+inline JBoolean
+JString::Contains
+	(
+	const std::string&	str,
+	const JBoolean		caseSensitive
+	)
+	const
+{
+	return Contains(str.data(), JUtf8ByteRange(1, str.length()), caseSensitive);
+}
+
+inline JBoolean
+JString::Contains
+	(
+	const std::string&		str,
+	const JUtf8ByteRange&	range,
+	const JBoolean			caseSensitive
+	)
+	const
+{
+	return Contains(str.data(), range, caseSensitive);
 }
 
 /******************************************************************************
@@ -1031,18 +592,42 @@ JString::EndsWith
 	)
 	const
 {
-	return EndsWith(str, str.itsStringLength, caseSensitive);
+	return EndsWith(str.itsBytes, JUtf8ByteRange(1, str.itsByteCount), caseSensitive);
 }
 
 inline JBoolean
 JString::EndsWith
 	(
-	const JCharacter*	str,
+	const JString&			str,
+	const JCharacterRange&	range,
+	const JBoolean			caseSensitive
+	)
+	const
+{
+	return EndsWith(str.itsBytes + range.first-1, str.CharacterToUtf8ByteRange(range), caseSensitive);
+}
+
+inline JBoolean
+JString::EndsWith
+	(
+	const JUtf8Byte*	str,
 	const JBoolean		caseSensitive
 	)
 	const
 {
-	return EndsWith(str, strlen(str), caseSensitive);
+	return EndsWith(str, JUtf8ByteRange(1, strlen(str)), caseSensitive);
+}
+
+inline JBoolean
+JString::EndsWith
+	(
+	const JUtf8Byte*	str,
+	const JSize			length,
+	const JBoolean		caseSensitive
+	)
+	const
+{
+	return EndsWith(str, JUtf8ByteRange(1, length), caseSensitive);
 }
 
 inline JBoolean
@@ -1053,88 +638,93 @@ JString::EndsWith
 	)
 	const
 {
-	return EndsWith(str.data(), str.length(), caseSensitive);
+	return EndsWith(str.data(), JUtf8ByteRange(1, str.length()), caseSensitive);
+}
+
+inline JBoolean
+JString::EndsWith
+	(
+	const std::string&		str,
+	const JUtf8ByteRange&	range,
+	const JBoolean			caseSensitive
+	)
+	const
+{
+	return EndsWith(str.data(), range, caseSensitive);
 }
 
 /******************************************************************************
- Concatenation
+ MatchCase
 
  ******************************************************************************/
 
-inline JString&
-JString::operator+=
+inline JBoolean
+JString::MatchCase
 	(
-	const JString& str
+	const JString&			source,
+	const JCharacterRange&	sourceRange
 	)
 {
-	InsertSubstring(str.itsString, str.itsStringLength, itsStringLength+1);
-	return *this;
+	return MatchCase(source.itsBytes, source.CharacterToUtf8ByteRange(sourceRange),
+					 JUtf8ByteRange(1, itsByteCount));
 }
 
-inline JString&
-JString::operator+=
+inline JBoolean
+JString::MatchCase
 	(
-	const JCharacter* str
+	const JString&			source,
+	const JCharacterRange&	sourceRange,
+	const JCharacterRange&	destRange
 	)
 {
-	InsertSubstring(str, strlen(str), itsStringLength+1);
-	return *this;
+	return MatchCase(source.itsBytes, source.CharacterToUtf8ByteRange(sourceRange),
+					 CharacterToUtf8ByteRange(destRange));
 }
 
-inline JString&
-JString::operator+=
+inline JBoolean
+JString::MatchCase
 	(
-	const std::string& str
+	const JUtf8Byte*		source,
+	const JUtf8ByteRange&	sourceRange
 	)
 {
-	InsertSubstring(str.data(), str.length(), itsStringLength+1);
-	return *this;
+	return MatchCase(source, sourceRange,
+					 JUtf8ByteRange(1, itsByteCount));
 }
 
-/******************************************************************************
- InsertSubstring
-
- ******************************************************************************/
-
-inline void
-JString::InsertSubstring
+inline JBoolean
+JString::MatchCase
 	(
-	const JString&	str,
-	const JIndex	insertionIndex
+	const JUtf8Byte*		source,
+	const JUtf8ByteRange&	sourceRange,
+	const JCharacterRange&	destRange
 	)
 {
-	InsertSubstring(str.itsString, str.itsStringLength, insertionIndex);
+	return MatchCase(source, sourceRange,
+					 CharacterToUtf8ByteRange(destRange));
 }
 
-inline void
-JString::InsertSubstring
+inline JBoolean
+JString::MatchCase
 	(
-	const JCharacter*	str,
-	const JIndex		insertionIndex
+	const std::string&		source,
+	const JUtf8ByteRange&	sourceRange
 	)
 {
-	InsertSubstring(str, strlen(str), insertionIndex);
+	return MatchCase(source.data(), sourceRange,
+					 JUtf8ByteRange(1, itsByteCount));
 }
 
-inline void
-JString::InsertCharacter
+inline JBoolean
+JString::MatchCase
 	(
-	const JCharacter	c,
-	const JIndex		insertionIndex
+	const std::string&		source,
+	const JUtf8ByteRange&	sourceRange,
+	const JCharacterRange&	destRange
 	)
 {
-	JCharacter str[] = { c, '\0' };
-	InsertSubstring(str, 1, insertionIndex);
-}
-
-inline void
-JString::InsertSubstring
-	(
-	const std::string&	str,
-	const JIndex		insertionIndex
-	)
-{
-	InsertSubstring(str.data(), str.length(), insertionIndex);
+	return MatchCase(source.data(), sourceRange,
+					 CharacterToUtf8ByteRange(destRange));
 }
 
 /******************************************************************************
@@ -1148,36 +738,16 @@ JString::Prepend
 	const JString& str
 	)
 {
-	InsertSubstring(str.itsString, str.itsStringLength, 1);
+	Prepend(str.itsBytes, str.itsByteCount);
 }
 
 inline void
 JString::Prepend
 	(
-	const JCharacter* str
+	const JUtf8Byte* str
 	)
 {
-	InsertSubstring(str, strlen(str), 1);
-}
-
-inline void
-JString::Prepend
-	(
-	const JCharacter*	str,
-	const JSize			length
-	)
-{
-	InsertSubstring(str, length, 1);
-}
-
-inline void
-JString::PrependCharacter
-	(
-	const JCharacter c
-	)
-{
-	JCharacter str[] = { c, '\0' };
-	InsertSubstring(str, 1, 1);
+	Prepend(str, strlen(str));
 }
 
 inline void
@@ -1186,7 +756,16 @@ JString::Prepend
 	const std::string& str
 	)
 {
-	InsertSubstring(str.data(), str.length(), 1);
+	Prepend(str.data(), str.length());
+}
+
+inline void
+JString::Prepend
+	(
+	const JUtf8Character& c
+	)
+{
+	Prepend(c.GetBytes(), c.GetByteCount());
 }
 
 /******************************************************************************
@@ -1200,36 +779,16 @@ JString::Append
 	const JString& str
 	)
 {
-	InsertSubstring(str.itsString, str.itsStringLength, itsStringLength+1);
+	Append(str.itsBytes, str.itsByteCount);
 }
 
 inline void
 JString::Append
 	(
-	const JCharacter* str
+	const JUtf8Byte* str
 	)
 {
-	InsertSubstring(str, strlen(str), itsStringLength+1);
-}
-
-inline void
-JString::Append
-	(
-	const JCharacter*	str,
-	const JSize			length
-	)
-{
-	InsertSubstring(str, length, itsStringLength+1);
-}
-
-inline void
-JString::AppendCharacter
-	(
-	const JCharacter c
-	)
-{
-	JCharacter str[] = { c, '\0' };
-	InsertSubstring(str, 1, itsStringLength+1);
+	Append(str, strlen(str));
 }
 
 inline void
@@ -1238,236 +797,65 @@ JString::Append
 	const std::string& str
 	)
 {
-	InsertSubstring(str.data(), str.length(), itsStringLength+1);
+	Append(str.data(), str.length());
+}
+
+inline void
+JString::Append
+	(
+	const JUtf8Character& c
+	)
+{
+	Append(c.GetBytes(), c.GetByteCount());
 }
 
 /******************************************************************************
- ReplaceSubstring
+ Concatenation
 
  ******************************************************************************/
 
-inline void
-JString::ReplaceSubstring
+inline JString&
+JString::operator+=
 	(
-	const JIndex	firstCharIndex,
-	const JIndex	lastCharIndex,
-	const JString&	str
+	const JString& str
 	)
 {
-	ReplaceSubstring(firstCharIndex, lastCharIndex, str.itsString, str.itsStringLength);
+	Append(str.itsBytes, str.itsByteCount);
+	return *this;
 }
 
-inline void
-JString::ReplaceSubstring
+inline JString&
+JString::operator+=
 	(
-	const JIndex		firstCharIndex,
-	const JIndex		lastCharIndex,
-	const JCharacter*	str
+	const JUtf8Byte* str
 	)
 {
-	ReplaceSubstring(firstCharIndex, lastCharIndex, str, strlen(str));
+	Append(str, strlen(str));
+	return *this;
 }
 
-inline void
-JString::ReplaceSubstring
+inline JString&
+JString::operator+=
 	(
-	const JIndexRange&	range,
-	const JCharacter*	str,
-	const JSize			length,
-	JIndexRange*		newRange
+	const std::string& str
 	)
 {
-	ReplaceSubstring(range.first, range.last, str, length);
-	if (newRange != NULL)
-		{
-		newRange->SetFirstAndLength(range.first, length);
-		}
+	Append(str.data(), str.length());
+	return *this;
 }
 
-inline void
-JString::ReplaceSubstring
+inline JString&
+JString::operator+=
 	(
-	const JIndex		firstCharIndex,
-	const JIndex		lastCharIndex,
-	const std::string&	str
+	const JUtf8Character& c
 	)
 {
-	ReplaceSubstring(firstCharIndex, lastCharIndex, str.data(), str.length());
-}
-
-inline void
-JString::ReplaceSubstring
-	(
-	const JIndexRange&	range,
-	const JString&		str,
-	JIndexRange*		newRange
-	)
-{
-	ReplaceSubstring(range, str.itsString, str.itsStringLength, newRange);
-}
-
-inline void
-JString::ReplaceSubstring
-	(
-	const JIndexRange&	range,
-	const JCharacter*	str,
-	JIndexRange*		newRange
-	)
-{
-	ReplaceSubstring(range, str, strlen(str), newRange);
-}
-
-inline void
-JString::ReplaceSubstring
-	(
-	const JIndexRange&	range,
-	const std::string&	str,
-	JIndexRange*		newRange
-	)
-{
-	ReplaceSubstring(range, str.data(), str.length(), newRange);
-}
-
-/******************************************************************************
- RemoveSubstring
-
- ******************************************************************************/
-
-inline void
-JString::RemoveSubstring
-	(
-	const JIndex firstCharIndex,
-	const JIndex lastCharIndex
-	)
-{
-	ReplaceSubstring(firstCharIndex, lastCharIndex, "");
-}
-
-inline void
-JString::RemoveSubstring
-	(
-	const JIndexRange& range
-	)
-{
-	if (!range.IsEmpty())
-		{
-		ReplaceSubstring(range.first, range.last, "");
-		}
-}
-
-/******************************************************************************
- MatchCase
-
- ******************************************************************************/
-
-inline JBoolean
-JString::MatchCase
-	(
-	const JString&		source,
-	const JIndexRange&	sourceRange
-	)
-{
-	return MatchCase(source.itsString, sourceRange, JIndexRange(1, itsStringLength));
-}
-
-inline JBoolean
-JString::MatchCase
-	(
-	const JCharacter*	source,
-	const JIndexRange&	sourceRange
-	)
-{
-	return MatchCase(source, sourceRange, JIndexRange(1, itsStringLength));
-}
-
-inline JBoolean
-JString::MatchCase
-	(
-	const std::string&	source,
-	const JIndexRange&	sourceRange
-	)
-{
-	return MatchCase(source.data(), sourceRange, JIndexRange(1, itsStringLength));
-}
-
-inline JBoolean
-JString::MatchCase
-	(
-	const JString&		source,
-	const JIndexRange&	sourceRange,
-	const JIndexRange&	destRange
-	)
-{
-	return MatchCase(source.itsString, sourceRange, destRange);
-}
-
-inline JBoolean
-JString::MatchCase
-	(
-	const std::string&	source,
-	const JIndexRange&	sourceRange,
-	const JIndexRange&	destRange
-	)
-{
-	return MatchCase(source.data(), sourceRange, destRange);
-}
-
-/******************************************************************************
- IndexValid
-
- ******************************************************************************/
-
-inline JBoolean
-JString::IndexValid
-	(
-	const JIndex index
-	)
-	const
-{
-	return JI2B( 1 <= index && index <= itsStringLength );
-}
-
-/******************************************************************************
- RangeValid
-
- ******************************************************************************/
-
-inline JBoolean
-JString::RangeValid
-	(
-	const JIndexRange& range
-	)
-	const
-{
-	return JI2B(IndexValid(range.first) &&
-				(range.IsEmpty() || IndexValid(range.last)));
-}
-
-/******************************************************************************
- Block size
-
- ******************************************************************************/
-
-inline JSize
-JString::GetBlockSize()
-	const
-{
-	return itsBlockSize;
-}
-
-inline void
-JString::SetBlockSize
-	(
-	const JSize blockSize
-	)
-{
-	itsBlockSize = blockSize;
+	Append(c.GetBytes(), c.GetByteCount());
+	return *this;
 }
 
 /******************************************************************************
  Addition
-
-	We provide enough types so no constructors are called.
 
  ******************************************************************************/
 
@@ -1487,7 +875,7 @@ inline JString
 operator+
 	(
 	const JString&		s,
-	const JCharacter*	str
+	const JUtf8Byte*	str
 	)
 {
 	JString sum = s;
@@ -1498,7 +886,7 @@ operator+
 inline JString
 operator+
 	(
-	const JCharacter*	str,
+	const JUtf8Byte*	str,
 	const JString&		s
 	)
 {
@@ -1534,10 +922,7 @@ operator+
 /******************************************************************************
  Equality (case-sensitive)
 
-	We provide three types so no constructors are called.
-	We don't need access to the private data because we have a conversion operator.
-
-	*** We have to use the version of JStringCompare() that takes lengths
+	*** We have to use the version of JString::Compare() that takes lengths
 		because JStrings can contain NULLs.
 
  ******************************************************************************/
@@ -1551,27 +936,27 @@ operator==
 	const JString& s2
 	)
 {
-	return (JStringCompare(s1, s1.GetLength(), s2, s2.GetLength(), kJTrue) == 0);
+	return (JString::Compare(s1.GetBytes(), s1.GetByteCount(), s2.GetBytes(), s2.GetByteCount(), kJTrue) == 0);
 }
 
 inline int
 operator==
 	(
 	const JString&		s,
-	const JCharacter*	str
+	const JUtf8Byte*	str
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str, strlen(str), kJTrue) == 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJTrue) == 0);
 }
 
 inline int
 operator==
 	(
-	const JCharacter*	str,
+	const JUtf8Byte*	str,
 	const JString&		s
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str, strlen(str), kJTrue) == 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJTrue) == 0);
 }
 
 inline int
@@ -1581,7 +966,7 @@ operator==
 	const std::string&	str
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str.data(), str.length(), kJTrue) == 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJTrue) == 0);
 }
 
 inline int
@@ -1591,7 +976,7 @@ operator==
 	const JString&		s
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str.data(), str.length(), kJTrue) == 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJTrue) == 0);
 }
 
 // operator!=
@@ -1603,27 +988,27 @@ operator!=
 	const JString& s2
 	)
 {
-	return (JStringCompare(s1, s1.GetLength(), s2, s2.GetLength(), kJTrue) != 0);
+	return (JString::Compare(s1.GetBytes(), s1.GetByteCount(), s2.GetBytes(), s2.GetByteCount(), kJTrue) != 0);
 }
 
 inline int
 operator!=
 	(
 	const JString&		s,
-	const JCharacter*	str
+	const JUtf8Byte*	str
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str, strlen(str), kJTrue) != 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJTrue) != 0);
 }
 
 inline int
 operator!=
 	(
-	const JCharacter*	str,
+	const JUtf8Byte*	str,
 	const JString&		s
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str, strlen(str), kJTrue) != 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJTrue) != 0);
 }
 
 inline int
@@ -1633,7 +1018,7 @@ operator!=
 	const std::string&	str
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str.data(), str.length(), kJTrue) != 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJTrue) != 0);
 }
 
 inline int
@@ -1643,15 +1028,13 @@ operator!=
 	const JString&		s
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str.data(), str.length(), kJTrue) != 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJTrue) != 0);
 }
 
 /******************************************************************************
  Comparison (case-insensitive)
 
-	We provide three types so no constructors are called.
-
-	*** We have to use the version of JStringCompare() that takes lengths
+	*** We have to use the version of JString::Compare() that takes lengths
 		because JStrings can contain NULLs.
 
  ******************************************************************************/
@@ -1665,27 +1048,27 @@ operator<
 	const JString& s2
 	)
 {
-	return (JStringCompare(s1, s1.GetLength(), s2, s2.GetLength(), kJFalse) < 0);
+	return (JString::Compare(s1.GetBytes(), s1.GetByteCount(), s2.GetBytes(), s2.GetByteCount(), kJFalse) < 0);
 }
 
 inline int
 operator<
 	(
 	const JString&		s,
-	const JCharacter*	str
+	const JUtf8Byte*	str
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str, strlen(str), kJFalse) < 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJFalse) < 0);
 }
 
 inline int
 operator<
 	(
-	const JCharacter*	str,
+	const JUtf8Byte*	str,
 	const JString&		s
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str, strlen(str), kJFalse) < 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJFalse) < 0);
 }
 
 inline int
@@ -1695,7 +1078,7 @@ operator<
 	const std::string&	str
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str.data(), str.length(), kJFalse) < 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) < 0);
 }
 
 inline int
@@ -1705,7 +1088,7 @@ operator<
 	const JString&		s
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str.data(), str.length(), kJFalse) < 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) < 0);
 }
 
 // operator<=
@@ -1717,27 +1100,27 @@ operator<=
 	const JString& s2
 	)
 {
-	return (JStringCompare(s1, s1.GetLength(), s2, s2.GetLength(), kJFalse) <= 0);
+	return (JString::Compare(s1.GetBytes(), s1.GetByteCount(), s2.GetBytes(), s2.GetByteCount(), kJFalse) <= 0);
 }
 
 inline int
 operator<=
 	(
 	const JString&		s,
-	const JCharacter*	str
+	const JUtf8Byte*	str
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str, strlen(str), kJFalse) <= 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJFalse) <= 0);
 }
 
 inline int
 operator<=
 	(
-	const JCharacter*	str,
+	const JUtf8Byte*	str,
 	const JString&		s
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str, strlen(str), kJFalse) <= 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJFalse) <= 0);
 }
 
 inline int
@@ -1747,7 +1130,7 @@ operator<=
 	const std::string&	str
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str.data(), str.length(), kJFalse) <= 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) <= 0);
 }
 
 inline int
@@ -1757,10 +1140,11 @@ operator<=
 	const JString&		s
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str.data(), str.length(), kJFalse) <= 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) <= 0);
 }
 
 // operator>
+
 
 inline int
 operator>
@@ -1769,27 +1153,27 @@ operator>
 	const JString& s2
 	)
 {
-	return (JStringCompare(s1, s1.GetLength(), s2, s2.GetLength(), kJFalse) > 0);
+	return (JString::Compare(s1.GetBytes(), s1.GetByteCount(), s2.GetBytes(), s2.GetByteCount(), kJFalse) > 0);
 }
 
 inline int
 operator>
 	(
 	const JString&		s,
-	const JCharacter*	str
+	const JUtf8Byte*	str
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str, strlen(str), kJFalse) > 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJFalse) > 0);
 }
 
 inline int
 operator>
 	(
-	const JCharacter*	str,
+	const JUtf8Byte*	str,
 	const JString&		s
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str, strlen(str), kJFalse) > 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJFalse) > 0);
 }
 
 inline int
@@ -1799,7 +1183,7 @@ operator>
 	const std::string&	str
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str.data(), str.length(), kJFalse) > 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) > 0);
 }
 
 inline int
@@ -1809,7 +1193,7 @@ operator>
 	const JString&		s
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str.data(), str.length(), kJFalse) > 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) > 0);
 }
 
 // operator>=
@@ -1821,27 +1205,27 @@ operator>=
 	const JString& s2
 	)
 {
-	return (JStringCompare(s1, s1.GetLength(), s2, s2.GetLength(), kJFalse) >= 0);
+	return (JString::Compare(s1.GetBytes(), s1.GetByteCount(), s2.GetBytes(), s2.GetByteCount(), kJFalse) >= 0);
 }
 
 inline int
 operator>=
 	(
 	const JString&		s,
-	const JCharacter*	str
+	const JUtf8Byte*	str
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str, strlen(str), kJFalse) >= 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJFalse) >= 0);
 }
 
 inline int
 operator>=
 	(
-	const JCharacter*	str,
+	const JUtf8Byte*	str,
 	const JString&		s
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str, strlen(str), kJFalse) >= 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str, strlen(str), kJFalse) >= 0);
 }
 
 inline int
@@ -1851,7 +1235,7 @@ operator>=
 	const std::string&	str
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str.data(), str.length(), kJFalse) >= 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) >= 0);
 }
 
 inline int
@@ -1861,122 +1245,83 @@ operator>=
 	const JString&		s
 	)
 {
-	return (JStringCompare(s, s.GetLength(), str.data(), str.length(), kJFalse) >= 0);
+	return (JString::Compare(s.GetBytes(), s.GetByteCount(), str.data(), str.length(), kJFalse) >= 0);
 }
 
 /******************************************************************************
- JStringCompare
+ Compare (static)
 
-	*** We have to use the version of JStringCompare() that takes lengths
+	Replaces strcmp(): + if s1>s2, 0 if s1==s2, - if s1<s2
+
+	*** We have to use the version of Compare() that takes lengths
 		because JStrings can contain NULLs.
 
  ******************************************************************************/
 
 inline int
-JStringCompare
+JString::Compare
 	(
 	const JString&	s1,
 	const JString&	s2,
 	const JBoolean	caseSensitive
 	)
 {
-	return JStringCompare(s1, s1.GetLength(), s2, s2.GetLength(), caseSensitive);
+	return JString::Compare(s1.GetBytes(), s1.GetByteCount(), s2.GetBytes(), s2.GetByteCount(), caseSensitive);
 }
 
 inline int
-JStringCompare
+JString::Compare
 	(
 	const JString&		s1,
-	const JCharacter*	s2,
+	const JUtf8Byte*	s2,
 	const JBoolean		caseSensitive
 	)
 {
-	return JStringCompare(s1, s1.GetLength(), s2, strlen(s2), caseSensitive);
+	return JString::Compare(s1.GetBytes(), s1.GetByteCount(), s2, strlen(s2), caseSensitive);
 }
 
 inline int
-JStringCompare
+JString::Compare
 	(
-	const JCharacter*	s1,
+	const JUtf8Byte*	s1,
 	const JString&		s2,
 	const JBoolean		caseSensitive
 	)
 {
-	return JStringCompare(s1, strlen(s1), s2, s2.GetLength(), caseSensitive);
+	return JString::Compare(s1, strlen(s1), s2.GetBytes(), s2.GetByteCount(), caseSensitive);
 }
 
 inline int
-JStringCompare
+JString::Compare
+	(
+	const JUtf8Byte*	s1,
+	const JUtf8Byte*	s2,
+	const JBoolean		caseSensitive
+	)
+{
+	return Compare(s1, strlen(s1), s2, strlen(s2), caseSensitive);
+}
+
+inline int
+JString::Compare
 	(
 	const JString&		s1,
 	const std::string&	s2,
 	const JBoolean		caseSensitive
 	)
 {
-	return JStringCompare(s1, s1.GetLength(), s2.data(), s2.length(), caseSensitive);
+	return JString::Compare(s1.GetBytes(), s1.GetByteCount(), s2.data(), s2.length(), caseSensitive);
 }
 
 inline int
-JStringCompare
+JString::Compare
 	(
 	const std::string&	s1,
 	const JString&		s2,
 	const JBoolean		caseSensitive
 	)
 {
-	return JStringCompare(s1.data(), s1.length(), s2, s2.GetLength(), caseSensitive);
-}
-
-/******************************************************************************
- CopyToPrivateString (private)
-
-	Copy the given string into our private string.
-
- ******************************************************************************/
-
-inline void
-JString::CopyToPrivateString
-	(
-	const JCharacter* str
-	)
-{
-	CopyToPrivateString(str, strlen(str));
-}
-
-/******************************************************************************
- PrivateGetCharacter (private)
-
-	*** This routine does no bounds checking!
-
- ******************************************************************************/
-
-inline JCharacter
-JString::PrivateGetCharacter
-	(
-	const JIndex index
-	)
-	const
-{
-	return itsString [ index - 1 ];
-}
-
-/******************************************************************************
- GetCharacterPtr (private)
-
-	*** This routine does no bounds checking!
-
-	Return a pointer to the character at the specified index.
-
- ******************************************************************************/
-
-inline JCharacter*
-JString::GetCharacterPtr
-	(
-	const JIndex index
-	)
-	const
-{
-	return itsString + index - 1;
+	return JString::Compare(s1.data(), s1.length(), s2.GetBytes(), s2.GetByteCount(), caseSensitive);
 }
 
 /******************************************************************************
@@ -1990,54 +1335,59 @@ JString::Set
 	const JString& str
 	)
 {
-	if (this->itsString != str.itsString)
+	if (this->itsBytes != str.itsBytes)
 		{
-		CopyToPrivateString(str.itsString, str.itsStringLength);
+		CopyToPrivateString(str.itsBytes, str.itsByteCount);
 		}
 }
 
 inline void
 JString::Set
 	(
-	const JCharacter* str
+	const JString&			str,
+	const JCharacterRange&	charRange
 	)
 {
-	if (this->itsString != str)
+	if (this->itsBytes != str.itsBytes)
 		{
-		CopyToPrivateString(str);
+		const JUtf8ByteRange byteRange = CharacterToUtf8ByteRange(charRange);
+		CopyToPrivateString(str.itsBytes + byteRange.first-1, byteRange.GetLength());
 		}
 }
 
 inline void
 JString::Set
 	(
-	const JCharacter*	str,
+	const JUtf8Byte* str
+	)
+{
+	CopyToPrivateString(str, strlen(str));
+}
+
+inline void
+JString::Set
+	(
+	const JUtf8Byte*	str,
 	const JSize			length
 	)
 {
-	if (this->itsString != str)
-		{
-		CopyToPrivateString(str, length);
-		}
+	CopyToPrivateString(str, length);
 }
 
 inline void
 JString::Set
 	(
-	const JCharacter*	str,
-	const JIndexRange&	range
+	const JUtf8Byte*		str,
+	const JUtf8ByteRange&	range
 	)
 {
-	if (this->itsString != str)
+	if (range.IsNothing())
 		{
-		if (range.IsNothing())
-			{
-			Clear();
-			}
-		else
-			{
-			CopyToPrivateString(str + range.first-1, range.GetLength());
-			}
+		Clear();
+		}
+	else
+		{
+		CopyToPrivateString(str + range.first-1, range.GetLength());
 		}
 }
 
@@ -2053,8 +1403,8 @@ JString::Set
 inline void
 JString::Set
 	(
-	const std::string&	str,
-	const JIndexRange&	range
+	const std::string&		str,
+	const JUtf8ByteRange&	range
 	)
 {
 	if (range.IsNothing())
@@ -2070,7 +1420,7 @@ JString::Set
 /******************************************************************************
  Assignment operator
 
-	We do not copy itsBlockSize because we assume the client has set them
+	We do not copy itsBlockSize because we assume the client has set it
 	appropriately.
 
  ******************************************************************************/
@@ -2088,7 +1438,7 @@ JString::operator=
 inline const JString&
 JString::operator=
 	(
-	const JCharacter* str
+	const JUtf8Byte* str
 	)
 {
 	Set(str);
@@ -2103,6 +1453,220 @@ JString::operator=
 {
 	Set(str);
 	return *this;
+}
+
+/******************************************************************************
+ Is number
+
+	Returns kJTrue if we can convert ourselves to a number.
+
+ ******************************************************************************/
+
+inline JBoolean
+JString::IsFloat()
+	const
+{
+	JFloat value;
+	return ConvertToFloat(itsBytes, itsByteCount, &value);
+}
+
+inline JBoolean
+JString::IsInteger
+	(
+	const JSize base
+	)
+	const
+{
+	JInteger value;
+	return ConvertToInteger(itsBytes, itsByteCount, &value, base);
+}
+
+inline JBoolean
+JString::IsUInt
+	(
+	const JSize base
+	)
+	const
+{
+	JUInt value;
+	return ConvertToUInt(itsBytes, itsByteCount, &value, base);
+}
+
+inline JBoolean
+JString::IsHexValue()
+	const
+{
+	return IsHexValue(itsBytes, itsByteCount);
+}
+
+// static
+
+inline JBoolean
+JString::IsFloat
+	(
+	const JUtf8Byte* str
+	)
+{
+	JFloat value;
+	return ConvertToFloat(str, strlen(str), &value);
+}
+
+inline JBoolean
+JString::IsFloat
+	(
+	const JUtf8Byte*	str,
+	const JSize			length
+	)
+{
+	JFloat value;
+	return ConvertToFloat(str, length, &value);
+}
+
+inline JBoolean
+JString::IsInteger
+	(
+	const JUtf8Byte*	str,
+	const JSize			base
+	)
+{
+	JInteger value;
+	return ConvertToInteger(str, strlen(str), &value, base);
+}
+
+inline JBoolean
+JString::IsInteger
+	(
+	const JUtf8Byte*	str,
+	const JSize			length,
+	const JSize			base
+	)
+{
+	JInteger value;
+	return ConvertToInteger(str, length, &value, base);
+}
+
+inline JBoolean
+JString::IsUInt
+	(
+	const JUtf8Byte*	str,
+	const JSize			base
+	)
+{
+	JUInt value;
+	return ConvertToUInt(str, strlen(str), &value, base);
+}
+
+inline JBoolean
+JString::IsUInt
+	(
+	const JUtf8Byte*	str,
+	const JSize			length,
+	const JSize			base
+	)
+{
+	JUInt value;
+	return ConvertToUInt(str, length, &value, base);
+}
+
+inline JBoolean
+JString::IsHexValue
+	(
+	const JUtf8Byte* str
+	)
+{
+	return IsHexValue(str, strlen(str));
+}
+
+/******************************************************************************
+ Convert to number
+
+ ******************************************************************************/
+
+inline JBoolean
+JString::ConvertToFloat
+	(
+	JFloat* value
+	)
+	const
+{
+	return ConvertToFloat(itsBytes, itsByteCount, value);
+}
+
+inline JBoolean
+JString::ConvertToInteger
+	(
+	JInteger*	value,
+	const JSize	base
+	)
+	const
+{
+	return ConvertToInteger(itsBytes, itsByteCount, value, base);
+}
+
+inline JBoolean
+JString::ConvertToUInt
+	(
+	JUInt*		value,
+	const JSize	base
+	)
+	const
+{
+	return ConvertToUInt(itsBytes, itsByteCount, value, base);
+}
+
+// static
+
+inline JBoolean
+JString::ConvertToFloat
+	(
+	const JUtf8Byte*	str,
+	JFloat*				value
+	)
+{
+	return ConvertToFloat(str, strlen(str), value);
+}
+
+inline JBoolean
+JString::ConvertToInteger
+	(
+	const JUtf8Byte*	str,
+	JInteger*			value,
+	const JSize			base
+	)
+{
+	return ConvertToInteger(str, strlen(str), value, base);
+}
+
+inline JBoolean
+JString::ConvertToUInt
+	(
+	const JUtf8Byte*	str,
+	JUInt*				value,
+	const JSize			base
+	)
+{
+	return ConvertToUInt(str, strlen(str), value, base);
+}
+
+/******************************************************************************
+ Block size
+
+ ******************************************************************************/
+
+inline JSize
+JString::GetBlockSize()
+	const
+{
+	return itsBlockSize;
+}
+
+inline void
+JString::SetBlockSize
+	(
+	const JSize blockSize
+	)
+{
+	itsBlockSize = blockSize;
 }
 
 #endif

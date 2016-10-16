@@ -30,11 +30,6 @@ using std::ws;
 
 	// general types
 
-typedef char								JCharacter;
-
-const JCharacter kJCharacterMin				= CHAR_MIN;
-const JCharacter kJCharacterMax				= (JCharacter) CHAR_MAX;	// cast required for VCPP
-
 typedef long								JInteger;
 
 const JInteger kJIntegerMin					= LONG_MIN;

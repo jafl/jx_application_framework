@@ -74,13 +74,13 @@
 JHashValue
 JHash7Bit
 	(
-	const JCharacter* const& key
+	const JUtf8Byte* const& key
 	)
 {
 	assert(key != NULL);
 
 	// Any optimizer worth it's salt ought to make this variable free
-	const JCharacter* thisChar = key;
+	const JUtf8Byte* thisChar = key;
 
 	JHashValue hash=0;
 	while (*thisChar != '\0')
@@ -105,13 +105,13 @@ JHash7Bit
 JHashValue
 JHash8Bit
 	(
-	const JCharacter* const& key
+	const JUtf8Byte* const& key
 	)
 {
 	assert(key != NULL);
 
 	// Any optimizer worth it's salt ought to make this variable free
-	const JCharacter* thisChar = key;
+	const JUtf8Byte* thisChar = key;
 
 	JHashValue hash=0;
 	while (*thisChar != '\0')
