@@ -74,6 +74,8 @@ J_RAW_SYSTEM_STUFF := \
 # Nothing below this line should ever need to be changed.
 #
 
+PKG_CONFIG_PATH := /usr/local/opt/icu4c/lib/pkgconfig
+
 # makemake variables
 
 LINKER := clang++
@@ -82,13 +84,17 @@ LINKER := clang++
 
 CC       := clang
 CXX      := clang++
-CPPFLAGS  = ${DEPENDFLAGS}
+CPPFLAGS  = ${DEPENDFLAGS} \
+            ${shell PKG_CONFIG_PATH=${PKG_CONFIG_PATH} \
+              pkg-config --cflags icu-i18n libpcre}
 CFLAGS    = ${J_MAKE_NEEDS_OUTPUT_ARG}
 CXXFLAGS  = ${J_MAKE_NEEDS_OUTPUT_ARG} -std=c++11
 
 # libraries to link
 
-J_GCC_LIBS  := -lpcre -lstdc++ -lm -lc
+J_GCC_LIBS  := ${shell PKG_CONFIG_PATH=${PKG_CONFIG_PATH} \
+                 pkg-config --libs icu-i18n libpcre} \
+               -lstdc++ -lm -lc
 J_ACE_LIBS  := -lACE
 J_X11_LIBS  := -L${JX_ROOT}/lib ${J_X11_LIB_DIR} -lXext -lXft -lfontconfig -lXpm -lX11
 
