@@ -127,7 +127,7 @@ CBSearchPathHistoryMenu::AddPath
 	const JBoolean		recurse
 	)
 {
-	if (!JStringEmpty(fullName))
+	if (!JString::IsEmpty(fullName))
 		{
 		AddItem(fullName, recurse ? kRecurseFlag : "");
 		}

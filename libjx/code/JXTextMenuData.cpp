@@ -282,7 +282,7 @@ JXTextMenuData::InsertMenuItems
 		ParseMenuItemStr(&itemText, &isActive, &hasSeparator,
 						 &type, &shortcuts, &nmShortcut, &id);
 
-		if (!JStringEmpty(idNamespace) && !id.IsEmpty())
+		if (!JString::IsEmpty(idNamespace) && !id.IsEmpty())
 			{
 			strID  = id;
 			strID += "::";
@@ -736,7 +736,7 @@ JXTextMenuData::SetNMShortcut
 {
 	TextItemData itemData = itsTextItemData->GetElement(index);
 
-	const JBoolean strEmpty = JStringEmpty(str);
+	const JBoolean strEmpty = JString::IsEmpty(str);
 
 	JBoolean changed = kJFalse;
 	if (!strEmpty && itemData.nmShortcut == NULL)

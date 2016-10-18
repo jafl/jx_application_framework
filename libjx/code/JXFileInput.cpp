@@ -179,7 +179,7 @@ JXFileInput::SetBasePath
 	const JCharacter* path
 	)
 {
-	if (JStringEmpty(path))
+	if (JString::IsEmpty(path))
 		{
 		ClearBasePath();
 		}
@@ -266,7 +266,7 @@ JXFileInput::InputValid()
 		errID = "CannotExec::JXFileInput";
 		}
 
-	if (JStringEmpty(errID))
+	if (JString::IsEmpty(errID))
 		{
 		return kJTrue;
 		}
@@ -401,13 +401,13 @@ JXFileInput::GetTextColor
 	const JColormap*	colormap
 	)
 {
-	if (JStringEmpty(fileName))
+	if (JString::IsEmpty(fileName))
 		{
 		return colormap->GetBlackColor();
 		}
 
 	JString fullName;
-	if ((JIsAbsolutePath(fileName) || !JStringEmpty(basePath)) &&
+	if ((JIsAbsolutePath(fileName) || !JString::IsEmpty(basePath)) &&
 		JConvertToAbsolutePath(fileName, basePath, &fullName) &&
 		(!requireRead  || JFileReadable(fullName)) &&
 		(!requireWrite || JFileWritable(fullName)) &&

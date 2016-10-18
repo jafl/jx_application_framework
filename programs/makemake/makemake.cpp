@@ -1438,7 +1438,7 @@ CalcDepend
 	// apply environment variables
 
 	const JCharacter* env = getenv("J_MAKEMAKE_IGNORE_PATTERN");
-	if (!JStringEmpty(env))
+	if (!JString::IsEmpty(env))
 		{
 		globalIgnorePattern = jnew JRegex(env);
 		assert( globalIgnorePattern != NULL );
@@ -1666,7 +1666,7 @@ PrintDependencies
 {
 	if (!depList.IsEmpty())
 		{
-		if (!JStringEmpty(outputDirName))
+		if (!JString::IsEmpty(outputDirName))
 			{
 			JString s = makeName, p,f;
 			JSplitPathAndName(s, &p, &f);

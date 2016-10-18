@@ -46,7 +46,7 @@ CMVarNode::CMVarNode
 	const JCharacter*	value
 	)
 	:
-	JNamedTreeNode(NULL, JStringEmpty(name) ? " " : name, kJFalse),
+	JNamedTreeNode(NULL, JString::IsEmpty(name) ? " " : name, kJFalse),
 	itsShouldListenToLinkFlag(kJFalse),
 	itsValue(value)
 {
@@ -55,7 +55,7 @@ CMVarNode::CMVarNode
 	if (parent != NULL)
 		{
 		parent->Append(this);
-		if (parent->IsRoot() && !JStringEmpty(name))
+		if (parent->IsRoot() && !JString::IsEmpty(name))
 			{
 			CMInitVarNodeTask* task = jnew CMInitVarNodeTask(this);
 			assert( task != NULL );

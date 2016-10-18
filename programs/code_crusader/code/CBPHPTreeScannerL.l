@@ -197,7 +197,7 @@ as{WS} {
 
 {NSID} {
 	JString fullName(yytext, yyleng);
-	if (!JStringEmpty(phpNamespace))
+	if (!JString::IsEmpty(phpNamespace))
 		{
 		fullName.PrependCharacter('\\');
 		fullName.Prepend(phpNamespace);

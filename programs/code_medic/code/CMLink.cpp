@@ -376,7 +376,7 @@ CMLink::RememberFile
 	const JCharacter* fullName
 	)
 {
-	if (JStringEmpty(fullName))
+	if (JString::IsEmpty(fullName))
 		{
 		itsFileNameMap->SetElement(fileName, NULL, JPtrArrayT::kDelete);
 		}

@@ -736,7 +736,7 @@ CBDocumentManager::OpenSomething
 	const JBoolean		forceReload
 	)
 {
-	if (!JStringEmpty(fileName))
+	if (!JString::IsEmpty(fileName))
 		{
 		if (JFileReadable(fileName))
 			{
@@ -876,7 +876,7 @@ CBDocumentManager::OpenTextDocument
 		*doc = NULL;
 		}
 
-	if (JStringEmpty(fileName))
+	if (JString::IsEmpty(fileName))
 		{
 		return kJFalse;
 		}
@@ -936,7 +936,7 @@ CBDocumentManager::PrivateOpenTextDocument
 	)
 	const
 {
-	assert( !JStringEmpty(fullName) );
+	assert( !JString::IsEmpty(fullName) );
 
 	if (returnDoc != NULL)
 		{
@@ -1198,7 +1198,7 @@ CBDocumentManager::OpenBinaryDocument
 	const JCharacter* fileName
 	)
 {
-	if (!JStringEmpty(fileName) && JFileExists(fileName))
+	if (!JString::IsEmpty(fileName) && JFileExists(fileName))
 		{
 		PrivateOpenBinaryDocument(fileName, kJFalse, kJFalse);
 		}
@@ -1218,7 +1218,7 @@ CBDocumentManager::PrivateOpenBinaryDocument
 	)
 	const
 {
-	assert( !JStringEmpty(fullName) );
+	assert( !JString::IsEmpty(fullName) );
 
 	JString cmd;
 	if (CBGetPrefsManager()->EditWithOtherProgram(fullName, &cmd))

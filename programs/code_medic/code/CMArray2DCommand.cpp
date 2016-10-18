@@ -128,7 +128,7 @@ CMArray2DCommand::HandleFailure
 			itsData->SetString(GetCell(i), value);
 			}
 
-		if (!JStringEmpty(value))
+		if (!JString::IsEmpty(value))
 			{
 			if (itsType == kRow)
 				{

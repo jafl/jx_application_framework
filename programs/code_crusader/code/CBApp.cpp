@@ -186,7 +186,7 @@ CBApp::DisplayAbout
 	assert( dlog != NULL );
 	dlog->BeginDialog();
 
-	if (init && JStringEmpty(prevVersStr))
+	if (init && JString::IsEmpty(prevVersStr))
 		{
 		JXAskInitDockAll* task = jnew JXAskInitDockAll(dlog);
 		assert( task != NULL );

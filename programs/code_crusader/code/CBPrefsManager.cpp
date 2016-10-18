@@ -1594,7 +1594,7 @@ CBPrefsManager::FindMacroName
 	const JBoolean			create
 	)
 {
-	if (JStringEmpty(macroName))
+	if (JString::IsEmpty(macroName))
 		{
 		return kCBEmptyMacroID;
 		}
@@ -1652,7 +1652,7 @@ CBPrefsManager::FindCRMRuleListName
 	const JArray<CRMRuleListInfo>&	crmList
 	)
 {
-	if (JStringEmpty(crmName))
+	if (JString::IsEmpty(crmName))
 		{
 		return kCBEmptyCRMRuleListID;
 		}
@@ -3338,7 +3338,7 @@ CBPrefsManager::CleanFileName
 	const
 {
 	JString p, n;
-	if (!JStringEmpty(name))	// might be untitled document
+	if (!JString::IsEmpty(name))	// might be untitled document
 		{
 		JSplitPathAndName(name, &p, &n);
 

@@ -109,7 +109,7 @@ CBSearchFilterHistoryMenu::AddFilter
 	const JBoolean		invert
 	)
 {
-	if (!JStringEmpty(filter))
+	if (!JString::IsEmpty(filter))
 		{
 		AddItem(filter, invert ? kInvertFlag : "");
 		}

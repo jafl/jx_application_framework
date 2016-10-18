@@ -650,7 +650,7 @@ JXSearchTextDialog::SetSearchTextHelpName
 	const JCharacter* name
 	)
 {
-	itsSearchTextHelpName = (JStringEmpty(name) ? kJXSearchTextHelpName : name);
+	itsSearchTextHelpName = (JString::IsEmpty(name) ? kJXSearchTextHelpName : name);
 }
 
 /******************************************************************************

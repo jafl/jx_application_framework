@@ -214,7 +214,7 @@ CBDirList::Contains
 	)
 	const
 {
-	if (JStringEmpty(p))
+	if (JString::IsEmpty(p))
 		{
 		return kJFalse;
 		}

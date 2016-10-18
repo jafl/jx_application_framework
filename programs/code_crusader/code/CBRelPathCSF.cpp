@@ -160,11 +160,11 @@ CBRelPathCSF::PrepareForChoose
 	CalcPathType(origName, &itsPathType);
 
 	JString startPath;
-	if (JStringEmpty(origName))
+	if (JString::IsEmpty(origName))
 		{
 		startPath = GetProjectPath();
 		}
-	else if (!JStringEmpty(origName) &&
+	else if (!JString::IsEmpty(origName) &&
 			 !JConvertToAbsolutePath(origName, GetProjectPath(), &startPath))
 		{
 		startPath = origName;
@@ -192,7 +192,7 @@ CBRelPathCSF::CalcPathType
 	)
 	const
 {
-	if (!JStringEmpty(path))
+	if (!JString::IsEmpty(path))
 		{
 		*type = CalcPathType(path);
 		}
@@ -206,7 +206,7 @@ CBRelPathCSF::CalcPathType
 	const JCharacter* path
 	)
 {
-	assert( !JStringEmpty(path) );
+	assert( !JString::IsEmpty(path) );
 
 	if (path[0] == '~')
 		{

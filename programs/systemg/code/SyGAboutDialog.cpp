@@ -115,7 +115,7 @@ SyGAboutDialog::BuildWindow
 
 	JString text;
 	text = SyGGetVersionStr();
-	if (!JStringEmpty(prevVersStr))
+	if (!JString::IsEmpty(prevVersStr))
 		{
 		const JCharacter* map[] =
 			{

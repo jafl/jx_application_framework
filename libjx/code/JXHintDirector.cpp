@@ -98,7 +98,7 @@ JXHintDirector::BuildWindow
 	assert( textWidget != NULL );
 
 	JCoordinate ascent = 0, descent = 0;
-	if (!JStringEmpty(text))
+	if (!JString::IsEmpty(text))
 		{
 		(textWidget->GetFont(1)).GetLineHeight(&ascent, &descent);
 		}

@@ -109,7 +109,7 @@ CBAboutDialog::BuildWindow
 	// text
 
 	JString text = CBGetVersionStr();
-	if (!JStringEmpty(prevVersStr))
+	if (!JString::IsEmpty(prevVersStr))
 		{
 		const JCharacter* map[] =
 			{

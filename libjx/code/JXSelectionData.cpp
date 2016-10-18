@@ -49,7 +49,7 @@ JXSelectionData::JXSelectionData
 	itsDisplay(widget->GetDisplay()),
 	itsDataSource(widget)
 {
-	assert( widget != NULL && !JStringEmpty(id) );
+	assert( widget != NULL && !JString::IsEmpty(id) );
 
 	JXSelectionDataX();
 

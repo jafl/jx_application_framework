@@ -123,7 +123,7 @@ JIsMounted
 	JString*			device
 	)
 {
-	if (JStringEmpty(path) || !JNameUsed(path) || path[1] != ':')
+	if (JString::IsEmpty(path) || !JNameUsed(path) || path[1] != ':')
 		{
 		return kJFalse;
 		}

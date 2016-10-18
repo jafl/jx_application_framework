@@ -145,7 +145,7 @@ CBFileNodeBase::GetFullName
 	assert( projTree != NULL );
 
 	const JString& basePath = (projTree->GetProjectDoc())->GetFilePath();
-	return JI2B(!JStringEmpty(fileName) &&
+	return JI2B(!JString::IsEmpty(fileName) &&
 				JConvertToAbsolutePath(fileName, basePath, fullName));
 }
 

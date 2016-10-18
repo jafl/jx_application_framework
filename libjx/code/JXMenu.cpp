@@ -310,7 +310,7 @@ JXMenu::SetTitle
 	const JBoolean		menuOwnsImage
 	)
 {
-	if (JStringEmpty(title))
+	if (JString::IsEmpty(title))
 		{
 		itsTitle.Clear();
 		itsULIndex = 0;

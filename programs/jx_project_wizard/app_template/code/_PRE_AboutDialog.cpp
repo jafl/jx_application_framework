@@ -109,7 +109,7 @@ void
 	imageWidget->SetImage(image, kJTrue);
 
 	JString text = <PRE>GetVersionStr();
-	if (!JStringEmpty(prevVersStr))
+	if (!JString::IsEmpty(prevVersStr))
 		{
 		const JCharacter* map[] =
 			{

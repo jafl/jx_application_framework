@@ -74,7 +74,7 @@ JXStringHistoryMenu::AddString
 	const JCharacter* str
 	)
 {
-	if (!JStringEmpty(str))
+	if (!JString::IsEmpty(str))
 		{
 		AddItem(str, "");
 		}

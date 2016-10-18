@@ -169,7 +169,7 @@ JXFSCommandHistoryMenu::AddCommand
 	const JBoolean		singleFile
 	)
 {
-	if (JStringEmpty(cmd))
+	if (JString::IsEmpty(cmd))
 		{
 		return;
 		}

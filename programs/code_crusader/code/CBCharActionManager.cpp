@@ -117,7 +117,7 @@ CBCharActionManager::SetAction
 	const JCharacter*	script
 	)
 {
-	if (JStringEmpty(script))
+	if (JString::IsEmpty(script))
 		{
 		ClearAction(c);
 		}

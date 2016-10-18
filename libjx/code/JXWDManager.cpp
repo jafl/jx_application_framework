@@ -173,7 +173,7 @@ JXWDManager::DirectorCreated
 			}
 		}
 
-	if (!JStringEmpty(id))
+	if (!JString::IsEmpty(id))
 		{
 		info.itemID = jnew JString(id);
 		assert( info.itemID != NULL );

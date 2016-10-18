@@ -850,7 +850,7 @@ CBBuildManager::ReadSetup
 			{
 			JString origPath;
 			projInput >> origPath;
-			if (JStringEmpty(projPath) || origPath != projPath)
+			if (JString::IsEmpty(projPath) || origPath != projPath)
 				{
 				itsNeedWriteMakeFilesFlag = kJTrue;
 				}

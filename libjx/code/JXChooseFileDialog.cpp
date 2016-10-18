@@ -303,7 +303,7 @@ JXChooseFileDialog::SetObjects
 	// select initial file
 
 	JIndex index;
-	if (!JStringEmpty(origName) &&
+	if (!JString::IsEmpty(origName) &&
 		fileBrowser->ClosestMatch(origName, &index))
 		{
 		const JDirEntry& entry = GetDirInfo()->GetEntry(index);

@@ -671,7 +671,7 @@ CMCommandDirector::UpdateWindowTitle
 	title += kWindowTitleSuffix;
 	GetWindow()->SetTitle(title);
 
-	if (!JStringEmpty(programName))
+	if (!JString::IsEmpty(programName))
 		{
 		itsProgramButton->SetLabel(programName);
 		}
@@ -1439,12 +1439,12 @@ CMCommandDirector::DisassembleFunction
 
 	if (dir == NULL)
 		{
-		dir = CMSourceDirector::Create(this, JStringEmpty(addr) ? fn.GetCString() : NULL, CMSourceDirector::kAsmType);
+		dir = CMSourceDirector::Create(this, JString::IsEmpty(addr) ? fn.GetCString() : NULL, CMSourceDirector::kAsmType);
 		itsAsmDirs->Append(dir);
 		dir->Activate();
 		}
 
-	if (!JStringEmpty(addr))
+	if (!JString::IsEmpty(addr))
 		{
 		CMLocation loc;
 		loc.SetFunctionName(fn);

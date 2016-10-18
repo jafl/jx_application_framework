@@ -119,7 +119,7 @@ GPMAboutDialog::BuildWindow
 	npsIcon->SetImage(image, kJTrue);
 
 	JString text = GPMGetVersionStr();
-	if (!JStringEmpty(prevVersStr))
+	if (!JString::IsEmpty(prevVersStr))
 		{
 		const JCharacter* map[] =
 			{

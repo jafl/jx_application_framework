@@ -596,7 +596,7 @@ JXContainer::SetHint
 	const JCharacter* text
 	)
 {
-	if (JStringEmpty(text))
+	if (JString::IsEmpty(text))
 		{
 		ClearHint();
 		}

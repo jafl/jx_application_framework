@@ -122,7 +122,7 @@ JXDisplay::Create
 	)
 {
 	const JCharacter* name = displayName;
-	if (JStringEmpty(name))
+	if (JString::IsEmpty(name))
 		{
 		name = NULL;
 		}

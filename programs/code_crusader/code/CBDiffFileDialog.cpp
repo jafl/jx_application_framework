@@ -1218,11 +1218,11 @@ CBDiffFileDialog::ViewCVSDiffs
 	if (CBDocumentManager::WarnFileSize(fullName))
 		{
 		JIndex rev1Cmd = kRevisionNumberCmd, rev2Cmd = kRevisionNumberCmd;
-		if (JStringEmpty(rev1))
+		if (JString::IsEmpty(rev1))
 			{
 			rev1Cmd = rev2Cmd = kCurrentRevCmd;
 			}
-		else if (JStringEmpty(rev2))
+		else if (JString::IsEmpty(rev2))
 			{
 			rev2Cmd = kCurrentRevCmd;
 			}
@@ -1276,7 +1276,7 @@ CBDiffFileDialog::BuildCVSDiffCmd
 	*getCmd  = "cvs -d " + JPrepArgForExec(cvsRoot) + " get ";
 	*diffCmd = "cvs -f diff ";
 	if ((rev1Cmd == kPreviousRevCmd && origRev1 != NULL) ||
-		(!cbIsFixedRevCmd(rev1Cmd) && !JStringEmpty(origRev1)))
+		(!cbIsFixedRevCmd(rev1Cmd) && !JString::IsEmpty(origRev1)))
 		{
 		JIndex cmd1  = rev1Cmd;
 		JString rev1 = origRev1;
@@ -1314,7 +1314,7 @@ CBDiffFileDialog::BuildCVSDiffCmd
 
 		*name1 += rev1;
 
-		if (cmd2 != kCurrentRevCmd && !JStringEmpty(rev2))
+		if (cmd2 != kCurrentRevCmd && !JString::IsEmpty(rev2))
 			{
 			*diffCmd += (cmd2 == kRevisionNumberCmd ? "-r " : "-D ");
 			*diffCmd += JPrepArgForExec(rev2);
@@ -1479,11 +1479,11 @@ CBDiffFileDialog::ViewSVNDiffs
 	if (CBDocumentManager::WarnFileSize(fullName))
 		{
 		JIndex rev1Cmd = kRevisionNumberCmd, rev2Cmd = kRevisionNumberCmd;
-		if (JStringEmpty(rev1))
+		if (JString::IsEmpty(rev1))
 			{
 			rev1Cmd = rev2Cmd = kCurrentRevCmd;
 			}
-		else if (JStringEmpty(rev2))
+		else if (JString::IsEmpty(rev2))
 			{
 			rev2Cmd = kCurrentRevCmd;
 			}
@@ -1537,7 +1537,7 @@ CBDiffFileDialog::BuildSVNDiffCmd
 	*diffCmd = (forDirectory ? "svn diff " : "svn diff --diff-cmd diff -x --normal ");
 	if ((rev1Cmd == kPreviousRevCmd && origRev1 != NULL) ||		// PREV from dialog
 		(rev1Cmd == kTrunkCmd && origRev1 != NULL) ||			// TRUNK from dialog
-		(!cbIsSVNFixedRevCmd(rev1Cmd) && !JStringEmpty(origRev1)))
+		(!cbIsSVNFixedRevCmd(rev1Cmd) && !JString::IsEmpty(origRev1)))
 		{
 		JIndex cmd1    = rev1Cmd;
 		JString rev1   = origRev1;
@@ -1629,7 +1629,7 @@ CBDiffFileDialog::BuildSVNDiffCmd
 		*diffCmd += "-r ";
 		*diffCmd += JPrepArgForExec(rev1);
 
-		if (cmd2 != kCurrentRevCmd && !JStringEmpty(rev2))
+		if (cmd2 != kCurrentRevCmd && !JString::IsEmpty(rev2))
 			{
 			*diffCmd += ":";
 			*diffCmd += JPrepArgForExec(rev2);
@@ -1807,12 +1807,12 @@ CBDiffFileDialog::ViewGitDiffs
 	if (CBDocumentManager::WarnFileSize(fullName))
 		{
 		JIndex rev1Cmd = kRevisionNumberCmd, rev2Cmd = kRevisionNumberCmd;
-		if (JStringEmpty(rev1))
+		if (JString::IsEmpty(rev1))
 			{
 			rev1Cmd = kCurrentRevCmd;
 			rev2Cmd = kCurrentRevCmd;
 			}
-		else if (JStringEmpty(rev2))
+		else if (JString::IsEmpty(rev2))
 			{
 			rev2Cmd = kCurrentRevCmd;
 			}
@@ -1882,7 +1882,7 @@ CBDiffFileDialog::BuildGitDiffCmd
 	get1Cmd->Clear();
 	get2Cmd->Clear();
 	if ((rev1Cmd == kPreviousRevCmd && rev1 != NULL) ||		// PREV from dialog
-		(!cbIsFixedRevCmd(rev1Cmd) && !JStringEmpty(rev1)))
+		(!cbIsFixedRevCmd(rev1Cmd) && !JString::IsEmpty(rev1)))
 		{
 		JString get1Rev;
 		if (rev1Cmd == kPreviousRevCmd)
@@ -2021,7 +2021,7 @@ CBDiffFileDialog::BuildGitDiffDirectoryCmd
 		}
 
 	if ((rev1Cmd == kPreviousRevCmd && rev1 != NULL) ||		// PREV from dialog
-		(!cbIsFixedRevCmd(rev1Cmd) && !JStringEmpty(rev1)))
+		(!cbIsFixedRevCmd(rev1Cmd) && !JString::IsEmpty(rev1)))
 		{
 		JString get1Rev;
 		if (rev1Cmd == kPreviousRevCmd)
@@ -2164,7 +2164,7 @@ CBDiffFileDialog::GetBestCommonGitAncestor
 	const JCharacter*	rev2
 	)
 {
-	if (JStringEmpty(rev2))
+	if (JString::IsEmpty(rev2))
 		{
 		rev2 = "HEAD";
 		}

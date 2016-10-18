@@ -768,7 +768,7 @@ CBDiffDocument::FillOutputFile
 		{
 		JProcess* p;
 
-		if (!JStringEmpty(path))
+		if (!JString::IsEmpty(path))
 			{
 			err = JProcess::Create(&p, path, cmd,
 								   kJIgnoreConnection, NULL,

@@ -160,13 +160,13 @@ CMVarTreeWidget::NewExpression
 	const JCharacter* expr
 	)
 {
-	const JCharacter* expr1 = JStringEmpty(expr) ? "" : expr;
+	const JCharacter* expr1 = JString::IsEmpty(expr) ? "" : expr;
 
 	CMVarNode* node =
 		(CMGetLink())->CreateVarNode((GetTreeList()->GetTree())->GetRoot(),
 									 expr1, expr1, "");
 	assert( node != NULL );
-	if (JStringEmpty(expr))
+	if (JString::IsEmpty(expr))
 		{
 		node->SetName("");		// compensate for ctor using " " instead of ""
 		}

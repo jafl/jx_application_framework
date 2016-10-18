@@ -203,7 +203,7 @@ JCreateTempFile
 	)
 {
 	JString p;
-	if (!JStringEmpty(path))
+	if (!JString::IsEmpty(path))
 		{
 		p = path;
 		}
@@ -213,7 +213,7 @@ JCreateTempFile
 		}
 
 	JString f;
-	if (!JStringEmpty(prefix))
+	if (!JString::IsEmpty(prefix))
 		{
 		f = prefix;
 		}

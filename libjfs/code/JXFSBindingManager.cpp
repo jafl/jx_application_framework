@@ -53,7 +53,7 @@ JXFSBindingManager::Instance()
 
 		initSelf = kJFalse;
 
-		if (!JStringEmpty(needUserCheck))
+		if (!JString::IsEmpty(needUserCheck))
 			{
 			EditBindings();
 			(JGetUserNotification())->DisplayMessage(needUserCheck);

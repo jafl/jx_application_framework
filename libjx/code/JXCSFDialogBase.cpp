@@ -382,7 +382,7 @@ JXCSFDialogBase::DisplayMessage
 	JXWindow* window = GetWindow();
 	assert( window != NULL );
 
-	if (!JStringEmpty(message))
+	if (!JString::IsEmpty(message))
 		{
 		JXStaticText* messageObj =
 			jnew JXStaticText(message, window,

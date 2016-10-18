@@ -438,7 +438,7 @@ CBSymbolDirector::FindSymbol
 	JPtrArray<JString> cContextNamespaceList(JPtrArrayT::kDeleteAll);
 	JPtrArray<JString> javaContextNamespaceList(JPtrArrayT::kDeleteAll);
 	JPtrArray<JString> phpContextNamespaceList(JPtrArrayT::kDeleteAll);
-	if (!JStringEmpty(fileName))
+	if (!JString::IsEmpty(fileName))
 		{
 		(itsProjDoc->GetAllFileList())->GetFileID(fileName, &contextFileID);
 

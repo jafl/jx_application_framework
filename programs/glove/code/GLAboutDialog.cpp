@@ -124,7 +124,7 @@ GLAboutDialog::BuildWindow
 		};
 	JString text	= JGetString(kDescriptionID, map1, sizeof(map1));
 
-	if (!JStringEmpty(prevVersStr))
+	if (!JString::IsEmpty(prevVersStr))
 		{
 		const JCharacter* map[] =
 			{

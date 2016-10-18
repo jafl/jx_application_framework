@@ -254,7 +254,7 @@ CBMacroManager::AddMacro
 	const JCharacter* script
 	)
 {
-	assert( !JStringEmpty(macro) && script != NULL );
+	assert( !JString::IsEmpty(macro) && script != NULL );
 
 	MacroInfo info(jnew JString(macro), jnew JString(script));
 	assert( info.macro != NULL && info.script != NULL );

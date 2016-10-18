@@ -535,7 +535,7 @@ JXFileDocument::SaveCopyInNewFile
 	)
 {
 	JString origName;
-	if (!JStringEmpty(origUserName))
+	if (!JString::IsEmpty(origUserName))
 		{
 		origName = origUserName;
 		}
@@ -585,7 +585,7 @@ JXFileDocument::SaveInNewFile
 	)
 {
 	JString fullName;
-	if (!JStringEmpty(newFullName))		// could be NULL
+	if (!JString::IsEmpty(newFullName))		// could be NULL
 		{
 		fullName = newFullName;
 		}

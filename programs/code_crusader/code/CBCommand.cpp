@@ -185,7 +185,7 @@ CBCommand::Add
 	JPtrArray<JString>*			cmdList
 	)
 {
-	if (JStringEmpty(origCmd))
+	if (JString::IsEmpty(origCmd))
 		{
 		return kJTrue;
 		}

@@ -101,7 +101,7 @@ JXHelpText::ShowSubsection
 	const JCharacter* name
 	)
 {
-	if (JStringEmpty(name))
+	if (JString::IsEmpty(name))
 		{
 		ScrollTo(0,0);
 		}

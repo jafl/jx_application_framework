@@ -4037,7 +4037,7 @@ JXWindow::InstallShortcuts
 	const JCharacter*	list
 	)
 {
-	if (JStringEmpty(list))
+	if (JString::IsEmpty(list))
 		{
 		return;
 		}

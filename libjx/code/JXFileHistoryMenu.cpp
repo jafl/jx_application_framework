@@ -144,7 +144,7 @@ JXFileHistoryMenu::AddFile
 	const JCharacter* name
 	)
 {
-	if (JStringEmpty(origPath) || JStringEmpty(name))
+	if (JString::IsEmpty(origPath) || JString::IsEmpty(name))
 		{
 		return;
 		}

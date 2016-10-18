@@ -60,13 +60,13 @@ JXMenuData::InsertItem
 	BaseItemData itemData;
 	itemData.type = type;
 
-	if (!JStringEmpty(shortcuts))
+	if (!JString::IsEmpty(shortcuts))
 		{
 		itemData.shortcuts = jnew JString(shortcuts);
 		assert( itemData.shortcuts != NULL );
 		}
 
-	if (!JStringEmpty(id))
+	if (!JString::IsEmpty(id))
 		{
 		itemData.id = jnew JString(id);
 		assert( itemData.id != NULL );
@@ -193,7 +193,7 @@ JXMenuData::SetItemShortcuts
 	BaseItemData itemData = itsBaseItemData->GetElement(index);
 
 	JBoolean changed = kJFalse;
-	if (!JStringEmpty(shortcuts))
+	if (!JString::IsEmpty(shortcuts))
 		{
 		if (itemData.shortcuts == NULL)
 			{
@@ -288,7 +288,7 @@ JXMenuData::SetItemID
 {
 	BaseItemData itemData = itsBaseItemData->GetElement(index);
 
-	if (!JStringEmpty(id))
+	if (!JString::IsEmpty(id))
 		{
 		if (itemData.id == NULL)
 			{

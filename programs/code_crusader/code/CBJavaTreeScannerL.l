@@ -186,7 +186,7 @@ implements{WS} {
 		}
 
 	JString fullName(yytext, yyleng);
-	if (!JStringEmpty(package))
+	if (!JString::IsEmpty(package))
 		{
 		fullName.PrependCharacter('.');
 		fullName.Prepend(package);

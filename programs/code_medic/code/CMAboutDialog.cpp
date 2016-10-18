@@ -115,7 +115,7 @@ CMAboutDialog::BuildWindow
 	// text
 
 	JString text = CMGetVersionStr();
-	if (!JStringEmpty(prevVersStr))
+	if (!JString::IsEmpty(prevVersStr))
 		{
 		const JCharacter* map[] =
 			{

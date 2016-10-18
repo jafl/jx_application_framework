@@ -746,7 +746,7 @@ inline JBoolean
 JXWindow::HasWindowType()
 	const
 {
-	return !JStringEmpty(itsWindowType);
+	return !JString::IsEmpty(itsWindowType);
 }
 
 /******************************************************************************

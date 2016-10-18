@@ -784,7 +784,7 @@ SyGFileTreeTable::SelectName
 	const JBoolean			updateView
 	)
 {
-	if (!JStringEmpty(name))
+	if (!JString::IsEmpty(name))
 		{
 		if (updateContent)
 			{
@@ -856,7 +856,7 @@ SyGFileTreeTable::SelectName
 			{
 			cell->Set(GetNodeColIndex(), index);
 
-			if (i == count && JStringEmpty(name))
+			if (i == count && JString::IsEmpty(name))
 				{
 				if (clearSelection)
 					{
@@ -883,7 +883,7 @@ SyGFileTreeTable::SelectName
 		parent = itsFileTreeList->GetSyGNode(cell->y);
 		}
 
-	if (clearSelection && !JStringEmpty(name))
+	if (clearSelection && !JString::IsEmpty(name))
 		{
 		s.ClearSelection();
 		}
@@ -4165,7 +4165,7 @@ SyGFileTreeTable::CommitGitBranch
 	JSimpleProcess* p;
 	JString cmd = "git commit -a";
 
-	if (!JStringEmpty(msg))
+	if (!JString::IsEmpty(msg))
 		{
 		cmd += " -m ";
 		cmd += JPrepArgForExec(msg);

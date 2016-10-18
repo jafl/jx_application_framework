@@ -159,7 +159,7 @@ CBCPreprocessor::DefineMacro
 	const JCharacter* value
 	)
 {
-	assert( !JStringEmpty(name) && value != NULL );
+	assert( !JString::IsEmpty(name) && value != NULL );
 
 	MacroInfo info(jnew JString(name), jnew JString(value));
 	assert( info.name != NULL && info.value != NULL );

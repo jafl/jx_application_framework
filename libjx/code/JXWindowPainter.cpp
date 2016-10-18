@@ -381,7 +381,7 @@ JXWindowPainter::String
 	const VAlignment	vAlign
 	)
 {
-	if (JStringEmpty(str))
+	if (JString::IsEmpty(str))
 		{
 		return;
 		}
@@ -433,7 +433,7 @@ JXWindowPainter::String
 	const VAlignment	vAlign
 	)
 {
-	if (JStringEmpty(str))
+	if (JString::IsEmpty(str))
 		{
 		return;
 		}

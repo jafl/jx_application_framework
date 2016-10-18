@@ -256,7 +256,7 @@ SyGFindFileTask::SplitPath
 	)
 {
 	pathList->CleanOut();
-	if (JStringEmpty(origRelPath))
+	if (JString::IsEmpty(origRelPath))
 		{
 		return;
 		}

@@ -83,7 +83,7 @@ JXTextButton::SetShortcuts
 {
 	JXButton::SetShortcuts(list);
 
-	if (JStringEmpty(list))
+	if (JString::IsEmpty(list))
 		{
 		jdelete itsShortcuts;
 		itsShortcuts = NULL;

@@ -167,7 +167,7 @@ JXChooseSaveFile::ChooseFile
 	const JString savedPath = dirInfo->GetDirectory();
 
 	JString origName;
-	if (!JStringEmpty(originalName) &&
+	if (!JString::IsEmpty(originalName) &&
 		strchr(originalName, ACE_DIRECTORY_SEPARATOR_CHAR) != NULL)
 		{
 		JString path;
@@ -300,7 +300,7 @@ JXChooseSaveFile::ChoosePath
 	JBoolean restorePath    = kJFalse;
 	const JString savedPath = dirInfo->GetDirectory();
 
-	if (!JStringEmpty(origPath))
+	if (!JString::IsEmpty(origPath))
 		{
 		dirInfo->GoToClosest(origPath);
 		restorePath = kJTrue;

@@ -22,7 +22,7 @@
 
 // Constants
 
-static const JCharacter* kVersionStr =
+static const JUtf8Byte* kVersionStr =
 
 	"compile_jstrings 1.1.0\n"
 	"\n"
@@ -157,7 +157,7 @@ main
 
 		std::ostringstream data2;
 		data2 << "#include <jTypes.h>" << endl;
-		data2 << "static const JCharacter* ";
+		data2 << "static const JUtf8Byte* ";
 		dataVarName.Print(data2);
 		data2 << "[] = {" << endl;
 

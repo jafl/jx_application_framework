@@ -190,7 +190,7 @@ CMSourceDirector::CMSourceDirector
 {
 	CMSourceViewDirectorX(commandDir);
 
-	if (itsType == kAsmType && !JStringEmpty(fileOrFn))
+	if (itsType == kAsmType && !JString::IsEmpty(fileOrFn))
 		{
 		CMLocation loc;
 		loc.SetFunctionName(fileOrFn);
@@ -711,7 +711,7 @@ CMSourceDirector::DisplayFile
 	const JBoolean		markLine
 	)
 {
-	assert( !JStringEmpty(fileName) );
+	assert( !JString::IsEmpty(fileName) );
 
 	if (!itsCurrentFile.IsEmpty() && JSameDirEntry(fileName, itsCurrentFile))
 		{
@@ -763,8 +763,8 @@ CMSourceDirector::DisplayDisassembly
 	const JString& fnName = loc.GetFunctionName();
 	const JString& addr   = loc.GetMemoryAddress();
 
-	assert( !JStringEmpty(fnName) );
-	assert( !JStringEmpty(addr) );
+	assert( !JString::IsEmpty(fnName) );
+	assert( !JString::IsEmpty(addr) );
 
 	if (fnName == itsCurrentFn)
 		{

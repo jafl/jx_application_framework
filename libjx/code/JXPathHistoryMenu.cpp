@@ -90,7 +90,7 @@ JXPathHistoryMenu::SetBasePath
 	const JCharacter* path
 	)
 {
-	if (JStringEmpty(path))
+	if (JString::IsEmpty(path))
 		{
 		ClearBasePath();
 		}

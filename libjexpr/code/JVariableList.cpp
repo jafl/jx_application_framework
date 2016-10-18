@@ -168,7 +168,7 @@ JVariableList::FindUniqueVarName
 	)
 	const
 {
-	assert( !JStringEmpty(prefix) );
+	assert( !JString::IsEmpty(prefix) );
 
 	const JSize count = GetElementCount();
 	JArray<JIndex> matchList;

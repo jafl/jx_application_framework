@@ -497,7 +497,7 @@ CBCommandManager::Substitute
 {
 	if (!cmdPath->IsEmpty() && cmdPath->GetFirstCharacter() == '@')
 		{
-		if (JStringEmpty(fullName) || !onDisk)
+		if (JString::IsEmpty(fullName) || !onDisk)
 			{
 			if (reportError)
 				{
@@ -567,7 +567,7 @@ CBCommandManager::Substitute
 		return kJFalse;
 		}
 
-	if ((JStringEmpty(fullName) || !onDisk) &&
+	if ((JString::IsEmpty(fullName) || !onDisk) &&
 		(cmd->Contains("$full_name")        ||
 		 cmd->Contains("$relative_name")    ||
 		 cmd->Contains("$file_name")        ||
@@ -587,7 +587,7 @@ CBCommandManager::Substitute
 
 	JString fullPath, fileName, quotedFullName, relativePath, relativeName,
 			fileNameRoot, fileNameSuffix;
-	if (onDisk && !JStringEmpty(fullName))
+	if (onDisk && !JString::IsEmpty(fullName))
 		{
 		JSplitPathAndName(fullName, &fullPath, &fileName);
 		quotedFullName = JPrepArgForExec(fullName);

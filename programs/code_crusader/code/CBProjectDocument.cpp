@@ -322,7 +322,7 @@ CBProjectDocument::Create
 	CBProjectDocument**	doc
 	)
 {
-	assert( !JStringEmpty(fullName) );
+	assert( !JString::IsEmpty(fullName) );
 
 	// make sure we use the project file, not the symbol file
 

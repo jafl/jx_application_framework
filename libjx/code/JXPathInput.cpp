@@ -189,7 +189,7 @@ JXPathInput::SetBasePath
 	const JCharacter* path
 	)
 {
-	if (JStringEmpty(path))
+	if (JString::IsEmpty(path))
 		{
 		ClearBasePath();
 		}
@@ -427,13 +427,13 @@ JXPathInput::GetTextColor
 	const JColormap*	colormap
 	)
 {
-	if (JStringEmpty(path))
+	if (JString::IsEmpty(path))
 		{
 		return colormap->GetBlackColor();
 		}
 
 	JString fullPath;
-	if ((JIsAbsolutePath(path) || !JStringEmpty(base)) &&
+	if ((JIsAbsolutePath(path) || !JString::IsEmpty(base)) &&
 		JConvertToAbsolutePath(path, base, &fullPath) &&
 		JDirectoryReadable(fullPath) &&
 		JCanEnterDirectory(fullPath) &&
@@ -828,7 +828,7 @@ JXPathInput::Complete
 		}
 	if (JIsRelativePath(fullName))
 		{
-		if (JStringEmpty(basePath))
+		if (JString::IsEmpty(basePath))
 			{
 			return kJFalse;
 			}

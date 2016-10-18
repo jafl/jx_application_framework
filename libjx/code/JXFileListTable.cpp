@@ -154,7 +154,7 @@ JXFileListTable::AddFile
 	JIndex*				fullNameIndex	// can be NULL
 	)
 {
-	assert( !JStringEmpty(fullName) );
+	assert( !JString::IsEmpty(fullName) );
 
 	if (fullNameIndex != NULL)
 		{
@@ -301,7 +301,7 @@ JXFileListTable::SetFilterRegex
 	const JCharacter* regexStr
 	)
 {
-	if (JStringEmpty(regexStr))
+	if (JString::IsEmpty(regexStr))
 		{
 		ClearFilterRegex();
 		return JNoError();

@@ -746,7 +746,7 @@ JIsAbsolutePath
 	const JCharacter* path
 	)
 {
-	assert( !JStringEmpty(path) );
+	assert( !JString::IsEmpty(path) );
 	return JI2B( path[1] == ':' || path[0] == '~' ||
 				 (path[0] == '\\' && path[1] == '\\'));
 }
@@ -811,7 +811,7 @@ JConvertToAbsolutePath
 	JString*			result
 	)
 {
-	assert( !JStringEmpty(path) && result != NULL );
+	assert( !JString::IsEmpty(path) && result != NULL );
 
 	JBoolean ok = kJTrue;
 	if (JIsAbsolutePath(path))
@@ -822,7 +822,7 @@ JConvertToAbsolutePath
 		{
 		ok = JExpandHomeDirShortcut(path, result);
 		}
-	else if (!JStringEmpty(base))
+	else if (!JString::IsEmpty(base))
 		{
 		*result = JCombinePathAndName(base, path);
 		}
@@ -961,7 +961,7 @@ JExpandHomeDirShortcut
 	JSize*				homeLength
 	)
 {
-	assert( !JStringEmpty(path) && result != NULL );
+	assert( !JString::IsEmpty(path) && result != NULL );
 
 	JBoolean ok = kJTrue;
 	if (path[0] == '~' && path[1] == '\0')

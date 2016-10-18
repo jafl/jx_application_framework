@@ -125,7 +125,6 @@
 .l ./code/JHTMLScannerL
 .cpp ./code/JExtractHTMLTitle
 .cpp ./code/jNew
-.cpp ./code/jMemory
 .cpp ./code/JMemoryManager
 .cpp ./code/JMMArrayTable
 .cpp ./code/JMMErrorPrinter
@@ -134,6 +133,7 @@
 .cpp ./code/JMMMonitor
 .cpp ./code/JMMRecord
 .cpp ./code/JMMTable
+.cpp ./code/JUnitTestManager
 .cpp ./code/JMDIServer
 .cpp ./code/jMouseUtil
 .cpp ./code/JStopWatch

@@ -115,7 +115,7 @@ JXGetStringDialog::BuildWindow
 				r.left, r.top, r.width(), r.height());
 		assert( itsInputField != NULL );
 		}
-	else if (!JStringEmpty(initialValue))
+	else if (!JString::IsEmpty(initialValue))
 		{
 		itsInputField->SetText(initialValue);
 		}
