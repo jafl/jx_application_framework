@@ -94,7 +94,6 @@ public:
 	JUtf8Character	GetFirstCharacter() const;
 	JUtf8Character	GetLastCharacter() const;
 
-	JBoolean			ContainsNULL() const;
 	const JUtf8Byte*	GetBytes() const;
 	JUtf8Byte*			AllocateBytes() const;	// client must call delete [] when finished with it
 
@@ -103,6 +102,7 @@ public:
 	JBoolean	BeginsWith(const JUtf8Byte* str, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	BeginsWith(const JUtf8Byte* str, const JSize length, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	BeginsWith(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	BeginsWith(const JUtf8Character& c, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	BeginsWith(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	BeginsWith(const std::string& str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
 
@@ -111,6 +111,7 @@ public:
 	JBoolean	Contains(const JUtf8Byte* str, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	Contains(const JUtf8Byte* str, const JSize length, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	Contains(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	Contains(const JUtf8Character& c, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	Contains(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	Contains(const std::string& str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
 
@@ -119,6 +120,7 @@ public:
 	JBoolean	EndsWith(const JUtf8Byte* str, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	EndsWith(const JUtf8Byte* str, const JSize length, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	EndsWith(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	EndsWith(const JUtf8Character& c, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	EndsWith(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	EndsWith(const std::string& str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
 
@@ -260,18 +262,6 @@ private:
 									   const JUtf8Byte* convEndPtr);
 };
 
-
-/******************************************************************************
- ContainsNULL
-
- ******************************************************************************/
-
-inline JBoolean
-JString::ContainsNULL()
-	const
-{
-	return JConvertToBoolean( itsByteCount != strlen(itsBytes) );
-}
 
 /******************************************************************************
  GetBytes
@@ -485,6 +475,17 @@ JString::BeginsWith
 inline JBoolean
 JString::BeginsWith
 	(
+	const JUtf8Character&	c,
+	const JBoolean			caseSensitive
+	)
+	const
+{
+	return BeginsWith(c.GetBytes(), JUtf8ByteRange(1, c.GetByteCount()), caseSensitive);
+}
+
+inline JBoolean
+JString::BeginsWith
+	(
 	const std::string&	str,
 	const JBoolean		caseSensitive
 	)
@@ -559,6 +560,17 @@ JString::Contains
 inline JBoolean
 JString::Contains
 	(
+	const JUtf8Character&	c,
+	const JBoolean			caseSensitive
+	)
+	const
+{
+	return Contains(c.GetBytes(), JUtf8ByteRange(1, c.GetByteCount()), caseSensitive);
+}
+
+inline JBoolean
+JString::Contains
+	(
 	const std::string&	str,
 	const JBoolean		caseSensitive
 	)
@@ -628,6 +640,17 @@ JString::EndsWith
 	const
 {
 	return EndsWith(str, JUtf8ByteRange(1, length), caseSensitive);
+}
+
+inline JBoolean
+JString::EndsWith
+	(
+	const JUtf8Character&	c,
+	const JBoolean			caseSensitive
+	)
+	const
+{
+	return EndsWith(c.GetBytes(), JUtf8ByteRange(1, c.GetByteCount()), caseSensitive);
 }
 
 inline JBoolean

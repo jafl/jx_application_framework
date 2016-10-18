@@ -4,10 +4,6 @@ jx_browser_data 86
 T
 1 "core"
 T
-2 "JCoreStdInc.h"
-F
-"./code/JCoreStdInc.h"
-T
 2 "jTypes.h"
 F
 "./code/jTypes.h"
@@ -193,25 +189,13 @@ T
 F
 "./code/JArray.h"
 T
-2 "JArray.tmpls"
-F
-"./code/JArray.tmpls"
-T
 2 "JAliasArray.h"
 F
 "./code/JAliasArray.h"
 T
-2 "JAliasArray.tmpls"
-F
-"./code/JAliasArray.tmpls"
-T
 2 "JLinkedList.h"
 F
 "./code/JLinkedList.h"
-T
-2 "JLinkedList.tmpls"
-F
-"./code/JLinkedList.tmpls"
 T
 2 "JLinkedListIterator.h"
 F
@@ -221,18 +205,6 @@ T
 F
 "./code/JPtrArray.h"
 T
-2 "JPtrArray.tmpls"
-F
-"./code/JPtrArray.tmpls"
-T
-2 "JPtrArray2.tmpls"
-F
-"./code/JPtrArray2.tmpls"
-T
-2 "JPtrArray2a.tmpls"
-F
-"./code/JPtrArray2a.tmpls"
-T
 2 "JPtrArrayIterator.h"
 F
 "./code/JPtrArrayIterator.h"
@@ -241,49 +213,25 @@ T
 F
 "./code/JPtrQueue.h"
 T
-2 "JPtrQueue.tmpls"
-F
-"./code/JPtrQueue.tmpls"
-T
 2 "JPtrStack.h"
 F
 "./code/JPtrStack.h"
-T
-2 "JPtrStack.tmpls"
-F
-"./code/JPtrStack.tmpls"
 T
 2 "JQueue.h"
 F
 "./code/JQueue.h"
 T
-2 "JQueue.tmpls"
-F
-"./code/JQueue.tmpls"
-T
 2 "JRunArray.h"
 F
 "./code/JRunArray.h"
-T
-2 "JRunArray.tmpls"
-F
-"./code/JRunArray.tmpls"
 T
 2 "JRunArrayIterator.h"
 F
 "./code/JRunArrayIterator.h"
 T
-2 "JSortablePtrArray.tmpls"
-F
-"./code/JSortablePtrArray.tmpls"
-T
 2 "JStack.h"
 F
 "./code/JStack.h"
-T
-2 "JStack.tmpls"
-F
-"./code/JStack.tmpls"
 T
 2 "JSubset.cpp"
 F
@@ -316,10 +264,6 @@ T
 F
 "./code/JHashCursor.h"
 T
-2 "JHashTable.tmpls"
-F
-"./code/JHashTable.tmpls"
-T
 2 "jHashFunctions.cpp"
 F
 "./code/jHashFunctions.cpp"
@@ -331,10 +275,6 @@ T
 F
 "./code/JStringMap.h"
 T
-2 "JStringMap.tmpls"
-F
-"./code/JStringMap.tmpls"
-T
 2 "JStringMapCursor.h"
 F
 "./code/JStringMapCursor.h"
@@ -343,10 +283,6 @@ T
 F
 "./code/JStringPtrMap.h"
 T
-2 "JStringPtrMap.tmpls"
-F
-"./code/JStringPtrMap.tmpls"
-T
 2 "JStringPtrMapCursor.h"
 F
 "./code/JStringPtrMapCursor.h"
@@ -354,10 +290,6 @@ T
 2 "JStrValue.h"
 F
 "./code/JStrValue.h"
-T
-2 "JStrValue.tmpls"
-F
-"./code/JStrValue.tmpls"
 F
 T
 1 "file"
@@ -794,10 +726,6 @@ T
 F
 "./code/jNew.cpp"
 T
-2 "jMemory.cpp"
-F
-"./code/jMemory.cpp"
-T
 2 "JMemoryManager.cpp"
 F
 "./code/JMemoryManager.cpp"
@@ -829,6 +757,13 @@ T
 2 "JMMTable.cpp"
 F
 "./code/JMMTable.cpp"
+F
+T
+1 "test"
+T
+2 "JUnitTestManager.cpp"
+F
+"./code/JUnitTestManager.cpp"
 F
 T
 1 "misc"
@@ -892,11 +827,7 @@ F
 # tasks
 4
 "makemake"
-T "./" "make -k" "" T F T F T F T "" "" "" T
-T "./" "make $file_name_root" "" T F T T T T F "" "" "" F
-T "./" "make CHECKSTRING=$file_name checksyntax" "" T F T T T T F "" "" "" T
-T "./" "libjcore" "" F F F F T T F "" "" "" T
-T "./" "medic -f +$line $full_name" "" F F F T F F F "" "" "" T
+T "./test" "makemake ; make test" "" T F T T T T F "Tests" "F11" "" F
 F
 # build settings
 1

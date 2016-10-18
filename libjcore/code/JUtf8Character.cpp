@@ -173,32 +173,39 @@ JUtf8Character::GetCharacterByteCount
 	)
 {
 	unsigned char* c = (unsigned char*) utf8Character;
-	if (c[0] <= '\x7F')
+	if (c[0] <= (unsigned char) '\x7F')
 		{
 		return 1;
 		}
-	else if ('\xC2' <= c[0] && c[0] <= '\xDF' &&
-			 '\x80' <= c[1] && c[1] <= '\xBF')
+	else if (((unsigned char) '\xC2') <= c[0] && c[0] <= (unsigned char) '\xDF' &&
+			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char)'\xBF')
 		{
 		return 2;
 		}
-	else if ('\xE0' <= c[0] && c[0] <= '\xEF' &&
-			 '\x80' <= c[1] && c[1] <= '\xBF' &&
-			 '\x80' <= c[2] && c[2] <= '\xBF')
+	else if (((unsigned char) '\xE0') <= c[0] && c[0] <= (unsigned char)'\xEF' &&
+			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char)'\xBF' &&
+			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char)'\xBF')
 		{
 		return 3;
 		}
-	else if ('\xF0' <= c[0] && c[0] <= '\xF4' &&
-			 '\x80' <= c[1] && c[1] <= '\xBF' &&
-			 '\x80' <= c[2] && c[2] <= '\xBF' &&
-			 '\x80' <= c[3] && c[3] <= '\xBF')
+	else if (((unsigned char) '\xF0') <= c[0] && c[0] <= (unsigned char)'\xF4' &&
+			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char)'\xBF' &&
+			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char)'\xBF' &&
+			 ((unsigned char) '\x80') <= c[3] && c[3] <= (unsigned char)'\xBF')
 		{
 		return 4;
 		}
 	else
 		{
 		assert( 0 /* invalid UTF-8 byte sequence */ );
-		return 0;
+		cerr << "Invalid UTF-8 sequence:"
+			<< std::hex
+			<< " " << (int) c[0]
+			<< " " << (int) c[1]
+			<< " " << (int) c[2]
+			<< " " << (int) c[3]
+			<< endl;
+		return 1;
 		}
 }
 

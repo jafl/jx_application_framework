@@ -74,7 +74,7 @@ JString::JString
 	itsBlockSize(kDefaultBlockSize),
 	itsFirstIterator(NULL)
 {
-	JUtf8ByteRange byteRange = str.CharacterToUtf8ByteRange(JCharacterRange(1, str.GetCharacterCount()));
+	JUtf8ByteRange byteRange = str.CharacterToUtf8ByteRange(charRange);
 	CopyToPrivateString(str.GetBytes() + byteRange.first-1, byteRange.GetLength());
 }
 
@@ -385,7 +385,7 @@ JString::NotifyIterators
 {
 	if (itsFirstIterator != NULL)
 		{
-		itsFirstIterator->StringChanged(message);
+//		itsFirstIterator->StringChanged(message);	// TODO
 		}
 }
 
@@ -1366,7 +1366,7 @@ JString::CharacterToUtf8ByteRange
 	JUtf8ByteRange r(startByte, startByte);
 
 	charCount = range.GetLength();
-	for (JIndex i=1; i <= charCount; i++)
+	for (JIndex i=1; i<charCount; i++)	// when i==charCount, we have gone to far
 		{
 		r.last += JUtf8Character::GetCharacterByteCount(str + r.last-1);
 		}

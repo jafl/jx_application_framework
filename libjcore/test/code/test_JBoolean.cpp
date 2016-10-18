@@ -1,63 +1,76 @@
-#include <jTypes.h>
-#include <jCommandLine.h>
-#include <stdio.h>
-#include <jAssert.h>
+/******************************************************************************
+ test_JBoolean.cc
+
+	Program to test JBoolean enum.
+
+	Written by John Lindal.
+
+ ******************************************************************************/
+
+#include <JUnitTestManager.h>
+#include <sstream>
+#include <jassert_simple.h>
+
+void TestValues()
+{
+	JAssertTrue(kJTrue);
+	JAssertFalse(kJFalse);
+}
+
+void TestConversion()
+{
+	JBoolean b = JI2B(false);
+	JAssertFalse(b);
+
+	b = JI2B(true);
+	JAssertTrue(b);
+
+	b = JI2B(0);
+	JAssertFalse(b);
+
+	b = JI2B(3);
+	JAssertTrue(b);
+
+	b = JF2B(0.0);
+	JAssertFalse(b);
+
+	b = JF2B(0.1);
+	JAssertTrue(b);
+}
+
+void TestRead()
+{
+	std::istringstream s("F");
+	JBoolean b;
+	s >> b;
+	JAssertFalse(b);
+
+	s.str("T");
+	s >> b;
+	JAssertTrue(b);
+
+	s.str("g");
+	s >> b;
+	JAssertFalse(s.good());
+}
+
+void TestWrite()
+{
+	std::ostringstream s;
+	s << kJTrue << kJFalse;
+	JAssertStringsEqual("TF", s.str().c_str());
+}
+
+static const JUnitTest tests[] =
+{
+	TestValues,
+	TestConversion,
+	TestRead,
+	TestWrite,
+	NULL
+};
 
 int main()
 {
-	cout << "True:  " << kJTrue  << endl;
-	cout << "False: " << kJFalse << endl;
-
-	cout << "should see:" << endl << "TT" << endl;
-
-	JBoolean b;
-/*	b = 3;
-	if (b)				cout << 'T';
-	if (b == kJTrue)		cout << 'T';
-	if (!b)				cout << 'F';
-	if (b == kJFalse)	cout << 'F';
-
-	b = 0;
-	if (!b)				cout << 'T';
-	if (b == kJFalse)	cout << 'T';
-	if (b)				cout << 'F';
-	if (b == kJTrue)		cout << 'F';
-
-	b = (5 > 3);
-	if (b)				cout << 'T';
-	if (b == kJTrue)		cout << 'T';
-	if (!b)				cout << 'F';
-	if (b == kJFalse)	cout << 'F';
-*/
-	b = JF2B(0.1);
-	if (b)				cout << 'T';
-	if (b == kJTrue)		cout << 'T';
-	if (!b)				cout << 'F';
-	if (b == kJFalse)	cout << 'F';
-
-	cout << endl;
-
-	b = kJTrue;
-	assert( b );
-	b = kJFalse;
-	assert( !b );
-
-	cout << "Enter a boolean value: ";
-	cin >> b;
-	if (cin.good())
-		{
-		cout << "You entered " << b << endl;
-		}
-	else
-		{
-		cout << "You entered an invalid value." << endl;
-		}
-	JInputFinished();
-
-	return 0;
+	JUnitTestManager::Execute(tests);
 }
-
-//	operator void*() const
-//		{
-//		return (void*)(itsValue ? this : NULL);
-//		}

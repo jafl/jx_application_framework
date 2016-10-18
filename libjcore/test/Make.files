@@ -1,14 +1,20 @@
 -suffix .cpp
 
-@testJBoolean
+@test_JBoolean
 ${CODEDIR}/test_JBoolean
+.o ${JCOREDIR}/JBooleanIO
+.o ${JCOREDIR}/JUnitTestManager
+.o ${JCOREDIR}/jStreamUtil_UNIX
 
-#@testbool
-#${CODEDIR}/test_bool
-#${CODEDIR}/test_boolsub
-
-@testJString
+@test_JString
 ${CODEDIR}/test_JString
+.o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/JUnitTestManager
+.o ${JCOREDIR}/JBooleanIO
+.o ${JCOREDIR}/jMath
+.o ${JCOREDIR}/jStreamUtil
+.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @testFileExists
 ${CODEDIR}/test_FileExists
@@ -93,6 +99,3 @@ ${CODEDIR}/test_JBroadcaster
 
 @test_JDirInfo
 ${CODEDIR}/test_JDirInfo
-
-@test_rtti
-${CODEDIR}/test_rtti
