@@ -251,7 +251,7 @@ CBTreeDirector::CBTreeDirector
 
 	// put fn list windows on top of tree window
 
-	JBoolean active = kJTrue;
+	JBoolean active = kJFalse;
 	if (31 <= projVers && projVers < 71)
 		{
 		projInput >> active;

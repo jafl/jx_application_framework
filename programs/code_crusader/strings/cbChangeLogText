@@ -23,6 +23,8 @@ Improved parsing of Java source files to detect inner classes and be smarter abo
 Added support for Perl operators // and //= and ~~.
 <p>
 Added enum keyword to Java syntax highlighting.
+<p>
+Updated to not open class inheritance trees for every new project.
 
 <h3> 6.6 </h3>
 
