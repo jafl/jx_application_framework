@@ -46,6 +46,9 @@ EOFButtonTitle::CBExecOutputDocument	"EOF"
 PauseButtonHint::CBExecOutputDocument	"Ctrl-Z"
 StopButtonHint::CBExecOutputDocument	"Ctrl-C or Meta-period"
 
+WaitCloseMsg::CBExecOutputDocument
+"You cannot close this window because it is waiting for another task to finish."
+
 # CBSearchDocument
 
 SearchTitle::CBSearchDocument	"Search: $s"

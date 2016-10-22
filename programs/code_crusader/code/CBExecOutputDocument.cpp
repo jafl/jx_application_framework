@@ -54,6 +54,7 @@ CBExecOutputDocument::CBExecOutputDocument
 	itsProcessPausedFlag  = kJFalse;
 	itsClearWhenStartFlag = kJTrue;
 	itsUseCount           = 0;
+	itsDontCloseMsg       = JGetString("WaitCloseMsg::CBExecOutputDocument");
 
 	// buttons in upper right
 

@@ -25,6 +25,8 @@ Added support for Perl operators // and //= and ~~.
 Added enum keyword to Java syntax highlighting.
 <p>
 Updated to not open class inheritance trees for every new project.
+<p>
+Fixed empty error message when try to close Program Output window while compile is running.
 
 <h3> 6.6 </h3>
 
