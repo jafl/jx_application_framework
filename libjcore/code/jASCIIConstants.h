@@ -16,20 +16,20 @@
 const int kJMinASCIICharacter = 0;
 const int kJMaxASCIICharacter = 127;
 
-const JCharacter kJDeleteKey   = '\b';
-const JCharacter kJTabKey      = '\t';
-const JCharacter kJLineFeedKey = '\n';
-const JCharacter kJNewlineKey  = '\n';
-const JCharacter kJFormFeedKey = '\f';
-const JCharacter kJReturnKey   = '\r';
-const JCharacter kJEscapeKey   = 27;
+const JUtf8Byte kJDeleteKey   = '\b';
+const JUtf8Byte kJTabKey      = '\t';
+const JUtf8Byte kJLineFeedKey = '\n';
+const JUtf8Byte kJNewlineKey  = '\n';
+const JUtf8Byte kJFormFeedKey = '\f';
+const JUtf8Byte kJReturnKey   = '\r';
+const JUtf8Byte kJEscapeKey   = 27;
 
-const JCharacter kJLeftArrow  = 28;
-const JCharacter kJRightArrow = 29;
-const JCharacter kJUpArrow    = 30;
-const JCharacter kJDownArrow  = 31;
+const JUtf8Byte kJLeftArrow  = 28;
+const JUtf8Byte kJRightArrow = 29;
+const JUtf8Byte kJUpArrow    = 30;
+const JUtf8Byte kJDownArrow  = 31;
 
-const JCharacter kJForwardDeleteKey = 127;
+const JUtf8Byte kJForwardDeleteKey = 127;
 
 inline JBoolean
 JIsASCII

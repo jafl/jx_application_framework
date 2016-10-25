@@ -132,7 +132,7 @@ JLatentPG::ProcessBeginning
 	(
 	const ProcessType	processType,
 	const JSize			stepCount,
-	const JCharacter*	message,
+	const JString&		message,
 	const JBoolean		allowCancel,
 	const JBoolean		allowBackground
 	)
@@ -181,10 +181,10 @@ JLatentPG::StartInternalProcess()
 JBoolean
 JLatentPG::IncrementProgress
 	(
-	const JCharacter* message
+	const JString* message
 	)
 {
-	return IncrementProgress(message, 1);
+	return message == NULL ? IncrementProgress(1) : IncrementProgress(*message, 1);
 }
 
 /******************************************************************************
@@ -231,8 +231,8 @@ JLatentPG::IncrementProgress
 JBoolean
 JLatentPG::IncrementProgress
 	(
-	const JCharacter*	message,
-	const JSize			delta
+	const JString&	message,
+	const JSize		delta
 	)
 {
 	assert( ProcessRunning() );
@@ -254,7 +254,7 @@ JLatentPG::IncrementProgress
 			{
 			itsPG->IncrementProgress(delta - 1);
 			}
-		result     = itsPG->IncrementProgress(message);
+		result     = itsPG->IncrementProgress(&message);
 		itsCounter = 0;
 		}
 	else if (pgRunning && message != NULL)
@@ -264,7 +264,7 @@ JLatentPG::IncrementProgress
 			{
 			itsPG->IncrementProgress(delta - 1);
 			}
-		result     = itsPG->IncrementProgress(message);
+		result     = itsPG->IncrementProgress(&message);
 		itsCounter = 0;
 		}
 	else if (pgRunning && TimeToUpdate())

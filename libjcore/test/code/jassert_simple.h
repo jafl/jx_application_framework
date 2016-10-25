@@ -8,7 +8,7 @@ JAssert
 	const int	line
 	)
 {
-	JUnitTestManager::ReportFailure(expr, file, line);
+	JUnitTestManager::ReportFatal(expr, file, line);
 	return 0;
 }
 

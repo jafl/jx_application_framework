@@ -36,8 +36,6 @@ public:
 protected:
 
 	void	Send(const JString& data);
-	void	Send(const JCharacter* data);
-	void	Send(const JCharacter* data, const JSize length);
 	void	Send(const iovec data[], const JSize count);
 
 private:

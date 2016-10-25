@@ -38,9 +38,9 @@ static JString*					theDefaultFontName   = NULL;
 static JString*					theGreekFontName     = NULL;
 static JString*					theMonospaceFontName = NULL;
 
-static const JCharacter* kDefaultFontName   = "Helvetica";
-static const JCharacter* kGreekFontName     = "Symbol";
-static const JCharacter* kMonospaceFontName = "Courier";
+static const JString kDefaultFontName   = "Helvetica";
+static const JString kGreekFontName     = "Symbol";
+static const JString kMonospaceFontName = "Courier";
 
 /******************************************************************************
  JInitCore
@@ -72,8 +72,8 @@ JInitCore
 	(
 	JAssertBase*			ah,
 
-	const JCharacter*		appSignature,
-	const JCharacter**		defaultStringData,
+	const JUtf8Byte*		appSignature,
+	const JString*			defaultStringData,
 
 	JUserNotification*		un,
 	JChooseSaveFile*		csf,
@@ -82,9 +82,9 @@ JInitCore
 	JGetCurrentFontManager*	gcfm,
 	JGetCurrentColormap*	gcc,
 
-	const JCharacter*		defaultFontName,
-	const JCharacter*		greekFontName,
-	const JCharacter*		monospaceFontName
+	const JString&			defaultFontName,
+	const JString&			greekFontName,
+	const JString&			monospaceFontName
 	)
 {
 	// assert handler
@@ -168,7 +168,7 @@ JInitCore
 
 	// default font name
 
-	if (!JStringEmpty(defaultFontName))
+	if (!JString::IsEmpty(defaultFontName))
 		{
 		theDefaultFontName = jnew JString(defaultFontName);
 		assert( theDefaultFontName != NULL );
@@ -176,7 +176,7 @@ JInitCore
 
 	// greek font name
 
-	if (!JStringEmpty(greekFontName))
+	if (!JString::IsEmpty(greekFontName))
 		{
 		theGreekFontName = jnew JString(greekFontName);
 		assert( theGreekFontName != NULL );
@@ -184,7 +184,7 @@ JInitCore
 
 	// monospace font name
 
-	if (!JStringEmpty(monospaceFontName))
+	if (!JString::IsEmpty(monospaceFontName))
 		{
 		theMonospaceFontName = jnew JString(monospaceFontName);
 		assert( theMonospaceFontName != NULL );
@@ -393,10 +393,10 @@ JGetCurrColormap()
 
  ******************************************************************************/
 
-const JCharacter*
+const JString&
 JGetDefaultFontName()
 {
-	return (theDefaultFontName == NULL ? kDefaultFontName : theDefaultFontName->GetCString());
+	return (theDefaultFontName == NULL ? kDefaultFontName : theDefaultFontName);
 }
 
 /******************************************************************************
@@ -404,10 +404,10 @@ JGetDefaultFontName()
 
  ******************************************************************************/
 
-const JCharacter*
+const JString&
 JGetGreekFontName()
 {
-	return (theGreekFontName == NULL ? kGreekFontName : theGreekFontName->GetCString());
+	return (theGreekFontName == NULL ? kGreekFontName : theGreekFontName);
 }
 
 /******************************************************************************
@@ -415,10 +415,10 @@ JGetGreekFontName()
 
  ******************************************************************************/
 
-const JCharacter*
+const JString&
 JGetMonospaceFontName()
 {
-	return (theMonospaceFontName == NULL ? kMonospaceFontName : theMonospaceFontName->GetCString());
+	return (theMonospaceFontName == NULL ? kMonospaceFontName : theMonospaceFontName);
 }
 
 /******************************************************************************
@@ -438,9 +438,9 @@ JGetMonospaceFontName()
 JBoolean
 JGetJDataDirectories
 	(
-	const JCharacter*	dirName,
-	JString*			sysDir,
-	JString*			userDir
+	const JString&	dirName,
+	JString*		sysDir,
+	JString*		userDir
 	)
 {
 	return JGetDataDirectories("jx", dirName, sysDir, userDir);

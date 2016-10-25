@@ -48,17 +48,17 @@
 #include <jAssert.h>
 
 #if defined JMOUNT_OSX
-static const JCharacter* kMountCmd        = "mount";
+static const JUtf8Byte* kMountCmd        = "mount";
 #elif defined JMOUNT_BSD
-static const JCharacter* kAvailInfoName   = _PATH_FSTAB;
+static const JUtf8Byte* kAvailInfoName   = _PATH_FSTAB;
 #elif defined JMOUNT_SYSV
-static const JCharacter* kAvailInfoName   = VFSTAB;
-static const JCharacter* kMountedInfoName = MNTTAB;
+static const JUtf8Byte* kAvailInfoName   = VFSTAB;
+static const JUtf8Byte* kMountedInfoName = MNTTAB;
 #elif defined _J_CYGWIN
-static const JCharacter* kMountedInfoName = MOUNTED;
+static const JUtf8Byte* kMountedInfoName = MOUNTED;
 #else
-static const JCharacter* kAvailInfoName   = _PATH_FSTAB;
-static const JCharacter* kMountedInfoName = _PATH_MOUNTED;
+static const JUtf8Byte* kAvailInfoName   = _PATH_FSTAB;
+static const JUtf8Byte* kMountedInfoName = _PATH_MOUNTED;
 #endif
 
 /******************************************************************************
@@ -164,7 +164,7 @@ JGetUserMountPointList
 	JArray<JIndexRange> matchList;
 	JString options;
 	ACE_stat stbuf;
-	while (theLinePattern.MatchAfter(mountData, r, &matchList))
+	while (theLinePattern.MatchAfter(mountData.GetBytes(), r, &matchList))
 		{
 		r = matchList.GetFirstElement();
 
@@ -358,7 +358,7 @@ JGetUserMountPointList
 inline int
 jUserOwnsDevice
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
 	uid_t uid;
@@ -448,9 +448,9 @@ JGetUserMountPointList
 JMountType
 JGetUserMountPointType
 	(
-	const JCharacter* path,
-	const JCharacter* device,
-	const JCharacter* fsType
+	const JString& path,
+	const JString& device,
+	const JString& fsType
 	)
 {
 	return kJHardDisk;
@@ -461,9 +461,9 @@ JGetUserMountPointType
 JMountType
 JGetUserMountPointType
 	(
-	const JCharacter* path,
-	const JCharacter* device,
-	const JCharacter* fsType
+	const JString& path,
+	const JString& device,
+	const JString& fsType
 	)
 {
 	if (strstr(fsType, "cd9660") != NULL)
@@ -497,9 +497,9 @@ JGetUserMountPointType
 JMountType
 JGetUserMountPointType
 	(
-	const JCharacter* path,
-	const JCharacter* device,
-	const JCharacter* fsType
+	const JString& path,
+	const JString& device,
+	const JString& fsType
 	)
 {
 	if (strstr(fsType, "iso9660") != NULL)
@@ -529,9 +529,9 @@ JGetUserMountPointType
 JMountType
 JGetUserMountPointType
 	(
-	const JCharacter* path,
-	const JCharacter* device,
-	const JCharacter* fsType
+	const JString& path,
+	const JString& device,
+	const JString& fsType
 	)
 {
 	return kJHardDisk;
@@ -545,11 +545,11 @@ inline void
 jReadLine
 	(
 	const int	fd,
-	JCharacter*	buffer
+	JString&	buffer
 	)
 {
 	JIndex i = 0;
-	JCharacter c;
+	JUtf8Byte c;
 	while (read(fd, &c, 1) == 1)
 		{
 		if (c == '\n')
@@ -565,9 +565,9 @@ jReadLine
 JMountType
 JGetUserMountPointType
 	(
-	const JCharacter* path,
-	const JCharacter* device,
-	const JCharacter* fsType
+	const JString& path,
+	const JString& device,
+	const JString& fsType
 	)
 {
 	if (strstr(fsType, "iso9660") != NULL)
@@ -614,7 +614,7 @@ JGetUserMountPointType
 JBoolean
 JIsMounted
 	(
-	const JCharacter*	path,
+	const JString&		path,
 	JBoolean*			writable,
 	JBoolean*			isTop,
 	JString*			device,
@@ -678,7 +678,7 @@ JIsMounted
 JBoolean
 JIsMounted
 	(
-	const JCharacter*	path,
+	const JString&		path,
 	JBoolean*			writable,
 	JBoolean*			isTop,
 	JString*			device,
@@ -745,7 +745,7 @@ JIsMounted
 JBoolean
 JIsMounted
 	(
-	const JCharacter*	path,
+	const JString&		path,
 	JBoolean*			writable,
 	JBoolean*			isTop,
 	JString*			device,
@@ -811,7 +811,7 @@ JIsMounted
 JBoolean
 JIsMounted
 	(
-	const JCharacter*	path,
+	const JString&		path,
 	JBoolean*			writable,
 	JBoolean*			isTop,
 	JString*			device,
@@ -884,7 +884,7 @@ JIsMounted
 JBoolean
 JFindUserMountPoint
 	(
-	const JCharacter*		path,
+	const JString&			path,
 	const JMountPointList&	list,
 	JIndex*					index
 	)
@@ -924,12 +924,12 @@ JFindUserMountPoint
 void
 JMount
 	(
-	const JCharacter*	path,
-	const JBoolean		mount,
-	const JBoolean		block
+	const JString&	path,
+	const JBoolean	mount,
+	const JBoolean	block
 	)
 {
-	const JCharacter* argv[] = { mount ? "mount" : "umount", path, NULL };
+	const JUtf8Byte* argv[] = { mount ? "mount" : "umount", path, NULL };
 	pid_t pid;
 	JExecute(argv, sizeof(argv), block ? (pid_t*) NULL : &pid,
 			 kJIgnoreConnection, NULL,
@@ -969,12 +969,12 @@ jGetFullHostName
 inline JBoolean
 jTranslateLocalToRemote1
 	(
-	const JString&		localPath,
-	const JCharacter*	mountDev,
-	const JCharacter*	mountDir,
-	JBoolean*			found,
-	JString*			host,
-	JString*			remotePath
+	const JString&	localPath,
+	const JString&	mountDev,
+	const JString&	mountDir,
+	JBoolean*		found,
+	JString*		host,
+	JString*		remotePath
 	)
 {
 	if (!JIsSamePartition(localPath, mountDir))
@@ -1022,9 +1022,9 @@ jTranslateLocalToRemote1
 JBoolean
 JTranslateLocalToRemote
 	(
-	const JCharacter*	localPathStr,
-	JString*			host,
-	JString*			remotePath
+	const JString&	localPathStr,
+	JString*		host,
+	JString*		remotePath
 	)
 {
 	host->Clear();
@@ -1058,9 +1058,9 @@ JTranslateLocalToRemote
 JBoolean
 JTranslateLocalToRemote
 	(
-	const JCharacter*	localPathStr,
-	JString*			host,
-	JString*			remotePath
+	const JString&	localPathStr,
+	JString*		host,
+	JString*		remotePath
 	)
 {
 	host->Clear();
@@ -1094,9 +1094,9 @@ JTranslateLocalToRemote
 JBoolean
 JTranslateLocalToRemote
 	(
-	const JCharacter*	localPathStr,
-	JString*			host,
-	JString*			remotePath
+	const JString&	localPathStr,
+	JString*		host,
+	JString*		remotePath
 	)
 {
 	host->Clear();
@@ -1139,11 +1139,11 @@ JTranslateLocalToRemote
 inline JBoolean
 jTranslateRemoteToLocal1
 	(
-	const JCharacter*	host,
-	const JString&		remotePath,
-	const JCharacter*	mountDev,
-	const JCharacter*	mountDir,
-	JString*			localPath
+	const JString&	host,
+	const JString&	remotePath,
+	const JString&	mountDev,
+	const JString&	mountDir,
+	JString*		localPath
 	)
 {
 	const JString dev = mountDev;
@@ -1173,9 +1173,9 @@ jTranslateRemoteToLocal1
 JBoolean
 JTranslateRemoteToLocal
 	(
-	const JCharacter*	hostStr,
-	const JCharacter*	remotePathStr,
-	JString*			localPath
+	const JString&	hostStr,
+	const JString&	remotePathStr,
+	JString*		localPath
 	)
 {
 	localPath->Clear();
@@ -1204,9 +1204,9 @@ JTranslateRemoteToLocal
 JBoolean
 JTranslateRemoteToLocal
 	(
-	const JCharacter*	host,
-	const JCharacter*	remotePathStr,
-	JString*			localPath
+	const JString&	host,
+	const JString&	remotePathStr,
+	JString*		localPath
 	)
 {
 	localPath->Clear();
@@ -1240,9 +1240,9 @@ JTranslateRemoteToLocal
 JBoolean
 JTranslateRemoteToLocal
 	(
-	const JCharacter*	host,
-	const JCharacter*	remotePathStr,
-	JString*			localPath
+	const JString&	host,
+	const JString&	remotePathStr,
+	JString*		localPath
 	)
 {
 	localPath->Clear();
@@ -1289,9 +1289,9 @@ JTranslateRemoteToLocal
 JError
 JFormatPartition
 	(
-	const JCharacter*	path,
-	const JCharacter*	type,
-	JProcess**			process
+	const JString&	path,
+	const JString&	type,
+	JProcess**		process
 	)
 {
 	JBoolean writable, isTop;
@@ -1301,8 +1301,8 @@ JFormatPartition
 		JMount(path, kJFalse, kJTrue);
 		if (!JIsMounted(path))
 			{
-			const JCharacter* argv[] = { "xterm", "-T", "Format disk", "-n", "Format disk",
-										 "-e", "/sbin/mkfs", "-t", type, "-c", device, NULL };
+			const JUtf8Byte* argv[] = { "xterm", "-T", "Format disk", "-n", "Format disk",
+										"-e", "/sbin/mkfs", "-t", type, "-c", device, NULL };
 			const JError err = JProcess::Create(process, argv, sizeof(argv));
 			if (err.OK())
 				{
@@ -1326,8 +1326,8 @@ JFormatPartition
 JBoolean
 JIsSamePartition
 	(
-	const JCharacter* path1,
-	const JCharacter* path2
+	const JString& path1,
+	const JString& path2
 	)
 {
 	ACE_stat stbuf1, stbuf2;

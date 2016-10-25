@@ -22,7 +22,7 @@ class JProcess : virtual public JBroadcaster
 {
 public:
 
-	static JError	Create(JProcess** process, const JCharacter* str,
+	static JError	Create(JProcess** process, const JString& str,
 						   const JExecuteAction toAction = kJIgnoreConnection,
 						   int* toFD = NULL,
 						   const JExecuteAction fromAction = kJIgnoreConnection,
@@ -40,7 +40,7 @@ public:
 						   int* errFD = NULL);
 
 	static JError	Create(JProcess** process,
-						   const JCharacter* argv[], const JSize size,
+						   const JUtf8Byte* argv[], const JSize size,
 						   const JExecuteAction toAction = kJIgnoreConnection,
 						   int* toFD = NULL,
 						   const JExecuteAction fromAction = kJIgnoreConnection,
@@ -48,8 +48,8 @@ public:
 						   const JExecuteAction errAction = kJIgnoreConnection,
 						   int* errFD = NULL);
 
-	static JError	Create(JProcess** process, const JCharacter* workingDirectory,
-						   const JCharacter* str,
+	static JError	Create(JProcess** process, const JString& workingDirectory,
+						   const JString& str,
 						   const JExecuteAction toAction = kJIgnoreConnection,
 						   int* toFD = NULL,
 						   const JExecuteAction fromAction = kJIgnoreConnection,
@@ -57,7 +57,7 @@ public:
 						   const JExecuteAction errAction = kJIgnoreConnection,
 						   int* errFD = NULL);
 
-	static JError	Create(JProcess** process, const JCharacter* workingDirectory,
+	static JError	Create(JProcess** process, const JString& workingDirectory,
 						   const JPtrArray<JString>& argList,
 						   const JExecuteAction toAction = kJIgnoreConnection,
 						   int* toFD = NULL,
@@ -66,8 +66,8 @@ public:
 						   const JExecuteAction errAction = kJIgnoreConnection,
 						   int* errFD = NULL);
 
-	static JError	Create(JProcess** process, const JCharacter* workingDirectory,
-						   const JCharacter* argv[], const JSize size,
+	static JError	Create(JProcess** process, const JString& workingDirectory,
+						   const JUtf8Byte* argv[], const JSize size,
 						   const JExecuteAction toAction = kJIgnoreConnection,
 						   int* toFD = NULL,
 						   const JExecuteAction fromAction = kJIgnoreConnection,
@@ -134,7 +134,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kFinished;
+	static const JUtf8Byte* kFinished;
 
 	class Finished : public JBroadcaster::Message
 		{

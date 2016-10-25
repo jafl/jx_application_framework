@@ -20,17 +20,17 @@ class JMDIServer
 {
 public:
 
-	static const JCharacter* kQuitOptionName;
+	static const JUtf8Byte* kQuitOptionName;
 
 public:
 
-	JMDIServer(const JCharacter* signature);
+	JMDIServer(const JString& signature);
 
 	virtual ~JMDIServer();
 
 	// for use by main()
 
-	static JBoolean	WillBeMDIServer(const JCharacter* signature,
+	static JBoolean	WillBeMDIServer(const JString& signature,
 									const int argc, char* argv[]);
 	void			HandleCmdLineOptions(const int argc, char* argv[]);
 
@@ -44,7 +44,7 @@ protected:
 
 	virtual JBoolean	CanAcceptMDIRequest() = 0;
 	virtual void		PreprocessArgList(JPtrArray<JString>* argList);
-	virtual void		HandleMDIRequest(const JCharacter* dir,
+	virtual void		HandleMDIRequest(const JString& dir,
 										 const JPtrArray<JString>& argList) = 0;
 
 private:
@@ -56,9 +56,9 @@ private:
 private:
 
 	void			ProcessMDIMessage();
-	static JString	GetMDISocketName(const JCharacter* signature);
+	static JString	GetMDISocketName(const JString& signature);
 
-	static void		SendLine(ACE_LSOCK_Stream& socket, const JCharacter* line);
+	static void		SendLine(ACE_LSOCK_Stream& socket, const JString& line);
 	static JBoolean	ReceiveLine(ACE_LSOCK_Stream& socket, const JBoolean block,
 								JString* line, JBoolean* receivedFinishedFlag);
 	static void		WaitForFinished(ACE_LSOCK_Stream& socket,

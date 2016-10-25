@@ -29,7 +29,7 @@
 JBoolean
 JFileExists
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	ACE_stat info;
@@ -49,7 +49,7 @@ JFileExists
 JBoolean
 JFileReadable
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	return JI2B(JFileExists(fileName) &&
@@ -66,7 +66,7 @@ JFileReadable
 JBoolean
 JFileWritable
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	return JI2B(JFileExists(fileName) &&
@@ -86,7 +86,7 @@ JFileWritable
 JBoolean
 JFileExecutable
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	if (getuid() == 0)
@@ -113,8 +113,8 @@ JFileExecutable
 JError
 JGetFileLength
 	(
-	const JCharacter*	name,
-	JSize*				size
+	const JString&	name,
+	JSize*			size
 	)
 {
 	ACE_stat info;
@@ -151,7 +151,7 @@ JGetFileLength
 JError
 JRemoveFile
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	jclear_errno();
@@ -210,10 +210,10 @@ JRemoveFile
 JBoolean
 JKillFile
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
-	const JCharacter* argv[] = {"rm", "-f", fileName, NULL};
+	const JUtf8Byte* argv[] = {"rm", "-f", fileName, NULL};
 	const JError err = JExecute(argv, sizeof(argv), NULL,
 								kJIgnoreConnection, NULL,
 								kJIgnoreConnection, NULL,
@@ -240,13 +240,13 @@ JKillFile
 JError
 JCreateTempFile
 	(
-	const JCharacter*	path,
-	const JCharacter*	prefix,
-	JString*			fullName
+	const JString&	path,
+	const JString&	prefix,
+	JString*		fullName
 	)
 {
 	JString p;
-	if (!JStringEmpty(path))
+	if (!JString::IsEmpty(path))
 		{
 		p = path;
 		}
@@ -255,17 +255,17 @@ JCreateTempFile
 		return JDirEntryDoesNotExist("/tmp");
 		}
 
-	if (!JStringEmpty(prefix))
+	if (!JString::IsEmpty(prefix))
 		{
-		p = JCombinePathAndName(p, prefix);
+		p = JCombinePathAndName(p.GetBytes(), prefix);
 		}
 	else
 		{
-		p = JCombinePathAndName(p, "temp_file_");
+		p = JCombinePathAndName(p.GetBytes(), "temp_file_");
 		}
 
 	p      += "XXXXXX";
-	char* s = p.AllocateCString();
+	char* s = p.AllocateBytes();
 
 	jclear_errno();
 	int fd = mkstemp(s);
@@ -285,7 +285,7 @@ JCreateTempFile
 	const int err = jerrno();
 	if (err == EEXIST)
 		{
-		return JAccessDenied(p);
+		return JAccessDenied(p.GetBytes());
 		}
 	else
 		{
@@ -328,10 +328,10 @@ JStripTrailingDirSeparator
 JError
 JUncompressFile
 	(
-	const JCharacter*	origFileName,
-	JString*			newFileName,
-	const JCharacter*	dirName,
-	JProcess**			process
+	const JString&	origFileName,
+	JString*		newFileName,
+	const JString&	dirName,
+	JProcess**		process
 	)
 {
 	// generate a file name if one is not provided
@@ -344,7 +344,7 @@ JUncompressFile
 			return err;
 			}
 		}
-	else if (!JStringEmpty(dirName))
+	else if (!JString::IsEmpty(dirName))
 		{
 		*newFileName = JCombinePathAndName(dirName, *newFileName);
 		}

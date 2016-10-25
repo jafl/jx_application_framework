@@ -27,24 +27,21 @@ public:
 
 	virtual void		GetFontNames(JPtrArray<JString>* fontNames) const = 0;
 	virtual void		GetMonospaceFontNames(JPtrArray<JString>* fontNames) const = 0;
-	virtual JBoolean	GetFontSizes(const JCharacter* name, JSize* minSize,
+	virtual JBoolean	GetFontSizes(const JString& name, JSize* minSize,
 									 JSize* maxSize, JArray<JSize>* sizeList) const = 0;
 
 	const JFont&	GetDefaultFont() const;
 	const JFont&	GetDefaultMonospaceFont() const;
-	JFont			GetFont(const JCharacter* name,
-							const JSize size = kJDefaultFontSize,
-							const JFontStyle style = JFontStyle()) const;
 	JFont			GetFont(const JString& name,
 							const JSize size = kJDefaultFontSize,
 							const JFontStyle style = JFontStyle()) const;
 
 protected:
 
-	virtual JFontID				GetFontID(const JCharacter* name, const JSize size,
-										  const JFontStyle& style) const = 0;
-	virtual const JCharacter*	GetFontName(const JFontID id) const = 0;
-	virtual JBoolean			IsExact(const JFontID id) const = 0;
+	virtual JFontID			GetFontID(const JString& name, const JSize size,
+									  const JFontStyle& style) const = 0;
+	virtual const JString&	GetFontName(const JFontID id) const = 0;
+	virtual JBoolean		IsExact(const JFontID id) const = 0;
 
 	JSize	GetStrikeThickness(const JSize fontSize) const;
 	JSize	GetUnderlineThickness(const JSize fontSize) const;
@@ -53,10 +50,8 @@ protected:
 								  const JFontStyle& style,
 								  JCoordinate* ascent, JCoordinate* descent) const = 0;
 
-	virtual JSize	GetCharWidth(const JFontID fontID, const JCharacter c) const = 0;
-
-	virtual JSize	GetStringWidth(const JFontID fontID, const JCharacter* str,
-								   const JSize charCount) const = 0;
+	virtual JSize	GetCharWidth(const JFontID fontID, const JUtf8Character& c) const = 0;
+	virtual JSize	GetStringWidth(const JFontID fontID, const JString& str) const = 0;
 
 private:
 
@@ -76,18 +71,6 @@ private:
  GetFont
 
  ******************************************************************************/
-
-inline JFont
-JFontManager::GetFont
-	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle	style
-	)
-	const
-{
-	return JFont(this, GetFontID(name, size, style), size, style);
-}
 
 inline JFont
 JFontManager::GetFont

@@ -11,13 +11,13 @@
 #include <sstream>
 #include <jassert_simple.h>
 
-void TestValues()
+JTEST(Values)
 {
 	JAssertTrue(kJTrue);
 	JAssertFalse(kJFalse);
 }
 
-void TestConversion()
+JTEST(Conversion)
 {
 	JBoolean b = JI2B(false);
 	JAssertFalse(b);
@@ -38,7 +38,7 @@ void TestConversion()
 	JAssertTrue(b);
 }
 
-void TestRead()
+JTEST(Read)
 {
 	std::istringstream s("F");
 	JBoolean b;
@@ -54,23 +54,14 @@ void TestRead()
 	JAssertFalse(s.good());
 }
 
-void TestWrite()
+JTEST(Write)
 {
 	std::ostringstream s;
 	s << kJTrue << kJFalse;
 	JAssertStringsEqual("TF", s.str().c_str());
 }
 
-static const JUnitTest tests[] =
-{
-	TestValues,
-	TestConversion,
-	TestRead,
-	TestWrite,
-	NULL
-};
-
 int main()
 {
-	JUnitTestManager::Execute(tests);
+	JUnitTestManager::Execute();
 }

@@ -11,7 +11,7 @@
 #include "JString.h"
 #include <libxml/tree.h>
 
-xmlNode*	JGetXMLChildNode(xmlNode* node, const JCharacter* childName);
-JString		JGetXMLNodeAttr(xmlNode* node, const JCharacter* attrName);
+xmlNode*	JGetXMLChildNode(xmlNode* node, const JUtf8Byte* childName);
+JString		JGetXMLNodeAttr(xmlNode* node, const JUtf8Byte* attrName);
 
 #endif

@@ -14,8 +14,8 @@
 
 using namespace std;
 
-static const JCharacter* kMathImagString = "i";
-static const JCharacter* kEEImagString   = "j";
+static const JUtf8Byte* kMathImagString = "i";
+static const JUtf8Byte* kEEImagString   = "j";
 
 // Private data
 
@@ -163,7 +163,7 @@ JUseEEImag
 
  ******************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 JGetCurrentImagString()
 {
 	if (theUseEEImagFlag)
@@ -176,13 +176,13 @@ JGetCurrentImagString()
 		}
 }
 
-const JCharacter*
+const JUtf8Byte*
 JGetMathImagString()
 {
 	return kMathImagString;
 }
 
-const JCharacter*
+const JUtf8Byte*
 JGetEEImagString()
 {
 	return kEEImagString;
@@ -217,36 +217,36 @@ JPrintComplexNumber
 		const JFloat i = imag(value);
 		if (r == 0.0 && i == 0.0)
 			{
-			str += "0";
+			str = "0";
 			}
 		else if (r == HUGE_VAL || i == HUGE_VAL)
 			{
-			str += "Infinity";
+			str = "Infinity";
 			}
 		else if (r == -HUGE_VAL || i == -HUGE_VAL)
 			{
-			str += "-Infinity";
+			str = "-Infinity";
 			}
 		else if (i == 0.0)
 			{
-			str += r;
+			str = JString(r);
 			}
 		else if (r == 0.0)
 			{
 			if (i == -1.0)
 				{
-				str += "- ";
+				str = "- ";
 				}
 			else if (i != 1.0)
 				{
-				str += i;
+				str  = JString(i);
 				str += " ";
 				}
 			str += (useEEImag ? kEEImagString : kMathImagString);
 			}
 		else
 			{
-			str += r;
+			str = JString(r);
 			if (i == -1.0)
 				{
 				str += " - ";
@@ -264,7 +264,7 @@ JPrintComplexNumber
 
 				if (i != 1.0)
 					{
-					str += fabs(i);
+					str += JString(fabs(i));
 					str += " ";
 					}
 				}
@@ -278,11 +278,11 @@ JPrintComplexNumber
 		const JFloat i   = imag(value);
 		if (mag == 0.0)
 			{
-			str += "0";
+			str = "0";
 			}
 		else if (i == 0.0)
 			{
-			str += mag;
+			str = JString(mag);
 			}
 		else
 			{
@@ -291,14 +291,14 @@ JPrintComplexNumber
 
 			if (phStr == "180" || phStr == "-180")
 				{
-				str += "-";
-				str += mag;
+				str  = "-";
+				str += JString(mag);
 				}
 			else
 				{
-				str += mag;
+				str  = JString(mag);
 				str += ", ";
-				str += ph;
+				str += JString(ph);
 				str += " deg";
 				}
 			}

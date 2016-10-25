@@ -23,7 +23,7 @@
 JBoolean
 JIsRelativePath
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
 	return !JIsAbsolutePath(path);
@@ -39,8 +39,8 @@ JIsRelativePath
 JError
 JRenameDirectory
 	(
-	const JCharacter* oldName,
-	const JCharacter* newName
+	const JString& oldName,
+	const JString& newName
 	)
 {
 	return JRenameDirEntry(oldName, newName);
@@ -72,16 +72,16 @@ JRenameDirectory
 JString
 JGetUniqueDirEntryName
 	(
-	const JCharacter*	path,
-	const JCharacter*	namePrefix,
-	const JCharacter*	nameSuffix,
+	const JString&		path,
+	const JString&		namePrefix,
+	const JUtf8Byte*	nameSuffix,
 	const JIndex		startIndex
 	)
 {
-	assert( !JStringEmpty(namePrefix) );
+	assert( !namePrefix.IsEmpty() );
 
 	JString fullPath;
-	if (JStringEmpty(path))
+	if (JString::IsEmpty(path))
 		{
 		if (!JGetTempDirectory(&fullPath))
 			{
@@ -93,9 +93,9 @@ JGetUniqueDirEntryName
 		const JBoolean ok = JConvertToAbsolutePath(path, NULL, &fullPath);
 		assert( ok );
 		}
-	assert( JDirectoryExists(fullPath) );
+	assert( JDirectoryExists(fullPath.GetBytes()) );
 
-	const JString prefix = JCombinePathAndName(fullPath, namePrefix);
+	const JString prefix = JCombinePathAndName(fullPath.GetBytes(), namePrefix);
 
 	JString name;
 	for (JIndex i=startIndex; i<=kJIndexMax; i++)
@@ -105,11 +105,11 @@ JGetUniqueDirEntryName
 			{
 			name += JString(i, JString::kBase10);
 			}
-		if (!JStringEmpty(nameSuffix))
+		if (!JString::IsEmpty(nameSuffix))
 			{
 			name += nameSuffix;
 			}
-		if (!JNameUsed(name))
+		if (!JNameUsed(name.GetBytes()))
 			{
 			break;
 			}
@@ -131,45 +131,50 @@ JGetPermissionsString
 	const mode_t mode
 	)
 {
-	JString modeString = "---------";
+	const JUtf8Byte* modeTemplate = "---------";
+
+	JUtf8Byte* modeString = jnew JUtf8Byte[ strlen(modeTemplate)+1 ];
+	assert( modeString != NULL );
+	strcpy(modeString, modeTemplate);
+
 	if (mode & S_IRUSR)
 		{
-		modeString.SetCharacter(1, 'r');
+		modeString[0] = 'r';
 		}
 	if (mode & S_IWUSR)
 		{
-		modeString.SetCharacter(2, 'w');
+		modeString[1] = 'w';
 		}
 	if (mode & S_IXUSR)
 		{
-		modeString.SetCharacter(3, 'x');
+		modeString[2] = 'x';
 		}
 	if (mode & S_IRGRP)
 		{
-		modeString.SetCharacter(4, 'r');
+		modeString[3] = 'r';
 		}
 	if (mode & S_IWGRP)
 		{
-		modeString.SetCharacter(5, 'w');
+		modeString[4] = 'w';
 		}
 	if (mode & S_IXGRP)
 		{
-		modeString.SetCharacter(6, 'x');
+		modeString[5] = 'x';
 		}
 	if (mode & S_IROTH)
 		{
-		modeString.SetCharacter(7, 'r');
+		modeString[6] = 'r';
 		}
 	if (mode & S_IWOTH)
 		{
-		modeString.SetCharacter(8, 'w');
+		modeString[7] = 'w';
 		}
 	if (mode & S_IXOTH)
 		{
-		modeString.SetCharacter(9, 'x');
+		modeString[8] = 'x';
 		}
 
-	return modeString;
+	return JString(modeString);
 }
 
 /*****************************************************************************
@@ -194,15 +199,15 @@ JGetPermissionsString
 JString
 JGetClosestDirectory
 	(
-	const JCharacter*	origDirName,
-	const JBoolean		requireWrite,
-	const JCharacter*	basePath
+	const JString&	origDirName,
+	const JBoolean	requireWrite,
+	const JString*	basePath
 	)
 {
-	assert( !JStringEmpty(origDirName) );
+	assert( !JString::IsEmpty(origDirName) );
 
 	JString workingDir;
-	if (!JStringEmpty(basePath))
+	if (!JString::IsEmpty(basePath))
 		{
 		workingDir = basePath;
 		JAppendDirSeparator(&workingDir);
@@ -225,20 +230,20 @@ JGetClosestDirectory
 		dirName.Prepend(workingDir);
 		}
 
-	assert( JIsAbsolutePath(dirName) );
+	assert( JIsAbsolutePath(dirName.GetBytes()) );
 
 	JString newDir, junkName;
-	while (!JDirectoryExists(dirName)   ||
-		   !JCanEnterDirectory(dirName) ||
-		   !JDirectoryReadable(dirName) ||
-		   (requireWrite && !JDirectoryWritable(dirName)))
+	while (!JDirectoryExists(dirName.GetBytes())   ||
+		   !JCanEnterDirectory(dirName.GetBytes()) ||
+		   !JDirectoryReadable(dirName.GetBytes()) ||
+		   (requireWrite && !JDirectoryWritable(dirName.GetBytes())))
 		{
 		JStripTrailingDirSeparator(&dirName);
-		if (JIsRootDirectory(dirName))
+		if (JIsRootDirectory(dirName.GetBytes()))
 			{
 			break;
 			}
-		JSplitPathAndName(dirName, &newDir, &junkName);
+		JSplitPathAndName(dirName.GetBytes(), &newDir, &junkName);
 		dirName = newDir;
 		}
 
@@ -282,7 +287,7 @@ JGetClosestDirectory
  ******************************************************************************/
 
 static JBoolean JSearchSubdirs_private(
-	const JCharacter* startPath, const JCharacter* name,
+	const JString& startPath, const JString& name,
 	const JBoolean isFile, const JBoolean caseSensitive,
 	JString* path, JString* newName,
 	JProgressDisplay& pg, JBoolean* cancelled);
@@ -290,8 +295,8 @@ static JBoolean JSearchSubdirs_private(
 JBoolean
 JSearchSubdirs
 	(
-	const JCharacter*	startPath,
-	const JCharacter*	name,
+	const JString&		startPath,
+	const JString&		name,
 	const JBoolean		isFile,
 	const JBoolean		caseSensitive,
 	JString*			path,
@@ -300,8 +305,8 @@ JSearchSubdirs
 	JBoolean*			userCancelled
 	)
 {
-	assert( !JStringEmpty(startPath) );
-	assert( !JStringEmpty(name) && name[0] != ACE_DIRECTORY_SEPARATOR_CHAR );
+	assert( !JString::IsEmpty(startPath) );
+	assert( !JString::IsEmpty(name) && name[0] != ACE_DIRECTORY_SEPARATOR_CHAR );
 
 	JLatentPG pg(100);
 	if (userPG != NULL)
@@ -338,8 +343,8 @@ JSearchSubdirs
 JBoolean
 JSearchSubdirs_private
 	(
-	const JCharacter*	startPath,
-	const JCharacter*	name,
+	const JString&		startPath,
+	const JString&		name,
 	const JBoolean		isFile,
 	const JBoolean		caseSensitive,
 	JString*			path,
@@ -445,7 +450,7 @@ JSearchSubdirs_private
 JString
 JConvertToHomeDirShortcut
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
 	JString s = path;

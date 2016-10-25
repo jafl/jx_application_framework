@@ -104,7 +104,7 @@ private:
 	JBoolean	itsAllowDblClickInactiveFlag;	// kJTrue => broadcast FileDblClicked even if inactive
 	JBoolean	itsSelectWhenChangePathFlag;	// kJTrue => select first entry when path changes
 	JSize		itsMaxStringWidth;
-	JString*	itsKeyBuffer;
+	JString		itsKeyBuffer;
 
 	JBoolean			itsReselectFlag;		// kJFalse => select first item in directory
 	JPtrArray<JString>*	itsReselectNameList;	// non-empty => reselect after AdjustTableContents()

@@ -89,7 +89,7 @@ private:
 
 private:
 
-	JString*	itsFunctionName;
+	JString		itsFunctionName;
 	JFloat		itsCurrentXMin;
 	JFloat		itsCurrentXMax;
 	JSize		itsCurrentStepCount;

@@ -98,7 +98,7 @@ operator>>
 			return input;
 			}
 
-		map.SetElement(key, value, JPtrArrayT::kDelete);
+		map.SetElement(key.GetBytes(), value, JPtrArrayT::kDelete);
 		}
 
 	return input;
@@ -176,7 +176,7 @@ JIndex i;
 		for (JIndex j=1; j<=count; j++)
 			{
 			if (!matched.GetElement(j) &&
-				JStringCompare(*s1, *(list2.NthElement(j)), caseSensitive) == 0)
+				JString::Compare(*s1, *(list2.NthElement(j)), caseSensitive) == 0)
 				{
 				found = kJTrue;
 				matched.SetElement(j, kJTrue);
@@ -205,7 +205,7 @@ JCompareStringsCaseSensitive
 	JString* const & s2
 	)
 {
-	const int r = JStringCompare(*s1, *s2, kJTrue);
+	const int r = JString::Compare(*s1, *s2, kJTrue);
 
 	if (r > 0)
 		{
@@ -233,7 +233,7 @@ JCompareStringsCaseInsensitive
 	JString* const & s2
 	)
 {
-	const int r = JStringCompare(*s1, *s2, kJFalse);
+	const int r = JString::Compare(*s1, *s2, kJFalse);
 
 	if (r > 0)
 		{

@@ -20,13 +20,13 @@
 #include <stdio.h>
 #include <jAssert.h>
 
-const JCharacter* kLineNumberMarginStr = "  ";
+const JUtf8Byte* kLineNumberMarginStr = "  ";
 const JSize kLineNumberMarginWidth     = 2;
 
 // setup information
 
 const JFileVersion kCurrentSetupVersion = 2;
-const JCharacter kSetupDataEndDelimiter = '\1';
+const JUtf8Byte kSetupDataEndDelimiter = '\1';
 
 	// version 1 adds itsPrintLineNumberFlag
 	// version 2 adds itsPrintReverseOrderFlag
@@ -99,14 +99,14 @@ JPTPrinter::SetPageHeight
 
  ******************************************************************************/
 
-static const JCharacter kPageSeparatorStr[] = { kJFormFeedKey, '\0' };
+static const JUtf8Byte kPageSeparatorStr[] = { kJFormFeedKey, '\0' };
 const JSize kPageSeparatorStrLength         = 1;
 
 JBoolean
 JPTPrinter::Print
 	(
-	const JCharacter*	text,
-	ostream&			trueOutput
+	const JString&	text,
+	ostream&		trueOutput
 	)
 {
 	ostream* dataOutput  = &trueOutput;
@@ -119,12 +119,12 @@ JPTPrinter::Print
 			return kJFalse;
 			}
 
-		tempOutput = jnew ofstream(tempName);
+		tempOutput = jnew ofstream(tempName.GetBytes());
 		assert( tempOutput != NULL );
 		if (tempOutput->bad())
 			{
 			jdelete tempOutput;
-			JRemoveFile(tempName);
+			JRemoveFile(tempName.GetBytes());
 			return kJFalse;
 			}
 		dataOutput = tempOutput;
@@ -172,7 +172,7 @@ JPTPrinter::Print
 		if (itsPrintLineNumberFlag)
 			{
 			const JString lastLineIndexStr(pageIndex * lineCountPerPage, 0);
-			lineNumberWidth = lastLineIndexStr.GetLength();
+			lineNumberWidth = lastLineIndexStr.GetCharacterCount();
 			}
 
 		JSize lineCount = 0;
@@ -183,7 +183,7 @@ JPTPrinter::Print
 			if (itsPrintLineNumberFlag)
 				{
 				const JString lineNumberStr(textLineCount+1, 0);
-				const JSize spaceCount = lineNumberWidth - lineNumberStr.GetLength();
+				const JSize spaceCount = lineNumberWidth - lineNumberStr.GetCharacterCount();
 				for (JIndex j=1; j<=spaceCount; j++)
 					{
 					*output << ' ';
@@ -255,10 +255,10 @@ JPTPrinter::Print
 		if (keepGoing)
 			{
 			JString text;
-			JReadFile(tempName, &text);
+			JReadFile(tempName.GetBytes(), &text);
 			InvertPageOrder(text, trueOutput);
 			}
-		JRemoveFile(tempName);
+		JRemoveFile(tempName.GetBytes());
 		}
 
 	return keepGoing;

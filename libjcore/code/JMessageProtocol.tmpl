@@ -69,7 +69,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocolX()
 
 	itsBufferSize = JMessageProtocolT::kDefaultBufferSize;
 
-	itsBuffer = jnew JCharacter [ itsBufferSize ];
+	itsBuffer = jnew JUtf8Byte [ itsBufferSize ];
 	assert( itsBuffer != NULL );
 
 	itsSeparatorStr.Set(JMessageProtocolT::kUNIXSeparatorStr,
@@ -120,9 +120,9 @@ template <ACE_PEER_STREAM_1>
 void
 JMessageProtocol<ACE_PEER_STREAM_2>::SetProtocol
 	(
-	const JCharacter*	separatorStr,
+	const JUtf8Byte*	separatorStr,
 	const JSize			separatorLength,
-	const JCharacter*	disconnectStr,
+	const JUtf8Byte*	disconnectStr,
 	const JSize			disconnectLength
 	)
 {
@@ -197,7 +197,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::SetBufferSize
 	itsBufferSize = bufferSize;
 
 	jdelete [] itsBuffer;
-	itsBuffer = jnew JCharacter [ itsBufferSize ];
+	itsBuffer = jnew JUtf8Byte [ itsBufferSize ];
 	assert( itsBuffer != NULL );
 }
 
@@ -346,34 +346,13 @@ JMessageProtocol<ACE_PEER_STREAM_2>::SendMessage
 	const JString& message
 	)
 {
-	SendMessage(message.GetCString(), message.GetLength());
-}
-
-template <ACE_PEER_STREAM_1>
-void
-JMessageProtocol<ACE_PEER_STREAM_2>::SendMessage
-	(
-	const JCharacter* message
-	)
-{
-	SendMessage(message, strlen(message));
-}
-
-template <ACE_PEER_STREAM_1>
-void
-JMessageProtocol<ACE_PEER_STREAM_2>::SendMessage
-	(
-	const JCharacter*	message,
-	const JSize			length
-	)
-{
 	if (!itsSentDisconnectFlag)
 		{
 		iovec buffer[2];
-		buffer[0].iov_base = const_cast<char*>(message);
-		buffer[0].iov_len  = length;
-		buffer[1].iov_base = const_cast<char*>(itsSeparatorStr.GetCString());
-		buffer[1].iov_len  = itsSeparatorStr.GetLength();
+		buffer[0].iov_base = const_cast<char*>(message.GetBytes());
+		buffer[0].iov_len  = message.GetByteCount();
+		buffer[1].iov_base = const_cast<char*>(itsSeparatorStr.GetBytes());
+		buffer[1].iov_len  = itsSeparatorStr.GetByteCount();
 
 		JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send(buffer, 2);
 		}
@@ -393,30 +372,9 @@ JMessageProtocol<ACE_PEER_STREAM_2>::SendData
 	const JString& data
 	)
 {
-	SendData(data.GetCString(), data.GetLength());
-}
-
-template <ACE_PEER_STREAM_1>
-void
-JMessageProtocol<ACE_PEER_STREAM_2>::SendData
-	(
-	const JCharacter* data
-	)
-{
-	SendData(data, strlen(data));
-}
-
-template <ACE_PEER_STREAM_1>
-void
-JMessageProtocol<ACE_PEER_STREAM_2>::SendData
-	(
-	const JCharacter*	data,
-	const JSize			length
-	)
-{
 	if (!itsSentDisconnectFlag)
 		{
-		JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send(data, length);
+		JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send(data.GetBytes(), data.GetByteCount());
 		}
 }
 
@@ -433,33 +391,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromUNIXAndSend
 	(
 	const JString& data
 	)
-{
-	TranslateAndSend(data.GetCString(), data.GetLength(),
-					 JMessageProtocolT::kUNIXSeparatorStr,
-					 JMessageProtocolT::kUNIXSeparatorLength);
-}
-
-template <ACE_PEER_STREAM_1>
-void
-JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromUNIXAndSend
-	(
-	const JCharacter* data
-	)
-{
-	TranslateAndSend(data, strlen(data),
-					 JMessageProtocolT::kUNIXSeparatorStr,
-					 JMessageProtocolT::kUNIXSeparatorLength);
-}
-
-template <ACE_PEER_STREAM_1>
-void
-JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromUNIXAndSend
-	(
-	const JCharacter*	data,
-	const JSize			length
-	)
-{
-	TranslateAndSend(data, length,
+	TranslateAndSend(data,
 					 JMessageProtocolT::kUNIXSeparatorStr,
 					 JMessageProtocolT::kUNIXSeparatorLength);
 }
@@ -478,32 +410,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromMacintoshAndSend
 	const JString& data
 	)
 {
-	TranslateAndSend(data.GetCString(), data.GetLength(),
-					 JMessageProtocolT::kMacintoshSeparatorStr,
-					 JMessageProtocolT::kMacintoshSeparatorLength);
-}
-
-template <ACE_PEER_STREAM_1>
-void
-JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromMacintoshAndSend
-	(
-	const JCharacter* data
-	)
-{
-	TranslateAndSend(data, strlen(data),
-					 JMessageProtocolT::kMacintoshSeparatorStr,
-					 JMessageProtocolT::kMacintoshSeparatorLength);
-}
-
-template <ACE_PEER_STREAM_1>
-void
-JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromMacintoshAndSend
-	(
-	const JCharacter*	data,
-	const JSize			length
-	)
-{
-	TranslateAndSend(data, length,
+	TranslateAndSend(data,
 					 JMessageProtocolT::kMacintoshSeparatorStr,
 					 JMessageProtocolT::kMacintoshSeparatorLength);
 }
@@ -522,32 +429,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromDOSAndSend
 	const JString& data
 	)
 {
-	TranslateAndSend(data.GetCString(), data.GetLength(),
-					 JMessageProtocolT::kDOSSeparatorStr,
-					 JMessageProtocolT::kDOSSeparatorLength);
-}
-
-template <ACE_PEER_STREAM_1>
-void
-JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromDOSAndSend
-	(
-	const JCharacter* data
-	)
-{
-	TranslateAndSend(data, strlen(data),
-					 JMessageProtocolT::kDOSSeparatorStr,
-					 JMessageProtocolT::kDOSSeparatorLength);
-}
-
-template <ACE_PEER_STREAM_1>
-void
-JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromDOSAndSend
-	(
-	const JCharacter*	data,
-	const JSize			length
-	)
-{
-	TranslateAndSend(data, length,
+	TranslateAndSend(data,
 					 JMessageProtocolT::kDOSSeparatorStr,
 					 JMessageProtocolT::kDOSSeparatorLength);
 }
@@ -564,38 +446,11 @@ void
 JMessageProtocol<ACE_PEER_STREAM_2>::TranslateAndSend
 	(
 	const JString&		data,
-	const JCharacter*	separatorStr,
+	const JUtf8Byte*	separatorStr,
 	const JSize			separatorLength
 	)
 {
-	TranslateAndSend(data.GetCString(), data.GetLength(),
-					 separatorStr, separatorLength);
-}
-
-template <ACE_PEER_STREAM_1>
-void
-JMessageProtocol<ACE_PEER_STREAM_2>::TranslateAndSend
-	(
-	const JCharacter*	data,
-	const JCharacter*	separatorStr,
-	const JSize			separatorLength
-	)
-{
-	TranslateAndSend(data, strlen(data),
-					 separatorStr, separatorLength);
-}
-
-template <ACE_PEER_STREAM_1>
-void
-JMessageProtocol<ACE_PEER_STREAM_2>::TranslateAndSend
-	(
-	const JCharacter*	data,
-	const JSize			dataLength,
-	const JCharacter*	separatorStr,
-	const JSize			separatorLength
-	)
-{
-	if (dataLength == 0)
+	if (data.IsEmpty())
 		{
 		return;
 		}
@@ -605,23 +460,24 @@ JMessageProtocol<ACE_PEER_STREAM_2>::TranslateAndSend
 	JArray<iovec> bufferList(100);
 
 	iovec sepBuffer;
-	sepBuffer.iov_base = const_cast<char*>(itsSeparatorStr.GetCString());
-	sepBuffer.iov_len  = itsSeparatorStr.GetLength();
+	sepBuffer.iov_base = const_cast<char*>(itsSeparatorStr.GetBytes());
+	sepBuffer.iov_len  = itsSeparatorStr.GetByteCount();
 
+	const JSize dataLength = data.GetByteCount();
 	const JString sepStr(separatorStr, separatorLength);
 	JIndex start = 1;
 	while (start <= dataLength)
 		{
 		JIndex sepIndex = start;
 		JBoolean partial;
-		LocateNextSequence(data, dataLength, sepStr, &sepIndex, &partial);
+		LocateNextSequence(data, sepStr, &sepIndex, &partial);
 		if (partial)
 			{
 			sepIndex = dataLength+1;
 			}
 
 		iovec buffer;
-		buffer.iov_base = const_cast<char*>(data + start-1);
+		buffer.iov_base = const_cast<char*>(data.GetBytes() + start-1);
 		buffer.iov_len  = sepIndex - start;
 		bufferList.AppendElement(buffer);		// send data
 		bufferList.AppendElement(sepBuffer);	// send separator
@@ -773,21 +629,21 @@ template <ACE_PEER_STREAM_1>
 JBoolean
 JMessageProtocol<ACE_PEER_STREAM_2>::LocateNextSequence
 	(
-	const JCharacter*	d,
-	const JSize			dLength,
-	const JString&		sequence,
-	JIndex*				index,
-	JBoolean*			endsWithPartial
+	const JString&	data,
+	const JString&	sequence,
+	JIndex*			index,
+	JBoolean*		endsWithPartial
 	)
 {
-	const JCharacter* s = sequence.GetCString();
+	const JUtf8Byte* s = sequence.GetCString();
 	const JSize sLength = sequence.GetLength();
+	const JSize dLength = data.GetByteCount();
 
 	for (JIndex i = *index-1; i<dLength; i++)
 		{
 		const JSize remLength = dLength-i;
-		if (JCompareMaxN(d+i, remLength, s, sLength,
-						 JMin(remLength, sLength)))
+		if (JString::CompareMaxN(d.GetBytes() + i, remLength, s, sLength,
+								 JMin(remLength, sLength)))
 			{
 			*index = i+1;
 			*endsWithPartial = JI2B(remLength < sLength);

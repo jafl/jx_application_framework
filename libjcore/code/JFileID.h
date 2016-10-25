@@ -11,6 +11,8 @@
 #include <JOrderedSet.h>
 #include <sys/types.h>
 
+class JString;
+
 // Since ID's are permanent, using only 32 bits guarantees that files can be
 // transferred from 64 to 32 bit machines.  GetUniqueID() will never return
 // a value that can't be used on a 32 bit machine.
@@ -23,10 +25,10 @@ class JFileID
 public:
 
 	JFileID();
-	JFileID(const JCharacter* fullName);
+	JFileID(const JString& fullName);
 
 	JBoolean	IsValid() const;
-	void		SetFileName(const JCharacter* fullName);
+	void		SetFileName(const JString& fullName);
 
 	static JOrderedSetT::CompareResult
 		Compare(const JFileID& id1, const JFileID& id2);

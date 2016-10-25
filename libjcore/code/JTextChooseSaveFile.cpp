@@ -22,8 +22,8 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
-const JCharacter* kDoneStr   = "done";
-const JCharacter* kCancelStr = "cancel";
+const JUtf8Byte* kDoneStr   = "done";
+const JUtf8Byte* kCancelStr = "cancel";
 
 /******************************************************************************
  Constructor
@@ -55,14 +55,14 @@ JTextChooseSaveFile::~JTextChooseSaveFile()
 JBoolean
 JTextChooseSaveFile::ChooseFile
 	(
-	const JCharacter*	prompt,
-	const JCharacter*	instructions,
-	JString*			fullName
+	const JString&	prompt,
+	const JString*	instructions,
+	JString*		fullName
 	)
 {
 	while (1)
 		{
-		if (!JStringEmpty(instructions))
+		if (!JString::IsEmpty(instructions))
 			{
 			cout << endl;
 			cout << instructions << endl;
@@ -83,7 +83,7 @@ JTextChooseSaveFile::ChooseFile
 			}
 			while (fullName->IsEmpty() || DoSystemCommand(*fullName));
 
-		if (JFileExists(*fullName))
+		if (JFileExists(fullName->GetBytes()))
 			{
 			return kJTrue;
 			}
@@ -97,10 +97,10 @@ JTextChooseSaveFile::ChooseFile
 JBoolean
 JTextChooseSaveFile::ChooseFile
 	(
-	const JCharacter*	prompt,
-	const JCharacter*	instructions,
-	const JCharacter*	origName,
-	JString*			fullName
+	const JString&	prompt,
+	const JString*	instructions,
+	const JString*	origName,
+	JString*		fullName
 	)
 {
 	return ChooseFile(prompt, instructions, fullName);
@@ -118,14 +118,14 @@ JTextChooseSaveFile::ChooseFile
 JBoolean
 JTextChooseSaveFile::ChooseFiles
 	(
-	const JCharacter*	prompt,
-	const JCharacter*	instructions,
+	const JString&		prompt,
+	const JString*		instructions,
 	JPtrArray<JString>*	fullNameList
 	)
 {
 	fullNameList->CleanOut();
 
-	if (!JStringEmpty(instructions))
+	if (!JString::IsEmpty(instructions))
 		{
 		cout << endl;
 		cout << instructions << endl;
@@ -155,7 +155,7 @@ JTextChooseSaveFile::ChooseFiles
 			}
 			while (fullName.IsEmpty() || DoSystemCommand(fullName));
 
-		if (JFileExists(fullName))
+		if (JFileExists(fullName.GetBytes()))
 			{
 			JString* s = jnew JString(fullName);
 			assert( s != NULL );
@@ -181,10 +181,10 @@ JTextChooseSaveFile::ChooseFiles
 JBoolean
 JTextChooseSaveFile::ChooseRPath
 	(
-	const JCharacter*	prompt,
-	const JCharacter*	instructions,
-	const JCharacter*	origPath,
-	JString*			newPath
+	const JString&	prompt,
+	const JString*	instructions,
+	const JString*	origPath,
+	JString*		newPath
 	)
 {
 	while (1)
@@ -194,7 +194,7 @@ JTextChooseSaveFile::ChooseRPath
 			return kJFalse;
 			}
 
-		if (JDirectoryExists(*newPath))
+		if (JDirectoryExists(newPath->GetBytes()))
 			{
 			return kJTrue;
 			}
@@ -217,10 +217,10 @@ JTextChooseSaveFile::ChooseRPath
 JBoolean
 JTextChooseSaveFile::ChooseRWPath
 	(
-	const JCharacter*	prompt,
-	const JCharacter*	instructions,
-	const JCharacter*	origPath,
-	JString*			newPath
+	const JString&	prompt,
+	const JString*	instructions,
+	const JString*	origPath,
+	JString*		newPath
 	)
 {
 	while (1)
@@ -230,11 +230,11 @@ JTextChooseSaveFile::ChooseRWPath
 			return kJFalse;
 			}
 
-		if (JDirectoryWritable(*newPath))
+		if (JDirectoryWritable(newPath->GetBytes()))
 			{
 			return kJTrue;
 			}
-		else if (JDirectoryExists(*newPath))
+		else if (JDirectoryExists(newPath->GetBytes()))
 			{
 			if (!(JGetUserNotification())->AskUserYes("That directory isn't writable.  Try again?"))
 				{
@@ -259,12 +259,12 @@ JTextChooseSaveFile::ChooseRWPath
 JBoolean
 JTextChooseSaveFile::GetPath
 	(
-	const JCharacter*	prompt,
-	const JCharacter*	instructions,
-	JString*			newPath
+	const JString&	prompt,
+	const JString*	instructions,
+	JString*		newPath
 	)
 {
-	if (!JStringEmpty(instructions))
+	if (!JString::IsEmpty(instructions))
 		{
 		cout << endl;
 		cout << instructions << endl;
@@ -301,15 +301,15 @@ JTextChooseSaveFile::GetPath
 JBoolean
 JTextChooseSaveFile::SaveFile
 	(
-	const JCharacter*	prompt,
-	const JCharacter*	instructions,
-	const JCharacter*	originalName,
-	JString*			newFullName
+	const JString&	prompt,
+	const JString*	instructions,
+	const JString&	originalName,
+	JString*		newFullName
 	)
 {
 	while (1)
 		{
-		if (!JStringEmpty(instructions))
+		if (!JString::IsEmpty(instructions))
 			{
 			cout << endl;
 			cout << instructions << endl;
@@ -331,11 +331,11 @@ JTextChooseSaveFile::SaveFile
 			while (newFullName->IsEmpty() || DoSystemCommand(*newFullName));
 
 		JString path,name;
-		JSplitPathAndName(*newFullName, &path, &name);
-		const JBoolean fileExists   = JFileExists(*newFullName);
-		const JBoolean fileWritable = JFileWritable(*newFullName);
-		const JBoolean dirExists    = JDirectoryExists(path);
-		const JBoolean dirWritable  = JDirectoryWritable(path);
+		JSplitPathAndName(newFullName->GetBytes(), &path, &name);
+		const JBoolean fileExists   = JFileExists(newFullName->GetBytes());
+		const JBoolean fileWritable = JFileWritable(newFullName->GetBytes());
+		const JBoolean dirExists    = JDirectoryExists(path.GetBytes());
+		const JBoolean dirWritable  = JDirectoryWritable(path.GetBytes());
 		if (dirWritable && !fileExists)
 			{
 			return kJTrue;
@@ -385,9 +385,9 @@ JTextChooseSaveFile::DoSystemCommand
 	)
 	const
 {
-	if (!str.IsEmpty() && str.GetCharacter(1) == '!')
+	if (!str.IsEmpty() && str.GetFirstCharacter() == '!')
 		{
-		if (str.GetLength() >= 2)
+		if (str.GetCharacterCount() >= 2)
 			{
 			JString cmd = str.GetSubstring(2, str.GetLength());
 			cout << endl;

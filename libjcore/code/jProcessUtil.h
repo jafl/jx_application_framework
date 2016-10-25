@@ -44,9 +44,9 @@ enum JChildExitReason
 JBoolean	JWillIncludeCWDOnPath();
 void		JShouldIncludeCWDOnPath(const JBoolean includeCWD);
 
-JBoolean	JProgramAvailable(const JCharacter* programName);
+JBoolean	JProgramAvailable(const JString& programName);
 
-JError	JExecute(const JCharacter* cmd, pid_t* childPID,
+JError	JExecute(const JString& cmd, pid_t* childPID,
 				 const JExecuteAction toAction = kJIgnoreConnection,
 				 int* toFD = NULL,
 				 const JExecuteAction fromAction = kJIgnoreConnection,
@@ -62,7 +62,7 @@ JError	JExecute(const JPtrArray<JString>& argList, pid_t* childPID,
 				 const JExecuteAction errAction = kJIgnoreConnection,
 				 int* errFD = NULL);
 
-JError	JExecute(const JCharacter* argv[], const JSize size, pid_t* childPID,
+JError	JExecute(const JUtf8Byte* argv[], const JSize size, pid_t* childPID,
 				 const JExecuteAction toAction = kJIgnoreConnection,
 				 int* toFD = NULL,
 				 const JExecuteAction fromAction = kJIgnoreConnection,
@@ -70,8 +70,8 @@ JError	JExecute(const JCharacter* argv[], const JSize size, pid_t* childPID,
 				 const JExecuteAction errAction = kJIgnoreConnection,
 				 int* errFD = NULL);
 
-JError	JExecute(const JCharacter* workingDirectory,
-				 const JCharacter* cmd, pid_t* childPID,
+JError	JExecute(const JString& workingDirectory,
+				 const JString& cmd, pid_t* childPID,
 				 const JExecuteAction toAction = kJIgnoreConnection,
 				 int* toFD = NULL,
 				 const JExecuteAction fromAction = kJIgnoreConnection,
@@ -79,7 +79,7 @@ JError	JExecute(const JCharacter* workingDirectory,
 				 const JExecuteAction errAction = kJIgnoreConnection,
 				 int* errFD = NULL);
 
-JError	JExecute(const JCharacter* workingDirectory,
+JError	JExecute(const JString& workingDirectory,
 				 const JPtrArray<JString>& argList, pid_t* childPID,
 				 const JExecuteAction toAction = kJIgnoreConnection,
 				 int* toFD = NULL,
@@ -88,8 +88,8 @@ JError	JExecute(const JCharacter* workingDirectory,
 				 const JExecuteAction errAction = kJIgnoreConnection,
 				 int* errFD = NULL);
 
-JError	JExecute(const JCharacter* workingDirectory,
-				 const JCharacter* argv[], const JSize size, pid_t* childPID,
+JError	JExecute(const JString& workingDirectory,
+				 const JUtf8Byte* argv[], const JSize size, pid_t* childPID,
 				 const JExecuteAction toAction = kJIgnoreConnection,
 				 int* toFD = NULL,
 				 const JExecuteAction fromAction = kJIgnoreConnection,
@@ -99,8 +99,8 @@ JError	JExecute(const JCharacter* workingDirectory,
 
 	// utility functions
 
-JString JPrepArgForExec(const JCharacter* arg);
-void	JParseArgsForExec(const JCharacter* cmd, JPtrArray<JString>* argList);
+JString JPrepArgForExec(const JString& arg);
+void	JParseArgsForExec(const JString& cmd, JPtrArray<JString>* argList);
 
 	// wait for any child -- returns child that finished
 
@@ -130,6 +130,6 @@ JError	JGetPGID(const pid_t pid, pid_t* pgid);
 
 	// blocking convenience function to run a program
 
-JError	JRunProgram(const JCharacter* cmd, JString* errOutput);
+JError	JRunProgram(const JString& cmd, JString* errOutput);
 
 #endif

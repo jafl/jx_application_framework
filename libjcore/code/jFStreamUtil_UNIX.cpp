@@ -32,7 +32,7 @@
 fstream*
 JSetFStreamLength
 	(
-	const char*				fileName,
+	const JString&			fileName,
 	fstream&				originalStream,
 	const JSize				newLength,
 	const JFStreamOpenMode	io_mode
@@ -40,7 +40,7 @@ JSetFStreamLength
 {
 	originalStream.close();
 
-	const int fd = open(fileName, O_RDWR);
+	const int fd = open(fileName.GetBytes(), O_RDWR);
 	assert( fd != -1 );
 
 	int err = ftruncate(fd, newLength);
@@ -51,7 +51,7 @@ JSetFStreamLength
 
 	// open a new stream for the file and return a pointer to it
 
-	fstream* newStream = jnew fstream(fileName, io_mode);
+	fstream* newStream = jnew fstream(fileName.GetBytes(), io_mode);
 	assert( newStream != NULL );
 
 	return newStream;

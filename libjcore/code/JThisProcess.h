@@ -82,32 +82,32 @@ public:
 	// JBroadcaster messages -- remember to update kSignalValue, BroadcastSignal()
 	// (Check docs for which ones are actually broadcast.)
 
-	static const JCharacter* kIllegalInstruction;
-	static const JCharacter* kFPE;
-	static const JCharacter* kSegFault;
-	static const JCharacter* kBrokenPipe;
-	static const JCharacter* kAbort;
-	static const JCharacter* kKeyboardInterrupt;
+	static const JUtf8Byte* kIllegalInstruction;
+	static const JUtf8Byte* kFPE;
+	static const JUtf8Byte* kSegFault;
+	static const JUtf8Byte* kBrokenPipe;
+	static const JUtf8Byte* kAbort;
+	static const JUtf8Byte* kKeyboardInterrupt;
 
-	static const JCharacter* kTerminate;
-	static const JCharacter* kKeyboardQuit;
+	static const JUtf8Byte* kTerminate;
+	static const JUtf8Byte* kKeyboardQuit;
 
-	static const JCharacter* kParentProcessFinished;
-	static const JCharacter* kChildProcessFinished;
-	static const JCharacter* kTTYInput;
-	static const JCharacter* kTTYOutput;
+	static const JUtf8Byte* kParentProcessFinished;
+	static const JUtf8Byte* kChildProcessFinished;
+	static const JUtf8Byte* kTTYInput;
+	static const JUtf8Byte* kTTYOutput;
 
-	static const JCharacter* kTimerFinished;
-	static const JCharacter* kUserSignal1;
-	static const JCharacter* kUserSignal2;
+	static const JUtf8Byte* kTimerFinished;
+	static const JUtf8Byte* kUserSignal1;
+	static const JUtf8Byte* kUserSignal2;
 
-	static const JCharacter* kUnrecognized;
+	static const JUtf8Byte* kUnrecognized;
 
 	class Signal : public JBroadcaster::Message
 		{
 		public:
 
-			Signal(const JCharacter* type, const int value)
+			Signal(const JUtf8Byte* type, const int value)
 				:
 				JBroadcaster::Message(type),
 				itsSignalValue(value),

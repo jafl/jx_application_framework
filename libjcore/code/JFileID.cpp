@@ -11,6 +11,7 @@
  *****************************************************************************/
 
 #include <JFileID.h>
+#include <JString.h>
 #include <sys/stat.h>
 #include <ace/OS_NS_sys_stat.h>
 #include <jAssert.h>
@@ -28,7 +29,7 @@ JFileID::JFileID()
 
 JFileID::JFileID
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 	SetFileName(fullName);
@@ -42,11 +43,11 @@ JFileID::JFileID
 void
 JFileID::SetFileName
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 	ACE_stat stbuf;
-	itsValidFlag = JI2B( ACE_OS::stat(fullName, &stbuf) == 0 );
+	itsValidFlag = JI2B( ACE_OS::stat(fullName.GetBytes(), &stbuf) == 0 );
 	itsDevice    = stbuf.st_dev;
 	itsINode     = stbuf.st_ino;
 }

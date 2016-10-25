@@ -18,7 +18,6 @@
 #include <sstream>		// template
 #include <string>		// template
 
-class JString;
 class JFileArrayIndex;
 
 class JFileArray : public JCollection
@@ -45,11 +44,11 @@ public:
 
 public:
 
-	static JError	Create(const JCharacter* fileName,
-						   const JCharacter* fileSignature, JFileArray** obj,
+	static JError	Create(const JString& fileName,
+						   const JString& fileSignature, JFileArray** obj,
 						   const CreateAction action = kFailIfOpen);
-	static JError	OKToCreateBase(const JCharacter* fileName,
-								   const JCharacter* fileSignature,
+	static JError	OKToCreateBase(const JString& fileName,
+								   const JString& fileSignature,
 								   const CreateAction action = kFailIfOpen);
 
 	static JError	Create(JFileArray* theEnclosingFile,
@@ -67,12 +66,12 @@ public:
 	void	GetElement(const JFAIndex& index, std::string* elementData) const;
 	void	GetElement(const JFAID&    id,    std::string* elementData) const;
 
-	void	SetElement(const JFAIndex& index, const JCharacter* data);
-	void	SetElement(const JFAID&    id,    const JCharacter* data);
+	void	SetElement(const JFAIndex& index, const JString& data);
+	void	SetElement(const JFAID&    id,    const JString& data);
 
-	void	InsertElementAtIndex(const JFAIndex& index, const JCharacter* data);
-	void	PrependElement(const JCharacter* data);
-	void	AppendElement(const JCharacter* data);
+	void	InsertElementAtIndex(const JFAIndex& index, const JString& data);
+	void	PrependElement(const JString& data);
+	void	AppendElement(const JString& data);
 
 	void	SetElement(const JFAIndex& index, std::ostringstream& dataStream);
 	void	SetElement(const JFAID&    id,    std::ostringstream& dataStream);
@@ -99,7 +98,7 @@ public:
 
 protected:
 
-	JFileArray(const JCharacter* fileName, const JCharacter* fileSignature,
+	JFileArray(const JString& fileName, const JString& fileSignature,
 			   const CreateAction action);
 	JFileArray(JFileArray* theEnclosingFile, const JFAID& enclosureElementID);
 
@@ -121,10 +120,10 @@ private:
 
 private:
 
-	JString*		itsFileName;			// name of file (for JSetFStreamLength)
-	fstream*		itsStream;				// stream for accessing file
-	JBoolean		itsIsOpenFlag;			// kJTrue => set high bit of element count
-	JBoolean		itsFlushChangesFlag;	// kJTrue => write index after every change
+	JString		itsFileName;				// name of file (for JSetFStreamLength)
+	fstream*	itsStream;					// stream for accessing file
+	JBoolean	itsIsOpenFlag;				// kJTrue => set high bit of element count
+	JBoolean	itsFlushChangesFlag;		// kJTrue => write index after every change
 
 	JFileVersion	itsVersion;				// version of file
 	JUnsignedOffset	itsFileSignatureLength;	// space reserved at front for file signaure (string)
@@ -137,7 +136,7 @@ private:
 
 private:
 
-	void	FileArrayX(const JBoolean isNew, const JCharacter* fileSignature);
+	void	FileArrayX(const JBoolean isNew, const JString& fileSignature);
 
 	fstream*	OpenEmbeddedFile(JFileArray* theEmbeddedFile,
 								 const JFAID& id, JBoolean* isNew);
@@ -192,7 +191,7 @@ private:
 		{
 		public:
 
-			ElementMessage(const JCharacter* type, const JFAIndex& index)
+			ElementMessage(const JUtf8Byte* type, const JFAIndex& index)
 				:
 				JBroadcaster::Message(type),
 				itsIndex(index)
@@ -213,11 +212,11 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kElementInserted;
-	static const JCharacter* kElementRemoved;
-	static const JCharacter* kElementMoved;
-	static const JCharacter* kElementsSwapped;
-	static const JCharacter* kElementChanged;
+	static const JUtf8Byte* kElementInserted;
+	static const JUtf8Byte* kElementRemoved;
+	static const JUtf8Byte* kElementMoved;
+	static const JUtf8Byte* kElementsSwapped;
+	static const JUtf8Byte* kElementChanged;
 
 	class ElementInserted : public ElementMessage
 		{
@@ -319,30 +318,30 @@ public:
 
 	// JError classes
 
-	static const JCharacter* kFileNotWritable;
-	static const JCharacter* kFileAlreadyOpen;
-	static const JCharacter* kWrongSignature;
-	static const JCharacter* kNotEmbeddedFile;
+	static const JUtf8Byte* kFileNotWritable;
+	static const JUtf8Byte* kFileAlreadyOpen;
+	static const JUtf8Byte* kWrongSignature;
+	static const JUtf8Byte* kNotEmbeddedFile;
 
 	class FileNotWritable : public JError
 		{
 		public:
 
-			FileNotWritable(const JCharacter* fileName);
+			FileNotWritable(const JString& fileName);
 		};
 
 	class FileAlreadyOpen : public JError
 		{
 		public:
 
-			FileAlreadyOpen(const JCharacter* fileName);
+			FileAlreadyOpen(const JString& fileName);
 		};
 
 	class WrongSignature : public JError
 		{
 		public:
 
-			WrongSignature(const JCharacter* fileName);
+			WrongSignature(const JString& fileName);
 		};
 
 	class NotEmbeddedFile : public JError
@@ -371,7 +370,7 @@ JFileArray::PrependElement
 inline void
 JFileArray::PrependElement
 	(
-	const JCharacter* data
+	const JString& data
 	)
 {
 	InsertElementAtIndex(1, data);
@@ -394,7 +393,7 @@ JFileArray::AppendElement
 inline void
 JFileArray::AppendElement
 	(
-	const JCharacter* data
+	const JString& data
 	)
 {
 	InsertElementAtIndex(GetElementCount() + 1, data);

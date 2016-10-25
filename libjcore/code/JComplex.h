@@ -36,9 +36,9 @@ void				JSetComplexDisplayMode(const JComplexDisplayMode mode);
 
 JBoolean			JUsingEEImag();
 void				JUseEEImag(const JBoolean useEEImag);
-const JCharacter*	JGetCurrentImagString();
-const JCharacter*	JGetMathImagString();
-const JCharacter*	JGetEEImagString();
+const JUtf8Byte*	JGetCurrentImagString();
+const JUtf8Byte*	JGetMathImagString();
+const JUtf8Byte*	JGetEEImagString();
 
 JString	JPrintComplexNumber(const JComplex& value);
 JString	JPrintComplexNumber(const JComplex& value,

@@ -14,6 +14,8 @@ const JSize kJMaxUtf8CharacterLength = 4;
 
 class JUtf8Character
 {
+	friend ostream& operator<<(ostream&, const JUtf8Character&);
+
 public:
 
 	JUtf8Character();
@@ -27,6 +29,7 @@ public:
 
 	JSize				GetByteCount() const;
 	const JUtf8Byte*	GetBytes() const;
+	JUInt32				GetUtf32() const;
 
 	void	Set(const JUtf8Character& source);
 	void	Set(const JUtf8Byte asciiCharacter);
@@ -35,14 +38,18 @@ public:
 	JBoolean	IsPrint() const;
 	JBoolean	IsAlnum() const;
 	JBoolean	IsAlpha() const;
-	JBoolean	IsUpper() const;
 	JBoolean	IsLower() const;
+	JBoolean	IsUpper() const;
+	JBoolean	IsSpace() const;
 
-	JUtf8Character	ToUpper() const;
 	JUtf8Character	ToLower() const;
+	JUtf8Character	ToUpper() const;
 
 	static JBoolean	IsValid(const JUtf8Byte* utf8Character);
 	static JSize	GetCharacterByteCount(const JUtf8Byte* utf8Character);
+
+	static JUtf8Character	Utf32ToUtf8(const JUInt32 c);
+	static JUInt32			Utf8ToUtf32(const JUtf8Byte* c);
 
 private:
 
@@ -73,6 +80,18 @@ JUtf8Character::GetBytes()
 	const
 {
 	return itsBytes;
+}
+
+/******************************************************************************
+ GetBytes
+
+ ******************************************************************************/
+
+inline JUInt32
+JUtf8Character::GetUtf32()
+	const
+{
+	return Utf8ToUtf32(itsBytes);
 }
 
 /******************************************************************************

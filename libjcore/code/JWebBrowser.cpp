@@ -21,31 +21,31 @@
 // "arrow --mailto \"$a\""
 
 #ifdef _J_OSX
-static const JCharacter* kDefShowURLCmd = "open $u";
+static const JUtf8Byte* kDefShowURLCmd = "open $u";
 #else
-static const JCharacter* kDefShowURLCmd = "firefox $u";
+static const JUtf8Byte* kDefShowURLCmd = "firefox $u";
 #endif
-static const JCharacter* kURLVarName    = "u";
+static const JUtf8Byte* kURLVarName    = "u";
 
-static const JCharacter* kFileURLPrefix          = "file:";
+static const JUtf8Byte* kFileURLPrefix          = "file:";
 const JSize kFileURLPrefixLength                 = strlen(kFileURLPrefix);
 #ifdef _J_OSX
-static const JCharacter* kDefShowFileContentCmd  = "open $f";
+static const JUtf8Byte* kDefShowFileContentCmd  = "open $f";
 #else
-static const JCharacter* kDefShowFileContentCmd  = "firefox file:'$f'";
+static const JUtf8Byte* kDefShowFileContentCmd  = "firefox file:'$f'";
 #endif
-static const JCharacter* kDefShowFileLocationCmd = "systemg --no-force-new";
-static const JCharacter* kFileVarName            = "f";
-static const JCharacter* kPathVarName            = "p";
+static const JUtf8Byte* kDefShowFileLocationCmd = "systemg --no-force-new";
+static const JUtf8Byte* kFileVarName            = "f";
+static const JUtf8Byte* kPathVarName            = "p";
 
-static const JCharacter* kMailURLPrefix      = "mailto:";
+static const JUtf8Byte* kMailURLPrefix      = "mailto:";
 const JSize kMailURLPrefixLength             = strlen(kMailURLPrefix);
 #ifdef _J_OSX
-static const JCharacter* kDefComposeMailCmd  = "open mailto:$a";
+static const JUtf8Byte* kDefComposeMailCmd  = "open mailto:$a";
 #else
-static const JCharacter* kDefComposeMailCmd  = "firefox mailto:$a";
+static const JUtf8Byte* kDefComposeMailCmd  = "firefox mailto:$a";
 #endif
-static const JCharacter* kMailAddressVarName = "a";
+static const JUtf8Byte* kMailAddressVarName = "a";
 
 // setup information
 
@@ -84,7 +84,7 @@ JWebBrowser::~JWebBrowser()
 void
 JWebBrowser::ShowURL
 	(
-	const JCharacter* url
+	const JString& url
 	)
 {
 	JString s = url;
@@ -112,7 +112,7 @@ JWebBrowser::ShowURL
 void
 JWebBrowser::ShowFileContent
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	Exec(itsShowFileContentCmd, kFileVarName, fileName);
@@ -163,10 +163,10 @@ JWebBrowser::ShowFileLocations
 void
 JWebBrowser::ShowFileLocation
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
-	if (!JStringEmpty(itsShowFileLocationCmd))
+	if (!JString::IsEmpty(itsShowFileLocationCmd))
 		{
 		JString fullName = fileName;
 		JStripTrailingDirSeparator(&fullName);
@@ -174,10 +174,10 @@ JWebBrowser::ShowFileLocation
 		JString path, name;
 		JSplitPathAndName(fullName, &path, &name);
 
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			kFileVarName, fullName,
-			kPathVarName, path
+			kFileVarName, fullName.GetBytes(),
+			kPathVarName, path.GetBytes()
 			};
 
 		JString s = itsShowFileLocationCmd;
@@ -200,7 +200,7 @@ JWebBrowser::ShowFileLocation
 void
 JWebBrowser::ComposeMail
 	(
-	const JCharacter* address
+	const JString& address
 	)
 {
 	Exec(itsComposeMailCmd, kMailAddressVarName, address);
@@ -214,17 +214,17 @@ JWebBrowser::ComposeMail
 void
 JWebBrowser::Exec
 	(
-	const JCharacter* cmd,
-	const JCharacter* varName,
-	const JCharacter* value
+	const JString&		cmd,
+	const JUtf8Byte*	varName,
+	const JString&		value
 	)
 	const
 {
-	if (!JStringEmpty(cmd))
+	if (!JString::IsEmpty(cmd))
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			varName, value
+			varName, value.GetBytes()
 			};
 
 		JString s = cmd;
@@ -329,7 +329,7 @@ void
 JWebBrowser::ConvertVarNames
 	(
 	JString*			s,
-	const JCharacter*	varNameList
+	const JUtf8Byte*	varNameList
 	)
 {
 	// escape existing backslashes

@@ -85,7 +85,7 @@ JCheckForValues
 JBoolean
 JIsVersionRequest
 	(
-	const JCharacter* arg
+	const JUtf8Byte* arg
 	)
 {
 	return JI2B(strcmp(arg, "-v")        == 0 ||
@@ -100,7 +100,7 @@ JIsVersionRequest
 JBoolean
 JIsHelpRequest
 	(
-	const JCharacter* arg
+	const JUtf8Byte* arg
 	)
 {
 	return JI2B(strcmp(arg, "-h")     == 0 ||

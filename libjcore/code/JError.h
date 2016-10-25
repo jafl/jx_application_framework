@@ -11,6 +11,7 @@
 #define _H_JError
 
 #include <JBroadcaster.h>
+#include <JString.h>
 
 #if defined WIN32 && !defined GetMessage
 #define GetMessage	GetMessageA
@@ -32,8 +33,8 @@ public:
 
 	const JError& operator=(const JError& source);
 
-	const JUtf8Byte*	GetMessage() const;
-	void				ReportIfError() const;
+	const JString&	GetMessage() const;
+	void			ReportIfError() const;
 
 	JBoolean
 	OK() const
@@ -43,22 +44,28 @@ public:
 
 protected:
 
-	JError(const JUtf8Byte* type, const JUtf8Byte* msg = NULL,
-		   const JBoolean copyMsg = kJFalse);
+	JError(const JUtf8Byte* type, const JUtf8Byte* msg = NULL);
 
-	void	SetMessage(const JUtf8Byte* msg, const JBoolean copyMsg);
-
-	// JStringManager -- id is object's type
-
-	void	SetMessage(const JUtf8Byte* map[], const JSize size);
+	void	SetMessage(const JString& msg);
+	void	SetMessage(const JUtf8Byte* map[], const JSize size);	// JStringManager -- id is object's type
 
 private:
 
-	// exactly one of the following is not NULL
-
-	const JUtf8Byte*	itsSMessage;
-	JString*			itsDMessage;
+	JString	itsMessage;
 };
+
+
+/******************************************************************************
+ GetMessage
+
+ ******************************************************************************/
+
+inline const JString&
+JError::GetMessage()
+	const
+{
+	return *itsMessage;
+}
 
 /******************************************************************************
  Derived classes

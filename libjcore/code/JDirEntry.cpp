@@ -30,7 +30,7 @@
 
 JDirEntry::JDirEntry
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 	JDirEntryX(fullName);
@@ -38,12 +38,12 @@ JDirEntry::JDirEntry
 
 JDirEntry::JDirEntry
 	(
-	const JCharacter* pathName,
-	const JCharacter* fileName
+	const JString& pathName,
+	const JString& fileName
 	)
 {
 	const JString fullName = JCombinePathAndName(pathName, fileName);
-	JDirEntryX(fullName);
+	JDirEntryX(fullName.GetBytes());
 }
 
 // private
@@ -51,7 +51,7 @@ JDirEntry::JDirEntry
 void
 JDirEntry::JDirEntryX
 	(
-	const JCharacter* origFullName
+	const JString& origFullName
 	)
 {
 	// parse path and name
@@ -63,13 +63,13 @@ JDirEntry::JDirEntryX
 		}
 	JStripTrailingDirSeparator(&fullName);
 
-	if (JIsRootDirectory(fullName))
+	if (JIsRootDirectory(fullName.GetBytes()))
 		{
 		itsPath = itsName = fullName;
 		}
 	else
 		{
-		JSplitPathAndName(fullName, &itsPath, &itsName);
+		JSplitPathAndName(fullName.GetBytes(), &itsPath, &itsName);
 		}
 
 	// set rest of instance variables
@@ -88,8 +88,8 @@ JDirEntry::JDirEntryX
 
 JDirEntry::JDirEntry
 	(
-	const JCharacter*	fileName,
-	int					x
+	const JString&	fileName,
+	int				x
 	)
 	:
 	itsName(fileName),
@@ -237,7 +237,7 @@ JDirEntry::FollowLink()
 {
 	if (itsLinkName != NULL && !itsLinkName->IsEmpty())
 		{
-		return JDirEntry(itsPath, *itsLinkName);
+		return JDirEntry(itsPath.GetBytes(), itsLinkName->GetBytes());
 		}
 	else
 		{
@@ -292,7 +292,7 @@ JDirEntry::SetMode
 	const mode_t mode
 	)
 {
-	return JSetPermissions(itsFullName, mode);
+	return JSetPermissions(itsFullName.GetBytes(), mode);
 }
 
 JError
@@ -303,7 +303,7 @@ JDirEntry::SetMode
 	)
 {
 	mode_t mode;
-	JError err = JGetPermissions(itsFullName, &mode);
+	JError err = JGetPermissions(itsFullName.GetBytes(), &mode);
 	if (!err.OK())
 		{
 		return err;
@@ -318,7 +318,7 @@ JDirEntry::SetMode
 		mode &= ~(1 << bit);
 		}
 
-	return JSetPermissions(itsFullName, mode);
+	return JSetPermissions(itsFullName.GetBytes(), mode);
 }
 
 /*****************************************************************************
@@ -345,8 +345,8 @@ JDirEntry::NeedsUpdate()
 	const
 {
 	ACE_stat linfo, info;
-	const int lstatErr = ACE_OS::lstat(itsFullName, &linfo);
-	const int statErr  = ACE_OS::stat(itsFullName, &info);
+	const int lstatErr = ACE_OS::lstat(itsFullName.GetBytes(), &linfo);
+	const int statErr  = ACE_OS::stat(itsFullName.GetBytes(), &info);
 	if (lstatErr == 0 && statErr == 0)
 		{
 		const_cast<JDirEntry*>(this)->itsAccessTime = linfo.st_atime;
@@ -428,16 +428,16 @@ JDirEntry::ForceUpdate()
 
 	// get info from system
 
-	itsFullName = JCombinePathAndName(itsPath, itsName);
+	itsFullName = JCombinePathAndName(itsPath.GetBytes(), itsName.GetBytes());
 
 	ACE_stat lstbuf;
-	if (ACE_OS::lstat(itsFullName, &lstbuf) != 0)
+	if (ACE_OS::lstat(itsFullName.GetBytes(), &lstbuf) != 0)
 		{
 		return;
 		}
 
 	ACE_stat stbuf;
-	const int statErr = ACE_OS::stat(itsFullName, &stbuf);
+	const int statErr = ACE_OS::stat(itsFullName.GetBytes(), &stbuf);
 
 	// simple information
 
@@ -477,7 +477,7 @@ JDirEntry::ForceUpdate()
 
 		itsLinkName = jnew JString;
 		assert( itsLinkName != NULL );
-		if (!(JGetSymbolicLinkTarget(itsFullName, itsLinkName)).OK())
+		if (!(JGetSymbolicLinkTarget(itsFullName.GetBytes(), itsLinkName)).OK())
 			{
 			jdelete itsLinkName;
 			itsLinkName = NULL;
@@ -506,9 +506,9 @@ JDirEntry::ForceUpdate()
 		}
 	else
 		{
-		itsIsReadableFlag   = JI2B( access(itsFullName, R_OK) == 0 );
-		itsIsWritableFlag   = JI2B( access(itsFullName, W_OK) == 0 );
-		itsIsExecutableFlag = JI2B( access(itsFullName, X_OK) == 0 );
+		itsIsReadableFlag   = JI2B( access(itsFullName.GetBytes(), R_OK) == 0 );
+		itsIsWritableFlag   = JI2B( access(itsFullName.GetBytes(), W_OK) == 0 );
+		itsIsExecutableFlag = JI2B( access(itsFullName.GetBytes(), X_OK) == 0 );
 		}
 }
 
@@ -530,18 +530,18 @@ JDirEntry::MatchesContentFilter
 	if (IsFile())
 		{
 		ACE_stat lstbuf;
-		if (ACE_OS::lstat(itsFullName, &lstbuf) != 0)
+		if (ACE_OS::lstat(itsFullName.GetBytes(), &lstbuf) != 0)
 			{
 			return kJFalse;
 			}
 
-		const int fd = open(itsFullName, O_RDONLY);
+		const int fd = open(itsFullName.GetBytes(), O_RDONLY);
 		if (fd == -1)
 			{
 			return kJFalse;
 			}
 
-		JCharacter* data = jnew JCharacter [ kBlockSize ];
+		JUtf8Byte* data = jnew JUtf8Byte [ kBlockSize ];
 		const ssize_t count = read(fd, data, kBlockSize);
 		close(fd);
 		if (count < 0)
@@ -552,7 +552,7 @@ JDirEntry::MatchesContentFilter
 		utimbuf ubuf;
 		ubuf.actime  = lstbuf.st_atime;
 		ubuf.modtime = lstbuf.st_mtime;
-		utime(itsFullName, &ubuf);		// restore access time
+		utime(itsFullName.GetBytes(), &ubuf);		// restore access time
 
 		const JBoolean match = regex.MatchWithin(data, JIndexRange(1, count));
 

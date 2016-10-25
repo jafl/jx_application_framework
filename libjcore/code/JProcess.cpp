@@ -17,7 +17,7 @@
 
 // JBroadcaster message types
 
-const JCharacter* JProcess::kFinished = "Finished::JProcess";
+const JUtf8Byte* JProcess::kFinished = "Finished::JProcess";
 
 // static data
 
@@ -34,7 +34,7 @@ JError
 JProcess::Create
 	(
 	JProcess**				process,
-	const JCharacter*		cmdStr,
+	const JString&			cmdStr,
 	const JExecuteAction	toAction,
 	int*					toFD,
 	const JExecuteAction	fromAction,
@@ -92,7 +92,7 @@ JError
 JProcess::Create
 	(
 	JProcess**				process,
-	const JCharacter*		argv[],
+	const JUtf8Byte*		argv[],
 	const JSize				size,
 	const JExecuteAction	toAction,
 	int*					toFD,
@@ -122,8 +122,8 @@ JError
 JProcess::Create
 	(
 	JProcess**				process,
-	const JCharacter*		workingDirectory,
-	const JCharacter*		cmdStr,
+	const JString&			workingDirectory,
+	const JString&			cmdStr,
 	const JExecuteAction	toAction,
 	int*					toFD,
 	const JExecuteAction	fromAction,
@@ -152,7 +152,7 @@ JError
 JProcess::Create
 	(
 	JProcess**					process,
-	const JCharacter*			workingDirectory,
+	const JString&				workingDirectory,
 	const JPtrArray<JString>&	argList,
 	const JExecuteAction		toAction,
 	int*						toFD,
@@ -182,8 +182,8 @@ JError
 JProcess::Create
 	(
 	JProcess**				process,
-	const JCharacter*		workingDirectory,
-	const JCharacter*		argv[],
+	const JString&			workingDirectory,
+	const JUtf8Byte*		argv[],
 	const JSize				size,
 	const JExecuteAction	toAction,
 	int*					toFD,

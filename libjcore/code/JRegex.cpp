@@ -26,8 +26,8 @@
 	as two for simple problems.
 
 	The best way to understand JRegex is to start by using it with only two
-	methods, SetPattern and Match(JCharacter*).  Then add Match(JCharacter*,
-	JIndexRange*), and then Match(JCharacter*, JArray<JIndexRange>*).  At
+	methods, SetPattern and Match(JString&).  Then add Match(JString&,
+	JIndexRange*), and then Match(JString&, JArray<JIndexRange>*).  At
 	this point the entire match interface should be readily understood.  After
 	adding SetReplacePattern and Replace to your reportoire, the rest of the
 	interface is just customization, information, and extra Match functions you
@@ -109,15 +109,15 @@ struct regmatch_t
 	int rm_eo;	/* end of match */
 };
 
-	// Constants
-	const JCharacter* JRegex::kError = "Error::JRegex";
+// Constants
+const JCharacter* JRegex::kError = "Error::JRegex";
 
-	// Constant static data (i.e. ordinary file scope constants)
-	static const int defaultCFlags = PCRE_MULTILINE;
-	static const int defaultEFlags = 0;
+// Constant static data (i.e. ordinary file scope constants)
+static const int defaultCFlags = PCRE_MULTILINE;
+static const int defaultEFlags = 0;
 
-	// JAFL 5/11/98
-	const JString JRegex::theSpecialCharList = ".[]\\?*+{}|()^$";
+// JAFL 5/11/98
+const JString JRegex::theSpecialCharList = ".[]\\?*+{}|()^$";
 
 /******************************************************************************
  Constructor
@@ -131,8 +131,6 @@ struct regmatch_t
 
 JRegex::JRegex()
 	:
-	itsPattern(),
-	itsNULLCount(0),
 	itsRegex(NULL),
 	itsCFlags(defaultCFlags),
 	itsEFlags(defaultEFlags),
@@ -148,11 +146,9 @@ JRegex::JRegex()
 
 JRegex::JRegex
 	(
-	const JCharacter* pattern
+	const JString& pattern
 	)
 	:
-	itsPattern(),
-	itsNULLCount(0),
 	itsRegex(NULL),
 	itsCFlags(defaultCFlags),
 	itsEFlags(defaultEFlags),
@@ -169,12 +165,9 @@ JRegex::JRegex
 
 JRegex::JRegex
 	(
-	const JCharacter* pattern,
-	const JSize       length
+	const JUtf8Byte* pattern
 	)
 	:
-	itsPattern(),
-	itsNULLCount(0),
 	itsRegex(NULL),
 	itsCFlags(defaultCFlags),
 	itsEFlags(defaultEFlags),
@@ -185,7 +178,7 @@ JRegex::JRegex
 	itsMatchCaseFlag(kJFalse)
 {
 	Allocate();
-	SetPatternOrDie(pattern, length); // Nothing else to do in a constructor
+	SetPatternOrDie(pattern); // Nothing else to do in a constructor
 }
 
 
@@ -195,8 +188,6 @@ JRegex::JRegex
 	const JRegex& source
 	)
 	:
-	itsPattern(),
-	itsNULLCount( static_cast<JSize>(-1) ), // Garbage, will be recalculated by SetPattern
 	itsRegex(NULL),
 	itsCFlags(source.itsCFlags),
 	itsEFlags(source.itsEFlags),
@@ -207,9 +198,7 @@ JRegex::JRegex
 	itsMatchCaseFlag(source.itsMatchCaseFlag)
 {
 	Allocate();
-
 	CopyPatternRegex(source);
-	assert(itsNULLCount == source.itsNULLCount); // Paranoid consistency check :-)
 }
 
 
@@ -270,15 +259,14 @@ JRegex::operator=
 JString
 JRegex::BackslashForLiteral
 	(
-	const JCharacter* text
+	const JString& text
 	)
 {
-	JString s = text;
-	for (JIndex i=s.GetLength(); i>=1; i--)
+	for (JIndex i=text.GetLength(); i>=1; i--)
 		{
-		if (NeedsBackslashToBeLiteral(s.GetCharacter(i)))
+		if (NeedsBackslashToBeLiteral(text.GetCharacter(i)))
 			{
-			s.InsertSubstring("\\", i);
+			text.InsertSubstring("\\", i);
 			}
 		}
 
@@ -304,24 +292,21 @@ JRegex::BackslashForLiteral
 JError
 JRegex::SetPattern
 	(
-	const JCharacter* pattern
+	const JString& pattern
 	)
 {
-	return SetPattern(pattern, strlen(pattern));
+	return SetPattern(pattern.GetBytes());
 }
-
 
 JError
 JRegex::SetPattern
 	(
-	const JCharacter* pattern,
-	const JSize       length
+	const JUtf8Byte* pattern
 	)
 {
-	if (JStringCompare(itsPattern, itsPattern.GetLength(),
-					   pattern, length) != 0)
+	if (JString::Compare(itsPattern, pattern) != 0)
 		{
-		CopyPattern(pattern, length);
+		itsPattern.Set(pattern);
 		return RegComp();
 		}
 	else if (itsState != kReady)
@@ -332,16 +317,6 @@ JRegex::SetPattern
 		{
 		return JNoError();
 		}
-}
-
-
-JError
-JRegex::SetPattern
-	(
-	const JString& pattern
-	)
-{
-	return SetPattern(pattern, pattern.GetLength());
 }
 
 /******************************************************************************
@@ -356,30 +331,17 @@ JRegex::SetPattern
 void
 JRegex::SetPatternOrDie
 	(
-	const JCharacter* pattern
+	const JString& pattern
 	)
 {
 	const JError error = SetPattern(pattern);
 	assert_ok( error );
 }
 
-
 void
 JRegex::SetPatternOrDie
 	(
-	const JCharacter* pattern,
-	const JSize       length
-	)
-{
-	const JError error = SetPattern(pattern, length);
-	assert_ok( error );
-}
-
-
-void
-JRegex::SetPatternOrDie
-	(
-	const JString& pattern
+	const JUtf8Byte* pattern
 	)
 {
 	const JError error = SetPattern(pattern);
@@ -468,7 +430,7 @@ JRegex::GetSubCount() const
 JBoolean
 JRegex::Match
 	(
-	const JCharacter* str
+	const JString& str
 	)
 	const
 {
@@ -484,8 +446,8 @@ JRegex::Match
 JBoolean
 JRegex::MatchFrom
 	(
-	const JCharacter* str,
-	const JIndex      index
+	const JString& str,
+	const JIndex   index
 	)
 	const
 {
@@ -500,7 +462,7 @@ JRegex::MatchFrom
 JBoolean
 JRegex::MatchAfter
 	(
-	const JCharacter*  str,
+	const JString&     str,
 	const JIndexRange& range
 	)
 	const
@@ -516,8 +478,8 @@ JRegex::MatchAfter
 JBoolean
 JRegex::MatchWithin
 	(
-	const JCharacter*	str,
-	const JIndexRange&	range
+	const JString&     str,
+	const JIndexRange& range
 	)
 	const
 {
@@ -539,7 +501,7 @@ JRegex::MatchWithin
 JSize
 JRegex::MatchAll
 	(
-	const JCharacter* str
+	const JString& str
 	)
 	const
 {
@@ -580,8 +542,8 @@ JRegex::MatchAll
 JBoolean
 JRegex::Match
 	(
-	const JCharacter* str,
-	JIndexRange*      match
+	const JString& str,
+	JIndexRange*   match
 	)
 	const
 {
@@ -598,9 +560,9 @@ JRegex::Match
 JBoolean
 JRegex::MatchFrom
 	(
-	const JCharacter* str,
-	const JIndex      index,
-	JIndexRange*      match
+	const JString& str,
+	const JIndex   index,
+	JIndexRange*   match
 	)
 	const
 {
@@ -617,7 +579,7 @@ JRegex::MatchFrom
 JBoolean
 JRegex::MatchAfter
 	(
-	const JCharacter*  str,
+	const JString&     str,
 	const JIndexRange& range,
 	JIndexRange*       match
 	)
@@ -634,7 +596,7 @@ JRegex::MatchAfter
 JBoolean
 JRegex::MatchWithin
 	(
-	const JCharacter*  str,
+	const JString&     str,
 	const JIndexRange& range,
 	JIndexRange*       match
 	)
@@ -661,8 +623,8 @@ JRegex::MatchWithin
 JSize
 JRegex::MatchLast
 	(
-	const JCharacter* str,
-	JIndexRange*      match
+	const JString& str,
+	JIndexRange*   match
 	)
 	const
 {
@@ -702,7 +664,7 @@ JRegex::MatchLast
 JSize
 JRegex::MatchLastWithin
 	(
-	const JCharacter*  str,
+	const JString&     str,
 	const JIndexRange& range,
 	JIndexRange*       match
 	)
@@ -747,7 +709,7 @@ JRegex::MatchLastWithin
 JSize
 JRegex::MatchAll
 	(
-	const JCharacter*    str,
+	const JString&       str,
 	JArray<JIndexRange>* matchList
 	)
 	const
@@ -786,7 +748,7 @@ JRegex::MatchAll
 JSize
 JRegex::MatchAllWithin
 	(
-	const JCharacter*    str,
+	const JString&       str,
 	const JIndexRange&   range,
 	JArray<JIndexRange>* matchList
 	)
@@ -836,7 +798,7 @@ JRegex::MatchAllWithin
 JBoolean
 JRegex::Match
 	(
-	const JCharacter*    str,
+	const JString&       str,
 	JArray<JIndexRange>* subMatchList
 	)
 	const
@@ -855,7 +817,7 @@ JRegex::Match
 JBoolean
 JRegex::MatchFrom
 	(
-	const JCharacter*    str,
+	const JString&       str,
 	const JIndex         index,
 	JArray<JIndexRange>* subMatchList
 	)
@@ -872,7 +834,7 @@ JRegex::MatchFrom
 JBoolean
 JRegex::MatchAfter
 	(
-	const JCharacter*    str,
+	const JString&       str,
 	const JIndexRange&   range,
 	JArray<JIndexRange>* subMatchList
 	)
@@ -889,7 +851,7 @@ JRegex::MatchAfter
 JBoolean
 JRegex::MatchWithin
 	(
-	const JCharacter*    str,
+	const JString&       str,
 	const JIndexRange&   range,
 	JArray<JIndexRange>* subMatchList
 	)
@@ -909,7 +871,7 @@ JRegex::MatchWithin
 JSize
 JRegex::MatchLastWithin
 	(
-	const JCharacter*    str,
+	const JString&       str,
 	const JIndexRange&   range,
 	JArray<JIndexRange>* subMatchList
 	)
@@ -973,9 +935,9 @@ JRegex::MatchLastWithin
 JBoolean
 JRegex::MatchBackward
 	(
-	const JCharacter* str,
-	const JIndex      index,
-	JIndexRange*      match
+	const JString& str,
+	const JIndex   index,
+	JIndexRange*   match
 	)
 	const
 {
@@ -1010,7 +972,7 @@ JRegex::MatchBackward
 JSize
 JRegex::MatchBackward
 	(
-	const JCharacter*    str,
+	const JString&       str,
 	const JIndex         index,
 	JArray<JIndexRange>* matchList
 	)
@@ -1054,8 +1016,8 @@ JRegex::MatchBackward
 JBoolean
 JRegex::GetSubexpressionIndex
 	(
-	const JCharacter*	name,
-	JIndex*				index
+	const JString& name,
+	JIndex*        index
 	)
 	const
 {
@@ -1081,10 +1043,10 @@ JRegex::GetSubexpressionIndex
 JBoolean
 JRegex::GetSubexpression
 	(
-	const JCharacter*			str,
-	const JCharacter*			name,
-	const JArray<JIndexRange>&	matchList,
-	JString*					s
+	const JString&             str,
+	const JCharacter*          name,
+	const JArray<JIndexRange>& matchList,
+	JString*                   s
 	)
 	const
 {
@@ -1176,7 +1138,7 @@ JRegex::GetMatchInterpolator()
 JString
 JRegex::InterpolateMatches
 	(
-	const JCharacter*          sourceString,
+	const JString&             sourceString,
 	const JArray<JIndexRange>& matchList
 	)
 	const
@@ -1293,9 +1255,6 @@ JRegex::Replace
 	forgetting to set the replace string.  If enough people complain that the
 	benefits are not worth the drawbacks, this situation can change.
 
-	As usual, the forms that take a JString or a JCharacter* and a length are
-	NULL-safe.
-
 	If an error is found, and errRange is not NULL, it is set to the
 	offending range of characters.
 
@@ -1304,8 +1263,8 @@ JRegex::Replace
 JError
 JRegex::SetReplacePattern
 	(
-	const JString& pattern,
-	JIndexRange*   errRange
+	const JUtf8Byte* pattern,
+	JIndexRange*     errRange
 	)
 {
 	*itsReplacePattern = pattern;
@@ -1367,8 +1326,8 @@ JRegex::CopyPatternRegex
 	else if (source.itsState == kCannotCompile)
 		{
 		RegFree();
-		CopyPattern(source);
-		itsState = kCannotCompile;
+		itsPattern = source.itsPattern;
+		itsState   = kCannotCompile;
 		}
 	else
 		{
@@ -1377,50 +1336,6 @@ JRegex::CopyPatternRegex
 		}
 
 	SetReplacePattern(*source.itsReplacePattern);
-//	JBoolean set = SetReplacePattern(*source.itsReplacePattern);
-//	assert( set );
-}
-
-/******************************************************************************
- CopyPattern (private)
-
-	Copies 'pattern' into the pattern buffer.
-
-	WARNING: It is possible for humans to become trapped in the pattern
-	buffer at the whim of the Paramount scriptwriters; when this happens,
-	rescue is temporarily impossible, and so only brief, half-hearted
-	attempts should be made.  Rescue becomes possible only after further
-	plot complications, generally at the last possible instant.
-
- *****************************************************************************/
-
-void
-JRegex::CopyPattern
-	(
-	const JCharacter* pattern,
-	const JSize       length
-	)
-{
-	itsPattern.Set(pattern, length);
-
-	itsNULLCount = 0;
-	for (JIndex i=0; i<length; i++)
-		{
-		if (pattern[i] == '\0')
-			{
-			itsNULLCount++;
-			}
-		}
-}
-
-void
-JRegex::CopyPattern
-	(
-	const JRegex& source
-	)
-{
-	itsPattern   = source.itsPattern;
-	itsNULLCount = source.itsNULLCount;
 }
 
 /******************************************************************************
@@ -1564,11 +1479,11 @@ jMakeIndexRange
 JBoolean
 JRegex::RegExec
 	(
-	const JCharacter*		str,
-	const JSize				offset,
-	const JSize				length,
-	JIndexRange*			matchRange,
-	JArray<JIndexRange>*	matchList		// can be NULL
+	const JString&       str,
+	const JSize          offset,
+	const JSize          length,
+	JIndexRange*         matchRange,
+	JArray<JIndexRange>* matchList		// can be NULL
 	)
 	const
 {

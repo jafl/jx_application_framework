@@ -29,8 +29,8 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kPageSetupFinished;
-	static const JCharacter* kPrintSetupFinished;
+	static const JUtf8Byte* kPageSetupFinished;
+	static const JUtf8Byte* kPrintSetupFinished;
 
 	class PageSetupFinished : public JBroadcaster::Message
 		{

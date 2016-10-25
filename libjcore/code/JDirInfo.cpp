@@ -42,11 +42,11 @@
 
 // Broadcaster messages types
 
-const JCharacter* JDirInfo::kContentsWillBeUpdated = "ContentsWillBeUpdated::JDirInfo";
-const JCharacter* JDirInfo::kContentsChanged       = "ContentsChanged::JDirInfo";
-const JCharacter* JDirInfo::kPathChanged           = "PathChanged::JDirInfo";
-const JCharacter* JDirInfo::kPermissionsChanged    = "PermissionsChanged::JDirInfo";
-const JCharacter* JDirInfo::kSettingsChanged       = "SettingsChanged::JDirInfo";
+const JUtf8Byte* JDirInfo::kContentsWillBeUpdated = "ContentsWillBeUpdated::JDirInfo";
+const JUtf8Byte* JDirInfo::kContentsChanged       = "ContentsChanged::JDirInfo";
+const JUtf8Byte* JDirInfo::kPathChanged           = "PathChanged::JDirInfo";
+const JUtf8Byte* JDirInfo::kPermissionsChanged    = "PermissionsChanged::JDirInfo";
+const JUtf8Byte* JDirInfo::kSettingsChanged       = "SettingsChanged::JDirInfo";
 
 /******************************************************************************
  Constructor function (static)
@@ -62,8 +62,8 @@ const JCharacter* JDirInfo::kSettingsChanged       = "SettingsChanged::JDirInfo"
 JBoolean
 JDirInfo::Create
 	(
-	const JCharacter*	dirName,
-	JDirInfo**			obj
+	const JString&	dirName,
+	JDirInfo**		obj
 	)
 {
 	if (OKToCreate(dirName))
@@ -82,9 +82,9 @@ JDirInfo::Create
 JBoolean
 JDirInfo::Create
 	(
-	const JDirInfo&		source,
-	const JCharacter*	dirName,
-	JDirInfo**			obj
+	const JDirInfo&	source,
+	const JString&	dirName,
+	JDirInfo**		obj
 	)
 {
 	if (OKToCreate(dirName))
@@ -103,7 +103,7 @@ JDirInfo::Create
 JBoolean
 JDirInfo::OKToCreate
 	(
-	const JCharacter* dirName
+	const JString& dirName
 	)
 {
 	return JConvertToBoolean( JDirectoryExists(dirName) &&
@@ -118,7 +118,7 @@ JDirInfo::OKToCreate
 
 JDirInfo::JDirInfo
 	(
-	const JCharacter* dirName
+	const JString& dirName
 	)
 	:
 	JContainer()
@@ -169,7 +169,7 @@ JDirInfo::JDirInfo
 void
 JDirInfo::AllocateCWD
 	(
-	const JCharacter* dirName
+	const JString& dirName
 	)
 {
 	itsCWD = jnew JString;
@@ -208,8 +208,8 @@ JDirInfo::JDirInfo
 
 JDirInfo::JDirInfo
 	(
-	const JDirInfo&		source,
-	const JCharacter*	dirName
+	const JDirInfo&	source,
+	const JString&	dirName
 	)
 	:
 	JContainer(source)
@@ -617,8 +617,8 @@ JDirInfo::UseDefaultProgressDisplay()
 JBoolean
 JDirInfo::FindEntry
 	(
-	const JCharacter*	name,
-	JIndex*				index
+	const JString&	name,
+	JIndex*			index
 	)
 	const
 {
@@ -636,8 +636,8 @@ JDirInfo::FindEntry
 JBoolean
 JDirInfo::ClosestMatch
 	(
-	const JCharacter*	prefixStr,
-	JIndex*				index
+	const JString&	prefixStr,
+	JIndex*			index
 	)
 	const
 {
@@ -664,7 +664,7 @@ JDirInfo::GoUp()
 	// strip trailing slashes
 
 	JStripTrailingDirSeparator(&theCWD);
-	if (JIsRootDirectory(theCWD))
+	if (JIsRootDirectory(theCWD.GetBytes()))
 		{
 		return JNoError();
 		}
@@ -672,13 +672,13 @@ JDirInfo::GoUp()
 	// change directory
 
 	JString newCWD, name;
-	if (JSplitPathAndName(theCWD, &newCWD, &name))
+	if (JSplitPathAndName(theCWD.GetBytes(), &newCWD, &name))
 		{
-		return GoTo(newCWD);
+		return GoTo(newCWD.GetBytes());
 		}
 	else
 		{
-		return JBadPath(theCWD);
+		return JBadPath(theCWD.GetBytes());
 		}
 }
 
@@ -690,11 +690,11 @@ JDirInfo::GoUp()
 JError
 JDirInfo::GoDown
 	(
-	const JCharacter* dirName
+	const JString& dirName
 	)
 {
 	const JString theCWD = *itsCWD + dirName;
-	return GoTo(theCWD);
+	return GoTo(theCWD.GetBytes());
 }
 
 /*****************************************************************************
@@ -711,11 +711,11 @@ JDirInfo::GoDown
 void
 JDirInfo::GoToClosest
 	(
-	const JCharacter* origDirName
+	const JString& origDirName
 	)
 {
 	const JString dirName = JGetClosestDirectory(origDirName);
-	const JError err      = GoTo(dirName);
+	const JError err      = GoTo(dirName.GetBytes());
 	assert_ok( err );
 }
 
@@ -727,17 +727,17 @@ JDirInfo::GoToClosest
 JError
 JDirInfo::GoTo
 	(
-	const JCharacter* origDirName
+	const JString& origDirName
 	)
 {
 	JString dirName;
-	if (JStringEmpty(origDirName) ||
+	if (origDirName.IsEmpty() ||
 		!JConvertToAbsolutePath(origDirName, NULL, &dirName))
 		{
 		return JBadPath(origDirName);
 		}
 
-	if (JSameDirEntry(dirName, *itsCWD))
+	if (JSameDirEntry(dirName.GetBytes(), itsCWD->GetBytes()))
 		{
 		Update();
 		return JNoError();
@@ -770,14 +770,14 @@ JDirInfo::GoTo
 JError
 JDirInfo::BuildInfo()
 {
-	if (!JDirectoryReadable(*itsCWD))
+	if (!JDirectoryReadable(itsCWD->GetBytes()))
 		{
-		return JAccessDenied(*itsCWD);
+		return JAccessDenied(itsCWD->GetBytes());
 		}
 
 	const JString origDir = JGetCurrentDirectory();
 
-	JError err = JChangeDirectory(*itsCWD);
+	JError err = JChangeDirectory(itsCWD->GetBytes());
 	if (!err.OK())
 		{
 		return err;
@@ -792,9 +792,9 @@ JDirInfo::BuildInfo()
 	JStripTrailingDirSeparator(itsCWD);		// keep Windows happy
 
 	ACE_stat stbuf;
-	ACE_OS::stat(*itsCWD, &stbuf);
+	ACE_OS::stat(itsCWD->GetBytes(), &stbuf);
 	itsIsValidFlag    = kJTrue;
-	itsIsWritableFlag = JDirectoryWritable(*itsCWD);
+	itsIsWritableFlag = JDirectoryWritable(itsCWD->GetBytes());
 	itsModTime        = stbuf.st_mtime;
 	itsStatusTime     = stbuf.st_ctime;
 
@@ -813,7 +813,7 @@ JDirInfo::BuildInfo()
 
 	pg.ProcessFinished();
 
-	err = JChangeDirectory(origDir);
+	err = JChangeDirectory(origDir.GetBytes());
 	assert_ok( err );
 
 	ApplyFilters(kJFalse);
@@ -835,18 +835,18 @@ JDirInfo::Update
 {
 	ACE_stat info;
 	if (force ||
-		ACE_OS::lstat(*itsCWD, &info) != 0 ||
-		ACE_OS::stat(*itsCWD, &info) != 0  ||
+		ACE_OS::lstat(itsCWD->GetBytes(), &info) != 0 ||
+		ACE_OS::stat(itsCWD->GetBytes(), &info) != 0  ||
 		itsModTime != (time_t) info.st_mtime)
 		{
 		ForceUpdate();
 		return kJTrue;
 		}
 	else if (itsStatusTime != (time_t) info.st_ctime &&
-			 JDirectoryReadable(*itsCWD))
+			 JDirectoryReadable(itsCWD->GetBytes()))
 		{
 		itsStatusTime     = info.st_ctime;
-		itsIsWritableFlag = JDirectoryWritable(*itsCWD);
+		itsIsWritableFlag = JDirectoryWritable(itsCWD->GetBytes());
 		Broadcast(PermissionsChanged());
 		return kJTrue;
 		}
@@ -872,7 +872,7 @@ JDirInfo::Update
 JBoolean
 JDirInfo::ForceUpdate()
 {
-	if (JDirectoryExists(*itsCWD))
+	if (JDirectoryExists(itsCWD->GetBytes()))
 		{
 		Broadcast(ContentsWillBeUpdated());
 
@@ -886,11 +886,11 @@ JDirInfo::ForceUpdate()
 	if (itsSwitchIfInvalidFlag)
 		{
 		JString path;
-		if (!JGetHomeDirectory(&path) || !OKToCreate(path))
+		if (!JGetHomeDirectory(&path) || !OKToCreate(path.GetBytes()))
 			{
 			path = JGetRootDirectory();
 			}
-		GoTo(path);
+		GoTo(path.GetBytes());
 		}
 	else
 		{
@@ -959,7 +959,7 @@ JDirInfo::IsVisible
 		return kJFalse;
 		}
 
-	if (!itsShowVCSDirsFlag && JIsVCSDirectory(name))
+	if (!itsShowVCSDirsFlag && JIsVCSDirectory(name.GetBytes()))
 		{
 		return kJFalse;
 		}
@@ -1002,9 +1002,9 @@ JDirInfo::IsVisible
 void
 JDirInfo::SetWildcardFilter
 	(
-	const JCharacter*	filterStr,
-	const JBoolean		negate,
-	const JBoolean		caseSensitive
+	const JString&	filterStr,
+	const JBoolean	negate,
+	const JBoolean	caseSensitive
 	)
 {
 	JString regexStr;
@@ -1014,7 +1014,7 @@ JDirInfo::SetWildcardFilter
 		return;
 		}
 
-	JRegex* r = jnew JRegex(regexStr);
+	JRegex* r = jnew JRegex(regexStr.GetBytes());
 	assert( r != NULL );
 	r->SetCaseSensitive(caseSensitive);
 
@@ -1087,8 +1087,8 @@ JDirInfo::ClearWildcardFilter()
 JBoolean
 JDirInfo::BuildRegexFromWildcardFilter
 	(
-	const JCharacter*	origFilterStr,
-	JString*			regexStr
+	const JString&	origFilterStr,
+	JString*		regexStr
 	)
 {
 	regexStr->Clear();
@@ -1126,8 +1126,8 @@ JDirInfo::BuildRegexFromWildcardFilter
 void
 JDirInfo::AppendRegex
 	(
-	const JCharacter*	origStr,
-	JString*			regexStr
+	const JString&	origStr,
+	JString*		regexStr
 	)
 {
 JIndex i;

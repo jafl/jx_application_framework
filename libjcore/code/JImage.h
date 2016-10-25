@@ -51,18 +51,18 @@ public:
 
 	virtual JBoolean	GetMask(JImageMask** mask) const = 0;
 
-	JError	WriteGIF(const JCharacter* fileName,
+	JError	WriteGIF(const JString& fileName,
 					 const JBoolean compressColorsToFit,
 					 const JBoolean interlace = kJFalse) const;
-	JError	WritePNG(const JCharacter* fileName,
+	JError	WritePNG(const JString& fileName,
 					 const JBoolean useTrueColor = kJTrue,
 					 const JBoolean compressColorsToFit = kJFalse,
 					 const JBoolean interlace = kJFalse) const;
-	JError	WriteJPEG(const JCharacter* fileName,
+	JError	WriteJPEG(const JString& fileName,
 					  const JBoolean interlace = kJFalse,
 					  const int quality = -1) const;
 
-	static FileType	GetFileType(const JCharacter* fileName);
+	static FileType	GetFileType(const JString& fileName);
 
 	// called by JImageMask
 
@@ -73,9 +73,9 @@ protected:
 
 	void	SetDimensions(const JCoordinate width, const JCoordinate height);
 
-	JError	ReadGIF(const JCharacter* fileName);
-	JError	ReadPNG(const JCharacter* fileName);
-	JError	ReadJPEG(const JCharacter* fileName);
+	JError	ReadGIF(const JString& fileName);
+	JError	ReadPNG(const JString& fileName);
+	JError	ReadJPEG(const JString& fileName);
 	void	ReadFromJXPM(const JXPM& pixmap);
 
 	virtual void	SetImageData(const JSize colorCount, const JColorIndex* colorTable,
@@ -95,9 +95,9 @@ private:
 
 private:
 
-	JError	ReadGD(const JCharacter* fileName,
+	JError	ReadGD(const JString& fileName,
 				   gdImagePtr (*imageCreateFromFile)(FILE *fd));
-	JError	WriteGD(const JCharacter* fileName, const JBoolean useTrueColor,
+	JError	WriteGD(const JString& fileName, const JBoolean useTrueColor,
 					const JBoolean compressColorsToFit, const JBoolean interlace,
 					void (*imageWriteToFile)(gdImagePtr im, FILE *out)) const;
 
@@ -109,58 +109,58 @@ public:
 
 	// JError classes
 
-	static const JCharacter* kUnknownFileType;
-	static const JCharacter* kFileIsNotGIF;
-	static const JCharacter* kGIFNotAvailable;
-	static const JCharacter* kFileIsNotPNG;
-	static const JCharacter* kPNGNotAvailable;
-	static const JCharacter* kFileIsNotJPEG;
-	static const JCharacter* kJPEGNotAvailable;
-	static const JCharacter* kFileIsNotXPM;
-	static const JCharacter* kXPMNotAvailable;
-	static const JCharacter* kFileIsNotXBM;
-	static const JCharacter* kTooManyColors;
+	static const JUtf8Byte* kUnknownFileType;
+	static const JUtf8Byte* kFileIsNotGIF;
+	static const JUtf8Byte* kGIFNotAvailable;
+	static const JUtf8Byte* kFileIsNotPNG;
+	static const JUtf8Byte* kPNGNotAvailable;
+	static const JUtf8Byte* kFileIsNotJPEG;
+	static const JUtf8Byte* kJPEGNotAvailable;
+	static const JUtf8Byte* kFileIsNotXPM;
+	static const JUtf8Byte* kXPMNotAvailable;
+	static const JUtf8Byte* kFileIsNotXBM;
+	static const JUtf8Byte* kTooManyColors;
 
 	class UnknownFileType : public JError
 		{
 		public:
 
-			UnknownFileType(const JCharacter* fileName);
+			UnknownFileType(const JString& fileName);
 		};
 
 	class FileIsNotGIF : public JError
 		{
 		public:
 
-			FileIsNotGIF(const JCharacter* fileName);
+			FileIsNotGIF(const JString& fileName);
 		};
 
 	class FileIsNotPNG : public JError
 		{
 		public:
 
-			FileIsNotPNG(const JCharacter* fileName);
+			FileIsNotPNG(const JString& fileName);
 		};
 
 	class FileIsNotJPEG : public JError
 		{
 		public:
 
-			FileIsNotJPEG(const JCharacter* fileName);
+			FileIsNotJPEG(const JString& fileName);
 		};
 
 	class FileIsNotXPM : public JError
 		{
 		public:
 
-			FileIsNotXPM(const JCharacter* fileName);
+			FileIsNotXPM(const JString& fileName);
 		};
 
 	class FileIsNotXBM : public JError
 		{
 		public:
 
-			FileIsNotXBM(const JCharacter* fileName);
+			FileIsNotXBM(const JString& fileName);
 		};
 
 	class TooManyColors : public JError

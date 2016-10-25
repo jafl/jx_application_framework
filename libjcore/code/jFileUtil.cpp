@@ -28,8 +28,8 @@
 JError
 JRenameFile
 	(
-	const JCharacter* oldName,
-	const JCharacter* newName
+	const JString& oldName,
+	const JString& newName
 	)
 {
 	return JRenameDirEntry(oldName, newName);
@@ -46,12 +46,12 @@ JRenameFile
 JString
 JCombinePathAndName
 	(
-	const JCharacter* path,
-	const JCharacter* name
+	const JString& path,
+	const JString& name
 	)
 {
-	assert( !JStringEmpty(path) );
-	assert( !JStringEmpty(name) );
+	assert( !JString::IsEmpty(path) );
+	assert( !JString::IsEmpty(name) );
 
 	JString file = path;
 	if (file.GetLastCharacter() != ACE_DIRECTORY_SEPARATOR_CHAR &&
@@ -77,12 +77,12 @@ JCombinePathAndName
 JBoolean
 JSplitPathAndName
 	(
-	const JCharacter*	fullName,
-	JString*			path,
-	JString*			name
+	const JString&	fullName,
+	JString*		path,
+	JString*		name
 	)
 {
-	assert( !JStringEmpty(fullName) );
+	assert( !JString::IsEmpty(fullName) );
 
 	JString pathAndName = fullName;
 	JStripTrailingDirSeparator(&pathAndName);
@@ -178,10 +178,10 @@ JPrintFileSize
 JBoolean
 JSearchFile
 	(
-	const JCharacter*	fileName,
-	const JCharacter*	searchStr,
-	const JBoolean		caseSensitive,
-	JIndex*				lineIndex
+	const JString&	fileName,
+	const JString&	searchStr,
+	const JBoolean	caseSensitive,
+	JIndex*			lineIndex
 	)
 {
 	ifstream input(fileName);
@@ -216,10 +216,10 @@ JSearchFile
 void
 JExtractFileAndLine
 	(
-	const JCharacter*	str,
-	JString*			fileName,
-	JIndex*				startLineIndex,
-	JIndex*				endLineIndex
+	const JString&	str,
+	JString*		fileName,
+	JIndex*			startLineIndex,
+	JIndex*			endLineIndex
 	)
 {
 	static JRegex lineIndexRegex(":([0-9]+)(-([0-9]+))?$");
@@ -267,8 +267,8 @@ JExtractFileAndLine
 JString
 JCombineRootAndSuffix
 	(
-	const JCharacter* root,
-	const JCharacter* suffix
+	const JString&		root,
+	const JUtf8Byte*	suffix
 	)
 {
 	JString name = root;
@@ -294,9 +294,9 @@ JCombineRootAndSuffix
 JBoolean
 JSplitRootAndSuffix
 	(
-	const JCharacter*	name,
-	JString*			root,
-	JString*			suffix
+	const JString&	name,
+	JString*		root,
+	JString*		suffix
 	)
 {
 	*root = name;
@@ -341,7 +341,7 @@ JSplitRootAndSuffix
 JString
 JFileNameToURL
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	assert( JIsAbsolutePath(fileName) );
@@ -362,8 +362,8 @@ JFileNameToURL
 JBoolean
 JURLToFileName
 	(
-	const JCharacter*	url,
-	JString*			fileName
+	const JString&	url,
+	JString*		fileName
 	)
 {
 	JString s(url);
@@ -407,13 +407,13 @@ JURLToFileName
 JError
 JFOpen
 	(
-	const JCharacter*	fileName,
-	const JCharacter*	mode,
-	FILE**				stream
+	const JString&	fileName,
+	const JString&	mode,
+	FILE**			stream
 	)
 {
 	jclear_errno();
-	*stream = fopen(fileName, mode);
+	*stream = fopen(fileName.GetBytes(), mode.GetBytes());
 	if (*stream != NULL)
 		{
 		return JNoError();

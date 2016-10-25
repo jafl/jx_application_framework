@@ -27,7 +27,7 @@
 			Create some sort of display to represent the progress.
 			Remember to call JProgressDisplay::ProcessBeginning().
 
-		IncrementProgress(const JUtf8Byte* message)
+		IncrementProgress(const JString* message)
 			Increment the step count by 1 and update the display to show that
 			progress is being made.  If the message is not NULL, it should
 			be displayed.  Return kJFalse if process was cancelled by user.
@@ -98,7 +98,7 @@ JProgressDisplay::ProcessBeginning
 	(
 	const ProcessType	processType,
 	const JSize			stepCount,
-	const JUtf8Byte*	message,
+	const JString&		message,
 	const JBoolean		allowCancel,
 	const JBoolean		allowBackground
 	)

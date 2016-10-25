@@ -18,10 +18,6 @@
 #include <pwd.h>
 #include <jAssert.h>
 
-// string ID's
-
-static const JCharacter* kWrongSiteID = "WrongSite::jSysUtil";
-
 /*******************************************************************************
  JUserIsAdmin
 
@@ -52,7 +48,7 @@ JUserIsAdmin
 JString
 JGetHostName()
 {
-	JCharacter hostName[255];
+	JUtf8Byte hostName[255];
 	const int result = gethostname(hostName, 255);
 	assert( result == 0 );
 	return JString(hostName);
@@ -382,14 +378,14 @@ JGetGroupName
 JBoolean
 JUNIXSocketExists
 	(
-	const JCharacter* pathName
+	const JString& pathName
 	)
 {
 	ACE_stat info;
 
 	return JConvertToBoolean(
-			ACE_OS::lstat(pathName, &info) == 0 &&
-			ACE_OS::stat( pathName, &info) == 0 &&
+			ACE_OS::lstat(pathName.GetBytes(), &info) == 0 &&
+			ACE_OS::stat( pathName.GetBytes(), &info) == 0 &&
 #ifdef _J_OLD_SUNOS
 			S_ISFIFO(info.st_mode)
 #else
@@ -430,41 +426,5 @@ JCreatePipe
 	else
 		{
 		return JUnexpectedError(err);
-		}
-}
-
-/******************************************************************************
- JCheckSiteName
-
-	Exits if program is not running on the specified site.
-
-	map must define:  site, name, url
-	*** site must be first!
-
- ******************************************************************************/
-
-void
-JCheckSiteName
-	(
-	const JCharacter*	encSiteSuffix,
-	const JCharacter	siteCode,
-	const JCharacter*	map[],
-	const JSize			size
-	)
-{
-	JString siteSuffix = encSiteSuffix;
-	const JSize len    = siteSuffix.GetLength();
-	for (JIndex i=1; i<=len; i++)
-		{
-		siteSuffix.SetCharacter(i, siteSuffix.GetCharacter(i) ^ siteCode);
-		}
-
-	map[1] = siteSuffix.GetCString();
-
-	if (!(JGetHostName()).EndsWith(siteSuffix, kJFalse))
-		{
-		const JString msg = JGetString(kWrongSiteID, map, size);
-		(JGetUserNotification())->DisplayMessage(msg);
-		exit(0);
 		}
 }

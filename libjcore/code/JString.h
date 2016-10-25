@@ -12,6 +12,7 @@
 
 #include <JStringIterator.h>
 #include <string.h>
+#include <unicode/ucasemap.h>
 
 class JString
 {
@@ -235,6 +236,7 @@ private:
 	JSize		itsAllocCount;		// number of bytes we have space for
 	JSize		itsBlockSize;		// size by which to shrink and grow allocation
 
+	UCaseMap*			itsUCaseMap;
 	JStringIterator*	itsFirstIterator;	// linked list of active iterators
 
 private:
@@ -251,6 +253,7 @@ private:
 	void	ReplaceBytes(const JIndex firstByteIndex, const JIndex lastByteIndex,
 						 const JUtf8Byte* stringToInsert, const JSize insertLength);
 
+	void		FoldCase(const JBoolean upper);
 	JBoolean	MatchCase(const JUtf8Byte* source, const JUtf8ByteRange& sourceRange,
 						  const JUtf8ByteRange& destRange);
 

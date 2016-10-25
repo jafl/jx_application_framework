@@ -22,17 +22,17 @@ const int kGDColorScale         = 65535/255;
 
 // JError data
 
-const JCharacter* JImage::kUnknownFileType  = "UnknownFileType::JImage";
-const JCharacter* JImage::kFileIsNotGIF     = "FileIsNotGIF::JImage";
-const JCharacter* JImage::kGIFNotAvailable  = "GIFNotAvailable::JImage";
-const JCharacter* JImage::kFileIsNotPNG     = "FileIsNotPNG::JImage";
-const JCharacter* JImage::kPNGNotAvailable  = "PNGNotAvailable::JImage";
-const JCharacter* JImage::kFileIsNotJPEG    = "FileIsNotJPEG::JImage";
-const JCharacter* JImage::kJPEGNotAvailable = "JPEGNotAvailable::JImage";
-const JCharacter* JImage::kFileIsNotXPM     = "FileIsNotXPM::JImage";
-const JCharacter* JImage::kXPMNotAvailable  = "XPMNotAvailable::JImage";
-const JCharacter* JImage::kFileIsNotXBM     = "FileIsNotXBM::JImage";
-const JCharacter* JImage::kTooManyColors    = "TooManyColors::JImage";
+const JUtf8Byte* JImage::kUnknownFileType  = "UnknownFileType::JImage";
+const JUtf8Byte* JImage::kFileIsNotGIF     = "FileIsNotGIF::JImage";
+const JUtf8Byte* JImage::kGIFNotAvailable  = "GIFNotAvailable::JImage";
+const JUtf8Byte* JImage::kFileIsNotPNG     = "FileIsNotPNG::JImage";
+const JUtf8Byte* JImage::kPNGNotAvailable  = "PNGNotAvailable::JImage";
+const JUtf8Byte* JImage::kFileIsNotJPEG    = "FileIsNotJPEG::JImage";
+const JUtf8Byte* JImage::kJPEGNotAvailable = "JPEGNotAvailable::JImage";
+const JUtf8Byte* JImage::kFileIsNotXPM     = "FileIsNotXPM::JImage";
+const JUtf8Byte* JImage::kXPMNotAvailable  = "XPMNotAvailable::JImage";
+const JUtf8Byte* JImage::kFileIsNotXBM     = "FileIsNotXBM::JImage";
+const JUtf8Byte* JImage::kTooManyColors    = "TooManyColors::JImage";
 
 /******************************************************************************
  Constructor
@@ -90,12 +90,12 @@ JImage::~JImage()
 JImage::FileType
 JImage::GetFileType
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
-	assert( !JStringEmpty(fileName) );
+	assert( !fileName.IsEmpty() );
 
-	FILE* input = fopen(fileName, "rb");
+	FILE* input = fopen(fileName.GetBytes(), "rb");
 	if (input == NULL)
 		{
 		return kUnknownType;
@@ -106,24 +106,24 @@ JImage::GetFileType
 	const JSize count = fread(buffer, sizeof(char), bufSize, input);
 	fclose(input);
 
-	if (JCompareMaxN(buffer, "GIF", 3, kJTrue))
+	if (JString::CompareMaxN(buffer, "GIF", 3, kJTrue))
 		{
 		return kGIFType;
 		}
-	else if (JCompareMaxN(buffer, "\x89PNG", 4, kJTrue))
+	else if (JString::CompareMaxN(buffer, "\x89PNG", 4, kJTrue))
 		{
 		return kPNGType;
 		}
-	else if (JCompareMaxN(buffer, "\xFF\xD8\xFF", 3, kJTrue))
+	else if (JString::CompareMaxN(buffer, "\xFF\xD8\xFF", 3, kJTrue))
 		{
 		return kJPEGType;
 		}
-	else if (JCompareMaxN(buffer, "/* XPM */", 9, kJTrue))
+	else if (JString::CompareMaxN(buffer, "/* XPM */", 9, kJTrue))
 		{
 		return kXPMType;
 		}
-	else if (JCompareMaxN(buffer, "#define", 7, kJTrue) ||
-			 JCompareMaxN(buffer, "/*"     , 2, kJTrue))
+	else if (JString::CompareMaxN(buffer, "#define", 7, kJTrue) ||
+			 JString::CompareMaxN(buffer, "/*"     , 2, kJTrue))
 		{
 		return kXBMType;
 		}
@@ -141,7 +141,7 @@ JImage::GetFileType
 JError
 JImage::ReadGIF
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	const JError err = ReadGD(fileName, gdImageCreateFromGif);
@@ -163,9 +163,9 @@ JImage::ReadGIF
 JError
 JImage::WriteGIF
 	(
-	const JCharacter*	fileName,
-	const JBoolean		compressColorsToFit,
-	const JBoolean		interlace
+	const JString&	fileName,
+	const JBoolean	compressColorsToFit,
+	const JBoolean	interlace
 	)
 	const
 {
@@ -180,7 +180,7 @@ JImage::WriteGIF
 JError
 JImage::ReadPNG
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	const JError err = ReadGD(fileName, gdImageCreateFromPng);
@@ -202,10 +202,10 @@ JImage::ReadPNG
 JError
 JImage::WritePNG
 	(
-	const JCharacter*	fileName,
-	const JBoolean		useTrueColor,
-	const JBoolean		compressColorsToFit,
-	const JBoolean		interlace
+	const JString&	fileName,
+	const JBoolean	useTrueColor,
+	const JBoolean	compressColorsToFit,
+	const JBoolean	interlace
 	)
 	const
 {
@@ -220,7 +220,7 @@ JImage::WritePNG
 JError
 JImage::ReadJPEG
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 {
 	const JError err = ReadGD(fileName, gdImageCreateFromJpeg);
@@ -258,9 +258,9 @@ imageJpeg
 JError
 JImage::WriteJPEG
 	(
-	const JCharacter*	fileName,
-	const JBoolean		interlace,
-	const int			quality
+	const JString&	fileName,
+	const JBoolean	interlace,
+	const int		quality
 	)
 	const
 {
@@ -285,8 +285,8 @@ JImage::WriteJPEG
 JError
 JImage::ReadGD
 	(
-	const JCharacter*	fileName,
-	gdImagePtr			(*imageCreateFromFile)(FILE *fd)
+	const JString&	fileName,
+	gdImagePtr		(*imageCreateFromFile)(FILE *fd)
 	)
 {
 	// read file
@@ -413,11 +413,11 @@ JImage::ReadGD
 JError
 JImage::WriteGD
 	(
-	const JCharacter*	fileName,
-	const JBoolean		useTrueColor,
-	const JBoolean		compressColorsToFit,
-	const JBoolean		interlace,
-	void				(*imageWriteToFile)(gdImagePtr im, FILE *out)
+	const JString&	fileName,
+	const JBoolean	useTrueColor,
+	const JBoolean	compressColorsToFit,
+	const JBoolean	interlace,
+	void			(*imageWriteToFile)(gdImagePtr im, FILE *out)
 	)
 	const
 {
@@ -607,7 +607,7 @@ JIndex i;
 		charToCTIndex[ (unsigned char) pixmap.xpm[i][0] ] = (unsigned char) i-1;
 
 		JIndex j = 0;
-		JCharacter c;
+		JUtf8Byte c;
 		do
 			{
 			c = pixmap.xpm[i][j+4];
@@ -616,7 +616,7 @@ JIndex i;
 			while (c != '\0' && c != '\t');
 
 		const JString colorName(pixmap.xpm[i] + 4, j-1);
-		if (JStringCompare(colorName, "none", kJFalse) == 0)
+		if (JString::Compare(colorName, "none", kJFalse) == 0)
 			{
 			hasMask         = kJTrue;
 			maskColor       = i-1;
@@ -704,74 +704,68 @@ JImage::AllocateImageData
 
  ******************************************************************************/
 
-static const JCharacter* kJImageMsgMap[] =
-	{
-	"name", NULL
-	};
-
-
 JImage::UnknownFileType::UnknownFileType
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	:
 	JError(JImage::kUnknownFileType, "")
 {
-	kJImageMsgMap[1] = fileName;
-	SetMessage(kJImageMsgMap, sizeof(kJImageMsgMap));
+	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 JImage::FileIsNotGIF::FileIsNotGIF
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	:
 	JError(JImage::kFileIsNotGIF, "")
 {
-	kJImageMsgMap[1] = fileName;
-	SetMessage(kJImageMsgMap, sizeof(kJImageMsgMap));
+	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 JImage::FileIsNotPNG::FileIsNotPNG
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	:
 	JError(JImage::kFileIsNotPNG, "")
 {
-	kJImageMsgMap[1] = fileName;
-	SetMessage(kJImageMsgMap, sizeof(kJImageMsgMap));
+	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 JImage::FileIsNotJPEG::FileIsNotJPEG
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	:
 	JError(JImage::kFileIsNotJPEG, "")
 {
-	kJImageMsgMap[1] = fileName;
-	SetMessage(kJImageMsgMap, sizeof(kJImageMsgMap));
+	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 JImage::FileIsNotXPM::FileIsNotXPM
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	:
 	JError(JImage::kFileIsNotXPM, "")
 {
-	kJImageMsgMap[1] = fileName;
-	SetMessage(kJImageMsgMap, sizeof(kJImageMsgMap));
+	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 JImage::FileIsNotXBM::FileIsNotXBM
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	:
 	JError(JImage::kFileIsNotXBM, "")
 {
-	kJImageMsgMap[1] = fileName;
-	SetMessage(kJImageMsgMap, sizeof(kJImageMsgMap));
+	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
+	SetMessage(map, sizeof(map));
 }

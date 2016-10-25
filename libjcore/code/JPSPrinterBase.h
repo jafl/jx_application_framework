@@ -13,6 +13,7 @@
 #include <JFont.h>
 #include <JRect.h>
 #include <JPolygon.h>
+#include <JString.h>
 #include <jFStreamUtil.h>
 
 class JString;
@@ -117,15 +118,15 @@ private:
 	JBoolean	itsDocOpenFlag;
 	JBoolean	itsBWFlag;
 
-	JString*	itsCreator;
-	JString*	itsTitle;
+	JString	itsCreator;
+	JString	itsTitle;
 
 	JSize			itsDashOffset;
 	JArray<JSize>*	itsDashList;		// can be NULL
 
 	// used only during printing
 
-	JString*	itsOutputFileName;
+	JString		itsOutputFileName;
 	ofstream*	itsFile;
 
 	// buffered values

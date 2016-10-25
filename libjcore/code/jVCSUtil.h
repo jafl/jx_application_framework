@@ -26,32 +26,32 @@ class JUnsupportedVCS : public JError
 {
 public:
 
-	JUnsupportedVCS(const JCharacter* fullName);
+	JUnsupportedVCS(const JString& fullName);
 };
 
-JBoolean	JIsVCSDirectory(const JCharacter* name);
-JSize		JGetVCSDirectoryNames(const JCharacter*** dirNames);
-JVCSType	JGetVCSType(const JCharacter* path, const JBoolean deepInspection = kJFalse);
-JBoolean	JIsManagedByVCS(const JCharacter* fullName, JVCSType* returnType = NULL);
+JBoolean	JIsVCSDirectory(const JString& name);
+JSize		JGetVCSDirectoryNames(const JUtf8Byte*** dirNames);
+JVCSType	JGetVCSType(const JString& path, const JBoolean deepInspection = kJFalse);
+JBoolean	JIsManagedByVCS(const JString& fullName, JVCSType* returnType = NULL);
 
-void		JEditVCS(const JCharacter* fullName);
-JError		JRenameVCS(const JCharacter* oldFullName, const JCharacter* newFullName);
-JError		JRemoveVCS(const JCharacter* fullName, const JBoolean sync = kJTrue,
+void		JEditVCS(const JString& fullName);
+JError		JRenameVCS(const JString& oldFullName, const JString& newFullName);
+JError		JRemoveVCS(const JString& fullName, const JBoolean sync = kJTrue,
 					   JProcess** p = NULL);
 
-JBoolean	JGetVCSRepositoryPath(const JCharacter* path, JString* repoPath);
+JBoolean	JGetVCSRepositoryPath(const JString& path, JString* repoPath);
 
 // SVN specific
 
-JBoolean	JGetCurrentSVNRevision(const JCharacter* fullName, JString* rev);
-JBoolean	JGetSVNEntryType(const JCharacter* url, JString* type, JString* error);
+JBoolean	JGetCurrentSVNRevision(const JString& fullName, JString* rev);
+JBoolean	JGetSVNEntryType(const JString& url, JString* type, JString* error);
 
 // CVS specific
 
-void		JUpdateCVSIgnore(const JCharacter* ignoreFullName);
+void		JUpdateCVSIgnore(const JString& ignoreFullName);
 
 // git specific
 
-JBoolean	JSearchGitRoot(const JCharacter* path, JString* gitRoot);
+JBoolean	JSearchGitRoot(const JString& path, JString* gitRoot);
 
 #endif

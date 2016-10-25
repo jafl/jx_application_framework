@@ -11,23 +11,23 @@
 
 // Types
 
-const JCharacter* kJInvalidSignal       = "JInvalidSignal";
-const JCharacter* kJInvalidProcess      = "JInvalidProcess";
-const JCharacter* kJCanNotSignalProcess = "JCanNotSignalProcess";
-const JCharacter* kJProcessAccessDenied = "JProcessAccessDenied";
+const JUtf8Byte* kJInvalidSignal       = "JInvalidSignal";
+const JUtf8Byte* kJInvalidProcess      = "JInvalidProcess";
+const JUtf8Byte* kJCanNotSignalProcess = "JCanNotSignalProcess";
+const JUtf8Byte* kJProcessAccessDenied = "JProcessAccessDenied";
 
-const JCharacter* kJRunProgramError     = "JRunProgramError";
+const JUtf8Byte* kJRunProgramError     = "JRunProgramError";
 
 // Messages
 
-const JCharacter* kJInvalidSignalMsg =
+const JUtf8Byte* kJInvalidSignalMsg =
 	"An invalid signal was sent to a process.";
 
-const JCharacter* kJInvalidProcessMsg =
+const JUtf8Byte* kJInvalidProcessMsg =
 	"A signal was sent to a non-existent process.";
 
-const JCharacter* kJCanNotSignalProcessMsg =
+const JUtf8Byte* kJCanNotSignalProcessMsg =
 	"You are not allowed to send a signal to the specified process.";
 
-const JCharacter* kJProcessAccessDeniedMsg =
+const JUtf8Byte* kJProcessAccessDeniedMsg =
 	"You are not allowed access to the specified process.";

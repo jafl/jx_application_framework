@@ -10,22 +10,22 @@
 
 // Protocol definitions
 
-const JCharacter* JMessageProtocolT::kUNIXSeparatorStr = "\n";
+const JUtf8Byte* JMessageProtocolT::kUNIXSeparatorStr = "\n";
 const JSize JMessageProtocolT::kUNIXSeparatorLength    = 1;
 
-const JCharacter* JMessageProtocolT::kMacintoshSeparatorStr = "\r";
+const JUtf8Byte* JMessageProtocolT::kMacintoshSeparatorStr = "\r";
 const JSize JMessageProtocolT::kMacintoshSeparatorLength    = 1;
 
-const JCharacter* JMessageProtocolT::kDOSSeparatorStr = "\r\n";
+const JUtf8Byte* JMessageProtocolT::kDOSSeparatorStr = "\r\n";
 const JSize JMessageProtocolT::kDOSSeparatorLength    = 2;
 
-const JCharacter* JMessageProtocolT::kStdDisconnectStr = "\0";
+const JUtf8Byte* JMessageProtocolT::kStdDisconnectStr = "\0";
 const JSize JMessageProtocolT::kStdDisconnectLength    = 1;
 
 // JBroadcaster message types
 
-const JCharacter* JMessageProtocolT::kMessageReady = "MessageReady::JMessageProtocolT";
-const JCharacter* JMessageProtocolT::kReceivedDisconnect =
+const JUtf8Byte* JMessageProtocolT::kMessageReady = "MessageReady::JMessageProtocolT";
+const JUtf8Byte* JMessageProtocolT::kReceivedDisconnect =
 	"ReceivedDisconnect::JMessageProtocolT";
 
-const JCharacter* JAsynchDataReceiverT::kDataReady = "DataReady::JAsynchDataReceiverT";
+const JUtf8Byte* JAsynchDataReceiverT::kDataReady = "DataReady::JAsynchDataReceiverT";

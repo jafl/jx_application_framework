@@ -97,30 +97,9 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send
 	const JString& data
 	)
 {
-	Send(data.GetCString(), data.GetLength());
-}
-
-template <ACE_PEER_STREAM_1>
-void
-JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send
-	(
-	const JCharacter* data
-	)
-{
-	Send(data, strlen(data));
-}
-
-template <ACE_PEER_STREAM_1>
-void
-JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send
-	(
-	const JCharacter*	data,
-	const JSize			length
-	)
-{
 	if (itsSynchFlag)
 		{
-		(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send_n(data, length);
+		(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send_n(data.GetBytes(), data.GetByteCount());
 		}
 	else if (length > 0)
 		{
@@ -129,7 +108,7 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send
 			(ACE_Event_Handler::reactor())->register_handler(this, ACE_Event_Handler::WRITE_MASK);
 			}
 
-		itsSendData.Append(data, length);
+		itsSendData.Append(data.GetBytes(), data.GetByteCount());
 		}
 }
 
@@ -180,7 +159,7 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::Flush()
 {
 	if (!itsSynchFlag && !itsSendData.IsEmpty())
 		{
-		(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send_n(itsSendData, itsSendData.GetLength());
+		(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send_n(itsSendData.GetBytes(), itsSendData.GetByteCount());
 		}
 }
 
@@ -204,7 +183,7 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::handle_output
 //		(peer()).send_n(itsSendData, count);
 //		itsSendData.RemoveSubstring(1, count);
 
-		const int count = (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send(itsSendData, itsSendData.GetLength(), MSG_DONTWAIT);
+		const int count = (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send(itsSendData.GetBytes(), itsSendData.GetByteCount(), MSG_DONTWAIT);
 		if (count > 0)
 			{
 			itsSendData.RemoveSubstring(1, count);

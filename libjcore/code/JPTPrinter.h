@@ -20,7 +20,7 @@ public:
 
 	virtual ~JPTPrinter();
 
-	virtual void	Print(const JCharacter* text) = 0;
+	virtual void	Print(const JString& text) = 0;
 
 	// saving setup information
 
@@ -60,7 +60,7 @@ public:
 
 protected:
 
-	JBoolean	Print(const JCharacter* text, ostream& output);
+	JBoolean	Print(const JString& text, ostream& output);
 
 	virtual JSize	GetHeaderLineCount() const;
 	virtual JSize	GetFooterLineCount() const;

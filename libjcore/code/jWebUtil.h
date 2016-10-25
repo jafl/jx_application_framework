@@ -22,10 +22,10 @@ enum
 	kJDefaultSSHPort     = 22
 };
 
-JBoolean	JIsURL(const JCharacter* s);
-JBoolean	JParseURL(const JCharacter* url, JString* protocol,
+JBoolean	JIsURL(const JString& s);
+JBoolean	JParseURL(const JString& url, JString* protocol,
 					  JString* host, JIndex* port, JString* path);
-JBoolean	JGetDefaultPort(const JCharacter* protocol, JIndex* port);
+JBoolean	JGetDefaultPort(const JString& protocol, JIndex* port);
 
 void	JCheckForNewerVersion(JPrefsManager* prefsMgr, const JPrefID& prefID);
 

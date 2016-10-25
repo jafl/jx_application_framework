@@ -73,7 +73,7 @@ JTextProgressDisplay::ProcessBeginning
 	(
 	const ProcessType	processType,
 	const JSize			stepCount,
-	const JCharacter*	message,
+	const JString&		message,
 	const JBoolean		allowCancel,
 	const JBoolean		allowBackground
 	)
@@ -120,8 +120,8 @@ JTextProgressDisplay::ProcessBeginning
 JBoolean
 JTextProgressDisplay::IncrementProgress
 	(
-	const JCharacter*	message,
-	const JSize			delta
+	const JString*	message,
+	const JSize		delta
 	)
 {
 	const ProcessType process = GetCurrentProcessType();
@@ -170,7 +170,7 @@ JTextProgressDisplay::IncrementProgress
 JBoolean
 JTextProgressDisplay::IncrementProgress
 	(
-	const JCharacter* message
+	const JUtf8Byte* message
 	)
 {
 	return IncrementProgress(message, 1);

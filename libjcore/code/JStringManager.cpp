@@ -256,7 +256,7 @@ JStringManager::Register
 	MergeFile(tempFileName);
 	JRemoveFile(tempFileName);
 
-	if (!JStringEmpty(signature))
+	if (!JString::IsEmpty(signature))
 		{
 		const JUtf8Byte* lang = getenv("LANG");
 

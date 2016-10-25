@@ -39,13 +39,13 @@ JTextUserNotification::~JTextUserNotification()
 void
 JTextUserNotification::DisplayMessage
 	(
-	const JCharacter* message
+	const JString& message
 	)
 {
 	if (!IsSilent())
 		{
 		cout << endl;
-		cout << message;
+		message.Print(cout);
 		JWaitForReturn();
 		}
 }
@@ -58,13 +58,14 @@ JTextUserNotification::DisplayMessage
 void
 JTextUserNotification::ReportError
 	(
-	const JCharacter* message
+	const JString& message
 	)
 {
 	if (!IsSilent())
 		{
 		cout << endl;
-		cout << "Error: " << message;
+		cout << "Error: ";
+		message.Print(cout);
 		JWaitForReturn();
 		}
 }
@@ -80,11 +81,12 @@ JTextUserNotification::ReportError
 JBoolean
 JTextUserNotification::AskUserYes
 	(
-	const JCharacter* message
+	const JString& message
 	)
 {
 	cout << endl;
-	cout << message << " (y/n) ";
+	message.Print(cout);
+	cout << " (y/n) ";
 
 	char c;
 	cin >> c;
@@ -104,11 +106,12 @@ JTextUserNotification::AskUserYes
 JBoolean
 JTextUserNotification::AskUserNo
 	(
-	const JCharacter* message
+	const JString& message
 	)
 {
 	cout << endl;
-	cout << message << " (y/n) ";
+	message.Print(cout);
+	cout << " (y/n) ";
 
 	char c;
 	cin >> c;
@@ -125,11 +128,12 @@ JTextUserNotification::AskUserNo
 JUserNotification::CloseAction
 JTextUserNotification::OKToClose
 	(
-	const JCharacter* message
+	const JString& message
 	)
 {
 	cout << endl;
-	cout << message << " [(S)ave, (D)on't save, (C)ancel] ";
+	message.Print(cout);
+	cout << " [(S)ave, (D)on't save, (C)ancel] ";
 
 	char c;
 	cin >> c;
@@ -160,5 +164,5 @@ JTextUserNotification::OKToClose
 JBoolean
 JTextUserNotification::AcceptLicense()
 {
-	return AskUserNo(JGetString("LICENSE"));
+	return AskUserNo(JGetString("LICENSE").GetBytes());
 }

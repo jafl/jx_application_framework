@@ -17,16 +17,16 @@ public:
 
 	// Protocol definitions
 
-	static const JCharacter* kUNIXSeparatorStr;
+	static const JUtf8Byte* kUNIXSeparatorStr;
 	static const JSize kUNIXSeparatorLength;
 
-	static const JCharacter* kMacintoshSeparatorStr;
+	static const JUtf8Byte* kMacintoshSeparatorStr;
 	static const JSize kMacintoshSeparatorLength;
 
-	static const JCharacter* kDOSSeparatorStr;
+	static const JUtf8Byte* kDOSSeparatorStr;
 	static const JSize kDOSSeparatorLength;
 
-	static const JCharacter* kStdDisconnectStr;
+	static const JUtf8Byte* kStdDisconnectStr;
 	static const JSize kStdDisconnectLength;
 
 	// Other constants
@@ -40,8 +40,8 @@ public:
 
 	// Broadcaster messages
 
-	static const JCharacter* kMessageReady;
-	static const JCharacter* kReceivedDisconnect;	// other end sent disconnect
+	static const JUtf8Byte* kMessageReady;
+	static const JUtf8Byte* kReceivedDisconnect;	// other end sent disconnect
 
 	class MessageReady : public JBroadcaster::Message
 		{
@@ -89,8 +89,8 @@ public:
 	virtual ~JMessageProtocol();
 
 	void	GetProtocol(JString* separator, JString* disconnect) const;
-	void	SetProtocol(const JCharacter* separatorStr, const JSize separatorLength,
-						const JCharacter* disconnectStr, const JSize disconnectLength);
+	void	SetProtocol(const JUtf8Byte* separatorStr, const JSize separatorLength,
+						const JUtf8Byte* disconnectStr, const JSize disconnectLength);
 	void	UseUNIXProtocol();
 	void	UseMacintoshProtocol();
 	void	UseDOSProtocol();
@@ -105,31 +105,12 @@ public:
 	JBoolean	PeekPartialMessage(JString* message);
 
 	void	SendMessage(const JString& message);
-	void	SendMessage(const JCharacter* message);
-	void	SendMessage(const JCharacter* message, const JSize length);
-
 	void	SendData(const JString& data);
-	void	SendData(const JCharacter* data);
-	void	SendData(const JCharacter* data, const JSize length);
-
 	void	TranslateFromUNIXAndSend(const JString& data);
-	void	TranslateFromUNIXAndSend(const JCharacter* data);
-	void	TranslateFromUNIXAndSend(const JCharacter* data, const JSize length);
-
 	void	TranslateFromMacintoshAndSend(const JString& data);
-	void	TranslateFromMacintoshAndSend(const JCharacter* data);
-	void	TranslateFromMacintoshAndSend(const JCharacter* data, const JSize length);
-
 	void	TranslateFromDOSAndSend(const JString& data);
-	void	TranslateFromDOSAndSend(const JCharacter* data);
-	void	TranslateFromDOSAndSend(const JCharacter* data, const JSize length);
-
 	void	TranslateAndSend(const JString& data,
-							 const JCharacter* separatorStr, const JSize separatorLength);
-	void	TranslateAndSend(const JCharacter* data,
-							 const JCharacter* separatorStr, const JSize separatorLength);
-	void	TranslateAndSend(const JCharacter* data, const JSize length,
-							 const JCharacter* separatorStr, const JSize separatorLength);
+							 const JUtf8Byte* separatorStr, const JSize separatorLength);
 
 	// how much is read from the connection at one time
 
@@ -145,7 +126,7 @@ private:
 	JPtrArray<JString>*	itsMessageList;		// parsed messages, last one is incomplete
 
 	JString		itsRecvData;				// buffer containing unprocessed bytes
-	JCharacter*	itsBuffer;					// buffer to receive raw bytes
+	JUtf8Byte*	itsBuffer;					// buffer to receive raw bytes
 	JSize		itsBufferSize;
 
 	JString		itsSeparatorStr;			// sent between messages
@@ -162,7 +143,7 @@ private:
 
 	JBoolean	LocateSequence(const JString& data, const JString& sequence,
 							   JIndex* index, JBoolean* endsWithPartial);
-	JBoolean	LocateNextSequence(const JCharacter* d, const JSize dLength,
+	JBoolean	LocateNextSequence(const JString& d,
 								   const JString& sequence, JIndex* index,
 								   JBoolean* endsWithPartial);
 

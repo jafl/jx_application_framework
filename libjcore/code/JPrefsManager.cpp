@@ -35,12 +35,12 @@
 
 // JBroadcaster messages
 
-const JCharacter* JPrefsManager::kDataChanged = "DataChanged::JPrefsManager";
-const JCharacter* JPrefsManager::kDataRemoved = "DataRemoved::JPrefsManager";
+const JUtf8Byte* JPrefsManager::kDataChanged = "DataChanged::JPrefsManager";
+const JUtf8Byte* JPrefsManager::kDataRemoved = "DataRemoved::JPrefsManager";
 
 // JError data
 
-const JCharacter* JPrefsManager::kWrongVersion = "WrongVersion::JPrefsManager";
+const JUtf8Byte* JPrefsManager::kWrongVersion = "WrongVersion::JPrefsManager";
 
 /******************************************************************************
  Constructor (protected)
@@ -51,7 +51,7 @@ const JCharacter* JPrefsManager::kWrongVersion = "WrongVersion::JPrefsManager";
 
 JPrefsManager::JPrefsManager
 	(
-	const JCharacter*	fileName,
+	const JString&		fileName,
 	const JFileVersion	currentVersion,
 	const JBoolean		eraseFileIfOpen
 	)
@@ -108,7 +108,7 @@ JPrefsManager::GetData
 	if (itsData->SearchSorted(item, JOrderedSetT::kAnyMatch, &index))
 		{
 		item = itsData->GetElement(index);
-		data->assign(*(item.data), (item.data)->GetLength());
+		data->assign(item.data->GetBytes(), item.data->GetByteCount());
 		return kJTrue;
 		}
 	else
@@ -127,8 +127,18 @@ JPrefsManager::GetData
 void
 JPrefsManager::SetData
 	(
+	const JPrefID&	id,
+	const JString&	data
+	)
+{
+	SetData(id, data.GetBytes());
+}
+
+void
+JPrefsManager::SetData
+	(
 	const JPrefID&		id,
-	const JCharacter*	data
+	const JUtf8Byte*	data
 	)
 {
 	PrefItem item(id.GetID(), NULL);
@@ -206,14 +216,14 @@ JPrefsManager::SaveToDisk()
 	gid_t groupID;
 	if (preserveOwner)
 		{
-		JError err = JPrefsFile::GetFullName(*itsFileName, &fullName);
+		JError err = JPrefsFile::GetFullName(itsFileName->GetBytes(), &fullName);
 		if (err.OK())
 			{
-			err = JGetOwnerID(fullName, &ownerID);
+			err = JGetOwnerID(fullName.GetBytes(), &ownerID);
 			}
 		if (err.OK())
 			{
-			err = JGetOwnerGroup(fullName, &groupID);
+			err = JGetOwnerGroup(fullName.GetBytes(), &groupID);
 			}
 		if (!err.OK())
 			{
@@ -225,7 +235,7 @@ JPrefsManager::SaveToDisk()
 
 	// toss everything
 
-	err = DeletePrefsFile(*itsFileName);
+	err = DeletePrefsFile(itsFileName->GetBytes());
 	if (!err.OK())
 		{
 		return err;
@@ -254,7 +264,7 @@ JPrefsManager::SaveToDisk()
 
 	if (preserveOwner)
 		{
-		JSetOwner(fullName, ownerID, groupID);
+		JSetOwner(fullName.GetBytes(), ownerID, groupID);
 		}
 
 	return JNoError();
@@ -300,7 +310,7 @@ JPrefsManager::UpgradeData
 			{
 			JString msg = "The preferences cannot be used because:\n\n";
 			msg += err.GetMessage();
-			(JGetUserNotification())->ReportError(msg);
+			(JGetUserNotification())->ReportError(msg.GetBytes());
 			}
 		}
 
@@ -352,7 +362,7 @@ JPrefsManager::Open
 	const
 {
 	*file = NULL;
-	const JError err = JPrefsFile::Create(*itsFileName, file);
+	const JError err = JPrefsFile::Create(itsFileName->GetBytes(), file);
 	if (err.OK())
 		{
 		const JFileVersion vers = (**file).GetVersion();
@@ -370,7 +380,7 @@ JPrefsManager::Open
 		}
 
 	else if (err == JPrefsFile::kFileAlreadyOpen && itsEraseFileIfOpenFlag &&
-			 DeletePrefsFile(*itsFileName) == kJNoError)
+			 DeletePrefsFile(itsFileName->GetBytes()) == kJNoError)
 		{
 		return Open(file, allowPrevVers);		// now it will work
 		}
@@ -390,7 +400,7 @@ JPrefsManager::Open
 JError
 JPrefsManager::DeletePrefsFile
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	const
 {
@@ -398,7 +408,7 @@ JPrefsManager::DeletePrefsFile
 	JError err = JPrefsFile::GetFullName(fileName, &fullName);
 	if (err.OK())
 		{
-		err = JRemoveFile(fullName);
+		err = JRemoveFile(fullName.GetBytes());
 		}
 	return err;
 }

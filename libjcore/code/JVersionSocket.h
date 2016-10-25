@@ -19,7 +19,7 @@ class JVersionSocket : public ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>,
 {
 public:
 
-	JVersionSocket(const JCharacter* host, const JCharacter* path,
+	JVersionSocket(const JString& host, const JString& path,
 				   JPrefsManager* prefsMgr, const JPrefID& prefID);
 
 	JVersionSocket();	// DO NOT CALL -- required to instantiate ACE_Connector
@@ -52,7 +52,7 @@ private:
 
 private:
 
-	void	CheckVersion(const JCharacter* vers);
+	void	CheckVersion(const JString& vers);
 	void	ReadState(JString* vers, JArray<time_t>* reminders);
 };
 

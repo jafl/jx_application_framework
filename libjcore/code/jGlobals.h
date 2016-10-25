@@ -23,13 +23,13 @@ class JColormap;
 class JWebBrowser;
 
 void JInitCore(JAssertBase* ah = NULL, const JUtf8Byte* appSignature = NULL,
-			   const JUtf8Byte** defaultStringData = NULL, JUserNotification* un = NULL,
+			   const JString* defaultStringData = NULL, JUserNotification* un = NULL,
 			   JChooseSaveFile* csf = NULL, JCreateProgressDisplay* cpg = NULL,
 			   JGetCurrentFontManager* gcfm = NULL,
 			   JGetCurrentColormap* gcc = NULL,
-			   const JUtf8Byte* defaultFontName = NULL,
-			   const JUtf8Byte* greekFontName = NULL,
-			   const JUtf8Byte* monospaceFontName = NULL);
+			   const JString& defaultFontName = NULL,
+			   const JString& greekFontName = NULL,
+			   const JString& monospaceFontName = NULL);
 void JSetWebBrowser(JWebBrowser* webBrowser);
 
 void JDeleteGlobals();
@@ -45,13 +45,13 @@ JCreateProgressDisplay*	JGetCreatePG();
 const JFontManager*		JGetCurrFontManager();
 JColormap*				JGetCurrColormap();
 
-const JUtf8Byte*		JGetDefaultFontName();
-const JUtf8Byte*		JGetGreekFontName();
-const JUtf8Byte*		JGetMonospaceFontName();
+const JString&	JGetDefaultFontName();
+const JString&	JGetGreekFontName();
+const JString&	JGetMonospaceFontName();
 
-JBoolean	JGetJDataDirectories(const JUtf8Byte* dirName,
+JBoolean	JGetJDataDirectories(const JString& dirName,
 								 JString* sysDir, JString* userDir);
-JBoolean	JGetDataDirectories(const JUtf8Byte* signature, const JUtf8Byte* dirName,
+JBoolean	JGetDataDirectories(const JUtf8Byte* signature, const JString& dirName,
 								JString* sysDir, JString* userDir);
 
 /******************************************************************************

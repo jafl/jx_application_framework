@@ -21,72 +21,71 @@ class JString;
 class JProgressDisplay;
 class JProcess;
 
-JBoolean	JNameUsed(const JCharacter* name);
-JBoolean	JSameDirEntry(const JCharacter* name1, const JCharacter* name2);
-JError		JRenameDirEntry(const JCharacter* oldName, const JCharacter* newName);
-JError		JCreateSymbolicLink(const JCharacter* src, const JCharacter* dest);
-JError		JGetSymbolicLinkTarget(const JCharacter* linkFullName, JString* targetFullName);
+JBoolean	JNameUsed(const JString& name);
+JBoolean	JSameDirEntry(const JString& name1, const JString& name2);
+JError		JRenameDirEntry(const JString& oldName, const JString& newName);
+JError		JCreateSymbolicLink(const JString& src, const JString& dest);
+JError		JGetSymbolicLinkTarget(const JString& linkFullName, JString* targetFullName);
 
-JError		JGetModificationTime(const JCharacter* name, time_t* modTime);
-JError		JGetPermissions(const JCharacter* name, mode_t* perms);
-JError		JSetPermissions(const JCharacter* name, const mode_t perms);
+JError		JGetModificationTime(const JString& name, time_t* modTime);
+JError		JGetPermissions(const JString& name, mode_t* perms);
+JError		JSetPermissions(const JString& name, const mode_t perms);
 JString		JGetPermissionsString(const mode_t mode);
-JError		JGetOwnerID(const JCharacter* name, uid_t* uid);
-JError		JGetOwnerGroup(const JCharacter* name, gid_t* gid);
-JError		JSetOwner(const JCharacter* name, const uid_t uid, const gid_t gid);
+JError		JGetOwnerID(const JString& name, uid_t* uid);
+JError		JGetOwnerGroup(const JString& name, gid_t* gid);
+JError		JSetOwner(const JString& name, const uid_t uid, const gid_t gid);
 
-JBoolean	JDirectoryExists(const JCharacter* dirName);
-JBoolean	JDirectoryReadable(const JCharacter* dirName);
-JBoolean	JDirectoryWritable(const JCharacter* dirName);
-JBoolean	JCanEnterDirectory(const JCharacter* dirName);
+JBoolean	JDirectoryExists(const JString& dirName);
+JBoolean	JDirectoryReadable(const JString& dirName);
+JBoolean	JDirectoryWritable(const JString& dirName);
+JBoolean	JCanEnterDirectory(const JString& dirName);
 
-JError		JCreateDirectory(const JCharacter* dirName);
-JError		JCreateDirectory(const JCharacter* dirName, const mode_t mode);
-JError		JRenameDirectory(const JCharacter* oldName, const JCharacter* newName);
-JError		JChangeDirectory(const JCharacter* dirName);
-JError		JRemoveDirectory(const JCharacter* dirName);
-JBoolean	JKillDirectory(const JCharacter* dirName, const JBoolean sync = kJTrue,
+JError		JCreateDirectory(const JString& dirName);
+JError		JCreateDirectory(const JString& dirName, const mode_t mode);
+JError		JRenameDirectory(const JString& oldName, const JString& newName);
+JError		JChangeDirectory(const JString& dirName);
+JError		JRemoveDirectory(const JString& dirName);
+JBoolean	JKillDirectory(const JString& dirName, const JBoolean sync = kJTrue,
 						   JProcess** p = NULL);
 
 JString		JGetCurrentDirectory();
 JBoolean	JGetHomeDirectory(JString* homeDir);
-JBoolean	JGetHomeDirectory(const JCharacter* user, JString* homeDir);
+JBoolean	JGetHomeDirectory(const JString& user, JString* homeDir);
 JBoolean	JGetPrefsDirectory(JString* prefsDir);
-JBoolean	JGetPrefsDirectory(const JCharacter* user, JString* prefsDir);
+JBoolean	JGetPrefsDirectory(const JString& user, JString* prefsDir);
 JBoolean	JGetTempDirectory(JString* tempDir);
-JBoolean	JGetTrueName(const JCharacter* name, JString* trueName);
-JBoolean	JSearchSubdirs(const JCharacter* startPath, const JCharacter* name,
+JBoolean	JGetTrueName(const JString& name, JString* trueName);
+JBoolean	JSearchSubdirs(const JString& startPath, const JString& name,
 						   const JBoolean isFile, const JBoolean caseSensitive,
 						   JString* path, JString* newName = NULL,
 						   JProgressDisplay* pg = NULL,
 						   JBoolean* userCancelled = NULL);
 
-JString		JGetUniqueDirEntryName(const JCharacter* path, const JCharacter* namePrefix,
-								   const JCharacter* nameSuffix = NULL,
+JString		JGetUniqueDirEntryName(const JString& path, const JString& namePrefix,
+								   const JUtf8Byte* nameSuffix = NULL,
 								   const JIndex startIndex = 1);
-JError		JCreateTempDirectory(const JCharacter* path, const JCharacter* prefix,
+JError		JCreateTempDirectory(const JString* path, const JString* prefix,
 								 JString* fullName);
 
-JString		JCombinePathAndName(const JCharacter* path, const JCharacter* name);
-JBoolean	JSplitPathAndName(const JCharacter* fullName, JString* path, JString* name);
+JString		JCombinePathAndName(const JString& path, const JString& name);
+JBoolean	JSplitPathAndName(const JString& fullName, JString* path, JString* name);
 void		JAppendDirSeparator(JString* dirName);
 void		JStripTrailingDirSeparator(JString* dirName);
 void		JCleanPath(JString* path);
 JString		JGetRootDirectory();
-JBoolean	JIsRootDirectory(const JCharacter* dirName);
-JBoolean	JIsAbsolutePath(const JCharacter* path);
-JBoolean	JIsRelativePath(const JCharacter* path);
+JBoolean	JIsRootDirectory(const JString& dirName);
+JBoolean	JIsAbsolutePath(const JString& path);
+JBoolean	JIsRelativePath(const JString& path);
 
-JBoolean	JConvertToAbsolutePath(const JCharacter* path, const JCharacter* base,
-								   JString* result);
-JString		JConvertToRelativePath(const JCharacter* path, const JCharacter* base);
+JBoolean	JConvertToAbsolutePath(const JString& path, const JString* base, JString* result);
+JString		JConvertToRelativePath(const JString& path, const JString& base);
 
-JBoolean	JExpandHomeDirShortcut(const JCharacter* path, JString* result,
+JBoolean	JExpandHomeDirShortcut(const JString& path, JString* result,
 								   JString* homeDir = NULL, JSize* homeLength = NULL);
-JString		JConvertToHomeDirShortcut(const JCharacter* path);
-JString		JGetClosestDirectory(const JCharacter* origDirName,
+JString		JConvertToHomeDirShortcut(const JString& path);
+JString		JGetClosestDirectory(const JString& origDirName,
 								 const JBoolean requireWrite = kJFalse,
-								 const JCharacter* basePath = NULL);
+								 const JString* basePath = NULL);
 
 #ifdef WIN32
 JBoolean	JGetDirectoryFromCSIDL(const int folderCSIDL, JString* path);

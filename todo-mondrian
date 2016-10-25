@@ -13,6 +13,8 @@ layout model
 	existing layout parameters still apply
 		allows resizing for translation/font sizing
 
+	cmd-up-arrow: select parent - so can get to flex boxes
+
 -----
 
 build

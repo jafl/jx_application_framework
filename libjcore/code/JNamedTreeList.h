@@ -25,10 +25,10 @@ public:
 	const JNamedTreeNode*	GetNamedNode(const JIndex index) const;
 
 	const JString&	GetNodeName(const JIndex index) const;
-	void			SetNodeName(const JIndex index, const JCharacter* name);
+	void			SetNodeName(const JIndex index, const JString& name);
 
-	JBoolean	Find(const JCharacter* name, JIndex* index) const;
-	JBoolean	ClosestMatch(const JCharacter* prefixStr, JIndex* index) const;
+	JBoolean	Find(const JString& name, JIndex* index) const;
+	JBoolean	ClosestMatch(const JString& prefixStr, JIndex* index) const;
 
 protected:
 

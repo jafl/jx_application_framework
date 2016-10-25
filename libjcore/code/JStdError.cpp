@@ -15,306 +15,296 @@
 
 // Types
 
-const JCharacter* kJGeneralIO = "JGeneralIO";
+const JUtf8Byte* kJGeneralIO = "JGeneralIO";
 
-const JCharacter* kJSegFault           = "JSegFault";
-const JCharacter* kJNoProcessMemory    = "JNoProcessMemory";
-const JCharacter* kJNoKernelMemory     = "JNoKernelMemory";
-const JCharacter* kJMemoryNotReadable  = "JMemoryNotReadable";
-const JCharacter* kJMemoryNotWriteable = "JMemoryNotWriteable";
+const JUtf8Byte* kJSegFault           = "JSegFault";
+const JUtf8Byte* kJNoProcessMemory    = "JNoProcessMemory";
+const JUtf8Byte* kJNoKernelMemory     = "JNoKernelMemory";
+const JUtf8Byte* kJMemoryNotReadable  = "JMemoryNotReadable";
+const JUtf8Byte* kJMemoryNotWriteable = "JMemoryNotWriteable";
 
-const JCharacter* kJProgramNotAvailable   = "JProgramNotAvailable";
-const JCharacter* kJDirEntryAlreadyExists = "JDirEntryAlreadyExists";
-const JCharacter* kJDirEntryDoesNotExist  = "JDirEntryDoesNotExist";
-const JCharacter* kJNameTooLong           = "JNameTooLong";
-const JCharacter* kJFileBusy              = "JFileBusy";
-const JCharacter* kJInvalidOpenMode       = "JInvalidOpenMode";
+const JUtf8Byte* kJProgramNotAvailable   = "JProgramNotAvailable";
+const JUtf8Byte* kJDirEntryAlreadyExists = "JDirEntryAlreadyExists";
+const JUtf8Byte* kJDirEntryDoesNotExist  = "JDirEntryDoesNotExist";
+const JUtf8Byte* kJNameTooLong           = "JNameTooLong";
+const JUtf8Byte* kJFileBusy              = "JFileBusy";
+const JUtf8Byte* kJInvalidOpenMode       = "JInvalidOpenMode";
 
-const JCharacter* kJAccessDenied       = "JAccessDenied";
-const JCharacter* kJFileSystemReadOnly = "JFileSystemReadOnly";
-const JCharacter* kJFileSystemFull     = "JFileSystemFull";
-const JCharacter* kJDeviceFull         = "JDeviceFull";
+const JUtf8Byte* kJAccessDenied       = "JAccessDenied";
+const JUtf8Byte* kJFileSystemReadOnly = "JFileSystemReadOnly";
+const JUtf8Byte* kJFileSystemFull     = "JFileSystemFull";
+const JUtf8Byte* kJDeviceFull         = "JDeviceFull";
 
-const JCharacter* kJComponentNotDirectory  = "JComponentNotDirectory";
-const JCharacter* kJNotSymbolicLink        = "JNotSymbolicLink";
-const JCharacter* kJPathContainsLoop       = "JPathContainsLoop";
-const JCharacter* kJNoHomeDirectory        = "JNoHomeDirectory";
-const JCharacter* kJBadPath                = "JBadPath";
-const JCharacter* kJDirectoryNotEmpty      = "JDirectoryNotEmpty";
-const JCharacter* kJDirectoryBusy          = "JDirectoryBusy";
+const JUtf8Byte* kJComponentNotDirectory  = "JComponentNotDirectory";
+const JUtf8Byte* kJNotSymbolicLink        = "JNotSymbolicLink";
+const JUtf8Byte* kJPathContainsLoop       = "JPathContainsLoop";
+const JUtf8Byte* kJNoHomeDirectory        = "JNoHomeDirectory";
+const JUtf8Byte* kJBadPath                = "JBadPath";
+const JUtf8Byte* kJDirectoryNotEmpty      = "JDirectoryNotEmpty";
+const JUtf8Byte* kJDirectoryBusy          = "JDirectoryBusy";
 
-const JCharacter* kJCantRenameFileToDirectory     = "JCantRenameFileToDirectory";
-const JCharacter* kJCantRenameAcrossFilesystems   = "JCantRenameAcrossFilesystems";
-const JCharacter* kJCantRenameToNonemptyDirectory = "JCantRenameToNonemptyDirectory";
-const JCharacter* kJDirectoryCantBeOwnChild       = "JDirectoryCantBeOwnChild";
-const JCharacter* kJTooManyLinks                  = "JTooManyLinks";
+const JUtf8Byte* kJCantRenameFileToDirectory     = "JCantRenameFileToDirectory";
+const JUtf8Byte* kJCantRenameAcrossFilesystems   = "JCantRenameAcrossFilesystems";
+const JUtf8Byte* kJCantRenameToNonemptyDirectory = "JCantRenameToNonemptyDirectory";
+const JUtf8Byte* kJDirectoryCantBeOwnChild       = "JDirectoryCantBeOwnChild";
+const JUtf8Byte* kJTooManyLinks                  = "JTooManyLinks";
 
-const JCharacter* kJTriedToRemoveDirectory = "JTriedToRemoveDirectory";
-const JCharacter* kJIsADirectory           = "JIsADirectory";
+const JUtf8Byte* kJTriedToRemoveDirectory = "JTriedToRemoveDirectory";
+const JUtf8Byte* kJIsADirectory           = "JIsADirectory";
 
-const JCharacter* kJDescriptorNotOpen      = "JDescriptorNotOpen";
-const JCharacter* kJTooManyDescriptorsOpen = "JTooManyDescriptorsOpen";
-const JCharacter* kJNegativeDescriptor     = "JNegativeDescriptor";
-const JCharacter* kJInvalidDescriptor      = "JInvalidDescriptor";
+const JUtf8Byte* kJDescriptorNotOpen      = "JDescriptorNotOpen";
+const JUtf8Byte* kJTooManyDescriptorsOpen = "JTooManyDescriptorsOpen";
+const JUtf8Byte* kJNegativeDescriptor     = "JNegativeDescriptor";
+const JUtf8Byte* kJInvalidDescriptor      = "JInvalidDescriptor";
 
-const JCharacter* kJWouldHaveBlocked = "JWouldHaveBlocked";
-const JCharacter* kJNonBlockedSignal = "JNonBlockedSignal";
+const JUtf8Byte* kJWouldHaveBlocked = "JWouldHaveBlocked";
+const JUtf8Byte* kJNonBlockedSignal = "JNonBlockedSignal";
 
-const JCharacter* kJNotCompressed = "JNotCompressed";
+const JUtf8Byte* kJNotCompressed = "JNotCompressed";
 
 /******************************************************************************
  Constructors
 
  *****************************************************************************/
 
-static const JCharacter* kJStdErrorMsgMap[] =
-	{
-	"name", NULL
-	};
-
-
 JProgramNotAvailable::JProgramNotAvailable
 	(
-	const JCharacter* programName
+	const JString& programName
 	)
 	:
-	JError(kJProgramNotAvailable, "")
+	JError(kJProgramNotAvailable)
 {
-	kJStdErrorMsgMap[1] = programName;
-	SetMessage(kJStdErrorMsgMap, sizeof(kJStdErrorMsgMap));
+	const JUtf8Byte* map[] = { "name", programName.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 JDirEntryAlreadyExists::JDirEntryAlreadyExists
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	:
-	JError(kJDirEntryAlreadyExists, "")
+	JError(kJDirEntryAlreadyExists)
 {
-	kJStdErrorMsgMap[1] = fileName;
-	SetMessage(kJStdErrorMsgMap, sizeof(kJStdErrorMsgMap));
+	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 JDirEntryDoesNotExist::JDirEntryDoesNotExist
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	:
-	JError(kJDirEntryDoesNotExist, "")
+	JError(kJDirEntryDoesNotExist)
 {
-	kJStdErrorMsgMap[1] = fileName;
-	SetMessage(kJStdErrorMsgMap, sizeof(kJStdErrorMsgMap));
+	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 JFileBusy::JFileBusy
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	:
-	JError(kJFileBusy, "")
+	JError(kJFileBusy)
 {
-	kJStdErrorMsgMap[1] = fileName;
-	SetMessage(kJStdErrorMsgMap, sizeof(kJStdErrorMsgMap));
+	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 JInvalidOpenMode::JInvalidOpenMode
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	:
-	JError(kJInvalidOpenMode, "")
+	JError(kJInvalidOpenMode)
 {
-	kJStdErrorMsgMap[1] = fileName;
-	SetMessage(kJStdErrorMsgMap, sizeof(kJStdErrorMsgMap));
+	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 
 JAccessDenied::JAccessDenied
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	:
-	JError(kJAccessDenied, "")
+	JError(kJAccessDenied)
 {
-	kJStdErrorMsgMap[1] = fileName;
-	SetMessage(kJStdErrorMsgMap, sizeof(kJStdErrorMsgMap));
+	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 JAccessDenied::JAccessDenied
 	(
-	const JCharacter* fileName1,
-	const JCharacter* fileName2
+	const JString& fileName1,
+	const JString& fileName2
 	)
 	:
-	JError(kJAccessDenied, "")
+	JError(kJAccessDenied)
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"name1", fileName1,
-		"name2", fileName2
+		"name1", fileName1.GetBytes(),
+		"name2", fileName2.GetBytes()
 		};
-	const JString msg =
-		JGetString("JAccessDenied2", map, sizeof(map));
-	SetMessage(msg, kJTrue);
+	const JString msg = JGetString("JAccessDenied2", map, sizeof(map));
+	SetMessage(msg.GetBytes());
 }
 
 
 JComponentNotDirectory::JComponentNotDirectory
 	(
-	const JCharacter* path
+	const JString& path
 	)
 	:
-	JError(kJComponentNotDirectory, "")
+	JError(kJComponentNotDirectory)
 {
-	kJStdErrorMsgMap[1] = path;
-	SetMessage(kJStdErrorMsgMap, sizeof(kJStdErrorMsgMap));
+	const JUtf8Byte* map[] = { "name", path.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 JComponentNotDirectory::JComponentNotDirectory
 	(
-	const JCharacter* path1,
-	const JCharacter* path2
+	const JString& path1,
+	const JString& path2
 	)
 	:
-	JError(kJComponentNotDirectory, "")
+	JError(kJComponentNotDirectory)
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"name1", path1,
-		"name2", path2
+		"name1", path1.GetBytes(),
+		"name2", path2.GetBytes()
 		};
-	const JString msg =
-		JGetString("JComponentNotDirectory2", map, sizeof(map));
-	SetMessage(msg, kJTrue);
+	const JString msg = JGetString("JComponentNotDirectory2", map, sizeof(map));
+	SetMessage(msg);
 }
 
 JNotSymbolicLink::JNotSymbolicLink
 	(
-	const JCharacter* name
+	const JString& name
 	)
 	:
-	JError(kJNotSymbolicLink, "")
+	JError(kJNotSymbolicLink)
 {
-	kJStdErrorMsgMap[1] = name;
-	SetMessage(kJStdErrorMsgMap, sizeof(kJStdErrorMsgMap));
+	const JUtf8Byte* map[] = { "name", name.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 JPathContainsLoop::JPathContainsLoop
 	(
-	const JCharacter* path
+	const JString& path
 	)
 	:
-	JError(kJPathContainsLoop, "")
+	JError(kJPathContainsLoop)
 {
-	kJStdErrorMsgMap[1] = path;
-	SetMessage(kJStdErrorMsgMap, sizeof(kJStdErrorMsgMap));
+	const JUtf8Byte* map[] = { "name", path.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 JPathContainsLoop::JPathContainsLoop
 	(
-	const JCharacter* path1,
-	const JCharacter* path2
+	const JString& path1,
+	const JString& path2
 	)
 	:
-	JError(kJPathContainsLoop, "")
+	JError(kJPathContainsLoop)
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"name1", path1,
-		"name2", path2
+		"name1", path1.GetBytes(),
+		"name2", path2.GetBytes()
 		};
-	const JString msg =
-		JGetString("JPathContainsLoop2", map, sizeof(map));
-	SetMessage(msg, kJTrue);
+	const JString msg = JGetString("JPathContainsLoop2", map, sizeof(map));
+	SetMessage(msg);
 }
 
 JBadPath::JBadPath
 	(
-	const JCharacter* path
+	const JString& path
 	)
 	:
-	JError(kJBadPath, "")
+	JError(kJBadPath)
 {
-	kJStdErrorMsgMap[1] = path;
-	SetMessage(kJStdErrorMsgMap, sizeof(kJStdErrorMsgMap));
+	const JUtf8Byte* map[] = { "name", path.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 JBadPath::JBadPath
 	(
-	const JCharacter* path1,
-	const JCharacter* path2
+	const JString& path1,
+	const JString& path2
 	)
 	:
-	JError(kJBadPath, "")
+	JError(kJBadPath)
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"name1", path1,
-		"name2", path2
+		"name1", path1.GetBytes(),
+		"name2", path2.GetBytes()
 		};
-	const JString msg =
-		JGetString("JBadPath2", map, sizeof(map));
-	SetMessage(msg, kJTrue);
+	const JString msg = JGetString("JBadPath2", map, sizeof(map));
+	SetMessage(msg);
 }
 
 JDirectoryNotEmpty::JDirectoryNotEmpty
 	(
-	const JCharacter* name
+	const JString& name
 	)
 	:
-	JError(kJDirectoryNotEmpty, "")
+	JError(kJDirectoryNotEmpty)
 {
-	kJStdErrorMsgMap[1] = name;
-	SetMessage(kJStdErrorMsgMap, sizeof(kJStdErrorMsgMap));
+	const JUtf8Byte* map[] = { "name", name.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 JDirectoryBusy::JDirectoryBusy
 	(
-	const JCharacter* name
+	const JString& name
 	)
 	:
-	JError(kJDirectoryBusy, "")
+	JError(kJDirectoryBusy)
 {
-	kJStdErrorMsgMap[1] = name;
-	SetMessage(kJStdErrorMsgMap, sizeof(kJStdErrorMsgMap));
+	const JUtf8Byte* map[] = { "name", name.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 
 JCantRenameFileToDirectory::JCantRenameFileToDirectory
 	(
-	const JCharacter* oldName,
-	const JCharacter* newName
+	const JString& oldName,
+	const JString& newName
 	)
 	:
-	JError(kJCantRenameFileToDirectory, "")
+	JError(kJCantRenameFileToDirectory)
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"old_name", oldName,
-		"new_name", newName
+		"old_name", oldName.GetBytes(),
+		"new_name", newName.GetBytes()
 		};
 	SetMessage(map, sizeof(map));
 }
 
 JTooManyLinks::JTooManyLinks
 	(
-	const JCharacter* name
+	const JString& name
 	)
 	:
-	JError(kJTooManyLinks, "")
+	JError(kJTooManyLinks)
 {
-	kJStdErrorMsgMap[1] = name;
-	SetMessage(kJStdErrorMsgMap, sizeof(kJStdErrorMsgMap));
+	const JUtf8Byte* map[] = { "name", name.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 
 JNotCompressed::JNotCompressed
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	:
-	JError(kJNotCompressed, "")
+	JError(kJNotCompressed)
 {
-	kJStdErrorMsgMap[1] = fileName;
-	SetMessage(kJStdErrorMsgMap, sizeof(kJStdErrorMsgMap));
+	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
+	SetMessage(map, sizeof(map));
 }

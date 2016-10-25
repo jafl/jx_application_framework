@@ -45,7 +45,7 @@
 const JCoordinate kDragRegionHalfSize = JPartition::kDragRegionSize/2;
 
 const JFileVersion kCurrentGeometryDataVersion = 1;
-const JCharacter kGeometryDataEndDelimiter     = '\1';
+const JUtf8Byte kGeometryDataEndDelimiter      = '\1';
 
 	// version 1: removed elastic index and min sizes
 

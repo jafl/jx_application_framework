@@ -13,12 +13,11 @@
 
 #include <JContainer.h>
 #include <JDirEntry.h>	// for convenience
-#include <JPtrArray.h>
+#include <JPtrArray-JString.h>
 #include <JError.h>
 #include <jTime.h>
 
 class JRegex;
-class JString;
 class JProgressDisplay;
 
 typedef JOrderedSetT::CompareResult
@@ -30,13 +29,13 @@ class JDirInfo : public JContainer
 {
 public:
 
-	static JBoolean	Create(const JCharacter* dirName, JDirInfo** obj);
-	static JBoolean	Create(const JDirInfo& source, const JCharacter* dirName,
+	static JBoolean	Create(const JString& dirName, JDirInfo** obj);
+	static JBoolean	Create(const JDirInfo& source, const JString& dirName,
 						   JDirInfo** obj);
-	static JBoolean	OKToCreate(const JCharacter* dirName);
+	static JBoolean	OKToCreate(const JString& dirName);
 
 	JDirInfo(const JDirInfo& source);
-	JDirInfo(const JDirInfo& source, const JCharacter* dirName);
+	JDirInfo(const JDirInfo& source, const JString& dirName);
 
 	virtual ~JDirInfo();
 
@@ -48,9 +47,9 @@ public:
 	JBoolean		IsWritable() const;
 
 	JError	GoUp();
-	JError	GoDown(const JCharacter* dirName);
-	void	GoToClosest(const JCharacter* dirName);
-	JError	GoTo(const JCharacter* dirName);
+	JError	GoDown(const JString& dirName);
+	void	GoToClosest(const JString& dirName);
+	JError	GoTo(const JString& dirName);
 
 	void		ChangeSort(JCompareDirEntries* f, const JOrderedSetT::SortOrder order);
 
@@ -70,7 +69,7 @@ public:
 	void		ShowOthers(const JBoolean show);
 
 	JBoolean	HasWildcardFilter() const;
-	void		SetWildcardFilter(const JCharacter* filterStr,
+	void		SetWildcardFilter(const JString& filterStr,
 								  const JBoolean negate = kJFalse,
 								  const JBoolean caseSensitive = kJFalse);
 	void		SetWildcardFilter(JRegex* filter, const JBoolean dirInfoOwnsRegex,
@@ -85,7 +84,7 @@ public:
 	void		ClearDirEntryFilter();
 
 	JBoolean	HasContentFilter() const;
-	JError		SetContentFilter(const JCharacter* regexStr);
+	JError		SetContentFilter(const JString& regexStr);
 	void		ClearContentFilter();
 
 	void		ResetCSFFilters();
@@ -101,17 +100,17 @@ public:
 
 	JSize				GetEntryCount() const;
 	const JDirEntry&	GetEntry(const JIndex index) const;
-	JBoolean			FindEntry(const JCharacter* name, JIndex* index) const;
-	JBoolean			ClosestMatch(const JCharacter* prefixStr, JIndex* index) const;
+	JBoolean			FindEntry(const JString& name, JIndex* index) const;
+	JBoolean			ClosestMatch(const JString& prefixStr, JIndex* index) const;
 
-	static JBoolean	BuildRegexFromWildcardFilter(const JCharacter* filterStr,
+	static JBoolean	BuildRegexFromWildcardFilter(const JString& filterStr,
 												 JString* regexStr);
 
-	static JBoolean	Empty(const JCharacter* dirName);
+	static JBoolean	Empty(const JString& dirName);
 
 protected:
 
-	JDirInfo(const JCharacter* dirName);
+	JDirInfo(const JString& dirName);
 
 	virtual JBoolean	IsVisible(const JDirEntry& entry) const;
 	JBoolean			MatchesNameFilter(const JDirEntry& entry) const;
@@ -122,7 +121,7 @@ private:
 
 	JBoolean	itsIsValidFlag;
 	JBoolean	itsSwitchIfInvalidFlag;
-	JString*	itsCWD;
+	JString		itsCWD;
 	JBoolean	itsIsWritableFlag;
 	time_t		itsModTime;
 	time_t		itsStatusTime;
@@ -149,7 +148,7 @@ private:
 private:
 
 	void	JDirInfoX(const JDirInfo& source);
-	void	AllocateCWD(const JCharacter* dirName);
+	void	AllocateCWD(const JString& dirName);
 	void	PrivateCopySettings(const JDirInfo& source);
 	void	CopyDirEntries(const JDirInfo& source);
 
@@ -157,17 +156,17 @@ private:
 	void	BuildInfo1(JProgressDisplay& pg);
 	void	ApplyFilters(const JBoolean update);
 
-	static void	AppendRegex(const JCharacter* origStr, JString* regexStr);
+	static void	AppendRegex(const JString& origStr, JString* regexStr);
 
 public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kContentsWillBeUpdated;
-	static const JCharacter* kContentsChanged;
-	static const JCharacter* kPathChanged;
-	static const JCharacter* kPermissionsChanged;
-	static const JCharacter* kSettingsChanged;
+	static const JUtf8Byte* kContentsWillBeUpdated;
+	static const JUtf8Byte* kContentsChanged;
+	static const JUtf8Byte* kPathChanged;
+	static const JUtf8Byte* kPermissionsChanged;
+	static const JUtf8Byte* kSettingsChanged;
 
 	class ContentsWillBeUpdated : public JBroadcaster::Message
 		{

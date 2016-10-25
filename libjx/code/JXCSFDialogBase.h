@@ -81,8 +81,8 @@ protected:
 private:
 
 	JDirInfo*	itsDirInfo;			// we don't own this
-	JString*	itsPrevPath;
-	JString*	itsPrevFilterString;
+	JString		itsPrevPath;
+	JString		itsPrevFilterString;
 	JBoolean	itsDeactCancelFlag;
 
 	JXDirTable*				itsFileBrowser;

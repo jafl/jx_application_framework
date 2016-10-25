@@ -1025,7 +1025,7 @@ JPSPrinterBase::ApplyStyles
 		name->Append("-");
 		name->Append(italicStr);
 		}
-	else if (!JStringEmpty(defaultStr))
+	else if (!JString::IsEmpty(defaultStr))
 		{
 		name->Append("-");
 		name->Append(defaultStr);

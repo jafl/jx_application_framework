@@ -71,7 +71,7 @@ private:
 	const JCharacter*		itsTOCSectionName;	// NULL if not registered
 	JXHelpDirector*			itsComposeHelpDir;	// NULL if not visible
 
-	JString*				itsDefWindowGeom;
+	JString 				itsDefWindowGeom;
 	JXPSPrinter*			itsPrinter;
 
 private:

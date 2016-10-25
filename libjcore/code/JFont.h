@@ -11,6 +11,7 @@
 #define _H_JFont
 
 #include <JFontStyle.h>
+#include <JUtf8Character.h>
 
 class JFontManager;
 class JString;
@@ -44,15 +45,13 @@ public:
 
 	const JFontManager*	GetFontManager() const;
 
-	void	Set(const JCharacter* name, const JSize size = kJDefaultFontSize, const JFontStyle style = JFontStyle());
 	void	Set(const JString& name, const JSize size = kJDefaultFontSize, const JFontStyle style = JFontStyle());
 	void	Set(const JFont& f);
 
 	JFontID	GetID() const;
 
-	const JCharacter*	GetName() const;
-	void				SetName(const JCharacter* name);
-	void				SetName(const JString& name);
+	const JString&	GetName() const;
+	void			SetName(const JString& name);
 
 	JSize	GetSize() const;
 	void	SetSize(const JSize size);
@@ -70,10 +69,8 @@ public:
 	JSize	GetLineHeight() const;
 	JSize	GetLineHeight(JCoordinate* ascent, JCoordinate* descent) const;
 
-	JSize	GetCharWidth(const JCharacter c) const;
-	JSize	GetStringWidth(const JCharacter* str) const;
+	JSize	GetCharWidth(const JUtf8Character& c) const;
 	JSize	GetStringWidth(const JString& str) const;
-	JSize	GetStringWidth(const JCharacter* str, const JSize charCount) const;
 
 	JSize	GetStrikeThickness() const;
 	JSize	GetUnderlineThickness() const;

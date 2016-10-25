@@ -15,8 +15,8 @@
 
 // JBroadcaster message types
 
-const JCharacter* JPrinter::kPageSetupFinished  = "PageSetupFinished::JPrinter";
-const JCharacter* JPrinter::kPrintSetupFinished = "PrintSetupFinished::JPrinter";
+const JUtf8Byte* JPrinter::kPageSetupFinished  = "PageSetupFinished::JPrinter";
+const JUtf8Byte* JPrinter::kPrintSetupFinished = "PrintSetupFinished::JPrinter";
 
 /******************************************************************************
  Constructor

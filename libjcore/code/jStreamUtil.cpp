@@ -11,7 +11,6 @@
 #include <JString.h>
 #include <jFileUtil.h>
 #include <jFStreamUtil.h>
-#include <jMemory.h>
 #include <jErrno.h>
 #include <poll.h>
 #include <string.h>
@@ -34,10 +33,12 @@ JCopyBinaryData
 	const JSize	byteCount
 	)
 {
-	// allocate transfer space -- we want a big chunk but we don't want it to fail
+	JSize chunkSize = 65536;
 
-	JSize chunkSize = 10000;
-	JUtf8Byte* data = JCreateBuffer(&chunkSize);
+	// allocate transfer space
+
+	JUtf8Byte* data = jnew JUtf8Byte[ chunkSize ];
+	assert( data != NULL );
 
 	// copy the data in chunks
 
@@ -359,20 +360,25 @@ JIgnoreUntil
 		*foundDelimiter = kJFalse;
 		}
 
-	JString window;
-	window.SetBlockSize(delimLength);
-	window.Read(input, delimLength);
+	JUtf8Byte* window = jnew JUtf8Byte[ delimLength ];
+	assert( window != NULL );
 
-	while (!input.eof() && !input.fail() && window != delimiter)
+	input.read(window, delimLength);
+
+	while (!input.eof() && !input.fail() &&
+		   JString::Compare(window, delimLength, delimiter, delimLength) != 0)
 		{
-		window.RemoveSubstring(1,1);
-		window.AppendCharacter(input.get());
+		memmove(window, window+1, delimLength-1);
+		window[ delimLength-1 ] = input.get();
 		}
 
-	if (window == delimiter && foundDelimiter != NULL)
+	if (foundDelimiter != NULL &&
+		JString::Compare(window, delimLength, delimiter, delimLength) == 0)
 		{
 		*foundDelimiter = kJTrue;
 		}
+
+	jdelete [] window;
 }
 
 /******************************************************************************

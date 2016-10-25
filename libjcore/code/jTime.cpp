@@ -41,8 +41,7 @@ JConvertToTimeStamp
 	)
 {
 	JString timeStamp  = ctime(&t);
-	const JSize length = timeStamp.GetLength();
-	timeStamp.RemoveSubstring(length, length);
+	timeStamp.TrimWhitespace();
 	return timeStamp;
 }
 
@@ -108,7 +107,7 @@ void
 JCheckExpirationDate
 	(
 	const time_t		expireTime,
-	const JCharacter*	map[],
+	const JUtf8Byte*	map[],
 	const JSize			size
 	)
 {
@@ -117,16 +116,16 @@ JCheckExpirationDate
 		{
 		map[1] = "";
 		const JString msg = JGetString("Expired::jTime", map, size);
-		(JGetUserNotification())->DisplayMessage(msg);
+		(JGetUserNotification())->DisplayMessage(msg.GetBytes());
 		exit(0);
 		}
 	else if (t > expireTime - 14*24*3600)
 		{
-		JCharacter date[100];
+		JUtf8Byte date[100];
 		strftime(date, 100, "%B %e, %Y", localtime(&expireTime));
 		map[1] = date;
 		const JString msg = JGetString("WarnExpire::jTime", map, size);
-		(JGetUserNotification())->DisplayMessage(msg);
+		(JGetUserNotification())->DisplayMessage(msg.GetBytes());
 		}
 }
 

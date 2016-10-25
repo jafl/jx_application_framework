@@ -410,7 +410,7 @@ JMemoryManager::Instance()
 		assert(manager->itsErrorPrinter != NULL);
 
 		const JCharacter* pipeName = getenv("JMM_PIPE");
-		if (!JStringEmpty(pipeName))
+		if (!JString::IsEmpty(pipeName))
 			{
 			manager->itsErrorStream = new JMMDebugErrorStream;
 			assert(manager->itsErrorStream != NULL);
@@ -421,7 +421,7 @@ JMemoryManager::Instance()
 
 		// do it here since it calls delete as well as new
 
-		if (!JStringEmpty(pipeName))
+		if (!JString::IsEmpty(pipeName))
 			{
 			manager->ConnectToDebugger(pipeName);
 			ACE_Object_Manager::at_exit(NULL, ::JMMHandleACEExit, NULL);

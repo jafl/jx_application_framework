@@ -14,20 +14,20 @@
 
 // for all objects
 
-const JCharacter* JOrderedSetT::kElementsInserted = "ElementsInserted::JOrderedSetT";
-const JCharacter* JOrderedSetT::kElementsRemoved  = "ElementsRemoved::JOrderedSetT";
+const JUtf8Byte* JOrderedSetT::kElementsInserted = "ElementsInserted::JOrderedSetT";
+const JUtf8Byte* JOrderedSetT::kElementsRemoved  = "ElementsRemoved::JOrderedSetT";
 
 // for JBroadcasters
 
-const JCharacter* JOrderedSetT::kElementMoved    = "ElementMoved::JOrderedSetT";
-const JCharacter* JOrderedSetT::kElementsSwapped = "ElementsSwapped::JOrderedSetT";
-const JCharacter* JOrderedSetT::kElementChanged  = "ElementChanged::JOrderedSetT";
-const JCharacter* JOrderedSetT::kSorted          = "Sorted::JOrderedSetT";
+const JUtf8Byte* JOrderedSetT::kElementMoved    = "ElementMoved::JOrderedSetT";
+const JUtf8Byte* JOrderedSetT::kElementsSwapped = "ElementsSwapped::JOrderedSetT";
+const JUtf8Byte* JOrderedSetT::kElementChanged  = "ElementChanged::JOrderedSetT";
+const JUtf8Byte* JOrderedSetT::kSorted          = "Sorted::JOrderedSetT";
 
 // for iterators
 
-const JCharacter* JOrderedSetT::kGoingAway = "GoingAway::JOrderedSetT";
-const JCharacter* JOrderedSetT::kCopied    = "Copied::JOrderedSetT";
+const JUtf8Byte* JOrderedSetT::kGoingAway = "GoingAway::JOrderedSetT";
+const JUtf8Byte* JOrderedSetT::kCopied    = "Copied::JOrderedSetT";
 
 
 /******************************************************************************

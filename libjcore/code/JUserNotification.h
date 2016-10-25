@@ -29,13 +29,13 @@ public:
 
 	virtual ~JUserNotification();
 
-	virtual void		DisplayMessage(const JUtf8Byte* message) = 0;
-	virtual void		ReportError(const JUtf8Byte* message) = 0;
+	virtual void		DisplayMessage(const JString& message) = 0;
+	virtual void		ReportError(const JString& message) = 0;
 
-	virtual JBoolean	AskUserYes(const JUtf8Byte* message) = 0;
-	virtual JBoolean	AskUserNo(const JUtf8Byte* message) = 0;
+	virtual JBoolean	AskUserYes(const JString& message) = 0;
+	virtual JBoolean	AskUserNo(const JString& message) = 0;
 
-	virtual CloseAction	OKToClose(const JUtf8Byte* message) = 0;
+	virtual CloseAction	OKToClose(const JString& message) = 0;
 
 	virtual JBoolean	AcceptLicense() = 0;
 

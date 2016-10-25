@@ -25,7 +25,7 @@ class JPrefsManager : public JContainer
 
 public:
 
-	JPrefsManager(const JCharacter* fileName, const JFileVersion currentVersion,
+	JPrefsManager(const JString& fileName, const JFileVersion currentVersion,
 				  const JBoolean eraseFileIfOpen);
 
 	virtual ~JPrefsManager();
@@ -41,7 +41,8 @@ protected:
 
 	void	SetData(const JPrefID& id, std::ostringstream& data);
 	void	SetData(const JPrefID& id, std::string& data);
-	void	SetData(const JPrefID& id, const JCharacter* data);
+	void	SetData(const JPrefID& id, const JString& data);
+	void	SetData(const JPrefID& id, const JUtf8Byte* data);
 
 	void	RemoveData(const JPrefID& id);
 
@@ -79,7 +80,7 @@ private:
 
 	JError	Open(JPrefsFile** file, const JBoolean allowPrevVers = kJFalse) const;
 	void	LoadData(JPrefsFile* file);
-	JError	DeletePrefsFile(const JCharacter* fileName) const;
+	JError	DeletePrefsFile(const JString& fileName) const;
 
 	static JOrderedSetT::CompareResult
 		ComparePrefIDs(const PrefItem& p1, const PrefItem& p2);
@@ -97,7 +98,7 @@ protected:
 		{
 		public:
 
-			DataMessage(const JCharacter* type, const JPrefID& id)
+			DataMessage(const JUtf8Byte* type, const JPrefID& id)
 				:
 				JBroadcaster::Message(type),
 				itsID(id.GetID())
@@ -118,8 +119,8 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kDataChanged;
-	static const JCharacter* kDataRemoved;
+	static const JUtf8Byte* kDataChanged;
+	static const JUtf8Byte* kDataRemoved;
 
 	class DataChanged : public DataMessage
 		{
@@ -145,7 +146,7 @@ public:
 
 	// JError classes
 
-	static const JCharacter* kWrongVersion;
+	static const JUtf8Byte* kWrongVersion;
 
 	class WrongVersion : public JError
 		{

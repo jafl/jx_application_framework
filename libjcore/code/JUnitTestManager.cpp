@@ -38,6 +38,7 @@ JUnitTestManager::Instance()
 
 JUnitTestManager::JUnitTestManager()
 	:
+	itsTestCount(0),
 	itsFailureCount(0)
 {
 }
@@ -52,35 +53,51 @@ JUnitTestManager::~JUnitTestManager()
 }
 
 /******************************************************************************
- Execute (static)
+ RegisterTest
 
-	The array of tests must be NULL terminated.
+ ******************************************************************************/
+
+int
+JUnitTestManager::RegisterTest
+	(
+	JUnitTest test
+	)
+{
+	assert( itsTestCount < MAX_TEST_COUNT-1 );
+	itsTests[ itsTestCount++ ] = test;
+	return 0;
+}
+
+/******************************************************************************
+ Execute (static)
 
  ******************************************************************************/
 
 void
 JUnitTestManager::Execute
 	(
-	const JUnitTest*	tests,
-	const JBoolean		exit
+	const JBoolean exit
 	)
 {
-	int i = 0;
-	while (1)
-		{
-		JUnitTest t = tests[i];
-		if (t == NULL)
-			{
-			break;
-			}
-
-		t();
-		i++;
-		}
+	Instance()->ExecuteTests();
 
 	if (exit)
 		{
-		JUnitTestManager::Exit();
+		Exit();
+		}
+}
+
+/******************************************************************************
+ ExecuteTests (private)
+
+ ******************************************************************************/
+
+void
+JUnitTestManager::ExecuteTests()
+{
+	for (JIndex i=0; i<itsTestCount; i++)
+		{
+		itsTests[i]();
 		}
 }
 
@@ -97,10 +114,31 @@ JUnitTestManager::ReportFailure
 	const JIndex		line
 	)
 {
-	theManager->itsFailureCount++;
+	Instance()->itsFailureCount++;
 
 	cout << message << endl;
 	cout << '\t' << "at " << file << ':' << line << endl << endl;
+}
+
+/******************************************************************************
+ ReportFatal (static)
+
+ ******************************************************************************/
+
+void
+JUnitTestManager::ReportFatal
+	(
+	JUtf8Byte const*	message,
+	JUtf8Byte const*	file,
+	const JIndex		line
+	)
+{
+	Instance()->itsFailureCount++;
+
+	cout << message << endl;
+	cout << '\t' << "at " << file << ':' << line << endl << endl;
+
+	exit(1);	// since we don't throw exceptions
 }
 
 /******************************************************************************
@@ -111,7 +149,7 @@ JUnitTestManager::ReportFailure
 void
 JUnitTestManager::Exit()
 {
-	exit( theManager->itsFailureCount > 0 ? 1 : 0 );
+	exit( Instance()->itsFailureCount > 0 ? 1 : 0 );
 }
 
 /******************************************************************************

@@ -34,6 +34,10 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Replaced new & delete macros with jnew & jdelete, to avoid conflict
 //			with "= delete" notation for functions.
 //		Removed j_prep_ace.h because it is no longer needed.
+//	*** Removed support for NULL's in JRegex and JString.
+//		If you have NULL's, you have binary data and should treat it differently.
+//	*** Removed JCheckSiteName()
+//	*** Removed JCreateBuffer() - Run out of memory?  Seriously?
 
 // version 3.2.0:
 //	jMountUtil:
@@ -1617,7 +1621,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			remember that they can't be passed to Clib functions like strlen().
 //		Renamed JCaseInsensitiveCompare() to JStringCompare().
 //		Added functions to take (str,length) and ContainsNULL().
-//		Added function JStringEmpty().
+//		Added function JString::IsEmpty().
 //	Created JPtrArray-JString.h to define useful sorting functions for
 //		JPtrArray<JString> objects.
 //	JTable:

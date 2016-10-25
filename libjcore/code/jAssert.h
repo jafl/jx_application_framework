@@ -36,7 +36,7 @@ int JAssert(const char*, const char*, const int);
 
 #else
 
-	#define assert_ok(x)	((void) ((x).OK() || JAssert((x).GetMessage(), __FILE__, __LINE__)))
+	#define assert_ok(x)	((void) ((x).OK() || JAssert((x).GetMessage().GetBytes(), __FILE__, __LINE__)))
 
 #endif
 

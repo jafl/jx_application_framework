@@ -16,9 +16,9 @@ class JPrefsFile : public JFileArray
 {
 public:
 
-	static JError	Create(const JCharacter* fileNameStem, JPrefsFile** obj,
+	static JError	Create(const JString& fileNameStem, JPrefsFile** obj,
 						   const CreateAction action = kFailIfOpen);
-	static JError	OKToCreate(const JCharacter* fileNameStem, JString* fullName,
+	static JError	OKToCreate(const JString& fileNameStem, JString* fullName,
 							   const CreateAction action = kFailIfOpen);
 
 	virtual ~JPrefsFile();
@@ -27,16 +27,16 @@ public:
 
 	void	SetData(const JPrefID& id, std::ostringstream& data);
 	void	SetData(const JPrefID& id, const std::string& data);
-	void	SetData(const JPrefID& id, const JCharacter* data);
+	void	SetData(const JPrefID& id, const JString& data);
 
 	void	RemoveData(const JPrefID& id);
 
-	static JError	GetFullName(const JCharacter* fileNameStem,
+	static JError	GetFullName(const JString& fileNameStem,
 								JString* fullName);
 
 protected:
 
-	JPrefsFile(const JCharacter* fileName, const CreateAction action);
+	JPrefsFile(const JString& fileName, const CreateAction action);
 
 private:
 
@@ -49,7 +49,7 @@ public:
 
 	// JError classes
 
-	static const JCharacter* kNoHomeDirectory;
+	static const JUtf8Byte* kNoHomeDirectory;
 
 	class NoHomeDirectory : public JError
 		{

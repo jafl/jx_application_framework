@@ -64,7 +64,7 @@ public:
 
 		protected:
 
-			NodeMessage(const JCharacter* type, JTreeNode* node)
+			NodeMessage(const JUtf8Byte* type, JTreeNode* node)
 				:
 				JBroadcaster::Message(type),
 				itsNode(node)
@@ -79,14 +79,14 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kNewRoot;
-	static const JCharacter* kNodeInserted;
-	static const JCharacter* kNodeRemoved;
-	static const JCharacter* kNodeDeleted;
-	static const JCharacter* kNodeChanged;
+	static const JUtf8Byte* kNewRoot;
+	static const JUtf8Byte* kNodeInserted;
+	static const JUtf8Byte* kNodeRemoved;
+	static const JUtf8Byte* kNodeDeleted;
+	static const JUtf8Byte* kNodeChanged;
 
-	static const JCharacter* kPrepareForNodeMove;
-	static const JCharacter* kNodeMoveFinished;
+	static const JUtf8Byte* kPrepareForNodeMove;
+	static const JUtf8Byte* kNodeMoveFinished;
 
 	class NewRoot : public JBroadcaster::Message
 		{

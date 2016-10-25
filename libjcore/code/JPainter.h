@@ -93,7 +93,7 @@ public:
 
 	const JFont&	GetFont() const;
 
-	void	SetFontName(const JCharacter* name);
+	void	SetFontName(const JString& name);
 	void	SetFontSize(const JSize size);
 	void	SetFontStyle(const JFontStyle& style);
 	void	SetFont(const JFont& f);
@@ -101,35 +101,35 @@ public:
 	JSize	GetLineHeight(JCoordinate* ascent, JCoordinate* descent) const;
 	JSize	GetLineHeight() const;
 
-	JSize	GetStringWidth(const JCharacter* str) const;
+	JSize	GetStringWidth(const JString& str) const;
 
 	virtual void	String(const JCoordinate left, const JCoordinate top,
-						   const JCharacter* str,
+						   const JString& str,
 						   const JCoordinate width = 0,
 						   const HAlignment hAlign = kHAlignLeft,
 						   const JCoordinate height = 0,
 						   const VAlignment vAlign = kVAlignTop) = 0;
-	void			String(const JPoint& topLeft, const JCharacter* str,
+	void			String(const JPoint& topLeft, const JString& str,
 						   const JCoordinate width = 0,
 						   const HAlignment hAlign = kHAlignLeft,
 						   const JCoordinate height = 0,
 						   const VAlignment vAlign = kVAlignTop);
-	void			String(const JRect& rect, const JCharacter* str,
+	void			String(const JRect& rect, const JString& str,
 						   const HAlignment hAlign = kHAlignLeft,
 						   const VAlignment vAlign = kVAlignTop);
 	virtual void	String(const JFloat angle, const JCoordinate left,
-						   const JCoordinate top, const JCharacter* str,
+						   const JCoordinate top, const JString& str,
 						   const JCoordinate width = 0,
 						   const HAlignment hAlign = kHAlignLeft,
 						   const JCoordinate height = 0,
 						   const VAlignment vAlign = kVAlignTop) = 0;
 	void			String(const JFloat angle, const JPoint& topLeft,
-						   const JCharacter* str, const JCoordinate width = 0,
+						   const JString& str, const JCoordinate width = 0,
 						   const HAlignment hAlign = kHAlignLeft,
 						   const JCoordinate height = 0,
 						   const VAlignment vAlign = kVAlignTop);
 	void			String(const JFloat angle, const JRect& rect,
-						   const JCharacter* str,
+						   const JString& str,
 						   const HAlignment hAlign = kHAlignLeft,
 						   const VAlignment vAlign = kVAlignTop);
 
@@ -182,7 +182,7 @@ public:
 
 protected:
 
-	void	AlignString(JCoordinate* left, JCoordinate* top, const JCharacter* str,
+	void	AlignString(JCoordinate* left, JCoordinate* top, const JString& str,
 						const JCoordinate width, const HAlignment hAlign,
 						const JCoordinate height, const VAlignment vAlign) const;
 
@@ -444,7 +444,7 @@ JPainter::GetFont()
 inline void
 JPainter::SetFontName
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
 	itsFont.SetName(name);
@@ -486,7 +486,7 @@ inline void
 JPainter::String
 	(
 	const JPoint&		topLeft,
-	const JCharacter*	str,
+	const JString&		str,
 	const JCoordinate	width,
 	const HAlignment	hAlign,
 	const JCoordinate	height,
@@ -500,7 +500,7 @@ inline void
 JPainter::String
 	(
 	const JRect&		rect,
-	const JCharacter*	str,
+	const JString&		str,
 	const HAlignment	hAlign,
 	const VAlignment	vAlign
 	)
@@ -513,7 +513,7 @@ JPainter::String
 	(
 	const JFloat		angle,
 	const JPoint&		topLeft,
-	const JCharacter*	str,
+	const JString&		str,
 	const JCoordinate	width,
 	const HAlignment	hAlign,
 	const JCoordinate	height,

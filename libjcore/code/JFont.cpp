@@ -20,19 +20,6 @@
 void
 JFont::Set
 	(
-	const JCharacter*	name,
-	const JSize			size,
-	const JFontStyle	style
-	)
-{
-	itsSize  = size;
-	itsStyle = style;
-	SetName(name);
-}
-
-void
-JFont::Set
-	(
 	const JString&		name,
 	const JSize			size,
 	const JFontStyle	style
@@ -75,7 +62,7 @@ JFont::SetID
 
  ******************************************************************************/
 
-const JCharacter*
+const JString&
 JFont::GetName()
 	const
 {
@@ -86,21 +73,11 @@ JFont::GetName()
 void
 JFont::SetName
 	(
-	const JCharacter* name
-	)
-{
-	assert( itsFontMgr != NULL );
-	itsID = itsFontMgr->GetFontID(name, itsSize, itsStyle);
-}
-
-void
-JFont::SetName
-	(
 	const JString& name
 	)
 {
 	assert( itsFontMgr != NULL );
-	itsID = itsFontMgr->GetFontID(name, itsSize, itsStyle);
+	itsID = itsFontMgr->GetFontID(name.GetBytes(), itsSize, itsStyle);
 }
 
 /******************************************************************************
@@ -222,7 +199,7 @@ JFont::GetLineHeight
 JSize
 JFont::GetCharWidth
 	(
-	const JCharacter c
+	const JUtf8Character& c
 	)
 	const
 {
@@ -233,35 +210,12 @@ JFont::GetCharWidth
 JSize
 JFont::GetStringWidth
 	(
-	const JCharacter* str
-	)
-	const
-{
-	assert( itsFontMgr != NULL );
-	return itsFontMgr->GetStringWidth(itsID, str, strlen(str));
-}
-
-JSize
-JFont::GetStringWidth
-	(
 	const JString& str
 	)
 	const
 {
 	assert( itsFontMgr != NULL );
-	return itsFontMgr->GetStringWidth(itsID, str, str.GetLength());
-}
-
-JSize
-JFont::GetStringWidth
-	(
-	const JCharacter*	str,
-	const JSize			charCount
-	)
-	const
-{
-	assert( itsFontMgr != NULL );
-	return itsFontMgr->GetStringWidth(itsID, str, charCount);
+	return itsFontMgr->GetStringWidth(itsID, str.GetBytes(), str.GetByteCount());
 }
 
 JSize

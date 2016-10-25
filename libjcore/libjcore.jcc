@@ -106,10 +106,6 @@ T
 F
 "./code/JMinMax.h"
 T
-2 "JMinMax.tmpls"
-F
-"./code/JMinMax.tmpls"
-T
 2 "JComplex.cpp"
 F
 "./code/JComplex.cpp"
@@ -149,10 +145,6 @@ T
 2 "JDynamicHistogram.h"
 F
 "./code/JDynamicHistogram.h"
-T
-2 "JDynamicHistogram.tmpls"
-F
-"./code/JDynamicHistogram.tmpls"
 F
 T
 1 "container"

@@ -723,7 +723,7 @@ private:
 private:
 
 	Type				itsType;
-	JString*			itsBuffer;
+	JString				itsBuffer;
 	JRunArray<JFont>*	itsStyles;
 	JBoolean			itsActiveFlag;
 	JBoolean			itsPasteStyledTextFlag;		// kJTrue => paste styled text

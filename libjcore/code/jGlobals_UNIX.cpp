@@ -23,14 +23,14 @@
 
  ******************************************************************************/
 
-const JCharacter* kSystemDataFileDir = "/usr/lib/";
-const JCharacter* kUserDataFileDir   = "~/.";
+const JUtf8Byte* kSystemDataFileDir = "/usr/lib/";
+const JUtf8Byte* kUserDataFileDir   = "~/.";
 
 JBoolean
 JGetDataDirectories
 	(
-	const JCharacter*	signature,
-	const JCharacter*	dirName,
+	const JUtf8Byte*	signature,
+	const JString&		dirName,
 	JString*			sysDir,
 	JString*			userDir
 	)

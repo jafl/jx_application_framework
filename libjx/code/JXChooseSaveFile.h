@@ -100,8 +100,8 @@ protected:
 private:
 
 	JDirInfo*	itsDirInfo;			// NULL if not global JXCSF stored in jXGlobals
-	JString*	itsUserFilter;
-	JString*	itsDialogState;		// empty if not global JXCSF stored in jXGlobals
+	JString		itsUserFilter;
+	JString		itsDialogState;		// empty if not global JXCSF stored in jXGlobals
 
 	JXChooseFileDialog*	itsChooseFileDialog;
 	JXChoosePathDialog*	itsChoosePathDialog;

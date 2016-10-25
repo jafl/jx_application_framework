@@ -32,7 +32,7 @@ private:
 
 	JDirInfo*	itsDirInfo;		// not owned
 	JXDirTable*	itsDirTable;	// not owned
-	JString*	itsDirName;
+	JString		itsDirName;
 
 private:
 

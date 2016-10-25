@@ -59,7 +59,7 @@ protected:
 
 private:
 
-	JString*			itsFileName;
+	JString				itsFileName;
 	JXDirectSaveSource*	itsXDSSource;
 
 	JXTextButton*		itsSaveButton;

@@ -27,7 +27,7 @@
 JBoolean
 JIsURL
 	(
-	const JCharacter* s
+	const JString& s
 	)
 {
 	return JI2B(strstr(s, "://") != NULL);
@@ -49,11 +49,11 @@ static const JRegex urlPattern = "([^:]+)://([^/:]+)(?::([0-9]+))?(.*)";
 JBoolean
 JParseURL
 	(
-	const JCharacter*	url,
-	JString*			protocol,
-	JString*			host,
-	JIndex*				port,
-	JString*			path
+	const JString&	url,
+	JString*		protocol,
+	JString*		host,
+	JIndex*			port,
+	JString*		path
 	)
 {
 	*path = url;
@@ -104,8 +104,8 @@ JParseURL
 JBoolean
 JGetDefaultPort
 	(
-	const JCharacter*	protocol,
-	JIndex*				port
+	const JString&	protocol,
+	JIndex*			port
 	)
 {
 	if (strcasecmp(protocol, "http") == 0)
@@ -188,7 +188,7 @@ JCheckForNewerVersion
 	const JString vers = socket->GetLatestVersion();
 	if (socket->TimeToRemind())
 		{
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
 			"vers", vers,
 			"site", host

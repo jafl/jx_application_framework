@@ -85,8 +85,8 @@ protected:
 private:
 
 	Destination	itsDestination;
-	JString*	itsPrintCmd;
-	JString*	itsFileName;
+	JString		itsPrintCmd;
+	JString		itsFileName;
 	JBoolean	itsCollateFlag;
 
 	JXPSPageSetupDialog*	itsPageSetupDialog;

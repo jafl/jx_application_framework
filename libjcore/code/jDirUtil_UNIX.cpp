@@ -8,7 +8,6 @@
  ******************************************************************************/
 
 #include <jDirUtil.h>
-#include <JSimpleProcess.h>
 #include <JThisProcess.h>
 #include <JDirInfo.h>
 #include <JProgressDisplay.h>
@@ -30,7 +29,7 @@
 JBoolean
 JNameUsed
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
 	ACE_stat info;
@@ -48,8 +47,8 @@ JNameUsed
 JBoolean
 JSameDirEntry
 	(
-	const JCharacter* name1,
-	const JCharacter* name2
+	const JString& name1,
+	const JString& name2
 	)
 {
 	ACE_stat stbuf1, stbuf2;
@@ -70,8 +69,8 @@ JSameDirEntry
 JError
 JGetModificationTime
 	(
-	const JCharacter*	name,
-	time_t*				modTime
+	const JString&	name,
+	time_t*			modTime
 	)
 {
 	ACE_stat info;
@@ -105,8 +104,8 @@ JGetModificationTime
 JError
 JGetPermissions
 	(
-	const JCharacter*	name,
-	mode_t*				perms
+	const JString&	name,
+	mode_t*			perms
 	)
 {
 	ACE_stat info;
@@ -143,8 +142,8 @@ JGetPermissions
 JError
 JSetPermissions
 	(
-	const JCharacter*	name,
-	const mode_t		perms
+	const JString&	name,
+	const mode_t	perms
 	)
 {
 	jclear_errno();
@@ -202,8 +201,8 @@ JSetPermissions
 JError
 JGetOwnerID
 	(
-	const JCharacter*	name,
-	uid_t*				uid
+	const JString&	name,
+	uid_t*			uid
 	)
 {
 	ACE_stat info;
@@ -236,8 +235,8 @@ JGetOwnerID
 JError
 JGetOwnerGroup
 	(
-	const JCharacter*	name,
-	gid_t*				gid
+	const JString&	name,
+	gid_t*			gid
 	)
 {
 	ACE_stat info;
@@ -270,9 +269,9 @@ JGetOwnerGroup
 JError
 JSetOwner
 	(
-	const JCharacter*	name,
-	const uid_t			uid,
-	const gid_t			gid
+	const JString&	name,
+	const uid_t		uid,
+	const gid_t		gid
 	)
 {
 	if (chown(name, uid, gid) == 0)
@@ -329,8 +328,8 @@ JSetOwner
 JError
 JCreateSymbolicLink
 	(
-	const JCharacter* src,
-	const JCharacter* dest
+	const JString& src,
+	const JString& dest
 	)
 {
 	jclear_errno();
@@ -400,7 +399,7 @@ JCreateSymbolicLink
 JBoolean
 JDirectoryExists
 	(
-	const JCharacter* dirName
+	const JString& dirName
 	)
 {
 	ACE_stat info;
@@ -420,7 +419,7 @@ JDirectoryExists
 JBoolean
 JDirectoryReadable
 	(
-	const JCharacter* dirName
+	const JString& dirName
 	)
 {
 	return JI2B(JDirectoryExists(dirName) &&
@@ -437,7 +436,7 @@ JDirectoryReadable
 JBoolean
 JDirectoryWritable
 	(
-	const JCharacter* dirName
+	const JString& dirName
 	)
 {
 	return JI2B(JDirectoryExists(dirName) &&
@@ -455,7 +454,7 @@ JDirectoryWritable
 JBoolean
 JCanEnterDirectory
 	(
-	const JCharacter* dirName
+	const JString& dirName
 	)
 {
 	return JI2B(JDirectoryExists(dirName) &&
@@ -476,12 +475,12 @@ JCanEnterDirectory
 
  ******************************************************************************/
 
-static JError JMkDir(const JCharacter* dirName, const mode_t mode);
+static JError JMkDir(const JString& dirName, const mode_t mode);
 
 JError
 JCreateDirectory
 	(
-	const JCharacter* dirName
+	const JString& dirName
 	)
 {
 	return JCreateDirectory(dirName, 0755);
@@ -490,8 +489,8 @@ JCreateDirectory
 JError
 JCreateDirectory
 	(
-	const JCharacter*	dirName,
-	const mode_t		mode
+	const JString&	dirName,
+	const mode_t	mode
 	)
 {
 	if (JDirectoryExists(dirName))
@@ -527,8 +526,8 @@ JCreateDirectory
 JError
 JMkDir
 	(
-	const JCharacter*	dirName,
-	const mode_t		mode
+	const JString&	dirName,
+	const mode_t	mode
 	)
 {
 	jclear_errno();
@@ -600,8 +599,8 @@ JMkDir
 JError
 JRenameDirEntry
 	(
-	const JCharacter* oldName,
-	const JCharacter* newName
+	const JString& oldName,
+	const JString& newName
 	)
 {
 	if (JNameUsed(newName))
@@ -703,7 +702,7 @@ JRenameDirEntry
 JError
 JChangeDirectory
 	(
-	const JCharacter* dirName
+	const JString& dirName
 	)
 {
 	jclear_errno();
@@ -761,7 +760,7 @@ JChangeDirectory
 JError
 JRemoveDirectory
 	(
-	const JCharacter* dirName
+	const JString& dirName
 	)
 {
 	jclear_errno();
@@ -830,9 +829,9 @@ JRemoveDirectory
 JBoolean
 JKillDirectory
 	(
-	const JCharacter*	dirName,
-	const JBoolean		sync,
-	JProcess**			p
+	const JString&	dirName,
+	const JBoolean	sync,
+	JProcess**		p
 	)
 {
 	if (p != NULL)
@@ -840,7 +839,7 @@ JKillDirectory
 		*p = NULL;
 		}
 
-	const JCharacter* argv[] = {"rm", "-rf", dirName, NULL};
+	const JUtf8Byte* argv[] = {"rm", "-rf", dirName.GetBytes(), NULL};
 	if (sync)
 		{
 		const JError err = JExecute(argv, sizeof(argv), NULL);
@@ -962,8 +961,8 @@ JGetHomeDirectory
 JBoolean
 JGetHomeDirectory
 	(
-	const JCharacter*	user,
-	JString*			homeDir
+	const JString&	user,
+	JString*		homeDir
 	)
 {
 	struct passwd* pw = getpwnam(user);
@@ -1006,8 +1005,8 @@ JGetPrefsDirectory
 JBoolean
 JGetPrefsDirectory
 	(
-	const JCharacter*	user,
-	JString*			prefsDir
+	const JString&	user,
+	JString*		prefsDir
 	)
 {
 	return JGetHomeDirectory(user, prefsDir);
@@ -1033,7 +1032,7 @@ JGetTempDirectory
 	if (!theTempPathInitFlag)
 		{
 		char* path = getenv("TMPDIR");
-		if (!JStringEmpty(path) && JDirectoryWritable(path))
+		if (!JString::IsEmpty(path) && JDirectoryWritable(path))
 			{
 			theTempPath = path;
 			}
@@ -1066,13 +1065,13 @@ JGetTempDirectory
 JError
 JCreateTempDirectory
 	(
-	const JCharacter*	path,
-	const JCharacter*	prefix,
-	JString*			fullName
+	const JString&	path,
+	const JString&	prefix,
+	JString*		fullName
 	)
 {
 	JString p;
-	if (!JStringEmpty(path))
+	if (!JString::IsEmpty(path))
 		{
 		p = path;
 		}
@@ -1081,7 +1080,7 @@ JCreateTempDirectory
 		return JDirEntryDoesNotExist("/tmp");
 		}
 
-	if (!JStringEmpty(prefix))
+	if (!JString::IsEmpty(prefix))
 		{
 		p = JCombinePathAndName(p, prefix);
 		}
@@ -1166,8 +1165,8 @@ JCreateTempDirectory
 JBoolean
 JGetTrueName
 	(
-	const JCharacter*	name,
-	JString*			trueName
+	const JString&	name,
+	JString*		trueName
 	)
 {
 	trueName->Clear();
@@ -1279,10 +1278,10 @@ JCleanPath
 JBoolean
 JIsAbsolutePath
 	(
-	const JCharacter* path
+	const JString& path
 	)
 {
-	assert( !JStringEmpty(path) );
+	assert( !JString::IsEmpty(path) );
 	return JI2B( path[0] == '/' || path[0] == '~' );
 }
 
@@ -1305,10 +1304,10 @@ JGetRootDirectory()
 JBoolean
 JIsRootDirectory
 	(
-	const JCharacter* dirName
+	const JString& dirName
 	)
 {
-	assert( !JStringEmpty(dirName) );
+	assert( !JString::IsEmpty(dirName) );
 	return JI2B( dirName[0] == '/' && dirName[1] == '\0' );
 }
 
@@ -1333,12 +1332,12 @@ JIsRootDirectory
 JBoolean
 JConvertToAbsolutePath
 	(
-	const JCharacter*	path,
-	const JCharacter*	base,		// can be NULL
-	JString*			result
+	const JString&	path,
+	const JString*	base,		// can be NULL
+	JString*		result
 	)
 {
-	assert( !JStringEmpty(path) && result != NULL );
+	assert( !JString::IsEmpty(path) && result != NULL );
 
 	JBoolean ok = kJTrue;
 	if (path[0] == '/')
@@ -1349,7 +1348,7 @@ JConvertToAbsolutePath
 		{
 		ok = JExpandHomeDirShortcut(path, result);
 		}
-	else if (!JStringEmpty(base))
+	else if (!JString::IsEmpty(base))
 		{
 		*result = JCombinePathAndName(base, path);
 		}
@@ -1381,8 +1380,8 @@ JConvertToAbsolutePath
 JString
 JConvertToRelativePath
 	(
-	const JCharacter* origPath,
-	const JCharacter* origBase
+	const JString& origPath,
+	const JString& origBase
 	)
 {
 	// Check that they are both absolute paths.
@@ -1482,13 +1481,13 @@ JConvertToRelativePath
 JBoolean
 JExpandHomeDirShortcut
 	(
-	const JCharacter*	path,
-	JString*			result,
-	JString*			homeDir,
-	JSize*				homeLength
+	const JString&	path,
+	JString*		result,
+	JString*		homeDir,
+	JSize*			homeLength
 	)
 {
-	assert( !JStringEmpty(path) && result != NULL );
+	assert( !JString::IsEmpty(path) && result != NULL );
 
 	JBoolean ok = kJTrue;
 	if (path[0] == '~' && path[1] == '\0')

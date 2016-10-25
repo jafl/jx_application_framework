@@ -11,13 +11,13 @@
 #include <JTreeNode.h>
 #include <jAssert.h>
 
-const JCharacter* JTree::kNewRoot            = "NewRoot::JTree";
-const JCharacter* JTree::kNodeInserted       = "NodeInserted::JTree";
-const JCharacter* JTree::kNodeRemoved        = "NodeRemoved::JTree";
-const JCharacter* JTree::kNodeDeleted        = "NodeDeleted::JTree";
-const JCharacter* JTree::kNodeChanged        = "NodeChanged::JTree";
-const JCharacter* JTree::kPrepareForNodeMove = "PrepareForNodeMove::JTree";
-const JCharacter* JTree::kNodeMoveFinished   = "NodeMoveFinished::JTree";
+const JUtf8Byte* JTree::kNewRoot            = "NewRoot::JTree";
+const JUtf8Byte* JTree::kNodeInserted       = "NodeInserted::JTree";
+const JUtf8Byte* JTree::kNodeRemoved        = "NodeRemoved::JTree";
+const JUtf8Byte* JTree::kNodeDeleted        = "NodeDeleted::JTree";
+const JUtf8Byte* JTree::kNodeChanged        = "NodeChanged::JTree";
+const JUtf8Byte* JTree::kPrepareForNodeMove = "PrepareForNodeMove::JTree";
+const JUtf8Byte* JTree::kNodeMoveFinished   = "NodeMoveFinished::JTree";
 
 /******************************************************************************
  Constructor

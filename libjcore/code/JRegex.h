@@ -27,8 +27,8 @@ class JRegex
 public:
 
 	JRegex();
-	JRegex(const JCharacter* pattern);
-	JRegex(const JCharacter* pattern, const JSize length);
+	JRegex(const JString& pattern);
+	JRegex(const JUtf8Byte* pattern);
 
 	virtual ~JRegex();
 
@@ -38,20 +38,15 @@ public:
 // Setting and examining patterns
 
 	JError SetPattern(const JString& pattern);
-	JError SetPattern(const JCharacter* pattern, const JSize length);
-	JError SetPattern(const JCharacter* pattern);
+	JError SetPattern(const JUtf8Byte* pattern);
 
-	void SetPatternOrDie(const JCharacter* pattern);
-	void SetPatternOrDie(const JCharacter* pattern, const JSize length);
 	void SetPatternOrDie(const JString& pattern);
+	void SetPatternOrDie(const JUtf8Byte* pattern);
 
-	void           GetPattern(const JCharacter** pattern, JSize* length) const;
 	const JString& GetPattern() const;
 
-	// JAFL 5/11/98
-	static JBoolean	NeedsBackslashToBeLiteral(const JCharacter c);
-	// JAFL 2/18/06
-	static JString	BackslashForLiteral(const JCharacter* text);
+	static JBoolean	NeedsBackslashToBeLiteral(const JUtf8Character& c);
+	static JString	BackslashForLiteral(const JString& text);
 
 // Pattern-related settings and statistics
 
@@ -59,8 +54,8 @@ public:
 	JSize    NULLCount() const;
 
 	JSize    	GetSubCount() const;
-	JBoolean	GetSubexpressionIndex(const JCharacter* name, JIndex* index) const;
-	JBoolean	GetSubexpression(const JCharacter* str, const JCharacter* name,
+	JBoolean	GetSubexpressionIndex(const JUtf8Byte* name, JIndex* index) const;
+	JBoolean	GetSubexpression(const JString& str, const JUtf8Byte* name,
 								 const JArray<JIndexRange>& matchList, JString* s) const;
 
 /******************************************************************************
@@ -73,63 +68,63 @@ public:
 // These versions simply determine whether there is a match
 
 	// Return one match, yes/no
-	JBoolean Match(const JCharacter* str) const;
-	JBoolean MatchFrom(const JCharacter* str, const JIndex index) const;
-	JBoolean MatchAfter(const JCharacter* str, const JIndexRange& range) const;
-	JBoolean MatchWithin(const JCharacter* str, const JIndexRange& range) const;
+	JBoolean Match(const JString& str) const;
+	JBoolean MatchFrom(const JString& str, const JIndex index) const;
+	JBoolean MatchAfter(const JString& str, const JIndexRange& range) const;
+	JBoolean MatchWithin(const JString& str, const JIndexRange& range) const;
 
 	// Count all matches
-	JSize    MatchAll(const JCharacter* str) const;
+	JSize    MatchAll(const JString& str) const;
 
 // These versions return the overall match ranges
 
 	// First match
-	JBoolean Match(const JCharacter* str, JIndexRange* match) const;
-	JBoolean MatchFrom(const JCharacter* str, const JIndex index, JIndexRange* match) const;
-	JBoolean MatchAfter(const JCharacter* str, const JIndexRange& range, JIndexRange* match) const;
-	JBoolean MatchWithin(const JCharacter* str, const JIndexRange& range, JIndexRange* match) const;
+	JBoolean Match(const JString& str, JIndexRange* match) const;
+	JBoolean MatchFrom(const JString& str, const JIndex index, JIndexRange* match) const;
+	JBoolean MatchAfter(const JString& str, const JIndexRange& range, JIndexRange* match) const;
+	JBoolean MatchWithin(const JString& str, const JIndexRange& range, JIndexRange* match) const;
 
 	// Last match
-	JSize    MatchLast(const JCharacter* str, JIndexRange* match) const;
-//	JSize    MatchLastFrom(const JCharacter* str, const JIndex index, JIndexRange* match) const;
-//	JSize    MatchLastAfter(const JCharacter* str, const JIndexRange& range, JIndexRange* match) const;
-	JSize    MatchLastWithin(const JCharacter* str, const JIndexRange& range, JIndexRange* match) const;
+	JSize    MatchLast(const JString& str, JIndexRange* match) const;
+//	JSize    MatchLastFrom(const JString& str, const JIndex index, JIndexRange* match) const;
+//	JSize    MatchLastAfter(const JString& str, const JIndexRange& range, JIndexRange* match) const;
+	JSize    MatchLastWithin(const JString& str, const JIndexRange& range, JIndexRange* match) const;
 
 	// All Matches
-	JSize    MatchAll(const JCharacter* str, JArray<JIndexRange>* matchList) const;
-//	JSize    MatchAllFrom(const JCharacter* str, const JIndex index, JArray<JIndexRange>* matchList) const;
-//	JSize    MatchAllAfter(const JCharacter* str, const JIndexRange& range, JArray<JIndexRange>* matchList) const;
-	JSize    MatchAllWithin(const JCharacter* str, const JIndexRange& range, JArray<JIndexRange>* matchList) const;
+	JSize    MatchAll(const JString& str, JArray<JIndexRange>* matchList) const;
+//	JSize    MatchAllFrom(const JString& str, const JIndex index, JArray<JIndexRange>* matchList) const;
+//	JSize    MatchAllAfter(const JString& str, const JIndexRange& range, JArray<JIndexRange>* matchList) const;
+	JSize    MatchAllWithin(const JString& str, const JIndexRange& range, JArray<JIndexRange>* matchList) const;
 
 // These versions return a list of subexpression matches from the first match
 
 	// First match
-	JBoolean Match(const JCharacter* str, JArray<JIndexRange>* subMatchList) const;
-	JBoolean MatchFrom(const JCharacter* str, const JIndex index, JArray<JIndexRange>* subMatchList) const;
-	JBoolean MatchAfter(const JCharacter* str, const JIndexRange& range, JArray<JIndexRange>* subMatchList) const;
-	JBoolean MatchWithin(const JCharacter* str, const JIndexRange& range, JArray<JIndexRange>* subMatchList) const;
+	JBoolean Match(const JString& str, JArray<JIndexRange>* subMatchList) const;
+	JBoolean MatchFrom(const JString& str, const JIndex index, JArray<JIndexRange>* subMatchList) const;
+	JBoolean MatchAfter(const JString& str, const JIndexRange& range, JArray<JIndexRange>* subMatchList) const;
+	JBoolean MatchWithin(const JString& str, const JIndexRange& range, JArray<JIndexRange>* subMatchList) const;
 
 	// Last match
-//	JSize    MatchLast(const JCharacter* str, JArray<JIndexRange>* subMatchList) const;
-//	JSize    MatchLastFrom(const JCharacter* str, const JIndex index, JArray<JIndexRange>* subMatchList) const;
-//	JSize    MatchLastAfter(const JCharacter* str, const JIndexRange& range, JArray<JIndexRange>* subMatchList) const;
-	JSize    MatchLastWithin(const JCharacter* str, const JIndexRange& range, JArray<JIndexRange>* subMatchList) const;
+//	JSize    MatchLast(const JString& str, JArray<JIndexRange>* subMatchList) const;
+//	JSize    MatchLastFrom(const JString& str, const JIndex index, JArray<JIndexRange>* subMatchList) const;
+//	JSize    MatchLastAfter(const JString& str, const JIndexRange& range, JArray<JIndexRange>* subMatchList) const;
+	JSize    MatchLastWithin(const JString& str, const JIndexRange& range, JArray<JIndexRange>* subMatchList) const;
 
 // Search backwards
 
-	JBoolean MatchBackward(const JCharacter* str, const JIndex index, JIndexRange* match) const;
-	JSize    MatchBackward(const JCharacter* str, const JIndex index, JArray<JIndexRange>* matchList) const;
+	JBoolean MatchBackward(const JString& str, const JIndex index, JIndexRange* match) const;
+	JSize    MatchBackward(const JString& str, const JIndex index, JArray<JIndexRange>* matchList) const;
 
 // Split--a sort of inverse Match that can be very useful.
 
-//	JSize Split(const JCharacter* str, JArray<JIndexRange>* splitList) const;
+	JSize Split(const JString& str, JArray<JIndexRange>* splitList) const;
 
 /******************************************************************************
  Replace and friends
 
  *****************************************************************************/
 
-	JString InterpolateMatches(const JCharacter* sourceString, const JArray<JIndexRange>& matchList) const;
+	JString InterpolateMatches(const JString& sourceString, const JArray<JIndexRange>& matchList) const;
 
 	void    Replace(JString* str, const JArray<JIndexRange>& matchList,
 					JIndexRange* newRange) const;
@@ -151,11 +146,8 @@ public:
 	void     SetMatchCase(const JBoolean yesNo = kJTrue);
 	JBoolean IsMatchCase() const;
 
-	JError SetReplacePattern(const JCharacter* pattern, JIndexRange* errRange = NULL);
 	JError SetReplacePattern(const JString& pattern, JIndexRange* errRange = NULL);
-
-	JError SetReplacePattern(const JCharacter* pattern, const JSize length,
-							 JIndexRange* errRange = NULL);
+	JError SetReplacePattern(const JUtf8Byte* pattern, JIndexRange* errRange = NULL);
 
 	const JString& GetReplacePattern() const;
 
@@ -202,7 +194,7 @@ private:
 
 	// Static data
 
-	static const JString theSpecialCharList;	// JAFL 5/11/98
+	static const JString theSpecialCharList;
 
 private:
 
@@ -210,8 +202,6 @@ private:
 
 	void Allocate();
 	void CopyPatternRegex(const JRegex& source);
-	void CopyPattern(const JCharacter* pattern, const JSize length);
-	void CopyPattern(const JRegex& source);
 
 	void SetCompileOption(const int option, const JBoolean setClear);
 	void SetExecuteOption(const int option, const JBoolean setClear);
@@ -223,7 +213,7 @@ private:
 
 	// The basic regex library functions, translated
 	JError   RegComp();
-	JBoolean RegExec(const JCharacter* str, const JSize offset, const JSize length,
+	JBoolean RegExec(const JUtf8Byte* str, const JSize offset, const JSize length,
 					 JIndexRange* matchRange, JArray<JIndexRange>* matchList) const;
 	void     RegFree();
 
@@ -231,7 +221,7 @@ public:
 
 	// JError stuff
 
-	static const JCharacter* kError; // Break up into real types when we need them
+	static const JUtf8Byte* kError; // Break up into real types when we need them
 
 	class JRegexError : public JError
 	{
@@ -239,10 +229,10 @@ public:
 
 	protected:
 
-		JRegexError(const JCharacter* type, const JCharacter* message,
+		JRegexError(const JUtf8Byte* type, const JString& message,
 					const JIndex index)
 			:
-			JError(type, message, kJTrue),	// Always copy message!
+			JError(type, message.GetBytes()),
 			itsIndex(index)
 		{ };
 
@@ -295,11 +285,10 @@ JRegex::RawGetOption
 inline JBoolean
 JRegex::NeedsBackslashToBeLiteral
 	(
-	const JCharacter c
+	const JUtf8Character& c
 	)
 {
-	const JCharacter s[] = { c, '\0' };
-	return theSpecialCharList.Contains(s);
+	return theSpecialCharList.Contains(c);
 }
 
 /******************************************************************************
@@ -317,41 +306,6 @@ inline const JString&
 JRegex::GetPattern() const
 {
 	return itsPattern;
-}
-
-
-inline void
-JRegex::GetPattern
-	(
-	const JCharacter** pattern,
-	JSize*             length
-	)
-	const
-{
-	*pattern = itsPattern;
-	*length = itsPattern.GetLength();
-}
-
-/******************************************************************************
- ContainsNULL
-
- *****************************************************************************/
-
-inline JBoolean
-JRegex::ContainsNULL() const
-{
-	return JConvertToBoolean(itsNULLCount != 0);
-}
-
-/******************************************************************************
- NULLCount
-
- *****************************************************************************/
-
-inline JSize
-JRegex::NULLCount() const
-{
-	return itsNULLCount;
 }
 
 /******************************************************************************
@@ -518,28 +472,14 @@ JRegex::IsMatchCase() const
 
  *****************************************************************************/
 
-// Creating JStrings is clunky, but convenient for now.
-
 inline JError
 JRegex::SetReplacePattern
 	(
-	const JCharacter* pattern,
-	JIndexRange*      errRange
+	const JString& pattern,
+	JIndexRange*   errRange
 	)
 {
-	return SetReplacePattern( JString(pattern), errRange);
-}
-
-
-inline JError
-JRegex::SetReplacePattern
-	(
-	const JCharacter* pattern,
-	const JSize       length,
-	JIndexRange*      errRange
-	)
-{
-	return SetReplacePattern( JString(pattern, length), errRange);
+	return SetReplacePattern(pattern.GetBytes(), errRange);
 }
 
 /******************************************************************************

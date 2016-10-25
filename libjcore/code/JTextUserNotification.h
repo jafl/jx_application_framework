@@ -20,13 +20,13 @@ public:
 
 	virtual ~JTextUserNotification();
 
-	virtual void		DisplayMessage(const JCharacter* message);
-	virtual void		ReportError(const JCharacter* message);
+	virtual void		DisplayMessage(const JString& message);
+	virtual void		ReportError(const JString& message);
 
-	virtual JBoolean	AskUserYes(const JCharacter* message);
-	virtual JBoolean	AskUserNo(const JCharacter* message);
+	virtual JBoolean	AskUserYes(const JString& message);
+	virtual JBoolean	AskUserNo(const JString& message);
 
-	virtual CloseAction	OKToClose(const JCharacter* message);
+	virtual CloseAction	OKToClose(const JString& message);
 
 	virtual JBoolean	AcceptLicense();
 

@@ -103,18 +103,18 @@ const JFAID_t JFAID::kMaxID                    = kJUInt32Max - 1;	// avoid rollo
 
 // JBroadcaster message types
 
-const JCharacter* JFileArray::kElementInserted = "ElementInserted::JFileArray";
-const JCharacter* JFileArray::kElementRemoved  = "ElementRemoved::JFileArray";
-const JCharacter* JFileArray::kElementMoved    = "ElementMoved::JFileArray";
-const JCharacter* JFileArray::kElementsSwapped = "ElementsSwapped::JFileArray";
-const JCharacter* JFileArray::kElementChanged  = "ElementChanged::JFileArray";
+const JUtf8Byte* JFileArray::kElementInserted = "ElementInserted::JFileArray";
+const JUtf8Byte* JFileArray::kElementRemoved  = "ElementRemoved::JFileArray";
+const JUtf8Byte* JFileArray::kElementMoved    = "ElementMoved::JFileArray";
+const JUtf8Byte* JFileArray::kElementsSwapped = "ElementsSwapped::JFileArray";
+const JUtf8Byte* JFileArray::kElementChanged  = "ElementChanged::JFileArray";
 
 // JError types
 
-const JCharacter* JFileArray::kFileNotWritable = "FileNotWritable::JFileArray";
-const JCharacter* JFileArray::kFileAlreadyOpen = "FileAlreadyOpen::JFileArray";
-const JCharacter* JFileArray::kWrongSignature  = "WrongSignature::JFileArray";
-const JCharacter* JFileArray::kNotEmbeddedFile = "NotEmbeddedFile::JFileArray";
+const JUtf8Byte* JFileArray::kFileNotWritable = "FileNotWritable::JFileArray";
+const JUtf8Byte* JFileArray::kFileAlreadyOpen = "FileAlreadyOpen::JFileArray";
+const JUtf8Byte* JFileArray::kWrongSignature  = "WrongSignature::JFileArray";
+const JUtf8Byte* JFileArray::kNotEmbeddedFile = "NotEmbeddedFile::JFileArray";
 
 // maximum amount of temporary memory to allocate while
 // inserting/deleting space in the file
@@ -184,8 +184,8 @@ enum
 JError
 JFileArray::Create
 	(
-	const JCharacter*	fileName,
-	const JCharacter*	fileSignature,
+	const JString&		fileName,
+	const JString&		fileSignature,
 	JFileArray**		obj,
 	const CreateAction	action
 	)
@@ -206,8 +206,8 @@ JFileArray::Create
 JError
 JFileArray::OKToCreateBase
 	(
-	const JCharacter*	fileName,
-	const JCharacter*	fileSignature,
+	const JString&		fileName,
+	const JString&		fileSignature,
 	const CreateAction	action
 	)
 {
@@ -218,11 +218,11 @@ JFileArray::OKToCreateBase
 			return FileNotWritable(fileName);
 			}
 
-		ifstream input(fileName);
+		ifstream input(fileName.GetBytes());
 
 		// check file signature
 
-		const JSize sigLength   = strlen(fileSignature);
+		const JSize sigLength   = fileSignature.GetByteCount();
 		const JString signature = JRead(input, sigLength);
 		if (signature != fileSignature)
 			{
@@ -249,7 +249,7 @@ JFileArray::OKToCreateBase
 				{
 				input.close();
 				JWait(kBlockDelay);
-				input.open(fileName);	// avoid buffering problems
+				input.open(fileName.GetBytes());	// avoid buffering problems
 				if (!FileIsOpen(input, sigLength))
 					{
 					return JNoError();
@@ -270,7 +270,7 @@ JFileArray::OKToCreateBase
 		{
 		JString path, name;
 		JSplitPathAndName(fileName, &path, &name);
-		if (!JDirectoryWritable(path))
+		if (!JDirectoryWritable(path.GetBytes()))
 			{
 			return JAccessDenied(path);
 			}
@@ -289,8 +289,8 @@ JFileArray::OKToCreateBase
 
 JFileArray::JFileArray
 	(
-	const JCharacter*	fileName,
-	const JCharacter*	fileSignature,
+	const JString&		fileName,
+	const JString&		fileSignature,
 	const CreateAction	action
 	)
 	:
@@ -312,13 +312,13 @@ JFileArray::JFileArray
 
 	if (isNew)		// hack: gcc 3.2.x doesn't allow ios::in if file doesn't exist!
 		{
-		ofstream temp(fileName);
+		ofstream temp(fileName.GetBytes());
 		}
 
 	itsStream = jnew fstream;
 	assert( itsStream != NULL );
 
-	itsStream->open(fileName, kFileOpenMode);
+	itsStream->open(fileName.GetBytes(), kFileOpenMode);
 	assert( itsStream->good() );
 
 	itsFileName = jnew JString;
@@ -427,14 +427,14 @@ JFileArray::JFileArray
 void
 JFileArray::FileArrayX
 	(
-	const JBoolean		isNew,
-	const JCharacter*	fileSignature
+	const JBoolean	isNew,
+	const JString&	fileSignature
 	)
 {
 	itsFileIndex = jnew JFileArrayIndex;
 	assert( itsFileIndex != NULL);
 
-	itsFileSignatureLength = strlen(fileSignature);
+	itsFileSignatureLength = fileSignature.GetByteCount();
 
 	itsIsOpenFlag       = kJFalse;
 	itsFlushChangesFlag = kJFalse;
@@ -450,7 +450,7 @@ JFileArray::FileArrayX
 		if (itsFileSignatureLength > 0)
 			{
 			SetReadWriteMark(0, kFromFileStart);
-			itsStream->write(fileSignature, itsFileSignatureLength);
+			itsStream->write(fileSignature.GetBytes(), itsFileSignatureLength);
 			}
 
 		WriteVersion();
@@ -627,7 +627,7 @@ JFileArray::GetElement
 
 	// allocate temporary space to hold the element's data
 
-	JCharacter* data = jnew JCharacter [ length ];
+	JUtf8Byte* data = jnew JUtf8Byte [ length ];
 	assert( data != NULL );
 
 	// stuff the element's data into elementData
@@ -680,19 +680,19 @@ JFileArray::SetElement
 void
 JFileArray::SetElement
 	(
-	const JFAIndex&		index,
-	const JCharacter*	data
+	const JFAIndex&	index,
+	const JString&	data
 	)
 {
 	assert( IndexValid(index) );
 	assert( !itsFileIndex->IsEmbeddedFile(index) );
 
-	const JSize length = strlen(data) + 1;		// include termination
+	const JSize length = data.GetByteCount() + 1;		// include termination
 	SetElementSize(index, length);
 
 	GoToElement(index);
 	WriteElementSize(length);
-	itsStream->write(data, length);
+	itsStream->write(data.GetBytes(), length);
 
 	// make sure all the data in the file is correct
 
@@ -724,8 +724,8 @@ JFileArray::SetElement
 void
 JFileArray::SetElement
 	(
-	const JFAID&		id,
-	const JCharacter*	data
+	const JFAID&	id,
+	const JString&	data
 	)
 {
 	JFAIndex index;
@@ -762,8 +762,8 @@ JFileArray::InsertElementAtIndex
 void
 JFileArray::InsertElementAtIndex
 	(
-	const JFAIndex&		index,
-	const JCharacter*	newElementData
+	const JFAIndex&	index,
+	const JString&	newElementData
 	)
 {
 	assert( index.IsValid() );
@@ -790,7 +790,7 @@ JFileArray::InsertElementAtIndex
 
 	// now expand the allocation for the file
 
-	const JSize newElementSize = strlen(newElementData) + 1;	// include termination
+	const JSize newElementSize = newElementData.GetByteCount() + 1;	// include termination
 
 	itsIndexOffset += kElementSizeLength + newElementSize;
 	SetFileLength(itsIndexOffset + itsFileIndex->GetIndexLength());
@@ -799,7 +799,7 @@ JFileArray::InsertElementAtIndex
 
 	SetReadWriteMark(newElementOffset, kFromFileStart);
 	WriteElementSize(newElementSize);
-	itsStream->write(newElementData, newElementSize);
+	itsStream->write(newElementData.GetBytes(), newElementSize);
 
 	// notify JCollection base class
 
@@ -1114,7 +1114,7 @@ JFileArray::ExpandData
 	// allocate temporary memory for transfer of data
 
 	JSize       dataSize = JMin(maxTempMem, totalLength - offset);
-	JCharacter* data     = jnew JCharacter [ dataSize ];
+	JUtf8Byte* data      = jnew JUtf8Byte [ dataSize ];
 	assert( data != NULL );
 
 	// start at end of data and work towards front of file
@@ -1205,7 +1205,7 @@ JFileArray::CompactData
 	// allocate temporary memory for transfer of data
 
 	JSize       dataSize = JMin(maxTempMem, totalLength - offset - blankSize);
-	JCharacter* data     = jnew JCharacter [ dataSize ];
+	JUtf8Byte* data      = jnew JUtf8Byte [ dataSize ];
 	assert( data != NULL );
 
 	// start in front of unneeded space and work towards end of file
@@ -1589,7 +1589,7 @@ JFileArray::SetFileLength
 		{
 		// closes old fstream, changes file length, returns new fstream
 
-		fstream* newStream = JSetFStreamLength(*itsFileName, *itsStream,
+		fstream* newStream = JSetFStreamLength(itsFileName->GetBytes(), *itsStream,
 											   newLength, kFileOpenMode);
 
 		// deletes the old fstream and notifies embedded files of new one
@@ -1738,43 +1738,37 @@ JFileArray::ElementsSwapped::AdjustIndex
 
  ******************************************************************************/
 
-static const JCharacter* kJFileArrayMsgMap[] =
-	{
-	"name", NULL
-	};
-
-
 JFileArray::FileNotWritable::FileNotWritable
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	:
-	JError(JFileArray::kFileNotWritable, "")
+	JError(JFileArray::kFileNotWritable)
 {
-	kJFileArrayMsgMap[1] = fileName;
-	SetMessage(kJFileArrayMsgMap, sizeof(kJFileArrayMsgMap));
+	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 JFileArray::FileAlreadyOpen::FileAlreadyOpen
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	:
-	JError(JFileArray::kFileAlreadyOpen, "")
+	JError(JFileArray::kFileAlreadyOpen)
 {
-	kJFileArrayMsgMap[1] = fileName;
-	SetMessage(kJFileArrayMsgMap, sizeof(kJFileArrayMsgMap));
+	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 JFileArray::WrongSignature::WrongSignature
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	:
-	JError(JFileArray::kWrongSignature, "")
+	JError(JFileArray::kWrongSignature)
 {
-	kJFileArrayMsgMap[1] = fileName;
-	SetMessage(kJFileArrayMsgMap, sizeof(kJFileArrayMsgMap));
+	const JUtf8Byte* map[] = { "name", fileName.GetBytes() };
+	SetMessage(map, sizeof(map));
 }
 
 JFileArray::NotEmbeddedFile::NotEmbeddedFile
@@ -1782,12 +1776,12 @@ JFileArray::NotEmbeddedFile::NotEmbeddedFile
 	const JIndex index
 	)
 	:
-	JError(JFileArray::kNotEmbeddedFile, "")
+	JError(JFileArray::kNotEmbeddedFile)
 {
 	const JString s(index, JString::kBase10);
-	static const JCharacter* map[] =
+	static const JUtf8Byte* map[] =
 	{
-		"index", s
+		"index", s.GetBytes()
 	};
 	SetMessage(map, sizeof(map));
 }

@@ -56,8 +56,8 @@ public:
 
 public:
 
-	JDirEntry(const JCharacter* fullName);
-	JDirEntry(const JCharacter* pathName, const JCharacter* fileName);
+	JDirEntry(const JString& fullName);
+	JDirEntry(const JString& pathName, const JString& fileName);
 	JDirEntry(const JDirEntry& source);
 
 	~JDirEntry();
@@ -139,11 +139,11 @@ private:
 
 private:
 
-	void	JDirEntryX(const JCharacter* fullName);
+	void	JDirEntryX(const JString& fullName);
 
 	// called by JDirInfo when building search targets
 
-	JDirEntry(const JCharacter* fileName, int x);
+	JDirEntry(const JString& fileName, int x);
 };
 
 

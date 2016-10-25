@@ -14,52 +14,52 @@
 
 // Types
 
-extern const JCharacter* kJGeneralIO;
+extern const JUtf8Byte* kJGeneralIO;
 
-extern const JCharacter* kJSegFault;
-extern const JCharacter* kJNoProcessMemory;
-extern const JCharacter* kJNoKernelMemory;
-extern const JCharacter* kJMemoryNotReadable;
-extern const JCharacter* kJMemoryNotWriteable;
+extern const JUtf8Byte* kJSegFault;
+extern const JUtf8Byte* kJNoProcessMemory;
+extern const JUtf8Byte* kJNoKernelMemory;
+extern const JUtf8Byte* kJMemoryNotReadable;
+extern const JUtf8Byte* kJMemoryNotWriteable;
 
-extern const JCharacter* kJProgramNotAvailable;
-extern const JCharacter* kJDirEntryAlreadyExists;
-extern const JCharacter* kJDirEntryDoesNotExist;
-extern const JCharacter* kJNameTooLong;
-extern const JCharacter* kJFileBusy;
-extern const JCharacter* kJInvalidOpenMode;
+extern const JUtf8Byte* kJProgramNotAvailable;
+extern const JUtf8Byte* kJDirEntryAlreadyExists;
+extern const JUtf8Byte* kJDirEntryDoesNotExist;
+extern const JUtf8Byte* kJNameTooLong;
+extern const JUtf8Byte* kJFileBusy;
+extern const JUtf8Byte* kJInvalidOpenMode;
 
-extern const JCharacter* kJAccessDenied;
-extern const JCharacter* kJFileSystemReadOnly;
-extern const JCharacter* kJFileSystemFull;
-extern const JCharacter* kJDeviceFull;
+extern const JUtf8Byte* kJAccessDenied;
+extern const JUtf8Byte* kJFileSystemReadOnly;
+extern const JUtf8Byte* kJFileSystemFull;
+extern const JUtf8Byte* kJDeviceFull;
 
-extern const JCharacter* kJComponentNotDirectory;
-extern const JCharacter* kJNotSymbolicLink;
-extern const JCharacter* kJPathContainsLoop;
-extern const JCharacter* kJNoHomeDirectory;
-extern const JCharacter* kJBadPath;
-extern const JCharacter* kJDirectoryNotEmpty;
-extern const JCharacter* kJDirectoryBusy;
+extern const JUtf8Byte* kJComponentNotDirectory;
+extern const JUtf8Byte* kJNotSymbolicLink;
+extern const JUtf8Byte* kJPathContainsLoop;
+extern const JUtf8Byte* kJNoHomeDirectory;
+extern const JUtf8Byte* kJBadPath;
+extern const JUtf8Byte* kJDirectoryNotEmpty;
+extern const JUtf8Byte* kJDirectoryBusy;
 
-extern const JCharacter* kJCantRenameFileToDirectory;
-extern const JCharacter* kJCantRenameAcrossFilesystems;
-extern const JCharacter* kJCantRenameToNonemptyDirectory;
-extern const JCharacter* kJDirectoryCantBeOwnChild;
-extern const JCharacter* kJTooManyLinks;
+extern const JUtf8Byte* kJCantRenameFileToDirectory;
+extern const JUtf8Byte* kJCantRenameAcrossFilesystems;
+extern const JUtf8Byte* kJCantRenameToNonemptyDirectory;
+extern const JUtf8Byte* kJDirectoryCantBeOwnChild;
+extern const JUtf8Byte* kJTooManyLinks;
 
-extern const JCharacter* kJTriedToRemoveDirectory;
-extern const JCharacter* kJIsADirectory;
+extern const JUtf8Byte* kJTriedToRemoveDirectory;
+extern const JUtf8Byte* kJIsADirectory;
 
-extern const JCharacter* kJDescriptorNotOpen;
-extern const JCharacter* kJTooManyDescriptorsOpen;
-extern const JCharacter* kJNegativeDescriptor;
-extern const JCharacter* kJInvalidDescriptor;
+extern const JUtf8Byte* kJDescriptorNotOpen;
+extern const JUtf8Byte* kJTooManyDescriptorsOpen;
+extern const JUtf8Byte* kJNegativeDescriptor;
+extern const JUtf8Byte* kJInvalidDescriptor;
 
-extern const JCharacter* kJWouldHaveBlocked;
-extern const JCharacter* kJNonBlockedSignal;
+extern const JUtf8Byte* kJWouldHaveBlocked;
+extern const JUtf8Byte* kJNonBlockedSignal;
 
-extern const JCharacter* kJNotCompressed;
+extern const JUtf8Byte* kJNotCompressed;
 
 // Classes
 
@@ -129,21 +129,21 @@ class JProgramNotAvailable : public JError
 {
 public:
 
-	JProgramNotAvailable(const JCharacter* programName);
+	JProgramNotAvailable(const JString& programName);
 };
 
 class JDirEntryAlreadyExists : public JError
 {
 public:
 
-	JDirEntryAlreadyExists(const JCharacter* fileName);
+	JDirEntryAlreadyExists(const JString& fileName);
 };
 
 class JDirEntryDoesNotExist : public JError
 {
 public:
 
-	JDirEntryDoesNotExist(const JCharacter* fileName);
+	JDirEntryDoesNotExist(const JString& fileName);
 };
 
 class JNameTooLong : public JError
@@ -160,14 +160,14 @@ class JFileBusy : public JError
 {
 public:
 
-	JFileBusy(const JCharacter* fileName);
+	JFileBusy(const JString& fileName);
 };
 
 class JInvalidOpenMode : public JError
 {
 public:
 
-	JInvalidOpenMode(const JCharacter* fileName);
+	JInvalidOpenMode(const JString& fileName);
 };
 
 
@@ -175,9 +175,9 @@ class JAccessDenied : public JError
 {
 public:
 
-	JAccessDenied(const JCharacter* fileName);
-	JAccessDenied(const JCharacter* fileName1,
-				  const JCharacter* fileName2);
+	JAccessDenied(const JString& fileName);
+	JAccessDenied(const JString& fileName1,
+				  const JString& fileName2);
 };
 
 class JFileSystemReadOnly : public JError
@@ -215,25 +215,25 @@ class JComponentNotDirectory : public JError
 {
 public:
 
-	JComponentNotDirectory(const JCharacter* path);
-	JComponentNotDirectory(const JCharacter* path1,
-						   const JCharacter* path2);
+	JComponentNotDirectory(const JString& path);
+	JComponentNotDirectory(const JString& path1,
+						   const JString& path2);
 };
 
 class JNotSymbolicLink : public JError
 {
 public:
 
-	JNotSymbolicLink(const JCharacter* name);
+	JNotSymbolicLink(const JString& name);
 };
 
 class JPathContainsLoop : public JError
 {
 public:
 
-	JPathContainsLoop(const JCharacter* path);
-	JPathContainsLoop(const JCharacter* path1,
-					  const JCharacter* path2);
+	JPathContainsLoop(const JString& path);
+	JPathContainsLoop(const JString& path1,
+					  const JString& path2);
 };
 
 class JNoHomeDirectory : public JError
@@ -250,23 +250,23 @@ class JBadPath : public JError
 {
 public:
 
-	JBadPath(const JCharacter* path);
-	JBadPath(const JCharacter* path1,
-			 const JCharacter* path2);
+	JBadPath(const JString& path);
+	JBadPath(const JString& path1,
+			 const JString& path2);
 };
 
 class JDirectoryNotEmpty : public JError
 {
 public:
 
-	JDirectoryNotEmpty(const JCharacter* name);
+	JDirectoryNotEmpty(const JString& name);
 };
 
 class JDirectoryBusy : public JError
 {
 public:
 
-	JDirectoryBusy(const JCharacter* name);
+	JDirectoryBusy(const JString& name);
 };
 
 
@@ -274,8 +274,8 @@ class JCantRenameFileToDirectory : public JError
 {
 public:
 
-	JCantRenameFileToDirectory(const JCharacter* oldName,
-							   const JCharacter* newName);
+	JCantRenameFileToDirectory(const JString& oldName,
+							   const JString& newName);
 };
 
 class JCantRenameAcrossFilesystems : public JError
@@ -312,7 +312,7 @@ class JTooManyLinks : public JError
 {
 public:
 
-	JTooManyLinks(const JCharacter* name);
+	JTooManyLinks(const JString& name);
 };
 
 
@@ -403,7 +403,7 @@ class JNotCompressed : public JError
 {
 public:
 
-	JNotCompressed(const JCharacter* fileName);
+	JNotCompressed(const JString& fileName);
 };
 
 #endif

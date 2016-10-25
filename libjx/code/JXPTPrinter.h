@@ -80,8 +80,8 @@ protected:
 private:
 
 	Destination	itsDestination;
-	JString*	itsPrintCmd;
-	JString*	itsFileName;
+	JString		itsPrintCmd;
+	JString		itsFileName;
 
 	JXPTPageSetupDialog*	itsPageSetupDialog;
 	JXPTPrintSetupDialog*	itsPrintSetupDialog;

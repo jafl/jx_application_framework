@@ -59,7 +59,7 @@ JDirInfo::BuildInfo1
 			continue;
 			}
 
-		JDirEntry* newEntry = jnew JDirEntry(*itsCWD, direntry->d_name);
+		JDirEntry* newEntry = jnew JDirEntry(itsCWD->GetBytes(), direntry->d_name);
 		assert( newEntry != NULL );
 		if (MatchesContentFilter(*newEntry))
 			{

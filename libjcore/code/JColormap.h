@@ -13,6 +13,8 @@
 #include <jColor.h>
 #include <JArray.h>
 
+class JString;
+
 class JColormap
 {
 public:
@@ -21,7 +23,7 @@ public:
 
 	virtual ~JColormap();
 
-	virtual JBoolean	GetColor(const JCharacter* name, JColorIndex* colorIndex) const = 0;
+	virtual JBoolean	GetColor(const JString& name, JColorIndex* colorIndex) const = 0;
 	JColorIndex			GetColor(const JRGB& color) const;
 	virtual JColorIndex	GetColor(const JSize red, const JSize green, const JSize blue) const = 0;
 

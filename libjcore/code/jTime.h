@@ -34,7 +34,7 @@ JString JConvertToTimeStamp(const time_t t);
 JString	JPrintTimeInterval(const JUInt delta);
 
 void	JCheckExpirationDate(const time_t expireTime,
-							 const JCharacter* map[], const JSize size);
+							 const JUtf8Byte* map[], const JSize size);
 
 long	JGetTimezoneOffset();
 

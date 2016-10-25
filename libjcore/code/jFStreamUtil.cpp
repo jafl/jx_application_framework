@@ -30,11 +30,11 @@
 void
 JReadFile
 	(
-	const JCharacter*	fileName,
-	JString*			str
+	const JString&	fileName,
+	JString*		str
 	)
 {
-	ifstream input(fileName);
+	ifstream input(fileName.GetBytes());
 	JReadFile(input, str);
 }
 
@@ -124,11 +124,11 @@ JConvertToStream
 		return kJFalse;
 		}
 
-	ofstream output(*tempFullName);
+	ofstream output(tempFullName->GetBytes());
 	data.Print(output);
 	output.close();
 
-	input2->open(*tempFullName);
+	input2->open(tempFullName->GetBytes());
 	return JI2B(input2->good());
 }
 

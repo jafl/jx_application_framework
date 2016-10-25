@@ -32,7 +32,7 @@ static JBoolean theIncludeCWDOnPathFlag = kJFalse;
 // Private functions
 
 void		JCleanArg(JString* arg);
-JBoolean	JProgramAvailable(const JCharacter* programName, JString* fixedName);
+JBoolean	JProgramAvailable(const JString& programName, JString* fixedName);
 
 /******************************************************************************
  JPrepArgForExec
@@ -45,7 +45,7 @@ JBoolean	JProgramAvailable(const JCharacter* programName, JString* fixedName);
 JString
 JPrepArgForExec
 	(
-	const JCharacter* arg
+	const JString& arg
 	)
 {
 	JString str    = arg;
@@ -54,7 +54,7 @@ JPrepArgForExec
 	const JSize length = str.GetLength();
 	for (JIndex i=length; i>=1; i--)
 		{
-		const JCharacter c = str.GetCharacter(i);
+		const JUtf8Byte c = str.GetCharacter(i);
 		if (c == '"' || c == '\'' || c == '\\' || c == ';')
 			{
 			str.InsertSubstring("\\", i);
@@ -84,11 +84,11 @@ JPrepArgForExec
 void
 JParseArgsForExec
 	(
-	const JCharacter*	cmd,
+	const JString&		cmd,
 	JPtrArray<JString>*	argList
 	)
 {
-	assert( !JStringEmpty(cmd) );
+	assert( !JString::IsEmpty(cmd) );
 
 	argList->CleanOut();
 
@@ -119,7 +119,7 @@ JParseArgsForExec
 			}
 		else if (cmd[i] == '"' || cmd[i] == '\'')
 			{
-			const JCharacter c = cmd[i];
+			const JUtf8Byte c = cmd[i];
 			i++;
 			while (i < length)
 				{
@@ -171,7 +171,7 @@ JCleanArg
 	JSize length = arg->GetLength();
 	for (JIndex i=1; i<=length; i++)
 		{
-		const JCharacter c = arg->GetCharacter(i);
+		const JUtf8Byte c = arg->GetCharacter(i);
 		if (c == '\\')
 			{
 			arg->RemoveSubstring(i,i);
@@ -205,8 +205,8 @@ JCleanArg
 JError
 JExecute
 	(
-	const JCharacter*		workingDirectory,
-	const JCharacter*		cmd,
+	const JString&			workingDirectory,
+	const JString&			cmd,
 	pid_t*					childPID,
 	const JExecuteAction	toAction,
 	int*					toFD,
@@ -237,7 +237,7 @@ JExecute
 JError
 JExecute
 	(
-	const JCharacter*			workingDirectory,
+	const JString&				workingDirectory,
 	const JPtrArray<JString>&	argList,
 	pid_t*						childPID,
 	const JExecuteAction		toAction,
@@ -269,8 +269,8 @@ JExecute
 JError
 JExecute
 	(
-	const JCharacter*		workingDirectory,
-	const JCharacter*		argv[],
+	const JString&			workingDirectory,
+	const JUtf8Byte*		argv[],
 	const JSize				size,
 	pid_t*					childPID,
 	const JExecuteAction	toAction,
@@ -303,7 +303,7 @@ JExecute
 JError
 JExecute
 	(
-	const JCharacter*		cmd,
+	const JString&			cmd,
 	pid_t*					childPID,
 	const JExecuteAction	toAction,
 	int*					toFD,
@@ -347,16 +347,16 @@ JExecute
 {
 	const JSize argc = argList.GetElementCount();
 
-	const JCharacter** argv = jnew const JCharacter* [ argc+1 ];
+	const JUtf8Byte** argv = jnew const JUtf8Byte* [ argc+1 ];
 	assert( argv != NULL );
 
 	for (JIndex i=1; i<=argc; i++)
 		{
-		argv[i-1] = *(argList.NthElement(i));
+		argv[i-1] = argList.NthElement(i)->GetBytes();
 		}
 	argv[argc] = NULL;
 
-	const JError err = JExecute(argv, (argc+1) * sizeof(JCharacter*), childPID,
+	const JError err = JExecute(argv, (argc+1) * sizeof(JUtf8Byte*), childPID,
 								toAction, toFD, fromAction, fromFD,
 								errAction, errFD);
 
@@ -417,7 +417,7 @@ JExecute
 JError
 JExecute
 	(
-	const JCharacter*		argv[],
+	const JUtf8Byte*		argv[],
 	const JSize				size,
 	pid_t*					childPID,
 	const JExecuteAction	toAction,
@@ -428,8 +428,8 @@ JExecute
 	int*					errFD
 	)
 {
-	assert( size > sizeof(JCharacter*) );
-	assert( argv[ (size/sizeof(JCharacter*)) - 1 ] == NULL );
+	assert( size > sizeof(JUtf8Byte*) );
+	assert( argv[ (size/sizeof(JUtf8Byte*)) - 1 ] == NULL );
 
 	const JExecuteAction fromAction =
 		(origFromAction == kJForceNonblockingPipe ? kJCreatePipe : origFromAction);
@@ -759,27 +759,27 @@ JPrintChildExitReason
 	else if (reason == kJChildFinished)
 		{
 		const JString errValue(result, JString::kBase10);
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"code", errValue
+			"code", errValue.GetBytes()
 			};
 		return JGetString("StatusErrorCode::jProcessUtil", map, sizeof(map));
 		}
 	else if (reason == kJChildSignalled)
 		{
 		const JString sigName = JGetSignalName(result);
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"signal", sigName
+			"signal", sigName.GetBytes()
 			};
 		return JGetString("StatusTerminated::jProcessUtil", map, sizeof(map));
 		}
 	else if (reason == kJChildStopped)
 		{
 		const JString sigName = JGetSignalName(result);
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"signal", sigName
+			"signal", sigName.GetBytes()
 			};
 		return JGetString("StatusStopped::jProcessUtil", map, sizeof(map));
 		}
@@ -836,7 +836,7 @@ JSendSignalToProcess
 JBoolean
 JProgramAvailable
 	(
-	const JCharacter* programName
+	const JString& programName
 	)
 {
 	JString s;
@@ -846,11 +846,11 @@ JProgramAvailable
 JBoolean
 JProgramAvailable
 	(
-	const JCharacter*	programName,
-	JString*			fixedName
+	const JString&	programName,
+	JString*		fixedName
 	)
 {
-	if (JStringEmpty(programName) ||
+	if (JString::IsEmpty(programName) ||
 		!JExpandHomeDirShortcut(programName, fixedName))
 		{
 		return kJFalse;
@@ -871,7 +871,7 @@ JProgramAvailable
 
 	// check each directory in the exec path list
 
-	const JCharacter* cpath = getenv("PATH");
+	const JUtf8Byte* cpath = getenv("PATH");
 
 	JString path(cpath == NULL ? "" : cpath);
 	if (theIncludeCWDOnPathFlag)

@@ -13,7 +13,7 @@
 #include <string>
 #include <jassert_simple.h>
 
-void TestConstruction()
+JTEST(Construction)
 {
 	JString s1;
 	JAssertStringsEqual("", s1.GetBytes());
@@ -61,7 +61,7 @@ void TestConstruction()
 	JAssertStringsEqual("890\xC2\xA9\xC3\x85", s9.GetBytes());
 }
 
-void TestIntegerConversion()
+JTEST(IntegerConversion)
 {
 	JString s1(42, JString::kBase10);
 	JAssertStringsEqual("42", s1.GetBytes());
@@ -76,10 +76,13 @@ void TestIntegerConversion()
 	JAssertStringsEqual("52", s4.GetBytes());
 
 	JString s5(42, JString::kBase16);
-	JAssertStringsEqual("0x2a", s5.GetBytes());
+	JAssertStringsEqual("0x2A", s5.GetBytes());
+
+	JString s6(10, JString::kBase16, kJTrue);
+	JAssertStringsEqual("0x0A", s6.GetBytes());
 }
 
-void TestFloatConversion()
+JTEST(FloatConversion)
 {
 	JString s1(42);
 	JAssertStringsEqual("42", s1.GetBytes());
@@ -92,10 +95,96 @@ void TestFloatConversion()
 
 	JString s4(1.3e20);
 	JAssertStringsEqual("1.3e+20", s4.GetBytes());
+
+	JString s5(1.57e5, 2, JString::kForceExponent, 2, 4);
+	JAssertStringsEqual("1600.0000e+2", s5.GetBytes());
 }
 
-void
-TestCopyMaxN()
+JTEST(ToLower)
+{
+	JString s;
+	s.ToLower();
+	JAssertStringsEqual("", s.GetBytes());
+
+	s = "ABCD";
+	s.ToLower();
+	JAssertStringsEqual("abcd", s.GetBytes());
+
+	s = "abcd";
+	s.ToLower();
+	JAssertStringsEqual("abcd", s.GetBytes());
+
+	// ae
+
+	s = "\xC3\x86";
+	s.ToLower();
+	JAssertStringsEqual("\xC3\xA6", s.GetBytes());
+
+	// phi
+
+	s = "\xCE\xA6";
+	s.ToLower();
+	JAssertStringsEqual("\xCF\x86", s.GetBytes());
+
+	// sigma
+
+	s = "\xCE\xA3";
+	s.ToLower();
+	JAssertStringsEqual("\xCF\x83", s.GetBytes());
+
+	// greek
+
+	s = "\xCE\x9C\xCE\x86\xCE\xAA\xCE\x9F\xCE\xA3";
+	s.ToLower();
+	JAssertStringsEqual("\xCE\xBC\xCE\xAC\xCF\x8A\xCE\xBF\xCF\x82", s.GetBytes());
+}
+
+JTEST(ToUpper)
+{
+	JString s;
+	s.ToUpper();
+	JAssertStringsEqual("", s.GetBytes());
+
+	s = "abcd";
+	s.ToUpper();
+	JAssertStringsEqual("ABCD", s.GetBytes());
+
+	s = "ABCD";
+	s.ToUpper();
+	JAssertStringsEqual("ABCD", s.GetBytes());
+
+	// ae
+
+	s = "\xC3\xA6";
+	s.ToUpper();
+	JAssertStringsEqual("\xC3\x86", s.GetBytes());
+
+	// phi
+
+	s = "\xCF\x86";
+	s.ToUpper();
+	JAssertStringsEqual("\xCE\xA6", s.GetBytes());
+
+	// sigma
+
+	s = "\xCF\x83";
+	s.ToUpper();
+	JAssertStringsEqual("\xCE\xA3", s.GetBytes());
+
+	// double s
+
+	s = "me\xC3\x9F";
+	s.ToUpper();
+	JAssertStringsEqual("MESS", s.GetBytes());
+
+	// greek
+
+	s = "\xCE\x9C\xCE\xAC\xCF\x8A\xCE\xBF\xCF\x82";
+	s.ToUpper();
+	JAssertStringsEqual("\xCE\x9C\xCE\x86\xCE\xAA\xCE\x9F\xCE\xA3", s.GetBytes());
+}
+
+JTEST(CopyMaxN)
 {
 	const JIndex kStringLength = 10;
 	JUtf8Byte string [ kStringLength ];
@@ -115,16 +204,7 @@ TestCopyMaxN()
 		}
 }
 
-static const JUnitTest tests[] =
-{
-	TestConstruction,
-	TestIntegerConversion,
-	TestFloatConversion,
-	TestCopyMaxN,
-	NULL
-};
-
 int main()
 {
-	JUnitTestManager::Execute(tests);
+	JUnitTestManager::Execute();
 }

@@ -17,7 +17,7 @@
 
 // JBroadcaster message types
 
-const JCharacter* JSliderBase::kMoved = "Moved::JSliderBase";
+const JUtf8Byte* JSliderBase::kMoved = "Moved::JSliderBase";
 
 /******************************************************************************
  Constructor

@@ -27,7 +27,7 @@ public:
 private:
 
 	JXSaveFileDialog*	itsDialog;		// not owned
-	JString*			itsDirName;
+	JString				itsDirName;
 
 private:
 

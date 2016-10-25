@@ -36,7 +36,7 @@ const JSize kBlockSize = 50;
 enum
 {
 	kOrigSetSizeLength = 10,
-	kElementLength     = sizeof(JCharacter)
+	kElementLength     = sizeof(JUtf8Byte)
 };
 
 static JKLRand theRNG;
@@ -996,8 +996,8 @@ JGetRandomSample
 
  ******************************************************************************/
 
-const JCharacter kInSet    = 'T';
-const JCharacter kNotInSet = 'F';
+const JUtf8Byte kInSet    = 'T';
+const JUtf8Byte kNotInSet = 'F';
 
 istream&
 operator>>
@@ -1020,7 +1020,7 @@ operator>>
 
 	// allocate space for the data
 
-	JCharacter* data = jnew JCharacter [ aSubset.itsOriginalSetSize ];
+	JUtf8Byte* data = jnew JUtf8Byte [ aSubset.itsOriginalSetSize ];
 	assert( data != NULL );
 
 	// read the data all at once
@@ -1065,7 +1065,7 @@ operator<<
 
 	// allocate space for the data
 
-	JCharacter* data = jnew JCharacter[ setSize ];
+	JUtf8Byte* data = jnew JUtf8Byte[ setSize ];
 	assert( data != NULL );
 
 	// mark all elements as not in set

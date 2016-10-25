@@ -11,6 +11,7 @@
 #define _H_JLatentPG
 
 #include <JProgressDisplay.h>
+#include <JString.h>
 #include <jTime.h>
 
 class JLatentPG : public JProgressDisplay
@@ -32,9 +33,9 @@ public:
 	JSize	GetScaleFactor() const;
 	void	SetScaleFactor(const JSize scaleFactor);
 
-	virtual JBoolean	IncrementProgress(const JCharacter* message = NULL);
+	virtual JBoolean	IncrementProgress(const JString* message = NULL);
 	virtual JBoolean	IncrementProgress(const JSize delta);
-	virtual JBoolean	IncrementProgress(const JCharacter* message,
+	virtual JBoolean	IncrementProgress(const JString& message,
 										  const JSize delta);
 	virtual JBoolean	ProcessContinuing();
 	virtual void		ProcessFinished();
@@ -43,7 +44,7 @@ public:
 protected:
 
 	virtual void	ProcessBeginning(const ProcessType processType, const JSize stepCount,
-									 const JCharacter* message, const JBoolean allowCancel,
+									 const JString& message, const JBoolean allowCancel,
 									 const JBoolean allowBackground);
 
 	virtual JBoolean	CheckForCancel();
@@ -52,7 +53,7 @@ private:
 
 	JProgressDisplay*	itsPG;
 	JBoolean			itsOwnsPGFlag;
-	JString*			itsMessage;
+	JString				itsMessage;
 
 	time_t	itsStartTime;
 	time_t	itsMaxSilentTime;

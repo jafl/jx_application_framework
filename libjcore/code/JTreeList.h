@@ -90,7 +90,7 @@ public:		// should be private
 		{
 		public:
 
-			NodeMessage(const JCharacter* type,
+			NodeMessage(const JUtf8Byte* type,
 						const JTreeNode* node, const JIndex index)
 				:
 				JBroadcaster::Message(type),
@@ -120,12 +120,12 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kNodeInserted;
-	static const JCharacter* kNodeRemoved;
-	static const JCharacter* kNodeChanged;
+	static const JUtf8Byte* kNodeInserted;
+	static const JUtf8Byte* kNodeRemoved;
+	static const JUtf8Byte* kNodeChanged;
 
-	static const JCharacter* kNodeOpened;
-	static const JCharacter* kNodeClosed;
+	static const JUtf8Byte* kNodeOpened;
+	static const JUtf8Byte* kNodeClosed;
 
 	class NodeInserted : public NodeMessage
 		{

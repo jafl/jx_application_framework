@@ -86,7 +86,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kMoved;
+	static const JUtf8Byte* kMoved;
 
 	class Moved : public JBroadcaster::Message
 		{

@@ -33,6 +33,7 @@
 #include <sstream>
 #include <strstream>
 #include <iomanip>
+#include <unicode/uchar.h>
 #include <jErrno.h>
 #include <jAssert.h>
 
@@ -54,6 +55,7 @@ JString::JString()
 	itsCharacterCount(0),
 	itsAllocCount(kDefaultBlockSize),
 	itsBlockSize(kDefaultBlockSize),
+	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
 	itsBytes = jnew JUtf8Byte [ itsAllocCount+1 ];
@@ -72,6 +74,7 @@ JString::JString
 	itsCharacterCount(0),
 	itsAllocCount(0),
 	itsBlockSize(kDefaultBlockSize),
+	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
 	JUtf8ByteRange byteRange = str.CharacterToUtf8ByteRange(charRange);
@@ -88,6 +91,7 @@ JString::JString
 	itsCharacterCount(0),
 	itsAllocCount(0),
 	itsBlockSize(kDefaultBlockSize),
+	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
 	CopyToPrivateString(str, strlen(str));
@@ -104,6 +108,7 @@ JString::JString
 	itsCharacterCount(0),
 	itsAllocCount(0),
 	itsBlockSize(kDefaultBlockSize),
+	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
 	CopyToPrivateString(length > 0 ? str : "", length);		// allow (NULL,0)
@@ -120,6 +125,7 @@ JString::JString
 	itsCharacterCount(0),
 	itsAllocCount(0),
 	itsBlockSize(kDefaultBlockSize),
+	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
 	CopyToPrivateString(str + range.first-1, range.GetLength());
@@ -137,6 +143,7 @@ JString::JString
 	itsCharacterCount(0),
 	itsAllocCount(0),
 	itsBlockSize(kDefaultBlockSize),
+	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
 	if (number == 0)
@@ -200,6 +207,7 @@ JString::JString
 	itsCharacterCount(0),
 	itsAllocCount(kDefaultBlockSize),
 	itsBlockSize(kDefaultBlockSize),
+	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
 	assert( precision >= -1 );
@@ -224,6 +232,7 @@ JString::JString
 	itsCharacterCount(0),
 	itsAllocCount(0),
 	itsBlockSize(kDefaultBlockSize),
+	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
 	CopyToPrivateString(s.data(), s.length());
@@ -240,6 +249,7 @@ JString::JString
 	itsCharacterCount(0),
 	itsAllocCount(0),
 	itsBlockSize(kDefaultBlockSize),
+	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
 	CopyToPrivateString(s.data() + range.first-1, range.GetLength());
@@ -263,6 +273,7 @@ JString::JString
 	itsCharacterCount(0),
 	itsAllocCount(0),
 	itsBlockSize(source.itsBlockSize),
+	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
 	CopyToPrivateString(source.itsBytes, source.itsByteCount);
@@ -276,6 +287,7 @@ JString::JString
 JString::~JString()
 {
 	jdelete [] itsBytes;
+	ucasemap_close(itsUCaseMap);
 
 	// TODO: invalidate iterators
 }
@@ -616,7 +628,7 @@ JString::Clear()
 
 	Trim leading and trailing whitespace from ourselves.
 
-	We only consider ASCII whitespace characters.
+	TODO: utf8
 
  ******************************************************************************/
 
@@ -715,9 +727,7 @@ JString::TrimWhitespace()
 void
 JString::ToLower()
 {
-	// TODO: utf8 equivalent of u_strToLower()
-
-	// TODO: notify iterators
+	FoldCase(kJFalse);
 }
 
 /******************************************************************************
@@ -730,7 +740,70 @@ JString::ToLower()
 void
 JString::ToUpper()
 {
-	// TODO: utf8 equivalent of u_strToUpper()
+	FoldCase(kJTrue);
+}
+
+/******************************************************************************
+ FoldCase (private)
+
+ ******************************************************************************/
+
+void
+JString::FoldCase
+	(
+	const JBoolean upper
+	)
+{
+	if (itsByteCount == 0)
+		{
+		return;
+		}
+
+	UErrorCode err;
+
+	if (itsUCaseMap == NULL)
+		{
+		err = U_ZERO_ERROR;
+		itsUCaseMap = ucasemap_open(NULL, U_FOLD_CASE_DEFAULT, &err);
+		assert( err == U_ZERO_ERROR );
+		}
+
+	JUInt32 newLength;
+	err = U_ZERO_ERROR;
+	if (upper)
+		{
+		newLength = ucasemap_utf8ToUpper(itsUCaseMap, NULL, 0, itsBytes, itsByteCount, &err);
+		}
+	else
+		{
+		newLength = ucasemap_utf8ToLower(itsUCaseMap, NULL, 0, itsBytes, itsByteCount, &err);
+		}
+	assert( err == U_BUFFER_OVERFLOW_ERROR );
+
+	itsAllocCount = newLength + itsBlockSize;
+
+	// allocate space for the result
+
+	JUtf8Byte* newString = jnew JUtf8Byte[ itsAllocCount+1 ];
+	assert( newString != NULL );
+
+	// get the new string
+
+	err = U_ZERO_ERROR;
+	if (upper)
+		{
+		ucasemap_utf8ToUpper(itsUCaseMap, newString, itsAllocCount+1, itsBytes, itsByteCount, &err);
+		}
+	else
+		{
+		ucasemap_utf8ToLower(itsUCaseMap, newString, itsAllocCount+1, itsBytes, itsByteCount, &err);
+		}
+	assert( err == U_ZERO_ERROR );
+
+	// throw out the original string and save the new one
+
+	jdelete [] itsBytes;
+	itsBytes = newString;
 
 	// TODO: notify iterators
 }
@@ -1725,9 +1798,7 @@ operator<<
 
 	// write the string data, substituting \" in place of "
 
-	const JSize length = aString.itsByteCount;
-
-	for (JIndex i=1; i<=length; i++)
+	for (JIndex i=1; i<=aString.itsByteCount; i++)
 		{
 		const JUtf8Byte c = aString.itsBytes[ i-1 ];
 

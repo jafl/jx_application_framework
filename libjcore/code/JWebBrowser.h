@@ -8,7 +8,7 @@
 #ifndef _H_JWebBrowser
 #define _H_JWebBrowser
 
-#include <JString.h>
+#include <JPtrArray-JString.h>
 
 class JWebBrowser
 {
@@ -18,23 +18,23 @@ public:
 
 	virtual ~JWebBrowser();
 
-	void	ShowURL(const JCharacter* url);
-	void	ShowFileContent(const JCharacter* fileName);
-	void	ShowFileLocation(const JCharacter* fileName);
+	void	ShowURL(const JString& url);
+	void	ShowFileContent(const JString& fileName);
+	void	ShowFileLocation(const JString& fileName);
 	void	ShowFileLocations(const JPtrArray<JString>& fileList);
-	void	ComposeMail(const JCharacter* address);
+	void	ComposeMail(const JString& address);
 
 	const JString&	GetShowURLCmd() const;
-	void			SetShowURLCmd(const JCharacter* cmd);
+	void			SetShowURLCmd(const JString& cmd);
 
 	const JString&	GetShowFileContentCmd() const;
-	void			SetShowFileContentCmd(const JCharacter* cmd);
+	void			SetShowFileContentCmd(const JString& cmd);
 
 	const JString&	GetShowFileLocationCmd() const;
-	void			SetShowFileLocationCmd(const JCharacter* cmd);
+	void			SetShowFileLocationCmd(const JString& cmd);
 
 	const JString&	GetComposeMailCmd() const;
-	void			SetComposeMailCmd(const JCharacter* cmd);
+	void			SetComposeMailCmd(const JString& cmd);
 
 	void	ReadConfig(istream& input);
 	void	WriteConfig(ostream& output, const JFileVersion vers) const;
@@ -43,7 +43,7 @@ public:
 
 	// upgrading from previous versions -- public because used by other classes
 
-	static void	ConvertVarNames(JString* s, const JCharacter* varNameList);
+	static void	ConvertVarNames(JString* s, const JUtf8Byte* varNameList);
 
 protected:
 
@@ -58,8 +58,8 @@ private:
 
 private:
 
-	void	Exec(const JCharacter* cmd,
-				 const JCharacter* varName, const JCharacter* value) const;
+	void	Exec(const JString& cmd,
+				 const JUtf8Byte* varName, const JString& value) const;
 
 	// not allowed
 
@@ -109,7 +109,7 @@ JWebBrowser::GetComposeMailCmd()
 inline void
 JWebBrowser::SetShowURLCmd
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 {
 	itsShowURLCmd = cmd;
@@ -119,7 +119,7 @@ JWebBrowser::SetShowURLCmd
 inline void
 JWebBrowser::SetShowFileContentCmd
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 {
 	itsShowFileContentCmd = cmd;
@@ -129,7 +129,7 @@ JWebBrowser::SetShowFileContentCmd
 inline void
 JWebBrowser::SetShowFileLocationCmd
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 {
 	itsShowFileLocationCmd = cmd;
@@ -139,7 +139,7 @@ JWebBrowser::SetShowFileLocationCmd
 inline void
 JWebBrowser::SetComposeMailCmd
 	(
-	const JCharacter* cmd
+	const JString& cmd
 	)
 {
 	itsComposeMailCmd = cmd;

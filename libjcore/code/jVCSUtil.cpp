@@ -19,13 +19,13 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
-static const JCharacter* kGitDirName         = ".git";
-static const JCharacter* kSubversionDirName  = ".svn";
-static const JCharacter* kSubversionFileName = "entries";
-static const JCharacter* kCVSDirName         = "CVS";
-static const JCharacter* kSCCSDirName        = "SCCS";
+static const JUtf8Byte* kGitDirName         = ".git";
+static const JUtf8Byte* kSubversionDirName  = ".svn";
+static const JUtf8Byte* kSubversionFileName = "entries";
+static const JUtf8Byte* kCVSDirName         = "CVS";
+static const JUtf8Byte* kSCCSDirName        = "SCCS";
 
-static const JCharacter* kDirName[] =
+static const JUtf8Byte* kDirName[] =
 {
 	kGitDirName,
 	kSubversionDirName,
@@ -33,15 +33,15 @@ static const JCharacter* kDirName[] =
 	kSCCSDirName
 };
 
-const JSize kDirCount = sizeof(kDirName) / sizeof(const JCharacter*);
+const JSize kDirCount = sizeof(kDirName) / sizeof(const JUtf8Byte*);
 
 // error types
 
-const JCharacter* kJUnsupportedVCS = "JUnsupportedVCS";
+const JUtf8Byte* kJUnsupportedVCS = "JUnsupportedVCS";
 
 // local
 
-static JBoolean	jSearchVCSRoot(const JCharacter* path, const JCharacter* vcsDirName,
+static JBoolean	jSearchVCSRoot(const JString& path, const JString& vcsDirName,
 							   JString* vcsRoot);
 
 /******************************************************************************
@@ -52,7 +52,7 @@ static JBoolean	jSearchVCSRoot(const JCharacter* path, const JCharacter* vcsDirN
 JBoolean
 JIsVCSDirectory
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
 	return JI2B(strcmp(name, kGitDirName)        == 0 ||
@@ -69,7 +69,7 @@ JIsVCSDirectory
 JSize
 JGetVCSDirectoryNames
 	(
-	const JCharacter*** dirNames
+	const JUtf8Byte*** dirNames
 	)
 {
 	*dirNames = kDirName;
@@ -84,8 +84,8 @@ JGetVCSDirectoryNames
 JVCSType
 JGetVCSType
 	(
-	const JCharacter*	path,
-	const JBoolean		deepInspection
+	const JString&	path,
+	const JBoolean	deepInspection
 	)
 {
 	JString p = path, n;
@@ -148,8 +148,8 @@ JGetVCSType
 JBoolean
 JIsManagedByVCS
 	(
-	const JCharacter*	fullName,
-	JVCSType*			returnType
+	const JString&	fullName,
+	JVCSType*		returnType
 	)
 {
 	const JVCSType type = JGetVCSType(fullName);
@@ -201,7 +201,7 @@ JIsManagedByVCS
 void
 JEditVCS
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 {
 	if (JFileExists(fullName) && !JFileWritable(fullName))
@@ -226,8 +226,8 @@ JEditVCS
 JError
 JRenameVCS
 	(
-	const JCharacter* oldFullName,
-	const JCharacter* newFullName
+	const JString& oldFullName,
+	const JString& newFullName
 	)
 {
 	if (!JNameUsed(oldFullName))
@@ -332,9 +332,9 @@ JRenameVCS
 JError
 JRemoveVCS
 	(
-	const JCharacter*	fullName,
-	const JBoolean		sync,
-	JProcess**			returnP
+	const JString&	fullName,
+	const JBoolean	sync,
+	JProcess**		returnP
 	)
 {
 	if (returnP != NULL)
@@ -363,7 +363,7 @@ JRemoveVCS
 	JProcess* p = NULL;
 	if (type == kJSVNType || type == kJGitType)
 		{
-		const JCharacter *binary = NULL;
+		const JUtf8Byte* binary = NULL;
 		if (type == kJSVNType)
 			{
 			binary = "svn rm --force ";
@@ -421,8 +421,8 @@ static const JRegex svn4RepositoryPattern2 = "<entry[^>]+url=\"([^\"]+)\"";
 JBoolean
 JGetVCSRepositoryPath
 	(
-	const JCharacter*	origPath,
-	JString*			repoPath
+	const JString&	origPath,
+	JString*		repoPath
 	)
 {
 	JString path = origPath, name;
@@ -511,8 +511,8 @@ static const JRegex svn4RevisionPattern = "<entry[^>]+committed-rev=\"([^\"]+)\"
 JBoolean
 JGetCurrentSVNRevision
 	(
-	const JCharacter*	fullName,
-	JString*			rev
+	const JString&	fullName,
+	JString*		rev
 	)
 {
 	JString path, name, entriesFileName, data, pattern;
@@ -587,9 +587,9 @@ JGetCurrentSVNRevision
 JBoolean
 JGetSVNEntryType
 	(
-	const JCharacter*	url,
-	JString*			type,
-	JString*			error
+	const JString&	url,
+	JString*		type,
+	JString*		error
 	)
 {
 	type->Clear();
@@ -637,7 +637,7 @@ JGetSVNEntryType
 void
 JUpdateCVSIgnore
 	(
-	const JCharacter* ignoreFullName
+	const JString& ignoreFullName
 	)
 {
 	JString path, name;
@@ -677,8 +677,8 @@ JUpdateCVSIgnore
 JBoolean
 JSearchGitRoot
 	(
-	const JCharacter*	path,
-	JString*			gitRoot
+	const JString&	path,
+	JString*		gitRoot
 	)
 {
 	return jSearchVCSRoot(path, kGitDirName, gitRoot);
@@ -691,14 +691,14 @@ JSearchGitRoot
 
 JUnsupportedVCS::JUnsupportedVCS
 	(
-	const JCharacter* fullName
+	const JString& fullName
 	)
 	:
 	JError(kJUnsupportedVCS, "")
 {
-	const JCharacter* map[] =
+	const JUtf8Byte* map[] =
 		{
-		"file", fullName
+		"file", fullName.GetBytes()
 		};
 	SetMessage(map, sizeof(map));
 }
@@ -713,9 +713,9 @@ JUnsupportedVCS::JUnsupportedVCS
 JBoolean
 jSearchVCSRoot
 	(
-	const JCharacter*	path,
-	const JCharacter*	vcsDirName,
-	JString*			vcsRoot
+	const JString&	path,
+	const JString&	vcsDirName,
+	JString*		vcsRoot
 	)
 {
 	JString p = path, n;

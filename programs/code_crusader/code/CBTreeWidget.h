@@ -122,8 +122,6 @@ private:
 	Time				itsMouseDownTime;
 	CBClass*			itsFnMenuClass;		// not owned
 
-	JString*			itsDNDBuffer;
-
 	static JBoolean		itsRaiseWhenSingleMatchFlag;
 
 	// for use by CBFnListWidget

@@ -14,11 +14,11 @@
 #include <JTreeNode.h>
 #include <jAssert.h>
 
-const JCharacter* JTreeList::kNodeInserted = "NodeInserted::JTreeList";
-const JCharacter* JTreeList::kNodeRemoved  = "NodeRemoved::JTreeList";
-const JCharacter* JTreeList::kNodeChanged  = "NodeChanged::JTreeList";
-const JCharacter* JTreeList::kNodeOpened   = "NodeOpened::JTreeList";
-const JCharacter* JTreeList::kNodeClosed   = "NodeClosed::JTreeList";
+const JUtf8Byte* JTreeList::kNodeInserted = "NodeInserted::JTreeList";
+const JUtf8Byte* JTreeList::kNodeRemoved  = "NodeRemoved::JTreeList";
+const JUtf8Byte* JTreeList::kNodeChanged  = "NodeChanged::JTreeList";
+const JUtf8Byte* JTreeList::kNodeOpened   = "NodeOpened::JTreeList";
+const JUtf8Byte* JTreeList::kNodeClosed   = "NodeClosed::JTreeList";
 
 /******************************************************************************
  Constructor

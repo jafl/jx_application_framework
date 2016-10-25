@@ -43,15 +43,15 @@
 #include <stdio.h>
 #include <jAssert.h>
 
-const JSize kMDIServerQSize    = 1;
-const JSize kMDIMaxWaitTime    = 2;		// seconds
-const JCharacter kEndOfLine    = '\n';
-const JCharacter kEndOfMessage = '\0';
+const JSize kMDIServerQSize   = 1;
+const JSize kMDIMaxWaitTime   = 2;		// seconds
+const JUtf8Byte kEndOfLine    = '\n';
+const JUtf8Byte kEndOfMessage = '\0';
 
-const JCharacter* JMDIServer::kQuitOptionName = "--quit";
+const JUtf8Byte* JMDIServer::kQuitOptionName = "--quit";
 
-static const JCharacter* kServerReadyMsg = "JMDIServer ready";
-static const JCharacter* kServerBusyMsg  = "JMDIServer busy";
+static const JUtf8Byte* kServerReadyMsg = "JMDIServer ready";
+static const JUtf8Byte* kServerBusyMsg  = "JMDIServer busy";
 
 /******************************************************************************
  Constructor
@@ -60,15 +60,15 @@ static const JCharacter* kServerBusyMsg  = "JMDIServer busy";
 
 JMDIServer::JMDIServer
 	(
-	const JCharacter* signature
+	const JString& signature
 	)
 	:
 	itsFirstTimeFlag(kJTrue)
 {
 	const JString socketName = GetMDISocketName(signature);
-	ACE_OS::unlink(socketName);
+	ACE_OS::unlink(socketName.GetBytes());
 
-	ACE_UNIX_Addr addr(socketName);
+	ACE_UNIX_Addr addr(socketName.GetBytes());
 	itsAcceptor = jnew ACE_LSOCK_Acceptor(addr, 0, PF_UNIX, kMDIServerQSize);
 	assert( itsAcceptor != NULL );
 
@@ -102,9 +102,9 @@ JMDIServer::~JMDIServer()
 JBoolean
 JMDIServer::WillBeMDIServer
 	(
-	const JCharacter*	signature,
-	const int			argc,
-	char*				argv[]
+	const JString&	signature,
+	const int		argc,
+	char*			argv[]
 	)
 {
 	assert( argc >= 1 );
@@ -112,7 +112,7 @@ JMDIServer::WillBeMDIServer
 	// If the socket doesn't exist, we will be the server.
 
 	const JString socketName = GetMDISocketName(signature);
-	if (!JUNIXSocketExists(socketName))
+	if (!JUNIXSocketExists(socketName.GetBytes()))
 		{
 		for (int i=0; i<argc; i++)
 			{
@@ -122,7 +122,7 @@ JMDIServer::WillBeMDIServer
 				}
 			}
 
-		if (JNameUsed(socketName))
+		if (JNameUsed(socketName.GetBytes()))
 			{
 			cerr << "Unable to initiate MDI because " << socketName << endl;
 			cerr << "exists as something else." << endl;
@@ -133,12 +133,12 @@ JMDIServer::WillBeMDIServer
 
 	// open a connection to the existing server
 
-	ACE_UNIX_Addr addr(socketName);
+	ACE_UNIX_Addr addr(socketName.GetBytes());
 	ACE_LSOCK_Connector connector;
 	ACE_LSOCK_Stream socket;
 	if (connector.connect(socket, addr) == -1)
 		{
-		ACE_OS::unlink(socketName);
+		ACE_OS::unlink(socketName.GetBytes());
 		return kJTrue;
 		}
 
@@ -149,12 +149,12 @@ JMDIServer::WillBeMDIServer
 	JString serverStatus;
 	const JBoolean serverOK =
 		ReceiveLine(socket, kJTrue, &serverStatus, &receivedFinishedFlag);
-	if (!serverOK && !JUNIXSocketExists(socketName))		// user deleted dead socket
+	if (!serverOK && !JUNIXSocketExists(socketName.GetBytes()))		// user deleted dead socket
 		{
 		socket.close();
 		return kJTrue;
 		}
-	else if (!serverOK && ACE_OS::unlink(socketName) == -1)
+	else if (!serverOK && ACE_OS::unlink(socketName.GetBytes()) == -1)
 		{
 		cerr << "Unable to transmit MDI request." << endl;
 		cerr << socketName << "appears to be dead," << endl;
@@ -180,7 +180,7 @@ JMDIServer::WillBeMDIServer
 	// send our message
 
 	const JString dir = JGetCurrentDirectory();
-	SendLine(socket, dir);
+	SendLine(socket, dir.GetBytes());
 
 	for (int i=0; i<argc; i++)
 		{
@@ -215,7 +215,7 @@ JMDIServer::HandleCmdLineOptions
 		argList.Append(argv[i]);
 		}
 
-	HandleMDIRequest(dir, argList);
+	HandleMDIRequest(dir.GetBytes(), argList);
 }
 
 /******************************************************************************
@@ -287,7 +287,7 @@ JMDIServer::ProcessMDIMessage()
 
 	if (!argList.IsEmpty())
 		{
-		HandleMDIRequest(dir, argList);
+		HandleMDIRequest(dir.GetBytes(), argList);
 		}
 }
 
@@ -315,7 +315,7 @@ JMDIServer::PreprocessArgList
 JString
 JMDIServer::GetMDISocketName
 	(
-	const JCharacter* signature
+	const JString& signature
 	)
 {
 	JString path;
@@ -339,12 +339,12 @@ void
 JMDIServer::SendLine
 	(
 	ACE_LSOCK_Stream&	socket,
-	const JCharacter*	line
+	const JString&		line
 	)
 {
-	socket.send_n(line, strlen(line));
+	socket.send_n(line.GetBytes(), line.GetByteCount());
 
-	JCharacter c = kEndOfLine;
+	JUtf8Byte c = kEndOfLine;
 	socket.send_n(&c, 1);
 }
 
@@ -369,7 +369,7 @@ JMDIServer::ReceiveLine
 	const ACE_Time_Value timeout(kMDIMaxWaitTime);
 	while (!(*receivedFinishedFlag))
 		{
-		JCharacter c;
+		JUtf8Byte c;
 		int result;
 		if (block)
 			{
@@ -392,7 +392,7 @@ JMDIServer::ReceiveLine
 			}
 		else if (result == 1)
 			{
-			line->AppendCharacter(c);
+			line->Append(c);
 			}
 		}
 
@@ -415,7 +415,7 @@ JMDIServer::WaitForFinished
 {
 	// Tell the other end that we are finished.
 
-	JCharacter c = kEndOfMessage;
+	JUtf8Byte c = kEndOfMessage;
 	socket.send_n(&c, 1);
 
 	// To avoid a broken pipe error, we have to wait until they are also finished.

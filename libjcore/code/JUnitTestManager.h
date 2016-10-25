@@ -15,6 +15,10 @@ class JUnitTestManager;
 
 typedef void	(*JUnitTest)();
 
+#define MAX_TEST_COUNT 1000
+
+#define JTEST(f)	void f(); static int unused_##f = JUnitTestManager::Instance()->RegisterTest(f); void f()
+
 #define JAssertNull(ptr)	JUnitTestManager::Instance()->IsNull(ptr, __FILE__, __LINE__)
 #define JAssertTrue(value)	JUnitTestManager::Instance()->IsTrue(value, __FILE__, __LINE__)
 #define JAssertFalse(value)	JUnitTestManager::Instance()->IsFalse(value, __FILE__, __LINE__)
@@ -41,9 +45,12 @@ public:
 
 	static JUnitTestManager* Instance();
 
-	static void	Execute(const JUnitTest* tests, const JBoolean exit = kJTrue);	// NULL terminated array
+	static void	Execute(const JBoolean exit = kJTrue);
 	static void	ReportFailure(JUtf8Byte const* message, JUtf8Byte const* file, const JIndex line);
+	static void	ReportFatal(JUtf8Byte const* message, JUtf8Byte const* file, const JIndex line);
 	static void	Exit();
+
+	int	RegisterTest(JUnitTest name);
 
 	JBoolean	IsNull(const void* ptr, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
 	JBoolean	IsTrue(const JBoolean value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
@@ -56,13 +63,17 @@ public:
 
 private:
 
-	JSize	itsFailureCount;
+	JUnitTest	itsTests[ MAX_TEST_COUNT ];
+	JSize		itsTestCount;
+	JSize		itsFailureCount;
 
 private:
 
 	JUnitTestManager();
 
 	~JUnitTestManager();
+
+	void	ExecuteTests();
 
 	// not allowed
 

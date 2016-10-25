@@ -19,7 +19,7 @@ xmlNode*
 JGetXMLChildNode
 	(
 	xmlNode*			node,
-	const JCharacter*	childName
+	const JUtf8Byte*	childName
 	)
 {
 	xmlNode* child = node->children;
@@ -44,7 +44,7 @@ JString
 JGetXMLNodeAttr
 	(
 	xmlNode*			node,
-	const JCharacter*	attrName
+	const JUtf8Byte*	attrName
 	)
 {
 	JString value;

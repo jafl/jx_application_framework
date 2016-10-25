@@ -43,7 +43,7 @@
 
 // JError types
 
-const JCharacter* JPrefsFile::kNoHomeDirectory = "NoHomeDirectory::JPrefsFile";
+const JUtf8Byte* JPrefsFile::kNoHomeDirectory = "NoHomeDirectory::JPrefsFile";
 
 /******************************************************************************
  Constructor function (static)
@@ -56,7 +56,7 @@ const JCharacter* JPrefsFile::kNoHomeDirectory = "NoHomeDirectory::JPrefsFile";
 JError
 JPrefsFile::Create
 	(
-	const JCharacter*	fileNameStem,
+	const JString&		fileNameStem,
 	JPrefsFile**		obj,
 	const CreateAction	action
 	)
@@ -65,7 +65,7 @@ JPrefsFile::Create
 	const JError err = OKToCreate(fileNameStem, &fullName, action);
 	if (err.OK())
 		{
-		*obj = jnew JPrefsFile(fullName, action);
+		*obj = jnew JPrefsFile(fullName.GetBytes(), action);
 		assert( *obj != NULL );
 		}
 	else
@@ -78,7 +78,7 @@ JPrefsFile::Create
 JError
 JPrefsFile::OKToCreate
 	(
-	const JCharacter*	fileNameStem,
+	const JString&		fileNameStem,
 	JString*			fullName,
 	const CreateAction	action
 	)
@@ -86,7 +86,7 @@ JPrefsFile::OKToCreate
 	JError err = GetFullName(fileNameStem, fullName);
 	if (err.OK())
 		{
-		err = OKToCreateBase(*fullName, "", action);
+		err = OKToCreateBase(fullName->GetBytes(), "", action);
 		}
 	return err;
 }
@@ -99,8 +99,8 @@ JPrefsFile::OKToCreate
 JError
 JPrefsFile::GetFullName
 	(
-	const JCharacter*	fileNameStem,
-	JString*			fullName
+	const JString&	fileNameStem,
+	JString*		fullName
 	)
 {
 	if (JGetPrefsDirectory(fullName))
@@ -124,7 +124,7 @@ JPrefsFile::GetFullName
 
 JPrefsFile::JPrefsFile
 	(
-	const JCharacter*	fileName,
+	const JString&		fileName,
 	const CreateAction	action
 	)
 	:
@@ -188,8 +188,8 @@ JPrefsFile::SetData
 void
 JPrefsFile::SetData
 	(
-	const JPrefID&		id,
-	const JCharacter*	data
+	const JPrefID&	id,
+	const JString&	data
 	)
 {
 	if (IDValid(id))

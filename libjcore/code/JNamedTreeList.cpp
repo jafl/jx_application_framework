@@ -100,8 +100,8 @@ JNamedTreeList::GetNodeName
 void
 JNamedTreeList::SetNodeName
 	(
-	const JIndex		index,
-	const JCharacter*	name
+	const JIndex	index,
+	const JString&	name
 	)
 {
 	(GetNamedNode(index))->SetName(name);
@@ -118,8 +118,8 @@ JNamedTreeList::SetNodeName
 JBoolean
 JNamedTreeList::Find
 	(
-	const JCharacter*	name,
-	JIndex*				index
+	const JString&	name,
+	JIndex*			index
 	)
 	const
 {
@@ -147,8 +147,8 @@ JNamedTreeList::Find
 JBoolean
 JNamedTreeList::ClosestMatch
 	(
-	const JCharacter*	prefixStr,
-	JIndex*				index
+	const JString&	prefixStr,
+	JIndex*			index
 	)
 	const
 {

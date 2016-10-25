@@ -59,7 +59,7 @@ private:
 	JProcess*					itsProcess;
 	JArray<JFloat>*				itsValues;
 	JPtrArray<JString>*			itsNames;
-	JString*					itsFunction;
+	JString						itsFunction;
 	ProcessLink*				itsLink;
 
 private:

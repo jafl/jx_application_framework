@@ -16,8 +16,8 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
-static const JCharacter* kLineTerminator   = "\r\n";
-static const JCharacter* kHeaderTerminator = "\r\n\r\n";
+static const JUtf8Byte* kLineTerminator   = "\r\n";
+static const JUtf8Byte* kHeaderTerminator = "\r\n\r\n";
 
 const time_t kServerCheckInterval     = 7*24*3600;		// 1 week (seconds)
 const time_t kInitialReminderInterval = 30*24*3600;		// 1 month (seconds)
@@ -36,10 +36,10 @@ const JFileVersion kCurrentStateVersion = 1;
 template <ACE_PEER_STREAM_1>
 JVersionSocket<ACE_PEER_STREAM_2>::JVersionSocket
 	(
-	const JCharacter*	host,
-	const JCharacter*	path,
-	JPrefsManager*		prefsMgr,
-	const JPrefID&		prefID
+	const JString&	host,
+	const JString&	path,
+	JPrefsManager*	prefsMgr,
+	const JPrefID&	prefID
 	)
 	:
 	JPrefObject(prefsMgr, prefID),
@@ -111,7 +111,7 @@ JVersionSocket<ACE_PEER_STREAM_2>::open
 
 	msg += kHeaderTerminator;
 
-	if (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer().send_n(msg, msg.GetLength()) != (JInteger) msg.GetLength())
+	if (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer().send_n(msg.GetBytes(), msg.GetByteCount()) != (JInteger) msg.GetByteCount())
 		{
 		cerr << "error sending version request to server" << endl;
 		ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::close();
@@ -173,7 +173,7 @@ template <ACE_PEER_STREAM_1>
 void
 JVersionSocket<ACE_PEER_STREAM_2>::CheckVersion
 	(
-	const JCharacter* vers
+	const JString& vers
 	)
 {
 	const time_t now  = time(NULL);

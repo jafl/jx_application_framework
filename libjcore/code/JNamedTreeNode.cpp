@@ -23,9 +23,9 @@
 
 JNamedTreeNode::JNamedTreeNode
 	(
-	JTree*				tree,
-	const JCharacter*	name,
-	const JBoolean		isOpenable
+	JTree*			tree,
+	const JString&	name,
+	const JBoolean	isOpenable
 	)
 	:
 	JTreeNode(tree, isOpenable),
@@ -51,7 +51,7 @@ JNamedTreeNode::~JNamedTreeNode()
 void
 JNamedTreeNode::SetName
 	(
-	const JCharacter* name
+	const JString& name
 	)
 {
 	if (name != itsName)
@@ -89,7 +89,7 @@ JNamedTreeNode::NameChanged()
 JBoolean
 JNamedTreeNode::FindNamedChild
 	(
-	const JCharacter*	name,
+	const JString&		name,
 	JNamedTreeNode**	node
 	)
 {
@@ -105,7 +105,7 @@ JNamedTreeNode::FindNamedChild
 JBoolean
 JNamedTreeNode::FindNamedChild
 	(
-	const JCharacter*		name,
+	const JString&			name,
 	const JNamedTreeNode**	node
 	)
 	const

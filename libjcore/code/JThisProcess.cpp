@@ -92,26 +92,26 @@ JPtrArray<JProcess> JThisProcess::theKillList(JPtrArrayT::kForgetAll);
 
 // JBroadcaster message types
 
-const JCharacter* JThisProcess::kIllegalInstruction    = "IllegalInstruction::JThisProcess";
-const JCharacter* JThisProcess::kFPE                   = "FPE::JThisProcess";
-const JCharacter* JThisProcess::kSegFault              = "SegFault::JThisProcess";
-const JCharacter* JThisProcess::kBrokenPipe            = "BrokenPipe::JThisProcess";
-const JCharacter* JThisProcess::kAbort                 = "Abort::JThisProcess";
-const JCharacter* JThisProcess::kKeyboardInterrupt     = "KeyboardInterrupt::JThisProcess";
+const JUtf8Byte* JThisProcess::kIllegalInstruction    = "IllegalInstruction::JThisProcess";
+const JUtf8Byte* JThisProcess::kFPE                   = "FPE::JThisProcess";
+const JUtf8Byte* JThisProcess::kSegFault              = "SegFault::JThisProcess";
+const JUtf8Byte* JThisProcess::kBrokenPipe            = "BrokenPipe::JThisProcess";
+const JUtf8Byte* JThisProcess::kAbort                 = "Abort::JThisProcess";
+const JUtf8Byte* JThisProcess::kKeyboardInterrupt     = "KeyboardInterrupt::JThisProcess";
 
-const JCharacter* JThisProcess::kTerminate             = "Terminate::JThisProcess";
-const JCharacter* JThisProcess::kKeyboardQuit          = "KeyboardQuit::JThisProcess";
+const JUtf8Byte* JThisProcess::kTerminate             = "Terminate::JThisProcess";
+const JUtf8Byte* JThisProcess::kKeyboardQuit          = "KeyboardQuit::JThisProcess";
 
-const JCharacter* JThisProcess::kParentProcessFinished = "ParentProcessFinished::JThisProcess";
-const JCharacter* JThisProcess::kChildProcessFinished  = "ChildProcessFinished::JThisProcess";
-const JCharacter* JThisProcess::kTTYInput              = "TTYInput::JThisProcess";
-const JCharacter* JThisProcess::kTTYOutput             = "TTYOutput::JThisProcess";
+const JUtf8Byte* JThisProcess::kParentProcessFinished = "ParentProcessFinished::JThisProcess";
+const JUtf8Byte* JThisProcess::kChildProcessFinished  = "ChildProcessFinished::JThisProcess";
+const JUtf8Byte* JThisProcess::kTTYInput              = "TTYInput::JThisProcess";
+const JUtf8Byte* JThisProcess::kTTYOutput             = "TTYOutput::JThisProcess";
 
-const JCharacter* JThisProcess::kTimerFinished         = "TimerFinished::JThisProcess";
-const JCharacter* JThisProcess::kUserSignal1           = "UserSignal1::JThisProcess";
-const JCharacter* JThisProcess::kUserSignal2           = "UserSignal2::JThisProcess";
+const JUtf8Byte* JThisProcess::kTimerFinished         = "TimerFinished::JThisProcess";
+const JUtf8Byte* JThisProcess::kUserSignal1           = "UserSignal1::JThisProcess";
+const JUtf8Byte* JThisProcess::kUserSignal2           = "UserSignal2::JThisProcess";
 
-const JCharacter* JThisProcess::kUnrecognized          = "Unrecognized::JThisProcess";
+const JUtf8Byte* JThisProcess::kUnrecognized          = "Unrecognized::JThisProcess";
 
 // static data
 
@@ -206,7 +206,7 @@ JThisProcess::BroadcastSignal
 	const int sig
 	)
 {
-	const JCharacter* signalType = NULL;
+	const JUtf8Byte* signalType = NULL;
 	if (sig == SIGILL)
 		{
 		signalType = kIllegalInstruction;

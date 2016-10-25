@@ -56,27 +56,20 @@
 JError::JError
 	(
 	const JUtf8Byte*	type,
-	const JUtf8Byte*	msg,
-	const JBoolean		copyMsg
+	const JUtf8Byte*	msg
 	)
 	:
-	JBroadcaster::Message(type),
-	itsSMessage(NULL),
-	itsDMessage(NULL)
+	JBroadcaster::Message(type)
 {
-	if (msg == NULL)
+	if (!JString::IsEmpty(msg))
 		{
-		msg = JGetString(type);
-		}
-
-	if (copyMsg)
-		{
-		itsDMessage = jnew JString(msg);
-		assert( itsDMessage != NULL );
+		itsMessage = jnew JString(msg);
+		assert( itsMessage != NULL );
 		}
 	else
 		{
-		itsSMessage = msg;
+		itsMessage = jnew JString(JGetString(type));
+		assert( itsMessage != NULL );
 		}
 }
 
@@ -90,19 +83,10 @@ JError::JError
 	const JError& source
 	)
 	:
-	JBroadcaster::Message(source),
-	itsSMessage(NULL),
-	itsDMessage(NULL)
+	JBroadcaster::Message(source)
 {
-	if (source.itsDMessage != NULL)
-		{
-		itsDMessage = jnew JString(*(source.itsDMessage));
-		assert( itsDMessage != NULL );
-		}
-	else
-		{
-		itsSMessage = source.itsSMessage;
-		}
+	itsMessage = jnew JString(*(source.itsMessage));
+	assert( itsMessage != NULL );
 }
 
 /******************************************************************************
@@ -112,7 +96,7 @@ JError::JError
 
 JError::~JError()
 {
-	jdelete itsDMessage;
+	jdelete itsMessage;
 }
 
 /******************************************************************************
@@ -133,38 +117,9 @@ JError::operator=
 
 	JBroadcaster::Message::operator=(source);
 
-	if (source.itsDMessage != NULL && itsDMessage != NULL)
-		{
-		*itsDMessage = *(source.itsDMessage);
-		}
-	else if (source.itsDMessage != NULL)
-		{
-		itsDMessage = jnew JString(*(source.itsDMessage));
-		assert( itsDMessage != NULL );
-
-		itsSMessage = NULL;
-		}
-	else
-		{
-		itsSMessage = source.itsSMessage;
-
-		jdelete itsDMessage;
-		itsDMessage = NULL;
-		}
+	*itsMessage = *(source.itsMessage);
 
 	return *this;
-}
-
-/******************************************************************************
- GetMessage
-
- ******************************************************************************/
-
-const JUtf8Byte*
-JError::GetMessage()
-	const
-{
-	return (itsSMessage != NULL ? itsSMessage : itsDMessage->GetCString());
 }
 
 /******************************************************************************
@@ -178,28 +133,10 @@ JError::GetMessage()
 void
 JError::SetMessage
 	(
-	const JUtf8Byte*	msg,
-	const JBoolean		copyMsg
+	const JString& msg
 	)
 {
-	if (copyMsg && itsDMessage != NULL)
-		{
-		*itsDMessage = msg;
-		}
-	else if (copyMsg)
-		{
-		itsSMessage = NULL;
-
-		itsDMessage = jnew JString(msg);
-		assert( itsDMessage != NULL );
-		}
-	else
-		{
-		jdelete itsDMessage;
-		itsDMessage = NULL;
-
-		itsSMessage = msg;
-		}
+	*itsMessage = msg;
 }
 
 void
@@ -209,8 +146,7 @@ JError::SetMessage
 	const JSize			size
 	)
 {
-	const JString msg = JGetString(GetType(), map, size);
-	SetMessage(msg, kJTrue);
+	*itsMessage = JGetString(GetType(), map, size);
 }
 
 /******************************************************************************
@@ -242,21 +178,20 @@ const JUtf8Byte* kJUnexpectedError = "JUnexpectedError";
 
  ******************************************************************************/
 
-static const JUtf8Byte* kJErrorMsgMap[] =
-	{
-	"err", NULL
-	};
-
 JUnknownError::JUnknownError
 	(
 	const int err
 	)
 	:
-	JError(kJUnknownError, "")
+	JError(kJUnknownError)
 {
 	const JString errStr(err, 0);
-	kJErrorMsgMap[1] = errStr;
-	SetMessage(kJErrorMsgMap, sizeof(kJErrorMsgMap));
+
+	const JUtf8Byte* map[] =
+		{
+		"err", errStr.GetBytes()
+		};
+	SetMessage(map, sizeof(map));
 }
 
 JUnexpectedError::JUnexpectedError
@@ -264,9 +199,13 @@ JUnexpectedError::JUnexpectedError
 	const int err
 	)
 	:
-	JError(kJUnexpectedError, "")
+	JError(kJUnexpectedError)
 {
 	const JString errStr(err, 0);
-	kJErrorMsgMap[1] = errStr;
-	SetMessage(kJErrorMsgMap, sizeof(kJErrorMsgMap));
+
+	const JUtf8Byte* map[] =
+		{
+		"err", errStr.GetBytes()
+		};
+	SetMessage(map, sizeof(map));
 }

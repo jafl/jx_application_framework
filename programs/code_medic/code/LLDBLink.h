@@ -168,7 +168,7 @@ private:
 
 	LLDBBreakpointManager*	itsBPMgr;
 
-	JString*	itsPrompt;			// to allow GetPrompt() to return JString&
+	JString		itsPrompt;			// to allow GetPrompt() to return JString&
 	JString		itsCoreName;
 	JBoolean	itsIsAttachedFlag;	// debugging pre-existing process
 

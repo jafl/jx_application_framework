@@ -83,27 +83,27 @@ private:
 };
 
 JBoolean	JGetUserMountPointList(JMountPointList* list, JMountState* state);
-JMountType	JGetUserMountPointType(const JCharacter* path,
-								   const JCharacter* device, const JCharacter* fsType);
-JBoolean	JIsMounted(const JCharacter* path,
+JMountType	JGetUserMountPointType(const JString& path,
+								   const JString& device, const JString& fsType);
+JBoolean	JIsMounted(const JString& path,
 					   JBoolean* writable = NULL, JBoolean* isTop = NULL,
 					   JString* device = NULL,
 					   JFileSystemType* fsType = NULL, JString* fsTypeString = NULL);
-JBoolean	JFindUserMountPoint(const JCharacter* path, const JMountPointList& list,
+JBoolean	JFindUserMountPoint(const JString& path, const JMountPointList& list,
 								JIndex* index);
 
-void		JMount(const JCharacter* path, const JBoolean mount = kJTrue,
+void		JMount(const JString& path, const JBoolean mount = kJTrue,
 				   const JBoolean block = kJFalse);
 
-JBoolean	JTranslateLocalToRemote(const JCharacter* localPathStr,
+JBoolean	JTranslateLocalToRemote(const JString& localPathStr,
 									JString* host, JString* remotePath);
-JBoolean	JTranslateRemoteToLocal(const JCharacter* hostStr,
-									const JCharacter* remotePathStr,
+JBoolean	JTranslateRemoteToLocal(const JString& hostStr,
+									const JString& remotePathStr,
 									JString* localPath);
 
-JError		JFormatPartition(const JCharacter* path, const JCharacter* type,
+JError		JFormatPartition(const JString& path, const JString& type,
 							 JProcess** process);
-JBoolean	JIsSamePartition(const JCharacter* path1, const JCharacter* path2);
+JBoolean	JIsSamePartition(const JString& path1, const JString& path2);
 
 inline JBoolean
 JMountSupportsExecFlag

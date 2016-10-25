@@ -11,22 +11,23 @@
 #define _H_JProcessError
 
 #include <JError.h>
+#include <JString.h>
 
 // Types
 
-extern const JCharacter* kJInvalidSignal;
-extern const JCharacter* kJInvalidProcess;
-extern const JCharacter* kJCanNotSignalProcess;
-extern const JCharacter* kJProcessAccessDenied;
+extern const JUtf8Byte* kJInvalidSignal;
+extern const JUtf8Byte* kJInvalidProcess;
+extern const JUtf8Byte* kJCanNotSignalProcess;
+extern const JUtf8Byte* kJProcessAccessDenied;
 
-extern const JCharacter* kJRunProgramError;
+extern const JUtf8Byte* kJRunProgramError;
 
 // Messages
 
-extern const JCharacter* kJInvalidSignalMsg;
-extern const JCharacter* kJInvalidProcessMsg;
-extern const JCharacter* kJCanNotSignalProcessMsg;
-extern const JCharacter* kJProcessAccessDeniedMsg;
+extern const JUtf8Byte* kJInvalidSignalMsg;
+extern const JUtf8Byte* kJInvalidProcessMsg;
+extern const JUtf8Byte* kJCanNotSignalProcessMsg;
+extern const JUtf8Byte* kJProcessAccessDeniedMsg;
 
 // Classes
 
@@ -74,9 +75,9 @@ class JRunProgramError : public JError
 {
 public:
 
-	JRunProgramError(const JCharacter* message)
+	JRunProgramError(const JString& message)
 		:
-		JError(kJRunProgramError, message, kJTrue)
+		JError(kJRunProgramError, message.GetBytes())
 		{ };
 };
 

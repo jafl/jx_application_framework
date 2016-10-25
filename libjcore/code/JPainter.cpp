@@ -258,7 +258,7 @@ JPainter::GetLineHeight()
 JSize
 JPainter::GetStringWidth
 	(
-	const JCharacter* str
+	const JString& str
 	)
 	const
 {
@@ -277,7 +277,7 @@ JPainter::AlignString
 	(
 	JCoordinate*		left,
 	JCoordinate*		top,
-	const JCharacter*	str,
+	const JString&		str,
 	const JCoordinate	width,
 	const HAlignment	hAlign,
 	const JCoordinate	height,
@@ -340,7 +340,7 @@ JPainter::String
 	(
 	const JFloat		userAngle,
 	const JRect&		rect,
-	const JCharacter*	str,
+	const JString&		str,
 	const HAlignment	hAlign,
 	const VAlignment	vAlign
 	)
