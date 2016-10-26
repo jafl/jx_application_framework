@@ -223,20 +223,20 @@
 
 typedef ACE_Connector<JMemoryManager::DebugLink, ACE_LSOCK_CONNECTOR>	DebugLinkConnector;
 
-static const JCharacter* kDisconnectStr = "JMemoryManager::DebugLinkDisconnect";
-const JSize kDisconnectStrLength        = strlen(kDisconnectStr);
+static const JUtf8Byte* kDisconnectStr = "JMemoryManager::DebugLinkDisconnect";
+const JSize kDisconnectStrLength       = strlen(kDisconnectStr);
 
 // Broadcaster message types
 
-	const JCharacter* JMemoryManager::kObjectDeletedAsArray = "ObjectDeletedAsArray::JMemoryManager";
-	const JCharacter* JMemoryManager::kArrayDeletedAsObject = "ArrayDeletedAsObject::JMemoryManager";
+	const JUtf8Byte* JMemoryManager::kObjectDeletedAsArray = "ObjectDeletedAsArray::JMemoryManager";
+	const JUtf8Byte* JMemoryManager::kArrayDeletedAsObject = "ArrayDeletedAsObject::JMemoryManager";
 
-	const JCharacter* JMemoryManager::kUnallocatedDeletion = "UnallocatedDeletion::JMemoryManager";
-	const JCharacter* JMemoryManager::kMultipleDeletion = "MultipleDeletion::JMemoryManager";
+	const JUtf8Byte* JMemoryManager::kUnallocatedDeletion = "UnallocatedDeletion::JMemoryManager";
+	const JUtf8Byte* JMemoryManager::kMultipleDeletion = "MultipleDeletion::JMemoryManager";
 
-	const JCharacter* JMemoryManager::kMultipleAllocation = "MultipleAllocation::JMemoryManager";
+	const JUtf8Byte* JMemoryManager::kMultipleAllocation = "MultipleAllocation::JMemoryManager";
 
-	const JCharacter* JMemoryManager::kNULLDeleted = "NULLDeleted::JMemoryManager";
+	const JUtf8Byte* JMemoryManager::kNULLDeleted = "NULLDeleted::JMemoryManager";
 
 // Constants
 
@@ -260,7 +260,7 @@ const JSize kDisconnectStrLength        = strlen(kDisconnectStr);
 
 	JBoolean      JMemoryManager::theAbortUnknownAllocFlag = kJFalse;
 
-	const JCharacter* JMemoryManager::kUnknownFile = "<UNKNOWN>";
+	const JUtf8Byte* JMemoryManager::kUnknownFile = "<UNKNOWN>";
 
 // static functions
 
@@ -295,56 +295,56 @@ JMemoryManager::JMemoryManager()
 	// Instance() must set the flag
 	assert(theConstructingFlag == kJTrue);
 
-	const JCharacter* abortUnknownAlloc = getenv("JMM_ABORT_UNKNOWN_ALLOC");
-	if (abortUnknownAlloc != NULL && JStringCompare(abortUnknownAlloc, "yes", kJFalse) == 0)
+	const JUtf8Byte* abortUnknownAlloc = getenv("JMM_ABORT_UNKNOWN_ALLOC");
+	if (abortUnknownAlloc != NULL && JString::Compare(abortUnknownAlloc, "yes", kJFalse) == 0)
 		{
 		theAbortUnknownAllocFlag = kJTrue;
 		}
 
-	const JCharacter* broadcastErrors = getenv("JMM_BROADCAST_ERRORS");
-	if (broadcastErrors != NULL && JStringCompare(broadcastErrors, "yes", kJFalse) == 0)
+	const JUtf8Byte* broadcastErrors = getenv("JMM_BROADCAST_ERRORS");
+	if (broadcastErrors != NULL && JString::Compare(broadcastErrors, "yes", kJFalse) == 0)
 		{
 		itsBroadcastErrorsFlag = kJTrue;
 		}
 
-	const JCharacter* printExitStats = getenv("JMM_PRINT_EXIT_STATS");
-	if (printExitStats != NULL && JStringCompare(printExitStats, "yes", kJFalse) == 0)
+	const JUtf8Byte* printExitStats = getenv("JMM_PRINT_EXIT_STATS");
+	if (printExitStats != NULL && JString::Compare(printExitStats, "yes", kJFalse) == 0)
 		{
 		itsPrintExitStatsFlag = kJTrue;
 		}
 
-	const JCharacter* printInternalStats = getenv("JMM_PRINT_INTERNAL_STATS");
-	if (printInternalStats != NULL && JStringCompare(printInternalStats, "yes", kJFalse) == 0)
+	const JUtf8Byte* printInternalStats = getenv("JMM_PRINT_INTERNAL_STATS");
+	if (printInternalStats != NULL && JString::Compare(printInternalStats, "yes", kJFalse) == 0)
 		{
 		itsPrintInternalStatsFlag = kJTrue;
 		}
 
 	ReadValue(&theInitializeFlag, &theAllocateGarbage, getenv("JMM_INITIALIZE"));
 	ReadValue(&itsShredFlag, &itsDeallocateGarbage, getenv("JMM_SHRED"));
-	const JCharacter* checkDoubleAllocation = getenv("JMM_CHECK_DOUBLE_ALLOCATION");
-	if (checkDoubleAllocation != NULL && JStringCompare(checkDoubleAllocation, "yes", kJFalse) == 0)
+	const JUtf8Byte* checkDoubleAllocation = getenv("JMM_CHECK_DOUBLE_ALLOCATION");
+	if (checkDoubleAllocation != NULL && JString::Compare(checkDoubleAllocation, "yes", kJFalse) == 0)
 		{
 		itsCheckDoubleAllocationFlag = kJTrue;
 		}
 
-	const JCharacter* disallowDeleteNULL = getenv("JMM_DISALLOW_DELETE_NULL");
-	if (disallowDeleteNULL != NULL && JStringCompare(disallowDeleteNULL, "yes", kJFalse) == 0)
+	const JUtf8Byte* disallowDeleteNULL = getenv("JMM_DISALLOW_DELETE_NULL");
+	if (disallowDeleteNULL != NULL && JString::Compare(disallowDeleteNULL, "yes", kJFalse) == 0)
 		{
 		itsDisallowDeleteNULLFlag = kJTrue;
 		}
 
-	const JCharacter* recordAllocated = getenv("JMM_RECORD_ALLOCATED");
-	if (recordAllocated != NULL && JStringCompare(recordAllocated, "yes", kJFalse) == 0)
+	const JUtf8Byte* recordAllocated = getenv("JMM_RECORD_ALLOCATED");
+	if (recordAllocated != NULL && JString::Compare(recordAllocated, "yes", kJFalse) == 0)
 		{
-		const JCharacter* tableType = getenv("JMM_TABLE_TYPE");
-		JCharacter* recordDeallocated = getenv("JMM_RECORD_DEALLOCATED");
+		const JUtf8Byte* tableType = getenv("JMM_TABLE_TYPE");
+		JUtf8Byte* recordDeallocated = getenv("JMM_RECORD_DEALLOCATED");
 		JBoolean recordDeallocatedFlag = kJFalse;
-		if (recordDeallocated != NULL && JStringCompare(recordDeallocated, "yes", kJFalse) == 0)
+		if (recordDeallocated != NULL && JString::Compare(recordDeallocated, "yes", kJFalse) == 0)
 			{
 			recordDeallocatedFlag = kJTrue;
 			}
 
-		if (tableType != NULL && JStringCompare(tableType, "array", kJFalse) == 0)
+		if (tableType != NULL && JString::Compare(tableType, "array", kJFalse) == 0)
 			{
 			itsMemoryTable = new JMMArrayTable(this, recordDeallocatedFlag);
 			}
@@ -409,7 +409,7 @@ JMemoryManager::Instance()
 		manager->itsErrorPrinter = new JMMErrorPrinter;
 		assert(manager->itsErrorPrinter != NULL);
 
-		const JCharacter* pipeName = getenv("JMM_PIPE");
+		const JUtf8Byte* pipeName = getenv("JMM_PIPE");
 		if (!JString::IsEmpty(pipeName))
 			{
 			manager->itsErrorStream = new JMMDebugErrorStream;
@@ -459,10 +459,10 @@ JMemoryManager::Instance()
 void*
 JMemoryManager::New
 	(
-	const size_t      size,
-	const JCharacter* file,
-	const JUInt32     line,
-	const JBoolean    isArray
+	const size_t     size,
+	const JUtf8Byte* file,
+	const JUInt32    line,
+	const JBoolean   isArray
 	)
 {
 	if (theAbortUnknownAllocFlag && line == 0)
@@ -685,10 +685,10 @@ JMemoryManager::AddNewRecord
 void
 JMemoryManager::DeleteRecord
 	(
-	void*             block,
-	const JCharacter* file,
-	const JUInt32     line,
-	const JBoolean    isArray
+	void*            block,
+	const JUtf8Byte* file,
+	const JUInt32    line,
+	const JBoolean   isArray
 	)
 {
 	if (block == NULL)
@@ -805,8 +805,8 @@ JMemoryManager::GetNewID()
 void
 JMemoryManager::LocateDelete
 	(
-	const JCharacter* file,
-	const JUInt32     line
+	const JUtf8Byte* file,
+	const JUInt32    line
 	)
 {
 	itsLastDeleteFile = file;
@@ -912,7 +912,7 @@ JMemoryManager::Receive
 void
 JMemoryManager::ConnectToDebugger
 	(
-	const JCharacter* socketName
+	const JUtf8Byte* socketName
 	)
 {
 	itsLink = new DebugLink;
@@ -950,7 +950,7 @@ JMemoryManager::HandleDebugRequest()
 	const JBoolean ok = itsLink->GetNextMessage(&text);
 	assert( ok );
 
-	std::string s(text, text.GetLength());
+	std::string s(text.GetBytes(), text.GetByteCount());
 	std::istringstream input(s);
 
 	JFileVersion vers;
@@ -1077,7 +1077,7 @@ JMemoryManager::SendExitStats()
 
 		theInternalFlag = kJTrue;
 
-		itsExitStatsStream = new std::ofstream(*itsExitStatsFileName);
+		itsExitStatsStream = new std::ofstream(itsExitStatsFileName->GetBytes());
 		assert( itsExitStatsStream != NULL );
 
 		theInternalFlag = kJFalse;
@@ -1156,8 +1156,7 @@ JMemoryManager::SendDebugMessage
 		s1.ReplaceSubstring(i, i+kDisconnectStrLength-1, "<ixnay on the disconnect string!>");
 		}
 
-	std::string s2 = s1.GetCString();
-	itsLink->SendMessage(s2.c_str(), s2.length());
+	itsLink->SendMessage(s1);
 }
 
 /******************************************************************************
@@ -1221,9 +1220,9 @@ JMemoryManager::HandleArrayDeletedAsObject
 void
 JMemoryManager::HandleUnallocatedDeletion
 	(
-	const JCharacter* file,
-	const JUInt32     line,
-	const JBoolean    isArray
+	const JUtf8Byte* file,
+	const JUInt32    line,
+	const JBoolean   isArray
 	)
 {
 	if (itsBroadcastErrorsFlag)
@@ -1240,10 +1239,10 @@ JMemoryManager::HandleUnallocatedDeletion
 void
 JMemoryManager::HandleMultipleDeletion
 	(
-	const JMMRecord&  thisRecord,
-	const JCharacter* file,
-	const JUInt32     line,
-	const JBoolean    isArray
+	const JMMRecord& thisRecord,
+	const JUtf8Byte* file,
+	const JUInt32    line,
+	const JBoolean   isArray
 	)
 {
 	if (itsBroadcastErrorsFlag)
@@ -1278,9 +1277,9 @@ JMemoryManager::HandleMultipleAllocation
 void
 JMemoryManager::HandleNULLDeleted
 	(
-	const JCharacter* file,
-	const JUInt32     line,
-	const JBoolean    isArray
+	const JUtf8Byte* file,
+	const JUInt32    line,
+	const JBoolean   isArray
 	)
 {
 	if (itsDisallowDeleteNULLFlag && itsBroadcastErrorsFlag)
@@ -1297,23 +1296,23 @@ JMemoryManager::HandleNULLDeleted
 void
 JMemoryManager::ReadValue
 	(
-	JBoolean*         hasValue,
-	unsigned char*    value,
-	const JCharacter* string
+	JBoolean*        hasValue,
+	unsigned char*   value,
+	const JUtf8Byte* string
 	)
 {
 	*hasValue = JConvertToBoolean(string != NULL);
 
-	if (*hasValue && JStringCompare(string, "no", kJFalse) != 0)
+	if (*hasValue && JString::Compare(string, "no", kJFalse) != 0)
 		{
-		const JCharacter* start = string;
+		const JUtf8Byte* start = string;
 		while ( isspace(*start) )
 			{
 			++start;
 			}
 		if (*start != '\0') // The string has a non-space value, so try to read as a number
 			{
-			JCharacter* end;
+			JUtf8Byte* end;
 			unsigned char theValue = (unsigned char) strtol(start, &end, 0);
 			if (*end == '\0') // We read the entire string, so the value must be good
 				{
@@ -1348,7 +1347,7 @@ JMemoryManager::RecordFilter::Match
 		}
 
 	const JSize newFileLength = strlen(record.GetNewFile());
-	if (match && fileName != NULL && newFileLength == fileName->GetLength())
+	if (match && fileName != NULL && newFileLength == fileName->GetByteCount())
 		{
 		if (record.GetNewFile() != *fileName)
 			{
@@ -1357,19 +1356,19 @@ JMemoryManager::RecordFilter::Match
 		}
 	else if (match && fileName != NULL)
 		{
-		const JCharacter *s1, *s2;
+		const JUtf8Byte *s1, *s2;
 		JSize l1, l2;
-		if (newFileLength > fileName->GetLength())
+		if (newFileLength > fileName->GetByteCount())
 			{
 			s1 = record.GetNewFile();
 			l1 = newFileLength;
-			s2 = *fileName;
-			l2 = fileName->GetLength();
+			s2 = fileName->GetBytes();
+			l2 = fileName->GetByteCount();
 			}
 		else
 			{
-			s1 = *fileName;
-			l1 = fileName->GetLength();
+			s1 = fileName->GetBytes();
+			l1 = fileName->GetByteCount();
 			s2 = record.GetNewFile();
 			l2 = newFileLength;
 			}

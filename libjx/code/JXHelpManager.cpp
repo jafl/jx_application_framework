@@ -565,7 +565,7 @@ JXHelpManager::CompareSections
 	const SectionInfo& s2
 	)
 {
-	const int r = JStringCompare(s1.name, s2.name, kJFalse);
+	const int r = JString::Compare(s1.name, s2.name, kJFalse);
 
 	if (r > 0)
 		{

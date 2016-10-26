@@ -30,7 +30,7 @@ public:
 	virtual ~JStringManager();
 
 	void		Register(const JUtf8Byte* signature, const JUtf8Byte** defaultData);
-	JBoolean	MergeFile(const JUtf8Byte* fileName, const JBoolean debug = kJFalse);
+	JBoolean	MergeFile(const JString& fileName, const JBoolean debug = kJFalse);
 	void		MergeFile(istream& input, const JBoolean debug = kJFalse);
 	void		WriteFile(ostream& output) const;
 
@@ -43,9 +43,9 @@ public:
 							const JSize size) const;
 
 	void	ReportError(const JUtf8Byte* id, const JError& err) const;
-	void	ReportError(const JUtf8Byte* id, const JUtf8Byte* message) const;
+	void	ReportError(const JUtf8Byte* id, const JString& message) const;
 
-	static JBoolean	CanOverride(const JUtf8Byte* id);
+	static JBoolean	CanOverride(const JString& id);
 
 private:
 

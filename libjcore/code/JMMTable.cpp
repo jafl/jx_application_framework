@@ -68,11 +68,11 @@ JMMTable::AddNewRecord
 JBoolean
 JMMTable::SetRecordDeleted
 	(
-	JMMRecord*        record,
-	const void*       block,
-	const JCharacter* file,
-	const JUInt32     line,
-	const JBoolean    isArray
+	JMMRecord*       record,
+	const void*      block,
+	const JUtf8Byte* file,
+	const JUInt32    line,
+	const JBoolean   isArray
 	)
 {
 	BeginRecursiveBlock();
@@ -187,9 +187,9 @@ JMMTable::NotifyArrayDeletedAsObject
 void
 JMMTable::NotifyUnallocatedDeletion
 	(
-	const JCharacter* file,
-	const JUInt32     line,
-	const JBoolean    isArray
+	const JUtf8Byte* file,
+	const JUInt32    line,
+	const JBoolean   isArray
 	)
 {
 	itsManager->HandleUnallocatedDeletion(file, line, isArray);
@@ -203,10 +203,10 @@ JMMTable::NotifyUnallocatedDeletion
 void
 JMMTable::NotifyMultipleDeletion
 	(
-	const JMMRecord&  firstRecord,
-	const JCharacter* file,
-	const JUInt32     line,
-	const JBoolean    isArray
+	const JMMRecord& firstRecord,
+	const JUtf8Byte* file,
+	const JUInt32    line,
+	const JBoolean   isArray
 	)
 {
 	itsManager->HandleMultipleDeletion(firstRecord, file, line, isArray);

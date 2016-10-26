@@ -33,8 +33,8 @@ static const time_t kMaxReportInverval = 5;		// seconds
 JError
 JSimpleProcess::Create
 	(
-	const JCharacter*	cmdStr,
-	const JBoolean		detach
+	const JString&	cmdStr,
+	const JBoolean	detach
 	)
 {
 	JSimpleProcess* p;
@@ -51,7 +51,7 @@ JError
 JSimpleProcess::Create
 	(
 	JSimpleProcess**	process,
-	const JCharacter*	cmdStr,
+	const JString&		cmdStr,
 	const JBoolean		deleteWhenFinished
 	)
 {
@@ -77,9 +77,9 @@ JSimpleProcess::Create
 JError
 JSimpleProcess::Create
 	(
-	const JCharacter*	workingDirectory,
-	const JCharacter*	cmdStr,
-	const JBoolean		detach
+	const JString&	workingDirectory,
+	const JString&	cmdStr,
+	const JBoolean	detach
 	)
 {
 	JSimpleProcess* p;
@@ -96,8 +96,8 @@ JError
 JSimpleProcess::Create
 	(
 	JSimpleProcess**	process,
-	const JCharacter*	workingDirectory,
-	const JCharacter*	cmdStr,
+	const JString&		workingDirectory,
+	const JString&		cmdStr,
 	const JBoolean		deleteWhenFinished
 	)
 {
@@ -167,7 +167,7 @@ JSimpleProcess::Create
 JError
 JSimpleProcess::Create
 	(
-	const JCharacter*			workingDirectory,
+	const JString&				workingDirectory,
 	const JPtrArray<JString>&	argList,
 	const JBoolean				detach
 	)
@@ -186,7 +186,7 @@ JError
 JSimpleProcess::Create
 	(
 	JSimpleProcess**			process,
-	const JCharacter*			workingDirectory,
+	const JString&				workingDirectory,
 	const JPtrArray<JString>&	argList,
 	const JBoolean				deleteWhenFinished
 	)
@@ -213,7 +213,7 @@ JSimpleProcess::Create
 JError
 JSimpleProcess::Create
 	(
-	const JCharacter*	argv[],
+	const JUtf8Byte*	argv[],
 	const JSize			size,
 	const JBoolean		detach
 	)
@@ -232,7 +232,7 @@ JError
 JSimpleProcess::Create
 	(
 	JSimpleProcess**	process,
-	const JCharacter*	argv[],
+	const JUtf8Byte*	argv[],
 	const JSize			size,
 	const JBoolean		deleteWhenFinished
 	)
@@ -259,8 +259,8 @@ JSimpleProcess::Create
 JError
 JSimpleProcess::Create
 	(
-	const JCharacter*	workingDirectory,
-	const JCharacter*	argv[],
+	const JString&		workingDirectory,
+	const JUtf8Byte*	argv[],
 	const JSize			size,
 	const JBoolean		detach
 	)
@@ -279,8 +279,8 @@ JError
 JSimpleProcess::Create
 	(
 	JSimpleProcess**	process,
-	const JCharacter*	workingDirectory,
-	const JCharacter*	argv[],
+	const JString&		workingDirectory,
+	const JUtf8Byte*	argv[],
 	const JSize			size,
 	const JBoolean		deleteWhenFinished
 	)
@@ -389,7 +389,7 @@ JSimpleProcess::ReportError
 			{
 			if (!text.IsEmpty())
 				{
-				text.AppendCharacter('\n');
+				text.Append("\n");
 				}
 			text += line;
 			}
@@ -398,7 +398,7 @@ JSimpleProcess::ReportError
 			{
 			if (!text.IsEmpty())
 				{
-				text.AppendCharacter('\n');
+				text.Append("\n");
 				}
 			text += lastLine;
 			}

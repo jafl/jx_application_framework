@@ -2762,7 +2762,7 @@ JTextEditor::SelectionMatches
 	const JBoolean hasSelection = GetSelection(&s);
 	assert( hasSelection );
 
-	return JI2B(JStringCompare(searchStr, s, caseSensitive) == 0);
+	return JI2B(JString::Compare(searchStr, s, caseSensitive) == 0);
 }
 
 /******************************************************************************

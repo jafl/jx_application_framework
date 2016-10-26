@@ -20,12 +20,12 @@ public:
 
 	virtual ~JExtractHTMLTitle();
 
-	JBoolean	ExtractTitle(const JCharacter* text, JString* title);
+	JBoolean	ExtractTitle(const JString& text, JString* title);
 
 protected:
 
-	virtual JBoolean	HandleHTMLWord(const JCharacter* word, const JIndexRange& range);
-	virtual JBoolean	HandleHTMLWhitespace(const JCharacter* space, const JIndexRange& range);
+	virtual JBoolean	HandleHTMLWord(const JUtf8Byte* word, const JIndexRange& range);
+	virtual JBoolean	HandleHTMLWhitespace(const JUtf8Byte* space, const JIndexRange& range);
 	virtual JBoolean	HandleHTMLTag(const JString& name, const JStringPtrMap<JString>& attr,
 									  const JIndexRange& range);
 

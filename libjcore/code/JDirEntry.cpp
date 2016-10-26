@@ -541,20 +541,21 @@ JDirEntry::MatchesContentFilter
 			return kJFalse;
 			}
 
-		JUtf8Byte* data = jnew JUtf8Byte [ kBlockSize ];
+		JUtf8Byte* data = jnew JUtf8Byte [ kBlockSize+1 ];
 		const ssize_t count = read(fd, data, kBlockSize);
 		close(fd);
 		if (count < 0)
 			{
 			return kJFalse;
 			}
+		data[ count ] = '\0';
 
 		utimbuf ubuf;
 		ubuf.actime  = lstbuf.st_atime;
 		ubuf.modtime = lstbuf.st_mtime;
 		utime(itsFullName.GetBytes(), &ubuf);		// restore access time
 
-		const JBoolean match = regex.MatchWithin(data, JIndexRange(1, count));
+		const JBoolean match = regex.Match(data);
 
 		jdelete [] data;
 		return match;

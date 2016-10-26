@@ -271,11 +271,11 @@ JMMArrayTable::_AddNewRecord
 JBoolean
 JMMArrayTable::_SetRecordDeleted
 	(
-	JMMRecord*        record,
-	const void*       block,
-	const JCharacter* file,
-	const JUInt32     line,
-	const JBoolean    isArray
+	JMMRecord*       record,
+	const void*      block,
+	const JUtf8Byte* file,
+	const JUInt32    line,
+	const JBoolean   isArray
 	)
 {
 	JSize index = FindAllocatedBlock(block);

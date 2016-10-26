@@ -330,7 +330,7 @@ CBStylerBase::CompareWords
 	const WordStyle& w2
 	)
 {
-	const int result = JStringCompare(w1.key, w2.key, kJFalse);
+	const int result = JString::Compare(w1.key, w2.key, kJFalse);
 
 	if (result < 0)
 		{

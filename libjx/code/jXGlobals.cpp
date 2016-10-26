@@ -747,7 +747,7 @@ JXInitLocale()
 			composeFile = JReadUntilws(composeDirInput);
 			name        = JReadUntilws(composeDirInput);
 
-			if (JStringCompare(name, langName, kJFalse) == 0)
+			if (JString::Compare(name, langName, kJFalse) == 0)
 				{
 				found = kJTrue;
 				break;

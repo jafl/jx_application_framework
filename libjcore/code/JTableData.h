@@ -53,17 +53,17 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kRowsInserted;
-	static const JCharacter* kRowDuplicated;
-	static const JCharacter* kRowsRemoved;
-	static const JCharacter* kRowMoved;
+	static const JUtf8Byte* kRowsInserted;
+	static const JUtf8Byte* kRowDuplicated;
+	static const JUtf8Byte* kRowsRemoved;
+	static const JUtf8Byte* kRowMoved;
 
-	static const JCharacter* kColsInserted;
-	static const JCharacter* kColDuplicated;
-	static const JCharacter* kColsRemoved;
-	static const JCharacter* kColMoved;
+	static const JUtf8Byte* kColsInserted;
+	static const JUtf8Byte* kColDuplicated;
+	static const JUtf8Byte* kColsRemoved;
+	static const JUtf8Byte* kColMoved;
 
-	static const JCharacter* kRectChanged;
+	static const JUtf8Byte* kRectChanged;
 
 private:
 
@@ -73,7 +73,7 @@ private:
 		{
 		public:
 
-			RowColMessage(const JCharacter* type,
+			RowColMessage(const JUtf8Byte* type,
 						  const JIndex firstIndex, const JSize count)
 				:
 				JBroadcaster::Message(type),
@@ -116,7 +116,7 @@ private:
 		{
 		public:
 
-			RowColMoved(const JCharacter* type,
+			RowColMoved(const JUtf8Byte* type,
 						const JIndex origIndex, const JIndex newIndex)
 				:
 				JBroadcaster::Message(type),
@@ -148,7 +148,7 @@ private:
 		{
 		public:
 
-			RowColDupd(const JCharacter* type,
+			RowColDupd(const JUtf8Byte* type,
 					   const JIndex origIndex, const JIndex newIndex)
 				:
 				JBroadcaster::Message(type),

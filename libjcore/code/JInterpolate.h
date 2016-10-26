@@ -17,12 +17,12 @@ class JInterpolate : public JSubstitute
 public:
 
 	JInterpolate();
-	JInterpolate(const JCharacter* source, const pcre* regex,
+	JInterpolate(const JUtf8Byte* source, const pcre* regex,
 				 const JArray<JIndexRange>* matchList);
 
 	virtual ~JInterpolate();
 
-	void	SetMatchResults(const JCharacter* source, const pcre* regex,
+	void	SetMatchResults(const JUtf8Byte* source, const pcre* regex,
 							const JArray<JIndexRange>* matchList);
 
 protected:
@@ -31,7 +31,7 @@ protected:
 
 private:
 
-	const JCharacter*			itsSource;
+	const JUtf8Byte*			itsSource;
 	const pcre*					itsRegex;
 	const JArray<JIndexRange>*	itsMatchList;
 
@@ -52,7 +52,7 @@ private:
 inline void
 JInterpolate::SetMatchResults
 	(
-	const JCharacter*			source,
+	const JUtf8Byte*			source,
 	const pcre*					regex,
 	const JArray<JIndexRange>*	matchList
 	)

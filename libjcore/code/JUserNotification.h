@@ -10,7 +10,7 @@
 #ifndef _H_JUserNotification
 #define _H_JUserNotification
 
-#include <jTypes.h>
+#include <JString.h>
 
 class JUserNotification
 {

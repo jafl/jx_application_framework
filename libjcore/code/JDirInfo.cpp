@@ -123,7 +123,7 @@ JDirInfo::JDirInfo
 	:
 	JContainer()
 {
-	AllocateCWD(dirName);
+	BuildCWD(dirName);
 
 	itsIsValidFlag         = kJTrue;	// see assert() at end of this function
 	itsSwitchIfInvalidFlag = kJFalse;
@@ -167,16 +167,14 @@ JDirInfo::JDirInfo
 // private
 
 void
-JDirInfo::AllocateCWD
+JDirInfo::BuildCWD
 	(
 	const JString& dirName
 	)
 {
-	itsCWD = jnew JString;
-	assert( itsCWD != NULL );
-	const JBoolean ok = JConvertToAbsolutePath(dirName, NULL, itsCWD);
+	const JBoolean ok = JConvertToAbsolutePath(dirName, NULL, &itsCWD);
 	assert( ok );
-	JAppendDirSeparator(itsCWD);
+	JAppendDirSeparator(&itsCWD);
 }
 
 /******************************************************************************
@@ -189,11 +187,9 @@ JDirInfo::JDirInfo
 	const JDirInfo& source
 	)
 	:
-	JContainer(source)
+	JContainer(source),
+	itsCWD(source.itsCWD)
 {
-	itsCWD = jnew JString(*(source.itsCWD));
-	assert( itsCWD != NULL );
-
 	itsIsValidFlag         = source.itsIsValidFlag;
 	itsSwitchIfInvalidFlag = source.itsSwitchIfInvalidFlag;
 	itsIsWritableFlag      = source.itsIsWritableFlag;
@@ -214,7 +210,7 @@ JDirInfo::JDirInfo
 	:
 	JContainer(source)
 {
-	AllocateCWD(dirName);
+	BuildCWD(dirName);
 
 	itsIsValidFlag         = kJTrue;			// see assert() at end of this function
 	itsSwitchIfInvalidFlag = kJFalse;
@@ -269,8 +265,6 @@ JDirInfo::~JDirInfo()
 	jdelete itsVisEntries;
 	jdelete itsAlphaEntries;
 
-	jdelete itsCWD;
-
 	if (itsOwnsNameRegexFlag)
 		{
 		jdelete itsNameRegex;
@@ -298,7 +292,7 @@ JDirInfo::operator=
 
 	JContainer::operator=(source);
 
-	*itsCWD = *(source.itsCWD);
+	itsCWD = source.itsCWD;
 
 	itsIsValidFlag         = source.itsIsValidFlag;
 	itsSwitchIfInvalidFlag = source.itsSwitchIfInvalidFlag;
@@ -659,12 +653,12 @@ JDirInfo::ClosestMatch
 JError
 JDirInfo::GoUp()
 {
-	JString theCWD = *itsCWD;
+	JString theCWD = itsCWD;
 
 	// strip trailing slashes
 
 	JStripTrailingDirSeparator(&theCWD);
-	if (JIsRootDirectory(theCWD.GetBytes()))
+	if (JIsRootDirectory(theCWD))
 		{
 		return JNoError();
 		}
@@ -672,13 +666,13 @@ JDirInfo::GoUp()
 	// change directory
 
 	JString newCWD, name;
-	if (JSplitPathAndName(theCWD.GetBytes(), &newCWD, &name))
+	if (JSplitPathAndName(theCWD, &newCWD, &name))
 		{
-		return GoTo(newCWD.GetBytes());
+		return GoTo(newCWD);
 		}
 	else
 		{
-		return JBadPath(theCWD.GetBytes());
+		return JBadPath(theCWD);
 		}
 }
 
@@ -693,8 +687,8 @@ JDirInfo::GoDown
 	const JString& dirName
 	)
 {
-	const JString theCWD = *itsCWD + dirName;
-	return GoTo(theCWD.GetBytes());
+	const JString theCWD = JCombinePathAndName(itsCWD, dirName);
+	return GoTo(theCWD);
 }
 
 /*****************************************************************************
@@ -715,7 +709,7 @@ JDirInfo::GoToClosest
 	)
 {
 	const JString dirName = JGetClosestDirectory(origDirName);
-	const JError err      = GoTo(dirName.GetBytes());
+	const JError err      = GoTo(dirName);
 	assert_ok( err );
 }
 
@@ -737,16 +731,16 @@ JDirInfo::GoTo
 		return JBadPath(origDirName);
 		}
 
-	if (JSameDirEntry(dirName.GetBytes(), itsCWD->GetBytes()))
+	if (JSameDirEntry(dirName, itsCWD))
 		{
 		Update();
 		return JNoError();
 		}
 	JAppendDirSeparator(&dirName);
 
-	const JString origCWD = *itsCWD;
+	const JString origCWD = itsCWD;
 
-	*itsCWD = dirName;
+	itsCWD = dirName;
 	const JError err = BuildInfo();
 	if (err.OK())
 		{
@@ -754,7 +748,7 @@ JDirInfo::GoTo
 		}
 	else
 		{
-		*itsCWD = origCWD;
+		itsCWD = origCWD;
 		}
 
 	return err;
@@ -770,14 +764,14 @@ JDirInfo::GoTo
 JError
 JDirInfo::BuildInfo()
 {
-	if (!JDirectoryReadable(itsCWD->GetBytes()))
+	if (!JDirectoryReadable(itsCWD))
 		{
-		return JAccessDenied(itsCWD->GetBytes());
+		return JAccessDenied(itsCWD);
 		}
 
 	const JString origDir = JGetCurrentDirectory();
 
-	JError err = JChangeDirectory(itsCWD->GetBytes());
+	JError err = JChangeDirectory(itsCWD);
 	if (!err.OK())
 		{
 		return err;
@@ -789,16 +783,16 @@ JDirInfo::BuildInfo()
 
 	// update instance variables
 
-	JStripTrailingDirSeparator(itsCWD);		// keep Windows happy
+	JStripTrailingDirSeparator(&itsCWD);		// keep Windows happy
 
 	ACE_stat stbuf;
-	ACE_OS::stat(itsCWD->GetBytes(), &stbuf);
+	ACE_OS::stat(itsCWD.GetBytes(), &stbuf);
 	itsIsValidFlag    = kJTrue;
-	itsIsWritableFlag = JDirectoryWritable(itsCWD->GetBytes());
+	itsIsWritableFlag = JDirectoryWritable(itsCWD);
 	itsModTime        = stbuf.st_mtime;
 	itsStatusTime     = stbuf.st_ctime;
 
-	JAppendDirSeparator(itsCWD);
+	JAppendDirSeparator(&itsCWD);
 
 	// process files in the directory
 
@@ -813,7 +807,7 @@ JDirInfo::BuildInfo()
 
 	pg.ProcessFinished();
 
-	err = JChangeDirectory(origDir.GetBytes());
+	err = JChangeDirectory(origDir);
 	assert_ok( err );
 
 	ApplyFilters(kJFalse);
@@ -835,18 +829,18 @@ JDirInfo::Update
 {
 	ACE_stat info;
 	if (force ||
-		ACE_OS::lstat(itsCWD->GetBytes(), &info) != 0 ||
-		ACE_OS::stat(itsCWD->GetBytes(), &info) != 0  ||
+		ACE_OS::lstat(itsCWD.GetBytes(), &info) != 0 ||
+		ACE_OS::stat(itsCWD.GetBytes(), &info) != 0  ||
 		itsModTime != (time_t) info.st_mtime)
 		{
 		ForceUpdate();
 		return kJTrue;
 		}
 	else if (itsStatusTime != (time_t) info.st_ctime &&
-			 JDirectoryReadable(itsCWD->GetBytes()))
+			 JDirectoryReadable(itsCWD))
 		{
 		itsStatusTime     = info.st_ctime;
-		itsIsWritableFlag = JDirectoryWritable(itsCWD->GetBytes());
+		itsIsWritableFlag = JDirectoryWritable(itsCWD);
 		Broadcast(PermissionsChanged());
 		return kJTrue;
 		}
@@ -872,7 +866,7 @@ JDirInfo::Update
 JBoolean
 JDirInfo::ForceUpdate()
 {
-	if (JDirectoryExists(itsCWD->GetBytes()))
+	if (JDirectoryExists(itsCWD))
 		{
 		Broadcast(ContentsWillBeUpdated());
 
@@ -886,11 +880,11 @@ JDirInfo::ForceUpdate()
 	if (itsSwitchIfInvalidFlag)
 		{
 		JString path;
-		if (!JGetHomeDirectory(&path) || !OKToCreate(path.GetBytes()))
+		if (!JGetHomeDirectory(&path) || !OKToCreate(path))
 			{
 			path = JGetRootDirectory();
 			}
-		GoTo(path.GetBytes());
+		GoTo(path);
 		}
 	else
 		{
@@ -959,7 +953,7 @@ JDirInfo::IsVisible
 		return kJFalse;
 		}
 
-	if (!itsShowVCSDirsFlag && JIsVCSDirectory(name.GetBytes()))
+	if (!itsShowVCSDirsFlag && JIsVCSDirectory(name))
 		{
 		return kJFalse;
 		}
@@ -1014,7 +1008,7 @@ JDirInfo::SetWildcardFilter
 		return;
 		}
 
-	JRegex* r = jnew JRegex(regexStr.GetBytes());
+	JRegex* r = jnew JRegex(regexStr);
 	assert( r != NULL );
 	r->SetCaseSensitive(caseSensitive);
 
@@ -1139,7 +1133,7 @@ JIndex i;
 
 	for (i = str.GetLength(); i>=1; i--)
 		{
-		const JCharacter c = str.GetCharacter(i);
+		const JUtf8Character c = str.GetCharacter(i);
 		if (c == '*')
 			{
 			str.InsertSubstring(".", i);
@@ -1156,14 +1150,14 @@ JIndex i;
 
 	// Add instructions that it must match the entire file name.
 
-	str.PrependCharacter('^');
-	str.AppendCharacter('$');
+	str.Prepend("^");
+	str.Append("$");
 
 	// append to regexStr
 
 	if (!regexStr->IsEmpty())
 		{
-		regexStr->AppendCharacter('|');
+		regexStr->Append("|");
 		}
 	*regexStr += str;
 }
@@ -1261,7 +1255,7 @@ JDirInfo::MatchesDirEntryFilter
 JError
 JDirInfo::SetContentFilter
 	(
-	const JCharacter* regexStr
+	const JString& regexStr
 	)
 {
 	if (itsContentRegex != NULL && regexStr == itsContentRegex->GetPattern())
@@ -1414,7 +1408,7 @@ JDirInfo::ResetCSFFilters()
 JBoolean
 JDirInfo::Empty
 	(
-	const JCharacter* dirName
+	const JString& dirName
 	)
 {
 	JDirInfo* info;

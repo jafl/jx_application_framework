@@ -22,9 +22,9 @@ const JSize kEscapeCount = 256;
 
 // JError messages
 
-const JCharacter* JSubstitute::kLoneDollar         = "LoneDollar::JSubstitute";
-const JCharacter* JSubstitute::kTrailingBackslash  = "TrailingBackslash::JSubstitute";
-const JCharacter* JSubstitute::kIllegalControlChar = "IllegalControlChar::JSubstitute";
+const JUtf8Byte* JSubstitute::kLoneDollar         = "LoneDollar::JSubstitute";
+const JUtf8Byte* JSubstitute::kTrailingBackslash  = "TrailingBackslash::JSubstitute";
+const JUtf8Byte* JSubstitute::kIllegalControlChar = "IllegalControlChar::JSubstitute";
 
 /******************************************************************************
  Constructor
@@ -179,38 +179,17 @@ JBoolean
 JSubstitute::SetEscape
 	(
 	const unsigned char	c,
-	const JString&		value
-	)
-{
-	return SetEscape(c, value.GetCString(), value.GetLength());
-}
-
-JBoolean
-JSubstitute::SetEscape
-	(
-	const unsigned char	c,
-	const JCharacter*	value
-	)
-{
-	return SetEscape(c, value, strlen(value));
-}
-
-JBoolean
-JSubstitute::SetEscape
-	(
-	const unsigned char	c,
-	const JCharacter*	value,
-	const JSize			length
+	const JUtf8Byte*	value
 	)
 {
 	if (itsEscapeTable[c] != NULL)
 		{
-		(itsEscapeTable[c])->Set(value, length);
+		(itsEscapeTable[c])->Set(value);
 		return kJTrue;
 		}
 	else
 		{
-		itsEscapeTable[c] = jnew JString(value, length);
+		itsEscapeTable[c] = jnew JString(value);
 		assert( itsEscapeTable[c] != NULL );
 		return kJFalse;
 		}
@@ -442,8 +421,8 @@ JSubstitute::ClearRegexExtensions()
 void
 JSubstitute::DefineVariable
 	(
-	const JCharacter* name,
-	const JCharacter* value
+	const JUtf8Byte*	name,
+	const JString&		value
 	)
 {
 	if (!SetVariableValue(name, value))
@@ -468,8 +447,8 @@ JSubstitute::DefineVariable
 JBoolean
 JSubstitute::SetVariableValue
 	(
-	const JCharacter* name,
-	const JCharacter* value
+	const JUtf8Byte*	name,
+	const JString&		value
 	)
 {
 	const JSize count = itsVarList->GetElementCount();
@@ -496,7 +475,7 @@ JSubstitute::SetVariableValue
 void
 JSubstitute::DefineVariables
 	(
-	const JCharacter* regexPattern
+	const JUtf8Byte* regexPattern
 	)
 {
 	JString* name = jnew JString(regexPattern);
@@ -519,7 +498,7 @@ JSubstitute::DefineVariables
 void
 JSubstitute::UndefineVariable
 	(
-	const JCharacter* name
+	const JUtf8Byte* name
 	)
 {
 	const JSize count = itsVarList->GetElementCount();
@@ -580,7 +559,7 @@ JSubstitute::ContainsError
 	JString varValue;
 	while (1)
 		{
-		JCharacter opChar;
+		JUtf8Character opChar;
 		if (!FindNextOperator(s, &i, &opChar))
 			{
 			break;
@@ -701,7 +680,7 @@ JSubstitute::Substitute
 	JString varValue;
 	while (1)
 		{
-		JCharacter opChar;
+		JUtf8Character opChar;
 		if (!FindNextOperator(*s, &i, &opChar))
 			{
 			break;
@@ -807,7 +786,7 @@ JSubstitute::FindNextOperator
 	(
 	const JString&	s,
 	JIndex*			index,
-	JCharacter*		opChar
+	JUtf8Character*	opChar
 	)
 	const
 {

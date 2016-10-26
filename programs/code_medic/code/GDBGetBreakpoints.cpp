@@ -277,11 +277,11 @@ GDBGetBreakpoints::ParseCommon
 		(CMGetLink())->Log("missing otherpoint action");
 		return kJFalse;
 		}
-	if (JStringCompare(*s, "del", kJFalse) == 0)
+	if (JString::Compare(*s, "del", kJFalse) == 0)
 		{
 		*action = CMBreakpoint::kRemoveBreakpoint;
 		}
-	else if (JStringCompare(*s, "dis", kJFalse) == 0)
+	else if (JString::Compare(*s, "dis", kJFalse) == 0)
 		{
 		*action = CMBreakpoint::kDisableBreakpoint;
 		}

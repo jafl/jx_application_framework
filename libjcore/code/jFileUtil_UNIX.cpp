@@ -34,8 +34,8 @@ JFileExists
 {
 	ACE_stat info;
 	return JI2B(
-			ACE_OS::lstat(fileName, &info) == 0 &&
-			ACE_OS::stat( fileName, &info) == 0 &&
+			ACE_OS::lstat(fileName.GetBytes(), &info) == 0 &&
+			ACE_OS::stat( fileName.GetBytes(), &info) == 0 &&
 			S_ISREG(info.st_mode) );
 }
 
@@ -53,7 +53,7 @@ JFileReadable
 	)
 {
 	return JI2B(JFileExists(fileName) &&
-				(getuid() == 0 || access(fileName, R_OK) == 0));
+				(getuid() == 0 || access(fileName.GetBytes(), R_OK) == 0));
 }
 
 /******************************************************************************
@@ -70,7 +70,7 @@ JFileWritable
 	)
 {
 	return JI2B(JFileExists(fileName) &&
-				(getuid() == 0 || access(fileName, W_OK) == 0));
+				(getuid() == 0 || access(fileName.GetBytes(), W_OK) == 0));
 }
 
 /******************************************************************************
@@ -92,13 +92,13 @@ JFileExecutable
 	if (getuid() == 0)
 		{
 		ACE_stat stbuf;
-		return JI2B( ACE_OS::stat(fileName, &stbuf) == 0 &&
+		return JI2B( ACE_OS::stat(fileName.GetBytes(), &stbuf) == 0 &&
 					 (stbuf.st_mode & S_IXUSR) != 0 );
 		}
 	else
 		{
 		return JI2B(JFileExists(fileName) &&
-					access(fileName, X_OK) == 0);
+					access(fileName.GetBytes(), X_OK) == 0);
 		}
 }
 
@@ -118,7 +118,7 @@ JGetFileLength
 	)
 {
 	ACE_stat info;
-	if (ACE_OS::stat(name, &info) == 0)
+	if (ACE_OS::stat(name.GetBytes(), &info) == 0)
 		{
 		*size = info.st_size;
 		return JNoError();
@@ -155,7 +155,7 @@ JRemoveFile
 	)
 {
 	jclear_errno();
-	if (remove(fileName) == 0)
+	if (remove(fileName.GetBytes()) == 0)
 		{
 		return JNoError();
 		}
@@ -213,7 +213,7 @@ JKillFile
 	const JString& fileName
 	)
 {
-	const JUtf8Byte* argv[] = {"rm", "-f", fileName, NULL};
+	const JUtf8Byte* argv[] = {"rm", "-f", fileName.GetBytes(), NULL};
 	const JError err = JExecute(argv, sizeof(argv), NULL,
 								kJIgnoreConnection, NULL,
 								kJIgnoreConnection, NULL,
@@ -240,15 +240,15 @@ JKillFile
 JError
 JCreateTempFile
 	(
-	const JString&	path,
-	const JString&	prefix,
+	const JString*	path,
+	const JString*	prefix,
 	JString*		fullName
 	)
 {
 	JString p;
 	if (!JString::IsEmpty(path))
 		{
-		p = path;
+		p = *path;
 		}
 	else if (!JGetTempDirectory(&p))
 		{
@@ -257,7 +257,7 @@ JCreateTempFile
 
 	if (!JString::IsEmpty(prefix))
 		{
-		p = JCombinePathAndName(p.GetBytes(), prefix);
+		p = JCombinePathAndName(p.GetBytes(), *prefix);
 		}
 	else
 		{
@@ -306,7 +306,7 @@ JStripTrailingDirSeparator
 {
 	assert( !dirName->IsEmpty() );
 
-	while (dirName->GetLength() > 1 &&
+	while (dirName->GetByteCount() > 1 &&
 		   dirName->GetLastCharacter() == ACE_DIRECTORY_SEPARATOR_CHAR)
 		{
 		dirName->RemoveSubstring(dirName->GetLength(), dirName->GetLength());
@@ -338,13 +338,13 @@ JUncompressFile
 
 	if (newFileName->IsEmpty())
 		{
-		const JError err = JCreateTempFile(dirName, NULL, newFileName);
+		const JError err = JCreateTempFile(&dirName, NULL, newFileName);
 		if (!err.OK())
 			{
 			return err;
 			}
 		}
-	else if (!JString::IsEmpty(dirName))
+	else if (!dirName.IsEmpty())
 		{
 		*newFileName = JCombinePathAndName(dirName, *newFileName);
 		}

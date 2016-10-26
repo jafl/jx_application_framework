@@ -97,9 +97,20 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send
 	const JString& data
 	)
 {
+	Send(data.GetBytes(), data.GetByteCount());
+}
+
+template <ACE_PEER_STREAM_1>
+void
+JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send
+	(
+	const JUtf8Byte*	data,
+	const JSize			length
+	)
+{
 	if (itsSynchFlag)
 		{
-		(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send_n(data.GetBytes(), data.GetByteCount());
+		(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send_n(data, length);
 		}
 	else if (length > 0)
 		{
@@ -108,7 +119,7 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send
 			(ACE_Event_Handler::reactor())->register_handler(this, ACE_Event_Handler::WRITE_MASK);
 			}
 
-		itsSendData.Append(data.GetBytes(), data.GetByteCount());
+		itsSendData.Append(data, length);
 		}
 }
 

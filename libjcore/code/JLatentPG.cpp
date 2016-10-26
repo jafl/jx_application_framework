@@ -39,9 +39,6 @@ JLatentPG::JLatentPG
 	itsPG         = JNewPG();
 	itsOwnsPGFlag = kJTrue;
 
-	itsMessage = jnew JString;
-	assert( itsMessage != NULL );
-
 	itsMaxSilentTime = kDefMaxSilentTime;
 	itsScaleFactor   = scaleFactor;
 }
@@ -55,9 +52,6 @@ JLatentPG::JLatentPG
 {
 	itsPG         = pg;
 	itsOwnsPGFlag = ownIt;
-
-	itsMessage = jnew JString;
-	assert( itsMessage != NULL );
 
 	itsMaxSilentTime = kDefMaxSilentTime;
 	itsScaleFactor   = scaleFactor;
@@ -74,8 +68,6 @@ JLatentPG::~JLatentPG()
 		{
 		jdelete itsPG;
 		}
-
-	jdelete itsMessage;
 }
 
 /******************************************************************************
@@ -140,7 +132,7 @@ JLatentPG::ProcessBeginning
 	JProgressDisplay::ProcessBeginning(processType, stepCount, message,
 									   allowCancel, allowBackground);
 
-	*itsMessage  = message;
+	itsMessage   = message;
 	itsStartTime = time(NULL);
 	itsCounter   = 0;
 
@@ -162,14 +154,14 @@ JLatentPG::StartInternalProcess()
 	if (type == kFixedLengthProcess)
 		{
 		itsPG->FixedLengthProcessBeginning(
-			GetMaxStepCount(), *itsMessage,
+			GetMaxStepCount(), itsMessage,
 			AllowCancel(), AllowBackground());
 		}
 	else
 		{
 		assert( type == kVariableLengthProcess );
 		itsPG->VariableLengthProcessBeginning(
-			*itsMessage, AllowCancel(), AllowBackground());
+			itsMessage, AllowCancel(), AllowBackground());
 		}
 }
 
@@ -184,7 +176,7 @@ JLatentPG::IncrementProgress
 	const JString* message
 	)
 {
-	return message == NULL ? IncrementProgress(1) : IncrementProgress(*message, 1);
+	return message == NULL ? IncrementProgress(1) : IncrementProgress(message, 1);
 }
 
 /******************************************************************************
@@ -231,7 +223,7 @@ JLatentPG::IncrementProgress
 JBoolean
 JLatentPG::IncrementProgress
 	(
-	const JString&	message,
+	const JString*	message,
 	const JSize		delta
 	)
 {
@@ -254,7 +246,7 @@ JLatentPG::IncrementProgress
 			{
 			itsPG->IncrementProgress(delta - 1);
 			}
-		result     = itsPG->IncrementProgress(&message);
+		result     = itsPG->IncrementProgress(message);
 		itsCounter = 0;
 		}
 	else if (pgRunning && message != NULL)
@@ -264,7 +256,7 @@ JLatentPG::IncrementProgress
 			{
 			itsPG->IncrementProgress(delta - 1);
 			}
-		result     = itsPG->IncrementProgress(&message);
+		result     = itsPG->IncrementProgress(message);
 		itsCounter = 0;
 		}
 	else if (pgRunning && TimeToUpdate())

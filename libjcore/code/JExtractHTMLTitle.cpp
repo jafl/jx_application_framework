@@ -44,8 +44,8 @@ JExtractHTMLTitle::~JExtractHTMLTitle()
 JBoolean
 JExtractHTMLTitle::ExtractTitle
 	(
-	const JCharacter*	text,
-	JString*			title
+	const JString&	text,
+	JString*		title
 	)
 {
 	title->Clear();
@@ -90,7 +90,7 @@ JExtractHTMLTitle::HandleHTMLTag
 JBoolean
 JExtractHTMLTitle::HandleHTMLWord
 	(
-	const JCharacter*	word,
+	const JUtf8Byte*	word,
 	const JIndexRange&	range
 	)
 {
@@ -100,7 +100,7 @@ JExtractHTMLTitle::HandleHTMLWord
 		{
 		if (itsNeedWSFlag && !itsTitle->IsEmpty())
 			{
-			itsTitle->AppendCharacter(' ');
+			itsTitle->Append(" ");
 			}
 		itsTitle->Append(word);
 		}
@@ -111,7 +111,7 @@ JExtractHTMLTitle::HandleHTMLWord
 JBoolean
 JExtractHTMLTitle::HandleHTMLWhitespace
 	(
-	const JCharacter*	space,
+	const JUtf8Byte*	space,
 	const JIndexRange&	range
 	)
 {

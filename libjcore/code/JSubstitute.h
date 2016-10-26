@@ -34,10 +34,7 @@ public:
 	JBoolean	EscapeExists(const unsigned char character) const;
 	JBoolean	GetEscape(const unsigned char character, const JString** value) const;
 
-	JBoolean	SetEscape(const unsigned char character, const JString& value);
-	JBoolean	SetEscape(const unsigned char character, const JCharacter* value);
-	JBoolean	SetEscape(const unsigned char character, const JCharacter* value,
-						  const JSize length);
+	JBoolean	SetEscape(const unsigned char character, const JUtf8Byte* value);
 
 	JBoolean	ClearEscape(const unsigned char character);
 	void		ClearAllEscapes();
@@ -55,10 +52,10 @@ public:
 
 	// control of variable substitution
 
-	void		DefineVariable(const JCharacter* name, const JCharacter* value);
-	JBoolean	SetVariableValue(const JCharacter* name, const JCharacter* value);
-	void		DefineVariables(const JCharacter* regexPattern);
-	void		UndefineVariable(const JCharacter* name);
+	void		DefineVariable(const JUtf8Byte* name, const JString& value);
+	JBoolean	SetVariableValue(const JUtf8Byte* name, const JString& value);
+	void		DefineVariables(const JUtf8Byte* regexPattern);
+	void		UndefineVariable(const JUtf8Byte* name);
 	void		UndefineAllVariables();
 
 	// options
@@ -124,15 +121,15 @@ private:
 	void	CopyInternals(const JSubstitute& source);
 
 	JBoolean	FindNextOperator(const JString& s,
-								 JIndex* index, JCharacter* opChar) const;
+								 JIndex* index, JUtf8Character* opChar) const;
 
 public:
 
 	// JError classes
 
-	static const JCharacter* kLoneDollar;
-	static const JCharacter* kTrailingBackslash;
-	static const JCharacter* kIllegalControlChar;
+	static const JUtf8Byte* kLoneDollar;
+	static const JUtf8Byte* kTrailingBackslash;
+	static const JUtf8Byte* kIllegalControlChar;
 
 	class LoneDollar : public JError
 		{

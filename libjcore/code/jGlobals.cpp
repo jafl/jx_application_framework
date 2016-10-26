@@ -34,13 +34,9 @@ static JGetCurrentColormap*		theGetCurrColormap   = NULL;
 static JStringManager*			theStringManager     = NULL;
 static JWebBrowser*				theWebBrowser        = NULL;
 
-static JString*					theDefaultFontName   = NULL;
-static JString*					theGreekFontName     = NULL;
-static JString*					theMonospaceFontName = NULL;
-
-static const JString kDefaultFontName   = "Helvetica";
-static const JString kGreekFontName     = "Symbol";
-static const JString kMonospaceFontName = "Courier";
+static JString					theDefaultFontName   = "Helvetica";
+static JString					theGreekFontName     = "Symbol";
+static JString					theMonospaceFontName = "Courier";
 
 /******************************************************************************
  JInitCore
@@ -73,7 +69,7 @@ JInitCore
 	JAssertBase*			ah,
 
 	const JUtf8Byte*		appSignature,
-	const JString*			defaultStringData,
+	const JUtf8Byte**		defaultStringData,
 
 	JUserNotification*		un,
 	JChooseSaveFile*		csf,
@@ -82,9 +78,9 @@ JInitCore
 	JGetCurrentFontManager*	gcfm,
 	JGetCurrentColormap*	gcc,
 
-	const JString&			defaultFontName,
-	const JString&			greekFontName,
-	const JString&			monospaceFontName
+	const JString*			defaultFontName,
+	const JString*			greekFontName,
+	const JString*			monospaceFontName
 	)
 {
 	// assert handler
@@ -170,24 +166,21 @@ JInitCore
 
 	if (!JString::IsEmpty(defaultFontName))
 		{
-		theDefaultFontName = jnew JString(defaultFontName);
-		assert( theDefaultFontName != NULL );
+		theDefaultFontName = *defaultFontName;
 		}
 
 	// greek font name
 
 	if (!JString::IsEmpty(greekFontName))
 		{
-		theGreekFontName = jnew JString(greekFontName);
-		assert( theGreekFontName != NULL );
+		theGreekFontName = *greekFontName;
 		}
 
 	// monospace font name
 
 	if (!JString::IsEmpty(monospaceFontName))
 		{
-		theMonospaceFontName = jnew JString(monospaceFontName);
-		assert( theMonospaceFontName != NULL );
+		theMonospaceFontName = *monospaceFontName;
 		}
 
 	// remember to clean up
@@ -205,15 +198,6 @@ JInitCore
 void
 JDeleteGlobals()
 {
-	jdelete theDefaultFontName;
-	theDefaultFontName = NULL;
-
-	jdelete theGreekFontName;
-	theGreekFontName = NULL;
-
-	jdelete theMonospaceFontName;
-	theMonospaceFontName = NULL;
-
 	jdelete theGetCurrColormap;
 	theGetCurrColormap = NULL;
 
@@ -396,7 +380,7 @@ JGetCurrColormap()
 const JString&
 JGetDefaultFontName()
 {
-	return (theDefaultFontName == NULL ? kDefaultFontName : theDefaultFontName);
+	return theDefaultFontName;
 }
 
 /******************************************************************************
@@ -407,7 +391,7 @@ JGetDefaultFontName()
 const JString&
 JGetGreekFontName()
 {
-	return (theGreekFontName == NULL ? kGreekFontName : theGreekFontName);
+	return theGreekFontName;
 }
 
 /******************************************************************************
@@ -418,7 +402,7 @@ JGetGreekFontName()
 const JString&
 JGetMonospaceFontName()
 {
-	return (theMonospaceFontName == NULL ? kMonospaceFontName : theMonospaceFontName);
+	return theMonospaceFontName;
 }
 
 /******************************************************************************

@@ -358,7 +358,7 @@ PHP	"<"("?"([pP][hH][pP])?|"%"=?){WS}
 	JString s(yytext+1, yyleng - (yytext[yyleng-1] == ';' ? 2 : 1));
 	if (s.GetFirstCharacter() == 'x' || s.GetFirstCharacter() == 'X')
 		{
-		s.PrependCharacter('0');
+		s.Prepend("0");
 		}
 	JInteger v;
 	if (s.ConvertToInteger(&v) && 0 <= v && v <= JInteger(UCHAR_MAX))
@@ -666,7 +666,7 @@ rsaquo;?   HANDLE_CHAR('>');	/* ? */
 \<\<\<[A-Za-z0-9_]+[ \t]*\n {
 	JString tag = yytext+3;
 	tag.TrimWhitespace();
-	tag.PrependCharacter('^');
+	tag.Prepend("^");
 	tag += ";?\n";
 	assert( phpHereDocPattern == NULL );
 	phpHereDocPattern = jnew JRegex(tag);

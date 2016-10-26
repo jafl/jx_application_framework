@@ -13,6 +13,11 @@
 #include <string>
 #include <jassert_simple.h>
 
+int main()
+{
+	JUnitTestManager::Execute();
+}
+
 JTEST(Construction)
 {
 	JString s1;
@@ -59,6 +64,14 @@ JTEST(Construction)
 	JAssertEqual(7, s9.GetByteCount());
 	JAssertEqual(5, s9.GetCharacterCount());
 	JAssertStringsEqual("890\xC2\xA9\xC3\x85", s9.GetBytes());
+}
+
+JTEST(IsValid)
+{
+	JAssertTrue(JString::IsValid(""));
+	JAssertTrue(JString::IsValid("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94"));
+	JAssertTrue(JString::IsValid("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(1,5)));
+	JAssertFalse(JString::IsValid("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(11,13)));
 }
 
 JTEST(IntegerConversion)
@@ -184,7 +197,7 @@ JTEST(ToUpper)
 	JAssertStringsEqual("\xCE\x9C\xCE\x86\xCE\xAA\xCE\x9F\xCE\xA3", s.GetBytes());
 }
 
-JTEST(CopyMaxN)
+JTEST(CopyBytes)
 {
 	const JIndex kStringLength = 10;
 	JUtf8Byte string [ kStringLength ];
@@ -196,15 +209,10 @@ JTEST(CopyMaxN)
 	for (JIndex testnum=0; testnum<kTestMax; testnum++)
 		{
 		const JBoolean allCopied =
-			JString::CopyMaxN(stringList[testnum], kStringLength, string);
+			JString::CopyBytes(stringList[testnum], kStringLength, string);
 
-		JAssertEqual(!strcmp(string, stringList[testnum]), allCopied);
+		JAssertEqualWithMessage(!strcmp(string, stringList[testnum]), allCopied, stringList[testnum]);
 		JAssertEqual(0, JString::CompareMaxN(string, stringList[testnum], kStringLength-1));
 		JAssertEqual(JMin(kStringLength-1, strlen(stringList[testnum])), strlen(string));
 		}
-}
-
-int main()
-{
-	JUnitTestManager::Execute();
 }

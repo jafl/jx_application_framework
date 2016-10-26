@@ -16,8 +16,8 @@ ${CODEDIR}/test_JUtf8Character
 @test_JString
 ${CODEDIR}/test_JString
 .o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JUtf8Character
 .o ${JCOREDIR}/JUnitTestManager
+.o ${JCOREDIR}/JUtf8Character
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil

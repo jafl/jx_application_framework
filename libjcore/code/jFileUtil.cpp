@@ -50,14 +50,14 @@ JCombinePathAndName
 	const JString& name
 	)
 {
-	assert( !JString::IsEmpty(path) );
-	assert( !JString::IsEmpty(name) );
+	assert( !path.IsEmpty() );
+	assert( !name.IsEmpty() );
 
 	JString file = path;
 	if (file.GetLastCharacter() != ACE_DIRECTORY_SEPARATOR_CHAR &&
-		name[0] != ACE_DIRECTORY_SEPARATOR_CHAR)
+		name.GetFirstCharacter() != ACE_DIRECTORY_SEPARATOR_CHAR)
 		{
-		file.AppendCharacter(ACE_DIRECTORY_SEPARATOR_CHAR);
+		file.Append(ACE_DIRECTORY_SEPARATOR_STR);
 		}
 	file += name;
 	JCleanPath(&file);
@@ -82,7 +82,7 @@ JSplitPathAndName
 	JString*		name
 	)
 {
-	assert( !JString::IsEmpty(fullName) );
+	assert( !fullName.IsEmpty() );
 
 	JString pathAndName = fullName;
 	JStripTrailingDirSeparator(&pathAndName);
@@ -128,7 +128,7 @@ JAppendDirSeparator
 
 	if (dirName->GetLastCharacter() != ACE_DIRECTORY_SEPARATOR_CHAR)
 		{
-		dirName->AppendCharacter(ACE_DIRECTORY_SEPARATOR_CHAR);
+		dirName->Append(ACE_DIRECTORY_SEPARATOR_STR);
 		}
 }
 
@@ -184,7 +184,7 @@ JSearchFile
 	JIndex*			lineIndex
 	)
 {
-	ifstream input(fileName);
+	ifstream input(fileName.GetBytes());
 
 	*lineIndex = 0;
 	while (!input.eof())
@@ -274,7 +274,7 @@ JCombineRootAndSuffix
 	JString name = root;
 	if (suffix[0] != '.')
 		{
-		name.AppendCharacter('.');
+		name.Append(".");
 		}
 	name.Append(suffix);
 	return name;

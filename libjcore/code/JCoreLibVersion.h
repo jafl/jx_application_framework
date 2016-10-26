@@ -555,7 +555,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Added JSetDiacriticalMap() to process diacritical marks while comparing
 //			strings and changing case.
 //		*** All calls to strcmp() and strncmp() that are used for sorting should
-//			be converted to use JStringCompare() and JCompareMaxN(), respectively.
+//			be converted to use JString::Compare() and JCompareMaxN(), respectively.
 //		*** All calls to toupper() and tolower() should be converted to use
 //			JToUpper() and JToLower(), respectively.
 //		*** All calls to isprint(), isalnum(), isalpha(), isupper(), and islower()
@@ -1088,7 +1088,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			avoid wrapping single words across lines.
 //	JString:
 //		Added JCalcMatchLength().
-//		Added default value for caseSensitive to JStringCompare() and JCompareMaxN().
+//		Added default value for caseSensitive to JString::Compare() and JCompareMaxN().
 //		GetSubstring(JRange&) accepts empty ranges.
 //	JPrefsManager:
 //		Added reportError argument to UpgradeData().
@@ -1619,7 +1619,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			(What took me so long???)
 //		Proved that JStrings can contain NULL characters.  You just have to
 //			remember that they can't be passed to Clib functions like strlen().
-//		Renamed JCaseInsensitiveCompare() to JStringCompare().
+//		Renamed JCaseInsensitiveCompare() to JString::Compare().
 //		Added functions to take (str,length) and ContainsNULL().
 //		Added function JString::IsEmpty().
 //	Created JPtrArray-JString.h to define useful sorting functions for

@@ -30,7 +30,7 @@ const JFileVersion kJMemoryManagerDebugVersion = 0;
 
 class JMemoryManager : virtual public JBroadcaster
 {
-	friend void JLocateDelete(const JCharacter* file, const JUInt32 line);
+	friend void JLocateDelete(const JUtf8Byte* file, const JUInt32 line);
 	friend void JMMHandleExit();
 	friend void JMMHandleACEExit(void*, void*);
 	friend class JMMTable;
@@ -74,7 +74,7 @@ public:
 		void	Write(ostream& output) const;
 	};
 
-	static const JCharacter* kUnknownFile;
+	static const JUtf8Byte* kUnknownFile;
 
 public:
 
@@ -82,7 +82,7 @@ public:
 
 	static JMemoryManager* Instance();
 
-	static void* New(const size_t size, const JCharacter* file,
+	static void* New(const size_t size, const JUtf8Byte* file,
 					 const JUInt32 line,  const JBoolean isArray);
 
 	void  Delete(void* memory, JBoolean isArray);
@@ -154,25 +154,25 @@ protected:
 	void HandleObjectDeletedAsArray(const JMMRecord& record);
 	void HandleArrayDeletedAsObject(const JMMRecord& record);
 
-	void HandleUnallocatedDeletion(const JCharacter* file, const JUInt32 line,
+	void HandleUnallocatedDeletion(const JUtf8Byte* file, const JUInt32 line,
 								   const JBoolean isArray);
-	void HandleMultipleDeletion(const JMMRecord& thisRecord, const JCharacter* file,
+	void HandleMultipleDeletion(const JMMRecord& thisRecord, const JUtf8Byte* file,
 								const JUInt32 line, const JBoolean isArray);
 
 	void HandleMultipleAllocation(const JMMRecord& thisRecord,
 								  const JMMRecord& firstRecord);
 
-	void HandleNULLDeleted(const JCharacter* file, const JUInt32 line,
+	void HandleNULLDeleted(const JUtf8Byte* file, const JUInt32 line,
 						   const JBoolean isArray);
 
 private:
 
 	struct DeleteRequest
 	{
-		void*             address;
-		const JCharacter* file;
-		JUInt32           line;
-		JBoolean          array;
+		void*            address;
+		const JUtf8Byte* file;
+		JUInt32          line;
+		JBoolean         array;
 	};
 
 // Static data
@@ -202,8 +202,8 @@ private:
 
 	JSize itsRecursionDepth;
 
-	const JCharacter* itsLastDeleteFile;
-	JUInt32           itsLastDeleteLine;
+	const JUtf8Byte* itsLastDeleteFile;
+	JUInt32          itsLastDeleteLine;
 
 	// Statistics
 
@@ -224,7 +224,7 @@ private:
 
 private:
 
-	void	ConnectToDebugger(const JCharacter* socketName);
+	void	ConnectToDebugger(const JUtf8Byte* socketName);
 	void	HandleDebugRequest() const;
 	void	SendDebugMessage(std::ostringstream& data) const;
 	void	SendRunningStats() const;
@@ -235,7 +235,7 @@ private:
 	void	WriteExitStats() const;
 
 	void AddNewRecord(const JMMRecord& record);
-	void DeleteRecord(void* block, const JCharacter* file, const JUInt32 line, const JBoolean isArray);
+	void DeleteRecord(void* block, const JUtf8Byte* file, const JUInt32 line, const JBoolean isArray);
 
 	static void BeginRecursiveBlock();
 	static void EndRecursiveBlock();
@@ -244,12 +244,12 @@ private:
 
 	static JUInt32 GetNewID();
 
-	void LocateDelete(const JCharacter* file, const JUInt32 line);
+	void LocateDelete(const JUtf8Byte* file, const JUInt32 line);
 
 	void HandleExit();
 	void HandleACEExit();
 
-	void ReadValue(JBoolean* hasValue, unsigned char* value, const JCharacter* string);
+	void ReadValue(JBoolean* hasValue, unsigned char* value, const JUtf8Byte* string);
 
 	// not allowed
 
@@ -267,7 +267,7 @@ public:
 		file and line is the location of the repeated deletion.
 	 *****************************************************************************/
 
-	static const JCharacter* kObjectDeletedAsArray;
+	static const JUtf8Byte* kObjectDeletedAsArray;
 	class ObjectDeletedAsArray : public JBroadcaster::Message
 		{
 		public:
@@ -292,7 +292,7 @@ public:
 		file and line is the location of the repeated deletion.
 	 *****************************************************************************/
 
-	static const JCharacter* kArrayDeletedAsObject;
+	static const JUtf8Byte* kArrayDeletedAsObject;
 	class ArrayDeletedAsObject : public JBroadcaster::Message
 		{
 		public:
@@ -317,12 +317,12 @@ public:
 		file and line is the location of the repeated deletion.
 	 *****************************************************************************/
 
-	static const JCharacter* kUnallocatedDeletion;
+	static const JUtf8Byte* kUnallocatedDeletion;
 	class UnallocatedDeletion : public JBroadcaster::Message
 		{
 		public:
 
-			UnallocatedDeletion(const JCharacter* file, const JUInt32 line,
+			UnallocatedDeletion(const JUtf8Byte* file, const JUInt32 line,
 								const JBoolean isArray)
 				:
 				Message(kUnallocatedDeletion),
@@ -331,15 +331,15 @@ public:
 				itsArrayFlag(isArray)
 				{ };
 
-			const JCharacter* GetFile() const { return itsFile; };
-			JUInt32           GetLine() const { return itsLine; };
-			JBoolean          IsArray() const { return itsArrayFlag; };
+			const JUtf8Byte* GetFile() const { return itsFile; };
+			JUInt32          GetLine() const { return itsLine; };
+			JBoolean         IsArray() const { return itsArrayFlag; };
 
 		private:
 
-			const JCharacter* itsFile;
-			const JUInt32     itsLine;
-			const JBoolean    itsArrayFlag;
+			const JUtf8Byte* itsFile;
+			const JUInt32    itsLine;
+			const JBoolean   itsArrayFlag;
 		};
 
 	/******************************************************************************
@@ -349,12 +349,12 @@ public:
 		file and line is the location of the repeated deletion.
 	 *****************************************************************************/
 
-	static const JCharacter* kMultipleDeletion;
+	static const JUtf8Byte* kMultipleDeletion;
 	class MultipleDeletion : public JBroadcaster::Message
 		{
 		public:
 
-			MultipleDeletion(const JMMRecord& record, const JCharacter* file,
+			MultipleDeletion(const JMMRecord& record, const JUtf8Byte* file,
 							 const JUInt32 line, const JBoolean isArray)
 				:
 				Message(kMultipleDeletion),
@@ -364,17 +364,17 @@ public:
 				itsArrayFlag(isArray)
 				{ };
 
-			const JMMRecord&  GetRecord() const { return itsRecord; };
-			const JCharacter* GetFile() const { return itsFile; };
-			JUInt32           GetLine() const { return itsLine; };
-			JBoolean          IsArray() const { return itsArrayFlag; };
+			const JMMRecord& GetRecord() const { return itsRecord; };
+			const JUtf8Byte* GetFile() const { return itsFile; };
+			JUInt32          GetLine() const { return itsLine; };
+			JBoolean         IsArray() const { return itsArrayFlag; };
 
 		private:
 
-			const JMMRecord&  itsRecord;
-			const JCharacter* itsFile;
-			const JUInt32     itsLine;
-			const JBoolean    itsArrayFlag;
+			const JMMRecord& itsRecord;
+			const JUtf8Byte* itsFile;
+			const JUInt32    itsLine;
+			const JBoolean   itsArrayFlag;
 		};
 
 	/******************************************************************************
@@ -384,7 +384,7 @@ public:
 		file and line is the location of the repeated deletion.
 	 *****************************************************************************/
 
-	static const JCharacter* kMultipleAllocation;
+	static const JUtf8Byte* kMultipleAllocation;
 	class MultipleAllocation : public JBroadcaster::Message
 		{
 		public:
@@ -413,12 +413,12 @@ public:
 		file and line is the location of the repeated deletion.
 	 *****************************************************************************/
 
-	static const JCharacter* kNULLDeleted;
+	static const JUtf8Byte* kNULLDeleted;
 	class NULLDeleted : public JBroadcaster::Message
 		{
 		public:
 
-			NULLDeleted(const JCharacter* file, const JUInt32 line, const JBoolean isArray)
+			NULLDeleted(const JUtf8Byte* file, const JUInt32 line, const JBoolean isArray)
 				:
 				Message(kNULLDeleted),
 				itsFile(file),
@@ -426,15 +426,15 @@ public:
 				itsIsArrayFlag(isArray)
 				{ };
 
-			const JCharacter* GetFile() const { return itsFile; };
-			JUInt32           GetLine() const { return itsLine; };
-			JBoolean          IsArray() const { return itsIsArrayFlag; };
+			const JUtf8Byte* GetFile() const { return itsFile; };
+			JUInt32          GetLine() const { return itsLine; };
+			JBoolean         IsArray() const { return itsIsArrayFlag; };
 
 		private:
 
-			const JCharacter* itsFile;
-			const JUInt32     itsLine;
-			const JBoolean    itsIsArrayFlag;
+			const JUtf8Byte* itsFile;
+			const JUInt32    itsLine;
+			const JBoolean   itsIsArrayFlag;
 		};
 };
 

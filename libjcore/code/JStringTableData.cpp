@@ -45,31 +45,3 @@ JStringTableData::JStringTableData
 JStringTableData::~JStringTableData()
 {
 }
-
-/******************************************************************************
- SetString
-
- ******************************************************************************/
-
-void
-JStringTableData::SetString
-	(
-	const JIndex		row,
-	const JIndex		col,
-	const JCharacter*	str
-	)
-{
-	JString s = str;
-	SetElement(row,col, s);
-}
-
-void
-JStringTableData::SetString
-	(
-	const JPoint&		cell,
-	const JCharacter*	str
-	)
-{
-	JString s = str;
-	SetElement(cell, s);
-}

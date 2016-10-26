@@ -116,8 +116,7 @@ JUnitTestManager::ReportFailure
 {
 	Instance()->itsFailureCount++;
 
-	cout << message << endl;
-	cout << '\t' << "at " << file << ':' << line << endl << endl;
+	cout << file << ':' << line << ": error: " << message << endl;
 }
 
 /******************************************************************************
@@ -133,11 +132,7 @@ JUnitTestManager::ReportFatal
 	const JIndex		line
 	)
 {
-	Instance()->itsFailureCount++;
-
-	cout << message << endl;
-	cout << '\t' << "at " << file << ':' << line << endl << endl;
-
+	ReportFailure(message, file, line);
 	exit(1);	// since we don't throw exceptions
 }
 
@@ -170,14 +165,13 @@ JUnitTestManager::IsNull
 		{
 		return kJTrue;
 		}
-	else if (msg != NULL)
-		{
-		ReportFailure(msg, file, line);
-		return kJFalse;
-		}
 	else
 		{
 		std::ostringstream s;
+		if (msg != NULL)
+			{
+			s << msg << ": ";
+			}
 		s << "Value is not null: " << ptr;
 
 		const std::string msg = s.str();
@@ -204,14 +198,13 @@ JUnitTestManager::IsTrue
 		{
 		return kJTrue;
 		}
-	else if (msg != NULL)
-		{
-		ReportFailure(msg, file, line);
-		return kJFalse;
-		}
 	else
 		{
 		std::ostringstream s;
+		if (msg != NULL)
+			{
+			s << msg << ": ";
+			}
 		s << "Value is not true: " << value;
 
 		const std::string msg = s.str();
@@ -238,14 +231,13 @@ JUnitTestManager::IsFalse
 		{
 		return kJTrue;
 		}
-	else if (msg != NULL)
-		{
-		ReportFailure(msg, file, line);
-		return kJFalse;
-		}
 	else
 		{
 		std::ostringstream s;
+		if (msg != NULL)
+			{
+			s << msg << ": ";
+			}
 		s << "Value is not false: " << value;
 
 		const std::string msg = s.str();
@@ -275,14 +267,13 @@ JUnitTestManager::StringsAreEqual
 		{
 		return kJTrue;
 		}
-	else if (msg != NULL)
-		{
-		ReportFailure(msg, file, line);
-		return kJFalse;
-		}
 	else
 		{
 		std::ostringstream s;
+		if (msg != NULL)
+			{
+			s << msg << ": ";
+			}
 		s << "Strings are not equal." 
 		  << "  Expected <<" << expectedValue
 		  << ">> but got <<" << actualValue << ">>";

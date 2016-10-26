@@ -391,7 +391,7 @@ JTextChooseSaveFile::DoSystemCommand
 			{
 			JString cmd = str.GetSubstring(2, str.GetLength());
 			cout << endl;
-			system(cmd);
+			system(cmd.GetBytes());
 			}
 		cout << endl;
 		return kJTrue;

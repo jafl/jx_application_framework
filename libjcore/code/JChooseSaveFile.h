@@ -20,29 +20,29 @@ public:
 
 	virtual ~JChooseSaveFile();
 
-	virtual JBoolean ChooseFile(const JUtf8Byte* prompt,
-								const JUtf8Byte* instructions,		// can be NULL
+	virtual JBoolean ChooseFile(const JString& prompt,
+								const JString* instructions,		// can be NULL
 								JString* fullName) = 0;
-	virtual JBoolean ChooseFile(const JUtf8Byte* prompt,
-								const JUtf8Byte* instructions,		// can be NULL
-								const JUtf8Byte* origName,			// can be NULL
+	virtual JBoolean ChooseFile(const JString& prompt,
+								const JString* instructions,		// can be NULL
+								const JString* origName,			// can be NULL
 								JString* fullName) = 0;
-	virtual JBoolean ChooseFiles(const JUtf8Byte* prompt,
-								 const JUtf8Byte* instructions,		// can be NULL
+	virtual JBoolean ChooseFiles(const JString& prompt,
+								 const JString* instructions,		// can be NULL
 								 JPtrArray<JString>* fullNameList) = 0;
 
-	virtual JBoolean ChooseRPath(const JUtf8Byte* prompt,
-								 const JUtf8Byte* instructions,		// can be NULL
-								 const JUtf8Byte* origPath,			// can be NULL
+	virtual JBoolean ChooseRPath(const JString& prompt,
+								 const JString* instructions,		// can be NULL
+								 const JString* origPath,			// can be NULL
 								 JString* newPath) = 0;
-	virtual JBoolean ChooseRWPath(const JUtf8Byte* prompt,
-								  const JUtf8Byte* instructions,	// can be NULL
-								  const JUtf8Byte* origPath,		// can be NULL
+	virtual JBoolean ChooseRWPath(const JString& prompt,
+								  const JString* instructions,	// can be NULL
+								  const JString* origPath,		// can be NULL
 								  JString* newPath) = 0;
 
-	virtual JBoolean SaveFile(const JUtf8Byte* prompt,
-							  const JUtf8Byte* instructions,		// can be NULL
-							  const JUtf8Byte* originalName,
+	virtual JBoolean SaveFile(const JString& prompt,
+							  const JString* instructions,		// can be NULL
+							  const JString& originalName,
 							  JString* newFullName) = 0;
 
 private:

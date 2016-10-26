@@ -15,6 +15,7 @@
 #include <JHashTable.h>
 #include <JStringMapCursor.h>
 #include <JStrValue.h>
+#include <JString.h>
 #include <JPtrArray.h>	// need definition of CleanUpAction, SetElementAction
 
 struct JStringMapT
@@ -39,29 +40,29 @@ public:
 			   const JBoolean copyKeys = kJTrue);
 	virtual ~JStringMap();
 
-	JBoolean Contains(const JUtf8Byte* const key) const;
-	JBoolean GetElement(const JUtf8Byte* const key, V* value) const;
+	JBoolean Contains(const JString& key) const;
+	JBoolean GetElement(const JString& key, V* value) const;
 
-	JBoolean SetElement(const JUtf8Byte* const key, const V& value,
+	JBoolean SetElement(const JString& key, const V& value,
 						const JStringMapT::SetType type = JStringMapT::kAlways);
-	JBoolean SetNewElement(const JUtf8Byte* const key, const V& value);
-	JBoolean SetOldElement(const JUtf8Byte* const key, const V& value);
-	JBoolean SetContains(const JUtf8Byte* const key, const V& value);
+	JBoolean SetNewElement(const JString& key, const V& value);
+	JBoolean SetOldElement(const JString& key, const V& value);
+	JBoolean SetContains(const JString& key, const V& value);
 
-	JBoolean RemoveElement(const JUtf8Byte* const key);
+	JBoolean RemoveElement(const JString& key);
 	void     RemoveAll();
 
 	JBoolean KeysAreCopied() const { return itsCopyKeysFlag; };
 
 protected:
 
-	JBoolean     SetElement(const JUtf8Byte* const key, const V& value,
+	JBoolean     SetElement(const JString& key, const V& value,
 							const JPtrArrayT::SetElementAction action,
 							const JStringMapT::SetType type,
 							JBoolean* existed);
 	virtual void PrepareForSet(const JPtrArrayT::SetElementAction action);
 
-	JBoolean RemoveElement(const JUtf8Byte* const key,
+	JBoolean RemoveElement(const JString& key,
 						   const JPtrArrayT::SetElementAction action);
 	void     RemoveAll(const JPtrArrayT::SetElementAction action);
 
@@ -110,7 +111,7 @@ template <class V>
 inline JBoolean
 JStringMap<V>::SetElement
 	(
-	const JUtf8Byte* const     key,
+	const JString&             key,
 	const V&                   value,
 	const JStringMapT::SetType type // = kAlways
 	)
@@ -131,8 +132,8 @@ template <class V>
 inline JBoolean
 JStringMap<V>::SetNewElement
 	(
-	const JUtf8Byte* const key,
-	const V&               value
+	const JString& key,
+	const V&       value
 	)
 {
 	return SetElement(key, value, JStringMapT::kIfNew);
@@ -150,8 +151,8 @@ template <class V>
 inline JBoolean
 JStringMap<V>::SetOldElement
 	(
-	const JUtf8Byte* const key,
-	const V&               value
+	const JString& key,
+	const V&       value
 	)
 {
 	return SetElement(key, value, JStringMapT::kIfOld);
@@ -169,8 +170,8 @@ template <class V>
 inline JBoolean
 JStringMap<V>::SetContains
 	(
-	const JUtf8Byte* const key,
-	const V&               value
+	const JString& key,
+	const V&       value
 	)
 {
 	JBoolean existed;
@@ -187,7 +188,7 @@ template <class V>
 inline JBoolean
 JStringMap<V>::RemoveElement
 	(
-	const JUtf8Byte* const key
+	const JString& key
 	)
 {
 	return RemoveElement(key, JPtrArrayT::kForget);

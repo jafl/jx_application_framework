@@ -900,7 +900,7 @@ JIndex i;
 
 	for (i=0; i<kNMKeyConvCount; i++)
 		{
-		if (JStringCompare(keyStr, kNMKeyConv[i].str, kJFalse) == 0)
+		if (JString::Compare(keyStr, kNMKeyConv[i].str, kJFalse) == 0)
 			{
 			const int k = kNMKeyConv[i].key;
 			if (0 < k && k <= (int) UCHAR_MAX)

@@ -28,7 +28,7 @@
 #include <JRegex.h>
 #include <jAssert.h>
 
-static const JCharacter* theVariablePattern = "[+-]?[0-9]+|\\{[A-Za-z0-9_]+\\}";
+static const JUtf8Byte* theVariablePattern = "[+-]?[0-9]+|\\{[A-Za-z0-9_]+\\}";
 
 /******************************************************************************
  Constructor
@@ -47,7 +47,7 @@ JInterpolate::JInterpolate()
 
 JInterpolate::JInterpolate
 	(
-	const JCharacter*			source,
+	const JUtf8Byte*			source,
 	const pcre*					regex,
 	const JArray<JIndexRange>*	matchList
 	)
@@ -99,7 +99,7 @@ JInterpolate::GetValue
 		assert( name.GetLastCharacter() == '}' );
 
 		const JString s = name.GetSubstring(2, name.GetLength()-1);
-		matchNumber     = pcre_get_stringnumber(itsRegex, s);
+		matchNumber     = pcre_get_stringnumber(itsRegex, s.GetBytes());
 		if (matchNumber <= 0)
 			{
 			return kJTrue;

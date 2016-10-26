@@ -41,6 +41,7 @@ Makefiles:
 test: test_JBoolean test_JUtf8Character test_JString
 	@echo ==========
 	@${foreach p, $^, echo $p; echo; if ! ./$p; then e=1; fi;} \
+     echo ==========; \
      if [[ "$$e" == "1" ]]; then false; fi
 
 #

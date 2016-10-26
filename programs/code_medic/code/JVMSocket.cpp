@@ -121,7 +121,7 @@ JVMSocket::handle_input
 
 		itsRecvData.Append(itsBuffer, count);
 		if (!itsHandshakeFinishedFlag &&
-			JStringCompare(itsRecvData, kHandshakeLength, kHandshake, kHandshakeLength) == 0)
+			JString::Compare(itsRecvData, kHandshakeLength, kHandshake, kHandshakeLength) == 0)
 			{
 			itsHandshakeFinishedFlag = kJTrue;
 			itsRecvData.RemoveSubstring(1, kHandshakeLength);

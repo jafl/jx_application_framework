@@ -22,7 +22,7 @@ const JCoordinate kVMarginWidth = 1;
 
 // JBroadcaster messages
 
-const JCharacter* JStyleTableData::kFontChanged = "FontChanged::JStyleTableData";
+const JUtf8Byte* JStyleTableData::kFontChanged = "FontChanged::JStyleTableData";
 
 /******************************************************************************
  Constructor
@@ -72,8 +72,8 @@ JStyleTableData::SetFont
 void
 JStyleTableData::SetFont
 	(
-	const JCharacter*	name,
-	const JSize			size
+	const JString&	name,
+	const JSize		size
 	)
 {
 	SetFont(itsFontManager->GetFont(name, size));

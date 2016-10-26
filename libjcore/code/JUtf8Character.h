@@ -29,6 +29,7 @@ public:
 
 	JSize				GetByteCount() const;
 	const JUtf8Byte*	GetBytes() const;
+	JUtf8Byte*			AllocateNullTerminatedBytes() const;
 	JUInt32				GetUtf32() const;
 
 	void	Set(const JUtf8Character& source);
@@ -46,7 +47,7 @@ public:
 	JUtf8Character	ToUpper() const;
 
 	static JBoolean	IsValid(const JUtf8Byte* utf8Character);
-	static JSize	GetCharacterByteCount(const JUtf8Byte* utf8Character);
+	static JBoolean	GetCharacterByteCount(const JUtf8Byte* utf8Character, JSize* byteCount);
 
 	static JUtf8Character	Utf32ToUtf8(const JUInt32 c);
 	static JUInt32			Utf8ToUtf32(const JUtf8Byte* c);
@@ -91,7 +92,7 @@ inline JUInt32
 JUtf8Character::GetUtf32()
 	const
 {
-	return Utf8ToUtf32(itsBytes);
+	return (itsByteCount == 0 ? 0 : Utf8ToUtf32(itsBytes));
 }
 
 /******************************************************************************
@@ -149,10 +150,50 @@ operator==
 }
 
 inline int
+operator==
+	(
+	const JUtf8Byte			c1,
+	const JUtf8Character&	c2
+	)
+{
+	return (c2.GetByteCount() == 1 && c1 == c2.GetBytes()[0]);
+}
+
+inline int
+operator==
+	(
+	const JUtf8Character&	c1,
+	const JUtf8Byte			c2
+	)
+{
+	return (c1.GetByteCount() == 1 && c1.GetBytes()[0] == c2);
+}
+
+inline int
 operator!=
 	(
 	const JUtf8Character& c1,
 	const JUtf8Character& c2
+	)
+{
+	return !(c1 == c2);
+}
+
+inline int
+operator!=
+	(
+	const JUtf8Byte			c1,
+	const JUtf8Character&	c2
+	)
+{
+	return !(c1 == c2);
+}
+
+inline int
+operator!=
+	(
+	const JUtf8Character&	c1,
+	const JUtf8Byte			c2
 	)
 {
 	return !(c1 == c2);

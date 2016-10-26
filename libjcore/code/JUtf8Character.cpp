@@ -74,7 +74,7 @@ JUtf8Character::Set
 	)
 {
 	itsBytes[0]  = asciiCharacter;
-	itsByteCount = 1;
+	itsByteCount = (asciiCharacter == 0 ? 0 : 1);
 }
 
 void
@@ -84,7 +84,11 @@ JUtf8Character::Set
 	)
 {
 	unsigned char* c = (unsigned char*) utf8Character;
-	if (c[0] <= (unsigned char) '\x7F')
+	if (c[0] == 0)
+		{
+		itsByteCount = 0;
+		}
+	else if (c[0] <= (unsigned char) '\x7F')
 		{
 		itsByteCount = 1;
 		itsBytes[0]  = utf8Character[0];
@@ -134,7 +138,11 @@ JUtf8Character::IsValid
 	)
 {
 	unsigned char* c = (unsigned char*) utf8Character;
-	if (c[0] <= (unsigned char) '\x7F')
+	if (c[0] == 0)
+		{
+		return kJTrue;
+		}
+	else if (c[0] <= (unsigned char) '\x7F')
 		{
 		return kJTrue;
 		}
@@ -167,42 +175,47 @@ JUtf8Character::IsValid
 
  ******************************************************************************/
 
-JSize
+JBoolean
 JUtf8Character::GetCharacterByteCount
 	(
-	const JUtf8Byte* utf8Character
+	const JUtf8Byte*	utf8Character,
+	JSize*				byteCount
 	)
 {
 	unsigned char* c = (unsigned char*) utf8Character;
 	if (c[0] == 0)
 		{
-		return 0;
+		*byteCount = 0;
+		return kJTrue;
 		}
 	else if (c[0] <= (unsigned char) '\x7F')
 		{
-		return 1;
+		*byteCount = 1;
+		return kJTrue;
 		}
 	else if (((unsigned char) '\xC2') <= c[0] && c[0] <= (unsigned char) '\xDF' &&
 			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char)'\xBF')
 		{
-		return 2;
+		*byteCount = 2;
+		return kJTrue;
 		}
 	else if (((unsigned char) '\xE0') <= c[0] && c[0] <= (unsigned char)'\xEF' &&
 			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char)'\xBF' &&
 			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char)'\xBF')
 		{
-		return 3;
+		*byteCount = 3;
+		return kJTrue;
 		}
 	else if (((unsigned char) '\xF0') <= c[0] && c[0] <= (unsigned char)'\xF4' &&
 			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char)'\xBF' &&
 			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char)'\xBF' &&
 			 ((unsigned char) '\x80') <= c[3] && c[3] <= (unsigned char)'\xBF')
 		{
-		return 4;
+		*byteCount = 4;
+		return kJTrue;
 		}
 	else
 		{
-		assert( 0 /* invalid UTF-8 byte sequence */ );
 		cerr << "Invalid UTF-8 sequence:"
 			<< std::hex
 			<< " " << (int) c[0]
@@ -210,7 +223,9 @@ JUtf8Character::GetCharacterByteCount
 			<< " " << (int) c[2]
 			<< " " << (int) c[3]
 			<< endl;
-		return 1;
+
+		*byteCount = 0;
+		return kJTrue;
 		}
 }
 
@@ -230,7 +245,11 @@ JUtf8Character::Utf32ToUtf8
 	JUInt32 ch = origChar;
 
 	JSize byteCount = 0;
-	if (ch < (JUInt32) 0x80)
+	if (ch == 0)
+		{
+		byteCount = 0;
+		}
+	else if (ch < (JUInt32) 0x80)
 		{
 		byteCount = 1;
 		}
@@ -295,7 +314,14 @@ JUtf8Character::Utf8ToUtf32
 {
 	JUInt32 ch = 0;
 
-	const JSize byteCount = GetCharacterByteCount(bytes);
+	JSize byteCount;
+	const JBoolean ok = GetCharacterByteCount(bytes, &byteCount);
+	assert( ok );
+	if (byteCount == 0)
+		{
+		return 0;
+		}
+
 	switch (byteCount)	// note: everything falls through
 		{
 		case 4:
@@ -401,6 +427,25 @@ JUtf8Character::ToUpper()
 	const
 {
 	return Utf32ToUtf8(u_toupper(GetUtf32()));
+}
+
+/******************************************************************************
+ AllocateNullTerminatedBytes
+
+	This allocates a new pointer, which the caller is responsible
+	for deleting via "delete []".
+
+ ******************************************************************************/
+
+JUtf8Byte*
+JUtf8Character::AllocateNullTerminatedBytes()
+	const
+{
+	JUtf8Byte* s = jnew JUtf8Byte[ itsByteCount+1 ];
+	assert( s != NULL );
+	memcpy(s, itsBytes, itsByteCount);
+	s[ itsByteCount+1 ] = '\0';
+	return s;
 }
 
 /******************************************************************************

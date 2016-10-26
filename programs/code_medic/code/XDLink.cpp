@@ -478,7 +478,7 @@ XDLink::SetProgram
 
 	JString line;
 	if (!CMMDIServer::GetLanguage(fullName, &line) ||
-		JStringCompare(line, "php", kJFalse) != 0)
+		JString::Compare(line, "php", kJFalse) != 0)
 		{
 		const JString error = JGetString("ConfigFileWrongLanguage::XDLink");
 		Broadcast(UserOutput(error, kJTrue));

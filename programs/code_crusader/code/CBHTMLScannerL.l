@@ -204,7 +204,7 @@ JS_BADHEX     (0[xX][0-9A-Fa-f]{9,})
 ">" {
 	ContinueToken();
 	const JBoolean isScript = IsScript(&itsScriptLanguage);
-	if (isScript && JStringCompare(itsScriptLanguage, "javascript", kJFalse) == 0)
+	if (isScript && JString::Compare(itsScriptLanguage, "javascript", kJFalse) == 0)
 		{
 		BEGIN(JAVA_SCRIPT_STATE);
 		return ScriptToken();
@@ -1138,7 +1138,7 @@ euro;?     {
 
 ^.+\n {
 	ContinueToken();
-	if (JStringCompare(yytext, yyleng - (yytext[yyleng-2] == ';' ? 2 : 1),
+	if (JString::Compare(yytext, yyleng - (yytext[yyleng-2] == ';' ? 2 : 1),
 					   itsPHPHereDocTag, itsPHPHereDocTag.GetLength()) == 0)
 		{
 		BEGIN(PHP_STATE);

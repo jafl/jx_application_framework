@@ -80,14 +80,14 @@ template <class V>
 JBoolean
 JStringMap<V>::Contains
 	(
-	const JUtf8Byte* const key
+	const JString& key
 	)
 	const
 {
 	JConstHashCursor< JStrValue<V> >* cursor = JHashTable< JStrValue<V> >::GetCursor();
 	// We know the hash value does not depend on V, so this is safe
 	JStrValue<V> hashEntry;
-	hashEntry.key = key;
+	hashEntry.key = key.GetBytes();
 	cursor->ResetKey(hashEntry);
 	return cursor->NextKey();
 }
@@ -104,8 +104,8 @@ template <class V>
 JBoolean
 JStringMap<V>::GetElement
 	(
-	const JUtf8Byte* const key,
-	V*                     value
+	const JString& key,
+	V*             value
 	)
 	const
 {
@@ -135,7 +135,7 @@ template <class V>
 JBoolean
 JStringMap<V>::SetElement
 	(
-	const JUtf8Byte* const             key,
+	const JString&                     key,
 	const V&                           value,
 	const JPtrArrayT::SetElementAction action,
 	const JStringMapT::SetType         type,
@@ -143,7 +143,7 @@ JStringMap<V>::SetElement
 	)
 {
 	JHashCursor< JStrValue<V> >* cursor = JHashTable< JStrValue<V> >::GetCursor();
-	JStrValue<V> hashEntry(key, value);
+	JStrValue<V> hashEntry(key.GetBytes(), value);
 
 	cursor->ResetKey(hashEntry);
 	cursor->ForceNextMapInsertKey();
@@ -173,9 +173,9 @@ JStringMap<V>::SetElement
 
 		if (itsCopyKeysFlag)
 			{
-			JUtf8Byte* myKey = jnew JUtf8Byte[strlen(key)+1];
+			JUtf8Byte* myKey = jnew JUtf8Byte[ key.GetByteCount()+1 ];
 			assert(myKey != NULL);
-			strcpy(myKey, key);
+			strcpy(myKey, key.GetBytes());
 			hashEntry.key = myKey;
 			cursor->Set(cursor->GetCursorHashValue(), hashEntry);
 			}
@@ -213,7 +213,7 @@ template <class V>
 JBoolean
 JStringMap<V>::RemoveElement
 	(
-	const JUtf8Byte* const             key,
+	const JString&                     key,
 	const JPtrArrayT::SetElementAction action
 	)
 {

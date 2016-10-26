@@ -139,13 +139,13 @@ void
 JStringManager::ReportError
 	(
 	const JUtf8Byte*	id,
-	const JUtf8Byte*	message
+	const JString&		message
 	)
 	const
 {
 	const JUtf8Byte* map[] =
 		{
-		"err", message
+		"err", message.GetBytes()
 		};
 	const JString s = Get(id, map, sizeof(map));
 	(JGetUserNotification())->ReportError(s);
@@ -244,7 +244,7 @@ JStringManager::Register
 		}
 
 	{
-	std::ofstream tempFile(tempFileName);
+	std::ofstream tempFile(tempFileName.GetBytes());
 
 	JIndex i = 0;
 	while (defaultData[i] != NULL)
@@ -275,7 +275,7 @@ JStringManager::Register
 				if (lang != NULL)
 					{
 					name2 = name1;
-					name2.AppendCharacter('_');
+					name2.Append("_");
 					name2.Append(lang);
 
 					if (MergeFile(name2))
@@ -303,11 +303,11 @@ JStringManager::Register
 JBoolean
 JStringManager::MergeFile
 	(
-	const JUtf8Byte*	fileName,
-	const JBoolean		debug
+	const JString&	fileName,
+	const JBoolean	debug
 	)
 {
-	std::ifstream input(fileName);
+	std::ifstream input(fileName.GetBytes());
 	if (input.good())
 		{
 		MergeFile(input, debug);
@@ -386,12 +386,12 @@ JStringManager::MergeFile
 JBoolean
 JStringManager::CanOverride
 	(
-	const JUtf8Byte* id
+	const JString& id
 	)
 {
 	for (JIndex i=0; i<kNoOverrideIDCount; i++)
 		{
-		if (JStringCompare(id, kNoOverrideID[i]) == 0)
+		if (id == kNoOverrideID[i])
 			{
 			return kJFalse;
 			}

@@ -119,17 +119,17 @@ JTableData::ColsDeleted
 
 // message types
 
-const JCharacter* JTableData::kRowsInserted  = "RowsInserted::JTableData";
-const JCharacter* JTableData::kRowDuplicated = "RowDuplicated::JTableData";
-const JCharacter* JTableData::kRowsRemoved   = "RowsRemoved::JTableData";
-const JCharacter* JTableData::kRowMoved      = "RowMoved::JTableData";
+const JUtf8Byte* JTableData::kRowsInserted  = "RowsInserted::JTableData";
+const JUtf8Byte* JTableData::kRowDuplicated = "RowDuplicated::JTableData";
+const JUtf8Byte* JTableData::kRowsRemoved   = "RowsRemoved::JTableData";
+const JUtf8Byte* JTableData::kRowMoved      = "RowMoved::JTableData";
 
-const JCharacter* JTableData::kColsInserted  = "ColsInserted::JTableData";
-const JCharacter* JTableData::kColDuplicated = "ColDuplicated::JTableData";
-const JCharacter* JTableData::kColsRemoved   = "ColsRemoved::JTableData";
-const JCharacter* JTableData::kColMoved      = "ColMoved::JTableData";
+const JUtf8Byte* JTableData::kColsInserted  = "ColsInserted::JTableData";
+const JUtf8Byte* JTableData::kColDuplicated = "ColDuplicated::JTableData";
+const JUtf8Byte* JTableData::kColsRemoved   = "ColsRemoved::JTableData";
+const JUtf8Byte* JTableData::kColMoved      = "ColMoved::JTableData";
 
-const JCharacter* JTableData::kRectChanged   = "RectChanged::JTableData";
+const JUtf8Byte* JTableData::kRectChanged   = "RectChanged::JTableData";
 
 /******************************************************************************
  AdjustIndex

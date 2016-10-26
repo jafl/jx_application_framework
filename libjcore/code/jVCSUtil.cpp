@@ -55,10 +55,10 @@ JIsVCSDirectory
 	const JString& name
 	)
 {
-	return JI2B(strcmp(name, kGitDirName)        == 0 ||
-				strcmp(name, kSubversionDirName) == 0 ||
-				strcmp(name, kCVSDirName)        == 0 ||
-				strcmp(name, kSCCSDirName)       == 0);
+	return JI2B(name == kGitDirName        ||
+				name == kSubversionDirName ||
+				name == kCVSDirName        ||
+				name == kSCCSDirName);
 }
 
 /******************************************************************************
@@ -171,13 +171,13 @@ JIsManagedByVCS
 			}
 		else
 			{
-			std::istrstream input(data, data.GetLength());
+			std::istrstream input(data.GetBytes(), data.GetByteCount());
 
 			const JString version = JReadLine(input);
 			if (version == "8" || version == "9" || version == "10")
 				{
 				pattern = "\n\f\n" + name + "\n";
-				JIgnoreUntil(input, pattern, &isManaged);
+				JIgnoreUntil(input, pattern.GetBytes(), &isManaged);
 				}
 			}
 		}
@@ -213,7 +213,7 @@ JEditVCS
 		if (JDirectoryExists(vcsDir))
 			{
 			const JString cmd = "cd " + path + "; cvs edit " + name;
-			system(cmd);
+			system(cmd.GetBytes());
 			}
 		}
 }
@@ -471,7 +471,7 @@ JGetVCSRepositoryPath
 			}
 		else
 			{
-			std::istrstream input(data, data.GetLength());
+			std::istrstream input(data.GetBytes(), data.GetByteCount());
 
 			const JString version = JReadLine(input);
 			if (version == "8" || version == "9" || version == "10")
@@ -536,7 +536,7 @@ JGetCurrentSVNRevision
 		}
 	else
 		{
-		std::istrstream input(data, data.GetLength());
+		std::istrstream input(data.GetBytes(), data.GetByteCount());
 
 		const JString version = JReadLine(input);
 		if (version == "8" || version == "9" || version == "10")
@@ -544,11 +544,11 @@ JGetCurrentSVNRevision
 			pattern = "\n\f\n" + name + "\n";
 
 			JBoolean found;
-			JIgnoreUntil(input, pattern, &found);
+			JIgnoreUntil(input, pattern.GetBytes(), &found);
 			if (found)
 				{
 				const JString data2 = JReadUntil(input, '\f');
-				std::istrstream input2(data2, data2.GetLength());
+				std::istrstream input2(data2.GetBytes(), data2.GetByteCount());
 
 				JIgnoreLine(input2);		// file
 				JIgnoreLine(input2);		// ???
@@ -662,7 +662,7 @@ JUpdateCVSIgnore
 		JEditVCS(cvsFile);
 		cvsData += name;
 
-		ofstream output(cvsFile);
+		ofstream output(cvsFile.GetBytes());
 		cvsData.Print(output);
 		}
 }

@@ -41,16 +41,16 @@ protected:
 
 	JHTMLScanner();
 
-	void	LexHTML(const JCharacter* text);
+	void	LexHTML(const JString& text);
 	void	LexHTML(istream& input);
 
-	virtual JBoolean	HandleHTMLWord(const JCharacter* word, const JIndexRange& range);
-	virtual JBoolean	HandleHTMLWhitespace(const JCharacter* space, const JIndexRange& range);
+	virtual JBoolean	HandleHTMLWord(const JUtf8Byte* word, const JIndexRange& range);
+	virtual JBoolean	HandleHTMLWhitespace(const JUtf8Byte* space, const JIndexRange& range);
 	virtual JBoolean	HandleHTMLTag(const JString& name, const JStringPtrMap<JString>& attr,
 									  const JIndexRange& range);
 	virtual JBoolean	HandleHTMLScript(const JString& language, const JIndexRange& range);
 	virtual JBoolean	HandleHTMLComment(const JIndexRange& range);
-	virtual JBoolean	HandleHTMLError(const HTMLError err, const JCharacter* errStr,
+	virtual JBoolean	HandleHTMLError(const HTMLError err, const JUtf8Byte* errStr,
 										const JIndexRange& range);
 	virtual void		HandleEmbeddedPHPTags(const JArray<JIndexRange>& list);
 
@@ -88,14 +88,14 @@ private:
 	JBoolean	TagFinished();
 	void		SaveAttributeValue();
 
-	void		BeginPHP(const JCharacter* text, const JSize length);
-	JBoolean	PHPFinished(const JCharacter* text, const JSize length,
+	void		BeginPHP(const JUtf8Byte* text, const JSize length);
+	JBoolean	PHPFinished(const JUtf8Byte* text, const JSize length,
 							const JBoolean closed);
 
 	JBoolean	IsScript(JString* language, JIndex* first);
 
-	JBoolean	HandleChar(const JCharacter c);
-	JBoolean	HandleGreekChar(const JCharacter c);
+	JBoolean	HandleChar(const JUtf8Character& c);
+	JBoolean	HandleGreekChar(const JUtf8Character& c);
 	void		UpdatePosition();
 
 	// not allowed

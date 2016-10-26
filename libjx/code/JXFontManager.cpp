@@ -877,7 +877,7 @@ JXFontManager::BuildTrueTypeFontName
 	// NxM is not TrueType.  Symbol is strange.
 
 	if (nxmRegex.Match(xName) ||
-		JStringCompare(xName, "Symbol", kJFalse) == 0)
+		JString::Compare(xName, "Symbol", kJFalse) == 0)
 		{
 		return kJFalse;
 		}

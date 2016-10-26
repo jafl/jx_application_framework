@@ -208,7 +208,7 @@ JXExprInput::UpdateFontMenu()
 	itsFontMenu->EnableAll();
 
 	JFont font = GetCurrentFont();
-	if (JStringCompare(font.GetName(), JGetGreekFontName()) == 0)
+	if (JString::Compare(font.GetName(), JGetGreekFontName()) == 0)
 		{
 		itsFontMenu->CheckItem(kGreekFontCmd);
 		}

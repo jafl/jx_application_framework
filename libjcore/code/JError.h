@@ -64,7 +64,7 @@ inline const JString&
 JError::GetMessage()
 	const
 {
-	return *itsMessage;
+	return itsMessage;
 }
 
 /******************************************************************************

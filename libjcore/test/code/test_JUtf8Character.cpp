@@ -11,6 +11,11 @@
 #include <JUtf8Character.h>
 #include <jassert_simple.h>
 
+int main()
+{
+	JUnitTestManager::Execute();
+}
+
 JTEST(Construction)
 {
 	JUtf8Character c1;
@@ -78,10 +83,28 @@ JTEST(IsValid)
 
 JTEST(CharacterByteCount)
 {
-	JAssertEqual(0, JUtf8Character::GetCharacterByteCount(""));
-	JAssertEqual(1, JUtf8Character::GetCharacterByteCount("1"));
-	JAssertEqual(2, JUtf8Character::GetCharacterByteCount("\xC2\xA9"));
-	JAssertEqual(3, JUtf8Character::GetCharacterByteCount("\xE2\x9C\x94"));
+	JSize byteCount;
+	JAssertTrue(JUtf8Character::GetCharacterByteCount("", &byteCount));
+	JAssertEqual(0, byteCount);
+
+	JAssertTrue(JUtf8Character::GetCharacterByteCount("1", &byteCount));
+	JAssertEqual(1, byteCount);
+
+	JAssertTrue(JUtf8Character::GetCharacterByteCount("\xC2\xA9", &byteCount));
+	JAssertEqual(2, byteCount);
+
+	JAssertTrue(JUtf8Character::GetCharacterByteCount("\xE2\x9C\x94", &byteCount));
+	JAssertEqual(3, byteCount);
+}
+
+JTEST(Comparison)
+{
+	JAssertFalse(JUtf8Character("") == '\0');
+	JAssertTrue(JUtf8Character("1") == '1');
+	JAssertTrue(JUtf8Character("1") != '2');
+	JAssertTrue('1' == JUtf8Character("1"));
+	JAssertTrue(JUtf8Character("\xD2\x82") == "\xD2\x82");
+	JAssertTrue(JUtf8Character("\xD2\x82") != "\xD2\x84");
 }
 
 JTEST(Utf32ToUtf8)
@@ -190,7 +213,17 @@ JTEST(ToUpper)
 	JAssertEqual(JUtf8Character("\xCE\xA3"), JUtf8Character("\xCF\x83").ToUpper());	// sigma
 }
 
-int main()
+JTEST(AllocateNullTerminatedBytes)
 {
-	JUnitTestManager::Execute();
+	JUtf8Byte* s = JUtf8Character('{').AllocateNullTerminatedBytes();
+	JAssertStringsEqual("{", s);
+	delete s;
+
+	s = JUtf8Character("\xC3\xA6").AllocateNullTerminatedBytes();
+	JAssertStringsEqual("\xC3\xA6", s);
+	delete s;
+
+	s = JUtf8Character("\xF0\xAF\xA7\x97").AllocateNullTerminatedBytes();
+	JAssertStringsEqual("\xF0\xAF\xA7\x97", s);
+	delete s;
 }

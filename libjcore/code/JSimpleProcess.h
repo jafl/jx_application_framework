@@ -19,38 +19,38 @@ class JSimpleProcess : public JProcess
 {
 public:
 
-	static JError	Create(const JCharacter* str, const JBoolean detach);
+	static JError	Create(const JString& str, const JBoolean detach);
 	static JError	Create(const JPtrArray<JString>& argList,
 						   const JBoolean detach);
-	static JError	Create(const JCharacter* argv[], const JSize size,
+	static JError	Create(const JUtf8Byte* argv[], const JSize size,
 						   const JBoolean detach);
 
-	static JError	Create(const JCharacter* workingDirectory,
-						   const JCharacter* str, const JBoolean detach);
-	static JError	Create(const JCharacter* workingDirectory,
+	static JError	Create(const JString& workingDirectory,
+						   const JString& str, const JBoolean detach);
+	static JError	Create(const JString& workingDirectory,
 						   const JPtrArray<JString>& argList, const JBoolean detach);
-	static JError	Create(const JCharacter* workingDirectory,
-						   const JCharacter* argv[], const JSize size,
+	static JError	Create(const JString& workingDirectory,
+						   const JUtf8Byte* argv[], const JSize size,
 						   const JBoolean detach);
 
-	static JError	Create(JSimpleProcess** process, const JCharacter* str,
+	static JError	Create(JSimpleProcess** process, const JString& str,
 						   const JBoolean deleteWhenFinished = kJFalse);
-	static JError	Create(JSimpleProcess** process, const JCharacter* workingDirectory,
-						   const JCharacter* str,
+	static JError	Create(JSimpleProcess** process, const JString& workingDirectory,
+						   const JString& str,
 						   const JBoolean deleteWhenFinished = kJFalse);
 
 	static JError	Create(JSimpleProcess** process,
 						   const JPtrArray<JString>& argList,
 						   const JBoolean deleteWhenFinished = kJFalse);
-	static JError	Create(JSimpleProcess** process, const JCharacter* workingDirectory,
+	static JError	Create(JSimpleProcess** process, const JString& workingDirectory,
 						   const JPtrArray<JString>& argList,
 						   const JBoolean deleteWhenFinished = kJFalse);
 
 	static JError	Create(JSimpleProcess** process,
-						   const JCharacter* argv[], const JSize size,
+						   const JUtf8Byte* argv[], const JSize size,
 						   const JBoolean deleteWhenFinished = kJFalse);
-	static JError	Create(JSimpleProcess** process, const JCharacter* workingDirectory,
-						   const JCharacter* argv[], const JSize size,
+	static JError	Create(JSimpleProcess** process, const JString& workingDirectory,
+						   const JUtf8Byte* argv[], const JSize size,
 						   const JBoolean deleteWhenFinished = kJFalse);
 
 	JSimpleProcess(const pid_t pid, const int fd,

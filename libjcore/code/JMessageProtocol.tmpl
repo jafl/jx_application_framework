@@ -391,6 +391,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromUNIXAndSend
 	(
 	const JString& data
 	)
+{
 	TranslateAndSend(data,
 					 JMessageProtocolT::kUNIXSeparatorStr,
 					 JMessageProtocolT::kUNIXSeparatorLength);
@@ -557,7 +558,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 					{
 					*msg += itsRecvData.GetSubstring(1, sepIndex-1);
 					}
-				const JSize charCount = sepIndex + itsSeparatorStr.GetLength()-1;
+				const JSize charCount = sepIndex + itsSeparatorStr.GetByteCount()-1;
 				itsRecvData.RemoveSubstring(1, charCount);
 				disIndex -= charCount;
 				NewMessage();
@@ -621,7 +622,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::LocateSequence
 	)
 {
 	*index = 1;
-	return LocateNextSequence(data.GetCString(), data.GetLength(),
+	return LocateNextSequence(data,
 							  sequence, index, endsWithPartial);
 }
 
@@ -635,15 +636,14 @@ JMessageProtocol<ACE_PEER_STREAM_2>::LocateNextSequence
 	JBoolean*		endsWithPartial
 	)
 {
-	const JUtf8Byte* s = sequence.GetCString();
-	const JSize sLength = sequence.GetLength();
+	const JUtf8Byte* s  = sequence.GetBytes();
+	const JSize sLength = sequence.GetByteCount();
 	const JSize dLength = data.GetByteCount();
 
 	for (JIndex i = *index-1; i<dLength; i++)
 		{
 		const JSize remLength = dLength-i;
-		if (JString::CompareMaxN(d.GetBytes() + i, remLength, s, sLength,
-								 JMin(remLength, sLength)))
+		if (JString::CompareMaxN(data.GetBytes() + i, s, JMin(remLength, sLength)))
 			{
 			*index = i+1;
 			*endsWithPartial = JI2B(remLength < sLength);

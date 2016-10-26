@@ -74,15 +74,6 @@ JPSPrinterBase::JPSPrinterBase
 	itsDashList    = NULL;
 	itsFile        = NULL;
 
-	itsCreator = jnew JString;
-	assert( itsCreator != NULL );
-
-	itsTitle = jnew JString;
-	assert( itsTitle != NULL );
-
-	itsOutputFileName = jnew JString;
-	assert( itsOutputFileName != NULL );
-
 	ResetBufferedValues();
 }
 
@@ -95,52 +86,7 @@ JPSPrinterBase::~JPSPrinterBase()
 {
 	assert( !itsDocOpenFlag && itsFile == NULL );
 
-	jdelete itsCreator;
-	jdelete itsTitle;
 	jdelete itsDashList;
-	jdelete itsOutputFileName;
-}
-
-/******************************************************************************
- SetCreator
-
- ******************************************************************************/
-
-void
-JPSPrinterBase::SetCreator
-	(
-	const JCharacter* str
-	)
-{
-	*itsCreator = str;
-}
-
-/******************************************************************************
- SetTitle
-
- ******************************************************************************/
-
-void
-JPSPrinterBase::SetTitle
-	(
-	const JCharacter* str
-	)
-{
-	*itsTitle = str;
-}
-
-/******************************************************************************
- SetOutputFileName
-
- ******************************************************************************/
-
-void
-JPSPrinterBase::SetOutputFileName
-	(
-	const JCharacter* name
-	)
-{
-	*itsOutputFileName = name;
 }
 
 /******************************************************************************
@@ -151,9 +97,9 @@ JPSPrinterBase::SetOutputFileName
 JBoolean
 JPSPrinterBase::PSOpenDocument()
 {
-	assert( !itsDocOpenFlag && !itsOutputFileName->IsEmpty() );
+	assert( !itsDocOpenFlag && !itsOutputFileName.IsEmpty() );
 
-	itsFile = jnew ofstream(*itsOutputFileName);
+	itsFile = jnew ofstream(itsOutputFileName.GetBytes());
 	assert( itsFile != NULL );
 
 	if (itsFile->fail())
@@ -170,10 +116,10 @@ JPSPrinterBase::PSOpenDocument()
 
 	PSPrintVersionComment(*itsFile);
 
-	if (!itsCreator->IsEmpty())
+	if (!itsCreator.IsEmpty())
 		{
 		*itsFile << "%%Creator: ";
-		itsCreator->Print(*itsFile);
+		itsCreator.Print(*itsFile);
 		*itsFile << '\n';
 		}
 
@@ -182,14 +128,14 @@ JPSPrinterBase::PSOpenDocument()
 	dateStr.Print(*itsFile);
 	*itsFile << '\n';
 
-	if (!itsTitle->IsEmpty())
+	if (!itsTitle.IsEmpty())
 		{
 		*itsFile << "%%Title: ";
-		itsTitle->Print(*itsFile);
+		itsTitle.Print(*itsFile);
 		*itsFile << '\n';
 		}
 
-	const JCharacter* userName = getenv("USER");
+	const JUtf8Byte* userName = getenv("USER");
 	if (userName != NULL)
 		{
 		*itsFile << "%%For: " << userName << '\n';
@@ -238,7 +184,7 @@ JPSPrinterBase::PSCancelDocument()
 
 	jdelete itsFile;
 	itsFile = NULL;
-	const JError err = JRemoveFile(*itsOutputFileName);
+	const JError err = JRemoveFile(itsOutputFileName);
 	assert_ok( err );
 
 	itsDocOpenFlag = kJFalse;
@@ -355,7 +301,7 @@ JPSPrinterBase::PSString
 	const JFloat		userAngle,
 	const JCoordinate	left,
 	const JCoordinate	top,
-	const JCharacter*	str
+	const JString&		str
 	)
 {
 	if (!PSShouldPrintCurrentPage())
@@ -405,7 +351,7 @@ JPSPrinterBase::PSString
 	*itsFile << x << ' ' << y << " moveto\n";
 	*itsFile << '(';
 	JSize lineLength = 1;
-	const JSize strLen = strlen(str);
+	const JSize strLen = str.GetByteCount();
 	for (JIndex i=1; i<=strLen; i++)
 		{
 		const JCharacter c = str[i-1];
@@ -859,7 +805,7 @@ JPSPrinterBase::ResetBufferedValues()
 
  ******************************************************************************/
 
-static const JCharacter* kCurrFontName = "/JPSPrinterBase_CurrFont";
+static const JUtf8Byte* kCurrFontName = "/JPSPrinterBase_CurrFont";
 
 void
 JPSPrinterBase::PSSetFont
@@ -1007,8 +953,8 @@ JPSPrinterBase::ApplyStyles
 	(
 	JString*			name,
 	const JFontStyle&	style,
-	const JCharacter*	defaultStr,
-	const JCharacter*	italicStr
+	const JUtf8Byte*	defaultStr,
+	const JUtf8Byte*	italicStr
 	)
 {
 	if (style.bold && style.italic)

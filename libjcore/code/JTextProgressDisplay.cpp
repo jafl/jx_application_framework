@@ -8,6 +8,7 @@
  ******************************************************************************/
 
 #include <JTextProgressDisplay.h>
+#include <JString.h>
 #include <jMath.h>
 #include <jAssert.h>
 
@@ -170,7 +171,7 @@ JTextProgressDisplay::IncrementProgress
 JBoolean
 JTextProgressDisplay::IncrementProgress
 	(
-	const JUtf8Byte* message
+	const JString* message
 	)
 {
 	return IncrementProgress(message, 1);

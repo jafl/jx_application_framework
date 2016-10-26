@@ -5,10 +5,11 @@
 	regular expression-based search and replace facilities with a convenient,
 	safe interface which is idiomatic in both C++ and JCore.
 
-	JRegex uses a JIndexRange-oriented interface.  This means that JRegex can
-	do in-place search and replace on very large strings without copying more
-	text than is necessary (and in fact was originally designed for use in a
-	text editor whose buffers are single strings and can contain megabytes).
+	JRegex uses a JCharacterRange-oriented interface.  This means that
+	JRegex can do in-place search and replace on very large strings without
+	copying more text than is necessary (and in fact was originally
+	designed for use in a text editor whose buffers are single strings and
+	can contain megabytes).
 
 	USAGE:
 
@@ -27,11 +28,11 @@
 
 	The best way to understand JRegex is to start by using it with only two
 	methods, SetPattern and Match(JString&).  Then add Match(JString&,
-	JIndexRange*), and then Match(JString&, JArray<JIndexRange>*).  At
-	this point the entire match interface should be readily understood.  After
-	adding SetReplacePattern and Replace to your reportoire, the rest of the
-	interface is just customization, information, and extra Match functions you
-	can learn as needed.
+	JCharacterRange*), and then Match(JString&, JArray<JCharacterRange>*).
+	At this point the entire match interface should be readily understood.
+	After adding SetReplacePattern and Replace to your reportoire, the rest
+	of the interface is just customization, information, and extra Match
+	functions you can learn as needed.
 
 	Unfortunately the test suite is quite involved and not really a good way
 	to learn by example.  Example code needs to be supplied soon.
@@ -110,7 +111,7 @@ struct regmatch_t
 };
 
 // Constants
-const JCharacter* JRegex::kError = "Error::JRegex";
+const JUtf8Byte* JRegex::kError = "Error::JRegex";
 
 // Constant static data (i.e. ordinary file scope constants)
 static const int defaultCFlags = PCRE_MULTILINE;
@@ -262,11 +263,12 @@ JRegex::BackslashForLiteral
 	const JString& text
 	)
 {
-	for (JIndex i=text.GetLength(); i>=1; i--)
+	JString s = text;
+	for (JIndex i=s.GetLength(); i>=1; i--)
 		{
-		if (NeedsBackslashToBeLiteral(text.GetCharacter(i)))
+		if (NeedsBackslashToBeLiteral(s.GetCharacter(i)))
 			{
-			text.InsertSubstring("\\", i);
+			s.InsertSubstring("\\", i);
 			}
 		}
 
@@ -434,8 +436,8 @@ JRegex::Match
 	)
 	const
 {
-	JIndexRange r;
-	return RegExec(str, 0, strlen(str), &r, NULL);
+	JCharacterRange r;
+	return RegExec(str.GetBytes(), 0, str.GetByteCount(), &r, NULL);
 }
 
 /******************************************************************************
@@ -451,7 +453,7 @@ JRegex::MatchFrom
 	)
 	const
 {
-	return MatchWithin(str, JIndexRange(index, strlen(str) ) );
+	return MatchWithin(str, JCharacterRange(index, str.GetCharacterCount() ) );
 }
 
 /******************************************************************************
@@ -462,8 +464,8 @@ JRegex::MatchFrom
 JBoolean
 JRegex::MatchAfter
 	(
-	const JString&     str,
-	const JIndexRange& range
+	const JString&         str,
+	const JCharacterRange& range
 	)
 	const
 {
@@ -478,13 +480,13 @@ JRegex::MatchAfter
 JBoolean
 JRegex::MatchWithin
 	(
-	const JString&     str,
-	const JIndexRange& range
+	const JString&         str,
+	const JCharacterRange& range
 	)
 	const
 {
-	JIndexRange r;
-	return RegExec(str, range.first-1, range.last, &r, NULL);
+	JCharacterRange r;
+	return RegExec(str.GetBytes(), range.first-1, range.last, &r, NULL);
 }
 
 /******************************************************************************
@@ -505,7 +507,7 @@ JRegex::MatchAll
 	)
 	const
 {
-	JIndexRange match(1,0);
+	JCharacterRange match(1,0);
 	JSize matchCount = 0;
 
 	while (MatchAfter(str, match, &match))
@@ -542,8 +544,8 @@ JRegex::MatchAll
 JBoolean
 JRegex::Match
 	(
-	const JString& str,
-	JIndexRange*   match
+	const JString&   str,
+	JCharacterRange* match
 	)
 	const
 {
@@ -560,13 +562,13 @@ JRegex::Match
 JBoolean
 JRegex::MatchFrom
 	(
-	const JString& str,
-	const JIndex   index,
-	JIndexRange*   match
+	const JString&   str,
+	const JIndex     index,
+	JCharacterRange* match
 	)
 	const
 {
-	return MatchWithin(str, JIndexRange(index, strlen(str) ), match);
+	return MatchWithin(str, JCharacterRange(index, str.GetCharacterCount()), match);
 }
 
 /******************************************************************************
@@ -579,9 +581,9 @@ JRegex::MatchFrom
 JBoolean
 JRegex::MatchAfter
 	(
-	const JString&     str,
-	const JIndexRange& range,
-	JIndexRange*       match
+	const JString&         str,
+	const JCharacterRange& range,
+	JCharacterRange*       match
 	)
 	const
 {
@@ -596,9 +598,9 @@ JRegex::MatchAfter
 JBoolean
 JRegex::MatchWithin
 	(
-	const JString&     str,
-	const JIndexRange& range,
-	JIndexRange*       match
+	const JString&         str,
+	const JCharacterRange& range,
+	JCharacterRange*       match
 	)
 	const
 {
@@ -623,14 +625,14 @@ JRegex::MatchWithin
 JSize
 JRegex::MatchLast
 	(
-	const JString& str,
-	JIndexRange*   match
+	const JString&   str,
+	JCharacterRange* match
 	)
 	const
 {
 	assert(match != NULL);
 
-	JIndexRange thisMatch(1, 0);
+	JCharacterRange thisMatch(1, 0);
 	JSize matchCount = 0;
 
 	while (MatchAfter(str, thisMatch, &thisMatch))
@@ -664,17 +666,17 @@ JRegex::MatchLast
 JSize
 JRegex::MatchLastWithin
 	(
-	const JString&     str,
-	const JIndexRange& range,
-	JIndexRange*       match
+	const JString&         str,
+	const JCharacterRange& range,
+	JCharacterRange*       match
 	)
 	const
 {
 	assert(match != NULL);
 
-	JIndexRange searchRegion = range;
+	JCharacterRange searchRegion = range;
 	JSize matchCount = 0;
-	JIndexRange m;
+	JCharacterRange m;
 
 	while ( MatchWithin(str, searchRegion, &m) )
 		{
@@ -709,8 +711,8 @@ JRegex::MatchLastWithin
 JSize
 JRegex::MatchAll
 	(
-	const JString&       str,
-	JArray<JIndexRange>* matchList
+	const JString&           str,
+	JArray<JCharacterRange>* matchList
 	)
 	const
 {
@@ -718,7 +720,7 @@ JRegex::MatchAll
 
 	matchList->RemoveAll();
 
-	JIndexRange match(1, 0);
+	JCharacterRange match(1, 0);
 	JSize matchCount = 0;
 
 	while (MatchAfter(str, match, &match))
@@ -748,15 +750,15 @@ JRegex::MatchAll
 JSize
 JRegex::MatchAllWithin
 	(
-	const JString&       str,
-	const JIndexRange&   range,
-	JArray<JIndexRange>* matchList
+	const JString&           str,
+	const JCharacterRange&   range,
+	JArray<JCharacterRange>* matchList
 	)
 	const
 {
 	assert(matchList != NULL);
 
-	JIndexRange match, searchRegion = range;
+	JCharacterRange match, searchRegion = range;
 	JSize matchCount = 0;
 
 	matchList->RemoveAll();
@@ -798,14 +800,14 @@ JRegex::MatchAllWithin
 JBoolean
 JRegex::Match
 	(
-	const JString&       str,
-	JArray<JIndexRange>* subMatchList
+	const JString&           str,
+	JArray<JCharacterRange>* subMatchList
 	)
 	const
 {
 	assert( subMatchList != NULL );
 
-	JIndexRange r;
+	JCharacterRange r;
 	return RegExec(str, 0, strlen(str), &r, subMatchList);
 }
 
@@ -817,13 +819,13 @@ JRegex::Match
 JBoolean
 JRegex::MatchFrom
 	(
-	const JString&       str,
-	const JIndex         index,
-	JArray<JIndexRange>* subMatchList
+	const JString&           str,
+	const JIndex             index,
+	JArray<JCharacterRange>* subMatchList
 	)
 	const
 {
-	return MatchWithin(str, JIndexRange(index, strlen(str) ), subMatchList);
+	return MatchWithin(str, JCharacterRange(index, str.GetCharacterCount()), subMatchList);
 }
 
 /******************************************************************************
@@ -834,9 +836,9 @@ JRegex::MatchFrom
 JBoolean
 JRegex::MatchAfter
 	(
-	const JString&       str,
-	const JIndexRange&   range,
-	JArray<JIndexRange>* subMatchList
+	const JString&           str,
+	const JCharacterRange&   range,
+	JArray<JCharacterRange>* subMatchList
 	)
 	const
 {
@@ -851,15 +853,15 @@ JRegex::MatchAfter
 JBoolean
 JRegex::MatchWithin
 	(
-	const JString&       str,
-	const JIndexRange&   range,
-	JArray<JIndexRange>* subMatchList
+	const JString&           str,
+	const JCharacterRange&   range,
+	JArray<JCharacterRange>* subMatchList
 	)
 	const
 {
 	assert( subMatchList != NULL );
 
-	JIndexRange r;
+	JCharacterRange r;
 	return RegExec(str, range.first-1, range.last, &r, subMatchList);
 }
 
@@ -871,9 +873,9 @@ JRegex::MatchWithin
 JSize
 JRegex::MatchLastWithin
 	(
-	const JString&       str,
-	const JIndexRange&   range,
-	JArray<JIndexRange>* subMatchList
+	const JString&           str,
+	const JCharacterRange&   range,
+	JArray<JCharacterRange>* subMatchList
 	)
 	const
 {
@@ -881,13 +883,13 @@ JRegex::MatchLastWithin
 
 	subMatchList->RemoveAll();
 
-	JIndexRange searchRegion = range;
+	JCharacterRange searchRegion = range;
 	JSize matchCount = 0;
-	JArray<JIndexRange> sml;
+	JArray<JCharacterRange> sml;
 
 	while ( MatchWithin(str, searchRegion, &sml) )
 		{
-		JIndexRange match = sml.GetFirstElement();
+		JCharacterRange match = sml.GetFirstElement();
 		if ( match.IsEmpty() ) // Avoid infinite loop if get a null match!
 			{
 			searchRegion.first = match.first + 1;
@@ -935,9 +937,9 @@ JRegex::MatchLastWithin
 JBoolean
 JRegex::MatchBackward
 	(
-	const JString& str,
-	const JIndex   index,
-	JIndexRange*   match
+	const JString&   str,
+	const JIndex     index,
+	JCharacterRange* match
 	)
 	const
 {
@@ -948,7 +950,7 @@ JRegex::MatchBackward
 	JSize decrement = 1000;
 	const JSize multiplier = 10;
 
-	JIndexRange searchRange;
+	JCharacterRange searchRange;
 	JInteger from = index;
 	do
 		{
@@ -972,9 +974,9 @@ JRegex::MatchBackward
 JSize
 JRegex::MatchBackward
 	(
-	const JString&       str,
-	const JIndex         index,
-	JArray<JIndexRange>* matchList
+	const JString&           str,
+	const JIndex             index,
+	JArray<JCharacterRange>* matchList
 	)
 	const
 {
@@ -985,7 +987,7 @@ JRegex::MatchBackward
 	JSize decrement = 1000;
 	const JSize multiplier = 10;
 
-	JIndexRange searchRange;
+	JCharacterRange searchRange;
 	JSize numFound = 0;
 	JInteger from = index;
 	do
@@ -1043,17 +1045,17 @@ JRegex::GetSubexpressionIndex
 JBoolean
 JRegex::GetSubexpression
 	(
-	const JString&             str,
-	const JCharacter*          name,
-	const JArray<JIndexRange>& matchList,
-	JString*                   s
+	const JString&                 str,
+	const JUtf8Byte*               name,
+	const JArray<JCharacterRange>& matchList,
+	JString*                       s
 	)
 	const
 {
 	JIndex i;
 	if (GetSubexpressionIndex(name, &i))
 		{
-		const JIndexRange r = matchList.GetElement(i);
+		const JCharacterRange r = matchList.GetElement(i);
 		if (!r.IsNothing())
 			{
 			s->Set(str + r.first-1, r.GetLength());
@@ -1138,8 +1140,8 @@ JRegex::GetMatchInterpolator()
 JString
 JRegex::InterpolateMatches
 	(
-	const JString&             sourceString,
-	const JArray<JIndexRange>& matchList
+	const JString&                 sourceString,
+	const JArray<JCharacterRange>& matchList
 	)
 	const
 {
@@ -1180,9 +1182,9 @@ JRegex::InterpolateMatches
 void
 JRegex::Replace
 	(
-	JString*                   str,
-	const JArray<JIndexRange>& matchList,
-	JIndexRange*               newRange
+	JString*                       str,
+	const JArray<JCharacterRange>& matchList,
+	JCharacterRange*               newRange
 	)
 	const
 {
@@ -1207,9 +1209,9 @@ JRegex::Replace
 void
 JRegex::Replace
 	(
-	JString*           str,
-	const JIndexRange& oldRange,
-	JIndexRange*       newRange
+	JString*               str,
+	const JCharacterRange& oldRange,
+	JCharacterRange*       newRange
 	)
 	const
 {
@@ -1264,12 +1266,12 @@ JError
 JRegex::SetReplacePattern
 	(
 	const JUtf8Byte* pattern,
-	JIndexRange*     errRange
+	JCharacterRange* errRange
 	)
 {
 	*itsReplacePattern = pattern;
 
-	JIndexRange r;
+	JCharacterRange r;
 	if (errRange == NULL)
 		{
 		errRange = &r;
@@ -1467,23 +1469,23 @@ JRegex::RegComp()
 
  *****************************************************************************/
 
-inline JIndexRange
+inline JCharacterRange
 jMakeIndexRange
 	(
 	const regmatch_t& regmatch		// {-1,-1} => nothing
 	)
 {
-	return JIndexRange(regmatch.rm_so+1, regmatch.rm_eo > 0 ? regmatch.rm_eo : 0);
+	return JCharacterRange(regmatch.rm_so+1, regmatch.rm_eo > 0 ? regmatch.rm_eo : 0);
 };
 
 JBoolean
 JRegex::RegExec
 	(
-	const JString&       str,
-	const JSize          offset,
-	const JSize          length,
-	JIndexRange*         matchRange,
-	JArray<JIndexRange>* matchList		// can be NULL
+	const JString&          str,
+	const JSize             offset,
+	const JSize             length,
+	JUtf8ByteRange*         matchRange,
+	JArray<JUtf8ByteRange>* matchList		// can be NULL
 	)
 	const
 {
@@ -1530,7 +1532,7 @@ JRegex::RegExec
 				{
 				matchList->AppendElement(jMakeIndexRange(pmatch[i]));
 				}
-			JIndexRange empty;
+			JCharacterRange empty;
 			for (i=nmatch; i<=subCount; i++)
 				{
 				matchList->AppendElement(empty);

@@ -39,8 +39,8 @@ public:
 
 	// header info
 
-	void	SetCreator(const JCharacter* str);
-	void	SetTitle(const JCharacter* str);
+	void	SetCreator(const JString& str);
+	void	SetTitle(const JString& str);
 
 	// printing control
 
@@ -52,7 +52,7 @@ public:
 	// printing parameters
 
 	const JString&	GetOutputFileName() const;
-	void			SetOutputFileName(const JCharacter* name);
+	void			SetOutputFileName(const JString& name);
 
 	JBoolean	PSWillPrintBlackWhite() const;
 	void		PSPrintBlackWhite(const JBoolean doIt);
@@ -66,7 +66,7 @@ public:
 	void	PSString(const JFont& font, const JCoordinate ascent,
 					 const JCoordinate aligndx, const JCoordinate aligndy,
 					 const JFloat angle, const JCoordinate left,
-					 const JCoordinate top, const JCharacter* str);
+					 const JCoordinate top, const JString& str);
 
 	void	PSLine(const JCoordinate x1, const JCoordinate y1,
 				   const JCoordinate x2, const JCoordinate y2,
@@ -157,7 +157,7 @@ private:
 
 	void	AdjustFontName(JString* name, const JFontStyle& style);
 	void	ApplyStyles(JString* name, const JFontStyle& style,
-						const JCharacter* defaultStr, const JCharacter* italicStr);
+						const JUtf8Byte* defaultStr, const JUtf8Byte* italicStr);
 
 	// not allowed
 
@@ -179,7 +179,35 @@ JPSPrinterBase::PSDocumentIsOpen()
 }
 
 /******************************************************************************
- GetOutputFileName
+ SetCreator
+
+ ******************************************************************************/
+
+inline void
+JPSPrinterBase::SetCreator
+	(
+	const JString& str
+	)
+{
+	itsCreator = str;
+}
+
+/******************************************************************************
+ SetTitle
+
+ ******************************************************************************/
+
+inline void
+JPSPrinterBase::SetTitle
+	(
+	const JString& str
+	)
+{
+	itsTitle = str;
+}
+
+/******************************************************************************
+ OutputFileName
 
  ******************************************************************************/
 
@@ -187,7 +215,16 @@ inline const JString&
 JPSPrinterBase::GetOutputFileName()
 	const
 {
-	return *itsOutputFileName;
+	return itsOutputFileName;
+}
+
+inline void
+JPSPrinterBase::SetOutputFileName
+	(
+	const JString& name
+	)
+{
+	itsOutputFileName = name;
 }
 
 /******************************************************************************

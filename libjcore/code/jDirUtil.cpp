@@ -81,7 +81,7 @@ JGetUniqueDirEntryName
 	assert( !namePrefix.IsEmpty() );
 
 	JString fullPath;
-	if (JString::IsEmpty(path))
+	if (path.IsEmpty())
 		{
 		if (!JGetTempDirectory(&fullPath))
 			{
@@ -204,12 +204,12 @@ JGetClosestDirectory
 	const JString*	basePath
 	)
 {
-	assert( !JString::IsEmpty(origDirName) );
+	assert( !origDirName.IsEmpty() );
 
 	JString workingDir;
 	if (!JString::IsEmpty(basePath))
 		{
-		workingDir = basePath;
+		workingDir = *basePath;
 		JAppendDirSeparator(&workingDir);
 		}
 	else
@@ -220,7 +220,7 @@ JGetClosestDirectory
 	JString dirName = origDirName;
 	JString homeDir;
 	JSize homeLength;
-	if (origDirName[0] == '~' &&
+	if (origDirName.GetFirstCharacter() == '~' &&
 		!JExpandHomeDirShortcut(origDirName, &dirName, &homeDir, &homeLength))
 		{
 		return JGetRootDirectory();
@@ -249,7 +249,7 @@ JGetClosestDirectory
 
 	// convert back to partial path, if possible
 
-	if (origDirName[0] == '~' &&
+	if (origDirName.GetFirstCharacter() == '~' &&
 		dirName.BeginsWith(homeDir))
 		{
 		dirName.ReplaceSubstring(1, homeDir.GetLength(), origDirName, homeLength);
@@ -305,8 +305,8 @@ JSearchSubdirs
 	JBoolean*			userCancelled
 	)
 {
-	assert( !JString::IsEmpty(startPath) );
-	assert( !JString::IsEmpty(name) && name[0] != ACE_DIRECTORY_SEPARATOR_CHAR );
+	assert( !startPath.IsEmpty() );
+	assert( !name.IsEmpty() && name.GetFirstCharacter() != ACE_DIRECTORY_SEPARATOR_CHAR );
 
 	JLatentPG pg(100);
 	if (userPG != NULL)
@@ -387,7 +387,7 @@ JSearchSubdirs_private
 
 			if ((( isFile && entry.IsFile()) ||
 				 (!isFile && entry.IsDirectory())) &&
-				JStringCompare(name, entry.GetName(), caseSensitive) == 0)
+				JString::Compare(name, entry.GetName(), caseSensitive) == 0)
 				{
 				const JBoolean ok = JGetTrueName(startPath, path);
 				assert( ok );

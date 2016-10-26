@@ -51,10 +51,10 @@ JHTMLScanner::~JHTMLScanner()
 void
 JHTMLScanner::LexHTML
 	(
-	const JCharacter* text
+	const JString& text
 	)
 {
-	std::istrstream input(text, strlen(text));
+	std::istrstream input(text.GetBytes(), text.GetByteCount());
 	LexHTML(input);
 }
 
@@ -162,7 +162,7 @@ JHTMLScanner::SaveAttributeValue()
 void
 JHTMLScanner::BeginPHP
 	(
-	const JCharacter*	text,
+	const JUtf8Byte*	text,
 	const JSize			length
 	)
 {
@@ -185,7 +185,7 @@ JHTMLScanner::BeginPHP
 JBoolean
 JHTMLScanner::PHPFinished
 	(
-	const JCharacter*	text,
+	const JUtf8Byte*	text,
 	const JSize			length,
 	const JBoolean		closed
 	)
@@ -273,18 +273,19 @@ JHTMLScanner::GetScriptLanguage
 JBoolean
 JHTMLScanner::HandleChar
 	(
-	const JCharacter c
+	const JUtf8Character& c
 	)
 {
 	JBoolean result = kJTrue;
 	if (yy_top_state() == 0)
 		{
-		const JCharacter str[] = { c, '\0' };
+		JUtf8Byte* str = c.AllocateNullTerminatedBytes();
 		result = HandleHTMLWord(str, itsMatchRange);
+		jdelete str;
 		}
 	else
 		{
-		(itsTagInfo->valueBuffer).AppendCharacter(c);
+		(itsTagInfo->valueBuffer).Append(c);
 		}
 
 	yy_pop_state();
@@ -302,7 +303,7 @@ JHTMLScanner::HandleChar
 JBoolean
 JHTMLScanner::HandleGreekChar
 	(
-	const JCharacter c
+	const JUtf8Character& c
 	)
 {
 	JBoolean result = kJTrue;
@@ -318,7 +319,7 @@ JHTMLScanner::HandleGreekChar
 		(itsTagInfo->name).Clear();
 		(itsTagInfo->attr).CleanOut();
 
-		const JCharacter str[] = { c, '\0' };
+		JUtf8Byte* str = c.AllocateNullTerminatedBytes();
 		result = JI2B(HandleHTMLWord(str, itsMatchRange) && result);
 
 		itsTagInfo->name = "/font";
@@ -326,10 +327,12 @@ JHTMLScanner::HandleGreekChar
 									JIndexRange(itsMatchRange.last+1, itsMatchRange.last)) &&
 					  result);
 		(itsTagInfo->name).Clear();
+
+		jdelete str;
 		}
 	else
 		{
-		(itsTagInfo->valueBuffer).AppendCharacter(c);
+		(itsTagInfo->valueBuffer).Append(c);
 		}
 
 	yy_pop_state();
@@ -349,7 +352,7 @@ JHTMLScanner::HandleGreekChar
 JBoolean
 JHTMLScanner::HandleHTMLWord
 	(
-	const JCharacter*	word,
+	const JUtf8Byte*	word,
 	const JIndexRange&	range
 	)
 {
@@ -359,7 +362,7 @@ JHTMLScanner::HandleHTMLWord
 JBoolean
 JHTMLScanner::HandleHTMLWhitespace
 	(
-	const JCharacter*	space,
+	const JUtf8Byte*	space,
 	const JIndexRange&	range
 	)
 {
@@ -400,7 +403,7 @@ JBoolean
 JHTMLScanner::HandleHTMLError
 	(
 	const HTMLError		err,
-	const JCharacter*	errStr,
+	const JUtf8Byte*	errStr,
 	const JIndexRange&	range
 	)
 {

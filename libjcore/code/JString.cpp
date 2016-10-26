@@ -5,7 +5,7 @@
 	be sure to make the destructor virtual.
 
 	JStrings can contain NULL's, if they are constructed with the
-	JString(const JUtf8Byte* str, const JSize length) constructor.
+	JString(const JUtf8Byte* str, const JSize byteCount) constructor.
 	You must remember not to call Clib functions on the const JUtf8Byte* in
 	this case.
 
@@ -83,24 +83,8 @@ JString::JString
 
 JString::JString
 	(
-	const JUtf8Byte* str
-	)
-	:
-	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
-	itsByteCount(0),
-	itsCharacterCount(0),
-	itsAllocCount(0),
-	itsBlockSize(kDefaultBlockSize),
-	itsUCaseMap(NULL),
-	itsFirstIterator(NULL)
-{
-	CopyToPrivateString(str, strlen(str));
-}
-
-JString::JString
-	(
 	const JUtf8Byte*	str,
-	const JSize			length
+	const JSize			byteCount
 	)
 	:
 	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
@@ -111,7 +95,8 @@ JString::JString
 	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
-	CopyToPrivateString(length > 0 ? str : "", length);		// allow (NULL,0)
+	assert( IsValid(str, JUtf8ByteRange(1, byteCount)) );
+	CopyToPrivateString(byteCount > 0 ? str : "", byteCount);		// allow (NULL,0)
 }
 
 JString::JString
@@ -128,6 +113,7 @@ JString::JString
 	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
+	assert( IsValid(str, range) );
 	CopyToPrivateString(str + range.first-1, range.GetLength());
 }
 
@@ -305,16 +291,16 @@ void
 JString::CopyToPrivateString
 	(
 	const JUtf8Byte*	str,
-	const JSize			length
+	const JSize			byteCount
 	)
 {
 	assert( !(itsBytes <= str && str < itsBytes + itsByteCount) );
 
 	// ensure sufficient space
 
-	if (itsAllocCount < length || itsAllocCount == 0)
+	if (itsAllocCount < byteCount || itsAllocCount == 0)
 		{
-		itsAllocCount = length + itsBlockSize;
+		itsAllocCount = byteCount + itsBlockSize;
 
 		JUtf8Byte* newString = jnew JUtf8Byte [ itsAllocCount + 1 ];
 		assert( newString != NULL );
@@ -325,10 +311,10 @@ JString::CopyToPrivateString
 
 	// copy the characters to the new string
 
-	memcpy(itsBytes, str, length);
-	itsBytes[ length ] = '\0';
+	memcpy(itsBytes, str, byteCount);
+	itsBytes[ byteCount ] = '\0';
 
-	itsByteCount      = length;
+	itsByteCount      = byteCount;
 	itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
 
 	// TODO: notify iterators
@@ -410,10 +396,10 @@ void
 JString::Prepend
 	(
 	const JUtf8Byte*	str,
-	const JSize			length
+	const JSize			byteCount
 	)
 {
-	InsertBytes(1, str, length);
+	InsertBytes(1, str, byteCount);
 }
 
 /******************************************************************************
@@ -425,10 +411,10 @@ void
 JString::Append
 	(
 	const JUtf8Byte*	str,
-	const JSize			length
+	const JSize			byteCount
 	)
 {
-	InsertBytes(itsByteCount+1, str, length);
+	InsertBytes(itsByteCount+1, str, byteCount);
 }
 
 /******************************************************************************
@@ -1009,13 +995,13 @@ JString::EndsWith
 /******************************************************************************
  ConvertTo*
 
-	We cannot provide a public interface that takes char* + length because
-	strto*() does not provide this interface.  We use it internally as an
-	optimization since JStrings know their length.
+	We cannot provide a public interface that takes JUtf8Byte* + byteCount
+	because strto*() does not provide this interface.  We use it internally
+	as an optimization since JStrings know their length.
 
-	If we tried to provide the char* + length interface, we could not stop
-	strto*() from gobbling digits beyond length, which would obviously be an
-	error.
+	If we tried to provide the JUtf8Byte* + byteCount interface, we could
+	not stop strto*() from gobbling digits beyond byteCount, which would
+	obviously be an error.
 
  ******************************************************************************/
 
@@ -1032,14 +1018,14 @@ JBoolean
 JString::ConvertToFloat
 	(
 	const JUtf8Byte*	str,
-	const JSize			length,
+	const JSize			byteCount,
 	JFloat*				value
 	)
 {
-	if (IsHexValue(str, length))
+	if (IsHexValue(str, byteCount))
 		{
 		JUInt v;
-		const JBoolean ok = ConvertToUInt(str, length, &v);
+		const JBoolean ok = ConvertToUInt(str, byteCount, &v);
 		*value = v;
 		return ok;
 		}
@@ -1047,7 +1033,7 @@ JString::ConvertToFloat
 	jclear_errno();
 	char* endPtr;
 	*value = strtod(str, &endPtr);
-	if (jerrno_is_clear() && CompleteConversion(str, length, endPtr))
+	if (jerrno_is_clear() && CompleteConversion(str, byteCount, endPtr))
 		{
 		return kJTrue;
 		}
@@ -1072,13 +1058,13 @@ JBoolean
 JString::ConvertToInteger
 	(
 	const JUtf8Byte*	str,
-	const JSize			length,
+	const JSize			byteCount,
 	JInteger*			value,
 	const JSize			origBase
 	)
 {
 	JSize base = origBase;
-	if (IsHexValue(str, length))
+	if (IsHexValue(str, byteCount))
 		{
 		base = 0;	// let strtol notice "0x"
 		}
@@ -1086,7 +1072,7 @@ JString::ConvertToInteger
 	jclear_errno();
 	char* endPtr;
 	*value = strtol(str, &endPtr, base);
-	if (jerrno_is_clear() && CompleteConversion(str, length, endPtr))
+	if (jerrno_is_clear() && CompleteConversion(str, byteCount, endPtr))
 		{
 		return kJTrue;
 		}
@@ -1111,13 +1097,13 @@ JBoolean
 JString::ConvertToUInt
 	(
 	const JUtf8Byte*	str,
-	const JSize			length,
+	const JSize			byteCount,
 	JUInt*				value,
 	const JSize			origBase
 	)
 {
 	JSize base = origBase;
-	if (IsHexValue(str, length))
+	if (IsHexValue(str, byteCount))
 		{
 		base = 0;	// let strtoul notice "0x"
 		}
@@ -1126,11 +1112,11 @@ JString::ConvertToUInt
 		// We do not let strtoul() wrap negative numbers.
 
 		JIndex i=0;
-		while (i < length && isspace(str[i]))
+		while (i < byteCount && isspace(str[i]))
 			{
 			i++;
 			}
-		if (i < length && str[i] == '-')
+		if (i < byteCount && str[i] == '-')
 			{
 			*value = 0;
 			return kJFalse;
@@ -1140,7 +1126,7 @@ JString::ConvertToUInt
 	jclear_errno();
 	char* endPtr;
 	*value = strtoul(str, &endPtr, base);
-	if (jerrno_is_clear() && CompleteConversion(str, length, endPtr))
+	if (jerrno_is_clear() && CompleteConversion(str, byteCount, endPtr))
 		{
 		return kJTrue;
 		}
@@ -1162,16 +1148,16 @@ JBoolean
 JString::IsHexValue
 	(
 	const JUtf8Byte*	str,
-	const JSize			length
+	const JSize			byteCount
 	)
 {
 	JIndex i=0;
-	while (i < length && isspace(str[i]))
+	while (i < byteCount && isspace(str[i]))
 		{
 		i++;
 		}
 
-	return JI2B(i < length-2 && str[i] == '0' &&
+	return JI2B(i < byteCount-2 && str[i] == '0' &&
 				(str[i+1] == 'x' || str[i+1] == 'X'));
 }
 
@@ -1187,7 +1173,7 @@ JBoolean
 JString::CompleteConversion
 	(
 	const JUtf8Byte*	startPtr,
-	const JSize			length,
+	const JSize			byteCount,
 	const JUtf8Byte*	convEndPtr
 	)
 {
@@ -1196,7 +1182,7 @@ JString::CompleteConversion
 		return kJFalse;
 		}
 
-	const JUtf8Byte* endPtr = startPtr + length;
+	const JUtf8Byte* endPtr = startPtr + byteCount;
 	while (convEndPtr < endPtr)
 		{
 		if (!isspace(*convEndPtr))
@@ -1383,6 +1369,34 @@ JString::Print
 }
 
 /******************************************************************************
+ IsValid (static)
+
+ ******************************************************************************/
+
+JBoolean
+JString::IsValid
+	(
+	const JUtf8Byte*		str,
+	const JUtf8ByteRange&	range
+	)
+{
+	JSize charCount = 0;
+	JSize byteCount;
+	for (JIndex i = range.first-1; i < range.last; )
+		{
+		const JBoolean ok = JUtf8Character::GetCharacterByteCount(str + i, &byteCount);
+		if (!ok)
+			{
+			return kJFalse;
+			}
+		charCount++;
+		i += byteCount;
+		}
+
+	return kJTrue;
+}
+
+/******************************************************************************
  CountCharacters (static)
 
  ******************************************************************************/
@@ -1395,10 +1409,13 @@ JString::CountCharacters
 	)
 {
 	JSize charCount = 0;
+	JSize byteCount;
 	for (JIndex i = range.first-1; i < range.last; )
 		{
+		const JBoolean ok = JUtf8Character::GetCharacterByteCount(str + i, &byteCount);
+		assert( ok );
 		charCount++;
-		i += JUtf8Character::GetCharacterByteCount(str + i);
+		i += byteCount;
 		}
 
 	return charCount;
@@ -1419,6 +1436,7 @@ JString::CharacterToUtf8ByteRange
 	JSize charCount = 0, startByte = 0;
 
 	JIndex i = 1;
+	JSize byteCount;
 	while (str[ i-1 ] != 0)
 		{
 		if (charCount >= range.first-1)
@@ -1427,8 +1445,10 @@ JString::CharacterToUtf8ByteRange
 			break;
 			}
 
+		const JBoolean ok = JUtf8Character::GetCharacterByteCount(str + i-1, &byteCount);
+		assert( ok );
 		charCount++;
-		i += JUtf8Character::GetCharacterByteCount(str + i-1);
+		i += byteCount;
 		}
 
 	if (startByte == 0)
@@ -1441,7 +1461,9 @@ JString::CharacterToUtf8ByteRange
 	charCount = range.GetLength();
 	for (JIndex i=1; i<charCount; i++)	// when i==charCount, we have gone to far
 		{
-		r.last += JUtf8Character::GetCharacterByteCount(str + r.last-1);
+		const JBoolean ok = JUtf8Character::GetCharacterByteCount(str + r.last-1, &byteCount);
+		assert( ok );
+		r.last += byteCount;
 		}
 
 	return r;
@@ -1536,36 +1558,16 @@ jDiffChars
 JSize
 JString::CalcMatchLength
 	(
-	const JUtf8Byte*	s1,
-	const JUtf8Byte*	s2,
-	const JBoolean		caseSensitive
+	const JString&	s1,
+	const JString&	s2,
+	const JBoolean	caseSensitive
 	)
 {
-	// separate implementation to avoid unnecessary calls to strlen()
+	// TODO: utf8
 
 	JSize i = 0;
-	while (jDiffChars(s1[i], s2[i], caseSensitive) == 0 &&
-		   s1[i] != '\0')	// kJTrue => s2[i] != '\0'
-		{
-		i++;
-		}
-	return i;
-}
-
-JSize
-JString::CalcMatchLength
-	(
-	const JUtf8Byte*	s1,
-	const JSize			length1,
-	const JUtf8Byte*	s2,
-	const JSize			length2,
-	const JBoolean		caseSensitive
-	)
-{
-	JSize i = 0;
-	while (i < length1 && i < length2 &&
-		   jDiffChars(s1[i], s2[i], caseSensitive) == 0 &&
-		   s1[i] != '\0')	// kJTrue => s2[i] != '\0'
+	while (jDiffChars(s1.GetBytes()[i], s2.GetBytes()[i], caseSensitive) == 0 &&
+		   s1.GetBytes()[i] != '\0')	// kJTrue => s2[i] != '\0'
 		{
 		i++;
 		}
@@ -1573,25 +1575,26 @@ JString::CalcMatchLength
 }
 
 /******************************************************************************
- CopyMaxN (static)
+ CopyBytes (static)
 
-	A version of strncpy() without the horrible bug.  In addition, it returns
-	kJTrue if the entire string was copied or kJFalse if it wasn't, since the
-	strncpy() return value is totally useless.  The name maxBytes should remind
-	you that there must also be room for a null terminator.
+	A version of strncpy() without the horrible bug - the result is
+	guaranteed to be NULL terminated.  In addition, it returns kJTrue if
+	the entire string was copied or kJFalse if it wasn't, since the
+	strncpy() return value is totally useless.  The name maxBytes should
+	remind you that there must also be room for a null terminator - at most
+	maxBytes-1 characters are actually copied.
 
  *****************************************************************************/
 
 JBoolean
-JString::CopyMaxN
+JString::CopyBytes
 	(
 	const JUtf8Byte*	source,
 	const JIndex		maxBytes,
 	JUtf8Byte*			destination
 	)
 {
-	JIndex i;
-	for (i=0; i<maxBytes; i++)
+	for (JIndex i=0; i<maxBytes-1; i++)
 		{
 		destination[i] = source[i];
 		if (destination[i] == '\0')
@@ -1601,7 +1604,7 @@ JString::CopyMaxN
 		}
 
 	destination[maxBytes-1] = '\0';
-	return kJFalse;
+	return JI2B( source[maxBytes-1] == '\0' );
 }
 
 /******************************************************************************

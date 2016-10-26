@@ -150,7 +150,7 @@ CBSymbolList::IsUniqueClassName
 	for (JIndex i=0; i<symCount; i++)
 		{
 		if (IsClass(sym[i].type) &&
-			JStringCompare(*(sym[i].name), name, CBIsCaseSensitive(sym[i].lang)) == 0)
+			JString::Compare(*(sym[i].name), name, CBIsCaseSensitive(sym[i].lang)) == 0)
 			{
 			if (!found)
 				{

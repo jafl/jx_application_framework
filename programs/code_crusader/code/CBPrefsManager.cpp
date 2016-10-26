@@ -1608,7 +1608,7 @@ CBPrefsManager::FindMacroName
 		{
 		const MacroSetInfo macroInfo = macroList->GetElement(i);
 		maxID = JMax(maxID, macroInfo.id);
-		if (JStringCompare(macroName, *(macroInfo.name), kJFalse) == 0)
+		if (JString::Compare(macroName, *(macroInfo.name), kJFalse) == 0)
 			{
 			return macroInfo.id;
 			}
@@ -1661,7 +1661,7 @@ CBPrefsManager::FindCRMRuleListName
 	for (JIndex i=1; i<=crmCount; i++)
 		{
 		const CRMRuleListInfo crmInfo = crmList.GetElement(i);
-		if (JStringCompare(crmName, *(crmInfo.name), kJFalse) == 0)
+		if (JString::Compare(crmName, *(crmInfo.name), kJFalse) == 0)
 			{
 			return crmInfo.id;
 			}

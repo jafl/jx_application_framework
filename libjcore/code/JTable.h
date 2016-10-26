@@ -9,7 +9,7 @@
 #define _H_JTable
 
 #include <JRunArray.h>
-#include <JPtrArray.h>
+#include <JPtrArray-JString.h>
 #include <JRect.h>
 #include <jColor.h>
 
@@ -196,7 +196,7 @@ protected:
 								   const JBoolean selectDiscont);
 	void		ContinueSelectionDrag(const JPoint& cell);
 	void		FinishSelectionDrag();
-	JBoolean	HandleSelectionKeyPress(const JCharacter key,
+	JBoolean	HandleSelectionKeyPress(const JUtf8Character& key,
 										const JBoolean extendSelection);
 
 	void	AdjustToTableData();
@@ -307,23 +307,23 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kRowHeightChanged;
-	static const JCharacter* kAllRowHeightsChanged;
-	static const JCharacter* kRowsInserted;
-	static const JCharacter* kRowsRemoved;
-	static const JCharacter* kRowMoved;
-	static const JCharacter* kRowBorderWidthChanged;
+	static const JUtf8Byte* kRowHeightChanged;
+	static const JUtf8Byte* kAllRowHeightsChanged;
+	static const JUtf8Byte* kRowsInserted;
+	static const JUtf8Byte* kRowsRemoved;
+	static const JUtf8Byte* kRowMoved;
+	static const JUtf8Byte* kRowBorderWidthChanged;
 
-	static const JCharacter* kColWidthChanged;
-	static const JCharacter* kAllColWidthsChanged;
-	static const JCharacter* kColsInserted;
-	static const JCharacter* kColsRemoved;
-	static const JCharacter* kColMoved;
-	static const JCharacter* kColBorderWidthChanged;
+	static const JUtf8Byte* kColWidthChanged;
+	static const JUtf8Byte* kAllColWidthsChanged;
+	static const JUtf8Byte* kColsInserted;
+	static const JUtf8Byte* kColsRemoved;
+	static const JUtf8Byte* kColMoved;
+	static const JUtf8Byte* kColBorderWidthChanged;
 
-	static const JCharacter* kPrepareForTableDataMessage;	// message from JTableData
-	static const JCharacter* kPrepareForTableDataChange;	// about to switch to different JTableData
-	static const JCharacter* kTableDataChanged;				// now using different JTableData
+	static const JUtf8Byte* kPrepareForTableDataMessage;	// message from JTableData
+	static const JUtf8Byte* kPrepareForTableDataChange;	// about to switch to different JTableData
+	static const JUtf8Byte* kTableDataChanged;				// now using different JTableData
 
 protected:
 
@@ -333,7 +333,7 @@ protected:
 		{
 		public:
 
-			RowColMessage(const JCharacter* type,
+			RowColMessage(const JUtf8Byte* type,
 						  const JIndex firstIndex, const JSize count)
 				:
 				JBroadcaster::Message(type),
@@ -376,7 +376,7 @@ protected:
 		{
 		public:
 
-			RowColMoved(const JCharacter* type,
+			RowColMoved(const JUtf8Byte* type,
 						const JIndex origIndex, const JIndex newIndex)
 				:
 				JBroadcaster::Message(type),
@@ -408,7 +408,7 @@ protected:
 		{
 		public:
 
-			BorderWidthChanged(const JCharacter* type,
+			BorderWidthChanged(const JUtf8Byte* type,
 							   const JCoordinate origBorderWidth,
 							   const JCoordinate newBorderWidth)
 				:

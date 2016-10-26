@@ -20,7 +20,7 @@ public:
 
 	virtual ~JTextChooseSaveFile();
 
-	virtual JBoolean ChooseFile(const JUtf8Byte& prompt,
+	virtual JBoolean ChooseFile(const JString& prompt,
 								const JString* instructions,		// can be NULL
 								JString* fullName);
 	virtual JBoolean ChooseFile(const JString& prompt,

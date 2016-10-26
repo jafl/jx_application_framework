@@ -182,7 +182,7 @@ JGetUserMountPointList
 		const JMountType type =
 			JGetUserMountPointType(*path, *devicePath, "");
 		if (type == kJUnknownMountType ||
-			ACE_OS::stat(*path, &stbuf) != 0)
+			ACE_OS::stat(path->GetBytes(), &stbuf) != 0)
 			{
 			jdelete path;
 			jdelete devicePath;
@@ -254,7 +254,7 @@ JGetUserMountPointList
 				}
 
 			JFileSystemType fsType = kOtherFSType;
-			if (JStringCompare(info->fs_vfstype, "vfat", kJFalse) == 0)
+			if (JString::Compare(info->fs_vfstype, "vfat", kJFalse) == 0)
 				{
 				fsType = kVFATType;
 				}
@@ -323,7 +323,7 @@ JGetUserMountPointList
 				}
 
 			JFileSystemType fsType = kOtherFSType;
-			if (JStringCompare(info.fs_vfstype, "vfat", kJFalse) == 0)
+			if (JString::Compare(info.fs_vfstype, "vfat", kJFalse) == 0)
 				{
 				fsType = kVFATType;
 				}
@@ -418,7 +418,7 @@ JGetUserMountPointList
 			}
 
 		JFileSystemType fsType = kOtherFSType;
-		if (JStringCompare(info->mnt_type, "vfat", kJFalse) == 0)
+		if (JString::Compare(info->mnt_type, "vfat", kJFalse) == 0)
 			{
 			fsType = kVFATType;
 			}
@@ -623,7 +623,7 @@ JIsMounted
 	)
 {
 	struct stat stbuf1, stbuf2;
-	if (stat(path, &stbuf1) != 0)
+	if (stat(path.GetBytes(), &stbuf1) != 0)
 		{
 		return kJFalse;
 		}
@@ -656,8 +656,8 @@ JIsMounted
 			if (fsType != NULL)
 				{
 				*fsType = kOtherFSType;
-				if (JStringCompare(info[i].f_fstypename, "vfat", kJFalse) == 0 ||	// UNIX
-					JStringCompare(info[i].f_fstypename, "msdos", kJFalse) == 0)	// OSX
+				if (JString::Compare(info[i].f_fstypename, "vfat", kJFalse) == 0 ||	// UNIX
+					JString::Compare(info[i].f_fstypename, "msdos", kJFalse) == 0)	// OSX
 					{
 					*fsType = kVFATType;
 					}
@@ -723,7 +723,7 @@ JIsMounted
 			if (fsType != NULL)
 				{
 				*fsType = kOtherFSType;
-				if (JStringCompare(info.mnt_fstype, "vfat", kJFalse) == 0)
+				if (JString::Compare(info.mnt_fstype, "vfat", kJFalse) == 0)
 					{
 					*fsType = kVFATType;
 					}
@@ -789,7 +789,7 @@ JIsMounted
 			if (fsType != NULL)
 				{
 				*fsType = kOtherFSType;
-				if (JStringCompare(info->mnt_type, "vfat", kJFalse) == 0)
+				if (JString::Compare(info->mnt_type, "vfat", kJFalse) == 0)
 					{
 					*fsType = kVFATType;
 					}
@@ -855,7 +855,7 @@ JIsMounted
 			if (fsType != NULL)
 				{
 				*fsType = kOtherFSType;
-				if (JStringCompare(info->mnt_type, "vfat", kJFalse) == 0)
+				if (JString::Compare(info->mnt_type, "vfat", kJFalse) == 0)
 					{
 					*fsType = kVFATType;
 					}
@@ -892,7 +892,7 @@ JFindUserMountPoint
 	*index = 0;
 
 	struct stat stbuf;
-	if (stat(path, &stbuf) != 0)
+	if (stat(path.GetBytes(), &stbuf) != 0)
 		{
 		return kJFalse;
 		}
@@ -929,7 +929,7 @@ JMount
 	const JBoolean	block
 	)
 {
-	const JUtf8Byte* argv[] = { mount ? "mount" : "umount", path, NULL };
+	const JUtf8Byte* argv[] = { mount ? "mount" : "umount", path.GetBytes(), NULL };
 	pid_t pid;
 	JExecute(argv, sizeof(argv), block ? (pid_t*) NULL : &pid,
 			 kJIgnoreConnection, NULL,

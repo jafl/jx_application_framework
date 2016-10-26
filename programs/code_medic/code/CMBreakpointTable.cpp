@@ -758,7 +758,7 @@ CMBreakpointTable::CompareBreakpointLocations
 	CMBreakpoint* const & bp2
 	)
 {
-	int r = JStringCompare(
+	int r = JString::Compare(
 		bp1->GetFileName().GetCString() + cmFileNameOffset(bp1),
 		bp2->GetFileName().GetCString() + cmFileNameOffset(bp2), kJFalse);
 	if (r > 0)

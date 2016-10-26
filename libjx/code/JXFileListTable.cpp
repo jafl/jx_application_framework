@@ -485,7 +485,7 @@ JIndex i;
 		const VisInfo info  = itsVisibleList->GetElement(lastIndex);
 		const JCharacter* n =
 			(itsFileList->NthElement(info.fileIndex))->GetCString() + info.nameIndex-1;
-		if (JStringCompare(n, fileName, kJFalse) != 0)
+		if (JString::Compare(n, fileName, kJFalse) != 0)
 			{
 			break;
 			}
@@ -1127,7 +1127,7 @@ JXFileListTable::PrefixMatch::Compare
 		 itsPrefix.GetCString() :
 		 (itsFileList.NthElement(i2.fileIndex))->GetCString() + i2.nameIndex-1);
 
-	const int r = JStringCompare(s1, s2, kJFalse);
+	const int r = JString::Compare(s1, s2, kJFalse);
 	if (r > 0)
 		{
 		return JOrderedSetT::kFirstGreaterSecond;

@@ -96,15 +96,14 @@ JAreEqual
 		{
 		return kJTrue;
 		}
-	else if (msg != NULL)
-		{
-		JUnitTestManager::Instance()->ReportFailure(msg, file, line);
-		return kJFalse;
-		}
 	else
 		{
 		std::ostringstream s;
-		s << "Values are not equal." 
+		if (msg != NULL)
+			{
+			s << msg << ": ";
+			}
+		s << "Values are not equal."
 		  << "  Expected " << expectedValue
 		  << " but got " << actualValue;
 

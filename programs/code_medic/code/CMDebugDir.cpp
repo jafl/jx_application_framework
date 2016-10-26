@@ -149,7 +149,7 @@ CMDebugDir::Receive
 			itsFile << msg->GetText();
 			itsFile << endl;
 			}
-		else if (JStringCompare(message.GetType(), CMLink::kUserOutput, kJTrue) != 0)
+		else if (JString::Compare(message.GetType(), CMLink::kUserOutput, kJTrue) != 0)
 			{
 			itsText->Paste(kLogPrefix);
 			itsText->Paste(message.GetType());

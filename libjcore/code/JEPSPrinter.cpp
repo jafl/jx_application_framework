@@ -40,7 +40,7 @@
 // setup information
 
 const JFileVersion kCurrentSetupVersion = 0;
-const JCharacter kSetupDataEndDelimiter = '\1';
+const JUtf8Byte kSetupDataEndDelimiter = '\1';
 
 /******************************************************************************
  Constructor
@@ -378,7 +378,7 @@ JEPSPrinter::String
 	(
 	const JCoordinate	left,
 	const JCoordinate	top,
-	const JCharacter*	str,
+	const JString&		str,
 	const JCoordinate	width,
 	const HAlignment	hAlign,
 	const JCoordinate	height,
@@ -400,7 +400,7 @@ JEPSPrinter::String
 	const JFloat		userAngle,
 	const JCoordinate	left,
 	const JCoordinate	top,
-	const JCharacter*	str,
+	const JString&		str,
 	const JCoordinate	width,
 	const HAlignment	hAlign,
 	const JCoordinate	height,

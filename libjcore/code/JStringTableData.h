@@ -26,9 +26,6 @@ public:
 	const JString&	GetString(const JIndex row, const JIndex col) const;
 	const JString&	GetString(const JPoint& cell) const;
 
-	void	SetString(const JIndex row, const JIndex col, const JCharacter* str);
-	void	SetString(const JPoint& cell, const JCharacter* str);
-
 	void	SetString(const JIndex row, const JIndex col, const JString& s);
 	void	SetString(const JPoint& cell, const JString& s);
 

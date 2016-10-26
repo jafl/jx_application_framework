@@ -148,7 +148,7 @@ private:
 private:
 
 	void	JDirInfoX(const JDirInfo& source);
-	void	AllocateCWD(const JString& dirName);
+	void	BuildCWD(const JString& dirName);
 	void	PrivateCopySettings(const JDirInfo& source);
 	void	CopyDirEntries(const JDirInfo& source);
 
@@ -241,7 +241,7 @@ inline const JString&
 JDirInfo::GetDirectory()
 	const
 {
-	return *itsCWD;
+	return itsCWD;
 }
 
 /******************************************************************************

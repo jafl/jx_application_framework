@@ -3,7 +3,12 @@ convert all functions to use JString intead of JUtf8Byte*
 
 analyze all uses of toupper/lower - not all languages do this by single character
 
+JString & JUtf8Character
+	assert( IsValid() ) on all input:  ctor, set, append, prepend, etc
+
 test every JUtf8Character & JString function on empty/blank string
+
+re-evaluate all uses of JIndexRange - character or utf8byte?
 
 -----
 

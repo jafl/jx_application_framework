@@ -23,13 +23,13 @@ class JColormap;
 class JWebBrowser;
 
 void JInitCore(JAssertBase* ah = NULL, const JUtf8Byte* appSignature = NULL,
-			   const JString* defaultStringData = NULL, JUserNotification* un = NULL,
+			   const JUtf8Byte** defaultStringData = NULL, JUserNotification* un = NULL,
 			   JChooseSaveFile* csf = NULL, JCreateProgressDisplay* cpg = NULL,
 			   JGetCurrentFontManager* gcfm = NULL,
 			   JGetCurrentColormap* gcc = NULL,
-			   const JString& defaultFontName = NULL,
-			   const JString& greekFontName = NULL,
-			   const JString& monospaceFontName = NULL);
+			   const JString* defaultFontName = NULL,
+			   const JString* greekFontName = NULL,
+			   const JString* monospaceFontName = NULL);
 void JSetWebBrowser(JWebBrowser* webBrowser);
 
 void JDeleteGlobals();

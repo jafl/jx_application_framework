@@ -138,10 +138,6 @@ T
 F
 "./code/JHistogram.h"
 T
-2 "JHistogram.tmpls"
-F
-"./code/JHistogram.tmpls"
-T
 2 "JDynamicHistogram.h"
 F
 "./code/JDynamicHistogram.h"
@@ -538,33 +534,17 @@ T
 F
 "./code/JAuxTableData.h"
 T
-2 "JAuxTableData.tmpls"
-F
-"./code/JAuxTableData.tmpls"
-T
 2 "JObjTableData.h"
 F
 "./code/JObjTableData.h"
-T
-2 "JObjTableData.tmpls"
-F
-"./code/JObjTableData.tmpls"
 T
 2 "JPackedTableData.h"
 F
 "./code/JPackedTableData.h"
 T
-2 "JPackedTableData.tmpls"
-F
-"./code/JPackedTableData.tmpls"
-T
 2 "JValueTableData.h"
 F
 "./code/JValueTableData.h"
-T
-2 "JValueTableData.tmpls"
-F
-"./code/JValueTableData.tmpls"
 F
 T
 1 "tree"

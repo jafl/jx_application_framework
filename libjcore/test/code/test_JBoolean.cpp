@@ -11,6 +11,11 @@
 #include <sstream>
 #include <jassert_simple.h>
 
+int main()
+{
+	JUnitTestManager::Execute();
+}
+
 JTEST(Values)
 {
 	JAssertTrue(kJTrue);
@@ -59,9 +64,4 @@ JTEST(Write)
 	std::ostringstream s;
 	s << kJTrue << kJFalse;
 	JAssertStringsEqual("TF", s.str().c_str());
-}
-
-int main()
-{
-	JUnitTestManager::Execute();
 }

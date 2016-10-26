@@ -808,11 +808,11 @@ CBClass::Implements
 		for( ; i<=fnCount; i++)
 			{
 			const FunctionInfo info = itsFunctionInfo->GetElement(i);
-			if (JStringCompare(name, *(info.name), kJFalse) != 0)
+			if (JString::Compare(name, *(info.name), kJFalse) != 0)
 				{
 				break;
 				}
-			if (JStringCompare(name, *(info.name), kJTrue) == 0)
+			if (JString::Compare(name, *(info.name), kJTrue) == 0)
 				{
 				return kJTrue;
 				}

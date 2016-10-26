@@ -215,7 +215,7 @@ JFont::GetStringWidth
 	const
 {
 	assert( itsFontMgr != NULL );
-	return itsFontMgr->GetStringWidth(itsID, str.GetBytes(), str.GetByteCount());
+	return itsFontMgr->GetStringWidth(itsID, str);
 }
 
 JSize

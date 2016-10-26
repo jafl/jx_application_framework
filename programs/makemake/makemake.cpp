@@ -1997,7 +1997,7 @@ CompareHeaderFiles
 	const HeaderDep& h2
 	)
 {
-	const int r = JStringCompare(*(h1.fileName), *(h2.fileName), kJTrue);
+	const int r = JString::Compare(*(h1.fileName), *(h2.fileName), kJTrue);
 
 	if (r > 0)
 		{

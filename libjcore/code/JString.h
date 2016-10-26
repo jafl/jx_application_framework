@@ -50,8 +50,8 @@ public:
 	JString();
 	JString(const JString& str);
 	JString(const JString& str, const JCharacterRange& range);
-	JString(const JUtf8Byte* str);
-	JString(const JUtf8Byte* str, const JSize length);
+//	JString(const JUtf8Byte* str);		// disallow automatic conversion
+	JString(const JUtf8Byte* str, const JSize byteCount);
 	JString(const JUtf8Byte* str, const JUtf8ByteRange& range);
 	JString(const std::string& str);
 	JString(const std::string& str, const JUtf8ByteRange& range);
@@ -75,7 +75,7 @@ public:
 	void	Set(const JString& str);
 	void	Set(const JString& str, const JCharacterRange& range);
 	void	Set(const JUtf8Byte* str);
-	void	Set(const JUtf8Byte* str, const JSize length);
+	void	Set(const JUtf8Byte* str, const JSize byteCount);
 	void	Set(const JUtf8Byte* str, const JUtf8ByteRange& range);
 	void	Set(const std::string& str);
 	void	Set(const std::string& str, const JUtf8ByteRange& range);
@@ -101,7 +101,7 @@ public:
 	JBoolean	BeginsWith(const JString& str, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	BeginsWith(const JString& str, const JCharacterRange& range, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	BeginsWith(const JUtf8Byte* str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	BeginsWith(const JUtf8Byte* str, const JSize length, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	BeginsWith(const JUtf8Byte* str, const JSize byteCount, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	BeginsWith(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	BeginsWith(const JUtf8Character& c, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	BeginsWith(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
@@ -110,7 +110,7 @@ public:
 	JBoolean	Contains(const JString& str, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	Contains(const JString& str, const JCharacterRange& range, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	Contains(const JUtf8Byte* str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	Contains(const JUtf8Byte* str, const JSize length, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	Contains(const JUtf8Byte* str, const JSize byteCount, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	Contains(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	Contains(const JUtf8Character& c, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	Contains(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
@@ -119,7 +119,7 @@ public:
 	JBoolean	EndsWith(const JString& str, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	EndsWith(const JString& str, const JCharacterRange& range, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	EndsWith(const JUtf8Byte* str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	EndsWith(const JUtf8Byte* str, const JSize length, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	EndsWith(const JUtf8Byte* str, const JSize byteCount, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	EndsWith(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	EndsWith(const JUtf8Character& c, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	EndsWith(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
@@ -153,13 +153,13 @@ public:
 
 	void	Prepend(const JString& str);
 	void	Prepend(const JUtf8Byte* str);
-	void	Prepend(const JUtf8Byte* str, const JSize length);
+	void	Prepend(const JUtf8Byte* str, const JSize byteCount);
 	void	Prepend(const std::string& str);
 	void	Prepend(const JUtf8Character& c);
 
 	void	Append(const JString& str);
 	void	Append(const JUtf8Byte* str);
-	void	Append(const JUtf8Byte* str, const JSize length);
+	void	Append(const JUtf8Byte* str, const JSize byteCount);
 	void	Append(const std::string& str);
 	void	Append(const JUtf8Character& c);
 
@@ -176,33 +176,36 @@ public:
 	JBoolean	ConvertToUInt(JUInt* value, const JSize base = 10) const;
 
 	static JBoolean	IsFloat(const JUtf8Byte* str);
-	static JBoolean	IsFloat(const JUtf8Byte* str, const JSize length);
+	static JBoolean	IsFloat(const JUtf8Byte* str, const JSize byteCount);
 	static JBoolean	ConvertToFloat(const JUtf8Byte* str, JFloat* value);
-	static JBoolean	ConvertToFloat(const JUtf8Byte* str, const JSize length,
+	static JBoolean	ConvertToFloat(const JUtf8Byte* str, const JSize byteCount,
 								   JFloat* value);
 
 	static JBoolean	IsInteger(const JUtf8Byte* str, const JSize base = 10);
-	static JBoolean	IsInteger(const JUtf8Byte* str, const JSize length, const JSize base);
+	static JBoolean	IsInteger(const JUtf8Byte* str, const JSize byteCount, const JSize base);
 	static JBoolean	ConvertToInteger(const JUtf8Byte* str,
 									 JInteger* value, const JSize base = 10);
-	static JBoolean	ConvertToInteger(const JUtf8Byte* str, const JSize length,
+	static JBoolean	ConvertToInteger(const JUtf8Byte* str, const JSize byteCount,
 									 JInteger* value, const JSize base = 10);
 
 	static JBoolean	IsUInt(const JUtf8Byte* str, const JSize base = 10);
-	static JBoolean	IsUInt(const JUtf8Byte* str, const JSize length, const JSize base);
+	static JBoolean	IsUInt(const JUtf8Byte* str, const JSize byteCount, const JSize base);
 	static JBoolean	IsHexValue(const JUtf8Byte* str);
-	static JBoolean	IsHexValue(const JUtf8Byte* str, const JSize length);
+	static JBoolean	IsHexValue(const JUtf8Byte* str, const JSize byteCount);
 	static JBoolean	ConvertToUInt(const JUtf8Byte* str,
 								  JUInt* value, const JSize base = 10);
-	static JBoolean	ConvertToUInt(const JUtf8Byte* str, const JSize length,
+	static JBoolean	ConvertToUInt(const JUtf8Byte* str, const JSize byteCount,
 								  JUInt* value, const JSize base = 10);
 
 	// utility functions
 
 	static JBoolean	IsEmpty(const JUtf8Byte* s);
+	static JBoolean	IsEmpty(const JString* s);
 
+	static JBoolean			IsValid(const JUtf8Byte* s);
+	static JBoolean			IsValid(const JUtf8Byte* s, const JUtf8ByteRange& range);
 	static JSize			CountCharacters(const JUtf8Byte* str);
-	static JSize			CountCharacters(const JUtf8Byte* str, const JSize length);
+	static JSize			CountCharacters(const JUtf8Byte* str, const JSize byteCount);
 	static JSize			CountCharacters(const JUtf8Byte* str, const JUtf8ByteRange& range);
 	static JUtf8ByteRange	CharacterToUtf8ByteRange(const JUtf8Byte* str, const JCharacterRange& range);
 
@@ -212,21 +215,18 @@ public:
 	static int Compare(const JUtf8Byte* s1, const JUtf8Byte* s2, const JBoolean caseSensitive = kJTrue);
 	static int Compare(const JString& s1, const std::string& s2, const JBoolean caseSensitive = kJTrue);
 	static int Compare(const std::string& s1, const JString& s2, const JBoolean caseSensitive = kJTrue);
-	static int Compare(const JUtf8Byte* s1, const JSize length1,
-					   const JUtf8Byte* s2, const JSize length2,
+	static int Compare(const JUtf8Byte* s1, const JSize byteCount1,
+					   const JUtf8Byte* s2, const JSize byteCount2,
 					   const JBoolean caseSensitive = kJTrue);
 
 	static int	CompareMaxN(const JUtf8Byte* s1, const JUtf8Byte* s2, const JSize N,
 								const JBoolean caseSensitive = kJTrue);
 
-	static JSize	CalcMatchLength(const JUtf8Byte* s1, const JUtf8Byte* s2,
-									const JBoolean caseSensitive = kJTrue);
-	static JSize	CalcMatchLength(const JUtf8Byte* s1, const JSize length1,
-									const JUtf8Byte* s2, const JSize length2,
+	static JSize	CalcMatchLength(const JString& s1, const JString& s2,
 									const JBoolean caseSensitive = kJTrue);
 
-	static JBoolean	CopyMaxN(const JUtf8Byte* source, const JIndex maxBytes,
-							 JUtf8Byte* destination);
+	static JBoolean	CopyBytes(const JUtf8Byte* source, const JIndex maxBytes,
+							  JUtf8Byte* destination);
 
 private:
 
@@ -241,17 +241,17 @@ private:
 
 private:
 
-	void	CopyToPrivateString(const JUtf8Byte* str, const JSize length);
+	void	CopyToPrivateString(const JUtf8Byte* str, const JSize byteCount);
 
-	JBoolean	SearchForward(const JUtf8Byte* str, const JSize strLength,
+	JBoolean	SearchForward(const JUtf8Byte* str, const JSize strByteCount,
 							  const JBoolean caseSensitive, JIndex* startIndex) const;
-	JBoolean	SearchBackward(const JUtf8Byte* str, const JSize strLength,
+	JBoolean	SearchBackward(const JUtf8Byte* str, const JSize strByteCount,
 							   const JBoolean caseSensitive, JIndex* startIndex) const;
 
 	void	InsertBytes(const JIndex insertionIndex,
-						const JUtf8Byte* stringToInsert, const JSize insertLength);
+						const JUtf8Byte* stringToInsert, const JSize insertByteCount);
 	void	ReplaceBytes(const JIndex firstByteIndex, const JIndex lastByteIndex,
-						 const JUtf8Byte* stringToInsert, const JSize insertLength);
+						 const JUtf8Byte* stringToInsert, const JSize insertByteCount);
 
 	void		FoldCase(const JBoolean upper);
 	JBoolean	MatchCase(const JUtf8Byte* source, const JUtf8ByteRange& sourceRange,
@@ -261,7 +261,7 @@ private:
 
 	JUtf8ByteRange	CharacterToUtf8ByteRange(const JCharacterRange& range) const;
 
-	static JBoolean	CompleteConversion(const JUtf8Byte* startPtr, const JSize length,
+	static JBoolean	CompleteConversion(const JUtf8Byte* startPtr, const JSize byteCount,
 									   const JUtf8Byte* convEndPtr);
 };
 
@@ -302,6 +302,15 @@ JString::IsEmpty
 	)
 {
 	return JI2B( s == NULL || s[0] == '\0' );
+}
+
+inline JBoolean
+JString::IsEmpty
+	(
+	const JString* s
+	)
+{
+	return JI2B( s == NULL || s->IsEmpty() );
 }
 
 /******************************************************************************
@@ -401,6 +410,20 @@ JString::CharacterToUtf8ByteRange
 }
 
 /******************************************************************************
+ IsValid
+
+ ******************************************************************************/
+
+inline JBoolean
+JString::IsValid
+	(
+	const JUtf8Byte* str
+	)
+{
+	return IsValid(str, JUtf8ByteRange(1, strlen(str)));
+}
+
+/******************************************************************************
  CountCharacters
 
  ******************************************************************************/
@@ -418,10 +441,10 @@ inline JSize
 JString::CountCharacters
 	(
 	const JUtf8Byte*	str,
-	const JSize			length
+	const JSize			byteCount
 	)
 {
-	return CountCharacters(str, JUtf8ByteRange(1, length));
+	return CountCharacters(str, JUtf8ByteRange(1, byteCount));
 }
 
 /******************************************************************************
@@ -467,12 +490,12 @@ inline JBoolean
 JString::BeginsWith
 	(
 	const JUtf8Byte*	str,
-	const JSize			length,
+	const JSize			byteCount,
 	const JBoolean		caseSensitive
 	)
 	const
 {
-	return BeginsWith(str, JUtf8ByteRange(1, length), caseSensitive);
+	return BeginsWith(str, JUtf8ByteRange(1, byteCount), caseSensitive);
 }
 
 inline JBoolean
@@ -552,12 +575,12 @@ inline JBoolean
 JString::Contains
 	(
 	const JUtf8Byte*	str,
-	const JSize			length,
+	const JSize			byteCount,
 	const JBoolean		caseSensitive
 	)
 	const
 {
-	return Contains(str, JUtf8ByteRange(1, length), caseSensitive);
+	return Contains(str, JUtf8ByteRange(1, byteCount), caseSensitive);
 }
 
 inline JBoolean
@@ -637,12 +660,12 @@ inline JBoolean
 JString::EndsWith
 	(
 	const JUtf8Byte*	str,
-	const JSize			length,
+	const JSize			byteCount,
 	const JBoolean		caseSensitive
 	)
 	const
 {
-	return EndsWith(str, JUtf8ByteRange(1, length), caseSensitive);
+	return EndsWith(str, JUtf8ByteRange(1, byteCount), caseSensitive);
 }
 
 inline JBoolean
@@ -916,7 +939,7 @@ operator+
 	const JString&		s
 	)
 {
-	JString sum = str;
+	JString sum(str, strlen(str));
 	sum += s;
 	return sum;
 }
@@ -948,7 +971,7 @@ operator+
 /******************************************************************************
  Equality (case-sensitive)
 
-	*** We have to use the version of JString::Compare() that takes lengths
+	*** We have to use the version of JString::Compare() that takes byte counts
 		because JStrings can contain NULLs.
 
  ******************************************************************************/
@@ -1060,7 +1083,7 @@ operator!=
 /******************************************************************************
  Comparison (case-insensitive)
 
-	*** We have to use the version of JString::Compare() that takes lengths
+	*** We have to use the version of JString::Compare() that takes byte counts
 		because JStrings can contain NULLs.
 
  ******************************************************************************/
@@ -1279,7 +1302,7 @@ operator>=
 
 	Replaces strcmp(): + if s1>s2, 0 if s1==s2, - if s1<s2
 
-	*** We have to use the version of Compare() that takes lengths
+	*** We have to use the version of Compare() that takes byte counts
 		because JStrings can contain NULLs.
 
  ******************************************************************************/
@@ -1394,10 +1417,10 @@ inline void
 JString::Set
 	(
 	const JUtf8Byte*	str,
-	const JSize			length
+	const JSize			byteCount
 	)
 {
-	CopyToPrivateString(str, length);
+	CopyToPrivateString(str, byteCount);
 }
 
 inline void
@@ -1541,11 +1564,11 @@ inline JBoolean
 JString::IsFloat
 	(
 	const JUtf8Byte*	str,
-	const JSize			length
+	const JSize			byteCount
 	)
 {
 	JFloat value;
-	return ConvertToFloat(str, length, &value);
+	return ConvertToFloat(str, byteCount, &value);
 }
 
 inline JBoolean
@@ -1563,12 +1586,12 @@ inline JBoolean
 JString::IsInteger
 	(
 	const JUtf8Byte*	str,
-	const JSize			length,
+	const JSize			byteCount,
 	const JSize			base
 	)
 {
 	JInteger value;
-	return ConvertToInteger(str, length, &value, base);
+	return ConvertToInteger(str, byteCount, &value, base);
 }
 
 inline JBoolean
@@ -1586,12 +1609,12 @@ inline JBoolean
 JString::IsUInt
 	(
 	const JUtf8Byte*	str,
-	const JSize			length,
+	const JSize			byteCount,
 	const JSize			base
 	)
 {
 	JUInt value;
-	return ConvertToUInt(str, length, &value, base);
+	return ConvertToUInt(str, byteCount, &value, base);
 }
 
 inline JBoolean

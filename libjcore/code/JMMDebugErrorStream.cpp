@@ -85,9 +85,9 @@ JMMDebugErrorStream::HandleArrayDeletedAsObject
 void
 JMMDebugErrorStream::HandleUnallocatedDeletion
 	(
-	const JCharacter* file,
-	const JUInt32     line,
-	const JBoolean    isArray
+	const JUtf8Byte* file,
+	const JUInt32    line,
+	const JBoolean   isArray
 	)
 {
 	JMemoryManager::SendError(
@@ -104,10 +104,10 @@ JMMDebugErrorStream::HandleUnallocatedDeletion
 void
 JMMDebugErrorStream::HandleMultipleDeletion
 	(
-	const JMMRecord&  originalRecord,
-	const JCharacter* file,
-	const JUInt32     line,
-	const JBoolean    isArray
+	const JMMRecord& originalRecord,
+	const JUtf8Byte* file,
+	const JUInt32    line,
+	const JBoolean   isArray
 	)
 {
 	JMemoryManager::SendError(
@@ -150,9 +150,9 @@ JMMDebugErrorStream::HandleMultipleAllocation
 void
 JMMDebugErrorStream::HandleNULLDeleted
 	(
-	const JCharacter* file,
-	const JUInt32     line,
-	const JBoolean    isArray
+	const JUtf8Byte* file,
+	const JUInt32    line,
+	const JBoolean   isArray
 	)
 {
 	JMemoryManager::SendError(

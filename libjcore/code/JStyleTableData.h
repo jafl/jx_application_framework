@@ -24,7 +24,7 @@ public:
 	virtual ~JStyleTableData();
 
 	const JFont&	GetFont() const;
-	void			SetFont(const JCharacter* name, const JSize size);
+	void			SetFont(const JString& name, const JSize size);
 	void			SetFont(const JFont& font);
 
 	JFontStyle	GetCellStyle(const JPoint& cell) const;
@@ -51,7 +51,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kFontChanged;
+	static const JUtf8Byte* kFontChanged;
 
 	class FontChanged : public JBroadcaster::Message
 		{

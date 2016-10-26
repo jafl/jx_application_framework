@@ -1187,7 +1187,7 @@ JVMLink::SetProgram
 
 	JString line;
 	if (!CMMDIServer::GetLanguage(fullName, &line) ||
-		JStringCompare(line, "java", kJFalse) != 0)
+		JString::Compare(line, "java", kJFalse) != 0)
 		{
 		const JString error = JGetString("ConfigFileWrongLanguage::JVMLink");
 		Broadcast(UserOutput(error, kJTrue));

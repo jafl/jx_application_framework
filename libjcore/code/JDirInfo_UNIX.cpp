@@ -31,7 +31,7 @@ JDirInfo::BuildInfo1
 
 	const JBoolean ignoreExecPermFlag = JI2B(
 		JIsMounted(*itsCWD, &writable, &isTop, &device, &fsType) &&
-		JStringCompare(fsType, "vfat", kJFalse) == 0);
+		JString::Compare(fsType, "vfat", kJFalse) == 0);
 */
 	// scan directory
 
@@ -59,7 +59,7 @@ JDirInfo::BuildInfo1
 			continue;
 			}
 
-		JDirEntry* newEntry = jnew JDirEntry(itsCWD->GetBytes(), direntry->d_name);
+		JDirEntry* newEntry = jnew JDirEntry(itsCWD.GetBytes(), direntry->d_name);
 		assert( newEntry != NULL );
 		if (MatchesContentFilter(*newEntry))
 			{

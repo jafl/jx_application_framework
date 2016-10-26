@@ -617,13 +617,13 @@ MDStatsDirector::RunProgram()
 	setenv("MALLOC_CHECK_",        "2",           1);
 
 	JCharacter* v = getenv("JMM_INITIALIZE");
-	if (v == NULL || JStringCompare(v, "no", kJFalse) == 0)
+	if (v == NULL || JString::Compare(v, "no", kJFalse) == 0)
 		{
 		setenv("JMM_INITIALIZE", "default", 1);
 		}
 
 	v = getenv("JMM_SHRED");
-	if (v == NULL || JStringCompare(v, "no", kJFalse) == 0)
+	if (v == NULL || JString::Compare(v, "no", kJFalse) == 0)
 		{
 		setenv("JMM_SHRED", "default", 1);
 		}

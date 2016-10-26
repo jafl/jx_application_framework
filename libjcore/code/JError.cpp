@@ -59,18 +59,9 @@ JError::JError
 	const JUtf8Byte*	msg
 	)
 	:
-	JBroadcaster::Message(type)
+	JBroadcaster::Message(type),
+	itsMessage(JString::IsEmpty(msg) ? JGetString(type) : msg)
 {
-	if (!JString::IsEmpty(msg))
-		{
-		itsMessage = jnew JString(msg);
-		assert( itsMessage != NULL );
-		}
-	else
-		{
-		itsMessage = jnew JString(JGetString(type));
-		assert( itsMessage != NULL );
-		}
 }
 
 /******************************************************************************
@@ -83,10 +74,9 @@ JError::JError
 	const JError& source
 	)
 	:
-	JBroadcaster::Message(source)
+	JBroadcaster::Message(source),
+	itsMessage(source.itsMessage)
 {
-	itsMessage = jnew JString(*(source.itsMessage));
-	assert( itsMessage != NULL );
 }
 
 /******************************************************************************
@@ -96,7 +86,6 @@ JError::JError
 
 JError::~JError()
 {
-	jdelete itsMessage;
 }
 
 /******************************************************************************
@@ -117,7 +106,7 @@ JError::operator=
 
 	JBroadcaster::Message::operator=(source);
 
-	*itsMessage = *(source.itsMessage);
+	itsMessage = source.itsMessage;
 
 	return *this;
 }
@@ -136,7 +125,7 @@ JError::SetMessage
 	const JString& msg
 	)
 {
-	*itsMessage = msg;
+	itsMessage = msg;
 }
 
 void
@@ -146,7 +135,7 @@ JError::SetMessage
 	const JSize			size
 	)
 {
-	*itsMessage = JGetString(GetType(), map, size);
+	itsMessage = JGetString(GetType(), map, size);
 }
 
 /******************************************************************************

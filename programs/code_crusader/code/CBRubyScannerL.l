@@ -446,7 +446,7 @@ FLOAT        ({DIGITSEQ}{EXPONENT}|{DOTDIGITS}{EXPONENT}?)
 
 ^.+\n {
 	ContinueToken();
-	if (JStringCompare(yytext, yyleng - 1,
+	if (JString::Compare(yytext, yyleng - 1,
 					   itsHereDocTag, itsHereDocTag.GetLength()) == 0)
 		{
 		BEGIN(INITIAL);

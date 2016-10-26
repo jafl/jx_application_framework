@@ -853,7 +853,7 @@ LLDBLink::RemoveAllBreakpointsOnLine
 			lldb::SBAddress a   = b.GetLocationAtIndex(j).GetAddress();
 			lldb::SBLineEntry e = a.GetLineEntry();
 			if (e.GetLine() == lineIndex &&
-				JStringCompare(e.GetFileSpec().GetFilename(), name) == 0)
+				JString::Compare(e.GetFileSpec().GetFilename(), name) == 0)
 				{
 				t.BreakpointDelete(b.GetID());
 				}

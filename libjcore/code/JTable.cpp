@@ -2353,8 +2353,8 @@ JTable::FinishSelectionDrag()
 JBoolean
 JTable::HandleSelectionKeyPress
 	(
-	const JCharacter	key,
-	const JBoolean		extendSelection
+	const JUtf8Character&	key,
+	const JBoolean			extendSelection
 	)
 {
 	JPoint delta;
@@ -2630,23 +2630,23 @@ JTable::Receive
 
 // message types
 
-const JCharacter* JTable::kRowHeightChanged      = "RowHeightChanged::JTable";
-const JCharacter* JTable::kAllRowHeightsChanged  = "AllRowHeightsChanged::JTable";
-const JCharacter* JTable::kRowsInserted          = "RowsInserted::JTable";
-const JCharacter* JTable::kRowsRemoved           = "RowsRemoved::JTable";
-const JCharacter* JTable::kRowMoved              = "RowMoved::JTable";
-const JCharacter* JTable::kRowBorderWidthChanged = "RowBorderWidthChanged::JTable";
+const JUtf8Byte* JTable::kRowHeightChanged      = "RowHeightChanged::JTable";
+const JUtf8Byte* JTable::kAllRowHeightsChanged  = "AllRowHeightsChanged::JTable";
+const JUtf8Byte* JTable::kRowsInserted          = "RowsInserted::JTable";
+const JUtf8Byte* JTable::kRowsRemoved           = "RowsRemoved::JTable";
+const JUtf8Byte* JTable::kRowMoved              = "RowMoved::JTable";
+const JUtf8Byte* JTable::kRowBorderWidthChanged = "RowBorderWidthChanged::JTable";
 
-const JCharacter* JTable::kColWidthChanged       = "ColWidthChanged::JTable";
-const JCharacter* JTable::kAllColWidthsChanged   = "AllColWidthsChanged::JTable";
-const JCharacter* JTable::kColsInserted          = "ColsInserted::JTable";
-const JCharacter* JTable::kColsRemoved           = "ColsRemoved::JTable";
-const JCharacter* JTable::kColMoved              = "ColMoved::JTable";
-const JCharacter* JTable::kColBorderWidthChanged = "ColBorderWidthChanged::JTable";
+const JUtf8Byte* JTable::kColWidthChanged       = "ColWidthChanged::JTable";
+const JUtf8Byte* JTable::kAllColWidthsChanged   = "AllColWidthsChanged::JTable";
+const JUtf8Byte* JTable::kColsInserted          = "ColsInserted::JTable";
+const JUtf8Byte* JTable::kColsRemoved           = "ColsRemoved::JTable";
+const JUtf8Byte* JTable::kColMoved              = "ColMoved::JTable";
+const JUtf8Byte* JTable::kColBorderWidthChanged = "ColBorderWidthChanged::JTable";
 
-const JCharacter* JTable::kPrepareForTableDataMessage = "PrepareForTableDataMessage::JTable";
-const JCharacter* JTable::kPrepareForTableDataChange  = "PrepareForTableDataChange::JTable";
-const JCharacter* JTable::kTableDataChanged           = "TableDataChanged::JTable";
+const JUtf8Byte* JTable::kPrepareForTableDataMessage = "PrepareForTableDataMessage::JTable";
+const JUtf8Byte* JTable::kPrepareForTableDataChange  = "PrepareForTableDataChange::JTable";
+const JUtf8Byte* JTable::kTableDataChanged           = "TableDataChanged::JTable";
 
 /******************************************************************************
  AdjustIndex

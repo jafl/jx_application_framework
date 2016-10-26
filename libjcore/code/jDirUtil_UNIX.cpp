@@ -12,6 +12,7 @@
 #include <JDirInfo.h>
 #include <JProgressDisplay.h>
 #include <JLatentPG.h>
+#include <JSimpleProcess.h>
 #include <jGlobals.h>
 #include <JStdError.h>
 #include <pwd.h>
@@ -33,7 +34,7 @@ JNameUsed
 	)
 {
 	ACE_stat info;
-	return JI2B( ACE_OS::lstat(name, &info) == 0 );
+	return JI2B( ACE_OS::lstat(name.GetBytes(), &info) == 0 );
 }
 
 /******************************************************************************
@@ -52,8 +53,8 @@ JSameDirEntry
 	)
 {
 	ACE_stat stbuf1, stbuf2;
-	return JI2B(ACE_OS::stat(name1, &stbuf1) == 0 &&
-				ACE_OS::stat(name2, &stbuf2) == 0 &&
+	return JI2B(ACE_OS::stat(name1.GetBytes(), &stbuf1) == 0 &&
+				ACE_OS::stat(name2.GetBytes(), &stbuf2) == 0 &&
 				stbuf1.st_dev == stbuf2.st_dev &&
 				stbuf1.st_ino == stbuf2.st_ino);
 }
@@ -74,7 +75,7 @@ JGetModificationTime
 	)
 {
 	ACE_stat info;
-	if (ACE_OS::stat(name, &info) == 0)
+	if (ACE_OS::stat(name.GetBytes(), &info) == 0)
 		{
 		*modTime = info.st_mtime;
 		return JNoError();
@@ -109,7 +110,7 @@ JGetPermissions
 	)
 {
 	ACE_stat info;
-	if (ACE_OS::stat(name, &info) == 0)
+	if (ACE_OS::stat(name.GetBytes(), &info) == 0)
 		{
 		*perms = info.st_mode;
 		return JNoError();
@@ -147,7 +148,7 @@ JSetPermissions
 	)
 {
 	jclear_errno();
-	if (chmod(name, perms) == 0)
+	if (chmod(name.GetBytes(), perms) == 0)
 		{
 		return JNoError();
 		}
@@ -206,7 +207,7 @@ JGetOwnerID
 	)
 {
 	ACE_stat info;
-	if (ACE_OS::stat(name, &info) == 0)
+	if (ACE_OS::stat(name.GetBytes(), &info) == 0)
 		{
 		*uid = info.st_uid;
 		return JNoError();
@@ -240,7 +241,7 @@ JGetOwnerGroup
 	)
 {
 	ACE_stat info;
-	if (ACE_OS::stat(name, &info) == 0)
+	if (ACE_OS::stat(name.GetBytes(), &info) == 0)
 		{
 		*gid = info.st_gid;
 		return JNoError();
@@ -274,7 +275,7 @@ JSetOwner
 	const gid_t		gid
 	)
 {
-	if (chown(name, uid, gid) == 0)
+	if (chown(name.GetBytes(), uid, gid) == 0)
 		{
 		return JNoError();
 		}
@@ -333,7 +334,7 @@ JCreateSymbolicLink
 	)
 {
 	jclear_errno();
-	if (symlink(src, dest) == 0)
+	if (symlink(src.GetBytes(), dest.GetBytes()) == 0)
 		{
 		return JNoError();
 		}
@@ -404,8 +405,8 @@ JDirectoryExists
 {
 	ACE_stat info;
 	return JI2B(
-			ACE_OS::lstat(dirName, &info) == 0 &&
-			ACE_OS::stat( dirName, &info) == 0 &&
+			ACE_OS::lstat(dirName.GetBytes(), &info) == 0 &&
+			ACE_OS::stat( dirName.GetBytes(), &info) == 0 &&
 			S_ISDIR(info.st_mode) );
 }
 
@@ -423,7 +424,7 @@ JDirectoryReadable
 	)
 {
 	return JI2B(JDirectoryExists(dirName) &&
-				(getuid() == 0 || access(dirName, R_OK) == 0));
+				(getuid() == 0 || access(dirName.GetBytes(), R_OK) == 0));
 }
 
 /******************************************************************************
@@ -440,7 +441,7 @@ JDirectoryWritable
 	)
 {
 	return JI2B(JDirectoryExists(dirName) &&
-				(getuid() == 0 || access(dirName, W_OK) == 0));
+				(getuid() == 0 || access(dirName.GetBytes(), W_OK) == 0));
 }
 
 /******************************************************************************
@@ -458,7 +459,7 @@ JCanEnterDirectory
 	)
 {
 	return JI2B(JDirectoryExists(dirName) &&
-				(getuid() == 0 || access(dirName, X_OK) == 0));
+				(getuid() == 0 || access(dirName.GetBytes(), X_OK) == 0));
 }
 
 /******************************************************************************
@@ -531,7 +532,7 @@ JMkDir
 	)
 {
 	jclear_errno();
-	if (mkdir(dirName, mode) == 0)
+	if (mkdir(dirName.GetBytes(), mode) == 0)
 		{
 		return JNoError();
 		}
@@ -613,7 +614,7 @@ JRenameDirEntry
 		}
 
 	jclear_errno();
-	if (rename(oldName, newName) == 0)
+	if (rename(oldName.GetBytes(), newName.GetBytes()) == 0)
 		{
 		return JNoError();
 		}
@@ -706,7 +707,7 @@ JChangeDirectory
 	)
 {
 	jclear_errno();
-	if (chdir(dirName) == 0)
+	if (chdir(dirName.GetBytes()) == 0)
 		{
 		return JNoError();
 		}
@@ -764,7 +765,7 @@ JRemoveDirectory
 	)
 {
 	jclear_errno();
-	if (rmdir(dirName) == 0)
+	if (rmdir(dirName.GetBytes()) == 0)
 		{
 		return JNoError();
 		}
@@ -883,8 +884,8 @@ JKillDirectory
 JString
 JGetCurrentDirectory()
 {
-	char buf[1024];
-	char* result = getcwd(buf, 1024);
+	JUtf8Byte buf[1024];
+	JUtf8Byte* result = getcwd(buf, 1024);
 
 	JString dirName;
 	if (result == buf)
@@ -916,7 +917,7 @@ JGetHomeDirectory
 {
 	// try HOME environment variable
 
-	char* envHomeDir = getenv("HOME");
+	JUtf8Byte* envHomeDir = getenv("HOME");
 	if (envHomeDir != NULL && JDirectoryExists(envHomeDir))
 		{
 		*homeDir = envHomeDir;
@@ -926,7 +927,7 @@ JGetHomeDirectory
 
 	// try password information
 
-	char* envUserName = getenv("USER");
+	JUtf8Byte* envUserName = getenv("USER");
 
 	struct passwd* pw;
 	if (envUserName != NULL)
@@ -965,7 +966,7 @@ JGetHomeDirectory
 	JString*		homeDir
 	)
 {
-	struct passwd* pw = getpwnam(user);
+	struct passwd* pw = getpwnam(user.GetBytes());
 	if (pw != NULL && JDirectoryExists(pw->pw_dir))
 		{
 		*homeDir = pw->pw_dir;
@@ -1031,7 +1032,7 @@ JGetTempDirectory
 
 	if (!theTempPathInitFlag)
 		{
-		char* path = getenv("TMPDIR");
+		JUtf8Byte* path = getenv("TMPDIR");
 		if (!JString::IsEmpty(path) && JDirectoryWritable(path))
 			{
 			theTempPath = path;
@@ -1065,15 +1066,15 @@ JGetTempDirectory
 JError
 JCreateTempDirectory
 	(
-	const JString&	path,
-	const JString&	prefix,
+	const JString*	path,
+	const JString*	prefix,
 	JString*		fullName
 	)
 {
 	JString p;
 	if (!JString::IsEmpty(path))
 		{
-		p = path;
+		p = *path;
 		}
 	else if (!JGetTempDirectory(&p))
 		{
@@ -1082,18 +1083,18 @@ JCreateTempDirectory
 
 	if (!JString::IsEmpty(prefix))
 		{
-		p = JCombinePathAndName(p, prefix);
+		p = JCombinePathAndName(p, *prefix);
 		}
 	else
 		{
 		p = JCombinePathAndName(p, "temp_dir_");
 		}
 
-	p      += "XXXXXX";
-	char* s = p.AllocateCString();
+	p           += "XXXXXX";
+	JUtf8Byte* s = p.AllocateBytes();
 
 	jclear_errno();
-	char* d = mkdtemp(s);
+	JUtf8Byte* d = mkdtemp(s);
 	if (d != NULL)
 		{
 		*fullName = s;
@@ -1281,8 +1282,9 @@ JIsAbsolutePath
 	const JString& path
 	)
 {
-	assert( !JString::IsEmpty(path) );
-	return JI2B( path[0] == '/' || path[0] == '~' );
+	assert( !path.IsEmpty() );
+	const JUtf8Character c = path.GetFirstCharacter();
+	return JI2B( c == '/' || c == '~' );
 }
 
 /******************************************************************************
@@ -1307,8 +1309,8 @@ JIsRootDirectory
 	const JString& dirName
 	)
 {
-	assert( !JString::IsEmpty(dirName) );
-	return JI2B( dirName[0] == '/' && dirName[1] == '\0' );
+	assert( !dirName.IsEmpty() );
+	return JI2B( dirName == "/" );
 }
 
 /*****************************************************************************
@@ -1337,20 +1339,21 @@ JConvertToAbsolutePath
 	JString*		result
 	)
 {
-	assert( !JString::IsEmpty(path) && result != NULL );
+	assert( !path.IsEmpty() && result != NULL );
 
 	JBoolean ok = kJTrue;
-	if (path[0] == '/')
+	const JUtf8Character c = path.GetFirstCharacter();
+	if (c == '/')
 		{
 		*result = path;
 		}
-	else if (path[0] == '~')
+	else if (c == '~')
 		{
 		ok = JExpandHomeDirShortcut(path, result);
 		}
 	else if (!JString::IsEmpty(base))
 		{
-		*result = JCombinePathAndName(base, path);
+		*result = JCombinePathAndName(*base, path);
 		}
 	else
 		{
@@ -1386,8 +1389,8 @@ JConvertToRelativePath
 {
 	// Check that they are both absolute paths.
 
-	assert( origPath != NULL && origPath[0] == '/' &&
-			origBase != NULL && origBase[0] == '/' );
+	assert( origPath.GetFirstCharacter() == '/' &&
+			origBase.GetFirstCharacter() == '/' );
 
 	// Remove extra directory separators
 	// and make sure that base ends with one.
@@ -1405,11 +1408,11 @@ JConvertToRelativePath
 	JBoolean hadTDS = kJTrue;
 	if (path.GetLastCharacter() != '/')
 		{
-		path.AppendCharacter('/');
+		path.Append("/");
 		hadTDS = kJFalse;
 		}
 
-	JSize matchLength = JCalcMatchLength(path, base);
+	JSize matchLength = JString::CalcMatchLength(path, base);
 
 	if (!hadTDS)
 		{

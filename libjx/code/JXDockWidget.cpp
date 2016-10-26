@@ -242,7 +242,7 @@ JXDockWidget::GetTabInsertionIndex
 
 		const JCharacter* t =
 			JXFileDocument::SkipNeedsSavePrefix((itsWindowList->NthElement(i))->GetTitle());
-		if (JStringCompare(title, t, kJFalse) < 0)
+		if (JString::Compare(title, t, kJFalse) < 0)
 			{
 			index = i;
 			break;
