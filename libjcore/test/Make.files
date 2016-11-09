@@ -4,13 +4,20 @@
 ${CODEDIR}/test_JBoolean
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/JUnitTestManager
+.o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/jMath
+.o ${JCOREDIR}/jStreamUtil
 .o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_JUtf8Character
 ${CODEDIR}/test_JUtf8Character
 .o ${JCOREDIR}/JUtf8Character
 .o ${JCOREDIR}/JUnitTestManager
+.o ${JCOREDIR}/JString
 .o ${JCOREDIR}/JBooleanIO
+.o ${JCOREDIR}/jMath
+.o ${JCOREDIR}/jStreamUtil
 .o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_JString

@@ -10,6 +10,7 @@
  ******************************************************************************/
 
 #include <JUnitTestManager.h>
+#include <JString.h>
 #include <jAssert.h>
 
 static JUnitTestManager* theManager = NULL;
@@ -276,7 +277,9 @@ JUnitTestManager::StringsAreEqual
 			}
 		s << "Strings are not equal." 
 		  << "  Expected <<" << expectedValue
-		  << ">> but got <<" << actualValue << ">>";
+		  << ">> but got <<" << actualValue << ">>" << endl;
+		s << '\t'; JString(expectedValue, strlen(expectedValue)).PrintHex(s); s << endl;
+		s << '\t'; JString(actualValue, strlen(actualValue)).PrintHex(s); s << endl;
 
 		const std::string msg = s.str();
 		ReportFailure(s.str().c_str(), file, line);
