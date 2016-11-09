@@ -94,25 +94,25 @@ JUtf8Character::Set
 		itsBytes[0]  = utf8Character[0];
 		}
 	else if (((unsigned char) '\xC2') <= c[0] && c[0] <= (unsigned char) '\xDF' &&
-			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char)'\xBF')
+			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF')
 		{
 		itsByteCount = 2;
 		itsBytes[0]  = utf8Character[0];
 		itsBytes[1]  = utf8Character[1];
 		}
-	else if (((unsigned char) '\xE0') <= c[0] && c[0] <= (unsigned char)'\xEF' &&
-			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char)'\xBF' &&
-			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char)'\xBF')
+	else if (((unsigned char) '\xE0') <= c[0] && c[0] <= (unsigned char) '\xEF' &&
+			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF' &&
+			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char) '\xBF')
 		{
 		itsByteCount = 3;
 		itsBytes[0]  = utf8Character[0];
 		itsBytes[1]  = utf8Character[1];
 		itsBytes[2]  = utf8Character[2];
 		}
-	else if (((unsigned char) '\xF0') <= c[0] && c[0] <= (unsigned char)'\xF4' &&
-			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char)'\xBF' &&
-			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char)'\xBF' &&
-			 ((unsigned char) '\x80') <= c[3] && c[3] <= (unsigned char)'\xBF')
+	else if (((unsigned char) '\xF0') <= c[0] && c[0] <= (unsigned char) '\xF4' &&
+			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF' &&
+			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char) '\xBF' &&
+			 ((unsigned char) '\x80') <= c[3] && c[3] <= (unsigned char) '\xBF')
 		{
 		itsByteCount = 4;
 		itsBytes[0]  = utf8Character[0];
@@ -122,6 +122,8 @@ JUtf8Character::Set
 		}
 	else
 		{
+		cerr << "Invalid UTF-8 byte sequence: "
+			 << std::hex << (int) (unsigned char) utf8Character[0] << endl;
 		assert( 0 /* invalid UTF-8 byte sequence */ );
 		}
 }
@@ -147,20 +149,20 @@ JUtf8Character::IsValid
 		return kJTrue;
 		}
 	else if (((unsigned char) '\xC2') <= c[0] && c[0] <= (unsigned char) '\xDF' &&
-			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char)'\xBF')
+			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF')
 		{
 		return kJTrue;
 		}
-	else if (((unsigned char) '\xE0') <= c[0] && c[0] <= (unsigned char)'\xEF' &&
-			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char)'\xBF' &&
-			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char)'\xBF')
+	else if (((unsigned char) '\xE0') <= c[0] && c[0] <= (unsigned char) '\xEF' &&
+			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF' &&
+			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char) '\xBF')
 		{
 		return kJTrue;
 		}
-	else if (((unsigned char) '\xF0') <= c[0] && c[0] <= (unsigned char)'\xF4' &&
-			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char)'\xBF' &&
-			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char)'\xBF' &&
-			 ((unsigned char) '\x80') <= c[3] && c[3] <= (unsigned char)'\xBF')
+	else if (((unsigned char) '\xF0') <= c[0] && c[0] <= (unsigned char) '\xF4' &&
+			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF' &&
+			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char) '\xBF' &&
+			 ((unsigned char) '\x80') <= c[3] && c[3] <= (unsigned char) '\xBF')
 		{
 		return kJTrue;
 		}
@@ -194,22 +196,22 @@ JUtf8Character::GetCharacterByteCount
 		return kJTrue;
 		}
 	else if (((unsigned char) '\xC2') <= c[0] && c[0] <= (unsigned char) '\xDF' &&
-			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char)'\xBF')
+			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF')
 		{
 		*byteCount = 2;
 		return kJTrue;
 		}
-	else if (((unsigned char) '\xE0') <= c[0] && c[0] <= (unsigned char)'\xEF' &&
-			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char)'\xBF' &&
-			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char)'\xBF')
+	else if (((unsigned char) '\xE0') <= c[0] && c[0] <= (unsigned char) '\xEF' &&
+			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF' &&
+			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char) '\xBF')
 		{
 		*byteCount = 3;
 		return kJTrue;
 		}
-	else if (((unsigned char) '\xF0') <= c[0] && c[0] <= (unsigned char)'\xF4' &&
-			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char)'\xBF' &&
-			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char)'\xBF' &&
-			 ((unsigned char) '\x80') <= c[3] && c[3] <= (unsigned char)'\xBF')
+	else if (((unsigned char) '\xF0') <= c[0] && c[0] <= (unsigned char) '\xF4' &&
+			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF' &&
+			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char) '\xBF' &&
+			 ((unsigned char) '\x80') <= c[3] && c[3] <= (unsigned char) '\xBF')
 		{
 		*byteCount = 4;
 		return kJTrue;
