@@ -210,22 +210,6 @@ JString::JString
 
 JString::JString
 	(
-	const std::string& s
-	)
-	:
-	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
-	itsByteCount(0),
-	itsCharacterCount(0),
-	itsAllocCount(0),
-	itsBlockSize(kDefaultBlockSize),
-	itsUCaseMap(NULL),
-	itsFirstIterator(NULL)
-{
-	CopyToPrivateString(s.data(), s.length());
-}
-
-JString::JString
-	(
 	const std::string&		s,
 	const JUtf8ByteRange&	range
 	)
@@ -329,6 +313,7 @@ JUtf8Character
 JString::GetFirstCharacter()
 	const
 {
+	assert( itsCharacterCount > 0 );
 	return JUtf8Character(itsBytes);
 }
 
@@ -341,8 +326,10 @@ JUtf8Character
 JString::GetLastCharacter()
 	const
 {
+	assert( itsCharacterCount > 0 );
+
 	const unsigned char* s = (const unsigned char*) (itsBytes + itsByteCount - 1);
-	while ('\x80' <= *s && *s <= '\xBF')
+	while (((unsigned char) '\x80') <= *s && *s <= (unsigned char) '\xBF')
 		{
 		s--;
 		}
@@ -840,7 +827,7 @@ JString::SearchForward
 
 	for (JIndex i=*byteIndex; i<=itsByteCount - strLength + 1; i++)
 		{
-		if (CompareMaxN(itsBytes + i-1, str, strLength, caseSensitive))
+		if (CompareMaxN(itsBytes + i-1, str, strLength, caseSensitive) == 0)
 			{
 			*byteIndex = i;
 			return kJTrue;
@@ -900,7 +887,7 @@ JString::SearchBackward
 
 	for (JIndex i=*byteIndex; i>=1; i--)
 		{
-		if (CompareMaxN(itsBytes + i-1, str, strLength, caseSensitive))
+		if (CompareMaxN(itsBytes + i-1, str, strLength, caseSensitive) == 0)
 			{
 			*byteIndex = i;
 			return kJTrue;
@@ -1369,6 +1356,26 @@ JString::Print
 }
 
 /******************************************************************************
+ PrintHex
+
+	Display the hex bytes.
+
+ ******************************************************************************/
+
+void
+JString::PrintHex
+	(
+	ostream& output
+	)
+	const
+{
+	for (JIndex i=0; i<itsByteCount; i++)
+		{
+		output << std::hex << (int) (unsigned char) itsBytes[i] << ' ';
+		}
+}
+
+/******************************************************************************
  IsValid (static)
 
  ******************************************************************************/
@@ -1391,6 +1398,10 @@ JString::IsValid
 			}
 		charCount++;
 		i += byteCount;
+		if (i > range.last)
+			{
+			return kJFalse;
+			}
 		}
 
 	return kJTrue;
@@ -1537,8 +1548,8 @@ JString::CompareMaxN
 	of the given strings.
 
 	CalcMatchLength("abc", "abd")          -> 2
-	JCalcMatchLength("abc", "xyz")          -> 0
-	JCalcMatchLength("abc", "aBd", kJFalse) -> 2
+	CalcMatchLength("abc", "xyz")          -> 0
+	CalcMatchLength("abc", "aBd", kJFalse) -> 2
 
  *****************************************************************************/
 

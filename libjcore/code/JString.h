@@ -53,7 +53,7 @@ public:
 //	JString(const JUtf8Byte* str);		// disallow automatic conversion
 	JString(const JUtf8Byte* str, const JSize byteCount);
 	JString(const JUtf8Byte* str, const JUtf8ByteRange& range);
-	JString(const std::string& str);
+//	JString(const std::string& str);	// disallow circuitous automatic conversion from JUtf8Byte*
 	JString(const std::string& str, const JUtf8ByteRange& range);
 
 	JString(const JUInt64 number, const Base base, const JBoolean pad = kJFalse);
@@ -82,7 +82,7 @@ public:
 
 	void	Clear();
 
-	// no cast operator, to force everybody to remember it is utf8, not char*
+	// no cast operator, to force everybody to remember it is UTF-8, not char*
 
 	JBoolean	IsEmpty() const;
 	JSize		GetCharacterCount() const;
@@ -145,6 +145,7 @@ public:
 	void		Read(istream& input, const JSize count);
 	void		ReadDelimited(istream& input);
 	void		Print(ostream& output) const;
+	void		PrintHex(ostream& output) const;
 
 	JSize		GetBlockSize() const;
 	void		SetBlockSize(const JSize blockSize);
@@ -963,7 +964,8 @@ operator+
 	const JString&		s
 	)
 {
-	JString sum = str;
+	JString sum;
+	sum.Set(str);
 	sum += s;
 	return sum;
 }

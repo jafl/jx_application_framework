@@ -23,22 +23,26 @@ JTEST(Construction)
 	JString s1;
 	JAssertStringsEqual("", s1.GetBytes());
 
-	JString s2("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94");
+	JString s2;
+	s2.Set("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94");
 	JAssertEqual(19, s2.GetByteCount());
 	JAssertEqual(14, s2.GetCharacterCount());
 	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", s2.GetBytes());
 
-	JString s3("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 14);
+	JString s3;
+	s3.Set("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 14);
 	JAssertEqual(14, s3.GetByteCount());
 	JAssertEqual(12, s3.GetCharacterCount());
 	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85", s3.GetBytes());
 
-	JString s4("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(2,5));
+	JString s4;
+	s4.Set("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(2,5));
 	JAssertEqual(4, s4.GetByteCount());
 	JAssertEqual(4, s4.GetCharacterCount());
 	JAssertStringsEqual("2345", s4.GetBytes());
 
-	JString s5("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(8,14));
+	JString s5;
+	s5.Set("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(8,14));
 	JAssertEqual(7, s5.GetByteCount());
 	JAssertEqual(5, s5.GetCharacterCount());
 	JAssertStringsEqual("890\xC2\xA9\xC3\x85", s5.GetBytes());
@@ -55,7 +59,8 @@ JTEST(Construction)
 
 	std::string ss1("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94");
 
-	JString s8(ss1);
+	JString s8;
+	s8.Set(ss1);
 	JAssertEqual(19, s8.GetByteCount());
 	JAssertEqual(14, s8.GetCharacterCount());
 	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", s8.GetBytes());
@@ -66,12 +71,108 @@ JTEST(Construction)
 	JAssertStringsEqual("890\xC2\xA9\xC3\x85", s9.GetBytes());
 }
 
+JTEST(Set)
+{
+	JString s;
+
+	s.Set("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94");
+	JAssertEqual(19, s.GetByteCount());
+	JAssertEqual(14, s.GetCharacterCount());
+	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", s.GetBytes());
+
+	s.Set("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 14);
+	JAssertEqual(14, s.GetByteCount());
+	JAssertEqual(12, s.GetCharacterCount());
+	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85", s.GetBytes());
+
+	s.Set("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(2,5));
+	JAssertEqual(4, s.GetByteCount());
+	JAssertEqual(4, s.GetCharacterCount());
+	JAssertStringsEqual("2345", s.GetBytes());
+
+	s.Set("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(8,14));
+	JAssertEqual(7, s.GetByteCount());
+	JAssertEqual(5, s.GetCharacterCount());
+	JAssertStringsEqual("890\xC2\xA9\xC3\x85", s.GetBytes());
+
+	JString s2;
+	s2.Set("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94");
+	s.Set(s2);
+	JAssertEqual(19, s.GetByteCount());
+	JAssertEqual(14, s.GetCharacterCount());
+	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", s.GetBytes());
+
+	s.Set(s2, JCharacterRange(2,5));
+	JAssertEqual(4, s.GetByteCount());
+	JAssertEqual(4, s.GetCharacterCount());
+	JAssertStringsEqual("2345", s.GetBytes());
+
+	std::string ss1("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94");
+
+	s.Set(ss1);
+	JAssertEqual(19, s.GetByteCount());
+	JAssertEqual(14, s.GetCharacterCount());
+	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", s.GetBytes());
+
+	s.Set(ss1, JUtf8ByteRange(8,14));
+	JAssertEqual(7, s.GetByteCount());
+	JAssertEqual(5, s.GetCharacterCount());
+	JAssertStringsEqual("890\xC2\xA9\xC3\x85", s.GetBytes());
+
+	s2 = "890\xC2\xA9\xC3\x85";
+	s  = s2;
+	JAssertEqual(7, s.GetByteCount());
+	JAssertEqual(5, s.GetCharacterCount());
+	JAssertStringsEqual("890\xC2\xA9\xC3\x85", s.GetBytes());
+	JAssertEqual(s, s2);
+
+	s = "1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94";
+	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", s.GetBytes());
+
+	std::string ss2 = "\xCE\xBC\xCE\xAC\xCF\x8A\xCE\xBF\xCF\x82";
+	s = ss2;
+	JAssertStringsEqual("\xCE\xBC\xCE\xAC\xCF\x8A\xCE\xBF\xCF\x82", s.GetBytes());
+
+	JAssertFalse(s.IsEmpty());
+
+	s.Clear();
+	JAssertEqual(0, s.GetByteCount());
+	JAssertEqual(0, s.GetCharacterCount());
+	JAssertStringsEqual("", s.GetBytes());
+	JAssertTrue(s.IsEmpty());
+}
+
 JTEST(IsValid)
 {
 	JAssertTrue(JString::IsValid(""));
 	JAssertTrue(JString::IsValid("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94"));
 	JAssertTrue(JString::IsValid("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(1,5)));
+	JAssertTrue(JString::IsValid("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(10,12)));
 	JAssertFalse(JString::IsValid("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(11,13)));
+
+	JString s;
+	s.Set("\xC3\xA6" "34567\xCE\xA6" "90\xE2\x9C\x94\xCE\xA6");
+
+	JAssertFalse(s.CharacterIndexValid(0));
+	JAssertTrue(s.CharacterIndexValid(2));
+	JAssertTrue(s.CharacterIndexValid(11));
+	JAssertFalse(s.CharacterIndexValid(12));
+
+	JAssertFalse(s.ByteIndexValid(0));
+	JAssertTrue(s.ByteIndexValid(2));
+	JAssertTrue(s.ByteIndexValid(12));
+	JAssertTrue(s.ByteIndexValid(16));
+	JAssertFalse(s.ByteIndexValid(17));
+
+	JAssertFalse(s.RangeValid(JCharacterRange()));
+	JAssertTrue(s.RangeValid(JCharacterRange(2,11)));
+	JAssertFalse(s.RangeValid(JCharacterRange(2,12)));
+
+	JAssertFalse(s.RangeValid(JUtf8ByteRange()));
+	JAssertTrue(s.RangeValid(JUtf8ByteRange(2,11)));
+	JAssertTrue(s.RangeValid(JUtf8ByteRange(2,12)));
+	JAssertTrue(s.RangeValid(JUtf8ByteRange(2,16)));
+	JAssertFalse(s.RangeValid(JUtf8ByteRange(2,17)));
 }
 
 JTEST(IntegerConversion)
@@ -109,8 +210,121 @@ JTEST(FloatConversion)
 	JString s4(1.3e20);
 	JAssertStringsEqual("1.3e+20", s4.GetBytes());
 
-	JString s5(1.57e5, 2, JString::kForceExponent, 2, 4);
-	JAssertStringsEqual("1600.0000e+2", s5.GetBytes());
+	JString s5(1.57e5, 2, JString::kUseGivenExponent, 2, 2);
+	JAssertStringsEqual("1600.00e+2", s5.GetBytes());
+
+	JString s6(1.57e5, 1, JString::kForceExponent);
+	JAssertStringsEqual("1.6e+5", s6.GetBytes());
+
+	JString s7(1.57e5, 1, JString::kForceNoExponent);
+	JAssertStringsEqual("157000.0", s7.GetBytes());
+
+	JString s8(1.57e5, JString::kPrecisionAsNeeded, JString::kForceNoExponent, 0, 2);
+	JAssertStringsEqual("160000", s8.GetBytes());
+}
+
+JTEST(Concatenate)
+{
+	JString s("5", 1);
+
+	s.Prepend("");
+	s.Append("");
+	JAssertStringsEqual("5", s.GetBytes());
+
+	s.Prepend("4");
+	JAssertStringsEqual("45", s.GetBytes());
+
+	s.Append("6");
+	JAssertStringsEqual("456", s.GetBytes());
+
+	s.Prepend("30", 1);
+	JAssertStringsEqual("3456", s.GetBytes());
+
+	s.Append("70", 1);
+	JAssertStringsEqual("34567", s.GetBytes());
+
+	s.Prepend(JUtf8Character("\xC3\xA6"));
+	JAssertStringsEqual("\xC3\xA6" "34567", s.GetBytes());
+
+	s.Append(JUtf8Character("\xCE\xA6"));
+	JAssertStringsEqual("\xC3\xA6" "34567\xCE\xA6", s.GetBytes());
+
+	s += "90\xE2\x9C\x94";
+	JAssertStringsEqual("\xC3\xA6" "34567\xCE\xA6" "90\xE2\x9C\x94", s.GetBytes());
+
+	s += JUtf8Character("\xCE\xA6");
+	JAssertStringsEqual("\xC3\xA6" "34567\xCE\xA6" "90\xE2\x9C\x94\xCE\xA6", s.GetBytes());
+}
+
+JTEST(Get)
+{
+	JString s;
+	s.Set("C");
+	JAssertEqual('C', s.GetFirstCharacter());
+	JAssertEqual('C', s.GetLastCharacter());
+
+	s = "123";
+	JAssertEqual('1', s.GetFirstCharacter());
+	JAssertEqual('3', s.GetLastCharacter());
+
+	s = "\xC3\xA6" "34567\xCE\xA6" "90\xCE\xA6\xE2\x9C\x94";
+	JAssertEqual(JUtf8Character("\xC3\xA6"), s.GetFirstCharacter());
+	JAssertEqual(JUtf8Character("\xE2\x9C\x94"), s.GetLastCharacter());
+
+	JUtf8Byte* s1 = s.AllocateBytes();
+	JAssertStringsEqual(s.GetBytes(), s1);
+	delete [] s1;
+}
+
+JTEST(Contains)
+{
+	JString s;
+	JAssertFalse(s.BeginsWith("1"));
+	JAssertFalse(s.Contains("1"));
+	JAssertFalse(s.EndsWith("1"));
+
+	s = "abcd";
+
+	JAssertTrue(s.BeginsWith("ab"));
+	JAssertTrue(s.BeginsWith("AB", kJFalse));
+	JAssertFalse(s.BeginsWith("bc"));
+	JAssertFalse(s.BeginsWith("BC", kJFalse));
+
+	JAssertTrue(s.Contains("ab"));
+	JAssertTrue(s.Contains("AB", kJFalse));
+	JAssertTrue(s.Contains("bc"));
+	JAssertTrue(s.Contains("BC", kJFalse));
+	JAssertTrue(s.Contains("cd"));
+	JAssertTrue(s.Contains("CD", kJFalse));
+	JAssertFalse(s.Contains("abcdefg"));
+	JAssertFalse(s.Contains("123"));
+
+	JAssertTrue(s.EndsWith("cd"));
+	JAssertTrue(s.EndsWith("CD", kJFalse));
+	JAssertFalse(s.EndsWith("bc"));
+	JAssertFalse(s.EndsWith("BC", kJFalse));
+
+	s = "\xC3\x86" "a34567\xCE\xA6" "90b\xE2\x9C\x94\xCE\xA6";
+
+	JAssertTrue(s.BeginsWith("\xC3\x86" "a34"));
+//	JAssertTrue(s.BeginsWith("\xC3\xA6" "A34", kJFalse));
+
+	JAssertTrue(s.Contains("\xCE\xA6" "90b"));
+//	JAssertTrue(s.Contains("\xCF\x86" "90B", kJFalse));
+
+	JAssertTrue(s.EndsWith("b\xE2\x9C\x94\xCE\xA6"));
+//	JAssertTrue(s.EndsWith("B\xE2\x9C\x94\xCF\x86", kJFalse));
+}
+
+JTEST(Whitespace)
+{
+	JString s;
+	s.TrimWhitespace();
+	JAssertStringsEqual("", s.GetBytes());
+
+	s.Set("\t  foo\n");
+	s.TrimWhitespace();
+	JAssertStringsEqual("foo", s.GetBytes());
 }
 
 JTEST(ToLower)
@@ -127,23 +341,11 @@ JTEST(ToLower)
 	s.ToLower();
 	JAssertStringsEqual("abcd", s.GetBytes());
 
-	// ae
+	// ae phi sigma
 
-	s = "\xC3\x86";
+	s = "\xC3\x86\xCE\xA6\xCE\xA3";
 	s.ToLower();
-	JAssertStringsEqual("\xC3\xA6", s.GetBytes());
-
-	// phi
-
-	s = "\xCE\xA6";
-	s.ToLower();
-	JAssertStringsEqual("\xCF\x86", s.GetBytes());
-
-	// sigma
-
-	s = "\xCE\xA3";
-	s.ToLower();
-	JAssertStringsEqual("\xCF\x83", s.GetBytes());
+	JAssertStringsEqual("\xC3\xA6\xCF\x86\xCF\x82", s.GetBytes());
 
 	// greek
 
@@ -166,29 +368,11 @@ JTEST(ToUpper)
 	s.ToUpper();
 	JAssertStringsEqual("ABCD", s.GetBytes());
 
-	// ae
+	// ae phi sigma double-s
 
-	s = "\xC3\xA6";
+	s = "\xC3\xA6\xCF\x86\xCF\x83" "me\xC3\x9F";
 	s.ToUpper();
-	JAssertStringsEqual("\xC3\x86", s.GetBytes());
-
-	// phi
-
-	s = "\xCF\x86";
-	s.ToUpper();
-	JAssertStringsEqual("\xCE\xA6", s.GetBytes());
-
-	// sigma
-
-	s = "\xCF\x83";
-	s.ToUpper();
-	JAssertStringsEqual("\xCE\xA3", s.GetBytes());
-
-	// double s
-
-	s = "me\xC3\x9F";
-	s.ToUpper();
-	JAssertStringsEqual("MESS", s.GetBytes());
+	JAssertStringsEqual("\xC3\x86\xCE\xA6\xCE\xA3" "MESS", s.GetBytes());
 
 	// greek
 
@@ -215,4 +399,21 @@ JTEST(CopyBytes)
 		JAssertEqual(0, JString::CompareMaxN(string, stringList[testnum], kStringLength-1));
 		JAssertEqual(JMin(kStringLength-1, strlen(stringList[testnum])), strlen(string));
 		}
+}
+
+JTEST(streaming)
+{
+	JString s1;
+	s1.Set("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94");
+
+	std::ostringstream out;
+	out << s1;
+
+	const std::string data = out.str();
+	std::istringstream in(data.c_str(), data.length());
+
+	JString s2;
+	in >> s2;
+
+	JAssertEqual(s1, s2);
 }
