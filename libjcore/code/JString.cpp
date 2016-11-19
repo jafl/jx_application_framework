@@ -33,7 +33,7 @@
 #include <sstream>
 #include <strstream>
 #include <iomanip>
-#include <unicode/uchar.h>
+#include <unicode/ucol.h>
 #include <jErrno.h>
 #include <jAssert.h>
 
@@ -1497,17 +1497,22 @@ JString::Compare
 	const JBoolean		caseSensitive
 	)
 {
-	int r = JString::CompareMaxN(s1, s2, JMin(length2, length2), caseSensitive);
+	UErrorCode err;
+	UCollator* coll = ucol_open(NULL, &err);
+	if (coll == NULL)
+		{
+		return 0;
+		}
 
-	if (r == 0 && length1 < length2)
+	if (!caseSensitive)
 		{
-		r = -1;
+		ucol_setStrength(coll, UCOL_PRIMARY);
 		}
-	else if (r == 0 && length1 > length2)
-		{
-		r = +1;
-		}
-	return r;
+
+	UCollationResult r = ucol_strcollUTF8(coll, s1, length1, s2, length2, &err);
+	ucol_close(coll);
+
+	return (int) r;
 }
 
 /******************************************************************************
@@ -1526,19 +1531,22 @@ JString::CompareMaxN
 	const JBoolean		caseSensitive
 	)
 {
-	// TODO: utf8
-	//	u_strCompare(, true)
-	//	u_memcasecmp(U_COMPARE_CODE_POINT_ORDER)
+	UErrorCode err  = U_ZERO_ERROR;
+	UCollator* coll = ucol_open(NULL, &err);
+	if (coll == NULL)
+		{
+		return 0;
+		}
 
-	int r;
-	if (caseSensitive)
+	if (!caseSensitive)
 		{
-		return strncmp(s1, s2, N);
+		ucol_setStrength(coll, UCOL_PRIMARY);
 		}
-	else
-		{
-		return strncasecmp(s1, s2, N);
-		}
+
+	UCollationResult r = ucol_strcollUTF8(coll, s1, N, s2, N, &err);
+	ucol_close(coll);
+
+	return (int) r;
 }
 
 /******************************************************************************
@@ -1561,8 +1569,6 @@ jDiffChars
 	const JBoolean	caseSensitive
 	)
 {
-	// TODO: utf8
-
 	return (caseSensitive ? (c1 - c2) : (tolower(c1) - tolower(c2)));
 }
 

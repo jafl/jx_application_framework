@@ -221,6 +221,27 @@ JTEST(FloatConversion)
 
 	JString s8(1.57e5, JString::kPrecisionAsNeeded, JString::kForceNoExponent, 0, 2);
 	JAssertStringsEqual("160000", s8.GetBytes());
+
+	JString s9(1, JString::kPrecisionAsNeeded, JString::kUseGivenExponent, -3);
+	JAssertStringsEqual("1000e-3", s9.GetBytes());
+
+	JString s10(1, JString::kPrecisionAsNeeded, JString::kUseGivenExponent, +2);
+	JAssertStringsEqual("0.01e+2", s10.GetBytes());
+
+	JString s11(537.6, 2, JString::kForceExponent);
+	JAssertStringsEqual("5.38e+2", s11.GetBytes());
+
+	JString s12(5.374, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 3);
+	JAssertStringsEqual("5.37", s12.GetBytes());
+
+	JString s13(5.375, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 3);
+	JAssertStringsEqual("5.38", s13.GetBytes());
+
+	JString s14(5.376, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 3);
+	JAssertStringsEqual("5.38", s14.GetBytes());
+
+	JString s15(9.995, 2);
+	JAssertStringsEqual("10.00", s15.GetBytes());
 }
 
 JTEST(Concatenate)
@@ -307,13 +328,13 @@ JTEST(Contains)
 	s = "\xC3\x86" "a34567\xCE\xA6" "90b\xE2\x9C\x94\xCE\xA6";
 
 	JAssertTrue(s.BeginsWith("\xC3\x86" "a34"));
-//	JAssertTrue(s.BeginsWith("\xC3\xA6" "A34", kJFalse));
+	JAssertTrue(s.BeginsWith("\xC3\xA6" "A34", kJFalse));
 
 	JAssertTrue(s.Contains("\xCE\xA6" "90b"));
-//	JAssertTrue(s.Contains("\xCF\x86" "90B", kJFalse));
+	JAssertTrue(s.Contains("\xCF\x86" "90B", kJFalse));
 
 	JAssertTrue(s.EndsWith("b\xE2\x9C\x94\xCE\xA6"));
-//	JAssertTrue(s.EndsWith("B\xE2\x9C\x94\xCF\x86", kJFalse));
+	JAssertTrue(s.EndsWith("B\xE2\x9C\x94\xCF\x86", kJFalse));
 }
 
 JTEST(Whitespace)
@@ -347,9 +368,21 @@ JTEST(ToLower)
 	s.ToLower();
 	JAssertStringsEqual("\xC3\xA6\xCF\x86\xCF\x82", s.GetBytes());
 
+	s = "\xC3\xA6\xCF\x86\xCF\x82";
+	s.ToLower();
+	JAssertStringsEqual("\xC3\xA6\xCF\x86\xCF\x82", s.GetBytes());
+
+	s = "\xC3\x86 \xCE\xA6 \xCE\xA3";
+	s.ToLower();
+	JAssertStringsEqual("\xC3\xA6 \xCF\x86 \xCF\x83", s.GetBytes());
+
 	// greek
 
 	s = "\xCE\x9C\xCE\x86\xCE\xAA\xCE\x9F\xCE\xA3";
+	s.ToLower();
+	JAssertStringsEqual("\xCE\xBC\xCE\xAC\xCF\x8A\xCE\xBF\xCF\x82", s.GetBytes());
+
+	s = "\xCE\xBC\xCE\xAC\xCF\x8A\xCE\xBF\xCF\x82";
 	s.ToLower();
 	JAssertStringsEqual("\xCE\xBC\xCE\xAC\xCF\x8A\xCE\xBF\xCF\x82", s.GetBytes());
 }
@@ -374,9 +407,17 @@ JTEST(ToUpper)
 	s.ToUpper();
 	JAssertStringsEqual("\xC3\x86\xCE\xA6\xCE\xA3" "MESS", s.GetBytes());
 
+	s = "\xC3\x86\xCE\xA6\xCE\xA3" "MESS";
+	s.ToUpper();
+	JAssertStringsEqual("\xC3\x86\xCE\xA6\xCE\xA3" "MESS", s.GetBytes());
+
 	// greek
 
 	s = "\xCE\x9C\xCE\xAC\xCF\x8A\xCE\xBF\xCF\x82";
+	s.ToUpper();
+	JAssertStringsEqual("\xCE\x9C\xCE\x86\xCE\xAA\xCE\x9F\xCE\xA3", s.GetBytes());
+
+	s = "\xCE\x9C\xCE\x86\xCE\xAA\xCE\x9F\xCE\xA3";
 	s.ToUpper();
 	JAssertStringsEqual("\xCE\x9C\xCE\x86\xCE\xAA\xCE\x9F\xCE\xA3", s.GetBytes());
 }
@@ -396,7 +437,7 @@ JTEST(CopyBytes)
 			JString::CopyBytes(stringList[testnum], kStringLength, string);
 
 		JAssertEqualWithMessage(!strcmp(string, stringList[testnum]), allCopied, stringList[testnum]);
-		JAssertEqual(0, JString::CompareMaxN(string, stringList[testnum], kStringLength-1));
+		JAssertEqual(0, JString::CompareMaxN(string, stringList[testnum], JMin(strlen(stringList[testnum]), kStringLength-1)));
 		JAssertEqual(JMin(kStringLength-1, strlen(stringList[testnum])), strlen(string));
 		}
 }

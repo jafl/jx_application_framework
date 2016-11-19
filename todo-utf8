@@ -3,6 +3,24 @@ convert all functions to use JString intead of JUtf8Byte*
 
 analyze all uses of toupper/lower - not all languages do this by single character
 
+compare strings
+	unorm_compare
+
+search for substring
+	search forward/backward cannot use CompareMaxN
+
+	must first normalize & (for case-insensitive) force lower case
+		C3 B6 & 6F CC 88 are both o-umlaut
+	process source string one word at a time, then compare bytes
+		use a ring buffer?
+		compare buffer needs 10x the search string?
+
+	unorm2_getNFKCCasefoldInstance
+	u_strToUTF8WithSub
+	u_strFromUTF8WithSub
+
+	uiter_setUTF8
+
 JString & JUtf8Character
 	assert( IsValid() ) on all input:  ctor, set, append, prepend, etc
 
