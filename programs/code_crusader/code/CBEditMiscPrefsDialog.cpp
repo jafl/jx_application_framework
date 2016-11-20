@@ -140,7 +140,7 @@ CBEditMiscPrefsDialog::BuildWindow()
 		jnew JXStaticText(JGetString("obj4_JXLayout::CBEditMiscPrefsDialog::JXLayout"), window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 40,40, 290,20);
 	assert( obj4_JXLayout != NULL );
-    obj4_JXLayout->SetFontSize(8);
+	obj4_JXLayout->SetFontSize(8);
 	obj4_JXLayout->SetToLabel();
 
 	itsOpenOldProjCB =

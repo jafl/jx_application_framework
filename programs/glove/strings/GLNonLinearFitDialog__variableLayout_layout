@@ -1,0 +1,5 @@
+0
+itsDeleteButton::GLNonLinearFitDialog::variableLayout "Delete"
+itsNewButton::GLNonLinearFitDialog::variableLayout "New"
+parmLabel::GLNonLinearFitDialog::variableLayout "Parameters:"
+itsNewButton::GLNonLinearFitDialog::shortcuts::variableLayout "#N"

@@ -1,4 +1,5 @@
 0
+obj2_JXLayout::JXPTPageSetupDialog::JXLayout "Page width:"
 okButton::JXPTPageSetupDialog::shortcuts::JXLayout "^M"
 obj5_JXLayout::JXPTPageSetupDialog::JXLayout "lines"
 obj3_JXLayout::JXPTPageSetupDialog::JXLayout "Page height:"
@@ -9,4 +10,3 @@ itsPrintTestButton::JXPTPageSetupDialog::JXLayout "Print test page"
 obj4_JXLayout::JXPTPageSetupDialog::JXLayout "characters"
 itsPrintReverseOrderCB::JXPTPageSetupDialog::JXLayout "Print pages in reverse order"
 itsPrintReverseOrderCB::JXPTPageSetupDialog::shortcuts::JXLayout "#R"
-obj2_JXLayout::JXPTPageSetupDialog::JXLayout "Page width:"

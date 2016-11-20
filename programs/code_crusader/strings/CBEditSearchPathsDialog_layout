@@ -1,4 +1,5 @@
 0
+removePathButton::CBEditSearchPathsDialog::shortcuts::JXLayout "#R"
 addPathButton::CBEditSearchPathsDialog::JXLayout "New"
 okButton::CBEditSearchPathsDialog::JXLayout "OK"
 choosePathButton::CBEditSearchPathsDialog::JXLayout "Choose"
@@ -7,4 +8,3 @@ choosePathButton::CBEditSearchPathsDialog::shortcuts::JXLayout "#O"
 addPathButton::CBEditSearchPathsDialog::shortcuts::JXLayout "#N"
 removePathButton::CBEditSearchPathsDialog::JXLayout "Remove"
 cancelButton::CBEditSearchPathsDialog::JXLayout "Cancel"
-removePathButton::CBEditSearchPathsDialog::shortcuts::JXLayout "#R"

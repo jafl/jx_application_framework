@@ -75,39 +75,39 @@ GLAboutDialog::BuildWindow
 {
 // begin JXLayout
 
-    JXWindow* window = jnew JXWindow(this, 430,180, "");
-    assert( window != NULL );
+	JXWindow* window = jnew JXWindow(this, 430,180, "");
+	assert( window != NULL );
 
-    JXImageWidget* gloveIcon =
-        jnew JXImageWidget(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,15, 50,50);
-    assert( gloveIcon != NULL );
+	JXImageWidget* gloveIcon =
+		jnew JXImageWidget(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,15, 50,50);
+	assert( gloveIcon != NULL );
 
-    JXStaticText* textWidget =
-        jnew JXStaticText(JGetString("textWidget::GLAboutDialog::JXLayout"), window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 90,20, 330,110);
-    assert( textWidget != NULL );
+	JXStaticText* textWidget =
+		jnew JXStaticText(JGetString("textWidget::GLAboutDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 90,20, 330,110);
+	assert( textWidget != NULL );
 
-    JXImageWidget* npsIcon =
-        jnew JXImageWidget(window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,75, 65,65);
-    assert( npsIcon != NULL );
+	JXImageWidget* npsIcon =
+		jnew JXImageWidget(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,75, 65,65);
+	assert( npsIcon != NULL );
 
-    JXTextButton* okButton =
-        jnew JXTextButton(JGetString("okButton::GLAboutDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,150, 60,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts(JGetString("okButton::GLAboutDialog::shortcuts::JXLayout"));
+	JXTextButton* okButton =
+		jnew JXTextButton(JGetString("okButton::GLAboutDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 320,150, 60,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::GLAboutDialog::shortcuts::JXLayout"));
 
-    itsHelpButton =
-        jnew JXTextButton(JGetString("itsHelpButton::GLAboutDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,150, 60,20);
-    assert( itsHelpButton != NULL );
+	itsHelpButton =
+		jnew JXTextButton(JGetString("itsHelpButton::GLAboutDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 185,150, 60,20);
+	assert( itsHelpButton != NULL );
 
-    itsCreditsButton =
-        jnew JXTextButton(JGetString("itsCreditsButton::GLAboutDialog::JXLayout"), window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,150, 60,20);
-    assert( itsCreditsButton != NULL );
+	itsCreditsButton =
+		jnew JXTextButton(JGetString("itsCreditsButton::GLAboutDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,150, 60,20);
+	assert( itsCreditsButton != NULL );
 
 // end JXLayout
 

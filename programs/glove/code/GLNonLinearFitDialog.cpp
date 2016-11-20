@@ -99,35 +99,35 @@ GLNonLinearFitDialog::BuildWindow()
 	
 // begin JXLayout
 
-    JXWindow* window = jnew JXWindow(this, 400,430, "");
-    assert( window != NULL );
+	JXWindow* window = jnew JXWindow(this, 400,430, "");
+	assert( window != NULL );
 
-    JXMenuBar* menuBar =
-        jnew JXMenuBar(window,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
-    assert( menuBar != NULL );
+	JXMenuBar* menuBar =
+		jnew JXMenuBar(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 400,30);
+	assert( menuBar != NULL );
 
-    itsPartition =
-        jnew JXVertPartition(heights, elasticIndex, minHeights, window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 10,40, 380,345);
-    assert( itsPartition != NULL );
+	itsPartition =
+		jnew JXVertPartition(heights, elasticIndex, minHeights, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,40, 380,345);
+	assert( itsPartition != NULL );
 
-    JXTextButton* cancelButton =
-        jnew JXTextButton("Cancel", window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,400, 70,20);
-    assert( cancelButton != NULL );
-    cancelButton->SetShortcuts("^[");
+	JXTextButton* cancelButton =
+		jnew JXTextButton(JGetString("cancelButton::GLNonLinearFitDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 20,400, 70,20);
+	assert( cancelButton != NULL );
+	cancelButton->SetShortcuts(JGetString("cancelButton::GLNonLinearFitDialog::shortcuts::JXLayout"));
 
-    itsHelpButton =
-        jnew JXTextButton("Help", window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 165,400, 70,20);
-    assert( itsHelpButton != NULL );
+	itsHelpButton =
+		jnew JXTextButton(JGetString("itsHelpButton::GLNonLinearFitDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 165,400, 70,20);
+	assert( itsHelpButton != NULL );
 
-    JXTextButton* okButton =
-        jnew JXTextButton("OK", window,
-                    JXWidget::kFixedLeft, JXWidget::kFixedBottom, 310,400, 70,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts("^M");
+	JXTextButton* okButton =
+		jnew JXTextButton(JGetString("okButton::GLNonLinearFitDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 310,400, 70,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::GLNonLinearFitDialog::shortcuts::JXLayout"));
 
 // end JXLayout
 
@@ -135,25 +135,33 @@ GLNonLinearFitDialog::BuildWindow()
 
 // begin functionLayout
 
-    itsNameInput =
-        jnew JXInputField(container,
-                    JXWidget::kHElastic, JXWidget::kFixedTop, 120,0, 260,20);
-    assert( itsNameInput != NULL );
+	const JRect functionLayout_Frame    = container->GetFrame();
+	const JRect functionLayout_Aperture = container->GetAperture();
+	container->AdjustSize(380 - functionLayout_Aperture.width(), 120 - functionLayout_Aperture.height());
 
-    JXScrollbarSet* scrollbarSet =
-        jnew JXScrollbarSet(container,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 120,20, 260,100);
-    assert( scrollbarSet != NULL );
+	itsNameInput =
+		jnew JXInputField(container,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 120,0, 260,20);
+	assert( itsNameInput != NULL );
 
-    JXStaticText* obj1 =
-        jnew JXStaticText("Fit Name:", container,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 110,20);
-    assert( obj1 != NULL );
+	JXScrollbarSet* scrollbarSet =
+		jnew JXScrollbarSet(container,
+					JXWidget::kHElastic, JXWidget::kVElastic, 120,20, 260,100);
+	assert( scrollbarSet != NULL );
 
-    JXStaticText* obj2 =
-        jnew JXStaticText("Fit function:", container,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 110,20);
-    assert( obj2 != NULL );
+	JXStaticText* obj1_functionLayout =
+		jnew JXStaticText(JGetString("obj1_functionLayout::GLNonLinearFitDialog::functionLayout"), container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 110,20);
+	assert( obj1_functionLayout != NULL );
+	obj1_functionLayout->SetToLabel();
+
+	JXStaticText* obj2_functionLayout =
+		jnew JXStaticText(JGetString("obj2_functionLayout::GLNonLinearFitDialog::functionLayout"), container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 110,20);
+	assert( obj2_functionLayout != NULL );
+	obj2_functionLayout->SetToLabel();
+
+	container->SetSize(functionLayout_Frame.width(), functionLayout_Frame.height());
 
 // end functionLayout
 
@@ -169,21 +177,28 @@ GLNonLinearFitDialog::BuildWindow()
 
 // begin derivativeLayout
 
-    JXStaticText* derivativeLabel =
-        jnew JXStaticText("Fit derivative:", container,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 100,20);
-    assert( derivativeLabel != NULL );
+	const JRect derivativeLayout_Frame    = container->GetFrame();
+	const JRect derivativeLayout_Aperture = container->GetAperture();
+	container->AdjustSize(380 - derivativeLayout_Aperture.width(), 100 - derivativeLayout_Aperture.height());
 
-    scrollbarSet =
-        jnew JXScrollbarSet(container,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 120,0, 260,100);
-    assert( scrollbarSet != NULL );
+	JXStaticText* derivativeLabel =
+		jnew JXStaticText(JGetString("derivativeLabel::GLNonLinearFitDialog::derivativeLayout"), container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 100,20);
+	assert( derivativeLabel != NULL );
+	derivativeLabel->SetToLabel();
 
-    JXStaticText* warningText =
-        jnew JXStaticText("(This may be left\nblank. Glove will\nthen calculate the\nderivative.)", container,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 90,60);
-    assert( warningText != NULL );
-    warningText->SetFontSize(10);
+	scrollbarSet =
+		jnew JXScrollbarSet(container,
+					JXWidget::kHElastic, JXWidget::kVElastic, 120,0, 260,100);
+	assert( scrollbarSet != NULL );
+
+	JXStaticText* warningText =
+		jnew JXStaticText(JGetString("warningText::GLNonLinearFitDialog::derivativeLayout"), container,
+					JXWidget::kHElastic, JXWidget::kVElastic, 20,20, 90,60);
+	assert( warningText != NULL );
+	warningText->SetFontSize(8);
+
+	container->SetSize(derivativeLayout_Frame.width(), derivativeLayout_Frame.height());
 
 // end derivativeLayout
 
@@ -199,26 +214,33 @@ GLNonLinearFitDialog::BuildWindow()
 
 // begin variableLayout
 
-    scrollbarSet =
-        jnew JXScrollbarSet(container,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 120,0, 260,100);
-    assert( scrollbarSet != NULL );
+	const JRect variableLayout_Frame    = container->GetFrame();
+	const JRect variableLayout_Aperture = container->GetAperture();
+	container->AdjustSize(380 - variableLayout_Aperture.width(), 100 - variableLayout_Aperture.height());
 
-    JXStaticText* parmLabel =
-        jnew JXStaticText("Parameters:", container,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 100,20);
-    assert( parmLabel != NULL );
+	scrollbarSet =
+		jnew JXScrollbarSet(container,
+					JXWidget::kHElastic, JXWidget::kVElastic, 120,0, 260,100);
+	assert( scrollbarSet != NULL );
 
-    itsNewButton =
-        jnew JXTextButton("New", container,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,30, 65,20);
-    assert( itsNewButton != NULL );
-    itsNewButton->SetShortcuts("#N");
+	JXStaticText* parmLabel =
+		jnew JXStaticText(JGetString("parmLabel::GLNonLinearFitDialog::variableLayout"), container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 100,20);
+	assert( parmLabel != NULL );
+	parmLabel->SetToLabel();
 
-    itsDeleteButton =
-        jnew JXTextButton("Delete", container,
-                    JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,60, 65,20);
-    assert( itsDeleteButton != NULL );
+	itsNewButton =
+		jnew JXTextButton(JGetString("itsNewButton::GLNonLinearFitDialog::variableLayout"), container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,30, 65,20);
+	assert( itsNewButton != NULL );
+	itsNewButton->SetShortcuts(JGetString("itsNewButton::GLNonLinearFitDialog::shortcuts::variableLayout"));
+
+	itsDeleteButton =
+		jnew JXTextButton(JGetString("itsDeleteButton::GLNonLinearFitDialog::variableLayout"), container,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,60, 65,20);
+	assert( itsDeleteButton != NULL );
+
+	container->SetSize(variableLayout_Frame.width(), variableLayout_Frame.height());
 
 // end variableLayout
 

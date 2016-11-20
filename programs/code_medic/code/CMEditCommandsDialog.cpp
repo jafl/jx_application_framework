@@ -102,7 +102,7 @@ CMEditCommandsDialog::BuildWindow()
 		jnew JXStaticText(JGetString("obj2_JXLayout::CMEditCommandsDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 270,20);
 	assert( obj2_JXLayout != NULL );
-    obj2_JXLayout->SetFontSize(8);
+	obj2_JXLayout->SetFontSize(8);
 	obj2_JXLayout->SetToLabel();
 
 // end JXLayout

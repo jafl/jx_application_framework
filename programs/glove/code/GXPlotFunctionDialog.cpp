@@ -18,6 +18,7 @@
 #include <JXWindow.h>
 
 #include <jParseFunction.h>
+#include <jGlobals.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -63,46 +64,47 @@ GXPlotFunctionDialog::BuildWindow()
 {
 // begin JXLayout
 
-    JXWindow* window = jnew JXWindow(this, 500,80, "");
-    assert( window != NULL );
+	JXWindow* window = jnew JXWindow(this, 500,80, "");
+	assert( window != NULL );
 
-    itsFunctionString =
-        jnew JXInputField(window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 80,10, 220,20);
-    assert( itsFunctionString != NULL );
+	itsFunctionString =
+		jnew JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 80,10, 220,20);
+	assert( itsFunctionString != NULL );
 
-    JXStaticText* obj1 =
-        jnew JXStaticText("Function:", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 10,13, 60,20);
-    assert( obj1 != NULL );
+	JXStaticText* obj1_JXLayout =
+		jnew JXStaticText(JGetString("obj1_JXLayout::GXPlotFunctionDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 70,20);
+	assert( obj1_JXLayout != NULL );
+	obj1_JXLayout->SetToLabel();
 
-    itsEditButton =
-        jnew JXTextButton("Edit", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 310,10, 60,20);
-    assert( itsEditButton != NULL );
-    itsEditButton->SetShortcuts("#E");
+	itsEditButton =
+		jnew JXTextButton(JGetString("itsEditButton::GXPlotFunctionDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 310,10, 60,20);
+	assert( itsEditButton != NULL );
+	itsEditButton->SetShortcuts(JGetString("itsEditButton::GXPlotFunctionDialog::shortcuts::JXLayout"));
 
-    itsVarMenu =
-        jnew JXTextMenu("Constants", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 380,10, 110,20);
-    assert( itsVarMenu != NULL );
+	JXTextButton* okButton =
+		jnew JXTextButton(JGetString("okButton::GXPlotFunctionDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 315,50, 70,20);
+	assert( okButton != NULL );
+	okButton->SetShortcuts(JGetString("okButton::GXPlotFunctionDialog::shortcuts::JXLayout"));
 
-    JXTextButton* okButton =
-        jnew JXTextButton("OK", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 115,50, 70,20);
-    assert( okButton != NULL );
-    okButton->SetShortcuts("^M");
+	JXTextButton* cancelButton =
+		jnew JXTextButton(JGetString("cancelButton::GXPlotFunctionDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 115,50, 70,20);
+	assert( cancelButton != NULL );
+	cancelButton->SetShortcuts(JGetString("cancelButton::GXPlotFunctionDialog::shortcuts::JXLayout"));
 
-    JXTextButton* cancelButton =
-        jnew JXTextButton("Cancel", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 315,50, 70,20);
-    assert( cancelButton != NULL );
-    cancelButton->SetShortcuts("^[");
+	itsClearButton =
+		jnew JXTextButton(JGetString("itsClearButton::GXPlotFunctionDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 215,50, 70,20);
+	assert( itsClearButton != NULL );
 
-    itsClearButton =
-        jnew JXTextButton("Clear", window,
-                    JXWidget::kHElastic, JXWidget::kVElastic, 215,50, 70,20);
-    assert( itsClearButton != NULL );
+	itsVarMenu =
+		jnew JXTextMenu(JGetString("itsVarMenu::GXPlotFunctionDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 380,10, 110,20);
+	assert( itsVarMenu != NULL );
 
 // end JXLayout
 

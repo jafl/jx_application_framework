@@ -249,7 +249,7 @@ GFGMainDirector::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,45, 530,20);
 	assert( itsBaseClassTxt != NULL );
     const JFontStyle itsBaseClassTxt_style(kJTrue, kJFalse, 0, kJFalse, GetColormap()->GetBlackColor());
-    itsBaseClassTxt->SetFontStyle(itsBaseClassTxt_style);
+	itsBaseClassTxt->SetFontStyle(itsBaseClassTxt_style);
 	itsBaseClassTxt->SetToLabel();
 
 	JXStaticText* obj4_JXLayout =

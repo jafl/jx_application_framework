@@ -44,8 +44,8 @@ private:
 
 // begin JXLayout
 
-    JXTextButton* itsHelpButton;
-    JXInputField* itsNameInput;
+	JXTextButton* itsHelpButton;
+	JXInputField* itsNameInput;
 
 // end JXLayout
 
