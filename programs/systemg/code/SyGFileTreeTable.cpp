@@ -4275,6 +4275,7 @@ SyGFileTreeTable::GetGitBranches
 			}
 		}
 
+	::close(fromFD);
 	return kJTrue;
 }
 
@@ -4586,6 +4587,7 @@ SyGFileTreeTable::GetGitStashList
 			}
 		}
 
+	::close(fromFD);
 	return !stashList->IsEmpty();
 }
 
