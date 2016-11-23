@@ -24,24 +24,10 @@
 template <class V>
 JStringMap<V>::JStringMap
 	(
-	const JBoolean copyKeys
+	const JSize lgSize // = kJDefaultLgMinTableSize
 	)
 	:
-	JHashTable< JStrValue<V> >(),
-	itsCopyKeysFlag(copyKeys)
-{
-	JStringMapX();
-}
-
-template <class V>
-JStringMap<V>::JStringMap
-	(
-	const JSize    lgSize,  // = kJDefaultLgMinTableSize
-	const JBoolean copyKeys // = kJTrue
-	)
-	:
-	JHashTable< JStrValue<V> >(lgSize),
-	itsCopyKeysFlag(copyKeys)
+	JHashTable< JStrValue<V> >(lgSize)
 {
 	JStringMapX();
 }
@@ -87,7 +73,7 @@ JStringMap<V>::Contains
 	JConstHashCursor< JStrValue<V> >* cursor = JHashTable< JStrValue<V> >::GetCursor();
 	// We know the hash value does not depend on V, so this is safe
 	JStrValue<V> hashEntry;
-	hashEntry.key = key.GetBytes();
+	hashEntry.key = &key;
 	cursor->ResetKey(hashEntry);
 	return cursor->NextKey();
 }
@@ -143,7 +129,7 @@ JStringMap<V>::SetElement
 	)
 {
 	JHashCursor< JStrValue<V> >* cursor = JHashTable< JStrValue<V> >::GetCursor();
-	JStrValue<V> hashEntry(key.GetBytes(), value);
+	JStrValue<V> hashEntry(&key, value);
 
 	cursor->ResetKey(hashEntry);
 	cursor->ForceNextMapInsertKey();
@@ -171,18 +157,10 @@ JStringMap<V>::SetElement
 			return kJFalse;
 			}
 
-		if (itsCopyKeysFlag)
-			{
-			JUtf8Byte* myKey = jnew JUtf8Byte[ key.GetByteCount()+1 ];
-			assert(myKey != NULL);
-			strcpy(myKey, key.GetBytes());
-			hashEntry.key = myKey;
-			cursor->Set(cursor->GetCursorHashValue(), hashEntry);
-			}
-		else
-			{
-			cursor->Set(cursor->GetCursorHashValue(), hashEntry);
-			}
+		hashEntry.key = jnew JString(key);
+		assert( hashEntry.key != NULL );
+		cursor->Set(cursor->GetCursorHashValue(), hashEntry);
+
 		return kJTrue;
 		}
 }
@@ -222,10 +200,8 @@ JStringMap<V>::RemoveElement
 		PrepareForSet(action);
 
 		JHashCursor< JStrValue<V> >* cursor = JHashTable< JStrValue<V> >::GetCursor();
-		if (itsCopyKeysFlag)
-			{
-			jdelete[] const_cast<JUtf8Byte*>(cursor->GetValue().key);
-			}
+		jdelete const_cast<JString*>(cursor->GetValue().key);
+
 		cursor->Remove();
 		return kJTrue;
 		}
@@ -247,19 +223,16 @@ JStringMap<V>::RemoveAll
 	const JPtrArrayT::SetElementAction action
 	)
 {
-	if (!JHashTable< JStrValue<V> >::IsEmpty() &&
-		(itsCopyKeysFlag || action != JPtrArrayT::kForget))
+	if (!JHashTable< JStrValue<V> >::IsEmpty() && action != JPtrArrayT::kForget)
 		{
 		JHashCursor< JStrValue<V> >* cursor = JHashTable< JStrValue<V> >::GetCursor();
 		cursor->Reset();
 		while ( cursor->NextFull() )
 			{
 			PrepareForSet(action);
-			if (itsCopyKeysFlag)
-				{
-				// delete, but don't mark empty to avoid multiple resizing
-				jdelete[] const_cast<JUtf8Byte*>(cursor->GetValue().key);
-				}
+
+			// delete, but don't mark empty to avoid multiple resizing
+			jdelete const_cast<JString*>(cursor->GetValue().key);
 			}
 		}
 
@@ -284,7 +257,7 @@ JStringMap<V>::Compare
 	const JStrValue<V>& rhs
 	)
 {
-	return JConvertToBoolean(strcmp(lhs.key, rhs.key) == 0);
+	return JI2B(*(lhs.key) == *(rhs.key));
 }
 
 /******************************************************************************
@@ -302,7 +275,7 @@ JStringMap<V>::Hash
 	const JStrValue<V>& value
 	)
 {
-	return JHash7Bit(value.key);
+	return JHash7Bit(value.key->GetBytes());
 }
 
 #endif

@@ -7,80 +7,59 @@
 
  ******************************************************************************/
 
+#include <JUnitTestManager.h>
 #include <JQueue.h>
 #include <JArray.h>
-#include <jCommandLine.h>
-#include <jAssert.h>
+#include <jassert_simple.h>
 
 int main()
 {
-	long i;
+	return JUnitTestManager::Execute();
+}
 
-JQueue<long, JArray<long> > a1;									// constructor
+JTEST(Long)
+{
+	JQueue<long, JArray<long> > a1;
+	JAssertEqual(0, a1.GetElementCount());
 
-	cout << "queue a1 created" << endl << endl;
-
-	cout << "a1 itemCount should be 0" << endl;
-	cout << "a1 itemCount = " << a1.GetElementCount() << endl << endl;
-
-	for (i=1;i<=5;i++)
+	for (long i=1; i<=5; i++)
 		{
 		a1.Append(i);
 		}
+	JAssertEqual(5, a1.GetElementCount());
 
-	cout << "a1 itemCount should be 5" << endl;
-	cout << "a1 itemCount = " << a1.GetElementCount() << endl << endl;
+	JQueue<long, JArray<long> > a2 = a1;
+	JAssertEqual(5, a2.GetElementCount());
 
-	JWaitForReturn();
-
-JQueue<long, JArray<long> > a2 = a1;							// copy constructor
-
-	cout << "queue a2 created from a1" << endl << endl;
-
-	cout << "a2 itemCount should be 5" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
-
-	cout << "display should be:  1 2 3 4 5" << endl;
-
+	long v1[] = { 1, 2, 3, 4, 5 };
+	long i    = 0;
 	while (!a1.IsEmpty())
 		{
-		i = a1.GetNext();
-		cout << i << ' ';
+		JAssertEqual(v1[i], a1.GetNext());
+		i++;
 		}
-	cout << endl;
 
-	cout << "a1 itemCount should be 0" << endl;
-	cout << "a1 itemCount=" << a1.GetElementCount() << endl << endl;
+	JAssertEqual(0, a1.GetElementCount());
+	JAssertEqual(5, a2.GetElementCount());
 
-	cout << "display should be:  1 2" << endl;
-
+	long v2[] = { 1, 2 };
+	i         = 0;
+	long j;
 	do
 		{
-		i = a2.GetNext();
-		cout << i << ' ';
+		j = a2.GetNext();
+		JAssertEqual(v2[i], j);
+		i++;
 		}
-		while (i < 2);
+		while (j < 2);
 
-	cout << endl;
-
-	JWaitForReturn();
-
-	cout << "display should be:  3" << endl;
-
-	cout << a2.PeekNext() << endl;
-
-	cout << "a2 itemCount should be 3" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
+	JAssertEqual(3, a2.GetElementCount());
+	JAssertEqual(3, a2.PeekNext());
+	JAssertEqual(3, a2.GetElementCount());
 
 	a2.Discard(2);
-
-	cout << "a2 itemCount should be 1" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
+	JAssertEqual(1, a2.GetElementCount());
 
 	a2.Flush();
-
-	cout << "a2 itemCount should be 0" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
-
-	return 0;
+	JAssertEqual(0, a2.GetElementCount());
 }

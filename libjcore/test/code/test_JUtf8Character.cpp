@@ -13,7 +13,7 @@
 
 int main()
 {
-	JUnitTestManager::Execute();
+	return JUnitTestManager::Execute();
 }
 
 JTEST(Construction)

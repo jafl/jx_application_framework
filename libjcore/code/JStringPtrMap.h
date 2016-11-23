@@ -22,10 +22,8 @@ class JStringPtrMap : public JStringMap<V*>
 
 public:
 
-	JStringPtrMap(const JPtrArrayT::CleanUpAction action, const JBoolean copyKeys);
 	JStringPtrMap(const JPtrArrayT::CleanUpAction action,
-				  const JSize lgSize = kJDefaultLgMinTableSize,
-				  const JBoolean copyKeys = kJTrue);
+				  const JSize lgSize = kJDefaultLgMinTableSize);
 	virtual ~JStringPtrMap();
 
 	JBoolean GetElement(const JString& key, V** ptr);

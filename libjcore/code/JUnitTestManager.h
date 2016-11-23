@@ -8,8 +8,9 @@
 #ifndef _H_JUnitTestManager
 #define _H_JUnitTestManager
 
-#include <jTypes.h>
+#include <JString.h>
 #include <sstream>
+#include <math.h>
 
 class JUnitTestManager;
 
@@ -39,16 +40,21 @@ typedef void	(*JUnitTest)();
 #define JAssertStringsEqualWithMessage(expected, actual, msg) \
 	JUnitTestManager::Instance()->StringsAreEqual(expected, actual, __FILE__, __LINE__, msg)
 
+#define JAssertWithin(epsilon, expected, actual) \
+	JAreWithin(epsilon, expected, actual, __FILE__, __LINE__)
+
+#define JAssertWithinWithMessage(epsilon, expected, actual, msg) \
+	JAreWithin(epsilon, expected, actual, __FILE__, __LINE__, msg)
+
 class JUnitTestManager
 {
 public:
 
 	static JUnitTestManager* Instance();
 
-	static void	Execute(const JBoolean exit = kJTrue);
+	static int	Execute();
 	static void	ReportFailure(JUtf8Byte const* message, JUtf8Byte const* file, const JIndex line);
 	static void	ReportFatal(JUtf8Byte const* message, JUtf8Byte const* file, const JIndex line);
-	static void	Exit();
 
 	int	RegisterTest(JUnitTest name);
 
@@ -58,6 +64,12 @@ public:
 	JBoolean	IsFalse(const JBoolean value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
 	JBoolean	IsFalse(const int value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
 
+	JBoolean	StringsAreEqual(const JString& expectedValue, const JString& actualValue,
+								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
+	JBoolean	StringsAreEqual(const JString& expectedValue, const JUtf8Byte* actualValue,
+								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
+	JBoolean	StringsAreEqual(const JUtf8Byte* expectedValue, const JString& actualValue,
+								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
 	JBoolean	StringsAreEqual(const JUtf8Byte* expectedValue, const JUtf8Byte* actualValue,
 								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
 
@@ -103,7 +115,40 @@ JAreEqual
 			{
 			s << msg << ": ";
 			}
-		s << "Values are not equal."
+		s << "Values are not equal:"
+		  << "  Expected " << expectedValue
+		  << " but got " << actualValue;
+
+		const std::string msg = s.str();
+		JUnitTestManager::Instance()->ReportFailure(s.str().c_str(), file, line);
+		return kJFalse;
+		}
+}
+
+template <class T>
+JBoolean
+JAreWithin
+	(
+	const T&			epsilon,
+	const T&			expectedValue,
+	const T&			actualValue,
+	JUtf8Byte const*	file,
+	const JIndex		line,
+	const JUtf8Byte*	msg = NULL
+	)
+{
+	if (fabs(expectedValue - actualValue) < epsilon)
+		{
+		return kJTrue;
+		}
+	else
+		{
+		std::ostringstream s;
+		if (msg != NULL)
+			{
+			s << msg << ": ";
+			}
+		s << "Values are not within " << epsilon << ":"
 		  << "  Expected " << expectedValue
 		  << " but got " << actualValue;
 
@@ -135,6 +180,45 @@ JUnitTestManager::IsFalse
 	)
 {
 	return IsFalse(JI2B(value), file, line, msg);
+}
+
+inline JBoolean
+JUnitTestManager::StringsAreEqual
+	(
+	const JString&		expectedValue,
+	const JString&		actualValue,
+	JUtf8Byte const*	file,
+	const JIndex		line,
+	const JUtf8Byte*	msg
+	)
+{
+	return StringsAreEqual(expectedValue.GetBytes(), actualValue.GetBytes(), file, line, msg);
+}
+
+inline JBoolean
+JUnitTestManager::StringsAreEqual
+	(
+	const JString&		expectedValue,
+	const JUtf8Byte*	actualValue,
+	JUtf8Byte const*	file,
+	const JIndex		line,
+	const JUtf8Byte*	msg
+	)
+{
+	return StringsAreEqual(expectedValue.GetBytes(), actualValue, file, line, msg);
+}
+
+inline JBoolean
+JUnitTestManager::StringsAreEqual
+	(
+	const JUtf8Byte*	expectedValue,
+	const JString&		actualValue,
+	JUtf8Byte const*	file,
+	const JIndex		line,
+	const JUtf8Byte*	msg
+	)
+{
+	return StringsAreEqual(expectedValue, actualValue.GetBytes(), file, line, msg);
 }
 
 #endif

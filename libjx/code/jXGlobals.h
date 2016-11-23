@@ -86,9 +86,4 @@ void		JXSetDockManager(JXDockManager* dockMgr);
 JBoolean	JXPreprocessKeyPress(const KeySym keySym, JCharacter* buffer);
 void		JXClearKeyPressPreprocessor();
 
-	// called by JXFontManager
-
-JBoolean	JXGetCharacterSetName(JString* charSetName);
-JBoolean	JXGetLatinCharacterSetIndex(JIndex* charSetIndex);
-
 #endif

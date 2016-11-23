@@ -27,7 +27,6 @@
 #include <jStreamUtil.h>
 #include <jDirUtil.h>
 #include <X11/Xlib.h>
-#include <locale.h>
 #include <jAssert.h>
 
 static JXApplication*			theApplication    = NULL;	// owns itself
@@ -48,8 +47,6 @@ static JXSearchTextDialog*		theSearchTextDialog       = NULL;	// can be NULL
 static JXSpellChecker*			theSpellChecker           = NULL;
 
 static JXComposeRuleList*		theComposeRuleList        = NULL;	// can be NULL
-static JString					theCharacterSetName;
-static JIndex					theLatinCharacterSetIndex = 0;
 
 static const JCharacter* kInvisibleWindowClass = "Do_not_display_in_taskbar";
 static const JCharacter* kDockWindowClass      = "JX_Dock";
@@ -656,8 +653,6 @@ JXGetDockWindowClass()
 
 const JSize kCharacterCount = 256;
 static JBoolean kIsCharacterInWord [ kCharacterCount ];
-static JCharacter kDiacriticalMap  [ kCharacterCount ];
-static JIndex kDiacriticalMarkType [ kCharacterCount ];
 
 static JBoolean I18NIsCharacterInWord(const JCharacter c);
 
@@ -668,9 +663,7 @@ JXInitLocale()
 
 	for (JIndex i=0; i<kCharacterCount; i++)
 		{
-		kIsCharacterInWord[i]   = kJFalse;
-		kDiacriticalMap[i]      = static_cast<JCharacter>(i);
-		kDiacriticalMarkType[i] = 0;
+		kIsCharacterInWord[i] = kJFalse;
 		}
 
 	JTextEditor::SetI18NCharacterInWordFunction(I18NIsCharacterInWord);
@@ -687,7 +680,6 @@ JXInitLocale()
 			}
 		}
 
-	setlocale(LC_ALL, "");	// use native locale
 
 	// resolve alias to complete language name
 
@@ -762,12 +754,8 @@ JXInitLocale()
 	if (found && JXOpenLocaleFile(composeFile, composeInput))
 		{
 		theComposeRuleList = jnew JXComposeRuleList(composeInput, kCharacterCount,
-												   kIsCharacterInWord,
-												   kDiacriticalMap,
-												   kDiacriticalMarkType);
+													kIsCharacterInWord);
 		assert( theComposeRuleList != NULL );
-
-		JSetDiacriticalMap(kDiacriticalMap, kDiacriticalMarkType);
 		}
 	composeInput.close();
 }
@@ -813,36 +801,6 @@ JXGetComposeRuleList
 {
 	*ruleList = theComposeRuleList;
 	return JI2B( theComposeRuleList != NULL );
-}
-
-/******************************************************************************
- JXGetLatinCharacterSetIndex
-
- ******************************************************************************/
-
-JBoolean
-JXGetLatinCharacterSetIndex
-	(
-	JIndex* charSetIndex
-	)
-{
-	*charSetIndex = theLatinCharacterSetIndex;
-	return JI2B( theLatinCharacterSetIndex > 0 );
-}
-
-/******************************************************************************
- JXGetCharacterSetName
-
- ******************************************************************************/
-
-JBoolean
-JXGetCharacterSetName
-	(
-	JString* charSetName
-	)
-{
-	*charSetName = theCharacterSetName;
-	return !theCharacterSetName.IsEmpty();
 }
 
 /******************************************************************************

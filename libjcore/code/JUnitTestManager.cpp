@@ -10,7 +10,6 @@
  ******************************************************************************/
 
 #include <JUnitTestManager.h>
-#include <JString.h>
 #include <jAssert.h>
 
 static JUnitTestManager* theManager = NULL;
@@ -72,20 +71,15 @@ JUnitTestManager::RegisterTest
 /******************************************************************************
  Execute (static)
 
+	Returns value suitable for returning from main().
+
  ******************************************************************************/
 
-void
-JUnitTestManager::Execute
-	(
-	const JBoolean exit
-	)
+int
+JUnitTestManager::Execute()
 {
 	Instance()->ExecuteTests();
-
-	if (exit)
-		{
-		Exit();
-		}
+	return (Instance()->itsFailureCount > 0 ? 1 : 0);
 }
 
 /******************************************************************************
@@ -135,17 +129,6 @@ JUnitTestManager::ReportFatal
 {
 	ReportFailure(message, file, line);
 	exit(1);	// since we don't throw exceptions
-}
-
-/******************************************************************************
- Exit (static)
-
- ******************************************************************************/
-
-void
-JUnitTestManager::Exit()
-{
-	exit( Instance()->itsFailureCount > 0 ? 1 : 0 );
 }
 
 /******************************************************************************
@@ -275,7 +258,7 @@ JUnitTestManager::StringsAreEqual
 			{
 			s << msg << ": ";
 			}
-		s << "Strings are not equal." 
+		s << "Strings are not equal:" 
 		  << "  Expected <<" << expectedValue
 		  << ">> but got <<" << actualValue << ">>" << endl;
 		s << '\t'; JString(expectedValue, strlen(expectedValue)).PrintHex(s); s << endl;

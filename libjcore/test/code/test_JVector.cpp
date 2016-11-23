@@ -7,112 +7,102 @@
 
  ******************************************************************************/
 
+#include <JUnitTestManager.h>
 #include <JVector.h>
 #include <JMatrix.h>
-#include <jCommandLine.h>
-#include <jAssert.h>
+#include <jassert_simple.h>
 
-int
-main()
+int main()
 {
-JFloat v1e[] = {1.0, 1.0, 0.0};
+	return JUnitTestManager::Execute();
+}
 
-JVector v1(3, v1e);												// constructor
+JTEST(Exercise)
+{
+	JFloat v1e[] = { 1.0, 1.0, 0.0 };
 
-	v1.SetElement(1,0.0);
+	JVector v1(3, v1e);
+	JAssertEqual(3, v1.GetDimensionCount());
 
-JVector v2(3, 1.0,0.0,1.0);										// constructor
+	v1.SetElement(1, 0.0);
+	JAssertEqual(0.0, v1.GetElement(1));
+	JAssertEqual(1.0, v1.GetElement(2));
+	JAssertEqual(0.0, v1.GetElement(3));
 
-	cout << "We are in " << v1.GetDimensionCount() << " dimensions." << endl;
+	JVector v2(3, 1.0, 0.0, 1.0);
+	JAssertEqual(1.0, v2.GetElement(1));
+	JAssertEqual(0.0, v2.GetElement(2));
+	JAssertEqual(1.0, v2.GetElement(3));
 
-	cout << "v1 should be 0 1 0" << endl;
-	cout << "v1 =" << v1 << endl;
+	JAssertEqual(0.0, JDotProduct(v1,v2));
 
-	cout << "v2 should be 1 0 1" << endl;
-	cout << "v2 =" << v2 << endl;
-
-	cout << "v1 dot v2 should be 0" << endl;
-	cout << "v1 dot v2 =" << JDotProduct(v1,v2) << endl;
-
-	cout << "v1 outer product v2 should be 0 0 0, 1 0 1, 0 0 0" << endl;
-	cout << "v1 outer product v2 =" << JOuterProduct(v1, v2) << endl;
-
-	JWaitForReturn();
+	JMatrix outerProduct = JOuterProduct(v1, v2);
+	JAssertEqual(0.0, outerProduct.GetElement(1, 1));
+	JAssertEqual(0.0, outerProduct.GetElement(1, 2));
+	JAssertEqual(0.0, outerProduct.GetElement(1, 3));
+	JAssertEqual(1.0, outerProduct.GetElement(2, 1));
+	JAssertEqual(0.0, outerProduct.GetElement(2, 2));
+	JAssertEqual(1.0, outerProduct.GetElement(2, 3));
+	JAssertEqual(0.0, outerProduct.GetElement(3, 1));
+	JAssertEqual(0.0, outerProduct.GetElement(3, 2));
+	JAssertEqual(0.0, outerProduct.GetElement(3, 3));
 
 	v1 += v2;
+	JAssertEqual(1.0, v1.GetElement(1));
+	JAssertEqual(1.0, v1.GetElement(2));
+	JAssertEqual(1.0, v1.GetElement(3));
 
-	cout << "v1 should be 1 1 1" << endl;
-	cout << "v1 =" << v1 << endl;
-
-	cout << "|v1| should be 1.732" << endl;
-	cout << "|v1| =" << v1.GetLength() << endl;
+	JAssertWithin(0.001, 1.732, v1.GetLength());
 
 	v2 -= v1;
+	JAssertEqual( 0.0, v2.GetElement(1));
+	JAssertEqual(-1.0, v2.GetElement(2));
+	JAssertEqual( 0.0, v2.GetElement(3));
 
-	cout << "v2 should be 0 -1 0" << endl;
-	cout << "v2 =" << v2 << endl;
+	JAssertEqual(-1.0, JDotProduct(v1,v2));
 
-	cout << "v1 dot v2 should be -1" << endl;
-	cout << "v1 dot v2 =" << JDotProduct(v1,v2) << endl;
-
-	JWaitForReturn();
-
-	cout << "Enter jnew v1: ";
-	cin >> v1;
-	JInputFinished();
-
-	cout << "New v1 =" << v1 << endl;
-
-	cout << "Unit vector from v1 =" << v1.UnitVector() << endl;
+	JVector unit = v1.UnitVector();
 	v1.Normalize();
-	cout << "Normalized v1       =" << v1 << endl;
+	JAssertEqual(unit, v1);
 
-JVector v3 = v2;												// copy constructor
+	JVector v3 = v2;
+	JAssertEqual(v2, v3);
 
-	cout << "v3 should equal v2" << endl;
-	cout << "v3 equals v2? " << (v3 == v2) << endl;
+	JVector v4 = v2 + v3;
+	JAssertEqual( 0.0, v4.GetElement(1));
+	JAssertEqual(-2.0, v4.GetElement(2));
+	JAssertEqual( 0.0, v4.GetElement(3));
 
-JVector v4 = v2 + v3;
+	JAssertTrue(v4 != v2);
 
-	cout << "v4 should equal 0 -2 0" << endl;
-	cout << "v4 =" << v4 << endl;
-
-	cout << "v4 should not equal v2" << endl;
-	cout << "v4 not equal to v2? " << (v4 != v2) << endl;
-
-JVector v5(3);
-
-	v5 = v4 - v2;												// assignment operator
-
-	cout << "v5 should equal 0 -1 0" << endl;
-	cout << "v5 =" << v5 << endl;
-
-	JWaitForReturn();
+	JVector v5(3);
+	v5 = v4 - v2;
+	JAssertEqual( 0.0, v5.GetElement(1));
+	JAssertEqual(-1.0, v5.GetElement(2));
+	JAssertEqual( 0.0, v5.GetElement(3));
 
 	v5 *= 3.0;
+	JAssertEqual( 0.0, v5.GetElement(1));
+	JAssertEqual(-3.0, v5.GetElement(2));
+	JAssertEqual( 0.0, v5.GetElement(3));
 
-	cout << "v5 should equal 0 -3 0" << endl;
-	cout << "v5 =" << v5 << endl;
-
-JVector v6 = v5 / 2.0;
-
-	cout << "v6 should equal 0 -1.5 0" << endl;
-	cout << "v6 =" << v6 << endl;
+	JVector v6 = v5 / 2.0;
+	JAssertEqual( 0.0, v6.GetElement(1));
+	JAssertEqual(-1.5, v6.GetElement(2));
+	JAssertEqual( 0.0, v6.GetElement(3));
 
 	v6 = 2.0 * v5;
-
-	cout << "v6 should equal 0 -6 0" << endl;
-	cout << "v6 =" << v6 << endl;
+	JAssertEqual( 0.0, v6.GetElement(1));
+	JAssertEqual(-6.0, v6.GetElement(2));
+	JAssertEqual( 0.0, v6.GetElement(3));
 
 	v6 = -v5;
+	JAssertEqual(0.0, v6.GetElement(1));
+	JAssertEqual(3.0, v6.GetElement(2));
+	JAssertEqual(0.0, v6.GetElement(3));
 
-	cout << "v6 should equal 0 3 0" << endl;
-	cout << "v6 =" << v6 << endl;
-
-	cout << "first element should be zero" << endl;
-	cout << "is first element zero? " << (v6.GetElement(1) == 0.0) << endl;
-
-	cout << "transpose(v6) =" << v6.Transpose() << endl;
-
-	return 0;
+	JMatrix v6t = v6.Transpose();
+	JAssertEqual(0.0, v6t.GetElement(1, 1));
+	JAssertEqual(3.0, v6t.GetElement(1, 2));
+	JAssertEqual(0.0, v6t.GetElement(1, 3));
 }

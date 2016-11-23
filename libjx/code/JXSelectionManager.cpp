@@ -48,8 +48,8 @@ static const JCharacter* kAtomNames[ JXSelectionManager::kAtomCount ] =
 	"TEXT",							//  8-bit characters
 	"COMPOUND_TEXT",				// 16-bit characters
 	"MULTIPLE",						// several formats at once
-	"text/plain",
-	"text/uri-list",
+	"text/plain;charset=utf-8",
+	"text/uri-list;charset=utf-8",
 	"DELETE",						// returns type "NULL"
 	"NULL",
 	"CLIPBOARD"
@@ -90,19 +90,7 @@ JXSelectionManager::JXSelectionManager
 
 	// create required X atoms
 
-	JString mimePlainTextXAtomName = kAtomNames[ kMimePlainTextAtomIndex ];
-	JIndex charSetIndex;
-	if (JXGetLatinCharacterSetIndex(&charSetIndex) && charSetIndex != 1)
-		{
-		mimePlainTextXAtomName += ";charset=iso8859-";
-		mimePlainTextXAtomName += JString(charSetIndex, JString::kBase10);
-		}
-
-	const JCharacter* atomNames[ JXSelectionManager::kAtomCount ];
-	memcpy(atomNames, kAtomNames, sizeof(kAtomNames));
-	atomNames[ kMimePlainTextAtomIndex ] = mimePlainTextXAtomName;
-
-	itsDisplay->RegisterXAtoms(kAtomCount, atomNames, itsAtoms);
+	itsDisplay->RegisterXAtoms(kAtomCount, kAtomNames, itsAtoms);
 }
 
 /******************************************************************************

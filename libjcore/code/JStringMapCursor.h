@@ -27,7 +27,7 @@ public:
 
 	JBoolean Next();
 
-	const JUtf8Byte* GetKey() const;
+	const JString& GetKey() const;
 	const V& GetValue() const;
 
 	void Reset();
@@ -62,10 +62,10 @@ JStringMapCursor<V>::Next()
  *****************************************************************************/
 
 template <class V>
-inline const JUtf8Byte*
+inline const JString&
 JStringMapCursor<V>::GetKey() const
 {
-	return itsCursor.GetValue().key;
+	return *(itsCursor.GetValue().key);
 }
 
 /******************************************************************************

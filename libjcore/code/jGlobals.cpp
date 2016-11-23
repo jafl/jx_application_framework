@@ -19,6 +19,7 @@
 #include <jDirUtil.h>
 #include <jFileUtil.h>
 #include <stdlib.h>
+#include <locale.h>
 #include <ace/OS_NS_sys_socket.h>
 #include <jAssert.h>
 
@@ -90,6 +91,10 @@ JInitCore
 		theAssertHandler = ah;
 		}
 	// NULL is valid in this case -- see JGetAssertHandler()
+
+	// use native locale
+
+	setlocale(LC_ALL, "");
 
 	// socket library (mainly Windows)
 

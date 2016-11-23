@@ -51,20 +51,64 @@ ${CODEDIR}/test_JPtrArray
 @testJRunArray
 ${CODEDIR}/test_JRunArray
 
-@testJQueue
+@test_JQueue
 ${CODEDIR}/test_JQueue
+.o ${JCOREDIR}/JUnitTestManager
+.o ${JCOREDIR}/JRTTIBase
+.o ${JCOREDIR}/JBroadcaster
+.o ${JCOREDIR}/JCollection
+.o ${JCOREDIR}/JContainer
+.o ${JCOREDIR}/JOrderedSetT
+.o ${JCOREDIR}/JOrderedSetUtil
+.o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JBooleanIO
+.o ${JCOREDIR}/jMath
+.o ${JCOREDIR}/jStreamUtil
+.o ${JCOREDIR}/jStreamUtil_UNIX
 
-@testJStack
+@test_JStack
 ${CODEDIR}/test_JStack
+.o ${JCOREDIR}/JUnitTestManager
+.o ${JCOREDIR}/JRTTIBase
+.o ${JCOREDIR}/JBroadcaster
+.o ${JCOREDIR}/JCollection
+.o ${JCOREDIR}/JContainer
+.o ${JCOREDIR}/JOrderedSetT
+.o ${JCOREDIR}/JOrderedSetUtil
+.o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JBooleanIO
+.o ${JCOREDIR}/jMath
+.o ${JCOREDIR}/jStreamUtil
+.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @testJSubset
 ${CODEDIR}/test_JSubset
 
-@testJVector
+@test_JVector
 ${CODEDIR}/test_JVector
+.o ${JCOREDIR}/JVector
+.o ${JCOREDIR}/JMatrix
+.o ${JCOREDIR}/JUnitTestManager
+.o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/JBooleanIO
+.o ${JCOREDIR}/jMath
+.o ${JCOREDIR}/jStreamUtil
+.o ${JCOREDIR}/jStreamUtil_UNIX
 
-@testJMatrix
+@test_JMatrix
 ${CODEDIR}/test_JMatrix
+.o ${JCOREDIR}/JMatrix
+.o ${JCOREDIR}/JVector
+.o ${JCOREDIR}/JUnitTestManager
+.o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/JBooleanIO
+.o ${JCOREDIR}/jMath
+.o ${JCOREDIR}/jStreamUtil
+.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @testrand
 ${CODEDIR}/testrand
@@ -84,23 +128,55 @@ ${CODEDIR}/test_JTextProgressDisplay
 @testJPrefsFile
 ${CODEDIR}/test_JPrefsFile
 
-@testescape
-${CODEDIR}/testescape
+@test_JSubstitute
+${CODEDIR}/test_JSubstitute
+.o ${JCOREDIR}/JSubstitute
+.o ${JCOREDIR}/JUnitTestManager
+.o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/JBooleanIO
+.o ${JCOREDIR}/jMath
+.o ${JCOREDIR}/jStreamUtil
+.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @testJRegex
 ${CODEDIR}/testregex
 
-@testhash
-${CODEDIR}/testhash
+@test_jHashFunctions
+${CODEDIR}/test_jHashFunctions
+.o ${JCOREDIR}/jHashFunctions
+.o ${JCOREDIR}/JUnitTestManager
+.o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/JBooleanIO
+.o ${JCOREDIR}/jMath
+.o ${JCOREDIR}/jStreamUtil
+.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @testtable
 ${CODEDIR}/testtable
 
-@testmap
-${CODEDIR}/testmap
+@test_JStringMap
+${CODEDIR}/test_JStringMap
+.o ${JCOREDIR}/jHashFunctions
+.o ${JCOREDIR}/JUnitTestManager
+.o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JBooleanIO
+.o ${JCOREDIR}/jMath
+.o ${JCOREDIR}/jStreamUtil
+.o ${JCOREDIR}/jStreamUtil_UNIX
 
-@testptrmap
-${CODEDIR}/testptrmap
+@test_JStringPtrMap
+${CODEDIR}/test_JStringPtrMap
+.o ${JCOREDIR}/jHashFunctions
+.o ${JCOREDIR}/JUnitTestManager
+.o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JBooleanIO
+.o ${JCOREDIR}/jMath
+.o ${JCOREDIR}/jStreamUtil
+.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @testnew
 ${CODEDIR}/testnew

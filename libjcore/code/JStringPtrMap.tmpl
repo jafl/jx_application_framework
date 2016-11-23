@@ -27,23 +27,10 @@ template <class V>
 JStringPtrMap<V>::JStringPtrMap
 	(
 	const JPtrArrayT::CleanUpAction action,
-	const JBoolean                  copyKeys
+	const JSize                     lgSize  // = kJDefaultLgMinTableSize
 	)
 	:
-	JStringMap<V*>(copyKeys),
-	itsCleanUpAction(action)
-{
-}
-
-template <class V>
-JStringPtrMap<V>::JStringPtrMap
-	(
-	const JPtrArrayT::CleanUpAction action,
-	const JSize                     lgSize,  // = kJDefaultLgMinTableSize
-	const JBoolean                  copyKeys // = kJTrue
-	)
-	:
-	JStringMap<V*>(lgSize, copyKeys),
+	JStringMap<V*>(lgSize),
 	itsCleanUpAction(action)
 {
 }

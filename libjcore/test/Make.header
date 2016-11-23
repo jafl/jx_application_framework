@@ -38,9 +38,9 @@ default: libs all
 Makefiles:
 
 .PHONY : test
-test: test_JBoolean test_JUtf8Character test_JString
+test: test_JBoolean test_JUtf8Character test_JString test_jHashFunctions test_JStack test_JQueue test_JVector test_JMatrix test_JStringMap test_JStringPtrMap
 	@echo ==========
-	@${foreach p, $^, echo $p; echo; if ! ./$p; then e=1; fi;} \
+	@${foreach p, $^, echo; echo $p; if ! ./$p; then e=1; fi;} \
      echo ==========; \
      if [[ "$$e" == "1" ]]; then false; fi
 

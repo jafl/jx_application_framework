@@ -35,9 +35,7 @@ class JStringMap : public JHashTable< JStrValue<V> >
 
 public:
 
-	JStringMap(const JBoolean copyKeys);
-	JStringMap(const JSize lgSize = kJDefaultLgMinTableSize,
-			   const JBoolean copyKeys = kJTrue);
+	JStringMap(const JSize lgSize = kJDefaultLgMinTableSize);
 	virtual ~JStringMap();
 
 	JBoolean Contains(const JString& key) const;
@@ -52,8 +50,6 @@ public:
 	JBoolean RemoveElement(const JString& key);
 	void     RemoveAll();
 
-	JBoolean KeysAreCopied() const { return itsCopyKeysFlag; };
-
 protected:
 
 	JBoolean     SetElement(const JString& key, const V& value,
@@ -65,10 +61,6 @@ protected:
 	JBoolean RemoveElement(const JString& key,
 						   const JPtrArrayT::SetElementAction action);
 	void     RemoveAll(const JPtrArrayT::SetElementAction action);
-
-private:
-
-	const JBoolean itsCopyKeysFlag;
 
 private:
 
