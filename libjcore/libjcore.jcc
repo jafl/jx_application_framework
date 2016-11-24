@@ -791,7 +791,7 @@ T "./test" "makemake ; make test" "" T F T T T T F "Tests" "F11" "" F
 F
 # build settings
 1
-T
+F
 "libjcore-${JX_LIB_VERSION}.a,libjcore-${JX_LIB_VERSION}.so"
 ""
 "make -k all"

@@ -81,6 +81,25 @@ JString::JString
 	CopyToPrivateString(str.GetBytes() + byteRange.first-1, byteRange.GetLength());
 }
 
+// This unfortunately allows implicit conversion, but not being able to
+// write [JString s = "abc"] is just too annoying.
+
+JString::JString
+	(
+	const JUtf8Byte* str
+	)
+	:
+	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
+	itsByteCount(0),
+	itsCharacterCount(0),
+	itsAllocCount(0),
+	itsBlockSize(kDefaultBlockSize),
+	itsUCaseMap(NULL),
+	itsFirstIterator(NULL)
+{
+	CopyToPrivateString(str, strlen(str));
+}
+
 JString::JString
 	(
 	const JUtf8Byte*	str,
@@ -115,6 +134,42 @@ JString::JString
 {
 	assert( IsValid(str, range) );
 	CopyToPrivateString(str + range.first-1, range.GetLength());
+}
+
+// This unfortunately allows round-about implicit conversion, but not being
+// able to write [JString s = "abc"] is just too annoying.
+
+JString::JString
+	(
+	const std::string& s
+	)
+	:
+	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
+	itsByteCount(0),
+	itsCharacterCount(0),
+	itsAllocCount(0),
+	itsBlockSize(kDefaultBlockSize),
+	itsUCaseMap(NULL),
+	itsFirstIterator(NULL)
+{
+	CopyToPrivateString(s.data(), s.length());
+}
+
+JString::JString
+	(
+	const std::string&		s,
+	const JUtf8ByteRange&	range
+	)
+	:
+	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
+	itsByteCount(0),
+	itsCharacterCount(0),
+	itsAllocCount(0),
+	itsBlockSize(kDefaultBlockSize),
+	itsUCaseMap(NULL),
+	itsFirstIterator(NULL)
+{
+	CopyToPrivateString(s.data() + range.first-1, range.GetLength());
 }
 
 JString::JString
@@ -208,23 +263,6 @@ JString::JString
 	itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
 }
 
-JString::JString
-	(
-	const std::string&		s,
-	const JUtf8ByteRange&	range
-	)
-	:
-	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
-	itsByteCount(0),
-	itsCharacterCount(0),
-	itsAllocCount(0),
-	itsBlockSize(kDefaultBlockSize),
-	itsUCaseMap(NULL),
-	itsFirstIterator(NULL)
-{
-	CopyToPrivateString(s.data() + range.first-1, range.GetLength());
-}
-
 /******************************************************************************
  Copy constructor
 
@@ -278,7 +316,7 @@ JString::CopyToPrivateString
 	const JSize			byteCount
 	)
 {
-	assert( !(itsBytes <= str && str < itsBytes + itsByteCount) );
+	assert( itsBytes == NULL || !(itsBytes <= str && str < itsBytes + itsByteCount) );
 
 	// ensure sufficient space
 
@@ -787,7 +825,7 @@ JString::FoldCase
 	Return the byte index corresponding to the start of the next occurrence
 	of the given sequence in our string, starting at *byteIndex.
 
-	In:  *byteIndex is first character to consider
+	In:  *byteIndex is first location to consider
 	Out: If function returns kJTrue, *byteIndex is location of next occurrence.
 		 Otherwise, *byteIndex is beyond end of string.
 
@@ -815,24 +853,42 @@ JString::SearchForward
 
 	assert( *byteIndex != 0 );
 
-	// if the given string is longer than we are, we can't contain it
+	// search forward for a match
 
-	if (itsByteCount - *byteIndex + 1 < strLength)
+	UErrorCode err  = U_ZERO_ERROR;
+	UCollator* coll = ucol_open(NULL, &err);
+	if (coll == NULL)
 		{
-		*byteIndex = itsByteCount+1;
 		return kJFalse;
 		}
 
-	// search forward for a match
+	if (!caseSensitive)
+		{
+		ucol_setStrength(coll, UCOL_PRIMARY);
+		}
+
+	// if the given string is longer than we are, compare for equality
+	// (longer string can be equal, if it is not normalized, e.g., o-umlaut)
+
+	if (itsByteCount - *byteIndex + 1 < strLength)
+		{
+		const UCollationResult r = ucol_strcollUTF8(coll, itsBytes + *byteIndex-1, -1, str, strLength, &err);
+		ucol_close(coll);
+		return JI2B( r == 0 );
+		}
 
 	for (JIndex i=*byteIndex; i<=itsByteCount - strLength + 1; i++)
 		{
-		if (CompareMaxN(itsBytes + i-1, str, strLength, caseSensitive) == 0)
+		const UCollationResult r = ucol_strcollUTF8(coll, itsBytes + i-1, -1, str, strLength, &err);
+		if (r == 0)
 			{
 			*byteIndex = i;
+			ucol_close(coll);
 			return kJTrue;
 			}
 		}
+
+	ucol_close(coll);
 
 	// if we fall through, there was no match
 
@@ -846,7 +902,7 @@ JString::SearchForward
 	Return the byte index corresponding to the start of the previous
 	occurrence of the given sequence in our string, starting at *byteIndex.
 
-	In:  *byteIndex is first character to consider
+	In:  *byteIndex is first location to consider
 	Out: If function returns kJTrue, *byteIndex is location of prev occurrence.
 		 Otherwise, *byteIndex is zero.
 
@@ -885,14 +941,30 @@ JString::SearchBackward
 
 	// search backward for a match
 
+	UErrorCode err  = U_ZERO_ERROR;
+	UCollator* coll = ucol_open(NULL, &err);
+	if (coll == NULL)
+		{
+		return kJFalse;
+		}
+
+	if (!caseSensitive)
+		{
+		ucol_setStrength(coll, UCOL_PRIMARY);
+		}
+
 	for (JIndex i=*byteIndex; i>=1; i--)
 		{
-		if (CompareMaxN(itsBytes + i-1, str, strLength, caseSensitive) == 0)
+		const UCollationResult r = ucol_strcollUTF8(coll, itsBytes + i-1, strLength, str, strLength, &err);
+		if (r == 0)
 			{
 			*byteIndex = i;
+			ucol_close(coll);
 			return kJTrue;
 			}
 		}
+
+	ucol_close(coll);
 
 	// if we fall through, there was no match
 
@@ -975,7 +1047,9 @@ JString::EndsWith
 		}
 	else
 		{
-		return kJFalse;
+		return JI2B(Compare(itsBytes, itsByteCount,
+							str + range.first-1, range.GetLength(),
+							caseSensitive) == 0);
 		}
 }
 
@@ -1497,7 +1571,7 @@ JString::Compare
 	const JBoolean		caseSensitive
 	)
 {
-	UErrorCode err;
+	UErrorCode err  = U_ZERO_ERROR;
 	UCollator* coll = ucol_open(NULL, &err);
 	if (coll == NULL)
 		{
@@ -1516,14 +1590,14 @@ JString::Compare
 }
 
 /******************************************************************************
- CompareMaxN (static)
+ CompareMaxNBytes (static)
 
 	Replaces strncmp(): + if s1>s2, 0 if s1==s2, - if s1<s2
 
  ******************************************************************************/
 
 int
-JString::CompareMaxN
+JString::CompareMaxNBytes
 	(
 	const JUtf8Byte*	s1,
 	const JUtf8Byte*	s2,
@@ -1543,7 +1617,17 @@ JString::CompareMaxN
 		ucol_setStrength(coll, UCOL_PRIMARY);
 		}
 
-	UCollationResult r = ucol_strcollUTF8(coll, s1, N, s2, N, &err);
+	JSize M = N;
+	for (JIndex i=0; i<N; i++)
+		{
+		if (s1[i] == 0 || s2[i] == 0)
+			{
+			M = i+1;
+			break;
+			}
+		}
+
+	const UCollationResult r = ucol_strcollUTF8(coll, s1, M, s2, M, &err);
 	ucol_close(coll);
 
 	return (int) r;
@@ -1671,9 +1755,9 @@ JString::MatchCase
 		{
 		JBoolean hasUpper = kJFalse;
 		JBoolean hasLower = kJFalse;
-		for (JIndex i = sourceRange.first-1; i < sourceRange.last; )
+		for (JIndex i = sourceRange.first; i <= sourceRange.last; )
 			{
-			c.Set(source + i);
+			c.Set(source + i-1);
 			if (c.IsLower())
 				{
 				hasLower = kJTrue;
@@ -1696,9 +1780,9 @@ JString::MatchCase
 		if (hasLower != hasUpper)
 			{
 			JUtf8Character c1;
-			for (JIndex i = destRange.first-1; i < destRange.last; )
+			for (JIndex i = destRange.first; i <= destRange.last; )
 				{
-				c.Set(itsBytes + i);
+				c.Set(itsBytes + i-1);
 				if (hasLower && !hasUpper)
 					{
 					c1 = c.ToLower();
@@ -1723,13 +1807,13 @@ JString::MatchCase
 
 	const JIndex endIndex = (sourceLen == destLen ? sourceLen : 1);
 
-	JIndex j = sourceRange.first-1;
-	JIndex k = destRange.first-1;
+	JIndex j = sourceRange.first;
+	JIndex k = destRange.first;
 	JUtf8Character c1, c2, c3;
-	for (JIndex i=0; i<endIndex; i++)
+	for (JIndex i=1; i<=endIndex; i++)
 		{
-		c1.Set(source + j);
-		c2.Set(itsBytes + k);
+		c1.Set(source + j-1);
+		c2.Set(itsBytes + k-1);
 		if (c1.IsLower() && c2.IsUpper())
 			{
 			c3 = c2.ToLower();
@@ -1742,6 +1826,9 @@ JString::MatchCase
 			ReplaceBytes(k, k + c2.GetByteCount() - 1, c3.GetBytes(), c3.GetByteCount());
 			changed = kJTrue;
 			}
+
+		j += c1.GetByteCount();
+		k += c2.GetByteCount();
 		}
 
 	if (changed)

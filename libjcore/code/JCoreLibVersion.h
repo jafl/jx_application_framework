@@ -38,6 +38,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		If you have NULL's, you have binary data and should treat it differently.
 //	*** Removed JCheckSiteName()
 //	*** Removed JCreateBuffer() - Run out of memory?  Seriously?
+//	*** Moved JSubset, JProbDistr, J*Histogram to misc/jextra.
 
 // version 3.2.0:
 //	jMountUtil:

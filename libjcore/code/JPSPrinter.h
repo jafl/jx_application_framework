@@ -80,13 +80,13 @@ public:
 	virtual void	SetDashList(const JArray<JSize>& dashList, const JSize dashOffset = 0);
 
 	virtual void	String(const JCoordinate left, const JCoordinate top,
-						   const JCharacter* str,
+						   const JString& str,
 						   const JCoordinate width = 0,
 						   const HAlignment hAlign = kHAlignLeft,
 						   const JCoordinate height = 0,
 						   const VAlignment vAlign = kVAlignTop);
 	virtual void	String(const JFloat angle, const JCoordinate left,
-						   const JCoordinate top, const JCharacter* str,
+						   const JCoordinate top, const JString& str,
 						   const JCoordinate width = 0,
 						   const HAlignment hAlign = kHAlignLeft,
 						   const JCoordinate height = 0,

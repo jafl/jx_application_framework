@@ -50,10 +50,10 @@ public:
 	JString();
 	JString(const JString& str);
 	JString(const JString& str, const JCharacterRange& range);
-//	JString(const JUtf8Byte* str);		// disallow automatic conversion
+	JString(const JUtf8Byte* str);
 	JString(const JUtf8Byte* str, const JSize byteCount);
 	JString(const JUtf8Byte* str, const JUtf8ByteRange& range);
-//	JString(const std::string& str);	// disallow circuitous automatic conversion from JUtf8Byte*
+	JString(const std::string& str);
 	JString(const std::string& str, const JUtf8ByteRange& range);
 
 	JString(const JUInt64 number, const Base base, const JBoolean pad = kJFalse);
@@ -220,8 +220,8 @@ public:
 					   const JUtf8Byte* s2, const JSize byteCount2,
 					   const JBoolean caseSensitive = kJTrue);
 
-	static int	CompareMaxN(const JUtf8Byte* s1, const JUtf8Byte* s2, const JSize N,
-								const JBoolean caseSensitive = kJTrue);
+	static int	CompareMaxNBytes(const JUtf8Byte* s1, const JUtf8Byte* s2, const JSize N,
+								 const JBoolean caseSensitive = kJTrue);
 
 	static JSize	CalcMatchLength(const JString& s1, const JString& s2,
 									const JBoolean caseSensitive = kJTrue);

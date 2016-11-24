@@ -392,7 +392,7 @@ JMDIServer::ReceiveLine
 			}
 		else if (result == 1)
 			{
-			line->Append(c);
+			line->Append(JUtf8Character(c));
 			}
 		}
 

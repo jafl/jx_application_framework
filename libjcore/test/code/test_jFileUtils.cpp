@@ -42,8 +42,7 @@ JTEST(File)
 
 JTEST(Directory)
 {
-	JString dirName;
-	dirName = "code";
+	JString dirName = "code";
 	JAssertTrue(JDirectoryExists(dirName));
 	JAssertTrue(JDirectoryWritable(dirName));
 

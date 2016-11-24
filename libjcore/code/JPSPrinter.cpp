@@ -19,7 +19,7 @@
 // setup information
 
 const JFileVersion kCurrentSetupVersion = 4;
-const JCharacter kSetupDataEndDelimiter = '\1';
+const JUtf8Byte kSetupDataEndDelimiter = '\1';
 // version  1 split data between JPSPrinter and JXPSPrinter
 // version  2 added Paper types A4,B5,USExecutive
 // version  3 added ending delimiter
@@ -27,7 +27,7 @@ const JCharacter kSetupDataEndDelimiter = '\1';
 
 // private class data
 
-static const JCharacter* kOrientationStr[] =
+static const JUtf8Byte* kOrientationStr[] =
 {
 	"Portrait", "Landscape"
 };
@@ -536,7 +536,7 @@ JPSPrinter::String
 	(
 	const JCoordinate	left,
 	const JCoordinate	top,
-	const JCharacter*	str,
+	const JString&		str,
 	const JCoordinate	width,
 	const HAlignment	hAlign,
 	const JCoordinate	height,
@@ -558,7 +558,7 @@ JPSPrinter::String
 	const JFloat		userAngle,
 	const JCoordinate	left,
 	const JCoordinate	top,
-	const JCharacter*	str,
+	const JString&		str,
 	const JCoordinate	width,
 	const HAlignment	hAlign,
 	const JCoordinate	height,
