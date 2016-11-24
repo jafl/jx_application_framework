@@ -59,9 +59,16 @@ JError::JError
 	const JUtf8Byte*	msg
 	)
 	:
-	JBroadcaster::Message(type),
-	itsMessage(JString::IsEmpty(msg) ? JGetString(type) : msg)
+	JBroadcaster::Message(type)
 {
+	if (JString::IsEmpty(msg))
+		{
+		itsMessage = JGetString(type);
+		}
+	else
+		{
+		itsMessage.Set(msg);
+		}
 }
 
 /******************************************************************************

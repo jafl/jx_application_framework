@@ -13,6 +13,7 @@
 #include <math.h>
 
 class JUnitTestManager;
+class JError;
 
 typedef void	(*JUnitTest)();
 
@@ -21,10 +22,12 @@ typedef void	(*JUnitTest)();
 #define JTEST(f)	void f(); static int unused_##f = JUnitTestManager::Instance()->RegisterTest(f); void f()
 
 #define JAssertNull(ptr)	JUnitTestManager::Instance()->IsNull(ptr, __FILE__, __LINE__)
+#define JAssertNotNull(ptr)	JUnitTestManager::Instance()->IsNotNull(ptr, __FILE__, __LINE__)
 #define JAssertTrue(value)	JUnitTestManager::Instance()->IsTrue(value, __FILE__, __LINE__)
 #define JAssertFalse(value)	JUnitTestManager::Instance()->IsFalse(value, __FILE__, __LINE__)
 
 #define JAssertNullWithMessage(ptr, msg)	JUnitTestManager::Instance()->IsNull(ptr, __FILE__, __LINE__, msg)
+#define JAssertNotNullWithMessage(ptr, msg)	JUnitTestManager::Instance()->IsNotNull(ptr, __FILE__, __LINE__, msg)
 #define JAssertTrueWithMessage(value, msg)	JUnitTestManager::Instance()->IsTrue(value, __FILE__, __LINE__, msg)
 #define JAssertFalseWithMessage(value, msg)	JUnitTestManager::Instance()->IsFalse(value, __FILE__, __LINE__, msg)
 
@@ -46,6 +49,9 @@ typedef void	(*JUnitTest)();
 #define JAssertWithinWithMessage(epsilon, expected, actual, msg) \
 	JAreWithin(epsilon, expected, actual, __FILE__, __LINE__, msg)
 
+#define JAssertOK(err) \
+	JUnitTestManager::Instance()->IsOK(err, __FILE__, __LINE__)
+
 class JUnitTestManager
 {
 public:
@@ -59,10 +65,12 @@ public:
 	int	RegisterTest(JUnitTest name);
 
 	JBoolean	IsNull(const void* ptr, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
+	JBoolean	IsNotNull(const void* ptr, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
 	JBoolean	IsTrue(const JBoolean value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
 	JBoolean	IsTrue(const int value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
 	JBoolean	IsFalse(const JBoolean value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
 	JBoolean	IsFalse(const int value, JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);
+	JBoolean	IsOK(const JError& err, JUtf8Byte const* file, const JIndex line);
 
 	JBoolean	StringsAreEqual(const JString& expectedValue, const JString& actualValue,
 								JUtf8Byte const* file, const JIndex line, const JUtf8Byte* msg = NULL);

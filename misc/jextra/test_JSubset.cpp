@@ -7,131 +7,115 @@
 
  ******************************************************************************/
 
+#include <JUnitTestManager.h>
 #include <JSubset.h>
 #include <JHistogram.h>
 #include <JProbDistr.h>
 #include <JPtrArray.h>
-#include <jCommandLine.h>
-#include <jAssert.h>
+#include <jassert_simple.h>
+
+#define verify(subset, str)	VerifyContents(subset, str, __LINE__)
 
 int main()
 {
-long i;
+	return JUnitTestManager::Execute();
+}
 
-JSubset s1(10);													// constructor
+void
+VerifyContents
+	(
+	const JSubset&		subset,
+	const JUtf8Byte*	expectedStr,
+	const int			line
+	)
+{
+	std::ostringstream data;
+	data << subset;
+	JString s;
+	s = data.str();
+	s.TrimWhitespace();
+	JAreEqual(expectedStr, s, __FILE__, line);
+}
 
-	cout << "subset s1 created" << endl << endl;
+JTEST(Exercise)
+{
+	long i;
 
-	cout << "s1 itemCount should be 0" << endl;
-	cout << "s1 itemCount = " << s1.GetElementCount() << endl << endl;
+	JSubset s1(10);
+	JAssertTrue(s1.IsEmpty());
+	JAssertEqual(0, s1.GetElementCount());
 
 	s1.AddRange(3,4);
 	s1.Add(9);
+	JAssertFalse(s1.IsEmpty());
+	JAssertEqual(3, s1.GetElementCount());
 
-	cout << "s1 itemCount should be 3" << endl;
-	cout << "s1 itemCount = " << s1.GetElementCount() << endl << endl;
-
-	cout << "s1 should contain:         10FFTTFFFFTF" << endl;
-	cout << "s1 contains      : " << s1 << endl;
-	cout << "using Contains() :           ";
-
+	verify(s1, "10FFTTFFFFTF");
+	{
+	JBoolean expect[] = { kJFalse, kJFalse, kJTrue, kJTrue, kJFalse, kJFalse, kJFalse, kJFalse, kJTrue, kJFalse };
+	long j            = 0;
 	for (i=1; i<=10; i++)
 		{
-		cout << s1.Contains(i);
+		JAssertEqual(expect[j], s1.Contains(i));
+		j++;
 		}
-	cout << endl;
+	}
 
-JSubset s2 = s1;
-
-	cout << endl;
-	cout << "subset s2 created" << endl << endl;
-
+	JSubset s2 = s1;
 	s2.Remove(1);
-
-	cout << "s1 should equal s2" << endl;
-	cout << "s1 equals s2? " << (s1 == s2) << endl;
+	JAssertEqual(s1, s2);
 
 	s2.Remove(4);
 	s2.Add(2);
+	verify(s2, "10FTTFFFFFTF");
+	JAssertFalse(s1 == s2);
 
-	cout << "s2 should contain:         10FTTFFFFFTF" << endl;
-	cout << "s2 contains      : " << s2 << endl;
+	JSubset s3 = s1 + s2;
+	verify(s3, "10FTTTFFFFTF");
 
-	cout << "s1 should not equal s2" << endl;
-	cout << "s1 equals s2? " << (s1 == s2) << endl;
+	JSubset s4 = s1 - s2;
+	verify(s4, "10FFFTFFFFFF");
 
-	JWaitForReturn();
+	JSubset s5 = s2 - s1;
+	verify(s5, "10FTFFFFFFFF");
 
-JSubset s3 = s1 + s2;
-JSubset s4 = s1 - s2;
-JSubset s5 = s2 - s1;
-JSubset s7 = JIntersection(s4, s5);
-
-	cout << "s3 should contain:         10FTTTFFFFTF" << endl;
-	cout << "s3 contains      : " << s3 << endl << endl;
-
-	cout << "s4 should contain:         10FFFTFFFFFF" << endl;
-	cout << "s4 contains      : " << s4 << endl << endl;
-
-	cout << "s5 should contain:         10FTFFFFFFFF" << endl;
-	cout << "s5 contains      : " << s5 << endl << endl;
-
-	cout << "s7 should contain:         10FFFTFFFFFF" << endl;
-	cout << "s7 contains      : " << s4 << endl << endl;
-
-	JWaitForReturn();
+	JSubset s7 = JIntersection(s3, s4);
+	verify(s7, "10FFFTFFFFFF");
 
 	s3.RemoveAll();
 	s3.AddRange(3,8);
 	s3.RemoveRange(4,6);
+	verify(s3, "10FFTFFFTTFF");
 
-	cout << "s3 should contain:         10FFTFFFTTFF" << endl;
-	cout << "s3 contains      : " << s3 << endl << endl;
-
-JSubsetIterator iter = s3.NewIterator();
-
+	JSubsetIterator iter = s3.NewIterator();
+	{
+	JIndex expect[] = { 3, 7, 8 };
+	long j          = 0;
 	JIndex index;
-
-	cout << "s3 contains: ";
 	while (iter.Next(&index))
 		{
-		cout << ' ' << index;
+		JAssertEqual(expect[j], index);
+		j++;
 		}
-	cout << endl << endl;
+	JAssertEqual(3, j);
+	}
 
-JSubset s6 = s3.Complement();
+	JSubset s6 = s3.Complement();
+	verify(s6, "10TTFTTTFFTT");
 
-	cout << "s6 should contain:         10TTFTTTFFTT" << endl;
-	cout << "s6 contains      : " << s6 << endl << endl;
-
-	s6 = s3;											// assignment operator
-
-	cout << "s6 assigned from s3" << endl << endl;
-
-	cout << "s6 itemCount should be 3" << endl;
-	cout << "s6 itemCount=" << s6.GetElementCount() << endl << endl;
-
-	cout << "s6 should contain:         10FFTFFFTTFF" << endl;
-	cout << "s6 contains      : " << s6 << endl << endl;
-
-	JWaitForReturn();
-
-	cout << "Twenty random samples of size 3:" << endl << endl;
+	s6 = s3;
+	JAssertEqual(3, s6.GetElementCount());
+	verify(s6, "10FFTFFFTTFF");
 
 	for (i=1; i<=20; i++)
 		{
-		if (JGetRandomSample(&s1, 3))
-			{
-			assert( s1.GetElementCount() == 3 );
-			cout << s1 << endl;
-			}
-		else
-			{
-			cerr << "Unable to generate random subset of that size." << endl;
-			}
+		JAssertTrue(JGetRandomSample(&s1, 3));
+		JAssertEqual(3, s1.GetElementCount());
 		}
 
 // JGetRandomSample()
+
+	JIndex index;
 
 	JHistogram<JSize> h(10);
 	for (i=1; i<=5000; i++)
@@ -235,6 +219,4 @@ JSubset s6 = s3.Complement();
 	cout << "(averaged over ensemble of 5000 subsets)" << endl << endl;
 	cout << "1) " << h1.ConvertToProbabilities() << endl;
 	cout << "2) " << h2.ConvertToProbabilities() << endl;
-
-	return 0;
 }

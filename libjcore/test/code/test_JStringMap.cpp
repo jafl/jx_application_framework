@@ -69,8 +69,8 @@ JTEST(InsertRemove)
 		{
 		keyBytes[0] = 'A' + i;
 		key         = keyBytes;
-		cout << "Inserting string \"" << key << "\" with fill/load factor "
-			 << map.GetFillFactor() << "/" << map.GetLoadFactor() << endl;
+//		cout << "Inserting string \"" << key << "\" with fill/load factor "
+//			 << map.GetFillFactor() << "/" << map.GetLoadFactor() << endl;
 		JAssertTrue(map.SetNewElement(key, i+42));
 		}
 	JAssertEqual(gNumStrings, map.GetElementCount());
@@ -162,8 +162,8 @@ JTEST(InsertRemove)
 		{
 		keyBytes[0] = 'A' + i;
 		key         = keyBytes;
-		cout << "Removing string \"" << key << "\" with fill/load factor "
-			 << map.GetFillFactor() << "/" << map.GetLoadFactor() << endl;
+//		cout << "Removing string \"" << key << "\" with fill/load factor "
+//			 << map.GetFillFactor() << "/" << map.GetLoadFactor() << endl;
 		JAssertTrue(map.RemoveElement(key));
 		}
 	JAssertEqual(0, map.GetElementCount());
@@ -184,8 +184,8 @@ JTEST(InsertRemove)
 		{
 		keyBytes[0] = 'A' + i;
 		key         = keyBytes;
-		cout << "Inserting string \"" << key << "\" with fill/load factor "
-			 << map.GetFillFactor() << "/" << map.GetLoadFactor() << endl;
+//		cout << "Inserting string \"" << key << "\" with fill/load factor "
+//			 << map.GetFillFactor() << "/" << map.GetLoadFactor() << endl;
 		JAssertTrue(map.SetNewElement(key, -i));
 		}
 	JAssertEqual(gNumStrings, map.GetElementCount());
@@ -195,6 +195,6 @@ JTEST(InsertRemove)
 	map.RemoveAll();
 	JAssertEqual(0, map.GetElementCount());
 	JAssertEqualWithMessage(0, map.GetLoadCount(), "Map still contains deleted elements!");
-	cout << "RemoveAll left fill/load factor " << map.GetFillFactor()
-		 << "/" << map.GetLoadFactor()<< endl;
+	JAssertEqual(0, map.GetFillFactor());
+	JAssertEqual(0, map.GetLoadFactor());
 }

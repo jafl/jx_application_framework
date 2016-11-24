@@ -1,37 +1,42 @@
+/******************************************************************************
+ test_jFStreamUtil.cc
+
+	Program to test fstream utilities.
+
+	Written by John Lindal.
+
+ ******************************************************************************/
+
+#include <JUnitTestManager.h>
 #include <jFStreamUtil.h>
-#include <JString.h>
 #include <stdio.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jassert_simple.h>
 
-int
-main
-	(
-	int argc,
-	char** argv
-	)
+int main()
 {
-	JInitCore();
+	return JUnitTestManager::Execute();
+}
 
-	JString fileName;
-	if (!(JGetChooseSaveFile())->SaveFile("Save file as:", NULL, "junk", &fileName))
-		{
-		return 0;
-		}
+JTEST(Exercise)
+{
+	const JUtf8Byte* fileName = "test_jFStreamUtil_tmp_file";
+
+	JString fName;
+	fName = fileName;
 
 	ofstream file0(fileName);
 	file0 << "0123456789";
 	file0.close();		// force write to disk
 	fstream file1(fileName, kJTextFile);
-	cout << "Length of file (10): " << JGetFStreamLength(file1) << endl;
+	JAssertEqual(10, JGetFStreamLength(file1));
 
-	fstream* file2 = JSetFStreamLength(fileName, file1, 20, kJTextFile);
-	cout << "Old fstream open? (0) " << (file1.rdbuf())->is_open() << endl;
-	cout << "Length of file (20): " << JGetFStreamLength(*file2) << endl;
+	fstream* file2 = JSetFStreamLength(fName, file1, 20, kJTextFile);
+	JAssertFalse((file1.rdbuf())->is_open());
+	JAssertEqual(20, JGetFStreamLength(*file2));
 
-	fstream* file3 = JSetFStreamLength(fileName, *file2, 5, kJTextFile);
-	cout << "Old fstream open? (0) " << (file2->rdbuf())->is_open() << endl;
-	cout << "Length of file (5): " << JGetFStreamLength(*file3) << endl;
+	fstream* file3 = JSetFStreamLength(fName, *file2, 5, kJTextFile);
+	JAssertFalse((file2->rdbuf())->is_open());
+	JAssertEqual(5, JGetFStreamLength(*file3));
 
 	file3->close();
 
@@ -39,11 +44,8 @@ main
 	file4.close();
 
 	file1.open(fileName, kJTextFile);
-	cout << "default open of ofstream should erase file" << endl;
-	cout << "Length of file (0): " << JGetFStreamLength(file1) << endl;
+	JAssertEqual(0, JGetFStreamLength(file1));
 	file1.close();
 
 	remove(fileName);
-
-	return 0;
 }

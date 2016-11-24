@@ -1,35 +1,38 @@
 /******************************************************************************
- test_JString.cc
+ test_JParseArgsForExec.cc
 
-	Program to test JString class.
+	Program to test JParseArgsForExec class.
 
 	Written by John Lindal.
 
  ******************************************************************************/
 
+#include <JUnitTestManager.h>
 #include <jProcessUtil.h>
-#include <JString.h>
 #include <stdarg.h>
+#include <jassert_simple.h>
 
-JBoolean
+int main()
+{
+	return JUnitTestManager::Execute();
+}
+
+void
 Test
 	(
-	const JCharacter*	cmd,
+	const JUtf8Byte*	origCmd,
 	const JSize			argc,
 	...
 	)
 {
+	JString cmd;
+	cmd = origCmd;
+
 	JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
 	JParseArgsForExec(cmd, &argList);
 
 	const JSize count = argList.GetElementCount();
-	if (count != argc)
-		{
-		cerr << "wrong arg count (" << count << ") for" << endl;
-		cerr << cmd << endl;
-		cerr << "expecting " << argc << endl << endl;
-		return kJFalse;
-		}
+	JAssertEqual(argc, count);
 
 	va_list ap;
 	va_start(ap, argc);
@@ -37,33 +40,14 @@ Test
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JString* arg = argList.NthElement(i);
-		if (*arg != va_arg(ap, const JCharacter*))
-			{
-			cerr << "wrong arg (" << i << ") for" << endl;
-			cerr << cmd << endl;
-			for (JIndex i=1; i<=count; i++)
-				{
-				cerr << *(argList.NthElement(i)) << endl;
-				}
-			cerr << endl;
-			return kJFalse;
-			}
+		JAssertStringsEqual(va_arg(ap, const JUtf8Byte*), *arg);
 		}
 
 	va_end(ap);
-
-	return kJTrue;
 }
 
-int
-main
-	(
-	int argc,
-	char** argv
-	)
+JTEST(Parse)
 {
-	cout << "No news is good news!" << endl << endl;
-
 	Test(" ", 0);
 
 	Test("cmd", 1, "cmd");
@@ -111,6 +95,4 @@ main
 		 1, "--regex-jmake=/^ *([A-Z0-9_]+)[ \t]*:([^=]|$)/\\1/t,target/ei");
 	Test(" \"--regex-jmake=/^[ \t]*([A-Z0-9_]+)[ \t]*:?=/\\\\1/v,variable/ei\" ",
 		 1, "--regex-jmake=/^[ \t]*([A-Z0-9_]+)[ \t]*:?=/\\1/v,variable/ei");
-
-	return 0;
 }

@@ -31,13 +31,11 @@
 .cpp ./code/JIntRange
 .cpp ./code/jRand
 .cpp ./code/JKLRand
-.cpp ./code/JProbDistr
 .cpp ./code/JCollection
 .cpp ./code/JContainer
 .cpp ./code/JOrderedSetT
 .cpp ./code/JOrderedSetUtil
 .cpp ./code/JPtrArray-JString
-.cpp ./code/JSubset
 .cpp ./code/JFileArray
 .cpp ./code/JFileArrayIndex
 .cpp ./code/jHashFunctions
@@ -134,6 +132,7 @@
 .cpp ./code/JMMRecord
 .cpp ./code/JMMTable
 .cpp ./code/JUnitTestManager
+.cpp ./code/JBroadcastTester
 .cpp ./code/JMDIServer
 .cpp ./code/jMouseUtil
 .cpp ./code/JStopWatch

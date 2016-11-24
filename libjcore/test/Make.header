@@ -37,8 +37,18 @@ default: libs all
 .PHONY : Makefiles
 Makefiles:
 
+# test_JParseArgsForExec
+# test_JSubstitute
+# test_jFileUtils
+# test_jFStreamUtil
+
 .PHONY : test
-test: test_JBoolean test_JUtf8Character test_JString test_jHashFunctions test_JStack test_JQueue test_JVector test_JMatrix test_JStringMap test_JStringPtrMap
+test: test_JBoolean test_JUtf8Character test_JString \
+      test_JBroadcaster \
+      test_JArray test_JLinkedList test_JPtrArray test_JRunArray test_JSubset \
+      test_JStack test_JQueue test_JVector test_JMatrix \
+      test_jHashFunctions test_JHashTable test_JStringMap test_JStringPtrMap \
+      test_JKLRand
 	@echo ==========
 	@${foreach p, $^, echo; echo $p; if ! ./$p; then e=1; fi;} \
      echo ==========; \

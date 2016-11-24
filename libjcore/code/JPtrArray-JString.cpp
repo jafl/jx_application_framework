@@ -98,7 +98,7 @@ operator>>
 			return input;
 			}
 
-		map.SetElement(key.GetBytes(), value, JPtrArrayT::kDelete);
+		map.SetElement(key, value, JPtrArrayT::kDelete);
 		}
 
 	return input;

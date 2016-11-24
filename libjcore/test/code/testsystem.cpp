@@ -13,7 +13,6 @@
 #include <JStrValue.h>
 #include <JMMRecord.h>
 #include <JHashRecord.h>
-
 #include <jAssert.h>
 
 /******************************************************************************

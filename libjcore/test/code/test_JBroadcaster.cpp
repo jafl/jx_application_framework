@@ -7,76 +7,83 @@
 
  ******************************************************************************/
 
-#include <JBroadcaster.h>
-#include <JOrderedSet.h>
-#include <jCommandLine.h>
-#include <jAssert.h>
+#include <JUnitTestManager.h>
+#include <JBroadcastTester.h>
+#include <jassert_simple.h>
+
+int main()
+{
+	return JUnitTestManager::Execute();
+}
 
 class Test : virtual public JBroadcaster
 {
 public:
-
-	Test() { };
-
-	void
-	Listen(Test* t)
-	{
-		ListenTo(t);
-	};
 
 	void
 	Bcast(Message& msg)
 	{
 		Broadcast(msg);
 	};
-
-protected:
-
-	virtual void	Receive(JBroadcaster* sender, const Message& message);
 };
 
-Test t1, t2, t3;
-
-void
-Test::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
+JTEST(Broadcaster)
 {
-	cout << this << " received message of type " << message.GetType() << endl;
+	Test t3;
 
-	StopListening(&t3);
-	ListenTo(&t3);
+	JBroadcastTester t1(&t3);
+	JBroadcastTester t2(&t3);
+
+	t1.Expect(JOrderedSetT::kSorted);
+	t1.Expect(JOrderedSetT::kElementMoved);
+
+	t2.Expect(JOrderedSetT::kSorted);
+	t2.Expect(JOrderedSetT::kElementMoved);
+
+	JOrderedSetT::Sorted msg1;
+	t3.Bcast(msg1);
+
+	JOrderedSetT::ElementMoved msg2(3, 5);
+	t3.Bcast(msg2);
 }
 
 class A
 {
 public:
 	virtual ~A() { };
-	virtual void foo() { cout << 'A' << endl; };
+	virtual JUtf8Byte foo() { return 'A'; };
 };
 
 class B : virtual public A
 {
 public:
 	virtual ~B() { };
-	virtual void foo() { cout << 'B' << endl; };
+	virtual JUtf8Byte foo() { return 'B'; };
 };
 
 class C : virtual public A
 {
 public:
 	virtual ~C() { };
-	virtual void foo() { cout << 'C' << endl; };
+	virtual JUtf8Byte foo() { return 'C'; };
 };
 
 class D : public B, public C
 {
 public:
 	virtual ~D() { };
-	virtual void foo() { cout << 'D' << endl; };
+	virtual JUtf8Byte foo() { return 'D'; };
 };
+
+JTEST(DiamondVirtualInheritance)
+{
+	A* obj = jnew D();
+	JAssertEqual('D', obj->foo());
+	B* b = dynamic_cast<B*>(obj);
+	JAssertEqual('D', obj->foo());
+	D* d = dynamic_cast<D*>(obj);
+	JAssertEqual('D', obj->foo());
+}
 
 struct PointerSize
 {
@@ -92,25 +99,11 @@ clearPointer
 	*((PointerSize**) arg) = NULL;
 }
 
-int
-main()
+JTEST(voidstar)
 {
-	A* obj = jnew D();
-	obj->foo();
-	B* b = dynamic_cast<B*>(obj);
-	b->foo();
-	D* d = dynamic_cast<D*>(obj);
-	d->foo();
-
-	t1.Listen(&t3);
-	t2.Listen(&t3);
-	JOrderedSetT::Sorted msg;
-	t3.Bcast(msg);
-
+	Test t1;
 	Test* t4 = &t1;
-	cout << t4 << endl;
+	JAssertNotNull(t4);
 	clearPointer((void*) &t4);
-	cout << t4 << endl;
-
-	return 0;
+	JAssertNull(t4);
 }

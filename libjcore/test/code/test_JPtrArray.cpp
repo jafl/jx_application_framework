@@ -7,56 +7,63 @@
 
  ******************************************************************************/
 
+#include <JUnitTestManager.h>
 #include <JPtrArray-JString.h>
-#include <JBroadcastSnooper.h>
-#include <jCommandLine.h>
-#include <jAssert.h>
+#include <JBroadcastTester.h>
+#include <jassert_simple.h>
 
 int main()
 {
+	return JUnitTestManager::Execute();
+}
+
+JTEST(Exercise)
+{
 	JString* stringPtr = NULL;
 
-JPtrArray<JString> a1(JPtrArrayT::kDeleteAll);					// constructor
-
-	cout << "array a1 created" << endl << endl;
-
-JBroadcastSnooper snoop1(&a1);
-
-	cout << "a1 address: " << (void*) &a1 << endl;
-
-	cout << "a1 itemCount should be 0" << endl;
-	cout << "a1 itemCount = " << a1.GetElementCount() << endl << endl;
+	JPtrArray<JString> a1(JPtrArrayT::kDeleteAll, 1); // Ridiculous block size to really exercise resizer
+	JBroadcastTester snoop1(&a1);
+	JAssertTrue(a1.IsEmpty());
+	JAssertEqual(0, a1.GetElementCount());
 
 	long i;
 	for (i=1;i<=5;i++)
 		{
-		stringPtr = jnew JString("0");
+		stringPtr = jnew JString;
 		assert( stringPtr != NULL );
-		stringPtr->SetCharacter(1, '0' + i);
+		stringPtr->Append(JUtf8Character('0' + i));
+
+		snoop1.Expect(JOrderedSetT::kElementsInserted);
 		a1.Append(stringPtr);
 		}
 	stringPtr = NULL;
 
-	cout << "a1 itemCount should be 5" << endl;
-	cout << "a1 itemCount = " << a1.GetElementCount() << endl << endl;
+	JAssertFalse(a1.IsEmpty());
+	JAssertEqual(5, a1.GetElementCount());
 
-	JWaitForReturn();
-
+	snoop1.Expect(JOrderedSetT::kElementsSwapped);
 	a1.SwapElements(2,5);
 
-	stringPtr = jnew JString("1");
+	stringPtr = jnew JString;
 	assert( stringPtr != NULL );
+	stringPtr->Append("1");
+
+	snoop1.Expect(JOrderedSetT::kElementsInserted);
 	a1.InsertAtIndex(3, stringPtr);
 
+	snoop1.Expect(JOrderedSetT::kElementMoved);
 	a1.MoveElementToIndex(3, a1.GetElementCount());
 
-JPtrArrayIterator<JString> iter(&a1,kJIteratorStartAtBeginning);
+	JPtrArrayIterator<JString> iter(&a1,kJIteratorStartAtBeginning);
 
-	cout << "display should be:  1 5 3 2 1" << endl;
-
+	snoop1.Expect(JOrderedSetT::kElementsRemoved);
+	{
+	const JUtf8Byte* expect[] = { "1", "5", "3", "2", "1" };
+	long j                    = 0;
 	while (iter.Next(&stringPtr))
 		{
-		cout << (*stringPtr) << ' ';
+		JAssertStringsEqual(expect[j], *stringPtr);
+		j++;
 
 		if (*stringPtr == "5")
 			{
@@ -66,19 +73,22 @@ JPtrArrayIterator<JString> iter(&a1,kJIteratorStartAtBeginning);
 			stringPtr = NULL;
 			}
 		}
-	cout << endl << endl;
+	JAssertEqual(5, j);
+	}
 
 	JIndex index;
 	stringPtr = a1.NthElement(4);
-	cout << "Searching for 2:  found = " << a1.Find(stringPtr, &index) << endl;
-	cout << "2 should be at index 4" << endl;
-	cout << "2 is at index " << index << endl << endl;
+	JAssertTrue(a1.Find(stringPtr, &index));
+	JAssertEqual(4, index);
 
-	cout << "display should be:  1 2 3 5 1" << endl;
-
+	snoop1.Expect(JOrderedSetT::kElementsRemoved);
+	{
+	const JUtf8Byte* expect[] = { "1", "2", "3", "5", "1" };
+	long j                    = 0;
 	while (iter.Prev(&stringPtr))
 		{
-		cout << (*stringPtr) << ' ';
+		JAssertStringsEqual(expect[j], *stringPtr);
+		j++;
 
 		if (*stringPtr == "5")
 			{
@@ -86,83 +96,85 @@ JPtrArrayIterator<JString> iter(&a1,kJIteratorStartAtBeginning);
 			stringPtr = NULL;
 			}
 		}
-	cout << endl;
+	JAssertEqual(5, j);
+	}
 
-	cout << "a1 itemCount should be 4" << endl;
-	cout << "a1 itemCount = " << a1.GetElementCount() << endl << endl;
+	JAssertFalse(a1.IsEmpty());
+	JAssertEqual(4, a1.GetElementCount());
 
-	JWaitForReturn();
+	JPtrArray<JString> a2(a1, JPtrArrayT::kForgetAll);
+{
+	JBroadcastTester snoop2(&a2);
 
-JPtrArray<JString> a2(a1, JPtrArrayT::kForgetAll);		// copy constructor
+	JAssertFalse(a2.IsEmpty());
+	JAssertEqual(4, a2.GetElementCount());
 
-	cout << "array a2 created from a1" << endl << endl;
-
-JBroadcastSnooper snoop2(&a2);
-
-	cout << "a2 address: " << (void*) &a2 << endl;
-
-	cout << "a2 itemCount should be 4" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
-
-JPtrArrayIterator<JString> iter2(&a2, kJIteratorStartAtEnd);
-
-	cout << "display should be: 1 3 5 1" << endl;
-
+	JPtrArrayIterator<JString> iter2(&a2, kJIteratorStartAtEnd);
+	{
+	const JUtf8Byte* expect[] = { "1", "3", "5", "1" };
+	long j                    = 0;
 	while (iter2.Prev(&stringPtr))
 		{
-		cout << (*stringPtr) << ' ';
+		JAssertStringsEqual(expect[j], *stringPtr);
+		j++;
 		}
-	cout << endl;
+	JAssertEqual(4, j);
+	}
 
+	snoop2.Expect(JOrderedSetT::kElementsRemoved);
 	a2.RemoveAll();
 
-	cout << "a2 itemCount should be 0" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
+	JAssertTrue(a2.IsEmpty());
+	JAssertEqual(0, a2.GetElementCount());
 
-	a2.CopyPointers(a1, JPtrArrayT::kForgetAll, kJFalse);		// assignment operator
+	snoop2.Expect(JOrderedSetT::kElementsInserted);
+	snoop2.Expect(JOrderedSetT::kElementsInserted);
+	snoop2.Expect(JOrderedSetT::kElementsInserted);
+	snoop2.Expect(JOrderedSetT::kElementsInserted);
 
-	cout << "array a2 assigned from a1" << endl << endl;
+	a2.CopyPointers(a1, JPtrArrayT::kForgetAll, kJFalse);
 
-	cout << "a2 itemCount should be 4" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
-
-	cout << "display should be: 1 3 5 1" << endl;
-
+	JAssertFalse(a2.IsEmpty());
+	JAssertEqual(4, a2.GetElementCount());
+	{
+	const JUtf8Byte* expect[] = { "1", "3", "5", "1" };
+	long j                    = 0;
 	iter2.MoveTo(kJIteratorStartAtEnd, 0);
 	while (iter2.Prev(&stringPtr))
 		{
-		cout << (*stringPtr) << ' ';
+		JAssertStringsEqual(expect[j], *stringPtr);
+		j++;
 		}
-	cout << endl;
+	JAssertEqual(4, j);
+	}
+}
+	JPtrArrayIterator<JString> iter2(&a2);
 
-	JWaitForReturn();
-
-// test sort ascending
+	// test sort ascending
 
 	a2.SetCompareFunction(JCompareStringsCaseInsensitive);
 	a2.SetSortOrder(JOrderedSetT::kSortAscending);
 	a2.Sort();
-
-	cout << "display should be: 1 1 3 5" << endl;
-
+	{
+	const JUtf8Byte* expect[] = { "1", "1", "3", "5" };
+	long j                    = 0;
 	iter2.MoveTo(kJIteratorStartAtBeginning, 0);
 	while (iter2.Next(&stringPtr))
 		{
-		cout << (*stringPtr) << ' ';
+		JAssertStringsEqual(expect[j], *stringPtr);
+		j++;
 		}
-	cout << endl << endl;
-
-// test RemoveAll(), DeleteAll()
+	JAssertEqual(4, j);
+	}
 
 	a2.RemoveAll();
 
-	cout << "a2 itemCount should be 0" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
+	JAssertTrue(a2.IsEmpty());
+	JAssertEqual(0, a2.GetElementCount());
 
+	snoop1.Expect(JOrderedSetT::kElementsRemoved);
 	a1.DeleteAll();
 
-	cout << "a1 itemCount should be 0" << endl;
-	cout << "a1 itemCount = " << a1.GetElementCount() << endl << endl;
-
-	return 0;
+	JAssertTrue(a1.IsEmpty());
+	JAssertEqual(0, a1.GetElementCount());
 }

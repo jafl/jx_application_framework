@@ -29,7 +29,7 @@ JBroadcastSnooper::JBroadcastSnooper
 /******************************************************************************
  Receive (virtual protected)
 
- 	Display the message.
+	Display the message.
 
  ******************************************************************************/
 

@@ -16,10 +16,6 @@ void TestRndFloat();
 int
 main()
 {
-	#ifdef __SC__
-		_ftype = 'TEXT';		// request text file -- Think C specific
-	#endif
-
 	long testType;
 	cout << "Integer(0) or float(1): ";
 	cin >> testType;

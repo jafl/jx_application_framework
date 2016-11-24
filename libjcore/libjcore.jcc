@@ -129,18 +129,6 @@ T
 2 "JKLRand.cpp"
 F
 "./code/JKLRand.cpp"
-T
-2 "JProbDistr.cpp"
-F
-"./code/JProbDistr.cpp"
-T
-2 "JHistogram.h"
-F
-"./code/JHistogram.h"
-T
-2 "JDynamicHistogram.h"
-F
-"./code/JDynamicHistogram.h"
 F
 T
 1 "container"
@@ -220,10 +208,6 @@ T
 2 "JStack.h"
 F
 "./code/JStack.h"
-T
-2 "JSubset.cpp"
-F
-"./code/JSubset.cpp"
 T
 2 "JFileArray.cpp"
 F
@@ -736,6 +720,10 @@ T
 2 "JUnitTestManager.cpp"
 F
 "./code/JUnitTestManager.cpp"
+T
+2 "JBroadcastTester.cpp"
+F
+"./code/JBroadcastTester.cpp"
 F
 T
 1 "misc"
@@ -803,7 +791,7 @@ T "./test" "makemake ; make test" "" T F T T T T F "Tests" "F11" "" F
 F
 # build settings
 1
-F
+T
 "libjcore-${JX_LIB_VERSION}.a,libjcore-${JX_LIB_VERSION}.so"
 ""
 "make -k all"

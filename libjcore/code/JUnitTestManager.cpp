@@ -128,7 +128,7 @@ JUnitTestManager::ReportFatal
 	)
 {
 	ReportFailure(message, file, line);
-	exit(1);	// since we don't throw exceptions
+	abort();	// since we don't throw exceptions
 }
 
 /******************************************************************************
@@ -156,7 +156,40 @@ JUnitTestManager::IsNull
 			{
 			s << msg << ": ";
 			}
-		s << "Value is not null: " << ptr;
+		s << "Value is not null";
+
+		const std::string msg = s.str();
+		ReportFailure(s.str().c_str(), file, line);
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ IsNotNull
+
+ ******************************************************************************/
+
+JBoolean
+JUnitTestManager::IsNotNull
+	(
+	const void*			ptr,
+	JUtf8Byte const*	file,
+	const JIndex		line,
+	const JUtf8Byte*	msg
+	)
+{
+	if (ptr != NULL)
+		{
+		return kJTrue;
+		}
+	else
+		{
+		std::ostringstream s;
+		if (msg != NULL)
+			{
+			s << msg << ": ";
+			}
+		s << "Value is null";
 
 		const std::string msg = s.str();
 		ReportFailure(s.str().c_str(), file, line);
@@ -189,7 +222,7 @@ JUnitTestManager::IsTrue
 			{
 			s << msg << ": ";
 			}
-		s << "Value is not true: " << value;
+		s << "Value is not true";
 
 		const std::string msg = s.str();
 		ReportFailure(s.str().c_str(), file, line);
@@ -222,7 +255,7 @@ JUnitTestManager::IsFalse
 			{
 			s << msg << ": ";
 			}
-		s << "Value is not false: " << value;
+		s << "Value is not false";
 
 		const std::string msg = s.str();
 		ReportFailure(s.str().c_str(), file, line);
@@ -230,6 +263,34 @@ JUnitTestManager::IsFalse
 		}
 }
 
+/******************************************************************************
+ IsOK
+
+ ******************************************************************************/
+/*
+JBoolean
+JUnitTestManager::IsOK
+	(
+	const JError&		err,
+	JUtf8Byte const*	file,
+	const JIndex		line
+	)
+{
+	if (err.OK())
+		{
+		return kJTrue;
+		}
+	else
+		{
+		std::ostringstream s;
+		s << "Error: " << err.GetMessage();
+
+		const std::string msg = s.str();
+		ReportFailure(s.str().c_str(), file, line);
+		return kJFalse;
+		}
+}
+*/
 /******************************************************************************
  StringsAreEqual
 
