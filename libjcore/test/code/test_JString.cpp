@@ -10,6 +10,7 @@
 #include <JUnitTestManager.h>
 #include <JString.h>
 #include <JMinMax.h>
+#include <fstream>
 #include <string>
 #include <locale.h>
 #include <jassert_simple.h>
@@ -24,6 +25,12 @@ JTEST(Construction)
 {
 	JString s1;
 	JAssertStringsEqual("", s1);
+
+	JAssertTrue(JString::IsEmpty((JUtf8Byte*) NULL));
+	JAssertTrue(JString::IsEmpty(""));
+	JAssertTrue(s1.IsEmpty());
+	JAssertTrue(JString::IsEmpty((JString*) NULL));
+	JAssertTrue(JString::IsEmpty(&s1));
 
 	JString s2 = "1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94";
 	JAssertEqual(19, s2.GetByteCount());
@@ -172,6 +179,22 @@ JTEST(IntegerConversion)
 {
 	JString s1(42, JString::kBase10);
 	JAssertStringsEqual("42", s1);
+	JAssertTrue(s1.IsFloat());
+	JAssertTrue(s1.IsInteger());
+	JAssertTrue(s1.IsUInt());
+	JAssertFalse(s1.IsHexValue());
+
+	JFloat f;
+	JAssertTrue(s1.ConvertToFloat(&f));
+	JAssertEqual(42.0, f);
+
+	JInteger i;
+	JAssertTrue(s1.ConvertToInteger(&i));
+	JAssertEqual(42, i);
+
+	JUInt u;
+	JAssertTrue(s1.ConvertToUInt(&u));
+	JAssertEqual(42, u);
 
 	JString s2(42, JString::kBase2);
 	JAssertStringsEqual("101010", s2);
@@ -184,6 +207,19 @@ JTEST(IntegerConversion)
 
 	JString s5(42, JString::kBase16);
 	JAssertStringsEqual("0x2A", s5);
+	JAssertTrue(s5.IsFloat());
+	JAssertTrue(s5.IsInteger());
+	JAssertTrue(s5.IsUInt());
+	JAssertTrue(s5.IsHexValue());
+
+	JAssertTrue(s5.ConvertToFloat(&f));
+	JAssertEqual(42.0, f);
+
+	JAssertTrue(s5.ConvertToInteger(&i));
+	JAssertEqual(42, i);
+
+	JAssertTrue(s5.ConvertToUInt(&u));
+	JAssertEqual(42, u);
 
 	JString s6(10, JString::kBase16, kJTrue);
 	JAssertStringsEqual("0x0A", s6);
@@ -197,8 +233,26 @@ JTEST(FloatConversion)
 	JString s2(42.7);
 	JAssertStringsEqual("42.7", s2);
 
+	JFloat f;
+	JAssertTrue(s2.ConvertToFloat(&f));
+	JAssertEqual(42.7, f);
+
+	JInteger i;
+	JAssertFalse(s2.ConvertToInteger(&i));
+
+	JUInt u;
+	JAssertFalse(s2.ConvertToUInt(&u));
+
 	JString s3(-1.3e5);
 	JAssertStringsEqual("-130000", s3);
+
+	JAssertTrue(s3.ConvertToFloat(&f));
+	JAssertEqual(-1.3e5, f);
+
+	JAssertTrue(s3.ConvertToInteger(&i));
+	JAssertEqual(-130000, i);
+
+	JAssertFalse(s3.ConvertToUInt(&u));
 
 	JString s4(1.3e20);
 	JAssertStringsEqual("1.3e+20", s4);
@@ -240,6 +294,7 @@ JTEST(FloatConversion)
 JTEST(Concatenate)
 {
 	JString s("5", 1);
+	s.SetBlockSize(1); // Ridiculous block size to really exercise resizer
 
 	s.Prepend("");
 	s.Append("");
@@ -472,6 +527,85 @@ JTEST(MatchCase)
 	s2 = "Abc";
 	s1.MatchCase(s2, JCharacterRange(1,3), JCharacterRange(6,9));
 	JAssertStringsEqual("test Test test", s1);
+
+	s1 = "test test test";
+	s2 = "aBc";
+	s1.MatchCase(s2, JCharacterRange(1,3), JCharacterRange(6,9));
+	JAssertStringsEqual("test test test", s1);
+
+	s1 = "test test test";
+	s2 = "aBDc";
+	s1.MatchCase(s2, JCharacterRange(1,4), JCharacterRange(6,9));
+	JAssertStringsEqual("test tESt test", s1);
+
+	s1 = "ABCD";
+	s2 = "test tEsT test";
+	s1.MatchCase(s2, JCharacterRange(6,9), JCharacterRange(1,4));
+	JAssertStringsEqual("aBcD", s1);
+
+	// greek
+
+	s1 = "\xCE\x9C\xCE\xAC\xCF\x8A\xCE\xBF\xCF\x82";
+	s2 = "XXXXX";
+	s1.MatchCase(s2, JCharacterRange(1,5));
+	JAssertStringsEqual("\xCE\x9C\xCE\x86\xCE\xAA\xCE\x9F\xCE\xA3", s1);
+}
+
+JTEST(MatchLength)
+{
+	JString s1, s2;
+	JAssertEqual(0, JString::CalcCharacterMatchLength(s1, s2));
+
+	s1 = "abc";
+	s2 = "abd";
+	JAssertEqual(2, JString::CalcCharacterMatchLength(s1, s2));
+
+	s2 = "xyz";
+	JAssertEqual(0, JString::CalcCharacterMatchLength(s1, s2));
+
+	s2 = "ayz";
+	JAssertEqual(1, JString::CalcCharacterMatchLength(s1, s2));
+
+	s2 = "xbz";
+	JAssertEqual(0, JString::CalcCharacterMatchLength(s1, s2));
+
+	s2 = "aBd";
+	JAssertEqual(1, JString::CalcCharacterMatchLength(s1, s2));
+
+	s2 = "aBd";
+	JAssertEqual(2, JString::CalcCharacterMatchLength(s1, s2, kJFalse));
+
+	// greek
+
+	s1 = "\xCE\x9C\xCE\xAC\xCF\x8A\xCE\xBF\xCF\x82";
+	s2 = "\xCE\x9C\xCE\x86\xCE\xAA\xCE\x9F\xCE\xA3";
+	JAssertEqual(1, JString::CalcCharacterMatchLength(s1, s2));
+
+	// only case-insensitive matches (UCOL_PRIMARY) recognize o-umlaut equivalence
+
+	s1 = "\xC3\xB6\xE2\x9C\x94";
+	s2 = "\x6F\xCC\x88\xE2\x9C\x94";
+	JAssertEqual(0, JString::CalcCharacterMatchLength(s1, s2));
+
+	s1 = "\x6F\xCC\x88\xE2\x9C\x94";
+	s2 = "\xC3\xB6\xE2\x9C\x94";
+	JAssertEqual(0, JString::CalcCharacterMatchLength(s1, s2));
+
+	s1 = "\xC3\xB6\xE2\x9C\x94";
+	s2 = "\x6F\xCC\x88\xE2\x9C\x94";
+	JAssertEqual(2, JString::CalcCharacterMatchLength(s1, s2, kJFalse));
+
+	s1 = "\x6F\xCC\x88\xE2\x9C\x94";
+	s2 = "\xC3\xB6\xE2\x9C\x94";
+	JAssertEqual(2, JString::CalcCharacterMatchLength(s1, s2, kJFalse));
+
+	s1 = "\x6F\xCC\x88\xE2\x9C\x94";
+	s2 = "\x6F\xCC\x88\xE2\x9C\x94";
+	JAssertEqual(2, JString::CalcCharacterMatchLength(s1, s2, kJFalse));
+
+	s1 = "\x4F\xCC\x88\xE2\x9C\x94";
+	s2 = "\xC3\xB6\xE2\x9C\x94";
+	JAssertEqual(2, JString::CalcCharacterMatchLength(s1, s2, kJFalse));
 }
 
 JTEST(Base64)
@@ -501,7 +635,47 @@ JTEST(Compare)
 
 	JAssertEqual(0, JString::Compare("\x6F\xCC\x88", "\xC3\xB6"));
 	JAssertEqual(0, JString::Compare("\xC3\xB6", "\x6F\xCC\x88"));
+	JAssertEqual(0, JString::Compare("\x4F\xCC\x88", "\xC3\xB6", kJFalse));
 	JAssertEqual(0, JString::CompareMaxNBytes("\xC3\xB6", "\x6F\xCC\x88", 3));
+}
+
+JTEST(MemoryStreaming)
+{
+	JString s1 = "1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94";
+
+	std::ostringstream out;
+	out << s1;
+
+	const std::string data = out.str();
+	std::istringstream in(data.c_str(), data.length());
+
+	JString s2;
+	in >> s2;
+
+	JAssertEqual(s1, s2);
+}
+
+JTEST(FileStreaming)
+{
+	std::ifstream input("test_JString.dat");
+	JAssertTrue(input.good());
+
+	JString s;
+	s.ReadDelimited(input);
+	JAssertTrue(input.good());
+	JAssertStringsEqual("This is a test", s);
+
+	s.ReadDelimited(input);
+	JAssertTrue(input.good());
+	JAssertStringsEqual("\\This is a \\ test\\", s);
+
+	s.ReadDelimited(input);
+	JAssertTrue(input.good());
+	JAssertStringsEqual("\\\"This is a \\ test\"\\", s);
+
+	s.ReadDelimited(input);
+	JAssertTrue(input.good());
+	JAssertStringsEqual("Jane said, \"Hello!\" didn't she?", s);
 }
 
 JTEST(CopyBytes)
@@ -522,20 +696,4 @@ JTEST(CopyBytes)
 		JAssertEqual(0, JString::CompareMaxNBytes(string, stringList[testnum], kStringLength-1));
 		JAssertEqual(JMin(kStringLength-1, strlen(stringList[testnum])), strlen(string));
 		}
-}
-
-JTEST(streaming)
-{
-	JString s1 = "1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94";
-
-	std::ostringstream out;
-	out << s1;
-
-	const std::string data = out.str();
-	std::istringstream in(data.c_str(), data.length());
-
-	JString s2;
-	in >> s2;
-
-	JAssertEqual(s1, s2);
 }

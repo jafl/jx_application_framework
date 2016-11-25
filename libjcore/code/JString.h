@@ -223,8 +223,8 @@ public:
 	static int	CompareMaxNBytes(const JUtf8Byte* s1, const JUtf8Byte* s2, const JSize N,
 								 const JBoolean caseSensitive = kJTrue);
 
-	static JSize	CalcMatchLength(const JString& s1, const JString& s2,
-									const JBoolean caseSensitive = kJTrue);
+	static JSize	CalcCharacterMatchLength(const JString& s1, const JString& s2,
+											 const JBoolean caseSensitive = kJTrue);
 
 	static JBoolean	CopyBytes(const JUtf8Byte* source, const JIndex maxBytes,
 							  JUtf8Byte* destination);

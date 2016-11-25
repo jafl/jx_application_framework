@@ -1634,7 +1634,7 @@ JString::CompareMaxNBytes
 }
 
 /******************************************************************************
- CalcMatchLength (static)
+ CalcCharacterMatchLength (static)
 
 	Calculates the number of characters that match from the beginning
 	of the given strings.
@@ -1645,33 +1645,83 @@ JString::CompareMaxNBytes
 
  *****************************************************************************/
 
-inline int
-jDiffChars
-	(
-	JUtf8Byte		c1,
-	JUtf8Byte		c2,
-	const JBoolean	caseSensitive
-	)
-{
-	return (caseSensitive ? (c1 - c2) : (tolower(c1) - tolower(c2)));
-}
-
 JSize
-JString::CalcMatchLength
+JString::CalcCharacterMatchLength
 	(
 	const JString&	s1,
 	const JString&	s2,
 	const JBoolean	caseSensitive
 	)
 {
-	// TODO: utf8
-
-	JSize i = 0;
-	while (jDiffChars(s1.GetBytes()[i], s2.GetBytes()[i], caseSensitive) == 0 &&
-		   s1.GetBytes()[i] != '\0')	// kJTrue => s2[i] != '\0'
+	UErrorCode err  = U_ZERO_ERROR;
+	UCollator* coll = ucol_open(NULL, &err);
+	if (coll == NULL)
 		{
-		i++;
+		return 0;
 		}
+
+	if (!caseSensitive)
+		{
+		ucol_setStrength(coll, UCOL_PRIMARY);
+		}
+
+	const JUtf8Byte* b1 = s1.GetBytes();
+	const JUtf8Byte* b2 = s2.GetBytes();
+
+	JIndex i = 0, i1 = 0, i2 = 0;
+	while (b1[i1] != 0 && b2[i2] != 0)
+		{
+		JSize n1, n2;
+		if (!JUtf8Character::GetCharacterByteCount(b1+i1, &n1) ||
+			!JUtf8Character::GetCharacterByteCount(b2+i2, &n2))
+			{
+			ucol_close(coll);
+			return 0;
+			}
+
+		const UCollationResult r = ucol_strcollUTF8(coll, b1+i1, n1, b2+i2, n2, &err);
+		if (r != 0)
+			{
+			break;
+			}
+
+		// check if an additional code point was consumed on either string
+
+		JSize n3;
+		if (b1[i1+n1] != 0)
+			{
+			if (!JUtf8Character::GetCharacterByteCount(b1+i1+n1, &n3))
+				{
+				return 0;
+				}
+
+			const UCollationResult r = ucol_strcollUTF8(coll, b1+i1, n1+n3, b2+i2, n2, &err);
+			if (r == 0)
+				{
+				n1 += n3;
+				}
+			}
+
+		if (b2[i2+n2] != 0)
+			{
+			if (!JUtf8Character::GetCharacterByteCount(b2+i2+n2, &n3))
+				{
+				return 0;
+				}
+
+			const UCollationResult r = ucol_strcollUTF8(coll, b1+i1, n1, b2+i2, n2+n3, &err);
+			if (r == 0)
+				{
+				n2 += n3;
+				}
+			}
+
+		i++;
+		i1 += n1;
+		i2 += n2;
+		}
+
+	ucol_close(coll);
 	return i;
 }
 
