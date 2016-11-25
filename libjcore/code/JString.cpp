@@ -1544,13 +1544,14 @@ JString::CharacterToUtf8ByteRange
 	JUtf8ByteRange r(startByte, startByte);
 
 	charCount = range.GetLength();
-	for (JIndex i=1; i<charCount; i++)	// when i==charCount, we have gone to far
+	for (JIndex i=1; i<=charCount; i++)
 		{
 		const JBoolean ok = JUtf8Character::GetCharacterByteCount(str + r.last-1, &byteCount);
 		assert( ok );
 		r.last += byteCount;
 		}
 
+	r.last--;
 	return r;
 }
 

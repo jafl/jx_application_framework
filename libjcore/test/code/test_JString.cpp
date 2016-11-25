@@ -73,6 +73,16 @@ JTEST(Construction)
 	JAssertEqual(7, s9.GetByteCount());
 	JAssertEqual(5, s9.GetCharacterCount());
 	JAssertStringsEqual("890\xC2\xA9\xC3\x85", s9);
+
+	JString s10(s2, JCharacterRange(10,12));
+	JAssertEqual(5, s10.GetByteCount());
+	JAssertEqual(3, s10.GetCharacterCount());
+	JAssertStringsEqual("0\xC2\xA9\xC3\x85", s10);
+
+	JString s11(s2, JCharacterRange(12,14));
+	JAssertEqual(7, s11.GetByteCount());
+	JAssertEqual(3, s11.GetCharacterCount());
+	JAssertStringsEqual("\xC3\x85\xC3\xA5\xE2\x9C\x94", s11);
 }
 
 JTEST(Set)
