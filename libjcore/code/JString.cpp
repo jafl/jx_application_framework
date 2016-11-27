@@ -264,9 +264,6 @@ JString::JString
 /******************************************************************************
  Copy constructor
 
-	Even though JString(const JUtf8Byte*) does the same job, we need to declare
-	this copy constructor to avoid having the compiler declare it incorrectly.
-
  ******************************************************************************/
 
 JString::JString
@@ -451,6 +448,8 @@ JString::Append
 
 	Insert the given bytes into ourselves starting at the specified index.
 
+	// TODO: CopyNormalizedBytes
+
  ******************************************************************************/
 
 void
@@ -529,6 +528,8 @@ JString::InsertBytes
  ReplaceBytes (private)
 
 	Replace the specified range with the given bytes.
+
+	// TODO: CopyNormalizedBytes
 
  ******************************************************************************/
 
@@ -1304,6 +1305,9 @@ JString::DecodeBase64
 	Read the specified number of characters from the stream.
 	This replaces the current contents of the string.
 
+	// TODO: read characters instead of bytes
+	// TODO: read only complete characters
+
  ******************************************************************************/
 
 void
@@ -1405,7 +1409,7 @@ JString::ReadDelimited
 		i++;
 		if (i == bufSize)
 			{
-			Append(buf, bufSize);
+			Append(buf, bufSize);	// TODO: append only complete characters
 			i = 0;
 			}
 		}
@@ -1447,7 +1451,7 @@ JString::PrintHex
 {
 	for (JIndex i=0; i<itsByteCount; i++)
 		{
-		output << std::hex << (int) (unsigned char) itsBytes[i] << ' ';
+		output << std::hex << (int) (unsigned char) itsBytes[i] << std::dec << ' ';
 		}
 }
 
@@ -1468,8 +1472,7 @@ JString::IsValid
 	JIndex i;
 	for (i = range.first-1; i < range.last; )
 		{
-		const JBoolean ok = JUtf8Character::GetCharacterByteCount(str + i, &byteCount);
-		if (!ok)
+		if (!JUtf8Character::GetCharacterByteCount(str + i, &byteCount))
 			{
 			return kJFalse;
 			}

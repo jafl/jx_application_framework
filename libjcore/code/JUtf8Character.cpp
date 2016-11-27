@@ -12,6 +12,7 @@
 
 const JUInt32 JUtf8Character::kUtf32SubstitutionCharacter = 0x0000FFFD;
 const JUtf8Byte* kUtf8SubstitutionCharacter               = "\xEF\xBF\xBD";
+const JSize kUtf8SubstitutionCharacterByteLength          = 3;
 
 /******************************************************************************
  Constructor
@@ -90,16 +91,12 @@ JUtf8Character::Set
 	JSize byteCount;
 	if (!GetCharacterByteCount(utf8Character, &byteCount))
 		{
-		cerr << "Replaced invalid UTF-8 byte sequence" << endl;
-		Set(kUtf8SubstitutionCharacter);
-		return;
+		cerr << "Replaced invalid UTF-8 byte sequence with substitution U+FFFD" << endl;
+		utf8Character = kUtf8SubstitutionCharacter;
+		byteCount     = kUtf8SubstitutionCharacterByteLength;
 		}
 
-	for (JIndex i=0; i<byteCount; i++)	// avoid function call - worth it?
-		{
-		itsBytes[i] = utf8Character[i];
-		}
-
+	memcpy(itsBytes, utf8Character, byteCount);
 	itsByteCount = byteCount;
 }
 
@@ -153,12 +150,13 @@ JUtf8Character::GetCharacterByteCount
 
 	if (!ok)
 		{
-		cerr << "Invalid UTF-8 byte sequence: ";
+		cerr << "Invalid UTF-8 byte sequence: " << std::hex;
 		for (JIndex i=0; i<*byteCount; i++)
 			{
-			cout << std::hex << (int) c[i] << ' ';
+			cerr << (int) c[i] << ' ';
 			}
-		cout << endl;
+		cerr << std::dec << endl;
+		abort();
 		}
 	return ok;
 }
@@ -404,10 +402,12 @@ JUtf8Character::PrintHex
 	)
 	const
 {
+	output << std::hex;
 	for (JIndex i=0; i<itsByteCount; i++)
 		{
-		output << std::hex << (int) (unsigned char) itsBytes[i] << ' ';
+		output << (int) (unsigned char) itsBytes[i] << ' ';
 		}
+	output << std::dec;
 }
 
 /******************************************************************************

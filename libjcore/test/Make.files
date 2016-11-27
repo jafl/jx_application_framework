@@ -306,3 +306,6 @@ ${CODEDIR}/testrandom
 
 @testrandperiod
 ${CODEDIR}/testrandperiod
+
+@testmemcpy
+${CODEDIR}/testmemcpy
