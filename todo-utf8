@@ -10,8 +10,6 @@ http://stackoverflow.com/questions/313555/light-c-unicode-library
 
 -----
 
-test_JString occasionally gives Invalid utf-8 character: 89
-
 JString
 	normalize on all input:  ctor, set, append, prepend, etc
 

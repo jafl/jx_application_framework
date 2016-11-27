@@ -37,7 +37,7 @@
 #include <jErrno.h>
 #include <jAssert.h>
 
-const JSize kDefaultBlockSize = 256;
+JSize JString::theDefaultBlockSize = 256;
 
 // private routines
 
@@ -53,8 +53,8 @@ JString::JString()
 	:
 	itsByteCount(0),
 	itsCharacterCount(0),
-	itsAllocCount(kDefaultBlockSize),
-	itsBlockSize(kDefaultBlockSize),
+	itsAllocCount(theDefaultBlockSize),
+	itsBlockSize(theDefaultBlockSize),
 	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
@@ -73,7 +73,7 @@ JString::JString
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(0),
-	itsBlockSize(kDefaultBlockSize),
+	itsBlockSize(theDefaultBlockSize),
 	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
@@ -93,7 +93,7 @@ JString::JString
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(0),
-	itsBlockSize(kDefaultBlockSize),
+	itsBlockSize(theDefaultBlockSize),
 	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
@@ -110,7 +110,7 @@ JString::JString
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(0),
-	itsBlockSize(kDefaultBlockSize),
+	itsBlockSize(theDefaultBlockSize),
 	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
@@ -127,7 +127,7 @@ JString::JString
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(0),
-	itsBlockSize(kDefaultBlockSize),
+	itsBlockSize(theDefaultBlockSize),
 	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
@@ -146,7 +146,7 @@ JString::JString
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(0),
-	itsBlockSize(kDefaultBlockSize),
+	itsBlockSize(theDefaultBlockSize),
 	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
@@ -163,7 +163,7 @@ JString::JString
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(0),
-	itsBlockSize(kDefaultBlockSize),
+	itsBlockSize(theDefaultBlockSize),
 	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
@@ -181,7 +181,7 @@ JString::JString
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(0),
-	itsBlockSize(kDefaultBlockSize),
+	itsBlockSize(theDefaultBlockSize),
 	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
@@ -244,8 +244,8 @@ JString::JString
 	:
 	itsByteCount(0),
 	itsCharacterCount(0),
-	itsAllocCount(kDefaultBlockSize),
-	itsBlockSize(kDefaultBlockSize),
+	itsAllocCount(theDefaultBlockSize),
+	itsBlockSize(theDefaultBlockSize),
 	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
@@ -330,7 +330,7 @@ JString::CopyToPrivateString
 
 	if (str != NULL)
 		{
-		itsByteCount      = CopyNormalizedBytes(str, byteCount, itsBytes, itsAllocCount);
+		itsByteCount      = CopyNormalizedBytes(str, byteCount, itsBytes, itsAllocCount+1);
 		itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
 		}
 	else
@@ -1737,9 +1737,14 @@ JString::CopyNormalizedBytes
 	JIndex i = 0, j = 0;
 	while (i < maxBytes && j < capacity)
 		{
-		JSize nextByteCount;
-		const JUInt32 next     = JUtf8Character::Utf8ToUtf32(source + i + currByteCount, &nextByteCount);
-		const UChar32 composed = unorm2_composePair(norm2, curr, next);
+		JSize nextByteCount = 0;
+		JUInt32 next        = 0;
+		UChar32 composed    = U_SENTINEL;
+		if (i + currByteCount < maxBytes)	// don't consider bytes beyond the end of source
+			{
+			next     = JUtf8Character::Utf8ToUtf32(source + i + currByteCount, &nextByteCount);
+			composed = unorm2_composePair(norm2, curr, next);
+			}
 
 		const JUtf8Character currUtf8 = JUtf8Character::Utf32ToUtf8(composed == U_SENTINEL ? curr : composed);
 		const JSize currUtf8Count     = currUtf8.GetByteCount();

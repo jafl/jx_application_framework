@@ -229,6 +229,9 @@ public:
 	static JSize	CopyNormalizedBytes(const JUtf8Byte* source, const JSize maxBytes,
 										JUtf8Byte* destination, const JSize capacity);
 
+	static JSize	GetDefaultBlockSize();
+	static void		SetDefaultBlockSize(const JSize blockSize);
+
 private:
 
 	JUtf8Byte*	itsBytes;			// characters
@@ -239,6 +242,8 @@ private:
 
 	UCaseMap*			itsUCaseMap;
 	JStringIterator*	itsFirstIterator;	// linked list of active iterators
+
+	static JSize theDefaultBlockSize;
 
 private:
 
@@ -1718,6 +1723,26 @@ JString::SetBlockSize
 	)
 {
 	itsBlockSize = blockSize;
+}
+
+/******************************************************************************
+ Default block size (static)
+
+ ******************************************************************************/
+
+inline JSize
+JString::GetDefaultBlockSize()
+{
+	return theDefaultBlockSize;
+}
+
+inline void
+JString::SetDefaultBlockSize
+	(
+	const JSize blockSize
+	)
+{
+	theDefaultBlockSize = blockSize;
 }
 
 #endif

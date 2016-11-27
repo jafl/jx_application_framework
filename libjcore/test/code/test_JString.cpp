@@ -17,6 +17,8 @@
 
 int main()
 {
+	JString::SetDefaultBlockSize(1); // Ridiculous block size to really exercise resizer
+
 	cout << "Current locale: " << setlocale(LC_ALL, "") << endl;
 	return JUnitTestManager::Execute();
 }
@@ -303,8 +305,7 @@ JTEST(FloatConversion)
 
 JTEST(Concatenate)
 {
-	JString s("5", 1);
-	s.SetBlockSize(1); // Ridiculous block size to really exercise resizer
+	JString s("5");
 
 	s.Prepend("");
 	s.Append("");

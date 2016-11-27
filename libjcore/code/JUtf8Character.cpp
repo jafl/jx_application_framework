@@ -156,7 +156,6 @@ JUtf8Character::GetCharacterByteCount
 			cerr << (int) c[i] << ' ';
 			}
 		cerr << std::dec << endl;
-		abort();
 		}
 	return ok;
 }
