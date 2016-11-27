@@ -1,5 +1,3 @@
-work-around to replace all assert's in JUtf8Character and JString
-
 JString & JUtf8Character
 	normalize on all input:  ctor, set, append, prepend, etc
 	invalid chars -> placeholder

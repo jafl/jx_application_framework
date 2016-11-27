@@ -1496,8 +1496,8 @@ JString::CountCharacters
 	JSize byteCount;
 	for (JIndex i = range.first-1; i < range.last; )
 		{
-		const JBoolean ok = JUtf8Character::GetCharacterByteCount(str + i, &byteCount);
-		assert( ok );
+		// accept invalid byte sequences as single characters
+		JUtf8Character::GetCharacterByteCount(str + i, &byteCount);
 		charCount++;
 		i += byteCount;
 		}
@@ -1529,8 +1529,8 @@ JString::CharacterToUtf8ByteRange
 			break;
 			}
 
-		const JBoolean ok = JUtf8Character::GetCharacterByteCount(str + i-1, &byteCount);
-		assert( ok );
+		// accept invalid byte sequences as single characters
+		JUtf8Character::GetCharacterByteCount(str + i-1, &byteCount);
 		charCount++;
 		i += byteCount;
 		}
@@ -1545,8 +1545,8 @@ JString::CharacterToUtf8ByteRange
 	charCount = range.GetLength();
 	for (JIndex i=1; i<=charCount; i++)
 		{
-		const JBoolean ok = JUtf8Character::GetCharacterByteCount(str + r.last-1, &byteCount);
-		assert( ok );
+		// accept invalid byte sequences as single characters
+		JUtf8Character::GetCharacterByteCount(str + r.last-1, &byteCount);
 		r.last += byteCount;
 		}
 
