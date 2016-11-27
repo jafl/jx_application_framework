@@ -226,8 +226,8 @@ public:
 	static JSize	CalcCharacterMatchLength(const JString& s1, const JString& s2,
 											 const JBoolean caseSensitive = kJTrue);
 
-	static JBoolean	CopyBytes(const JUtf8Byte* source, const JIndex maxBytes,
-							  JUtf8Byte* destination);
+	static JSize	CopyNormalizedBytes(const JUtf8Byte* source, const JSize maxBytes,
+										JUtf8Byte* destination, const JSize capacity);
 
 private:
 

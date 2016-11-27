@@ -114,7 +114,6 @@ JString::JString
 	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
-	assert( IsValid(str, JUtf8ByteRange(1, byteCount)) );
 	CopyToPrivateString(byteCount > 0 ? str : "", byteCount);		// allow (NULL,0)
 }
 
@@ -132,7 +131,6 @@ JString::JString
 	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
-	assert( IsValid(str, range) );
 	CopyToPrivateString(str + range.first-1, range.GetLength());
 }
 
@@ -331,13 +329,19 @@ JString::CopyToPrivateString
 		itsBytes = newString;
 		}
 
-	// copy the characters to the new string
+	// copy normalized characters to the new string
 
-	memcpy(itsBytes, str, byteCount);
-	itsBytes[ byteCount ] = '\0';
-
-	itsByteCount      = byteCount;
-	itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
+	if (str != NULL)
+		{
+		itsByteCount      = CopyNormalizedBytes(str, byteCount, itsBytes, itsAllocCount);
+		itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
+		}
+	else
+		{
+		itsBytes[0]       = 0;
+		itsByteCount      = 0;
+		itsCharacterCount = 0;
+		}
 
 	// TODO: notify iterators
 }
@@ -774,7 +778,7 @@ JString::FoldCase
 
 	if (itsUCaseMap == NULL)
 		{
-		err = U_ZERO_ERROR;
+		err         = U_ZERO_ERROR;
 		itsUCaseMap = ucasemap_open(NULL, U_FOLD_CASE_DEFAULT, &err);
 		assert( err == U_ZERO_ERROR );
 		}
@@ -853,6 +857,14 @@ JString::SearchForward
 
 	assert( *byteIndex != 0 );
 
+	// if the given string is longer than we are, we can't contain it
+
+	if (itsByteCount - *byteIndex + 1 < strLength)
+		{
+		*byteIndex = itsByteCount+1;
+		return kJFalse;
+		}
+
 	// search forward for a match
 
 	UErrorCode err  = U_ZERO_ERROR;
@@ -867,19 +879,9 @@ JString::SearchForward
 		ucol_setStrength(coll, UCOL_PRIMARY);
 		}
 
-	// if the given string is longer than we are, compare for equality
-	// (longer string can be equal, if it is not normalized, e.g., o-umlaut)
-
-	if (itsByteCount - *byteIndex + 1 < strLength)
-		{
-		const UCollationResult r = ucol_strcollUTF8(coll, itsBytes + *byteIndex-1, -1, str, strLength, &err);
-		ucol_close(coll);
-		return JI2B( r == 0 );
-		}
-
 	for (JIndex i=*byteIndex; i<=itsByteCount - strLength + 1; i++)
 		{
-		const UCollationResult r = ucol_strcollUTF8(coll, itsBytes + i-1, -1, str, strLength, &err);
+		const UCollationResult r = ucol_strcollUTF8(coll, itsBytes + i-1, strLength, str, strLength, &err);
 		if (r == 0)
 			{
 			*byteIndex = i;
@@ -1463,7 +1465,8 @@ JString::IsValid
 {
 	JSize charCount = 0;
 	JSize byteCount;
-	for (JIndex i = range.first-1; i < range.last; )
+	JIndex i;
+	for (i = range.first-1; i < range.last; )
 		{
 		const JBoolean ok = JUtf8Character::GetCharacterByteCount(str + i, &byteCount);
 		if (!ok)
@@ -1472,13 +1475,9 @@ JString::IsValid
 			}
 		charCount++;
 		i += byteCount;
-		if (i > range.last)
-			{
-			return kJFalse;
-			}
 		}
 
-	return kJTrue;
+	return JI2B(i == range.last);
 }
 
 /******************************************************************************
@@ -1686,37 +1685,6 @@ JString::CalcCharacterMatchLength
 			break;
 			}
 
-		// check if an additional code point was consumed on either string
-
-		JSize n3;
-		if (b1[i1+n1] != 0)
-			{
-			if (!JUtf8Character::GetCharacterByteCount(b1+i1+n1, &n3))
-				{
-				return 0;
-				}
-
-			const UCollationResult r = ucol_strcollUTF8(coll, b1+i1, n1+n3, b2+i2, n2, &err);
-			if (r == 0)
-				{
-				n1 += n3;
-				}
-			}
-
-		if (b2[i2+n2] != 0)
-			{
-			if (!JUtf8Character::GetCharacterByteCount(b2+i2+n2, &n3))
-				{
-				return 0;
-				}
-
-			const UCollationResult r = ucol_strcollUTF8(coll, b1+i1, n1, b2+i2, n2+n3, &err);
-			if (r == 0)
-				{
-				n2 += n3;
-				}
-			}
-
 		i++;
 		i1 += n1;
 		i2 += n2;
@@ -1727,36 +1695,73 @@ JString::CalcCharacterMatchLength
 }
 
 /******************************************************************************
- CopyBytes (static)
+ CopyNormalizedBytes (static)
 
-	A version of strncpy() without the horrible bug - the result is
-	guaranteed to be NULL terminated.  In addition, it returns kJTrue if
-	the entire string was copied or kJFalse if it wasn't, since the
-	strncpy() return value is totally useless.  The name maxBytes should
-	remind you that there must also be room for a null terminator - at most
-	maxBytes-1 characters are actually copied.
+	This function processes at most maxBytes from source and places the
+	normalized characters into destination.  (Normalization greatly
+	simplifies all further operations on the string.)
+
+	The return value is the number of bytes inserted into destination.
+	Because of normalization, this may be less than the number of input
+	bytes processed.
+
+	destination is guaranteed to be NULL terminated.  The name capacity
+	should remind you that there must also be room for a null terminator -
+	at most capacity-1 bytes are actually inserted.
 
  *****************************************************************************/
 
-JBoolean
-JString::CopyBytes
+JSize
+JString::CopyNormalizedBytes
 	(
 	const JUtf8Byte*	source,
-	const JIndex		maxBytes,
-	JUtf8Byte*			destination
+	const JSize			maxBytes,
+	JUtf8Byte*			destination,
+	const JSize			capacity
 	)
 {
-	for (JIndex i=0; i<maxBytes-1; i++)
+	JSize currByteCount;
+	JUInt32 curr = JUtf8Character::Utf8ToUtf32(source, &currByteCount);
+	if (curr == 0 || maxBytes == 0)
 		{
-		destination[i] = source[i];
-		if (destination[i] == '\0')
+		destination[0] = 0;
+		return 0;
+		}
+
+	UErrorCode err            = U_ZERO_ERROR;
+	const UNormalizer2* norm2 = unorm2_getNFCInstance(&err);	// do not close
+
+	JIndex i = 0, j = 0;
+	while (i < maxBytes && j < capacity)
+		{
+		JSize nextByteCount;
+		const JUInt32 next     = JUtf8Character::Utf8ToUtf32(source + i + currByteCount, &nextByteCount);
+		const UChar32 composed = unorm2_composePair(norm2, curr, next);
+
+		const JUtf8Character currUtf8 = JUtf8Character::Utf32ToUtf8(composed == U_SENTINEL ? curr : composed);
+		const JSize currUtf8Count     = currUtf8.GetByteCount();
+		if (j + currUtf8Count >= capacity)
 			{
-			return kJTrue;
+			break;
+			}
+		memcpy(destination + j, currUtf8.GetBytes(), currUtf8Count);
+		j += currUtf8Count;
+
+		if (composed == U_SENTINEL)
+			{
+			i            += currByteCount;
+			curr          = next;
+			currByteCount = nextByteCount;
+			}
+		else
+			{
+			i   += currByteCount + nextByteCount;
+			curr = JUtf8Character::Utf8ToUtf32(source + i, &currByteCount);
 			}
 		}
 
-	destination[maxBytes-1] = '\0';
-	return JI2B( source[maxBytes-1] == '\0' );
+	destination[j] = '\0';
+	return j;
 }
 
 /******************************************************************************

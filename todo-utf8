@@ -1,3 +1,26 @@
+work-around to replace all assert's in JUtf8Character and JString
+
+JString & JUtf8Character
+	normalize on all input:  ctor, set, append, prepend, etc
+	invalid chars -> placeholder
+
+	unorm2_composePair
+
+kJIteratorStart(Before|After)Byte
+
+utf8 - sorting vs searching
+	searching should include diacriticals
+	sorting may not
+
+	test diacriticals in Utf8Char toupper/lower
+
+UText allows regexp to work with utf8
+	can ICU regex replace PCRE?  does it use PCRE internally?
+unorm & usearch ought to support UText
+	can it be contributed?
+
+-----
+
 convert all functions to use JString intead of JUtf8Byte*
 	call GetBytes() only when pass string to system function
 
@@ -12,32 +35,18 @@ search for substring
 
 	uiter_setUTF8
 
-JString & JUtf8Character
-	assert( IsValid() ) on all input:  ctor, set, append, prepend, etc
-
-test every JUtf8Character & JString function on empty/blank string
-
 re-evaluate all uses of JIndexRange - character or utf8byte?
 
 Fix I18NIsCharacterInWord() in jXGlobals
 
------
+JRegex::defaultCFlags: add PCRE_UTF8
 
-need JXComposeRuleList?
-	use for help, diacritical list, word characters
-does setlocale(LC_ALL, ""); make isalpha(), isupper(), etc. work correctly?
-
-JCharacter -> JUtf8Byte
-JUtf8Character
-GetCharacter(i) -> iterator
-
-is*() -> JUtf8Character
-JIndexRange -> JUtf8Range
-kJIteratorStart(Before|After)Byte
+UTF8_STRING for X selection
+use real X compose mechanism
+	remove JXComposeRuleList
 
 + replace rendering engine inside JXWindowPainter with UTF-8 version
 is YUI yogi output correct with check mark? - NO
-after this, safe to replace strlen with utf-8 version
 
 leibnitz - symbol font
 	transform to unicode and use X11 utf8 string width/drawing functions
@@ -53,20 +62,3 @@ todo-utf8.c
 	http://www.cprogramming.com/tutorial/unicode.html
 	http://userguide.icu-project.org/strings/utf-8
 	https://code.google.com/p/easl/
-
-JString
-	if input not valid UTF-8, convert from ISO8859-1 (configurable?)
-	store character count separate from byte count
-	static functions: utf8_strlen, utf8_prev(&i), utf8_next(&i)
-	optimize GetCharacter(), etc - if not utf-8, use array index
-
-JRegex::defaultCFlags: add PCRE_UTF8
-
-convert one file at a time
-	intermediate should be safe, except maybe confusion in JTextEditor/rendering
-	JTextEditor needs to store glyph offset and byte offset
-
-for loops must use utf8_next/prev instead of i++/--
-
-UTF8_STRING for X selection
-use real X compose mechanism

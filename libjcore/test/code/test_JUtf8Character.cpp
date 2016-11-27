@@ -53,6 +53,9 @@ JTEST(Set)
 	c.Set("\xE2\x9C\x94");
 	JAssertEqual(3, c.GetByteCount());
 
+	c.Set("\xF4\x30");
+	JAssertEqual(JUtf8Character::kUtf32SubstitutionCharacter, c.GetUtf32());
+
 	JUtf8Character c2;
 	c2.Set(c);
 	JAssertEqual(3, c2.GetByteCount());
@@ -95,6 +98,9 @@ JTEST(CharacterByteCount)
 
 	JAssertTrue(JUtf8Character::GetCharacterByteCount("\xE2\x9C\x94", &byteCount));
 	JAssertEqual(3, byteCount);
+
+	JAssertFalse(JUtf8Character::GetCharacterByteCount("\xF5\x9C\x94", &byteCount));
+	JAssertFalse(JUtf8Character::GetCharacterByteCount("\xF4\x30\x94", &byteCount));
 }
 
 JTEST(Comparison)

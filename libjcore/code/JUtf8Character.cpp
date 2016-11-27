@@ -7,7 +7,11 @@
 
 #include <JUtf8Character.h>
 #include <unicode/uchar.h>
+#include <iomanip>
 #include <jAssert.h>
+
+const JUInt32 JUtf8Character::kUtf32SubstitutionCharacter = 0x0000FFFD;
+const JUtf8Byte* kUtf8SubstitutionCharacter               = "\xEF\xBF\xBD";
 
 /******************************************************************************
  Constructor
@@ -73,8 +77,8 @@ JUtf8Character::Set
 	const JUtf8Byte asciiCharacter
 	)
 {
-	itsBytes[0]  = asciiCharacter;
-	itsByteCount = (asciiCharacter == 0 ? 0 : 1);
+	JUtf8Byte s[] = { asciiCharacter, 0 };
+	Set(s);
 }
 
 void
@@ -83,93 +87,20 @@ JUtf8Character::Set
 	const JUtf8Byte* utf8Character
 	)
 {
-	unsigned char* c = (unsigned char*) utf8Character;
-	if (c[0] == 0)
+	JSize byteCount;
+	if (!GetCharacterByteCount(utf8Character, &byteCount))
 		{
-		itsByteCount = 0;
+		cerr << "Replaced invalid UTF-8 byte sequence" << endl;
+		Set(kUtf8SubstitutionCharacter);
+		return;
 		}
-	else if (c[0] <= (unsigned char) '\x7F')
-		{
-		itsByteCount = 1;
-		itsBytes[0]  = utf8Character[0];
-		}
-	else if (((unsigned char) '\xC2') <= c[0] && c[0] <= (unsigned char) '\xDF' &&
-			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF')
-		{
-		itsByteCount = 2;
-		itsBytes[0]  = utf8Character[0];
-		itsBytes[1]  = utf8Character[1];
-		}
-	else if (((unsigned char) '\xE0') <= c[0] && c[0] <= (unsigned char) '\xEF' &&
-			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF' &&
-			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char) '\xBF')
-		{
-		itsByteCount = 3;
-		itsBytes[0]  = utf8Character[0];
-		itsBytes[1]  = utf8Character[1];
-		itsBytes[2]  = utf8Character[2];
-		}
-	else if (((unsigned char) '\xF0') <= c[0] && c[0] <= (unsigned char) '\xF4' &&
-			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF' &&
-			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char) '\xBF' &&
-			 ((unsigned char) '\x80') <= c[3] && c[3] <= (unsigned char) '\xBF')
-		{
-		itsByteCount = 4;
-		itsBytes[0]  = utf8Character[0];
-		itsBytes[1]  = utf8Character[1];
-		itsBytes[2]  = utf8Character[2];
-		itsBytes[3]  = utf8Character[3];
-		}
-	else
-		{
-		cerr << "Invalid UTF-8 byte sequence: "
-			 << std::hex << (int) (unsigned char) utf8Character[0] << endl;
-		assert( 0 /* invalid UTF-8 byte sequence */ );
-		}
-}
 
-/******************************************************************************
- IsValid (static)
+	for (JIndex i=0; i<byteCount; i++)	// avoid function call - worth it?
+		{
+		itsBytes[i] = utf8Character[i];
+		}
 
- ******************************************************************************/
-
-JBoolean
-JUtf8Character::IsValid
-	(
-	const JUtf8Byte* utf8Character
-	)
-{
-	unsigned char* c = (unsigned char*) utf8Character;
-	if (c[0] == 0)
-		{
-		return kJTrue;
-		}
-	else if (c[0] <= (unsigned char) '\x7F')
-		{
-		return kJTrue;
-		}
-	else if (((unsigned char) '\xC2') <= c[0] && c[0] <= (unsigned char) '\xDF' &&
-			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF')
-		{
-		return kJTrue;
-		}
-	else if (((unsigned char) '\xE0') <= c[0] && c[0] <= (unsigned char) '\xEF' &&
-			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF' &&
-			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char) '\xBF')
-		{
-		return kJTrue;
-		}
-	else if (((unsigned char) '\xF0') <= c[0] && c[0] <= (unsigned char) '\xF4' &&
-			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF' &&
-			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char) '\xBF' &&
-			 ((unsigned char) '\x80') <= c[3] && c[3] <= (unsigned char) '\xBF')
-		{
-		return kJTrue;
-		}
-	else
-		{
-		return kJFalse;
-		}
+	itsByteCount = byteCount;
 }
 
 /******************************************************************************
@@ -185,50 +116,51 @@ JUtf8Character::GetCharacterByteCount
 	)
 {
 	unsigned char* c = (unsigned char*) utf8Character;
+	JBoolean ok;
 	if (c[0] == 0)
 		{
 		*byteCount = 0;
-		return kJTrue;
+		ok = kJTrue;
 		}
 	else if (c[0] <= (unsigned char) '\x7F')
 		{
 		*byteCount = 1;
-		return kJTrue;
+		ok = kJTrue;
 		}
-	else if (((unsigned char) '\xC2') <= c[0] && c[0] <= (unsigned char) '\xDF' &&
-			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF')
+	else if (((unsigned char) '\xC2') <= c[0] && c[0] <= (unsigned char) '\xDF')
 		{
 		*byteCount = 2;
-		return kJTrue;
+		ok = JI2B(((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF');
 		}
-	else if (((unsigned char) '\xE0') <= c[0] && c[0] <= (unsigned char) '\xEF' &&
-			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF' &&
-			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char) '\xBF')
+	else if (((unsigned char) '\xE0') <= c[0] && c[0] <= (unsigned char) '\xEF')
 		{
 		*byteCount = 3;
-		return kJTrue;
+		ok = JI2B(((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF' &&
+				  ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char) '\xBF');
 		}
-	else if (((unsigned char) '\xF0') <= c[0] && c[0] <= (unsigned char) '\xF4' &&
-			 ((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF' &&
-			 ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char) '\xBF' &&
-			 ((unsigned char) '\x80') <= c[3] && c[3] <= (unsigned char) '\xBF')
+	else if (((unsigned char) '\xF0') <= c[0] && c[0] <= (unsigned char) '\xF4')
 		{
 		*byteCount = 4;
-		return kJTrue;
+		ok = JI2B(((unsigned char) '\x80') <= c[1] && c[1] <= (unsigned char) '\xBF' &&
+				  ((unsigned char) '\x80') <= c[2] && c[2] <= (unsigned char) '\xBF' &&
+				  ((unsigned char) '\x80') <= c[3] && c[3] <= (unsigned char) '\xBF');
 		}
 	else
 		{
-		cerr << "Invalid UTF-8 sequence:"
-			<< std::hex
-			<< " " << (int) c[0]
-			<< " " << (int) c[1]
-			<< " " << (int) c[2]
-			<< " " << (int) c[3]
-			<< endl;
-
-		*byteCount = 0;
-		return kJTrue;
+		*byteCount = 1;
+		ok         = kJFalse;
 		}
+
+	if (!ok)
+		{
+		cerr << "Invalid UTF-8 byte sequence: ";
+		for (JIndex i=0; i<*byteCount; i++)
+			{
+			cout << std::hex << (int) c[i] << ' ';
+			}
+		cout << endl;
+		}
+	return ok;
 }
 
 /******************************************************************************
@@ -270,7 +202,7 @@ JUtf8Character::Utf32ToUtf8
 	else
 		{
 		byteCount = 3;
-		ch = (JUInt32) 0x0000FFFD;
+		ch = kUtf32SubstitutionCharacter;
 		}
 
 	JUtf8Character c;
@@ -311,15 +243,24 @@ JUtf8Character::Utf32ToUtf8
 JUInt32
 JUtf8Character::Utf8ToUtf32
 	(
-	const JUtf8Byte* bytes
+	const JUtf8Byte*	bytes,
+	JSize*				returnByteCount
 	)
 {
 	JUInt32 ch = 0;
 
 	JSize byteCount;
 	const JBoolean ok = GetCharacterByteCount(bytes, &byteCount);
-	assert( ok );
-	if (byteCount == 0)
+	if (returnByteCount != NULL)
+		{
+		*returnByteCount = byteCount;
+		}
+
+	if (!ok)
+		{
+		return kUtf32SubstitutionCharacter;
+		}
+	else if (byteCount == 0)
 		{
 		return 0;
 		}
@@ -353,12 +294,11 @@ JUtf8Character::Utf8ToUtf32
 
 	if (0xD800 <= ch && ch <= 0xDFFF)		// illegal character range
 		{
-		ch = (JUInt32) 0x0000FFFD;
+		ch = kUtf32SubstitutionCharacter;
 		}
 
 	return ch;
 }
-
 
 /******************************************************************************
  Character types
@@ -448,6 +388,26 @@ JUtf8Character::AllocateNullTerminatedBytes()
 	memcpy(s, itsBytes, itsByteCount);
 	s[ itsByteCount+1 ] = '\0';
 	return s;
+}
+
+/******************************************************************************
+ PrintHex
+
+	Display the hex bytes.
+
+ ******************************************************************************/
+
+void
+JUtf8Character::PrintHex
+	(
+	ostream& output
+	)
+	const
+{
+	for (JIndex i=0; i<itsByteCount; i++)
+		{
+		output << std::hex << (int) (unsigned char) itsBytes[i] << ' ';
+		}
 }
 
 /******************************************************************************

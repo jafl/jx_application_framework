@@ -18,6 +18,10 @@ class JUtf8Character
 
 public:
 
+	static const JUInt32 kUtf32SubstitutionCharacter;
+
+public:
+
 	JUtf8Character();
 	JUtf8Character(const JUtf8Byte asciiCharacter);
 	JUtf8Character(const JUtf8Byte* utf8Character);
@@ -46,11 +50,13 @@ public:
 	JUtf8Character	ToLower() const;
 	JUtf8Character	ToUpper() const;
 
+	void	PrintHex(ostream& output) const;
+
 	static JBoolean	IsValid(const JUtf8Byte* utf8Character);
 	static JBoolean	GetCharacterByteCount(const JUtf8Byte* utf8Character, JSize* byteCount);
 
 	static JUtf8Character	Utf32ToUtf8(const JUInt32 c);
-	static JUInt32			Utf8ToUtf32(const JUtf8Byte* c);
+	static JUInt32			Utf8ToUtf32(const JUtf8Byte* c, JSize* returnByteCount = NULL);
 
 private:
 
@@ -84,7 +90,7 @@ JUtf8Character::GetBytes()
 }
 
 /******************************************************************************
- GetBytes
+ GetUtf32
 
  ******************************************************************************/
 
@@ -93,6 +99,21 @@ JUtf8Character::GetUtf32()
 	const
 {
 	return (itsByteCount == 0 ? 0 : Utf8ToUtf32(itsBytes));
+}
+
+/******************************************************************************
+ IsValid (static)
+
+ ******************************************************************************/
+
+inline JBoolean
+JUtf8Character::IsValid
+	(
+	const JUtf8Byte* utf8Character
+	)
+{
+	JSize byteCount;
+	return GetCharacterByteCount(utf8Character, &byteCount);
 }
 
 /******************************************************************************

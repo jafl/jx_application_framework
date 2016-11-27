@@ -393,10 +393,11 @@ JTEST(Contains)
 	JAssertTrue(s.EndsWith("b\xE2\x9C\x94\xCE\xA6"));
 	JAssertTrue(s.EndsWith("B\xE2\x9C\x94\xCF\x86", kJFalse));
 
-	s = "\xC3\xB6";
-	JAssertTrue(s.BeginsWith("\x6F\xCC\x88"));
-	JAssertTrue(s.Contains("\x6F\xCC\x88"));
-	JAssertTrue(s.EndsWith("\x6F\xCC\x88"));
+	s          = "\xC3\xB6";
+	JString s1 = "\x6F\xCC\x88";	// force normalization
+	JAssertTrue(s.BeginsWith(s1));
+	JAssertTrue(s.Contains(s1));
+	JAssertTrue(s.EndsWith(s1));
 
 	s = "\x6F\xCC\x88";
 	JAssertTrue(s.BeginsWith("\xC3\xB6"));
@@ -561,6 +562,9 @@ JTEST(MatchCase)
 	JAssertStringsEqual("\xCE\x9C\xCE\x86\xCE\xAA\xCE\x9F\xCE\xA3", s1);
 }
 
+#include <iomanip>
+#include <unicode/unorm2.h>
+
 JTEST(MatchLength)
 {
 	JString s1, s2;
@@ -591,15 +595,19 @@ JTEST(MatchLength)
 	s2 = "\xCE\x9C\xCE\x86\xCE\xAA\xCE\x9F\xCE\xA3";
 	JAssertEqual(1, JString::CalcCharacterMatchLength(s1, s2));
 
-	// only case-insensitive matches (UCOL_PRIMARY) recognize o-umlaut equivalence
+	s1 = "\xCE\x9C\xCE\xAC\xCF\x8A\xCE\xBF\xCF\x82";
+	s2 = "\xCE\x9C\xCE\x86\xCE\xAA\xCE\x9F\xCE\xA3";
+	JAssertEqual(5, JString::CalcCharacterMatchLength(s1, s2, kJFalse));
+
+	// test normalization of o-umlaut variants
 
 	s1 = "\xC3\xB6\xE2\x9C\x94";
 	s2 = "\x6F\xCC\x88\xE2\x9C\x94";
-	JAssertEqual(0, JString::CalcCharacterMatchLength(s1, s2));
+	JAssertEqual(2, JString::CalcCharacterMatchLength(s1, s2));
 
 	s1 = "\x6F\xCC\x88\xE2\x9C\x94";
 	s2 = "\xC3\xB6\xE2\x9C\x94";
-	JAssertEqual(0, JString::CalcCharacterMatchLength(s1, s2));
+	JAssertEqual(2, JString::CalcCharacterMatchLength(s1, s2));
 
 	s1 = "\xC3\xB6\xE2\x9C\x94";
 	s2 = "\x6F\xCC\x88\xE2\x9C\x94";
@@ -688,7 +696,7 @@ JTEST(FileStreaming)
 	JAssertStringsEqual("Jane said, \"Hello!\" didn't she?", s);
 }
 
-JTEST(CopyBytes)
+JTEST(CopyNormalizedBytes)
 {
 	const JIndex kStringLength = 10;
 	JUtf8Byte string [ kStringLength ];
@@ -699,11 +707,12 @@ JTEST(CopyBytes)
 
 	for (JIndex testnum=0; testnum<kTestMax; testnum++)
 		{
-		const JBoolean allCopied =
-			JString::CopyBytes(stringList[testnum], kStringLength, string);
+		const JSize srcLength = strlen(stringList[testnum]);
+		const JBoolean allCopied = JI2B(
+			JString::CopyNormalizedBytes(stringList[testnum], srcLength, string, kStringLength) == srcLength);
 
 		JAssertEqualWithMessage(!strcmp(string, stringList[testnum]), allCopied, stringList[testnum]);
-		JAssertEqual(0, JString::CompareMaxNBytes(string, stringList[testnum], kStringLength-1));
-		JAssertEqual(JMin(kStringLength-1, strlen(stringList[testnum])), strlen(string));
+		JAssertEqualWithMessage(0, JString::CompareMaxNBytes(string, stringList[testnum], kStringLength-1), stringList[testnum]);
+		JAssertEqualWithMessage(JMin(kStringLength-1, srcLength), strlen(string), string);
 		}
 }
