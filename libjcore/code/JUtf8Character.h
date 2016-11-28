@@ -19,6 +19,7 @@ class JUtf8Character
 public:
 
 	static const JUInt32 kUtf32SubstitutionCharacter;
+	static const JUtf8Character kUtf8SubstitutionCharacter;
 
 public:
 
@@ -54,6 +55,7 @@ public:
 
 	static JBoolean	IsValid(const JUtf8Byte* utf8Character);
 	static JBoolean	GetCharacterByteCount(const JUtf8Byte* utf8Character, JSize* byteCount);
+	static JBoolean	GetPrevCharacterByteCount(const JUtf8Byte* lastByte, JSize* byteCount);
 
 	static JUtf8Character	Utf32ToUtf8(const JUInt32 c);
 	static JUInt32			Utf8ToUtf32(const JUtf8Byte* c, JSize* returnByteCount = NULL);

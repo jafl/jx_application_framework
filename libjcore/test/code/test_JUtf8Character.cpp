@@ -103,6 +103,26 @@ JTEST(CharacterByteCount)
 	JAssertFalse(JUtf8Character::GetCharacterByteCount("\xF4\x30\x94", &byteCount));
 }
 
+JTEST(PrevCharacter)
+{
+	const JUtf8Byte* s = "ABC";
+	JSize byteCount;
+	JAssertTrue(JUtf8Character::GetPrevCharacterByteCount(s + strlen(s) - 1, &byteCount));
+	JAssertEqual(1, byteCount);
+
+	s = "ABC\xF0\xAF\xA7\x97";
+	JAssertTrue(JUtf8Character::GetPrevCharacterByteCount(s + strlen(s) - 1, &byteCount));
+	JAssertEqual(4, byteCount);
+
+	s = "AB\xF0\xAF\xA7\x97" "c";
+	JAssertTrue(JUtf8Character::GetPrevCharacterByteCount(s + strlen(s) - 1, &byteCount));
+	JAssertEqual(1, byteCount);
+
+	s = "ABC\xF8\xAF\xA7\x97";
+	JAssertFalse(JUtf8Character::GetPrevCharacterByteCount(s + strlen(s) - 1, &byteCount));
+	JAssertEqual(1, byteCount);
+}
+
 JTEST(Comparison)
 {
 	JAssertFalse(JUtf8Character("") == '\0');

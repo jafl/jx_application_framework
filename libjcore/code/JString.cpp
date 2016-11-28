@@ -367,13 +367,10 @@ JString::GetLastCharacter()
 {
 	assert( itsCharacterCount > 0 );
 
-	const unsigned char* s = (const unsigned char*) (itsBytes + itsByteCount - 1);
-	while (((unsigned char) '\x80') <= *s && *s <= (unsigned char) '\xBF')
-		{
-		s--;
-		}
-
-	return JUtf8Character((const JUtf8Byte*) s);
+	// accept invalid byte sequences as single characters
+	JSize byteCount;
+	JUtf8Character::GetPrevCharacterByteCount(itsBytes + itsByteCount - 1, &byteCount);
+	return JUtf8Character(itsBytes + itsByteCount - byteCount);
 }
 
 /******************************************************************************

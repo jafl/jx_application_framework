@@ -353,6 +353,10 @@ JTEST(Get)
 	JUtf8Byte* s1 = s.AllocateBytes();
 	JAssertStringsEqual(s, s1);
 	delete [] s1;
+
+	s = "\xC3\xA6" "34567\xCE\xA6" "90\xCE\xA6\xF8\x9C\x94";
+	JAssertEqual(JUtf8Character("\xC3\xA6"), s.GetFirstCharacter());
+	JAssertEqual(JUtf8Character::kUtf8SubstitutionCharacter, s.GetLastCharacter());
 }
 
 JTEST(Contains)

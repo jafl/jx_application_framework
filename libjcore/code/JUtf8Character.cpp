@@ -10,9 +10,8 @@
 #include <iomanip>
 #include <jAssert.h>
 
-const JUInt32 JUtf8Character::kUtf32SubstitutionCharacter = 0x0000FFFD;
-const JUtf8Byte* kUtf8SubstitutionCharacter               = "\xEF\xBF\xBD";
-const JSize kUtf8SubstitutionCharacterByteLength          = 3;
+const JUInt32 JUtf8Character::kUtf32SubstitutionCharacter       = 0x0000FFFD;
+const JUtf8Character JUtf8Character::kUtf8SubstitutionCharacter = "\xEF\xBF\xBD";
 
 /******************************************************************************
  Constructor
@@ -92,8 +91,8 @@ JUtf8Character::Set
 	if (!GetCharacterByteCount(utf8Character, &byteCount))
 		{
 		cerr << "Replaced invalid UTF-8 byte sequence with substitution U+FFFD" << endl;
-		utf8Character = kUtf8SubstitutionCharacter;
-		byteCount     = kUtf8SubstitutionCharacterByteLength;
+		utf8Character = kUtf8SubstitutionCharacter.GetBytes();
+		byteCount     = kUtf8SubstitutionCharacter.GetByteCount();
 		}
 
 	memcpy(itsBytes, utf8Character, byteCount);
@@ -158,6 +157,29 @@ JUtf8Character::GetCharacterByteCount
 		cerr << std::dec << endl;
 		}
 	return ok;
+}
+
+/******************************************************************************
+ GetPrevCharacterByteCount (static)
+
+	Returns the length of the character ending with the specified byte.
+
+ ******************************************************************************/
+
+JBoolean
+JUtf8Character::GetPrevCharacterByteCount
+	(
+	const JUtf8Byte*	lastByte,
+	JSize*				byteCount
+	)
+{
+	const unsigned char* s = (const unsigned char*) lastByte;
+	while (((unsigned char) '\x80') <= *s && *s <= (unsigned char) '\xBF')
+		{
+		s--;
+		}
+
+	return GetCharacterByteCount((const JUtf8Byte*) s, byteCount);
 }
 
 /******************************************************************************
