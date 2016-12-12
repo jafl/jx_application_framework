@@ -3,8 +3,8 @@
 
 						The JString Iterator Class
 
-	UTF-8 combines the worst of arrays and linked lists.  Insertion and
-	search are both O(N), and iteration is complicated by characters not
+	UTF-8 combines the worst of arrays and linked lists.  Search and
+	insertion are both O(N), and iteration is complicated by characters not
 	being a fixed number of bytes.
 
 	This iterator provides the most efficient, error-resistant way to loop
@@ -15,7 +15,7 @@
 		JStringIterator iterator(s);
 		JUtf8Character  char;
 
-		while(iterator.Next(&char))
+		while (iterator.Next(&char))
 			{
 			<do something with the character>
 			}
@@ -35,16 +35,17 @@
 				+-----+-----+-----+-----+-----+-----+
 		cursor	0     1     2     3     4     5     6
 
-	JIteratorPosition lets you specify an initial (or changed) cursor position.
-	kJIteratorStartBefore puts the cursor just before the specified item
-	(so Next() will fetch the item) while kJIteratorStartAfter puts it just after
-	(so Prev() will fetch the item).
+	JIteratorPosition lets you specify an initial (or changed) cursor
+	position. kJIteratorStartBefore puts the cursor just before the
+	specified character (so Next() will fetch the character) while
+	kJIteratorStartAfter puts it just after (so Prev() will fetch the
+	character).
 
-	The operations Next() and Prev() fetch the item just after or the item
-	just before the cursor, respectively, then increment or decrement the
-	cursor. So a sequence of Next() calls will advance forward through a
-	JString, while a sequence of Prev() calls will go backwards through the
-	JString. You can change direction at any time.
+	The operations Next() and Prev() fetch the character just after or the
+	character just before the cursor, respectively, then increment or
+	decrement the cursor. So a sequence of Next() calls will advance
+	forward through a JString, while a sequence of Prev() calls will go
+	backwards through the JString. You can change direction at any time.
 
 	If the cursor is positioned at the number of characters in the JString
 	and you call Next(), it will return FALSE. Likewise if the cursor is

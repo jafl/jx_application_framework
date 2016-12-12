@@ -43,16 +43,13 @@ public:
 
 	JBoolean	LocateNext(const JString& str, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	LocateNext(const JUtf8Character* str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	LocateNext(const JUtf8Character* str, const JSize length, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	LocateNext(const JUtf8Character* str, const JSize byteCount, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	LocateNext(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
 
 	JBoolean	LocatePrev(const JString& str, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	LocatePrev(const JUtf8Character* str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	LocatePrev(const JUtf8Character* str, const JSize length, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	LocatePrev(const JUtf8Character* str, const JSize byteCount, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	LocatePrev(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
-
-	JString		GetSubstring(const JIndex firstCharIndex, const JIndex lastCharIndex) const;
-	JString		GetSubstring(const JCharacterRange& range) const;	// allows empty range
 
 	// only allowed if constructed from non-const JString*
 
@@ -65,7 +62,7 @@ public:
 	void		ReplaceNext(const JSize count, const JString& str);
 	void		ReplaceNext(const JSize count, const JString& str, const JCharacterRange& range);
 	void		ReplaceNext(const JSize count, const JUtf8Byte* str);
-	void		ReplaceNext(const JSize count, const JUtf8Byte* str, const JSize length);
+	void		ReplaceNext(const JSize count, const JUtf8Byte* str, const JSize byteCount);
 	void		ReplaceNext(const JSize count, const JUtf8Byte* str, const JUtf8ByteRange& range);
 	void		ReplaceNext(const JSize count, const std::string& str);
 	void		ReplaceNext(const JSize count, const std::string& str, const JUtf8ByteRange& range);
@@ -73,7 +70,7 @@ public:
 	void		ReplacePrev(const JSize count, const JString& str);
 	void		ReplacePrev(const JSize count, const JString& str, const JCharacterRange& range);
 	void		ReplacePrev(const JSize count, const JUtf8Byte* str);
-	void		ReplacePrev(const JSize count, const JUtf8Byte* str, const JSize length);
+	void		ReplacePrev(const JSize count, const JUtf8Byte* str, const JSize byteCount);
 	void		ReplacePrev(const JSize count, const JUtf8Byte* str, const JUtf8ByteRange& range);
 	void		ReplacePrev(const JSize count, const std::string& str);
 	void		ReplacePrev(const JSize count, const std::string& str, const JUtf8ByteRange& range);

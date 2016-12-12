@@ -52,7 +52,7 @@ public:
 	};
 
 	JSize
-	GetLength() const
+	GetCount() const
 	{
 		return ((first <= last && last > 0) ? last-first+1 : 0);
 	};
@@ -94,14 +94,14 @@ public:
 	};
 
 	void
-	SetFirstAndLength
+	SetFirstAndCount
 		(
 		const JIndex	firstIndex,
-		const JSize		length
+		const JSize		count
 		)
 	{
 		first = firstIndex;
-		last  = firstIndex + length - 1;
+		last  = firstIndex + count - 1;
 	};
 
 	JBoolean
