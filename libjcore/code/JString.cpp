@@ -78,7 +78,7 @@ JString::JString
 	itsFirstIterator(NULL)
 {
 	JUtf8ByteRange byteRange = str.CharacterToUtf8ByteRange(charRange);
-	CopyToPrivateString(str.GetBytes() + byteRange.first-1, byteRange.GetLength());
+	CopyToPrivateString(str.GetBytes() + byteRange.first-1, byteRange.GetCount());
 }
 
 // This unfortunately allows implicit conversion, but not being able to
@@ -131,7 +131,7 @@ JString::JString
 	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
-	CopyToPrivateString(str + range.first-1, range.GetLength());
+	CopyToPrivateString(str + range.first-1, range.GetCount());
 }
 
 // This unfortunately allows round-about implicit conversion, but not being
@@ -167,7 +167,7 @@ JString::JString
 	itsUCaseMap(NULL),
 	itsFirstIterator(NULL)
 {
-	CopyToPrivateString(s.data() + range.first-1, range.GetLength());
+	CopyToPrivateString(s.data() + range.first-1, range.GetCount());
 }
 
 JString::JString
@@ -422,7 +422,9 @@ JString::Prepend
 	const JSize			byteCount
 	)
 {
-	InsertBytes(1, str, byteCount);
+	JUtf8ByteRange r;
+	r.SetToEmptyAt(1);
+	ReplaceBytes(r, str, byteCount);
 }
 
 /******************************************************************************
@@ -437,88 +439,9 @@ JString::Append
 	const JSize			byteCount
 	)
 {
-	InsertBytes(itsByteCount+1, str, byteCount);
-}
-
-/******************************************************************************
- InsertBytes (private)
-
-	Insert the given bytes into ourselves starting at the specified index.
-
-	// TODO: CopyNormalizedBytes
-
- ******************************************************************************/
-
-void
-JString::InsertBytes
-	(
-	const JIndex		insertionIndex,
-	const JUtf8Byte*	stringToInsert,
-	const JSize			insertLength
-	)
-{
-	assert( 0 < insertionIndex && insertionIndex <= itsByteCount + 1 );
-
-	// if the string to insert is empty, we don't need to do anything
-
-	if (insertLength == 0)
-		{
-		return;
-		}
-
-	// If we don't have space for the result, we have to reallocate.
-
-	JUtf8Byte* insertionPtr               = NULL;
-	const JUnsignedOffset insertionOffset = insertionIndex - 1;
-
-	if (itsAllocCount < itsByteCount + insertLength)
-		{
-		itsAllocCount = itsByteCount + insertLength + itsBlockSize;
-
-		// allocate space for the combined string
-
-		JUtf8Byte* newString = jnew JUtf8Byte [ itsAllocCount + 1 ];
-		assert( newString != NULL );
-
-		insertionPtr = newString + insertionOffset;
-
-		// copy our characters in front of the insertion point
-
-		memcpy(newString, itsBytes, insertionOffset);
-
-		// copy our characters after the insertion point, -including the termination-
-
-		memcpy(insertionPtr + insertLength, itsBytes + insertionOffset,
-			   itsByteCount - insertionOffset + 1);
-
-		// throw out our original string and save the new one
-
-		jdelete [] itsBytes;
-		itsBytes = newString;
-		}
-
-	// Otherwise, just shift characters to make space for the result.
-
-	else if (insertionOffset < itsByteCount+1)
-		{
-		insertionPtr = itsBytes + insertionOffset;
-
-		// shift characters after the insertion point, *including the termination*
-
-		memmove(insertionPtr + insertLength, insertionPtr,
-				itsByteCount - insertionOffset + 1);
-		}
-
-	// copy the characters from the string to insert
-
-	memcpy(insertionPtr, stringToInsert, insertLength);
-
-	// update our string length
-
-	itsByteCount      += insertLength;
-	itsCharacterCount += CountCharacters(stringToInsert, insertLength);
-
-	// TODO: notify iterators
+	JUtf8ByteRange r;
+	r.SetToEmptyAt(itsByteCount+1);
+	ReplaceBytes(r, str, byteCount);
 }
 
 /******************************************************************************
@@ -533,30 +456,36 @@ JString::InsertBytes
 void
 JString::ReplaceBytes
 	(
-	const JIndex		firstByteIndex,
-	const JIndex		lastByteIndex,
-	const JUtf8Byte*	stringToInsert,
-	const JSize			insertLength
+	const JUtf8ByteRange&	replaceRange,
+	const JUtf8Byte*		stringToInsert,
+	const JSize				insertByteCount
 	)
 {
-	assert( firstByteIndex <= lastByteIndex );
-	assert( ByteIndexValid(firstByteIndex) );
-	assert( ByteIndexValid(lastByteIndex) );
+	assert( 1 <= replaceRange.first && replaceRange.first <= itsByteCount+1 );
+	assert( replaceRange.IsEmpty() || RangeValid(replaceRange) );
 
-	const JSize replaceLength = lastByteIndex - firstByteIndex + 1;
-	const JSize newLength     = itsByteCount - replaceLength + insertLength;
+	const JSize replaceCount = replaceRange.GetCount();
+	if (replaceCount == 0 && insertByteCount == 0)
+		{
+		return;
+		}
 
-	const JSize len1 = firstByteIndex - 1;
-	const JSize len2 = insertLength;
-	const JSize len3 = itsByteCount - lastByteIndex;
+	const JSize newCount = itsByteCount - replaceCount + insertByteCount;
 
-	itsCharacterCount -= CountCharacters(itsBytes + len1, replaceLength);
+	const JSize count1 = replaceRange.first - 1;
+	const JSize count2 = insertByteCount;
+	const JSize count3 = itsByteCount - replaceRange.last;
+
+	if (replaceCount > 0)
+		{
+		itsCharacterCount -= CountCharacters(itsBytes + count1, replaceCount);
+		}
 
 	// If we don't have space, or would use too much space, reallocate.
 
-	if (itsAllocCount < newLength || itsAllocCount > newLength + itsBlockSize)
+	if (itsAllocCount < newCount || itsAllocCount > newCount + itsBlockSize)
 		{
-		itsAllocCount = newLength + itsBlockSize;
+		itsAllocCount = newCount + itsBlockSize;
 
 		// allocate space for the result
 
@@ -565,8 +494,8 @@ JString::ReplaceBytes
 
 		// place the characters in front and behind
 
-		memcpy(newString, itsBytes, len1);
-		memcpy(newString + len1 + len2, itsBytes + lastByteIndex, len3);
+		memcpy(newString, itsBytes, count1);
+		memcpy(newString + count1 + count2, itsBytes + replaceRange.last, count3);
 
 		// throw out the original string and save the new one
 
@@ -576,20 +505,24 @@ JString::ReplaceBytes
 
 	// Otherwise, shift characters to make space.
 
-	else if (len3 > 0)
+	else if (count2 > 0 && count3 > 0)
 		{
-		memmove(itsBytes + len1 + len2, itsBytes + lastByteIndex, len3);
+		memmove(itsBytes + count1 + count2, itsBytes + replaceRange.last, count3);
 		}
 
 	// insert the new characters
 
-	memcpy(itsBytes + len1, stringToInsert, len2);
+	memcpy(itsBytes + count1, stringToInsert, count2);
 
 	// terminate
 
-	itsBytes[ newLength ] = '\0';
-	itsByteCount          = newLength;
-	itsCharacterCount    += CountCharacters(stringToInsert, insertLength);
+	itsBytes[ newCount ] = '\0';
+	itsByteCount         = newCount;
+
+	if (insertByteCount > 0)
+		{
+		itsCharacterCount += CountCharacters(stringToInsert, insertByteCount);
+		}
 
 	// TODO: notify iterators
 }
@@ -986,14 +919,14 @@ JString::BeginsWith
 	)
 	const
 {
-	if (range.GetLength() == 0)
+	if (range.IsEmpty())
 		{
 		return kJTrue;
 		}
 	else
 		{
 		JIndex i = 1;
-		return SearchBackward(str + range.first-1, range.GetLength(), caseSensitive, &i);
+		return SearchBackward(str + range.first-1, range.GetCount(), caseSensitive, &i);
 		}
 }
 
@@ -1011,14 +944,14 @@ JString::Contains
 	)
 	const
 {
-	if (range.GetLength() == 0)
+	if (range.IsEmpty())
 		{
 		return kJTrue;
 		}
 	else
 		{
 		JIndex i = 1;
-		return SearchForward(str + range.first-1, range.GetLength(), caseSensitive, &i);
+		return SearchForward(str + range.first-1, range.GetCount(), caseSensitive, &i);
 		}
 }
 
@@ -1036,19 +969,19 @@ JString::EndsWith
 	)
 	const
 {
-	if (range.GetLength() == 0)
+	if (range.IsEmpty())
 		{
 		return kJTrue;
 		}
-	else if (itsByteCount >= range.GetLength())
+	else if (itsByteCount >= range.GetCount())
 		{
-		JIndex i = itsByteCount - range.GetLength() + 1;
-		return SearchForward(str + range.first-1, range.GetLength(), caseSensitive, &i);
+		JIndex i = itsByteCount - range.GetCount() + 1;
+		return SearchForward(str + range.first-1, range.GetCount(), caseSensitive, &i);
 		}
 	else
 		{
 		return JI2B(Compare(itsBytes, itsByteCount,
-							str + range.first-1, range.GetLength(),
+							str + range.first-1, range.GetCount(),
 							caseSensitive) == 0);
 		}
 }
@@ -1542,7 +1475,7 @@ JString::CharacterToUtf8ByteRange
 
 	JUtf8ByteRange r(startByte, startByte);
 
-	charCount = range.GetLength();
+	charCount = range.GetCount();
 	for (JIndex i=1; i<=charCount; i++)
 		{
 		// accept invalid byte sequences as single characters
@@ -1855,7 +1788,7 @@ JString::MatchCase
 
 				if (c1 != c)
 					{
-					ReplaceBytes(i, i + c.GetByteCount() - 1, c1.GetBytes(), c1.GetByteCount());
+					ReplaceBytes(JUtf8ByteRange(i, i + c.GetByteCount() - 1), c1.GetBytes(), c1.GetByteCount());
 					}
 				i += c1.GetByteCount();
 				}
@@ -1878,13 +1811,13 @@ JString::MatchCase
 		if (c1.IsLower() && c2.IsUpper())
 			{
 			c3 = c2.ToLower();
-			ReplaceBytes(k, k + c2.GetByteCount() - 1, c3.GetBytes(), c3.GetByteCount());
+			ReplaceBytes(JUtf8ByteRange(k, k + c2.GetByteCount() - 1), c3.GetBytes(), c3.GetByteCount());
 			changed = kJTrue;
 			}
 		else if (c1.IsUpper() && c2.IsLower())
 			{
 			c3 = c2.ToUpper();
-			ReplaceBytes(k, k + c2.GetByteCount() - 1, c3.GetBytes(), c3.GetByteCount());
+			ReplaceBytes(JUtf8ByteRange(k, k + c2.GetByteCount() - 1), c3.GetBytes(), c3.GetByteCount());
 			changed = kJTrue;
 			}
 

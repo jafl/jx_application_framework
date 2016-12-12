@@ -94,6 +94,7 @@ public:
 
 	JUtf8Character	GetFirstCharacter() const;
 	JUtf8Character	GetLastCharacter() const;
+	JString			GetSubstring(const JUtf8ByteRange& range) const;
 
 	const JUtf8Byte*	GetBytes() const;
 	JUtf8Byte*			AllocateBytes() const;	// client must call delete [] when finished with it
@@ -254,9 +255,7 @@ private:
 	JBoolean	SearchBackward(const JUtf8Byte* str, const JSize strByteCount,
 							   const JBoolean caseSensitive, JIndex* startIndex) const;
 
-	void	InsertBytes(const JIndex insertionIndex,
-						const JUtf8Byte* stringToInsert, const JSize insertByteCount);
-	void	ReplaceBytes(const JIndex firstByteIndex, const JIndex lastByteIndex,
+	void	ReplaceBytes(const JUtf8ByteRange& replaceRange,
 						 const JUtf8Byte* stringToInsert, const JSize insertByteCount);
 
 	void		FoldCase(const JBoolean upper);
@@ -1407,7 +1406,7 @@ JString::Set
 	if (this->itsBytes != str.itsBytes)
 		{
 		const JUtf8ByteRange byteRange = CharacterToUtf8ByteRange(charRange);
-		CopyToPrivateString(str.itsBytes + byteRange.first-1, byteRange.GetLength());
+		CopyToPrivateString(str.itsBytes + byteRange.first-1, byteRange.GetCount());
 		}
 }
 
@@ -1443,7 +1442,7 @@ JString::Set
 		}
 	else
 		{
-		CopyToPrivateString(str + range.first-1, range.GetLength());
+		CopyToPrivateString(str + range.first-1, range.GetCount());
 		}
 }
 
@@ -1469,7 +1468,7 @@ JString::Set
 		}
 	else
 		{
-		CopyToPrivateString(str.data() + range.first-1, range.GetLength());
+		CopyToPrivateString(str.data() + range.first-1, range.GetCount());
 		}
 }
 
