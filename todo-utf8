@@ -1,15 +1,3 @@
-http://userguide.icu-project.org/strings/utf-8
-
-http://utfcpp.sourceforge.net/
-http://stackoverflow.com/questions/313555/light-c-unicode-library
-	http://stackoverflow.com/questions/4861965/is-there-an-stl-string-class-that-properly-handles-unicode
-	http://www.utf8everywhere.org/
-	http://www.nubaria.com/en/blog/?p=289
-	http://www.cprogramming.com/tutorial/unicode.html
-	https://code.google.com/p/easl/
-
------
-
 JString
 	normalize on all input:  ctor, set, append, prepend, etc
 
@@ -20,6 +8,9 @@ utf8 - sorting vs searching
 	sorting may not
 
 	test diacriticals in Utf8Char toupper/lower
+
+	ignore accents for case-sensitive search: strength=primary caseLevel=on
+	http://demo.icu-project.org/icu-bin/collation.html
 
 -----
 
@@ -35,7 +26,7 @@ Fix I18NIsCharacterInWord() in jXGlobals
 JRegex::defaultCFlags: add PCRE_UTF8
 UText allows regexp to work with utf8
 	can ICU regex replace PCRE?  does it use PCRE internally?
-unorm & usearch ought to support UText/UCharIterator
+ucoleitr, unorm, usearch ought to support UText/UCharIterator
 	can it be contributed?
 
 UTF8_STRING for X selection
@@ -47,3 +38,7 @@ is YUI yogi output correct with check mark? - NO
 
 leibnitz - symbol font
 	transform to unicode and use X11 utf8 string width/drawing functions
+
+-----
+
+https://en.wikibooks.org/wiki/Unicode/Character_reference/21000-21FFF

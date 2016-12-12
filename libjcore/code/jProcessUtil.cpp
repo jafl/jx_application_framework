@@ -51,7 +51,7 @@ JPrepArgForExec
 	JString str    = arg;
 	JBoolean quote = kJFalse;
 
-	const JSize length = str.GetLength();
+	const JSize length = str.GetCharacterCount();
 	for (JIndex i=length; i>=1; i--)
 		{
 		const JUtf8Byte c = str.GetCharacter(i);
@@ -88,7 +88,7 @@ JParseArgsForExec
 	JPtrArray<JString>*	argList
 	)
 {
-	assert( !JString::IsEmpty(cmd) );
+	assert( !cmd.IsEmpty() );
 
 	argList->CleanOut();
 

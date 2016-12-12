@@ -32,8 +32,8 @@ ${CODEDIR}/test_JString
 
 @test_jFileUtils
 ${CODEDIR}/test_jFileUtils
-.o ${JCOREDIR}/jFileUtils
-.o ${JCOREDIR}/jDirUtils
+.o ${JCOREDIR}/jFileUtil
+.o ${JCOREDIR}/jDirUtil
 .o ${JCOREDIR}/JUnitTestManager
 .o ${JCOREDIR}/JUtf8Character
 .o ${JCOREDIR}/JString
@@ -45,8 +45,8 @@ ${CODEDIR}/test_jFileUtils
 @test_jFStreamUtil
 ${CODEDIR}/test_jFStreamUtil
 .o ${JCOREDIR}/jFStreamUtil
-.o ${JCOREDIR}/jFileUtils
-.o ${JCOREDIR}/jDirUtils
+.o ${JCOREDIR}/jFileUtil
+.o ${JCOREDIR}/jDirUtil
 .o ${JCOREDIR}/JUnitTestManager
 .o ${JCOREDIR}/JUtf8Character
 .o ${JCOREDIR}/JString

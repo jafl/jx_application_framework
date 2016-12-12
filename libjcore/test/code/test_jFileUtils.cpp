@@ -30,7 +30,7 @@ JTEST(File)
 	JAssertFalse(JFileExists(testFileName));
 	JAssertFalse(JFileWritable(testFileName));
 
-	ofstream file(testFileName);
+	ofstream file(testFileName.GetBytes());
 	file << "abc";
 	file.close();
 	JAssertTrue(JFileExists(testFileName));
@@ -46,7 +46,7 @@ JTEST(Directory)
 	JAssertTrue(JDirectoryExists(dirName));
 	JAssertTrue(JDirectoryWritable(dirName));
 
-	err = JCreateDirectory("junk");
+	JError err = JCreateDirectory("junk");
 	JAssertOK(err);
 
 	err = JRenameDirectory("junk", "junk2");
@@ -61,20 +61,22 @@ JTEST(Directory)
 
 JTEST(Files)
 {
+	JString path = "/tmp";
+
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
 	for (JIndex i=1; i<=200; i++)
 		{
 		JString* fileName = jnew JString();
 		assert( fileName != NULL );
 
-		err = JCreateTempFile(path, NULL, fileName);
+		const JError err = JCreateTempFile(&path, NULL, fileName);
 		JAssertOK(err);
 		fileList.Append(fileName);
 		}
 
 	cout << endl << "Contents of " << path << ":" << endl << endl;
 	const JString cmd = "ls " + path;
-	system(cmd);
+	system(cmd.GetBytes());
 
 	JAssertTrue(JKillDirectory("junk"));
 }
