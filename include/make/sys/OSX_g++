@@ -87,7 +87,7 @@ CC       := clang
 CXX      := clang++
 CPPFLAGS  = ${DEPENDFLAGS} \
             ${shell PKG_CONFIG_PATH=${PKG_CONFIG_PATH} \
-              pkg-config --cflags icu-i18n libpcre icu-i18n}
+              pkg-config --cflags icu-i18n libpcre}
 CFLAGS    = ${J_MAKE_NEEDS_OUTPUT_ARG}
 CXXFLAGS  = ${J_MAKE_NEEDS_OUTPUT_ARG} -std=c++11
 
