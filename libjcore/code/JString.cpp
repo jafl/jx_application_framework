@@ -445,11 +445,9 @@ JString::Append
 }
 
 /******************************************************************************
- ReplaceBytes (private)
+ ReplaceBytes (protected)
 
 	Replace the specified range with the given bytes.
-
-	// TODO: CopyNormalizedBytes
 
  ******************************************************************************/
 
@@ -470,10 +468,22 @@ JString::ReplaceBytes
 		return;
 		}
 
-	const JSize newCount = itsByteCount - replaceCount + insertByteCount;
+	JUtf8Byte* normalizedInsertBytes = NULL;
+	JSize normalizedInsertByteCount  = insertByteCount;
+	if (insertByteCount > 0)
+		{
+		normalizedInsertBytes = jnew JUtf8Byte[ 2*insertByteCount+1 ];	// 2x is paranoia
+		assert( normalizedInsertBytes != NULL );
+
+		normalizedInsertByteCount =
+			CopyNormalizedBytes(stringToInsert, insertByteCount,
+								normalizedInsertBytes, 2*insertByteCount);
+		}
+
+	const JSize newCount = itsByteCount - replaceCount + normalizedInsertByteCount;
 
 	const JSize count1 = replaceRange.first - 1;
-	const JSize count2 = insertByteCount;
+	const JSize count2 = normalizedInsertByteCount;
 	const JSize count3 = itsByteCount - replaceRange.last;
 
 	if (replaceCount > 0)
@@ -512,17 +522,22 @@ JString::ReplaceBytes
 
 	// insert the new characters
 
-	memcpy(itsBytes + count1, stringToInsert, count2);
+	if (count2 > 0)
+		{
+		memcpy(itsBytes + count1, normalizedInsertBytes, count2);
+		}
 
 	// terminate
 
 	itsBytes[ newCount ] = '\0';
 	itsByteCount         = newCount;
 
-	if (insertByteCount > 0)
+	if (count2 > 0)
 		{
-		itsCharacterCount += CountCharacters(stringToInsert, insertByteCount);
+		itsCharacterCount += CountCharacters(normalizedInsertBytes, count2);
 		}
+
+	jdelete normalizedInsertBytes;
 
 	// TODO: notify iterators
 }
@@ -755,7 +770,7 @@ JString::FoldCase
 }
 
 /******************************************************************************
- SearchForward (private)
+ SearchForward (protected)
 
 	Return the byte index corresponding to the start of the next occurrence
 	of the given sequence in our string, starting at *byteIndex.
@@ -830,7 +845,7 @@ JString::SearchForward
 }
 
 /******************************************************************************
- SearchBackward (private)
+ SearchBackward (protected)
 
 	Return the byte index corresponding to the start of the previous
 	occurrence of the given sequence in our string, starting at *byteIndex.
@@ -1703,7 +1718,7 @@ JString::CopyNormalizedBytes
 }
 
 /******************************************************************************
- MatchCase (private)
+ MatchCase (protected)
 
 	Adjusts the case of destRange to match the case of sourceRange in
 	source.  Returns kJTrue if any changes were made.

@@ -334,6 +334,9 @@ JTEST(Concatenate)
 
 	s += JUtf8Character("\xCE\xA6");
 	JAssertStringsEqual("\xC3\xA6" "34567\xCE\xA6" "90\xE2\x9C\x94\xCE\xA6", s);
+
+	s += "\x6F\xCC\x88";	// test normalization
+	JAssertStringsEqual("\xC3\xA6" "34567\xCE\xA6" "90\xE2\x9C\x94\xCE\xA6\xC3\xB6", s);
 }
 
 JTEST(Get)
@@ -353,6 +356,7 @@ JTEST(Get)
 	JUtf8Byte* s1 = s.AllocateBytes();
 	JAssertStringsEqual(s, s1);
 	delete [] s1;
+	s1 = NULL;
 
 	s = "\xC3\xA6" "34567\xCE\xA6" "90\xCE\xA6\xF8\x9C\x94";
 	JAssertEqual(JUtf8Character("\xC3\xA6"), s.GetFirstCharacter());

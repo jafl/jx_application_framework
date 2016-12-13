@@ -16,7 +16,7 @@
 
 class JString
 {
-	friend class JStringIterator;
+	friend class JStringIterator;	// to notify iterators
 
 	friend istream& operator>>(istream&, JString&);
 	friend ostream& operator<<(ostream&, const JString&);
@@ -94,7 +94,6 @@ public:
 
 	JUtf8Character	GetFirstCharacter() const;
 	JUtf8Character	GetLastCharacter() const;
-	JString			GetSubstring(const JUtf8ByteRange& range) const;
 
 	const JUtf8Byte*	GetBytes() const;
 	JUtf8Byte*			AllocateBytes() const;	// client must call delete [] when finished with it
@@ -233,6 +232,21 @@ public:
 	static JSize	GetDefaultBlockSize();
 	static void		SetDefaultBlockSize(const JSize blockSize);
 
+protected:
+
+	JUtf8ByteRange	CharacterToUtf8ByteRange(const JCharacterRange& range) const;
+
+	JBoolean	SearchForward(const JUtf8Byte* str, const JSize strByteCount,
+							  const JBoolean caseSensitive, JIndex* startIndex) const;
+	JBoolean	SearchBackward(const JUtf8Byte* str, const JSize strByteCount,
+							   const JBoolean caseSensitive, JIndex* startIndex) const;
+
+	void	ReplaceBytes(const JUtf8ByteRange& replaceRange,
+						 const JUtf8Byte* stringToInsert, const JSize insertByteCount);
+
+	JBoolean	MatchCase(const JUtf8Byte* source, const JUtf8ByteRange& sourceRange,
+						  const JUtf8ByteRange& destRange);
+
 private:
 
 	JUtf8Byte*	itsBytes;			// characters
@@ -249,22 +263,9 @@ private:
 private:
 
 	void	CopyToPrivateString(const JUtf8Byte* str, const JSize byteCount);
-
-	JBoolean	SearchForward(const JUtf8Byte* str, const JSize strByteCount,
-							  const JBoolean caseSensitive, JIndex* startIndex) const;
-	JBoolean	SearchBackward(const JUtf8Byte* str, const JSize strByteCount,
-							   const JBoolean caseSensitive, JIndex* startIndex) const;
-
-	void	ReplaceBytes(const JUtf8ByteRange& replaceRange,
-						 const JUtf8Byte* stringToInsert, const JSize insertByteCount);
-
-	void		FoldCase(const JBoolean upper);
-	JBoolean	MatchCase(const JUtf8Byte* source, const JUtf8ByteRange& sourceRange,
-						  const JUtf8ByteRange& destRange);
+	void	FoldCase(const JBoolean upper);
 
 	void	NotifyIterators(const JBroadcaster::Message& message);
-
-	JUtf8ByteRange	CharacterToUtf8ByteRange(const JCharacterRange& range) const;
 
 	static JBoolean	CompleteConversion(const JUtf8Byte* startPtr, const JSize byteCount,
 									   const JUtf8Byte* convEndPtr);
@@ -400,7 +401,7 @@ JString::RangeValid
 }
 
 /******************************************************************************
- CharacterToUtf8ByteRange
+ CharacterToUtf8ByteRange (protected)
 
  ******************************************************************************/
 
