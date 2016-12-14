@@ -1,10 +1,6 @@
-unit tests
-	link programs with minimal dependencies - not full library
-	exit code 0 => success, otherwise, prints error messages
-	script to run all unit tests - execute each program in turn
+remove using statements in jTypes.h & jFStreamUtil.h
 
-	C++ unit testing framework?
-	code coverage?
+JX: treat SIGINT as X11 crash, so safety save is invoked
 
 -----
 

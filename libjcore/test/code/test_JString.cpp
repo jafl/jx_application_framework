@@ -54,6 +54,9 @@ JTEST(Construction)
 	JAssertEqual(5, s5.GetCharacterCount());
 	JAssertStringsEqual("890\xC2\xA9\xC3\x85", s5);
 
+	JString s12("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange());
+	JAssertTrue(s12.IsEmpty());
+
 	JString s6(s2);
 	JAssertEqual(19, s6.GetByteCount());
 	JAssertEqual(14, s6.GetCharacterCount());
