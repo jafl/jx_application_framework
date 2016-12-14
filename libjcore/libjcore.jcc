@@ -63,6 +63,10 @@ T
 F
 "./code/JString.cpp"
 T
+2 "JStringMatch.cpp"
+F
+"./code/JStringMatch.cpp"
+T
 2 "JStringIterator.cpp"
 F
 "./code/JStringIterator.cpp"

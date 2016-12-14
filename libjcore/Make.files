@@ -18,6 +18,7 @@
 .cpp ./code/JAssertBase
 .cpp ./code/JUtf8Character
 .cpp ./code/JString
+.cpp ./code/JStringMatch
 .cpp ./code/JStringIterator
 .cpp ./code/JIndexRange
 .cpp ./code/JRegex
