@@ -193,6 +193,28 @@ operator==
 }
 
 inline int
+operator==
+	(
+	const JUtf8Byte*		c1,
+	const JUtf8Character&	c2
+	)
+{
+	return (strlen(c1) == c2.GetByteCount() &&
+			memcmp(c1, c2.GetBytes(), c2.GetByteCount()) == 0);
+}
+
+inline int
+operator==
+	(
+	const JUtf8Character&	c1,
+	const JUtf8Byte*		c2
+	)
+{
+	return (c1.GetByteCount() == strlen(c2) &&
+			memcmp(c1.GetBytes(), c2, c1.GetByteCount()) == 0);
+}
+
+inline int
 operator!=
 	(
 	const JUtf8Character& c1,
@@ -217,6 +239,26 @@ operator!=
 	(
 	const JUtf8Character&	c1,
 	const JUtf8Byte			c2
+	)
+{
+	return !(c1 == c2);
+}
+
+inline int
+operator!=
+	(
+	const JUtf8Byte*		c1,
+	const JUtf8Character&	c2
+	)
+{
+	return !(c1 == c2);
+}
+
+inline int
+operator!=
+	(
+	const JUtf8Character&	c1,
+	const JUtf8Byte*		c2
 	)
 {
 	return !(c1 == c2);

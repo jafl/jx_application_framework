@@ -25,6 +25,7 @@
  ******************************************************************************/
 
 #include <JString.h>
+#include <JStringIterator.h>
 #include <jStreamUtil.h>
 #include <jMath.h>
 #include <JMinMax.h>
@@ -56,7 +57,7 @@ JString::JString()
 	itsAllocCount(theDefaultBlockSize),
 	itsBlockSize(theDefaultBlockSize),
 	itsUCaseMap(NULL),
-	itsFirstIterator(NULL)
+	itsIterator(NULL)
 {
 	itsBytes = jnew JUtf8Byte [ itsAllocCount+1 ];
 	assert( itsBytes != NULL );
@@ -75,7 +76,7 @@ JString::JString
 	itsAllocCount(0),
 	itsBlockSize(theDefaultBlockSize),
 	itsUCaseMap(NULL),
-	itsFirstIterator(NULL)
+	itsIterator(NULL)
 {
 	JUtf8ByteRange byteRange = str.CharacterToUtf8ByteRange(charRange);
 	CopyToPrivateString(str.GetBytes() + byteRange.first-1, byteRange.GetCount());
@@ -95,7 +96,7 @@ JString::JString
 	itsAllocCount(0),
 	itsBlockSize(theDefaultBlockSize),
 	itsUCaseMap(NULL),
-	itsFirstIterator(NULL)
+	itsIterator(NULL)
 {
 	CopyToPrivateString(str, strlen(str));
 }
@@ -112,7 +113,7 @@ JString::JString
 	itsAllocCount(0),
 	itsBlockSize(theDefaultBlockSize),
 	itsUCaseMap(NULL),
-	itsFirstIterator(NULL)
+	itsIterator(NULL)
 {
 	CopyToPrivateString(byteCount > 0 ? str : "", byteCount);		// allow (NULL,0)
 }
@@ -129,7 +130,7 @@ JString::JString
 	itsAllocCount(0),
 	itsBlockSize(theDefaultBlockSize),
 	itsUCaseMap(NULL),
-	itsFirstIterator(NULL)
+	itsIterator(NULL)
 {
 	CopyToPrivateString(str + range.first-1, range.GetCount());
 }
@@ -148,7 +149,7 @@ JString::JString
 	itsAllocCount(0),
 	itsBlockSize(theDefaultBlockSize),
 	itsUCaseMap(NULL),
-	itsFirstIterator(NULL)
+	itsIterator(NULL)
 {
 	CopyToPrivateString(s.data(), s.length());
 }
@@ -165,9 +166,25 @@ JString::JString
 	itsAllocCount(0),
 	itsBlockSize(theDefaultBlockSize),
 	itsUCaseMap(NULL),
-	itsFirstIterator(NULL)
+	itsIterator(NULL)
 {
 	CopyToPrivateString(s.data() + range.first-1, range.GetCount());
+}
+
+JString::JString
+	(
+	const JUtf8Character& c
+	)
+	:
+	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
+	itsByteCount(0),
+	itsCharacterCount(0),
+	itsAllocCount(0),
+	itsBlockSize(theDefaultBlockSize),
+	itsUCaseMap(NULL),
+	itsIterator(NULL)
+{
+	CopyToPrivateString(c.GetBytes(), c.GetByteCount());
 }
 
 JString::JString
@@ -183,7 +200,7 @@ JString::JString
 	itsAllocCount(0),
 	itsBlockSize(theDefaultBlockSize),
 	itsUCaseMap(NULL),
-	itsFirstIterator(NULL)
+	itsIterator(NULL)
 {
 	if (number == 0)
 		{
@@ -247,7 +264,7 @@ JString::JString
 	itsAllocCount(theDefaultBlockSize),
 	itsBlockSize(theDefaultBlockSize),
 	itsUCaseMap(NULL),
-	itsFirstIterator(NULL)
+	itsIterator(NULL)
 {
 	assert( precision >= -1 );
 
@@ -277,7 +294,7 @@ JString::JString
 	itsAllocCount(0),
 	itsBlockSize(source.itsBlockSize),
 	itsUCaseMap(NULL),
-	itsFirstIterator(NULL)
+	itsIterator(NULL)
 {
 	CopyToPrivateString(source.itsBytes, source.itsByteCount);
 }
@@ -292,7 +309,10 @@ JString::~JString()
 	jdelete [] itsBytes;
 	ucasemap_close(itsUCaseMap);
 
-	// TODO: invalidate iterators
+	if (itsIterator != NULL)
+		{
+		itsIterator->Invalidate();
+		}
 }
 
 /******************************************************************************
@@ -340,7 +360,30 @@ JString::CopyToPrivateString
 		itsCharacterCount = 0;
 		}
 
-	// TODO: notify iterators
+	if (itsIterator != NULL)
+		{
+		itsIterator->Invalidate();
+		}
+}
+
+/******************************************************************************
+ SetIterator (protected)
+
+ ******************************************************************************/
+
+void
+JString::SetIterator
+	(
+	JStringIterator* iter
+	)
+	const
+{
+	if (iter != NULL)
+		{
+		assert( itsIterator == NULL );
+		}
+
+	const_cast<JString*>(this)->itsIterator = iter;
 }
 
 /******************************************************************************
@@ -391,23 +434,6 @@ JString::AllocateBytes()
 	memcpy(str, itsBytes, itsByteCount+1);
 
 	return str;
-}
-
-/******************************************************************************
- NotifyIterators (private)
-
- ******************************************************************************/
-
-void
-JString::NotifyIterators
-	(
-	const JBroadcaster::Message& message
-	)
-{
-	if (itsFirstIterator != NULL)
-		{
-//		itsFirstIterator->StringChanged(message);	// TODO
-		}
 }
 
 /******************************************************************************
@@ -472,12 +498,8 @@ JString::ReplaceBytes
 	JSize normalizedInsertByteCount  = insertByteCount;
 	if (insertByteCount > 0)
 		{
-		normalizedInsertBytes = jnew JUtf8Byte[ 2*insertByteCount+1 ];	// 2x is paranoia
-		assert( normalizedInsertBytes != NULL );
-
 		normalizedInsertByteCount =
-			CopyNormalizedBytes(stringToInsert, insertByteCount,
-								normalizedInsertBytes, 2*insertByteCount);
+			Normalize(stringToInsert, insertByteCount, &normalizedInsertBytes);
 		}
 
 	const JSize newCount = itsByteCount - replaceCount + normalizedInsertByteCount;
@@ -538,8 +560,6 @@ JString::ReplaceBytes
 		}
 
 	jdelete normalizedInsertBytes;
-
-	// TODO: notify iterators
 }
 
 /******************************************************************************
@@ -581,7 +601,10 @@ JString::Clear()
 	itsByteCount      = 0;
 	itsCharacterCount = 0;
 
-	// TODO: notify iterators
+	if (itsIterator != NULL)
+		{
+		itsIterator->Invalidate();
+		}
 }
 
 /******************************************************************************
@@ -675,7 +698,10 @@ JString::TrimWhitespace()
 	itsByteCount          = newLength;
 	itsCharacterCount    -= wsCount;
 
-	// TODO: notify iterators
+	if (itsIterator != NULL)
+		{
+		itsIterator->Invalidate();
+		}
 }
 
 /******************************************************************************
@@ -766,7 +792,10 @@ JString::FoldCase
 	jdelete [] itsBytes;
 	itsBytes = newString;
 
-	// TODO: notify iterators
+	if (itsIterator != NULL)
+		{
+		itsIterator->Invalidate();
+		}
 }
 
 /******************************************************************************
@@ -785,7 +814,7 @@ JBoolean
 JString::SearchForward
 	(
 	const JUtf8Byte*	str,
-	const JSize			strLength,
+	const JSize			byteCount,
 	const JBoolean		caseSensitive,
 	JIndex*				byteIndex
 	)
@@ -796,7 +825,7 @@ JString::SearchForward
 		*byteIndex = 1;
 		return kJFalse;
 		}
-	else if (*byteIndex > itsByteCount)
+	else if (byteCount == 0 || *byteIndex > itsByteCount)
 		{
 		return kJFalse;
 		}
@@ -805,7 +834,7 @@ JString::SearchForward
 
 	// if the given string is longer than we are, we can't contain it
 
-	if (itsByteCount - *byteIndex + 1 < strLength)
+	if (itsByteCount - *byteIndex + 1 < byteCount)
 		{
 		*byteIndex = itsByteCount+1;
 		return kJFalse;
@@ -825,9 +854,9 @@ JString::SearchForward
 		ucol_setStrength(coll, UCOL_PRIMARY);
 		}
 
-	for (JIndex i=*byteIndex; i<=itsByteCount - strLength + 1; i++)
+	for (JIndex i=*byteIndex; i<=itsByteCount - byteCount + 1; i++)
 		{
-		const UCollationResult r = ucol_strcollUTF8(coll, itsBytes + i-1, strLength, str, strLength, &err);
+		const UCollationResult r = ucol_strcollUTF8(coll, itsBytes + i-1, byteCount, str, byteCount, &err);
 		if (r == 0)
 			{
 			*byteIndex = i;
@@ -860,13 +889,13 @@ JBoolean
 JString::SearchBackward
 	(
 	const JUtf8Byte*	str,
-	const JSize			strLength,
+	const JSize			byteCount,
 	const JBoolean		caseSensitive,
 	JIndex*				byteIndex
 	)
 	const
 {
-	if (IsEmpty() || *byteIndex == 0)
+	if (IsEmpty() || *byteIndex == 0 || byteCount == 0)
 		{
 		*byteIndex = 0;
 		return kJFalse;
@@ -877,11 +906,11 @@ JString::SearchBackward
 	// if the given string runs past our end, back up *byteIndex
 
 	const JSize spaceAtEnd = itsByteCount - *byteIndex + 1;
-	if (spaceAtEnd < strLength && itsByteCount >= strLength)
+	if (spaceAtEnd < byteCount && itsByteCount >= byteCount)
 		{
-		*byteIndex = itsByteCount - strLength + 1;
+		*byteIndex = itsByteCount - byteCount + 1;
 		}
-	else if (spaceAtEnd < strLength)
+	else if (spaceAtEnd < byteCount)
 		{
 		*byteIndex = 0;
 		return kJFalse;
@@ -903,7 +932,7 @@ JString::SearchBackward
 
 	for (JIndex i=*byteIndex; i>=1; i--)
 		{
-		const UCollationResult r = ucol_strcollUTF8(coll, itsBytes + i-1, strLength, str, strLength, &err);
+		const UCollationResult r = ucol_strcollUTF8(coll, itsBytes + i-1, byteCount, str, byteCount, &err);
 		if (r == 0)
 			{
 			*byteIndex = i;
@@ -1283,7 +1312,10 @@ JString::Read
 	itsBytes[ itsByteCount ] = '\0';
 	itsCharacterCount        = CountCharacters(itsBytes, itsByteCount);
 
-	// TODO: notify iterators
+	if (itsIterator != NULL)
+		{
+		itsIterator->Invalidate();
+		}
 }
 
 /******************************************************************************
@@ -1645,6 +1677,31 @@ JString::CalcCharacterMatchLength
 /******************************************************************************
  CopyNormalizedBytes (static)
 
+	Allocates space and returns the normalized version of the input
+	characters.
+
+	 *** The caller must delete the result!
+
+ *****************************************************************************/
+
+JSize
+JString::Normalize
+	(
+	const JUtf8Byte*	source,
+	const JSize			byteCount,
+	JUtf8Byte**			destination
+	)
+{
+	*destination = jnew JUtf8Byte[ 2*byteCount+1 ];		// 2x is paranoia
+	assert( *destination != NULL );
+
+	return CopyNormalizedBytes(source, byteCount,
+							   *destination, 2*byteCount);
+}
+
+/******************************************************************************
+ CopyNormalizedBytes (static)
+
 	This function processes at most maxBytes from source and places the
 	normalized characters into destination.  (Normalization greatly
 	simplifies all further operations on the string.)
@@ -1840,9 +1897,9 @@ JString::MatchCase
 		k += c2.GetByteCount();
 		}
 
-	if (changed)
+	if (changed && itsIterator != NULL)
 		{
-		// TODO: notify iterators
+		itsIterator->Invalidate();
 		}
 
 	return changed;

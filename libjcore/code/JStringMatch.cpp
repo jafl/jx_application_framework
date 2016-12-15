@@ -39,16 +39,6 @@ JStringMatch::JStringMatch
 }
 
 /******************************************************************************
- Destructor
-
- ******************************************************************************/
-
-JStringMatch::~JStringMatch()
-{
-	jdelete itsSubmatchList;
-}
-
-/******************************************************************************
  Copy constructor
 
  ******************************************************************************/
@@ -68,6 +58,16 @@ JStringMatch::JStringMatch
 		itsSubmatchList = jnew JArray<JUtf8ByteRange>(*(source.itsSubmatchList));
 		assert( itsSubmatchList != NULL );
 		}
+}
+
+/******************************************************************************
+ Destructor
+
+ ******************************************************************************/
+
+JStringMatch::~JStringMatch()
+{
+	jdelete itsSubmatchList;
 }
 
 /******************************************************************************
@@ -145,7 +145,7 @@ JStringMatch::GetCharacterRange
 		cr.SetFirstAndCount(
 			itsCharacterRange.first +
 				JString::CountCharacters(itsTarget.GetBytes() + itsByteRange.first - 1,
-										 ur.first - itsByteRange.first) - 1,
+										 ur.first - itsByteRange.first),
 			JString::CountCharacters(itsTarget.GetBytes() + ur.first - 1, ur.GetCount()));
 
 		return cr;
@@ -188,20 +188,6 @@ JStringMatch::GetSubstring
 		{
 		return JString();
 		}
-}
-
-/******************************************************************************
- StringChanged (protected)
-
- ******************************************************************************/
-
-void
-JStringMatch::StringChanged
-	(
-	const JBroadcaster::Message& message
-	)
-{
-	// TODO
 }
 
 /******************************************************************************

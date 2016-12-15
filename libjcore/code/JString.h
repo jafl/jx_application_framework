@@ -10,14 +10,17 @@
 #ifndef _H_JString
 #define _H_JString
 
-#include <JStringIterator.h>
+#include <JUtf8Character.h>
+#include <JUtf8ByteRange.h>
+#include <JCharacterRange.h>
 #include <string.h>
 #include <unicode/ucasemap.h>
 
+class JStringIterator;
+
 class JString
 {
-	friend class JStringIterator;	// to notify iterators
-
+	friend class JStringIterator;
 	friend istream& operator>>(istream&, JString&);
 	friend ostream& operator<<(ostream&, const JString&);
 
@@ -55,6 +58,7 @@ public:
 	JString(const JUtf8Byte* str, const JUtf8ByteRange& range);
 	JString(const std::string& str);
 	JString(const std::string& str, const JUtf8ByteRange& range);
+	JString(const JUtf8Character& c);
 
 	JString(const JUInt64 number, const Base base, const JBoolean pad = kJFalse);
 	JString(const JFloat number, const JInteger precision = kPrecisionAsNeeded,
@@ -66,6 +70,7 @@ public:
 	const JString& operator=(const JString& str);
 	const JString& operator=(const JUtf8Byte* str);
 	const JString& operator=(const std::string& str);
+	const JString& operator=(const JUtf8Character& c);
 
 	JString& operator+=(const JString& str);
 	JString& operator+=(const JUtf8Byte* str);
@@ -79,6 +84,7 @@ public:
 	void	Set(const JUtf8Byte* str, const JUtf8ByteRange& range);
 	void	Set(const std::string& str);
 	void	Set(const std::string& str, const JUtf8ByteRange& range);
+	void	Set(const JUtf8Character& str);
 
 	void	Clear();
 
@@ -125,6 +131,31 @@ public:
 	JBoolean	EndsWith(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	EndsWith(const std::string& str, const JUtf8ByteRange& range, const JBoolean caseSensitive = kJTrue) const;
 
+	JString		EncodeBase64() const;
+	JBoolean	DecodeBase64(JString* str) const;
+
+	void		Read(istream& input, const JSize count);
+	void		ReadDelimited(istream& input);
+	void		Print(ostream& output) const;
+	void		PrintHex(ostream& output) const;
+
+	JSize		GetBlockSize() const;
+	void		SetBlockSize(const JSize blockSize);
+
+	// modify - do not require an iterator
+
+	void	Prepend(const JString& str);
+	void	Prepend(const JUtf8Byte* str);
+	void	Prepend(const JUtf8Byte* str, const JSize byteCount);
+	void	Prepend(const std::string& str);
+	void	Prepend(const JUtf8Character& c);
+
+	void	Append(const JString& str);
+	void	Append(const JUtf8Byte* str);
+	void	Append(const JUtf8Byte* str, const JSize byteCount);
+	void	Append(const std::string& str);
+	void	Append(const JUtf8Character& c);
+
 	void	TrimWhitespace();
 	void	ToLower();
 	void	ToUpper();
@@ -138,31 +169,6 @@ public:
 						  const JCharacterRange& destRange);
 	JBoolean	MatchCase(const std::string& source, const JUtf8ByteRange& sourceRange,
 						  const JCharacterRange& destRange);
-
-	JString		EncodeBase64() const;
-	JBoolean	DecodeBase64(JString* str) const;
-
-	void		Read(istream& input, const JSize count);
-	void		ReadDelimited(istream& input);
-	void		Print(ostream& output) const;
-	void		PrintHex(ostream& output) const;
-
-	JSize		GetBlockSize() const;
-	void		SetBlockSize(const JSize blockSize);
-
-	// shortcuts that do not require an iterator
-
-	void	Prepend(const JString& str);
-	void	Prepend(const JUtf8Byte* str);
-	void	Prepend(const JUtf8Byte* str, const JSize byteCount);
-	void	Prepend(const std::string& str);
-	void	Prepend(const JUtf8Character& c);
-
-	void	Append(const JString& str);
-	void	Append(const JUtf8Byte* str);
-	void	Append(const JUtf8Byte* str, const JSize byteCount);
-	void	Append(const std::string& str);
-	void	Append(const JUtf8Character& c);
 
 	// number <-> string
 
@@ -226,6 +232,8 @@ public:
 	static JSize	CalcCharacterMatchLength(const JString& s1, const JString& s2,
 											 const JBoolean caseSensitive = kJTrue);
 
+	static JSize	Normalize(const JUtf8Byte* source, const JSize byteCount,
+							  JUtf8Byte** destination);
 	static JSize	CopyNormalizedBytes(const JUtf8Byte* source, const JSize maxBytes,
 										JUtf8Byte* destination, const JSize capacity);
 
@@ -234,11 +242,13 @@ public:
 
 protected:
 
+	void	SetIterator(JStringIterator* iter) const;	// conceptually const
+
 	JUtf8ByteRange	CharacterToUtf8ByteRange(const JCharacterRange& range) const;
 
-	JBoolean	SearchForward(const JUtf8Byte* str, const JSize strByteCount,
+	JBoolean	SearchForward(const JUtf8Byte* str, const JSize byteCount,
 							  const JBoolean caseSensitive, JIndex* startIndex) const;
-	JBoolean	SearchBackward(const JUtf8Byte* str, const JSize strByteCount,
+	JBoolean	SearchBackward(const JUtf8Byte* str, const JSize byteCount,
 							   const JBoolean caseSensitive, JIndex* startIndex) const;
 
 	void	ReplaceBytes(const JUtf8ByteRange& replaceRange,
@@ -256,7 +266,7 @@ private:
 	JSize		itsBlockSize;		// size by which to shrink and grow allocation
 
 	UCaseMap*			itsUCaseMap;
-	JStringIterator*	itsFirstIterator;	// linked list of active iterators
+	JStringIterator*	itsIterator;	// only one iterator allowed at a time
 
 	static JSize theDefaultBlockSize;
 
@@ -264,8 +274,6 @@ private:
 
 	void	CopyToPrivateString(const JUtf8Byte* str, const JSize byteCount);
 	void	FoldCase(const JBoolean upper);
-
-	void	NotifyIterators(const JBroadcaster::Message& message);
 
 	static JBoolean	CompleteConversion(const JUtf8Byte* startPtr, const JSize byteCount,
 									   const JUtf8Byte* convEndPtr);
@@ -1473,6 +1481,15 @@ JString::Set
 		}
 }
 
+inline void
+JString::Set
+	(
+	const JUtf8Character& c
+	)
+{
+	CopyToPrivateString(c.GetBytes(), c.GetByteCount());
+}
+
 /******************************************************************************
  Assignment operator
 
@@ -1508,6 +1525,16 @@ JString::operator=
 	)
 {
 	Set(str);
+	return *this;
+}
+
+inline const JString&
+JString::operator=
+	(
+	const JUtf8Character& c
+	)
+{
+	Set(c);
 	return *this;
 }
 

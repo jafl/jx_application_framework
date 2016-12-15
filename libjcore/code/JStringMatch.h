@@ -11,8 +11,6 @@
 #include <JString.h>
 #include <JArray.h>
 
-class JStringIterator;
-
 class JStringMatch
 {
 	friend class JString;			// to modify string
@@ -42,7 +40,6 @@ protected:
 
 	void	SetFirstCharacterIndex(const JIndex index);
 	void	SetLastCharacterIndex(const JIndex index);
-	void	StringChanged(const JBroadcaster::Message& message);
 
 private:
 

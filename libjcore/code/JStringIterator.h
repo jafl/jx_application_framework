@@ -8,101 +8,158 @@
 #ifndef _H_JStringIterator
 #define _H_JStringIterator
 
-#include <JBroadcaster.h>
-#include <JCharacterRange.h>
-#include <JUtf8ByteRange.h>
-#include <JUtf8Character.h>
+#include <JString.h>
 
-class JString;
+class JStringMatch;
+class JRegex;
 
 class JStringIterator
 {
-	friend class JString;
-
 public:
 
-	JStringIterator(const JString& theOrderedSet,
+	JStringIterator(const JString& s,
 					const JIteratorPosition start = kJIteratorStartAtBeginning,
 					const JIndex index = 0);
-	JStringIterator(JString* theOrderedSet,
+	JStringIterator(JString* s,
 					const JIteratorPosition start = kJIteratorStartAtBeginning,
 					const JIndex index = 0);
-	JStringIterator(const JStringIterator& source);
 
 	~JStringIterator();
 
-	JBoolean	Prev(JUtf8Character* data);
-	JBoolean	Next(JUtf8Character* data);
+	JBoolean	IsValid() const;
+	JBoolean	AtBeginning() const;
+	JBoolean	AtEnd() const;
 
-	void		SkipPrev(const JSize count = 1);
-	void		SkipNext(const JSize count = 1);
+	// move
 
-	void		MoveTo(const JIteratorPosition newPosition, const JIndex index);
-	JBoolean	AtBeginning();
-	JBoolean	AtEnd();
+	void	MoveTo(const JIteratorPosition newPosition, const JIndex characterIndex);
+	void	SkipPrev(const JSize characterCount = 1);
+	void	SkipNext(const JSize characterCount = 1);
 
-	JBoolean	LocateNext(const JString& str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	LocateNext(const JUtf8Character* str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	LocateNext(const JUtf8Character* str, const JSize byteCount, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	LocateNext(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
+	// move & retrieve
 
-	JBoolean	LocatePrev(const JString& str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	LocatePrev(const JUtf8Character* str, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	LocatePrev(const JUtf8Character* str, const JSize byteCount, const JBoolean caseSensitive = kJTrue) const;
-	JBoolean	LocatePrev(const std::string& str, const JBoolean caseSensitive = kJTrue) const;
+	JBoolean	Prev(JUtf8Character* c, const JBoolean move = kJTrue);
+	JBoolean	Next(JUtf8Character* c, const JBoolean move = kJTrue);
 
-	// only allowed if constructed from non-const JString*
+	// search
 
-	JBoolean	SetPrev(const JUtf8Character& data);
-	JBoolean	SetNext(const JUtf8Character& data);
+	JBoolean	Prev(const JString& str, const JBoolean caseSensitive = kJTrue);
+	JBoolean	Prev(const JUtf8Byte* str, const JBoolean caseSensitive = kJTrue);
+	JBoolean	Prev(const JUtf8Byte* str, const JSize byteCount, const JBoolean caseSensitive = kJTrue);
+	JBoolean	Prev(const JUtf8Character& c, const JBoolean caseSensitive = kJTrue);
+	JBoolean	Prev(const std::string& str, const JBoolean caseSensitive = kJTrue);
+	JBoolean	Prev(const JRegex& pattern) const;
 
-	JBoolean	RemovePrev(const JSize count = 1);
-	JBoolean	RemoveNext(const JSize count = 1);
+	JBoolean	Next(const JString& str, const JBoolean caseSensitive = kJTrue);
+	JBoolean	Next(const JUtf8Byte* str, const JBoolean caseSensitive = kJTrue);
+	JBoolean	Next(const JUtf8Byte* str, const JSize byteCount, const JBoolean caseSensitive = kJTrue);
+	JBoolean	Next(const JUtf8Character& c, const JBoolean caseSensitive = kJTrue);
+	JBoolean	Next(const std::string& str, const JBoolean caseSensitive = kJTrue);
+	JBoolean	Next(const JRegex& pattern) const;
 
-	void		ReplaceNext(const JSize count, const JString& str);
-	void		ReplaceNext(const JSize count, const JString& str, const JCharacterRange& range);
-	void		ReplaceNext(const JSize count, const JUtf8Byte* str);
-	void		ReplaceNext(const JSize count, const JUtf8Byte* str, const JSize byteCount);
-	void		ReplaceNext(const JSize count, const JUtf8Byte* str, const JUtf8ByteRange& range);
-	void		ReplaceNext(const JSize count, const std::string& str);
-	void		ReplaceNext(const JSize count, const std::string& str, const JUtf8ByteRange& range);
+	const JStringMatch&	GetLastMatch() const;	// asserts that match occurred
 
-	void		ReplacePrev(const JSize count, const JString& str);
-	void		ReplacePrev(const JSize count, const JString& str, const JCharacterRange& range);
-	void		ReplacePrev(const JSize count, const JUtf8Byte* str);
-	void		ReplacePrev(const JSize count, const JUtf8Byte* str, const JSize byteCount);
-	void		ReplacePrev(const JSize count, const JUtf8Byte* str, const JUtf8ByteRange& range);
-	void		ReplacePrev(const JSize count, const std::string& str);
-	void		ReplacePrev(const JSize count, const std::string& str, const JUtf8ByteRange& range);
+	// modify - only allowed if constructed from non-const JString*
+	// (invalidates last match)
 
-protected:
+	JBoolean	SetPrev(const JUtf8Character& data, const JBoolean move = kJTrue);
+	JBoolean	SetNext(const JUtf8Character& data, const JBoolean move = kJTrue);
 
-	const JString*	GetConstString() const;
-	JBoolean		GetString(JString** obj) const;
+	JBoolean	RemovePrev(const JSize characterCount = 1);
+	JBoolean	RemoveNext(const JSize characterCount = 1);
+	JBoolean	RemoveLastMatch();
 
-	JCursorPosition	GetCursor() const;
-	void			SetCursor(const JCursorPosition pos);
+	void	ReplaceLastMatchPrev(const JString& str, const JBoolean move = kJTrue);
+	void	ReplaceLastMatchPrev(const JString& str, const JCharacterRange& range, const JBoolean move = kJTrue);
+	void	ReplaceLastMatchPrev(const JUtf8Byte* str, const JBoolean move = kJTrue);
+	void	ReplaceLastMatchPrev(const JUtf8Byte* str, const JSize byteCount, const JBoolean move = kJTrue);
+	void	ReplaceLastMatchPrev(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean move = kJTrue);
+	void	ReplaceLastMatchPrev(const std::string& str, const JBoolean move = kJTrue);
+	void	ReplaceLastMatchPrev(const std::string& str, const JUtf8ByteRange& range, const JBoolean move = kJTrue);
 
-	void	StringChanged(const JBroadcaster::Message& message);
+	void	ReplaceLastMatchNext(const JString& str, const JBoolean move = kJTrue);
+	void	ReplaceLastMatchNext(const JString& str, const JCharacterRange& range, const JBoolean move = kJTrue);
+	void	ReplaceLastMatchNext(const JUtf8Byte* str, const JBoolean move = kJTrue);
+	void	ReplaceLastMatchNext(const JUtf8Byte* str, const JSize byteCount, const JBoolean move = kJTrue);
+	void	ReplaceLastMatchNext(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean move = kJTrue);
+	void	ReplaceLastMatchNext(const std::string& str, const JBoolean move = kJTrue);
+	void	ReplaceLastMatchNext(const std::string& str, const JUtf8ByteRange& range, const JBoolean move = kJTrue);
+
+	// called by JString
+
+	void	Invalidate();
 
 private:
 
-	const JString*	itsConstString;			// JString that is being iterated over
+	const JString*	itsConstString;			// NULL if invalidated
 	JString*		itsString;				// NULL if we were passed a const object
-	JCursorPosition	itsCursorPosition;		// current iterator position - bytes!
-
-	JStringIterator*	itsNextIterator;	// next iterator in linked list
+	JCursorPosition	itsCursorPosition;		// bytes!
 
 private:
 
-	void	JStringIteratorX(const JIteratorPosition start, const JIndex index);
+	// not allowed - cannot have 2 iterators for a string
 
-	void	AddToIteratorList();
-	void	RemoveFromIteratorList();
-
-	// not allowed
-
+	JStringIterator(const JStringIterator& source);
 	const JStringIterator& operator=(const JStringIterator& source);
 };
+
+
+/******************************************************************************
+ IsValid
+
+	Return kJTrue if iterator has not been invalidated.
+
+ ******************************************************************************/
+
+inline JBoolean
+JStringIterator::IsValid()
+	const
+{
+	return JI2B( itsConstString != NULL );
+}
+
+/******************************************************************************
+ Invalidate
+
+ ******************************************************************************/
+
+inline void
+JStringIterator::Invalidate()
+{
+	itsConstString    = NULL;
+	itsString         = NULL;
+	itsCursorPosition = 0;
+}
+
+/******************************************************************************
+ AtBeginning
+
+	Return kJTrue if iterator is positioned at the beginning of the string
+	or if the iterator has been invalidated.
+
+ ******************************************************************************/
+
+inline JBoolean
+JStringIterator::AtBeginning()
+	const
+{
+	return JI2B( itsCursorPosition == 0 );
+}
+
+/******************************************************************************
+ AtEnd
+
+	Return kJTrue if iterator is positioned at the end of the string
+	or if the iterator has been invalidated.
+
+ ******************************************************************************/
+
+inline JBoolean
+JStringIterator::AtEnd()
+	const
+{
+	return JI2B( itsConstString == NULL ||
+				 itsCursorPosition >= itsConstString->GetByteCount() );
+}
 
 #endif

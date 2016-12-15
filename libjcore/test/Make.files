@@ -30,6 +30,42 @@ ${CODEDIR}/test_JString
 .o ${JCOREDIR}/jStreamUtil
 .o ${JCOREDIR}/jStreamUtil_UNIX
 
+@test_JStringMatch
+${CODEDIR}/test_JStringMatch
+.o ${JCOREDIR}/JStringMatch
+.o ${JCOREDIR}/JUnitTestManager
+.o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JCollection
+.o ${JCOREDIR}/JOrderedSetT
+.o ${JCOREDIR}/JOrderedSetUtil
+.o ${JCOREDIR}/JBroadcaster
+.o ${JCOREDIR}/JRTTIBase
+.o ${JCOREDIR}/JIndexRange
+.o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/JBooleanIO
+.o ${JCOREDIR}/jMath
+.o ${JCOREDIR}/jStreamUtil
+.o ${JCOREDIR}/jStreamUtil_UNIX
+
+@test_JStringIterator
+${CODEDIR}/test_JStringIterator
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JUnitTestManager
+.o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringMatch
+.o ${JCOREDIR}/JCollection
+.o ${JCOREDIR}/JOrderedSetT
+.o ${JCOREDIR}/JOrderedSetUtil
+.o ${JCOREDIR}/JBroadcaster
+.o ${JCOREDIR}/JRTTIBase
+.o ${JCOREDIR}/JIndexRange
+.o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/JBooleanIO
+.o ${JCOREDIR}/jMath
+.o ${JCOREDIR}/jStreamUtil
+.o ${JCOREDIR}/jStreamUtil_UNIX
+
 @test_jFileUtils
 ${CODEDIR}/test_jFileUtils
 .o ${JCOREDIR}/jFileUtil
