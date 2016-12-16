@@ -14,7 +14,7 @@ const JSize kJMaxUtf8CharacterLength = 4;
 
 class JUtf8Character
 {
-	friend ostream& operator<<(ostream&, const JUtf8Character&);
+	friend std::ostream& operator<<(std::ostream&, const JUtf8Character&);
 
 public:
 
@@ -51,7 +51,7 @@ public:
 	JUtf8Character	ToLower() const;
 	JUtf8Character	ToUpper() const;
 
-	void	PrintHex(ostream& output) const;
+	void	PrintHex(std::ostream& output) const;
 
 	static JBoolean	IsValid(const JUtf8Byte* utf8Character);
 	static JBoolean	GetCharacterByteCount(const JUtf8Byte* utf8Character, JSize* byteCount);

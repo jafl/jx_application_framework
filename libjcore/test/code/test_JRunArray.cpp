@@ -23,7 +23,7 @@ int main()
 void
 PrintArray
 	(
-	ostream&					output,
+	std::ostream&				output,
 	JRunArrayIterator<long>&	iter
 	)
 {
@@ -33,7 +33,7 @@ PrintArray
 		{
 		output << i << ' ';
 		}
-	output << endl;
+	output << std::endl;
 }
 
 void

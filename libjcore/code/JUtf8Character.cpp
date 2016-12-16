@@ -90,7 +90,7 @@ JUtf8Character::Set
 	JSize byteCount;
 	if (!GetCharacterByteCount(utf8Character, &byteCount))
 		{
-		cerr << "Replaced invalid UTF-8 byte sequence with substitution U+FFFD" << endl;
+		std::cerr << "Replaced invalid UTF-8 byte sequence with substitution U+FFFD" << std::endl;
 		utf8Character = kUtf8SubstitutionCharacter.GetBytes();
 		byteCount     = kUtf8SubstitutionCharacter.GetByteCount();
 		}
@@ -149,12 +149,12 @@ JUtf8Character::GetCharacterByteCount
 
 	if (!ok)
 		{
-		cerr << "Invalid UTF-8 byte sequence: " << std::hex;
+		std::cerr << "Invalid UTF-8 byte sequence: " << std::hex;
 		for (JIndex i=0; i<*byteCount; i++)
 			{
-			cerr << (int) c[i] << ' ';
+			std::cerr << (int) c[i] << ' ';
 			}
-		cerr << std::dec << endl;
+		std::cerr << std::dec << std::endl;
 		}
 	return ok;
 }
@@ -419,7 +419,7 @@ JUtf8Character::AllocateNullTerminatedBytes()
 void
 JUtf8Character::PrintHex
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -436,10 +436,10 @@ JUtf8Character::PrintHex
 
  ******************************************************************************/
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&				output,
+	std::ostream&			output,
 	const JUtf8Character&	c
 	)
 {

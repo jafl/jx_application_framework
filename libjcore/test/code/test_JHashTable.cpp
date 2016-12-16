@@ -274,11 +274,11 @@ JTEST(Exercise)
 			}
 		}
 
-	cout << "         Size: " << table.GetTableSize() << endl;
+	std::cout << "         Size: " << table.GetTableSize() << std::endl;
 
-	cout << "Element count: " << table.GetElementCount() << endl;
-	cout << "   Load count: " << table.GetLoadCount() << endl;
+	std::cout << "Element count: " << table.GetElementCount() << std::endl;
+	std::cout << "   Load count: " << table.GetLoadCount() << std::endl;
 
-	cout << "  Fill factor: " << table.GetFillFactor() << endl;
-	cout << "  Load factor: " << table.GetLoadFactor() << endl;
+	std::cout << "  Fill factor: " << table.GetFillFactor() << std::endl;
+	std::cout << "  Load factor: " << table.GetLoadFactor() << std::endl;
 }

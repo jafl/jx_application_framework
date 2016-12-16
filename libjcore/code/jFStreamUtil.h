@@ -15,7 +15,7 @@
 
 class JString;
 
-void	JReadFile(const JCharacter* fileName, JString* str);
+void	JReadFile(const JString& fileName, JString* str);
 void	JReadFile(std::ifstream& input, JString* str);
 void	JReadFile(std::fstream& input, JString* str);
 
@@ -25,13 +25,13 @@ std::fstream*	JSetFStreamLength(const char* fileName, std::fstream& originalStre
 								  const JSize newLength, const JFStreamOpenMode io_mode);
 
 void		JReadFile(const JString& fileName, JString* str);
-void		JReadFile(ifstream& input, JString* str);
-void		JReadFile(fstream& input, JString* str);
+void		JReadFile(std::ifstream& input, JString* str);
+void		JReadFile(std::fstream& input, JString* str);
 
-JSize		JGetFStreamLength(ifstream& theStream);
-JSize		JGetFStreamLength(fstream& theStream);
-fstream*	JSetFStreamLength(const JString& fileName, fstream& originalStream,
-							  const JSize newLength, const JFStreamOpenMode io_mode);
+JSize			JGetFStreamLength(std::ifstream& theStream);
+JSize			JGetFStreamLength(std::fstream& theStream);
+std::fstream*	JSetFStreamLength(const JString& fileName, std::fstream& originalStream,
+								  const JSize newLength, const JFStreamOpenMode io_mode);
 
 JBoolean	JConvertToStream(const int input, std::ifstream* input2, JString* tempFullName,
 							 const JBoolean closeInput = kJTrue);
