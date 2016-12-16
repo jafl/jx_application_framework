@@ -42,7 +42,7 @@ protected:
 	JHTMLScanner();
 
 	void	LexHTML(const JString& text);
-	void	LexHTML(istream& input);
+	void	LexHTML(std::istream& input);
 
 	virtual JBoolean	HandleHTMLWord(const JUtf8Byte* word, const JIndexRange& range);
 	virtual JBoolean	HandleHTMLWhitespace(const JUtf8Byte* space, const JIndexRange& range);

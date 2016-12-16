@@ -79,8 +79,8 @@ public:
 
 		private:
 
-		JBoolean	Read(istream& input, const JFileVersion vers);
-		void		WriteV0(ostream& output) const;
+		JBoolean	Read(std::istream& input, const JFileVersion vers);
+		void		WriteV0(std::ostream& output) const;
 	};
 
 public:

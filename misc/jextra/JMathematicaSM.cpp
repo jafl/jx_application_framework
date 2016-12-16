@@ -214,7 +214,7 @@ JMathematicaSM::Simplify
 		ConvertFromMathematica(result);
 		}
 
-//	cout << endl << *result << endl;
+//	std::cout << std::endl << *result << std::endl;
 
 	return ok;
 }
@@ -274,7 +274,7 @@ JMathematicaSM::Evaluate
 		ConvertFromMathematica(result);
 		}
 
-//	cout << endl << *result << endl;
+//	std::cout << std::endl << *result << std::endl;
 
 	return ok;
 }
@@ -461,7 +461,7 @@ JMathematicaSM::SendRecvText
 	)
 	const
 {
-//	cout << endl << command << endl;
+//	std::cout << std::endl << command << std::endl;
 
 	// clean out any junk in the queue
 

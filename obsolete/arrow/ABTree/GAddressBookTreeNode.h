@@ -31,7 +31,7 @@ public:
 	void			 SetNameAndUpdate(const JCharacter* newName);
 
 	void			 Save();
-	virtual void	 Save(ostream& os);
+	virtual void	 Save(std::ostream& os);
 
 private:
 

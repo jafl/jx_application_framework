@@ -99,7 +99,7 @@ THXExprDirector::THXExprDirector
 
 THXExprDirector::THXExprDirector
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	JXDirector*			supervisor,
 	const THXVarList*	varList
@@ -146,7 +146,7 @@ THXExprDirector::~THXExprDirector()
 void
 THXExprDirector::WriteState
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -178,7 +178,7 @@ THXExprDirector::WriteState
 void
 THXExprDirector::ReadPrefs
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -196,7 +196,7 @@ THXExprDirector::ReadPrefs
 void
 THXExprDirector::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 	output << itsDefGeom;
@@ -528,7 +528,7 @@ THXExprDirector::SaveTape()
 		{
 		itsTapeName = newName;
 
-		ofstream output(itsTapeName);
+		std::ofstream output(itsTapeName);
 		(itsTapeWidget->GetText()).Print(output);
 		}
 }

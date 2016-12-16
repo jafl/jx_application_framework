@@ -18,8 +18,8 @@ class GARMBoxHeader
 {
 public:
 
-	friend istream& operator>>(istream&, GARMBoxHeader&);
-	friend ostream& operator<<(ostream&, const GARMBoxHeader&);
+	friend std::istream& operator>>(std::istream&, GARMBoxHeader&);
+	friend std::ostream& operator<<(std::ostream&, const GARMBoxHeader&);
 
 public:
 

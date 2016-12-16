@@ -22,7 +22,7 @@ class TestVarList : public JVariableList
 public:
 
 	TestVarList();
-	TestVarList(istream& input);
+	TestVarList(std::istream& input);
 
 	virtual ~TestVarList();
 

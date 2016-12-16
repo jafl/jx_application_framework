@@ -20,7 +20,7 @@ class JXComposeRuleList
 {
 public:
 
-	JXComposeRuleList(istream& input, const JSize charCount,
+	JXComposeRuleList(std::istream& input, const JSize charCount,
 					  JBoolean* isCharInWord, JCharacter* diacriticalMap,
 					  JIndex* diacriticalMarkType);
 

@@ -158,11 +158,11 @@ CBTreeDirector::CBTreeDirector
 
 CBTreeDirector::CBTreeDirector
 	(
-	istream&				projInput,
+	std::istream&				projInput,
 	const JFileVersion		projVers,
-	istream*				setInput,
+	std::istream*				setInput,
 	const JFileVersion		setVers,
-	istream*				symStream,
+	std::istream*				symStream,
 	const JFileVersion		origSymVers,
 	CBProjectDocument*		supervisor,
 	const JBoolean			subProject,
@@ -192,7 +192,7 @@ CBTreeDirector::CBTreeDirector
 							 setInput, setVers, symStream, origSymVers,
 							 this, CBTreeWidget::kBorderWidth, dirList);
 
-	istream* symInput             = (projVers <= 41 ? &projInput : symStream);
+	std::istream* symInput             = (projVers <= 41 ? &projInput : symStream);
 	const JFileVersion symVers    = (projVers <= 41 ? projVers   : origSymVers);
 	const JBoolean useSetProjData = JI2B( setInput == NULL || setVers < 71 );
 	const JBoolean useSymProjData = JI2B( symInput == NULL || symVers < 71 );
@@ -379,7 +379,7 @@ CBTreeDirector::~CBTreeDirector()
 void
 CBTreeDirector::ReloadSetup
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -408,9 +408,9 @@ CBTreeDirector::ReloadSetup
 void
 CBTreeDirector::StreamOut
 	(
-	ostream&			projOutput,
-	ostream*			setOutput,
-	ostream*			symOutput,
+	std::ostream&			projOutput,
+	std::ostream*			setOutput,
+	std::ostream*			symOutput,
 	const CBDirList*	dirList
 	)
 	const
@@ -1090,7 +1090,7 @@ CBTreeDirector::SetTreePrefs
 void
 CBTreeDirector::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -1128,7 +1128,7 @@ CBTreeDirector::ReadPrefs
 void
 CBTreeDirector::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

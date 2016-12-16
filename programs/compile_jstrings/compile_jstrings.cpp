@@ -80,7 +80,7 @@ main
 			time_t t;
 			if (!(JGetModificationTime(*inputFileName, &t)).OK())
 				{
-				cerr << argv[0] << ":  " << *inputFileName << " does not exist" << endl;
+				std::cerr << argv[0] << ":  " << *inputFileName << " does not exist" << std::endl;
 				return 1;
 				}
 			else if (t >= outputTime)
@@ -108,16 +108,16 @@ main
 			continue;
 			}
 
-		ifstream input(*inputFileName);
+		std::ifstream input(*inputFileName);
 		if (!input.good())
 			{
-			cerr << argv[0] << ":  unable to open " << *inputFileName << endl;
+			std::cerr << argv[0] << ":  unable to open " << *inputFileName << std::endl;
 			return 1;
 			}
 		mgr.MergeFile(input, debug);
 		if (input.fail())
 			{
-			cerr << argv[0] << ":  error while reading " << *inputFileName << endl;
+			std::cerr << argv[0] << ":  error while reading " << *inputFileName << std::endl;
 			return 1;
 			}
 		}
@@ -130,7 +130,7 @@ main
 	JString data1Str = data1.str();
 	if (!databaseFileName.IsEmpty())
 		{
-		ofstream dbOutput(databaseFileName);
+		std::ofstream dbOutput(databaseFileName);
 		data1Str.Print(dbOutput);
 		}
 
@@ -156,10 +156,10 @@ main
 			}
 
 		std::ostringstream data2;
-		data2 << "#include <jTypes.h>" << endl;
+		data2 << "#include <jTypes.h>" << std::endl;
 		data2 << "static const JUtf8Byte* ";
 		dataVarName.Print(data2);
-		data2 << "[] = {" << endl;
+		data2 << "[] = {" << std::endl;
 
 		// Visual C++ cannot handle file with more than 2048 characters on a line
 		// and cannot compile string constant more than 2048 characters!
@@ -176,12 +176,12 @@ main
 
 			data2 << "\"";
 			data2.write(((const char*) data1Str) + i, l2);
-			data2 << "\"," << endl;
+			data2 << "\"," << std::endl;
 
 			i += l2;
 			}
 
-		data2 << "NULL };" << endl;
+		data2 << "NULL };" << std::endl;
 
 		// if the file won't change, don't re-write it
 
@@ -199,12 +199,12 @@ main
 
 		// write file
 
-		ofstream output(outputFileName);
+		std::ofstream output(outputFileName);
 		s2.Print(output);
 
 		if (!output.good())
 			{
-			cerr << argv[0] << ":  unable to write to " << outputFileName << endl;
+			std::cerr << argv[0] << ":  unable to write to " << outputFileName << std::endl;
 			return 1;
 			}
 
@@ -274,7 +274,7 @@ GetOptions
 
 		else if (argv[index][0] == '-')
 			{
-			cerr << argv[0] << ": unknown command line option: " << argv[index] << endl;
+			std::cerr << argv[0] << ": unknown command line option: " << argv[index] << std::endl;
 			}
 
 		else
@@ -298,7 +298,7 @@ GetOptions
 
 	if (inputFileList->IsEmpty())
 		{
-		cerr << argv[0] << ": no input files" << endl;
+		std::cerr << argv[0] << ": no input files" << std::endl;
 		exit(1);
 		}
 }
@@ -311,19 +311,19 @@ GetOptions
 void
 PrintHelp()
 {
-	cout << endl;
-	cout << kVersionStr << endl;
-	cout << endl;
-	cout << "This program builds a source file defining a char* that can be used" << endl;
-	cout << "as the default data for JStringManager." << endl;
-	cout << endl;
-	cout << "Usage:  [options] input_file [input_file ...] " << endl;
-	cout << endl;
-	cout << "-h      prints help" << endl;
-	cout << "-v      prints version information" << endl;
-	cout << "--code  var_name output_file: generates source file defining var_name" << endl;
-	cout << "--db    output_file: generates string database file from input files" << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << kVersionStr << std::endl;
+	std::cout << std::endl;
+	std::cout << "This program builds a source file defining a char* that can be used" << std::endl;
+	std::cout << "as the default data for JStringManager." << std::endl;
+	std::cout << std::endl;
+	std::cout << "Usage:  [options] input_file [input_file ...] " << std::endl;
+	std::cout << std::endl;
+	std::cout << "-h      prints help" << std::endl;
+	std::cout << "-v      prints version information" << std::endl;
+	std::cout << "--code  var_name output_file: generates source file defining var_name" << std::endl;
+	std::cout << "--db    output_file: generates string database file from input files" << std::endl;
+	std::cout << std::endl;
 }
 
 /******************************************************************************
@@ -334,7 +334,7 @@ PrintHelp()
 void
 PrintVersion()
 {
-	cout << endl;
-	cout << kVersionStr << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << kVersionStr << std::endl;
+	std::cout << std::endl;
 }

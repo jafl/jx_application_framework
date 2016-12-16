@@ -21,8 +21,8 @@ class JStringIterator;
 class JString
 {
 	friend class JStringIterator;
-	friend istream& operator>>(istream&, JString&);
-	friend ostream& operator<<(ostream&, const JString&);
+	friend std::istream& operator>>(std::istream&, JString&);
+	friend std::ostream& operator<<(std::ostream&, const JString&);
 
 public:
 
@@ -134,10 +134,10 @@ public:
 	JString		EncodeBase64() const;
 	JBoolean	DecodeBase64(JString* str) const;
 
-	void		Read(istream& input, const JSize count);
-	void		ReadDelimited(istream& input);
-	void		Print(ostream& output) const;
-	void		PrintHex(ostream& output) const;
+	void		Read(std::istream& input, const JSize count);
+	void		ReadDelimited(std::istream& input);
+	void		Print(std::ostream& output) const;
+	void		PrintHex(std::ostream& output) const;
 
 	JSize		GetBlockSize() const;
 	void		SetBlockSize(const JSize blockSize);

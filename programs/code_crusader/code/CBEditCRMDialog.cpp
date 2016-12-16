@@ -284,7 +284,7 @@ CBEditCRMDialog::Receive
 void
 CBEditCRMDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -310,7 +310,7 @@ CBEditCRMDialog::ReadPrefs
 void
 CBEditCRMDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

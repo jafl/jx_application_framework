@@ -25,12 +25,12 @@ public:
 
 	// construct from private file
 
-	SCVdepSource(istream& input, const JFileVersion vers, const SCComponentType type,
+	SCVdepSource(std::istream& input, const JFileVersion vers, const SCComponentType type,
 				 SCCircuit* theCircuit);
 
 	// construct from netlist
 
-	SCVdepSource(istream& input, const SCComponentType type, SCCircuit* theCircuit);
+	SCVdepSource(std::istream& input, const SCComponentType type, SCCircuit* theCircuit);
 
 	virtual ~SCVdepSource();
 
@@ -43,8 +43,8 @@ public:
 										JPtrArray<JString>* rhsList,
 										JPtrArray<JString>* varList) const;
 	virtual JBoolean	RequiresNode(const JIndex index) const;
-	virtual void		StreamOut(ostream& output) const;
-	virtual void		PrintToNetlist(ostream& output) const;
+	virtual void		StreamOut(std::ostream& output) const;
+	virtual void		PrintToNetlist(std::ostream& output) const;
 
 	// provides safe downcasting
 

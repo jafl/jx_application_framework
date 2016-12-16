@@ -83,7 +83,7 @@ JFunction::SameAs
 JFunction*
 JFunction::StreamIn
 	(
-	istream&				input,
+	std::istream&				input,
 	const JVariableList*	theVariableList,
 	const JBoolean			allowUIF
 	)
@@ -108,7 +108,7 @@ JFunction::StreamIn
 void
 JFunction::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -172,7 +172,7 @@ JFunction::PrintForMathematica()
 void
 JFunction::PrintForMathematica
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

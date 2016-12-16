@@ -119,7 +119,7 @@ GNBBaseNode::~GNBBaseNode()
 void
 GNBBaseNode::SaveNode
 	(
-	ostream& 			os
+	std::ostream& 			os
 	)
 {
 	if (!IsRoot())
@@ -136,7 +136,7 @@ GNBBaseNode::SaveNode
 void
 GNBBaseNode::SaveBranch
 	(
-	ostream& 			os
+	std::ostream& 			os
 	)
 {
 	assert(IsOpenable());
@@ -170,7 +170,7 @@ GNBBaseNode::SaveBranch
 void
 GNBBaseNode::ReadBranchSetup
 	(
-	istream& 			is,
+	std::istream& 			is,
 	const JFileVersion 	version
 	)
 {
@@ -254,7 +254,7 @@ GNBBaseNode::ReadBranchSetup
 void
 GNBBaseNode::ReadNodeSetup
 	(
-	istream& 			is,
+	std::istream& 			is,
 	const JFileVersion 	version
 	)
 {

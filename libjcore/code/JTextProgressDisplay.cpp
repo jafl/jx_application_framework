@@ -82,20 +82,20 @@ JTextProgressDisplay::ProcessBeginning
 	JProgressDisplay::ProcessBeginning(processType, stepCount, message,
 									   allowCancel, allowBackground);
 
-	cout << endl << endl << message << endl;
+	std::cout << std::endl << std::endl << message << std::endl;
 	if (allowCancel)
 		{
 		#if defined _J_UNIX
-			cout << "(Press ctrl-C to cancel)";
+			std::cout << "(Press ctrl-C to cancel)";
 		#else
 			figure out what to say!
 		#endif
 		}
-	cout << endl << endl;
+	std::cout << std::endl << std::endl;
 
 	if (processType == kFixedLengthProcess)
 		{
-		cout << "0%" << endl;
+		std::cout << "0%" << std::endl;
 		}
 
 	// install the cancel handler
@@ -136,22 +136,22 @@ JTextProgressDisplay::IncrementProgress
 		{
 		const double progressFraction =
 			100.0 * ((double) stepCount) / ((double) maxCount);
-		cout << JRound(progressFraction) << '%' << endl;
+		std::cout << JRound(progressFraction) << '%' << std::endl;
 		}
 	else if (process == kVariableLengthProcess)
 		{
 		if (message != NULL)
 			{
-			cout << message << endl;
+			std::cout << message << std::endl;
 			}
 		else
 			{
-			cout << stepCount << endl;
+			std::cout << stepCount << std::endl;
 			}
 		}
 	else
 		{
-		cerr << "Unknown process type in JTextProgressDisplay::IncrementProgress()" << endl;
+		std::cerr << "Unknown process type in JTextProgressDisplay::IncrementProgress()" << std::endl;
 		}
 
 	return ProcessContinuing();
@@ -206,7 +206,7 @@ JTextProgressDisplay::ProcessFinished()
 {
 	JProgressDisplay::ProcessFinished();
 
-	cout << endl;
+	std::cout << std::endl;
 
 	// put back the original cancel handler
 

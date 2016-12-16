@@ -135,7 +135,7 @@ JSummation::Evaluate
 void
 JSummation::Print
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

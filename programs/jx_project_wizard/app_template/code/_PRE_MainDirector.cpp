@@ -387,7 +387,7 @@ void
 void
 <PRE>MainDirector::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -408,7 +408,7 @@ void
 void
 <PRE>MainDirector::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

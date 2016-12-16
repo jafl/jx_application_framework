@@ -41,7 +41,7 @@ main
 
 	// Send and receive messages.
 
-	cout << "Connection established" << endl;
+	std::cout << "Connection established" << std::endl;
 	TalkToServer(*socket);
 
 	delete socket;
@@ -73,8 +73,8 @@ OpenConnection
 		}
 	else
 		{
-		cerr << "usage: " << argv[0];
-		cerr << " (-i [host_name:]port_number)|(-u socket_name)" << endl;
+		std::cerr << "usage: " << argv[0];
+		std::cerr << " (-i [host_name:]port_number)|(-u socket_name)" << std::endl;
 		exit(1);
 		}
 }
@@ -119,7 +119,7 @@ INETConnect
 /*
 	if (socket->disable(ACE_NONBLOCK) == -1) 
 		{
-		cerr << "error trying to enable blocking mode: " << jerrno() << endl;
+		std::cerr << "error trying to enable blocking mode: " << jerrno() << std::endl;
 		socket->close();
 		exit(1);
 		}
@@ -180,12 +180,12 @@ ReportConnectError()
 	const int err = jerrno();
 	if (err == ETIME)
 		{
-		cerr << "server not responding after ";
-		cerr << kMaxWaitSeconds << " sec" << endl;
+		std::cerr << "server not responding after ";
+		std::cerr << kMaxWaitSeconds << " sec" << std::endl;
 		}
 	else
 		{
-		cerr << "error trying to connect: " << jerrno() << endl;
+		std::cerr << "error trying to connect: " << jerrno() << std::endl;
 		}
 	exit(1);
 }

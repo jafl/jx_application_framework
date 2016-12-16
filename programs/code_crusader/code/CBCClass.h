@@ -16,7 +16,7 @@ public:
 
 	CBCClass(const JCharacter* name, const DeclareType declType,
 			 const JFAID_t fileID, CBTree* tree);
-	CBCClass(istream& input, const JFileVersion vers, CBTree* tree);
+	CBCClass(std::istream& input, const JFileVersion vers, CBTree* tree);
 
 	virtual ~CBCClass();
 

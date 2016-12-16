@@ -57,8 +57,8 @@ public:
 	void		SetDefaultDock(const JCharacter* windowType, const JXDockWidget* dock);
 
 	JBoolean	IsReadingSetup() const;
-	void		ReadSetup(istream& input);
-	void		WriteSetup(ostream& output) const;
+	void		ReadSetup(std::istream& input);
+	void		WriteSetup(std::ostream& output) const;
 
 	void		SetIcon(JXImage* icon);
 	JBoolean	CreateIcon(JXImage** icon) const;
@@ -78,8 +78,8 @@ protected:
 
 	virtual void	DirectorClosed(JXDirector* theDirector);
 
-	virtual void	ReadPrefs(istream& input);
-	virtual void	WritePrefs(ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input);
+	virtual void	WritePrefs(std::ostream& output) const;
 
 public:		// kAtomCount required at global scope
 

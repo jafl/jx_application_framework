@@ -770,7 +770,7 @@ CBCommandManager::GetCurrentCmdInfoFileVersion()
 void
 CBCommandManager::ReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -788,7 +788,7 @@ CBCommandManager::ReadSetup
 JBoolean
 CBCommandManager::ReadCommands
 	(
-	istream&		input,
+	std::istream&		input,
 	JString*		makeDependCmd,
 	CmdList*		cmdList,
 	JFileVersion*	returnVers
@@ -854,7 +854,7 @@ CBCommandManager::ReadCommands
 CBCommandManager::CmdInfo
 CBCommandManager::ReadCmdInfo
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -916,7 +916,7 @@ CBCommandManager::ReadCmdInfo
 void
 CBCommandManager::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -941,7 +941,7 @@ CBCommandManager::WriteSetup
 void
 CBCommandManager::WriteCmdInfo
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const CmdInfo&	info
 	)
 {
@@ -972,7 +972,7 @@ CBCommandManager::WriteCmdInfo
 void
 CBCommandManager::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	ReadSetup(input);
@@ -986,7 +986,7 @@ CBCommandManager::ReadPrefs
 void
 CBCommandManager::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -1062,7 +1062,7 @@ CBCommandManager::UpgradeCommand
 void
 CBCommandManager::ReadTemplate
 	(
-	istream&				input,
+	std::istream&				input,
 	const JFileVersion		tmplVers,
 	const JFileVersion		projVers
 	)
@@ -1081,7 +1081,7 @@ CBCommandManager::ReadTemplate
 void
 CBCommandManager::WriteTemplate
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -1422,7 +1422,7 @@ CBCommandManager::GetUniqueMenuID()
 void
 CBCommandManager::ConvertCompileDialog
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	CBBuildManager*		buildMgr,
 	const JBoolean		readWindGeom
@@ -1518,7 +1518,7 @@ CBCommandManager::ConvertCompileDialog
 void
 CBCommandManager::ConvertRunDialog
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	const JBoolean		readWindGeom
 	)

@@ -38,6 +38,12 @@ endif
 
 LDFLAGS :=
 
+STATIC_LOADLIBES := -L${JLIBDIR} \
+                    ${J_BEGIN_LINK_STATIC} \
+                    ${ljcore} ${J_ACE_LIBS} \
+                    ${J_END_LINK_STATIC} \
+                    ${J_IMG_LIBS} ${J_GCC_LIBS}
+
 #####
 
 .PHONY : default
@@ -77,16 +83,10 @@ jxuninstall:
 # debugging version
 #
 
-DEBUG_LOADLIBES := -L${JLIBDIR} \
-                   ${J_BEGIN_LINK_STATIC} \
-                   ${ljcore} ${J_ACE_LIBS} \
-                   ${J_END_LINK_STATIC} \
-                   ${J_IMG_LIBS} ${J_GCC_LIBS}
-
 .PHONY : debug
 debug: staticACE libs
 	@${RM} compile_jstrings
-	@${MAKE} "LOADLIBES=${DEBUG_LOADLIBES}" compile_jstrings
+	@${MAKE} "LOADLIBES=${STATIC_LOADLIBES}" compile_jstrings
 
 #
 # personal install

@@ -37,7 +37,7 @@ JXDockDirector::JXDockDirector
 
 JXDockDirector::JXDockDirector
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	const JCharacter*	title
 	)
@@ -80,7 +80,7 @@ JXDockDirector::~JXDockDirector()
 void
 JXDockDirector::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

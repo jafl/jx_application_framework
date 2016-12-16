@@ -192,7 +192,7 @@ JXHistoryMenuBase::AddItem
 void
 JXHistoryMenuBase::ReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	ReadSetup(input, this, NULL, NULL);
@@ -211,7 +211,7 @@ JXHistoryMenuBase::ReadSetup
 void
 JXHistoryMenuBase::ReadSetup
 	(
-	istream&			input,
+	std::istream&			input,
 	JPtrArray<JString>*	itemList,
 	JPtrArray<JString>*	nmShortcutList
 	)
@@ -230,7 +230,7 @@ JXHistoryMenuBase::ReadSetup
 void
 JXHistoryMenuBase::ReadSetup
 	(
-	istream&			input,
+	std::istream&			input,
 	JXHistoryMenuBase*	menu,
 	JPtrArray<JString>*	itemList,
 	JPtrArray<JString>*	nmShortcutList
@@ -310,7 +310,7 @@ JXHistoryMenuBase::ReadSetup
 void
 JXHistoryMenuBase::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

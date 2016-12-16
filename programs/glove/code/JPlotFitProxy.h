@@ -27,10 +27,10 @@ public:
 
 	JPlotFitProxy(JPlotFitFunction* fit,
 				  J2DPlotWidget* plot, JPlotDataBase* fitData);
-	JPlotFitProxy(J2DPlotWidget* plot, JPlotDataBase* fitData, istream& is);
+	JPlotFitProxy(J2DPlotWidget* plot, JPlotDataBase* fitData, std::istream& is);
 	virtual ~JPlotFitProxy();
 
-	void	WriteData(ostream& os);
+	void	WriteData(std::ostream& os);
 
 	virtual JBoolean	GetParameterName(const JIndex index, JString* name) const;
 	virtual JBoolean	GetParameter(const JIndex index, JFloat* value) const;

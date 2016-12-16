@@ -171,7 +171,7 @@ CBEditSearchPathsDialog::BuildWindow
 void
 CBEditSearchPathsDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -192,7 +192,7 @@ CBEditSearchPathsDialog::ReadPrefs
 void
 CBEditSearchPathsDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

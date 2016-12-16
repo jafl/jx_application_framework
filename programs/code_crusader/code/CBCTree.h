@@ -22,9 +22,9 @@ class CBCTree : public CBTree
 public:
 
 	CBCTree(CBCTreeDirector* director, const JSize marginWidth);
-	CBCTree(istream& projInput, const JFileVersion projVers,
-			istream* setInput, const JFileVersion setVers,
-			istream* symInput, const JFileVersion symVers,
+	CBCTree(std::istream& projInput, const JFileVersion projVers,
+			std::istream* setInput, const JFileVersion setVers,
+			std::istream* symInput, const JFileVersion symVers,
 			CBCTreeDirector* director, const JSize marginWidth,
 			CBDirList* dirList);
 
@@ -32,8 +32,8 @@ public:
 
 	CBCPreprocessor*	GetCPreprocessor() const;
 
-	virtual void	StreamOut(ostream& projOutput, ostream* setOutput,
-							  ostream* symOutput, const CBDirList* dirList) const;
+	virtual void	StreamOut(std::ostream& projOutput, std::ostream* setOutput,
+							  std::ostream* symOutput, const CBDirList* dirList) const;
 
 protected:
 
@@ -47,7 +47,7 @@ private:
 
 	void	CBCTreeX();
 
-	static CBClass* StreamInCClass(istream& input, const JFileVersion vers,
+	static CBClass* StreamInCClass(std::istream& input, const JFileVersion vers,
 								   CBTree* tree);
 
 	void	ReadHeaderFile(const JCharacter* fileName, JString* buffer);

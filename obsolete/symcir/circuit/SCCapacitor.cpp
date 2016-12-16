@@ -34,7 +34,7 @@ SCCapacitor::SCCapacitor
 
 SCCapacitor::SCCapacitor
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	SCCircuit*			theCircuit
 	)
@@ -47,7 +47,7 @@ SCCapacitor::SCCapacitor
 
 SCCapacitor::SCCapacitor
 	(
-	istream&	input,
+	std::istream&	input,
 	SCCircuit*	theCircuit
 	)
 	:

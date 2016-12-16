@@ -39,7 +39,7 @@ CBJavaClass::CBJavaClass
 
 CBJavaClass::CBJavaClass
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	CBTree*				tree
 	)
@@ -71,7 +71,7 @@ CBJavaClass::~CBJavaClass()
 void
 CBJavaClass::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

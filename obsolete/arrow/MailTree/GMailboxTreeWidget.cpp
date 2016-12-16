@@ -1062,7 +1062,7 @@ GMailboxTreeWidget::HandleDNDDrop
 				}
 			else
 				{
-				cout << "This shouldn't have happened!" << endl;
+				std::cout << "This shouldn't have happened!" << std::endl;
 				}
 			}
 		}
@@ -1201,9 +1201,9 @@ GMailboxTreeWidget::HandleDNDDrop
 					{
 					perms2 = 0600;
 					}
-				ifstream is(mailfile);
-				ifstream mboxis(mbox);
-				ofstream os(tempname);
+				std::ifstream is(mailfile);
+				std::ifstream mboxis(mbox);
+				std::ofstream os(tempname);
 
 				JSize lcount = list.GetElementCount();
 				JSize index;
@@ -1241,7 +1241,7 @@ GMailboxTreeWidget::HandleDNDDrop
 					JRemoveFile(tempname);
 					}
 				// open the mailbox to set its access time
-				ifstream accIs(mailfile);
+				std::ifstream accIs(mailfile);
 				accIs.close();
 				}
 
@@ -1505,7 +1505,7 @@ GMailboxTreeWidget::GetImage
 void
 GMailboxTreeWidget::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JCoordinate id;
@@ -1560,7 +1560,7 @@ GMailboxTreeWidget::ReadPrefs
 void
 GMailboxTreeWidget::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

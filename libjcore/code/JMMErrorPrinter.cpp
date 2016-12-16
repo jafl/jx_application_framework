@@ -2,7 +2,7 @@
  JMMErrorPrinter.cpp
 
 	A simple JMMMonitor which listens for error messages from the memory
-	manager and prints them to cout.  It is intended only as a proxy object
+	manager and prints them to std::cout.  It is intended only as a proxy object
 	for JMemoryManager, so its environment variable is documented there and
 	its public interface is exposed there.  Anyone wanting to do a similar
 	job would need to create their own JMMMonitor anyway.
@@ -62,11 +62,11 @@ JMMErrorPrinter::HandleObjectDeletedAsArray
 {
 	if (itsPrintErrorsFlag)
 		{
-		cout << "*** memory error: Block allocated as object at\n                     "
-			 << record.GetNewFile() << ":" << record.GetNewLine()
-			 << "\n                  was deleted as array at\n                     "
-			 << record.GetDeleteFile()
-			 << ":" << record.GetDeleteLine() << endl;
+		std::cout << "*** memory error: Block allocated as object at\n                     "
+				  << record.GetNewFile() << ":" << record.GetNewLine()
+				  << "\n                  was deleted as array at"
+				  << "\n                     " << record.GetDeleteFile()
+				  << ":" << record.GetDeleteLine() << std::endl;
 		}
 }
 
@@ -83,11 +83,11 @@ JMMErrorPrinter::HandleArrayDeletedAsObject
 {
 	if (itsPrintErrorsFlag)
 		{
-		cout << "*** memory error: Block allocated as array at\n                     "
-			 << record.GetNewFile() << ":" << record.GetNewLine()
-			 << "\n                  was deleted as object at\n                     "
-			 << record.GetDeleteFile()
-			 << ":" << record.GetDeleteLine() << endl;
+		std::cout << "*** memory error: Block allocated as array at\n                     "
+				  << record.GetNewFile() << ":" << record.GetNewLine()
+				  << "\n                  was deleted as object at"
+				  << "\n                     " << record.GetDeleteFile()
+				  << ":" << record.GetDeleteLine() << std::endl;
 		}
 }
 
@@ -106,9 +106,10 @@ JMMErrorPrinter::HandleUnallocatedDeletion
 {
 	if (itsPrintErrorsFlag)
 		{
-		cout << "*** memory error: Block deleted as " << JMMRecord::TypeName(isArray)
-			 << " at\n                     " << file << ":" << line
-			 << "\n                  was never allocated." << endl;
+		std::cout << "*** memory error: Block deleted as "
+				  << JMMRecord::TypeName(isArray) << " at"
+				  << "\n                     " << file << ":" << line
+				  << "\n                  was never allocated." << std::endl;
 		}
 }
 
@@ -128,12 +129,13 @@ JMMErrorPrinter::HandleMultipleDeletion
 {
 	if (itsPrintErrorsFlag)
 		{
-		cout << "*** memory error: Block deleted as " << JMMRecord::TypeName(isArray)
-			 << " at\n                     " << file << ":" << line
-			 << "\n                  was already deleted, most recently as "
-			 << originalRecord.DeleteTypeName() << " at\n                     "
-			 << originalRecord.GetDeleteFile() << ":" << originalRecord.GetDeleteLine()
-			 << endl;
+		std::cout << "*** memory error: Block deleted as "
+				  << JMMRecord::TypeName(isArray) << " at"
+				  << "\n                     " << file << ":" << line
+				  << "\n                  was already deleted, most recently as "
+				  << originalRecord.DeleteTypeName() << " at\n                     "
+				  << originalRecord.GetDeleteFile() << ":" << originalRecord.GetDeleteLine()
+				  << std::endl;
 		}
 }
 
@@ -151,13 +153,14 @@ JMMErrorPrinter::HandleMultipleAllocation
 {
 	if (itsPrintErrorsFlag)
 		{
-		cout << "*** memory error: Item allocated as "
-			 << thisRecord.DeleteTypeName() << " at\n                     "
-			 << thisRecord.GetNewFile() << ":" << thisRecord.GetNewLine()
-			 << "\n                  was first allocated as "
-			 << firstRecord.DeleteTypeName() << " at\n                     "
-			 << firstRecord.GetNewFile() << ":" << firstRecord.GetNewLine()
-			 << endl;
+		std::cout << "*** memory error: Item allocated as "
+				  << thisRecord.DeleteTypeName() << " at\n                     "
+				  << thisRecord.GetNewFile() << ":" << thisRecord.GetNewLine()
+				  << "\n                  was first allocated as "
+				  << firstRecord.DeleteTypeName() << " at"
+				  << "\n                     "
+				  << firstRecord.GetNewFile() << ":" << firstRecord.GetNewLine()
+				  << std::endl;
 		}
 }
 
@@ -176,8 +179,9 @@ JMMErrorPrinter::HandleNULLDeleted
 {
 	if (itsPrintErrorsFlag)
 		{
-		cout << "*** memory error: Attempt to delete NULL as "
-			 << JMMRecord::TypeName(isArray) << " at\n                     "
-			 << file << ":" << line << endl;
+		std::cout << "*** memory error: Attempt to delete NULL as "
+				  << JMMRecord::TypeName(isArray) << " at"
+				  << "\n                     "
+				  << file << ":" << line << std::endl;
 		}
 }

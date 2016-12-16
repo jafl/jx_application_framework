@@ -346,7 +346,7 @@ JXImageSelection::GetImage
 								&returnType, &data, &dataLength, &delMethod) &&
 				(JCreateTempFile(&fileName)).OK())
 				{
-				ofstream output(fileName);
+				std::ofstream output(fileName);
 				output.write((char*) data, dataLength);
 				output.close();
 

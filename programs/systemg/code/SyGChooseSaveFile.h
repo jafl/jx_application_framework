@@ -26,8 +26,8 @@ public:
 	void		ShouldOpenInNewWindow(const JBoolean newWindow);
 	JBoolean	IsOpeningInNewWindow() const;
 
-	void		SGReadSetup(istream& input);
-	void		SGWriteSetup(ostream& output) const;
+	void		SGReadSetup(std::istream& input);
+	void		SGWriteSetup(std::ostream& output) const;
 
 protected:
 
@@ -47,8 +47,8 @@ protected:
 						   const JBoolean selectOnlyWritable,
 						   const JCharacter* message);
 
-	virtual void	ReadPrefs(istream& input);
-	virtual void	WritePrefs(ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input);
+	virtual void	WritePrefs(std::ostream& output) const;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 

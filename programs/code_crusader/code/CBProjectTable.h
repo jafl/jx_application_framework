@@ -96,9 +96,9 @@ public:
 	CBProjectNode*			GetProjectNode(const JIndex index);
 	const CBProjectNode*	GetProjectNode(const JIndex index) const;
 
-	void	ReadSetup(istream& projInput, const JFileVersion projVers,
-					  istream* setInput, const JFileVersion setVers);
-	void	WriteSetup(ostream& projOutput, ostream* setOutput) const;
+	void	ReadSetup(std::istream& projInput, const JFileVersion projVers,
+					  std::istream* setInput, const JFileVersion setVers);
+	void	WriteSetup(std::ostream& projOutput, std::ostream* setOutput) const;
 
 	static DropFileAction	GetDropFileAction();
 	static void				SetDropFileAction(const DropFileAction action);
@@ -248,8 +248,8 @@ private:
 	const CBProjectTable& operator=(const CBProjectTable& source);
 };
 
-istream& operator>>(istream& input, CBProjectTable::DropFileAction& action);
-ostream& operator<<(ostream& output, const CBProjectTable::DropFileAction action);
+std::istream& operator>>(std::istream& input, CBProjectTable::DropFileAction& action);
+std::ostream& operator<<(std::ostream& output, const CBProjectTable::DropFileAction action);
 
 
 /******************************************************************************

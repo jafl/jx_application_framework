@@ -49,7 +49,7 @@ public:
 
 	virtual JBoolean	Evaluate(JFloat* result) const;
 	virtual JBoolean	Evaluate(JComplex* result) const;
-	virtual void		Print(ostream& output) const;
+	virtual void		Print(std::ostream& output) const;
 	virtual JFunction*	Copy() const;
 	virtual JBoolean	SameAs(const JFunction& theFunction) const;
 	virtual JIndex		PrepareToRender(const JExprRenderer& renderer,

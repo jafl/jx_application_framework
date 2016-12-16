@@ -106,7 +106,7 @@ ParseTextOptions
 void
 PrintVersion()
 {
-	cout << endl;
-	cout << SVNGetVersionStr() << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << SVNGetVersionStr() << std::endl;
+	std::cout << std::endl;
 }

@@ -24,11 +24,11 @@ public:
 
 	// construct from private file
 
-	SCIACSource(istream& input, const JFileVersion vers, SCCircuit* theCircuit);
+	SCIACSource(std::istream& input, const JFileVersion vers, SCCircuit* theCircuit);
 
 	// construct from netlist
 
-	SCIACSource(istream& input, SCCircuit* theCircuit);
+	SCIACSource(std::istream& input, SCCircuit* theCircuit);
 
 	virtual ~SCIACSource();
 

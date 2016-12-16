@@ -22,12 +22,12 @@ class THXBaseConvDirector : public JXWindowDirector
 public:
 
 	THXBaseConvDirector(JXDirector* supervisor);
-	THXBaseConvDirector(istream& input, const JFileVersion vers,
+	THXBaseConvDirector(std::istream& input, const JFileVersion vers,
 						JXDirector* supervisor);
 
 	virtual ~THXBaseConvDirector();
 
-	void	WriteState(ostream& output) const;
+	void	WriteState(std::ostream& output) const;
 
 protected:
 

@@ -38,8 +38,8 @@ public:
 
 	// saving setup information
 
-	void	ReadPSSetup(istream& input);
-	void	WritePSSetup(ostream& output) const;
+	void	ReadPSSetup(std::istream& input);
+	void	WritePSSetup(std::ostream& output) const;
 
 	// printing control
 
@@ -119,9 +119,9 @@ protected:
 	virtual JCoordinate		PSGetPrintableHeight() const;
 
 	virtual JBoolean	PSShouldPrintCurrentPage() const;
-	virtual void		PSPrintVersionComment(ostream& output);
-	virtual void		PSPrintHeaderComments(ostream& output);
-	virtual void		PSPrintSetupComments(ostream& output);
+	virtual void		PSPrintVersionComment(std::ostream& output);
+	virtual void		PSPrintHeaderComments(std::ostream& output);
+	virtual void		PSPrintSetupComments(std::ostream& output);
 
 	virtual void	ImageOrientationChanged(const ImageOrientation orient);
 
@@ -152,8 +152,8 @@ private:
 
 // Global functions for JPSPrinter
 
-istream& operator>>(istream& input, JPSPrinter::PaperType& type);
-ostream& operator<<(ostream& output, const JPSPrinter::PaperType type);
+std::istream& operator>>(std::istream& input, JPSPrinter::PaperType& type);
+std::ostream& operator<<(std::ostream& output, const JPSPrinter::PaperType type);
 
 
 /******************************************************************************

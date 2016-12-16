@@ -156,8 +156,8 @@ apmatrix<itemType>::operator [] (int k) const
 {
     if (k < 0 || myRows <= k)
     {
-        cerr << "Illegal matrix index: " << k << " max index = ";
-        cerr << myRows-1 << endl;       
+        std::cerr << "Illegal matrix index: " << k << " max index = ";
+        std::cerr << myRows-1 << std::endl;       
         exit(1);
     }    
     return myMatrix[k];
@@ -171,8 +171,8 @@ apmatrix<itemType>::operator [] (int k)
 {
     if (k < 0 || myRows <= k)
     {
-        cerr << "Illegal matrix index: " << k << " max index = ";
-        cerr << myRows-1 << endl;       
+        std::cerr << "Illegal matrix index: " << k << " max index = ";
+        std::cerr << myRows-1 << std::endl;       
         exit(1);
     }    
     return myMatrix[k];

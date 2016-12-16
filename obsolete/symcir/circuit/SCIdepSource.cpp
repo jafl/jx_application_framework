@@ -53,7 +53,7 @@ SCIdepSource::SCIdepSource
 
 SCIdepSource::SCIdepSource
 	(
-	istream&				input,
+	std::istream&				input,
 	const JFileVersion		vers,
 	const SCComponentType	type,
 	SCCircuit*				theCircuit
@@ -69,7 +69,7 @@ SCIdepSource::SCIdepSource
 
 SCIdepSource::SCIdepSource
 	(
-	istream&				input,
+	std::istream&				input,
 	const SCComponentType	type,
 	SCCircuit*				theCircuit
 	)
@@ -82,8 +82,8 @@ SCIdepSource::SCIdepSource
 	const JBoolean found = theCircuit->FindComponent(depCompName, &itsDepCompIndex);
 	if (!(found && (theCircuit->GetComponent(itsDepCompIndex))->GetType() == kShortCircuit))
 		{
-		cerr << "Unable to find controlling component \"" << depCompName;
-		cerr << "\" for \"" << GetName() << '"' << endl;
+		std::cerr << "Unable to find controlling component \"" << depCompName;
+		std::cerr << "\" for \"" << GetName() << '"' << std::endl;
 		itsDepCompIndex = 0;
 		}
 
@@ -182,7 +182,7 @@ SCIdepSource::SetDepCompIndex
 void
 SCIdepSource::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -198,7 +198,7 @@ SCIdepSource::StreamOut
 void
 SCIdepSource::PrintToNetlist
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

@@ -162,7 +162,7 @@ ParseXOptions
 			}
 		else
 			{
-			cerr << argv[0] << ": unknown option " << argv[index] << endl;
+			std::cerr << argv[0] << ": unknown option " << argv[index] << std::endl;
 			}
 		index++;
 		}
@@ -176,8 +176,8 @@ ParseXOptions
 void
 PrintVersion()
 {
-	cout << endl;
-	cout << "JCore version " << kCurrentJCoreLibVersionStr << endl;
-	cout << "JX    version " << kCurrentJXLibVersionStr << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << "JCore version " << kCurrentJCoreLibVersionStr << std::endl;
+	std::cout << "JX    version " << kCurrentJXLibVersionStr << std::endl;
+	std::cout << std::endl;
 }

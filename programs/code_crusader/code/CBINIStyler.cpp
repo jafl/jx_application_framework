@@ -128,7 +128,7 @@ CBINIStyler::~CBINIStyler()
 void
 CBINIStyler::Scan
 	(
-	istream&			input,
+	std::istream&			input,
 	const TokenExtra&	initData
 	)
 {

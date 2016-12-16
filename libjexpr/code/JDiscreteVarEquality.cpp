@@ -143,7 +143,7 @@ JDiscreteVarEquality::Evaluate()
 void
 JDiscreteVarEquality::Print
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

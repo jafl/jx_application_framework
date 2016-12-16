@@ -25,7 +25,7 @@ class CMPlot2DDir : public JXWindowDirector
 public:
 
 	CMPlot2DDir(CMCommandDirector* supervisor, const JCharacter* expr);
-	CMPlot2DDir(istream& input, const JFileVersion vers,
+	CMPlot2DDir(std::istream& input, const JFileVersion vers,
 				CMCommandDirector* supervisor);
 
 	virtual	~CMPlot2DDir();
@@ -33,7 +33,7 @@ public:
 	virtual void		Activate();
 	virtual JBoolean	GetMenuIcon(const JXImage** icon) const;
 
-	void	StreamOut(ostream& output);
+	void	StreamOut(std::ostream& output);
 
 	JString	GetXExpression(const JIndex curveIndex, const JInteger i) const;
 	JString	GetYExpression(const JIndex curveIndex, const JInteger i) const;

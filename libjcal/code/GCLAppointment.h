@@ -22,10 +22,10 @@ class GCLAppointment
 public:
 
 	GCLAppointment(const CLDay day);
-	GCLAppointment(istream& is);
+	GCLAppointment(std::istream& is);
 	virtual ~GCLAppointment();
 
-	void	WriteSetup(ostream& os);
+	void	WriteSetup(std::ostream& os);
 
 	void	SetStartDay(const CLDay day);
 	CLDay	GetStartDay() const;

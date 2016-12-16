@@ -306,7 +306,7 @@ JGetUserNotification()
 {
 	if (theUserNotification == NULL)
 		{
-		cerr << "Forgot to initialize UserNotification: using text version" << endl;
+		std::cerr << "Forgot to initialize UserNotification: using text version" << std::endl;
 
 		theUserNotification = jnew JTextUserNotification;
 		assert( theUserNotification != NULL );
@@ -325,7 +325,7 @@ JGetChooseSaveFile()
 {
 	if (theChooseSaveFile == NULL)
 		{
-		cerr << "Forgot to initialize ChooseSaveFile: using default version" << endl;
+		std::cerr << "Forgot to initialize ChooseSaveFile: using default version" << std::endl;
 
 		theChooseSaveFile = jnew JTextChooseSaveFile;
 		assert( theChooseSaveFile != NULL );
@@ -344,7 +344,7 @@ JGetCreatePG()
 {
 	if (theCreatePG == NULL)
 		{
-		cerr << "Forgot to initialize CreateProgressDisplay: using text version" << endl;
+		std::cerr << "Forgot to initialize CreateProgressDisplay: using text version" << std::endl;
 
 		theCreatePG = jnew JCreateTextPG;
 		assert( theCreatePG != NULL );

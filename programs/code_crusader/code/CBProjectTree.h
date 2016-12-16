@@ -26,7 +26,7 @@ class CBProjectTree : public JTree
 public:
 
 	CBProjectTree(CBProjectDocument* doc);
-	CBProjectTree(istream& input, const JFileVersion vers,
+	CBProjectTree(std::istream& input, const JFileVersion vers,
 				  CBProjectDocument* doc);
 
 	virtual ~CBProjectTree();
@@ -50,10 +50,10 @@ public:
 						   JProgressDisplay& pg) const;
 	void		Print(JString* text) const;
 
-	void	StreamOut(ostream& output) const;
+	void	StreamOut(std::ostream& output) const;
 
-	void	CreateFilesForTemplate(istream& input, const JFileVersion vers) const;
-	void	SaveFilesInTemplate(ostream& output) const;
+	void	CreateFilesForTemplate(std::istream& input, const JFileVersion vers) const;
+	void	SaveFilesInTemplate(std::ostream& output) const;
 
 private:
 

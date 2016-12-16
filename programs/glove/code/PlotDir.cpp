@@ -465,7 +465,7 @@ PlotDir::NewFileName
 void
 PlotDir::WriteSetup
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	GetWindow()->WriteGeometry(os);
@@ -481,7 +481,7 @@ PlotDir::WriteSetup
 void
 PlotDir::ReadSetup
 	(
-	istream& 		is,
+	std::istream& 		is,
 	const JFloat	gloveVersion
 	)
 {
@@ -501,7 +501,7 @@ PlotDir::ReadSetup
 void
 PlotDir::WriteData
 	(
-	ostream& os,
+	std::ostream& os,
 	GRaggedFloatTableData* data
 	)
 {
@@ -531,7 +531,7 @@ PlotDir::WriteData
 void
 PlotDir::WriteCurves
 	(
-	ostream& os,
+	std::ostream& os,
 	GRaggedFloatTableData* data
 	)
 {
@@ -684,7 +684,7 @@ PlotDir::WriteCurves
 void
 PlotDir::ReadData
 	(
-	istream& is,
+	std::istream& is,
 	GRaggedFloatTableData* data,
 	const JFloat gloveVersion
 	)
@@ -733,7 +733,7 @@ PlotDir::ReadData
 void
 PlotDir::ReadCurves
 	(
-	istream& is,
+	std::istream& is,
 	GRaggedFloatTableData* data
 	)
 {

@@ -3,11 +3,11 @@
 int main()
 {
 	char s[10000];
-	while (!std::cin.eof())
+	while (!std::std::cin.eof())
 		{
-		std::cout << "input: ";
-		std::cin >> s;
-		std::cout << s << std::endl;
+		std::std::cout << "input: ";
+		std::std::cin >> s;
+		std::std::cout << s << std::std::endl;
 		}
 
 	return 0;

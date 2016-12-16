@@ -128,7 +128,7 @@ FitModule::FitModule
 			type = kGloveXY;
 			}		
 		}
-	*output << type << endl;
+	*output << type << std::endl;
 	J2DPlotWidget* plot = itsDir->GetPlot();
 	JBoolean usingRange = plot->IsUsingRange();
 	JFloat xmax, xmin, ymax, ymin;
@@ -161,7 +161,7 @@ FitModule::FitModule
 		{
 		validcount = count;
 		}
-	*output << validcount << endl;
+	*output << validcount << std::endl;
 	for (i = 1; i <= count; i++)
 		{
 		J2DDataPoint point;
@@ -173,17 +173,17 @@ FitModule::FitModule
 			}
 		if (pointOk)
 			{
-			cout << point.x;
-			cout << " " << point.y;
+			std::cout << point.x;
+			std::cout << " " << point.y;
 			if (itsData->HasYErrors())
 				{
-				cout << " " << point.yerr;
+				std::cout << " " << point.yerr;
 				}
 			if (itsData->HasXErrors())
 				{
-				cout << " " << point.xerr;
+				std::cout << " " << point.xerr;
 				}
-			cout << endl;
+			std::cout << std::endl;
 			}
 		}
 	jdelete output;

@@ -38,8 +38,8 @@ public:
 
 	JXTextMenu*	GetExtraMenu() const;
 
-	void	ReadState(istream& input, const JFileVersion vers);
-	void	WriteState(ostream& output) const;
+	void	ReadState(std::istream& input, const JFileVersion vers);
+	void	WriteState(std::ostream& output) const;
 
 protected:
 

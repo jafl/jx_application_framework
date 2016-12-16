@@ -19,12 +19,12 @@ class SCScratchDirector : public SCDirectorBase
 public:
 
 	SCScratchDirector(SCCircuitDocument* supervisor);
-	SCScratchDirector(istream& input, const JFileVersion vers,
+	SCScratchDirector(std::istream& input, const JFileVersion vers,
 					  SCCircuitDocument* supervisor);
 
 	virtual ~SCScratchDirector();
 
-	virtual void	StreamOut(ostream& output) const;
+	virtual void	StreamOut(std::ostream& output) const;
 
 protected:
 

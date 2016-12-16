@@ -237,7 +237,7 @@ GFGClass::Populate()
 void
 GFGClass::WritePublic
 	(
-	ostream& 		os,
+	std::ostream& 		os,
 	const JBoolean	interface
 	)
 {
@@ -261,7 +261,7 @@ GFGClass::WritePublic
 void
 GFGClass::WriteProtected
 	(
-	ostream& 		os,
+	std::ostream& 		os,
 	const JBoolean	interface
 	)
 {
@@ -285,7 +285,7 @@ GFGClass::WriteProtected
 void
 GFGClass::WriteFunction
 	(
-	ostream& 			os,
+	std::ostream& 			os,
 	GFGMemberFunction*	fn,
 	const JBoolean		interface
 	)
@@ -293,7 +293,7 @@ GFGClass::WriteFunction
 	if (interface)
 		{
 		fn->GetInterface().Print(os);
-		os << endl;
+		os << std::endl;
 		return;
 		}
 
@@ -307,7 +307,7 @@ GFGClass::WriteFunction
 	s.Print(os);
 
 	fn->GetReturnType().Print(os);
-	os << endl;
+	os << std::endl;
 	
 	itsClassName.Print(os);
 	os << "::";
@@ -315,7 +315,7 @@ GFGClass::WriteFunction
 	const JSize count	= fn->GetArgCount();
 	if (count == 0)
 		{
-		os << "()" << endl;
+		os << "()" << std::endl;
 		}
 	else
 		{
@@ -329,15 +329,15 @@ GFGClass::WriteFunction
 				{
 				os << ",";
 				}
-			os << endl;
+			os << std::endl;
 			}
-		os << "\t)" << endl;
+		os << "\t)" << std::endl;
 		}
 	if (fn->IsConst())
 		{
-		os << "\tconst" << endl;
+		os << "\tconst" << std::endl;
 		}
-	os << "{\n\n}" << endl << endl;
+	os << "{\n\n}" << std::endl << std::endl;
 }
 
 /******************************************************************************
@@ -358,15 +358,15 @@ GFGClass::Receive
 		for (JIndex i = 1; i <= count; i++)
 			{
 			GFGMemberFunction* fn	= NthElement(i);
-			cout << "#########################" << endl;
-			cout << fn->GetFnName() << '\t' << fn->IsProtected() << '\t' << fn->IsRequired() << '\t' << fn->IsConst() << endl;
-			cout << "-------------------------" << endl;
-			cout << fn->GetInterface() << endl;
-			cout << "-------------------------" << endl;
+			std::cout << "#########################" << std::endl;
+			std::cout << fn->GetFnName() << '\t' << fn->IsProtected() << '\t' << fn->IsRequired() << '\t' << fn->IsConst() << std::endl;
+			std::cout << "-------------------------" << std::endl;
+			std::cout << fn->GetInterface() << std::endl;
+			std::cout << "-------------------------" << std::endl;
 			const JSize acount	= fn->GetArgCount();
 			for (JIndex i = 1; i <= acount; i++)
 				{
-				cout << fn->GetArg(i) << endl;
+				std::cout << fn->GetArg(i) << std::endl;
 				}
 			}
 */		

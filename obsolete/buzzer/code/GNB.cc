@@ -123,23 +123,23 @@ ParseTextOptions
 void
 PrintHelp()
 {
-	cout << endl;
-	cout << "Notebook " << kNotebookVersionNumberStr << endl;
-	cout << endl;
-	cout << "This X application provides an electronic notebook." << endl;
-	cout << endl;
-	cout << "Because Notebook fully supports the Multiple Document concept," << endl;
-	cout << "it can be safely invoked from the command line or via a file manager" << endl;
-	cout << "as often as you like." << endl;
-	cout << endl;
-	cout << "Usage:" << endl;
-	cout << "notebook" << endl;
-	cout << endl;
-	cout << "-h        prints this help" << endl;
-	cout << "-v        prints version information" << endl;
-	cout << endl;
-	cout << "http://www.newplanetsoftware.com/buzzer/" << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << "Notebook " << kNotebookVersionNumberStr << std::endl;
+	std::cout << std::endl;
+	std::cout << "This X application provides an electronic notebook." << std::endl;
+	std::cout << std::endl;
+	std::cout << "Because Notebook fully supports the Multiple Document concept," << std::endl;
+	std::cout << "it can be safely invoked from the command line or via a file manager" << std::endl;
+	std::cout << "as often as you like." << std::endl;
+	std::cout << std::endl;
+	std::cout << "Usage:" << std::endl;
+	std::cout << "notebook" << std::endl;
+	std::cout << std::endl;
+	std::cout << "-h        prints this help" << std::endl;
+	std::cout << "-v        prints version information" << std::endl;
+	std::cout << std::endl;
+	std::cout << "http://www.newplanetsoftware.com/buzzer/" << std::endl;
+	std::cout << std::endl;
 }
 
 /******************************************************************************
@@ -150,7 +150,7 @@ PrintHelp()
 void
 PrintVersion()
 {
-	cout << endl;
-	cout << kNotebookVersionStr << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << kNotebookVersionStr << std::endl;
+	std::cout << std::endl;
 }

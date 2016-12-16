@@ -125,7 +125,7 @@ CMPlot2DDir::CMPlot2DDir
 
 CMPlot2DDir::CMPlot2DDir
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	CMCommandDirector*	supervisor
 	)
@@ -226,7 +226,7 @@ CMPlot2DDir::~CMPlot2DDir()
 void
 CMPlot2DDir::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 	// after CMPlot2DDirX1()

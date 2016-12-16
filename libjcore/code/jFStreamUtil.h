@@ -11,15 +11,18 @@
 #define _H_jFStreamUtil
 
 #include <jTypes.h>
+#include <fstream> // templates
 
 class JString;
 
-// for convenience
+void	JReadFile(const JCharacter* fileName, JString* str);
+void	JReadFile(std::ifstream& input, JString* str);
+void	JReadFile(std::fstream& input, JString* str);
 
-#include <fstream>
-using std::fstream;
-using std::ifstream;
-using std::ofstream;
+JSize			JGetFStreamLength(std::ifstream& theStream);
+JSize			JGetFStreamLength(std::fstream& theStream);
+std::fstream*	JSetFStreamLength(const char* fileName, std::fstream& originalStream,
+								  const JSize newLength, const JFStreamOpenMode io_mode);
 
 void		JReadFile(const JString& fileName, JString* str);
 void		JReadFile(ifstream& input, JString* str);
@@ -30,7 +33,7 @@ JSize		JGetFStreamLength(fstream& theStream);
 fstream*	JSetFStreamLength(const JString& fileName, fstream& originalStream,
 							  const JSize newLength, const JFStreamOpenMode io_mode);
 
-JBoolean	JConvertToStream(const int input, ifstream* input2, JString* tempFullName,
+JBoolean	JConvertToStream(const int input, std::ifstream* input2, JString* tempFullName,
 							 const JBoolean closeInput = kJTrue);
 
 #endif

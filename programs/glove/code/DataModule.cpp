@@ -217,12 +217,12 @@ DataModule::HandleInput
 		if (!itsSentData)
 			{
 			iss >> eval;
-			iss >> ws;
+			iss >> std::ws;
 			if (eval == kGloveRequiresData)
 				{
 				int cols;
 				iss >> cols;
-				iss >> ws;
+				iss >> std::ws;
 				JBoolean success = itsTable->WriteDataCols(*itsOutput, cols);
 				if (!success)
 					{
@@ -237,7 +237,7 @@ DataModule::HandleInput
 				}
 			}
 		iss >> eval;
-		iss >> ws;
+		iss >> std::ws;
 		if (eval == kGloveDataDump)
 			{
 			itsDataIsDump = kJTrue;
@@ -247,7 +247,7 @@ DataModule::HandleInput
 			itsDataIsDump = kJFalse;
 			}
 		iss >> eval;
-		iss >> ws;
+		iss >> std::ws;
 		HandlePrepareCols(eval);
 		itsHeaderRead = kJTrue;
 		}
@@ -316,7 +316,7 @@ DataModule::HandleDataRead
 		return;
 		}
 
-	iss >> ws;
+	iss >> std::ws;
 	JFloat value;
 	if (itsDataIsDump)
 		{
@@ -325,7 +325,7 @@ DataModule::HandleDataRead
 			if (iss.good())
 				{
 				iss >> value;
-				iss >> ws;
+				iss >> std::ws;
 				const JIndex cindex = itsCols->GetElement(i+1);
 				assert(itsData->ColIndexValid(cindex));
 				itsData->AppendElement(cindex, value);
@@ -346,11 +346,11 @@ DataModule::HandleDataRead
 		if (iss.good())
 			{
 			iss >> row;
-			iss >> ws;
+			iss >> std::ws;
 			if (iss.good())
 				{
 				iss >> col;
-				iss >> ws;
+				iss >> std::ws;
 				if (iss.good())
 					{
 					iss >> value;

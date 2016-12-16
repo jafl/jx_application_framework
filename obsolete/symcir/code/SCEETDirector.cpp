@@ -53,7 +53,7 @@ SCEETDirector::SCEETDirector
 
 SCEETDirector::SCEETDirector
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	SCCircuitDocument*	supervisor
 	)
@@ -460,7 +460,7 @@ SCEETDirector::HandleExtraMenu
 void
 SCEETDirector::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

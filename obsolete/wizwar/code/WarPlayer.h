@@ -22,7 +22,7 @@ public:
 
 	WarSocket*	GetSocket() const;
 
-	virtual void	WriteState(ostream& output) const;
+	virtual void	WriteState(std::ostream& output) const;
 
 protected:
 

@@ -39,11 +39,11 @@ CBCTree::CBCTree
 
 CBCTree::CBCTree
 	(
-	istream&			projInput,
+	std::istream&			projInput,
 	const JFileVersion	projVers,
-	istream*			setInput,
+	std::istream*			setInput,
 	const JFileVersion	setVers,
-	istream*			symInput,
+	std::istream*			symInput,
 	const JFileVersion	symVers,
 	CBCTreeDirector*	director,
 	const JSize			marginWidth,
@@ -93,9 +93,9 @@ CBCTree::~CBCTree()
 void
 CBCTree::StreamOut
 	(
-	ostream&			projOutput,
-	ostream*			setOutput,
-	ostream*			symOutput,
+	std::ostream&			projOutput,
+	std::ostream*			setOutput,
+	std::ostream*			symOutput,
 	const CBDirList*	dirList
 	)
 	const
@@ -115,7 +115,7 @@ CBCTree::StreamOut
 CBClass*
 CBCTree::StreamInCClass
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	CBTree*				tree
 	)
@@ -589,8 +589,8 @@ CBCTree::ParseFunctions
 
 		if (parenIndex == 1)
 			{
-			cerr << "Non-function-definition parenthesis found:" << endl;
-			cerr << funcDef << endl;
+			std::cerr << "Non-function-definition parenthesis found:" << std::endl;
+			std::cerr << funcDef << std::endl;
 			funcDef.RemoveSubstring(1,2);
 			continue;
 			}
@@ -605,8 +605,8 @@ CBCTree::ParseFunctions
 		JString fnPrefix, fnSuffix;
 		if (closeParenIndex == length)
 			{
-			cerr << "Missing semicolon:" << endl;
-			cerr << funcDef << endl;
+			std::cerr << "Missing semicolon:" << std::endl;
+			std::cerr << funcDef << std::endl;
 			funcDef.Clear();
 			break;	// nothing left
 			}
@@ -619,8 +619,8 @@ CBCTree::ParseFunctions
 			JIndex semiIndex;
 			if (!funcDef.LocateSubstring(";", &semiIndex))
 				{
-				cerr << "Missing semicolon:" << endl;
-				cerr << funcDef << endl;
+				std::cerr << "Missing semicolon:" << std::endl;
+				std::cerr << funcDef << std::endl;
 				continue;
 				}
 			else if (semiIndex > 1)
@@ -656,8 +656,8 @@ CBCTree::ParseFunctions
 		JIndexRange fnNameRange;
 		if (!fnNameRegex.Match(fnPrefix, &fnNameRange))
 			{
-			cerr << "Missing function name:" << endl;
-			cerr << fnPrefix << endl;
+			std::cerr << "Missing function name:" << std::endl;
+			std::cerr << fnPrefix << std::endl;
 			continue;
 			}
 
@@ -739,7 +739,7 @@ CBCTree::ParseEnumValues
 		{
 		JString valueName;
 		JCharacter delim;
-		input >> ws;
+		input >> std::ws;
 		if (JReadUntil(input, delimCount, delimStr, &valueName, &delim))
 			{
 			theClass->AddFunction(valueName, CBClass::kPublicAccess, kJTrue);
@@ -755,8 +755,8 @@ CBCTree::ParseEnumValues
 			}
 		else
 			{
-			cerr << "Unclosed enum found:" << endl;
-			cerr << buffer << endl;
+			std::cerr << "Unclosed enum found:" << std::endl;
+			std::cerr << buffer << std::endl;
 			break;
 			}
 		}
@@ -781,8 +781,8 @@ CBCTree::ReadHeaderFile
 	JString*				buffer
 	)
 {
-	ifstream input(fileName);
-	input >> ws;
+	std::ifstream input(fileName);
+	input >> std::ws;
 
 	buffer->SetBlockSize(JGetFStreamLength(input));
 
@@ -905,7 +905,7 @@ CBCTree::ReadHeaderFile
 
 			while (c1 == '\n')				// preprocessor code
 				{
-				input >> ws;
+				input >> std::ws;
 				if (!input.eof() && !input.fail() && input.peek() == '#')
 					{
 					JString line;
@@ -956,7 +956,7 @@ CBCTree::ReadHeaderFile
 /*
 	JString outputName = fileName;
 	outputName += ".slurped";
-	ofstream output(outputName);
+	std::ofstream output(outputName);
 	buffer->Print(output);
 */
 }

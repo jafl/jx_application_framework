@@ -64,16 +64,16 @@ JTextChooseSaveFile::ChooseFile
 		{
 		if (!JString::IsEmpty(instructions))
 			{
-			cout << endl;
-			cout << instructions << endl;
+			std::cout << std::endl;
+			std::cout << instructions << std::endl;
 			}
-		cout << endl;
-		cout << prompt << endl;
+		std::cout << std::endl;
+		std::cout << prompt << std::endl;
 
 		do
 			{
-			cout << "File (or '" << kCancelStr << "'): ";
-			cin  >> *fullName;
+			std::cout << "File (or '" << kCancelStr << "'): ";
+			std::cin  >> *fullName;
 			JInputFinished();
 			fullName->TrimWhitespace();
 			if (*fullName == kCancelStr)
@@ -127,20 +127,20 @@ JTextChooseSaveFile::ChooseFiles
 
 	if (!JString::IsEmpty(instructions))
 		{
-		cout << endl;
-		cout << instructions << endl;
+		std::cout << std::endl;
+		std::cout << instructions << std::endl;
 		}
 
 	JString fullName;
 	while (1)
 		{
-		cout << endl;
-		cout << prompt << endl;
+		std::cout << std::endl;
+		std::cout << prompt << std::endl;
 
 		do
 			{
-			cout << "File (or '" << kDoneStr << "' or '" << kCancelStr << "'): ";
-			cin  >> fullName;
+			std::cout << "File (or '" << kDoneStr << "' or '" << kCancelStr << "'): ";
+			std::cin  >> fullName;
 			JInputFinished();
 			fullName.TrimWhitespace();
 			if (fullName == kCancelStr)
@@ -266,16 +266,16 @@ JTextChooseSaveFile::GetPath
 {
 	if (!JString::IsEmpty(instructions))
 		{
-		cout << endl;
-		cout << instructions << endl;
+		std::cout << std::endl;
+		std::cout << instructions << std::endl;
 		}
-	cout << endl;
-	cout << prompt << endl;
+	std::cout << std::endl;
+	std::cout << prompt << std::endl;
 
 	do
 		{
-		cout << "Path (or '" << kCancelStr << "'): ";
-		cin  >> *newPath;
+		std::cout << "Path (or '" << kCancelStr << "'): ";
+		std::cin  >> *newPath;
 		JInputFinished();
 		newPath->TrimWhitespace();
 		if (*newPath == kCancelStr)
@@ -311,16 +311,16 @@ JTextChooseSaveFile::SaveFile
 		{
 		if (!JString::IsEmpty(instructions))
 			{
-			cout << endl;
-			cout << instructions << endl;
+			std::cout << std::endl;
+			std::cout << instructions << std::endl;
 			}
-		cout << endl;
-		cout << prompt << endl;
+		std::cout << std::endl;
+		std::cout << prompt << std::endl;
 
 		do
 			{
-			cout << "File (or '" << kCancelStr << "'): ";
-			cin  >> *newFullName;
+			std::cout << "File (or '" << kCancelStr << "'): ";
+			std::cin  >> *newFullName;
 			JInputFinished();
 			newFullName->TrimWhitespace();
 			if (*newFullName == kCancelStr)
@@ -390,10 +390,10 @@ JTextChooseSaveFile::DoSystemCommand
 		if (str.GetCharacterCount() >= 2)
 			{
 			JString cmd = str.GetSubstring(2, str.GetLength());
-			cout << endl;
+			std::cout << std::endl;
 			system(cmd.GetBytes());
 			}
-		cout << endl;
+		std::cout << std::endl;
 		return kJTrue;
 		}
 	else

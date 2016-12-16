@@ -73,7 +73,7 @@ JBooleanDecision::JBooleanDecision
 void
 JBooleanDecision::Print
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -90,7 +90,7 @@ JBooleanDecision::Print
 void
 JBooleanDecision::PrintArg
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const JDecision*	arg
 	)
 	const

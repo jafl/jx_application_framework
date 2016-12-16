@@ -37,7 +37,7 @@ CBFileNode::CBFileNode
 
 CBFileNode::CBFileNode
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	CBProjectNode*		parent
 	)
@@ -237,7 +237,7 @@ CBFileNode::ViewVCSDiffs
 void
 CBFileNode::CreateFilesForTemplate
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 	const
@@ -287,7 +287,7 @@ CBFileNode::CreateFilesForTemplate
 				}
 			}
 
-		ofstream output(fullName);
+		std::ofstream output(fullName);
 		if (output.good())
 			{
 			data.Print(output);
@@ -316,7 +316,7 @@ static const JCharacter* kPathPrefix = "./";
 void
 CBFileNode::SaveFilesInTemplate
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

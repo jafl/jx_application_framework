@@ -35,7 +35,7 @@ namespace std
 class A { A(); };
 class B { B(); };
 
-class JInPipeStream1 : public istream
+class JInPipeStream1 : public std::istream
 {
 public:
 

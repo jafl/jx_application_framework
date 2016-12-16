@@ -86,7 +86,7 @@ CBSearchTE::SearchFiles
 	const JPtrArray<JString>&	nameList,
 	const JBoolean				onlyListFiles,
 	const JBoolean				listFilesWithoutMatch,
-	ostream&					output
+	std::ostream&					output
 	)
 {
 	JString searchStr, replaceStr;
@@ -139,7 +139,7 @@ CBSearchTE::SearchFile
 	const JString&	printName,		// so we display it correctly to the user
 	const JBoolean	onlyListFiles,
 	const JBoolean	listFilesWithoutMatch,
-	ostream&		output,
+	std::ostream&		output,
 
 	const JString&	searchStr,
 	const JBoolean	isRegex,

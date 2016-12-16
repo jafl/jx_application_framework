@@ -25,12 +25,12 @@ public:
 
 	// construct from private file
 
-	SCLinearComp(istream& input, const JFileVersion vers, const SCComponentType type,
+	SCLinearComp(std::istream& input, const JFileVersion vers, const SCComponentType type,
 				 SCCircuit* theCircuit);
 
 	// construct from netlist
 
-	SCLinearComp(istream& input, const SCComponentType type, SCCircuit* theCircuit);
+	SCLinearComp(std::istream& input, const SCComponentType type, SCCircuit* theCircuit);
 
 	virtual ~SCLinearComp();
 
@@ -49,8 +49,8 @@ public:
 	virtual JSize	GetTerminalCount() const;
 	virtual JIndex	GetTerminal(const JIndex index) const;
 	virtual void	SetTerminal(const JIndex index, const JIndex node);
-	virtual void	StreamOut(ostream& output) const;
-	virtual void	PrintToNetlist(ostream& output) const;
+	virtual void	StreamOut(std::ostream& output) const;
+	virtual void	PrintToNetlist(std::ostream& output) const;
 
 	virtual JBoolean	RequiresNode(const JIndex index) const;
 

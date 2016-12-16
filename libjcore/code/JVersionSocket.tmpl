@@ -113,7 +113,7 @@ JVersionSocket<ACE_PEER_STREAM_2>::open
 
 	if (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer().send_n(msg.GetBytes(), msg.GetByteCount()) != (JInteger) msg.GetByteCount())
 		{
-		cerr << "error sending version request to server" << endl;
+		std::cerr << "error sending version request to server" << std::endl;
 		ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::close();
 		return -1;
 		}
@@ -259,7 +259,7 @@ template <ACE_PEER_STREAM_1>
 void
 JVersionSocket<ACE_PEER_STREAM_2>::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -296,7 +296,7 @@ template <ACE_PEER_STREAM_1>
 void
 JVersionSocket<ACE_PEER_STREAM_2>::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

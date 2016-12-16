@@ -519,7 +519,7 @@ GXDataDocument::LoadFile
 	const JCharacter* fileName
 	)
 {
-	ifstream is(fileName);
+	std::ifstream is(fileName);
 
 	if (is.bad())
 		{
@@ -555,7 +555,7 @@ GXDataDocument::LoadFile
 JBoolean
 GXDataDocument::LoadNativeFile
 	(
-	istream& is
+	std::istream& is
 	)
 {
 	JFloat version;
@@ -633,7 +633,7 @@ GXDataDocument::LoadImportFile()
 			return;
 			}
 
-		ifstream ip;
+		std::ifstream ip;
 		JString tempName;
 		if (JConvertToStream(inFD, &ip, &tempName))
 			{
@@ -878,13 +878,13 @@ GXDataDocument::DirectorClosed
 void
 GXDataDocument::WriteTextFile
 	(
-	ostream& output,
+	std::ostream& output,
 	const JBoolean safetySave
 	)
 	const
 {
-	output << kGloveFileSignature << endl;
-	output << kCurrentGloveVersion << endl;
+	output << kGloveFileSignature << std::endl;
+	output << kCurrentGloveVersion << std::endl;
 	itsTable->WriteData(output);
 
 	JSize plotCount = itsPlotWindows->GetElementCount();
@@ -912,7 +912,7 @@ GXDataDocument::WriteTextFile
 void
 GXDataDocument::ReadPlotData
 	(
-	istream& 		is,
+	std::istream& 		is,
 	const JFloat	gloveVersion
 	)
 {
@@ -969,7 +969,7 @@ GXDataDocument::HandleExportMenu
 				return;
 				}
 
-			ifstream ip;
+			std::ifstream ip;
 			JString tempName;
 			if (JConvertToStream(inFD, &ip, &tempName))
 				{
@@ -1143,7 +1143,7 @@ GXDataDocument::LoadDelimitedFile()
 		delim = '\t';
 		}
 
-	ifstream is(itsCurrentFileName);
+	std::ifstream is(itsCurrentFileName);
 	if (is.bad())
 		{
 		JGetUserNotification()->ReportError("Error opening file.");

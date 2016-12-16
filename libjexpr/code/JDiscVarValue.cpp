@@ -132,7 +132,7 @@ JDiscVarValue::Evaluate
 void
 JDiscVarValue::Print
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

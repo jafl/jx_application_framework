@@ -264,8 +264,8 @@ public:
 			id(i.GetID()), name(n), action(a), macro(m)
 		{ };
 
-		void	CreateAndRead(istream& input, const JFileVersion vers);
-		void	Write(ostream& output);
+		void	CreateAndRead(std::istream& input, const JFileVersion vers);
+		void	Write(std::ostream& output);
 		void	Free();
 	};
 
@@ -292,8 +292,8 @@ public:
 			id(i.GetID()), name(n), list(l)
 		{ };
 
-		void	CreateAndRead(istream& input, const JFileVersion vers);
-		void	Write(ostream& output);
+		void	CreateAndRead(std::istream& input, const JFileVersion vers);
+		void	Write(std::ostream& output);
 		void	Free();
 	};
 

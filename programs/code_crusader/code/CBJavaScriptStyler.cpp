@@ -150,7 +150,7 @@ CBJavaScriptStyler::~CBJavaScriptStyler()
 void
 CBJavaScriptStyler::Scan
 	(
-	istream&			input,
+	std::istream&			input,
 	const TokenExtra&	initData
 	)
 {

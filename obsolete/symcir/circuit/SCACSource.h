@@ -24,12 +24,12 @@ public:
 
 	// construct from private file
 
-	SCACSource(istream& input, const JFileVersion vers, const SCComponentType type,
+	SCACSource(std::istream& input, const JFileVersion vers, const SCComponentType type,
 			   SCCircuit* theCircuit);
 
 	// construct from netlist
 
-	SCACSource(istream& input, const SCComponentType type, SCCircuit* theCircuit);
+	SCACSource(std::istream& input, const SCComponentType type, SCCircuit* theCircuit);
 
 	virtual ~SCACSource();
 
@@ -39,8 +39,8 @@ public:
 	JFloat	GetPhase() const;
 	void	SetPhase(const JFloat phase);
 
-	virtual void	StreamOut(ostream& output) const;
-	virtual void	PrintToNetlist(ostream& output) const;
+	virtual void	StreamOut(std::ostream& output) const;
+	virtual void	PrintToNetlist(std::ostream& output) const;
 	virtual void	GetParserVariables(SCCircuitVarList* varList) const;
 
 	// provides safe downcasting

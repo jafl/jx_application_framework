@@ -66,9 +66,9 @@ class apstring
 //
 // I/O functions
 
-ostream & operator << ( ostream & os, const apstring & str );
-istream & operator >> ( istream & is, apstring & str );
-istream & getline( istream & is, apstring & str );
+std::ostream & operator << ( std::ostream & os, const apstring & str );
+std::istream & operator >> ( std::istream & is, apstring & str );
+std::istream & getline( std::istream & is, apstring & str );
 
 // comparison operators:
 
@@ -193,15 +193,15 @@ apstring operator + ( const apstring & str, char ch );
 //
 // non-member functions
 //
-// ostream & operator << ( ostream & os, const string & str)
+// std::ostream & operator << ( std::ostream & os, const string & str)
 //    postcondition: str is written to output stream os
 //
-// istream & operator >> ( istream & is, string & str )
+// std::istream & operator >> ( std::istream & is, string & str )
 //    precondition:  input stream is open for reading
 //    postcondition: the next string from input stream is has been read
 //                   and stored in str
 //
-// istream & getline( istream & is, string & str )
+// std::istream & getline( std::istream & is, string & str )
 //    description:   reads a line from input stream is into the string str
 //    precondition:  input stream is open for reading
 //    postcondition: chars from input stream is up to '\n' have been read

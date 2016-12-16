@@ -24,7 +24,7 @@ protected:
 
 	CBCSharpStyler();
 
-	virtual void	Scan(istream& input, const TokenExtra& initData);
+	virtual void	Scan(std::istream& input, const TokenExtra& initData);
 	virtual void	PreexpandCheckRange(const JString& text,
 										const JRunArray<JFont>& styles,
 										const JIndexRange& modifiedRange,

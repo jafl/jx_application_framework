@@ -24,8 +24,8 @@ public:
 
 	// saving setup information
 
-	void	ReadPTSetup(istream& input);
-	void	WritePTSetup(ostream& output) const;
+	void	ReadPTSetup(std::istream& input);
+	void	WritePTSetup(std::ostream& output) const;
 
 	// printing parameters
 
@@ -60,12 +60,12 @@ public:
 
 protected:
 
-	JBoolean	Print(const JString& text, ostream& output);
+	JBoolean	Print(const JString& text, std::ostream& output);
 
 	virtual JSize	GetHeaderLineCount() const;
 	virtual JSize	GetFooterLineCount() const;
-	virtual void	PrintHeader(ostream& output, const JIndex pageIndex);
-	virtual void	PrintFooter(ostream& output, const JIndex pageIndex);
+	virtual void	PrintHeader(std::ostream& output, const JIndex pageIndex);
+	virtual void	PrintFooter(std::ostream& output, const JIndex pageIndex);
 
 private:
 
@@ -80,7 +80,7 @@ private:
 
 private:
 
-	void	InvertPageOrder(const JString& text, ostream& output) const;
+	void	InvertPageOrder(const JString& text, std::ostream& output) const;
 
 	// not allowed
 

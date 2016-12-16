@@ -139,7 +139,7 @@ GNBPTPrinter::EndUserPrintSetup
 void
 GNBPTPrinter::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion version;
@@ -156,7 +156,7 @@ GNBPTPrinter::ReadPrefs
 void
 GNBPTPrinter::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

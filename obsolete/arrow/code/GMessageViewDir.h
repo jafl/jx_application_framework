@@ -36,10 +36,10 @@ public:
 	virtual ~GMessageViewDir();
 
 	GMessageHeader*	GetMessageHeader();
-	void			SaveState(ostream& os);
-	void			ReadState(istream& is, const JFileVersion& version);
-	void			WriteWindowPrefs(ostream& os);
-	void			ReadWindowPrefs(istream& is);
+	void			SaveState(std::ostream& os);
+	void			ReadState(std::istream& is, const JFileVersion& version);
+	void			WriteWindowPrefs(std::ostream& os);
+	void			ReadWindowPrefs(std::istream& is);
 
 	virtual JXImage*	GetMenuIcon() const;
 	GMessageTableDir*	GetDir();

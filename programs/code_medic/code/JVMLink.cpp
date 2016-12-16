@@ -574,10 +574,10 @@ JVMLink::SetIDSizes
 	itsFrameIDSize         = frameIDSize;
 
 	std::ostringstream log;
-	log << "field id size: " << itsFieldIDSize << endl;
-	log << "method id size: " << itsFieldIDSize << endl;
-	log << "object id size: " << itsFieldIDSize << endl;
-	log << "reference type id size: " << itsFieldIDSize << endl;
+	log << "field id size: " << itsFieldIDSize << std::endl;
+	log << "method id size: " << itsFieldIDSize << std::endl;
+	log << "object id size: " << itsFieldIDSize << std::endl;
+	log << "reference type id size: " << itsFieldIDSize << std::endl;
 	log << "frame id size: " << itsFieldIDSize;
 	Log(log);
 }
@@ -1200,7 +1200,7 @@ JVMLink::SetProgram
 
 	itsProgramConfigFileName = fullName;
 
-	ifstream input(fullName);
+	std::ifstream input(fullName);
 	while (1)
 		{
 		line = JReadLine(input);

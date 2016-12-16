@@ -981,8 +981,8 @@ SMTPMessage::AppendToOutbox
 void
 SMTPMessage::WriteToOutbox()
 {
-	//ofstream os(GGetPrefsMgr()->GetCurrentOutbox(), ios::out|ios::app);
-	ofstream os(itsOutbox, ios::out|ios::app);
+	//std::ofstream os(GGetPrefsMgr()->GetCurrentOutbox(), std::ios::out|std::ios::app);
+	std::ofstream os(itsOutbox, std::ios::out|std::ios::app);
 	if (os.good())
 		{
 		itsOutboxString.Print(os);

@@ -120,7 +120,7 @@ GFGMainDirector::GFGMainDirector
 			}
 		else if (!argName->BeginsWith("-"))
 			{
-			ifstream is(*argName);
+			std::ifstream is(*argName);
 			if (is.good())
 				{
 				int version;
@@ -401,7 +401,7 @@ GFGMainDirector::Receive
 void
 GFGMainDirector::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -424,7 +424,7 @@ GFGMainDirector::ReadPrefs
 void
 GFGMainDirector::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -476,7 +476,7 @@ GFGMainDirector::Write()
 		sourcefile	= JCombinePathAndName(dir, sourcename);
 		}
 
-	ofstream oh(headerfile);
+	std::ofstream oh(headerfile);
 	if (!oh.good())
 		{
 		JGetUserNotification()->ReportError("There was an error creating the files.");
@@ -524,38 +524,38 @@ GFGMainDirector::Write()
 
 	oh << "\t";
 	cname.Print(oh);
-	oh << "();" << endl;
+	oh << "();" << std::endl;
 
 	oh << "\tvirtual ~";
 	cname.Print(oh);
-	oh << "();" << endl << endl;
+	oh << "();" << std::endl << std::endl;
 
 	itsClass->WritePublic(oh, kJTrue);
 
-	oh << endl << endl;
-	oh << "protected:" << endl << endl;
+	oh << std::endl << std::endl;
+	oh << "protected:" << std::endl << std::endl;
 
 	itsClass->WriteProtected(oh, kJTrue);
 
-	oh << endl << endl << "private:" << endl << endl;
+	oh << std::endl << std::endl << "private:" << std::endl << std::endl;
 
 	oh << "\t";
 	cname.Print(oh);
 	oh << "(const ";
 	cname.Print(oh);
-	oh << "& source);" << endl;
+	oh << "& source);" << std::endl;
 
 	oh << "\tconst ";
 	cname.Print(oh);
 	oh << "& operator=(const ";
 	cname.Print(oh);
-	oh << "& source);" << endl;
+	oh << "& source);" << std::endl;
 
-	oh << endl << endl << "};" << endl << endl << "#endif" << endl;
+	oh << std::endl << std::endl << "};" << std::endl << std::endl << "#endif" << std::endl;
 
 	oh.close();
 
-	ofstream os(sourcefile);
+	std::ofstream os(sourcefile);
 	if (!os.good())
 		{
 		JGetUserNotification()->ReportError("There was an error creating the files.");
@@ -565,10 +565,10 @@ GFGMainDirector::Write()
 	s	= GFGGetPrefsManager()->GetSourceComment(cname, bases);
 	s.Print(os);
 
-	os << endl;
+	os << std::endl;
 	os << "#include <";
 	cname.Print(os);
-	os << ".h>" << endl << endl;
+	os << ".h>" << std::endl << std::endl;
 
 	s	= GFGGetPrefsManager()->GetConstructorComment();
 	s.Print(os);

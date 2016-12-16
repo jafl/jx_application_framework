@@ -38,8 +38,8 @@ public:
 	const JPtrArray<GMFilterAction>&	GetActions() const;
 	void								SetActions(const JPtrArray<GMFilterAction>& actions);
 
-	void				ReadSetup(istream& input);
-	void				WriteSetup(ostream& output) const;
+	void				ReadSetup(std::istream& input);
+	void				WriteSetup(std::ostream& output) const;
 
 private:
 

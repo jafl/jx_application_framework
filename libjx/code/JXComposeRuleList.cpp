@@ -26,7 +26,7 @@ static const JCharacter* kComposeHelpPrefixID = "ComposeHelpPrefix::JXComposeRul
 
 JXComposeRuleList::JXComposeRuleList
 	(
-	istream&	input,
+	std::istream&	input,
 	const JSize	charCount,
 	JBoolean*	isCharInWord,
 	JCharacter*	diacriticalMap,

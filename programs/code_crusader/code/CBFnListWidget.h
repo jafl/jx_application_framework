@@ -28,7 +28,7 @@ public:
 				   const HSizingOption hSizing, const VSizingOption vSizing,
 				   const JCoordinate x, const JCoordinate y,
 				   const JCoordinate w, const JCoordinate h);
-	CBFnListWidget(istream& input, const JFileVersion vers,
+	CBFnListWidget(std::istream& input, const JFileVersion vers,
 				   JBoolean* keep, const CBTreeWidget* treeWidget,
 				   JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 				   const HSizingOption hSizing, const VSizingOption vSizing,
@@ -39,8 +39,8 @@ public:
 
 	void		Print(JPagePrinter& p);
 	JBoolean	Reconnect();
-	void		StreamOut(ostream& output) const;
-	static void	SkipSetup(istream& input);
+	void		StreamOut(std::ostream& output) const;
+	static void	SkipSetup(std::istream& input);
 
 	const CBClass*	GetClass() const;
 	const JString&	GetFunctionName(const JIndex index) const;

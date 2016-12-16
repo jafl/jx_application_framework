@@ -71,10 +71,10 @@ JIntersection
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&	input,
+	std::istream&	input,
 	JIntRange&	range
 	)
 {
@@ -82,10 +82,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const JIntRange&	range
 	)
 {

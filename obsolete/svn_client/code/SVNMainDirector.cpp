@@ -194,7 +194,7 @@ SVNMainDirector::SVNMainDirector
 SVNMainDirector::SVNMainDirector
 	(
 	JXDirector*		supervisor,
-	istream&		input,
+	std::istream&		input,
 	JFileVersion	vers
 	)
 	:
@@ -262,7 +262,7 @@ SVNMainDirector::~SVNMainDirector()
 void
 SVNMainDirector::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 	// before BuildWindow()

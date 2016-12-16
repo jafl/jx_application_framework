@@ -48,10 +48,10 @@ private:
 	void	ReceiveMessage(const JIndex clientIndex, WarSocket& socket);
 	void	ReceiveDisconnect(JBroadcaster* sender, const JBoolean timeout);
 
-	void		ReceiveClientIdentity(const JIndex senderIndex, WarPlayer* sender, istream& input);
+	void		ReceiveClientIdentity(const JIndex senderIndex, WarPlayer* sender, std::istream& input);
 	JBoolean	PlayerNameUsed(const JIndex senderIndex, const WarPlayer& sender) const;
 	void		DeletePlayer(const JIndex index);
-	void		WriteCurrentState(ostream& data, const JIndex excludeIndex) const;
+	void		WriteCurrentState(std::ostream& data, const JIndex excludeIndex) const;
 
 	WarSocket*	GetSender(JBroadcaster* sender, JIndex* senderIndex) const;
 	JBoolean	GetSocket(const JIndex index, WarSocket** socket) const;

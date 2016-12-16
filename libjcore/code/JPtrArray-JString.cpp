@@ -15,10 +15,10 @@
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&			input,
+	std::istream&			input,
 	JPtrArray<JString>&	list
 	)
 {
@@ -49,10 +49,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&					output,
+	std::ostream&					output,
 	const JPtrArray<JString>&	list
 	)
 {
@@ -73,10 +73,10 @@ operator<<
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&				input,
+	std::istream&				input,
 	JStringPtrMap<JString>&	map
 	)
 {
@@ -104,10 +104,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&						output,
+	std::ostream&						output,
 	const JStringPtrMap<JString>&	map
 	)
 {

@@ -122,7 +122,7 @@ WizChatShortcutMenu::Receive
 /******************************************************************************
  InitMenu (private)
 
-	Reads { shortcut <ws> text \n }.  Blank lines are converted to separators.
+	Reads { shortcut <std::ws> text \n }.  Blank lines are converted to separators.
 
  ******************************************************************************/
 
@@ -142,7 +142,7 @@ WizChatShortcutMenu::InitMenu
 	JString fileName;
 	if (WWGetDataFileName(kSetupFileName, &fileName))
 		{
-		ifstream input(fileName);
+		std::ifstream input(fileName);
 
 		JIndex i = 0;
 		JString nmShortcut, text;

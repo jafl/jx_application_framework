@@ -135,7 +135,7 @@ JXWebBrowser::Receive
 void
 JXWebBrowser::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	ReadConfig(input);
@@ -152,7 +152,7 @@ JXWebBrowser::ReadPrefs
 void
 JXWebBrowser::WritePrefs
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const JFileVersion	vers
 	)
 	const

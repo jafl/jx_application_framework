@@ -148,18 +148,18 @@ const JSize kColorTableSize = sizeof(kColorTable)/sizeof(ColorConversion);
 
 // Prototypes
 
-void GenerateForm(istream& input, const JString& formName,
+void GenerateForm(std::istream& input, const JString& formName,
 				  const JString& tagName, const JString& enclName,
 				  const JString& codePath, const JString& stringPath,
 				  const JString& codeSuffix, const JString& headerSuffix,
 				  JPtrArray<JString>* backupList);
 JBoolean ShouldGenerateForm(const JString& form, const JPtrArray<JString>& list);
 JBoolean ShouldBackupForm(const JString& form, JPtrArray<JString>* list);
-void GenerateCode(istream& input, ostream& output, const JString& stringPath,
+void GenerateCode(std::istream& input, std::ostream& output, const JString& stringPath,
 				  const JString& formName, const JString& tagName,
 				  const JString& userTopEnclVarName, const JCharacter* indent,
 				  JPtrArray<JString>* objTypes, JPtrArray<JString>* objNames);
-void GenerateHeader(ostream& output, const JPtrArray<JString>& objTypes,
+void GenerateHeader(std::ostream& output, const JPtrArray<JString>& objTypes,
 					const JPtrArray<JString>& objNames, const JCharacter* indent);
 
 JBoolean ParseGravity(const JString& gravity, JString* hSizing, JString* vSizing);
@@ -169,7 +169,7 @@ JBoolean GetEnclosure(const JArray<JRect>& rectList, const JIndex rectIndex, JIn
 JBoolean GetConstructor(const JString& flClass, const JString& flType,
 						JString* label, JString* className, JString* argList);
 JBoolean SplitClassNameAndArgs(const JString& str, JString* className, JString* args);
-void ApplyOptions(ostream& output, const JString& className,
+void ApplyOptions(std::ostream& output, const JString& className,
 				  const JString& formName, const JString& tagName, const JString& varName,
 				  const JPtrArray<JString>& values, const JString& flSize,
 				  const JString& flStyle, const JString& flColor,
@@ -181,9 +181,9 @@ JBoolean FindClassName(const JString& fileName, const JString& className);
 JBoolean ConvertXFormsFontSize(const JString& flSize, JString* jxSize);
 JBoolean ConvertXFormsColor(const JString& flColor, JString* jxColor);
 
-JBoolean CopyBeforeCodeDelimiter(const JString& tag, istream& input, ostream& output,
+JBoolean CopyBeforeCodeDelimiter(const JString& tag, std::istream& input, std::ostream& output,
 								 JString* indent);
-JBoolean CopyAfterCodeDelimiter(const JString& tag, istream& input, ostream& output);
+JBoolean CopyAfterCodeDelimiter(const JString& tag, std::istream& input, std::ostream& output);
 void RemoveIdentifier(const JCharacter* id, JString* line);
 
 void GetOptions(const JSize argc, char* argv[], JString* inputName,
@@ -235,7 +235,7 @@ main
 
 	JBoolean changed = kJFalse;
 
-	ifstream input(inputName);
+	std::ifstream input(inputName);
 	while (!input.eof() && !input.fail())
 		{
 		const JString line = JReadLine(input);
@@ -280,15 +280,15 @@ main
 				{
 				if (enclName.IsEmpty())
 					{
-					cerr << formName << ", " << tagName;
-					cerr << ": no enclosure specified" << endl;
+					std::cerr << formName << ", " << tagName;
+					std::cerr << ": no enclosure specified" << std::endl;
 					}
 				}
 			else if (!enclName.IsEmpty() && enclName != kDefTopEnclVarName)
 				{
-				cerr << formName << ", " << tagName;
-				cerr << ": not allowed to specify enclosure other than ";
-				cerr << kDefTopEnclVarName << endl;
+				std::cerr << formName << ", " << tagName;
+				std::cerr << ": not allowed to specify enclosure other than ";
+				std::cerr << kDefTopEnclVarName << std::endl;
 				}
 			}
 
@@ -348,7 +348,7 @@ ShouldGenerateForm
 void
 GenerateForm
 	(
-	istream&			input,
+	std::istream&			input,
 	const JString&		formName,
 	const JString&		tagName,
 	const JString&		enclName,
@@ -367,16 +367,16 @@ GenerateForm
 
 	if (!JFileExists(codeFileName))
 		{
-		cerr << codeFileName << " not found" << endl;
+		std::cerr << codeFileName << " not found" << std::endl;
 		return;
 		}
 	if (!JFileExists(headerFileName))
 		{
-		cerr << headerFileName << " not found" << endl;
+		std::cerr << headerFileName << " not found" << std::endl;
 		return;
 		}
 
-	cout << "Generating: " << formName << ", " << tagName << endl;
+	std::cout << "Generating: " << formName << ", " << tagName << std::endl;
 
 	const JBoolean shouldBackup = ShouldBackupForm(formName, backupList);
 
@@ -386,24 +386,24 @@ GenerateForm
 	JError err = JCreateTempFile(codePath, NULL, &tempCodeFileName);
 	if (!err.OK())
 		{
-		cerr << "Unable to create temporary file in " << codePath << endl;
-		cerr << "  (" << err.GetMessage() << ')' << endl;
+		std::cerr << "Unable to create temporary file in " << codePath << std::endl;
+		std::cerr << "  (" << err.GetMessage() << ')' << std::endl;
 		return;
 		}
 
 	JString indent;
 
-	ifstream origCode(codeFileName);
-	ofstream outputCode(tempCodeFileName);
+	std::ifstream origCode(codeFileName);
+	std::ofstream outputCode(tempCodeFileName);
 	if (!outputCode.good())
 		{
-		cerr << "Unable to open temporary file in " << codePath << endl;
+		std::cerr << "Unable to open temporary file in " << codePath << std::endl;
 		remove(tempCodeFileName);
 		return;
 		}
 	if (!CopyBeforeCodeDelimiter(tagName, origCode, outputCode, &indent))
 		{
-		cerr << "No starting delimiter in " << codeFileName << endl;
+		std::cerr << "No starting delimiter in " << codeFileName << std::endl;
 		outputCode.close();
 		remove(tempCodeFileName);
 		return;
@@ -424,13 +424,13 @@ GenerateForm
 
 	if (!done)
 		{
-		cerr << "No ending delimiter in " << codeFileName << endl;
+		std::cerr << "No ending delimiter in " << codeFileName << std::endl;
 		remove(tempCodeFileName);
 		return;
 		}
 	else if (shouldBackup && rename(codeFileName, codeFileBakName) != 0)
 		{
-		cerr << "Unable to rename original " << codeFileName << endl;
+		std::cerr << "Unable to rename original " << codeFileName << std::endl;
 		remove(tempCodeFileName);
 		return;
 		}
@@ -443,22 +443,22 @@ GenerateForm
 	err = JCreateTempFile(codePath, NULL, &tempHeaderFileName);
 	if (!err.OK())
 		{
-		cerr << "Unable to create temporary file in " << codePath << endl;
-		cerr << "  (" << err.GetMessage() << ')' << endl;
+		std::cerr << "Unable to create temporary file in " << codePath << std::endl;
+		std::cerr << "  (" << err.GetMessage() << ')' << std::endl;
 		return;
 		}
 
-	ifstream origHeader(headerFileName);
-	ofstream outputHeader(tempHeaderFileName);
+	std::ifstream origHeader(headerFileName);
+	std::ofstream outputHeader(tempHeaderFileName);
 	if (!outputHeader.good())
 		{
-		cerr << "Unable to open temporary file in " << codePath << endl;
+		std::cerr << "Unable to open temporary file in " << codePath << std::endl;
 		remove(tempHeaderFileName);
 		return;
 		}
 	if (!CopyBeforeCodeDelimiter(tagName, origHeader, outputHeader, &indent))
 		{
-		cerr << "No starting delimiter in " << headerFileName << endl;
+		std::cerr << "No starting delimiter in " << headerFileName << std::endl;
 		outputHeader.close();
 		remove(tempHeaderFileName);
 		return;
@@ -476,7 +476,7 @@ GenerateForm
 
 	if (!done)
 		{
-		cerr << "No ending delimiter in " << headerFileName << endl;
+		std::cerr << "No ending delimiter in " << headerFileName << std::endl;
 		remove(tempHeaderFileName);
 		return;
 		}
@@ -490,7 +490,7 @@ GenerateForm
 		{
 		if (shouldBackup && rename(headerFileName, headerFileBakName) != 0)
 			{
-			cerr << "Unable to rename original " << headerFileName << endl;
+			std::cerr << "Unable to rename original " << headerFileName << std::endl;
 			remove(tempHeaderFileName);
 			return;
 			}
@@ -545,8 +545,8 @@ ShouldBackupForm
 void
 GenerateCode
 	(
-	istream&			input,
-	ostream&			output,
+	std::istream&			input,
+	std::ostream&			output,
 	const JString&		stringPath,
 	const JString&		formName,
 	const JString&		tagName,
@@ -560,7 +560,7 @@ JIndex i;
 
 	// width
 
-	input >> ws;
+	input >> std::ws;
 	JString line = JReadUntilws(input);
 	assert( line == kFormWidthMarker );
 	JSize formWidth;
@@ -568,7 +568,7 @@ JIndex i;
 
 	// height
 
-	input >> ws;
+	input >> std::ws;
 	line = JReadUntilws(input);
 	assert( line == kFormHeightMarker );
 	JSize formHeight;
@@ -576,7 +576,7 @@ JIndex i;
 
 	// object count (marker contains whitespace)
 
-	input >> ws;
+	input >> std::ws;
 	line = JReadUntil(input, ':') + ":";
 	assert( line == kFormObjCountMarker );
 	JSize itemCount;
@@ -594,9 +594,9 @@ JIndex i;
 
 		output << indent << "JXWindow* window = jnew JXWindow(this, ";
 		output << formWidth << ',' << formHeight;
-		output << ", \"\");" << endl;
-		output << indent << "assert( window != NULL );" << endl;
-		output << endl;
+		output << ", \"\");" << std::endl;
+		output << indent << "assert( window != NULL );" << std::endl;
+		output << std::endl;
 		}
 	else
 		{
@@ -607,13 +607,13 @@ JIndex i;
 		topEnclFrameName.Print(output);
 		output << "    = ";
 		topEnclVarName.Print(output);
-		output << "->GetFrame();" << endl;
+		output << "->GetFrame();" << std::endl;
 
 		output << indent << "const JRect ";
 		topEnclApName.Print(output);
 		output << " = ";
 		topEnclVarName.Print(output);
-		output << "->GetAperture();" << endl;
+		output << "->GetAperture();" << std::endl;
 
 		output << indent;
 		topEnclVarName.Print(output);
@@ -621,9 +621,9 @@ JIndex i;
 		topEnclApName.Print(output);
 		output << ".width(), " << formHeight << " - ";
 		topEnclApName.Print(output);
-		output << ".height());" << endl;
+		output << ".height());" << std::endl;
 
-		output << endl;
+		output << std::endl;
 		}
 
 	// We need to calculate the enclosure for each object.  Since objects
@@ -651,7 +651,7 @@ JIndex i;
 		{
 		// check for start-of-object
 
-		input >> ws;
+		input >> std::ws;
 		line = JReadLine(input);
 		assert( line == kBeginObjLine );
 
@@ -667,11 +667,11 @@ JIndex i;
 
 		// object frame
 
-		input >> ws;
+		input >> std::ws;
 		line = JReadUntilws(input);
 		assert( line == kObjRectMarker );
 		JCoordinate x,y,w,h;
-		input >> x >> y >> w >> h >> ws;
+		input >> x >> y >> w >> h >> std::ws;
 		const JRect frame(y, x, y+h, x+w);
 		rectList.AppendElement(frame);
 
@@ -682,7 +682,7 @@ JIndex i;
 
 		// colors
 
-		input >> ws;
+		input >> std::ws;
 		line = JReadUntilws(input);
 		assert( line == kObjColorsMarker );
 		JString col1 = JReadUntilws(input);
@@ -715,7 +715,7 @@ JIndex i;
 
 		// gravity
 
-		input >> ws;
+		input >> std::ws;
 		line = JReadUntilws(input);
 		assert( line == kObjGravityMarker );
 		const JString nwGravity = JReadUntilws(input);
@@ -785,9 +785,9 @@ JIndex i;
 		JString hSizing, vSizing;
 		if (!ParseGravity(nwGravity, &hSizing, &vSizing))
 			{
-			cerr << "Illegal sizing specification ";
-			cerr << nwGravity << ',' << seGravity;
-			cerr << " for '" << *varName << '\'' << endl;
+			std::cerr << "Illegal sizing specification ";
+			std::cerr << nwGravity << ',' << seGravity;
+			std::cerr << " for '" << *varName << '\'' << std::endl;
 			rectList.RemoveElement(objCount);
 			isInstanceVar.RemoveElement(objCount);
 			objNames->DeleteElement(objCount);
@@ -796,7 +796,7 @@ JIndex i;
 
 		if (*varName == topEnclVarName)
 			{
-			cerr << "Cannot use reserved name '" << topEnclVarName << '\'' << endl;
+			std::cerr << "Cannot use reserved name '" << topEnclVarName << '\'' << std::endl;
 			rectList.RemoveElement(objCount);
 			isInstanceVar.RemoveElement(objCount);
 			objNames->DeleteElement(objCount);
@@ -828,7 +828,7 @@ JIndex i;
 		JString argList;
 		if (!GetConstructor(flClass, flType, &label, className, &argList))
 			{
-			cerr << "Unsupported class: " << flClass << ", " << flType << endl;
+			std::cerr << "Unsupported class: " << flClass << ", " << flType << std::endl;
 			rectList.RemoveElement(objCount);
 			isInstanceVar.RemoveElement(objCount);
 			objNames->DeleteElement(objCount);
@@ -847,7 +847,7 @@ JIndex i;
 			output << "* ";
 			}
 		varName->Print(output);
-		output << " =" << endl;
+		output << " =" << std::endl;
 		output << indent << indent;
 		if (!needCreate)
 			{
@@ -896,17 +896,17 @@ JIndex i;
 			}
 
 		enclName.Print(output);
-		output << ',' << endl;
+		output << ',' << std::endl;
 		output << indent << indent << indent << indent << indent << "JXWidget::";
 		hSizing.Print(output);
 		output << ", JXWidget::";
 		vSizing.Print(output);
 		output << ", " << localFrame.left << ',' << localFrame.top << ", ";
-		output << localFrame.width() << ',' << localFrame.height() << ");" << endl;
+		output << localFrame.width() << ',' << localFrame.height() << ");" << std::endl;
 
 		output << indent << "assert( ";
 		varName->Print(output);
-		output << " != NULL );" << endl;
+		output << " != NULL );" << std::endl;
 
 		ApplyOptions(output, *className, formName, tagName, *varName, optionValues,
 					 lSize, lStyle, lColor, indent, &stringMgr);
@@ -916,10 +916,10 @@ JIndex i;
 			{
 			output << indent;
 			varName->Print(output);
-			output << "->SetToLabel();" << endl;
+			output << "->SetToLabel();" << std::endl;
 			}
 
-		output << endl;
+		output << std::endl;
 
 		// now we know the object is valid
 
@@ -938,7 +938,7 @@ JIndex i;
 	if (stringMgr.GetElementCount() > 0)
 		{
 		JEditVCS(dbFileName);
-		ofstream dbOutput(dbFileName);
+		std::ofstream dbOutput(dbFileName);
 		stringMgr.WriteFile(dbOutput);
 		}
 	else
@@ -957,8 +957,8 @@ JIndex i;
 		topEnclFrameName.Print(output);
 		output << ".width(), ";
 		topEnclFrameName.Print(output);
-		output << ".height());" << endl;
-		output << endl;
+		output << ".height());" << std::endl;
+		output << std::endl;
 		}
 
 	// throw away temporary variables
@@ -985,7 +985,7 @@ JIndex i;
 void
 GenerateHeader
 	(
-	ostream&					output,
+	std::ostream&					output,
 	const JPtrArray<JString>&	objTypes,
 	const JPtrArray<JString>&	objNames,
 	const JCharacter*			indent
@@ -1022,12 +1022,12 @@ GenerateHeader
 			output << ' ';
 			}
 		(objNames.NthElement(i))->Print(output);
-		output << ';' << endl;
+		output << ';' << std::endl;
 		}
 
 	// need blank line to conform to expectations of CopyAfterCodeDelimiter
 
-	output << endl;
+	output << std::endl;
 }
 
 /******************************************************************************
@@ -1193,8 +1193,8 @@ GetConstructor
 		return ok;
 		}
 
-	ifstream classMap(classMapFile);
-	classMap >> ws;
+	std::ifstream classMap(classMapFile);
+	classMap >> std::ws;
 	while (1)
 		{
 		if (classMap.peek() == '#')
@@ -1220,7 +1220,7 @@ GetConstructor
 				JIgnoreLine(classMap);
 				}
 			}
-		classMap >> ws;
+		classMap >> std::ws;
 		}
 
 	// falling through means that nothing matched
@@ -1256,7 +1256,7 @@ SplitClassNameAndArgs
 		}
 	else if (hasArgs && i == 1)
 		{
-		cerr << "No class name in " << str << endl;
+		std::cerr << "No class name in " << str << std::endl;
 		name->Clear();
 		args->Clear();
 		return kJFalse;
@@ -1288,7 +1288,7 @@ SplitClassNameAndArgs
 void
 ApplyOptions
 	(
-	ostream&					output,
+	std::ostream&					output,
 	const JString&				className,
 	const JString&				formName,
 	const JString&				tagName,
@@ -1301,8 +1301,8 @@ ApplyOptions
 	JStringManager*				stringMgr
 	)
 {
-	ifstream optionMap(optionMapFile);
-	optionMap >> ws;
+	std::ifstream optionMap(optionMapFile);
+	optionMap >> std::ws;
 	while (1)
 		{
 		if (optionMap.peek() == '#')
@@ -1330,10 +1330,10 @@ ApplyOptions
 
 				// shortcuts
 
-				optionMap >> ws >> supported;
+				optionMap >> std::ws >> supported;
 				if (supported)
 					{
-					optionMap >> ws;
+					optionMap >> std::ws;
 					const JString function = JReadUntilws(optionMap);
 					const JString* value   = values.NthElement(kShortcutsIndex);
 					if (!value->IsEmpty())
@@ -1350,7 +1350,7 @@ ApplyOptions
 						function.Print(output);
 						output << "(JGetString(\"";
 						id.Print(output);
-						output << "\"));" << endl;
+						output << "\"));" << std::endl;
 
 						JString* s = jnew JString(*value);
 						assert( s != NULL );
@@ -1366,10 +1366,10 @@ ApplyOptions
 
 				for (i=2; i<=kOptionCount; i++)
 					{
-					optionMap >> ws >> supported;
+					optionMap >> std::ws >> supported;
 					if (supported)
 						{
-						optionMap >> ws;
+						optionMap >> std::ws;
 						const JString defValue = JReadUntilws(optionMap);
 						const JString function = JReadUntilws(optionMap);
 						const JString* value   = values.NthElement(i);
@@ -1384,11 +1384,11 @@ ApplyOptions
 								function.Print(output);
 								output << '(';
 								jxColor.Print(output);
-								output << ");" << endl;
+								output << ");" << std::endl;
 								}
 							else
 								{
-								cerr << "Unknown color: " << *value << endl;
+								std::cerr << "Unknown color: " << *value << std::endl;
 								}
 							}
 						}
@@ -1399,7 +1399,7 @@ ApplyOptions
 					}
 				}
 			}
-		optionMap >> ws;
+		optionMap >> std::ws;
 		}
 
 	// For some objects, we have to decode the XForms font spec.
@@ -1411,13 +1411,13 @@ ApplyOptions
 			{
 			output << indent;
 			varName.Print(output);
-			output << "->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());" << endl;
+			output << "->SetFont(JGetMonospaceFontName(), kJDefaultMonoFontSize, JFontStyle());" << std::endl;
 			}
 		else if (flStyle.Contains("TIMES"))
 			{
 			output << indent;
 			varName.Print(output);
-			output << "->SetFontName(\"Times\");" << endl;
+			output << "->SetFontName(\"Times\");" << std::endl;
 			}
 
 		if (flSize != "FL_NORMAL_SIZE")
@@ -1429,11 +1429,11 @@ ApplyOptions
 				varName.Print(output);
 				output << "->SetFontSize(";
 				jxSize.Print(output);
-				output << ");" << endl;
+				output << ");" << std::endl;
 				}
 			else
 				{
-				cerr << "Unknown font size: " << flSize << endl;
+				std::cerr << "Unknown font size: " << flSize << std::endl;
 				}
 			}
 
@@ -1475,17 +1475,17 @@ ApplyOptions
 
 				output << "0, kJFalse, ";
 				jxColor.Print(output);
-				output << ");" << endl;
+				output << ");" << std::endl;
 
 				output << indent;
 				varName.Print(output);
 				output << "->SetFontStyle(";
 				varName.Print(output);
-				output << "_style);" << endl;
+				output << "_style);" << std::endl;
 				}
 			else
 				{
-				cerr << "Unknown color: " << flColor << endl;
+				std::cerr << "Unknown color: " << flColor << std::endl;
 				}
 			}
 		}
@@ -1554,8 +1554,8 @@ FindClassName
 	const JString& className
 	)
 {
-	ifstream list(fileName);
-	list >> ws;
+	std::ifstream list(fileName);
+	list >> std::ws;
 	while (!list.eof() && !list.fail())
 		{
 		if (list.peek() == '#')
@@ -1570,7 +1570,7 @@ FindClassName
 				return kJTrue;
 				}
 			}
-		list >> ws;
+		list >> std::ws;
 		}
 
 	// falling through means that nothing matched
@@ -1635,8 +1635,8 @@ JBoolean
 CopyBeforeCodeDelimiter
 	(
 	const JString&	tag,
-	istream&		input,
-	ostream&		output,
+	std::istream&		input,
+	std::ostream&		output,
 	JString*		indent
 	)
 {
@@ -1677,8 +1677,8 @@ JBoolean
 CopyAfterCodeDelimiter
 	(
 	const JString&	tag,
-	istream&		input,
-	ostream&		output
+	std::istream&		input,
+	std::ostream&		output
 	)
 {
 	const JString delim = kEndCodeDelimiterPrefix + tag;
@@ -1702,7 +1702,7 @@ CopyAfterCodeDelimiter
 	// include end delimiter
 
 	delim.Print(output);
-	output << endl;
+	output << std::endl;
 
 	// copy lines after end delimiter
 
@@ -1714,7 +1714,7 @@ CopyAfterCodeDelimiter
 			break;	// avoid creating extra empty lines
 			}
 		line.Print(output);
-		output << endl;
+		output << std::endl;
 		}
 
 	return kJTrue;
@@ -1793,7 +1793,7 @@ GetOptions
 			JAppendDirSeparator(codePath);
 			if (!JDirectoryExists(*codePath))
 				{
-				cerr << argv[0] << ": specified code path does not exist" << endl;
+				std::cerr << argv[0] << ": specified code path does not exist" << std::endl;
 				exit(1);
 				}
 			}
@@ -1815,7 +1815,7 @@ GetOptions
 			JAppendDirSeparator(stringPath);
 			if (!JDirectoryExists(*stringPath))
 				{
-				cerr << argv[0] << ": specified string database path does not exist" << endl;
+				std::cerr << argv[0] << ": specified string database path does not exist" << std::endl;
 				exit(1);
 				}
 			}
@@ -1833,7 +1833,7 @@ GetOptions
 
 		else if (argv[index][0] == '-')
 			{
-			cerr << argv[0] << ": unknown command line option: " << argv[index] << endl;
+			std::cerr << argv[0] << ": unknown command line option: " << argv[index] << std::endl;
 			}
 
 		else if (inputName->IsEmpty())
@@ -1842,7 +1842,7 @@ GetOptions
 			const JSize length = inputName->GetLength();
 			if (!inputName->EndsWith(".fd"))
 				{
-				cerr << argv[0] << ": not an fdesign (.fd) file: " << argv[index] << endl;
+				std::cerr << argv[0] << ": not an fdesign (.fd) file: " << argv[index] << std::endl;
 				exit(1);
 				}
 			}
@@ -1859,22 +1859,22 @@ GetOptions
 
 	if (inputName->IsEmpty())
 		{
-		cerr << argv[0] << ": fdesign input file not specified" << endl;
+		std::cerr << argv[0] << ": fdesign input file not specified" << std::endl;
 		exit(1);
 		}
 	if (!JFileExists(*inputName))
 		{
-		cerr << argv[0] << ": fdesign input file not found" << endl;
+		std::cerr << argv[0] << ": fdesign input file not found" << std::endl;
 		exit(1);
 		}
 	if (!JDirectoryExists(*codePath))
 		{
-		cerr << argv[0] << ": source code directory does not exist" << endl;
+		std::cerr << argv[0] << ": source code directory does not exist" << std::endl;
 		exit(1);
 		}
 	if (!JDirectoryExists(*stringPath))
 		{
-		cerr << argv[0] << ": directory for string data files does not exist" << endl;
+		std::cerr << argv[0] << ": directory for string data files does not exist" << std::endl;
 		exit(1);
 		}
 
@@ -1904,9 +1904,9 @@ PickForms
 {
 	JPtrArray<JString> all(JPtrArrayT::kDeleteAll);
 	JSize count = 0;
-	cout << endl;
+	std::cout << std::endl;
 
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 	while (!input.eof() && !input.fail())
 		{
 		const JString line = JReadLine(input);
@@ -1917,18 +1917,18 @@ PickForms
 			RemoveIdentifier(kFormNameMarker, formName);
 			all.Append(formName);
 			count++;
-			cout << count << ") " << *formName << endl;
+			std::cout << count << ") " << *formName << std::endl;
 			}
 		}
 	input.close();
 
-	cout << endl;
+	std::cout << std::endl;
 
 	while (1)
 		{
 		JIndex choice;
-		cout << "Form to include (0 to end): ";
-		cin >> choice;
+		std::cout << "Form to include (0 to end): ";
+		std::cin >> choice;
 		JInputFinished();
 
 		if (choice == 0 && list->IsEmpty())
@@ -1941,7 +1941,7 @@ PickForms
 			}
 		else if (choice > count)
 			{
-			cout << "That is not a valid choice" << endl;
+			std::cout << "That is not a valid choice" << std::endl;
 			}
 		else
 			{
@@ -1995,9 +1995,9 @@ FindConfigFile
 			}
 		}
 
-	cerr << "Unable to find " << *configFileName << endl;
-	cerr << "  please install it in " << kMainConfigFileDir << endl;
-	cerr << "  or setenv " << kEnvUserConfigFileDir << " to point to it" << endl;
+	std::cerr << "Unable to find " << *configFileName << std::endl;
+	std::cerr << "  please install it in " << kMainConfigFileDir << std::endl;
+	std::cerr << "  or setenv " << kEnvUserConfigFileDir << " to point to it" << std::endl;
 	return kJFalse;
 }
 
@@ -2015,39 +2015,39 @@ PrintHelp
 	const JString& stringPath
 	)
 {
-	cout << endl;
-	cout << "This program generates subclasses of JXWindowDirector from" << endl;
-	cout << "the forms stored in an fdesign .fd file." << endl;
-	cout << endl;
-	cout << "The source and header files are assumed to have the same" << endl;
-	cout << "name as the associated form.  Everything delimited by" << endl;
-	cout << endl;
-	cout << "    // begin JXLayout" << endl;
-	cout << "    // end JXLayout" << endl;
-	cout << endl;
-	cout << "will be replaced." << endl;
-	cout << endl;
-	cout << "FL_BOX objects with type NO_BOX count as overloaded objects." << endl;
-	cout << "The label will be used as the class name.  Extra arguments" << endl;
-	cout << "can be included as follows:  'MyWidget(arg1,arg2,'" << endl;
-	cout << "and the standard arguments will be appended at the end." << endl;
-	cout << endl;
-	cout << "Named objects will be instantiated in the header file." << endl;
-	cout << "To designate it as a local variable, put () around it." << endl;
-	cout << "To designate it as a variable that is defined elsewhere in" << endl;
-	cout << "the function, put <> around it." << endl;
-	cout << endl;
-	cout << "Usage:  <options> <fdesign file> <forms to generate>" << endl;
-	cout << endl;
-	cout << "-h          prints help" << endl;
-	cout << "-v          prints version information" << endl;
-	cout << "-cp         <code path>     - default: " << codePath << endl;
-	cout << "-cs         <code suffix>   - default: " << codeSuffix << endl;
-	cout << "-hs         <header suffix> - default: " << headerSuffix << endl;
-	cout << "-sp         <string path>   - default: " << stringPath << endl;
-	cout << "--choose    interactively choose the forms to generate" << endl;
-	cout << "--post-cmd  <cmd> - command to exec after all files have been modified" << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << "This program generates subclasses of JXWindowDirector from" << std::endl;
+	std::cout << "the forms stored in an fdesign .fd file." << std::endl;
+	std::cout << std::endl;
+	std::cout << "The source and header files are assumed to have the same" << std::endl;
+	std::cout << "name as the associated form.  Everything delimited by" << std::endl;
+	std::cout << std::endl;
+	std::cout << "    // begin JXLayout" << std::endl;
+	std::cout << "    // end JXLayout" << std::endl;
+	std::cout << std::endl;
+	std::cout << "will be replaced." << std::endl;
+	std::cout << std::endl;
+	std::cout << "FL_BOX objects with type NO_BOX count as overloaded objects." << std::endl;
+	std::cout << "The label will be used as the class name.  Extra arguments" << std::endl;
+	std::cout << "can be included as follows:  'MyWidget(arg1,arg2,'" << std::endl;
+	std::cout << "and the standard arguments will be appended at the end." << std::endl;
+	std::cout << std::endl;
+	std::cout << "Named objects will be instantiated in the header file." << std::endl;
+	std::cout << "To designate it as a local variable, put () around it." << std::endl;
+	std::cout << "To designate it as a variable that is defined elsewhere in" << std::endl;
+	std::cout << "the function, put <> around it." << std::endl;
+	std::cout << std::endl;
+	std::cout << "Usage:  <options> <fdesign file> <forms to generate>" << std::endl;
+	std::cout << std::endl;
+	std::cout << "-h          prints help" << std::endl;
+	std::cout << "-v          prints version information" << std::endl;
+	std::cout << "-cp         <code path>     - default: " << codePath << std::endl;
+	std::cout << "-cs         <code suffix>   - default: " << codeSuffix << std::endl;
+	std::cout << "-hs         <header suffix> - default: " << headerSuffix << std::endl;
+	std::cout << "-sp         <string path>   - default: " << stringPath << std::endl;
+	std::cout << "--choose    interactively choose the forms to generate" << std::endl;
+	std::cout << "--post-cmd  <cmd> - command to exec after all files have been modified" << std::endl;
+	std::cout << std::endl;
 }
 
 /******************************************************************************
@@ -2058,7 +2058,7 @@ PrintHelp
 void
 PrintVersion()
 {
-	cout << endl;
-	cout << kVersionStr << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << kVersionStr << std::endl;
+	std::cout << std::endl;
 }

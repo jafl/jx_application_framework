@@ -45,7 +45,7 @@ FFNetwork::FFNetwork
 
 FFNetwork::FFNetwork
 	(
-	istream& input
+	std::istream& input
 	)
 {
 JIndex i;
@@ -328,7 +328,7 @@ FFNetwork::Learn
 	const JMatrix*	correctTestOutput,
 	JFloat*			trainError,
 	JFloat*			testError,
-	ostream*		logFile
+	std::ostream*		logFile
 	)
 {
 	// create space for dw's (we do this once because it's a lot of work)
@@ -425,7 +425,7 @@ FFNetwork::DisplayPerformance
 	const JMatrix*		testInput,
 	const JMatrix*		correctTestOutput,
 	JFloat*				testError,
-	ostream*			logFile
+	std::ostream*			logFile
 	)
 	const
 {
@@ -459,7 +459,7 @@ FFNetwork::DisplayPerformance
 
 	if (logFile != NULL)
 		{
-		*logFile << endl;
+		*logFile << std::endl;
 		}
 
 	return pg.IncrementProgress(pgStr);
@@ -772,7 +772,7 @@ FFNetwork::RandomizeWeights
 void
 FFNetwork::PrintWeights
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -780,8 +780,8 @@ FFNetwork::PrintWeights
 		{
 		JMatrix* weights = itsWeights->NthElement(i);
 
-		output << "Layer " << i << ':' << endl;
-		output << *weights << endl << endl;
+		output << "Layer " << i << ':' << std::endl;
+		output << *weights << std::endl << std::endl;
 		}
 }
 
@@ -847,7 +847,7 @@ FFNetwork::RemoveOffsetUnit
 void
 FFNetwork::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

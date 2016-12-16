@@ -96,6 +96,7 @@ test:
 #
 
 PERSONAL_PROGS := \
+    makemake compile_jstrings jxlayout webgif \
     code_crusader code_medic code_mill \
     drakon leibnitz systemg ssh_askpass \
     jx_project_wizard jx_memory_debugger

@@ -37,7 +37,7 @@ SCDirectorBase::SCDirectorBase
 
 SCDirectorBase::SCDirectorBase
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	SCCircuitDocument*	supervisor
 	)
@@ -102,7 +102,7 @@ SCDirectorBase::GetVarList()
 SCDirectorBase*
 SCDirectorBase::StreamIn
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	SCCircuitDocument*	supervisor
 	)
@@ -149,10 +149,10 @@ SCDirectorBase::StreamIn
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&				input,
+	std::istream&				input,
 	SCDirectorBase::Type&	type
 	)
 {
@@ -165,10 +165,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&					output,
+	std::ostream&					output,
 	const SCDirectorBase::Type	type
 	)
 {

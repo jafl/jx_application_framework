@@ -17,9 +17,9 @@ class CBPHPTreeDirector : public CBTreeDirector
 public:
 
 	CBPHPTreeDirector(CBProjectDocument* supervisor);
-	CBPHPTreeDirector(istream& projInput, const JFileVersion projVers,
-					  istream* setInput, const JFileVersion setVers,
-					  istream* symInput, const JFileVersion symVers,
+	CBPHPTreeDirector(std::istream& projInput, const JFileVersion projVers,
+					  std::istream* setInput, const JFileVersion setVers,
+					  std::istream* symInput, const JFileVersion symVers,
 					  CBProjectDocument* supervisor, const JBoolean subProject);
 
 	virtual ~CBPHPTreeDirector();
@@ -40,9 +40,9 @@ private:
 	void	CBPHPTreeDirectorX();
 
 	static CBTree*	NewPHPTree(CBTreeDirector* director, const JSize marginWidth);
-	static CBTree*	StreamInPHPTree(istream& projInput, const JFileVersion projVers,
-									istream* setInput, const JFileVersion setVers,
-									istream* symInput, const JFileVersion symVers,
+	static CBTree*	StreamInPHPTree(std::istream& projInput, const JFileVersion projVers,
+									std::istream* setInput, const JFileVersion setVers,
+									std::istream* symInput, const JFileVersion symVers,
 									CBTreeDirector* director,
 									const JSize marginWidth, CBDirList* dirList);
 	static void		InitPHPTreeToolBar(JXToolBar* toolBar, JXTextMenu* treeMenu);

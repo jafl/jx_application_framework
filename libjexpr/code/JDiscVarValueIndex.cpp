@@ -128,7 +128,7 @@ JDiscVarValueIndex::Evaluate
 void
 JDiscVarValueIndex::Print
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

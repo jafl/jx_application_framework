@@ -249,7 +249,7 @@ CBDirList::Contains
 void
 CBDirList::ReadDirectories
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -257,7 +257,7 @@ CBDirList::ReadDirectories
 
 	if (vers >= 71)
 		{
-		input >> ws;
+		input >> std::ws;
 		JIgnoreLine(input);
 		}
 
@@ -295,7 +295,7 @@ CBDirList::ReadDirectories
 void
 CBDirList::ReadDirectory
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -318,7 +318,7 @@ CBDirList::ReadDirectory
 void
 CBDirList::WriteDirectories
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

@@ -178,7 +178,7 @@ JXToolBarEditDir::BuildWindow()
 void
 JXToolBarEditDir::ReadSetup
 	(
-	istream& is
+	std::istream& is
 	)
 {
 	JCoordinate version;
@@ -195,7 +195,7 @@ JXToolBarEditDir::ReadSetup
 void
 JXToolBarEditDir::WriteSetup
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	os << ' ' << kCurrentPrefsVersion << ' ';

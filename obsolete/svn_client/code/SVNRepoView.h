@@ -57,9 +57,9 @@ public:
 	virtual JBoolean	CanCheckOutSelection() const;
 	virtual void		CheckOutSelection();
 
-	static void	SkipSetup(istream& input, JFileVersion vers);
-	void		ReadSetup(const JBoolean hadSetup, istream& input, JFileVersion vers);
-	void		WriteSetup(ostream& output) const;
+	static void	SkipSetup(std::istream& input, JFileVersion vers);
+	void		ReadSetup(const JBoolean hadSetup, std::istream& input, JFileVersion vers);
+	void		WriteSetup(std::ostream& output) const;
 
 	virtual JBoolean	IsEditable(const JPoint& cell) const;
 	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers);

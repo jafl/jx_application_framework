@@ -275,7 +275,7 @@ CBTextDocument::CBTextDocument
 
 CBTextDocument::CBTextDocument
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	JBoolean*			keep
 	)
@@ -1351,7 +1351,7 @@ CBTextDocument::ReadFile
 
 	if (firstTime)
 		{
-//		cout << fileName << endl;
+//		std::cout << fileName << std::endl;
 		itsTextEditor->AnalyzeWhitespace(itsTextEditor->GetTabCharCount());
 
 		JPtrArray<JString> safetyFilesToOpen(JPtrArrayT::kDeleteAll);
@@ -1378,7 +1378,7 @@ CBTextDocument::ReadFile
 void
 CBTextDocument::WriteTextFile
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const JBoolean	safetySave
 	)
 	const
@@ -1411,7 +1411,7 @@ CBTextDocument::WriteTextFile
 JBoolean
 CBTextDocument::ReadFromProject
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -1535,7 +1535,7 @@ CBTextDocument::ReadFromProject
 void
 CBTextDocument::WriteForProject
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -1585,7 +1585,7 @@ CBTextDocument::WriteForProject
 void
 CBTextDocument::ReadStaticGlobalPrefs
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -1628,7 +1628,7 @@ CBTextDocument::ReadStaticGlobalPrefs
 void
 CBTextDocument::WriteStaticGlobalPrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 	output << ' ' << JXFileDocument::WillAskOKToClose();
@@ -2329,7 +2329,7 @@ CBTextDocument::EditPrefs()
 void
 CBTextDocument::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	assert( itsTextEditor != NULL );
@@ -2370,7 +2370,7 @@ CBTextDocument::ReadPrefs
 void
 CBTextDocument::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

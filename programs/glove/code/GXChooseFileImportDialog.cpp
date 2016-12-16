@@ -135,7 +135,7 @@ GXChooseFileImportDialog::BuildWindow
 	ListenTo(itsFilterMenu);
 	ListenTo(itsReloadButton);
 
-	ifstream is(filename);
+	std::ifstream is(filename);
 	JString text;
 	text.Read(is, kFileByteCount);
 
@@ -224,7 +224,7 @@ GXChooseFileImportDialog::GetFileText()
 void
 GXChooseFileImportDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JIndex id;
@@ -256,7 +256,7 @@ GXChooseFileImportDialog::ReadPrefs
 void
 GXChooseFileImportDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

@@ -702,7 +702,7 @@ JPartition::PTBoundsChanged()
 void
 JPartition::ReadGeometry
 	(
-	istream& input
+	std::istream& input
 	)
 {
 JIndex i;
@@ -762,7 +762,7 @@ JIndex i;
 void
 JPartition::WriteGeometry
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

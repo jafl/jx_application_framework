@@ -62,8 +62,8 @@ private:
 	JBoolean	ReadSetup();
 	void		WriteSetup();
 
-	void		ReadSetup(istream& input);
-	void		WriteSetup(ostream& output) const;
+	void		ReadSetup(std::istream& input);
+	void		WriteSetup(std::ostream& output) const;
 
 	// not allowed
 

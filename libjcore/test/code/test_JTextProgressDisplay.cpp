@@ -36,7 +36,7 @@ main
 	pg.ProcessFinished();
 
 	JString timeString = timer.PrintTimeInterval();
-	cout << timeString;
+	std::cout << timeString;
 
 	pg.VariableLengthProcessBeginning("Processing examples...", kJTrue, kJFalse);
 

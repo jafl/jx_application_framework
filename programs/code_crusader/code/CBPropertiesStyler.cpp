@@ -115,7 +115,7 @@ CBPropertiesStyler::~CBPropertiesStyler()
 void
 CBPropertiesStyler::Scan
 	(
-	istream&			input,
+	std::istream&			input,
 	const TokenExtra&	initData
 	)
 {

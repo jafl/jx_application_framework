@@ -32,8 +32,8 @@ public:
 	const JString&	GetDestination() const;
 	void			SetDestination(const JCharacter* dest);
 
-	void		ReadSetup(istream& input);
-	void		WriteSetup(ostream& output) const;
+	void		ReadSetup(std::istream& input);
+	void		WriteSetup(std::ostream& output) const;
 
 private:
 

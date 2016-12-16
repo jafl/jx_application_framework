@@ -17,7 +17,7 @@ public:
 	CBPHPClass(const JCharacter* name, const DeclareType declType,
 			   const JFAID_t fileID, CBTree* tree,
 			   const JBoolean isFinal);
-	CBPHPClass(istream& input, const JFileVersion vers, CBTree* tree);
+	CBPHPClass(std::istream& input, const JFileVersion vers, CBTree* tree);
 
 	virtual ~CBPHPClass();
 
@@ -34,7 +34,7 @@ public:
 	virtual JBoolean	IsInherited(const JIndex index, const InheritType inherit,
 									FnAccessLevel* access) const;
 
-	virtual void	StreamOut(ostream& output) const;
+	virtual void	StreamOut(std::ostream& output) const;
 
 	static JString	RemoveNamespace(const JCharacter* name);
 

@@ -40,6 +40,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	*** Removed JCreateBuffer() - Run out of memory?  Seriously?
 //	*** Moved JSubset, JProbDistr, J*Histogram to misc/jextra.
 //	*** Updated JIntRange to match JIndexRange API.
+//	*** Removed using statements from jTypes.h & jFStreamUtil.h
+//		You should use the std:: prefix explicitly.
 
 // version 3.2.0:
 //	jMountUtil:
@@ -952,7 +954,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Added JStripTrailingDirSeparator() and JIsRootDirectory().
 //	jFStreamUtil:
 //		Removed JOpen/CloseScratchFile() because they cannot be implemented with
-//			the latest draft specification of fstream.
+//			the latest draft specification of std::fstream.
 //	JUNIXDirInfo:
 //		Moved static version of MatchesContentFilter() to JUNIXDirEntry.
 //			This function now returns kJFalse if the entry is not a file.
@@ -1323,8 +1325,8 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //			accepts the change instead of the total.
 //		Made GetCurrentStepCount() public.
 //	JPtrArray-JString:
-//		istream& operator>>(istream&, JPtrArray<JString>&)
-//		ostream& operator<<(ostream&, const JPtrArray<JString>&)
+//		std::istream& operator>>(std::istream&, JPtrArray<JString>&)
+//		std::ostream& operator<<(std::ostream&, const JPtrArray<JString>&)
 
 // version 1.1.12:
 //	*** The default is now for all child processes inside JProcess objects
@@ -1691,7 +1693,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 
 // version 1.1.5:
 //	JMatrix:
-//		operator>> sets ios::failbit instead of using assert() if the data
+//		operator>> sets std::ios::failbit instead of using assert() if the data
 //			is corrupted.
 //	JTextEditor:
 //		Added SearchForward() and SearchBackward().
@@ -1716,7 +1718,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Added version of JIgnoreUntil() that accepts a string as a delimiter.
 //	JString:
 //		Changed TrimSpaces() to TrimWhitespace().
-//		operator>> sets ios::failbit instead of using assert() if it cannot
+//		operator>> sets std::ios::failbit instead of using assert() if it cannot
 //			find the initial double quote.
 //		Removed kJStringPrefix and kJStringSuffix because they are too dangerous.
 //	JTextEditor:
@@ -1728,7 +1730,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JRunArray:
 //		Added SetBlockSize().
 //	JBoolean:
-//		operator>> sets ios::failbit instead of using assert() if it reads
+//		operator>> sets std::ios::failbit instead of using assert() if it reads
 //			an illegal value.
 
 // version 1.1.3:
@@ -1745,7 +1747,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	JPSPrinterBase:
 //		Fonts now use ISOLatin1Encoding instead of StandardEncoding.  This way,
 //			the characters on the screen match the characters that are printed.
-//		Sped up printing by removing all calls to endl.
+//		Sped up printing by removing all calls to std::endl.
 
 // version 1.1.2:
 //	Renamed all utility modules to standardize capitalization:

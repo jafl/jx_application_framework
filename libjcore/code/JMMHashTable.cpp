@@ -125,9 +125,9 @@ JMMHashTable::PrintAllocated
 	)
 	const
 {
-	cout << "\nAllocated block statistics:" << endl;
+	std::cout << "\nAllocated block statistics:" << std::endl;
 
-	cout << "\nAllocated user memory:" << endl;
+	std::cout << "\nAllocated user memory:" << std::endl;
 
 	JConstHashCursor<JMMRecord> cursor(itsAllocatedTable);
 	JSize totalSize = 0;
@@ -141,13 +141,13 @@ JMMHashTable::PrintAllocated
 			}
 		}
 
-	cout << "\nTotal allocated memory:  " << totalSize << " bytes" << endl;
+	std::cout << "\nTotal allocated memory:  " << totalSize << " bytes" << std::endl;
 
 	if (printInternal)
 		{
-		cout << "\nThe following blocks are probably owned by the memory manager"
-			 << "\nand *should* still be allocated--please report all cases of user"
-			 << "\nallocated memory showing up on this list!" << endl;
+		std::cout << "\nThe following blocks are probably owned by the memory manager"
+				  << "\nand *should* still be allocated--please report all cases of user"
+				  << "\nallocated memory showing up on this list!" << std::endl;
 
 		cursor.Reset();
 		while ( cursor.NextFull() )
@@ -169,7 +169,7 @@ JMMHashTable::PrintAllocated
 void
 JMMHashTable::StreamAllocatedForDebug
 	(
-	ostream&							output,
+	std::ostream&							output,
 	const JMemoryManager::RecordFilter&	filter
 	)
 	const
@@ -198,7 +198,7 @@ JMMHashTable::StreamAllocatedForDebug
 void
 JMMHashTable::StreamAllocationSizeHistogram
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

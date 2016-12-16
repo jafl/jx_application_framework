@@ -38,7 +38,7 @@ GMAccount::GMAccount()
 
 GMAccount::GMAccount
 	(
-	istream& is
+	std::istream& is
 	)
 	:
 	itsReadUIDList(NULL)
@@ -240,7 +240,7 @@ GMAccount::InitPOP()
 void
 GMAccount::WritePrefs
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	os << ' ' << kCurrentPrefsVersion << ' ';

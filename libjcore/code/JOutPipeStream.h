@@ -12,7 +12,7 @@
 
 #include <JOutPipeStreambuf.h>
 
-class JOutPipeStream : public ostream
+class JOutPipeStream : public std::ostream
 {
 public:
 

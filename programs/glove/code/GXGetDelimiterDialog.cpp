@@ -343,7 +343,7 @@ GXGetDelimiterDialog::GetCommentString()
 void
 GXGetDelimiterDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JIndex id;
@@ -389,7 +389,7 @@ GXGetDelimiterDialog::ReadPrefs
 void
 GXGetDelimiterDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

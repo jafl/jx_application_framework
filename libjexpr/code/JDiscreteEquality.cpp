@@ -110,7 +110,7 @@ JDiscreteEquality::Evaluate()
 void
 JDiscreteEquality::Print
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

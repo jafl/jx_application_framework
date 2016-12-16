@@ -40,10 +40,10 @@ CBInstallEmulator
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&	input,
+	std::istream&	input,
 	CBEmulator&	type
 	)
 {
@@ -54,10 +54,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const CBEmulator	type
 	)
 {

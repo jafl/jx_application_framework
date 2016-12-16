@@ -58,8 +58,8 @@ public:
 
 	virtual JXImage*	GetMenuIcon() const;
 
-	void				ReadWindowPrefs(istream& is);
-	void				WriteWindowPrefs(ostream& os);
+	void				ReadWindowPrefs(std::istream& is);
+	void				WriteWindowPrefs(std::ostream& os);
 
 	// The following need to be accessed by GMessageTable
 
@@ -132,7 +132,7 @@ private:
 
 	void		BuildWindow(const JString& mailfile);
 
-	void		SaveSelectedMessages(ostream& os, const JBoolean headers);
+	void		SaveSelectedMessages(std::ostream& os, const JBoolean headers);
 
 	// not allowed
 

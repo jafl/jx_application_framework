@@ -224,7 +224,7 @@ GNBApp::OpenNotebook
 void
 GNBApp::RestoreState
 	(
-	istream& is
+	std::istream& is
 	)
 {
 	JFileVersion version;
@@ -256,7 +256,7 @@ GNBApp::RestoreState
 JBoolean
 GNBApp::SaveState
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	os << ' ' << kCurrentStateVersion << ' ';

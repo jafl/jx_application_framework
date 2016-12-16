@@ -90,7 +90,7 @@ main()
 	gMatchList = jnew JArray<JIndexRange>;
 	assert(gMatchList != NULL);
 
-	cout << "\nJRegex bug check: only errors will be reported, so no news is good news." << endl;
+	std::cout << "\nJRegex bug check: only errors will be reported, so no news is good news." << std::endl;
 
 // Test constructors
 	JRegex *regexList[2];
@@ -619,12 +619,12 @@ main()
 	IntShouldBe(__LINE__, regex.MatchAll(gString, gMatchList), 2);
 	Assert(__LINE__, gMatchList->GetElement(1).Is(5,4));
 	Assert(__LINE__, gMatchList->GetElement(2).Is(10,9));
-cout << "Point 1" << endl;
+std::cout << "Point 1" << std::endl;
 
 	gString = "abc  def";
-cout << "Point 2" << endl;
+std::cout << "Point 2" << std::endl;
 	IntShouldBe(__LINE__, regex.MatchAll(gString, gMatchList), 2);
-cout << "Point 3" << endl;
+std::cout << "Point 3" << std::endl;
 	Assert(__LINE__, gMatchList->GetElement(1).Is(4,3));
 	Assert(__LINE__, gMatchList->GetElement(2).Is(9,8));
 #endif
@@ -646,9 +646,9 @@ cout << "Point 3" << endl;
 	Assert(__LINE__, gString.GetSubstring(gMatchList->GetElement(2)) == "def");
 #endif
 
-	cout << "Bug check complete.\n" << endl;
+	std::cout << "Bug check complete.\n" << std::endl;
 
-	cout << "Feature check\n" << endl;
+	std::cout << "Feature check\n" << std::endl;
 
 
 
@@ -658,7 +658,7 @@ cout << "Point 3" << endl;
 	ShouldSwitch(__LINE__, regex, JRegex::kBasic);
 	Assert(__LINE__, regex.GetDialect() == JRegex::kBasic);
 
-	cout << "Testing basic dialect backrefs" << endl;
+	std::cout << "Testing basic dialect backrefs" << std::endl;
 	ShouldCompile(__LINE__, regex, "\\([bc]\\)\\1"); // Man page example
 	ShouldMatch(__LINE__, regex, "bb", "bb");
 	ShouldMatch(__LINE__, regex, "cc", "cc");
@@ -674,9 +674,9 @@ cout << "Point 3" << endl;
 	ShouldNotMatch(__LINE__, regex, "aaabc");
 	ShouldNotMatch(__LINE__, regex, "ab1");
 	ShouldNotMatch(__LINE__, regex, "aaab1");
-	cout << "If nothing failed, basic expressions have backreferences\n" << endl;
+	std::cout << "If nothing failed, basic expressions have backreferences\n" << std::endl;
 
-	cout << "Testing extended dialect backrefs" << endl;
+	std::cout << "Testing extended dialect backrefs" << std::endl;
 	ShouldSwitch(__LINE__, regex, JRegex::kExtended);
 	Assert(__LINE__, regex.GetDialect() == JRegex::kExtended);
 #endif
@@ -697,9 +697,9 @@ cout << "Point 3" << endl;
 	ShouldNotMatch(__LINE__, regex, "aaabc");
 	ShouldNotMatch(__LINE__, regex, "ab1");
 	ShouldNotMatch(__LINE__, regex, "aaab1");
-	cout << "If nothing failed, extended expressions have backreferences\n" << endl;
+	std::cout << "If nothing failed, extended expressions have backreferences\n" << std::endl;
 
-	cout << "Feature check complete" << endl;
+	std::cout << "Feature check complete" << std::endl;
 
 	jdelete gMatchList;
 
@@ -722,9 +722,9 @@ ShouldCompile
 	JError error = regex.SetPattern(pattern);
 	if ( !error.OK() )
 		{
-		cout << "   Line " << LINE << ": pattern '" << pattern
-			 << "' incorrectly failed to compile: " << error.GetType()
-			 << ", " << error.GetMessage() << endl;
+		std::cout << "   Line " << LINE << ": pattern '" << pattern
+				  << "' incorrectly failed to compile: " << error.GetType()
+				  << ", " << error.GetMessage() << std::endl;
 		}
 	regex.GetPattern(&gPattern, &gLength); // Saving pointer to internal data, dangerous
 	Assert(LINE, gPattern == regex.GetPattern() );
@@ -747,8 +747,8 @@ ShouldNotCompile
 {
 	if (regex.SetPattern(pattern).OK())
 		{
-		cout << "   Line " << LINE << ": pattern '" << pattern
-			 << "' incorrectly compiled." << endl;
+		std::cout << "   Line " << LINE << ": pattern '" << pattern
+				  << "' incorrectly compiled." << std::endl;
 		}
 	regex.GetPattern(&gPattern, &gLength); // Saving pointer to internal data, dangerous
 	Assert(LINE, gPattern == regex.GetPattern() );
@@ -773,12 +773,12 @@ ShouldCompile
 {
 	if (!regex.SetPattern(pattern, length).OK())
 		{
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<length;i++)
 			{
-			cout << pattern[i];
+			std::cout << pattern[i];
 			}
-		cout << "' incorrectly failed to compile." << endl;
+		std::cout << "' incorrectly failed to compile." << std::endl;
 		}
 	regex.GetPattern(&gPattern, &gLength); // Saving pointer to internal data, dangerous
 	Assert(LINE, length == gLength);
@@ -802,12 +802,12 @@ ShouldNotCompile
 {
 	if (regex.SetPattern(pattern).OK())
 		{
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<length;i++)
 			{
-			cout << pattern[i];
+			std::cout << pattern[i];
 			}
-		cout << "' incorrectly compiled." << endl;
+		std::cout << "' incorrectly compiled." << std::endl;
 		}
 	regex.GetPattern(&gPattern, &gLength); // Saving pointer to internal data, dangerous
 	Assert(LINE, length == gLength);
@@ -831,12 +831,12 @@ ShouldSwitch
 {
 	if (!regex.SetDialect(dialect).OK())
 		{
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly failed to switch dialects." << endl;
+		std::cout << "' incorrectly failed to switch dialects." << std::endl;
 		}
 	Assert(LINE, regex.GetDialect() == dialect);
 }
@@ -856,12 +856,12 @@ ShouldNotSwitch
 {
 	if (regex.SetDialect(dialect).OK())
 		{
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly switched dialects." << endl;
+		std::cout << "' incorrectly switched dialects." << std::endl;
 		}
 }
 
@@ -887,13 +887,13 @@ ShouldMatch
 	if (!regex.Match(string, &gMatch))
 //	if ((gMatch = regex.Match(string)).IsNothing())
 		{
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		 cout << "' incorrectly failed to match '" << compareString << "' in '"
-			  << string << "'" << endl;
+		 std::cout << "' incorrectly failed to match '" << compareString << "' in '"
+				   << string << "'" << std::endl;
 //*		Assert(LINE, gMatch == oldMatch, "match failed but parameter was changed");
 		return;
 		}
@@ -904,13 +904,13 @@ ShouldMatch
 
 	if (!regex.Match(string))
 		{
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly failed to match in '"
-			 << string << "'" << endl;
+		std::cout << "' incorrectly failed to match in '"
+				  << string << "'" << std::endl;
 		}
 
 	// Now test for equivalence to special cases of the other forms
@@ -937,13 +937,13 @@ ShouldNotMatch
 		{
 		JString matchedString = gString.GetSubstring(gMatch);
 
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly matched '" << matchedString << "' in '"
-			 << gString << "'" << endl;
+		std::cout << "' incorrectly matched '" << matchedString << "' in '"
+				  << gString << "'" << std::endl;
 		return;
 		}
 	else
@@ -953,13 +953,13 @@ ShouldNotMatch
 
 	if (regex.Match(string))
 		{
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly matched in '" << gString
-			 << "'" << endl;
+		std::cout << "' incorrectly matched in '" << gString
+				  << "'" << std::endl;
 		}
 }
 
@@ -979,13 +979,13 @@ MatchShouldBe
 
 	if (matchedString != compareString)
 		{
-		cout << "   Pattern '";
+		std::cout << "   Pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' matching on '" << gString <<"' matched '"
-			 << matchedString << "' != '" << compareString << "'" << endl;
+		std::cout << "' matching on '" << gString <<"' matched '"
+				  << matchedString << "' != '" << compareString << "'" << std::endl;
 		}
 }
 
@@ -1004,8 +1004,8 @@ IntShouldBe
 {
 	if ( anInt != expecting)
 		{
-		cout << "   Line " << LINE << ": blast, wrong offset: " << anInt
-			 << ", expecting: " << expecting << endl;
+		std::cout << "   Line " << LINE << ": blast, wrong offset: " << anInt
+				  << ", expecting: " << expecting << std::endl;
 		}
 }
 
@@ -1023,7 +1023,7 @@ Assert
 {
 	if (!test)
 		{
-		cout << "   Line " << LINE << ": Blarg, test failed" << endl;
+		std::cout << "   Line " << LINE << ": Blarg, test failed" << std::endl;
 		}
 }
 
@@ -1042,7 +1042,7 @@ Assert
 {
 	if (!test)
 		{
-		cout << "   Line " << LINE << ": " << description << endl;
+		std::cout << "   Line " << LINE << ": " << description << std::endl;
 		}
 }
 
@@ -1066,13 +1066,13 @@ ShouldMatchFrom
 
 	if (!regex.MatchFrom(string, offset, &gMatch))
 		{
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly failed to match in '"
-			 << gString <<  "' starting at position " << offset << endl;
+		std::cout << "' incorrectly failed to match in '"
+				  << gString <<  "' starting at position " << offset << std::endl;
 		Assert(LINE, gMatch == oldMatch, "Match failed but parameter was changed");
 		return;
 		}
@@ -1083,13 +1083,13 @@ ShouldMatchFrom
 
 	if (!regex.MatchFrom(string, offset))
 		{
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly failed to match in '"
-			 << gString << "' starting at position " << offset << endl;
+		std::cout << "' incorrectly failed to match in '"
+				  << gString << "' starting at position " << offset << std::endl;
 		}
 }
 
@@ -1114,13 +1114,13 @@ ShouldNotMatchFrom
 		{
 		JString matchedString = gString.GetSubstring(gMatch);
 
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly matched '" << matchedString
-			 << "' in '" << gString << "' starting at position " << offset << endl;
+		std::cout << "' incorrectly matched '" << matchedString
+				  << "' in '" << gString << "' starting at position " << offset << std::endl;
 		return;
 		}
 	else
@@ -1130,13 +1130,13 @@ ShouldNotMatchFrom
 
 	if (regex.MatchFrom(string, offset))
 		{
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly matched in '"
-			 << gString << "' starting at position " << offset << endl;
+		std::cout << "' incorrectly matched in '"
+				  << gString << "' starting at position " << offset << std::endl;
 		}
 }
 
@@ -1161,13 +1161,13 @@ ShouldMatchAfter
 
 	if (!regex.MatchAfter(string, startAfter, &gMatch))
 		{
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly failed to match in '"
-			 << gString <<  "' after (" << copy << ")" << endl;
+		std::cout << "' incorrectly failed to match in '"
+				  << gString <<  "' after (" << copy << ")" << std::endl;
 		Assert(LINE, gMatch == oldMatch, "Match failed but parameter was changed");
 		return;
 		}
@@ -1178,13 +1178,13 @@ ShouldMatchAfter
 
 	if (!regex.MatchAfter(string, startAfter))
 		{
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly failed to match in '"
-			 << gString << "' after (" << copy << ")" << endl;
+		std::cout << "' incorrectly failed to match in '"
+				  << gString << "' after (" << copy << ")" << std::endl;
 		}
 }
 
@@ -1209,13 +1209,13 @@ ShouldNotMatchAfter
 		{
 		JString matchedString = gString.GetSubstring(gMatch);
 
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly matched '" << matchedString
-			 << "' in '" << gString <<  "' after (" << copy << ")" << endl;
+		std::cout << "' incorrectly matched '" << matchedString
+				  << "' in '" << gString <<  "' after (" << copy << ")" << std::endl;
 		return;
 		}
 	else
@@ -1225,13 +1225,13 @@ ShouldNotMatchAfter
 
 	if (regex.MatchAfter(string, startAfter))
 		{
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly matched in '"
-			 << gString << "' after (" << copy << ")" << endl;
+		std::cout << "' incorrectly matched in '"
+				  << gString << "' after (" << copy << ")" << std::endl;
 		return;
 		}
 
@@ -1257,13 +1257,13 @@ ShouldMatchWithin
 	JIndexRange oldMatch = gMatch;
 	if (!regex.MatchWithin(string, range, &gMatch))
 		{
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly failed to match in '"
-			 << gString <<  "' within (" << range << ")" << endl;
+		std::cout << "' incorrectly failed to match in '"
+				  << gString <<  "' within (" << range << ")" << std::endl;
 		Assert(LINE, gMatch == oldMatch, "Match failed but parameter was changed");
 		return;
 		}
@@ -1274,13 +1274,13 @@ ShouldMatchWithin
 
 	if (!regex.MatchWithin(string, range))
 		{
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly failed to match in '"
-			 << gString << "' within (" << range << ")" << endl;
+		std::cout << "' incorrectly failed to match in '"
+				  << gString << "' within (" << range << ")" <<std:: endl;
 		}
 }
 
@@ -1304,13 +1304,13 @@ ShouldNotMatchWithin
 		{
 		JString matchedString = gString.GetSubstring(gMatch);
 
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly matched '" << matchedString
-			 << "' in '" << gString <<  "' within (" << range << ")" << endl;
+		std::cout << "' incorrectly matched '" << matchedString
+				  << "' in '" << gString <<  "' within (" << range << ")" << std::endl;
 		return;
 		}
 	else
@@ -1320,13 +1320,13 @@ ShouldNotMatchWithin
 
 	if (regex.MatchWithin(string, range))
 		{
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly matched in '"
-			 << gString << "' within (" << range << ")" << endl;
+		std::cout << "' incorrectly matched in '"
+				  << gString << "' within (" << range << ")" << std::endl;
 		}
 }
 
@@ -1351,13 +1351,13 @@ ShouldMatchLastWithin
 	JSize count = regex.MatchLastWithin(string, range, &gMatch);
 	if (count == 0)
 		{
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly failed to match in '"
-			 << gString <<  "' within (" << range << ")" << endl;
+		std::cout << "' incorrectly failed to match in '"
+				  << gString <<  "' within (" << range << ")" << std::endl;
 		Assert(LINE, gMatch == oldMatch, "Match failed but parameter was changed");
 		}
 	else
@@ -1388,13 +1388,13 @@ ShouldNotMatchLastWithin
 		{
 		JString matchedString = gString.GetSubstring(gMatch);
 
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly matched '" << matchedString << "' in '" << gString
-		<<  "' within (" << range << "), count was " << count << endl;
+		std::cout << "' incorrectly matched '" << matchedString << "' in '" << gString
+		<<  "' within (" << range << "), count was " << count << std::endl;
 		return;
 		}
 	else
@@ -1424,13 +1424,13 @@ ShouldMatchBackward
 
 	if (!regex.MatchBackward(string, offset, &gMatch))
 		{
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly failed to match backward in '"
-			 << gString <<  "' starting at position " << offset << endl;
+		std::cout << "' incorrectly failed to match backward in '"
+				  << gString <<  "' starting at position " << offset << std::endl;
 		Assert(LINE, gMatch == oldMatch, "Match failed but parameter was changed");
 		}
 	else
@@ -1460,13 +1460,13 @@ ShouldNotMatchBackward
 		{
 		JString matchedString = gString.GetSubstring(gMatch);
 
-		cout << "   Line " << LINE << ": pattern '";
+		std::cout << "   Line " << LINE << ": pattern '";
 		for (JIndex i=0;i<gLength;i++)
 			{
-			cout << gPattern[i];
+			std::cout << gPattern[i];
 			}
-		cout << "' incorrectly matched '" << matchedString
-			 << "' backwards in '" << gString << "' starting at position " << offset << endl;
+		std::cout << "' incorrectly matched '" << matchedString
+				  << "' backwards in '" << gString << "' starting at position " << offset << std::endl;
 		}
 	else
 		{

@@ -34,8 +34,8 @@ public:
 
 	JXToolBarButton::Type	GetType();
 
-	void		ReadSetup(istream& is);
-	void		WriteSetup(ostream& os);
+	void		ReadSetup(std::istream& is);
+	void		WriteSetup(std::ostream& os);
 
 protected:
 

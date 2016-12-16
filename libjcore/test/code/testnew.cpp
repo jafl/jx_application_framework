@@ -34,47 +34,47 @@
 int
 main()
 {
-	cout << "   Testing object jnew/jdelete, should never fail" << endl;
+	std::cout << "   Testing object jnew/jdelete, should never fail" << std::endl;
 	long* aLong = jnew long;
 	jdelete aLong;
 
-	cout << "\n   Testing array jnew/jdelete, should never fail" << endl;
+	std::cout << "\n   Testing array jnew/jdelete, should never fail" << std::endl;
 	aLong = jnew long[15];
 	jdelete[] aLong;
 
-	cout << "\n   Testing initialization value" << endl;
+	std::cout << "\n   Testing initialization value" << std::endl;
 	const JSize blockSize = 4;
 	aLong = jnew long[blockSize];
-	cout << std::setbase(16) << "\n   Block of longs initialized to: ";
+	std::cout << std::setbase(16) << "\n   Block of longs initialized to: ";
 	for (JIndex i=0;i<blockSize;i++)
 		{
-		cout << aLong[i];
+		std::cout << aLong[i];
 		}
-	cout << std::setbase(10) << endl;
+	std::cout << std::setbase(10) << std::endl;
 	jdelete[] aLong;
-	cout << "\n   Testing shredding value (slightly dangerous!)" << endl;
-	cout << std::setbase(16) << "\n   Block of longs shredded to: ";
+	std::cout << "\n   Testing shredding value (slightly dangerous!)" << std::endl;
+	std::cout << std::setbase(16) << "\n   Block of longs shredded to: ";
 	for (JIndex i=0;i<blockSize;i++)
 		{
-		cout << aLong[i];
+		std::cout << aLong[i];
 		}
-	cout << std::setbase(10) << endl;
+	std::cout << std::setbase(10) << std::endl;
 
 //	JMemoryManager::Instance()->DiscardDeletionRecords();
 
-	cout << "\n   Deleting unallocated memory, will fail if allocations are being"
+	std::cout << "\n   Deleting unallocated memory, will fail if allocations are being"
 	     << "\n   recorded, will succeed with system-dependent results (dumps core"
-	     << "\n   on Linux) if allocations are not being recorded" << endl;
+	     << "\n   on Linux) if allocations are not being recorded" << std::endl;
 	double* aDouble = (double*) 0x34343;
 	jdelete aDouble;
 	jdelete[] aDouble;
 
 //	JMemoryManager::Instance()->CancelRecordAllocated();
 
-	cout << "\n   Multiple deleting object.  Should fail as 'delete unallocated'"
+	std::cout << "\n   Multiple deleting object.  Should fail as 'delete unallocated'"
 	     << "\n   but *not* dump core if allocations are being recorded, or should fail"
 	     << "\n   as double deletion if deallocations are being recorded.  Otherwise,"
-	     << "\n   will succeed with system-dependent results" << endl;
+	     << "\n   will succeed with system-dependent results" << std::endl;
 	float* aFloat = jnew float;
 
 
@@ -87,10 +87,10 @@ main()
 
 	jdelete[] aFloat;
 
-	cout << "\n   Multiple deleting array.  Should fail as 'delete unallocated'"
+	std::cout << "\n   Multiple deleting array.  Should fail as 'delete unallocated'"
 	     << "\n   but *not* dump core if allocations are being recorded, or should fail"
 	     << "\n   as double deletion if deallocations are being recorded.  Otherwise,"
-	     << "\n   will succeed with system-dependent results" << endl;
+	     << "\n   will succeed with system-dependent results" << std::endl;
 	aFloat = jnew float[5];
 
 
@@ -103,37 +103,37 @@ main()
 
 	jdelete aFloat;
 
-	cout << "\n   Array deleting object allocation, should fail if"
-	     << "\n   allocations are being recorded" << endl;
+	std::cout << "\n   Array deleting object allocation, should fail if"
+	     << "\n   allocations are being recorded" << std::endl;
 	int* aInt = jnew int;
 	jdelete[] aInt;
 
-	cout << "\n   Object deleting array allocation, should fail if"
-	     << "\n   allocations are being recorded" << endl;
+	std::cout << "\n   Object deleting array allocation, should fail if"
+	     << "\n   allocations are being recorded" << std::endl;
 	aDouble = jnew double[10];
 	jdelete aDouble;
 
-	cout << "\nDeleting NULL as object, should not fail unless it has been disallowed" << endl;
+	std::cout << "\nDeleting NULL as object, should not fail unless it has been disallowed" << std::endl;
 	aFloat = NULL;
 	jdelete aFloat;
-	cout << "\nNow deleting as array, ***WHY DOES THIS FAIL?!?***" << endl;
+	std::cout << "\nNow deleting as array, ***WHY DOES THIS FAIL?!?***" << std::endl;
 	jdelete[] aFloat;
 
 	JMemoryManager::Instance()->PrintMemoryStats();
 
-	cout << "\nAllocating two more memory blocks, should count properly" << endl;
+	std::cout << "\nAllocating two more memory blocks, should count properly" << std::endl;
 	char* aChar = jnew char[30];
 	aChar = jnew char[30];
 
 	JMemoryManager::Instance()->PrintMemoryStats();
 
-	cout << "\nAllocating JArray--how many blocks does it need?" << endl;
+	std::cout << "\nAllocating JArray--how many blocks does it need?" << std::endl;
 
 	JArray<int>* array = jnew JArray<int>;
 
 	JMemoryManager::Instance()->PrintMemoryStats();
 
-	cout << "\nTwo user blocks plus a JArray are undeleted--should show up on final stats" << endl;
+	std::cout << "\nTwo user blocks plus a JArray are undeleted--should show up on final stats" << std::endl;
 
 	return 0;
 }

@@ -47,10 +47,10 @@ public:
 
 	virtual ~GNBBaseNode();
 
-	virtual void	SaveNode(ostream& os);
-	void			SaveBranch(ostream& os);
-	void			ReadBranchSetup(istream& is, const JFileVersion version);
-	virtual void	ReadNodeSetup(istream& is, const JFileVersion version);
+	virtual void	SaveNode(std::ostream& os);
+	void			SaveBranch(std::ostream& os);
+	void			ReadBranchSetup(std::istream& is, const JFileVersion version);
+	virtual void	ReadNodeSetup(std::istream& is, const JFileVersion version);
 	virtual void	DiscardNode();
 	void			DiscardBranch();
 	virtual void	PrintNode(JString* text, const JBoolean notes);

@@ -21,16 +21,16 @@ class CBJavaTree : public CBTree, public CBCtagsUser
 public:
 
 	CBJavaTree(CBJavaTreeDirector* director, const JSize marginWidth);
-	CBJavaTree(istream& projInput, const JFileVersion projVers,
-			   istream* setInput, const JFileVersion setVers,
-			   istream* symInput, const JFileVersion symVers,
+	CBJavaTree(std::istream& projInput, const JFileVersion projVers,
+			   std::istream* setInput, const JFileVersion setVers,
+			   std::istream* symInput, const JFileVersion symVers,
 			   CBJavaTreeDirector* director, const JSize marginWidth,
 			   CBDirList* dirList);
 
 	virtual ~CBJavaTree();
 
-	virtual void	StreamOut(ostream& projOutput, ostream* setOutput,
-							  ostream* symOutput, const CBDirList* dirList) const;
+	virtual void	StreamOut(std::ostream& projOutput, std::ostream* setOutput,
+							  std::ostream* symOutput, const CBDirList* dirList) const;
 
 protected:
 
@@ -45,10 +45,10 @@ private:
 
 private:
 
-	void					ReadFunctionList(istream& input, CBClass* theClass);
+	void					ReadFunctionList(std::istream& input, CBClass* theClass);
 	CBClass::FnAccessLevel	DecodeAccess(const JStringPtrMap<JString>& flags) const;
 
-	static CBClass* StreamInJavaClass(istream& input, const JFileVersion vers,
+	static CBClass* StreamInJavaClass(std::istream& input, const JFileVersion vers,
 									  CBTree* tree);
 
 	// written by flex

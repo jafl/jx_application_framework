@@ -147,7 +147,7 @@ CMDebugDir::Receive
 			itsText->Paste("\n");
 
 			itsFile << msg->GetText();
-			itsFile << endl;
+			itsFile << std::endl;
 			}
 		else if (JString::Compare(message.GetType(), CMLink::kUserOutput, kJTrue) != 0)
 			{
@@ -157,7 +157,7 @@ CMDebugDir::Receive
 
 			itsFile << kLogPrefix;
 			itsFile << message.GetType();
-			itsFile << endl;
+			itsFile << std::endl;
 			}
 		}
 

@@ -40,8 +40,8 @@ public:
 
 	virtual ~GMailboxTreeWidget();
 
-	void ReadPrefs(istream& input);
-	void WritePrefs(ostream& output) const;
+	void ReadPrefs(std::istream& input);
+	void WritePrefs(std::ostream& output) const;
 
 	void Update();
 

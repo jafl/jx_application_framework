@@ -234,8 +234,8 @@ JXMenu::GetDefaultFont
 		JString fileName;
 		if (JExpandHomeDirShortcut(kMenuFontFileName, &fileName))
 			{
-			ifstream input(fileName);
-			input >> ws;
+			std::ifstream input(fileName);
+			input >> std::ws;
 			JString name = JReadLine(input);
 			name.TrimWhitespace();
 			JSize size;

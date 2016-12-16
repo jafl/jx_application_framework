@@ -612,7 +612,7 @@ JXWMainDialog::CopyAndAdjustTemplateFiles
 				}
 
 			const JString target = JCombinePathAndName(targetDir, name);
-			ofstream os(target);
+			std::ofstream os(target);
 			data.Print(os);
 			}
 		}
@@ -628,7 +628,7 @@ JXWMainDialog::CopyAndAdjustTemplateFiles
 void
 JXWMainDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -714,7 +714,7 @@ static const JRegex projPattern = ".+/JX-[0-9.]+/+programs/";
 void
 JXWMainDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

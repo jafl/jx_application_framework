@@ -91,15 +91,15 @@ ParseTextOptions
 void
 PrintHelp()
 {
-	cout << endl;
-	cout << "This X application demonstrates the capabilities of the J3D" << endl;
-	cout << "class library." << endl;
-	cout << endl;
-	cout << "Usage:  <options>" << endl;
-	cout << endl;
-	cout << "-h  prints help" << endl;
-	cout << "-v  prints version information" << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << "This X application demonstrates the capabilities of the J3D" << std::endl;
+	std::cout << "class library." << std::endl;
+	std::cout << std::endl;
+	std::cout << "Usage:  <options>" << std::endl;
+	std::cout << std::endl;
+	std::cout << "-h  prints help" << std::endl;
+	std::cout << "-v  prints version information" << std::endl;
+	std::cout << std::endl;
 }
 
 /******************************************************************************
@@ -110,7 +110,7 @@ PrintHelp()
 void
 PrintVersion()
 {
-	cout << endl;
-	cout << "J3D version " << kCurrentJ3DLibVersionStr << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << "J3D version " << kCurrentJ3DLibVersionStr << std::endl;
+	std::cout << std::endl;
 }

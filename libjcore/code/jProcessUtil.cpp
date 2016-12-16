@@ -582,10 +582,10 @@ JExecute
 
 		ACE_OS::execvp(argv[0], const_cast<char* const*>(argv));
 
-		cerr << "Unable to run program \"" << argv[0] << '"' << endl;
-		cerr << endl;
-		cerr << "JExecute()::execvp() failed" << endl;
-		cerr << "Errno value: " << jerrno() << endl;
+		std::cerr << "Unable to run program \"" << argv[0] << '"' << std::endl;
+		std::cerr << std::endl;
+		std::cerr << "JExecute()::execvp() failed" << std::endl;
+		std::cerr << "Errno value: " << jerrno() << std::endl;
 
 		JThisProcess::Exit(1);
 		return JNoError();
@@ -608,7 +608,7 @@ JExecute
 					int value = fcntl(fd[1][1], F_GETFL, 0);
 					if (value & O_NONBLOCK)
 						{
-						cerr << "turning off nonblocking for cout: " << value << endl;
+						std::cerr << "turning off nonblocking for std::cout: " << value << std::endl;
 						fcntl(fd[1][1], F_SETFL, value & (~ O_NONBLOCK));
 						}
 					}

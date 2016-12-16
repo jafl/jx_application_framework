@@ -223,7 +223,7 @@ JCreateTempFile
 		}
 
 	*fullName = JGetUniqueDirEntryName(p, f);
-	ofstream output(*fullName);
+	std::ofstream output(*fullName);
 	return JNoError();
 }
 

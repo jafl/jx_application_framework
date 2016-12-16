@@ -218,7 +218,7 @@ JXHorizDockPartition::CloseAllWindows()
 void
 JXHorizDockPartition::ReadSetup
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -283,7 +283,7 @@ JXHorizDockPartition::ReadSetup
 void
 JXHorizDockPartition::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

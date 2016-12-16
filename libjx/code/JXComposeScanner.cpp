@@ -98,7 +98,7 @@ JIndex i;
 					{
 					diacriticalMap[c]      = name[0];
 					diacriticalMarkType[c] = kDiacriticalMarkType[i];
-//					cout << char(c) << ' ' << diacriticalMap[c] << endl;
+//					std::cout << char(c) << ' ' << diacriticalMap[c] << std::endl;
 					}
 				}
 			return;

@@ -18,12 +18,12 @@ class JFunction;
 
 class SCCircuitVarList : public JVariableList
 {
-	friend ostream& operator<<(ostream&, const SCCircuitVarList&);
+	friend std::ostream& operator<<(std::ostream&, const SCCircuitVarList&);
 
 public:
 
 	SCCircuitVarList();
-	SCCircuitVarList(istream& input, const JFileVersion vers);
+	SCCircuitVarList(std::istream& input, const JFileVersion vers);
 
 	virtual ~SCCircuitVarList();
 

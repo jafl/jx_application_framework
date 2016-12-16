@@ -131,10 +131,10 @@ JTEST(Exercise)
 
 	JProbDistr p = h.ConvertToProbabilities();
 
-	cout << endl;
-	cout << "Probability of each element (2-8) being in the subset:" << endl;
-	cout << "(averaged over ensemble of 5000 subsets)" << endl << endl;
-	cout << p << endl;
+	std::cout << std::endl;
+	std::cout << "Probability of each element (2-8) being in the subset:" << std::endl;
+	std::cout << "(averaged over ensemble of 5000 subsets)" << std::endl << std::endl;
+	std::cout << p << std::endl;
 
 // JSubset::GetRandomSample()
 
@@ -155,10 +155,10 @@ JTEST(Exercise)
 
 	p = h.ConvertToProbabilities();
 
-	cout << endl;
-	cout << "Probability of each element (sample of 7) being in the subset:" << endl;
-	cout << "(averaged over ensemble of 5000 subsets)" << endl << endl;
-	cout << p << endl;
+	std::cout << std::endl;
+	std::cout << "Probability of each element (sample of 7) being in the subset:" << std::endl;
+	std::cout << "(averaged over ensemble of 5000 subsets)" << std::endl << std::endl;
+	std::cout << p << std::endl;
 
 // JSubset::GetRandomDisjointSamples()
 
@@ -185,11 +185,11 @@ JTEST(Exercise)
 			}
 		}
 
-	cout << endl;
-	cout << "Probability of each element (2 from sample of 7) being in the subset:" << endl;
-	cout << "(averaged over ensemble of 5000 subsets)" << endl << endl;
-	cout << "1) " << h1.ConvertToProbabilities() << endl;
-	cout << "2) " << h2.ConvertToProbabilities() << endl;
+	std::cout << std::endl;
+	std::cout << "Probability of each element (2 from sample of 7) being in the subset:" << std::endl;
+	std::cout << "(averaged over ensemble of 5000 subsets)" << std::endl << std::endl;
+	std::cout << "1) " << h1.ConvertToProbabilities() << std::endl;
+	std::cout << "2) " << h2.ConvertToProbabilities() << std::endl;
 
 // JSubset::GetRandomDisjointSamples() -- partitioning
 

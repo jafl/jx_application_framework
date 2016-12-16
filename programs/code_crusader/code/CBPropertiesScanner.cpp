@@ -45,7 +45,7 @@ CBPropertiesScanner::~CBPropertiesScanner()
 void
 CBPropertiesScanner::BeginScan
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	itsResetFlag = kJTrue;

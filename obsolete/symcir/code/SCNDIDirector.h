@@ -23,12 +23,12 @@ class SCNDIDirector : public SCDirectorBase
 public:
 
 	SCNDIDirector(SCCircuitDocument* supervisor);
-	SCNDIDirector(istream& input, const JFileVersion vers,
+	SCNDIDirector(std::istream& input, const JFileVersion vers,
 				  SCCircuitDocument* supervisor);
 
 	virtual ~SCNDIDirector();
 
-	virtual void	StreamOut(ostream& output) const;
+	virtual void	StreamOut(std::ostream& output) const;
 
 protected:
 

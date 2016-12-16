@@ -200,7 +200,7 @@ JXCSFDialogBase::Deactivate()
 void
 JXCSFDialogBase::ReadBaseSetup
 	(
-	istream&		input,
+	std::istream&		input,
 	const JBoolean	ignoreScroll
 	)
 {
@@ -249,7 +249,7 @@ JXCSFDialogBase::ReadBaseSetup
 void
 JXCSFDialogBase::WriteBaseSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

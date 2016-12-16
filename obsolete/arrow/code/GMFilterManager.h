@@ -32,8 +32,8 @@ protected:
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 
-	virtual void	ReadPrefs(istream& input);
-	virtual void	WritePrefs(ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input);
+	virtual void	WritePrefs(std::ostream& output) const;
 
 private:
 
@@ -44,8 +44,8 @@ private:
 
 	JBoolean	OKToOverwrite();
 	void		WriteFilterFile();
-	void		WriteFilter(ostream& os, GMFilter* filter);
-	void		WriteCondition(ostream& os, GMFilterCondition* condition);
+	void		WriteFilter(std::ostream& os, GMFilter* filter);
+	void		WriteCondition(std::ostream& os, GMFilterCondition* condition);
 
 	// not allowed
 

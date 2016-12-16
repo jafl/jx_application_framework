@@ -26,8 +26,8 @@ public:
 	const JFontStyle&	GetStyle() const;
 	void				SetStyle(const JFontStyle& style);
 
-	void	ReadStyle(istream& input);
-	void	WriteStyle(ostream& output);
+	void	ReadStyle(std::istream& input);
+	void	WriteStyle(std::ostream& output);
 
 protected:
 

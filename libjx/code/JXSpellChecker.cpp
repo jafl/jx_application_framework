@@ -167,9 +167,9 @@ JXSpellChecker::CheckWord
 		}
 
 	word.Print(*itsOutPipe);
-	*itsOutPipe << endl;
+	*itsOutPipe << std::endl;
 
-//word.Print(cerr); cerr << endl;
+//word.Print(std::cerr); std::cerr << std::endl;
 
 	JString test = JReadUntil(itsInFD, '\n');
 	if (test.IsEmpty())
@@ -181,7 +181,7 @@ JXSpellChecker::CheckWord
 		return kJTrue;
 		}
 
-//test.Print(cerr); cerr << endl;
+//test.Print(std::cerr); std::cerr << std::endl;
 
 	JCharacter c = test.GetFirstCharacter();
 	if (c == '*' || c == '+' || c == '-')
@@ -221,8 +221,8 @@ JXSpellChecker::Learn
 	const JCharacter* word
 	)
 {
-	*itsOutPipe << '&' << word << endl;
-	*itsOutPipe << '#' << endl;
+	*itsOutPipe << '&' << word << std::endl;
+	*itsOutPipe << '#' << std::endl;
 }
 
 /******************************************************************************
@@ -236,8 +236,8 @@ JXSpellChecker::LearnCaps
 	const JCharacter* word
 	)
 {
-	*itsOutPipe << '*' << word << endl;
-	*itsOutPipe << '#' << endl;
+	*itsOutPipe << '*' << word << std::endl;
+	*itsOutPipe << '#' << std::endl;
 }
 
 /******************************************************************************
@@ -251,7 +251,7 @@ JXSpellChecker::Ignore
 	const JCharacter* word
 	)
 {
-	*itsOutPipe << '@' << word << endl;
+	*itsOutPipe << '@' << word << std::endl;
 }
 
 /******************************************************************************
@@ -293,7 +293,7 @@ JXSpellChecker::SaveWindowSize
 void
 JXSpellChecker::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -315,7 +315,7 @@ JXSpellChecker::ReadPrefs
 void
 JXSpellChecker::WritePrefs
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const JFileVersion	vers
 	)
 	const

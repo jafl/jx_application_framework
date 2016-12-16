@@ -57,7 +57,7 @@ private:
 	void	SendMessage(const JIndex id, const JCharacter* data);
 
 	void	ReceiveMessage();
-	void	ReadCurrentState(istream& input);
+	void	ReadCurrentState(std::istream& input);
 
 	void	DeleteSocket();
 

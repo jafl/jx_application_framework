@@ -89,7 +89,7 @@ GMAccountManager::~GMAccountManager()
 void
 GMAccountManager::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	itsFirstTime	= kJFalse;
@@ -123,7 +123,7 @@ GMAccountManager::ReadPrefs
 void
 GMAccountManager::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -511,7 +511,7 @@ GMAccountManager::GetReplyAccount
 	for (JIndex i = 1; i <= count; i++)
 		{
 		GMAccount* a	= itsAccounts->NthElement(i);
-//		cout << "\tCompare: " << a->GetSMTPUser() << endl;
+//		std::cout << "\tCompare: " << a->GetSMTPUser() << std::endl;
 		if (a->GetSMTPUser() == to)
 			{
 			*account	= a;
@@ -524,7 +524,7 @@ GMAccountManager::GetReplyAccount
 		GMAccount* a	= itsAccounts->NthElement(i);
 		if (a->GetReplyTo() == to)
 			{
-//			cout << "\tCompare: " << a->GetReplyTo() << endl;
+//			std::cout << "\tCompare: " << a->GetReplyTo() << std::endl;
 			*account	= a;
 			return kJTrue;
 			}

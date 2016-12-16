@@ -268,7 +268,7 @@ Wiz2War::ReceiveMessage()
 void
 Wiz2War::ReadCurrentState
 	(
-	istream& input
+	std::istream& input
 	)
 {
 JIndex i;

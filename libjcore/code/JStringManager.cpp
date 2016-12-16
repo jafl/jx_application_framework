@@ -322,7 +322,7 @@ JStringManager::MergeFile
 void
 JStringManager::MergeFile
 	(
-	istream&		input,
+	std::istream&		input,
 	const JBoolean	debug
 	)
 {
@@ -336,11 +336,11 @@ JStringManager::MergeFile
 	JString id;
 	while (1)
 		{
-		input >> ws;
+		input >> std::ws;
 		while (!input.eof() && input.peek() == '#')		// peek() at eof sets fail()
 			{
 			JIgnoreLine(input);
-			input >> ws;
+			input >> std::ws;
 			}
 		if (input.eof() || input.fail())
 			{
@@ -350,7 +350,7 @@ JStringManager::MergeFile
 		id = JReadUntilws(input);
 		if (debug)
 			{
-			cout << id << endl;
+			std::cout << id << std::endl;
 			}
 		if (input.eof() || input.fail())
 			{
@@ -408,16 +408,16 @@ JStringManager::CanOverride
 void
 JStringManager::WriteFile
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
-	output << (long) kASCIIFormat << endl;
+	output << (long) kASCIIFormat << std::endl;
 
 	JStringPtrMapCursor<JString> cursor(const_cast<JStringManager*>(this));
 	while (cursor.Next())
 		{
 		output << cursor.GetKey();
-		output << ' ' << *(cursor.GetValue()) << endl;
+		output << ' ' << *(cursor.GetValue()) << std::endl;
 		}
 }

@@ -90,7 +90,7 @@ JBooleanConstant::Evaluate()
 void
 JBooleanConstant::Print
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

@@ -76,7 +76,7 @@ SyGTreeSet::SyGTreeSet
 
 SyGTreeSet::SyGTreeSet
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	JXMenuBar*			menuBar,
 	const JCharacter*	pathName,
@@ -398,7 +398,7 @@ SyGTreeSet::SetWildcardFilter
 void
 SyGTreeSet::SavePreferences
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	os << ' ' << itsFilterInput->GetText();

@@ -29,13 +29,13 @@ public:
 	JIndex	GetFirstIndex() const;
 	void	SetFirstIndex(const JIndex index);
 
-	void	ReadSetup(istream& input);
-	void	WriteSetup(ostream& output) const;
+	void	ReadSetup(std::istream& input);
+	void	WriteSetup(std::ostream& output) const;
 
 	const JString&	GetItemText(const Message& message) const;
 	void			UpdateInputField(const Message& message, JXInputField* input) const;
 
-	static void	ReadSetup(istream& input, JPtrArray<JString>* itemList,
+	static void	ReadSetup(std::istream& input, JPtrArray<JString>* itemList,
 						  JPtrArray<JString>* nmShortcutList);
 
 protected:
@@ -68,7 +68,7 @@ private:
 
 	void	JXHistoryMenuBaseX(const JSize historyLength);
 
-	static void	ReadSetup(istream& input, JXHistoryMenuBase* menu,
+	static void	ReadSetup(std::istream& input, JXHistoryMenuBase* menu,
 						  JPtrArray<JString>* itemList,
 						  JPtrArray<JString>* nmShortcutList);
 

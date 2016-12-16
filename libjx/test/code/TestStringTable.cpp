@@ -453,18 +453,18 @@ TestStringTable::HandleTableMenu
 
 		JPoint cell;
 
-		cout << "Forward:" << endl;
+		std::cout << "Forward:" << std::endl;
 		while (iter.Next(&cell))
 			{
-			cout << '(' << cell.y << ", " << cell.x << ')' << endl;
+			std::cout << '(' << cell.y << ", " << cell.x << ')' << std::endl;
 			}
 
-		cout << endl;
+		std::cout << std::endl;
 
-		cout << "Backward:" << endl;
+		std::cout << "Backward:" << std::endl;
 		while (iter.Prev(&cell))
 			{
-			cout << '(' << cell.y << ", " << cell.x << ')' << endl;
+			std::cout << '(' << cell.y << ", " << cell.x << ')' << std::endl;
 			}
 		}
 

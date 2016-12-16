@@ -24,8 +24,8 @@ public:
 
 	// saving setup information
 
-	void	ReadEPSSetup(istream& input);
-	void	WriteEPSSetup(ostream& output) const;
+	void	ReadEPSSetup(std::istream& input);
+	void	WriteEPSSetup(std::ostream& output) const;
 
 	// printing control
 
@@ -89,9 +89,9 @@ protected:
 	virtual JCoordinate		PSGetPrintableHeight() const;
 
 	virtual JBoolean	PSShouldPrintCurrentPage() const;
-	virtual void		PSPrintVersionComment(ostream& output);
-	virtual void		PSPrintHeaderComments(ostream& output);
-	virtual void		PSPrintSetupComments(ostream& output);
+	virtual void		PSPrintVersionComment(std::ostream& output);
+	virtual void		PSPrintHeaderComments(std::ostream& output);
+	virtual void		PSPrintSetupComments(std::ostream& output);
 
 private:
 

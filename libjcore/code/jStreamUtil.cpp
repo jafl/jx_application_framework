@@ -28,8 +28,8 @@
 void
 JCopyBinaryData
 	(
-	istream&	input,
-	ostream&	output,
+	std::istream&	input,
+	std::ostream&	output,
 	const JSize	byteCount
 	)
 {
@@ -78,7 +78,7 @@ JCopyBinaryData
 JString
 JRead
 	(
-	istream&	input,
+	std::istream&	input,
 	const JSize	count
 	)
 {
@@ -90,7 +90,7 @@ JRead
 /******************************************************************************
  JReadAll
 
-	Read characters until the end of the istream is reached.
+	Read characters until the end of the std::istream is reached.
 	This function takes a JString* because the contents of the stream
 	could be very large, and returning a JString requires twice as much
 	memory because of the copy constructor.
@@ -102,7 +102,7 @@ JRead
 void
 JReadAll
 	(
-	istream&	input,
+	std::istream&	input,
 	JString*	str
 	)
 {
@@ -113,7 +113,7 @@ JReadAll
 /******************************************************************************
  JReadLine
 
-	Read characters from the istream until newline ('\n', '\r', '\r\n') is
+	Read characters from the std::istream until newline ('\n', '\r', '\r\n') is
 	reached. newline is read in and discarded.
 
 	If foundNewLine is not NULL, it tells whether or not the end of a line
@@ -124,7 +124,7 @@ JReadAll
 JString
 JReadLine
 	(
-	istream&	input,
+	std::istream&	input,
 	JBoolean*	foundNewLine
 	)
 {
@@ -145,7 +145,7 @@ JReadLine
 /******************************************************************************
  JReadUntil
 
-	Read characters from the istream until delimiter is reached.
+	Read characters from the std::istream until delimiter is reached.
 	delimiter is read in and discarded.
 
 	If foundDelimiter is not NULL, it tells whether or not the delimiter
@@ -156,7 +156,7 @@ JReadLine
 JString
 JReadUntil
 	(
-	istream&		input,
+	std::istream&	input,
 	const JUtf8Byte	delimiter,
 	JBoolean*		foundDelimiter
 	)
@@ -174,7 +174,7 @@ JReadUntil
 /******************************************************************************
  JReadUntil
 
-	Read characters from the istream until one of the delimiters is reached.
+	Read characters from the std::istream until one of the delimiters is reached.
 	delimiter is read in and discarded.
 
 	Returns kJTrue if a delimited is found.  *delimiter is then set to
@@ -190,7 +190,7 @@ JReadUntil
 JBoolean
 JReadUntil
 	(
-	istream&			input,
+	std::istream&			input,
 	const JSize			delimiterCount,
 	const JUtf8Byte*	delimiters,
 	JString*			str,
@@ -249,7 +249,7 @@ JReadUntil
 /******************************************************************************
  JReadUntilws
 
-	Read characters from the istream until white-space is reached.
+	Read characters from the std::istream until white-space is reached.
 	white-space is read in and discarded.
 
 	If foundws is not NULL, it tells whether or not whitespace
@@ -260,7 +260,7 @@ JReadUntil
 JString
 JReadUntilws
 	(
-	istream&	input,
+	std::istream&	input,
 	JBoolean*	foundws
 	)
 {
@@ -274,14 +274,14 @@ JReadUntilws
 		{
 		*foundws = found;
 		}
-	input >> ws;
+	input >> std::ws;
 	return str;
 }
 
 /******************************************************************************
  JIgnoreLine
 
-	Toss characters from the istream until newline ('\n', '\r', '\r\n') is
+	Toss characters from the std::istream until newline ('\n', '\r', '\r\n') is
 	reached. newline is read in and discarded.
 
 	If foundNewLine is not NULL, it tells whether or not the end of a line
@@ -292,7 +292,7 @@ JReadUntilws
 void
 JIgnoreLine
 	(
-	istream&	input,
+	std::istream&	input,
 	JBoolean*	foundNewLine
 	)
 {
@@ -311,7 +311,7 @@ JIgnoreLine
 /******************************************************************************
  JIgnoreUntil
 
-	Discard characters from the istream until delimiter is reached.
+	Discard characters from the std::istream until delimiter is reached.
 	delimiter is read in and discarded.
 
 	If foundDelimiter is not NULL, it tells whether or not the delimiter
@@ -325,7 +325,7 @@ JIgnoreLine
 void
 JIgnoreUntil
 	(
-	istream&		input,
+	std::istream&	input,
 	const JUtf8Byte	delimiter,
 	JBoolean*		foundDelimiter
 	)
@@ -341,7 +341,7 @@ JIgnoreUntil
 void 
 JIgnoreUntil
 	(
-	istream&			input, 
+	std::istream&		input, 
 	const JUtf8Byte*	delimiter,
 	JBoolean*			foundDelimiter
 	)
@@ -384,7 +384,7 @@ JIgnoreUntil
 /******************************************************************************
  JIgnoreUntil
 
-	Toss characters from the istream until one of the delimiters is reached.
+	Toss characters from the std::istream until one of the delimiters is reached.
 	delimiter is read in and discarded.
 
 	Returns kJTrue if a delimited is found.  *delimiter is then set to
@@ -400,7 +400,7 @@ JIgnoreUntil
 JBoolean
 JIgnoreUntil
 	(
-	istream&			input,
+	std::istream&			input,
 	const JSize			delimiterCount,
 	const JUtf8Byte*	delimiters,
 	JUtf8Byte*			delimiter
@@ -461,7 +461,7 @@ static const JIndex kMaxCharOnLine = 72;	// short enough to allow == pad to igno
 static void
 jWriteBase64Byte
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const JIndex	bIndex,
 	JIndex*			cIndex
 	)
@@ -479,8 +479,8 @@ jWriteBase64Byte
 void
 JEncodeBase64
 	(
-	istream& input,
-	ostream& output
+	std::istream& input,
+	std::ostream& output
 	)
 {
 	JIndex chunkIndex = 1;
@@ -568,8 +568,8 @@ static JBoolean kBase64DecodeInit = kJFalse;
 JBoolean
 JDecodeBase64
 	(
-	istream& input,
-	ostream& output
+	std::istream& input,
+	std::ostream& output
 	)
 {
 	if (!kBase64DecodeInit)
@@ -584,7 +584,7 @@ JDecodeBase64
 		kBase64DecodeInit = kJTrue;
 		}
 
-	input >> ws;
+	input >> std::ws;
 
 	JBoolean lastReturn = kJFalse;
 	JIndex chunkIndex   = 1;
@@ -822,7 +822,7 @@ JReadAll
 /******************************************************************************
  JReadUntil
 
-	Read characters from the istream until delimiter is reached.
+	Read characters from the std::istream until delimiter is reached.
 	delimiter is read in and discarded.
 
 	If foundDelimiter is not NULL, it tells whether or not the delimiter
@@ -851,7 +851,7 @@ JReadUntil
 /******************************************************************************
  JReadUntil
 
-	Read characters from the istream until one of the delimiters is reached.
+	Read characters from the std::istream until one of the delimiters is reached.
 	delimiter is read in and discarded.
 
 	Returns kJTrue if a delimited is found.  *delimiter is then set to
@@ -931,7 +931,7 @@ JReadUntil
 /******************************************************************************
  JIgnoreUntil
 
-	Discard characters from the istream until delimiter is reached.
+	Discard characters from the std::istream until delimiter is reached.
 	delimiter is read in and discarded.
 
 	If foundDelimiter is not NULL, it tells whether or not the delimiter
@@ -1006,7 +1006,7 @@ JIgnoreUntil
 /******************************************************************************
  JIgnoreUntil
 
-	Toss characters from the istream until one of the delimiters is reached.
+	Toss characters from the std::istream until one of the delimiters is reached.
 	delimiter is read in and discarded.
 
 	Returns kJTrue if a delimited is found.  *delimiter is then set to

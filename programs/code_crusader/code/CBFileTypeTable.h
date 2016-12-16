@@ -35,8 +35,8 @@ public:
 
 	void	GetFileTypeList(JArray<CBPrefsManager::FileTypeInfo>* fileTypeList) const;
 
-	void	ReadGeometry(istream& input);
-	void	WriteGeometry(ostream& output) const;
+	void	ReadGeometry(std::istream& input);
+	void	WriteGeometry(std::ostream& output) const;
 	void	SetColTitles(JXColHeaderWidget* widget) const;
 
 	virtual JBoolean	IsEditable(const JPoint& cell) const;

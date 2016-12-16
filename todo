@@ -1,5 +1,3 @@
-remove using statements in jTypes.h & jFStreamUtil.h
-
 JX: treat SIGINT as X11 crash, so safety save is invoked
 
 -----

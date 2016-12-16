@@ -52,7 +52,7 @@ SCFeedbackDirector::SCFeedbackDirector
 
 SCFeedbackDirector::SCFeedbackDirector
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	SCCircuitDocument*	supervisor
 	)
@@ -435,7 +435,7 @@ SCFeedbackDirector::HandleExtraMenu
 void
 SCFeedbackDirector::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

@@ -159,7 +159,7 @@ CBManPageDocument::CBManPageDocument
 			}
 		else
 			{
-			ifstream input;
+			std::ifstream input;
 			JString tempName;
 			if (JConvertToStream(fromFD, &input, &tempName))
 				{
@@ -210,17 +210,17 @@ CBManPageDocument::CBManPageDocument
 			}
 		else
 			{
-			ifstream input;
+			std::ifstream input;
 			JString tempName, text;
 			if (JConvertToStream(fromFD, &input, &tempName))
 				{
-				input >> ws;
+				input >> std::ws;
 				text.SetBlockSize(1000);
 				while (!input.eof() && !input.fail())
 					{
 					text += JReadLine(input);
 					text += "\n\n";
-					input >> ws;
+					input >> std::ws;
 					}
 				text.TrimWhitespace();
 

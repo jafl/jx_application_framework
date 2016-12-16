@@ -8,10 +8,10 @@
 #include "CBProjectNodeType.h"
 #include <jAssert.h>
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&			input,
+	std::istream&			input,
 	CBProjectNodeType&	type
 	)
 {
@@ -22,10 +22,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&				output,
+	std::ostream&				output,
 	const CBProjectNodeType	type
 	)
 {

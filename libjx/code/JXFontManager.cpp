@@ -207,7 +207,7 @@ JXFontManager::GetFontNames
 			{
 			FcChar8* s = FcNameUnparse(set->fonts[i]);
 			name.Set((JCharacter*) s);
-//			cout << "tt  font: " << name << endl;
+//			std::cout << "tt  font: " << name << std::endl;
 
 			if (!IsPostscript(name) || IsUseless(name))
 				{
@@ -250,7 +250,7 @@ JXFontManager::GetFontNames
 				}
 
 			ConvertToPSFontName(&name);
-//			cout << "std font: " << name << endl;
+//			std::cout << "std font: " << name << std::endl;
 
 			if (!IsPostscript(name) || IsUseless(name))
 				{
@@ -323,7 +323,7 @@ JXFontManager::GetMonospaceFontNames
 			{
 			FcChar8* s = FcNameUnparse(set->fonts[i]);
 			name.Set((JCharacter*) s);
-//			cout << "tt  mono: " << name << endl;
+//			std::cout << "tt  mono: " << name << std::endl;
 
 #if ONLY_STD_MONOSPACE
 
@@ -385,7 +385,7 @@ JXFontManager::GetMonospaceFontNames
 					}
 
 				ConvertToPSFontName(&name);
-//				cout << "std mono: " << name << endl;
+//				std::cout << "std mono: " << name << std::endl;
 
 #if ONLY_STD_MONOSPACE
 
@@ -976,9 +976,9 @@ JXFontManager::ApproximateFont
 			{
 			// this should never happen, but it does with some Win95 X servers
 
-			cerr << "The X server does not have any 75 dpi PostScript fonts, not even ";
-			cerr << JGetDefaultFontName() << endl;
-			cerr << "Please install the xorg-x11-fonts-75dpi package" << endl;
+			std::cerr << "The X server does not have any 75 dpi PostScript fonts, not even ";
+			std::cerr << JGetDefaultFontName() << std::endl;
+			std::cerr << "Please install the xorg-x11-fonts-75dpi package" << std::endl;
 			JXApplication::Abort(JXDocumentManager::kServerDead, kJFalse);
 			}
 

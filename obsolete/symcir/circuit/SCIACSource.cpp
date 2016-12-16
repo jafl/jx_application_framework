@@ -34,7 +34,7 @@ SCIACSource::SCIACSource
 
 SCIACSource::SCIACSource
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	SCCircuit*			theCircuit
 	)
@@ -47,7 +47,7 @@ SCIACSource::SCIACSource
 
 SCIACSource::SCIACSource
 	(
-	istream&	input,
+	std::istream&	input,
 	SCCircuit*	theCircuit
 	)
 	:

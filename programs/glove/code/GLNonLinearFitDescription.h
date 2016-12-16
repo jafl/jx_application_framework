@@ -21,14 +21,14 @@ public:
 							  const JCharacter* function, 
 							  const JCharacter* fPrimed, 
 							  const JPtrArray<JString>& vars);
-	GLNonLinearFitDescription(istream& is);
+	GLNonLinearFitDescription(std::istream& is);
 								  
 	virtual ~GLNonLinearFitDescription();
 
 	JString		GetFunctionString() const;
 	JString		GetFunctionPrimedString() const;
 
-	virtual void	WriteSetup(ostream& os); // must call base class first!
+	virtual void	WriteSetup(std::ostream& os); // must call base class first!
 	
 protected:
 

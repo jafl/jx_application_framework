@@ -64,7 +64,7 @@ static const JCharacter* kGreekFontName     = "Symbol";
 // Prototypes
 
 void		JXInitLocale();
-JBoolean	JXOpenLocaleFile(const JCharacter* fileName, ifstream& input);
+JBoolean	JXOpenLocaleFile(const JCharacter* fileName, std::ifstream& input);
 
 /******************************************************************************
  JXCreateGlobals
@@ -683,7 +683,7 @@ JXInitLocale()
 
 	// resolve alias to complete language name
 
-	ifstream langInput;
+	std::ifstream langInput;
 	if (!JXOpenLocaleFile("locale.alias", langInput))
 		{
 		return;
@@ -699,7 +699,7 @@ JXInitLocale()
 			}
 		else
 			{
-			langInput >> ws;
+			langInput >> std::ws;
 			alias    = JReadUntilws(langInput);
 			langName = JReadUntilws(langInput);
 
@@ -719,7 +719,7 @@ JXInitLocale()
 
 	// extract file name from Compose.dir
 
-	ifstream composeDirInput;
+	std::ifstream composeDirInput;
 	if (!JXOpenLocaleFile("compose.dir", composeDirInput))
 		{
 		return;
@@ -735,7 +735,7 @@ JXInitLocale()
 			}
 		else
 			{
-			composeDirInput >> ws;
+			composeDirInput >> std::ws;
 			composeFile = JReadUntilws(composeDirInput);
 			name        = JReadUntilws(composeDirInput);
 
@@ -750,7 +750,7 @@ JXInitLocale()
 
 	// build Compose rule list
 
-	ifstream composeInput;
+	std::ifstream composeInput;
 	if (found && JXOpenLocaleFile(composeFile, composeInput))
 		{
 		theComposeRuleList = jnew JXComposeRuleList(composeInput, kCharacterCount,
@@ -772,7 +772,7 @@ JBoolean
 JXOpenLocaleFile
 	(
 	const JCharacter*	fileName,
-	ifstream&			input
+	std::ifstream&			input
 	)
 {
 	input.close();

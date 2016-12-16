@@ -25,7 +25,7 @@ class FFNetwork
 public:
 
 	FFNetwork(const FFNetworkSize& unitCount);
-	FFNetwork(istream& input);
+	FFNetwork(std::istream& input);
 
 	virtual ~FFNetwork();
 
@@ -38,21 +38,21 @@ public:
 				  const JSize maxIterCount, const JBoolean useBatchMethod,
 				  const JMatrix* testInput, const JMatrix* correctTestOutput,
 				  JFloat* trainError, JFloat* testError,
-				  ostream* logFile);
+				  std::ostream* logFile);
 	JFloat	MeasurePerformance(const JMatrix& input,
 							   const JMatrix& correctOutput) const;
 	JFloat	MeasureBooleanAccuracy(const JMatrix& input,
 									  const JMatrix& correctOutput) const;
 
 	void	RandomizeWeights(const JFloat magnitude);
-	void	PrintWeights(ostream& output) const;
+	void	PrintWeights(std::ostream& output) const;
 
 	JSize	GetLayerCount() const;
 	JSize	GetLayerSize(const JIndex layer) const;
 	JMatrix	GetEmptyWeightMatrix(const JIndex layer) const;
 	void	SetWeights(const JIndex layer, const JMatrix& w);
 
-	virtual void	StreamOut(ostream& output) const;
+	virtual void	StreamOut(std::ostream& output) const;
 
 protected:
 
@@ -106,7 +106,7 @@ private:
 								   const JMatrix* testInput,
 								   const JMatrix* correctTestOutput,
 								   JFloat* testError,
-								   ostream* logFile) const;
+								   std::ostream* logFile) const;
 
 	// not allowed
 

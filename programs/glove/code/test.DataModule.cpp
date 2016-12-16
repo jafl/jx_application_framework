@@ -8,15 +8,15 @@ main
 	char *argv[]
 	)
 {
-	cout << kGloveRequiresNoData << " " << kGloveDataDump << " " ;
-	cout << 2 << " ";
-	cout << flush;
+	std::cout << kGloveRequiresNoData << " " << kGloveDataDump << " " ;
+	std::cout << 2 << " ";
+	std::cout << flush;
 	int i;
 	for (i=0;i<=10;i++)
 		{
-		cout << kGloveOK << " " << i << " " << i*2 << " ";
-		cout << flush;
+		std::cout << kGloveOK << " " << i << " " << i*2 << " ";
+		std::cout << flush;
 		usleep(25000000);
 		}
-	cout << kGloveFinished;
+	std::cout << kGloveFinished;
 }

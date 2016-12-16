@@ -24,18 +24,18 @@ class SCResistor;
 
 class SCCircuit : public JContainer
 {
-	friend ostream& operator<<(ostream&, const SCCircuit&);
+	friend std::ostream& operator<<(std::ostream&, const SCCircuit&);
 
 public:
 
 	SCCircuit();
-	SCCircuit(istream& input, const JFileVersion vers);	// private format
+	SCCircuit(std::istream& input, const JFileVersion vers);	// private format
 	SCCircuit(const JCharacter* fileName);				// netlist format
 	SCCircuit(const SCCircuit& source);
 
 	virtual ~SCCircuit();
 
-	void	WriteNetlist(ostream& output) const;
+	void	WriteNetlist(std::ostream& output) const;
 	void	Insert(const SCCircuit& theCircuit, JArray<JIndex>* nodeMap);
 
 	JBoolean	IsLinear() const;

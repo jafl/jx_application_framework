@@ -66,7 +66,7 @@ JXEPSPrinter::~JXEPSPrinter()
 void
 JXEPSPrinter::ReadXEPSSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -87,7 +87,7 @@ JXEPSPrinter::ReadXEPSSetup
 void
 JXEPSPrinter::WriteXEPSSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

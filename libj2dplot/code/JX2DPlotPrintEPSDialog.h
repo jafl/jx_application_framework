@@ -76,7 +76,7 @@ private:
 	const JX2DPlotPrintEPSDialog& operator=(const JX2DPlotPrintEPSDialog& source);
 };
 
-istream& operator>>(istream& input, JX2DPlotPrintEPSDialog::Unit& u);
-ostream& operator<<(ostream& output, const JX2DPlotPrintEPSDialog::Unit u);
+std::istream& operator>>(std::istream& input, JX2DPlotPrintEPSDialog::Unit& u);
+std::ostream& operator<<(std::ostream& output, const JX2DPlotPrintEPSDialog::Unit u);
 
 #endif

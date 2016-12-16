@@ -10,7 +10,7 @@ int main(int argc, char** argv) {
 	JString s("hi");
 	foo(x);
 	bar();
-	cout << kS << endl;
+	std::cout << kS << std::endl;
 	assert( 0 );
 	return 0;
 }

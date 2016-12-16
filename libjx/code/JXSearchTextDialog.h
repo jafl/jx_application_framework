@@ -66,8 +66,8 @@ public:
 
 	void	SetFont(const JCharacter* name, const JSize size);
 
-	void	ReadSetup(istream& input);
-	void	WriteSetup(ostream& output) const;
+	void	ReadSetup(std::istream& input);
+	void	WriteSetup(std::ostream& output) const;
 
 	void	SetSearchTextHelpName(const JCharacter* name);
 	void	SetRegexQRefName(const JCharacter* name);
@@ -168,10 +168,10 @@ private:
 	void	InitXSearch();
 	void	GetXSearch();
 	void	SetXSearch(const JBoolean grabServer = kJTrue) const;
-	void	ReadXSearch(istream& input, const Atom vers);
+	void	ReadXSearch(std::istream& input, const Atom vers);
 	void	SetStateForXSearch(JXTextCheckbox* cb,
 							   const JCharacter state, const JBoolean negate);
-	void	WriteXSearchV1(ostream& output) const;
+	void	WriteXSearchV1(std::ostream& output) const;
 
 	// not allowed
 

@@ -36,7 +36,7 @@ GLPolyFitDescription::GLPolyFitDescription
 
 GLPolyFitDescription::GLPolyFitDescription
 	(
-	istream& is
+	std::istream& is
 	)
 	:
 	GLFitDescription(kPolynomial, "", "")
@@ -127,7 +127,7 @@ GLPolyFitDescription::GetPowers
 void
 GLPolyFitDescription::WriteSetup
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	GLFitDescription::WriteSetup(os);

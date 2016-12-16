@@ -51,8 +51,8 @@ public:
 	virtual void		HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
 	virtual JBoolean	IsEditable(const JPoint& cell) const;
 
-	void	ReadSetup(istream& input, const JFileVersion vers);
-	void	WriteSetup(ostream& output) const;
+	void	ReadSetup(std::istream& input, const JFileVersion vers);
+	void	WriteSetup(std::ostream& output) const;
 
 protected:
 

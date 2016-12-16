@@ -38,8 +38,8 @@ public:
 				   const JBoolean needWriteMakeFiles = kJTrue,
 				   const JCharacter* targetName = "",
 				   const JCharacter* depListExpr = "");
-	CBBuildManager(istream& projInput, const JFileVersion projVers,
-				   istream* setInput, const JFileVersion setVers,
+	CBBuildManager(std::istream& projInput, const JFileVersion projVers,
+				   std::istream* setInput, const JFileVersion setVers,
 				   CBProjectDocument* doc);
 
 	virtual ~CBBuildManager();
@@ -65,14 +65,14 @@ public:
 
 	// stored in project
 
-	void	StreamOut(ostream& projOutput, ostream* setOutput) const;
+	void	StreamOut(std::ostream& projOutput, std::ostream* setOutput) const;
 
 	// stored in project template
 
-	void	ReadTemplate(istream& input, const JFileVersion tmplVers,
+	void	ReadTemplate(std::istream& input, const JFileVersion tmplVers,
 						 const JFileVersion projVers, const MakefileMethod method,
 						 const JCharacter* targetName, const JCharacter* depListExpr);
-	void	WriteTemplate(ostream& output) const;
+	void	WriteTemplate(std::ostream& output) const;
 
 	// called by CBProjectDocument
 
@@ -80,7 +80,7 @@ public:
 
 	// called by CBCommandManager
 
-	void	ConvertCompileDialog(istream& input, const JFileVersion vers);
+	void	ConvertCompileDialog(std::istream& input, const JFileVersion vers);
 
 	// called by CBNewProjectSaveFileDialog
 
@@ -142,7 +142,7 @@ private:
 
 	void	UpdateProjectConfig();
 
-	void		PrintTargetName(ostream& output) const;
+	void		PrintTargetName(std::ostream& output) const;
 	JBoolean	SaveOpenFile(const JCharacter* fileName);
 
 	void		CreateMakemakeFiles(const JCharacter* makeHeaderText,
@@ -182,8 +182,8 @@ private:
 	void		GetQMakeFileNames(JString* qmakeHeaderName,
 								  JString* qmakeInputName) const;
 
-	void	ReadSetup(istream& projInput, const JFileVersion projVers,
-					  istream* setInput, const JFileVersion setVers,
+	void	ReadSetup(std::istream& projInput, const JFileVersion projVers,
+					  std::istream* setInput, const JFileVersion setVers,
 					  const JCharacter* projPath);
 
 	// not allowed
@@ -192,8 +192,8 @@ private:
 	const CBBuildManager& operator=(const CBBuildManager& source);
 };
 
-istream& operator>>(istream& input, CBBuildManager::MakefileMethod& method);
-ostream& operator<<(ostream& output, const CBBuildManager::MakefileMethod method);
+std::istream& operator>>(std::istream& input, CBBuildManager::MakefileMethod& method);
+std::ostream& operator<<(std::ostream& output, const CBBuildManager::MakefileMethod method);
 
 
 /******************************************************************************

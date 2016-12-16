@@ -206,7 +206,7 @@ CBEditCPPMacroDialog::OKToDeactivate()
 void
 CBEditCPPMacroDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -229,7 +229,7 @@ CBEditCPPMacroDialog::ReadPrefs
 void
 CBEditCPPMacroDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

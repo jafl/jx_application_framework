@@ -169,7 +169,7 @@ JXDockWindowTask::Perform
 			}
 		else // if (parent == root)
 			{
-			cerr << "XReparentWindow failed during docking:  trying again" << endl;
+			std::cerr << "XReparentWindow failed during docking:  trying again" << std::endl;
 			XReparentWindow(*(itsWindow->GetDisplay()), itsWindow->GetXWindow(),
 							itsParent, itsPoint.x, itsPoint.y);
 			itsWindow->itsRootChild = None;

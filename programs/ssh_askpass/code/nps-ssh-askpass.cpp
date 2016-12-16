@@ -92,9 +92,9 @@ ParseTextOptions
 void
 PrintVersion()
 {
-	cout << endl;
-	cout << ASKGetVersionStr() << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << ASKGetVersionStr() << std::endl;
+	std::cout << std::endl;
 }
 
 /******************************************************************************
@@ -111,5 +111,5 @@ PrintCommandLineHelp()
 		"copyright", JGetString("COPYRIGHT")
 		};
 	const JString s = JGetString(kCommandLineHelpID, map, sizeof(map));
-	cout << endl << s << endl << endl;
+	std::cout << std::endl << s << std::endl << std::endl;
 }

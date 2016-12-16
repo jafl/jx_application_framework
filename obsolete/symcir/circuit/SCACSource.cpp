@@ -41,7 +41,7 @@ SCACSource::SCACSource
 
 SCACSource::SCACSource
 	(
-	istream&				input,
+	std::istream&				input,
 	const JFileVersion		vers,
 	const SCComponentType	type,
 	SCCircuit*				theCircuit
@@ -56,7 +56,7 @@ SCACSource::SCACSource
 
 SCACSource::SCACSource
 	(
-	istream&				input,
+	std::istream&				input,
 	const SCComponentType	type,
 	SCCircuit*				theCircuit
 	)
@@ -76,7 +76,7 @@ SCACSource::SCACSource
 	else
 		{
 		itsMagnitude = 0.0;
-		cerr << subType << " source \"" << GetName() << "\" turned off" << endl;
+		std::cerr << subType << " source \"" << GetName() << "\" turned off" << std::endl;
 		if (subType != "DC")
 			{
 			JIgnoreLine(input);
@@ -119,7 +119,7 @@ SCACSource::SCACSource
 void
 SCACSource::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -136,7 +136,7 @@ SCACSource::StreamOut
 void
 SCACSource::PrintToNetlist
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

@@ -23,7 +23,7 @@ foo2(3, 4);
 float a = 3.2;
 	{
 	char* a = "this is a string aaaaaaaaaaaaaaaaab";
-	cout << a << endl;
+	std::cout << a << std::endl;
 		{
 		int  b = 2;
 		int* a = &b;

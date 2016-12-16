@@ -103,7 +103,7 @@ JBoolean AddSubTarget(JPtrArray<JString>& targetList,
 					  JPtrArray<JString>& outPrefixList, JPtrArray<JString>& outSuffixList,
 					  JString* targetName, JString* prefixName, JString* suffixName,
 					  JString* outPrefix, JString* outSuffixName);
-void PrintForMake(ostream& output, const JString& str);
+void PrintForMake(std::ostream& output, const JString& str);
 const JCharacter* GetOutputSuffix(const JString& inputSuffix,
 								  const JPtrArray<JString>& suffixMapIn,
 								  const JPtrArray<JString>& suffixMapOut);
@@ -174,8 +174,8 @@ main
 
 	// skip comments and check for possible first suffix instruction
 
-	ifstream input(inputName);
-	input >> ws;
+	std::ifstream input(inputName);
+	input >> std::ws;
 	while (!input.eof() && !input.fail())
 		{
 		if (input.peek() == '-')
@@ -183,7 +183,7 @@ main
 			input.ignore(1);
 			JString cmd   = JReadUntil(input, ' ');
 			JString value = JReadUntil(input, '\n');
-			input >> ws;
+			input >> std::ws;
 			value.TrimWhitespace();
 			if (cmd == "suffix")
 				{
@@ -191,13 +191,13 @@ main
 				}
 			else
 				{
-				cerr << argv[0] << ": unknown parameter: " << cmd << '\n';
+				std::cerr << argv[0] << ": unknown parameter: " << cmd << '\n';
 				}
 			}
 		else if (input.peek() == '#')
 			{
 			JIgnoreLine(input);
-			input >> ws;
+			input >> std::ws;
 			}
 		else
 			{
@@ -228,7 +228,7 @@ main
 		// there aren't any other targets that need our dependency
 		// list, we can take a quick exit.
 
-		input >> ws;
+		input >> std::ws;
 		const JBoolean shouldMakeTarget =
 			ShouldMakeTarget(*mainTargetName, userTargetList);
 		if (!shouldMakeTarget && prevEmptyTargets == 0)
@@ -263,7 +263,7 @@ main
 				input.ignore(1);
 				JString cmd   = JReadUntil(input, ' ');
 				JString value = JReadUntil(input, '\n');
-				input >> ws;
+				input >> std::ws;
 				value.TrimWhitespace();
 				if (cmd == "prefix")
 					{
@@ -275,18 +275,18 @@ main
 					}
 				else
 					{
-					cerr << argv[0] << ": unknown parameter: " << cmd << '\n';
+					std::cerr << argv[0] << ": unknown parameter: " << cmd << '\n';
 					}
 				}
 			else if (input.peek() == '#')
 				{
 				JIgnoreLine(input);
-				input >> ws;
+				input >> std::ws;
 				}
 			else
 				{
 				JString fullName = JReadUntil(input, '\n');
-				input >> ws;
+				input >> std::ws;
 
 				JBoolean usesJava1 = kJFalse;
 				JIndexRange suffixRange;
@@ -339,8 +339,8 @@ main
 						}
 					else if (fullName.GetFirstCharacter() == '.')
 						{
-						cerr << argv[0] << ": invalid dependency \"";
-						cerr << fullName << "\"\n";
+						std::cerr << argv[0] << ": invalid dependency \"";
+						std::cerr << fullName << "\"\n";
 						continue;
 						}
 					else
@@ -439,17 +439,17 @@ main
 
 	if (prevEmptyTargets != 0)
 		{
-		cerr << argv[0] << ": empty target found at end of " << inputName << '\n';
+		std::cerr << argv[0] << ": empty target found at end of " << inputName << '\n';
 		return 1;
 		}
 
 // build the output file: we start with defineText + a copy of the header file
 // and then append the make rules to the output file
 
-	ofstream output(outputName);
+	std::ofstream output(outputName);
 	if (output.fail())
 		{
-		cerr << argv[0] << ": unable to write to " << outputName << endl;
+		std::cerr << argv[0] << ": unable to write to " << outputName << std::endl;
 		return 1;
 		}
 
@@ -676,7 +676,7 @@ main
 	const JError err = JCreateTempFile(&tempFileName);
 	if (!err.OK())
 		{
-		cerr << argv[0] << ": error creating temporary file: " << err.GetMessage() << endl;
+		std::cerr << argv[0] << ": error creating temporary file: " << err.GetMessage() << std::endl;
 		return 1;
 		}
 	{
@@ -756,7 +756,7 @@ main
 	output << kMakedependMarkerStr << '\n';
 	if (output.fail())
 		{
-		cerr << argv[0] << ": error while writing to " << outputName << endl;
+		std::cerr << argv[0] << ": error while writing to " << outputName << std::endl;
 		return 1;
 		}
 	output.close();
@@ -790,7 +790,7 @@ main
 		JProcess::Create(&p, depArgv, sizeof(depArgv));
 	if (!depErr.OK())
 		{
-		cerr << argv[0] << ": " << depErr.GetMessage() << endl;
+		std::cerr << argv[0] << ": " << depErr.GetMessage() << std::endl;
 		return 1;
 		}
 	p->WaitUntilFinished();
@@ -808,7 +808,7 @@ main
 		}
 	else
 		{
-		cerr << argv[0] << ": error while calculating dependencies" << endl;
+		std::cerr << argv[0] << ": error while calculating dependencies" << std::endl;
 		jdelete p;
 		return 1;
 		}
@@ -904,7 +904,7 @@ AddSubTarget
 void
 PrintForMake
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const JString&	str
 	)
 {
@@ -1076,7 +1076,7 @@ GetOptions
 				}
 			else
 				{
-				cerr << argv[0] << ":  invalid argument to --suffix-map" << endl;
+				std::cerr << argv[0] << ":  invalid argument to --suffix-map" << std::endl;
 				exit(1);
 				}
 			}
@@ -1127,7 +1127,7 @@ GetOptions
 
 		else if (argv[index][0] == '-')
 			{
-			cerr << argv[0] << ": unknown command line option: " << argv[index] << endl;
+			std::cerr << argv[0] << ": unknown command line option: " << argv[index] << std::endl;
 			}
 
 		else
@@ -1149,7 +1149,7 @@ GetOptions
 		}
 	else
 		{
-		cerr << argv[0] << ": header file not found" << endl;
+		std::cerr << argv[0] << ": header file not found" << std::endl;
 		exit(1);
 		}
 
@@ -1162,7 +1162,7 @@ GetOptions
 		}
 	else
 		{
-		cerr << argv[0] << ": project file not found" << endl;
+		std::cerr << argv[0] << ": project file not found" << std::endl;
 		exit(1);
 		}
 
@@ -1173,13 +1173,13 @@ GetOptions
 		JString fullPath;
 		if (!JGetTrueName(path, &fullPath))
 			{
-			cerr << argv[0] << ": invalid path for output file" << endl;
+			std::cerr << argv[0] << ": invalid path for output file" << std::endl;
 			exit(1);
 			}
 		const JError err = JChangeDirectory(fullPath);
 		if (!err.OK())
 			{
-			cerr << argv[0] << ": " << err.GetMessage() << endl;
+			std::cerr << argv[0] << ": " << err.GetMessage() << std::endl;
 			exit(1);
 			}
 		*outputName = name;
@@ -1192,12 +1192,12 @@ GetOptions
 		time_t headerTime, inputTime, outputTime;
 		if (JGetModificationTime(*headerName, &headerTime) != kJNoError)
 			{
-			cerr << argv[0] << ": unable to get modification time for " << *headerName << endl;
+			std::cerr << argv[0] << ": unable to get modification time for " << *headerName << std::endl;
 			exit(1);
 			}
 		if (JGetModificationTime(*inputName, &inputTime) != kJNoError)
 			{
-			cerr << argv[0] << ": unable to get modification time for " << *inputName << endl;
+			std::cerr << argv[0] << ": unable to get modification time for " << *inputName << std::endl;
 			exit(1);
 			}
 
@@ -1236,9 +1236,9 @@ PickTargets
 {
 	JPtrArray<JString> all(JPtrArrayT::kDeleteAll);
 	JSize count = 0;
-	cout << endl;
+	std::cout << std::endl;
 
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 	JIgnoreUntil(input, '@');
 	while (!input.eof() && !input.fail())
 		{
@@ -1247,19 +1247,19 @@ PickTargets
 
 		all.Append(targetName);
 		count++;
-		cout << count << ") " << *targetName << endl;
+		std::cout << count << ") " << *targetName << std::endl;
 
 		JIgnoreUntil(input, '@');
 		}
 	input.close();
 
-	cout << endl;
+	std::cout << std::endl;
 
 	while (1)
 		{
 		JIndex choice;
-		cout << "Target to include (0 to end): ";
-		cin >> choice;
+		std::cout << "Target to include (0 to end): ";
+		std::cin >> choice;
 		JInputFinished();
 
 		if (choice == 0 && list->IsEmpty())
@@ -1272,7 +1272,7 @@ PickTargets
 			}
 		else if (choice > count)
 			{
-			cerr << "That is not a valid choice" << endl;
+			std::cerr << "That is not a valid choice" << std::endl;
 			}
 		else
 			{
@@ -1297,55 +1297,55 @@ PrintHelp
 	const JString& outputName
 	)
 {
-	cout << endl;
-	cout << "This program builds a Makefile from:" << endl;
-	cout << endl;
-	cout << "    1) Header file:  defines make variables" << endl;
-	cout << "    2) Project file: contains a list of required code files" << endl;
-	cout << endl;
-	cout << "The format of the project file is:" << endl;
-	cout << endl;
-	cout << "    @<name of first target>" << endl;
-	cout << "    <first object file>" << endl;
-	cout << "    <second object file>" << endl;
-	cout << "    ..." << endl;
-	cout << "    @<name of second target>" << endl;
-	cout << "    ..." << endl;
-	cout << endl;
-	cout << "If no objects files are listed for a target, it is assumed that" << endl;
-	cout << "they are the same as those for the next target in the file." << endl;
-	cout << endl;
-	cout << "Embedded options:" << endl;
-	cout << endl;
-	cout << "    -prefix <prefix for following files>" << endl;
-	cout << "            (reset to blank at start of each main target)" << endl;
-	cout << "    -suffix <suffix for following files>" << endl;
-	cout << "            (override for specific file by placing suffix in front of name)" << endl;
-	cout << "    (you can redefine these as often as you want)" << endl;
-	cout << endl;
-	cout << "Comments can be included by beginning the line with #" << endl;
-	cout << endl;
-	cout << "Usage:  <options> <targets to generate>" << endl;
-	cout << endl;
-	cout << "-h                prints help" << endl;
-	cout << "-v                prints version information" << endl;
-	cout << "-hf               <header file name>  - default " << headerName << endl;
-	cout << "-if               <project file name> - default " << inputName << endl;
-	cout << "-of               <output file name>  - default " << outputName << endl;
-	cout << kObjDirArg << "         <variable name>     - specifies directory for all .o files" << endl;
-	cout << kNoStdIncArg << "      exclude dependencies on files in /usr/include" << endl;
-	cout << kAutoGenArg << "  assume unfound \"...\" files reside in includer's directory" << endl;
-	cout << "--check           only rebuild output file if input files are newer" << endl;
-	cout << "--choose          interactively choose the targets" << endl;
-	cout << "--make-name       <make binary> - default " << kMakeBinary << endl;
-	cout << endl;
-	cout << "The following options can be used multiple times:" << endl;
-	cout << endl;
-	cout << "--define      <code> - make code to prepend to Make.header" << endl;
-	cout << "--search-path <path> - add to paths to search after . for inputs files" << endl;
-	cout << "--suffix-map  .x.y   - file.y results from compiling file.x" << endl;
-	cout << "--no-parse    .x.y.z - specifies suffixes of files which should not be parsed" << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << "This program builds a Makefile from:" << std::endl;
+	std::cout << std::endl;
+	std::cout << "    1) Header file:  defines make variables" << std::endl;
+	std::cout << "    2) Project file: contains a list of required code files" << std::endl;
+	std::cout << std::endl;
+	std::cout << "The format of the project file is:" << std::endl;
+	std::cout << std::endl;
+	std::cout << "    @<name of first target>" << std::endl;
+	std::cout << "    <first object file>" << std::endl;
+	std::cout << "    <second object file>" << std::endl;
+	std::cout << "    ..." << std::endl;
+	std::cout << "    @<name of second target>" << std::endl;
+	std::cout << "    ..." << std::endl;
+	std::cout << std::endl;
+	std::cout << "If no objects files are listed for a target, it is assumed that" << std::endl;
+	std::cout << "they are the same as those for the next target in the file." << std::endl;
+	std::cout << std::endl;
+	std::cout << "Embedded options:" << std::endl;
+	std::cout << std::endl;
+	std::cout << "    -prefix <prefix for following files>" << std::endl;
+	std::cout << "            (reset to blank at start of each main target)" << std::endl;
+	std::cout << "    -suffix <suffix for following files>" << std::endl;
+	std::cout << "            (override for specific file by placing suffix in front of name)" << std::endl;
+	std::cout << "    (you can redefine these as often as you want)" << std::endl;
+	std::cout << std::endl;
+	std::cout << "Comments can be included by beginning the line with #" << std::endl;
+	std::cout << std::endl;
+	std::cout << "Usage:  <options> <targets to generate>" << std::endl;
+	std::cout << std::endl;
+	std::cout << "-h                prints help" << std::endl;
+	std::cout << "-v                prints version information" << std::endl;
+	std::cout << "-hf               <header file name>  - default " << headerName << std::endl;
+	std::cout << "-if               <project file name> - default " << inputName << std::endl;
+	std::cout << "-of               <output file name>  - default " << outputName << std::endl;
+	std::cout << kObjDirArg << "         <variable name>     - specifies directory for all .o files" << std::endl;
+	std::cout << kNoStdIncArg << "      exclude dependencies on files in /usr/include" << std::endl;
+	std::cout << kAutoGenArg << "  assume unfound \"...\" files reside in includer's directory" << std::endl;
+	std::cout << "--check           only rebuild output file if input files are newer" << std::endl;
+	std::cout << "--choose          interactively choose the targets" << std::endl;
+	std::cout << "--make-name       <make binary> - default " << kMakeBinary << std::endl;
+	std::cout << std::endl;
+	std::cout << "The following options can be used multiple times:" << std::endl;
+	std::cout << std::endl;
+	std::cout << "--define      <code> - make code to prepend to Make.header" << std::endl;
+	std::cout << "--search-path <path> - add to paths to search after . for inputs files" << std::endl;
+	std::cout << "--suffix-map  .x.y   - file.y results from compiling file.x" << std::endl;
+	std::cout << "--no-parse    .x.y.z - specifies suffixes of files which should not be parsed" << std::endl;
+	std::cout << std::endl;
 }
 
 /******************************************************************************
@@ -1356,9 +1356,9 @@ PrintHelp
 void
 PrintVersion()
 {
-	cout << endl;
-	cout << kVersionStr << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << kVersionStr << std::endl;
+	std::cout << std::endl;
 }
 
 /******************************************************************************
@@ -1382,14 +1382,14 @@ struct HeaderDep
 	{ };
 };
 
-void		WriteDependencies(ostream& output, const JCharacter* fileName,
+void		WriteDependencies(std::ostream& output, const JCharacter* fileName,
 							  const JCharacter* makeName,
 							  const JPtrArray<JString>& pathList1,
 							  const JPtrArray<JString>& pathList2,
 							  const JBoolean assumeAutoGen,
 							  const JCharacter* outputDirName,
 							  JArray<HeaderDep>* headerList);
-void		PrintDependencies(ostream& output, const JCharacter* outputDirName,
+void		PrintDependencies(std::ostream& output, const JCharacter* outputDirName,
 							  const JCharacter* makeName,
 							  const JPtrArray<JString>& depList);
 void		AddDependency(JPtrArray<JString>* depList, const JString& headerName,
@@ -1403,7 +1403,7 @@ HeaderDep	ParseHeaderFile(const JString& fileName,
 							const JPtrArray<JString>& pathList2,
 							const JBoolean assumeAutoGen,
 							JArray<HeaderDep>* headerList);
-JBoolean	GetNextIncludedFile(const JCharacter* inputFileName, istream& input,
+JBoolean	GetNextIncludedFile(const JCharacter* inputFileName, std::istream& input,
 								const JPtrArray<JString>& pathList1,
 								const JPtrArray<JString>& pathList2,
 								const JBoolean assumeAutoGen,
@@ -1472,14 +1472,14 @@ CalcDepend
 			}
 		else
 			{
-			cerr << "Unknown argument " << argv[i] << " in \"makemake --depend\"" << endl;
+			std::cerr << "Unknown argument " << argv[i] << " in \"makemake --depend\"" << std::endl;
 			}
 		i++;
 		}
 
 	if (i >= argc || strcmp(argv[i], "--") != 0)
 		{
-		cerr << "Missing first \"--\" in \"makemake --depend\"" << endl;
+		std::cerr << "Missing first \"--\" in \"makemake --depend\"" << std::endl;
 		exit(1);
 		}
 	i++;	// move past "--"
@@ -1520,7 +1520,7 @@ CalcDepend
 				}
 			else
 				{
-				cerr << argv[0] << ": invalid path " << argv[i] << endl;
+				std::cerr << argv[0] << ": invalid path " << argv[i] << std::endl;
 				}
 			}
 		i++;
@@ -1530,9 +1530,9 @@ CalcDepend
 	if (i >= argc)
 		{
 #if USE_TEMP_FILE_FOR_DEPEND
-//		cerr << "Missing transfer file name in \"makemake --depend\"" << endl;
+//		std::cerr << "Missing transfer file name in \"makemake --depend\"" << std::endl;
 #else
-//		cerr << "Missing file list in \"makemake --depend\"" << endl;
+//		std::cerr << "Missing file list in \"makemake --depend\"" << std::endl;
 #endif
 		return;
 		}
@@ -1553,7 +1553,7 @@ CalcDepend
 
 	TruncateMakefile(makefileName);
 
-	ofstream output(makefileName, ios::app);
+	std::ofstream output(makefileName, std::ios::app);
 	output << '\n';
 
 	JArray<HeaderDep> headerList;		// header files that have been processed
@@ -1561,7 +1561,7 @@ CalcDepend
 
 #if USE_TEMP_FILE_FOR_DEPEND
 
-	ifstream input(argv[i]);
+	std::ifstream input(argv[i]);
 
 	JString fileName, makeName;
 	while (1)
@@ -1616,7 +1616,7 @@ CalcDepend
 void
 WriteDependencies
 	(
-	ostream&					output,
+	std::ostream&					output,
 	const JCharacter*			fileName,
 	const JCharacter*			makeName,
 	const JPtrArray<JString>&	pathList1,
@@ -1628,7 +1628,7 @@ WriteDependencies
 {
 	if (!JFileExists(fileName))
 		{
-		cerr << "Source file \"" << fileName << "\" not found" << endl;
+		std::cerr << "Source file \"" << fileName << "\" not found" << std::endl;
 		return;
 		}
 
@@ -1637,7 +1637,7 @@ WriteDependencies
 	JPtrArray<JString> depList(JPtrArrayT::kForgetAll);
 	depList.SetCompareFunction(JCompareStringsCaseSensitive);
 
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 	JString headerName;
 	while (GetNextIncludedFile(fileName, input, pathList1, pathList2, assumeAutoGen, &headerName))
 		{
@@ -1658,7 +1658,7 @@ WriteDependencies
 void
 PrintDependencies
 	(
-	ostream&					output,
+	std::ostream&					output,
 	const JCharacter*			outputDirName,
 	const JCharacter*			makeName,
 	const JPtrArray<JString>&	depList
@@ -1802,7 +1802,7 @@ ParseHeaderFile
 
 	// find the files that fileName depends on and add them to depList
 
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 	JString headerName;
 	while (GetNextIncludedFile(fileName, input, pathList1, pathList2, assumeAutoGen, &headerName))
 		{
@@ -1832,7 +1832,7 @@ JBoolean
 GetNextIncludedFile
 	(
 	const JCharacter*			inputFileName,
-	istream&					input,
+	std::istream&					input,
 	const JPtrArray<JString>&	pathList1,
 	const JPtrArray<JString>&	pathList2,
 	const JBoolean				assumeAutoGen,
@@ -1841,7 +1841,7 @@ GetNextIncludedFile
 {
 	while (!input.eof() && !input.fail())
 		{
-		input >> ws;
+		input >> std::ws;
 		if (input.peek() != '#')
 			{
 			JIgnoreLine(input);
@@ -1849,7 +1849,7 @@ GetNextIncludedFile
 		else
 			{
 			input.ignore();
-			input >> ws;
+			input >> std::ws;
 			JString line = JReadLine(input);
 			if (line.BeginsWith(kIncludeMarker))
 				{
@@ -1967,7 +1967,7 @@ TruncateMakefile
 	const JCharacter* fileName
 	)
 {
-	fstream f(fileName, kJTextFile);
+	std::fstream f(fileName, kJTextFile);
 
 	JString line;
 	do
@@ -1978,7 +1978,7 @@ TruncateMakefile
 
 	if (!f.eof() && !f.fail())
 		{
-		fstream* newF = JSetFStreamLength(fileName, f, JTellg(f), kJTextFile);
+		std::fstream* newF = JSetFStreamLength(fileName, f, JTellg(f), kJTextFile);
 		jdelete newF;
 		}
 }

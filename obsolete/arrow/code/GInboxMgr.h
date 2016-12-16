@@ -22,8 +22,8 @@ public:
 	GInboxMgr();
 	virtual ~GInboxMgr();
 
-	void	SaveState(ostream& os);
-	void	ReadState(istream& is);
+	void	SaveState(std::ostream& os);
+	void	ReadState(std::istream& is);
 	void	MailboxClosed(const JString& mailbox);
 	void	ShouldBePostponingUpdate(const JBoolean postpone);
 

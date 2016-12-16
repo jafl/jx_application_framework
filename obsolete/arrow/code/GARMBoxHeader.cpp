@@ -946,16 +946,16 @@ GARMBoxHeader::AdjustPosition
 	To include double quotes in a string, use \"
 	To include a backslash in a string, use \\
 
-	An exception is made if the streams are cin or cout.
+	An exception is made if the streams are std::cin or std::cout.
 	For input, characters are simply read until 'return' is pressed.
 	For output, Print() is used.
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&	input,
+	std::istream&	input,
 	GARMBoxHeader&	header
 	)
 {
@@ -991,10 +991,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const GARMBoxHeader&	header
 	)
 {

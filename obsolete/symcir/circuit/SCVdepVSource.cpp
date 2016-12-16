@@ -41,7 +41,7 @@ SCVdepVSource::SCVdepVSource
 
 SCVdepVSource::SCVdepVSource
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	SCCircuit*			theCircuit
 	)
@@ -54,7 +54,7 @@ SCVdepVSource::SCVdepVSource
 
 SCVdepVSource::SCVdepVSource
 	(
-	istream&	input,
+	std::istream&	input,
 	SCCircuit*	theCircuit
 	)
 	:

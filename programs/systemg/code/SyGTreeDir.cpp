@@ -261,7 +261,7 @@ SyGTreeDir::BuildWindow
 		JRenameFile(origPrefsFile, prefsFile);
 		}
 
-	istream* input       = NULL;
+	std::istream* input       = NULL;
 	const JString* prefs = NULL;
 	std::string s;
 	if (!JFileReadable(prefsFile) &&
@@ -272,7 +272,7 @@ SyGTreeDir::BuildWindow
 		}
 	else
 		{
-		input = jnew ifstream(prefsFile);
+		input = jnew std::ifstream(prefsFile);
 		}
 	assert( input != NULL );
 
@@ -402,7 +402,7 @@ SyGTreeDir::SaveState()
 
 	// don't overwrite newer version of prefs
 
-	ifstream input(prefsFile);
+	std::ifstream input(prefsFile);
 	if (input.good())
 		{
 		JFileVersion vers;
@@ -414,7 +414,7 @@ SyGTreeDir::SaveState()
 		}
 	input.close();
 
-	ofstream output(prefsFile);
+	std::ofstream output(prefsFile);
 	WriteState(output);
 }
 
@@ -426,7 +426,7 @@ SyGTreeDir::SaveState()
 void
 SyGTreeDir::WriteState
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 	output << kSyGCurrentDirSetupVersion;

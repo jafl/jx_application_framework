@@ -207,7 +207,7 @@ CMMDIServer::HandleMDIRequest
 			{
 			if (wasFirstTime)
 				{
-				cerr << "-b option only works when Code Medic is already running" << endl;
+				std::cerr << "-b option only works when Code Medic is already running" << std::endl;
 				}
 			else
 				{
@@ -278,7 +278,7 @@ CMMDIServer::IsBinary
 	char buffer[1000];
 	memset(buffer, ' ', 1000);
 
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 	input.read(buffer, 1000);
 	return JTextEditor::ContainsIllegalChars(buffer, 1000);
 }
@@ -297,7 +297,7 @@ CMMDIServer::GetLanguage
 {
 	language->Clear();
 
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 	JString line = JReadLine(input);
 	line.TrimWhitespace();
 	if (line.BeginsWith("code-medic:"))

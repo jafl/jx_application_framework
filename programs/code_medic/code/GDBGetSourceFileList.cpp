@@ -78,7 +78,7 @@ GDBGetSourceFileList::HandleSuccess
 		JBoolean foundDelimiter;
 		do
 			{
-			input >> ws;
+			input >> std::ws;
 			fullName = JReadUntil(input, ',', &foundDelimiter);
 			fullName.TrimWhitespace();
 			if (!fullName.IsEmpty())

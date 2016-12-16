@@ -23,12 +23,12 @@ public:
 
 	// construct from private file
 
-	SCDepSource(istream& input, const JFileVersion vers, const SCComponentType type,
+	SCDepSource(std::istream& input, const JFileVersion vers, const SCComponentType type,
 				SCCircuit* theCircuit);
 
 	// construct from netlist
 
-	SCDepSource(istream& input, const SCComponentType type, SCCircuit* theCircuit);
+	SCDepSource(std::istream& input, const SCComponentType type, SCCircuit* theCircuit);
 
 	virtual ~SCDepSource();
 
@@ -36,7 +36,7 @@ public:
 	JFloat			GetCoeffValue() const;
 	void			SetCoeffValue(const JFloat coeff);
 
-	virtual void	StreamOut(ostream& output) const;
+	virtual void	StreamOut(std::ostream& output) const;
 	virtual void	GetParserVariables(SCCircuitVarList* varList) const;
 
 	// provides safe downcasting

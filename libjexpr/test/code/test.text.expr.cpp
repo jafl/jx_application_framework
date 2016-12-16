@@ -51,18 +51,18 @@ main
 	JBoolean done = kJFalse;
 	while (!done)
 		{
-		cout << endl << endl;
-		cout << " 1) Test Function parser" << endl;
-		cout << " 2) Test Decision parser" << endl;
-		cout << " 3) Test Function equality" << endl;
-		cout << " 4) Test Decision equality" << endl;
-		cout << " 5) Test Complex Function parser" << endl;
-		cout << " 0) Done" << endl;
-		cout << endl;
-		cout << "Enter choice: ";
+		std::cout << std::endl << std::endl;
+		std::cout << " 1) Test Function parser" << std::endl;
+		std::cout << " 2) Test Decision parser" << std::endl;
+		std::cout << " 3) Test Function equality" << std::endl;
+		std::cout << " 4) Test Decision equality" << std::endl;
+		std::cout << " 5) Test Complex Function parser" << std::endl;
+		std::cout << " 0) Done" << std::endl;
+		std::cout << std::endl;
+		std::cout << "Enter choice: ";
 
 		long action;
-		cin >> action;
+		std::cin >> action;
 		JInputFinished();
 
 		if (1 <= action && action <= 5 &&
@@ -120,7 +120,7 @@ TestDecisionParser
 	const JCharacter* fileName
 	)
 {
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 
 	TestVarList theVarList(input);
 
@@ -136,15 +136,15 @@ TestDecisionParser
 			}
 		else if (theDecision != NULL)
 			{
-			theDecision->Print(cout);
-			cout << endl;
-			cout << "Expected: " << expectedResult << endl;
-			cout << "Result:   " << theDecision->Evaluate() << endl;
+			theDecision->Print(std::cout);
+			std::cout << std::endl;
+			std::cout << "Expected: " << expectedResult << std::endl;
+			std::cout << "Result:   " << theDecision->Evaluate() << std::endl;
 			JWaitForReturn();
 			jdelete theDecision;
 			}
 
-		input >> ws;
+		input >> std::ws;
 		}
 }
 
@@ -159,7 +159,7 @@ TestFunctionParser
 	const JCharacter* fileName
 	)
 {
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 
 	TestVarList theVarList(input);
 
@@ -178,19 +178,19 @@ TestFunctionParser
 			}
 		else if (theFunction != NULL)
 			{
-			theFunction->Print(cout);
-			cout << endl;
+			theFunction->Print(std::cout);
+			std::cout << std::endl;
 
 			JFloat result;
 			const JBoolean ok = theFunction->Evaluate(&result);
-			cout << "Expected: " << expectedOK << ' ' << expectedResult << endl;
-			cout << "Result:   " << ok << ' ' << result << endl;
+			std::cout << "Expected: " << expectedOK << ' ' << expectedResult << std::endl;
+			std::cout << "Result:   " << ok << ' ' << result << std::endl;
 			JWaitForReturn();
 
 			jdelete theFunction;
 			}
 
-		input >> ws;
+		input >> std::ws;
 		}
 }
 
@@ -205,7 +205,7 @@ TestComplexFunctionParser
 	const JCharacter* fileName
 	)
 {
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 
 	TestVarList theVarList(input);
 
@@ -224,18 +224,18 @@ TestComplexFunctionParser
 			}
 		else if (theFunction != NULL)
 			{
-			theFunction->Print(cout);
-			cout << endl;
+			theFunction->Print(std::cout);
+			std::cout << std::endl;
 
 			JComplex result;
 			const JBoolean ok = theFunction->Evaluate(&result);
-			cout << "Expected: " << expectedOK << ' ' << expectedResult << endl;
-			cout << "Result:   " << ok << ' ' << result << endl;
+			std::cout << "Expected: " << expectedOK << ' ' << expectedResult << std::endl;
+			std::cout << "Result:   " << ok << ' ' << result << std::endl;
 			JWaitForReturn();
 
 			jdelete theFunction;
 			}
 
-		input >> ws;
+		input >> std::ws;
 		}
 }

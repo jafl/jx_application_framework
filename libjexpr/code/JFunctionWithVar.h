@@ -32,7 +32,7 @@ public:
 	virtual JBoolean	SameAs(const JFunction& theFunction) const;
 	virtual void		BuildNodeList(JExprNodeList* nodeList, const JIndex myNode);
 
-	void	PrintVariable(ostream& output) const;
+	void	PrintVariable(std::ostream& output) const;
 
 	const JVariableList*	GetVariableList() const;
 

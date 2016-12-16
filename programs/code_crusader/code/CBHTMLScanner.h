@@ -134,7 +134,7 @@ public:
 
 	virtual ~CBHTMLScanner();
 
-	void	BeginScan(istream& input, const yy_state_type startState);
+	void	BeginScan(std::istream& input, const yy_state_type startState);
 	Token	NextToken();		// written by flex
 
 protected:

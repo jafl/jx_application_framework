@@ -161,7 +161,7 @@ cbIsQualified
 void
 CBFnMenuUpdater::ReadFunctionList
 	(
-	istream&		input,
+	std::istream&		input,
 	CBLanguage		lang,
 	const JBoolean	sort,
 	const JBoolean	includeNS,
@@ -184,7 +184,7 @@ CBFnMenuUpdater::ReadFunctionList
 		JString* fnName = jnew JString;
 		assert( fnName != NULL );
 
-		input >> ws;
+		input >> std::ws;
 		*fnName = JReadUntil(input, '\t');	// fn name
 		if (input.eof() || input.fail())
 			{
@@ -270,7 +270,7 @@ CBFnMenuUpdater::ReadFunctionList
 void
 CBFnMenuUpdater::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -299,7 +299,7 @@ CBFnMenuUpdater::ReadPrefs
 void
 CBFnMenuUpdater::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

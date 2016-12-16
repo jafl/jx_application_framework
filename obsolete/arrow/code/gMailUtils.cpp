@@ -548,7 +548,7 @@ GCompressWhitespace
 void
 GReadQuote
 	(
-	istream& is,
+	std::istream& is,
 	JString* str
 	)
 {
@@ -588,7 +588,7 @@ GReadQuote
 void
 GReadComment
 	(
-	istream& is,
+	std::istream& is,
 	JString* str
 	)
 {
@@ -640,7 +640,7 @@ GReadComment
 void
 GReadBracket
 	(
-	istream& is,
+	std::istream& is,
 	JString* str
 	)
 {
@@ -691,8 +691,8 @@ GReadBracket
 void
 GSaveMessage
 	(
-	istream& is,
-	ostream& os,
+	std::istream& is,
+	std::ostream& os,
 	GMessageHeader* header,
 	const JBoolean update,
 	const JBoolean flush
@@ -930,9 +930,9 @@ GAppendMessage
 		{
 		perms2 = 0600;
 		}
-	ifstream is(mailfile);
-	ifstream mboxis(mbox);
-	ofstream os(tempname);
+	std::ifstream is(mailfile);
+	std::ifstream mboxis(mbox);
+	std::ofstream os(tempname);
 
 	JSize lcount = list->GetElementCount();
 	JSize index;
@@ -1005,7 +1005,7 @@ GEncryptPGP2_6_2
 		return kJFalse;
 		}
 
-	ofstream os(file_out);
+	std::ofstream os(file_out);
 	if (!os.good())
 		{
 		JGetUserNotification()->ReportError("Error encrypting file.");
@@ -1129,7 +1129,7 @@ GDecryptPGP2_6_2
 		return kJFalse;
 		}
 
-	ofstream os(file_out);
+	std::ofstream os(file_out);
 	if (!os.good())
 		{
 		JGetUserNotification()->ReportError("Error decrypting file.");
@@ -1189,7 +1189,7 @@ GDecryptGPG1_0
 		{
 		JOutPipeStream output(toFD, kJTrue);
 		passwd.Print(output);
-		output << endl;
+		output << std::endl;
 		text.Print(output);
 		output.close();
 		JReadAll(fromFD, newText);

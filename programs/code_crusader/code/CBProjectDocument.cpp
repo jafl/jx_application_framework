@@ -257,7 +257,7 @@ CBProjectDocument::Create
 
 	if (!fromTemplate || tmplType == kTmplFileSignature)
 		{
-		ofstream temp(fullName);
+		std::ofstream temp(fullName);
 		if (!temp.good())
 			{
 			(JGetUserNotification())->ReportError(
@@ -284,7 +284,7 @@ CBProjectDocument::Create
 									 fullName.GetLength());
 			}
 
-		ifstream input(tmplFile);
+		std::ifstream input(tmplFile);
 		input.ignore(kWizardFileSignatureLength);
 
 		JFileVersion vers;
@@ -363,7 +363,7 @@ CBProjectDocument::Create
 
 	*doc = NULL;
 
-	ifstream input(projName);
+	std::ifstream input(projName);
 	JFileVersion vers;
 	const FileStatus status = CanReadFile(input, &vers);
 	if (status == kFileReadable &&
@@ -419,7 +419,7 @@ CBProjectDocument::GetProjectTemplateType
 	)
 {
 	JFileVersion actualFileVersion;
-	ifstream input(fullName);
+	std::ifstream input(fullName);
 	FileStatus status =
 		DefaultCanReadASCIIFile(input, kTmplFileSignature, kCurrentProjectTmplVersion,
 								&actualFileVersion);
@@ -467,11 +467,11 @@ CBProjectDocument::CBProjectDocument
 	JXFileDocument(CBGetApplication(),
 				   fullName, kJTrue, kJFalse, kProjectFileSuffix)
 {
-	ifstream* input = NULL;
+	std::ifstream* input = NULL;
 	JFileVersion tmplVers, projVers;
 	if (fromTemplate)
 		{
-		input = jnew ifstream(tmplFile);
+		input = jnew std::ifstream(tmplFile);
 		input->ignore(kTmplFileSignatureLength);
 
 		*input >> tmplVers;
@@ -532,7 +532,7 @@ CBProjectDocument::CBProjectDocument
 
 CBProjectDocument::CBProjectDocument
 	(
-	istream&			projInput,
+	std::istream&			projInput,
 	const JCharacter*	projName,
 	const JCharacter*	setName,
 	const JCharacter*	symName,
@@ -550,14 +550,14 @@ CBProjectDocument::CBProjectDocument
 
 	// open the setting file
 
-	ifstream setStream(setName);
+	std::ifstream setStream(setName);
 
 	const JString setSignature = JRead(setStream, kSettingFileSignatureLength);
 
 	JFileVersion setVers;
 	setStream >> setVers;
 
-	istream* setInput = NULL;
+	std::istream* setInput = NULL;
 	if (setSignature == kSettingFileSignature &&
 		setVers <= kCurrentProjectFileVersion &&
 		setVers >= projVers)
@@ -569,14 +569,14 @@ CBProjectDocument::CBProjectDocument
 
 	// open the symbol file
 
-	ifstream symStream(symName);
+	std::ifstream symStream(symName);
 
 	const JString symSignature = JRead(symStream, kSymbolFileSignatureLength);
 
 	JFileVersion symVers;
 	symStream >> symVers;
 
-	istream* symInput = NULL;
+	std::istream* symInput = NULL;
 	if (symSignature == kSymbolFileSignature &&
 		symVers <= kCurrentProjectFileVersion &&
 		symVers >= projVers)
@@ -592,7 +592,7 @@ CBProjectDocument::CBProjectDocument
 		{
 		if (projVers >= 71)
 			{
-			projInput >> ws;
+			projInput >> std::ws;
 			JIgnoreLine(projInput);
 			}
 		itsFileTree = jnew CBProjectTree(projInput, projVers, this);
@@ -625,7 +625,7 @@ CBProjectDocument::CBProjectDocument
 		{
 		if (projVers >= 71)
 			{
-			projInput >> ws;
+			projInput >> std::ws;
 			JIgnoreLine(projInput);
 			}
 		itsCmdMgr->ReadSetup(projInput);
@@ -831,7 +831,7 @@ CBProjectDocument::WriteFile
 	)
 	const
 {
-	ofstream output(fullName);
+	std::ofstream output(fullName);
 	WriteTextFile(output, safetySave);
 	if (output.good())
 		{
@@ -851,9 +851,9 @@ CBProjectDocument::WriteFile
 inline void
 cbWriteSpace
 	(
-	ostream& projOutput,
-	ostream* setOutput,
-	ostream* symOutput
+	std::ostream& projOutput,
+	std::ostream* setOutput,
+	std::ostream* symOutput
 	)
 {
 	if (setOutput != NULL)
@@ -869,7 +869,7 @@ cbWriteSpace
 void
 CBProjectDocument::WriteTextFile
 	(
-	ostream&		projOutput,
+	std::ostream&		projOutput,
 	const JBoolean	safetySave
 	)
 	const
@@ -879,19 +879,19 @@ CBProjectDocument::WriteTextFile
 	// create the setting and symbol files
 
 	JString setName, symName;
-	ostream* setOutput = NULL;
-	ostream* symOutput = NULL;
+	std::ostream* setOutput = NULL;
+	std::ostream* symOutput = NULL;
 	if (!safetySave)
 		{
 		JBoolean onDisk;
 		setName = GetSettingFileName(GetFullName(&onDisk));
 
-		setOutput = jnew ofstream(setName);
+		setOutput = jnew std::ofstream(setName);
 		assert( setOutput != NULL );
 
 		symName = GetSymbolFileName(GetFullName(&onDisk));
 
-		symOutput = jnew ofstream(symName);
+		symOutput = jnew std::ofstream(symName);
 		assert( symOutput != NULL );
 		}
 
@@ -906,11 +906,11 @@ CBProjectDocument::WriteTextFile
 void
 CBProjectDocument::WriteFiles
 	(
-	ostream&			projOutput,
+	std::ostream&			projOutput,
 	const JCharacter*	setName,
-	ostream*			setOutput,
+	std::ostream*			setOutput,
 	const JCharacter*	symName,
-	ostream*			symOutput
+	std::ostream*			symOutput
 	)
 	const
 {
@@ -1012,7 +1012,7 @@ CBProjectDocument::WriteFiles
 JBoolean
 CBProjectDocument::ReadTasksFromProjectFile
 	(
-	istream&					input,
+	std::istream&					input,
 	CBCommandManager::CmdList*	cmdList
 	)
 {
@@ -1055,7 +1055,7 @@ CBProjectDocument::ReadTasksFromProjectFile
 void
 CBProjectDocument::ConvertCompileRunDialogs
 	(
-	istream&			projInput,
+	std::istream&			projInput,
 	const JFileVersion	projVers
 	)
 {
@@ -1074,7 +1074,7 @@ CBProjectDocument::CanReadFile
 	const JCharacter* fullName
 	)
 {
-	ifstream input(fullName);
+	std::ifstream input(fullName);
 	JFileVersion actualFileVersion;
 	return CanReadFile(input, &actualFileVersion);
 }
@@ -1087,7 +1087,7 @@ CBProjectDocument::CanReadFile
 JXFileDocument::FileStatus
 CBProjectDocument::CanReadFile
 	(
-	istream&		input,
+	std::istream&		input,
 	JFileVersion*	actualFileVersion
 	)
 {
@@ -1103,7 +1103,7 @@ CBProjectDocument::CanReadFile
 void
 CBProjectDocument::ReadTemplate
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	tmplVers,
 	const JFileVersion	projVers
 	)
@@ -1150,7 +1150,7 @@ CBProjectDocument::WriteTemplate
 	)
 	const
 {
-	ofstream output(fileName);
+	std::ofstream output(fileName);
 	output << kTmplFileSignature;
 	output << ' ' << kCurrentProjectTmplVersion;
 	output << ' ' << kCurrentProjectFileVersion;
@@ -2320,7 +2320,7 @@ CBProjectDocument::SetProjectPrefs
 void
 CBProjectDocument::ReadStaticGlobalPrefs
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -2376,7 +2376,7 @@ CBProjectDocument::ReadStaticGlobalPrefs
 void
 CBProjectDocument::WriteStaticGlobalPrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 	output << theWarnOpenOldVersionFlag;
@@ -2584,7 +2584,7 @@ CBProjectDocument::SymbolUpdateProgress()
 		itsUpdateLabel->SetText(JGetString("ReloadingSymbols::CBProjectDocument"));
 		GetWindow()->Redraw();
 
-		*itsUpdateStream << kSymbolTableLocked << endl;
+		*itsUpdateStream << kSymbolTableLocked << std::endl;
 
 		jdelete itsWaitForUpdateTask;
 		itsWaitForUpdateTask = jnew CBWaitForSymbolUpdateTask(itsUpdateProcess);
@@ -2597,7 +2597,7 @@ CBProjectDocument::SymbolUpdateProgress()
 		JBoolean onDisk;
 		const JString symName = GetSymbolFileName(GetFullName(&onDisk));
 
-		ifstream symInput(symName);
+		std::ifstream symInput(symName);
 
 		const JString symSignature = JRead(symInput, kSymbolFileSignatureLength);
 
@@ -2785,7 +2785,7 @@ CBProjectDocument::UpdateSymbolDatabase()
 		StopSymbolLoadTimer(timerStatus);
 		if (itsLastSymbolLoadTime < prevSymbolLoadTime)
 			{
-			output << kDoItYourself << endl;
+			output << kDoItYourself << std::endl;
 			output.close();
 
 			JWait(15);	// give last message a chance to be received
@@ -2796,7 +2796,7 @@ CBProjectDocument::UpdateSymbolDatabase()
 
 		// obtain lock on .jst
 
-		output << kLockSymbolTable << endl;
+		output << kLockSymbolTable << std::endl;
 
 		if (!JWaitForInput(fd[1][0], 5*60))		// 5 minutes; in case of blocking dialog
 			{
@@ -2812,12 +2812,12 @@ CBProjectDocument::UpdateSymbolDatabase()
 		JBoolean onDisk;
 		const JString symName = GetSymbolFileName(GetFullName(&onDisk));
 
-		ostream* symOutput = jnew ofstream(symName);
+		std::ostream* symOutput = jnew std::ofstream(symName);
 		assert( symOutput != NULL );
 
 		WriteFiles(projOutput, NULL, NULL, symName, symOutput);
 
-		output << kSymbolTableWritten << endl;
+		output << kSymbolTableWritten << std::endl;
 		output.close();
 
 		JWait(15);	// give last message a chance to be received

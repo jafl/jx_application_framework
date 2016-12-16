@@ -43,7 +43,7 @@ const JCharacter kIdepISourcePrefix = 'F';
 const JCharacter kVdepISourcePrefix = 'G';
 const JCharacter kIdepVSourcePrefix = 'H';
 
-istream& operator>>(istream& input, SCComponentType& type);
-ostream& operator<<(ostream& output, const SCComponentType type);
+std::istream& operator>>(std::istream& input, SCComponentType& type);
+std::ostream& operator<<(std::ostream& output, const SCComponentType type);
 
 #endif

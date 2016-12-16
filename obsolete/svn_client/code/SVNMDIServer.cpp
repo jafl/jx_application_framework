@@ -242,5 +242,5 @@ SVNMDIServer::PrintCommandLineHelp()
 		"copyright", JGetString("COPYRIGHT")
 		};
 	const JString s = JGetString("CommandLineHelp::SVNMDIServer", map, sizeof(map));
-	cout << endl << s << endl << endl;
+	std::cout << std::endl << s << std::endl << std::endl;
 }

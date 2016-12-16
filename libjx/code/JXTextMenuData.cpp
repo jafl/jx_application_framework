@@ -380,7 +380,7 @@ JXTextMenuData::ParseMenuItemStr
 			}
 		else if (opc == 'h')
 			{
-			cerr << "Tried to use %h more than once in '" << *text << '\'' << endl;
+			std::cerr << "Tried to use %h more than once in '" << *text << '\'' << std::endl;
 			}
 
 		else if (opc == 'k' && nmShortcut->IsEmpty())
@@ -390,7 +390,7 @@ JXTextMenuData::ParseMenuItemStr
 			}
 		else if (opc == 'k')
 			{
-			cerr << "Tried to use %k more than once in '" << *text << '\'' << endl;
+			std::cerr << "Tried to use %k more than once in '" << *text << '\'' << std::endl;
 			}
 
 		else if (opc == 'i' && id->IsEmpty())
@@ -400,12 +400,12 @@ JXTextMenuData::ParseMenuItemStr
 			}
 		else if (opc == 'i')
 			{
-			cerr << "Tried to use %i more than once in '" << *text << '\'' << endl;
+			std::cerr << "Tried to use %i more than once in '" << *text << '\'' << std::endl;
 			}
 
 		else
 			{
-			cerr << "Unsupported option %" << op << " in '" << *text << '\'' << endl;
+			std::cerr << "Unsupported option %" << op << " in '" << *text << '\'' << std::endl;
 			}
 		}
 

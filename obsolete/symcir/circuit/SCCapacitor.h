@@ -23,11 +23,11 @@ public:
 
 	// construct from private file
 
-	SCCapacitor(istream& input, const JFileVersion vers, SCCircuit* theCircuit);
+	SCCapacitor(std::istream& input, const JFileVersion vers, SCCircuit* theCircuit);
 
 	// construct from netlist
 
-	SCCapacitor(istream& input, SCCircuit* theCircuit);
+	SCCapacitor(std::istream& input, SCCircuit* theCircuit);
 
 	virtual ~SCCapacitor();
 

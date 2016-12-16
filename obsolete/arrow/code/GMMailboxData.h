@@ -59,7 +59,7 @@ public:
 	void			Flush();
 
 	void			HandleMessageTransfer(const JCharacter* dest, const JBoolean move, GMessageHeaderList* list);
-	void			SaveSelectedMessages(ostream& os, const JBoolean headers, GMessageHeaderList* list);
+	void			SaveSelectedMessages(std::ostream& os, const JBoolean headers, GMessageHeaderList* list);
 
 	void			DropHeader(GMessageHeader* header, JIndex* index);
 	void			DropHeaders(const JCharacter* srcMBox, const JIndex afterIndex, GMessageHeaderList* headers);
@@ -111,7 +111,7 @@ private:
 	void		GMMailboxDataX();
 
 	void		AdjustList(GMessageHeaderList* list);
-	void		SaveHeader(istream&	is, ostream& os, GMessageHeader* header, const JBoolean headers);
+	void		SaveHeader(std::istream&	is, std::ostream& os, GMessageHeader* header, const JBoolean headers);
 	void		GenerateFromList();
 
 	void		RemoveHeader(const GMessageHeader* header);

@@ -14,7 +14,7 @@
 #include <iostream.h>
 
 class JString;
-//class istream;
+//class std::istream;
 class JTree;
 
 class GNBCategoryNode : public GNBBaseNode

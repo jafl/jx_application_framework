@@ -23,7 +23,7 @@ public:
 
 	virtual ~JBinaryOperator();
 
-	virtual void	Print(ostream& output) const;
+	virtual void	Print(std::ostream& output) const;
 
 	// provides safe downcasting
 
@@ -32,7 +32,7 @@ public:
 
 protected:
 
-	void	PrintArg(ostream& output, const JFunction* arg) const;
+	void	PrintArg(std::ostream& output, const JFunction* arg) const;
 
 private:
 

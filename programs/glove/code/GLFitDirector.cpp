@@ -864,7 +864,7 @@ GLFitDirector::HandleHelpMenu
 void
 GLFitDirector::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	int version;
@@ -886,7 +886,7 @@ GLFitDirector::ReadPrefs
 void
 GLFitDirector::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

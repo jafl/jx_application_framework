@@ -996,7 +996,7 @@ GMessageViewDir::ShowHeader
 		perms = 0600;
 		}
 
-	ifstream is(itsDir->GetData()->GetMailFile());
+	std::ifstream is(itsDir->GetData()->GetMailFile());
 	if (!is.good())
 		{
 		JGetUserNotification()->ReportError("There was an error opening this mailbox.");
@@ -1207,7 +1207,7 @@ GMessageViewDir::FixHeaderForReply
 void
 GMessageViewDir::SaveState
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	os << itsMessageHeader->GetHeader() << " ";
@@ -1237,7 +1237,7 @@ GMessageViewDir::SaveState
 void
 GMessageViewDir::ReadState
 	(
-	istream& is,
+	std::istream& is,
 	const JFileVersion& version
 	)
 {
@@ -1303,8 +1303,8 @@ GMessageViewDir::AppendMessagesToFile
 			{
 			perms = 0600;
 			}
-		ifstream is(filename);
-		ofstream os(tempname);
+		std::ifstream is(filename);
+		std::ofstream os(tempname);
 		JSize size;
 		err = JGetFileLength(filename, &size);
 		if (!err.OK())
@@ -1359,7 +1359,7 @@ GMessageViewDir::AppendMessagesToFile
 void
 GMessageViewDir::ReadWindowPrefs
 	(
-	istream& is
+	std::istream& is
 	)
 {
 	JFileVersion version;
@@ -1411,7 +1411,7 @@ GMessageViewDir::ReadWindowPrefs
 void
 GMessageViewDir::WriteWindowPrefs
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	os << ' ' << kCurrentPrefsVersion << ' ';

@@ -157,11 +157,11 @@ CBSymbolDirector::CBSymbolDirector
 
 CBSymbolDirector::CBSymbolDirector
 	(
-	istream&			projInput,
+	std::istream&			projInput,
 	const JFileVersion	projVers,
-	istream*			setInput,
+	std::istream*			setInput,
 	const JFileVersion	setVers,
-	istream*			symInput,
+	std::istream*			symInput,
 	const JFileVersion	symVers,
 	CBProjectDocument*	supervisor,
 	const JBoolean		subProject
@@ -263,7 +263,7 @@ CBSymbolDirector::~CBSymbolDirector()
 void
 CBSymbolDirector::ReadSetup
 	(
-	istream&			symInput,
+	std::istream&			symInput,
 	const JFileVersion	symVers
 	)
 {
@@ -279,9 +279,9 @@ CBSymbolDirector::ReadSetup
 void
 CBSymbolDirector::StreamOut
 	(
-	ostream& projOutput,
-	ostream* setOutput,
-	ostream* symOutput
+	std::ostream& projOutput,
+	std::ostream* setOutput,
+	std::ostream* symOutput
 	)
 	const
 {
@@ -303,7 +303,7 @@ CBSymbolDirector::StreamOut
 void
 CBSymbolDirector::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -324,7 +324,7 @@ CBSymbolDirector::ReadPrefs
 void
 CBSymbolDirector::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

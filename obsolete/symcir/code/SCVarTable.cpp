@@ -435,7 +435,7 @@ SCVarTable::Receive
 void
 SCVarTable::ReadSetup
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -455,7 +455,7 @@ SCVarTable::ReadSetup
 void
 SCVarTable::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

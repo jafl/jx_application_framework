@@ -522,7 +522,7 @@ CBApp::FindAndViewFile
 void
 CBApp::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -543,7 +543,7 @@ CBApp::ReadPrefs
 void
 CBApp::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

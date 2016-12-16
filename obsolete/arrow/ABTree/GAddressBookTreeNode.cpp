@@ -92,7 +92,7 @@ GAddressBookTreeNode::Save()
 {
 	if (OKToChange())
 		{
-		ofstream os(GetFullPathAndName());
+		std::ofstream os(GetFullPathAndName());
 		Save(os);
 		}
 }
@@ -105,7 +105,7 @@ GAddressBookTreeNode::Save()
 void
 GAddressBookTreeNode::Save
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	JSize count = GetChildCount();

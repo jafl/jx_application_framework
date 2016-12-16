@@ -124,7 +124,7 @@ CBTCLStyler::~CBTCLStyler()
 void
 CBTCLStyler::Scan
 	(
-	istream&			input,
+	std::istream&			input,
 	const TokenExtra&	initData
 	)
 {

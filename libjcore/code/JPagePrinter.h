@@ -83,8 +83,8 @@ private:
 
 // Global functions for JPagePrinter
 
-istream& operator>>(istream& input, JPagePrinter::ImageOrientation& orientation);
-ostream& operator<<(ostream& output, const JPagePrinter::ImageOrientation orientation);
+std::istream& operator>>(std::istream& input, JPagePrinter::ImageOrientation& orientation);
+std::ostream& operator<<(std::ostream& output, const JPagePrinter::ImageOrientation orientation);
 
 
 /******************************************************************************

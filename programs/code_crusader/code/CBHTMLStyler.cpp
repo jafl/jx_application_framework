@@ -301,7 +301,7 @@ CBHTMLStyler::InitJavaScriptTypeStyles()
 void
 CBHTMLStyler::Scan
 	(
-	istream&			input,
+	std::istream&			input,
 	const TokenExtra&	initData
 	)
 {
@@ -351,7 +351,7 @@ CBHTMLStyler::Scan
 			SaveTokenStart(data);
 
 //			const JString s = text.GetSubstring(token.range);
-//			cout << yy_top_state() << ' ' << yy_start_stack_ptr << ": " << s << endl;
+//			std::cout << yy_top_state() << ' ' << yy_start_stack_ptr << ": " << s << std::endl;
 			}
 
 		// handle special cases

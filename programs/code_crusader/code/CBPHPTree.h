@@ -21,16 +21,16 @@ class CBPHPTree : public CBTree, public CBCtagsUser
 public:
 
 	CBPHPTree(CBPHPTreeDirector* director, const JSize marginWidth);
-	CBPHPTree(istream& projInput, const JFileVersion projVers,
-			  istream* setInput, const JFileVersion setVers,
-			  istream* symInput, const JFileVersion symVers,
+	CBPHPTree(std::istream& projInput, const JFileVersion projVers,
+			  std::istream* setInput, const JFileVersion setVers,
+			  std::istream* symInput, const JFileVersion symVers,
 			  CBPHPTreeDirector* director, const JSize marginWidth,
 			  CBDirList* dirList);
 
 	virtual ~CBPHPTree();
 
-	virtual void	StreamOut(ostream& projOutput, ostream* setOutput,
-							  ostream* symOutput, const CBDirList* dirList) const;
+	virtual void	StreamOut(std::ostream& projOutput, std::ostream* setOutput,
+							  std::ostream* symOutput, const CBDirList* dirList) const;
 
 protected:
 
@@ -45,10 +45,10 @@ private:
 
 private:
 
-	void					ReadFunctionList(istream& input, CBClass* theClass);
+	void					ReadFunctionList(std::istream& input, CBClass* theClass);
 	CBClass::FnAccessLevel	DecodeAccess(const JStringPtrMap<JString>& flags) const;
 
-	static CBClass* StreamInPHPClass(istream& input, const JFileVersion vers,
+	static CBClass* StreamInPHPClass(std::istream& input, const JFileVersion vers,
 									 CBTree* tree);
 
 	// written by flex

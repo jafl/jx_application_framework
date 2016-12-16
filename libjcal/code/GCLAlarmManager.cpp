@@ -66,7 +66,7 @@ GCLAlarmManager::AddAlarm
 	)
 {
 	itsAlarms->InsertSorted(alarm);
-//	cout << "Alarm added." << endl;
+//	std::cout << "Alarm added." << std::endl;
 }
 
 /******************************************************************************

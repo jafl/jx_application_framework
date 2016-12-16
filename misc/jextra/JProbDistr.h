@@ -14,12 +14,12 @@
 
 class JProbDistr
 {
-	friend ostream& operator<<(ostream& output, const JProbDistr& source);
+	friend std::ostream& operator<<(std::ostream& output, const JProbDistr& source);
 
 public:
 
 	JProbDistr(const JSize valueCount, const JFloat initialValue = 0.0);
-	JProbDistr(istream& input);
+	JProbDistr(std::istream& input);
 	JProbDistr(const JProbDistr& source);
 
 	virtual ~JProbDistr();

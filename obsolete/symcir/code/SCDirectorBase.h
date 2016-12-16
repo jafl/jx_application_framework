@@ -22,7 +22,7 @@ class SCDirectorBase : public JXWindowDirector
 public:
 
 	SCDirectorBase(SCCircuitDocument* supervisor);
-	SCDirectorBase(istream& input, const JFileVersion vers,
+	SCDirectorBase(std::istream& input, const JFileVersion vers,
 				   SCCircuitDocument* supervisor);
 
 	virtual ~SCDirectorBase();
@@ -31,9 +31,9 @@ public:
 	const SCCircuit*		GetCircuit() const;
 	const SCCircuitVarList*	GetVarList() const;
 
-	static SCDirectorBase*	StreamIn(istream& input, const JFileVersion vers,
+	static SCDirectorBase*	StreamIn(std::istream& input, const JFileVersion vers,
 									 SCCircuitDocument* supervisor);
-	virtual void			StreamOut(ostream& output) const = 0;
+	virtual void			StreamOut(std::ostream& output) const = 0;
 
 protected:
 
@@ -50,8 +50,8 @@ protected:
 		kScratchType  = 5
 	};
 
-	friend istream& operator>>(istream& input, Type& type);
-	friend ostream& operator<<(ostream& output, const Type type);
+	friend std::istream& operator>>(std::istream& input, Type& type);
+	friend std::ostream& operator<<(std::ostream& output, const Type type);
 
 private:
 

@@ -33,7 +33,7 @@ GCLAppointment::GCLAppointment
 
 GCLAppointment::GCLAppointment
 	(
-	istream& is
+	std::istream& is
 	)
 	:
 	itsRecurrence(NULL)
@@ -280,7 +280,7 @@ GCLAppointment::ShouldStillRemind
 void
 GCLAppointment::WriteSetup
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	os << itsStartDay << ' ';

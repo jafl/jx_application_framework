@@ -252,7 +252,7 @@ MDStatsDirector::OpenDebugAcceptor()
 	ACE_UNIX_Addr addr(itsSocketName);
 	if (itsAcceptor->open(addr) == -1)
 		{
-		cerr << "error trying to create socket: " << jerrno() << endl;
+		std::cerr << "error trying to create socket: " << jerrno() << std::endl;
 		exit(1);
 		}
 }
@@ -716,8 +716,8 @@ MDStatsDirector::HandleResponse()
 	input >> vers;
 	if (vers != kJMemoryManagerDebugVersion)
 		{
-		cerr << "MDStatsDirector::HandleResponse received version (" << vers;
-		cerr << ") different than expected (" << kJMemoryManagerDebugVersion << ")" << endl;
+		std::cerr << "MDStatsDirector::HandleResponse received version (" << vers;
+		std::cerr << ") different than expected (" << kJMemoryManagerDebugVersion << ")" << std::endl;
 		return;
 		}
 
@@ -790,7 +790,7 @@ mdSetValue
 void
 MDStatsDirector::ReceiveRunningStats
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JSize total;
@@ -825,7 +825,7 @@ MDStatsDirector::ReceiveRunningStats
 void
 MDStatsDirector::ReceiveExitStats
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	input >> itsExitStatsFile;
@@ -914,7 +914,7 @@ MDStatsDirector::RequestRecords
 void
 MDStatsDirector::ReceiveRecords
 	(
-	istream&			input,
+	std::istream&			input,
 	const JCharacter*	windowTitle
 	)
 {
@@ -948,7 +948,7 @@ MDStatsDirector::ReceiveRecords
 void
 MDStatsDirector::ReceiveErrorMessage
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JString msg;
@@ -1098,7 +1098,7 @@ MDStatsDirector::HandleHelpMenu
 void
 MDStatsDirector::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -1126,7 +1126,7 @@ MDStatsDirector::ReadPrefs
 void
 MDStatsDirector::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

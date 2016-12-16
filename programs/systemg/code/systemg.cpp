@@ -120,7 +120,7 @@ ParseTextOptions
 void
 PrintVersion()
 {
-	cout << endl;
-	cout << SyGGetVersionStr() << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << SyGGetVersionStr() << std::endl;
+	std::cout << std::endl;
 }

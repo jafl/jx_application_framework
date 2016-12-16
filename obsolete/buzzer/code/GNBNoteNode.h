@@ -15,7 +15,7 @@
 #include <iostream.h>
 
 class JString;
-//class ostream;
+//class std::ostream;
 
 class GNBNoteNode : public GNBBaseNode
 {
@@ -27,8 +27,8 @@ public:
 
 	virtual ~GNBNoteNode();
 
-	virtual void	SaveNode(ostream& os);
-	virtual void	ReadNodeSetup(istream& is, const JFileVersion version);
+	virtual void	SaveNode(std::ostream& os);
+	virtual void	ReadNodeSetup(std::istream& is, const JFileVersion version);
 	virtual void	DiscardNode();
 	virtual void	PrintNode(JString* text, const JBoolean notes);
 	JFAID_t			GetID() const;

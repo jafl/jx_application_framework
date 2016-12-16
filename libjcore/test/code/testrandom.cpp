@@ -17,8 +17,8 @@ int
 main()
 {
 	long testType;
-	cout << "Integer(0) or float(1): ";
-	cin >> testType;
+	std::cout << "Integer(0) or float(1): ";
+	std::cin >> testType;
 	JInputFinished();
 
 	if (testType == 0)
@@ -40,14 +40,14 @@ TestRndInt()
 
 	long min,max,sampleCount;
 
-	cout << "Minimum: ";
-	cin >> min;
+	std::cout << "Minimum: ";
+	std::cin >> min;
 
-	cout << "Maximum: ";
-	cin >> max;
+	std::cout << "Maximum: ";
+	std::cin >> max;
 
-	cout << "# of samples: ";
-	cin >> sampleCount;
+	std::cout << "# of samples: ";
+	std::cin >> sampleCount;
 
 	JInputFinished();
 
@@ -74,17 +74,17 @@ TestRndInt()
 	// get name of histogram data file
 
 	JString histogramFileName;
-	cout << "Save histogram in: ";
-	cin >> histogramFileName;
+	std::cout << "Save histogram in: ";
+	std::cin >> histogramFileName;
 	JInputFinished();
 
 	// write histogram as gnuplot file
 
-	ofstream histogramFile(histogramFileName);
+	std::ofstream histogramFile(histogramFileName);
 
 	for (i=1;i<=binCount;i++)
 		{
-		histogramFile << i << ' ' << histogram.GetElement(i) << endl;
+		histogramFile << i << ' ' << histogram.GetElement(i) << std::endl;
 		}
 }
 
@@ -96,30 +96,30 @@ TestRndFloat()
 	long   sampleCount;
 	double min,max;
 
-	cout << "Minimum: ";
-	cin >> min;
+	std::cout << "Minimum: ";
+	std::cin >> min;
 
-	cout << "Maximum: ";
-	cin >> max;
+	std::cout << "Maximum: ";
+	std::cin >> max;
 
-	cout << "# of samples: ";
-	cin >> sampleCount;
+	std::cout << "# of samples: ";
+	std::cin >> sampleCount;
 
 	JInputFinished();
 
 	// get name of data file
 
 	JString dataFileName;
-	cout << "Save values in: ";
-	cin >> dataFileName;
+	std::cout << "Save values in: ";
+	std::cin >> dataFileName;
 	JInputFinished();
 
 	// write values for gnuplot
 
-	ofstream dataFile(dataFileName);
+	std::ofstream dataFile(dataFileName);
 
 	for (long i=1;i<=sampleCount;i++)
 		{
-		dataFile << jRand.UniformDouble(min,max) << ' ' << 1 << endl;
+		dataFile << jRand.UniformDouble(min,max) << ' ' << 1 << std::endl;
 		}
 }

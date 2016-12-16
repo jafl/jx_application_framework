@@ -377,7 +377,7 @@ CBEditMacroDialog::Receive
 void
 CBEditMacroDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -408,7 +408,7 @@ CBEditMacroDialog::ReadPrefs
 void
 CBEditMacroDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

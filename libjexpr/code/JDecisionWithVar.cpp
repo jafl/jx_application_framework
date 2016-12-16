@@ -147,7 +147,7 @@ JDecisionWithVar::BuildNodeList
 void
 JDecisionWithVar::PrintVariable
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

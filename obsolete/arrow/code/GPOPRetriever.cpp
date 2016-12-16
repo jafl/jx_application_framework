@@ -871,7 +871,7 @@ GPOPRetriever::WriteMessageToStream()
 	itsMessageBuffer->Print(*itsOutStream);
 	if (!itsMessageBuffer->EndsWith("\n\n"))
 		{
-		*itsOutStream << endl << endl;
+		*itsOutStream << std::endl << std::endl;
 		}
 }
 
@@ -903,7 +903,7 @@ void
 GPOPRetriever::HandleUIDL()
 {
 	const JSize readCount = itsReadUIDList->GetElementCount();
-//cout << "Read count: " << readCount << endl;
+//std::cout << "Read count: " << readCount << std::endl;
 	JArray<JBoolean> stillPresent;
 	for (JSize i = 1; i <= readCount; i++)
 		{

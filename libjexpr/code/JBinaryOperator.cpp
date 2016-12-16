@@ -73,7 +73,7 @@ JBinaryOperator::JBinaryOperator
 void
 JBinaryOperator::Print
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -97,7 +97,7 @@ JBinaryOperator::Print
 void
 JBinaryOperator::PrintArg
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const JFunction*	arg
 	)
 	const

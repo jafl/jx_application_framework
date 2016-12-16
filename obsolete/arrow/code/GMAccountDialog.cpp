@@ -823,7 +823,7 @@ GMAccountDialog::OKToSwitchAccounts()
 				}
 			}
 			
-		ofstream os(realPath);
+		std::ofstream os(realPath);
 		if (!os.good())
 			{
 			JGetUserNotification()->ReportError("There was an error creating the inbox.");
@@ -1100,13 +1100,13 @@ GMAccountDialog::CreateItemsIfNeeded
 
 	if (!JNameUsed(outbox))
 		{
-		ofstream os(outbox);
+		std::ofstream os(outbox);
 		os.close();
 		}
 
 	if (!JNameUsed(drafts))
 		{
-		ofstream os(drafts);
+		std::ofstream os(drafts);
 		os.close();
 		}
 

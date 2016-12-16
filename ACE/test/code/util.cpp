@@ -47,7 +47,7 @@ TalkToClient
 
 		if (socket.send_n(kMsgToClient, kMsgToClientLength) != kMsgToClientLength)
 			{
-			cerr << "error trying to send: " << jerrno() << endl;
+			std::cerr << "error trying to send: " << jerrno() << std::endl;
 			}
 		}
 
@@ -73,7 +73,7 @@ TalkToServer
 
 	if (socket.send_n(kMsgToServer, kMsgToServerLength) != kMsgToServerLength)
 		{
-		cerr << "error trying to send: " << jerrno() << endl;
+		std::cerr << "error trying to send: " << jerrno() << std::endl;
 		socket.close();
 		exit(1);
 		}
@@ -86,7 +86,7 @@ TalkToServer
 
 	if (socket.close() == -1) 
 		{
-		cerr << "error trying to close connection: " << jerrno() << endl;
+		std::cerr << "error trying to close connection: " << jerrno() << std::endl;
 		}
 }
 
@@ -114,17 +114,17 @@ ReceiveMessage
 		const ssize_t count = socket.recv(buffer, kBufSize, 0, &timeOut);
 		if (count == -1)
 			{
-			cerr << "error while waiting for message: " << jerrno() << endl;
+			std::cerr << "error while waiting for message: " << jerrno() << std::endl;
 			return kJFalse;
 			}
 		else if (count > 0)
 			{
-			cout << "received " << count << " bytes" << endl;
+			std::cout << "received " << count << " bytes" << std::endl;
 			msgFromServer.Append(buffer, count);
 
 			if (msgFromServer.GetLastCharacter() == kEndOfMessage)
 				{
-				cout << "received: " << msgFromServer << endl;
+				std::cout << "received: " << msgFromServer << std::endl;
 				return kJTrue;
 				}
 			}

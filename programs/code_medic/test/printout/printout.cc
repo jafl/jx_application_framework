@@ -1,15 +1,15 @@
 #include <iostream>
 
-using std::ostream;
-using std::cout;
-using std::endl;
+using std::std::ostream;
+using std::std::cout;
+using std::std::endl;
 
 struct Point
 {
 	double x,y;
 };
 
-ostream& operator<<(ostream& output, const Point& pt)
+std::ostream& operator<<(std::ostream& output, const Point& pt)
 {
 	output << pt.x << ' ' << pt.y;
 	return output;
@@ -26,9 +26,9 @@ int main()
 		point.x++;
 		peakPt.y++;
 		maxgrad+=0.1;
-		cout << "GetPeakNearPoint: point = " << point << ", peak = " << peakPt << ", grad = " << maxgrad << endl;
-		cout << "MriImage::GetEpiPeak: intenThresh=" << point << ", minThesh=" << maxgrad << endl;
-		cout << "MriImage::fitLVEpi: point " << peakPt << endl;
+		std::cout << "GetPeakNearPoint: point = " << point << ", peak = " << peakPt << ", grad = " << maxgrad << std::endl;
+		std::cout << "MriImage::GetEpiPeak: intenThresh=" << point << ", minThesh=" << maxgrad << std::endl;
+		std::cout << "MriImage::fitLVEpi: point " << peakPt << std::endl;
 	}
 
 	return 0;

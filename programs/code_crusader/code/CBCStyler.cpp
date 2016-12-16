@@ -154,7 +154,7 @@ CBCStyler::~CBCStyler()
 void
 CBCStyler::Scan
 	(
-	istream&			input,
+	std::istream&			input,
 	const TokenExtra&	initData
 	)
 {

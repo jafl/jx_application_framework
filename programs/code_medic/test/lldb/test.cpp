@@ -17,67 +17,67 @@ bool bpCallback
 	lldb::SBBreakpointLocation&	location
 	)
 {
-	cout << "breakpoint " << *(int*)baton << " hit" << endl;
+	std::cout << "breakpoint " << *(int*)baton << " hit" << std::endl;
 	return true;
 }
 
 int main()
 {
-	cout << "Hello World!" << endl;
+	std::cout << "Hello World!" << std::endl;
 
 	SBDebugger::Initialize();
 
 	SBDebugger dbg(SBDebugger::Create());
-	cout << dbg.GetVersionString() << endl;
-	cout << "async: " << dbg.GetAsync() << endl;
+	std::cout << dbg.GetVersionString() << std::endl;
+	std::cout << "async: " << dbg.GetAsync() << std::endl;
 	dbg.SetAsync(false);
 
-	cout << "debugger: " << dbg.IsValid() << endl;
-	cout << dbg.GetPrompt() << endl;
+	std::cout << "debugger: " << dbg.IsValid() << std::endl;
+	std::cout << dbg.GetPrompt() << std::endl;
 
 	SBTarget t = dbg.CreateTarget("../var_tree/vartree");
-	cout << "target: " << t.IsValid() << endl;
-	cout << t.GetNumModules() << " modules" << endl;
+	std::cout << "target: " << t.IsValid() << std::endl;
+	std::cout << t.GetNumModules() << " modules" << std::endl;
 	{
 	SBFileSpec f = t.GetExecutable();
-	cout << "dir: " << f.GetDirectory() << endl;
-	cout << "file: " << f.GetFilename() << endl;
+	std::cout << "dir: " << f.GetDirectory() << std::endl;
+	std::cout << "file: " << f.GetFilename() << std::endl;
 
 	char path[1024];
 	f.GetPath(path, 1024);
-	cout << "path: " << path << endl;
+	std::cout << "path: " << path << std::endl;
 	}
-	cout << "target listeners: " << t.GetBroadcaster().EventTypeHasListeners(255) << endl;
+	std::cout << "target listeners: " << t.GetBroadcaster().EventTypeHasListeners(255) << std::endl;
 
-	cout << "-----" << endl;
+	std::cout << "-----" << std::endl;
 	{
 	SBSymbolContextList list = t.FindFunctions("main");
-	cout << "count: " << list.GetSize() << endl;
+	std::cout << "count: " << list.GetSize() << std::endl;
 	SBSymbolContext sym = list.GetContextAtIndex(0);
-	cout << "symbol ctx: " << sym.IsValid() << endl;
-	cout << sym.GetSymbol().GetName() << endl;
-	cout << sym.GetSymbol().GetStartAddress().GetLoadAddress(t) << endl;
-	cout << sym.GetModule().GetTriple() << endl;
+	std::cout << "symbol ctx: " << sym.IsValid() << std::endl;
+	std::cout << sym.GetSymbol().GetName() << std::endl;
+	std::cout << sym.GetSymbol().GetStartAddress().GetLoadAddress(t) << std::endl;
+	std::cout << sym.GetModule().GetTriple() << std::endl;
  
-	cout << "block: " << sym.GetBlock().GetInlinedCallSiteLine() << endl;
+	std::cout << "block: " << sym.GetBlock().GetInlinedCallSiteLine() << std::endl;
 
-	cout << "entry: " << sym.GetLineEntry().IsValid() << endl;
+	std::cout << "entry: " << sym.GetLineEntry().IsValid() << std::endl;
 
 	SBFileSpec f = sym.GetModule().GetFileSpec();
-	cout << "filespec: " << f.IsValid() << endl;
-	cout << f.GetDirectory() << '/' << f.GetFilename() << endl;
+	std::cout << "filespec: " << f.IsValid() << std::endl;
+	std::cout << f.GetDirectory() << '/' << f.GetFilename() << std::endl;
 
-	cout << "compile unit file: " << sym.GetCompileUnit().GetFileSpec().GetFilename() << endl;
+	std::cout << "compile unit file: " << sym.GetCompileUnit().GetFileSpec().GetFilename() << std::endl;
 
 	int count = sym.GetCompileUnit().GetNumLineEntries();
-	cout << "compile unit entries: " << count << endl;
+	std::cout << "compile unit entries: " << count << std::endl;
 	SBLineEntry e = sym.GetCompileUnit().GetLineEntryAtIndex(0);
-	cout << "entry: " << e.IsValid() << endl;
-	cout << "line: " << e.GetLine() << endl;
+	std::cout << "entry: " << e.IsValid() << std::endl;
+	std::cout << "line: " << e.GetLine() << std::endl;
 	f = e.GetFileSpec();
-	cout << "entry filespec: " << f.IsValid() << endl;
-	cout << "entry filename: " << f.GetFilename() << endl;
-	cout << "entry path: " << f.GetDirectory() << endl;
+	std::cout << "entry filespec: " << f.IsValid() << std::endl;
+	std::cout << "entry filename: " << f.GetFilename() << std::endl;
+	std::cout << "entry path: " << f.GetDirectory() << std::endl;
 
 	addr_t mainAddr = sym.GetSymbol().GetStartAddress().GetFileAddress();
 	for (int i=0; i<count; i++)
@@ -85,98 +85,98 @@ int main()
 		SBLineEntry e = sym.GetCompileUnit().GetLineEntryAtIndex(i);
 		if (e.GetStartAddress().GetFileAddress() == mainAddr)
 			{
-			cout << "found main: " << e.GetLine() << endl;
+			std::cout << "found main: " << e.GetLine() << std::endl;
 			}
 		}
 
 	SBFunction func = sym.GetFunction();
-	cout << "function: " << func.IsValid() << endl;
-	cout << func.GetName() << endl;
+	std::cout << "function: " << func.IsValid() << std::endl;
+	std::cout << func.GetName() << std::endl;
 	}
-	cout << "-----" << endl;
+	std::cout << "-----" << std::endl;
 
 	SBBreakpoint b = t.BreakpointCreateByLocation("vartree.cc", 345);
-	cout <<"breakpoint:" << b.IsValid() << endl;
-	cout <<"enabled:" << b.IsEnabled() << endl;
-	cout <<"locations:" << b.GetNumLocations() << endl;
-	cout <<"resolved:" << b.GetNumResolvedLocations() << endl;
+	std::cout <<"breakpoint:" << b.IsValid() << std::endl;
+	std::cout <<"enabled:" << b.IsEnabled() << std::endl;
+	std::cout <<"locations:" << b.GetNumLocations() << std::endl;
+	std::cout <<"resolved:" << b.GetNumResolvedLocations() << std::endl;
 
 	SBBreakpointLocation loc = b.GetLocationAtIndex(0);
-	cout <<"bkpt location:" << loc.IsValid() << endl;
+	std::cout <<"bkpt location:" << loc.IsValid() << std::endl;
 	SBAddress addr = loc.GetAddress();
-	cout <<"location address:" << addr.IsValid() << endl;
+	std::cout <<"location address:" << addr.IsValid() << std::endl;
 	SBLineEntry e = addr.GetLineEntry();
-	cout <<"line entry:" << e.IsValid() << endl;
-	cout <<"file:" << e.GetFileSpec().GetFilename() << endl;
-	cout <<"line:" << e.GetLine() << endl;
+	std::cout <<"line entry:" << e.IsValid() << std::endl;
+	std::cout <<"file:" << e.GetFileSpec().GetFilename() << std::endl;
+	std::cout <<"line:" << e.GetLine() << std::endl;
 
 	int baton = 5;
 	b.SetCallback(bpCallback, &baton);
 
-	cout << "-----" << endl;
+	std::cout << "-----" << std::endl;
 	{
 	SBSymbolContextList list = t.FindFunctions("foo");
 	SBSymbolContext sym = list.GetContextAtIndex(0);
-	cout << "symbol: " << sym.IsValid() << endl;
-	cout << sym.GetSymbol().GetMangledName() << endl;
-	cout << sym.GetModule().GetTriple() << endl;
+	std::cout << "symbol: " << sym.IsValid() << std::endl;
+	std::cout << sym.GetSymbol().GetMangledName() << std::endl;
+	std::cout << sym.GetModule().GetTriple() << std::endl;
 
 	SBFileSpec f = sym.GetModule().GetFileSpec();
-	cout << "filespec: " << f.IsValid() << endl;
-	cout << f.GetDirectory() << '/' << f.GetFilename() << endl;
+	std::cout << "filespec: " << f.IsValid() << std::endl;
+	std::cout << f.GetDirectory() << '/' << f.GetFilename() << std::endl;
 
 	SBFunction func = sym.GetFunction();
-	cout << "function: " << func.IsValid() << endl;
-	cout << func.GetMangledName() << endl;
+	std::cout << "function: " << func.IsValid() << std::endl;
+	std::cout << func.GetMangledName() << std::endl;
 	}
-	cout << "-----" << endl;
+	std::cout << "-----" << std::endl;
 
-	cout <<"bkpt count:" << t.GetNumBreakpoints() << endl;
+	std::cout <<"bkpt count:" << t.GetNumBreakpoints() << std::endl;
 
 	SBProcess p = t.LaunchSimple(NULL, (const char**) environ, ".");
-	cout << "process: " << p.IsValid() << endl;
-	cout << "pid: " << p.GetProcessID() << endl;
-	cout << "plugin: " << p.GetPluginName() << endl;
-	cout << "state: " << p.GetState() << endl;
+	std::cout << "process: " << p.IsValid() << std::endl;
+	std::cout << "pid: " << p.GetProcessID() << std::endl;
+	std::cout << "plugin: " << p.GetPluginName() << std::endl;
+	std::cout << "state: " << p.GetState() << std::endl;
 
-	cout << "target listeners: " << t.GetBroadcaster().EventTypeHasListeners(255) << endl;
-	cout << "process listeners: " << p.GetBroadcaster().EventTypeHasListeners(255) << endl;
-//	cout << "thread listeners: " << p.GetSelectedThread().EventTypeHasListeners(255) << endl;
+	std::cout << "target listeners: " << t.GetBroadcaster().EventTypeHasListeners(255) << std::endl;
+	std::cout << "process listeners: " << p.GetBroadcaster().EventTypeHasListeners(255) << std::endl;
+//	std::cout << "thread listeners: " << p.GetSelectedThread().EventTypeHasListeners(255) << std::endl;
 
-	cout << "-----" << endl;
+	std::cout << "-----" << std::endl;
 	{
 	SBFrame f = p.GetSelectedThread().GetSelectedFrame();
-	cout << "frame: " << f.IsValid() << endl;
+	std::cout << "frame: " << f.IsValid() << std::endl;
 
 	SBValue v = f.FindVariable("b");
-	cout << "variable: " << v.IsValid() << endl;
-	cout << "children: " << v.GetNumChildren() << endl;
+	std::cout << "variable: " << v.IsValid() << std::endl;
+	std::cout << "children: " << v.GetNumChildren() << std::endl;
 
 	SBValue v1 = v.GetChildAtIndex(0);
-	cout << v1.GetName() << ": " << v1.IsValid() << endl;
-	cout << "value: " << v1.GetValueAsSigned() << endl;
+	std::cout << v1.GetName() << ": " << v1.IsValid() << std::endl;
+	std::cout << "value: " << v1.GetValueAsSigned() << std::endl;
 
 	v1 = v.GetChildAtIndex(1);
-	cout << v1.GetName() << ": " << v1.IsValid() << endl;
-	cout << "value: " << v1.GetValueAsSigned() << endl;
+	std::cout << v1.GetName() << ": " << v1.IsValid() << std::endl;
+	std::cout << "value: " << v1.GetValueAsSigned() << std::endl;
 
 	SBValue v2 = f.EvaluateExpression("b.a+b.b");
-	cout << "variable: " << v2.IsValid() << endl;
-	cout << "value: " << v2.GetValueAsSigned() << endl;
+	std::cout << "variable: " << v2.IsValid() << std::endl;
+	std::cout << "value: " << v2.GetValueAsSigned() << std::endl;
 	}
-	cout << "-----" << endl;
+	std::cout << "-----" << std::endl;
 
 	char c;
-	cin >> c;
+	std::cin >> c;
 	p.Continue();
 
 	char buf[1024];
 	size_t count = p.GetSTDOUT(buf, 1024);
-	cout << "output: ";
-	cout.write(buf, count);
+	std::cout << "output: ";
+	std::cout.write(buf, count);
 
-	cout << "exit status: " << p.GetExitStatus() << endl;
-	cout << "bkpt hit count: " << b.GetHitCount() << endl;
+	std::cout << "exit status: " << p.GetExitStatus() << std::endl;
+	std::cout << "bkpt hit count: " << b.GetHitCount() << std::endl;
 
 	SBDebugger::Terminate();
 

@@ -34,7 +34,7 @@ CBCClass::CBCClass
 
 CBCClass::CBCClass
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	CBTree*				tree
 	)

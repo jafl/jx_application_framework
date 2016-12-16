@@ -46,7 +46,7 @@ SCXferFnDirector::SCXferFnDirector
 
 SCXferFnDirector::SCXferFnDirector
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	SCCircuitDocument*	supervisor
 	)
@@ -209,7 +209,7 @@ SCXferFnDirector::EvaluateTransferFunction()
 void
 SCXferFnDirector::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

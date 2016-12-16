@@ -91,7 +91,7 @@ THX3DPlotDirector::THX3DPlotDirector
 
 THX3DPlotDirector::THX3DPlotDirector
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	JXDirector*			supervisor,
 	THXVarList*			varList
@@ -149,7 +149,7 @@ THX3DPlotDirector::~THX3DPlotDirector()
 void
 THX3DPlotDirector::WriteState
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

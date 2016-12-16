@@ -240,7 +240,7 @@ CBMDIServer::HandleMDIRequest
 
 		else if (arg.GetFirstCharacter() == '-')
 			{
-			cerr << execName << ": unknown option " << arg << endl;
+			std::cerr << execName << ": unknown option " << arg << std::endl;
 			}
 
 		else if (arg.GetFirstCharacter() == '+' &&
@@ -254,7 +254,7 @@ CBMDIServer::HandleMDIRequest
 			else
 				{
 				lineRange.SetToNothing();
-				cerr << execName << ": invalid line number " << s << endl;
+				std::cerr << execName << ": invalid line number " << s << std::endl;
 				}
 			}
 		else
@@ -504,7 +504,7 @@ CBMDIServer::DisplayFileDiffs
 	JString full1, full2;
 	if (file1.IsEmpty() || file2.IsEmpty())
 		{
-		cerr << *(argList.FirstElement()) << ": too few arguments to --diff" << endl;
+		std::cerr << *(argList.FirstElement()) << ": too few arguments to --diff" << std::endl;
 		}
 	else if (!JConvertToAbsolutePath(file1, NULL, &full1))
 		{
@@ -583,7 +583,7 @@ CBMDIServer::DisplayVCSDiffs
 	*index += count;
 	if (file.IsEmpty())
 		{
-		cerr << *(argList.FirstElement()) << ": too few arguments to --" << type << "-diff" << endl;
+		std::cerr << *(argList.FirstElement()) << ": too few arguments to --" << type << "-diff" << std::endl;
 		return;
 		}
 
@@ -639,7 +639,7 @@ CBMDIServer::DisplayVCSDiffs
 void
 CBMDIServer::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -661,7 +661,7 @@ CBMDIServer::ReadPrefs
 void
 CBMDIServer::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -687,5 +687,5 @@ CBMDIServer::PrintCommandLineHelp()
 		"copyright", JGetString("COPYRIGHT")
 		};
 	const JString s = JGetString(kCommandLineHelpID, map, sizeof(map));
-	cout << endl << s << endl << endl;
+	std::cout << std::endl << s << std::endl << std::endl;
 }

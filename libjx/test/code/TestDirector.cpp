@@ -223,7 +223,7 @@ TestDirector::TestDirector
 
 	if (isMaster && JFileExists(kWindowGeomFileName))
 		{
-		ifstream input(kWindowGeomFileName);
+		std::ifstream input(kWindowGeomFileName);
 		window->ReadGeometry(input);
 		}
 
@@ -250,7 +250,7 @@ TestDirector::TestDirector
 
 TestDirector::~TestDirector()
 {
-	ofstream output(kWindowGeomFileName);
+	std::ofstream output(kWindowGeomFileName);
 	GetWindow()->WriteGeometry(output);
 
 	jdelete itsPSPrinter;
@@ -629,7 +629,7 @@ TestDirector::Receive
 		const JXTipOfTheDayDialog::ShowAtStartup* info =
 			dynamic_cast<const JXTipOfTheDayDialog::ShowAtStartup*>(&message);
 		assert( info != NULL );
-		cout << "Should show at startup: " << info->ShouldShowAtStartup() << endl;
+		std::cout << "Should show at startup: " << info->ShouldShowAtStartup() << std::endl;
 		}
 
 	else
@@ -874,9 +874,9 @@ TestDirector::HandleTestMenu
 	else if (index == kTestZombieProcessCmd)
 		{
 		pid_t pid;
-		cout << endl;
+		std::cout << std::endl;
 		const JError err = JExecute("ls", &pid);
-		cout << endl;
+		std::cout << std::endl;
 		if (err.OK())
 			{
 			(JGetUserNotification())->DisplayMessage(
@@ -895,32 +895,32 @@ TestDirector::HandleTestMenu
 		JXWindow* window = GetWindow();
 		window->Place(0,0);
 
-		cout << endl;
-		cout << "Window is now at " << window->GetDesktopLocation() << endl;
+		std::cout << std::endl;
+		std::cout << "Window is now at " << window->GetDesktopLocation() << std::endl;
 		}
 	else if (index == kTestPlaceWindow30Cmd)
 		{
 		JXWindow* window = GetWindow();
 		window->Place(30,30);
 
-		cout << endl;
-		cout << "Window is now at " << window->GetDesktopLocation() << endl;
+		std::cout << std::endl;
+		std::cout << "Window is now at " << window->GetDesktopLocation() << std::endl;
 		}
 	else if (index == kTestPlaceWindow100Cmd)
 		{
 		JXWindow* window = GetWindow();
 		window->Place(100,100);
 
-		cout << endl;
-		cout << "Window is now at " << window->GetDesktopLocation() << endl;
+		std::cout << std::endl;
+		std::cout << "Window is now at " << window->GetDesktopLocation() << std::endl;
 		}
 	else if (index == kTestMoveWindowCmd)
 		{
 		JXWindow* window = GetWindow();
 		window->Move(10,10);
 
-		cout << endl;
-		cout << "Window is now at " << window->GetDesktopLocation() << endl;
+		std::cout << std::endl;
+		std::cout << "Window is now at " << window->GetDesktopLocation() << std::endl;
 		}
 	else if (index == kRaiseAllWindowsCmd)
 		{

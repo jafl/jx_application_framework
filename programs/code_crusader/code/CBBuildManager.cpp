@@ -108,9 +108,9 @@ CBBuildManager::CBBuildManager
 
 CBBuildManager::CBBuildManager
 	(
-	istream&			projInput,
+	std::istream&			projInput,
 	const JFileVersion	projVers,
-	istream*			setInput,
+	std::istream*			setInput,
 	const JFileVersion	setVers,
 	CBProjectDocument*	doc
 	)
@@ -397,7 +397,7 @@ CBBuildManager::UpdateMakeHeader
 	if (s.c_str() != text)
 		{
 		JEditVCS(fileName);
-		ofstream f(fileName);
+		std::ofstream f(fileName);
 		f << s.c_str();
 		f.close();
 
@@ -443,7 +443,7 @@ CBBuildManager::UpdateMakeFiles
 	if (s.c_str() != origText)
 		{
 		JEditVCS(fileName);
-		ofstream output(fileName);
+		std::ofstream output(fileName);
 		output << s.c_str();
 		}
 }
@@ -485,7 +485,7 @@ CBBuildManager::WriteCMakeInput
 		}
 
 	JEditVCS(outputFileName);
-	ofstream output(outputFileName);
+	std::ofstream output(outputFileName);
 	(JGetString(kMakeFilesWarningID)).Print(output);
 	cmakeHeader.Print(output);
 }
@@ -527,7 +527,7 @@ CBBuildManager::WriteQMakeInput
 		}
 
 	JEditVCS(outputFileName);
-	ofstream output(outputFileName);
+	std::ofstream output(outputFileName);
 	(JGetString(kMakeFilesWarningID)).Print(output);
 	qmakeHeader.Print(output);
 }
@@ -543,7 +543,7 @@ CBBuildManager::WriteQMakeInput
 void
 CBBuildManager::PrintTargetName
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -820,9 +820,9 @@ CBBuildManager::EditMakeConfig()
 void
 CBBuildManager::ReadSetup
 	(
-	istream&			projInput,
+	std::istream&			projInput,
 	const JFileVersion	projVers,
-	istream*			setInput,
+	std::istream*			setInput,
 	const JFileVersion	setVers,
 	const JCharacter*	projPath
 	)
@@ -865,7 +865,7 @@ CBBuildManager::ReadSetup
 		{
 		if (projVers >= 71)
 			{
-			projInput >> ws;
+			projInput >> std::ws;
 			JIgnoreLine(projInput);
 			}
 
@@ -927,8 +927,8 @@ CBBuildManager::ReadSetup
 void
 CBBuildManager::StreamOut
 	(
-	ostream& projOutput,
-	ostream* setOutput
+	std::ostream& projOutput,
+	std::ostream* setOutput
 	)
 	const
 {
@@ -961,7 +961,7 @@ CBBuildManager::StreamOut
 void
 CBBuildManager::ReadTemplate
 	(
-	istream&				input,
+	std::istream&				input,
 	const JFileVersion		tmplVers,
 	const JFileVersion		projVers,
 	const MakefileMethod	method,
@@ -1039,7 +1039,7 @@ CBBuildManager::ReadTemplate
 					fullName = JCombinePathAndName(itsProjDoc->GetFilePath(), fileName);
 					if (!JNameUsed(fullName))
 						{
-						ofstream output(fullName);
+						std::ofstream output(fullName);
 						text.Print(output);
 						}
 					}
@@ -1074,7 +1074,7 @@ CBBuildManager::ReadTemplate
 inline void
 cbSaveFile
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const JCharacter*	fileName
 	)
 {
@@ -1093,7 +1093,7 @@ cbSaveFile
 void
 CBBuildManager::WriteTemplate
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -1150,7 +1150,7 @@ CBBuildManager::WriteTemplate
 void
 CBBuildManager::ConvertCompileDialog
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -1214,10 +1214,10 @@ CBBuildManager::CreateMakemakeFiles
 	GetMakemakeFileNames(&makeHeaderName, &makeFilesName);
 	if (!JFileExists(makeHeaderName) && !JFileExists(makeFilesName))
 		{
-		ofstream output1(makeHeaderName);
+		std::ofstream output1(makeHeaderName);
 		output1 << makeHeaderText;
 
-		ofstream output2(makeFilesName);
+		std::ofstream output2(makeFilesName);
 		output2 << makeFilesText;
 		}
 
@@ -1243,7 +1243,7 @@ CBBuildManager::CreateCMakeFiles
 	GetCMakeFileNames(&cmakeHeaderName, &cmakeInputName);
 	if (!JFileExists(cmakeHeaderName))
 		{
-		ofstream output(cmakeHeaderName);
+		std::ofstream output(cmakeHeaderName);
 		output << cmakeHeaderText;
 		}
 
@@ -1269,7 +1269,7 @@ CBBuildManager::CreateQMakeFiles
 	GetQMakeFileNames(&qmakeHeaderName, &qmakeInputName);
 	if (!JFileExists(qmakeHeaderName))
 		{
-		ofstream output(qmakeHeaderName);
+		std::ofstream output(qmakeHeaderName);
 		output << qmakeHeaderText;
 		}
 
@@ -1298,7 +1298,7 @@ CBBuildManager::RecreateMakeHeaderFile()
 		GetMakemakeFileNames(&makeHeaderName, &makeFilesName);
 		if (!JFileExists(makeHeaderName))
 			{
-			ofstream output(makeHeaderName);
+			std::ofstream output(makeHeaderName);
 			(JGetString(kMakeHeaderInitTextID)).Print(output);
 			}
 		}
@@ -1308,7 +1308,7 @@ CBBuildManager::RecreateMakeHeaderFile()
 		GetCMakeFileNames(&cmakeHeaderName, &cmakeInputName);
 		if (!JFileExists(cmakeHeaderName))
 			{
-			ofstream output(cmakeHeaderName);
+			std::ofstream output(cmakeHeaderName);
 			(JGetString(kCMakeHeaderInitTextID)).Print(output);
 			}
 		}
@@ -1318,7 +1318,7 @@ CBBuildManager::RecreateMakeHeaderFile()
 		GetQMakeFileNames(&qmakeHeaderName, &qmakeInputName);
 		if (!JFileExists(qmakeHeaderName))
 			{
-			ofstream output(qmakeHeaderName);
+			std::ofstream output(qmakeHeaderName);
 			(JGetString(kQMakeHeaderInitTextID)).Print(output);
 			}
 		}
@@ -1373,7 +1373,7 @@ CBBuildManager::WriteSubProjectBuildFile
 	if (origData != data)
 		{
 		JEditVCS(fileName);
-		ofstream output(fileName);
+		std::ofstream output(fileName);
 		data.Print(output);
 		}
 
@@ -1703,10 +1703,10 @@ CBBuildManager::GetMakefileMethodName
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&						input,
+	std::istream&						input,
 	CBBuildManager::MakefileMethod&	method
 	)
 {
@@ -1720,10 +1720,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&								output,
+	std::ostream&								output,
 	const CBBuildManager::MakefileMethod	method
 	)
 {

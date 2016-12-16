@@ -140,8 +140,8 @@ public:
 //							   JArray<JIntRange>* complement);
 };
 
-istream& operator>>(istream& input, JIntRange& range);
-ostream& operator<<(ostream& output, const JIntRange& range);
+std::istream& operator>>(std::istream& input, JIntRange& range);
+std::ostream& operator<<(std::ostream& output, const JIntRange& range);
 
 JBoolean	JIntersection(const JIntRange& r1, const JIntRange& r2, JIntRange* result);
 JIntRange	JCovering(const JIntRange& r1, const JIntRange& r2);

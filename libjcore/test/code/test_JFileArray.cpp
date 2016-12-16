@@ -28,8 +28,8 @@ int main()
 {
 	long i;
 
-	cout << "Enter 0 for testing new file, 1 for testing existing file: ";
-	cin >> i;
+	std::cout << "Enter 0 for testing new file, 1 for testing existing file: ";
+	std::cin >> i;
 	JInputFinished();
 
 	{																// constructor
@@ -37,12 +37,12 @@ int main()
 	JError createErr = JFileArray::Create(kTestFileName, kTestFileSignature, &a1);
 	if (createErr == JFileArray::kWrongSignature)
 		{
-		cerr << "The file has the wrong signature." << endl;
+		std::cerr << "The file has the wrong signature." << std::endl;
 		return 1;
 		}
 	else if (createErr == JFileArray::kFileAlreadyOpen)
 		{
-		cerr << "The file has already been opened by another program." << endl;
+		std::cerr << "The file has already been opened by another program." << std::endl;
 		return 1;
 		}
 	assert( createErr.OK() );
@@ -53,21 +53,21 @@ JFileArray* a1;											// constructor on empty file
 JError createErr = JFileArray::Create(kTestFileName, kTestFileSignature, &a1);
 assert( createErr.OK() );
 
-	cout << endl << "file array a1 created" << endl;
+	std::cout << std::endl << "file array a1 created" << std::endl;
 
 JBroadcastSnooper snoop1(a1);
 
-	cout << "a1 address: " << (void*) a1 << endl << endl;
+	std::cout << "a1 address: " << (void*) a1 << std::endl << std::endl;
 
 JFileArray* a2;														// constructor
 createErr = JFileArray::Create(a1, kEmbeddedFileID, &a2);
 assert( createErr.OK() );
 
-	cout << endl << "file array a2 created" << endl;
+	std::cout << std::endl << "file array a2 created" << std::endl;
 
 JBroadcastSnooper snoop2(a2);
 
-	cout << "a2 address: " << (void*) a2 << endl << endl;
+	std::cout << "a2 address: " << (void*) a2 << std::endl << std::endl;
 
 	JWaitForReturn();
 
@@ -87,7 +87,7 @@ JBroadcastSnooper snoop2(a2);
 		}
 	else
 		{
-		cout << "arf!";
+		std::cout << "arf!";
 		}
 
 	jdelete a2;	// delete embedded first
@@ -105,21 +105,21 @@ void NewFileTest
 	long		embeddedFileCount
 	)
 {
-	cout << "array itemCount should be " << embeddedFileCount << endl;
-	cout << "array itemCount = " << a.GetElementCount() << endl << endl;
+	std::cout << "array itemCount should be " << embeddedFileCount << std::endl;
+	std::cout << "array itemCount = " << a.GetElementCount() << std::endl << std::endl;
 
 	JFileVersion vers = a.GetVersion();
 
 	if (vers == kVersionOfExistingFile)
 		{
-		cout << "You asked to test a new file." << endl;
-		cout << "Please delete the existing file first." << endl;
+		std::cout << "You asked to test a new file." << std::endl;
+		std::cout << "Please delete the existing file first." << std::endl;
 		return;
 		}
 
 	a.SetVersion(kVersionOfExistingFile);
 
-	cout << "array version = " << a.GetVersion() << endl;
+	std::cout << "array version = " << a.GetVersion() << std::endl;
 
 	{
 	std::ostringstream dataStream;
@@ -152,8 +152,8 @@ void NewFileTest
 	a.PrependElement(dataStream);
 	}
 
-	cout << "array itemCount should be " << 2+embeddedFileCount << endl;
-	cout << "array itemCount = " << a.GetElementCount() << endl << endl;
+	std::cout << "array itemCount should be " << 2+embeddedFileCount << std::endl;
+	std::cout << "array itemCount = " << a.GetElementCount() << std::endl << std::endl;
 
 	{
 	JFAID id = 3;
@@ -163,7 +163,7 @@ void NewFileTest
 	std::istringstream dataStream(data);
 	JString elementData;
 	dataStream >> elementData;
-	cout << "Element with id 3 is: " << elementData << endl;
+	std::cout << "Element with id 3 is: " << elementData << std::endl;
 	}
 
 	a.MoveElementToIndex(1,2);
@@ -218,14 +218,14 @@ void OldFileTest
 	JFileArray& a
 	)
 {
-	cout << "array itemCount = " << a.GetElementCount() << endl << endl;
+	std::cout << "array itemCount = " << a.GetElementCount() << std::endl << std::endl;
 
 	JFileVersion vers = a.GetVersion();
 
 	if (vers != kVersionOfExistingFile)
 		{
-		cout << "You asked to test an existing file." << endl;
-		cout << "Please run the new file test first." << endl;
+		std::cout << "You asked to test an existing file." << std::endl;
+		std::cout << "Please run the new file test first." << std::endl;
 		return;
 		}
 
@@ -248,12 +248,12 @@ void OldFileTest
 
 			std::istringstream dataStream(data);
 			dataStream >> elementData;
-			cout << "Element " << i << " has id = " << id.GetID() << endl;
-			cout << "Element " << i << " is: " << elementData << endl << endl;
+			std::cout << "Element " << i << " has id = " << id.GetID() << std::endl;
+			std::cout << "Element " << i << " is: " << elementData << std::endl << std::endl;
 			}
 		else
 			{
-			cout << "Element " << i << " is an embedded file." << endl;
+			std::cout << "Element " << i << " is an embedded file." << std::endl;
 			}
 		}
 	}

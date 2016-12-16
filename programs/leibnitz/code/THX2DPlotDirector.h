@@ -23,7 +23,7 @@ class THX2DPlotDirector : public JXWindowDirector
 public:
 
 	THX2DPlotDirector(JXDirector* supervisor);
-	THX2DPlotDirector(istream& input, const JFileVersion vers,
+	THX2DPlotDirector(std::istream& input, const JFileVersion vers,
 					  JXDirector* supervisor, THXVarList* varList);
 
 	virtual ~THX2DPlotDirector();
@@ -32,7 +32,7 @@ public:
 						const JCharacter* name,
 						const JFloat xMin, const JFloat xMax);
 
-	void	WriteState(ostream& output) const;
+	void	WriteState(std::ostream& output) const;
 
 protected:
 

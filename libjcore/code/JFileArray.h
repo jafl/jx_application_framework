@@ -114,16 +114,16 @@ private:
 
 	enum SetMarkMode
 		{
-		kFromFileStart = ios::beg,
-		kFromFileEnd   = ios::end
+		kFromFileStart = std::ios::beg,
+		kFromFileEnd   = std::ios::end
 		};
 
 private:
 
-	JString*	itsFileName;				// name of file (for JSetFStreamLength) - NULL if embedded
-	fstream*	itsStream;					// stream for accessing file
-	JBoolean	itsIsOpenFlag;				// kJTrue => set high bit of element count
-	JBoolean	itsFlushChangesFlag;		// kJTrue => write index after every change
+	JString*		itsFileName;			// name of file (for JSetFStreamLength) - NULL if embedded
+	std::fstream*	itsStream;				// stream for accessing file
+	JBoolean		itsIsOpenFlag;			// kJTrue => set high bit of element count
+	JBoolean		itsFlushChangesFlag;	// kJTrue => write index after every change
 
 	JFileVersion	itsVersion;				// version of file
 	JUnsignedOffset	itsFileSignatureLength;	// space reserved at front for file signaure (string)
@@ -138,7 +138,7 @@ private:
 
 	void	FileArrayX(const JBoolean isNew, const JString& fileSignature);
 
-	fstream*	OpenEmbeddedFile(JFileArray* theEmbeddedFile,
+	std::fstream*	OpenEmbeddedFile(JFileArray* theEmbeddedFile,
 								 const JFAID& id, JBoolean* isNew);
 	void	EmbeddedFileClosed(const JFAID& id);
 
@@ -166,17 +166,17 @@ private:
 	JUnsignedOffset	GetStartOfFile() const;
 	JSize			GetFileLength() const;
 	void			SetFileLength(const JSize newLength);
-	void			ReplaceStream(fstream* newStream);
+	void			ReplaceStream(std::fstream* newStream);
 
 	JUnsignedOffset	GetReadWriteMark() const;
 	void			SetReadWriteMark(const JSignedOffset howFar,
 									 const SetMarkMode fromWhere) const;
 
-	static unsigned long	ReadUnsignedLong(istream& input);
-	static void				WriteUnsignedLong(ostream& output,
+	static unsigned long	ReadUnsignedLong(std::istream& input);
+	static void				WriteUnsignedLong(std::ostream& output,
 											  const unsigned long value);
 
-	static JBoolean	FileIsOpen(ifstream& file, const JSize sigLength);
+	static JBoolean	FileIsOpen(std::ifstream& file, const JSize sigLength);
 
 	// not allowed
 

@@ -105,7 +105,7 @@ JConstantValue::Evaluate
 void
 JConstantValue::Print
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

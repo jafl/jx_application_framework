@@ -90,7 +90,7 @@ private:
 
 	JIndex	AddBinding(JFSBinding* pb);
 
-	void	Load(istream& input, const JBoolean isSystem);
+	void	Load(std::istream& input, const JBoolean isSystem);
 	void	StoreDefault(JFSBinding* b, JFSBinding** slot);
 
 	// not allowed

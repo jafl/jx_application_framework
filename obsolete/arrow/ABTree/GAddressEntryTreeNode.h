@@ -32,7 +32,7 @@ public:
 	void		SetHasFcc(const JBoolean fcc);
 	void		SetHasComment(const JBoolean comment);
 
-	virtual void	Save(ostream& os);
+	virtual void	Save(std::ostream& os);
 	JString			GetFullAddress(const JBoolean withRet = kJFalse);
 
 private:

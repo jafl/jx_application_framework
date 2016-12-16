@@ -191,7 +191,7 @@ ParseOptions
 				}
 			else
 				{
-				cerr << argv[0] << ": -t requires a number or none" << endl;
+				std::cerr << argv[0] << ": -t requires a number or none" << std::endl;
 				exit(1);
 				}
 			}
@@ -209,7 +209,7 @@ ParseOptions
 				}
 			else
 				{
-				cerr << argv[0] << ": -l requires either on or off" << endl;
+				std::cerr << argv[0] << ": -l requires either on or off" << std::endl;
 				exit(1);
 				}
 			}
@@ -233,7 +233,7 @@ ParseOptions
 
 		else if (argv[index][0] == '-')
 			{
-			cerr << argv[0] << ": unknown option " << argv[index] << endl;
+			std::cerr << argv[0] << ": unknown option " << argv[index] << std::endl;
 			exit(1);
 			}
 
@@ -241,12 +241,12 @@ ParseOptions
 			{
 			if (!JFileReadable(argv[index]))
 				{
-				cerr << argv[0] << ": file is unreadable" << endl;
+				std::cerr << argv[0] << ": file is unreadable" << std::endl;
 				exit(1);
 				}
 			if (!JFileWritable(argv[index]))
 				{
-				cerr << argv[0] << ": file is unwriteable" << endl;
+				std::cerr << argv[0] << ": file is unwriteable" << std::endl;
 				exit(1);
 				}
 			*fileName = argv[index];
@@ -254,7 +254,7 @@ ParseOptions
 
 		else
 			{
-			cerr << argv[0] << ": too many parameters" << endl;
+			std::cerr << argv[0] << ": too many parameters" << std::endl;
 			exit(1);
 			}
 		index++;
@@ -262,7 +262,7 @@ ParseOptions
 
 	if (fileName->IsEmpty())
 		{
-		cerr << argv[0] << ": no input file specified" << endl;
+		std::cerr << argv[0] << ": no input file specified" << std::endl;
 		exit(1);
 		}
 
@@ -282,21 +282,21 @@ ParseOptions
 void
 PrintHelp()
 {
-	cout << endl;
-	cout << "Usage: [-i] [-t index|none] [-l on|off] [-p] input_file" << endl;
-	cout << endl;
-	cout << "This program provides the following functions related to GIF files:" << endl;
-	cout << endl;
-	cout << "-v  Prints version information" << endl;
-	cout << "-h  Prints this help" << endl;
-	cout << "-i  Get info: colors, size, interlacing (default if no options specified)" << endl;
-	cout << "-t  Set transparent color (0-255 or none)" << endl;
-	cout << "-l  Turn interlacing on/off" << endl;
-	cout << "-p  Pad the colormap so that Netscape will dither it" << endl;
-	cout << "-b  alpha R G B file -- alpha blend with specified color" << endl;
-	cout << endl;
-	cout << "jafl@newplanetsoftware.com" << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << "Usage: [-i] [-t index|none] [-l on|off] [-p] input_file" << std::endl;
+	std::cout << std::endl;
+	std::cout << "This program provides the following functions related to GIF files:" << std::endl;
+	std::cout << std::endl;
+	std::cout << "-v  Prints version information" << std::endl;
+	std::cout << "-h  Prints this help" << std::endl;
+	std::cout << "-i  Get info: colors, size, interlacing (default if no options specified)" << std::endl;
+	std::cout << "-t  Set transparent color (0-255 or none)" << std::endl;
+	std::cout << "-l  Turn interlacing on/off" << std::endl;
+	std::cout << "-p  Pad the colormap so that Netscape will dither it" << std::endl;
+	std::cout << "-b  alpha R G B file -- alpha blend with specified color" << std::endl;
+	std::cout << std::endl;
+	std::cout << "jafl@newplanetsoftware.com" << std::endl;
+	std::cout << std::endl;
 }
 
 /******************************************************************************
@@ -307,14 +307,14 @@ PrintHelp()
 void
 PrintVersion()
 {
-	cout << endl;
-	cout << "webgif 1.0.0\n";
-	cout << endl;
-	cout << "Copyright (C) 1998 by John Lindal." << endl;
-	cout << "This program may be freely distributed at no charge." << endl;
-	cout << endl;
-	cout << "jafl@newplanetsoftware.com" << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << "webgif 1.0.0\n";
+	std::cout << std::endl;
+	std::cout << "Copyright (C) 1998 by John Lindal." << std::endl;
+	std::cout << "This program may be freely distributed at no charge." << std::endl;
+	std::cout << std::endl;
+	std::cout << "jafl@newplanetsoftware.com" << std::endl;
+	std::cout << std::endl;
 }
 
 /******************************************************************************
@@ -333,7 +333,7 @@ ReadGIF
 	gdImagePtr image = gdImageCreateFromGif(input);
 	if (image == NULL)
 		{
-		cerr << fileName << " is not a GIF" << endl;
+		std::cerr << fileName << " is not a GIF" << std::endl;
 		exit(1);
 		}
 	fclose(input);
@@ -376,51 +376,51 @@ PrintGIFInfo
 	gdImagePtr image
 	)
 {
-	cout << endl;
-	cout << "Index\tRed\tGreen\tBlue" << endl;
+	std::cout << std::endl;
+	std::cout << "Index\tRed\tGreen\tBlue" << std::endl;
 
 	const JSize colorCount = gdImageColorsTotal(image);
 	for (JIndex i=0; i<colorCount; i++)
 		{
-		cout << i;
-		cout << '\t' << gdImageRed  (image, i);
-		cout << '\t' << gdImageGreen(image, i);
-		cout << '\t' << gdImageBlue (image, i);
-		cout << endl;
+		std::cout << i;
+		std::cout << '\t' << gdImageRed  (image, i);
+		std::cout << '\t' << gdImageGreen(image, i);
+		std::cout << '\t' << gdImageBlue (image, i);
+		std::cout << std::endl;
 		}
 
-	cout << endl;
+	std::cout << std::endl;
 
-	cout << "Number of colors:        " << colorCount << endl;
+	std::cout << "Number of colors:        " << colorCount << std::endl;
 
 	const int transparentColor = gdImageGetTransparent(image);
-	cout << "Transparent color index: ";
+	std::cout << "Transparent color index: ";
 	if (transparentColor == kNoTransparentColor)
 		{
-		cout << "none";
+		std::cout << "none";
 		}
 	else
 		{
-		cout << transparentColor;
+		std::cout << transparentColor;
 		}
-	cout << endl;
+	std::cout << std::endl;
 
-	cout << endl;
+	std::cout << std::endl;
 
-	cout << "Width:      " << gdImageSX(image) << endl;
-	cout << "Height:     " << gdImageSY(image) << endl;
-	cout << "Interlaced: ";
+	std::cout << "Width:      " << gdImageSX(image) << std::endl;
+	std::cout << "Height:     " << gdImageSY(image) << std::endl;
+	std::cout << "Interlaced: ";
 	if (gdImageGetInterlaced(image))
 		{
-		cout << "yes";
+		std::cout << "yes";
 		}
 	else
 		{
-		cout << "no";
+		std::cout << "no";
 		}
-	cout << endl;
+	std::cout << std::endl;
 
-	cout << endl;
+	std::cout << std::endl;
 }
 
 /******************************************************************************
@@ -493,7 +493,7 @@ PadColormap
 	int x = gdImageSX(image) - extraColorCount;
 	if (x < 0)
 		{
-		cerr << "image is too small to fit extra colors on single raster line" << endl;
+		std::cerr << "image is too small to fit extra colors on single raster line" << std::endl;
 		exit(1);
 		}
 

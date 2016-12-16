@@ -929,7 +929,7 @@ CBTreeWidget::Receive
 void
 CBTreeWidget::ReadSetup
 	(
-	istream&			setInput,
+	std::istream&			setInput,
 	const JFileVersion	setVers
 	)
 {
@@ -962,7 +962,7 @@ CBTreeWidget::ReadSetup
 void
 CBTreeWidget::WriteSetup
 	(
-	ostream& setOutput
+	std::ostream& setOutput
 	)
 	const
 {

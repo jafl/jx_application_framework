@@ -785,10 +785,10 @@ GetDateString
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&	input,
+	std::istream&	input,
 	CLDay&		day
 	)
 {
@@ -798,10 +798,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const CLDay&	day
 	)
 {
@@ -814,10 +814,10 @@ operator<<
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&	input,
+	std::istream&	input,
 	CLTime&		t
 	)
 {
@@ -825,10 +825,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const CLTime&	t
 	)
 {

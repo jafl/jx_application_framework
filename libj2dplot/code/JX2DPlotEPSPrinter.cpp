@@ -60,7 +60,7 @@ JX2DPlotEPSPrinter::~JX2DPlotEPSPrinter()
 void
 JX2DPlotEPSPrinter::ReadX2DEPSSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -86,7 +86,7 @@ JX2DPlotEPSPrinter::ReadX2DEPSSetup
 void
 JX2DPlotEPSPrinter::WriteX2DEPSSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

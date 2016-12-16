@@ -1776,7 +1776,7 @@ JXTabGroup::HandleContextMenu
 void
 JXTabGroup::ReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -1799,7 +1799,7 @@ JXTabGroup::ReadSetup
 void
 JXTabGroup::SkipSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JIgnoreUntil(input, kSetupDataEndDelimiter);
@@ -1813,7 +1813,7 @@ JXTabGroup::SkipSetup
 void
 JXTabGroup::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

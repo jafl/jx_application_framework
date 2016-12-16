@@ -168,7 +168,7 @@ GLFitManager::RemoveFitDescription
 void
 GLFitManager::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	itsIsInitialized	= kJTrue;
@@ -204,7 +204,7 @@ GLFitManager::ReadPrefs
 void
 GLFitManager::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

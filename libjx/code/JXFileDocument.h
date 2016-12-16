@@ -83,8 +83,8 @@ public:
 
 	// saving setup information
 
-	void	ReadJXFDSetup(istream& input);
-	void	WriteJXFDSetup(ostream& output) const;
+	void	ReadJXFDSetup(std::istream& input);
+	void	WriteJXFDSetup(std::ostream& output) const;
 
 protected:
 
@@ -101,11 +101,11 @@ protected:
 	virtual void		HandleFileModifiedByOthers(const JBoolean modTimeChanged,
 												   const JBoolean permsChanged);
 	virtual JError		WriteFile(const JCharacter* fullName, const JBoolean safetySave) const;
-	virtual void		WriteTextFile(ostream& output, const JBoolean safetySave) const;
+	virtual void		WriteTextFile(std::ostream& output, const JBoolean safetySave) const;
 
 	virtual JString		GetWindowTitle() const;
 
-	static FileStatus	DefaultCanReadASCIIFile(istream& input,
+	static FileStatus	DefaultCanReadASCIIFile(std::istream& input,
 												const JCharacter* fileSignature,
 												const JFileVersion currFileVersion,
 												JFileVersion* actualFileVersion);

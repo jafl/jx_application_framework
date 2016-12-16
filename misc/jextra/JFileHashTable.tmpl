@@ -151,7 +151,7 @@ JFileHashTable<T>::OpenFile
 
 	const JBoolean isNew = JNegate( JFileExists(fileName) );
 
-	itsStream = new fstream(fileName, kJBinaryFile);
+	itsStream = new std::fstream(fileName, kJBinaryFile);
 	assert( itsStream != NULL );
 	assert( itsStream->good() );
 
@@ -268,7 +268,7 @@ JFileHashTable<T>::FindElement
 			// move to the next slot in the hash table
 
 			const JIndex fileIndex = indexOffset + slotIndex-1;
-			const streampos statusPosition = GetFileHeaderLength() + fileIndex * GetElementLength();
+			const std::streampos statusPosition = GetFileHeaderLength() + fileIndex * GetElementLength();
 			itsStream->seekg(statusPosition);
 
 			// check if this slot is used
@@ -278,7 +278,7 @@ JFileHashTable<T>::FindElement
 
 			// calculate the position of the data
 
-			const streampos dataPosition = itsStream->tellg() + itsIdentifierLength;
+			const std::streampos dataPosition = itsStream->tellg() + itsIdentifierLength;
 
 			// compare the Identifier in the file with the given Identifier
 
@@ -376,7 +376,7 @@ JFileHashTable<T>::AddElement
 	// move to the location of the new element
 
 	const JIndex fileIndex = (tableIndex-1) * itsHashTableSize + slotIndex-1;
-	const streampos offset = GetFileHeaderLength() + fileIndex * GetElementLength();
+	const std::streampos offset = GetFileHeaderLength() + fileIndex * GetElementLength();
 	itsStream->seekg(offset);
 
 	// check that the slot is empty
@@ -392,7 +392,7 @@ JFileHashTable<T>::AddElement
 
 	// save the location of the data
 
-	const streampos dataPosition = itsStream->tellp() + itsIdentifierLength;
+	const std::streampos dataPosition = itsStream->tellp() + itsIdentifierLength;
 
 	// initialize Identifier + Data
 
@@ -428,7 +428,7 @@ JFileHashTable<T>::RemoveElement
 		{
 		// We found the element.  First, move to the in-use flag
 
-		const streampos elementStart =
+		const std::streampos elementStart =
 			itsStream->tellg() - itsIdentifierLength - kSlotStatusLength;
 		itsStream->seekp(elementStart);
 
@@ -470,7 +470,7 @@ JFileHashTable<T>::MoveToNextElement
 	while (*slotIndex < slotCount)
 		{
 		(*slotIndex)++;
-		const streampos slotOffset =
+		const std::streampos slotOffset =
 			GetFileHeaderLength() + (*slotIndex-1) * GetElementLength();
 		itsStream->seekg(slotOffset);
 

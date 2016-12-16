@@ -47,7 +47,7 @@ class GMScanner : public GMFlexLexer
 {
 public:
 
-	GMScanner(istream* is);
+	GMScanner(std::istream* is);
 	virtual ~GMScanner();
 
 	int yylex();

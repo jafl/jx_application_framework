@@ -135,7 +135,7 @@ CBEiffelStyler::~CBEiffelStyler()
 void
 CBEiffelStyler::Scan
 	(
-	istream&			input,
+	std::istream&			input,
 	const TokenExtra&	initData
 	)
 {

@@ -257,7 +257,7 @@ GAddressBookTreeDir::Receive
 void
 GAddressBookTreeDir::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	itsPrefsOK = kJTrue;
@@ -288,7 +288,7 @@ GAddressBookTreeDir::ReadPrefs
 void
 GAddressBookTreeDir::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

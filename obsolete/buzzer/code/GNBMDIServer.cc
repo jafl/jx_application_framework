@@ -126,7 +126,7 @@ GNBMDIServer::HandleMDIRequest
 				}
 			else
 				{
-				ofstream temp(fileName);
+				std::ofstream temp(fileName);
 				if (!temp.good())
 					{
 					un->ReportError("Unable to create it.  "

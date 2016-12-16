@@ -184,7 +184,7 @@ JSearchFile
 	JIndex*			lineIndex
 	)
 {
-	ifstream input(fileName.GetBytes());
+	std::ifstream input(fileName.GetBytes());
 
 	*lineIndex = 0;
 	while (!input.eof())

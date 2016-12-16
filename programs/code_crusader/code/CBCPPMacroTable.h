@@ -32,8 +32,8 @@ public:
 	JBoolean	ContentsValid() const;
 	JBoolean	UpdateMacros(CBCPreprocessor* cpp) const;
 
-	void	ReadSetup(istream& input);
-	void	WriteSetup(ostream& output) const;
+	void	ReadSetup(std::istream& input);
+	void	WriteSetup(std::ostream& output) const;
 	void	SetColTitles(JXColHeaderWidget* widget) const;
 
 protected:

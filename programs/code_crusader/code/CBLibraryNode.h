@@ -17,7 +17,7 @@ class CBLibraryNode : public CBFileNodeBase
 public:
 
 	CBLibraryNode(CBProjectTree* tree, const JCharacter* fileName);
-	CBLibraryNode(istream& input, const JFileVersion vers,
+	CBLibraryNode(std::istream& input, const JFileVersion vers,
 				  CBProjectNode* parent);
 
 	virtual ~CBLibraryNode();
@@ -28,7 +28,7 @@ public:
 
 	JBoolean	OpenProject(const JBoolean silent = kJFalse);
 
-	virtual void		StreamOut(ostream& output) const;
+	virtual void		StreamOut(std::ostream& output) const;
 	virtual JBoolean	IncludedInMakefile() const;
 	virtual void		BuildMakeFiles(JString* text,
 									   JPtrArray<JTreeNode>* invalidList,

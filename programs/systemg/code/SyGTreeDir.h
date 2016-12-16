@@ -64,7 +64,7 @@ private:
 private:
 
 	void	BuildWindow(const JCharacter* startPath);
-	void	WriteState(ostream& output);
+	void	WriteState(std::ostream& output);
 
 	void	HandleHelpMenu(const JIndex index);
 	void	HandlePrefsMenu(const JIndex index);

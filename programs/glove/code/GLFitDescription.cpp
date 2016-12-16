@@ -46,7 +46,7 @@ GLFitDescription::GLFitDescription
 JBoolean
 GLFitDescription::Create
 	(
-	istream& 			is,
+	std::istream& 			is,
 	GLFitDescription** 	fd
 	)
 {
@@ -224,7 +224,7 @@ GLFitDescription::GetParameter
 void
 GLFitDescription::WriteSetup
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	os << ' ' << kCurrentSetupVersion << ' ';

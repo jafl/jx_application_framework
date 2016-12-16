@@ -2820,7 +2820,7 @@ SyGFileTreeTable::CreateNewTextFile()
 	JString name = (node->GetDirEntry())->GetFullName();
 	name         = JGetUniqueDirEntryName(name, "Untitled", ".txt");
 	{
-	ofstream output(name);
+	std::ofstream output(name);
 	}
 	if (JFileExists(name))
 		{
@@ -3657,7 +3657,7 @@ SyGFileTreeTable::LoadPrefs()
 void
 SyGFileTreeTable::LoadPrefs
 	(
-	istream&			is,
+	std::istream&			is,
 	const JFileVersion	vers
 	)
 {
@@ -3693,7 +3693,7 @@ SyGFileTreeTable::LoadPrefs
 void
 SyGFileTreeTable::SavePrefs
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	os << ' ' << (int)itsCurrentColType << ' ';
@@ -3734,7 +3734,7 @@ SyGFileTreeTable::SavePrefsAsDefault()
 void
 SyGFileTreeTable::RestoreDirState
 	(
-	istream&			is,
+	std::istream&			is,
 	const JFileVersion	vers
 	)
 {
@@ -3779,7 +3779,7 @@ SyGFileTreeTable::RestoreDirState
 void
 SyGFileTreeTable::SaveDirState
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	JPtrArray<JString> names(JPtrArrayT::kDeleteAll);

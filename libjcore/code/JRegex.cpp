@@ -1453,7 +1453,7 @@ JRegex::RegComp()
 		const JRegexError error(kError, errorMessage, errorOffset+1);
 
 		#ifdef JRE_PRINT_COMPILE_ERRORS
-		cout << "Compile error: " << error.GetMessage() << endl;
+		std::cout << "Compile error: " << error.GetMessage() << std::endl;
 		#endif
 
 		#ifdef JRE_ALLOC_CHECK
@@ -1545,7 +1545,7 @@ JRegex::RegExec
 			 returnCode != PCRE_ERROR_RECURSIONLIMIT &&
 			 returnCode != PCRE_ERROR_BADOFFSET)
 		{
-		cerr << "unexpected error from PCRE: " << returnCode << endl;
+		std::cerr << "unexpected error from PCRE: " << returnCode << std::endl;
 		}
 
 	jdelete [] pmatch;

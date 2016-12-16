@@ -170,7 +170,7 @@ CBPerlStyler::~CBPerlStyler()
 void
 CBPerlStyler::Scan
 	(
-	istream&			input,
+	std::istream&			input,
 	const TokenExtra&	initData
 	)
 {

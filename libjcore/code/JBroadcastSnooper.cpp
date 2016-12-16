@@ -40,10 +40,10 @@ JBroadcastSnooper::Receive
 	const Message&	message
 	)
 {
-	cout << message.GetType() << " broadcast from ";
-	cout.setf(ios::hex, ios::basefield);
-	cout << static_cast<void*>(sender) << endl;
-	cout.setf(ios::dec, ios::basefield);
+	std::cout << message.GetType() << " broadcast from ";
+	std::cout.setf(std::ios::hex, std::ios::basefield);
+	std::cout << static_cast<void*>(sender) << std::endl;
+	std::cout.setf(std::ios::dec, std::ios::basefield);
 }
 
 /******************************************************************************
@@ -57,8 +57,8 @@ JBroadcastSnooper::ReceiveGoingAway
 	JBroadcaster* sender
 	)
 {
-	cout.setf(ios::hex, ios::basefield);
-	cout << static_cast<void*>(sender);
-	cout.setf(ios::dec, ios::basefield);
-	cout << " deleted" << endl;
+	std::cout.setf(std::ios::hex, std::ios::basefield);
+	std::cout << static_cast<void*>(sender);
+	std::cout.setf(std::ios::dec, std::ios::basefield);
+	std::cout << " deleted" << std::endl;
 }

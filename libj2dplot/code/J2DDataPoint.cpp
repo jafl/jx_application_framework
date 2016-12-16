@@ -13,10 +13,10 @@
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&	input,
+	std::istream&	input,
 	J2DDataPoint&		pt
 	)
 {
@@ -24,10 +24,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const J2DDataPoint&	pt
 	)
 {

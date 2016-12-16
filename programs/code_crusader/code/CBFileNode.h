@@ -15,7 +15,7 @@ class CBFileNode : public CBFileNodeBase
 public:
 
 	CBFileNode(CBProjectTree* tree, const JCharacter* fileName);
-	CBFileNode(istream& input, const JFileVersion vers,
+	CBFileNode(std::istream& input, const JFileVersion vers,
 			   CBProjectNode* parent);
 
 	virtual ~CBFileNode();
@@ -32,9 +32,9 @@ public:
 								   CBPHPTree* phpTree,
 								   JProgressDisplay& pg) const;
 
-	virtual void	CreateFilesForTemplate(istream& input,
+	virtual void	CreateFilesForTemplate(std::istream& input,
 										   const JFileVersion vers) const;
-	virtual void	SaveFilesInTemplate(ostream& output) const;
+	virtual void	SaveFilesInTemplate(std::ostream& output) const;
 
 private:
 

@@ -24,7 +24,7 @@ protected:
 
 	CBHTMLStyler();
 
-	virtual void		Scan(istream& input, const TokenExtra& initData);
+	virtual void		Scan(std::istream& input, const TokenExtra& initData);
 	virtual TokenExtra	GetFirstTokenExtraData() const;
 	virtual void		UpgradeTypeList(const JFileVersion vers,
 										JArray<JFontStyle>* typeStyles);

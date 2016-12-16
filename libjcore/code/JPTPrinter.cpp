@@ -106,11 +106,11 @@ JBoolean
 JPTPrinter::Print
 	(
 	const JString&	text,
-	ostream&		trueOutput
+	std::ostream&	trueOutput
 	)
 {
-	ostream* dataOutput  = &trueOutput;
-	ofstream* tempOutput = NULL;
+	std::ostream* dataOutput  = &trueOutput;
+	std::ofstream* tempOutput = NULL;
 	JString tempName;
 	if (itsPrintReverseOrderFlag)
 		{
@@ -119,7 +119,7 @@ JPTPrinter::Print
 			return kJFalse;
 			}
 
-		tempOutput = jnew ofstream(tempName.GetBytes());
+		tempOutput = jnew std::ofstream(tempName.GetBytes());
 		assert( tempOutput != NULL );
 		if (tempOutput->bad())
 			{
@@ -152,7 +152,7 @@ JPTPrinter::Print
 				 (itsLastPageIndex == 0 || pageIndex <= itsLastPageIndex));
 
 		std::ostringstream bitBucket;
-		ostream* output = shouldPrintPage ? dataOutput : (&bitBucket);
+		std::ostream* output = shouldPrintPage ? dataOutput : (&bitBucket);
 
 		if (shouldPrintPage)
 			{
@@ -289,7 +289,7 @@ JPTPrinter::GetFooterLineCount()
 void
 JPTPrinter::PrintHeader
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const JIndex	pageIndex
 	)
 {
@@ -298,7 +298,7 @@ JPTPrinter::PrintHeader
 void
 JPTPrinter::PrintFooter
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const JIndex	pageIndex
 	)
 {
@@ -315,7 +315,7 @@ void
 JPTPrinter::InvertPageOrder
 	(
 	const JString&	text,
-	ostream&		output
+	std::ostream&		output
 	)
 	const
 {
@@ -348,7 +348,7 @@ JPTPrinter::InvertPageOrder
 void
 JPTPrinter::ReadPTSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -378,7 +378,7 @@ JPTPrinter::ReadPTSetup
 void
 JPTPrinter::WritePTSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

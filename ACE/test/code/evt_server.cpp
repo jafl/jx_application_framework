@@ -98,7 +98,7 @@ CreateServer
 			}
 		else
 			{
-			cerr << "invalid port number" << endl;
+			std::cerr << "invalid port number" << std::endl;
 			exit(1);
 			}
 		}
@@ -110,8 +110,8 @@ CreateServer
 
 	else
 		{
-		cerr << "usage: " << argv[0];
-		cerr << " (-i port_number)|(-u socket_name)" << endl;
+		std::cerr << "usage: " << argv[0];
+		std::cerr << " (-i port_number)|(-u socket_name)" << std::endl;
 		exit(1);
 		}
 
@@ -143,7 +143,7 @@ CreateINETServer
 
 	if (acceptor->open(addr) == -1)
 		{
-		cerr << "error trying to open port: " << jerrno() << endl;
+		std::cerr << "error trying to open port: " << jerrno() << std::endl;
 		exit(1);
 		}
 
@@ -179,7 +179,7 @@ CreateUNIXServer
 
 	if (acceptor->open(addr) == -1)
 		{
-		cerr << "error trying to create socket: " << jerrno() << endl;
+		std::cerr << "error trying to create socket: " << jerrno() << std::endl;
 		exit(1);
 		}
 

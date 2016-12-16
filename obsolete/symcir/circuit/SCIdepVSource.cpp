@@ -40,7 +40,7 @@ SCIdepVSource::SCIdepVSource
 
 SCIdepVSource::SCIdepVSource
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	SCCircuit*			theCircuit
 	)
@@ -53,7 +53,7 @@ SCIdepVSource::SCIdepVSource
 
 SCIdepVSource::SCIdepVSource
 	(
-	istream&	input,
+	std::istream&	input,
 	SCCircuit*	theCircuit
 	)
 	:

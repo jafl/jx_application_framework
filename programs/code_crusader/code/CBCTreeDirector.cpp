@@ -78,11 +78,11 @@ CBCTreeDirector::CBCTreeDirector
 
 CBCTreeDirector::CBCTreeDirector
 	(
-	istream&			projInput,
+	std::istream&			projInput,
 	const JFileVersion	projVers,
-	istream*			setInput,
+	std::istream*			setInput,
 	const JFileVersion	setVers,
-	istream*			symInput,
+	std::istream*			symInput,
 	const JFileVersion	symVers,
 	CBProjectDocument*	supervisor,
 	const JBoolean		subProject,
@@ -351,11 +351,11 @@ CBCTreeDirector::NewCTree
 CBTree*
 CBCTreeDirector::StreamInCTree
 	(
-	istream&			projInput,
+	std::istream&			projInput,
 	const JFileVersion	projVers,
-	istream*			setInput,
+	std::istream*			setInput,
 	const JFileVersion	setVers,
-	istream*			symInput,
+	std::istream*			symInput,
 	const JFileVersion	symVers,
 	CBTreeDirector*		director,
 	const JSize			marginWidth,

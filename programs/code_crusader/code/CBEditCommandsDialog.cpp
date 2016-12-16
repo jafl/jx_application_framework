@@ -369,7 +369,7 @@ CBEditCommandsDialog::Receive
 void
 CBEditCommandsDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -404,7 +404,7 @@ CBEditCommandsDialog::ReadPrefs
 void
 CBEditCommandsDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

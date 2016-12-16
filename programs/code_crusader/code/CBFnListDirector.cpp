@@ -78,7 +78,7 @@ CBFnListDirector::CBFnListDirector
 
 CBFnListDirector::CBFnListDirector
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	JBoolean*			keep,
 	CBTreeDirector*		supervisor,
@@ -166,7 +166,7 @@ CBFnListDirector::IsShowingClass
 void
 CBFnListDirector::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -187,7 +187,7 @@ CBFnListDirector::StreamOut
 void
 CBFnListDirector::SkipSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JXWindow::SkipGeometry(input);

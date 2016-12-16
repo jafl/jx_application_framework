@@ -31,11 +31,11 @@ public:
 
 protected:
 
-	virtual void	ReadPrefs(istream& input);
-	virtual void	WritePrefs(ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input);
+	virtual void	WritePrefs(std::ostream& output) const;
 
 	virtual JSize	GetHeaderLineCount() const;
-	virtual void	PrintHeader(ostream& output, const JIndex pageIndex);
+	virtual void	PrintHeader(std::ostream& output, const JIndex pageIndex);
 
 	virtual JXPTPrintSetupDialog*
 		CreatePrintSetupDialog(const Destination destination,

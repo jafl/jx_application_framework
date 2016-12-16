@@ -30,7 +30,7 @@ public:
 
 	// written by flex
 
-	void	BuildRuleList(istream& input, JXComposeRuleList* ruleList,
+	void	BuildRuleList(std::istream& input, JXComposeRuleList* ruleList,
 						  const JSize charCount, JBoolean* isCharInWord,
 						  JCharacter* diacriticalMap, JIndex* diacriticalMarkType);
 

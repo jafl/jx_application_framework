@@ -66,7 +66,7 @@ CBSymbolTypeList::~CBSymbolTypeList()
 void
 CBSymbolTypeList::SkipSetup
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -77,7 +77,7 @@ CBSymbolTypeList::SkipSetup
 
 	if (vers >= 71)
 		{
-		input >> ws;
+		input >> std::ws;
 		JIgnoreLine(input);
 		}
 
@@ -131,7 +131,7 @@ CBSymbolTypeList::SkipSetup
 void
 CBSymbolTypeList::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -174,7 +174,7 @@ CBSymbolTypeList::ReadPrefs
 void
 CBSymbolTypeList::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

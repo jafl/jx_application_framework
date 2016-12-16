@@ -35,8 +35,8 @@ enum WWMessageType
 	kWWChatMessage					// from either
 };
 
-istream&	operator>>(istream& input, WWMessageType& msg);
-ostream&	operator<<(ostream& output, const WWMessageType msg);
+std::istream&	operator>>(std::istream& input, WWMessageType& msg);
+std::ostream&	operator<<(std::ostream& output, const WWMessageType msg);
 
 enum WWConnectionErrorType
 {
@@ -46,7 +46,7 @@ enum WWConnectionErrorType
 	kWWGameFull
 };
 
-istream&	operator>>(istream& input, WWConnectionErrorType& err);
-ostream&	operator<<(ostream& output, const WWConnectionErrorType err);
+std::istream&	operator>>(std::istream& input, WWConnectionErrorType& err);
+std::ostream&	operator<<(std::ostream& output, const WWConnectionErrorType err);
 
 #endif

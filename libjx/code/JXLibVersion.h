@@ -142,8 +142,8 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	JXToolBar:
 //		Fixed bug so all buttons associated with deactivated menus are disabled.
 //	JXTEBase:
-//		Added menu items "Clean all ws & alignment" and
-//			"Clean ws & align in selection"
+//		Added menu items "Clean all std::ws & alignment" and
+//			"Clean std::ws & align in selection"
 //	JXColHeaderWidget:
 //		Added GetDragType() for use by derived classes overriding HandleMouseDown().
 //	JXRowHeaderWidget:
@@ -1111,7 +1111,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //			Read JFileVersion and ignore it.
 //			Read JString and call JXPTPrinter::SetPrintCmd().
 //			Read JSize and call JXPTPrinter::SetPageHeight().
-//			Call JIgnoreUntil(istream&, '\1');
+//			Call JIgnoreUntil(std::istream&, '\1');
 //		Added Get/SetPTPrintFileName() since this is stored separately for each
 //			text editor.
 //		Removed all JBroadcaster messages since JPrinter has its own:

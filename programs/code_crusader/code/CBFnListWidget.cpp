@@ -54,7 +54,7 @@ CBFnListWidget::CBFnListWidget
 
 CBFnListWidget::CBFnListWidget
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	JBoolean*			keep,
 	const CBTreeWidget*	treeWidget,
@@ -132,7 +132,7 @@ CBFnListWidget::~CBFnListWidget()
 void
 CBFnListWidget::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -147,7 +147,7 @@ CBFnListWidget::StreamOut
 void
 CBFnListWidget::SkipSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JString className;

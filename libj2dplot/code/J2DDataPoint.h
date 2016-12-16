@@ -42,7 +42,7 @@ struct J2DDataPoint
 	{ };
 };
 
-istream& operator>>(istream& input, J2DDataPoint& pt);
-ostream& operator<<(ostream& output, const J2DDataPoint& pt);
+std::istream& operator>>(std::istream& input, J2DDataPoint& pt);
+std::ostream& operator<<(std::ostream& output, const J2DDataPoint& pt);
 
 #endif

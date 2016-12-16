@@ -460,7 +460,7 @@ GMFindTableDir::Receive
 			JGetUserNotification()->ReportError("Unable to print!");
 			return;
 			}
-		ofstream os(tempname);
+		std::ofstream os(tempname);
 		if (!os.good())
 			{
 			JGetUserNotification()->ReportError("Unable to print!");
@@ -701,7 +701,7 @@ GMFindTableDir::HandleHelpMenu
 void
 GMFindTableDir::ReadWindowPrefs
 	(
-	istream& is
+	std::istream& is
 	)
 {
 	JFileVersion version;
@@ -723,7 +723,7 @@ GMFindTableDir::ReadWindowPrefs
 void
 GMFindTableDir::WriteWindowPrefs
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	os << ' ' << kCurrentWindowPrefsVersion << ' ';
@@ -750,7 +750,7 @@ GMFindTableDir::SaveSelectedMessages
 	JString filename;
 	if (GMGetAltChooseSaveFile()->SaveFile("File name:", "", "",  &filename))
 		{
-		ofstream os(filename);
+		std::ofstream os(filename);
 		JBoolean ok = JConvertToBoolean(os.good());
 		if (!ok)
 			{
@@ -799,8 +799,8 @@ GMFindTableDir::AppendSelectedMessages
 			{
 			perms = 0600;
 			}
-		ifstream is(filename);
-		ofstream os(tempname);
+		std::ifstream is(filename);
+		std::ofstream os(tempname);
 
 		JSize size;
 		err = JGetFileLength(filename, &size);
@@ -833,7 +833,7 @@ GMFindTableDir::AppendSelectedMessages
 void
 GMFindTableDir::SaveSelectedMessages
 	(
-	ostream&		os,
+	std::ostream&		os,
 	const JBoolean	headers
 	)
 {

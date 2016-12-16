@@ -39,8 +39,8 @@ public:
 
 	static JBoolean	IsLocalURL(const JString& url);
 
-	virtual void	ReadPrefs(istream& input);
-	virtual void	WritePrefs(ostream& output, const JFileVersion vers) const;
+	virtual void	ReadPrefs(std::istream& input);
+	virtual void	WritePrefs(std::ostream& output, const JFileVersion vers) const;
 
 protected:
 

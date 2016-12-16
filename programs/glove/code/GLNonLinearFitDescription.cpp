@@ -50,7 +50,7 @@ GLNonLinearFitDescription::GLNonLinearFitDescription
 
 GLNonLinearFitDescription::GLNonLinearFitDescription
 	(
-	istream& is
+	std::istream& is
 	)
 	:
 	GLFitDescription(GLFitDescription::kNonLinear, "", "")
@@ -84,7 +84,7 @@ GLNonLinearFitDescription::~GLNonLinearFitDescription()
 void
 GLNonLinearFitDescription::WriteSetup
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	GLFitDescription::WriteSetup(os);

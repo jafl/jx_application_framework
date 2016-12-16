@@ -37,7 +37,7 @@ public:
 
 	virtual ~CBFileListTable();
 
-	JBoolean	Update(ostream& link,
+	JBoolean	Update(std::ostream& link,
 					   CBProjectTree* fileTree, const CBDirList& dirList,
 					   CBSymbolDirector* symbolDir,
 					   CBCTreeDirector* cTreeDir, CBJavaTreeDirector* javaTreeDir,
@@ -47,13 +47,13 @@ public:
 	const JString&	GetFileName(const JFAID_t id) const;
 	JBoolean		GetFileID(const JCharacter* trueName, JFAID_t* id) const;
 
-	void	ReadSetup(istream& projInput, const JFileVersion projVers,
-					  istream* symInput, const JFileVersion symVers);
-	void	WriteSetup(ostream& projOutput, ostream* symOutput) const;
+	void	ReadSetup(std::istream& projInput, const JFileVersion projVers,
+					  std::istream* symInput, const JFileVersion symVers);
+	void	WriteSetup(std::ostream& projOutput, std::ostream* symOutput) const;
 
 	// for loading updated symbols
 
-	void	ReadSetup(istream& input, const JFileVersion vers);
+	void	ReadSetup(std::istream& input, const JFileVersion vers);
 
 	// called by CBFileNode
 

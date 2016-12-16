@@ -31,8 +31,8 @@ public:
 	void	ConfigureColHeader(JXColHeaderWidget* colHeader);
 	void	EditFunction(const JIndex varIndex = 0);
 
-	void	ReadSetup(istream& input, const JFileVersion vers);
-	void	WriteSetup(ostream& output) const;
+	void	ReadSetup(std::istream& input, const JFileVersion vers);
+	void	WriteSetup(std::ostream& output) const;
 
 	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
 

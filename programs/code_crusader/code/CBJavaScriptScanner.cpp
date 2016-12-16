@@ -43,7 +43,7 @@ CBJavaScriptScanner::~CBJavaScriptScanner()
 void
 CBJavaScriptScanner::BeginScan
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	itsResetFlag = kJTrue;

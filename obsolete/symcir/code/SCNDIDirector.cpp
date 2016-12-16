@@ -49,7 +49,7 @@ SCNDIDirector::SCNDIDirector
 
 SCNDIDirector::SCNDIDirector
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	SCCircuitDocument*	supervisor
 	)
@@ -304,7 +304,7 @@ SCNDIDirector::EvaluateNDITransferFunction()
 void
 SCNDIDirector::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

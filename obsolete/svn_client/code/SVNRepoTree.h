@@ -27,9 +27,9 @@ public:
 	void			ReopenIfNeeded(SVNRepoTreeNode* node);
 	void			SavePathToOpen(const JCharacter* url);
 
-	static void	SkipSetup(istream& input, JFileVersion vers);
-	void		ReadSetup(istream& input, JFileVersion vers);
-	void		WriteSetup(ostream& output, SVNRepoTreeList* view) const;
+	static void	SkipSetup(std::istream& input, JFileVersion vers);
+	void		ReadSetup(std::istream& input, JFileVersion vers);
+	void		WriteSetup(std::ostream& output, SVNRepoTreeList* view) const;
 
 	SVNRepoTreeNode*		GetRepoRoot();
 	const SVNRepoTreeNode*	GetRepoRoot() const;

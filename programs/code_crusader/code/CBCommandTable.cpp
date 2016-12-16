@@ -1005,7 +1005,7 @@ CBCommandTable::ExportAllCommands()
 		return;
 		}
 
-	ofstream output(newName);
+	std::ofstream output(newName);
 	output << kCommandFileSignature << '\n';
 	output << CBCommandManager::GetCurrentCmdInfoFileVersion() << '\n';
 
@@ -1036,7 +1036,7 @@ CBCommandTable::ImportCommands()
 
 	// read file
 
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 
 	CBCommandManager::CmdList cmdList;
 	if (CBProjectDocument::ReadTasksFromProjectFile(input, &cmdList))
@@ -1277,7 +1277,7 @@ CBCommandTable::UpdateButtons()
 void
 CBCommandTable::ReadGeometry
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -1310,7 +1310,7 @@ CBCommandTable::ReadGeometry
 void
 CBCommandTable::WriteGeometry
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

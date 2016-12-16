@@ -37,7 +37,7 @@ CBPHPClass::CBPHPClass
 
 CBPHPClass::CBPHPClass
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	CBTree*				tree
 	)
@@ -64,7 +64,7 @@ CBPHPClass::~CBPHPClass()
 void
 CBPHPClass::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

@@ -713,7 +713,7 @@ JMatrix::FindPivotRow
 void
 JMatrix::Print
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -727,7 +727,7 @@ JMatrix::Print
 				output << "  ";
 				}
 			}
-		output << endl;
+		output << std::endl;
 		}
 }
 
@@ -934,10 +934,10 @@ operator==
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&	input,
+	std::istream&	input,
 	JMatrix&	aMatrix
 	)
 {
@@ -956,10 +956,10 @@ operator>>
 		if (i < rowCount)
 			{
 			char c;
-			input >> ws >> c;
+			input >> std::ws >> c;
 			if (c != ',')
 				{
-				JSetState(input, ios::failbit);
+				JSetState(input, std::ios::failbit);
 				return input;
 				}
 			}
@@ -970,10 +970,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const JMatrix&	aMatrix
 	)
 {

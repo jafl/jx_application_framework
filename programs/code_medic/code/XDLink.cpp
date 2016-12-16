@@ -491,7 +491,7 @@ XDLink::SetProgram
 
 	itsProgramConfigFileName = fullName;
 
-	ifstream input(fullName);
+	std::ifstream input(fullName);
 	while (1)
 		{
 		line = JReadLine(input);

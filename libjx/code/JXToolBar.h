@@ -66,8 +66,8 @@ protected:
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 
-	virtual void	ReadPrefs(istream& is);
-	virtual void	WritePrefs(ostream& os) const;
+	virtual void	ReadPrefs(std::istream& is);
+	virtual void	WritePrefs(std::ostream& os) const;
 
 	virtual void	ApertureResized(const JCoordinate dw, const JCoordinate dh);
 

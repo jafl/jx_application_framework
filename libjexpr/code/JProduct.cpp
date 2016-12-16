@@ -134,7 +134,7 @@ JProduct::Evaluate
 void
 JProduct::Print
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

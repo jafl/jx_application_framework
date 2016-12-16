@@ -23,11 +23,11 @@ public:
 
 	// construct from private file
 
-	SCInductor(istream& input, const JFileVersion vers, SCCircuit* theCircuit);
+	SCInductor(std::istream& input, const JFileVersion vers, SCCircuit* theCircuit);
 
 	// construct from netlist
 
-	SCInductor(istream& input, SCCircuit* theCircuit);
+	SCInductor(std::istream& input, SCCircuit* theCircuit);
 
 	virtual ~SCInductor();
 

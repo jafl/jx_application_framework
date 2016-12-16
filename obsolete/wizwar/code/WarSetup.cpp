@@ -104,7 +104,7 @@ WarSetup::Configure
 			JCheckForValues(1, &index, argc, argv);
 			if (ReadSetup(argv[index]) != kFileReadable)
 				{
-				cerr << argv[0] << ": invalid setup file" << endl;
+				std::cerr << argv[0] << ": invalid setup file" << std::endl;
 				exit(1);
 				}
 			}
@@ -116,7 +116,7 @@ WarSetup::Configure
 			itsServerPort = atol(argv[index]);
 			if (!jerrno_is_clear())
 				{
-				cerr << argv[0] << ": invalid port index" << endl;
+				std::cerr << argv[0] << ": invalid port index" << std::endl;
 				exit(1);
 				}
 			}
@@ -130,8 +130,8 @@ WarSetup::Configure
 				itsMaxPlayerCount < kWWMinPlayerCount ||
 				itsMaxPlayerCount > kWWMaxPlayerCount)
 				{
-				cerr << argv[0] << ": number of players must be between ";
-				cerr << kWWMinPlayerCount << " and " << kWWMaxPlayerCount << endl;
+				std::cerr << argv[0] << ": number of players must be between ";
+				std::cerr << kWWMinPlayerCount << " and " << kWWMaxPlayerCount << std::endl;
 				exit(1);
 				}
 			}
@@ -147,7 +147,7 @@ WarSetup::Configure
 
 		else
 			{
-			cerr << argv[0] << ": unknown command line option: " << argv[index] << endl;
+			std::cerr << argv[0] << ": unknown command line option: " << argv[index] << std::endl;
 			}
 
 		index++;
@@ -165,7 +165,7 @@ WarSetup::ReadSetup
 	const JCharacter* fileName
 	)
 {
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 
 	const JString filePrefix = JRead(input, kWarSetupFileSignatureLength);
 	if (filePrefix != kWarSetupFileSignature)
@@ -195,7 +195,7 @@ WarSetup::WriteSetup
 	)
 	const
 {
-	ofstream output(fileName);
+	std::ofstream output(fileName);
 
 	output << kWarSetupFileSignatureLength;
 	output << ' ' << kCurrentWarSetupFileVersion;
@@ -213,32 +213,32 @@ WarSetup::PrintHelp
 	)
 	const
 {
-	cout << endl;
-	cout << versionStr << endl;
-	cout << endl;
-	cout << "Protocol version:  " << kWWCurrentProtocolVersion << endl;
-	cout << endl;
-	cout << "Usage:" << endl;
-	cout << endl;
-	cout << "-h, --help" << endl;
-	cout << "  Prints help.  Can be used after other options to check values." << endl;
-	cout << endl;
-	cout << "-v, --version" << endl;
-	cout << "  Prints version information." << endl;
-	cout << endl;
-	cout << "--file <setup file>" << endl;
-	cout << "  Reads setup from specified file." << endl;
-	cout << endl;
-	cout << "--port <port number> (" << itsServerPort << ')' << endl;
-	cout << "  Sets port to which clients can connect." << endl;
-	cout << endl;
-	cout << "--players <number of players> (" << itsMaxPlayerCount << ')' << endl;
-	cout << "  Sets maximum number of players who can connect. (";
-	cout << kWWMinPlayerCount << '-' << kWWMaxPlayerCount << ')' << endl;
-	cout << endl;
-	cout << "--(no-)anon (" << (itsIsAnonymousFlag ? "anonymous" : "not anonymous") << ')' << endl;
-	cout << "  Choose whether or not players will be anonymous." << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << versionStr << std::endl;
+	std::cout << std::endl;
+	std::cout << "Protocol version:  " << kWWCurrentProtocolVersion << std::endl;
+	std::cout << std::endl;
+	std::cout << "Usage:" << std::endl;
+	std::cout << std::endl;
+	std::cout << "-h, --help" << std::endl;
+	std::cout << "  Prints help.  Can be used after other options to check values." << std::endl;
+	std::cout << std::endl;
+	std::cout << "-v, --version" << std::endl;
+	std::cout << "  Prints version information." << std::endl;
+	std::cout << std::endl;
+	std::cout << "--file <setup file>" << std::endl;
+	std::cout << "  Reads setup from specified file." << std::endl;
+	std::cout << std::endl;
+	std::cout << "--port <port number> (" << itsServerPort << ')' << std::endl;
+	std::cout << "  Sets port to which clients can connect." << std::endl;
+	std::cout << std::endl;
+	std::cout << "--players <number of players> (" << itsMaxPlayerCount << ')' << std::endl;
+	std::cout << "  Sets maximum number of players who can connect. (";
+	std::cout << kWWMinPlayerCount << '-' << kWWMaxPlayerCount << ')' << std::endl;
+	std::cout << std::endl;
+	std::cout << "--(no-)anon (" << (itsIsAnonymousFlag ? "anonymous" : "not anonymous") << ')' << std::endl;
+	std::cout << "  Choose whether or not players will be anonymous." << std::endl;
+	std::cout << std::endl;
 }
 
 /******************************************************************************
@@ -253,9 +253,9 @@ WarSetup::PrintVersion
 	)
 	const
 {
-	cout << endl;
-	cout << versionStr << endl;
-	cout << endl;
-	cout << "Protocol version:  " << kWWCurrentProtocolVersion << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << versionStr << std::endl;
+	std::cout << std::endl;
+	std::cout << "Protocol version:  " << kWWCurrentProtocolVersion << std::endl;
+	std::cout << std::endl;
 }

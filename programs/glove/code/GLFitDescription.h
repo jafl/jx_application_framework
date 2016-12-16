@@ -38,7 +38,7 @@ public:
 
 	GLFitDescription(const FitType type, const JCharacter* form = "", const JCharacter* name = "Untitled");
 
-	static JBoolean	Create(istream& is, GLFitDescription** fd);
+	static JBoolean	Create(std::istream& is, GLFitDescription** fd);
 	
 	virtual ~GLFitDescription();
 
@@ -59,7 +59,7 @@ public:
 
 	GVarList*		GetVarList();
 
-	virtual void	WriteSetup(ostream& os); // must call base class first!
+	virtual void	WriteSetup(std::ostream& os); // must call base class first!
 
 	static JOrderedSetT::CompareResult
 		CompareFits(GLFitDescription * const &, GLFitDescription * const &);

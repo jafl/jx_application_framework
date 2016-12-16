@@ -17,7 +17,7 @@ class TanhNetwork : public FFNetwork
 public:
 
 	TanhNetwork(const FFNetworkSize& unitCount);
-	TanhNetwork(istream& input);
+	TanhNetwork(std::istream& input);
 
 	virtual ~TanhNetwork();
 

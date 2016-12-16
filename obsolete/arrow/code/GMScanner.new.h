@@ -30,7 +30,7 @@ class GMScanner
 {
 public:
 
-	GMScanner(istream* is);
+	GMScanner(std::istream* is);
 	virtual ~GMScanner();
 
 	int		yylex();
@@ -41,7 +41,7 @@ public:
 
 private:
 
-	istream*	itsIs;
+	std::istream*	itsIs;
 	ScanState	itsState;
 	int			itsCurrentHeaderStart;
 	int			itsCurrentPosition;

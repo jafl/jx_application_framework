@@ -999,15 +999,15 @@ TestWidget::WillAcceptDrop
 
 	JBoolean hasURIList = kJFalse;
 
-	cout << endl;
-	cout << "Data types available from DND source:" << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << "Data types available from DND source:" << std::endl;
+	std::cout << std::endl;
 
 	const JSize typeCount = typeList.GetElementCount();
 	for (JIndex i=1; i<=typeCount; i++)
 		{
 		const Atom type = typeList.GetElement(i);
-		cout << XGetAtomName(*display, type) << endl;
+		std::cout << XGetAtomName(*display, type) << std::endl;
 
 		if (type == GetSelectionManager()->GetURLXAtom())
 			{
@@ -1019,9 +1019,9 @@ TestWidget::WillAcceptDrop
 		{
 		if (its2Rect.Contains(pt) || its3Rect.Contains(pt))
 			{
-			cout << endl;
-			cout << "Accepting the drop of type text/uri-list" << endl;
-			cout << endl;
+			std::cout << std::endl;
+			std::cout << "Accepting the drop of type text/uri-list" << std::endl;
+			std::cout << std::endl;
 
 			*action = dndMgr->GetDNDActionPrivateXAtom();
 			return kJTrue;
@@ -1033,9 +1033,9 @@ TestWidget::WillAcceptDrop
 		}
 	else if (*action == dndMgr->GetDNDActionCopyXAtom())
 		{
-		cout << endl;
-		cout << "Accepting the drop" << endl;
-		cout << endl;
+		std::cout << std::endl;
+		std::cout << "Accepting the drop" << std::endl;
+		std::cout << std::endl;
 
 		PrintSelectionText(dndMgr->GetDNDSelectionName(), time,
 						   GetSelectionManager()->GetMimePlainTextXAtom());
@@ -1043,10 +1043,10 @@ TestWidget::WillAcceptDrop
 		}
 	else
 		{
-		cout << endl;
-		cout << "Not accepting the drop because the action isn't copy" << endl;
-		cout << "Action: " << XGetAtomName(*display, *action) << endl;
-		cout << endl;
+		std::cout << std::endl;
+		std::cout << "Not accepting the drop because the action isn't copy" << std::endl;
+		std::cout << "Action: " << XGetAtomName(*display, *action) << std::endl;
+		std::cout << std::endl;
 
 		PrintSelectionText(dndMgr->GetDNDSelectionName(), time,
 						   GetSelectionManager()->GetMimePlainTextXAtom());
@@ -1076,9 +1076,9 @@ TestWidget::HandleDNDDrop
 	JXDisplay* display         = GetDisplay();
 	JXSelectionManager* selMgr = GetSelectionManager();
 
-	cout << endl;
-	cout << "Data types available from DND source:" << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << "Data types available from DND source:" << std::endl;
+	std::cout << std::endl;
 
 //	(JGetUserNotification())->DisplayMessage("testing");
 
@@ -1088,7 +1088,7 @@ TestWidget::HandleDNDDrop
 	for (JIndex i=1; i<=typeCount; i++)
 		{
 		const Atom type = typeList.GetElement(i);
-		cout << XGetAtomName(*display, type) << endl;
+		std::cout << XGetAtomName(*display, type) << std::endl;
 		if (type == selMgr->GetMimePlainTextXAtom())
 			{
 			textType = type;
@@ -1098,7 +1098,7 @@ TestWidget::HandleDNDDrop
 			url = kJTrue;
 			}
 		}
-	cout << endl;
+	std::cout << std::endl;
 
 	if (textType != None)
 		{
@@ -1129,22 +1129,22 @@ TestWidget::PrintSelectionTargets
 	JArray<Atom> typeList;
 	if (selMgr->GetAvailableTypes(kJXClipboardName, time, &typeList))
 		{
-		cout << endl;
-		cout << "Data types available from the clipboard:" << endl;
-		cout << endl;
+		std::cout << std::endl;
+		std::cout << "Data types available from the clipboard:" << std::endl;
+		std::cout << std::endl;
 
 		Atom textType = None;
 		const JSize typeCount = typeList.GetElementCount();
 		for (JIndex i=1; i<=typeCount; i++)
 			{
 			const Atom type = typeList.GetElement(i);
-			cout << XGetAtomName(*display, type) << endl;
+			std::cout << XGetAtomName(*display, type) << std::endl;
 			if (type == XA_STRING)
 				{
 				textType = type;
 				}
 			}
-		cout << endl;
+		std::cout << std::endl;
 
 		if (textType != None)
 			{
@@ -1153,9 +1153,9 @@ TestWidget::PrintSelectionTargets
 		}
 	else
 		{
-		cout << endl;
-		cout << "Unable to access the clipboard." << endl;
-		cout << endl;
+		std::cout << std::endl;
+		std::cout << "Unable to access the clipboard." << std::endl;
+		std::cout << std::endl;
 		}
 }
 
@@ -1185,26 +1185,26 @@ TestWidget::PrintSelectionText
 		if (returnType == XA_STRING ||
 			returnType == selMgr->GetCompoundTextXAtom())
 			{
-			cout << "Data is available as text:" << endl << endl;
+			std::cout << "Data is available as text:" << std::endl << std::endl;
 
-			cout.write((char*) data, dataLength);
-			cout << endl << endl;
+			std::cout.write((char*) data, dataLength);
+			std::cout << std::endl << std::endl;
 			}
 		else
 			{
-			cout << "Data has unrecognized return type:  ";
-			cout << XGetAtomName(*(GetDisplay()), returnType) << endl;
-			cout << "Trying to print it anyway:" << endl << endl;
+			std::cout << "Data has unrecognized return type:  ";
+			std::cout << XGetAtomName(*(GetDisplay()), returnType) << std::endl;
+			std::cout << "Trying to print it anyway:" << std::endl << std::endl;
 
-			cout.write((char*) data, dataLength);
-			cout << endl << endl;
+			std::cout.write((char*) data, dataLength);
+			std::cout << std::endl << std::endl;
 			}
 
 		selMgr->DeleteData(&data, delMethod);
 		}
 	else
 		{
-		cout << "Data could not be retrieved." << endl << endl;
+		std::cout << "Data could not be retrieved." << std::endl << std::endl;
 		}
 }
 
@@ -1239,23 +1239,23 @@ TestWidget::PrintFileNames
 			const JSize fileCount = fileNameList.GetElementCount();
 			if (fileCount > 0)
 				{
-				cout << "File/directory names:" << endl << endl;
+				std::cout << "File/directory names:" << std::endl << std::endl;
 				for (JIndex i=1; i<=fileCount; i++)
 					{
-					cout << *(fileNameList.NthElement(i)) << endl;
+					std::cout << *(fileNameList.NthElement(i)) << std::endl;
 					}
-				cout << endl << endl;
+				std::cout << std::endl << std::endl;
 				}
 
 			const JSize urlCount = urlList.GetElementCount();
 			if (urlCount > 0)
 				{
-				cout << "Unconvertable URLs:" << endl << endl;
+				std::cout << "Unconvertable URLs:" << std::endl << std::endl;
 				for (JIndex i=1; i<=urlCount; i++)
 					{
-					cout << *(urlList.NthElement(i)) << endl;
+					std::cout << *(urlList.NthElement(i)) << std::endl;
 					}
-				cout << endl << endl;
+				std::cout << std::endl << std::endl;
 				}
 
 			JXReportUnreachableHosts(urlList);
@@ -1278,10 +1278,10 @@ TestWidget::HandleKeyPress
 	)
 {
 /*
-	cout << endl;
-	cout << "Shift pressed  : " << modifiers.shift()   << endl;
-	cout << "Control pressed: " << modifiers.control() << endl;
-	cout << "Meta pressed   : " << modifiers.meta()    << endl;
+	std::cout << std::endl;
+	std::cout << "Shift pressed  : " << modifiers.shift()   << std::endl;
+	std::cout << "Control pressed: " << modifiers.control() << std::endl;
+	std::cout << "Meta pressed   : " << modifiers.meta()    << std::endl;
 */
 	JXScrollableWidget::HandleKeyPress(key, modifiers);
 }
@@ -1300,36 +1300,36 @@ TestWidget::HandleClientMessage
 	const XClientMessageEvent& clientMessage
 	)
 {
-	cout << endl;
-	cout << "Window id: " << clientMessage.window << endl;
-	cout << "Message:   " << clientMessage.message_type << "  (";
-	cout << XGetAtomName(*(GetDisplay()), clientMessage.message_type);
-	cout << ')' << endl;
-	cout << "Format:    " << clientMessage.format << " bit data" << endl;
+	std::cout << std::endl;
+	std::cout << "Window id: " << clientMessage.window << std::endl;
+	std::cout << "Message:   " << clientMessage.message_type << "  (";
+	std::cout << XGetAtomName(*(GetDisplay()), clientMessage.message_type);
+	std::cout << ')' << std::endl;
+	std::cout << "Format:    " << clientMessage.format << " bit data" << std::endl;
 
-	cout << "Data:" << endl;
+	std::cout << "Data:" << std::endl;
 	if (clientMessage.format == 8)
 		{
 		for (JIndex i=0; i<20; i++)
 			{
-			cout << clientMessage.data.b[i] << ' ';
+			std::cout << clientMessage.data.b[i] << ' ';
 			}
 		}
 	else if (clientMessage.format == 16)
 		{
 		for (JIndex i=0; i<10; i++)
 			{
-			cout << clientMessage.data.s[i] << ' ';
+			std::cout << clientMessage.data.s[i] << ' ';
 			}
 		}
 	else
 		{
 		for (JIndex i=0; i<5; i++)
 			{
-			cout << clientMessage.data.l[i] << ' ';
+			std::cout << clientMessage.data.l[i] << ' ';
 			}
 		}
-	cout << endl << endl;
+	std::cout << std::endl << std::endl;
 
 	return JXScrollableWidget::HandleClientMessage(clientMessage);
 }

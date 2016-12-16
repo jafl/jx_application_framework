@@ -128,7 +128,7 @@ JVariableValue::Evaluate
 void
 JVariableValue::Print
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

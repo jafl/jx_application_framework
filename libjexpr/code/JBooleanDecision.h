@@ -23,7 +23,7 @@ public:
 
 	virtual ~JBooleanDecision();
 
-	virtual void		Print(ostream& output) const;
+	virtual void		Print(std::ostream& output) const;
 	virtual JBoolean	SameAs(const JDecision& theDecision) const;
 	virtual void		BuildNodeList(JExprNodeList* nodeList, const JIndex myNode);
 
@@ -34,7 +34,7 @@ public:
 
 protected:
 
-	void	PrintArg(ostream& output, const JDecision* arg) const;
+	void	PrintArg(std::ostream& output, const JDecision* arg) const;
 
 private:
 

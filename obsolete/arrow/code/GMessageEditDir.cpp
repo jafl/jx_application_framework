@@ -641,7 +641,7 @@ GMessageEditDir::HandleFileMenu
 			}
 		if (!itsFileName.IsEmpty())
 			{
-			ofstream os(itsFileName);
+			std::ofstream os(itsFileName);
 			if (os.good())
 				{
 				itsEditor->GetText().Print(os);
@@ -663,7 +663,7 @@ GMessageEditDir::HandleFileMenu
 		JXGetChooseSaveFile()->SaveFile("Save text as:","", "",  &itsFileName);
 		if (!itsFileName.IsEmpty())
 			{
-			ofstream os(itsFileName);
+			std::ofstream os(itsFileName);
 			if (os.good())
 				{
 				itsEditor->GetText().Print(os);
@@ -1088,7 +1088,7 @@ GMessageEditDir::InsertText
 	)
 {
 	JString text;
-	ifstream is(*itsSentTextFileName);
+	std::ifstream is(*itsSentTextFileName);
 	JReadAll(is, &text);
 	JIndex startIndex;
 	itsEditor->GetCaretLocation(&startIndex);
@@ -1235,7 +1235,7 @@ GMessageEditDir::AdjustWindowTitle()
 void
 GMessageEditDir::SaveState
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	os << itsToInput->GetText();
@@ -1296,7 +1296,7 @@ GMessageEditDir::SaveState
 void
 GMessageEditDir::ReadState
 	(
-	istream& 			is,
+	std::istream& 			is,
 	const JFileVersion&	version
 	)
 {
@@ -1334,7 +1334,7 @@ GMessageEditDir::ReadState
 		const JError err = JCreateTempFile(itsSentTextFileName);
 		if (err.OK())
 			{
-			ofstream os(*itsSentTextFileName);
+			std::ofstream os(*itsSentTextFileName);
 			buffer.Print(os);
 			}
 		}
@@ -1641,7 +1641,7 @@ GMessageEditDir::SetAccount
 void
 GMessageEditDir::ReadWindowPrefs
 	(
-	istream& is
+	std::istream& is
 	)
 {
 	JFileVersion version;
@@ -1684,7 +1684,7 @@ GMessageEditDir::ReadWindowPrefs
 void
 GMessageEditDir::WriteWindowPrefs
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	os << ' ' << kCurrentPrefsVersion << ' ';

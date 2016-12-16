@@ -692,9 +692,9 @@ JIndex i;
 			}
 		itsJXKeyModifierMapping [ kXModifierCount+i ] = j;
 
-//		cout << "modifier " << kXModifierCount+i << " mapped to " << j << endl;
+//		std::cout << "modifier " << kXModifierCount+i << " mapped to " << j << std::endl;
 		}
-//	cout << endl;
+//	std::cout << std::endl;
 
 	// some Linux distributions (Mandrake) map only Alt modifier, not Meta
 
@@ -1544,19 +1544,19 @@ JXDisplay::CheckForXErrors()
 					{
 					// Never die on anything as silly as an XSetInputFocus() error,
 					// but still useful to know if it happens.
-//					cerr << "Illegal call to XSetInputFocus()" << endl;
+//					std::cerr << "Illegal call to XSetInputFocus()" << std::endl;
 					continue;
 					}
 
-				cerr << "An unexpected XError occurred!" << endl;
+				std::cerr << "An unexpected XError occurred!" << std::endl;
 
 				char str[80];
 				XGetErrorText(error.display, error.error_code, str, 80);
-				cerr << "Error code: " << str << endl;
+				std::cerr << "Error code: " << str << std::endl;
 
 				JString reqCodeStr(error.request_code, 0);
 				XGetErrorDatabaseText(error.display, "XRequest", reqCodeStr, "unknown", str, 80);
-				cerr << "Offending request: " << str << endl;
+				std::cerr << "Offending request: " << str << std::endl;
 
 				assert( 0 /* unexpected XError */ );
 				}
@@ -1652,7 +1652,7 @@ JXDisplay::WMBehavior::Save
 JBoolean
 JXDisplay::WMBehavior::Read
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -1676,7 +1676,7 @@ JXDisplay::WMBehavior::Read
 void
 JXDisplay::WMBehavior::WriteV0
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

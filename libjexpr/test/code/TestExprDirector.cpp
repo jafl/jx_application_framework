@@ -166,7 +166,7 @@ TestExprDirector::TestDecisionParser()
 		return;
 		}
 
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 	TestVarList theVarList(input);
 	while (1)
 		{
@@ -184,14 +184,14 @@ TestExprDirector::TestDecisionParser()
 			}
 		else if (theDecision != NULL)
 			{
-			theDecision->Print(cout);
-			cout << endl;
-			cout << "Expected: " << expectedResult << endl;
-			cout << "Result:   " << theDecision->Evaluate() << endl;
+			theDecision->Print(std::cout);
+			std::cout << std::endl;
+			std::cout << "Expected: " << expectedResult << std::endl;
+			std::cout << "Result:   " << theDecision->Evaluate() << std::endl;
 			JWaitForReturn();
 			jdelete theDecision;
 			}
 
-		input >> ws;
+		input >> std::ws;
 		}
 }

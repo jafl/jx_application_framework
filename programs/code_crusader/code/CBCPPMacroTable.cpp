@@ -407,7 +407,7 @@ CBCPPMacroTable::ReadData
 
 	JIndex firstNewRow = 0;
 
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 	JString name, value;
 	while (!input.eof() && !input.fail())
 		{
@@ -465,7 +465,7 @@ CBCPPMacroTable::WriteData
 	)
 	const
 {
-	ofstream output(fileName);
+	std::ofstream output(fileName);
 
 	const JStringTableData* data = GetStringData();
 	const JSize count            = GetRowCount();
@@ -486,7 +486,7 @@ CBCPPMacroTable::WriteData
 void
 CBCPPMacroTable::ReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -508,7 +508,7 @@ CBCPPMacroTable::ReadSetup
 void
 CBCPPMacroTable::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

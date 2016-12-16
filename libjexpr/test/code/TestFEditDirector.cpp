@@ -38,7 +38,7 @@ TestFEditDirector::TestFEditDirector
 	:
 	JXWindowDirector(supervisor)
 {
-	itsInput = jnew ifstream(fileName);
+	itsInput = jnew std::ifstream(fileName);
 	assert( itsInput != NULL );
 
 	itsVarList = jnew TestVarList(*itsInput);
@@ -154,7 +154,7 @@ TestFEditDirector::Receive
 void
 TestFEditDirector::GetNextFunction()
 {
-	*itsInput >> ws;
+	*itsInput >> std::ws;
 	if (itsInput->eof() || itsInput->fail())
 		{
 		Close();
@@ -178,13 +178,13 @@ TestFEditDirector::GetNextFunction()
 				}
 			}
 
-		theFunction->Print(cout);
-		cout << endl;
+		theFunction->Print(std::cout);
+		std::cout << std::endl;
 
 		JComplex result;
 		const JBoolean ok = theFunction->Evaluate(&result);
-		cout << "Expected: " << expectedOK << ' ' << expectedResult << endl;
-		cout << "Result:   " << ok << ' ' << result << endl;
+		std::cout << "Expected: " << expectedOK << ' ' << expectedResult << std::endl;
+		std::cout << "Result:   " << ok << ' ' << result << std::endl;
 		}
 	else
 		{
@@ -200,13 +200,13 @@ TestFEditDirector::GetNextFunction()
 				}
 			}
 
-		theFunction->Print(cout);
-		cout << endl;
+		theFunction->Print(std::cout);
+		std::cout << std::endl;
 
 		JFloat result;
 		const JBoolean ok = theFunction->Evaluate(&result);
-		cout << "Expected: " << expectedOK << ' ' << expectedResult << endl;
-		cout << "Result:   " << ok << ' ' << result << endl;
+		std::cout << "Expected: " << expectedOK << ' ' << expectedResult << std::endl;
+		std::cout << "Result:   " << ok << ' ' << result << std::endl;
 		}
 
 	itsExprWidget->SetFunction(itsVarList, theFunction);
@@ -223,20 +223,20 @@ TestFEditDirector::EvaluateFunction()
 	if (itsExprWidget->EndEditing())
 		{
 		const JFunction* f = itsExprWidget->GetFunction();
-		f->Print(cout);
-		cout << endl;
+		f->Print(std::cout);
+		std::cout << std::endl;
 
 		if (itsUseComplexFlag)
 			{
 			JComplex result;
-			cout << f->Evaluate(&result) << ' ';
-			cout << result << endl;
+			std::cout << f->Evaluate(&result) << ' ';
+			std::cout << result << std::endl;
 			}
 		else
 			{
 			JFloat result;
-			cout << f->Evaluate(&result) << ' ';
-			cout << result << endl;
+			std::cout << f->Evaluate(&result) << ' ';
+			std::cout << result << std::endl;
 			}
 		}
 }

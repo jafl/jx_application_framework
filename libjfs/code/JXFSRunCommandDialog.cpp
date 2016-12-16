@@ -420,7 +420,7 @@ JXFSRunCommandDialog::WriteSetup()
 		file->SetData(kCurrentPrefsVersion, data);
 		jdelete file;
 
-		ofstream touch(itsSignalTask->GetFileName());
+		std::ofstream touch(itsSignalTask->GetFileName());
 		touch.close();
 		itsSignalTask->UpdateModTime();
 		}
@@ -436,7 +436,7 @@ JXFSRunCommandDialog::WriteSetup()
 void
 JXFSRunCommandDialog::ReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JXWindow* window = GetWindow();
@@ -476,7 +476,7 @@ JXFSRunCommandDialog::ReadSetup
 void
 JXFSRunCommandDialog::UpdateSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JXWindow::SkipGeometry(input);
@@ -512,7 +512,7 @@ JXFSRunCommandDialog::UpdateSetup
 void
 JXFSRunCommandDialog::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

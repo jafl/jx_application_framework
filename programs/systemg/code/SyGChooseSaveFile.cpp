@@ -170,7 +170,7 @@ SyGChooseSaveFile::Receive
 void
 SyGChooseSaveFile::SGReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion version;
@@ -187,7 +187,7 @@ SyGChooseSaveFile::SGReadSetup
 void
 SyGChooseSaveFile::SGWriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -204,7 +204,7 @@ SyGChooseSaveFile::SGWriteSetup
 void
 SyGChooseSaveFile::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	SGReadSetup(input);
@@ -218,7 +218,7 @@ SyGChooseSaveFile::ReadPrefs
 void
 SyGChooseSaveFile::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

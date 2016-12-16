@@ -23,7 +23,7 @@ public:
 
 	// construct from private file
 
-	SCShortCircuit(istream& input, const JFileVersion vers, SCCircuit* theCircuit);
+	SCShortCircuit(std::istream& input, const JFileVersion vers, SCCircuit* theCircuit);
 
 	virtual ~SCShortCircuit();
 
@@ -31,7 +31,7 @@ public:
 											JPtrArray<JString>* rhsList,
 											JPtrArray<JString>* varList) const;
 	virtual SCComponent*	Copy(SCCircuit* theCircuit, const JArray<JIndex>* nodeMap) const;
-	virtual void			PrintToNetlist(ostream& output) const;
+	virtual void			PrintToNetlist(std::ostream& output) const;
 
 private:
 

@@ -23,12 +23,12 @@ class SCFeedbackDirector : public SCDirectorBase
 public:
 
 	SCFeedbackDirector(SCCircuitDocument* supervisor);
-	SCFeedbackDirector(istream& input, const JFileVersion vers,
+	SCFeedbackDirector(std::istream& input, const JFileVersion vers,
 					   SCCircuitDocument* supervisor);
 
 	virtual ~SCFeedbackDirector();
 
-	virtual void	StreamOut(ostream& output) const;
+	virtual void	StreamOut(std::ostream& output) const;
 
 protected:
 

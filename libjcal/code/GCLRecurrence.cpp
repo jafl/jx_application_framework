@@ -24,7 +24,7 @@ GCLRecurrence::GCLRecurrence()
 
 GCLRecurrence::GCLRecurrence
 	(
-	istream& is
+	std::istream& is
 	)
 {
 	itsSkipDays	= NULL;
@@ -146,7 +146,7 @@ GCLRecurrence::Set
 void
 GCLRecurrence::WriteSetup
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	os << (int)type << ' ';

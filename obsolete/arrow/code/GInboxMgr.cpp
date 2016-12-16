@@ -178,7 +178,7 @@ GInboxMgr::CheckEntries()
 void
 GInboxMgr::SaveState
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	JSize count = itsTimes->GetElementCount();
@@ -197,7 +197,7 @@ GInboxMgr::SaveState
 void
 GInboxMgr::ReadState
 	(
-	istream& is
+	std::istream& is
 	)
 {
 	JSize pcount;

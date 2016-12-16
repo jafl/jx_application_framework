@@ -42,11 +42,11 @@ CBJavaTree::CBJavaTree
 
 CBJavaTree::CBJavaTree
 	(
-	istream&			projInput,
+	std::istream&			projInput,
 	const JFileVersion	projVers,
-	istream*			setInput,
+	std::istream*			setInput,
 	const JFileVersion	setVers,
-	istream*			symInput,
+	std::istream*			symInput,
 	const JFileVersion	symVers,
 	CBJavaTreeDirector*	director,
 	const JSize			marginWidth,
@@ -83,9 +83,9 @@ CBJavaTree::~CBJavaTree()
 void
 CBJavaTree::StreamOut
 	(
-	ostream&			projOutput,
-	ostream*			setOutput,
-	ostream*			symOutput,
+	std::ostream&			projOutput,
+	std::ostream*			setOutput,
+	std::ostream*			symOutput,
 	const CBDirList*	dirList
 	)
 	const
@@ -104,7 +104,7 @@ CBJavaTree::StreamOut
 CBClass*
 CBJavaTree::StreamInJavaClass
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	CBTree*				tree
 	)
@@ -193,22 +193,22 @@ CBJavaTree::ParseFile
 void
 CBJavaTree::ReadFunctionList
 	(
-	istream&	input,
+	std::istream&	input,
 	CBClass*	theClass
 	)
 {
-	input >> ws;
+	input >> std::ws;
 	while (input.peek() == '!')
 		{
 		JIgnoreLine(input);
-		input >> ws;
+		input >> std::ws;
 		}
 
 	JString name;
 	JStringPtrMap<JString> flags(JPtrArrayT::kDeleteAll);
 	while (1)
 		{
-		input >> ws;
+		input >> std::ws;
 		name = JReadUntil(input, '\t');			// function name
 		if (input.eof() || input.fail())
 			{

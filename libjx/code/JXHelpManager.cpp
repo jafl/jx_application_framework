@@ -425,7 +425,7 @@ JXHelpManager::SaveWindowPrefs
 void
 JXHelpManager::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -467,7 +467,7 @@ JXHelpManager::ReadPrefs
 void
 JXHelpManager::WritePrefs
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const JFileVersion	vers
 	)
 	const

@@ -164,7 +164,7 @@ CBCharActionManager::ClearAllActions()
 void
 CBCharActionManager::ReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -207,7 +207,7 @@ CBCharActionManager::ReadSetup
 void
 CBCharActionManager::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

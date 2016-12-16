@@ -59,8 +59,8 @@ public:
 	void	Print(JPagePrinter& p);
 	void	Print(JEPSPrinter& p);
 
-	void	ReadSetup(istream& setInput, const JFileVersion setVers);
-	void	WriteSetup(ostream& setOutput) const;
+	void	ReadSetup(std::istream& setInput, const JFileVersion setVers);
+	void	WriteSetup(std::ostream& setOutput) const;
 
 	static JBoolean	WillRaiseWindowWhenSingleMatch();
 	static void		ShouldRaiseWindowWhenSingleMatch(const JBoolean raise);

@@ -18,12 +18,12 @@ class JFunction;
 
 class JPiecewiseFunction
 {
-	friend ostream& operator<<(ostream& output, const JPiecewiseFunction& aPWFunc);
+	friend std::ostream& operator<<(std::ostream& output, const JPiecewiseFunction& aPWFunc);
 
 public:
 
 	JPiecewiseFunction(JFunction* defaultFunction);
-	JPiecewiseFunction(istream& input, JVariableList* theVariableList);
+	JPiecewiseFunction(std::istream& input, JVariableList* theVariableList);
 	JPiecewiseFunction(const JPiecewiseFunction& source);
 
 	virtual ~JPiecewiseFunction();

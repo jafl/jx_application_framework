@@ -150,7 +150,7 @@ JRecurseDecision
 			}
 		else
 			{
-			cerr << "JRecurseDecision:  unknown boolean operator" << endl;
+			std::cerr << "JRecurseDecision:  unknown boolean operator" << std::endl;
 			jdelete arg1;
 			jdelete arg2;
 			return kJFalse;
@@ -232,7 +232,7 @@ JRecurseDecision
 			}
 		else
 			{
-			cerr << "JRecurseDecision:  unknown comparison operator" << endl;
+			std::cerr << "JRecurseDecision:  unknown comparison operator" << std::endl;
 			jdelete arg1;
 			jdelete arg2;
 			return kJFalse;

@@ -127,7 +127,7 @@ GMFilterAction::SetDestination
 void
 GMFilterAction::ReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion version;
@@ -149,7 +149,7 @@ GMFilterAction::ReadSetup
 void
 GMFilterAction::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

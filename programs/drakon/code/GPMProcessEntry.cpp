@@ -185,7 +185,7 @@ GPMProcessEntry::Update
 	catch (...)
 	{
 		itsState = kZombie;
-//		cerr << "failed to update: " << itsPID << endl;
+//		std::cerr << "failed to update: " << itsPID << std::endl;
 	}
 
 	SetName(itsCommand);
@@ -211,11 +211,11 @@ GPMProcessEntry::ReadStat()
 	const JSize uTime = itsUTime, sTime = itsSTime;
 
 	JString str = JCombinePathAndName(itsProcPath, "stat");
-	ifstream is(str);
+	std::ifstream is(str);
 	if (is.good())
 		{
 		is >> itsPID;
-		is >> ws;
+		is >> std::ws;
 		itsCommand = JReadUntilws(is);
 		if (itsCommand.GetLength() > 2)
 			{
@@ -243,7 +243,7 @@ GPMProcessEntry::ReadStat()
 			itsState = kRun;
 			}
 		is >> itsPPID;
-		is >> ws;
+		is >> std::ws;
 		int toss;
 		is >> toss;
 		is >> toss;
@@ -281,7 +281,7 @@ GPMProcessEntry::ReadStatM()
 {
 
 	JString str = JCombinePathAndName(itsProcPath, "statm");
-	ifstream is(str);
+	std::ifstream is(str);
 	if (is.good())
 		{
 		is >> itsSize;
@@ -313,7 +313,7 @@ GPMProcessEntry::ReadCmdline()
 		}
 
 	JString str = JCombinePathAndName(itsProcPath, "cmdline");
-	ifstream is(str);
+	std::ifstream is(str);
 	if (is.good())
 		{
 		JString cmdline;
@@ -413,7 +413,7 @@ GPMProcessEntry::ReadCmdline()
 	if (task_for_pid(mach_task_self(), itsPID, &task) == KERN_SUCCESS &&
 		task_info(task, TASK_BASIC_INFO, &task_info, &info_count) == KERN_SUCCESS)
 		{
-		cout << task_info.resident_size;
+		std::cout << task_info.resident_size;
 		}
 */
 #endif

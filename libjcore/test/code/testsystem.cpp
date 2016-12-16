@@ -23,11 +23,11 @@
 int
 main()
 {
-	cout << "\nTest system parameters relevant to JHash" << endl;
+	std::cout << "\nTest system parameters relevant to JHash" << std::endl;
 
-	cout << "\n   system page size: " << getpagesize() << endl;
+	std::cout << "\n   system page size: " << getpagesize() << std::endl;
 
-	cout << endl;
+	std::cout << std::endl;
 
 	JMMRecord scratch1;
 	scratch1.PrintLayout();

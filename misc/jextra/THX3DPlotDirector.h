@@ -23,7 +23,7 @@ class THX3DPlotDirector : public JXWindowDirector
 public:
 
 	THX3DPlotDirector(JXDirector* supervisor);
-	THX3DPlotDirector(istream& input, const JFileVersion vers,
+	THX3DPlotDirector(std::istream& input, const JFileVersion vers,
 					  JXDirector* supervisor, THXVarList* varList);
 
 	virtual ~THX3DPlotDirector();
@@ -33,7 +33,7 @@ public:
 						const JFloat xMin, const JFloat xMax, const JSize xCount,
 						const JFloat yMin, const JFloat yMax, const JSize yCount);
 
-	void	WriteState(ostream& output) const;
+	void	WriteState(std::ostream& output) const;
 
 protected:
 

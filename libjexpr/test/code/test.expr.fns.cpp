@@ -32,7 +32,7 @@ TestDecisionEquality
 	const JCharacter* fileName
 	)
 {
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 
 	TestVarList theVarList(input);
 
@@ -48,8 +48,8 @@ TestDecisionEquality
 			{
 			continue;
 			}
-		d1->Print(cout);
-		cout << endl;
+		d1->Print(std::cout);
+		std::cout << std::endl;
 
 		if (!GetDecision(input, &theVarList, &d2))
 			{
@@ -61,8 +61,8 @@ TestDecisionEquality
 			jdelete d1;
 			continue;
 			}
-		d2->Print(cout);
-		cout << endl;
+		d2->Print(std::cout);
+		std::cout << std::endl;
 
 		if (*d1 == *d2)
 			{
@@ -89,7 +89,7 @@ TestFunctionEquality
 	const JCharacter* fileName
 	)
 {
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 
 	TestVarList theVarList(input);
 
@@ -139,19 +139,19 @@ TestFunctionEquality
 JBoolean
 GetDecision
 	(
-	istream&				input,
+	std::istream&				input,
 	const JVariableList*	theVariableList,
 	JDecision**				theDecision
 	)
 {
-	input >> ws;
+	input >> std::ws;
 	if (input.eof() || input.fail())
 		{
 		return kJFalse;
 		}
 
 	const JString expr = JReadUntil(input, '\n');
-	cout << expr << endl;
+	std::cout << expr << std::endl;
 	JParseDecision(expr, theVariableList, theDecision);
 	return kJTrue;
 }
@@ -164,19 +164,19 @@ GetDecision
 JBoolean
 GetFunction
 	(
-	istream&				input,
+	std::istream&				input,
 	const JVariableList*	theVariableList,
 	JFunction**				theFunction
 	)
 {
-	input >> ws;
+	input >> std::ws;
 	if (input.eof() || input.fail())
 		{
 		return kJFalse;
 		}
 
 	const JString expr = JReadUntil(input, '\n');
-	cout << expr << endl;
+	std::cout << expr << std::endl;
 	JParseFunction(expr, theVariableList, theFunction);
 	return kJTrue;
 }

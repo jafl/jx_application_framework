@@ -1287,7 +1287,7 @@ JString::DecodeBase64
 void
 JString::Read
 	(
-	istream&	input,
+	std::istream&	input,
 	const JSize	count
 	)
 {
@@ -1331,12 +1331,12 @@ JString::Read
 void
 JString::ReadDelimited
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	// skip white space
 
-	input >> ws;
+	input >> std::ws;
 
 	// the string must start with a double quote
 
@@ -1345,7 +1345,7 @@ JString::ReadDelimited
 	if (c != '"')
 		{
 		input.putback(c);
-		JSetState(input, ios::failbit);
+		JSetState(input, std::ios::failbit);
 		return;
 		}
 
@@ -1366,7 +1366,7 @@ JString::ReadDelimited
 			}
 		else if (input.eof())
 			{
-			JSetState(input, ios::failbit);
+			JSetState(input, std::ios::failbit);
 			break;
 			}
 		else if (c == '\\')
@@ -1405,7 +1405,7 @@ JString::ReadDelimited
 void
 JString::Print
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -1422,7 +1422,7 @@ JString::Print
 void
 JString::PrintHex
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -1913,26 +1913,26 @@ JString::MatchCase
 	To include double quotes in a string, use \"
 	To include a backslash in a string, use \\
 
-	An exception is made if the streams are cin or cout.
+	An exception is made if the streams are std::cin or std::cout.
 	For input, characters are simply read until 'return' is pressed.
 	For output, Print() is used.
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&	input,
+	std::istream&	input,
 	JString&	aString
 	)
 {
-	if (&input == &cin)
+	if (&input == &std::cin)
 		{
 		// Read characters until return is pressed.
 		// Following convention, the return must be left in the stream.
 
-		aString = JReadLine(cin);
-		cin.putback('\n');
+		aString = JReadLine(std::cin);
+		std::cin.putback('\n');
 		aString.TrimWhitespace();
 		}
 	else
@@ -1947,21 +1947,21 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const JString&	aString
 	)
 {
-	if (&output == &cout)
+	if (&output == &std::cout)
 		{
-		aString.Print(cout);
+		aString.Print(std::cout);
 		return output;
 		}
-	else if (&output == &cerr)
+	else if (&output == &std::cerr)
 		{
-		aString.Print(cerr);
+		aString.Print(std::cerr);
 		return output;
 		}
 

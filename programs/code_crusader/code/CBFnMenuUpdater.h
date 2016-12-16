@@ -39,8 +39,8 @@ public:
 
 protected:
 
-	virtual void	ReadPrefs(istream& input);
-	virtual void	WritePrefs(ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input);
+	virtual void	WritePrefs(std::ostream& output) const;
 
 private:
 
@@ -50,7 +50,7 @@ private:
 
 private:
 
-	void	ReadFunctionList(istream& input, CBLanguage lang,
+	void	ReadFunctionList(std::istream& input, CBLanguage lang,
 							 const JBoolean sort, const JBoolean includeNS,
 							 JXTextMenu* menu, JArray<JIndex>* lineIndexList);
 

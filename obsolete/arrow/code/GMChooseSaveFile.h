@@ -27,8 +27,8 @@ public:
 	void		ShouldSaveHeaders(const JBoolean save);
 	JBoolean	IsSavingHeaders() const;
 
-	void	ReadGMSetup(istream& input);
-	void	WriteGMSetup(ostream& output) const;
+	void	ReadGMSetup(std::istream& input);
+	void	WriteGMSetup(std::ostream& output) const;
 
 protected:
 

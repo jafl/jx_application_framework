@@ -20,12 +20,12 @@
 void
 JWaitForReturn()
 {
-	cout << endl << "Press return to continue...";
+	std::cout << std::endl << "Press return to continue...";
 
-	cin.clear();
-	while (cin.get() != '\n') { };
+	std::cin.clear();
+	while (std::cin.get() != '\n') { };
 
-	cout << endl;
+	std::cout << std::endl;
 }
 
 /******************************************************************************
@@ -41,8 +41,8 @@ JWaitForReturn()
 void
 JInputFinished()
 {
-	cin.clear();
-	cin.get();
+	std::cin.clear();
+	std::cin.get();
 }
 
 /******************************************************************************
@@ -69,8 +69,8 @@ JCheckForValues
 	const JSize remaining = argc - (*index+1);
 	if (valueCount > remaining)
 		{
-		cerr << argv[0] << ": missing " << valueCount - remaining;
-		cerr << " argument(s) for " << argv[*index] << endl;
+		std::cerr << argv[0] << ": missing " << valueCount - remaining;
+		std::cerr << " argument(s) for " << argv[*index] << std::endl;
 		exit(1);
 		}
 

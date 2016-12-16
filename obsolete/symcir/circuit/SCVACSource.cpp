@@ -35,7 +35,7 @@ SCVACSource::SCVACSource
 
 SCVACSource::SCVACSource
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	SCCircuit*			theCircuit
 	)
@@ -48,7 +48,7 @@ SCVACSource::SCVACSource
 
 SCVACSource::SCVACSource
 	(
-	istream&	input,
+	std::istream&	input,
 	SCCircuit*	theCircuit
 	)
 	:

@@ -42,7 +42,7 @@ THXBaseConvDirector::THXBaseConvDirector
 
 THXBaseConvDirector::THXBaseConvDirector
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	JXDirector*			supervisor
 	)
@@ -88,7 +88,7 @@ THXBaseConvDirector::~THXBaseConvDirector()
 void
 THXBaseConvDirector::WriteState
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

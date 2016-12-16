@@ -129,7 +129,7 @@ CBBourneShellStyler::~CBBourneShellStyler()
 void
 CBBourneShellStyler::Scan
 	(
-	istream&			input,
+	std::istream&			input,
 	const TokenExtra&	initData
 	)
 {

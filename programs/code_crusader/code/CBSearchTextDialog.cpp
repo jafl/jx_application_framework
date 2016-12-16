@@ -907,7 +907,7 @@ CBSearchTextDialog::SaveFileForSearch
 			if (textDoc != NULL &&
 				(JCreateTempFile(file)).OK())
 				{
-				ofstream output(*file);
+				std::ofstream output(*file);
 				((textDoc->GetTextEditor())->GetText()).Print(output);
 				}
 			}
@@ -1005,7 +1005,7 @@ CBSearchTextDialog::LoadFileSet()
 			itsFileList->RemoveAllFiles();
 			}
 
-		ifstream input(fullName);
+		std::ifstream input(fullName);
 		JString file;
 		while (!input.eof() && !input.fail())
 			{
@@ -1033,7 +1033,7 @@ CBSearchTextDialog::SaveFileSet()
 		{
 		itsFileSetName = newName;
 
-		ofstream output(itsFileSetName);
+		std::ofstream output(itsFileSetName);
 		const JPtrArray<JString>& fullNameList = itsFileList->GetFullNameList();
 		const JSize fileCount = fullNameList.GetElementCount();
 		for (JIndex i=1; i<=fileCount; i++)
@@ -1127,10 +1127,10 @@ CBSearchTextDialog::OpenSelectedFiles()
 void
 CBSearchTextDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
-	input >> ws;
+	input >> std::ws;
 	const JCharacter versChar = input.peek();
 
 	JFileVersion vers;
@@ -1218,7 +1218,7 @@ CBSearchTextDialog::ReadPrefs
 void
 CBSearchTextDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

@@ -253,7 +253,7 @@ GPMSystemStats::ComputeStats
 	JSize totalMem, freeMem = 0, otherMem = 0, foundCount = 0;
 	if (GPMGetSystemMemory(&totalMem))
 		{
-		ifstream ms("/proc/meminfo");
+		std::ifstream ms("/proc/meminfo");
 		JArray<JIndexRange> matchList;
 		while (ms.good() && !ms.eof())
 			{

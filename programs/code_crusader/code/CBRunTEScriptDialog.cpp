@@ -407,7 +407,7 @@ CBRunTEScriptDialog::ReplaceVariables
 void
 CBRunTEScriptDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -439,7 +439,7 @@ CBRunTEScriptDialog::ReadPrefs
 void
 CBRunTEScriptDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

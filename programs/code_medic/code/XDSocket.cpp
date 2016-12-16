@@ -72,7 +72,7 @@ XDSocket::StartTimer()
 //	itsTimerID = (reactor())->schedule_timer(this, NULL, ACE_Time_Value(kClientDeadTime));
 //	if (itsTimerID == -1)
 //		{
-//		cerr << "XDSocket::StartTimer() is unable to schedule timeout" << endl;
+//		std::cerr << "XDSocket::StartTimer() is unable to schedule timeout" << std::endl;
 //		}
 }
 

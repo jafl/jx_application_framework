@@ -47,7 +47,7 @@ NSID         ({ID}(\\{ID})*)
 	JBoolean isAbstract = kJFalse;
 	JBoolean isFinal    = kJFalse;
 
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 	switch_streams(&input, NULL);
 %}
 

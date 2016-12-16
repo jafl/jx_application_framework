@@ -45,7 +45,7 @@ CBRubyScanner::~CBRubyScanner()
 void
 CBRubyScanner::BeginScan
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	itsResetFlag = kJTrue;

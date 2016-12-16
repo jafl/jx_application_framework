@@ -418,7 +418,7 @@ SyGFindFileDialog::SearchExpr
 void
 SyGFindFileDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -445,7 +445,7 @@ SyGFindFileDialog::ReadPrefs
 void
 SyGFindFileDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

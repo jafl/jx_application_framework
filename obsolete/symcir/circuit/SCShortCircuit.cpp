@@ -37,7 +37,7 @@ SCShortCircuit::SCShortCircuit
 
 SCShortCircuit::SCShortCircuit
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	SCCircuit*			theCircuit
 	)
@@ -101,7 +101,7 @@ SCShortCircuit::Copy
 void
 SCShortCircuit::PrintToNetlist
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

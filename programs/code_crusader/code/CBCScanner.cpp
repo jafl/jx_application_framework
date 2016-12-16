@@ -45,7 +45,7 @@ CBCScanner::~CBCScanner()
 void
 CBCScanner::BeginScan
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	itsResetFlag = kJTrue;

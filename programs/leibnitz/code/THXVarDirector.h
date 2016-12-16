@@ -22,12 +22,12 @@ class THXVarDirector : public JXWindowDirector
 public:
 
 	THXVarDirector(JXDirector* supervisor, THXVarList* varList);
-	THXVarDirector(istream& input, const JFileVersion vers,
+	THXVarDirector(std::istream& input, const JFileVersion vers,
 				   JXDirector* supervisor, THXVarList* varList);
 
 	virtual ~THXVarDirector();
 
-	void	WriteState(ostream& output) const;
+	void	WriteState(std::ostream& output) const;
 
 	// public so THXApp can call it
 

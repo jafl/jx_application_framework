@@ -102,7 +102,7 @@ PrintCommandLineHelp()
 		"vers", JXWGetVersionNumberStr()
 		};
 	const JString s = JGetString(kCommandLineHelpID, map, sizeof(map));
-	cout << endl << s << endl << endl;
+	std::cout << std::endl << s << std::endl << std::endl;
 }
 
 /******************************************************************************
@@ -113,7 +113,7 @@ PrintCommandLineHelp()
 void
 PrintVersion()
 {
-	cout << endl;
-	cout << JXWGetVersionStr() << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << JXWGetVersionStr() << std::endl;
+	std::cout << std::endl;
 }

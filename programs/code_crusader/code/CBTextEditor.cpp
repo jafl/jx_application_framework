@@ -311,7 +311,7 @@ CBTextEditor::~CBTextEditor()
 void
 CBTextEditor::ReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -406,7 +406,7 @@ CBTextEditor::ReadSetup
 void
 CBTextEditor::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

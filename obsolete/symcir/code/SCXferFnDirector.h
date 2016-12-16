@@ -21,12 +21,12 @@ class SCXferFnDirector : public SCDirectorBase
 public:
 
 	SCXferFnDirector(SCCircuitDocument* supervisor);
-	SCXferFnDirector(istream& input, const JFileVersion vers,
+	SCXferFnDirector(std::istream& input, const JFileVersion vers,
 					 SCCircuitDocument* supervisor);
 
 	virtual ~SCXferFnDirector();
 
-	virtual void	StreamOut(ostream& output) const;
+	virtual void	StreamOut(std::ostream& output) const;
 
 protected:
 

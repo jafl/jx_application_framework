@@ -117,7 +117,7 @@ JXFileDocument::~JXFileDocument()
 void
 JXFileDocument::ReadJXFDSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -149,7 +149,7 @@ JXFileDocument::ReadJXFDSetup
 void
 JXFileDocument::WriteJXFDSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -835,7 +835,7 @@ JXFileDocument::WriteFile
 	)
 	const
 {
-	ofstream output(fullName);
+	std::ofstream output(fullName);
 	if (output.good())
 		{
 		WriteTextFile(output, safetySave);
@@ -878,7 +878,7 @@ JXFileDocument::WriteFile
 void
 JXFileDocument::WriteTextFile
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const JBoolean	safetySave
 	)
 	const
@@ -1104,7 +1104,7 @@ JXFileDocument::CheckForSafetySaveFiles
 JXFileDocument::FileStatus
 JXFileDocument::DefaultCanReadASCIIFile
 	(
-	istream&			input,
+	std::istream&			input,
 	const JCharacter*	fileSignature,
 	const JFileVersion	latestFileVersion,
 	JFileVersion*		actualFileVersion

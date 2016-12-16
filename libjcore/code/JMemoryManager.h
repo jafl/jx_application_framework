@@ -70,8 +70,8 @@ public:
 
 		JBoolean	Match(const JMMRecord& record) const;
 
-		void	Read(istream& input);
-		void	Write(ostream& output) const;
+		void	Read(std::istream& input);
+		void	Write(std::ostream& output) const;
 	};
 
 	static const JUtf8Byte* kUnknownFile;
@@ -228,9 +228,9 @@ private:
 	void	HandleDebugRequest() const;
 	void	SendDebugMessage(std::ostringstream& data) const;
 	void	SendRunningStats() const;
-	void	WriteRunningStats(ostream& output) const;
-	void	SendRecords(istream& input) const;
-	void	WriteRecords(ostream& output, const RecordFilter& filter) const;
+	void	WriteRunningStats(std::ostream& output) const;
+	void	SendRecords(std::istream& input) const;
+	void	WriteRecords(std::ostream& output, const RecordFilter& filter) const;
 	void	SendExitStats() const;
 	void	WriteExitStats() const;
 

@@ -37,8 +37,8 @@ public:
 
 	// saving setup information
 
-	void	ReadXPTSetup(istream& input);
-	void	WriteXPTSetup(ostream& output) const;
+	void	ReadXPTSetup(std::istream& input);
+	void	WriteXPTSetup(std::ostream& output) const;
 
 	// printing parameters
 
@@ -94,8 +94,8 @@ private:
 	const JXPTPrinter& operator=(const JXPTPrinter& source);
 };
 
-istream& operator>>(istream& input, JXPTPrinter::Destination& dest);
-ostream& operator<<(ostream& output, const JXPTPrinter::Destination dest);
+std::istream& operator>>(std::istream& input, JXPTPrinter::Destination& dest);
+std::ostream& operator<<(std::ostream& output, const JXPTPrinter::Destination dest);
 
 
 /******************************************************************************

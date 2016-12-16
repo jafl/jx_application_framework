@@ -32,7 +32,7 @@ public:
 	const SCCircuit*		GetCircuit() const;
 	const SCCircuitVarList*	GetVarList() const;
 
-	static FileStatus	CanReadFile(istream& input);
+	static FileStatus	CanReadFile(std::istream& input);
 
 	void	OpenSomething(const JCharacter* fileName = NULL);
 
@@ -48,7 +48,7 @@ public:
 protected:
 
 	virtual void	DiscardChanges();
-	virtual void	WriteTextFile(ostream& output, const JBoolean safetySave) const;
+	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const;
 	virtual void	DirectorClosed(JXDirector* theDirector);
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 
@@ -88,7 +88,7 @@ private:
 
 	void	RevertToSaved();
 
-	void	ReadFile(istream& input);
+	void	ReadFile(std::istream& input);
 	void	ReadNetlist(const JCharacter* fileName);
 
 	void	UpdateAnalysisMenu();

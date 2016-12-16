@@ -24,12 +24,12 @@ public:
 
 	// construct from private file
 
-	SCIdepSource(istream& input, const JFileVersion vers, const SCComponentType type,
+	SCIdepSource(std::istream& input, const JFileVersion vers, const SCComponentType type,
 				 SCCircuit* theCircuit);
 
 	// construct from netlist
 
-	SCIdepSource(istream& input, const SCComponentType type, SCCircuit* theCircuit);
+	SCIdepSource(std::istream& input, const SCComponentType type, SCCircuit* theCircuit);
 
 	virtual ~SCIdepSource();
 
@@ -40,8 +40,8 @@ public:
 										JPtrArray<JString>* rhsList,
 										JPtrArray<JString>* varList) const;
 	virtual JBoolean	RequiresComponent(const JIndex index) const;
-	virtual void		StreamOut(ostream& output) const;
-	virtual void		PrintToNetlist(ostream& output) const;
+	virtual void		StreamOut(std::ostream& output) const;
+	virtual void		PrintToNetlist(std::ostream& output) const;
 
 	// provides safe downcasting
 

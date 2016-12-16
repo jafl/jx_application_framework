@@ -76,8 +76,8 @@ JFloat  JDotProduct(const JVector&, const JVector&);
 JVector JCrossProduct(const JVector&, const JVector&);
 JMatrix JOuterProduct(const JVector&, const JVector&);
 
-istream& operator>>(istream&, JVector&);
-ostream& operator<<(ostream&, const JVector&);
+std::istream& operator>>(std::istream&, JVector&);
+std::ostream& operator<<(std::ostream&, const JVector&);
 
 int operator==(const JVector&, const JVector&);
 

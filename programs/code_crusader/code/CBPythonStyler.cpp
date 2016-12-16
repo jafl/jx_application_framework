@@ -126,7 +126,7 @@ CBPythonStyler::~CBPythonStyler()
 void
 CBPythonStyler::Scan
 	(
-	istream&			input,
+	std::istream&			input,
 	const TokenExtra&	initData
 	)
 {

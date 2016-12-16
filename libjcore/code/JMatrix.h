@@ -62,7 +62,7 @@ public:
 	JBoolean	Invert(JMatrix* inverse) const;
 	JFloat		Determinant() const;
 
-	void	Print(ostream& output) const;
+	void	Print(std::ostream& output) const;
 
 	JBoolean	RowIndexValid(const JIndex rowIndex) const;
 	JBoolean	ColIndexValid(const JIndex colIndex) const;
@@ -101,8 +101,8 @@ JMatrix operator/(const JMatrix&, const JFloat);
 
 JMatrix JIdentityMatrix(const JSize dimCount);
 
-istream& operator>>(istream&, JMatrix&);
-ostream& operator<<(ostream&, const JMatrix&);
+std::istream& operator>>(std::istream&, JMatrix&);
+std::ostream& operator<<(std::ostream&, const JMatrix&);
 
 int operator==(const JMatrix&, const JMatrix&);
 

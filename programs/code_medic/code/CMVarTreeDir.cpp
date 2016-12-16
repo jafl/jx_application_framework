@@ -563,7 +563,7 @@ CMVarTreeDir::HandleHelpMenu
 void
 CMVarTreeDir::ReadSetup
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -578,7 +578,7 @@ CMVarTreeDir::ReadSetup
 void
 CMVarTreeDir::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

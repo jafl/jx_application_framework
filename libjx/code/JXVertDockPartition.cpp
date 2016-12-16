@@ -218,7 +218,7 @@ JXVertDockPartition::CloseAllWindows()
 void
 JXVertDockPartition::ReadSetup
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -283,7 +283,7 @@ JXVertDockPartition::ReadSetup
 void
 JXVertDockPartition::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

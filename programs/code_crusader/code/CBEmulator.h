@@ -32,7 +32,7 @@ const JSize kCBEmulatorCount = kCBLastEmulator+1;
 JBoolean	CBInstallEmulator(const CBEmulator type, CBTextEditor* editor,
 							  JTEKeyHandler** handler);
 
-istream& operator>>(istream& input, CBEmulator& type);
-ostream& operator<<(ostream& output, const CBEmulator type);
+std::istream& operator>>(std::istream& input, CBEmulator& type);
+std::ostream& operator<<(std::ostream& output, const CBEmulator type);
 
 #endif

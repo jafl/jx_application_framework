@@ -140,7 +140,7 @@ CBPSPrinter::EndUserPrintSetup
 void
 CBPSPrinter::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -164,7 +164,7 @@ CBPSPrinter::ReadPrefs
 void
 CBPSPrinter::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

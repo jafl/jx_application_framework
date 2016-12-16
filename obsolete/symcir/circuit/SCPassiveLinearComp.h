@@ -25,12 +25,12 @@ public:
 
 	// construct from private file
 
-	SCPassiveLinearComp(istream& input, const JFileVersion vers, const SCComponentType type,
+	SCPassiveLinearComp(std::istream& input, const JFileVersion vers, const SCComponentType type,
 						SCCircuit* theCircuit);
 
 	// construct from netlist
 
-	SCPassiveLinearComp(istream& input, const SCComponentType type, SCCircuit* theCircuit);
+	SCPassiveLinearComp(std::istream& input, const SCComponentType type, SCCircuit* theCircuit);
 
 	virtual ~SCPassiveLinearComp();
 
@@ -41,8 +41,8 @@ public:
 									JPtrArray<JString>* rhsList,
 									JPtrArray<JString>* varList) const;
 	virtual void	GetParserVariables(SCCircuitVarList* varList) const;
-	virtual void	StreamOut(ostream& output) const;
-	virtual void	PrintToNetlist(ostream& output) const;
+	virtual void	StreamOut(std::ostream& output) const;
+	virtual void	PrintToNetlist(std::ostream& output) const;
 
 	virtual JString	GetImpedanceSymbol() const = 0;
 	virtual JString	GetAdmittanceSymbol() const = 0;

@@ -1486,11 +1486,11 @@ JX2DPlotWidget::PrintMarksEPS()
 void
 JX2DPlotWidget::PWXReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers = 0;
-	input >> ws;
+	input >> std::ws;
 	const JCharacter c1 = input.peek();
 	if ('2' <= c1 && c1 <= '9')			// version 1 => leave it for J2DPlotWidget
 		{
@@ -1532,7 +1532,7 @@ JX2DPlotWidget::PWXReadSetup
 void
 JX2DPlotWidget::PWXWriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
