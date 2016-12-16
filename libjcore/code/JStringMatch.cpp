@@ -20,7 +20,7 @@
 
 	If a list of submatches is provided, we take ownership of the list.
 
-	The creator must also call one if Set(First|Last)CharacterIndex
+	The creator may also call one if Set(First|Last)CharacterIndex
 
  ******************************************************************************/
 
@@ -36,28 +36,6 @@ JStringMatch::JStringMatch
 	itsSubmatchList(list)
 {
 	assert( !itsByteRange.IsEmpty() );		// avoid potential infinite loops
-}
-
-/******************************************************************************
- Copy constructor
-
- ******************************************************************************/
-
-JStringMatch::JStringMatch
-	(
-	const JStringMatch& source
-	)
-	:
-	itsTarget(source.itsTarget),
-	itsByteRange(source.itsByteRange),
-	itsCharacterRange(source.itsCharacterRange),
-	itsSubmatchList(NULL)
-{
-	if (source.itsSubmatchList != NULL)
-		{
-		itsSubmatchList = jnew JArray<JUtf8ByteRange>(*(source.itsSubmatchList));
-		assert( itsSubmatchList != NULL );
-		}
 }
 
 /******************************************************************************
@@ -116,7 +94,7 @@ JSize
 JStringMatch::GetCharacterCount()
 	const
 {
-	FinishCharacterRange();
+	ComputeCharacterRange();
 	return itsCharacterRange.GetCount();
 }
 
@@ -134,7 +112,7 @@ JStringMatch::GetCharacterRange
 {
 	if (submatchIndex == 0)
 		{
-		FinishCharacterRange();
+		ComputeCharacterRange();
 		return itsCharacterRange;
 		}
 	else if (itsSubmatchList != NULL && itsSubmatchList->IndexValid(submatchIndex))
@@ -191,7 +169,7 @@ JStringMatch::GetSubstring
 }
 
 /******************************************************************************
- FinishCharacterRange (private)
+ ComputeCharacterRange (private)
 
 	Updating itsCharacterRange.last does not change conceptual constness,
 	because this is just an optimization.
@@ -199,10 +177,16 @@ JStringMatch::GetSubstring
  ******************************************************************************/
 
 void
-JStringMatch::FinishCharacterRange()
+JStringMatch::ComputeCharacterRange()
 	const
 {
-	if (itsCharacterRange.IsEmpty())
+	if (itsCharacterRange.IsNothing())	// compute start index
+		{
+		const_cast<JCharacterRange*>(&itsCharacterRange)->first =
+			JString::CountCharacters(itsTarget.GetBytes(), itsByteRange.first-1) + 1;
+		}
+
+	if (itsCharacterRange.IsEmpty())	// compute end index
 		{
 		const_cast<JCharacterRange*>(&itsCharacterRange)->last =
 			itsCharacterRange.first +

@@ -90,6 +90,15 @@ JTEST(Construction)
 	JAssertEqual(0, m4.GetSubstringCount());
 	JAssertEqual("90\xC2\xA9\xC3\x85", m4.GetString());
 	JAssertTrue(m4.GetSubstring(1).IsEmpty());
+
+	JStringMatchTest m5(s, JUtf8ByteRange(9,14));
+
+	JAssertEqual(JCharacterRange(9, 12), m5.GetCharacterRange());
+	JAssertEqual(4, m5.GetCharacterCount());
+	JAssertEqual(6, m5.GetByteCount());
+	JAssertEqual(0, m5.GetSubstringCount());
+	JAssertEqual("90\xC2\xA9\xC3\x85", m5.GetString());
+	JAssertTrue(m5.GetSubstring(1).IsEmpty());
 }
 
 JTEST(Submatches)

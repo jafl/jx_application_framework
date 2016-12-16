@@ -19,8 +19,6 @@ class JStringMatch
 
 public:
 
-	JStringMatch(const JStringMatch& source);
-
 	~JStringMatch();
 
 	JSize	GetCharacterCount() const;
@@ -50,10 +48,11 @@ private:
 
 private:
 
-	void	FinishCharacterRange() const;
+	void	ComputeCharacterRange() const;
 
 	// not allowed
 
+	JStringMatch(const JStringMatch& source);	// JStringMatches should never be stored
 	const JStringMatch& operator=(const JStringMatch& source);
 };
 

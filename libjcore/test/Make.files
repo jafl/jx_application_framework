@@ -5,6 +5,8 @@ ${CODEDIR}/test_JBoolean
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/JUnitTestManager
 .o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JUtf8Character
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -15,6 +17,8 @@ ${CODEDIR}/test_JUtf8Character
 .o ${JCOREDIR}/JUtf8Character
 .o ${JCOREDIR}/JUnitTestManager
 .o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -25,6 +29,8 @@ ${CODEDIR}/test_JString
 .o ${JCOREDIR}/JString
 .o ${JCOREDIR}/JUnitTestManager
 .o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -73,6 +79,8 @@ ${CODEDIR}/test_jFileUtils
 .o ${JCOREDIR}/JUnitTestManager
 .o ${JCOREDIR}/JUtf8Character
 .o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -86,6 +94,8 @@ ${CODEDIR}/test_jFStreamUtil
 .o ${JCOREDIR}/JUnitTestManager
 .o ${JCOREDIR}/JUtf8Character
 .o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -106,6 +116,8 @@ ${CODEDIR}/test_JBroadcaster
 .o ${JCOREDIR}/JOrderedSetUtil
 .o ${JCOREDIR}/JUtf8Character
 .o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -123,6 +135,8 @@ ${CODEDIR}/test_JArray
 .o ${JCOREDIR}/JOrderedSetUtil
 .o ${JCOREDIR}/JUtf8Character
 .o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -140,6 +154,8 @@ ${CODEDIR}/test_JLinkedList
 .o ${JCOREDIR}/JOrderedSetUtil
 .o ${JCOREDIR}/JUtf8Character
 .o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -158,6 +174,8 @@ ${CODEDIR}/test_JPtrArray
 .o ${JCOREDIR}/JOrderedSetUtil
 .o ${JCOREDIR}/JUtf8Character
 .o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -175,6 +193,8 @@ ${CODEDIR}/test_JRunArray
 .o ${JCOREDIR}/JOrderedSetUtil
 .o ${JCOREDIR}/JUtf8Character
 .o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -191,6 +211,8 @@ ${CODEDIR}/test_JQueue
 .o ${JCOREDIR}/JOrderedSetUtil
 .o ${JCOREDIR}/JUtf8Character
 .o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -207,6 +229,8 @@ ${CODEDIR}/test_JStack
 .o ${JCOREDIR}/JOrderedSetUtil
 .o ${JCOREDIR}/JUtf8Character
 .o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -217,8 +241,10 @@ ${CODEDIR}/test_JVector
 .o ${JCOREDIR}/JVector
 .o ${JCOREDIR}/JMatrix
 .o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JString
 .o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -229,8 +255,10 @@ ${CODEDIR}/test_JMatrix
 .o ${JCOREDIR}/JMatrix
 .o ${JCOREDIR}/JVector
 .o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JString
 .o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -240,8 +268,10 @@ ${CODEDIR}/test_JMatrix
 ${CODEDIR}/test_JKLRand
 .o ${JCOREDIR}/JKLRand
 .o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JString
 .o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -263,8 +293,10 @@ ${CODEDIR}/test_JPrefsFile
 ${CODEDIR}/test_JSubstitute
 .o ${JCOREDIR}/JSubstitute
 .o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JString
 .o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -277,8 +309,10 @@ ${CODEDIR}/test_JRegex
 ${CODEDIR}/test_jHashFunctions
 .o ${JCOREDIR}/jHashFunctions
 .o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JString
 .o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -289,8 +323,10 @@ ${CODEDIR}/test_JHashTable
 .o ${JCOREDIR}/JKLRand
 .o ${JCOREDIR}/jHashFunctions
 .o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JString
 .o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -302,6 +338,8 @@ ${CODEDIR}/test_JStringMap
 .o ${JCOREDIR}/JUnitTestManager
 .o ${JCOREDIR}/JUtf8Character
 .o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -313,6 +351,8 @@ ${CODEDIR}/test_JStringPtrMap
 .o ${JCOREDIR}/JUnitTestManager
 .o ${JCOREDIR}/JUtf8Character
 .o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil
@@ -322,8 +362,10 @@ ${CODEDIR}/test_JStringPtrMap
 ${CODEDIR}/test_JParseArgsForExec
 .o ${JCOREDIR}/jProcessUtil
 .o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JString
 .o ${JCOREDIR}/JUtf8Character
+.o ${JCOREDIR}/JString
+.o ${JCOREDIR}/JStringIterator
+.o ${JCOREDIR}/JStringMatch
 .o ${JCOREDIR}/JBooleanIO
 .o ${JCOREDIR}/jMath
 .o ${JCOREDIR}/jStreamUtil

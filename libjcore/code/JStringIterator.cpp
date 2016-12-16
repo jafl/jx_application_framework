@@ -41,7 +41,7 @@
  ******************************************************************************/
 
 #include <JStringIterator.h>
-#include <JString.h>
+#include <JStringMatch.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -57,7 +57,8 @@ JStringIterator::JStringIterator
 	)
 	:
 	itsConstString(&s),
-	itsString(NULL)
+	itsString(NULL),
+	itsLastMatch(NULL)
 {
 	MoveTo(start, index);
 	s.SetIterator(this);
@@ -71,7 +72,8 @@ JStringIterator::JStringIterator
 	)
 	:
 	itsConstString(s),
-	itsString(s)
+	itsString(s),
+	itsLastMatch(NULL)
 {
 	MoveTo(start, index);
 	s->SetIterator(this);
@@ -84,10 +86,57 @@ JStringIterator::JStringIterator
 
 JStringIterator::~JStringIterator()
 {
+	Invalidate();
+}
+
+/******************************************************************************
+ Invalidate
+
+ ******************************************************************************/
+
+void
+JStringIterator::Invalidate()
+{
 	if (itsConstString != NULL)
 		{
 		itsConstString->SetIterator(NULL);
 		}
+
+	ClearLastMatch();
+	itsConstString    = NULL;
+	itsString         = NULL;
+	itsCursorPosition = 0;
+}
+
+/******************************************************************************
+ GetLastMatch
+
+	Explodes if there was no last match, because this makes the API simpler
+	and it's really easy to know if you just got a match.
+
+ ******************************************************************************/
+
+const JStringMatch&
+JStringIterator::GetLastMatch()
+	const
+{
+	assert( itsLastMatch != NULL );
+	return *itsLastMatch;
+}
+
+/******************************************************************************
+ ClearLastMatch (private)
+
+	Return kJTrue if iterator is positioned at the end of the string
+	or if the iterator has been invalidated.
+
+ ******************************************************************************/
+
+inline void
+JStringIterator::ClearLastMatch()
+{
+	jdelete itsLastMatch;
+	itsLastMatch = NULL;
 }
 
 /******************************************************************************
@@ -294,4 +343,94 @@ JStringIterator::Next
 
 	data->Set(ptr);
 	return kJTrue;
+}
+
+/******************************************************************************
+ Prev
+
+	Returns kJTrue if a match is found earlier in the string.  Match
+	details can be retrieved from GetLastMatch().
+
+	If a match is found, the cursor position is set to the start of the
+	match.  Otherwise the cursor position is moved to the start of the
+	string.
+
+ ******************************************************************************/
+
+JBoolean
+JStringIterator::Prev
+	(
+	const JUtf8Byte*	str,
+	const JSize			byteCount,
+	const JBoolean		caseSensitive
+	)
+{
+	ClearLastMatch();
+	if (AtBeginning())
+		{
+		return kJFalse;
+		}
+
+	JIndex i = itsCursorPosition;
+	if (itsConstString->SearchBackward(str, byteCount, caseSensitive, &i))
+		{
+		itsCursorPosition = i-1;
+
+		JUtf8ByteRange r;
+		r.SetFirstAndCount(i, byteCount);
+
+		itsLastMatch = jnew JStringMatch(*itsConstString, r);
+		assert( itsLastMatch != NULL );
+
+		return kJTrue;
+		}
+	else
+		{
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ Next
+
+	Returns kJTrue if a match is found later in the string.  Match
+	details can be retrieved from GetLastMatch().
+
+	If a match is found, the cursor position is set beyond the end of the
+	match.  Otherwise the cursor position is moved to the end of the
+	string.
+
+ ******************************************************************************/
+
+JBoolean
+JStringIterator::Next
+	(
+	const JUtf8Byte*	str,
+	const JSize			byteCount,
+	const JBoolean		caseSensitive
+	)
+{
+	ClearLastMatch();
+	if (AtEnd())
+		{
+		return kJFalse;
+		}
+
+	JIndex i = itsCursorPosition + 1;
+	if (itsConstString->SearchForward(str, byteCount, caseSensitive, &i))
+		{
+		itsCursorPosition = i + byteCount - 1;
+
+		JUtf8ByteRange r;
+		r.SetFirstAndCount(i, byteCount);
+
+		itsLastMatch = jnew JStringMatch(*itsConstString, r);
+		assert( itsLastMatch != NULL );
+
+		return kJTrue;
+		}
+	else
+		{
+		return kJFalse;
+		}
 }

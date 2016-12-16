@@ -94,8 +94,11 @@ private:
 	const JString*	itsConstString;			// NULL if invalidated
 	JString*		itsString;				// NULL if we were passed a const object
 	JCursorPosition	itsCursorPosition;		// bytes!
+	JStringMatch*	itsLastMatch;			// can be NULL
 
 private:
+
+	void	ClearLastMatch();
 
 	// not allowed - cannot have 2 iterators for a string
 
@@ -116,19 +119,6 @@ JStringIterator::IsValid()
 	const
 {
 	return JI2B( itsConstString != NULL );
-}
-
-/******************************************************************************
- Invalidate
-
- ******************************************************************************/
-
-inline void
-JStringIterator::Invalidate()
-{
-	itsConstString    = NULL;
-	itsString         = NULL;
-	itsCursorPosition = 0;
 }
 
 /******************************************************************************
@@ -160,6 +150,96 @@ JStringIterator::AtEnd()
 {
 	return JI2B( itsConstString == NULL ||
 				 itsCursorPosition >= itsConstString->GetByteCount() );
+}
+
+/******************************************************************************
+ Prev
+
+ ******************************************************************************/
+
+inline JBoolean
+JStringIterator::Prev
+	(
+	const JString&	str,
+	const JBoolean	caseSensitive
+	)
+{
+	return Prev(str.GetBytes(), str.GetByteCount(), caseSensitive);
+}
+
+inline JBoolean
+JStringIterator::Prev
+	(
+	const JUtf8Byte*	str,
+	const JBoolean		caseSensitive
+	)
+{
+	return Prev(str, strlen(str), caseSensitive);
+}
+
+inline JBoolean
+JStringIterator::Prev
+	(
+	const JUtf8Character&	c,
+	const JBoolean			caseSensitive
+	)
+{
+	return Prev(c.GetBytes(), c.GetByteCount(), caseSensitive);
+}
+
+inline JBoolean
+JStringIterator::Prev
+	(
+	const std::string&	str,
+	const JBoolean		caseSensitive
+	)
+{
+	return Prev(str.data(), str.length(), caseSensitive);
+}
+
+/******************************************************************************
+ Next
+
+ ******************************************************************************/
+
+inline JBoolean
+JStringIterator::Next
+	(
+	const JString&	str,
+	const JBoolean	caseSensitive
+	)
+{
+	return Next(str.GetBytes(), str.GetByteCount(), caseSensitive);
+}
+
+inline JBoolean
+JStringIterator::Next
+	(
+	const JUtf8Byte*	str,
+	const JBoolean		caseSensitive
+	)
+{
+	return Next(str, strlen(str), caseSensitive);
+}
+
+inline JBoolean
+JStringIterator::Next
+	(
+	const JUtf8Character&	c,
+	const JBoolean			caseSensitive
+	)
+{
+	return Next(c.GetBytes(), c.GetByteCount(), caseSensitive);
+}
+
+inline JBoolean
+JStringIterator::Next
+	(
+	const std::string&	str,
+	const JBoolean		caseSensitive
+	)
+{
+	return Next(str.data(), str.length(), caseSensitive);
 }
 
 #endif
