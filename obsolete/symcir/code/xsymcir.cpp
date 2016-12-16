@@ -131,7 +131,7 @@ ParseXOptions
 		{
 		if (argv[index][0] == '-')
 			{
-			cerr << argv[0] << ": unknown option " << argv[index] << endl;
+			std::cerr << argv[0] << ": unknown option " << argv[index] << std::endl;
 			}
 		else if (inputFileName->IsEmpty())
 			{
@@ -142,7 +142,7 @@ ParseXOptions
 
 	if (!inputFileName->IsEmpty() && !JFileExists(*inputFileName))
 		{
-		cerr << argv[0] << ": file not found" << endl;
+		std::cerr << argv[0] << ": file not found" << std::endl;
 		exit(1);
 		}
 }
@@ -155,17 +155,17 @@ ParseXOptions
 void
 PrintHelp()
 {
-	cout << endl;
-	cout << "This X application allows one to symbolically analyze linear" << endl;
-	cout << "circuits stored in the Spice netlist format." << endl;
-	cout << endl;
-	cout << "Mathematica is required in order to use this program." << endl;
-	cout << endl;
-	cout << "Usage:  <options> <symcir file or netlist file (optional)>" << endl;
-	cout << endl;
-	cout << "-h  prints help" << endl;
-	cout << "-v  prints version information" << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << "This X application allows one to symbolically analyze linear" << std::endl;
+	std::cout << "circuits stored in the Spice netlist format." << std::endl;
+	std::cout << std::endl;
+	std::cout << "Mathematica is required in order to use this program." << std::endl;
+	std::cout << std::endl;
+	std::cout << "Usage:  <options> <symcir file or netlist file (optional)>" << std::endl;
+	std::cout << std::endl;
+	std::cout << "-h  prints help" << std::endl;
+	std::cout << "-v  prints version information" << std::endl;
+	std::cout << std::endl;
 }
 
 /******************************************************************************
@@ -176,7 +176,7 @@ PrintHelp()
 void
 PrintVersion()
 {
-	cout << endl;
-	cout << kSymcirVersionStr << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << kSymcirVersionStr << std::endl;
+	std::cout << std::endl;
 }

@@ -13,7 +13,7 @@ main
 		exit 0;
 		}
 
-	ifstream is(argv[1]);
+	std::ifstream is(argv[1]);
 	if (is.bad())
 		{
 		exit 0;
@@ -36,16 +36,16 @@ main
 		colCount ++;
 		}
 		
-	cout << colCount << endl;
+	std::cout << colCount << std::endl;
 	for (JSize i = 1; i <= values.GetElementCount(); i++)
 		{
-		cout << values.GetElement(i);
+		std::cout << values.GetElement(i);
 		}
 	
 	while (is)
 		{
 		value << is;
-		cout << value;
+		std::cout << value;
 		}
 }	
 

@@ -1,9 +1,9 @@
 /******************************************************************************
  JOutPipeStream.cpp
 
-	This class provides an ostream interface to the write end of a pipe.
+	This class provides an std::ostream interface to the write end of a pipe.
 
-	BASE CLASS = ostream
+	BASE CLASS = std::ostream
 
 	Copyright (C) 1998 by John Lindal. All rights reserved.
 
@@ -24,8 +24,8 @@ JOutPipeStream::JOutPipeStream
 	const JBoolean	close
 	)
 	:
-	ios(&itsBuffer),
-	ostream(&itsBuffer),
+	std::ios(&itsBuffer),
+	std::ostream(&itsBuffer),
 	itsBuffer(fd, close)
 {
 }

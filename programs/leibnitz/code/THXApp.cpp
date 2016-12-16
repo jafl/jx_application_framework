@@ -296,7 +296,7 @@ JIndex i;
 			}
 		}
 
-	ifstream input(fullName);
+	std::ifstream input(fullName);
 
 	JFileVersion vers;
 	input >> vers;
@@ -463,7 +463,7 @@ THXApp::SaveProgramState()
 JIndex i;
 
 	const JString fullName = JCombinePathAndName(itsStatePath, kStateFileName);
-	ofstream output(fullName);
+	std::ofstream output(fullName);
 
 	output << kCurrentStateVersion;
 	output << ' ' << JString(THXGetVersionNumberStr());

@@ -20,45 +20,45 @@ long i;
 
 JSubset s1(10);													// constructor
 
-	cout << "subset s1 created" << endl << endl;
+	std::cout << "subset s1 created" << std::endl << std::endl;
 
-	cout << "s1 itemCount should be 0" << endl;
-	cout << "s1 itemCount = " << s1.GetElementCount() << endl << endl;
+	std::cout << "s1 itemCount should be 0" << std::endl;
+	std::cout << "s1 itemCount = " << s1.GetElementCount() << std::endl << std::endl;
 
 	s1.AddRange(3,4);
 	s1.Add(9);
 
-	cout << "s1 itemCount should be 3" << endl;
-	cout << "s1 itemCount = " << s1.GetElementCount() << endl << endl;
+	std::cout << "s1 itemCount should be 3" << std::endl;
+	std::cout << "s1 itemCount = " << s1.GetElementCount() << std::endl << std::endl;
 
-	cout << "s1 should contain:         10FFTTFFFFTF" << endl;
-	cout << "s1 contains      : " << s1 << endl;
-	cout << "using Contains() :           ";
+	std::cout << "s1 should contain:         10FFTTFFFFTF" << std::endl;
+	std::cout << "s1 contains      : " << s1 << std::endl;
+	std::cout << "using Contains() :           ";
 
 	for (i=1; i<=10; i++)
 		{
-		cout << s1.Contains(i);
+		std::cout << s1.Contains(i);
 		}
-	cout << endl;
+	std::cout << std::endl;
 
 JSubset s2 = s1;
 
-	cout << endl;
-	cout << "subset s2 created" << endl << endl;
+	std::cout << std::endl;
+	std::cout << "subset s2 created" << std::endl << std::endl;
 
 	s2.Remove(1);
 
-	cout << "s1 should equal s2" << endl;
-	cout << "s1 equals s2? " << (s1 == s2) << endl;
+	std::cout << "s1 should equal s2" << std::endl;
+	std::cout << "s1 equals s2? " << (s1 == s2) << std::endl;
 
 	s2.Remove(4);
 	s2.Add(2);
 
-	cout << "s2 should contain:         10FTTFFFFFTF" << endl;
-	cout << "s2 contains      : " << s2 << endl;
+	std::cout << "s2 should contain:         10FTTFFFFFTF" << std::endl;
+	std::cout << "s2 contains      : " << s2 << std::endl;
 
-	cout << "s1 should not equal s2" << endl;
-	cout << "s1 equals s2? " << (s1 == s2) << endl;
+	std::cout << "s1 should not equal s2" << std::endl;
+	std::cout << "s1 equals s2? " << (s1 == s2) << std::endl;
 
 	JWaitForReturn();
 
@@ -67,17 +67,17 @@ JSubset s4 = s1 - s2;
 JSubset s5 = s2 - s1;
 JSubset s7 = JIntersection(s4, s5);
 
-	cout << "s3 should contain:         10FTTTFFFFTF" << endl;
-	cout << "s3 contains      : " << s3 << endl << endl;
+	std::cout << "s3 should contain:         10FTTTFFFFTF" << std::endl;
+	std::cout << "s3 contains      : " << s3 << std::endl << std::endl;
 
-	cout << "s4 should contain:         10FFFTFFFFFF" << endl;
-	cout << "s4 contains      : " << s4 << endl << endl;
+	std::cout << "s4 should contain:         10FFFTFFFFFF" << std::endl;
+	std::cout << "s4 contains      : " << s4 << std::endl << std::endl;
 
-	cout << "s5 should contain:         10FTFFFFFFFF" << endl;
-	cout << "s5 contains      : " << s5 << endl << endl;
+	std::cout << "s5 should contain:         10FTFFFFFFFF" << std::endl;
+	std::cout << "s5 contains      : " << s5 << std::endl << std::endl;
 
-	cout << "s7 should contain:         10FFFTFFFFFF" << endl;
-	cout << "s7 contains      : " << s4 << endl << endl;
+	std::cout << "s7 should contain:         10FFFTFFFFFF" << std::endl;
+	std::cout << "s7 contains      : " << s4 << std::endl << std::endl;
 
 	JWaitForReturn();
 
@@ -85,49 +85,49 @@ JSubset s7 = JIntersection(s4, s5);
 	s3.AddRange(3,8);
 	s3.RemoveRange(4,6);
 
-	cout << "s3 should contain:         10FFTFFFTTFF" << endl;
-	cout << "s3 contains      : " << s3 << endl << endl;
+	std::cout << "s3 should contain:         10FFTFFFTTFF" << std::endl;
+	std::cout << "s3 contains      : " << s3 << std::endl << std::endl;
 
 JSubsetIterator iter = s3.NewIterator();
 
 	JIndex index;
 
-	cout << "s3 contains: ";
+	std::cout << "s3 contains: ";
 	while (iter.Next(&index))
 		{
-		cout << ' ' << index;
+		std::cout << ' ' << index;
 		}
-	cout << endl << endl;
+	std::cout << std::endl << std::endl;
 
 JSubset s6 = s3.Complement();
 
-	cout << "s6 should contain:         10TTFTTTFFTT" << endl;
-	cout << "s6 contains      : " << s6 << endl << endl;
+	std::cout << "s6 should contain:         10TTFTTTFFTT" << std::endl;
+	std::cout << "s6 contains      : " << s6 << std::endl << std::endl;
 
 	s6 = s3;											// assignment operator
 
-	cout << "s6 assigned from s3" << endl << endl;
+	std::cout << "s6 assigned from s3" << std::endl << std::endl;
 
-	cout << "s6 itemCount should be 3" << endl;
-	cout << "s6 itemCount=" << s6.GetElementCount() << endl << endl;
+	std::cout << "s6 itemCount should be 3" << std::endl;
+	std::cout << "s6 itemCount=" << s6.GetElementCount() << std::endl << std::endl;
 
-	cout << "s6 should contain:         10FFTFFFTTFF" << endl;
-	cout << "s6 contains      : " << s6 << endl << endl;
+	std::cout << "s6 should contain:         10FFTFFFTTFF" << std::endl;
+	std::cout << "s6 contains      : " << s6 << std::endl << std::endl;
 
 	JWaitForReturn();
 
-	cout << "Twenty random samples of size 3:" << endl << endl;
+	std::cout << "Twenty random samples of size 3:" << std::endl << std::endl;
 
 	for (i=1; i<=20; i++)
 		{
 		if (JGetRandomSample(&s1, 3))
 			{
 			assert( s1.GetElementCount() == 3 );
-			cout << s1 << endl;
+			std::cout << s1 << std::endl;
 			}
 		else
 			{
-			cerr << "Unable to generate random subset of that size." << endl;
+			std::cerr << "Unable to generate random subset of that size." << std::endl;
 			}
 		}
 
@@ -147,10 +147,10 @@ JSubset s6 = s3.Complement();
 
 	JProbDistr p = h.ConvertToProbabilities();
 
-	cout << endl;
-	cout << "Probability of each element (2-8) being in the subset:" << endl;
-	cout << "(averaged over ensemble of 5000 subsets)" << endl << endl;
-	cout << p << endl;
+	std::cout << std::endl;
+	std::cout << "Probability of each element (2-8) being in the subset:" << std::endl;
+	std::cout << "(averaged over ensemble of 5000 subsets)" << std::endl << std::endl;
+	std::cout << p << std::endl;
 
 // JSubset::GetRandomSample()
 
@@ -171,10 +171,10 @@ JSubset s6 = s3.Complement();
 
 	p = h.ConvertToProbabilities();
 
-	cout << endl;
-	cout << "Probability of each element (sample of 7) being in the subset:" << endl;
-	cout << "(averaged over ensemble of 5000 subsets)" << endl << endl;
-	cout << p << endl;
+	std::cout << std::endl;
+	std::cout << "Probability of each element (sample of 7) being in the subset:" << std::endl;
+	std::cout << "(averaged over ensemble of 5000 subsets)" << std::endl << std::endl;
+	std::cout << p << std::endl;
 
 // JSubset::GetRandomDisjointSamples()
 
@@ -201,11 +201,11 @@ JSubset s6 = s3.Complement();
 			}
 		}
 
-	cout << endl;
-	cout << "Probability of each element (2 from sample of 7) being in the subset:" << endl;
-	cout << "(averaged over ensemble of 5000 subsets)" << endl << endl;
-	cout << "1) " << h1.ConvertToProbabilities() << endl;
-	cout << "2) " << h2.ConvertToProbabilities() << endl;
+	std::cout << std::endl;
+	std::cout << "Probability of each element (2 from sample of 7) being in the subset:" << std::endl;
+	std::cout << "(averaged over ensemble of 5000 subsets)" << std::endl << std::endl;
+	std::cout << "1) " << h1.ConvertToProbabilities() << std::endl;
+	std::cout << "2) " << h2.ConvertToProbabilities() << std::endl;
 
 // JSubset::GetRandomDisjointSamples() -- partitioning
 
@@ -230,11 +230,11 @@ JSubset s6 = s3.Complement();
 		}
 	sampleList.DeleteAll();
 
-	cout << endl;
-	cout << "Probability of each element (3,4 from sample of 7) being in the subset:" << endl;
-	cout << "(averaged over ensemble of 5000 subsets)" << endl << endl;
-	cout << "1) " << h1.ConvertToProbabilities() << endl;
-	cout << "2) " << h2.ConvertToProbabilities() << endl;
+	std::cout << std::endl;
+	std::cout << "Probability of each element (3,4 from sample of 7) being in the subset:" << std::endl;
+	std::cout << "(averaged over ensemble of 5000 subsets)" << std::endl << std::endl;
+	std::cout << "1) " << h1.ConvertToProbabilities() << std::endl;
+	std::cout << "2) " << h2.ConvertToProbabilities() << std::endl;
 
 	return 0;
 }

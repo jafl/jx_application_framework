@@ -23,7 +23,7 @@ public:
 
 	virtual ~JBinaryDecision();
 
-	virtual void		Print(ostream& output) const;
+	virtual void		Print(std::ostream& output) const;
 	virtual JBoolean	SameAs(const JDecision& theDecision) const;
 
 	const JCharacter*	GetName() const;

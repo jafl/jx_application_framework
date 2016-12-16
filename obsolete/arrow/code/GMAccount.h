@@ -28,14 +28,14 @@ public:
 public:
 
 	GMAccount();
-	GMAccount(istream& is);
+	GMAccount(std::istream& is);
 
 	GMAccount(const GMAccount& source);
 	const GMAccount& operator=(const GMAccount& source);
 
 	virtual ~GMAccount();
 
-	void			WritePrefs(ostream& os);
+	void			WritePrefs(std::ostream& os);
 
 	const JString&	GetNickname() const;
 	void			SetNickname(const JCharacter* nickname);

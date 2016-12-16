@@ -57,7 +57,7 @@ public:
 	CBTextDocument(const JCharacter* fileName,
 				   const CBTextFileType type = kCBUnknownFT,
 				   const JBoolean tmpl = kJFalse);
-	CBTextDocument(istream& input, const JFileVersion vers, JBoolean* keep);
+	CBTextDocument(std::istream& input, const JFileVersion vers, JBoolean* keep);
 
 	virtual ~CBTextDocument();
 
@@ -69,7 +69,7 @@ public:
 	void	EditPrefs();
 	void	HandleActionButton();
 
-	void	WriteForProject(ostream& output) const;
+	void	WriteForProject(std::ostream& output) const;
 
 	JBoolean	GetWindowSize(JPoint* desktopLoc,
 							  JCoordinate* width, JCoordinate* height) const;
@@ -98,8 +98,8 @@ public:
 	void	OverrideBreakCROnly(const JBoolean breakCROnly);
 	void	OverrideReadOnly(const JBoolean readOnly);
 
-	static void	ReadStaticGlobalPrefs(istream& input, const JFileVersion vers);
-	static void	WriteStaticGlobalPrefs(ostream& output);
+	static void	ReadStaticGlobalPrefs(std::istream& input, const JFileVersion vers);
+	static void	WriteStaticGlobalPrefs(std::ostream& output);
 
 	// called by CBDocumentManager
 
@@ -120,14 +120,14 @@ protected:
 	CBCommandMenu*	GetCommandMenu();
 
 	void			ReadFile(const JCharacter* fileName, const JBoolean firstTime);
-	virtual void	WriteTextFile(ostream& output, const JBoolean safetySave) const;
+	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const;
 	virtual void	DiscardChanges();
 
 	virtual void	HandleFileModifiedByOthers(const JBoolean modTimeChanged,
 											   const JBoolean permsChanged);
 
-	virtual void	ReadPrefs(istream& input);
-	virtual void	WritePrefs(ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input);
+	virtual void	WritePrefs(std::ostream& output) const;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 
@@ -210,7 +210,7 @@ private:
 	void	UpdateSettingsMenu();
 	void	HandleSettingsMenu(const JIndex index);
 
-	JBoolean	ReadFromProject(istream& input, const JFileVersion vers);
+	JBoolean	ReadFromProject(std::istream& input, const JFileVersion vers);
 
 	void	UpdateReadOnlyDisplay();
 

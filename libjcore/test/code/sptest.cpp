@@ -27,7 +27,7 @@ main()
 
 	if ( regcomp(&regex, pattern, REG_EXTENDED) )
 		{
-		cout << "   Failed to compile" << endl;
+		std::cout << "   Failed to compile" << std::endl;
 		}
 
 	regmatch_t match;
@@ -39,7 +39,7 @@ main()
 	match.rm_eo = strLen;
 	while ( !regexec(&regex, string, 1, &match, REG_STARTEND) )
 		{
-		cout << "Found match (" << match.rm_so << ", " << match.rm_eo << ")" << endl;
+		std::cout << "Found match (" << match.rm_so << ", " << match.rm_eo << ")" << std::endl;
 		match.rm_so = match.rm_eo + 1;
 		match.rm_eo = strLen;
 		}

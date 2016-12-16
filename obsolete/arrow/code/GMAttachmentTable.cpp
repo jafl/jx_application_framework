@@ -168,7 +168,7 @@ GMAttachmentTable::TableDrawCell
 	JString path;
 	JString name;
 	JString filename	= *(itsFiles->NthElement(cell.y));
-//	cout << filename << endl;
+//	std::cout << filename << std::endl;
 	JSplitPathAndName(filename, &path, &name);
 
 	const JCoordinate w = p.GetStringWidth(name) + 2 * kHMarginWidth + kIconColWidth;
@@ -626,7 +626,7 @@ GMAttachmentTable::GetAttachmentType
 	const JCharacter* filename
 	)
 {
-	ifstream is(filename);
+	std::ifstream is(filename);
 	assert(is.good());
 
 	AttachmentType type	= k7BitText;

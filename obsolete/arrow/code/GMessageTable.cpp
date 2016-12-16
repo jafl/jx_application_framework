@@ -939,13 +939,13 @@ GMessageTable::HandleMouseDrag
 		if (sqrt((double)(p.x*p.x + p.y*p.y)) > kDragBeginBuffer)
 			{
 			itsIsWaitingForDeselect = kJFalse;
-//			cout << "a1" << flush;
+//			std::cout << "a1" << flush;
 			JBoolean updated = itsData->Update();
-//			cout << "a2" << flush;
+//			std::cout << "a2" << flush;
 			if (!updated && !GFileLocked(itsData->GetMailFile()) &&
 				GLockFile(itsData->GetMailFile()))
 				{
-//				cout << "a3" << flush;
+//				std::cout << "a3" << flush;
 				itsUnlockTask = new JXTimerTask(500);
 				assert(itsUnlockTask != NULL);
 				itsUnlockTask->Start();
@@ -957,7 +957,7 @@ GMessageTable::HandleMouseDrag
 				}
 			}
 		}
-//	cout << "a4" << endl;
+//	std::cout << "a4" << std::endl;
 }
 
 /******************************************************************************
@@ -1832,8 +1832,8 @@ GMessageTable::Reply
 			}
 		dir->SetCC(cc);
 		}
-	ofstream os(tempfile);
-	fstream is(itsData->GetMailFile(), ios::in|ios::out);
+	std::ofstream os(tempfile);
+	std::fstream is(itsData->GetMailFile(), std::ios::in|std::ios::out);
 	assert(is.good());
 	JString text;
 

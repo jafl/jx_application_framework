@@ -24,17 +24,17 @@ class CBFileListDirector : public JXWindowDirector
 public:
 
 	CBFileListDirector(CBProjectDocument* supervisor);
-	CBFileListDirector(istream& projInput, const JFileVersion projVers,
-					   istream* setInput, const JFileVersion setVers,
-					   istream* symInput, const JFileVersion symVers,
+	CBFileListDirector(std::istream& projInput, const JFileVersion projVers,
+					   std::istream* setInput, const JFileVersion setVers,
+					   std::istream* symInput, const JFileVersion symVers,
 					   CBProjectDocument* supervisor, const JBoolean subProject);
 
 	virtual ~CBFileListDirector();
 
 	CBFileListTable*	GetFileListTable() const;
 
-	void	StreamOut(ostream& projOutput,
-					  ostream* setOutput, ostream* symOutput) const;
+	void	StreamOut(std::ostream& projOutput,
+					  std::ostream* setOutput, std::ostream* symOutput) const;
 
 protected:
 

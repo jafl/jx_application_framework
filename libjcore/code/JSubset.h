@@ -17,8 +17,8 @@ typedef JOrderedSetIterator<JIndex>	JSubsetIterator;
 
 class JSubset : public JCollection
 {
-	friend istream& operator>>(istream& input, JSubset& aSubset);
-	friend ostream& operator<<(ostream& output, const JSubset& aSubset);
+	friend std::istream& operator>>(std::istream& input, JSubset& aSubset);
+	friend std::ostream& operator<<(std::ostream& output, const JSubset& aSubset);
 
 	friend JSubset JIntersection(const JSubset& s1, const JSubset& s2);
 
@@ -76,8 +76,8 @@ private:
 JBoolean JGetRandomSample(JSubset* sample, const JSize sampleSize,
 						  const JIndex firstIndex = 1, const JIndex lastIndex = 0);
 
-void JAddToSubsetInStream(iostream& theStream, const JIndex indexToAdd);
-void JRemoveFromSubsetInStream(iostream& theStream, const JIndex indexToRemove);
+void JAddToSubsetInStream(std::iostream& theStream, const JIndex indexToAdd);
+void JRemoveFromSubsetInStream(std::iostream& theStream, const JIndex indexToRemove);
 
 // inlined functions
 

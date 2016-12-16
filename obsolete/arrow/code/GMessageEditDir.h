@@ -46,8 +46,8 @@ public:
 	void				Send();
 	virtual JBoolean	Close();
 	void				InsertText(const JBoolean marked);
-	void				SaveState(ostream& os);
-	void				ReadState(istream& is, const JFileVersion& version);
+	void				SaveState(std::ostream& os);
+	void				ReadState(std::istream& is, const JFileVersion& version);
 	void				SetReplyType(GMessageHeader::ReplyStatus status);
 	void				SetHeader(GMessageHeader* header, GMessageHeader::ReplyStatus status);
 	void				SetAccount(GMAccount* account);
@@ -58,8 +58,8 @@ public:
 
 	void				FileDropped(const JString& filename, const JBoolean local);
 
-	void			WriteWindowPrefs(ostream& os);
-	void			ReadWindowPrefs(istream& is);
+	void			WriteWindowPrefs(std::ostream& os);
+	void			ReadWindowPrefs(std::istream& is);
 
 protected:
 

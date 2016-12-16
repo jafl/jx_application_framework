@@ -72,16 +72,16 @@ public:
 	void AddColToSelection(const JIndex col);
 	void ExtendSelectionToCol(const JIndex col);
 
-	void WriteData(ostream& os);
-	void ReadData(istream& is, const JFloat gloveVersion);
+	void WriteData(std::ostream& os);
+	void ReadData(std::istream& is, const JFloat gloveVersion);
 
 	GRaggedFloatTableData*				GetFloatData() const;
 	GXRaggedFloatTable::SelectionType 	GetSelectionType();
 
 	void 		GetSelectionArea(JIndex* rows, JIndex* cols, JIndex* startRow, JIndex* startCol);
-	JBoolean 	WriteDataCols(ostream& os, const int cols);
-	void 		ExportDataMatrix(ostream& os);
-	void 		ExportData(ostream& os);
+	JBoolean 	WriteDataCols(std::ostream& os, const int cols);
+	void 		ExportDataMatrix(std::ostream& os);
+	void 		ExportData(std::ostream& os);
 
 	void		PrintRealTable(JPSPrinter& p);
 

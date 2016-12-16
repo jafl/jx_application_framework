@@ -81,7 +81,7 @@ JEPSPrinter::~JEPSPrinter()
 void
 JEPSPrinter::ReadEPSSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -107,7 +107,7 @@ JEPSPrinter::ReadEPSSetup
 void
 JEPSPrinter::WriteEPSSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -163,7 +163,7 @@ JEPSPrinter::OpenDocument
 void
 JEPSPrinter::PSPrintVersionComment
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 	output << "%!PS-Adobe-3.0 EPSF-3.0\n";
@@ -177,7 +177,7 @@ JEPSPrinter::PSPrintVersionComment
 void
 JEPSPrinter::PSPrintHeaderComments
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 	output << "%%BoundingBox: " << itsBounds.left << " 0 ";
@@ -192,7 +192,7 @@ JEPSPrinter::PSPrintHeaderComments
 void
 JEPSPrinter::PSPrintSetupComments
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 }
@@ -213,7 +213,7 @@ JEPSPrinter::PrintPreview()
 
 	assert( image->GetBounds() == itsBounds );
 
-	ostream& output = GetOutputStream();
+	std::ostream& output = GetOutputStream();
 
 	const JCoordinate w = image->GetWidth();
 	const JCoordinate h = image->GetHeight();
@@ -228,7 +228,7 @@ JEPSPrinter::PrintPreview()
 
 	output << "%%BeginPreview: " << w << ' ' << h << " 8 " << lineCount << '\n';
 
-	output.setf(ios::hex, ios::basefield);
+	output.setf(std::ios::hex, std::ios::basefield);
 
 	JSize c[3];	// r,g,b
 	JIndex lineLength = 0;
@@ -265,7 +265,7 @@ JEPSPrinter::PrintPreview()
 		output << '\n';
 		}
 
-	output.setf(ios::dec, ios::basefield);
+	output.setf(std::ios::dec, std::ios::basefield);
 
 	output << "%%EndPreview\n";
 

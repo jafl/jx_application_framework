@@ -549,7 +549,7 @@ JXToolBar::ItemIsUsed
 void
 JXToolBar::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -617,7 +617,7 @@ JXToolBar::ReadPrefs
 void
 JXToolBar::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

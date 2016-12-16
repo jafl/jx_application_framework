@@ -25,7 +25,7 @@ public:
 	virtual ~GAddressBaseTreeNode();
 
 	virtual JString	GetFullPathAndName() const = 0;
-	virtual void	Save(ostream& os);
+	virtual void	Save(std::ostream& os);
 	virtual JBoolean OKToChange() const;
 
 private:

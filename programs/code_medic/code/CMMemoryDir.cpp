@@ -122,7 +122,7 @@ CMMemoryDir::CMMemoryDir
 
 CMMemoryDir::CMMemoryDir
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	CMCommandDirector*	supervisor
 	)
@@ -180,7 +180,7 @@ CMMemoryDir::~CMMemoryDir()
 void
 CMMemoryDir::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 	output << ' ' << itsExpr;

@@ -131,7 +131,7 @@ GMFilterManager::Receive
 void
 GMFilterManager::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion version;
@@ -160,7 +160,7 @@ GMFilterManager::ReadPrefs
 void
 GMFilterManager::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -190,7 +190,7 @@ GMFilterManager::OKToOverwrite()
 
 	if (JFileExists(file))
 		{
-		ifstream is(file);
+		std::ifstream is(file);
 		JString line	= JReadLine(is);
 		is.close();
 		if (!line.BeginsWith(kArrowFilterCookie))
@@ -237,14 +237,14 @@ GMFilterManager::WriteFilterFile()
 		{
 		return;
 		}
-	ofstream os(file);
+	std::ofstream os(file);
 	if (!os.good())
 		{
 		JGetUserNotification()->ReportError("There was an error saving your filter file.");
 		return;
 		}
-	os << kArrowFilterCookie << endl;
-	os << kArrowFilterMessage << endl;
+	os << kArrowFilterCookie << std::endl;
+	os << kArrowFilterMessage << std::endl;
 
 	const JSize count	= itsFilters->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
@@ -262,7 +262,7 @@ GMFilterManager::WriteFilterFile()
 void
 GMFilterManager::WriteFilter
 	(
-	ostream&	os,
+	std::ostream&	os,
 	GMFilter*	filter
 	)
 {
@@ -281,7 +281,7 @@ GMFilterManager::WriteFilter
 		os << " c";
 		}
 
-	os << endl;
+	os << std::endl;
 
 	JPtrArray<GMFilterCondition>* conditions	= filter->GetConditions();
 	const JSize condCount	= conditions->GetElementCount();
@@ -297,26 +297,26 @@ GMFilterManager::WriteFilter
 		}
 
 	action->GetDestination().Print(os);
-	os << endl;
+	os << std::endl;
 
 	for (JIndex i = 2; i <= actionCount; i++)
 		{
-		os << endl;
+		os << std::endl;
 		action	= actions->NthElement(i);
 		os << ":0 A";
 		if (i != actionCount)
 			{
 			os << "c";
 			}
-		os << endl;
+		os << std::endl;
 		if (!action->IsMailbox())
 			{
 			os << "! ";
 			}
 		action->GetDestination().Print(os);
-		os << endl;
+		os << std::endl;
 		}
-	os << endl;
+	os << std::endl;
 }
 
 /******************************************************************************
@@ -327,7 +327,7 @@ GMFilterManager::WriteFilter
 void
 GMFilterManager::WriteCondition
 	(
-	ostream&			os,
+	std::ostream&			os,
 	GMFilterCondition*	condition
 	)
 {
@@ -374,5 +374,5 @@ GMFilterManager::WriteCondition
 			os << "$";
 			}
 		}
-	os << endl;
+	os << std::endl;
 }

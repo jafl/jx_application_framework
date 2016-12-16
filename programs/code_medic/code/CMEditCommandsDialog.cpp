@@ -226,7 +226,7 @@ CMEditCommandsDialog::OKToDeactivate()
 void
 CMEditCommandsDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -247,7 +247,7 @@ CMEditCommandsDialog::ReadPrefs
 void
 CMEditCommandsDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

@@ -30,13 +30,13 @@ int main
 JString s1, s2 = "Hello World", s3 = s2;						// constructors
 
 	const std::type_info& clazz1 = typeid(s1);
-	cout << "type of JString instance: " << clazz1.name() << endl;
+	std::cout << "type of JString instance: " << clazz1.name() << std::endl;
 
 	const std::type_info& clazz2 = typeid(JString);
-	cout << "type of JString class: " << clazz2.name() << endl;
+	std::cout << "type of JString class: " << clazz2.name() << std::endl;
 
-	cout << "s3 should equal s2" << endl;
-	if (s3 == s2) cout << "s3 equals s2" << endl;				// comparison
+	std::cout << "s3 should equal s2" << std::endl;
+	if (s3 == s2) std::cout << "s3 equals s2" << std::endl;				// comparison
 
 	s1 = s2;													// assignment
 	s1 = "Again!";
@@ -44,24 +44,24 @@ JString s1, s2 = "Hello World", s3 = s2;						// constructors
 	s3 += " ";													// concatenation
 	s3 += s1;
 
-	cout << "s3 should not equal s2" << endl;
-	if (s3 != s2) cout << "s3 no longer equals s2" << endl;		// anti-comparison
+	std::cout << "s3 should not equal s2" << std::endl;
+	if (s3 != s2) std::cout << "s3 no longer equals s2" << std::endl;		// anti-comparison
 
 	s3.SetCharacter(s3.GetLength(), '?');
 
-	cout << "s1 should be \"Again!\"" << endl;
-	cout << "s1=" << s1 << endl;
-	cout << "s2 should be \"Hello World\"" << endl;
-	cout << "s2=" << s2 << endl;
-	cout << "s3 should be \"Hello World Again?\"" << endl;
-	cout << "s3=" << s3 << endl;
+	std::cout << "s1 should be \"Again!\"" << std::endl;
+	std::cout << "s1=" << s1 << std::endl;
+	std::cout << "s2 should be \"Hello World\"" << std::endl;
+	std::cout << "s2=" << s2 << std::endl;
+	std::cout << "s3 should be \"Hello World Again?\"" << std::endl;
+	std::cout << "s3=" << s3 << std::endl;
 
 	JWaitForReturn();
 
 JString s4("hi there!", 2);
 
-	cout << "s4= " << s4 << endl;
-	cout << "s4[0]= " << s4.GetCharacter(1) << endl;
+	std::cout << "s4= " << s4 << std::endl;
+	std::cout << "s4[0]= " << s4.GetCharacter(1) << std::endl;
 
 	s4 = "Oh! Not " + s3.GetSubstring(1,11) + " " + s1 + "!";	// addition
 	s4.SetCharacter(s4.GetLength() - 6, 'a');
@@ -69,105 +69,105 @@ JString s4("hi there!", 2);
 	s4.Append(" \t\n  ");
 	s4.TrimWhitespace();
 
-	cout << "s4 should be \"Oh, no! Not Hello World again!!\"" << endl;
-	cout << "s4=" << s4 << endl;
+	std::cout << "s4 should be \"Oh, no! Not Hello World again!!\"" << std::endl;
+	std::cout << "s4=" << s4 << std::endl;
 
-	cout << "inside s4, s2 should start at position 13" << endl;
+	std::cout << "inside s4, s2 should start at position 13" << std::endl;
 	if (s4.LocateSubstring(s2, &charIndex))
 		{
-		cout << "inside s4, s2 starts at position " << charIndex << endl;
+		std::cout << "inside s4, s2 starts at position " << charIndex << std::endl;
 		}
 	else
 		{
-		cout << "s2 not found inside s4" << endl;
+		std::cout << "s2 not found inside s4" << std::endl;
 		}
 
-	cout << "inside s4, the last ! should be at position 31" << endl;
+	std::cout << "inside s4, the last ! should be at position 31" << std::endl;
 	if (s4.LocateLastSubstring("!", &charIndex))
 		{
-		cout << "inside s4, the last ! is at position " << charIndex << endl;
+		std::cout << "inside s4, the last ! is at position " << charIndex << std::endl;
 		}
 	else
 		{
-		cout << "! not found inside s4" << endl;
+		std::cout << "! not found inside s4" << std::endl;
 		}
 
 	s4.Clear();
 
-	cout << "s4 should be \"\"" << endl;
-	cout << "s4=" << s4 << endl;
-	cout << "(length = " << s4.GetLength() << ')' << endl;
+	std::cout << "s4 should be \"\"" << std::endl;
+	std::cout << "s4=" << s4 << std::endl;
+	std::cout << "(length = " << s4.GetLength() << ')' << std::endl;
 
-	cout << "inside s4, s2 should not be found" << endl;
+	std::cout << "inside s4, s2 should not be found" << std::endl;
 	if (s4.LocateSubstring(s2, &charIndex))
 		{
-		cout << "inside s4, s2 starts at position " << charIndex << endl;
+		std::cout << "inside s4, s2 starts at position " << charIndex << std::endl;
 		}
 	else
 		{
-		cout << "s2 not found inside s4" << endl;
+		std::cout << "s2 not found inside s4" << std::endl;
 		}
 	JWaitForReturn();
 
-	cout << "Enter a string: ";									// stream extraction
-	cin >> s2;
+	std::cout << "Enter a string: ";									// stream extraction
+	std::cin >> s2;
 	JInputFinished();
-	cout << "New s2: " << s2 << endl;
-	cout << "(length = " << s2.GetLength() << ')' << endl;
+	std::cout << "New s2: " << s2 << std::endl;
+	std::cout << "(length = " << s2.GetLength() << ')' << std::endl;
 
 	const JCharacter* kTestFile = "test_JString.dat";
 	if (JFileExists(kTestFile))
 		{
-		ifstream testFile(kTestFile);
+		std::ifstream testFile(kTestFile);
 		long testCount;
 		testFile >> testCount;
 		for (long i=1; i<=testCount; i++)
 			{
 			testFile >> s2;
-			cout << "test string: " << s2 << endl;
+			std::cout << "test string: " << s2 << std::endl;
 			}
 		}
 	else
 		{
-		cerr << endl;
-		cerr << "Unable to find \"" << kTestFile << '"' << endl;
+		std::cerr << std::endl;
+		std::cerr << "Unable to find \"" << kTestFile << '"' << std::endl;
 		}
 
 	JWaitForReturn();
 
 JString& s5 = s2;
 
-	cout << "s5 = s2& = " << s5 << endl;
+	std::cout << "s5 = s2& = " << s5 << std::endl;
 
 JString* sptr = jnew JString("This string is on the stack!");	// create on stack
 
-	cout << *sptr << endl;		// you can inspect sptr with Inspector!
+	std::cout << *sptr << std::endl;		// you can inspect sptr with Inspector!
 
 	jdelete sptr;
 	sptr = NULL;
 
-	if (!sptr) cout << "It -was- on the stack" << endl;			// operator!
+	if (!sptr) std::cout << "It -was- on the stack" << std::endl;			// operator!
 
-	cout << endl;
-	cout << "Testing replace:" << endl;
+	std::cout << std::endl;
+	std::cout << "Testing replace:" << std::endl;
 	s1 = "abc";
 	s1.ReplaceSubstring(1,1, "xyz");
-	cout << "xyzbc ?= " << s1 << endl;
+	std::cout << "xyzbc ?= " << s1 << std::endl;
 	s1 = "abc";
 	s1.ReplaceSubstring(2,2, "xyz");
-	cout << "axyzc ?= " << s1 << endl;
+	std::cout << "axyzc ?= " << s1 << std::endl;
 	s1 = "abc";
 	s1.ReplaceSubstring(3,3, "xyz");
-	cout << "abxyz ?= " << s1 << endl;
+	std::cout << "abxyz ?= " << s1 << std::endl;
 	s1 = "abc";
 	s1.ReplaceSubstring(1,3, "xyz");
-	cout << "xyz ?= " << s1 << endl;
+	std::cout << "xyz ?= " << s1 << std::endl;
 	s1 = "abc";
 	s1.RemoveSubstring(1,2);
-	cout << "c ?= " << s1 << endl;
+	std::cout << "c ?= " << s1 << std::endl;
 	s1 = "abc";
 	s1.RemoveSubstring(2,3);
-	cout << "a ?= " << s1 << endl;
+	std::cout << "a ?= " << s1 << std::endl;
 
 	JWaitForReturn();
 
@@ -178,112 +178,112 @@ JString s6 = "5.235e1";
 
 	double x;
 
-	cout << s6 << " should convert to a float" << endl;
-	cout << "Did it work: " << s6.ConvertToFloat(&x) << endl;
-	cout << "Result: " << x << endl;
+	std::cout << s6 << " should convert to a float" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToFloat(&x) << std::endl;
+	std::cout << "Result: " << x << std::endl;
 
 	s6 = "0xFF";
-	cout << s6 << " should convert to a float" << endl;
-	cout << "Did it work: " << s6.ConvertToFloat(&x) << endl;
-	cout << "Result: " << x << endl;
+	std::cout << s6 << " should convert to a float" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToFloat(&x) << std::endl;
+	std::cout << "Result: " << x << std::endl;
 
 	s6 = " \t 32.1 \t";
-	cout << s6 << " should convert to a float" << endl;
-	cout << "Did it work: " << s6.ConvertToFloat(&x) << endl;
-	cout << "Result: " << x << endl;
+	std::cout << s6 << " should convert to a float" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToFloat(&x) << std::endl;
+	std::cout << "Result: " << x << std::endl;
 
 	s6 = "5ea";
-	cout << s6 << " should not convert to a float" << endl;
-	cout << "Did it work: " << s6.ConvertToFloat(&x) << endl;
-	cout << "Result: " << x << endl;
+	std::cout << s6 << " should not convert to a float" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToFloat(&x) << std::endl;
+	std::cout << "Result: " << x << std::endl;
 
 	s6 = "5 a";
-	cout << s6 << " should not convert to a float" << endl;
-	cout << "Did it work: " << s6.ConvertToFloat(&x) << endl;
-	cout << "Result: " << x << endl;
+	std::cout << s6 << " should not convert to a float" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToFloat(&x) << std::endl;
+	std::cout << "Result: " << x << std::endl;
 
 	s6 = "5.3-3";
-	cout << s6 << " should not convert to a float" << endl;
-	cout << "Did it work: " << s6.ConvertToFloat(&x) << endl;
-	cout << "Result: " << x << endl;
+	std::cout << s6 << " should not convert to a float" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToFloat(&x) << std::endl;
+	std::cout << "Result: " << x << std::endl;
 
 	s6 = "hi!";
-	cout << s6 << " should not convert to a float" << endl;
-	cout << "Did it work: " << s6.ConvertToFloat(&x) << endl;
-	cout << "Result: " << x << endl;
+	std::cout << s6 << " should not convert to a float" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToFloat(&x) << std::endl;
+	std::cout << "Result: " << x << std::endl;
 
 	JWaitForReturn();
 
 	JInteger y;
 
 	s6 = "357\t";
-	cout << s6 << " should convert to an integer" << endl;
-	cout << "Did it work: " << s6.ConvertToInteger(&y) << endl;
-	cout << "Result: " << y << endl;
+	std::cout << s6 << " should convert to an integer" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToInteger(&y) << std::endl;
+	std::cout << "Result: " << y << std::endl;
 
 	s6 = " -18";
-	cout << s6 << " should convert to an integer" << endl;
-	cout << "Did it work: " << s6.ConvertToInteger(&y) << endl;
-	cout << "Result: " << y << endl;
+	std::cout << s6 << " should convert to an integer" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToInteger(&y) << std::endl;
+	std::cout << "Result: " << y << std::endl;
 
 	s6 = " 0xFF";
-	cout << s6 << " should convert to an integer" << endl;
-	cout << "Did it work: " << s6.ConvertToInteger(&y) << endl;
-	cout << "Result: " << y << endl;
+	std::cout << s6 << " should convert to an integer" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToInteger(&y) << std::endl;
+	std::cout << "Result: " << y << std::endl;
 
 	s6 = "11111110";
-	cout << s6 << " base 2 should convert to an integer" << endl;
-	cout << "Did it work: " << s6.ConvertToInteger(&y,2) << endl;
-	cout << "Result: " << y << endl;
+	std::cout << s6 << " base 2 should convert to an integer" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToInteger(&y,2) << std::endl;
+	std::cout << "Result: " << y << std::endl;
 
 	s6 = " 0x ";
-	cout << s6 << " should not convert to an integer" << endl;
-	cout << "Did it work: " << s6.ConvertToInteger(&y) << endl;
-	cout << "Result: " << y << endl;
+	std::cout << s6 << " should not convert to an integer" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToInteger(&y) << std::endl;
+	std::cout << "Result: " << y << std::endl;
 
 	s6 = "3.57e3";
-	cout << s6 << " should not convert to an integer" << endl;
-	cout << "Did it work: " << s6.ConvertToInteger(&y) << endl;
-	cout << "Result: " << y << endl;
+	std::cout << s6 << " should not convert to an integer" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToInteger(&y) << std::endl;
+	std::cout << "Result: " << y << std::endl;
 
 	s6 = "hi!";
-	cout << s6 << " should not convert to an integer" << endl;
-	cout << "Did it work: " << s6.ConvertToInteger(&y) << endl;
-	cout << "Result: " << y << endl;
+	std::cout << s6 << " should not convert to an integer" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToInteger(&y) << std::endl;
+	std::cout << "Result: " << y << std::endl;
 
 	JWaitForReturn();
 
 	JUInt z;
 
 	s6 = "357\t";
-	cout << s6 << " should convert to an unsigned integer" << endl;
-	cout << "Did it work: " << s6.ConvertToUInt(&z) << endl;
-	cout << "Result: " << z << endl;
+	std::cout << s6 << " should convert to an unsigned integer" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToUInt(&z) << std::endl;
+	std::cout << "Result: " << z << std::endl;
 
 	s6 = " 0xFF";
-	cout << s6 << " should convert to an unsigned integer" << endl;
-	cout << "Did it work: " << s6.ConvertToUInt(&z) << endl;
-	cout << "Result: " << z << endl;
+	std::cout << s6 << " should convert to an unsigned integer" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToUInt(&z) << std::endl;
+	std::cout << "Result: " << z << std::endl;
 
 	s6 = " 0x ";
-	cout << s6 << " should not convert to an unsigned integer" << endl;
-	cout << "Did it work: " << s6.ConvertToUInt(&z) << endl;
-	cout << "Result: " << z << endl;
+	std::cout << s6 << " should not convert to an unsigned integer" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToUInt(&z) << std::endl;
+	std::cout << "Result: " << z << std::endl;
 
 	s6 = " -18";
-	cout << s6 << " should not convert to an unsigned integer" << endl;
-	cout << "Did it work: " << s6.ConvertToUInt(&z) << endl;
-	cout << "Result: " << z << endl;
+	std::cout << s6 << " should not convert to an unsigned integer" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToUInt(&z) << std::endl;
+	std::cout << "Result: " << z << std::endl;
 
 	s6 = "3.57e3";
-	cout << s6 << " should not convert to an unsigned integer" << endl;
-	cout << "Did it work: " << s6.ConvertToUInt(&z) << endl;
-	cout << "Result: " << z << endl;
+	std::cout << s6 << " should not convert to an unsigned integer" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToUInt(&z) << std::endl;
+	std::cout << "Result: " << z << std::endl;
 
 	s6 = "hi!";
-	cout << s6 << " should not convert to an unsigned integer" << endl;
-	cout << "Did it work: " << s6.ConvertToUInt(&z) << endl;
-	cout << "Result: " << z << endl;
+	std::cout << s6 << " should not convert to an unsigned integer" << std::endl;
+	std::cout << "Did it work: " << s6.ConvertToUInt(&z) << std::endl;
+	std::cout << "Result: " << z << std::endl;
 
 	JWaitForReturn();
 
@@ -301,52 +301,52 @@ JString s27 = 0.6;
 const double dp1 = 4.0 * atan(1.0);
 const double dp2 = sqrt(2);
 
-	cout << dp1 << endl;
-	cout << dp2 << endl;
-	cout << LONG_MIN  << " = " << s7  << endl;
-	cout << ULONG_MAX << " = " << s8  << endl;
-	cout << ULONG_MAX << " = " << s15 << endl;
-	cout << 137       << " = " << s9  << endl;
-	cout << 137.5     << " = " << s14 << endl;
-	cout << 10        << " = " << s16 << endl;
-	cout << 100       << " = " << s17 << endl;
-	cout << 0.5       << " = " << s18 << endl;
-	cout << 0.6       << " = " << s27 << endl;
-	cout << 1.0e-105  << " = " << s21 << endl;
+	std::cout << dp1 << std::endl;
+	std::cout << dp2 << std::endl;
+	std::cout << LONG_MIN  << " = " << s7  << std::endl;
+	std::cout << ULONG_MAX << " = " << s8  << std::endl;
+	std::cout << ULONG_MAX << " = " << s15 << std::endl;
+	std::cout << 137       << " = " << s9  << std::endl;
+	std::cout << 137.5     << " = " << s14 << std::endl;
+	std::cout << 10        << " = " << s16 << std::endl;
+	std::cout << 100       << " = " << s17 << std::endl;
+	std::cout << 0.5       << " = " << s18 << std::endl;
+	std::cout << 0.6       << " = " << s27 << std::endl;
+	std::cout << 1.0e-105  << " = " << s21 << std::endl;
 
 JString s19(1, JString::kPrecisionAsNeeded, JString::kUseGivenExponent, -3);
 JString s20(1, JString::kPrecisionAsNeeded, JString::kUseGivenExponent, +2);
 
-	cout << "1000e-3 = " << s19 << endl;
-	cout << "0.01e+2 = " << s20 << endl;
+	std::cout << "1000e-3 = " << s19 << std::endl;
+	std::cout << "0.01e+2 = " << s20 << std::endl;
 
 JString s10(537.6, 2, JString::kForceExponent);
 
-	cout << "5.376e2 to 2 places = " << s10 << endl;
+	std::cout << "5.376e2 to 2 places = " << s10 << std::endl;
 
 JString s11(5.373, 2);
-	cout << "5.373 to 2 places = " << s11 << endl;
+	std::cout << "5.373 to 2 places = " << s11 << std::endl;
 JString s12(5.374, 2);
-	cout << "5.374 to 2 places = " << s12 << endl;
+	std::cout << "5.374 to 2 places = " << s12 << std::endl;
 JString s13(5.375, 2);
-	cout << "5.375 to 2 places = " << s13 << endl;
+	std::cout << "5.375 to 2 places = " << s13 << std::endl;
 JString s22(5.376, 2);
-	cout << "5.376 to 2 places = " << s22 << endl;
+	std::cout << "5.376 to 2 places = " << s22 << std::endl;
 
 JString s23(5.373, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 3);
-	cout << "5.373 to 3 digits = " << s23 << endl;
+	std::cout << "5.373 to 3 digits = " << s23 << std::endl;
 JString s24(5.374, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 3);
-	cout << "5.374 to 3 digits = " << s24 << endl;
+	std::cout << "5.374 to 3 digits = " << s24 << std::endl;
 JString s25(5.375, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 3);
-	cout << "5.375 to 3 digits = " << s25 << endl;
+	std::cout << "5.375 to 3 digits = " << s25 << std::endl;
 JString s26(5.376, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 3);
-	cout << "5.376 to 3 digits = " << s26 << endl;
+	std::cout << "5.376 to 3 digits = " << s26 << std::endl;
 
 JString s28(9.995, 2);
-	cout << "9.995 to 2 places = " << s28 << endl;
+	std::cout << "9.995 to 2 places = " << s28 << std::endl;
 
-	cout << endl << "Ready to start memory leak test";
-	cout << endl << "Record memory usage now";
+	std::cout << std::endl << "Ready to start memory leak test";
+	std::cout << std::endl << "Record memory usage now";
 	JWaitForReturn();
 
 	for (JIndex i=1; i<=100000; i++)
@@ -354,14 +354,14 @@ JString s28(9.995, 2);
 		TestLeak();
 		}
 
-	cout << endl << "Memory leak test finished";
-	cout << endl << "Compare memory usage with recorded value";
+	std::cout << std::endl << "Memory leak test finished";
+	std::cout << std::endl << "Compare memory usage with recorded value";
 	JWaitForReturn();
 
-	cout << endl;
-	cout << "System clock started on " << JConvertToTimeStamp(0) << endl;
-	cout << "System clock ends on " << JConvertToTimeStamp(J_TIME_T_MAX) << endl;
-	cout << "Test concluded on " << JGetTimeStamp() << endl;
+	std::cout << std::endl;
+	std::cout << "System clock started on " << JConvertToTimeStamp(0) << std::endl;
+	std::cout << "System clock ends on " << JConvertToTimeStamp(J_TIME_T_MAX) << std::endl;
+	std::cout << "Test concluded on " << JGetTimeStamp() << std::endl;
 
 	return 0;
 }
@@ -376,13 +376,13 @@ TestCopyMaxN()
 									  "1234567890", "123456789abcdef0"};
 	const JSize kTestMax = sizeof(stringList) / sizeof(JCharacter*);
 
-	cout << endl;
+	std::cout << std::endl;
 
 	for (JIndex testnum=0; testnum<kTestMax; testnum++)
 		{
-		cout << "Trying to copy string \"" << stringList[testnum];
-		cout << "\" of length " << strlen(stringList[testnum]) << " into ";
-		cout << kStringLength << " byte string " << endl;
+		std::cout << "Trying to copy string \"" << stringList[testnum];
+		std::cout << "\" of length " << strlen(stringList[testnum]) << " into ";
+		std::cout << kStringLength << " byte string " << std::endl;
 
 		const JBoolean allCopied =
 			JCopyMaxN(stringList[testnum], kStringLength, string);
@@ -390,15 +390,15 @@ TestCopyMaxN()
 		if (JNegate(strcmp(string, stringList[testnum])) == allCopied &&
 			JCompareMaxN(string, stringList[testnum], kStringLength-1, kJTrue))
 			{
-			cout << "correct";
+			std::cout << "correct";
 			}
 		else
 			{
-			cout << "WRONG";
+			std::cout << "WRONG";
 			}
 
-		cout << ", copy is      \"" << string << "\" with length ";
-		cout << strlen(string) << endl << endl;
+		std::cout << ", copy is      \"" << string << "\" with length ";
+		std::cout << strlen(string) << std::endl << std::endl;
 		}
 }
 

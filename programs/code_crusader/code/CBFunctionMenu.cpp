@@ -210,7 +210,7 @@ CBFunctionMenu::UpdateMenu()
 				CBTextDocument* textDoc = dynamic_cast<CBTextDocument*>(itsDoc);
 				assert( textDoc != NULL );
 
-				ofstream output(fileName);
+				std::ofstream output(fileName);
 				((textDoc->GetTextEditor())->GetText()).Print(output);
 				}
 			}

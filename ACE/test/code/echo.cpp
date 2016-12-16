@@ -53,8 +53,8 @@ main
 				}
 			else
 				{
-//				cerr << count << endl;
-				cout.write(buffer, count);
+//				std::cerr << count << std::endl;
+				std::cout.write(buffer, count);
 				JWait(0.01);
 				}
 			}
@@ -83,8 +83,8 @@ main
 				}
 			else
 				{
-//				cerr << count << endl;
-				cout.write(buffer, count);
+//				std::cerr << count << std::endl;
+				std::cout.write(buffer, count);
 				JWait(0.02);
 				}
 			}

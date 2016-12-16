@@ -107,7 +107,7 @@ CBNewProjectCSF::Receive
 void
 CBNewProjectCSF::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -133,7 +133,7 @@ CBNewProjectCSF::ReadPrefs
 void
 CBNewProjectCSF::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

@@ -20,10 +20,10 @@ const JFileVersion kCurrentSetupVersion = 1;
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&		input,
+	std::istream&		input,
 	J2DCurveInfo&	info
 	)
 {
@@ -43,10 +43,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const J2DCurveInfo&	info
 	)
 {
@@ -69,10 +69,10 @@ operator<<
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&		input,
+	std::istream&		input,
 	J2DSymbolType&	type
 	)
 {
@@ -83,10 +83,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const J2DSymbolType	type
 	)
 {

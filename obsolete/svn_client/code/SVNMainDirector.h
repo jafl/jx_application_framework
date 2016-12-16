@@ -30,7 +30,7 @@ class SVNMainDirector : public JXWindowDirector
 public:
 
 	SVNMainDirector(JXDirector* supervisor, const JCharacter* path);
-	SVNMainDirector(JXDirector* supervisor, istream& input, const JFileVersion vers);
+	SVNMainDirector(JXDirector* supervisor, std::istream& input, const JFileVersion vers);
 
 	virtual	~SVNMainDirector();
 
@@ -63,7 +63,7 @@ public:
 					const JBoolean refreshRepo, const JBoolean refreshStatus,
 					const JBoolean reloadOpenFiles);
 
-	void	StreamOut(ostream& output);
+	void	StreamOut(std::ostream& output);
 
 protected:
 

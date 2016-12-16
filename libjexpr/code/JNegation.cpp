@@ -127,7 +127,7 @@ JNegation::Evaluate
 void
 JNegation::Print
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

@@ -42,7 +42,7 @@ CBCShellScanner::~CBCShellScanner()
 void
 CBCShellScanner::BeginScan
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	itsResetFlag = kJTrue;

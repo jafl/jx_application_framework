@@ -23,7 +23,7 @@ enum CBProjectNodeType
 
 const JSize kCBNTCount = kCBLibraryNT+1;
 
-istream& operator>>(istream& input, CBProjectNodeType& type);
-ostream& operator<<(ostream& output, const CBProjectNodeType type);
+std::istream& operator>>(std::istream& input, CBProjectNodeType& type);
+std::ostream& operator<<(std::ostream& output, const CBProjectNodeType type);
 
 #endif

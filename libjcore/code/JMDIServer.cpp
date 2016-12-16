@@ -124,8 +124,8 @@ JMDIServer::WillBeMDIServer
 
 		if (JNameUsed(socketName))
 			{
-			cerr << "Unable to initiate MDI because " << socketName << endl;
-			cerr << "exists as something else." << endl;
+			std::cerr << "Unable to initiate MDI because " << socketName << std::endl;
+			std::cerr << "exists as something else." << std::endl;
 			exit(1);
 			}
 		return kJTrue;
@@ -156,9 +156,9 @@ JMDIServer::WillBeMDIServer
 		}
 	else if (!serverOK && ACE_OS::unlink(socketName) == -1)
 		{
-		cerr << "Unable to transmit MDI request." << endl;
-		cerr << socketName << "appears to be dead," << endl;
-		cerr << "but an error ocurred while trying to delete it." << endl;
+		std::cerr << "Unable to transmit MDI request." << std::endl;
+		std::cerr << socketName << "appears to be dead," << std::endl;
+		std::cerr << "but an error ocurred while trying to delete it." << std::endl;
 		exit(1);
 		}
 	else if (!serverOK)
@@ -169,8 +169,8 @@ JMDIServer::WillBeMDIServer
 
 	if (serverStatus == kServerBusyMsg)
 		{
-		cerr << argv[0] << " is busy, probably because of a blocking window." << endl;
-		cerr << "(e.g. a dialog or an error message)" << endl;
+		std::cerr << argv[0] << " is busy, probably because of a blocking window." << std::endl;
+		std::cerr << "(e.g. a dialog or an error message)" << std::endl;
 		WaitForFinished(socket, receivedFinishedFlag);
 		return kJFalse;
 		}

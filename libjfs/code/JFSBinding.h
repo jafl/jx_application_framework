@@ -29,7 +29,7 @@ public:
 	JFSBinding(const JCharacter* pattern, const JCharacter* cmd,
 			   const CommandType type, const JBoolean singleFile,
 			   const JBoolean isSystem);
-	JFSBinding(istream& input, const JFileVersion vers, const JBoolean isSystem,
+	JFSBinding(std::istream& input, const JFileVersion vers, const JBoolean isSystem,
 			   JBoolean* isDefault, JBoolean* del);
 
 	virtual	~JFSBinding();
@@ -88,10 +88,10 @@ private:
 
 // global functions
 
-ostream& operator<<(ostream&, const JFSBinding&);
+std::ostream& operator<<(std::ostream&, const JFSBinding&);
 
-istream& operator>>(istream& input, JFSBinding::CommandType& type);
-ostream& operator<<(ostream& output, const JFSBinding::CommandType type);
+std::istream& operator>>(std::istream& input, JFSBinding::CommandType& type);
+std::ostream& operator<<(std::ostream& output, const JFSBinding::CommandType type);
 
 
 /******************************************************************************

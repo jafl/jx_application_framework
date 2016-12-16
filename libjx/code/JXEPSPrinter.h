@@ -27,8 +27,8 @@ public:
 
 	// saving setup information
 
-	void	ReadXEPSSetup(istream& input);
-	void	WriteXEPSSetup(ostream& output) const;
+	void	ReadXEPSSetup(std::istream& input);
+	void	WriteXEPSSetup(std::ostream& output) const;
 
 	// preview
 

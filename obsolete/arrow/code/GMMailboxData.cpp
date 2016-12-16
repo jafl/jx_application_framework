@@ -361,9 +361,9 @@ GMMailboxData::Save()
 		{
 		GLockFile(itsMailFile);
 		}
-	ifstream is(itsMailFile);
+	std::ifstream is(itsMailFile);
 	assert(is.good());
-	ofstream os(tempname);
+	std::ofstream os(tempname);
 	if (!itsInternalMessage.IsEmpty())
 		{
 		itsInternalMessage.Print(os);
@@ -436,7 +436,7 @@ GMMailboxData::Flush()
 void
 GMMailboxData::SaveSelectedMessages
 	(
-	ostream&			os,
+	std::ostream&			os,
 	const JBoolean		headers,
 	GMessageHeaderList* list
 	)
@@ -452,7 +452,7 @@ GMMailboxData::SaveSelectedMessages
 		return;
 		}
 	Update(kJFalse);
-	ifstream is(itsMailFile);
+	std::ifstream is(itsMailFile);
 	assert(is.good());
 
 	const JSize count	= list->GetElementCount();
@@ -477,8 +477,8 @@ GMMailboxData::SaveSelectedMessages
 void
 GMMailboxData::SaveHeader
 	(
-	istream&		is,
-	ostream&		os,
+	std::istream&		is,
+	std::ostream&		os,
 	GMessageHeader* header,
 	const JBoolean	headers
 	)
@@ -520,7 +520,7 @@ GMMailboxData::AdjustList
 	GMessageHeader* header	= list->NthElement(1);
 	if (header->GetFrom().Contains("Mail System Internal Data"))
 		{
-		ifstream is(itsMailFile);
+		std::ifstream is(itsMailFile);
 		assert(is.good());
 		JSeekg(is, header->GetHeaderStart());
 		itsInternalMessage.Read(is, header->GetMessageEnd() - header->GetHeaderStart());
@@ -835,10 +835,10 @@ GMMailboxData::DropHeaders
 
 	if (err.OK())
 		{
-		ifstream is(itsMailFile);
-		ifstream mboxis(srcMBox);
+		std::ifstream is(itsMailFile);
+		std::ifstream mboxis(srcMBox);
 
-		ofstream os(tempname);
+		std::ofstream os(tempname);
 
 		JSize count  = itsList->GetElementCount();
 		JSize lcount = headers->GetElementCount();
@@ -1163,7 +1163,7 @@ GMMailboxData::SyncLists()
 		itsListBySize->InsertSorted(header);
 		itsListBySubject->InsertSorted(header);
 		itsListByFrom->InsertSorted(header);
-//		cout << header->GetSubject() << ": " << header->GetBaseSubject() << endl;
+//		std::cout << header->GetSubject() << ": " << header->GetBaseSubject() << std::endl;
 		}
 }
 

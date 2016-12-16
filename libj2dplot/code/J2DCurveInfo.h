@@ -73,10 +73,10 @@ struct J2DCurveInfo
 	};
 };
 
-istream& operator>>(istream& input, J2DCurveInfo& info);
-ostream& operator<<(ostream& output, const J2DCurveInfo& info);
+std::istream& operator>>(std::istream& input, J2DCurveInfo& info);
+std::ostream& operator<<(std::ostream& output, const J2DCurveInfo& info);
 
-istream& operator>>(istream& input, J2DSymbolType& type);
-ostream& operator<<(ostream& output, const J2DSymbolType type);
+std::istream& operator>>(std::istream& input, J2DSymbolType& type);
+std::ostream& operator<<(std::ostream& output, const J2DSymbolType type);
 
 #endif

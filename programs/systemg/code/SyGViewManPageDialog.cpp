@@ -376,7 +376,7 @@ SyGViewManPageDialog::SetFunction
 void
 SyGViewManPageDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -413,7 +413,7 @@ SyGViewManPageDialog::ReadPrefs
 void
 SyGViewManPageDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

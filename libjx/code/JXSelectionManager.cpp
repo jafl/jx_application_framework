@@ -171,10 +171,10 @@ JXSelectionManager::GetAvailableTypes
 			}
 		else
 			{
-//			cout << "TARGETS returned " << XGetAtomName(*itsDisplay, actualType) << endl;
-//			cout << "  format:    " << actualFormat/8 << endl;
-//			cout << "  count:     " << itemCount << endl;
-//			cout << "  remaining: " << remainingBytes << endl;
+//			std::cout << "TARGETS returned " << XGetAtomName(*itsDisplay, actualType) << std::endl;
+//			std::cout << "  format:    " << actualFormat/8 << std::endl;
+//			std::cout << "  count:     " << itemCount << std::endl;
+//			std::cout << "  remaining: " << remainingBytes << std::endl;
 
 			XFree(data);
 			// fall through
@@ -186,9 +186,9 @@ JXSelectionManager::GetAvailableTypes
 		{
 		// compensate for brain damage in rxvt, etc.
 
-//		cout << "XA_PRIMARY owner: " << XGetSelectionOwner(*itsDisplay, XA_PRIMARY) << endl;
-//		cout << "XA_SECONDARY owner: " << XGetSelectionOwner(*itsDisplay, XA_SECONDARY) << endl;
-//		cout << "CLIPBOARD owner: " << XGetSelectionOwner(*itsDisplay, XInternAtom(*itsDisplay, "CLIPBOARD", False)) << endl;
+//		std::cout << "XA_PRIMARY owner: " << XGetSelectionOwner(*itsDisplay, XA_PRIMARY) << std::endl;
+//		std::cout << "XA_SECONDARY owner: " << XGetSelectionOwner(*itsDisplay, XA_SECONDARY) << std::endl;
+//		std::cout << "CLIPBOARD owner: " << XGetSelectionOwner(*itsDisplay, XInternAtom(*itsDisplay, "CLIPBOARD", False)) << std::endl;
 
 		typeList->AppendElement(XA_STRING);
 		return kJTrue;
@@ -255,7 +255,7 @@ JXSelectionManager::GetData
 	if (RequestData(selectionName, time, requestType, &selEvent))
 		{
 		#if JXSEL_DEBUG_MSGS && ! JXSEL_DEBUG_ONLY_RESULT
-		cout << "Received SelectionNotify" << endl;
+		std::cout << "Received SelectionNotify" << std::endl;
 		#endif
 
 		// We need to discard all existing PropertyNotify events
@@ -487,9 +487,9 @@ JXSelectionManager::HandleSelectionRequest
 							 &returnType, &data, &dataLength, &bitsPerBlock))
 			{
 			#if JXSEL_DEBUG_MSGS && ! JXSEL_DEBUG_ONLY_RESULT
-			cout << "Accepted selection request: ";
-			cout << XGetAtomName(*itsDisplay, selReqEvent.target);
-			cout << ", time=" << selReqEvent.time << endl;
+			std::cout << "Accepted selection request: ";
+			std::cout << XGetAtomName(*itsDisplay, selReqEvent.target);
+			std::cout << ", time=" << selReqEvent.time << std::endl;
 			#endif
 
 			#if JXSEL_MICRO_TRANSFER
@@ -513,18 +513,18 @@ JXSelectionManager::HandleSelectionRequest
 		else
 			{
 			#if JXSEL_DEBUG_MSGS
-			cout << "Rejected selection request: can't convert to ";
-			cout << XGetAtomName(*itsDisplay, selReqEvent.target);
-			cout << ", time=" << selReqEvent.time << endl;
+			std::cout << "Rejected selection request: can't convert to ";
+			std::cout << XGetAtomName(*itsDisplay, selReqEvent.target);
+			std::cout << ", time=" << selReqEvent.time << std::endl;
 			#endif
 			}
 		}
 	else
 		{
 		#if JXSEL_DEBUG_MSGS
-		cout << "Rejected selection request: don't own ";
-		cout << XGetAtomName(*itsDisplay, selReqEvent.selection);
-		cout << ", time=" << selReqEvent.time << endl;
+		std::cout << "Rejected selection request: don't own ";
+		std::cout << XGetAtomName(*itsDisplay, selReqEvent.selection);
+		std::cout << ", time=" << selReqEvent.time << std::endl;
 		#endif
 		}
 
@@ -556,10 +556,10 @@ JXSelectionManager::SendData
 	// if small enough, send it one chunk
 
 	#if JXSEL_DEBUG_MSGS && ! JXSEL_DEBUG_ONLY_RESULT
-	cout << "Selection is " << dataLength << " bytes" << endl;
+	std::cout << "Selection is " << dataLength << " bytes" << std::endl;
 	if (dataLength <= chunkSize)
 		{
-		cout << "Attempting to send entire selection" << endl;
+		std::cout << "Attempting to send entire selection" << std::endl;
 		}
 	#endif
 
@@ -568,7 +568,7 @@ JXSelectionManager::SendData
 				  data, dataLength, bitsPerBlock))
 		{
 		#if JXSEL_DEBUG_MSGS
-		cout << "Transfer complete" << endl;
+		std::cout << "Transfer complete" << std::endl;
 		#endif
 
 		itsDisplay->SendXEvent(requestor, returnEvent);
@@ -582,7 +582,7 @@ JXSelectionManager::SendData
 	// initiate transfer by sending INCR
 
 	#if JXSEL_DEBUG_MSGS && ! JXSEL_DEBUG_ONLY_RESULT
-	cout << "Initiating incremental transfer" << endl;
+	std::cout << "Initiating incremental transfer" << std::endl;
 	#endif
 
 	(JXGetApplication())->DisplayBusyCursor();
@@ -595,7 +595,7 @@ JXSelectionManager::SendData
 	if (!WaitForPropertyDeleted(requestor, property))
 		{
 		#if JXSEL_DEBUG_MSGS
-		cout << "No response from requestor (data length)" << endl;
+		std::cout << "No response from requestor (data length)" << std::endl;
 		#endif
 
 		return;
@@ -620,7 +620,7 @@ JXSelectionManager::SendData
 			}
 
 		#if JXSEL_DEBUG_MSGS && ! JXSEL_DEBUG_ONLY_RESULT
-		cout << "Sending " << chunkSize << " bytes" << endl;
+		std::cout << "Sending " << chunkSize << " bytes" << std::endl;
 		#endif
 
 		SendData1(requestor, property, type,
@@ -628,8 +628,8 @@ JXSelectionManager::SendData
 		if (itsTargetWindowDeletedFlag)
 			{
 			#if JXSEL_DEBUG_MSGS
-			cout << "Requestor crashed on iteration ";
-			cout << chunkIndex << endl;
+			std::cout << "Requestor crashed on iteration ";
+			std::cout << chunkIndex << std::endl;
 			#endif
 			return;
 			}
@@ -639,13 +639,13 @@ JXSelectionManager::SendData
 			chunkSize            = 4*itsMaxDataChunkSize;
 
 			#if JXSEL_DEBUG_MSGS && ! JXSEL_DEBUG_ONLY_RESULT
-			cout << "Reducing chunk size to " << chunkSize << " bytes" << endl;
+			std::cout << "Reducing chunk size to " << chunkSize << " bytes" << std::endl;
 			#endif
 			}
 		else if (itsReceivedAllocErrorFlag)
 			{
 			#if JXSEL_DEBUG_MSGS
-			cout << "X server is out of memory!" << endl;
+			std::cout << "X server is out of memory!" << std::endl;
 			#endif
 
 			XSelectInput(*itsDisplay, requestor, NoEventMask);
@@ -655,10 +655,10 @@ JXSelectionManager::SendData
 		if (!WaitForPropertyDeleted(requestor, property))
 			{
 			#if JXSEL_DEBUG_MSGS
-			cout << "No response from requestor on iteration ";
-			cout << chunkIndex << ", " << dataLength - remainingLength;
-			cout << " bytes sent, " << remainingLength;
-			cout << " bytes remaining, chunk size " << chunkSize << endl;
+			std::cout << "No response from requestor on iteration ";
+			std::cout << chunkIndex << ", " << dataLength - remainingLength;
+			std::cout << " bytes sent, " << remainingLength;
+			std::cout << " bytes remaining, chunk size " << chunkSize << std::endl;
 			#endif
 
 			return;
@@ -679,7 +679,7 @@ JXSelectionManager::SendData
 		}
 
 	#if JXSEL_DEBUG_MSGS
-	cout << "Transfer complete" << endl;
+	std::cout << "Transfer complete" << std::endl;
 	#endif
 }
 
@@ -770,12 +770,12 @@ JXSelectionManager::WaitForPropertyDeleted
 
 	if (actualType == None && actualFormat == 0 && remainingBytes == 0)
 		{
-		cout << "Window property was deleted, but source was not notified!" << endl;
+		std::cout << "Window property was deleted, but source was not notified!" << std::endl;
 		}
 	else
 		{
-		cout << "Window property not deleted, type " << XGetAtomName(*itsDisplay, actualType);
-		cout << ", " << itemCount * actualFormat/8 << " bytes" << endl;
+		std::cout << "Window property not deleted, type " << XGetAtomName(*itsDisplay, actualType);
+		std::cout << ", " << itemCount * actualFormat/8 << " bytes" << std::endl;
 		}
 	XFree(data);
 
@@ -838,7 +838,7 @@ JXSelectionManager::ReceiveDataIncr
 	*delMethod  = kCFree;
 
 	#if JXSEL_DEBUG_MSGS && ! JXSEL_DEBUG_ONLY_RESULT
-	cout << "Initiating incremental receive" << endl;
+	std::cout << "Initiating incremental receive" << std::endl;
 	#endif
 
 	(JXGetApplication())->DisplayBusyCursor();
@@ -871,8 +871,8 @@ JXSelectionManager::ReceiveDataIncr
 		if (!WaitForPropertyCreated(itsDataWindow, itsAtoms[ kSelectionWindPropAtomIndex ], sender))
 			{
 			#if JXSEL_DEBUG_MSGS
-			cout << "No response from selection owner on iteration ";
-			cout << chunkIndex << ", " << *dataLength << " bytes received" << endl;
+			std::cout << "No response from selection owner on iteration ";
+			std::cout << chunkIndex << ", " << *dataLength << " bytes received" << std::endl;
 			#endif
 
 			ok = kJFalse;
@@ -891,8 +891,8 @@ JXSelectionManager::ReceiveDataIncr
 		if (actualType == None)
 			{
 			#if JXSEL_DEBUG_MSGS
-			cout << "Received data of type None on iteration ";
-			cout << chunkIndex << endl;
+			std::cout << "Received data of type None on iteration ";
+			std::cout << chunkIndex << std::endl;
 			#endif
 
 			ok = kJFalse;
@@ -906,8 +906,8 @@ JXSelectionManager::ReceiveDataIncr
 			#if JXSEL_DEBUG_MSGS
 			if (*data == NULL)
 				{
-				cout << "Didn't receive any data on iteration ";
-				cout << chunkIndex << endl;
+				std::cout << "Didn't receive any data on iteration ";
+				std::cout << chunkIndex << std::endl;
 				}
 			#endif
 
@@ -933,7 +933,7 @@ JXSelectionManager::ReceiveDataIncr
 				memcpy(*data, chunk, chunkSize);
 
 				#if JXSEL_DEBUG_MSGS && ! JXSEL_DEBUG_ONLY_RESULT
-				cout << "Data format: " << XGetAtomName(*itsDisplay, actualType) << endl;
+				std::cout << "Data format: " << XGetAtomName(*itsDisplay, actualType) << std::endl;
 				#endif
 				}
 			else
@@ -946,7 +946,7 @@ JXSelectionManager::ReceiveDataIncr
 			XFree(chunk);
 
 			#if JXSEL_DEBUG_MSGS && ! JXSEL_DEBUG_ONLY_RESULT
-			cout << "Received " << chunkSize << " bytes" << endl;
+			std::cout << "Received " << chunkSize << " bytes" << std::endl;
 			#endif
 			}
 		}
@@ -968,11 +968,11 @@ JXSelectionManager::ReceiveDataIncr
 	#if JXSEL_DEBUG_MSGS
 	if (ok)
 		{
-		cout << "Transfer successful" << endl;
+		std::cout << "Transfer successful" << std::endl;
 		}
 	else
 		{
-		cout << "Transfer failed" << endl;
+		std::cout << "Transfer failed" << std::endl;
 		}
 	#endif
 
@@ -1121,9 +1121,9 @@ JXSelectionManager::SetData
 	if (XGetSelectionOwner(*itsDisplay, selectionName) == itsDataWindow)
 		{
 		#if JXSEL_DEBUG_MSGS
-		cout << "Got selection ownership: ";
-		cout << XGetAtomName(*itsDisplay, selectionName);
-		cout << ", time=" << lastEventTime << endl;
+		std::cout << "Got selection ownership: ";
+		std::cout << XGetAtomName(*itsDisplay, selectionName);
+		std::cout << ", time=" << lastEventTime << std::endl;
 		#endif
 
 		// allow Gnome apps to paste via menu item

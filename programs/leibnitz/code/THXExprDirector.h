@@ -26,7 +26,7 @@ class THXExprDirector : public JXWindowDirector
 public:
 
 	THXExprDirector(JXDirector* supervisor, const THXVarList* varList);
-	THXExprDirector(istream& input, const JFileVersion vers,
+	THXExprDirector(std::istream& input, const JFileVersion vers,
 				   JXDirector* supervisor, const THXVarList* varList);
 
 	virtual ~THXExprDirector();
@@ -34,10 +34,10 @@ public:
 	virtual void	Activate();
 
 	void	UpdateDisplay();
-	void	WriteState(ostream& output) const;
+	void	WriteState(std::ostream& output) const;
 
-	static void	ReadPrefs(istream& input, const JFileVersion vers);
-	static void	WritePrefs(ostream& output);
+	static void	ReadPrefs(std::istream& input, const JFileVersion vers);
+	static void	WritePrefs(std::ostream& output);
 
 protected:
 

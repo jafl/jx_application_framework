@@ -40,7 +40,7 @@ SCPlotDirector::SCPlotDirector
 
 SCPlotDirector::SCPlotDirector
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	SCCircuitDocument*	supervisor
 	)
@@ -183,7 +183,7 @@ SCPlotDirector::Receive
 void
 SCPlotDirector::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

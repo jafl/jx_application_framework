@@ -36,7 +36,7 @@ THXVarList::THXVarList()
 
 THXVarList::THXVarList
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 	:
@@ -580,10 +580,10 @@ THXVarList::SetDiscreteValue
 
  ******************************************************************************/
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const THXVarList&	varList
 	)
 {

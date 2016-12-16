@@ -41,8 +41,8 @@ public:
 						   JXHorizDockPartition** returnPartition = NULL,
 						   const JBoolean reportError = kJFalse);
 
-	void	ReadSetup(istream& input, const JFileVersion vers);
-	void	WriteSetup(ostream& output) const;
+	void	ReadSetup(std::istream& input, const JFileVersion vers);
+	void	WriteSetup(std::ostream& output) const;
 
 	// for use by JXHorizDockPartition
 

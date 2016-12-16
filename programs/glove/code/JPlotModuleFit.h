@@ -40,7 +40,7 @@ public:
 					const JSize parmscount,	
 					const JBoolean errors = kJFalse, 
 					const JBoolean gof = kJFalse);
-	JPlotModuleFit(J2DPlotWidget* plot, JPlotDataBase* fitData, istream& is);
+	JPlotModuleFit(J2DPlotWidget* plot, JPlotDataBase* fitData, std::istream& is);
 	virtual ~JPlotModuleFit();	
 
 	virtual void GetElement(const JIndex index, J2DDataPoint* data) const;
@@ -64,7 +64,7 @@ public:
 	virtual JBoolean	GetYValue(const JFloat x, JFloat* y) const;
 	virtual const JPlotDataBase*		GetDataToFit() const;
 	
-	void				WriteData(ostream& os);
+	void				WriteData(std::ostream& os);
 
 
 protected:

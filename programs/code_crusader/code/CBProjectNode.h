@@ -68,13 +68,13 @@ public:
 
 	virtual void	FileRenamed(const JCharacter* origFullName, const JCharacter* newFullName);
 
-	static CBProjectNode*	StreamIn(istream& input, const JFileVersion vers,
+	static CBProjectNode*	StreamIn(std::istream& input, const JFileVersion vers,
 									 CBProjectNode* parent);
-	virtual void			StreamOut(ostream& output) const;
+	virtual void			StreamOut(std::ostream& output) const;
 
-	virtual void	CreateFilesForTemplate(istream& input,
+	virtual void	CreateFilesForTemplate(std::istream& input,
 										   const JFileVersion vers) const;
-	virtual void	SaveFilesInTemplate(ostream& output) const;
+	virtual void	SaveFilesInTemplate(std::ostream& output) const;
 
 	CBProjectTree*			GetProjectTree();
 	const CBProjectTree*	GetProjectTree() const;
@@ -89,7 +89,7 @@ public:
 
 protected:
 
-	CBProjectNode(istream& input, const JFileVersion vers,
+	CBProjectNode(std::istream& input, const JFileVersion vers,
 				  CBProjectNode* parent, const CBProjectNodeType type,
 				  const JBoolean isOpenable);
 

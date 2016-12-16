@@ -15,7 +15,7 @@ This scanner reads an X11 Compose rule file and returns JXComposeScanner::Rules.
 
 #undef YY_DECL
 #define YY_DECL \
-	void JXComposeScanner::BuildRuleList(istream& input, JXComposeRuleList* ruleList, \
+	void JXComposeScanner::BuildRuleList(std::istream& input, JXComposeRuleList* ruleList, \
 										 const JSize charCount, JBoolean* isCharInWord, \
 										 JCharacter* diacriticalMap, JIndex* diacriticalMarkType)
 %}

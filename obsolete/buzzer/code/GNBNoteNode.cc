@@ -89,7 +89,7 @@ GNBNoteNode::~GNBNoteNode()
 void
 GNBNoteNode::SaveNode
 	(
-	ostream& 			os
+	std::ostream& 			os
 	)
 {
 	os << itsFileID << ' ';
@@ -120,7 +120,7 @@ GNBNoteNode::SetHasName
 void
 GNBNoteNode::ReadNodeSetup
 	(
-	istream& 			is,
+	std::istream& 			is,
 	const JFileVersion 	version
 	)
 {

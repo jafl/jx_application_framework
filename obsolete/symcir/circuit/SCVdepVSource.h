@@ -25,11 +25,11 @@ public:
 
 	// construct from private file
 
-	SCVdepVSource(istream& input, const JFileVersion vers, SCCircuit* theCircuit);
+	SCVdepVSource(std::istream& input, const JFileVersion vers, SCCircuit* theCircuit);
 
 	// construct from netlist
 
-	SCVdepVSource(istream& input, SCCircuit* theCircuit);
+	SCVdepVSource(std::istream& input, SCCircuit* theCircuit);
 
 	virtual ~SCVdepVSource();
 

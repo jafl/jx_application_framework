@@ -54,10 +54,10 @@
 int
 main()
 {
-	cout << "Beginning random number test.  No news is good news" << endl;
+	std::cout << "Beginning random number test.  No news is good news" << std::endl;
 
 // Test UniformInt32, the basic generator method
-	cout << std::setbase(16);
+	std::cout << std::setbase(16);
 	JKLRand randGen( jKLInt32List[0] );
 	JIndex i = 1;
 	while (jKLInt32List[i] != 0)
@@ -65,14 +65,14 @@ main()
 		JInt32 thisVal = randGen.UniformInt32();
 		if (jKLInt32List[i] != thisVal)
 			{
-			cout << "   UniformInt32 failed on test value " << i << "; generated "
-			     << thisVal << " instead of " << jKLInt32List[i] << endl;
+			std::cout << "   UniformInt32 failed on test value " << i << "; generated "
+			     << thisVal << " instead of " << jKLInt32List[i] << std::endl;
 			}
 		i++;
 		}
 
 // Tests UniformClosedProb as well.
-	cout << std::setbase(10);
+	std::cout << std::setbase(10);
 	randGen.SetSeed( jKLLongList[0] );
 	i=1;
 	while (jKLLongList[i] != 0)
@@ -80,8 +80,8 @@ main()
 		long thisVal = randGen.UniformLong(0, 10000);
 		if (jKLLongList[i] != thisVal)
 			{
-			cout << "   UniformLong failed on test value " << i << "; generated "
-			     << thisVal << " instead of " << jKLLongList[i] << endl;
+			std::cout << "   UniformLong failed on test value " << i << "; generated "
+			     << thisVal << " instead of " << jKLLongList[i] << std::endl;
 			}
 		i++;
 		}
@@ -91,7 +91,7 @@ main()
 		double thisVal = randGen.UniformClosedProb();
 		if (thisVal < 0.0 || thisVal > 1.0)
 			{
-			cout << "   UniformClosedProb returned " << thisVal;
+			std::cout << "   UniformClosedProb returned " << thisVal;
 			}
 		}
 
@@ -100,11 +100,11 @@ main()
 		double thisVal = randGen.UniformDouble(-100.0, 100.0);
 		if (thisVal < -100.0 || thisVal > 100.0)
 			{
-			cout << "   UniformDouble(-100.0, 100.0) returned " << thisVal;
+			std::cout << "   UniformDouble(-100.0, 100.0) returned " << thisVal;
 			}
 		}
 
-	cout << "Finished random number test.  If nothing printed out, it passed" << endl;
+	std::cout << "Finished random number test.  If nothing printed out, it passed" << std::endl;
 
 	return 0;
 }

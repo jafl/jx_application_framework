@@ -77,12 +77,12 @@ public:
 	void	LoadToolBarDefaults(JXToolBar* toolBar);
 
 	void	LoadPrefs();
-	void	LoadPrefs(istream& is, const JFileVersion vers);
-	void	SavePrefs(ostream& os);
+	void	LoadPrefs(std::istream& is, const JFileVersion vers);
+	void	SavePrefs(std::ostream& os);
 	void	SavePrefsAsDefault();
 
-	void	RestoreDirState(istream& is, const JFileVersion vers);
-	void	SaveDirState(ostream& os);
+	void	RestoreDirState(std::istream& is, const JFileVersion vers);
+	void	SaveDirState(std::ostream& os);
 
 	JString		GetColTitle(const JIndex index) const;
 	JCoordinate	GetBufferWidth(const JIndex index) const;

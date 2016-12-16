@@ -30,9 +30,9 @@ class CBSymbolDirector : public JXWindowDirector, public JPrefObject
 public:
 
 	CBSymbolDirector(CBProjectDocument* supervisor);
-	CBSymbolDirector(istream& projInput, const JFileVersion projVers,
-					 istream* setInput, const JFileVersion setVers,
-					 istream* symInput, const JFileVersion symVers,
+	CBSymbolDirector(std::istream& projInput, const JFileVersion projVers,
+					 std::istream* setInput, const JFileVersion setVers,
+					 std::istream* symInput, const JFileVersion symVers,
 					 CBProjectDocument* supervisor, const JBoolean subProject);
 
 	virtual ~CBSymbolDirector();
@@ -48,12 +48,12 @@ public:
 	JBoolean	HasSymbolBrowsers() const;
 	void		CloseSymbolBrowsers();
 
-	void	StreamOut(ostream& projOutput,
-					  ostream* setOutput, ostream* symOutput) const;
+	void	StreamOut(std::ostream& projOutput,
+					  std::ostream* setOutput, std::ostream* symOutput) const;
 
 	// for loading updated symbols
 
-	void	ReadSetup(istream& symInput, const JFileVersion symVers);
+	void	ReadSetup(std::istream& symInput, const JFileVersion symVers);
 
 	// called by CBProjectDocument
 
@@ -70,8 +70,8 @@ public:
 
 protected:
 
-	virtual void	ReadPrefs(istream& input);
-	virtual void	WritePrefs(ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input);
+	virtual void	WritePrefs(std::ostream& output) const;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message);

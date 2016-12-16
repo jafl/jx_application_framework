@@ -187,7 +187,7 @@ CMBreakpointManager::GetBreakpoints
 void
 CMBreakpointManager::ReadSetup
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -246,7 +246,7 @@ CMBreakpointManager::ReadSetup
 void
 CMBreakpointManager::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

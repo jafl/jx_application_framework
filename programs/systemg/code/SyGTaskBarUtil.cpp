@@ -89,7 +89,7 @@ JIndex i;
 		return;
 		}
 
-	ofstream output(tmpName);
+	std::ofstream output(tmpName);
 	output << kCurrentTaskBarSetupVersion << ' ';
 
 	JString trashDir;
@@ -103,13 +103,13 @@ JIndex i;
 		output << kJFalse;
 		}
 
-	output << endl;
+	output << std::endl;
 
 	const JSize count = shortcutList.GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
 		(shortcutList.NthElement(i))->Print(output);
-		output << endl;
+		output << std::endl;
 		}
 
 	const JCharacter* argv[] = { "mv", "-f", tmpName, fileName, NULL };
@@ -162,7 +162,7 @@ SyGReadTaskBarSetup
 		*modTime = t;
 		}
 
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 	if (!input.good())
 		{
 		return kJFalse;

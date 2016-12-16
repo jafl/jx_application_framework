@@ -52,12 +52,14 @@ default: libs all
 .PHONY : Makefiles
 Makefiles:
 
+include ${JX_ROOT}/include/make/jx_targets
+
 #
 # required libraries
 #
 
 .PHONY : libs
-libs:
+libs::
 	@cd ${JCORELIBDIR}; ${MAKE}
 
 .PHONY : touch
@@ -86,3 +88,12 @@ static: staticACE libs
 	@${RM} webgif
 	@${MAKE} "LOADLIBES=${STATIC_LOADLIBES}" webgif
 	@${J_STRIP_DEBUG} ${call EXE, webgif}
+
+#
+# personal install
+#
+
+.PHONY : personal
+personal: static
+	@strip ${call EXE, webgif}
+	@cp webgif ${JX_INSTALL_ROOT}/

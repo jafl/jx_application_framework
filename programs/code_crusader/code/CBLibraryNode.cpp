@@ -34,7 +34,7 @@ CBLibraryNode::CBLibraryNode
 
 CBLibraryNode::CBLibraryNode
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	CBProjectNode*		parent
 	)
@@ -80,7 +80,7 @@ CBLibraryNode::~CBLibraryNode()
 void
 CBLibraryNode::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

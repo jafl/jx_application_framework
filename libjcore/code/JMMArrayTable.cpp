@@ -124,9 +124,9 @@ JMMArrayTable::PrintAllocated
 	)
 	const
 {
-	cout << "\nAllocated block statistics:" << endl;
+	std::cout << "\nAllocated block statistics:" << std::endl;
 
-	cout << "\nAllocated user memory:" << endl;
+	std::cout << "\nAllocated user memory:" << std::endl;
 
 	const JSize count = itsAllocatedTable->GetElementCount();
 	for (JIndex i=1;i<=count;i++)
@@ -140,9 +140,9 @@ JMMArrayTable::PrintAllocated
 
 	if (printInternal)
 		{
-		cout << "\nThe following blocks are probably owned by the memory manager"
+		std::cout << "\nThe following blocks are probably owned by the memory manager"
 			 << "\nand *should* still be allocated--please report all cases of user"
-			 << "\nallocated memory showing up on this list!" << endl;
+			 << "\nallocated memory showing up on this list!" << std::endl;
 
 		for (JIndex i=1;i<=count;i++)
 			{
@@ -163,7 +163,7 @@ JMMArrayTable::PrintAllocated
 void
 JMMArrayTable::StreamAllocatedForDebug
 	(
-	ostream&							output,
+	std::ostream&							output,
 	const JMemoryManager::RecordFilter&	filter
 	)
 	const
@@ -191,7 +191,7 @@ JMMArrayTable::StreamAllocatedForDebug
 void
 JMMArrayTable::StreamAllocationSizeHistogram
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

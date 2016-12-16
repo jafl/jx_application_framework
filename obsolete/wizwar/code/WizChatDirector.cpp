@@ -89,7 +89,7 @@ WizChatDirector::WizChatDirector
 
 WizChatDirector::WizChatDirector
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	JXDirector*			supervisor
 	)
@@ -131,7 +131,7 @@ WizChatDirector::~WizChatDirector()
 void
 WizChatDirector::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

@@ -196,7 +196,7 @@ CBMacroTable::ReadData
 
 	JIndex firstNewRow = 0;
 
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 	JString macro, script;
 	JIndex state = 1;
 	while (!input.eof() && !input.fail())
@@ -269,7 +269,7 @@ CBMacroTable::WriteData
 	)
 	const
 {
-	ofstream output(fileName);
+	std::ofstream output(fileName);
 
 	const JStringTableData* data = GetStringData();
 	const JSize count            = GetRowCount();

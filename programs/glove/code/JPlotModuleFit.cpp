@@ -93,7 +93,7 @@ JPlotModuleFit::JPlotModuleFit
 	(
 	J2DPlotWidget* 		plot, 
 	JPlotDataBase* 		fitData,
-	istream& 			is
+	std::istream& 			is
 	)
 	:
 	JPlotFitFunction(plot, fitData, 0, 10)
@@ -483,7 +483,7 @@ JPlotModuleFit::GetDataElement
 void
 JPlotModuleFit::WriteData
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	JSize count = itsNames->GetElementCount();

@@ -18,69 +18,69 @@ int main()
 
 JQueue<long, JArray<long> > a1;									// constructor
 
-	cout << "queue a1 created" << endl << endl;
+	std::cout << "queue a1 created" << std::endl << std::endl;
 
-	cout << "a1 itemCount should be 0" << endl;
-	cout << "a1 itemCount = " << a1.GetElementCount() << endl << endl;
+	std::cout << "a1 itemCount should be 0" << std::endl;
+	std::cout << "a1 itemCount = " << a1.GetElementCount() << std::endl << std::endl;
 
 	for (i=1;i<=5;i++)
 		{
 		a1.Append(i);
 		}
 
-	cout << "a1 itemCount should be 5" << endl;
-	cout << "a1 itemCount = " << a1.GetElementCount() << endl << endl;
+	std::cout << "a1 itemCount should be 5" << std::endl;
+	std::cout << "a1 itemCount = " << a1.GetElementCount() << std::endl << std::endl;
 
 	JWaitForReturn();
 
 JQueue<long, JArray<long> > a2 = a1;							// copy constructor
 
-	cout << "queue a2 created from a1" << endl << endl;
+	std::cout << "queue a2 created from a1" << std::endl << std::endl;
 
-	cout << "a2 itemCount should be 5" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
+	std::cout << "a2 itemCount should be 5" << std::endl;
+	std::cout << "a2 itemCount=" << a2.GetElementCount() << std::endl << std::endl;
 
-	cout << "display should be:  1 2 3 4 5" << endl;
+	std::cout << "display should be:  1 2 3 4 5" << std::endl;
 
 	while (!a1.IsEmpty())
 		{
 		i = a1.GetNext();
-		cout << i << ' ';
+		std::cout << i << ' ';
 		}
-	cout << endl;
+	std::cout << std::endl;
 
-	cout << "a1 itemCount should be 0" << endl;
-	cout << "a1 itemCount=" << a1.GetElementCount() << endl << endl;
+	std::cout << "a1 itemCount should be 0" << std::endl;
+	std::cout << "a1 itemCount=" << a1.GetElementCount() << std::endl << std::endl;
 
-	cout << "display should be:  1 2" << endl;
+	std::cout << "display should be:  1 2" << std::endl;
 
 	do
 		{
 		i = a2.GetNext();
-		cout << i << ' ';
+		std::cout << i << ' ';
 		}
 		while (i < 2);
 
-	cout << endl;
+	std::cout << std::endl;
 
 	JWaitForReturn();
 
-	cout << "display should be:  3" << endl;
+	std::cout << "display should be:  3" << std::endl;
 
-	cout << a2.PeekNext() << endl;
+	std::cout << a2.PeekNext() << std::endl;
 
-	cout << "a2 itemCount should be 3" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
+	std::cout << "a2 itemCount should be 3" << std::endl;
+	std::cout << "a2 itemCount=" << a2.GetElementCount() << std::endl << std::endl;
 
 	a2.Discard(2);
 
-	cout << "a2 itemCount should be 1" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
+	std::cout << "a2 itemCount should be 1" << std::endl;
+	std::cout << "a2 itemCount=" << a2.GetElementCount() << std::endl << std::endl;
 
 	a2.Flush();
 
-	cout << "a2 itemCount should be 0" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
+	std::cout << "a2 itemCount should be 0" << std::endl;
+	std::cout << "a2 itemCount=" << a2.GetElementCount() << std::endl << std::endl;
 
 	return 0;
 }

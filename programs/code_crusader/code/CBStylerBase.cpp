@@ -124,7 +124,7 @@ CBStylerBase::GetStyle
 void
 CBStylerBase::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 JIndex i;
@@ -192,7 +192,7 @@ JIndex i;
 JFontStyle
 CBStylerBase::ReadStyle
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFontStyle style;
@@ -217,7 +217,7 @@ CBStylerBase::ReadStyle
 void
 CBStylerBase::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -270,7 +270,7 @@ JIndex i;
 void
 CBStylerBase::WriteStyle
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const JFontStyle&	style
 	)
 	const

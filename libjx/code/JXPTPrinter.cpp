@@ -130,7 +130,7 @@ JXPTPrinter::SetFileName
 void
 JXPTPrinter::ReadXPTSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -156,7 +156,7 @@ JXPTPrinter::ReadXPTSetup
 void
 JXPTPrinter::WriteXPTSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -196,7 +196,7 @@ JXPTPrinter::Print
 		fileName = *itsFileName;
 		}
 
-	ofstream output(fileName);
+	std::ofstream output(fileName);
 	if (output.fail())
 		{
 		if (itsDestination == kPrintToPrinter)
@@ -447,10 +447,10 @@ JXPTPrinter::Receive
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&					input,
+	std::istream&					input,
 	JXPTPrinter::Destination&	dest
 	)
 {
@@ -462,10 +462,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&						output,
+	std::ostream&						output,
 	const JXPTPrinter::Destination	dest
 	)
 {

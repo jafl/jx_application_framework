@@ -381,7 +381,7 @@ SCExprEditor::SelectionIsVarFn
 void
 SCExprEditor::ReadState
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -407,7 +407,7 @@ SCExprEditor::ReadState
 void
 SCExprEditor::WriteState
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

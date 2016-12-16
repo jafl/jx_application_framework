@@ -74,8 +74,8 @@ public:
 						  const JBoolean forceReload = kJFalse);
 	void	OpenSomething(const JPtrArray<JString>& fileNameList);
 
-	void	ReadFromProject(istream& input, const JFileVersion vers);
-	void	WriteForProject(ostream& output) const;
+	void	ReadFromProject(std::istream& input, const JFileVersion vers);
+	void	WriteForProject(std::ostream& output) const;
 
 	JBoolean	HasProjectDocuments() const;
 	JBoolean	GetActiveProjectDocument(CBProjectDocument** doc) const;
@@ -136,8 +136,8 @@ public:
 
 	// called by CBPrefsManager
 
-	JBoolean	RestoreState(istream& input);
-	JBoolean	SaveState(ostream& output) const;
+	JBoolean	RestoreState(std::istream& input);
+	JBoolean	SaveState(std::ostream& output) const;
 
 	// called by CBEditGenPrefsDialog
 
@@ -154,8 +154,8 @@ public:
 
 protected:
 
-	virtual void	ReadPrefs(istream& input);
-	virtual void	WritePrefs(ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input);
+	virtual void	WritePrefs(std::ostream& output) const;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 

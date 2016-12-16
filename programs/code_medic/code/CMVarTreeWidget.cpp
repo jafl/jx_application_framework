@@ -423,7 +423,7 @@ CMVarTreeWidget::ExamineMemory
 void
 CMVarTreeWidget::ReadSetup
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -454,7 +454,7 @@ CMVarTreeWidget::ReadSetup
 void
 CMVarTreeWidget::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

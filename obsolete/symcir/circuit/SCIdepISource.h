@@ -24,11 +24,11 @@ public:
 
 	// construct from private file
 
-	SCIdepISource(istream& input, const JFileVersion vers, SCCircuit* theCircuit);
+	SCIdepISource(std::istream& input, const JFileVersion vers, SCCircuit* theCircuit);
 
 	// construct from netlist
 
-	SCIdepISource(istream& input, SCCircuit* theCircuit);
+	SCIdepISource(std::istream& input, SCCircuit* theCircuit);
 
 	virtual ~SCIdepISource();
 

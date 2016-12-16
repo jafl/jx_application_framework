@@ -16,8 +16,8 @@ main
 
 	un->DisplayMessage("Hello there!");
 	un->ReportError("Bus Error!");
-	cout << un->AskUserNo("Quit?") << endl;
-	cout << un->AskUserYes("Quit?") << endl;
+	std::cout << un->AskUserNo("Quit?") << std::endl;
+	std::cout << un->AskUserYes("Quit?") << std::endl;
 
 	return 0;
 }

@@ -437,7 +437,7 @@ CBDocumentManager::NewTextDocument()
 	else if ((JXGetChooseSaveFile())->SaveFile(
 				"Name of new file:", NULL, "", &newName))
 		{
-		ofstream output(newName);
+		std::ofstream output(newName);
 		output.close();
 		OpenTextDocument(newName);
 		}
@@ -478,7 +478,7 @@ CBDocumentManager::NewTextDocumentFromTemplate()
 			{
 			JString tmplText;
 			JReadFile(tmplName, &tmplText);
-			ofstream output(newName);
+			std::ofstream output(newName);
 			tmplText.Print(output);
 			output.close();
 			OpenTextDocument(newName);
@@ -902,7 +902,7 @@ CBDocumentManager::OpenTextDocument
 			}
 		else
 			{
-			ofstream temp(fileName);
+			std::ofstream temp(fileName);
 			if (!temp.good())
 				{
 				const JString msg = JGetString("CannotCreateFile::CBDocumentManager", map, sizeof(map));
@@ -1283,7 +1283,7 @@ CBDocumentManager::SearchFile
 		}
 	else
 		{
-		ifstream input(fileName);
+		std::ifstream input(fileName);
 
 		*lineIndex = 0;
 		while (!input.eof())
@@ -1374,7 +1374,7 @@ CBDocumentManager::OpenComplementFile
 			{
 			prefsMgr->SetDefaultComplementSuffix(suffixIndex, newFullName);
 
-			ofstream temp(newFullName);
+			std::ofstream temp(newFullName);
 			temp.close();
 			return OpenTextDocument(newFullName);
 			}
@@ -1716,7 +1716,7 @@ CompareMatchLengths
 void
 CBDocumentManager::ReadFromProject
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -1763,7 +1763,7 @@ CBDocumentManager::ReadFromProject
 void
 CBDocumentManager::WriteForProject
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -1789,7 +1789,7 @@ CBDocumentManager::WriteForProject
 JBoolean
 CBDocumentManager::RestoreState
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -1864,7 +1864,7 @@ CBDocumentManager::RestoreState
 JBoolean
 CBDocumentManager::SaveState
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -2034,7 +2034,7 @@ CBTrimBkgdFlag
 void
 CBDocumentManager::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -2086,7 +2086,7 @@ CBDocumentManager::ReadPrefs
 void
 CBDocumentManager::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

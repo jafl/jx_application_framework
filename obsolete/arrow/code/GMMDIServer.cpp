@@ -70,7 +70,7 @@ GMMDIServer::HandleMDIRequest
 				{
 				if (i == count)
 					{
-					cerr << "The \"mailto\" function requires an argument." << endl;
+					std::cerr << "The \"mailto\" function requires an argument." << std::endl;
 					}
 				else
 					{
@@ -117,5 +117,5 @@ GMMDIServer::PrintCommandLineHelp()
 		"copyright", JGetString("COPYRIGHT")
 		};
 	const JString s = JGetString(kCommandLineHelpID, map, sizeof(map));
-	cout << endl << s << endl << endl;
+	std::cout << std::endl << s << std::endl << std::endl;
 }

@@ -49,7 +49,7 @@ main
 	WarAcceptor acceptor;
 	if (acceptor.open(ACE_INET_Addr(port)) == -1)
 		{
-		cerr << "error trying to open port " << port << ": " << jerrno() << endl;
+		std::cerr << "error trying to open port " << port << ": " << jerrno() << std::endl;
 		return 1;
 		}
 

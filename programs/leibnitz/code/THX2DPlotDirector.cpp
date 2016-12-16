@@ -73,7 +73,7 @@ THX2DPlotDirector::THX2DPlotDirector
 
 THX2DPlotDirector::THX2DPlotDirector
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	JXDirector*			supervisor,
 	THXVarList*			varList
@@ -138,7 +138,7 @@ THX2DPlotDirector::~THX2DPlotDirector()
 void
 THX2DPlotDirector::WriteState
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

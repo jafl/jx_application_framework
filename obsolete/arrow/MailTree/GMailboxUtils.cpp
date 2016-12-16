@@ -199,8 +199,8 @@ MatchesCookie
 		{
 		perms = 0600;
 		}
-	ifstream is(file);
-	is >> ws;
+	std::ifstream is(file);
+	is >> std::ws;
 	JString line1 = JReadLine(is);
 	is.close();
 	if (line1 == "")

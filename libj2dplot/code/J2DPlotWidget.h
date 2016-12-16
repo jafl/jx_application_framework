@@ -91,11 +91,11 @@ public:
 										const JCoordinate pageHeight,
 										JCoordinate* w, JCoordinate* h);
 
-	void	PWReadSetup(istream& input);
-	void	PWWriteSetup(ostream& output) const;
+	void	PWReadSetup(std::istream& input);
+	void	PWWriteSetup(std::ostream& output) const;
 
-	void	PWReadCurveSetup(istream& input);
-	void	PWWriteCurveSetup(ostream& output) const;
+	void	PWReadCurveSetup(std::istream& input);
+	void	PWWriteCurveSetup(std::ostream& output) const;
 
 	JBoolean		WillAutoRefresh() const;
 	void			ShouldAutoRefresh(const JBoolean refresh);

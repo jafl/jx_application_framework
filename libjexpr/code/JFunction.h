@@ -43,7 +43,7 @@ public:
 	virtual JBoolean	Evaluate(JFloat* result) const = 0;
 	virtual JBoolean	Evaluate(JComplex* result) const = 0;
 	JString				Print() const;
-	virtual void		Print(ostream& output) const = 0;
+	virtual void		Print(std::ostream& output) const = 0;
 	virtual JIndex		PrepareToRender(const JExprRenderer& renderer,
 										const JPoint& upperLeft, const JSize fontSize,
 										JExprRectList* rectList);
@@ -53,14 +53,14 @@ public:
 	virtual JBoolean	SameAs(const JFunction& theFunction) const;
 	virtual void		BuildNodeList(JExprNodeList* nodeList, const JIndex myNode) = 0;
 
-	static JFunction*	StreamIn(istream& input, const JVariableList* theVariableList,
+	static JFunction*	StreamIn(std::istream& input, const JVariableList* theVariableList,
 								 const JBoolean allowUIF = kJFalse);
-	void				StreamOut(ostream& output) const;
+	void				StreamOut(std::ostream& output) const;
 
 	JFunction*	Copy(const JVariableList* newVariableList) const;
 
 	JString	PrintForMathematica() const;
-	void	PrintForMathematica(ostream& output) const;
+	void	PrintForMathematica(std::ostream& output) const;
 
 	// called by JVariableList -- must call inherited
 

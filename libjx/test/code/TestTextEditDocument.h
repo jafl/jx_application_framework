@@ -27,7 +27,7 @@ public:
 protected:
 
 	void			ReadFile(const JCharacter* fileName);
-	virtual void	WriteTextFile(ostream& output, const JBoolean safetySave) const;
+	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const;
 	virtual void	DiscardChanges();
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 

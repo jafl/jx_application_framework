@@ -69,11 +69,11 @@ CBPHPTreeDirector::CBPHPTreeDirector
 
 CBPHPTreeDirector::CBPHPTreeDirector
 	(
-	istream&			projInput,
+	std::istream&			projInput,
 	const JFileVersion	projVers,
-	istream*			setInput,
+	std::istream*			setInput,
 	const JFileVersion	setVers,
-	istream*			symInput,
+	std::istream*			symInput,
 	const JFileVersion	symVers,
 	CBProjectDocument*	supervisor,
 	const JBoolean		subProject
@@ -257,11 +257,11 @@ CBPHPTreeDirector::NewPHPTree
 CBTree*
 CBPHPTreeDirector::StreamInPHPTree
 	(
-	istream&			projInput,
+	std::istream&			projInput,
 	const JFileVersion	projVers,
-	istream*			setInput,
+	std::istream*			setInput,
 	const JFileVersion	setVers,
-	istream*			symInput,
+	std::istream*			symInput,
 	const JFileVersion	symVers,
 	CBTreeDirector*		director,
 	const JSize			marginWidth,

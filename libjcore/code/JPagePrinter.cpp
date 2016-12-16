@@ -130,10 +130,10 @@ JPagePrinter::ImageOrientationChanged
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&						input,
+	std::istream&						input,
 	JPagePrinter::ImageOrientation&	orientation
 	)
 {
@@ -145,10 +145,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&								output,
+	std::ostream&								output,
 	const JPagePrinter::ImageOrientation	orientation
 	)
 {

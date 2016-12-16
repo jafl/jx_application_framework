@@ -18,7 +18,7 @@
 JSize
 JTellg
 	(
-	istream& stream
+	std::istream& stream
 	)
 {
 	return stream.tellg();
@@ -34,22 +34,22 @@ JTellg
 void
 JSeekg
 	(
-	istream&	stream,
+	std::istream&	stream,
 	long		position
 	)
 {
-	stream.seekg((streamoff) position);
+	stream.seekg((std::streamoff) position);
 }
 
 void
 JSeekg
 	(
-	istream&			stream,
+	std::istream&			stream,
 	long				offset,
 	JIOStreamSeekDir	direction
 	)
 {
-	stream.seekg((streamoff) offset, direction);
+	stream.seekg((std::streamoff) offset, direction);
 }
 
 #endif
@@ -57,8 +57,8 @@ JSeekg
 void
 JSeekg
 	(
-	istream&	stream,
-	streampos	position
+	std::istream&	stream,
+	std::streampos	position
 	)
 {
 	stream.seekg(position);
@@ -67,8 +67,8 @@ JSeekg
 void
 JSeekg
 	(
-	istream&			stream,
-	streamoff			offset,
+	std::istream&			stream,
+	std::streamoff			offset,
 	JIOStreamSeekDir	direction
 	)
 {
@@ -83,7 +83,7 @@ JSeekg
 JSize
 JTellp
 	(
-	ostream& stream
+	std::ostream& stream
 	)
 {
 	return stream.tellp();
@@ -99,22 +99,22 @@ JTellp
 void
 JSeekp
 	(
-	ostream&	stream,
+	std::ostream&	stream,
 	long		position
 	)
 {
-	stream.seekp((streamoff) position);
+	stream.seekp((std::streamoff) position);
 }
 
 void
 JSeekp
 	(
-	ostream&			stream,
+	std::ostream&			stream,
 	long				offset,
 	JIOStreamSeekDir	direction
 	)
 {
-	stream.seekp((streamoff) offset, direction);
+	stream.seekp((std::streamoff) offset, direction);
 }
 
 #endif
@@ -122,8 +122,8 @@ JSeekp
 void
 JSeekp
 	(
-	ostream&	stream,
-	streampos	position
+	std::ostream&	stream,
+	std::streampos	position
 	)
 {
 	stream.seekp(position);
@@ -132,8 +132,8 @@ JSeekp
 void
 JSeekp
 	(
-	ostream&			stream,
-	streamoff			offset,
+	std::ostream&			stream,
+	std::streamoff			offset,
 	JIOStreamSeekDir	direction
 	)
 {
@@ -148,9 +148,9 @@ JSeekp
 void
 JSetState
 	(
-	ios&		stream,
+	std::ios&		stream,
 	const int	flag
 	)
 {
-	stream.setstate((ios_base::iostate) flag);
+	stream.setstate((std::ios_base::iostate) flag);
 }

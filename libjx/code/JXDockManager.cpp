@@ -336,7 +336,7 @@ JXDockManager::DirectorClosed
 void
 JXDockManager::ReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	CloseAll();
@@ -398,7 +398,7 @@ JXDockManager::ReadSetup
 void
 JXDockManager::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -434,7 +434,7 @@ JXDockManager::WriteSetup
 void
 JXDockManager::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	ReadSetup(input);
@@ -448,7 +448,7 @@ JXDockManager::ReadPrefs
 void
 JXDockManager::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

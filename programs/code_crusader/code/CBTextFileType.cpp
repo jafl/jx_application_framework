@@ -470,10 +470,10 @@ CBShutdownCompleters()
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&		input,
+	std::istream&		input,
 	CBTextFileType&	type
 	)
 {
@@ -484,10 +484,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&				output,
+	std::ostream&				output,
 	const CBTextFileType	type
 	)
 {

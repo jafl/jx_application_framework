@@ -538,7 +538,7 @@ CBRunCommandDialog::AddCommandToMenu
 void
 CBRunCommandDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -599,7 +599,7 @@ CBRunCommandDialog::ReadPrefs
 void
 CBRunCommandDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

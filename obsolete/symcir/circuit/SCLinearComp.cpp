@@ -59,7 +59,7 @@ SCLinearComp::SCLinearComp
 
 SCLinearComp::SCLinearComp
 	(
-	istream&				input,
+	std::istream&				input,
 	const JFileVersion		vers,
 	const SCComponentType	type,
 	SCCircuit*				theCircuit
@@ -76,7 +76,7 @@ SCLinearComp::SCLinearComp
 
 SCLinearComp::SCLinearComp
 	(
-	istream&				input,
+	std::istream&				input,
 	const SCComponentType	type,
 	SCCircuit*				theCircuit
 	)
@@ -229,7 +229,7 @@ SCLinearComp::SetTerminal
 void
 SCLinearComp::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -248,7 +248,7 @@ SCLinearComp::StreamOut
 void
 SCLinearComp::PrintToNetlist
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

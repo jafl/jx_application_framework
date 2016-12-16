@@ -92,6 +92,6 @@ WarSocket::ResetTimer()
 	itsTimerID = (reactor())->schedule_timer(this, NULL, ACE_Time_Value(kClientDeadTime));
 	if (itsTimerID == -1)
 		{
-		cerr << "WarSocket::ResetTimer() is unable to schedule timeout" << endl;
+		std::cerr << "WarSocket::ResetTimer() is unable to schedule timeout" << std::endl;
 		}
 }

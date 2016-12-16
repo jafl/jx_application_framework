@@ -47,8 +47,8 @@ public:
 
 	// override only in leaf classes
 
-	virtual void	ReadPrefs(istream& input) = 0;
-	virtual void	WritePrefs(ostream& output, const JFileVersion vers) const = 0;
+	virtual void	ReadPrefs(std::istream& input) = 0;
+	virtual void	WritePrefs(std::ostream& output, const JFileVersion vers) const = 0;
 
 protected:
 

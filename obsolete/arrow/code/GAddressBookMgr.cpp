@@ -106,7 +106,7 @@ GAddressBookMgr::GetNextRecord
 	(
 	JString& line,
 	JString& record,
-	istream& is
+	std::istream& is
 	)
 {
 	if (line.IsEmpty())
@@ -186,7 +186,7 @@ GAddressBookMgr::AddAddressBook
 	GAddressBookTreeNode* book = new
 		GAddressBookTreeNode(dirEntry, base, dirEntry->GetName());
 	assert(book != NULL);
-	ifstream is(name);
+	std::ifstream is(name);
 	while (is.good())
 		{
 		JString line = JReadLine(is);

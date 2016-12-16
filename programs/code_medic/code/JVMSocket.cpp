@@ -213,7 +213,7 @@ JVMSocket::StartTimer()
 	itsTimerID = (reactor())->schedule_timer(this, NULL, ACE_Time_Value(kClientDeadTime));
 	if (itsTimerID == -1)
 		{
-		cerr << "JVMSocket::StartTimer() is unable to schedule timeout" << endl;
+		std::cerr << "JVMSocket::StartTimer() is unable to schedule timeout" << std::endl;
 		}
 }
 

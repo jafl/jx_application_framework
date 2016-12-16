@@ -31,7 +31,7 @@ main()
 {
 	JSize i;
 
-	cout << "Beginning JStringMap test.  No news is good news." << endl;
+	std::cout << "Beginning JStringMap test.  No news is good news." << std::endl;
 
 	const JCharacter* keyConst = "testkey";
 	JCharacter* const key = jnew JCharacter[strlen(keyConst)+1];
@@ -45,7 +45,7 @@ main()
 		if ( map.GetElement(key, &v) )
 			{
 			PrintError(__LINE__);
-			cout << "   Found a non-existent key" << endl;
+			std::cout << "   Found a non-existent key" << std::endl;
 			}
 
 		map.SetElement(key, 42);
@@ -56,13 +56,13 @@ main()
 			if (v != 42)
 				{
 				PrintError(__LINE__);
-				cout << "   Got value " << v << ", should be 42" << endl;
+				std::cout << "   Got value " << v << ", should be 42" << std::endl;
 				}
 			}
 		else
 			{
 			PrintError(__LINE__);
-			cout << "   Could not retrieve key value" << endl;
+			std::cout << "   Could not retrieve key value" << std::endl;
 			}
 
 		key[0] = 'T';
@@ -71,7 +71,7 @@ main()
 		if ( map.GetElement("testkey", &v) )
 			{
 			PrintError(__LINE__);
-			cout << "   Retrieved bad key key value" << endl;
+			std::cout << "   Retrieved bad key key value" << std::endl;
 			}
 
 		// This will fail because we've broken the table; the hash value didn't
@@ -79,7 +79,7 @@ main()
 		if ( map.GetElement("Testkey", &v) )
 			{
 			PrintError(__LINE__);
-			cout << "   Found a non-existent key" << endl;
+			std::cout << "   Found a non-existent key" << std::endl;
 			}
 
 		// Fix table
@@ -87,7 +87,7 @@ main()
 		if ( !map.GetElement("testkey", &v) )
 			{
 			PrintError(__LINE__);
-			cout << "   Couldn't find key!" << endl;
+			std::cout << "   Couldn't find key!" << std::endl;
 			}
 
 		v = 10;
@@ -96,25 +96,25 @@ main()
 			if (v != 42)
 				{
 				PrintError(__LINE__);
-				cout << "   Got value " << v << ", should be 42" << endl;
+				std::cout << "   Got value " << v << ", should be 42" << std::endl;
 				}
 			}
 		else
 			{
 			PrintError(__LINE__);
-			cout << "   Could not retrieve key value" << endl;
+			std::cout << "   Could not retrieve key value" << std::endl;
 			}
 
 		if ( !map.RemoveElement("testkey") )
 			{
 			PrintError(__LINE__);
-			cout << "   Unable to remove element" << endl;
+			std::cout << "   Unable to remove element" << std::endl;
 			}
 
 		if ( map.GetElement("testkey", &v) )
 			{
 			PrintError(__LINE__);
-			cout << "   Found a non-existent key" << endl;
+			std::cout << "   Found a non-existent key" << std::endl;
 			}
 	}
 
@@ -130,12 +130,12 @@ main()
 		if (map.GetElementCount() != 0)
 			{
 			PrintError(__LINE__);
-			cout << "   Map should be empty!" << endl;
+			std::cout << "   Map should be empty!" << std::endl;
 			}
 		if (map.GetLoadCount() != 0)
 			{
 			PrintError(__LINE__);
-			cout << "   Map should not have deleted elements!" << endl;
+			std::cout << "   Map should not have deleted elements!" << std::endl;
 			}
 
 // Search for keys, all should fail
@@ -146,26 +146,26 @@ main()
 			if ( map.GetElement(key, &v) )
 				{
 				PrintError(__LINE__);
-				cout << "   Found non-existent key \"" << key << "\"" << endl;
+				std::cout << "   Found non-existent key \"" << key << "\"" << std::endl;
 				}
 			}
 		if (map.GetElementCount() != 0)
 			{
 			PrintError(__LINE__);
-			cout << "   Map should be empty!" << endl;
+			std::cout << "   Map should be empty!" << std::endl;
 			}
 		if (map.GetLoadCount() != 0)
 			{
 			PrintError(__LINE__);
-			cout << "   Map should not have deleted elements!" << endl;
+			std::cout << "   Map should not have deleted elements!" << std::endl;
 			}
 
 // Insert keys
 		for (i=0;i<gNumStrings;i++)
 			{
 			key[0] = 'A' + i;
-	//		cout << "Inserting string \"" << key << "\" with fill/load factor "
-	//		     << map.GetFillFactor() << "/" << map.GetLoadFactor() << endl;
+	//		std::cout << "Inserting string \"" << key << "\" with fill/load factor "
+	//		     << map.GetFillFactor() << "/" << map.GetLoadFactor() << std::endl;
 			if ( !map.SetNewElement(key, i+42) )
 				{
 				PrintError(__LINE__);
@@ -174,12 +174,12 @@ main()
 		if (map.GetElementCount() != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Map contains wrong number of elements!" << endl;
+			std::cout << "   Map contains wrong number of elements!" << std::endl;
 			}
 		if (map.GetLoadCount() != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Map contains extra deleted elements!" << endl;
+			std::cout << "   Map contains extra deleted elements!" << std::endl;
 			}
 		{
 // Compare with cursor
@@ -192,21 +192,21 @@ main()
 			if (value - 42 != thisKey[0] - 'A')
 				{
 				PrintError(__LINE__);
-				cout << "   Cursor found value " << value << ", should have been "
-					 << (int) thisKey[0] << "!" << endl;
+				std::cout << "   Cursor found value " << value << ", should have been "
+					 << (int) thisKey[0] << "!" << std::endl;
 				}
 			key[0] = value - 42 + 'A';
 			if (strcmp(key, thisKey) != 0)
 				{
 				PrintError(__LINE__);
-				cout << "   Cursor found invalid key!" << endl;
+				std::cout << "   Cursor found invalid key!" << std::endl;
 				}
 			++count;
 			}
 		if (count != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Cursor counted wrong number of elements!" << endl;
+			std::cout << "   Cursor counted wrong number of elements!" << std::endl;
 			}
 		}
 
@@ -218,27 +218,27 @@ main()
 			if ( !map.GetElement(key, &v) )
 				{
 				PrintError(__LINE__);
-				cout << "   Could not retrieve key \"" << key << "\"" << endl;
+				std::cout << "   Could not retrieve key \"" << key << "\"" << std::endl;
 				}
 			else
 				{
 				if (JSize(v) != i+42)
 					{
 					PrintError(__LINE__);
-					cout << "   Key \"" << key << "\" has value " << v << " instead of "
-						 << i+42 << endl;
+					std::cout << "   Key \"" << key << "\" has value " << v << " instead of "
+						 << i+42 << std::endl;
 					}
 				}
 			}
 		if (map.GetElementCount() != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Map contains wrong number of elements!" << endl;
+			std::cout << "   Map contains wrong number of elements!" << std::endl;
 			}
 		if (map.GetLoadCount() != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Map contains extra deleted elements!" << endl;
+			std::cout << "   Map contains extra deleted elements!" << std::endl;
 			}
 
 // Search for other keys, all should fail
@@ -249,26 +249,26 @@ main()
 			if ( map.GetElement(key, &v) )
 				{
 				PrintError(__LINE__);
-				cout << "   Found non-existent key \"" << key << "\"" << endl;
+				std::cout << "   Found non-existent key \"" << key << "\"" << std::endl;
 				}
 			}
 		if (map.GetElementCount() != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Map contains wrong number of elements!" << endl;
+			std::cout << "   Map contains wrong number of elements!" << std::endl;
 			}
 		if (map.GetLoadCount() != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Map contains extra deleted elements!" << endl;
+			std::cout << "   Map contains extra deleted elements!" << std::endl;
 			}
 
 // Modify values
 		for (i=0;i<gNumStrings;i++)
 			{
 			key[0] = 'A' + i;
-	//		cout << "Changing value of string \"" << key << "\" with fill/load factor "
-	//		     << map.GetFillFactor() << "/" << map.GetLoadFactor() << endl;
+	//		std::cout << "Changing value of string \"" << key << "\" with fill/load factor "
+	//		     << map.GetFillFactor() << "/" << map.GetLoadFactor() << std::endl;
 			if ( !map.SetOldElement(key, 99+i) )
 				{
 				PrintError(__LINE__);
@@ -277,12 +277,12 @@ main()
 		if (map.GetElementCount() != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Map contains wrong number of elements!" << endl;
+			std::cout << "   Map contains wrong number of elements!" << std::endl;
 			}
 		if (map.GetLoadCount() != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Map contains extra deleted elements!" << endl;
+			std::cout << "   Map contains extra deleted elements!" << std::endl;
 			}
 
 // Search for keys, should all succeed
@@ -293,27 +293,27 @@ main()
 			if ( !map.GetElement(key, &v) )
 				{
 				PrintError(__LINE__);
-				cout << "   Could not retrieve key \"" << key << "\"" << endl;
+				std::cout << "   Could not retrieve key \"" << key << "\"" << std::endl;
 				}
 			else
 				{
 				if (JSize(v) != i+99)
 					{
 					PrintError(__LINE__);
-					cout << "   Key \"" << key << "\" has value " << v << " instead of "
-						 << i+99 << endl;
+					std::cout << "   Key \"" << key << "\" has value " << v << " instead of "
+						 << i+99 << std::endl;
 					}
 				}
 			}
 		if (map.GetElementCount() != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Map contains wrong number of elements!" << endl;
+			std::cout << "   Map contains wrong number of elements!" << std::endl;
 			}
 		if (map.GetLoadCount() != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Map contains extra deleted elements!" << endl;
+			std::cout << "   Map contains extra deleted elements!" << std::endl;
 			}
 
 // Search for other keys, all should fail
@@ -324,18 +324,18 @@ main()
 			if ( map.GetElement(key, &v) )
 				{
 				PrintError(__LINE__);
-				cout << "   Found non-existent key \"" << key << "\"" << endl;
+				std::cout << "   Found non-existent key \"" << key << "\"" << std::endl;
 				}
 			}
 		if (map.GetElementCount() != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Map contains wrong number of elements!" << endl;
+			std::cout << "   Map contains wrong number of elements!" << std::endl;
 			}
 		if (map.GetLoadCount() != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Map contains extra deleted elements!" << endl;
+			std::cout << "   Map contains extra deleted elements!" << std::endl;
 			}
 
 // Remove other keys, all should fail
@@ -345,42 +345,42 @@ main()
 			if ( map.RemoveElement(key) )
 				{
 				PrintError(__LINE__);
-				cout << "   Removal of non-existent key succeeded!" << endl;
+				std::cout << "   Removal of non-existent key succeeded!" << std::endl;
 				}
 			}
 		if (map.GetElementCount() != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Map contains wrong number of elements!" << endl;
+			std::cout << "   Map contains wrong number of elements!" << std::endl;
 			}
 		if (map.GetLoadCount() != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Map contains extra deleted elements!" << endl;
+			std::cout << "   Map contains extra deleted elements!" << std::endl;
 			}
 
 // Remove keys, all should succeed
 		for (i=0;i<gNumStrings;i++)
 			{
 			key[0] = 'A' + i;
-	//		cout << "Removing string \"" << key << "\" with fill/load factor "
-	//		     << map.GetFillFactor() << "/" << map.GetLoadFactor() << endl;
+	//		std::cout << "Removing string \"" << key << "\" with fill/load factor "
+	//		     << map.GetFillFactor() << "/" << map.GetLoadFactor() << std::endl;
 			if (!map.RemoveElement(key))
 				{
 				PrintError(__LINE__);
-				cout << "   Removal failed!" << endl;
-cout << "   Map still contains " << map.GetElementCount() << " keys!" << endl;
+				std::cout << "   Removal failed!" << std::endl;
+std::cout << "   Map still contains " << map.GetElementCount() << " keys!" << std::endl;
 				}
 			}
 		if (map.GetElementCount() != 0)
 			{
 			PrintError(__LINE__);
-			cout << "   Map still contains elements!" << endl;
+			std::cout << "   Map still contains elements!" << std::endl;
 			}
 		if (map.GetLoadCount() != 0)
 			{
 			PrintError(__LINE__);
-			cout << "   Map still contains deleted elements!" << endl;
+			std::cout << "   Map still contains deleted elements!" << std::endl;
 			}
 
 // Remove other keys, all should fail
@@ -390,26 +390,26 @@ cout << "   Map still contains " << map.GetElementCount() << " keys!" << endl;
 			if ( map.RemoveElement(key) )
 				{
 				PrintError(__LINE__);
-				cout << "   Removal of non-existent key succeeded!" << endl;
+				std::cout << "   Removal of non-existent key succeeded!" << std::endl;
 				}
 			}
 		if (map.GetElementCount() != 0)
 			{
 			PrintError(__LINE__);
-			cout << "   Map still contains elements!" << endl;
+			std::cout << "   Map still contains elements!" << std::endl;
 			}
 		if (map.GetLoadCount() != 0)
 			{
 			PrintError(__LINE__);
-			cout << "   Map still contains deleted elements!" << endl;
+			std::cout << "   Map still contains deleted elements!" << std::endl;
 			}
 
 // Re-insert
 		for (i=0;i<gNumStrings;i++)
 			{
 			key[0] = 'A' + i;
-	//		cout << "Inserting string \"" << key << "\" with fill/load factor "
-	//		     << map.GetFillFactor() << "/" << map.GetLoadFactor() << endl;
+	//		std::cout << "Inserting string \"" << key << "\" with fill/load factor "
+	//		     << map.GetFillFactor() << "/" << map.GetLoadFactor() << std::endl;
 			if ( !map.SetNewElement(key, -i) )
 				{
 				PrintError(__LINE__);
@@ -418,12 +418,12 @@ cout << "   Map still contains " << map.GetElementCount() << " keys!" << endl;
 		if (map.GetElementCount() != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Map contains wrong number of elements!" << endl;
+			std::cout << "   Map contains wrong number of elements!" << std::endl;
 			}
 		if (map.GetLoadCount() != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Map contains extra deleted elements!" << endl;
+			std::cout << "   Map contains extra deleted elements!" << std::endl;
 			}
 
 // Remove them all at once
@@ -431,20 +431,20 @@ cout << "   Map still contains " << map.GetElementCount() << " keys!" << endl;
 		if (map.GetElementCount() != 0)
 			{
 			PrintError(__LINE__);
-			cout << "   Map still contains elements!" << endl;
+			std::cout << "   Map still contains elements!" << std::endl;
 			}
 		if (map.GetLoadCount() != 0)
 			{
 			PrintError(__LINE__);
-			cout << "   Map still contains deleted elements!" << endl;
+			std::cout << "   Map still contains deleted elements!" << std::endl;
 			}
-	//	cout << "RemoveAll left fill/load factor " << map.GetFillFactor()
-	//	     << "/" << map.GetLoadFactor()<< endl;
+	//	std::cout << "RemoveAll left fill/load factor " << map.GetFillFactor()
+	//	     << "/" << map.GetLoadFactor()<< std::endl;
 	}
 
 	jdelete[] key;
 
-	cout << "Finished JStringMap test.  If nothing printed out, it passed." << endl;
+	std::cout << "Finished JStringMap test.  If nothing printed out, it passed." << std::endl;
 
 //	JMemoryManager::Instance()->SetPrintExitStats(kJTrue);
 
@@ -462,5 +462,5 @@ PrintError
 	long line
 	)
 {
-	cout << "*** testmap error at line " << line << endl;
+	std::cout << "*** testmap error at line " << line << std::endl;
 }

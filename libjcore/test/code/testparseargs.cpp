@@ -25,9 +25,9 @@ Test
 	const JSize count = argList.GetElementCount();
 	if (count != argc)
 		{
-		cerr << "wrong arg count (" << count << ") for" << endl;
-		cerr << cmd << endl;
-		cerr << "expecting " << argc << endl << endl;
+		std::cerr << "wrong arg count (" << count << ") for" << std::endl;
+		std::cerr << cmd << std::endl;
+		std::cerr << "expecting " << argc << std::endl << std::endl;
 		return kJFalse;
 		}
 
@@ -39,13 +39,13 @@ Test
 		const JString* arg = argList.NthElement(i);
 		if (*arg != va_arg(ap, const JCharacter*))
 			{
-			cerr << "wrong arg (" << i << ") for" << endl;
-			cerr << cmd << endl;
+			std::cerr << "wrong arg (" << i << ") for" << std::endl;
+			std::cerr << cmd << std::endl;
 			for (JIndex i=1; i<=count; i++)
 				{
-				cerr << *(argList.NthElement(i)) << endl;
+				std::cerr << *(argList.NthElement(i)) << std::endl;
 				}
-			cerr << endl;
+			std::cerr << std::endl;
 			return kJFalse;
 			}
 		}
@@ -62,7 +62,7 @@ main
 	char** argv
 	)
 {
-	cout << "No news is good news!" << endl << endl;
+	std::cout << "No news is good news!" << std::endl << std::endl;
 
 	Test(" ", 0);
 

@@ -28,8 +28,8 @@ public:
 
 	virtual ~GNBToDoNode();
 
-	virtual void		SaveNode(ostream& os);
-	virtual void		ReadNodeSetup(istream& is, const JFileVersion version);
+	virtual void		SaveNode(std::ostream& os);
+	virtual void		ReadNodeSetup(std::istream& is, const JFileVersion version);
 	virtual void		DiscardNode();
 	virtual void		PrintNode(JString* text, const JBoolean notes);
 

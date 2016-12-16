@@ -45,7 +45,7 @@ main
 			}
 		else
 			{
-			cerr << "invalid port number" << endl;
+			std::cerr << "invalid port number" << std::endl;
 			return 1;
 			}
 		}
@@ -57,8 +57,8 @@ main
 
 	else
 		{
-		cerr << "usage: " << argv[0];
-		cerr << " (-i port_number)|(-u socket_name)" << endl;
+		std::cerr << "usage: " << argv[0];
+		std::cerr << " (-i port_number)|(-u socket_name)" << std::endl;
 		return 1;
 		}
 
@@ -94,7 +94,7 @@ RunINETServer
 
 	if (acceptor.open(addr) == -1)
 		{
-		cerr << "error trying to open port: " << jerrno() << endl;
+		std::cerr << "error trying to open port: " << jerrno() << std::endl;
 		exit(1);
 		}
 
@@ -104,13 +104,13 @@ RunINETServer
 		{
 		if (acceptor.accept(socket) == -1)
 			{
-			cerr << "error waiting for connection: " << jerrno() << endl;
+			std::cerr << "error waiting for connection: " << jerrno() << std::endl;
 			break;
 			}
 
 		// Send and receive messages.
 
-		cout << "Connection established, fd=" << socket.get_handle() << endl;
+		std::cout << "Connection established, fd=" << socket.get_handle() << std::endl;
 		if (!TalkToClient(socket))
 			{
 			i--;
@@ -120,7 +120,7 @@ RunINETServer
 
 		if (socket.close() == -1) 
 			{
-			cerr << "error trying to close connection: " << jerrno() << endl;
+			std::cerr << "error trying to close connection: " << jerrno() << std::endl;
 			}
 
 		// This tests that queued clients are willing to wait.
@@ -167,7 +167,7 @@ RunUNIXServer
 
 	if (acceptor.open(addr) == -1)
 		{
-		cerr << "error trying to create socket: " << jerrno() << endl;
+		std::cerr << "error trying to create socket: " << jerrno() << std::endl;
 		exit(1);
 		}
 
@@ -177,13 +177,13 @@ RunUNIXServer
 		{
 		if (acceptor.accept(socket) == -1)
 			{
-			cerr << "error waiting for connection: " << jerrno() << endl;
+			std::cerr << "error waiting for connection: " << jerrno() << std::endl;
 			break;
 			}
 
 		// Send and receive messages.
 
-		cout << "Connection established, fd=" << socket.get_handle() << endl;
+		std::cout << "Connection established, fd=" << socket.get_handle() << std::endl;
 		if (!TalkToClient(socket))
 			{
 			i--;
@@ -193,7 +193,7 @@ RunUNIXServer
 
 		if (socket.close() == -1) 
 			{
-			cerr << "error trying to close connection: " << jerrno() << endl;
+			std::cerr << "error trying to close connection: " << jerrno() << std::endl;
 			}
 
 		// This tests that queued clients are willing to wait.

@@ -19,7 +19,7 @@
 
 GMScanner::GMScanner
 	(
-	istream* is
+	std::istream* is
 	)
 	:
 	GMFlexLexer(is)

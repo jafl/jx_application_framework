@@ -38,7 +38,7 @@ public:
 			   const JCoordinate x, const JCoordinate y,
 			   const JCoordinate w, const JCoordinate h);
 
-	SyGTreeSet(istream& input, const JFileVersion vers,
+	SyGTreeSet(std::istream& input, const JFileVersion vers,
 			   JXMenuBar* menuBar, const JCharacter* pathName,
 			   SyGPathInput* pathInput, JXCurrentPathMenu* pathMenu,
 			   SyGTrashButton* trashButton, JXContainer* enclosure,
@@ -52,7 +52,7 @@ public:
 
 	void	GoToItsPath();
 	void	SetWildcardFilter(const JCharacter* filter);
-	void	SavePreferences(ostream& os);
+	void	SavePreferences(std::ostream& os);
 
 	JBoolean	FilterVisible() const;
 	void		ShowFilter(const JBoolean show);

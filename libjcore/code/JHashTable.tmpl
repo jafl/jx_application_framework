@@ -660,12 +660,12 @@ JHashTable<V>::TryResizeTable
 		{
 		if (itsLgSize == lgSize)
 			{
-//cout << "Shortcut: marking all empty" << endl;
+//std::cout << "Shortcut: marking all empty" << std::endl;
 			MarkAllEmpty();
 			}
 		else
 			{
-//cout << "Shortcut: just realloc'ing list" << endl;
+//std::cout << "Shortcut: just realloc'ing list" << std::endl;
 			// This must be replaced with a true realloc as soon as JMM can do it
 			jdelete[] itsArray;
 			itsArray = NULL;
@@ -756,7 +756,7 @@ JHashTable<V>::ResizeTable
 	while ( !TryResizeTable(lgSize) )
 		{
 		// FitToLimits should really ensure that this never happens!
-//cout << "*** Resize failed, retrying" << endl;
+//std::cout << "*** Resize failed, retrying" << std::endl;
 		++lgSize;
 		}
 }
@@ -832,7 +832,7 @@ JHashTable<V>::FitToLimits
 			)
 		)
 		{
-//cout << "      Resizing from lg(size) = " << itsLgSize << " (load " << GetLoadFactor()
+//std::cout << "      Resizing from lg(size) = " << itsLgSize << " (load " << GetLoadFactor()
 //     << "%, " << GetLoadCount()-GetElementCount() << " deleted)\n";
 		JSize newLgSize = itsLgSize;
 
@@ -859,8 +859,8 @@ JHashTable<V>::FitToLimits
 		ResizeTable(newLgSize);
 		resized = kJTrue;
 
-//cout << "                            to " << itsLgSize << " (load " << GetLoadFactor()
-//     << "%, " << GetLoadCount()-GetElementCount() << " deleted)" << endl;
+//std::cout << "                            to " << itsLgSize << " (load " << GetLoadFactor()
+//     << "%, " << GetLoadCount()-GetElementCount() << " deleted)" << std::endl;
 		}
 
 #if 0

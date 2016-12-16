@@ -442,8 +442,8 @@ JMemoryManager::Instance()
 				}
 			else
 				{
-				cerr << "Failed to create exit stats file:" << endl;
-				cerr << err.GetMessage() << endl;
+				std::cerr << "Failed to create exit stats file:" << std::endl;
+				std::cerr << err.GetMessage() << std::endl;
 				}
 			}
 		}
@@ -467,7 +467,7 @@ JMemoryManager::New
 {
 	if (theAbortUnknownAllocFlag && line == 0)
 		{
-		cout << "Memory allocated by unknown code, aborting...\n" << endl;
+		std::cout << "Memory allocated by unknown code, aborting...\n" << std::endl;
 		abort();
 		}
 
@@ -476,7 +476,7 @@ JMemoryManager::New
 
 	if (newBlock == NULL)
 		{
-		cout << "failed to allocate block of size " << trueSize << endl;
+		std::cout << "failed to allocate block of size " << trueSize << std::endl;
 		}
 
 	assert(newBlock != NULL);
@@ -548,37 +548,37 @@ JMemoryManager::PrintMemoryStats()
 {
 	if (itsMemoryTable != NULL)
 		{
-		cout << "\n   Dynamic memory usage:\n";
+		std::cout << "\n   Dynamic memory usage:\n";
 #if 0
-		cout << "\n";
-		cout << "      Tag memory per block: " << 2*itsTagSize << " bytes" << "\n";
-		cout << "\n";
+		std::cout << "\n";
+		std::cout << "      Tag memory per block: " << 2*itsTagSize << " bytes" << "\n";
+		std::cout << "\n";
 #endif
 		JSize count = itsMemoryTable->GetAllocatedCount();
-		cout << "      Blocks currently allocated: " << count << "\n";
+		std::cout << "      Blocks currently allocated: " << count << "\n";
 		count = itsMemoryTable->GetDeletedCount();
-		cout << "                  Deleted blocks: " << count << "\n";
+		std::cout << "                  Deleted blocks: " << count << "\n";
 		count = itsMemoryTable->GetTotalCount();
-		cout << "                    Total blocks: " << count << "\n";
-		cout << "\n";
+		std::cout << "                    Total blocks: " << count << "\n";
+		std::cout << "\n";
 #if 0
 		JSize currentMemory = 0;
 		for (JSize i=1;i<=blockCount;i++)
 			{
 			currentMemory += itsActiveRecordTable->GetElement(i).GetSize();
 			}
-		cout << "      Current memory allocated: " << currentMemory << " bytes\n";
-		cout << "        Total memory allocated: " << itsTotalUserMemory << " bytes\n";
-		cout << "    Total tag memory allocated: " << itsTotalBlocks*2*itsTagSize << " bytes\n";
-		cout << "        Total memory allocated: "
+		std::cout << "      Current memory allocated: " << currentMemory << " bytes\n";
+		std::cout << "        Total memory allocated: " << itsTotalUserMemory << " bytes\n";
+		std::cout << "    Total tag memory allocated: " << itsTotalBlocks*2*itsTagSize << " bytes\n";
+		std::cout << "        Total memory allocated: "
 			 << itsTotalUserMemory + itsTotalBlocks*2*itsTagSize << " bytes\n";
-		cout << "\n";
+		std::cout << "\n";
 		size_t managerMemory = sizeof(*this);
 		managerMemory += sizeof(*itsActiveRecordTable);
 		// Need space for array's internal list?
-		cout << "      Additional memory used by memory manager: " << managerMemory << " bytes\n";
+		std::cout << "      Additional memory used by memory manager: " << managerMemory << " bytes\n";
 #endif
-		cout << endl;
+		std::cout << std::endl;
 		}
 }
 
@@ -734,8 +734,8 @@ JMemoryManager::BeginRecursiveBlock()
 	Instance()->itsRecursionDepth++;
 	if (Instance()->itsRecursionDepth > 1)
 	{
-		cout << "Unusual (but probably safe) memory manager behavior: JMM recursing at depth "
-			 << Instance()->itsRecursionDepth << ".  Please notify the author." << endl;
+		std::cout << "Unusual (but probably safe) memory manager behavior: JMM recursing at depth "
+			 << Instance()->itsRecursionDepth << ".  Please notify the author." << std::endl;
 	}
 }
 
@@ -872,8 +872,8 @@ JMemoryManager::HandleExit()
 
 	if (itsPrintExitStatsFlag)
 		{
-		cout << "\n*******************************************************************" << endl;
-		cout << "\n\nJCore Exit Statistics: anything unallocated is probably garbage" << "\n";
+		std::cout << "\n*******************************************************************" << std::endl;
+		std::cout << "\n\nJCore Exit Statistics: anything unallocated is probably garbage" << "\n";
 		PrintMemoryStats();
 
 		PrintAllocated();
@@ -925,7 +925,7 @@ JMemoryManager::ConnectToDebugger
 	if (connector->connect(itsLink, addr, ACE_Synch_Options::asynch) == -1 &&
 		jerrno() != EAGAIN)
 		{
-		cerr << "error trying to connect JMemoryManager::DebugLink: " << jerrno() << endl;
+		std::cerr << "error trying to connect JMemoryManager::DebugLink: " << jerrno() << std::endl;
 		}
 	else
 		{
@@ -957,8 +957,8 @@ JMemoryManager::HandleDebugRequest()
 	input >> vers;
 	if (vers != kJMemoryManagerDebugVersion)
 		{
-		cerr << "JMemoryManager::HandleDebugRequest received version (" << vers;
-		cerr << ") different than expected (" << kJMemoryManagerDebugVersion << ")" << endl;
+		std::cerr << "JMemoryManager::HandleDebugRequest received version (" << vers;
+		std::cerr << ") different than expected (" << kJMemoryManagerDebugVersion << ")" << std::endl;
 		return;
 		}
 
@@ -1000,7 +1000,7 @@ JMemoryManager::SendRunningStats()
 void
 JMemoryManager::WriteRunningStats
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -1020,7 +1020,7 @@ JMemoryManager::WriteRunningStats
 void
 JMemoryManager::SendRecords
 	(
-	istream& input
+	std::istream& input
 	)
 	const
 {
@@ -1043,7 +1043,7 @@ JMemoryManager::SendRecords
 void
 JMemoryManager::WriteRecords
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const RecordFilter&	filter
 	)
 	const
@@ -1387,7 +1387,7 @@ JMemoryManager::RecordFilter::Match
 void
 JMemoryManager::RecordFilter::Read
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	input >> includeInternal;
@@ -1411,7 +1411,7 @@ JMemoryManager::RecordFilter::Read
 void
 JMemoryManager::RecordFilter::Write
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

@@ -130,7 +130,7 @@ CBCShellStyler::~CBCShellStyler()
 void
 CBCShellStyler::Scan
 	(
-	istream&			input,
+	std::istream&			input,
 	const TokenExtra&	initData
 	)
 {

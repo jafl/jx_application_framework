@@ -19,28 +19,28 @@ main
 		return 0;
 		}
 
-	ofstream file0(fileName);
+	std::ofstream file0(fileName);
 	file0 << "0123456789";
 	file0.close();		// force write to disk
-	fstream file1(fileName, kJTextFile);
-	cout << "Length of file (10): " << JGetFStreamLength(file1) << endl;
+	std::fstream file1(fileName, kJTextFile);
+	std::cout << "Length of file (10): " << JGetFStreamLength(file1) << std::endl;
 
-	fstream* file2 = JSetFStreamLength(fileName, file1, 20, kJTextFile);
-	cout << "Old fstream open? (0) " << (file1.rdbuf())->is_open() << endl;
-	cout << "Length of file (20): " << JGetFStreamLength(*file2) << endl;
+	std::fstream* file2 = JSetFStreamLength(fileName, file1, 20, kJTextFile);
+	std::cout << "Old std::fstream open? (0) " << (file1.rdbuf())->is_open() << std::endl;
+	std::cout << "Length of file (20): " << JGetFStreamLength(*file2) << std::endl;
 
-	fstream* file3 = JSetFStreamLength(fileName, *file2, 5, kJTextFile);
-	cout << "Old fstream open? (0) " << (file2->rdbuf())->is_open() << endl;
-	cout << "Length of file (5): " << JGetFStreamLength(*file3) << endl;
+	std::fstream* file3 = JSetFStreamLength(fileName, *file2, 5, kJTextFile);
+	std::cout << "Old std::fstream open? (0) " << (file2->rdbuf())->is_open() << std::endl;
+	std::cout << "Length of file (5): " << JGetFStreamLength(*file3) << std::endl;
 
 	file3->close();
 
-	ofstream file4(fileName);
+	std::ofstream file4(fileName);
 	file4.close();
 
 	file1.open(fileName, kJTextFile);
-	cout << "default open of ofstream should erase file" << endl;
-	cout << "Length of file (0): " << JGetFStreamLength(file1) << endl;
+	std::cout << "default open of std::ofstream should erase file" << std::endl;
+	std::cout << "Length of file (0): " << JGetFStreamLength(file1) << std::endl;
 	file1.close();
 
 	remove(fileName);

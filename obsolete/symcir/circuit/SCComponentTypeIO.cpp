@@ -9,10 +9,10 @@
 
 #include "SCComponentType.h"
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&			input,
+	std::istream&			input,
 	SCComponentType&	type
 	)
 {
@@ -25,10 +25,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&				output,
+	std::ostream&				output,
 	const SCComponentType	type
 	)
 {

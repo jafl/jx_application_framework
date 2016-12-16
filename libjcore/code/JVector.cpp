@@ -670,10 +670,10 @@ operator==
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&	input,
+	std::istream&	input,
 	JVector&	aVector
 	)
 {
@@ -690,10 +690,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const JVector&	aVector
 	)
 {

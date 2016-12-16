@@ -52,7 +52,7 @@ SCCircuit::SCCircuit()
 
 SCCircuit::SCCircuit
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 	:
@@ -1421,22 +1421,22 @@ SCCircuit::Insert
 void
 SCCircuit::WriteNetlist
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
-	output << *itsTitle << endl;
-	output << '*' << endl;
+	output << *itsTitle << std::endl;
+	output << '*' << std::endl;
 
 	const JSize compCount = GetElementCount();
 	for (JIndex i=1; i<=compCount; i++)
 		{
 		(GetComponent(i))->PrintToNetlist(output);
-		output << endl;
+		output << std::endl;
 		}
 
-	output << '*' << endl;
-	output << ".END" << endl;
+	output << '*' << std::endl;
+	output << ".END" << std::endl;
 }
 
 /******************************************************************************
@@ -1471,12 +1471,12 @@ SCCircuit::ParseNetList
 	const JCharacter* fileName
 	)
 {
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 
 	// first line is title
 
 	*itsTitle = JReadLine(input);
-	input >> ws;
+	input >> std::ws;
 
 	// parse lines until end-of-file
 
@@ -1488,11 +1488,11 @@ SCCircuit::ParseNetList
 			JIndex compIndex;
 			if (!AddComponent(newComponent, &compIndex))
 				{
-				cerr << "Unable to add component \"" << newComponent->GetName() << '"' << endl;
+				std::cerr << "Unable to add component \"" << newComponent->GetName() << '"' << std::endl;
 				delete newComponent;
 				}
 			}
-		input >> ws;
+		input >> std::ws;
 		}
 }
 
@@ -1596,10 +1596,10 @@ SCCircuit::GenerateEquations
 
  ******************************************************************************/
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const SCCircuit&	circuit
 	)
 {

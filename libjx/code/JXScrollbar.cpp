@@ -1082,7 +1082,7 @@ JXScrollbar::CompareScrolltabValues
 void
 JXScrollbar::ReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -1123,7 +1123,7 @@ JXScrollbar::ReadSetup
 void
 JXScrollbar::SkipSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JIgnoreUntil(input, kSetupDataEndDelimiter);
@@ -1137,7 +1137,7 @@ JXScrollbar::SkipSetup
 void
 JXScrollbar::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

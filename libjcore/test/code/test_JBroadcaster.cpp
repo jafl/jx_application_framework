@@ -44,7 +44,7 @@ Test::Receive
 	const Message&	message
 	)
 {
-	cout << this << " received message of type " << message.GetType() << endl;
+	std::cout << this << " received message of type " << message.GetType() << std::endl;
 
 	StopListening(&t3);
 	ListenTo(&t3);
@@ -54,28 +54,28 @@ class A
 {
 public:
 	virtual ~A() { };
-	virtual void foo() { cout << 'A' << endl; };
+	virtual void foo() { std::cout << 'A' << std::endl; };
 };
 
 class B : virtual public A
 {
 public:
 	virtual ~B() { };
-	virtual void foo() { cout << 'B' << endl; };
+	virtual void foo() { std::cout << 'B' << std::endl; };
 };
 
 class C : virtual public A
 {
 public:
 	virtual ~C() { };
-	virtual void foo() { cout << 'C' << endl; };
+	virtual void foo() { std::cout << 'C' << std::endl; };
 };
 
 class D : public B, public C
 {
 public:
 	virtual ~D() { };
-	virtual void foo() { cout << 'D' << endl; };
+	virtual void foo() { std::cout << 'D' << std::endl; };
 };
 
 struct PointerSize
@@ -108,9 +108,9 @@ main()
 	t3.Bcast(msg);
 
 	Test* t4 = &t1;
-	cout << t4 << endl;
+	std::cout << t4 << std::endl;
 	clearPointer((void*) &t4);
-	cout << t4 << endl;
+	std::cout << t4 << std::endl;
 
 	return 0;
 }

@@ -38,8 +38,8 @@ public:
 
 	void	Clear();
 
-	void	StreamIn(istream& input);
-	void	StreamOut(ostream& output) const;
+	void	StreamIn(std::istream& input);
+	void	StreamOut(std::ostream& output) const;
 
 protected:
 

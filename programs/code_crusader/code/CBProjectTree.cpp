@@ -28,7 +28,7 @@ CBProjectTree::CBProjectTree
 
 CBProjectTree::CBProjectTree
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	CBProjectDocument*	doc
 	)
@@ -55,7 +55,7 @@ CBProjectTree::~CBProjectTree()
 void
 CBProjectTree::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -190,7 +190,7 @@ CBProjectTree::Print
 void
 CBProjectTree::CreateFilesForTemplate
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 	const
@@ -206,7 +206,7 @@ CBProjectTree::CreateFilesForTemplate
 void
 CBProjectTree::SaveFilesInTemplate
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

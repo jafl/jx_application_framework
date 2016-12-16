@@ -64,7 +64,7 @@ public:
 	static FileStatus	Create(const JCharacter* fullName, const JBoolean silent,
 							   CBProjectDocument** doc);
 	static FileStatus	CanReadFile(const JCharacter* fullName);
-	static FileStatus	CanReadFile(istream& input, JFileVersion* actualFileVersion);
+	static FileStatus	CanReadFile(std::istream& input, JFileVersion* actualFileVersion);
 
 	virtual ~CBProjectDocument();
 
@@ -104,8 +104,8 @@ public:
 							const JBoolean rebuildMakefileDaily,
 							const CBProjectTable::DropFileAction dropFileAction);
 
-	static void	ReadStaticGlobalPrefs(istream& input, const JFileVersion vers);
-	static void	WriteStaticGlobalPrefs(ostream& output);
+	static void	ReadStaticGlobalPrefs(std::istream& input, const JFileVersion vers);
+	static void	WriteStaticGlobalPrefs(std::ostream& output);
 
 	static JBoolean	WillReopenTextFiles();
 	static void		ShouldReopenTextFiles(const JBoolean reopen);
@@ -120,7 +120,7 @@ public:
 	static const JCharacter*	GetSettingFileSuffix();
 	static const JCharacter*	GetSymbolFileSuffix();
 
-	void	ConvertCompileRunDialogs(istream& projInput, const JFileVersion vers);
+	void	ConvertCompileRunDialogs(std::istream& projInput, const JFileVersion vers);
 
 	// called by CBNewProjectSaveFileDialog
 
@@ -136,20 +136,20 @@ public:
 
 	// called by CBCommandTable
 
-	static JBoolean	ReadTasksFromProjectFile(istream& input, CBCommandManager::CmdList* cmdList);
+	static JBoolean	ReadTasksFromProjectFile(std::istream& input, CBCommandManager::CmdList* cmdList);
 
 protected:
 
 	CBProjectDocument(const JCharacter* fullName,
 					  const CBBuildManager::MakefileMethod makefileMethod,
 					  const JBoolean fromTemplate, const JCharacter* tmplFile);
-	CBProjectDocument(istream& input, const JCharacter* projName,
+	CBProjectDocument(std::istream& input, const JCharacter* projName,
 					  const JCharacter* setName, const JCharacter* symName,
 					  const JBoolean silent);
 
 	virtual void	DiscardChanges();
 	virtual JError	WriteFile(const JCharacter* fullName, const JBoolean safetySave) const;
-	virtual void	WriteTextFile(ostream& output, const JBoolean safetySave) const;
+	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 	virtual void	ReceiveWithFeedback(JBroadcaster* sender, Message* message);
@@ -176,7 +176,7 @@ private:
 
 	JProcess*							itsUpdateProcess;
 	CBExecOutputDocument::RecordLink*	itsUpdateLink;
-	ostream*							itsUpdateStream;
+	std::ostream*							itsUpdateStream;
 	JXProgressDisplay*					itsUpdatePG;
 	CBWaitForSymbolUpdateTask*			itsWaitForUpdateTask;
 	CBDelaySymbolUpdateTask*			itsDelaySymbolUpdateTask;
@@ -213,12 +213,12 @@ private:
 	void	BuildWindow(CBProjectTree* fileList);
 	void	UpdateCVSIgnore();
 
-	void	WriteFiles(ostream& projOutput,
-					   const JCharacter* setName, ostream* setOutput,
-					   const JCharacter* symName, ostream* symOutput) const;
+	void	WriteFiles(std::ostream& projOutput,
+					   const JCharacter* setName, std::ostream* setOutput,
+					   const JCharacter* symName, std::ostream* symOutput) const;
 
 	void	SaveAsTemplate() const;
-	void	ReadTemplate(istream& input, const JFileVersion tmplVers,
+	void	ReadTemplate(std::istream& input, const JFileVersion tmplVers,
 						 const JFileVersion projVers);
 	void	WriteTemplate(const JCharacter* fileName) const;
 

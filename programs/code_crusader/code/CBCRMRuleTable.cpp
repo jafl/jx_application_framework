@@ -410,7 +410,7 @@ CBCRMRuleTable::ReadData
 
 	JIndex firstNewRow = 0;
 
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 	JString first, rest, replace;
 	JIndex state = 1;
 	while (!input.eof() && !input.fail())
@@ -492,7 +492,7 @@ CBCRMRuleTable::WriteData
 	)
 	const
 {
-	ofstream output(fileName);
+	std::ofstream output(fileName);
 
 	const JStringTableData* data = GetStringData();
 	const JSize count            = GetRowCount();
@@ -515,7 +515,7 @@ CBCRMRuleTable::WriteData
 void
 CBCRMRuleTable::ReadGeometry
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -542,7 +542,7 @@ CBCRMRuleTable::ReadGeometry
 void
 CBCRMRuleTable::WriteGeometry
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

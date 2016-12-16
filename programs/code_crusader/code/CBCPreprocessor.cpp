@@ -119,7 +119,7 @@ static const JCharacter* kDefineMacroOption = "-I ";	// macro/macro+/macro=value
 void
 CBCPreprocessor::PrintMacrosForCTags
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -142,7 +142,7 @@ CBCPreprocessor::PrintMacrosForCTags
 				(info.value)->Print(output);
 				}
 
-			output << endl;
+			output << std::endl;
 			}
 		}
 }
@@ -189,7 +189,7 @@ CBCPreprocessor::CompareMacros
 void
 CBCPreprocessor::ReadSetup
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -199,7 +199,7 @@ CBCPreprocessor::ReadSetup
 
 	if (vers >= 71)
 		{
-		input >> ws;
+		input >> std::ws;
 		JIgnoreLine(input);
 		}
 
@@ -237,7 +237,7 @@ CBCPreprocessor::ReadSetup
 void
 CBCPreprocessor::ReadMacro
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -255,7 +255,7 @@ CBCPreprocessor::ReadMacro
 void
 CBCPreprocessor::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

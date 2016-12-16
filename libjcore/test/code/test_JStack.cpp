@@ -18,63 +18,63 @@ int main()
 
 JStack<long, JArray<long> > a1;									// constructor
 
-	cout << "stack a1 created" << endl << endl;
+	std::cout << "stack a1 created" << std::endl << std::endl;
 
-	cout << "a1 itemCount should be 0" << endl;
-	cout << "a1 itemCount = " << a1.GetElementCount() << endl << endl;
+	std::cout << "a1 itemCount should be 0" << std::endl;
+	std::cout << "a1 itemCount = " << a1.GetElementCount() << std::endl << std::endl;
 
 	for (i=1;i<=5;i++)
 		{
 		a1.Push(i);
 		}
 
-	cout << "a1 itemCount should be 5" << endl;
-	cout << "a1 itemCount = " << a1.GetElementCount() << endl << endl;
+	std::cout << "a1 itemCount should be 5" << std::endl;
+	std::cout << "a1 itemCount = " << a1.GetElementCount() << std::endl << std::endl;
 
 	JWaitForReturn();
 
 JStack<long, JArray<long> > a2 = a1;							// copy constructor
 
-	cout << "stack a2 created from a1" << endl << endl;
+	std::cout << "stack a2 created from a1" << std::endl << std::endl;
 
-	cout << "a2 itemCount should be 5" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
+	std::cout << "a2 itemCount should be 5" << std::endl;
+	std::cout << "a2 itemCount=" << a2.GetElementCount() << std::endl << std::endl;
 
-	cout << "display should be:  5 4 3 2 1" << endl;
+	std::cout << "display should be:  5 4 3 2 1" << std::endl;
 
 	while (!a1.IsEmpty())
 		{
 		i = a1.Pop();
-		cout << i << ' ';
+		std::cout << i << ' ';
 		}
-	cout << endl;
+	std::cout << std::endl;
 
-	cout << "a1 itemCount should be 0" << endl;
-	cout << "a1 itemCount=" << a1.GetElementCount() << endl << endl;
+	std::cout << "a1 itemCount should be 0" << std::endl;
+	std::cout << "a1 itemCount=" << a1.GetElementCount() << std::endl << std::endl;
 
-	cout << "display should be:  5 4" << endl;
+	std::cout << "display should be:  5 4" << std::endl;
 
 	do
 		{
 		i = a2.Pop();
-		cout << i << ' ';
+		std::cout << i << ' ';
 		}
 		while (i > 4);
 
-	cout << endl;
+	std::cout << std::endl;
 
-	cout << "a2 itemCount should be 3" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
+	std::cout << "a2 itemCount should be 3" << std::endl;
+	std::cout << "a2 itemCount=" << a2.GetElementCount() << std::endl << std::endl;
 
 	a2.Unwind(2);
 
-	cout << "a2 itemCount should be 1" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
+	std::cout << "a2 itemCount should be 1" << std::endl;
+	std::cout << "a2 itemCount=" << a2.GetElementCount() << std::endl << std::endl;
 
 	a2.Clear();
 
-	cout << "a2 itemCount should be 0" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
+	std::cout << "a2 itemCount should be 0" << std::endl;
+	std::cout << "a2 itemCount=" << a2.GetElementCount() << std::endl << std::endl;
 
 	return 0;
 }

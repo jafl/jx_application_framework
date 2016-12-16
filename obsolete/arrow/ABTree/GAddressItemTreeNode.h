@@ -41,7 +41,7 @@ public:
 	void			SetText(const JString& text);
 
 	virtual JBoolean OKToChange() const;
-	virtual void	 Save(ostream& os);
+	virtual void	 Save(std::ostream& os);
 
 private:
 

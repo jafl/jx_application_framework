@@ -17,7 +17,7 @@
 /******************************************************************************
  JReadFile
 
-	Read characters from the fstream until the end of the file is reached.
+	Read characters from the std::fstream until the end of the file is reached.
 	These functions takes a JString* because the contents of the file
 	could be very large, and returning a JString requires twice as much
 	memory because of the copy constructor.
@@ -34,14 +34,14 @@ JReadFile
 	JString*			str
 	)
 {
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 	JReadFile(input, str);
 }
 
 void
 JReadFile
 	(
-	ifstream&	input,
+	std::ifstream&	input,
 	JString*	str
 	)
 {
@@ -52,7 +52,7 @@ JReadFile
 void
 JReadFile
 	(
-	fstream&	input,
+	std::fstream&	input,
 	JString*	str
 	)
 {
@@ -70,33 +70,33 @@ JReadFile
 JSize
 JGetFStreamLength
 	(
-	ifstream& theStream
+	std::ifstream& theStream
 	)
 {
 	const long savedMark = theStream.tellg();
-	theStream.seekg(0, ios::end);
+	theStream.seekg(0, std::ios::end);
 	const JSize fileLength = theStream.tellg();
-	theStream.seekg(savedMark, ios::beg);
+	theStream.seekg(savedMark, std::ios::beg);
 	return fileLength;
 }
 
 JSize
 JGetFStreamLength
 	(
-	fstream& theStream
+	std::fstream& theStream
 	)
 {
 	const long savedMark = theStream.tellg();
-	theStream.seekg(0, ios::end);
+	theStream.seekg(0, std::ios::end);
 	const JSize fileLength = theStream.tellg();
-	theStream.seekg(savedMark, ios::beg);
+	theStream.seekg(savedMark, std::ios::beg);
 	return fileLength;
 }
 
 /******************************************************************************
  JConvertToStream
 
-	Convert the data from the given file descriptor into an ifstream.
+	Convert the data from the given file descriptor into an std::ifstream.
 	The location of the file is returned in tempFullName.
 
 	This would be unnecessary if libstdc++ provided a stream wrapper for
@@ -108,7 +108,7 @@ JBoolean
 JConvertToStream
 	(
 	const int		input,
-	ifstream*		input2,
+	std::ifstream*		input2,
 	JString*		tempFullName,
 	const JBoolean	closeInput
 	)
@@ -124,7 +124,7 @@ JConvertToStream
 		return kJFalse;
 		}
 
-	ofstream output(*tempFullName);
+	std::ofstream output(*tempFullName);
 	data.Print(output);
 	output.close();
 
@@ -134,25 +134,25 @@ JConvertToStream
 
 #if 0
 
-// These functions cannot be implemented with the latest draft specification of fstream
+// These functions cannot be implemented with the latest draft specification of std::fstream
 
 /******************************************************************************
  JOpenScratchFile
 
-	Open a temporary file and return it as an fstream.  Since we can't convince
+	Open a temporary file and return it as an std::fstream.  Since we can't convince
 	the filebuf to own the file, you must call JCloseScratchFile() to throw out
 	the file properly.
 
  ******************************************************************************/
 
-fstream*
+std::fstream*
 JOpenScratchFile()
 {
 	FILE* tempFile = tmpfile();
 	int fd = fileno(tempFile);
 	assert( fd != EOF );
 
-	fstream* theFile = jnew fstream(fd);
+	std::fstream* theFile = jnew std::fstream(fd);
 	assert( theFile != NULL );
 	assert( theFile->good() );
 
@@ -169,7 +169,7 @@ JOpenScratchFile()
 void
 JCloseScratchFile
 	(
-	fstream** theFile
+	std::fstream** theFile
 	)
 {
 	(**theFile).close();

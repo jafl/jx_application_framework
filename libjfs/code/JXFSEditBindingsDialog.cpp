@@ -586,7 +586,7 @@ JXFSEditBindingsDialog::WriteSetup()
 void
 JXFSEditBindingsDialog::ReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JXWindow* w = GetWindow();
@@ -602,7 +602,7 @@ JXFSEditBindingsDialog::ReadSetup
 void
 JXFSEditBindingsDialog::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 	GetWindow()->WriteGeometry(output);

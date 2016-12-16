@@ -21,12 +21,12 @@ class SCZinDirector : public SCDirectorBase
 public:
 
 	SCZinDirector(SCCircuitDocument* supervisor);
-	SCZinDirector(istream& input, const JFileVersion vers,
+	SCZinDirector(std::istream& input, const JFileVersion vers,
 				  SCCircuitDocument* supervisor);
 
 	virtual ~SCZinDirector();
 
-	virtual void	StreamOut(ostream& output) const;
+	virtual void	StreamOut(std::ostream& output) const;
 
 protected:
 

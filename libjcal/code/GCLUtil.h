@@ -86,10 +86,10 @@ int operator== (const CLDay d1, const CLDay d2);
 int operator> (const CLDay d1, const CLDay d2);
 int operator< (const CLDay d1, const CLDay d2);
 
-istream& operator>>(istream& input, CLDay& day);
-ostream& operator<<(ostream& output, const CLDay& day);
+std::istream& operator>>(std::istream& input, CLDay& day);
+std::ostream& operator<<(std::ostream& output, const CLDay& day);
 
-istream& operator>>(istream& input, CLTime& t);
-ostream& operator<<(ostream& output, const CLTime& t);
+std::istream& operator>>(std::istream& input, CLTime& t);
+std::ostream& operator<<(std::ostream& output, const CLTime& t);
 
 #endif

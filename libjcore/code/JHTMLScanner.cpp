@@ -61,7 +61,7 @@ JHTMLScanner::LexHTML
 void
 JHTMLScanner::LexHTML
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	TagInfo info;

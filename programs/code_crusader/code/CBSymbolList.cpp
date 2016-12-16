@@ -810,7 +810,7 @@ CBSymbolList::ParseFile
 void
 CBSymbolList::InitCtags
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 	(((itsProjDoc->GetCTreeDirector())->
@@ -825,7 +825,7 @@ CBSymbolList::InitCtags
 void
 CBSymbolList::ReadSymbolList
 	(
-	istream&			input,
+	std::istream&			input,
 	const CBLanguage	lang,
 	const JCharacter*	fullName,
 	const JFAID_t		fileID
@@ -834,11 +834,11 @@ CBSymbolList::ReadSymbolList
 	JString path, fileName;
 	JSplitPathAndName(fullName, &path, &fileName);
 
-	input >> ws;
+	input >> std::ws;
 	while (input.peek() == '!')
 		{
 		JIgnoreLine(input);
-		input >> ws;
+		input >> std::ws;
 		}
 
 	JStringPtrMap<JString> flags(JPtrArrayT::kDeleteAll);
@@ -847,7 +847,7 @@ CBSymbolList::ReadSymbolList
 		JString* name = jnew JString;
 		assert( name != NULL );
 
-		input >> ws;
+		input >> std::ws;
 		*name = JReadUntil(input, '\t');		// symbol name
 		if (input.eof() || input.fail())
 			{
@@ -927,13 +927,13 @@ CBSymbolList::ReadSymbolList
 void
 CBSymbolList::ReadSetup
 	(
-	istream&			projInput,
+	std::istream&			projInput,
 	const JFileVersion	projVers,
-	istream*			symInput,
+	std::istream*			symInput,
 	const JFileVersion	symVers
 	)
 {
-	istream* input          = (projVers <= 41 ? &projInput : symInput);
+	std::istream* input          = (projVers <= 41 ? &projInput : symInput);
 	const JFileVersion vers = (projVers <= 41 ? projVers   : symVers);
 	if (input != NULL)
 		{
@@ -952,7 +952,7 @@ CBSymbolList::ReadSetup
 void
 CBSymbolList::ReadSetup
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -1022,8 +1022,8 @@ CBSymbolList::ReadSetup
 void
 CBSymbolList::WriteSetup
 	(
-	ostream& projOutput,
-	ostream* symOutput
+	std::ostream& projOutput,
+	std::ostream* symOutput
 	)
 	const
 {

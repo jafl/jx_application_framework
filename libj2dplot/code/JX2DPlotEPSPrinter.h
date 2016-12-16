@@ -28,8 +28,8 @@ public:
 
 	// saving setup information
 
-	void	ReadX2DEPSSetup(istream& input);
-	void	WriteX2DEPSSetup(ostream& output) const;
+	void	ReadX2DEPSSetup(std::istream& input);
+	void	WriteX2DEPSSetup(std::ostream& output) const;
 
 protected:
 

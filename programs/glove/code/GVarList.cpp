@@ -77,18 +77,18 @@ GVarList::GVarList
 
 GVarList::GVarList
 	(
-	istream& input
+	std::istream& input
 	)
 	:
 	JVariableList()
 {
 	GVarListX();
 
-	input >> ws;
+	input >> std::ws;
 	while (input.peek() != '*')
 		{
 		JCharacter type;
-		input >> type >> ws;
+		input >> type >> std::ws;
 		if (type == 'N')
 			{
 			JString name = JReadUntilws(input);
@@ -127,7 +127,7 @@ GVarList::GVarList
 			JGetUserNotification()->ReportError(errorStr);
 			JIgnoreUntil(input, '\n');
 			}
-		input >> ws;
+		input >> std::ws;
 		}
 	JIgnoreUntil(input, '\n');
 }

@@ -60,10 +60,10 @@ public:
 	JBoolean	EmbeddedFileIsClosed(const JFAIndex& index) const;
 	JBoolean	AllEmbeddedFilesAreClosed() const;
 
-	void		ReplaceEmbeddedFileStreams(fstream* newStream);
+	void		ReplaceEmbeddedFileStreams(std::fstream* newStream);
 
-	void		ReadIndex(const JSize elementCount, istream& input);
-	void		WriteIndex(ostream& output);
+	void		ReadIndex(const JSize elementCount, std::istream& input);
+	void		WriteIndex(std::ostream& output);
 	JSize		GetIndexLength() const;
 
 private:

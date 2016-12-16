@@ -62,8 +62,8 @@ public:
 
 	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
 
-	void	PWXReadSetup(istream& input);
-	void	PWXWriteSetup(ostream& output) const;
+	void	PWXReadSetup(std::istream& input);
+	void	PWXWriteSetup(std::ostream& output) const;
 
 protected:
 

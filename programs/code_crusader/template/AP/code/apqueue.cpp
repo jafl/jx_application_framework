@@ -124,7 +124,7 @@ apqueue<itemType>::dequeue()
 {
     if (isEmpty())
     {
-        cerr << "dequeue from empty queue" << endl;
+        std::cerr << "dequeue from empty queue" << std::endl;
         exit(1);
     }
     
@@ -141,7 +141,7 @@ apqueue<itemType>::dequeue(itemType & item)
 {
     if (isEmpty())
     {
-        cerr << "dequeue from empty queue" << endl;
+        std::cerr << "dequeue from empty queue" << std::endl;
         exit(1);
     }
     item = myElements[myFront];

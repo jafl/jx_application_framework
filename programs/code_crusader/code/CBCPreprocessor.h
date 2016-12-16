@@ -41,10 +41,10 @@ public:
 	~CBCPreprocessor();
 
 	JBoolean	Preprocess(JString* text) const;
-	void		PrintMacrosForCTags(ostream& output) const;
+	void		PrintMacrosForCTags(std::ostream& output) const;
 
-	void	ReadSetup(istream& input, const JFileVersion vers);
-	void	WriteSetup(ostream& output) const;
+	void	ReadSetup(std::istream& input, const JFileVersion vers);
+	void	WriteSetup(std::ostream& output) const;
 
 	// called by CBMacroTable
 
@@ -63,7 +63,7 @@ private:
 					 const JSize wordLength) const;
 	int			IsIDCharacter(const JCharacter c) const;
 
-	void	ReadMacro(istream& input, const JFileVersion vers);
+	void	ReadMacro(std::istream& input, const JFileVersion vers);
 
 	static JOrderedSetT::CompareResult
 		CompareMacros(const MacroInfo& m1, const MacroInfo& m2);

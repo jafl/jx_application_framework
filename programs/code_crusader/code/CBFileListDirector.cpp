@@ -141,11 +141,11 @@ CBFileListDirector::CBFileListDirector
 
 CBFileListDirector::CBFileListDirector
 	(
-	istream&			projInput,
+	std::istream&			projInput,
 	const JFileVersion	projVers,
-	istream*			setInput,
+	std::istream*			setInput,
 	const JFileVersion	setVers,
-	istream*			symInput,
+	std::istream*			symInput,
 	const JFileVersion	symVers,
 	CBProjectDocument*	supervisor,
 	const JBoolean		subProject
@@ -231,9 +231,9 @@ CBFileListDirector::~CBFileListDirector()
 void
 CBFileListDirector::StreamOut
 	(
-	ostream& projOutput,
-	ostream* setOutput,
-	ostream* symOutput
+	std::ostream& projOutput,
+	std::ostream* setOutput,
+	std::ostream* symOutput
 	)
 	const
 {

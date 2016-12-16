@@ -38,7 +38,7 @@ SCPassiveLinearComp::SCPassiveLinearComp
 
 SCPassiveLinearComp::SCPassiveLinearComp
 	(
-	istream&				input,
+	std::istream&				input,
 	const JFileVersion		vers,
 	const SCComponentType	type,
 	SCCircuit*				theCircuit
@@ -53,7 +53,7 @@ SCPassiveLinearComp::SCPassiveLinearComp
 
 SCPassiveLinearComp::SCPassiveLinearComp
 	(
-	istream&				input,
+	std::istream&				input,
 	const SCComponentType	type,
 	SCCircuit*				theCircuit
 	)
@@ -99,7 +99,7 @@ SCPassiveLinearComp::SCPassiveLinearComp
 void
 SCPassiveLinearComp::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -115,7 +115,7 @@ SCPassiveLinearComp::StreamOut
 void
 SCPassiveLinearComp::PrintToNetlist
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

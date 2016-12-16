@@ -663,7 +663,7 @@ GPMMainDirector::HandleHelpMenu
 void
 GPMMainDirector::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -722,7 +722,7 @@ GPMMainDirector::ReadPrefs
 void
 GPMMainDirector::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

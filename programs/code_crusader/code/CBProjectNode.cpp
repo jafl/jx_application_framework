@@ -39,7 +39,7 @@ CBProjectNode::CBProjectNode
 
 CBProjectNode::CBProjectNode
 	(
-	istream&				input,
+	std::istream&				input,
 	const JFileVersion		vers,
 	CBProjectNode*			parent,
 	const CBProjectNodeType	type,
@@ -115,7 +115,7 @@ CBProjectNode::GetProjectDoc()
 CBProjectNode*
 CBProjectNode::StreamIn
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	CBProjectNode*		parent
 	)
@@ -154,7 +154,7 @@ CBProjectNode::StreamIn
 void
 CBProjectNode::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -552,7 +552,7 @@ CBProjectNode::IncludedInQMakeData()
 void
 CBProjectNode::CreateFilesForTemplate
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 	const
@@ -577,7 +577,7 @@ CBProjectNode::CreateFilesForTemplate
 void
 CBProjectNode::SaveFilesInTemplate
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

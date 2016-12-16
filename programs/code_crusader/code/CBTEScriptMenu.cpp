@@ -193,7 +193,7 @@ CBTEScriptMenu::HandleSelection
 			if ((JGetChooseSaveFile())->SaveFile(JGetString(kSavePromptID), NULL,
 												 origName, &fullName))
 				{
-				ofstream output(fullName);
+				std::ofstream output(fullName);
 				output.close();
 				JSetPermissions(fullName, 0744);
 				(CBGetDocumentManager())->OpenTextDocument(fullName);

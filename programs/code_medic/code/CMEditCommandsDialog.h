@@ -35,8 +35,8 @@ protected:
 	virtual void		Receive(JBroadcaster* sender, const Message& message);
 	virtual JBoolean	OKToDeactivate();
 
-	virtual void	ReadPrefs(istream& input);
-	virtual void	WritePrefs(ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input);
+	virtual void	WritePrefs(std::ostream& output) const;
 
 private:
 

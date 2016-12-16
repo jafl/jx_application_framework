@@ -662,7 +662,7 @@ JUpdateCVSIgnore
 		JEditVCS(cvsFile);
 		cvsData += name;
 
-		ofstream output(cvsFile);
+		std::ofstream output(cvsFile);
 		cvsData.Print(output);
 		}
 }

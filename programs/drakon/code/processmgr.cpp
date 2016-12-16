@@ -114,7 +114,7 @@ ParseTextOptions
 void
 PrintVersion()
 {
-	cout << endl;
-	cout << GPMGetVersionStr() << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << GPMGetVersionStr() << std::endl;
+	std::cout << std::endl;
 }

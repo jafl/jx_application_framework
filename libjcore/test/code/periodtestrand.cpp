@@ -26,13 +26,13 @@
 int
 main()
 {
-	cout << "\nBeginning Knuth-Morris period test.  Be prepared to wait a while." << endl;
+	std::cout << "\nBeginning Knuth-Morris period test.  Be prepared to wait a while." << std::endl;
 
 	JInt32 seed = 0;
 	unsigned long period = 0;
 
-	cout << "\n   Running " << callibrationCycles
-	     << " iterations to estimate running time." << endl;
+	std::cout << "\n   Running " << callibrationCycles
+	     << " iterations to estimate running time." << std::endl;
 
 	const time_t startCallibrationTime = time(NULL);
 	const clock_t startCallibrationClock = clock();
@@ -55,25 +55,25 @@ main()
 		{
 		++deltaCallibrationTime;
 		}
-	cout << "\n   Callibration run time : " << deltaCallibrationClock
-	     << " processor sec in " << deltaCallibrationTime << " real sec." << endl;
+	std::cout << "\n   Callibration run time : " << deltaCallibrationClock
+	     << " processor sec in " << deltaCallibrationTime << " real sec." << std::endl;
 
-	cout << "      (if the real run time was small, the following estimate\n"
-	        "       can be grossly inaccurate)" << endl;
+	std::cout << "      (if the real run time was small, the following estimate\n"
+	        "       can be grossly inaccurate)" << std::endl;
 
 	const double maxPeriod = 1.0*ULONG_MAX + 1.0;
 	const double timeMultiple = maxPeriod/callibrationCycles;
 
-	cout << "   Running time of full test should be no more than:\n      "
+	std::cout << "   Running time of full test should be no more than:\n      "
 	     << timeMultiple*deltaCallibrationClock << " processor sec = "
 	     << timeMultiple*deltaCallibrationClock/60.0 << " processor min in\n      "
 	     << timeMultiple*deltaCallibrationTime << " real sec = "
-	     << timeMultiple*deltaCallibrationTime/60.0 << " real min" << endl;
+	     << timeMultiple*deltaCallibrationTime/60.0 << " real min" << std::endl;
 
 	period = 0;
 	JInt32 startSeed = seed;
 
-	cout << "\n   Running full period test." << endl;
+	std::cout << "\n   Running full period test." << std::endl;
 
 	const time_t startTime = time(NULL);
 	const clock_t startClock = clock();
@@ -88,27 +88,27 @@ main()
 	clock_t endClock = clock();
 	time_t endTime = time(NULL);
 
-	cout << "   Full period test finished." << endl;
+	std::cout << "   Full period test finished." << std::endl;
 
 	const time_t deltaTime = endTime-startTime;
 	const double deltaClock = (1.0*endClock-startClock) / CLOCKS_PER_SEC;
 
-	cout << "\n   Actual run time : " << deltaClock
-	     << " processor sec in " << deltaTime << " real sec." << endl;
+	std::cout << "\n   Actual run time : " << deltaClock
+	     << " processor sec in " << deltaTime << " real sec." << std::endl;
 
 	if (period != 0)
 		{
-		cout << "\n   JKLRandInt32 has a period of " << period << endl;
-		cout << "   Maximum possible period is 2^32 ~ " << maxPeriod
-		     << ",\n   so the period is " << period/maxPeriod << " of ideal." << endl;
+		std::cout << "\n   JKLRandInt32 has a period of " << period << std::endl;
+		std::cout << "   Maximum possible period is 2^32 ~ " << maxPeriod
+		     << ",\n   so the period is " << period/maxPeriod << " of ideal." << std::endl;
 		}
 	else
 		{
-		cout << "\n   JKLRandInt32 has a period of 2^32 ~ " << maxPeriod
-		     << ", the maximum possible." << endl;
+		std::cout << "\n   JKLRandInt32 has a period of 2^32 ~ " << maxPeriod
+		     << ", the maximum possible." << std::endl;
 		}
 
-	cout << "\nFinished Knuth-Morris test.  Whew, that worked up a sweat.\n" << endl;
+	std::cout << "\nFinished Knuth-Morris test.  Whew, that worked up a sweat.\n" << std::endl;
 
 	return 0;
 }

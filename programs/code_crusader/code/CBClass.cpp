@@ -120,7 +120,7 @@ CBClass::CBClass
 
 CBClass::CBClass
 	(
-	istream&				input,
+	std::istream&				input,
 	const JFileVersion		vers,
 	CBTree*					tree,
 	CBClassRemoveNamespace* removeNamespaceFn
@@ -321,7 +321,7 @@ CBClass::~CBClass()
 void
 CBClass::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -1394,10 +1394,10 @@ CBClass::CompareFunctionNames
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&				input,
+	std::istream&				input,
 	CBClass::DeclareType&	type
 	)
 {
@@ -1411,10 +1411,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&					output,
+	std::ostream&					output,
 	const CBClass::DeclareType	type
 	)
 {
@@ -1427,10 +1427,10 @@ operator<<
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&				input,
+	std::istream&				input,
 	CBClass::InheritType&	type
 	)
 {
@@ -1444,10 +1444,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&					output,
+	std::ostream&					output,
 	const CBClass::InheritType	type
 	)
 {
@@ -1460,10 +1460,10 @@ operator<<
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&				input,
+	std::istream&				input,
 	CBClass::FnAccessLevel&	access
 	)
 {
@@ -1481,10 +1481,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&						output,
+	std::ostream&						output,
 	const CBClass::FnAccessLevel	access
 	)
 {

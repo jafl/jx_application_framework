@@ -23,7 +23,7 @@ public:
 	virtual ~JValueUnknown();
 
 	virtual JBoolean	Evaluate() const;
-	virtual void		Print(ostream& output) const;
+	virtual void		Print(std::ostream& output) const;
 	virtual JDecision*	Copy() const;
 
 private:

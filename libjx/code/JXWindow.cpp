@@ -2307,7 +2307,7 @@ JXWindow::ReadGeometry
 void
 JXWindow::ReadGeometry
 	(
-	istream&		input,
+	std::istream&		input,
 	const JBoolean	skipDocking
 	)
 {
@@ -2391,7 +2391,7 @@ JXWindow::ReadGeometry
 void
 JXWindow::SkipGeometry
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JIgnoreUntil(input, kGeometryDataEndDelimiter);
@@ -2423,7 +2423,7 @@ JXWindow::WriteGeometry
 void
 JXWindow::WriteGeometry
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -3224,7 +3224,7 @@ JXWindow::HandleFocusIn
 		(itsDockWidget->GetDockDirector())->SetFocusWindow(this);
 		}
 
-//	cout << "in : " << xEvent.window << ' ' << xEvent.detail << endl;
+//	std::cout << "in : " << xEvent.window << ' ' << xEvent.detail << std::endl;
 }
 
 /******************************************************************************
@@ -3249,7 +3249,7 @@ JXWindow::HandleFocusOut
 		(itsDockWidget->GetDockDirector())->ClearFocusWindow(this);
 		}
 
-//	cout << "out: " << xEvent.window << ' ' << xEvent.detail << endl;
+//	std::cout << "out: " << xEvent.window << ' ' << xEvent.detail << std::endl;
 }
 
 /******************************************************************************
@@ -4424,7 +4424,7 @@ JXWindow::HandleUnmapNotify
 		Broadcast(Unmapped());
 		}
 
-//	cout << "JXWindow::HandleUnmapNotify: " << itsIsMappedFlag << ' ' << itsIsIconifiedFlag << endl;
+//	std::cout << "JXWindow::HandleUnmapNotify: " << itsIsMappedFlag << ' ' << itsIsIconifiedFlag << std::endl;
 }
 
 /******************************************************************************
@@ -4454,10 +4454,10 @@ JXWindow::HandleWMStateChange()
 	if (actualType != itsDisplay->GetWMStateXAtom() || actualFormat != 32)
 		{
 #if ! defined _J_OSX && ! defined _J_CYGWIN
-		cerr << endl;
-		cerr << "Error detected in JXWindow::HandleMapNotify():" << endl;
-		cerr << "Your window manager is not setting the WM_STATE property correctly!" << endl;
-		cerr << endl;
+		std::cerr << std::endl;
+		std::cerr << "Error detected in JXWindow::HandleMapNotify():" << std::endl;
+		std::cerr << "Your window manager is not setting the WM_STATE property correctly!" << std::endl;
+		std::cerr << std::endl;
 //		JXApplication::Abort(JXDocumentManager::kServerDead, kJFalse);
 #endif
 
@@ -4485,7 +4485,7 @@ JXWindow::HandleWMStateChange()
 			}
 		}
 
-//	cout << "JXWindow::HandleWMStateChange: " << itsIsMappedFlag << ' ' << itsIsIconifiedFlag << endl;
+//	std::cout << "JXWindow::HandleWMStateChange: " << itsIsMappedFlag << ' ' << itsIsIconifiedFlag << std::endl;
 
 	XFree(xdata);
 }
@@ -4901,18 +4901,18 @@ JXWindow::PrintWindowConfig()
 {
 	const JXDisplay::WMBehavior& b = itsDisplay->GetWMBehavior();
 
-	cout << endl;
-	cout << "wmFrameCompensateFlag:    " << b.frameCompensateFlag << endl;
-	cout << "wmDesktopMapsWindowsFlag: " << b.desktopMapsWindowsFlag << endl;
-	cout << "wmReshowOffset:           " << b.reshowOffset << endl;
-	cout << "itsWMFrameLoc:            " << itsWMFrameLoc << endl;
-	cout << "itsDesktopLoc:            " << itsDesktopLoc << endl;
+	std::cout << std::endl;
+	std::cout << "wmFrameCompensateFlag:    " << b.frameCompensateFlag << std::endl;
+	std::cout << "wmDesktopMapsWindowsFlag: " << b.desktopMapsWindowsFlag << std::endl;
+	std::cout << "wmReshowOffset:           " << b.reshowOffset << std::endl;
+	std::cout << "itsWMFrameLoc:            " << itsWMFrameLoc << std::endl;
+	std::cout << "itsDesktopLoc:            " << itsDesktopLoc << std::endl;
 
 	if (itsIsDockedFlag)
 		{
-		cout << "itsUndockedWMFrameLoc:    " << itsUndockedWMFrameLoc << endl;
-		cout << "itsUndockedGeom:          " << itsUndockedGeom << endl;
+		std::cout << "itsUndockedWMFrameLoc:    " << itsUndockedWMFrameLoc << std::endl;
+		std::cout << "itsUndockedGeom:          " << itsUndockedGeom << std::endl;
 		}
 
-	cout << endl;
+	std::cout << std::endl;
 }

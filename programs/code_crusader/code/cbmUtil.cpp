@@ -70,7 +70,7 @@ JIndex i;
 
 	if (!replace && JFileExists(fileName))
 		{
-		ifstream input(fileName);
+		std::ifstream input(fileName);
 
 		JFileVersion vers;
 		input >> vers;
@@ -91,7 +91,7 @@ JIndex i;
 
 	if (JFileExists(fileName))
 		{
-		ifstream input(fileName);
+		std::ifstream input(fileName);
 		JFileVersion vers;
 		input >> vers;
 		if (vers > kCurrentSharedPrefsVersion)
@@ -100,7 +100,7 @@ JIndex i;
 			}
 		}
 
-	ofstream output(fileName);
+	std::ofstream output(fileName);
 	output << kCurrentSharedPrefsVersion;
 
 	// font
@@ -203,7 +203,7 @@ JIndex i;
 		return kJFalse;
 		}
 
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 	if (!input.good())
 		{
 		return kJFalse;

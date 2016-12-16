@@ -23,12 +23,12 @@ class SCEETDirector : public SCDirectorBase
 public:
 
 	SCEETDirector(SCCircuitDocument* supervisor);
-	SCEETDirector(istream& input, const JFileVersion vers,
+	SCEETDirector(std::istream& input, const JFileVersion vers,
 				  SCCircuitDocument* supervisor);
 
 	virtual ~SCEETDirector();
 
-	virtual void	StreamOut(ostream& output) const;
+	virtual void	StreamOut(std::ostream& output) const;
 
 protected:
 

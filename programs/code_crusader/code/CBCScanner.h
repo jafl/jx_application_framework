@@ -89,7 +89,7 @@ public:
 
 	virtual ~CBCScanner();
 
-	void	BeginScan(istream& input);
+	void	BeginScan(std::istream& input);
 	Token	NextToken();		// written by flex
 
 	JIndexRange	GetPPNameRange() const;
@@ -161,7 +161,7 @@ CBCScanner::ThisToken
 
 	Saves the range containing the name of the preprocessor directive.
 
-	e.g.  ...\n  #include <iostream>  // need to read from cin\n...
+	e.g.  ...\n  #include <iostream>  // need to read from std::cin\n...
 	             ^^^^^^^^
 
 	This is necessary because the entire line is treated as one token

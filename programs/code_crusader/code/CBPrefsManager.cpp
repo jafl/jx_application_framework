@@ -2060,7 +2060,7 @@ CBPrefsManager::CompareFileTypeSpecAndLength
 void
 CBPrefsManager::MacroSetInfo::CreateAndRead
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -2081,7 +2081,7 @@ CBPrefsManager::MacroSetInfo::CreateAndRead
 void
 CBPrefsManager::MacroSetInfo::Write
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 	action->WriteSetup(output);
@@ -2417,7 +2417,7 @@ JIndex i;
 void
 CBPrefsManager::CRMRuleListInfo::CreateAndRead
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -2443,7 +2443,7 @@ CBPrefsManager::CRMRuleListInfo::CreateAndRead
 void
 CBPrefsManager::CRMRuleListInfo::Write
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 	const JSize ruleCount = list->GetElementCount();

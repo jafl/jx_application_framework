@@ -24,11 +24,11 @@ public:
 
 	// construct from private file
 
-	SCVACSource(istream& input, const JFileVersion vers, SCCircuit* theCircuit);
+	SCVACSource(std::istream& input, const JFileVersion vers, SCCircuit* theCircuit);
 
 	// construct from netlist
 
-	SCVACSource(istream& input, SCCircuit* theCircuit);
+	SCVACSource(std::istream& input, SCCircuit* theCircuit);
 
 	virtual ~SCVACSource();
 

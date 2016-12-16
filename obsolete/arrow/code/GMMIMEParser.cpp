@@ -140,7 +140,7 @@ GMMIMEParser::~GMMIMEParser()
 void
 GMMIMEParser::Parse
 	(
-	istream&		input,
+	std::istream&		input,
 	const JIndex	isEnd,
 	const JBoolean	nested
 	)
@@ -170,7 +170,7 @@ GMMIMEParser::Parse
 			if (!filename.IsEmpty())
 				{
 				AdjustAttachmentName(*header, &filename);
-				ofstream os(filename);
+				std::ofstream os(filename);
 				JDecodeBase64(input, os);
 				}
 			}
@@ -195,7 +195,7 @@ GMMIMEParser::Parse
 			if (!filename.IsEmpty())
 				{
 				AdjustAttachmentName(*header, &filename);
-				ofstream os(filename);
+				std::ofstream os(filename);
 				os.write(c, isEnd - startI);
 				}
 			}
@@ -255,7 +255,7 @@ GMMIMEParser::GetTextSegment
 	assert(itsTextInfo != NULL);
 	assert(index <= itsTextInfo->GetEntryCount());
 	JString name = itsTextInfo->GetEntry(index).GetFullName();
-	ifstream is(name);
+	std::ifstream is(name);
 	if (is.good())
 		{
 		JReadAll(is, text);
@@ -323,7 +323,7 @@ GMMIMEParser::GetAttachmentName
 JBoolean
 GMMIMEParser::ReadUntilBoundary
 	(
-	istream&		input,
+	std::istream&		input,
 	const JString&	boundary,
 	JIndex*		start,
 	JIndex*		end
@@ -413,7 +413,7 @@ GMMIMEParser::ReadUntilBoundary
 void
 GMMIMEParser::ParseMIMEHeader
 	(
-	istream&		input,
+	std::istream&		input,
 	GMIMEHeader*	header,
 	const JBoolean	display
 	)
@@ -424,7 +424,7 @@ GMMIMEParser::ParseMIMEHeader
 		{
 //		input.get(c);
 		}
-//	input >> ws;
+//	input >> std::ws;
 
 	// first we need to search for the first empty line. This line is the
 	// end of the header.
@@ -906,7 +906,7 @@ GMMIMEParser::WriteTextString
 		itsTextDir + JString(itsTextFileIndex) +
 		"." + header.GetCharSet() + "." + header.GetSubType();
 	itsTextFileIndex++;
-	ofstream os(filename);
+	std::ofstream os(filename);
 	if (header.GetEncoding() == kBase64Encoding)
 		{
 		std::istrstream is(data->GetCString(), data->GetLength());
@@ -1013,7 +1013,7 @@ GMMIMEParser::WriteAttachment
 		}
 
 	AdjustAttachmentName(header, &filename);
-	ofstream os(filename);
+	std::ofstream os(filename);
 	if (header.GetEncoding() == kBase64Encoding)
 		{
 		std::istrstream is(data.GetCString(), data.GetLength());
@@ -1053,7 +1053,7 @@ GMMIMEParser::AdjustAttachmentName
 void
 GMMIMEParser::ParseMixed
 	(
-	istream&			input,
+	std::istream&			input,
 	const GMIMEHeader&	header
 	)
 {
@@ -1090,7 +1090,7 @@ GMMIMEParser::ParseMixed
 			if (!filename.IsEmpty())
 				{
 				AdjustAttachmentName(child, &filename);
-				ofstream os(filename);
+				std::ofstream os(filename);
 				JDecodeBase64(input, os);
 				end = ReadUntilBoundary(input, boundary, &bstart, &bend);
 	//			JBoolean found;
@@ -1126,7 +1126,7 @@ GMMIMEParser::ParseMixed
 				if (!filename.IsEmpty())
 					{
 					AdjustAttachmentName(child, &filename);
-					ofstream os(filename);
+					std::ofstream os(filename);
 					JSeekg(input, findex - 1);
 					if (child.GetEncoding() == kQPEncoding)
 						{
@@ -1179,7 +1179,7 @@ GMMIMEParser::ParseMixed
 void
 GMMIMEParser::ParseAlternate
 	(
-	istream&			input,
+	std::istream&			input,
 	const GMIMEHeader&	header
 	)
 {
@@ -1260,7 +1260,7 @@ GMMIMEParser::ParseAlternate
 void
 GMMIMEParser::ParseByType
 	(
-	istream&			input,
+	std::istream&			input,
 	const GMIMEHeader&	header,
 	const JIndex		isEnd
 	)

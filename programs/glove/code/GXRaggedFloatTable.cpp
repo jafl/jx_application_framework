@@ -1240,7 +1240,7 @@ GXRaggedFloatTable::HandleCopyCmd()
 				os << "\t";
 				}
 			}
-		os << endl;
+		os << std::endl;
 		}
 
 	GXTextSelection* data = jnew GXTextSelection(GetDisplay(), os.str());
@@ -2397,7 +2397,7 @@ GXRaggedFloatTable::CreateNewColByInc()
 void
 GXRaggedFloatTable::WriteData
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	os << kCurrentTableVersion << ' ';
@@ -2426,7 +2426,7 @@ GXRaggedFloatTable::WriteData
 void
 GXRaggedFloatTable::ReadData
 	(
-	istream& 		is,
+	std::istream& 		is,
 	const JFloat	gloveVersion
 	)
 {
@@ -2608,7 +2608,7 @@ GXRaggedFloatTable::EvaluateTransformFunction()
 JBoolean
 GXRaggedFloatTable::WriteDataCols
 	(
-	ostream& os,
+	std::ostream& os,
 	const int cols
 	)
 {
@@ -2649,7 +2649,7 @@ GXRaggedFloatTable::WriteDataCols
 		JGetUserNotification()->ReportError(str);
 		return kJFalse;
 		}
-	os << nrows << endl;
+	os << nrows << std::endl;
 	for (JIndex row = startRow; row < startRow + nrows; row++)
 		{
 		for (JIndex col = startCol; col < startCol + ncols; col++)
@@ -2664,7 +2664,7 @@ GXRaggedFloatTable::WriteDataCols
 				os << "\t";
 				}
 			}
-		os << endl;
+		os << std::endl;
 		}
 	return kJTrue;
 }
@@ -2677,7 +2677,7 @@ GXRaggedFloatTable::WriteDataCols
 void
 GXRaggedFloatTable::ExportDataMatrix
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	JSize rowCount = GetRowCount() - 1;
@@ -2709,7 +2709,7 @@ GXRaggedFloatTable::ExportDataMatrix
 void
 GXRaggedFloatTable::ExportData
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	JSize colCount = GetColCount() - 1;

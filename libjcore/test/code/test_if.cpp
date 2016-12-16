@@ -3,13 +3,13 @@ int main()
 {
 	if (int test = (5 > 3))
 		{
-		cout << test << endl;
+		std::cout << test << std::endl;
 		}
 	else
 		{
-		cout << test << endl;
+		std::cout << test << std::endl;
 		}
-	cout << test << endl;
+	std::cout << test << std::endl;
 
 	int u = 3;
 	int x;

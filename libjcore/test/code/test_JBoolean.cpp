@@ -5,52 +5,52 @@
 
 int main()
 {
-	cout << "True:  " << kJTrue  << endl;
-	cout << "False: " << kJFalse << endl;
+	std::cout << "True:  " << kJTrue  << std::endl;
+	std::cout << "False: " << kJFalse << std::endl;
 
-	cout << "should see:" << endl << "TT" << endl;
+	std::cout << "should see:" << std::endl << "TT" << std::endl;
 
 	JBoolean b;
 /*	b = 3;
-	if (b)				cout << 'T';
-	if (b == kJTrue)		cout << 'T';
-	if (!b)				cout << 'F';
-	if (b == kJFalse)	cout << 'F';
+	if (b)				std::cout << 'T';
+	if (b == kJTrue)		std::cout << 'T';
+	if (!b)				std::cout << 'F';
+	if (b == kJFalse)	std::cout << 'F';
 
 	b = 0;
-	if (!b)				cout << 'T';
-	if (b == kJFalse)	cout << 'T';
-	if (b)				cout << 'F';
-	if (b == kJTrue)		cout << 'F';
+	if (!b)				std::cout << 'T';
+	if (b == kJFalse)	std::cout << 'T';
+	if (b)				std::cout << 'F';
+	if (b == kJTrue)		std::cout << 'F';
 
 	b = (5 > 3);
-	if (b)				cout << 'T';
-	if (b == kJTrue)		cout << 'T';
-	if (!b)				cout << 'F';
-	if (b == kJFalse)	cout << 'F';
+	if (b)				std::cout << 'T';
+	if (b == kJTrue)		std::cout << 'T';
+	if (!b)				std::cout << 'F';
+	if (b == kJFalse)	std::cout << 'F';
 */
 	b = JF2B(0.1);
-	if (b)				cout << 'T';
-	if (b == kJTrue)		cout << 'T';
-	if (!b)				cout << 'F';
-	if (b == kJFalse)	cout << 'F';
+	if (b)				std::cout << 'T';
+	if (b == kJTrue)		std::cout << 'T';
+	if (!b)				std::cout << 'F';
+	if (b == kJFalse)	std::cout << 'F';
 
-	cout << endl;
+	std::cout << std::endl;
 
 	b = kJTrue;
 	assert( b );
 	b = kJFalse;
 	assert( !b );
 
-	cout << "Enter a boolean value: ";
-	cin >> b;
-	if (cin.good())
+	std::cout << "Enter a boolean value: ";
+	std::cin >> b;
+	if (std::cin.good())
 		{
-		cout << "You entered " << b << endl;
+		std::cout << "You entered " << b << std::endl;
 		}
 	else
 		{
-		cout << "You entered an invalid value." << endl;
+		std::cout << "You entered an invalid value." << std::endl;
 		}
 	JInputFinished();
 

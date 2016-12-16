@@ -19,7 +19,7 @@ class JConstantValue;
 
 class THXVarList : public JVariableList
 {
-	friend ostream& operator<<(ostream&, const THXVarList&);
+	friend std::ostream& operator<<(std::ostream&, const THXVarList&);
 
 public:
 
@@ -35,7 +35,7 @@ public:
 public:
 
 	THXVarList();
-	THXVarList(istream& input, const JFileVersion vers);
+	THXVarList(std::istream& input, const JFileVersion vers);
 
 	virtual ~THXVarList();
 

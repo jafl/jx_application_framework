@@ -29,7 +29,7 @@ main()
 {
 	JSize i;
 
-	cout << "Beginning JStringPtrMap test.  No news is good news." << endl;
+	std::cout << "Beginning JStringPtrMap test.  No news is good news." << std::endl;
 
 	const JCharacter* keyConst = "testkey";
 	JCharacter* const key = jnew JCharacter[strlen(keyConst)+1];
@@ -55,12 +55,12 @@ main()
 		if (ptrMap.GetElementCount() != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Map contains wrong number of elements!" << endl;
+			std::cout << "   Map contains wrong number of elements!" << std::endl;
 			}
 		if (ptrMap.GetLoadCount() != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Map contains extra deleted elements!" << endl;
+			std::cout << "   Map contains extra deleted elements!" << std::endl;
 			}
 
 		{
@@ -74,36 +74,36 @@ main()
 			if (strcmp(thisKey, cursorValue) != 0)
 				{
 				PrintError(__LINE__);
-				cout << "   Cursor found value " << cursorValue << ", should have been "
-				     << thisKey << "!" << endl;
+				std::cout << "   Cursor found value " << cursorValue << ", should have been "
+				     << thisKey << "!" << std::endl;
 				}
 			JCharacter* mapValue;
 			JBoolean found = ptrMap.GetElement(thisKey, &mapValue);
 			if (!found)
 				{
 				PrintError(__LINE__);
-				cout << "   Cursor and map find inconsistent keys!" << endl;
+				std::cout << "   Cursor and map find inconsistent keys!" << std::endl;
 				}
 			if (strcmp(cursorValue, mapValue) != 0)
 				{
 				PrintError(__LINE__);
-				cout << "   Map found value " << mapValue
+				std::cout << "   Map found value " << mapValue
 				     << " inconsistent with cursor value "
-				     << cursorValue << "!" << endl;
+				     << cursorValue << "!" << std::endl;
 				}
 			++count;
 			}
 		if (count != gNumStrings)
 			{
 			PrintError(__LINE__);
-			cout << "   Cursor counted wrong number of elements!" << endl;
+			std::cout << "   Cursor counted wrong number of elements!" << std::endl;
 			}
 		}
 	}
 
 	jdelete[] key;
 
-	cout << "Finished JStringPtrMap test.  If nothing printed out, it passed." << endl;
+	std::cout << "Finished JStringPtrMap test.  If nothing printed out, it passed." << std::endl;
 
 //	JMemoryManager::Instance()->SetPrintExitStats(kJTrue);
 
@@ -121,5 +121,5 @@ PrintError
 	long line
 	)
 {
-	cout << "*** testptrmap error at line " << line << endl;
+	std::cout << "*** testptrmap error at line " << line << std::endl;
 }

@@ -85,7 +85,7 @@ GDBVarTreeParser::yyerror
 	const char* message
 	)
 {
-	cerr << "yyerror() called: " << message << endl;
+	std::cerr << "yyerror() called: " << message << std::endl;
 
 	std::ostringstream log;
 	log << "yyerror() called: " << message;

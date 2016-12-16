@@ -729,7 +729,7 @@ JXScrollableWidget::HandleKeyPress
 void
 JXScrollableWidget::ReadScrollSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	UpdateScrollbars();		// make sure scrollbars can accept the given values
@@ -769,7 +769,7 @@ JXScrollableWidget::ReadScrollSetup
 void
 JXScrollableWidget::SkipScrollSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JIgnoreUntil(input, kSetupDataEndDelimiter);
@@ -783,7 +783,7 @@ JXScrollableWidget::SkipScrollSetup
 void
 JXScrollableWidget::WriteScrollSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

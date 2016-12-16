@@ -40,7 +40,7 @@ JProbDistr::JProbDistr
 
 JProbDistr::JProbDistr
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	// get the number of values
@@ -213,10 +213,10 @@ JIndex i;
 
  ******************************************************************************/
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const JProbDistr&	aProbDistr
 	)
 {

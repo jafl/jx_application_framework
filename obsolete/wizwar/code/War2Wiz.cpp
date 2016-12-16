@@ -377,7 +377,7 @@ War2Wiz::ReceiveClientIdentity
 	(
 	const JIndex	senderIndex,
 	WarPlayer*		sender,
-	istream&		input
+	std::istream&		input
 	)
 {
 	JFileVersion vers;
@@ -481,7 +481,7 @@ War2Wiz::DeletePlayer
 void
 War2Wiz::WriteCurrentState
 	(
-	ostream&		data,
+	std::ostream&		data,
 	const JIndex	excludeIndex
 	)
 	const

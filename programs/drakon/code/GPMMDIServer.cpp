@@ -71,5 +71,5 @@ GPMMDIServer::PrintCommandLineHelp()
 		"copyright", JGetString("COPYRIGHT")
 		};
 	const JString s = JGetString(kCommandLineHelpID, map, sizeof(map));
-	cout << endl << s << endl << endl;
+	std::cout << std::endl << s << std::endl << std::endl;
 }

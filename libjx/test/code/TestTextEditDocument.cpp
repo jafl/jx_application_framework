@@ -348,8 +348,8 @@ TestTextEditDocument::ReadFile
 		}
 	else if (itsDataType == kUnknownType)
 		{
-		ifstream input(fileName);
-		input >> ws;
+		std::ifstream input(fileName);
+		input >> std::ws;
 		if (input.peek() == '<')
 			{
 			JString str = JRead(input, 6);
@@ -371,7 +371,7 @@ TestTextEditDocument::ReadFile
 
 	if (isHTML)
 		{
-		ifstream input(fileName);
+		std::ifstream input(fileName);
 		itsTextEditor->ReadHTML(input);
 		itsDataType = kHTML;
 		}
@@ -405,7 +405,7 @@ TestTextEditDocument::ReadFile
 void
 TestTextEditDocument::WriteTextFile
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const JBoolean	safetySave
 	)
 	const

@@ -34,12 +34,12 @@ public:
 
 	// construct from private file
 
-	SCComponent(istream& input, const JFileVersion vers, const SCComponentType type,
+	SCComponent(std::istream& input, const JFileVersion vers, const SCComponentType type,
 				SCCircuit* theCircuit);
 
 	// construct from netlist
 
-	SCComponent(istream& input, const SCComponentType type, SCCircuit* theCircuit);
+	SCComponent(std::istream& input, const SCComponentType type, SCCircuit* theCircuit);
 
 	virtual ~SCComponent();
 
@@ -57,13 +57,13 @@ public:
 	virtual SCComponent*	Copy(SCCircuit* theCircuit,
 								 const JArray<JIndex>* nodeMap = NULL) const = 0;
 
-	static JBoolean		ParseNetlistComponent(istream& input, SCCircuit* theCircuit,
+	static JBoolean		ParseNetlistComponent(std::istream& input, SCCircuit* theCircuit,
 											  SCComponent** newComponent);
 	static JCharacter	GetNamePrefix(const SCComponentType type);
-	static SCComponent*	StreamIn(istream& input, const JFileVersion vers,
+	static SCComponent*	StreamIn(std::istream& input, const JFileVersion vers,
 								 SCCircuit* theCircuit);
-	virtual void		StreamOut(ostream& output) const;
-	virtual void		PrintToNetlist(ostream& output) const;
+	virtual void		StreamOut(std::ostream& output) const;
+	virtual void		PrintToNetlist(std::ostream& output) const;
 
 	// provides safe downcasting
 

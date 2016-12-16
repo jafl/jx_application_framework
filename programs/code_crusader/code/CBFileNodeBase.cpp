@@ -45,7 +45,7 @@ CBFileNodeBase::CBFileNodeBase
 
 CBFileNodeBase::CBFileNodeBase
 	(
-	istream&				input,
+	std::istream&				input,
 	const JFileVersion		vers,
 	CBProjectNode*			parent,
 	const CBProjectNodeType	type
@@ -73,7 +73,7 @@ CBFileNodeBase::~CBFileNodeBase()
 void
 CBFileNodeBase::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

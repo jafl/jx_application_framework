@@ -37,7 +37,7 @@ CBGroupNode::CBGroupNode
 
 CBGroupNode::CBGroupNode
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	CBProjectNode*		parent
 	)

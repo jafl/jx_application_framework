@@ -267,7 +267,7 @@ JTEStyler::UpdateStyles
 
 	#if DEBUG_TIMING_INFO
 	timer.StopTimer();
-	cout << "JTEStyler: " << timer.PrintTimeInterval() << endl;
+	std::cout << "JTEStyler: " << timer.PrintTimeInterval() << std::endl;
 	#endif
 
 	itsTE             = NULL;

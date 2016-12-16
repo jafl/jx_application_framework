@@ -15,7 +15,7 @@ class CBGroupNode : public CBProjectNode
 public:
 
 	CBGroupNode(CBProjectTree* tree, const JBoolean append = kJTrue);
-	CBGroupNode(istream& input, const JFileVersion vers,
+	CBGroupNode(std::istream& input, const JFileVersion vers,
 				CBProjectNode* parent);
 
 	virtual ~CBGroupNode();

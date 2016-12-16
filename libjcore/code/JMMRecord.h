@@ -94,7 +94,7 @@ public:
 
 	JBoolean    IsManagerMemory() const;
 
-	void	StreamForDebug(ostream& output) const;
+	void	StreamForDebug(std::ostream& output) const;
 //	JString Print() const;
 	void PrintLayout();
 };

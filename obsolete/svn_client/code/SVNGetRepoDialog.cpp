@@ -150,7 +150,7 @@ SVNGetRepoDialog::Receive
 void
 SVNGetRepoDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -180,7 +180,7 @@ SVNGetRepoDialog::ReadPrefs
 void
 SVNGetRepoDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

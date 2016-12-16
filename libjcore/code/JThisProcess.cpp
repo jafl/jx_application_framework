@@ -352,18 +352,18 @@ JThisProcess::CheckForSignals()
 						 signalList[i] == SIGABRT)
 					{
 					const JString sigName = JGetSignalName(signalList[i]);
-					cerr << "An unexpected signal (" << sigName << ") was received!" << endl;
+					std::cerr << "An unexpected signal (" << sigName << ") was received!" << std::endl;
 					assert( 0 /* unexpected signal */ );
 					}
 				else if (signalList[i] == SIGPIPE)
 					{
 					const JString sigName = JGetSignalName(signalList[i]);
-					cerr << "Non-fatal error:  signal (" << sigName << ") was received" << endl;
+					std::cerr << "Non-fatal error:  signal (" << sigName << ") was received" << std::endl;
 					}
 //				else
 //					{
 //					const JString sigName = JGetSignalName(signalList[i]);
-//					cerr << "Received signal " << sigName << endl;
+//					std::cerr << "Received signal " << sigName << std::endl;
 //					}
 				}
 			}

@@ -36,8 +36,8 @@ public:
 	const JString&	GetComposeMailCmd() const;
 	void			SetComposeMailCmd(const JCharacter* cmd);
 
-	void	ReadConfig(istream& input);
-	void	WriteConfig(ostream& output, const JFileVersion vers) const;
+	void	ReadConfig(std::istream& input);
+	void	WriteConfig(std::ostream& output, const JFileVersion vers) const;
 
 	static JFileVersion	GetCurrentConfigVersion();
 

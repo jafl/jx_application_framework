@@ -732,7 +732,7 @@ SyGApplication::SaveProgramState()
 void
 SyGApplication::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -780,7 +780,7 @@ SyGApplication::ReadPrefs
 void
 SyGApplication::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

@@ -99,7 +99,7 @@ ParseTextOptions
 void
 PrintVersion()
 {
-	cout << endl;
-	cout << GMGetVersionStr() << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << GMGetVersionStr() << std::endl;
+	std::cout << std::endl;
 }

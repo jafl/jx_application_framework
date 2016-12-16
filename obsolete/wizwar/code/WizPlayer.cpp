@@ -23,7 +23,7 @@
 
 WizPlayer::WizPlayer
 	(
-	istream& input
+	std::istream& input
 	)
 	:
 	WWPlayer(0)

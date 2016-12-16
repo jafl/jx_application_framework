@@ -45,7 +45,7 @@ CBPerlScanner::~CBPerlScanner()
 void
 CBPerlScanner::BeginScan
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	itsResetFlag = kJTrue;

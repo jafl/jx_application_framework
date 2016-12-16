@@ -91,11 +91,11 @@ CBTree::CBTree
 
 CBTree::CBTree
 	(
-	istream&				projInput,
+	std::istream&				projInput,
 	const JFileVersion		projVers,
-	istream*				setInput,
+	std::istream*				setInput,
 	const JFileVersion		setVers,
-	istream*				symStream,
+	std::istream*				symStream,
 	const JFileVersion		origSymVers,
 	CBClassStreamInFn*		streamInFn,
 	CBTreeDirector*			director,
@@ -112,7 +112,7 @@ JIndex i;
 
 	CBTreeX(director, streamInFn);
 
-	istream* symInput          = (projVers <= 41 ? &projInput : symStream);
+	std::istream* symInput          = (projVers <= 41 ? &projInput : symStream);
 	const JFileVersion symVers = (projVers <= 41 ? projVers   : origSymVers);
 	const JBoolean useSetProjData = JI2B( setInput == NULL || setVers < 71 );
 	const JBoolean useSymProjData = JI2B( symInput == NULL || symVers < 71 );
@@ -355,7 +355,7 @@ CBTree::~CBTree()
 void
 CBTree::ReloadSetup
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -440,9 +440,9 @@ JIndex i;
 void
 CBTree::StreamOut
 	(
-	ostream&			projOutput,
-	ostream*			setOutput,
-	ostream*			symOutput,
+	std::ostream&			projOutput,
+	std::ostream*			setOutput,
+	std::ostream*			symOutput,
 	const CBDirList*	dirList
 	)
 	const
@@ -1169,7 +1169,7 @@ JIndex i,j;
 			const JSize rootCount = rootList.GetElementCount();
 			if (rootCount > 1)
 				{
-//				cout << "# of roots: " << rootCount << endl;
+//				std::cout << "# of roots: " << rootCount << std::endl;
 				JArray<JIndex> rootOrder(rootCount);
 				if (!ArrangeRoots(rootList, &rootOrder, pg))
 					{
@@ -2182,18 +2182,18 @@ CBTree::DeriveFromSelected()
 			}
 		argList.Append(dataFileName);
 
-		ofstream output(dataFileName);
-		output << kCodeMillDataVersion << endl;
+		std::ofstream output(dataFileName);
+		output << kCodeMillDataVersion << std::endl;
 
 		const JSize ancestorCount = ancestorList.GetElementCount();
-		output << ancestorCount << endl;
+		output << ancestorCount << std::endl;
 
 		for (JIndex j=1; j<=ancestorCount; j++)
 			{
 			CBClass* ancestor = ancestorList.NthElement(j);
 			if (ancestor->GetFileName(&srcFileName))
 				{
-				output << ancestor->GetFullName() << '\t' << srcFileName << endl;
+				output << ancestor->GetFullName() << '\t' << srcFileName << std::endl;
 
 				if (outputPath.IsEmpty())
 					{

@@ -60,7 +60,7 @@ public:
 
 protected:
 
-	virtual void		Scan(istream& input, const TokenExtra& initData) = 0;
+	virtual void		Scan(std::istream& input, const TokenExtra& initData) = 0;
 	virtual TokenExtra	GetFirstTokenExtraData() const;
 	virtual void		PreexpandCheckRange(const JString& text,
 											const JRunArray<JFont>& styles,

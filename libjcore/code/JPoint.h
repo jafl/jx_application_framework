@@ -98,8 +98,8 @@ public:
 	};
 };
 
-istream& operator>>(istream& input, JPoint& pt);
-ostream& operator<<(ostream& output, const JPoint& pt);
+std::istream& operator>>(std::istream& input, JPoint& pt);
+std::ostream& operator<<(std::ostream& output, const JPoint& pt);
 
 JPoint JPinInRect(const JPoint& pt, const JRect& r);
 

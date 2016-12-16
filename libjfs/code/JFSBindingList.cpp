@@ -478,7 +478,7 @@ JFSBindingList::GetBinding
 	// read content
 
 	JString content;
-	ifstream input(origFileName);
+	std::ifstream input(origFileName);
 	content.Read(input, kContentLength);
 	input.close();
 
@@ -604,7 +604,7 @@ JFSBindingList::Revert()
 
 	// read system bindings
 
-	ifstream sysInput(kGlobalBindingsFile);
+	std::ifstream sysInput(kGlobalBindingsFile);
 	if (sysInput.good())
 		{
 		Load(sysInput, kJTrue);
@@ -624,7 +624,7 @@ JFSBindingList::Revert()
 			if (JExpandHomeDirShortcut(kOrigUserExtensionBindingFile, &origUserFile) &&
 				JFileReadable(origUserFile))
 				{
-				ifstream userInput(origUserFile);
+				std::ifstream userInput(origUserFile);
 				if (userInput.good())
 					{
 					Load(userInput, kJFalse);
@@ -690,7 +690,7 @@ JFSBindingList::Revert()
 void
 JFSBindingList::Load
 	(
-	istream&		input,
+	std::istream&		input,
 	const JBoolean	isSystem
 	)
 {
@@ -791,7 +791,7 @@ JFSBindingList::Save()
 		file->SetData(kCurrentBindingVersion, data);
 		jdelete file;
 
-		ofstream touch(itsSignalFileName);
+		std::ofstream touch(itsSignalFileName);
 		touch.close();
 		JGetModificationTime(itsSignalFileName, &itsSignalModTime);
 		}

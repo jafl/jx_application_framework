@@ -39,7 +39,7 @@ public:
 public:
 
 	CMMemoryDir(CMCommandDirector* supervisor, const JCharacter* expr);
-	CMMemoryDir(istream& input, const JFileVersion vers,
+	CMMemoryDir(std::istream& input, const JFileVersion vers,
 				CMCommandDirector* supervisor);
 
 	virtual	~CMMemoryDir();
@@ -48,7 +48,7 @@ public:
 	virtual JBoolean	Deactivate();
 	virtual JBoolean	GetMenuIcon(const JXImage** icon) const;
 
-	void	StreamOut(ostream& output);
+	void	StreamOut(std::ostream& output);
 
 	const JString&	GetExpression(DisplayType* type, JSize* count);
 	void			SetDisplayType(const DisplayType type);

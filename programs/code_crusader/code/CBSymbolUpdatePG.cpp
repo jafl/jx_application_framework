@@ -18,7 +18,7 @@
 
 CBSymbolUpdatePG::CBSymbolUpdatePG
 	(
-	ostream&	link,
+	std::ostream&	link,
 	const JSize	scaleFactor
 	)
 	:
@@ -70,7 +70,7 @@ CBSymbolUpdatePG::ProcessBeginning
 		itsLink << ' ' << stepCount;
 		}
 
-	itsLink << ' ' << JString(message) << endl;
+	itsLink << ' ' << JString(message) << std::endl;
 }
 
 /******************************************************************************
@@ -93,7 +93,7 @@ CBSymbolUpdatePG::IncrementProgress
 
 	if (stepCount % itsScaleFactor == 0)
 		{
-		itsLink << CBProjectDocument::kProgressIncrement << ' ' << itsScaleFactor << endl;
+		itsLink << CBProjectDocument::kProgressIncrement << ' ' << itsScaleFactor << std::endl;
 		}
 
 	return ProcessContinuing();
@@ -148,7 +148,7 @@ CBSymbolUpdatePG::ProcessFinished()
 		const JSize delta = GetCurrentStepCount() % itsScaleFactor;
 		if (delta > 0)
 			{
-			itsLink << CBProjectDocument::kProgressIncrement << ' ' << delta << endl;
+			itsLink << CBProjectDocument::kProgressIncrement << ' ' << delta << std::endl;
 			}
 		}
 

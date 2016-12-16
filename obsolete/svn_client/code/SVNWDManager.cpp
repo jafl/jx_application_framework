@@ -209,7 +209,7 @@ SVNWDManager::OpenDirectory
 JBoolean
 SVNWDManager::RestoreState
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -247,7 +247,7 @@ SVNWDManager::RestoreState
 JBoolean
 SVNWDManager::SaveState
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

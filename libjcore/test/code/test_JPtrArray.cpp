@@ -18,14 +18,14 @@ int main()
 
 JPtrArray<JString> a1(JPtrArrayT::kDeleteAll);					// constructor
 
-	cout << "array a1 created" << endl << endl;
+	std::cout << "array a1 created" << std::endl << std::endl;
 
 JBroadcastSnooper snoop1(&a1);
 
-	cout << "a1 address: " << (void*) &a1 << endl;
+	std::cout << "a1 address: " << (void*) &a1 << std::endl;
 
-	cout << "a1 itemCount should be 0" << endl;
-	cout << "a1 itemCount = " << a1.GetElementCount() << endl << endl;
+	std::cout << "a1 itemCount should be 0" << std::endl;
+	std::cout << "a1 itemCount = " << a1.GetElementCount() << std::endl << std::endl;
 
 	long i;
 	for (i=1;i<=5;i++)
@@ -37,8 +37,8 @@ JBroadcastSnooper snoop1(&a1);
 		}
 	stringPtr = NULL;
 
-	cout << "a1 itemCount should be 5" << endl;
-	cout << "a1 itemCount = " << a1.GetElementCount() << endl << endl;
+	std::cout << "a1 itemCount should be 5" << std::endl;
+	std::cout << "a1 itemCount = " << a1.GetElementCount() << std::endl << std::endl;
 
 	JWaitForReturn();
 
@@ -52,11 +52,11 @@ JBroadcastSnooper snoop1(&a1);
 
 JPtrArrayIterator<JString> iter(&a1,kJIteratorStartAtBeginning);
 
-	cout << "display should be:  1 5 3 2 1" << endl;
+	std::cout << "display should be:  1 5 3 2 1" << std::endl;
 
 	while (iter.Next(&stringPtr))
 		{
-		cout << (*stringPtr) << ' ';
+		std::cout << (*stringPtr) << ' ';
 
 		if (*stringPtr == "5")
 			{
@@ -66,19 +66,19 @@ JPtrArrayIterator<JString> iter(&a1,kJIteratorStartAtBeginning);
 			stringPtr = NULL;
 			}
 		}
-	cout << endl << endl;
+	std::cout << std::endl << std::endl;
 
 	JIndex index;
 	stringPtr = a1.NthElement(4);
-	cout << "Searching for 2:  found = " << a1.Find(stringPtr, &index) << endl;
-	cout << "2 should be at index 4" << endl;
-	cout << "2 is at index " << index << endl << endl;
+	std::cout << "Searching for 2:  found = " << a1.Find(stringPtr, &index) << std::endl;
+	std::cout << "2 should be at index 4" << std::endl;
+	std::cout << "2 is at index " << index << std::endl << std::endl;
 
-	cout << "display should be:  1 2 3 5 1" << endl;
+	std::cout << "display should be:  1 2 3 5 1" << std::endl;
 
 	while (iter.Prev(&stringPtr))
 		{
-		cout << (*stringPtr) << ' ';
+		std::cout << (*stringPtr) << ' ';
 
 		if (*stringPtr == "5")
 			{
@@ -86,54 +86,54 @@ JPtrArrayIterator<JString> iter(&a1,kJIteratorStartAtBeginning);
 			stringPtr = NULL;
 			}
 		}
-	cout << endl;
+	std::cout << std::endl;
 
-	cout << "a1 itemCount should be 4" << endl;
-	cout << "a1 itemCount = " << a1.GetElementCount() << endl << endl;
+	std::cout << "a1 itemCount should be 4" << std::endl;
+	std::cout << "a1 itemCount = " << a1.GetElementCount() << std::endl << std::endl;
 
 	JWaitForReturn();
 
 JPtrArray<JString> a2(a1, JPtrArrayT::kForgetAll);		// copy constructor
 
-	cout << "array a2 created from a1" << endl << endl;
+	std::cout << "array a2 created from a1" << std::endl << std::endl;
 
 JBroadcastSnooper snoop2(&a2);
 
-	cout << "a2 address: " << (void*) &a2 << endl;
+	std::cout << "a2 address: " << (void*) &a2 << std::endl;
 
-	cout << "a2 itemCount should be 4" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
+	std::cout << "a2 itemCount should be 4" << std::endl;
+	std::cout << "a2 itemCount=" << a2.GetElementCount() << std::endl << std::endl;
 
 JPtrArrayIterator<JString> iter2(&a2, kJIteratorStartAtEnd);
 
-	cout << "display should be: 1 3 5 1" << endl;
+	std::cout << "display should be: 1 3 5 1" << std::endl;
 
 	while (iter2.Prev(&stringPtr))
 		{
-		cout << (*stringPtr) << ' ';
+		std::cout << (*stringPtr) << ' ';
 		}
-	cout << endl;
+	std::cout << std::endl;
 
 	a2.RemoveAll();
 
-	cout << "a2 itemCount should be 0" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
+	std::cout << "a2 itemCount should be 0" << std::endl;
+	std::cout << "a2 itemCount=" << a2.GetElementCount() << std::endl << std::endl;
 
 	a2.CopyPointers(a1, JPtrArrayT::kForgetAll, kJFalse);		// assignment operator
 
-	cout << "array a2 assigned from a1" << endl << endl;
+	std::cout << "array a2 assigned from a1" << std::endl << std::endl;
 
-	cout << "a2 itemCount should be 4" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
+	std::cout << "a2 itemCount should be 4" << std::endl;
+	std::cout << "a2 itemCount=" << a2.GetElementCount() << std::endl << std::endl;
 
-	cout << "display should be: 1 3 5 1" << endl;
+	std::cout << "display should be: 1 3 5 1" << std::endl;
 
 	iter2.MoveTo(kJIteratorStartAtEnd, 0);
 	while (iter2.Prev(&stringPtr))
 		{
-		cout << (*stringPtr) << ' ';
+		std::cout << (*stringPtr) << ' ';
 		}
-	cout << endl;
+	std::cout << std::endl;
 
 	JWaitForReturn();
 
@@ -143,26 +143,26 @@ JPtrArrayIterator<JString> iter2(&a2, kJIteratorStartAtEnd);
 	a2.SetSortOrder(JOrderedSetT::kSortAscending);
 	a2.Sort();
 
-	cout << "display should be: 1 1 3 5" << endl;
+	std::cout << "display should be: 1 1 3 5" << std::endl;
 
 	iter2.MoveTo(kJIteratorStartAtBeginning, 0);
 	while (iter2.Next(&stringPtr))
 		{
-		cout << (*stringPtr) << ' ';
+		std::cout << (*stringPtr) << ' ';
 		}
-	cout << endl << endl;
+	std::cout << std::endl << std::endl;
 
 // test RemoveAll(), DeleteAll()
 
 	a2.RemoveAll();
 
-	cout << "a2 itemCount should be 0" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
+	std::cout << "a2 itemCount should be 0" << std::endl;
+	std::cout << "a2 itemCount=" << a2.GetElementCount() << std::endl << std::endl;
 
 	a1.DeleteAll();
 
-	cout << "a1 itemCount should be 0" << endl;
-	cout << "a1 itemCount = " << a1.GetElementCount() << endl << endl;
+	std::cout << "a1 itemCount should be 0" << std::endl;
+	std::cout << "a1 itemCount = " << a1.GetElementCount() << std::endl << std::endl;
 
 	return 0;
 }

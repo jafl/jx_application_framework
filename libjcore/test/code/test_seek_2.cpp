@@ -6,24 +6,24 @@ int
 main()
 {
 	char c;
-	ifstream input("test.seek.cc");
+	std::ifstream input("test.seek.cc");
 	filebuf* buf = input.rdbuf();
 
 	buf->pubseekpos(4);
 	c = input.get();
-	cout << "(5?) char '" << c << "', value " << (int) c << endl;
-	cout << "(5?) position: " << (buf->pubseekoff(0, ios::cur)).offset() << endl;
+	std::cout << "(5?) char '" << c << "', value " << (int) c << std::endl;
+	std::cout << "(5?) position: " << (buf->pubseekoff(0, std::ios::cur)).offset() << std::endl;
 
-	buf->pubseekoff(2, ios::cur);
+	buf->pubseekoff(2, std::ios::cur);
 	c = input.get();
-	cout << "(8?) char '" << c << "', value " << (int) c << endl;
-	cout << "(8?) position: " << (buf->pubseekoff(0, ios::cur)).offset() << endl;
+	std::cout << "(8?) char '" << c << "', value " << (int) c << std::endl;
+	std::cout << "(8?) position: " << (buf->pubseekoff(0, std::ios::cur)).offset() << std::endl;
 
-	buf->pubseekoff(-2, ios::end);
+	buf->pubseekoff(-2, std::ios::end);
 	c = input.get();
-	cout << "(}?) char '" << c << "', value " << (int) c << endl;
+	std::cout << "(}?) char '" << c << "', value " << (int) c << std::endl;
 
-	cout << "file length: " << (buf->pubseekoff(0, ios::end)).offset() << endl;
+	std::cout << "file length: " << (buf->pubseekoff(0, std::ios::end)).offset() << std::endl;
 
 	return 0;
 }

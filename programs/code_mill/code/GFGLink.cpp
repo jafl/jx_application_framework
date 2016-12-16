@@ -86,7 +86,7 @@ GFGLink::ParseClass
 		JConvertToAbsolutePath(filename, "", &itsCurrentFile);
 
 		itsCurrentFile.Print(*itsOutputLink);
-		*itsOutputLink << endl;
+		*itsOutputLink << std::endl;
 		itsOutputLink->flush();
 
 		JBoolean found = kJFalse;
@@ -211,7 +211,7 @@ GFGLink::ParseInterface
 	const JIndex 		line
 	)
 {
-	ifstream is(itsCurrentFile);
+	std::ifstream is(itsCurrentFile);
 	if (!is.good())
 		{
 		return;
@@ -226,14 +226,14 @@ GFGLink::ParseInterface
 
 	JSize p1	= JTellg(is);
 
-	is >> ws;
+	is >> std::ws;
 	str	= JReadUntilws(is);
 	if (str != "virtual")
 		{
 		return;
 		}
 
-	is >> ws;
+	is >> std::ws;
 
 	// return type
 	str	= JReadUntilws(is);
@@ -243,7 +243,7 @@ GFGLink::ParseInterface
 		}
 	fn->SetReturnType(str);
 
-	is >> ws;
+	is >> std::ws;
 
 	// this should be the function name
 	str	= JReadUntil(is, '(');
@@ -279,7 +279,7 @@ GFGLink::ParseInterface
 			}		
 		}
 
-	is >> ws;
+	is >> std::ws;
 
 	// is it const;
 	str	= JReadUntil(is, ';');

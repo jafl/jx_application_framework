@@ -157,7 +157,7 @@ ParseTextOptions
 void
 PrintVersion()
 {
-	cout << endl;
-	cout << CBGetVersionStr() << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << CBGetVersionStr() << std::endl;
+	std::cout << std::endl;
 }

@@ -17,9 +17,9 @@ class CBJavaTreeDirector : public CBTreeDirector
 public:
 
 	CBJavaTreeDirector(CBProjectDocument* supervisor);
-	CBJavaTreeDirector(istream& projInput, const JFileVersion projVers,
-					   istream* setInput, const JFileVersion setVers,
-					   istream* symInput, const JFileVersion symVers,
+	CBJavaTreeDirector(std::istream& projInput, const JFileVersion projVers,
+					   std::istream* setInput, const JFileVersion setVers,
+					   std::istream* symInput, const JFileVersion symVers,
 					   CBProjectDocument* supervisor, const JBoolean subProject);
 
 	virtual ~CBJavaTreeDirector();
@@ -40,9 +40,9 @@ private:
 	void	CBJavaTreeDirectorX();
 
 	static CBTree*	NewJavaTree(CBTreeDirector* director, const JSize marginWidth);
-	static CBTree*	StreamInJavaTree(istream& projInput, const JFileVersion projVers,
-									 istream* setInput, const JFileVersion setVers,
-									 istream* symInput, const JFileVersion symVers,
+	static CBTree*	StreamInJavaTree(std::istream& projInput, const JFileVersion projVers,
+									 std::istream* setInput, const JFileVersion setVers,
+									 std::istream* symInput, const JFileVersion symVers,
 									 CBTreeDirector* director,
 									 const JSize marginWidth, CBDirList* dirList);
 	static void		InitJavaTreeToolBar(JXToolBar* toolBar, JXTextMenu* treeMenu);

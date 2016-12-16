@@ -26,7 +26,7 @@ MDRecord::MDRecord()
 
 MDRecord::MDRecord
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	input >> itsIsValidFlag >> itsIsArrayNewFlag;

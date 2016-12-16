@@ -45,7 +45,7 @@ CBEiffelScanner::~CBEiffelScanner()
 void
 CBEiffelScanner::BeginScan
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	itsResetFlag = kJTrue;

@@ -48,7 +48,7 @@ WarPlayer::~WarPlayer()
 void
 WarPlayer::WriteState
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

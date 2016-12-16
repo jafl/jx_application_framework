@@ -21,7 +21,7 @@
 #ifdef __cplusplus
 
 #include <stdlib.h>
-class istream;
+class std::istream;
 #include <unistd.h>
 
 /* Use prototypes in function declarations. */
@@ -142,7 +142,7 @@ typedef unsigned int yy_size_t;
 
 struct yy_buffer_state
 	{
-	istream* yy_input_file;
+	std::istream* yy_input_file;
 
 	char *yy_ch_buf;		/* input buffer */
 	char *yy_buf_pos;		/* current position in input buffer */
@@ -689,10 +689,10 @@ YY_DECL
 			yy_start = 1;	/* first start state */
 
 		if ( ! yyin )
-			yyin = &cin;
+			yyin = &std::cin;
 
 		if ( ! yyout )
-			yyout = &cout;
+			yyout = &std::cout;
 
 		if ( ! yy_current_buffer )
 			yy_current_buffer =
@@ -999,7 +999,7 @@ case YY_STATE_EOF(FROM_STATE):
 		} /* end of scanning one token */
 	} /* end of yylex */
 
-yyFlexLexer::yyFlexLexer( istream* arg_yyin, ostream* arg_yyout )
+yyFlexLexer::yyFlexLexer( std::istream* arg_yyin, std::ostream* arg_yyout )
 	{
 	yyin = arg_yyin;
 	yyout = arg_yyout;
@@ -1034,7 +1034,7 @@ yyFlexLexer::~yyFlexLexer()
 	yy_delete_buffer( yy_current_buffer );
 	}
 
-void yyFlexLexer::switch_streams( istream* new_in, ostream* new_out )
+void yyFlexLexer::switch_streams( std::istream* new_in, std::ostream* new_out )
 	{
 	if ( new_in )
 		{
@@ -1387,7 +1387,7 @@ int yyFlexLexer::yyinput()
 	}
 
 
-void yyFlexLexer::yyrestart( istream* input_file )
+void yyFlexLexer::yyrestart( std::istream* input_file )
 	{
 	if ( ! yy_current_buffer )
 		yy_current_buffer = yy_create_buffer( yyin, YY_BUF_SIZE );
@@ -1431,7 +1431,7 @@ void yyFlexLexer::yy_load_buffer_state()
 	}
 
 
-YY_BUFFER_STATE yyFlexLexer::yy_create_buffer( istream* file, int size )
+YY_BUFFER_STATE yyFlexLexer::yy_create_buffer( std::istream* file, int size )
 	{
 	YY_BUFFER_STATE b;
 
@@ -1472,7 +1472,7 @@ void yyFlexLexer::yy_delete_buffer( YY_BUFFER_STATE b )
 
 
 extern "C" int isatty YY_PROTO(( int ));
-void yyFlexLexer::yy_init_buffer( YY_BUFFER_STATE b, istream* file )
+void yyFlexLexer::yy_init_buffer( YY_BUFFER_STATE b, std::istream* file )
 
 	{
 	yy_flush_buffer( b );
@@ -1574,7 +1574,7 @@ int yyFlexLexer::yy_top_state()
 
 void yyFlexLexer::LexerError( yyconst char msg[] )
 	{
-	cerr << msg << '\n';
+	std::cerr << msg << '\n';
 	exit( YY_EXIT_FAILURE );
 	}
 

@@ -25,12 +25,12 @@ class WizChatDirector : public JXWindowDirector
 public:
 
 	WizChatDirector(JXDirector* supervisor);
-	WizChatDirector(istream& input, const JFileVersion vers,
+	WizChatDirector(std::istream& input, const JFileVersion vers,
 					JXDirector* supervisor);
 
 	virtual ~WizChatDirector();
 
-	void	WritePrefs(ostream& output) const;
+	void	WritePrefs(std::ostream& output) const;
 
 protected:
 

@@ -23,10 +23,10 @@
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&	input,
+	std::istream&	input,
 	JRGB&		color
 	)
 {
@@ -34,10 +34,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&	output,
+	std::ostream&	output,
 	const JRGB&	color
 	)
 {
@@ -95,10 +95,10 @@ JCompareRGBValues
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&	input,
+	std::istream&	input,
 	JHSB&		color
 	)
 {
@@ -106,10 +106,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&	output,
+	std::ostream&	output,
 	const JHSB&	color
 	)
 {

@@ -141,24 +141,24 @@ public:
 	void	UpdateAllCommandMenus();
 	void	AppendMenuItems(JXTextMenu* menu, const JBoolean hasProject) const;
 
-	void	ReadSetup(istream& input);
-	void	WriteSetup(ostream& output) const;
+	void	ReadSetup(std::istream& input);
+	void	WriteSetup(std::ostream& output) const;
 
-	static JBoolean	ReadCommands(istream& input,
+	static JBoolean	ReadCommands(std::istream& input,
 								 JString* makeDependCmd, CmdList* cmdList,
 								 JFileVersion* returnVers = NULL);
 
-	void	ConvertCompileDialog(istream& input, const JFileVersion vers,
+	void	ConvertCompileDialog(std::istream& input, const JFileVersion vers,
 								 CBBuildManager* buildMgr,
 								 const JBoolean readWindGeom);
-	void	ConvertRunDialog(istream& input, const JFileVersion vers,
+	void	ConvertRunDialog(std::istream& input, const JFileVersion vers,
 							 const JBoolean readWindGeom);
 
 	// stored in project template
 
-	void	ReadTemplate(istream& input, const JFileVersion tmplVers,
+	void	ReadTemplate(std::istream& input, const JFileVersion tmplVers,
 						 const JFileVersion projVers);
-	void	WriteTemplate(ostream& output) const;
+	void	WriteTemplate(std::ostream& output) const;
 
 	// used by CBCommand
 
@@ -168,8 +168,8 @@ public:
 	// used by CBCommandSelection & CBCommandTable
 
 	static JFileVersion	GetCurrentCmdInfoFileVersion();
-	static CmdInfo		ReadCmdInfo(istream& input, const JFileVersion vers);
-	static void			WriteCmdInfo(ostream& output, const CmdInfo& info);
+	static CmdInfo		ReadCmdInfo(std::istream& input, const JFileVersion vers);
+	static void			WriteCmdInfo(std::ostream& output, const CmdInfo& info);
 
 	// used by CBEditCommandsDialog
 
@@ -177,8 +177,8 @@ public:
 
 protected:
 
-	virtual void	ReadPrefs(istream& input);
-	virtual void	WritePrefs(ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input);
+	virtual void	WritePrefs(std::ostream& output) const;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 	virtual void	ReceiveGoingAway(JBroadcaster* sender);

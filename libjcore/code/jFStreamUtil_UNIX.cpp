@@ -29,11 +29,11 @@
 
  ******************************************************************************/
 
-fstream*
+std::fstream*
 JSetFStreamLength
 	(
 	const char*				fileName,
-	fstream&				originalStream,
+	std::fstream&				originalStream,
 	const JSize				newLength,
 	const JFStreamOpenMode	io_mode
 	)
@@ -51,7 +51,7 @@ JSetFStreamLength
 
 	// open a new stream for the file and return a pointer to it
 
-	fstream* newStream = jnew fstream(fileName, io_mode);
+	std::fstream* newStream = jnew std::fstream(fileName, io_mode);
 	assert( newStream != NULL );
 
 	return newStream;

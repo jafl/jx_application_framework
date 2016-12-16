@@ -174,13 +174,13 @@ MPI_Recv_Buffer
 int
 MPI_Send_File
 	(
-	fstream&	file,
+	std::fstream&	file,
 	int			dest,
 	int			tag,
 	MPI_Comm	comm
 	)
 {
-	const streampos origPos = file.tellg();
+	const std::streampos origPos = file.tellg();
 
 	const JSize fileLength = GetFStreamLength(file);
 	int result = MPI_Send(&fileLength, 1, MPI_SIZE, dest, tag, comm);
@@ -220,7 +220,7 @@ MPI_Send_File
 int
 MPI_Recv_File
 	(
-	fstream&	file,
+	std::fstream&	file,
 	int			source,
 	int			tag,
 	MPI_Comm	comm,

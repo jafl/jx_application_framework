@@ -12,7 +12,7 @@
 
 	This implementation should suffice for most purposes, but all functions
 	are virtual for classes with more complex error reporting needs (JIPCIos,
-	for example, must sync its error state with the underlying ios object).
+	for example, must sync its error state with the underlying std::ios object).
 
 	Warning: the state is mutable and classes can set and clear an error state
 	on a const object through protected functions, arguably a nasty feature.

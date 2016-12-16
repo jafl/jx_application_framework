@@ -236,7 +236,7 @@ JInterPoly::Evaluate
 			{
 			f *= x - itsXList->GetElement(i);
 			f += itsCoeffList->GetElement(i);
-//			cout << i << ' ' << itsCoeffList->GetElement(i) << ' ' << f << endl;
+//			std::cout << i << ' ' << itsCoeffList->GetElement(i) << ' ' << f << std::endl;
 			}
 		return f;
 		}

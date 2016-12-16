@@ -342,7 +342,7 @@ GMailboxTreeDir::Receive
 void
 GMailboxTreeDir::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JCoordinate id;
@@ -378,7 +378,7 @@ GMailboxTreeDir::ReadPrefs
 void
 GMailboxTreeDir::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

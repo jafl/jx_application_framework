@@ -210,9 +210,9 @@ JXPGMessageDirector::SaveMessages()
 	JString fileName;
 	if ((JGetChooseSaveFile())->SaveFile("Save messages in:", NULL, "messages", &fileName))
 		{
-		ofstream output(fileName);
+		std::ofstream output(fileName);
 		const JString& text = itsMessageText->GetText();
 		text.Print(output);
-		output << endl;		// cosmetics
+		output << std::endl;		// cosmetics
 		}
 }

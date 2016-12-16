@@ -62,7 +62,7 @@ main
 					{
 					break;
 					}
-				cout << c;
+				std::cout << c;
 				}
 			}
 

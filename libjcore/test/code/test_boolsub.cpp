@@ -1,12 +1,12 @@
 #include <jTypes.h>
 
-istream&
-operator>>(istream& input, bool& b);
+std::istream&
+operator>>(std::istream& input, bool& b);
 
-istream&
-operator>>(istream& input, bool& b)
+std::istream&
+operator>>(std::istream& input, bool& b)
 {
-	input >> ws;
+	input >> std::ws;
 	char c = input.get();
 	if (c == 'T')
 		{
@@ -19,17 +19,17 @@ operator>>(istream& input, bool& b)
 	else
 		{
 		input.putback(c);
-		input.setstate(ios::failbit);
+		input.setstate(std::ios::failbit);
 		}
 
 	return input;
 }
 
-ostream&
-operator<<(ostream& output, const bool b);
+std::ostream&
+operator<<(std::ostream& output, const bool b);
 
-ostream&
-operator<<(ostream& output, const bool b)
+std::ostream&
+operator<<(std::ostream& output, const bool b)
 {
 	output << (b ? 'T' : 'F');
 	return output;

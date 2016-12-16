@@ -98,11 +98,11 @@ JX2DCursorMarkTableDir::BuildWindow
 void
 JX2DCursorMarkTableDir::ReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers = 0;
-	input >> ws;
+	input >> std::ws;
 	if (input.peek() != '0')	// version 0 => leave it for JXWindow
 		{
 		input >> vers;
@@ -136,7 +136,7 @@ JX2DCursorMarkTableDir::ReadSetup
 void
 JX2DCursorMarkTableDir::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

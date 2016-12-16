@@ -151,7 +151,7 @@ public:
 	JBoolean	IsCollapsed() const;
 	void		SetCollapsed(const JBoolean collapse);
 
-	virtual void	StreamOut(ostream& output) const;
+	virtual void	StreamOut(std::ostream& output) const;
 
 	static JColorIndex	GetGhostNameColor();
 	static void			SetGhostNameColor(const JColorIndex color);
@@ -165,7 +165,7 @@ protected:
 	CBClass(const JCharacter* fullName, const DeclareType declType,
 			const JFAID_t fileID, CBTree* tree,
 			CBClassRemoveNamespace* removeNamespaceFn);
-	CBClass(istream& input, const JFileVersion vers, CBTree* tree,
+	CBClass(std::istream& input, const JFileVersion vers, CBTree* tree,
 			CBClassRemoveNamespace* removeNamespaceFn);
 	CBClass(const JCharacter* name);	// search target
 
@@ -286,14 +286,14 @@ private:
 	CBClass& operator=(const CBClass& source);
 };
 
-istream& operator>>(istream& input, CBClass::DeclareType& type);
-ostream& operator<<(ostream& output, const CBClass::DeclareType type);
+std::istream& operator>>(std::istream& input, CBClass::DeclareType& type);
+std::ostream& operator<<(std::ostream& output, const CBClass::DeclareType type);
 
-istream& operator>>(istream& input, CBClass::InheritType& type);
-ostream& operator<<(ostream& output, const CBClass::InheritType type);
+std::istream& operator>>(std::istream& input, CBClass::InheritType& type);
+std::ostream& operator<<(std::ostream& output, const CBClass::InheritType type);
 
-istream& operator>>(istream& input, CBClass::FnAccessLevel& access);
-ostream& operator<<(ostream& output, const CBClass::FnAccessLevel access);
+std::istream& operator>>(std::istream& input, CBClass::FnAccessLevel& access);
+std::ostream& operator<<(std::ostream& output, const CBClass::FnAccessLevel access);
 
 
 /******************************************************************************

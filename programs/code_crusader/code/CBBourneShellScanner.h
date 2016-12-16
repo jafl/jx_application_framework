@@ -72,7 +72,7 @@ public:
 
 	virtual ~CBBourneShellScanner();
 
-	void	BeginScan(istream& input);
+	void	BeginScan(std::istream& input);
 	Token	NextToken();		// written by flex
 
 private:

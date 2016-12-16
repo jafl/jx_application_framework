@@ -30,7 +30,7 @@ public:
 					 const CBClass* theClass, const CBTreeWidget* treeWidget,
 					 const JBoolean showInheritedFns,
 					 const JBoolean forPopupMenu = kJFalse);
-	CBFnListDirector(istream& input, const JFileVersion vers, JBoolean* keep,
+	CBFnListDirector(std::istream& input, const JFileVersion vers, JBoolean* keep,
 					 CBTreeDirector* supervisor, JXPSPrinter* printer,
 					 const CBTreeWidget* treeWidget);
 
@@ -41,8 +41,8 @@ public:
 
 	CBFnListWidget*	GetFnListWidget() const;
 
-	void		StreamOut(ostream& output) const;
-	static void	SkipSetup(istream& input);
+	void		StreamOut(std::ostream& output) const;
+	static void	SkipSetup(std::istream& input);
 
 protected:
 

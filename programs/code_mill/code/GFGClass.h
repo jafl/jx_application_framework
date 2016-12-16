@@ -40,10 +40,10 @@ public:
 
 	void	Populate();
 
-	void	WritePublicInterface(ostream& os);
-	void	WriteProtectedInterface(ostream& os);
-	void	WritePublic(ostream& os, const JBoolean interface = kJFalse);
-	void	WriteProtected(ostream& os, const JBoolean interface = kJFalse);
+	void	WritePublicInterface(std::ostream& os);
+	void	WriteProtectedInterface(std::ostream& os);
+	void	WritePublic(std::ostream& os, const JBoolean interface = kJFalse);
+	void	WriteProtected(std::ostream& os, const JBoolean interface = kJFalse);
 	
 protected:
 
@@ -64,7 +64,7 @@ private:
 
 private:
 
-	void WriteFunction(ostream& os, GFGMemberFunction* fn, const JBoolean interface);
+	void WriteFunction(std::ostream& os, GFGMemberFunction* fn, const JBoolean interface);
 
 	// not allowed
 

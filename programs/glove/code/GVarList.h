@@ -23,7 +23,7 @@ public:
 
 	GVarList();
 	GVarList(const GVarList& list);
-	GVarList(istream& input);
+	GVarList(std::istream& input);
 
 	virtual ~GVarList();
 

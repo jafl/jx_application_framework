@@ -23,11 +23,11 @@ public:
 
 	// construct from private file
 
-	SCResistor(istream& input, const JFileVersion vers, SCCircuit* theCircuit);
+	SCResistor(std::istream& input, const JFileVersion vers, SCCircuit* theCircuit);
 
 	// construct from netlist
 
-	SCResistor(istream& input, SCCircuit* theCircuit);
+	SCResistor(std::istream& input, SCCircuit* theCircuit);
 
 	virtual ~SCResistor();
 

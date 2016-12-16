@@ -172,13 +172,13 @@ JCheckForNewerVersion
 	JIndex port;
 	if (!JParseURL(versionURL, &protocol, &host, &port, &path))
 		{
-		cerr << "unable to parse url: " << versionURL << endl;
+		std::cerr << "unable to parse url: " << versionURL << std::endl;
 		return;
 		}
 
 	if (port == 0 && !JGetDefaultPort(protocol, &port))
 		{
-		cerr << "unknown protocol in versionURL: " << versionURL << endl;
+		std::cerr << "unknown protocol in versionURL: " << versionURL << std::endl;
 		return;
 		}
 
@@ -210,7 +210,7 @@ JCheckForNewerVersion
 		if (connector->connect(socket, addr, ACE_Synch_Options::asynch) == -1 &&
 			jerrno() != EAGAIN)
 			{
-//			cerr << "unable to open socket: " << versionURL << endl;
+//			std::cerr << "unable to open socket: " << versionURL << std::endl;
 			delete connector;
 			}
 		}

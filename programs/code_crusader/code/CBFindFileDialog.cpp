@@ -251,7 +251,7 @@ CBFindFileDialog::FindFile()
 void
 CBFindFileDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -287,7 +287,7 @@ CBFindFileDialog::ReadPrefs
 void
 CBFindFileDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

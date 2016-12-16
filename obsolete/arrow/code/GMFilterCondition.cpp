@@ -127,7 +127,7 @@ GMFilterCondition::SetPattern
 void
 GMFilterCondition::ReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion version;
@@ -152,7 +152,7 @@ GMFilterCondition::ReadSetup
 void
 GMFilterCondition::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

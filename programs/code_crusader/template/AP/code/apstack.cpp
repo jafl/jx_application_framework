@@ -91,7 +91,7 @@ apstack<itemType>::pop()
 {
     if (isEmpty())
     {
-        cerr << "error, popping an empty stack" << endl;
+        std::cerr << "error, popping an empty stack" << std::endl;
         exit(1);
     }
     myTop--;
@@ -105,7 +105,7 @@ apstack<itemType>::pop(itemType & item)
 {
     if (isEmpty())
     {
-        cerr << "error, popping an empty stack" << endl;
+        std::cerr << "error, popping an empty stack" << std::endl;
         exit(1);
     }
     item = myElements[myTop];
@@ -120,7 +120,7 @@ apstack<itemType>::top() const
 {
     if (isEmpty())
     {
-        cerr << "error, popping an empty stack" << endl;
+        std::cerr << "error, popping an empty stack" << std::endl;
         exit(1);
     }    
     return myElements[myTop];

@@ -65,5 +65,5 @@ THXMDIServer::PrintCommandLineHelp()
 		};
 	JString s = JGetString(kCommandLineHelpID);
 	(JGetStringManager())->Replace(&s, map, sizeof(map));
-	cout << endl << s << endl << endl;
+	std::cout << std::endl << s << std::endl << std::endl;
 }

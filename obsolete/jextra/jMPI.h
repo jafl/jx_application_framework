@@ -23,7 +23,7 @@ typedef int	MPIProcessID;
 
 #include <jTypes.h>
 
-class fstream;
+class std::fstream;
 class JString;
 class JStaticBuffer;
 
@@ -37,8 +37,8 @@ int MPI_Recv_JString(JString* str, int source, int tag, MPI_Comm comm, MPI_Statu
 int MPI_Send_Buffer(const JStaticBuffer& buffer, int dest, int tag, MPI_Comm comm);
 int MPI_Recv_Buffer(JStaticBuffer* buffer, int source, int tag, MPI_Comm comm, MPI_Status* status);
 
-int MPI_Send_File(fstream& file, int dest, int tag, MPI_Comm comm);
-int MPI_Recv_File(fstream& file, int source, int tag, MPI_Comm comm, MPI_Status* status);
+int MPI_Send_File(std::fstream& file, int dest, int tag, MPI_Comm comm);
+int MPI_Recv_File(std::fstream& file, int source, int tag, MPI_Comm comm, MPI_Status* status);
 
 #endif
 

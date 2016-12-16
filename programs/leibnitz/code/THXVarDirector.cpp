@@ -68,7 +68,7 @@ THXVarDirector::THXVarDirector
 
 THXVarDirector::THXVarDirector
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	JXDirector*			supervisor,
 	THXVarList*			varList
@@ -113,7 +113,7 @@ THXVarDirector::~THXVarDirector()
 void
 THXVarDirector::WriteState
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

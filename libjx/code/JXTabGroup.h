@@ -86,9 +86,9 @@ public:
 
 	JXContainer*	GetCardEnclosure();
 
-	void		ReadSetup(istream& input);
-	static void	SkipSetup(istream& input);
-	void		WriteSetup(ostream& output) const;
+	void		ReadSetup(std::istream& input);
+	static void	SkipSetup(std::istream& input);
+	void		WriteSetup(std::ostream& output) const;
 
 protected:
 

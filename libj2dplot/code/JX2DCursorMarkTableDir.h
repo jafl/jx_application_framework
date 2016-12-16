@@ -24,8 +24,8 @@ public:
 
 	JX2DCursorMarkTable*	GetTable();
 
-	void	ReadSetup(istream& input);
-	void	WriteSetup(ostream& output) const;
+	void	ReadSetup(std::istream& input);
+	void	WriteSetup(std::ostream& output) const;
 
 private:
 

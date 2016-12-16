@@ -20,5 +20,5 @@ main()
 	SetFn* set   = (SetFn*) module.symbol("Set");
 	EvalFn* eval = (EvalFn*) module.symbol("Eval");
 	set(1, 2, 3);
-	cout << eval(10) << endl;
+	std::cout << eval(10) << std::endl;
 }

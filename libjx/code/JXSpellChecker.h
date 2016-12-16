@@ -38,8 +38,8 @@ public:
 	void	LearnCaps(const JCharacter* word);
 	void	Ignore(const JCharacter* word);
 
-	virtual void	ReadPrefs(istream& input);
-	virtual void	WritePrefs(ostream& output, const JFileVersion vers) const;
+	virtual void	ReadPrefs(std::istream& input);
+	virtual void	WritePrefs(std::ostream& output, const JFileVersion vers) const;
 
 	// called by JXSpellCheckerDialog
 

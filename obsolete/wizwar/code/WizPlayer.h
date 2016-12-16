@@ -15,7 +15,7 @@ class WizPlayer : public WWPlayer
 {
 public:
 
-	WizPlayer(istream& input);
+	WizPlayer(std::istream& input);
 
 	virtual ~WizPlayer();
 

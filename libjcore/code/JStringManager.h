@@ -31,8 +31,8 @@ public:
 
 	void		Register(const JCharacter* signature, const JCharacter** defaultData);
 	JBoolean	MergeFile(const JCharacter* fileName, const JBoolean debug = kJFalse);
-	void		MergeFile(istream& input, const JBoolean debug = kJFalse);
-	void		WriteFile(ostream& output) const;
+	void		MergeFile(std::istream& input, const JBoolean debug = kJFalse);
+	void		WriteFile(std::ostream& output) const;
 
 	const JString&	Get(const JCharacter* id) const;
 

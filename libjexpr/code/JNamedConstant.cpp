@@ -137,7 +137,7 @@ JNamedConstant::Evaluate
 void
 JNamedConstant::Print
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

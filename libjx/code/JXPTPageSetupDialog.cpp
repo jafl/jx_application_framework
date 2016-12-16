@@ -286,7 +286,7 @@ JXPTPageSetupDialog::PrintTestPage()
 			}
 		else
 			{
-			ofstream output(fileName);
+			std::ofstream output(fileName);
 			for (i=1; i<=w; i++)
 				{
 				output << JCharacter('0' + i%10);

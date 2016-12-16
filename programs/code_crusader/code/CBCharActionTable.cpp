@@ -241,7 +241,7 @@ CBCharActionTable::ReadData
 
 	JIndex firstNewRow = 0;
 
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 	JString action, script;
 	JIndex state = 1;
 	while (!input.eof() && !input.fail())
@@ -314,7 +314,7 @@ CBCharActionTable::WriteData
 	)
 	const
 {
-	ofstream output(fileName);
+	std::ofstream output(fileName);
 
 	const JStringTableData* data = GetStringData();
 	const JSize count            = GetRowCount();

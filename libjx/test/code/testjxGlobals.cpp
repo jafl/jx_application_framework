@@ -46,7 +46,7 @@ TestjxCreateGlobals
 
 	if (JFileExists(kDockSetupFileName))
 		{
-		ifstream input(kDockSetupFileName);
+		std::ifstream input(kDockSetupFileName);
 		theDockManager->ReadSetup(input);
 		}
 
@@ -67,7 +67,7 @@ TestjxCreateGlobals
 void
 TestjxDeleteGlobals()
 {
-	ofstream output(kDockSetupFileName);
+	std::ofstream output(kDockSetupFileName);
 	(JXGetDockManager())->WriteSetup(output);
 
 	theApplication = NULL;

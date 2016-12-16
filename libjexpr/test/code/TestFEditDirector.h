@@ -33,7 +33,7 @@ protected:
 
 private:
 
-	ifstream*		itsInput;
+	std::ifstream*		itsInput;
 	TestVarList*	itsVarList;
 	JXExprEditor*	itsExprWidget;
 	JBoolean		itsUseComplexFlag;

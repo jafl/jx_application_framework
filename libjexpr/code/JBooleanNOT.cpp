@@ -97,7 +97,7 @@ JBooleanNOT::Evaluate()
 void
 JBooleanNOT::Print
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

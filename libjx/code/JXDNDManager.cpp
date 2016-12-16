@@ -616,7 +616,7 @@ JXDNDManager::IsDNDAware
 			*vers  = JMin(kCurrentDNDVersion, data[0]);
 
 			#if JXDND_DEBUG_MSGS
-			cout << "Using XDND version " << *vers << endl;
+			std::cout << "Using XDND version " << *vers << std::endl;
 			#endif
 			}
 		}
@@ -935,7 +935,7 @@ JXDNDManager::SendDNDEnter
 	else if (itsMouseWindowIsAware)
 		{
 		#if JXDND_DEBUG_MSGS
-		cout << "Sent XdndEnter" << endl;
+		std::cout << "Sent XdndEnter" << std::endl;
 		#endif
 
 		#if JXDND_SOURCE_DELAY > 0
@@ -1043,7 +1043,7 @@ JXDNDManager::SendDNDHere
 	else if (!itsWaitForStatusFlag && shouldSendMessage)
 		{
 		#if JXDND_DEBUG_MSGS
-		cout << "Sent XdndPosition: " << ptR.x << ' ' << ptR.y << endl;
+		std::cout << "Sent XdndPosition: " << ptR.x << ' ' << ptR.y << std::endl;
 		#endif
 
 		#if JXDND_SOURCE_DELAY > 0
@@ -1105,7 +1105,7 @@ JXDNDManager::SendDNDLeave
 	else if (itsMouseWindowIsAware)
 		{
 		#if JXDND_DEBUG_MSGS
-		cout << "Sent XdndLeave" << endl;
+		std::cout << "Sent XdndLeave" << std::endl;
 		#endif
 
 		#if JXDND_SOURCE_DELAY > 0
@@ -1175,7 +1175,7 @@ JXDNDManager::SendDNDLeave
 				itsDisplay->SendXEvent(xWindow, &xEvent);
 
 				#if JXDND_DEBUG_MSGS
-				cout << "Sent fake middle click, time=" << xEvent.xbutton.time << endl;
+				std::cout << "Sent fake middle click, time=" << xEvent.xbutton.time << std::endl;
 				#endif
 				}
 			}
@@ -1202,7 +1202,7 @@ JXDNDManager::SendDNDDrop()
 	else if (itsMouseWindowIsAware)
 		{
 		#if JXDND_DEBUG_MSGS
-		cout << "Sent XdndDrop" << endl;
+		std::cout << "Sent XdndDrop" << std::endl;
 		#endif
 
 		#if JXDND_SOURCE_DELAY > 0
@@ -1265,7 +1265,7 @@ JXDNDManager::SendDNDStatus
 	if (itsDraggerWindow != None)
 		{
 		#if JXDND_DEBUG_MSGS
-		cout << "Sent XdndStatus: " << willAcceptDrop << endl;
+		std::cout << "Sent XdndStatus: " << willAcceptDrop << std::endl;
 		#endif
 
 		#if JXDND_TARGET_DELAY > 0
@@ -1309,7 +1309,7 @@ JXDNDManager::SendDNDFinished()
 	if (itsDraggerWindow != None)
 		{
 		#if JXDND_DEBUG_MSGS
-		cout << "Sent XdndFinished" << endl;
+		std::cout << "Sent XdndFinished" << std::endl;
 		#endif
 
 		#if JXDND_TARGET_DELAY > 0
@@ -1383,7 +1383,7 @@ JXDNDManager::HandleClientMessage
 	else if (clientMessage.message_type == itsAtoms[ kDNDFinishedAtomIndex ])
 		{
 		#if JXDND_DEBUG_MSGS
-		cout << "Received XdndFinished" << endl;
+		std::cout << "Received XdndFinished" << std::endl;
 		#endif
 
 		return kJTrue;
@@ -1420,13 +1420,13 @@ JXDNDManager::HandleDNDEnter
 		{
 		#if JXDND_TARGET_DELAY > 0
 			#if JXDND_DEBUG_MSGS
-			cout << "XdndEnter will arrive" << endl;
+			std::cout << "XdndEnter will arrive" << std::endl;
 			#endif
 		JWait(JXDND_TARGET_DELAY);
 		#endif
 
 		#if JXDND_DEBUG_MSGS
-		cout << "Received XdndEnter" << endl;
+		std::cout << "Received XdndEnter" << std::endl;
 		#endif
 
 		if (itsDragger != NULL)
@@ -1508,13 +1508,13 @@ JXDNDManager::HandleDNDHere
 
 	#if JXDND_TARGET_DELAY > 0
 		#if JXDND_DEBUG_MSGS
-		cout << "XdndPosition will arrive" << endl;
+		std::cout << "XdndPosition will arrive" << std::endl;
 		#endif
 	JWait(JXDND_TARGET_DELAY);
 	#endif
 
 	#if JXDND_DEBUG_MSGS
-	cout << "Received XdndPosition" << endl;
+	std::cout << "Received XdndPosition" << std::endl;
 	#endif
 
 	const JPoint ptR = UnpackPoint(clientMessage.data.l[ kDNDHerePt ]);
@@ -1631,13 +1631,13 @@ JXDNDManager::HandleDNDLeave
 		{
 		#if JXDND_TARGET_DELAY > 0
 			#if JXDND_DEBUG_MSGS
-			cout << "XdndLeave will arrive" << endl;
+			std::cout << "XdndLeave will arrive" << std::endl;
 			#endif
 		JWait(JXDND_TARGET_DELAY);
 		#endif
 
 		#if JXDND_DEBUG_MSGS
-		cout << "Received XdndLeave" << endl;
+		std::cout << "Received XdndLeave" << std::endl;
 		#endif
 
 		HandleDNDLeave1();
@@ -1677,13 +1677,13 @@ JXDNDManager::HandleDNDDrop
 		{
 		#if JXDND_TARGET_DELAY > 0
 			#if JXDND_DEBUG_MSGS
-			cout << "XdndDrop will arrive" << endl;
+			std::cout << "XdndDrop will arrive" << std::endl;
 			#endif
 		JWait(JXDND_TARGET_DELAY);
 		#endif
 
 		#if JXDND_DEBUG_MSGS
-		cout << "Received XdndDrop" << endl;
+		std::cout << "Received XdndDrop" << std::endl;
 		#endif
 
 		const Time time = clientMessage.data.l[ kDNDDropTimeStamp ];
@@ -1747,7 +1747,7 @@ JXDNDManager::HandleDNDStatus
 		{
 		#if JXDND_SOURCE_DELAY > 0
 			#if JXDND_DEBUG_MSGS
-			cout << "XdndStatus will arrive" << endl;
+			std::cout << "XdndStatus will arrive" << std::endl;
 			#endif
 		JWait(JXDND_SOURCE_DELAY);
 		#endif
@@ -1767,10 +1767,10 @@ JXDNDManager::HandleDNDStatus
 								   clientMessage.data.l[ kDNDStatusArea ]);
 
 		#if JXDND_DEBUG_MSGS
-		cout << "Received XdndStatus: " << itsWillAcceptDropFlag;
-		cout << ' ' << itsUseMouseRectFlag;
-		cout << ' ' << itsMouseRectR.top << ' ' << itsMouseRectR.left;
-		cout << ' ' << itsMouseRectR.bottom << ' ' << itsMouseRectR.right << endl;
+		std::cout << "Received XdndStatus: " << itsWillAcceptDropFlag;
+		std::cout << ' ' << itsUseMouseRectFlag;
+		std::cout << ' ' << itsMouseRectR.top << ' ' << itsMouseRectR.left;
+		std::cout << ' ' << itsMouseRectR.bottom << ' ' << itsMouseRectR.right << std::endl;
 		#endif
 
 		Atom action = clientMessage.data.l[ kDNDStatusAction ];
@@ -1910,7 +1910,7 @@ JXDNDManager::ReceiveWithFeedback
 			err->GetXID()  == itsDraggerWindow)
 			{
 			#if JXDND_DEBUG_MSGS
-			cout << "JXDND: Source crashed via XError" << endl;
+			std::cout << "JXDND: Source crashed via XError" << std::endl;
 			#endif
 
 			itsDraggerWindow = None;
@@ -1944,7 +1944,7 @@ JXDNDManager::HandleDestroyNotify
 		xEvent.window == itsDraggerWindow)
 		{
 		#if JXDND_DEBUG_MSGS
-		cout << "JXDND: Source crashed via DestroyNotify" << endl;
+		std::cout << "JXDND: Source crashed via DestroyNotify" << std::endl;
 		#endif
 
 		itsDraggerWindow = None;

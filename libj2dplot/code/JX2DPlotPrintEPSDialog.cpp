@@ -444,10 +444,10 @@ JX2DPlotPrintEPSDialog::UpdateSize
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&						input,
+	std::istream&						input,
 	JX2DPlotPrintEPSDialog::Unit&	u
 	)
 {
@@ -463,10 +463,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&							output,
+	std::ostream&							output,
 	const JX2DPlotPrintEPSDialog::Unit	u
 	)
 {

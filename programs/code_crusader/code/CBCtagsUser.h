@@ -278,10 +278,10 @@ protected:
 
 	JBoolean	ProcessFile(const JCharacter* fileName, const CBTextFileType fileType,
 							JString* result, CBLanguage* lang);
-	void		ReadExtensionFlags(istream& input, JStringPtrMap<JString>* flags) const;
+	void		ReadExtensionFlags(std::istream& input, JStringPtrMap<JString>* flags) const;
 	Type		DecodeSymbolType(const CBLanguage lang, const JCharacter c) const;
 
-	virtual void	InitCtags(ostream& output);
+	virtual void	InitCtags(std::ostream& output);
 	void			DeleteProcess();
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);

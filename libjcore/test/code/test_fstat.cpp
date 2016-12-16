@@ -11,24 +11,24 @@ int main
 {
 	if (argc != 2)
 		{
-		cerr << "Usage: testfstat file_name" << endl;
+		std::cerr << "Usage: testfstat file_name" << std::endl;
 		return 1;
 		}
 
 	const int fd = open(argv[1], O_RDWR | O_CREAT);
 
-	cout << argv[1] << " created" << endl;
+	std::cout << argv[1] << " created" << std::endl;
 
 	struct stat stbuf;
 	while (1)
 		{
-		cout << endl << "Press return to continue...";
-		cin.clear();
-		while (cin.get() != '\n') { };
+		std::cout << std::endl << "Press return to continue...";
+		std::cin.clear();
+		while (std::cin.get() != '\n') { };
 
 		if (fstat(fd, &stbuf) == -1)
 			{
-			cout << "Lost connection to file" << endl;
+			std::cout << "Lost connection to file" << std::endl;
 			return 0;
 			}
 		else
@@ -36,21 +36,21 @@ int main
 			FILE* f = fdopen(fd, "r");
 			if (fseek(f, 0, SEEK_SET) == 0)
 				{
-				cout << endl;
-				cout << "File contents:" << endl;
-				cout << endl;
+				std::cout << std::endl;
+				std::cout << "File contents:" << std::endl;
+				std::cout << std::endl;
 
 				int c;
 				while ((c = fgetc(f)) != EOF)
 					{
-					cout << (char) c;
+					std::cout << (char) c;
 					}
 
-				cout << endl;
+				std::cout << std::endl;
 				}
 			else
 				{
-				cerr << "fseek() failed" << endl;
+				std::cerr << "fseek() failed" << std::endl;
 				return 0;
 				}
 			}

@@ -458,7 +458,7 @@ JXFSRunFileDialog::WriteSetup()
 void
 JXFSRunFileDialog::ReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JXWindow* window = GetWindow();
@@ -491,7 +491,7 @@ JXFSRunFileDialog::ReadSetup
 void
 JXFSRunFileDialog::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

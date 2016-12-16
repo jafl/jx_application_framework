@@ -81,7 +81,7 @@ CBDiffStyleMenu::HandleMenuItem
 void
 CBDiffStyleMenu::ReadStyle
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	input >> itsStyle.bold >> itsStyle.italic >> itsStyle.strike;
@@ -100,7 +100,7 @@ CBDiffStyleMenu::ReadStyle
 void
 CBDiffStyleMenu::WriteStyle
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 	output << ' ' << itsStyle.bold << itsStyle.italic << itsStyle.strike;

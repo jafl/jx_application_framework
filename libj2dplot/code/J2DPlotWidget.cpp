@@ -3470,7 +3470,7 @@ J2DPlotWidget::GetFirstAvailableColor()
 void
 J2DPlotWidget::PWWriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -3544,11 +3544,11 @@ J2DPlotWidget::PWWriteSetup
 void
 J2DPlotWidget::PWReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers = 0;
-	input >> ws;
+	input >> std::ws;
 	if (isdigit(input.peek()))		// original code started with a string
 		{
 		input >> vers;
@@ -3661,7 +3661,7 @@ J2DPlotWidget::PWReadSetup
 void
 J2DPlotWidget::PWWriteCurveSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -3720,7 +3720,7 @@ JIndex i;
 void
 J2DPlotWidget::PWReadCurveSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 JIndex i;

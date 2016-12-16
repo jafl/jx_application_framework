@@ -241,7 +241,7 @@ GloveHistoryDir::Print()
 void
 GloveHistoryDir::WriteData
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	JString text = itsHistory->GetText();
@@ -257,7 +257,7 @@ GloveHistoryDir::WriteData
 void
 GloveHistoryDir::ReadData
 	(
-	istream& is
+	std::istream& is
 	)
 {
 	JString text;

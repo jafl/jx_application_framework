@@ -81,7 +81,7 @@ public:
 
 	virtual ~CBPythonScanner();
 
-	void	BeginScan(istream& input);
+	void	BeginScan(std::istream& input);
 	Token	NextToken();		// written by flex
 
 protected:

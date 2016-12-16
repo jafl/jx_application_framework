@@ -1792,7 +1792,7 @@ SVNRepoView::CheckOutSelection()
 void
 SVNRepoView::SkipSetup
 	(
-	istream&		input,
+	std::istream&		input,
 	JFileVersion	vers
 	)
 {
@@ -1808,7 +1808,7 @@ void
 SVNRepoView::ReadSetup
 	(
 	const JBoolean	hadSetup,
-	istream&		input,
+	std::istream&		input,
 	JFileVersion	vers
 	)
 {
@@ -1828,7 +1828,7 @@ SVNRepoView::ReadSetup
 void
 SVNRepoView::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

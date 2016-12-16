@@ -484,10 +484,10 @@ SVNPrefsManager::Receive
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&						input,
+	std::istream&						input,
 	SVNPrefsManager::Integration&	type
 	)
 {
@@ -498,10 +498,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&							output,
+	std::ostream&							output,
 	const SVNPrefsManager::Integration	type
 	)
 {

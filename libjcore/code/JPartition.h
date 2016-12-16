@@ -43,8 +43,8 @@ public:
 	JBoolean	FindCompartment(const JCoordinate coord, JIndex* index) const;
 	void		DeleteCompartment(const JIndex index);
 
-	void		ReadGeometry(istream& input);
-	void		WriteGeometry(ostream& output) const;
+	void		ReadGeometry(std::istream& input);
+	void		WriteGeometry(std::ostream& output) const;
 
 protected:
 

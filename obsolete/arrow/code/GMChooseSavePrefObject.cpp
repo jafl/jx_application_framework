@@ -52,7 +52,7 @@ GMChooseSavePrefObject::~GMChooseSavePrefObject()
 void
 GMChooseSavePrefObject::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	itsCSF->ReadGMSetup(input);
@@ -61,7 +61,7 @@ GMChooseSavePrefObject::ReadPrefs
 void
 GMChooseSavePrefObject::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

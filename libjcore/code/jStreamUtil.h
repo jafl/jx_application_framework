@@ -14,31 +14,31 @@
 
 class JString;
 
-void	JCopyBinaryData(istream& input, ostream& output, const JSize byteCount);
+void	JCopyBinaryData(std::istream& input, std::ostream& output, const JSize byteCount);
 
-JString	JRead(istream& input, const JSize count);
-JString	JReadUntil(istream& input, const JCharacter delimiter,
+JString	JRead(std::istream& input, const JSize count);
+JString	JReadUntil(std::istream& input, const JCharacter delimiter,
 				   JBoolean* foundDelimiter = NULL);
-JString	JReadUntilws(istream& input, JBoolean* foundws = NULL);
-JString	JReadLine(istream& input, JBoolean* foundNewLine = NULL);
-void	JReadAll(istream& input, JString* str);
+JString	JReadUntilws(std::istream& input, JBoolean* foundws = NULL);
+JString	JReadLine(std::istream& input, JBoolean* foundNewLine = NULL);
+void	JReadAll(std::istream& input, JString* str);
 
-JBoolean JReadUntil(istream& input, const JSize delimiterCount,
+JBoolean JReadUntil(std::istream& input, const JSize delimiterCount,
 					const JCharacter* delimiters, JString* str,
 					JCharacter* delimiter = NULL);
 
-void JIgnoreUntil(istream& input, const JCharacter delimiter,
+void JIgnoreUntil(std::istream& input, const JCharacter delimiter,
 				  JBoolean* foundDelimiter = NULL);
-void JIgnoreUntil(istream& input, const JCharacter* delimiter,
+void JIgnoreUntil(std::istream& input, const JCharacter* delimiter,
 				  JBoolean* foundDelimiter = NULL);
 
-JBoolean JIgnoreUntil(istream& input, const JSize delimiterCount,
+JBoolean JIgnoreUntil(std::istream& input, const JSize delimiterCount,
 					  const JCharacter* delimiters, JCharacter* delimiter = NULL);
 
-void JIgnoreLine(istream& input, JBoolean* foundNewLine = NULL);
+void JIgnoreLine(std::istream& input, JBoolean* foundNewLine = NULL);
 
-void		JEncodeBase64(istream& input, ostream& output);
-JBoolean	JDecodeBase64(istream& input, ostream& output);
+void		JEncodeBase64(std::istream& input, std::ostream& output);
+JBoolean	JDecodeBase64(std::istream& input, std::ostream& output);
 
 // compensate for lack of features in io stream library
 
@@ -64,16 +64,16 @@ JBoolean	JWaitForInput(const int input, const time_t timeout);
 
 // compensate for ANSI's removal of features
 
-JSize JTellg(istream& stream);
-void  JSeekg(istream& stream, streampos position);
-void  JSeekg(istream& stream, streamoff offset, JIOStreamSeekDir direction);
+JSize JTellg(std::istream& stream);
+void  JSeekg(std::istream& stream, std::streampos position);
+void  JSeekg(std::istream& stream, std::streamoff offset, JIOStreamSeekDir direction);
 
-JSize JTellp(ostream& stream);
-void  JSeekp(ostream& stream, streampos position);
-void  JSeekp(ostream& stream, streamoff offset, JIOStreamSeekDir direction);
+JSize JTellp(std::ostream& stream);
+void  JSeekp(std::ostream& stream, std::streampos position);
+void  JSeekp(std::ostream& stream, std::streamoff offset, JIOStreamSeekDir direction);
 
 // compensate for Sun CC brain damage
 
-void	JSetState(ios& stream, const int flag);
+void	JSetState(std::ios& stream, const int flag);
 
 #endif

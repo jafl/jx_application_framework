@@ -21,7 +21,7 @@ class JXDockDirector : public JXWindowDirector
 public:
 
 	JXDockDirector(const JCharacter* title, const JBoolean splitHoriz);
-	JXDockDirector(istream& input, const JFileVersion vers, const JCharacter* title);
+	JXDockDirector(std::istream& input, const JFileVersion vers, const JCharacter* title);
 
 	virtual ~JXDockDirector();
 
@@ -34,7 +34,7 @@ public:
 
 	void	UpdateMinSize();
 
-	void	StreamOut(ostream& output) const;
+	void	StreamOut(std::ostream& output) const;
 
 	JBoolean	GetHorizPartition(JXHorizDockPartition** p) const;
 	JBoolean	GetVertPartition(JXVertDockPartition** p) const;

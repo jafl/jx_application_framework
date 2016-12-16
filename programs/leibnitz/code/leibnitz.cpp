@@ -91,7 +91,7 @@ ParseTextOptions
 void
 PrintVersion()
 {
-	cout << endl;
-	cout << THXGetVersionStr() << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << THXGetVersionStr() << std::endl;
+	std::cout << std::endl;
 }

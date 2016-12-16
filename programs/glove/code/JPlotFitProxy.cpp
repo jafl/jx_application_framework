@@ -98,7 +98,7 @@ JPlotFitProxy::JPlotFitProxy
 	(
 	J2DPlotWidget* 		plot, 
 	JPlotDataBase* 		fitData,
-	istream& 			is
+	std::istream& 			is
 	)
 	:
 	JPlotFitFunction(plot, fitData, 0, 0),
@@ -180,7 +180,7 @@ JPlotFitProxy::~JPlotFitProxy()
 void
 JPlotFitProxy::WriteData
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	os << itsHasGOF << ' ';

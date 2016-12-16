@@ -137,7 +137,7 @@ JXPSPrinter::SetFileName
 void
 JXPSPrinter::ReadXPSSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -187,7 +187,7 @@ JXPSPrinter::ReadXPSSetup
 void
 JXPSPrinter::WriteXPSSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -478,10 +478,10 @@ JXPSPrinter::Receive
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&					input,
+	std::istream&					input,
 	JXPSPrinter::Destination&	dest
 	)
 {
@@ -493,10 +493,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&						output,
+	std::ostream&						output,
 	const JXPSPrinter::Destination	dest
 	)
 {

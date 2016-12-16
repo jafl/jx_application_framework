@@ -359,7 +359,7 @@ SCCircuitDocument::OpenSomething
 		return;
 		}
 
-	ifstream input(fullName);
+	std::ifstream input(fullName);
 	const FileStatus status = CanReadFile(input);
 	JXFileDocument* doc;
 	if (status == kFileReadable &&
@@ -411,7 +411,7 @@ SCCircuitDocument::DiscardChanges()
 	if (onDisk)
 		{
 		CloseAllWindows();
-		ifstream input(fullName);
+		std::ifstream input(fullName);
 		ReadFile(input);
 		}
 	else
@@ -430,7 +430,7 @@ SCCircuitDocument::DiscardChanges()
 void
 SCCircuitDocument::ReadFile
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	assert( itsExprList->IsEmpty() && itsPlotList->IsEmpty() );
@@ -494,7 +494,7 @@ SCCircuitDocument::ReadFile
 void
 SCCircuitDocument::WriteTextFile
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const JBoolean	safetySave
 	)
 	const
@@ -542,7 +542,7 @@ JIndex i;
 JXFileDocument::FileStatus
 SCCircuitDocument::CanReadFile
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion actualFileVersion;

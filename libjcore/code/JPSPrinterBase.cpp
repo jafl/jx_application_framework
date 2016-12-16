@@ -153,7 +153,7 @@ JPSPrinterBase::PSOpenDocument()
 {
 	assert( !itsDocOpenFlag && !itsOutputFileName->IsEmpty() );
 
-	itsFile = jnew ofstream(*itsOutputFileName);
+	itsFile = jnew std::ofstream(*itsOutputFileName);
 	assert( itsFile != NULL );
 
 	if (itsFile->fail())
@@ -741,7 +741,7 @@ JPSPrinterBase::PSColorImageNoMask
 	*itsFile << w << " 0 0 " << -h << " 0 " << h << "]\n";
 	*itsFile << "{currentfile picstr readhexstring pop} false 3 colorimage\n";
 
-	itsFile->setf(ios::hex, ios::basefield);
+	itsFile->setf(std::ios::hex, std::ios::basefield);
 
 	JSize c[3];	// r,g,b
 	JIndex lineLength = 0;
@@ -772,7 +772,7 @@ JPSPrinterBase::PSColorImageNoMask
 		*itsFile << '\n';
 		}
 
-	itsFile->setf(ios::dec, ios::basefield);
+	itsFile->setf(std::ios::dec, std::ios::basefield);
 	*itsFile << "grestore\n";
 }
 
@@ -1155,7 +1155,7 @@ JPSPrinterBase::PSSetLineDashes
 
  ******************************************************************************/
 
-ostream&
+std::ostream&
 JPSPrinterBase::GetOutputStream()
 {
 	return *itsFile;

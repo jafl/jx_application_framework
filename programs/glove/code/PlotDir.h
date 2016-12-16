@@ -46,11 +46,11 @@ public:
 	GlovePlotter*		GetPlot();
 	void 				NewFileName(const JCharacter* filename);
 
-	void 				WriteSetup(ostream& os);
-	void 				ReadSetup(istream& is, const JFloat gloveVersion);
+	void 				WriteSetup(std::ostream& os);
+	void 				ReadSetup(std::istream& is, const JFloat gloveVersion);
 
-	void 				WriteData(ostream& os, GRaggedFloatTableData* data);
-	void 				ReadData(istream& is, GRaggedFloatTableData* data, const JFloat gloveVersion);
+	void 				WriteData(std::ostream& os, GRaggedFloatTableData* data);
+	void 				ReadData(std::istream& is, GRaggedFloatTableData* data, const JFloat gloveVersion);
 	virtual JBoolean	NeedsSave() const;
 	GloveHistoryDir*	GetSessionDir();
 	JBoolean			AddFitModule(JPlotModuleFit* fit, JPlotDataBase* fitData);
@@ -101,8 +101,8 @@ private:
 
 private:
 
-	void	WriteCurves(ostream& os, GRaggedFloatTableData* data);
-	void 	ReadCurves(istream& is, GRaggedFloatTableData* data);
+	void	WriteCurves(std::ostream& os, GRaggedFloatTableData* data);
+	void 	ReadCurves(std::istream& is, GRaggedFloatTableData* data);
 
 	void	HandlePlotMenu(const JIndex index);
 

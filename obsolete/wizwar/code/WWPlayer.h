@@ -22,8 +22,8 @@ public:
 	const JString&	GetName() const;
 	const JString&	GetEmail() const;
 
-	void			ReadIdentity(istream& input);
-	virtual void	WriteState(ostream& output) const;
+	void			ReadIdentity(std::istream& input);
+	virtual void	WriteState(std::ostream& output) const;
 
 protected:
 

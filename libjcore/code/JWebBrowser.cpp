@@ -267,7 +267,7 @@ JWebBrowser::GetCurrentConfigVersion()
 void
 JWebBrowser::ReadConfig
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -293,7 +293,7 @@ JWebBrowser::ReadConfig
 void
 JWebBrowser::WriteConfig
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const JFileVersion	vers
 	)
 	const

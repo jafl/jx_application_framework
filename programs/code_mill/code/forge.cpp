@@ -109,7 +109,7 @@ ParseTextOptions
 void
 PrintVersion()
 {
-	cout << endl;
-	cout << GFGGetVersionStr() << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << GFGGetVersionStr() << std::endl;
+	std::cout << std::endl;
 }

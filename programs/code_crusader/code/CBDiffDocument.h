@@ -96,11 +96,11 @@ private:
 
 	void		Init(const JCharacter* fullName);
 
-	void		ReadDiff(istream& input);
-	JCharacter	ReadCmd(istream& input, JIndexRange* origRange, JIndexRange* newRange) const;
-	JIndexRange	ReadRange(istream& input) const;
-	void		IgnoreOrigText(istream& input, const JCharacter cmd) const;
-	JString		ReadNewText(istream& input, const JCharacter cmd, JSize* lineCount) const;
+	void		ReadDiff(std::istream& input);
+	JCharacter	ReadCmd(std::istream& input, JIndexRange* origRange, JIndexRange* newRange) const;
+	JIndexRange	ReadRange(std::istream& input) const;
+	void		IgnoreOrigText(std::istream& input, const JCharacter cmd) const;
+	JString		ReadNewText(std::istream& input, const JCharacter cmd, JSize* lineCount) const;
 
 	void	UpdateDiffMenu();
 	void	HandleDiffMenu(const JIndex index);

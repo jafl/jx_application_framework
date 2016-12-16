@@ -877,7 +877,7 @@ JParseAsFunctionWithArgs
 		}
 	else
 		{
-		cerr << "JParseAsFunctionWithArgs:  unknown function type" << endl;
+		std::cerr << "JParseAsFunctionWithArgs:  unknown function type" << std::endl;
 		return kJParseError;
 		}
 	assert( stdFunction != NULL );
@@ -1104,7 +1104,7 @@ JParseAsFunctionOfDiscrete
 		}
 	else
 		{
-		cerr << "JParseAsFunctionOfDiscrete:  unknown function type" << endl;
+		std::cerr << "JParseAsFunctionOfDiscrete:  unknown function type" << std::endl;
 		jdelete arrayIndex;
 		return kJParseError;
 		}

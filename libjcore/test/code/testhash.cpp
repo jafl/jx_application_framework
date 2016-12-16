@@ -229,51 +229,51 @@
 int
 main()
 {
-	cout << "Beginning hash function test.  No news is good news" << endl;
+	std::cout << "Beginning hash function test.  No news is good news" << std::endl;
 
 // Test JDualHash
-	cout << std::setbase(10);
+	std::cout << std::setbase(10);
 	JIndex i=0;
 	while (DualHashResult[i] != 0)
 		{
 		JDualHashValue result = JDualHash(DualHashArg[i]);
 		if (DualHashResult[i] != result)
 			{
-			cout << "   JDualHash(" << DualHashArg[i] << ") returned "
-				 << result << " instead of " << DualHashResult[i] << endl;
+			std::cout << "   JDualHash(" << DualHashArg[i] << ") returned "
+				 << result << " instead of " << DualHashResult[i] << std::endl;
 			}
 		i++;
 		}
 
 // Test JHash7Bit
-	cout << std::setbase(16);
+	std::cout << std::setbase(16);
 	i=0;
 	while (HashStringArg[i] != NULL)
 		{
 		JHashValue result = JHash7Bit(HashStringArg[i]);
 		if (Hash7BitResult[i] != result)
 			{
-			cout << "   JHash7Bit(\"" << HashStringArg[i] << "\") returned "
-				 << result << " instead of " << Hash7BitResult[i] << endl;
+			std::cout << "   JHash7Bit(\"" << HashStringArg[i] << "\") returned "
+				 << result << " instead of " << Hash7BitResult[i] << std::endl;
 			}
 		i++;
 		}
 
 // Test JHash8Bit
-	cout << std::setbase(16);
+	std::cout << std::setbase(16);
 	i=0;
 	while (HashStringArg[i] != NULL)
 		{
 		JHashValue result = JHash8Bit(HashStringArg[i]);
 		if (Hash8BitResult[i] != result)
 			{
-			cout << "   JHash8Bit(\"" << HashStringArg[i] << "\") returned "
-				 << result << " instead of " << Hash8BitResult[i] << endl;
+			std::cout << "   JHash8Bit(\"" << HashStringArg[i] << "\") returned "
+				 << result << " instead of " << Hash8BitResult[i] << std::endl;
 			}
 		i++;
 		}
 
-	cout << "Finished hash function test.  If nothing printed out, it passed" << endl;
+	std::cout << "Finished hash function test.  If nothing printed out, it passed" << std::endl;
 
 	return 0;
 }

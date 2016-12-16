@@ -135,7 +135,7 @@ GAddressItemTreeNode::OKToChange()
 void
 GAddressItemTreeNode::Save
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 

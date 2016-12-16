@@ -117,16 +117,16 @@ JXApplication::JXApplication
 	JXDisplay* display;
 	if (!JXDisplay::Create(displayName, &display))
 		{
-		cerr << argv[0];
+		std::cerr << argv[0];
 		if (displayName.IsEmpty())
 			{
-			cerr << ": Can't open display '" << XDisplayName(NULL) << '\'';
+			std::cerr << ": Can't open display '" << XDisplayName(NULL) << '\'';
 			}
 		else
 			{
-			cerr << ": Can't open display '" << displayName << '\'';
+			std::cerr << ": Can't open display '" << displayName << '\'';
 			}
-		cerr << endl;
+		std::cerr << std::endl;
 		JThisProcess::Exit(1);
 		}
 
@@ -1127,7 +1127,7 @@ JXApplication::ParseBaseOptions
 			i++;
 			if (i >= *argc || argv[i][0] == '-')
 				{
-				cerr << argv[0] << ": Invalid display option" << endl;
+				std::cerr << argv[0] << ": Invalid display option" << std::endl;
 				JThisProcess::Exit(1);
 				}
 			*displayName = argv[i];

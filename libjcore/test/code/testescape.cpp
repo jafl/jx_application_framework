@@ -21,7 +21,7 @@
 int
 main()
 {
-	cout << "\nJSubstitute bug check: only errors will be reported, so no news is good news." << endl;
+	std::cout << "\nJSubstitute bug check: only errors will be reported, so no news is good news." << std::endl;
 
 	JString oldString, newString;
 
@@ -37,7 +37,7 @@ main()
 		esc(&newString);
 		if (newString != oldString)
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
 			}
 
 
@@ -47,7 +47,7 @@ main()
 		esc(&newString);
 		if (newString != "iiabciidefii")
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
 			}
 
 
@@ -58,7 +58,7 @@ main()
 		esc(&newString);
 		if (newString != "<><>abc<><>def<><>")
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
 			}
 
 
@@ -70,9 +70,9 @@ main()
 		esc(&newString);
 		if (newString != oldString)
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
-			cout << "    newString = \"" << newString << "\", should be \""
-			     << oldString << "\"" << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
+			std::cout << "    newString = \"" << newString << "\", should be \""
+			     << oldString << "\"" << std::endl;
 			}
 
 
@@ -83,14 +83,14 @@ main()
 		esc(&newString);
 		if (newString != "abcdef")
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
 			}
 		newString = oldString;
 		esc.IgnoreUnrecognized(kJFalse);
 		esc(&newString);
 		if (newString != "abcdef")
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
 			}
 
 
@@ -102,7 +102,7 @@ main()
 		esc(&newString);
 		if (newString != oldString)
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
 			}
 	}
 
@@ -119,7 +119,7 @@ main()
 		esc(&newString);
 		if (newString != "\a\aabc\a\adef\a\a")
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
 			}
 
 
@@ -129,7 +129,7 @@ main()
 		esc(&newString);
 		if (newString != oldString)
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
 			}
 
 
@@ -139,7 +139,7 @@ main()
 		esc(&newString);
 		if (newString != oldString)
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
 			}
 
 
@@ -151,7 +151,7 @@ main()
 		esc(&newString);
 		if (newString != oldString)
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
 			}
 
 
@@ -161,7 +161,7 @@ main()
 		esc(&newString);
 		if (newString != "\01\01abc\01\01def\01\01")
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
 			}
 
 
@@ -171,9 +171,9 @@ main()
 		esc(&newString);
 		if (newString != "abc\037def")
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
-			cout << "    newString = \"" << newString << "\", should be \""
-			     << "abc\037def" << "\"" << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
+			std::cout << "    newString = \"" << newString << "\", should be \""
+			     << "abc\037def" << "\"" << std::endl;
 			}
 
 
@@ -183,7 +183,7 @@ main()
 		esc(&newString);
 		if (newString != oldString)
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
 			}
 
 
@@ -194,14 +194,14 @@ main()
 		esc(&newString);
 		if (newString != "abcdef")
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
 			}
 		newString = oldString;
 		esc.IgnoreUnrecognized(kJFalse);
 		esc(&newString);
 		if (newString != "abcdef")
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
 			}
 
 		oldString = "abcdef\\cM";
@@ -210,14 +210,14 @@ main()
 		esc(&newString);
 		if (newString != "abcdef\r")
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
 			}
 		newString = oldString;
 		esc.IgnoreUnrecognized(kJFalse);
 		esc(&newString);
 		if (newString != "abcdef\r")
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
 			}
 
 
@@ -229,9 +229,9 @@ main()
 		esc(&newString);
 		if (newString != "abc\vdef")
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
-			cout << "    newString = \"" << newString << "\", should be \""
-			     << "abc\vdef" << "\"" << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
+			std::cout << "    newString = \"" << newString << "\", should be \""
+			     << "abc\vdef" << "\"" << std::endl;
 			}
 
 
@@ -243,13 +243,13 @@ main()
 		esc(&newString);
 		if (newString != oldString)
 			{
-			cout << "    testescape failure at line " << __LINE__ << endl;
-			cout << "    newString = \"" << newString << "\", should be \""
-			     << oldString << "\"" << endl;
+			std::cout << "    testescape failure at line " << __LINE__ << std::endl;
+			std::cout << "    newString = \"" << newString << "\", should be \""
+			     << oldString << "\"" << std::endl;
 			}
 	}
 
-	cout << "Bug check complete.\n" << endl;
+	std::cout << "Bug check complete.\n" << std::endl;
 
 	return 0;
 }

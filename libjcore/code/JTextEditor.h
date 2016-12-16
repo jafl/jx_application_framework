@@ -209,19 +209,19 @@ public:
 	JBoolean	ReadPlainText(const JCharacter* fileName, PlainTextFormat* format,
 							  const JBoolean acceptBinaryFile = kJTrue);
 	void		WritePlainText(const JCharacter* fileName, const PlainTextFormat format) const;
-	void		WritePlainText(ostream& output, const PlainTextFormat format) const;
+	void		WritePlainText(std::ostream& output, const PlainTextFormat format) const;
 
-	void		ReadHTML(istream& input);
-	void		PasteHTML(istream& input);
+	void		ReadHTML(std::istream& input);
+	void		PasteHTML(std::istream& input);
 	JSize		GetHTMLBufferLength() const;
 
-	JBoolean	ReadUNIXManOutput(istream& input, const JBoolean allowCancel = kJFalse);
+	JBoolean	ReadUNIXManOutput(std::istream& input, const JBoolean allowCancel = kJFalse);
 	JSize		PasteUNIXTerminalOutput(const JCharacter* text);
 
-	JBoolean	ReadPrivateFormat(istream& input);
-	void		WritePrivateFormat(ostream& output) const;
+	JBoolean	ReadPrivateFormat(std::istream& input);
+	void		WritePrivateFormat(std::ostream& output) const;
 
-	static void	WritePrivateFormat(ostream& output,
+	static void	WritePrivateFormat(std::ostream& output,
 								   const JColormap* colormap, const JFileVersion vers,
 								   const JString& text, const JRunArray<JFont>& style,
 								   const JIndex startIndex, const JIndex endIndex);
@@ -675,14 +675,14 @@ protected:
 							 const JRegex& regex,
 							 const JArray<JIndexRange>& submatchList);
 
-	static JBoolean	ReadPrivateFormat(istream& input, const JTextEditor* te,
+	static JBoolean	ReadPrivateFormat(std::istream& input, const JTextEditor* te,
 									  JString* text, JRunArray<JFont>* style);
 
-	void		WritePrivateFormat(ostream& output, const JFileVersion vers,
+	void		WritePrivateFormat(std::ostream& output, const JFileVersion vers,
 								   const JIndex startIndex, const JIndex endIndex) const;
-	void		WritePrivateFormat(ostream& output, const JFileVersion vers,
+	void		WritePrivateFormat(std::ostream& output, const JFileVersion vers,
 								   const JString& text, const JRunArray<JFont>& style) const;
-	JBoolean	WriteClipboardPrivateFormat(ostream& output, const JFileVersion vers) const;
+	JBoolean	WriteClipboardPrivateFormat(std::ostream& output, const JFileVersion vers) const;
 
 	virtual void	PrepareToReadHTML();
 	virtual void	ReadHTMLFinished();

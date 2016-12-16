@@ -41,7 +41,7 @@ JPiecewiseFunction::JPiecewiseFunction
 
 JPiecewiseFunction::JPiecewiseFunction
 	(
-	istream&		input,
+	std::istream&		input,
 	JVariableList*	theVariableList
 	)
 {
@@ -222,10 +222,10 @@ JPiecewiseFunction::SetDefaultFunction
 
  ******************************************************************************/
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&					output,
+	std::ostream&					output,
 	const JPiecewiseFunction&	aPWFunc
 	)
 {

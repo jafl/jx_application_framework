@@ -556,7 +556,7 @@ double chi2err(double btemp){
     return cdif;
 }
 
-void quad_min_fit(int rows,double *x,double *y,double *sx, double *sy,double *a,double *aerr,double *b,double *berr,double *c, double *cerr, double *chi2) {
+void quad_min_fit(int rows,double *x,double *y,double *sx, double *sy,double *a,double *aerr,double *b,double *berr,double *c, double *std::cerr, double *chi2) {
 
     double resize, *syNew, factor=0.01, small=TOLL, bmin, bmax;
     double cbmax, cbmin, btemp, atemp, ctemp, aetemp, betemp, W;
@@ -660,7 +660,7 @@ void quad_min_fit(int rows,double *x,double *y,double *sx, double *sy,double *a,
     
     *aerr = calcAError();
     *berr = calcBError();
-    *cerr = calcCError();
+    *std::cerr = calcCError();
 }
 
 double chisq2_quad(double Bt) {
@@ -1005,7 +1005,7 @@ double calcCError() {
   int i = 0, scanDirection = MOVE_AWAY, iter, j;
   double resize, factor=0.01, small=TOLL, bmin, bmax;
   double cbmax, cbmin, btemp, atemp, ctemp, aetemp, betemp;
-  double chitemp, cerr;
+  double chitemp, std::cerr;
 
   cT = C;
   bT = B;
@@ -1098,11 +1098,11 @@ double calcCError() {
 
     if (((chiError < chiHiN) && (chiError > chiLoN)) ||
 	((chiError < chiHiP) && (chiError > chiLoP))) {
-      cerr = fabs(cT - C);
+      std::cerr = fabs(cT - C);
       A = aT;
       B = bT;
       C = cT;
-      return cerr;
+      return std::cerr;
     }
 
     switch (scanDirection) {
@@ -1122,9 +1122,9 @@ double calcCError() {
     C += dC;
     i++;
   }
-  cerr = fabs(cT - C);
+  std::cerr = fabs(cT - C);
   A = aT;
   B = bT;
   C = cT;
-  return cerr;
+  return std::cerr;
 }

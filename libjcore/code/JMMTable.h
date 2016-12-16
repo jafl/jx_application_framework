@@ -39,8 +39,8 @@ public:
 	virtual JSize GetTotalCount() const = 0;
 
 	virtual void PrintAllocated(const JBoolean printInternal = kJFalse) const = 0;
-	virtual void StreamAllocatedForDebug(ostream& output, const JMemoryManager::RecordFilter& filter) const = 0;
-	virtual void StreamAllocationSizeHistogram(ostream& output) const = 0;
+	virtual void StreamAllocatedForDebug(std::ostream& output, const JMemoryManager::RecordFilter& filter) const = 0;
+	virtual void StreamAllocationSizeHistogram(std::ostream& output) const = 0;
 
 protected:
 
@@ -71,7 +71,7 @@ protected:
 
 	void PrintAllocatedRecord(const JMMRecord& record) const;
 	void AddToHistogram(const JMMRecord& record, JSize histo[JMemoryManager::kHistogramSlotCount]) const;
-	void StreamHistogram(ostream& output, const JSize histo[JMemoryManager::kHistogramSlotCount]) const;
+	void StreamHistogram(std::ostream& output, const JSize histo[JMemoryManager::kHistogramSlotCount]) const;
 
 private:
 

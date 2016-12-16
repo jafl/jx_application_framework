@@ -44,9 +44,9 @@ public:
 	JBoolean	GetScrollbars(JXScrollbar** hScrollbar, JXScrollbar** vScrollbar) const;
 	void		UpdateScrollbars();
 
-	void		ReadScrollSetup(istream& input);
-	static void	SkipScrollSetup(istream& input);
-	void		WriteScrollSetup(ostream& output) const;
+	void		ReadScrollSetup(std::istream& input);
+	static void	SkipScrollSetup(std::istream& input);
+	void		WriteScrollSetup(std::ostream& output) const;
 
 	virtual void	HandleKeyPress(const int key, const JXKeyModifiers& modifiers);
 

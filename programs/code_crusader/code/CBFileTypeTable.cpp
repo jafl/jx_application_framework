@@ -1388,7 +1388,7 @@ CBFileTypeTable::UpdateButtons()
 void
 CBFileTypeTable::ReadGeometry
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -1432,7 +1432,7 @@ CBFileTypeTable::ReadGeometry
 void
 CBFileTypeTable::WriteGeometry
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

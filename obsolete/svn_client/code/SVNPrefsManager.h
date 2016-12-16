@@ -95,7 +95,7 @@ private:
 	const SVNPrefsManager& operator=(const SVNPrefsManager& source);
 };
 
-istream&	operator>>(istream& input, SVNPrefsManager::Integration& type);
-ostream&	operator<<(ostream& output, const SVNPrefsManager::Integration type);
+std::istream&	operator>>(std::istream& input, SVNPrefsManager::Integration& type);
+std::ostream&	operator<<(std::ostream& output, const SVNPrefsManager::Integration type);
 
 #endif

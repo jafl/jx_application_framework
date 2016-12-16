@@ -42,7 +42,7 @@ WWPlayer::~WWPlayer()
 void
 WWPlayer::ReadIdentity
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	input >> itsName >> itsEmail;
@@ -56,7 +56,7 @@ WWPlayer::ReadIdentity
 void
 WWPlayer::WriteState
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

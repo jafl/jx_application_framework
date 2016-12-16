@@ -195,7 +195,7 @@ GMApp::GMApp
 	const JSize count	= names.GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
 		{
-		cout << *(names.NthElement(i)) << endl;
+		std::cout << *(names.NthElement(i)) << std::endl;
 		}*/
 }
 
@@ -364,7 +364,7 @@ GMApp::NewMailbox
 		JGetUserNotification()->ReportError(notice);
 		return kJFalse;
 		}
-	ofstream os(filename);
+	std::ofstream os(filename);
 	if (!os.good())
 		{
 		JString notice = "Unable to create file \"" + path + name + "\"";

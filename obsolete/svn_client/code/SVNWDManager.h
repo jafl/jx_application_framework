@@ -27,8 +27,8 @@ public:
 
 	// called by CBPrefsManager
 
-	JBoolean	RestoreState(istream& input);
-	JBoolean	SaveState(ostream& output) const;
+	JBoolean	RestoreState(std::istream& input);
+	JBoolean	SaveState(std::ostream& output) const;
 
 private:
 

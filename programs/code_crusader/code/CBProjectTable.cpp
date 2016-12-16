@@ -2466,9 +2466,9 @@ CBProjectTable::PrepareDeleteXInputField()
 void
 CBProjectTable::ReadSetup
 	(
-	istream&			projInput,
+	std::istream&			projInput,
 	const JFileVersion	projVers,
-	istream*			setInput,
+	std::istream*			setInput,
 	const JFileVersion	setVers
 	)
 {
@@ -2536,8 +2536,8 @@ CBProjectTable::ReadSetup
 void
 CBProjectTable::WriteSetup
 	(
-	ostream& projOutput,
-	ostream* setOutput
+	std::ostream& projOutput,
+	std::ostream* setOutput
 	)
 	const
 {
@@ -2577,10 +2577,10 @@ CBProjectTable::WriteSetup
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&						input,
+	std::istream&						input,
 	CBProjectTable::DropFileAction&	action
 	)
 {
@@ -2594,10 +2594,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&								output,
+	std::ostream&								output,
 	const CBProjectTable::DropFileAction	action
 	)
 {

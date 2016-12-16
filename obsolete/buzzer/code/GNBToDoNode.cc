@@ -98,7 +98,7 @@ GNBToDoNode::~GNBToDoNode()
 void
 GNBToDoNode::SaveNode
 	(
-	ostream& 			os
+	std::ostream& 			os
 	)
 {
 	os << itsIsDone << ' ';
@@ -119,7 +119,7 @@ GNBToDoNode::SaveNode
 void
 GNBToDoNode::ReadNodeSetup
 	(
-	istream& 			is,
+	std::istream& 			is,
 	const JFileVersion 	version
 	)
 {

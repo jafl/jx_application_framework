@@ -49,8 +49,8 @@ public:
 	GLFitDirector(PlotDir* supervisor, J2DPlotWidget* plot, const JCharacter* file);
 	virtual ~GLFitDirector();
 
-	virtual void	ReadPrefs(istream& input);
-	virtual void	WritePrefs(ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input);
+	virtual void	WritePrefs(std::ostream& output) const;
 
 protected:
 

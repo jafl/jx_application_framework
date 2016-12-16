@@ -129,7 +129,7 @@ GAddressEntryTreeNode::SetHasComment
 void
 GAddressEntryTreeNode::Save
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 	JTreeNode* jchild = GetChild(1);
@@ -165,7 +165,7 @@ GAddressEntryTreeNode::Save
 		assert(child != NULL);
 		child->GetText().Print(os);
 		}
-	os << endl;
+	os << std::endl;
 }
 
 /******************************************************************************

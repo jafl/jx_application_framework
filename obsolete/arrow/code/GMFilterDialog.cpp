@@ -310,7 +310,7 @@ GMFilterDialog::Receive
 void
 GMFilterDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -335,7 +335,7 @@ GMFilterDialog::ReadPrefs
 void
 GMFilterDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

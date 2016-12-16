@@ -342,7 +342,7 @@ JXFileListSet::ToggleRegexFilter()
 void
 JXFileListSet::ReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -406,7 +406,7 @@ JXFileListSet::ReadSetup
 void
 JXFileListSet::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

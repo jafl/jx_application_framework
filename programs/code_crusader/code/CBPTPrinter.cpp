@@ -125,7 +125,7 @@ CBPTPrinter::GetHeaderLineCount()
 void
 CBPTPrinter::PrintHeader
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const JIndex	pageIndex
 	)
 {
@@ -159,7 +159,7 @@ CBPTPrinter::PrintHeader
 void
 CBPTPrinter::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -189,7 +189,7 @@ CBPTPrinter::ReadPrefs
 void
 CBPTPrinter::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

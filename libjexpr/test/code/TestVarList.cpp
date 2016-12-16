@@ -42,18 +42,18 @@ TestVarList::TestVarList()
 
 TestVarList::TestVarList
 	(
-	istream& input
+	std::istream& input
 	)
 	:
 	JVariableList()
 {
 	TestVarListX();
 
-	input >> ws;
+	input >> std::ws;
 	while (input.peek() != '*')
 		{
 		JCharacter type;
-		input >> type >> ws;
+		input >> type >> std::ws;
 		if (type == 'N')
 			{
 			JString name = JReadUntilws(input);
@@ -91,7 +91,7 @@ TestVarList::TestVarList
 			(JGetUserNotification())->ReportError(errorStr);
 			JIgnoreLine(input);
 			}
-		input >> ws;
+		input >> std::ws;
 		}
 	JIgnoreLine(input);
 }

@@ -22,7 +22,7 @@ public:
 	virtual ~JBooleanConstant();
 
 	virtual JBoolean	Evaluate() const;
-	virtual void		Print(ostream& output) const;
+	virtual void		Print(std::ostream& output) const;
 	virtual JDecision*	Copy() const;
 	virtual JBoolean	SameAs(const JDecision& theDecision) const;
 	virtual void		BuildNodeList(JExprNodeList* nodeList, const JIndex myNode);

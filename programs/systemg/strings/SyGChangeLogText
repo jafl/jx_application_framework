@@ -19,6 +19,8 @@ Added remote tracking branches to \"Merge from branch\" on Git menu.
 Added menu items for stashing and unstashing changes.
 <p>
 Automatically stashes changes when switching to another branch.
+<p>
+Fixed file descriptor leak from various git commands.
 
 <h3> 2.5 </h3>
 

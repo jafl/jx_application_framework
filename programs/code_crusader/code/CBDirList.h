@@ -65,8 +65,8 @@ public:
 
 	JBoolean		Contains(const JCharacter* path) const;
 
-	void	ReadDirectories(istream& input, const JFileVersion vers);
-	void	WriteDirectories(ostream& output) const;
+	void	ReadDirectories(std::istream& input, const JFileVersion vers);
+	void	WriteDirectories(std::ostream& output) const;
 
 private:
 
@@ -76,7 +76,7 @@ private:
 private:
 
 	void	CBDirListX();
-	void	ReadDirectory(istream& input, const JFileVersion vers);
+	void	ReadDirectory(std::istream& input, const JFileVersion vers);
 	void	CopyPaths(const CBDirList& source);
 };
 

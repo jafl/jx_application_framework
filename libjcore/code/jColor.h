@@ -67,8 +67,8 @@ struct JRGB
 	};
 };
 
-istream& operator>>(istream& input, JRGB& color);
-ostream& operator<<(ostream& output, const JRGB& color);
+std::istream& operator>>(std::istream& input, JRGB& color);
+std::ostream& operator<<(std::ostream& output, const JRGB& color);
 
 JOrderedSetT::CompareResult JCompareRGBValues(const JRGB& c1, const JRGB& c2);
 
@@ -168,8 +168,8 @@ struct JHSB
 	};
 };
 
-istream& operator>>(istream& input, JHSB& color);
-ostream& operator<<(ostream& output, const JHSB& color);
+std::istream& operator>>(std::istream& input, JHSB& color);
+std::ostream& operator<<(std::ostream& output, const JHSB& color);
 
 JOrderedSetT::CompareResult JCompareHSBValues(const JHSB& c1, const JHSB& c2);
 

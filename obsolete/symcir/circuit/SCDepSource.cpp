@@ -44,7 +44,7 @@ SCDepSource::SCDepSource
 
 SCDepSource::SCDepSource
 	(
-	istream&				input,
+	std::istream&				input,
 	const JFileVersion		vers,
 	const SCComponentType	type,
 	SCCircuit*				theCircuit
@@ -60,7 +60,7 @@ SCDepSource::SCDepSource
 
 SCDepSource::SCDepSource
 	(
-	istream&				input,
+	std::istream&				input,
 	const SCComponentType	type,
 	SCCircuit*				theCircuit
 	)
@@ -132,7 +132,7 @@ SCDepSource::SetCoeffSymbol
 void
 SCDepSource::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

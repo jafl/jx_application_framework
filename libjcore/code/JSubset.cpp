@@ -999,10 +999,10 @@ JGetRandomSample
 const JCharacter kInSet    = 'T';
 const JCharacter kNotInSet = 'F';
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&	input,
+	std::istream&	input,
 	JSubset&	aSubset
 	)
 {
@@ -1049,10 +1049,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const JSubset&	aSubset
 	)
 {
@@ -1060,7 +1060,7 @@ operator<<
 
 	const JSize setSize = aSubset.GetOriginalSetSize();
 	output.width(kOrigSetSizeLength);
-	output.setf(ios::right, ios::adjustfield);
+	output.setf(std::ios::right, std::ios::adjustfield);
 	output << setSize;
 
 	// allocate space for the data
@@ -1105,7 +1105,7 @@ operator<<
 
  ******************************************************************************/
 
-void JFindPositionOfElementInStream(iostream& theStream, const JIndex indexToAdd);
+void JFindPositionOfElementInStream(std::iostream& theStream, const JIndex indexToAdd);
 
 /******************************************************************************
  JAddToSubsetInStream
@@ -1119,7 +1119,7 @@ void JFindPositionOfElementInStream(iostream& theStream, const JIndex indexToAdd
 void
 JAddToSubsetInStream
 	(
-	iostream&		theStream,
+	std::iostream&		theStream,
 	const JIndex	indexToAdd
 	)
 {
@@ -1139,7 +1139,7 @@ JAddToSubsetInStream
 void
 JRemoveFromSubsetInStream
 	(
-	iostream&		theStream,
+	std::iostream&		theStream,
 	const JIndex	indexToRemove
 	)
 {
@@ -1159,7 +1159,7 @@ JRemoveFromSubsetInStream
 void
 JFindPositionOfElementInStream
 	(
-	iostream&		theStream,
+	std::iostream&		theStream,
 	const JIndex	indexToAdd
 	)
 {
@@ -1168,6 +1168,6 @@ JFindPositionOfElementInStream
 
 	assert( 1 <= indexToAdd && indexToAdd <= setSize );
 
-	streamoff offset = theStream.tellg();
+	std::streamoff offset = theStream.tellg();
 	theStream.seekp(offset + indexToAdd - 1);
 }

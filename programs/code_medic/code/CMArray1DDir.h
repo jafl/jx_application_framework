@@ -27,7 +27,7 @@ class CMArray1DDir : public JXWindowDirector
 public:
 
 	CMArray1DDir(CMCommandDirector* supervisor, const JCharacter* expr);
-	CMArray1DDir(istream& input, const JFileVersion vers,
+	CMArray1DDir(std::istream& input, const JFileVersion vers,
 				 CMCommandDirector* supervisor);
 
 	virtual	~CMArray1DDir();
@@ -36,7 +36,7 @@ public:
 	virtual JBoolean	Deactivate();
 	virtual JBoolean	GetMenuIcon(const JXImage** icon) const;
 
-	void	StreamOut(ostream& output);
+	void	StreamOut(std::ostream& output);
 
 protected:
 

@@ -138,7 +138,7 @@ JFunctionWithVar::SameAs
 void
 JFunctionWithVar::PrintVariable
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

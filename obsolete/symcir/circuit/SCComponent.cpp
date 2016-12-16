@@ -82,7 +82,7 @@ SCComponent::SCComponent
 
 SCComponent::SCComponent
 	(
-	istream&				input,
+	std::istream&				input,
 	const JFileVersion		vers,
 	const SCComponentType	type,
 	SCCircuit*				theCircuit
@@ -98,7 +98,7 @@ SCComponent::SCComponent
 
 SCComponent::SCComponent
 	(
-	istream&				input,
+	std::istream&				input,
 	const SCComponentType	type,
 	SCCircuit*				theCircuit
 	)
@@ -181,14 +181,14 @@ SCComponent::SetName
 JBoolean
 SCComponent::ParseNetlistComponent
 	(
-	istream&		input,
+	std::istream&		input,
 	SCCircuit*		theCircuit,
 	SCComponent**	newComponent
 	)
 {
 	*newComponent = NULL;
 
-	input >> ws;
+	input >> std::ws;
 	const JCharacter type = input.peek();
 	if (type == '*' || type == '.')
 		{
@@ -247,7 +247,7 @@ SCComponent::ParseNetlistComponent
 		}
 	else
 		{
-		cerr << "Unsupported component type: " << type << endl;
+		std::cerr << "Unsupported component type: " << type << std::endl;
 		JIgnoreLine(input);
 		return kJFalse;
 		}
@@ -322,7 +322,7 @@ SCComponent::GetNamePrefix
 SCComponent*
 SCComponent::StreamIn
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	SCCircuit*			theCircuit
 	)
@@ -388,7 +388,7 @@ SCComponent::StreamIn
 void
 SCComponent::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -404,7 +404,7 @@ SCComponent::StreamOut
 void
 SCComponent::PrintToNetlist
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

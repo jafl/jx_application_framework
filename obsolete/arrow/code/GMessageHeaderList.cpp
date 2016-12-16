@@ -65,8 +65,8 @@ GMessageHeaderList::OkToCreate
 //		{
 //		perms = 0600;
 //		}
-	ifstream is(mailfile);
-	is >> ws;
+	std::ifstream is(mailfile);
+	is >> std::ws;
 	JString line1 = JReadLine(is);
 	is.close();
 	JBoolean matched;
@@ -159,7 +159,7 @@ GMessageHeaderList::GMessageHeaderList
 //	JReadFile(mailfile, &data);
 //	jistrstream(is, data.GetCString(), data.GetLength());
 
-	ifstream is(mailfile);
+	std::ifstream is(mailfile);
 	GMScanner scanner(&is);
 	JIndex token;
 	GMessageHeader* header = NULL;
@@ -175,7 +175,7 @@ GMessageHeaderList::GMessageHeaderList
 //				while ((pgcount <= current) && (pgcount <= 20))
 				if (current < size)
 					{
-//					cout << pgcount << endl;
+//					std::cout << pgcount << std::endl;
 					pg->IncrementProgress(current - pg->GetCurrentStepCount());
 //					pgcount++;
 					}
@@ -324,7 +324,7 @@ GMessageHeaderList::GMessageHeaderList
 //		current = current * 20/size;
 //		while (pgcount <= current)
 //			{
-//			cout << "Last: " << pgcount << endl;
+//			std::cout << "Last: " << pgcount << std::endl;
 //			pg->IncrementProgress();
 //			pgcount++;
 //			}

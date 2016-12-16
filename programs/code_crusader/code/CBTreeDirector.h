@@ -32,9 +32,9 @@ class CBSymbolUpdatePG;
 
 class CBTreeDirector;
 typedef CBTree* (CBTreeCreateFn)(CBTreeDirector* director, const JSize marginWidth);
-typedef CBTree* (CBTreeStreamInFn)(istream& projInput, const JFileVersion projVers,
-								   istream* setInput, const JFileVersion setVers,
-								   istream* symInput, const JFileVersion symVers,
+typedef CBTree* (CBTreeStreamInFn)(std::istream& projInput, const JFileVersion projVers,
+								   std::istream* setInput, const JFileVersion setVers,
+								   std::istream* symInput, const JFileVersion symVers,
 								   CBTreeDirector* director,
 								   const JSize marginWidth, CBDirList* dirList);
 typedef void (CBTreeInitToolBarFn)(JXToolBar* toolBar, JXTextMenu* treeMenu);
@@ -50,9 +50,9 @@ public:
 				   const JCharacter* treeMenuTitle, const JCharacter* treeMenuItems,
 				   const JCharacter* treeMenuNamespace,
 				   const JIndex toolBarPrefID, CBTreeInitToolBarFn* initToolBarFn);
-	CBTreeDirector(istream& projInput, const JFileVersion projVers,
-				   istream* setInput, const JFileVersion setVers,
-				   istream* symInput, const JFileVersion symVers,
+	CBTreeDirector(std::istream& projInput, const JFileVersion projVers,
+				   std::istream* setInput, const JFileVersion setVers,
+				   std::istream* symInput, const JFileVersion symVers,
 				   CBProjectDocument* supervisor, const JBoolean subProject,
 				   CBTreeStreamInFn* streamInTreeFn,
 				   const JCharacter* windowTitleSuffix,
@@ -77,12 +77,12 @@ public:
 	void		CloseFunctionBrowsers();
 	void		FnBrowserCreated(CBFnListDirector* dir);
 
-	virtual void	StreamOut(ostream& projOutput, ostream* setOutput,
-							  ostream* symOutput, const CBDirList* dirList) const;
+	virtual void	StreamOut(std::ostream& projOutput, std::ostream* setOutput,
+							  std::ostream* symOutput, const CBDirList* dirList) const;
 
 	// for loading updated symbols
 
-	virtual void	ReloadSetup(istream& input, const JFileVersion vers);
+	virtual void	ReloadSetup(std::istream& input, const JFileVersion vers);
 
 	// called by CBProjectDocument
 
@@ -105,8 +105,8 @@ protected:
 	virtual void	UpdateTreeMenu() = 0;
 	virtual void	HandleTreeMenu(const JIndex index) = 0;
 
-	virtual void	ReadPrefs(istream& input);
-	virtual void	WritePrefs(ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input);
+	virtual void	WritePrefs(std::ostream& output) const;
 
 	virtual void	DirectorClosed(JXDirector* theDirector);
 	virtual void	Receive(JBroadcaster* sender, const Message& message);

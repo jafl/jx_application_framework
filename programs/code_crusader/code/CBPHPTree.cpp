@@ -42,11 +42,11 @@ CBPHPTree::CBPHPTree
 
 CBPHPTree::CBPHPTree
 	(
-	istream&			projInput,
+	std::istream&			projInput,
 	const JFileVersion	projVers,
-	istream*			setInput,
+	std::istream*			setInput,
 	const JFileVersion	setVers,
-	istream*			symInput,
+	std::istream*			symInput,
 	const JFileVersion	symVers,
 	CBPHPTreeDirector*	director,
 	const JSize			marginWidth,
@@ -83,9 +83,9 @@ CBPHPTree::~CBPHPTree()
 void
 CBPHPTree::StreamOut
 	(
-	ostream&			projOutput,
-	ostream*			setOutput,
-	ostream*			symOutput,
+	std::ostream&			projOutput,
+	std::ostream*			setOutput,
+	std::ostream*			symOutput,
 	const CBDirList*	dirList
 	)
 	const
@@ -104,7 +104,7 @@ CBPHPTree::StreamOut
 CBClass*
 CBPHPTree::StreamInPHPClass
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	CBTree*				tree
 	)
@@ -182,22 +182,22 @@ CBPHPTree::ParseFile
 void
 CBPHPTree::ReadFunctionList
 	(
-	istream&	input,
+	std::istream&	input,
 	CBClass*	theClass
 	)
 {
-	input >> ws;
+	input >> std::ws;
 	while (input.peek() == '!')
 		{
 		JIgnoreLine(input);
-		input >> ws;
+		input >> std::ws;
 		}
 
 	JString name;
 	JStringPtrMap<JString> flags(JPtrArrayT::kDeleteAll);
 	while (1)
 		{
-		input >> ws;
+		input >> std::ws;
 		name = JReadUntil(input, '\t');			// function name
 		if (input.eof() || input.fail())
 			{

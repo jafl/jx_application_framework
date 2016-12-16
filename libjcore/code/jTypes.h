@@ -10,19 +10,9 @@
 #ifndef _H_jTypes
 #define _H_jTypes
 
-#include <iostream>	// templates
-using std::ios;
-using std::istream;
-using std::ostream;
-using std::iostream;
-using std::cout;
-using std::cin;
-using std::cerr;
-using std::endl;
-using std::ws;
-
 #include <limits.h>
 #include <float.h>
+#include <iostream> // templates
 
 #ifndef NULL
 #define NULL	0L
@@ -107,8 +97,8 @@ enum JBoolean
 
 const JSize kJBooleanDataStreamLength = sizeof(JCharacter);
 
-istream& operator>>(istream& input, JBoolean& jbool);
-ostream& operator<<(ostream& output, const JBoolean jbool);
+std::istream& operator>>(std::istream& input, JBoolean& jbool);
+std::ostream& operator<<(std::ostream& output, const JBoolean jbool);
 
 inline JBoolean
 JConvertToBoolean
@@ -319,20 +309,16 @@ typedef  JWord JDualHashValue;
 
 /******************************************************************************
 
-	Hides compiler dependent iostream information.
+	Hides compiler dependent std::iostream information.
 
  ******************************************************************************/
 
 #if defined __GNUG__
 
-	using std::ios_base;
-	using std::streampos;
-	using std::streamoff;
+	typedef std::ios_base::openmode JFStreamOpenMode;
+	typedef std::ios_base::seekdir  JIOStreamSeekDir;
 
-	typedef ios_base::openmode JFStreamOpenMode;
-	typedef ios_base::seekdir  JIOStreamSeekDir;
-
-	const JFStreamOpenMode kJBinaryModifier = ios_base::binary;
+	const JFStreamOpenMode kJBinaryModifier = std::ios_base::binary;
 
 #else
 
@@ -340,7 +326,7 @@ typedef  JWord JDualHashValue;
 
 #endif
 
-const JFStreamOpenMode kJBinaryFile = ios::in | ios::out | kJBinaryModifier;
-const JFStreamOpenMode kJTextFile   = ios::in | ios::out;
+const JFStreamOpenMode kJBinaryFile = std::ios::in | std::ios::out | kJBinaryModifier;
+const JFStreamOpenMode kJTextFile   = std::ios::in | std::ios::out;
 
 #endif

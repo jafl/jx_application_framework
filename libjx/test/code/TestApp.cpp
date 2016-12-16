@@ -94,10 +94,10 @@ TestApp::CleanUpBeforeSuddenDeath
 		if (err.OK())
 			{
 			JOutPipeStream output(toFD, kJTrue);
-			output << "Subject: server crash" << endl << endl;
-			output << "We're sorry, but the X Windows server crashed while" << endl;
-			output << "you were running testjx.  (Or had you already noticed?)" << endl;
-			output << "." << endl;
+			output << "Subject: server crash" << std::endl << std::endl;
+			output << "We're sorry, but the X Windows server crashed while" << std::endl;
+			output << "you were running testjx.  (Or had you already noticed?)" << std::endl;
+			output << "." << std::endl;
 			}
 		}
 
@@ -120,7 +120,7 @@ TestApp::ReceiveWithFeedback
 {
 	if (sender == JThisProcess::Instance())
 		{
-		cout << "Received signal: " << message->GetType() << endl;
+		std::cout << "Received signal: " << message->GetType() << std::endl;
 		}
 
 	JXApplication::ReceiveWithFeedback(sender, message);

@@ -100,7 +100,7 @@ JValueUnknown::Evaluate()
 void
 JValueUnknown::Print
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

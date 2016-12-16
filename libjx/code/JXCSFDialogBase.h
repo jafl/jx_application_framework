@@ -44,8 +44,8 @@ public:
 
 	// called by JXChooseSaveFile
 
-	void	ReadBaseSetup(istream& input, const JBoolean ignoreScroll);
-	void	WriteBaseSetup(ostream& output) const;
+	void	ReadBaseSetup(std::istream& input, const JBoolean ignoreScroll);
+	void	WriteBaseSetup(std::ostream& output) const;
 
 protected:
 

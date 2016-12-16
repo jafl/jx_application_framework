@@ -165,7 +165,7 @@ SVNRepoTree::ReopenIfNeeded
 void
 SVNRepoTree::SkipSetup
 	(
-	istream&		input,
+	std::istream&		input,
 	JFileVersion	vers
 	)
 {
@@ -184,7 +184,7 @@ SVNRepoTree::SkipSetup
 void
 SVNRepoTree::ReadSetup
 	(
-	istream&		input,
+	std::istream&		input,
 	JFileVersion	vers
 	)
 {
@@ -202,7 +202,7 @@ SVNRepoTree::ReadSetup
 void
 SVNRepoTree::WriteSetup
 	(
-	ostream&			output,
+	std::ostream&			output,
 	SVNRepoTreeList*	view
 	)
 	const

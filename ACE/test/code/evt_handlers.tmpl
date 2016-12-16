@@ -30,7 +30,7 @@ ClientHandler<ACE_PEER_STREAM_2>::open
 	void* data
 	)
 {
-	cout << "Connection established" << endl;
+	std::cout << "Connection established" << std::endl;
 	TalkToServer(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer());
 	ACE_Reactor::end_event_loop();
 	ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::destroy();
@@ -51,7 +51,7 @@ ServerHandler<ACE_PEER_STREAM_2>::open
 	void* data
 	)
 {
-	cout << "Connection established, fd=" << (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).get_handle() << endl;
+	std::cout << "Connection established, fd=" << (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).get_handle() << std::endl;
 
 	(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::reactor())->register_handler(this, ACE_Event_Handler::WRITE_MASK);
 
@@ -91,7 +91,7 @@ ServerHandler<ACE_PEER_STREAM_2>::handle_output
 	ACE_HANDLE
 	)
 {
-	cout << "Data can now be written" << endl;
+	std::cout << "Data can now be written" << std::endl;
 	(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::reactor())->remove_handler(this, ACE_Event_Handler::WRITE_MASK | ACE_Event_Handler::DONT_CALL);
 	return 0;
 }

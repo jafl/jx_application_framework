@@ -50,13 +50,13 @@ public:
 	JBoolean	ClosestMatch(const JString& prefixStr,
 							 JArray<JIndex>& visibleList, JIndex* index) const;
 
-	void	ReadSetup(istream& projInput, const JFileVersion projVers,
-					  istream* symInput, const JFileVersion symVers);
-	void	WriteSetup(ostream& projOutput, ostream* symOutput) const;
+	void	ReadSetup(std::istream& projInput, const JFileVersion projVers,
+					  std::istream* symInput, const JFileVersion symVers);
+	void	WriteSetup(std::ostream& projOutput, std::ostream* symOutput) const;
 
 	// for loading updated symbols
 
-	void	ReadSetup(istream& input, const JFileVersion vers);
+	void	ReadSetup(std::istream& input, const JFileVersion vers);
 
 	// called by CBSymbolDirector
 
@@ -72,7 +72,7 @@ public:
 
 protected:
 
-	virtual void	InitCtags(ostream& output);
+	virtual void	InitCtags(std::ostream& output);
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 
@@ -121,7 +121,7 @@ private:
 
 	void	ParseFile(const JCharacter* fileName,
 					  const CBTextFileType fileType, const JFAID_t id);
-	void	ReadSymbolList(istream& input, const CBLanguage lang,
+	void	ReadSymbolList(std::istream& input, const CBLanguage lang,
 						   const JCharacter* fileName, const JFAID_t fileID);
 
 	JBoolean	ConvertToFullNames(JArray<JIndex>* noContextList,

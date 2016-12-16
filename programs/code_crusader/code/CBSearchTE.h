@@ -33,7 +33,7 @@ public:
 						const JPtrArray<JString>& nameList,
 						const JBoolean onlyListFiles,
 						const JBoolean listFilesWithoutMatch,
-						ostream& output);
+						std::ostream& output);
 
 	JBoolean	ReplaceAllForward();
 
@@ -66,7 +66,7 @@ private:
 
 	void	SearchFile(const JString& fileName, const JString& printName,
 					   const JBoolean onlyListFiles, const JBoolean listFilesWithoutMatch,
-					   ostream& output,
+					   std::ostream& output,
 					   const JString& searchStr, const JBoolean isRegex,
 					   const JBoolean caseSensitive, const JBoolean entireWord,
 					   const JRegex& regex);

@@ -12,11 +12,11 @@
 #include <JStringPtrMap.h>
 #include <JString.h>
 
-istream& operator>>(istream&, JPtrArray<JString>&);
-ostream& operator<<(ostream&, const JPtrArray<JString>&);
+std::istream& operator>>(std::istream&, JPtrArray<JString>&);
+std::ostream& operator<<(std::ostream&, const JPtrArray<JString>&);
 
-istream& operator>>(istream&, JStringPtrMap<JString>&);
-ostream& operator<<(ostream&, const JStringPtrMap<JString>&);
+std::istream& operator>>(std::istream&, JStringPtrMap<JString>&);
+std::ostream& operator<<(std::ostream&, const JStringPtrMap<JString>&);
 
 JBoolean JSameStrings(const JPtrArray<JString>&, const JPtrArray<JString>&,
 					  const JBoolean caseSensitive);

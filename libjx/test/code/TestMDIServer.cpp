@@ -104,7 +104,7 @@ TestMDIServer::HandleMDIRequest
 						{
 						continue;
 						}
-					ofstream temp(fileName);
+					std::ofstream temp(fileName);
 					if (!temp.good())
 						{
 						un->ReportError("Unable to create it.  "
@@ -137,5 +137,5 @@ TestMDIServer::HandleMDIRequest
 void
 TestMDIServer::PrintCommandLineHelp()
 {
-	cout << endl << JGetString(kCommandLineHelpID) << endl << endl;
+	std::cout << std::endl << JGetString(kCommandLineHelpID) << std::endl << std::endl;
 }

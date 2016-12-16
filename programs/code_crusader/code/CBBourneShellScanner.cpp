@@ -42,7 +42,7 @@ CBBourneShellScanner::~CBBourneShellScanner()
 void
 CBBourneShellScanner::BeginScan
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	itsResetFlag = kJTrue;

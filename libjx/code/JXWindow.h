@@ -137,9 +137,9 @@ public:
 	virtual JRect	GetApertureGlobal() const;
 	JPoint			GetDesktopLocation() const;
 
-	void		ReadGeometry(istream& input, const JBoolean skipDocking = kJFalse);
-	void		WriteGeometry(ostream& output) const;
-	static void	SkipGeometry(istream& input);
+	void		ReadGeometry(std::istream& input, const JBoolean skipDocking = kJFalse);
+	void		WriteGeometry(std::ostream& output) const;
+	static void	SkipGeometry(std::istream& input);
 
 	void	ReadGeometry(const JString& data, const JBoolean skipDocking = kJFalse);
 	void	WriteGeometry(JString* data) const;

@@ -217,7 +217,7 @@ SCVarListDirector::HandleVarMenu
 void
 SCVarListDirector::ReadSetup
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -246,7 +246,7 @@ SCVarListDirector::ReadSetup
 void
 SCVarListDirector::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

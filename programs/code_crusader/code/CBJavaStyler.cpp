@@ -154,7 +154,7 @@ CBJavaStyler::~CBJavaStyler()
 void
 CBJavaStyler::Scan
 	(
-	istream&			input,
+	std::istream&			input,
 	const TokenExtra&	initData
 	)
 {

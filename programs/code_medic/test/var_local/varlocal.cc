@@ -17,7 +17,7 @@ int X;
 float a = 3.2;
 	{
 	char* a = "this is a string aaaaaaaaaaaaaaaaab";
-	std::cout << a << std::endl;
+	std::std::cout << a << std::std::endl;
 		{
 		int  b = 2;
 		int* a = &b;

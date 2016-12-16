@@ -452,14 +452,14 @@ JFileArrayIndex::AllEmbeddedFilesAreClosed()
 /******************************************************************************
  ReplaceEmbeddedFileStreams
 
-	Notify all embedded files that their enclosing file has a new fstream.
+	Notify all embedded files that their enclosing file has a new std::fstream.
 
  ******************************************************************************/
 
 void
 JFileArrayIndex::ReplaceEmbeddedFileStreams
 	(
-	fstream* newStream
+	std::fstream* newStream
 	)
 {
 	const JSize elementCount = GetElementCount();
@@ -486,7 +486,7 @@ void
 JFileArrayIndex::ReadIndex
 	(
 	const JSize	elementCount,
-	istream&	input
+	std::istream&	input
 	)
 {
 	// we should only be called when the file is opened, but it doesn't hurt to be sure
@@ -535,7 +535,7 @@ JFileArrayIndex::ReadIndex
 void
 JFileArrayIndex::WriteIndex
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 	const JSize elementCount = GetElementCount();

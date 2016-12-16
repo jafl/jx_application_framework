@@ -14,14 +14,14 @@
 const JCharacter kTrueMarker  = 'T';
 const JCharacter kFalseMarker = 'F';
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&	input,
+	std::istream&	input,
 	JBoolean&	jbool
 	)
 {
-	input >> ws;
+	input >> std::ws;
 
 	JCharacter c;
 	input.get(c);
@@ -37,16 +37,16 @@ operator>>
 	else
 		{
 		input.putback(c);
-		JSetState(input, ios::failbit);
+		JSetState(input, std::ios::failbit);
 		}
 
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const JBoolean	jbool
 	)
 {

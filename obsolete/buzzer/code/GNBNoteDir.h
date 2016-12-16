@@ -22,8 +22,8 @@ class GNBNoteEditor;
 class JXTextMenu;
 class JXMenuBar;
 class JXToolBar;
-//class ostream;
-//class istream;
+//class std::ostream;
+//class std::istream;
 class JXTextButton;
 
 class GNBNoteDir : public JXDocument

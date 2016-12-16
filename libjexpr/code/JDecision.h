@@ -33,13 +33,13 @@ public:
 
 	virtual JBoolean	Evaluate() const = 0;
 	JString				Print() const;
-	virtual void		Print(ostream& output) const = 0;
+	virtual void		Print(std::ostream& output) const = 0;
 	virtual JDecision*	Copy() const = 0;
 	virtual JBoolean	SameAs(const JDecision& theDecision) const;
 	virtual void		BuildNodeList(JExprNodeList* nodeList, const JIndex myNode) = 0;
 
-	static JDecision*	StreamIn(istream& input, JVariableList* theVariableList);
-	void				StreamOut(ostream& output) const;
+	static JDecision*	StreamIn(std::istream& input, JVariableList* theVariableList);
+	void				StreamOut(std::ostream& output) const;
 
 	JDecision*	Copy(JVariableList* newVariableList) const;
 

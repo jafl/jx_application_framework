@@ -127,7 +127,7 @@ CMArray1DDir::CMArray1DDir
 
 CMArray1DDir::CMArray1DDir
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	CMCommandDirector*	supervisor
 	)
@@ -179,7 +179,7 @@ CMArray1DDir::~CMArray1DDir()
 void
 CMArray1DDir::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 	output << ' ' << itsExpr;

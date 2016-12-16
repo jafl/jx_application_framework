@@ -42,7 +42,7 @@ SCZinDirector::SCZinDirector
 
 SCZinDirector::SCZinDirector
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	SCCircuitDocument*	supervisor
 	)
@@ -187,7 +187,7 @@ SCZinDirector::EvaluateInputImpedance()
 void
 SCZinDirector::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

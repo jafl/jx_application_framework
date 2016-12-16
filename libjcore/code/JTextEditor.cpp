@@ -618,7 +618,7 @@ JTextEditor::ReadPlainText
 			itsBuffer->SetBlockSize(origLength);
 
 			itsBuffer->Clear();
-			ifstream input(fileName);
+			std::ifstream input(fileName);
 			while (1)
 				{
 				const JCharacter c = input.get();
@@ -682,14 +682,14 @@ JTextEditor::WritePlainText
 	)
 	const
 {
-	ofstream output(fileName);
+	std::ofstream output(fileName);
 	WritePlainText(output, format);
 }
 
 void
 JTextEditor::WritePlainText
 	(
-	ostream&				output,
+	std::ostream&				output,
 	const PlainTextFormat	format
 	)
 	const
@@ -748,7 +748,7 @@ JTextEditor::WritePlainText
 inline JCharacter
 jReadUNIXManUnicodeCharacter
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JCharacter c = input.get();
@@ -757,7 +757,7 @@ jReadUNIXManUnicodeCharacter
 		c = input.get();
 		if (c != '\xB7')
 			{
-			cout << "libjx: jReadUNIXManUnicodeCharacter: " << (unsigned int) (unsigned char) c << endl;
+			std::cout << "libjx: jReadUNIXManUnicodeCharacter: " << (unsigned int) (unsigned char) c << std::endl;
 			}
 		}
 
@@ -793,7 +793,7 @@ jReadUNIXManUnicodeCharacter
 		}
 	else
 		{
-		cout << "libjx: jReadUNIXManUnicodeCharacter: unicode: " << u << endl;
+		std::cout << "libjx: jReadUNIXManUnicodeCharacter: unicode: " << u << std::endl;
 		return '\x80';
 		}
 }
@@ -801,7 +801,7 @@ jReadUNIXManUnicodeCharacter
 JBoolean
 JTextEditor::ReadUNIXManOutput
 	(
-	istream&		input,
+	std::istream&		input,
 	const JBoolean	allowCancel
 	)
 {
@@ -821,7 +821,7 @@ JTextEditor::ReadUNIXManOutput
 	pg.VariableLengthProcessBeginning("Reading man page...",
 									  allowCancel, kJFalse);
 
-	input >> ws;
+	input >> std::ws;
 	while (!cancelled)
 		{
 		JCharacter c = jReadUNIXManUnicodeCharacter(input);
@@ -911,7 +911,7 @@ JTextEditor::ReadUNIXManOutput
 JBoolean
 JTextEditor::ReadPrivateFormat
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	TEDisplayBusyCursor();
@@ -940,7 +940,7 @@ JTextEditor::ReadPrivateFormat
 JBoolean
 JTextEditor::ReadPrivateFormat
 	(
-	istream&			input,
+	std::istream&			input,
 	const JTextEditor*	te,
 	JString*			text,
 	JRunArray<JFont>*	style
@@ -1040,7 +1040,7 @@ JIndex i;
 void
 JTextEditor::WritePrivateFormat
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -1064,7 +1064,7 @@ JTextEditor::WritePrivateFormat
 void
 JTextEditor::WritePrivateFormat
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const JFileVersion	vers,
 	const JIndex		startIndex,
 	const JIndex		endIndex
@@ -1078,7 +1078,7 @@ JTextEditor::WritePrivateFormat
 void
 JTextEditor::WritePrivateFormat
 	(
-	ostream&				output,
+	std::ostream&				output,
 	const JFileVersion		vers,
 	const JString&			text,
 	const JRunArray<JFont>&	style
@@ -1102,7 +1102,7 @@ JTextEditor::WritePrivateFormat
 JBoolean
 JTextEditor::WriteClipboardPrivateFormat
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const JFileVersion	vers
 	)
 	const
@@ -1133,7 +1133,7 @@ JTextEditor::WriteClipboardPrivateFormat
 void
 JTextEditor::WritePrivateFormat
 	(
-	ostream&				output,
+	std::ostream&				output,
 	const JColormap*		colormap,
 	const JFileVersion		vers,
 	const JString&			text,
@@ -1345,7 +1345,7 @@ JTextEditor::AppendCharsForHTML
 void
 JTextEditor::ReadHTML
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	assert( itsHTMLLexerState == NULL );
@@ -1380,7 +1380,7 @@ JTextEditor::ReadHTML
 void
 JTextEditor::PasteHTML
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	assert( itsHTMLLexerState == NULL );
@@ -5144,7 +5144,7 @@ JTextEditor::AnalyzeWhitespace
 
 	*useSpaces = JI2B(spaceLines > tabLines);
 
-//	cout << "space: " << spaceLines << ", tab: " << tabLines << endl;
+//	std::cout << "space: " << spaceLines << ", tab: " << tabLines << std::endl;
 }
 
 /******************************************************************************

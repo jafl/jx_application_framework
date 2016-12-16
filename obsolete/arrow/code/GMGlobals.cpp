@@ -773,13 +773,13 @@ GMReplaceFileWithTemp
 		JRemoveFile(tempStr);
 		return kJFalse;
 		}
-	ifstream is(tempname);
+	std::ifstream is(tempname);
 	if (!is.good())
 		{
 		JRemoveFile(tempStr);
 		return kJFalse;
 		}
-	ofstream os(filename);
+	std::ofstream os(filename);
 	if (!os.good())
 		{
 		JRemoveFile(tempStr);

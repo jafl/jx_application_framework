@@ -17,7 +17,7 @@ public:
 
 	MDRecord();
 	MDRecord(const JCharacter* fileName);
-	MDRecord(istream& input);	// version must already be checked
+	MDRecord(std::istream& input);	// version must already be checked
 
 	~MDRecord();
 

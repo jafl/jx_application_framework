@@ -116,9 +116,9 @@ ParseTextOptions
 void
 PrintVersion()
 {
-	cout << endl;
-	cout << <PRE>GetVersionStr() << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << <PRE>GetVersionStr() << std::endl;
+	std::cout << std::endl;
 }
 
 /******************************************************************************
@@ -134,5 +134,5 @@ PrintCommandLineHelp()
 		"vers", <PRE>GetVersionNumberStr()
 		};
 	const JString s = JGetString("CommandLineHelp", map, sizeof(map));
-	cout << endl << s << endl << endl;
+	std::cout << std::endl << s << std::endl << std::endl;
 }

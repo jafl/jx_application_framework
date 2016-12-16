@@ -44,8 +44,8 @@ JTextUserNotification::DisplayMessage
 {
 	if (!IsSilent())
 		{
-		cout << endl;
-		cout << message;
+		std::cout << std::endl;
+		std::cout << message;
 		JWaitForReturn();
 		}
 }
@@ -63,8 +63,8 @@ JTextUserNotification::ReportError
 {
 	if (!IsSilent())
 		{
-		cout << endl;
-		cout << "Error: " << message;
+		std::cout << std::endl;
+		std::cout << "Error: " << message;
 		JWaitForReturn();
 		}
 }
@@ -83,11 +83,11 @@ JTextUserNotification::AskUserYes
 	const JCharacter* message
 	)
 {
-	cout << endl;
-	cout << message << " (y/n) ";
+	std::cout << std::endl;
+	std::cout << message << " (y/n) ";
 
 	char c;
-	cin >> c;
+	std::cin >> c;
 	JInputFinished();
 
 	return JConvertToBoolean( c != 'n' && c != 'N' );
@@ -107,11 +107,11 @@ JTextUserNotification::AskUserNo
 	const JCharacter* message
 	)
 {
-	cout << endl;
-	cout << message << " (y/n) ";
+	std::cout << std::endl;
+	std::cout << message << " (y/n) ";
 
 	char c;
-	cin >> c;
+	std::cin >> c;
 	JInputFinished();
 
 	return JConvertToBoolean( c == 'y' || c == 'Y' );
@@ -128,11 +128,11 @@ JTextUserNotification::OKToClose
 	const JCharacter* message
 	)
 {
-	cout << endl;
-	cout << message << " [(S)ave, (D)on't save, (C)ancel] ";
+	std::cout << std::endl;
+	std::cout << message << " [(S)ave, (D)on't save, (C)ancel] ";
 
 	char c;
-	cin >> c;
+	std::cin >> c;
 	JInputFinished();
 
 	if (c == 's' || c == 'S')

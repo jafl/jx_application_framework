@@ -26,8 +26,8 @@ public:
 
 	void	SetVarList(SCCircuitVarList* varList);
 
-	void	ReadSetup(istream& input, const JFileVersion vers);
-	void	WriteSetup(ostream& output) const;
+	void	ReadSetup(std::istream& input, const JFileVersion vers);
+	void	WriteSetup(std::ostream& output) const;
 
 protected:
 

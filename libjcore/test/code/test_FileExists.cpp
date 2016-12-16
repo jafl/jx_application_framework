@@ -17,50 +17,50 @@ int main
 	JError err = JCreateTempFile(&testFileName);
 	if (!err.OK())
 		{
-		cout << err.GetMessage() << endl;
+		std::cout << err.GetMessage() << std::endl;
 		}
 
 	remove(testFileName);
-	cout << "File exists   (F): " << JFileExists(testFileName) << endl;
-	cout << "File writable (F): " << JFileWritable(testFileName) << endl;
+	std::cout << "File exists   (F): " << JFileExists(testFileName) << std::endl;
+	std::cout << "File writable (F): " << JFileWritable(testFileName) << std::endl;
 
-	ofstream file(testFileName);
+	std::ofstream file(testFileName);
 	file << "abc";
 	file.close();
-	cout << "File exists   (T): " << JFileExists(testFileName) << endl;
-	cout << "File writable (T): " << JFileWritable(testFileName) << endl;
+	std::cout << "File exists   (T): " << JFileExists(testFileName) << std::endl;
+	std::cout << "File writable (T): " << JFileWritable(testFileName) << std::endl;
 
 	remove(testFileName);
 
 	JString dirName;
-	cout << "Enter a directory name: ";
-	cin >> dirName;
+	std::cout << "Enter a directory name: ";
+	std::cin >> dirName;
 	JInputFinished();
 
-	cout << "Directory exists  : " << JDirectoryExists(dirName) << endl;
-	cout << "Directory writable: " << JDirectoryWritable(dirName) << endl;
+	std::cout << "Directory exists  : " << JDirectoryExists(dirName) << std::endl;
+	std::cout << "Directory writable: " << JDirectoryWritable(dirName) << std::endl;
 
-	cout << endl;
-	cout << "Creating directory 'junk'" << endl;
+	std::cout << std::endl;
+	std::cout << "Creating directory 'junk'" << std::endl;
 	err = JCreateDirectory("junk");
 	if (!err.OK())
 		{
-		cout << err.GetMessage() << endl;
+		std::cout << err.GetMessage() << std::endl;
 		}
-	cout << "Renaming directory to 'junk2'" << endl;
+	std::cout << "Renaming directory to 'junk2'" << std::endl;
 	err = JRenameDirectory("junk", "junk2");
 	if (!err.OK())
 		{
-		cout << err.GetMessage() << endl;
+		std::cout << err.GetMessage() << std::endl;
 		}
-	cout << "Deleting directory 'junk2'" << endl;
+	std::cout << "Deleting directory 'junk2'" << std::endl;
 	err = JRemoveDirectory("junk2");
 	if (!err.OK())
 		{
-		cout << err.GetMessage() << endl;
-		cout << "Killing directory 'junk2'" << endl;
+		std::cout << err.GetMessage() << std::endl;
+		std::cout << "Killing directory 'junk2'" << std::endl;
 		const JBoolean ok = JKillDirectory("junk2");
-		cout << "Kill succeeded: " << ok << endl;
+		std::cout << "Kill succeeded: " << ok << std::endl;
 		}
 
 	JString path;
@@ -80,10 +80,10 @@ int main
 			}
 		else
 			{
-			cout << err.GetMessage() << endl;
+			std::cout << err.GetMessage() << std::endl;
 			}
 		}
-	cout << endl << "Contents of " << path << ":" << endl << endl;
+	std::cout << std::endl << "Contents of " << path << ":" << std::endl << std::endl;
 #ifdef WIN32
 	const JString cmd = "dir " + path;
 #else

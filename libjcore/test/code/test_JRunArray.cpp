@@ -16,7 +16,7 @@
 
 #define verify2(str)	VerifyContents(iter2, str, __LINE__)
 
-void PrintArray(ostream& output, JRunArrayIterator<long>& iter);
+void PrintArray(std::ostream& output, JRunArrayIterator<long>& iter);
 void VerifyContents(JRunArrayIterator<long>& iter, const JCharacter* outputStr, const int line);
 
 static JOrderedSetT::CompareResult
@@ -30,14 +30,14 @@ int main()
 {
 JRunArray<long> a1;												// constructor
 
-	cout << "array a1 created" << endl << endl;
+	std::cout << "array a1 created" << std::endl << std::endl;
 
 JBroadcastSnooper snoop1(&a1);
 
-	cout << "a1 address: " << (void*) &a1 << endl;
+	std::cout << "a1 address: " << (void*) &a1 << std::endl;
 
-	cout << "a1 itemCount should be 0" << endl;
-	cout << "a1 itemCount = " << a1.GetElementCount() << endl << endl;
+	std::cout << "a1 itemCount should be 0" << std::endl;
+	std::cout << "a1 itemCount = " << a1.GetElementCount() << std::endl << std::endl;
 
 	long i,j;
 
@@ -48,8 +48,8 @@ JBroadcastSnooper snoop1(&a1);
 
 	// 1 2 3 4 5
 
-	cout << "a1 itemCount should be 5" << endl;
-	cout << "a1 itemCount = " << a1.GetElementCount() << endl << endl;
+	std::cout << "a1 itemCount should be 5" << std::endl;
+	std::cout << "a1 itemCount = " << a1.GetElementCount() << std::endl << std::endl;
 
 	JWaitForReturn();
 
@@ -71,13 +71,13 @@ JBroadcastSnooper snoop1(&a1);
 
 JRunArrayIterator<long> iter(&a1,kJIteratorStartAtBeginning);
 
-	cout << "display should be:  1 3 3 2 1" << endl;
+	std::cout << "display should be:  1 3 3 2 1" << std::endl;
 
 	j = 0;
 	while (iter.Next(&i))
 		{
 		j++;
-		cout << i << ' ';
+		std::cout << i << ' ';
 
 		if (j == 1)
 			{
@@ -90,15 +90,15 @@ JRunArrayIterator<long> iter(&a1,kJIteratorStartAtBeginning);
 			// 1 3 3 2 1
 			}
 		}
-	cout << endl;
+	std::cout << std::endl;
 
-	cout << "display should be:  1 2 3 1 1" << endl;
+	std::cout << "display should be:  1 2 3 1 1" << std::endl;
 
 	j = 0;
 	while (iter.Prev(&i))
 		{
 		j++;
-		cout << i << ' ';
+		std::cout << i << ' ';
 
 		if (j == 3)
 			{
@@ -108,54 +108,54 @@ JRunArrayIterator<long> iter(&a1,kJIteratorStartAtBeginning);
 			// 1 1 3 1
 			}
 		}
-	cout << endl;
+	std::cout << std::endl;
 
-	cout << "a1 itemCount should be 4" << endl;
-	cout << "a1 itemCount = " << a1.GetElementCount() << endl << endl;
+	std::cout << "a1 itemCount should be 4" << std::endl;
+	std::cout << "a1 itemCount = " << a1.GetElementCount() << std::endl << std::endl;
 
 	JWaitForReturn();
 
 JRunArray<long> a2 = a1;										// copy constructor
 
-	cout << "array a2 created from a1" << endl << endl;
+	std::cout << "array a2 created from a1" << std::endl << std::endl;
 
 JBroadcastSnooper snoop2(&a2);
 
-	cout << "a2 address: " << (void*) &a2 << endl;
+	std::cout << "a2 address: " << (void*) &a2 << std::endl;
 
-	cout << "a2 itemCount should be 4" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
+	std::cout << "a2 itemCount should be 4" << std::endl;
+	std::cout << "a2 itemCount=" << a2.GetElementCount() << std::endl << std::endl;
 
 JRunArrayIterator<long> iter2(&a2,kJIteratorStartAtEnd);
 
-	cout << "display should be: 1 3 1 1" << endl;
+	std::cout << "display should be: 1 3 1 1" << std::endl;
 
 	while (iter2.Prev(&i))
 		{
-		cout << i << ' ';
+		std::cout << i << ' ';
 		}
-	cout << endl;
+	std::cout << std::endl;
 
 	a2.RemoveAll();
 
-	cout << "a2 itemCount should be 0" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
+	std::cout << "a2 itemCount should be 0" << std::endl;
+	std::cout << "a2 itemCount=" << a2.GetElementCount() << std::endl << std::endl;
 
 	a2 = a1;													// assignment operator
 
-	cout << "array a2 assigned from a1" << endl << endl;
+	std::cout << "array a2 assigned from a1" << std::endl << std::endl;
 
-	cout << "a2 itemCount should be 4" << endl;
-	cout << "a2 itemCount=" << a2.GetElementCount() << endl << endl;
+	std::cout << "a2 itemCount should be 4" << std::endl;
+	std::cout << "a2 itemCount=" << a2.GetElementCount() << std::endl << std::endl;
 
-	cout << "display should be: 1 3 1 1" << endl;
+	std::cout << "display should be: 1 3 1 1" << std::endl;
 
 	iter2.MoveTo(kJIteratorStartAtEnd, 0);
 	while (iter2.Prev(&i))
 		{
-		cout << i << ' ';
+		std::cout << i << ' ';
 		}
-	cout << endl;
+	std::cout << std::endl;
 
 	JWaitForReturn();
 
@@ -171,15 +171,15 @@ JRunArrayIterator<long> iter2(&a2,kJIteratorStartAtEnd);
 	a2.SetSortOrder(JOrderedSetT::kSortAscending);
 	a2.Sort();
 
-	cout << "display should be:" << endl;
-	cout << "1 1 1 1 2 3 3 5 5" << endl;
+	std::cout << "display should be:" << std::endl;
+	std::cout << "1 1 1 1 2 3 3 5 5" << std::endl;
 
-	PrintArray(cout, iter2);
-	cout << endl;
+	PrintArray(std::cout, iter2);
+	std::cout << std::endl;
 
 // test insertion sort
 
-	cout << "display should be: T F F F" << endl;
+	std::cout << "display should be: T F F F" << std::endl;
 	{
 	long element[] = {3, -1, 10, 4};
 	const long eCount = sizeof(element)/sizeof(long);
@@ -190,9 +190,9 @@ JRunArrayIterator<long> iter2(&a2,kJIteratorStartAtEnd);
 		const JIndex j =
 			a2.GetInsertionSortIndex(element[i], &isDuplicate);
 		a2.InsertElementAtIndex(j, element[i]);
-		cout << isDuplicate << ' ';
+		std::cout << isDuplicate << ' ';
 		}
-	cout << endl << endl;
+	std::cout << std::endl << std::endl;
 	}
 
 // test binary search (sorted ascending)
@@ -214,11 +214,11 @@ JRunArrayIterator<long> iter2(&a2,kJIteratorStartAtEnd);
 			a2.SearchSorted(element[i], JOrderedSetT::kAnyMatch, &p3) == found[i] &&
 			pos[i] == p3)
 			{
-			cout << i+1 << ": correct" << endl;
+			std::cout << i+1 << ": correct" << std::endl;
 			}
 		else
 			{
-			cout << i+1 << ": WRONG" << endl;
+			std::cout << i+1 << ": WRONG" << std::endl;
 			}
 		}
 
@@ -227,11 +227,11 @@ JRunArrayIterator<long> iter2(&a2,kJIteratorStartAtEnd);
 		a2.SearchSorted(1, JOrderedSetT::kLastMatch, &p5) &&
 		p4 == 2 && p5 == 5)
 		{
-		cout << eCount+1 << ": correct" << endl;
+		std::cout << eCount+1 << ": correct" << std::endl;
 		}
 	else
 		{
-		cout << eCount+1 << ": WRONG" << endl;
+		std::cout << eCount+1 << ": WRONG" << std::endl;
 		}
 	}
 
@@ -242,11 +242,11 @@ JRunArrayIterator<long> iter2(&a2,kJIteratorStartAtEnd);
 	a2.SetSortOrder(JOrderedSetT::kSortDescending);
 	a2.Sort();
 
-	cout << "display should be:" << endl;
-	cout << "10 5 5 4 3 3 3 2 1 1 1 1 -1" << endl;
+	std::cout << "display should be:" << std::endl;
+	std::cout << "10 5 5 4 3 3 3 2 1 1 1 1 -1" << std::endl;
 
-	PrintArray(cout, iter2);
-	cout << endl;
+	PrintArray(std::cout, iter2);
+	std::cout << std::endl;
 
 // test binary search (sorted descending)
 // 10 5 5 4 3 3 3 2 1 1 1 1 -1
@@ -267,11 +267,11 @@ JRunArrayIterator<long> iter2(&a2,kJIteratorStartAtEnd);
 			a2.SearchSorted(element[i], JOrderedSetT::kAnyMatch, &p8) == found[i] &&
 			pos[i] == p8)
 			{
-			cout << i+1 << ": correct" << endl;
+			std::cout << i+1 << ": correct" << std::endl;
 			}
 		else
 			{
-			cout << i+1 << ": WRONG" << endl;
+			std::cout << i+1 << ": WRONG" << std::endl;
 			}
 		}
 
@@ -280,11 +280,11 @@ JRunArrayIterator<long> iter2(&a2,kJIteratorStartAtEnd);
 		a2.SearchSorted(3, JOrderedSetT::kLastMatch, &p10) &&
 		p9 == 5 && p10 == 7)
 		{
-		cout << eCount+1 << ": correct" << endl;
+		std::cout << eCount+1 << ": correct" << std::endl;
 		}
 	else
 		{
-		cout << eCount+1 << ": WRONG" << endl;
+		std::cout << eCount+1 << ": WRONG" << std::endl;
 		}
 	}
 
@@ -292,10 +292,10 @@ JRunArrayIterator<long> iter2(&a2,kJIteratorStartAtEnd);
 
 	a2.QuickSort(QuickSortCompareLongs);
 
-	cout << "display should be:" << endl;
-	cout << "-1 1 1 1 1 2 3 3 3 4 5 5 10" << endl;
+	std::cout << "display should be:" << std::endl;
+	std::cout << "-1 1 1 1 1 2 3 3 3 4 5 5 10" << std::endl;
 
-	PrintArray(cout, iter2);
+	PrintArray(std::cout, iter2);
 	JWaitForReturn();
 
 // test SumElements()
@@ -651,8 +651,8 @@ JRunArrayIterator<long> iter2(&a2,kJIteratorStartAtEnd);
 	a2.AppendSlice(a1, 8, 15);
 	verify2("1 1 1 2 2 2 3 3 3 4 4 4 5 5 5 3 3 4 4 4 5 5 5");
 
-	cout << endl;
-	cout << "No error output means the remaining tests passed." << endl;
+	std::cout << std::endl;
+	std::cout << "No error output means the remaining tests passed." << std::endl;
 
 	return 0;
 }
@@ -660,7 +660,7 @@ JRunArrayIterator<long> iter2(&a2,kJIteratorStartAtEnd);
 void
 PrintArray
 	(
-	ostream&					output,
+	std::ostream&					output,
 	JRunArrayIterator<long>&	iter
 	)
 {
@@ -670,7 +670,7 @@ PrintArray
 		{
 		output << i << ' ';
 		}
-	output << endl;
+	output << std::endl;
 }
 
 void
@@ -686,12 +686,12 @@ VerifyContents
 	const JString s = data.str();
 	if (!JCompareMaxN(s, expectedStr, strlen(expectedStr), kJTrue))
 		{
-		cerr << endl;
-		cerr << "Error on line " << line << ':' << endl;
-		cerr << expectedStr << endl;
-		s.Print(cerr);
-		cerr << endl;
-		cerr << endl;
+		std::cerr << std::endl;
+		std::cerr << "Error on line " << line << ':' << std::endl;
+		std::cerr << expectedStr << std::endl;
+		s.Print(std::cerr);
+		std::cerr << std::endl;
+		std::cerr << std::endl;
 		}
 }
 

@@ -26,8 +26,8 @@ public:
 	virtual ~GloveHistoryDir();
 	void	AppendText(const JCharacter* text, const JBoolean show = kJTrue);
 	void	Print();
-	void	WriteData(ostream& os);
-	void	ReadData(istream& is);
+	void	WriteData(std::ostream& os);
+	void	ReadData(std::istream& is);
 	virtual JBoolean	NeedsSave() const;
 	virtual void		SafetySave(const JXDocumentManager::SafetySaveReason reason);
 	virtual JXPM		GetMenuIcon() const;

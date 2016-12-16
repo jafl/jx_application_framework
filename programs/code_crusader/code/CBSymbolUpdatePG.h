@@ -14,7 +14,7 @@ class CBSymbolUpdatePG : public JProgressDisplay
 {
 public:
 
-	CBSymbolUpdatePG(ostream& link, const JSize scaleFactor);
+	CBSymbolUpdatePG(std::ostream& link, const JSize scaleFactor);
 
 	virtual ~CBSymbolUpdatePG();
 
@@ -37,7 +37,7 @@ protected:
 
 private:
 
-	ostream&	itsLink;
+	std::ostream&	itsLink;
 	JSize		itsScaleFactor;
 
 private:

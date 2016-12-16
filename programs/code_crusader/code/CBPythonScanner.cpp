@@ -45,7 +45,7 @@ CBPythonScanner::~CBPythonScanner()
 void
 CBPythonScanner::BeginScan
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	itsResetFlag = kJTrue;

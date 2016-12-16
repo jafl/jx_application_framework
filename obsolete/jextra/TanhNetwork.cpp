@@ -29,7 +29,7 @@ TanhNetwork::TanhNetwork
 
 TanhNetwork::TanhNetwork
 	(
-	istream& input
+	std::istream& input
 	)
 	:
 	FFNetwork(input)

@@ -92,7 +92,7 @@ public:
 
 protected:
 
-	ostream&	GetOutputStream();
+	std::ostream&	GetOutputStream();
 
 	void	PSSaveGraphicsState();
 	void	PSRestoreGraphicsState();
@@ -105,9 +105,9 @@ protected:
 	virtual JCoordinate		PSGetPrintableHeight() const = 0;
 
 	virtual JBoolean	PSShouldPrintCurrentPage() const = 0;
-	virtual void		PSPrintVersionComment(ostream& output) = 0;
-	virtual void		PSPrintHeaderComments(ostream& output) = 0;
-	virtual void		PSPrintSetupComments(ostream& output) = 0;
+	virtual void		PSPrintVersionComment(std::ostream& output) = 0;
+	virtual void		PSPrintHeaderComments(std::ostream& output) = 0;
+	virtual void		PSPrintSetupComments(std::ostream& output) = 0;
 
 	void	PSConvertToRGB(const JColorIndex color, JSize* red,
 						   JSize* green, JSize* blue) const;
@@ -126,7 +126,7 @@ private:
 	// used only during printing
 
 	JString*	itsOutputFileName;
-	ofstream*	itsFile;
+	std::ofstream*	itsFile;
 
 	// buffered values
 

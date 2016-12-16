@@ -253,7 +253,7 @@ JPlotFitBase::GenerateFit
 		MinimizeN(&p, &xi, &iter);
 		}
 
-//	cout << "Parms: " << p << endl;
+//	std::cout << "Parms: " << p << std::endl;
 
 	itsChi2 = ChiSqr(p);
 
@@ -316,12 +316,12 @@ JPlotFitBase::CalcError
 	JFloat a, b, c, f1, f2, f3;
 	a	= currentParm;
 	b	= currentParm * 1.01;
-//	cout << "Calculating error for parameter: " << constIndex << endl;
+//	std::cout << "Calculating error for parameter: " << constIndex << std::endl;
 	Bracket(&a, &b, &c, &f1, &f2, &f3, pS, xiS.GetColVector(itsCurrentConstantParmIndex));
 	Minimize(a, b, c, pS, xiS.GetColVector(itsCurrentConstantParmIndex), &sig);	
 	sig =  fabs(sig)/10 * JSign(currentParm);
-//	cout << "Calculating error for parameter: " << constIndex << endl;
-//	cout << "Starting guess: " << sig << endl;
+//	std::cout << "Calculating error for parameter: " << constIndex << std::endl;
+//	std::cout << "Starting guess: " << sig << std::endl;
 	itsUseAltFunction	= kJFalse;
 
 	itsCurrentConstantParm	= currentParm + sig;
@@ -331,7 +331,7 @@ JPlotFitBase::CalcError
 	JBoolean ok = kJTrue;
 	JSize iter;
 	JFloat chitemp = MinimizeN(&p, &xi, &iter);
-//	cout << "Chitemp start: " << chitemp << endl;
+//	std::cout << "Chitemp start: " << chitemp << std::endl;
 	JFloat lastchi;
 	
 	do
@@ -353,8 +353,8 @@ JPlotFitBase::CalcError
 			p	= pSav;
 			xi	= xiSav;
 			chitemp = MinimizeN(&p, &xi, &iter);
-//			cout << "Chitemp 10s: " << chitemp << endl;
-//			cout << "Current sig: " << sig << endl;
+//			std::cout << "Chitemp 10s: " << chitemp << std::endl;
+//			std::cout << "Current sig: " << sig << std::endl;
 			i++;
 			}
 		}
@@ -377,7 +377,7 @@ JPlotFitBase::CalcError
 		p	= pSav;
 		xi	= xiSav;
 		chitemp = MinimizeN(&p, &xi, &iter);
-//		cout << "Chitemp 1s: " << chitemp << endl;
+//		std::cout << "Chitemp 1s: " << chitemp << std::endl;
 		chi3 = chitemp;
 		if (chitemp > chiplus)
 			{
@@ -388,9 +388,9 @@ JPlotFitBase::CalcError
 			xi	= xiSav;
 			itsCurrentConstantParm = currentParm + x2;
 			chi2 = MinimizeN(&p, &xi, &iter);
-//			cout << "***" << chiplus << "-:- " << x1 << ": " << chi1 << ' ';
-//			cout << x2 << ": " << chi2 << ' ';
-//			cout << x3 << ": " << chi3 << endl;
+//			std::cout << "***" << chiplus << "-:- " << x1 << ": " << chi1 << ' ';
+//			std::cout << x2 << ": " << chi2 << ' ';
+//			std::cout << x3 << ": " << chi3 << std::endl;
 			iter 	= 0;
 			JFloat e1 = (chi3*x1*(x1-x2)*x2+x3*(chi1*x2*(x2-x3)+chi2*x1*(-x1+x3)))/
 						((x1-x2)*(x1-x3)*(x2-x3));
@@ -450,7 +450,7 @@ JPlotFitBase::CalcError
 			JFloat x1 = sig*(j-0.1);
 			JFloat x2 = sig*(j-0.05);
 			JFloat x3 = sig*(j);
-			cout << "***" << x1 << ' ' << x2 << ' ' << x3 << endl;
+			std::cout << "***" << x1 << ' ' << x2 << ' ' << x3 << std::endl;
 			itsCurrentConstantParm = currentParm + x2;
 			chi2 = MinimizeN(&p, &xi, &iter);
 			iter 	= 0;
@@ -823,17 +823,17 @@ JPlotFitBase::LinearMinimization
 	ax=0.0;
 	//xx=1.0;
 	xx=.1;
-//	cout << "Starting... " << endl;
+//	std::cout << "Starting... " << std::endl;
 	Bracket(&ax,&xx,&bx,&fa,&fx,&fb, *p, *xi);
-//	cout << "ax: " << ax << endl;
-//	cout << "xx: " << xx << endl;
-//	cout << "bx: " << bx << endl;
+//	std::cout << "ax: " << ax << std::endl;
+//	std::cout << "xx: " << xx << std::endl;
+//	std::cout << "bx: " << bx << std::endl;
 	fret = Minimize(ax,xx,bx,*p, *xi,&xmin);
-//	cout << "Xmin: " << xmin << endl;
+//	std::cout << "Xmin: " << xmin << std::endl;
 	*xi *= xmin;
-//	cout << "Xi: " << *xi << endl;
+//	std::cout << "Xi: " << *xi << std::endl;
 	*p += *xi;
-//	cout << "P: " << *p << endl;
+//	std::cout << "P: " << *p << std::endl;
 
 	return fret;
 }

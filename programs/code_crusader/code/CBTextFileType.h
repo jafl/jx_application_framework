@@ -90,8 +90,8 @@ enum CBTextFileType
 
 const JSize kCBFTCount = kCBLastFT+1;
 
-istream& operator>>(istream& input, CBTextFileType& type);
-ostream& operator<<(ostream& output, const CBTextFileType type);
+std::istream& operator>>(std::istream& input, CBTextFileType& type);
+std::ostream& operator<<(std::ostream& output, const CBTextFileType type);
 
 JBoolean			CBGetComplementType(const CBTextFileType inputType, CBTextFileType* outputType);
 const JCharacter*	CBGetComplementFileTypeName(const CBTextFileType type);

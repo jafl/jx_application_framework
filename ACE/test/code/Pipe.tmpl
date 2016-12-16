@@ -77,7 +77,7 @@ template <ACE_PEER_STREAM_1>
 void
 Pipe<ACE_PEER_STREAM_2>::Dump()
 {
-	cout << itsData;
+	std::cout << itsData;
 }
 
 /******************************************************************************
@@ -102,9 +102,9 @@ Pipe<ACE_PEER_STREAM_2>::handle_input
 	if (count > 0)
 		{
 		itsData.Append(itsBuffer, count);
-		cout << itsData.GetLength() << endl;
-//		cout.write(itsBuffer, count);
-//		cerr << '.';
+		std::cout << itsData.GetLength() << std::endl;
+//		std::cout.write(itsBuffer, count);
+//		std::cerr << '.';
 //		JWait(0.01);
 		}
 

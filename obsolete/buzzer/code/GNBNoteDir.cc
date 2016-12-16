@@ -331,7 +331,7 @@ GNBNoteDir::HandleFileMenu
 		JString filename;
 		if (JGetChooseSaveFile()->ChooseFile("", "", &filename))
 			{
-			ifstream is(filename);
+			std::ifstream is(filename);
 			if (is.good())
 				{
 				itsEditor->PasteHTML(is);

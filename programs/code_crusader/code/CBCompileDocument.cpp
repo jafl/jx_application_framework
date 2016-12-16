@@ -237,7 +237,7 @@ CBCompileDocument::AppendText
 					}
 				else
 					{
-					cout << "jcc: AppendText: unicode: " << u << endl;
+					std::cout << "jcc: AppendText: unicode: " << u << std::endl;
 					s->ReplaceSubstring(i, i+2, "\x80");
 					}
 

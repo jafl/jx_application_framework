@@ -34,7 +34,7 @@ const JSize kHeaderExtCount = sizeof(kHeaderExtension)/sizeof(JCharacter*);
 // Prototypes
 
 JBoolean ShouldDoc(const JString& fileName, JString* fileBase, JString* complName);
-void     WriteDoc(istream& cFile, const JCharacter* docFileName, ofstream& docFile,
+void     WriteDoc(std::istream& cFile, const JCharacter* docFileName, std::ofstream& docFile,
 				  JBoolean* wrote);
 
 /******************************************************************************
@@ -56,33 +56,33 @@ main
 		if (ShouldDoc(thisName, &nameBase, &complName))
 			{
 			const JString docName = nameBase + kDocExtension;
-			ofstream docFile;
+			std::ofstream docFile;
 
 			JBoolean wrote = kJFalse;
 
-			ifstream cFile(thisName);
+			std::ifstream cFile(thisName);
 			if (cFile.good())
 				{
 				WriteDoc(cFile, docName, docFile, &wrote);
 				}
 			else
 				{
-				cerr << "autodoc: can't read file \"";
-				cerr << thisName << '\"' << endl;
+				std::cerr << "autodoc: can't read file \"";
+				std::cerr << thisName << '\"' << std::endl;
 				continue;
 				}
 
 			if (!complName.IsEmpty())
 				{
-				ifstream hFile(complName);
+				std::ifstream hFile(complName);
 				if (hFile.good())
 					{
 					WriteDoc(hFile, docName, docFile, &wrote);
 					}
 				else
 					{
-					cerr << "autodoc: can't read file \"";
-					cerr << complName << '\"' << endl;
+					std::cerr << "autodoc: can't read file \"";
+					std::cerr << complName << '\"' << std::endl;
 					continue;
 					}
 				}
@@ -142,7 +142,7 @@ ShouldDoc
 	We only open the file when we find something to write.  This avoids
 	generating lots of empty files.
 
-	We do not use endl because that flushes the stream, which slows us
+	We do not use std::endl because that flushes the stream, which slows us
 	down significantly when doing an entire directory of files.
 
  *****************************************************************************/
@@ -150,9 +150,9 @@ ShouldDoc
 void
 WriteDoc
 	(
-	istream&			cFile,
+	std::istream&			cFile,
 	const JCharacter*	docFileName,
-	ofstream&			docFile,
+	std::ofstream&			docFile,
 	JBoolean*			wrote
 	)
 {
@@ -169,8 +169,8 @@ WriteDoc
 				docFile.open(docFileName);
 				if (!docFile.good())
 					{
-					cerr << "autodoc: can't write file \"";
-					cerr << docFileName << "\"" << endl;
+					std::cerr << "autodoc: can't write file \"";
+					std::cerr << docFileName << "\"" << std::endl;
 					return;
 					}
 				}

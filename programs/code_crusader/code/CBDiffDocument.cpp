@@ -118,7 +118,7 @@ CBDiffDocument::CreatePlain
 			const JError err = JGetFileLength(tempFileName, &length);
 			assert_ok( err );
 
-			ifstream input(tempFileName);
+			std::ifstream input(tempFileName);
 			if (length > 0 && !isdigit(input.peek()))
 				{
 				if (origDoc == NULL)
@@ -321,7 +321,7 @@ CBDiffDocument::CreateCVS
 				{
 				// skip lines until starts with digit
 
-				ifstream input1(tempFileName);
+				std::ifstream input1(tempFileName);
 
 				JString header;
 				while (!input1.eof() && !isdigit(input1.peek()))
@@ -505,7 +505,7 @@ CBDiffDocument::CreateSVN
 				{
 				// skip lines until starts with digit
 
-				ifstream input1(tempFileName);
+				std::ifstream input1(tempFileName);
 
 				JString header;
 				while (!input1.eof() && !isdigit(input1.peek()))
@@ -924,7 +924,7 @@ CBDiffDocument::~CBDiffDocument()
 void
 CBDiffDocument::ReadDiff
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	CBTextEditor* te = GetTextEditor();
@@ -1018,7 +1018,7 @@ CBDiffDocument::ReadDiff
 JCharacter
 CBDiffDocument::ReadCmd
 	(
-	istream&		input,
+	std::istream&		input,
 	JIndexRange*	origRange,
 	JIndexRange*	newRange
 	)
@@ -1040,7 +1040,7 @@ CBDiffDocument::ReadCmd
 JIndexRange
 CBDiffDocument::ReadRange
 	(
-	istream& input
+	std::istream& input
 	)
 	const
 {
@@ -1070,7 +1070,7 @@ CBDiffDocument::ReadRange
 void
 CBDiffDocument::IgnoreOrigText
 	(
-	istream&			input,
+	std::istream&			input,
 	const JCharacter	cmd
 	)
 	const
@@ -1080,7 +1080,7 @@ CBDiffDocument::IgnoreOrigText
 		return;
 		}
 
-	input >> ws;
+	input >> std::ws;
 	while (input.peek() == '<' || input.peek() == '\\')
 		{
 		JIgnoreLine(input);
@@ -1103,7 +1103,7 @@ CBDiffDocument::IgnoreOrigText
 JString
 CBDiffDocument::ReadNewText
 	(
-	istream&			input,
+	std::istream&			input,
 	const JCharacter	cmd,
 	JSize*				lineCount
 	)
@@ -1114,7 +1114,7 @@ CBDiffDocument::ReadNewText
 
 	if (cmd != 'd')
 		{
-		input >> ws;
+		input >> std::ws;
 		while (input.peek() == '>')
 			{
 			input.ignore(2);

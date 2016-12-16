@@ -547,9 +547,9 @@ JPlotQuadFit::QuadFirstPass()
 	itsAParameter = tempa;
 	itsBParameter = tempb;
 	itsCParameter = tempc;
-//cout <<itsAParameter << " " << parms.GetElement(1,1) << endl;
-//cout <<itsBParameter << " " << parms.GetElement(2,1) << endl;
-//cout <<itsCParameter << " " << parms.GetElement(3,1) << endl;
+//std::cout <<itsAParameter << " " << parms.GetElement(1,1) << std::endl;
+//std::cout <<itsBParameter << " " << parms.GetElement(2,1) << std::endl;
+//std::cout <<itsCParameter << " " << parms.GetElement(3,1) << std::endl;
 //	itsBParameter = parms.GetElement(2,1);
 //	itsCParameter = parms.GetElement(3,1);
 	itsChi2 = 0;
@@ -732,7 +732,7 @@ JPlotQuadFit::CalcError
 			*sigParameter = parameter + sig * 10;
 			sig *= 10;
 			chitemp = sqrt(ChiSqr(0,kDefaultType));//MinimizeN(p, xi, &iter, fitType);
-			//cout << "1: " << sig << " " << chitemp << endl;
+			//std::cout << "1: " << sig << " " << chitemp << std::endl;
 			i++;
 			}
 		}
@@ -749,7 +749,7 @@ JPlotQuadFit::CalcError
 		chi1 = chi3;
 		*sigParameter = parameter + sig* i;
 		chitemp = sqrt(ChiSqr(0,kDefaultType));//MinimizeN(p, xi, &iter, fitType);
-		//cout << "2: " << sig << " " << chitemp << endl;
+		//std::cout << "2: " << sig << " " << chitemp << std::endl;
 		chi3 = chitemp;
 		if (chitemp > chiplus)
 			{
@@ -766,7 +766,7 @@ JPlotQuadFit::CalcError
 						((x1-x2)*(x1-x3)*(x2-x3));
 			JFloat tsig = fabs((-e2+JSign(parameter)*sqrt(e2*e2+4*e3*(chiplus-e1)))/2/e3);
 			sig = tsig;
-			//cout << "3: " << sig << " " << chitemp << endl;
+			//std::cout << "3: " << sig << " " << chitemp << std::endl;
 			ok = kJFalse;
 			}
 		i++;
@@ -793,14 +793,14 @@ JPlotQuadFit::CalcError
 	xi.SetElement(1,2,0.0);
 	xi.SetElement(2,1,0.0);
 
-//cout << "Starting sig: " << sig << endl;
+//std::cout << "Starting sig: " << sig << std::endl;
 	*sigParameter = parameter + sig;
 
 	chitemp = MinimizeN(p, xi, &iter, fitType);
-//cout << "Iter: " << iter << endl;
-//cout << "1a " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << endl;
+//std::cout << "Iter: " << iter << std::endl;
+//std::cout << "1a " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << std::endl;
 //	chitemp = MinimizeN(p, xi, &iter, fitType);
-//cout << "1b " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << endl;
+//std::cout << "1b " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << std::endl;
 
 	i = 0;
 	ok = kJTrue;
@@ -816,10 +816,10 @@ JPlotQuadFit::CalcError
 			*sigParameter = parameter + sig * 10;
 			sig *= 10;
 			chitemp = MinimizeN(p, xi, &iter, fitType);//MinimizeChiSqr(chitemp, fitType);
-		//cout << "Iter: " << iter << endl;
-		//cout << "2a " << sig << " " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << endl;
+		//std::cout << "Iter: " << iter << std::endl;
+		//std::cout << "2a " << sig << " " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << std::endl;
 //			chitemp = MinimizeN(p, xi, &iter, fitType);
-//		cout << "2b " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << endl;
+//		std::cout << "2b " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << std::endl;
 			i++;
 			}
 		}
@@ -836,22 +836,22 @@ JPlotQuadFit::CalcError
 		chi1 = chi3;
 		*sigParameter = parameter + sig* i;
 		chitemp = MinimizeN(p, xi, &iter, fitType);//MinimizeChiSqr(chitemp, fitType);
-	//cout << "Iter: " << iter << endl;
-	//cout << "3a " << sig << " " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << endl;
+	//std::cout << "Iter: " << iter << std::endl;
+	//std::cout << "3a " << sig << " " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << std::endl;
 //		chitemp = MinimizeN(p, xi, &iter, fitType);
-//	cout << "3b " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << endl;
+//	std::cout << "3b " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << std::endl;
 		chi3 = chitemp;
 		if (chitemp > chiplus)
 			{
 			JFloat x1 = sig*(i-1);
 			JFloat x2 = sig*(i-.5);
 			JFloat x3 = sig*(i);
-		//cout << x1 << " " << x2 << " " << x3 << endl;
+		//std::cout << x1 << " " << x2 << " " << x3 << std::endl;
 			*sigParameter = parameter + x2;
 			chi2 = MinimizeN(p, xi, &iter, fitType);//MinimizeChiSqr(chitemp, fitType);
-		//cout << "Iter: " << iter << endl;
+		//std::cout << "Iter: " << iter << std::endl;
 //			chi2 = MinimizeN(p, xi, &iter, fitType);
-		//cout << chi1 << " " << chi2 << " " << chi3 << endl;
+		//std::cout << chi1 << " " << chi2 << " " << chi3 << std::endl;
 			JFloat e1 = (chi3*x1*(x1-x2)*x2+x3*(chi1*x2*(x2-x3)+chi2*x1*(-x1+x3)))/
 						((x1-x2)*(x1-x3)*(x2-x3));
 			JFloat e2 = (chi3*(-x1*x1+x2*x2)+chi2*(x1*x1-x3*x3)+chi1*(-x2*x2+x3*x3))/
@@ -862,10 +862,10 @@ JPlotQuadFit::CalcError
 			if (tsig > x3)
 				{
 				tsig = x2;
-//				cout << x1 << " " << x2 << " " << x3 << endl;
-//				cout << chi1 << " " << chi2 << " " << chi3 << endl;
+//				std::cout << x1 << " " << x2 << " " << x3 << std::endl;
+//				std::cout << chi1 << " " << chi2 << " " << chi3 << std::endl;
 				}
-			//cout << "*****" << tsig << "*****" << endl;
+			//std::cout << "*****" << tsig << "*****" << std::endl;
 			return tsig;
 			ok = kJFalse;
 			}

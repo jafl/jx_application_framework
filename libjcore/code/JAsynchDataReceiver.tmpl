@@ -129,12 +129,12 @@ JAsynchDataReceiver<ACE_PEER_STREAM_2>::handle_input
 		const JString data(itsBuffer, count);
 		Broadcast(JAsynchDataReceiverT::DataReady(data));
 
-//		cerr << "read:\n---\n" << data << "\n---" << endl;
+//		std::cerr << "read:\n---\n" << data << "\n---" << std::endl;
 		}
 	else
 		{
-//		cerr << "read: " << count << endl;
-//		cerr << "err:  " << jerrno() << endl;
+//		std::cerr << "read: " << count << std::endl;
+//		std::cerr << "err:  " << jerrno() << std::endl;
 		}
 
 	itsInHandleInputFlag = kJFalse;

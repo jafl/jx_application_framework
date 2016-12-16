@@ -26,8 +26,8 @@ public:
 	virtual JSize GetTotalCount() const;
 
 	virtual void PrintAllocated(const JBoolean printInternal = kJFalse) const;
-	virtual void StreamAllocatedForDebug(ostream& output, const JMemoryManager::RecordFilter& filter) const;
-	virtual void StreamAllocationSizeHistogram(ostream& output) const;
+	virtual void StreamAllocatedForDebug(std::ostream& output, const JMemoryManager::RecordFilter& filter) const;
+	virtual void StreamAllocationSizeHistogram(std::ostream& output) const;
 
 protected:
 

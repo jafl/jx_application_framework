@@ -574,10 +574,10 @@ JXChooseSaveFile::SaveState
 void
 JXChooseSaveFile::ReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
-	input >> ws;
+	input >> std::ws;
 
 	JFileVersion vers;
 	if (input.peek() == '"')
@@ -604,7 +604,7 @@ JXChooseSaveFile::ReadSetup
 void
 JXChooseSaveFile::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -621,7 +621,7 @@ JXChooseSaveFile::WriteSetup
 void
 JXChooseSaveFile::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	ReadSetup(input);
@@ -635,7 +635,7 @@ JXChooseSaveFile::ReadPrefs
 void
 JXChooseSaveFile::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

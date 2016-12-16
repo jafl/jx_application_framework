@@ -88,10 +88,10 @@ JRect::JRect
 {
 }
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&	input,
+	std::istream&	input,
 	JRect&		r
 	)
 {
@@ -99,10 +99,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&		output,
+	std::ostream&		output,
 	const JRect&	r
 	)
 {

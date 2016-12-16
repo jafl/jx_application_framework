@@ -121,7 +121,7 @@ JFunctionWithArgs::ReplaceArg
 void
 JFunctionWithArgs::Print
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -150,7 +150,7 @@ JFunctionWithArgs::Print
 void
 JFunctionWithArgs::PrintArgs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

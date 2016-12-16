@@ -2610,7 +2610,7 @@ CBDiffFileDialog::UpdateBasePath()
 void
 CBDiffFileDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -2662,7 +2662,7 @@ CBDiffFileDialog::ReadPrefs
 void
 CBDiffFileDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

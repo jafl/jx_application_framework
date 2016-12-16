@@ -1025,7 +1025,7 @@ JXSearchTextDialog::SetFont
 void
 JXSearchTextDialog::ReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -1093,7 +1093,7 @@ JXSearchTextDialog::ReadSetup
 void
 JXSearchTextDialog::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -1353,7 +1353,7 @@ JXSearchTextDialog::SetXSearch
 void
 JXSearchTextDialog::ReadXSearch
 	(
-	istream&	input,
+	std::istream&	input,
 	const Atom	vers
 	)
 {
@@ -1448,7 +1448,7 @@ JXSearchTextDialog::SetStateForXSearch
 void
 JXSearchTextDialog::WriteXSearchV1
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

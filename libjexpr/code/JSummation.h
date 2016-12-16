@@ -24,7 +24,7 @@ public:
 	virtual JBoolean	Evaluate(JFloat* result) const;
 	virtual JBoolean	Evaluate(JComplex* result) const;
 	virtual JFunction*	Copy() const;
-	virtual void		Print(ostream& output) const;
+	virtual void		Print(std::ostream& output) const;
 	virtual JIndex		PrepareToRender(const JExprRenderer& renderer,
 										const JPoint& upperLeft, const JSize fontSize,
 										JExprRectList* rectList);

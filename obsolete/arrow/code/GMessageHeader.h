@@ -20,8 +20,8 @@ class GMessageHeader
 {
 public:
 
-	friend istream& operator>>(istream&, GMessageHeader&);
-	friend ostream& operator<<(ostream&, const GMessageHeader&);
+	friend std::istream& operator>>(std::istream&, GMessageHeader&);
+	friend std::ostream& operator<<(std::ostream&, const GMessageHeader&);
 
 public:
 

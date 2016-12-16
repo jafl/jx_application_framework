@@ -28,7 +28,7 @@ class CBTreeDirector;
 class CBProjectDocument;
 
 class CBTree;
-typedef CBClass* (CBClassStreamInFn)(istream& input, const JFileVersion vers, CBTree* tree);
+typedef CBClass* (CBClassStreamInFn)(std::istream& input, const JFileVersion vers, CBTree* tree);
 
 class CBTree : public JContainer
 {
@@ -39,9 +39,9 @@ public:
 	CBTree(CBClassStreamInFn* streamInFn,
 		   CBTreeDirector* director, const CBTextFileType fileType,
 		   const JSize marginWidth);
-	CBTree(istream& projInput, const JFileVersion projVers,
-		   istream* setInput, const JFileVersion setVers,
-		   istream* symInput, const JFileVersion symVers,
+	CBTree(std::istream& projInput, const JFileVersion projVers,
+		   std::istream* setInput, const JFileVersion setVers,
+		   std::istream* symInput, const JFileVersion symVers,
 		   CBClassStreamInFn* streamInFn,
 		   CBTreeDirector* director, const CBTextFileType fileType,
 		   const JSize marginWidth, CBDirList* dirList);
@@ -58,8 +58,8 @@ public:
 	JBoolean	FindParent(const JCharacter* parentName, const CBClass* container,
 						   CBClass** parent, JString* nameSpace) const;
 
-	virtual void	StreamOut(ostream& projOutput, ostream* setOutput,
-							  ostream* symOutput, const CBDirList* dirList) const;
+	virtual void	StreamOut(std::ostream& projOutput, std::ostream* setOutput,
+							  std::ostream* symOutput, const CBDirList* dirList) const;
 
 	JBoolean	HasSelection() const;
 	void		DeselectAll();
@@ -122,7 +122,7 @@ public:
 
 	// for loading updated symbols
 
-	virtual void	ReloadSetup(istream& input, const JFileVersion vers);
+	virtual void	ReloadSetup(std::istream& input, const JFileVersion vers);
 
 	// called by CBTreeDirector
 

@@ -56,7 +56,7 @@ GPMCreateGlobals
 
 #ifdef _J_HAS_PROC
 	{
-	ifstream ms("/proc/meminfo");
+	std::ifstream ms("/proc/meminfo");
 	JArray<JIndexRange> matchList;
 	while (ms.good() && !ms.eof())
 		{

@@ -79,8 +79,8 @@ public:
 
 	// preferences
 
-	void	ReadSetup(istream& input);
-	void	WriteSetup(ostream& output) const;
+	void	ReadSetup(std::istream& input);
+	void	WriteSetup(std::ostream& output) const;
 
 	// called by CBTextDocument
 

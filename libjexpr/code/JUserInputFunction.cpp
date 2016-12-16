@@ -176,7 +176,7 @@ JUserInputFunction::Evaluate
 void
 JUserInputFunction::Print
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

@@ -1956,7 +1956,7 @@ GAddressBookTreeWidget::GetImage
 void
 GAddressBookTreeWidget::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JCoordinate id;
@@ -2007,7 +2007,7 @@ GAddressBookTreeWidget::ReadPrefs
 void
 GAddressBookTreeWidget::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -2950,7 +2950,7 @@ GAddressBookTreeWidget::NewBook
 {
 	if (JXGetChooseSaveFile()->SaveFile("Name of new address book:", "", "",  book))
 		{
-		ofstream os(*book);
+		std::ofstream os(*book);
 		if (!os.good())
 			{
 			JGetUserNotification()->ReportError("Unable to create address book.");

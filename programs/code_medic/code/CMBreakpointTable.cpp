@@ -678,7 +678,7 @@ CMBreakpointTable::PrepareDeleteXInputField()
 void
 CMBreakpointTable::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -713,7 +713,7 @@ CMBreakpointTable::ReadPrefs
 void
 CMBreakpointTable::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

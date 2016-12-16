@@ -43,7 +43,7 @@ CBHTMLScanner::~CBHTMLScanner()
 void
 CBHTMLScanner::BeginScan
 	(
-	istream&			input,
+	std::istream&			input,
 	const yy_state_type	startState
 	)
 {

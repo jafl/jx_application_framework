@@ -47,7 +47,7 @@ SCVdepSource::SCVdepSource
 
 SCVdepSource::SCVdepSource
 	(
-	istream&				input,
+	std::istream&				input,
 	const JFileVersion		vers,
 	const SCComponentType	type,
 	SCCircuit*				theCircuit
@@ -63,7 +63,7 @@ SCVdepSource::SCVdepSource
 
 SCVdepSource::SCVdepSource
 	(
-	istream&				input,
+	std::istream&				input,
 	const SCComponentType	type,
 	SCCircuit*				theCircuit
 	)
@@ -142,7 +142,7 @@ SCVdepSource::SCVdepSource
 void
 SCVdepSource::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -159,7 +159,7 @@ SCVdepSource::StreamOut
 void
 SCVdepSource::PrintToNetlist
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

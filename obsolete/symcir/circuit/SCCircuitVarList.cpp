@@ -51,7 +51,7 @@ SCCircuitVarList::SCCircuitVarList()
 
 SCCircuitVarList::SCCircuitVarList
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 	:
@@ -634,10 +634,10 @@ SCCircuitVarList::SetDiscreteValue
 
  ******************************************************************************/
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&				output,
+	std::ostream&				output,
 	const SCCircuitVarList&	varList
 	)
 {

@@ -28,7 +28,7 @@ void OldFileTest();
 
 int main()
 {
-	cout << endl << '.' << kTestFileName << ".pref created in home directory" << endl;
+	std::cout << std::endl << '.' << kTestFileName << ".pref created in home directory" << std::endl;
 
 	JPrefsFile* prefsFile;
 	const JError err =
@@ -38,8 +38,8 @@ int main()
 	assert( gPrefsFile != NULL );
 
 	long i;
-	cout << "Enter 0 for testing new file, 1 for testing existing file: ";
-	cin >> i;
+	std::cout << "Enter 0 for testing new file, 1 for testing existing file: ";
+	std::cin >> i;
 	JInputFinished();
 
 	// run the requested tests
@@ -54,7 +54,7 @@ int main()
 		}
 	else
 		{
-		cout << "arf!";
+		std::cout << "arf!";
 		}
 
 	jdelete gPrefsFile;
@@ -66,21 +66,21 @@ int main()
 
 void NewFileTest()
 {
-	cout << "itemCount should be 0" << endl;
-	cout << "itemCount = " << gPrefsFile->GetElementCount() << endl << endl;
+	std::cout << "itemCount should be 0" << std::endl;
+	std::cout << "itemCount = " << gPrefsFile->GetElementCount() << std::endl << std::endl;
 
 	JFileVersion vers = gPrefsFile->GetVersion();
 
 	if (vers == kVersionOfExistingFile)
 		{
-		cout << "You asked to test a new file." << endl;
-		cout << "Please delete the existing file first." << endl;
+		std::cout << "You asked to test a new file." << std::endl;
+		std::cout << "Please delete the existing file first." << std::endl;
 		return;
 		}
 
 	gPrefsFile->SetVersion(kVersionOfExistingFile);
 
-	cout << "array version = " << gPrefsFile->GetVersion() << endl;
+	std::cout << "array version = " << gPrefsFile->GetVersion() << std::endl;
 
 	{
 	std::ostringstream dataStream;
@@ -108,8 +108,8 @@ void NewFileTest()
 	gPrefsFile->SetData(7, dataStream);
 	}
 
-	cout << "itemCount should be 2" << endl;
-	cout << "itemCount = " << gPrefsFile->GetElementCount() << endl << endl;
+	std::cout << "itemCount should be 2" << std::endl;
+	std::cout << "itemCount = " << gPrefsFile->GetElementCount() << std::endl << std::endl;
 
 	{
 	std::string data;
@@ -118,7 +118,7 @@ void NewFileTest()
 	std::istringstream dataStream(data);
 	JString elementData;
 	dataStream >> elementData;
-	cout << "Element with id 7 is: " << elementData << endl;
+	std::cout << "Element with id 7 is: " << elementData << std::endl;
 	}
 
 	{
@@ -154,14 +154,14 @@ void NewFileTest()
 
 void OldFileTest()
 {
-	cout << "itemCount = " << gPrefsFile->GetElementCount() << endl << endl;
+	std::cout << "itemCount = " << gPrefsFile->GetElementCount() << std::endl << std::endl;
 
 	JFileVersion vers = gPrefsFile->GetVersion();
 
 	if (vers != kVersionOfExistingFile)
 		{
-		cout << "You asked to test an existing file." << endl;
-		cout << "Please run the new file test first." << endl;
+		std::cout << "You asked to test an existing file." << std::endl;
+		std::cout << "Please run the new file test first." << std::endl;
 		return;
 		}
 
@@ -180,7 +180,7 @@ void OldFileTest()
 
 		std::istringstream dataStream(data);
 		dataStream >> elementData;
-		cout << "Element " << i << " has id = " << id.GetID() << endl;
-		cout << "Element " << i << " is: " << elementData << endl << endl;
+		std::cout << "Element " << i << " has id = " << id.GetID() << std::endl;
+		std::cout << "Element " << i << " is: " << elementData << std::endl << std::endl;
 		}
 }

@@ -135,7 +135,7 @@ PrintHelp()
 		"copyright", JGetString("COPYRIGHT")
 		};
 	const JString s = JGetString("CMCommandLineHelp", map, sizeof(map));
-	cout << endl << s << endl << endl;
+	std::cout << std::endl << s << std::endl << std::endl;
 }
 
 /******************************************************************************
@@ -146,12 +146,12 @@ PrintHelp()
 void
 PrintVersion()
 {
-	cout << endl;
+	std::cout << std::endl;
 	const JCharacter* map[] =
 		{
 		"version",   JGetString("VERSION"),
 		"copyright", JGetString("COPYRIGHT")
 		};
-	cout << JGetString("CMDescription", map, sizeof(map));
-	cout << endl << endl;
+	std::cout << JGetString("CMDescription", map, sizeof(map));
+	std::cout << std::endl << std::endl;
 }

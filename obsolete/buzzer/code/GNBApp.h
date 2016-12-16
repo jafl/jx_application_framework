@@ -20,7 +20,7 @@
 #include <iostream.h>
 
 class GNBTreeDir;
-//class istream;
+//class std::istream;
 class JXRadioGroupDialog;
 
 class GNBApp : public JXApplication
@@ -34,8 +34,8 @@ public:
 
 	static const JCharacter*	GetFileSignature();
 
-	JBoolean	SaveState(ostream& os);
-	void		RestoreState(istream& is);
+	JBoolean	SaveState(std::ostream& os);
+	void		RestoreState(std::istream& is);
 	void		OpenNotebook(const JCharacter* fileName);
 
 	void	HandleNoArgs();

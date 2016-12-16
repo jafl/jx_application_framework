@@ -52,7 +52,7 @@ protected:
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 	virtual void	DirectorClosed(JXDirector* theDirector);
-	virtual void	WriteTextFile(ostream& output, const JBoolean safetySave) const;
+	virtual void	WriteTextFile(std::ostream& output, const JBoolean safetySave) const;
 	virtual void	DiscardChanges();
 			
 private:
@@ -92,13 +92,13 @@ private:
 
 	void		HandleHelpMenu(const JIndex item);
 
-	JBoolean	LoadNativeFile(istream& is);
+	JBoolean	LoadNativeFile(std::istream& is);
 	void		LoadImportFile();
 	void		LoadDelimitedFile();
 	void		LoadInternalFile(const JIndex index);
 	
 	void		ChooseFileFilter();
-	void		ReadPlotData(istream& is, const JFloat gloveVersion);
+	void		ReadPlotData(std::istream& is, const JFloat gloveVersion);
 
 	// not allowed
 

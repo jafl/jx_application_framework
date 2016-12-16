@@ -17,11 +17,11 @@ class GCLRecurrence
 public:
 
 	GCLRecurrence();
-	GCLRecurrence(istream& is);
+	GCLRecurrence(std::istream& is);
 	GCLRecurrence(const GCLRecurrence& source);
 	virtual ~GCLRecurrence();
 
-	void	WriteSetup(ostream& os);
+	void	WriteSetup(std::ostream& os);
 
 	void	Set(const GCLRecurrence& source);
 

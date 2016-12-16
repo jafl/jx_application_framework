@@ -16,7 +16,7 @@ public:
 
 	CBFileNodeBase(CBProjectTree* tree, const CBProjectNodeType type,
 				   const JCharacter* fileName);
-	CBFileNodeBase(istream& input, const JFileVersion vers,
+	CBFileNodeBase(std::istream& input, const JFileVersion vers,
 				   CBProjectNode* parent, const CBProjectNodeType type);
 
 	virtual ~CBFileNodeBase();
@@ -26,7 +26,7 @@ public:
 
 	virtual JBoolean	GetFullName(JString* fullName) const;
 
-	virtual void		StreamOut(ostream& output) const;
+	virtual void		StreamOut(std::ostream& output) const;
 	virtual JBoolean	IncludedInMakefile() const;
 	virtual void		BuildMakeFiles(JString* text,
 									   JPtrArray<JTreeNode>* invalidList,

@@ -159,7 +159,7 @@ GMChooseSaveFile::Receive
 void
 GMChooseSaveFile::ReadGMSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion version;
@@ -174,7 +174,7 @@ GMChooseSaveFile::ReadGMSetup
 void
 GMChooseSaveFile::WriteGMSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

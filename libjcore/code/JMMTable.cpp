@@ -239,22 +239,22 @@ JMMTable::PrintAllocatedRecord
 	)
 	const
 {
-	cout << "\n                ID: " << record.GetID();
-	cout << "\n           Address: " << record.GetAddress();
-	cout << "\n              Data: " << (unsigned char*) record.GetAddress();
-	cout << "\n              Size: " << record.GetSize();
-	cout << "\n        New method: " << record.NewTypeName();
-	cout << "\n         New'ed at: " << record.GetNewFile() << ":" << record.GetNewLine();
-	cout << "\n      Verification: ";
+	std::cout << "\n                ID: " << record.GetID();
+	std::cout << "\n           Address: " << record.GetAddress();
+	std::cout << "\n              Data: " << (unsigned char*) record.GetAddress();
+	std::cout << "\n              Size: " << record.GetSize();
+	std::cout << "\n        New method: " << record.NewTypeName();
+	std::cout << "\n         New'ed at: " << record.GetNewFile() << ":" << record.GetNewLine();
+	std::cout << "\n      Verification: ";
 	if (record.GetDeleteFile() != NULL || record.GetDeleteLine() != 0)
 		{
-		cout << "*** manager error: allocated status inconsistent, possibly not really allocated";
+		std::cout << "*** manager error: allocated status inconsistent, possibly not really allocated";
 		}
 	else
 		{
-		cout << "allocated status consistent, probably correct";
+		std::cout << "allocated status consistent, probably correct";
 		}
-	cout << endl;
+	std::cout << std::endl;
 }
 
 /******************************************************************************
@@ -306,7 +306,7 @@ JMMTable::AddToHistogram
 void
 JMMTable::StreamHistogram
 	(
-	ostream&	output,
+	std::ostream&	output,
 	const JSize	histo[ JMemoryManager::kHistogramSlotCount ]
 	)
 	const

@@ -13,10 +13,10 @@
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&		input,
+	std::istream&		input,
 	WWMessageType&	msg
 	)
 {
@@ -26,10 +26,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const WWMessageType	msg
 	)
 {
@@ -42,10 +42,10 @@ operator<<
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&				input,
+	std::istream&				input,
 	WWConnectionErrorType&	err
 	)
 {
@@ -55,10 +55,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&					output,
+	std::ostream&					output,
 	const WWConnectionErrorType	err
 	)
 {

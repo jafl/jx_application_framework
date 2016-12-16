@@ -19,14 +19,14 @@ int main
 {
 	if (argc < 2)
 		{
-		cerr << "usage:  " << argv[0] << " path" << endl;
+		std::cerr << "usage:  " << argv[0] << " path" << std::endl;
 		return 1;
 		}
 
 	JDirInfo* info;
 	if (!JDirInfo::Create(argv[1], &info))
 		{
-		cerr << "Create failed" << endl;
+		std::cerr << "Create failed" << std::endl;
 		return 1;
 		}
 
@@ -34,7 +34,7 @@ int main
 	for (JIndex i=1; i<=count; i++)
 		{
 		const JDirEntry& entry = info->GetEntry(i);
-		cout << entry.GetName() << endl;
+		std::cout << entry.GetName() << std::endl;
 		}
 
 	return 0;

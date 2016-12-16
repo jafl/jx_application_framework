@@ -337,7 +337,7 @@ CBViewManPageDialog::SetFunction
 void
 CBViewManPageDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -369,7 +369,7 @@ CBViewManPageDialog::ReadPrefs
 void
 CBViewManPageDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

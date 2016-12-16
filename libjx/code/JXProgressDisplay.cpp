@@ -259,7 +259,7 @@ JXProgressDisplay::IncrementProgress1
 		}
 	else
 		{
-		cerr << "Unknown process type in JXProgressDisplay::IncrementProgress1()" << endl;
+		std::cerr << "Unknown process type in JXProgressDisplay::IncrementProgress1()" << std::endl;
 		}
 
 	return ProcessContinuing();

@@ -83,7 +83,7 @@
 int
 main()
 {
-	cout << "Beginning JHashTable test.  No news is good news" << endl;
+	std::cout << "Beginning JHashTable test.  No news is good news" << std::endl;
 
 //	TableState experiment = CreateTableState;
 
@@ -137,7 +137,7 @@ main()
 			}
 		}
 
-//cout << "\nSecond half\n" << endl;
+//std::cout << "\nSecond half\n" << std::endl;
 
 	for (i=0;i<10000;i++)
 		{
@@ -156,15 +156,15 @@ main()
 			}
 		}
 
-	cout << "Finished JHashTable test.  If nothing printed out, it passed" << endl;
+	std::cout << "Finished JHashTable test.  If nothing printed out, it passed" << std::endl;
 
-	cout << "\n         Size: " << table.GetTableSize() << endl;
+	std::cout << "\n         Size: " << table.GetTableSize() << std::endl;
 
-	cout << "\nElement count: " << table.GetElementCount() << endl;
-	cout <<   "   Load count: " << table.GetLoadCount() << endl;
+	std::cout << "\nElement count: " << table.GetElementCount() << std::endl;
+	std::cout <<   "   Load count: " << table.GetLoadCount() << std::endl;
 
-	cout << "\nFill factor: " << table.GetFillFactor() << endl;
-	cout <<   "Load factor: " << table.GetLoadFactor() << endl;
+	std::cout << "\nFill factor: " << table.GetFillFactor() << std::endl;
+	std::cout <<   "Load factor: " << table.GetLoadFactor() << std::endl;
 
 	return 0;
 }
@@ -276,7 +276,7 @@ SearchElement
 	if (countList[el] != count)
 		{
 		PrintError(__LINE__);
-		cout << "Count is " << count << " instead of " << countList[el] << endl;
+		std::cout << "Count is " << count << " instead of " << countList[el] << std::endl;
 		}
 }
 
@@ -353,8 +353,8 @@ RemoveElement
 		if (!cursor.NextHash() )
 			{
 			PrintError(__LINE__);
-			cout << "   Count = " << count << ", deleteNum = " << deleteNum << endl;
-			cout << "   Error on cycle " << i << endl;
+			std::cout << "   Count = " << count << ", deleteNum = " << deleteNum << std::endl;
+			std::cout << "   Error on cycle " << i << std::endl;
 			return;
 			}
 		}
@@ -374,5 +374,5 @@ PrintError
 	long line
 	)
 {
-	cout << "*** testtable error at line " << line << endl;
+	std::cout << "*** testtable error at line " << line << std::endl;
 }

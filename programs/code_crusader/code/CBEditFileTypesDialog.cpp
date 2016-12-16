@@ -211,7 +211,7 @@ CBEditFileTypesDialog::Receive
 void
 CBEditFileTypesDialog::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -236,7 +236,7 @@ CBEditFileTypesDialog::ReadPrefs
 void
 CBEditFileTypesDialog::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

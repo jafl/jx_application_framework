@@ -235,7 +235,7 @@ template <class T>
 void
 JHistogram<T>::StreamIn
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	// check that we have the correct number of bins
@@ -258,7 +258,7 @@ template <class T>
 void
 JHistogram<T>::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

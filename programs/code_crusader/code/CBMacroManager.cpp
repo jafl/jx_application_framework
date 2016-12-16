@@ -284,7 +284,7 @@ CBMacroManager::CompareMacros
 void
 CBMacroManager::ReadSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -323,7 +323,7 @@ CBMacroManager::ReadSetup
 void
 CBMacroManager::WriteSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

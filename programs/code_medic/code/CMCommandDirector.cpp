@@ -1484,7 +1484,7 @@ CMCommandDirector::LoadConfig()
 	JString fullName;
 	if ((JGetChooseSaveFile())->ChooseFile("Choose configuration file", NULL, &fullName))
 		{
-		ifstream input(fullName);
+		std::ifstream input(fullName);
 
 		JFileVersion vers;
 		input >> vers;
@@ -1567,7 +1567,7 @@ CMCommandDirector::SaveConfig()
 
 	if ((JGetChooseSaveFile())->SaveFile("Choose file name", NULL, origName, &fullName))
 		{
-		ofstream output(fullName);
+		std::ofstream output(fullName);
 
 		output << kCurrentConfigVersion;
 		(itsLink->GetBreakpointManager())->WriteSetup(output);

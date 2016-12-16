@@ -491,7 +491,7 @@ CMFileListDir::HandleHelpMenu
 void
 CMFileListDir::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -510,7 +510,7 @@ CMFileListDir::ReadPrefs
 void
 CMFileListDir::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

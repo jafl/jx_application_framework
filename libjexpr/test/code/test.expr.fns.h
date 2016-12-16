@@ -18,9 +18,9 @@ class TestVarList;
 void TestDecisionEquality(const JCharacter* fileName);
 void TestFunctionEquality(const JCharacter* fileName);
 
-JBoolean GetDecision(istream& input, const JVariableList* theVariableList,
+JBoolean GetDecision(std::istream& input, const JVariableList* theVariableList,
 					 JDecision** theDecision);
-JBoolean GetFunction(istream& input, const JVariableList* theVariableList,
+JBoolean GetFunction(std::istream& input, const JVariableList* theVariableList,
 					 JFunction** theFunction);
 
 #endif

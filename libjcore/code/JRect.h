@@ -248,8 +248,8 @@ public:
 JBoolean JIntersection(const JRect& r1, const JRect& r2, JRect* result);
 JRect    JCovering(const JRect& r1, const JRect& r2);
 
-istream& operator>>(istream& input, JRect& r);
-ostream& operator<<(ostream& output, const JRect& r);
+std::istream& operator>>(std::istream& input, JRect& r);
+std::ostream& operator<<(std::ostream& output, const JRect& r);
 
 inline int
 operator==

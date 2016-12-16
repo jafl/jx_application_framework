@@ -47,7 +47,7 @@ OTHER_KEYWORD (break|byvalue|case|cast|catch|ClassLoader|clone|Cloneable|Compile
 	JString package;
 	JPtrArray<JString> importList(JPtrArrayT::kDeleteAll);
 
-	ifstream input(fileName);
+	std::ifstream input(fileName);
 	switch_streams(&input, NULL);
 %}
 

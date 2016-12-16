@@ -192,7 +192,7 @@ CBCtagsUser::ProcessFile
 		return kJFalse;
 		}
 
-	*itsCmdPipe << fileName << endl;
+	*itsCmdPipe << fileName << std::endl;
 
 	JBoolean found;
 	*result = JReadUntil(itsResultFD, kDelimiter, &found);
@@ -273,7 +273,7 @@ CBCtagsUser::StartProcess
 		assert( kFTCount == kCBFTCount && kFTInfo[fileType].fileType == fileType );
 
 		*lang = kFTInfo[fileType].lang;
-		*itsCmdPipe << kFTInfo[fileType].cmd << endl;
+		*itsCmdPipe << kFTInfo[fileType].cmd << std::endl;
 		}
 
 	return itsIsActiveFlag;
@@ -289,7 +289,7 @@ CBCtagsUser::StartProcess
 void
 CBCtagsUser::InitCtags
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 }
@@ -324,7 +324,7 @@ CBCtagsUser::DeleteProcess()
 void
 CBCtagsUser::ReadExtensionFlags
 	(
-	istream&				input,
+	std::istream&				input,
 	JStringPtrMap<JString>*	flags
 	)
 	const

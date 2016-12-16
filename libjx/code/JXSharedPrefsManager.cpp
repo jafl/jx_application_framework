@@ -633,7 +633,7 @@ JXSharedPrefsManager::NotifyChanged()
 {
 	if (!itsSignalFileName.IsEmpty())
 		{
-		ofstream temp(itsSignalFileName);
+		std::ofstream temp(itsSignalFileName);
 		temp << 'x';
 		temp.close();
 

@@ -383,8 +383,8 @@ public:
 		};
 };
 
-istream& operator>>(istream& input, JXTEBase::PartialWordModifier& pwMod);
-ostream& operator<<(ostream& output, const JXTEBase::PartialWordModifier pwMod);
+std::istream& operator>>(std::istream& input, JXTEBase::PartialWordModifier& pwMod);
+std::ostream& operator<<(std::ostream& output, const JXTEBase::PartialWordModifier pwMod);
 
 
 /******************************************************************************

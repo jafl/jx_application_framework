@@ -86,8 +86,8 @@ OpenConnection
 		}
 	else
 		{
-		cerr << "usage: " << argv[0];
-		cerr << " (-i [host_name:]port_number)|(-u socket_name)" << endl;
+		std::cerr << "usage: " << argv[0];
+		std::cerr << " (-i [host_name:]port_number)|(-u socket_name)" << std::endl;
 		exit(1);
 		}
 
@@ -130,7 +130,7 @@ INETConnect
 	if (connector->connect(handler, addr, options) == -1 &&
 		jerrno() != EAGAIN)
 		{
-		cerr << "error trying to connect: " << jerrno() << endl;
+		std::cerr << "error trying to connect: " << jerrno() << std::endl;
 		exit(1);
 		}
 
@@ -172,7 +172,7 @@ UNIXConnect
 	if (connector->connect(handler, addr, options) == -1 &&
 		jerrno() != EAGAIN)
 		{
-		cerr << "error trying to connect: " << jerrno() << endl;
+		std::cerr << "error trying to connect: " << jerrno() << std::endl;
 		exit(1);
 		}
 

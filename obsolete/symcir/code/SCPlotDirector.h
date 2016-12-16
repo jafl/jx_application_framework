@@ -21,7 +21,7 @@ class SCPlotDirector : public JXWindowDirector
 public:
 
 	SCPlotDirector(SCCircuitDocument* supervisor);
-	SCPlotDirector(istream& input, const JFileVersion vers,
+	SCPlotDirector(std::istream& input, const JFileVersion vers,
 				   SCCircuitDocument* supervisor);
 
 	virtual ~SCPlotDirector();
@@ -29,7 +29,7 @@ public:
 	void	AddFunction(const JFunction& f, const JCharacter* name,
 						const JFloat xMin, const JFloat xMax);
 
-	void	StreamOut(ostream& output) const;
+	void	StreamOut(std::ostream& output) const;
 
 protected:
 

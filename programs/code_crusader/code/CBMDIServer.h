@@ -35,8 +35,8 @@ protected:
 	virtual void	HandleMDIRequest(const JCharacter* dir,
 									 const JPtrArray<JString>& argList);
 
-	virtual void	ReadPrefs(istream& input);
-	virtual void	WritePrefs(ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input);
+	virtual void	WritePrefs(std::ostream& output) const;
 
 private:
 

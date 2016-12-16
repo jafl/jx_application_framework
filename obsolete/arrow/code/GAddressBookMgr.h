@@ -48,7 +48,7 @@ private:
 
 private:
 
-	JBoolean	GetNextRecord(JString& line, JString& record, istream& is);
+	JBoolean	GetNextRecord(JString& line, JString& record, std::istream& is);
 
 	// not allowed
 

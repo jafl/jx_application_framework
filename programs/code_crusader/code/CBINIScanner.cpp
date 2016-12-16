@@ -45,7 +45,7 @@ CBINIScanner::~CBINIScanner()
 void
 CBINIScanner::BeginScan
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	itsResetFlag = kJTrue;

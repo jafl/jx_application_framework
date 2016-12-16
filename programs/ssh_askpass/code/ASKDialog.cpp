@@ -54,7 +54,7 @@ ASKDialog::OKToDeactivate()
 {
 	if (JXGetStringDialog::OKToDeactivate())
 		{
-		cout << GetString() << endl;
+		std::cout << GetString() << std::endl;
 		return kJTrue;
 		}
 	else

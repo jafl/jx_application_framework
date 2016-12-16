@@ -43,7 +43,7 @@ CBJavaScanner::~CBJavaScanner()
 void
 CBJavaScanner::BeginScan
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	itsResetFlag = kJTrue;

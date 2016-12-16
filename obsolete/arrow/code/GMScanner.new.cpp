@@ -22,7 +22,7 @@
 
 GMScanner::GMScanner
 	(
-	istream* is
+	std::istream* is
 	)
 {
 	itsIs = is;
@@ -49,7 +49,7 @@ GMScanner::yylex()
 {
 	if (itsCurrentPosition == 0)
 		{
-		itsIs >> ws;
+		itsIs >> std::ws;
 		itsCurrentPosition = JTellg(*itsIs);
 		itsCurrentHeaderStart = itsCurrentPosition;
 		itsText = JReadLine(*itsIs);

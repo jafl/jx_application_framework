@@ -111,8 +111,8 @@ itemType & apvector<itemType>::operator [] (int k)
 
     if (k < 0 || mySize <= k)
     {
-        cerr << "Illegal vector index: " << k << " max index = ";
-        cerr << (mySize-1) << endl;
+        std::cerr << "Illegal vector index: " << k << " max index = ";
+        std::cerr << (mySize-1) << std::endl;
         exit(1);
     }
     return myList[k];
@@ -127,8 +127,8 @@ const itemType & apvector<itemType>::operator [] (int k) const
 {
     if (k < 0 || mySize <= k)
     {
-        cerr << "Illegal vector index: " << k << " max index = ";
-        cerr << (mySize-1) << endl;
+        std::cerr << "Illegal vector index: " << k << " max index = ";
+        std::cerr << (mySize-1) << std::endl;
         exit(1);
     }
     return myList[k];

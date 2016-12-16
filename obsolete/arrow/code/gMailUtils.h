@@ -36,10 +36,10 @@ void	GSplitAddressAndName(const JString& fullname, JString* address, JString* na
 void	GFixHeaderForReply(GMessageHeader::ReplyStatus status, JString* sub);
 void	GCompressWhitespace(JString* sub);
 
-void	GReadQuote(istream& is, JString* str);
-void	GReadComment(istream& is, JString* str);
-void	GReadBracket(istream& is, JString* str);
-void	GSaveMessage (istream& is, ostream& os, GMessageHeader* header,
+void	GReadQuote(std::istream& is, JString* str);
+void	GReadComment(std::istream& is, JString* str);
+void	GReadBracket(std::istream& is, JString* str);
+void	GSaveMessage (std::istream& is, std::ostream& os, GMessageHeader* header,
 					 const JBoolean update = kJFalse,
 					 const JBoolean flush = kJTrue);
 JBoolean	GAppendMessage(const JCharacter* srcMBox, const JCharacter* destMBox,

@@ -84,7 +84,7 @@ CBFileListTable::~CBFileListTable()
 JBoolean
 CBFileListTable::Update
 	(
-	ostream&			link,
+	std::ostream&			link,
 	CBProjectTree*		fileTree,
 	const CBDirList&	dirList,
 	CBSymbolDirector*	symbolDir,
@@ -678,13 +678,13 @@ CBFileListTable::UpdateFileInfo
 void
 CBFileListTable::ReadSetup
 	(
-	istream&			projInput,
+	std::istream&			projInput,
 	const JFileVersion	projVers,
-	istream*			symInput,
+	std::istream*			symInput,
 	const JFileVersion	symVers
 	)
 {
-	istream* input          = (projVers <= 41 ? &projInput : symInput);
+	std::istream* input          = (projVers <= 41 ? &projInput : symInput);
 	const JFileVersion vers = (projVers <= 41 ? projVers   : symVers);
 	if (vers < 40 || input == NULL)
 		{
@@ -704,7 +704,7 @@ CBFileListTable::ReadSetup
 void
 CBFileListTable::ReadSetup
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers
 	)
 {
@@ -745,8 +745,8 @@ CBFileListTable::ReadSetup
 void
 CBFileListTable::WriteSetup
 	(
-	ostream& projOutput,
-	ostream* symOutput
+	std::ostream& projOutput,
+	std::ostream* symOutput
 	)
 	const
 {

@@ -393,7 +393,7 @@ MDMainDirector::HandleHelpMenu
 void
 MDMainDirector::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -414,7 +414,7 @@ MDMainDirector::ReadPrefs
 void
 MDMainDirector::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

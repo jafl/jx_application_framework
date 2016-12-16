@@ -121,7 +121,7 @@ const JCharacter* JFileArray::kNotEmbeddedFile = "NotEmbeddedFile::JFileArray";
 
 const JSize maxTempMem = 2000;
 
-// mode for opening fstream
+// mode for opening std::fstream
 
 const JFStreamOpenMode kFileOpenMode = kJBinaryFile;
 
@@ -218,7 +218,7 @@ JFileArray::OKToCreateBase
 			return FileNotWritable(fileName);
 			}
 
-		ifstream input(fileName);
+		std::ifstream input(fileName);
 
 		// check file signature
 
@@ -283,7 +283,7 @@ JFileArray::OKToCreateBase
  Constructor (base file) (protected)
 
 	Initialize a JFileArray object as the base file.
-	Since we are the base class, we create and open the fstream.
+	Since we are the base class, we create and open the std::fstream.
 
  ******************************************************************************/
 
@@ -310,12 +310,12 @@ JFileArray::JFileArray
 
 	// open the file for use
 
-	if (isNew)		// hack: gcc 3.2.x doesn't allow ios::in if file doesn't exist!
+	if (isNew)		// hack: gcc 3.2.x doesn't allow std::ios::in if file doesn't exist!
 		{
-		ofstream temp(fileName);
+		std::ofstream temp(fileName);
 		}
 
-	itsStream = jnew fstream;
+	itsStream = jnew std::fstream;
 	assert( itsStream != NULL );
 
 	itsStream->open(fileName, kFileOpenMode);
@@ -405,7 +405,7 @@ JFileArray::JFileArray
 	itsEnclosingFile( theEnclosingFile ),
 	itsEnclosureElementID( enclosureElementID )
 {
-	// get the fstream and whether we are new from our enclosing file
+	// get the std::fstream and whether we are new from our enclosing file
 
 	JBoolean isNew;
 	itsFileName = NULL;
@@ -499,7 +499,7 @@ JFileArray::~JFileArray()
 	jdelete itsFileIndex;
 	itsFileIndex = NULL;
 
-	// base file deletes fstream
+	// base file deletes std::fstream
 	// embedded file notifies enclosing file
 
 	if (itsEnclosingFile != NULL)
@@ -528,7 +528,7 @@ JFileArray::~JFileArray()
 
  ******************************************************************************/
 
-fstream*
+std::fstream*
 JFileArray::OpenEmbeddedFile
 	(
 	JFileArray*		theEmbeddedFile,
@@ -1344,7 +1344,7 @@ JFileArray::WriteElementCount()
 JBoolean
 JFileArray::FileIsOpen
 	(
-	ifstream&	file,
+	std::ifstream&	file,
 	const JSize	sigLength
 	)
 {
@@ -1421,7 +1421,7 @@ JFileArray::WriteElementSize
 unsigned long
 JFileArray::ReadUnsignedLong
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	assert( sizeof(unsigned long) >= kUnsignedLongLength );
@@ -1448,7 +1448,7 @@ JFileArray::ReadUnsignedLong
 void
 JFileArray::WriteUnsignedLong
 	(
-	ostream&			output,
+	std::ostream&			output,
 	const unsigned long	value
 	)
 {
@@ -1482,7 +1482,7 @@ JFileArray::ReadIndex
 	SetReadWriteMark(itsIndexOffset, kFromFileStart);
 	itsFileIndex->ReadIndex(elementCount, *itsStream);
 
-	// Since the index is stored at the end of the file, the ios::eof
+	// Since the index is stored at the end of the file, the std::ios::eof
 	// bit will be set when we are done reading the index.
 	// We must therefore clear this in order to continue normal operation.
 	// First we must check that no other error bits are set, however.
@@ -1509,7 +1509,7 @@ JFileArray::WriteIndex()
 	SetReadWriteMark(itsIndexOffset, kFromFileStart);
 	itsFileIndex->WriteIndex(*itsStream);
 
-	// unlike reading, writing does not cause the ios::eof bit to be set
+	// unlike reading, writing does not cause the std::ios::eof bit to be set
 }
 
 /******************************************************************************
@@ -1587,12 +1587,12 @@ JFileArray::SetFileLength
 		}
 	else
 		{
-		// closes old fstream, changes file length, returns new fstream
+		// closes old std::fstream, changes file length, returns new std::fstream
 
-		fstream* newStream = JSetFStreamLength(*itsFileName, *itsStream,
+		std::fstream* newStream = JSetFStreamLength(*itsFileName, *itsStream,
 											   newLength, kFileOpenMode);
 
-		// deletes the old fstream and notifies embedded files of new one
+		// deletes the old std::fstream and notifies embedded files of new one
 
 		ReplaceStream(newStream);
 		}
@@ -1601,18 +1601,18 @@ JFileArray::SetFileLength
 /******************************************************************************
  ReplaceStream (private)
 
-	Delete our current fstream, replace it with the given new one, and
+	Delete our current std::fstream, replace it with the given new one, and
 	notify all the embedded files (recursive).
 
 	This is used by SetFileLength because the old stream has to be
-	thrown out.  If fstream's weren't so stupid, we wouldn't need this.
+	thrown out.  If std::fstream's weren't so stupid, we wouldn't need this.
 
  ******************************************************************************/
 
 void
 JFileArray::ReplaceStream
 	(
-	fstream* newStream
+	std::fstream* newStream
 	)
 {
 	// replace our stream with the new stream
@@ -1639,7 +1639,7 @@ JUnsignedOffset
 JFileArray::GetReadWriteMark()
 	const
 {
-	return (streamoff(itsStream->tellg()) - GetStartOfFile());
+	return (std::streamoff(itsStream->tellg()) - GetStartOfFile());
 }
 
 /******************************************************************************

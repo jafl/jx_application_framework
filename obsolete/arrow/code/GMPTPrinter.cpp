@@ -132,7 +132,7 @@ GMPTPrinter::EndUserPrintSetup
 void
 GMPTPrinter::ReadPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion version;
@@ -147,7 +147,7 @@ GMPTPrinter::ReadPrefs
 void
 GMPTPrinter::WritePrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

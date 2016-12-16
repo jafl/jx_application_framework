@@ -23,7 +23,7 @@ public:
 
 	const JCharacter*	GetName() const;
 	const JCharacter*	GetMathematicaName() const;
-	virtual void		Print(ostream& output) const;
+	virtual void		Print(std::ostream& output) const;
 	virtual JIndex		PrepareToRender(const JExprRenderer& renderer,
 										const JPoint& upperLeft, const JSize fontSize,
 										JExprRectList* rectList);
@@ -49,7 +49,7 @@ private:
 
 private:
 
-	void	PrintArgs(ostream& output) const;
+	void	PrintArgs(std::ostream& output) const;
 
 	// not allowed
 

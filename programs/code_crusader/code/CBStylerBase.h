@@ -35,8 +35,8 @@ public:
 	JColormap*						GetColormap() const;
 	const JStringMap<JFontStyle>&	GetWordList() const;
 
-	void	ReadFromSharedPrefs(istream& input);
-	void	WriteForSharedPrefs(ostream& output) const;
+	void	ReadFromSharedPrefs(std::istream& input);
+	void	WriteForSharedPrefs(std::ostream& output) const;
 
 protected:
 
@@ -49,8 +49,8 @@ protected:
 	void		SetWordStyle(const JCharacter* word, const JFontStyle& style);
 	void		RemoveWordStyle(const JCharacter* word);
 
-	virtual void	ReadPrefs(istream& input);
-	virtual void	WritePrefs(ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input);
+	virtual void	WritePrefs(std::ostream& output) const;
 
 	virtual void	UpgradeTypeList(const JFileVersion vers,
 									JArray<JFontStyle>* typeStyles) = 0;
@@ -80,8 +80,8 @@ private:
 						JArray<WordStyle>* wordList,
 						const JBoolean sort) const;
 
-	JFontStyle	ReadStyle(istream& input);
-	void		WriteStyle(ostream& output, const JFontStyle& style) const;
+	JFontStyle	ReadStyle(std::istream& input);
+	void		WriteStyle(std::ostream& output, const JFontStyle& style) const;
 
 	void		ExtractStyles();
 	JBoolean	TypeStylesChanged(const JArray<JFontStyle>& newTypeStyles) const;
@@ -218,7 +218,7 @@ CBStylerBase::RemoveWordStyle
 inline void
 CBStylerBase::ReadFromSharedPrefs
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	ReadPrefs(input);
@@ -227,7 +227,7 @@ CBStylerBase::ReadFromSharedPrefs
 inline void
 CBStylerBase::WriteForSharedPrefs
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

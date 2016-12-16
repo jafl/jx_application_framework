@@ -79,7 +79,7 @@ JDecision::SameAs
 JDecision*
 JDecision::StreamIn
 	(
-	istream&		input,
+	std::istream&		input,
 	JVariableList*	theVariableList
 	)
 {
@@ -102,7 +102,7 @@ JDecision::StreamIn
 void
 JDecision::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

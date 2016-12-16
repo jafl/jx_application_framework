@@ -121,7 +121,7 @@ JPSPrinter::ImageOrientationChanged
 void
 JPSPrinter::ReadPSSetup
 	(
-	istream& input
+	std::istream& input
 	)
 {
 	JFileVersion vers;
@@ -161,7 +161,7 @@ JPSPrinter::ReadPSSetup
 void
 JPSPrinter::WritePSSetup
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -204,7 +204,7 @@ JPSPrinter::OpenDocument()
 void
 JPSPrinter::PSPrintVersionComment
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 	output << "%!PS-Adobe-2.0\n";
@@ -218,7 +218,7 @@ JPSPrinter::PSPrintVersionComment
 void
 JPSPrinter::PSPrintHeaderComments
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 	output << "%%Pages: (atend)\n"; 
@@ -240,7 +240,7 @@ JPSPrinter::PSPrintHeaderComments
 void
 JPSPrinter::PSPrintSetupComments
 	(
-	ostream& output
+	std::ostream& output
 	)
 {
 	if (itsCopyCount > 1)
@@ -261,7 +261,7 @@ JPSPrinter::NewPage()
 {
 	assert( PSDocumentIsOpen() );
 
-	ostream& output = GetOutputStream();
+	std::ostream& output = GetOutputStream();
 	if (!itsPG->IncrementProgress())
 		{
 		CancelDocument();
@@ -326,7 +326,7 @@ JPSPrinter::ClosePage()
 			PSRestoreGraphicsState();	// state had to be saved twice -- see NewPage()
 			}
 
-		ostream& output = GetOutputStream();
+		std::ostream& output = GetOutputStream();
 		output << "showpage\n";
 
 		itsPageCount++;
@@ -372,7 +372,7 @@ JPSPrinter::CloseDocument()
 {
 	ClosePage();
 
-	ostream& output = GetOutputStream();
+	std::ostream& output = GetOutputStream();
 	output << "%%Pages: " << itsPageCount << '\n';
 
 	PSCloseDocument();
@@ -701,10 +701,10 @@ JPSPrinter::Image
 
  ******************************************************************************/
 
-istream&
+std::istream&
 operator>>
 	(
-	istream&				input,
+	std::istream&				input,
 	JPSPrinter::PaperType&	type
 	)
 {
@@ -714,10 +714,10 @@ operator>>
 	return input;
 }
 
-ostream&
+std::ostream&
 operator<<
 	(
-	ostream&					output,
+	std::ostream&					output,
 	const JPSPrinter::PaperType	type
 	)
 {

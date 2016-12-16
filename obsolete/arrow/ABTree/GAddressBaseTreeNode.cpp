@@ -50,7 +50,7 @@ GAddressBaseTreeNode::~GAddressBaseTreeNode()
 void
 GAddressBaseTreeNode::Save
 	(
-	ostream& os
+	std::ostream& os
 	)
 {
 }

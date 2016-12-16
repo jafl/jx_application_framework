@@ -38,7 +38,7 @@ SCScratchDirector::SCScratchDirector
 
 SCScratchDirector::SCScratchDirector
 	(
-	istream&			input,
+	std::istream&			input,
 	const JFileVersion	vers,
 	SCCircuitDocument*	supervisor
 	)
@@ -172,7 +172,7 @@ SCScratchDirector::HandleExtraMenu
 void
 SCScratchDirector::StreamOut
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {

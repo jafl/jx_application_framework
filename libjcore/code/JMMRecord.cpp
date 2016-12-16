@@ -174,7 +174,7 @@ JMMRecord::TypeName
 void
 JMMRecord::StreamForDebug
 	(
-	ostream& output
+	std::ostream& output
 	)
 	const
 {
@@ -244,25 +244,25 @@ JMMRecord::Print()
 void
 JMMRecord::PrintLayout()
 {
-	cout << "Memory layout of JMMRecord:" << endl;
+	std::cout << "Memory layout of JMMRecord:" << std::endl;
 
-	cout << "\n      itsAddress = " << offsetof(JMMRecordData, itsAddress) << "-"
-		 << offsetof(JMMRecordData, itsAddress)+sizeof(JMMRecordData::itsAddress)-1 << endl;
-	cout << "      itsNewFile = " << offsetof(JMMRecordData, itsNewFile) << "-"
-		 << offsetof(JMMRecordData, itsNewFile)+sizeof(JMMRecordData::itsNewFile)-1 << endl;
-	cout << "   itsDeleteFile = " << offsetof(JMMRecordData, itsDeleteFile) << "-"
-		 << offsetof(JMMRecordData, itsDeleteFile)+sizeof(JMMRecordData::itsDeleteFile)-1 << endl;
-	cout << "         itsSize = " << offsetof(JMMRecordData, itsSize) << "-"
-		 << offsetof(JMMRecordData, itsSize)+sizeof(JMMRecordData::itsSize)-1 << endl;
+	std::cout << "\n      itsAddress = " << offsetof(JMMRecordData, itsAddress) << "-"
+		 << offsetof(JMMRecordData, itsAddress)+sizeof(JMMRecordData::itsAddress)-1 << std::endl;
+	std::cout << "      itsNewFile = " << offsetof(JMMRecordData, itsNewFile) << "-"
+		 << offsetof(JMMRecordData, itsNewFile)+sizeof(JMMRecordData::itsNewFile)-1 << std::endl;
+	std::cout << "   itsDeleteFile = " << offsetof(JMMRecordData, itsDeleteFile) << "-"
+		 << offsetof(JMMRecordData, itsDeleteFile)+sizeof(JMMRecordData::itsDeleteFile)-1 << std::endl;
+	std::cout << "         itsSize = " << offsetof(JMMRecordData, itsSize) << "-"
+		 << offsetof(JMMRecordData, itsSize)+sizeof(JMMRecordData::itsSize)-1 << std::endl;
 
-	cout << "\n           itsID = " << offsetof(JMMRecordData, itsID) << "-"
-		 << offsetof(JMMRecordData, itsID)+sizeof(JMMRecordData::itsID)-1 << endl;
-	cout << "      itsNewLine = " << offsetof(JMMRecordData, itsNewLine) << "-"
-		 << offsetof(JMMRecordData, itsNewLine)+sizeof(JMMRecordData::itsNewLine)-1 << endl;
-	cout << "   itsDeleteLine = " << offsetof(JMMRecordData, itsDeleteLine) << "-"
-		 << offsetof(JMMRecordData, itsDeleteLine)+sizeof(JMMRecordData::itsDeleteLine)-1 << endl;
+	std::cout << "\n           itsID = " << offsetof(JMMRecordData, itsID) << "-"
+		 << offsetof(JMMRecordData, itsID)+sizeof(JMMRecordData::itsID)-1 << std::endl;
+	std::cout << "      itsNewLine = " << offsetof(JMMRecordData, itsNewLine) << "-"
+		 << offsetof(JMMRecordData, itsNewLine)+sizeof(JMMRecordData::itsNewLine)-1 << std::endl;
+	std::cout << "   itsDeleteLine = " << offsetof(JMMRecordData, itsDeleteLine) << "-"
+		 << offsetof(JMMRecordData, itsDeleteLine)+sizeof(JMMRecordData::itsDeleteLine)-1 << std::endl;
 
-	cout << "\n       bitfields = "
+	std::cout << "\n       bitfields = "
 		 << offsetof(JMMRecordData, itsDeleteLine)+sizeof(JMMRecordData::itsDeleteLine) << "-"
-		 << sizeof(JMMRecordData)-1 << "\n" << endl;
+		 << sizeof(JMMRecordData)-1 << "\n" << std::endl;
 }

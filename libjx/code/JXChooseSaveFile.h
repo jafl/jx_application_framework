@@ -65,8 +65,8 @@ public:
 							  const JCharacter* originalName,
 							  JString* newFullName);
 
-	void	ReadSetup(istream& input);
-	void	WriteSetup(ostream& output) const;
+	void	ReadSetup(std::istream& input);
+	void	WriteSetup(std::ostream& output) const;
 
 	static JBoolean	IsCharacterInWord(const JString& text, const JIndex charIndex);
 
@@ -92,8 +92,8 @@ protected:
 
 	JDirInfo*		GetDirInfo();
 
-	virtual void	ReadPrefs(istream& input);
-	virtual void	WritePrefs(ostream& output) const;
+	virtual void	ReadPrefs(std::istream& input);
+	virtual void	WritePrefs(std::ostream& output) const;
 
 	virtual void	Receive(JBroadcaster* sender, const Message& message);
 
