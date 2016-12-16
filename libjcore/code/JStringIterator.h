@@ -67,23 +67,15 @@ public:
 
 	JBoolean	RemovePrev(const JSize characterCount = 1);
 	JBoolean	RemoveNext(const JSize characterCount = 1);
-	JBoolean	RemoveLastMatch();
 
-	void	ReplaceLastMatchPrev(const JString& str, const JBoolean move = kJTrue);
-	void	ReplaceLastMatchPrev(const JString& str, const JCharacterRange& range, const JBoolean move = kJTrue);
-	void	ReplaceLastMatchPrev(const JUtf8Byte* str, const JBoolean move = kJTrue);
-	void	ReplaceLastMatchPrev(const JUtf8Byte* str, const JSize byteCount, const JBoolean move = kJTrue);
-	void	ReplaceLastMatchPrev(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean move = kJTrue);
-	void	ReplaceLastMatchPrev(const std::string& str, const JBoolean move = kJTrue);
-	void	ReplaceLastMatchPrev(const std::string& str, const JUtf8ByteRange& range, const JBoolean move = kJTrue);
-
-	void	ReplaceLastMatchNext(const JString& str, const JBoolean move = kJTrue);
-	void	ReplaceLastMatchNext(const JString& str, const JCharacterRange& range, const JBoolean move = kJTrue);
-	void	ReplaceLastMatchNext(const JUtf8Byte* str, const JBoolean move = kJTrue);
-	void	ReplaceLastMatchNext(const JUtf8Byte* str, const JSize byteCount, const JBoolean move = kJTrue);
-	void	ReplaceLastMatchNext(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean move = kJTrue);
-	void	ReplaceLastMatchNext(const std::string& str, const JBoolean move = kJTrue);
-	void	ReplaceLastMatchNext(const std::string& str, const JUtf8ByteRange& range, const JBoolean move = kJTrue);
+	void	RemoveLastMatch();
+	void	ReplaceLastMatch(const JString& str);
+	void	ReplaceLastMatch(const JString& str, const JCharacterRange& range);
+	void	ReplaceLastMatch(const JUtf8Byte* str);
+	void	ReplaceLastMatch(const JUtf8Byte* str, const JSize byteCount);
+	void	ReplaceLastMatch(const JUtf8Byte* str, const JUtf8ByteRange& range);
+	void	ReplaceLastMatch(const std::string& str);
+	void	ReplaceLastMatch(const std::string& str, const JUtf8ByteRange& range);
 
 	// called by JString
 
