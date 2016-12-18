@@ -36,7 +36,7 @@ public:
 	void	SkipPrev(const JSize characterCount = 1);
 	void	SkipNext(const JSize characterCount = 1);
 
-	// move & retrieve
+	// retrieve & move
 
 	JBoolean	Prev(JUtf8Character* c, const JBoolean move = kJTrue);
 	JBoolean	Next(JUtf8Character* c, const JBoolean move = kJTrue);
@@ -62,8 +62,8 @@ public:
 	// modify - only allowed if constructed from non-const JString*
 	// (invalidates last match)
 
-	JBoolean	SetPrev(const JUtf8Character& data, const JBoolean move = kJTrue);
-	JBoolean	SetNext(const JUtf8Character& data, const JBoolean move = kJTrue);
+	JBoolean	SetPrev(const JUtf8Character& c, const JBoolean move = kJTrue);
+	JBoolean	SetNext(const JUtf8Character& c, const JBoolean move = kJTrue);
 
 	JBoolean	RemovePrev(const JSize characterCount = 1);
 	JBoolean	RemoveNext(const JSize characterCount = 1);
@@ -74,6 +74,7 @@ public:
 	void	ReplaceLastMatch(const JUtf8Byte* str);
 	void	ReplaceLastMatch(const JUtf8Byte* str, const JSize byteCount);
 	void	ReplaceLastMatch(const JUtf8Byte* str, const JUtf8ByteRange& range);
+	void	ReplaceLastMatch(const JUtf8Character& c);
 	void	ReplaceLastMatch(const std::string& str);
 	void	ReplaceLastMatch(const std::string& str, const JUtf8ByteRange& range);
 
@@ -89,6 +90,9 @@ private:
 	JStringMatch*	itsLastMatch;			// can be NULL
 
 private:
+
+	JBoolean	PreparePrev(const JBoolean move, JSize* byteCount);
+	JBoolean	PrepareNext(const JBoolean move, JSize* byteCount);
 
 	void	ClearLastMatch();
 

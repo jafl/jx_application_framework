@@ -265,41 +265,28 @@ JStringIterator::SkipNext
  Prev
 
 	Returns kJTrue if there is a previous character, fetching the previous
-	character in the string and decrementing the iterator position.
-	Otherwise returns kJFalse without fetching or decrementing.
+	character in the string and (if requested) decrementing the iterator
+	position.  Otherwise returns kJFalse without fetching or decrementing.
 
  ******************************************************************************/
 
 JBoolean
 JStringIterator::Prev
 	(
-	JUtf8Character*	data,
+	JUtf8Character*	c,
 	const JBoolean	move
 	)
 {
-	if (AtBeginning())
-		{
-		return kJFalse;
-		}
-
 	const JUtf8Byte* ptr = itsConstString->GetBytes() + itsCursorPosition - 1;
 
 	JSize byteCount;
-	JUtf8Character::GetPrevCharacterByteCount(ptr, &byteCount);	// accept invalid characters
-
-	if (itsCursorPosition < byteCount)	// went backwards beyond start of string!
+	if (!PreparePrev(move, &byteCount))
 		{
-		itsCursorPosition = 0;
 		return kJFalse;
 		}
 
-	if (move)
-		{
-		itsCursorPosition -= byteCount;
-		}
-
 	ptr -= byteCount-1;
-	data->Set(ptr);
+	c->Set(ptr);
 	return kJTrue;
 }
 
@@ -307,41 +294,27 @@ JStringIterator::Prev
  Next
 
 	Returns kJTrue if there is a next character, fetching the next
-	character in the list and incrementing the iterator position.
-	Otherwise returns kJFalse without fetching or incrementing.
+	character in the list and (if requested) incrementing the iterator
+	position.  Otherwise returns kJFalse without fetching or incrementing.
 
  ******************************************************************************/
 
 JBoolean
 JStringIterator::Next
 	(
-	JUtf8Character*	data,
+	JUtf8Character*	c,
 	const JBoolean	move
 	)
 {
-	if (AtEnd())
-		{
-		return kJFalse;
-		}
-
 	const JUtf8Byte* ptr = itsConstString->GetBytes() + itsCursorPosition;
 
 	JSize byteCount;
-	JUtf8Character::GetCharacterByteCount(ptr, &byteCount);	// accept invalid characters
-
-	if (move)
+	if (!PrepareNext(move, &byteCount))
 		{
-		itsCursorPosition += byteCount;
-		}
-
-	const JSize maxPosition = itsConstString->GetByteCount();
-	if (itsCursorPosition > maxPosition)	// went backwards beyond end of string!
-		{
-		itsCursorPosition = maxPosition;
 		return kJFalse;
 		}
 
-	data->Set(ptr);
+	c->Set(ptr);
 	return kJTrue;
 }
 
@@ -433,4 +406,148 @@ JStringIterator::Next
 		{
 		return kJFalse;
 		}
+}
+
+/******************************************************************************
+ SetPrev
+
+	If there is a previous character, sets it, (if requested) decrements
+	the iterator position, and returns kJTrue.  Otherwise, returns kJFalse.
+
+	*** Only allowed if iterator was constructed with non-const JString.
+
+ ******************************************************************************/
+
+JBoolean
+JStringIterator::SetPrev
+	(
+	const JUtf8Character&	c,
+	const JBoolean			move
+	)
+{
+	assert( itsString != NULL );
+
+	JUtf8ByteRange r;
+	r.last = itsCursorPosition;
+
+	JSize byteCount;
+	if (!PreparePrev(move, &byteCount))
+		{
+		return kJFalse;
+		}
+
+	r.first = r.last - byteCount + 1;
+	itsString->ReplaceBytes(r, c.GetBytes(), c.GetByteCount());
+	return kJTrue;
+}
+
+/******************************************************************************
+ SetNext
+
+	If there is a next character, sets it, (if requested) increments the
+	iterator position, and returns kJTrue.  Otherwise, returns kJFalse.
+
+	*** Only allowed if iterator was constructed with non-const JString.
+
+ ******************************************************************************/
+
+JBoolean
+JStringIterator::SetNext
+	(
+	const JUtf8Character&	c,
+	const JBoolean			move
+	)
+{
+	assert( itsString != NULL );
+
+	JUtf8ByteRange r;
+	r.first = itsCursorPosition + 1;
+
+	JSize byteCount;
+	if (!PrepareNext(move, &byteCount))
+		{
+		return kJFalse;
+		}
+
+	r.last = r.first + byteCount - 1;
+	itsString->ReplaceBytes(r, c.GetBytes(), c.GetByteCount());
+
+	if (move)
+		{
+		itsCursorPosition += c.GetByteCount();
+		itsCursorPosition -= r.GetCount();
+		}
+
+	return kJTrue;
+}
+
+/******************************************************************************
+ PreparePrev (private)
+
+ ******************************************************************************/
+
+JBoolean
+JStringIterator::PreparePrev
+	(
+	const JBoolean	move,
+	JSize*			byteCount
+	)
+{
+	if (AtBeginning())
+		{
+		return kJFalse;
+		}
+
+	const JUtf8Byte* ptr = itsConstString->GetBytes() + itsCursorPosition - 1;
+
+	JUtf8Character::GetPrevCharacterByteCount(ptr, byteCount);	// accept invalid characters
+
+	if (itsCursorPosition < *byteCount)	// went backwards beyond start of string!
+		{
+		itsCursorPosition = 0;
+		return kJFalse;
+		}
+
+	if (move)
+		{
+		itsCursorPosition -= *byteCount;
+		}
+
+	return kJTrue;
+}
+
+/******************************************************************************
+ PrepareNext (private)
+
+ ******************************************************************************/
+
+JBoolean
+JStringIterator::PrepareNext
+	(
+	const JBoolean	move,
+	JSize*			byteCount
+	)
+{
+	if (AtEnd())
+		{
+		return kJFalse;
+		}
+
+	const JUtf8Byte* ptr = itsConstString->GetBytes() + itsCursorPosition;
+
+	JUtf8Character::GetCharacterByteCount(ptr, byteCount);	// accept invalid characters
+
+	if (move)
+		{
+		itsCursorPosition += *byteCount;
+		}
+
+	const JSize maxPosition = itsConstString->GetByteCount();
+	if (itsCursorPosition > maxPosition)	// went forwards beyond end of string!
+		{
+		itsCursorPosition = maxPosition;
+		return kJFalse;
+		}
+
+	return kJTrue;
 }

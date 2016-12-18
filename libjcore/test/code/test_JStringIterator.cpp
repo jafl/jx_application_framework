@@ -182,6 +182,32 @@ JTEST(Search)
 	JAssertEqual('2', c);
 }
 
+JTEST(Set)
+{
+	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94");
+	JStringIterator i(&s);
+	JUtf8Character c;
+
+	JAssertEqual(12, s.GetByteCount());
+
+	i.MoveTo(kJIteratorStartBefore, 5);
+	JAssertTrue(i.SetNext('s'));
+	JAssertTrue(i.SetNext('Q'));
+	JAssertTrue(i.Next(&c, kJFalse));
+	JAssertStringsEqual("\xE2\x9C\x94", JString(c));
+	JAssertEqual(7, s.GetCharacterCount());
+	JAssertEqual(10, s.GetByteCount());
+
+	JAssertTrue(i.Prev(&c, kJFalse));
+	JAssertEqual('Q', c);
+	JAssertTrue(i.SetPrev("\xE2\x9C\x94"));
+	JAssertTrue(i.SetPrev("\xE2\x9C\x94"));
+	JAssertTrue(i.Prev(&c));
+	JAssertStringsEqual("\xC2\xA9", JString(c));
+	JAssertEqual(7, s.GetCharacterCount());
+	JAssertEqual(14, s.GetByteCount());
+}
+
 JTEST(SwitchIterators)
 {
 	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94");
