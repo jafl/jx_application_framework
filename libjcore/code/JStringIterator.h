@@ -32,9 +32,9 @@ public:
 
 	// move
 
-	void	MoveTo(const JIteratorPosition newPosition, const JIndex characterIndex);
-	void	SkipPrev(const JSize characterCount = 1);
-	void	SkipNext(const JSize characterCount = 1);
+	void		MoveTo(const JIteratorPosition newPosition, const JIndex characterIndex);
+	JBoolean	SkipPrev(const JSize characterCount = 1);
+	JBoolean	SkipNext(const JSize characterCount = 1);
 
 	// retrieve & move
 
@@ -236,6 +236,93 @@ JStringIterator::Next
 	)
 {
 	return Next(str.data(), str.length(), caseSensitive);
+}
+
+/******************************************************************************
+ RemoveLastMatch
+
+	Removes the characters from the last match.
+
+	*** Match must exist.
+	*** Only allowed if iterator was constructed with non-const JString.
+
+ ******************************************************************************/
+
+inline void
+JStringIterator::RemoveLastMatch()
+{
+	ReplaceLastMatch(NULL, JUtf8ByteRange());
+}
+
+/******************************************************************************
+ ReplaceLastMatch
+
+ ******************************************************************************/
+
+inline void
+JStringIterator::ReplaceLastMatch
+	(
+	const JString& str
+	)
+{
+	ReplaceLastMatch(str.GetBytes(), JUtf8ByteRange(1, str.GetByteCount()));
+}
+
+inline void
+JStringIterator::ReplaceLastMatch
+	(
+	const JString&			str,
+	const JCharacterRange&	range
+	)
+{
+	ReplaceLastMatch(str.GetBytes(), str.CharacterToUtf8ByteRange(range));
+}
+
+inline void
+JStringIterator::ReplaceLastMatch
+	(
+	const JUtf8Byte* str
+	)
+{
+	ReplaceLastMatch(str, JUtf8ByteRange(1, strlen(str)));
+}
+
+inline void
+JStringIterator::ReplaceLastMatch
+	(
+	const JUtf8Byte*	str,
+	const JSize			byteCount
+	)
+{
+	ReplaceLastMatch(str, JUtf8ByteRange(1, byteCount));
+}
+
+inline void
+JStringIterator::ReplaceLastMatch
+	(
+	const JUtf8Character& c
+	)
+{
+	ReplaceLastMatch(c.GetBytes(), JUtf8ByteRange(1, c.GetByteCount()));
+}
+
+inline void
+JStringIterator::ReplaceLastMatch
+	(
+	const std::string& str
+	)
+{
+	ReplaceLastMatch(str.data(), JUtf8ByteRange(1, str.length()));
+}
+
+inline void
+JStringIterator::ReplaceLastMatch
+	(
+	const std::string&		str,
+	const JUtf8ByteRange&	range
+	)
+{
+	ReplaceLastMatch(str.data(), range);
 }
 
 #endif

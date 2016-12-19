@@ -208,6 +208,82 @@ JTEST(Set)
 	JAssertEqual(14, s.GetByteCount());
 }
 
+JTEST(Remove)
+{
+	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94");
+	JStringIterator i(&s);
+	JUtf8Character c;
+
+	JAssertEqual(7, s.GetCharacterCount());
+	JAssertEqual(12, s.GetByteCount());
+
+	i.MoveTo(kJIteratorStartBefore, 5);
+	JAssertTrue(i.RemovePrev(2));
+	JAssertTrue(i.Prev(&c, kJFalse));
+	JAssertEqual('2', c);
+	JAssertEqual(5, s.GetCharacterCount());
+	JAssertEqual(9, s.GetByteCount());
+
+	JAssertTrue(i.RemoveNext(2));
+	JAssertTrue(i.Next(&c, kJFalse));
+	JAssertStringsEqual("\xE2\x9C\x94", JString(c));
+	JAssertEqual(3, s.GetCharacterCount());
+	JAssertEqual(5, s.GetByteCount());
+
+	JAssertFalse(i.RemoveNext(2));
+	JAssertTrue(i.AtEnd());
+	JAssertEqual(2, s.GetCharacterCount());
+	JAssertEqual(2, s.GetByteCount());
+
+	JAssertFalse(i.RemovePrev(3));
+	JAssertTrue(i.AtBeginning());
+	JAssertEqual(0, s.GetCharacterCount());
+	JAssertEqual(0, s.GetByteCount());
+}
+
+JTEST(RemoveLastMatch)
+{
+	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94");
+	JStringIterator i(&s);
+	JUtf8Character c;
+
+	JAssertTrue(i.Next("\xC3\xA5\xE2\x9C\x94"));
+	JAssertTrue(i.AtEnd());
+	i.RemoveLastMatch();
+	JAssertTrue(i.AtEnd());
+	JAssertEqual(5, s.GetCharacterCount());
+	JAssertEqual(7, s.GetByteCount());
+
+	JAssertTrue(i.Prev("3\xC2\xA9"));
+	i.RemoveLastMatch();
+	JAssertEqual(3, s.GetCharacterCount());
+	JAssertEqual(4, s.GetByteCount());
+}
+
+JTEST(ReplaceLastMatch)
+{
+	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94");
+	JStringIterator i(&s);
+	JUtf8Character c;
+
+	JAssertTrue(i.Next("\xC3\xA5\xE2\x9C\x94"));
+	JAssertTrue(i.AtEnd());
+	i.ReplaceLastMatch("456");
+	JAssertTrue(i.Next(&c, kJFalse));
+	JAssertEqual('4', c);
+	JAssertEqual(8, s.GetCharacterCount());
+	JAssertEqual(10, s.GetByteCount());
+
+	JAssertTrue(i.Prev("3\xC2\xA9"));
+	i.ReplaceLastMatch("\xE2\x9C\x94");
+	JAssertTrue(i.Prev(&c, kJFalse));
+	JAssertEqual('2', c);
+	JAssertTrue(i.Next(&c, kJFalse));
+	JAssertStringsEqual("\xE2\x9C\x94", JString(c));
+	JAssertEqual(7, s.GetCharacterCount());
+	JAssertEqual(10, s.GetByteCount());
+}
+
 JTEST(SwitchIterators)
 {
 	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94");

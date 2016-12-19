@@ -177,18 +177,14 @@ JStringIterator::MoveTo
 	else if (newPosition == kJIteratorStartBefore)
 		{
 		assert( itsConstString->CharacterIndexValid(index) );
-		JUtf8ByteRange r =
-			JString::CharacterToUtf8ByteRange(itsConstString->GetBytes(),
-											  JCharacterRange(1, index-1));
+		JUtf8ByteRange r  = itsConstString->CharacterToUtf8ByteRange(JCharacterRange(1, index-1));
 		itsCursorPosition = r.last;
 		}
 	else
 		{
 		assert( newPosition == kJIteratorStartAfter );
 		assert( itsConstString->CharacterIndexValid(index) );
-		JUtf8ByteRange r =
-			JString::CharacterToUtf8ByteRange(itsConstString->GetBytes(),
-											  JCharacterRange(1, index));
+		JUtf8ByteRange r  = itsConstString->CharacterToUtf8ByteRange(JCharacterRange(1, index));
 		itsCursorPosition = r.last;
 		}
 }
@@ -196,9 +192,13 @@ JStringIterator::MoveTo
 /******************************************************************************
  SkipPrev
 
+	If there are enough previous characters, skips them and returns kJTrue.
+	Otherwise, moves iterator position to the beginning and returns
+	kJFalse.
+
  ******************************************************************************/
 
-void
+JBoolean
 JStringIterator::SkipPrev
 	(
 	const JSize characterCount
@@ -206,7 +206,7 @@ JStringIterator::SkipPrev
 {
 	if (AtBeginning())
 		{
-		return;
+		return kJFalse;
 		}
 
 	const JUtf8Byte* bytes = itsConstString->GetBytes() + itsCursorPosition - 1;
@@ -218,20 +218,25 @@ JStringIterator::SkipPrev
 		if (itsCursorPosition <= byteCount)
 			{
 			itsCursorPosition = 0;
-			break;
+			return kJFalse;
 			}
 
 		itsCursorPosition -= byteCount;
 		bytes             -= byteCount;
 		}
+
+	return kJTrue;
 }
 
 /******************************************************************************
  SkipNext
 
+	If there are enough following characters, skips them and returns kJTrue.
+	Otherwise, moves iterator position to the end and returns kJFalse.
+
  ******************************************************************************/
 
-void
+JBoolean
 JStringIterator::SkipNext
 	(
 	const JSize characterCount
@@ -239,7 +244,7 @@ JStringIterator::SkipNext
 {
 	if (AtEnd())
 		{
-		return;
+		return kJFalse;
 		}
 
 	const JSize maxPosition = itsConstString->GetByteCount();
@@ -254,11 +259,13 @@ JStringIterator::SkipNext
 		if (itsCursorPosition >= maxPosition)
 			{
 			itsCursorPosition = maxPosition;
-			break;
+			return kJFalse;
 			}
 
 		bytes += byteCount;
 		}
+
+	return kJTrue;
 }
 
 /******************************************************************************
@@ -426,6 +433,7 @@ JStringIterator::SetPrev
 	)
 {
 	assert( itsString != NULL );
+	ClearLastMatch();
 
 	JUtf8ByteRange r;
 	r.last = itsCursorPosition;
@@ -459,6 +467,7 @@ JStringIterator::SetNext
 	)
 {
 	assert( itsString != NULL );
+	ClearLastMatch();
 
 	JUtf8ByteRange r;
 	r.first = itsCursorPosition + 1;
@@ -479,6 +488,102 @@ JStringIterator::SetNext
 		}
 
 	return kJTrue;
+}
+
+/******************************************************************************
+ RemovePrev
+
+	If there are enough previous characters, removes them and returns
+	kJTrue.  Otherwise, removes all preceding characters and returns kJFalse.
+
+	*** Only allowed if iterator was constructed with non-const JString.
+
+ ******************************************************************************/
+
+JBoolean
+JStringIterator::RemovePrev
+	(
+	const JSize characterCount
+	)
+{
+	assert( itsString != NULL );
+	ClearLastMatch();
+
+	JUtf8ByteRange r;
+	r.last = itsCursorPosition;
+
+	const JBoolean result = SkipPrev(characterCount);
+
+	r.first = itsCursorPosition + 1;
+	itsString->ReplaceBytes(r, NULL, 0);
+	return result;
+}
+
+/******************************************************************************
+ RemoveNext
+
+	If there are enough following characters, removes them and returns
+	kJTrue.  Otherwise, removes all following characters and returns kJFalse.
+
+	*** Only allowed if iterator was constructed with non-const JString.
+
+ ******************************************************************************/
+
+JBoolean
+JStringIterator::RemoveNext
+	(
+	const JSize characterCount
+	)
+{
+	assert( itsString != NULL );
+	ClearLastMatch();
+
+	const JCursorPosition saved = itsCursorPosition;
+
+	JUtf8ByteRange r;
+	r.first = itsCursorPosition + 1;
+
+	const JBoolean result = SkipNext(characterCount);
+
+	r.last = itsCursorPosition;
+	itsString->ReplaceBytes(r, NULL, 0);
+
+	itsCursorPosition = saved;
+	return result;
+}
+
+/******************************************************************************
+ ReplaceLastMatch
+
+	Replaces the characters from the last match.
+
+	*** Match must exist.
+	*** Only allowed if iterator was constructed with non-const JString.
+
+ ******************************************************************************/
+
+void
+JStringIterator::ReplaceLastMatch
+	(
+	const JUtf8Byte*		str,
+	const JUtf8ByteRange&	range
+	)
+{
+	assert( itsLastMatch != NULL );
+	assert( itsString != NULL );
+
+	JUtf8ByteRange r = itsLastMatch->GetUtf8ByteRange();
+	if (itsCursorPosition > r.last)
+		{
+		itsCursorPosition -= r.GetCount();
+		}
+	else if (itsCursorPosition >= r.first)
+		{
+		itsCursorPosition = r.first - 1;
+		}
+
+	itsString->ReplaceBytes(r, str + range.first - 1, range.GetCount());
+	ClearLastMatch();
 }
 
 /******************************************************************************

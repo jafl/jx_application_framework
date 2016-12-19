@@ -475,6 +475,8 @@ JString::Append
 
 	Replace the specified range with the given bytes.
 
+	It is safe to pass in "NULL, 0" for the insertion, to do a remove.
+
  ******************************************************************************/
 
 void
