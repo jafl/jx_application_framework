@@ -143,16 +143,16 @@ static const JCharacter* kWinAdjustMarginsMenuStr =
 static const JCharacter* kMacCleanWhitespaceMenuStr =
 	"  Show whitespace        %b %i" kShowWhitespaceAction
 	"| Clean all whitespace      %i" kCleanAllWhitespaceAction
-	"| Clean selected std::ws         %i" kCleanWhitespaceSelAction
-	"| Clean all std::ws & alignment  %i" kCleanAllWSAlignAction
-	"| Clean selected std::ws & align %i" kCleanWSAlignSelAction;
+	"| Clean selected ws         %i" kCleanWhitespaceSelAction
+	"| Clean all ws & alignment  %i" kCleanAllWSAlignAction
+	"| Clean selected ws & align %i" kCleanWSAlignSelAction;
 
 static const JCharacter* kWinCleanWhitespaceMenuStr =
 	"  Show whitespace   %b      %i" kShowWhitespaceAction
 	"| Clean all whitespace %h w %i" kCleanAllWhitespaceAction
-	"| Clean selected std::ws         %i" kCleanWhitespaceSelAction
-	"| Clean all std::ws & alignment  %i" kCleanAllWSAlignAction
-	"| Clean selected std::ws & align %i" kCleanWSAlignSelAction;
+	"| Clean selected ws         %i" kCleanWhitespaceSelAction
+	"| Clean all ws & alignment  %i" kCleanAllWSAlignAction
+	"| Clean selected ws & align %i" kCleanWSAlignSelAction;
 
 static const JCharacter* kMacReadOnlyMenuStr =
 	"Read only %b %i" kToggleReadOnlyAction;
