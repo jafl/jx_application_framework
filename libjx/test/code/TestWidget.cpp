@@ -1501,7 +1501,7 @@ TestWidget::Receive
 	const Message&	message
 	)
 {
-	JXWindow* window         = GetWindow();		// insure that it isn't const
+	JXWindow* window         = GetWindow();		// ensure that it isn't const
 	JXWindowIcon* windowIcon = NULL;
 
 	if (sender == itsAnimButton && message.Is(JXButton::kPushed))

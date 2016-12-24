@@ -497,7 +497,7 @@ SyGGetDNDTarget
 {
 	// We can't compare dndTarget and widget because they aren't the same
 	// when dropping on an iconified window.  So we simply insist that a
-	// drag is in progress.  This insures that HandleDNDEnter/Leave() is
+	// drag is in progress.  This ensures that HandleDNDEnter/Leave() is
 	// being called, so theDNDTarget is correct.
 
 	assert( ((theApplication->GetCurrentDisplay())->GetDNDManager())->IsDragging() );

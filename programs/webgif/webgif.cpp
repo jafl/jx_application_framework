@@ -365,7 +365,7 @@ WriteGIF
 	Print colormap, # of colors, transparent color index, size,
 	and interlacing status.
 
-	By printing the general info last, we insure that it won't scroll
+	By printing the general info last, we ensure that it won't scroll
 	off the screen.
 
  ******************************************************************************/

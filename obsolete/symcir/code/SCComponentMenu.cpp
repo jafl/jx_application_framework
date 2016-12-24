@@ -274,7 +274,7 @@ SCComponentMenu::Receive
 	const Message&	message
 	)
 {
-	JBroadcaster* compList = itsCircuit->GetComponentList();	// insure that it isn't const
+	JBroadcaster* compList = itsCircuit->GetComponentList();	// ensure that it isn't const
 
 	if (sender == this && message.Is(JXMenu::kNeedsUpdate))
 		{

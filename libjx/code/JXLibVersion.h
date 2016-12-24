@@ -1769,7 +1769,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 
 // version 1.1.7:
 //	You must register your application signatures (for prefs, MDI, etc)
-//		with jx-registry@newplanetsoftware.com to insure that they
+//		with jx-registry@newplanetsoftware.com to ensure that they
 //		are unique.
 //	Moved all global variables behind the function interface in jXGlobals.h:
 //		gApplication, gXChooseSaveFile, gXAssert,
@@ -1987,7 +1987,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //		Long strings are now split into pieces so the maximum packet size
 //			to the X server is never exceeded.
 //	assert():
-//		JXApplication now installs JXAssert to insure that all display, mouse,
+//		JXApplication now installs JXAssert to ensure that all display, mouse,
 //			and keyboard grabs are cancelled before the assert message is
 //			displayed.
 //		JXAssert provides the function UnlockDisplays() which can be called

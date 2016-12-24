@@ -73,9 +73,9 @@ JGetSignalName
 	else
 		{
 		const JString sigName(value, JString::kBase10);
-		const JCharacter* map[] =
+		const JUtf8Byte* map[] =
 			{
-			"name", sigName
+			"name", sigName.GetBytes()
 			};
 		return JGetString("unknown::jSignal", map, sizeof(map));
 		}

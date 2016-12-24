@@ -649,7 +649,7 @@ JXChooseSaveFile::WritePrefs
 	after -all- the globals have been initialized.  We are one of the
 	globals, so we can't create it in our constructor.
 
-	This also provides a convenient place to insure that all other CSF
+	This also provides a convenient place to ensure that all other CSF
 	objects use the same JDirInfo object.
 
  ******************************************************************************/
@@ -690,7 +690,7 @@ JXChooseSaveFile::GetDirInfo()
 	after -all- the globals have been initialized.  We are one of the
 	globals, so we can't create it in our constructor.
 
-	This also provides a convenient place to insure that all other CSF
+	This also provides a convenient place to ensure that all other CSF
 	objects use the same JDirInfo object.
 
  ******************************************************************************/

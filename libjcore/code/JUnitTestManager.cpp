@@ -111,7 +111,7 @@ JUnitTestManager::ReportFailure
 {
 	Instance()->itsFailureCount++;
 
-	cout << file << ':' << line << ": error: " << message << endl;
+	std::cout << file << ':' << line << ": error: " << message << std::endl;
 }
 
 /******************************************************************************
@@ -321,9 +321,9 @@ JUnitTestManager::StringsAreEqual
 			}
 		s << "Strings are not equal:" 
 		  << "  Expected <<" << expectedValue
-		  << ">> but got <<" << actualValue << ">>" << endl;
-		s << '\t'; JString(expectedValue, strlen(expectedValue)).PrintHex(s); s << endl;
-		s << '\t'; JString(actualValue, strlen(actualValue)).PrintHex(s); s << endl;
+		  << ">> but got <<" << actualValue << ">>" << std::endl;
+		s << '\t'; JString(expectedValue, strlen(expectedValue)).PrintHex(s); s << std::endl;
+		s << '\t'; JString(actualValue, strlen(actualValue)).PrintHex(s); s << std::endl;
 
 		const std::string msg = s.str();
 		ReportFailure(s.str().c_str(), file, line);

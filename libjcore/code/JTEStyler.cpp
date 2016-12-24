@@ -366,7 +366,7 @@ JTEStyler::SetStyle
 			// extend the check range if we slop over into another style run
 			// (HTML: type '<' after 'x' in "x<!--<br><h3>text</h3>-->")
 
-			// extend past end of run to insure that we keep going until we
+			// extend past end of run to ensure that we keep going until we
 			// find a correctly styled token
 
 			if (beyondCurrentRun)

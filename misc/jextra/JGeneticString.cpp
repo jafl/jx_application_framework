@@ -61,7 +61,7 @@ JGeneticString::~JGeneticString()
 /******************************************************************************
  ClearBestFitness (protected)
 
-	Derived classes must call from within CreateNewPopulation to insure that
+	Derived classes must call from within CreateNewPopulation to ensure that
 	the best individual ever seen is correctly saved.
 
  ******************************************************************************/

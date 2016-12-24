@@ -174,7 +174,7 @@ J2DPlotJFunction::Receive
 			dynamic_cast<const JVariableList::VarRemoved*>(&message);
 		assert( info != NULL );
 		const JBoolean ok = info->AdjustIndex(&itsXIndex);
-		assert( ok );	// client must insure this
+		assert( ok );	// client must ensure this
 		}
 
 	else if (sender == itsVarList && message.Is(JVariableList::kVarMoved))

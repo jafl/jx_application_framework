@@ -467,7 +467,7 @@ JFunctionWithVar::VariablesRemoved
 {
 	JFunction::VariablesRemoved(firstIndex, count);
 	const JBoolean ok = JAdjustIndexAfterRemove(firstIndex, count, &itsVariableIndex);
-	assert( ok );	// JVariableList must insure this
+	assert( ok );	// JVariableList must ensure this
 }
 
 void

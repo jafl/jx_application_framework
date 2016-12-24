@@ -4,7 +4,7 @@
 	This class simplifies the animation of cursors.
 
 	During a long process, call NextFrame() regularly, and this class will
-	insure that the cursor twirls smoothly.  The default animation is the
+	ensure that the cursor twirls smoothly.  The default animation is the
 	a beach ball.  You can change this with SetFrameSequence().
 
 	We are owned by a particular JXWidget.  This object must activate us

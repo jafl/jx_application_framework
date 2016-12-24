@@ -43,7 +43,7 @@ static JString					theMonospaceFontName = "Courier";
  JInitCore
 
 	Initializes all global objects and factories.  Calls atexit(JDeleteGlobals)
-	to insure that all objects are cleaned up when the program terminates.
+	to ensure that all objects are cleaned up when the program terminates.
 
 	*** We take ownership of all the objects that are passed in.
 		We make copies of the string data.

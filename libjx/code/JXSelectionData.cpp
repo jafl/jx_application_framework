@@ -317,7 +317,7 @@ JXSelectionData::Convert
 			If data is an int, *bitsPerBlock=sizeof(int)*8
 
 	Since X performs byte swapping when *bitsPerBlock > 8, mixed data should
-	be packed one byte at a time to insure that it can be correctly decoded.
+	be packed one byte at a time to ensure that it can be correctly decoded.
 
  ******************************************************************************/
 

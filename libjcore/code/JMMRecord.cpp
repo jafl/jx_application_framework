@@ -61,13 +61,13 @@ JMMRecord::JMMRecord()
 
 JMMRecord::JMMRecord
 	(
-	const JUInt32     id,
-	const void*       address,
-	const size_t      size,
-	const JCharacter* file,
-	const JUInt32     lineNumber,
-	const JBoolean    array,
-	const JBoolean    managerMemory
+	const JUInt32    id,
+	const void*      address,
+	const size_t     size,
+	const JUtf8Byte* file,
+	const JUInt32    lineNumber,
+	const JBoolean   array,
+	const JBoolean   managerMemory
 	)
 {
 	// Defined but not initialized in JMMRecordData
@@ -115,9 +115,9 @@ JMMRecord::~JMMRecord()
 void
 JMMRecord::SetDeleteLocation
 	(
-	const JCharacter* deleteFile,
-	const JSize       deleteLine,
-	const JBoolean    arrayDelete
+	const JUtf8Byte* deleteFile,
+	const JSize      deleteLine,
+	const JBoolean   arrayDelete
 	)
 {
 	assert(itsDeleteFile == NULL);
@@ -133,7 +133,7 @@ JMMRecord::SetDeleteLocation
 
  *****************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 JMMRecord::NewTypeName() const
 {
 	return TypeName(itsArrayNewFlag);
@@ -144,7 +144,7 @@ JMMRecord::NewTypeName() const
 
  *****************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 JMMRecord::DeleteTypeName() const
 {
 	return TypeName(itsArrayDeleteFlag);
@@ -155,7 +155,7 @@ JMMRecord::DeleteTypeName() const
 
  *****************************************************************************/
 
-const JCharacter*
+const JUtf8Byte*
 JMMRecord::TypeName
 	(
 	const unsigned isArray
@@ -183,7 +183,7 @@ JMMRecord::StreamForDebug
 	output << ' ' << JString(itsNewFile);
 	output << ' ' << itsNewLine;
 	output << ' ' << itsSize;
-	output << ' ' << JString((JCharacter*) itsAddress);
+	output << ' ' << JString((JUtf8Byte*) itsAddress);
 }
 
 #if 0

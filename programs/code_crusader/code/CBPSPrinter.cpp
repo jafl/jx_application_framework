@@ -178,7 +178,7 @@ CBPSPrinter::WritePrefs
 /******************************************************************************
  OpenDocument (virtual)
 
-	Change the font to insure monospace.
+	Change the font to ensure monospace.
 
  ******************************************************************************/
 

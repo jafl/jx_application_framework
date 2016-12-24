@@ -39,6 +39,9 @@ is YUI yogi output correct with check mark? - NO
 leibnitz - symbol font
 	transform to unicode and use X11 utf8 string width/drawing functions
 
+PostScript printing
+	ridiculously complicated
+
 -----
 
 https://en.wikibooks.org/wiki/Unicode/Character_reference/21000-21FFF

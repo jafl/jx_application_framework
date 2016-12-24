@@ -748,7 +748,7 @@ CBTree::RestoreCollapsedClasses
 /******************************************************************************
  AddClass (private)
 
-	*** Caller must insure that RebuildTree() gets called.
+	*** Caller must ensure that RebuildTree() gets called.
 
  ******************************************************************************/
 

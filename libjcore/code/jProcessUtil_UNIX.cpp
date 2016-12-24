@@ -32,8 +32,8 @@
 JError
 JRunProgram
 	(
-	const JCharacter*	cmd,
-	JString*			errOutput
+	const JString&	cmd,
+	JString*		errOutput
 	)
 {
 	JProcess* p;

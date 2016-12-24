@@ -136,7 +136,7 @@ SCNodeMenu::Receive
 	const Message&	message
 	)
 {
-	JBroadcaster* nodeList = itsCircuit->GetNodeList();	// insure that it isn't const
+	JBroadcaster* nodeList = itsCircuit->GetNodeList();	// ensure that it isn't const
 
 	if (sender == this && message.Is(JXMenu::kNeedsUpdate))
 		{

@@ -10,17 +10,17 @@
 
 // Protocol definitions
 
-const JUtf8Byte* JMessageProtocolT::kUNIXSeparatorStr = "\n";
-const JSize JMessageProtocolT::kUNIXSeparatorLength    = 1;
+const JUtf8Byte* JMessageProtocolT::kUNIXSeparatorStr  = "\n";
+const JSize JMessageProtocolT::kUNIXSeparatorByteCount = 1;
 
-const JUtf8Byte* JMessageProtocolT::kMacintoshSeparatorStr = "\r";
-const JSize JMessageProtocolT::kMacintoshSeparatorLength    = 1;
+const JUtf8Byte* JMessageProtocolT::kMacintoshSeparatorStr  = "\r";
+const JSize JMessageProtocolT::kMacintoshSeparatorByteCount = 1;
 
-const JUtf8Byte* JMessageProtocolT::kDOSSeparatorStr = "\r\n";
-const JSize JMessageProtocolT::kDOSSeparatorLength    = 2;
+const JUtf8Byte* JMessageProtocolT::kDOSSeparatorStr  = "\r\n";
+const JSize JMessageProtocolT::kDOSSeparatorByteCount = 2;
 
-const JUtf8Byte* JMessageProtocolT::kStdDisconnectStr = "\0";
-const JSize JMessageProtocolT::kStdDisconnectLength    = 1;
+const JUtf8Byte* JMessageProtocolT::kStdDisconnectStr  = "\1";	// NULL character not allowed
+const JSize JMessageProtocolT::kStdDisconnectByteCount = 1;
 
 // JBroadcaster message types
 

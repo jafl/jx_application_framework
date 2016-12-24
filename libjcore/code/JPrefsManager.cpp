@@ -7,7 +7,7 @@
 	interface in the derived class.
 
 	UpgradeData() is called after the file has been read.  Since UpgradeData()
-	must work on an empty file, this insures that the program has a valid set
+	must work on an empty file, this ensures that the program has a valid set
 	of preferences even if the file could not be read.
 
 	Some programs enforce that only a single copy is running for each user,

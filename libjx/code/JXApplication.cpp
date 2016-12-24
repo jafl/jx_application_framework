@@ -944,7 +944,7 @@ JXApplication::PopIdleTaskStack()
 /******************************************************************************
  PopAllIdleTaskStack (private)
 
-	This could be optimized, but the test for IsEmpty() insures that
+	This could be optimized, but the test for IsEmpty() ensures that
 	it almost never has to do any work.
 
  ******************************************************************************/
@@ -1032,7 +1032,7 @@ JXApplication::CheckACEReactor()
  InstallUrgentTask
 
 	We insert the task in front of the execution iterator so it will be
-	performed next time, if PerformUrgentTasks is executing.  This insures
+	performed next time, if PerformUrgentTasks is executing.  This ensures
 	that we will eventually reach the end of the task list.
 
  ******************************************************************************/

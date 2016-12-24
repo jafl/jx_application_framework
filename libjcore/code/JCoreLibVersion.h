@@ -1292,7 +1292,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //		Now uses ACE.
 //		Provides WillCatchSignal() and ShouldCatchSignal() to control which
 //			signals it actually catches.
-//		Created Fork().  This must be called instead of fork() to insure that
+//		Created Fork().  This must be called instead of fork() to ensure that
 //			child processes are handled correctly.
 //	JUNIXDirInfo:
 //		No longer keeps JUNIXDirEntry for "..".

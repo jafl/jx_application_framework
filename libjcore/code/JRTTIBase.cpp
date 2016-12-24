@@ -4,7 +4,7 @@
 	Base class for all objects that need RTTI.
 
 	Each derived class must provide a unique string as its type.  The best
-	way to insure uniqueness is to build the string "<class name>::<owner
+	way to ensure uniqueness is to build the string "<class name>::<owner
 	name>".  To help avoid typos, define this string as a static class
 	constant so clients can use this constant instead of the actual string.
 	If they mistype the constant, the compiler will complain.  If they

@@ -2,7 +2,7 @@
  JXImagePainter.cpp
 
 	This class implements the functions required to draw to a JXImage.
-	We simply insure that the JXImage is in Pixmap mode before calling
+	We simply ensure that the JXImage is in Pixmap mode before calling
 	JXWindowPainter.
 
 	BASE CLASS = JXWindowPainter, virtual JBroadcaster

@@ -10,7 +10,7 @@
 #define _H_JInterpolate
 
 #include <JSubstitute.h>
-#include <JRegex.h>
+#include <pcre.h>
 
 class JInterpolate : public JSubstitute
 {

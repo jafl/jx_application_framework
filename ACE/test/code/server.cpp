@@ -144,7 +144,7 @@ RunUNIXServer
 	const JCharacter* socketName
 	)
 {
-	// unlink() insures that any existing socket will keep its current
+	// unlink() ensures that any existing socket will keep its current
 	// connections, but we want to get any new ones.
 
 	ACE_OS::unlink(socketName);

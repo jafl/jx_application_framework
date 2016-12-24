@@ -321,7 +321,7 @@ JXExprEditor::JXExprEditorX()
 	assert( itsEPSPrinter != NULL );
 	ListenTo(itsEPSPrinter);
 
-	// insure that we have a JFunction to display
+	// ensure that we have a JFunction to display
 	// (also calls EIPBoundsChanged and EIPAdjustNeedTab)
 
 	ClearFunction();

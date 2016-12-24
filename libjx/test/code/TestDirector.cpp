@@ -505,7 +505,7 @@ TestDirector::Receive
 	const Message&	message
 	)
 {
-	JXWindow* window = GetWindow();		// insure that it isn't const
+	JXWindow* window = GetWindow();		// ensure that it isn't const
 
 	if (sender == itsAboutMenu && message.Is(JXMenu::kNeedsUpdate))
 		{

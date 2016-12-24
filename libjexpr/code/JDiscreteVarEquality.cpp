@@ -369,9 +369,9 @@ JDiscreteVarEquality::VariablesRemoved
 {
 	JDecision::VariablesRemoved(firstIndex, count);
 	JBoolean ok = JAdjustIndexAfterRemove(firstIndex, count, &(itsVarIndex[0]));
-	assert( ok );	// JVariableList must insure this
+	assert( ok );	// JVariableList must ensure this
 	ok = JAdjustIndexAfterRemove(firstIndex, count, &(itsVarIndex[1]));
-	assert( ok );	// JVariableList must insure this
+	assert( ok );	// JVariableList must ensure this
 }
 
 void

@@ -1,7 +1,7 @@
 /******************************************************************************
  JXAssert.cpp
 
-	We insure that all keyboard and mouse grabs are released.
+	We ensure that all keyboard and mouse grabs are released.
 
 	BASE CLASS = JAssertBase
 

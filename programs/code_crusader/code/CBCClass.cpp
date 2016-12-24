@@ -154,7 +154,7 @@ CBCClass::ViewDefinition
 
 		if (!found)
 			{
-			// "::" insures that we find the source instead of a call to the function.
+			// "::" ensures that we find the source instead of a call to the function.
 			// We can't use "class::" because this doesn't work for templates.
 
 			searchStr = "::[[:space:]]*";

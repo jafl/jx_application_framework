@@ -27,7 +27,7 @@ public:
 
 	// Broadcaster messages
 
-	static const JCharacter* kDataReady;
+	static const JUtf8Byte* kDataReady;
 
 	class DataReady : public JBroadcaster::Message
 		{
@@ -73,7 +73,7 @@ public:
 
 private:
 
-	JCharacter*	itsBuffer;					// buffer to receive raw bytes
+	JUtf8Byte*	itsBuffer;					// buffer to receive raw bytes
 	JSize		itsBufferSize;
 
 	JBoolean	itsInHandleInputFlag;		// kJTrue => stack passes through handle_input()

@@ -16,7 +16,7 @@
 	the time interval can ignore it.
 
 	delta indicates the amount of time in milliseconds that has elapsed
-	since the last call.  This can be used to insure that a task is not
+	since the last call.  This can be used to ensure that a task is not
 	performed too often.
 
 	Since most tasks will perform at regular intervals, we provide

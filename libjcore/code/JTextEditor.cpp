@@ -5541,7 +5541,7 @@ JTextEditor::PrivateCleanRightMargin
 
 			CRMTossLinePrefix(&charIndex, origTextRange->last, ruleIndex);
 
-			// CRMGetRange() insures this is strictly *inside* the text,
+			// CRMGetRange() ensures this is strictly *inside* the text,
 			// so caretChar == charIndex will be caught elsewhere.
 
 			if (*newCaretIndex == 0 && caretChar < charIndex)

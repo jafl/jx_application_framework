@@ -34,7 +34,7 @@ JWaitForReturn()
 	When you are done getting information from the user, call this to
 	remove the last return typed by the user.
 
-	This insures that JWaitForReturn will work the first time.
+	This ensures that JWaitForReturn will work the first time.
 
  ******************************************************************************/
 

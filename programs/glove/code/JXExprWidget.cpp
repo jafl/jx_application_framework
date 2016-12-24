@@ -72,7 +72,7 @@ JXExprWidget::JXExprEditorX()
 	// required by JXGetCurrColormap
 	assert( GetWindow()->GetColormap() == GetDisplay()->GetColormap() );
 
-	// insure that we have a JFunction to display
+	// ensure that we have a JFunction to display
 	// (also calls EIPBoundsChanged and EIPAdjustNeedTab)
 
 	ClearFunction();

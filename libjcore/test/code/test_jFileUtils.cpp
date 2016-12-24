@@ -30,7 +30,7 @@ JTEST(File)
 	JAssertFalse(JFileExists(testFileName));
 	JAssertFalse(JFileWritable(testFileName));
 
-	ofstream file(testFileName.GetBytes());
+	std::ofstream file(testFileName.GetBytes());
 	file << "abc";
 	file.close();
 	JAssertTrue(JFileExists(testFileName));
@@ -74,7 +74,7 @@ JTEST(Files)
 		fileList.Append(fileName);
 		}
 
-	cout << endl << "Contents of " << path << ":" << endl << endl;
+	std::cout << std::endl << "Contents of " << path << ":" << std::endl << std::endl;
 	const JString cmd = "ls " + path;
 	system(cmd.GetBytes());
 

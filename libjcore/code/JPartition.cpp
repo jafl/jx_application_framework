@@ -7,7 +7,7 @@
 
 	*** The size of each compartment must be positive and at least equal
 		to the corresponding minimum size *at all times*.  It is the client's
-		responsibility to insure that the enclosing window will never
+		responsibility to ensure that the enclosing window will never
 		get too small.
 
 	The default behavior when the entire partition is resized:
