@@ -32,6 +32,7 @@ JTEST(Construction)
 
 	JUtf8Character c5("\xE2\x9C\x94");
 	JAssertEqual(3, c5.GetByteCount());
+	JAssertEqual(3, strlen(c5.GetBytes()));	// test null termination
 
 	JUtf8Character c6(c5);
 	JAssertEqual(3, c6.GetByteCount());
@@ -82,6 +83,34 @@ JTEST(IsValid)
 
 	JAssertFalse(JUtf8Character::IsValid("\xC2\x0A"));
 	JAssertFalse(JUtf8Character::IsValid("\xF6\x9C\x94"));
+}
+
+JTEST(IsCompleteCharacter)
+{
+	JSize byteCount;
+	JAssertTrue(JUtf8Character::IsCompleteCharacter("", 0, &byteCount));
+	JAssertEqual(0, byteCount);
+
+	JAssertFalse(JUtf8Character::IsCompleteCharacter("5", 0, &byteCount));
+	JAssertEqual(1, byteCount);
+
+	JAssertTrue(JUtf8Character::IsCompleteCharacter("5", 1, &byteCount));
+	JAssertEqual(1, byteCount);
+
+	JAssertFalse(JUtf8Character::IsCompleteCharacter("\xC2", 1, &byteCount));
+	JAssertEqual(2, byteCount);
+
+	JAssertTrue(JUtf8Character::IsCompleteCharacter("\xC2\xA9", 2, &byteCount));
+	JAssertEqual(2, byteCount);
+
+	JAssertFalse(JUtf8Character::IsCompleteCharacter("\xE2", 1, &byteCount));
+	JAssertEqual(3, byteCount);
+
+	JAssertFalse(JUtf8Character::IsCompleteCharacter("\xE2\x9C", 2, &byteCount));
+	JAssertEqual(3, byteCount);
+
+	JAssertTrue(JUtf8Character::IsCompleteCharacter("\xE2\x9C\x94", 3, &byteCount));
+	JAssertEqual(3, byteCount);
 }
 
 JTEST(CharacterByteCount)

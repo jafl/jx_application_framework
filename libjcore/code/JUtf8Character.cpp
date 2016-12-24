@@ -67,7 +67,7 @@ JUtf8Character::Set
 	if (this != &source)
 		{
 		itsByteCount = source.itsByteCount;
-		memcpy(itsBytes, source.itsBytes, itsByteCount);
+		memcpy(itsBytes, source.itsBytes, itsByteCount+1);
 		}
 }
 
@@ -96,7 +96,54 @@ JUtf8Character::Set
 		}
 
 	memcpy(itsBytes, utf8Character, byteCount);
+	itsBytes[ byteCount ] = '\0';
 	itsByteCount = byteCount;
+}
+
+/******************************************************************************
+ IsCompleteCharacter (static)
+
+ ******************************************************************************/
+
+JBoolean
+JUtf8Character::IsCompleteCharacter
+	(
+	const JUtf8Byte*	utf8Character,
+	const JSize			byteCount,
+	JSize*				characterByteCount
+	)
+{
+	unsigned char* c = (unsigned char*) utf8Character;
+	if (c[0] == 0)
+		{
+		*characterByteCount = 0;
+		return kJTrue;
+		}
+	else if (c[0] <= (unsigned char) '\x7F')
+		{
+		*characterByteCount = 1;
+		return JI2B( byteCount >= 1 );
+		}
+	else if (((unsigned char) '\xC2') <= c[0] && c[0] <= (unsigned char) '\xDF')
+		{
+		*characterByteCount = 2;
+		return JI2B( byteCount >= 2 );
+		}
+	else if (((unsigned char) '\xE0') <= c[0] && c[0] <= (unsigned char) '\xEF')
+		{
+		*characterByteCount = 3;
+		return JI2B( byteCount >= 3 );
+		}
+	else if (((unsigned char) '\xF0') <= c[0] && c[0] <= (unsigned char) '\xF4')
+		{
+		*characterByteCount = 4;
+		return JI2B( byteCount >= 4 );
+		}
+	else
+		{
+		*characterByteCount = 1;
+		return JI2B( byteCount >= 1 );
+		}
 }
 
 /******************************************************************************

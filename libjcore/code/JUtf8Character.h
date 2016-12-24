@@ -54,6 +54,7 @@ public:
 	void	PrintHex(std::ostream& output) const;
 
 	static JBoolean	IsValid(const JUtf8Byte* utf8Character);
+	static JBoolean	IsCompleteCharacter(const JUtf8Byte* utf8Character, const JSize byteCount, JSize* characterByteCount);
 	static JBoolean	GetCharacterByteCount(const JUtf8Byte* utf8Character, JSize* byteCount);
 	static JBoolean	GetPrevCharacterByteCount(const JUtf8Byte* lastByte, JSize* byteCount);
 
@@ -63,7 +64,7 @@ public:
 private:
 
 	unsigned char	itsByteCount;
-	JUtf8Byte		itsBytes[ kJMaxUtf8CharacterLength ];
+	JUtf8Byte		itsBytes[ kJMaxUtf8CharacterLength+1 ];
 };
 
 
