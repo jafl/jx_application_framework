@@ -42,6 +42,7 @@
 
 #include <JStringIterator.h>
 #include <JStringMatch.h>
+#include <JMinMax.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -60,8 +61,8 @@ JStringIterator::JStringIterator
 	itsString(NULL),
 	itsLastMatch(NULL)
 {
-	MoveTo(start, index);
 	s.SetIterator(this);
+	MoveTo(start, index);
 }
 
 JStringIterator::JStringIterator
@@ -75,8 +76,8 @@ JStringIterator::JStringIterator
 	itsString(s),
 	itsLastMatch(NULL)
 {
-	MoveTo(start, index);
 	s->SetIterator(this);
+	MoveTo(start, index);
 }
 
 /******************************************************************************
@@ -103,9 +104,10 @@ JStringIterator::Invalidate()
 		}
 
 	ClearLastMatch();
-	itsConstString    = NULL;
-	itsString         = NULL;
-	itsCursorPosition = 0;
+	itsConstString     = NULL;
+	itsString          = NULL;
+	itsByteOffset      = 0;
+	itsCharacterOffset = 0;
 }
 
 /******************************************************************************
@@ -158,34 +160,40 @@ JStringIterator::MoveTo
 
 	if (newPosition == kJIteratorStartAtBeginning)
 		{
-		itsCursorPosition = 0;
+		itsByteOffset      = 0;
+		itsCharacterOffset = 0;
 		}
 	else if (newPosition == kJIteratorStartAtEnd)
 		{
-		itsCursorPosition = itsConstString->GetByteCount();
+		itsByteOffset      = itsConstString->GetByteCount();
+		itsCharacterOffset = itsConstString->GetCharacterCount();
 		}
 	else if (newPosition == kJIteratorStartBeforeByte)
 		{
 		assert( itsConstString->ByteIndexValid(index) );
-		itsCursorPosition = index-1;
+		itsByteOffset      = index-1;
+		itsCharacterOffset = JString::CountCharacters(itsConstString->GetBytes(), itsByteOffset);
 		}
 	else if (newPosition == kJIteratorStartAfterByte)
 		{
 		assert( itsConstString->ByteIndexValid(index) );
-		itsCursorPosition = index;
+		itsByteOffset      = index;
+		itsCharacterOffset = JString::CountCharacters(itsConstString->GetBytes(), itsByteOffset);
 		}
 	else if (newPosition == kJIteratorStartBefore)
 		{
 		assert( itsConstString->CharacterIndexValid(index) );
-		JUtf8ByteRange r  = itsConstString->CharacterToUtf8ByteRange(JCharacterRange(1, index-1));
-		itsCursorPosition = r.last;
+		JUtf8ByteRange r   = itsConstString->CharacterToUtf8ByteRange(JCharacterRange(1, index-1));
+		itsByteOffset      = r.last;
+		itsCharacterOffset = index-1;
 		}
 	else
 		{
 		assert( newPosition == kJIteratorStartAfter );
 		assert( itsConstString->CharacterIndexValid(index) );
-		JUtf8ByteRange r  = itsConstString->CharacterToUtf8ByteRange(JCharacterRange(1, index));
-		itsCursorPosition = r.last;
+		JUtf8ByteRange r   = itsConstString->CharacterToUtf8ByteRange(JCharacterRange(1, index));
+		itsByteOffset      = r.last;
+		itsCharacterOffset = index;
 		}
 }
 
@@ -209,20 +217,22 @@ JStringIterator::SkipPrev
 		return kJFalse;
 		}
 
-	const JUtf8Byte* bytes = itsConstString->GetBytes() + itsCursorPosition - 1;
+	const JUtf8Byte* bytes = itsConstString->GetBytes() + itsByteOffset - 1;
 	for (JIndex i=1; i<=characterCount; i++)
 		{
 		JSize byteCount;
 		JUtf8Character::GetPrevCharacterByteCount(bytes, &byteCount);	// accept invalid characters
 
-		if (itsCursorPosition <= byteCount)
+		if (itsByteOffset <= byteCount)
 			{
-			itsCursorPosition = 0;
+			itsByteOffset      = 0;
+			itsCharacterOffset = 0;
 			return kJFalse;
 			}
 
-		itsCursorPosition -= byteCount;
-		bytes             -= byteCount;
+		itsByteOffset -= byteCount;
+		bytes         -= byteCount;
+		itsCharacterOffset--;
 		}
 
 	return kJTrue;
@@ -249,16 +259,18 @@ JStringIterator::SkipNext
 
 	const JSize maxPosition = itsConstString->GetByteCount();
 
-	const JUtf8Byte* bytes = itsConstString->GetBytes() + itsCursorPosition;
+	const JUtf8Byte* bytes = itsConstString->GetBytes() + itsByteOffset;
 	for (JIndex i=1; i<=characterCount; i++)
 		{
 		JSize byteCount;
 		JUtf8Character::GetCharacterByteCount(bytes, &byteCount);	// accept invalid characters
-		itsCursorPosition += byteCount;
+		itsByteOffset += byteCount;
+		itsCharacterOffset++;
 
-		if (itsCursorPosition >= maxPosition)
+		if (itsByteOffset >= maxPosition)
 			{
-			itsCursorPosition = maxPosition;
+			itsByteOffset      = maxPosition;
+			itsCharacterOffset = itsConstString->GetCharacterCount();
 			return kJFalse;
 			}
 
@@ -284,7 +296,7 @@ JStringIterator::Prev
 	const JBoolean	move
 	)
 {
-	const JUtf8Byte* ptr = itsConstString->GetBytes() + itsCursorPosition - 1;
+	const JUtf8Byte* ptr = itsConstString->GetBytes() + itsByteOffset - 1;
 
 	JSize byteCount;
 	if (!PreparePrev(move, &byteCount))
@@ -313,7 +325,7 @@ JStringIterator::Next
 	const JBoolean	move
 	)
 {
-	const JUtf8Byte* ptr = itsConstString->GetBytes() + itsCursorPosition;
+	const JUtf8Byte* ptr = itsConstString->GetBytes() + itsByteOffset;
 
 	JSize byteCount;
 	if (!PrepareNext(move, &byteCount))
@@ -351,21 +363,28 @@ JStringIterator::Prev
 		return kJFalse;
 		}
 
-	JIndex i = itsCursorPosition;
+	JIndex i = itsByteOffset;
 	if (itsConstString->SearchBackward(str, byteCount, caseSensitive, &i))
 		{
-		itsCursorPosition = i-1;
+		itsCharacterOffset -=	// before updating itsByteOffset
+			JString::CountCharacters(itsConstString->GetBytes(),
+				JUtf8ByteRange(i, itsByteOffset));
+
+		itsByteOffset = i-1;
 
 		JUtf8ByteRange r;
 		r.SetFirstAndCount(i, byteCount);
 
 		itsLastMatch = jnew JStringMatch(*itsConstString, r);
 		assert( itsLastMatch != NULL );
+		itsLastMatch->SetFirstCharacterIndex(itsCharacterOffset + 1);
 
 		return kJTrue;
 		}
 	else
 		{
+		itsByteOffset      = 0;
+		itsCharacterOffset = 0;
 		return kJFalse;
 		}
 }
@@ -396,23 +415,78 @@ JStringIterator::Next
 		return kJFalse;
 		}
 
-	JIndex i = itsCursorPosition + 1;
+	JIndex i = itsByteOffset + 1;
 	if (itsConstString->SearchForward(str, byteCount, caseSensitive, &i))
 		{
-		itsCursorPosition = i + byteCount - 1;
+		itsCharacterOffset +=	// before updating itsByteOffset
+			JString::CountCharacters(itsConstString->GetBytes(),
+				JUtf8ByteRange(itsByteOffset + 1, i + byteCount - 1));
+
+		itsByteOffset = i + byteCount - 1;
 
 		JUtf8ByteRange r;
 		r.SetFirstAndCount(i, byteCount);
 
 		itsLastMatch = jnew JStringMatch(*itsConstString, r);
 		assert( itsLastMatch != NULL );
+		itsLastMatch->SetLastCharacterIndex(itsCharacterOffset + 1);
 
 		return kJTrue;
 		}
 	else
 		{
+		itsByteOffset      = itsConstString->GetByteCount();
+		itsCharacterOffset = itsConstString->GetCharacterCount();
 		return kJFalse;
 		}
+}
+
+/******************************************************************************
+ FinishMatch
+
+	Finishes matching and sets itsLastMatch.
+
+	If ignoreLastMatch, ignores the range currently stored in itsLastMatch.
+	This is useful for extracting everything except end-of-token.
+
+ ******************************************************************************/
+
+const JStringMatch&
+JStringIterator::FinishMatch
+	(
+	const JBoolean ignoreLastMatch
+	)
+{
+	JCursorPosition pos = itsByteOffset;
+	if (ignoreLastMatch && itsLastMatch != NULL)
+		{
+		const JSize ignoreCount = itsLastMatch->GetByteCount();
+		if (pos < itsMatchStart)
+			{
+			pos += ignoreCount;
+			pos  = JMin(pos, itsMatchStart);
+			}
+		else if (itsMatchStart < pos && ignoreCount <= pos)
+			{
+			pos -= ignoreCount;
+			pos  = JMax(pos, itsMatchStart);
+			}
+		else if (itsMatchStart < pos)
+			{
+			pos = itsMatchStart;
+			}
+		}
+
+	ClearLastMatch();
+
+
+	JUtf8ByteRange r;
+	r.first = JMin(itsMatchStart, pos) + 1;
+	r.last  = JMax(itsMatchStart, pos);
+
+	itsLastMatch = jnew JStringMatch(*itsConstString, r);
+	assert( itsLastMatch != NULL );
+	return *itsLastMatch;
 }
 
 /******************************************************************************
@@ -436,7 +510,7 @@ JStringIterator::SetPrev
 	ClearLastMatch();
 
 	JUtf8ByteRange r;
-	r.last = itsCursorPosition;
+	r.last = itsByteOffset;
 
 	JSize byteCount;
 	if (!PreparePrev(move, &byteCount))
@@ -470,7 +544,7 @@ JStringIterator::SetNext
 	ClearLastMatch();
 
 	JUtf8ByteRange r;
-	r.first = itsCursorPosition + 1;
+	r.first = itsByteOffset + 1;
 
 	JSize byteCount;
 	if (!PrepareNext(move, &byteCount))
@@ -483,8 +557,9 @@ JStringIterator::SetNext
 
 	if (move)
 		{
-		itsCursorPosition += c.GetByteCount();
-		itsCursorPosition -= r.GetCount();
+		itsByteOffset += c.GetByteCount();
+		itsByteOffset -= r.GetCount();
+		// itsCharacterOffset does not change
 		}
 
 	return kJTrue;
@@ -510,11 +585,11 @@ JStringIterator::RemovePrev
 	ClearLastMatch();
 
 	JUtf8ByteRange r;
-	r.last = itsCursorPosition;
+	r.last = itsByteOffset;
 
 	const JBoolean result = SkipPrev(characterCount);
 
-	r.first = itsCursorPosition + 1;
+	r.first = itsByteOffset + 1;
 	itsString->ReplaceBytes(r, NULL, 0);
 	return result;
 }
@@ -538,18 +613,61 @@ JStringIterator::RemoveNext
 	assert( itsString != NULL );
 	ClearLastMatch();
 
-	const JCursorPosition saved = itsCursorPosition;
+	const JCursorPosition savedByteOffset      = itsByteOffset;
+	const JCursorPosition savedCharacterOffset = itsCharacterOffset;
 
 	JUtf8ByteRange r;
-	r.first = itsCursorPosition + 1;
+	r.first = itsByteOffset + 1;
 
 	const JBoolean result = SkipNext(characterCount);
 
-	r.last = itsCursorPosition;
+	r.last = itsByteOffset;
 	itsString->ReplaceBytes(r, NULL, 0);
 
-	itsCursorPosition = saved;
+	itsByteOffset      = savedByteOffset;
+	itsCharacterOffset = savedCharacterOffset;
 	return result;
+}
+
+/******************************************************************************
+ RemoveAllPrev
+
+	Removes all preceding characters.
+
+	*** Only allowed if iterator was constructed with non-const JString.
+
+ ******************************************************************************/
+
+void
+JStringIterator::RemoveAllPrev()
+{
+	assert( itsString != NULL );
+	ClearLastMatch();
+
+	const JUtf8ByteRange r(1, itsByteOffset);
+	itsString->ReplaceBytes(r, NULL, 0);
+
+	itsByteOffset      = 0;
+	itsCharacterOffset = 0;
+}
+
+/******************************************************************************
+ RemoveAllNext
+
+	Removes all following characters.
+
+	*** Only allowed if iterator was constructed with non-const JString.
+
+ ******************************************************************************/
+
+void
+JStringIterator::RemoveAllNext()
+{
+	assert( itsString != NULL );
+	ClearLastMatch();
+
+	const JUtf8ByteRange r(itsByteOffset + 1, itsString->GetByteCount());
+	itsString->ReplaceBytes(r, NULL, 0);
 }
 
 /******************************************************************************
@@ -573,15 +691,44 @@ JStringIterator::ReplaceLastMatch
 	assert( itsString != NULL );
 
 	JUtf8ByteRange r = itsLastMatch->GetUtf8ByteRange();
-	if (itsCursorPosition > r.last)
+	if (itsByteOffset > r.last)
 		{
-		itsCursorPosition -= r.GetCount();
+		itsByteOffset      -= r.GetCount();
+		itsCharacterOffset -= itsLastMatch->GetCharacterCount();
 		}
-	else if (itsCursorPosition >= r.first)
+	else if (itsByteOffset >= r.first)
 		{
-		itsCursorPosition = r.first - 1;
+		itsCharacterOffset -=	// before updating itsByteOffset
+			JString::CountCharacters(itsConstString->GetBytes(),
+				JUtf8ByteRange(r.first, itsByteOffset));
+
+		itsByteOffset = r.first - 1;
 		}
 
+	itsString->ReplaceBytes(r, str + range.first - 1, range.GetCount());
+	ClearLastMatch();
+}
+
+/******************************************************************************
+ Insert
+
+	Insert the given characters after the current position.
+
+	*** Only allowed if iterator was constructed with non-const JString.
+
+ ******************************************************************************/
+
+void
+JStringIterator::Insert
+	(
+	const JUtf8Byte*		str,
+	const JUtf8ByteRange&	range
+	)
+{
+	assert( itsString != NULL );
+
+	JUtf8ByteRange r;
+	r.SetFirstAndCount(itsByteOffset + 1, 0);
 	itsString->ReplaceBytes(r, str + range.first - 1, range.GetCount());
 	ClearLastMatch();
 }
@@ -603,19 +750,21 @@ JStringIterator::PreparePrev
 		return kJFalse;
 		}
 
-	const JUtf8Byte* ptr = itsConstString->GetBytes() + itsCursorPosition - 1;
+	const JUtf8Byte* ptr = itsConstString->GetBytes() + itsByteOffset - 1;
 
 	JUtf8Character::GetPrevCharacterByteCount(ptr, byteCount);	// accept invalid characters
 
-	if (itsCursorPosition < *byteCount)	// went backwards beyond start of string!
+	if (itsByteOffset < *byteCount)	// went backwards beyond start of string!
 		{
-		itsCursorPosition = 0;
+		itsByteOffset      = 0;
+		itsCharacterOffset = 0;
 		return kJFalse;
 		}
 
 	if (move)
 		{
-		itsCursorPosition -= *byteCount;
+		itsByteOffset -= *byteCount;
+		itsCharacterOffset--;
 		}
 
 	return kJTrue;
@@ -638,19 +787,21 @@ JStringIterator::PrepareNext
 		return kJFalse;
 		}
 
-	const JUtf8Byte* ptr = itsConstString->GetBytes() + itsCursorPosition;
+	const JUtf8Byte* ptr = itsConstString->GetBytes() + itsByteOffset;
 
 	JUtf8Character::GetCharacterByteCount(ptr, byteCount);	// accept invalid characters
 
 	if (move)
 		{
-		itsCursorPosition += *byteCount;
+		itsByteOffset += *byteCount;
+		itsCharacterOffset++;
 		}
 
 	const JSize maxPosition = itsConstString->GetByteCount();
-	if (itsCursorPosition > maxPosition)	// went forwards beyond end of string!
+	if (itsByteOffset > maxPosition)	// went forwards beyond end of string!
 		{
-		itsCursorPosition = maxPosition;
+		itsByteOffset      = maxPosition;
+		itsCharacterOffset = itsConstString->GetCharacterCount();
 		return kJFalse;
 		}
 

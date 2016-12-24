@@ -29,6 +29,8 @@ public:
 	JBoolean	IsValid() const;
 	JBoolean	AtBeginning() const;
 	JBoolean	AtEnd() const;
+	JBoolean	GetPrevCharacterIndex(JIndex* i) const;
+	JBoolean	GetNextCharacterIndex(JIndex* i) const;
 
 	// move
 
@@ -59,6 +61,11 @@ public:
 
 	const JStringMatch&	GetLastMatch() const;	// asserts that match occurred
 
+	// accumulate
+
+	void				BeginMatch();
+	const JStringMatch&	FinishMatch(const JBoolean ignoreLastMatch = kJTrue);
+
 	// modify - only allowed if constructed from non-const JString*
 	// (invalidates last match)
 
@@ -67,6 +74,9 @@ public:
 
 	JBoolean	RemovePrev(const JSize characterCount = 1);
 	JBoolean	RemoveNext(const JSize characterCount = 1);
+
+	void	RemoveAllPrev();
+	void	RemoveAllNext();
 
 	void	RemoveLastMatch();
 	void	ReplaceLastMatch(const JString& str);
@@ -78,6 +88,15 @@ public:
 	void	ReplaceLastMatch(const std::string& str);
 	void	ReplaceLastMatch(const std::string& str, const JUtf8ByteRange& range);
 
+	void	Insert(const JString& str);
+	void	Insert(const JString& str, const JCharacterRange& range);
+	void	Insert(const JUtf8Byte* str);
+	void	Insert(const JUtf8Byte* str, const JSize byteCount);
+	void	Insert(const JUtf8Byte* str, const JUtf8ByteRange& range);
+	void	Insert(const JUtf8Character& c);
+	void	Insert(const std::string& str);
+	void	Insert(const std::string& str, const JUtf8ByteRange& range);
+
 	// called by JString
 
 	void	Invalidate();
@@ -86,8 +105,10 @@ private:
 
 	const JString*	itsConstString;			// NULL if invalidated
 	JString*		itsString;				// NULL if we were passed a const object
-	JCursorPosition	itsCursorPosition;		// bytes!
+	JCursorPosition	itsByteOffset;
+	JCursorPosition	itsCharacterOffset;
 	JStringMatch*	itsLastMatch;			// can be NULL
+	JCursorPosition	itsMatchStart;			// set by BeginMatch()
 
 private:
 
@@ -120,7 +141,7 @@ JStringIterator::IsValid()
 /******************************************************************************
  AtBeginning
 
-	Return kJTrue if iterator is positioned at the beginning of the string
+	Returns kJTrue if iterator is positioned at the beginning of the string
 	or if the iterator has been invalidated.
 
  ******************************************************************************/
@@ -129,13 +150,13 @@ inline JBoolean
 JStringIterator::AtBeginning()
 	const
 {
-	return JI2B( itsCursorPosition == 0 );
+	return JI2B( itsByteOffset == 0 );
 }
 
 /******************************************************************************
  AtEnd
 
-	Return kJTrue if iterator is positioned at the end of the string
+	Returns kJTrue if iterator is positioned at the end of the string
 	or if the iterator has been invalidated.
 
  ******************************************************************************/
@@ -145,7 +166,55 @@ JStringIterator::AtEnd()
 	const
 {
 	return JI2B( itsConstString == NULL ||
-				 itsCursorPosition >= itsConstString->GetByteCount() );
+				 itsByteOffset >= itsConstString->GetByteCount() );
+}
+
+/******************************************************************************
+ GetPrevCharacterIndex
+
+	Returns kJTrue if there is a previous character.
+
+ ******************************************************************************/
+
+inline JBoolean
+JStringIterator::GetPrevCharacterIndex
+	(
+	JIndex* i
+	)
+	const
+{
+	if (AtBeginning())
+		{
+		*i = 0;
+		return kJFalse;
+		}
+
+	*i = itsCharacterOffset;
+	return kJTrue;
+}
+
+/******************************************************************************
+ GetNextCharacterIndex
+
+	Returns kJTrue if there is a next character.
+
+ ******************************************************************************/
+
+inline JBoolean
+JStringIterator::GetNextCharacterIndex
+	(
+	JIndex* i
+	)
+	const
+{
+	if (AtEnd())
+		{
+		*i = 0;
+		return kJFalse;
+		}
+
+	*i = itsCharacterOffset + 1;
+	return kJTrue;
 }
 
 /******************************************************************************
@@ -239,6 +308,20 @@ JStringIterator::Next
 }
 
 /******************************************************************************
+ BeginMatch
+
+	Marks the current position as the start of a match.
+
+ ******************************************************************************/
+
+inline void
+JStringIterator::BeginMatch()
+{
+	ClearLastMatch();
+	itsMatchStart = itsByteOffset;
+}
+
+/******************************************************************************
  RemoveLastMatch
 
 	Removes the characters from the last match.
@@ -323,6 +406,77 @@ JStringIterator::ReplaceLastMatch
 	)
 {
 	ReplaceLastMatch(str.data(), range);
+}
+
+/******************************************************************************
+ Insert
+
+ ******************************************************************************/
+
+inline void
+JStringIterator::Insert
+	(
+	const JString& str
+	)
+{
+	Insert(str.GetBytes(), JUtf8ByteRange(1, str.GetByteCount()));
+}
+
+inline void
+JStringIterator::Insert
+	(
+	const JString&			str,
+	const JCharacterRange&	range
+	)
+{
+	Insert(str.GetBytes(), str.CharacterToUtf8ByteRange(range));
+}
+
+inline void
+JStringIterator::Insert
+	(
+	const JUtf8Byte* str
+	)
+{
+	Insert(str, JUtf8ByteRange(1, strlen(str)));
+}
+
+inline void
+JStringIterator::Insert
+	(
+	const JUtf8Byte*	str,
+	const JSize			byteCount
+	)
+{
+	Insert(str, JUtf8ByteRange(1, byteCount));
+}
+
+inline void
+JStringIterator::Insert
+	(
+	const JUtf8Character& c
+	)
+{
+	Insert(c.GetBytes(), JUtf8ByteRange(1, c.GetByteCount()));
+}
+
+inline void
+JStringIterator::Insert
+	(
+	const std::string& str
+	)
+{
+	Insert(str.data(), JUtf8ByteRange(1, str.length()));
+}
+
+inline void
+JStringIterator::Insert
+	(
+	const std::string&		str,
+	const JUtf8ByteRange&	range
+	)
+{
+	Insert(str.data(), range);
 }
 
 #endif
