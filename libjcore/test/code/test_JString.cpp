@@ -74,11 +74,6 @@ JTEST(Construction)
 	JAssertEqual(14, s8.GetCharacterCount());
 	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", s8);
 
-	JString s9(ss1, JUtf8ByteRange(8,14));
-	JAssertEqual(7, s9.GetByteCount());
-	JAssertEqual(5, s9.GetCharacterCount());
-	JAssertStringsEqual("890\xC2\xA9\xC3\x85", s9);
-
 	JString s10(s2, JCharacterRange(10,12));
 	JAssertEqual(5, s10.GetByteCount());
 	JAssertEqual(3, s10.GetCharacterCount());
@@ -88,6 +83,49 @@ JTEST(Construction)
 	JAssertEqual(7, s11.GetByteCount());
 	JAssertEqual(3, s11.GetCharacterCount());
 	JAssertStringsEqual("\xC3\x85\xC3\xA5\xE2\x9C\x94", s11);
+}
+
+JTEST(LazyConstruction)
+{
+	JString s2("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", kJFalse);
+	JAssertEqual(19, s2.GetByteCount());
+	JAssertEqual(14, s2.GetCharacterCount());
+	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", s2);
+
+	JString s3("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 14, kJFalse);
+	JAssertEqual(14, s3.GetByteCount());
+	JAssertEqual(12, s3.GetCharacterCount());
+	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85", s3);
+	s3.Set("abc");		// test replace
+	JAssertStringsEqual("abc", s3);
+
+	JString s4("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(2,5), kJFalse);
+	JAssertEqual(4, s4.GetByteCount());
+	JAssertEqual(4, s4.GetCharacterCount());
+	JAssertStringsEqual("2345", s4);
+	JAssertStringsEqual("2345", s4.GetBytes());		// test null termination; ignore memory leak
+
+	JString s5("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(8,14), kJFalse);
+	JAssertEqual(7, s5.GetByteCount());
+	JAssertEqual(5, s5.GetCharacterCount());
+	JAssertStringsEqual("890\xC2\xA9\xC3\x85", s5);
+	s5.Append("abc");		// test modify
+	JAssertEqual(10, s5.GetByteCount());
+	JAssertEqual(8, s5.GetCharacterCount());
+
+	JString s12("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(), kJFalse);
+	JAssertTrue(s12.IsEmpty());
+
+	JString s13("ab 90\xC2\xA9 58", JUtf8ByteRange(3, 8), kJFalse);
+	JAssertEqual(5, s13.GetCharacterCount());
+	s13.TrimWhitespace();	// test modify
+	JAssertStringsEqual("90\xC2\xA9", s13);
+
+	JString s14("\xC3\x86\xCE\xA6\xCE\xA3");
+	JString s15(s14.GetBytes(), kJFalse);
+	s15.ToLower();
+	JAssertStringsEqual("\xC3\x86\xCE\xA6\xCE\xA3", s14);
+	JAssertStringsEqual("\xC3\xA6\xCF\x86\xCF\x82", s15);
 }
 
 JTEST(Set)

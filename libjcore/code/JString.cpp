@@ -87,7 +87,8 @@ JString::JString
 
 JString::JString
 	(
-	const JUtf8Byte* str
+	const JUtf8Byte*	str,
+	const JBoolean		copy
 	)
 	:
 	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
@@ -98,13 +99,24 @@ JString::JString
 	itsUCaseMap(NULL),
 	itsIterator(NULL)
 {
-	CopyToPrivateString(str, strlen(str));
+	if (copy)
+		{
+		CopyToPrivateString(str, strlen(str));
+		}
+	else
+		{
+		itsOwnerFlag      = kJFalse;
+		itsBytes          = const_cast<JUtf8Byte*>(str);	// we promise not to modify it
+		itsByteCount      = strlen(str);
+		itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
+		}
 }
 
 JString::JString
 	(
 	const JUtf8Byte*	str,
-	const JSize			byteCount
+	const JSize			byteCount,
+	const JBoolean		copy
 	)
 	:
 	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
@@ -115,13 +127,26 @@ JString::JString
 	itsUCaseMap(NULL),
 	itsIterator(NULL)
 {
-	CopyToPrivateString(byteCount > 0 ? str : "", byteCount);		// allow (NULL,0)
+	if (copy)
+		{
+		CopyToPrivateString(byteCount > 0 ? str : "", byteCount);	// allow (NULL,0)
+		}
+	else
+		{
+		itsOwnerFlag      = kJFalse;
+		itsBytes          = const_cast<JUtf8Byte*>(str);	// we promise not to modify it
+		itsByteCount      = byteCount;
+		itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
+		}
 }
+
+// protected
 
 JString::JString
 	(
 	const JUtf8Byte*		str,
-	const JUtf8ByteRange&	range
+	const JUtf8ByteRange&	range,
+	const JBoolean			copy
 	)
 	:
 	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
@@ -132,7 +157,17 @@ JString::JString
 	itsUCaseMap(NULL),
 	itsIterator(NULL)
 {
-	CopyToPrivateString(str + range.first-1, range.GetCount());
+	if (copy)
+		{
+		CopyToPrivateString(str + range.first-1, range.GetCount());
+		}
+	else
+		{
+		itsOwnerFlag      = kJFalse;
+		itsBytes          = const_cast<JUtf8Byte*>(str) + range.first-1;	// we promise not to modify it
+		itsByteCount      = range.GetCount();
+		itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
+		}
 }
 
 // This unfortunately allows round-about implicit conversion, but not being
@@ -274,6 +309,7 @@ JString::JString
 			   (expDisplay == kUseGivenExponent ? exponent : expDisplay),
 			   itsBytes);
 
+	itsOwnerFlag      = kJTrue;
 	itsByteCount      = strlen(itsBytes);
 	itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
 }
@@ -306,7 +342,11 @@ JString::JString
 
 JString::~JString()
 {
-	jdelete [] itsBytes;
+	if (itsOwnerFlag)
+		{
+		jdelete [] itsBytes;
+		}
+
 	ucasemap_close(itsUCaseMap);
 
 	if (itsIterator != NULL)
@@ -335,15 +375,19 @@ JString::CopyToPrivateString
 
 	// ensure sufficient space
 
-	if (itsAllocCount < byteCount || itsAllocCount == 0)
+	if (!itsOwnerFlag || itsAllocCount < byteCount || itsAllocCount == 0)
 		{
 		itsAllocCount = byteCount + itsBlockSize;
 
 		JUtf8Byte* newString = jnew JUtf8Byte [ itsAllocCount + 1 ];
 		assert( newString != NULL );
 
-		jdelete [] itsBytes;
-		itsBytes = newString;
+		if (itsOwnerFlag)
+			{
+			jdelete [] itsBytes;
+			}
+		itsBytes     = newString;
+		itsOwnerFlag = kJTrue;
 		}
 
 	// copy normalized characters to the new string
@@ -431,7 +475,8 @@ JString::AllocateBytes()
 	JUtf8Byte* str = jnew JUtf8Byte [ itsByteCount + 1 ];
 	assert( str != NULL );
 
-	memcpy(str, itsBytes, itsByteCount+1);
+	memcpy(str, itsBytes, itsByteCount);
+	str[ itsByteCount ] = 0;	// in case we are not owner
 
 	return str;
 }
@@ -517,7 +562,7 @@ JString::ReplaceBytes
 
 	// If we don't have space, or would use too much space, reallocate.
 
-	if (itsAllocCount < newCount || itsAllocCount > newCount + itsBlockSize)
+	if (!itsOwnerFlag || itsAllocCount < newCount || itsAllocCount > newCount + itsBlockSize)
 		{
 		itsAllocCount = newCount + itsBlockSize;
 
@@ -533,8 +578,12 @@ JString::ReplaceBytes
 
 		// throw out the original string and save the new one
 
-		jdelete [] itsBytes;
-		itsBytes = newString;
+		if (itsOwnerFlag)
+			{
+			jdelete [] itsBytes;
+			}
+		itsBytes     = newString;
+		itsOwnerFlag = kJTrue;
 		}
 
 	// Otherwise, shift characters to make space.
@@ -581,13 +630,16 @@ JString::Clear()
 
 	// If we are using too much memory, reallocate.
 
-	if (itsAllocCount > itsBlockSize)
+	if (!itsOwnerFlag || itsAllocCount > itsBlockSize)
 		{
 		itsAllocCount = itsBlockSize;
 
 		// throw out the old data
 
-		jdelete [] itsBytes;
+		if (itsOwnerFlag)
+			{
+			jdelete [] itsBytes;
+			}
 
 		// Having just released a block of memory at least as large as the
 		// one we are requesting, the system must really be screwed if this
@@ -595,6 +647,7 @@ JString::Clear()
 
 		itsBytes = jnew JUtf8Byte [ itsAllocCount + 1 ];
 		assert( itsBytes != NULL );
+		itsOwnerFlag = kJTrue;
 		}
 
 	// clear the string
@@ -668,7 +721,7 @@ JString::TrimWhitespace()
 
 	const JSize newLength = lastByteIndex - firstByteIndex + 1;
 
-	if (itsAllocCount > newLength + itsBlockSize)
+	if (!itsOwnerFlag || itsAllocCount > newLength + itsBlockSize)
 		{
 		itsAllocCount = newLength + itsBlockSize;
 
@@ -683,8 +736,12 @@ JString::TrimWhitespace()
 
 		// throw out our original string and save the new one
 
-		jdelete [] itsBytes;
-		itsBytes = newString;
+		if (itsOwnerFlag)
+			{
+			jdelete [] itsBytes;
+			}
+		itsBytes     = newString;
+		itsOwnerFlag = kJTrue;
 		}
 
 	// Otherwise, just shift the characters.
@@ -791,8 +848,12 @@ JString::FoldCase
 
 	// throw out the original string and save the new one
 
-	jdelete [] itsBytes;
-	itsBytes = newString;
+	if (itsOwnerFlag)
+		{
+		jdelete [] itsBytes;
+		}
+	itsBytes     = newString;
+	itsOwnerFlag = kJTrue;
 
 	if (itsIterator != NULL)
 		{
@@ -1246,7 +1307,7 @@ JString::EncodeBase64()
 	std::istrstream input(itsBytes, itsByteCount);
 	std::ostrstream output;
 	JEncodeBase64(input, output);
-	return JString(output.str(), output.pcount());
+	return JString(output.str(), output.pcount(), kJTrue);
 }
 
 /******************************************************************************
@@ -1293,7 +1354,7 @@ JString::Read
 	const JSize	count
 	)
 {
-	if (itsAllocCount < count || itsAllocCount == 0)
+	if (!itsOwnerFlag || itsAllocCount < count || itsAllocCount == 0)
 		{
 		itsAllocCount = count + itsBlockSize;
 
@@ -1305,8 +1366,12 @@ JString::Read
 
 		// now it's safe to throw out the old data
 
-		jdelete [] itsBytes;
-		itsBytes = newString;
+		if (itsOwnerFlag)
+			{
+			jdelete [] itsBytes;
+			}
+		itsBytes     = newString;
+		itsOwnerFlag = kJTrue;
 		}
 
 	input.read(itsBytes, count);

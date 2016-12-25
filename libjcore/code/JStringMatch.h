@@ -21,9 +21,10 @@ public:
 
 	~JStringMatch();
 
-	JSize	GetCharacterCount() const;
-	JSize	GetByteCount() const;
-	JSize	GetSubstringCount() const;
+	JBoolean	IsEmpty() const;
+	JSize		GetCharacterCount() const;
+	JSize		GetByteCount() const;
+	JSize		GetSubstringCount() const;
 
 	JString	GetString() const;
 	JString	GetSubstring(const JIndex submatchIndex) const;
@@ -38,6 +39,7 @@ protected:
 
 	void	SetFirstCharacterIndex(const JIndex index);
 	void	SetLastCharacterIndex(const JIndex index);
+	void	SetCharacterRange(const JCharacterRange& range);
 
 private:
 
@@ -56,6 +58,18 @@ private:
 	const JStringMatch& operator=(const JStringMatch& source);
 };
 
+
+/******************************************************************************
+ IsEmpty
+
+ ******************************************************************************/
+
+inline JBoolean
+JStringMatch::IsEmpty()
+	const
+{
+	return itsByteRange.IsEmpty();
+}
 
 /******************************************************************************
  GetByteCount

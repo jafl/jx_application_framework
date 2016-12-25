@@ -61,7 +61,7 @@ JTEST(Construction)
 	JAssertEqual(4, m1.GetCharacterCount());
 	JAssertEqual(4, m1.GetByteCount());
 	JAssertEqual(0, m1.GetSubstringCount());
-	JAssertEqual("1234", m1.GetString());
+	JAssertStringsEqual("1234", m1.GetString());
 	JAssertTrue(m1.GetSubstring(1).IsEmpty());
 
 	JStringMatchTest m2(s, JUtf8ByteRange(1,4));
@@ -70,7 +70,7 @@ JTEST(Construction)
 	JAssertEqual(4, m2.GetCharacterCount());
 	JAssertEqual(4, m2.GetByteCount());
 	JAssertEqual(0, m2.GetSubstringCount());
-	JAssertEqual("1234", m2.GetString());
+	JAssertStringsEqual("1234", m2.GetString());
 	JAssertTrue(m2.GetSubstring(1).IsEmpty());
 
 	JStringMatchTest m3(s, JUtf8ByteRange(9,14));
@@ -79,7 +79,7 @@ JTEST(Construction)
 	JAssertEqual(4, m3.GetCharacterCount());
 	JAssertEqual(6, m3.GetByteCount());
 	JAssertEqual(0, m3.GetSubstringCount());
-	JAssertEqual("90\xC2\xA9\xC3\x85", m3.GetString());
+	JAssertStringsEqual("90\xC2\xA9\xC3\x85", m3.GetString());
 	JAssertTrue(m3.GetSubstring(1).IsEmpty());
 
 	JStringMatchTest m4(s, JUtf8ByteRange(9,14));
@@ -88,7 +88,7 @@ JTEST(Construction)
 	JAssertEqual(4, m4.GetCharacterCount());
 	JAssertEqual(6, m4.GetByteCount());
 	JAssertEqual(0, m4.GetSubstringCount());
-	JAssertEqual("90\xC2\xA9\xC3\x85", m4.GetString());
+	JAssertStringsEqual("90\xC2\xA9\xC3\x85", m4.GetString());
 	JAssertTrue(m4.GetSubstring(1).IsEmpty());
 
 	JStringMatchTest m5(s, JUtf8ByteRange(9,14));
@@ -97,7 +97,7 @@ JTEST(Construction)
 	JAssertEqual(4, m5.GetCharacterCount());
 	JAssertEqual(6, m5.GetByteCount());
 	JAssertEqual(0, m5.GetSubstringCount());
-	JAssertEqual("90\xC2\xA9\xC3\x85", m5.GetString());
+	JAssertStringsEqual("90\xC2\xA9\xC3\x85", m5.GetString());
 	JAssertTrue(m5.GetSubstring(1).IsEmpty());
 }
 
@@ -117,16 +117,16 @@ JTEST(Submatches)
 	JAssertEqual(6, m1.GetCharacterCount());
 	JAssertEqual(8, m1.GetByteCount());
 	JAssertEqual(3, m1.GetSubstringCount());
-	JAssertEqual("7890\xC2\xA9\xC3\x85", m1.GetString());
+	JAssertStringsEqual("7890\xC2\xA9\xC3\x85", m1.GetString());
 	JAssertEqual(JCharacterRange(7,12), m1.GetCharacterRange(0));
 	JAssertEqual(JCharacterRange(7,14), m1.GetUtf8ByteRange(0));
-	JAssertEqual("\xC2\xA9", m1.GetSubstring(1));
+	JAssertStringsEqual("\xC2\xA9", m1.GetSubstring(1));
 	JAssertEqual(JCharacterRange(11,11), m1.GetCharacterRange(1));
 	JAssertEqual(JUtf8ByteRange(11,12), m1.GetUtf8ByteRange(1));
-	JAssertEqual("90\xC2\xA9\xC3\x85", m1.GetSubstring(2));
+	JAssertStringsEqual("90\xC2\xA9\xC3\x85", m1.GetSubstring(2));
 	JAssertEqual(JCharacterRange(9,12), m1.GetCharacterRange(2));
 	JAssertEqual(JUtf8ByteRange(9,14), m1.GetUtf8ByteRange(2));
-	JAssertEqual("7", m1.GetSubstring(3));
+	JAssertStringsEqual("7", m1.GetSubstring(3));
 	JAssertEqual(JCharacterRange(7,7), m1.GetCharacterRange(3));
 	JAssertEqual(JUtf8ByteRange(7,7), m1.GetUtf8ByteRange(3));
 }

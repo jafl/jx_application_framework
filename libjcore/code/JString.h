@@ -53,9 +53,9 @@ public:
 	JString();
 	JString(const JString& str);
 	JString(const JString& str, const JCharacterRange& range);
-	JString(const JUtf8Byte* str);
-	JString(const JUtf8Byte* str, const JSize byteCount);
-	JString(const JUtf8Byte* str, const JUtf8ByteRange& range);
+	JString(const JUtf8Byte* str, const JBoolean copy = kJTrue);
+	JString(const JUtf8Byte* str, const JSize byteCount, const JBoolean copy = kJTrue);
+	JString(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean copy = kJTrue);
 	JString(const std::string& str);
 	JString(const std::string& str, const JUtf8ByteRange& range);
 	JString(const JUtf8Character& c);
@@ -259,6 +259,7 @@ protected:
 
 private:
 
+	JBoolean	itsOwnerFlag;		// kJFalse => somebody else owns the byte allocation
 	JUtf8Byte*	itsBytes;			// characters
 	JSize		itsByteCount;		// number of bytes used
 	JSize		itsCharacterCount;	// number of characters
@@ -289,6 +290,14 @@ inline const JUtf8Byte*
 JString::GetBytes()
 	const
 {
+	if (!itsOwnerFlag)		// does not violate conceptual constness
+		{
+		JString* self = const_cast<JString*>(this);
+
+		const JUtf8Byte* bytes = itsBytes;
+		self->itsBytes = NULL;	// don't confuse CopyToPrivateString()
+		self->CopyToPrivateString(bytes, itsByteCount);
+		}
 	return itsBytes;
 }
 
@@ -953,7 +962,7 @@ operator+
 	const JString&		s
 	)
 {
-	JString sum(str, strlen(str));
+	JString sum(str);
 	sum += s;
 	return sum;
 }

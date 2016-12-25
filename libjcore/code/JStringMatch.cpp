@@ -20,7 +20,8 @@
 
 	If a list of submatches is provided, we take ownership of the list.
 
-	The creator may also call one if Set(First|Last)CharacterIndex
+	The creator may also call one if Set(First|Last)CharacterIndex or
+	SetCharacterRange.
 
  ******************************************************************************/
 
@@ -62,7 +63,7 @@ JStringMatch::SetFirstCharacterIndex
 	assert( itsCharacterRange.IsNothing() );
 	assert( index > 0 );
 	itsCharacterRange.first = index;
-	// itsCharacterRange.first will be computed when needed
+	// itsCharacterRange.last will be computed when needed
 }
 
 /******************************************************************************
@@ -83,6 +84,23 @@ JStringMatch::SetLastCharacterIndex
 	assert( count <= index );
 
 	itsCharacterRange.Set(index - count + 1, index);
+}
+
+/******************************************************************************
+ SetCharacterRange (protected)
+
+ ******************************************************************************/
+
+void
+JStringMatch::SetCharacterRange
+	(
+	const JCharacterRange& range
+	)
+{
+	assert( itsCharacterRange.IsNothing() );
+	assert( !range.IsEmpty() );
+
+	itsCharacterRange = range;
 }
 
 /******************************************************************************
@@ -143,7 +161,7 @@ JString
 JStringMatch::GetString()
 	const
 {
-	return JString(itsTarget.GetBytes(), itsByteRange);
+	return JString(itsTarget.GetBytes(), itsByteRange, kJFalse);
 }
 
 /******************************************************************************
@@ -160,7 +178,7 @@ JStringMatch::GetSubstring
 {
 	if (itsSubmatchList != NULL && itsSubmatchList->IndexValid(index))
 		{
-		return JString(itsTarget.GetBytes(), itsSubmatchList->GetElement(index));
+		return JString(itsTarget.GetBytes(), itsSubmatchList->GetElement(index), kJFalse);
 		}
 	else
 		{
