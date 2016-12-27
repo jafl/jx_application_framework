@@ -29,6 +29,8 @@ public:
 	JBoolean	IsValid() const;
 	JBoolean	AtBeginning() const;
 	JBoolean	AtEnd() const;
+	JIndex		GetPrevCharacterIndex() const;		// asserts
+	JIndex		GetNextCharacterIndex() const;		// asserts
 	JBoolean	GetPrevCharacterIndex(JIndex* i) const;
 	JBoolean	GetNextCharacterIndex(JIndex* i) const;
 

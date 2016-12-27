@@ -134,11 +134,41 @@ JStringIterator::GetLastMatch()
 
  ******************************************************************************/
 
-inline void
+void
 JStringIterator::ClearLastMatch()
 {
 	jdelete itsLastMatch;
 	itsLastMatch = NULL;
+}
+
+/******************************************************************************
+ GetPrevCharacterIndex
+
+	asserts that there is a previous character
+
+ ******************************************************************************/
+
+JIndex
+JStringIterator::GetPrevCharacterIndex()
+	const
+{
+	assert( !AtBeginning() );
+	return itsCharacterOffset;
+}
+
+/******************************************************************************
+ GetNextCharacterIndex
+
+	asserts that there is a next character
+
+ ******************************************************************************/
+
+JIndex
+JStringIterator::GetNextCharacterIndex()
+	const
+{
+	assert( !AtEnd() );
+	return itsCharacterOffset + 1;
 }
 
 /******************************************************************************
