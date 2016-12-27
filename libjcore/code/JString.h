@@ -103,6 +103,7 @@ public:
 
 	const JUtf8Byte*	GetBytes() const;
 	JUtf8Byte*			AllocateBytes() const;	// client must call delete [] when finished with it
+	JBoolean			IsOwner() const;		// primarily for debugging
 
 	JBoolean	BeginsWith(const JString& str, const JBoolean caseSensitive = kJTrue) const;
 	JBoolean	BeginsWith(const JString& str, const JCharacterRange& range, const JBoolean caseSensitive = kJTrue) const;
@@ -299,6 +300,18 @@ JString::GetBytes()
 		self->CopyToPrivateString(bytes, itsByteCount);
 		}
 	return itsBytes;
+}
+
+/******************************************************************************
+ IsOwner
+
+ ******************************************************************************/
+
+inline JBoolean
+JString::IsOwner()
+	const
+{
+	return itsOwnerFlag;
 }
 
 /******************************************************************************
