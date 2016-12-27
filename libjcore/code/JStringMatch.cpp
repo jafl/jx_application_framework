@@ -12,7 +12,7 @@
  ******************************************************************************/
 
 #include <JStringMatch.h>
-#include <JString.h>
+#include <JRegex.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -29,11 +29,13 @@ JStringMatch::JStringMatch
 	(
 	const JString&			target,
 	const JUtf8ByteRange&	byteRange,
+	JRegex*					regex,
 	JArray<JUtf8ByteRange>*	list
 	)
 	:
 	itsTarget(target),
 	itsByteRange(byteRange),
+	itsRegex(regex),
 	itsSubmatchList(list)
 {
 	assert( !itsByteRange.IsEmpty() );		// avoid potential infinite loops
@@ -179,6 +181,29 @@ JStringMatch::GetSubstring
 	if (itsSubmatchList != NULL && itsSubmatchList->IndexValid(index))
 		{
 		return JString(itsTarget.GetBytes(), itsSubmatchList->GetElement(index), kJFalse);
+		}
+	else
+		{
+		return JString();
+		}
+}
+
+/******************************************************************************
+ GetSubstring
+
+ ******************************************************************************/
+
+JString
+JStringMatch::GetSubstring
+	(
+	const JUtf8Byte* name
+	)
+	const
+{
+	JIndex i;
+	if (itsRegex != NULL && itsRegex->GetSubexpressionIndex(name, &i))
+		{
+		return GetSubstring(i);
 		}
 	else
 		{

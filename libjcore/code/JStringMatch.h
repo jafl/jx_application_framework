@@ -11,9 +11,10 @@
 #include <JString.h>
 #include <JArray.h>
 
+class JRegex;
+
 class JStringMatch
 {
-	friend class JString;			// to modify string
 	friend class JStringIterator;	// construction
 	friend class JRegex;			// construction
 
@@ -28,6 +29,8 @@ public:
 
 	JString	GetString() const;
 	JString	GetSubstring(const JIndex submatchIndex) const;
+	JString	GetSubstring(const JUtf8Byte* name) const;
+	JString	GetSubstring(const JString& name) const;
 
 	JCharacterRange	GetCharacterRange(const JIndex submatchIndex = 0) const;
 	JUtf8ByteRange	GetUtf8ByteRange(const JIndex submatchIndex = 0) const;
@@ -35,7 +38,7 @@ public:
 protected:
 
 	JStringMatch(const JString& target, const JUtf8ByteRange& byteRange,
-				 JArray<JUtf8ByteRange>* list = NULL);
+				 JRegex* regex = NULL, JArray<JUtf8ByteRange>* list = NULL);
 
 	void	SetFirstCharacterIndex(const JIndex index);
 	void	SetLastCharacterIndex(const JIndex index);
@@ -46,6 +49,7 @@ private:
 	const JString&			itsTarget;
 	JUtf8ByteRange			itsByteRange;
 	JCharacterRange			itsCharacterRange;	// empty if have not computed # of characters
+	JRegex*					itsRegex;			// can be NULL
 	JArray<JUtf8ByteRange>*	itsSubmatchList;	// can be NULL
 
 private:
@@ -93,6 +97,21 @@ JStringMatch::GetSubstringCount()
 	const
 {
 	return (itsSubmatchList == NULL ? 0 : itsSubmatchList->GetElementCount());
+}
+
+/******************************************************************************
+ GetSubstring
+
+ ******************************************************************************/
+
+inline JString
+JStringMatch::GetSubstring
+	(
+	const JString& name
+	)
+	const
+{
+	return GetSubstring(name.GetBytes());
 }
 
 /******************************************************************************
