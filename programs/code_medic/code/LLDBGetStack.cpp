@@ -57,7 +57,7 @@ LLDBGetStack::~LLDBGetStack()
 
  ******************************************************************************/
 
-static const JRegex assertPattern = "^(JAssert|__assert(_[^[:space:]]+)?)$";
+static const JRegex assertPattern = "^(JAssert|__assert(_[^[:space:]]+)?)\\(";
 
 void
 LLDBGetStack::HandleSuccess
