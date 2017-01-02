@@ -131,10 +131,6 @@ JParseArgsForExec
 			}
 		else if (c == '"' || c == '\'')
 			{
-			iter.SkipPrev();
-			iter.BeginMatch();
-			iter.SkipNext();
-
 			const JUtf8Character open = c;
 			while (iter.Next(&c))
 				{
@@ -144,14 +140,6 @@ JParseArgsForExec
 					}
 				else if (c == open)
 					{
-					const JStringMatch& m = iter.FinishMatch();
-
-					JString* s = jnew JString(m.GetString());
-					assert( s != NULL );
-					JCleanArg(s);	// clean out backslashes and quotes
-					argList->Append(s);
-
-					iter.BeginMatch();
 					break;
 					}
 				}

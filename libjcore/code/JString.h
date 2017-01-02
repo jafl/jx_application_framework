@@ -285,35 +285,6 @@ private:
 
 
 /******************************************************************************
- GetBytes
-
- ******************************************************************************/
-
-inline const JUtf8Byte*
-JString::GetBytes()
-	const
-{
-	if (!itsOwnerFlag && itsBytes[ itsByteCount ] != 0)
-		{
-		JString* self = const_cast<JString*>(this);		// does not violate conceptual constness
-
-		const JUtf8Byte* bytes = itsBytes;
-		self->itsBytes = NULL;	// don't confuse CopyToPrivateString()
-		self->CopyToPrivateString(bytes, itsByteCount, kJFalse);
-		}
-	return itsBytes;
-}
-
-// protected
-
-inline const JUtf8Byte*
-JString::GetUnterminatedBytes()
-	const
-{
-	return itsBytes;
-}
-
-/******************************************************************************
  IsOwner
 
  ******************************************************************************/
@@ -1729,6 +1700,18 @@ JString::SetDefaultBlockSize
 	)
 {
 	theDefaultBlockSize = blockSize;
+}
+
+/******************************************************************************
+ GetUnterminatedBytes (protected)
+
+ ******************************************************************************/
+
+inline const JUtf8Byte*
+JString::GetUnterminatedBytes()
+	const
+{
+	return itsBytes;
 }
 
 #endif

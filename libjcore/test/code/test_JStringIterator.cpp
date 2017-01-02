@@ -57,28 +57,28 @@ JTEST(Iteration)
 	JAssertEqual(4, j);
 
 	JAssertTrue(i.Next(&c));
-	JAssertStringsEqual("\xC2\xA9", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xC2\xA9", c.GetBytes());
 	JAssertTrue(i.GetPrevCharacterIndex(&j));
 	JAssertEqual(4, j);
 	JAssertTrue(i.GetNextCharacterIndex(&j));
 	JAssertEqual(5, j);
 
 	JAssertTrue(i.Next(&c));
-	JAssertStringsEqual("\xC3\x85", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xC3\x85", c.GetBytes());
 	JAssertTrue(i.GetPrevCharacterIndex(&j));
 	JAssertEqual(5, j);
 	JAssertTrue(i.GetNextCharacterIndex(&j));
 	JAssertEqual(6, j);
 
 	JAssertTrue(i.Next(&c));
-	JAssertStringsEqual("\xC3\xA5", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xC3\xA5", c.GetBytes());
 	JAssertTrue(i.GetPrevCharacterIndex(&j));
 	JAssertEqual(6, j);
 	JAssertTrue(i.GetNextCharacterIndex(&j));
 	JAssertEqual(7, j);
 
 	JAssertTrue(i.Next(&c));
-	JAssertStringsEqual("\xE2\x9C\x94", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xE2\x9C\x94", c.GetBytes());
 	JAssertTrue(i.GetPrevCharacterIndex(&j));
 	JAssertTrue(i.GetPrevCharacterIndex(&j));
 	JAssertEqual(7, j);
@@ -93,28 +93,28 @@ JTEST(Iteration)
 
 
 	JAssertTrue(i.Prev(&c));
-	JAssertStringsEqual("\xE2\x9C\x94", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xE2\x9C\x94", c.GetBytes());
 	JAssertTrue(i.GetPrevCharacterIndex(&j));
 	JAssertEqual(6, j);
 	JAssertTrue(i.GetNextCharacterIndex(&j));
 	JAssertEqual(7, j);
 
 	JAssertTrue(i.Prev(&c));
-	JAssertStringsEqual("\xC3\xA5", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xC3\xA5", c.GetBytes());
 	JAssertTrue(i.GetPrevCharacterIndex(&j));
 	JAssertEqual(5, j);
 	JAssertTrue(i.GetNextCharacterIndex(&j));
 	JAssertEqual(6, j);
 
 	JAssertTrue(i.Prev(&c));
-	JAssertStringsEqual("\xC3\x85", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xC3\x85", c.GetBytes());
 	JAssertTrue(i.GetPrevCharacterIndex(&j));
 	JAssertEqual(4, j);
 	JAssertTrue(i.GetNextCharacterIndex(&j));
 	JAssertEqual(5, j);
 
 	JAssertTrue(i.Prev(&c));
-	JAssertStringsEqual("\xC2\xA9", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xC2\xA9", c.GetBytes());
 	JAssertTrue(i.GetPrevCharacterIndex(&j));
 	JAssertEqual(3, j);
 	JAssertTrue(i.GetNextCharacterIndex(&j));
@@ -177,7 +177,7 @@ JTEST(Move)
 	JAssertEqual(7, j);
 	JAssertFalse(i.GetNextCharacterIndex(&j));
 	JAssertTrue(i.Prev(&c));
-	JAssertStringsEqual("\xE2\x9C\x94", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xE2\x9C\x94", c.GetBytes());
 	JAssertTrue(i.GetPrevCharacterIndex(&j));
 	JAssertEqual(6, j);
 	JAssertTrue(i.GetNextCharacterIndex(&j));
@@ -205,7 +205,7 @@ JTEST(Move)
 	JAssertTrue(i.GetNextCharacterIndex(&j));
 	JAssertEqual(5, j);
 	JAssertTrue(i.Next(&c));
-	JAssertStringsEqual("\xC3\x85", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xC3\x85", c.GetBytes());
 
 	i.MoveTo(kJIteratorStartBefore, 1);
 	JAssertTrue(i.AtBeginning());
@@ -224,7 +224,7 @@ JTEST(Move)
 	JAssertTrue(i.GetNextCharacterIndex(&j));
 	JAssertEqual(5, j);
 	JAssertTrue(i.Next(&c));
-	JAssertStringsEqual("\xC3\x85", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xC3\x85", c.GetBytes());
 
 	i.MoveTo(kJIteratorStartBeforeByte, 1);
 	JAssertTrue(i.AtBeginning());
@@ -243,7 +243,7 @@ JTEST(Move)
 	JAssertTrue(i.GetNextCharacterIndex(&j));
 	JAssertEqual(7, j);
 	JAssertTrue(i.Prev(&c));
-	JAssertStringsEqual("\xC3\xA5", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xC3\xA5", c.GetBytes());
 
 	i.MoveTo(kJIteratorStartAfter, 7);
 	JAssertFalse(i.AtBeginning());
@@ -252,7 +252,7 @@ JTEST(Move)
 	JAssertEqual(7, j);
 	JAssertFalse(i.GetNextCharacterIndex(&j));
 	JAssertTrue(i.Prev(&c));
-	JAssertStringsEqual("\xE2\x9C\x94", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xE2\x9C\x94", c.GetBytes());
 
 	i.MoveTo(kJIteratorStartAfterByte, 9);
 	JAssertFalse(i.AtBeginning());
@@ -262,7 +262,7 @@ JTEST(Move)
 	JAssertTrue(i.GetNextCharacterIndex(&j));
 	JAssertEqual(7, j);
 	JAssertTrue(i.Prev(&c));
-	JAssertStringsEqual("\xC3\xA5", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xC3\xA5", c.GetBytes());
 
 	i.MoveTo(kJIteratorStartAfterByte, s.GetByteCount());
 	JAssertFalse(i.AtBeginning());
@@ -271,7 +271,7 @@ JTEST(Move)
 	JAssertEqual(7, j);
 	JAssertFalse(i.GetNextCharacterIndex(&j));
 	JAssertTrue(i.Prev(&c));
-	JAssertStringsEqual("\xE2\x9C\x94", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xE2\x9C\x94", c.GetBytes());
 }
 
 JTEST(Skip)
@@ -288,7 +288,7 @@ JTEST(Skip)
 	JAssertTrue(i.GetNextCharacterIndex(&j));
 	JAssertEqual(6, j);
 	JAssertTrue(i.Next(&c));
-	JAssertStringsEqual("\xC3\xA5", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xC3\xA5", c.GetBytes());
 
 	i.MoveTo(kJIteratorStartAtEnd, 0);
 	i.SkipPrev(2);
@@ -297,7 +297,7 @@ JTEST(Skip)
 	JAssertTrue(i.GetNextCharacterIndex(&j));
 	JAssertEqual(6, j);
 	JAssertTrue(i.Prev(&c));
-	JAssertStringsEqual("\xC3\x85", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xC3\x85", c.GetBytes());
 }
 
 JTEST(Search)
@@ -395,7 +395,7 @@ JTEST(Set)
 	JAssertTrue(i.SetNext('s'));
 	JAssertTrue(i.SetNext('Q'));
 	JAssertTrue(i.Next(&c, kJFalse));
-	JAssertStringsEqual("\xE2\x9C\x94", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xE2\x9C\x94", c.GetBytes());
 	JAssertEqual(7, s.GetCharacterCount());
 	JAssertEqual(10, s.GetByteCount());
 	JAssertTrue(i.GetPrevCharacterIndex(&j));
@@ -408,7 +408,7 @@ JTEST(Set)
 	JAssertTrue(i.SetPrev("\xE2\x9C\x94"));
 	JAssertTrue(i.SetPrev("\xE2\x9C\x94"));
 	JAssertTrue(i.Prev(&c));
-	JAssertStringsEqual("\xC2\xA9", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xC2\xA9", c.GetBytes());
 	JAssertEqual(7, s.GetCharacterCount());
 	JAssertEqual(14, s.GetByteCount());
 	JAssertTrue(i.GetPrevCharacterIndex(&j));
@@ -444,7 +444,7 @@ JTEST(Remove)
 	JAssertTrue(i.GetNextCharacterIndex(&j));
 	JAssertEqual(3, j);
 	JAssertTrue(i.Next(&c, kJFalse));
-	JAssertStringsEqual("\xE2\x9C\x94", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xE2\x9C\x94", c.GetBytes());
 	JAssertEqual(3, s.GetCharacterCount());
 	JAssertEqual(5, s.GetByteCount());
 
@@ -528,7 +528,7 @@ JTEST(ReplaceLastMatch)
 	JAssertTrue(i.Prev(&c, kJFalse));
 	JAssertEqual('2', c);
 	JAssertTrue(i.Next(&c, kJFalse));
-	JAssertStringsEqual("\xE2\x9C\x94", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xE2\x9C\x94", c.GetBytes());
 	JAssertEqual(7, s.GetCharacterCount());
 	JAssertEqual(10, s.GetByteCount());
 }
@@ -543,7 +543,7 @@ JTEST(Insert)
 	i.MoveTo(kJIteratorStartBefore, 5);
 	i.Insert("\xE2\x9C\x94" "5");
 	JAssertTrue(i.Next(&c));
-	JAssertStringsEqual("\xE2\x9C\x94", JString(c.GetBytes(), 0));
+	JAssertStringsEqual("\xE2\x9C\x94", c.GetBytes());
 	JAssertTrue(i.Next(&c));
 	JAssertEqual('5', c);
 	JAssertTrue(i.GetPrevCharacterIndex(&j));
