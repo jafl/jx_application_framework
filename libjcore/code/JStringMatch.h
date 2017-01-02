@@ -38,28 +38,33 @@ public:
 protected:
 
 	JStringMatch(const JString& target, const JUtf8ByteRange& byteRange,
-				 JRegex* regex = NULL, JArray<JUtf8ByteRange>* list = NULL);
+				 const JRegex* regex = NULL, JArray<JUtf8ByteRange>* list = NULL);
 
 	void	SetFirstCharacterIndex(const JIndex index);
 	void	SetLastCharacterIndex(const JIndex index);
 	void	SetCharacterRange(const JCharacterRange& range);
+
+	// for JRegex
+
+	const JStringMatch& operator=(const JStringMatch& source);
+
+public:
+
+	// for testing
+
+	JStringMatch(const JStringMatch& source);
 
 private:
 
 	const JString&			itsTarget;
 	JUtf8ByteRange			itsByteRange;
 	JCharacterRange			itsCharacterRange;	// empty if have not computed # of characters
-	JRegex*					itsRegex;			// can be NULL
+	const JRegex*			itsRegex;			// can be NULL
 	JArray<JUtf8ByteRange>*	itsSubmatchList;	// can be NULL
 
 private:
 
 	void	ComputeCharacterRange() const;
-
-	// not allowed
-
-	JStringMatch(const JStringMatch& source);	// JStringMatches should never be stored
-	const JStringMatch& operator=(const JStringMatch& source);
 };
 
 

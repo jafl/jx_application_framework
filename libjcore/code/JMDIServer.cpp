@@ -50,8 +50,8 @@ const JUtf8Byte kEndOfMessage = '\0';
 
 const JUtf8Byte* JMDIServer::kQuitOptionName = "--quit";
 
-static const JUtf8Byte* kServerReadyMsg = "JMDIServer ready";
-static const JUtf8Byte* kServerBusyMsg  = "JMDIServer busy";
+static const JString kServerReadyMsg("JMDIServer ready", 0, kJFalse);
+static const JString kServerBusyMsg ("JMDIServer busy",  0, kJFalse);
 
 /******************************************************************************
  Constructor
@@ -112,7 +112,7 @@ JMDIServer::WillBeMDIServer
 	// If the socket doesn't exist, we will be the server.
 
 	const JString socketName = GetMDISocketName(signature);
-	if (!JUNIXSocketExists(socketName.GetBytes()))
+	if (!JUNIXSocketExists(socketName))
 		{
 		for (int i=0; i<argc; i++)
 			{
@@ -122,7 +122,7 @@ JMDIServer::WillBeMDIServer
 				}
 			}
 
-		if (JNameUsed(socketName.GetBytes()))
+		if (JNameUsed(socketName))
 			{
 			std::cerr << "Unable to initiate MDI because " << socketName << std::endl;
 			std::cerr << "exists as something else." << std::endl;
@@ -149,7 +149,7 @@ JMDIServer::WillBeMDIServer
 	JString serverStatus;
 	const JBoolean serverOK =
 		ReceiveLine(socket, kJTrue, &serverStatus, &receivedFinishedFlag);
-	if (!serverOK && !JUNIXSocketExists(socketName.GetBytes()))		// user deleted dead socket
+	if (!serverOK && !JUNIXSocketExists(socketName))		// user deleted dead socket
 		{
 		socket.close();
 		return kJTrue;
@@ -180,11 +180,11 @@ JMDIServer::WillBeMDIServer
 	// send our message
 
 	const JString dir = JGetCurrentDirectory();
-	SendLine(socket, dir.GetBytes());
+	SendLine(socket, dir);
 
 	for (int i=0; i<argc; i++)
 		{
-		SendLine(socket, argv[i]);
+		SendLine(socket, JString(argv[i], 0, kJFalse));
 		}
 
 	WaitForFinished(socket, receivedFinishedFlag);
@@ -212,10 +212,10 @@ JMDIServer::HandleCmdLineOptions
 	JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
 	for (JIndex i=0; i < (JIndex) argc; i++)
 		{
-		argList.Append(argv[i]);
+		argList.Append(JString(argv[i], 0, kJFalse));
 		}
 
-	HandleMDIRequest(dir.GetBytes(), argList);
+	HandleMDIRequest(dir, argList);
 }
 
 /******************************************************************************
@@ -287,7 +287,7 @@ JMDIServer::ProcessMDIMessage()
 
 	if (!argList.IsEmpty())
 		{
-		HandleMDIRequest(dir.GetBytes(), argList);
+		HandleMDIRequest(dir, argList);
 		}
 }
 

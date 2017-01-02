@@ -51,8 +51,8 @@ JTEUndoTabShift::UpdateEndChar()
 {
 	Activate();		// cancel SetSelection()
 
-	JIndexRange r;
+	JCharacterRange r;
 	const JBoolean ok = GetTE()->GetSelection(&r);
 	assert( ok );
-	SetCurrentLength(r.GetLength());
+	SetCurrentLength(r.GetCount());
 }

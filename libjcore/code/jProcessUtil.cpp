@@ -11,6 +11,8 @@
 #include <JThisProcess.h>
 #include <JPtrArray-JString.h>
 #include <JProcessError.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <JStdError.h>
 #include <jStreamUtil.h>
 #include <JMinMax.h>
@@ -51,15 +53,15 @@ JPrepArgForExec
 	JString str    = arg;
 	JBoolean quote = kJFalse;
 
-	const JSize length = str.GetCharacterCount();
-	for (JIndex i=length; i>=1; i--)
+	JStringIterator iter(&str, kJIteratorStartAtEnd);
+	JUtf8Character c;
+	while (iter.Prev(&c))
 		{
-		const JUtf8Byte c = str.GetCharacter(i);
 		if (c == '"' || c == '\'' || c == '\\' || c == ';')
 			{
-			str.InsertSubstring("\\", i);
+			iter.Insert("\\");
 			}
-		else if (isspace(c))
+		else if (c.IsSpace())
 			{
 			quote = kJTrue;
 			}
@@ -67,8 +69,8 @@ JPrepArgForExec
 
 	if (quote)
 		{
-		str.PrependCharacter('"');
-		str.AppendCharacter('"');
+		str.Prepend("\"");
+		str.Append("\"");
 		}
 	return str;
 }
@@ -77,7 +79,7 @@ JPrepArgForExec
  JParseArgsForExec
 
 	Splits up the given string by whitespace (except that which is quoted).
-	Semi-colons not enclosed by quotes are converted to separate arguments.
+	Unquoted semi-colons are converted to separate arguments.
 
  ******************************************************************************/
 
@@ -92,61 +94,77 @@ JParseArgsForExec
 
 	argList->CleanOut();
 
-	const JSize length = strlen(cmd);
-
-	JIndex i = 0, j = i;
-	while (i < length)
+	JStringIterator iter(cmd);
+	JUtf8Character c;
+	iter.BeginMatch();
+	while (iter.Next(&c))
 		{
-		if (isspace(cmd[i]) || cmd[i] == ';')
+		if (c.IsSpace() || c == ';')
 			{
-			if (j < i)
+			iter.SkipPrev();
+			const JStringMatch& m = iter.FinishMatch();
+			iter.SkipNext();
+			if (!m.IsEmpty())
 				{
-				JString* s = jnew JString(cmd+j, i-j);
+				JString* s = jnew JString(m.GetString());
 				assert( s != NULL );
-				JCleanArg(s);	// clean out backslashes and quotes
-				argList->Append(s);
-				}
-			if (cmd[i] == ';')
-				{
-				argList->Append(";");
-				}
-			i++;
-			j = i;
-			}
-		else if (cmd[i] == '\\')
-			{
-			i += 2;
-			}
-		else if (cmd[i] == '"' || cmd[i] == '\'')
-			{
-			const JUtf8Byte c = cmd[i];
-			i++;
-			while (i < length)
-				{
-				if (cmd[i] == '\\')
+				s->TrimWhitespace();
+				if (!s->IsEmpty())
 					{
-					i++;
+					JCleanArg(s);	// clean out backslashes and quotes
+					argList->Append(s);
 					}
-				else if (cmd[i] == c)
+				else
 					{
-					i++;
+					jdelete s;
+					}
+				}
+			if (c == ';')
+				{
+				argList->Append(JString(";", 0, kJFalse));
+				}
+			iter.BeginMatch();
+			}
+		else if (c == '\\')
+			{
+			iter.SkipNext();
+			}
+		else if (c == '"' || c == '\'')
+			{
+			iter.SkipPrev();
+			iter.BeginMatch();
+			iter.SkipNext();
+
+			const JUtf8Character open = c;
+			while (iter.Next(&c))
+				{
+				if (c == '\\')
+					{
+					iter.SkipNext();
+					}
+				else if (c == open)
+					{
+					const JStringMatch& m = iter.FinishMatch();
+
+					JString* s = jnew JString(m.GetString());
+					assert( s != NULL );
+					JCleanArg(s);	// clean out backslashes and quotes
+					argList->Append(s);
+
+					iter.BeginMatch();
 					break;
 					}
-				i++;
 				}
 			}
-		else
-			{
-			i++;
-			}
 		}
-	i = JMin(i, length);
 
 	// catch last argument
 
-	if (j < i)
+	iter.MoveTo(kJIteratorStartAtEnd, 0);
+	const JStringMatch& m = iter.FinishMatch();
+	if (!m.IsEmpty())
 		{
-		JString* s = jnew JString(cmd+j, i-j);
+		JString* s = jnew JString(m.GetString());
 		assert( s != NULL );
 		JCleanArg(s);	// clean out backslashes and quotes
 		argList->Append(s);
@@ -168,28 +186,24 @@ JCleanArg
 {
 	JSize quote = 0;
 
-	JSize length = arg->GetLength();
-	for (JIndex i=1; i<=length; i++)
+	JStringIterator iter(arg);
+	JUtf8Character c;
+	while (iter.Next(&c))
 		{
-		const JUtf8Byte c = arg->GetCharacter(i);
 		if (c == '\\')
 			{
-			arg->RemoveSubstring(i,i);
-			length--;
+			iter.RemovePrev();
+			iter.SkipNext();
 			}
 		else if (quote == 0 && (c == '"' || c == '\''))
 			{
-			arg->RemoveSubstring(i,i);
-			i--;
-			length--;
+			iter.RemovePrev();
 			quote = (c == '"' ? 2 : 1);
 			}
 		else if ((quote == 1 && c == '\'') ||
 				 (quote == 2 && c == '"'))
 			{
-			arg->RemoveSubstring(i,i);
-			i--;
-			length--;
+			iter.RemovePrev();
 			quote = 0;
 			}
 		}
@@ -446,12 +460,13 @@ JExecute
 	assert( (errAction != kJCreatePipe && errAction != kJAttachToFD) ||
 			errFD != NULL );
 
+	const JString origProgName(argv[0], 0, kJFalse);
 	JString progName;
-	if (!JProgramAvailable(argv[0], &progName))
+	if (!JProgramAvailable(origProgName, &progName))
 		{
-		return JProgramNotAvailable(argv[0]);
+		return JProgramNotAvailable(origProgName);
 		}
-	argv[0] = progName.GetCString();
+	argv[0] = progName.GetBytes();
 
 	int fd[3][2];
 
@@ -850,7 +865,7 @@ JProgramAvailable
 	JString*		fixedName
 	)
 {
-	if (JString::IsEmpty(programName) ||
+	if (programName.IsEmpty() ||
 		!JExpandHomeDirShortcut(programName, fixedName))
 		{
 		return kJFalse;
@@ -873,7 +888,7 @@ JProgramAvailable
 
 	const JUtf8Byte* cpath = getenv("PATH");
 
-	JString path(cpath == NULL ? "" : cpath);
+	JString path(cpath == NULL ? "" : cpath, 0);
 	if (theIncludeCWDOnPathFlag)
 		{
 		path.Prepend(".:");
@@ -884,12 +899,14 @@ JProgramAvailable
 		return kJFalse;
 		}
 
-	JIndex colonIndex;
-	while (path.LocateSubstring(":", &colonIndex))
+	JStringIterator iter(path);
+	iter.BeginMatch();
+	while (iter.Next(":"))
 		{
-		if (colonIndex > 1)
+		const JStringMatch& m = iter.FinishMatch();
+		if (!m.IsEmpty())
 			{
-			const JString dir = path.GetSubstring(1, colonIndex-1);
+			const JString dir = m.GetString();
 			fullName          = JCombinePathAndName(dir, programName);
 			if (JFileExists(fullName) && JFileExecutable(fullName))
 				{
@@ -901,15 +918,17 @@ JProgramAvailable
 				}
 			}
 
-		path.RemoveSubstring(1, colonIndex);
+		iter.BeginMatch();
 		}
 
-	if (path.IsEmpty())
+	const JStringMatch& m = iter.FinishMatch();
+	if (m.IsEmpty())
 		{
 		return kJFalse;
 		}
 
-	fullName = JCombinePathAndName(path, programName);
+	const JString dir = m.GetString();
+	fullName          = JCombinePathAndName(dir, programName);
 	return JFileExecutable(fullName);
 }
 

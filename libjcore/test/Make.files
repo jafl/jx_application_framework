@@ -2,377 +2,92 @@
 
 @test_JBoolean
 ${CODEDIR}/test_JBoolean
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_JUtf8Character
 ${CODEDIR}/test_JUtf8Character
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_JString
 ${CODEDIR}/test_JString
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_JStringMatch
 ${CODEDIR}/test_JStringMatch
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JCollection
-.o ${JCOREDIR}/JOrderedSetT
-.o ${JCOREDIR}/JOrderedSetUtil
-.o ${JCOREDIR}/JBroadcaster
-.o ${JCOREDIR}/JRTTIBase
-.o ${JCOREDIR}/JIndexRange
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_JStringIterator
 ${CODEDIR}/test_JStringIterator
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JCollection
-.o ${JCOREDIR}/JOrderedSetT
-.o ${JCOREDIR}/JOrderedSetUtil
-.o ${JCOREDIR}/JBroadcaster
-.o ${JCOREDIR}/JRTTIBase
-.o ${JCOREDIR}/JIndexRange
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_jFileUtils
 ${CODEDIR}/test_jFileUtils
-.o ${JCOREDIR}/jFileUtil
-.o ${JCOREDIR}/jDirUtil
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_jFStreamUtil
 ${CODEDIR}/test_jFStreamUtil
-.o ${JCOREDIR}/jFStreamUtil
-.o ${JCOREDIR}/jFileUtil
-.o ${JCOREDIR}/jDirUtil
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
-@testJPipe
-${CODEDIR}/test_JPipe
+@test_jProcessUtil
+${CODEDIR}/test_jProcessUtil
+
+@test_JMessageProtocol
+${CODEDIR}/test_JMessageProtocol
 
 @test_JBroadcaster
 ${CODEDIR}/test_JBroadcaster
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JBroadcastTester
-.o ${JCOREDIR}/JRTTIBase
-.o ${JCOREDIR}/JBroadcaster
-.o ${JCOREDIR}/JCollection
-.o ${JCOREDIR}/JContainer
-.o ${JCOREDIR}/JOrderedSetT
-.o ${JCOREDIR}/JOrderedSetUtil
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_JArray
 ${CODEDIR}/test_JArray
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JBroadcastTester
-.o ${JCOREDIR}/JRTTIBase
-.o ${JCOREDIR}/JBroadcaster
-.o ${JCOREDIR}/JCollection
-.o ${JCOREDIR}/JContainer
-.o ${JCOREDIR}/JOrderedSetT
-.o ${JCOREDIR}/JOrderedSetUtil
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_JLinkedList
 ${CODEDIR}/test_JLinkedList
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JBroadcastTester
-.o ${JCOREDIR}/JRTTIBase
-.o ${JCOREDIR}/JBroadcaster
-.o ${JCOREDIR}/JCollection
-.o ${JCOREDIR}/JContainer
-.o ${JCOREDIR}/JOrderedSetT
-.o ${JCOREDIR}/JOrderedSetUtil
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_JPtrArray
 ${CODEDIR}/test_JPtrArray
-.o ${JCOREDIR}/JPtrArray-JString
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JBroadcastTester
-.o ${JCOREDIR}/JRTTIBase
-.o ${JCOREDIR}/JBroadcaster
-.o ${JCOREDIR}/JCollection
-.o ${JCOREDIR}/JContainer
-.o ${JCOREDIR}/JOrderedSetT
-.o ${JCOREDIR}/JOrderedSetUtil
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_JRunArray
 ${CODEDIR}/test_JRunArray
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JBroadcastTester
-.o ${JCOREDIR}/JRTTIBase
-.o ${JCOREDIR}/JBroadcaster
-.o ${JCOREDIR}/JCollection
-.o ${JCOREDIR}/JContainer
-.o ${JCOREDIR}/JOrderedSetT
-.o ${JCOREDIR}/JOrderedSetUtil
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_JQueue
 ${CODEDIR}/test_JQueue
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JRTTIBase
-.o ${JCOREDIR}/JBroadcaster
-.o ${JCOREDIR}/JCollection
-.o ${JCOREDIR}/JContainer
-.o ${JCOREDIR}/JOrderedSetT
-.o ${JCOREDIR}/JOrderedSetUtil
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_JStack
 ${CODEDIR}/test_JStack
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JRTTIBase
-.o ${JCOREDIR}/JBroadcaster
-.o ${JCOREDIR}/JCollection
-.o ${JCOREDIR}/JContainer
-.o ${JCOREDIR}/JOrderedSetT
-.o ${JCOREDIR}/JOrderedSetUtil
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_JVector
 ${CODEDIR}/test_JVector
-.o ${JCOREDIR}/JVector
-.o ${JCOREDIR}/JMatrix
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_JMatrix
 ${CODEDIR}/test_JMatrix
-.o ${JCOREDIR}/JMatrix
-.o ${JCOREDIR}/JVector
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_JKLRand
 ${CODEDIR}/test_JKLRand
-.o ${JCOREDIR}/JKLRand
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
-
-@testJFileArray
-${CODEDIR}/test_JFileArray
-
-@testJTextChooseSaveFile
-${CODEDIR}/test_JTextChooseSaveFile
-
-@testJTextProgressDisplay
-${CODEDIR}/test_JTextProgressDisplay
-
-@testJPrefsFile
-${CODEDIR}/test_JPrefsFile
 
 @test_JSubstitute
 ${CODEDIR}/test_JSubstitute
-.o ${JCOREDIR}/JSubstitute
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_JRegex
 ${CODEDIR}/test_JRegex
 
 @test_jHashFunctions
 ${CODEDIR}/test_jHashFunctions
-.o ${JCOREDIR}/jHashFunctions
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_JHashTable
 ${CODEDIR}/test_JHashTable
-.o ${JCOREDIR}/JKLRand
-.o ${JCOREDIR}/jHashFunctions
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_JStringMap
 ${CODEDIR}/test_JStringMap
-.o ${JCOREDIR}/jHashFunctions
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
 @test_JStringPtrMap
 ${CODEDIR}/test_JStringPtrMap
-.o ${JCOREDIR}/jHashFunctions
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
 
-@test_JParseArgsForExec
-${CODEDIR}/test_JParseArgsForExec
-.o ${JCOREDIR}/jProcessUtil
-.o ${JCOREDIR}/JUnitTestManager
-.o ${JCOREDIR}/JUtf8Character
-.o ${JCOREDIR}/JString
-.o ${JCOREDIR}/JStringIterator
-.o ${JCOREDIR}/JStringMatch
-.o ${JCOREDIR}/JBooleanIO
-.o ${JCOREDIR}/jMath
-.o ${JCOREDIR}/jStreamUtil
-.o ${JCOREDIR}/jStreamUtil_UNIX
+# unconverted
 
 @test_JDirInfo
 ${CODEDIR}/test_JDirInfo
+
+@testJFileArray
+${CODEDIR}/test_JFileArray
+
+@testJPrefsFile
+${CODEDIR}/test_JPrefsFile
+
+@testJPipe
+${CODEDIR}/test_JPipe
 
 # must be run manually
 
@@ -387,3 +102,12 @@ ${CODEDIR}/testrandperiod
 
 @testmemcpy
 ${CODEDIR}/testmemcpy
+
+@testJTextChooseSaveFile
+${CODEDIR}/testJTextChooseSaveFile
+
+@testJTextProgressDisplay
+${CODEDIR}/testJTextProgressDisplay
+
+@testJTextUserNotification
+${CODEDIR}/testJTextUserNotification

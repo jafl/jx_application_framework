@@ -50,10 +50,10 @@ JMMDebugErrorStream::HandleObjectDeletedAsArray
 {
 	JMemoryManager::SendError(
 		"Block allocated as object at " +
-		JString(record.GetNewFile()) + ":" +
+		JString(record.GetNewFile(), 0, kJFalse) + ":" +
 		JString(record.GetNewLine(), JString::kBase10) +
 		" was deleted as array at " +
-		JString(record.GetDeleteFile()) + ":" +
+		JString(record.GetDeleteFile(), 0, kJFalse) + ":" +
 		JString(record.GetDeleteLine(), JString::kBase10));
 }
 
@@ -70,10 +70,10 @@ JMMDebugErrorStream::HandleArrayDeletedAsObject
 {
 	JMemoryManager::SendError(
 		"Block allocated as array at " +
-		JString(record.GetNewFile()) + ":" +
+		JString(record.GetNewFile(), 0, kJFalse) + ":" +
 		JString(record.GetNewLine(), JString::kBase10) +
 		+ " was deleted as object at " +
-		JString(record.GetDeleteFile()) + ":" +
+		JString(record.GetDeleteFile(), 0, kJFalse) + ":" +
 		JString(record.GetDeleteLine(), JString::kBase10));
 }
 
@@ -91,8 +91,8 @@ JMMDebugErrorStream::HandleUnallocatedDeletion
 	)
 {
 	JMemoryManager::SendError(
-		"Block deleted as " + JString(JMMRecord::TypeName(isArray)) +
-		" at " + JString(file) + ":" +
+		"Block deleted as " + JString(JMMRecord::TypeName(isArray), 0, kJFalse) +
+		" at " + JString(file, 0, kJFalse) + ":" +
 		JString(line, JString::kBase10) + " was never allocated.");
 }
 
@@ -111,11 +111,11 @@ JMMDebugErrorStream::HandleMultipleDeletion
 	)
 {
 	JMemoryManager::SendError(
-		"Block deleted as " + JString(JMMRecord::TypeName(isArray)) +
-		" at " + JString(file) + ":" + JString(line, JString::kBase10) +
+		"Block deleted as " + JString(JMMRecord::TypeName(isArray), 0, kJFalse) +
+		" at " + JString(file, 0, kJFalse) + ":" + JString(line, JString::kBase10) +
 		" was already deleted, most recently as " +
-		JString(originalRecord.DeleteTypeName()) + " at " +
-		JString(originalRecord.GetDeleteFile()) +
+		JString(originalRecord.DeleteTypeName(), 0, kJFalse) + " at " +
+		JString(originalRecord.GetDeleteFile(), 0, kJFalse) +
 		":" + JString(originalRecord.GetDeleteLine(), JString::kBase10));
 }
 
@@ -133,12 +133,12 @@ JMMDebugErrorStream::HandleMultipleAllocation
 {
 	JMemoryManager::SendError(
 		"Item allocated as " +
-		JString(thisRecord.DeleteTypeName()) + " at " +
-		JString(thisRecord.GetNewFile()) + ":" +
+		JString(thisRecord.DeleteTypeName(), 0, kJFalse) + " at " +
+		JString(thisRecord.GetNewFile(), 0, kJFalse) + ":" +
 		JString(thisRecord.GetNewLine(), JString::kBase10) +
 		" was first allocated as " +
-		JString(firstRecord.DeleteTypeName()) + " at " +
-		JString(firstRecord.GetNewFile()) + ":" +
+		JString(firstRecord.DeleteTypeName(), 0, kJFalse) + " at " +
+		JString(firstRecord.GetNewFile(), 0, kJFalse) + ":" +
 		JString(firstRecord.GetNewLine(), JString::kBase10));
 }
 
@@ -157,6 +157,6 @@ JMMDebugErrorStream::HandleNULLDeleted
 {
 	JMemoryManager::SendError(
 		"Attempt to jdelete NULL as " +
-		JString(JMMRecord::TypeName(isArray)) + " at " +
-		JString(file) + ":" + JString(line, JString::kBase10));
+		JString(JMMRecord::TypeName(isArray), 0, kJFalse) + " at " +
+		JString(file, 0, kJFalse) + ":" + JString(line, JString::kBase10));
 }

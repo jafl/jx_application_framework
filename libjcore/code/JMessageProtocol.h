@@ -10,6 +10,7 @@
 
 #include <JNetworkProtocolBase.h>
 #include <JPtrArray-JString.h>
+#include <JRegex.h>
 
 class JMessageProtocolT
 {
@@ -18,16 +19,16 @@ public:
 	// Protocol definitions
 
 	static const JUtf8Byte* kUNIXSeparatorStr;
-	static const JSize kUNIXSeparatorLength;
+	static const JSize kUNIXSeparatorByteCount;
 
 	static const JUtf8Byte* kMacintoshSeparatorStr;
-	static const JSize kMacintoshSeparatorLength;
+	static const JSize kMacintoshSeparatorByteCount;
 
 	static const JUtf8Byte* kDOSSeparatorStr;
-	static const JSize kDOSSeparatorLength;
+	static const JSize kDOSSeparatorByteCount;
 
 	static const JUtf8Byte* kStdDisconnectStr;
-	static const JSize kStdDisconnectLength;
+	static const JSize kStdDisconnectByteCount;
 
 	// Other constants
 
@@ -89,8 +90,8 @@ public:
 	virtual ~JMessageProtocol();
 
 	void	GetProtocol(JString* separator, JString* disconnect) const;
-	void	SetProtocol(const JUtf8Byte* separatorStr, const JSize separatorLength,
-						const JUtf8Byte* disconnectStr, const JSize disconnectLength);
+	void	SetProtocol(const JUtf8Byte* separatorStr, const JSize separatorByteCount,
+						const JUtf8Byte* disconnectStr, const JSize disconnectByteCount);
 	void	UseUNIXProtocol();
 	void	UseMacintoshProtocol();
 	void	UseDOSProtocol();
@@ -110,7 +111,7 @@ public:
 	void	TranslateFromMacintoshAndSend(const JString& data);
 	void	TranslateFromDOSAndSend(const JString& data);
 	void	TranslateAndSend(const JString& data,
-							 const JUtf8Byte* separatorStr, const JSize separatorLength);
+							 const JUtf8Byte* separatorStr, const JSize separatorByteCount);
 
 	// how much is read from the connection at one time
 
@@ -125,12 +126,14 @@ private:
 
 	JPtrArray<JString>*	itsMessageList;		// parsed messages, last one is incomplete
 
-	JString		itsRecvData;				// buffer containing unprocessed bytes
+	JString		itsRecvData;				// buffer containing unprocessed characters
 	JUtf8Byte*	itsBuffer;					// buffer to receive raw bytes
 	JSize		itsBufferSize;
+	JSize		itsBufferOffset;			// partial character from last recv
 
 	JString		itsSeparatorStr;			// sent between messages
 	JString		itsDisconnectStr;			// can be empty; sent to terminate connection
+	JRegex		itsTokenPattern;			// separator or disconnect
 
 	JBoolean	itsSentDisconnectFlag;		// kJTrue => we are finished
 	JBoolean	itsReceivedDisconnectFlag;	// kJTrue => other end is finished
@@ -140,12 +143,7 @@ private:
 
 	void		JMessageProtocolX();
 	JString*	NewMessage();
-
-	JBoolean	LocateSequence(const JString& data, const JString& sequence,
-							   JIndex* index, JBoolean* endsWithPartial);
-	JBoolean	LocateNextSequence(const JString& d,
-								   const JString& sequence, JIndex* index,
-								   JBoolean* endsWithPartial);
+	void		UpdateTokenPattern();
 
 	// not allowed
 

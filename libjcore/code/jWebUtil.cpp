@@ -10,6 +10,8 @@
 #include <jWebUtil.h>
 #include <JVersionSocket.h>
 #include <JRegex.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <JWebBrowser.h>
 #include <jGlobals.h>
 #include <ace/Connector.h>
@@ -30,7 +32,8 @@ JIsURL
 	const JString& s
 	)
 {
-	return JI2B(strstr(s, "://") != NULL);
+	JStringIterator iter(s);
+	return iter.Next("://");
 }
 
 /******************************************************************************
@@ -58,30 +61,22 @@ JParseURL
 {
 	*path = url;
 
-	JArray<JIndexRange> matchList;
-	if (urlPattern.Match(url, &matchList))
+	JStringIterator iter(url);
+	if (iter.Next(url))
 		{
-		protocol->Set(url, matchList.GetElement(2));
-		host->Set(url, matchList.GetElement(3));
+		const JStringMatch& m = iter.GetLastMatch();
 
-		JIndexRange r = matchList.GetElement(4);
-		if (!r.IsEmpty())
-			{
-			const JString s(url, r);
-			if (!s.ConvertToUInt(port))
-				{
-				*port = 0;
-				}
-			}
-		else
+		protocol->Set(m.GetSubstring(1));
+		host->Set(m.GetSubstring(2));
+
+		if (!m.GetSubstring(3).ConvertToUInt(port))
 			{
 			*port = 0;
 			}
 
-		r = matchList.GetElement(5);
-		if (!r.IsEmpty())
+		if (!m.GetCharacterRange(4).IsEmpty())
 			{
-			path->Set(url, r);
+			path->Set(m.GetSubstring(4));
 			}
 		else
 			{
@@ -108,27 +103,27 @@ JGetDefaultPort
 	JIndex*			port
 	)
 {
-	if (strcasecmp(protocol, "http") == 0)
+	if (JString::Compare(protocol, "http", kJFalse) == 0)
 		{
 		*port = kJDefaultHTTPPort;
 		return kJTrue;
 		}
-	else if (strcasecmp(protocol, "https") == 0)
+	else if (JString::Compare(protocol, "https", kJFalse) == 0)
 		{
 		*port = kJDefaultHTTPSPort;
 		return kJTrue;
 		}
-	else if (strcasecmp(protocol, "ftp") == 0)
+	else if (JString::Compare(protocol, "ftp", kJFalse) == 0)
 		{
 		*port = kJDefaultFTPPort;
 		return kJTrue;
 		}
-	else if (strcasecmp(protocol, "sftp") == 0)
+	else if (JString::Compare(protocol, "sftp", kJFalse) == 0)
 		{
 		*port = kJDefaultSFTPPort;
 		return kJTrue;
 		}
-	else if (strcasecmp(protocol, "ssh") == 0)
+	else if (JString::Compare(protocol, "ssh", kJFalse) == 0)
 		{
 		*port = kJDefaultSSHPort;
 		return kJTrue;
@@ -190,8 +185,8 @@ JCheckForNewerVersion
 		{
 		const JUtf8Byte* map[] =
 			{
-			"vers", vers,
-			"site", host
+			"vers", vers.GetBytes(),
+			"site", host.GetBytes()
 			};
 		const JString msg = JGetString("JRemindNewVersion", map, sizeof(map));
 		if ((JGetUserNotification())->AskUserYes(msg))
@@ -202,7 +197,7 @@ JCheckForNewerVersion
 
 	if (socket->TimeToCheck())
 		{
-		ACE_INET_Addr addr(port, host);
+		ACE_INET_Addr addr(port, host.GetBytes());
 
 		VersionConnector* connector = new VersionConnector;
 		assert( connector != NULL );

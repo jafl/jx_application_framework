@@ -11,6 +11,8 @@
 #include <jDirUtil.h>
 #include <JThisProcess.h>
 #include <JRegex.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <jSysUtil.h>
 
 #if defined __OpenBSD__
@@ -48,16 +50,16 @@
 #include <jAssert.h>
 
 #if defined JMOUNT_OSX
-static const JUtf8Byte* kMountCmd        = "mount";
+static const JString kMountCmd("mount", 0, kJFalse);
 #elif defined JMOUNT_BSD
-static const JUtf8Byte* kAvailInfoName   = _PATH_FSTAB;
+static const JString kAvailInfoName(_PATH_FSTAB, 0, kJFalse);
 #elif defined JMOUNT_SYSV
-static const JUtf8Byte* kAvailInfoName   = VFSTAB;
+static const JString kAvailInfoName(VFSTAB, 0, kJFalse);
 static const JUtf8Byte* kMountedInfoName = MNTTAB;
 #elif defined _J_CYGWIN
 static const JUtf8Byte* kMountedInfoName = MOUNTED;
 #else
-static const JUtf8Byte* kAvailInfoName   = _PATH_FSTAB;
+static const JString kAvailInfoName(_PATH_FSTAB, 0, kJFalse);
 static const JUtf8Byte* kMountedInfoName = _PATH_MOUNTED;
 #endif
 
@@ -160,27 +162,27 @@ JGetUserMountPointList
 		*(state->mountCmdOutput) = mountData;
 		}
 
-	JIndexRange r;
-	JArray<JIndexRange> matchList;
 	JString options;
 	ACE_stat stbuf;
-	while (theLinePattern.MatchAfter(mountData.GetBytes(), r, &matchList))
-		{
-		r = matchList.GetFirstElement();
 
-		options = mountData.GetSubstring(matchList.GetElement(4));
+	JStringIterator iter(mountData);
+	while (iter.Next(theLinePattern))
+		{
+		const JStringMatch& m = iter.GetLastMatch();
+
+		options = m.GetSubstring(3);
 		if (options.Contains("nobrowse"))
 			{
 			continue;
 			}
 
-		JString* path = jnew JString(mountData.GetSubstring(matchList.GetElement(3)));
+		JString* path = jnew JString(m.GetSubstring(2));
 		assert( path != NULL );
-		JString* devicePath = jnew JString(mountData.GetSubstring(matchList.GetElement(2)));
+		JString* devicePath = jnew JString(m.GetSubstring(1));
 		assert( devicePath != NULL );
 
 		const JMountType type =
-			JGetUserMountPointType(*path, *devicePath, "");
+			JGetUserMountPointType(*path, *devicePath, JString("", 0, kJFalse));
 		if (type == kJUnknownMountType ||
 			ACE_OS::stat(path->GetBytes(), &stbuf) != 0)
 			{
@@ -294,7 +296,7 @@ JGetUserMountPointList
 		state->modTime = t;
 		}
 
-	FILE* f = fopen(kAvailInfoName, "r");
+	FILE* f = fopen(kAvailInfoName.GetBytes(), "r");
 	if (f == NULL)
 		{
 		return kJTrue;	// did clear list
@@ -386,7 +388,7 @@ JGetUserMountPointList
 		state->modTime = t;
 		}
 
-	FILE* f = setmntent(kAvailInfoName, "r");
+	FILE* f = setmntent(kAvailInfoName.GetBytes(), "r");
 	if (f == NULL)
 		{
 		return kJTrue;	// did clear list
@@ -951,10 +953,13 @@ jGetFullHostName
 	if (!host->Contains("."))
 		{
 		const JString localhost = JGetHostName();
-		JIndex dotIndex;
-		if (localhost.LocateSubstring(".", &dotIndex))
+		JStringIterator iter(localhost);
+		if (iter.Next("."))
 			{
-			*host += localhost.GetSubstring(dotIndex, localhost.GetLength());
+			iter.SkipPrev();	// include dot
+			iter.BeginMatch();
+			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			*host += iter.FinishMatch().GetString();
 			}
 		}
 }
@@ -969,24 +974,26 @@ jGetFullHostName
 inline JBoolean
 jTranslateLocalToRemote1
 	(
-	const JString&	localPath,
-	const JString&	mountDev,
-	const JString&	mountDir,
-	JBoolean*		found,
-	JString*		host,
-	JString*		remotePath
+	const JString&		localPath,
+	const JUtf8Byte*	mountDev,
+	const JUtf8Byte*	mountDir,
+	JBoolean*			found,
+	JString*			host,
+	JString*			remotePath
 	)
 {
-	if (!JIsSamePartition(localPath, mountDir))
+	const JString dir(mountDir, 0, kJFalse);
+	if (!JIsSamePartition(localPath, dir))
 		{
 		return kJFalse;
 		}
 
-	const JString dev = mountDev;
-	JIndex hostEndIndex;
-	if (dev.LocateSubstring(":/", &hostEndIndex) && hostEndIndex > 1)
+	const JString dev(mountDev, 0, kJFalse);
+	JStringIterator iter(dev);
+	iter.BeginMatch();
+	if (iter.Next(":/") && iter.GetPrevCharacterIndex() > 2)
 		{
-		*host = dev.GetSubstring(1, hostEndIndex-1);
+		*host = iter.FinishMatch().GetString();
 
 		#ifdef _J_CYGWIN
 		if (host->GetLength() == 1 &&
@@ -1002,13 +1009,16 @@ jTranslateLocalToRemote1
 
 		jGetFullHostName(host);
 
-		*remotePath = dev.GetSubstring(hostEndIndex+1, dev.GetLength());
+		iter.SkipPrev();	// include leading slash
+		iter.BeginMatch();
+		iter.MoveTo(kJIteratorStartAtEnd, 0);
+		*remotePath = iter.FinishMatch().GetString();
 		JAppendDirSeparator(remotePath);
 
-		// use JIndexRange to allow empty
-
-		JIndexRange r(strlen(mountDir)+1, localPath.GetLength());
-		*remotePath += localPath.GetSubstring(r);
+		JStringIterator iter2(localPath, kJIteratorStartAfter, dir.GetCharacterCount());
+		iter2.BeginMatch();
+		iter2.MoveTo(kJIteratorStartAtEnd, 0);
+		*remotePath += iter2.FinishMatch().GetString();
 		JCleanPath(remotePath);
 
 		*found = kJTrue;
@@ -1139,27 +1149,37 @@ JTranslateLocalToRemote
 inline JBoolean
 jTranslateRemoteToLocal1
 	(
-	const JString&	host,
-	const JString&	remotePath,
-	const JString&	mountDev,
-	const JString&	mountDir,
-	JString*		localPath
+	const JString&		host,
+	const JString&		remotePath,
+	const JUtf8Byte*	mountDev,
+	const JUtf8Byte*	mountDir,
+	JString*			localPath
 	)
 {
-	const JString dev = mountDev;
-	JIndex hostEndIndex;
-	if (dev.LocateSubstring(":/", &hostEndIndex) && hostEndIndex > 1)
+	const JString dev(mountDev, 0, kJFalse);
+	JStringIterator iter(dev);
+	iter.BeginMatch();
+	if (iter.Next(":/") && iter.GetPrevCharacterIndex() > 2)
 		{
-		JString h = dev.GetSubstring(1, hostEndIndex-1);
+		JString h = iter.FinishMatch().GetString();
 		jGetFullHostName(&h);
 
-		JString p = dev.GetSubstring(hostEndIndex+1, dev.GetLength());
+		iter.SkipPrev();	// include leading slash
+		iter.BeginMatch();
+		iter.MoveTo(kJIteratorStartAtEnd, 0);
+		JString p = iter.FinishMatch().GetString();
 		JAppendDirSeparator(&p);		// force complete name when check BeginsWith()
 
 		if (host == h && remotePath.BeginsWith(p))
 			{
 			*localPath = remotePath;
-			localPath->ReplaceSubstring(1, p.GetLength()-1, mountDir);
+
+			JStringIterator iter2(localPath);
+			iter2.BeginMatch();
+			iter2.MoveTo(kJIteratorStartAfter, p.GetCharacterCount()-1);
+			iter2.FinishMatch();
+			iter2.ReplaceLastMatch(JString(mountDir, 0, kJFalse));
+
 			JCleanPath(localPath);
 			return kJTrue;
 			}
@@ -1174,7 +1194,7 @@ JBoolean
 JTranslateRemoteToLocal
 	(
 	const JString&	hostStr,
-	const JString&	remotePathStr,
+	const JString&	remotePath,
 	JString*		localPath
 	)
 {
@@ -1182,8 +1202,6 @@ JTranslateRemoteToLocal
 
 	struct statfs* info;
 	const JSize count = getmntinfo(&info, MNT_WAIT);
-
-	const JString remotePath = remotePathStr;
 
 	JBoolean found = kJFalse;
 	for (JIndex i=0; i<count; i++)
@@ -1302,7 +1320,10 @@ JFormatPartition
 		if (!JIsMounted(path))
 			{
 			const JUtf8Byte* argv[] = { "xterm", "-T", "Format disk", "-n", "Format disk",
-										"-e", "/sbin/mkfs", "-t", type, "-c", device, NULL };
+										"-e", "/sbin/mkfs",
+											"-t", type.GetBytes(),
+											"-c", device.GetBytes(),
+										NULL };
 			const JError err = JProcess::Create(process, argv, sizeof(argv));
 			if (err.OK())
 				{
@@ -1331,8 +1352,8 @@ JIsSamePartition
 	)
 {
 	ACE_stat stbuf1, stbuf2;
-	return JI2B(ACE_OS::stat(path1, &stbuf1) == 0 &&
-				ACE_OS::stat(path2, &stbuf2) == 0 &&
+	return JI2B(ACE_OS::stat(path1.GetBytes(), &stbuf1) == 0 &&
+				ACE_OS::stat(path2.GetBytes(), &stbuf2) == 0 &&
 				stbuf1.st_dev == stbuf2.st_dev);
 }
 

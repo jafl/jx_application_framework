@@ -83,11 +83,11 @@ JTextChooseSaveFile::ChooseFile
 			}
 			while (fullName->IsEmpty() || DoSystemCommand(*fullName));
 
-		if (JFileExists(fullName->GetBytes()))
+		if (JFileExists(*fullName))
 			{
 			return kJTrue;
 			}
-		else if (!(JGetUserNotification())->AskUserYes("That file doesn't exist.  Try again?"))
+		else if (!(JGetUserNotification())->AskUserYes(JGetString("FileDoesNotExist::JTextChooseSaveFile")))
 			{
 			return kJFalse;
 			}
@@ -155,13 +155,13 @@ JTextChooseSaveFile::ChooseFiles
 			}
 			while (fullName.IsEmpty() || DoSystemCommand(fullName));
 
-		if (JFileExists(fullName.GetBytes()))
+		if (JFileExists(fullName))
 			{
 			JString* s = jnew JString(fullName);
 			assert( s != NULL );
 			fullNameList->Append(s);
 			}
-		else if (!(JGetUserNotification())->AskUserYes("That file doesn't exist.  Try again?"))
+		else if (!(JGetUserNotification())->AskUserYes(JGetString("FileDoesNotExist::JTextChooseSaveFile")))
 			{
 			fullNameList->CleanOut();
 			return kJFalse;
@@ -194,11 +194,11 @@ JTextChooseSaveFile::ChooseRPath
 			return kJFalse;
 			}
 
-		if (JDirectoryExists(newPath->GetBytes()))
+		if (JDirectoryExists(*newPath))
 			{
 			return kJTrue;
 			}
-		else if (!(JGetUserNotification())->AskUserYes("That directory doesn't exist.  Try again?"))
+		else if (!(JGetUserNotification())->AskUserYes(JGetString("DirectoryDoesNotExist::JTextChooseSaveFile")))
 			{
 			return kJFalse;
 			}
@@ -230,20 +230,20 @@ JTextChooseSaveFile::ChooseRWPath
 			return kJFalse;
 			}
 
-		if (JDirectoryWritable(newPath->GetBytes()))
+		if (JDirectoryWritable(*newPath))
 			{
 			return kJTrue;
 			}
-		else if (JDirectoryExists(newPath->GetBytes()))
+		else if (JDirectoryExists(*newPath))
 			{
-			if (!(JGetUserNotification())->AskUserYes("That directory isn't writable.  Try again?"))
+			if (!(JGetUserNotification())->AskUserYes(JGetString("DirectoryNotWritable::JTextChooseSaveFile")))
 				{
 				return kJFalse;
 				}
 			}
 		else	// directory doesn't exist
 			{
-			if (!(JGetUserNotification())->AskUserYes("That directory doesn't exist.  Try again?"))
+			if (!(JGetUserNotification())->AskUserYes(JGetString("DirectoryDoesNotExist::JTextChooseSaveFile")))
 				{
 				return kJFalse;
 				}
@@ -331,39 +331,39 @@ JTextChooseSaveFile::SaveFile
 			while (newFullName->IsEmpty() || DoSystemCommand(*newFullName));
 
 		JString path,name;
-		JSplitPathAndName(newFullName->GetBytes(), &path, &name);
-		const JBoolean fileExists   = JFileExists(newFullName->GetBytes());
-		const JBoolean fileWritable = JFileWritable(newFullName->GetBytes());
-		const JBoolean dirExists    = JDirectoryExists(path.GetBytes());
-		const JBoolean dirWritable  = JDirectoryWritable(path.GetBytes());
+		JSplitPathAndName(*newFullName, &path, &name);
+		const JBoolean fileExists   = JFileExists(*newFullName);
+		const JBoolean fileWritable = JFileWritable(*newFullName);
+		const JBoolean dirExists    = JDirectoryExists(path);
+		const JBoolean dirWritable  = JDirectoryWritable(path);
 		if (dirWritable && !fileExists)
 			{
 			return kJTrue;
 			}
 		else if (fileWritable)
 			{
-			if ((JGetUserNotification())->AskUserNo("That file already exists.  Replace it?"))
+			if ((JGetUserNotification())->AskUserNo(JGetString("FileExists::JTextChooseSaveFile")))
 				{
 				return kJTrue;
 				}
 			}
 		else if (!dirExists)
 			{
-			if (!(JGetUserNotification())->AskUserYes("That directory doesn't exist.  Try again?"))
+			if (!(JGetUserNotification())->AskUserYes(JGetString("DirectoryDoesNotExist::JTextChooseSaveFile")))
 				{
 				return kJFalse;
 				}
 			}
 		else if (!dirWritable && !fileExists)
 			{
-			if (!(JGetUserNotification())->AskUserYes("That directory isn't writable.  Try again?"))
+			if (!(JGetUserNotification())->AskUserYes(JGetString("DirectoryNotWritable::JTextChooseSaveFile")))
 				{
 				return kJFalse;
 				}
 			}
 		else	// file exists and is not writable
 			{
-			if (!(JGetUserNotification())->AskUserYes("That file isn't writable.  Try again?"))
+			if (!(JGetUserNotification())->AskUserYes(JGetString("FileNotWritable::JTextChooseSaveFile")))
 				{
 				return kJFalse;
 				}
@@ -389,9 +389,8 @@ JTextChooseSaveFile::DoSystemCommand
 		{
 		if (str.GetCharacterCount() >= 2)
 			{
-			JString cmd = str.GetSubstring(2, str.GetLength());
 			std::cout << std::endl;
-			system(cmd.GetBytes());
+			system(str.GetBytes() + 1);
 			}
 		std::cout << std::endl;
 		return kJTrue;

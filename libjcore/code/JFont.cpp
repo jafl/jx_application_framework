@@ -77,7 +77,7 @@ JFont::SetName
 	)
 {
 	assert( itsFontMgr != NULL );
-	itsID = itsFontMgr->GetFontID(name.GetBytes(), itsSize, itsStyle);
+	itsID = itsFontMgr->GetFontID(name, itsSize, itsStyle);
 }
 
 /******************************************************************************

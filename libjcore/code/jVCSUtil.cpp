@@ -19,18 +19,18 @@
 #include <jGlobals.h>
 #include <jAssert.h>
 
-static const JUtf8Byte* kGitDirName         = ".git";
-static const JUtf8Byte* kSubversionDirName  = ".svn";
-static const JUtf8Byte* kSubversionFileName = "entries";
-static const JUtf8Byte* kCVSDirName         = "CVS";
-static const JUtf8Byte* kSCCSDirName        = "SCCS";
+static const JString kGitDirName        (".git",    0, kJFalse);
+static const JString kSubversionDirName (".svn",    0, kJFalse);
+static const JString kSubversionFileName("entries", 0, kJFalse);
+static const JString kCVSDirName        ("CVS",     0, kJFalse);
+static const JString kSCCSDirName       ("SCCS",    0, kJFalse);
 
 static const JUtf8Byte* kDirName[] =
 {
-	kGitDirName,
-	kSubversionDirName,
-	kCVSDirName,
-	kSCCSDirName
+	kGitDirName.GetBytes(),
+	kSubversionDirName.GetBytes(),
+	kCVSDirName.GetBytes(),
+	kSCCSDirName.GetBytes()
 };
 
 const JSize kDirCount = sizeof(kDirName) / sizeof(const JUtf8Byte*);
@@ -223,6 +223,8 @@ JEditVCS
 
  ******************************************************************************/
 
+static const JString kMoveFileCmd("mv", 0, kJFalse);
+
 JError
 JRenameVCS
 	(
@@ -293,7 +295,7 @@ JRenameVCS
 		err = JUnsupportedVCS(oldFullName);
 		}
 
-	if (tryPlain && JProgramAvailable("mv"))
+	if (tryPlain && JProgramAvailable(kMoveFileCmd))
 		{
 		cmd  = "mv ";
 		cmd += JPrepArgForExec(oldFullName);
@@ -415,8 +417,8 @@ JRemoveVCS
 
  ******************************************************************************/
 
-static const JRegex svn4RepositoryPattern1 = "<entry[^>]+name=\"\"(.|\n)*?>";
-static const JRegex svn4RepositoryPattern2 = "<entry[^>]+url=\"([^\"]+)\"";
+static const JString kCVSName1("Root",       0, kJFalse);
+static const JString kCVSName2("Repository", 0, kJFalse);
 
 JBoolean
 JGetVCSRepositoryPath
@@ -438,10 +440,10 @@ JGetVCSRepositoryPath
 		{
 		const JString cvsPath = JCombinePathAndName(path, kCVSDirName);
 
-		JString fullName = JCombinePathAndName(cvsPath, "Root");
+		JString fullName = JCombinePathAndName(cvsPath, kCVSName1);
 		JReadFile(fullName, repoPath);
 
-		fullName = JCombinePathAndName(cvsPath, "Repository");
+		fullName = JCombinePathAndName(cvsPath, kCVSName2);
 		JString repo;
 		JReadFile(fullName, &repo);
 
@@ -453,37 +455,6 @@ JGetVCSRepositoryPath
 		}
 	else if (type == kJSVNType)
 		{
-		JString entriesFileName, data;
-		entriesFileName = JCombinePathAndName(path, kSubversionDirName);
-		entriesFileName = JCombinePathAndName(entriesFileName, kSubversionFileName);
-		JReadFile(entriesFileName, &data);
-
-		if (data.BeginsWith("<?xml"))
-			{
-			JIndexRange range;
-			JArray<JIndexRange> matchList;
-			if (svn4RepositoryPattern1.Match(data, &range) &&
-				svn4RepositoryPattern2.MatchWithin(data, range, &matchList))
-				{
-				*repoPath = data.GetSubstring(matchList.GetElement(2));
-				found = kJTrue;
-				}
-			}
-		else
-			{
-			std::istrstream input(data.GetBytes(), data.GetByteCount());
-
-			const JString version = JReadLine(input);
-			if (version == "8" || version == "9" || version == "10")
-				{
-				JIgnoreLine(input);		// ???
-				JIgnoreLine(input);		// dir
-				JIgnoreLine(input);		// latest update version
-
-				*repoPath = JReadLine(input);
-				found     = JI2B(input.good());
-				}
-			}
 		}
 
 	if (found)
@@ -506,8 +477,6 @@ JGetVCSRepositoryPath
 
  ******************************************************************************/
 
-static const JRegex svn4RevisionPattern = "<entry[^>]+committed-rev=\"([^\"]+)\"";
-
 JBoolean
 JGetCurrentSVNRevision
 	(
@@ -515,59 +484,6 @@ JGetCurrentSVNRevision
 	JString*		rev
 	)
 {
-	JString path, name, entriesFileName, data, pattern;
-	JSplitPathAndName(fullName, &path, &name);
-	entriesFileName = JCombinePathAndName(path, kSubversionDirName);
-	entriesFileName = JCombinePathAndName(entriesFileName, kSubversionFileName);
-	JReadFile(entriesFileName, &data);
-
-	if (data.BeginsWith("<?xml"))
-		{
-		pattern = "<entry[^>]+name=\"" + JRegex::BackslashForLiteral(name) + "\"(.|\n)*?>";
-		JRegex r(pattern);
-		JIndexRange range;
-		JArray<JIndexRange> matchList;
-		if (r.Match(data, &range) &&
-			svn4RevisionPattern.MatchWithin(data, range, &matchList))
-			{
-			*rev = data.GetSubstring(matchList.GetElement(2));
-			return kJTrue;
-			}
-		}
-	else
-		{
-		std::istrstream input(data.GetBytes(), data.GetByteCount());
-
-		const JString version = JReadLine(input);
-		if (version == "8" || version == "9" || version == "10")
-			{
-			pattern = "\n\f\n" + name + "\n";
-
-			JBoolean found;
-			JIgnoreUntil(input, pattern.GetBytes(), &found);
-			if (found)
-				{
-				const JString data2 = JReadUntil(input, '\f');
-				std::istrstream input2(data2.GetBytes(), data2.GetByteCount());
-
-				JIgnoreLine(input2);		// file
-				JIgnoreLine(input2);		// ???
-				JIgnoreLine(input2);		// ???
-				JIgnoreLine(input2);		// ???
-				JIgnoreLine(input2);		// ???
-				JIgnoreLine(input2);		// timestamp
-				JIgnoreLine(input2);		// hash
-				JIgnoreLine(input2);		// timestamp
-
-				*rev = JReadLine(input2);
-				if (input2.good())
-					{
-					return kJTrue;
-					}
-				}
-			}
-		}
-
 	rev->Clear();
 	return kJFalse;
 }
@@ -634,6 +550,8 @@ JGetSVNEntryType
 
  ******************************************************************************/
 
+static const JString kCVSIgnoreName(".cvsignore", 0, kJFalse);
+
 void
 JUpdateCVSIgnore
 	(
@@ -642,7 +560,7 @@ JUpdateCVSIgnore
 {
 	JString path, name;
 	JSplitPathAndName(ignoreFullName, &path, &name);
-	const JString cvsFile = JCombinePathAndName(path, ".cvsignore");
+	const JString cvsFile = JCombinePathAndName(path, kCVSIgnoreName);
 
 	if (!JFileExists(cvsFile) && JGetVCSType(path) != kJCVSType)
 		{

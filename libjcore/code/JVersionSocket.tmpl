@@ -13,6 +13,8 @@
  ******************************************************************************/
 
 #include <JVersionSocket.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <jGlobals.h>
 #include <jAssert.h>
 
@@ -100,7 +102,7 @@ JVersionSocket<ACE_PEER_STREAM_2>::open
 {
 	(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::reactor())->register_handler(this, ACE_Event_Handler::READ_MASK);
 
-	JString msg = "GET ";
+	JString msg("GET ", 0);
 	msg += itsPath;
 	msg += " HTTP/1.1";
 
@@ -152,13 +154,20 @@ JVersionSocket<ACE_PEER_STREAM_2>::handle_input
 	itsRecvBuffer.Append(buffer, count);
 
 	JIndex i;
-	if (itsRecvBuffer.BeginsWith("HTTP/1.1 200") &&
-		itsRecvBuffer.LocateSubstring(kHeaderTerminator, &i))
+	if (itsRecvBuffer.BeginsWith("HTTP/1.1 200"))
 		{
-		JString vers(itsRecvBuffer, JIndexRange(i + strlen(kHeaderTerminator), itsRecvBuffer.GetLength()));
-		vers.TrimWhitespace();
-		CheckVersion(vers);
-		ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::destroy();
+		JStringIterator iter(itsRecvBuffer);
+		if (iter.Next(kHeaderTerminator))
+			{
+			iter.BeginMatch();
+			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			const JStringMatch& m = iter.FinishMatch();
+
+			JString vers = m.GetString();
+			vers.TrimWhitespace();
+			CheckVersion(vers);
+			ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::destroy();
+			}
 		}
 
 	return 0;

@@ -12,7 +12,7 @@
 
 #include <JTEUndoTextBase.h>
 #include <JTEUndoPaste.h>
-#include <JString.h>
+#include <JStringIterator.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -27,13 +27,10 @@ JTEUndoTextBase::JTEUndoTextBase
 	:
 	JTEUndoBase(te)
 {
-	itsOrigBuffer = jnew JString;
-	assert( itsOrigBuffer != NULL );
-
 	itsOrigStyles = jnew JRunArray<JFont>;
 	assert( itsOrigStyles != NULL );
 
-	te->GetSelection(itsOrigBuffer, itsOrigStyles);
+	te->GetSelection(&itsOrigBuffer, itsOrigStyles);
 }
 
 /******************************************************************************
@@ -43,7 +40,6 @@ JTEUndoTextBase::JTEUndoTextBase
 
 JTEUndoTextBase::~JTEUndoTextBase()
 {
-	jdelete itsOrigBuffer;
 	jdelete itsOrigStyles;
 }
 
@@ -84,16 +80,16 @@ JTEUndoTextBase::Undo()
 {
 	JTextEditor* te = GetTE();
 
-	JTEUndoPaste* newUndo = jnew JTEUndoPaste(te, itsOrigBuffer->GetLength());
+	JTEUndoPaste* newUndo = jnew JTEUndoPaste(te, itsOrigBuffer.GetCharacterCount());
 	assert( newUndo != NULL );
 
 	const JIndex selStart   = te->GetInsertionIndex();
-	const JSize pasteLength = te->PrivatePaste(*itsOrigBuffer, itsOrigStyles);
-	assert( pasteLength == itsOrigBuffer->GetLength() );
+	const JSize pasteLength = te->PrivatePaste(itsOrigBuffer, itsOrigStyles);
+	assert( pasteLength == itsOrigBuffer.GetCharacterCount() );
 
-	if (!itsOrigBuffer->IsEmpty())
+	if (!itsOrigBuffer.IsEmpty())
 		{
-		te->SetSelection(selStart, selStart + itsOrigBuffer->GetLength() - 1);
+		te->SetSelection(selStart, selStart + itsOrigBuffer.GetCharacterCount() - 1);
 		}
 	else
 		{
@@ -120,12 +116,14 @@ JTEUndoTextBase::PrependToSave
 
 	JTextEditor* te = GetTE();
 
-	const JString& text = te->GetText();
-	const JCharacter c  = text.GetCharacter(index-1);
+	JStringIterator iter(te->GetText(), kJIteratorStartBefore, index);
+	JUtf8Character c;
+	const JBoolean ok = iter.Prev(&c);
+	assert( ok );
 
 	const JFont f = te->GetFont(index-1);
 
-	itsOrigBuffer->PrependCharacter(c);
+	itsOrigBuffer.Prepend(c);
 	itsOrigStyles->PrependElement(f);
 }
 
@@ -144,12 +142,14 @@ JTEUndoTextBase::AppendToSave
 {
 	JTextEditor* te = GetTE();
 
-	const JString& text = te->GetText();
-	const JCharacter c  = text.GetCharacter(index);
+	JStringIterator iter(te->GetText(), kJIteratorStartBefore, index);
+	JUtf8Character c;
+	const JBoolean ok = iter.Next(&c);
+	assert( ok );
 
 	const JFont f = te->GetFont(index);
 
-	itsOrigBuffer->AppendCharacter(c);
+	itsOrigBuffer.Append(c);
 	itsOrigStyles->AppendElement(f);
 }
 
@@ -163,8 +163,8 @@ JTEUndoTextBase::AppendToSave
 void
 JTEUndoTextBase::SetFont
 	(
-	const JCharacter*	name,
-	const JSize			size
+	const JString&	name,
+	const JSize		size
 	)
 {
 	JTEUndoBase::SetFont(itsOrigStyles, name, size);

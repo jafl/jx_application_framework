@@ -142,16 +142,16 @@ public:
 			first(f), rest(r)
 		{ };
 
-		CRMRule(const JCharacter* firstPattern, const JCharacter* restPattern,
-				const JCharacter* replacePattern)
+		CRMRule(const JString& firstPattern, const JString& restPattern,
+				const JString& replacePattern)
 			:
 			first(CreateFirst(firstPattern, replacePattern)),
 			rest(CreateRest(restPattern))
 		{ };
 
-		static JRegex*	CreateFirst(const JCharacter* pattern,
-									const JCharacter* replacePattern);
-		static JRegex*	CreateRest(const JCharacter* pattern);
+		static JRegex*	CreateFirst(const JString& pattern,
+									const JString& replacePattern);
+		static JRegex*	CreateRest(const JString& pattern);
 	};
 
 	class CRMRuleList : public JArray<CRMRule>
@@ -203,12 +203,10 @@ public:
 	const JRunArray<JFont>&	GetStyles() const;
 	JBoolean				SetText(const JString& text,
 									const JRunArray<JFont>* style = NULL);
-	JBoolean				SetText(const JCharacter* text,
-									const JRunArray<JFont>* style = NULL);
 
-	JBoolean	ReadPlainText(const JCharacter* fileName, PlainTextFormat* format,
+	JBoolean	ReadPlainText(const JString& fileName, PlainTextFormat* format,
 							  const JBoolean acceptBinaryFile = kJTrue);
-	void		WritePlainText(const JCharacter* fileName, const PlainTextFormat format) const;
+	void		WritePlainText(const JString& fileName, const PlainTextFormat format) const;
 	void		WritePlainText(std::ostream& output, const PlainTextFormat format) const;
 
 	void		ReadHTML(std::istream& input);
@@ -216,7 +214,7 @@ public:
 	JSize		GetHTMLBufferLength() const;
 
 	JBoolean	ReadUNIXManOutput(std::istream& input, const JBoolean allowCancel = kJFalse);
-	JSize		PasteUNIXTerminalOutput(const JCharacter* text);
+	JSize		PasteUNIXTerminalOutput(const JString& text);
 
 	JBoolean	ReadPrivateFormat(std::istream& input);
 	void		WritePrivateFormat(std::ostream& output) const;
@@ -226,34 +224,34 @@ public:
 								   const JString& text, const JRunArray<JFont>& style,
 								   const JIndex startIndex, const JIndex endIndex);
 
-	JBoolean	SearchForward(const JCharacter* searchStr,
+	JBoolean	SearchForward(const JString& searchStr,
 							  const JBoolean caseSensitive, const JBoolean entireWord,
 							  const JBoolean wrapSearch, JBoolean* wrapped);
-	JBoolean	SearchBackward(const JCharacter* searchStr,
+	JBoolean	SearchBackward(const JString& searchStr,
 							   const JBoolean caseSensitive, const JBoolean entireWord,
 							   const JBoolean wrapSearch, JBoolean* wrapped);
-	JBoolean	SelectionMatches(const JCharacter* searchStr,
+	JBoolean	SelectionMatches(const JString& searchStr,
 								 const JBoolean caseSensitive, const JBoolean entireWord);
 
 	JBoolean	SearchForward(const JRegex& regex, const JBoolean entireWord,
 							  const JBoolean wrapSearch, JBoolean* wrapped,
-							  JArray<JIndexRange>* submatchList);
+							  JArray<JCharacterRange>* submatchList);
 	JBoolean	SearchBackward(const JRegex& regex, const JBoolean entireWord,
 							   const JBoolean wrapSearch, JBoolean* wrapped,
-							   JArray<JIndexRange>* submatchList);
+							   JArray<JCharacterRange>* submatchList);
 	JBoolean	SelectionMatches(const JRegex& regex, const JBoolean entireWord,
-								 JArray<JIndexRange>* submatchList);
+								 JArray<JCharacterRange>* submatchList);
 
-	JBoolean	ReplaceAllForward(const JCharacter* searchStr,
+	JBoolean	ReplaceAllForward(const JString& searchStr,
 								  const JBoolean searchIsRegex, const JBoolean caseSensitive,
 								  const JBoolean entireWord, const JBoolean wrapSearch,
-								  const JCharacter* replaceStr, const JBoolean replaceIsRegex,
+								  const JString& replaceStr, const JBoolean replaceIsRegex,
 								  const JBoolean preserveCase, const JRegex& regex,
-								  const JIndexRange& searchRange = JIndexRange());
-	JBoolean	ReplaceAllBackward(const JCharacter* searchStr,
+								  const JCharacterRange& searchRange = JCharacterRange());
+	JBoolean	ReplaceAllBackward(const JString& searchStr,
 								   const JBoolean searchIsRegex, const JBoolean caseSensitive,
 								   const JBoolean entireWord, const JBoolean wrapSearch,
-								   const JCharacter* replaceStr, const JBoolean replaceIsRegex,
+								   const JString& replaceStr, const JBoolean replaceIsRegex,
 								   const JBoolean preserveCase, const JRegex& regex);
 
 	JBoolean	SearchForward(const FontMatch& match,
@@ -269,7 +267,7 @@ public:
 	JFont		GetFont(const JIndex charIndex) const;
 
 	JBoolean	SetFontName(const JIndex startIndex, const JIndex endIndex,
-							const JCharacter* name, const JBoolean clearUndo);
+							const JString& name, const JBoolean clearUndo);
 	JBoolean	SetFontSize(const JIndex startIndex, const JIndex endIndex,
 							const JSize size, const JBoolean clearUndo);
 	JBoolean	SetFontBold(const JIndex startIndex, const JIndex endIndex,
@@ -292,21 +290,21 @@ public:
 
 	JBoolean	HasSelection() const;
 	JBoolean	GetSelection(JIndex* startIndex, JIndex* endIndex) const;
-	JBoolean	GetSelection(JIndexRange* range) const;
+	JBoolean	GetSelection(JCharacterRange* range) const;
 	JBoolean	GetSelection(JString* text) const;
 	JBoolean	GetSelection(JString* text, JRunArray<JFont>* style) const;
 	void		SetSelection(const JIndex startIndex, const JIndex endIndex,
 							 const JBoolean needCaretBcast = kJTrue);
-	void		SetSelection(const JIndexRange& range,
+	void		SetSelection(const JCharacterRange& range,
 							 const JBoolean needCaretBcast = kJTrue);
 	JBoolean	TEScrollToSelection(const JBoolean centerInDisplay);
 	void		TEGetDoubleClickSelection(const JIndex charIndex,
 										  const JBoolean partialWord,
-										  const JBoolean dragging, JIndexRange* range);
+										  const JBoolean dragging, JCharacterRange* range);
 
 	JIndex		GetInsertionIndex() const;
 	JBoolean	IsEntireWord(const JIndex startIndex, const JIndex endIndex) const;
-	JBoolean	IsEntireWord(const JIndexRange& range) const;
+	JBoolean	IsEntireWord(const JCharacterRange& range) const;
 	JIndex		GetWordStart(const JIndex charIndex) const;
 	JIndex		GetWordEnd(const JIndex charIndex) const;
 	JIndex		GetPartialWordStart(const JIndex charIndex) const;
@@ -318,7 +316,7 @@ public:
 
 	JFont	GetCurrentFont() const;
 
-	void	SetCurrentFontName(const JCharacter* name);
+	void	SetCurrentFontName(const JString& name);
 	void	SetCurrentFontSize(const JSize size);
 	void	SetCurrentFontBold(const JBoolean bold);
 	void	SetCurrentFontItalic(const JBoolean italic);
@@ -330,7 +328,7 @@ public:
 
 	const JFont&	GetDefaultFont() const;
 
-	void	SetDefaultFontName(const JCharacter* name);
+	void	SetDefaultFontName(const JString& name);
 	void	SetDefaultFontSize(const JSize size);
 	void	SetDefaultFontStyle(const JFontStyle& style);
 	void	SetDefaultFont(const JFont& f);
@@ -343,7 +341,7 @@ public:
 
 	void	CleanAllWhitespace(const JBoolean align);
 	void	CleanSelectedWhitespace(const JBoolean align);
-	void	CleanWhitespace(const JIndexRange& range, const JBoolean align);
+	void	CleanWhitespace(const JCharacterRange& range, const JBoolean align);
 	void	AnalyzeWhitespace(const JSize tabWidth);
 
 	static void	AnalyzeWhitespace(const JString& buffer, const JSize tabWidth,
@@ -411,19 +409,18 @@ public:
 
 	JBoolean	Cut(JString* text, JRunArray<JFont>* style = NULL);
 	JBoolean	Copy(JString* text, JRunArray<JFont>* style = NULL) const;
-	void		Paste(const JCharacter* text, const JRunArray<JFont>* style = NULL);
+	void		Paste(const JString& text, const JRunArray<JFont>* style = NULL);
 
 	JBoolean	GetClipboard(JString* text, JRunArray<JFont>* style = NULL) const;
 
 	static JBoolean	ContainsIllegalChars(const JString& text);
-	static JBoolean	ContainsIllegalChars(const JCharacter* text, const JSize length);
 	static JBoolean	RemoveIllegalChars(JString* text, JRunArray<JFont>* style = NULL);
 
 	void	Paginate(const JCoordinate pageHeight,
 					 JArray<JCoordinate>* breakpts) const;
 	void	Print(JPagePrinter& p);
 
-	JBoolean	CleanRightMargin(const JBoolean coerce, JIndexRange* reformatRange);
+	JBoolean	CleanRightMargin(const JBoolean coerce, JCharacterRange* reformatRange);
 
 	JSize		GetCRMLineWidth() const;
 	void		SetCRMLineWidth(const JSize charCount);
@@ -439,8 +436,8 @@ public:
 	JBoolean	(*GetCharacterInWordFunction())(const JString&, const JIndex);
 	void		SetCharacterInWordFunction(JBoolean (*f)(const JString&, const JIndex));
 
-	static JBoolean	(*GetI18NCharacterInWordFunction())(const JCharacter);
-	static void		SetI18NCharacterInWordFunction(JBoolean (*f)(const JCharacter));
+	static JBoolean	(*GetI18NCharacterInWordFunction())(const JUtf8Character&);
+	static void		SetI18NCharacterInWordFunction(JBoolean (*f)(const JUtf8Character&));
 
 	JTEKeyHandler*	GetKeyHandler() const;
 	void			SetKeyHandler(JTEKeyHandler* handler);
@@ -531,7 +528,7 @@ public:		// ought to be protected
 		void		IndentForListItem(const JFont& wsFont);
 		JBoolean	EndList();
 
-		void		ReportError(const JCharacter* errStr);
+		void		ReportError(const JString& errStr);
 	};
 
 	friend struct HTMLLexerState;
@@ -602,7 +599,7 @@ protected:
 	virtual void		TEPasteDropData() = 0;
 
 	JBoolean	TEIsDragging() const;
-	JBoolean	TEHandleKeyPress(const JCharacter key, const JBoolean selectText,
+	JBoolean	TEHandleKeyPress(const JUtf8Character& key, const JBoolean selectText,
 								 const CaretMotion motion, const JBoolean deleteToTabStop);
 
 	JCoordinate	TEGetBoundsWidth() const;
@@ -639,11 +636,11 @@ protected:
 								  const JSize currentLineWidth) const;
 	virtual JSize	CRMGetTabWidth(const JIndex textColumn) const;
 
-	virtual JBoolean	NeedsToFilterText(const JCharacter* text) const;
+	virtual JBoolean	NeedsToFilterText(const JString& text) const;
 	virtual JBoolean	FilterText(JString* text, JRunArray<JFont>* style);
 
 	virtual void	AdjustStylesBeforeRecalc(const JString& buffer, JRunArray<JFont>* styles,
-											 JIndexRange* recalcRange, JIndexRange* redrawRange,
+											 JCharacterRange* recalcRange, JCharacterRange* redrawRange,
 											 const JBoolean deletion);
 
 	JBoolean	GetInternalClipboard(const JString** text,
@@ -664,16 +661,16 @@ protected:
 
 	void	SetFont(const JIndex startIndex, const JRunArray<JFont>& f,
 					const JBoolean clearUndo);
-	void	SetAllFontNameAndSize(const JCharacter* name, const JSize size,
+	void	SetAllFontNameAndSize(const JString& name, const JSize size,
 								  const JCoordinate tabWidth,
 								  const JBoolean breakCROnly,
 								  const JBoolean clearUndo);
 
-	void	ReplaceSelection(const JCharacter* replaceStr,
+	void	ReplaceSelection(const JString& replaceStr,
 							 const JBoolean preserveCase,
 							 const JBoolean replaceIsRegex,
 							 const JRegex& regex,
-							 const JArray<JIndexRange>& submatchList);
+							 const JArray<JCharacterRange>& submatchList);
 
 	static JBoolean	ReadPrivateFormat(std::istream& input, const JTextEditor* te,
 									  JString* text, JRunArray<JFont>* style);
@@ -688,10 +685,10 @@ protected:
 	virtual void	ReadHTMLFinished();
 	virtual void	PrepareToPasteHTML();
 	virtual void	PasteHTMLFinished();
-	virtual void	HandleHTMLWord(const JCharacter* word);
-	virtual void	HandleHTMLWhitespace(const JCharacter* space);
+	virtual void	HandleHTMLWord(const JUtf8Byte* word);
+	virtual void	HandleHTMLWhitespace(const JUtf8Byte* space);
 	virtual void	HandleHTMLTag(const JString& name, const JStringPtrMap<JString>& attr);
-	virtual void	HandleHTMLError(const JCharacter* errStr);
+	virtual void	HandleHTMLError(const JUtf8Byte* errStr);
 
 private:
 
@@ -765,7 +762,7 @@ private:
 	JRunArray<LineGeometry>*	itsLineGeom;		// geometry of each line
 
 	JBoolean (*itsCharInWordFn)(const JString&, const JIndex);
-	static JBoolean (*theI18NCharInWordFn)(const JCharacter);	// can be NULL
+	static JBoolean (*theI18NCharInWordFn)(const JUtf8Character&);	// can be NULL
 
 	JTEKeyHandler*	itsKeyHandler;
 
@@ -781,7 +778,7 @@ private:
 	CaretLocation	itsCaretLoc;			// insertion point is -at- this character
 	JCoordinate		itsCaretX;				// horizontal location used by MoveCaretVert()
 	JFont			itsInsertionFont;		// style for characters that user types
-	JIndexRange		itsSelection;			// caret is visible if this is empty
+	JCharacterRange	itsSelection;			// caret is visible if this is empty
 
 	// clipboard
 
@@ -796,7 +793,7 @@ private:
 	JPoint			itsStartPt;
 	JPoint			itsPrevPt;
 	JIndex			itsSelectionPivot;	// insertion point about which to pivot selection
-	JIndexRange		itsWordSelPivot;	// range of characters to keep selected
+	JCharacterRange	itsWordSelPivot;	// range of characters to keep selected
 	JIndex			itsLineSelPivot;	// line about which to pivot selection
 	CaretLocation	itsDropLoc;			// insertion point at which to drop the dragged text
 	JBoolean		itsIsDragSourceFlag;// kJTrue => is dragging even if itsDragType == kInvalidDrag
@@ -835,7 +832,7 @@ private:
 	JSize		IncludeWhitespaceOnLine(const JSize bufLength, const JIndex startIndex,
 										JCoordinate* lineWidth, JBoolean* endOfLine,
 										JIndex* runIndex, JIndex* firstInRun) const;
-	JBoolean	NoPrevWhitespaceOnLine(const JCharacter* str, const CaretLocation& startLoc) const;
+	JBoolean	NoPrevWhitespaceOnLine(const JString& str, const CaretLocation& startLoc) const;
 
 	void	TEDrawText(JPainter& p, const JRect& rect);
 	void	TEDrawLine(JPainter& p, const JCoordinate top, const LineGeometry& geom,
@@ -847,7 +844,7 @@ private:
 	static JBoolean	DefaultIsCharacterInWord(const JString& text,
 											 const JIndex charIndex);
 
-	void	AdjustRangesForReplace(JArray<JIndexRange>* list);
+	void	AdjustRangesForReplace(JArray<JCharacterRange>* list);
 
 	JFont	CalcInsertionFont(const JIndex charIndex) const;
 	JFont	CalcInsertionFont(const JString& buffer, const JRunArray<JFont>& styles,
@@ -864,14 +861,14 @@ private:
 	JTEUndoStyle*		GetStyleUndo(JBoolean* isNew);
 	JTEUndoTabShift*	GetTabShiftUndo(JBoolean* isNew);
 
-	JSize	PrivatePaste(const JCharacter* text, const JRunArray<JFont>* style);
-	JSize	InsertText(const JIndex charIndex, const JCharacter* text,
+	JSize	PrivatePaste(const JString& text, const JRunArray<JFont>* style);
+	JSize	InsertText(const JIndex charIndex, const JString& text,
 					   const JRunArray<JFont>* style = NULL);
 	JSize	InsertText(JString* targetText, JRunArray<JFont>* targetStyle,
-					   const JIndex charIndex, const JCharacter* text,
+					   const JIndex charIndex, const JString& text,
 					   const JRunArray<JFont>* style, const JFont* defaultStyle);
 	void	DeleteText(const JIndex startIndex, const JIndex endIndex);
-	void	DeleteText(const JIndexRange& range);
+	void	DeleteText(const JCharacterRange& range);
 
 	void	TECreateClipboard();
 
@@ -897,7 +894,7 @@ private:
 	JBoolean	SetText1(const JRunArray<JFont>* style);
 	JRect		CalcLocalDNDRect(const JPoint& pt) const;
 
-	void	InsertKeyPress(const JCharacter key);
+	void	InsertKeyPress(const JUtf8Character& key);
 	void	BackwardDelete(const JBoolean deleteToTabStop,
 						   JString* returnText = NULL, JRunArray<JFont>* returnStyle = NULL);
 	void	ForwardDelete(const JBoolean deleteToTabStop,
@@ -907,60 +904,60 @@ private:
 	void	InsertSpacesForTab();
 
 	JBoolean	PrivateCleanRightMargin(const JBoolean coerce,
-										JIndexRange* textRange,
+										JCharacterRange* textRange,
 										JString* newText, JRunArray<JFont>* newStyles,
 										JIndex* newCaretIndex) const;
 	JBoolean	CRMGetRange(const JIndex caretChar, const JBoolean coerce,
-							JIndexRange* range, JIndex* textStartIndex,
+							JCharacterRange* range, JIndex* textStartIndex,
 							JString* firstLinePrefix, JSize* firstPrefixLength,
 							JString* restLinePrefix, JSize* restPrefixLength,
 							JIndex* returnRuleIndex) const;
 	JBoolean	CRMGetPrefix(JIndex* startChar, const JIndex endChar,
 							 JString* linePrefix, JSize* prefixLength,
 							 JIndex* ruleIndex) const;
-	JIndexRange	CRMMatchPrefix(const JIndexRange& textRange, JIndex* ruleIndex) const;
-	JBoolean	CRMLineMatchesRest(const JIndexRange& range) const;
-	JSize		CRMCalcPrefixLength(JString* linePrefix) const;
-	JString		CRMBuildRestPrefix(const JString& firstLinePrefix,
-								   const JIndex ruleIndex, JSize* prefixLength) const;
-	void		CRMTossLinePrefix(JIndex* charIndex, const JIndex endChar,
-								  const JIndex ruleIndex) const;
-	CRMStatus	CRMReadNextWord(JIndex* charIndex, const JIndex endIndex,
-								JString* spaceBuffer, JSize* spaceCount,
-								JString* wordBuffer, JRunArray<JFont>* wordStyles,
-								const JSize currentLineWidth,
-								const JIndex origCaretIndex, JIndex* newCaretIndex,
-								const JString& newText, const JBoolean requireSpace) const;
-	int			CRMIsEOS(const JCharacter c) const;
-	void		CRMAppendWord(JString* newText, JRunArray<JFont>* newStyles,
-							  JSize* currentLineWidth, JIndex* newCaretIndex,
-							  const JString& spaceBuffer, const JSize spaceCount,
-							  const JString& wordBuffer, const JRunArray<JFont>& wordStyles,
-							  const JString& linePrefix, const JSize prefixLength) const;
+	JCharacterRange	CRMMatchPrefix(const JCharacterRange& textRange, JIndex* ruleIndex) const;
+	JBoolean		CRMLineMatchesRest(const JCharacterRange& range) const;
+	JSize			CRMCalcPrefixLength(JString* linePrefix) const;
+	JString			CRMBuildRestPrefix(const JString& firstLinePrefix,
+									   const JIndex ruleIndex, JSize* prefixLength) const;
+	void			CRMTossLinePrefix(JIndex* charIndex, const JIndex endChar,
+									  const JIndex ruleIndex) const;
+	CRMStatus		CRMReadNextWord(JIndex* charIndex, const JIndex endIndex,
+									JString* spaceBuffer, JSize* spaceCount,
+									JString* wordBuffer, JRunArray<JFont>* wordStyles,
+									const JSize currentLineWidth,
+									const JIndex origCaretIndex, JIndex* newCaretIndex,
+									const JString& newText, const JBoolean requireSpace) const;
+	int				CRMIsEOS(const JUtf8Character& c) const;
+	void			CRMAppendWord(JString* newText, JRunArray<JFont>* newStyles,
+								  JSize* currentLineWidth, JIndex* newCaretIndex,
+								  const JString& spaceBuffer, const JSize spaceCount,
+								  const JString& wordBuffer, const JRunArray<JFont>& wordStyles,
+								  const JString& linePrefix, const JSize prefixLength) const;
 
 	JBoolean	LocateTab(const JIndex startIndex, const JIndex endIndex,
 						  JIndex* tabIndex) const;
 
 	JBoolean	SearchForward(const JString& buffer, JIndex* startIndex,
-							  const JCharacter* searchStr, const JSize searchLength,
+							  const JString& searchStr, const JSize searchLength,
 							  const JBoolean caseSensitive, const JBoolean entireWord,
 							  const JBoolean wrapSearch, JBoolean* wrapped);
 	JBoolean	SearchBackward(const JString& buffer, JIndex* startIndex,
-							   const JCharacter* searchStr, const JSize searchLength,
+							   const JString& searchStr, const JSize searchLength,
 							   const JBoolean caseSensitive, const JBoolean entireWord,
 							   const JBoolean wrapSearch, JBoolean* wrapped);
 	JBoolean	SearchForward(const JString& buffer, JIndex* startIndex,
 							  const JRegex& regex, const JBoolean entireWord,
 							  const JBoolean wrapSearch, JBoolean* wrapped,
-							  JArray<JIndexRange>* submatchList);
+							  JArray<JCharacterRange>* submatchList);
 	JBoolean	SearchBackward(const JString& buffer, JIndex* startIndex,
 							   const JRegex& regex, const JBoolean entireWord,
 							   const JBoolean wrapSearch, JBoolean* wrapped,
-							   JArray<JIndexRange>* submatchList);
+							   JArray<JCharacterRange>* submatchList);
 	JSize		ReplaceRange(JString* buffer, JRunArray<JFont>* styles,
-							 const JIndexRange& range, const JCharacter* replaceStr,
+							 const JCharacterRange& range, const JString& replaceStr,
 							 const JBoolean preserveCase, const JBoolean replaceIsRegex,
-							 const JRegex& regex, const JArray<JIndexRange>& submatchList);
+							 const JRegex& regex, const JArray<JCharacterRange>& submatchList);
 	JBoolean	IsEntireWord(const JString& buffer,
 							 const JIndex startIndex, const JIndex endIndex) const;
 
@@ -970,13 +967,12 @@ private:
 
 	void	AppendTextForHTML(const JString& text);
 	void	AppendTextForHTML1(const JString& text);
-	void 	AppendCharsForHTML(const JCharacter* text, const JFont& f);
 	void 	AppendCharsForHTML(const JString& text, const JFont& f);
 	void 	AppendNewlinesForHTML(const JSize count);
 
 	JFont	CalcWSFont(const JFont& prevFont, const JFont& nextFont) const;
 
-	JColorIndex	ColorNameToColorIndex(const JCharacter* name) const;
+	JColorIndex	ColorNameToColorIndex(const JString& name) const;
 	JColorIndex	RGBToColorIndex(const JRGB& color) const;
 
 	void		BroadcastCaretMessages(const CaretLocation& caretLoc,
@@ -993,11 +989,11 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kTypeChanged;
-	static const JCharacter* kTextSet;
-	static const JCharacter* kTextChanged;
-	static const JCharacter* kCaretLineChanged;
-	static const JCharacter* kCaretLocationChanged;
+	static const JUtf8Byte* kTypeChanged;
+	static const JUtf8Byte* kTextSet;
+	static const JUtf8Byte* kTextChanged;
+	static const JUtf8Byte* kCaretLineChanged;
+	static const JUtf8Byte* kCaretLocationChanged;
 
 	class TypeChanged : public JBroadcaster::Message
 		{
@@ -1250,7 +1246,7 @@ inline JBoolean
 JTextEditor::IsEmpty()
 	const
 {
-	return itsBuffer->IsEmpty();
+	return itsBuffer.IsEmpty();
 }
 
 /******************************************************************************
@@ -1262,7 +1258,7 @@ inline const JString&
 JTextEditor::GetText()
 	const
 {
-	return *itsBuffer;
+	return itsBuffer;
 }
 
 /******************************************************************************
@@ -1274,7 +1270,7 @@ inline JSize
 JTextEditor::GetTextLength()
 	const
 {
-	return itsBuffer->GetLength();
+	return itsBuffer.GetCharacterCount();
 }
 
 /******************************************************************************
@@ -1289,7 +1285,7 @@ JTextEditor::IndexValid
 	)
 	const
 {
-	return itsBuffer->IndexValid(charIndex);
+	return itsBuffer.CharacterIndexValid(charIndex);
 }
 
 /******************************************************************************
@@ -1332,7 +1328,7 @@ JTextEditor::GetSelection
 inline JBoolean
 JTextEditor::GetSelection
 	(
-	JIndexRange* range
+	JCharacterRange* range
 	)
 	const
 {
@@ -1343,8 +1339,8 @@ JTextEditor::GetSelection
 inline void
 JTextEditor::SetSelection
 	(
-	const JIndexRange&	range,
-	const JBoolean		needCaretBcast
+	const JCharacterRange&	range,
+	const JBoolean			needCaretBcast
 	)
 {
 	SetSelection(range.first, range.last, needCaretBcast);
@@ -1410,17 +1406,17 @@ JTextEditor::IsEntireWord
 	)
 	const
 {
-	return IsEntireWord(*itsBuffer, startIndex, endIndex);
+	return IsEntireWord(itsBuffer, startIndex, endIndex);
 }
 
 inline JBoolean
 JTextEditor::IsEntireWord
 	(
-	const JIndexRange& range
+	const JCharacterRange& range
 	)
 	const
 {
-	return IsEntireWord(*itsBuffer, range.first, range.last);
+	return IsEntireWord(itsBuffer, range.first, range.last);
 }
 
 /******************************************************************************
@@ -1565,7 +1561,7 @@ JTextEditor::CleanAllWhitespace
 	const JBoolean align
 	)
 {
-	CleanWhitespace(JIndexRange(1, GetTextLength()), align);
+	CleanWhitespace(JCharacterRange(1, GetTextLength()), align);
 }
 
 /******************************************************************************
@@ -1582,7 +1578,7 @@ JTextEditor::CleanSelectedWhitespace
 	const JBoolean align
 	)
 {
-	JIndexRange r;
+	JCharacterRange r;
 	if (GetSelection(&r))
 		{
 		CleanWhitespace(r, align);
@@ -2045,22 +2041,8 @@ JTextEditor::EndsWithNewline()
 	const
 {
 	return JConvertToBoolean(
-				!itsBuffer->IsEmpty() &&
-				itsBuffer->GetLastCharacter() == '\n' );
-}
-
-/******************************************************************************
- ContainsIllegalChars (static)
-
- ******************************************************************************/
-
-inline JBoolean
-JTextEditor::ContainsIllegalChars
-	(
-	const JString& text
-	)
-{
-	return ContainsIllegalChars(text, text.GetLength());
+				!itsBuffer.IsEmpty() &&
+				itsBuffer.GetLastCharacter() == '\n' );
 }
 
 /******************************************************************************

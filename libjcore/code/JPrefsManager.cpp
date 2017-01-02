@@ -152,7 +152,7 @@ JPrefsManager::SetData
 		}
 	else
 		{
-		item.data = jnew JString(data);
+		item.data = jnew JString(data, 0);
 		assert( item.data != NULL );
 		itsData->InsertElementAtIndex(index, item);
 		}
@@ -216,14 +216,14 @@ JPrefsManager::SaveToDisk()
 	gid_t groupID;
 	if (preserveOwner)
 		{
-		JError err = JPrefsFile::GetFullName(itsFileName->GetBytes(), &fullName);
+		JError err = JPrefsFile::GetFullName(*itsFileName, &fullName);
 		if (err.OK())
 			{
-			err = JGetOwnerID(fullName.GetBytes(), &ownerID);
+			err = JGetOwnerID(fullName, &ownerID);
 			}
 		if (err.OK())
 			{
-			err = JGetOwnerGroup(fullName.GetBytes(), &groupID);
+			err = JGetOwnerGroup(fullName, &groupID);
 			}
 		if (!err.OK())
 			{
@@ -235,7 +235,7 @@ JPrefsManager::SaveToDisk()
 
 	// toss everything
 
-	err = DeletePrefsFile(itsFileName->GetBytes());
+	err = DeletePrefsFile(*itsFileName);
 	if (!err.OK())
 		{
 		return err;
@@ -264,7 +264,7 @@ JPrefsManager::SaveToDisk()
 
 	if (preserveOwner)
 		{
-		JSetOwner(fullName.GetBytes(), ownerID, groupID);
+		JSetOwner(fullName, ownerID, groupID);
 		}
 
 	return JNoError();
@@ -302,15 +302,16 @@ JPrefsManager::UpgradeData
 
 		if (reportError && err == kWrongVersion)
 			{
-			(JGetUserNotification())->ReportError(
-				"The preferences file is unreadable because it has been modified "
-				"by a newer version of this program.");
+			(JGetUserNotification())->ReportError(JGetString("NewerVersion::JPrefsManager"));
 			}
 		else if (reportError)
 			{
-			JString msg = "The preferences cannot be used because:\n\n";
-			msg += err.GetMessage();
-			(JGetUserNotification())->ReportError(msg.GetBytes());
+			const JUtf8Byte* map[] =
+				{
+				"msg", err.GetMessage().GetBytes()
+				};
+			const JString msg = JGetString("OtherError::JPrefsManager", map, sizeof(map));
+			(JGetUserNotification())->ReportError(msg);
 			}
 		}
 
@@ -337,7 +338,7 @@ JPrefsManager::LoadData
 
 		std::string data;
 		file->GetElement(JFAIndex(i), &data);
-		JString* s = jnew JString(data);
+		JString* s = jnew JString(data.c_str(), data.length());
 		assert( s != NULL );
 
 		PrefItem item(id.GetID(), s);
@@ -362,7 +363,7 @@ JPrefsManager::Open
 	const
 {
 	*file = NULL;
-	const JError err = JPrefsFile::Create(itsFileName->GetBytes(), file);
+	const JError err = JPrefsFile::Create(*itsFileName, file);
 	if (err.OK())
 		{
 		const JFileVersion vers = (**file).GetVersion();
@@ -380,7 +381,7 @@ JPrefsManager::Open
 		}
 
 	else if (err == JPrefsFile::kFileAlreadyOpen && itsEraseFileIfOpenFlag &&
-			 DeletePrefsFile(itsFileName->GetBytes()) == kJNoError)
+			 DeletePrefsFile(*itsFileName) == kJNoError)
 		{
 		return Open(file, allowPrevVers);		// now it will work
 		}
@@ -408,7 +409,7 @@ JPrefsManager::DeletePrefsFile
 	JError err = JPrefsFile::GetFullName(fileName, &fullName);
 	if (err.OK())
 		{
-		err = JRemoveFile(fullName.GetBytes());
+		err = JRemoveFile(fullName);
 		}
 	return err;
 }

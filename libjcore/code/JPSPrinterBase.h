@@ -126,7 +126,7 @@ private:
 
 	// used only during printing
 
-	JString*		itsOutputFileName;
+	JString			itsOutputFileName;
 	std::ofstream*	itsFile;
 
 	// buffered values

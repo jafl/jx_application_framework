@@ -11,11 +11,13 @@
 
 #include <JPTPrinter.h>
 #include <JLatentPG.h>
-#include <JString.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <jFStreamUtil.h>
 #include <jStreamUtil.h>
 #include <jASCIIConstants.h>
 #include <jFileUtil.h>
+#include <jGlobals.h>
 #include <sstream>
 #include <stdio.h>
 #include <jAssert.h>
@@ -124,7 +126,7 @@ JPTPrinter::Print
 		if (tempOutput->bad())
 			{
 			jdelete tempOutput;
-			JRemoveFile(tempName.GetBytes());
+			JRemoveFile(tempName);
 			return kJFalse;
 			}
 		dataOutput = tempOutput;
@@ -137,15 +139,20 @@ JPTPrinter::Print
 	const JSize lineCountPerPage = itsPageHeight - headerLineCount - footerLineCount;
 
 	JLatentPG pg;
-	pg.VariableLengthProcessBeginning("Printing page...", kJTrue, kJFalse);
+	pg.VariableLengthProcessBeginning(JGetString("Printing::JPTPrinter"), kJTrue, kJFalse);
 	JBoolean keepGoing = kJTrue;
 
 	JUnsignedOffset i   = 0;
 	JIndex pageIndex    = 0;
 	JSize printCount    = 0;
 	JSize textLineCount = 0;
-	while (keepGoing && text[i] != '\0')
+
+	JStringIterator iter(text);
+	JUtf8Character c;
+	while (keepGoing && iter.Next(&c))
 		{
+		iter.Prev(&c);	// back up for lineCount loop
+
 		pageIndex++;
 		const JBoolean shouldPrintPage =
 			JI2B(itsFirstPageIndex <= pageIndex &&
@@ -176,8 +183,10 @@ JPTPrinter::Print
 			}
 
 		JSize lineCount = 0;
-		while (lineCount < lineCountPerPage && text[i] != '\0')
+		while (lineCount < lineCountPerPage && iter.Next(&c))
 			{
+			iter.Prev(&c);	// back up for pageWidth loop
+
 			JSize col = 0;
 
 			if (itsPrintLineNumberFlag)
@@ -194,14 +203,14 @@ JPTPrinter::Print
 				col += lineNumberWidth + kLineNumberMarginWidth;
 				}
 
-			if (col >= itsPageWidth)	// insures progress, even in ludicrous boundary case
+			if (col >= itsPageWidth)	// ensures progress, even in ludicrous boundary case
 				{
 				col = itsPageWidth - 1;
 				}
 
-			while (col < itsPageWidth && text[i] != '\n' && text[i] != '\0')
+			while (col < itsPageWidth && iter.Next(&c) && c != '\n')
 				{
-				if (text[i] == '\t')
+				if (c == '\t')
 					{
 					const JSize spaceCount = itsTabWidth - (col % itsTabWidth);
 					for (JIndex j=1; j<=spaceCount; j++)
@@ -210,21 +219,21 @@ JPTPrinter::Print
 						}
 					col += spaceCount;
 					}
-				else if (text[i] == kJFormFeedKey)
+				else if (c == kJFormFeedKey)
 					{
 					*output << ' ';
 					col++;
 					}
 				else
 					{
-					*output << text[i];
+					output->write(c.GetBytes(), c.GetByteCount());
 					col++;
 					}
 				i++;
 				}
 
 			*output << '\n';
-			if (text[i] == '\n')
+			if (c == '\n')
 				{
 				i++;
 				}
@@ -255,10 +264,10 @@ JPTPrinter::Print
 		if (keepGoing)
 			{
 			JString text;
-			JReadFile(tempName.GetBytes(), &text);
+			JReadFile(tempName, &text);
 			InvertPageOrder(text, trueOutput);
 			}
-		JRemoveFile(tempName.GetBytes());
+		JRemoveFile(tempName);
 		}
 
 	return keepGoing;
@@ -289,7 +298,7 @@ JPTPrinter::GetFooterLineCount()
 void
 JPTPrinter::PrintHeader
 	(
-	std::ostream&		output,
+	std::ostream&	output,
 	const JIndex	pageIndex
 	)
 {
@@ -298,7 +307,7 @@ JPTPrinter::PrintHeader
 void
 JPTPrinter::PrintFooter
 	(
-	std::ostream&		output,
+	std::ostream&	output,
 	const JIndex	pageIndex
 	)
 {
@@ -315,28 +324,23 @@ void
 JPTPrinter::InvertPageOrder
 	(
 	const JString&	text,
-	std::ostream&		output
+	std::ostream&	output
 	)
 	const
 {
-	JIndex endIndex   = text.GetLength() + 1;
-	JIndex startIndex = endIndex - 1;
-	while (text.LocatePrevSubstring(kPageSeparatorStr, kPageSeparatorStrLength, &startIndex))
+	JStringIterator iter(text, kJIteratorStartAtEnd);
+	iter.BeginMatch();
+	while (iter.Prev(kPageSeparatorStr, kPageSeparatorStrLength))
 		{
-		const JIndex i = startIndex + kPageSeparatorStrLength;
-		if (endIndex > i)
-			{
-			output.write(text.GetCString() + i-1, endIndex - i);
-			}
+		const JStringMatch& m = iter.FinishMatch();
+		m.GetString().Print(output);
 		output << kPageSeparatorStr;
-
-		endIndex = startIndex;
-		startIndex--;
 		}
 
-	if (endIndex > 1)
+	const JStringMatch& m = iter.FinishMatch();
+	if (!m.IsEmpty())
 		{
-		output.write(text.GetCString(), endIndex-1);
+		m.GetString().Print(output);
 		}
 }
 

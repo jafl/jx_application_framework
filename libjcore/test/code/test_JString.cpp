@@ -34,7 +34,7 @@ JTEST(Construction)
 	JAssertTrue(JString::IsEmpty((JString*) NULL));
 	JAssertTrue(JString::IsEmpty(&s1));
 
-	JString s2 = "1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94";
+	JString s2("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
 	JAssertEqual(19, s2.GetByteCount());
 	JAssertEqual(14, s2.GetCharacterCount());
 	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", s2);
@@ -69,7 +69,7 @@ JTEST(Construction)
 
 	std::string ss1("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94");
 
-	JString s8 = ss1;
+	JString s8(ss1, JUtf8ByteRange(1, 19));
 	JAssertEqual(19, s8.GetByteCount());
 	JAssertEqual(14, s8.GetCharacterCount());
 	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", s8);
@@ -87,12 +87,14 @@ JTEST(Construction)
 
 JTEST(LazyConstruction)
 {
-	JString s2("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", kJFalse);
+	JString s2("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0, kJFalse);
+	JAssertFalse(s2.IsOwner());
 	JAssertEqual(19, s2.GetByteCount());
 	JAssertEqual(14, s2.GetCharacterCount());
 	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", s2);
 
 	JString s3("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 14, kJFalse);
+	JAssertFalse(s3.IsOwner());
 	JAssertEqual(14, s3.GetByteCount());
 	JAssertEqual(12, s3.GetCharacterCount());
 	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85", s3);
@@ -100,12 +102,14 @@ JTEST(LazyConstruction)
 	JAssertStringsEqual("abc", s3);
 
 	JString s4("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(2,5), kJFalse);
+	JAssertFalse(s4.IsOwner());
 	JAssertEqual(4, s4.GetByteCount());
 	JAssertEqual(4, s4.GetCharacterCount());
 	JAssertStringsEqual("2345", s4);
 	JAssertStringsEqual("2345", s4.GetBytes());		// test null termination; ignore memory leak
 
 	JString s5("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(8,14), kJFalse);
+	JAssertFalse(s5.IsOwner());
 	JAssertEqual(7, s5.GetByteCount());
 	JAssertEqual(5, s5.GetCharacterCount());
 	JAssertStringsEqual("890\xC2\xA9\xC3\x85", s5);
@@ -114,23 +118,41 @@ JTEST(LazyConstruction)
 	JAssertEqual(8, s5.GetCharacterCount());
 
 	JString s12("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(), kJFalse);
+	JAssertFalse(s12.IsOwner());
 	JAssertTrue(s12.IsEmpty());
 
 	JString s13("ab 90\xC2\xA9 58", JUtf8ByteRange(3, 8), kJFalse);
+	JAssertFalse(s13.IsOwner());
 	JAssertEqual(5, s13.GetCharacterCount());
 	s13.TrimWhitespace();	// test modify
 	JAssertStringsEqual("90\xC2\xA9", s13);
 
-	JString s14("\xC3\x86\xCE\xA6\xCE\xA3");
-	JString s15(s14.GetBytes(), kJFalse);
+	JString s14("\xC3\x86\xCE\xA6\xCE\xA3", 0);
+	JAssertTrue(s14.IsOwner());
+	JString s15(s14.GetBytes(), 0, kJFalse);
+	JAssertFalse(s15.IsOwner());
 	s15.ToLower();
 	JAssertStringsEqual("\xC3\x86\xCE\xA6\xCE\xA3", s14);
 	JAssertStringsEqual("\xC3\xA6\xCF\x86\xCF\x82", s15);
+
+	// test null terminator detection
+
+	const JUtf8Byte* const_s = "abcdefg";
+
+	JString s16(const_s, 3, kJFalse);
+	JAssertFalse(s16.IsOwner());
+	JAssertStringsEqual("abc", s16.GetBytes());
+	JAssertTrue(s16.IsOwner());
+
+	JString s17(const_s, JUtf8ByteRange(5, 7), kJFalse);
+	JAssertFalse(s17.IsOwner());
+	JAssertStringsEqual("efg", s17.GetBytes());
+	JAssertFalse(s17.IsOwner());
 }
 
 JTEST(Set)
 {
-	JString s = "1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94";
+	JString s("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
 	JAssertEqual(19, s.GetByteCount());
 	JAssertEqual(14, s.GetCharacterCount());
 	JAssertStringsEqual("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", s);
@@ -150,7 +172,7 @@ JTEST(Set)
 	JAssertEqual(5, s.GetCharacterCount());
 	JAssertStringsEqual("890\xC2\xA9\xC3\x85", s);
 
-	JString s2 = "1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94";
+	JString s2("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
 	s.Set(s2);
 	JAssertEqual(19, s.GetByteCount());
 	JAssertEqual(14, s.GetCharacterCount());
@@ -204,7 +226,7 @@ JTEST(IsValid)
 	JAssertTrue(JString::IsValid("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(10,12)));
 	JAssertFalse(JString::IsValid("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", JUtf8ByteRange(11,13)));
 
-	JString s = "\xC3\xA6" "34567\xCE\xA6" "90\xE2\x9C\x94\xCE\xA6";
+	JString s("\xC3\xA6" "34567\xCE\xA6" "90\xE2\x9C\x94\xCE\xA6", 0);
 
 	JAssertFalse(s.CharacterIndexValid(0));
 	JAssertTrue(s.CharacterIndexValid(2));
@@ -346,7 +368,7 @@ JTEST(FloatConversion)
 
 JTEST(Concatenate)
 {
-	JString s("5");
+	JString s("5", 0);
 
 	s.Prepend("");
 	s.Append("");
@@ -382,7 +404,7 @@ JTEST(Concatenate)
 
 JTEST(Get)
 {
-	JString s = "C";
+	JString s("C", 1);
 	JAssertEqual('C', s.GetFirstCharacter());
 	JAssertEqual('C', s.GetLastCharacter());
 
@@ -443,8 +465,8 @@ JTEST(Contains)
 	JAssertTrue(s.EndsWith("b\xE2\x9C\x94\xCE\xA6"));
 	JAssertTrue(s.EndsWith("B\xE2\x9C\x94\xCF\x86", kJFalse));
 
-	s          = "\xC3\xB6";
-	JString s1 = "\x6F\xCC\x88";	// force normalization
+	s = "\xC3\xB6";
+	JString s1("\x6F\xCC\x88", 0);	// force normalization
 	JAssertTrue(s.BeginsWith(s1));
 	JAssertTrue(s.Contains(s1));
 	JAssertTrue(s.EndsWith(s1));
@@ -709,7 +731,7 @@ JTEST(Compare)
 
 JTEST(MemoryStreaming)
 {
-	JString s1 = "1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94";
+	JString s1("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
 
 	std::ostringstream out;
 	out << s1;

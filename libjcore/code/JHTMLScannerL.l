@@ -664,7 +664,7 @@ rsaquo;?   HANDLE_CHAR('>');	/* ? */
 	}
 
 \<\<\<[A-Za-z0-9_]+[ \t]*\n {
-	JString tag = yytext+3;
+	JString tag(yytext+3, 0);
 	tag.TrimWhitespace();
 	tag.Prepend("^");
 	tag += ";?\n";
@@ -738,7 +738,7 @@ rsaquo;?   HANDLE_CHAR('>');	/* ? */
 
 ^.+\n {
 	(itsTagInfo->valueBuffer).Append(yytext, yyleng);
-	if (phpHereDocPattern->Match(yytext))
+	if (phpHereDocPattern->Match(JString(yytext, 0, kJFalse)))
 		{
 		jdelete phpHereDocPattern;
 		phpHereDocPattern = NULL;

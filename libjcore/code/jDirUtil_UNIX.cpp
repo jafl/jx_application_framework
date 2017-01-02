@@ -503,11 +503,17 @@ JCreateDirectory
 	JCleanPath(&path);
 	JAppendDirSeparator(&path);
 
+	JStringIterator iter(path, kJIteratorStartAfter, 1);
 	JString dir;
-	JIndex slashIndex = 2;
-	while (path.LocateNextSubstring("/", &slashIndex))
+	while (iter.Next("/"))
 		{
-		dir = path.GetSubstring(1, slashIndex);
+		JIndex i;
+		if (!iter.GetPrevCharacterIndex(&i))
+			{
+			continue;
+			}
+
+		dir.Set(path, JCharacterRange(1, i));
 		if (!JDirectoryExists(dir))
 			{
 			const JError err = JMkDir(dir, mode);
@@ -516,7 +522,6 @@ JCreateDirectory
 				return err;
 				}
 			}
-		slashIndex++;	// move past the slash we found
 		}
 
 	return JNoError();
@@ -918,11 +923,15 @@ JGetHomeDirectory
 	// try HOME environment variable
 
 	JUtf8Byte* envHomeDir = getenv("HOME");
-	if (envHomeDir != NULL && JDirectoryExists(envHomeDir))
+	if (!JString::IsEmpty(envHomeDir))
 		{
-		*homeDir = envHomeDir;
-		JAppendDirSeparator(homeDir);
-		return kJTrue;
+		const JString dir = JString(envHomeDir, 0, kJFalse);
+		if (JDirectoryExists(dir))
+			{
+			*homeDir = dir;
+			JAppendDirSeparator(homeDir);
+			return kJTrue;
+			}
 		}
 
 	// try password information
@@ -939,11 +948,15 @@ JGetHomeDirectory
 		pw = getpwuid( getuid() );
 		}
 
-	if (pw != NULL && JDirectoryExists(pw->pw_dir))
+	if (pw != NULL)
 		{
-		*homeDir = pw->pw_dir;
-		JAppendDirSeparator(homeDir);
-		return kJTrue;
+		const JString dir = JString(pw->pw_dir, 0, kJFalse);
+		if (JDirectoryExists(dir))
+			{
+			*homeDir = dir;
+			JAppendDirSeparator(homeDir);
+			return kJTrue;
+			}
 		}
 
 	// give up
@@ -967,17 +980,19 @@ JGetHomeDirectory
 	)
 {
 	struct passwd* pw = getpwnam(user.GetBytes());
-	if (pw != NULL && JDirectoryExists(pw->pw_dir))
+	if (pw != NULL)
 		{
-		*homeDir = pw->pw_dir;
-		JAppendDirSeparator(homeDir);
-		return kJTrue;
+		const JString dir = JString(pw->pw_dir, 0, kJFalse);
+		if (JDirectoryExists(dir))
+			{
+			*homeDir = dir;
+			JAppendDirSeparator(homeDir);
+			return kJTrue;
+			}
 		}
-	else
-		{
-		homeDir->Clear();
-		return kJFalse;
-		}
+
+	homeDir->Clear();
+	return kJFalse;
 }
 
 /******************************************************************************
@@ -1020,30 +1035,29 @@ JGetPrefsDirectory
 
  ******************************************************************************/
 
+static JBoolean theTempPathInitFlag = kJFalse;
+static JString theTempPath;
+
 JBoolean
 JGetTempDirectory
 	(
 	JString* tempDir
 	)
 {
-	// inside function to keep gcc 3.3.3 (cygwin) happy
-	static JBoolean theTempPathInitFlag = kJFalse;
-	static JString theTempPath;
-
 	if (!theTempPathInitFlag)
 		{
 		JUtf8Byte* path = getenv("TMPDIR");
-		if (!JString::IsEmpty(path) && JDirectoryWritable(path))
+		if (!JString::IsEmpty(path) && JDirectoryWritable(JString(path, 0, kJFalse)))
 			{
-			theTempPath = path;
+			theTempPath.Set(path);
 			}
-		else if (P_tmpdir != NULL && JDirectoryWritable(P_tmpdir))
+		else if (P_tmpdir != NULL && JDirectoryWritable(JString(P_tmpdir, 0, kJFalse)))
 			{
-			theTempPath = P_tmpdir;
+			theTempPath.Set(P_tmpdir);
 			}
 		else
 			{
-			theTempPath = "/tmp/";
+			theTempPath.Set("/tmp/");
 			}
 
 		JAppendDirSeparator(&theTempPath);
@@ -1063,6 +1077,10 @@ JGetTempDirectory
 
  ******************************************************************************/
 
+static const JString theTmpDirForError("/tmp", 0, kJFalse);
+static const JString theTmpDirPrefix("temp_dir_", 0, kJFalse);
+static const JString theTmpDirTemplate("XXXXXX", 0, kJFalse);
+
 JError
 JCreateTempDirectory
 	(
@@ -1078,7 +1096,7 @@ JCreateTempDirectory
 		}
 	else if (!JGetTempDirectory(&p))
 		{
-		return JDirEntryDoesNotExist("/tmp");
+		return JDirEntryDoesNotExist(theTmpDirForError);
 		}
 
 	if (!JString::IsEmpty(prefix))
@@ -1087,10 +1105,10 @@ JCreateTempDirectory
 		}
 	else
 		{
-		p = JCombinePathAndName(p, "temp_dir_");
+		p = JCombinePathAndName(p, theTmpDirPrefix);
 		}
 
-	p           += "XXXXXX";
+	p           += theTmpDirTemplate;
 	JUtf8Byte* s = p.AllocateBytes();
 
 	jclear_errno();
@@ -1247,27 +1265,31 @@ JGetTrueName
 
  ******************************************************************************/
 
+static const JRegex trailingDotPattern = "(?:/\\.)+$";
+static const JRegex multiSlashPattern  = "(?<!:)/{2,}";
+
 void
 JCleanPath
 	(
 	JString* path
 	)
 {
-	while (path->EndsWith("/."))
+	JStringIterator iter(path);
+	while (iter.Next(multiSlashPattern))
 		{
-		path->RemoveSubstring(path->GetLength(), path->GetLength());
+		iter.ReplaceLastMatch("/");
 		}
 
-	JIndex i;
-	while (path->LocateSubstring("/./", &i))
+	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	while (iter.Next("/./"))
 		{
-		path->RemoveSubstring(i, i+1);
+		iter.ReplaceLastMatch("/");
 		}
 
-	while (path->LocateSubstring("//", &i) &&
-		   (i == 1 || path->GetCharacter(i-1) != ':'))
+	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	if (iter.Next(trailingDotPattern))		// max 1 match
 		{
-		path->RemoveSubstring(i, i);
+		iter.RemoveLastMatch();
 		}
 }
 
@@ -1295,7 +1317,7 @@ JIsAbsolutePath
 JString
 JGetRootDirectory()
 {
-	return JString("/");
+	return JString("/", 0);
 }
 
 /******************************************************************************
@@ -1403,7 +1425,7 @@ JConvertToRelativePath
 	JAppendDirSeparator(&base);
 
 	// Find and remove the matching directories at the beginning.
-	// The while loop backs us up so we only consider complete directory names.
+	// We only consider complete directory names.
 
 	JBoolean hadTDS = kJTrue;
 	if (path.GetLastCharacter() != '/')
@@ -1412,31 +1434,30 @@ JConvertToRelativePath
 		hadTDS = kJFalse;
 		}
 
-	JSize matchLength = JString::CalcMatchLength(path, base);
+	JSize matchLength = JString::CalcCharacterMatchLength(path, base);
 
+	JStringIterator pathIter(&path);
 	if (!hadTDS)
 		{
-		path.RemoveSubstring(path.GetLength(), path.GetLength());
+		pathIter.MoveTo(kJIteratorStartAtEnd, 0);
+		pathIter.RemovePrev();
 		}
 
-	while (base.GetCharacter(matchLength) != '/')
-		{
-		matchLength--;
-		}
-	assert( matchLength >= 1 );
-	if (matchLength == 1)
+	JStringIterator baseIter(&base, kJIteratorStartAtEnd);
+	const JBoolean found = baseIter.Prev("/");
+	assert( found );
+	if (baseIter.AtBeginning())
 		{
 		return path;
 		}
+	matchLength = baseIter.GetNextCharacterIndex();
 
-	if (matchLength > path.GetLength())
-		{
-		base.RemoveSubstring(matchLength, matchLength);
-		matchLength--;
-		}
+	baseIter.RemoveAllPrev();
+	baseIter.RemoveNext();
 
-	path.RemoveSubstring(1, matchLength);
-	base.RemoveSubstring(1, matchLength);
+	pathIter.MoveTo(kJIteratorStartAtBeginning, 0);
+	pathIter.SkipNext(matchLength);
+	pathIter.RemoveAllPrev();
 
 	if (base.IsEmpty())
 		{
@@ -1447,18 +1468,11 @@ JConvertToRelativePath
 	// The number of remaining directory separators in base
 	// is the number of levels to go up.
 
-	JSize upCount = 0;
-
-	const JSize baseLength = base.GetLength();
-	for (JIndex i=1; i<=baseLength; i++)
+	baseIter.MoveTo(kJIteratorStartAtBeginning, 0);
+	while (baseIter.Next("/"))
 		{
-		if (base.GetCharacter(i) == '/')
-			{
-			upCount++;
-			path.Prepend("../");
-			}
+		path.Prepend("../");
 		}
-	assert( upCount > 0 );
 
 	return path;
 }
@@ -1490,10 +1504,11 @@ JExpandHomeDirShortcut
 	JSize*			homeLength
 	)
 {
-	assert( !JString::IsEmpty(path) && result != NULL );
+	assert( !path.IsEmpty() );
+	assert( result != NULL );
 
 	JBoolean ok = kJTrue;
-	if (path[0] == '~' && path[1] == '\0')
+	if (path == "~")
 		{
 		ok = JGetHomeDirectory(result);
 		if (ok && homeDir != NULL)
@@ -1505,7 +1520,7 @@ JExpandHomeDirShortcut
 			*homeLength = 1;
 			}
 		}
-	else if (path[0] == '~' && path[1] == '/')
+	else if (path.BeginsWith("~/"))
 		{
 		ok = JGetHomeDirectory(result);
 		if (ok && homeDir != NULL)
@@ -1516,20 +1531,22 @@ JExpandHomeDirShortcut
 			{
 			*homeLength = 2;
 			}
-		if (ok && path[2] != '\0')
+		if (ok && path.GetCharacterCount() == 2)
 			{
-			*result = JCombinePathAndName(*result, path+2);
+			JStringIterator iter(path);
+			iter.SkipNext(2);
+			iter.BeginMatch();
+			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			const JStringMatch& m = iter.FinishMatch();
+			*result = JCombinePathAndName(*result, m.GetString());
 			}
 		}
-	else if (path[0] == '~')
+	else if (path.BeginsWith("~"))
 		{
-		JString userName = path+1;
-		JIndex i;
-		const JBoolean found = userName.LocateSubstring("/", &i);
-		if (found)
-			{
-			userName.RemoveSubstring(i, userName.GetLength());
-			}
+		JStringIterator iter(path, kJIteratorStartAfter, 1);
+		iter.BeginMatch();
+		iter.Next("/");
+		const JString userName = iter.FinishMatch().GetString();
 
 		ok = JGetHomeDirectory(userName, result);
 		if (ok && homeDir != NULL)
@@ -1538,11 +1555,13 @@ JExpandHomeDirShortcut
 			}
 		if (ok && homeLength != NULL)
 			{
-			*homeLength = found ? i+1 : strlen(path);
+			*homeLength = iter.GetPrevCharacterIndex();
 			}
-		if (ok && found && path[i+1] != '\0')
+		if (ok && !iter.AtEnd())
 			{
-			*result = JCombinePathAndName(*result, path+i+1);
+			iter.BeginMatch();
+			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			*result = JCombinePathAndName(*result, iter.FinishMatch().GetString());
 			}
 		}
 	else
@@ -1585,13 +1604,13 @@ JExpandHomeDirShortcut
 JError
 JGetSymbolicLinkTarget
 	(
-	const char*	linkFullName,
-	JString*	targetFullName
+	const JString&	linkFullName,
+	JString*		targetFullName
 	)
 {
 	const JSize kBufferSize = 10000;
 	char buf[ kBufferSize ];
-	const long linkNameSize = readlink(linkFullName, buf, kBufferSize-1);
+	const long linkNameSize = readlink(linkFullName.GetBytes(), buf, kBufferSize-1);
 	if (linkNameSize != -1)
 		{
 		targetFullName->Set(buf, linkNameSize);

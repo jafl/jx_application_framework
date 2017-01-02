@@ -43,7 +43,7 @@ JTEST(Exercise)
 	snoop1.Expect(JOrderedSetT::kElementsSwapped);
 	a1.SwapElements(2,5);
 
-	stringPtr = jnew JString("1");
+	stringPtr = jnew JString("1", 0);
 	assert( stringPtr != NULL );
 
 	snoop1.Expect(JOrderedSetT::kElementsInserted);

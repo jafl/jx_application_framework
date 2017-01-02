@@ -42,17 +42,17 @@ JTEST(File)
 
 JTEST(Directory)
 {
-	JString dirName = "code";
+	JString dirName("code", 0);
 	JAssertTrue(JDirectoryExists(dirName));
 	JAssertTrue(JDirectoryWritable(dirName));
 
-	JError err = JCreateDirectory("junk");
+	JError err = JCreateDirectory(JString("junk", 0, kJFalse));
 	JAssertOK(err);
 
-	err = JRenameDirectory("junk", "junk2");
+	err = JRenameDirectory(JString("junk", 0, kJFalse), JString("junk2", 0, kJFalse));
 	JAssertOK(err);
 
-	err = JRemoveDirectory("junk2");
+	err = JRemoveDirectory(JString("junk2", 0, kJFalse));
 	JAssertOK(err);
 
 	JString path;
@@ -61,10 +61,13 @@ JTEST(Directory)
 
 JTEST(Files)
 {
-	JString path = "/tmp";
+	JString path("/tmp/junk", 0);
+
+	JError err = JCreateDirectory(path);
+	JAssertOK(err);
 
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
-	for (JIndex i=1; i<=200; i++)
+	for (JIndex i=1; i<=10; i++)
 		{
 		JString* fileName = jnew JString();
 		assert( fileName != NULL );
@@ -78,5 +81,5 @@ JTEST(Files)
 	const JString cmd = "ls " + path;
 	system(cmd.GetBytes());
 
-	JAssertTrue(JKillDirectory("junk"));
+	JAssertTrue(JKillDirectory(path));
 }

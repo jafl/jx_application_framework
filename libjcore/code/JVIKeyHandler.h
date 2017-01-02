@@ -34,7 +34,7 @@ public:
 
 	virtual ~JVIKeyHandler();
 
-	virtual JBoolean	HandleKeyPress(const JCharacter key, const JBoolean selectText,
+	virtual JBoolean	HandleKeyPress(const JUtf8Character& key, const JBoolean selectText,
 									   const JTextEditor::CaretMotion motion,
 									   const JBoolean deleteToTabStop);
 
@@ -66,13 +66,13 @@ protected:
 	void	SetMode(const Mode mode);
 
 	JSize		GetOperationCount() const;
-	JBoolean	GetPrevCharacter(JCharacter* c) const;
+	JBoolean	GetPrevCharacter(JUtf8Character* c) const;
 
 	const JString&	GetCommandLine() const;
-	void			AppendToCommandLine(const JCharacter key);
+	void			AppendToCommandLine(const JUtf8Character& key);
 	void			ClearKeyBuffers();
 
-	JBoolean	PrehandleKeyPress(const JCharacter key, JBoolean* result);
+	JBoolean	PrehandleKeyPress(const JUtf8Character& key, JBoolean* result);
 	void		YankLines(const JArray<JIndexRange>& matchList, const JBoolean del);
 	void		YankToEndOfLine(const JBoolean del, const JBoolean ins);
 
@@ -129,10 +129,10 @@ JVIKeyHandler::GetCommandLine()
 inline void
 JVIKeyHandler::AppendToCommandLine
 	(
-	const JCharacter key
+	const JUtf8Character& key
 	)
 {
-	itsCmdLineBuffer.AppendCharacter(key);
+	itsCmdLineBuffer.Append(key);
 }
 
 /******************************************************************************

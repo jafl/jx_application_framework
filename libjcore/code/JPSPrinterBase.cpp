@@ -46,7 +46,7 @@
 #include <jFileUtil.h>
 #include <JFontManager.h>
 #include <JColormap.h>
-#include <JString.h>
+#include <JStringIterator.h>
 #include <jTime.h>
 #include <stdlib.h>
 #include <jAssert.h>
@@ -350,20 +350,21 @@ JPSPrinterBase::PSString
 
 	*itsFile << x << ' ' << y << " moveto\n";
 	*itsFile << '(';
+
+	JStringIterator iter(str);
+	JUtf8Character c;
 	JSize lineLength = 1;
-	const JSize strLen = str.GetByteCount();
-	for (JIndex i=1; i<=strLen; i++)
+	while (iter.Next(&c))
 		{
-		const JCharacter c = str[i-1];
 		if (c == '\\' || c == '(' || c == ')')
 			{
 			*itsFile << '\\';
 			lineLength++;
 			}
-		*itsFile << c;
+		itsFile->write(c.GetBytes(), c.GetByteCount());
 		lineLength++;
 
-		if (lineLength >= 200 && i < strLen)
+		if (lineLength >= 200)
 			{
 			*itsFile << ") show\n";
 			*itsFile << '(';

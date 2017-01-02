@@ -29,7 +29,7 @@ JStringMatch::JStringMatch
 	(
 	const JString&			target,
 	const JUtf8ByteRange&	byteRange,
-	JRegex*					regex,
+	const JRegex*			regex,
 	JArray<JUtf8ByteRange>*	list
 	)
 	:
@@ -38,7 +38,21 @@ JStringMatch::JStringMatch
 	itsRegex(regex),
 	itsSubmatchList(list)
 {
-	assert( !itsByteRange.IsEmpty() );		// avoid potential infinite loops
+}
+
+/******************************************************************************
+ Copy constructor (protected)
+
+ ******************************************************************************/
+
+JStringMatch::JStringMatch
+	(
+	const JStringMatch& source
+	)
+	:
+	itsTarget(source.itsTarget)
+{
+	*this = source;
 }
 
 /******************************************************************************
@@ -49,6 +63,46 @@ JStringMatch::JStringMatch
 JStringMatch::~JStringMatch()
 {
 	jdelete itsSubmatchList;
+}
+
+/******************************************************************************
+ Assignment operator
+
+ *****************************************************************************/
+
+const JStringMatch&
+JStringMatch::operator=
+	(
+	const JStringMatch& source
+	)
+{
+	if (&source == this)
+		{
+		return *this;
+		}
+
+	assert( &itsTarget == &(source.itsTarget) );
+
+	itsByteRange = source.itsByteRange;
+	itsCharacterRange = source.itsCharacterRange;
+	itsRegex = source.itsRegex;
+
+	if (source.itsSubmatchList == NULL)
+		{
+		jdelete itsSubmatchList;
+		itsSubmatchList = NULL;
+		}
+	else if (itsSubmatchList == NULL)
+		{
+		itsSubmatchList = jnew JArray<JUtf8ByteRange>(*(source.itsSubmatchList));
+		assert( itsSubmatchList != NULL );
+		}
+	else
+		{
+		*itsSubmatchList = *(source.itsSubmatchList);
+		}
+
+	return *this;
 }
 
 /******************************************************************************
@@ -180,12 +234,14 @@ JStringMatch::GetSubstring
 {
 	if (itsSubmatchList != NULL && itsSubmatchList->IndexValid(index))
 		{
-		return JString(itsTarget.GetBytes(), itsSubmatchList->GetElement(index), kJFalse);
+		const JUtf8ByteRange r = itsSubmatchList->GetElement(index);
+		if (!r.IsEmpty())
+			{
+			return JString(itsTarget.GetBytes(), r, kJFalse);
+			}
 		}
-	else
-		{
-		return JString();
-		}
+
+	return JString();
 }
 
 /******************************************************************************

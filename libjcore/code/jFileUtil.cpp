@@ -10,6 +10,8 @@
 #include <jFileUtil.h>
 #include <jStreamUtil.h>
 #include <jFStreamUtil.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <JRegex.h>
 #include <jMountUtil.h>
 #include <jSysUtil.h>
@@ -87,12 +89,16 @@ JSplitPathAndName
 	JString pathAndName = fullName;
 	JStripTrailingDirSeparator(&pathAndName);
 
-	JIndex i;
-	if (pathAndName.LocateLastSubstring(ACE_DIRECTORY_SEPARATOR_STR, &i) &&
-		i < pathAndName.GetLength())
+	JStringIterator iter(pathAndName);
+	iter.BeginMatch();
+	if (iter.Prev(ACE_DIRECTORY_SEPARATOR_STR) &&
+		iter.GetNextCharacterIndex() < pathAndName.GetCharacterCount())
 		{
-		*path = pathAndName.GetSubstring(1,i);
-		*name = pathAndName.GetSubstring(i+1, pathAndName.GetLength());
+		*name = iter.FinishMatch().GetString();
+
+		iter.BeginMatch();
+		iter.MoveTo(kJIteratorStartAtBeginning, 0);
+		*path = iter.FinishMatch().GetString();
 
 		JCleanPath(path);
 		return kJTrue;
@@ -213,6 +219,8 @@ JSearchFile
 
  ******************************************************************************/
 
+static const JRegex lineIndexRegex(":([0-9]+)(?:-([0-9]+))?$");
+
 void
 JExtractFileAndLine
 	(
@@ -222,22 +230,21 @@ JExtractFileAndLine
 	JIndex*			endLineIndex
 	)
 {
-	static JRegex lineIndexRegex(":([0-9]+)(-([0-9]+))?$");
-
 	*fileName = str;
 
-	JArray<JIndexRange> matchList;
-	if (lineIndexRegex.Match(*fileName, &matchList))
+	JStringIterator iter(fileName);
+	iter.BeginMatch();
+	if (iter.Next(lineIndexRegex))
 		{
-		JString s   = fileName->GetSubstring(matchList.GetElement(2));
-		JBoolean ok = s.ConvertToUInt(startLineIndex);
+		const JStringMatch& m = iter.GetLastMatch();
+
+		JBoolean ok = m.GetSubstring(1).ConvertToUInt(startLineIndex);
 		assert( ok );
 
-		const JIndexRange endRange = matchList.GetElement(4);
+		const JCharacterRange endRange = m.GetCharacterRange(2);
 		if (endLineIndex != NULL && !endRange.IsEmpty())
 			{
-			s  = fileName->GetSubstring(endRange);
-			ok = s.ConvertToUInt(endLineIndex);
+			ok = m.GetSubstring(2).ConvertToUInt(endLineIndex);
 			assert( ok );
 			}
 		else if (endLineIndex != NULL)
@@ -245,7 +252,7 @@ JExtractFileAndLine
 			*endLineIndex = *startLineIndex;
 			}
 
-		fileName->RemoveSubstring(matchList.GetElement(1));
+		*fileName = iter.FinishMatch().GetString();
 		}
 	else
 		{
@@ -291,6 +298,8 @@ JCombineRootAndSuffix
 
  ******************************************************************************/
 
+static const JRegex suffixPattern = "\\.(.*[^0-9].*)$";
+
 JBoolean
 JSplitRootAndSuffix
 	(
@@ -302,28 +311,13 @@ JSplitRootAndSuffix
 	*root = name;
 	suffix->Clear();
 
-	JIndex dotIndex;
-	if (root->LocateLastSubstring(".", &dotIndex) && dotIndex > 1)
+	JStringIterator iter(root, kJIteratorStartAtEnd);
+	if (iter.Prev(suffixPattern) && !iter.AtBeginning())
 		{
-		const JSize length = root->GetLength();
-		if (dotIndex < length)
-			{
-			JBoolean isSuffix = kJFalse;
-			for (JIndex i=dotIndex+1; i<=length; i++)
-				{
-				if (!isdigit(root->GetCharacter(i)))
-					{
-					isSuffix = kJTrue;
-					break;
-					}
-				}
+		const JStringMatch& m = iter.GetLastMatch();
 
-			if (isSuffix)
-				{
-				*suffix = root->GetSubstring(dotIndex+1, length);
-				root->RemoveSubstring(dotIndex, length);
-				}
-			}
+		*suffix = m.GetSubstring(1);
+		iter.RemoveAllNext();
 		}
 
 	return !suffix->IsEmpty();
@@ -353,7 +347,7 @@ JFileNameToURL
 		file = fileName;
 		}
 
-	JString url("file://");
+	JString url("file://", 0);
 	url += host;
 	url += file;
 	return url;
@@ -368,17 +362,24 @@ JURLToFileName
 {
 	JString s(url);
 
-	JIndex index;
-	if (s.LocateSubstring("://", &index))
+	JStringIterator iter(&s);
+	if (iter.Next("://"))
 		{
-		s.RemoveSubstring(1, index+2);
+		iter.RemoveAllPrev();
 
-		if (!s.LocateSubstring("/", &index) || index == 1)
+		iter.BeginMatch();
+		if (!iter.Next("/") || iter.GetPrevCharacterIndex() == 1)
 			{
 			return kJFalse;
 			}
-		const JString urlHostName = s.GetSubstring(1, index-1);
-		const JString urlFileName = s.GetSubstring(index, s.GetLength());
+		const JStringMatch& m1    = iter.FinishMatch();
+		const JString urlHostName = m1.GetString();
+
+		iter.SkipPrev();
+		iter.BeginMatch();
+		iter.MoveTo(kJIteratorStartAtEnd, 0);
+		const JStringMatch& m2    = iter.FinishMatch();
+		const JString urlFileName = m2.GetString();
 
 		if (urlHostName == JGetHostName())
 			{
@@ -407,13 +408,13 @@ JURLToFileName
 JError
 JFOpen
 	(
-	const JString&	fileName,
-	const JString&	mode,
-	FILE**			stream
+	const JString&		fileName,
+	const JUtf8Byte*	mode,
+	FILE**				stream
 	)
 {
 	jclear_errno();
-	*stream = fopen(fileName.GetBytes(), mode.GetBytes());
+	*stream = fopen(fileName.GetBytes(), mode);
 	if (*stream != NULL)
 		{
 		return JNoError();

@@ -191,7 +191,7 @@ JPSPrinter::OpenDocument()
 
 	assert( itsPG == NULL );
 	itsPG = jnew JLatentPG;
-	itsPG->VariableLengthProcessBeginning("Printing page...", kJTrue, kJFalse);
+	itsPG->VariableLengthProcessBeginning(JGetString("Printing::JPSPrinter"), kJTrue, kJFalse);
 
 	return kJTrue;
 }
@@ -269,9 +269,7 @@ JPSPrinter::NewPage()
 		}
 	else if (output.fail())
 		{
-		(JGetUserNotification())->ReportError(
-			"An error occurred while trying to print.  "
-			"Please check that the disk is not full.");
+		(JGetUserNotification())->ReportError(JGetString("Error::JPSPrinter"));
 
 		CancelDocument();
 		return kJFalse;

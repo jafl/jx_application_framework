@@ -19,6 +19,7 @@
  ******************************************************************************/
 
 #include <JNetworkProtocolBase.h>
+#include <JString.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <jErrno.h>
@@ -105,21 +106,21 @@ void
 JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send
 	(
 	const JUtf8Byte*	data,
-	const JSize			length
+	const JSize			count
 	)
 {
 	if (itsSynchFlag)
 		{
-		(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send_n(data, length);
+		(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send_n(data, count);
 		}
-	else if (length > 0)
+	else if (count > 0)
 		{
 		if (itsSendData.IsEmpty())
 			{
 			(ACE_Event_Handler::reactor())->register_handler(this, ACE_Event_Handler::WRITE_MASK);
 			}
 
-		itsSendData.Append(data, length);
+		itsSendData.AppendElement(Chunk(data, count));
 		}
 }
 
@@ -168,10 +169,21 @@ template <ACE_PEER_STREAM_1>
 void
 JNetworkProtocolBase<ACE_PEER_STREAM_2>::Flush()
 {
-	if (!itsSynchFlag && !itsSendData.IsEmpty())
+	if (itsSynchFlag || itsSendData.IsEmpty())
 		{
-		(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send_n(itsSendData.GetBytes(), itsSendData.GetByteCount());
+		return;
 		}
+
+	JOrderedSetIterator<Chunk>* iter = itsSendData.NewIterator();
+	Chunk c;
+	while (iter->Next(&c))
+		{
+		(ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send_n(c.data + c.sendOffset, c.count - c.sendOffset);
+		c.CleanOut();
+		iter->RemovePrev();
+		}
+
+	jdelete iter;
 }
 
 /******************************************************************************
@@ -190,14 +202,21 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::handle_output
 {
 	if (!itsSendData.IsEmpty())
 		{
-//		const JSize count = JMin(itsSendData.GetLength(), kDefaultBlockSize);
-//		(peer()).send_n(itsSendData, count);
-//		itsSendData.RemoveSubstring(1, count);
+		Chunk c = itsSendData.GetFirstElement();
 
-		const int count = (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send(itsSendData.GetBytes(), itsSendData.GetByteCount(), MSG_DONTWAIT);
+		const int count = (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).send(c.data + c.sendOffset, c.count - c.sendOffset, MSG_DONTWAIT);
 		if (count > 0)
 			{
-			itsSendData.RemoveSubstring(1, count);
+			c.sendOffset += count;
+			if (c.sendOffset >= c.count)
+				{
+				c.CleanOut();
+				itsSendData.RemoveElement(1);
+				}
+			else
+				{
+				itsSendData.SetElement(1, c);
+				}
 			}
 		else
 			{
@@ -211,6 +230,28 @@ JNetworkProtocolBase<ACE_PEER_STREAM_2>::handle_output
 		}
 
 	return 0;
+}
+
+/******************************************************************************
+ Chunk
+
+	Stores a chunk of data that needs to be sent.
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+JNetworkProtocolBase<ACE_PEER_STREAM_2>::Chunk::Chunk
+	(
+	const char*	_data,
+	const JSize	_count
+	)
+	:
+	count(_count),
+	sendOffset(0)
+{
+	data = jnew char[count];
+	assert( data != NULL );
+	memcpy(data, _data, count);
 }
 
 #endif

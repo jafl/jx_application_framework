@@ -146,9 +146,7 @@ JEPSPrinter::OpenDocument
 		}
 	else
 		{
-		(JGetUserNotification())->ReportError(
-			"Unable to create the file.  Please check that the directory "
-			"is writable and that the disk is not full.");
+		(JGetUserNotification())->ReportError(JGetString("Error::JEPSPrinter"));
 
 		DeletePreviewData();
 		return kJFalse;

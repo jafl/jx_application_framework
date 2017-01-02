@@ -44,7 +44,7 @@
 #include <strstream>
 #include <jAssert.h>
 
-static const JUtf8Byte* kDataDirName = "string_data";
+static const JString theDataDirName("string_data", 0, kJFalse);
 
 // non-overridable strings
 
@@ -89,7 +89,7 @@ JStringManager::~JStringManager()
 
  *****************************************************************************/
 
-static const JString theMissingString = "<string not found>";
+static const JString theMissingString("<string not found>", 0, kJFalse);
 
 const JString&
 JStringManager::Get
@@ -99,7 +99,7 @@ JStringManager::Get
 	const
 {
 	const JString* s;
-	const JBoolean found = GetElement(id, &s);
+	const JBoolean found = GetElement(JString(id, 0, kJFalse), &s);
 	if (found)
 		{
 		assert( s != NULL );
@@ -213,7 +213,7 @@ JStringManager::Replace
 	const JSize count = size/(2*sizeof(JUtf8Byte*));
 	for (JIndex i=0; i<count; i++)
 		{
-		r->DefineVariable(map[2*i], map[2*i+1]);
+		r->DefineVariable(map[2*i], JString(map[2*i+1], 0, kJFalse));
 		}
 
 	r->Substitute(str);
@@ -261,7 +261,7 @@ JStringManager::Register
 		const JUtf8Byte* lang = getenv("LANG");
 
 		JString path[2];
-		JGetJDataDirectories(kDataDirName, path, path+1);
+		JGetJDataDirectories(theDataDirName, path, path+1);
 
 		JString name1, name2;
 		for (JIndex i=0; i<2; i++)
@@ -270,7 +270,7 @@ JStringManager::Register
 				(JDirectoryReadable(path[i]) ||
 				 JCreateDirectory(path[i]) == kJNoError))
 				{
-				name1 = JCombinePathAndName(path[i], signature);
+				name1 = JCombinePathAndName(path[i], JString(signature, 0, kJFalse));
 
 				if (lang != NULL)
 					{

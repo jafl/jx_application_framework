@@ -438,7 +438,7 @@ JUtf8Character::ToUpper()
 }
 
 /******************************************************************************
- AllocateNullTerminatedBytes
+ AllocateBytes
 
 	This allocates a new pointer, which the caller is responsible
 	for deleting via "delete []".
@@ -446,13 +446,13 @@ JUtf8Character::ToUpper()
  ******************************************************************************/
 
 JUtf8Byte*
-JUtf8Character::AllocateNullTerminatedBytes()
+JUtf8Character::AllocateBytes()
 	const
 {
 	JUtf8Byte* s = jnew JUtf8Byte[ itsByteCount+1 ];
 	assert( s != NULL );
 	memcpy(s, itsBytes, itsByteCount);
-	s[ itsByteCount+1 ] = '\0';
+	s[ itsByteCount ] = '\0';
 	return s;
 }
 

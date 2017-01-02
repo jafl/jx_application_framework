@@ -10,6 +10,7 @@
  ******************************************************************************/
 
 #include <JUnitTestManager.h>
+#include <JError.h>
 #include <jAssert.h>
 
 static JUnitTestManager* theManager = NULL;
@@ -267,7 +268,7 @@ JUnitTestManager::IsFalse
  IsOK
 
  ******************************************************************************/
-/*
+
 JBoolean
 JUnitTestManager::IsOK
 	(
@@ -283,14 +284,14 @@ JUnitTestManager::IsOK
 	else
 		{
 		std::ostringstream s;
-		s << "Error: " << err.GetMessage();
+		s << "Error: " << err.GetType() << ": " << err.GetMessage();
 
 		const std::string msg = s.str();
 		ReportFailure(s.str().c_str(), file, line);
 		return kJFalse;
 		}
 }
-*/
+
 /******************************************************************************
  StringsAreEqual
 
@@ -322,8 +323,8 @@ JUnitTestManager::StringsAreEqual
 		s << "Strings are not equal:" 
 		  << "  Expected <<" << expectedValue
 		  << ">> but got <<" << actualValue << ">>" << std::endl;
-		s << '\t'; JString(expectedValue, strlen(expectedValue)).PrintHex(s); s << std::endl;
-		s << '\t'; JString(actualValue, strlen(actualValue)).PrintHex(s); s << std::endl;
+		s << '\t'; JString(expectedValue, strlen(expectedValue), kJFalse).PrintHex(s); s << std::endl;
+		s << '\t'; JString(actualValue, strlen(actualValue), kJFalse).PrintHex(s); s << std::endl;
 
 		const std::string msg = s.str();
 		ReportFailure(s.str().c_str(), file, line);

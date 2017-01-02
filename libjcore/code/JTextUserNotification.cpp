@@ -164,5 +164,5 @@ JTextUserNotification::OKToClose
 JBoolean
 JTextUserNotification::AcceptLicense()
 {
-	return AskUserNo(JGetString("LICENSE").GetBytes());
+	return AskUserNo(JGetString("LICENSE"));
 }

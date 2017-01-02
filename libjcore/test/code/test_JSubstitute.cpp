@@ -14,101 +14,98 @@
 
 int main()
 {
-	cout << "Current locale: " << setlocale(LC_ALL, "") << endl;
+	std::cout << "Current locale: " << setlocale(LC_ALL, "") << std::endl;
 	return JUnitTestManager::Execute();
 }
 
-JTEST(Test1)
+JTEST(Escape1)
 {
 	JString oldString, newString;
 
-	JSubstitute esc;
-	esc.IgnoreUnrecognized();
+	JSubstitute sub;
+	sub.IgnoreUnrecognized();
 
 	// A string with an unrecognized escape
 	oldString = "\\i\\iabc\\i\\idef\\i\\i";
 	newString = oldString;
 
 	// Test "do nothing" default
-	esc(&newString);
+	sub.Substitute(&newString);
 	JAssertStringsEqual(oldString, newString);
 
 
 	// Test ignore unrecognized
 	newString = oldString;
-	esc.IgnoreUnrecognized(kJFalse);
-	esc(&newString);
+	sub.IgnoreUnrecognized(kJFalse);
+	sub.Substitute(&newString);
 	JAssertStringsEqual("iiabciidefii", newString);
 
 
 	// Test a basic table entry
 	newString = oldString;
-	JString replaceString;
-	replaceString.Set("<>");
-	esc.SetEscape('i', replaceString.GetBytes());
-	esc(&newString);
+	sub.SetEscape('i', "<>");
+	sub.Substitute(&newString);
 	JAssertStringsEqual("<><>abc<><>def<><>", newString);
 
 
 	// Entries should be case-sensitive
 	oldString = "\\I\\Iabc\\I\\Idef\\I\\I";
 	newString = oldString;
-	replaceString = "<wrong>";
-	esc.IgnoreUnrecognized();
-	esc(&newString);
+	sub.IgnoreUnrecognized();
+	sub.Substitute(&newString);
 	JAssertStringsEqual(oldString, newString);
 
 
 	// Test end-of-string behavior
 	oldString = "abcdef\\";
 	newString = oldString;
-	esc.IgnoreUnrecognized();
-	esc(&newString);
+	sub.IgnoreUnrecognized();
+	sub.Substitute(&newString);
 	JAssertStringsEqual("abcdef", newString);
 
 	newString = oldString;
-	esc.IgnoreUnrecognized(kJFalse);
-	esc(&newString);
+	sub.IgnoreUnrecognized(kJFalse);
+	sub.Substitute(&newString);
 	JAssertStringsEqual("abcdef", newString);
 
 
 	// Test clearing an entry
 	oldString = "abc\\idef";
 	newString = oldString;
-	esc.ClearEscape('i');
-	esc.IgnoreUnrecognized();
-	esc(&newString);
+	sub.ClearEscape('i');
+	sub.IgnoreUnrecognized();
+	sub.Substitute(&newString);
 	JAssertStringsEqual(oldString, newString);
 }
 
-JTEST(Test2)
+JTEST(Escape2)
 {
 	JString oldString, newString;
 
-	JSubstitute esc;
-	esc.IgnoreUnrecognized();
+	JSubstitute sub;
+	sub.IgnoreUnrecognized();
 
 	// A string with a control-character escape
 	oldString = "\\cG\\cGabc\\cG\\cGdef\\cG\\cG";
 	newString = oldString;
 
 	// Test a control substitution
-	esc.UseControlEscapes();
-	esc(&newString);
+	sub.UseControlEscapes();
+	sub.Substitute(&newString);
 	JAssertStringsEqual("\a\aabc\a\adef\a\a", newString);
 
 
 	// But this should fail
 	oldString = "\\CG\\CGabc\\CG\\CGdef\\CG\\CG";
 	newString = oldString;
-	esc(&newString);
+	sub.Substitute(&newString);
 	JAssertStringsEqual(oldString, newString);
 
 
 	// So should this
 	oldString = "\\cg\\cgabc\\cg\\cgdef\\cg\\cg";
 	newString = oldString;
-	esc(&newString);
+	sub.Substitute(&newString);
 	JAssertStringsEqual(oldString, newString);
 
 
@@ -117,69 +114,91 @@ JTEST(Test2)
 	// This one should be disallowed
 	oldString = "abc\\c@def";
 	newString = oldString;
-	esc(&newString);
+	sub.Substitute(&newString);
 	JAssertStringsEqual(oldString, newString);
 
 
 	// This one should work
 	oldString = "\\cA\\cAabc\\cA\\cAdef\\cA\\cA";
 	newString = oldString;
-	esc(&newString);
+	sub.Substitute(&newString);
 	JAssertStringsEqual("\01\01abc\01\01def\01\01", newString);
 
 
 	// So should this one
 	oldString = "abc\\c_def";
 	newString = oldString;
-	esc(&newString);
+	sub.Substitute(&newString);
 	JAssertStringsEqual("abc\037def", newString);
 
 
 	// But this should fail
 	oldString = "abc\\c@`def";
 	newString = oldString;
-	esc(&newString);
+	sub.Substitute(&newString);
 	JAssertStringsEqual(oldString, newString);
 
 
 	// Test end-of-string behavior
 	oldString = "abcdef\\c";
 	newString = oldString;
-	esc.IgnoreUnrecognized();
-	esc(&newString);
+	sub.IgnoreUnrecognized();
+	sub.Substitute(&newString);
 	JAssertStringsEqual("abcdef", newString);
 
 	newString = oldString;
-	esc.IgnoreUnrecognized(kJFalse);
-	esc(&newString);
+	sub.IgnoreUnrecognized(kJFalse);
+	sub.Substitute(&newString);
 	JAssertStringsEqual("abcdef", newString);
 
 	oldString = "abcdef\\cM";
 	newString = oldString;
-	esc.IgnoreUnrecognized();
-	esc(&newString);
+	sub.IgnoreUnrecognized();
+	sub.Substitute(&newString);
 	JAssertStringsEqual("abcdef\r", newString);
 
 	newString = oldString;
-	esc.IgnoreUnrecognized(kJFalse);
-	esc(&newString);
+	sub.IgnoreUnrecognized(kJFalse);
+	sub.Substitute(&newString);
 	JAssertStringsEqual("abcdef\r", newString);
 
 
 	// Check ClearAllOrdinary
 	oldString = "abc\\cKdef";
 	newString = oldString;
-	esc.ClearAllEscapes();
-	esc.IgnoreUnrecognized();
-	esc(&newString);
+	sub.ClearAllEscapes();
+	sub.IgnoreUnrecognized();
+	sub.Substitute(&newString);
 	JAssertStringsEqual("abc\vdef", newString);
 
 
 	// Check reset
 	oldString = "abc\\cGdef";
 	newString = oldString;
-	esc.Reset();
-	esc.IgnoreUnrecognized();
-	esc(&newString);
+	sub.Reset();
+	sub.IgnoreUnrecognized();
+	sub.Substitute(&newString);
 	JAssertStringsEqual(oldString, newString);
+}
+
+JTEST(Variables)
+{
+	JString oldString, newString;
+
+	JSubstitute sub;
+	sub.DefineVariable("a", JString("x", 0, kJFalse));
+	sub.DefineVariable("b", JString("y", 0, kJFalse));
+
+	oldString = "a$aab$bb";
+	newString = oldString;
+	sub.Substitute(&newString);
+	JAssertStringsEqual("axabyb", newString);
+
+	sub.UndefineVariable("a");
+	sub.DefineVariables("foo|bar");
+
+	oldString = "a$aa$foob$bb$bar";
+	newString = oldString;
+	sub.Substitute(&newString);
+	JAssertStringsEqual("aaafoobybbar", newString);
 }

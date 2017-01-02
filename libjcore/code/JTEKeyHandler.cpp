@@ -54,7 +54,7 @@ JTEKeyHandler::Initialize()
 void
 JTEKeyHandler::InsertKeyPress
 	(
-	const JCharacter key
+	const JUtf8Character& key
 	)
 {
 	itsTE->InsertKeyPress(key);

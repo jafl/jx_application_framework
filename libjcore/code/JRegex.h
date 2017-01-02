@@ -12,18 +12,19 @@
 #ifndef _H_JRegex
 #define _H_JRegex
 
-#include "JString.h"
-#include "JArray.h"
+#include "JStringMatch.h"
+#include "JPtrArray-JString.h"
 #include "JError.h"
 #include <pcre.h>
 
+class JStringMatch;
 class JInterpolate;
-
-//#define JRE_ALLOC_CHECK
-//#define JRE_PRINT_COMPILE_ERRORS
 
 class JRegex
 {
+	friend class JStringIterator;
+	friend class JSubstitute;
+
 public:
 
 	JRegex();
@@ -37,126 +38,53 @@ public:
 
 // Setting and examining patterns
 
-	JError SetPattern(const JString& pattern);
-	JError SetPattern(const JUtf8Byte* pattern);
+	const JString&	GetPattern() const;
 
-	void SetPatternOrDie(const JString& pattern);
-	void SetPatternOrDie(const JUtf8Byte* pattern);
+	JError	SetPattern(const JString& pattern);
+	JError	SetPattern(const JUtf8Byte* pattern);
 
-	const JString& GetPattern() const;
+	void	SetPatternOrDie(const JString& pattern);
+	void	SetPatternOrDie(const JUtf8Byte* pattern);
 
+	static JBoolean	NeedsBackslashToBeLiteral(const JUtf8Byte c);
 	static JBoolean	NeedsBackslashToBeLiteral(const JUtf8Character& c);
 	static JString	BackslashForLiteral(const JString& text);
 
 // Pattern-related settings and statistics
 
-	JBoolean ContainsNULL() const;
-	JSize    NULLCount() const;
-
-	JSize    	GetSubCount() const;
+	JSize    	GetSubexpressionCount() const;
 	JBoolean	GetSubexpressionIndex(const JUtf8Byte* name, JIndex* index) const;
-	JBoolean	GetSubexpression(const JString& str, const JUtf8Byte* name,
-								 const JArray<JCharacterRange>& matchList, JString* s) const;
+	JBoolean	GetSubexpressionIndex(const JString& name, JIndex* index) const;
 
-/******************************************************************************
- Match and friends
+// Matching
 
-	possible future interface extensions included in comments
-
- *****************************************************************************/
-
-// These versions simply determine whether there is a match
-
-	// Return one match, yes/no
-	JBoolean Match(const JString& str) const;
-	JBoolean MatchFrom(const JString& str, const JIndex index) const;
-	JBoolean MatchAfter(const JString& str, const JCharacterRange& range) const;
-	JBoolean MatchWithin(const JString& str, const JCharacterRange& range) const;
-
-	// Count all matches
-	JSize    MatchAll(const JString& str) const;
-
-// These versions return the overall match ranges
-
-	// First match
-	JBoolean Match(const JString& str, JCharacterRange* match) const;
-	JBoolean MatchFrom(const JString& str, const JIndex index, JCharacterRange* match) const;
-	JBoolean MatchAfter(const JString& str, const JCharacterRange& range, JCharacterRange* match) const;
-	JBoolean MatchWithin(const JString& str, const JCharacterRange& range, JCharacterRange* match) const;
-
-	// Last match
-	JSize    MatchLast(const JString& str, JCharacterRange* match) const;
-//	JSize    MatchLastFrom(const JString& str, const JIndex index, JCharacterRange* match) const;
-//	JSize    MatchLastAfter(const JString& str, const JCharacterRange& range, JCharacterRange* match) const;
-	JSize    MatchLastWithin(const JString& str, const JCharacterRange& range, JCharacterRange* match) const;
-
-	// All Matches
-	JSize    MatchAll(const JString& str, JArray<JCharacterRange>* matchList) const;
-//	JSize    MatchAllFrom(const JString& str, const JIndex index, JArray<JCharacterRange>* matchList) const;
-//	JSize    MatchAllAfter(const JString& str, const JCharacterRange& range, JArray<JCharacterRange>* matchList) const;
-	JSize    MatchAllWithin(const JString& str, const JCharacterRange& range, JArray<JCharacterRange>* matchList) const;
-
-// These versions return a list of subexpression matches from the first match
-
-	// First match
-	JBoolean Match(const JString& str, JArray<JCharacterRange>* subMatchList) const;
-	JBoolean MatchFrom(const JString& str, const JIndex index, JArray<JCharacterRange>* subMatchList) const;
-	JBoolean MatchAfter(const JString& str, const JCharacterRange& range, JArray<JCharacterRange>* subMatchList) const;
-	JBoolean MatchWithin(const JString& str, const JCharacterRange& range, JArray<JCharacterRange>* subMatchList) const;
-
-	// Last match
-//	JSize    MatchLast(const JString& str, JArray<JCharacterRange>* subMatchList) const;
-//	JSize    MatchLastFrom(const JString& str, const JIndex index, JArray<JCharacterRange>* subMatchList) const;
-//	JSize    MatchLastAfter(const JString& str, const JCharacterRange& range, JArray<JCharacterRange>* subMatchList) const;
-	JSize    MatchLastWithin(const JString& str, const JCharacterRange& range, JArray<JCharacterRange>* subMatchList) const;
-
-// Search backwards
-
-	JBoolean MatchBackward(const JString& str, const JIndex index, JCharacterRange* match) const;
-	JSize    MatchBackward(const JString& str, const JIndex index, JArray<JCharacterRange>* matchList) const;
-
-// Split--a sort of inverse Match that can be very useful.
-
-	JSize Split(const JString& str, JArray<JCharacterRange>* splitList) const;
-
-/******************************************************************************
- Replace and friends
-
- *****************************************************************************/
-
-	JString InterpolateMatches(const JString& sourceString, const JArray<JCharacterRange>& matchList) const;
-
-	void    Replace(JString* str, const JArray<JCharacterRange>& matchList,
-					JCharacterRange* newRange) const;
-	void    Replace(JString* str, const JCharacterRange& oldRange,
-					JCharacterRange* newRange) const;
+	JBoolean	Match(const JString& str) const;
+	void		Split(const JString& str, JPtrArray<JString>* strPartList,
+					  const JBoolean includeSeparators = kJFalse) const;
 
 // Setting and testing options
 
-	void     SetCaseSensitive(const JBoolean yesNo = kJTrue);
 	JBoolean IsCaseSensitive() const;
-	void     SetSingleLine(const JBoolean yesNo = kJTrue);
+	void     SetCaseSensitive(const JBoolean yesNo = kJTrue);
+
 	JBoolean IsSingleLine() const;
-	void     SetLineBegin(const JBoolean yesNo = kJTrue);
+	void     SetSingleLine(const JBoolean yesNo = kJTrue);
+
 	JBoolean IsLineBegin() const;
-	void     SetLineEnd(const JBoolean yesNo = kJTrue);
+	void     SetLineBegin(const JBoolean yesNo = kJTrue);
+
 	JBoolean IsLineEnd() const;
-	void     SetLiteralReplace(const JBoolean yesNo = kJTrue);
-	JBoolean IsLiteralReplace() const;
-	void     SetMatchCase(const JBoolean yesNo = kJTrue);
+	void     SetLineEnd(const JBoolean yesNo = kJTrue);
+
 	JBoolean IsMatchCase() const;
-
-	JError SetReplacePattern(const JString& pattern, JCharacterRange* errRange = NULL);
-	JError SetReplacePattern(const JUtf8Byte* pattern, JCharacterRange* errRange = NULL);
-
-	const JString& GetReplacePattern() const;
+	void     SetMatchCase(const JBoolean yesNo = kJTrue);
 
 	JError RestoreDefaults();
 
-	// Direct access to the internal escape and match substitution engines,
-	// in case you wish to customize them.
+protected:
 
-	JInterpolate* GetMatchInterpolator()   const;
+	JStringMatch	MatchForward(const JString& str, const JIndex byteIndex) const;
+	JStringMatch	MatchBackward(const JString& str, const JIndex byteIndex) const;
 
 private:
 
@@ -168,40 +96,23 @@ private:
 		kReady          // and rarin' to go, obviously itsRegex is allocated
 	};
 
-	JString itsPattern;
-	JSize   itsNULLCount;
+	JString			itsPattern;
+	PatternState	itsState;
+	pcre*			itsRegex;
+	int				itsCFlags;
+	int				itsEFlags;
 
-	pcre*	itsRegex;
-
-	int itsCFlags;
-	int itsEFlags;
-
-	JString*      itsReplacePattern;
-
-	JInterpolate* itsInterpolator;
-
-	#ifdef JRE_ALLOC_CHECK
-	int numRegexAlloc;
-	#endif
-
-	// Data which could be stored in less than 32 bits and so are collected
-	// together in case JRegex's memory usage is optimized someday
-
-	PatternState itsState; // 2 bits
-
-	JBoolean itsLiteralReplaceFlag;
-	JBoolean itsMatchCaseFlag;
+	int	numRegexAlloc;		// only used if JRE_ALLOC_CHECK is defined
 
 	// Static data
 
-	static const JString theSpecialCharList;
+	static const JString	theSpecialCharList;
 
 private:
 
-	void SetReplaceRegex() const;
-
-	void Allocate();
 	void CopyPatternRegex(const JRegex& source);
+
+	JStringMatch	MatchLastWithin(const JString& str, const JUtf8ByteRange& range) const;
 
 	void SetCompileOption(const int option, const JBoolean setClear);
 	void SetExecuteOption(const int option, const JBoolean setClear);
@@ -209,19 +120,17 @@ private:
 
 	JBoolean RawGetOption(const int flags, const int option) const;
 
-	void CompileOrDie();
-
 	// The basic regex library functions, translated
-	JError   RegComp();
-	JBoolean RegExec(const JUtf8Byte* str, const JSize offset, const JSize length,
-					 JUtf8ByteRange* matchRange, JArray<JUtf8ByteRange>* matchList) const;
-	void     RegFree();
+
+	JError			Compile();
+	JStringMatch	Match(const JString& str,
+						  const JSize byteOffset, const JSize byteCount,
+						  const JBoolean includeSubmatches) const;
+	void			CleanUp();
 
 public:
 
-	// JError stuff
-
-	static const JUtf8Byte* kError; // Break up into real types when we need them
+	static const JUtf8Byte* kError;
 
 	class JRegexError : public JError
 	{
@@ -229,10 +138,10 @@ public:
 
 	protected:
 
-		JRegexError(const JUtf8Byte* type, const JString& message,
+		JRegexError(const JUtf8Byte* type, const JUtf8Byte* message,
 					const JIndex index)
 			:
-			JError(type, message.GetBytes()),
+			JError(type, message),
 			itsIndex(index)
 		{ };
 
@@ -257,22 +166,6 @@ public:
 
 
 /******************************************************************************
- RawGetOption (private)
-
- *****************************************************************************/
-
-inline JBoolean
-JRegex::RawGetOption
-	(
-	const int flags,
-	const int option
-	)
-	const
-{
-	return JConvertToBoolean(flags & option);
-}
-
-/******************************************************************************
  NeedsBackslashToBeLiteral (static)
 
 	JAFL 5/11/98
@@ -285,6 +178,15 @@ JRegex::RawGetOption
 inline JBoolean
 JRegex::NeedsBackslashToBeLiteral
 	(
+	const JUtf8Byte c
+	)
+{
+	return theSpecialCharList.Contains(&c, 1);
+}
+
+inline JBoolean
+JRegex::NeedsBackslashToBeLiteral
+	(
 	const JUtf8Character& c
 	)
 {
@@ -293,12 +195,6 @@ JRegex::NeedsBackslashToBeLiteral
 
 /******************************************************************************
  GetPattern
-
-	Returns the pattern currently set.  This is a reference to the Regex's
-	internal pattern buffer, it will point to garbage after the next
-	SetPattern.  As usual, use JString to make your own copy.
-
-	If there is no pattern currently set, GetPattern returns the empty string.
 
  *****************************************************************************/
 
@@ -412,88 +308,53 @@ JRegex::IsLineEnd() const
 }
 
 /******************************************************************************
- LiteralReplace
+ MatchForward (protected)
 
-	Controls whether one of the forms of Replace() does pattern substitution on
-	the replacement pattern before interpolation (for the other two forms
-	replace pattern substitution is controlled by their arguments).  The default
-	setting is kJFalse, so that replacement is done before interpolation, but the
-	default argument is kJTrue, so that SetLiteralReplace() changes to no pattern
-	replacement.
+	If a match is not found, the returned JStringMatch will be empty.
 
  *****************************************************************************/
 
-inline void
-JRegex::SetLiteralReplace
+inline JStringMatch
+JRegex::MatchForward
 	(
-	const JBoolean yesNo // = kJTrue
+	const JString&	str,
+	const JIndex	byteIndex
 	)
+	const
 {
-	itsLiteralReplaceFlag = yesNo;
+	return Match(str, byteIndex-1, str.GetByteCount(), kJTrue);
 }
+
+/******************************************************************************
+ GetSubexpressionIndex
+
+ *****************************************************************************/
 
 inline JBoolean
-JRegex::IsLiteralReplace() const
+JRegex::GetSubexpressionIndex
+	(
+	const JString& name,
+	JIndex*        index
+	)
+	const
 {
-	return itsLiteralReplaceFlag;
+	return GetSubexpressionIndex(name.GetBytes(), index);
 }
 
 /******************************************************************************
- MatchCase
-
-	Controls whether Replace (and InterpolateMatches) attempts to adjust
-	the case of the replacement string to match that of the string matched.
-	Default is kJFalse, so case is not adjusted.  If set to kJTrue, the first
-	character of the replacement string will match the first character of
-	the match.  In addition, if the rest of the match (after the first
-	character) is entirely one case or the other, the rest of the
-	replacement string (after the first character) will be coerced to that
-	case.
+ RawGetOption (private)
 
  *****************************************************************************/
-
-inline void
-JRegex::SetMatchCase
-	(
-	const JBoolean yesNo // = kJTrue
-	)
-{
-	itsMatchCaseFlag = yesNo;
-}
 
 inline JBoolean
-JRegex::IsMatchCase() const
-{
-	return itsMatchCaseFlag;
-}
-
-/******************************************************************************
- SetReplacePattern
-
- *****************************************************************************/
-
-inline JError
-JRegex::SetReplacePattern
+JRegex::RawGetOption
 	(
-	const JString&   pattern,
-	JCharacterRange* errRange
+	const int flags,
+	const int option
 	)
+	const
 {
-	return SetReplacePattern(pattern.GetBytes(), errRange);
-}
-
-/******************************************************************************
- GetReplacePattern
-
-	Returns the current replace pattern.  The default (if no previous replace
-	pattern was set) is the empty string, "".
-
- *****************************************************************************/
-
-inline const JString&
-JRegex::GetReplacePattern() const
-{
-	return *itsReplacePattern;
+	return JI2B(flags & option);
 }
 
 #endif

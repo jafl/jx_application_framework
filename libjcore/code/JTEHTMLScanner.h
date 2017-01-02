@@ -24,11 +24,11 @@ protected:
 
 	JTEHTMLScanner(JTextEditor* te);
 
-	virtual JBoolean	HandleHTMLWord(const JCharacter* word, const JIndexRange& range);
-	virtual JBoolean	HandleHTMLWhitespace(const JCharacter* space, const JIndexRange& range);
+	virtual JBoolean	HandleHTMLWord(const JUtf8Byte* word, const JIndexRange& range);
+	virtual JBoolean	HandleHTMLWhitespace(const JUtf8Byte* space, const JIndexRange& range);
 	virtual JBoolean	HandleHTMLTag(const JString& name, const JStringPtrMap<JString>& attr,
 									  const JIndexRange& range);
-	virtual JBoolean	HandleHTMLError(const HTMLError err, const JCharacter* errStr,
+	virtual JBoolean	HandleHTMLError(const HTMLError err, const JUtf8Byte* errStr,
 										const JIndexRange& range);
 
 private:

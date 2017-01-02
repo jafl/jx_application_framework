@@ -74,8 +74,8 @@ JTEUndoStyle::Undo()
 void
 JTEUndoStyle::SetFont
 	(
-	const JCharacter*	name,
-	const JSize			size
+	const JString&	name,
+	const JSize		size
 	)
 {
 	JTEUndoBase::SetFont(itsOrigStyles, name, size);

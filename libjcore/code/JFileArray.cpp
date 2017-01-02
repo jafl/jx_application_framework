@@ -185,7 +185,7 @@ JError
 JFileArray::Create
 	(
 	const JString&		fileName,
-	const JString&		fileSignature,
+	const JUtf8Byte*	fileSignature,
 	JFileArray**		obj,
 	const CreateAction	action
 	)
@@ -207,7 +207,7 @@ JError
 JFileArray::OKToCreateBase
 	(
 	const JString&		fileName,
-	const JString&		fileSignature,
+	const JUtf8Byte*	fileSignature,
 	const CreateAction	action
 	)
 {
@@ -222,7 +222,7 @@ JFileArray::OKToCreateBase
 
 		// check file signature
 
-		const JSize sigLength   = fileSignature.GetByteCount();
+		const JSize sigLength   = strlen(fileSignature);
 		const JString signature = JRead(input, sigLength);
 		if (signature != fileSignature)
 			{
@@ -270,7 +270,7 @@ JFileArray::OKToCreateBase
 		{
 		JString path, name;
 		JSplitPathAndName(fileName, &path, &name);
-		if (!JDirectoryWritable(path.GetBytes()))
+		if (!JDirectoryWritable(path))
 			{
 			return JAccessDenied(path);
 			}
@@ -290,7 +290,7 @@ JFileArray::OKToCreateBase
 JFileArray::JFileArray
 	(
 	const JString&		fileName,
-	const JString&		fileSignature,
+	const JUtf8Byte*	fileSignature,
 	const CreateAction	action
 	)
 	:
@@ -381,7 +381,7 @@ JFileArray::OKToCreateEmbedded
 			}
 		else if (!fileIndex->EmbeddedFileIsClosed(index))
 			{
-			return FileAlreadyOpen("embedded file");
+			return FileAlreadyOpen(JString("embedded file", 0, kJFalse));
 			}
 		}
 
@@ -427,14 +427,14 @@ JFileArray::JFileArray
 void
 JFileArray::FileArrayX
 	(
-	const JBoolean	isNew,
-	const JString&	fileSignature
+	const JBoolean		isNew,
+	const JUtf8Byte*	fileSignature
 	)
 {
 	itsFileIndex = jnew JFileArrayIndex;
 	assert( itsFileIndex != NULL);
 
-	itsFileSignatureLength = fileSignature.GetByteCount();
+	itsFileSignatureByteCount = strlen(fileSignature);
 
 	itsIsOpenFlag       = kJFalse;
 	itsFlushChangesFlag = kJFalse;
@@ -443,14 +443,14 @@ JFileArray::FileArrayX
 		{
 		itsVersion = kInitialVersion;
 		SetElementCount(0);
-		itsIndexOffset = itsFileSignatureLength + kFileHeaderLength;
+		itsIndexOffset = itsFileSignatureByteCount + kFileHeaderLength;
 
 		SetFileLength(itsIndexOffset);
 
-		if (itsFileSignatureLength > 0)
+		if (itsFileSignatureByteCount > 0)
 			{
 			SetReadWriteMark(0, kFromFileStart);
-			itsStream->write(fileSignature.GetBytes(), itsFileSignatureLength);
+			itsStream->write(fileSignature, itsFileSignatureByteCount);
 			}
 
 		WriteVersion();
@@ -674,7 +674,7 @@ JFileArray::SetElement
 	)
 {
 	const std::string data = dataStream.str();
-	SetElement(index, data.c_str());
+	SetElement(index, JString(data.c_str(), data.length(), kJFalse));
 }
 
 void
@@ -756,7 +756,7 @@ JFileArray::InsertElementAtIndex
 	)
 {
 	const std::string data = dataStream.str();
-	InsertElementAtIndex(index, data.c_str());
+	InsertElementAtIndex(index, JString(data.c_str(), data.length(), kJFalse));
 }
 
 void
@@ -1288,7 +1288,7 @@ JFileArray::FlushChanges()
 void
 JFileArray::ReadVersion()
 {
-	SetReadWriteMark(itsFileSignatureLength + kVersionOffset, kFromFileStart);
+	SetReadWriteMark(itsFileSignatureByteCount + kVersionOffset, kFromFileStart);
 	itsVersion = ReadUnsignedLong(*itsStream);
 }
 
@@ -1300,7 +1300,7 @@ JFileArray::ReadVersion()
 void
 JFileArray::WriteVersion()
 {
-	SetReadWriteMark(itsFileSignatureLength + kVersionOffset, kFromFileStart);
+	SetReadWriteMark(itsFileSignatureByteCount + kVersionOffset, kFromFileStart);
 	WriteUnsignedLong(*itsStream, itsVersion);
 }
 
@@ -1312,7 +1312,7 @@ JFileArray::WriteVersion()
 void
 JFileArray::ReadElementCount()
 {
-	SetReadWriteMark(itsFileSignatureLength + kElementCountOffset, kFromFileStart);
+	SetReadWriteMark(itsFileSignatureByteCount + kElementCountOffset, kFromFileStart);
 	const JSize count = ReadUnsignedLong(*itsStream) & (~kFileLockedMask);
 	SetElementCount(count);
 }
@@ -1325,7 +1325,7 @@ JFileArray::ReadElementCount()
 void
 JFileArray::WriteElementCount()
 {
-	SetReadWriteMark(itsFileSignatureLength + kElementCountOffset, kFromFileStart);
+	SetReadWriteMark(itsFileSignatureByteCount + kElementCountOffset, kFromFileStart);
 
 	JSize count = GetElementCount();
 	if (itsIsOpenFlag)
@@ -1361,7 +1361,7 @@ JFileArray::FileIsOpen
 void
 JFileArray::ReadIndexOffset()
 {
-	SetReadWriteMark(itsFileSignatureLength + kIndexOffsetOffset, kFromFileStart);
+	SetReadWriteMark(itsFileSignatureByteCount + kIndexOffsetOffset, kFromFileStart);
 	itsIndexOffset = ReadUnsignedLong(*itsStream);
 }
 
@@ -1373,7 +1373,7 @@ JFileArray::ReadIndexOffset()
 void
 JFileArray::WriteIndexOffset()
 {
-	SetReadWriteMark(itsFileSignatureLength + kIndexOffsetOffset, kFromFileStart);
+	SetReadWriteMark(itsFileSignatureByteCount + kIndexOffsetOffset, kFromFileStart);
 	WriteUnsignedLong(*itsStream, itsIndexOffset);
 }
 

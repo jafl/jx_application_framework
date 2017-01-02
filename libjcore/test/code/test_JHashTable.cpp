@@ -224,7 +224,7 @@ JTEST(Exercise)
 	JStrValue<int> valueList[kElementNum];
 	for (i=0;i<kElementNum;i++)
 		{
-		JString* s = jnew JString("Lazy key");
+		JString* s = jnew JString("Lazy key", 0);
 		assert( s != NULL );
 		valueList[i].key = s;
 		valueList[i].value = gRand.UniformInt32();

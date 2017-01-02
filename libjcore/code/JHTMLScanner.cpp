@@ -170,8 +170,7 @@ JHTMLScanner::BeginPHP
 
 	if (yy_top_state() == 0)
 		{
-		(itsTagInfo->name).Set(text, length);
-		(itsTagInfo->name).RemoveSubstring(1,1);
+		(itsTagInfo->name).Set(text + 1, length - 1);
 		}
 }
 
@@ -204,7 +203,7 @@ JHTMLScanner::PHPFinished
 	JString* value = jnew JString(itsTagInfo->valueBuffer);
 	assert( value != NULL );
 	value->TrimWhitespace();
-	(itsTagInfo->attr).SetElement("code", value, JPtrArrayT::kDelete);
+	(itsTagInfo->attr).SetElement(JString("code", 0, kJFalse), value, JPtrArrayT::kDelete);
 
 	return TagFinished();
 }
@@ -252,13 +251,13 @@ JHTMLScanner::GetScriptLanguage
 	const
 {
 	JString* lang;
-	if ((itsTagInfo->attr).GetElement("language", &lang) && lang != NULL)
+	if ((itsTagInfo->attr).GetElement(JString("language", 0, kJFalse), &lang) && lang != NULL)
 		{
 		return *lang;
 		}
 	else
 		{
-		return "JavaScript";
+		return JString("JavaScript", 0);
 		}
 }
 
@@ -279,9 +278,7 @@ JHTMLScanner::HandleChar
 	JBoolean result = kJTrue;
 	if (yy_top_state() == 0)
 		{
-		JUtf8Byte* str = c.AllocateNullTerminatedBytes();
-		result = HandleHTMLWord(str, itsMatchRange);
-		jdelete str;
+		result = HandleHTMLWord(c.GetBytes(), itsMatchRange);
 		}
 	else
 		{
@@ -313,22 +310,19 @@ JHTMLScanner::HandleGreekChar
 		(itsTagInfo->attr).CleanOut();
 		JString* value = jnew JString(JGetGreekFontName());
 		assert( value != NULL );
-		(itsTagInfo->attr).SetNewElement("face", value);
+		(itsTagInfo->attr).SetNewElement(JString("face", 0, kJFalse), value);
 		result = HandleHTMLTag(itsTagInfo->name, itsTagInfo->attr,
 							   JIndexRange(itsMatchRange.first, itsMatchRange.first-1));
 		(itsTagInfo->name).Clear();
 		(itsTagInfo->attr).CleanOut();
 
-		JUtf8Byte* str = c.AllocateNullTerminatedBytes();
-		result = JI2B(HandleHTMLWord(str, itsMatchRange) && result);
+		result = JI2B(HandleHTMLWord(c.GetBytes(), itsMatchRange) && result);
 
 		itsTagInfo->name = "/font";
 		result = JI2B(HandleHTMLTag(itsTagInfo->name, itsTagInfo->attr,
 									JIndexRange(itsMatchRange.last+1, itsMatchRange.last)) &&
 					  result);
 		(itsTagInfo->name).Clear();
-
-		jdelete str;
 		}
 	else
 		{

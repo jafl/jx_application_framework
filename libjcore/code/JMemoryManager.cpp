@@ -1145,15 +1145,16 @@ JMemoryManager::SendError
 void
 JMemoryManager::SendDebugMessage
 	(
-	std::ostringstream& data
+	std::ostringstream& dataStream
 	)
 	const
 {
-	JString s1 = data.str();
-	JIndex i   = 1;
-	while (s1.LocateNextSubstring(kDisconnectStr, &i))
+	const std::string data = dataStream.str();
+	JString s1(data.c_str(), data.length(), kJFalse);
+	JStringIterator iter(&s1);
+	while (iter.Next(kDisconnectStr))
 		{
-		s1.ReplaceSubstring(i, i+kDisconnectStrLength-1, "<ixnay on the disconnect string!>");
+		iter.ReplaceLastMatch("<ixnay on the disconnect string!>");
 		}
 
 	itsLink->SendMessage(s1);

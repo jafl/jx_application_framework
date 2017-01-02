@@ -51,7 +51,7 @@ JGetHostName()
 	JUtf8Byte hostName[255];
 	const int result = gethostname(hostName, 255);
 	assert( result == 0 );
-	return JString(hostName);
+	return JString(hostName, 0);
 }
 
 /******************************************************************************
@@ -126,16 +126,16 @@ jGetUserInfo
 		passwd* pwbuf = getpwuid(uid);
 		if (pwbuf != NULL)
 			{
-			info->userName = jnew JString(pwbuf->pw_name);
+			info->userName = jnew JString(pwbuf->pw_name, 0);
 			assert( info->userName != NULL );
 
-			info->realName = jnew JString(pwbuf->pw_gecos);
+			info->realName = jnew JString(pwbuf->pw_gecos, 0);
 			assert( info->realName != NULL );
 
-			info->homeDirectory = jnew JString(pwbuf->pw_dir);
+			info->homeDirectory = jnew JString(pwbuf->pw_dir, 0);
 			assert( info->homeDirectory != NULL );
 
-			info->shell = jnew JString(pwbuf->pw_shell);
+			info->shell = jnew JString(pwbuf->pw_shell, 0);
 			assert( info->shell != NULL );
 
 			info->id = uid;
@@ -238,7 +238,7 @@ JGetUserHomeDirectory
 		}
 	else
 		{
-		return "/";
+		return JString("/", 0);
 		}
 }
 
@@ -268,7 +268,7 @@ JGetUserShell
 		}
 	else
 		{
-		return "/bin/sh";
+		return JString("/bin/sh", 0);
 		}
 }
 
@@ -321,7 +321,7 @@ jGetGroupInfo
 		group* grpbuf = getgrgid(gid);
 		if (grpbuf != NULL)
 			{
-			info->groupName = jnew JString(grpbuf->gr_name);
+			info->groupName = jnew JString(grpbuf->gr_name, 0);
 			assert( info->groupName != NULL );
 
 			info->id = gid;

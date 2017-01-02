@@ -10,19 +10,20 @@
 #define _H_JInterpolate
 
 #include <JSubstitute.h>
-#include <pcre.h>
+
+class JRegex;
 
 class JInterpolate : public JSubstitute
 {
 public:
 
 	JInterpolate();
-	JInterpolate(const JUtf8Byte* source, const pcre* regex,
+	JInterpolate(const JUtf8Byte* source, const JRegex* regex,
 				 const JArray<JIndexRange>* matchList);
 
 	virtual ~JInterpolate();
 
-	void	SetMatchResults(const JUtf8Byte* source, const pcre* regex,
+	void	SetMatchResults(const JUtf8Byte* source, const JRegex* regex,
 							const JArray<JIndexRange>* matchList);
 
 protected:
@@ -32,7 +33,7 @@ protected:
 private:
 
 	const JUtf8Byte*			itsSource;
-	const pcre*					itsRegex;
+	const JRegex*				itsRegex;
 	const JArray<JIndexRange>*	itsMatchList;
 
 private:
@@ -53,7 +54,7 @@ inline void
 JInterpolate::SetMatchResults
 	(
 	const JUtf8Byte*			source,
-	const pcre*					regex,
+	const JRegex*				regex,
 	const JArray<JIndexRange>*	matchList
 	)
 {

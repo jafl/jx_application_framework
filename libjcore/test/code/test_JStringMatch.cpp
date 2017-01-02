@@ -23,7 +23,7 @@ public:
 		JArray<JUtf8ByteRange>*	list = NULL
 		)
 		:
-		JStringMatch(target, byteRange, list)
+		JStringMatch(target, byteRange, NULL, list)
 	{ }
 
 	void
@@ -47,13 +47,13 @@ public:
 
 int main()
 {
-	setlocale(LC_ALL, "");
+	std::cout << "Current locale: " << setlocale(LC_ALL, "") << std::endl;
 	return JUnitTestManager::Execute();
 }
 
 JTEST(Construction)
 {
-	JString s("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94");
+	JString s("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
 
 	JStringMatchTest m1(s, JUtf8ByteRange(1,4));
 	m1.TestSetFirstCharacterIndex(1);
@@ -103,7 +103,7 @@ JTEST(Construction)
 
 JTEST(Submatches)
 {
-	JString s("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94");
+	JString s("1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
 
 	JArray<JUtf8ByteRange>* list1 = jnew JArray<JUtf8ByteRange>();
 	assert( list1 != NULL );

@@ -45,10 +45,10 @@ public:
 public:
 
 	static JError	Create(const JString& fileName,
-						   const JString& fileSignature, JFileArray** obj,
+						   const JUtf8Byte* fileSignature, JFileArray** obj,
 						   const CreateAction action = kFailIfOpen);
 	static JError	OKToCreateBase(const JString& fileName,
-								   const JString& fileSignature,
+								   const JUtf8Byte* fileSignature,
 								   const CreateAction action = kFailIfOpen);
 
 	static JError	Create(JFileArray* theEnclosingFile,
@@ -98,7 +98,7 @@ public:
 
 protected:
 
-	JFileArray(const JString& fileName, const JString& fileSignature,
+	JFileArray(const JString& fileName, const JUtf8Byte* fileSignature,
 			   const CreateAction action);
 	JFileArray(JFileArray* theEnclosingFile, const JFAID& enclosureElementID);
 
@@ -120,23 +120,23 @@ private:
 
 private:
 
-	JString*		itsFileName;			// name of file (for JSetFStreamLength) - NULL if embedded
-	std::fstream*	itsStream;				// stream for accessing file
-	JBoolean		itsIsOpenFlag;			// kJTrue => set high bit of element count
-	JBoolean		itsFlushChangesFlag;	// kJTrue => write index after every change
+	JString*		itsFileName;				// name of file (for JSetFStreamLength) - NULL if embedded
+	std::fstream*	itsStream;					// stream for accessing file
+	JBoolean		itsIsOpenFlag;				// kJTrue => set high bit of element count
+	JBoolean		itsFlushChangesFlag;		// kJTrue => write index after every change
 
-	JFileVersion	itsVersion;				// version of file
-	JUnsignedOffset	itsFileSignatureLength;	// space reserved at front for file signaure (string)
+	JFileVersion	itsVersion;					// version of file
+	JUnsignedOffset	itsFileSignatureByteCount;	// space reserved at front for file signaure (string)
 
-	JUnsignedOffset		itsIndexOffset;		// location in file where index is stored
-	JFileArrayIndex*	itsFileIndex;		// index of elements in file
+	JUnsignedOffset		itsIndexOffset;			// location in file where index is stored
+	JFileArrayIndex*	itsFileIndex;			// index of elements in file
 
-	JFileArray*		itsEnclosingFile;		// file enclosing us
-	const JFAID		itsEnclosureElementID;	// id of our element in enclosing file
+	JFileArray*		itsEnclosingFile;			// file enclosing us
+	const JFAID		itsEnclosureElementID;		// id of our element in enclosing file
 
 private:
 
-	void	FileArrayX(const JBoolean isNew, const JString& fileSignature);
+	void	FileArrayX(const JBoolean isNew, const JUtf8Byte* fileSignature);
 
 	std::fstream*	OpenEmbeddedFile(JFileArray* theEmbeddedFile,
 								 const JFAID& id, JBoolean* isNew);

@@ -26,7 +26,7 @@ public:
 
 	// called by JTextEditor::SetAllFontNameAndSize()
 
-	virtual void	SetFont(const JCharacter* name, const JSize size);
+	virtual void	SetFont(const JString& name, const JSize size);
 
 	// required by some derived classes
 
@@ -37,7 +37,7 @@ protected:
 	JTextEditor*	GetTE() const;
 
 	void	SetFont(JRunArray<JFont>* styles,
-					const JCharacter* name, const JSize size);
+					const JString& name, const JSize size);
 
 private:
 

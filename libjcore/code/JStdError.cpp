@@ -148,7 +148,7 @@ JAccessDenied::JAccessDenied
 		"name2", fileName2.GetBytes()
 		};
 	const JString msg = JGetString("JAccessDenied2", map, sizeof(map));
-	SetMessage(msg.GetBytes());
+	SetMessage(msg);
 }
 
 

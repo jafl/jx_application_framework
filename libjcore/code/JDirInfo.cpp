@@ -26,6 +26,8 @@
  ******************************************************************************/
 
 #include <JDirInfo.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <JRegex.h>
 #include <JLatentPG.h>
 #include <JStdError.h>
@@ -801,7 +803,7 @@ JDirInfo::BuildInfo()
 		{
 		pg.SetPG(itsPG, kJFalse);
 		}
-	pg.VariableLengthProcessBeginning("Scanning directory...", kJTrue, kJFalse);
+	pg.VariableLengthProcessBeginning(JGetString("Scanning::JDirInfo"), kJTrue, kJFalse);
 
 	BuildInfo1(pg);
 
@@ -1095,20 +1097,17 @@ JDirInfo::BuildRegexFromWildcardFilter
 		return kJFalse;
 		}
 
-	JIndex index;
-	while (filterStr.LocateSubstring(" ", &index))
+	JStringIterator iter(filterStr);
+	iter.BeginMatch();
+	while (iter.Next(" "))
 		{
-		assert( index > 1 );
-		const JString str = filterStr.GetSubstring(1, index-1);
-
-		AppendRegex(str, regexStr);
-
-		filterStr.RemoveSubstring(1, index);
-		filterStr.TrimWhitespace();
+		const JStringMatch& m = iter.FinishMatch();
+		AppendRegex(m.GetString(), regexStr);
+		iter.BeginMatch();
 		}
 
-	assert( !filterStr.IsEmpty() );
-	AppendRegex(filterStr, regexStr);
+	const JStringMatch& m = iter.FinishMatch();
+	AppendRegex(m.GetString(), regexStr);
 	return kJTrue;
 }
 
@@ -1131,20 +1130,27 @@ JIndex i;
 	// Convert wildcard multiples (*) to regex multiples (.*)
 	// and wildcard singles (?) to regex singles (.)
 
-	for (i = str.GetLength(); i>=1; i--)
+	JStringIterator iter(&str);
+	while (iter.Next("*"))
 		{
-		const JUtf8Character c = str.GetCharacter(i);
-		if (c == '*')
+		iter.ReplaceLastMatch(".*");
+		}
+
+	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	while (iter.Next("?"))
+		{
+		iter.ReplaceLastMatch(".");
+		}
+
+	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	JUtf8Character c;
+	while (iter.Next(&c))
+		{
+		if (JRegex::NeedsBackslashToBeLiteral(c))
 			{
-			str.InsertSubstring(".", i);
-			}
-		else if (c == '?')
-			{
-			str.SetCharacter(i, '.');
-			}
-		else if (JRegex::NeedsBackslashToBeLiteral(c))
-			{
-			str.InsertSubstring("\\", i);
+			iter.SkipPrev();
+			iter.Insert("\\");
+			iter.SkipNext(2);
 			}
 		}
 

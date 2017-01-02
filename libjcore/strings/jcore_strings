@@ -107,11 +107,36 @@ NotEmbeddedFile::JFileArray	"The specified element ($index) is not an embedded J
 # JPrefsManager
 
 WrongVersion::JPrefsManager	"The preferences file has the wrong version."
+NewerVersion::JPrefsManager	"The preferences file is unreadable because it has been modified by a newer version of this program."
+OtherError::JPrefsManager	"The preferences cannot be used because:
+
+$msg"
 
 # JPrefsFile
 
 NoHomeDirectory::JPrefsFile
 "Unable to create a preferences file because you don't have a home directory."
+
+# JPTPrinter
+
+Printing::JPTPrinter	"Printing page..."
+
+# JPSPrinter
+
+Printing::JPSPrinter	"Printing page..."
+Error::JPSPrinter		"An error occurred while trying to print.  Please check that the disk is not full."
+
+# JEPSPrinter
+
+Error::JEPSPrinter	"Unable to create the file.  Please check that the directory is writable and that the disk is not full."
+
+# JTextChooseSaveFile
+
+FileExists::JTextChooseSaveFile				"That file already exists.  Replace it?"
+FileDoesNotExist::JTextChooseSaveFile		"That file doesn't exist.  Try again?"
+FileNotWritable::JTextChooseSaveFile		"That file isn't writable.  Try again?"
+DirectoryDoesNotExist::JTextChooseSaveFile	"That directory doesn't exist.  Try again?"
+DirectoryNotWritable::JTextChooseSaveFile	"That directory isn't writable.  Try again?"
 
 # JSubstitute
 
@@ -123,6 +148,14 @@ IllegalControlChar::JSubstitute	"The control character sequence (\\c) must be fo
 
 # WarnExpire::jTime -- defined by application
 # Expired::jTime -- defined by application
+
+# JDirInfo
+
+Scanning::JDirInfo	"Scanning directory..."
+
+# jDirUtil
+
+Searching::jDirUtil	"Searching for \"$name\"..."
 
 # jSysUtil
 

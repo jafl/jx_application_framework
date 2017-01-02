@@ -42,6 +42,7 @@
 
 #include <JStringIterator.h>
 #include <JStringMatch.h>
+#include <JRegex.h>
 #include <JMinMax.h>
 #include <jAssert.h>
 
@@ -169,6 +170,36 @@ JStringIterator::GetNextCharacterIndex()
 {
 	assert( !AtEnd() );
 	return itsCharacterOffset + 1;
+}
+
+/******************************************************************************
+ GetPrevByteIndex
+
+	asserts that there is a previous byte
+
+ ******************************************************************************/
+
+JIndex
+JStringIterator::GetPrevByteIndex()
+	const
+{
+	assert( !AtBeginning() );
+	return itsByteOffset;
+}
+
+/******************************************************************************
+ GetNextByteIndex
+
+	asserts that there is a next byte
+
+ ******************************************************************************/
+
+JIndex
+JStringIterator::GetNextByteIndex()
+	const
+{
+	assert( !AtEnd() );
+	return itsByteOffset + 1;
 }
 
 /******************************************************************************
@@ -459,7 +490,99 @@ JStringIterator::Next
 
 		itsLastMatch = jnew JStringMatch(*itsConstString, r);
 		assert( itsLastMatch != NULL );
-		itsLastMatch->SetLastCharacterIndex(itsCharacterOffset + 1);
+		itsLastMatch->SetLastCharacterIndex(itsCharacterOffset);
+
+		return kJTrue;
+		}
+	else
+		{
+		itsByteOffset      = itsConstString->GetByteCount();
+		itsCharacterOffset = itsConstString->GetCharacterCount();
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ Prev
+
+	Returns kJTrue if a match is found earlier in the string.  Match
+	details can be retrieved from GetLastMatch().
+
+	If a match is found, the cursor position is set to the start of the
+	match.  Otherwise the cursor position is moved to the start of the
+	string.
+
+ ******************************************************************************/
+
+JBoolean
+JStringIterator::Prev
+	(
+	const JRegex& pattern
+	)
+{
+	ClearLastMatch();
+	if (AtBeginning())
+		{
+		return kJFalse;
+		}
+
+	const JStringMatch m = pattern.MatchBackward(*itsConstString, itsByteOffset);
+	if (!m.IsEmpty())
+		{
+		itsCharacterOffset -=	// before updating itsByteOffset
+			JString::CountCharacters(itsConstString->GetBytes(), m.GetUtf8ByteRange());
+
+		itsByteOffset = m.GetUtf8ByteRange().first - 1;
+
+		itsLastMatch = jnew JStringMatch(m);
+		assert( itsLastMatch != NULL );
+		itsLastMatch->SetFirstCharacterIndex(itsCharacterOffset + 1);
+
+		return kJTrue;
+		}
+	else
+		{
+		itsByteOffset      = 0;
+		itsCharacterOffset = 0;
+		return kJFalse;
+		}
+}
+
+/******************************************************************************
+ Next
+
+	Returns kJTrue if a match is found later in the string.  Match
+	details can be retrieved from GetLastMatch().
+
+	If a match is found, the cursor position is set beyond the end of the
+	match.  Otherwise the cursor position is moved to the end of the
+	string.
+
+ ******************************************************************************/
+
+JBoolean
+JStringIterator::Next
+	(
+	const JRegex& pattern
+	)
+{
+	ClearLastMatch();
+	if (AtEnd())
+		{
+		return kJFalse;
+		}
+
+	const JStringMatch& m = pattern.MatchForward(*itsConstString, itsByteOffset);
+	if (!m.IsEmpty())
+		{
+		itsCharacterOffset +=	// before updating itsByteOffset
+			JString::CountCharacters(itsConstString->GetBytes(), m.GetUtf8ByteRange());
+
+		itsByteOffset = m.GetUtf8ByteRange().last;
+
+		itsLastMatch = jnew JStringMatch(m);
+		assert( itsLastMatch != NULL );
+		itsLastMatch->SetLastCharacterIndex(itsCharacterOffset);
 
 		return kJTrue;
 		}
@@ -508,7 +631,6 @@ JStringIterator::FinishMatch
 		}
 
 	ClearLastMatch();
-
 
 	JUtf8ByteRange r;
 	r.first = JMin(itsMatchStart, pos) + 1;
@@ -703,7 +825,7 @@ JStringIterator::RemoveAllNext()
 /******************************************************************************
  ReplaceLastMatch
 
-	Replaces the characters from the last match.
+	Replaces the characters from the last match, optionally matching case.
 
 	*** Match must exist.
 	*** Only allowed if iterator was constructed with non-const JString.
@@ -714,19 +836,30 @@ void
 JStringIterator::ReplaceLastMatch
 	(
 	const JUtf8Byte*		str,
-	const JUtf8ByteRange&	range
+	const JUtf8ByteRange&	range,
+	const JBoolean			matchCase
 	)
 {
 	assert( itsLastMatch != NULL );
 	assert( itsString != NULL );
 
-	JUtf8ByteRange r = itsLastMatch->GetUtf8ByteRange();
-	if (itsByteOffset > r.last)
+	JString s(str, range, kJFalse);
+
+	if (matchCase)
+		{
+		s.MatchCase(itsString->GetBytes(), itsLastMatch->GetUtf8ByteRange());
+		}
+
+	const JUtf8ByteRange r = itsLastMatch->GetUtf8ByteRange();
+	if (itsByteOffset >= r.last)
 		{
 		itsByteOffset      -= r.GetCount();
 		itsCharacterOffset -= itsLastMatch->GetCharacterCount();
+
+		itsByteOffset      += s.GetByteCount();
+		itsCharacterOffset += s.GetCharacterCount();
 		}
-	else if (itsByteOffset >= r.first)
+	else if (itsByteOffset > r.first)
 		{
 		itsCharacterOffset -=	// before updating itsByteOffset
 			JString::CountCharacters(itsConstString->GetBytes(),
@@ -735,7 +868,8 @@ JStringIterator::ReplaceLastMatch
 		itsByteOffset = r.first - 1;
 		}
 
-	itsString->ReplaceBytes(r, str + range.first - 1, range.GetCount());
+	itsString->ReplaceBytes(r, s.GetUnterminatedBytes(), s.GetByteCount());
+
 	ClearLastMatch();
 }
 

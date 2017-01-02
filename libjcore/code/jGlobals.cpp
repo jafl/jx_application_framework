@@ -35,9 +35,9 @@ static JGetCurrentColormap*		theGetCurrColormap   = NULL;
 static JStringManager*			theStringManager     = NULL;
 static JWebBrowser*				theWebBrowser        = NULL;
 
-static JString					theDefaultFontName   = "Helvetica";
-static JString					theGreekFontName     = "Symbol";
-static JString					theMonospaceFontName = "Courier";
+static JString					theDefaultFontName  ("Helvetica", 0, kJFalse);
+static JString					theGreekFontName    ("Symbol",    0, kJFalse);
+static JString					theMonospaceFontName("Courier",   0, kJFalse);
 
 /******************************************************************************
  JInitCore
@@ -103,11 +103,6 @@ JInitCore
 	// signal handler
 
 	JThisProcess::Initialize();
-
-	// initialize write-once/read-many static data for thread safety
-
-	JString s;
-	JGetTempDirectory(&s);
 
 	// string manager
 
@@ -267,6 +262,35 @@ JGetStringManager()
 		}
 
 	return theStringManager;
+}
+
+/******************************************************************************
+ JGetString
+
+	Only return a string after globals have been initialized.
+
+ ******************************************************************************/
+
+static const JString emptyString;
+
+const JString&
+JGetString
+	(
+	const JUtf8Byte* id
+	)
+{
+	return (theStringManager != NULL ? theStringManager->Get(id) : emptyString);
+}
+
+JString
+JGetString
+	(
+	const JUtf8Byte*	id,
+	const JUtf8Byte*	map[],
+	const JSize			size
+	)
+{
+	return (theStringManager != NULL ? theStringManager->Get(id, map, size) : emptyString);
 }
 
 /******************************************************************************

@@ -10,7 +10,7 @@
 #include <jFileUtil.h>
 #include <jDirUtil.h>
 #include <JStdError.h>
-#include <JString.h>
+#include <JStringIterator.h>
 #include <JProcess.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -237,6 +237,10 @@ JKillFile
 
  ******************************************************************************/
 
+static const JString theTmpDirForError("/tmp", 0, kJFalse);
+static const JString theTmpFilePrefix("temp_file_", 0, kJFalse);
+static const JString theTmpFileTemplate("XXXXXX", 0, kJFalse);
+
 JError
 JCreateTempFile
 	(
@@ -252,19 +256,19 @@ JCreateTempFile
 		}
 	else if (!JGetTempDirectory(&p))
 		{
-		return JDirEntryDoesNotExist("/tmp");
+		return JDirEntryDoesNotExist(theTmpDirForError);
 		}
 
 	if (!JString::IsEmpty(prefix))
 		{
-		p = JCombinePathAndName(p.GetBytes(), *prefix);
+		p = JCombinePathAndName(p, *prefix);
 		}
 	else
 		{
-		p = JCombinePathAndName(p.GetBytes(), "temp_file_");
+		p = JCombinePathAndName(p, theTmpFilePrefix);
 		}
 
-	p      += "XXXXXX";
+	p      += theTmpFileTemplate;
 	char* s = p.AllocateBytes();
 
 	jclear_errno();
@@ -285,7 +289,7 @@ JCreateTempFile
 	const int err = jerrno();
 	if (err == EEXIST)
 		{
-		return JAccessDenied(p.GetBytes());
+		return JAccessDenied(p);
 		}
 	else
 		{
@@ -306,10 +310,18 @@ JStripTrailingDirSeparator
 {
 	assert( !dirName->IsEmpty() );
 
-	while (dirName->GetByteCount() > 1 &&
-		   dirName->GetLastCharacter() == ACE_DIRECTORY_SEPARATOR_CHAR)
+	JStringIterator iter(dirName, kJIteratorStartAtEnd);
+	JUtf8Character c;
+	while (iter.Prev(&c))
 		{
-		dirName->RemoveSubstring(dirName->GetLength(), dirName->GetLength());
+		if (dirName->GetCharacterCount() > 1 && c == ACE_DIRECTORY_SEPARATOR_CHAR)
+			{
+			iter.RemoveNext();
+			}
+		else
+			{
+			break;
+			}
 		}
 }
 
@@ -351,12 +363,12 @@ JUncompressFile
 
 	// construct the command
 
-	JString cmd = "gunzip --to-stdout ";
+	JString cmd("gunzip --to-stdout ", 0);
 	cmd += JPrepArgForExec(origFileName);
 	cmd += " >| ";
 	cmd += JPrepArgForExec(*newFileName);
 
-	cmd = "/bin/sh -c " + JPrepArgForExec(cmd);
+	cmd = JString("/bin/sh -c ", 0) + JPrepArgForExec(cmd);
 
 	// run the command
 

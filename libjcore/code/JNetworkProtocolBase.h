@@ -10,7 +10,9 @@
 
 #include <ace/Svc_Handler.h>
 #include <ace/Synch_Traits.h>
-#include <JString.h>
+#include <JLinkedList.h>
+
+class JString;
 
 template <ACE_PEER_STREAM_1>
 class JNetworkProtocolBase : public ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>
@@ -36,13 +38,42 @@ public:
 protected:
 
 	void	Send(const JString& data);
-	void	Send(const JUtf8Byte* data, const JSize length);
+	void	Send(const JUtf8Byte* data, const JSize count);
 	void	Send(const iovec data[], const JSize count);
+
+public:
+
+	struct Chunk
+	{
+		char* data;
+		JSize count;
+		JSize sendOffset;
+
+		Chunk()
+			:
+			data(NULL), count(0), sendOffset(0)
+		{ };
+
+		Chunk(const char* data, const JSize count);
+
+		Chunk(const Chunk& c)
+			:
+			data(c.data),
+			count(c.count),
+			sendOffset(c.sendOffset)
+		{ };
+
+		void CleanOut()
+		{
+			jdelete data;
+			data = NULL;
+		}
+	};
 
 private:
 
-	JBoolean	itsSynchFlag;	// kJTrue => synch send
-	JString		itsSendData;	// data waiting to be sent
+	JBoolean			itsSynchFlag;	// kJTrue => synch send
+	JLinkedList<Chunk>	itsSendData;	// data waiting to be sent
 
 private:
 

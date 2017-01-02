@@ -53,12 +53,12 @@ public:
 	JString();
 	JString(const JString& str);
 	JString(const JString& str, const JCharacterRange& range);
-	JString(const JUtf8Byte* str, const JBoolean copy = kJTrue);
+//	JString(const JUtf8Byte* str, const JBoolean copy = kJTrue);	// prevent automatic construction
 	JString(const JUtf8Byte* str, const JSize byteCount, const JBoolean copy = kJTrue);
 	JString(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean copy = kJTrue);
-	JString(const std::string& str);
+//	JString(const std::string& str);	// prevent sneaky automatic construction from char*
 	JString(const std::string& str, const JUtf8ByteRange& range);
-	JString(const JUtf8Character& c);
+//	JString(const JUtf8Character& c);	// prevent sneaky, incorrect, automatic construction from char*
 
 	JString(const JUInt64 number, const Base base, const JBoolean pad = kJFalse);
 	JString(const JFloat number, const JInteger precision = kPrecisionAsNeeded,
@@ -243,7 +243,8 @@ public:
 
 protected:
 
-	void	SetIterator(JStringIterator* iter) const;	// conceptually const
+	const JUtf8Byte*	GetUnterminatedBytes() const;
+	void				SetIterator(JStringIterator* iter) const;	// conceptually const
 
 	JUtf8ByteRange	CharacterToUtf8ByteRange(const JCharacterRange& range) const;
 
@@ -274,7 +275,8 @@ private:
 
 private:
 
-	void	CopyToPrivateString(const JUtf8Byte* str, const JSize byteCount);
+	void	CopyToPrivateString(const JUtf8Byte* str, const JSize byteCount,
+								const JBoolean invalidateIterator = kJTrue);
 	void	FoldCase(const JBoolean upper);
 
 	static JBoolean	CompleteConversion(const JUtf8Byte* startPtr, const JSize byteCount,
@@ -291,14 +293,23 @@ inline const JUtf8Byte*
 JString::GetBytes()
 	const
 {
-	if (!itsOwnerFlag)		// does not violate conceptual constness
+	if (!itsOwnerFlag && itsBytes[ itsByteCount ] != 0)
 		{
-		JString* self = const_cast<JString*>(this);
+		JString* self = const_cast<JString*>(this);		// does not violate conceptual constness
 
 		const JUtf8Byte* bytes = itsBytes;
 		self->itsBytes = NULL;	// don't confuse CopyToPrivateString()
-		self->CopyToPrivateString(bytes, itsByteCount);
+		self->CopyToPrivateString(bytes, itsByteCount, kJFalse);
 		}
+	return itsBytes;
+}
+
+// protected
+
+inline const JUtf8Byte*
+JString::GetUnterminatedBytes()
+	const
+{
 	return itsBytes;
 }
 
@@ -739,80 +750,6 @@ JString::EndsWith
 }
 
 /******************************************************************************
- MatchCase
-
- ******************************************************************************/
-
-inline JBoolean
-JString::MatchCase
-	(
-	const JString&			source,
-	const JCharacterRange&	sourceRange
-	)
-{
-	return MatchCase(source.itsBytes, source.CharacterToUtf8ByteRange(sourceRange),
-					 JUtf8ByteRange(1, itsByteCount));
-}
-
-inline JBoolean
-JString::MatchCase
-	(
-	const JString&			source,
-	const JCharacterRange&	sourceRange,
-	const JCharacterRange&	destRange
-	)
-{
-	return MatchCase(source.itsBytes, source.CharacterToUtf8ByteRange(sourceRange),
-					 CharacterToUtf8ByteRange(destRange));
-}
-
-inline JBoolean
-JString::MatchCase
-	(
-	const JUtf8Byte*		source,
-	const JUtf8ByteRange&	sourceRange
-	)
-{
-	return MatchCase(source, sourceRange,
-					 JUtf8ByteRange(1, itsByteCount));
-}
-
-inline JBoolean
-JString::MatchCase
-	(
-	const JUtf8Byte*		source,
-	const JUtf8ByteRange&	sourceRange,
-	const JCharacterRange&	destRange
-	)
-{
-	return MatchCase(source, sourceRange,
-					 CharacterToUtf8ByteRange(destRange));
-}
-
-inline JBoolean
-JString::MatchCase
-	(
-	const std::string&		source,
-	const JUtf8ByteRange&	sourceRange
-	)
-{
-	return MatchCase(source.data(), sourceRange,
-					 JUtf8ByteRange(1, itsByteCount));
-}
-
-inline JBoolean
-JString::MatchCase
-	(
-	const std::string&		source,
-	const JUtf8ByteRange&	sourceRange,
-	const JCharacterRange&	destRange
-	)
-{
-	return MatchCase(source.data(), sourceRange,
-					 CharacterToUtf8ByteRange(destRange));
-}
-
-/******************************************************************************
  Prepend
 
  ******************************************************************************/
@@ -975,7 +912,7 @@ operator+
 	const JString&		s
 	)
 {
-	JString sum(str);
+	JString sum(str, 0);
 	sum += s;
 	return sum;
 }

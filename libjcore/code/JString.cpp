@@ -4,10 +4,11 @@
 	This class was not designed to be a base class!  If you need to override it,
 	be sure to make the destructor virtual.
 
-	JStrings can contain NULL's, if they are constructed with the
-	JString(const JUtf8Byte* str, const JSize byteCount) constructor.
-	You must remember not to call Clib functions on the const JUtf8Byte* in
-	this case.
+	In order to prevent unwanted construction of temporary JString's, the
+	ctor [JString(const JUtf8Byte* str)] is not provided.  Use
+	[JString(const JUtf8Byte* str, 0)] intead.  If the data is from a
+	character constant, use [JString(const JUtf8Byte* str, 0, kJFalse)] to
+	avoid duplicating the data.
 
 	Note that operator== is case sensitive, as one would expect.  To avoid the
 	UNIX method of sorting capitalized names separately in front of lowercase
@@ -52,6 +53,7 @@ static void	double2str(double doubleVal, int afterDec, int sigDigitCount,
 
 JString::JString()
 	:
+	itsOwnerFlag(kJTrue),
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(theDefaultBlockSize),
@@ -70,6 +72,7 @@ JString::JString
 	const JCharacterRange&	charRange
 	)
 	:
+	itsOwnerFlag(kJTrue),
 	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
 	itsByteCount(0),
 	itsCharacterCount(0),
@@ -82,15 +85,14 @@ JString::JString
 	CopyToPrivateString(str.GetBytes() + byteRange.first-1, byteRange.GetCount());
 }
 
-// This unfortunately allows implicit conversion, but not being able to
-// write [JString s = "abc"] is just too annoying.
-
 JString::JString
 	(
 	const JUtf8Byte*	str,
+	const JSize			origByteCount,
 	const JBoolean		copy
 	)
 	:
+	itsOwnerFlag(kJTrue),
 	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
 	itsByteCount(0),
 	itsCharacterCount(0),
@@ -99,34 +101,12 @@ JString::JString
 	itsUCaseMap(NULL),
 	itsIterator(NULL)
 {
-	if (copy)
+	JSize byteCount = origByteCount;
+	if (byteCount == 0)
 		{
-		CopyToPrivateString(str, strlen(str));
+		byteCount = strlen(str);
 		}
-	else
-		{
-		itsOwnerFlag      = kJFalse;
-		itsBytes          = const_cast<JUtf8Byte*>(str);	// we promise not to modify it
-		itsByteCount      = strlen(str);
-		itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
-		}
-}
 
-JString::JString
-	(
-	const JUtf8Byte*	str,
-	const JSize			byteCount,
-	const JBoolean		copy
-	)
-	:
-	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
-	itsByteCount(0),
-	itsCharacterCount(0),
-	itsAllocCount(0),
-	itsBlockSize(theDefaultBlockSize),
-	itsUCaseMap(NULL),
-	itsIterator(NULL)
-{
 	if (copy)
 		{
 		CopyToPrivateString(byteCount > 0 ? str : "", byteCount);	// allow (NULL,0)
@@ -140,8 +120,6 @@ JString::JString
 		}
 }
 
-// protected
-
 JString::JString
 	(
 	const JUtf8Byte*		str,
@@ -149,6 +127,7 @@ JString::JString
 	const JBoolean			copy
 	)
 	:
+	itsOwnerFlag(kJTrue),
 	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
 	itsByteCount(0),
 	itsCharacterCount(0),
@@ -170,31 +149,13 @@ JString::JString
 		}
 }
 
-// This unfortunately allows round-about implicit conversion, but not being
-// able to write [JString s = "abc"] is just too annoying.
-
-JString::JString
-	(
-	const std::string& s
-	)
-	:
-	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
-	itsByteCount(0),
-	itsCharacterCount(0),
-	itsAllocCount(0),
-	itsBlockSize(theDefaultBlockSize),
-	itsUCaseMap(NULL),
-	itsIterator(NULL)
-{
-	CopyToPrivateString(s.data(), s.length());
-}
-
 JString::JString
 	(
 	const std::string&		s,
 	const JUtf8ByteRange&	range
 	)
 	:
+	itsOwnerFlag(kJTrue),
 	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
 	itsByteCount(0),
 	itsCharacterCount(0),
@@ -208,27 +169,12 @@ JString::JString
 
 JString::JString
 	(
-	const JUtf8Character& c
-	)
-	:
-	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
-	itsByteCount(0),
-	itsCharacterCount(0),
-	itsAllocCount(0),
-	itsBlockSize(theDefaultBlockSize),
-	itsUCaseMap(NULL),
-	itsIterator(NULL)
-{
-	CopyToPrivateString(c.GetBytes(), c.GetByteCount());
-}
-
-JString::JString
-	(
 	const JUInt64	number,
 	const Base		base,
 	const JBoolean	pad
 	)
 	:
+	itsOwnerFlag(kJTrue),
 	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
 	itsByteCount(0),
 	itsCharacterCount(0),
@@ -294,6 +240,7 @@ JString::JString
 	const JInteger			sigDigitCount
 	)
 	:
+	itsOwnerFlag(kJTrue),
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(theDefaultBlockSize),
@@ -309,7 +256,6 @@ JString::JString
 			   (expDisplay == kUseGivenExponent ? exponent : expDisplay),
 			   itsBytes);
 
-	itsOwnerFlag      = kJTrue;
 	itsByteCount      = strlen(itsBytes);
 	itsCharacterCount = CountCharacters(itsBytes, itsByteCount);
 }
@@ -324,6 +270,7 @@ JString::JString
 	const JString& source
 	)
 	:
+	itsOwnerFlag(kJTrue),
 	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
 	itsByteCount(0),
 	itsCharacterCount(0),
@@ -368,7 +315,8 @@ void
 JString::CopyToPrivateString
 	(
 	const JUtf8Byte*	str,
-	const JSize			byteCount
+	const JSize			byteCount,
+	const JBoolean		invalidateIterator
 	)
 {
 	assert( itsBytes == NULL || !(itsBytes <= str && str < itsBytes + itsByteCount) );
@@ -404,7 +352,7 @@ JString::CopyToPrivateString
 		itsCharacterCount = 0;
 		}
 
-	if (itsIterator != NULL)
+	if (invalidateIterator && itsIterator != NULL)
 		{
 		itsIterator->Invalidate();
 		}
@@ -496,6 +444,11 @@ JString::Prepend
 	JUtf8ByteRange r;
 	r.SetToEmptyAt(1);
 	ReplaceBytes(r, str, byteCount);
+
+	if (itsIterator != NULL)
+		{
+		itsIterator->Invalidate();
+		}
 }
 
 /******************************************************************************
@@ -513,6 +466,11 @@ JString::Append
 	JUtf8ByteRange r;
 	r.SetToEmptyAt(itsByteCount+1);
 	ReplaceBytes(r, str, byteCount);
+
+	if (itsIterator != NULL)
+		{
+		itsIterator->Invalidate();
+		}
 }
 
 /******************************************************************************
@@ -588,7 +546,7 @@ JString::ReplaceBytes
 
 	// Otherwise, shift characters to make space.
 
-	else if (count2 > 0 && count3 > 0)
+	else if (count3 > 0)
 		{
 		memmove(itsBytes + count1 + count2, itsBytes + replaceRange.last, count3);
 		}
@@ -1545,6 +1503,11 @@ JString::CountCharacters
 		{
 		// accept invalid byte sequences as single characters
 		JUtf8Character::GetCharacterByteCount(str + i, &byteCount);
+		if (byteCount == 0)
+			{
+			break;
+			}
+
 		charCount++;
 		i += byteCount;
 		}
@@ -1842,6 +1805,118 @@ JString::CopyNormalizedBytes
 }
 
 /******************************************************************************
+ MatchCase
+
+ ******************************************************************************/
+
+JBoolean
+JString::MatchCase
+	(
+	const JString&			source,
+	const JCharacterRange&	sourceRange
+	)
+{
+	const JBoolean changed =
+		MatchCase(source.itsBytes, source.CharacterToUtf8ByteRange(sourceRange),
+				  JUtf8ByteRange(1, itsByteCount));
+
+	if (changed && itsIterator != NULL)
+		{
+		itsIterator->Invalidate();
+		}
+	return changed;
+}
+
+JBoolean
+JString::MatchCase
+	(
+	const JString&			source,
+	const JCharacterRange&	sourceRange,
+	const JCharacterRange&	destRange
+	)
+{
+	const JBoolean changed =
+		MatchCase(source.itsBytes, source.CharacterToUtf8ByteRange(sourceRange),
+				  CharacterToUtf8ByteRange(destRange));
+
+	if (changed && itsIterator != NULL)
+		{
+		itsIterator->Invalidate();
+		}
+	return changed;
+}
+
+JBoolean
+JString::MatchCase
+	(
+	const JUtf8Byte*		source,
+	const JUtf8ByteRange&	sourceRange
+	)
+{
+	const JBoolean changed =
+		MatchCase(source, sourceRange, JUtf8ByteRange(1, itsByteCount));
+
+	if (changed && itsIterator != NULL)
+		{
+		itsIterator->Invalidate();
+		}
+	return changed;
+}
+
+JBoolean
+JString::MatchCase
+	(
+	const JUtf8Byte*		source,
+	const JUtf8ByteRange&	sourceRange,
+	const JCharacterRange&	destRange
+	)
+{
+	const JBoolean changed =
+		MatchCase(source, sourceRange, CharacterToUtf8ByteRange(destRange));
+
+	if (changed && itsIterator != NULL)
+		{
+		itsIterator->Invalidate();
+		}
+	return changed;
+}
+
+JBoolean
+JString::MatchCase
+	(
+	const std::string&		source,
+	const JUtf8ByteRange&	sourceRange
+	)
+{
+	const JBoolean changed =
+		MatchCase(source.data(), sourceRange, JUtf8ByteRange(1, itsByteCount));
+
+	if (changed && itsIterator != NULL)
+		{
+		itsIterator->Invalidate();
+		}
+	return changed;
+}
+
+JBoolean
+JString::MatchCase
+	(
+	const std::string&		source,
+	const JUtf8ByteRange&	sourceRange,
+	const JCharacterRange&	destRange
+	)
+{
+	const JBoolean changed =
+		MatchCase(source.data(), sourceRange, CharacterToUtf8ByteRange(destRange));
+
+	if (changed && itsIterator != NULL)
+		{
+		itsIterator->Invalidate();
+		}
+	return changed;
+}
+
+/******************************************************************************
  MatchCase (protected)
 
 	Adjusts the case of destRange to match the case of sourceRange in
@@ -1962,11 +2037,6 @@ JString::MatchCase
 
 		j += c1.GetByteCount();
 		k += c2.GetByteCount();
-		}
-
-	if (changed && itsIterator != NULL)
-		{
-		itsIterator->Invalidate();
 		}
 
 	return changed;

@@ -1,5 +1,9 @@
 // for unit tests that do not load the entire libjcore
 
+#include <jAssert.h>
+
+#if 0
+
 int
 JAssert
 	(
@@ -45,3 +49,5 @@ operator new[]
 {
 	return malloc(size+1);
 }
+
+#endif

@@ -35,7 +35,6 @@ void JSetWebBrowser(JWebBrowser* webBrowser);
 void JDeleteGlobals();
 
 JBoolean				JGetAssertHandler(JAssertBase** ah);
-JStringManager*			JGetStringManager();
 JWebBrowser*			JGetWebBrowser();
 
 JUserNotification*		JGetUserNotification();
@@ -44,6 +43,10 @@ JCreateProgressDisplay*	JGetCreatePG();
 
 const JFontManager*		JGetCurrFontManager();
 JColormap*				JGetCurrColormap();
+
+JStringManager*			JGetStringManager();
+const JString&			JGetString(const JUtf8Byte* id);
+JString					JGetString(const JUtf8Byte* id, const JUtf8Byte* map[], const JSize size);
 
 const JString&	JGetDefaultFontName();
 const JString&	JGetGreekFontName();
@@ -63,26 +66,6 @@ inline JProgressDisplay*
 JNewPG()
 {
 	return (JGetCreatePG())->New();
-}
-
-inline const JString&
-JGetString
-	(
-	const JUtf8Byte* id
-	)
-{
-	return (JGetStringManager())->Get(id);
-}
-
-inline JString
-JGetString
-	(
-	const JUtf8Byte*	id,
-	const JUtf8Byte*	map[],
-	const JSize			size
-	)
-{
-	return (JGetStringManager())->Get(id, map, size);
 }
 
 #endif

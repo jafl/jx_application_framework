@@ -1,41 +1,15 @@
 /******************************************************************************
  JRegex.cpp
 
-	JRegex is the JCore regular-expression pattern-matching class.  It provides
-	regular expression-based search and replace facilities with a convenient,
-	safe interface which is idiomatic in both C++ and JCore.
-
-	JRegex uses a JCharacterRange-oriented interface.  This means that
-	JRegex can do in-place search and replace on very large strings without
-	copying more text than is necessary (and in fact was originally
-	designed for use in a text editor whose buffers are single strings and
-	can contain megabytes).
+	JRegex provides regular expression-based search with a convenient, safe
+	interface which is idiomatic in both C++ and JCore.
 
 	USAGE:
 
-	In spite of the number of methods defined, usage is straightforward.  A
-	pattern is set with the constructor or the SetPattern method.  Matches are
-	then performed with Match... and friends, while replacement is performed
-	with the Replace method.  See the notes on the individual functions for
-	details.  The apparent complexity of the class derives from the large number
-	of convenience functions in the Match... family.  Most of them are written
-	in terms of a small number of fundamental operations, and could easily have
-	been written by the client.  In other words, while JRegex has a large
-	"surface area" (Brad Cox's term for a class with a large public interface),
-	once a small number are understood the usage of the others will be obvious.
-	The number of methods that must be understood to use JRegex can be as small
-	as two for simple problems.
+	A pattern is set with the constructor or the SetPattern method.
+	Matches are then performed with Match*().
 
-	The best way to understand JRegex is to start by using it with only two
-	methods, SetPattern and Match(JString&).  Then add Match(JString&,
-	JCharacterRange*), and then Match(JString&, JArray<JCharacterRange>*).
-	At this point the entire match interface should be readily understood.
-	After adding SetReplacePattern and Replace to your reportoire, the rest
-	of the interface is just customization, information, and extra Match
-	functions you can learn as needed.
-
-	Unfortunately the test suite is quite involved and not really a good way
-	to learn by example.  Example code needs to be supplied soon.
+	Search & replace must be done using a JStringIterator.
 
 	DESIGN:
 
@@ -53,72 +27,45 @@
 	This would, however considerably complicate the Match interface, and I
 	don't think it's worth it.  It is infeasible to simply have a default
 	pattern because there is no clear choice and this would only make
-	things more confusing.  Just check to see that it set before calling a
-	Match... function.
-
-	Replace could assert or return an error value if called before a
-	successful call to SetReplacePattern rather than assuming a default
-	value of ""; again, this would crud up the code.  At some point, the
-	complexity inherent in error checking is as error prone as not having
-	the error checking, and I feel it is important to keep the basic JRegex
-	interface clean, so the error return solution is not feasible.  The
-	assert solution is a feasible alternative, and can easily be adopted if
-	there is an outcry.  However, the empty string is an obvious choice, so
-	the current system should be as clear as having JString's default
-	constructor set its value to "".  Underuse of defaults can be almost as
-	bad as overuse.
+	things more confusing.  Just check to see that it is set before calling
+	a Match... function.
 
 	IMPLEMENTATION:
 
-	JRegex is really a (somewhat complex) layer over the PCRE package.  It
-	provides an improved, native C++ interface, but the real work is
-	underneath, in pcre.
+	JRegex is a thin layer over the PCRE package.  It provides an improved,
+	native C++ interface, but the real work is underneath, in PCRE.
 
-	JRegex was written with the intention of making it fully NULL-safe
-	sometime in the future.  Some things are safe now, but the
-	function-level documentation mostly refers to whether the function
-	*interface* is NULL-safe; the internal implementations may still not
-	be.  The actual behaviors with NULLs embedded in patterns, strings,
-	replacement patterns, and as replacement metacharacters are almost
-	completely untested so far, as nobody has actually needed this
-	capability.  Anywhere the notes say a something is NULL-safe this
-	should be read as "this is *rumored* to be NULL-safe."  Sorry about the
-	vagueness, but as no one has actually needed this yet it hasn't been
-	worth implementing, and you're welcome to regard it as entirely
-	NULL-unsafe for now.
-
-	The private RegExec function asserts that it did not run out of memory
+	The private Match function asserts that it did not run out of memory
 	or get passed an invalid argument.  I think JRegex can guarantee that
 	regex is never fed an invalid argument, so this is probably fine.
 
-	BASE CLASS = <NONE>
+	BASE CLASS = none
 
 	Copyright (C) 1997 by Dustin Laurence.  All rights reserved.
-
-	Base code generated by Codemill v0.1.0
+	Copyright (C) 2016 by John Lindal.  All rights reserved.
 
  *****************************************************************************/
 
 #include <JRegex.h>
-#include <JSubstitute.h>
+#include <JStringIterator.h>
 #include <JInterpolate.h>
+#include <JMinMax.h>
+#include <pcreposix.h>	// for regmatch_t
 #include <jAssert.h>
 
-struct regmatch_t
-{
-	int rm_so;	/* start of match */
-	int rm_eo;	/* end of match */
-};
+// Debugging:
+//#define JRE_ALLOC_CHECK
+//#define JRE_PRINT_COMPILE_ERRORS
 
 // Constants
 const JUtf8Byte* JRegex::kError = "Error::JRegex";
 
 // Constant static data (i.e. ordinary file scope constants)
-static const int defaultCFlags = PCRE_MULTILINE;
+static const int defaultCFlags = PCRE_MULTILINE | PCRE_UTF8;
 static const int defaultEFlags = 0;
 
 // JAFL 5/11/98
-const JString JRegex::theSpecialCharList = ".[]\\?*+{}|()^$";
+const JString JRegex::theSpecialCharList(".[]\\?*+{}|()^$", 0, kJFalse);
 
 /******************************************************************************
  Constructor
@@ -132,16 +79,11 @@ const JString JRegex::theSpecialCharList = ".[]\\?*+{}|()^$";
 
 JRegex::JRegex()
 	:
+	itsState(kEmpty),
 	itsRegex(NULL),
 	itsCFlags(defaultCFlags),
-	itsEFlags(defaultEFlags),
-	itsReplacePattern(NULL),
-	itsInterpolator(NULL),
-	itsState(kEmpty),
-	itsLiteralReplaceFlag(kJFalse),
-	itsMatchCaseFlag(kJFalse)
+	itsEFlags(defaultEFlags)
 {
-	Allocate();
 }
 
 
@@ -150,16 +92,11 @@ JRegex::JRegex
 	const JString& pattern
 	)
 	:
+	itsState(kEmpty),
 	itsRegex(NULL),
 	itsCFlags(defaultCFlags),
-	itsEFlags(defaultEFlags),
-	itsReplacePattern(NULL),
-	itsInterpolator(NULL),
-	itsState(kEmpty),
-	itsLiteralReplaceFlag(kJFalse),
-	itsMatchCaseFlag(kJFalse)
+	itsEFlags(defaultEFlags)
 {
-	Allocate();
 	SetPatternOrDie(pattern); // Nothing else to do in a constructor
 }
 
@@ -169,49 +106,30 @@ JRegex::JRegex
 	const JUtf8Byte* pattern
 	)
 	:
+	itsState(kEmpty),
 	itsRegex(NULL),
 	itsCFlags(defaultCFlags),
-	itsEFlags(defaultEFlags),
-	itsReplacePattern(NULL),
-	itsInterpolator(NULL),
-	itsState(kEmpty),
-	itsLiteralReplaceFlag(kJFalse),
-	itsMatchCaseFlag(kJFalse)
+	itsEFlags(defaultEFlags)
 {
-	Allocate();
 	SetPatternOrDie(pattern); // Nothing else to do in a constructor
 }
 
+/******************************************************************************
+ Copy constructor
 
-// Copy constructor
+ *****************************************************************************/
+
 JRegex::JRegex
 	(
 	const JRegex& source
 	)
 	:
+	itsState(kEmpty),
 	itsRegex(NULL),
 	itsCFlags(source.itsCFlags),
-	itsEFlags(source.itsEFlags),
-	itsReplacePattern(NULL),
-	itsInterpolator(NULL),
-	itsState(kEmpty),
-	itsLiteralReplaceFlag(source.itsLiteralReplaceFlag),
-	itsMatchCaseFlag(source.itsMatchCaseFlag)
+	itsEFlags(source.itsEFlags)
 {
-	Allocate();
 	CopyPatternRegex(source);
-}
-
-
-void
-JRegex::Allocate()
-{
-	itsReplacePattern = jnew JString;
-	assert(itsReplacePattern != NULL);
-
-	#ifdef	JRE_ALLOC_CHECK
-	numRegexAlloc = 0;
-	#endif
 }
 
 /******************************************************************************
@@ -221,16 +139,11 @@ JRegex::Allocate()
 
 JRegex::~JRegex()
 {
-	RegFree();
-
-	jdelete itsReplacePattern;
-	itsReplacePattern = NULL;
-
-	jdelete itsInterpolator;
+	CleanUp();
 }
 
 /******************************************************************************
- assignment operator
+ Assignment operator
 
  *****************************************************************************/
 
@@ -250,6 +163,40 @@ JRegex::operator=
 }
 
 /******************************************************************************
+ CopyPatternRegex (private)
+
+	Takes care of transfering the pattern, regex, and itsCompiledFlag
+	states (but not the options or ranges) from one JRegex to another.
+
+ *****************************************************************************/
+
+void
+JRegex::CopyPatternRegex
+	(
+	const JRegex& source
+	)
+{
+	if (source.itsState == kEmpty)
+		{
+		CleanUp();
+		}
+	else if (source.itsState == kCannotCompile)
+		{
+		CleanUp();
+		itsPattern = source.itsPattern;
+		itsState   = kCannotCompile;
+		}
+	else if (source.itsState == kReady)
+		{
+		SetPatternOrDie(source.itsPattern);
+		}
+	else	// kRecompile - not sure if it will work
+		{
+		SetPattern(source.itsPattern);
+		}
+}
+
+/******************************************************************************
  BackslashForLiteral (static)
 
 	Insert backslashes so the string will be interpreted literally by the
@@ -263,12 +210,16 @@ JRegex::BackslashForLiteral
 	const JString& text
 	)
 {
+	const JUtf8Character backslash = "\\";
+
 	JString s = text;
-	for (JIndex i=s.GetLength(); i>=1; i--)
+	JStringIterator iter(&s, kJIteratorStartAtEnd);
+	JUtf8Character c;
+	while (iter.Prev(&c))
 		{
-		if (NeedsBackslashToBeLiteral(s.GetCharacter(i)))
+		if (NeedsBackslashToBeLiteral(c))
 			{
-			s.InsertSubstring("\\", i);
+			iter.Insert(backslash);
 			}
 		}
 
@@ -282,12 +233,6 @@ JRegex::BackslashForLiteral
 	Returns kJFalse if the pattern could not be compiled, kJTrue otherwise.
 	If the compile fails the pattern remains set until the next call to
 	SetPattern(); it can be examined with GetPattern().
-
-	The versions which take a JString or a pointer and a length allow
-	compilation of patterns which contain NULL (and also allow the
-	programmer to get the length wrong and write a pattern which matches
-	random garbage or seg faults, so be careful) or are not NULL
-	terminated.  The pointer only form obviously allows neither pathology.
 
  *****************************************************************************/
 
@@ -306,14 +251,14 @@ JRegex::SetPattern
 	const JUtf8Byte* pattern
 	)
 {
-	if (JString::Compare(itsPattern, pattern) != 0)
+	if (itsPattern != pattern)
 		{
 		itsPattern.Set(pattern);
-		return RegComp();
+		return Compile();
 		}
 	else if (itsState != kReady)
 		{
-		return RegComp();
+		return Compile();
 		}
 	else
 		{
@@ -351,7 +296,7 @@ JRegex::SetPatternOrDie
 }
 
 /******************************************************************************
- GetSubCount
+ GetSubexpressionCount
 
 	Returns the number of parenthesized subexpressions in the compiled
 	expression.  Returns zero if there is no compiled expression or if the
@@ -360,7 +305,8 @@ JRegex::SetPatternOrDie
  *****************************************************************************/
 
 JSize
-JRegex::GetSubCount() const
+JRegex::GetSubexpressionCount()
+	const
 {
 	if (itsRegex == NULL)
 		{
@@ -376,56 +322,9 @@ JRegex::GetSubCount() const
 }
 
 /******************************************************************************
- Match and friends
-
-	The Match family performs various kinds of searches on strings specified
-	in various ways, and return various kinds of information.  A successful
-	SetPattern() is required before their use.  There are a large number of
-	them for convenience, but they can be understood systematically:
-
-	There are four ways to specify the string to be searched.  The first three
-	ways use a standard null-terminated string.  The Match(...) functions
-	search the entire string, while the MatchFrom(...) functions search from
-	a given index to the end of the string and the
-	MatchAfter(...) functions search starting after a given subrange.  Finally,
-	the MatchWithin(...) functions search only within a given subrange--they
-	also allow nulls to be embedded in the string and treat them as ordinary
-	characters, since there is no need for a null terminator to determine where
-	the Match should stop.  The performance difference between these cases is
-	negligible.
-
-	Note that the MatchFrom and MatchAfter functions do not check that their
-	index argument is actually within the string because this would be too
-	costly on a very large string, while the MatchWithin functions cannot because
-	they treat NULL as an ordinary character.  This makes it easy to specify a
-	search which goes outside the intended string and gives surprising results
-	or seg faults.  Be careful with these types of searches.
-
-	There are three basic kinds of searches: report on the first match, report
-	on the last match, and an iterated search for all matches.  Since in
-	reality all searches are start to finish, the latter two are implemented
-	internally in terms of the first (and therefore obviously are more costly).
-
-	There are three basic types of information which can be returned about
-	each match.  The simplest is whether it occured, or a count of matches
-	if for an iterated search.  The second is the range(s) which the pattern
-	matched, or (leave the parameter unchanged if no match was found), and the
-	third is to also report the range(s) where each parenthesized subexpression
-	matched.  Obtaining match ranges is expensive in terms of performance,
-	obtaining subexpression matches is moreso.
-
- *****************************************************************************/
-
-/******************************************************************************
-
-	The following functions simply return kJTrue if there is at least one match
-	in a string, which can be specified in various ways.  They may all be
-	called even when MatchOnly has been specified.
-
- *****************************************************************************/
-
-/******************************************************************************
  Match
+
+	Returns kJTrue if our pattern matches the given string.
 
  *****************************************************************************/
 
@@ -436,578 +335,91 @@ JRegex::Match
 	)
 	const
 {
-	JCharacterRange r;
-	return RegExec(str.GetBytes(), 0, str.GetByteCount(), &r, NULL);
+	JUtf8ByteRange r;
+	return JNegate( Match(str, 0, str.GetByteCount(), kJFalse).IsEmpty() );
 }
 
 /******************************************************************************
- MatchFrom
+ MatchBackward (protected)
+
+	The MatchBackward function attempts to provide an efficient algorithm
+	for backwards searching on large buffers by a trial-and-error scheme.
+
+	The byteIndex is included in the search range; in other words, the
+	search is over the range [1, byteIndex].  Index may be any number from
+	1 to the length of the buffer.
 
  *****************************************************************************/
 
-JBoolean
-JRegex::MatchFrom
-	(
-	const JString& str,
-	const JIndex   index
-	)
-	const
-{
-	return MatchWithin(str, JCharacterRange(index, str.GetCharacterCount() ) );
-}
-
-/******************************************************************************
- MatchAfter
-
- *****************************************************************************/
-
-JBoolean
-JRegex::MatchAfter
-	(
-	const JString&         str,
-	const JCharacterRange& range
-	)
-	const
-{
-	return MatchFrom(str, range.last+1);
-}
-
-/******************************************************************************
- MatchWithin
-
- *****************************************************************************/
-
-JBoolean
-JRegex::MatchWithin
-	(
-	const JString&         str,
-	const JCharacterRange& range
-	)
-	const
-{
-	JCharacterRange r;
-	return RegExec(str.GetBytes(), range.first-1, range.last, &r, NULL);
-}
-
-/******************************************************************************
-
-	Iterator versions
-
- *****************************************************************************/
-
-/******************************************************************************
- MatchAll
-
- *****************************************************************************/
-
-JSize
-JRegex::MatchAll
-	(
-	const JString& str
-	)
-	const
-{
-	JCharacterRange match(1,0);
-	JSize matchCount = 0;
-
-	while (MatchAfter(str, match, &match))
-		{
-		if ( match.IsEmpty() ) // Avoid infinite loop if get a null match!
-			{
-			if (str[match.first-1] == '\0')
-				{
-				break; // Avoid calling MatchAfter with match beyond end of string
-				}
-			else
-				{
-				match += 1;
-				}
-			}
-		matchCount++;
-		}
-	return matchCount;
-}
-
-/******************************************************************************
-
-	The following functions return the substring range which contains the
-	first match in the specified string.  Naturally, they may not be called
-	when MatchOnly is set.
-
- *****************************************************************************/
-
-/******************************************************************************
- Match
-
- *****************************************************************************/
-
-JBoolean
-JRegex::Match
-	(
-	const JString&   str,
-	JCharacterRange* match
-	)
-	const
-{
-	assert( match != NULL );
-
-	return RegExec(str, 0, strlen(str), match, NULL);
-}
-
-/******************************************************************************
- MatchFrom
-
- *****************************************************************************/
-
-JBoolean
-JRegex::MatchFrom
-	(
-	const JString&   str,
-	const JIndex     index,
-	JCharacterRange* match
-	)
-	const
-{
-	return MatchWithin(str, JCharacterRange(index, str.GetCharacterCount()), match);
-}
-
-/******************************************************************************
- MatchAfter
-
-	Both ranges may be the same object, very useful in while loops.
-
- *****************************************************************************/
-
-JBoolean
-JRegex::MatchAfter
-	(
-	const JString&         str,
-	const JCharacterRange& range,
-	JCharacterRange*       match
-	)
-	const
-{
-	return MatchFrom(str, range.last+1, match);
-}
-
-/******************************************************************************
- MatchWithin
-
- *****************************************************************************/
-
-JBoolean
-JRegex::MatchWithin
-	(
-	const JString&         str,
-	const JCharacterRange& range,
-	JCharacterRange*       match
-	)
-	const
-{
-	assert( match != NULL );
-
-	return RegExec(str, range.first-1, range.last, match, NULL);
-}
-
-/******************************************************************************
-
-	The following functions find the substring range which contains the last
-	match in the specified string and return the number of matches in the
-	string.
-
- *****************************************************************************/
-
-/******************************************************************************
- MatchLast
-
- *****************************************************************************/
-
-JSize
-JRegex::MatchLast
-	(
-	const JString&   str,
-	JCharacterRange* match
-	)
-	const
-{
-	assert(match != NULL);
-
-	JCharacterRange thisMatch(1, 0);
-	JSize matchCount = 0;
-
-	while (MatchAfter(str, thisMatch, &thisMatch))
-		{
-		if ( thisMatch.IsEmpty() ) // Avoid infinite loop if get a null match!
-			{
-			if (str[thisMatch.first-1] == '\0')
-				{
-				break; // Avoid calling MatchAfter with match beyond end of string
-				}
-			else
-				{
-				thisMatch += 1;
-				}
-			}
-		matchCount++;
-		}
-	if (matchCount > 0)
-		{
-		*match = thisMatch;
-		}
-
-	return matchCount;
-}
-
-/******************************************************************************
- MatchLastWithin
-
- *****************************************************************************/
-
-JSize
-JRegex::MatchLastWithin
-	(
-	const JString&         str,
-	const JCharacterRange& range,
-	JCharacterRange*       match
-	)
-	const
-{
-	assert(match != NULL);
-
-	JCharacterRange searchRegion = range;
-	JSize matchCount = 0;
-	JCharacterRange m;
-
-	while ( MatchWithin(str, searchRegion, &m) )
-		{
-		if ( m.IsEmpty() ) // Avoid infinite loop if get a null match!
-			{
-			searchRegion.first = m.first + 1;
-			}
-		else
-			{
-			matchCount++;
-			*match             = m;
-			searchRegion.first = m.last + 1;
-			}
-		}
-
-	return matchCount;
-}
-
-/******************************************************************************
-
-	Iterator versions
-
- *****************************************************************************/
-
-/******************************************************************************
- MatchAll
-
-	As above, but stores all the matches in matchList, which may never be NULL.
-
- *****************************************************************************/
-
-JSize
-JRegex::MatchAll
-	(
-	const JString&           str,
-	JArray<JCharacterRange>* matchList
-	)
-	const
-{
-	assert(matchList != NULL);
-
-	matchList->RemoveAll();
-
-	JCharacterRange match(1, 0);
-	JSize matchCount = 0;
-
-	while (MatchAfter(str, match, &match))
-		{
-		matchList->AppendElement(match);
-		if ( match.IsEmpty() ) // Avoid infinite loop if get a null match!
-			{
-			if (str[match.first-1] == '\0')
-				{
-				break; // Avoid calling MatchAfter with match beyond end of string
-				}
-			else
-				{
-				match += 1;
-				}
-			}
-		matchCount++;
-		}
-	return matchCount;
-}
-
-/******************************************************************************
- MatchAllWithin
-
- *****************************************************************************/
-
-JSize
-JRegex::MatchAllWithin
-	(
-	const JString&           str,
-	const JCharacterRange&   range,
-	JArray<JCharacterRange>* matchList
-	)
-	const
-{
-	assert(matchList != NULL);
-
-	JCharacterRange match, searchRegion = range;
-	JSize matchCount = 0;
-
-	matchList->RemoveAll();
-
-	while ( MatchWithin(str, searchRegion, &match) )
-		{
-		if ( match.IsEmpty() ) // Avoid infinite loop if get a null match!
-			{
-			searchRegion.first = match.first + 1;
-			}
-		else
-			{
-			matchCount++;
-			matchList->AppendElement(match);
-			searchRegion.first = match.last + 1;
-			}
-		}
-
-	return matchCount;
-}
-
-/******************************************************************************
-
-	The following functions return a list of the ranges which matched the overall
-	expression and all subexpressions in the specified string.
-
- *****************************************************************************/
-
-/******************************************************************************
- Match
-
-	As the previous, except that subMatch is a JArray which will be set to
-	a GetSubCount() length list of what each subexpression matched.
-	GetFirstElement() is set to the overall match, and the other elements
-	are set to the subexpressions matched.  SubMatchList may never be NULL.
-
- *****************************************************************************/
-
-JBoolean
-JRegex::Match
-	(
-	const JString&           str,
-	JArray<JCharacterRange>* subMatchList
-	)
-	const
-{
-	assert( subMatchList != NULL );
-
-	JCharacterRange r;
-	return RegExec(str, 0, strlen(str), &r, subMatchList);
-}
-
-/******************************************************************************
- MatchFrom
-
- *****************************************************************************/
-
-JBoolean
-JRegex::MatchFrom
-	(
-	const JString&           str,
-	const JIndex             index,
-	JArray<JCharacterRange>* subMatchList
-	)
-	const
-{
-	return MatchWithin(str, JCharacterRange(index, str.GetCharacterCount()), subMatchList);
-}
-
-/******************************************************************************
- MatchAfter
-
- *****************************************************************************/
-
-JBoolean
-JRegex::MatchAfter
-	(
-	const JString&           str,
-	const JCharacterRange&   range,
-	JArray<JCharacterRange>* subMatchList
-	)
-	const
-{
-	return MatchFrom(str, range.last+1, subMatchList);
-}
-
-/******************************************************************************
- MatchWithin
-
- *****************************************************************************/
-
-JBoolean
-JRegex::MatchWithin
-	(
-	const JString&           str,
-	const JCharacterRange&   range,
-	JArray<JCharacterRange>* subMatchList
-	)
-	const
-{
-	assert( subMatchList != NULL );
-
-	JCharacterRange r;
-	return RegExec(str, range.first-1, range.last, &r, subMatchList);
-}
-
-/******************************************************************************
- MatchLastWithin
-
- *****************************************************************************/
-
-JSize
-JRegex::MatchLastWithin
-	(
-	const JString&           str,
-	const JCharacterRange&   range,
-	JArray<JCharacterRange>* subMatchList
-	)
-	const
-{
-	assert(subMatchList != NULL);
-
-	subMatchList->RemoveAll();
-
-	JCharacterRange searchRegion = range;
-	JSize matchCount = 0;
-	JArray<JCharacterRange> sml;
-
-	while ( MatchWithin(str, searchRegion, &sml) )
-		{
-		JCharacterRange match = sml.GetFirstElement();
-		if ( match.IsEmpty() ) // Avoid infinite loop if get a null match!
-			{
-			searchRegion.first = match.first + 1;
-			}
-		else
-			{
-			matchCount++;
-			*subMatchList      = sml;
-			searchRegion.first = match.last + 1;
-			}
-		}
-
-	return matchCount;
-}
-
-/******************************************************************************
- MatchBackward
-
-	MatchLast can be used to effectively search backwards, but by itself it is
-	inefficient on large buffers because searches will start from the beginning.
-	The MatchBackward functions attempt to provide a better algorithm for
-	backwards searching on large buffers by a trial-and-error scheme.
-
-	The first form is identical to MatchLast but (hopefully) faster.  The
-	index is not included in the search range; in other words, the search
-	is over the range (1, index-1).  Index may be any number from 1 to
-	the length of the buffer plus 1 (but if it is 1 obviously all tests
-	must fail). The caller must ensure that it is not too long.
-
-	The second form is intended for repeated interactive searches.  The
-	MatchBackward algorithm will often find several previous matches, and
-	it is wasteful to throw them away and only report the last one.  The
-	list is not guaranteed to have more than one element (zero if there is
-	no match before the given point), but whatever it contains is
-	guaranteed to be the previous matches in order *front to back*.  In
-	other words, if it has three elements, the third element is the first
-	one encountered going backwards from the given point, the second
-	element is the second one encountered, and the first element is the
-	third.  The return value is the number found.
-
-	* The second form is untested because no one has really needed it yet.
-
- *****************************************************************************/
-
-JBoolean
+JStringMatch
 JRegex::MatchBackward
 	(
-	const JString&   str,
-	const JIndex     index,
-	JCharacterRange* match
+	const JString&	str,
+	const JIndex	byteIndex
 	)
 	const
 {
-	assert(match != NULL);
-	assert(index > 0);
+	assert( byteIndex > 0 );
 
-	// Need to find good values for these guys
-	JSize decrement = 1000;
-	const JSize multiplier = 10;
+	// Adjustable parameters
+	JInteger decrement     = 1000;
+	const JSize multiplier = 5;
 
-	JCharacterRange searchRange;
-	JInteger from = index;
+	JUtf8ByteRange searchRange;
+	JInteger from = byteIndex;
 	do
 		{
-		if (from == 1)
-			{
-			return kJFalse; // We failed, and *match is unchanged
-			}
-		from = from - decrement;
-		if (from < 1)
-			{
-			from = 1;
-			}
-		decrement *= multiplier;
-		searchRange.Set(from, index-1);
-		}
-		while ( !MatchLastWithin(str, searchRange, match) );
+		from = JMax(1L, from - decrement);
+		searchRange.Set(from, byteIndex);
 
-	return kJTrue; // We succeeded, and *match contains the match
+		const JStringMatch m = MatchLastWithin(str, searchRange);
+		if (!m.IsEmpty())
+			{
+			return m;
+			}
+
+		decrement *= multiplier;	// for next iteration
+		}
+		while (from > 1);
+
+	return JStringMatch(str, JUtf8ByteRange(), this);
 }
 
-JSize
-JRegex::MatchBackward
+/******************************************************************************
+ MatchLastWithin (private)
+
+ *****************************************************************************/
+
+JStringMatch
+JRegex::MatchLastWithin
 	(
-	const JString&           str,
-	const JIndex             index,
-	JArray<JCharacterRange>* matchList
+	const JString&			str,
+	const JUtf8ByteRange&	range
 	)
 	const
 {
-	assert(matchList != NULL);
-	assert(index > 0);
+	JUtf8ByteRange searchRegion = range;
 
-	// Need to find good values for these guys
-	JSize decrement = 1000;
-	const JSize multiplier = 10;
-
-	JCharacterRange searchRange;
-	JSize numFound = 0;
-	JInteger from = index;
-	do
+	JStringMatch result(str, JUtf8ByteRange());
+	while (1)
 		{
-		if (from == 1)
+		const JStringMatch m = Match(str, searchRegion.first-1, range.GetCount(), kJTrue);
+		if (m.GetUtf8ByteRange().IsNothing())
 			{
-			return 0; // We failed and *matchList is empty
+			break;
 			}
-		from = from - decrement;
-		if (from < 1)
+		else if (m.IsEmpty()) // Avoid infinite loop if get a null match!
 			{
-			from = 1;
+			searchRegion.first = m.GetUtf8ByteRange().first + 1;
 			}
-		decrement *= multiplier;
-		searchRange.Set(from, index-1);
-		numFound = MatchAllWithin(str, searchRange, matchList);
+		else
+			{
+			result             = m;
+			searchRegion.first = m.GetUtf8ByteRange().last + 1;
+			}
 		}
-		while (numFound == 0);
 
-	return numFound; // We succeeded, and *matchList contains what we found
+	return result;
 }
 
 /******************************************************************************
@@ -1018,8 +430,8 @@ JRegex::MatchBackward
 JBoolean
 JRegex::GetSubexpressionIndex
 	(
-	const JString& name,
-	JIndex*        index
+	const JUtf8Byte*	name,
+	JIndex*				index
 	)
 	const
 {
@@ -1028,7 +440,7 @@ JRegex::GetSubexpressionIndex
 		const int i = pcre_get_stringnumber(itsRegex, name);
 		if (i > 0)
 			{
-			*index = i+1;	// first subexpression is index 2
+			*index = i;
 			return kJTrue;
 			}
 		}
@@ -1038,252 +450,9 @@ JRegex::GetSubexpressionIndex
 }
 
 /******************************************************************************
- GetSubexpressionIndex
-
- *****************************************************************************/
-
-JBoolean
-JRegex::GetSubexpression
-	(
-	const JString&                 str,
-	const JUtf8Byte*               name,
-	const JArray<JCharacterRange>& matchList,
-	JString*                       s
-	)
-	const
-{
-	JIndex i;
-	if (GetSubexpressionIndex(name, &i))
-		{
-		const JCharacterRange r = matchList.GetElement(i);
-		if (!r.IsNothing())
-			{
-			s->Set(str + r.first-1, r.GetLength());
-			return kJTrue;
-			}
-		}
-
-	s->Clear();
-	return kJFalse;
-}
-
-/******************************************************************************
- GetMatchInterpolator
-
- *****************************************************************************/
-
-JInterpolate*
-JRegex::GetMatchInterpolator()
-	const
-{
-	if (itsInterpolator == NULL)
-		{
-		// This function is conceptually const
-
-		JRegex* mutableThis = const_cast<JRegex*>(this);
-		mutableThis->itsInterpolator = jnew JInterpolate;
-		assert(itsInterpolator != NULL);
-		}
-
-	return itsInterpolator;
-}
-
-/******************************************************************************
- InterpolateMatches
-
-	Given a list of substring ranges (matchList) and the string the ranges
-	refer to (sourceString), InterpolateMatches builds and returns the
-	actual replacement string the internal replace pattern, stored with a
-	previous call to SetReplacePattern (default is "").  Presumably
-	matchList is the list of subexpression matches from a search on
-	sourceString, but this is not required.
-
-	InterpolateMatches uses (a derived class of) JSubstitute to do the
-	interpolation, and each JRegex has its own interpolation object which
-	can be obtained with GetMatchInterpolator() to adjust how escape codes
-	and variable patterns are recognized.  The default behavior for $
-	patterns should rarely if ever need modification, but changing the
-	escape codes can be very useful.  By default C escapes are not expanded
-	since this is most convenient for patterns specified in source code; in
-	user-specified patterns in interactive programs it may be better to add
-	these escapes so that non-printing characters may be entered
-	conveniently (the same is true for the search pattern escapes).
-
-	The default $ pattern behavior is as follows.  A $ followed by a
-	positive number N is replaced by the (N+1)st element of matchList
-	(pedantically, the substring of sourceString referred to by the first
-	element of matchList), counting from the beginning of the list.  A $
-	followed by a negative number -N is replaced by the Nth element of
-	matchList, *counting from the end of the list*.  If the number refers
-	to an element which does not exist in matchList, the replacement string
-	is "".  Replacement is done in one pass, so matches which contain '$N'
-	are not subject to further replacement.  Maniacs who want a convenient
-	way to, say, iterate until a fixed point is reached should contact the
-	author.
-
-	${x} is replaced by the subexpression named "x".
-
-	The above rules are easier to understand in the normal case where
-	matchList was generated by a prevous match.  Then $0 is the entire
-	match, while $1 is the first subexpression, $2 the second, and so forth
-	up to $9, numbering subexpressions by counting left parentheses from
-	left to right.  Similarly, $-1 is the last subexpression, $-2 is the
-	second to the last, and so on.  If the pattern actually only contained
-	four subexpressions, then $5 through $9 and $-6 through $-10 would be
-	replaced by "", while both $0 and $-5 would be replaced by the overall
-	match.  Similarly, both $1 and $-4 would be replaced by the first
-	parenthesized subexpression, $2 and $-3) by the second, $3 and $-2 by
-	the third, and finally $4 and $-1 by the fourth.
-
- *****************************************************************************/
-
-JString
-JRegex::InterpolateMatches
-	(
-	const JString&                 sourceString,
-	const JArray<JCharacterRange>& matchList
-	)
-	const
-{
-	assert(sourceString != NULL);
-
-	JString replaceString = *itsReplacePattern;
-
-	JInterpolate* interpolator = GetMatchInterpolator();
-	interpolator->SetMatchResults(sourceString, itsRegex, &matchList);
-	interpolator->Substitute(&replaceString);
-	interpolator->SetMatchResults(NULL, NULL, NULL);
-
-	if (itsMatchCaseFlag && !matchList.IsEmpty())
-		{
-		replaceString.MatchCase(sourceString, matchList.GetElement(1));
-		}
-
-	return replaceString;
-}
-
-/******************************************************************************
- Replace
-
-	Replace() interpolates the regex's replacement pattern into string,
-	using the results of a previous search on that same string.  This
-	functionality could be duplicated by the client, but it would be much
-	less convenient.  The JRegex property LiteralReplace controls whether
-	match interpolation takes place.
-
-	The three argument form which takes only ranges always substitutes the
-	replacement pattern without first using InterpolateMatches, regardless
-	of the value of ReplaceLiteral, and so only requires a simple range
-	rather than a match list.  However, it is a deprecated function which
-	will eventually go away.
-
- *****************************************************************************/
-
-void
-JRegex::Replace
-	(
-	JString*                       str,
-	const JArray<JCharacterRange>& matchList,
-	JCharacterRange*               newRange
-	)
-	const
-{
-	if (itsLiteralReplaceFlag)
-		{
-		Replace(str,
-				matchList.GetElement(1),
-				newRange);
-		}
-	else
-		{
-		assert( str != NULL );
-		assert( newRange != NULL );
-
-		str->ReplaceSubstring(matchList.GetElement(1),
-							  InterpolateMatches(*str, matchList),
-							  newRange);
-		}
-}
-
-
-void
-JRegex::Replace
-	(
-	JString*               str,
-	const JCharacterRange& oldRange,
-	JCharacterRange*       newRange
-	)
-	const
-{
-	assert( str != NULL );
-	assert( newRange != NULL );
-
-	str->ReplaceSubstring(oldRange,
-						  *itsReplacePattern,
-						  newRange);
-}
-
-/******************************************************************************
- SetReplacePattern
-
-	Sets the replacement pattern.  The return value is true if the
-	replacement pattern is 'clean', that is if all $ signs are escaped or
-	followed by a number (the exact definition is that used by the
-	underlying JSubstitute match object), but this is only a convenience
-	for interactive programs checking their user's input; the pattern is
-	set whether it is clean or not.  IsCleanPattern() can be used to perform
-	the same test without changing the pattern.
-
-	The syntax of the replacement source is under the underlying
-	JInterpolate object's control, but a summary of the default behavior is
-	as follows.  The replacement metacharacter is '$', which marks the
-	beginning of a replacement token.  'Unclean' replacement patterns are
-	patterns which contain a metacharacter not immediately followed either
-	by a second metacharacter or by an optional sign ('-' or '+') preceding
-	one or more decimal digits.  All other patterns are 'clean'.  Clean
-	patterns will be replaced by their corresponding match value, while
-	unclean patterns are left intact except their '$' is removed; to insert
-	a literal '$' preface it with a backslash.
-
-	In other words, the only clean replacement tokens are those of the form
-	'$[+-]?[0-9]+', and a replacement pattern is clean unless it contains
-	at least one unclean replacement token.
-
-	See InterpolateMatches for how the replacement pattern will be used.
-
-	The default replace pattern is "", that is all matches are replaced by
-	the empty string.  This simplifies the replace interface because there is
-	always a valid replace string, but arguably makes it easier to screw up by
-	forgetting to set the replace string.  If enough people complain that the
-	benefits are not worth the drawbacks, this situation can change.
-
-	If an error is found, and errRange is not NULL, it is set to the
-	offending range of characters.
-
- *****************************************************************************/
-
-JError
-JRegex::SetReplacePattern
-	(
-	const JUtf8Byte* pattern,
-	JCharacterRange* errRange
-	)
-{
-	*itsReplacePattern = pattern;
-
-	JCharacterRange r;
-	if (errRange == NULL)
-		{
-		errRange = &r;
-		}
-	return GetMatchInterpolator()->ContainsError(*itsReplacePattern, errRange);
-}
-
-/******************************************************************************
  RestoreDefaults
 
-	Restores the default values of both the compile-time and run-time
-	options and the replacement pattern.
+	Restores the default values of both the compile-time and run-time options.
 
  *****************************************************************************/
 
@@ -1302,42 +471,7 @@ JRegex::RestoreDefaults()
 			}
 		}
 
-	itsReplacePattern->Clear();
-	return RegComp();
-}
-
-/******************************************************************************
- CopyPatternRegex (private)
-
-	Takes care of transfering the pattern, regex, replace pattern, and
-	itsCompiledFlag states (but not the options or ranges) from one JRegex to
-	another.
-
- *****************************************************************************/
-
-void
-JRegex::CopyPatternRegex
-	(
-	const JRegex& source
-	)
-{
-	if (source.itsState == kEmpty)
-		{
-		RegFree();
-		}
-	else if (source.itsState == kCannotCompile)
-		{
-		RegFree();
-		itsPattern = source.itsPattern;
-		itsState   = kCannotCompile;
-		}
-	else
-		{
-		// Should never fail if source has already compiled!
-		SetPatternOrDie(source.itsPattern, source.itsPattern.GetLength() );
-		}
-
-	SetReplacePattern(*source.itsReplacePattern);
+	return Compile();
 }
 
 /******************************************************************************
@@ -1382,7 +516,7 @@ JRegex::SetExecuteOption
 
  *****************************************************************************/
 
-void
+inline void
 JRegex::RawSetOption
 	(
 	int*           flags,
@@ -1401,26 +535,14 @@ JRegex::RawSetOption
 }
 
 /******************************************************************************
- CompileOrDie (private)
-
- *****************************************************************************/
-
-void
-JRegex::CompileOrDie()
-{
-	const JError error = RegComp();
-	assert_ok( error );
-}
-
-/******************************************************************************
- RegComp (private)
+ Compile (private)
 
  *****************************************************************************/
 
 JError
-JRegex::RegComp()
+JRegex::Compile()
 {
-	RegFree();
+	CleanUp();
 	itsState = kCannotCompile;
 
 	if (itsPattern.IsEmpty())
@@ -1432,7 +554,7 @@ JRegex::RegComp()
 
 	const char* errorMessage;
 	int errorOffset;
-	itsRegex = pcre_compile(itsPattern, itsCFlags,
+	itsRegex = pcre_compile(itsPattern.GetBytes(), itsCFlags,
 							&errorMessage, &errorOffset, NULL);
 	const int retVal = (itsRegex == NULL ? 1 : 0);
 
@@ -1465,31 +587,29 @@ JRegex::RegComp()
 }
 
 /******************************************************************************
- RegExec (private)
+ Match (private)
 
  *****************************************************************************/
 
-inline JCharacterRange
-jMakeIndexRange
+inline JUtf8ByteRange
+jMakeRange
 	(
 	const regmatch_t& regmatch		// {-1,-1} => nothing
 	)
 {
-	return JCharacterRange(regmatch.rm_so+1, regmatch.rm_eo > 0 ? regmatch.rm_eo : 0);
+	return JUtf8ByteRange(regmatch.rm_so+1, regmatch.rm_eo > 0 ? regmatch.rm_eo : 0);
 };
 
-JBoolean
-JRegex::RegExec
+JStringMatch
+JRegex::Match
 	(
-	const JString&          str,
-	const JSize             offset,
-	const JSize             length,
-	JUtf8ByteRange*         matchRange,
-	JArray<JUtf8ByteRange>* matchList		// can be NULL
+	const JString&	str,
+	const JSize		byteOffset,
+	const JSize		byteCount,
+	const JBoolean	includeSubmatches
 	)
 	const
 {
-	assert( str != NULL );
 	assert( itsState != kEmpty && itsState != kCannotCompile );
 
 	#ifdef JRE_ALLOC_CHECK
@@ -1498,67 +618,56 @@ JRegex::RegExec
 
 	if (itsState == kRecompile)
 		{
-		JRegex* mutate = const_cast<JRegex*>(this);
-		mutate->CompileOrDie();
+		const JError error = const_cast<JRegex*>(this)->Compile();
+		assert_ok( error );
 		}
 
-	const JSize subCount = GetSubCount();
+	const JSize subCount = GetSubexpressionCount();
 	regmatch_t* pmatch   = NULL;
-	JSize nmatch         = 1;
-
-	nmatch = (subCount+1)*3;
+	int nmatch           = (subCount+1)*3;
 
 	pmatch = jnew regmatch_t[ nmatch ];
 	assert( pmatch != NULL );
 
-	int returnCode = pcre_exec(itsRegex, NULL, str, length, offset,
-							   itsEFlags, (int*) pmatch, nmatch);
-	if (returnCode > 0)
+	nmatch = pcre_exec(itsRegex, NULL, str.GetBytes(), byteCount, byteOffset,
+					   itsEFlags, (int*) pmatch, nmatch);
+	if (nmatch > 0)
 		{
-		nmatch     = returnCode;
-		returnCode = 0;
-		}
+		const JUtf8ByteRange m0 = jMakeRange(pmatch[0]);
 
-	JBoolean success = kJFalse;
-	if (returnCode == 0)
-		{
-		*matchRange = jMakeIndexRange(pmatch[0]);
-
-		if (matchList != NULL)
+		JArray<JUtf8ByteRange>* list = NULL;
+		if (includeSubmatches)
 			{
-			matchList->RemoveAll();
-			JIndex i;
-			for (i=0; i<nmatch; i++)
+			list = jnew JArray<JUtf8ByteRange>;
+			assert( list != NULL );
+
+			for (JIndex i=1; i<nmatch; i++)
 				{
-				matchList->AppendElement(jMakeIndexRange(pmatch[i]));
-				}
-			JCharacterRange empty;
-			for (i=nmatch; i<=subCount; i++)
-				{
-				matchList->AppendElement(empty);
+				list->AppendElement(jMakeRange(pmatch[i]));
 				}
 			}
 
-		success = kJTrue;
+		jdelete [] pmatch;
+		return JStringMatch(str, m0, this, list);
 		}
-	else if (returnCode != PCRE_ERROR_NOMATCH &&
-			 returnCode != PCRE_ERROR_RECURSIONLIMIT &&
-			 returnCode != PCRE_ERROR_BADOFFSET)
+	else if (nmatch != PCRE_ERROR_NOMATCH &&
+			 nmatch != PCRE_ERROR_RECURSIONLIMIT &&
+			 nmatch != PCRE_ERROR_BADOFFSET)
 		{
-		std::cerr << "unexpected error from PCRE: " << returnCode << std::endl;
+		std::cerr << "unexpected error from PCRE: " << nmatch << std::endl;
 		}
 
 	jdelete [] pmatch;
-	return success;
+	return JStringMatch(str, JUtf8ByteRange(), this);
 }
 
 /******************************************************************************
- RegFree (private)
+ CleanUp (private)
 
  *****************************************************************************/
 
 void
-JRegex::RegFree()
+JRegex::CleanUp()
 {
 	if (itsRegex != NULL)
 		{

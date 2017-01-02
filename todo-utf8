@@ -1,7 +1,91 @@
-JString
-	normalize on all input:  ctor, set, append, prepend, etc
+JRegex
+	more unit tests
 
-kJIteratorStart(Before|After)Byte
+	implement Split
+	find uses for it, e.g., splitting path by :
+
+unit tests
+	modified:   libjcore/code/JDirEntry.cpp
+	modified:   libjcore/code/JDirInfo.cpp
+	modified:   libjcore/code/JDirInfo_UNIX.cpp
+	modified:   libjcore/code/JEPSPrinter.cpp
+	modified:   libjcore/code/JFileArray.cpp
+	modified:   libjcore/code/JFileArray.h
+	modified:   libjcore/code/JFont.cpp
+	modified:   libjcore/code/JHTMLScanner.cpp
+	modified:   libjcore/code/JHTMLScannerL.l
+	modified:   libjcore/code/JInterpolate.cpp
+	modified:   libjcore/code/JInterpolate.h
+	modified:   libjcore/code/JMDIServer.cpp
+	modified:   libjcore/code/JMMDebugErrorStream.cpp
+	modified:   libjcore/code/JMMRecord.cpp
+	modified:   libjcore/code/JMemoryManager.cpp
+	modified:   libjcore/code/JMessageProtocol.h
+	modified:   libjcore/code/JMessageProtocol.tmpl
+	modified:   libjcore/code/JNetworkProtocolBase.h
+	modified:   libjcore/code/JNetworkProtocolBase.tmpl
+	modified:   libjcore/code/JPSPrinter.cpp
+	modified:   libjcore/code/JPSPrinterBase.cpp
+	modified:   libjcore/code/JPSPrinterBase.h
+	modified:   libjcore/code/JPTPrinter.cpp
+	modified:   libjcore/code/JPrefsFile.cpp
+	modified:   libjcore/code/JPrefsManager.cpp
+	modified:   libjcore/code/JRegex.cpp
+	modified:   libjcore/code/JRegex.h
+	modified:   libjcore/code/JStdError.cpp
+	modified:   libjcore/code/JString.cpp
+	modified:   libjcore/code/JString.h
+	modified:   libjcore/code/JStringIterator.cpp
+	modified:   libjcore/code/JStringIterator.h
+	modified:   libjcore/code/JStringManager.cpp
+	modified:   libjcore/code/JStringMatch.cpp
+	modified:   libjcore/code/JStringMatch.h
+	modified:   libjcore/code/JSubstitute.cpp
+	modified:   libjcore/code/JSubstitute.h
+	modified:   libjcore/code/JTEHTMLScanner.cpp
+	modified:   libjcore/code/JTEHTMLScanner.h
+	modified:   libjcore/code/JTEKeyHandler.cpp
+	modified:   libjcore/code/JTEKeyHandler.h
+	modified:   libjcore/code/JTEUndoBase.cpp
+	modified:   libjcore/code/JTEUndoBase.h
+	modified:   libjcore/code/JTEUndoStyle.cpp
+	modified:   libjcore/code/JTEUndoStyle.h
+	modified:   libjcore/code/JTEUndoTabShift.cpp
+	modified:   libjcore/code/JTEUndoTextBase.cpp
+	modified:   libjcore/code/JTEUndoTextBase.h
+	modified:   libjcore/code/JTextChooseSaveFile.cpp
+	modified:   libjcore/code/JTextEditor.h
+	modified:   libjcore/code/JTextUserNotification.cpp
+	modified:   libjcore/code/JUnitTestManager.cpp
+	modified:   libjcore/code/JUtf8Character.cpp
+	modified:   libjcore/code/JUtf8Character.h
+	modified:   libjcore/code/JVIKeyHandler.cpp
+	modified:   libjcore/code/JVIKeyHandler.h
+	modified:   libjcore/code/JVersionSocket.tmpl
+	modified:   libjcore/code/JWebBrowser.cpp
+	modified:   libjcore/code/jDirUtil.cpp
+	modified:   libjcore/code/jDirUtil_UNIX.cpp
+	modified:   libjcore/code/jFileUtil.cpp
+	modified:   libjcore/code/jFileUtil.h
+	modified:   libjcore/code/jFileUtil_UNIX.cpp
+	modified:   libjcore/code/jGlobals.cpp
+	modified:   libjcore/code/jGlobals.h
+	modified:   libjcore/code/jGlobals_UNIX.cpp
+	modified:   libjcore/code/jMountUtil_UNIX.cpp
+	modified:   libjcore/code/jProcessUtil.cpp
+	modified:   libjcore/code/jSysUtil_UNIX.cpp
+	modified:   libjcore/code/jTime.cpp
+	modified:   libjcore/code/jVCSUtil.cpp
+	modified:   libjcore/code/jWebUtil.cpp
+
+add back in:
+	JTextEditor.cpp
+	JTEStyler.cpp
+	JVIKeyHandler.cpp
+
+JStringIterator
+*	test correct position of cursor after ReplaceLastMatch
+	allow restricting search range
 
 utf8 - sorting vs searching
 	searching should include diacriticals
@@ -19,11 +103,10 @@ convert all functions to use JString intead of JUtf8Byte*
 
 analyze all uses of toupper/lower - not all languages do this by single character
 
-re-evaluate all uses of JIndexRange - character or utf8byte?
+re-evaluate all uses of JIndexRange - character or utf8 byte?
 
 Fix I18NIsCharacterInWord() in jXGlobals
 
-JRegex::defaultCFlags: add PCRE_UTF8
 UText allows regexp to work with utf8
 	can ICU regex replace PCRE?  does it use PCRE internally?
 ucoleitr, unorm, usearch ought to support UText/UCharIterator

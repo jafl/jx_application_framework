@@ -40,7 +40,7 @@ JError		JUncompressFile(const JString& origFileName, JString* newFileName,
 							const JString* dirName = NULL,
 							JProcess** process = NULL);
 
-JError		JFOpen(const JString& fileName, const JString& mode, FILE** stream);
+JError		JFOpen(const JString& fileName, const JUtf8Byte* mode, FILE** stream);
 
 void		JExtractFileAndLine(const JString& str,
 								JString* fileName, JIndex* startLineIndex,

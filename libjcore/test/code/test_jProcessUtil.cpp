@@ -1,7 +1,7 @@
 /******************************************************************************
- test_JParseArgsForExec.cc
+ test_jProcessUtil.cc
 
-	Program to test JParseArgsForExec class.
+	Program to test process utilities.
 
 	Written by John Lindal.
 
@@ -9,8 +9,11 @@
 
 #include <JUnitTestManager.h>
 #include <jProcessUtil.h>
+#include <JMinMax.h>
 #include <stdarg.h>
 #include <jassert_simple.h>
+
+extern void JCleanArg(JString* arg);
 
 int main()
 {
@@ -31,22 +34,74 @@ Test
 	JPtrArray<JString> argList(JPtrArrayT::kDeleteAll);
 	JParseArgsForExec(cmd, &argList);
 
-	const JSize count = argList.GetElementCount();
-	JAssertEqual(argc, count);
+	JSize count = argList.GetElementCount();
+	JAssertEqualWithMessage(argc, count, origCmd);
+	count = JMin(argc, count);
 
 	va_list ap;
 	va_start(ap, argc);
 
 	for (JIndex i=1; i<=count; i++)
 		{
-		const JString* arg = argList.NthElement(i);
-		JAssertStringsEqual(va_arg(ap, const JUtf8Byte*), *arg);
+		const JUtf8Byte* expected = va_arg(ap, const JUtf8Byte*);
+		const JString* arg        = argList.NthElement(i);
+		JAssertStringsEqualWithMessage(expected, *arg,
+			(JString(origCmd, 0, kJFalse) + ", " + JString(i, JString::kBase10)).GetBytes());
 		}
 
 	va_end(ap);
 }
 
-JTEST(Parse)
+JTEST(ProgramAvailable)
+{
+	JAssertTrue(JProgramAvailable(JString("ls", 0, kJFalse)));
+	JAssertFalse(JProgramAvailable(JString("foo_bar_baz_shug", 0, kJFalse)));
+}
+
+JTEST(CleanArg)
+{
+	JString s;
+
+	s = "'abc'";
+	JCleanArg(&s);
+	JAssertStringsEqual("abc", s);
+
+	s = "\\'abc\\'";
+	JCleanArg(&s);
+	JAssertStringsEqual("'abc'", s);
+
+	s = "\\\"abc\\\"";
+	JCleanArg(&s);
+	JAssertStringsEqual("\"abc\"", s);
+
+	s = "alice:'*.c'";
+	JCleanArg(&s);
+	JAssertStringsEqual("alice:*.c", s);
+
+	s = "\"alice:'*.c'\"";
+	JCleanArg(&s);
+	JAssertStringsEqual("alice:'*.c'", s);
+
+	s = "a\\;";
+	JCleanArg(&s);
+	JAssertStringsEqual("a;", s);
+}
+
+JTEST(PrepArg)
+{
+	JString s;
+
+	s = "'abc'";
+	JAssertStringsEqual("\\'abc\\'", JPrepArgForExec(s));
+
+	s = "abc xyz";
+	JAssertStringsEqual("\"abc xyz\"", JPrepArgForExec(s));
+
+	s = "foo;bar";
+	JAssertStringsEqual("foo\\;bar", JPrepArgForExec(s));
+}
+
+JTEST(ParseArgs)
 {
 	Test(" ", 0);
 

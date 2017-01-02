@@ -22,7 +22,7 @@ public:
 
 	virtual void	Undo();
 
-	virtual void	SetFont(const JCharacter* name, const JSize size);
+	virtual void	SetFont(const JString& name, const JSize size);
 
 protected:
 

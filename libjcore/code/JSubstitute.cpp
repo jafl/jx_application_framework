@@ -8,6 +8,11 @@
 	example of the latter case is [+-]?[0-9]+, which is used in regular
 	expression replace patterns to denote submatches.
 
+	By default C escapes are not expanded since this is most convenient for
+	patterns specified in source code; in user-specified patterns in
+	interactive programs, it may be better to add these escapes so that
+	non-printing characters may be entered conveniently.
+
 	BASE CLASS = none
 
 	Copyright (C) 1998 by John Lindal.  All rights reserved.
@@ -15,6 +20,7 @@
  *****************************************************************************/
 
 #include <JSubstitute.h>
+#include <JStringIterator.h>
 #include <JRegex.h>
 #include <jAssert.h>
 
@@ -189,7 +195,7 @@ JSubstitute::SetEscape
 		}
 	else
 		{
-		itsEscapeTable[c] = jnew JString(value);
+		itsEscapeTable[c] = jnew JString(value, 0);
 		assert( itsEscapeTable[c] != NULL );
 		return kJFalse;
 		}
@@ -427,7 +433,7 @@ JSubstitute::DefineVariable
 {
 	if (!SetVariableValue(name, value))
 		{
-		JString* n = jnew JString(name);
+		JString* n = jnew JString(name, 0);
 		assert( n != NULL );
 
 		JString* v = jnew JString(value);
@@ -478,7 +484,7 @@ JSubstitute::DefineVariables
 	const JUtf8Byte* regexPattern
 	)
 {
-	JString* name = jnew JString(regexPattern);
+	JString* name = jnew JString(regexPattern, 0);
 	assert( name != NULL );
 
 	JRegex* regex = jnew JRegex(regexPattern);
@@ -550,88 +556,65 @@ JSubstitute::UndefineAllVariables()
 JError
 JSubstitute::ContainsError
 	(
-	const JString&	s,
-	JIndexRange*	errRange
+	const JString&		s,
+	JCharacterRange*	errRange
 	)
 	const
 {
-	JIndex i = 1;
 	JString varValue;
-	while (1)
+
+	JStringIterator iter(s);
+	JUtf8Character opChar, c;
+	while (FindNextOperator(iter, &opChar))
 		{
-		JUtf8Character opChar;
-		if (!FindNextOperator(s, &i, &opChar))
-			{
-			break;
-			}
-
-		const JSize len = s.GetLength();
-
 		// trailing operators will be tossed
 
-		if (i == len && opChar == '\\')
+		if (iter.AtEnd() && opChar == '\\')
 			{
-			errRange->Set(i, len);
+			errRange->SetFirstAndCount(iter.GetPrevCharacterIndex(), 1);
 			return TrailingBackslash();
 			}
-		else if (i == len && opChar == '$')
+		else if (iter.AtEnd() && opChar == '$')
 			{
-			errRange->Set(i, len);
+			errRange->SetFirstAndCount(iter.GetPrevCharacterIndex(), 1);
 			return LoneDollar();
-			}
-		else if (itsControlEscapesFlag && opChar == '\\' &&
-				 i == len-1 && s.GetLastCharacter() == 'c')
-			{
-			errRange->Set(i, len);
-			return IllegalControlChar();
 			}
 
 		// check escaped character
 
-		else if (opChar == '\\')
+		else if (opChar == '\\')	// guaranteed not to be last character
 			{
-			const JCharacter escapeChar = s.GetCharacter(i+1);
+			iter.Next(&c);
 
 			// check control character
 
-			if (escapeChar == 'c' && itsControlEscapesFlag)
+			if (c == 'c' && itsControlEscapesFlag)
 				{
-				const JCharacter controlChar = s.GetCharacter(i+2);
-				if ('A' <= controlChar && controlChar <= '_')
+				if (iter.AtEnd())
 					{
-					i += 2;
+					errRange->SetFirstAndCount(iter.GetPrevCharacterIndex() - 1, 2);
+					return IllegalControlChar();
 					}
-				else
+
+				iter.Next(&c);
+				const JUtf8Byte ascii = c.GetBytes()[0];
+				if (!('A' <= ascii && ascii <= '_'))	// written this way to avoid worrying about signed char
 					{
-					errRange->Set(i, i+2);
+					errRange->SetFirstAndCount(iter.GetPrevCharacterIndex() - 2, 3);
 					return IllegalControlChar();
 					}
 				}
 
 			// normal escapes never cause problems
-
-			else
-				{
-				i++;
-				}
 			}
 
 		// check for variable name
 
-		else if (opChar == '$')
+		else if (opChar == '$' && !Evaluate(iter, &varValue))
 			{
-			JIndexRange range;
-			if (!Evaluate(s, i+1, &range, &varValue))
-				{
-				errRange->Set(i, i);
-				return LoneDollar();
-				}
-			i = range.last;
+			errRange->SetFirstAndCount(iter.GetPrevCharacterIndex(), 1);
+			return LoneDollar();
 			}
-
-		// move past valid text
-
-		++i;
 		}
 
 	// falling through means that no errors were found
@@ -676,50 +659,55 @@ JSubstitute::Substitute
 {
 	assert( s != NULL );
 
-	JIndex i = 1;
 	JString varValue;
-	while (1)
+
+	JStringIterator iter(s);
+	JUtf8Character opChar, c;
+	while (FindNextOperator(iter, &opChar))
 		{
-		JUtf8Character opChar;
-		if (!FindNextOperator(*s, &i, &opChar))
+		iter.SkipPrev();
+		iter.BeginMatch();
+		iter.SkipNext();
+
+		if (iter.AtEnd())
 			{
+			iter.FinishMatch();
+			iter.RemoveLastMatch();
 			break;
-			}
-
-		const JSize len = s->GetLength();
-
-		// toss trailing operator
-
-		if (i == len ||
-			(itsControlEscapesFlag && opChar == '\\' &&
-			 i == len-1 && s->GetLastCharacter() == 'c'))
-			{
-			s->RemoveSubstring(i, len);
 			}
 
 		// handle escaped character
 
-		else if (opChar == '\\')
+		if (opChar == '\\')
 			{
-			const JCharacter escapeChar = s->GetCharacter(i+1);
+			JBoolean ok = iter.Next(&c);
+			assert( ok );
+
+			// toss trailing operator
+
+			if (c == 'c' && itsControlEscapesFlag && iter.AtEnd())
+				{
+				iter.FinishMatch();
+				iter.RemoveLastMatch();
+				}
 
 			// handle control character escapes
 
-			if (escapeChar == 'c' && itsControlEscapesFlag)
+			else if (c == 'c' && itsControlEscapesFlag)
 				{
-				const JCharacter controlChar = s->GetCharacter(i+2);
-				if ('A' <= controlChar && controlChar <= '_')
+				ok = iter.Next(&c);
+				assert( ok );
+
+				const JUtf8Byte ascii = c.GetBytes()[0];
+				if ('A' <= ascii && ascii <= '_')
 					{
-					s->RemoveSubstring(i, i+1);
-					s->SetCharacter(i, controlChar - '@');
+					iter.FinishMatch();
+					iter.ReplaceLastMatch(JUtf8Character(ascii - '@'));
 					}
 				else if (!itsIgnoreUnrecognizedFlag)
 					{
-					s->RemoveSubstring(i, i+1);
-					}
-				else
-					{
-					i += 2;
+					iter.FinishMatch();
+					iter.ReplaceLastMatch(c);
 					}
 				}
 
@@ -728,79 +716,70 @@ JSubstitute::Substitute
 			else
 				{
 				const JString* value;
-				if (GetEscape(escapeChar, &value))
+				const JUtf8Byte ascii = c.GetBytes()[0];
+				if (0 < ascii && ascii <= '\x7F' && GetEscape(ascii, &value))
 					{
-					JIndexRange range(i,i+1);
-					s->ReplaceSubstring(range, *value, &range);
-					i = range.last;
+					iter.FinishMatch();
+					iter.ReplaceLastMatch(*value);
 					}
 				else if (!itsIgnoreUnrecognizedFlag)
 					{
-					s->RemoveSubstring(i, i);
-					}
-				else
-					{
-					i++;
+					iter.FinishMatch();
+					iter.ReplaceLastMatch(c);
 					}
 				}
-			}
-
-		// Special treatment for $$
-		// (\$ cannot be used in input files for compile_jstrings)
-
-		else if (opChar == '$' && s->GetCharacter(i+1) == '$')
-			{
-			s->RemoveSubstring(i,i);
 			}
 
 		// handle variable name
 
 		else if (opChar == '$')
 			{
-			JIndexRange range;
-			if (!Evaluate(*s, i+1, &range, &varValue))
+			JBoolean ok = iter.Next(&c, kJFalse);
+			assert( ok );
+
+			if (c == '$')	// Special treatment for $$ (\$ cannot be used in input files for compile_jstrings)
 				{
-				varValue.Clear();
+				iter.FinishMatch();
+				iter.ReplaceLastMatch(c);
 				}
-			range.first = i;
-			s->ReplaceSubstring(range, varValue, &range);
-			i = range.last;
+			else
+				{
+				if (!Evaluate(iter, &varValue))
+					{
+					varValue.Clear();
+					}
+				iter.FinishMatch();
+				iter.ReplaceLastMatch(varValue);
+				}
 			}
-
-		// move past new text
-
-		i++;
 		}
 }
 
 /******************************************************************************
  FindNextOperator (private)
 
-	Starting from *index, finds the index of the next backslash or dollar.
-	Returns kJFalse if nothing is found.
+	Finds the next backslash or dollar.  Returns kJFalse if nothing is
+	found.
 
  *****************************************************************************/
 
 JBoolean
 JSubstitute::FindNextOperator
 	(
-	const JString&	s,
-	JIndex*			index,
-	JUtf8Character*	opChar
+	JStringIterator&	iter,
+	JUtf8Character*		opChar
 	)
 	const
 {
-	const JSize len = s.GetLength();
-	while (*index <= len)
+	while (iter.Next(opChar))
 		{
-		*opChar = s.GetCharacter(*index);
 		if (*opChar == '\\' || (*opChar == '$' && !itsPureEscapeEngineFlag))
 			{
-			break;
+			return kJTrue;
 			}
-		(*index)++;
 		}
-	return JI2B(*index <= len);
+
+	return kJFalse;
 }
 
 /******************************************************************************
@@ -811,64 +790,77 @@ JSubstitute::FindNextOperator
 	the variable's value.
 
 	Derived classes can override this if they have names that can't
-	be expressed as regular expressions. (e.g. $(w $($(x) y) z))
+	be expressed as regular expressions, e.g., $(w $($(x) y) z)
 
  *****************************************************************************/
 
 JBoolean
 JSubstitute::Evaluate
 	(
-	const JString&	s,
-	const JIndex	startIndex,
-	JIndexRange*	matchRange,
-	JString*		value
+	JStringIterator&	iter,
+	JString*			value
 	)
 	const
 {
-	JSize matchLength = 0;
-	JIndex varIndex   = 0;
+	assert( !iter.AtEnd() );
 
-	const JCharacter* str = s.GetCString() + startIndex-1;
+	JSize matchCharCount = 0;
+	JSize matchByteCount = 0;
+	JIndex varIndex      = 0;
+
+	JString s(iter.GetString().GetBytes(),
+			  JUtf8ByteRange(iter.GetNextByteIndex(),
+							  iter.GetString().GetByteCount()),
+			  kJFalse);
 
 	const JSize count = itsVarList->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
-		const VarInfo info = itsVarList->GetElement(i);
-		const JSize len    = (info.name)->GetLength();
-		if (info.regex == NULL &&
-			len > matchLength &&
-			JCompareMaxN(str, *(info.name), len))
+		const VarInfo info    = itsVarList->GetElement(i);
+		const JSize charCount = info.name->GetCharacterCount();
+		if (info.regex == NULL && s.BeginsWith(*(info.name)) &&
+			charCount > matchCharCount)
 			{
-			matchLength = len;
-			varIndex    = i;
+			varIndex       = i;
+			matchCharCount = charCount;
+			matchByteCount = info.name->GetByteCount();
 			}
 		else if (info.regex != NULL)
 			{
-			JIndexRange range;
-			if ((info.regex)->Match(str, &range) &&
-				range.first == 1 &&
-				range.GetLength() > matchLength)
+			const JStringMatch m = info.regex->MatchForward(s, 1);
+			if (!m.IsEmpty() && m.GetCharacterRange().first == 1 &&
+				m.GetCharacterCount() > matchCharCount)
 				{
-				matchLength = range.GetLength();
-				varIndex    = 0;
+				varIndex       = 0;
+				matchCharCount = m.GetCharacterCount();
+				matchByteCount = m.GetByteCount();
 				}
 			}
 		}
 
-	matchRange->SetFirstAndLength(startIndex, matchLength);
-	if (matchLength == 0)
+	if (matchCharCount == 0)
 		{
 		value->Clear();
 		return kJFalse;
 		}
 	else if (varIndex == 0)
 		{
-		return GetValue(s.GetSubstring(*matchRange), value);
+		JUtf8ByteRange r;
+		r.SetFirstAndCount(iter.GetNextByteIndex(), matchByteCount);
+
+		JString name(iter.GetString().GetBytes(), r, kJFalse);
+		const JBoolean ok = GetValue(name, value);
+		if (ok)
+			{
+			iter.SkipNext(matchCharCount);
+			}
+		return ok;
 		}
 	else
 		{
 		const VarInfo info = itsVarList->GetElement(varIndex);
 		*value             = *(info.value);
+		iter.SkipNext(matchCharCount);
 		return kJTrue;
 		}
 }

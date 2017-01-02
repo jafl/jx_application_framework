@@ -22,6 +22,8 @@
  ******************************************************************************/
 
 #include <JMessageProtocol.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <JMinMax.h>
 #include <jAssert.h>
 
@@ -67,15 +69,13 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocolX()
 
 	NewMessage();
 
-	itsBufferSize = JMessageProtocolT::kDefaultBufferSize;
+	itsBufferSize   = JMessageProtocolT::kDefaultBufferSize;
+	itsBufferOffset = 0;
 
 	itsBuffer = jnew JUtf8Byte [ itsBufferSize ];
 	assert( itsBuffer != NULL );
 
-	itsSeparatorStr.Set(JMessageProtocolT::kUNIXSeparatorStr,
-						JMessageProtocolT::kUNIXSeparatorLength);
-	itsDisconnectStr.Set(JMessageProtocolT::kStdDisconnectStr,
-						 JMessageProtocolT::kStdDisconnectLength);
+	UseUNIXProtocol();
 
 	itsSentDisconnectFlag     = kJFalse;
 	itsReceivedDisconnectFlag = kJFalse;
@@ -121,23 +121,25 @@ void
 JMessageProtocol<ACE_PEER_STREAM_2>::SetProtocol
 	(
 	const JUtf8Byte*	separatorStr,
-	const JSize			separatorLength,
+	const JSize			separatorByteCount,
 	const JUtf8Byte*	disconnectStr,
-	const JSize			disconnectLength
+	const JSize			disconnectByteCount
 	)
 {
-	assert( separatorLength > 0 );
+	assert( separatorByteCount > 0 );
 
-	itsSeparatorStr.Set(separatorStr, separatorLength > 0 ? separatorLength : strlen(separatorStr));
-	itsDisconnectStr.Set(disconnectStr, disconnectLength > 0 ? disconnectLength : strlen(disconnectStr));
+	itsSeparatorStr.Set(separatorStr, separatorByteCount > 0 ? separatorByteCount : strlen(separatorStr));
+	itsDisconnectStr.Set(disconnectStr, disconnectByteCount > 0 ? disconnectByteCount : strlen(disconnectStr));
 
-	assert( disconnectLength == 0 ||
-			(separatorLength == disconnectLength &&
+	assert( disconnectByteCount == 0 ||
+			(separatorByteCount == disconnectByteCount &&
 			 itsSeparatorStr != itsDisconnectStr) ||
-			(separatorLength > disconnectLength &&
+			(separatorByteCount > disconnectByteCount &&
 			 !itsSeparatorStr.Contains(itsDisconnectStr)) ||
-			(disconnectLength > separatorLength &&
+			(disconnectByteCount > separatorByteCount &&
 			 !itsDisconnectStr.Contains(itsSeparatorStr)) );
+
+	UpdateTokenPattern();
 }
 
 template <ACE_PEER_STREAM_1>
@@ -145,9 +147,10 @@ void
 JMessageProtocol<ACE_PEER_STREAM_2>::UseUNIXProtocol()
 {
 	itsSeparatorStr.Set(JMessageProtocolT::kUNIXSeparatorStr,
-						JMessageProtocolT::kUNIXSeparatorLength);
+						JMessageProtocolT::kUNIXSeparatorByteCount);
 	itsDisconnectStr.Set(JMessageProtocolT::kStdDisconnectStr,
-						 JMessageProtocolT::kStdDisconnectLength);
+						 JMessageProtocolT::kStdDisconnectByteCount);
+	UpdateTokenPattern();
 }
 
 template <ACE_PEER_STREAM_1>
@@ -155,9 +158,10 @@ void
 JMessageProtocol<ACE_PEER_STREAM_2>::UseMacintoshProtocol()
 {
 	itsSeparatorStr.Set(JMessageProtocolT::kMacintoshSeparatorStr,
-						JMessageProtocolT::kMacintoshSeparatorLength);
+						JMessageProtocolT::kMacintoshSeparatorByteCount);
 	itsDisconnectStr.Set(JMessageProtocolT::kStdDisconnectStr,
-						 JMessageProtocolT::kStdDisconnectLength);
+						 JMessageProtocolT::kStdDisconnectByteCount);
+	UpdateTokenPattern();
 }
 
 template <ACE_PEER_STREAM_1>
@@ -165,9 +169,10 @@ void
 JMessageProtocol<ACE_PEER_STREAM_2>::UseDOSProtocol()
 {
 	itsSeparatorStr.Set(JMessageProtocolT::kDOSSeparatorStr,
-						JMessageProtocolT::kDOSSeparatorLength);
+						JMessageProtocolT::kDOSSeparatorByteCount);
 	itsDisconnectStr.Set(JMessageProtocolT::kStdDisconnectStr,
-						 JMessageProtocolT::kStdDisconnectLength);
+						 JMessageProtocolT::kStdDisconnectByteCount);
+	UpdateTokenPattern();
 }
 
 /******************************************************************************
@@ -301,7 +306,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::PeekNextMessage
 	JString* message
 	)
 {
-	if (itsMessageList->GetElementCount() > 1)
+	if (!itsMessageList->IsEmpty())
 		{
 		*message = *(itsMessageList->FirstElement());
 		return kJTrue;
@@ -328,7 +333,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::PeekPartialMessage
 	JString* message
 	)
 {
-	*message = *(itsMessageList->LastElement());
+	*message = itsRecvData;
 	return JNegate( message->IsEmpty() );
 }
 
@@ -394,7 +399,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromUNIXAndSend
 {
 	TranslateAndSend(data,
 					 JMessageProtocolT::kUNIXSeparatorStr,
-					 JMessageProtocolT::kUNIXSeparatorLength);
+					 JMessageProtocolT::kUNIXSeparatorByteCount);
 }
 
 /******************************************************************************
@@ -413,7 +418,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromMacintoshAndSend
 {
 	TranslateAndSend(data,
 					 JMessageProtocolT::kMacintoshSeparatorStr,
-					 JMessageProtocolT::kMacintoshSeparatorLength);
+					 JMessageProtocolT::kMacintoshSeparatorByteCount);
 }
 
 /******************************************************************************
@@ -432,7 +437,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromDOSAndSend
 {
 	TranslateAndSend(data,
 					 JMessageProtocolT::kDOSSeparatorStr,
-					 JMessageProtocolT::kDOSSeparatorLength);
+					 JMessageProtocolT::kDOSSeparatorByteCount);
 }
 
 /******************************************************************************
@@ -448,7 +453,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::TranslateAndSend
 	(
 	const JString&		data,
 	const JUtf8Byte*	separatorStr,
-	const JSize			separatorLength
+	const JSize			separatorByteCount
 	)
 {
 	if (data.IsEmpty())
@@ -464,26 +469,18 @@ JMessageProtocol<ACE_PEER_STREAM_2>::TranslateAndSend
 	sepBuffer.iov_base = const_cast<char*>(itsSeparatorStr.GetBytes());
 	sepBuffer.iov_len  = itsSeparatorStr.GetByteCount();
 
-	const JSize dataLength = data.GetByteCount();
-	const JString sepStr(separatorStr, separatorLength);
-	JIndex start = 1;
-	while (start <= dataLength)
+	JStringIterator iter(data);
+	iter.BeginMatch();
+	while (iter.Next(separatorStr, separatorByteCount))
 		{
-		JIndex sepIndex = start;
-		JBoolean partial;
-		LocateNextSequence(data, sepStr, &sepIndex, &partial);
-		if (partial)
-			{
-			sepIndex = dataLength+1;
-			}
+		const JStringMatch& m  = iter.FinishMatch();
+		const JUtf8ByteRange r = m.GetUtf8ByteRange();
 
 		iovec buffer;
-		buffer.iov_base = const_cast<char*>(data.GetBytes() + start-1);
-		buffer.iov_len  = sepIndex - start;
+		buffer.iov_base = const_cast<char*>(data.GetBytes() + r.first - 1);
+		buffer.iov_len  = r.GetCount();;
 		bufferList.AppendElement(buffer);		// send data
 		bufferList.AppendElement(sepBuffer);	// send separator
-
-		start = sepIndex + sepBuffer.iov_len;	// move past separator sequence
 		}
 
 	// send all data blocks in one shot
@@ -516,69 +513,46 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 
 	// We flush the system buffer even if we have received a disconnect.
 
-	const ssize_t count = (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).recv(itsBuffer, itsBufferSize);
-	if (!itsReceivedDisconnectFlag && count > 0)
+	const ssize_t count = (ACE_Svc_Handler<ACE_PEER_STREAM_2, ACE_SYNCH>::peer()).recv(itsBuffer + itsBufferOffset, itsBufferSize - itsBufferOffset);
+	if (itsReceivedDisconnectFlag || count <= 0)
 		{
-		itsRecvData.Append(itsBuffer, count);
+		itsInHandleInputFlag = kJFalse;
+		return 0;
+		}
 
-		JIndex disIndex          = 0;
-		JBoolean foundPartialDis = kJFalse;
-		JBoolean foundDis        = kJFalse;
+	JSize remainingCount = count;
+	JSize validCount     = 0;
+	JSize byteCount;
+	while (JUtf8Character::IsCompleteCharacter(itsBuffer, remainingCount, &byteCount))
+		{
+		validCount    += byteCount;
+		remainingCount -= byteCount;
+		}
 
-		while (!itsRecvData.IsEmpty())
+	itsRecvData.Append(itsBuffer, validCount);
+
+	memmove(itsBuffer, itsBuffer + validCount, remainingCount);
+	itsBufferOffset = remainingCount;
+
+	JStringIterator iter(&itsRecvData);
+	iter.BeginMatch();
+	while (iter.Next(itsTokenPattern))
+		{
+		JString* msg = itsMessageList->LastElement();
+
+		if (!itsDisconnectStr.IsEmpty())
 			{
-			JString* msg = itsMessageList->LastElement();
-
-			JIndex sepIndex;
-			JBoolean foundPartialSep;
-			JBoolean foundSep =
-				LocateSequence(itsRecvData, itsSeparatorStr, &sepIndex, &foundPartialSep);
-
-			if (!itsDisconnectStr.IsEmpty() && disIndex < sepIndex)
-				{
-				foundDis =
-					LocateSequence(itsRecvData, itsDisconnectStr, &disIndex, &foundPartialDis);
-				}
-
-			if ((foundPartialSep && sepIndex < disIndex) ||
-				(foundPartialDis && disIndex < sepIndex) ||
-				(foundPartialSep && foundPartialDis))
-				{
-				const JIndex i = JMin(sepIndex, disIndex);
-				if (i > 1)
-					{
-					*msg += itsRecvData.GetSubstring(1, i-1);
-					itsRecvData.RemoveSubstring(1, i-1);
-					}
-				break;
-				}
-			else if (foundSep && sepIndex < disIndex)
-				{
-				if (sepIndex > 1)
-					{
-					*msg += itsRecvData.GetSubstring(1, sepIndex-1);
-					}
-				const JSize charCount = sepIndex + itsSeparatorStr.GetByteCount()-1;
-				itsRecvData.RemoveSubstring(1, charCount);
-				disIndex -= charCount;
-				NewMessage();
-
-				const JString msgCopy = *msg;
-				Broadcast(JMessageProtocolT::MessageReady(msgCopy));
-				}
-			else if (foundDis && disIndex < sepIndex)
+			const JStringMatch& m = iter.GetLastMatch();
+			if (m.GetString() == itsDisconnectStr)
 				{
 				itsReceivedDisconnectFlag = kJTrue;
 
-				if (disIndex > 1)
-					{
-					*msg += itsRecvData.GetSubstring(1, disIndex-1);
-					}
+				const JStringMatch& m = iter.FinishMatch();
+				*msg += m.GetString();
 				if (!msg->IsEmpty())
 					{
 					NewMessage();
-					const JString msgCopy = *msg;
-					Broadcast(JMessageProtocolT::MessageReady(msgCopy));
+					Broadcast(JMessageProtocolT::MessageReady(*msg));
 					}
 
 				itsRecvData.Clear();
@@ -586,74 +560,21 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 				// we might be deleted and itsInHandleInputFlag is now irrelevant
 				return 0;
 				}
-			else
-				{
-				*msg += itsRecvData;
-				itsRecvData.Clear();
-				}
 			}
+
+		const JStringMatch& m = iter.FinishMatch();
+		*msg += m.GetString();
+		NewMessage();
+		Broadcast(JMessageProtocolT::MessageReady(*msg));
+
+		iter.RemoveAllPrev();
+		iter.BeginMatch();
 		}
+
+	// leave remaining characters in itsRecvData
 
 	itsInHandleInputFlag = kJFalse;
 	return 0;
-}
-
-/******************************************************************************
- LocateSequence (private)
-
-	Returns kJTrue if it finds sequence inside data.  *index is then the
-	start of the sequence.
-
-	If data ends with part of sequence, it sets *endsWithPartial=kJTrue,
-	*index to the start of the partial sequence, and returns kJFalse.
-
-	If nothing matches, returns kJFalse and *index is beyond the end of data.
-
- ******************************************************************************/
-
-template <ACE_PEER_STREAM_1>
-JBoolean
-JMessageProtocol<ACE_PEER_STREAM_2>::LocateSequence
-	(
-	const JString&	data,
-	const JString&	sequence,
-	JIndex*			index,
-	JBoolean*		endsWithPartial
-	)
-{
-	*index = 1;
-	return LocateNextSequence(data,
-							  sequence, index, endsWithPartial);
-}
-
-template <ACE_PEER_STREAM_1>
-JBoolean
-JMessageProtocol<ACE_PEER_STREAM_2>::LocateNextSequence
-	(
-	const JString&	data,
-	const JString&	sequence,
-	JIndex*			index,
-	JBoolean*		endsWithPartial
-	)
-{
-	const JUtf8Byte* s  = sequence.GetBytes();
-	const JSize sLength = sequence.GetByteCount();
-	const JSize dLength = data.GetByteCount();
-
-	for (JIndex i = *index-1; i<dLength; i++)
-		{
-		const JSize remLength = dLength-i;
-		if (JString::CompareMaxN(data.GetBytes() + i, s, JMin(remLength, sLength)))
-			{
-			*index = i+1;
-			*endsWithPartial = JI2B(remLength < sLength);
-			return JNegate(*endsWithPartial);
-			}
-		}
-
-	*index           = dLength+1;
-	*endsWithPartial = kJFalse;
-	return kJFalse;
 }
 
 /******************************************************************************
@@ -669,6 +590,21 @@ JMessageProtocol<ACE_PEER_STREAM_2>::NewMessage()
 	assert( msg != NULL );
 	itsMessageList->Append(msg);
 	return msg;
+}
+
+/******************************************************************************
+ UpdateTokenPattern (private)
+
+ ******************************************************************************/
+
+template <ACE_PEER_STREAM_1>
+void
+JMessageProtocol<ACE_PEER_STREAM_2>::UpdateTokenPattern()
+{
+	JString pattern = JRegex::BackslashForLiteral(itsSeparatorStr);
+	pattern        += "|";
+	pattern        += JRegex::BackslashForLiteral(itsDisconnectStr);
+	itsTokenPattern.SetPatternOrDie(pattern);
 }
 
 #endif

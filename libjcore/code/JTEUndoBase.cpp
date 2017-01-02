@@ -47,8 +47,8 @@ JTEUndoBase::~JTEUndoBase()
 void
 JTEUndoBase::SetFont
 	(
-	const JCharacter*	name,
-	const JSize			size
+	const JString&	name,
+	const JSize		size
 	)
 {
 }
@@ -64,7 +64,7 @@ void
 JTEUndoBase::SetFont
 	(
 	JRunArray<JFont>*	styles,
-	const JCharacter*	name,
+	const JString&		name,
 	const JSize			size
 	)
 {

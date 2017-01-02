@@ -12,7 +12,8 @@
 #include <JError.h>
 
 class JRegex;
-class JIndexRange;
+class JCharacterRange;
+class JStringIterator;
 
 class JSubstitute
 {
@@ -25,9 +26,8 @@ public:
 
 	const JSubstitute& operator=(const JSubstitute& source);
 
-	void	operator()(JString* s) const;
 	void	Substitute(JString* s) const;
-	JError	ContainsError(const JString& s, JIndexRange* errRange) const;
+	JError	ContainsError(const JString& s, JCharacterRange* errRange) const;
 
 	// control of escape substitution
 
@@ -79,8 +79,7 @@ public:
 
 protected:
 
-	virtual JBoolean	Evaluate(const JString& s, const JIndex startIndex,
-								 JIndexRange* matchRange, JString* value) const;
+	virtual JBoolean	Evaluate(JStringIterator& iter, JString* value) const;
 	virtual JBoolean	GetValue(const JString& name, JString* value) const;
 
 private:
@@ -120,8 +119,7 @@ private:
 	void	AllocateInternals();
 	void	CopyInternals(const JSubstitute& source);
 
-	JBoolean	FindNextOperator(const JString& s,
-								 JIndex* index, JUtf8Character* opChar) const;
+	JBoolean	FindNextOperator(JStringIterator& iter, JUtf8Character* opChar) const;
 
 public:
 
@@ -162,24 +160,6 @@ public:
 		};
 };
 
-
-/******************************************************************************
- operator()
-
-	This operator is simply an alternate interface for Substitute() and
-	allows the class as a functor (a function object or smart function).
-
- *****************************************************************************/
-
-inline void
-JSubstitute::operator()
-	(
-	JString* s
-	)
-	const
-{
-	Substitute(s);
-}
 
 /******************************************************************************
  EscapeExists

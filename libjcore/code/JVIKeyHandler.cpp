@@ -92,8 +92,8 @@ JVIKeyHandler::SetMode
 JBoolean
 JVIKeyHandler::PrehandleKeyPress
 	(
-	const JCharacter	key,
-	JBoolean*			result
+	const JUtf8Character&	key,
+	JBoolean*				result
 	)
 {
 	JTextEditor* te = GetTE();

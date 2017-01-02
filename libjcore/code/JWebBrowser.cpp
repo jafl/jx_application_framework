@@ -28,7 +28,6 @@ static const JUtf8Byte* kDefShowURLCmd = "firefox $u";
 static const JUtf8Byte* kURLVarName    = "u";
 
 static const JUtf8Byte* kFileURLPrefix          = "file:";
-const JSize kFileURLPrefixLength                 = strlen(kFileURLPrefix);
 #ifdef _J_OSX
 static const JUtf8Byte* kDefShowFileContentCmd  = "open $f";
 #else
@@ -39,7 +38,6 @@ static const JUtf8Byte* kFileVarName            = "f";
 static const JUtf8Byte* kPathVarName            = "p";
 
 static const JUtf8Byte* kMailURLPrefix      = "mailto:";
-const JSize kMailURLPrefixLength             = strlen(kMailURLPrefix);
 #ifdef _J_OSX
 static const JUtf8Byte* kDefComposeMailCmd  = "open mailto:$a";
 #else
@@ -60,10 +58,10 @@ const JFileVersion kCurrentPrefsVersion = 1;
 
 JWebBrowser::JWebBrowser()
 	:
-	itsShowURLCmd(kDefShowURLCmd),
-	itsShowFileContentCmd(kDefShowFileContentCmd),
-	itsShowFileLocationCmd(kDefShowFileLocationCmd),
-	itsComposeMailCmd(kDefComposeMailCmd)
+	itsShowURLCmd(kDefShowURLCmd, 0),
+	itsShowFileContentCmd(kDefShowFileContentCmd, 0),
+	itsShowFileLocationCmd(kDefShowFileLocationCmd, 0),
+	itsComposeMailCmd(kDefComposeMailCmd, 0)
 {
 }
 
@@ -88,20 +86,23 @@ JWebBrowser::ShowURL
 	)
 {
 	JString s = url;
-	if (s.BeginsWith(kMailURLPrefix, kJFalse))
+	JStringIterator iter(&s);
+	if (iter.Next(kMailURLPrefix, kJFalse))
 		{
-		s.RemoveSubstring(1, kMailURLPrefixLength);
+		iter.RemoveLastMatch();
 		ComposeMail(s);
+		return;
 		}
-	else if (s.BeginsWith(kFileURLPrefix, kJFalse))
+
+	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	if (iter.Next(kFileURLPrefix, kJFalse))
 		{
-		s.RemoveSubstring(1, kFileURLPrefixLength);
+		iter.RemoveLastMatch();
 		ShowFileContent(s);
+		return;
 		}
-	else
-		{
-		Exec(itsShowURLCmd, kURLVarName, url);
-		}
+
+	Exec(itsShowURLCmd, kURLVarName, url);
 }
 
 /******************************************************************************
@@ -166,7 +167,7 @@ JWebBrowser::ShowFileLocation
 	const JString& fileName
 	)
 {
-	if (!JString::IsEmpty(itsShowFileLocationCmd))
+	if (!itsShowFileLocationCmd.IsEmpty())
 		{
 		JString fullName = fileName;
 		JStripTrailingDirSeparator(&fullName);
@@ -220,7 +221,7 @@ JWebBrowser::Exec
 	)
 	const
 {
-	if (!JString::IsEmpty(cmd))
+	if (!cmd.IsEmpty())
 		{
 		const JUtf8Byte* map[] =
 			{
@@ -334,32 +335,29 @@ JWebBrowser::ConvertVarNames
 {
 	// escape existing backslashes
 
-	JIndex i = 1;
-	while (s->LocateNextSubstring("\\", &i))
+	JStringIterator iter(s);
+	while (iter.Next("\\"))
 		{
-		s->InsertSubstring("\\", i);
-		i += 2;		// move past both backslashes
+		iter.ReplaceLastMatch("\\\\");
 		}
 
 	// escape existing dollars
 
-	i = 1;
-	while (s->LocateNextSubstring("$", &i))
+	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	while (iter.Next("$"))
 		{
-		s->InsertSubstring("\\", i);
-		i += 2;		// move past $
+		iter.ReplaceLastMatch("\\$");
 		}
 
 	// convert % to $ if followed by a variable name
 
-	i = 1;
-	while (s->LocateNextSubstring("%", &i) && i < s->GetLength())
+	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	JUtf8Character c;
+	while (iter.Next("%") && iter.Next(&c))
 		{
-		const JCharacter c = s->GetCharacter(i+1);
-		if (strchr(varNameList, c) != NULL)
+		if (strstr(varNameList, c.GetBytes()) != NULL)
 			{
-			s->SetCharacter(i, '$');
+			iter.ReplaceLastMatch("$");
 			}
-		i += 2;		// move past variable name
 		}
 }

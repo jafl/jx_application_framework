@@ -39,7 +39,7 @@ JGetDataDirectories
 	*sysDir += signature;
 	*sysDir  = JCombinePathAndName(*sysDir, dirName);
 
-	JString relName  = kUserDataFileDir;
+	JString relName(kUserDataFileDir, 0);
 	relName         += signature;
 	relName          = JCombinePathAndName(relName, dirName);
 	return JExpandHomeDirShortcut(relName, userDir);

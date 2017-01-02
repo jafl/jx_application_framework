@@ -19,7 +19,7 @@ int main()
 
 JTEST(Exercise)
 {
-	JString fileName = "test_jFStreamUtil_tmp_file";
+	JString fileName("test_jFStreamUtil_tmp_file", 0);
 
 	std::ofstream file0(fileName.GetBytes());
 	file0 << "0123456789";

@@ -12,6 +12,7 @@
 
 class JStringMatch;
 class JRegex;
+class JError;
 
 class JStringIterator
 {
@@ -34,6 +35,8 @@ public:
 	JBoolean	GetPrevCharacterIndex(JIndex* i) const;
 	JBoolean	GetNextCharacterIndex(JIndex* i) const;
 
+	const JString&	GetString() const;
+
 	// move
 
 	void		MoveTo(const JIteratorPosition newPosition, const JIndex characterIndex);
@@ -45,21 +48,21 @@ public:
 	JBoolean	Prev(JUtf8Character* c, const JBoolean move = kJTrue);
 	JBoolean	Next(JUtf8Character* c, const JBoolean move = kJTrue);
 
-	// search
+	// search & move
 
 	JBoolean	Prev(const JString& str, const JBoolean caseSensitive = kJTrue);
 	JBoolean	Prev(const JUtf8Byte* str, const JBoolean caseSensitive = kJTrue);
 	JBoolean	Prev(const JUtf8Byte* str, const JSize byteCount, const JBoolean caseSensitive = kJTrue);
 	JBoolean	Prev(const JUtf8Character& c, const JBoolean caseSensitive = kJTrue);
 	JBoolean	Prev(const std::string& str, const JBoolean caseSensitive = kJTrue);
-	JBoolean	Prev(const JRegex& pattern) const;
+	JBoolean	Prev(const JRegex& pattern);
 
 	JBoolean	Next(const JString& str, const JBoolean caseSensitive = kJTrue);
 	JBoolean	Next(const JUtf8Byte* str, const JBoolean caseSensitive = kJTrue);
 	JBoolean	Next(const JUtf8Byte* str, const JSize byteCount, const JBoolean caseSensitive = kJTrue);
 	JBoolean	Next(const JUtf8Character& c, const JBoolean caseSensitive = kJTrue);
 	JBoolean	Next(const std::string& str, const JBoolean caseSensitive = kJTrue);
-	JBoolean	Next(const JRegex& pattern) const;
+	JBoolean	Next(const JRegex& pattern);
 
 	const JStringMatch&	GetLastMatch() const;	// asserts that match occurred
 
@@ -81,14 +84,16 @@ public:
 	void	RemoveAllNext();
 
 	void	RemoveLastMatch();
-	void	ReplaceLastMatch(const JString& str);
-	void	ReplaceLastMatch(const JString& str, const JCharacterRange& range);
-	void	ReplaceLastMatch(const JUtf8Byte* str);
-	void	ReplaceLastMatch(const JUtf8Byte* str, const JSize byteCount);
-	void	ReplaceLastMatch(const JUtf8Byte* str, const JUtf8ByteRange& range);
-	void	ReplaceLastMatch(const JUtf8Character& c);
-	void	ReplaceLastMatch(const std::string& str);
-	void	ReplaceLastMatch(const std::string& str, const JUtf8ByteRange& range);
+	void	ReplaceLastMatch(const JString& str, const JBoolean matchCase = kJFalse);
+	void	ReplaceLastMatch(const JString& str, const JCharacterRange& range, const JBoolean matchCase = kJFalse);
+	void	ReplaceLastMatch(const JUtf8Byte* str, const JBoolean matchCase = kJFalse);
+	void	ReplaceLastMatch(const JUtf8Byte* str, const JSize byteCount, const JBoolean matchCase = kJFalse);
+	void	ReplaceLastMatch(const JUtf8Byte* str, const JUtf8ByteRange& range, const JBoolean matchCase = kJFalse);
+	void	ReplaceLastMatch(const JUtf8Character& c, const JBoolean matchCase = kJFalse);
+	void	ReplaceLastMatch(const std::string& str, const JBoolean matchCase = kJFalse);
+	void	ReplaceLastMatch(const std::string& str, const JUtf8ByteRange& range, const JBoolean matchCase = kJFalse);
+
+	// after cursor position
 
 	void	Insert(const JString& str);
 	void	Insert(const JString& str, const JCharacterRange& range);
@@ -99,9 +104,14 @@ public:
 	void	Insert(const std::string& str);
 	void	Insert(const std::string& str, const JUtf8ByteRange& range);
 
-	// called by JString
+	// called by JString - public to avoid friendship
 
 	void	Invalidate();
+
+	// misc
+
+	JIndex	GetPrevByteIndex() const;		// asserts
+	JIndex	GetNextByteIndex() const;		// asserts
 
 private:
 
@@ -125,6 +135,20 @@ private:
 	const JStringIterator& operator=(const JStringIterator& source);
 };
 
+
+/******************************************************************************
+ GetString
+
+	*** Iterator must be valid.
+
+ ******************************************************************************/
+
+inline const JString&
+JStringIterator::GetString()
+	const
+{
+	return *itsConstString;
+}
 
 /******************************************************************************
  IsValid
@@ -347,67 +371,74 @@ JStringIterator::RemoveLastMatch()
 inline void
 JStringIterator::ReplaceLastMatch
 	(
-	const JString& str
+	const JString& str,
+	const JBoolean matchCase
 	)
 {
-	ReplaceLastMatch(str.GetBytes(), JUtf8ByteRange(1, str.GetByteCount()));
+	ReplaceLastMatch(str.GetBytes(), JUtf8ByteRange(1, str.GetByteCount()), matchCase);
 }
 
 inline void
 JStringIterator::ReplaceLastMatch
 	(
 	const JString&			str,
-	const JCharacterRange&	range
+	const JCharacterRange&	range,
+	const JBoolean			matchCase
 	)
 {
-	ReplaceLastMatch(str.GetBytes(), str.CharacterToUtf8ByteRange(range));
-}
-
-inline void
-JStringIterator::ReplaceLastMatch
-	(
-	const JUtf8Byte* str
-	)
-{
-	ReplaceLastMatch(str, JUtf8ByteRange(1, strlen(str)));
+	ReplaceLastMatch(str.GetBytes(), str.CharacterToUtf8ByteRange(range), matchCase);
 }
 
 inline void
 JStringIterator::ReplaceLastMatch
 	(
 	const JUtf8Byte*	str,
-	const JSize			byteCount
+	const JBoolean		matchCase
 	)
 {
-	ReplaceLastMatch(str, JUtf8ByteRange(1, byteCount));
+	ReplaceLastMatch(str, JUtf8ByteRange(1, strlen(str)), matchCase);
 }
 
 inline void
 JStringIterator::ReplaceLastMatch
 	(
-	const JUtf8Character& c
+	const JUtf8Byte*	str,
+	const JSize			byteCount,
+	const JBoolean		matchCase
 	)
 {
-	ReplaceLastMatch(c.GetBytes(), JUtf8ByteRange(1, c.GetByteCount()));
+	ReplaceLastMatch(str, JUtf8ByteRange(1, byteCount), matchCase);
 }
 
 inline void
 JStringIterator::ReplaceLastMatch
 	(
-	const std::string& str
+	const JUtf8Character&	c,
+	const JBoolean			matchCase
 	)
 {
-	ReplaceLastMatch(str.data(), JUtf8ByteRange(1, str.length()));
+	ReplaceLastMatch(c.GetBytes(), JUtf8ByteRange(1, c.GetByteCount()), matchCase);
+}
+
+inline void
+JStringIterator::ReplaceLastMatch
+	(
+	const std::string&	str,
+	const JBoolean		matchCase
+	)
+{
+	ReplaceLastMatch(str.data(), JUtf8ByteRange(1, str.length()), matchCase);
 }
 
 inline void
 JStringIterator::ReplaceLastMatch
 	(
 	const std::string&		str,
-	const JUtf8ByteRange&	range
+	const JUtf8ByteRange&	range,
+	const JBoolean			matchCase
 	)
 {
-	ReplaceLastMatch(str.data(), range);
+	ReplaceLastMatch(str.data(), range, matchCase);
 }
 
 /******************************************************************************

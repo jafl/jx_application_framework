@@ -49,7 +49,7 @@ JTEHTMLScanner::~JTEHTMLScanner()
 JBoolean
 JTEHTMLScanner::HandleHTMLWord
 	(
-	const JCharacter*	word,
+	const JUtf8Byte*	word,
 	const JIndexRange&	range
 	)
 {
@@ -60,7 +60,7 @@ JTEHTMLScanner::HandleHTMLWord
 JBoolean
 JTEHTMLScanner::HandleHTMLWhitespace
 	(
-	const JCharacter*	space,
+	const JUtf8Byte*	space,
 	const JIndexRange&	range
 	)
 {
@@ -84,7 +84,7 @@ JBoolean
 JTEHTMLScanner::HandleHTMLError
 	(
 	const HTMLError		err,
-	const JCharacter*	errStr,
+	const JUtf8Byte*	errStr,
 	const JIndexRange&	range
 	)
 {

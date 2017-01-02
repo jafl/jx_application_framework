@@ -65,7 +65,7 @@ JPrefsFile::Create
 	const JError err = OKToCreate(fileNameStem, &fullName, action);
 	if (err.OK())
 		{
-		*obj = jnew JPrefsFile(fullName.GetBytes(), action);
+		*obj = jnew JPrefsFile(fullName, action);
 		assert( *obj != NULL );
 		}
 	else
@@ -86,7 +86,7 @@ JPrefsFile::OKToCreate
 	JError err = GetFullName(fileNameStem, fullName);
 	if (err.OK())
 		{
-		err = OKToCreateBase(fullName->GetBytes(), "", action);
+		err = OKToCreateBase(*fullName, "", action);
 		}
 	return err;
 }
@@ -174,13 +174,14 @@ JPrefsFile::SetData
 	const std::string&	data
 	)
 {
+	JString d(data.c_str(), data.length(), kJFalse);
 	if (IDValid(id))
 		{
-		SetElement(id, data.c_str());
+		SetElement(id, d);
 		}
 	else
 		{
-		AppendElement(data.c_str());
+		AppendElement(d);
 		GetFileArrayIndex()->SetElementID(GetElementCount(), id);
 		}
 }

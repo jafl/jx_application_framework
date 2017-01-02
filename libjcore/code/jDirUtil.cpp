@@ -11,7 +11,8 @@
 #include <jFileUtil.h>
 #include <JDirInfo.h>
 #include <JLatentPG.h>
-#include <JString.h>
+#include <JStringIterator.h>
+#include <jGlobals.h>
 #include <limits.h>
 #include <jAssert.h>
 
@@ -93,9 +94,9 @@ JGetUniqueDirEntryName
 		const JBoolean ok = JConvertToAbsolutePath(path, NULL, &fullPath);
 		assert( ok );
 		}
-	assert( JDirectoryExists(fullPath.GetBytes()) );
+	assert( JDirectoryExists(fullPath) );
 
-	const JString prefix = JCombinePathAndName(fullPath.GetBytes(), namePrefix);
+	const JString prefix = JCombinePathAndName(fullPath, namePrefix);
 
 	JString name;
 	for (JIndex i=startIndex; i<=kJIndexMax; i++)
@@ -109,7 +110,7 @@ JGetUniqueDirEntryName
 			{
 			name += nameSuffix;
 			}
-		if (!JNameUsed(name.GetBytes()))
+		if (!JNameUsed(name))
 			{
 			break;
 			}
@@ -174,7 +175,7 @@ JGetPermissionsString
 		modeString[8] = 'x';
 		}
 
-	return JString(modeString);
+	return JString(modeString, 0);
 }
 
 /*****************************************************************************
@@ -230,20 +231,20 @@ JGetClosestDirectory
 		dirName.Prepend(workingDir);
 		}
 
-	assert( JIsAbsolutePath(dirName.GetBytes()) );
+	assert( JIsAbsolutePath(dirName) );
 
 	JString newDir, junkName;
-	while (!JDirectoryExists(dirName.GetBytes())   ||
-		   !JCanEnterDirectory(dirName.GetBytes()) ||
-		   !JDirectoryReadable(dirName.GetBytes()) ||
-		   (requireWrite && !JDirectoryWritable(dirName.GetBytes())))
+	while (!JDirectoryExists(dirName)   ||
+		   !JCanEnterDirectory(dirName) ||
+		   !JDirectoryReadable(dirName) ||
+		   (requireWrite && !JDirectoryWritable(dirName)))
 		{
 		JStripTrailingDirSeparator(&dirName);
-		if (JIsRootDirectory(dirName.GetBytes()))
+		if (JIsRootDirectory(dirName))
 			{
 			break;
 			}
-		JSplitPathAndName(dirName.GetBytes(), &newDir, &junkName);
+		JSplitPathAndName(dirName, &newDir, &junkName);
 		dirName = newDir;
 		}
 
@@ -252,13 +253,19 @@ JGetClosestDirectory
 	if (origDirName.GetFirstCharacter() == '~' &&
 		dirName.BeginsWith(homeDir))
 		{
-		dirName.ReplaceSubstring(1, homeDir.GetLength(), origDirName, homeLength);
+		JStringIterator iter(&dirName);
+		const JBoolean found = iter.Next(homeDir);
+		assert( found );
+		iter.ReplaceLastMatch(origDirName, JCharacterRange(1, homeLength));
 		}
 	else if (JIsRelativePath(origDirName) &&
-			 dirName.GetLength() > workingDir.GetLength() &&
+			 dirName.GetCharacterCount() > workingDir.GetCharacterCount() &&
 			 dirName.BeginsWith(workingDir))
 		{
-		dirName.RemoveSubstring(1, workingDir.GetLength());
+		JStringIterator iter(&dirName);
+		const JBoolean found = iter.Next(workingDir);
+		assert( found );
+		iter.RemoveLastMatch();
 		}
 
 	return dirName;
@@ -272,7 +279,7 @@ JGetClosestDirectory
 		1)  Search in the given directory
 		2)  Search in the sub-directories
 
-	This mirrors the user's search strategy and helps insure that the
+	This mirrors the user's search strategy and helps ensure that the
 	expected file is found, if there are duplicates.
 
 	caseSensitive is used only if name does not include a partial path,
@@ -313,9 +320,11 @@ JSearchSubdirs
 		{
 		pg.SetPG(userPG, kJFalse);
 		}
-	JString msg = "Searching for \"";
-	msg += name;
-	msg += "\"...";
+	const JUtf8Byte* map[] =
+		{
+		"name", name.GetBytes()
+		};
+	const JString msg = JGetString("Searching::jDirUtil", map, sizeof(map));
 	pg.VariableLengthProcessBeginning(msg, kJTrue, kJFalse);
 
 	JBoolean cancelled = kJFalse;
@@ -461,7 +470,10 @@ JConvertToHomeDirShortcut
 	if (JGetHomeDirectory(&homeDir) && JGetTrueName(homeDir, &trueDir) &&
 		s.BeginsWith(trueDir))
 		{
-		s.ReplaceSubstring(1, trueDir.GetLength(), "~" ACE_DIRECTORY_SEPARATOR_STR);
+		JStringIterator iter(&s);
+		const JBoolean found = iter.Next(trueDir);
+		assert( found );
+		iter.ReplaceLastMatch("~" ACE_DIRECTORY_SEPARATOR_STR);
 		}
 
 	JStripTrailingDirSeparator(&s);

@@ -34,7 +34,7 @@ public:
 
 	JSize				GetByteCount() const;
 	const JUtf8Byte*	GetBytes() const;
-	JUtf8Byte*			AllocateNullTerminatedBytes() const;
+	JUtf8Byte*			AllocateBytes() const;	// client must call delete [] when finished with it
 	JUInt32				GetUtf32() const;
 
 	void	Set(const JUtf8Character& source);

@@ -43,7 +43,7 @@ JDirEntry::JDirEntry
 	)
 {
 	const JString fullName = JCombinePathAndName(pathName, fileName);
-	JDirEntryX(fullName.GetBytes());
+	JDirEntryX(fullName);
 }
 
 // private
@@ -63,13 +63,13 @@ JDirEntry::JDirEntryX
 		}
 	JStripTrailingDirSeparator(&fullName);
 
-	if (JIsRootDirectory(fullName.GetBytes()))
+	if (JIsRootDirectory(fullName))
 		{
 		itsPath = itsName = fullName;
 		}
 	else
 		{
-		JSplitPathAndName(fullName.GetBytes(), &itsPath, &itsName);
+		JSplitPathAndName(fullName, &itsPath, &itsName);
 		}
 
 	// set rest of instance variables
@@ -237,7 +237,7 @@ JDirEntry::FollowLink()
 {
 	if (itsLinkName != NULL && !itsLinkName->IsEmpty())
 		{
-		return JDirEntry(itsPath.GetBytes(), itsLinkName->GetBytes());
+		return JDirEntry(itsPath, *itsLinkName);
 		}
 	else
 		{
@@ -292,7 +292,7 @@ JDirEntry::SetMode
 	const mode_t mode
 	)
 {
-	return JSetPermissions(itsFullName.GetBytes(), mode);
+	return JSetPermissions(itsFullName, mode);
 }
 
 JError
@@ -303,7 +303,7 @@ JDirEntry::SetMode
 	)
 {
 	mode_t mode;
-	JError err = JGetPermissions(itsFullName.GetBytes(), &mode);
+	JError err = JGetPermissions(itsFullName, &mode);
 	if (!err.OK())
 		{
 		return err;
@@ -318,7 +318,7 @@ JDirEntry::SetMode
 		mode &= ~(1 << bit);
 		}
 
-	return JSetPermissions(itsFullName.GetBytes(), mode);
+	return JSetPermissions(itsFullName, mode);
 }
 
 /*****************************************************************************
@@ -428,7 +428,7 @@ JDirEntry::ForceUpdate()
 
 	// get info from system
 
-	itsFullName = JCombinePathAndName(itsPath.GetBytes(), itsName.GetBytes());
+	itsFullName = JCombinePathAndName(itsPath, itsName);
 
 	ACE_stat lstbuf;
 	if (ACE_OS::lstat(itsFullName.GetBytes(), &lstbuf) != 0)
@@ -477,7 +477,7 @@ JDirEntry::ForceUpdate()
 
 		itsLinkName = jnew JString;
 		assert( itsLinkName != NULL );
-		if (!(JGetSymbolicLinkTarget(itsFullName.GetBytes(), itsLinkName)).OK())
+		if (!(JGetSymbolicLinkTarget(itsFullName, itsLinkName)).OK())
 			{
 			jdelete itsLinkName;
 			itsLinkName = NULL;
@@ -555,7 +555,7 @@ JDirEntry::MatchesContentFilter
 		ubuf.modtime = lstbuf.st_mtime;
 		utime(itsFullName.GetBytes(), &ubuf);		// restore access time
 
-		const JBoolean match = regex.Match(data);
+		const JBoolean match = regex.Match(JString(data, count, kJFalse));
 
 		jdelete [] data;
 		return match;
