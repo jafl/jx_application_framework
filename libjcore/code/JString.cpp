@@ -82,7 +82,7 @@ JString::JString
 	itsIterator(NULL)
 {
 	JUtf8ByteRange byteRange = str.CharacterToUtf8ByteRange(charRange);
-	CopyToPrivateString(str.GetBytes() + byteRange.first-1, byteRange.GetCount());
+	CopyToPrivateString(str.itsBytes + byteRange.first-1, byteRange.GetCount());
 }
 
 JString::JString

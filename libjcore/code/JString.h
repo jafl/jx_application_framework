@@ -1344,7 +1344,7 @@ JString::Set
 {
 	if (this->itsBytes != str.itsBytes)
 		{
-		const JUtf8ByteRange byteRange = CharacterToUtf8ByteRange(charRange);
+		const JUtf8ByteRange byteRange = str.CharacterToUtf8ByteRange(charRange);
 		CopyToPrivateString(str.itsBytes + byteRange.first-1, byteRange.GetCount());
 		}
 }
