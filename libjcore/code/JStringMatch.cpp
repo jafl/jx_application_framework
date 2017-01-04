@@ -50,7 +50,9 @@ JStringMatch::JStringMatch
 	const JStringMatch& source
 	)
 	:
-	itsTarget(source.itsTarget)
+	itsTarget(source.itsTarget),
+	itsRegex(NULL),
+	itsSubmatchList(NULL)
 {
 	*this = source;
 }
