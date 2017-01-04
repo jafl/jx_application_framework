@@ -530,7 +530,8 @@ JStringIterator::Prev
 	if (!m.IsEmpty())
 		{
 		itsCharacterOffset -=	// before updating itsByteOffset
-			JString::CountCharacters(itsConstString->GetBytes(), m.GetUtf8ByteRange());
+			JString::CountCharacters(itsConstString->GetBytes(),
+				JUtf8ByteRange(m.GetUtf8ByteRange().first, itsByteOffset));
 
 		itsByteOffset = m.GetUtf8ByteRange().first - 1;
 
@@ -576,7 +577,8 @@ JStringIterator::Next
 	if (!m.IsEmpty())
 		{
 		itsCharacterOffset +=	// before updating itsByteOffset
-			JString::CountCharacters(itsConstString->GetBytes(), m.GetUtf8ByteRange());
+			JString::CountCharacters(itsConstString->GetBytes(),
+				JUtf8ByteRange(itsByteOffset + 1, m.GetUtf8ByteRange().last));
 
 		itsByteOffset = m.GetUtf8ByteRange().last;
 
