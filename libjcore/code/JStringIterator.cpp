@@ -572,7 +572,7 @@ JStringIterator::Next
 		return kJFalse;
 		}
 
-	const JStringMatch& m = pattern.MatchForward(*itsConstString, itsByteOffset);
+	const JStringMatch& m = pattern.MatchForward(*itsConstString, itsByteOffset + 1);
 	if (!m.IsEmpty())
 		{
 		itsCharacterOffset +=	// before updating itsByteOffset

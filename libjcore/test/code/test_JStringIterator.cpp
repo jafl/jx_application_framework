@@ -10,6 +10,7 @@
 #include <JUnitTestManager.h>
 #include <JStringIterator.h>
 #include <JStringMatch.h>
+#include <JRegex.h>
 #include <locale.h>
 #include <jassert_simple.h>
 
@@ -333,6 +334,58 @@ JTEST(Search)
 
 	JAssertTrue(i.Prev(&c));
 	JAssertEqual('2', c);
+}
+
+JTEST(Regex)
+{
+	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
+	JStringIterator i(s);
+	JUtf8Character c;
+	JIndex j;
+
+	JRegex r = ".3";
+
+	JAssertTrue(i.Next(r));
+	JAssertTrue(i.GetPrevCharacterIndex(&j));
+	JAssertEqual(3, j);
+	JAssertTrue(i.GetNextCharacterIndex(&j));
+	JAssertEqual(4, j);
+	const JStringMatch& m1 = i.GetLastMatch();
+	JAssertEqual(2, m1.GetCharacterCount());
+	JAssertEqual(2, m1.GetByteCount());
+	JAssertEqual(0, m1.GetSubstringCount());
+	JAssertStringsEqual("23", m1.GetString());
+
+	r.SetPattern("(\xC3\x85)" "(.)");
+
+	JAssertTrue(i.Next(r));
+	JAssertTrue(i.GetPrevCharacterIndex(&j));
+	JAssertEqual(6, j);
+	JAssertTrue(i.GetNextCharacterIndex(&j));
+	JAssertEqual(7, j);
+	const JStringMatch& m2 = i.GetLastMatch();
+	JAssertEqual(2, m2.GetCharacterCount());
+	JAssertEqual(4, m2.GetByteCount());
+	JAssertEqual(2, m2.GetSubstringCount());
+	JAssertStringsEqual("\xC3\x85\xC3\xA5", m2.GetString());
+	JAssertStringsEqual("\xC3\x85", m2.GetSubstring(1));
+	JAssertStringsEqual("\xC3\xA5", m2.GetSubstring(2));
+	JString matchString = m2.GetSubstring(2);
+	JAssertFalse(matchString.IsOwner());
+
+	i.MoveTo(kJIteratorStartAtEnd, 0);
+	JAssertTrue(i.Prev(r));
+	JAssertTrue(i.GetPrevCharacterIndex(&j));
+	JAssertEqual(4, j);
+	JAssertTrue(i.GetNextCharacterIndex(&j));
+	JAssertEqual(5, j);
+	const JStringMatch& m3 = i.GetLastMatch();
+	JAssertEqual(2, m3.GetCharacterCount());
+	JAssertEqual(4, m3.GetByteCount());
+	JAssertEqual(2, m3.GetSubstringCount());
+	JAssertStringsEqual("\xC3\x85\xC3\xA5", m3.GetString());
+	JAssertStringsEqual("\xC3\x85", m3.GetSubstring(1));
+	JAssertStringsEqual("\xC3\xA5", m3.GetSubstring(2));
 }
 
 JTEST(Accumulate)
