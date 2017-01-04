@@ -30,6 +30,8 @@ unit tests
 	modified:   libjcore/code/jGlobals.cpp
 	modified:   libjcore/code/jGlobals_UNIX.cpp
 	modified:   libjcore/code/jVCSUtil.cpp
+		check that ./ is git directory
+		check that Make.headers has prev revision
 	modified:   libjcore/code/jWebUtil.cpp
 
 	modified:   libjcore/code/JFileArray.cpp
