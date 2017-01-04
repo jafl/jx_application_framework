@@ -38,7 +38,8 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocol
 	const JBoolean synchSend
 	)
 	:
-	JNetworkProtocolBase<ACE_PEER_STREAM_2>(synchSend)
+	JNetworkProtocolBase<ACE_PEER_STREAM_2>(synchSend),
+	itsMessageList(JPtrArrayT::kDeleteAll)
 {
 	JMessageProtocolX();
 }
@@ -50,7 +51,8 @@ JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocol
 	const JBoolean		synchSend
 	)
 	:
-	JNetworkProtocolBase<ACE_PEER_STREAM_2>(synchSend)
+	JNetworkProtocolBase<ACE_PEER_STREAM_2>(synchSend),
+	itsMessageList(JPtrArrayT::kDeleteAll)
 {
 	JMessageProtocolX();
 
@@ -64,9 +66,6 @@ template <ACE_PEER_STREAM_1>
 void
 JMessageProtocol<ACE_PEER_STREAM_2>::JMessageProtocolX()
 {
-	itsMessageList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsMessageList != NULL );
-
 	NewMessage();
 
 	itsBufferSize   = JMessageProtocolT::kDefaultBufferSize;
@@ -95,7 +94,6 @@ template <ACE_PEER_STREAM_1>
 JMessageProtocol<ACE_PEER_STREAM_2>::~JMessageProtocol()
 {
 	jdelete [] itsBuffer;
-	jdelete itsMessageList;
 }
 
 /******************************************************************************
@@ -247,7 +245,7 @@ JBoolean
 JMessageProtocol<ACE_PEER_STREAM_2>::HasMessages()
 	const
 {
-	return JConvertToBoolean( itsMessageList->GetElementCount() > 1 );
+	return JConvertToBoolean( itsMessageList.GetElementCount() > 1 );
 }
 
 /******************************************************************************
@@ -260,7 +258,7 @@ JSize
 JMessageProtocol<ACE_PEER_STREAM_2>::GetMessageCount()
 	const
 {
-	return itsMessageList->GetElementCount() - 1;
+	return itsMessageList.GetElementCount() - 1;
 }
 
 /******************************************************************************
@@ -278,10 +276,10 @@ JMessageProtocol<ACE_PEER_STREAM_2>::GetNextMessage
 	JString* message
 	)
 {
-	if (itsMessageList->GetElementCount() > 1)
+	if (itsMessageList.GetElementCount() > 1)
 		{
-		*message = *(itsMessageList->FirstElement());
-		itsMessageList->DeleteElement(1);
+		*message = *(itsMessageList.FirstElement());
+		itsMessageList.DeleteElement(1);
 		return kJTrue;
 		}
 	else
@@ -306,9 +304,9 @@ JMessageProtocol<ACE_PEER_STREAM_2>::PeekNextMessage
 	JString* message
 	)
 {
-	if (!itsMessageList->IsEmpty())
+	if (!itsMessageList.IsEmpty())
 		{
-		*message = *(itsMessageList->FirstElement());
+		*message = *(itsMessageList.FirstElement());
 		return kJTrue;
 		}
 	else
@@ -523,9 +521,9 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 	JSize remainingCount = count;
 	JSize validCount     = 0;
 	JSize byteCount;
-	while (JUtf8Character::IsCompleteCharacter(itsBuffer, remainingCount, &byteCount))
+	while (JUtf8Character::IsCompleteCharacter(itsBuffer + validCount, remainingCount, &byteCount))
 		{
-		validCount    += byteCount;
+		validCount     += byteCount;
 		remainingCount -= byteCount;
 		}
 
@@ -538,7 +536,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 	iter.BeginMatch();
 	while (iter.Next(itsTokenPattern))
 		{
-		JString* msg = itsMessageList->LastElement();
+		JString* msg = itsMessageList.LastElement();
 
 		if (!itsDisconnectStr.IsEmpty())
 			{
@@ -588,7 +586,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::NewMessage()
 {
 	JString* msg = jnew JString;
 	assert( msg != NULL );
-	itsMessageList->Append(msg);
+	itsMessageList.Append(msg);
 	return msg;
 }
 

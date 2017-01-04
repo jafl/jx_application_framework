@@ -109,6 +109,8 @@ private:
 	virtual void
 	HandleMessage()
 	{
+		std::cout << "server state: " << itsState << std::endl;
+
 		JString msg;
 		if (itsState == 0)
 			{
@@ -135,6 +137,7 @@ private:
 	virtual void
 	HandleDisconnect()
 	{
+		std::cout << "server disconnect" << std::endl;
 		ACE_Reactor::instance()->end_reactor_event_loop();
 	};
 
@@ -146,6 +149,7 @@ private:
 
 TestLink::TestLink()
 {
+	std::cout << server << ": create TestLink" << std::endl;
 	if (server)
 	{
 		Server* svr = jnew Server(this);
@@ -156,8 +160,10 @@ TestLink::TestLink()
 void Listen()
 {
 	ACE_UNIX_Addr addr(socketName);
-	TestAcceptor* acc = jnew TestAcceptor(addr);
+	TestAcceptor* acc = jnew TestAcceptor();
 	assert( acc != NULL );
+	const int result = acc->open(addr);
+	JAssertEqual(0, result);
 }
 
 class Client : public Base
@@ -176,6 +182,8 @@ private:
 	void
 	HandleMessage()
 	{
+		std::cout << "client state: " << itsState << std::endl;
+
 		JString msg;
 		if (itsState == 0)
 			{
@@ -224,8 +232,6 @@ JTEST(SendRecv)
 	unlink(socketName);
 
 	int result = ACE_OS::fork();
-	JAssertEqual(0, result);
-
 	if (result == 0)
 		{
 		server = 1;
@@ -233,7 +239,7 @@ JTEST(SendRecv)
 		}
 	else
 		{
-		sleep(2);	// wait for child to initialize
+		sleep(1);	// wait for child to initialize
 		SendAndRecv();
 		}
 

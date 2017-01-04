@@ -124,7 +124,7 @@ public:
 
 private:
 
-	JPtrArray<JString>*	itsMessageList;		// parsed messages, last one is incomplete
+	JPtrArray<JString>	itsMessageList;		// parsed messages, last one is incomplete
 
 	JString		itsRecvData;				// buffer containing unprocessed characters
 	JUtf8Byte*	itsBuffer;					// buffer to receive raw bytes
