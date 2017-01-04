@@ -117,7 +117,7 @@ JUtf8Character::IsCompleteCharacter
 	if (c[0] == 0)
 		{
 		*characterByteCount = 0;
-		return kJTrue;
+		return kJFalse;
 		}
 	else if (c[0] <= (unsigned char) '\x7F')
 		{

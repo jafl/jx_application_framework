@@ -88,7 +88,7 @@ JTEST(IsValid)
 JTEST(IsCompleteCharacter)
 {
 	JSize byteCount;
-	JAssertTrue(JUtf8Character::IsCompleteCharacter("", 0, &byteCount));
+	JAssertFalse(JUtf8Character::IsCompleteCharacter("", 0, &byteCount));
 	JAssertEqual(0, byteCount);
 
 	JAssertFalse(JUtf8Character::IsCompleteCharacter("5", 0, &byteCount));
