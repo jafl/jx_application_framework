@@ -10,6 +10,7 @@
  ******************************************************************************/
 
 #include <JXTable.h>
+#include <JXDisplay.h>
 #include <JXWindow.h>
 #include <JXWindowPainter.h>
 #include <JXColormap.h>
@@ -313,7 +314,8 @@ JXTable::BeginSelectionDrag
 			JI2B((button == kJXLeftButton && modifiers.shift()) ||
 				 button == kJXRightButton);
 
-		const JBoolean selectDiscont = modifiers.control();
+		const JBoolean selectDiscont =
+			GetDisplay()->IsOSX() ? modifiers.meta() : modifiers.control();
 
 		JTable::BeginSelectionDrag(cell, extendSelection, selectDiscont);
 		}

@@ -1,4 +1,5 @@
-JX: treat SIGINT as X11 crash, so safety save is invoked
+JX:
+	treat SIGINT as X11 crash, so safety save is invoked
 
 jcc:
 	fix SVN diff to use svn cat -r BASE or PREV

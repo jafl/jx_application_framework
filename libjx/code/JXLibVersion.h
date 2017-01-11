@@ -25,6 +25,7 @@ static const char* kCurrentJXLibVersionStr = "4.0.0";
 //	*** Upgraded jxlayout to work with latest version of fdesign
 //		Bug in fdesign makes it impossible to set FL_NO_BOX, so you have
 //			to edit the file manually after saving it.
+//	Fixed discontiguous selection modifier to be meta on OS X.
 
 // version 3.1.0:
 //	JXGetStringDialog:

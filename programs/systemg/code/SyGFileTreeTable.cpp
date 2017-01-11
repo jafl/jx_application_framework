@@ -953,6 +953,8 @@ SyGFileTreeTable::HandleMouseDown
 	jdelete itsEditTask;
 	itsEditTask	= NULL;
 
+	const JBoolean osx = GetDisplay()->IsOSX();
+
 	JPoint cell;
 	NodePart part;
 	if (!GetNode(pt, &cell, &part))
@@ -1051,9 +1053,11 @@ SyGFileTreeTable::HandleMouseDown
 		itsWaitingForDragFlag = s.HasSelection();
 		itsLastClickCount     = clickCount;		// save for HandleMouseUp()
 		}
-	else if (modifiers.control() && !modifiers.shift() && !modifiers.meta())
+	else if (!modifiers.shift() &&
+			 (( osx && modifiers.meta() && !modifiers.control()) ||
+			  (!osx && modifiers.control() && !modifiers.meta())))
 		{
-		// after checking for double-click, since Ctrl inverts selection
+		// after checking for double-click, since this inverts selection
 
 		s.InvertCell(cell.y, GetNodeColIndex());
 		}
