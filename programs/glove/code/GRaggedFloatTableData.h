@@ -440,18 +440,4 @@ GRaggedFloatTableData::FindColumn
 	return itsCols->Find(array, index);
 }
 
-/******************************************************************************
- CreateCellIfNeeded (private)
-
- ******************************************************************************/
-
-inline void
-GRaggedFloatTableData::CreateCellIfNeeded
-	(
-	const JPoint cell
-	)
-{
-	CreateCellIfNeeded(cell.y, cell.x);
-}
-
 #endif

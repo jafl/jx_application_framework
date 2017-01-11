@@ -732,6 +732,22 @@ JMatrix::Print
 }
 
 /******************************************************************************
+ RCToOffset (private)
+
+ ******************************************************************************/
+
+inline JSize
+JMatrix::RCToOffset
+	(
+	const JIndex rowIndex,
+	const JIndex colIndex
+	)
+	const
+{
+	return (colIndex-1) * itsRowCount + (rowIndex-1);
+}
+
+/******************************************************************************
  Global functions for JMatrix class
 
  ******************************************************************************/

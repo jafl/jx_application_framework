@@ -493,17 +493,6 @@ JXMenu::SetPopupArrowDirection
 }
 
 /******************************************************************************
- AdjustAppearance (private)
-
- ******************************************************************************/
-
-inline void
-JXMenu::AdjustAppearance()
-{
-	AdjustAppearance(itsMinWidth);
-}
-
-/******************************************************************************
  Default menu style (static)
 
 	This controls the style of all menus created by JX and also indicates

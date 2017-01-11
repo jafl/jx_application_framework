@@ -324,3 +324,25 @@ JLatentPG::DisplayBusyCursor()
 {
 	itsPG->DisplayBusyCursor();
 }
+
+/******************************************************************************
+ When to increment display (private)
+
+ ******************************************************************************/
+
+inline int
+JLatentPG::TimeToStart()
+	const
+{
+	return (itsCounter % itsScaleFactor == 0 &&				// avoid calling time() too often
+			time(NULL) - itsStartTime >= itsMaxSilentTime &&
+			(GetCurrentProcessType() == kVariableLengthProcess ||
+			 GetCurrentStepCount() < GetMaxStepCount()));
+}
+
+inline int
+JLatentPG::TimeToUpdate()
+	const
+{
+	return (itsCounter >= itsScaleFactor);
+}

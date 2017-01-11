@@ -172,6 +172,36 @@ JFloatBufferTableData::UpdateRect
 }
 
 /******************************************************************************
+ UpdateRows (private)
+
+ ******************************************************************************/
+
+inline void
+JFloatBufferTableData::UpdateRows
+	(
+	const JIndex	firstIndex,
+	const JSize		count
+	)
+{
+	UpdateRect(JRect(firstIndex, 1, firstIndex+count, GetColCount()+1));
+}
+
+/******************************************************************************
+ UpdateCols (private)
+
+ ******************************************************************************/
+
+inline void
+JFloatBufferTableData::UpdateCols
+	(
+	const JIndex	firstIndex,
+	const JSize		count
+	)
+{
+	UpdateRect(JRect(1, firstIndex, GetRowCount()+1, firstIndex+count));
+}
+
+/******************************************************************************
  UpdateCell (private)
 
  ******************************************************************************/

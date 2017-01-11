@@ -106,19 +106,4 @@ CBCPreprocessor::GetMacroList()
 	return *itsMacroList;
 }
 
-/******************************************************************************
- IsIDCharacter (private)
-
- ******************************************************************************/
-
-inline int
-CBCPreprocessor::IsIDCharacter
-	(
-	const JCharacter c
-	)
-	const
-{
-	return (isalnum(c) || c == '_');
-}
-
 #endif

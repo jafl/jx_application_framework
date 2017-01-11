@@ -1747,21 +1747,6 @@ JTextEditor::GetCaretLocation
 }
 
 /******************************************************************************
- CalcCaretLocation (private)
-
- ******************************************************************************/
-
-inline JTextEditor::CaretLocation
-JTextEditor::CalcCaretLocation
-	(
-	const JIndex charIndex
-	)
-	const
-{
-	return CaretLocation(charIndex, GetLineForChar(charIndex));
-}
-
-/******************************************************************************
  TEGetBoundsWidth (protected)
 
  ******************************************************************************/
@@ -1876,24 +1861,6 @@ JTextEditor::GetLineBottom
 }
 
 /******************************************************************************
- GetCharRight (private)
-
-	Returns the ending x coordinate of the specified character, excluding
-	the left margin width.
-
- ******************************************************************************/
-
-inline JCoordinate
-JTextEditor::GetCharRight
-	(
-	const CaretLocation& charLoc
-	)
-	const
-{
-	return GetCharLeft(charLoc) + GetCharWidth(charLoc);
-}
-
-/******************************************************************************
  GetCharLeft
 
 	Returns the starting x coordinate of the specified character, including
@@ -1995,25 +1962,6 @@ JTextEditor::SetCaretMode
 	)
 {
 	itsCaretMode = mode;
-}
-
-/******************************************************************************
- Recalc (private)
-
- ******************************************************************************/
-
-inline void
-JTextEditor::Recalc
-	(
-	const JIndex	startChar,
-	const JSize		minCharCount,
-	const JBoolean	deletion,
-	const JBoolean	needCaretBcast,
-	const JBoolean	needAdjustStyles
-	)
-{
-	Recalc(CalcCaretLocation(startChar), minCharCount, deletion,
-		   needCaretBcast, needAdjustStyles);
 }
 
 /******************************************************************************

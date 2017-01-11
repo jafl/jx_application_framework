@@ -367,6 +367,21 @@ JXGC::SetDashList
 }
 
 /******************************************************************************
+ GetXLineStyle (private)
+
+ ******************************************************************************/
+
+inline int
+JXGC::GetXLineStyle
+	(
+	const JBoolean drawDashedLines
+	)
+	const
+{
+	return (drawDashedLines ? LineOnOffDash : LineSolid);
+}
+
+/******************************************************************************
  SetSubwindowMode
 
 	Possible arguments are: ClipByChildren, IncludeInferiors

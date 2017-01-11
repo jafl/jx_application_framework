@@ -341,20 +341,4 @@ JRegex::GetSubexpressionIndex
 	return GetSubexpressionIndex(name.GetBytes(), index);
 }
 
-/******************************************************************************
- RawGetOption (private)
-
- *****************************************************************************/
-
-inline JBoolean
-JRegex::RawGetOption
-	(
-	const int flags,
-	const int option
-	)
-	const
-{
-	return JI2B(flags & option);
-}
-
 #endif

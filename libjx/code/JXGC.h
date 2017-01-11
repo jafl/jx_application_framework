@@ -146,19 +146,4 @@ JXGC::GetColormap()
 	return itsColormap;
 }
 
-/******************************************************************************
- GetXLineStyle (private)
-
- ******************************************************************************/
-
-inline int
-JXGC::GetXLineStyle
-	(
-	const JBoolean drawDashedLines
-	)
-	const
-{
-	return (drawDashedLines ? LineOnOffDash : LineSolid);
-}
-
 #endif

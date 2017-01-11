@@ -1206,6 +1206,35 @@ JTable::InsertRows
 }
 
 /******************************************************************************
+ Table bounds (private)
+
+ ******************************************************************************/
+
+inline void
+JTable::TableSetBounds
+	(
+	const JCoordinate w,
+	const JCoordinate h
+	)
+{
+	itsWidth  = w;
+	itsHeight = h;
+	TableSetGUIBounds(itsWidth, itsHeight);
+}
+
+inline void
+JTable::TableAdjustBounds
+	(
+	const JCoordinate dw,
+	const JCoordinate dh
+	)
+{
+	itsWidth  += dw;
+	itsHeight += dh;
+	TableSetGUIBounds(itsWidth, itsHeight);
+}
+
+/******************************************************************************
  SetRowHeight
 
  ******************************************************************************/

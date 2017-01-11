@@ -106,6 +106,21 @@ CBCPreprocessor::IsEntireWord
 }
 
 /******************************************************************************
+ IsIDCharacter (private)
+
+ ******************************************************************************/
+
+inline int
+CBCPreprocessor::IsIDCharacter
+	(
+	const JCharacter c
+	)
+	const
+{
+	return (isalnum(c) || c == '_');
+}
+
+/******************************************************************************
  PrintMacrosForCTags
 
 	Returns kJTrue if any macros have been defined.

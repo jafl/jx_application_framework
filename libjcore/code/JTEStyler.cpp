@@ -529,3 +529,22 @@ JTEStyler::AdjustStyle
 		assert( ok );
 		}
 }
+
+/******************************************************************************
+ OnlyColorChanged (private)
+
+	We don't use JFontStyle& because we modify the values.
+
+ ******************************************************************************/
+
+inline JBoolean
+JTEStyler::OnlyColorChanged
+	(
+	JFontStyle s1,
+	JFontStyle s2
+	)
+	const
+{
+	s1.color = s2.color = 0;	// make sure the color is the same
+	return JI2B(s1 == s2);		// avoids maintenance when fields are added
+}

@@ -772,3 +772,18 @@ CBSymbolTable::AdjustColWidths()
 	const JCoordinate minWidth = kIconWidth + itsMaxStringWidth + kTextPadding;
 	SetColWidth(1, JMax(minWidth, GetApertureWidth()));
 }
+
+/******************************************************************************
+ CellToSymbolIndex (private)
+
+ ******************************************************************************/
+
+inline JIndex
+CBSymbolTable::CellToSymbolIndex
+	(
+	const JPoint& cell
+	)
+	const
+{
+	return itsVisibleList->GetElement(cell.y);
+}

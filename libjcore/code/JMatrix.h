@@ -183,20 +183,4 @@ JMatrix::ColIndexValid
 	return JConvertToBoolean( 1 <= colIndex && colIndex <= itsColCount );
 }
 
-/******************************************************************************
- RCToOffset (private)
-
- ******************************************************************************/
-
-inline JSize
-JMatrix::RCToOffset
-	(
-	const JIndex rowIndex,
-	const JIndex colIndex
-	)
-	const
-{
-	return (colIndex-1) * itsRowCount + (rowIndex-1);
-}
-
 #endif

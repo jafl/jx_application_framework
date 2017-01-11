@@ -91,20 +91,4 @@ private:
 	const CBSymbolTable& operator=(const CBSymbolTable& source);
 };
 
-
-/******************************************************************************
- CellToSymbolIndex (private)
-
- ******************************************************************************/
-
-inline JIndex
-CBSymbolTable::CellToSymbolIndex
-	(
-	const JPoint& cell
-	)
-	const
-{
-	return itsVisibleList->GetElement(cell.y);
-}
-
 #endif
