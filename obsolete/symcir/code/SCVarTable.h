@@ -66,20 +66,4 @@ private:
 	const SCVarTable& operator=(const SCVarTable& source);
 };
 
-
-/******************************************************************************
- RowToVarIndex (private)
-
- ******************************************************************************/
-
-inline JIndex
-SCVarTable::RowToVarIndex
-	(
-	const JIndex rowIndex
-	)
-	const
-{
-	return itsVisibleList->GetElement(rowIndex);
-}
-
 #endif

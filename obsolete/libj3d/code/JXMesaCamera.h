@@ -149,15 +149,4 @@ JXMesaCamera::SetFarZ
 	Refresh();
 }
 
-/******************************************************************************
- PrepareMesa (private)
-
- ******************************************************************************/
-
-inline JBoolean
-JXMesaCamera::PrepareMesa()
-{
-	return JI2B( XMesaMakeCurrent(itsXMContext, itsXMBuffer) );
-}
-
 #endif

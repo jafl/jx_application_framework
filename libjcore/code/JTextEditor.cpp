@@ -10589,6 +10589,24 @@ JTextEditor::GetCharLeft
 }
 
 /******************************************************************************
+ GetCharRight (private)
+
+	Returns the ending x coordinate of the specified character, excluding
+	the left margin width.
+
+ ******************************************************************************/
+
+inline JCoordinate
+JTextEditor::GetCharRight
+	(
+	const CaretLocation& charLoc
+	)
+	const
+{
+	return GetCharLeft(charLoc) + GetCharWidth(charLoc);
+}
+
+/******************************************************************************
  GetCharWidth (private)
 
 	Returns the width of the specified character.
@@ -10791,6 +10809,25 @@ JTextEditor::RecalcAll
 
 	Recalc(CaretLocation(1,1), itsBuffer->GetLength(), kJFalse,
 		   kJTrue, needAdjustStyles);
+}
+
+/******************************************************************************
+ Recalc (private)
+
+ ******************************************************************************/
+
+inline void
+JTextEditor::Recalc
+	(
+	const JIndex	startChar,
+	const JSize		minCharCount,
+	const JBoolean	deletion,
+	const JBoolean	needCaretBcast,
+	const JBoolean	needAdjustStyles
+	)
+{
+	Recalc(CalcCaretLocation(startChar), minCharCount, deletion,
+		   needCaretBcast, needAdjustStyles);
 }
 
 /******************************************************************************
@@ -11563,6 +11600,21 @@ JTextEditor::CalcCaretLocation
 	}
 
 	return CaretLocation(charIndex, lineIndex);
+}
+
+/******************************************************************************
+ CalcCaretLocation (private)
+
+ ******************************************************************************/
+
+inline JTextEditor::CaretLocation
+JTextEditor::CalcCaretLocation
+	(
+	const JIndex charIndex
+	)
+	const
+{
+	return CaretLocation(charIndex, GetLineForChar(charIndex));
 }
 
 /******************************************************************************

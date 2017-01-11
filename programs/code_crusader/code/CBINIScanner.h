@@ -146,7 +146,7 @@ operator==
 	return ( t1.type == t2.type
 			 &&
 				(
-				   t1.range == t2.range || t1.type == CBINIScanner::kEOF
+					t1.range == t2.range || t1.type == CBINIScanner::kEOF
 				)
 		   );
 }

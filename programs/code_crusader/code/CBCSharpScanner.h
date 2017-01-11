@@ -154,7 +154,7 @@ CBCSharpScanner::ThisToken
 	Saves the range containing the name of the preprocessor directive.
 
 	e.g.  ...\n  #include <iostream>  // need to read from std::cin\n...
-	             ^^^^^^^^
+				 ^^^^^^^^
 
 	This is necessary because the entire line is treated as one token
 	in order to simplify the context-sensitive highlighting code.
@@ -185,11 +185,11 @@ operator==
 	)
 {
 	return ( t1.type == t2.type
-	         &&
-	            (
-	               t1.range == t2.range || t1.type == CBCSharpScanner::kEOF
-	            )
-	       );
+			 &&
+				(
+					t1.range == t2.range || t1.type == CBCSharpScanner::kEOF
+				)
+		   );
 }
 
 inline int

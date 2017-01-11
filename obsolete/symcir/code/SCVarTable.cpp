@@ -385,6 +385,21 @@ SCVarTable::MoveSelection
 }
 
 /******************************************************************************
+ RowToVarIndex (private)
+
+ ******************************************************************************/
+
+inline JIndex
+SCVarTable::RowToVarIndex
+	(
+	const JIndex rowIndex
+	)
+	const
+{
+	return itsVisibleList->GetElement(rowIndex);
+}
+
+/******************************************************************************
  Receive (protected)
 
 	static const JCharacter* kVarNameChanged;

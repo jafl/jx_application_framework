@@ -98,16 +98,4 @@ JXFSBindingManager::Initialize()
 	Instance();
 }
 
-/******************************************************************************
- HasFiles (private)
-
- ******************************************************************************/
-
-inline JBoolean
-JXFSBindingManager::HasFiles()
-	const
-{
-	return JI2B( itsFileList != NULL && !itsFileList->IsEmpty() );
-}
-
 #endif

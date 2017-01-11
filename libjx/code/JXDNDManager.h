@@ -605,45 +605,6 @@ JXDNDManager::GetDNDAskFileAndDirectoryCursor()
 }
 
 /******************************************************************************
- Packing/unpacking (private)
-
- ******************************************************************************/
-
-inline long
-JXDNDManager::PackPoint
-	(
-	const JPoint& pt
-	)
-	const
-{
-	return ((pt.x << 16) | pt.y);
-}
-
-inline JPoint
-JXDNDManager::UnpackPoint
-	(
-	const long data
-	)
-	const
-{
-	return JPoint((data >> 16) & 0xFFFF, data & 0xFFFF);
-}
-
-inline JRect
-JXDNDManager::UnpackRect
-	(
-	const long pt,
-	const long area
-	)
-	const
-{
-	const JPoint topLeft = UnpackPoint(pt);
-	return JRect(topLeft.y, topLeft.x,
-				 topLeft.y + (area & 0xFFFF),
-				 topLeft.x + ((area >> 16) & 0xFFFF));
-}
-
-/******************************************************************************
  GetDisplay
 
  ******************************************************************************/

@@ -106,6 +106,20 @@ GRaggedFloatTableData::GetElement
 }
 
 /******************************************************************************
+ CreateCellIfNeeded (private)
+
+ ******************************************************************************/
+
+inline void
+GRaggedFloatTableData::CreateCellIfNeeded
+	(
+	const JPoint cell
+	)
+{
+	CreateCellIfNeeded(cell.y, cell.x);
+}
+
+/******************************************************************************
  CreateCellIfNeeded
 
  ******************************************************************************/

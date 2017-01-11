@@ -945,6 +945,17 @@ JXMenu::SetOwner
 
  ******************************************************************************/
 
+inline void
+JXMenu::AdjustAppearance()
+{
+	AdjustAppearance(itsMinWidth);
+}
+
+/******************************************************************************
+ AdjustAppearance (private)
+
+ ******************************************************************************/
+
 void
 JXMenu::AdjustAppearance
 	(
