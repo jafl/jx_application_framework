@@ -560,10 +560,6 @@ F
 T
 1 "text editor"
 T
-2 "JTextEditor.cpp"
-F
-"./code/JTextEditor.cpp"
-T
 2 "JTEUndoBase.cpp"
 F
 "./code/JTEUndoBase.cpp"
@@ -592,17 +588,9 @@ T
 F
 "./code/JTEUndoTyping.cpp"
 T
-2 "JTEStyler.cpp"
-F
-"./code/JTEStyler.cpp"
-T
 2 "JTEKeyHandler.cpp"
 F
 "./code/JTEKeyHandler.cpp"
-T
-2 "JVIKeyHandler.cpp"
-F
-"./code/JVIKeyHandler.cpp"
 T
 2 "JTEHTMLScanner.cpp"
 F
@@ -791,7 +779,6 @@ F
 # tasks
 4
 "makemake"
-T "./test" "makemake ; make test" "" T F T T T T F "Tests" "F11" "" F
 F
 # build settings
 1
@@ -802,6 +789,7 @@ F
 # search paths
 T "../ACE/ACE_wrappers/ace" T
 T "./code" T
+T "/usr/local/Cellar/pcre/8.39/include" T
 T "/usr/local/opt/icu4c/include" T
 F
 # C preprocessor

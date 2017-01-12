@@ -1,8 +1,3 @@
-JStringIterator
-	test correct position of cursor after ReplaceLastMatch
-
-	allow restricting search range
-
 JRegex
 	more unit tests
 
@@ -11,7 +6,6 @@ JRegex
 
 unit tests
 	JInterpolate.cpp
-	JMessageProtocol.tmpl
 
 	JDirEntry.cpp
 	JDirInfo.cpp
@@ -55,6 +49,9 @@ add back in:
 	JTextEditor.cpp
 	JTEStyler.cpp
 	JVIKeyHandler.cpp
+
+JAsynchDataReceiver::handle_input
+	we cannot assume received complete utf-8 characters
 
 utf8 - sorting vs searching
 	searching should include diacriticals

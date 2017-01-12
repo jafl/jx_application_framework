@@ -586,6 +586,42 @@ JTEST(ReplaceLastMatch)
 	JAssertEqual(10, s.GetByteCount());
 }
 
+JTEST(ReplaceLastMatchPositionedInside)
+{
+	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
+	JStringIterator i(&s);
+	JUtf8Character c;
+	JIndex j;
+
+	JAssertTrue(i.Next("\xC3\xA5\xE2\x9C\x94"));
+	i.SkipPrev();
+	i.ReplaceLastMatch("456");
+	JAssertTrue(i.GetPrevCharacterIndex(&j));
+	JAssertEqual(5, j);
+	JAssertTrue(i.Prev(&c, kJFalse));
+	JAssertStringsEqual("\xC3\x85", c.GetBytes());
+	JAssertEqual(8, s.GetCharacterCount());
+	JAssertEqual(10, s.GetByteCount());
+}
+
+JTEST(ReplaceLastMatchPositionedAfter)
+{
+	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);
+	JStringIterator i(&s);
+	JUtf8Character c;
+	JIndex j;
+
+	JAssertTrue(i.Next("\xC3\x85\xC3\xA5"));
+	i.SkipNext();
+	i.ReplaceLastMatch("456");
+	JAssertTrue(i.GetPrevCharacterIndex(&j));
+	JAssertEqual(8, j);
+	JAssertTrue(i.Prev(&c, kJFalse));
+	JAssertStringsEqual("\xE2\x9C\x94", c.GetBytes());
+	JAssertEqual(8, s.GetCharacterCount());
+	JAssertEqual(11, s.GetByteCount());
+}
+
 JTEST(Insert)
 {
 	JString s("123\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94", 0);

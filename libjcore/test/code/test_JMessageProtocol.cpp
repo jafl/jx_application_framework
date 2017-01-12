@@ -31,6 +31,8 @@ class TestLink : public JMessageProtocol<ACE_LSOCK_STREAM>
 public:
 
 	TestLink();
+
+	void	SendBytes(const JUtf8Byte* data, const JSize count);
 };
 
 typedef ACE_Acceptor<TestLink, ACE_LSOCK_ACCEPTOR>		TestAcceptor;
@@ -118,8 +120,9 @@ private:
 			JAssertStringsEqual(message1, msg);
 			JAssertFalse(itsLink->ReceivedDisconnect());
 
-			itsLink->SendData(JString(message1, 13));	// force break in middle of UTF-8 character
-			itsLink->SendMessage(JString(message1 + 13, 0));
+			itsLink->SendBytes(message1, 13);	// force break in middle of UTF-8 character
+			itsLink->SendBytes(message1 + 13, strlen(message1) - 13);
+			itsLink->SendMessage(JString());
 			itsState++;
 			}
 		else if (itsState == 1)
@@ -128,8 +131,9 @@ private:
 			JAssertStringsEqual(message2, msg);
 			JAssertFalse(itsLink->ReceivedDisconnect());
 
-			itsLink->SendData(JString(message1, 13));	// force break in middle of UTF-8 character
-			itsLink->SendMessage(JString(message1 + 13, 0));
+			itsLink->SendBytes(message2, 5);	// force break in middle of UTF-8 character
+			itsLink->SendBytes(message2 + 5, strlen(message2) - 5);
+			itsLink->SendMessage(JString());
 			itsState++;
 			}
 	};
@@ -155,6 +159,16 @@ TestLink::TestLink()
 		Server* svr = jnew Server(this);
 		assert( svr != NULL );
 	}
+};
+
+void
+TestLink::SendBytes
+	(
+	const JUtf8Byte*	data,
+	const JSize			count
+	)
+{
+	JNetworkProtocolBase::Send(data, count);
 };
 
 void Listen()
