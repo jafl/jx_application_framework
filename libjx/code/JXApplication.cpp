@@ -387,6 +387,13 @@ JXApplication::HideAllWindows()
 void
 JXApplication::Run()
 {
+	if (setjmp(JThisProcess::GetSigintJumpBuffer()) != 0)
+		{
+		// assert fired is the closest to what we want - we are locked up, so user hit ctrl-c
+		Abort(JXDocumentManager::kAssertFired, kJFalse);
+		// does not return
+		}
+
 	while (1)
 		{
 		HandleOneEvent();
@@ -1237,7 +1244,7 @@ JXApplication::JXIOErrorHandler
 	)
 {
 	Abort(JXDocumentManager::kServerDead, kJFalse);
-	return 0;
+	return 0;	// does not return - just keep compiler happy
 }
 
 /******************************************************************************

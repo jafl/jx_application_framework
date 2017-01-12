@@ -66,9 +66,8 @@
 		SIGABRT   Abort signal from abort(3) assert() calls abort()
 											 abort() generates infinite # of SIGABRT's
 
-	Wishful thinking:  If one could do actual work inside a signal handler,
-	one could catch SIGINT, longjmp() back to JXApplication(), call
-	CleanUpBeforeSuddenDeath(), and then exit().
+	We provide GetSigintJumpBuffer() so SIGINT handler can longjmp() back
+	to JXApplication(), call CleanUpBeforeSuddenDeath(), and then exit().
 
 	BASE CLASS = JProcess, ACE_Event_Handler
 
@@ -165,7 +164,8 @@ JThisProcess::Instance()
 JThisProcess::JThisProcess()
 	:
 	JProcess(getpid()),
-	ACE_Event_Handler()
+	ACE_Event_Handler(),
+	itsSigintJumpBufferInitFlag(kJFalse)
 {
 	QuitAtExit(this, kJFalse);	// We don't need to kill ourselves!
 
@@ -390,7 +390,12 @@ JThisProcess::handle_signal
 	ucontext_t*
 	)
 {
-	if (signum == SIGINT)
+	if (signum == SIGINT && itsSigintJumpBufferInitFlag)
+		{
+		longjmp(itsSigintJumpBuffer, 1);
+		// not reached
+		}
+	else if (signum == SIGINT)
 		{
 		JThisProcess::Exit(1);
 		}
@@ -635,4 +640,18 @@ JThisProcess::CheckACEReactor()
 
 	(ACE_Reactor::instance())->handle_events(timeout);
 	ACE_Reactor::check_reconfiguration(NULL);
+}
+
+/******************************************************************************
+ GetSigintJumpBuffer (static)
+
+ ******************************************************************************/
+
+jmp_buf&
+JThisProcess::GetSigintJumpBuffer()
+{
+	JThisProcess* p = JThisProcess::Instance();
+
+	p->itsSigintJumpBufferInitFlag = kJTrue;
+	return p->itsSigintJumpBuffer;
 }
