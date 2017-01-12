@@ -13,6 +13,7 @@
 #include <JProcess.h>
 #include <ace/Event_Handler.h>
 #include <ace/Signal.h>
+#include <setjmp.h>
 
 class JThisProcess : public JProcess, public ACE_Event_Handler
 {
@@ -51,6 +52,10 @@ public:
 
 	static void		CheckACEReactor();
 
+	// for catching Ctrl-C
+
+	static jmp_buf&	GetSigintJumpBuffer();
+
 protected:
 
 	JThisProcess();
@@ -60,6 +65,8 @@ protected:
 private:
 
 	ACE_Sig_Set	itsSignalSet;
+	JBoolean	itsSigintJumpBufferInitFlag;
+	jmp_buf		itsSigintJumpBuffer;
 
 	static JThisProcess* itsSelf;
 
