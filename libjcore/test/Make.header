@@ -26,7 +26,7 @@ DEPENDFLAGS := ${J_COMPILER_DEPEND_FLAGS} \
 
 # make variables
 
-LOADLIBES := -L${JLIBDIR} ${ljcore} ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
+LOADLIBES := ${J_IMG_LIBS} ${J_ACE_LIBS} ${J_GCC_LIBS}
 LDFLAGS   := 
 
 # tests
@@ -50,12 +50,8 @@ default: libs all
 .PHONY : Makefiles
 Makefiles:
 
-.PHONY : prep
-prep:
-	@${RM} ${MM_ALL_TARGETS}
-
 .PHONY : test
-test: prep libs ${AUTO_TESTS}
+test: libs ${AUTO_TESTS}
 	@echo ==========
 	@${foreach p, ${AUTO_TESTS}, echo; echo $p; if ! ./$p; then e=1; fi;} \
      echo ==========; \
