@@ -1,8 +1,4 @@
-move all (private) in *.h to .cpp
-	nobody else can every call it anyway
-
 JStringIterator
-	unit tests for regex
 	test correct position of cursor after ReplaceLastMatch
 
 	allow restricting search range
@@ -14,46 +10,46 @@ JRegex
 	find uses for it, e.g., splitting path by :
 
 unit tests
-	modified:   libjcore/code/JInterpolate.cpp
-	modified:   libjcore/code/JMessageProtocol.tmpl
+	JInterpolate.cpp
+	JMessageProtocol.tmpl
 
-	modified:   libjcore/code/JDirEntry.cpp
-	modified:   libjcore/code/JDirInfo.cpp
-	modified:   libjcore/code/JDirInfo_UNIX.cpp
-	modified:   libjcore/code/jDirUtil.cpp
-	modified:   libjcore/code/jDirUtil_UNIX.cpp
-	modified:   libjcore/code/jFileUtil.cpp
-	modified:   libjcore/code/jFileUtil_UNIX.cpp
-	modified:   libjcore/code/jMountUtil_UNIX.cpp
-	modified:   libjcore/code/jSysUtil_UNIX.cpp
-	modified:   libjcore/code/jTime.cpp
-	modified:   libjcore/code/jGlobals.cpp
-	modified:   libjcore/code/jGlobals_UNIX.cpp
-	modified:   libjcore/code/jVCSUtil.cpp
+	JDirEntry.cpp
+	JDirInfo.cpp
+	JDirInfo_UNIX.cpp
+	jDirUtil.cpp
+	jDirUtil_UNIX.cpp
+	jFileUtil.cpp
+	jFileUtil_UNIX.cpp
+	jMountUtil_UNIX.cpp
+	jSysUtil_UNIX.cpp
+	jTime.cpp
+	jGlobals.cpp
+	jGlobals_UNIX.cpp
+	jVCSUtil.cpp
 		check that ./ is git directory
 		check that Make.headers has prev revision
-	modified:   libjcore/code/jWebUtil.cpp
+	jWebUtil.cpp
 
-	modified:   libjcore/code/JFileArray.cpp
-	modified:   libjcore/code/JPrefsFile.cpp
+	JFileArray.cpp
+	JPrefsFile.cpp
 
-	modified:   libjcore/code/JPTPrinter.cpp
-	modified:   libjcore/code/JEPSPrinter.cpp
-	modified:   libjcore/code/JPSPrinter.cpp
-	modified:   libjcore/code/JPSPrinterBase.cpp
-	modified:   libjcore/code/JHTMLScanner.cpp
-	modified:   libjcore/code/JMDIServer.cpp
-	modified:   libjcore/code/JPrefsManager.cpp
-	modified:   libjcore/code/JStringManager.cpp
-	modified:   libjcore/code/JTEHTMLScanner.cpp
-	modified:   libjcore/code/JTEKeyHandler.cpp
-	modified:   libjcore/code/JTEUndoBase.cpp
-	modified:   libjcore/code/JTEUndoStyle.cpp
-	modified:   libjcore/code/JTEUndoTabShift.cpp
-	modified:   libjcore/code/JTEUndoTextBase.cpp
-	modified:   libjcore/code/JVIKeyHandler.cpp
-	modified:   libjcore/code/JVersionSocket.tmpl
-	modified:   libjcore/code/JWebBrowser.cpp
+	JPTPrinter.cpp
+	JEPSPrinter.cpp
+	JPSPrinter.cpp
+	JPSPrinterBase.cpp
+	JHTMLScanner.cpp
+	JMDIServer.cpp
+	JPrefsManager.cpp
+	JStringManager.cpp
+	JTEHTMLScanner.cpp
+	JTEKeyHandler.cpp
+	JTEUndoBase.cpp
+	JTEUndoStyle.cpp
+	JTEUndoTabShift.cpp
+	JTEUndoTextBase.cpp
+	JVIKeyHandler.cpp
+	JVersionSocket.tmpl
+	JWebBrowser.cpp
 
 add back in:
 	JTextEditor.cpp
