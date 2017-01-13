@@ -518,7 +518,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 		return 0;
 		}
 
-	JSize remainingCount = count;
+	JSize remainingCount = itsBufferOffset + count;
 	JSize validCount     = 0;
 	JSize byteCount;
 	while (JUtf8Character::IsCompleteCharacter(itsBuffer + validCount, remainingCount, &byteCount))

@@ -121,6 +121,7 @@ private:
 			JAssertFalse(itsLink->ReceivedDisconnect());
 
 			itsLink->SendBytes(message1, 13);	// force break in middle of UTF-8 character
+			sleep(1);
 			itsLink->SendBytes(message1 + 13, strlen(message1) - 13);
 			itsLink->SendMessage(JString());
 			itsState++;
@@ -132,6 +133,7 @@ private:
 			JAssertFalse(itsLink->ReceivedDisconnect());
 
 			itsLink->SendBytes(message2, 5);	// force break in middle of UTF-8 character
+			sleep(1);
 			itsLink->SendBytes(message2 + 5, strlen(message2) - 5);
 			itsLink->SendMessage(JString());
 			itsState++;
