@@ -34,55 +34,23 @@ public:
 	{ };
 
 	JStringMatch
-	MatchForward(const JString& str, const JIndex byteIndex) const
+	MatchForward(const JUtf8Byte* str, const JIndex byteIndex = 1) const
 	{
-		return JRegex::MatchForward(str, byteIndex);
+		itsMatchTarget.Set(str);
+		return JRegex::MatchForward(itsMatchTarget, byteIndex);
 	};
 
 	JStringMatch
-	MatchBackward(const JString& str, const JIndex byteIndex) const
+	MatchBackward(const JUtf8Byte* str, const JIndex byteIndex = 1) const
 	{
-		return JRegex::MatchBackward(str, byteIndex);
+		itsMatchTarget.Set(str);
+		return JRegex::MatchBackward(itsMatchTarget, byteIndex);
 	};
+
+private:
+
+	mutable JString	itsMatchTarget;
 };
-
-/******************************************************************************
- ShouldMatch
-
- *****************************************************************************/
-
-void
-ShouldMatch
-	(
-	JTestRegex&      regex,
-	const JUtf8Byte* string,
-	const JUtf8Byte* expectedMatch,
-	const JIndex     stringByteIndex = 1
-	)
-{
-	JString s(string, 0, kJFalse);
-	const JStringMatch m = regex.MatchForward(s, stringByteIndex);
-	JAssertFalse(m.IsEmpty());
-	JAssertStringsEqual(expectedMatch, m.GetString());
-}
-
-/******************************************************************************
- ShouldNotMatch
-
- *****************************************************************************/
-
-void
-ShouldNotMatch
-	(
-	JTestRegex&      regex,
-	const JUtf8Byte* string,
-	const JIndex     stringByteIndex = 1
-	)
-{
-	JString s(string, 0, kJFalse);
-	const JStringMatch m = regex.MatchForward(s, stringByteIndex);
-	JAssertTrueWithMessage(m.IsEmpty(), string);
-}
 
 /******************************************************************************
  Tests
@@ -129,13 +97,28 @@ JTEST(Exercise)
 	JAssertOK(regex.SetPattern("aBc"));
 	regex.RestoreDefaults();
 	JAssertTrue(regex.IsCaseSensitive());
-	ShouldMatch(regex, "qqqqqqqqqqaBcqqqqq", "aBc");
-	ShouldNotMatch(regex, "qqqqqqqqqqabcqqqqq");
+	{
+		const JStringMatch m = regex.MatchForward("qqqqqqqqqqaBcqqqqq");
+		JAssertFalse(m.IsEmpty());
+		JAssertStringsEqual("aBc", m.GetString());
+	}
+	{
+		const JStringMatch m = regex.MatchForward("qqqqqqqqqqabcqqqqq");
+		JAssertTrue(m.IsEmpty());
+	}
 
 	regex.SetCaseSensitive(kJFalse);
 	JAssertFalse(regex.IsCaseSensitive());
-	ShouldMatch(regex, "qqqqqqqqqqaBcqqqqq", "aBc");
-	ShouldMatch(regex, "qqqqqqqqqqabcqqqqq", "abc");
+	{
+		const JStringMatch m = regex.MatchForward("qqqqqqqqqqaBcqqqqq");
+		JAssertFalse(m.IsEmpty());
+		JAssertStringsEqual("aBc", m.GetString());
+	}
+	{
+		const JStringMatch m = regex.MatchForward("qqqqqqqqqqabcqqqqq");
+		JAssertFalse(m.IsEmpty());
+		JAssertStringsEqual("abc", m.GetString());
+	}
 
 // Test single line
 	JAssertOK(regex.SetPattern("^aBc"));
@@ -143,37 +126,73 @@ JTEST(Exercise)
 	JAssertFalse(regex.IsSingleLine());
 	regex.SetSingleLine(kJTrue);
 	JAssertTrue(regex.IsSingleLine());
-	ShouldMatch(regex, "aBc", "aBc");
-	ShouldNotMatch(regex, "\naBc");
+	{
+		const JStringMatch m = regex.MatchForward("aBc");
+		JAssertFalse(m.IsEmpty());
+		JAssertStringsEqual("aBc", m.GetString());
+	}
+	{
+		const JStringMatch m = regex.MatchForward("\naBc");
+		JAssertTrue(m.IsEmpty());
+	}
 
 	regex.SetSingleLine(kJFalse);
 	JAssertFalse(regex.IsSingleLine());
-	ShouldMatch(regex, "aBc", "aBc");
-	ShouldMatch(regex, "\naBc", "aBc");
+	{
+		const JStringMatch m = regex.MatchForward("aBc");
+		JAssertFalse(m.IsEmpty());
+		JAssertStringsEqual("aBc", m.GetString());
+	}
+	{
+		const JStringMatch m = regex.MatchForward("\naBc");
+		JAssertFalse(m.IsEmpty());
+		JAssertStringsEqual("aBc", m.GetString());
+	}
 
 // Test line begin
 	regex.RestoreDefaults();
-	ShouldMatch(regex, "aBc", "aBc");
+	{
+		const JStringMatch m = regex.MatchForward("aBc");
+		JAssertFalse(m.IsEmpty());
+		JAssertStringsEqual("aBc", m.GetString());
+	}
 
 	regex.SetLineBegin(kJFalse);
 	JAssertFalse(regex.IsLineBegin());
-	ShouldNotMatch(regex, "aBc");
+	{
+		const JStringMatch m = regex.MatchForward("aBc");
+		JAssertTrue(m.IsEmpty());
+	}
 
 // Test line end
 	JAssertOK(regex.SetPattern("aBc$"));
 	regex.RestoreDefaults();
 	JAssertTrue(regex.IsLineEnd());
-	ShouldMatch(regex, "aBc", "aBc");
+	{
+		const JStringMatch m = regex.MatchForward("aBc");
+		JAssertFalse(m.IsEmpty());
+		JAssertStringsEqual("aBc", m.GetString());
+	}
 
 	regex.SetLineEnd(kJFalse);
 	JAssertFalse(regex.IsLineEnd());
-	ShouldNotMatch(regex, "aBc");
+	{
+		const JStringMatch m = regex.MatchForward("aBc");
+		JAssertTrue(m.IsEmpty());
+	}
 
 // Test single line again
 	regex.SetSingleLine(kJFalse);
 	JAssertFalse(regex.IsSingleLine());
-	ShouldNotMatch(regex, "aBc");
-	ShouldMatch(regex, "aBc\n", "aBc");
+	{
+		const JStringMatch m = regex.MatchForward("aBc");
+		JAssertTrue(m.IsEmpty());
+	}
+	{
+		const JStringMatch m = regex.MatchForward("aBc\n");
+		JAssertFalse(m.IsEmpty());
+		JAssertStringsEqual("aBc", m.GetString());
+	}
 
 // Test error stuff
 	regex.RestoreDefaults();
@@ -183,20 +202,36 @@ JTEST(Exercise)
 // Test MatchFrom
 	JAssertOK(regex.SetPattern("x"));
 	regex.RestoreDefaults();
-	const JUtf8Byte* gString = "12345678xx1234568901";
-	ShouldMatch(regex, gString, "x");
-	ShouldMatch(regex, gString, "x", 8);
-	ShouldMatch(regex, gString, "x", 9);
-	ShouldMatch(regex, gString, "x", 10);
-	ShouldNotMatch(regex, gString, 11);
+	{
+		const JStringMatch m = regex.MatchForward("12345678xx1234568901");
+		JAssertFalse(m.IsEmpty());
+		JAssertStringsEqual("x", m.GetString());
+	}
+	{
+		const JStringMatch m = regex.MatchForward("12345678xx1234568901", 8);
+		JAssertFalse(m.IsEmpty());
+		JAssertStringsEqual("x", m.GetString());
+	}
+	{
+		const JStringMatch m = regex.MatchForward("12345678xx1234568901", 9);
+		JAssertFalse(m.IsEmpty());
+		JAssertStringsEqual("x", m.GetString());
+	}
+	{
+		const JStringMatch m = regex.MatchForward("12345678xx1234568901", 10);
+		JAssertFalse(m.IsEmpty());
+		JAssertStringsEqual("x", m.GetString());
+	}
+	{
+		const JStringMatch m = regex.MatchForward("12345678xx1234568901", 11);
+		JAssertTrue(m.IsEmpty());
+	}
 
 // Test parenthesis capturing, replacement
 
-	JString parenTest("-------------aJYYYb-----------", 0);
-
 	JAssertOK(regex.SetPattern("a([IJ])([XY]+)b"));
 	JAssertEqual(2, regex.GetSubexpressionCount());
-	const JStringMatch m1 = regex.MatchForward(parenTest, 1);
+	const JStringMatch m1 = regex.MatchForward("-------------aJYYYb-----------");
 	JAssertEqual(2, m1.GetSubstringCount());
 	JAssertStringsEqual("aJYYYb", m1.GetString());
 	JAssertStringsEqual("J", m1.GetSubstring(1));
@@ -205,18 +240,16 @@ JTEST(Exercise)
 	// What if some subexpressions don't match?
 	JAssertOK(regex.SetPattern("(a)(WontMatch)?(J)"));
 	JAssertEqual(3, regex.GetSubexpressionCount());
-	const JStringMatch m2 = regex.MatchForward(parenTest, 1);
+	const JStringMatch m2 = regex.MatchForward("-------------aJYYYb-----------");
 	JAssertEqual(3, m2.GetSubstringCount());
 	JAssertStringsEqual("aJ", m2.GetString());
 	JAssertStringsEqual("a", m2.GetSubstring(1));
 	JAssertTrue(m2.GetSubstring(2).IsEmpty());
 	JAssertStringsEqual("J", m2.GetSubstring(3));
 
-	parenTest = "bb";
-
 	JAssertOK(regex.SetPattern("^(x*)|(a)"));
 	JAssertEqual(2, regex.GetSubexpressionCount());
-	const JStringMatch m3 = regex.MatchForward(parenTest, 1);
+	const JStringMatch m3 = regex.MatchForward("bb");
 	JAssertEqual(1, m3.GetSubstringCount());
 	JAssertTrue(m3.GetSubstring(1).IsEmpty());
 	JAssertTrue(m3.GetSubstring(2).IsEmpty());
@@ -396,71 +429,69 @@ JTEST(Exercise)
 #endif
 // Test MatchBackward
 
-	JString backwardTest("a23456bc90123d567efg12hi", 0);
-
 	JAssertOK(regex.SetPattern("[a-z]"));
 	{
-	const JStringMatch m = regex.MatchBackward(backwardTest, 1);
+	const JStringMatch m = regex.MatchBackward("a23456bc90123d567efg12hi");
 	JAssertFalse(m.IsEmpty());
 	JAssertStringsEqual("a", m.GetString());
 	}
 	{
-	const JStringMatch m = regex.MatchBackward(backwardTest, 3);
+	const JStringMatch m = regex.MatchBackward("a23456bc90123d567efg12hi", 3);
 	JAssertFalse(m.IsEmpty());
 	JAssertStringsEqual("a", m.GetString());
 	}
 	{
-	const JStringMatch m = regex.MatchBackward(backwardTest, 6);
+	const JStringMatch m = regex.MatchBackward("a23456bc90123d567efg12hi", 6);
 	JAssertFalse(m.IsEmpty());
 	JAssertStringsEqual("a", m.GetString());
 	}
 	{
-	const JStringMatch m = regex.MatchBackward(backwardTest, 7);
+	const JStringMatch m = regex.MatchBackward("a23456bc90123d567efg12hi", 7);
 	JAssertFalse(m.IsEmpty());
 	JAssertStringsEqual("b", m.GetString());
 	}
 	{
-	const JStringMatch m = regex.MatchBackward(backwardTest, 8);
+	const JStringMatch m = regex.MatchBackward("a23456bc90123d567efg12hi", 8);
 	JAssertFalse(m.IsEmpty());
 	JAssertStringsEqual("c", m.GetString());
 	}
 	{
-	const JStringMatch m = regex.MatchBackward(backwardTest, 9);
+	const JStringMatch m = regex.MatchBackward("a23456bc90123d567efg12hi", 9);
 	JAssertFalse(m.IsEmpty());
 	JAssertStringsEqual("c", m.GetString());
 	}
 	{
-	const JStringMatch m = regex.MatchBackward(backwardTest, 10);
+	const JStringMatch m = regex.MatchBackward("a23456bc90123d567efg12hi", 10);
 	JAssertFalse(m.IsEmpty());
 	JAssertStringsEqual("c", m.GetString());
 	}
 	{
-	const JStringMatch m = regex.MatchBackward(backwardTest, 13);
+	const JStringMatch m = regex.MatchBackward("a23456bc90123d567efg12hi", 13);
 	JAssertFalse(m.IsEmpty());
 	JAssertStringsEqual("c", m.GetString());
 	}
 	{
-	const JStringMatch m = regex.MatchBackward(backwardTest, 19);
+	const JStringMatch m = regex.MatchBackward("a23456bc90123d567efg12hi", 19);
 	JAssertFalse(m.IsEmpty());
 	JAssertStringsEqual("f", m.GetString());
 	}
 	{
-	const JStringMatch m = regex.MatchBackward(backwardTest, 20);
+	const JStringMatch m = regex.MatchBackward("a23456bc90123d567efg12hi", 20);
 	JAssertFalse(m.IsEmpty());
 	JAssertStringsEqual("g", m.GetString());
 	}
 	{
-	const JStringMatch m = regex.MatchBackward(backwardTest, 21);
+	const JStringMatch m = regex.MatchBackward("a23456bc90123d567efg12hi", 21);
 	JAssertFalse(m.IsEmpty());
 	JAssertStringsEqual("g", m.GetString());
 	}
 	{
-	const JStringMatch m = regex.MatchBackward(backwardTest, 23);
+	const JStringMatch m = regex.MatchBackward("a23456bc90123d567efg12hi", 23);
 	JAssertFalse(m.IsEmpty());
 	JAssertStringsEqual("h", m.GetString());
 	}
 	{
-	const JStringMatch m = regex.MatchBackward(backwardTest, 24);
+	const JStringMatch m = regex.MatchBackward("a23456bc90123d567efg12hi", 24);
 	JAssertFalse(m.IsEmpty());
 	JAssertStringsEqual("i", m.GetString());
 	}
@@ -488,17 +519,14 @@ JTEST(Exercise)
 
 // Test JCore Extensions
 
-	JString jcoreTest(" abc  def  ", 0);
-
 	// Testing word boundaries
 	regex.RestoreDefaults();
 	JAssertOK(regex.SetPattern("\\b(.+)\\b"));
 
-	const JStringMatch m5 = regex.MatchForward(jcoreTest, 1);
+	const JStringMatch m5 = regex.MatchForward(" abc  def  ");
 	JAssertStringsEqual("abc  def", m5.GetString());
 
-	jcoreTest = "abc  def";
-	const JStringMatch m6 = regex.MatchForward(jcoreTest, 1);
+	const JStringMatch m6 = regex.MatchForward("abc  def");
 	JAssertStringsEqual("abc  def", m6.GetString());
 }
 
@@ -507,20 +535,60 @@ JTEST(Features)
 // Who can use backreferences?
 	JTestRegex regex;
 	JAssertOK(regex.SetPattern("([bc])\\1"));
-	ShouldMatch(regex, "bb", "bb");
+	{
+		const JStringMatch m = regex.MatchForward("bb");
+		JAssertFalse(m.IsEmpty());
+		JAssertStringsEqual("bb", m.GetString());
+	}
 // These tests are not needed to show that ERE's don't have backref's, but can
 // be added back in if Spencer ever fixes this.
-	ShouldMatch(regex, "cc", "cc");
-	ShouldNotMatch(regex, "bc");
-	ShouldNotMatch(regex, "cb");
-	ShouldNotMatch(regex, "b1");
-	ShouldNotMatch(regex, "c1");
+	{
+		const JStringMatch m = regex.MatchForward("cc");
+		JAssertFalse(m.IsEmpty());
+		JAssertStringsEqual("cc", m.GetString());
+	}
+	{
+		const JStringMatch m = regex.MatchForward("bc");
+		JAssertTrue(m.IsEmpty());
+	}
+	{
+		const JStringMatch m = regex.MatchForward("cb");
+		JAssertTrue(m.IsEmpty());
+	}
+	{
+		const JStringMatch m = regex.MatchForward("b1");
+		JAssertTrue(m.IsEmpty());
+	}
+	{
+		const JStringMatch m = regex.MatchForward("c1");
+		JAssertTrue(m.IsEmpty());
+	}
 
 	JAssertOK(regex.SetPattern("(a+)b\\1"));
-	ShouldMatch(regex, "aaabaaa", "aaabaaa");
-	ShouldMatch(regex, "aaabaa", "aabaa");
-	ShouldNotMatch(regex, "aaabbaa");
-	ShouldNotMatch(regex, "aaabc");
-	ShouldNotMatch(regex, "ab1");
-	ShouldNotMatch(regex, "aaab1");
+	{
+		const JStringMatch m = regex.MatchForward("aaabaaa");
+		JAssertFalse(m.IsEmpty());
+		JAssertStringsEqual("aaabaaa", m.GetString());
+	}
+	{
+		const JStringMatch m = regex.MatchForward("aaabaa");
+		JAssertFalse(m.IsEmpty());
+		JAssertStringsEqual("aabaa", m.GetString());
+	}
+	{
+		const JStringMatch m = regex.MatchForward("aaabbaa");
+		JAssertTrue(m.IsEmpty());
+	}
+	{
+		const JStringMatch m = regex.MatchForward("aaabc");
+		JAssertTrue(m.IsEmpty());
+	}
+	{
+		const JStringMatch m = regex.MatchForward("ab1");
+		JAssertTrue(m.IsEmpty());
+	}
+	{
+		const JStringMatch m = regex.MatchForward("aaab1");
+		JAssertTrue(m.IsEmpty());
+	}
 }
