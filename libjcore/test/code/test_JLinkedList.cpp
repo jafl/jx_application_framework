@@ -10,7 +10,7 @@
 #include <JUnitTestManager.h>
 #include <JLinkedList.h>
 #include <JBroadcastTester.h>
-#include <jassert_simple.h>
+#include <jAssert.h>
 
 int main()
 {

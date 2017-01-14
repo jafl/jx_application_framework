@@ -10,7 +10,7 @@
 #include <JUnitTestManager.h>
 #include <JStringMatch.h>
 #include <locale.h>
-#include <jassert_simple.h>
+#include <jAssert.h>
 
 class JStringMatchTest : public JStringMatch
 {

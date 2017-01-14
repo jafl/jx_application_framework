@@ -11,7 +11,7 @@
 #include <JHashTable.h>
 #include <JKLRand.h>
 #include <JStrValue.h>
-#include <jassert_simple.h>
+#include <jAssert.h>
 
 	struct TableState {
 		JHashTable< JStrValue<int> >* table;

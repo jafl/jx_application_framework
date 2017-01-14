@@ -11,7 +11,7 @@
 #include <jProcessUtil.h>
 #include <JMinMax.h>
 #include <stdarg.h>
-#include <jassert_simple.h>
+#include <jAssert.h>
 
 extern void JCleanArg(JString* arg);
 

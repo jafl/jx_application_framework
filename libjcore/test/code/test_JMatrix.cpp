@@ -10,7 +10,7 @@
 #include <JUnitTestManager.h>
 #include <JMatrix.h>
 #include <JVector.h>
-#include <jassert_simple.h>
+#include <jAssert.h>
 
 int main()
 {

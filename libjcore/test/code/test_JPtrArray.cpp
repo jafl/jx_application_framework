@@ -10,7 +10,7 @@
 #include <JUnitTestManager.h>
 #include <JPtrArray-JString.h>
 #include <JBroadcastTester.h>
-#include <jassert_simple.h>
+#include <jAssert.h>
 
 int main()
 {

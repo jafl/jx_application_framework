@@ -39,7 +39,8 @@ AUTO_TESTS := \
       test_JStack test_JQueue test_JVector test_JMatrix \
       test_JKLRand test_jHashFunctions \
       test_JHashTable test_JStringMap test_JStringPtrMap \
-      test_jFileUtils test_jFStreamUtil test_jProcessUtil \
+      test_jFileUtil test_jFStreamUtil test_jProcessUtil \
+      test_jVCSUtil \
       test_JMessageProtocol
 
 #####

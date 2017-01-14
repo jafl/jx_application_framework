@@ -89,7 +89,7 @@ JSplitPathAndName
 	JString pathAndName = fullName;
 	JStripTrailingDirSeparator(&pathAndName);
 
-	JStringIterator iter(pathAndName);
+	JStringIterator iter(pathAndName, kJIteratorStartAtEnd);
 	iter.BeginMatch();
 	if (iter.Prev(ACE_DIRECTORY_SEPARATOR_STR) &&
 		iter.GetNextCharacterIndex() < pathAndName.GetCharacterCount())

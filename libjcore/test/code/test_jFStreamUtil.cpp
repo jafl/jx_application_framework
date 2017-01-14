@@ -10,7 +10,7 @@
 #include <JUnitTestManager.h>
 #include <jFStreamUtil.h>
 #include <stdio.h>
-#include <jassert_simple.h>
+#include <jAssert.h>
 
 int main()
 {

@@ -12,7 +12,7 @@
 #include <jDirUtil.h>
 #include <jFStreamUtil.h>
 #include <JPtrArray-JString.h>
-#include <jassert_simple.h>
+#include <jAssert.h>
 
 int main()
 {

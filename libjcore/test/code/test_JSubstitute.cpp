@@ -10,7 +10,7 @@
 #include <JUnitTestManager.h>
 #include <JSubstitute.h>
 #include <JString.h>
-#include <jassert_simple.h>
+#include <jAssert.h>
 
 int main()
 {

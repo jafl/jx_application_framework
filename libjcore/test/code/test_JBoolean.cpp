@@ -9,7 +9,7 @@
 
 #include <JUnitTestManager.h>
 #include <sstream>
-#include <jassert_simple.h>
+#include <jAssert.h>
 
 int main()
 {

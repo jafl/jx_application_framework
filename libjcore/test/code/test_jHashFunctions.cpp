@@ -9,7 +9,7 @@
 
 #include <JUnitTestManager.h>
 #include <jHashFunctions.h>
-#include <jassert_simple.h>
+#include <jAssert.h>
 
 	JHashValue dualHashArg[] =
 		{

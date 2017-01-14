@@ -9,7 +9,7 @@
 
 #include <JUnitTestManager.h>
 #include <JKLRand.h>
-#include <jassert_simple.h>
+#include <jAssert.h>
 
 	JInt32 jKLInt32List[] =
 		{

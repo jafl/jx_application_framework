@@ -1,6 +1,4 @@
 JRegex
-	more unit tests
-
 	implement Split
 	find uses for it, e.g., splitting path by :
 
@@ -19,9 +17,6 @@ unit tests
 	jTime.cpp
 	jGlobals.cpp
 	jGlobals_UNIX.cpp
-	jVCSUtil.cpp
-		check that ./ is git directory
-		check that Make.headers has prev revision
 	jWebUtil.cpp
 
 	JFileArray.cpp
@@ -49,6 +44,8 @@ add back in:
 	JTextEditor.cpp
 	JTEStyler.cpp
 	JVIKeyHandler.cpp
+
+move VCS detail code from CBDiffFileDialog to jVCSUtil?
 
 JAsynchDataReceiver::handle_input
 	we cannot assume received complete utf-8 characters

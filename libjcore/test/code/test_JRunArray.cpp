@@ -11,7 +11,7 @@
 #include <JRunArray.h>
 #include <JBroadcastTester.h>
 #include <sstream>
-#include <jassert_simple.h>
+#include <jAssert.h>
 
 #define verify2(str)	VerifyContents(iter2, str, __LINE__)
 
