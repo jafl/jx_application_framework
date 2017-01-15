@@ -1,23 +1,15 @@
 -suffix .cpp
 
+@test_JArray
+${CODEDIR}/test_JArray
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
 @test_JBoolean
 ${CODEDIR}/test_JBoolean
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
-@test_JUtf8Character
-${CODEDIR}/test_JUtf8Character
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@test_JString
-${CODEDIR}/test_JString
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@test_JStringMatch
-${CODEDIR}/test_JStringMatch
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@test_JStringIterator
-${CODEDIR}/test_JStringIterator
+@test_JBroadcaster
+${CODEDIR}/test_JBroadcaster
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
 @test_jFileUtil
@@ -28,70 +20,6 @@ literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 ${CODEDIR}/test_jFStreamUtil
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
-@test_jProcessUtil
-${CODEDIR}/test_jProcessUtil
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@test_jVCSUtil
-${CODEDIR}/test_jVCSUtil
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@test_JMessageProtocol
-${CODEDIR}/test_JMessageProtocol
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@test_JBroadcaster
-${CODEDIR}/test_JBroadcaster
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@test_JArray
-${CODEDIR}/test_JArray
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@test_JLinkedList
-${CODEDIR}/test_JLinkedList
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@test_JPtrArray
-${CODEDIR}/test_JPtrArray
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@test_JRunArray
-${CODEDIR}/test_JRunArray
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@test_JQueue
-${CODEDIR}/test_JQueue
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@test_JStack
-${CODEDIR}/test_JStack
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@test_JVector
-${CODEDIR}/test_JVector
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@test_JMatrix
-${CODEDIR}/test_JMatrix
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@test_JKLRand
-${CODEDIR}/test_JKLRand
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@test_JRegex
-${CODEDIR}/test_JRegex
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@test_JSubstitute
-${CODEDIR}/test_JSubstitute
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@test_JInterpolate
-${CODEDIR}/test_JInterpolate
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
 @test_jHashFunctions
 ${CODEDIR}/test_jHashFunctions
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
@@ -100,12 +28,88 @@ literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 ${CODEDIR}/test_JHashTable
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
+@test_JInterpolate
+${CODEDIR}/test_JInterpolate
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
+@test_JKLRand
+${CODEDIR}/test_JKLRand
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
+@test_JLinkedList
+${CODEDIR}/test_JLinkedList
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
+@test_JMatrix
+${CODEDIR}/test_JMatrix
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
+@test_JMessageProtocol
+${CODEDIR}/test_JMessageProtocol
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
+@test_JPipe
+${CODEDIR}/test_JPipe
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
+@test_jProcessUtil
+${CODEDIR}/test_jProcessUtil
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
+@test_JPtrArray
+${CODEDIR}/test_JPtrArray
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
+@test_JQueue
+${CODEDIR}/test_JQueue
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
+@test_JRegex
+${CODEDIR}/test_JRegex
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
+@test_JRunArray
+${CODEDIR}/test_JRunArray
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
+@test_JStack
+${CODEDIR}/test_JStack
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
+@test_JString
+${CODEDIR}/test_JString
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
+@test_JStringIterator
+${CODEDIR}/test_JStringIterator
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
 @test_JStringMap
 ${CODEDIR}/test_JStringMap
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
+@test_JStringMatch
+${CODEDIR}/test_JStringMatch
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
 @test_JStringPtrMap
 ${CODEDIR}/test_JStringPtrMap
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
+@test_JSubstitute
+${CODEDIR}/test_JSubstitute
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
+@test_JUtf8Character
+${CODEDIR}/test_JUtf8Character
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
+@test_jVCSUtil
+${CODEDIR}/test_jVCSUtil
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
+@test_JVector
+${CODEDIR}/test_JVector
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
 # unconverted
@@ -120,10 +124,6 @@ literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
 @testJPrefsFile
 ${CODEDIR}/test_JPrefsFile
-literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
-
-@testJPipe
-${CODEDIR}/test_JPipe
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
 # must be run manually

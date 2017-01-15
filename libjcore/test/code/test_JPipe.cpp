@@ -1,137 +1,106 @@
+/******************************************************************************
+ test_JPipe.cc
+
+	Program to test UNIX pipes.
+
+	Written by John Lindal.
+
+ ******************************************************************************/
+
+#include <JUnitTestManager.h>
 #include <JOutPipeStream.h>
 #include <JThisProcess.h>
+#include <JStringIterator.h>
 #include <jStreamUtil.h>
 #include <jFStreamUtil.h>
 #include <jDirUtil.h>
 #include <jSysUtil.h>
 #include <jGlobals.h>
 #include <signal.h>
+#include <jAssert.h>
 
-const JCharacter* kFileName = "\"more junk\"";
-
-int
-main
-	(
-	int argc,
-	char** argv
-	)
+int main()
 {
 	JInitCore();
 
-	std::cout << "Hello " << JGetUserName() << std::endl << std::endl;
+	std::cout << "Hello " << JGetUserName() << std::endl;
 
 	// test directory functions
 
 	JString dir;
 	if (JGetHomeDirectory(&dir))
 		{
-		std::cout << "home dir   : " << dir << std::endl;
+		std::cout << "Your home directory is: " << dir << std::endl;
 		}
 
-	dir = JGetCurrentDirectory();
-	std::cout << "current dir: " << dir << std::endl;
+	return JUnitTestManager::Execute();
+}
 
-	// test input pipe
+JTEST(Input)
+{
+	const JString dir = JGetCurrentDirectory();
 
 	JString cmd = "ls -l " + JPrepArgForExec(dir);
 
-	std::cout << std::endl;
-	std::cout << "Here is what is in your current directory:" << std::endl;
-	std::cout << std::endl;
-
 	int fromFD;
-	JError err = JExecute(cmd, NULL,
-						  kJIgnoreConnection, NULL,
-						  kJCreatePipe, &fromFD);
-	if (err.OK())
-		{
-		JString data;
-		JReadAll(fromFD, &data, kJTrue);
-		std::cout << data;
-		}
-	else
-		{
-		std::cerr << err.GetMessage() << std::endl;
-		}
-	std::cout << std::endl;
+	const JError err = JExecute(cmd, NULL,
+								kJIgnoreConnection, NULL,
+								kJCreatePipe, &fromFD);
+	JAssertOK(err);
 
-	// test output pipe
+	JString data;
+	JReadAll(fromFD, &data, kJTrue);
 
-	std::cout << "Grepping for 'junk' in stuff that I print:" << std::endl;
-	std::cout << std::endl;
+	JStringIterator iter(data);
+	JAssertTrue(iter.Next("test_JPipe"));
+}
 
+JTEST(Output)
+{
 	pid_t childPID;
 	int toFD;
-	err = JExecute("grep junk", &childPID, kJCreatePipe, &toFD);
-	if (err.OK())
-		{
-		{
-		JOutPipeStream output(toFD, kJTrue);
-		output << "This is line 1" << std::endl;
-		output << "This is line 2" << std::endl;
-		output << "This line contains 'junk'" << std::endl;
-		}
+	int fromFD;
+	JError err = JExecute(JString("grep junk", 0, kJFalse), &childPID,
+						  kJCreatePipe, &toFD,
+						  kJCreatePipe, &fromFD);
+	JAssertOK(err);
 
-		err = JWaitForChild(childPID);
-		if (!err.OK())
-			{
-			std::cerr << err.GetMessage() << std::endl;
-			}
-		}
-	else
-		{
-		std::cerr << err.GetMessage() << std::endl;
-		}
-
-	// test JPrepArgForExec with screwy file name
-
-	std::ofstream output(kFileName);
+	JOutPipeStream output(toFD, kJTrue);
 	output << "This is line 1" << std::endl;
 	output << "This is line 2" << std::endl;
+	output << "This line contains 'junk'" << std::endl;
 	output.close();
 
-	std::cout << std::endl;
-	std::cout << "Contents of " << kFileName << ':' << std::endl;
-	std::cout << std::endl;
+	err = JWaitForChild(childPID);
+	JAssertOK(err);
 
-	cmd = "cat " + JPrepArgForExec(kFileName);
+	JString data;
+	JReadAll(fromFD, &data, kJTrue);
 
-	err = JExecute(cmd, NULL);
-	if (!err.OK())
-		{
-		std::cerr << err.GetMessage() << std::endl;
-		}
+	JStringIterator iter(data);
+	JAssertTrue(iter.Next("This line contains 'junk'"));
+}
 
-	err = JRemoveFile(kFileName);
-	if (!err.OK())
-		{
-		std::cerr << err.GetMessage() << std::endl;
-		}
-
-	// test reading from our own child process
+JTEST(ChildInput)
+{
+	const JUtf8Byte* kMessage = "This is a message from the child process:  Hi!";
 
 	int fd[2];
-	err = JCreatePipe(fd);
-	if (!err.OK())
-		{
-		std::cerr << err.GetMessage() << std::endl;
-		}
+	JError err = JCreatePipe(fd);
+	JAssertOK(err);
 
 	pid_t pid;
 	err = JThisProcess::Fork(&pid);
-	if (!err.OK())
-		{
-		std::cerr << err.GetMessage() << std::endl;
-		}
+	JAssertOK(err);
 
 	// child
 
-	else if (pid == 0)
+	if (pid == 0)
 		{
 		close(fd[0]);
 
 		JOutPipeStream output(fd[1], kJTrue);
-		output << "This is a message from the child process:  Hi!" << std::endl;
+		output << kMessage;
 		output.flush();
 		exit(0);
 		}
@@ -142,16 +111,11 @@ main
 		{
 		close(fd[1]);
 
-		JWait(2);	// required to receive data on OS X
+		JWait(1);	// required to receive data on OS X
 
 		JString data;
 		JReadAll(fd[0], &data, kJTrue);
 
-		std::cout << std::endl;
-		std::cout << "Text received from child:" << std::endl;
-		std::cout << std::endl;
-		std::cout << data;
+		JAssertStringsEqual(kMessage, data);
 		}
-
-	return 0;
 }

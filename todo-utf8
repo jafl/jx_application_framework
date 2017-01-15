@@ -3,15 +3,15 @@ JRegex
 	find uses for it, e.g., splitting path by :
 
 unit tests
-	JInterpolate.cpp
-
-	JDirEntry.cpp
-	JDirInfo.cpp
-	JDirInfo_UNIX.cpp
 	jDirUtil.cpp
 	jDirUtil_UNIX.cpp
 	jFileUtil.cpp
 	jFileUtil_UNIX.cpp
+
+	JDirInfo.cpp
+	JDirEntry.cpp
+	JDirInfo_UNIX.cpp
+
 	jMountUtil_UNIX.cpp
 	jSysUtil_UNIX.cpp
 	jTime.cpp
