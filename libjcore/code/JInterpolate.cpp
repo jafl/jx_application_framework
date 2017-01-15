@@ -44,13 +44,13 @@
 	BASE CLASS = public JSubstitute
 
 	Copyright (C) 1998 by Dustin Laurence.  All rights reserved.
-	Copyright (C) 2005 by John Lindal.  All rights reserved.
+	Copyright (C) 2005-17 by John Lindal.  All rights reserved.
 
  *****************************************************************************/
 
 #include <JInterpolate.h>
 #include <JStringIterator.h>
-#include <JRegex.h>
+#include <JStringMatch.h>
 #include <jAssert.h>
 
 static const JUtf8Byte* theVariablePattern = "[+-]?[0-9]+|\\{[A-Za-z0-9_]+\\}";
@@ -63,24 +63,7 @@ static const JUtf8Byte* theVariablePattern = "[+-]?[0-9]+|\\{[A-Za-z0-9_]+\\}";
 JInterpolate::JInterpolate()
 	:
 	JSubstitute(),
-	itsSource(NULL),
-	itsRegex(NULL),
-	itsMatchList(NULL)
-{
-	DefineVariables(theVariablePattern);
-}
-
-JInterpolate::JInterpolate
-	(
-	const JUtf8Byte*			source,
-	const JRegex*				regex,
-	const JArray<JIndexRange>*	matchList
-	)
-	:
-	JSubstitute(),
-	itsSource(source),
-	itsRegex(regex),
-	itsMatchList(matchList)
+	itsMatch(NULL)
 {
 	DefineVariables(theVariablePattern);
 }
@@ -92,6 +75,27 @@ JInterpolate::JInterpolate
 
 JInterpolate::~JInterpolate()
 {
+}
+
+/******************************************************************************
+ Interpolate
+
+	Not to be confused with exterminate. -- The Doctor
+
+ *****************************************************************************/
+
+JString
+JInterpolate::Interpolate
+	(
+	const JString&		pattern,
+	const JStringMatch&	m
+	)
+{
+	itsMatch = &m;
+
+	JString s = pattern;
+	Substitute(&s);
+	return s;
 }
 
 /******************************************************************************
@@ -107,17 +111,9 @@ JInterpolate::GetValue
 	)
 	const
 {
-	if (itsSource == NULL ||
-		itsRegex == NULL  ||
-		itsMatchList == NULL)
-		{
-		return kJFalse;
-		}
-
+	assert( itsMatch != NULL );
 	assert( !name.IsEmpty() );
-	value->Clear();
 
-	JIndex matchNumber;
 	if (name.GetFirstCharacter() == '{')
 		{
 		assert( name.GetLastCharacter() == '}' );
@@ -128,34 +124,27 @@ JInterpolate::GetValue
 		iter.MoveTo(kJIteratorStartAtEnd, 0);
 		iter.RemovePrev();
 
-		if (!itsRegex->GetSubexpressionIndex(s, &matchNumber))
-			{
-			return kJFalse;
-			}
-		}
-	else
-		{
-		JInteger n;
-		const JBoolean wasNumber = name.ConvertToInteger(&n);
-		assert( wasNumber );
-
-		if (n < 0)	// Wrap so negatives count from the end
-			{
-			n += itsMatchList->GetElementCount();
-			}
-		matchNumber = n;
-		}
-
-	const JIndex matchIndex = matchNumber + 1;	// first subexpression is index 2
-
-	if (itsMatchList->IndexValid(matchIndex))
-		{
-		const JIndexRange thisRange = itsMatchList->GetElement(matchIndex);
-		value->Set(itsSource + thisRange.first - 1, thisRange.GetCount() );
+		*value = itsMatch->GetSubstring(s);
 		return kJTrue;
 		}
 	else
 		{
-		return kJFalse;
+		JInteger n;
+		const JBoolean isNumber = name.ConvertToInteger(&n);
+		assert( isNumber );
+
+		if (n < 0)	// Wrap so negatives count from the end
+			{
+			n += itsMatch->GetSubstringCount() + 1;
+			}
+
+		if (n == 0)
+			{
+			*value = itsMatch->GetString();
+			return kJTrue;
+			}
+
+		*value = itsMatch->GetSubstring(n);
+		return kJTrue;
 		}
 }

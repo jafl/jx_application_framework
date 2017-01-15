@@ -33,7 +33,8 @@ LDFLAGS   :=
 
 AUTO_TESTS := \
       test_JBoolean test_JUtf8Character test_JString \
-      test_JStringMatch test_JStringIterator test_JRegex test_JSubstitute \
+      test_JStringMatch test_JStringIterator test_JRegex \
+      test_JSubstitute test_JInterpolate \
       test_JBroadcaster \
       test_JArray test_JLinkedList test_JPtrArray test_JRunArray \
       test_JStack test_JQueue test_JVector test_JMatrix \

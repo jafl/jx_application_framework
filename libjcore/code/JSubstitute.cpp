@@ -810,7 +810,7 @@ JSubstitute::Evaluate
 
 	JString s(iter.GetString().GetBytes(),
 			  JUtf8ByteRange(iter.GetNextByteIndex(),
-							  iter.GetString().GetByteCount()),
+							 iter.GetString().GetByteCount()),
 			  kJFalse);
 
 	const JSize count = itsVarList->GetElementCount();

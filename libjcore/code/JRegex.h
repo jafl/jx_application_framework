@@ -18,7 +18,6 @@
 #include <pcre.h>
 
 class JStringMatch;
-class JInterpolate;
 
 class JRegex
 {

@@ -2,7 +2,7 @@
  JInterpolate.h
 
 	Copyright (C) 1998 by Dustin Laurence.  All rights reserved.
-	Copyright (C) 2005 by John Lindal.  All rights reserved.
+	Copyright (C) 2005-17 by John Lindal.  All rights reserved.
 
  *****************************************************************************/
 
@@ -11,20 +11,17 @@
 
 #include <JSubstitute.h>
 
-class JRegex;
+class JStringMatch;
 
 class JInterpolate : public JSubstitute
 {
 public:
 
 	JInterpolate();
-	JInterpolate(const JUtf8Byte* source, const JRegex* regex,
-				 const JArray<JIndexRange>* matchList);
 
 	virtual ~JInterpolate();
 
-	void	SetMatchResults(const JUtf8Byte* source, const JRegex* regex,
-							const JArray<JIndexRange>* matchList);
+	JString	Interpolate(const JString& pattern, const JStringMatch& m);
 
 protected:
 
@@ -32,9 +29,7 @@ protected:
 
 private:
 
-	const JUtf8Byte*			itsSource;
-	const JRegex*				itsRegex;
-	const JArray<JIndexRange>*	itsMatchList;
+	const JStringMatch* itsMatch;
 
 private:
 
@@ -43,24 +38,5 @@ private:
 	JInterpolate(const JInterpolate& source);
 	const JInterpolate& operator=(const JInterpolate& source);
 };
-
-
-/******************************************************************************
- SetMatchResults
-
- *****************************************************************************/
-
-inline void
-JInterpolate::SetMatchResults
-	(
-	const JUtf8Byte*			source,
-	const JRegex*				regex,
-	const JArray<JIndexRange>*	matchList
-	)
-{
-	itsSource    = source;
-	itsRegex     = regex;
-	itsMatchList = matchList;
-}
 
 #endif

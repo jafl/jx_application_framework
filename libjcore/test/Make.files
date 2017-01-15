@@ -80,12 +80,16 @@ literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 ${CODEDIR}/test_JKLRand
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
+@test_JRegex
+${CODEDIR}/test_JRegex
+literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
+
 @test_JSubstitute
 ${CODEDIR}/test_JSubstitute
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
-@test_JRegex
-${CODEDIR}/test_JRegex
+@test_JInterpolate
+${CODEDIR}/test_JInterpolate
 literal: ${JLIBDIR}/libjcore-${JX_LIB_VERSION}.a
 
 @test_jHashFunctions
