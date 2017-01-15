@@ -1,9 +1,3 @@
-jcc:
-	fix SVN diff to use svn cat -r BASE or PREV
-	re-enable "compare with subversion" and detect .svn just like .git
-
------
-
 https://reviews.llvm.org/differential/
 
 document SB*.h
