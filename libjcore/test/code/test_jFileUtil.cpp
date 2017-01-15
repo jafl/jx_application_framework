@@ -22,11 +22,11 @@ int main()
 JTEST(File)
 {
 	JString testFileName;
-	JError err = JCreateTempFile(&testFileName);
-	JAssertOK(err);
+	JAssertOK(JCreateTempFile(&testFileName));
 
-	err = JRemoveFile(testFileName);
-	JAssertOK(err);
+	JAssertTrue(JNameUsed(testFileName));
+
+	JAssertOK(JRemoveFile(testFileName));
 	JAssertFalse(JFileExists(testFileName));
 	JAssertFalse(JFileWritable(testFileName));
 
@@ -36,27 +36,54 @@ JTEST(File)
 	JAssertTrue(JFileExists(testFileName));
 	JAssertTrue(JFileWritable(testFileName));
 
-	err = JRemoveFile(testFileName);
-	JAssertOK(err);
+	JAssertOK(JRemoveFile(testFileName));
+}
+
+JTEST(Symlink)
+{
+	JString f1("test_JString.dat", 0, kJFalse);
+	JString f2("test_JFileUtil.dat", 0, kJFalse);
+
+	JAssertOK(JCreateSymbolicLink(f1, f2));
+	JAssertTrue(JSameDirEntry(f1, f2));
+
+	JString f3;
+	JAssertOK(JGetSymbolicLinkTarget(f2, &f3));
+	JAssertTrue(JSameDirEntry(f1, f3));
+
+	JAssertOK(JRemoveFile(f2));
+}
+
+JTEST(Permissions)
+{
+	JAssertStringsEqual("rwxr-xr-x", JGetPermissionsString(0755));
 }
 
 JTEST(Directory)
 {
-	JString dirName("code", 0);
+	JString dirName("code", 0, kJFalse);
 	JAssertTrue(JDirectoryExists(dirName));
 	JAssertTrue(JDirectoryWritable(dirName));
+	JAssertTrue(JCanEnterDirectory(dirName));
 
-	JError err = JCreateDirectory(JString("junk", 0, kJFalse));
-	JAssertOK(err);
+	JString d1("junk", 0, kJFalse);
+	JAssertOK(JCreateDirectory(d1));
 
-	err = JRenameDirectory(JString("junk", 0, kJFalse), JString("junk2", 0, kJFalse));
-	JAssertOK(err);
+	JString d2("junk2", 0, kJFalse);
+	JAssertOK(JRenameDirectory(d1, d2));
 
-	err = JRemoveDirectory(JString("junk2", 0, kJFalse));
-	JAssertOK(err);
+	JAssertOK(JRemoveDirectory(d2));
 
 	JString path;
+	JAssertOK(JCreateTempDirectory(NULL, NULL, &path));
+	JAssertOK(JRemoveDirectory(path));
+
 	JAssertTrue(JGetTempDirectory(&path));
+
+	JAssertTrue(JSearchSubdirs(
+		JString(".", 0, kJFalse),
+		JString("test_JFileUtil.cpp", 0, kJFalse),
+		kJTrue, kJFalse, &path));
 }
 
 JTEST(Files)
@@ -82,4 +109,45 @@ JTEST(Files)
 	system(cmd.GetBytes());
 
 	JAssertTrue(JKillDirectory(path));
+}
+
+JTEST(Path)
+{
+	JString s = JCombinePathAndName(
+		JString("/usr", 0, kJFalse), JString("local", 0, kJFalse));
+	JAssertStringsEqual("/usr/local", s);
+
+	JAppendDirSeparator(&s);
+	JAppendDirSeparator(&s);
+	JAssertStringsEqual("/usr/local/", s);
+
+	JString path, name;
+	JAssertTrue(JSplitPathAndName(s, &path, &name));
+	JAssertStringsEqual("/usr", path);
+	JAssertStringsEqual("local", name);
+
+	JStripTrailingDirSeparator(&s);
+	JAssertStringsEqual("/usr/local", s);
+
+	s = "//usr/./local/../local/";
+	JAssertTrue(JGetTrueName(s, &name));
+	JAssertStringsEqual("/usr/local/", name);
+
+	JCleanPath(&s);
+	JAssertStringsEqual("/usr/local/../local/", s);
+	JAssertTrue(JIsAbsolutePath(s));
+
+	s = JGetRootDirectory();
+	JAssertTrue(JIsRootDirectory(s));
+
+	s = "./code";
+	JAssertTrue(JIsRelativePath(s));
+
+	JAssertTrue(JConvertToAbsolutePath(s, NULL, &path));
+	s = JConvertToRelativePath(path, JGetCurrentDirectory());
+	JAssertStringsEqual("./code", s);
+
+	s = JGetClosestDirectory(
+		JString("/usr/include/zzz/junk/foo/bar/baz.cc", 0, kJFalse));
+	JAssertStringsEqual("/usr/include", s);
 }

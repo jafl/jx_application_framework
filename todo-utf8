@@ -3,8 +3,6 @@ JRegex
 	find uses for it, e.g., splitting path by :
 
 unit tests
-	jDirUtil.cpp
-	jDirUtil_UNIX.cpp
 	jFileUtil.cpp
 	jFileUtil_UNIX.cpp
 
