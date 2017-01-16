@@ -1,5 +1,4 @@
 JRegex
-	implement Split
 	find uses for it, e.g., splitting path by :
 
 unit tests
@@ -7,6 +6,12 @@ unit tests
 	JDirEntry.cpp
 	JDirInfo_UNIX.cpp
 
+add back in:
+	JTextEditor.cpp
+	JTEStyler.cpp
+	JVIKeyHandler.cpp
+
+unit tests
 	JFileArray.cpp
 	JPrefsFile.cpp
 
@@ -27,11 +32,6 @@ unit tests
 	JVIKeyHandler.cpp
 	JVersionSocket.tmpl
 	JWebBrowser.cpp
-
-add back in:
-	JTextEditor.cpp
-	JTEStyler.cpp
-	JVIKeyHandler.cpp
 
 jcc:
 	move VCS detail code from CBDiffFileDialog to jVCSUtil?

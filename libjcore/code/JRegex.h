@@ -59,6 +59,7 @@ public:
 
 	JBoolean	Match(const JString& str) const;
 	void		Split(const JString& str, JPtrArray<JString>* strPartList,
+					  const JSize limit = 0,
 					  const JBoolean includeSeparators = kJFalse) const;
 
 // Setting and testing options

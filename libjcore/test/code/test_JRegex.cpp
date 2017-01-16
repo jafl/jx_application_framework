@@ -443,6 +443,49 @@ JTEST(Features)
 	}
 }
 
+JTEST(Split)
+{
+	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
+
+	JString s("  foo bar  baz ", 0, kJFalse);
+
+	JRegex regex("\\s+");
+	regex.Split(s, &list);
+	JAssertEqual(4, list.GetElementCount());
+	JAssertStringsEqual("", *list.NthElement(1));
+	JAssertStringsEqual("foo", *list.NthElement(2));
+	JAssertStringsEqual("bar", *list.NthElement(3));
+	JAssertStringsEqual("baz", *list.NthElement(4));
+
+	regex.Split(s, &list, 0, kJTrue);
+	JAssertEqual(8, list.GetElementCount());
+	JAssertStringsEqual("", *list.NthElement(1));
+	JAssertStringsEqual("  ", *list.NthElement(2));
+	JAssertStringsEqual("foo", *list.NthElement(3));
+	JAssertStringsEqual(" ", *list.NthElement(4));
+	JAssertStringsEqual("bar", *list.NthElement(5));
+	JAssertStringsEqual("  ", *list.NthElement(6));
+	JAssertStringsEqual("baz", *list.NthElement(7));
+	JAssertStringsEqual(" ", *list.NthElement(8));
+
+	s.TrimWhitespace();
+
+	regex.Split(s, &list, 2);
+	JAssertEqual(2, list.GetElementCount());
+	JAssertStringsEqual("foo", *list.NthElement(1));
+	JAssertStringsEqual("bar  baz", *list.NthElement(2));
+
+	s = "1,2,x,z,";
+	regex.SetPatternOrDie(",");
+
+	regex.Split(s, &list);
+	JAssertEqual(4, list.GetElementCount());
+	JAssertStringsEqual("1", *list.NthElement(1));
+	JAssertStringsEqual("2", *list.NthElement(2));
+	JAssertStringsEqual("x", *list.NthElement(3));
+	JAssertStringsEqual("z", *list.NthElement(4));
+}
+
 JTEST(BackslashForLiteral)
 {
 	JAssertTrue(JRegex::NeedsBackslashToBeLiteral('$'));

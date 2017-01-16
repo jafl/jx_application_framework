@@ -422,6 +422,62 @@ JRegex::MatchLastWithin
 }
 
 /******************************************************************************
+ Split
+
+	Leading blanks are included.  Trailing blanks are ignored.
+
+ *****************************************************************************/
+
+void
+JRegex::Split
+	(
+	const JString&		str,
+	JPtrArray<JString>*	strPartList,
+	const JSize			limit,
+	const JBoolean		includeSeparators
+	)
+	const
+{
+	strPartList->CleanOut();
+	strPartList->SetCleanUpAction(JPtrArrayT::kDeleteAll);
+
+	JSize count = 1;	// if we don't find any separators
+
+	JStringIterator iter(str);
+	iter.BeginMatch();
+	while (iter.Next(*this))
+		{
+		JString* separator = NULL;
+		if (includeSeparators)
+			{
+			separator = jnew JString(iter.GetLastMatch().GetString());
+			assert( separator != NULL );
+			}
+
+		strPartList->Append(iter.FinishMatch().GetString());
+		if (separator != NULL)
+			{
+			strPartList->Append(separator);
+			}
+
+		iter.BeginMatch();
+
+		count++;
+		if (limit > 0 && count >= limit)
+			{
+			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			break;
+			}
+		}
+
+	const JStringMatch& m = iter.FinishMatch();
+	if (!m.IsEmpty())
+		{
+		strPartList->Append(m.GetString());
+		}
+}
+
+/******************************************************************************
  GetSubexpressionIndex
 
  *****************************************************************************/
