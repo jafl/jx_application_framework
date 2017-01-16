@@ -47,7 +47,7 @@ JIsURL
 
  ******************************************************************************/
 
-static const JRegex urlPattern = "([^:]+)://([^/:]+)(?::([0-9]+))?(.*)";
+static const JRegex urlPattern = "^([^:]+)://([^/:]+)(?::([0-9]+))?(.*)";
 
 JBoolean
 JParseURL
@@ -62,7 +62,7 @@ JParseURL
 	*path = url;
 
 	JStringIterator iter(url);
-	if (iter.Next(url))
+	if (iter.Next(urlPattern))
 		{
 		const JStringMatch& m = iter.GetLastMatch();
 
