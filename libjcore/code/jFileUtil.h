@@ -46,6 +46,7 @@ void		JExtractFileAndLine(const JString& str,
 								JString* fileName, JIndex* startLineIndex,
 								JIndex* endLineIndex = NULL);
 
+JString		JCombineRootAndSuffix(const JString& root, const JUtf8Byte* suffix);
 JString		JCombineRootAndSuffix(const JString& root, const JString& suffix);
 JBoolean	JSplitRootAndSuffix(const JString& name, JString* root, JString* suffix);
 
@@ -60,6 +61,16 @@ JCreateTempFile
 	)
 {
 	return JCreateTempFile(NULL, NULL, fullName);
+}
+
+inline JString
+JCombineRootAndSuffix
+	(
+	const JString& root,
+	const JString& suffix
+	)
+{
+	return JCombineRootAndSuffix(root, suffix.GetBytes());
 }
 
 #endif

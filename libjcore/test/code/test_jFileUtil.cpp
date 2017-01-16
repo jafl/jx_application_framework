@@ -25,6 +25,15 @@ JTEST(File)
 	JAssertOK(JCreateTempFile(&testFileName));
 
 	JAssertTrue(JNameUsed(testFileName));
+	JAssertTrue(JFileExists(testFileName));
+	JAssertTrue(JFileReadable(testFileName));
+	JAssertTrue(JFileWritable(testFileName));
+	JAssertFalse(JFileExecutable(testFileName));
+	JAssertFalse(JDirectoryExists(testFileName));
+
+	JSize size;
+	JAssertOK(JGetFileLength(testFileName, &size));
+	JAssertEqual(0, size);
 
 	JAssertOK(JRemoveFile(testFileName));
 	JAssertFalse(JFileExists(testFileName));
@@ -36,7 +45,18 @@ JTEST(File)
 	JAssertTrue(JFileExists(testFileName));
 	JAssertTrue(JFileWritable(testFileName));
 
-	JAssertOK(JRemoveFile(testFileName));
+	JAssertOK(JGetFileLength(testFileName, &size));
+	JAssertEqual(3, size);
+
+	JString path, name;
+	JAssertTrue(JSplitPathAndName(testFileName, &path, &name));
+
+	JString s = JGetUniqueDirEntryName(path, JString("test_j_file_util_", 0, kJFalse));
+	JAssertOK(JRenameFile(testFileName, s));
+	JAssertFalse(JFileExists(testFileName));
+	JAssertTrue(JFileExists(s));
+
+	JAssertOK(JRemoveFile(s));
 }
 
 JTEST(Symlink)
@@ -62,6 +82,7 @@ JTEST(Permissions)
 JTEST(Directory)
 {
 	JString dirName("code", 0, kJFalse);
+	JAssertFalse(JFileExists(dirName));
 	JAssertTrue(JDirectoryExists(dirName));
 	JAssertTrue(JDirectoryWritable(dirName));
 	JAssertTrue(JCanEnterDirectory(dirName));
@@ -99,14 +120,9 @@ JTEST(Files)
 		JString* fileName = jnew JString();
 		assert( fileName != NULL );
 
-		const JError err = JCreateTempFile(&path, NULL, fileName);
-		JAssertOK(err);
+		JAssertOK(JCreateTempFile(&path, NULL, fileName));
 		fileList.Append(fileName);
 		}
-
-	std::cout << std::endl << "Contents of " << path << ":" << std::endl << std::endl;
-	const JString cmd = "ls " + path;
-	system(cmd.GetBytes());
 
 	JAssertTrue(JKillDirectory(path));
 }
@@ -150,4 +166,52 @@ JTEST(Path)
 	s = JGetClosestDirectory(
 		JString("/usr/include/zzz/junk/foo/bar/baz.cc", 0, kJFalse));
 	JAssertStringsEqual("/usr/include", s);
+}
+
+JTEST(ExtractFileAndLine)
+{
+	JString s;
+	JIndex start, end;
+	JExtractFileAndLine(JString("foo.cpp:5", 0, kJFalse), &s, &start);
+	JAssertEqual("foo.cpp", s);
+	JAssertEqual(5, start);
+
+	JExtractFileAndLine(JString("foo.cpp:7-12", 0, kJFalse), &s, &start, &end);
+	JAssertEqual("foo.cpp", s);
+	JAssertEqual(7, start);
+	JAssertEqual(12, end);
+}
+
+JTEST(RootSuffix)
+{
+	JString s("foo.cpp", 0, kJFalse);
+	JString root, suffix;
+	JAssertTrue(JSplitRootAndSuffix(s, &root, &suffix));
+	JAssertStringsEqual("foo", root);
+	JAssertStringsEqual("cpp", suffix);
+
+	s = JCombineRootAndSuffix(root, suffix);
+	JAssertStringsEqual("foo.cpp", s);
+
+	s = "foo.5";
+	JAssertFalse(JSplitRootAndSuffix(s, &root, &suffix));
+	JAssertStringsEqual("foo.5", root);
+	JAssertTrue(suffix.IsEmpty());
+
+	s = "foo.";
+	JAssertFalse(JSplitRootAndSuffix(s, &root, &suffix));
+	JAssertStringsEqual("foo.", root);
+	JAssertTrue(suffix.IsEmpty());
+}
+
+JTEST(Url)
+{
+	JString s("./test_jFileUtil", 0, kJFalse), fullName;
+	JAssertTrue(JConvertToAbsolutePath(s, NULL, &fullName));
+
+	s = JFileNameToURL(fullName);
+
+	JString s2;
+	JAssertTrue(JURLToFileName(s, &s2));
+	JAssertStringsEqual(fullName, s2);
 }
