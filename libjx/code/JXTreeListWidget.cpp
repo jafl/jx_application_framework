@@ -39,6 +39,7 @@
 #include <jAssert.h>
 
 const JSize kDefColWidth          = 100;
+const JSize kMinCellWidth         = 10;
 const JSize kDefaultIndent        = 10;
 const JCoordinate kToggleColWidth = 20;
 const JSize kDefaultMaxOpenDepth  = 5;
@@ -835,7 +836,7 @@ JXTreeListWidget::AdjustToTree()
 			for (JIndex i=1; i<=rowCount; i++)
 				{
 				cell.y            = i;
-				const JSize width = GetMinCellWidth(cell);
+				const JSize width = JMax(kMinCellWidth, GetMinCellWidth(cell));
 				if (width > maxWidth)
 					{
 					maxWidth = width;
