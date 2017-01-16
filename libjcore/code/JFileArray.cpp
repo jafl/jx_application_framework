@@ -1590,7 +1590,7 @@ JFileArray::SetFileLength
 		// closes old std::fstream, changes file length, returns new std::fstream
 
 		std::fstream* newStream =
-			JSetFStreamLength(itsFileName->GetBytes(), *itsStream,
+			JSetFStreamLength(*itsFileName, *itsStream,
 							  newLength, kFileOpenMode);
 
 		// deletes the old std::fstream and notifies embedded files of new one

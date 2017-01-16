@@ -7,13 +7,6 @@ unit tests
 	JDirEntry.cpp
 	JDirInfo_UNIX.cpp
 
-	jMountUtil_UNIX.cpp
-	jSysUtil_UNIX.cpp
-	jTime.cpp
-	jGlobals.cpp
-	jGlobals_UNIX.cpp
-	jWebUtil.cpp
-
 	JFileArray.cpp
 	JPrefsFile.cpp
 
