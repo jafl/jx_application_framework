@@ -75,17 +75,17 @@ JPrintTimeInterval
 		{
 		return JString(delta/86400.0, 1) + " days";
 		}
-	else if (delta < 60*60*24*7*30)
+	else if (delta < 60*60*24*30)
 		{
 		return JString(delta/604800.0, 1) + " weeks";
 		}
-	else if (delta < 60*60*24*7*365)
+	else if (delta < 60*60*24*365)
 		{
-		return JString(delta/18144000.0, 1) + " months";
+		return JString(delta/2592000.0, 1) + " months";
 		}
 	else
 		{
-		return JString(delta/220752000.0, 1) + " years";
+		return JString(delta/31536000.0, 1) + " years";
 		}
 }
 
