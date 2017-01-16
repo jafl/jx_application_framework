@@ -303,6 +303,63 @@ JString::~JString()
 }
 
 /******************************************************************************
+ Set
+
+ ******************************************************************************/
+
+void
+JString::Set
+	(
+	const JString& str
+	)
+{
+	if (str.itsBytes < itsBytes || itsBytes + itsByteCount <= str.itsBytes)
+		{
+		CopyToPrivateString(str.itsBytes, str.itsByteCount);
+		}
+	else if (itsBytes != str.itsBytes || itsByteCount != str.itsByteCount)
+		{
+		JUtf8Byte* s  = itsBytes;
+		itsBytes      = NULL;
+		itsByteCount  = 0;
+		itsAllocCount = 0;
+		CopyToPrivateString(str.itsBytes, str.itsByteCount);
+
+		if (itsOwnerFlag)
+			{
+			jdelete [] s;
+			}
+		}
+}
+
+void
+JString::Set
+	(
+	const JString&			str,
+	const JCharacterRange&	charRange
+	)
+{
+	const JUtf8ByteRange byteRange = str.CharacterToUtf8ByteRange(charRange);
+	if (str.itsBytes < itsBytes || itsBytes + itsByteCount <= str.itsBytes)
+		{
+		CopyToPrivateString(str.itsBytes + byteRange.first-1, byteRange.GetCount());
+		}
+	else if (itsBytes != str.itsBytes || itsByteCount != byteRange.GetCount())
+		{
+		JUtf8Byte* s  = itsBytes;
+		itsBytes      = NULL;
+		itsByteCount  = 0;
+		itsAllocCount = 0;
+		CopyToPrivateString(str.itsBytes + byteRange.first-1, byteRange.GetCount());
+
+		if (itsOwnerFlag)
+			{
+			jdelete [] s;
+			}
+		}
+}
+
+/******************************************************************************
  CopyToPrivateString (private)
 
 	Copy the given string into our private string.

@@ -222,6 +222,18 @@ JTEST(Set)
 	JAssertEqual(0, s.GetCharacterCount());
 	JAssertStringsEqual("", s);
 	JAssertTrue(s.IsEmpty());
+
+	// test assignment to part of self
+
+	s = "890\xC2\xA9\xC3\x85";
+	JString s3(s.GetBytes(), 5, kJFalse);
+	s = s3;
+	JAssertStringsEqual("890\xC2\xA9", s);
+
+	s = "890\xC2\xA9\xC3\x85";
+	JString s4(s.GetBytes(), JUtf8ByteRange(2, 5), kJFalse);
+	s = s4;
+	JAssertStringsEqual("90\xC2\xA9", s);
 }
 
 JTEST(IsValid)

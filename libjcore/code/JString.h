@@ -1326,32 +1326,6 @@ JString::Compare
 inline void
 JString::Set
 	(
-	const JString& str
-	)
-{
-	if (this->itsBytes != str.itsBytes)
-		{
-		CopyToPrivateString(str.itsBytes, str.itsByteCount);
-		}
-}
-
-inline void
-JString::Set
-	(
-	const JString&			str,
-	const JCharacterRange&	charRange
-	)
-{
-	if (this->itsBytes != str.itsBytes)
-		{
-		const JUtf8ByteRange byteRange = str.CharacterToUtf8ByteRange(charRange);
-		CopyToPrivateString(str.itsBytes + byteRange.first-1, byteRange.GetCount());
-		}
-}
-
-inline void
-JString::Set
-	(
 	const JUtf8Byte* str
 	)
 {
