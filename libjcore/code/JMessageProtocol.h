@@ -107,11 +107,6 @@ public:
 
 	void	SendMessage(const JString& message);
 	void	SendData(const JString& data);
-	void	TranslateFromUNIXAndSend(const JString& data);
-	void	TranslateFromMacintoshAndSend(const JString& data);
-	void	TranslateFromDOSAndSend(const JString& data);
-	void	TranslateAndSend(const JString& data,
-							 const JUtf8Byte* separatorStr, const JSize separatorByteCount);
 
 	// how much is read from the connection at one time
 
@@ -124,7 +119,7 @@ public:
 
 private:
 
-	JPtrArray<JString>	itsMessageList;		// parsed messages, last one is incomplete
+	JPtrArray<JString>	itsMessageList;		// complete messages + empty one at the end
 
 	JString		itsRecvData;				// buffer containing unprocessed characters
 	JUtf8Byte*	itsBuffer;					// buffer to receive raw bytes

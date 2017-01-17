@@ -42,6 +42,7 @@ static const char* kCurrentJCoreLibVersionStr = "4.0.0";
 //	*** Updated JIntRange to match JIndexRange API.
 //	*** Removed using statements from jTypes.h & jFStreamUtil.h
 //		You should use the std:: prefix explicitly.
+//	*** Removed JMessageProtocol::Translate*AndSend
 
 // version 3.2.0:
 //	jMountUtil:

@@ -113,12 +113,23 @@ private:
 	{
 		std::cout << "server state: " << itsState << std::endl;
 
+		if (itsState > 1)
+			{
+			return;
+			}
+
+		JAssertTrue(itsLink->HasMessages());
+		JAssertEqual(1, itsLink->GetMessageCount());
+		JAssertFalse(itsLink->ReceivedDisconnect());
+
 		JString msg;
+		JAssertFalse(itsLink->PeekPartialMessage(&msg));
+		JAssertTrue(itsLink->PeekNextMessage(&msg));
+		JAssertTrue(itsLink->GetNextMessage(&msg));
+
 		if (itsState == 0)
 			{
-			JAssertTrue(itsLink->GetNextMessage(&msg));
 			JAssertStringsEqual(message1, msg);
-			JAssertFalse(itsLink->ReceivedDisconnect());
 
 			itsLink->SendBytes(message1, 13);	// force break in middle of UTF-8 character
 			sleep(1);
@@ -128,9 +139,7 @@ private:
 			}
 		else if (itsState == 1)
 			{
-			JAssertTrue(itsLink->GetNextMessage(&msg));
 			JAssertStringsEqual(message2, msg);
-			JAssertFalse(itsLink->ReceivedDisconnect());
 
 			itsLink->SendBytes(message2, 5);	// force break in middle of UTF-8 character
 			sleep(1);
@@ -200,21 +209,30 @@ private:
 	{
 		std::cout << "client state: " << itsState << std::endl;
 
+		if (itsState > 1)
+			{
+			return;
+			}
+
+		JAssertTrue(itsLink->HasMessages());
+		JAssertEqual(1, itsLink->GetMessageCount());
+		JAssertFalse(itsLink->ReceivedDisconnect());
+
 		JString msg;
+		JAssertFalse(itsLink->PeekPartialMessage(&msg));
+		JAssertTrue(itsLink->PeekNextMessage(&msg));
+		JAssertTrue(itsLink->GetNextMessage(&msg));
+
 		if (itsState == 0)
 			{
-			JAssertTrue(itsLink->GetNextMessage(&msg));
 			JAssertStringsEqual(message1, msg);
-			JAssertFalse(itsLink->ReceivedDisconnect());
 
 			itsLink->SendMessage(JString(message2, 0, kJFalse));
 			itsState++;
 			}
 		else if (itsState == 1)
 			{
-			JAssertTrue(itsLink->GetNextMessage(&msg));
 			JAssertStringsEqual(message2, msg);
-			JAssertFalse(itsLink->ReceivedDisconnect());
 
 			itsLink->ShouldSendSynch();
 			itsLink->SendDisconnect();

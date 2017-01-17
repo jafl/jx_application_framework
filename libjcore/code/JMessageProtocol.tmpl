@@ -22,7 +22,6 @@
  ******************************************************************************/
 
 #include <JMessageProtocol.h>
-#include <JStringIterator.h>
 #include <JStringMatch.h>
 #include <JMinMax.h>
 #include <jAssert.h>
@@ -304,7 +303,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::PeekNextMessage
 	JString* message
 	)
 {
-	if (!itsMessageList.IsEmpty())
+	if (itsMessageList.GetElementCount() > 1)
 		{
 		*message = *(itsMessageList.FirstElement());
 		return kJTrue;
@@ -382,111 +381,6 @@ JMessageProtocol<ACE_PEER_STREAM_2>::SendData
 }
 
 /******************************************************************************
- TranslateFromUNIXAndSend
-
-	Translates the data from UNIX protocol ("\n") and sends it.
-
- ******************************************************************************/
-
-template <ACE_PEER_STREAM_1>
-void
-JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromUNIXAndSend
-	(
-	const JString& data
-	)
-{
-	TranslateAndSend(data,
-					 JMessageProtocolT::kUNIXSeparatorStr,
-					 JMessageProtocolT::kUNIXSeparatorByteCount);
-}
-
-/******************************************************************************
- TranslateFromMacintoshAndSend
-
-	Translates the data from Macintosh protocol ("\r") and sends it.
-
- ******************************************************************************/
-
-template <ACE_PEER_STREAM_1>
-void
-JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromMacintoshAndSend
-	(
-	const JString& data
-	)
-{
-	TranslateAndSend(data,
-					 JMessageProtocolT::kMacintoshSeparatorStr,
-					 JMessageProtocolT::kMacintoshSeparatorByteCount);
-}
-
-/******************************************************************************
- TranslateFromDOSAndSend
-
-	Translates the data from DOS protocol ("\r\n") and sends it.
-
- ******************************************************************************/
-
-template <ACE_PEER_STREAM_1>
-void
-JMessageProtocol<ACE_PEER_STREAM_2>::TranslateFromDOSAndSend
-	(
-	const JString& data
-	)
-{
-	TranslateAndSend(data,
-					 JMessageProtocolT::kDOSSeparatorStr,
-					 JMessageProtocolT::kDOSSeparatorByteCount);
-}
-
-/******************************************************************************
- TranslateAndSend
-
-	Translates the data from the given protocol and sends it.
-
- ******************************************************************************/
-
-template <ACE_PEER_STREAM_1>
-void
-JMessageProtocol<ACE_PEER_STREAM_2>::TranslateAndSend
-	(
-	const JString&		data,
-	const JUtf8Byte*	separatorStr,
-	const JSize			separatorByteCount
-	)
-{
-	if (data.IsEmpty())
-		{
-		return;
-		}
-
-	// build list of data blocks to send
-
-	JArray<iovec> bufferList(100);
-
-	iovec sepBuffer;
-	sepBuffer.iov_base = const_cast<char*>(itsSeparatorStr.GetBytes());
-	sepBuffer.iov_len  = itsSeparatorStr.GetByteCount();
-
-	JStringIterator iter(data);
-	iter.BeginMatch();
-	while (iter.Next(separatorStr, separatorByteCount))
-		{
-		const JStringMatch& m  = iter.FinishMatch();
-		const JUtf8ByteRange r = m.GetUtf8ByteRange();
-
-		iovec buffer;
-		buffer.iov_base = const_cast<char*>(data.GetBytes() + r.first - 1);
-		buffer.iov_len  = r.GetCount();;
-		bufferList.AppendElement(buffer);		// send data
-		bufferList.AppendElement(sepBuffer);	// send separator
-		}
-
-	// send all data blocks in one shot
-
-	JNetworkProtocolBase<ACE_PEER_STREAM_2>::Send(bufferList.GetCArray(), bufferList.GetElementCount());
-}
-
-/******************************************************************************
  handle_input (virtual)
 
 	This is called when we receive data.  It is also safe for anybody else
@@ -532,44 +426,47 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 	memmove(itsBuffer, itsBuffer + validCount, remainingCount);
 	itsBufferOffset = remainingCount;
 
-	JStringIterator iter(&itsRecvData);
-	iter.BeginMatch();
-	while (iter.Next(itsTokenPattern))
+	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
+	itsTokenPattern.Split(itsRecvData, &list, 0, kJTrue);
+
+	if (itsTokenPattern.Match(*(list.FirstElement())))
 		{
-		JString* msg = itsMessageList.LastElement();
-
-		if (!itsDisconnectStr.IsEmpty())
-			{
-			const JStringMatch& m = iter.GetLastMatch();
-			if (m.GetString() == itsDisconnectStr)
-				{
-				itsReceivedDisconnectFlag = kJTrue;
-
-				const JStringMatch& m = iter.FinishMatch();
-				*msg += m.GetString();
-				if (!msg->IsEmpty())
-					{
-					NewMessage();
-					Broadcast(JMessageProtocolT::MessageReady(*msg));
-					}
-
-				itsRecvData.Clear();
-				Broadcast(JMessageProtocolT::ReceivedDisconnect());
-				// we might be deleted and itsInHandleInputFlag is now irrelevant
-				return 0;
-				}
-			}
-
-		const JStringMatch& m = iter.FinishMatch();
-		*msg += m.GetString();
-		NewMessage();
-		Broadcast(JMessageProtocolT::MessageReady(*msg));
-
-		iter.RemoveAllPrev();
-		iter.BeginMatch();
+		list.DeleteElement(1);
 		}
 
-	// leave remaining characters in itsRecvData
+	if (itsTokenPattern.Match(*(list.LastElement())))
+		{
+		itsRecvData.Clear();
+		}
+	else
+		{
+		itsRecvData = *(list.LastElement());
+		list.DeleteElement(list.GetElementCount());
+		}
+
+	const JSize blockCount = list.GetElementCount();
+	assert( blockCount % 2 == 0 );
+
+	for (JIndex i=1; i<=blockCount; i+=2)
+		{
+		const JString* s = list.NthElement(i);
+		if (!s->IsEmpty())
+			{
+			JString* msg = itsMessageList.LastElement();
+			msg->Append(*s);
+			NewMessage();
+			Broadcast(JMessageProtocolT::MessageReady(*msg));
+			}
+
+		s = list.NthElement(i+1);
+		if (*s == itsDisconnectStr)
+			{
+			itsReceivedDisconnectFlag = kJTrue;
+			itsRecvData.Clear();
+			Broadcast(JMessageProtocolT::ReceivedDisconnect());
+			return 0;	// we might be deleted and itsInHandleInputFlag is now irrelevant
+			}
+		}
 
 	itsInHandleInputFlag = kJFalse;
 	return 0;
