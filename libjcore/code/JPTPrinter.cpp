@@ -318,6 +318,8 @@ JPTPrinter::PrintFooter
 
 	Splits the text at kPageSeparatorStr and inverts the ordering of the blocks.
 
+	Does not use JRegex::Split because pages are typically large.
+
  ******************************************************************************/
 
 void

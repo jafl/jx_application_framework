@@ -475,9 +475,37 @@ JTEST(Split)
 	JAssertStringsEqual("foo", *list.NthElement(1));
 	JAssertStringsEqual("bar  baz", *list.NthElement(2));
 
-	s = "1,2,x,z,";
 	regex.SetPatternOrDie(",");
 
+	s = "1,2,x,z,";
+	regex.Split(s, &list);
+	JAssertEqual(4, list.GetElementCount());
+	JAssertStringsEqual("1", *list.NthElement(1));
+	JAssertStringsEqual("2", *list.NthElement(2));
+	JAssertStringsEqual("x", *list.NthElement(3));
+	JAssertStringsEqual("z", *list.NthElement(4));
+
+	s = ",1,2,x,z";
+	regex.Split(s, &list);
+	JAssertEqual(5, list.GetElementCount());
+	JAssertStringsEqual("", *list.NthElement(1));
+	JAssertStringsEqual("1", *list.NthElement(2));
+	JAssertStringsEqual("2", *list.NthElement(3));
+	JAssertStringsEqual("x", *list.NthElement(4));
+	JAssertStringsEqual("z", *list.NthElement(5));
+
+	s = "1,2,x,z,,";
+	regex.Split(s, &list);
+	JAssertEqual(5, list.GetElementCount());
+	JAssertStringsEqual("1", *list.NthElement(1));
+	JAssertStringsEqual("2", *list.NthElement(2));
+	JAssertStringsEqual("x", *list.NthElement(3));
+	JAssertStringsEqual("z", *list.NthElement(4));
+	JAssertStringsEqual("", *list.NthElement(5));
+
+	regex.SetPatternOrDie(",+");
+
+	s = "1,2,x,z,,";
 	regex.Split(s, &list);
 	JAssertEqual(4, list.GetElementCount());
 	JAssertStringsEqual("1", *list.NthElement(1));

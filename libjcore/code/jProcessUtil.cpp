@@ -11,6 +11,7 @@
 #include <JThisProcess.h>
 #include <JPtrArray-JString.h>
 #include <JProcessError.h>
+#include <JRegex.h>
 #include <JStringIterator.h>
 #include <JStringMatch.h>
 #include <JStdError.h>
@@ -887,37 +888,26 @@ JProgramAvailable
 		return kJFalse;
 		}
 
-	JStringIterator iter(path);
-	iter.BeginMatch();
-	while (iter.Next(":"))
+	JRegex r(":+");
+	JPtrArray<JString> pathList(JPtrArrayT::kDeleteAll);
+	r.Split(path, &pathList);
+
+	const JSize pathCount = pathList.GetElementCount();
+	for (JIndex i=1; i<=pathCount; i++)
 		{
-		const JStringMatch& m = iter.FinishMatch();
-		if (!m.IsEmpty())
+		const JString& dir = *(pathList.NthElement(i));
+		fullName = JCombinePathAndName(dir, programName);
+		if (JFileExists(fullName) && JFileExecutable(fullName))
 			{
-			const JString dir = m.GetString();
-			fullName          = JCombinePathAndName(dir, programName);
-			if (JFileExists(fullName) && JFileExecutable(fullName))
+			if (dir == ".")
 				{
-				if (dir == ".")
-					{
-					fixedName->Prepend("./");	// in case we added this to PATH
-					}
-				return kJTrue;
+				fixedName->Prepend("./");	// in case we added this to PATH
 				}
+			return kJTrue;
 			}
-
-		iter.BeginMatch();
 		}
 
-	const JStringMatch& m = iter.FinishMatch();
-	if (m.IsEmpty())
-		{
-		return kJFalse;
-		}
-
-	const JString dir = m.GetString();
-	fullName          = JCombinePathAndName(dir, programName);
-	return JFileExecutable(fullName);
+	return kJFalse;
 }
 
 /******************************************************************************

@@ -362,7 +362,7 @@ JPSPrinterBase::PSString
 			lineLength++;
 			}
 		itsFile->write(c.GetBytes(), c.GetByteCount());
-		lineLength++;
+		lineLength += c.GetByteCount();
 
 		if (lineLength >= 200)
 			{

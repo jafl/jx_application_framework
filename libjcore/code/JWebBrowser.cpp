@@ -11,6 +11,7 @@
 
 #include <JWebBrowser.h>
 #include <JSimpleProcess.h>
+#include <JStringIterator.h>
 #include <jFileUtil.h>
 #include <jGlobals.h>
 #include <jAssert.h>

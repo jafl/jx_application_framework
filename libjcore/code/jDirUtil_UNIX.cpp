@@ -13,6 +13,7 @@
 #include <JProgressDisplay.h>
 #include <JLatentPG.h>
 #include <JSimpleProcess.h>
+#include <JStringIterator.h>
 #include <jGlobals.h>
 #include <JStdError.h>
 #include <pwd.h>

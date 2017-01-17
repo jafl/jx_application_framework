@@ -214,6 +214,7 @@
 #include <ace/Connector.h>
 #include <ace/LSOCK_Connector.h>
 #include <JMMDebugErrorStream.h>
+#include <JStringIterator.h>
 #include <jFileUtil.h>
 #include <fstream>
 

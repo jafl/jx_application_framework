@@ -1080,6 +1080,8 @@ JDirInfo::ClearWildcardFilter()
 
  ******************************************************************************/
 
+static const JRegex theFilterSplitPattern = "\\s+";
+
 JBoolean
 JDirInfo::BuildRegexFromWildcardFilter
 	(
@@ -1091,23 +1093,20 @@ JDirInfo::BuildRegexFromWildcardFilter
 
 	JString filterStr = origFilterStr;
 	filterStr.TrimWhitespace();
-
 	if (filterStr.IsEmpty())
 		{
 		return kJFalse;
 		}
 
-	JStringIterator iter(filterStr);
-	iter.BeginMatch();
-	while (iter.Next(" "))
+	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
+	theFilterSplitPattern.Split(filterStr, &list);
+
+	const JSize count = list.GetElementCount();
+	for (JIndex i=1; i<=count; i++)
 		{
-		const JStringMatch& m = iter.FinishMatch();
-		AppendRegex(m.GetString(), regexStr);
-		iter.BeginMatch();
+		AppendRegex(*(list.NthElement(i)), regexStr);
 		}
 
-	const JStringMatch& m = iter.FinishMatch();
-	AppendRegex(m.GetString(), regexStr);
 	return kJTrue;
 }
 
@@ -1130,27 +1129,21 @@ JIndex i;
 	// Convert wildcard multiples (*) to regex multiples (.*)
 	// and wildcard singles (?) to regex singles (.)
 
-	JStringIterator iter(&str);
-	while (iter.Next("*"))
-		{
-		iter.ReplaceLastMatch(".*");
-		}
-
-	iter.MoveTo(kJIteratorStartAtBeginning, 0);
-	while (iter.Next("?"))
-		{
-		iter.ReplaceLastMatch(".");
-		}
-
-	iter.MoveTo(kJIteratorStartAtBeginning, 0);
+	JStringIterator iter(&str, kJIteratorStartAtEnd);
 	JUtf8Character c;
-	while (iter.Next(&c))
+	while (iter.Prev(&c))
 		{
-		if (JRegex::NeedsBackslashToBeLiteral(c))
+		if (c == '*')
 			{
-			iter.SkipPrev();
+			iter.Insert(".");
+			}
+		else if (c == '?')
+			{
+			iter.SetNext('.', kJFalse);
+			}
+		else if (JRegex::NeedsBackslashToBeLiteral(c))
+			{
 			iter.Insert("\\");
-			iter.SkipNext(2);
 			}
 		}
 
@@ -1163,7 +1156,7 @@ JIndex i;
 
 	if (!regexStr->IsEmpty())
 		{
-		regexStr->Append("|");
+		*regexStr += "|";
 		}
 	*regexStr += str;
 }

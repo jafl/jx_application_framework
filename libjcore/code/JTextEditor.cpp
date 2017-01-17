@@ -9079,7 +9079,7 @@ JTextEditor::BackwardDelete
 
 	JBoolean isNew;
 	JTEUndoTyping* typingUndo = GetTypingUndo(&isNew);
-	typingUndo->HandleDelete(deleteRange.first, deleteRange.last);
+x	typingUndo->HandleDelete(deleteRange.first, deleteRange.last);
 
 	const JFont f = itsStyles->GetElement(startIndex);	// preserve font
 	DeleteText(deleteRange);
@@ -9159,7 +9159,7 @@ JTextEditor::ForwardDelete
 
 	JBoolean isNew;
 	JTEUndoTyping* typingUndo = GetTypingUndo(&isNew);
-	typingUndo->HandleFwdDelete(deleteRange.first, deleteRange.last);
+x	typingUndo->HandleFwdDelete(deleteRange.first, deleteRange.last);
 
 	DeleteText(deleteRange);
 	Recalc(itsCaretLoc, 1, kJTrue, kJFalse);
@@ -9271,7 +9271,7 @@ JTextEditor::AutoIndent
 
 		if (lastWSChar >= firstChar && itsBuffer->GetCharacter(lastWSChar+1) == '\n')
 			{
-			typingUndo->HandleAutoIndentDelete(firstChar, lastWSChar);
+x			typingUndo->HandleAutoIndentDelete(firstChar, lastWSChar);
 
 			DeleteText(firstChar, lastWSChar);
 			Recalc(CaretLocation(firstChar, lineIndex), 1, kJTrue, kJFalse);
