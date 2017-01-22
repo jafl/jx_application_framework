@@ -17,6 +17,7 @@
 #include <ace/LSOCK_Stream.h>
 #include <JMessageProtocol.h>
 #include <JArray.h>
+#include <jTime.h>
 #include <jAssert.h>
 
 int main()
@@ -32,15 +33,37 @@ public:
 
 	TestLink();
 
-	void	SendBytes(const JUtf8Byte* data, const JSize count);
+	void	SendBytes(const JUtf8Byte* data);
 };
 
 typedef ACE_Acceptor<TestLink, ACE_LSOCK_ACCEPTOR>		TestAcceptor;
 typedef ACE_Connector<TestLink, ACE_LSOCK_CONNECTOR>	TestConnector;
 static const char* socketName = "/tmp/test_JMessageProtocol";
 
-static const JUtf8Byte* message1 = "1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94";
-static const JUtf8Byte* message2 = "\xC3\xA6\xCF\x86\xCF\x83" "me\xC3\x9F";
+static const JUtf8Byte* serverSend[] =
+{
+	// force break in middle of UTF-8 character
+
+	"1234567890\xC2\xA9\xC3\x85\xC3", "\xA5\xE2\x9C\x94\n", NULL,
+	"\xC3\xA6\xCF\x86\xCF", "\x83" "me\xC3\x9F\na",
+
+	// test receiving several messages at once
+
+	"bc\nab", "c\ndef\ngih\nke", "r", NULL,
+	NULL
+};
+
+static const JUtf8Byte* message[] =
+{
+	"1234567890\xC2\xA9\xC3\x85\xC3\xA5\xE2\x9C\x94",
+	"\xC3\xA6\xCF\x86\xCF\x83" "me\xC3\x9F",
+	"abc",
+	"abc",
+	"def",
+	"gih",
+	"ker",
+	NULL
+};
 
 class Base : virtual public JBroadcaster
 {
@@ -101,10 +124,15 @@ public:
 
 	Server(TestLink* link)
 		:
-		Base(link)
+		Base(link),
+		itsSendOffset(0)
 	{
 		link->ShouldSendSynch();
 	};
+
+private:
+
+	int itsSendOffset;
 
 private:
 
@@ -113,7 +141,7 @@ private:
 	{
 		std::cout << "server state: " << itsState << std::endl;
 
-		if (itsState > 1)
+		if (serverSend[ itsSendOffset ] == NULL)
 			{
 			return;
 			}
@@ -125,28 +153,23 @@ private:
 		JString msg;
 		JAssertFalse(itsLink->PeekPartialMessage(&msg));
 		JAssertTrue(itsLink->PeekNextMessage(&msg));
-		JAssertTrue(itsLink->GetNextMessage(&msg));
+		JAssertTrue(itsLink->GetNextMessage(&msg));		// pull from queue
 
-		if (itsState == 0)
+		JAssertStringsEqual(message[ itsState ], msg);
+
+		while (serverSend[ itsSendOffset ] != NULL)
 			{
-			JAssertStringsEqual(message1, msg);
-
-			itsLink->SendBytes(message1, 13);	// force break in middle of UTF-8 character
-			sleep(1);
-			itsLink->SendBytes(message1 + 13, strlen(message1) - 13);
-			itsLink->SendMessage(JString());
-			itsState++;
+			itsLink->SendBytes(serverSend[ itsSendOffset ]);
+			itsSendOffset++;
+			JWait(0.5);
 			}
-		else if (itsState == 1)
+
+		if (serverSend[ itsSendOffset+1 ] != NULL)	// prepare to send next batch
 			{
-			JAssertStringsEqual(message2, msg);
-
-			itsLink->SendBytes(message2, 5);	// force break in middle of UTF-8 character
-			sleep(1);
-			itsLink->SendBytes(message2 + 5, strlen(message2) - 5);
-			itsLink->SendMessage(JString());
-			itsState++;
+			itsSendOffset++;
 			}
+
+		itsState++;
 	};
 
 	virtual void
@@ -175,11 +198,10 @@ TestLink::TestLink()
 void
 TestLink::SendBytes
 	(
-	const JUtf8Byte*	data,
-	const JSize			count
+	const JUtf8Byte* data
 	)
 {
-	JNetworkProtocolBase::Send(data, count);
+	JNetworkProtocolBase::Send(data, strlen(data));
 };
 
 void Listen()
@@ -199,7 +221,7 @@ public:
 		:
 		Base(link)
 	{
-		link->SendMessage(JString(message1, 0, kJFalse));
+		link->SendMessage(JString(message[0], 0, kJFalse));
 	};
 
 private:
@@ -209,35 +231,27 @@ private:
 	{
 		std::cout << "client state: " << itsState << std::endl;
 
-		if (itsState > 1)
+		if (message[ itsState ] == NULL)
 			{
 			return;
 			}
 
 		JAssertTrue(itsLink->HasMessages());
-		JAssertEqual(1, itsLink->GetMessageCount());
 		JAssertFalse(itsLink->ReceivedDisconnect());
 
 		JString msg;
-		JAssertFalse(itsLink->PeekPartialMessage(&msg));
 		JAssertTrue(itsLink->PeekNextMessage(&msg));
-		JAssertTrue(itsLink->GetNextMessage(&msg));
+		JAssertTrue(itsLink->GetNextMessage(&msg));		// pull from queue
 
-		if (itsState == 0)
+		JAssertStringsEqual(message[ itsState ], msg);
+		itsState++;
+		itsLink->SendMessage(JString(message[ itsState ], 0, kJFalse));
+
+		if (message[ itsState+1 ] == NULL)
 			{
-			JAssertStringsEqual(message1, msg);
-
-			itsLink->SendMessage(JString(message2, 0, kJFalse));
-			itsState++;
-			}
-		else if (itsState == 1)
-			{
-			JAssertStringsEqual(message2, msg);
-
 			itsLink->ShouldSendSynch();
 			itsLink->SendDisconnect();
 			ACE_Reactor::instance()->end_reactor_event_loop();
-			itsState++;
 			}
 	};
 
@@ -273,7 +287,7 @@ JTEST(SendRecv)
 		}
 	else
 		{
-		sleep(1);	// wait for child to initialize
+		JWait(1);	// wait for child to initialize
 		SendAndRecv();
 		}
 
