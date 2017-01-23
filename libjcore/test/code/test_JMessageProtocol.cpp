@@ -292,4 +292,5 @@ JTEST(SendRecv)
 		}
 
 	ACE_Reactor::instance()->run_reactor_event_loop();
+	unlink(socketName);
 }
