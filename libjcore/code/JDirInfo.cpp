@@ -1402,6 +1402,9 @@ JDirInfo::ResetCSFFilters()
 
 	Returns kJTrue if the directory doesn't exist or exists and is empty.
 
+	Not called IsEmpty(), because that would conflict with our base class,
+	JCollection.
+
  ******************************************************************************/
 
 JBoolean

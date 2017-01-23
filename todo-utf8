@@ -1,11 +1,3 @@
-JRegex
-	find uses for it, e.g., splitting path by :
-
-unit tests
-	JDirInfo.cpp
-	JDirEntry.cpp
-	JDirInfo_UNIX.cpp
-
 add back in:
 	JTextEditor.cpp
 	JTEStyler.cpp
@@ -33,11 +25,8 @@ unit tests
 	JVersionSocket.tmpl
 	JWebBrowser.cpp
 
-JStringIterator uses:
-	JDirInfo::AppendRegex
-
+untested JStringIterator usage:
 	JExpandHomeDirShortcut - ~user/foo/bar
-
 	JVersionSocket
 	JWebBrowser::ShowURL
 	JWebBrowser::ConvertVarNames
