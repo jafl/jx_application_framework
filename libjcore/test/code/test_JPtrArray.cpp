@@ -165,6 +165,29 @@ JTEST(Exercise)
 	JAssertEqual(4, j);
 	}
 
+	JString target("3", 0, kJFalse);
+	JAssertTrue(a2.SearchSorted(&target, JOrderedSetT::kAnyMatch, &index));
+	JAssertEqual(3, index);
+
+	target = "1";
+	JAssertTrue(a2.SearchSorted(&target, JOrderedSetT::kFirstMatch, &index));
+	JAssertEqual(1, index);
+	JAssertTrue(a2.SearchSorted(&target, JOrderedSetT::kLastMatch, &index));
+	JAssertEqual(2, index);
+
+	target = "4";
+	JAssertFalse(a2.SearchSorted(&target, JOrderedSetT::kAnyMatch, &index));
+
+	JBoolean found;
+	index = a2.SearchSorted1(&target, JOrderedSetT::kAnyMatch, &found);
+	JAssertFalse(found);
+	JAssertEqual(4, index);
+
+	target = "3";
+	index = a2.SearchSorted1(&target, JOrderedSetT::kAnyMatch, &found);
+	JAssertTrue(found);
+	JAssertEqual(3, index);
+
 	a2.RemoveAll();
 
 	JAssertTrue(a2.IsEmpty());
