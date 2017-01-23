@@ -202,3 +202,40 @@ JTEST(Variables)
 	sub.Substitute(&newString);
 	JAssertStringsEqual("aaafoobybbar", newString);
 }
+
+JTEST(ContainsError)
+{
+	JSubstitute sub;
+	sub.UseControlEscapes();
+	sub.DefineVariable("a", JString("x", 0, kJFalse));
+	sub.DefineVariable("b", JString("y", 0, kJFalse));
+
+	JString s;
+	JCharacterRange r;
+	JError err = JNoError();
+
+	s   = "$";
+	err = sub.ContainsError(s, &r);
+	JAssertStringsEqual(JSubstitute::kLoneDollar, err.GetType());
+	JAssertEqual(JCharacterRange(1,1), r);
+
+	s   = "foo $a $d";
+	err = sub.ContainsError(s, &r);
+	JAssertStringsEqual(JSubstitute::kLoneDollar, err.GetType());
+	JAssertEqual(JCharacterRange(8,8), r);
+
+	s   = "\\";
+	err = sub.ContainsError(s, &r);
+	JAssertStringsEqual(JSubstitute::kTrailingBackslash, err.GetType());
+	JAssertEqual(JCharacterRange(1,1), r);
+
+	s   = "\\c";
+	err = sub.ContainsError(s, &r);
+	JAssertStringsEqual(JSubstitute::kIllegalControlChar, err.GetType());
+	JAssertEqual(JCharacterRange(1,2), r);
+
+	s   = "\\cX \\c$";
+	err = sub.ContainsError(s, &r);
+	JAssertStringsEqual(JSubstitute::kIllegalControlChar, err.GetType());
+	JAssertEqual(JCharacterRange(5,7), r);
+}

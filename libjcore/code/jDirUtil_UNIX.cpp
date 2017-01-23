@@ -1444,7 +1444,7 @@ JConvertToRelativePath
 		pathIter.RemovePrev();
 		}
 
-	JStringIterator baseIter(&base, kJIteratorStartAtEnd);
+	JStringIterator baseIter(&base, kJIteratorStartAfter, matchLength);
 	const JBoolean found = baseIter.Prev("/");
 	assert( found );
 	if (baseIter.AtBeginning())
@@ -1532,7 +1532,7 @@ JExpandHomeDirShortcut
 			{
 			*homeLength = 2;
 			}
-		if (ok && path.GetCharacterCount() == 2)
+		if (ok && path.GetCharacterCount() > 2)
 			{
 			JStringIterator iter(path);
 			iter.SkipNext(2);

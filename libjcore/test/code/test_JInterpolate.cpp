@@ -95,3 +95,17 @@ JTEST(LargeIndex)
 		++i;
 		}
 }
+
+JTEST(NamedMatch)
+{
+	JString src(" XabX ", 0, kJFalse);
+	JRegex regex("X(?P<foo>a)(?P<bar>b)X");
+	JInterpolate interpolator;
+
+	JStringIterator iter(src);
+	JAssertTrue(iter.Next(regex));
+	JString result = interpolator.Interpolate(
+		JString("${bar} ${foo}", 0, kJFalse),
+		iter.GetLastMatch());
+	JAssertStringsEqual("b a", result);
+}

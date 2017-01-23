@@ -33,6 +33,21 @@ unit tests
 	JVersionSocket.tmpl
 	JWebBrowser.cpp
 
+JStringIterator uses:
+	JDirInfo::AppendRegex
+
+	JExpandHomeDirShortcut - ~user/foo/bar
+
+	JVersionSocket
+	JWebBrowser::ShowURL
+	JWebBrowser::ConvertVarNames
+	JPTPrinter::Print
+	JPTPrinter::InvertPageOrder
+	JPSPrinterBase::PSString
+	JGetUserMountPointList
+	JTranslateLocalToRemote
+	JTranslateRemoteToLocal
+
 jcc:
 	move VCS detail code from CBDiffFileDialog to jVCSUtil?
 

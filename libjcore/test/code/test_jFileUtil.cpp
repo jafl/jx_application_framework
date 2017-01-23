@@ -109,10 +109,9 @@ JTEST(Directory)
 
 JTEST(Files)
 {
-	JString path("/tmp/junk", 0);
+	JString path("/tmp/junk/junk2/junk3", 0);
 
-	JError err = JCreateDirectory(path);
-	JAssertOK(err);
+	JAssertOK(JCreateDirectory(path));
 
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);
 	for (JIndex i=1; i<=10; i++)
@@ -124,7 +123,7 @@ JTEST(Files)
 		fileList.Append(fileName);
 		}
 
-	JAssertTrue(JKillDirectory(path));
+	JAssertTrue(JKillDirectory(JString("/tmp/junk", 0, kJFalse)));
 }
 
 JTEST(Path)
@@ -142,6 +141,10 @@ JTEST(Path)
 	JAssertStringsEqual("/usr", path);
 	JAssertStringsEqual("local", name);
 
+	JStripTrailingDirSeparator(&s);
+	JAssertStringsEqual("/usr/local", s);
+
+	s += "///";
 	JStripTrailingDirSeparator(&s);
 	JAssertStringsEqual("/usr/local", s);
 
@@ -163,9 +166,25 @@ JTEST(Path)
 	s = JConvertToRelativePath(path, JGetCurrentDirectory());
 	JAssertStringsEqual("./code", s);
 
+	s = JConvertToRelativePath(
+		JString("/usr/include", 0, kJFalse),
+		JString("/usr/local", 0, kJFalse));
+	JAssertStringsEqual("../include", s);
+
+	s = "/usr";
+	JAssertTrue(JConvertToAbsolutePath(s, NULL, &path));
+	JAssertStringsEqual("/usr", path);
+
 	s = JGetClosestDirectory(
 		JString("/usr/include/zzz/junk/foo/bar/baz.cc", 0, kJFalse));
 	JAssertStringsEqual("/usr/include", s);
+
+	s = "./test_j_file_util_test_directory";
+	JAssertOK(JCreateDirectory(s));
+	s = JGetClosestDirectory(
+		JString("./test_j_file_util_test_directory/foo/bar/baz", 0, kJFalse));
+	JAssertStringsEqual("test_j_file_util_test_directory", s);
+	JAssertOK(JRemoveDirectory(s));
 }
 
 JTEST(ExtractFileAndLine)
@@ -214,4 +233,27 @@ JTEST(Url)
 	JString s2;
 	JAssertTrue(JURLToFileName(s, &s2));
 	JAssertStringsEqual(fullName, s2);
+}
+
+JTEST(HomeDirShortcut)
+{
+	JString home;
+	JAssertTrue(JGetHomeDirectory(&home));
+
+	const JString path = JCombinePathAndName(home, JString("test_j_file_util_test_directory", 0, kJFalse));
+	JAssertOK(JCreateDirectory(path));
+
+	JString s = JConvertToHomeDirShortcut(path);
+	JAssertStringsEqual("~/test_j_file_util_test_directory", s);
+
+	JString s2;
+	JAssertTrue(JConvertToAbsolutePath(s, NULL, &s2));
+	JAssertStringsEqual(path, s2);
+
+	s = JGetClosestDirectory(
+		JString("~/test_j_file_util_test_directory/foo/bar/baz", 0, kJFalse),
+		kJTrue);
+	JAssertStringsEqual("~/test_j_file_util_test_directory", s);
+
+	JAssertOK(JRemoveDirectory(path));
 }
