@@ -109,8 +109,7 @@ JTEST(Directory)
 
 JTEST(Files)
 {
-	JString path("/tmp/junk/junk2/junk3", 0);
-
+	const JString path("/tmp/junk/junk2/junk3", 0, kJFalse);
 	JAssertOK(JCreateDirectory(path));
 
 	JPtrArray<JString> fileList(JPtrArrayT::kDeleteAll);

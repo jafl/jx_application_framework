@@ -46,15 +46,6 @@ jcc:
 JAsynchDataReceiver::handle_input
 	we cannot assume received complete utf-8 characters
 
-utf8 - sorting vs searching
-	searching should include diacriticals
-	sorting may not
-
-	test diacriticals in Utf8Char toupper/lower
-
-	ignore accents for case-sensitive search: strength=primary caseLevel=on
-	http://demo.icu-project.org/icu-bin/collation.html
-
 -----
 
 convert all functions to use JString intead of JUtf8Byte*
@@ -66,20 +57,31 @@ re-evaluate all uses of JIndexRange - character or utf8 byte?
 
 Fix I18NIsCharacterInWord() in jXGlobals
 
-UText allows regexp to work with utf8
-	can ICU regex replace PCRE?  does it use PCRE internally?
-ucoleitr, unorm, usearch ought to support UText/UCharIterator
-	can it be contributed?
-
 UTF8_STRING for X selection
 use real X compose mechanism
 	remove JXComposeRuleList
+
+utf8 - sorting vs searching
+	searching should include diacriticals
+	sorting may not
+
+	test diacriticals in Utf8Char toupper/lower
+
+	ignore accents for case-sensitive search: strength=primary caseLevel=on
+	http://demo.icu-project.org/icu-bin/collation.html
 
 + replace rendering engine inside JXWindowPainter with UTF-8 version
 is YUI yogi output correct with check mark? - NO
 
 leibnitz - symbol font
 	transform to unicode and use X11 utf8 string width/drawing functions
+
+----
+
+UText allows regexp to work with utf8
+	can ICU regex replace PCRE?  does it use PCRE internally?
+ucoleitr, unorm, usearch ought to support UText/UCharIterator
+	can it be contributed?
 
 PostScript printing
 	ridiculously complicated
