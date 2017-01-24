@@ -450,14 +450,14 @@ JTEST(Split)
 	JString s("  foo bar  baz ", 0, kJFalse);
 
 	JRegex regex("\\s+");
-	regex.Split(s, &list);
+	s.Split(regex, &list);
 	JAssertEqual(4, list.GetElementCount());
 	JAssertStringsEqual("", *list.NthElement(1));
 	JAssertStringsEqual("foo", *list.NthElement(2));
 	JAssertStringsEqual("bar", *list.NthElement(3));
 	JAssertStringsEqual("baz", *list.NthElement(4));
 
-	regex.Split(s, &list, 0, kJTrue);
+	s.Split(regex, &list, 0, kJTrue);
 	JAssertEqual(8, list.GetElementCount());
 	JAssertStringsEqual("", *list.NthElement(1));
 	JAssertStringsEqual("  ", *list.NthElement(2));
@@ -470,7 +470,7 @@ JTEST(Split)
 
 	s.TrimWhitespace();
 
-	regex.Split(s, &list, 2);
+	s.Split(regex, &list, 2);
 	JAssertEqual(2, list.GetElementCount());
 	JAssertStringsEqual("foo", *list.NthElement(1));
 	JAssertStringsEqual("bar  baz", *list.NthElement(2));
@@ -478,7 +478,7 @@ JTEST(Split)
 	regex.SetPatternOrDie(",");
 
 	s = "1,2,x,z,";
-	regex.Split(s, &list);
+	s.Split(regex, &list);
 	JAssertEqual(4, list.GetElementCount());
 	JAssertStringsEqual("1", *list.NthElement(1));
 	JAssertStringsEqual("2", *list.NthElement(2));
@@ -486,7 +486,7 @@ JTEST(Split)
 	JAssertStringsEqual("z", *list.NthElement(4));
 
 	s = ",1,2,x,z";
-	regex.Split(s, &list);
+	s.Split(regex, &list);
 	JAssertEqual(5, list.GetElementCount());
 	JAssertStringsEqual("", *list.NthElement(1));
 	JAssertStringsEqual("1", *list.NthElement(2));
@@ -495,7 +495,7 @@ JTEST(Split)
 	JAssertStringsEqual("z", *list.NthElement(5));
 
 	s = "1,2,x,z,,";
-	regex.Split(s, &list);
+	s.Split(regex, &list);
 	JAssertEqual(5, list.GetElementCount());
 	JAssertStringsEqual("1", *list.NthElement(1));
 	JAssertStringsEqual("2", *list.NthElement(2));
@@ -506,7 +506,7 @@ JTEST(Split)
 	regex.SetPatternOrDie(",+");
 
 	s = "1,2,x,z,,";
-	regex.Split(s, &list);
+	s.Split(regex, &list);
 	JAssertEqual(4, list.GetElementCount());
 	JAssertStringsEqual("1", *list.NthElement(1));
 	JAssertStringsEqual("2", *list.NthElement(2));

@@ -27,6 +27,7 @@
 
 #include <JString.h>
 #include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <jStreamUtil.h>
 #include <jMath.h>
 #include <JMinMax.h>
@@ -2118,6 +2119,21 @@ JString::MatchCase
 
 	return changed;
 }
+
+/******************************************************************************
+ Split
+
+	Leading blanks are included.  Trailing blanks are ignored.
+
+ *****************************************************************************/
+
+#define Separator JString
+#include <JStringSplit.th>
+#undef Separator
+
+#define Separator JRegex
+#include <JStringSplit.th>
+#undef Separator
 
 /******************************************************************************
  Stream operators

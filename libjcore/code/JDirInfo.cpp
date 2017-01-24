@@ -1099,7 +1099,7 @@ JDirInfo::BuildRegexFromWildcardFilter
 		}
 
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
-	theFilterSplitPattern.Split(filterStr, &list);
+	filterStr.Split(theFilterSplitPattern, &list);
 
 	const JSize count = list.GetElementCount();
 	for (JIndex i=1; i<=count; i++)

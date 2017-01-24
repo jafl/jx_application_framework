@@ -890,7 +890,7 @@ JProgramAvailable
 
 	JRegex r(":+");
 	JPtrArray<JString> pathList(JPtrArrayT::kDeleteAll);
-	r.Split(path, &pathList);
+	path.Split(r, &pathList);
 
 	const JSize pathCount = pathList.GetElementCount();
 	for (JIndex i=1; i<=pathCount; i++)

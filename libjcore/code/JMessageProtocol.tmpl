@@ -427,7 +427,7 @@ JMessageProtocol<ACE_PEER_STREAM_2>::handle_input
 	itsBufferOffset = remainingCount;
 
 	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
-	itsTokenPattern.Split(itsRecvData, &list, 0, kJTrue);
+	itsRecvData.Split(itsTokenPattern, &list, 0, kJTrue);
 
 	if (itsTokenPattern.Match(*(list.FirstElement())))
 		{

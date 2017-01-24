@@ -13,10 +13,12 @@
 #include <JUtf8Character.h>
 #include <JUtf8ByteRange.h>
 #include <JCharacterRange.h>
+#include <JPtrArray.h>	// for Split()
 #include <string.h>
 #include <unicode/ucasemap.h>
 
 class JStringIterator;
+class JRegex;
 
 class JString
 {
@@ -170,6 +172,16 @@ public:
 						  const JCharacterRange& destRange);
 	JBoolean	MatchCase(const std::string& source, const JUtf8ByteRange& sourceRange,
 						  const JCharacterRange& destRange);
+
+	void		Split(const JUtf8Byte* separator, JPtrArray<JString>* partList,
+					  const JSize limit = 0,
+					  const JBoolean includeSeparators = kJFalse) const;
+	void		Split(const JString& separator, JPtrArray<JString>* partList,
+					  const JSize limit = 0,
+					  const JBoolean includeSeparators = kJFalse) const;
+	void		Split(const JRegex& separator, JPtrArray<JString>* partList,
+					  const JSize limit = 0,
+					  const JBoolean includeSeparators = kJFalse) const;
 
 	// number <-> string
 
@@ -1633,6 +1645,24 @@ JString::ConvertToUInt
 	)
 {
 	return ConvertToUInt(str, strlen(str), value, base);
+}
+
+/******************************************************************************
+ Split
+
+ ******************************************************************************/
+
+inline void
+JString::Split
+	(
+	const JUtf8Byte*	separator,
+	JPtrArray<JString>*	partList,
+	const JSize			limit,
+	const JBoolean		includeSeparators
+	)
+	const
+{
+	Split(JString(separator, 0, kJFalse), partList, limit, includeSeparators);
 }
 
 /******************************************************************************

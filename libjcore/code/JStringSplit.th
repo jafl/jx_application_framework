@@ -1,0 +1,63 @@
+/******************************************************************************
+ JStringSplit.th
+
+	Use this file to instantiate code for JString::Split()
+
+	To use this file:
+
+		#define Separator ____
+		#include <JStringSplit.th>
+		#undef Separator
+
+	Copyright © 2017 by John Lindal. All rights reserved.
+
+ ******************************************************************************/
+
+void
+JString::Split
+	(
+	const Separator&	separator,		
+	JPtrArray<JString>*	partList,
+	const JSize			limit,
+	const JBoolean		includeSeparators
+	)
+	const
+{
+	partList->CleanOut();
+	partList->SetCleanUpAction(JPtrArrayT::kDeleteAll);
+
+	JSize count = 1;	// in case we don't find any separators
+
+	JStringIterator iter(*this);
+	iter.BeginMatch();
+	while (iter.Next(separator))
+		{
+		JString* separator = NULL;
+		if (includeSeparators)
+			{
+			separator = jnew JString(iter.GetLastMatch().GetString());
+			assert( separator != NULL );
+			}
+
+		partList->Append(iter.FinishMatch().GetString());
+		if (separator != NULL)
+			{
+			partList->Append(separator);
+			}
+
+		iter.BeginMatch();
+
+		count++;
+		if (limit > 0 && count >= limit)
+			{
+			iter.MoveTo(kJIteratorStartAtEnd, 0);
+			break;
+			}
+		}
+
+	const JStringMatch& m = iter.FinishMatch();
+	if (!m.IsEmpty())
+		{
+		partList->Append(m.GetString());
+		}
+}

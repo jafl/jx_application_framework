@@ -652,6 +652,49 @@ JTEST(MatchCase)
 	JAssertStringsEqual("\xCE\x9C\xCE\x86\xCE\xAA\xCE\x9F\xCE\xA3", s1);
 }
 
+JTEST(Split)
+{
+	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
+
+	JString s("|foo|bar|baz|", 0, kJFalse);
+	JString separator("|", 0, kJFalse);
+
+	s.Split(separator, &list);
+	JAssertEqual(4, list.GetElementCount());
+	JAssertStringsEqual("", *list.NthElement(1));
+	JAssertStringsEqual("foo", *list.NthElement(2));
+	JAssertStringsEqual("bar", *list.NthElement(3));
+	JAssertStringsEqual("baz", *list.NthElement(4));
+
+	separator = ",";
+
+	s = "1,2,x,z,";
+	s.Split(separator, &list);
+	JAssertEqual(4, list.GetElementCount());
+	JAssertStringsEqual("1", *list.NthElement(1));
+	JAssertStringsEqual("2", *list.NthElement(2));
+	JAssertStringsEqual("x", *list.NthElement(3));
+	JAssertStringsEqual("z", *list.NthElement(4));
+
+	s = ",1,2,x,z";
+	s.Split(separator, &list);
+	JAssertEqual(5, list.GetElementCount());
+	JAssertStringsEqual("", *list.NthElement(1));
+	JAssertStringsEqual("1", *list.NthElement(2));
+	JAssertStringsEqual("2", *list.NthElement(3));
+	JAssertStringsEqual("x", *list.NthElement(4));
+	JAssertStringsEqual("z", *list.NthElement(5));
+
+	s = "1,2,x,z,,";
+	s.Split(separator, &list);
+	JAssertEqual(5, list.GetElementCount());
+	JAssertStringsEqual("1", *list.NthElement(1));
+	JAssertStringsEqual("2", *list.NthElement(2));
+	JAssertStringsEqual("x", *list.NthElement(3));
+	JAssertStringsEqual("z", *list.NthElement(4));
+	JAssertStringsEqual("", *list.NthElement(5));
+}
+
 #include <iomanip>
 #include <unicode/unorm2.h>
 
