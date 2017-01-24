@@ -676,7 +676,7 @@ JXCSFDialogBase::GetNewDirectory()
 
 	itsNewDirDialog =
 		jnew JXGetNewDirDialog(JXGetApplication(), JGetString(kNewDirWindowTitleID),
-							  JGetString(kNewDirPromptID), "",
+							  JGetString(kNewDirPromptID), JString::empty,
 							  itsDirInfo->GetDirectory(), kJFalse);
 	assert( itsNewDirDialog != NULL );
 

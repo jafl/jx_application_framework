@@ -76,7 +76,7 @@ JXEPSPrintSetupDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,130, "");
+	JXWindow* window = jnew JXWindow(this, 370,130, JString::empty);
 	assert( window != NULL );
 
 	itsChooseFileButton =

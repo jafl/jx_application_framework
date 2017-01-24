@@ -80,7 +80,7 @@ JXHintDirector::BuildWindow
 {
 	// create window and contents
 
-	JXWindow* window = jnew JXWindow(this, 10,10, "", kJTrue);
+	JXWindow* window = jnew JXWindow(this, 10,10, JString::empty, kJTrue);
 	assert( window != NULL );
 
 	window->SetWMWindowType(JXWindow::kWMTooltipType);

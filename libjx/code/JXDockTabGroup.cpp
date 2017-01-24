@@ -203,7 +203,7 @@ JXDockTabGroup::CreateDockContextMenu()
 {
 	if (itsDockContextMenu == NULL)
 		{
-		itsDockContextMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsDockContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsDockContextMenu != NULL );
 		itsDockContextMenu->SetMenuItems(kContextMenuStr, "JXDockTabGroup");
 		itsDockContextMenu->SetUpdateAction(JXMenu::kDisableNone);

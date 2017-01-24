@@ -65,7 +65,7 @@ TestTextEditDocument::TestTextEditDocument
 	:
 	JXFileDocument(supervisor,
 				   (JXGetDocumentManager())->GetNewFileName(),
-				   kJFalse, kJTrue, "")
+				   kJFalse, kJTrue, JString::empty)
 {
 	itsDataType = kPlainText;
 	BuildWindow(kJTrue);
@@ -77,7 +77,7 @@ TestTextEditDocument::TestTextEditDocument
 	const JCharacter*	fileName
 	)
 	:
-	JXFileDocument(supervisor, fileName, kJTrue, kJTrue, "")
+	JXFileDocument(supervisor, fileName, kJTrue, kJTrue, JString::empty)
 {
 	assert( JFileExists(fileName) );
 
@@ -108,7 +108,7 @@ TestTextEditDocument::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 400,330, "");
+	JXWindow* window = jnew JXWindow(this, 400,330, JString::empty);
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
@@ -324,7 +324,7 @@ TestTextEditDocument::DiscardChanges()
 		}
 	else
 		{
-		itsTextEditor->SetText("");
+		itsTextEditor->SetText(JString::empty);
 		}
 
 	DataReverted();

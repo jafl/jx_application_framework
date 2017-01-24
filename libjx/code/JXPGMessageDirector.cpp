@@ -55,7 +55,7 @@ JXPGMessageDirector::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 500,210, "");
+	JXWindow* window = jnew JXWindow(this, 500,210, JString::empty);
 	assert( window != NULL );
 
 	JXScrollbarSet* scrollbarSet =
@@ -92,7 +92,7 @@ JXPGMessageDirector::BuildWindow()
 	itsCloseButton->Hide();
 
 	itsMessageText =
-		jnew JXStaticText("",kJFalse,kJTrue, scrollbarSet,
+		jnew JXStaticText(JString::empty,kJFalse,kJTrue, scrollbarSet,
 						 scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic,
 						 0,0, 10,10);

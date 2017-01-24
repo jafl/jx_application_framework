@@ -614,7 +614,7 @@ JXInputField::CreateContextMenu()
 {
 	if (itsContextMenu == NULL)
 		{
-		itsContextMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsContextMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsContextMenu != NULL );
 		if (JXMenu::GetDefaultStyle() == JXMenu::kMacintoshStyle)
 			{

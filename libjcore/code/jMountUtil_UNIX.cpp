@@ -182,7 +182,7 @@ JGetUserMountPointList
 		assert( devicePath != NULL );
 
 		const JMountType type =
-			JGetUserMountPointType(*path, *devicePath, JString("", 0, kJFalse));
+			JGetUserMountPointType(*path, *devicePath, JString::empty);
 		if (type == kJUnknownMountType ||
 			ACE_OS::stat(path->GetBytes(), &stbuf) != 0)
 			{

@@ -305,7 +305,7 @@ TestDirector::BuildWindow
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 400,330, "");
+	JXWindow* window = jnew JXWindow(this, 400,330, JString::empty);
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =
@@ -1066,13 +1066,13 @@ TestDirector::HandleCSFMenu
 		}
 	else if (index == kChooseRPathCmd)
 		{
-		ok = csf->ChooseRPath("",
+		ok = csf->ChooseRPath(JString::empty,
 			"This is a test of the dialog window that allows the user to"
 			" choose a readable directory.", NULL, &resultStr);
 		}
 	else if (index == kChooseRWPathCmd)
 		{
-		ok = csf->ChooseRWPath("",
+		ok = csf->ChooseRWPath(JString::empty,
 			"This is a test of the dialog window that allows the user to"
 			" choose a writable directory.", NULL, &resultStr);
 		}

@@ -35,7 +35,7 @@ JXNewDirButton::JXNewDirButton
 	const JCoordinate	h
 	)
 	:
-	JXTextButton("", enclosure, hSizing, vSizing, x,y, w,h)
+	JXTextButton(JString::empty, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	itsFolderIcon = jnew JXImage(GetDisplay(), jx_folder_small);
 	assert( itsFolderIcon != NULL );

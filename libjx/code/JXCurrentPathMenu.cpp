@@ -39,7 +39,7 @@ JXCurrentPathMenu::JXCurrentPathMenu
 	const JCoordinate	h
 	)
 	:
-	JXTextMenu("", enclosure, hSizing, vSizing, x,y, w,h)
+	JXTextMenu(JString::empty, enclosure, hSizing, vSizing, x,y, w,h)
 {
 	JXCurrentPathMenuX(path);
 }

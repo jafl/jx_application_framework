@@ -85,7 +85,7 @@ JXPTPageSetupDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 370,190, "");
+	JXWindow* window = jnew JXWindow(this, 370,190, JString::empty);
 	assert( window != NULL );
 
 	JXStaticText* obj1_JXLayout =

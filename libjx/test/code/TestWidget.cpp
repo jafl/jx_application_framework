@@ -251,7 +251,7 @@ JIndex i;
 
 	// secret menus are a bad idea because the user can't find them!
 
-	itsSecretMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+	itsSecretMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 	assert( itsSecretMenu != NULL );
 	itsSecretMenu->SetMenuItems(kSecretMenuStr);
 	itsSecretMenu->SetUpdateAction(JXMenu::kDisableNone);

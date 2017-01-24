@@ -139,7 +139,7 @@ JXProgressDisplay::ProcessBeginning
 		}
 	else if (processType == kVariableLengthProcess)
 		{
-		itsCounter->SetText("");
+		itsCounter->SetText(JString::empty);
 		itsCounter->Show();
 		if (itsIndicator != NULL)
 			{

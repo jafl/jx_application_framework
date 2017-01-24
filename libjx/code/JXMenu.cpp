@@ -117,7 +117,7 @@ JXMenu::JXMenu
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsTitleFont(GetFontManager()->GetDefaultFont())
 {
-	JXMenuX(JString("", 0, kJFalse), image, menuOwnsImage);
+	JXMenuX(JString::empty, image, menuOwnsImage);
 }
 
 JXMenu::JXMenu
@@ -150,7 +150,7 @@ JXMenu::JXMenu
 	JXWidget(enclosure, kFixedLeft, kFixedTop, 0,0, 10,10),
 	itsTitleFont(GetFontManager()->GetDefaultFont())
 {
-	JXMenuX(JString("", 0, kJFalse), NULL, kJTrue);
+	JXMenuX(JString::empty, NULL, kJTrue);
 	owner->AttachSubmenu(itemIndex, this);
 }
 

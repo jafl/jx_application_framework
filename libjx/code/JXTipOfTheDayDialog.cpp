@@ -86,7 +86,7 @@ JXTipOfTheDayDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 410,260, "");
+	JXWindow* window = jnew JXWindow(this, 410,260, JString::empty);
 	assert( window != NULL );
 
 	JXFlatRect* sideBar =
@@ -151,7 +151,7 @@ JXTipOfTheDayDialog::BuildWindow
 	title->Paste("\n");
 
 	itsText =
-		jnew JXStaticText("", kJTrue, kJFalse,
+		jnew JXStaticText(JString::empty, kJTrue, kJFalse,
 						 scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 						 JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( itsText != NULL );

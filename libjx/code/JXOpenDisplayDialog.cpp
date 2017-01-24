@@ -27,7 +27,7 @@ JXOpenDisplayDialog::JXOpenDisplayDialog
 	)
 	:
 	JXGetStringDialog(supervisor, JGetString(kWindowTitleID),
-					  JGetString(kPromptID), "", kJTrue)
+					  JGetString(kPromptID), JString::empty, kJTrue)
 {
 }
 

@@ -63,7 +63,7 @@ JXPasswordInput::~JXPasswordInput()
 void
 JXPasswordInput::ClearPassword()
 {
-	SetText("");
+	SetText(JString::empty);
 }
 
 /******************************************************************************

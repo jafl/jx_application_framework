@@ -343,7 +343,7 @@ JXVertDockPartition::HandleMouseDown
 
 		if (itsDockMenu == NULL)
 			{
-			itsDockMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+			itsDockMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 			assert( itsDockMenu != NULL );
 			itsDockMenu->SetToHiddenPopupMenu();
 			itsDockMenu->SetMenuItems(kDockMenuStr);

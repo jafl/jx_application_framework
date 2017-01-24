@@ -92,7 +92,7 @@ JXToolBarEditDir::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 320,430, "");
+	JXWindow* window = jnew JXWindow(this, 320,430, JString::empty);
 	assert( window != NULL );
 
 	JXScrollbarSet* scrollbarSet =

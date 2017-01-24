@@ -137,7 +137,7 @@ JXWDManager::DirectorCreated
  DirectorCreated (private)
 
 	If shortcut is NULL, it gets a numeric shortcut.
-	If shortcut is "", then it doesn't have a shortcut.
+	If shortcut is JString::empty, then it doesn't have a shortcut.
 
  ******************************************************************************/
 

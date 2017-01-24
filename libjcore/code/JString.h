@@ -50,6 +50,8 @@ public:
 		kBase16 = 16
 	};
 
+	static const JString empty;
+
 public:
 
 	JString();

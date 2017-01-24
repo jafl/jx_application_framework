@@ -99,7 +99,7 @@ JIndex i;
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 310,340, "");
+	JXWindow* window = jnew JXWindow(this, 310,340, JString::empty);
 	assert( window != NULL );
 
 	JXMenuBar* menuBar =

@@ -93,7 +93,7 @@ JXChoosePathDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 310,370, "");
+	JXWindow* window = jnew JXWindow(this, 310,370, JString::empty);
 	assert( window != NULL );
 
 	JXTextButton* openButton =
@@ -156,12 +156,12 @@ JXChoosePathDialog::BuildWindow
 	explanText->SetToLabel();
 
 	JXPathHistoryMenu* pathHistory =
-		jnew JXPathHistoryMenu(1, "", window,
+		jnew JXPathHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,20, 30,20);
 	assert( pathHistory != NULL );
 
 	JXStringHistoryMenu* filterHistory =
-		jnew JXStringHistoryMenu(1, "", window,
+		jnew JXStringHistoryMenu(1, JString::empty, window,
 					JXWidget::kFixedRight, JXWidget::kFixedBottom, 260,50, 30,20);
 	assert( filterHistory != NULL );
 

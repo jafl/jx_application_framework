@@ -76,6 +76,6 @@ JXStringHistoryMenu::AddString
 {
 	if (!JString::IsEmpty(str))
 		{
-		AddItem(str, "");
+		AddItem(str, JString::empty);
 		}
 }

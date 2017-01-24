@@ -32,7 +32,7 @@ JXIconDirector::JXIconDirector
 	JXWindowDirector(supervisor)
 {
 	JXWindow* window = jnew JXWindow(this, normalIcon->GetWidth(),
-									normalIcon->GetHeight(), "");
+									normalIcon->GetHeight(), JString::empty);
 	assert( window != NULL );
 
 	itsIconWidget =

@@ -53,7 +53,7 @@ TestPopupChoiceDialog::BuildWindow()
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 230,170, "");
+	JXWindow* window = jnew JXWindow(this, 230,170, JString::empty);
 	assert( window != NULL );
 
 	JXTextButton* cancelButton =

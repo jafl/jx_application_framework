@@ -72,7 +72,7 @@ JXGetStringDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 310,110, "");
+	JXWindow* window = jnew JXWindow(this, 310,110, JString::empty);
 	assert( window != NULL );
 
 	JXTextButton* okButton =

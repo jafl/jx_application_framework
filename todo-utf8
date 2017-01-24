@@ -54,16 +54,12 @@ JAsynchDataReceiver::handle_input
 
 -----
 
-define const empty string to avoid JString("", 0, kJFalse)?
-
 convert all functions to use JString intead of JUtf8Byte*
 	call GetBytes() only when pass string to system function
 
 analyze all uses of toupper/lower - not all languages do this by single character
 
 re-evaluate all uses of JIndexRange - character or utf8 byte?
-
-Fix I18NIsCharacterInWord() in jXGlobals
 
 UTF8_STRING for X selection
 use real X compose mechanism

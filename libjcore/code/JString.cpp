@@ -41,6 +41,7 @@
 #include <jAssert.h>
 
 JSize JString::theDefaultBlockSize = 256;
+const JString JString::empty("", 0, kJFalse);
 
 // private routines
 

@@ -58,7 +58,7 @@ JXChooseColorDialog::BuildWindow
 {
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 510,250, "");
+	JXWindow* window = jnew JXWindow(this, 510,250, JString::empty);
 	assert( window != NULL );
 
 	JXTextButton* okButton =

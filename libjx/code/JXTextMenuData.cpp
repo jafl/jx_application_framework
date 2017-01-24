@@ -18,13 +18,15 @@
 #include <jXGlobals.h>
 #include <jXKeysym.h>
 #include <JFontManager.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <JMinMax.h>
 #include <jASCIIConstants.h>
 #include <jAssert.h>
 
 // JBroadcaster message types
 
-const JCharacter* JXTextMenuData::kImageChanged  = "ImageChanged::JXTextMenuData";
+const JUtf8Byte* JXTextMenuData::kImageChanged  = "ImageChanged::JXTextMenuData";
 
 /******************************************************************************
  Constructor
@@ -77,11 +79,11 @@ void
 JXTextMenuData::InsertItem
 	(
 	const JIndex			index,
-	const JCharacter*		str,
+	const JString&			str,
 	const JXMenu::ItemType	type,
-	const JCharacter*		shortcuts,
-	const JCharacter*		nmShortcut,
-	const JCharacter*		id
+	const JString*			shortcuts,
+	const JString*			nmShortcut,
+	const JString*			id
 	)
 {
 	JString* text = jnew JString(str);
@@ -100,7 +102,10 @@ JXTextMenuData::InsertItem
 	(itsMenu->GetWindow())->MenuItemInserted(itsMenu, index);
 	itsNeedGeomRecalcFlag = kJTrue;
 
-	SetNMShortcut(index, nmShortcut);	// parse it and register it
+	if (nmShortcut != NULL)
+		{
+		SetNMShortcut(index, *nmShortcut);	// parse it and register it
+		}
 }
 
 /******************************************************************************
@@ -198,8 +203,8 @@ JXTextMenuData::GetText
 void
 JXTextMenuData::SetText
 	(
-	const JIndex		index,
-	const JCharacter*	str
+	const JIndex	index,
+	const JString&	str
 	)
 {
 	TextItemData itemData = itsTextItemData->GetElement(index);
@@ -223,8 +228,8 @@ JXTextMenuData::SetText
 void
 JXTextMenuData::SetMenuItems
 	(
-	const JCharacter* menuStr,
-	const JCharacter* idNamespace
+	const JUtf8Byte* menuStr,
+	const JUtf8Byte* idNamespace
 	)
 {
 	DeleteAll();
@@ -251,31 +256,20 @@ void
 JXTextMenuData::InsertMenuItems
 	(
 	const JIndex		startIndex,
-	const JCharacter*	menuStr,
-	const JCharacter*	idNamespace
+	const JUtf8Byte*	menuStr,
+	const JUtf8Byte*	idNamespace
 	)
 {
 	JStringManager* strMgr = JGetStringManager();
 
-	JSize currIndex = startIndex;
-	JString str     = menuStr;
-	JBoolean done   = kJFalse;
+	JPtrArray<JString> itemList(JPtrArrayT::kDeleteAll);
+	JString(menuStr, 0, kJFalse).Split("|", &itemList);
+
+	const JSize itemCount = itemList.GetElementCount();
 	JString itemText, shortcuts, nmShortcut, id, strID, id1;
-	while (!done)
+	for (JIndex i=1; i<=itemCount; i++)
 		{
-		JIndex sepIndex;
-		const JBoolean found = str.LocateSubstring("|", &sepIndex);
-		if (found)
-			{
-			assert( sepIndex > 1 );
-			itemText = str.GetSubstring(1, sepIndex-1);
-			str.RemoveSubstring(1, sepIndex);
-			}
-		else
-			{
-			itemText = str;
-			done     = kJTrue;
-			}
+		itemText = *(itemList.NthElement(i));
 
 		JBoolean isActive, hasSeparator;
 		JXMenu::ItemType type;
@@ -298,16 +292,15 @@ JXTextMenuData::InsertMenuItems
 				}
 			}
 
-		InsertItem(currIndex, itemText, type, shortcuts, nmShortcut, id);
+		InsertItem(i, itemText, type, &shortcuts, &nmShortcut, &id);
 		if (!isActive)
 			{
-			DisableItem(currIndex);
+			DisableItem(i);
 			}
 		if (hasSeparator)
 			{
-			ShowSeparatorAfter(currIndex);
+			ShowSeparatorAfter(i);
 			}
-		currIndex++;
 		}
 }
 
@@ -320,6 +313,19 @@ JXTextMenuData::InsertMenuItems
 	%i<chars> = internal identifier
 
  ******************************************************************************/
+
+JString
+jGetOpValue
+	(
+	const JString& op
+	)
+{
+	JStringIterator iter(op);
+	iter.SkipNext();
+	iter.BeginMatch();
+	iter.MoveTo(kJIteratorStartAtEnd, 0);
+	return iter.FinishMatch().GetString();
+}
 
 void
 JXTextMenuData::ParseMenuItemStr
@@ -342,20 +348,16 @@ JXTextMenuData::ParseMenuItemStr
 	nmShortcut->Clear();
 	id->Clear();
 
-	JIndex opIndex;
-	while (text->LocateLastSubstring("%", &opIndex))
+	JPtrArray<JString> list(JPtrArrayT::kDeleteAll);
+	text->Split("%", &list);
+	text->Set(*(list.FirstElement()));
+	text->TrimWhitespace();
+
+	const JSize count = list.GetElementCount();
+	for (JIndex i=2; i<=count; i++)
 		{
-		const JSize textLength = text->GetLength();
-		if (opIndex == textLength)	// can't assert() because of menu_strings file
-			{
-			text->RemoveSubstring(textLength, textLength);
-			continue;
-			}
-
-		JString op = text->GetSubstring(opIndex+1, textLength);
-		text->RemoveSubstring(opIndex, textLength);
-
-		const JCharacter opc = op.GetFirstCharacter();
+		const JString* op        = list.NthElement(i);
+		const JUtf8Character opc = op->GetFirstCharacter().ToLower();
 		if (opc == 'd')
 			{
 			*isActive = kJFalse;
@@ -364,52 +366,50 @@ JXTextMenuData::ParseMenuItemStr
 			{
 			*hasSeparator = kJTrue;
 			}
-		else if (opc == 'b' || opc == 'B')
+		else if (opc == 'b')
 			{
 			*type = JXMenu::kCheckboxType;
 			}
-		else if (opc == 'r' || opc == 'R')
+		else if (opc == 'r')
 			{
 			*type = JXMenu::kRadioType;
 			}
 
 		else if (opc == 'h' && shortcuts->IsEmpty())
 			{
-			*shortcuts = op.GetSubstring(2, op.GetLength());
+			*shortcuts = jGetOpValue(*op);
 			shortcuts->TrimWhitespace();
 			}
 		else if (opc == 'h')
 			{
-			std::cerr << "Tried to use %h more than once in '" << *text << '\'' << std::endl;
+			std::cerr << "Tried to use %h more than once in '" << *op << '\'' << std::endl;
 			}
 
 		else if (opc == 'k' && nmShortcut->IsEmpty())
 			{
-			*nmShortcut = op.GetSubstring(2, op.GetLength());
+			*nmShortcut = jGetOpValue(*op);
 			nmShortcut->TrimWhitespace();
 			}
 		else if (opc == 'k')
 			{
-			std::cerr << "Tried to use %k more than once in '" << *text << '\'' << std::endl;
+			std::cerr << "Tried to use %k more than once in '" << *op << '\'' << std::endl;
 			}
 
 		else if (opc == 'i' && id->IsEmpty())
 			{
-			*id = op.GetSubstring(2, op.GetLength());
+			*id = jGetOpValue(*op);
 			id->TrimWhitespace();
 			}
 		else if (opc == 'i')
 			{
-			std::cerr << "Tried to use %i more than once in '" << *text << '\'' << std::endl;
+			std::cerr << "Tried to use %i more than once in '" << *op << '\'' << std::endl;
 			}
 
 		else
 			{
-			std::cerr << "Unsupported option %" << op << " in '" << *text << '\'' << std::endl;
+			std::cerr << "Unsupported option %" << opc << " in '" << *op << '\'' << std::endl;
 			}
 		}
-
-	text->TrimWhitespace();
 }
 
 /******************************************************************************
@@ -420,8 +420,8 @@ JXTextMenuData::ParseMenuItemStr
 void
 JXTextMenuData::SetFontName
 	(
-	const JIndex		index,
-	const JCharacter*	name
+	const JIndex	index,
+	const JString&	name
 	)
 {
 	TextItemData itemData = itsTextItemData->GetElement(index);
@@ -487,8 +487,8 @@ JXTextMenuData::SetFont
 void
 JXTextMenuData::SetDefaultFontName
 	(
-	const JCharacter*	name,
-	const JBoolean		updateExisting
+	const JString&	name,
+	const JBoolean	updateExisting
 	)
 {
 	if (updateExisting)
@@ -730,13 +730,13 @@ JXTextMenuData::GetNMShortcut
 void
 JXTextMenuData::SetNMShortcut
 	(
-	const JIndex		index,
-	const JCharacter*	str
+	const JIndex	index,
+	const JString&	str
 	)
 {
 	TextItemData itemData = itsTextItemData->GetElement(index);
 
-	const JBoolean strEmpty = JString::IsEmpty(str);
+	const JBoolean strEmpty = str.IsEmpty();
 
 	JBoolean changed = kJFalse;
 	if (!strEmpty && itemData.nmShortcut == NULL)
@@ -802,7 +802,7 @@ JXTextMenuData::SetNMShortcut
 
 struct JXTMModifierConversion
 {
-	const JCharacter*	str;
+	const JUtf8Byte*	str;
 	JSize				strLength;
 	JXModifierKey		key;
 };
@@ -826,7 +826,7 @@ const JSize kNMModConvCount = sizeof(kNMModConv)/sizeof(JXTMModifierConversion);
 
 struct JXTMKeySymConversion
 {
-	const JCharacter*	str;
+	const JUtf8Byte*	str;
 	int					key;
 };
 

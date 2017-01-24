@@ -59,7 +59,7 @@ TestDNDTextDirector::BuildWindow()
 {
 JIndex i;
 
-	JXWindow* window = jnew JXWindow(this, kWindowWidth,kWindowHeight, "");
+	JXWindow* window = jnew JXWindow(this, kWindowWidth,kWindowHeight, JString::empty);
 	assert( window != NULL );
 
 	window->SetTitle("Test Drag-And-Drop (text)");

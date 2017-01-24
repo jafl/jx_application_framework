@@ -55,7 +55,7 @@ TestTabDirector::~TestTabDirector()
 void
 TestTabDirector::BuildWindow()
 {
-	JXWindow* window = jnew JXWindow(this, 300,300, "");
+	JXWindow* window = jnew JXWindow(this, 300,300, JString::empty);
 	assert( window != NULL );
 
 	window->SetTitle("Test Tab Group");

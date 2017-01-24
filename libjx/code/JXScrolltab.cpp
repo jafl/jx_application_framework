@@ -202,7 +202,7 @@ JXScrolltab::OpenActionMenu
 {
 	if (itsActionMenu == NULL)
 		{
-		itsActionMenu = jnew JXTextMenu(JString("", 0, kJFalse), this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsActionMenu = jnew JXTextMenu(JString::empty, this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsActionMenu != NULL );
 		itsActionMenu->SetToHiddenPopupMenu();
 		itsActionMenu->SetMenuItems(kActionMenuStr);

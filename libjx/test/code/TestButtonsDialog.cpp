@@ -87,7 +87,7 @@ TestButtonsDialog::BuildWindow()
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 270,330, "");
+	JXWindow* window = jnew JXWindow(this, 270,330, JString::empty);
 	assert( window != NULL );
 
 	JXStaticText* obj1_JXLayout =

@@ -124,7 +124,7 @@ JXFileListSet::JXFileListSetX
 	assert( filterLabel != NULL );
 
 	itsWildcardMenu =
-		jnew JXStringHistoryMenu(kHistoryLength, "", itsWildcardSet, kFixedRight, kFixedTop,
+		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, itsWildcardSet, kFixedRight, kFixedTop,
 								w - kHistoryMenuWidth,0, kHistoryMenuWidth,kInputHeight);
 	assert( itsWildcardMenu != NULL );
 
@@ -145,7 +145,7 @@ JXFileListSet::JXFileListSetX
 	assert( regexLabel != NULL );
 
 	itsRegexMenu =
-		jnew JXStringHistoryMenu(kHistoryLength, "", itsRegexSet, kFixedRight, kFixedTop,
+		jnew JXStringHistoryMenu(kHistoryLength, JString::empty, itsRegexSet, kFixedRight, kFixedTop,
 								w - kHistoryMenuWidth,0, kHistoryMenuWidth,kInputHeight);
 	assert( itsRegexMenu != NULL );
 

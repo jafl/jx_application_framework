@@ -125,7 +125,7 @@ JXSpellCheckerDialog::BuildWindow()
 
 // begin JXLayout
 
-	JXWindow* window = jnew JXWindow(this, 530,270, "");
+	JXWindow* window = jnew JXWindow(this, 530,270, JString::empty);
 	assert( window != NULL );
 
 	JXStaticText* obj1_JXLayout =
@@ -327,7 +327,7 @@ JXSpellCheckerDialog::Check()
 
 				if (itsSuggestionList->IsEmpty())
 					{
-					itsFirstGuess->SetText("");
+					itsFirstGuess->SetText(JString::empty);
 					}
 				else if (goodFirstSuggestion)
 					{
@@ -362,7 +362,7 @@ JXSpellCheckerDialog::Receive
 
 		itsFirstGuess->SetText(choice->GetWord());
 		itsFirstGuess->Focus();
-		itsIgnoreButton->SetShortcuts("");
+		itsIgnoreButton->SetShortcuts(JString::empty);
 		itsChangeButton->SetShortcuts("^M");
 		}
 	else if (sender == itsSuggestionWidget && message.Is(JXSpellList::kReplaceWord))
@@ -393,13 +393,13 @@ JXSpellCheckerDialog::Receive
 		if (itsFirstGuess->IsEmpty())
 			{
 			itsIgnoreButton->SetShortcuts("^M");
-			itsChangeButton->SetShortcuts("");
+			itsChangeButton->SetShortcuts(JString::empty);
 			itsChangeButton->Deactivate();
 			itsChangeAllButton->Deactivate();
 			}
 		else
 			{
-			itsIgnoreButton->SetShortcuts("");
+			itsIgnoreButton->SetShortcuts(JString::empty);
 			itsChangeButton->SetShortcuts("^M");
 			itsChangeButton->Activate();
 			itsChangeAllButton->Activate();
