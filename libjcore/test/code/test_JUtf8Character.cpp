@@ -201,9 +201,12 @@ JTEST(IsAlnum)
 JTEST(IsAlpha)
 {
 	JAssertFalse(JUtf8Character('{').IsAlpha());
+	JAssertFalse(JUtf8Character('-').IsAlpha());
+	JAssertFalse(JUtf8Character('_').IsAlpha());
 	JAssertFalse(JUtf8Character('5').IsAlpha());
 	JAssertTrue(JUtf8Character('X').IsAlpha());
 	JAssertTrue(JUtf8Character("\xC3\xA6").IsAlpha());
+	JAssertTrue(JUtf8Character("\xCF\x86").IsAlpha());
 	JAssertTrue(JUtf8Character("\xF0\xAF\xA7\x97").IsAlpha());
 }
 
