@@ -33,7 +33,6 @@
 #include <JXDisplay.h>
 #include <JXWindow.h>
 #include <JXPSPrinter.h>
-#include <JXComposeRuleList.h>
 #include <JXSharedPrefsManager.h>
 #include <JXWebBrowser.h>
 #include <JXStandAlonePG.h>
@@ -45,8 +44,6 @@ const JSize kJXHelpPrefixLength        = 7;
 
 static const JCharacter* kSubsectionMarker = "#";
 const JSize kSubsectionMarkerLength        = 1;
-
-static const JCharacter* kComposeHelpSectionName = "JXComposeHelp";
 
 // setup information
 

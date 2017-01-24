@@ -31,9 +31,9 @@ static const JRGB kBackColor(0xFFFF, 0xFFFF, 0xC000);	// light yellow
 
 JXHintDirector::JXHintDirector
 	(
-	JXDirector*			supervisor,
-	JXContainer*		widget,
-	const JCharacter*	text
+	JXDirector*		supervisor,
+	JXContainer*	widget,
+	const JString&	text
 	)
 	:
 	JXWindowDirector(supervisor)
@@ -44,10 +44,10 @@ JXHintDirector::JXHintDirector
 
 JXHintDirector::JXHintDirector
 	(
-	JXDirector*			supervisor,
-	JXContainer*		widget,
-	const JRect&		rect,
-	const JCharacter*	text
+	JXDirector*		supervisor,
+	JXContainer*	widget,
+	const JRect&	rect,
+	const JString&	text
 	)
 	:
 	JXWindowDirector(supervisor)
@@ -74,8 +74,8 @@ JXHintDirector::~JXHintDirector()
 void
 JXHintDirector::BuildWindow
 	(
-	const JRect&		frameR,
-	const JCharacter*	text
+	const JRect&	frameR,
+	const JString&	text
 	)
 {
 	// create window and contents

@@ -21,7 +21,7 @@ const JCoordinate kAlongSize  = 8;
 
 // Action menu
 
-static const JCharacter* kActionMenuStr =
+static const JUtf8Byte* kActionMenuStr =
 	"Scroll to this scrolltab %k Left-click"
 	"| Remove this scrolltab  %k Meta-left-click"
 	"| Remove all scrolltabs  %k Meta-Shift-left-click";
@@ -202,7 +202,7 @@ JXScrolltab::OpenActionMenu
 {
 	if (itsActionMenu == NULL)
 		{
-		itsActionMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsActionMenu = jnew JXTextMenu(JString("", 0, kJFalse), this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsActionMenu != NULL );
 		itsActionMenu->SetToHiddenPopupMenu();
 		itsActionMenu->SetMenuItems(kActionMenuStr);

@@ -26,7 +26,7 @@ public:
 
 	virtual	~JXAssert();
 
-	virtual int		Assert(const JCharacter* expr, const JCharacter* file,
+	virtual int		Assert(const JUtf8Byte* expr, const JUtf8Byte* file,
 						   const int line);
 	virtual void	Abort();
 

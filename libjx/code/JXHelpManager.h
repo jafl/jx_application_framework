@@ -26,11 +26,11 @@ public:
 
 	JBoolean	HasTOC() const;
 	void		ShowTOC();
-	void		SetTOCSectionName(const JCharacter* name);
+	void		SetTOCSectionName(const JUtf8Byte* name);
 
-	void	RegisterSection(const JCharacter* name);
-	void	ShowSection(const JCharacter* name, JXHelpDirector* helpDir = NULL);
-	void	ShowURL(const JCharacter* url, JXHelpDirector* helpDir = NULL);
+	void	RegisterSection(const JUtf8Byte* name);
+	void	ShowSection(const JUtf8Byte* name, JXHelpDirector* helpDir = NULL);
+	void	ShowURL(const JString& url, JXHelpDirector* helpDir = NULL);
 	void	CloseAll();
 
 	void	SearchAllSections();
@@ -51,7 +51,7 @@ private:
 
 	struct SectionInfo
 	{
-		const JCharacter*	name;
+		const JUtf8Byte*	name;
 		JXHelpDirector*		dir;
 
 		SectionInfo()
@@ -59,7 +59,7 @@ private:
 			name(NULL), dir(NULL)
 		{ };
 
-		SectionInfo(const JCharacter* n)
+		SectionInfo(const JUtf8Byte* n)
 			:
 			name(n), dir(NULL)
 		{ };
@@ -68,7 +68,7 @@ private:
 private:
 
 	JArray<SectionInfo>*	itsSections;
-	const JCharacter*		itsTOCSectionName;	// NULL if not registered
+	const JUtf8Byte*		itsTOCSectionName;	// NULL if not registered
 	JXHelpDirector*			itsComposeHelpDir;	// NULL if not visible
 
 	JString 				itsDefWindowGeom;
@@ -76,7 +76,7 @@ private:
 
 private:
 
-	JXHelpDirector*	CreateHelpDirector(const JCharacter* text);
+	JXHelpDirector*	CreateHelpDirector(const JString& text);
 
 	static JOrderedSetT::CompareResult
 		CompareSections(const SectionInfo& s1, const SectionInfo& s2);
@@ -103,7 +103,7 @@ JXHelpManager::HasTOC()
 inline void
 JXHelpManager::SetTOCSectionName
 	(
-	const JCharacter* name
+	const JUtf8Byte* name
 	)
 {
 	itsTOCSectionName = name;

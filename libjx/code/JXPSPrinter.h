@@ -49,14 +49,14 @@ public:
 
 	Destination		GetDestination() const;
 	void			SetDestination(const Destination dest,
-								   const JCharacter* printCmd,
-								   const JCharacter* fileName);
+								   const JString& printCmd,
+								   const JString& fileName);
 
 	const JString&	GetPrintCmd() const;
-	void			SetPrintCmd(const JCharacter* cmd);
+	void			SetPrintCmd(const JString& cmd);
 
 	const JString&	GetFileName() const;
-	void			SetFileName(const JCharacter* name);
+	void			SetFileName(const JString& name);
 
 	JBoolean	WillCollatePages() const;
 	void		CollatePages(const JBoolean doIt);
@@ -73,7 +73,7 @@ protected:
 
 	virtual JXPSPrintSetupDialog*
 		CreatePrintSetupDialog(const Destination destination,
-							   const JCharacter* printCmd, const JCharacter* fileName,
+							   const JString& printCmd, const JString& fileName,
 							   const JBoolean collate, const JBoolean bw);
 
 	virtual JBoolean	EndUserPageSetup(const JBroadcaster::Message& message);
@@ -125,7 +125,7 @@ inline const JString&
 JXPSPrinter::GetPrintCmd()
 	const
 {
-	return *itsPrintCmd;
+	return itsPrintCmd;
 }
 
 /******************************************************************************
@@ -137,7 +137,7 @@ inline const JString&
 JXPSPrinter::GetFileName()
 	const
 {
-	return *itsFileName;
+	return itsFileName;
 }
 
 /******************************************************************************

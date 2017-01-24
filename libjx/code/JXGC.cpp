@@ -614,7 +614,7 @@ JXGC::DrawString
 	XftDraw*			fdrawable,
 	const JCoordinate	origX,
 	const JCoordinate	y,
-	const JCharacter*	str
+	const JString&		str
 	)
 	const
 {

@@ -34,7 +34,7 @@ private:
 
 public:
 
-	static const JCharacter* kTimerWentOff;
+	static const JUtf8Byte* kTimerWentOff;
 
 	class TimerWentOff: public JBroadcaster::Message
 		{

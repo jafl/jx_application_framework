@@ -237,9 +237,6 @@
 .cpp ./code/JXPSPageSetupDialog
 .cpp ./code/JXEPSPrinter
 .cpp ./code/JXEPSPrintSetupDialog
-.cpp ./code/JXComposeRuleList
-.cpp ./code/JXComposeScanner
-.l ./code/JXComposeScannerL
 .cpp ./code/JXWebBrowser
 .cpp ./code/JXStringCompletionMenu
 .cpp ./code/JXChooseColorDialog

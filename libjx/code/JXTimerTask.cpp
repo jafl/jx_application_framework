@@ -12,7 +12,7 @@
 #include <JXTimerTask.h>
 #include <jAssert.h>
 
-const JCharacter* JXTimerTask::kTimerWentOff = "TimerWentOff::JXTimerTask";
+const JUtf8Byte* JXTimerTask::kTimerWentOff = "TimerWentOff::JXTimerTask";
 
 /******************************************************************************
  Constructor

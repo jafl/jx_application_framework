@@ -62,20 +62,20 @@ JXIntersection
 }
 
 JString	JXPackStrings(const JPtrArray<JString>& strList,
-					  const JCharacter* separator = "\0", const JSize sepLength = 1);
-void	JXUnpackStrings(const JCharacter* data, const JSize length,
+					  const JUtf8Byte* separator = "\0", const JSize sepLength = 1);
+void	JXUnpackStrings(const JString& data, const JSize length,
 						JPtrArray<JString>* strList,
-						const JCharacter* separator = "\0", const JSize sepLength = 1);
+						const JUtf8Byte* separator = "\0", const JSize sepLength = 1);
 
 JString	JXPackFileNames(const JPtrArray<JString>& fileNameList);
-void	JXUnpackFileNames(const JCharacter* data, const JSize length,
+void	JXUnpackFileNames(const JString& data, const JSize length,
 						  JPtrArray<JString>* fileNameList,
 						  JPtrArray<JString>* urlList);
 void	JXReportUnreachableHosts(const JPtrArray<JString>& urlList);
 
 // only for use by JXSelectionManager
 
-JBoolean	JXFixBrokenURLs(const JCharacter* data, const JSize length,
+JBoolean	JXFixBrokenURLs(const JString& data, const JSize length,
 							JXDisplay* display, const Window srcWindow,
 							JString* newData);
 

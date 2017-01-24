@@ -23,8 +23,8 @@ const Time kHintWaitDelay = 500;	// milliseconds
 
 JXHintManager::JXHintManager
 	(
-	JXContainer*		widget,
-	const JCharacter*	text
+	JXContainer*	widget,
+	const JString&	text
 	)
 	:
 	itsWidget(widget),

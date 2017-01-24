@@ -1,3 +1,9 @@
+unit test every function that uses JStringIterator or Split
+	libjx
+	libjexpr
+	libj2dplot
+	libjfs
+
 add back in:
 	JTextEditor.cpp
 	JTEStyler.cpp
@@ -47,6 +53,8 @@ JAsynchDataReceiver::handle_input
 	we cannot assume received complete utf-8 characters
 
 -----
+
+define const empty string to avoid JString("", 0, kJFalse)?
 
 convert all functions to use JString intead of JUtf8Byte*
 	call GetBytes() only when pass string to system function

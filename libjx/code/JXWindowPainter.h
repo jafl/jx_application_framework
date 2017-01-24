@@ -45,13 +45,13 @@ public:
 	virtual void	SetDashList(const JArray<JSize>& dashList, const JSize dashOffset = 0);
 
 	virtual void	String(const JCoordinate left, const JCoordinate top,
-						   const JCharacter* str,
+						   const JString& str,
 						   const JCoordinate width = 0,
 						   const HAlignment hAlign = kHAlignLeft,
 						   const JCoordinate height = 0,
 						   const VAlignment vAlign = kVAlignTop);
 	virtual void	String(const JFloat angle, const JCoordinate left,
-						   const JCoordinate top, const JCharacter* str,
+						   const JCoordinate top, const JString& str,
 						   const JCoordinate width = 0,
 						   const HAlignment hAlign = kHAlignLeft,
 						   const JCoordinate height = 0,
@@ -80,7 +80,7 @@ public:
 	// this is virtual so JXImagePainter can override it correctly
 
 	virtual void	String(const JCoordinate left, const JCoordinate top,
-						   const JCharacter* str, const JIndex uIndex,
+						   const JString& str, const JIndex uIndex,
 						   const JCoordinate width = 0,
 						   const HAlignment hAlign = kHAlignLeft,
 						   const JCoordinate height = 0,
@@ -111,7 +111,7 @@ private:
 
 private:
 
-	void	StyleString(const JCharacter* str,
+	void	StyleString(const JString& str,
 						const JCoordinate x, const JCoordinate y,
 						const JCoordinate ascent, const JCoordinate descent,
 						const JColorIndex color);

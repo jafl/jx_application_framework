@@ -37,9 +37,9 @@ public:
 	const JXMenu*	GetMenu(const JIndex index) const;
 	JBoolean		FindMenu(const JXMenu* menu, JIndex* index) const;
 
-	JXTextMenu*	InsertTextMenu(const JIndex index, const JCharacter* title);
-	JXTextMenu*	PrependTextMenu(const JCharacter* title);
-	JXTextMenu*	AppendTextMenu(const JCharacter* title);
+	JXTextMenu*	InsertTextMenu(const JIndex index, const JString& title);
+	JXTextMenu*	PrependTextMenu(const JString& title);
+	JXTextMenu*	AppendTextMenu(const JString& title);
 
 	JXTextMenu*	InsertTextMenu(const JIndex index, JXImage* image,
 							   const JBoolean menuOwnsImage);
@@ -95,7 +95,7 @@ private:
 inline JXTextMenu*
 JXMenuBar::PrependTextMenu
 	(
-	const JCharacter* title
+	const JString& title
 	)
 {
 	return InsertTextMenu(1, title);
@@ -128,7 +128,7 @@ JXMenuBar::PrependMenu
 inline JXTextMenu*
 JXMenuBar::AppendTextMenu
 	(
-	const JCharacter* title
+	const JString& title
 	)
 {
 	return InsertTextMenu(GetMenuCount()+1, title);

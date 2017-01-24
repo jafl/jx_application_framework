@@ -21,7 +21,7 @@ class JXTextMenu : public JXMenu
 {
 public:
 
-	JXTextMenu(const JCharacter* title, JXContainer* enclosure,
+	JXTextMenu(const JString& title, JXContainer* enclosure,
 			   const HSizingOption hSizing, const VSizingOption vSizing,
 			   const JCoordinate x, const JCoordinate y,
 			   const JCoordinate w, const JCoordinate h);
@@ -36,44 +36,44 @@ public:
 
 	virtual ~JXTextMenu();
 
-	void	SetMenuItems(const JCharacter* menuStr,
-						 const JCharacter* idNamespace = NULL);
-	void	InsertMenuItems(const JIndex index, const JCharacter* menuStr,
-							const JCharacter* idNamespace = NULL);
-	void	PrependMenuItems(const JCharacter* menuStr,
-							 const JCharacter* idNamespace = NULL);
-	void	AppendMenuItems(const JCharacter* menuStr,
-							const JCharacter* idNamespace = NULL);
+	void	SetMenuItems(const JUtf8Byte* menuStr,
+						 const JUtf8Byte* idNamespace = NULL);
+	void	InsertMenuItems(const JIndex index, const JUtf8Byte* menuStr,
+							const JUtf8Byte* idNamespace = NULL);
+	void	PrependMenuItems(const JUtf8Byte* menuStr,
+							 const JUtf8Byte* idNamespace = NULL);
+	void	AppendMenuItems(const JUtf8Byte* menuStr,
+							const JUtf8Byte* idNamespace = NULL);
 
-	void	InsertItem(const JIndex index, const JCharacter* str,
+	void	InsertItem(const JIndex index, const JString& str,
 					   const ItemType type = kPlainType,
-					   const JCharacter* shortcuts = NULL,
-					   const JCharacter* nmShortcut = NULL,
-					   const JCharacter* id = NULL);
-	void	PrependItem(const JCharacter* str,
+					   const JString* shortcuts = NULL,
+					   const JString* nmShortcut = NULL,
+					   const JString* id = NULL);
+	void	PrependItem(const JString& str,
 					   const ItemType type = kPlainType,
-						const JCharacter* shortcuts = NULL,
-						const JCharacter* nmShortcut = NULL,
-						const JCharacter* id = NULL);
-	void	AppendItem(const JCharacter* str,
+						const JString* shortcuts = NULL,
+						const JString* nmShortcut = NULL,
+						const JString* id = NULL);
+	void	AppendItem(const JString& str,
 					   const ItemType type = kPlainType,
-					   const JCharacter* shortcuts = NULL,
-					   const JCharacter* nmShortcut = NULL,
-					   const JCharacter* id = NULL);
+					   const JString* shortcuts = NULL,
+					   const JString* nmShortcut = NULL,
+					   const JString* id = NULL);
 
 	const JString&	GetItemText(const JIndex index) const;
-	void			SetItemText(const JIndex index, const JCharacter* str);
+	void			SetItemText(const JIndex index, const JString& str);
 
 	JFont	GetItemFont(const JIndex index) const;
 
-	void	SetItemFontName(const JIndex index, const JCharacter* name);
+	void	SetItemFontName(const JIndex index, const JString& name);
 	void	SetItemFontSize(const JIndex index, const JSize size);
 	void	SetItemFontStyle(const JIndex index, const JFontStyle& style);
 	void	SetItemFont(const JIndex index, const JFont& font);
 
 	const JFont&	GetDefaultFont() const;
 
-	void	SetDefaultFontName(const JCharacter* name, const JBoolean updateExisting);
+	void	SetDefaultFontName(const JString& name, const JBoolean updateExisting);
 	void	SetDefaultFontSize(const JSize size, const JBoolean updateExisting);
 	void	SetDefaultFontStyle(const JFontStyle& style, const JBoolean updateExisting);
 	void	SetDefaultFont(const JFont& font, const JBoolean updateExisting);
@@ -85,7 +85,7 @@ public:
 	void		ClearItemImage(const JIndex index);
 
 	JBoolean	GetItemNMShortcut(const JIndex index, JString* str) const;
-	void		SetItemNMShortcut(const JIndex index, const JCharacter* str);
+	void		SetItemNMShortcut(const JIndex index, const JString& str);
 
 	JBoolean	HasSeparatorAfter(const JIndex index) const;
 	void		ShowSeparatorAfter(const JIndex index, const JBoolean show = kJTrue);

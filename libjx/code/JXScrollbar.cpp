@@ -53,17 +53,17 @@ const JFloat kContinuousScrollDelay = 0.05;
 // setup information
 
 const JFileVersion kCurrentSetupVersion = 1;
-const JCharacter kSetupDataEndDelimiter = '\1';		// avoid conflict with JXScrollableWidget
+const JUtf8Byte kSetupDataEndDelimiter  = '\1';		// avoid conflict with JXScrollableWidget
 
 	// version 1: stores itsValue
 
 // JBroadcaster message types
 
-const JCharacter* JXScrollbar::kScrolled = "Scrolled::JXScrollbar";
+const JUtf8Byte* JXScrollbar::kScrolled = "Scrolled::JXScrollbar";
 
 // Action menu
 
-static const JCharacter* kActionMenuStr =
+static const JUtf8Byte* kActionMenuStr =
 	"    Scroll here                       %k Middle-click"
 	"  | Scroll to top"
 	"  | Scroll to bottom"
@@ -1177,7 +1177,7 @@ JXScrollbar::OpenActionMenu
 {
 	if (itsActionMenu == NULL)
 		{
-		itsActionMenu = jnew JXTextMenu("", this, kFixedLeft, kFixedTop, 0,0, 10,10);
+		itsActionMenu = jnew JXTextMenu(JString("", 0, kJFalse), this, kFixedLeft, kFixedTop, 0,0, 10,10);
 		assert( itsActionMenu != NULL );
 		itsActionMenu->Hide();
 		itsActionMenu->SetToHiddenPopupMenu(kJTrue);
@@ -1254,7 +1254,7 @@ JXScrollbar::HandleActionMenu
 
  ******************************************************************************/
 
-static const JCharacter* kSpeedScrollCursorName = "JXScrollbar::SpeedScroll";
+static const JUtf8Byte* kSpeedScrollCursorName = "JXScrollbar::SpeedScroll";
 
 #include <jx_speed_scroll_cursor.xbm>
 #include <jx_speed_scroll_cursor_mask.xbm>

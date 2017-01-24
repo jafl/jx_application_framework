@@ -296,7 +296,7 @@ JXDockTabGroup::HandleDockContextMenu
 
 	else if (index == kUpdateWindowTypeMapCmd)
 		{
-		const JCharacter* type;
+		JString type;
 		if (w->GetWindowType(&type))
 			{
 			JXDockWidget* dock;

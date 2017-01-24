@@ -36,29 +36,29 @@ public:
 	JBoolean	HasSubmenu(const JIndex index) const;
 	JBoolean	GetSubmenu(const JIndex index, JXMenu** menu) const;
 
-	JBoolean	ShortcutToIndex(const JCharacter c, JIndex* index) const;
+	JBoolean	ShortcutToIndex(const JUtf8Character& c, JIndex* index) const;
 
 protected:
 
 	void			InsertItem(const JIndex index,
 							   const JXMenu::ItemType type = JXMenu::kPlainType,
-							   const JCharacter* shortcuts = NULL,
-							   const JCharacter* id = NULL);
+							   const JString* shortcuts = NULL,
+							   const JString* id = NULL);
 	void			PrependItem(const JXMenu::ItemType type = JXMenu::kPlainType,
-								const JCharacter* shortcuts = NULL,
-								const JCharacter* id = NULL);
+								const JString* shortcuts = NULL,
+								const JString* id = NULL);
 	void			AppendItem(const JXMenu::ItemType type = JXMenu::kPlainType,
-							   const JCharacter* shortcuts = NULL,
-							   const JCharacter* id = NULL);
+							   const JString* shortcuts = NULL,
+							   const JString* id = NULL);
 	virtual void	DeleteItem(const JIndex index);		// must call inherited
 	virtual void	DeleteAll();						// must call inherited
 
 	JBoolean		GetItemShortcuts(const JIndex index, const JString** shortcuts) const;
-	void			SetItemShortcuts(const JIndex index, const JCharacter* shortcuts);
+	void			SetItemShortcuts(const JIndex index, const JString& shortcuts);
 	virtual void	ItemShortcutsChanged(const JIndex index, const JString* shortcuts);
 
 	JBoolean	GetItemID(const JIndex index, const JString** id) const;
-	void		SetItemID(const JIndex index, const JCharacter* id);
+	void		SetItemID(const JIndex index, const JString& id);
 
 	void	EnableItem(const JIndex index);
 	void	EnableAll();
@@ -126,8 +126,8 @@ inline void
 JXMenuData::PrependItem
 	(
 	const JXMenu::ItemType	type,
-	const JCharacter*		shortcuts,
-	const JCharacter*		id
+	const JString*			shortcuts,
+	const JString*			id
 	)
 {
 	InsertItem(1, type, shortcuts, id);
@@ -137,8 +137,8 @@ inline void
 JXMenuData::AppendItem
 	(
 	const JXMenu::ItemType	type,
-	const JCharacter*		shortcuts,
-	const JCharacter*		id
+	const JString*			shortcuts,
+	const JString*			id
 	)
 {
 	InsertItem(GetElementCount()+1, type, shortcuts, id);

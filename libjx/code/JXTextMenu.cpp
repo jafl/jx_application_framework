@@ -15,7 +15,7 @@
 #include <JXDisplay.h>
 #include <JXImageCache.h>
 #include <JXImage.h>
-#include <JString.h>
+#include <JStringIterator.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -25,7 +25,7 @@
 
 JXTextMenu::JXTextMenu
 	(
-	const JCharacter*	title,
+	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -100,12 +100,12 @@ JXTextMenu::~JXTextMenu()
 void
 JXTextMenu::InsertItem
 	(
-	const JIndex		index,
-	const JCharacter*	str,
-	const ItemType		type,
-	const JCharacter*	shortcuts,
-	const JCharacter*	nmShortcut,
-	const JCharacter*	id
+	const JIndex	index,
+	const JString&	str,
+	const ItemType	type,
+	const JString*	shortcuts,
+	const JString*	nmShortcut,
+	const JString*	id
 	)
 {
 	itsTextMenuData->InsertItem(index, str, type, shortcuts, nmShortcut, id);
@@ -114,11 +114,11 @@ JXTextMenu::InsertItem
 void
 JXTextMenu::PrependItem
 	(
-	const JCharacter*	str,
-	const ItemType		type,
-	const JCharacter*	shortcuts,
-	const JCharacter*	nmShortcut,
-	const JCharacter*	id
+	const JString&	str,
+	const ItemType	type,
+	const JString*	shortcuts,
+	const JString*	nmShortcut,
+	const JString*	id
 	)
 {
 	itsTextMenuData->PrependItem(str, type, shortcuts, nmShortcut, id);
@@ -127,11 +127,11 @@ JXTextMenu::PrependItem
 void
 JXTextMenu::AppendItem
 	(
-	const JCharacter*	str,
-	const ItemType		type,
-	const JCharacter*	shortcuts,
-	const JCharacter*	nmShortcut,
-	const JCharacter*	id
+	const JString&	str,
+	const ItemType	type,
+	const JString*	shortcuts,
+	const JString*	nmShortcut,
+	const JString*	id
 	)
 {
 	itsTextMenuData->AppendItem(str, type, shortcuts, nmShortcut, id);
@@ -155,8 +155,8 @@ JXTextMenu::GetItemText
 void
 JXTextMenu::SetItemText
 	(
-	const JIndex		index,
-	const JCharacter*	str
+	const JIndex	index,
+	const JString&	str
 	)
 {
 	itsTextMenuData->SetText(index, str);
@@ -170,8 +170,8 @@ JXTextMenu::SetItemText
 void
 JXTextMenu::SetMenuItems
 	(
-	const JCharacter* menuStr,
-	const JCharacter* idNamespace
+	const JUtf8Byte* menuStr,
+	const JUtf8Byte* idNamespace
 	)
 {
 	itsTextMenuData->SetMenuItems(menuStr, idNamespace);
@@ -181,8 +181,8 @@ void
 JXTextMenu::InsertMenuItems
 	(
 	const JIndex		index,
-	const JCharacter*	menuStr,
-	const JCharacter*	idNamespace
+	const JUtf8Byte*	menuStr,
+	const JUtf8Byte*	idNamespace
 	)
 {
 	itsTextMenuData->InsertMenuItems(index, menuStr, idNamespace);
@@ -191,8 +191,8 @@ JXTextMenu::InsertMenuItems
 void
 JXTextMenu::PrependMenuItems
 	(
-	const JCharacter* menuStr,
-	const JCharacter* idNamespace
+	const JUtf8Byte* menuStr,
+	const JUtf8Byte* idNamespace
 	)
 {
 	itsTextMenuData->PrependMenuItems(menuStr, idNamespace);
@@ -201,8 +201,8 @@ JXTextMenu::PrependMenuItems
 void
 JXTextMenu::AppendMenuItems
 	(
-	const JCharacter* menuStr,
-	const JCharacter* idNamespace
+	const JUtf8Byte* menuStr,
+	const JUtf8Byte* idNamespace
 	)
 {
 	itsTextMenuData->AppendMenuItems(menuStr, idNamespace);
@@ -231,8 +231,8 @@ JXTextMenu::GetItemFont
 void
 JXTextMenu::SetItemFontName
 	(
-	const JIndex		index,
-	const JCharacter*	name
+	const JIndex	index,
+	const JString&	name
 	)
 {
 	itsTextMenuData->SetFontName(index, name);
@@ -288,8 +288,8 @@ JXTextMenu::GetDefaultFont()
 void
 JXTextMenu::SetDefaultFontName
 	(
-	const JCharacter*	name,
-	const JBoolean		updateExisting
+	const JString&	name,
+	const JBoolean	updateExisting
 	)
 {
 	itsTextMenuData->SetDefaultFontName(name, updateExisting);
@@ -410,8 +410,8 @@ JXTextMenu::GetItemNMShortcut
 void
 JXTextMenu::SetItemNMShortcut
 	(
-	const JIndex		index,
-	const JCharacter*	str
+	const JIndex	index,
+	const JString&	str
 	)
 {
 	itsTextMenuData->SetNMShortcut(index, str);
@@ -518,7 +518,7 @@ JXTextMenu::SetToPopupChoice
 	if (isPopup && !origTitle.IsEmpty() && !origTitle.EndsWith(":"))
 		{
 		JString newTitle = origTitle;
-		newTitle.AppendCharacter(':');
+		newTitle.Append(":");
 		SetTitle(newTitle, NULL, kJFalse);
 		}
 
@@ -537,26 +537,28 @@ JXTextMenu::AdjustPopupChoiceTitle
 	)
 {
 	const JString& origTitle = GetTitleText();
-	if (!origTitle.IsEmpty())
+	if (origTitle.IsEmpty())
 		{
-		JString newTitle;
-		JIndex colonIndex;
-		const JBoolean foundColon = origTitle.LocateSubstring(":", &colonIndex);
-		if (foundColon && colonIndex > 1)
-			{
-			newTitle = origTitle.GetSubstring(1, colonIndex-1);
-			}
-		// not empty but no colon => title was empty originally, so replace it
-
-		if (!newTitle.IsEmpty())
-			{
-			newTitle += ":  ";
-			}
-		newTitle += GetItemText(index);
-
-		const JXImage* image = NULL;
-		GetItemImage(index, &image);
-
-		SetTitle(newTitle, const_cast<JXImage*>(image), kJFalse);
+		return;
 		}
+
+	JString newTitle = origTitle;
+
+	JStringIterator iter(&newTitle);
+	if (iter.Next(":"))
+		{
+		iter.SkipPrev();
+		iter.RemoveAllNext();
+		}
+
+	if (!newTitle.IsEmpty())
+		{
+		newTitle += ":  ";
+		}
+	newTitle += GetItemText(index);
+
+	const JXImage* image = NULL;
+	GetItemImage(index, &image);
+
+	SetTitle(newTitle, const_cast<JXImage*>(image), kJFalse);
 }

@@ -79,7 +79,7 @@ JXImagePainter::String
 	(
 	const JCoordinate	left,
 	const JCoordinate	top,
-	const JCharacter*	str,
+	const JString&		str,
 	const JCoordinate	width,
 	const HAlignment	hAlign,
 	const JCoordinate	height,
@@ -97,7 +97,7 @@ JXImagePainter::String
 	(
 	const JCoordinate	left,
 	const JCoordinate	top,
-	const JCharacter*	str,
+	const JString&		str,
 	const JIndex		uIndex,
 	const JCoordinate	width,
 	const HAlignment	hAlign,
@@ -117,7 +117,7 @@ JXImagePainter::String
 	const JFloat		angle,
 	const JCoordinate	left,
 	const JCoordinate	top,
-	const JCharacter*	str,
+	const JString&		str,
 	const JCoordinate	width,
 	const HAlignment	hAlign,
 	const JCoordinate	height,

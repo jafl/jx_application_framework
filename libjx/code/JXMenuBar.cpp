@@ -167,8 +167,8 @@ JXMenuBar::GetMenu
 JXTextMenu*
 JXMenuBar::InsertTextMenu
 	(
-	const JIndex		index,
-	const JCharacter*	title
+	const JIndex	index,
+	const JString&	title
 	)
 {
 	const JRect bounds = GetBounds();

@@ -59,17 +59,17 @@ public:
 	virtual ~JXImage();
 
 	static JError	CreateFromFile(JXDisplay* display,
-								   const JCharacter* fileName, JXImage** image);
+								   const JString& fileName, JXImage** image);
 	static JError	CreateFromGIF(JXDisplay* display,
-								  const JCharacter* fileName, JXImage** image);
+								  const JString& fileName, JXImage** image);
 	static JError	CreateFromPNG(JXDisplay* display,
-								  const JCharacter* fileName, JXImage** image);
+								  const JString& fileName, JXImage** image);
 	static JError	CreateFromJPEG(JXDisplay* display,
-								   const JCharacter* fileName, JXImage** image);
+								   const JString& fileName, JXImage** image);
 	static JError	CreateFromXPM(JXDisplay* display,
-								  const JCharacter* fileName, JXImage** image);
+								  const JString& fileName, JXImage** image);
 
-	JError	WriteXPM(const JCharacter* fileName) const;
+	JError	WriteXPM(const JString& fileName) const;
 
 	virtual JXImage*	Copy() const;
 

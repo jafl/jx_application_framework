@@ -55,7 +55,7 @@ public:
 public:
 
 	JXWindow(JXWindowDirector* director, const JCoordinate w, const JCoordinate h,
-			 const JCharacter* title, const JBoolean isOverlay = kJFalse);
+			 const JString& title, const JBoolean isOverlay = kJFalse);
 
 	virtual ~JXWindow();
 
@@ -63,14 +63,14 @@ public:
 	JXColormap*	GetColormap() const;
 
 	const JString&	GetTitle() const;
-	void			SetTitle(const JCharacter* title);
+	void			SetTitle(const JString& title);
 
 	JBoolean	Close();
 	CloseAction	GetCloseAction() const;
 	void		SetCloseAction(const CloseAction closeAction);
 
 	void	SetTransientFor(const JXWindowDirector* director);
-	void	SetWMClass(const JCharacter* c_class, const JCharacter* instance);
+	void	SetWMClass(const JUtf8Byte* c_class, const JUtf8Byte* instance);
 	void	HideFromTaskbar();
 
 	virtual void	Show();
@@ -234,7 +234,7 @@ public:
 
 	JBoolean	InstallShortcut(JXWidget* widget, const int key,
 								const JXKeyModifiers& modifiers);
-	void		InstallShortcuts(JXWidget* widget, const JCharacter* list);
+	void		InstallShortcuts(JXWidget* widget, const JString& list);
 	void		ClearShortcuts(JXWidget* widget);
 
 	// called by JXWidget and JXSelectionManager
@@ -265,7 +265,7 @@ public:
 	void		UndockAllChildWindows();
 
 	JBoolean	HasWindowType() const;
-	JBoolean	GetWindowType(const JCharacter** type) const;
+	JBoolean	GetWindowType(JString* type) const;
 
 	void	UndockedPlace(const JCoordinate enclX, const JCoordinate enclY);
 	void	UndockedMove(const JCoordinate dx, const JCoordinate dy);
@@ -491,15 +491,15 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kIconified;
-	static const JCharacter* kDeiconified;
-	static const JCharacter* kMapped;
-	static const JCharacter* kUnmapped;
-	static const JCharacter* kRaised;
-	static const JCharacter* kDocked;
-	static const JCharacter* kUndocked;
-	static const JCharacter* kMinSizeChanged;
-	static const JCharacter* kTitleChanged;
+	static const JUtf8Byte* kIconified;
+	static const JUtf8Byte* kDeiconified;
+	static const JUtf8Byte* kMapped;
+	static const JUtf8Byte* kUnmapped;
+	static const JUtf8Byte* kRaised;
+	static const JUtf8Byte* kDocked;
+	static const JUtf8Byte* kUndocked;
+	static const JUtf8Byte* kMinSizeChanged;
+	static const JUtf8Byte* kTitleChanged;
 
 	class Iconified : public JBroadcaster::Message
 		{
@@ -746,7 +746,7 @@ inline JBoolean
 JXWindow::HasWindowType()
 	const
 {
-	return !JString::IsEmpty(itsWindowType);
+	return !itsWindowType.IsEmpty();
 }
 
 /******************************************************************************
@@ -757,7 +757,7 @@ JXWindow::HasWindowType()
 inline JBoolean
 JXWindow::GetWindowType
 	(
-	const JCharacter** type
+	JString* type
 	)
 	const
 {

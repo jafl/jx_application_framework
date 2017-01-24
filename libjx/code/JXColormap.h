@@ -32,7 +32,7 @@ public:
 	Visual*		GetVisual() const;
 	int			GetVisualClass() const;
 
-	virtual JBoolean	GetColor(const JCharacter* name, JColorIndex* colorIndex) const;
+	virtual JBoolean	GetColor(const JUtf8Byte* name, JColorIndex* colorIndex) const;
 	virtual JColorIndex	GetColor(const JSize red, const JSize green, const JSize blue) const;
 	virtual void		GetRGB(const JColorIndex colorIndex, JSize* red,
 							   JSize* green, JSize* blue) const;

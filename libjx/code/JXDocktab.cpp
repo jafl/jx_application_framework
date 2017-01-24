@@ -350,7 +350,7 @@ JXDocktab::HandleActionMenu
 	else if (index == kUpdateWindowTypeMapCmd)
 		{
 		JXWindow* w = GetWindow();
-		const JCharacter* type;
+		JString type;
 		if (w->GetWindowType(&type))
 			{
 			JXDockWidget* dock;

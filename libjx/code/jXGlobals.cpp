@@ -647,225 +647,26 @@ JXGetDockWindowClass()
 }
 
 /******************************************************************************
- JXInitLocale (private)
-
- ******************************************************************************/
-
-const JSize kCharacterCount = 256;
-static JBoolean kIsCharacterInWord [ kCharacterCount ];
-
-static JBoolean I18NIsCharacterInWord(const JCharacter c);
-
-void
-JXInitLocale()
-{
-	// IsCharacterInWord
-
-	for (JIndex i=0; i<kCharacterCount; i++)
-		{
-		kIsCharacterInWord[i] = kJFalse;
-		}
-
-	JTextEditor::SetI18NCharacterInWordFunction(I18NIsCharacterInWord);
-
-	// get language name
-
-	const JCharacter* langAlias = getenv("LC_ALL");
-	if (langAlias == NULL)
-		{
-		langAlias = getenv("LANG");
-		if (langAlias == NULL)
-			{
-			langAlias = "POSIX";
-			}
-		}
-
-
-	// resolve alias to complete language name
-
-	std::ifstream langInput;
-	if (!JXOpenLocaleFile("locale.alias", langInput))
-		{
-		return;
-		}
-
-	JBoolean found = kJFalse;
-	JString alias, langName;
-	while (!langInput.eof() && !langInput.fail())
-		{
-		if (langInput.peek() == '#')
-			{
-			JIgnoreLine(langInput);
-			}
-		else
-			{
-			langInput >> std::ws;
-			alias    = JReadUntilws(langInput);
-			langName = JReadUntilws(langInput);
-
-			if (alias == langAlias)
-				{
-				found = kJTrue;
-				break;
-				}
-			}
-		}
-	langInput.close();
-
-	if (!found)
-		{
-		langName = langAlias;
-		}
-
-	// extract file name from Compose.dir
-
-	std::ifstream composeDirInput;
-	if (!JXOpenLocaleFile("compose.dir", composeDirInput))
-		{
-		return;
-		}
-
-	found = kJFalse;
-	JString composeFile, name;
-	while (!composeDirInput.eof() && !composeDirInput.fail())
-		{
-		if (composeDirInput.peek() == '#')
-			{
-			JIgnoreLine(composeDirInput);
-			}
-		else
-			{
-			composeDirInput >> std::ws;
-			composeFile = JReadUntilws(composeDirInput);
-			name        = JReadUntilws(composeDirInput);
-
-			if (JString::Compare(name, langName, kJFalse) == 0)
-				{
-				found = kJTrue;
-				break;
-				}
-			}
-		}
-	composeDirInput.close();
-
-	// build Compose rule list
-
-	std::ifstream composeInput;
-	if (found && JXOpenLocaleFile(composeFile, composeInput))
-		{
-		theComposeRuleList = jnew JXComposeRuleList(composeInput, kCharacterCount,
-													kIsCharacterInWord);
-		assert( theComposeRuleList != NULL );
-		}
-	composeInput.close();
-}
-
-/******************************************************************************
- JXOpenLocaleFile (private)
-
-	Until we know that X11R5 used the same file formats, we shouldn't try
-	to support R5 at all.
-
- ******************************************************************************/
-
-JBoolean
-JXOpenLocaleFile
-	(
-	const JCharacter*	fileName,
-	std::ifstream&			input
-	)
-{
-	input.close();
-
-	input.clear();
-	JString fullName = JCombinePathAndName(kX11LocalePath, fileName);
-	input.open(fullName);
-	if (input.good())
-		{
-		return kJTrue;
-		}
-
-	return kJFalse;
-}
-
-/******************************************************************************
- JXGetComposeRuleList
-
- ******************************************************************************/
-
-JBoolean
-JXGetComposeRuleList
-	(
-	JXComposeRuleList** ruleList
-	)
-{
-	*ruleList = theComposeRuleList;
-	return JI2B( theComposeRuleList != NULL );
-}
-
-/******************************************************************************
- JXPreprocessKeyPress
-
-	Returns kJTrue if the KeyPress event should be processed normally.
-
- ******************************************************************************/
-
-JBoolean
-JXPreprocessKeyPress
-	(
-	const KeySym	keySym,
-	JCharacter*		buffer
-	)
-{
-	if (theComposeRuleList != NULL)
-		{
-		return theComposeRuleList->HandleKeyPress(keySym, buffer);
-		}
-	else
-		{
-		return kJTrue;
-		}
-}
-
-/******************************************************************************
- JXPreprocessKeyPress
-
- ******************************************************************************/
-
-void
-JXClearKeyPressPreprocessor()
-{
-	if (theComposeRuleList != NULL)
-		{
-		theComposeRuleList->ClearState();
-		}
-}
-
-/******************************************************************************
- I18NIsCharacterInWord (static)
-
-	1:
-		return JI2B('\xC0' <= c && c <= '\xFF' &&
-					c != '\xD7' && c != '\xF7');
-
-	2:
-	241
-	243
-	245 - 246
-	251 - 254
-	256 - 257
-	261 - 267
-	271 - 274
-	276 - 326
-	330 - 376
+ I18NIsCharacterInWord (static private)
 
  ******************************************************************************/
 
 JBoolean
 I18NIsCharacterInWord
 	(
-	const JCharacter c
+	const JUtf8Character& c
 	)
 {
-	return kIsCharacterInWord [ (unsigned char) c ];
+	return c.IsAlnum();
+}
+
+/******************************************************************************
+ JXInitLocale (private)
+
+ ******************************************************************************/
+
+void
+JXInitLocale()
+{
+	JTextEditor::SetI18NCharacterInWordFunction(I18NIsCharacterInWord);
 }

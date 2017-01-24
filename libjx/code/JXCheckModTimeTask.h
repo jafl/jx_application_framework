@@ -16,7 +16,7 @@ class JXCheckModTimeTask : public JXIdleTask, virtual public JBroadcaster
 {
 public:
 
-	JXCheckModTimeTask(const Time period, const JCharacter* fullName);
+	JXCheckModTimeTask(const Time period, const JString& fullName);
 
 	virtual ~JXCheckModTimeTask();
 
@@ -39,7 +39,7 @@ private:
 
 public:
 
-	static const JCharacter* kFileChanged;
+	static const JUtf8Byte* kFileChanged;
 
 	class FileChanged: public JBroadcaster::Message
 		{

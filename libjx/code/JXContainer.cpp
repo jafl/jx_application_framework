@@ -593,10 +593,10 @@ JXContainer::GetHint
 void
 JXContainer::SetHint
 	(
-	const JCharacter* text
+	const JString& text
 	)
 {
-	if (JString::IsEmpty(text))
+	if (text.IsEmpty())
 		{
 		ClearHint();
 		}

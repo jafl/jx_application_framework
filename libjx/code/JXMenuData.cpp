@@ -53,8 +53,8 @@ JXMenuData::InsertItem
 	(
 	const JIndex			index,
 	const JXMenu::ItemType	type,
-	const JCharacter*		shortcuts,
-	const JCharacter*		id
+	const JString*			shortcuts,
+	const JString*			id
 	)
 {
 	BaseItemData itemData;
@@ -62,13 +62,13 @@ JXMenuData::InsertItem
 
 	if (!JString::IsEmpty(shortcuts))
 		{
-		itemData.shortcuts = jnew JString(shortcuts);
+		itemData.shortcuts = jnew JString(*shortcuts);
 		assert( itemData.shortcuts != NULL );
 		}
 
 	if (!JString::IsEmpty(id))
 		{
-		itemData.id = jnew JString(id);
+		itemData.id = jnew JString(*id);
 		assert( itemData.id != NULL );
 		}
 
@@ -186,14 +186,14 @@ JXMenuData::HasSubmenus()
 void
 JXMenuData::SetItemShortcuts
 	(
-	const JIndex		index,
-	const JCharacter*	shortcuts
+	const JIndex	index,
+	const JString&	shortcuts
 	)
 {
 	BaseItemData itemData = itsBaseItemData->GetElement(index);
 
 	JBoolean changed = kJFalse;
-	if (!JString::IsEmpty(shortcuts))
+	if (!shortcuts.IsEmpty())
 		{
 		if (itemData.shortcuts == NULL)
 			{
@@ -251,20 +251,19 @@ JXMenuData::ItemShortcutsChanged
 JBoolean
 JXMenuData::ShortcutToIndex
 	(
-	const JCharacter	c,
-	JIndex*				index
+	const JUtf8Character&	c,
+	JIndex*					index
 	)
 	const
 {
 	*index = 0;
-	const JCharacter s[2] = { tolower(c), '\0' };
 
 	const JIndex count = GetElementCount();
 	for (JIndex i=1; i<=count; i++)
 		{
 		const BaseItemData itemData = itsBaseItemData->GetElement(i);
 		if (itemData.enabled && itemData.shortcuts != NULL &&
-			(itemData.shortcuts)->Contains(s))
+			(itemData.shortcuts)->Contains(c))
 			{
 			*index = i;
 			return kJTrue;
@@ -282,13 +281,13 @@ JXMenuData::ShortcutToIndex
 void
 JXMenuData::SetItemID
 	(
-	const JIndex		index,
-	const JCharacter*	id
+	const JIndex	index,
+	const JString&	id
 	)
 {
 	BaseItemData itemData = itsBaseItemData->GetElement(index);
 
-	if (!JString::IsEmpty(id))
+	if (!id.IsEmpty())
 		{
 		if (itemData.id == NULL)
 			{

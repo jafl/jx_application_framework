@@ -56,7 +56,7 @@ public:
 
 	virtual void		GetFontNames(JPtrArray<JString>* fontNames) const;
 	virtual void		GetMonospaceFontNames(JPtrArray<JString>* fontNames) const;
-	virtual JBoolean	GetFontSizes(const JCharacter* name, JSize* minSize,
+	virtual JBoolean	GetFontSizes(const JString& name, JSize* minSize,
 									 JSize* maxSize, JArray<JSize>* sizeList) const;
 
 	// for X Window System only
@@ -64,24 +64,22 @@ public:
 	void		GetXFontNames(const JRegex& regex,
 							  JPtrArray<JString>* fontNames,
 							  JSortXFontNamesFn compare = NULL) const;
-	JBoolean	GetFontID(const JCharacter* xFontStr, JFontID* fontID) const;
+	JBoolean	GetFontID(const JString& xFontStr, JFontID* fontID) const;
 	XFont		GetXFontInfo(const JFontID id) const;
 
 protected:
 
-	virtual JFontID				GetFontID(const JCharacter* name, const JSize size,
-										  const JFontStyle& style) const;
-	virtual const JCharacter*	GetFontName(const JFontID id) const;
-	virtual JBoolean			IsExact(const JFontID id) const;
+	virtual JFontID			GetFontID(const JString& name, const JSize size,
+									  const JFontStyle& style) const;
+	virtual const JString&	GetFontName(const JFontID id) const;
+	virtual JBoolean		IsExact(const JFontID id) const;
 
 	virtual JSize	GetLineHeight(const JFontID fontID, const JSize size,
 								  const JFontStyle& style,
 								  JCoordinate* ascent, JCoordinate* descent) const;
 
-	virtual JSize	GetCharWidth(const JFontID fontID, const JCharacter c) const;
-
-	virtual JSize	GetStringWidth(const JFontID fontID,
-								   const JCharacter* str, const JSize charCount) const;
+	virtual JSize	GetCharWidth(const JFontID fontID, const JUtf8Character& c) const;
+	virtual JSize	GetStringWidth(const JFontID fontID, const JString& str) const;
 
 private:
 
@@ -113,19 +111,19 @@ private:
 
 private:
 
-	JString		BuildStdFontName(const JCharacter* xName, const JSize size,
-								 const JFontStyle& style, const JCharacter* italicStr,
-								 const JCharacter* iso) const;
-	JBoolean	BuildTrueTypeFontName(const JCharacter* xName,
+	JString		BuildStdFontName(const JString& xName, const JSize size,
+								 const JFontStyle& style, const JUtf8Byte* italicStr,
+								 const JUtf8Byte* iso) const;
+	JBoolean	BuildTrueTypeFontName(const JString& xName,
 									  const JSize size, const JFontStyle& style,
 									  JString* xFontStr) const;
 
-	JBoolean	GetNewFont(const JCharacter* name, const JSize size,
+	JBoolean	GetNewFont(const JString& name, const JSize size,
 						   const JFontStyle& style, XFont* xfont) const;
-	void		ApproximateFont(const JCharacter* name, const JSize size,
+	void		ApproximateFont(const JString& name, const JSize size,
 								const JFontStyle& style, XFont* xfont) const;
 
-	JString		ConvertToXFontName(const JCharacter* name) const;
+	JString		ConvertToXFontName(const JString& name) const;
 	void		ConvertToPSFontName(JString* name) const;
 
 	JCoordinate	IsMonospace(const XFont& xfont) const;

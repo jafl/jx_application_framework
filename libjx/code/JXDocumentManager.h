@@ -60,11 +60,11 @@ public:
 
 	const JString&		GetNewFileName();
 	void				DocumentMustStayOpen(JXDocument* doc, const JBoolean stayOpen);
-	JBoolean			FileDocumentIsOpen(const JCharacter* fileName,
+	JBoolean			FileDocumentIsOpen(const JString& fileName,
 										   JXFileDocument** doc) const;
 
-	virtual JBoolean	FindFile(const JCharacter* fileName,
-								 const JCharacter* currPath,
+	virtual JBoolean	FindFile(const JString& fileName,
+								 const JString& currPath,
 								 JString* newFileName,
 								 const JBoolean askUser = kJTrue) const;
 
@@ -140,7 +140,7 @@ private:
 
 private:
 
-	JBoolean	SearchFileMap(const JCharacter* fileName,
+	JBoolean	SearchFileMap(const JString& fileName,
 							  JString* newFileName) const;
 
 	void	DocumentMenusNeedUpdate();
@@ -158,7 +158,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kDocMenuNeedsUpdate;
+	static const JUtf8Byte* kDocMenuNeedsUpdate;
 
 	class DocMenuNeedsUpdate : public JBroadcaster::Message
 		{

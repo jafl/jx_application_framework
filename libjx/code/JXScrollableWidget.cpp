@@ -45,7 +45,7 @@ const JCoordinate kScrollZoneWidth  = 20;
 // setup information
 
 const JFileVersion kCurrentSetupVersion = 0;
-const JCharacter kSetupDataEndDelimiter = '\2';		// avoid conflict with JXScrollbar
+const JUtf8Byte kSetupDataEndDelimiter  = '\2';		// avoid conflict with JXScrollbar
 
 /******************************************************************************
  Constructor

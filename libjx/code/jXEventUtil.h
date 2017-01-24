@@ -10,8 +10,7 @@
 #ifndef _H_jXEventUtil
 #define _H_jXEventUtil
 
-// for convenience
-
+#include <JUtf8Character.h>
 #include <JPoint.h>
 #include <JXButtonStates.h>
 #include <JXKeyModifiers.h>
@@ -28,13 +27,6 @@ JBoolean JXGetButtonAndModifierStates(const XEvent& xEvent, JXDisplay* display,
 
 JBoolean JXIsPrint(const int keysym);
 
-inline JCharacter
-JXCtrl
-	(
-	const JCharacter c		// must be character @ (0x40) through _ (0x5F)
-	)
-{
-	return ( ('@' <= c && c <= '_') ? (c - '@') : c );
-}
+JUtf8Character	JXCtrl(const JUtf8Character& c);
 
 #endif

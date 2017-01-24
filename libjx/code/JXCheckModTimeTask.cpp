@@ -13,7 +13,7 @@
 #include <jDirUtil.h>
 #include <jAssert.h>
 
-const JCharacter* JXCheckModTimeTask::kFileChanged = "FileChanged::JXCheckModTimeTask";
+const JUtf8Byte* JXCheckModTimeTask::kFileChanged = "FileChanged::JXCheckModTimeTask";
 
 /******************************************************************************
  Constructor
@@ -22,8 +22,8 @@ const JCharacter* JXCheckModTimeTask::kFileChanged = "FileChanged::JXCheckModTim
 
 JXCheckModTimeTask::JXCheckModTimeTask
 	(
-	const Time			period,
-	const JCharacter*	fullName
+	const Time		period,
+	const JString&	fullName
 	)
 	:
 	JXIdleTask(period),

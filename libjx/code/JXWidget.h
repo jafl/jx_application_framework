@@ -151,7 +151,7 @@ protected:
 							 JXDNDManager::TargetFinder* targetFinder = NULL);
 	virtual void	DNDInit(const JPoint& pt, const JXButtonStates& buttonStates,
 							const JXKeyModifiers& modifiers);
-	virtual void	GetSelectionData(JXSelectionData* data, const JCharacter* id);
+	virtual void	GetSelectionData(JXSelectionData* data, const JString& id);
 	virtual void	DNDFinish(const JBoolean isDrop, const JXContainer* target);
 	virtual void	DNDCompletelyFinished();
 	virtual Atom	GetDNDAction(const JXContainer* target,
@@ -218,8 +218,8 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kGotFocus;
-	static const JCharacter* kLostFocus;
+	static const JUtf8Byte* kGotFocus;
+	static const JUtf8Byte* kLostFocus;
 
 	class GotFocus : public JBroadcaster::Message
 		{

@@ -23,11 +23,11 @@ class JXHelpDirector : public JXWindowDirector
 {
 public:
 
-	JXHelpDirector(const JCharacter* text, JXPSPrinter* printer);
+	JXHelpDirector(const JString& text, JXPSPrinter* printer);
 
 	virtual ~JXHelpDirector();
 
-	void		ShowSubsection(const JCharacter* name);
+	void		ShowSubsection(const JUtf8Byte* name);
 	JBoolean	Search() const;
 
 protected:
@@ -50,7 +50,7 @@ private:
 
 private:
 
-	void	BuildWindow(const JCharacter* text, JXPSPrinter* printer);
+	void	BuildWindow(const JString& text, JXPSPrinter* printer);
 
 	void	UpdateFileMenu();
 	void	HandleFileMenu(const JIndex index);

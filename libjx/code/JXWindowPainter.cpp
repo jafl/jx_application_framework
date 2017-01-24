@@ -19,6 +19,8 @@
 #include <JXImage.h>
 #include <JXImagePainter.h>
 #include <jXUtil.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <jAssert.h>
 
 /******************************************************************************
@@ -358,7 +360,7 @@ JXWindowPainter::String
 	(
 	const JCoordinate	left,
 	const JCoordinate	top,
-	const JCharacter*	str,
+	const JString&		str,
 	const JCoordinate	width,
 	const HAlignment	hAlign,
 	const JCoordinate	height,
@@ -373,7 +375,7 @@ JXWindowPainter::String
 	(
 	const JCoordinate	left,
 	const JCoordinate	top,
-	const JCharacter*	str,
+	const JString&		str,
 	const JIndex		uIndex,
 	const JCoordinate	width,
 	const HAlignment	hAlign,
@@ -381,7 +383,7 @@ JXWindowPainter::String
 	const VAlignment	vAlign
 	)
 {
-	if (JString::IsEmpty(str))
+	if (str.IsEmpty())
 		{
 		return;
 		}
@@ -401,13 +403,19 @@ JXWindowPainter::String
 	itsGC->DrawString(itsDrawable, GetFontDrawable(), x,y, str);
 	if (uIndex > 0)
 		{
+		JStringIterator iter(str);
+		iter.BeginMatch();
+		iter.MoveTo(kJIteratorStartBefore, uIndex);
+
 		JCoordinate xu = x;
 		if (uIndex > 1)
 			{
-			xu += font.GetStringWidth(str, uIndex-1);
+			xu += font.GetStringWidth(iter.FinishMatch().GetString());
 			}
 
-		const JCoordinate w = font.GetCharWidth(str[uIndex-1]);
+		JUtf8Character c;
+		iter.Next(&c);
+		const JCoordinate w = font.GetCharWidth(c);
 
 		const JCoordinate lineWidth = font.GetUnderlineThickness();
 		const JCoordinate yu        = y + JLFloor(1.5 * lineWidth);
@@ -426,14 +434,14 @@ JXWindowPainter::String
 	const JFloat		userAngle,
 	const JCoordinate	left,
 	const JCoordinate	top,
-	const JCharacter*	str,
+	const JString&		str,
 	const JCoordinate	width,
 	const HAlignment	hAlign,
 	const JCoordinate	height,
 	const VAlignment	vAlign
 	)
 {
-	if (JString::IsEmpty(str))
+	if (str.IsEmpty())
 		{
 		return;
 		}
@@ -578,12 +586,12 @@ JXWindowPainter::String
 void
 JXWindowPainter::StyleString
 	(
-	const JCharacter* str,
-	const JCoordinate x,
-	const JCoordinate y,
-	const JCoordinate ascent,
-	const JCoordinate descent,
-	const JColorIndex color
+	const JString&		str,
+	const JCoordinate	x,
+	const JCoordinate	y,
+	const JCoordinate	ascent,
+	const JCoordinate	descent,
+	const JColorIndex	color
 	)
 {
 	const JFontStyle& fontStyle = GetFont().GetStyle();

@@ -188,9 +188,9 @@ JXImageMask::~JXImageMask()
 JError
 JXImageMask::CreateFromXBM
 	(
-	JXDisplay*			display,
-	const JCharacter*	fileName,
-	JXImageMask**		mask
+	JXDisplay*		display,
+	const JString&	fileName,
+	JXImageMask**	mask
 	)
 {
 	unsigned int w,h;
@@ -198,7 +198,7 @@ JXImageMask::CreateFromXBM
 	int x_hot, y_hot;
 	const int xbmErr =
 		XReadBitmapFile(*display, display->GetRootWindow(),
-						const_cast<JCharacter*>(fileName),
+						const_cast<JUtf8Byte*>(fileName.GetBytes()),
 						&w, &h, &bitmap, &x_hot, &y_hot);
 	if (xbmErr == BitmapOpenFailed && JFileExists(fileName))
 		{
@@ -233,8 +233,8 @@ JXImageMask::CreateFromXBM
 JError
 JXImageMask::WriteXBM
 	(
-	const JCharacter*	fileName,
-	const JPoint&		hotSpot
+	const JString&	fileName,
+	const JPoint&	hotSpot
 	)
 	const
 {
@@ -242,7 +242,7 @@ JXImageMask::WriteXBM
 
 	const int xbmErr =
 		XWriteBitmapFile(*(GetDisplay()),
-						 const_cast<JCharacter*>(fileName),
+						 const_cast<JUtf8Byte*>(fileName.GetBytes()),
 						 GetPixmap(), GetWidth(), GetHeight(),
 						 hotSpot.x, hotSpot.y);
 	if (xbmErr == BitmapOpenFailed)

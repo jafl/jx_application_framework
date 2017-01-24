@@ -46,6 +46,8 @@
 #include <jXGlobals.h>
 
 #include <JFontManager.h>
+#include <JStringIterator.h>
+#include <JStringMatch.h>
 #include <jMath.h>
 #include <jStreamUtil.h>
 #include <jDirUtil.h>
@@ -55,7 +57,7 @@
 JXMenu::Style JXMenu::itsDefaultStyle = JXMenu::kMacintoshStyle;
 JXMenu::Style JXMenu::itsDisplayStyle = JXMenu::kWindowsStyle;
 
-static const JCharacter* kMenuFontFileName  = "~/.jx/menu_font";
+static const JString kMenuFontFileName("~/.jx/menu_font", 0, kJFalse);
 JBoolean JXMenu::theDefaultMenuFontInitFlag = kJFalse;
 JString JXMenu::theDefaultFontName;
 JSize JXMenu::theDefaultFontSize;
@@ -71,8 +73,8 @@ const JCoordinate kArrowHalfHeight = 3;
 
 // JBroadcaster message types
 
-const JCharacter* JXMenu::kNeedsUpdate  = "NeedsUpdate::JXMenu";
-const JCharacter* JXMenu::kItemSelected = "ItemSelected::JXMenu";
+const JUtf8Byte* JXMenu::kNeedsUpdate  = "NeedsUpdate::JXMenu";
+const JUtf8Byte* JXMenu::kItemSelected = "ItemSelected::JXMenu";
 
 /******************************************************************************
  Constructor
@@ -83,7 +85,7 @@ const JCharacter* JXMenu::kItemSelected = "ItemSelected::JXMenu";
 
 JXMenu::JXMenu
 	(
-	const JCharacter*	title,
+	const JString&		title,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -115,12 +117,12 @@ JXMenu::JXMenu
 	JXWidget(enclosure, hSizing, vSizing, x,y, w,h),
 	itsTitleFont(GetFontManager()->GetDefaultFont())
 {
-	JXMenuX("", image, menuOwnsImage);
+	JXMenuX(JString("", 0, kJFalse), image, menuOwnsImage);
 }
 
 JXMenu::JXMenu
 	(
-	const JCharacter*	title,
+	const JString&		title,
 	JXImage*			image,
 	const JBoolean		menuOwnsImage,
 	JXContainer*		enclosure,
@@ -148,7 +150,7 @@ JXMenu::JXMenu
 	JXWidget(enclosure, kFixedLeft, kFixedTop, 0,0, 10,10),
 	itsTitleFont(GetFontManager()->GetDefaultFont())
 {
-	JXMenuX("", NULL, kJTrue);
+	JXMenuX(JString("", 0, kJFalse), NULL, kJTrue);
 	owner->AttachSubmenu(itemIndex, this);
 }
 
@@ -157,7 +159,7 @@ JXMenu::JXMenu
 void
 JXMenu::JXMenuX
 	(
-	const JCharacter*	title,
+	const JString&		title,
 	JXImage*			image,
 	const JBoolean		menuOwnsImage
 	)
@@ -219,7 +221,7 @@ JXMenu::~JXMenu()
 
  ******************************************************************************/
 
-const JCharacter*
+const JString&
 JXMenu::GetDefaultFont
 	(
 	JSize* size
@@ -234,7 +236,7 @@ JXMenu::GetDefaultFont
 		JString fileName;
 		if (JExpandHomeDirShortcut(kMenuFontFileName, &fileName))
 			{
-			std::ifstream input(fileName);
+			std::ifstream input(fileName.GetBytes());
 			input >> std::ws;
 			JString name = JReadLine(input);
 			name.TrimWhitespace();
@@ -305,12 +307,12 @@ JXMenu::ClearBaseItemData()
 void
 JXMenu::SetTitle
 	(
-	const JCharacter*	title,
-	JXImage*			image,
-	const JBoolean		menuOwnsImage
+	const JString&	title,
+	JXImage*		image,
+	const JBoolean	menuOwnsImage
 	)
 {
-	if (JString::IsEmpty(title))
+	if (title.IsEmpty())
 		{
 		itsTitle.Clear();
 		itsULIndex = 0;
@@ -319,14 +321,19 @@ JXMenu::SetTitle
 		{
 		itsTitle = title;
 
-		JIndex i;
-		if (itsTitle.LocateSubstring("%h", &i))
+		JStringIterator iter(&itsTitle);
+		if (iter.Next("%h"))
 			{
-			JString shortcuts(itsTitle, JIndexRange(i+2, itsTitle.GetLength()));
+			iter.RemoveLastMatch();
+			iter.BeginMatch();
+			iter.MoveTo(kJIteratorStartAtEnd, 0);
+
+			JString shortcuts = iter.FinishMatch().GetString();
 			shortcuts.TrimWhitespace();
-			itsTitle.RemoveSubstring(i, itsTitle.GetLength());
-			itsTitle.TrimWhitespace();
 			SetShortcuts(shortcuts);
+
+			iter.RemoveLastMatch();
+			itsTitle.TrimWhitespace();	// invalidates iterator
 			}
 		else
 			{
@@ -354,7 +361,7 @@ JXMenu::SetTitle
 void
 JXMenu::SetTitleText
 	(
-	const JCharacter* title
+	const JString& title
 	)
 {
 	const JBoolean saveOwn = itsOwnsTitleImageFlag;
@@ -410,7 +417,7 @@ JXMenu::UpdateTitleGeometry()
 void
 JXMenu::SetShortcuts
 	(
-	const JCharacter* list
+	const JString& list
 	)
 {
 	JXWindow* w = GetWindow();
@@ -432,7 +439,7 @@ JXMenu::SetShortcuts
 void
 JXMenu::SetTitleFontName
 	(
-	const JCharacter* fontName
+	const JString& fontName
 	)
 {
 	itsTitleFont.SetName(fontName);
@@ -583,8 +590,8 @@ JXMenu::GetItemShortcuts
 void
 JXMenu::SetItemShortcuts
 	(
-	const JIndex		index,
-	const JCharacter*	shortcuts
+	const JIndex	index,
+	const JString&	shortcuts
 	)
 {
 	itsBaseItemData->SetItemShortcuts(index, shortcuts);
@@ -616,8 +623,8 @@ JXMenu::GetItemID
 void
 JXMenu::SetItemID
 	(
-	const JIndex		index,
-	const JCharacter*	id
+	const JIndex	index,
+	const JString&	id
 	)
 {
 	itsBaseItemData->SetItemID(index, id);
@@ -631,8 +638,8 @@ JXMenu::SetItemID
 JBoolean
 JXMenu::ItemIDToIndex
 	(
-	const JCharacter*	targetID,
-	JIndex*				index
+	const JString&	targetID,
+	JIndex*			index
 	)
 	const
 {

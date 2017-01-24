@@ -60,7 +60,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kDeactivated;
+	static const JUtf8Byte* kDeactivated;
 
 	class Deactivated : public JBroadcaster::Message
 		{

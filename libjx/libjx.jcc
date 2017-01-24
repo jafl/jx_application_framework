@@ -1020,21 +1020,6 @@ F
 "./code/JXEPSPrintSetupDialog.cpp"
 F
 T
-1 "i18n"
-T
-2 "JXComposeRuleList.cpp"
-F
-"./code/JXComposeRuleList.cpp"
-T
-2 "JXComposeScanner.cpp"
-F
-"./code/JXComposeScanner.cpp"
-T
-2 "JXComposeScannerL.l"
-F
-"./code/JXComposeScannerL.l"
-F
-T
 1 "misc"
 T
 2 "JXWebBrowser.cpp"

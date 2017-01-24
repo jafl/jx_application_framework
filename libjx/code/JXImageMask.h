@@ -44,9 +44,9 @@ public:
 	virtual ~JXImageMask();
 
 	static JError	CreateFromXBM(JXDisplay* display,
-								  const JCharacter* fileName, JXImageMask** mask);
+								  const JString& fileName, JXImageMask** mask);
 
-	JError	WriteXBM(const JCharacter* fileName,
+	JError	WriteXBM(const JString& fileName,
 					 const JPoint& hotSpot = JPoint(-1,-1)) const;
 
 	virtual JXImage*	Copy() const;

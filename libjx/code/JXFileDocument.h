@@ -39,8 +39,8 @@ public:
 	void				DataReverted(const JBoolean fromUndo = kJFalse);
 
 	JBoolean	SaveInCurrentFile();
-	JBoolean	SaveInNewFile(const JCharacter* fullName = NULL);
-	JBoolean	SaveCopyInNewFile(const JCharacter* origName = NULL,
+	JBoolean	SaveInNewFile(const JString* fullName = NULL);
+	JBoolean	SaveCopyInNewFile(const JString* origName = NULL,
 								  JString* fullName = NULL);
 
 	JBoolean				ExistsOnDisk() const;
@@ -71,7 +71,7 @@ public:
 
 	virtual void	SafetySave(const JXDocumentManager::SafetySaveReason reason);
 	JBoolean		GetSafetySaveFileName(JString* fileName) const;
-	static JBoolean	CheckForSafetySaveFiles(const JCharacter* fullName,
+	static JBoolean	CheckForSafetySaveFiles(const JString& fullName,
 											JPtrArray<JString>* filesToOpen);
 
 	JChooseSaveFile*	GetChooseSaveFile() const;
@@ -79,7 +79,7 @@ public:
 	const JString&		GetSaveNewFilePrompt() const;
 	const JString&		GetOKToRevertPrompt() const;
 
-	static const JCharacter*	SkipNeedsSavePrefix(const JCharacter* s);
+	static JString	SkipNeedsSavePrefix(const JString& s);
 
 	// saving setup information
 
@@ -88,32 +88,32 @@ public:
 
 protected:
 
-	JXFileDocument(JXDirector* supervisor, const JCharacter* fileName,
+	JXFileDocument(JXDirector* supervisor, const JString& fileName,
 				   const JBoolean onDisk, const JBoolean wantBackupFile,
-				   const JCharacter* defaultFileNameSuffix);
+				   const JString& defaultFileNameSuffix);
 
 	void		AdjustWindowTitle();
-	void		FileChanged(const JCharacter* fileName, const JBoolean onDisk);
+	void		FileChanged(const JString& fileName, const JBoolean onDisk);
 
 	virtual JBoolean	OKToClose();
 	virtual JBoolean	OKToRevert();
 	virtual JBoolean	CanRevert();
 	virtual void		HandleFileModifiedByOthers(const JBoolean modTimeChanged,
 												   const JBoolean permsChanged);
-	virtual JError		WriteFile(const JCharacter* fullName, const JBoolean safetySave) const;
+	virtual JError		WriteFile(const JString& fullName, const JBoolean safetySave) const;
 	virtual void		WriteTextFile(std::ostream& output, const JBoolean safetySave) const;
 
 	virtual JString		GetWindowTitle() const;
 
 	static FileStatus	DefaultCanReadASCIIFile(std::istream& input,
-												const JCharacter* fileSignature,
+												const JUtf8Byte* fileSignature,
 												const JFileVersion currFileVersion,
 												JFileVersion* actualFileVersion);
 
 	void	SetChooseSaveFile(JChooseSaveFile* csf);
-	void	SetSaveBeforeClosePrompt(const JCharacter* prompt);
-	void	SetSaveNewFilePrompt(const JCharacter* prompt);
-	void	SetOKToRevertPrompt(const JCharacter* prompt);
+	void	SetSaveBeforeClosePrompt(const JString& prompt);
+	void	SetSaveNewFilePrompt(const JString& prompt);
+	void	SetOKToRevertPrompt(const JString& prompt);
 
 private:
 
@@ -158,7 +158,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kNameChanged;
+	static const JUtf8Byte* kNameChanged;
 
 	class NameChanged : public JBroadcaster::Message
 		{
@@ -185,7 +185,7 @@ public:
 
 	// JError messages
 
-	static const JCharacter* kWriteFailed;
+	static const JUtf8Byte* kWriteFailed;
 
 	class WriteFailed : public JError
 	{

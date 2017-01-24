@@ -21,7 +21,7 @@ class JXHintManager
 {
 public:
 
-	JXHintManager(JXContainer* widget, const JCharacter* text);
+	JXHintManager(JXContainer* widget, const JString& text);
 
 	~JXHintManager();
 
@@ -35,7 +35,7 @@ public:
 	void	HandleMouseLeave();
 
 	const JString&	GetText() const;
-	void			SetText(const JCharacter* text);
+	void			SetText(const JString& text);
 
 	Time	GetStartTime() const;
 	void	SetStartTime(const Time t);
@@ -78,7 +78,7 @@ JXHintManager::GetText()
 inline void
 JXHintManager::SetText
 	(
-	const JCharacter* text
+	const JString& text
 	)
 {
 	itsText = text;

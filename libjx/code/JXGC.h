@@ -74,7 +74,7 @@ public:
 	void	SetFont(const JFontID id);
 	void	DrawString(const Drawable drawable, XftDraw* fdrawable,
 					   const JCoordinate x, const JCoordinate y,
-					   const JCharacter* str) const;
+					   const JString& str) const;
 
 	void	CopyPixels(const Drawable source,
 					   const JCoordinate src_x, const JCoordinate src_y,

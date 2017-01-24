@@ -15,7 +15,7 @@
 
  ******************************************************************************/
 
-static const JCharacter* kInvisibleCursorName = "JXInvisible";
+static const JUtf8Byte* kInvisibleCursorName = "JXInvisible";
 
 static char invisible_cursor_bits[]      = {0x00};
 static char invisible_cursor_mask_bits[] = {0x00};
@@ -39,7 +39,7 @@ JXGetInvisibleCursor
 
  ******************************************************************************/
 
-static const JCharacter* kHandCursorName = "JXHand";
+static const JUtf8Byte* kHandCursorName = "JXHand";
 
 #include <jx_hand_cursor.xbm>
 #include <jx_hand_cursor_mask.xbm>
@@ -64,7 +64,7 @@ JXGetHandCursor
 
  ******************************************************************************/
 
-static const JCharacter* kDragHorizLineCursorName = "JXDragHorizLine";
+static const JUtf8Byte* kDragHorizLineCursorName = "JXDragHorizLine";
 
 #include <jx_drag_horiz_line_cursor.xbm>
 #include <jx_drag_horiz_line_cursor_mask.xbm>
@@ -90,7 +90,7 @@ JXGetDragHorizLineCursor
 
  ******************************************************************************/
 
-static const JCharacter* kDragAllHorizLineCursorName = "JXDragAllHorizLine";
+static const JUtf8Byte* kDragAllHorizLineCursorName = "JXDragAllHorizLine";
 
 #include <jx_drag_all_horiz_line_cursor.xbm>
 #include <jx_drag_all_horiz_line_cursor_mask.xbm>
@@ -116,7 +116,7 @@ JXGetDragAllHorizLineCursor
 
  ******************************************************************************/
 
-static const JCharacter* kDragVertLineCursorName = "JXDragVertLine";
+static const JUtf8Byte* kDragVertLineCursorName = "JXDragVertLine";
 
 #include <jx_drag_vert_line_cursor.xbm>
 #include <jx_drag_vert_line_cursor_mask.xbm>
@@ -142,7 +142,7 @@ JXGetDragVertLineCursor
 
  ******************************************************************************/
 
-static const JCharacter* kDragAllVertLineCursorName = "JXDragAllVertLine";
+static const JUtf8Byte* kDragAllVertLineCursorName = "JXDragAllVertLine";
 
 #include <jx_drag_all_vert_line_cursor.xbm>
 #include <jx_drag_all_vert_line_cursor_mask.xbm>
@@ -168,7 +168,7 @@ JXGetDragAllVertLineCursor
 
  ******************************************************************************/
 
-static const JCharacter* kDragFileCursorName = "JXDragFile";
+static const JUtf8Byte* kDragFileCursorName = "JXDragFile";
 
 #include <jx_drag_file_cursor.xbm>
 #include <jx_drag_file_cursor_mask.xbm>
@@ -194,7 +194,7 @@ JXGetDragFileCursor
 
  ******************************************************************************/
 
-static const JCharacter* kDragDirectoryCursorName = "JXDragDirectory";
+static const JUtf8Byte* kDragDirectoryCursorName = "JXDragDirectory";
 
 #include <jx_drag_directory_cursor.xbm>
 #include <jx_drag_directory_cursor_mask.xbm>
@@ -220,7 +220,7 @@ JXGetDragDirectoryCursor
 
  ******************************************************************************/
 
-static const JCharacter* kDragFileAndDirectoryCursorName = "JXDragFileAndDirectory";
+static const JUtf8Byte* kDragFileAndDirectoryCursorName = "JXDragFileAndDirectory";
 
 #include <jx_drag_file_and_directory_cursor.xbm>
 #include <jx_drag_file_and_directory_cursor_mask.xbm>

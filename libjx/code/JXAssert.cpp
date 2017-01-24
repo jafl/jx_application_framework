@@ -57,8 +57,8 @@ JXAssert::~JXAssert()
 int
 JXAssert::Assert
 	(
-	const JCharacter*	expr,
-	const JCharacter*	file,
+	const JUtf8Byte*	expr,
+	const JUtf8Byte*	file,
 	const int			line
 	)
 {

@@ -109,7 +109,7 @@ public:
 	JCursorIndex	GetDefaultCursor() const;
 
 	JBoolean	GetHint(JString* text) const;
-	void		SetHint(const JCharacter* text);
+	void		SetHint(const JString& text);
 	void		ClearHint();
 
 	JBoolean	GetVisibleRectGlobal(const JRect& origRectG,

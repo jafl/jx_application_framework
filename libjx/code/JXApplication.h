@@ -25,8 +25,8 @@ class JXApplication : public JXDirector
 {
 public:
 
-	JXApplication(int* argc, char* argv[], const JCharacter* appSignature,
-				  const JCharacter** defaultStringData);
+	JXApplication(int* argc, char* argv[], const JUtf8Byte* appSignature,
+				  const JUtf8Byte** defaultStringData);
 
 	virtual ~JXApplication();
 
@@ -61,7 +61,7 @@ public:
 
 	const JPtrArray<JXDisplay>*	GetDisplayList() const;
 
-	JBoolean	OpenDisplay(const JCharacter* displayName, JIndex* displayIndex);
+	JBoolean	OpenDisplay(const JString& displayName, JIndex* displayIndex);
 	JBoolean	DisplayExists(const Display* xDisplay);
 	JBoolean	FindDisplay(const Display* xDisplay, JXDisplay** display);
 

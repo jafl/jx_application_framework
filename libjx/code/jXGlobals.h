@@ -43,18 +43,18 @@ JXSpellChecker*			JXGetSpellChecker();
 JXDirector*				JXGetPersistentWindowOwner();
 JXSearchTextDialog*		JXGetSearchTextDialog();
 
-JBoolean				JXGetProgramDataDirectories(const JCharacter* dirName,
+JBoolean				JXGetProgramDataDirectories(const JString& dirName,
 													JString* sysDir, JString* userDir);
 
-const JCharacter*		JXGetInvisibleWindowClass();
-const JCharacter*		JXGetDockWindowClass();
+const JUtf8Byte*		JXGetInvisibleWindowClass();
+const JUtf8Byte*		JXGetDockWindowClass();
 
 	// called by main() or derived classes of JXApplication
 
 void	JXCreateDefaultDocumentManager(const JBoolean wantShortcuts = kJTrue);
 
-void	JXInitHelp(const JCharacter* tocSectionName,
-				   const JSize sectionCount, const JCharacter* sectionName[]);
+void	JXInitHelp(const JUtf8Byte* tocSectionName,
+				   const JSize sectionCount, const JUtf8Byte* sectionName[]);
 
 	// called by object constructors
 
@@ -64,8 +64,8 @@ void	JXSetSearchTextDialog(JXSearchTextDialog* dlog);
 
 	// called by JXApplication
 
-void JXCreateGlobals(JXApplication* app, const JCharacter* appSignature,
-					 const JCharacter** defaultStringData);
+void JXCreateGlobals(JXApplication* app, const JUtf8Byte* appSignature,
+					 const JUtf8Byte** defaultStringData);
 void JXCloseDirectors();
 void JXDeleteGlobals1();
 void JXDeleteGlobals2();
@@ -83,7 +83,7 @@ void		JXSetDockManager(JXDockManager* dockMgr);
 
 	// called by JXWindow
 
-JBoolean	JXPreprocessKeyPress(const KeySym keySym, JCharacter* buffer);
+JBoolean	JXPreprocessKeyPress(const KeySym keySym, JUtf8Byte* buffer);
 void		JXClearKeyPressPreprocessor();
 
 #endif

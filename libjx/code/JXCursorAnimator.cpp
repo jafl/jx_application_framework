@@ -99,7 +99,7 @@ JXCursorAnimator::NextFrame()
 
  ******************************************************************************/
 
-static const JCharacter* kBeachballFrameName[] =
+static const JUtf8Byte* kBeachballFrameName[] =
 {
 	"JXBeachballFrame1", "JXBeachballFrame2",
 	"JXBeachballFrame3", "JXBeachballFrame4"

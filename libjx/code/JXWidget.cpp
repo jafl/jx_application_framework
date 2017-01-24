@@ -51,8 +51,8 @@
 
 // JBroadcaster message types
 
-const JCharacter* JXWidget::kGotFocus  = "GotFocus::JXWidget";
-const JCharacter* JXWidget::kLostFocus = "LostFocus::JXWidget";
+const JUtf8Byte* JXWidget::kGotFocus  = "GotFocus::JXWidget";
+const JUtf8Byte* JXWidget::kLostFocus = "LostFocus::JXWidget";
 
 /******************************************************************************
  Constructor (protected)
@@ -1287,7 +1287,7 @@ void
 JXWidget::GetSelectionData
 	(
 	JXSelectionData*	data,
-	const JCharacter*	id
+	const JString&		id
 	)
 {
 }

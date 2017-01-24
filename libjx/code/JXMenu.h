@@ -73,7 +73,7 @@ public:
 
 public:
 
-	JXMenu(const JCharacter* title, JXContainer* enclosure,
+	JXMenu(const JString& title, JXContainer* enclosure,
 		   const HSizingOption hSizing, const VSizingOption vSizing,
 		   const JCoordinate x, const JCoordinate y,
 		   const JCoordinate w, const JCoordinate h);
@@ -83,7 +83,7 @@ public:
 		   const JCoordinate x, const JCoordinate y,
 		   const JCoordinate w, const JCoordinate h);
 
-	JXMenu(const JCharacter* title, JXImage* image, const JBoolean menuOwnsImage,
+	JXMenu(const JString& title, JXImage* image, const JBoolean menuOwnsImage,
 		   JXContainer* enclosure,
 		   const HSizingOption hSizing, const VSizingOption vSizing,
 		   const JCoordinate x, const JCoordinate y,
@@ -98,17 +98,17 @@ public:
 	const JString&	GetTitleText() const;
 	JBoolean		GetTitleText(const JString** text) const;
 	JBoolean		GetTitleImage(const JXImage** image) const;
-	void			SetTitle(const JCharacter* title,
+	void			SetTitle(const JString& title,
 							 JXImage* image, const JBoolean menuOwnsImage);
-	void			SetTitleText(const JCharacter* title);
+	void			SetTitleText(const JString& title);
 	void			SetTitleImage(JXImage* image, const JBoolean menuOwnsImage);
 
-	void	SetTitleFontName(const JCharacter* fontName);
+	void	SetTitleFontName(const JString& fontName);
 	void	SetTitleFontSize(const JSize size);
 	void	SetTitleFontStyle(const JFontStyle& style);
 	void	SetTitleFont(const JFont& font);
 
-	void	SetShortcuts(const JCharacter* list);
+	void	SetShortcuts(const JString& list);
 
 	JBoolean	IsEmpty() const;
 	JSize		GetItemCount() const;
@@ -116,11 +116,11 @@ public:
 	void		RemoveAllItems();
 
 	JBoolean	GetItemShortcuts(const JIndex index, JString* shortcuts) const;
-	void		SetItemShortcuts(const JIndex index, const JCharacter* shortcuts);
+	void		SetItemShortcuts(const JIndex index, const JString& shortcuts);
 
 	JBoolean	GetItemID(const JIndex index, const JString** id) const;
-	void		SetItemID(const JIndex index, const JCharacter* id);
-	JBoolean	ItemIDToIndex(const JCharacter* targetID, JIndex* index) const;
+	void		SetItemID(const JIndex index, const JString& id);
+	JBoolean	ItemIDToIndex(const JString& targetID, JIndex* index) const;
 
 	JBoolean	IsEnabled(const JIndex index) const;
 	void		EnableItem(const JIndex index);
@@ -178,7 +178,7 @@ public:
 
 	static JXModifierKey	AdjustNMShortcutModifier(const JXModifierKey key);
 
-	static const JCharacter*	GetDefaultFont(JSize* size);
+	static const JString&	GetDefaultFont(JSize* size);
 
 protected:
 
@@ -239,7 +239,7 @@ private:
 
 private:
 
-	void	JXMenuX(const JCharacter* title, JXImage* image,
+	void	JXMenuX(const JString& title, JXImage* image,
 					const JBoolean menuOwnsImage);
 	void	RemoveSubmenu(JXMenu* theMenu);
 	void	SetOwner(JXMenu* owner);
@@ -267,8 +267,8 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kNeedsUpdate;
-	static const JCharacter* kItemSelected;
+	static const JUtf8Byte* kNeedsUpdate;
+	static const JUtf8Byte* kItemSelected;
 
 	class NeedsUpdate : public JBroadcaster::Message
 		{

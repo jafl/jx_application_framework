@@ -23,7 +23,7 @@ class JXSelectionData : public JBroadcaster
 public:
 
 	JXSelectionData(JXDisplay* display);
-	JXSelectionData(JXWidget* widget, const JCharacter* id);
+	JXSelectionData(JXWidget* widget, const JUtf8Byte* id);
 
 	virtual	~JXSelectionData();
 
@@ -48,7 +48,7 @@ public:
 
 protected:
 
-	Atom	AddType(const JCharacter* name);
+	Atom	AddType(const JUtf8Byte* name);
 	void	AddType(const Atom type);
 	void	RemoveType(const Atom type);
 
@@ -70,7 +70,7 @@ private:
 	// used for delayed evaluation -- NULL after Resolve()
 
 	JXWidget*	itsDataSource;			// not owned
-	JString*	itsDataSourceID;
+	JString*	itsDataSourceID;		// may be NULL
 
 private:
 

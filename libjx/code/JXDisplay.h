@@ -85,7 +85,7 @@ public:
 
 public:
 
-	static JBoolean	Create(const JCharacter* displayName, JXDisplay** display);
+	static JBoolean	Create(const JString& displayName, JXDisplay** display);
 
 	virtual ~JXDisplay();
 
@@ -107,11 +107,11 @@ public:
 	JBoolean				GetWDManager(JXWDManager** mgr) const;
 	JXImageCache*			GetImageCache() const;
 
-	JCursorIndex	CreateBuiltInCursor(const JCharacter* name,
+	JCursorIndex	CreateBuiltInCursor(const JUtf8Byte* name,
 										const unsigned int shape);
-	JCursorIndex	CreateCustomCursor(const JCharacter* name,
+	JCursorIndex	CreateCustomCursor(const JUtf8Byte* name,
 									   const JXCursor& cursor);
-	JBoolean		GetCursor(const JCharacter* name,
+	JBoolean		GetCursor(const JUtf8Byte* name,
 							  JCursorIndex* index) const;
 	void			DisplayCursorInAllWindows(const JCursorIndex index);
 
@@ -228,8 +228,8 @@ public:
 
 	Time	GetLastEventTime() const;
 
-	Atom	RegisterXAtom(const JCharacter* name);
-	void	RegisterXAtoms(const JSize count, const JCharacter** name, Atom* atom);
+	Atom	RegisterXAtom(const JUtf8Byte* name);
+	void	RegisterXAtoms(const JSize count, const JUtf8Byte** name, Atom* atom);
 
 	JBoolean	FindXWindow(const Window xWindow, JXWindow** window) const;
 
@@ -242,7 +242,7 @@ public:
 
 protected:
 
-	JXDisplay(const JCharacter* displayName, Display* xDisplay);
+	JXDisplay(const JString& displayName, Display* xDisplay);
 
 private:
 
@@ -341,8 +341,8 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kXEventMessage;	// avoid conflict with XEvent struct
-	static const JCharacter* kXError;
+	static const JUtf8Byte* kXEventMessage;	// avoid conflict with XEvent struct
+	static const JUtf8Byte* kXError;
 
 	class XEventMessage : public JBroadcaster::Message
 		{
@@ -678,7 +678,7 @@ JXDisplay::GetXCursorID
 inline Atom
 JXDisplay::RegisterXAtom
 	(
-	const JCharacter* name
+	const JUtf8Byte* name
 	)
 {
 	return XInternAtom(itsXDisplay, name, False);
@@ -693,7 +693,7 @@ inline void
 JXDisplay::RegisterXAtoms
 	(
 	const JSize			count,
-	const JCharacter**	name,
+	const JUtf8Byte**	name,
 	Atom*				atom
 	)
 {

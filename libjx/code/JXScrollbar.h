@@ -178,7 +178,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kScrolled;
+	static const JUtf8Byte* kScrolled;
 
 	class Scrolled : public JBroadcaster::Message
 	{

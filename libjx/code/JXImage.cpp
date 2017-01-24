@@ -447,9 +447,9 @@ JXImage::~JXImage()
 JError
 JXImage::CreateFromGIF
 	(
-	JXDisplay*			display,
-	const JCharacter*	fileName,
-	JXImage**			image
+	JXDisplay*		display,
+	const JString&	fileName,
+	JXImage**		image
 	)
 {
 	*image = jnew JXImage(display);
@@ -475,9 +475,9 @@ JXImage::CreateFromGIF
 JError
 JXImage::CreateFromXPM
 	(
-	JXDisplay*			display,
-	const JCharacter*	fileName,
-	JXImage**			image
+	JXDisplay*		display,
+	const JString&	fileName,
+	JXImage**		image
 	)
 {
 	JXColormap* colormap = display->GetColormap();
@@ -502,7 +502,7 @@ JXImage::CreateFromXPM
 
 	const int xpmErr =
 		XpmReadFileToPixmap(*display, display->GetRootWindow(),
-							const_cast<JCharacter*>(fileName),
+							const_cast<JUtf8Byte*>(fileName.GetBytes()),
 							&image_pixmap, &mask_pixmap, &attr);
 	if (xpmErr == XpmOpenFailed && JFileExists(fileName))
 		{
@@ -574,7 +574,7 @@ JXImage::CreateFromXPM
 JError
 JXImage::WriteXPM
 	(
-	const JCharacter* fileName
+	const JString& fileName
 	)
 	const
 {
@@ -592,7 +592,8 @@ JXImage::WriteXPM
 			mask_image = ((JXImage*) itsMask)->itsImage;
 			}
 
-		xpmErr = XpmWriteFileFromImage(*itsDisplay, const_cast<JCharacter*>(fileName),
+		xpmErr = XpmWriteFileFromImage(*itsDisplay,
+									   const_cast<JUtf8Byte*>(fileName.GetBytes()),
 									   itsImage, mask_image, &attr);
 		}
 	else
@@ -606,7 +607,8 @@ JXImage::WriteXPM
 			mask_pixmap = ((JXImage*) itsMask)->itsPixmap;
 			}
 
-		xpmErr = XpmWriteFileFromPixmap(*itsDisplay, const_cast<JCharacter*>(fileName),
+		xpmErr = XpmWriteFileFromPixmap(*itsDisplay,
+										const_cast<JUtf8Byte*>(fileName.GetBytes()),
 										itsPixmap, mask_pixmap, &attr);
 		}
 

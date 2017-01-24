@@ -13,7 +13,7 @@
 
  ******************************************************************************/
 
-if (JString::IsEmpty(list))
+if (list.IsEmpty())
 	{
 	delete itsShortcuts;
 	itsShortcuts = NULL;

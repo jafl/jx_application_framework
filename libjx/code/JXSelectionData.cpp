@@ -43,7 +43,7 @@ JXSelectionData::JXSelectionData
 JXSelectionData::JXSelectionData
 	(
 	JXWidget*			widget,
-	const JCharacter*	id
+	const JUtf8Byte*	id
 	)
 	:
 	itsDisplay(widget->GetDisplay()),
@@ -55,7 +55,7 @@ JXSelectionData::JXSelectionData
 
 	ListenTo(itsDataSource);	// need to know if it is deleted
 
-	itsDataSourceID = jnew JString(id);
+	itsDataSourceID = jnew JString(id, 0);
 	assert( itsDataSourceID != NULL );
 }
 
@@ -159,7 +159,7 @@ JXSelectionData::SetSelectionInfo
 Atom
 JXSelectionData::AddType
 	(
-	const JCharacter* name
+	const JUtf8Byte* name
 	)
 {
 	const Atom atom = itsDisplay->RegisterXAtom(name);

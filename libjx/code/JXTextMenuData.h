@@ -27,45 +27,45 @@ public:
 
 	virtual ~JXTextMenuData();
 
-	void			InsertItem(const JIndex index, const JCharacter* str,
+	void			InsertItem(const JIndex index, const JString& str,
 							   const JXMenu::ItemType type = JXMenu::kPlainType,
-							   const JCharacter* shortcuts = NULL,
-							   const JCharacter* nmShortcut = NULL,
-							   const JCharacter* id = NULL);
-	void			PrependItem(const JCharacter* str,
+							   const JString* shortcuts = NULL,
+							   const JString* nmShortcut = NULL,
+							   const JString* id = NULL);
+	void			PrependItem(const JString& str,
 							   const JXMenu::ItemType type = JXMenu::kPlainType,
-								const JCharacter* shortcuts = NULL,
-								const JCharacter* nmShortcut = NULL,
-								const JCharacter* id = NULL);
-	void			AppendItem(const JCharacter* str,
+								const JString* shortcuts = NULL,
+								const JString* nmShortcut = NULL,
+								const JString* id = NULL);
+	void			AppendItem(const JString& str,
 							   const JXMenu::ItemType type = JXMenu::kPlainType,
-							   const JCharacter* shortcuts = NULL,
-							   const JCharacter* nmShortcut = NULL,
-							   const JCharacter* id = NULL);
+							   const JString* shortcuts = NULL,
+							   const JString* nmShortcut = NULL,
+							   const JString* id = NULL);
 	virtual void	DeleteItem(const JIndex index);		// must call inherited
 	virtual void	DeleteAll();						// must call inherited
 
 	const JString&	GetText(const JIndex index) const;
-	void			SetText(const JIndex index, const JCharacter* str);
-	void			SetMenuItems(const JCharacter* menuStr,
-								 const JCharacter* idNamespace = NULL);
-	void			InsertMenuItems(const JIndex index, const JCharacter* menuStr,
-									const JCharacter* idNamespace = NULL);
-	void			PrependMenuItems(const JCharacter* menuStr,
-									 const JCharacter* idNamespace = NULL);
-	void			AppendMenuItems(const JCharacter* menuStr,
-									const JCharacter* idNamespace = NULL);
+	void			SetText(const JIndex index, const JString& str);
+	void			SetMenuItems(const JUtf8Byte* menuStr,
+								 const JUtf8Byte* idNamespace = NULL);
+	void			InsertMenuItems(const JIndex index, const JUtf8Byte* menuStr,
+									const JUtf8Byte* idNamespace = NULL);
+	void			PrependMenuItems(const JUtf8Byte* menuStr,
+									 const JUtf8Byte* idNamespace = NULL);
+	void			AppendMenuItems(const JUtf8Byte* menuStr,
+									const JUtf8Byte* idNamespace = NULL);
 
 	JFont	GetFont(const JIndex index) const;
 
-	void	SetFontName(const JIndex index, const JCharacter* name);
+	void	SetFontName(const JIndex index, const JString& name);
 	void	SetFontSize(const JIndex index, const JSize size);
 	void	SetFontStyle(const JIndex index, const JFontStyle& style);
 	void	SetFont(const JIndex index, const JFont& font);
 
 	const JFont&	GetDefaultFont() const;
 
-	void	SetDefaultFontName(const JCharacter* name, const JBoolean updateExisting);
+	void	SetDefaultFontName(const JString& name, const JBoolean updateExisting);
 	void	SetDefaultFontSize(const JSize size, const JBoolean updateExisting);
 	void	SetDefaultFontStyle(const JFontStyle& style, const JBoolean updateExisting);
 	void	SetDefaultFont(const JFont& font, const JBoolean updateExisting);
@@ -76,7 +76,7 @@ public:
 	void		ClearImage(const JIndex index);
 
 	JBoolean	GetNMShortcut(const JIndex index, const JString** str) const;
-	void		SetNMShortcut(const JIndex index, const JCharacter* str);
+	void		SetNMShortcut(const JIndex index, const JString& str);
 
 	JBoolean	HasSeparator(const JIndex index) const;
 	void		ShowSeparatorAfter(const JIndex index, const JBoolean show = kJTrue);
@@ -161,7 +161,7 @@ public:
 
 	// JBroadcaster messages
 
-	static const JCharacter* kImageChanged;
+	static const JUtf8Byte* kImageChanged;
 
 	class ImageChanged : public JBroadcaster::Message
 		{
@@ -194,11 +194,11 @@ public:
 inline void
 JXTextMenuData::PrependItem
 	(
-	const JCharacter*		str,
+	const JString&			str,
 	const JXMenu::ItemType	type,
-	const JCharacter*		shortcuts,
-	const JCharacter*		nmShortcut,
-	const JCharacter*		id
+	const JString*			shortcuts,
+	const JString*			nmShortcut,
+	const JString*			id
 	)
 {
 	InsertItem(1, str, type, shortcuts, nmShortcut, id);
@@ -207,11 +207,11 @@ JXTextMenuData::PrependItem
 inline void
 JXTextMenuData::AppendItem
 	(
-	const JCharacter*		str,
+	const JString&			str,
 	const JXMenu::ItemType	type,
-	const JCharacter*		shortcuts,
-	const JCharacter*		nmShortcut,
-	const JCharacter*		id
+	const JString*			shortcuts,
+	const JString*			nmShortcut,
+	const JString*			id
 	)
 {
 	InsertItem(GetElementCount()+1, str, type, shortcuts, nmShortcut, id);
@@ -225,8 +225,8 @@ JXTextMenuData::AppendItem
 inline void
 JXTextMenuData::PrependMenuItems
 	(
-	const JCharacter* menuStr,
-	const JCharacter* idNamespace
+	const JUtf8Byte* menuStr,
+	const JUtf8Byte* idNamespace
 	)
 {
 	InsertMenuItems(1, menuStr, idNamespace);
@@ -235,8 +235,8 @@ JXTextMenuData::PrependMenuItems
 inline void
 JXTextMenuData::AppendMenuItems
 	(
-	const JCharacter* menuStr,
-	const JCharacter* idNamespace
+	const JUtf8Byte* menuStr,
+	const JUtf8Byte* idNamespace
 	)
 {
 	InsertMenuItems(GetElementCount()+1, menuStr, idNamespace);
