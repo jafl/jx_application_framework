@@ -47,6 +47,7 @@ public:
 	JBoolean	IsLower() const;
 	JBoolean	IsUpper() const;
 	JBoolean	IsSpace() const;
+	JBoolean	IsControl() const;
 
 	JUtf8Character	ToLower() const;
 	JUtf8Character	ToUpper() const;

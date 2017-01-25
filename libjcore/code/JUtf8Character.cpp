@@ -414,6 +414,13 @@ JUtf8Character::IsSpace()
 	return JI2B( u_isUWhiteSpace(GetUtf32()) );
 }
 
+JBoolean
+JUtf8Character::IsControl()
+	const
+{
+	return JI2B( u_charType(GetUtf32()) == U_CONTROL_CHAR );
+}
+
 /******************************************************************************
  Case conversion
 
