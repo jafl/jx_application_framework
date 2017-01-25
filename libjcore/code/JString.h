@@ -289,7 +289,7 @@ private:
 
 private:
 
-	void	CopyToPrivateString(const JUtf8Byte* str, const JSize byteCount,
+	void	CopyToPrivateBuffer(const JUtf8Byte* str, const JSize byteCount,
 								const JBoolean invalidateIterator = kJTrue);
 	void	FoldCase(const JBoolean upper);
 
@@ -1343,7 +1343,7 @@ JString::Set
 	const JUtf8Byte* str
 	)
 {
-	CopyToPrivateString(str, strlen(str));
+	CopyToPrivateBuffer(str, strlen(str));
 }
 
 inline void
@@ -1353,7 +1353,7 @@ JString::Set
 	const JSize			byteCount
 	)
 {
-	CopyToPrivateString(str, byteCount);
+	CopyToPrivateBuffer(str, byteCount);
 }
 
 inline void
@@ -1369,7 +1369,7 @@ JString::Set
 		}
 	else
 		{
-		CopyToPrivateString(str + range.first-1, range.GetCount());
+		CopyToPrivateBuffer(str + range.first-1, range.GetCount());
 		}
 }
 
@@ -1379,7 +1379,7 @@ JString::Set
 	const std::string& str
 	)
 {
-	CopyToPrivateString(str.data(), str.length());
+	CopyToPrivateBuffer(str.data(), str.length());
 }
 
 inline void
@@ -1395,7 +1395,7 @@ JString::Set
 		}
 	else
 		{
-		CopyToPrivateString(str.data() + range.first-1, range.GetCount());
+		CopyToPrivateBuffer(str.data() + range.first-1, range.GetCount());
 		}
 }
 
@@ -1405,7 +1405,7 @@ JString::Set
 	const JUtf8Character& c
 	)
 {
-	CopyToPrivateString(c.GetBytes(), c.GetByteCount());
+	CopyToPrivateBuffer(c.GetBytes(), c.GetByteCount());
 }
 
 /******************************************************************************

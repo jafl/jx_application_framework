@@ -75,7 +75,7 @@ JString::JString
 	)
 	:
 	itsOwnerFlag(kJTrue),
-	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
+	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(0),
@@ -84,7 +84,7 @@ JString::JString
 	itsIterator(NULL)
 {
 	JUtf8ByteRange byteRange = str.CharacterToUtf8ByteRange(charRange);
-	CopyToPrivateString(str.itsBytes + byteRange.first-1, byteRange.GetCount());
+	CopyToPrivateBuffer(str.itsBytes + byteRange.first-1, byteRange.GetCount());
 }
 
 JString::JString
@@ -95,7 +95,7 @@ JString::JString
 	)
 	:
 	itsOwnerFlag(kJTrue),
-	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
+	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(0),
@@ -111,7 +111,7 @@ JString::JString
 
 	if (copy)
 		{
-		CopyToPrivateString(byteCount > 0 ? str : "", byteCount);	// allow (NULL,0)
+		CopyToPrivateBuffer(byteCount > 0 ? str : "", byteCount);	// allow (NULL,0)
 		}
 	else
 		{
@@ -130,7 +130,7 @@ JString::JString
 	)
 	:
 	itsOwnerFlag(kJTrue),
-	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
+	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(0),
@@ -140,7 +140,7 @@ JString::JString
 {
 	if (copy)
 		{
-		CopyToPrivateString(str + range.first-1, range.GetCount());
+		CopyToPrivateBuffer(str + range.first-1, range.GetCount());
 		}
 	else
 		{
@@ -158,7 +158,7 @@ JString::JString
 	)
 	:
 	itsOwnerFlag(kJTrue),
-	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
+	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(0),
@@ -166,7 +166,7 @@ JString::JString
 	itsUCaseMap(NULL),
 	itsIterator(NULL)
 {
-	CopyToPrivateString(s.data() + range.first-1, range.GetCount());
+	CopyToPrivateBuffer(s.data() + range.first-1, range.GetCount());
 }
 
 JString::JString
@@ -177,7 +177,7 @@ JString::JString
 	)
 	:
 	itsOwnerFlag(kJTrue),
-	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
+	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(0),
@@ -187,11 +187,11 @@ JString::JString
 {
 	if (number == 0)
 		{
-		CopyToPrivateString("0", 1);
+		CopyToPrivateBuffer("0", 1);
 		}
 	else if (base == 2)
 		{
-		CopyToPrivateString("", 0);
+		CopyToPrivateBuffer("", 0);
 
 		JUInt64 v = number;
 		do
@@ -218,7 +218,7 @@ JString::JString
 		std::ostringstream s;
 		s << std::setbase(base) << number;
 		const std::string s1 = s.str();
-		CopyToPrivateString(s1.data(), s1.length());
+		CopyToPrivateBuffer(s1.data(), s1.length());
 		}
 
 	if (base == 16)
@@ -273,7 +273,7 @@ JString::JString
 	)
 	:
 	itsOwnerFlag(kJTrue),
-	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateString
+	itsBytes(NULL),		// makes delete [] safe inside CopyToPrivateBuffer
 	itsByteCount(0),
 	itsCharacterCount(0),
 	itsAllocCount(0),
@@ -281,7 +281,7 @@ JString::JString
 	itsUCaseMap(NULL),
 	itsIterator(NULL)
 {
-	CopyToPrivateString(source.itsBytes, source.itsByteCount);
+	CopyToPrivateBuffer(source.itsBytes, source.itsByteCount);
 }
 
 /******************************************************************************
@@ -317,7 +317,7 @@ JString::Set
 {
 	if (str.itsBytes < itsBytes || itsBytes + itsByteCount <= str.itsBytes)
 		{
-		CopyToPrivateString(str.itsBytes, str.itsByteCount);
+		CopyToPrivateBuffer(str.itsBytes, str.itsByteCount);
 		}
 	else if (itsBytes != str.itsBytes || itsByteCount != str.itsByteCount)
 		{
@@ -325,7 +325,7 @@ JString::Set
 		itsBytes      = NULL;
 		itsByteCount  = 0;
 		itsAllocCount = 0;
-		CopyToPrivateString(str.itsBytes, str.itsByteCount);
+		CopyToPrivateBuffer(str.itsBytes, str.itsByteCount);
 
 		if (itsOwnerFlag)
 			{
@@ -344,7 +344,7 @@ JString::Set
 	const JUtf8ByteRange byteRange = str.CharacterToUtf8ByteRange(charRange);
 	if (str.itsBytes < itsBytes || itsBytes + itsByteCount <= str.itsBytes)
 		{
-		CopyToPrivateString(str.itsBytes + byteRange.first-1, byteRange.GetCount());
+		CopyToPrivateBuffer(str.itsBytes + byteRange.first-1, byteRange.GetCount());
 		}
 	else if (itsBytes != str.itsBytes || itsByteCount != byteRange.GetCount())
 		{
@@ -352,7 +352,7 @@ JString::Set
 		itsBytes      = NULL;
 		itsByteCount  = 0;
 		itsAllocCount = 0;
-		CopyToPrivateString(str.itsBytes + byteRange.first-1, byteRange.GetCount());
+		CopyToPrivateBuffer(str.itsBytes + byteRange.first-1, byteRange.GetCount());
 
 		if (itsOwnerFlag)
 			{
@@ -362,7 +362,7 @@ JString::Set
 }
 
 /******************************************************************************
- CopyToPrivateString (private)
+ CopyToPrivateBuffer (private)
 
 	Copy the given string into our private string.
 
@@ -371,7 +371,7 @@ JString::Set
  ******************************************************************************/
 
 void
-JString::CopyToPrivateString
+JString::CopyToPrivateBuffer
 	(
 	const JUtf8Byte*	str,
 	const JSize			byteCount,
@@ -451,8 +451,8 @@ JString::GetBytes()
 		JString* self = const_cast<JString*>(this);		// does not violate conceptual constness
 
 		const JUtf8Byte* bytes = itsBytes;
-		self->itsBytes = NULL;	// don't confuse CopyToPrivateString()
-		self->CopyToPrivateString(bytes, itsByteCount, kJFalse);
+		self->itsBytes = NULL;	// don't confuse CopyToPrivateBuffer()
+		self->CopyToPrivateBuffer(bytes, itsByteCount, kJFalse);
 		}
 	return itsBytes;
 }
@@ -647,7 +647,7 @@ JString::ReplaceBytes
 		itsCharacterCount += CountCharacters(normalizedInsertBytes, count2);
 		}
 
-	jdelete normalizedInsertBytes;
+	jdelete [] normalizedInsertBytes;
 }
 
 /******************************************************************************
@@ -1784,12 +1784,12 @@ JString::CalcCharacterMatchLength
 }
 
 /******************************************************************************
- CopyNormalizedBytes (static)
+ Normalize (static)
 
 	Allocates space and returns the normalized version of the input
 	characters.
 
-	 *** The caller must delete the result!
+	 *** The caller must delete [] the result!
 
  *****************************************************************************/
 
